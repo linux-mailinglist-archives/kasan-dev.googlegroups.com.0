@@ -1,143 +1,141 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBXN32OOQMGQE62FPVGA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDN7L7O25EIBB4NP2SOQMGQEIP55OPA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43a.google.com (mail-pf1-x43a.google.com [IPv6:2607:f8b0:4864:20::43a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E4565CBB6
-	for <lists+kasan-dev@lfdr.de>; Wed,  4 Jan 2023 03:01:03 +0100 (CET)
-Received: by mail-pf1-x43a.google.com with SMTP id y19-20020a056a00191300b0058217bbc6cesf4518857pfi.4
-        for <lists+kasan-dev@lfdr.de>; Tue, 03 Jan 2023 18:01:03 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1672797662; cv=pass;
+Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCD765CCC7
+	for <lists+kasan-dev@lfdr.de>; Wed,  4 Jan 2023 07:08:51 +0100 (CET)
+Received: by mail-lf1-x13b.google.com with SMTP id l15-20020a056512110f00b004b6fe4513b7sf11686148lfg.23
+        for <lists+kasan-dev@lfdr.de>; Tue, 03 Jan 2023 22:08:51 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1672812530; cv=pass;
         d=google.com; s=arc-20160816;
-        b=A8S3Egre0nX2S16v+gEcaDD7WJjic+fT7z4V6Mh7gfzzfmJPDEJtZ7afVcJidqmo1q
-         Cx247m420s42M4LKyELs8lYCZFwBeb2iI3dcaSCpDRhDNC2oREbrw37RO4eJjbXI3WZO
-         jqS7/XfcISpDMpUIfRGw0BAl3E+Gprz7fdo2Ywlne3mcMNSbegUKvoV0kxn4rNf7o7Rl
-         8jFVnRhkyiBvAdDyb5/u7VeRuK7G1A3ishdcUEsW2FK4z/vvrDCTDrHQBLj0Tmu3wvzC
-         99GHfuOpWvauq0j62KVJrgkDR9rtV8TzmNn0MQR5/Y9++hgrFc8Kwwe+/bebm/hZH1Dn
-         tl/A==
+        b=Fy4jPHvj1CV+HYR17RZR7qhNUYWCy7SpqC6JJwCpBmzBniOa7f5uqRH4sVcez31ExL
+         mvs3RvIlCVunQ1RvPQD/Xulf8+5jyzxSKkdatPyABNTQU/GPIKSMyttwW5g4dcZRlg0w
+         Tg3kzVmDp4eas1H3kK2PwGBvv3GAFlcJw1UCJ1Hz3I/Rz40IGDOHlj9p9QuhKuzRX38r
+         lVJU1JH2Ata8S6kIYceIrocaXy8wDn6gBdZ1sy50zaiKeYMnsSu/Gnox60347TU1hp3x
+         FTKCxJjVd5nrfdgExafAuG3W9en3M1+P157ZiQggCo2a09Ybwb0N8T+omIJul8yQSJf9
+         nXXg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=WvCiBcSd+o2SC4838U0OPketBGjSeNFs2G4XdZTKbRA=;
-        b=0d7jw/asKYNT+fe4i7Y1jtU4qAXUCIHCUBq1fH/AE0Qy1WZ85kOQ9boFLYk0p7OgX3
-         ILM+aIAf+umXPpZwlJW2ZePR/yytJHG6fhzD79zeFNBD3mww+tEnQpoUb5uQZpH56zNM
-         IjQ39EtEWUDPA91PXzSDE48++G3LSDMuAKFCYx27OQF/08TuII/qwwHyTgJgDnhm3e0V
-         Sl8H4iRIbZ2uLrh0xLjfQgogAJdJLMG9RRViPCch/UIzHgXydZ2plcgadDInsCIGQlef
-         vHCwjgCl2BsrmmoU4kL8/sabSARxgdk4mKEgXIzxN2ntU0g/DYwxQuNOubbBMQs4a4sV
-         5CDQ==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=j/9xIDssrmms0rLEEg4e6XC7FPi9Jp/CZhxhiqxFAjE=;
+        b=RM28hfn+eOP/S9rGzm7AY9hWW0Jwz+1MfhzPyqZaeZGrakwRU2Au+qiymmtN+ooziN
+         g7xQymTzQCcdBnt3jzFNg+FPsg24alf7XUJ+EFZGwa1pN3EC+QfxMuzml/B0nWzCJdCi
+         /OsdLdCRv1LA3ah53LagH04Pga/5fE0LKZ6CsY+x8juXLX5R8usr6aHCdVBRWcgWZqV7
+         nYAA2hcSyyC8LVQUaCbjwUBxKuZl4mTbUejcEM3jgOCDs+S7IHiwdACxpBJKg10gmIBc
+         9ApbqK8PAqmmXfB5iZ1gqzOWE7XFqJFeYi8WJQL9YkzOxAY0D5P/zFWGXjxCUlyKBeOq
+         InFw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=dIntYs8V;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::102f as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@intel.com header.s=Intel header.b=DXrhVRY8;
+       spf=pass (google.com: domain of feng.tang@intel.com designates 134.134.136.65 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WvCiBcSd+o2SC4838U0OPketBGjSeNFs2G4XdZTKbRA=;
-        b=ttwcpfLYLb6p2YcpzKuUugb+zT7jC7XRsU4hXbWPiDAvQYE39Rl5CfIYSSIOWvFarV
-         C6vbAAkWZsaXuFA1x9yaUKP7cL+Hfn1Gw05ZxPBR3rd+sExjbpk1oGEhiz016btVgkFQ
-         gHYi9d52/1+Kbdp9Cbtek0V2xWCyLS9IRMs5g8YIktsIAFpp9wkxBDRnE3KM6SzCajY7
-         5pcQLoS52tcTP/mPRdlKFEc6d6ZJUoU9YXJkaDspyVXPBr50d0kRZJuOkX1kG+RJeJyd
-         yolccap1psnt+CL8v8a0u0DW4Lt3gawzmuat5F5U6xtVdjC3/Q6Pn4EnwOjufQnnrGZk
-         Z4nQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=WvCiBcSd+o2SC4838U0OPketBGjSeNFs2G4XdZTKbRA=;
-        b=ewtyzudtfJ6PJ0QsCN7q+1pJmYJ4kGQhIeC2Y6/6bdg8AEFrwJCvbr99roeob1Uzxj
-         Br34gCrnxY+FoMd0XRBnqpbbEwupuoOQJT2oJxyXMN/CV/jS0MtCWkcBEYXaYSuWfcXB
-         mqAUDf4mka2em4hb0IqAWll09ZIHVl5QhoX6LL0iHVLQ4ag+0s1wSFMbpjYkJsVnX/CA
-         HRMm6ZNo8z2z2hwueSmzN6PesWM4jdH7YZgH4vIH4ay+JXQV419LxSgVjvgz0RoBkaXC
-         QiBU31i9kxKjZyPxQ7U3Bkv+9AgcaE4SNCIRKDvHIJYXRUhhJiRzC3KvgPWapiI1Axtm
-         RdFw==
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=j/9xIDssrmms0rLEEg4e6XC7FPi9Jp/CZhxhiqxFAjE=;
+        b=ZYfUKAeCh++o5/1b0J4XOUVy/+YmUoIcHmMYR+Ki11jEcmikj/pm28uSRquP+zdpEz
+         +Vp/7fqVOmHuQftXIdFvgj1njW2MdKk37leGcFkP00UY6M7NKGYwHbDn+2PlX8sg7UsZ
+         2I56HBqbnKJg/DA7wdLx5IwB/MEvIMetajWBc49sa1YJ9muiBReavyDlyAvwcKrd7Oz9
+         +/dtncamk0Gj7qfHxzkfax3LgbXcra2iySfKD5/UP4FDeZZ1Gyj9cHQTXj2tnny4IWlS
+         XjY382X7mT9mPeR2e2tPgStPPIfR6sMps3aSGJZHGH4GFbq2k0bNk9tlAqr3mV7prwBv
+         qrng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WvCiBcSd+o2SC4838U0OPketBGjSeNFs2G4XdZTKbRA=;
-        b=fusI9/xfa7mEfO9EtjKskPb1XJWk55gHjQ+zsy6A4ltPQzPQlnVel7rwgN/kPCkcuP
-         9o+AOYlcP4ZM8YytpFOCRz2sanh2foeN5RD2fndU3QKsiSVamde9fhRG52v4Dh+YU5qW
-         41cHfuh+E3Dd4fLsJF3EvUDqK0cpxfmg6/SDlS9UkI3Kfd4oQjHEhcLmNotSbELdOpwW
-         GnxnlGbq7DJkOdcXXKEUrrBOS2a+GAWZG2xHmhYwxnP/+St/G3BInyh7ZV8y0GK+qApV
-         A+L12gx+P81dCqcj/CcAK0Q6HijRBKiD1g3lmC3Ooct7WsqukOGSnaOyLkTBt4Loe0AB
-         AJkQ==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=j/9xIDssrmms0rLEEg4e6XC7FPi9Jp/CZhxhiqxFAjE=;
+        b=oktqbviyQDMbAdrOWa4t/28liel3WoFDKblNwTDZlavR9XLeE33b+8VuNHHnHJNaLW
+         VjRezYk5G6J4v5+9aAOxyzP/sT927Z+ZFDys4h0DewQyPKTcozUSYFWtzktPHKlwbKqi
+         vVcZPcH5jE5j88WKOIcgJLET6HoEdiES5MtKBH2TzWDPBpudx/lFI9LMYyHhvfuxQ1jW
+         +krxJJePXJKx/pYTV6wJVMU72971PTW+7hXJGc2ED2RsWxMxGAAypad7z4IGraEIqW9q
+         08yicx0qJvd34qGAWK6Ak+n56FQx2q4Dcqu1Nz6er1x4CtMbgUQheKex5wj+5rf1ngn4
+         OS7A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2koSkWIxOn0n8j3buMcl167068yWQUYCCdzpfagmaqFPGIB5d33g
-	JeA6edJ3nCSc/9niqq71ZqM=
-X-Google-Smtp-Source: AMrXdXs4fDXoi9D5t7TmCgoDIaw+FinkgZT/xbD5RinP7tyqNk5R9jwRa4fe0I+sABkkfX5BoiTBLQ==
-X-Received: by 2002:a63:4f1c:0:b0:480:ffcf:b358 with SMTP id d28-20020a634f1c000000b00480ffcfb358mr2870096pgb.281.1672797661820;
-        Tue, 03 Jan 2023 18:01:01 -0800 (PST)
+X-Gm-Message-State: AFqh2krlDU78i2YstEdypnoEWABJk1mWOnzOBtnt9Qb7mFEi+itApO6W
+	cYfAjAdcmrRIJjYjR4y09NI=
+X-Google-Smtp-Source: AMrXdXvvTMsUkpG6ZhJLAc66Y51U9I1P1/rtOZFEQHc/xHvVlJyUS5Tz9NRDv9qIXTukWS2He4+5IA==
+X-Received: by 2002:a2e:82c8:0:b0:27b:5631:8a4 with SMTP id n8-20020a2e82c8000000b0027b563108a4mr3896806ljh.326.1672812530131;
+        Tue, 03 Jan 2023 22:08:50 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:db11:b0:186:af8a:6095 with SMTP id
- m17-20020a170902db1100b00186af8a6095ls33144186plx.4.-pod-prod-gmail; Tue, 03
- Jan 2023 18:01:01 -0800 (PST)
-X-Received: by 2002:a17:902:b493:b0:189:cb73:75f0 with SMTP id y19-20020a170902b49300b00189cb7375f0mr43387509plr.8.1672797661090;
-        Tue, 03 Jan 2023 18:01:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1672797661; cv=none;
+Received: by 2002:ac2:4e8a:0:b0:4c8:8384:83f3 with SMTP id o10-20020ac24e8a000000b004c8838483f3ls2601265lfr.3.-pod-prod-gmail;
+ Tue, 03 Jan 2023 22:08:49 -0800 (PST)
+X-Received: by 2002:ac2:59c9:0:b0:4a4:68b7:d621 with SMTP id x9-20020ac259c9000000b004a468b7d621mr12535549lfn.8.1672812528973;
+        Tue, 03 Jan 2023 22:08:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1672812528; cv=none;
         d=google.com; s=arc-20160816;
-        b=pCKETf344OgdYqpb+ZEvBlvVm/xYulBQO/I1JmegVIFZ0ssfBgPMazuZfjqx1TuO1l
-         8oMOuH7GNe1vtXO6I63hJGYZ9PFU+/iNyus7dZ45PV0cabhv0OSoFifbHucQfQs3qGOu
-         Uhv8MaEYeDGU0gX3OEPdR7OMTM77c/7WS/L3IjDC7X33Ue3LH8EY+/B5h+3mPDazd34m
-         DldBPjeo7i0MvvPmeRf2mzwWTwF1x7SXf/Jbe75XYlayoWKRCA1M231q5ylvyn/tGy1i
-         jLFRaDiGE4Ag93QoSuTZlUXeR2YcGd0+AoS2/l7y0CzPCcnH3NWHhXYBGm1+H+sYiXGY
-         Cqsg==
+        b=qOEaB7EF05kvrmQKig/EcLZCciFWXF3p8sEcRP7BSVuGjyEe3EiJMUvNT3bDNVNsPa
+         zI0APJRZ79D7eRzBkzDo1ZdjUr/8NdMp79P+LrrC16GkViEVGi2D0xdXppTmZ0cWhzOb
+         A6LH54KNeMSIxgvgjMzX8XfrUmmug4D4THv5gHFqZMbi8NAgtVlim3gtvf45XuiIs1oD
+         AgFf+deuWyEzz+6wnN0rX67p/CZExmhGwW4DM5nI3ywJQ2hYgMLfUlV+yQd1u1OfG+l5
+         LFSeA9wOBESldtXXuyYAaPyZ5ACyVcjchx47dfNelT35wf7caymQmHPosBtWc71rxctw
+         3aFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=hHeFWn8psj8u8cGp1SABE4QnAQdoZWb4E9tsvr9oCvk=;
-        b=Kn6N5VGGlzGqeB9ikwW8nj2ZelXf5ZYo0+3uGKWXnk7Od33541Sf5Qio6KVSdH6xi3
-         2mjbTKEmZtzicECHE6S0Z3nACm508IhYHwmz6Sh0xyVwkGrxxer358qX8KviczAp26s3
-         Pmoxj+3oSouNSuu3A6S1pwVQgtNKLO9cFM01LNbtFUxiDMallGoLfhJLOtVI0gnY4ReH
-         JbTS0FsNnGD4lnL8ecKB5UOy48eOEAPQfkAE0yNEvMktNnR6tUSy1oREfriUuOG6H3jI
-         eCzc4B2ye8zofXdgqfVUP8I5+uT5m2kAwbD2VHIEKs/LT9yL8Af3/K/svMjQDB/B7bY1
-         gv8Q==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=1s5P6iET2OaU2whx6wnFdyFdaEhzKdZCflQd8AxmlTo=;
+        b=wt9mBvdhyttzNEOpS3BZ9pMEClBo9HlksLKolurOjG9IealTwekbL5us9BePAtJIJ3
+         PC5Ya67QukD9Dkp/q1c0ykMQFRv71ofa+EZlD+s+CSgNdanES6FQ4jtYUw5QRsXzTJfV
+         y35FG/pOYzsDEPhRgmrH0rA20SZ14DmnIW335+A7KvknhbP33e4PllQDR9DHDRjvCZm0
+         d0MQFqeQ1a+UTFlbPRzkQJ1a0B5VIKQdj9Y+FeVkSJKIYzQw71MNtiB+HKNSbD6dxGqC
+         uXhGqeYcbKiQO6bFSTmYv/8bAW1+KuuV7S5lJNIOG8ZyH9hfEOkGRjFM71Ab1PX8nDFu
+         W7zA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=dIntYs8V;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::102f as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com. [2607:f8b0:4864:20::102f])
-        by gmr-mx.google.com with ESMTPS id n20-20020a170902d0d400b00186c372722csi2583205pln.9.2023.01.03.18.01.01
+       dkim=pass header.i=@intel.com header.s=Intel header.b=DXrhVRY8;
+       spf=pass (google.com: domain of feng.tang@intel.com designates 134.134.136.65 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga03.intel.com (mga03.intel.com. [134.134.136.65])
+        by gmr-mx.google.com with ESMTPS id o22-20020a05651205d600b004b5767257ecsi1249279lfo.8.2023.01.03.22.08.48
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Jan 2023 18:01:01 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::102f as permitted sender) client-ip=2607:f8b0:4864:20::102f;
-Received: by mail-pj1-x102f.google.com with SMTP id v13-20020a17090a6b0d00b00219c3be9830so32915496pjj.4
-        for <kasan-dev@googlegroups.com>; Tue, 03 Jan 2023 18:01:01 -0800 (PST)
-X-Received: by 2002:a17:903:3287:b0:189:8d8b:9db7 with SMTP id
- jh7-20020a170903328700b001898d8b9db7mr3112912plb.150.1672797660693; Tue, 03
- Jan 2023 18:01:00 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 03 Jan 2023 22:08:48 -0800 (PST)
+Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 134.134.136.65 as permitted sender) client-ip=134.134.136.65;
+X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="323840105"
+X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; 
+   d="scan'208";a="323840105"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jan 2023 22:08:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10579"; a="779094063"
+X-IronPort-AV: E=Sophos;i="5.96,299,1665471600"; 
+   d="scan'208";a="779094063"
+Received: from feng-clx.sh.intel.com ([10.238.200.228])
+  by orsmga004.jf.intel.com with ESMTP; 03 Jan 2023 22:08:41 -0800
+From: Feng Tang <feng.tang@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Christoph Lameter <cl@linux.com>,
+	Pekka Enberg <penberg@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: linux-mm@kvack.org,
+	kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org,
+	Feng Tang <feng.tang@intel.com>
+Subject: [Patch v3 -mm 1/2] mm/slab: add is_kmalloc_cache() helper function
+Date: Wed,  4 Jan 2023 14:06:04 +0800
+Message-Id: <20230104060605.930910-1-feng.tang@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230103075603.12294-1-Kuan-Ying.Lee@mediatek.com>
-In-Reply-To: <20230103075603.12294-1-Kuan-Ying.Lee@mediatek.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Wed, 4 Jan 2023 03:00:49 +0100
-Message-ID: <CA+fCnZdk0HoWx6XCbTsiNhyR2Z_7zv5JUdgNs8Q_tV4GRkkmCg@mail.gmail.com>
-Subject: Re: [PATCH] kasan: infer the requested size by scanning shadow memory
-To: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	chinwen.chang@mediatek.com, qun-wei.lin@mediatek.com, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: andreyknvl@gmail.com
+X-Original-Sender: feng.tang@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=dIntYs8V;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::102f
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@intel.com header.s=Intel header.b=DXrhVRY8;       spf=pass
+ (google.com: domain of feng.tang@intel.com designates 134.134.136.65 as
+ permitted sender) smtp.mailfrom=feng.tang@intel.com;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=intel.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,83 +148,55 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jan 3, 2023 at 8:56 AM Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com> wrote:
->
-> We scan the shadow memory to infer the requested size instead of
-> printing cache->object_size directly.
->
-> This patch will fix the confusing generic kasan report like below. [1]
-> Report shows "cache kmalloc-192 of size 192", but user
-> actually kmalloc(184).
->
-> ==================================================================
-> BUG: KASAN: slab-out-of-bounds in _find_next_bit+0x143/0x160 lib/find_bit.c:109
-> Read of size 8 at addr ffff8880175766b8 by task kworker/1:1/26
-> ...
-> The buggy address belongs to the object at ffff888017576600
->  which belongs to the cache kmalloc-192 of size 192
-> The buggy address is located 184 bytes inside of
->  192-byte region [ffff888017576600, ffff8880175766c0)
-> ...
-> Memory state around the buggy address:
->  ffff888017576580: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
->  ffff888017576600: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-> >ffff888017576680: 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc
->                                         ^
->  ffff888017576700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->  ffff888017576780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
-> ==================================================================
->
-> After this patch, report will show "cache kmalloc-192 of size 184".
+commit 6edf2576a6cc ("mm/slub: enable debugging memory wasting of
+kmalloc") introduces 'SLAB_KMALLOC' bit specifying whether a
+kmem_cache is a kmalloc cache for slab/slub (slob doesn't have
+dedicated kmalloc caches).
 
-I think this introduces more confusion. kmalloc-192 cache doesn't have
-the size of 184.
+Add a helper inline function for other components like kasan to
+simplify code.
 
-Let's leave the first two lines as is, and instead change the second
-two lines to:
+Signed-off-by: Feng Tang <feng.tang@intel.com>
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
+Acked-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+---
+changlog:
 
-The buggy address is located 0 bytes to the right of
- requested 184-byte region [ffff888017576600, ffff8880175766c0)
+  since v2:
+  * fix type in subject(Vlastimil Babka)
+  * collect Acked-by tag
+  
+  since v1:
+  * don't use macro for the helper (Andrew Morton)
+  * place the inline function in mm/slab.h to solve data structure
+    definition issue (Vlastimil Babka)
 
-This specifically points out an out-of-bounds access.
+ mm/slab.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Note the added "requested". Alternatively, we could say "allocated".
-
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -340,8 +340,13 @@ static inline void kasan_print_address_stack_frame(const void *addr) { }
->
->  #ifdef CONFIG_KASAN_GENERIC
->  void kasan_print_aux_stacks(struct kmem_cache *cache, const void *object);
-> +int kasan_get_alloc_size(void *object_addr, struct kmem_cache *cache);
->  #else
->  static inline void kasan_print_aux_stacks(struct kmem_cache *cache, const void *object) { }
-> +static inline int kasan_get_alloc_size(void *object_addr, struct kmem_cache *cache)
-> +{
-> +       return cache->object_size;
-
-Please implement similar shadow/tag walking for the tag-based modes.
-Even though we can only deduce the requested size with the granularity
-of 16 bytes, it still makes sense.
-
-It makes sense to also use the word "allocated" instead of "requested"
-for these modes, as the size is not deduced precisely.
-
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -236,12 +236,13 @@ static void describe_object_addr(const void *addr, struct kmem_cache *cache,
->  {
->         unsigned long access_addr = (unsigned long)addr;
->         unsigned long object_addr = (unsigned long)object;
-> +       int real_size = kasan_get_alloc_size((void *)object_addr, cache);
-
-Please add another field to the mode-specific section of the
-kasan_report_info structure, fill it in complete_report_info, and use
-it here. See kasan_find_first_bad_addr as a reference.
-
-Thanks for working on this!
+diff --git a/mm/slab.h b/mm/slab.h
+index 7cc432969945..63fb4c00d529 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -323,6 +323,14 @@ static inline slab_flags_t kmem_cache_flags(unsigned int object_size,
+ }
+ #endif
+ 
++static inline bool is_kmalloc_cache(struct kmem_cache *s)
++{
++#ifndef CONFIG_SLOB
++	return (s->flags & SLAB_KMALLOC);
++#else
++	return false;
++#endif
++}
+ 
+ /* Legal flag mask for kmem_cache_create(), for various configurations */
+ #define SLAB_CORE_FLAGS (SLAB_HWCACHE_ALIGN | SLAB_CACHE_DMA | \
+-- 
+2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZdk0HoWx6XCbTsiNhyR2Z_7zv5JUdgNs8Q_tV4GRkkmCg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230104060605.930910-1-feng.tang%40intel.com.
