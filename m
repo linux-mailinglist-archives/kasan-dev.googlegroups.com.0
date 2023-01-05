@@ -1,137 +1,141 @@
-Return-Path: <kasan-dev+bncBDH7RNXZVMORBWWW3COQMGQELOGLIAQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB2MX3GOQMGQEO6MPVJI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x338.google.com (mail-ot1-x338.google.com [IPv6:2607:f8b0:4864:20::338])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A2D665E29A
-	for <lists+kasan-dev@lfdr.de>; Thu,  5 Jan 2023 02:43:56 +0100 (CET)
-Received: by mail-ot1-x338.google.com with SMTP id l44-20020a0568302b2c00b006782da3829esf18422672otv.16
-        for <lists+kasan-dev@lfdr.de>; Wed, 04 Jan 2023 17:43:56 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1672883035; cv=pass;
+Received: from mail-pl1-x63b.google.com (mail-pl1-x63b.google.com [IPv6:2607:f8b0:4864:20::63b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B70365E450
+	for <lists+kasan-dev@lfdr.de>; Thu,  5 Jan 2023 05:02:51 +0100 (CET)
+Received: by mail-pl1-x63b.google.com with SMTP id x17-20020a170902ec9100b0019294547b06sf14973786plg.12
+        for <lists+kasan-dev@lfdr.de>; Wed, 04 Jan 2023 20:02:51 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1672891369; cv=pass;
         d=google.com; s=arc-20160816;
-        b=zl216Bv6ZFGS/b8+kLVt43OBdiGnYVxIYlcx//klibVhyUBKpc7l6EvJsbuZF/QdNn
-         QoLGUVVC2E3pLanRuUlQVpbNHMGkPpW4OXFe6QgPK8wE8yJuPPBT3zSiI3JMlPSiISIJ
-         mNFfNrED7sdaZUCph165spBxPesF1ywIUukjDCkGVWE8KCRHOuIYyj+9QgYvcNBA/hh8
-         z7mXNzCA7SrCp4/iEMwDfj56ijc4DAQ6ZbyAT8zq7PPf/vR+OWRqjUynF9xvi7We1aVU
-         pLf1erEm7Jja7Si+tcDLQFDgdv2LtKuxHuG7HdDiiYYsQjoT/wHX10H5BgCDTbkKidVx
-         qXMw==
+        b=cVnxqBsDUyYGhRb8rYnaw0bcNTFQ9aJR+aS8sOfjO78AvvA7K8dVTkx7tCooIW8TbQ
+         DdSXEAsfFwj1J9QRkx1biRgyCwh1j23Z+hH4ST44PVynPNLO6z9omWr+IE48PSzoj7++
+         /Ra5ct/so3jfsyGD7V4W/OG3l1iadva1eEi4C2bYk23YUpHU+yx5iRyWxwj7yIvL3Loj
+         qoD9CG+W1hvrXuwOKipZdL86Cmhic2FQ/sRC2RQZiGQBo22OfQF3kImvkV0ummD0LTWN
+         q8iJxs0pkAEeX7mYaZ3y6uw4bDXPTfkcOvsVl8WCJv9Ncr2aSsmmYvvE+Gc3lOTF1jEh
+         y0Zg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:references
-         :message-id:in-reply-to:subject:cc:to:from:date:dkim-signature;
-        bh=PfFTACZ7xNMcNS4b3W85q99d4R3kqTFsj4qss6Rh2nQ=;
-        b=VDEpEOHY+5Wa9f5RwYmoajykwQkIo6+c3FMGueQkDXbruJqz2mY4ZWgmXjRmuj5BkX
-         QEWPgUE5qvZFI/Rrw9HfSvmSTf9gM9vHKzXRok/xTjle0STqoUqA0EpTAd36UrTOjVNf
-         pEeayoOFJQ/FB2kL9UZygc+9W0HfqRBVbjpzEHOPTyNa25TnuMBtJ+bhteyInyeCrs8/
-         dpMOalP6QzvwXj8r/QEUu09Z/K6sRjL1DUu9TH5OTI7JjqQKd0hj6wewhxoqKjTN/u+i
-         LeZyOXuyPg5i/IgHpetOGLk4gWKMuNgRm8tXw7+PUfFo5fuCkdE5/OWL06FtsgFV+tEu
-         /d0w==
+         :list-id:mailing-list:precedence:reply-to:feedback-id:message-id
+         :user-agent:references:in-reply-to:subject:cc:to:from:date
+         :mime-version:dkim-signature;
+        bh=vtNBKBeE7d3OLXFt2K/4ZlSimgT/So99RlHMyXeN93c=;
+        b=MbvQjSt6bf3p+TsJWCCgwsDkdUats6/5lTfxAVRPag7ZUz5whICAR3ksHN9/opqliN
+         iIOqoL2hoA365PFuVp87aHgZmCdR33oPxwlf/A/HqR/OSzQ2XE5NEQq70z33UAKxcFxI
+         7+cb6SBPxqRAvI0V40rqed1wOoTOn+yEzE9FRNT7uU/OYjCJDzpCSESibbLVbFNuDCW5
+         QRjDZBcrszUL7FRRyk0AQQOBCt8XTfXTe3AiNqsLR8qHA2nbDoHqsGMc9q6z3wdCEo3C
+         tO4/ZvyuTGodNtgAisrxb5XplBYqYYxZOE9bNwn7MT3ZKrONShJF6+YQsVkZrl/3gqJ7
+         eDwg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=aGe2tFaw;
-       spf=pass (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::102e as permitted sender) smtp.mailfrom=rientjes@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@aaront.org header.s=ude52klaz7ukvnrchdbsicqdl2lnui6h header.b=A2eIR5Z+;
+       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BsiWU+dJ;
+       spf=pass (google.com: domain of 01010185801881b4-2dd5c952-d967-414b-9dc6-7edb04436342-000000@ses-us-west-2.bounces.aaront.org designates 54.240.27.20 as permitted sender) smtp.mailfrom=01010185801881b4-2dd5c952-d967-414b-9dc6-7edb04436342-000000@ses-us-west-2.bounces.aaront.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=aaront.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:message-id:in-reply-to:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=PfFTACZ7xNMcNS4b3W85q99d4R3kqTFsj4qss6Rh2nQ=;
-        b=ooUavpzbg1bXurOc4buFYGOaK4EySs9FBT+/RHE7XmqnCqnjGsFHmNivod6MKcxuE8
-         D5XSXN5bkRPe0UBT5QpPNYampDIkNjQi6e971BUAv/gCiP8YmncQRviR9JsOuCqW2uQu
-         MM7P3ZbqZGNCefMSiBEwhgVVk5e/mZFm1BNYKKq9dRLMvJgoK3wDuuNFU4FbcTktHYnO
-         GGCWj4TbVkd3Fomm3IBlceZzvYgbPPWojFQs2YBOOPL8g94ZFrvvCagr62N/fenqITwn
-         HAwuTylEvVQ2KUPzl8t8FdCUIPVNUj4EiJWliKeHz5/pIYEklSJBZQdFBBTg3a9miHqj
-         TfEg==
+         :x-original-authentication-results:x-original-sender:feedback-id
+         :message-id:user-agent:references:in-reply-to:subject:cc:to:from
+         :date:mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=vtNBKBeE7d3OLXFt2K/4ZlSimgT/So99RlHMyXeN93c=;
+        b=D7ubTS55AXHHwJDaRM2LJGvSlfSHnnJSt0PakYjuK2Nr4WQJ5Qn7mstUHly5mEAzmH
+         l7XlU+rF/vahUcHKr+/wlGlso6HiQ0bu0zMfI04ToV7gyblD3SbuJzSxyidRLVZrTPPI
+         qWDBuTxuVv1xIJGfhIjHPVJZ6jzWvG9Ec2KId/Pm7d+KGYW4PlMiUcclSiD9drZEWDxy
+         65jp9nm/Xcb2Ojdk/b7E+CZtKwE/2QTrlLalrdtb7xJdznnYKjSvWpupApB10heb+R2/
+         s/OxFQTeXXXfR7V8sMC5aAY6e0sUW2HrTZOgL7TI6I6L5cg5yyJ4Q+cggeWh4dksvVaY
+         wgkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:message-id:in-reply-to:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PfFTACZ7xNMcNS4b3W85q99d4R3kqTFsj4qss6Rh2nQ=;
-        b=6EkPxx+aU7u4cffNwjG07KhAWMBiwAHikylfdoINLoapIacZiEHSFtXJawutrqGD4u
-         BJLkyElu37eJtwOwLw0c7R8logQaNAbmIBPZPNLOPbq+uY/gVa+AmZStK5UHp/eqKBtz
-         5mZbZTGtktsxjxSF+PiKcPk5D3ajF6ezPoWCsUK3ve1zrGXPSHbdgMyueH5P7KtaCcie
-         x1SZ8axrGwJI2Q2AgTPTsqCu3smtrhYVrXdG5zNV4qAq9BiJIpD6iEEaEINKI/7a9vDa
-         hLv0Xcd6YovZeQVgK/e0WyV8jlxpaoa88CG8bstjMw/KAjtuT4ZWtXopo0ELLKj2KxGD
-         vVeg==
-X-Gm-Message-State: AFqh2krAxhu3ApQCtV0ZqqrTe9fvuXGPhQVt9PSc6/cjdBVHoafw1Y5J
-	JBqbtl+r1LGl53Yryv4SKBY=
-X-Google-Smtp-Source: AMrXdXtmaw6NOZszIlirWrkEwal2pof2oFb4TgC6RI0ppo5LM4QyGHXqJGJexHXlPtIofbDTcj2S5Q==
-X-Received: by 2002:a05:6830:144e:b0:66e:f6cb:cb4e with SMTP id w14-20020a056830144e00b0066ef6cbcb4emr3135649otp.105.1672883034843;
-        Wed, 04 Jan 2023 17:43:54 -0800 (PST)
+         :x-original-authentication-results:x-original-sender:feedback-id
+         :message-id:user-agent:references:in-reply-to:subject:cc:to:from
+         :date:mime-version:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vtNBKBeE7d3OLXFt2K/4ZlSimgT/So99RlHMyXeN93c=;
+        b=dwNdHudUHGoeDL93t21fRO2OT47QaviDqmNBCSA4ZqbSYjst/Cr7lQOWI9+FNrK3MW
+         yNrC9Xv9PMqDzpMW6bFnpNTjYDxHgCwqUfPk9DdWJbXvoWBiY6kvqSwJB80PO3ulRGJv
+         WF1ITqlB9wg0h2KfEo6j9awpbRUsQ7lg3H6c+wpVs7XYhBquFW5H5duzLA3hS4/o47GO
+         ubMouTTIouO9PbkynMCbMms5XXPZ6Jysx2hJxiG0dQR3l8haNcMKM/8OuVv478Uv5KPj
+         1c2TiqQmiEa7oiYvwcbecem5OhB7zb+xJLyGL5AD1uQcyuegs//szF5y8nEXkkvXCgGp
+         QoxQ==
+X-Gm-Message-State: AFqh2kpoKcth5lv7Y3MSv/mkfjsdIkeBArGGiQV7dVVXVtfQkASJSylV
+	C27gd/0nAq/rax0wBrns92k=
+X-Google-Smtp-Source: AMrXdXvmCUQdwHEhHdEtdgsZW3XUHc+TceoU36TcxapAgBSAVrqIt4KegXuyyufK566kg2zcQrhXlQ==
+X-Received: by 2002:a63:6647:0:b0:479:1f46:a451 with SMTP id a68-20020a636647000000b004791f46a451mr3844469pgc.363.1672891369477;
+        Wed, 04 Jan 2023 20:02:49 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a54:4f0b:0:b0:363:19d3:70f7 with SMTP id e11-20020a544f0b000000b0036319d370f7ls9167081oiy.9.-pod-prod-gmail;
- Wed, 04 Jan 2023 17:43:54 -0800 (PST)
-X-Received: by 2002:aca:c0c6:0:b0:363:acf4:7f44 with SMTP id q189-20020acac0c6000000b00363acf47f44mr6825712oif.51.1672883034339;
-        Wed, 04 Jan 2023 17:43:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1672883034; cv=none;
+Received: by 2002:a17:90a:8a13:b0:1fa:bc38:b125 with SMTP id
+ w19-20020a17090a8a1300b001fabc38b125ls1594956pjn.1.-pod-preprod-gmail; Wed,
+ 04 Jan 2023 20:02:48 -0800 (PST)
+X-Received: by 2002:a05:6a20:6704:b0:a3:d847:c776 with SMTP id q4-20020a056a20670400b000a3d847c776mr49226220pzh.0.1672891368866;
+        Wed, 04 Jan 2023 20:02:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1672891368; cv=none;
         d=google.com; s=arc-20160816;
-        b=VUy/1Lw+fl2Mlez6sxC1CqkU7kB/fuSvJ3KBsgsMmaDZduuN5lutCxo/9jP3OZFG/Z
-         uS8n4Zl/lDvLuYaPLS/SkRwX9t7tOj0KuGuA1t20QghaALUSyVrGF5rd4YSRDn/KtFC5
-         UU+AuAuHmegG7pMr/4WCIUg+4YdZxPewyIDqMcPwFxldh0hjCTYX+JmmNqZkBpOmRYxN
-         Jg0J7Uj9E9dRUa5bOmYdDvwGMgD4fbnP2MaWz4+2ehaeDYab1pTMXkLFp1hWHZnla9qF
-         Q51dRcU6NtSa800D13Xtc4/iy+cHxWla1mhGbZGHOtJ9n4oHQP8TdFOngvg4ai+ELoN7
-         e3Yw==
+        b=006MVAjSINrN4Fm3fSJ5OKX8Mz+YKXLg+B1RkV4Rul+Ti8CL89g6OHT0bE9K0Qiqtb
+         9RBsb1PAQzIpuDEUhLURiCJuW4lZFlmAl/Qst2hspLYHd9ky2uSiwlj/oJioruF48tG1
+         m5NzD7TIQKqfmrDGxGJjWNd/VhHrttZU9BYizFydyE3PN3IDtP2u4i7qVBoMwV+dWe8w
+         yvakWZBM3phz/73DAryREC4nlrT/d5KEu+K9RBQi4n44QiY3eGI9vv25bIppcD3VFNrb
+         7yRdIYYWvq4+Huc49qiBkpeZoqQNqnDNgIgyXb5rwAVOUQr5WIwYBKb5Nr0+CM6noqwB
+         6xrA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:dkim-signature;
-        bh=qvbp9StBfREPm9I8aa88N5F9Rq5kJCaZobikFDCIkUs=;
-        b=bMa9IzMfkMDXfNQI9NZRwIuH8vjTIyg9UPaHXue10rH1aY5EzAeiahw/yK2mh+9uXF
-         Gp/dpkRazZj8Vb0J7LcrciIaONfKkItTC4nY91W/AevZOzOLnzAkZjjamBRPWxn/yczz
-         MPwhYXr3QqVgms2/3WNKhy/c3GbAVLY/nl68x0eUIPknsQxBgmHZ2NG/cYJQbi8rVl0J
-         WgB2FES4Qp4tjXhX6YO9LCOR/HlC+NFQsE6CsQMgex30hPSo6KTYny8TLU3H1IAxU84i
-         8jDxG1ZyQu8w45UaS6dFuXskqutloftJCyTCWGP9NCcznLAZNkL5zYK3gz9F8ei1s06+
-         KEPw==
+        h=feedback-id:content-transfer-encoding:message-id:user-agent
+         :references:in-reply-to:subject:cc:to:from:date:mime-version
+         :dkim-signature:dkim-signature;
+        bh=EwW7mhioEl6+pqxpuJNZ/UvndZUxFCljFPe17HDDkoU=;
+        b=E+00+yQz1tzR5L/waUnEh4wK93EShVpOo1qrG6yAaa9V8shHXDqQvIrUT1M1egUyFX
+         DDaO+txZAlJSu684zuj3p8DkRxlPng2lAIGfNnpvafHDpJYv1bQ1atBlkXQNZOSd9sAR
+         KNyqYQm4HNMQCkDvULyvoStARju4hW77fNMKf35g73u3lMoElV6V8I3o5HSZl1fYuAU0
+         tw8sjaCkwEKsMTbVVyaampmen07hAwWriHJQuBMM0wIJNMdfIdeJP3h9hW44vKUSuqnB
+         VLklmCrVoszGJRItLQZicDEf6oN8pgINeCLQdEyC6HqAuea6kX6tWkj5/1623Rndt+88
+         ZE5w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=aGe2tFaw;
-       spf=pass (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::102e as permitted sender) smtp.mailfrom=rientjes@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com. [2607:f8b0:4864:20::102e])
-        by gmr-mx.google.com with ESMTPS id 103-20020a9d0870000000b0066c427f94ecsi2894046oty.3.2023.01.04.17.43.54
+       dkim=pass header.i=@aaront.org header.s=ude52klaz7ukvnrchdbsicqdl2lnui6h header.b=A2eIR5Z+;
+       dkim=pass header.i=@amazonses.com header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BsiWU+dJ;
+       spf=pass (google.com: domain of 01010185801881b4-2dd5c952-d967-414b-9dc6-7edb04436342-000000@ses-us-west-2.bounces.aaront.org designates 54.240.27.20 as permitted sender) smtp.mailfrom=01010185801881b4-2dd5c952-d967-414b-9dc6-7edb04436342-000000@ses-us-west-2.bounces.aaront.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=aaront.org
+Received: from a27-20.smtp-out.us-west-2.amazonses.com (a27-20.smtp-out.us-west-2.amazonses.com. [54.240.27.20])
+        by gmr-mx.google.com with ESMTPS id em10-20020a17090b014a00b00225f8c9bf80si202996pjb.0.2023.01.04.20.02.48
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Jan 2023 17:43:54 -0800 (PST)
-Received-SPF: pass (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::102e as permitted sender) client-ip=2607:f8b0:4864:20::102e;
-Received: by mail-pj1-x102e.google.com with SMTP id c8-20020a17090a4d0800b00225c3614161so498767pjg.5
-        for <kasan-dev@googlegroups.com>; Wed, 04 Jan 2023 17:43:54 -0800 (PST)
-X-Received: by 2002:a17:902:9b95:b0:189:6d32:afeb with SMTP id y21-20020a1709029b9500b001896d32afebmr59plp.1.1672883033545;
-        Wed, 04 Jan 2023 17:43:53 -0800 (PST)
-Received: from [2620:15c:29:203:fc97:724c:15bb:25c7] ([2620:15c:29:203:fc97:724c:15bb:25c7])
-        by smtp.gmail.com with ESMTPSA id l19-20020a170902d35300b0019290a36553sm11980965plk.63.2023.01.04.17.43.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 17:43:52 -0800 (PST)
-Date: Wed, 4 Jan 2023 17:43:51 -0800 (PST)
-From: "'David Rientjes' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Aaron Thompson <dev@aaront.org>
-cc: linux-mm@kvack.org, Mike Rapoport <rppt@kernel.org>, 
-    "H. Peter Anvin" <hpa@zytor.com>, Alexander Potapenko <glider@google.com>, 
-    Andrew Morton <akpm@linux-foundation.org>, 
-    Andy Shevchenko <andy@infradead.org>, Ard Biesheuvel <ardb@kernel.org>, 
-    Borislav Petkov <bp@alien8.de>, Darren Hart <dvhart@infradead.org>, 
-    Dave Hansen <dave.hansen@linux.intel.com>, 
-    Dmitry Vyukov <dvyukov@google.com>, Ingo Molnar <mingo@redhat.com>, 
-    Marco Elver <elver@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
-    kasan-dev@googlegroups.com, linux-efi@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-    x86@kernel.org
-Subject: Re: [PATCH 0/1] Pages not released from memblock to the buddy
- allocator
-In-Reply-To: <010101857bbc3a41-173240b3-9064-42ef-93f3-482081126ec2-000000@us-west-2.amazonses.com>
-Message-ID: <30478b4a-870b-bf48-76d0-a236a40e7674@google.com>
-References: <010101857bbc3a41-173240b3-9064-42ef-93f3-482081126ec2-000000@us-west-2.amazonses.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 04 Jan 2023 20:02:48 -0800 (PST)
+Received-SPF: pass (google.com: domain of 01010185801881b4-2dd5c952-d967-414b-9dc6-7edb04436342-000000@ses-us-west-2.bounces.aaront.org designates 54.240.27.20 as permitted sender) client-ip=54.240.27.20;
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: rientjes@google.com
+Date: Thu, 5 Jan 2023 04:02:47 +0000
+From: "'Aaron Thompson' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: linux-mm@kvack.org, "H. Peter Anvin" <hpa@zytor.com>, Alexander
+ Potapenko <glider@google.com>, Andrew Morton <akpm@linux-foundation.org>,
+ Andy Shevchenko <andy@infradead.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Borislav Petkov <bp@alien8.de>, Darren Hart <dvhart@infradead.org>, Dave
+ Hansen <dave.hansen@linux.intel.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Marco Elver <elver@google.com>, Thomas
+ Gleixner <tglx@linutronix.de>, kasan-dev@googlegroups.com,
+ linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH 1/1] mm: Always release pages to the buddy allocator in
+ memblock_free_late().
+In-Reply-To: <Y7XU4Wf2ohArLtvs@kernel.org>
+References: <20230104074215.2621-1-dev@aaront.org>
+ <010101857bbc4d26-d9683bb4-c4f0-465b-aea6-5314dbf0aa01-000000@us-west-2.amazonses.com>
+ <Y7XU4Wf2ohArLtvs@kernel.org>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <01010185801881b4-2dd5c952-d967-414b-9dc6-7edb04436342-000000@us-west-2.amazonses.com>
+X-Sender: dev@aaront.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Feedback-ID: 1.us-west-2.OwdjDcIoZWY+bZWuVZYzryiuW455iyNkDEZFeL97Dng=:AmazonSES
+X-SES-Outgoing: 2023.01.05-54.240.27.20
+X-Original-Sender: dev@aaront.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=aGe2tFaw;       spf=pass
- (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::102e
- as permitted sender) smtp.mailfrom=rientjes@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: David Rientjes <rientjes@google.com>
-Reply-To: David Rientjes <rientjes@google.com>
+ header.i=@aaront.org header.s=ude52klaz7ukvnrchdbsicqdl2lnui6h
+ header.b=A2eIR5Z+;       dkim=pass header.i=@amazonses.com
+ header.s=gdwg2y3kokkkj5a55z2ilkup5wp5hhxx header.b=BsiWU+dJ;       spf=pass
+ (google.com: domain of 01010185801881b4-2dd5c952-d967-414b-9dc6-7edb04436342-000000@ses-us-west-2.bounces.aaront.org
+ designates 54.240.27.20 as permitted sender) smtp.mailfrom=01010185801881b4-2dd5c952-d967-414b-9dc6-7edb04436342-000000@ses-us-west-2.bounces.aaront.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=aaront.org
+X-Original-From: Aaron Thompson <dev@aaront.org>
+Reply-To: Aaron Thompson <dev@aaront.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,90 +148,122 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 4 Jan 2023, Aaron Thompson wrote:
+Hi Mike,
 
-> Hi all,
+On 2023-01-04 11:34, Mike Rapoport wrote:
+> Hi,
 > 
-> (I've CC'ed the KMSAN and x86 EFI maintainers as an FYI; the only code change
-> I'm proposing is in memblock.)
+> On Wed, Jan 04, 2023 at 07:43:36AM +0000, Aaron Thompson wrote:
+>> If CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled, memblock_free_pages()
+>> only releases pages to the buddy allocator if they are not in the
+>> deferred range. This is correct for free pages (as defined by
+>> for_each_free_mem_pfn_range_in_zone()) because free pages in the
+>> deferred range will be initialized and released as part of the 
+>> deferred
+>> init process. memblock_free_pages() is called by memblock_free_late(),
+>> which is used to free reserved ranges after memblock_free_all() has
+>> run. memblock_free_all() initializes all pages in reserved ranges, and
 > 
-> I've run into a case where pages are not released from memblock to the buddy
-> allocator. If deferred struct page init is enabled, and memblock_free_late() is
-> called before page_alloc_init_late() has run, and the pages being freed are in
-> the deferred init range, then the pages are never released. memblock_free_late()
-> calls memblock_free_pages() which only releases the pages if they are not in the
-> deferred range. That is correct for free pages because they will be initialized
-> and released by page_alloc_init_late(), but memblock_free_late() is dealing with
-> reserved pages. If memblock_free_late() doesn't release those pages, they will
-> forever be reserved. All reserved pages were initialized by memblock_free_all(),
-> so I believe the fix is to simply have memblock_free_late() call
-> __free_pages_core() directly instead of memblock_free_pages().
-> 
-> In addition, there was a recent change (3c20650982609 "init: kmsan: call KMSAN
-> initialization routines") that added a call to kmsan_memblock_free_pages() in
-> memblock_free_pages(). It looks to me like it would also be incorrect to make
-> that call in the memblock_free_late() case, because the KMSAN metadata was
-> already initialized for all reserved pages by kmsan_init_shadow(), which runs
-> before memblock_free_all(). Having memblock_free_late() call __free_pages_core()
-> directly also fixes this issue.
-> 
-> I encountered this issue when I tried to switch some x86_64 VMs I was running
-> from BIOS boot to EFI boot. The x86 EFI code reserves all EFI boot services
-> ranges via memblock_reserve() (part of setup_arch()), and it frees them later
-> via memblock_free_late() (part of efi_enter_virtual_mode()). The EFI
-> implementation of the VM I was attempting this on, an Amazon EC2 t3.micro
-> instance, maps north of 170 MB in boot services ranges that happen to fall in
-> the deferred init range. I certainly noticed when that much memory went missing
-> on a 1 GB VM.
-> 
-> I've tested the patch on EC2 instances, qemu/KVM VMs with OVMF, and some real
-> x86_64 EFI systems, and they all look good to me. However, the physical systems
-> that I have don't actually trigger this issue because they all have more than 4
-> GB of RAM, so their deferred init range starts above 4 GB (it's always in the
-> highest zone and ZONE_DMA32 ends at 4 GB) while their EFI boot services mappings
-> are below 4 GB.
-> 
-> Deferred struct page init can't be enabled on x86_32 so those systems are
-> unaffected. I haven't found any other code paths that would trigger this issue,
-> though I can't promise that there aren't any. I did run with this patch on an
-> arm64 VM as a sanity check, but memblock=debug didn't show any calls to
-> memblock_free_late() so that system was unaffected as well.
-> 
-> I am guessing that this change should also go the stable kernels but it may not
-> apply cleanly (__free_pages_core() was __free_pages_boot_core() and
-> memblock_free_pages() was __free_pages_bootmem() when this issue was first
-> introduced). I haven't gone through that process before so please let me know if
-> I can help with that.
-> 
-> This is the end result on an EC2 t3.micro instance booting via EFI:
-> 
-> v6.2-rc2:
->   # grep -E 'Node|spanned|present|managed' /proc/zoneinfo
->   Node 0, zone      DMA
->           spanned  4095
->           present  3999
->           managed  3840
->   Node 0, zone    DMA32
->           spanned  246652
->           present  245868
->           managed  178867
-> 
-> v6.2-rc2 + patch:
->   # grep -E 'Node|spanned|present|managed' /proc/zoneinfo
->   Node 0, zone      DMA
->           spanned  4095
->           present  3999
->           managed  3840
->   Node 0, zone    DMA32
->           spanned  246652
->           present  245868
->           managed  222816
-> 
+> To be precise, memblock_free_all() frees pages, or releases them to the
+> pages allocator, rather than initializes.
 
-The above before + after seems useful information to include in the commit 
-description of the change.
+As you mentioned in the comment below, whether memblock_free_all() does 
+any
+initializing depends on the particular deferred init situation.
+memblock_free_all() does ultimately call init_reserved_page() for every 
+reserved
+page (via reserve_bootmem_region()), but that only actually initializes 
+the page
+if it's in the deferred range. In either case, all I was trying to say 
+here is
+that we can be certain that all reserved pages have been initialized 
+after
+memblock_free_all() has run, so I'll rephrase that.
+
+>> accordingly, those pages are not touched by the deferred init
+>> process. This means that currently, if the pages that
+>> memblock_free_late() intends to release are in the deferred range, 
+>> they
+>> will never be released to the buddy allocator. They will forever be
+>> reserved.
+>> 
+>> In addition, memblock_free_pages() calls kmsan_memblock_free_pages(),
+>> which is also correct for free pages but is not correct for reserved
+>> pages. KMSAN metadata for reserved pages is initialized by
+>> kmsan_init_shadow(), which runs shortly before memblock_free_all().
+>> 
+>> For both of these reasons, memblock_free_pages() should only be called
+>> for free pages, and memblock_free_late() should call 
+>> __free_pages_core()
+>> directly instead.
+> 
+> Overall looks fine to me and I couldn't spot potential issues.
+> 
+> I'd appreciate if you add a paragraph about the actual issue with EFI 
+> boot
+> you described in the cover letter to the commit message.
+
+Sure, will do.
+
+>> Fixes: 3a80a7fa7989 ("mm: meminit: initialise a subset of struct pages 
+>> if CONFIG_DEFERRED_STRUCT_PAGE_INIT is set")
+>> Signed-off-by: Aaron Thompson <dev@aaront.org>
+>> ---
+>>  mm/memblock.c                     | 2 +-
+>>  tools/testing/memblock/internal.h | 4 ++++
+>>  2 files changed, 5 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/mm/memblock.c b/mm/memblock.c
+>> index 511d4783dcf1..56a5b6086c50 100644
+>> --- a/mm/memblock.c
+>> +++ b/mm/memblock.c
+>> @@ -1640,7 +1640,7 @@ void __init memblock_free_late(phys_addr_t base, 
+>> phys_addr_t size)
+>>  	end = PFN_DOWN(base + size);
+>> 
+>>  	for (; cursor < end; cursor++) {
+>> -		memblock_free_pages(pfn_to_page(cursor), cursor, 0);
+>> +		__free_pages_core(pfn_to_page(cursor), 0);
+> 
+> Please add a comment that explains why it is safe to call
+> __free_pages_core() here.
+> Something like
+> 
+> 	/*
+> 	 * Reserved pages are always initialized by the end of
+> 	 * memblock_free_all() either during memmap_init() or, with deferred
+> 	 * initialization if struct page in reserve_bootmem_region()
+> 	 */
+
+Will do. Thanks for the review.
+
+>>  		totalram_pages_inc();
+>>  	}
+>>  }
+>> diff --git a/tools/testing/memblock/internal.h 
+>> b/tools/testing/memblock/internal.h
+>> index fdb7f5db7308..85973e55489e 100644
+>> --- a/tools/testing/memblock/internal.h
+>> +++ b/tools/testing/memblock/internal.h
+>> @@ -15,6 +15,10 @@ bool mirrored_kernelcore = false;
+>> 
+>>  struct page {};
+>> 
+>> +void __free_pages_core(struct page *page, unsigned int order)
+>> +{
+>> +}
+>> +
+>>  void memblock_free_pages(struct page *page, unsigned long pfn,
+>>  			 unsigned int order)
+>>  {
+>> --
+>> 2.30.2
+>> 
+
+Thanks,
+-- Aaron
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/30478b4a-870b-bf48-76d0-a236a40e7674%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/01010185801881b4-2dd5c952-d967-414b-9dc6-7edb04436342-000000%40us-west-2.amazonses.com.
