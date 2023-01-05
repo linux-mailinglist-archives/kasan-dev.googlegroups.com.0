@@ -1,140 +1,138 @@
-Return-Path: <kasan-dev+bncBDOY5FWKT4KRB45J26OQMGQEBE74KDQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDH7RNXZVMORBYWV3COQMGQEOFRKULA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x40.google.com (mail-oa1-x40.google.com [IPv6:2001:4860:4864:20::40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BBDF65DCDA
-	for <lists+kasan-dev@lfdr.de>; Wed,  4 Jan 2023 20:35:17 +0100 (CET)
-Received: by mail-oa1-x40.google.com with SMTP id 586e51a60fabf-14c90f25682sf15221117fac.10
-        for <lists+kasan-dev@lfdr.de>; Wed, 04 Jan 2023 11:35:17 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1672860916; cv=pass;
+Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC36C65E28E
+	for <lists+kasan-dev@lfdr.de>; Thu,  5 Jan 2023 02:41:55 +0100 (CET)
+Received: by mail-il1-x13a.google.com with SMTP id i7-20020a056e021b0700b003033a763270sf22258344ilv.19
+        for <lists+kasan-dev@lfdr.de>; Wed, 04 Jan 2023 17:41:55 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1672882914; cv=pass;
         d=google.com; s=arc-20160816;
-        b=BBClgZaNa8lJuG6rx0JUUGvPCuHlL5yarVl9xklvu+24n1dX4RcSgxVtF7lcpw6twK
-         E/Ag8dxZ1QJ9ZGAMJVzKTaEd2HeoS3/mkJ3oj9d/vU1xIj6Jd2ybRISMo1cVpw+qxOMG
-         sGCIzJg6dH5GHMQSGvPvltnPUmNU+4bxT2DXqREx6EnC762l9ubc36GpwWumlzKrrUnc
-         EBsoJ3ucbNT2JLuT18EbyMzYRP5VS/p4JXO1mgBdn1i6+TSE+lUofZSLOoCGMx/RYach
-         tMT6NvSuNAzRbwfexvrP7C2MZzbKbHhuaRcaSNZCOjPeDhvHkB38hbSjGsn/8CbmFvJr
-         WSsA==
+        b=LDBVwAT4ujrbh+bRkyygqijTBvRY9PjZnKOKrLTjWHnjE3mANF6UsTOhtSBqFWtWxS
+         ohoB0qSmbsTKoGXlBGpeBEOQuNcgX/92ypEv1Uub4YYexaGxjRz8VZlBv+gHWqQfdG0u
+         o+WNKKxYA57foMgBBSmdZafU/NJiAFrBN8a/e3F8NTulJK2aYpd9Jxp8hDW5oXsjJ7Sb
+         kvbpQyg3hFt0GgZ5XvWc/VR88T/CreVMLqjZivlgi4HFALEq4U3lKWAUPQkcgt60Ex0j
+         S0f/cYqwGSK553bSvAUA8knpaM8r4btqMMJ3ZhNIVVctGsaJ6RRc6i6M7OPFrrwqgKYy
+         lhNA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=YXqs2maU/9G4UEy8Lblh1ftY2MIhXf/oFhaPY5iADac=;
-        b=kMDizq/VWkuNdZVdOtrQZq8/mdXZog/Cz67PZY6ERsS0Uza7hFQ+X5hgGi2TnHQ4Gx
-         /InWXnzYQsY4Bm/OkRIxkrLCrsdC65Ov0qRmrnE66nPp8Q4TWx96ivkII8gwxPmLJFW4
-         A5h+/539MCaIrC1BksWPfO5Ly+QMi2iKoE8HpqbdVPzmPDc1xoXvOVW/B/hrsyuYqsih
-         wJcFahVrbRC9PNMu33kTiMgSMw/QRGp5gITWRO/5ux+GszQqFHKX26ePLY/Oq8yGJoPU
-         JVn9dCvf1lluQzkendEQLYcWOQVkYEVGlhiqvOXat2ORpF04TT9sbgc8npyi4fAKfv4B
-         X0zA==
+         :list-id:mailing-list:precedence:reply-to:mime-version:references
+         :message-id:in-reply-to:subject:cc:to:from:date:dkim-signature;
+        bh=e3jx+X8ZcCMjmCiCmqey9qWHLaq6bvcXizopPsLc7SY=;
+        b=yaJgSGbLBXOr/j5ccFYztMkA0Cm4ytwjNi0E59C56g7LFU4tTDXbh+crjvEPI+PXLe
+         eH68CfF2yJPQSYVcyfe0iuI0mwoxRuW3+rzEfchuuB7qvSZAF0aQHbDFVTSR0koXqCvN
+         rkKhwaC2ROiLYT6ljaN/at7JS12n5uGkX7SisWHrD8v4J0WXbJAsg1Jf8uK9BpugUdEi
+         v1O6uzEd11877s4JHm9caXPsU/ecGGoc3RkQAYy5A9WWOCPTbPF10XdLd9bx3o2LDlG/
+         a2GDd/rOJVOsmY38CFt6tHgD8eZ8Sg5zgLmwQGDv3TVNTJqNcZYmI+AstK1cUjRQ/2hi
+         lFxA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=CZG94dIa;
-       spf=pass (google.com: domain of rppt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=rppt@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b=mNT9PCRm;
+       spf=pass (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::636 as permitted sender) smtp.mailfrom=rientjes@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YXqs2maU/9G4UEy8Lblh1ftY2MIhXf/oFhaPY5iADac=;
-        b=ZHnVfZaw2mw5TAN94/SuerCPotyvAYYwEyVq1TojWwUMxwjWkywF5BMMXjc252pzS9
-         Jq0drTZwoCL5XW7cA22DHyW5AO4s3Q+dA100djVrj453HpobLtHtx6sNKR3at03GMOU+
-         /ZtciR5G6DVyoIkcxysyCtsWqBXFNVkzCnhTWGX96yDXMXbpPN1AIoTfiFhpiBa5hkOV
-         GxUs5apWg7cBWFCQxIbUs2qNnYkG/2Ob+g06PduhNfclAbyVd17AqP7Ct/JwOJFr24tx
-         xmtqXRUYDsCJ0PJvU60URx4My1qFj+Qq6n3FvaECEIex3KNSLVU2DCw3Y3v8gCNkkwNa
-         s+bg==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:message-id:in-reply-to:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=e3jx+X8ZcCMjmCiCmqey9qWHLaq6bvcXizopPsLc7SY=;
+        b=C2e4mzY9+q4zRwz9Uqqa6PDO8xlPJEYpxpjYLX+Qt30Y7+xW4O24FfRiD3vhCIyTiv
+         RNlkNIJvHZLuPGaWX/sdEzl5xF59NZXGArgvDpqqhDACEvoyGjcZfWStBUCsBbAQSRat
+         Dadgk+Wif3N/AGKFl72AMI7Rm3ZXRVIzmTyf08j+wFf6uly4WqsYOVE9jIKQ9lyUc7n9
+         N0TFhEuFC77pKDLf2IRjH0FZsupzWJF88CB7ktd7cb8eaccTOvrccXq3N65Y3ksiiHRW
+         A/i+SFztDmxgpDNBqI6zh8QjnRw5al4Bl8khzAU4koYmENNMycFlxqbDswsMJ9Rt2KWp
+         RGmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YXqs2maU/9G4UEy8Lblh1ftY2MIhXf/oFhaPY5iADac=;
-        b=EOPbT8fAr9aamwKZR7mq62zBEn+boWn4wlHjR8m/1WlA3uzPjgyT+0AnngI09/++7m
-         GF1EmgzqWxtBW/e6W5lhOKR8ghnYnE4JDCJA01tSSc+XjR/zJvB6ArKZy+QZsKVzHyNy
-         nRceurYI9VeH8b/426hyc2U6MWT2ErF6kist6i2JQmqX2ABQwxj+AXUljoxp4CpWae3r
-         fhdCQZzuV9SIEsNbGkQ/fh/AqUEp+AINuZ7jQApCVCzedimwmwZGWgf7grxKuQiRSheV
-         Yp5bfrJzLDj6widI9x7QcCjhIMRWSKPh5vvg3ty4W21cdg4DZlMrQygPp4u4uhRANHiU
-         leAg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kpR7b2Bk7mld//kYb9u/3kgsvz4LL39TAQxS7FY2Rmv2z9Ut5Vk
-	Q2DdNvw0IB02ZcCLk0+ZGpw=
-X-Google-Smtp-Source: AMrXdXu7QKCkFWUGxCzjPjZoqW41sJcZzBrTHdThHG8WI0GWB9POIbEkGbqUQRUNVjmDxgFsAqtVMA==
-X-Received: by 2002:a05:6830:1441:b0:670:f1c7:789d with SMTP id w1-20020a056830144100b00670f1c7789dmr2101733otp.33.1672860915910;
-        Wed, 04 Jan 2023 11:35:15 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:message-id:in-reply-to:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=e3jx+X8ZcCMjmCiCmqey9qWHLaq6bvcXizopPsLc7SY=;
+        b=0TqWJWyFfTU5Tsa6/zondlqiWIrRpmdt0vFpmarty5Kd4SPEzTRp2GIth/NUiA7U25
+         +KEp81jcWL2A0BhtQuLxtjxp4jGzVq95VuuuQ93tjGKiw1ZaarG/QeXehB6/E4H0gHhu
+         r8Gq9FK2gez7HT84xquCKwByl16mEY8/+27S421ufJM0g7K9HwOAti7TQeGyCAByunks
+         J5xGyY0NhBSW70Lu3SmDCO+sAedZ1DhLMmhm7SXf0DYzp6I+uBk+ncszHqLp0Ow6Hs6K
+         TDqxQDNBUkKr6iCaSQptERT9krCJztmbE9I71jzRFhfJCHNEJd6OJJgCAcPwWvohl6rZ
+         vbWA==
+X-Gm-Message-State: AFqh2kpTcth6uq9slR1OhsjFzyVZAr0jbcSEFSPAIuIoMLcH3joUrCaj
+	UM6AXzLU52Tqz2tWA906Jcs=
+X-Google-Smtp-Source: AMrXdXsMTID180B8ArN3xeNcKvLAQYztp6HBv8PBlESzyOPIRSbeZgkYARoErxB/WmqlfAVjP90qUA==
+X-Received: by 2002:a92:cf46:0:b0:303:cc0:689d with SMTP id c6-20020a92cf46000000b003030cc0689dmr3283913ilr.73.1672882914300;
+        Wed, 04 Jan 2023 17:41:54 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a9d:4e6:0:b0:66e:aed3:654a with SMTP id 93-20020a9d04e6000000b0066eaed3654als5498001otm.4.-pod-prod-gmail;
- Wed, 04 Jan 2023 11:35:15 -0800 (PST)
-X-Received: by 2002:a9d:6d8b:0:b0:676:88d1:575c with SMTP id x11-20020a9d6d8b000000b0067688d1575cmr27416723otp.14.1672860915565;
-        Wed, 04 Jan 2023 11:35:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1672860915; cv=none;
+Received: by 2002:a05:6e02:1341:b0:30b:fbfd:3280 with SMTP id
+ k1-20020a056e02134100b0030bfbfd3280ls5892573ilr.8.-pod-prod-gmail; Wed, 04
+ Jan 2023 17:41:53 -0800 (PST)
+X-Received: by 2002:a05:6e02:1146:b0:30d:6f64:d844 with SMTP id o6-20020a056e02114600b0030d6f64d844mr2931437ill.6.1672882913745;
+        Wed, 04 Jan 2023 17:41:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1672882913; cv=none;
         d=google.com; s=arc-20160816;
-        b=N/Us3KS/iAYZMYy4cewrNkNLLZLBx1shArkxpP8ebAlS2x94hzgQ9xVTLWo35Hr6gk
-         4Akv9d/1axnsKNaKs0ueKY72stu0MdPzGcc1HdCT4Fe0ECdKbonFhuDcxRoX+jJdSyZc
-         Ur44xLsWJnA8r9/FZ3fvGnSRWvMm7HW4SZ3fMEVHoVgS/al7giCXL3qdpR8OYKZUczQ1
-         /9Aq6SF+TgMJAROyKm7lcRe0NF+g9n7kZUx2JW/QTFY8F7BE5+SfH/bbpWmAJa9hoWC7
-         dmV2yVAtVYr0Di8ZU/OVlgSVne9vZPbNUFh44nP/j48CnhSHp9S8v3KUz7c7bORLxgc/
-         wqOw==
+        b=W0cs3CjdXXmZVAgWWbFoNptdYa/nNQ4Z6uMnXXfDaRaE84hSiU2siufYkbbZT12aMJ
+         6eeUCTxu8duo9ENU8Hv6w6+dMS/53MTlNym4Dxq12FXlAuf4cuq/QbzKZNRcHrebVEVw
+         JZXgBHfGV/HloiEtNDCeEdtn+39L+GkUf9hVvZd5LzvryIulXo1bMH+B4hzmEYXVuCIF
+         TZtPkcqcxcuKzetr+3RvYclZvjqiDwgtfYAImgfU954BhHc9iFkJQ0GZHUula9cU50sx
+         RgFkjMOPyESGwoABgD5BzOZDohGIWvxWMwOQVxPlPaBcjMsG9gvujTaSNoXCOJ0s+bAI
+         OY2g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=vxL5P38A5MF2VaxMGG+r7VO721m/rv62JfmYkR/SGps=;
-        b=M8ViF/AHC2KvCfvP2BD72PEDjeR0Wvbapk90SA3/9sdn/4Bbxju47bjuVzAlmR++Cv
-         9CKJ9ze+tpEhQwxTHC/Ns0N9po3r81v3NE7ApA7nn0HW3pZDQPsiETs+6ztdoGAG1HnA
-         78y9b0ux3xSWRkqV7C9Y1r9d2RR670wvldoTuycg+6XSUpEfwHsoC8uXqYBxofPoioBf
-         Kz/9Fjp1gJhzPPWqps1qiL6RCMj/7WdsuYRc7NsFIDTbPFRxJasLcFbtXGp4akTEefVQ
-         PEKJ89m1KVxZjQxl/E5pazfrlzzp1jyL35sHQouTTZSfHp5M1t6La1TD7jvLdWckx147
-         sxew==
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:dkim-signature;
+        bh=qGDoBgnyiYUBevy+lcv+gZmYeTZ3heicEZ82qgGjf80=;
+        b=pBCUjIGe+Qol8y83hahZog3tGR375Dt3tIKAAGSnwYL7QtEHcO+vstHe1efQjOuZKH
+         R+1G6fFIW4wpoF4x+hn5i2MqXi8IrhyagcNwzqppFmwH62u0xOyCfe6SbabZ9Rz6wvtl
+         PuSAOleP4xRJRuKRCZfxiigu3Jt7oNkxoxHZZGf6b0p1HW9l4mX5tCjkbMPsROtvk/wL
+         QGDxQNfbpF6B6lBCEXWEXqGTc53TpIgQpy2dZcVUJhLbx0z0xK5TDkgETjN78XQ/0xNU
+         bhlH4wxai6Sxw93OZdRi38CU9vvoX15SkOraQFWmCaux3JEXZOVVdIO6adZFWuBw7n+h
+         aVhA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=CZG94dIa;
-       spf=pass (google.com: domain of rppt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=rppt@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id g84-20020acab657000000b00353e4e7f335si4638662oif.4.2023.01.04.11.35.15
+       dkim=pass header.i=@google.com header.s=20210112 header.b=mNT9PCRm;
+       spf=pass (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::636 as permitted sender) smtp.mailfrom=rientjes@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com. [2607:f8b0:4864:20::636])
+        by gmr-mx.google.com with ESMTPS id c9-20020a02c9c9000000b0038a6bbe1e21si2631254jap.1.2023.01.04.17.41.53
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 04 Jan 2023 11:35:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of rppt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 4C38A617ED;
-	Wed,  4 Jan 2023 19:35:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E819FC433EF;
-	Wed,  4 Jan 2023 19:35:08 +0000 (UTC)
-Date: Wed, 4 Jan 2023 21:34:57 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Aaron Thompson <dev@aaront.org>
-Cc: linux-mm@kvack.org, "H. Peter Anvin" <hpa@zytor.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Shevchenko <andy@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Darren Hart <dvhart@infradead.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dmitry Vyukov <dvyukov@google.com>, Ingo Molnar <mingo@redhat.com>,
-	Marco Elver <elver@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>, kasan-dev@googlegroups.com,
-	linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH 1/1] mm: Always release pages to the buddy allocator in
- memblock_free_late().
-Message-ID: <Y7XU4Wf2ohArLtvs@kernel.org>
-References: <20230104074215.2621-1-dev@aaront.org>
- <010101857bbc4d26-d9683bb4-c4f0-465b-aea6-5314dbf0aa01-000000@us-west-2.amazonses.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Jan 2023 17:41:53 -0800 (PST)
+Received-SPF: pass (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::636 as permitted sender) client-ip=2607:f8b0:4864:20::636;
+Received: by mail-pl1-x636.google.com with SMTP id g16so28254425plq.12
+        for <kasan-dev@googlegroups.com>; Wed, 04 Jan 2023 17:41:53 -0800 (PST)
+X-Received: by 2002:a17:90a:c903:b0:219:f970:5119 with SMTP id v3-20020a17090ac90300b00219f9705119mr45423pjt.1.1672882912921;
+        Wed, 04 Jan 2023 17:41:52 -0800 (PST)
+Received: from [2620:15c:29:203:fc97:724c:15bb:25c7] ([2620:15c:29:203:fc97:724c:15bb:25c7])
+        by smtp.gmail.com with ESMTPSA id w6-20020a170902e88600b00183c67844aesm7454159plg.22.2023.01.04.17.41.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Jan 2023 17:41:51 -0800 (PST)
+Date: Wed, 4 Jan 2023 17:41:50 -0800 (PST)
+From: "'David Rientjes' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Feng Tang <feng.tang@intel.com>
+cc: Andrew Morton <akpm@linux-foundation.org>, 
+    Vlastimil Babka <vbabka@suse.cz>, Christoph Lameter <cl@linux.com>, 
+    Pekka Enberg <penberg@kernel.org>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
+    Roman Gushchin <roman.gushchin@linux.dev>, 
+    Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
+    Andrey Konovalov <andreyknvl@gmail.com>, 
+    Dmitry Vyukov <dvyukov@google.com>, 
+    Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+    Alexander Potapenko <glider@google.com>, 
+    Vincenzo Frascino <vincenzo.frascino@arm.com>, linux-mm@kvack.org, 
+    kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: Re: [Patch v3 -mm 1/2] mm/slab: add is_kmalloc_cache() helper
+ function
+In-Reply-To: <20230104060605.930910-1-feng.tang@intel.com>
+Message-ID: <8d8a3e03-d019-df20-9525-ea4b4043540f@google.com>
+References: <20230104060605.930910-1-feng.tang@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <010101857bbc4d26-d9683bb4-c4f0-465b-aea6-5314dbf0aa01-000000@us-west-2.amazonses.com>
-X-Original-Sender: rppt@kernel.org
+X-Original-Sender: rientjes@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=CZG94dIa;       spf=pass
- (google.com: domain of rppt@kernel.org designates 2604:1380:4641:c500::1 as
- permitted sender) smtp.mailfrom=rppt@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@google.com header.s=20210112 header.b=mNT9PCRm;       spf=pass
+ (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::636
+ as permitted sender) smtp.mailfrom=rientjes@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: David Rientjes <rientjes@google.com>
+Reply-To: David Rientjes <rientjes@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,95 +145,23 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi,
+On Wed, 4 Jan 2023, Feng Tang wrote:
 
-On Wed, Jan 04, 2023 at 07:43:36AM +0000, Aaron Thompson wrote:
-> If CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled, memblock_free_pages()
-> only releases pages to the buddy allocator if they are not in the
-> deferred range. This is correct for free pages (as defined by
-> for_each_free_mem_pfn_range_in_zone()) because free pages in the
-> deferred range will be initialized and released as part of the deferred
-> init process. memblock_free_pages() is called by memblock_free_late(),
-> which is used to free reserved ranges after memblock_free_all() has
-> run. memblock_free_all() initializes all pages in reserved ranges, and
-
-To be precise, memblock_free_all() frees pages, or releases them to the
-pages allocator, rather than initializes.
-
-> accordingly, those pages are not touched by the deferred init
-> process. This means that currently, if the pages that
-> memblock_free_late() intends to release are in the deferred range, they
-> will never be released to the buddy allocator. They will forever be
-> reserved.
+> commit 6edf2576a6cc ("mm/slub: enable debugging memory wasting of
+> kmalloc") introduces 'SLAB_KMALLOC' bit specifying whether a
+> kmem_cache is a kmalloc cache for slab/slub (slob doesn't have
+> dedicated kmalloc caches).
 > 
-> In addition, memblock_free_pages() calls kmsan_memblock_free_pages(),
-> which is also correct for free pages but is not correct for reserved
-> pages. KMSAN metadata for reserved pages is initialized by
-> kmsan_init_shadow(), which runs shortly before memblock_free_all().
+> Add a helper inline function for other components like kasan to
+> simplify code.
 > 
-> For both of these reasons, memblock_free_pages() should only be called
-> for free pages, and memblock_free_late() should call __free_pages_core()
-> directly instead.
+> Signed-off-by: Feng Tang <feng.tang@intel.com>
+> Acked-by: Vlastimil Babka <vbabka@suse.cz>
+> Acked-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 
-Overall looks fine to me and I couldn't spot potential issues.
-
-I'd appreciate if you add a paragraph about the actual issue with EFI boot
-you described in the cover letter to the commit message.
-
-> Fixes: 3a80a7fa7989 ("mm: meminit: initialise a subset of struct pages if CONFIG_DEFERRED_STRUCT_PAGE_INIT is set")
-> Signed-off-by: Aaron Thompson <dev@aaront.org>
-> ---
->  mm/memblock.c                     | 2 +-
->  tools/testing/memblock/internal.h | 4 ++++
->  2 files changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/mm/memblock.c b/mm/memblock.c
-> index 511d4783dcf1..56a5b6086c50 100644
-> --- a/mm/memblock.c
-> +++ b/mm/memblock.c
-> @@ -1640,7 +1640,7 @@ void __init memblock_free_late(phys_addr_t base, phys_addr_t size)
->  	end = PFN_DOWN(base + size);
->  
->  	for (; cursor < end; cursor++) {
-> -		memblock_free_pages(pfn_to_page(cursor), cursor, 0);
-> +		__free_pages_core(pfn_to_page(cursor), 0);
-
-Please add a comment that explains why it is safe to call __free_pages_core() here.
-Something like
-
-	/*
-	 * Reserved pages are always initialized by the end of
-	 * memblock_free_all() either during memmap_init() or, with deferred
-	 * initialization if struct page in reserve_bootmem_region()
-	 */
-
->  		totalram_pages_inc();
->  	}
->  }
-> diff --git a/tools/testing/memblock/internal.h b/tools/testing/memblock/internal.h
-> index fdb7f5db7308..85973e55489e 100644
-> --- a/tools/testing/memblock/internal.h
-> +++ b/tools/testing/memblock/internal.h
-> @@ -15,6 +15,10 @@ bool mirrored_kernelcore = false;
->  
->  struct page {};
->  
-> +void __free_pages_core(struct page *page, unsigned int order)
-> +{
-> +}
-> +
->  void memblock_free_pages(struct page *page, unsigned long pfn,
->  			 unsigned int order)
->  {
-> -- 
-> 2.30.2
-> 
-
--- 
-Sincerely yours,
-Mike.
+Acked-by: David Rientjes <rientjes@google.com>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y7XU4Wf2ohArLtvs%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8d8a3e03-d019-df20-9525-ea4b4043540f%40google.com.
