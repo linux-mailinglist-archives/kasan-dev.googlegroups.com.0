@@ -1,150 +1,139 @@
-Return-Path: <kasan-dev+bncBDYZDG4VSMIRBK463OOQMGQEWEDYPGY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCAP7WGUVIKBBIFD3OOQMGQE7ZKCVBI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id E378465ECDB
-	for <lists+kasan-dev@lfdr.de>; Thu,  5 Jan 2023 14:22:52 +0100 (CET)
-Received: by mail-lf1-x13e.google.com with SMTP id i13-20020ac2522d000000b004cb23bf5c6csf5592470lfl.20
-        for <lists+kasan-dev@lfdr.de>; Thu, 05 Jan 2023 05:22:52 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1672924972; cv=pass;
+Received: from mail-yb1-xb37.google.com (mail-yb1-xb37.google.com [IPv6:2607:f8b0:4864:20::b37])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2F265ED1C
+	for <lists+kasan-dev@lfdr.de>; Thu,  5 Jan 2023 14:33:21 +0100 (CET)
+Received: by mail-yb1-xb37.google.com with SMTP id b4-20020a253404000000b006fad1bb09f4sf36460825yba.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 05 Jan 2023 05:33:21 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1672925600; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lHkJMpleiObJLzJWIdOR1ascRnEBdB1OWJHcLmTeHb/pDZpViewET8WAXj+xDTr3Bc
-         DppexZOcXaMEkuRxo2AwgxiXBjKLk8Pmf3D5lMwCbIw08XkRmWhV6L/3wapTgptYWrGi
-         BCEvF7P+H30ofcxQu8FIe9YRsTjvOd2vjMo778l/uvYep6it8bNVU47rg6wSX5Qs/0zA
-         RRctFiq3UeLgznWcxx+3m1wCTdzGx/EESq2/j+EEz/Kn50rIHbXbmC/ot8bLpC1DXqfi
-         OuJg1yKIDHyQoUS0dYOpXMSRuItC4f3Wf+7uPhjBLAsSBpIJCwpzZOyGv9cEQuIp4PKB
-         Kthw==
+        b=eTVL7/BQsOoUiMv5Z0iExtkqeSH9Gi94+RGv+frj8wBYZ9cHmXO1KiHqgEToUYxGfX
+         0855wd4FqV708AZJNcPGY7G+THJmLAW6PzrHh6Bv3GNVnqHlbu9XvL6QCqxH5jiOlqTL
+         JhQtzXCs781QLzfZKlloC8R2aBBKRgg8VnCUYUCyKP+1Esuuax3KeA6HG6Ukcdlx7HMA
+         pQpfEzPnhYsL1r2pnmsDuhnLYT/KQN7zvWbKk3Jw+mzaD7a5w21ejlOGhgUhvxNs1PpE
+         JGHGm7e7PxrKAWADtuOZOgKdm/YGcD0ZbzRz36OmvNyzCqF3Lbyqq+xuqm7diUe+D5jD
+         2Cxg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:sender:dkim-signature;
-        bh=A/c/9sT0CcZ3eNoMoErz5LkyNYoI1m0OpER5d89Vhcs=;
-        b=qt2JYGzBXqkjPdpg7d/B6wnXcfzuYdtK5JI7dAzypH9ftzQlu+t4NKwpBWQPzejAhT
-         ed8sfQmF99+0Jq4RJHrO/ydgHbOoFgnmG+6VQ6FGKRxdb55HOdRHlYp1jXq7fkV+wp94
-         1dcb3vwVSBAjGL5WAyr1oEBXzAlRLmFgnEIpeKteIaQW6qp+thB6uVD8qh4g8C9Bo+32
-         kTOcJ9PV/HfcnrODyddcJ5cYoTJ7W2A09kWVClsdobBCK1GFXxNq4E3WyJ5eaD+7zBv1
-         2hQK1tZzFo/EHo3IoH4TwTxQ0GKLY/0VjJsH+Pipa0xMENlpT2wGlfarYWYuKO4W1wKW
-         daDg==
+         :list-id:mailing-list:precedence:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=hiq1xMm+ShgLibpUfF/FYf7WOfFCU5xJKGzfrMaoJnU=;
+        b=FCjjRDhB0PlpvfcCiNtcvoGyE9ODD9ca2TKMnxRpNTnZaXAnmmhY5uKaly9cHqiKQE
+         xNIqV8rdtwPODhhLf8G785Z1SWSkNsne0nCBrfzGwMI+1ZIYVgGkHBS/NDpGa0OI8NYY
+         T2iHf/bqF5i3lQ/nP0/hqFE8o4K09WCaYM1rW/jVMESrAw2onUUzKbPn12Te+sOQytFd
+         s700X4+y3ibx3c/c2Y5KcMnYMkdtYW7u9/0zNwP7ffiF4jTenEIa20i5vUxl7Q2hKT3T
+         GRsZTapvekH69XaLfVbabyj0hb6xqa50i8YNJJIPWatnROz6Q9omVA5nGM0PX/b9rnKc
+         X+Ew==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ffwll.ch header.s=google header.b=V94j5uLs;
-       spf=neutral (google.com: 2a00:1450:4864:20::330 is neither permitted nor denied by best guess record for domain of daniel@ffwll.ch) smtp.mailfrom=daniel@ffwll.ch
+       spf=none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:mail-followup-to:message-id:subject:cc:to:from:date
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=A/c/9sT0CcZ3eNoMoErz5LkyNYoI1m0OpER5d89Vhcs=;
-        b=TVxk0IlznrLZZKl8Q2EAwNOfD5F4YtWj4ZQFKi6PiAsgUyP0jXyeotYmtw0zK6yzJL
-         5CPMr1pVFVj57fOq38rCP/qLU6cATrf6e9M61zTDvrZZCfFqR4lgsyU38Mvy5hrx8jui
-         dmz8FHCD55ZNIc1EcDKuwM31enR4WR8aZwvcnQIl4WhiugCPZnWcnOIKv+/x8h2mK9uD
-         BINicKml4VWIYfT/qLGKvCGQEqdKQYjTeCKlPsHUNnOrYW7LXTycOZ7xCrwxOYW1akLN
-         jQ79/EPdkmYWu9/ZHLi9TZdjdyFW3Yu/FqVQgwKOTxweElwNfVYWyJTzCXPyZoksldDE
-         Fcrw==
+         :x-original-sender:in-reply-to:from:references:to:content-language
+         :subject:user-agent:mime-version:date:message-id:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hiq1xMm+ShgLibpUfF/FYf7WOfFCU5xJKGzfrMaoJnU=;
+        b=Ws3Va2EwWY/9/uqh2xoToEcT7yOdJNpdR//MhABscAIJPzH8n3hIFjaOHLveX5BesY
+         xn6ejgIHRKS2uxVOqKDJzUsE6rdzm9ORMiE5UNUT6ebnfJhIv13GK4aFawqo2cvsUIWP
+         20lI1AWixxyaOuuFwkrcDOFkg+puCBWGXntApj2gMxj1PARj0oInlAXICkB+z8bkIo5v
+         mIWKQllnP2iv6CavEEAUiEB1rDETp7wmNuknNWu9v1TPimUmeWbCPTkR8xeyLsSSleMN
+         ytaqW0q9q1OUne07HocvX8vj7jAm+nbOV0jTAyqBHoofxJ9roFjYA60aJXxrWgxh5Wo1
+         RQ+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:mail-followup-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=A/c/9sT0CcZ3eNoMoErz5LkyNYoI1m0OpER5d89Vhcs=;
-        b=tbyunrcwRhW923Cilwa3gVrqr5618Ey8qzlY6hrZI5CLM/s1CRTq68dtFgnoNWpJiN
-         VQtK3TSbb3pWfxaidEHrAklsPkFwjfSTKi9m6uzzelg2yf4lGBBfze39lSAQC894TNke
-         iA6PBYkF1mxtteFd9ezx688Wod1v7PTVgHuDCmlbBrnPS7aJpkdVs200vmbiUE4ouuB+
-         8qJRhQIufukTksBx1gx1lIe6v0OM1322AFJAtdPmpPwnIIiffyLaOaVJl7zqatE+Bxen
-         W6gBA7QvRpxUxxj2HELSMKelUFeAzAimNwh7KdGUIXRpSnONvH3csXiKCj/x9au1QIQH
-         YnYA==
+         :from:references:to:content-language:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hiq1xMm+ShgLibpUfF/FYf7WOfFCU5xJKGzfrMaoJnU=;
+        b=uO0+pKl4J3sB6Wox3UqRGkLFwJo67yknurCtodfM63kHnKdmgkKBgskO0KRQknxPnx
+         W7xBiRcG9F/gU1Ghyl9GbnYcZLqCU+2pulpO5FYlDM+SNXGAaW0XTGkEM8+VwXeEAnYM
+         HKl9JY7NRD7pEBk9wcT0szlFdYSB2e7306RsRWr/GeV+V6Vj19jtASSEHgG9AzkFErlR
+         oWEA96ZVuWcVaObN6eyovwh1dCYLB4G1RfTTPdhv9Q+vY8IjgVI+VYsn9YpSwn4o3K72
+         a5a3ycmAvOYmcC/ujit0zw5km9jNxtO1KZdolao6P1mt7wSR+driwYU1WpvCYosUSuJ3
+         L5pQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kopNJAY66WEkqlhFqemC3DMvkap3UZeBAWWoQjbTAU1WpFJMp8/
-	FbbSF9t7Z/1jpWRnBA3bGmQ=
-X-Google-Smtp-Source: AMrXdXuBFZKCQsDRdV1FAK3Yc+1ZV/v9re7YcRtXA9Cx452wJb5f9OafcOt0lgjwRNI4Hu56iUoBIQ==
-X-Received: by 2002:ac2:46ed:0:b0:4b6:ed1d:38eb with SMTP id q13-20020ac246ed000000b004b6ed1d38ebmr2751722lfo.521.1672924972257;
-        Thu, 05 Jan 2023 05:22:52 -0800 (PST)
+X-Gm-Message-State: AFqh2koVfnxsqtG3dsOL5i2qcwitT42b+1MXjdRbacv8bXKHQo4XB9BL
+	OKXNC6bpFvlTORorINEyVCY=
+X-Google-Smtp-Source: AMrXdXtegWjM9Pgeb3zeaTu+jaKFymWy4l+v/YxLqJ17Me9U8AA1kRRvil5tl1O3rZBadPt7Rtn9+w==
+X-Received: by 2002:a0d:dc86:0:b0:3d5:ecbb:2923 with SMTP id f128-20020a0ddc86000000b003d5ecbb2923mr6644055ywe.485.1672925600588;
+        Thu, 05 Jan 2023 05:33:20 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:753:b0:49a:b814:856d with SMTP id
- c19-20020a056512075300b0049ab814856dls2296472lfs.1.-pod-prod-gmail; Thu, 05
- Jan 2023 05:22:51 -0800 (PST)
-X-Received: by 2002:ac2:599d:0:b0:4b5:b8a9:b42c with SMTP id w29-20020ac2599d000000b004b5b8a9b42cmr12965060lfn.17.1672924970999;
-        Thu, 05 Jan 2023 05:22:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1672924970; cv=none;
+Received: by 2002:a25:2bc6:0:b0:798:2357:36e with SMTP id r189-20020a252bc6000000b007982357036els7131852ybr.8.-pod-prod-gmail;
+ Thu, 05 Jan 2023 05:33:19 -0800 (PST)
+X-Received: by 2002:a25:7cc1:0:b0:72b:cd76:ac4b with SMTP id x184-20020a257cc1000000b0072bcd76ac4bmr43562226ybc.40.1672925599771;
+        Thu, 05 Jan 2023 05:33:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1672925599; cv=none;
         d=google.com; s=arc-20160816;
-        b=1B9mLRlTc3+L6fEM8lJ+YOnTSw37o5T1tvw+oX9Xi+CIF7IepaB8bm20/AdIVABpUn
-         lHFfkGdlVGYZiAYA9gKqifR6rt5Ub85xmZJe8omX8aSJzF76GYUYyDkIhwlGXNs2Frh6
-         vFXePd8sVLV6cFtexYrbYh7YKRFf5d4y/DC375GulzDb21IN32wKFQgbzdJY3fzzJ/gP
-         1f5GuH7XF+y5tjapLvgCiN9C1OvWh+HAxZOD5WblcQZ79HBhICRaaFoztyQhJVB7nuCo
-         /rbjFxPugmhQ/rhqum/dOw6YNTMaL6ILh45opODz4hsuDllcXMbVFWujnb4rDhUowIE8
-         CQSQ==
+        b=fDaaGTDaI3YNj7uhM2Oc2ulZn9uDAgwspuuE8FNqJo1R3JhRVbOPNWY/Uq4jdjayW5
+         NdL0VzOn9+GgA7+2eXK8++XyC0pS2YyT6KNh190SpEIZ7GL8aMQATMpmi5Nf88HxFx5B
+         yVFcJQvcYY/gsVmNRw0TfThJlG0OZY73gIxuN1vWeeLtEPMit1tFvey2+kwa43pUhKp3
+         vdCj9bl6TgyL327zsIbBPTv3FbU15TVzOJhMbnNWm7r67qjOTP2OxmhZNqUUkRGnh+nJ
+         UOxAdPKeHqP9oM4mLOcEOCawMW9eU76iePVZSkoQcsQpbnW91TnvfdSwSDM4l8YdRKqy
+         8e+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=TMYXEk4lndOrw8goIICh9q2Q+fxdp6yIZD9WFVuj+yo=;
-        b=SxSrUMam+q+k9mCuBPfgJz73ZPlMx5ivdXSaLQh6OTGn1uSafquo8JqS+FzsTxUdzi
-         Yve+s6yNeCYg+lS9c3fMlZikFMNF0+in7S7Age6aJwDKekrf0uAtSkBbt/7KFhqlO0kI
-         Nu51mg60p6ni2lgbraq8MDrcsUEvGcba+1eibilzlKP9VB/uD/SnJ91G5KCCLAqPf+S9
-         Vsg9rqWJSgwNSlkZpIFNWXoIoviIPMmlrlpTRWXr30Zwz3b3LN/9GXuDHPOO9sKXM6NL
-         18QjMs8HsJDqEDHV4jA5LyWrFkyh4o+ByfgGeARMWlbF3Kzbx+mFUfbxx8HuONS8MLbb
-         kYQw==
+        h=content-transfer-encoding:in-reply-to:from:references:to
+         :content-language:subject:user-agent:mime-version:date:message-id;
+        bh=ybg7AvyWptczXoF2atnm4QssNqVUB8NQ6aAa+jHrnLI=;
+        b=mrmDtO0XmZ9nFxTBaDtq/jemygSA6JZc3+epH5brVhd9oiYNrxBs6dc+7uu977bt3k
+         j2u2DvPOtS6/u9tY5qtTC68Tfl0tvPycsSh8qNYQxdYCONOr8HKwbx5BdNZSj4KTGWJq
+         CnSm5IT6j3Tck8qa7DPAQBRXThBpirRdkZ7gNJ0qv/EKH705dr48hfAAA5b5wi+4cOww
+         UprRTrwOsYcTFPDxVLpvqFJdUBT9FZGZGPl28TXPd4jRRtQiu2+jnVBZCUG21QuevmdE
+         DTlECMpxExNUlGuZgqNScPiJvpzGT3AkfyRPv71xh0r7jGCRMs/KJPWSyzkBoPJ/XdLe
+         ooeA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ffwll.ch header.s=google header.b=V94j5uLs;
-       spf=neutral (google.com: 2a00:1450:4864:20::330 is neither permitted nor denied by best guess record for domain of daniel@ffwll.ch) smtp.mailfrom=daniel@ffwll.ch
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com. [2a00:1450:4864:20::330])
-        by gmr-mx.google.com with ESMTPS id s4-20020a056512202400b004abdb5d1128si1289839lfs.2.2023.01.05.05.22.50
+       spf=none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp. [202.181.97.72])
+        by gmr-mx.google.com with ESMTPS id v22-20020ae9e316000000b00704abc4c5bdsi2207557qkf.3.2023.01.05.05.33.19
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Jan 2023 05:22:50 -0800 (PST)
-Received-SPF: neutral (google.com: 2a00:1450:4864:20::330 is neither permitted nor denied by best guess record for domain of daniel@ffwll.ch) client-ip=2a00:1450:4864:20::330;
-Received: by mail-wm1-x330.google.com with SMTP id ay2-20020a05600c1e0200b003d22e3e796dso1312369wmb.0
-        for <kasan-dev@googlegroups.com>; Thu, 05 Jan 2023 05:22:50 -0800 (PST)
-X-Received: by 2002:a05:600c:1d89:b0:3d3:5cd6:781 with SMTP id p9-20020a05600c1d8900b003d35cd60781mr35560523wms.37.1672924970434;
-        Thu, 05 Jan 2023 05:22:50 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id j25-20020a05600c1c1900b003cfa80443a0sm2701132wms.35.2023.01.05.05.22.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Jan 2023 05:22:49 -0800 (PST)
-Date: Thu, 5 Jan 2023 14:22:47 +0100
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc: Alexander Potapenko <glider@google.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	Helge Deller <deller@gmx.de>,
-	Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-	DRI <dri-devel@lists.freedesktop.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Kees Cook <keescook@chromium.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 05 Jan 2023 05:33:19 -0800 (PST)
+Received-SPF: none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) client-ip=202.181.97.72;
+Received: from fsav313.sakura.ne.jp (fsav313.sakura.ne.jp [153.120.85.144])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 305DX8wW057642;
+	Thu, 5 Jan 2023 22:33:08 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav313.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav313.sakura.ne.jp);
+ Thu, 05 Jan 2023 22:33:07 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav313.sakura.ne.jp)
+Received: from [192.168.1.20] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 305DX784057638
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Thu, 5 Jan 2023 22:33:07 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <3e818daa-448c-9e36-7059-df26f6ce0075@I-love.SAKURA.ne.jp>
+Date: Thu, 5 Jan 2023 22:33:08 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
 Subject: Re: [PATCH] fbcon: Use kzalloc() in fbcon_prepare_logo()
-Message-ID: <Y7bPJzyVpqTK+DMd@phenom.ffwll.local>
-Mail-Followup-To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Alexander Potapenko <glider@google.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	Helge Deller <deller@gmx.de>,
-	Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
-	DRI <dri-devel@lists.freedesktop.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Kees Cook <keescook@chromium.org>
+Content-Language: en-US
+To: Alexander Potapenko <glider@google.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+        kasan-dev <kasan-dev@googlegroups.com>, Helge Deller <deller@gmx.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Kees Cook <keescook@chromium.org>
 References: <cad03d25-0ea0-32c4-8173-fd1895314bce@I-love.SAKURA.ne.jp>
  <CAMuHMdUH4CU9EfoirSxjivg08FDimtstn7hizemzyQzYeq6b6g@mail.gmail.com>
  <86bdfea2-7125-2e54-c2c0-920f28ff80ce@I-love.SAKURA.ne.jp>
  <CAG_fn=VJrJDNSea6DksLt5uBe_sDu0+8Ofg+ifscOyDdMKj3XQ@mail.gmail.com>
  <Y7a6XkCNTkxxGMNC@phenom.ffwll.local>
  <032386fc-fffb-1f17-8cfd-94b35b6947ee@I-love.SAKURA.ne.jp>
-MIME-Version: 1.0
+ <Y7bPJzyVpqTK+DMd@phenom.ffwll.local>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <Y7bPJzyVpqTK+DMd@phenom.ffwll.local>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <032386fc-fffb-1f17-8cfd-94b35b6947ee@I-love.SAKURA.ne.jp>
-X-Operating-System: Linux phenom 5.19.0-2-amd64
-X-Original-Sender: daniel@ffwll.ch
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ffwll.ch header.s=google header.b=V94j5uLs;       spf=neutral
- (google.com: 2a00:1450:4864:20::330 is neither permitted nor denied by best
- guess record for domain of daniel@ffwll.ch) smtp.mailfrom=daniel@ffwll.ch
+X-Original-Sender: penguin-kernel@i-love.sakura.ne.jp
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=none
+ (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,95 +146,17 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jan 05, 2023 at 10:17:24PM +0900, Tetsuo Handa wrote:
-> On 2023/01/05 20:54, Daniel Vetter wrote:
-> >>> . Plain memset() in arch/x86/include/asm/string_64.h is redirected to __msan_memset()
-> >>> but memsetXX() are not redirected to __msan_memsetXX(). That is, memory initialization
-> >>> via memsetXX() results in KMSAN's shadow memory being not updated.
-> >>>
-> >>> KMSAN folks, how should we fix this problem?
-> >>> Redirect assembly-implemented memset16(size) to memset(size*2) if KMSAN is enabled?
-> >>>
-> >>
-> >> I think the easiest way to fix it would be disable memsetXX asm
-> >> implementations by something like:
-> >>
-> >> -------------------------------------------------------------------------------------------------
-> >> diff --git a/arch/x86/include/asm/string_64.h b/arch/x86/include/asm/string_64.h
-> >> index 888731ccf1f67..5fb330150a7d1 100644
-> >> --- a/arch/x86/include/asm/string_64.h
-> >> +++ b/arch/x86/include/asm/string_64.h
-> >> @@ -33,6 +33,7 @@ void *memset(void *s, int c, size_t n);
-> >>  #endif
-> >>  void *__memset(void *s, int c, size_t n);
-> >>
-> >> +#if !defined(__SANITIZE_MEMORY__)
-> >>  #define __HAVE_ARCH_MEMSET16
-> >>  static inline void *memset16(uint16_t *s, uint16_t v, size_t n)
-> >>  {
-> >> @@ -68,6 +69,7 @@ static inline void *memset64(uint64_t *s, uint64_t
-> >> v, size_t n)
-> >>                      : "memory");
-> >>         return s;
-> >>  }
-> >> +#endif
-> > 
-> > So ... what should I do here? Can someone please send me a revert or patch
-> > to apply. I don't think I should do this, since I already tossed my credit
-> > for not looking at stuff carefully enough into the wind :-)
-> > -Daniel
-> > 
-> >>
-> >>  #define __HAVE_ARCH_MEMMOVE
-> >>  #if defined(__SANITIZE_MEMORY__) && defined(__NO_FORTIFY)
-> >> -------------------------------------------------------------------------------------------------
-> >>
-> >> This way we'll just pick the existing C implementations instead of
-> >> reinventing them.
-> >>
-> 
-> I'd like to avoid touching per-arch asm/string.h files if possible.
-> 
-> Can't we do like below (i.e. keep asm implementations as-is, but
-> automatically redirect to __msan_memset()) ? If yes, we could move all
-> __msan_*() redirection from per-arch asm/string.h files to the common
-> linux/string.h file?
+On 2023/01/05 22:22, Daniel Vetter wrote:
+> Oh I was more asking about the fbdev patch. This here sounds a lot more
+> something that needs to be discussed with kmsan people, that's definitely
+> not my area.
+> -Daniel
 
-Oh I was more asking about the fbdev patch. This here sounds a lot more
-something that needs to be discussed with kmsan people, that's definitely
-not my area.
--Daniel
-
-> 
-> diff --git a/include/linux/string.h b/include/linux/string.h
-> index c062c581a98b..403813b04e00 100644
-> --- a/include/linux/string.h
-> +++ b/include/linux/string.h
-> @@ -360,4 +360,15 @@ static __always_inline size_t str_has_prefix(const char *str, const char *prefix
->  	return strncmp(str, prefix, len) == 0 ? len : 0;
->  }
->  
-> +#if defined(__SANITIZE_MEMORY__) && defined(__NO_FORTIFY)
-> +#undef memset
-> +#define memset(dest, src, count) __msan_memset((dest), (src), (count))
-> +#undef memset16
-> +#define memset16(dest, src, count) __msan_memset((dest), (src), (count) << 1)
-> +#undef memset32
-> +#define memset32(dest, src, count) __msan_memset((dest), (src), (count) << 2)
-> +#undef memset64
-> +#define memset64(dest, src, count) __msan_memset((dest), (src), (count) << 3)
-> +#endif
-> +
->  #endif /* _LINUX_STRING_H_ */
-> 
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Commit a6a00d7e8ffd ("fbcon: Use kzalloc() in fbcon_prepare_logo()") was
+redundant but not reverting that commit is harmless. You don't need to
+worry about this problem. This is a problem for KMSAN people.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y7bPJzyVpqTK%2BDMd%40phenom.ffwll.local.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/3e818daa-448c-9e36-7059-df26f6ce0075%40I-love.SAKURA.ne.jp.
