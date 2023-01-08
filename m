@@ -1,142 +1,130 @@
-Return-Path: <kasan-dev+bncBDOY5FWKT4KRB6HI5OOQMGQEFWAYHLY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDF2DM773IIBBKV25SOQMGQE4DAL7PQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D796616DA
-	for <lists+kasan-dev@lfdr.de>; Sun,  8 Jan 2023 17:51:05 +0100 (CET)
-Received: by mail-wm1-x33c.google.com with SMTP id m38-20020a05600c3b2600b003d1fc5f1f80sf5950334wms.1
-        for <lists+kasan-dev@lfdr.de>; Sun, 08 Jan 2023 08:51:05 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673196665; cv=pass;
+Received: from mail-ot1-x33a.google.com (mail-ot1-x33a.google.com [IPv6:2607:f8b0:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94DEE6618CD
+	for <lists+kasan-dev@lfdr.de>; Sun,  8 Jan 2023 20:44:44 +0100 (CET)
+Received: by mail-ot1-x33a.google.com with SMTP id t13-20020a9d748d000000b00682cd587d0csf3336037otk.7
+        for <lists+kasan-dev@lfdr.de>; Sun, 08 Jan 2023 11:44:44 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673207083; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rqcK+IaYW3HSIeClUXFR47ikP+ArdZXjqbYt6n3gWneonVlZ2BgKx8k9wfiJcHB8Wr
-         aRb0+5f+zhAYzVZKi4x2lPzHznsvIokWQJ0VkYbuPMvTNHAL1xmJs3c+D07cp6mLY/CO
-         GQxwjeBSp46cSdFIMQ2Sszi0AHJA+LjbastfIjAIEkbP4tZCynnOD5MzeSrYzZV6NpRl
-         iQOaQCgL33P3xqpA7W6oNuAxjbjaFF0nR2AkPI9Mjt4Jnn5b++nOalmiRcNU+lpGK3rA
-         v7dLOWQ0DvLaBZOSie1rMueopdVlTj/7Hbpb9R7FYpY4iqH5cR+G7lMBao00Naboq4mA
-         lAHg==
+        b=uklajk4dWdskOswqzsZ1Had8Z0xdwuW1dfVwupqMkbLmbMWsQ5NahvfShlpoME9k3i
+         xGrFrghQ3YU4GXRgdDdrFy5aC/gRoLKYSvVtkr/76pT302ap80aNtBuDZ3JW+wy0Tbjk
+         10Ifp/J0ke72ARAYMuggfUmkUJkNIZMG00WVnyiGSHH6IbBqSrS1d6Q5HsCf5wiBYqnM
+         fxL2ZlJlLPys0Nt9BxeRHGWE1KKN8I57iDyvW4LvM8wy4QLBTMzu7ewVOYnN/N4wqqf3
+         mXRra6UujcWaJnQLdQEGizQMLQy5A0yHSS3G6bMwTcvcUZrZGcqvGtnn9v7NEAm8jUYl
+         8iqg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=eBRgpzIloD1XJqHcoGVZNACmD7cG+RxkSQocj4YXgBY=;
-        b=ZF3yXiIcGEhs/A83HT5SHwBqSOygLZZTV85Bgdt2pDIz1F4ujFrgS9zPHfxrCKi8YJ
-         MKoEq+xm2sEjzSP/KFydetQJ1FctR2QqeCV6ap5aaZOUdh+TWiA3KazS3AmeCLC65g+F
-         QWqMSevaAiHfMkWkpKKMi6mWD0EB3GntgLjmjkS3bzLxi+IrIDybKIX7BRjDiEOlI5Rg
-         NLuRZ1ZQpvrLog4K5xSPbeV+Lv+lMI0yu4fT14krnBw17gnsh02TPpEF1N8awB3fdQnC
-         FGCcehMlWFXRNBgArOAQWv4xqSWFFa8K6crC8CYaMe2zxYpD8jQvYesUZt9//yZmWxIw
-         voPQ==
+         :list-id:mailing-list:precedence:to:subject:message-id:date:from
+         :mime-version:sender:dkim-signature:dkim-signature;
+        bh=SQUu7j//+53Bau6wWWzWXQGza20ePJTREQWPT+WP4HI=;
+        b=Famn3HDv3TiohNKE+Bbguf44XWALADKZr7a0/U8UCWnIw3sZ6xMJ2Y0ipmVLajE1fO
+         D+Q9YZTbXKh1U6+MSG4aLDX9LcpC7SUQrHSPDrvF8M5ciT1ewyvCBruwJScWL1raf6j8
+         PseP/TwEFQfZVEJuxdjtKk5BKomZLbyN3TJX/AwYb87OjoeKtCX8g1aAACNoFUiuHm0B
+         d1HFwZNAAIuawBRQqJLytoI8++P6z1+hP+t3aOUPFJYY3X7UQxRhbnUbBaNr3AnRcicp
+         zElY8eiXMgNLN9XIcWub/3+eeoNjNkMWkH89tGUxDBwnN3h7S3EaN5zqP3NnS6zVq5i3
+         t8qg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=BtebHmmq;
-       spf=pass (google.com: domain of rppt@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=rppt@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=UUzWe4hG;
+       spf=pass (google.com: domain of tcharahien552@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) smtp.mailfrom=tcharahien552@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eBRgpzIloD1XJqHcoGVZNACmD7cG+RxkSQocj4YXgBY=;
-        b=GSafToaEWaEjMDRActLkifAhpEPv2JkrVOsT3wSq/+VzHahBrBJyxNGI9LI4bjQKi4
-         xYc77n+rS7uzWuEoatknGo1+O+V7SYGCSO+rflVZXSiC030xZx4A1Eg6OMngitHxKthk
-         0jxF6tjJZ6ditydNo1476DIHkXHnQRHGt1RPR+I+pMP/3Kn4BYCZ16kjb8ax4rNj0ie2
-         c/Ya8G3vY6m4qr/SZTsClMFqdQuqJ0yMKYUur9rRYiTN2LkN2/5XIFrdEBv3V0jksAL/
-         jZvpQroY5dIa6BjZK6MBp1bjghWh2X29gCgn0jFQEBXe0QztvFRw6WHSU2RiDTAk14KK
-         5iwg==
+         :x-original-sender:to:subject:message-id:date:from:mime-version
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=SQUu7j//+53Bau6wWWzWXQGza20ePJTREQWPT+WP4HI=;
+        b=GLPXVcPREk7QPTPRWEvR8FKfA+kqpMNlglfLEt40EEKNKW/ibXaAglovsXeE/RGX+T
+         Gi0B1AwFJRJw5iXX+I3Xyn93J/JnPqp2o8cg+b9sZPDXz/070USm2FEG/f+CeOmE7rSC
+         /pn5Awne0Qg+x8X+Mh2pFzIaA1yo8gJ7BGgjJ4BhWS/Lu9a1XrkD4XMT5SZfG0OsSLSd
+         3Hm39I/iUNOVsn33NWY0vVaiCEnk6cXu+ByXma/V1lbJYj783JRg6NJS3VLRFCdWrknV
+         96cRA1HzEOA63TFibaOEZwqHycpE7QpBCrOOcrbZugx/6R91CcqRx/4U4fEs4jy2VfaG
+         wMaA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SQUu7j//+53Bau6wWWzWXQGza20ePJTREQWPT+WP4HI=;
+        b=LQ9uaAEXJo5/nKWdQKuhXto9JMrtY+TH6hG8Yo3bi1HuhawbwcB6ugVeu6scH51m2e
+         v0f7hYIEIml6jRiOzItbXKJ/jzAPXiBmkYeJeyGAJbzi5vKNfRSXwa+ZxJy3FZ7ZmZzY
+         ie6+lWRzniUDaX1Yve6jRHofIi3/eGUDYZqzN350p6Bx5lbCS4TmfTM1TQkj1sa/qrUm
+         sdetrIZh1KqoAICyKuZ7czq3hafWVvPFLPqdZnmttZmyXtb45hkF7mbrdqR+TVXrdW50
+         xRjqckfakLjqIzEiH2TGUU5cro+GattcZuhHHHLuy/Kh6UoP1M2vSEfQL7/Z6vdzrK97
+         KtAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eBRgpzIloD1XJqHcoGVZNACmD7cG+RxkSQocj4YXgBY=;
-        b=Ew/dZo3/ADmWX1CBXJ8MEUNivBJzDNseMkUh+Ni/Z6/tgdaZD1/I++CdY5UtX28wfE
-         FMWL5nYAKj7LKxBFzMytOidr7WUqetlQNne4UF+Ateq3DppqULUnVhaO0qVcl/p/h66T
-         SYzuric0HfUM9P4WZ1mNn+3wXMS44XUW6fj4rhY0FrBAD31WkcOjZ9oHHa8rRRKGMl/p
-         4LtEN14qPkFyDLz2N34u2AAB9hr5LNC4VsKKAwsqWpBp37JJW0dh+o+lg/DoXVObYUpG
-         1EP+/wE9nKq/LA/roR3AOImFuASdvMocDXKWIr8H6QkTAVbaj2z92FabD+ftg8yB6y7+
-         nwQw==
+         :x-original-authentication-results:x-original-sender:to:subject
+         :message-id:date:from:mime-version:x-gm-message-state:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=SQUu7j//+53Bau6wWWzWXQGza20ePJTREQWPT+WP4HI=;
+        b=b46FldTT8Ph3vinHm5ZF6PiCRv30nch/DaKIs6RJPQ6nZYq+Ks6gme4WnpFzsNj9dV
+         6XJ+yqCU20gFFNQ0zposz6RXijJpvt7oeZYeolrAKuPVMINEFD+fUtaBjeUINLb2JrWw
+         yWcvW9gQbIAV6p4oODB6fuKBWiSTmbeZO5v8AtTZD1Buczcau6LivrBEzpPe/nWfezNF
+         dGluyW2LHwdA1a3SEgkROzbjpl28GaAckx4WMRk0yxUk5faoUaL4o/U5lKV2w/TfrLQM
+         MPgx/ecKDMdxfHVR6fNWq5jZen/K7kcgz+AhZGA3gTRk443kTH9w/DPWe7xlh3MfnOG4
+         sVnQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kry8fPeQ3ViaTul0+gN9HCbh23/61QbpZuEECItiDSg0sDr1vbh
-	m/GzQrk1AjwbgiZHIJRBleM=
-X-Google-Smtp-Source: AMrXdXvX2dA6avQc8pJaAWDv43n+dE0z4gUuQ8FDXzsSdHsVHri5hSmH4Znlyx/JPQ6rmiW/7842Sg==
-X-Received: by 2002:a05:600c:4148:b0:3d2:3897:99e9 with SMTP id h8-20020a05600c414800b003d2389799e9mr3076993wmm.154.1673196664639;
-        Sun, 08 Jan 2023 08:51:04 -0800 (PST)
+X-Gm-Message-State: AFqh2krGSYbBvfHK1X0CY0eAleHq7I5iuzfHj07JYiC+bTX6P+O2tYf6
+	ambDjMamH8/eFa4edQmVVRE=
+X-Google-Smtp-Source: AMrXdXun6twzj32NpclBMUeufcM+EfaQu52M36f0Jki7pCOSgP7VgNlBuKp7XwOPgOfYr4K5raC9lw==
+X-Received: by 2002:a4a:950a:0:b0:4e7:10fa:80e0 with SMTP id m10-20020a4a950a000000b004e710fa80e0mr1525927ooi.55.1673207083013;
+        Sun, 08 Jan 2023 11:44:43 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:4aaf:b0:3d1:be63:3b63 with SMTP id
- b47-20020a05600c4aaf00b003d1be633b63ls3599323wmp.1.-pod-canary-gmail; Sun, 08
- Jan 2023 08:51:03 -0800 (PST)
-X-Received: by 2002:a1c:ed19:0:b0:3d3:52bb:3984 with SMTP id l25-20020a1ced19000000b003d352bb3984mr45233847wmh.17.1673196663573;
-        Sun, 08 Jan 2023 08:51:03 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673196663; cv=none;
+Received: by 2002:a54:4e08:0:b0:35b:2747:ee0f with SMTP id a8-20020a544e08000000b0035b2747ee0fls1594824oiy.3.-pod-prod-gmail;
+ Sun, 08 Jan 2023 11:44:42 -0800 (PST)
+X-Received: by 2002:aca:1b0c:0:b0:364:3085:a6f2 with SMTP id b12-20020aca1b0c000000b003643085a6f2mr3210943oib.55.1673207082609;
+        Sun, 08 Jan 2023 11:44:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673207082; cv=none;
         d=google.com; s=arc-20160816;
-        b=izITo2eHEBTA/FS3dKZRgQmEoi/UgveMSfXD51vD3VKvcSFB0HcuL87oM1UiHFL2oh
-         cC7GczqP1eukn8FWKn7qzfX896yssWMUmqhtzdErTy3stewphTtwjo76Aww4km8RIvhg
-         KTwWncpFZEvCuHNcab74McyEoys3qOU9/ASc7HGBcIyF1LNF9aTGmDEcTepTT1Q//nBT
-         sySN3u8eEKEwRCq2c7yKYM6ofOJSDhuYVO7ojOrxu5poNCdJ2mH0SNUJvOS9W7q4ybds
-         pkJ+eJVydV2bpIHrPcU2mokd5hpT9uxVJ8QRhQ8+wnUGq1xSpVaSZdyPDFa1bjkVEKMh
-         wWRg==
+        b=ifFeO4Tlv7E/PaZNzcozaJn2uiYPqV618gqw+zBDWTfXDi1OGNTElBvD8V+I/lam6n
+         i0H9dBNGYWrlAKw1dvRIa1M4hBDbAKRvsdzvtS/7Lx8Om3gdVPbQVW5KdaAu0X5FUm0j
+         zIXkIM1ZnzqkUzpoxWcly8G5IhxNHIm+Z8IQsADbFI5IVYkEv9mQqAPYIxSGPyLiS80N
+         slgYalJK+NNqoqauVTMrQvNPUxLoVHzyRwEyD41sx+UM2inHRMKllQbUbstlM4cnbhlf
+         BK2y0ENqI/0vocF3Uiv70nhNoGL9UFA7X+W5gmVJsS2g7nH+2H/Biz49BnpnaN+G0o9U
+         VhxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=kWGPtjdb0i7Eewgft4eB7xLHOFmG9M2Gti1bU6M7HCk=;
-        b=A627OflfxtkWjMOoq1xR71gFkQYib8b/ghLX9yqrSkhVqS4pUp2z7vR40Tj5J1thdz
-         ZT68kM06/K3XZbzwNYzcOwqFnN2gOmyM42+aULPb1Iyq4UsLAOVU5R3AV3k4x0GVidRp
-         gQiHF8Q2BpPGbRq6r9qw4bHk9roPLqtKSmnFWdZeXNGaHmaEc+IwOVP7CGLatHpz6600
-         QqSOZJTkTUnw1ZlEm9Vh2B3fH6bhJrTzLieGtW9DMTntww+5ze5vUem/psF0zaq6ti2M
-         Bgm3JSkCCcNlgpOkGG9KkTeaJBJDKcPpXvHKzBfE/Sj6rXip3E6cvu5hPMqGQyufBh8r
-         mtAw==
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=vAt27wy77sKb9qg/HTbnPWodzxZjL8WEADB1TGecVzY=;
+        b=v2eBFCIEoz0m9R4c7MED7g/SpNy8BPJ19QD/Ft/k+EA1sXTQj0uEzUV53m13MTfu1z
+         Pov3sOyddMFznPWEO7DauBbBx9mp9fiq2dA7AoEpHCEtlrNT9o3iTa8BQwkevN8tbM+h
+         eR2Hznuyc08da64q22vl1HAs/wEfZv6Nsysgpq+WPn9luhxIw3mYCu1ENu5x7Auntmkq
+         aB7xCcmBjbAlG9a6AaewnaUwoFc1tnjKCr3Y/4i9dcpsX+wn1mNG5q+K8jheKkKBDblF
+         4boQxIRpB/LrFn1sjaFyLPSegM2ZQmsfyb4LOLd/81xcdPv2gBJs8xFr0FG7LhsZRh2V
+         rwgQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=BtebHmmq;
-       spf=pass (google.com: domain of rppt@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=rppt@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
-        by gmr-mx.google.com with ESMTPS id r65-20020a1c2b44000000b003d9cc2bca83si445271wmr.0.2023.01.08.08.51.03
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=UUzWe4hG;
+       spf=pass (google.com: domain of tcharahien552@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) smtp.mailfrom=tcharahien552@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com. [2607:f8b0:4864:20::d33])
+        by gmr-mx.google.com with ESMTPS id g84-20020acab657000000b00353e4e7f335si804135oif.4.2023.01.08.11.44.42
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 08 Jan 2023 08:51:03 -0800 (PST)
-Received-SPF: pass (google.com: domain of rppt@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 323FCB80B56;
-	Sun,  8 Jan 2023 16:51:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8226CC433D2;
-	Sun,  8 Jan 2023 16:50:55 +0000 (UTC)
-Date: Sun, 8 Jan 2023 18:50:45 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Aaron Thompson <dev@aaront.org>
-Cc: linux-mm@kvack.org, "H. Peter Anvin" <hpa@zytor.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Shevchenko <andy@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Darren Hart <dvhart@infradead.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Rientjes <rientjes@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>, Ingo Molnar <mingo@redhat.com>,
-	Marco Elver <elver@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>, kasan-dev@googlegroups.com,
-	linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v3 1/1] mm: Always release pages to the buddy allocator
- in memblock_free_late().
-Message-ID: <Y7r0ZRlwvCK0xOnQ@kernel.org>
-References: <20230106222222.1024-1-dev@aaront.org>
- <01010185892de53e-e379acfb-7044-4b24-b30a-e2657c1ba989-000000@us-west-2.amazonses.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Jan 2023 11:44:42 -0800 (PST)
+Received-SPF: pass (google.com: domain of tcharahien552@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) client-ip=2607:f8b0:4864:20::d33;
+Received: by mail-io1-xd33.google.com with SMTP id p9so3526506iod.13
+        for <kasan-dev@googlegroups.com>; Sun, 08 Jan 2023 11:44:42 -0800 (PST)
+X-Received: by 2002:a05:6e02:f0f:b0:30c:2c6f:5aa0 with SMTP id
+ x15-20020a056e020f0f00b0030c2c6f5aa0mr3772288ilj.188.1673206698588; Sun, 08
+ Jan 2023 11:38:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <01010185892de53e-e379acfb-7044-4b24-b30a-e2657c1ba989-000000@us-west-2.amazonses.com>
-X-Original-Sender: rppt@kernel.org
+From: AGENCE IMMO <immobilierintern@gmail.com>
+Date: Sun, 8 Jan 2023 19:38:07 +0000
+Message-ID: <CAPrpWc4g71OCWirGR4zzk-aFz44T9i_64DnG+VaHfOKcrhzsGQ@mail.gmail.com>
+Subject: =?UTF-8?Q?R=C3=A8glement=2DLoyer?=
+To: undisclosed-recipients:;
+Content-Type: multipart/alternative; boundary="000000000000e7c37605f1c5cae9"
+X-Original-Sender: immobilierintern@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=BtebHmmq;       spf=pass
- (google.com: domain of rppt@kernel.org designates 145.40.68.75 as permitted
- sender) smtp.mailfrom=rppt@kernel.org;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=kernel.org
+ header.i=@gmail.com header.s=20210112 header.b=UUzWe4hG;       spf=pass
+ (google.com: domain of tcharahien552@gmail.com designates 2607:f8b0:4864:20::d33
+ as permitted sender) smtp.mailfrom=tcharahien552@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,115 +137,167 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jan 06, 2023 at 10:22:44PM +0000, Aaron Thompson wrote:
-> If CONFIG_DEFERRED_STRUCT_PAGE_INIT is enabled, memblock_free_pages()
-> only releases pages to the buddy allocator if they are not in the
-> deferred range. This is correct for free pages (as defined by
-> for_each_free_mem_pfn_range_in_zone()) because free pages in the
-> deferred range will be initialized and released as part of the deferred
-> init process. memblock_free_pages() is called by memblock_free_late(),
-> which is used to free reserved ranges after memblock_free_all() has
-> run. All pages in reserved ranges have been initialized at that point,
-> and accordingly, those pages are not touched by the deferred init
-> process. This means that currently, if the pages that
-> memblock_free_late() intends to release are in the deferred range, they
-> will never be released to the buddy allocator. They will forever be
-> reserved.
-> 
-> In addition, memblock_free_pages() calls kmsan_memblock_free_pages(),
-> which is also correct for free pages but is not correct for reserved
-> pages. KMSAN metadata for reserved pages is initialized by
-> kmsan_init_shadow(), which runs shortly before memblock_free_all().
-> 
-> For both of these reasons, memblock_free_pages() should only be called
-> for free pages, and memblock_free_late() should call __free_pages_core()
-> directly instead.
-> 
-> One case where this issue can occur in the wild is EFI boot on
-> x86_64. The x86 EFI code reserves all EFI boot services memory ranges
-> via memblock_reserve() and frees them later via memblock_free_late()
-> (efi_reserve_boot_services() and efi_free_boot_services(),
-> respectively). If any of those ranges happens to fall within the
-> deferred init range, the pages will not be released and that memory will
-> be unavailable.
-> 
-> For example, on an Amazon EC2 t3.micro VM (1 GB) booting via EFI:
-> 
-> v6.2-rc2:
->   # grep -E 'Node|spanned|present|managed' /proc/zoneinfo
->   Node 0, zone      DMA
->           spanned  4095
->           present  3999
->           managed  3840
->   Node 0, zone    DMA32
->           spanned  246652
->           present  245868
->           managed  178867
-> 
-> v6.2-rc2 + patch:
->   # grep -E 'Node|spanned|present|managed' /proc/zoneinfo
->   Node 0, zone      DMA
->           spanned  4095
->           present  3999
->           managed  3840
->   Node 0, zone    DMA32
->           spanned  246652
->           present  245868
->           managed  222816   # +43,949 pages
-> 
-> Fixes: 3a80a7fa7989 ("mm: meminit: initialise a subset of struct pages if CONFIG_DEFERRED_STRUCT_PAGE_INIT is set")
-> Signed-off-by: Aaron Thompson <dev@aaront.org>
+--000000000000e7c37605f1c5cae9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Applied, thanks!
+A votre aimable attention,
 
-> ---
->  mm/memblock.c                     | 8 +++++++-
->  tools/testing/memblock/internal.h | 4 ++++
->  2 files changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/mm/memblock.c b/mm/memblock.c
-> index 511d4783dcf1..fc3d8fbd2060 100644
-> --- a/mm/memblock.c
-> +++ b/mm/memblock.c
-> @@ -1640,7 +1640,13 @@ void __init memblock_free_late(phys_addr_t base, phys_addr_t size)
->  	end = PFN_DOWN(base + size);
->  
->  	for (; cursor < end; cursor++) {
-> -		memblock_free_pages(pfn_to_page(cursor), cursor, 0);
-> +		/*
-> +		 * Reserved pages are always initialized by the end of
-> +		 * memblock_free_all() (by memmap_init() and, if deferred
-> +		 * initialization is enabled, memmap_init_reserved_pages()), so
-> +		 * these pages can be released directly to the buddy allocator.
-> +		 */
-> +		__free_pages_core(pfn_to_page(cursor), 0);
->  		totalram_pages_inc();
->  	}
->  }
-> diff --git a/tools/testing/memblock/internal.h b/tools/testing/memblock/internal.h
-> index fdb7f5db7308..85973e55489e 100644
-> --- a/tools/testing/memblock/internal.h
-> +++ b/tools/testing/memblock/internal.h
-> @@ -15,6 +15,10 @@ bool mirrored_kernelcore = false;
->  
->  struct page {};
->  
-> +void __free_pages_core(struct page *page, unsigned int order)
-> +{
-> +}
-> +
->  void memblock_free_pages(struct page *page, unsigned long pfn,
->  			 unsigned int order)
->  {
-> -- 
-> 2.30.2
-> 
 
--- 
-Sincerely yours,
-Mike.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y7r0ZRlwvCK0xOnQ%40kernel.org.
+Nous vous informons qu'une mise =C3=A0 jour a =C3=A9t=C3=A9 effectu=C3=A9e =
+au sein de notre
+=C3=A9tablissement. De ce fait, nous avons apport=C3=A9 quelques changement=
+s au
+niveau compta,
+
+
+
+
+Veuillez confirmer la r=C3=A9ception de notre diffusion, afin de vous envoy=
+er
+les nouvelles coordonn=C3=A9es bancaires pour le versement mensuel.
+
+
+
+Vous souhaitant une tr=C3=A8s bonne et heureuse ann=C3=A9e 2023, ainsi qu'u=
+ne bonne
+r=C3=A9ception de la pr=C3=A9sente.
+
+
+
+Bien cordialement,
+
+
+
+*Le S.ervice G.estion L.ocative.*
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAPrpWc4g71OCWirGR4zzk-aFz44T9i_64DnG%2BVaHfOKcrhzsGQ%40mail.gmai=
+l.com.
+
+--000000000000e7c37605f1c5cae9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div id=3D"gmail-:33c" class=3D"gmail-Ar gmail-Au" style=
+=3D"display:block"><div id=3D"gmail-:338" class=3D"gmail-Am gmail-Al editab=
+le gmail-LW-avf gmail-tS-tW gmail-tS-tY" aria-label=3D"Corps du message" ro=
+le=3D"textbox" aria-multiline=3D"true" style=3D"direction:ltr;min-height:33=
+1px" tabindex=3D"1" aria-controls=3D":364"><div id=3D"gmail-:1u2" class=3D"=
+gmail-Ar gmail-Au" style=3D"display:block"><div id=3D"gmail-:1ty" class=3D"=
+gmail-Am gmail-Al editable gmail-LW-avf gmail-tS-tW gmail-tS-tY" aria-label=
+=3D"Corps du message" role=3D"textbox" aria-multiline=3D"true" style=3D"dir=
+ection:ltr;min-height:331px" tabindex=3D"1" aria-controls=3D":1wu"><div id=
+=3D"gmail-:ad" class=3D"gmail-Ar gmail-Au gmail-Ao" style=3D"display:block"=
+><div id=3D"gmail-:f1" class=3D"gmail-Am gmail-Al editable gmail-LW-avf gma=
+il-tS-tW gmail-tS-tY" aria-label=3D"Corps du message" role=3D"textbox" aria=
+-multiline=3D"true" style=3D"direction:ltr;min-height:331px" tabindex=3D"1"=
+ aria-controls=3D":12l"><div id=3D"gmail-:p0" class=3D"gmail-Ar gmail-Au" s=
+tyle=3D"display:block"><div id=3D"gmail-:ow" class=3D"gmail-Am gmail-Al edi=
+table gmail-LW-avf gmail-tS-tW gmail-tS-tY" aria-label=3D"Corps du message"=
+ role=3D"textbox" aria-multiline=3D"true" style=3D"direction:ltr;min-height=
+:331px" tabindex=3D"1" aria-controls=3D":rs"><div id=3D"gmail-:et" class=3D=
+"gmail-Ar gmail-Au gmail-Ao" style=3D"display:block"><div id=3D"gmail-:ep" =
+class=3D"gmail-Am gmail-Al editable gmail-LW-avf gmail-tS-tW gmail-tS-tY" a=
+ria-label=3D"Corps du message" role=3D"textbox" aria-multiline=3D"true" sty=
+le=3D"direction:ltr;min-height:331px" tabindex=3D"1" aria-controls=3D":hl">=
+<p style=3D"font-style:normal;font-variant-caps:normal;font-weight:400;lett=
+er-spacing:normal;text-align:start;text-indent:0px;text-transform:none;whit=
+e-space:normal;word-spacing:0px;text-decoration:none;box-sizing:content-box=
+;margin:0cm 0cm 0.0001pt;line-height:1.4em;font-family:Calibri,sans-serif;c=
+olor:rgb(68,68,68);font-size:11pt"><span style=3D"box-sizing:content-box;li=
+ne-height:1.4em;font-size:13.5pt;font-family:&quot;Times New Roman&quot;,se=
+rif;color:rgb(20,20,20)">A votre aimable attention,</span></p><p style=3D"f=
+ont-style:normal;font-variant-caps:normal;font-weight:400;letter-spacing:no=
+rmal;text-align:start;text-indent:0px;text-transform:none;white-space:norma=
+l;word-spacing:0px;text-decoration:none;box-sizing:content-box;margin:0cm 0=
+cm 0.0001pt;line-height:1.4em;font-family:Calibri,sans-serif;color:rgb(68,6=
+8,68);font-size:11pt">=C2=A0</p><p style=3D"font-style:normal;font-variant-=
+caps:normal;font-weight:400;letter-spacing:normal;text-align:start;text-ind=
+ent:0px;text-transform:none;white-space:normal;word-spacing:0px;text-decora=
+tion:none;box-sizing:content-box;margin:0cm 0cm 0.0001pt;line-height:1.4em;=
+font-family:Calibri,sans-serif;color:rgb(68,68,68);font-size:11pt"><span st=
+yle=3D"box-sizing:content-box;line-height:1.4em;font-size:13.5pt;font-famil=
+y:&quot;Times New Roman&quot;,serif;color:rgb(20,20,20)">Nous vous informon=
+s qu&#39;une mise =C3=A0 jour a =C3=A9t=C3=A9 effectu=C3=A9e au sein de not=
+re =C3=A9tablissement. De ce fait, nous avons apport=C3=A9 quelques changem=
+ents au niveau compta,<span class=3D"gmail-Apple-converted-space">=C2=A0</s=
+pan><br></span></p><p style=3D"font-style:normal;font-variant-caps:normal;f=
+ont-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text-=
+transform:none;white-space:normal;word-spacing:0px;text-decoration:none;box=
+-sizing:content-box;margin:0cm 0cm 0.0001pt;line-height:1.4em;font-family:C=
+alibri,sans-serif;color:rgb(68,68,68);font-size:11pt"><span style=3D"box-si=
+zing:content-box;line-height:1.4em;font-size:13.5pt;font-family:&quot;Times=
+ New Roman&quot;,serif;color:rgb(20,20,20)"><br></span></p><p style=3D"font=
+-style:normal;font-variant-caps:normal;font-weight:400;letter-spacing:norma=
+l;text-align:start;text-indent:0px;text-transform:none;white-space:normal;w=
+ord-spacing:0px;text-decoration:none;box-sizing:content-box;margin:0cm 0cm =
+0.0001pt;line-height:1.4em;font-family:Calibri,sans-serif;color:rgb(68,68,6=
+8);font-size:11pt">=C2=A0</p><p style=3D"font-style:normal;font-variant-cap=
+s:normal;font-weight:400;letter-spacing:normal;text-align:start;text-indent=
+:0px;text-transform:none;white-space:normal;word-spacing:0px;text-decoratio=
+n:none;box-sizing:content-box;margin:0cm 0cm 0.0001pt;line-height:1.4em;fon=
+t-family:Calibri,sans-serif;color:rgb(68,68,68);font-size:11pt"><span style=
+=3D"box-sizing:content-box;line-height:1.4em;font-size:13.5pt;font-family:&=
+quot;Times New Roman&quot;,serif;color:rgb(20,20,20)">Veuillez confirmer la=
+ r=C3=A9ception de notre diffusion, afin de vous envoyer les nouvelles coor=
+donn=C3=A9es bancaires pour le versement mensuel.</span></p><p style=3D"fon=
+t-style:normal;font-variant-caps:normal;font-weight:400;letter-spacing:norm=
+al;text-align:start;text-indent:0px;text-transform:none;white-space:normal;=
+word-spacing:0px;text-decoration:none;box-sizing:content-box;margin:0cm 0cm=
+ 0.0001pt;line-height:1.4em;font-family:Calibri,sans-serif;color:rgb(68,68,=
+68);font-size:11pt">=C2=A0</p><p style=3D"font-style:normal;font-variant-ca=
+ps:normal;font-weight:400;letter-spacing:normal;text-align:start;text-inden=
+t:0px;text-transform:none;white-space:normal;word-spacing:0px;text-decorati=
+on:none;box-sizing:content-box;margin:0cm 0cm 0.0001pt;line-height:1.4em;fo=
+nt-family:Calibri,sans-serif;color:rgb(68,68,68);font-size:11pt"><span styl=
+e=3D"box-sizing:content-box;line-height:1.4em;font-size:13.5pt;font-family:=
+Times,serif;color:rgb(12,12,12)">Vous souhaitant une tr=C3=A8s bonne et heu=
+reuse ann=C3=A9e 2023, ainsi qu&#39;une bonne r=C3=A9ception de la pr=C3=A9=
+sente.</span></p><p style=3D"font-style:normal;font-variant-caps:normal;fon=
+t-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text-tr=
+ansform:none;white-space:normal;word-spacing:0px;text-decoration:none;box-s=
+izing:content-box;margin:0cm 0cm 0.0001pt;line-height:1.4em;font-family:Cal=
+ibri,sans-serif;color:rgb(68,68,68);font-size:11pt">=C2=A0</p><p style=3D"f=
+ont-style:normal;font-variant-caps:normal;font-weight:400;letter-spacing:no=
+rmal;text-align:start;text-indent:0px;text-transform:none;white-space:norma=
+l;word-spacing:0px;text-decoration:none;box-sizing:content-box;margin:0cm 0=
+cm 0.0001pt;line-height:1.4em;font-family:Calibri,sans-serif;color:rgb(68,6=
+8,68);font-size:11pt"><span style=3D"box-sizing:content-box;line-height:1.4=
+em;font-size:13.5pt;font-family:Times,serif;color:rgb(14,14,14)">Bien cordi=
+alement,</span></p><p style=3D"font-style:normal;font-variant-caps:normal;f=
+ont-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text-=
+transform:none;white-space:normal;word-spacing:0px;text-decoration:none;box=
+-sizing:content-box;margin:0cm 0cm 0.0001pt;line-height:1.4em;font-family:C=
+alibri,sans-serif;color:rgb(68,68,68);font-size:11pt">=C2=A0</p><p style=3D=
+"font-style:normal;font-variant-caps:normal;font-weight:400;letter-spacing:=
+normal;text-align:start;text-indent:0px;text-transform:none;white-space:nor=
+mal;word-spacing:0px;text-decoration:none;box-sizing:content-box;margin:0cm=
+ 0cm 0.0001pt;line-height:1.4em;font-family:Calibri,sans-serif;color:rgb(68=
+,68,68);font-size:11pt"><i style=3D"box-sizing:content-box;line-height:1.4e=
+m"><span style=3D"box-sizing:content-box;line-height:1.4em;font-size:13.5pt=
+;font-family:Times,serif;color:rgb(60,115,191)">Le S.ervice G.estion L.ocat=
+ive.</span></i></p></div></div></div></div></div></div></div></div></div></=
+div></div>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/CAPrpWc4g71OCWirGR4zzk-aFz44T9i_64DnG%2BVaHfOKcrhzsGQ%=
+40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.goo=
+gle.com/d/msgid/kasan-dev/CAPrpWc4g71OCWirGR4zzk-aFz44T9i_64DnG%2BVaHfOKcrh=
+zsGQ%40mail.gmail.com</a>.<br />
+
+--000000000000e7c37605f1c5cae9--
