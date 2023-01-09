@@ -1,130 +1,255 @@
-Return-Path: <kasan-dev+bncBDF2DM773IIBBKV25SOQMGQE4DAL7PQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDY7XDHKR4OBB6F752OQMGQEUIAVV4Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33a.google.com (mail-ot1-x33a.google.com [IPv6:2607:f8b0:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94DEE6618CD
-	for <lists+kasan-dev@lfdr.de>; Sun,  8 Jan 2023 20:44:44 +0100 (CET)
-Received: by mail-ot1-x33a.google.com with SMTP id t13-20020a9d748d000000b00682cd587d0csf3336037otk.7
-        for <lists+kasan-dev@lfdr.de>; Sun, 08 Jan 2023 11:44:44 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673207083; cv=pass;
+Received: from mail-pj1-x1039.google.com (mail-pj1-x1039.google.com [IPv6:2607:f8b0:4864:20::1039])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2164F661E25
+	for <lists+kasan-dev@lfdr.de>; Mon,  9 Jan 2023 06:02:50 +0100 (CET)
+Received: by mail-pj1-x1039.google.com with SMTP id h7-20020a17090a710700b00225b277a376sf2424475pjk.0
+        for <lists+kasan-dev@lfdr.de>; Sun, 08 Jan 2023 21:02:50 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1673240568; cv=pass;
         d=google.com; s=arc-20160816;
-        b=uklajk4dWdskOswqzsZ1Had8Z0xdwuW1dfVwupqMkbLmbMWsQ5NahvfShlpoME9k3i
-         xGrFrghQ3YU4GXRgdDdrFy5aC/gRoLKYSvVtkr/76pT302ap80aNtBuDZ3JW+wy0Tbjk
-         10Ifp/J0ke72ARAYMuggfUmkUJkNIZMG00WVnyiGSHH6IbBqSrS1d6Q5HsCf5wiBYqnM
-         fxL2ZlJlLPys0Nt9BxeRHGWE1KKN8I57iDyvW4LvM8wy4QLBTMzu7ewVOYnN/N4wqqf3
-         mXRra6UujcWaJnQLdQEGizQMLQy5A0yHSS3G6bMwTcvcUZrZGcqvGtnn9v7NEAm8jUYl
-         8iqg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=EWmqWfXkrgnrW2v2bYEZUhSlP3kxzfqkPeSaE7QeUvjUp1e4+qxC1zLlFpaBU3Hf14
+         mD5HEYi2ncfpqt9IAlsfpuj2KPx3ixmZVKteDt/+BXH77WlzyI/H53EuhCuNKjgN/5Hi
+         v0ytZ4sboDMWU8yFBcZeCM7YQ0NBB1AOnTywKeuNOarMIZZbg2LSO33/vqGTC7V2iQMj
+         qvW3ta448C35X3JA3YoG1cQ3qivX+Svr4vun7Saw5Q+i9r1334/BFRkn4mGioXPlTF3h
+         M3wvA/U0rXWVTrxpAnCKGBzme6TvDU2Th9EFIhqF7sPSLmAMpqz/RBbF2IxT3JfKdkbR
+         /eGA==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:to:subject:message-id:date:from
-         :mime-version:sender:dkim-signature:dkim-signature;
-        bh=SQUu7j//+53Bau6wWWzWXQGza20ePJTREQWPT+WP4HI=;
-        b=Famn3HDv3TiohNKE+Bbguf44XWALADKZr7a0/U8UCWnIw3sZ6xMJ2Y0ipmVLajE1fO
-         D+Q9YZTbXKh1U6+MSG4aLDX9LcpC7SUQrHSPDrvF8M5ciT1ewyvCBruwJScWL1raf6j8
-         PseP/TwEFQfZVEJuxdjtKk5BKomZLbyN3TJX/AwYb87OjoeKtCX8g1aAACNoFUiuHm0B
-         d1HFwZNAAIuawBRQqJLytoI8++P6z1+hP+t3aOUPFJYY3X7UQxRhbnUbBaNr3AnRcicp
-         zElY8eiXMgNLN9XIcWub/3+eeoNjNkMWkH89tGUxDBwnN3h7S3EaN5zqP3NnS6zVq5i3
-         t8qg==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=UUzWe4hG;
-       spf=pass (google.com: domain of tcharahien552@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) smtp.mailfrom=tcharahien552@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+         :list-id:mailing-list:precedence:reply-to:mime-version:content-id
+         :content-language:accept-language:in-reply-to:references:message-id
+         :date:thread-index:thread-topic:subject:cc:to:from:dkim-signature;
+        bh=CPBfTAZyJGWfR9x8mjqatZgFkmnuqQKRNBWASY+JqEs=;
+        b=qhaXYpCC/HiDShmQs9RyguAFY+XksYgkfarRAaf8fcgeB0mqegnMVJ/abnwCyqFACK
+         C+nrv9WsjqPD+CjgJqULyVOV0DGudSVgNQDY4yUrwmgVMEF3P4K0XqMuTUetUAJzZoND
+         XVIalcY2OXFuPN3DfPHjcnYt0nQXQb7dUTEY3vqeenQpyzFUSBSf2CjJcBsnETMm5B5i
+         4ePh58cGEc0OeV4af7F/W69fU7tS6SDiHhAfmOw5ofNRcprQj0CrbSqOLV7syo3mxVjs
+         bUaB7sWhpiMhAZzxmq0UEjcJ0yBYXFXLrJsftsTRzFxrVKQmzCWoN/t6aE44yjnpoyE7
+         oodQ==
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=CJOzQHq3;
+       dkim=pass header.i=@mediateko365.onmicrosoft.com header.s=selector2-mediateko365-onmicrosoft-com header.b="K/nnx14k";
+       arc=pass (i=1 spf=pass spfdomain=mediatek.com dkim=pass dkdomain=mediatek.com dmarc=pass fromdomain=mediatek.com);
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:to:subject:message-id:date:from:mime-version
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=SQUu7j//+53Bau6wWWzWXQGza20ePJTREQWPT+WP4HI=;
-        b=GLPXVcPREk7QPTPRWEvR8FKfA+kqpMNlglfLEt40EEKNKW/ibXaAglovsXeE/RGX+T
-         Gi0B1AwFJRJw5iXX+I3Xyn93J/JnPqp2o8cg+b9sZPDXz/070USm2FEG/f+CeOmE7rSC
-         /pn5Awne0Qg+x8X+Mh2pFzIaA1yo8gJ7BGgjJ4BhWS/Lu9a1XrkD4XMT5SZfG0OsSLSd
-         3Hm39I/iUNOVsn33NWY0vVaiCEnk6cXu+ByXma/V1lbJYj783JRg6NJS3VLRFCdWrknV
-         96cRA1HzEOA63TFibaOEZwqHycpE7QpBCrOOcrbZugx/6R91CcqRx/4U4fEs4jy2VfaG
-         wMaA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:to:subject:message-id:date:from:mime-version:from
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-id:content-language:accept-language:in-reply-to:references
+         :message-id:date:thread-index:thread-topic:subject:cc:to:from:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=SQUu7j//+53Bau6wWWzWXQGza20ePJTREQWPT+WP4HI=;
-        b=LQ9uaAEXJo5/nKWdQKuhXto9JMrtY+TH6hG8Yo3bi1HuhawbwcB6ugVeu6scH51m2e
-         v0f7hYIEIml6jRiOzItbXKJ/jzAPXiBmkYeJeyGAJbzi5vKNfRSXwa+ZxJy3FZ7ZmZzY
-         ie6+lWRzniUDaX1Yve6jRHofIi3/eGUDYZqzN350p6Bx5lbCS4TmfTM1TQkj1sa/qrUm
-         sdetrIZh1KqoAICyKuZ7czq3hafWVvPFLPqdZnmttZmyXtb45hkF7mbrdqR+TVXrdW50
-         xRjqckfakLjqIzEiH2TGUU5cro+GattcZuhHHHLuy/Kh6UoP1M2vSEfQL7/Z6vdzrK97
-         KtAA==
+        bh=CPBfTAZyJGWfR9x8mjqatZgFkmnuqQKRNBWASY+JqEs=;
+        b=DQEk3sR0J6sdBA/iZbM3RmaUA7pASv8kG3FjKJ/YN72n3XvCQomDeI1qthLzyPfCOU
+         TfBm+4JiuQAu7/k0SR1leYiF7CoEX/LAf9cz7APDKZCqvo4oL7d6X1eM4V4fDJ+AQD/S
+         x8FoCz29UGDStFvy+55LrMqKcC2xt+yAmuoKJFwSrNg4kMR+aSe0LV6l9Gf9UV5Xyjjh
+         SuJVnyZqM5ttkHWFH98V8ZVf+/a0WPOnmXMBF2tqdUhT2b/1rNUm8yR/NgildqQ3HNqc
+         awgII+M1Q7sv8ZmiQHGV4wr/ucJiI+L/E/hoTuwWxRyw90QDYB1aXX4c/CAncu/aO0Bf
+         ojEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:to:subject
-         :message-id:date:from:mime-version:x-gm-message-state:sender:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=SQUu7j//+53Bau6wWWzWXQGza20ePJTREQWPT+WP4HI=;
-        b=b46FldTT8Ph3vinHm5ZF6PiCRv30nch/DaKIs6RJPQ6nZYq+Ks6gme4WnpFzsNj9dV
-         6XJ+yqCU20gFFNQ0zposz6RXijJpvt7oeZYeolrAKuPVMINEFD+fUtaBjeUINLb2JrWw
-         yWcvW9gQbIAV6p4oODB6fuKBWiSTmbeZO5v8AtTZD1Buczcau6LivrBEzpPe/nWfezNF
-         dGluyW2LHwdA1a3SEgkROzbjpl28GaAckx4WMRk0yxUk5faoUaL4o/U5lKV2w/TfrLQM
-         MPgx/ecKDMdxfHVR6fNWq5jZen/K7kcgz+AhZGA3gTRk443kTH9w/DPWe7xlh3MfnOG4
-         sVnQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2krGSYbBvfHK1X0CY0eAleHq7I5iuzfHj07JYiC+bTX6P+O2tYf6
-	ambDjMamH8/eFa4edQmVVRE=
-X-Google-Smtp-Source: AMrXdXun6twzj32NpclBMUeufcM+EfaQu52M36f0Jki7pCOSgP7VgNlBuKp7XwOPgOfYr4K5raC9lw==
-X-Received: by 2002:a4a:950a:0:b0:4e7:10fa:80e0 with SMTP id m10-20020a4a950a000000b004e710fa80e0mr1525927ooi.55.1673207083013;
-        Sun, 08 Jan 2023 11:44:43 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-id:content-language:accept-language:in-reply-to:references
+         :message-id:date:thread-index:thread-topic:subject:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CPBfTAZyJGWfR9x8mjqatZgFkmnuqQKRNBWASY+JqEs=;
+        b=shrjXxiWSktjeFzhPt9q56rc7Ge4wNrTn4mcR5eTMJqx6v6m60xNjxQrDRMCG3ChDQ
+         ByC0+6BqJsj/aVszf6lhhk8A7lLwjMFL4PntAXp0egRK/2dSpIYveKMRjXqHk/oUTIaq
+         9TrABYVca8J8qoAIxbD1mLn9yZw4Fr7V0TggU1BGXLCxEwZy8geEVHKf2m+AAcaLtoAG
+         0liNkCUbrzLF/6zEkMonnJTf9oyDGlu3AIEms4FFSwavxcAfIAKaXffT8FMtmueOtNS6
+         AW4+Uhvz1siL7nixlqWzu25o0SYcmH5sWCew9IFmqKfGwTCuCSHeNlnGoKThmuVnwpH+
+         DYcQ==
+X-Gm-Message-State: AFqh2krsSK79rz3R5vB+6ulofxoNPnZGXE6Z+nQrkT1JDO0wQ09vpTA7
+	Er85K0lvWFwdqt3yvkuu904=
+X-Google-Smtp-Source: AMrXdXupSUHK42cflCYVoIPQ5a3QMYqXoXEbxJtMLKn7xR0FHajz6mtMgNaclxMrT409GolBpTglIg==
+X-Received: by 2002:aa7:973d:0:b0:582:197f:580f with SMTP id k29-20020aa7973d000000b00582197f580fmr2809947pfg.2.1673240568272;
+        Sun, 08 Jan 2023 21:02:48 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a54:4e08:0:b0:35b:2747:ee0f with SMTP id a8-20020a544e08000000b0035b2747ee0fls1594824oiy.3.-pod-prod-gmail;
- Sun, 08 Jan 2023 11:44:42 -0800 (PST)
-X-Received: by 2002:aca:1b0c:0:b0:364:3085:a6f2 with SMTP id b12-20020aca1b0c000000b003643085a6f2mr3210943oib.55.1673207082609;
-        Sun, 08 Jan 2023 11:44:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673207082; cv=none;
+Received: by 2002:a17:902:ee53:b0:188:b504:8ce4 with SMTP id
+ 19-20020a170902ee5300b00188b5048ce4ls4550728plo.7.-pod-prod-gmail; Sun, 08
+ Jan 2023 21:02:47 -0800 (PST)
+X-Received: by 2002:a05:6a20:a687:b0:af:7cf6:1d4b with SMTP id ba7-20020a056a20a68700b000af7cf61d4bmr81168500pzb.23.1673240567473;
+        Sun, 08 Jan 2023 21:02:47 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673240567; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ifFeO4Tlv7E/PaZNzcozaJn2uiYPqV618gqw+zBDWTfXDi1OGNTElBvD8V+I/lam6n
-         i0H9dBNGYWrlAKw1dvRIa1M4hBDbAKRvsdzvtS/7Lx8Om3gdVPbQVW5KdaAu0X5FUm0j
-         zIXkIM1ZnzqkUzpoxWcly8G5IhxNHIm+Z8IQsADbFI5IVYkEv9mQqAPYIxSGPyLiS80N
-         slgYalJK+NNqoqauVTMrQvNPUxLoVHzyRwEyD41sx+UM2inHRMKllQbUbstlM4cnbhlf
-         BK2y0ENqI/0vocF3Uiv70nhNoGL9UFA7X+W5gmVJsS2g7nH+2H/Biz49BnpnaN+G0o9U
-         VhxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=vAt27wy77sKb9qg/HTbnPWodzxZjL8WEADB1TGecVzY=;
-        b=v2eBFCIEoz0m9R4c7MED7g/SpNy8BPJ19QD/Ft/k+EA1sXTQj0uEzUV53m13MTfu1z
-         Pov3sOyddMFznPWEO7DauBbBx9mp9fiq2dA7AoEpHCEtlrNT9o3iTa8BQwkevN8tbM+h
-         eR2Hznuyc08da64q22vl1HAs/wEfZv6Nsysgpq+WPn9luhxIw3mYCu1ENu5x7Auntmkq
-         aB7xCcmBjbAlG9a6AaewnaUwoFc1tnjKCr3Y/4i9dcpsX+wn1mNG5q+K8jheKkKBDblF
-         4boQxIRpB/LrFn1sjaFyLPSegM2ZQmsfyb4LOLd/81xcdPv2gBJs8xFr0FG7LhsZRh2V
-         rwgQ==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=UUzWe4hG;
-       spf=pass (google.com: domain of tcharahien552@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) smtp.mailfrom=tcharahien552@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com. [2607:f8b0:4864:20::d33])
-        by gmr-mx.google.com with ESMTPS id g84-20020acab657000000b00353e4e7f335si804135oif.4.2023.01.08.11.44.42
+        b=OxTiDpDuQxIMVcKBj4HL6rgNBrGQJk4cyMl67rDp2Sqhz3Fk2wGaylHai9KC0G44I8
+         PYqBpQEpSrGNvsKp/RKkUTz1wtz5JfszPvZqj4CA3/P4WxZL3aYWxdsHBjPGmBFA3zYV
+         XByF7EmMccefT6EtNQhxajrJO+wRic11eD/LyLT9NB/H+qWLP+sfrDqdJDE5FPQIHKOa
+         xAQ7u4XTqWSDf74OB0AG3ooeUtCAnDO0yWgsiWr4aU7qAPW9/RodyFO9ETElB79u/hoy
+         0l8IAcL5gFFPcK67NLENRkXx5c/zss/1YTFeLtM2bdn74nXHEdbYx9VirgEuzwCmzUnf
+         /swg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-transfer-encoding:content-id:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from:dkim-signature:dkim-signature;
+        bh=kFi4/MFIgI/0LmaYm1LqCv7qDrMYCq2P+g4CFiHgHAQ=;
+        b=TxvBDyMovZRagbH/7xlhg4DebIhgqK3z7x08CkPVw4xCyhlsAx1kmcU3OuO79y7sfL
+         Zh4ol2He/W1z+ZmYLXcX/2HYFgKQJR08O3+AgYDpJH1C44aepAriCQFUQVxz2ZI4Q2ln
+         KHWgrfzUKGPtn+w5ySadiVztnIgADB7NQan3DbhjARvFl/99Vdcet209xYGOfOIrsKKd
+         QD6ujP4YAjW6W6C4fZ7+9tOP2RskJe6klI3Yqj0olxyCL13EBkCA9XJL7v6/Tsg7EkGC
+         gwEL2qvo9ND5yxllnqkUW8I3ln2SqeQ8mM6HId5ozG4EbbHlC0GSs/lTD5HpSFu8GK7/
+         4sqQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=CJOzQHq3;
+       dkim=pass header.i=@mediateko365.onmicrosoft.com header.s=selector2-mediateko365-onmicrosoft-com header.b="K/nnx14k";
+       arc=pass (i=1 spf=pass spfdomain=mediatek.com dkim=pass dkdomain=mediatek.com dmarc=pass fromdomain=mediatek.com);
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+Received: from mailgw01.mediatek.com ([60.244.123.138])
+        by gmr-mx.google.com with ESMTPS id q19-20020a656a93000000b004a3ed20c3c0si450804pgu.3.2023.01.08.21.02.47
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Jan 2023 11:44:42 -0800 (PST)
-Received-SPF: pass (google.com: domain of tcharahien552@gmail.com designates 2607:f8b0:4864:20::d33 as permitted sender) client-ip=2607:f8b0:4864:20::d33;
-Received: by mail-io1-xd33.google.com with SMTP id p9so3526506iod.13
-        for <kasan-dev@googlegroups.com>; Sun, 08 Jan 2023 11:44:42 -0800 (PST)
-X-Received: by 2002:a05:6e02:f0f:b0:30c:2c6f:5aa0 with SMTP id
- x15-20020a056e020f0f00b0030c2c6f5aa0mr3772288ilj.188.1673206698588; Sun, 08
- Jan 2023 11:38:18 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 08 Jan 2023 21:02:47 -0800 (PST)
+Received-SPF: pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) client-ip=60.244.123.138;
+X-UUID: 59a81ed02ff743478f3fb8c28e5ff2eb-20230109
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.17,REQID:f335b2f0-c516-4e4c-8d86-5a19c698c9ae,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-INFO: VERSION:1.1.17,REQID:f335b2f0-c516-4e4c-8d86-5a19c698c9ae,IP:0,URL
+	:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:-5
+X-CID-META: VersionHash:543e81c,CLOUDID:e9daaa8b-8530-4eff-9f77-222cf6e2895b,B
+	ulkID:2301091302433IZZU6AN,BulkQuantity:0,Recheck:0,SF:17|19|102,TC:nil,Co
+	ntent:0,EDM:-3,IP:nil,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,O
+	SA:0
+X-CID-BVR: 0,NGT
+X-UUID: 59a81ed02ff743478f3fb8c28e5ff2eb-20230109
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+	(envelope-from <kuan-ying.lee@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1266390611; Mon, 09 Jan 2023 13:02:42 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.792.3;
+ Mon, 9 Jan 2023 13:02:40 +0800
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.239)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Mon, 9 Jan 2023 13:02:40 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aMlsujdZOrUTvN90e5V8ScWAFzwMicDQREX11vcbbdHn7Bs6dpgPL/7RWGmIbAPwT3UerV3LwyiH+MBSxKFqwE+jfWZ4Um2G11vYVxLr69SE6lYZ69Xd5wpFV/zXRNmW/4O9W1u//dyG4Ll3UKNPY+ShxLCkjrnbGL9pndMj8D9YBOMgYy0hFrbpK7y/Z7xFVivJFvYcLbqEsUPUBGhEuWOqI/Es2rQDCyuzjPo4yejLQfBKg/u/NpE5hQEjmUSCHGgozxYIPWIQdGDFgNGHUakzI3oS4vaoOkEW+Zh10JGdBdnsA0P8HH3fYPAlUygr/nGKB90RSrMvYvsZi7rTwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kFi4/MFIgI/0LmaYm1LqCv7qDrMYCq2P+g4CFiHgHAQ=;
+ b=odF2HJZeYIT2CPx5btxRMOKZEUhu0E+j6aK2FHEpuIU9CAxJ9oqVF9ekSDiKmiA+jTJuSz348piEbEhZZjAamIid8thIKAfVRjZter4yEZPldkc22ntbkIWZ4WxYlfFBZ+pMbC0G2ILLnubgxhlVfggBP4liI0/E1EIpcYeZ92k/qzQAg65Uag0oyakWLHH80PiUQYjyK2PEE+Xgxg970fS6+POSrHvuQZ+gU6F7gMvPNU4glYPH1Y6Z9ZnJUNpPsZ0oGQe88I98FLxnuUuI2FK4MtcXLwlu8Qur0KKGs6cfSqENonyv/ULEw6xUcfMPAV5sO6GWD7qPonkmbwLvsg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+Received: from PUZPR03MB5964.apcprd03.prod.outlook.com (2603:1096:301:b4::11)
+ by KL1PR0302MB5411.apcprd03.prod.outlook.com (2603:1096:820:4f::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.18; Mon, 9 Jan
+ 2023 05:02:38 +0000
+Received: from PUZPR03MB5964.apcprd03.prod.outlook.com
+ ([fe80::c43a:ce45:4a27:bd80]) by PUZPR03MB5964.apcprd03.prod.outlook.com
+ ([fe80::c43a:ce45:4a27:bd80%9]) with mapi id 15.20.5986.018; Mon, 9 Jan 2023
+ 05:02:38 +0000
+From: =?UTF-8?B?J0t1YW4tWWluZyBMZWUgKOadjuWGoOepjiknIHZpYSBrYXNhbi1kZXY=?= <kasan-dev@googlegroups.com>
+To: "andreyknvl@gmail.com" <andreyknvl@gmail.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	=?utf-8?B?UXVuLXdlaSBMaW4gKOael+e+pOW0tCk=?= <Qun-wei.Lin@mediatek.com>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	=?utf-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?=
+	<chinwen.chang@mediatek.com>, "dvyukov@google.com" <dvyukov@google.com>,
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"ryabinin.a.a@gmail.com" <ryabinin.a.a@gmail.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "vincenzo.frascino@arm.com"
+	<vincenzo.frascino@arm.com>, "glider@google.com" <glider@google.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
+Subject: Re: [PATCH] kasan: infer the requested size by scanning shadow memory
+Thread-Topic: [PATCH] kasan: infer the requested size by scanning shadow
+ memory
+Thread-Index: AQHZH0jgINbB3ihm8EOrOsTiVH1z6q6NgimAgAgOdIA=
+Date: Mon, 9 Jan 2023 05:02:38 +0000
+Message-ID: <dbaeb044c547ddb908bffdce4d2dfa0936805ef7.camel@mediatek.com>
+References: <20230103075603.12294-1-Kuan-Ying.Lee@mediatek.com>
+	 <CA+fCnZdk0HoWx6XCbTsiNhyR2Z_7zv5JUdgNs8Q_tV4GRkkmCg@mail.gmail.com>
+In-Reply-To: <CA+fCnZdk0HoWx6XCbTsiNhyR2Z_7zv5JUdgNs8Q_tV4GRkkmCg@mail.gmail.com>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PUZPR03MB5964:EE_|KL1PR0302MB5411:EE_
+x-ms-office365-filtering-correlation-id: 48b3be3f-62eb-4c79-824b-08daf1febac8
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Nm3AFYYtf5/KWln8Hj8jyZgVhLaTUM0/eQI/rS+ZW69qbMZBkVvPJ4XC7FA9egQ18kXoZZzylYmjHWxm4StyRupFt0cSLgAhcCT5Wmzfss1MsgcZ+wRAPZMDNX58zoZVZn4Uy659SLl//iLmqeCqN8BjsZIUsH1MR7tTgz5PAULZwwQAAfaILtV28YVH1ucvwI4jEUyQf5bTQtPoOmWR+mIiZZzZK9hiIUJFmCl1+60R4B7p3JAw82prTOy7LXUYqcocx7HFNVlVLmCbQKPDrTmXLDpBgcbydfI/BgmqGIbdQqBZDU0ObwOwVgH1+k18nAAD6U3wq+CahlBoV+NJm+yK9KJUcqLdvWja5IVRWdQXK99pgBCQrNFh9BSOhCmWiUPmG7OJ4JEDPKjv45im9ivDQt0CPyz8qZ0ENIwVPjJwdSmNc6Jjik7MPDeGDUf+0e1CVnITjTxbEvbSPxR3uTE0n9b2Db9O4zb/oyAFoJnguKhEm6rP7P9Iy1atq7V4DYxz7t/K5yct5phcWkUc2bljHE7+S0hXI8OZP4/6HsLdKZMi9jKqbowYJ48vf1hA0q2yFIZbYJn323Lv+4bQBbNWUAl5UdJVNHfKMp/1nY7slW6ryGiub+HnaNaHr5aWicrVE3XEHKHNM+9qrVd70UgGelJJv5p9X5LG2u5T+Aeioqnc4xFmr8jfmp2MyTzHjd+YGApKfK1iRUhahxkQPk0H5JAIWYESyL8E815PHeds6W181xJMofTu7tPrgXWB
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR03MB5964.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230022)(4636009)(346002)(136003)(366004)(376002)(396003)(39860400002)(451199015)(2906002)(8936002)(7416002)(85182001)(5660300002)(36756003)(41300700001)(64756008)(91956017)(8676002)(66446008)(66946007)(66476007)(76116006)(66556008)(316002)(71200400001)(54906003)(4326008)(6486002)(478600001)(26005)(53546011)(6506007)(186003)(6512007)(2616005)(6916009)(86362001)(83380400001)(38070700005)(122000001)(38100700002)(99106002)(505234007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ME55cWFCTk5zQW9JS1dqdnQ2SFBGQnpocE1sUVEwQUt4VHMzNUlPWHlOMENM?=
+ =?utf-8?B?a25IRjFDNWZCOWRhSWFMOWhGdi9HUFJJRmRmMjdQTExtTXZYd3hNQjVmZytN?=
+ =?utf-8?B?aFlvN0ZZTExuZWxVQlBLemdmMHJrWU9SY2s2NS8wc0o0bGFnSXNwdWRKYW1F?=
+ =?utf-8?B?S29pdXdvWmNnS0dXOUV2SGhqeUZVMHVNZXh0eXBFUXA0ZFlOZjRuTVY1Tnc2?=
+ =?utf-8?B?NC9lbmwvVm1hbzdPRkUyY1FIdHQ0SEtuMVpnWHNIbEJHclBhSVpLUDZTM3NB?=
+ =?utf-8?B?R0tXc0VNR2wrak5XcU5Td28zangzRHJyU2cwRS9pd2pIVWtSVVVwb01yazBF?=
+ =?utf-8?B?d2RJcjFZekZHT3FCR05vejR6NWRmekdZNjJGNFVieXJrYlBPTTdjVzFjditU?=
+ =?utf-8?B?Y05HMXhmb0xReTMrQ0c3VTVaU20wSDRmbm1WQStNQ2hUNG93WnJ5b1lvenFy?=
+ =?utf-8?B?UUp4MzBxWS9vMnZzcWpTYlZCdG45ZHkwK1pUZGhBQnhiaUUyZzlQejE5eVh4?=
+ =?utf-8?B?RHVLM0lZTzRRSDFucEFFUlg5OVVFZWE1M3JFVWdFVmErNXp5Nm1xejYwMDE1?=
+ =?utf-8?B?d0grT2pTZ0FWQkNJTm5jY2w0azJsZ2Z4VTVXdkxDL2JmZlFhVzN5UHRLbGRE?=
+ =?utf-8?B?NXpYTHFIa1luVkk5UnZaZlNMbGV4K1lSK1lWbmxRTXcxcHZBU3dtckVFSU44?=
+ =?utf-8?B?RGFsNFA1V21zR2hLc1dUNTd0Q0N1Q3FLcnpHc2paRnZtTzBOazlRMUorOVNp?=
+ =?utf-8?B?cjFySHZLNk9yaG9XNGVEcFdXRGFrK0lJWkppMVdYOGtUZjdrUXVkWCtzSlZF?=
+ =?utf-8?B?OUwxbG8rcjUxUXdkVHRyOTVYWE0xUE0zSEhaSDkvMmpYUEQzRUpjVmR3ZExt?=
+ =?utf-8?B?RlB5YlNON2RiZG16aWtNeGtVaCs4ZG9YZ0tEYURydjlYSkJEeWhIUkdCMExt?=
+ =?utf-8?B?MEc0amN3Q3pTWDkxOU9IMThVVnpLdkRuTFFObytQeUE5T1VXNHQ3V1FYczRV?=
+ =?utf-8?B?bnFEeTNDL0JGRzNGc0xEM0xpcUxqWFM2eENpNnBuN0tmL2k3eU5QL3JoNTJw?=
+ =?utf-8?B?NVFGZFE5Vi8vR2ZJcmw1d0xycVVGV0FkbUdMQmo3OUlER2F5dXN2SkJZTDRx?=
+ =?utf-8?B?YndsZmpXRE1xNjJrK0RSZXdUaHQ2dHlPcnRYNlc3Q2dCMklLOW1JTnlpbEZU?=
+ =?utf-8?B?Z1NGM2EzdUx6SmtrbklpWDZjblJPUHlLT2trOHpsWFZ0aGszOVFNTE5hRTFV?=
+ =?utf-8?B?eDVUSnBPYjFyNlJGUUxHSGczeUd3V0NhY096Z0MrTzkxVFBEMFhXQzNmUUZY?=
+ =?utf-8?B?dDkxcUxndTR4QkVaUC9PWHJvZGo0czFkb3hHTTg0TW5sS2x3MFE0VE5FQmdT?=
+ =?utf-8?B?UEdoWU5wcHpMKzFaQS9sVVZkdUFxdDR2bUxpNUtJaStmL09WK2oyNUJUMFo1?=
+ =?utf-8?B?Ykg2Rm82dWV1UUlvcG5WaHk3Y3JpTmhhTC82NVd4YS83dXdZcWxuVW0wa3Jw?=
+ =?utf-8?B?eTVNTGpuN3phc09Hc3IrYkFqV3p6bFF0REtyeFN4M0hlZE4xdmR0QXpWNWxR?=
+ =?utf-8?B?M2d5a295NkRFTFBoTTJLd21kTzZ6MFRSRG54NmRqKzhoVG9Ydm1BTm5FaTE2?=
+ =?utf-8?B?NmdFWDdLZ1ZEaGUrczd5MTVpdVV5bEk3RG11TXBRYm5CclJrL2Jhc1ZhMDhE?=
+ =?utf-8?B?WUNCMlJKSmt0OTVkVlQvNERCK0tBQVMrYk1lOTNXNXVaTnFMMWcwTFJNZGlR?=
+ =?utf-8?B?ZXU3RWVHZnlUQXRyUTJQdFJaZk00Y09ZSEhXemxwakxBalNsN0N2MVBPdEdi?=
+ =?utf-8?B?TlpvemxETFA4YWo2S1pVQm1YeXNMdUEvcFhDaFZoNGFMd1hDZTlaYVlRQ0NM?=
+ =?utf-8?B?bGhsbkMwWGFYT3lZSnBoY0xNdi90elBnb2VTQURlMGpST3VKNkdDTzUraW9Y?=
+ =?utf-8?B?UWVudzhqZUZ2ZytzT00xRFZvS0doVUZIL1JHZE5UV1NWaHBKZFloeGZlOXJ6?=
+ =?utf-8?B?QWFjbm9QVVptN1YzbFRJbG5IbjdrdFUvVUhzbUpjcTNyaHQ5WDhUSjE5UVdG?=
+ =?utf-8?B?UnZtb0huWlk3OFpML3REcm5YZndWVXJsc21GV3FBbzAzN2djTzdaQmlDVFRy?=
+ =?utf-8?B?d1Nzb2VDNldzRlZlMVR4cHprRmNNS2g0UjFMRGcreVVOZFludVVoeVIvZWxG?=
+ =?utf-8?B?NFE9PQ==?=
+Content-Type: text/plain; charset="UTF-8"
+Content-ID: <F4E8FD454221D24EAD5D3D500652D74D@apcprd03.prod.outlook.com>
 MIME-Version: 1.0
-From: AGENCE IMMO <immobilierintern@gmail.com>
-Date: Sun, 8 Jan 2023 19:38:07 +0000
-Message-ID: <CAPrpWc4g71OCWirGR4zzk-aFz44T9i_64DnG+VaHfOKcrhzsGQ@mail.gmail.com>
-Subject: =?UTF-8?Q?R=C3=A8glement=2DLoyer?=
-To: undisclosed-recipients:;
-Content-Type: multipart/alternative; boundary="000000000000e7c37605f1c5cae9"
-X-Original-Sender: immobilierintern@gmail.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR03MB5964.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 48b3be3f-62eb-4c79-824b-08daf1febac8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jan 2023 05:02:38.3411
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: SaoeGTbDqefBp55mGeogXMq4Kgp+AdFA5J73SXJsEhDQHX5ORVEfLKurzPX4+TCtjZbAWIaLOofXfZG8q14aldn1jeuM74t35zBilsfPbR4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR0302MB5411
+X-MTK: N
+X-Original-Sender: Kuan-Ying.Lee@mediatek.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=UUzWe4hG;       spf=pass
- (google.com: domain of tcharahien552@gmail.com designates 2607:f8b0:4864:20::d33
- as permitted sender) smtp.mailfrom=tcharahien552@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@mediatek.com header.s=dk header.b=CJOzQHq3;       dkim=pass
+ header.i=@mediateko365.onmicrosoft.com header.s=selector2-mediateko365-onmicrosoft-com
+ header.b="K/nnx14k";       arc=pass (i=1 spf=pass spfdomain=mediatek.com
+ dkim=pass dkdomain=mediatek.com dmarc=pass fromdomain=mediatek.com);
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates
+ 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+X-Original-From: =?utf-8?B?S3Vhbi1ZaW5nIExlZSAo5p2O5Yag56mOKQ==?=
+	<Kuan-Ying.Lee@mediatek.com>
+Reply-To: =?utf-8?B?S3Vhbi1ZaW5nIExlZSAo5p2O5Yag56mOKQ==?=
+	<Kuan-Ying.Lee@mediatek.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,167 +262,107 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---000000000000e7c37605f1c5cae9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2023-01-04 at 03:00 +0100, Andrey Konovalov wrote:
+> On Tue, Jan 3, 2023 at 8:56 AM Kuan-Ying Lee <
+> Kuan-Ying.Lee@mediatek.com> wrote:
+> > 
+> > We scan the shadow memory to infer the requested size instead of
+> > printing cache->object_size directly.
+> > 
+> > This patch will fix the confusing generic kasan report like below.
+> > [1]
+> > Report shows "cache kmalloc-192 of size 192", but user
+> > actually kmalloc(184).
+> > 
+> > ==================================================================
+> > BUG: KASAN: slab-out-of-bounds in _find_next_bit+0x143/0x160
+> > lib/find_bit.c:109
+> > Read of size 8 at addr ffff8880175766b8 by task kworker/1:1/26
+> > ...
+> > The buggy address belongs to the object at ffff888017576600
+> >  which belongs to the cache kmalloc-192 of size 192
+> > The buggy address is located 184 bytes inside of
+> >  192-byte region [ffff888017576600, ffff8880175766c0)
+> > ...
+> > Memory state around the buggy address:
+> >  ffff888017576580: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+> >  ffff888017576600: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > > ffff888017576680: 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc
+> > 
+> >                                         ^
+> >  ffff888017576700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> >  ffff888017576780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> > ==================================================================
+> > 
+> > After this patch, report will show "cache kmalloc-192 of size 184".
+> 
+> I think this introduces more confusion. kmalloc-192 cache doesn't
+> have
+> the size of 184.
+> 
+> Let's leave the first two lines as is, and instead change the second
+> two lines to:
+> 
+> The buggy address is located 0 bytes to the right of
+>  requested 184-byte region [ffff888017576600, ffff8880175766c0)
 
-A votre aimable attention,
+Did you mean region [ffff888017576600, ffff8880175766b8)?
 
+> 
+> This specifically points out an out-of-bounds access.
+> 
+> Note the added "requested". Alternatively, we could say "allocated".
+> 
+> > --- a/mm/kasan/kasan.h
+> > +++ b/mm/kasan/kasan.h
+> > @@ -340,8 +340,13 @@ static inline void
+> > kasan_print_address_stack_frame(const void *addr) { }
+> > 
+> >  #ifdef CONFIG_KASAN_GENERIC
+> >  void kasan_print_aux_stacks(struct kmem_cache *cache, const void
+> > *object);
+> > +int kasan_get_alloc_size(void *object_addr, struct kmem_cache
+> > *cache);
+> >  #else
+> >  static inline void kasan_print_aux_stacks(struct kmem_cache
+> > *cache, const void *object) { }
+> > +static inline int kasan_get_alloc_size(void *object_addr, struct
+> > kmem_cache *cache)
+> > +{
+> > +       return cache->object_size;
+> 
+> Please implement similar shadow/tag walking for the tag-based modes.
+> Even though we can only deduce the requested size with the
+> granularity
+> of 16 bytes, it still makes sense.
 
+Will do in v2.
 
-Nous vous informons qu'une mise =C3=A0 jour a =C3=A9t=C3=A9 effectu=C3=A9e =
-au sein de notre
-=C3=A9tablissement. De ce fait, nous avons apport=C3=A9 quelques changement=
-s au
-niveau compta,
+> 
+> It makes sense to also use the word "allocated" instead of
+> "requested"
+> for these modes, as the size is not deduced precisely.
+> 
+> > --- a/mm/kasan/report.c
+> > +++ b/mm/kasan/report.c
+> > @@ -236,12 +236,13 @@ static void describe_object_addr(const void
+> > *addr, struct kmem_cache *cache,
+> >  {
+> >         unsigned long access_addr = (unsigned long)addr;
+> >         unsigned long object_addr = (unsigned long)object;
+> > +       int real_size = kasan_get_alloc_size((void *)object_addr,
+> > cache);
+> 
+> Please add another field to the mode-specific section of the
+> kasan_report_info structure, fill it in complete_report_info, and use
+> it here. See kasan_find_first_bad_addr as a reference.
 
+Got it. Will do in v2.
 
+> 
+> Thanks for working on this!
 
-
-Veuillez confirmer la r=C3=A9ception de notre diffusion, afin de vous envoy=
-er
-les nouvelles coordonn=C3=A9es bancaires pour le versement mensuel.
-
-
-
-Vous souhaitant une tr=C3=A8s bonne et heureuse ann=C3=A9e 2023, ainsi qu'u=
-ne bonne
-r=C3=A9ception de la pr=C3=A9sente.
-
-
-
-Bien cordialement,
-
-
-
-*Le S.ervice G.estion L.ocative.*
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAPrpWc4g71OCWirGR4zzk-aFz44T9i_64DnG%2BVaHfOKcrhzsGQ%40mail.gmai=
-l.com.
-
---000000000000e7c37605f1c5cae9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div id=3D"gmail-:33c" class=3D"gmail-Ar gmail-Au" style=
-=3D"display:block"><div id=3D"gmail-:338" class=3D"gmail-Am gmail-Al editab=
-le gmail-LW-avf gmail-tS-tW gmail-tS-tY" aria-label=3D"Corps du message" ro=
-le=3D"textbox" aria-multiline=3D"true" style=3D"direction:ltr;min-height:33=
-1px" tabindex=3D"1" aria-controls=3D":364"><div id=3D"gmail-:1u2" class=3D"=
-gmail-Ar gmail-Au" style=3D"display:block"><div id=3D"gmail-:1ty" class=3D"=
-gmail-Am gmail-Al editable gmail-LW-avf gmail-tS-tW gmail-tS-tY" aria-label=
-=3D"Corps du message" role=3D"textbox" aria-multiline=3D"true" style=3D"dir=
-ection:ltr;min-height:331px" tabindex=3D"1" aria-controls=3D":1wu"><div id=
-=3D"gmail-:ad" class=3D"gmail-Ar gmail-Au gmail-Ao" style=3D"display:block"=
-><div id=3D"gmail-:f1" class=3D"gmail-Am gmail-Al editable gmail-LW-avf gma=
-il-tS-tW gmail-tS-tY" aria-label=3D"Corps du message" role=3D"textbox" aria=
--multiline=3D"true" style=3D"direction:ltr;min-height:331px" tabindex=3D"1"=
- aria-controls=3D":12l"><div id=3D"gmail-:p0" class=3D"gmail-Ar gmail-Au" s=
-tyle=3D"display:block"><div id=3D"gmail-:ow" class=3D"gmail-Am gmail-Al edi=
-table gmail-LW-avf gmail-tS-tW gmail-tS-tY" aria-label=3D"Corps du message"=
- role=3D"textbox" aria-multiline=3D"true" style=3D"direction:ltr;min-height=
-:331px" tabindex=3D"1" aria-controls=3D":rs"><div id=3D"gmail-:et" class=3D=
-"gmail-Ar gmail-Au gmail-Ao" style=3D"display:block"><div id=3D"gmail-:ep" =
-class=3D"gmail-Am gmail-Al editable gmail-LW-avf gmail-tS-tW gmail-tS-tY" a=
-ria-label=3D"Corps du message" role=3D"textbox" aria-multiline=3D"true" sty=
-le=3D"direction:ltr;min-height:331px" tabindex=3D"1" aria-controls=3D":hl">=
-<p style=3D"font-style:normal;font-variant-caps:normal;font-weight:400;lett=
-er-spacing:normal;text-align:start;text-indent:0px;text-transform:none;whit=
-e-space:normal;word-spacing:0px;text-decoration:none;box-sizing:content-box=
-;margin:0cm 0cm 0.0001pt;line-height:1.4em;font-family:Calibri,sans-serif;c=
-olor:rgb(68,68,68);font-size:11pt"><span style=3D"box-sizing:content-box;li=
-ne-height:1.4em;font-size:13.5pt;font-family:&quot;Times New Roman&quot;,se=
-rif;color:rgb(20,20,20)">A votre aimable attention,</span></p><p style=3D"f=
-ont-style:normal;font-variant-caps:normal;font-weight:400;letter-spacing:no=
-rmal;text-align:start;text-indent:0px;text-transform:none;white-space:norma=
-l;word-spacing:0px;text-decoration:none;box-sizing:content-box;margin:0cm 0=
-cm 0.0001pt;line-height:1.4em;font-family:Calibri,sans-serif;color:rgb(68,6=
-8,68);font-size:11pt">=C2=A0</p><p style=3D"font-style:normal;font-variant-=
-caps:normal;font-weight:400;letter-spacing:normal;text-align:start;text-ind=
-ent:0px;text-transform:none;white-space:normal;word-spacing:0px;text-decora=
-tion:none;box-sizing:content-box;margin:0cm 0cm 0.0001pt;line-height:1.4em;=
-font-family:Calibri,sans-serif;color:rgb(68,68,68);font-size:11pt"><span st=
-yle=3D"box-sizing:content-box;line-height:1.4em;font-size:13.5pt;font-famil=
-y:&quot;Times New Roman&quot;,serif;color:rgb(20,20,20)">Nous vous informon=
-s qu&#39;une mise =C3=A0 jour a =C3=A9t=C3=A9 effectu=C3=A9e au sein de not=
-re =C3=A9tablissement. De ce fait, nous avons apport=C3=A9 quelques changem=
-ents au niveau compta,<span class=3D"gmail-Apple-converted-space">=C2=A0</s=
-pan><br></span></p><p style=3D"font-style:normal;font-variant-caps:normal;f=
-ont-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text-=
-transform:none;white-space:normal;word-spacing:0px;text-decoration:none;box=
--sizing:content-box;margin:0cm 0cm 0.0001pt;line-height:1.4em;font-family:C=
-alibri,sans-serif;color:rgb(68,68,68);font-size:11pt"><span style=3D"box-si=
-zing:content-box;line-height:1.4em;font-size:13.5pt;font-family:&quot;Times=
- New Roman&quot;,serif;color:rgb(20,20,20)"><br></span></p><p style=3D"font=
--style:normal;font-variant-caps:normal;font-weight:400;letter-spacing:norma=
-l;text-align:start;text-indent:0px;text-transform:none;white-space:normal;w=
-ord-spacing:0px;text-decoration:none;box-sizing:content-box;margin:0cm 0cm =
-0.0001pt;line-height:1.4em;font-family:Calibri,sans-serif;color:rgb(68,68,6=
-8);font-size:11pt">=C2=A0</p><p style=3D"font-style:normal;font-variant-cap=
-s:normal;font-weight:400;letter-spacing:normal;text-align:start;text-indent=
-:0px;text-transform:none;white-space:normal;word-spacing:0px;text-decoratio=
-n:none;box-sizing:content-box;margin:0cm 0cm 0.0001pt;line-height:1.4em;fon=
-t-family:Calibri,sans-serif;color:rgb(68,68,68);font-size:11pt"><span style=
-=3D"box-sizing:content-box;line-height:1.4em;font-size:13.5pt;font-family:&=
-quot;Times New Roman&quot;,serif;color:rgb(20,20,20)">Veuillez confirmer la=
- r=C3=A9ception de notre diffusion, afin de vous envoyer les nouvelles coor=
-donn=C3=A9es bancaires pour le versement mensuel.</span></p><p style=3D"fon=
-t-style:normal;font-variant-caps:normal;font-weight:400;letter-spacing:norm=
-al;text-align:start;text-indent:0px;text-transform:none;white-space:normal;=
-word-spacing:0px;text-decoration:none;box-sizing:content-box;margin:0cm 0cm=
- 0.0001pt;line-height:1.4em;font-family:Calibri,sans-serif;color:rgb(68,68,=
-68);font-size:11pt">=C2=A0</p><p style=3D"font-style:normal;font-variant-ca=
-ps:normal;font-weight:400;letter-spacing:normal;text-align:start;text-inden=
-t:0px;text-transform:none;white-space:normal;word-spacing:0px;text-decorati=
-on:none;box-sizing:content-box;margin:0cm 0cm 0.0001pt;line-height:1.4em;fo=
-nt-family:Calibri,sans-serif;color:rgb(68,68,68);font-size:11pt"><span styl=
-e=3D"box-sizing:content-box;line-height:1.4em;font-size:13.5pt;font-family:=
-Times,serif;color:rgb(12,12,12)">Vous souhaitant une tr=C3=A8s bonne et heu=
-reuse ann=C3=A9e 2023, ainsi qu&#39;une bonne r=C3=A9ception de la pr=C3=A9=
-sente.</span></p><p style=3D"font-style:normal;font-variant-caps:normal;fon=
-t-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text-tr=
-ansform:none;white-space:normal;word-spacing:0px;text-decoration:none;box-s=
-izing:content-box;margin:0cm 0cm 0.0001pt;line-height:1.4em;font-family:Cal=
-ibri,sans-serif;color:rgb(68,68,68);font-size:11pt">=C2=A0</p><p style=3D"f=
-ont-style:normal;font-variant-caps:normal;font-weight:400;letter-spacing:no=
-rmal;text-align:start;text-indent:0px;text-transform:none;white-space:norma=
-l;word-spacing:0px;text-decoration:none;box-sizing:content-box;margin:0cm 0=
-cm 0.0001pt;line-height:1.4em;font-family:Calibri,sans-serif;color:rgb(68,6=
-8,68);font-size:11pt"><span style=3D"box-sizing:content-box;line-height:1.4=
-em;font-size:13.5pt;font-family:Times,serif;color:rgb(14,14,14)">Bien cordi=
-alement,</span></p><p style=3D"font-style:normal;font-variant-caps:normal;f=
-ont-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text-=
-transform:none;white-space:normal;word-spacing:0px;text-decoration:none;box=
--sizing:content-box;margin:0cm 0cm 0.0001pt;line-height:1.4em;font-family:C=
-alibri,sans-serif;color:rgb(68,68,68);font-size:11pt">=C2=A0</p><p style=3D=
-"font-style:normal;font-variant-caps:normal;font-weight:400;letter-spacing:=
-normal;text-align:start;text-indent:0px;text-transform:none;white-space:nor=
-mal;word-spacing:0px;text-decoration:none;box-sizing:content-box;margin:0cm=
- 0cm 0.0001pt;line-height:1.4em;font-family:Calibri,sans-serif;color:rgb(68=
-,68,68);font-size:11pt"><i style=3D"box-sizing:content-box;line-height:1.4e=
-m"><span style=3D"box-sizing:content-box;line-height:1.4em;font-size:13.5pt=
-;font-family:Times,serif;color:rgb(60,115,191)">Le S.ervice G.estion L.ocat=
-ive.</span></i></p></div></div></div></div></div></div></div></div></div></=
-div></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CAPrpWc4g71OCWirGR4zzk-aFz44T9i_64DnG%2BVaHfOKcrhzsGQ%=
-40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.goo=
-gle.com/d/msgid/kasan-dev/CAPrpWc4g71OCWirGR4zzk-aFz44T9i_64DnG%2BVaHfOKcrh=
-zsGQ%40mail.gmail.com</a>.<br />
-
---000000000000e7c37605f1c5cae9--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/dbaeb044c547ddb908bffdce4d2dfa0936805ef7.camel%40mediatek.com.
