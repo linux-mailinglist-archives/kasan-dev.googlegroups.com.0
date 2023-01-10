@@ -1,146 +1,144 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRB5GO6SOQMGQE7AUHLDY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBY6O6SOQMGQEN3SUKWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5874663BD4
-	for <lists+kasan-dev@lfdr.de>; Tue, 10 Jan 2023 09:53:09 +0100 (CET)
-Received: by mail-pj1-x103d.google.com with SMTP id h12-20020a17090a604c00b00225b2dbe4cfsf4505892pjm.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 10 Jan 2023 00:53:09 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673340788; cv=pass;
+Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DAB2663BD3
+	for <lists+kasan-dev@lfdr.de>; Tue, 10 Jan 2023 09:52:52 +0100 (CET)
+Received: by mail-lj1-x23e.google.com with SMTP id r10-20020a2eb60a000000b00281ccc0c718sf2532508ljn.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 10 Jan 2023 00:52:52 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673340772; cv=pass;
         d=google.com; s=arc-20160816;
-        b=HG7/e9xW924NyaAJTmkLVVvdwgTHML6BmTx1lPBlBtztUq2rRhmGluruXcyNm5nX/j
-         2DC/OyT9jGEP4hMaLQrr6mrAPPhDQymDL6PbeJJSANqmxcAJUc9CadES9dK77ht3mo+2
-         kRRhL4mXTntlsfT/pAjoNh+rFTDI/fSd3Rj75baDMHRwFkO96N/dyvxdVQOATHKQ9hj6
-         THl5CyGH9W/kTSB0y0FAnqJhL3eOXnwC2pnDpnVm9MrqYkLQZjF5Y5CFol5LOWtxPJZj
-         68fobrygqgOfa8416xHP6uXiA9iuQuGGKhnoJuKsE4M31bo6hlQ3WcwyA/tfLzwTi+wN
-         KZbg==
+        b=TukILDnw07BYKyyjT0DefjYkDwNjJoL4CuL6oXZK44WUWkVjO3cXRt9inHhgBROnHL
+         2WMhl/kZ7+Uo4Y5MJtxzvkLLBDHTu+Ci4gyeWoXFEHJc9blLAPWj58ck4JKyUv5Yb9BE
+         Fl4Gfg6sdVXAJzzxuICoO9mtxsiYBeN0jl8mXfGOzp4BCRi0kHYcbW6OEhcUNPkKAz0V
+         by0g9qio4sTDnCXR+p0fCRDtBwMuOuxp/1wO0+iDeuP/oUGB4uqxpJIy1uTzY2y7Yr5A
+         LPKIxFuUs6E6H/jyN0bhkizXmOiDXlt8yHUyETgLkwcMjo2JFBitclmTn39+caWpoAhA
+         ucFw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=+Hjxuos0+3wfRAWwVTKJj7erGVmYziP4z9KE11CTVcQ=;
-        b=PJb77AqN5GiII7NnfvVJa7US8RfF4QJBu7q3Rhz51/VTAK2I5hFVklbgIAe25Jqkid
-         w61lz5zQVhQkarS17OdkfE55Vs1qICQ+0lNugXNwDvEDvsgvOhOEYnOyl0gkwe+nfPZH
-         9S4fC6hcS4RMNpa1qtQuEBogmcR9BAhJaC/4yC0en2yOTwd4He3Hnrw+QOky9hgi5484
-         x0oJ/6hk5sc9VPMhH3aFtCnWzotwBms2OV1lP51TFaOLLzNJcv70sIGCcnG5XKSbHq83
-         +uMrcgGWMGJE47AW4aPLN7Jln8cMDE5Fro2qCuGPuI8wV76C+CIbjpZxfLrc7WWd+zbq
-         u1oQ==
+         :list-id:mailing-list:precedence:mime-version:auto-submitted
+         :references:in-reply-to:message-id:date:subject:to:from:sender
+         :dkim-signature;
+        bh=N6K1HHXlqmG2qMUA6ESdMI9nLD2eSYwTwsNaDJSrm4w=;
+        b=Bss79zZqqjExiE2wrR2eeUGIl2AyGd+NUnErPW0YdzYACNE7HGaR4ZWbzL8zJH9RaX
+         F1jRF2PUw+ouDCtL+/ukMPWGg/w9kXlRzbvULots/EwJjh9yTfFf6jL6BF5Iok7UjDoD
+         0E0eEYQpY4YBl7Lf9rRI/STRPuUHWHmKqnMwXknyEhkAMnt+h5IZ8K6Ktl+y7L2Qe/Vs
+         S0vzt8nV8yukSpKu8DSdKZWz0+6xtJrCXakfgF+Bh4XIEcNe5TE0TcrwC2NlLWx0SB87
+         YxaxysNO/AheGbAiVgKJSVMRp29/vu1WrX+o/2bmRWeA5GtjDf/RPxk7B1YwUB+/JSFO
+         U05g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=lbCmyLed;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b35 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="i/g4xIES";
+       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:auto-submitted:references
+         :in-reply-to:message-id:date:subject:to:from:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+Hjxuos0+3wfRAWwVTKJj7erGVmYziP4z9KE11CTVcQ=;
-        b=T068gCja0+piU53GYD1Cy7QIWVfNu6FM9ZfHUDkI0nhsDfjraFrPxpDIwif2SURJm+
-         Ssyg7vUAgSw1v7zIhWmitsypUe1TTXlLaFfYTnQmDkHZjpaOIJrhf18e78Vgek9qUXh+
-         EOt5Q17rHFwmCA7R8FF85G7y3z1vZ8jWYeNktoZChTKwDBYhu2l3fxL00PADMc0NVPEs
-         rVWeQXs6WgF68uUv+WaXfQePCwH2jLQFfIB5mY9ytLIHAkxKs4bWGh9x91rEhGojBomj
-         GkjJ7Yl8SYlE9oJT06UmF3c5/x8vvt3JHWtmW65YrdYDXmDpUgYGJB1ev96nApBf6SBD
-         O6bg==
+        bh=N6K1HHXlqmG2qMUA6ESdMI9nLD2eSYwTwsNaDJSrm4w=;
+        b=E95ef7qKO6I/8/dWdiy6tnn2YU0RcGla1ABMwp2braOTvIUOLV6HNK7uxR+3b0Jlng
+         bx/4M1MmNuOy+i0veqrFcnzT25+4QRGSF0jtGGMjULlX7fTJfrlx0qQMfRrmQjOHbD8j
+         E8XnLwA9UzYHzsef6lS2Wzt1xuHUgFRh3JHGr3p5Md9hbkXHgGQ5MHuo0iC0ATNBTAPl
+         7SrsQw8fqmTLYnevYtCV/ZS+OvJa0S/syNWZdms2rPo+8vvsTlM3Cy7vTy0ZA/HBPSiz
+         czP3azGFhzAkwWlixbkxgw5GEEVUaIDMbEIXmwTdBdlmw6Co+IHZrR0ycfMgm3dDsQbw
+         XYnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+Hjxuos0+3wfRAWwVTKJj7erGVmYziP4z9KE11CTVcQ=;
-        b=1oSHWs8y2Iqg7+bOOGL/rwsrnXVOYbsxAHF5H5QTErU4VZSxtDRhyzD2aYCL3bC/x4
-         6ofWJIP3AHdfM+tBjfo0qZSaXSp5ngtiFkewkNzu6A6R/cnZIDg17xiUrfIqgiEDBOTL
-         ti3i8zf4bIEG7JNZc5flhaoIs1M8ScOFdJ1UzmdIol0l9vFSFAGnPa4RDhNrW5UuKJVu
-         p5AuE+oSHewR/PaXe+Y3QRqHpSti7h3Q+NsZiPkw+oNwjXRnnqpJdlp1Vug8uPFwkhjY
-         z7g8ReeAD+ENHv1qOjvJyBIRQ/qqQp6wv+CgG0XAzqvfrrpnrZr5GIv2hirypnqO+I3H
-         ql3w==
-X-Gm-Message-State: AFqh2kp1562bpndvvg4ebvBcDJ6/UMCJAwEpWznUR/yVV+pYmFYRmOKk
-	uASEexDV3qGB6g59BycVd9s=
-X-Google-Smtp-Source: AMrXdXsOcM8bMU3ZU9ssHwA5CEB1Kat5B8ugZ4KYlGwsppDIJLyaZqHQBjzUZDUHbqN6yD1kiXhCOw==
-X-Received: by 2002:a17:902:e382:b0:192:8426:2142 with SMTP id g2-20020a170902e38200b0019284262142mr2315255ple.10.1673340788215;
-        Tue, 10 Jan 2023 00:53:08 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :auto-submitted:references:in-reply-to:message-id:date:subject:to
+         :from:x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N6K1HHXlqmG2qMUA6ESdMI9nLD2eSYwTwsNaDJSrm4w=;
+        b=iBHo2d0XfnGuMN/5BpQoiPTAXO04LYNduFYbB9V+phytoDtW0zP7dFMkI3hxvAZu+0
+         HjaN0vSxkDJPCwYGnrS4PcoJwjB8+cIdIaBzRR4txZMElzfeBxaSVanfgrAFWxHl+BUN
+         EBgICT2FKrtEyOpzdTKCjfL9jSxts3cmx9M6V0m9Q53BcqKeLq/5+Abc76H3VOPri6bX
+         AtBHs6K8JUahVAGvqWNoxb/c+l8tbSQ8t7oTcw2TA7GWbCemoTavZtTmOsdH+FUDu59g
+         8HSfdqT70I4uP+Qh9dda/tFNB0Aql72+nZD5eNBJDve1yxDGsLXe5YhQ5JKO7t9/Xy4L
+         0avQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AFqh2kqAcTTZ95qQYcdr0E9Cg1JcLtkDz4l/zusby1btSbjPBlOF+vHd
+	5sSzlODaQs6RqY8HnHgIYFA=
+X-Google-Smtp-Source: AMrXdXs6Wnoqbb/Fyk8gqVVALAfEPDzH1WFAkU7tYyilab45+gftoXbfRHWPsvb+aIsk60AzP3Ohmg==
+X-Received: by 2002:a2e:a90d:0:b0:281:1110:9b69 with SMTP id j13-20020a2ea90d000000b0028111109b69mr1292145ljq.329.1673340771808;
+        Tue, 10 Jan 2023 00:52:51 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:b82:b0:580:9ccc:dbac with SMTP id
- g2-20020a056a000b8200b005809cccdbacls1731599pfj.11.-pod-prod-gmail; Tue, 10
- Jan 2023 00:53:07 -0800 (PST)
-X-Received: by 2002:aa7:8a42:0:b0:582:34f2:20f1 with SMTP id n2-20020aa78a42000000b0058234f220f1mr34219456pfa.11.1673340787426;
-        Tue, 10 Jan 2023 00:53:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673340787; cv=none;
+Received: by 2002:ac2:58f3:0:b0:49a:b814:856d with SMTP id v19-20020ac258f3000000b0049ab814856dls2593754lfo.1.-pod-prod-gmail;
+ Tue, 10 Jan 2023 00:52:50 -0800 (PST)
+X-Received: by 2002:a05:6512:6d0:b0:4b5:d:efb2 with SMTP id u16-20020a05651206d000b004b5000defb2mr21272761lff.14.1673340770908;
+        Tue, 10 Jan 2023 00:52:50 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673340770; cv=none;
         d=google.com; s=arc-20160816;
-        b=0Qsyk/uSWN9Z6B/HKLQTj+7/g8keB6Iu1EJVQKVkjlGIGc+2QCi9LAPF1zK5DAMuiJ
-         xek/LfgLQNYQjzBy+Nli9sGIUE6jodLdLV5I9SpFXsda13nqxIzU2rfXfGXt4VvAzZmK
-         QUiiR0ppT20eNCh4ncyoTPM+0Bxa8sERbJh6Lq++4A2gveZy+2yPm9B5e0i//lqUKDYT
-         itW140grFkpRGCLPaZfhBF85cjeWULhm6myC5YUGIq0+DblgIBQq5F5iTndJXL0ORclR
-         fxkb5ff4B+WLSpZxm4keUfef4C1dD/7hAqv7NGunSaSGL4UmDtiQpAQzBiPcDOOyhdCi
-         FZhA==
+        b=dUBooKaI+xCwlh+SvcfxX1EnbAFPKTCyAND6qV2DEdG0Mry3HxYV1s2CfKqB++qAqy
+         phXYUWeDkZrB53hDT5yH+vy/vSr7Vt6Zk5pjuQp7brxPIV+EvEd7Qk6OGzxNby2d/92P
+         Mbn2Ry3a+YN7vijkMtLgc661q9m2XEDaG6A2Y9+xgV/5WrirKAMJ2ErbAynLnyArqRr+
+         a35VwV1hwYvlzeuAoAojGG3LN5HLrcQW5QNuK6DgWfcddS8JwT9VOFJjL4xENHAlyOfl
+         62jJCL2o9ja+Smacw3GFjnbR8qHnEVIiykX017//ap1Jhal6IAlaVYRbSTuwv0FLCoVO
+         QF0Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=19QYjJTilGk/RhxRe6+HhMCtJmIsJ5ED63/iAKX6oJs=;
-        b=LIghMpg3Do1/ETAV2twBHrywmIENlW5HFzeve4gYME/3v4b8kStCMtHHbrUKni+2Jh
-         ks2jXELVLN4uok60CKknZ+g0MkDSSeZWMXIm4ZjEMSZkk9O9hLiKdNvVlpg6Q2Dwd0Nn
-         UuewteT/1L0eA2pkmIWbHJ8nJXzEukXQ/bzN31x/CV7FQ406JbbVtjcBbnlEvOh6WTjG
-         0BkH7d0JlWccaSaTI+dcTnOE20ZSoh+JkajK3eykuDwHRR4PctexDEnyN7/B+YgfTz70
-         UV3rZUTrEkYB1ATqCzUbBs/8rq9F6Q+46MiGtmGAS8PHVDpYNdPOJR61CzkydufsXS3H
-         /uFA==
+        h=mime-version:auto-submitted:content-transfer-encoding:references
+         :in-reply-to:message-id:date:subject:to:from:dkim-signature;
+        bh=kIxMVpfihlYKrrpPUPAY+M4skedJorgKZY8jaFdTzr0=;
+        b=s0/IaJ3YKWkD5RBbH2RPPFrK/HChC/uVZj7lRM0g6QDjp+fTyQUpXJkM246scdd7Ju
+         GTR3D1DJvAJVFthd6ZnpdsJZgfaCGUpnIraGSoojLmLs7e+rdnCv1rG+oIh+0dt+8hR9
+         chdpGvHTQFBQx2c9dDZTFnR9Haoyh09umwnCo7cpCw48Dh26IxZff9H76v+E9jQ3avG0
+         HEBEfv1kcsAkldI4nRxozp9l5yIVeHY0LxEsmTnsS0hwTyMI8PyZ6HZb+2UuJKUUtzuc
+         zmnXBk3KaQnwNER+oZu5+bl5imrTS1VRQuOi+s40iGv2sjyfWh/E7v/sAQmZSQ8igyWb
+         h6Fw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=lbCmyLed;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b35 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com. [2607:f8b0:4864:20::b35])
-        by gmr-mx.google.com with ESMTPS id h123-20020a625381000000b0056ca3420e5dsi910623pfb.6.2023.01.10.00.53.07
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="i/g4xIES";
+       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
+        by gmr-mx.google.com with ESMTPS id c5-20020a056512324500b004b069b33a43si446440lfr.3.2023.01.10.00.52.50
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Jan 2023 00:53:07 -0800 (PST)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b35 as permitted sender) client-ip=2607:f8b0:4864:20::b35;
-Received: by mail-yb1-xb35.google.com with SMTP id l139so11065113ybl.12
-        for <kasan-dev@googlegroups.com>; Tue, 10 Jan 2023 00:53:07 -0800 (PST)
-X-Received: by 2002:a5b:b47:0:b0:6fe:1625:f1f5 with SMTP id
- b7-20020a5b0b47000000b006fe1625f1f5mr6647952ybr.549.1673340786873; Tue, 10
- Jan 2023 00:53:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20220701142310.2188015-1-glider@google.com> <20220701142310.2188015-11-glider@google.com>
- <CANpmjNOYqXSw5+Sxt0+=oOUQ1iQKVtEYHv20=sh_9nywxXUyWw@mail.gmail.com>
- <CAG_fn=W2EUjS8AX1Odunq1==dV178s_-w3hQpyrFBr=Auo-Q-A@mail.gmail.com>
- <63b74a6e6a909_c81f0294a5@dwillia2-xfh.jf.intel.com.notmuch>
- <CAG_fn=WjrzaHLfgw7ByFvguHA8z0MA-ZB3Kd0d6CYwmZWVEgjA@mail.gmail.com>
- <63bc8fec4744a_5178e29467@dwillia2-xfh.jf.intel.com.notmuch>
- <Y7z99mf1M5edxV4A@kroah.com> <63bd0be8945a0_5178e29414@dwillia2-xfh.jf.intel.com.notmuch>
- <CAG_fn=X9jBwAvz9gph-02WcLhv3MQkBpvkZAsZRMwEYyT8zVeQ@mail.gmail.com>
-In-Reply-To: <CAG_fn=X9jBwAvz9gph-02WcLhv3MQkBpvkZAsZRMwEYyT8zVeQ@mail.gmail.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 10 Jan 2023 09:52:30 +0100
-Message-ID: <CAG_fn=W4mX1WN0_24wpeNWynEUkApO2QzwavKqer3F3wttOndg@mail.gmail.com>
-Subject: Re: [PATCH v4 10/45] libnvdimm/pfn_dev: increase MAX_STRUCT_PAGE_SIZE
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Marco Elver <elver@google.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Alexei Starovoitov <ast@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@google.com>, 
-	Andy Lutomirski <luto@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Borislav Petkov <bp@alien8.de>, 
-	Christoph Hellwig <hch@lst.de>, Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Eric Dumazet <edumazet@google.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Ilya Leoshkevich <iii@linux.ibm.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jens Axboe <axboe@kernel.dk>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
-	Kees Cook <keescook@chromium.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Matthew Wilcox <willy@infradead.org>, "Michael S. Tsirkin" <mst@redhat.com>, Pekka Enberg <penberg@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Vegard Nossum <vegard.nossum@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Linux Memory Management List <linux-mm@kvack.org>, Linux-Arch <linux-arch@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 10 Jan 2023 00:52:50 -0800 (PST)
+Received-SPF: pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 3BDD8B8117E
+	for <kasan-dev@googlegroups.com>; Tue, 10 Jan 2023 08:52:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5FBB1C43392
+	for <kasan-dev@googlegroups.com>; Tue, 10 Jan 2023 08:52:49 +0000 (UTC)
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 5003DC43143; Tue, 10 Jan 2023 08:52:49 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: kasan-dev@googlegroups.com
+Subject: [Bug 216905] Kernel won't compile with KASAN
+Date: Tue, 10 Jan 2023 08:52:49 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Memory Management
+X-Bugzilla-Component: Sanitizers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: dvyukov@google.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-216905-199747-XQ9e7Didtm@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-216905-199747@https.bugzilla.kernel.org/>
+References: <bug-216905-199747@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: glider@google.com
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
+X-Original-Sender: bugzilla-daemon@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=lbCmyLed;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::b35 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b="i/g4xIES";       spf=pass
+ (google.com: domain of bugzilla-daemon@kernel.org designates
+ 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -153,99 +151,28 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-> > >
-> > > >
-> > > > -- >8 --
-> > > > >From 693563817dea3fd8f293f9b69ec78066ab1d96d2 Mon Sep 17 00:00:00 2001
-> > > > From: Dan Williams <dan.j.williams@intel.com>
-> > > > Date: Thu, 5 Jan 2023 13:27:34 -0800
-> > > > Subject: [PATCH] nvdimm: Support sizeof(struct page) > MAX_STRUCT_PAGE_SIZE
-> > > >
-> > > > Commit 6e9f05dc66f9 ("libnvdimm/pfn_dev: increase MAX_STRUCT_PAGE_SIZE")
-> > > >
-> > > > ...updated MAX_STRUCT_PAGE_SIZE to account for sizeof(struct page)
-> > > > potentially doubling in the case of CONFIG_KMSAN=y. Unfortunately this
-> > > > doubles the amount of capacity stolen from user addressable capacity for
-> > > > everyone, regardless of whether they are using the debug option. Revert
-> > > > that change, mandate that MAX_STRUCT_PAGE_SIZE never exceed 64, but
-> > > > allow for debug scenarios to proceed with creating debug sized page maps
-> > > > with a new 'libnvdimm.page_struct_override' module parameter.
-> > > >
-> > > > Note that this only applies to cases where the page map is permanent,
-> > > > i.e. stored in a reservation of the pmem itself ("--map=dev" in "ndctl
-> > > > create-namespace" terms). For the "--map=mem" case, since the allocation
-> > > > is ephemeral for the lifespan of the namespace, there are no explicit
-> > > > restriction. However, the implicit restriction, of having enough
-> > > > available "System RAM" to store the page map for the typically large
-> > > > pmem, still applies.
-> > > >
-> > > > Fixes: 6e9f05dc66f9 ("libnvdimm/pfn_dev: increase MAX_STRUCT_PAGE_SIZE")
-> > > > Cc: <stable@vger.kernel.org>
-> > > > Cc: Alexander Potapenko <glider@google.com>
-> > > > Cc: Marco Elver <elver@google.com>
-> > > > Reported-by: Jeff Moyer <jmoyer@redhat.com>
-> > > > ---
-> > > >  drivers/nvdimm/nd.h       |  2 +-
-> > > >  drivers/nvdimm/pfn_devs.c | 45 ++++++++++++++++++++++++++-------------
-> > > >  2 files changed, 31 insertions(+), 16 deletions(-)
-> > > >
-> > > > diff --git a/drivers/nvdimm/nd.h b/drivers/nvdimm/nd.h
-> > > > index 85ca5b4da3cf..ec5219680092 100644
-> > > > --- a/drivers/nvdimm/nd.h
-> > > > +++ b/drivers/nvdimm/nd.h
-> > > > @@ -652,7 +652,7 @@ void devm_namespace_disable(struct device *dev,
-> > > >             struct nd_namespace_common *ndns);
-> > > >  #if IS_ENABLED(CONFIG_ND_CLAIM)
-> > > >  /* max struct page size independent of kernel config */
-> > > > -#define MAX_STRUCT_PAGE_SIZE 128
-> > > > +#define MAX_STRUCT_PAGE_SIZE 64
-> > > >  int nvdimm_setup_pfn(struct nd_pfn *nd_pfn, struct dev_pagemap *pgmap);
-> > > >  #else
-> > > >  static inline int nvdimm_setup_pfn(struct nd_pfn *nd_pfn,
-> > > > diff --git a/drivers/nvdimm/pfn_devs.c b/drivers/nvdimm/pfn_devs.c
-> > > > index 61af072ac98f..978d63559c0e 100644
-> > > > --- a/drivers/nvdimm/pfn_devs.c
-> > > > +++ b/drivers/nvdimm/pfn_devs.c
-> > > > @@ -13,6 +13,11 @@
-> > > >  #include "pfn.h"
-> > > >  #include "nd.h"
-> > > >
-> > > > +static bool page_struct_override;
-> > > > +module_param(page_struct_override, bool, 0644);
-> > > > +MODULE_PARM_DESC(page_struct_override,
-> > > > +            "Force namespace creation in the presence of mm-debug.");
-> > >
-> > > I can't figure out from this description what this is for so perhaps it
-> > > should be either removed and made dynamic (if you know you want to debug
-> > > the mm core, why not turn it on then?) or made more obvious what is
-> > > happening?
-> >
-> > I'll kill it and update the KMSAN Documentation that KMSAN has
-> > interactions with the NVDIMM subsystem that may cause some namespaces to
-> > fail to enable. That Documentation needs to be a part of this patch
-> > regardless as that would be the default behavior of this module
-> > parameter.
-> >
-> > Unfortunately, it can not be dynamically enabled because the size of
-> > 'struct page' is unfortunately recorded in the metadata of the device.
-> > Recall this is for supporting platform configurations where the capacity
-> > of the persistent memory exceeds or consumes too much of System RAM.
-> > Consider 4TB of PMEM consumes 64GB of space just for 'struct page'. So,
-> > NVDIMM subsystem has a mode to store that page array in a reservation on
-> > the PMEM device itself.
->
-> Sorry, I might be missing something, but why cannot we have
->
-> #ifdef CONFIG_KMSAN
-> #define MAX_STRUCT_PAGE_SIZE 128
-By the way, KMSAN only adds 16 bytes to struct page - would it help to
-reduce MAX_STRUCT_PAGE_SIZE to 80 bytes?
-> #else
-> #define MAX_STRUCT_PAGE_SIZE 64
-> #endif
->
+https://bugzilla.kernel.org/show_bug.cgi?id=216905
+
+--- Comment #5 from Dmitry Vyukov (dvyukov@google.com) ---
+Maybe we should add noinline_for_stack to ecc_point_double_jacobian() function
+declaration:
+https://elixir.bootlin.com/linux/v6.2-rc3/source/include/linux/compiler_types.h#L192
+
+it's called from ecc_point_mult_shamir():
+https://elixir.bootlin.com/linux/v6.2-rc3/source/crypto/ecc.c#L1396
+
+Though I am not sure about performance impact in non-KASAN build.
+
+Meanwhile you may try gcc 10.2. syzbot uses it with KASAN and builds seem to be
+fine.
+
+-- 
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are on the CC list for the bug.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG_fn%3DW4mX1WN0_24wpeNWynEUkApO2QzwavKqer3F3wttOndg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-216905-199747-XQ9e7Didtm%40https.bugzilla.kernel.org/.
