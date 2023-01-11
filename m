@@ -1,136 +1,141 @@
-Return-Path: <kasan-dev+bncBCOJLJOJ7AARBUEO7SOQMGQE3IV3K5Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCV7JPVCWIDRB3GC7SOQMGQEETME36Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FE5F666334
-	for <lists+kasan-dev@lfdr.de>; Wed, 11 Jan 2023 20:00:33 +0100 (CET)
-Received: by mail-wm1-x33c.google.com with SMTP id c66-20020a1c3545000000b003d355c13229sf11147838wma.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 11 Jan 2023 11:00:33 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673463633; cv=pass;
+Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5C966650E
+	for <lists+kasan-dev@lfdr.de>; Wed, 11 Jan 2023 21:51:57 +0100 (CET)
+Received: by mail-wm1-x339.google.com with SMTP id v23-20020a05600c215700b003d9e9974a05sf5959348wml.8
+        for <lists+kasan-dev@lfdr.de>; Wed, 11 Jan 2023 12:51:57 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673470317; cv=pass;
         d=google.com; s=arc-20160816;
-        b=v7M0KroS7uBnLcYLWfKyBlqcm2Rula46G0CFxSCAw6kJOSK3bo4ornYusW1TLoR364
-         OymgLGiHGRXvM4WhfUknWTGMbiCRcEJ/yyyxomP9gMTzDbZlu/cQexNaiFfz/txmilel
-         BR/jP9D4fPuRqQZDXu9+wTioOC3+9Xix9UUlkC2Sos+ytm6QNxbVhr7RxYDN4Rmg7Rme
-         oHuxiz1bmAJp3V1WFUSCPiubH1qtCW+if/U1XuIAATC0cytWijiDWQO8f6ds3/wGJDl1
-         zCK4Cei/Hldvt6icJVMM5ZhvIoOX/PLX9QEVuGkOLPS2j+q4NkhMle0wBlnjhycstbJ+
-         jFsw==
+        b=t+r73lXYWo9uxuP/okxIQIqs9wqZ/N0xrZDAh9f3wZApiGXNtUVX3HRUdu0+6dWejq
+         Fhv/zOHaBWmkeAj9tv6rk2FE+z+nnJJg97jmQfvYWzAx8aOQ6rK5j3rPfMt4LYrZxGd6
+         Vl/LoJ7/zTZpx72Vi/P9wSnpFmCSCIQIDYNPd1oH/5GWZbmb6VcR76y4ddLsClOXYNS8
+         s9dhrvhVmOfaem0lAifECLCUoioQ1McYLGhlEHC1lja4pk8HdSngHGSQCxKWp98hMYwe
+         orfKA9ltyKrtJEG49wl+xiTqSfRc84phKCl1Qn/dJRlqmBBwHjtsZFFh8NS4oGllMA8E
+         xtsQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=hWEhXWi+32aoS0bHVpPp4aj8qQTDeDL3kg8b8bM344Y=;
-        b=g57BrreFjZe8m1e7Y1mIpoLNzm5SO0JZ/Iu5RAja84upgp+pRV2o1c3UER2V2qXM77
-         4RcnJsSXf0Hzc2Uq6Lfws8VrmzD07uDVk1vJJZhkc0BvA0vKHgSpuA377rRzYFPN/jiT
-         1D7EdOaZq2lYEsMOoteppQIkrWp3gPDXmNTWJkT0+jdH/nttGM1kjy8PBUwiXWDe9IlE
-         B4JmKrVhdUeJNribX7VNPZO+zKeN9DPjHt4uIC/JFyDzPR/9nUhLJjzP5Jqc2z29QKmZ
-         5HYaXgPKuvFPZgpomQiX4m62FrO2OTU9Snb1ijosQv0/x1XGQYV0vH2PGxyP0sTND2Xs
-         em7g==
+         :list-id:mailing-list:precedence:to:references:message-id:cc:date
+         :in-reply-to:from:subject:mime-version:sender:dkim-signature;
+        bh=1PS4Fur4L8XKhdaNHeOWJs9Z+3ZkXNRpet8gpOCmrkQ=;
+        b=zLeWDnsqVh6OTsOJWP3LEFXbd5SHODq0BTgfGRdalT3aLe+hZS01oG6eWzZnyj80Uj
+         uqOPiJ5UEW/Y8G4MUWdOczlnwUzOUmbSYdz9QKlRfdbOE7lEFt+iLDXkmtRk126N3feH
+         bcCeL/vhJdGK+vQUAhCVLzJJQk0znHWkA+LdlBF5heYmjt7hukcdeqYw8dUKQLi/XKrJ
+         fb9suvThWIKwGDmba3xkMuY0eMgtCoMTgxx5Tdvn84bALE1UxdP18Bn1tyaDJ4Mdm1qi
+         4kNehZaCFlHGOMzjBtuW4iiqdR2ejSQvU+LaPuIE3RE2tJRiyhfQTcLueTjO+pDy+Zz+
+         bdDA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ventanamicro.com header.s=google header.b=Xy8x8icI;
-       spf=pass (google.com: domain of ajones@ventanamicro.com designates 2a00:1450:4864:20::336 as permitted sender) smtp.mailfrom=ajones@ventanamicro.com
+       dkim=pass header.i=@jrtc27.com header.s=gmail.jrtc27.user header.b=XS3UABdq;
+       spf=pass (google.com: domain of jrtc27@jrtc27.com designates 2a00:1450:4864:20::432 as permitted sender) smtp.mailfrom=jrtc27@jrtc27.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hWEhXWi+32aoS0bHVpPp4aj8qQTDeDL3kg8b8bM344Y=;
-        b=ShIkIqX0yUVOzi20jyD2pTIgiGygKnPsysgFIKgRUs5eJuNQWfP/4mhTQJkvMVTOEi
-         BtK2lq7wJFP1jM1mBAyLnoa16piTS+AE2rqFIah4jjMIhC9Dm1Ea2rfz4U10CqfucRFV
-         4upL1NiAbGxaz9FpOXeqTRhRzTib8x/gyQhCo1d9ogLmCwfKQbyAfVc7AvXcnYCC11zu
-         It7kBekRr6MV12aCUaXcoKwIcDmPSq+z6I8IKU+uLECAxA1NZBAsxyq81eD73L99LzGS
-         oiyeIIrhJXbzeR9Ew9eyX5JwrxlVMa69CdF24VwPkUVh8/6HyKanXcOrbzhbjR9Obh2u
-         yXOA==
+         :x-original-sender:to:references:message-id:cc:date:in-reply-to:from
+         :subject:mime-version:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1PS4Fur4L8XKhdaNHeOWJs9Z+3ZkXNRpet8gpOCmrkQ=;
+        b=V8erbq1x9lG7FWd9Mr94ImzNBP0m1yXcoM0+xZw/WlXDJRVwlkLjSvddVHLe+i/f6F
+         CSGUsX4U9taEInHN2Jj28kVdwxDbDam5122QsB2/Bmi29enHKH1hJY7G61ofCE8ds7Ym
+         Q+d7bxgT96bleFQLQ56VrYxuQNjva7qYhCIuHUr1I2bZINFNr2rWGckFeyEVu2Nx8Ty6
+         s2M4tLrHtqS4WdVrQvNqZOVT7eqYPZs2Z9XH0SbZRlOytaCeNRlqvQcs2dLV87nk2V78
+         3V25GYVwZtyfOATC3S4FoI5akpZ8FqolJ9nKNDdDh4ODYjFhLHFW7+YaPgO3s2aK5Dp4
+         jCsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hWEhXWi+32aoS0bHVpPp4aj8qQTDeDL3kg8b8bM344Y=;
-        b=A9cPfUYY5Z7Ru8Q5tQXPtNtIHkne2lMIzbdQck8XLkNvw3HfrcIALR98j2EH6qMlvl
-         3zqvU4bUfvRgatv4dYYEvzu1zH+Kb+o+5Z6fEnJVYGAUvJ3QjVbcSSzTDoDiumoPq61d
-         4BoR+8ytBIL31HZkGo9JogfjqHfI8E5XmiXQ+iFK6O3IGYYoI5GHe475GZY5vieAPkWf
-         xrEXumfGtwfr/QpVZ3rwcN2Eq6X2P/krcOY/a9RnnzCfy0+VT1fdPTMZLip2QalMGhds
-         db0p32B+nYwomjoTABxLN0lNtnFWHDVqQkBFUCthikJljjZZBnf9Mz/A0oyOjvkL2lQV
-         EMig==
+         :x-original-authentication-results:x-original-sender:to:references
+         :message-id:cc:date:in-reply-to:from:subject:mime-version
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1PS4Fur4L8XKhdaNHeOWJs9Z+3ZkXNRpet8gpOCmrkQ=;
+        b=WB1nI85A5/aFIbRDgSoPnaLgi7Ubuimt5udkrz8ehxs235g3Xkp66X6r3iBfntC/WH
+         jSBaKcsKDVknQlCokUDq3nJVHQrNK0KZWUdIdAKGimblU4RdHkAFna23MH7vhvoEA0cG
+         X9qORY7EMZh5nLD9Pof1zgHvknLUkINXtyvyR+zfdSsZp3bPYs1cdg1pQWqrU67fm4vh
+         AGW5vTsRpInd6hLLLIw2BzWFm/yqLRARXtD31R4aFLVFy0licSM3ksYXa+19E5tsbzmg
+         iBUr8F7FbeV1OabLqT6TF3ubLV88wzTGofiqJ8gNfDGDvZjIqlWODorzfLkez/wXRI5U
+         OFRg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kqQh3Q7wtAvU0y/Q0z1h0odBIiiH41b1V6754Pibq9OvC9UaNSu
-	RRW3JT76IhdtJBvSj0E53tc=
-X-Google-Smtp-Source: AMrXdXtyUFIRDljZsC85Na37z6sYi8I43XiYWClIkVfIiD+t1bJJyWRegj8sVIaO/PClEgb/6efaBw==
-X-Received: by 2002:a05:600c:1613:b0:3c6:c2ae:278b with SMTP id m19-20020a05600c161300b003c6c2ae278bmr4339488wmn.127.1673463632807;
-        Wed, 11 Jan 2023 11:00:32 -0800 (PST)
+X-Gm-Message-State: AFqh2kofnLjZrr3Iz0WTkUbJVY+zdIR/1dt76URFZZZfH/XsAMy4fIJ3
+	ey6P18qo0dOYY5M7mcW/kwM=
+X-Google-Smtp-Source: AMrXdXt1l6nIq8AsMJ3Rplfsuk24t46+ENxq8Jkpud7LAgOVe/gxgy4mudTDX0BqIOOy+HP/Z6vH6w==
+X-Received: by 2002:adf:ffc6:0:b0:2bb:ec9b:6f23 with SMTP id x6-20020adfffc6000000b002bbec9b6f23mr637229wrs.66.1673470316973;
+        Wed, 11 Jan 2023 12:51:56 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:59c9:0:b0:298:bd4a:4dd9 with SMTP id v9-20020a5d59c9000000b00298bd4a4dd9ls888157wry.1.-pod-prod-gmail;
- Wed, 11 Jan 2023 11:00:31 -0800 (PST)
-X-Received: by 2002:a5d:5405:0:b0:284:8a24:59e6 with SMTP id g5-20020a5d5405000000b002848a2459e6mr33724258wrv.3.1673463631720;
-        Wed, 11 Jan 2023 11:00:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673463631; cv=none;
+Received: by 2002:a1c:541e:0:b0:3d9:de91:ba54 with SMTP id i30-20020a1c541e000000b003d9de91ba54ls415470wmb.0.-pod-preprod-gmail;
+ Wed, 11 Jan 2023 12:51:56 -0800 (PST)
+X-Received: by 2002:a05:600c:34d0:b0:3d6:b691:b80d with SMTP id d16-20020a05600c34d000b003d6b691b80dmr52740430wmq.21.1673470316066;
+        Wed, 11 Jan 2023 12:51:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673470316; cv=none;
         d=google.com; s=arc-20160816;
-        b=I6kRN1nT82qxCwD16J33TW212p8kFo6hFcA6ibISBWZIbnKwAYQOSg7KPlmvjJ0Bl5
-         BT6q53YAWweQapHN//WtbiTEhVvOr86urG5UaZ5Q8j9EcygidO+q53PhaBkiUDF2kPFR
-         6KKTLmeSNvmg8KgipIXdMZ9kBVDbPFkHm1go/wdMaEzVf+cAIa17SEI80Lxf1PfHIotb
-         A8W/3TEzzT82TVYr3urZC6lqVEbMUR4XDYYIFqugR01/NTRHFywRj1/ziQO31/40PMbK
-         kHsP3YshwQcjHCXVXLnwsYW7NfhN6Yuu5OqanbP6lPLZ92MHu/iAuzVJE5B5WFobQ9Iy
-         17eA==
+        b=rwBaUphzys+8/lfVQixx8AXm/YJKDtlVJl73/2/If3ytARUDVTQCeOWlOy6CLUgmyE
+         0kTQ2qq1cpB0OdXfqw5ccMreP5rWoWKTGM9vjyCYGqCDhLmHvEWmyisIppu3OHEbmiwa
+         vbJ3JkTj4lchec+wyGKdmzGdjrl3Nu6/Z//1GL0WmKIssYYY06/tDJk28WaBFM2qQzO5
+         98bIfyrtDQY70Z9DneBZ6NCbuG11I+MrccpI1PL/hz7QmyKSbhcyxWVt+Gxnyl9tI21s
+         qOoB6zJCTCz8OC0KzI3d2Brjsglf9heSqHK18HYvObEVmMu1ipb9X0VACjw0AW8MV3WR
+         yBqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=AxzGT4R96/nRowldYLVDQHHEyiV31tMmTSZl+oggOxc=;
-        b=eQ9e/f8WXFzHmgW63LGrnFvl0uB6dVRPD8nsoYgi+zS2mMW7d9i5/6qM5iMkR/uqnv
-         Xlj0U/hY9pE0D0aa1snLsqngqhDdbF9S1JuqRyJ8LElSiPPww4I4OTfg34X78awy1eox
-         Q2PaHhlIauh6VKOOh9J3FGR9fd/4xZSbW4QLmIiJm9xDJKP6yZfy3X3JND4XYTVHMZG/
-         ebltYYrnCnAkHFgyx65IirP5+bf1p3duZrYuoSnKqclSTHODTtV61lPzQRPQpnG+DBuF
-         z3bjfZ9wx6xJ8Kv4QRHaupUzjWWPoZmnJ4l0fU3H5zA95t4aCLniuAHH0uQLS+lEyOjq
-         weGQ==
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:dkim-signature;
+        bh=zuw6px+NzHkBNfjG6tvmZnr4uMKhAycqN8SZaVocX44=;
+        b=eBYTE47yYoNEQqfqRTfKWi5/8A5/i+bVkiarifsOYFly1DYd1X1LLlsJJeogYGv9I/
+         wpI+KP1DUttLtLuNDjSxPgpFgkJ7kYspbJhXtAje6zqB58tVnPRWuDIwOwdHZX2TaVX0
+         zngh/HmaK57zWsNvGz5FObmunO9TpnGmDpDfweVjyM17YHnv0dsgVXerpb3/0PsVv5RI
+         mHDGoZrmcbrKxpET7clQ0c3BDLG2apj3EObfHHM/JVmt/FosaojPbPhXvABuA7DtXJgp
+         KU2opMjaQ8aD+E0YVhyuG1In9eurgOVKSjDoF9kiZKjxZf+Cdq7NMIpiL1kl2u7GLIaY
+         7/3A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ventanamicro.com header.s=google header.b=Xy8x8icI;
-       spf=pass (google.com: domain of ajones@ventanamicro.com designates 2a00:1450:4864:20::336 as permitted sender) smtp.mailfrom=ajones@ventanamicro.com
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com. [2a00:1450:4864:20::336])
-        by gmr-mx.google.com with ESMTPS id ay5-20020a5d6f05000000b002b57bae7176si663764wrb.1.2023.01.11.11.00.31
+       dkim=pass header.i=@jrtc27.com header.s=gmail.jrtc27.user header.b=XS3UABdq;
+       spf=pass (google.com: domain of jrtc27@jrtc27.com designates 2a00:1450:4864:20::432 as permitted sender) smtp.mailfrom=jrtc27@jrtc27.com
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com. [2a00:1450:4864:20::432])
+        by gmr-mx.google.com with ESMTPS id i17-20020a05600c355100b003d9c716fa3csi268937wmq.1.2023.01.11.12.51.56
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Jan 2023 11:00:31 -0800 (PST)
-Received-SPF: pass (google.com: domain of ajones@ventanamicro.com designates 2a00:1450:4864:20::336 as permitted sender) client-ip=2a00:1450:4864:20::336;
-Received: by mail-wm1-x336.google.com with SMTP id bg13-20020a05600c3c8d00b003d9712b29d2so15093543wmb.2
-        for <kasan-dev@googlegroups.com>; Wed, 11 Jan 2023 11:00:31 -0800 (PST)
-X-Received: by 2002:a1c:6a16:0:b0:3c6:f732:bf6f with SMTP id f22-20020a1c6a16000000b003c6f732bf6fmr52927572wmc.13.1673463631368;
-        Wed, 11 Jan 2023 11:00:31 -0800 (PST)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
-        by smtp.gmail.com with ESMTPSA id 2-20020a05600c020200b003d9ef8ad6b2sm11136454wmi.13.2023.01.11.11.00.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jan 2023 11:00:31 -0800 (PST)
-Date: Wed, 11 Jan 2023 20:00:29 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu,
-	ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
-	dvyukov@google.com, vincenzo.frascino@arm.com,
-	alexandre.ghiti@canonical.com, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
+        Wed, 11 Jan 2023 12:51:56 -0800 (PST)
+Received-SPF: pass (google.com: domain of jrtc27@jrtc27.com designates 2a00:1450:4864:20::432 as permitted sender) client-ip=2a00:1450:4864:20::432;
+Received: by mail-wr1-x432.google.com with SMTP id h16so16252357wrz.12
+        for <kasan-dev@googlegroups.com>; Wed, 11 Jan 2023 12:51:55 -0800 (PST)
+X-Received: by 2002:a05:6000:85:b0:2bc:7fdd:9245 with SMTP id m5-20020a056000008500b002bc7fdd9245mr6925493wrx.5.1673470315585;
+        Wed, 11 Jan 2023 12:51:55 -0800 (PST)
+Received: from smtpclient.apple (global-5-143.n-2.net.cam.ac.uk. [131.111.5.143])
+        by smtp.gmail.com with ESMTPSA id u5-20020adfdb85000000b002ba2646fd30sm17254823wri.36.2023.01.11.12.51.54
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 11 Jan 2023 12:51:54 -0800 (PST)
+Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
 Subject: Re: [PATCH v6 RESEND 0/2] use static key to optimize
  pgtable_l4_enabled
-Message-ID: <20230111190029.ltynngqnqs42gatd@orel>
+From: Jessica Clarke <jrtc27@jrtc27.com>
+In-Reply-To: <20230111190029.ltynngqnqs42gatd@orel>
+Date: Wed, 11 Jan 2023 20:51:54 +0000
+Cc: Jisheng Zhang <jszhang@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Albert Ou <aou@eecs.berkeley.edu>,
+ ryabinin.a.a@gmail.com,
+ glider@google.com,
+ andreyknvl@gmail.com,
+ dvyukov@google.com,
+ vincenzo.frascino@arm.com,
+ Alexandre Ghiti <alexandre.ghiti@canonical.com>,
+ linux-riscv <linux-riscv@lists.infradead.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ kasan-dev@googlegroups.com
+Message-Id: <391AFCB9-D314-4243-9E35-6D95B81C9400@jrtc27.com>
 References: <20220821140918.3613-1-jszhang@kernel.org>
  <mhng-30c89107-c103-4363-b4af-7778d9512622@palmer-ri-x1c9>
- <Yz6T4EYKKns7OIVE@xhacker>
- <Y0GJDqLXFU81UdfW@xhacker>
- <Y5W0bv8Y/zCc+Fco@xhacker>
- <Y77xyNPNqnFQUqAx@xhacker>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <Y77xyNPNqnFQUqAx@xhacker>
-X-Original-Sender: ajones@ventanamicro.com
+ <Yz6T4EYKKns7OIVE@xhacker> <Y0GJDqLXFU81UdfW@xhacker>
+ <Y5W0bv8Y/zCc+Fco@xhacker> <Y77xyNPNqnFQUqAx@xhacker>
+ <20230111190029.ltynngqnqs42gatd@orel>
+To: Andrew Jones <ajones@ventanamicro.com>
+X-Mailer: Apple Mail (2.3696.120.41.1.1)
+X-Original-Sender: jrtc27@jrtc27.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ventanamicro.com header.s=google header.b=Xy8x8icI;       spf=pass
- (google.com: domain of ajones@ventanamicro.com designates 2a00:1450:4864:20::336
- as permitted sender) smtp.mailfrom=ajones@ventanamicro.com
+ header.i=@jrtc27.com header.s=gmail.jrtc27.user header.b=XS3UABdq;
+       spf=pass (google.com: domain of jrtc27@jrtc27.com designates
+ 2a00:1450:4864:20::432 as permitted sender) smtp.mailfrom=jrtc27@jrtc27.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,127 +148,141 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jan 12, 2023 at 01:28:40AM +0800, Jisheng Zhang wrote:
-> On Sun, Dec 11, 2022 at 06:44:04PM +0800, Jisheng Zhang wrote:
-> > On Sat, Oct 08, 2022 at 10:28:35PM +0800, Jisheng Zhang wrote:
-> > > On Thu, Oct 06, 2022 at 04:37:57PM +0800, Jisheng Zhang wrote:
-> > > > On Wed, Oct 05, 2022 at 06:05:28PM -0700, Palmer Dabbelt wrote:
-> > > > > On Sun, 21 Aug 2022 07:09:16 PDT (-0700), jszhang@kernel.org wrote:
-> > > > > > The pgtable_l4|[l5]_enabled check sits at hot code path, performance
-> > > > > > is impacted a lot. Since pgtable_l4|[l5]_enabled isn't changed after
-> > > > > > boot, so static key can be used to solve the performance issue[1].
-> > > > > > 
-> > > > > > An unified way static key was introduced in [2], but it only targets
-> > > > > > riscv isa extension. We dunno whether SV48 and SV57 will be considered
-> > > > > > as isa extension, so the unified solution isn't used for
-> > > > > > pgtable_l4[l5]_enabled now.
-> > > > > > 
-> > > > > > patch1 fixes a NULL pointer deference if static key is used a bit earlier.
-> > > > > > patch2 uses the static key to optimize pgtable_l4|[l5]_enabled.
-> > > > > > 
-> > > > > > [1] http://lists.infradead.org/pipermail/linux-riscv/2021-December/011164.html
-> > > > > > [2] https://lore.kernel.org/linux-riscv/20220517184453.3558-1-jszhang@kernel.org/T/#t
-> > > > > > 
-> > > > > > Since v5:
-> > > > > >  - Use DECLARE_STATIC_KEY_FALSE
-> > > > > > 
-> > > > > > Since v4:
-> > > > > >  - rebased on v5.19-rcN
-> > > > > >  - collect Reviewed-by tags
-> > > > > >  - Fix kernel panic issue if SPARSEMEM is enabled by moving the
-> > > > > >    riscv_finalise_pgtable_lx() after sparse_init()
-> > > > > > 
-> > > > > > Since v3:
-> > > > > >  - fix W=1 call to undeclared function 'static_branch_likely' error
-> > > > > > 
-> > > > > > Since v2:
-> > > > > >  - move the W=1 warning fix to a separate patch
-> > > > > >  - move the unified way to use static key to a new patch series.
-> > > > > > 
-> > > > > > Since v1:
-> > > > > >  - Add a W=1 warning fix
-> > > > > >  - Fix W=1 error
-> > > > > >  - Based on v5.18-rcN, since SV57 support is added, so convert
-> > > > > >    pgtable_l5_enabled as well.
-> > > > > > 
-> > > > > > 
-> > > > > > Jisheng Zhang (2):
-> > > > > >   riscv: move sbi_init() earlier before jump_label_init()
-> > > > > >   riscv: turn pgtable_l4|[l5]_enabled to static key for RV64
-> > > > > > 
-> > > > > >  arch/riscv/include/asm/pgalloc.h    | 16 ++++----
-> > > > > >  arch/riscv/include/asm/pgtable-32.h |  3 ++
-> > > > > >  arch/riscv/include/asm/pgtable-64.h | 60 ++++++++++++++++++---------
-> > > > > >  arch/riscv/include/asm/pgtable.h    |  5 +--
-> > > > > >  arch/riscv/kernel/cpu.c             |  4 +-
-> > > > > >  arch/riscv/kernel/setup.c           |  2 +-
-> > > > > >  arch/riscv/mm/init.c                | 64 ++++++++++++++++++-----------
-> > > > > >  arch/riscv/mm/kasan_init.c          | 16 ++++----
-> > > > > >  8 files changed, 104 insertions(+), 66 deletions(-)
-> > > > > 
-> > > > > Sorry for being slow here, but it looks like this still causes some early
-> > > > > boot hangs.  Specifically kasan+sparsemem is failing.  As you can probably
-> > > > > see from the latency I'm still a bit buried right now so I'm not sure when
-> > > > > I'll have a chance to take more of a look.
-> > > > 
-> > > > Hi Palmer,
-> > > > 
-> > > > Before V4, there is a bug which can cause kernel panic when SPARSEMEM
-> > > > is enabled, V4 have fixed it by moving the riscv_finalise_pgtable_lx()
-> > > > after sparse_init(). And I just tested the riscv-pgtable_static_key
-> > > > branch in your tree, enabling KASAN and SPARSEMEM, system booted fine.
-> > > > I'm not sure what happened. Could you please send me your kernel
-> > > > config file? I want to fix any issue which can block this series being
-> > > > merged in 6.1-rc1.
-> > > 
-> > > Hi Palmer,
-> > > 
-> > > I know you are busy ;) Do you have time to send me your test kernel
-> > > config file so that I can reproduce the "early boot hang"?
-> > > 
-> > > Thanks
-> > 
-> > Hi Palmer,
-> > 
-> > I think the early boot hangs maybe the same as the one which has been
-> > fixed by commit 9f2ac64d6ca6 ("riscv: mm: add missing memcpy in
-> > kasan_init"). Will you give this series another try for v6.2-rc1? If
-> > the boot hang can still be reproduced, could you please send me your
-> > .config file?
-> > 
-> > Thanks in advance
-> Hi all,
+On 11 Jan 2023, at 19:00, Andrew Jones <ajones@ventanamicro.com> wrote:
+> On Thu, Jan 12, 2023 at 01:28:40AM +0800, Jisheng Zhang wrote:
+>> On Sun, Dec 11, 2022 at 06:44:04PM +0800, Jisheng Zhang wrote:
+>>> On Sat, Oct 08, 2022 at 10:28:35PM +0800, Jisheng Zhang wrote:
+>>>> On Thu, Oct 06, 2022 at 04:37:57PM +0800, Jisheng Zhang wrote:
+>>>>> On Wed, Oct 05, 2022 at 06:05:28PM -0700, Palmer Dabbelt wrote:
+>>>>>> On Sun, 21 Aug 2022 07:09:16 PDT (-0700), jszhang@kernel.org wrote:
+>>>>>>> The pgtable_l4|[l5]_enabled check sits at hot code path, performance
+>>>>>>> is impacted a lot. Since pgtable_l4|[l5]_enabled isn't changed after
+>>>>>>> boot, so static key can be used to solve the performance issue[1].
+>>>>>>> 
+>>>>>>> An unified way static key was introduced in [2], but it only targets
+>>>>>>> riscv isa extension. We dunno whether SV48 and SV57 will be considered
+>>>>>>> as isa extension, so the unified solution isn't used for
+>>>>>>> pgtable_l4[l5]_enabled now.
+>>>>>>> 
+>>>>>>> patch1 fixes a NULL pointer deference if static key is used a bit earlier.
+>>>>>>> patch2 uses the static key to optimize pgtable_l4|[l5]_enabled.
+>>>>>>> 
+>>>>>>> [1] http://lists.infradead.org/pipermail/linux-riscv/2021-December/011164.html
+>>>>>>> [2] https://lore.kernel.org/linux-riscv/20220517184453.3558-1-jszhang@kernel.org/T/#t
+>>>>>>> 
+>>>>>>> Since v5:
+>>>>>>> - Use DECLARE_STATIC_KEY_FALSE
+>>>>>>> 
+>>>>>>> Since v4:
+>>>>>>> - rebased on v5.19-rcN
+>>>>>>> - collect Reviewed-by tags
+>>>>>>> - Fix kernel panic issue if SPARSEMEM is enabled by moving the
+>>>>>>>   riscv_finalise_pgtable_lx() after sparse_init()
+>>>>>>> 
+>>>>>>> Since v3:
+>>>>>>> - fix W=1 call to undeclared function 'static_branch_likely' error
+>>>>>>> 
+>>>>>>> Since v2:
+>>>>>>> - move the W=1 warning fix to a separate patch
+>>>>>>> - move the unified way to use static key to a new patch series.
+>>>>>>> 
+>>>>>>> Since v1:
+>>>>>>> - Add a W=1 warning fix
+>>>>>>> - Fix W=1 error
+>>>>>>> - Based on v5.18-rcN, since SV57 support is added, so convert
+>>>>>>>   pgtable_l5_enabled as well.
+>>>>>>> 
+>>>>>>> 
+>>>>>>> Jisheng Zhang (2):
+>>>>>>>  riscv: move sbi_init() earlier before jump_label_init()
+>>>>>>>  riscv: turn pgtable_l4|[l5]_enabled to static key for RV64
+>>>>>>> 
+>>>>>>> arch/riscv/include/asm/pgalloc.h    | 16 ++++----
+>>>>>>> arch/riscv/include/asm/pgtable-32.h |  3 ++
+>>>>>>> arch/riscv/include/asm/pgtable-64.h | 60 ++++++++++++++++++---------
+>>>>>>> arch/riscv/include/asm/pgtable.h    |  5 +--
+>>>>>>> arch/riscv/kernel/cpu.c             |  4 +-
+>>>>>>> arch/riscv/kernel/setup.c           |  2 +-
+>>>>>>> arch/riscv/mm/init.c                | 64 ++++++++++++++++++-----------
+>>>>>>> arch/riscv/mm/kasan_init.c          | 16 ++++----
+>>>>>>> 8 files changed, 104 insertions(+), 66 deletions(-)
+>>>>>> 
+>>>>>> Sorry for being slow here, but it looks like this still causes some early
+>>>>>> boot hangs.  Specifically kasan+sparsemem is failing.  As you can probably
+>>>>>> see from the latency I'm still a bit buried right now so I'm not sure when
+>>>>>> I'll have a chance to take more of a look.
+>>>>> 
+>>>>> Hi Palmer,
+>>>>> 
+>>>>> Before V4, there is a bug which can cause kernel panic when SPARSEMEM
+>>>>> is enabled, V4 have fixed it by moving the riscv_finalise_pgtable_lx()
+>>>>> after sparse_init(). And I just tested the riscv-pgtable_static_key
+>>>>> branch in your tree, enabling KASAN and SPARSEMEM, system booted fine.
+>>>>> I'm not sure what happened. Could you please send me your kernel
+>>>>> config file? I want to fix any issue which can block this series being
+>>>>> merged in 6.1-rc1.
+>>>> 
+>>>> Hi Palmer,
+>>>> 
+>>>> I know you are busy ;) Do you have time to send me your test kernel
+>>>> config file so that I can reproduce the "early boot hang"?
+>>>> 
+>>>> Thanks
+>>> 
+>>> Hi Palmer,
+>>> 
+>>> I think the early boot hangs maybe the same as the one which has been
+>>> fixed by commit 9f2ac64d6ca6 ("riscv: mm: add missing memcpy in
+>>> kasan_init"). Will you give this series another try for v6.2-rc1? If
+>>> the boot hang can still be reproduced, could you please send me your
+>>> .config file?
+>>> 
+>>> Thanks in advance
+>> Hi all,
+>> 
+>> Just request to comment what to do with this patch, I think there
+>> are two independent points to consult:
+>> 
+>> 1. IIRC, Palmer gave this patch two chances to merge in early versions
+>> but he found boot hangs if enable KASAN and SPARSEMEM, while I can't
+>> reproduce the boot hang. And I also expect the hang should be fixed by
+>> commit 9f2ac64d6ca6 ("riscv: mm: add missing memcpy in kasan_init")
+>> 
+>> 2. Now we know alternative is preferred than static branch for ISA
+>> extensions dynamic code patching. So we also need to switch static
+>> branch usage here to alternative mechanism, but the problem is
+>> SV48 and SV57 are not ISA extensions, so we can't directly make use
+>> of the recently introduced riscv_has_extension_likely|unlikely()[1] 
+>> which is based on alternative mechanism.
 > 
-> Just request to comment what to do with this patch, I think there
-> are two independent points to consult:
-> 
-> 1. IIRC, Palmer gave this patch two chances to merge in early versions
-> but he found boot hangs if enable KASAN and SPARSEMEM, while I can't
-> reproduce the boot hang. And I also expect the hang should be fixed by
-> commit 9f2ac64d6ca6 ("riscv: mm: add missing memcpy in kasan_init")
-> 
-> 2. Now we know alternative is preferred than static branch for ISA
-> extensions dynamic code patching. So we also need to switch static
-> branch usage here to alternative mechanism, but the problem is
-> SV48 and SV57 are not ISA extensions, so we can't directly make use
-> of the recently introduced riscv_has_extension_likely|unlikely()[1] 
-> which is based on alternative mechanism.
+> We could rename the "has_extension" framework to "has_cpufeature" and
+> then lump extensions and features such as sv48 and sv57 together. Or,
+> if it's best to keep extensions separate, then duplicate the framework
+> to create a "has_non_extension_feature" version where features like
+> sv48 and sv57 live.
 
-We could rename the "has_extension" framework to "has_cpufeature" and
-then lump extensions and features such as sv48 and sv57 together. Or,
-if it's best to keep extensions separate, then duplicate the framework
-to create a "has_non_extension_feature" version where features like
-sv48 and sv57 live.
+Sv39, Sv48 and Sv57 are extensions these days (see the draft profiles
+spec[1] and [2]).
 
-Thanks,
-drew
+Jess
 
+[1] https://github.com/riscv/riscv-profiles/blob/main/profiles.adoc#522-rva20s64-mandatory-extensions
+[2] https://wiki.riscv.org/display/HOME/Recently+Ratified+Extensions
+
+> Thanks,
+> drew
 > 
-> Any comments are appreciated.
-> 
-> Thanks in advance
-> 
-> [1] https://lore.kernel.org/linux-riscv/20230111171027.2392-1-jszhang@kernel.org/T/#t
+>> 
+>> Any comments are appreciated.
+>> 
+>> Thanks in advance
+>> 
+>> [1] https://lore.kernel.org/linux-riscv/20230111171027.2392-1-jszhang@kernel.org/T/#t
+>> 
+>> _______________________________________________
+>> linux-riscv mailing list
+>> linux-riscv@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-riscv
 > 
 > _______________________________________________
 > linux-riscv mailing list
@@ -273,4 +292,4 @@ drew
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230111190029.ltynngqnqs42gatd%40orel.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/391AFCB9-D314-4243-9E35-6D95B81C9400%40jrtc27.com.
