@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRB2WMQGPAMGQE5YWVWIY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRB3OMQGPAMGQEUOPKHTQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BEC667FF2
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:35 +0100 (CET)
-Received: by mail-lj1-x23b.google.com with SMTP id b23-20020a05651c033700b0028473c6cc7bsf4014915ljp.6
-        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:35 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673553515; cv=pass;
+Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F436668004
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:38 +0100 (CET)
+Received: by mail-lf1-x13a.google.com with SMTP id p13-20020a056512138d00b004cc82055b2fsf5320407lfa.20
+        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:38 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673553518; cv=pass;
         d=google.com; s=arc-20160816;
-        b=r8kqcfVP+7uxWZk5xj7c73ruyzuTZxiJq+42v94JslrCECBwBQk64J6IduiSFY4Ech
-         5sc04LdqiB8FloIlaEbDJdqOo3LF1MlErd6lkVpBnxxSypV4HpXtfwILHIOaWLDITdDZ
-         NwAtKAOUukEBERrlvTqqzDUeA0gEgk7CLAUCR0bs1SqsYm7BriuRQbNwHhvvlFIaMYue
-         gZ5EoaotZ6htvwBGq3q4ub/FG4P9C0bQX+eCHqImsJtOLYpTzTp5fvZIjr8DsEpoRnwr
-         7GTc7FUWYVWgie77Z2mh57kRCs2beG16I7KJsdpNEMr4F0qMInNSRkoNqHr28dhe8XMI
-         Cg4g==
+        b=ndc1amFwv5fOyrO5hbyCat5qSr3q4iWd1/VwXc1jfrY9t5vyePVtKi5WMnjiAZQ3nE
+         rjCiPR3gyU7G8YsWt9ihQkjYszH+lAQWTiEt/QEwX6OzvOmrWZK/sSqopKOB6rqf9JiU
+         33XbPz6xnqqPoAPSDRWHGOv+TaZenp8h1kEY086cgkMibzN+YRp8iQldj0G/G6LMhswZ
+         vIZZCy0OTgX92DCfE4zJWmHpyc+nKd1fDE6qTvzHORAOuFUKxCu/FUVl8OoiA8e7UR7B
+         cdSZz+sLESAGDXlkZKyhhPIsUGnJPphmHCvWNLqLVUiGVH+peflEMLZ7GE6Q1DgKKv/u
+         y0KQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:subject:cc
          :to:from:date:user-agent:message-id:sender:dkim-signature;
-        bh=Chd6/ZFriIoMytNExm1dT2G2F1ZvddOMysFyvg07BQ8=;
-        b=dHrK4vUmZrWG7dH8nXTAx/AGNzLP1NtcPCy+Ap3OI75P75ev5MMBpwXkuJD+GpzVK7
-         I9gPjJ/J/vww6t/2RGXrLNtAWBOMzqTupjUglyLE5POKkd4+nfn2HH1waP1YWFTbfWvA
-         NcDWKTDO+YS+HxVGeyNElxvYTuLhlgt69523Vc6DLhEqiSs62k0dCBob7rL4wX9dANvM
-         fEnxV/xbdRejqQ4auLjvQo8c6Zg91btXtMSH1gVHM6MkKQ4UgQPBf6e6YzYC7PQdxWMb
-         xRq5oMHFtppH5QjbDr/1ihKVhpG1d1/TU8rYgdjCx6/L7bPQZ3h4zRZXjaFdth00X7p5
-         PC6w==
+        bh=8Z1qefE1z4gV8EqkfbgN91zGD9Lh6gaXJjCKArwZh+g=;
+        b=NkgTm0j7wWccYGAbGJxVUUuM0LxVP6f8wp9DID8mgw8Wk2AkDDqzHlX8WkGxdnLOdW
+         jYVoTdwNL/o7AQTSw7gNNMeMuYGBeasJJKgibEfRjru6kamh4H2TWbb7bWC4HLsF6Cxi
+         auM0hYpslf8Z/58wCu4W8yt+K06E63/sOpZmpFvQ3Byc1l2TaZjDo+IUDf0qH7qwAyCJ
+         XXMW1CwwdIHKUUx1xDllHZ1qmpY9vSNTrWoY0T0k+Ml3jZDAI+YCyXEOeX7zjbcBMHLD
+         DXvOisNYdZN3PVQerfz8jWzCr/YYoYwoMf4/+7b1xghdgCVk4UcEf1TQlwBc5nQZGXRA
+         h1Dw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=tOV0YOj5;
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=UFhO8sQy;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:subject:cc:to:from:date
          :user-agent:message-id:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Chd6/ZFriIoMytNExm1dT2G2F1ZvddOMysFyvg07BQ8=;
-        b=b0LY6BIz0PBJejnK6F/0rJOQalmUpF4hJwQ5GlIt8jTUXyVVFdR/j1ik8O2rZQbjI3
-         dBueHARw20Xfk/+Vaf069zK43FjDDLid89ArXDIJV+evuAv3v8R036FMqxkqW671pdCt
-         ETaeVsYrNk/Nmq79RGc9pMAFj39yzpxI9+5ITw3Ws+z6qVM5Bs4S4onpD/Rw6iYJSrlE
-         zh2CFhGoZcFUn8dXb2LRhVPbbd7js0JtfTGf7vzJbfIVaa+6UgoIxaw0HUu5Kauw7yEx
-         0ZPhMXkPTAmnTXa8PqKBPnV66VN+l6KcdglK/46G4XAX5oZcz+B16IK7OFc3az6I0tbi
-         4G5g==
+        bh=8Z1qefE1z4gV8EqkfbgN91zGD9Lh6gaXJjCKArwZh+g=;
+        b=FrtJEi+v5t0knmqvInll9PWp6GdeirIWFgAZseOJcfUaYhynmEZhLjvSA1tM5WXqIL
+         MSvHs8+6Nnmx1hiSk/D7z2xY39/XKPzyPsnmuOYJ1NoBWT/tVf6yruX1SBbOaWEYogO1
+         TGo8pJ3Idq+Fd12gZC0JSj1x50oit+AeGXxoZy3k3UriPIp7hcRGC5sMVOV+SDtBbFKx
+         RHSxJv6khJzd3LxwixxuAN3B+W+z4VX6v96p9Obs37+ewRqBt5F2g+DM62vs02ZA2exc
+         5OeIM9tCisItwmcseuSr31SN0q99IGHOlqJL0+P6SmrAmli28YBshMXN+6i43/Y/gwKB
+         /U0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,66 +50,66 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:subject:cc:to:from:date:user-agent:message-id
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Chd6/ZFriIoMytNExm1dT2G2F1ZvddOMysFyvg07BQ8=;
-        b=SL86PvdBeLhsCus0d1YN+DNa73HiuG6PBPFqGJov6OQlYBg0EzXs6STkBr0nxPomyY
-         /P295TqHMvViIXC9K5HhV/BWSBPp/fN67NBaSkpNrHd5g7CUgJkPw68yYUK3UbsWyF11
-         3B32au4SNlGruxQ/7FKTruEtJdXvaKZmTBidRDJSXlqaya4WgxzY6JdHX6J12Vo1w8Aq
-         RE/6BhpReaNJShSm5cHVo6t8pBHc09GllVJlGu5V7Cad45encnpMQVG7OKDcArovwbZz
-         vI3SqkFmIWmTSkKTM00aaF5/ITVDcRIstBixikjGkxoHdACXLZJrbo6pk6z2DvxrkOSD
-         keuw==
+        bh=8Z1qefE1z4gV8EqkfbgN91zGD9Lh6gaXJjCKArwZh+g=;
+        b=DWIpfy0zEKYqYiTdylI5vjZtPq2gCgcWX9gqXN9Gu5ouFM7ix7+p+TJk/3ruAjxmBd
+         JZh9MPc4321DGXotkw0EByPqcmJUJLuNYMctQMAi3qgA8B4ztzLXkdbOk5IAU/zOvPI4
+         2p3zl6ZMur+PRYfz86NYKaWwVATNCil8drFNLhABalpxYgqEyZBKRIBuIVkY1CPpKlSv
+         6q6qCxQYkDZty6w5WpKTQGontYiovJdkwWftkm/LvvrzanKaPLtCj9Se9OFdboSDPIQ1
+         K5yB3Cj7o6ZJ+KlxonRvyy2oecQJ7Bu3inlZ0sNXlS00Mbiq4lto83PgqAm+GMFqllEx
+         JZJA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kqqfTexQ6YHnJKmd+LDOTdEIApl9UwF4vx73Oou8T69OaWyq/t8
-	fJC1ZtphDRg0um01MfsIwgU=
-X-Google-Smtp-Source: AMrXdXtPGJZIUiYZpslZhi31201Y5mFn2s37lv0E70xt9la1P9mMUgcAP2m8aHFzKYkqz//7wyt/Pw==
-X-Received: by 2002:a05:6512:128d:b0:4cc:534f:beef with SMTP id u13-20020a056512128d00b004cc534fbeefmr2001433lfs.524.1673553515192;
-        Thu, 12 Jan 2023 11:58:35 -0800 (PST)
+X-Gm-Message-State: AFqh2krY314pj+xJjAl9U4SgYk0kV+ctTGZE6nX8d3kzs75xebqrk7Q9
+	ghEWSJAXwRj5bqISUEHoFNs=
+X-Google-Smtp-Source: AMrXdXtPtDAzNp7fqfgQkmX8NqFa0PhNsXkbAV/poNpWrymZenRxcqmRc39SNUIAkHZjiCevSI+xbg==
+X-Received: by 2002:ac2:46c7:0:b0:4af:ee74:aa5f with SMTP id p7-20020ac246c7000000b004afee74aa5fmr3807781lfo.24.1673553517884;
+        Thu, 12 Jan 2023 11:58:37 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:2024:b0:4a2:3951:eac8 with SMTP id
- s4-20020a056512202400b004a23951eac8ls1935360lfs.0.-pod-prod-gmail; Thu, 12
- Jan 2023 11:58:34 -0800 (PST)
-X-Received: by 2002:a05:6512:2828:b0:4b9:f5e5:8fbc with SMTP id cf40-20020a056512282800b004b9f5e58fbcmr28592885lfb.30.1673553513982;
-        Thu, 12 Jan 2023 11:58:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673553513; cv=none;
+Received: by 2002:a05:6512:214f:b0:4c8:8384:83f3 with SMTP id
+ s15-20020a056512214f00b004c8838483f3ls1937519lfr.3.-pod-prod-gmail; Thu, 12
+ Jan 2023 11:58:36 -0800 (PST)
+X-Received: by 2002:ac2:5f5b:0:b0:4cc:5908:b9d5 with SMTP id 27-20020ac25f5b000000b004cc5908b9d5mr7624971lfz.12.1673553516672;
+        Thu, 12 Jan 2023 11:58:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673553516; cv=none;
         d=google.com; s=arc-20160816;
-        b=z3KSUI9riRufDqKPLys/W0ADKjHuWiN22rto69jAlU4J+njLQnw2j1XZ2tEvapL47H
-         P4g9O7w/+uI8j/L5ih3yriYg90b4qSM4c2cLYOEU4iIdbhRyXXkx6PQ5Kvl3Ctkb0+qZ
-         ggRnCB1r/rSaPt4Oqubkzx/a7b0WLi1+AEfOTa9p79Sximx4cACH/QjjdA0bPtOsQWNp
-         5GdMEpIFKnlQPKffuEcDzV5Cbqxz83P+7wimPtx8kxSxEcHxE9n/aOqjcEWYiRTqYvN0
-         ehifpJ5mIXuu2KqGdoiJw8hhySsWrY+7TXbZ5cg7hoNJ7SuSXbJGCmv9B+AfF1bdN2m4
-         jyrA==
+        b=DqHUcCFTbX5S9ni7FNrbNc+OKY25ElMYfPfCDG3yCuJKpVEJsvAByLS6MXmDrIER5q
+         u4LIT8wr7VQIHq5zmMLW7Fy9FJeoaYjLKcFCVu+PYqRyoWCQ+2MBaKtNSAkwL/Etm0oc
+         kQL3+wLcWtuJtL9zsv1AJSy/0IjwPbIHxH3YUXe08QZFDvre9c1xzB/DPVWqpkxiRFdn
+         f7sCt9psq2srYH8ScQWdcx9CvOdUotlKfMKeA2SZ2VmIv1A+sZ9uSvIHe2M8wxlZQ6Ae
+         CS6f/Xj6NvJ4jd93d3KUv4APNZRdZltm9/0wdkeA3sxnE0ht+syoLwnBMro2b85rKgd8
+         WotA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:references:subject:cc:to:from:date:user-agent
          :message-id:dkim-signature;
-        bh=TpAs8eQceCyyKKtR//95dieD+m+uPCJ6EEXd6r5ehjs=;
-        b=b6rf+C59Y2HYxJTe+kRxCeLlW2ftPt6QB/qLzPrpAiQCiC1MorKl3P3JFz9SelotJ7
-         hFY5L6OZZCwUzRtG2zy+Oq8skX9O/kJI9wrGYOsqE738VidS2EZsGTDi31VotJkZ+Ffv
-         /3Gb/rH53+j/PHVyE3N1sSpxGfsFoBr9l3iLessUCj2zYNDH66OYTwJC8HmVxL1tXQzO
-         WYpOArLObChQjTDWMDo+0izMYx4XOsVOEKIl5fKvWoaL606uVzTZIzWpYVUaLM9EesMB
-         ddOQc5wFq/2m+Dcf3r3p1X0A4K4bA+/q+u7fTHWPpOrMA//pwgwgm3HEG3t4qZBbD94m
-         sx0Q==
+        bh=ljNIHChdlymEt0s4DtY+Ji5/5ZFr1jFKrzucPLjcAFA=;
+        b=TjMzm5lNdI3EVL6PNkP9TZjGXNgPfbKDylhInk+PfXaRuplCpqqqrFkw/RLAaA+txa
+         HVqLjFPEmekKaHLTOahLuz+em7PQHHiU8HMea6HqnkEl3/9JgnEcsVy5AZ1tnC4QyYUS
+         EEI0aiwvgqrGxP/fy8zaGj1Dam7dLwoss56g19CzSV+rmBj+S6RU20vkgJIpUAQHB/kS
+         s6UW89Zr2KAdlV28Gkh+P/D8mOAVMeptJFZmpOf0MgMm4fUR3xDykfyjvh8opodFpSe3
+         mSdGc9no0bphMYWh9A+sIfTWEdCStzS7PF1hFh64Et/qsfI6+yAFojcdCDDaCWLa/OTO
+         4kTA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=tOV0YOj5;
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=UFhO8sQy;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id a14-20020ac25e6e000000b004cfe6a1a3e7si4467lfr.13.2023.01.12.11.58.33
+        by gmr-mx.google.com with ESMTPS id s5-20020a056512314500b004b59c9b7fbdsi795316lfi.7.2023.01.12.11.58.36
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jan 2023 11:58:33 -0800 (PST)
+        Thu, 12 Jan 2023 11:58:36 -0800 (PST)
 Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG3hs-005P4Y-56; Thu, 12 Jan 2023 19:57:48 +0000
+	id 1pG3hu-005P6G-06; Thu, 12 Jan 2023 19:57:50 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 25748303474;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 2E86B303479;
 	Thu, 12 Jan 2023 20:57:14 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 6405E2CD066D8; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
-Message-ID: <20230112195542.089981974@infradead.org>
+	id 68B912CD066DC; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
+Message-ID: <20230112195542.151174682@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:43:59 +0100
+Date: Thu, 12 Jan 2023 20:44:00 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -259,13 +259,13 @@ Cc: richard.henderson@linaro.org,
  kasan-dev@googlegroups.com,
  "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
  Ulf Hansson <ulf.hansson@linaro.org>
-Subject: [PATCH v3 45/51] sched: Always inline __this_cpu_preempt_check()
+Subject: [PATCH v3 46/51] arm64,riscv,perf: Remove RCU_NONIDLE() usage
 References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=tOV0YOj5;
+ header.i=@infradead.org header.s=casper.20170209 header.b=UFhO8sQy;
        spf=none (google.com: infradead.org does not designate permitted sender
  hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
@@ -280,17 +280,8 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-vmlinux.o: warning: objtool: in_entry_stack+0x9: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: default_do_nmi+0x10: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: fpu_idle_fpregs+0x41: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: kvm_read_and_reset_apf_flags+0x1: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: lockdep_hardirqs_on+0xb0: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: lockdep_hardirqs_off+0xae: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: irqentry_nmi_enter+0x69: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: irqentry_nmi_exit+0x32: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0x9: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: acpi_idle_enter+0x43: call to __this_cpu_preempt_check() leaves .noinstr.text section
-vmlinux.o: warning: objtool: acpi_idle_enter_s2idle+0x45: call to __this_cpu_preempt_check() leaves .noinstr.text section
+The PM notifiers should no longer be ran with RCU disabled (per the
+previous patches), as such this hack is no longer required either.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
@@ -298,23 +289,52 @@ Acked-by: Frederic Weisbecker <frederic@kernel.org>
 Tested-by: Tony Lindgren <tony@atomide.com>
 Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- include/linux/percpu-defs.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/perf/arm_pmu.c       |   11 +----------
+ drivers/perf/riscv_pmu_sbi.c |    8 +-------
+ 2 files changed, 2 insertions(+), 17 deletions(-)
 
---- a/include/linux/percpu-defs.h
-+++ b/include/linux/percpu-defs.h
-@@ -310,7 +310,7 @@ extern void __bad_size_call_parameter(vo
- #ifdef CONFIG_DEBUG_PREEMPT
- extern void __this_cpu_preempt_check(const char *op);
- #else
--static inline void __this_cpu_preempt_check(const char *op) { }
-+static __always_inline void __this_cpu_preempt_check(const char *op) { }
- #endif
- 
- #define __pcpu_size_call_return(stem, variable)				\
+--- a/drivers/perf/arm_pmu.c
++++ b/drivers/perf/arm_pmu.c
+@@ -762,17 +762,8 @@ static void cpu_pm_pmu_setup(struct arm_
+ 		case CPU_PM_ENTER_FAILED:
+ 			 /*
+ 			  * Restore and enable the counter.
+-			  * armpmu_start() indirectly calls
+-			  *
+-			  * perf_event_update_userpage()
+-			  *
+-			  * that requires RCU read locking to be functional,
+-			  * wrap the call within RCU_NONIDLE to make the
+-			  * RCU subsystem aware this cpu is not idle from
+-			  * an RCU perspective for the armpmu_start() call
+-			  * duration.
+ 			  */
+-			RCU_NONIDLE(armpmu_start(event, PERF_EF_RELOAD));
++			armpmu_start(event, PERF_EF_RELOAD);
+ 			break;
+ 		default:
+ 			break;
+--- a/drivers/perf/riscv_pmu_sbi.c
++++ b/drivers/perf/riscv_pmu_sbi.c
+@@ -747,14 +747,8 @@ static int riscv_pm_pmu_notify(struct no
+ 		case CPU_PM_ENTER_FAILED:
+ 			/*
+ 			 * Restore and enable the counter.
+-			 *
+-			 * Requires RCU read locking to be functional,
+-			 * wrap the call within RCU_NONIDLE to make the
+-			 * RCU subsystem aware this cpu is not idle from
+-			 * an RCU perspective for the riscv_pmu_start() call
+-			 * duration.
+ 			 */
+-			RCU_NONIDLE(riscv_pmu_start(event, PERF_EF_RELOAD));
++			riscv_pmu_start(event, PERF_EF_RELOAD);
+ 			break;
+ 		default:
+ 			break;
 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195542.089981974%40infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195542.151174682%40infradead.org.
