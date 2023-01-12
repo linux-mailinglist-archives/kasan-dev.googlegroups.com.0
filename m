@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRB3GMQGPAMGQEEHHDFPY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRB46MQGPAMGQESRABRYQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F6D667FFA
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:36 +0100 (CET)
-Received: by mail-wm1-x33b.google.com with SMTP id bg25-20020a05600c3c9900b003da1f6a7b2dsf190584wmb.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:36 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673553516; cv=pass;
+Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEDF666801A
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:43 +0100 (CET)
+Received: by mail-lf1-x137.google.com with SMTP id q9-20020a19a409000000b004b6ee156e03sf7266236lfc.5
+        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:43 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673553523; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gglL0jXjgvAV3XrnImFvZWWFesienrVxDFe8UUo5Z5Ufz2WImtGA+wsFsWWEU5TL9q
-         Tq4bfLHSOksWKHIJlI8zxSVpfm34rT7f25d7R7GgQvFyyonZeJ/WenjNgiZfabSoB/vu
-         EMFLX865Llr/z6ovIYFXLYFhp29DEive6pFyRKdyQx2ajmP4UK1LVVmBeBPQe9GeAh2X
-         EpLO4lC+phJwJWr1+lNMPMox1hNrJRaxxVbHKBh/E2nV6TlSrNKBrOyQzQmB+hXld9fh
-         YZ/bL45kwIXXr38aMYQ9pB6WpomZyooKFN4gCyjI9PaYhJbnmxS6msM1iPOL/Jp5xi/P
-         YsBA==
+        b=Hh4vF7gwIwIqnQcMqmnj7S6kE1+muDs/uFFwz6SBIYIBoAY/6mQt8nHoFmnGc1SRL2
+         q+1oNXdWo5IoiohaYg1Phj/PIrmKndchBUrFUPqJYXIHLMznvqZI8Mw1Sns3gTAJ9JXA
+         SXAGag9yIFsWQufucGeZ97+DkJ6ZdnGQ77+bf2lC8XJhKTPwgAyRthW+j4NmfwZ2uhzb
+         WbNOpayyFjc+SKJHg1Yhw+6S+mbJLebjqibi455jY5VtlcgdqoRbOzoNaqbNsSJ+JMyi
+         VSrA2Jh9MmjZ09z3lbSNSZ3iy7eF18lR0CBHuW1rE3SMmw5mhSgx/FwMm5CUiNRyXgR7
+         1Jtg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:subject:cc
          :to:from:date:user-agent:message-id:sender:dkim-signature;
-        bh=BR1bkNtAvZ81QNUrPumrDjLxOv2i5htbZrdITyJ6p8Y=;
-        b=eWXDNeGLbJSafrGdYiGs77z0GK31NuEMnXga24rL3JmGsg46v0oNGrrtBh0LwLdnDM
-         DNYkpygsPa4Snl+xxt4KjfV/5HYyH7yHHqTfWECuWgFnMQNEwr5pawO3yaI2buKw5Ls0
-         sAYQqAqtargSznUqE7OUdEp0EOOOGUd09y8g60MrGDXMThbO54WWvM02jhT6J3Q4o3q4
-         tnShq4VPQ5NGQhbejO5+De8LA2ibMzlw3xh3ASywEbEsRLAMZ95DHBeUfVuVlVttmTxf
-         k7Mu9yEv8uHeh+/2+SJPAghyR6IuAZPr7Pyhta0dS9lqeUJpZBxGf+D1BKUBTCeogXYJ
-         fKlw==
+        bh=7HFKct2QebDDqtZPvlIPuLiDltgkaRln1VllFsdBx3U=;
+        b=XlEhbML/fjyazzLoiiUtyPoPgZYlb7M4/yAs0WIkseEM3vNL9QwkZY5JLkTy/Evw+R
+         RGiiPp+iisVy7klOyiXgDkmzlC1KwWivKhF31ERZqRUmbYFFPa8c5C6Wl7EmBWc0xFAt
+         Rr+Xt/wmoaGkX+PSo8/IQ6J+et6hYavq0IbrfhjS41qbJfxDAJJtwpUXgEfbNvK1e5y4
+         D3KIocVf7i9gED+QvilVXUv64ACCFaZuU/F0VCgzPHFZqAD04z7z1R9Nhd5bnk85+Yzi
+         Tv7cPPP5WxKgTYz0bLpPHFif7ZtIC6EZjsYJg0wYA+Qr3ijdUjvaFDQCSRN4xOZU75OZ
+         SzUA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=Kp80SUD6;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=bXVWmsZj;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:subject:cc:to:from:date
          :user-agent:message-id:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BR1bkNtAvZ81QNUrPumrDjLxOv2i5htbZrdITyJ6p8Y=;
-        b=FqMowWcXVTLXB8OWAKRcXpT4iz/t9ouy6F2UoryDTA2KbWuK36+vBgsCzfJ6g5mDZU
-         EV0cNGzuduBg9JwrvSlFp0ga3uwJ8jboK4mwfWPAgIZOsTTL1e8hhzdzwqU7Cfbrx+S2
-         iSfCmPTvXyZulQwuSGzzqP71UL/IaXrQp20+QljyKsqU5h6kisN4jnRI1twjDnwbCxeL
-         /DjXwrrH3kp76WT4hvYtRclRKjqF31BdebgDOhYSG/AQoLktt6r6JloXKzf05z/Ok67C
-         QADxgF+A4WNiD6FlE+WPelYpVEnDi8fcC+utW4bnzdLbmqSHgPakzF9Xu82XGGUp0cSM
-         74Qg==
+        bh=7HFKct2QebDDqtZPvlIPuLiDltgkaRln1VllFsdBx3U=;
+        b=QB86q8MtHqOzCN2sm34k3BO6ZMwxxCauTSFsWa0fG4YIr+VyOiva1HVVzCwIUSwfgN
+         RUAw1spppqeBGunhb4suVlIXRqWUm3gx6CdmfvRJclprGTvnahLOUkm1rV+e1LgyuHy2
+         OcLt3eUYR6MzYb9FRp5ZjOhgvnsGs69/4ZLRpgo8COeBJPEULS0miEaAiTR2GiWOWDU6
+         0CNwShoTg9fQNExUjurN+ky+ty0ObmPhOGU5pOCXTzakHFM6rdDxNlih2mHTK2RzqshV
+         yX6YzOxLEHZoEkuzh/Cous127pJb0Syud7b84s79o2ILcQ8lt2VhI/NvrzWx18g+vbnt
+         uzrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,65 +50,67 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:subject:cc:to:from:date:user-agent:message-id
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BR1bkNtAvZ81QNUrPumrDjLxOv2i5htbZrdITyJ6p8Y=;
-        b=iAVZ0MX6MWxQDOXoKy6Iq5uxhQ8pXe+Kkf0dbX7F3A/xBQtMlUYOZ6gL/pKAIl+CI0
-         484Ae6AA/7YJsQJ052kW8g05PRwGfiH0qRo/ToF3uA+a+GD7cxig1WX6pQ1JSP9PLw4A
-         O5WrUoxf/YpU1bXD+PJOaljkshcKYEAJXXzsPJlA8aBZ2L6S+f+LIEPTXHPCpk+cSqAb
-         NMgd8+TeuIsczDfYNBT++vLadI7KFj2ldk54H7CXi3LkP2VTP4IbHh/eYAFRtNOJgjdl
-         W+EGH6FaGFe6Sf8HUzA0//L03UpnQ/cEMiCYHAu/DWBzkPRpWOTTF4WrzUiWgmVIg97P
-         eZeQ==
+        bh=7HFKct2QebDDqtZPvlIPuLiDltgkaRln1VllFsdBx3U=;
+        b=QVpTpc2WtEefUuSmRP8HKdfatUV0mepZatYWpTulUpQ+t7oYafCZMA+EJA0xUqDGor
+         vBfCn25sDyu9znccCKc9JCLY/qODYHmJzenSTuBZkn8obgDEsSe+YaMwxzKMOz8a4gOh
+         Yo2hSCbt7Nr872yjOqEUjAd9vwj7TVT7Yw5XROhTgRfAPHI3bPrlK2R16hZDKhtpYqgT
+         Yyr1cvMES4TXl+5XBquyJ+trm0WkPP7BL35Dr/Uv8P2+eT6lpsa25UcmKTYVKEQnmrlw
+         77Zery45r9ZM0gNE06p5CXvWwsZydfU/TTIur6dWGqjBN34RzmiLR82/mgnI1yz/LCOS
+         J4/w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kr0QJH9Ed2FU51ZQ99Zp5czMnk90S69DhBxqxlpw8kc2m4gWZi3
-	XCmSM5ZRBdmgxJohJHvZzDo=
-X-Google-Smtp-Source: AMrXdXtWyLSYQ6rk1mWWBEzdAtnL2gwc/6RABWbcBEhaJba9KKJX9rI1AAsRCuDiQ9bTMFls1x+ePg==
-X-Received: by 2002:a05:6000:1c07:b0:2bd:d756:e47b with SMTP id ba7-20020a0560001c0700b002bdd756e47bmr146155wrb.368.1673553516493;
-        Thu, 12 Jan 2023 11:58:36 -0800 (PST)
+X-Gm-Message-State: AFqh2kqMzOuum7piIxlPV0PcMTulsxqRWZyiBW5U7gCJo5A3puY2YTPU
+	f2GVkuiB6+snIe+MHB8V57M=
+X-Google-Smtp-Source: AMrXdXtGj7GWj1PgsWH3XUeRiqBsVg76Nh7VeqkDfHpp5vnkUQpR84kLgYOC+OIi3aKsbjIEKFlajQ==
+X-Received: by 2002:a2e:a376:0:b0:289:6267:4156 with SMTP id i22-20020a2ea376000000b0028962674156mr469021ljn.82.1673553523241;
+        Thu, 12 Jan 2023 11:58:43 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:4081:0:b0:225:6559:3374 with SMTP id o1-20020a5d4081000000b0022565593374ls1472286wrp.2.-pod-prod-gmail;
- Thu, 12 Jan 2023 11:58:35 -0800 (PST)
-X-Received: by 2002:a05:6000:1706:b0:2af:8ef9:c377 with SMTP id n6-20020a056000170600b002af8ef9c377mr21874127wrc.70.1673553515361;
-        Thu, 12 Jan 2023 11:58:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673553515; cv=none;
+Received: by 2002:a05:6512:314f:b0:4cf:ff9f:bbfd with SMTP id
+ s15-20020a056512314f00b004cfff9fbbfdls13459lfi.1.-pod-prod-gmail; Thu, 12 Jan
+ 2023 11:58:42 -0800 (PST)
+X-Received: by 2002:a05:6512:b81:b0:4b5:869e:b5ec with SMTP id b1-20020a0565120b8100b004b5869eb5ecmr4662239lfv.61.1673553521992;
+        Thu, 12 Jan 2023 11:58:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673553521; cv=none;
         d=google.com; s=arc-20160816;
-        b=eRPsRPQ6fLeDX0zWgNf4+wgSxeR5p6OSrgU4Uccz6I6fCMenvsMK9ZkXWHRNISXen4
-         KqWMs8/7+tIxLyIHTFlZwD6ez0uoCeX6he3Z/4iG2B9Ih+vKOcQ5+NsICtTZTqNb20rQ
-         F7AV3ewajoeEl2qeQbEFPqflo4NofXZV4O1Bd7SeaU2cl/GFZEad0Z5w3IFLjBd7+YEv
-         /5M0iD8nqP4urj56y0Zkf94gZ1Aq/N3DceNpas36iFmAIm+BU1NFlkBdo0uvTALpGSdv
-         +5Zhu5c4R8nUAtE7Iqu3s6muJLRDUal9hXvayxG8cg3TuOexWW3cjf7qAkmZHUCaQgvb
-         HGoQ==
+        b=EpI/KGi3zfE4jMGC/bpw2iKOs8VV/syT8TtY68JmzWF7oulKBqq1NwXLyRVXEZ4o/S
+         rN2RCiWO/hVO2KNLe1KuUdrxuu1am8Oe/n2L63oxp5TBn0GN1R1gqqxwO3jWmvJzwwCk
+         coQy/MM0d/71VIgHUjEPHQ+mCqDD7DwzcyqCGR1lx5mQBkk/MFstf1p5dLfAS+pnwEMv
+         G1NHT5IKK7XWDV6Mu4kqEvq2Jhzenk3/iGE/M9pv9vbdiJo7thoFTYhP3q5OhsOVAgGX
+         ImHxlD5yEGM5I7ICcAzIh5Rli2fmHNyadcG8j7cVyIvL7/9jrRIekpPPjlwA/c6QxiVm
+         XhjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:references:subject:cc:to:from:date:user-agent
          :message-id:dkim-signature;
-        bh=2eFs7p2/0chzp9jyFOBFOnUwzOwJX/uRLls14aFVgag=;
-        b=Q9rGK4lR5Z6aFt31HLXlZE1omW+AYMGA+55pAxOYfXbLSF/vBDNE+wi2YYs9urYUtz
-         Bn4EmdiP/BLpv+2NI1z3n7PZva5lr+3I7BAeFTUjzAzdT2OFDtMSYydZvDB5zfVNLi6i
-         ExyO0Yjm7hWwYpJN+dm72d7+rueH10jGRBEx/PJI5tclWVk0Hjk3WVQbj+jwkvM1UPo8
-         vYQj0m6UDdYkZSjKh44By7A4xY6Wd9FE8ulZQMbbgqFw06yPCl4HljQh+utPPNTRJ7/y
-         t/FgMJKwECy/TzQLuoQENPwhcneGZPTRNzlqKsGl34Uc4jd7ge85baPm/DjlOMAkl2v5
-         k92A==
+        bh=G2cvNgJ/FV6t8OtxjUTEWOoXfe4MyL5zef0iqwcucnw=;
+        b=xWAOq2XEOZeoYJkG9wsdKzI0+or/r/JNxomO+/F2ref/esv9AfljgcfBM2We5wy8da
+         6d8JGHCgtW5hmgxfQghr6LOd58uYRmP52bUa1t1QkRhgwrPwQJAqhtMoVCM7x41OUHJ4
+         5UFn/C+jsNHqa/i5NrPO1OoxV0VrRSCpIjrOJ9PNwDM8i0yU3lQ2zUoD9weT5q1XMUNK
+         Dhxz30K7N3BT5wBoL9PXeqdVGOCs9EnjhKvhiJU+AEL3Je8Mf4huJeM/0l/uxdd8rYE4
+         UgK8SHqC+HKcF03YZ/9NeKXwT4I5Gf2EGqksokFhIPSQ2SoCcgFIPuNcahlTV/bGX3kQ
+         EX8g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=Kp80SUD6;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=bXVWmsZj;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
-Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id ay38-20020a05600c1e2600b003c9a5e8adc5si1075729wmb.1.2023.01.12.11.58.35
+Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id s5-20020a056512314500b004b59c9b7fbdsi795325lfi.7.2023.01.12.11.58.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jan 2023 11:58:35 -0800 (PST)
-Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
+        Thu, 12 Jan 2023 11:58:41 -0800 (PST)
+Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG3ha-005Odw-O6; Thu, 12 Jan 2023 19:57:30 +0000
+	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1pG3hF-0045on-1w;
+	Thu, 12 Jan 2023 19:57:10 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 62085303426;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 6E62C30342B;
 	Thu, 12 Jan 2023 20:57:13 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 020F62CCF1F7B; Thu, 12 Jan 2023 20:57:07 +0100 (CET)
-Message-ID: <20230112195540.618076436@infradead.org>
+	id 062AF2CCF1F64; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
+Message-ID: <20230112195540.682137572@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:43:35 +0100
+Date: Thu, 12 Jan 2023 20:43:36 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -256,16 +258,15 @@ Cc: richard.henderson@linaro.org,
  linux-mm@kvack.org,
  linux-trace-kernel@vger.kernel.org,
  kasan-dev@googlegroups.com,
- "Gautham R. Shenoy" <gautham.shenoy@amd.com>,
  "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
  Ulf Hansson <ulf.hansson@linaro.org>
-Subject: [PATCH v3 21/51] arch/idle: Change arch_cpu_idle() IRQ behaviour
+Subject: [PATCH v3 22/51] x86/tdx: Remove TDX_HCALL_ISSUE_STI
 References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=Kp80SUD6;
+ header.i=@infradead.org header.s=desiato.20200630 header.b=bXVWmsZj;
        spf=none (google.com: infradead.org does not designate permitted sender
  hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
@@ -280,440 +281,116 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Current arch_cpu_idle() is called with IRQs disabled, but will return
-with IRQs enabled.
+Now that arch_cpu_idle() is expected to return with IRQs disabled,
+avoid the useless STI/CLI dance.
 
-However, the very first thing the generic code does after calling
-arch_cpu_idle() is raw_local_irq_disable(). This means that
-architectures that can idle with IRQs disabled end up doing a
-pointless 'enable-disable' dance.
-
-Therefore, push this IRQ disabling into the idle function, meaning
-that those architectures can avoid the pointless IRQ state flipping.
+Per the specs this is supposed to work, but nobody has yet relied up
+this behaviour so broken implementations are possible.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Reviewed-by: Gautham R. Shenoy <gautham.shenoy@amd.com>
-Acked-by: Mark Rutland <mark.rutland@arm.com> [arm64]
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
-Acked-by: Guo Ren <guoren@kernel.org>
 Acked-by: Frederic Weisbecker <frederic@kernel.org>
 Tested-by: Tony Lindgren <tony@atomide.com>
 Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- arch/alpha/kernel/process.c      |    1 -
- arch/arc/kernel/process.c        |    3 +++
- arch/arm/kernel/process.c        |    1 -
- arch/arm/mach-gemini/board-dt.c  |    3 ++-
- arch/arm64/kernel/idle.c         |    1 -
- arch/csky/kernel/process.c       |    1 -
- arch/csky/kernel/smp.c           |    2 +-
- arch/hexagon/kernel/process.c    |    1 -
- arch/ia64/kernel/process.c       |    1 +
- arch/loongarch/kernel/idle.c     |    1 +
- arch/microblaze/kernel/process.c |    1 -
- arch/mips/kernel/idle.c          |    8 +++-----
- arch/nios2/kernel/process.c      |    1 -
- arch/openrisc/kernel/process.c   |    1 +
- arch/parisc/kernel/process.c     |    2 --
- arch/powerpc/kernel/idle.c       |    5 ++---
- arch/riscv/kernel/process.c      |    1 -
- arch/s390/kernel/idle.c          |    1 -
- arch/sh/kernel/idle.c            |    1 +
- arch/sparc/kernel/leon_pmc.c     |    4 ++++
- arch/sparc/kernel/process_32.c   |    1 -
- arch/sparc/kernel/process_64.c   |    3 ++-
- arch/um/kernel/process.c         |    1 -
- arch/x86/coco/tdx/tdx.c          |    3 +++
- arch/x86/kernel/process.c        |   15 ++++-----------
- arch/xtensa/kernel/process.c     |    1 +
- kernel/sched/idle.c              |    2 --
- 27 files changed, 29 insertions(+), 37 deletions(-)
+ arch/x86/coco/tdx/tdcall.S        |   13 -------------
+ arch/x86/coco/tdx/tdx.c           |   23 ++++-------------------
+ arch/x86/include/asm/shared/tdx.h |    1 -
+ 3 files changed, 4 insertions(+), 33 deletions(-)
 
---- a/arch/alpha/kernel/process.c
-+++ b/arch/alpha/kernel/process.c
-@@ -57,7 +57,6 @@ EXPORT_SYMBOL(pm_power_off);
- void arch_cpu_idle(void)
- {
- 	wtint(0);
--	raw_local_irq_enable();
- }
+--- a/arch/x86/coco/tdx/tdcall.S
++++ b/arch/x86/coco/tdx/tdcall.S
+@@ -139,19 +139,6 @@ SYM_FUNC_START(__tdx_hypercall)
  
- void arch_cpu_idle_dead(void)
---- a/arch/arc/kernel/process.c
-+++ b/arch/arc/kernel/process.c
-@@ -114,6 +114,8 @@ void arch_cpu_idle(void)
- 		"sleep %0	\n"
- 		:
- 		:"I"(arg)); /* can't be "r" has to be embedded const */
-+
-+	raw_local_irq_disable();
- }
+ 	movl $TDVMCALL_EXPOSE_REGS_MASK, %ecx
  
- #else	/* ARC700 */
-@@ -122,6 +124,7 @@ void arch_cpu_idle(void)
- {
- 	/* sleep, but enable both set E1/E2 (levels of interrupts) before committing */
- 	__asm__ __volatile__("sleep 0x3	\n");
-+	raw_local_irq_disable();
- }
+-	/*
+-	 * For the idle loop STI needs to be called directly before the TDCALL
+-	 * that enters idle (EXIT_REASON_HLT case). STI instruction enables
+-	 * interrupts only one instruction later. If there is a window between
+-	 * STI and the instruction that emulates the HALT state, there is a
+-	 * chance for interrupts to happen in this window, which can delay the
+-	 * HLT operation indefinitely. Since this is the not the desired
+-	 * result, conditionally call STI before TDCALL.
+-	 */
+-	testq $TDX_HCALL_ISSUE_STI, %rsi
+-	jz .Lskip_sti
+-	sti
+-.Lskip_sti:
+ 	tdcall
  
- #endif
---- a/arch/arm/kernel/process.c
-+++ b/arch/arm/kernel/process.c
-@@ -78,7 +78,6 @@ void arch_cpu_idle(void)
- 		arm_pm_idle();
- 	else
- 		cpu_do_idle();
--	raw_local_irq_enable();
- }
- 
- void arch_cpu_idle_prepare(void)
---- a/arch/arm/mach-gemini/board-dt.c
-+++ b/arch/arm/mach-gemini/board-dt.c
-@@ -42,8 +42,9 @@ static void gemini_idle(void)
- 	 */
- 
- 	/* FIXME: Enabling interrupts here is racy! */
--	local_irq_enable();
-+	raw_local_irq_enable();
- 	cpu_do_idle();
-+	raw_local_irq_disable();
- }
- 
- static void __init gemini_init_machine(void)
---- a/arch/arm64/kernel/idle.c
-+++ b/arch/arm64/kernel/idle.c
-@@ -42,5 +42,4 @@ void noinstr arch_cpu_idle(void)
- 	 * tricks
- 	 */
- 	cpu_do_idle();
--	raw_local_irq_enable();
- }
---- a/arch/csky/kernel/process.c
-+++ b/arch/csky/kernel/process.c
-@@ -100,6 +100,5 @@ void arch_cpu_idle(void)
- #ifdef CONFIG_CPU_PM_STOP
- 	asm volatile("stop\n");
- #endif
--	raw_local_irq_enable();
- }
- #endif
---- a/arch/csky/kernel/smp.c
-+++ b/arch/csky/kernel/smp.c
-@@ -309,7 +309,7 @@ void arch_cpu_idle_dead(void)
- 	while (!secondary_stack)
- 		arch_cpu_idle();
- 
--	local_irq_disable();
-+	raw_local_irq_disable();
- 
- 	asm volatile(
- 		"mov	sp, %0\n"
---- a/arch/hexagon/kernel/process.c
-+++ b/arch/hexagon/kernel/process.c
-@@ -44,7 +44,6 @@ void arch_cpu_idle(void)
- {
- 	__vmwait();
- 	/*  interrupts wake us up, but irqs are still disabled */
--	raw_local_irq_enable();
- }
- 
- /*
---- a/arch/ia64/kernel/process.c
-+++ b/arch/ia64/kernel/process.c
-@@ -242,6 +242,7 @@ void arch_cpu_idle(void)
- 		(*mark_idle)(1);
- 
- 	raw_safe_halt();
-+	raw_local_irq_disable();
- 
- 	if (mark_idle)
- 		(*mark_idle)(0);
---- a/arch/loongarch/kernel/idle.c
-+++ b/arch/loongarch/kernel/idle.c
-@@ -13,4 +13,5 @@ void __cpuidle arch_cpu_idle(void)
- {
- 	raw_local_irq_enable();
- 	__arch_cpu_idle(); /* idle instruction needs irq enabled */
-+	raw_local_irq_disable();
- }
---- a/arch/microblaze/kernel/process.c
-+++ b/arch/microblaze/kernel/process.c
-@@ -140,5 +140,4 @@ int dump_fpu(struct pt_regs *regs, elf_f
- 
- void arch_cpu_idle(void)
- {
--       raw_local_irq_enable();
- }
---- a/arch/mips/kernel/idle.c
-+++ b/arch/mips/kernel/idle.c
-@@ -33,13 +33,13 @@ static void __cpuidle r3081_wait(void)
- {
- 	unsigned long cfg = read_c0_conf();
- 	write_c0_conf(cfg | R30XX_CONF_HALT);
--	raw_local_irq_enable();
- }
- 
- void __cpuidle r4k_wait(void)
- {
- 	raw_local_irq_enable();
- 	__r4k_wait();
-+	raw_local_irq_disable();
- }
- 
- /*
-@@ -57,7 +57,6 @@ void __cpuidle r4k_wait_irqoff(void)
- 		"	.set	arch=r4000	\n"
- 		"	wait			\n"
- 		"	.set	pop		\n");
--	raw_local_irq_enable();
- }
- 
- /*
-@@ -77,7 +76,6 @@ static void __cpuidle rm7k_wait_irqoff(v
- 		"	wait						\n"
- 		"	mtc0	$1, $12		# stalls until W stage	\n"
- 		"	.set	pop					\n");
--	raw_local_irq_enable();
- }
- 
- /*
-@@ -103,6 +101,8 @@ static void __cpuidle au1k_wait(void)
- 	"	nop				\n"
- 	"	.set	pop			\n"
- 	: : "r" (au1k_wait), "r" (c0status));
-+
-+	raw_local_irq_disable();
- }
- 
- static int __initdata nowait;
-@@ -245,8 +245,6 @@ void arch_cpu_idle(void)
- {
- 	if (cpu_wait)
- 		cpu_wait();
--	else
--		raw_local_irq_enable();
- }
- 
- #ifdef CONFIG_CPU_IDLE
---- a/arch/nios2/kernel/process.c
-+++ b/arch/nios2/kernel/process.c
-@@ -33,7 +33,6 @@ EXPORT_SYMBOL(pm_power_off);
- 
- void arch_cpu_idle(void)
- {
--	raw_local_irq_enable();
- }
- 
- /*
---- a/arch/openrisc/kernel/process.c
-+++ b/arch/openrisc/kernel/process.c
-@@ -102,6 +102,7 @@ void arch_cpu_idle(void)
- 	raw_local_irq_enable();
- 	if (mfspr(SPR_UPR) & SPR_UPR_PMP)
- 		mtspr(SPR_PMR, mfspr(SPR_PMR) | SPR_PMR_DME);
-+	raw_local_irq_disable();
- }
- 
- void (*pm_power_off)(void) = NULL;
---- a/arch/parisc/kernel/process.c
-+++ b/arch/parisc/kernel/process.c
-@@ -187,8 +187,6 @@ void arch_cpu_idle_dead(void)
- 
- void __cpuidle arch_cpu_idle(void)
- {
--	raw_local_irq_enable();
--
- 	/* nop on real hardware, qemu will idle sleep. */
- 	asm volatile("or %%r10,%%r10,%%r10\n":::);
- }
---- a/arch/powerpc/kernel/idle.c
-+++ b/arch/powerpc/kernel/idle.c
-@@ -51,10 +51,9 @@ void arch_cpu_idle(void)
- 		 * Some power_save functions return with
- 		 * interrupts enabled, some don't.
- 		 */
--		if (irqs_disabled())
--			raw_local_irq_enable();
-+		if (!irqs_disabled())
-+			raw_local_irq_disable();
- 	} else {
--		raw_local_irq_enable();
- 		/*
- 		 * Go into low thread priority and possibly
- 		 * low power mode.
---- a/arch/riscv/kernel/process.c
-+++ b/arch/riscv/kernel/process.c
-@@ -39,7 +39,6 @@ extern asmlinkage void ret_from_kernel_t
- void arch_cpu_idle(void)
- {
- 	cpu_do_idle();
--	raw_local_irq_enable();
- }
- 
- void __show_regs(struct pt_regs *regs)
---- a/arch/s390/kernel/idle.c
-+++ b/arch/s390/kernel/idle.c
-@@ -66,7 +66,6 @@ void arch_cpu_idle(void)
- 	idle->idle_count++;
- 	account_idle_time(cputime_to_nsecs(idle_time));
- 	raw_write_seqcount_end(&idle->seqcount);
--	raw_local_irq_enable();
- }
- 
- static ssize_t show_idle_count(struct device *dev,
---- a/arch/sh/kernel/idle.c
-+++ b/arch/sh/kernel/idle.c
-@@ -25,6 +25,7 @@ void default_idle(void)
- 	raw_local_irq_enable();
- 	/* Isn't this racy ? */
- 	cpu_sleep();
-+	raw_local_irq_disable();
- 	clear_bl_bit();
- }
- 
---- a/arch/sparc/kernel/leon_pmc.c
-+++ b/arch/sparc/kernel/leon_pmc.c
-@@ -57,6 +57,8 @@ static void pmc_leon_idle_fixup(void)
- 		"lda	[%0] %1, %%g0\n"
- 		:
- 		: "r"(address), "i"(ASI_LEON_BYPASS));
-+
-+	raw_local_irq_disable();
- }
- 
- /*
-@@ -70,6 +72,8 @@ static void pmc_leon_idle(void)
- 
- 	/* For systems without power-down, this will be no-op */
- 	__asm__ __volatile__ ("wr	%g0, %asr19\n\t");
-+
-+	raw_local_irq_disable();
- }
- 
- /* Install LEON Power Down function */
---- a/arch/sparc/kernel/process_32.c
-+++ b/arch/sparc/kernel/process_32.c
-@@ -71,7 +71,6 @@ void arch_cpu_idle(void)
- {
- 	if (sparc_idle)
- 		(*sparc_idle)();
--	raw_local_irq_enable();
- }
- 
- /* XXX cli/sti -> local_irq_xxx here, check this works once SMP is fixed. */
---- a/arch/sparc/kernel/process_64.c
-+++ b/arch/sparc/kernel/process_64.c
-@@ -59,7 +59,6 @@ void arch_cpu_idle(void)
- {
- 	if (tlb_type != hypervisor) {
- 		touch_nmi_watchdog();
--		raw_local_irq_enable();
- 	} else {
- 		unsigned long pstate;
- 
-@@ -90,6 +89,8 @@ void arch_cpu_idle(void)
- 			"wrpr %0, %%g0, %%pstate"
- 			: "=&r" (pstate)
- 			: "i" (PSTATE_IE));
-+
-+		raw_local_irq_disable();
+ 	/*
+--- a/arch/x86/coco/tdx/tdx.c
++++ b/arch/x86/coco/tdx/tdx.c
+@@ -169,7 +169,7 @@ static int ve_instr_len(struct ve_info *
  	}
  }
  
---- a/arch/um/kernel/process.c
-+++ b/arch/um/kernel/process.c
-@@ -217,7 +217,6 @@ void arch_cpu_idle(void)
+-static u64 __cpuidle __halt(const bool irq_disabled, const bool do_sti)
++static u64 __cpuidle __halt(const bool irq_disabled)
  {
- 	cpu_tasks[current_thread_info()->cpu].pid = os_getpid();
- 	um_idle_sleep();
--	raw_local_irq_enable();
+ 	struct tdx_hypercall_args args = {
+ 		.r10 = TDX_HYPERCALL_STANDARD,
+@@ -189,20 +189,14 @@ static u64 __cpuidle __halt(const bool i
+ 	 * can keep the vCPU in virtual HLT, even if an IRQ is
+ 	 * pending, without hanging/breaking the guest.
+ 	 */
+-	return __tdx_hypercall(&args, do_sti ? TDX_HCALL_ISSUE_STI : 0);
++	return __tdx_hypercall(&args, 0);
  }
  
- int __cant_sleep(void) {
---- a/arch/x86/coco/tdx/tdx.c
-+++ b/arch/x86/coco/tdx/tdx.c
-@@ -223,6 +223,9 @@ void __cpuidle tdx_safe_halt(void)
+ static int handle_halt(struct ve_info *ve)
+ {
+-	/*
+-	 * Since non safe halt is mainly used in CPU offlining
+-	 * and the guest will always stay in the halt state, don't
+-	 * call the STI instruction (set do_sti as false).
+-	 */
+ 	const bool irq_disabled = irqs_disabled();
+-	const bool do_sti = false;
+ 
+-	if (__halt(irq_disabled, do_sti))
++	if (__halt(irq_disabled))
+ 		return -EIO;
+ 
+ 	return ve_instr_len(ve);
+@@ -210,22 +204,13 @@ static int handle_halt(struct ve_info *v
+ 
+ void __cpuidle tdx_safe_halt(void)
+ {
+-	 /*
+-	  * For do_sti=true case, __tdx_hypercall() function enables
+-	  * interrupts using the STI instruction before the TDCALL. So
+-	  * set irq_disabled as false.
+-	  */
+ 	const bool irq_disabled = false;
+-	const bool do_sti = true;
+ 
+ 	/*
+ 	 * Use WARN_ONCE() to report the failure.
  	 */
- 	if (__halt(irq_disabled, do_sti))
+-	if (__halt(irq_disabled, do_sti))
++	if (__halt(irq_disabled))
  		WARN_ONCE(1, "HLT instruction emulation failed\n");
-+
-+	/* XXX I can't make sense of what @do_sti actually does */
-+	raw_local_irq_disable();
+-
+-	/* XXX I can't make sense of what @do_sti actually does */
+-	raw_local_irq_disable();
  }
  
  static int read_msr(struct pt_regs *regs, struct ve_info *ve)
---- a/arch/x86/kernel/process.c
-+++ b/arch/x86/kernel/process.c
-@@ -701,6 +701,7 @@ EXPORT_SYMBOL(boot_option_idle_override)
- void __cpuidle default_idle(void)
- {
- 	raw_safe_halt();
-+	raw_local_irq_disable();
- }
- #if defined(CONFIG_APM_MODULE) || defined(CONFIG_HALTPOLL_CPUIDLE_MODULE)
- EXPORT_SYMBOL(default_idle);
-@@ -806,13 +807,7 @@ static void amd_e400_idle(void)
+--- a/arch/x86/include/asm/shared/tdx.h
++++ b/arch/x86/include/asm/shared/tdx.h
+@@ -8,7 +8,6 @@
+ #define TDX_HYPERCALL_STANDARD  0
  
- 	default_idle();
+ #define TDX_HCALL_HAS_OUTPUT	BIT(0)
+-#define TDX_HCALL_ISSUE_STI	BIT(1)
  
--	/*
--	 * The switch back from broadcast mode needs to be called with
--	 * interrupts disabled.
--	 */
--	raw_local_irq_disable();
- 	tick_broadcast_exit();
--	raw_local_irq_enable();
- }
- 
- /*
-@@ -870,12 +865,10 @@ static __cpuidle void mwait_idle(void)
- 		}
- 
- 		__monitor((void *)&current_thread_info()->flags, 0, 0);
--		if (!need_resched())
-+		if (!need_resched()) {
- 			__sti_mwait(0, 0);
--		else
--			raw_local_irq_enable();
--	} else {
--		raw_local_irq_enable();
-+			raw_local_irq_disable();
-+		}
- 	}
- 	__current_clr_polling();
- }
---- a/arch/xtensa/kernel/process.c
-+++ b/arch/xtensa/kernel/process.c
-@@ -183,6 +183,7 @@ void coprocessor_flush_release_all(struc
- void arch_cpu_idle(void)
- {
- 	platform_idle();
-+	raw_local_irq_disable();
- }
- 
- /*
---- a/kernel/sched/idle.c
-+++ b/kernel/sched/idle.c
-@@ -79,7 +79,6 @@ void __weak arch_cpu_idle_dead(void) { }
- void __weak arch_cpu_idle(void)
- {
- 	cpu_idle_force_poll = 1;
--	raw_local_irq_enable();
- }
- 
- /**
-@@ -96,7 +95,6 @@ void __cpuidle default_idle_call(void)
- 
- 		ct_cpuidle_enter();
- 		arch_cpu_idle();
--		raw_local_irq_disable();
- 		ct_cpuidle_exit();
- 
- 		start_critical_timings();
+ #define TDX_CPUID_LEAF_ID	0x21
+ #define TDX_IDENT		"IntelTDX    "
 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195540.618076436%40infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195540.682137572%40infradead.org.
