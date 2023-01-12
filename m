@@ -1,113 +1,116 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRB2WMQGPAMGQE5YWVWIY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRB4OMQGPAMGQEML4QINI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB32D667FF0
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:35 +0100 (CET)
-Received: by mail-lf1-x13c.google.com with SMTP id x7-20020ac24887000000b004cb10694f9bsf7290550lfc.6
-        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:35 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673553515; cv=pass;
+Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F5F668014
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:41 +0100 (CET)
+Received: by mail-wm1-x33a.google.com with SMTP id n9-20020a05600c3b8900b003d9f14e904esf6994166wms.9
+        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:41 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673553521; cv=pass;
         d=google.com; s=arc-20160816;
-        b=c1I34h0h0BeE17K7weS2LM45auG9A6XQDWaQojlWXGFYy7bqb0vGUs5NVuGjoH04zL
-         bMWpPK6hI9gxpd8MsWvo6lKGExVJiefFT4FrkGlTC0//56FHialYY0JU+KGxXjAlkDZm
-         jkvtA8TSyakn65v2gfylSA/S8tE5xDqWBv43GCaNUG8yf0B4Tocf34OBg1kT3Cc/zai9
-         JJomxwEuwButPqNtL48WnHkSQIEGq9jO0nQRgdu7Fa04uYzddKsv1AKoAhkvv0P0JTLV
-         xSGGT3uVVoZnbD6f4d+MpCf5RC54i735P7GwDT8vbnrfaWxuFl13JK8og1shkkKdWVyS
-         x4Mw==
+        b=x62siDOA+dpkDiR4tHaOl5TcA4EVsLXycfGmBsEA0sznHjZN5CloW5OKoXpbySc2D0
+         fIIF0psSwAnJn5VP1kSZD/CX0dqBLMltbxP5BOyjlQS/HeL1qEZ0CkymI+wxC6J6YNWn
+         rYL686G8ajqR1NK4AaTrTITZRCrb839PROjnfktEwA37fXpAH07M2OW5U6P2/TbOj90h
+         aifO1ncljONjaA1cEh42BxIkALHSRCaLWtegyr4ol47S9s9jfOWKR9f7DJ8Qvfz5pkia
+         MsZ6PMhwHSTt0ieA5Zc/wVPQ+95R6O23nYfU9yEmoY9WYcqqup1Uq2Bwai5RSkEZmEoy
+         v6VA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:subject:cc:to:from:date:user-agent
-         :message-id:mime-version:sender:dkim-signature;
-        bh=Jh1HoGXi9pLJHXybLeW4FocSAG8jZQk+xVSY5vhiY4o=;
-        b=evQh49Wlu03e2qgOR1wnvJNobAz+/kxr2rxfNgK4rWj1g48X/wZFt14zZGeDOLJIBJ
-         UJrfhLf0xSg9KytQhnWHflOlNza0bCy+nPW6dhaFBWh9m3V0dhm7i7l3AA6O8FRcN+Wh
-         9E6jVCd5ZC0wk6g5UqF0jcFndT/HX0fJk5df6NtPZVIogVvG/aqPNqaBMbC3sfAtT5Fc
-         oXCyxW9Sbd1CCIFx8+GUm8StuPHpPAVZfBSwaKUp/W1AM7siKiz5yM7930DrUu70r2hE
-         zgZhQ3j6Jl8vCg5vEllmdovw0dsm3ttQ17RzGfzT9sf4cLk2lnj15tG+TDyjQ2tppMVI
-         srYA==
+         :list-id:mailing-list:precedence:mime-version:references:subject:cc
+         :to:from:date:user-agent:message-id:sender:dkim-signature;
+        bh=p5d3DDxvNivajjy5TS55Q3TxTv8Y0L4vGrQpBsy5aJM=;
+        b=WdstfidYP7vcpUM9RUa+o5aOm16RYXk3IS4xM/V6MiPqjc1D6he1czVYjxvoIk9vQY
+         wgTJ6ZJ8F+9tH2ytxt7xRTuyUKAnEMiaStKgbIZyv1X4ZUBeFwq40/jNV+cv2dY+bcFu
+         JaajqUCGFqoxz6Q94eIifjUzAkj6dZi9EMe7xQECtVbQfljPENYa8IZO5YKQsftJkHdR
+         PtwzobKfcyfH2Socx62xrxY2ycJjr0UBYW0a2Jq1NJNpkXKR/jiflSqzei9jVIiZQ4Bw
+         Ci6FPHlVJZlStOIxsF4xlCoFKCgc6HL45B5j0Zjys63Jo/IwkhEoUqBvV9CSDMZUiOwQ
+         rmqw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=YEW7kFaH;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=AsVrq9wT;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:subject:cc:to:from:date:user-agent:message-id
-         :mime-version:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jh1HoGXi9pLJHXybLeW4FocSAG8jZQk+xVSY5vhiY4o=;
-        b=h9FH5KLuJTgXP7Fb4QFy+2HxK4/+W8g+czbbph5uAUaSJIjK5WX8YSzwn7Wh0J005k
-         X5rQ3Aerqvbc77eLucAvNKX1U6Rd1ysEHhSHQSver+bzYmqs7wJt0nhcuLIpc5dtuUaD
-         9ehKyt/Pb0hZEXv3/wgxb/pci3eYae2fZmWt9my84ozYS+9rSUtq6YhatcEv4B4a8jOK
-         /ENEz1rFabgFEuzMlR1EUMah6TyErtuGBzmzBxMyEjXDD8n3C26d1DW7+YVw0IenJaXF
-         bF67pyUM6wrw11oP2Eh1pCArThg/PgPh9+kdt7D6aJhxp7jXPNiIPWY1ak3G8M+fBLj2
-         8/tg==
+         :x-original-sender:mime-version:references:subject:cc:to:from:date
+         :user-agent:message-id:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p5d3DDxvNivajjy5TS55Q3TxTv8Y0L4vGrQpBsy5aJM=;
+        b=Zx/03xVVvGzNLPlYqLi7G60c9q0JzU5dhS0E0klfIYrDmoXmX7W/xNkgLj6USIH8GU
+         9duv9cUCJt9q38S5HsYI4uwbzJEwMGuEO7JgoHyX1cSjkshXjOYxfFeafaoRORACt3LY
+         l6CNHOobDvU5iKlvZU1fq5Uxwu9m6xZKl6A8e+xASjSRPFH6oM3deJYzxC9GSeIMyw0I
+         K7u66LaT6z3eFpvv9WAgT+cTqx2le1EeSWpnPa99KgEWVzRpEjdD7b9D/mXcUGe2CfHu
+         x1d+Ot+1L2Y7LjQ/1C9x4uVeaw+zhB1ixU+Qr926JxWgqM3gf+sqE4/YhWiHHtMGlKnO
+         RS5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:subject:cc:to
-         :from:date:user-agent:message-id:mime-version:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Jh1HoGXi9pLJHXybLeW4FocSAG8jZQk+xVSY5vhiY4o=;
-        b=xwJA/U2ZhnQfzmZmgYUkR8rdIMMPP5SGOkNAvTWV2arLEcEsG5a8LF7OlTAKkuX54j
-         483cGLDnxrUVVdX5ZbhBkKJQysxa96vT6TziM8UQ7sDS6bnpDAzuCqkntuy076pjbGy7
-         WvxpCl72zamDElsEI7r7+0cRxWY37idctM9WDHupV9e/9pK4lDAbgUdC0bfmEr7RSMZ7
-         5vrHl3t68+4GvXyJeMu1tyVa0fQ/gdltmy69TxAaG7vOCCEPMhukUY9XfmoAFim7gqth
-         HUAHZ7tRoyc20jLTlOqKPvJfK93/CnXGC0Sg48A6QUjCDOo+iAttCq0QgffV+JJzsLk2
-         kfWw==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:subject:cc:to:from:date:user-agent:message-id
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=p5d3DDxvNivajjy5TS55Q3TxTv8Y0L4vGrQpBsy5aJM=;
+        b=5DlGGTOlYc3s09cTs3T0y8Nvnj8kbDHrdlcbesImaI9x5mqoktCAGYU2FlUYpfeMs4
+         OlwIn+KnHS9lKYyxKzgayzKxocdCMP+tN6T26UqsyPpbDGw2wk9NNpzfT6I1M3a3Nl5X
+         csUoHC0FbAvn8k4jE9nZeAFNRmkHB9R/eueK5Je2pyEMQthtOrEBCfgKNr+rTrAor9Qa
+         AVE55wkQDeLQcrBqqe+m4JGZY/kLW8xRAY29YcqE/M2eIgzvoR+m1h/VYwwujCfY8VPj
+         iUzeD+71VrqCoWLSzGpePp9eEPd+I1hZFREsNLXzeejQgchRmFkdKwdA/pJAUvs06mFS
+         lBXQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kpwCZrOoDddgRcFt8ZoKYEq3ogGserPqhLCWoHWQek4CalqGMr8
-	56FcVxFcDT7CnVQTh6WYXcg=
-X-Google-Smtp-Source: AMrXdXs8FzrZClpauD9LJw2BjKGGc2xotD2VedGi2B+bBlpMGSPaAnYAB7vxEd124VrfwtTXXdhPKw==
-X-Received: by 2002:a05:651c:221e:b0:27f:c88b:5ba4 with SMTP id y30-20020a05651c221e00b0027fc88b5ba4mr2865555ljq.446.1673553514927;
-        Thu, 12 Jan 2023 11:58:34 -0800 (PST)
-MIME-Version: 1.0
+X-Gm-Message-State: AFqh2krnPMi8kX+cTapRU7j6Djt6j9hQ3ZeTsG3/bsScElAeqDswyGYJ
+	LAjl/zW+WYS6jW1DFhJBvSM=
+X-Google-Smtp-Source: AMrXdXsm3ai1tVrLcm5rO4XJM0bqK97Iboh9247ub+ax/+3XzT9vxLPeyaGSlm6uu20dtJopf9B1IQ==
+X-Received: by 2002:adf:f903:0:b0:2a6:4dfb:80b6 with SMTP id b3-20020adff903000000b002a64dfb80b6mr1520172wrr.388.1673553521369;
+        Thu, 12 Jan 2023 11:58:41 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:1182:b0:4b5:3cdf:5a65 with SMTP id
- g2-20020a056512118200b004b53cdf5a65ls1755063lfr.2.-pod-prod-gmail; Thu, 12
- Jan 2023 11:58:33 -0800 (PST)
-X-Received: by 2002:a05:6512:12c2:b0:4ce:88af:473b with SMTP id p2-20020a05651212c200b004ce88af473bmr489278lfg.54.1673553513475;
-        Thu, 12 Jan 2023 11:58:33 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673553513; cv=none;
+Received: by 2002:a05:6000:250:b0:269:604b:a0dd with SMTP id
+ m16-20020a056000025000b00269604ba0ddls1474437wrz.0.-pod-prod-gmail; Thu, 12
+ Jan 2023 11:58:40 -0800 (PST)
+X-Received: by 2002:adf:f4c2:0:b0:2bd:c9b5:71c2 with SMTP id h2-20020adff4c2000000b002bdc9b571c2mr3985067wrp.38.1673553520261;
+        Thu, 12 Jan 2023 11:58:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673553520; cv=none;
         d=google.com; s=arc-20160816;
-        b=ztvmJiIQMb7VlLAi9eIOF60JYi6XEVABMgezI8HHfWnPg9eCD1YlLEglqz8RrbS+16
-         OekBntZIyfvy6qSkrHIQ4l3WkoA8FJ92JjGL44pzWV7DzNGJQWPWc/J50QEqzapChooM
-         mWu18fwyjsbmUVBWo5eXL9AzsE/dTX8ybR0EQHrkDJmf3VibjhIPn5sMxQ9Zq/Q/KH3b
-         u6ykyyFad7gVOMv2OJu1PEgQK1eJSYxcSPNw9e/u3yW9SCRSpEWV3bkoLIFthaq2KVG2
-         Xc3v0lQBIYrXYz6wxtbQHZS03ZE2WHk4EriSIQ0pq53av4GVuAu9yPPb3gIGNz5N3IHC
-         LyDA==
+        b=0roBNgkN46UIu1uIu4uefmcU1gM27K4y359AzFm0ndZ/HbGvksf0sz2BTrkZThn7DB
+         /aPDeiXmQX8gHOEkvR4eqkGPYhsk0oNhqfK/pSJMqOe//nBrM0WJdtKm3WFgmw9YcKed
+         lFtpCrq87Q0HbZ81+9CfRvYRgJOsLxiid2C3L0376m1HH8Nt0ppJz1Q5YWWr/gdn4Ang
+         8wkjIeheTG6BVr6vgtq9vAhKzLav8n4DGtosGvCbG2LwzsrW4FRK+7afD8+k0yD4qf1h
+         KT9tYQK9F+GbRon8VeR7h4rkyInxaAvo2I0yALtXb6i+0EzjesiC9cNxP8Pa+UaDwLOn
+         p6Hw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=subject:cc:to:from:date:user-agent:message-id:dkim-signature;
-        bh=nVA2Mm1l3YORbADd6moHHe8hZRGP2vbv/t+d/ET+JHY=;
-        b=TY0xUt2CzduH7nps7X+JPOc78gVeBe/XX+6uAQmIq/Dp9w7LMGMd5CR4DCcVeyONhO
-         wg75I7v8o1XHU0YcKmEHf7RBh/JgzP8v5JbULnBE/hYvMtt091ifhM9X8u6+aldqD4Xu
-         K1euYFONa12t+W9dsc51LYX/gGs+lKf/1hlSPFEKKZAD4s6+4/mYosAfYlbvoubN2gK7
-         eliGFP/e8RUqOkKJbYux5hokSpRgUavlHRk+UW3zsDFIArT/0vvibM2hWWkzsO1jGM0w
-         SpXeyXrIp6B5bGDFBR3vGLBR1OHZKuEOsLIPqsRqzcgcgkgKhdsNv6xHL8W9jhIvYeBQ
-         jhFg==
+        h=mime-version:references:subject:cc:to:from:date:user-agent
+         :message-id:dkim-signature;
+        bh=K+6/dwXz2WKb5RxNLU2q+chP38k8rKZMVN0FbUJ4gys=;
+        b=x11ut+SkOt3Y6Iv6fNGBaRCB1yu0Iwg1gYdmw5FXVpA5iW7HqZjWMJ1rHFymaAEBkO
+         nkQj5zfH/VddSawUXAfCqeV+rOsfawFTlaO3hUUEnnBHJSdNhXVQDPSDpM5R2O4c9PK+
+         vNxbckm55vMBHDTzEHKx9oJZnz5MMqK5xjGgobH7d/gL5DItzSt2KQqIdLDl4zptx0yv
+         gKRN7MOdqBbApFAVmDOBy/IznWoOk9325qno3ZfMzWUaQ3JppFGyAi+Q6GxcnGQVuAxx
+         xUsItoAjcHtNq80hxYXD/A2bq6wbiNWv2RTerKXF9x78SV651Q/4QJB9ZRCdwI7ORFTq
+         GEXQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=YEW7kFaH;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=AsVrq9wT;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
-Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id v9-20020a05651203a900b004cfb4a3fc7esi13614lfp.8.2023.01.12.11.58.33
+Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id m7-20020a5d56c7000000b0023677081f0esi826742wrw.7.2023.01.12.11.58.40
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jan 2023 11:58:33 -0800 (PST)
-Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
+        Thu, 12 Jan 2023 11:58:40 -0800 (PST)
+Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG3hW-005OcE-N8; Thu, 12 Jan 2023 19:57:26 +0000
+	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1pG3hC-0045nv-05;
+	Thu, 12 Jan 2023 19:57:06 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A2F1D30012F;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id B4716300472;
 	Thu, 12 Jan 2023 20:57:07 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 892382CCF1F46; Thu, 12 Jan 2023 20:57:07 +0100 (CET)
-Message-ID: <20230112194314.845371875@infradead.org>
+	id 8D9992CCF1F4A; Thu, 12 Jan 2023 20:57:07 +0100 (CET)
+Message-ID: <20230112195539.392862891@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:43:14 +0100
+Date: Thu, 12 Jan 2023 20:43:15 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -254,14 +257,18 @@ Cc: richard.henderson@linaro.org,
  linux-arch@vger.kernel.org,
  linux-mm@kvack.org,
  linux-trace-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com
-Subject: [PATCH v3 00/51] cpuidle,rcu: Clean up the mess
+ kasan-dev@googlegroups.com,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>
+Subject: [PATCH v3 01/51] x86/perf/amd: Remove tracing from perf_lopwr_cb()
+References: <20230112194314.845371875@infradead.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=YEW7kFaH;
+ header.i=@infradead.org header.s=desiato.20200630 header.b=AsVrq9wT;
        spf=none (google.com: infradead.org does not designate permitted sender
  hosts) smtp.mailfrom=peterz@infradead.org
-Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -274,186 +281,67 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi All!
+The perf_lopwr_cb() is called from the idle routines; there is no RCU
+there, we must not enter tracing.
 
-The (hopefully) final respin of cpuidle vs rcu cleanup patches. Barring any
-objections I'll be queueing these patches in tip/sched/core in the next few
-days.
-
-v2: https://lkml.kernel.org/r/20220919095939.761690562@infradead.org
-
-These here patches clean up the mess that is cpuidle vs rcuidle.
-
-At the end of the ride there's only on RCU_NONIDLE user left:
-
-  arch/arm64/kernel/suspend.c:            RCU_NONIDLE(__cpu_suspend_exit());
-
-And I know Mark has been prodding that with something sharp.
-
-The last version was tested by a number of people and I'm hoping to not have
-broken anything in the meantime ;-)
-
-
-Changes since v2:
-
- - rebased to v6.2-rc3; as available at:
-     git://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/idle
-
- - folded: https://lkml.kernel.org/r/Y3UBwYNY15ETUKy9@hirez.programming.kicks-ass.net
-   which makes the ARM cpuidle index 0 consistently not use
-   CPUIDLE_FLAG_RCU_IDLE, as requested by Ulf.
-
- - added a few more __always_inline to empty stub functions as found by the
-   robot.
-
- - Used _RET_IP_ instead of _THIS_IP_ in a few placed because of:
-   https://github.com/ClangBuiltLinux/linux/issues/263
-
- - Added new patches to address various robot reports:
-
-     #35:  trace,hardirq: No moar _rcuidle() tracing
-     #47:  cpuidle: Ensure ct_cpuidle_enter() is always called from noinstr/__cpuidle
-     #48:  cpuidle,arch: Mark all ct_cpuidle_enter() callers __cpuidle
-     #49:  cpuidle,arch: Mark all regular cpuidle_state::enter methods __cpuidle
-     #50:  cpuidle: Comments about noinstr/__cpuidle
-     #51:  context_tracking: Fix noinstr vs KASAN
-
-
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Acked-by: Frederic Weisbecker <frederic@kernel.org>
+Tested-by: Tony Lindgren <tony@atomide.com>
+Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- arch/alpha/kernel/process.c               |  1 -
- arch/alpha/kernel/vmlinux.lds.S           |  1 -
- arch/arc/kernel/process.c                 |  3 ++
- arch/arc/kernel/vmlinux.lds.S             |  1 -
- arch/arm/include/asm/vmlinux.lds.h        |  1 -
- arch/arm/kernel/cpuidle.c                 |  4 +-
- arch/arm/kernel/process.c                 |  1 -
- arch/arm/kernel/smp.c                     |  6 +--
- arch/arm/mach-davinci/cpuidle.c           |  4 +-
- arch/arm/mach-gemini/board-dt.c           |  3 +-
- arch/arm/mach-imx/cpuidle-imx5.c          |  4 +-
- arch/arm/mach-imx/cpuidle-imx6q.c         |  8 ++--
- arch/arm/mach-imx/cpuidle-imx6sl.c        |  4 +-
- arch/arm/mach-imx/cpuidle-imx6sx.c        |  9 ++--
- arch/arm/mach-imx/cpuidle-imx7ulp.c       |  4 +-
- arch/arm/mach-omap2/common.h              |  6 ++-
- arch/arm/mach-omap2/cpuidle34xx.c         | 16 ++++++-
- arch/arm/mach-omap2/cpuidle44xx.c         | 29 +++++++------
- arch/arm/mach-omap2/omap-mpuss-lowpower.c | 12 +++++-
- arch/arm/mach-omap2/pm.h                  |  2 +-
- arch/arm/mach-omap2/pm24xx.c              | 51 +---------------------
- arch/arm/mach-omap2/pm34xx.c              | 14 +++++--
- arch/arm/mach-omap2/pm44xx.c              |  2 +-
- arch/arm/mach-omap2/powerdomain.c         | 10 ++---
- arch/arm/mach-s3c/cpuidle-s3c64xx.c       |  5 +--
- arch/arm64/kernel/cpuidle.c               |  2 +-
- arch/arm64/kernel/idle.c                  |  1 -
- arch/arm64/kernel/smp.c                   |  4 +-
- arch/arm64/kernel/vmlinux.lds.S           |  1 -
- arch/csky/kernel/process.c                |  1 -
- arch/csky/kernel/smp.c                    |  2 +-
- arch/csky/kernel/vmlinux.lds.S            |  1 -
- arch/hexagon/kernel/process.c             |  1 -
- arch/hexagon/kernel/vmlinux.lds.S         |  1 -
- arch/ia64/kernel/process.c                |  1 +
- arch/ia64/kernel/vmlinux.lds.S            |  1 -
- arch/loongarch/kernel/idle.c              |  1 +
- arch/loongarch/kernel/vmlinux.lds.S       |  1 -
- arch/m68k/kernel/vmlinux-nommu.lds        |  1 -
- arch/m68k/kernel/vmlinux-std.lds          |  1 -
- arch/m68k/kernel/vmlinux-sun3.lds         |  1 -
- arch/microblaze/kernel/process.c          |  1 -
- arch/microblaze/kernel/vmlinux.lds.S      |  1 -
- arch/mips/kernel/idle.c                   | 14 +++----
- arch/mips/kernel/vmlinux.lds.S            |  1 -
- arch/nios2/kernel/process.c               |  1 -
- arch/nios2/kernel/vmlinux.lds.S           |  1 -
- arch/openrisc/kernel/process.c            |  1 +
- arch/openrisc/kernel/vmlinux.lds.S        |  1 -
- arch/parisc/kernel/process.c              |  2 -
- arch/parisc/kernel/vmlinux.lds.S          |  1 -
- arch/powerpc/kernel/idle.c                |  5 +--
- arch/powerpc/kernel/vmlinux.lds.S         |  1 -
- arch/riscv/kernel/process.c               |  1 -
- arch/riscv/kernel/vmlinux-xip.lds.S       |  1 -
- arch/riscv/kernel/vmlinux.lds.S           |  1 -
- arch/s390/kernel/idle.c                   |  1 -
- arch/s390/kernel/vmlinux.lds.S            |  1 -
- arch/sh/kernel/idle.c                     |  1 +
- arch/sh/kernel/vmlinux.lds.S              |  1 -
- arch/sparc/kernel/leon_pmc.c              |  4 ++
- arch/sparc/kernel/process_32.c            |  1 -
- arch/sparc/kernel/process_64.c            |  3 +-
- arch/sparc/kernel/vmlinux.lds.S           |  1 -
- arch/um/kernel/dyn.lds.S                  |  1 -
- arch/um/kernel/process.c                  |  1 -
- arch/um/kernel/uml.lds.S                  |  1 -
- arch/x86/boot/compressed/vmlinux.lds.S    |  1 +
- arch/x86/coco/tdx/tdcall.S                | 15 +------
- arch/x86/coco/tdx/tdx.c                   | 25 ++++-------
- arch/x86/events/amd/brs.c                 | 13 +++---
- arch/x86/include/asm/fpu/xcr.h            |  4 +-
- arch/x86/include/asm/irqflags.h           | 11 ++---
- arch/x86/include/asm/mwait.h              | 14 +++----
- arch/x86/include/asm/nospec-branch.h      |  2 +-
- arch/x86/include/asm/paravirt.h           |  6 ++-
- arch/x86/include/asm/perf_event.h         |  2 +-
- arch/x86/include/asm/shared/io.h          |  4 +-
- arch/x86/include/asm/shared/tdx.h         |  1 -
- arch/x86/include/asm/special_insns.h      |  8 ++--
- arch/x86/include/asm/xen/hypercall.h      |  2 +-
- arch/x86/kernel/cpu/bugs.c                |  2 +-
- arch/x86/kernel/fpu/core.c                |  4 +-
- arch/x86/kernel/paravirt.c                | 14 ++++++-
- arch/x86/kernel/process.c                 | 65 ++++++++++++++--------------
- arch/x86/kernel/vmlinux.lds.S             |  1 -
- arch/x86/lib/memcpy_64.S                  |  5 +--
- arch/x86/lib/memmove_64.S                 |  4 +-
- arch/x86/lib/memset_64.S                  |  4 +-
- arch/x86/xen/enlighten_pv.c               |  2 +-
- arch/x86/xen/irq.c                        |  2 +-
- arch/xtensa/kernel/process.c              |  1 +
- arch/xtensa/kernel/vmlinux.lds.S          |  1 -
- drivers/acpi/processor_idle.c             | 28 ++++++++-----
- drivers/base/power/runtime.c              | 24 +++++------
- drivers/clk/clk.c                         |  8 ++--
- drivers/cpuidle/cpuidle-arm.c             |  4 +-
- drivers/cpuidle/cpuidle-big_little.c      | 12 ++++--
- drivers/cpuidle/cpuidle-mvebu-v7.c        | 13 ++++--
- drivers/cpuidle/cpuidle-psci.c            | 26 +++++-------
- drivers/cpuidle/cpuidle-qcom-spm.c        |  4 +-
- drivers/cpuidle/cpuidle-riscv-sbi.c       | 19 +++++----
- drivers/cpuidle/cpuidle-tegra.c           | 31 +++++++++-----
- drivers/cpuidle/cpuidle.c                 | 70 ++++++++++++++++++++++---------
- drivers/cpuidle/dt_idle_states.c          |  2 +-
- drivers/cpuidle/poll_state.c              | 10 ++++-
- drivers/idle/intel_idle.c                 | 19 ++++-----
- drivers/perf/arm_pmu.c                    | 11 +----
- drivers/perf/riscv_pmu_sbi.c              |  8 +---
- include/asm-generic/vmlinux.lds.h         |  9 ++--
- include/linux/clockchips.h                |  4 +-
- include/linux/compiler_types.h            | 18 +++++++-
- include/linux/cpu.h                       |  3 --
- include/linux/cpuidle.h                   | 32 ++++++++++++++
- include/linux/cpumask.h                   |  4 +-
- include/linux/percpu-defs.h               |  2 +-
- include/linux/sched/idle.h                | 40 +++++++++++++-----
- include/linux/thread_info.h               | 18 +++++++-
- include/linux/tracepoint.h                | 15 ++++++-
- kernel/context_tracking.c                 | 12 +++---
- kernel/cpu_pm.c                           |  9 ----
- kernel/printk/printk.c                    |  2 +-
- kernel/sched/idle.c                       | 47 ++++++---------------
- kernel/time/tick-broadcast-hrtimer.c      | 29 ++++++-------
- kernel/time/tick-broadcast.c              |  6 ++-
- kernel/trace/trace.c                      |  3 ++
- kernel/trace/trace_preemptirq.c           | 50 ++++++----------------
- lib/ubsan.c                               |  5 ++-
- mm/kasan/kasan.h                          |  4 ++
- mm/kasan/shadow.c                         | 38 +++++++++++++++++
- tools/objtool/check.c                     | 17 ++++++++
- 131 files changed, 617 insertions(+), 523 deletions(-)
+ arch/x86/events/amd/brs.c         |   13 +++++--------
+ arch/x86/include/asm/perf_event.h |    2 +-
+ 2 files changed, 6 insertions(+), 9 deletions(-)
+
+--- a/arch/x86/events/amd/brs.c
++++ b/arch/x86/events/amd/brs.c
+@@ -41,18 +41,15 @@ static inline unsigned int brs_to(int id
+ 	return MSR_AMD_SAMP_BR_FROM + 2 * idx + 1;
+ }
+ 
+-static inline void set_debug_extn_cfg(u64 val)
++static __always_inline void set_debug_extn_cfg(u64 val)
+ {
+ 	/* bits[4:3] must always be set to 11b */
+-	wrmsrl(MSR_AMD_DBG_EXTN_CFG, val | 3ULL << 3);
++	__wrmsr(MSR_AMD_DBG_EXTN_CFG, val | 3ULL << 3, val >> 32);
+ }
+ 
+-static inline u64 get_debug_extn_cfg(void)
++static __always_inline u64 get_debug_extn_cfg(void)
+ {
+-	u64 val;
+-
+-	rdmsrl(MSR_AMD_DBG_EXTN_CFG, val);
+-	return val;
++	return __rdmsr(MSR_AMD_DBG_EXTN_CFG);
+ }
+ 
+ static bool __init amd_brs_detect(void)
+@@ -338,7 +335,7 @@ void amd_pmu_brs_sched_task(struct perf_
+  * called from ACPI processor_idle.c or acpi_pad.c
+  * with interrupts disabled
+  */
+-void perf_amd_brs_lopwr_cb(bool lopwr_in)
++void noinstr perf_amd_brs_lopwr_cb(bool lopwr_in)
+ {
+ 	struct cpu_hw_events *cpuc = this_cpu_ptr(&cpu_hw_events);
+ 	union amd_debug_extn_cfg cfg;
+--- a/arch/x86/include/asm/perf_event.h
++++ b/arch/x86/include/asm/perf_event.h
+@@ -554,7 +554,7 @@ extern void perf_amd_brs_lopwr_cb(bool l
+ 
+ DECLARE_STATIC_CALL(perf_lopwr_cb, perf_amd_brs_lopwr_cb);
+ 
+-static inline void perf_lopwr_cb(bool lopwr_in)
++static __always_inline void perf_lopwr_cb(bool lopwr_in)
+ {
+ 	static_call_mod(perf_lopwr_cb)(lopwr_in);
+ }
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112194314.845371875%40infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195539.392862891%40infradead.org.
