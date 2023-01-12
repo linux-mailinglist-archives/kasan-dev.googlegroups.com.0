@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRB4GMQGPAMGQERVECTBI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRB3OMQGPAMGQEUOPKHTQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960A766800D
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:40 +0100 (CET)
-Received: by mail-lf1-x139.google.com with SMTP id a20-20020ac25214000000b004b57756f937sf7285610lfl.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:40 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673553520; cv=pass;
+Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60311668006
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:38 +0100 (CET)
+Received: by mail-wm1-x33f.google.com with SMTP id k38-20020a05600c1ca600b003da1c24f23csf990923wms.8
+        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:38 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673553518; cv=pass;
         d=google.com; s=arc-20160816;
-        b=pq3ktaWrj5dtYVZpB/WqOuMdxBhC0A4Q9d26FNs5VrhJb+FHwu+zu5VEGOb3IAt1MR
-         Ck4hmS19gUUKpA9TVI/Ixra5bHYmHspIjnN+M/pHgRLtvAHJlpVsthvdH7flCaZLIY4U
-         7KqoMTTNjjKHA7RvNnIWVxxOVHGiz8xS6tEcOaYItywcsLDxb0rnb+ATd/yWi+9JT1bA
-         sVs91ZucTWt76+r/Y3IVOn3DMjwTbeRWtkqVxklfa+Kbhh2HSsC1/eVXrdGj2wmIbWIN
-         E//0xKFCcrpIEtN7nbC1TgisrXMxMeOQiw3vkMPd/jkq8R/wHvOZytB09MEmDmwE8txZ
-         LaSg==
+        b=LfCtpmUMYEz1PUf1nRHwB0elC/FoXouFH3OojkRJanwIZ1IBnX4CqS3SOJrd+yKq1p
+         L3ARdzEaPyEk/E0BeyirJ93ibwE1dIQqyLE9IAkG+YHa+kE2m+Dr6CiozRCQdVf14KZB
+         JxPYiEADhDUVBDy8H8G1CuOZvb2pTcuPyY90sRlpLo9DAo4mugNqDlfPMcBj+kdKblCo
+         Jw0R3J7kY5/KR9xX995k1Fgn5MynzppeWW6Gl8Amr9pqno2CqJ8dqaSqO/GSv1GbWd5n
+         PCT88ANK/AHsm3CKl0thM0VgIoXMJ8rBn04qTpzRo301ii0YxMcZQM3NJ2XCtGd8/tvu
+         bbfw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:subject:cc
          :to:from:date:user-agent:message-id:sender:dkim-signature;
-        bh=rxsT0qZE/WNvA1/xiEWfbOMIW48GsNxw1DS3t+gonyk=;
-        b=zTUfc3RwcKP8tZOerXmIoXxHv3g6x+xBZXlaXEU9+o4P7GUiF5N2hC2tOjaMUbnQiJ
-         ZrIZuCNcHgfRpM8Qm1PhoK4J9BCHu5Ftq63fW7+t+toFnAqT6QM7MHAP/waEZnVXsU2D
-         UmxHCkufLBoOsKvBVaY69Ph5FUBlBTq7iqcoMJH+IuT0tkAkwlVyDogg5Fx4YsRW9WVp
-         Qy7I3aqFoYd7p3I8XxDwzo7TeYZp+86BrbmRB8dSnnindjiFs6aF4va3dulXz5wpnbqQ
-         W0pef4hmSXZaWo1RAO5FHHNV8CyAYiHSeOXvDuSbCvwk92hPCeene+nGFZ6dK4oMDtkc
-         Xzmw==
+        bh=xcVK1jMSUDkuL2QX44F1Ec5wp5Th/HI0W8FzDS00wYo=;
+        b=wV2wyMFwRVyUOJiK5IR1uHSkpQUM1jPYlIlCgRVHjnKNzXEZsrPSy+G+UTkbhhNDwH
+         U2wiStgwyHI4PhkWh2fzl1EUCk7HQvD0zgrtZGGSSG5fdFegkALHGLSDZDm/fg3Fy/qZ
+         Ne8Pg/JS2jqbYcV4BP6Fa1Y/q4QCXxmN5slD2cnuKBletLvfxbgF7RJsd8IiPUD7ADHV
+         x6xe0ybx73DXdxXT0XFgEcbuovpsQKTZPxSnqmoRDoPCzA9qOMtAzlKl9M8Z281oB0za
+         MgD5ApsawspG4i/4dFBJ8ZXNqJln1W1whEHHEMs8dAiDzXHEAZwhWquRj9+EM1J0Jxg1
+         oXHg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=RtS0+QiF;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=EVbsZA80;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:subject:cc:to:from:date
          :user-agent:message-id:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rxsT0qZE/WNvA1/xiEWfbOMIW48GsNxw1DS3t+gonyk=;
-        b=FrPCWOJDmOS2JjpC2beff9CPvPnhTKy9A0qz+GwhbirtG3WDtZXoA1pB1yW6bY7eEB
-         bX3BL94D7v1GNn+BsFL5xuVd6QYhnU2/o6pWGUYD6x2fc6PYAIOKYhmy2N7nofNRcYqi
-         Dlni1wOJyZ/09PfP0wl1aJJs6+ayQX6QAbkQoE1Q4hzGriuMAZ6rycmTrAMydBEQiB+g
-         c+tqEFN/+G6OwzzthLfISTVPqJ7BvWWjKuyoU2HUwxTsalqagS6QlgtKNEPQEaklWq9S
-         NZk9UeOSSoqyNcV8HvqxGh5stvIkwl08iMqOaZLiC1Laq7AdeVnTy25KdQ9417jHHQwe
-         SvDA==
+        bh=xcVK1jMSUDkuL2QX44F1Ec5wp5Th/HI0W8FzDS00wYo=;
+        b=i13Ce6q1PGl1HJLZnVQtZLC99mLRNHaxCI4u4Ywbiqdtcm3GFsenMjl9MuQgANgan5
+         BVmc18DMhvw6DOdCAjtmjEhKnOmi1SRSHS0AYXeQPb/XHMjDX4MU4MAtsMRQn3ArB+kF
+         pmzTSQj5g5mWbVyBitBdwDpdbD5+9bmqrOtQYLOukZSgaVNDGlT/9TSW3oVhbw38dLvQ
+         WFBpWzmBC0tZFjI6+cQ3zh1r40KXXTa13PoCwMLruhTACrhvjXQQa87uSJfLxRVokn/C
+         8TpZ4ZV2xc6XCc6mLXCMrGgHekhFEWrUsxbs3TwHsN/TAzvsx5yEY75QltX1P1VmHZk4
+         1AaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,67 +50,66 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:subject:cc:to:from:date:user-agent:message-id
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rxsT0qZE/WNvA1/xiEWfbOMIW48GsNxw1DS3t+gonyk=;
-        b=PWjT4Qh+EDRaooQQO1NhJyXAC5w2eMjX19ZAFBWxaKrQHE28aBAfJhNCB3fbNKXLKm
-         b8igszeo7CJZVVNcJDnFy2GZwhCujHuTqhoE4iUfuF6y+WVhqkFY+2NdI9kTpxQQ1YN5
-         K/o7YwlGjhaMtY48K4zBTrq6b6hLcl0jLM2AGWV+zfRWv1jSbaJ03u8LAfF9gXh4VRvS
-         z6dPb2Quz9+RtxUTp+TcPdcWHDlxdbeiE1aLriyqcgMlVKuwB1LST9byqr4nJzmZKSQQ
-         mDtUwSA7VPXAHozFKxhZnokFUY3cbPFpocHoOHbj2KyqshTw0ODs7kvhe2ugQzPSFhjj
-         6UMQ==
+        bh=xcVK1jMSUDkuL2QX44F1Ec5wp5Th/HI0W8FzDS00wYo=;
+        b=HyLzLJqGTbCnIaLAH1qvXPjcCuSBndnXGNTVfHExuyhEVmH6z5iRBUa1h4cFJgpDj0
+         2cU7a6hRi3l/vVEg10NPI9t2DAkI4uMWQqS8TxOKI/ocHdDdgflZLTdvL+IFG+segRvw
+         KzeBVygbevrfy/Ewtl4tEHDbuPEi+umYUA5zO9c5rTEMYNhQu5C+YK+HcQSm0t5yNQGs
+         BPvzY0yy+RuLzYClDtL/ZmgiTzuvtj87fMCxW94DqawC9T2UliKj9iYCdNKb/2ZmvgmM
+         NQzDH39WbUoyeRsCSRtdEqTynhFI5suVGoAQ9uxAdUGEPrVa0BqWRLAJ2easD4csRBkx
+         qXVg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kozFgPW0CaegZZFNfxcOooF7VbsiCbCuQDueFjC/rRwqTvxUv17
-	zq93n+NVeWYNlUxuqQvz1ms=
-X-Google-Smtp-Source: AMrXdXvSZwLwfmDNv95YfTtRYYxONXgHFNqFzsFe4kd01aIUsy8wQV+L/T66n1zCadnnKjRdInMlzQ==
-X-Received: by 2002:a05:6512:3e01:b0:4cc:88a7:653e with SMTP id i1-20020a0565123e0100b004cc88a7653emr1146035lfv.317.1673553520268;
-        Thu, 12 Jan 2023 11:58:40 -0800 (PST)
+X-Gm-Message-State: AFqh2koAJxzoOIoRLm4WNlUGSuhf+c8J/H7ZioJ2uJWjLL4R8N9KxZXF
+	Xtl5tk2mafnKYHrtBTQjY60=
+X-Google-Smtp-Source: AMrXdXsD2kvB8i2DlvHQJ1ECGcXJytYxDYVG1DbNnYQpOMx082fM1Jb99TaZ8HWlxdsVh1N31a6edA==
+X-Received: by 2002:adf:f410:0:b0:2bc:848e:f2f8 with SMTP id g16-20020adff410000000b002bc848ef2f8mr715793wro.567.1673553518027;
+        Thu, 12 Jan 2023 11:58:38 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:214f:b0:4c8:8384:83f3 with SMTP id
- s15-20020a056512214f00b004c8838483f3ls1937570lfr.3.-pod-prod-gmail; Thu, 12
- Jan 2023 11:58:39 -0800 (PST)
-X-Received: by 2002:a05:6512:2344:b0:4cf:9ea0:62f1 with SMTP id p4-20020a056512234400b004cf9ea062f1mr153258lfu.20.1673553519062;
-        Thu, 12 Jan 2023 11:58:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673553519; cv=none;
+Received: by 2002:adf:d234:0:b0:2b6:8e51:dcb with SMTP id k20-20020adfd234000000b002b68e510dcbls1471241wrh.3.-pod-prod-gmail;
+ Thu, 12 Jan 2023 11:58:37 -0800 (PST)
+X-Received: by 2002:adf:dcc4:0:b0:2b5:8ba4:3b12 with SMTP id x4-20020adfdcc4000000b002b58ba43b12mr19367548wrm.23.1673553516997;
+        Thu, 12 Jan 2023 11:58:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673553516; cv=none;
         d=google.com; s=arc-20160816;
-        b=z704WxkOvsuCUDf6GiSaPfx3Ae/e1l2NmZz/o8Fh40IQvPoE8yIlczxUaPOWb+FyJe
-         XDrf69aEn0s8EJcrjDT/EVaCoFPZxEXhiXhaZuzQwR+uRCTRpi7vICEylA7TXo9Sm8mh
-         ujCM09MBkYUY1jpoMe3Of6jJCfvOnIoTmiVbJU0lPyLGbq/htJfZ/hfGDsrmnkBYDJxu
-         OhhPtjOSzlv8P+ENofXe1BL+0Sx5G7TcBkkqYm9Mc127mzfSfl9diPVLWGOsbSGGRHu9
-         s9TQsq+trUxc9YEQOi2MgSj2KiA91FyPqB7qMIi9lWWT52+P1JnP80Fn8nDChQAzOKn7
-         ZWHA==
+        b=fLmZKeuReiF3gGYAKpY65StY/5Tu2LDQoz6ivYP9rkdpNEy9xJdySwpZue72+Snotd
+         6Fz83RqdpJ0+sm6K0jMEdB4SMcFUTMTOyMPRBaIaTtHmtwh63v3pP6ow131pwk4V2M3f
+         1l7bEKCcF2jjJSeZfFnM81OuMDhjndo0ZR9w8lDWV4/A3LLQm2qVQB8hTDD3Ap6mnaMx
+         ksNk3N8vN4wVQKJlVE1WohaFne2tPEDNIl7+k1Wo7DP1PLSzrD0WVoUKmkoLfm5fn6Vy
+         cyv8ivr76pRBAlOxmS1S4ivV1CfIc8fuGl5BkK2RtLIiEdiZt9a6Z6UebGnfdaGMiJd9
+         8K4A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:references:subject:cc:to:from:date:user-agent
          :message-id:dkim-signature;
-        bh=2yvU/+KlibzuaJax7jV4X0So1xAo1cwX7MytP6HDPxE=;
-        b=loqNithTA8M9W+pPsVNk7jBQ6h7w4ZP+KfAiaU2PM10sUrXe/cs2IsfkZld7dlTuxz
-         u6BpB8MBzsuKPhDz8gJRpuo3X/tFhIBvKiZg0sd5lZ5QQ+gWlvO6CexhzyBi4sNfX0n5
-         TIhIL7wW5IUBFpQNP+/ci39KodIO5DH2VrLgPXQGSbttVwP9cVOnFKxIV6vulY0BsL1a
-         OWNsRzIlQPbF5EN1WV1pWr2GxI6lwrStuXR3qwbpQHg8nOVAVp1PpG0o9GTsSZzNeE+/
-         eU3qaMEpfeSaAFpPZ3N5TP0Xpt2AXuBUeQdkEN9xk+Q73NTdmetuXvqiz/YVpeiNFBFs
-         rcKg==
+        bh=Y7pmXu6dfTZxDcbDXfqgJM0mS6VL3mXOpIjOPL8GveM=;
+        b=KxFlO8z9zt05G9U0+p21nAHYJ1lkbpERj9bm6mFktQ0ieM65x2sMuD4ISWfi+Jeeom
+         7Pfuz30h2PGIDh3JzcnWHih+E0StJ6Dg2eZxJD/no9gKfZ9Hu8amHsoB8NUA8pmf0XED
+         HmXOv6u8RQQp0dTRNeJQgjIvx5UKnamkwja49NfSEuYX3XF8XbUFnM/Vf7H22B8xT93Z
+         6gePMhH4y5SAvypnB8NIVdFliZctKY1wVWr1kSyY6moiai0IDp/OH1VQP2KtvrNzbrrl
+         lfrBGYlOsGTCgB7QYSJ6YJKmY/4ZEigsyG5DExxnGBdn8PCHvL1ic6yKQNBMp3ABCRKM
+         obKQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=RtS0+QiF;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=EVbsZA80;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by gmr-mx.google.com with ESMTPS id p11-20020a2eb98b000000b002865233e8b5si509010ljp.5.2023.01.12.11.58.38
+        by gmr-mx.google.com with ESMTPS id d10-20020a5d644a000000b002bddc018216si50930wrw.1.2023.01.12.11.58.36
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jan 2023 11:58:39 -0800 (PST)
+        Thu, 12 Jan 2023 11:58:36 -0800 (PST)
 Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pG3hG-0045p0-2G;
+	id 1pG3hH-0045p8-1K;
 	Thu, 12 Jan 2023 19:57:21 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 90E2F303439;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 980EC30343D;
 	Thu, 12 Jan 2023 20:57:13 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 194442CCF62AF; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
-Message-ID: <20230112195540.988741683@infradead.org>
+	id 1D1292CCF62B1; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
+Message-ID: <20230112195541.050542952@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:43:41 +0100
+Date: Thu, 12 Jan 2023 20:43:42 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -260,13 +259,13 @@ Cc: richard.henderson@linaro.org,
  kasan-dev@googlegroups.com,
  "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
  Ulf Hansson <ulf.hansson@linaro.org>
-Subject: [PATCH v3 27/51] cpuidle,sched: Remove annotations from TIF_{POLLING_NRFLAG,NEED_RESCHED}
+Subject: [PATCH v3 28/51] cpuidle,mwait: Make noinstr clean
 References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=desiato.20200630 header.b=RtS0+QiF;
+ header.i=@infradead.org header.s=desiato.20200630 header.b=EVbsZA80;
        spf=none (google.com: infradead.org does not designate permitted sender
  hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
@@ -281,29 +280,11 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-vmlinux.o: warning: objtool: mwait_idle+0x5: call to current_set_polling_and_test() leaves .noinstr.text section
-vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0xc5: call to current_set_polling_and_test() leaves .noinstr.text section
-vmlinux.o: warning: objtool: cpu_idle_poll.isra.0+0x73: call to test_ti_thread_flag() leaves .noinstr.text section
-vmlinux.o: warning: objtool: intel_idle+0xbc: call to current_set_polling_and_test() leaves .noinstr.text section
-vmlinux.o: warning: objtool: intel_idle_irq+0xea: call to current_set_polling_and_test() leaves .noinstr.text section
-vmlinux.o: warning: objtool: intel_idle_s2idle+0xb4: call to current_set_polling_and_test() leaves .noinstr.text section
+vmlinux.o: warning: objtool: intel_idle_s2idle+0x6e: call to __monitor.constprop.0() leaves .noinstr.text section
+vmlinux.o: warning: objtool: intel_idle_irq+0x8c: call to __monitor.constprop.0() leaves .noinstr.text section
+vmlinux.o: warning: objtool: intel_idle+0x73: call to __monitor.constprop.0() leaves .noinstr.text section
 
-vmlinux.o: warning: objtool: intel_idle+0xa6: call to current_clr_polling() leaves .noinstr.text section
-vmlinux.o: warning: objtool: intel_idle_irq+0xbf: call to current_clr_polling() leaves .noinstr.text section
-vmlinux.o: warning: objtool: intel_idle_s2idle+0xa1: call to current_clr_polling() leaves .noinstr.text section
-
-vmlinux.o: warning: objtool: mwait_idle+0xe: call to __current_set_polling() leaves .noinstr.text section
-vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0xc5: call to __current_set_polling() leaves .noinstr.text section
-vmlinux.o: warning: objtool: cpu_idle_poll.isra.0+0x73: call to test_ti_thread_flag() leaves .noinstr.text section
-vmlinux.o: warning: objtool: intel_idle+0xbc: call to __current_set_polling() leaves .noinstr.text section
-vmlinux.o: warning: objtool: intel_idle_irq+0xea: call to __current_set_polling() leaves .noinstr.text section
-vmlinux.o: warning: objtool: intel_idle_s2idle+0xb4: call to __current_set_polling() leaves .noinstr.text section
-
-vmlinux.o: warning: objtool: cpu_idle_poll.isra.0+0x73: call to test_ti_thread_flag() leaves .noinstr.text section
-vmlinux.o: warning: objtool: intel_idle_s2idle+0x73: call to test_ti_thread_flag.constprop.0() leaves .noinstr.text section
-vmlinux.o: warning: objtool: intel_idle_irq+0x91: call to test_ti_thread_flag.constprop.0() leaves .noinstr.text section
-vmlinux.o: warning: objtool: intel_idle+0x78: call to test_ti_thread_flag.constprop.0() leaves .noinstr.text section
-vmlinux.o: warning: objtool: acpi_safe_halt+0xf: call to test_ti_thread_flag.constprop.0() leaves .noinstr.text section
+vmlinux.o: warning: objtool: mwait_idle+0x88: call to clflush() leaves .noinstr.text section
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
@@ -311,106 +292,73 @@ Acked-by: Frederic Weisbecker <frederic@kernel.org>
 Tested-by: Tony Lindgren <tony@atomide.com>
 Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- include/linux/sched/idle.h  |   40 ++++++++++++++++++++++++++++++----------
- include/linux/thread_info.h |   18 +++++++++++++++++-
- 2 files changed, 47 insertions(+), 11 deletions(-)
+ arch/x86/include/asm/mwait.h         |   12 ++++++------
+ arch/x86/include/asm/special_insns.h |    2 +-
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
---- a/include/linux/sched/idle.h
-+++ b/include/linux/sched/idle.h
-@@ -23,12 +23,37 @@ static inline void wake_up_if_idle(int c
+--- a/arch/x86/include/asm/mwait.h
++++ b/arch/x86/include/asm/mwait.h
+@@ -25,7 +25,7 @@
+ #define TPAUSE_C01_STATE		1
+ #define TPAUSE_C02_STATE		0
+ 
+-static inline void __monitor(const void *eax, unsigned long ecx,
++static __always_inline void __monitor(const void *eax, unsigned long ecx,
+ 			     unsigned long edx)
+ {
+ 	/* "monitor %eax, %ecx, %edx;" */
+@@ -33,7 +33,7 @@ static inline void __monitor(const void
+ 		     :: "a" (eax), "c" (ecx), "d"(edx));
+ }
+ 
+-static inline void __monitorx(const void *eax, unsigned long ecx,
++static __always_inline void __monitorx(const void *eax, unsigned long ecx,
+ 			      unsigned long edx)
+ {
+ 	/* "monitorx %eax, %ecx, %edx;" */
+@@ -41,7 +41,7 @@ static inline void __monitorx(const void
+ 		     :: "a" (eax), "c" (ecx), "d"(edx));
+ }
+ 
+-static inline void __mwait(unsigned long eax, unsigned long ecx)
++static __always_inline void __mwait(unsigned long eax, unsigned long ecx)
+ {
+ 	mds_idle_clear_cpu_buffers();
+ 
+@@ -76,8 +76,8 @@ static inline void __mwait(unsigned long
+  * EAX                     (logical) address to monitor
+  * ECX                     #GP if not zero
   */
- #ifdef TIF_POLLING_NRFLAG
- 
--static inline void __current_set_polling(void)
-+#ifdef _ASM_GENERIC_BITOPS_INSTRUMENTED_ATOMIC_H
-+
-+static __always_inline void __current_set_polling(void)
+-static inline void __mwaitx(unsigned long eax, unsigned long ebx,
+-			    unsigned long ecx)
++static __always_inline void __mwaitx(unsigned long eax, unsigned long ebx,
++				     unsigned long ecx)
  {
--	set_thread_flag(TIF_POLLING_NRFLAG);
-+	arch_set_bit(TIF_POLLING_NRFLAG,
-+		     (unsigned long *)(&current_thread_info()->flags));
+ 	/* No MDS buffer clear as this is AMD/HYGON only */
+ 
+@@ -86,7 +86,7 @@ static inline void __mwaitx(unsigned lon
+ 		     :: "a" (eax), "b" (ebx), "c" (ecx));
  }
  
--static inline bool __must_check current_set_polling_and_test(void)
-+static __always_inline void __current_clr_polling(void)
-+{
-+	arch_clear_bit(TIF_POLLING_NRFLAG,
-+		       (unsigned long *)(&current_thread_info()->flags));
-+}
-+
-+#else
-+
-+static __always_inline void __current_set_polling(void)
-+{
-+	set_bit(TIF_POLLING_NRFLAG,
-+		(unsigned long *)(&current_thread_info()->flags));
-+}
-+
-+static __always_inline void __current_clr_polling(void)
-+{
-+	clear_bit(TIF_POLLING_NRFLAG,
-+		  (unsigned long *)(&current_thread_info()->flags));
-+}
-+
-+#endif /* _ASM_GENERIC_BITOPS_INSTRUMENTED_ATOMIC_H */
-+
-+static __always_inline bool __must_check current_set_polling_and_test(void)
+-static inline void __sti_mwait(unsigned long eax, unsigned long ecx)
++static __always_inline void __sti_mwait(unsigned long eax, unsigned long ecx)
  {
- 	__current_set_polling();
+ 	mds_idle_clear_cpu_buffers();
+ 	/* "mwait %eax, %ecx;" */
+--- a/arch/x86/include/asm/special_insns.h
++++ b/arch/x86/include/asm/special_insns.h
+@@ -196,7 +196,7 @@ static inline void load_gs_index(unsigne
  
-@@ -41,12 +66,7 @@ static inline bool __must_check current_
- 	return unlikely(tif_need_resched());
+ #endif /* CONFIG_PARAVIRT_XXL */
+ 
+-static inline void clflush(volatile void *__p)
++static __always_inline void clflush(volatile void *__p)
+ {
+ 	asm volatile("clflush %0" : "+m" (*(volatile char __force *)__p));
  }
- 
--static inline void __current_clr_polling(void)
--{
--	clear_thread_flag(TIF_POLLING_NRFLAG);
--}
--
--static inline bool __must_check current_clr_polling_and_test(void)
-+static __always_inline bool __must_check current_clr_polling_and_test(void)
- {
- 	__current_clr_polling();
- 
-@@ -73,7 +93,7 @@ static inline bool __must_check current_
- }
- #endif
- 
--static inline void current_clr_polling(void)
-+static __always_inline void current_clr_polling(void)
- {
- 	__current_clr_polling();
- 
---- a/include/linux/thread_info.h
-+++ b/include/linux/thread_info.h
-@@ -177,7 +177,23 @@ static __always_inline unsigned long rea
- 	clear_ti_thread_flag(task_thread_info(t), TIF_##fl)
- #endif /* !CONFIG_GENERIC_ENTRY */
- 
--#define tif_need_resched() test_thread_flag(TIF_NEED_RESCHED)
-+#ifdef _ASM_GENERIC_BITOPS_INSTRUMENTED_NON_ATOMIC_H
-+
-+static __always_inline bool tif_need_resched(void)
-+{
-+	return arch_test_bit(TIF_NEED_RESCHED,
-+			     (unsigned long *)(&current_thread_info()->flags));
-+}
-+
-+#else
-+
-+static __always_inline bool tif_need_resched(void)
-+{
-+	return test_bit(TIF_NEED_RESCHED,
-+			(unsigned long *)(&current_thread_info()->flags));
-+}
-+
-+#endif /* _ASM_GENERIC_BITOPS_INSTRUMENTED_NON_ATOMIC_H */
- 
- #ifndef CONFIG_HAVE_ARCH_WITHIN_STACK_FRAMES
- static inline int arch_within_stack_frames(const void * const stack,
 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195540.988741683%40infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195541.050542952%40infradead.org.
