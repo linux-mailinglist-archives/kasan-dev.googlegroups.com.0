@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRB3WMQGPAMGQE6PN6WFY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRB3OMQGPAMGQEUOPKHTQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
-	by mail.lfdr.de (Postfix) with ESMTPS id 396A0668007
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:39 +0100 (CET)
-Received: by mail-wr1-x439.google.com with SMTP id t2-20020adfa2c2000000b002bbdae91832sf3324941wra.21
-        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:39 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673553519; cv=pass;
+Received: from mail-ed1-x539.google.com (mail-ed1-x539.google.com [IPv6:2a00:1450:4864:20::539])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE68668002
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:37 +0100 (CET)
+Received: by mail-ed1-x539.google.com with SMTP id i8-20020a05640242c800b004852914ce42sf12838535edc.6
+        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:37 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673553517; cv=pass;
         d=google.com; s=arc-20160816;
-        b=HHhxvFCI2aKV9YGfF2gWd3O/cfOulR4okUhzIyBF/od3CL8Uh9v5em5Kkz5GV6trhM
-         3Vm/wtMaBSLJqoMSVqUfYgBcSiYJYB7yC7h/zwEjRe3+L0etGZ+lbsCetaYWDyb/kJlV
-         tuSDG9bLt1rUqmoJaWqnXD37idcpfUbgpVuzqqEYrVpRo5rL/Hb3DM48KlCnZlqyukCU
-         CpmN8RrOStfJZI2kkRr2UNoILgHPYronMVVdbaioFq/yiyiC4mYCBpcdCgG5pSzZwO0Y
-         PK8XJPMWzs0pUKkf9QcNPFLFtnyPhEXN6IwZSmvqEjbz5E8SLo8IQIXLcZM+P5qW6U2Q
-         7ZIg==
+        b=ThcoJ+xvzWBxciDSZEqrqUtZoUKYSVKr2gNOA1aCQPPYOPD0u9kkX9yl+12hM0Ddog
+         52uoin/QMtAXv0ZHpoUYDbfVEunz3iiaCdSYHxtkF299HPbSmXjYX7LxzIN1qywQZHEu
+         KGkxZldIU9HaXMQXeM5oj0HRsbv38rJC53SuFr5oHksConO76oczYEduVWyyiPYmSQts
+         uUtxw2iSf97987kRMW22PX1HKGLEVjC9zY+VMIYBLo9f2sUbwrmlUlkPa8nvTgALIkKp
+         IdXSyInqUhmR0p2ZQ01PFuXN8cgiGRUhp+ZrK3fal/N8cw6K7GFSGaRqYoSlU9ZnB2S8
+         go7g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:subject:cc
          :to:from:date:user-agent:message-id:sender:dkim-signature;
-        bh=mPNBaYt/XrAnZiJVPL3mFpyhiZGgDDWjDIG3k75zqzc=;
-        b=OBCiGFv7J/HEF4aTuRGDCw0asm1ALhAAN/DwcLsmXh1bJrDDKmzJev1d4yGXdsnnne
-         HtT5Pn86BRDtzSEBnQ0AllfkBcbNTdIgmFvWS/WbC2u47mPMnDZcFUMO4XFNKi+E+7lh
-         Sr1iXO9OcAg/GzjRmsRHMDSbe6klMyuoMmTf2y6vux7wqeqsgEs6N/1E/AUc35b7PCOW
-         yCP7RjVUXm1O/tALkzHP5nZEjWRkCJNE64Et86LS3b3aBcicQA5xM1E2h17gGfRmi2tz
-         kRFqtctZYR8OCZmZHPuSp9HOQpfivYVtW9rei5ycW6ZezhV8lyuI35hX7EDi5ltQwdfF
-         BMPg==
+        bh=KNduRLB5Lf09heyaIgUcyxB4J+oPjQeBXwjTnYCr6u0=;
+        b=vpW+NSamT9TMXq4Zl/cjY3ZzLNFqfxasMUctg6u83JClN9c5a9Joq/rj8zoOdE5S02
+         rC/1xrL4mZzz5j6z18g6FQs8qoyAIZGJwR7/0r5Bk6xAwivj25GQzX6O1Ats89zB3OIV
+         pzcCOYFtw7cvzznVO9QYBzrcVNuDE900GIwTFlrA0lMOMfkOJHpYiUh1j73+wCI053r2
+         JS7kVVrPqqHGXK5at7Bz8dG/FWSNbaLQRqIfFJZJ5V3fiBJ2wKNzDoHFPvUKWMO3Zosl
+         7ukxQmhK1luMjrtKWhXmO63NqG4/gj8GOYVAeV8qULr0v/PEHnFiXOhdLIhLL1NHfIZp
+         k80A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=Bz7q8sFy;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=UZP1WhwW;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:subject:cc:to:from:date
          :user-agent:message-id:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mPNBaYt/XrAnZiJVPL3mFpyhiZGgDDWjDIG3k75zqzc=;
-        b=DC1UBWFLW8inAfx4uvqlhW0Fo6pZkXE5m9sMOvJpO5FmUmYGRAf3fQObAAZbIlrvpo
-         vHf+NmjoRjetRo6j2WILoAG2IxNEUL468F1yldBKt3Q1v20DYbx95Gw8jAw98DmrHirA
-         6kMiVZKjFnKhvZvNK+bv+8J5CW2FkMuqdnxj3MIBhmgk6Wswg9XrPclHC++vIVZcyln2
-         dKC8Uw3qMeY43q7gI5IxTiH1T1d/XmQxhXkSADJ+8IBpGET9+yr7O0kmkLOZDtnNJbHB
-         Z4FjOZs4UMK1CUDoUWy+dTDd+Lbny5y4S0PpaGxb5soHkJHe0/1cMEmXu0qjEubaTqrW
-         pF8Q==
+        bh=KNduRLB5Lf09heyaIgUcyxB4J+oPjQeBXwjTnYCr6u0=;
+        b=MnqugV5H7oGSYXQbx87jQy3X7wwZproaLcXU4pfQiNr2dDAGXgDL6Q9NBPGMexrh/G
+         4ZH3yVukLN6TiF9X24ZN2YVhPRK+qxXWjUSSWAHX/xLpLJAROpkz6YGevakMpO6LKwWU
+         D0E9dscxkSyi0H6Sok6TxB5lK87y35R6sG66o/4E2Cg1sY6QgP2utx7vvv2IT3TKpDFh
+         k6yHl4eEvDekk9A7pTLZGe9QrQ8ZMq6rAhJLgd3vCxq6u1AJbf3TSnTEzqdNjRMDF1Pd
+         6TVZyDbs0UwhNSVdltfj6JpgPyhNmO95vOUqKgOg4FyNcbVfBBFnwQ909+duaXiZLHaS
+         yhdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,67 +50,67 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:subject:cc:to:from:date:user-agent:message-id
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mPNBaYt/XrAnZiJVPL3mFpyhiZGgDDWjDIG3k75zqzc=;
-        b=TVIr2GQXpB5MemBPBGhnoe5TSicEi/kFfZ+2ZFGnRF921l5sWUwJa49/e/Fkjx8ar2
-         E+rM/MPzJd8aS1QNIEPs0f4wKtyZzy9tJhO9VoLEx/ZRmG7Qiy4F84rq3E1mxGloHXbG
-         XJh3B+UTUcflvRZKKArP7fQjEiv3XkDNDQftmQtmvo7OMSg4YHdITR/fDZIEBXJAJTU5
-         HDgOf62mpjZWpgLxuRbnrbtS2Xz+94qz/I9lLcxGXF7SDOZxc7bRBPBKQbvW1Vm84iJl
-         cffdZje3Hh4Yvs5JDm4Xcvla5wEhQMqBgdyU0yQcHa905C8Cz4aY1bIyPmXpJA14HJr4
-         uO1w==
+        bh=KNduRLB5Lf09heyaIgUcyxB4J+oPjQeBXwjTnYCr6u0=;
+        b=lRrQzZkrOJA1/B3xfVzeOFa3o495/TXvCuVyY0xSnbQYGdTTQKb7SZ8jkOpi2Zj6VF
+         UsTHHNxOaHEP+Md7Coq97hC0ej3TBGNZ+zU313LVfJGtOfwLRei/qLdAJq2flnZuJBqQ
+         ScORrfICjRnp3iDWRDL0W4zsubOzdLvdkeUajAfRh/pcFPiFxvbY5Y/W3nqChIoXz/L8
+         5BT/n2ONkyMMFNSPV3LODpqIHLwSXZeMbHjt6uGNVuwSRhLDqdgZapF5+/KZE6UrfZsO
+         a7EDphl7l7j9H1fZR05jH163jFtXaPRHXTEaDrs1ITQieGF7el60wExbNATrxAPebCQC
+         k03w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kq0jiVOwGSpLzWDlfhdX6yS5eVzwmGJKIYpTwu75vn8jAsXx11R
-	/yKlV+0kqFHbAm1dzlvnL74=
-X-Google-Smtp-Source: AMrXdXss9rC4xNI0PaRngcDes4PxSWEMv6O3ahot0w9qAwrA56WBtYqoT7sxRrmg890v+MBq2t0D3w==
-X-Received: by 2002:adf:eb09:0:b0:242:739d:7f85 with SMTP id s9-20020adfeb09000000b00242739d7f85mr2173888wrn.407.1673553518880;
-        Thu, 12 Jan 2023 11:58:38 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:3b0c:b0:3cf:72dc:df8 with SMTP id
- m12-20020a05600c3b0c00b003cf72dc0df8ls2948754wms.0.-pod-canary-gmail; Thu, 12
- Jan 2023 11:58:37 -0800 (PST)
-X-Received: by 2002:a05:600c:1c8e:b0:3d2:4234:e8fe with SMTP id k14-20020a05600c1c8e00b003d24234e8femr56555474wms.19.1673553517748;
+X-Gm-Message-State: AFqh2kpqFJGNFFuAJXmHUIPmCdpQNmYQJtdNoUsOaNIX++F3aLSleBv2
+	PXuQUar6qg0lnzVL/EmTC+w=
+X-Google-Smtp-Source: AMrXdXsIwJBXykhSRoBYckXsZvlSeI+U+JDprgA3wibcNP3gGKgI1YKBAsx3VPirDIZvsPFlKXS3uA==
+X-Received: by 2002:a17:906:59b:b0:7c1:4e70:1f96 with SMTP id 27-20020a170906059b00b007c14e701f96mr6128454ejn.277.1673553517267;
         Thu, 12 Jan 2023 11:58:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673553517; cv=none;
+X-BeenThere: kasan-dev@googlegroups.com
+Received: by 2002:a05:6402:40cf:b0:488:1679:c417 with SMTP id
+ z15-20020a05640240cf00b004881679c417ls2361656edb.1.-pod-prod-gmail; Thu, 12
+ Jan 2023 11:58:36 -0800 (PST)
+X-Received: by 2002:a05:6402:3712:b0:499:70a8:f918 with SMTP id ek18-20020a056402371200b0049970a8f918mr15424570edb.16.1673553516060;
+        Thu, 12 Jan 2023 11:58:36 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673553516; cv=none;
         d=google.com; s=arc-20160816;
-        b=hQQ/lEV2WbWcPi7kBP0hGKQmyHQ90Fk02xBZV1x72oTjLBUFjD1FmtPaDLPTu1cj0d
-         VtX54xb8x8GslV2+lRK0TC9eDz4c1SZSHp8SnLTtxNnosU6AI2Y+3IDlzc1jO8dWfc9B
-         uOUo/S5rfuu2eK/QzjLeopLIVPQDVZztFAPS+bTX0k0/Q+gubJjM7mQk8QGP2yFWF9nb
-         /hXanwQSI5YP3HwHQmAq2jEvb7LD1Hdvu0AJIhY/148UgbP2/SSIraWG2D3jI0SAMVat
-         7oElgbAE3lQcISngXwGpX2c61N+Ot3ZMuqEX54OvYIelSFuq+XDrOZ0HgYMmfH7q+fHg
-         huKQ==
+        b=Fizl6LqzBSFO/jOwZ7LcDlj1AXC7kFEWquQkRicV+w1x+Z7Wqx+5ND3dFZZU358VWo
+         JgJsqEq+2ekxZdBZ9gaMOhl5vnvc4CzdWdqKApijjjOwPxg37gnEHzfdxeTMANtSvK9B
+         zDhONzKV4Kr2/vFtEb2BN+wUO93XgKH7QaZSOrUTGJ6C9GEVbeiWVcVAq2e4eYpfDMw0
+         r370Vic6NMP6toC6uKHgxUvApIiy/Vz6KUYiJ8tdRVysrE4PUni0rdMVUQHieHcdRnIv
+         tGaW5rQrtoNc5f8AF+5Q09gYi5H5dbdwmq9Tf63hlS97XxiPvsZlJhXIkj+yxBB61aFh
+         8wVQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:references:subject:cc:to:from:date:user-agent
          :message-id:dkim-signature;
-        bh=JTqeKYECYSubBnJX/J9QEXdDkgA0NkIECFSZWgBtZ5c=;
-        b=z5/tugnjIh1sb31l6zaoxDCCKC5VSk3VFrZoUvzNVC+IVNWWi9DNvHXskt/E9RMwzL
-         HFj8WDk8+sK/T0xOKtMFYmasIzVMgUzXSC/b9sLVGS1FLqZPUCSIX5DsYn1wdxm+aEXK
-         /YLwqeJT2TlODbOg5I5Tq54dl2A0rpLYZgpYMIR51VSkjJcGBlkgHUjV2ER0evkESshQ
-         mY8GjAK3Du2oyOm1BY3XESuQKpTS7ObCYl+bQGjXlQaadT2cnpKQYbKPR402KEO1Jg8h
-         bpn16csTQQptpCSishDSrXgvxDVALVSd42CgCOIEG+w2rdyK3Kq8Vy35KKgKx1KUQ7xQ
-         Rcng==
+        bh=GvwbGFmvCEUlvMDtuRKKain2RkezywAYf/go7N4onKI=;
+        b=d7WdhXYSTV4XRPZL/1BYqBummLzpdbC4Szr9/msdbYLrGvsLmzEd+jPD5Y5Nbb2+yd
+         UZzStSIogljdNsXvKE/pgV3nBeYAUH1UofWoXu0zhP1cKdYlOISwI/ynQlKgCKm3FdlS
+         5Y+iKIAqFii8650tUfkytmamCXZX9PwKcIanO+I8k080VT3mJauvfVFoLJ23uog/x5hP
+         jPUc8thD3F8d0AP9oF3/+0OuMr82Jw5ifNsH3Mkokeg79LymmRYC1W/brUDRCvXrHGDo
+         9fQAHbBzJeGsTzxncRt9eLAX2sRFWiG3T2Ec6i6/9hFMuw2R6RWV/qV8Ejm7e5YeOc8u
+         HSzw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=Bz7q8sFy;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=UZP1WhwW;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by gmr-mx.google.com with ESMTPS id s1-20020a5d4ec1000000b0024222ed1370si827141wrv.3.2023.01.12.11.58.37
+        by gmr-mx.google.com with ESMTPS id k20-20020a05640212d400b0047014e8771fsi776644edx.3.2023.01.12.11.58.35
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jan 2023 11:58:37 -0800 (PST)
+        Thu, 12 Jan 2023 11:58:36 -0800 (PST)
 Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pG3hO-0045qZ-0S;
-	Thu, 12 Jan 2023 19:57:33 +0000
+	id 1pG3hW-0045tz-2U;
+	Thu, 12 Jan 2023 19:57:30 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 144A230012F;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 20B33303472;
 	Thu, 12 Jan 2023 20:57:14 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 5B5522CD066C2; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
-Message-ID: <20230112195541.967699392@infradead.org>
+	id 5F8C02CD066D4; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
+Message-ID: <20230112195542.028523143@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:43:57 +0100
+Date: Thu, 12 Jan 2023 20:43:58 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -260,13 +260,13 @@ Cc: richard.henderson@linaro.org,
  kasan-dev@googlegroups.com,
  "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
  Ulf Hansson <ulf.hansson@linaro.org>
-Subject: [PATCH v3 43/51] intel_idle: Add force_irq_on module param
+Subject: [PATCH v3 44/51] entry,kasan,x86: Disallow overriding mem*() functions
 References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=desiato.20200630 header.b=Bz7q8sFy;
+ header.i=@infradead.org header.s=desiato.20200630 header.b=UZP1WhwW;
        spf=none (google.com: infradead.org does not designate permitted sender
  hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
@@ -281,7 +281,18 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-For testing purposes.
+KASAN cannot just hijack the mem*() functions, it needs to emit
+__asan_mem*() variants if it wants instrumentation (other sanitizers
+already do this).
+
+vmlinux.o: warning: objtool: sync_regs+0x24: call to memcpy() leaves .noinstr.text section
+vmlinux.o: warning: objtool: vc_switch_off_ist+0xbe: call to memcpy() leaves .noinstr.text section
+vmlinux.o: warning: objtool: fixup_bad_iret+0x36: call to memset() leaves .noinstr.text section
+vmlinux.o: warning: objtool: __sev_get_ghcb+0xa0: call to memcpy() leaves .noinstr.text section
+vmlinux.o: warning: objtool: __sev_put_ghcb+0x35: call to memcpy() leaves .noinstr.text section
+
+Remove the weak aliases to ensure nobody hijacks these functions and
+add them to the noinstr section.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
@@ -289,36 +300,159 @@ Acked-by: Frederic Weisbecker <frederic@kernel.org>
 Tested-by: Tony Lindgren <tony@atomide.com>
 Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- drivers/idle/intel_idle.c |    7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ arch/x86/lib/memcpy_64.S  |    5 ++---
+ arch/x86/lib/memmove_64.S |    4 +++-
+ arch/x86/lib/memset_64.S  |    4 +++-
+ mm/kasan/kasan.h          |    4 ++++
+ mm/kasan/shadow.c         |   38 ++++++++++++++++++++++++++++++++++++++
+ tools/objtool/check.c     |    3 +++
+ 6 files changed, 53 insertions(+), 5 deletions(-)
 
---- a/drivers/idle/intel_idle.c
-+++ b/drivers/idle/intel_idle.c
-@@ -1787,6 +1787,9 @@ static bool __init intel_idle_verify_cst
- 	return true;
- }
+--- a/arch/x86/lib/memcpy_64.S
++++ b/arch/x86/lib/memcpy_64.S
+@@ -7,7 +7,7 @@
+ #include <asm/alternative.h>
+ #include <asm/export.h>
  
-+static bool force_irq_on __read_mostly;
-+module_param(force_irq_on, bool, 0444);
+-.pushsection .noinstr.text, "ax"
++.section .noinstr.text, "ax"
+ 
+ /*
+  * We build a jump to memcpy_orig by default which gets NOPped out on
+@@ -42,7 +42,7 @@ SYM_FUNC_START(__memcpy)
+ SYM_FUNC_END(__memcpy)
+ EXPORT_SYMBOL(__memcpy)
+ 
+-SYM_FUNC_ALIAS_WEAK(memcpy, __memcpy)
++SYM_FUNC_ALIAS(memcpy, __memcpy)
+ EXPORT_SYMBOL(memcpy)
+ 
+ /*
+@@ -183,4 +183,3 @@ SYM_FUNC_START_LOCAL(memcpy_orig)
+ 	RET
+ SYM_FUNC_END(memcpy_orig)
+ 
+-.popsection
+--- a/arch/x86/lib/memmove_64.S
++++ b/arch/x86/lib/memmove_64.S
+@@ -13,6 +13,8 @@
+ 
+ #undef memmove
+ 
++.section .noinstr.text, "ax"
 +
- static void __init intel_idle_init_cstates_icpu(struct cpuidle_driver *drv)
+ /*
+  * Implement memmove(). This can handle overlap between src and dst.
+  *
+@@ -213,5 +215,5 @@ SYM_FUNC_START(__memmove)
+ SYM_FUNC_END(__memmove)
+ EXPORT_SYMBOL(__memmove)
+ 
+-SYM_FUNC_ALIAS_WEAK(memmove, __memmove)
++SYM_FUNC_ALIAS(memmove, __memmove)
+ EXPORT_SYMBOL(memmove)
+--- a/arch/x86/lib/memset_64.S
++++ b/arch/x86/lib/memset_64.S
+@@ -6,6 +6,8 @@
+ #include <asm/alternative.h>
+ #include <asm/export.h>
+ 
++.section .noinstr.text, "ax"
++
+ /*
+  * ISO C memset - set a memory block to a byte value. This function uses fast
+  * string to get better performance than the original function. The code is
+@@ -43,7 +45,7 @@ SYM_FUNC_START(__memset)
+ SYM_FUNC_END(__memset)
+ EXPORT_SYMBOL(__memset)
+ 
+-SYM_FUNC_ALIAS_WEAK(memset, __memset)
++SYM_FUNC_ALIAS(memset, __memset)
+ EXPORT_SYMBOL(memset)
+ 
+ /*
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -551,6 +551,10 @@ void __asan_set_shadow_f3(const void *ad
+ void __asan_set_shadow_f5(const void *addr, size_t size);
+ void __asan_set_shadow_f8(const void *addr, size_t size);
+ 
++void *__asan_memset(void *addr, int c, size_t len);
++void *__asan_memmove(void *dest, const void *src, size_t len);
++void *__asan_memcpy(void *dest, const void *src, size_t len);
++
+ void __hwasan_load1_noabort(unsigned long addr);
+ void __hwasan_store1_noabort(unsigned long addr);
+ void __hwasan_load2_noabort(unsigned long addr);
+--- a/mm/kasan/shadow.c
++++ b/mm/kasan/shadow.c
+@@ -38,6 +38,12 @@ bool __kasan_check_write(const volatile
+ }
+ EXPORT_SYMBOL(__kasan_check_write);
+ 
++#ifndef CONFIG_GENERIC_ENTRY
++/*
++ * CONFIG_GENERIC_ENTRY relies on compiler emitted mem*() calls to not be
++ * instrumented. KASAN enabled toolchains should emit __asan_mem*() functions
++ * for the sites they want to instrument.
++ */
+ #undef memset
+ void *memset(void *addr, int c, size_t len)
  {
- 	int cstate;
-@@ -1838,8 +1841,10 @@ static void __init intel_idle_init_cstat
- 		/* Structure copy. */
- 		drv->states[drv->state_count] = cpuidle_state_table[cstate];
+@@ -68,6 +74,38 @@ void *memcpy(void *dest, const void *src
  
--		if (cpuidle_state_table[cstate].flags & CPUIDLE_FLAG_IRQ_ENABLE)
-+		if ((cpuidle_state_table[cstate].flags & CPUIDLE_FLAG_IRQ_ENABLE) || force_irq_on) {
-+			printk("intel_idle: forced intel_idle_irq for state %d\n", cstate);
- 			drv->states[drv->state_count].enter = intel_idle_irq;
-+		}
+ 	return __memcpy(dest, src, len);
+ }
++#endif
++
++void *__asan_memset(void *addr, int c, size_t len)
++{
++	if (!kasan_check_range((unsigned long)addr, len, true, _RET_IP_))
++		return NULL;
++
++	return __memset(addr, c, len);
++}
++EXPORT_SYMBOL(__asan_memset);
++
++#ifdef __HAVE_ARCH_MEMMOVE
++void *__asan_memmove(void *dest, const void *src, size_t len)
++{
++	if (!kasan_check_range((unsigned long)src, len, false, _RET_IP_) ||
++	    !kasan_check_range((unsigned long)dest, len, true, _RET_IP_))
++		return NULL;
++
++	return __memmove(dest, src, len);
++}
++EXPORT_SYMBOL(__asan_memmove);
++#endif
++
++void *__asan_memcpy(void *dest, const void *src, size_t len)
++{
++	if (!kasan_check_range((unsigned long)src, len, false, _RET_IP_) ||
++	    !kasan_check_range((unsigned long)dest, len, true, _RET_IP_))
++		return NULL;
++
++	return __memcpy(dest, src, len);
++}
++EXPORT_SYMBOL(__asan_memcpy);
  
- 		if (cpu_feature_enabled(X86_FEATURE_KERNEL_IBRS) &&
- 		    cpuidle_state_table[cstate].flags & CPUIDLE_FLAG_IBRS) {
+ void kasan_poison(const void *addr, size_t size, u8 value, bool init)
+ {
+--- a/tools/objtool/check.c
++++ b/tools/objtool/check.c
+@@ -956,6 +956,9 @@ static const char *uaccess_safe_builtin[
+ 	"__asan_store16_noabort",
+ 	"__kasan_check_read",
+ 	"__kasan_check_write",
++	"__asan_memset",
++	"__asan_memmove",
++	"__asan_memcpy",
+ 	/* KASAN in-line */
+ 	"__asan_report_load_n_noabort",
+ 	"__asan_report_load1_noabort",
 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195541.967699392%40infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195542.028523143%40infradead.org.
