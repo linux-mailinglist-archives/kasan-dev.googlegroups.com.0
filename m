@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRB5WMQGPAMGQEHTMEISQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRB5GMQGPAMGQEYLP3ECY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
-	by mail.lfdr.de (Postfix) with ESMTPS id 316F066801C
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:47 +0100 (CET)
-Received: by mail-wr1-x439.google.com with SMTP id d27-20020adfa35b000000b002bc813ba677sf2667624wrb.6
-        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:47 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673553527; cv=pass;
+Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6467D66801B
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:44 +0100 (CET)
+Received: by mail-wm1-x33b.google.com with SMTP id bg25-20020a05600c3c9900b003da1f6a7b2dsf190788wmb.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:44 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673553524; cv=pass;
         d=google.com; s=arc-20160816;
-        b=b8TxKR+76DT5w8gG3bf9eZwOqquD/+oLVhyeePjVWHq3b/T+pbE0TONCSI/S8iveRk
-         SW++SH2QqbAZvkLLX3RDCU2CgRHXfPtn8ln1sEKdnbQMYM+8elwzfEFW+tVtLAkPq/OA
-         CZLdoAW2ye/2D7/Cti0oBfBKXuo+RMBiuK/UJOcjoPYousSls1l+/OquhRsGU6zqZCgx
-         /BcNHom3SloS9/C9jY6wLO/zvZsyD57nAeHebBfKfDwL/BR/ZS+g5fKPRPhGinnA+kMV
-         yKomjnOEHZowpbp76kyv2Q+sxvajeX8H4DZ8dYRhhrMDkPU8E7kU6NoebDuSeJBooy61
-         IZIg==
+        b=Wif0aUCRWcI6d38zPpQ8GIW1nbtlCpW7KYtdHBz71rdDQIcaSJbRfpUi3SHqIk65WS
+         U4Z7CYhTNHjyhxtlYxd/Y2BD6XiEpKgrXUzCYHR8b8ptR/WPIEGTXBYtHKqgHGhhw2Lb
+         EotyrLPd7b+cWxbQtMhWhHpQ1C1i1v8KMdzxMwSbUTFf5JHT3o6ARNZA2zY4iMF8H4uz
+         hPPdfDZFil+ODxqA5ssB9PUkL24z7pqoODX0pm77s2i/pGQsq0LStbE0QHtvQVS6LMHI
+         XLBgNdwN1Qk9poF8q9ulhrXISgCVxK2ee8xbfUqSOG86bHiu7TtnZsDEg+ERKQphY+sD
+         mgJg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:subject:cc
          :to:from:date:user-agent:message-id:sender:dkim-signature;
-        bh=Hgnhhi0Y2zdpbwwKu4VAvBNevttEEdbKEHaWTVhHI2Y=;
-        b=dMQ/fcZf3yfY1uMXKW6xAIuXk7gjHPG15bVYsDKGNDS5JNI6dmUR6a0RwXIvPVoFDu
-         xky6BObJjdircWe9GAPwDvV30ay8iCBkEG4WS1G+3HaTcPFhKKUoH2YomK1DYLpnXRZJ
-         +qCH13asdX3U0RDEL/gTnOmMu+ETUiuhMwzhSRCReM+th99DYbMsPjxVr2Lg6BciSJyN
-         ZSuDQm60e04EFjj1fytXn8jImz/pgaJDJHp8hbkXluez6+fD+DONENpGqz8GR+SQgUeA
-         7H8hR+vcVirRAEvG1WKeNbigIOeBxsU4nHyNjCk/3AKxDfaSU5UMtWDx2AO/wOrufGW2
-         QIZw==
+        bh=1DVJZJ6YXyCrOqsEtKmeuCFU5UZqs37BIHJx54lHH5g=;
+        b=h/teiB0mX7GBweOTU17iqT+1kvB8Viwpe3MLrnGV8u6J3WljrY+8MoYFwzRALesoGO
+         C2htTRIUMVYbEwLTchb0XvoouTI9lnrdZ/EbG7lJFihJSHX10KbvGqf/RB4raPvPLLx+
+         6ijOtd7DXa1YC5dN1QaOIigXATsA2ihcKt2+nMINfZwZd4obLavA09gBcGRu05vqAGvy
+         x7sLL1TYxesucYMJ7f/e7ATWH8cq8JJ68aNqI1bosw+HJcyEnkWsyn73WOwDnnvZK5Us
+         71eg2YIZJF6ALShpxbxSvoPukKE3tXQI5dmEV91sGwSJFQhEultaQyr5VgigFmpj220d
+         G7Ig==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=jkdiNqhE;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=Cm0cZvx6;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:subject:cc:to:from:date
          :user-agent:message-id:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Hgnhhi0Y2zdpbwwKu4VAvBNevttEEdbKEHaWTVhHI2Y=;
-        b=W7b95Pu9H2qxtBsIj1AxGA4ku5RrINsPXICYQBUAoCU2XZuM8GgHw9jKbL8kbiaMUQ
-         8qGrA05bVThCd33zqJa1vtvJ92V6Yeg0KlBmKfIe4I3G07/ZAWQy73CaTOFPG8yAsztj
-         LWHQVldTsp8eRQZPrxSf6UU7+NOxxCTC51DSj6Jui2A0kLMYYhpVOpjGFEWebpEvk3Um
-         nne7Fkb0Y2L1g5RN+qgP7qTYOpopRH6Rs3a1/R4Q8iil5ZDVc1Wl7gyPwaYGeaCONWXE
-         iAvDyVpSPhDy9gSLJ7iGYNTGP9FoKW3mvGOxDW6nG2r7Bph1gYpVJXgs+zGzGCRQmQ3B
-         0S1Q==
+        bh=1DVJZJ6YXyCrOqsEtKmeuCFU5UZqs37BIHJx54lHH5g=;
+        b=CtoI5bdtOInkT7jzb1ZPLro3AQnj9ZNgigPHBGCsr8UFXoC+LdBPXMrDoXfnIBiM/X
+         tyVVY5ktYai34/9RV3eyoLd5ui5bS1ry2qCVIk5CvMXgaWlznP2ltmLh4+gFkr7AJn8x
+         luDly9FJsgTEpRgkZZXR9WnIfaGWv93Z+0fK6igfhzhTDZznQHdJDLcaxJkvgNOJx6nL
+         VZN8cN/6JKLanvc1EXwgCAZVmeAsuuS7sGbsvHqUuc+2jQ/zhLaBbQ9OHl384d5tegZf
+         dskgbhMfLsbUyW1LOI7TaEtXJL0fgJhtZ8vwqz43fMm+KyBz2+1MGG/sQwd5X3J0oKSD
+         WZZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,66 +50,67 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:subject:cc:to:from:date:user-agent:message-id
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Hgnhhi0Y2zdpbwwKu4VAvBNevttEEdbKEHaWTVhHI2Y=;
-        b=5/Qa7QnganzgB1LRZYBAXnLtKUOeJ1PYZ3kgsaYPWcqzd69RfiJSqxE89FiTxdxtcW
-         3M504LKP7CGrdE6mq3m475HzA4t4MifHUCbrY/qIR5UM2iyxevBZG7t+ZyWapwqmTsTp
-         euOtdmjRyi6uEXmVWqpul9v3idfiOOBzTREY5xb8StAvHsBOX3xw9duUE0AgEa0Pm75M
-         yPSr5sSFrHw0OCfLBWqZ1my9IYSlyeAqt6aJyKiSTypcSkAWwquMt7wAA0oCmVitpsfV
-         q7TaFvq1EV9C3xKVhVu0Z5ZCnHkRL09ZJ2OM7vlrzTae+7UOySSgrrvBQXaYWd2yjoZQ
-         Q1Fg==
+        bh=1DVJZJ6YXyCrOqsEtKmeuCFU5UZqs37BIHJx54lHH5g=;
+        b=K8uHdbg9TBn4pvTyKQbQ4McT7EMMZyiqOAwkCICSVpN7KXoIGburTejgcY9iehcvb2
+         9pqCm1Y8B9g/jSdH0OHj/VmnnlF1rp4xVX933FkEp9/7RlnlZWCCMxjTVY/1GLkWjiv+
+         qrVXFzkFNe3CrMfpmZc6fbGLceTcQ5SHIuFAk28HwoA7ThMAifZMLuHqy1V56BgsIfaN
+         7Oxx2HGiDCS1bg2zpLg12Y9OiK7bHHwFxzuUc/zuiNSm6IgXdv1dJm358XIV+QT+LX/o
+         crJrMZLZHU8niXa4FgxD9RDuP29/89VHX3qCJYWkVPq9ZPbOdTJfHxYOwpPSxBXZiRYm
+         1PDw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kr2vOXBGfR7evJGx5xr/5w74tTFTwiCy9Czm8N/b+UAZhJjaeHY
-	tPHMJL9qTh2Znd9PfFeus2s=
-X-Google-Smtp-Source: AMrXdXsBfYS3xsCTc3qdt5ug9Ndey4wzgvhpOM5BTNzLxwlSL8wtgUmubfaFSrL1HrUAto7nl7LySw==
-X-Received: by 2002:adf:fbc9:0:b0:2bd:db97:5cbd with SMTP id d9-20020adffbc9000000b002bddb975cbdmr61494wrs.179.1673553526863;
-        Thu, 12 Jan 2023 11:58:46 -0800 (PST)
+X-Gm-Message-State: AFqh2kqPj1kxZCB93HaSqcR7AhWin/YnCImaBFaA9BvccrIhiYqEdTJn
+	LKKGO5b0E3KTyzXOkSE69/k=
+X-Google-Smtp-Source: AMrXdXv1lVVwvnHj6oeTqSScFqhCmp5GVPO/NswdpE3E0AhrKlVLiuwXnXo8blvJz9vFh3JOdnxAag==
+X-Received: by 2002:a05:600c:354f:b0:3d0:5160:c81b with SMTP id i15-20020a05600c354f00b003d05160c81bmr4712403wmq.110.1673553524189;
+        Thu, 12 Jan 2023 11:58:44 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:7708:0:b0:3d9:bb72:6814 with SMTP id t8-20020a1c7708000000b003d9bb726814ls1603879wmi.3.-pod-control-gmail;
- Thu, 12 Jan 2023 11:58:45 -0800 (PST)
-X-Received: by 2002:a05:600c:1d25:b0:3d3:50b9:b192 with SMTP id l37-20020a05600c1d2500b003d350b9b192mr67092125wms.18.1673553525620;
-        Thu, 12 Jan 2023 11:58:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673553525; cv=none;
+Received: by 2002:a05:600c:1d93:b0:3cf:9be3:73dd with SMTP id
+ p19-20020a05600c1d9300b003cf9be373ddls2939857wms.3.-pod-canary-gmail; Thu, 12
+ Jan 2023 11:58:43 -0800 (PST)
+X-Received: by 2002:a7b:ca4f:0:b0:3c6:edc0:5170 with SMTP id m15-20020a7bca4f000000b003c6edc05170mr55883989wml.25.1673553523143;
+        Thu, 12 Jan 2023 11:58:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673553523; cv=none;
         d=google.com; s=arc-20160816;
-        b=NJZ6d+HHhUyz7+hKrHs/ZVviGgHVCbaTLpG4wBgmcbKmkIOSqkSEbk0vUjp70WKIJL
-         kFqxflQLZMCyN57dxUINGwIMqKIJv9bn5M5dO1nb5DqyVCbhOLIgxKGgc5S/yZbOvf4y
-         nDshReQTGs6J1DHrWFlesensOijQA9VOHQ8bimrEl/vGyNPdUFECEaXSpfDUqBqHQ5ls
-         PoGXdBZS3dIdmKqNtdpx9J0j3XLGjm57XWJ6xWADIr8Bhp657RxL8BirCLKhnd/jdf3/
-         2A/hmv/+5PgRYtrIRcYOwAjYs0VTMRMaiSnloU4VzhXygiaL8m4DC8u8sPvxC6LUvY4j
-         /6gw==
+        b=HxFVS+OxjO6GV8Hq+mLT0qWo4HRvAgaIK43yT/Dj1ijDHP7ZWkOfA6OLQdnyoF+fpj
+         HONIN7JB1dZn4+Wyx4PulyuUSGv2pBW4ANCSIM+u+QzPkWX39ItLGpREZSq+6KvRZpFl
+         qvQdAV/Sixukh2PVagMvK3MeLAH5Y8hXoxjRPdgPSq4ihAUZOMZigzhnfu862vKILUrk
+         qRI3pHDAsyLeU/QRXFePXQsqR9cCDim5exa4BAIvehoTbK7nGpi+t8Y9HmuCX9KGjOaQ
+         2gxghceP/veC9CEPYVw55itL+HRm0EwJw/ahLJdnWf4FRSFqIkiExcVQDSLMJKl1LNG8
+         g0Qw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:references:subject:cc:to:from:date:user-agent
          :message-id:dkim-signature;
-        bh=53PdPXBrlefs7aSWYtbVMctVqERBXlbNfkzlUyuHUdw=;
-        b=b/BjXX/tOuWqYF66TugJnJJ5tjh9faJG3wenvKU5dju7e4E4++N+oO2UaGaB35ELGM
-         tVOkQT54ArHZ7hiiPP0mj5DqcfjfzBwrZkDp6gvydHifIoqU5jXTP+ZVjvxZIXLEbgJo
-         9lbaumk02JQHv3FySJEKyxUqCu8gVR07QU//G3XkNuyBeY8Hvzdy3xDsLEt7VYMUNwKi
-         AehsE+VwFe/nHc8kVxHCfHfr/KHFpBJ+P0Mq4U+JPOPhAAxpB7IwjjOhjkZiJjZSz8Ud
-         RpQ1RNxH10fpL4jek+y84C6gBOUEZMoXR2VKI9O/9RZU226hNSb6UXq5nwlW+ONeEspQ
-         Qotw==
+        bh=Un035BTYhsjREpZ4dpy/MHkkoifcKtLiH3nYidAuKL8=;
+        b=tpyysNk5CsT6gxHsmMUsjJPfr1UB6mxjcJpheDXYqpQoD9eQimIlrljSfa/FauT+wl
+         szj4pD9eydCDe8c0DBeq2uFlsL6c208DvxtAdBk4NEm4GtPGS1D0iJ/BwrtIECbRlmIi
+         lNpFcmB14Z4A6s5Sj6+Uf8SugMT2GTziyn1b3Lats+onbkZr2PtdQYGy+cOtYbf42UsS
+         7N1rIIkEvbpJ1CpjH6KoEHqgfUvDftHvsATrOa0RD1+/C20kwBDMDp1gysHy7ZQVop7k
+         J7t8gt8qAt0tAVni/fkzjsN8tPFcVHByxObjYF80pPXllzP4J6FPk4uGcnGD2xpKrKFB
+         U4mg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=jkdiNqhE;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=Cm0cZvx6;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by gmr-mx.google.com with ESMTPS id j31-20020a05600c1c1f00b003da0515e72csi328996wms.2.2023.01.12.11.58.45
+        by gmr-mx.google.com with ESMTPS id fm14-20020a05600c0c0e00b003d9c774d43fsi520702wmb.2.2023.01.12.11.58.43
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jan 2023 11:58:45 -0800 (PST)
+        Thu, 12 Jan 2023 11:58:43 -0800 (PST)
 Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pG3hZ-0045wN-16;
+	id 1pG3hZ-0045wK-1I;
 	Thu, 12 Jan 2023 19:57:33 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 40258303480;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 44D46303483;
 	Thu, 12 Jan 2023 20:57:14 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 767D32CD066F4; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
-Message-ID: <20230112195542.335211484@infradead.org>
+	id 7C19A2CD066F8; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
+Message-ID: <20230112195542.397238052@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:44:03 +0100
+Date: Thu, 12 Jan 2023 20:44:04 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -257,13 +258,13 @@ Cc: richard.henderson@linaro.org,
  linux-mm@kvack.org,
  linux-trace-kernel@vger.kernel.org,
  kasan-dev@googlegroups.com
-Subject: [PATCH v3 49/51] cpuidle,arch: Mark all regular cpuidle_state::enter methods __cpuidle
+Subject: [PATCH v3 50/51] cpuidle: Comments about noinstr/__cpuidle
 References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=desiato.20200630 header.b=jkdiNqhE;
+ header.i=@infradead.org header.s=desiato.20200630 header.b=Cm0cZvx6;
        spf=none (google.com: infradead.org does not designate permitted sender
  hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
@@ -278,127 +279,57 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-For all cpuidle drivers that do not use CPUIDLE_FLAG_RCU_IDLE (iow,
-the simple ones) make sure all the functions are marked __cpuidle.
-
-( due to lack of noinstr validation on these platforms it is entirely
-  possible this isn't complete )
+Add a few words on noinstr / __cpuidle usage.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- arch/arm/kernel/cpuidle.c           |    4 ++--
- arch/arm/mach-davinci/cpuidle.c     |    4 ++--
- arch/arm/mach-imx/cpuidle-imx5.c    |    4 ++--
- arch/arm/mach-imx/cpuidle-imx6sl.c  |    4 ++--
- arch/arm/mach-imx/cpuidle-imx7ulp.c |    4 ++--
- arch/arm/mach-s3c/cpuidle-s3c64xx.c |    5 ++---
- arch/mips/kernel/idle.c             |    6 +++---
- 7 files changed, 15 insertions(+), 16 deletions(-)
+ drivers/cpuidle/cpuidle.c      |   12 ++++++++++++
+ include/linux/compiler_types.h |   10 ++++++++++
+ 2 files changed, 22 insertions(+)
 
---- a/arch/arm/kernel/cpuidle.c
-+++ b/arch/arm/kernel/cpuidle.c
-@@ -26,8 +26,8 @@ static struct cpuidle_ops cpuidle_ops[NR
-  *
-  * Returns the index passed as parameter
-  */
--int arm_cpuidle_simple_enter(struct cpuidle_device *dev,
--		struct cpuidle_driver *drv, int index)
-+__cpuidle int arm_cpuidle_simple_enter(struct cpuidle_device *dev, struct
-+				       cpuidle_driver *drv, int index)
- {
- 	cpu_do_idle();
- 
---- a/arch/arm/mach-davinci/cpuidle.c
-+++ b/arch/arm/mach-davinci/cpuidle.c
-@@ -44,8 +44,8 @@ static void davinci_save_ddr_power(int e
- }
- 
- /* Actual code that puts the SoC in different idle states */
--static int davinci_enter_idle(struct cpuidle_device *dev,
--			      struct cpuidle_driver *drv, int index)
-+static __cpuidle int davinci_enter_idle(struct cpuidle_device *dev,
-+					struct cpuidle_driver *drv, int index)
- {
- 	davinci_save_ddr_power(1, ddr2_pdown);
- 	cpu_do_idle();
---- a/arch/arm/mach-imx/cpuidle-imx5.c
-+++ b/arch/arm/mach-imx/cpuidle-imx5.c
-@@ -8,8 +8,8 @@
- #include <asm/system_misc.h>
- #include "cpuidle.h"
- 
--static int imx5_cpuidle_enter(struct cpuidle_device *dev,
--			      struct cpuidle_driver *drv, int index)
-+static __cpuidle int imx5_cpuidle_enter(struct cpuidle_device *dev,
-+					struct cpuidle_driver *drv, int index)
- {
- 	arm_pm_idle();
- 	return index;
---- a/arch/arm/mach-imx/cpuidle-imx6sl.c
-+++ b/arch/arm/mach-imx/cpuidle-imx6sl.c
-@@ -11,8 +11,8 @@
- #include "common.h"
- #include "cpuidle.h"
- 
--static int imx6sl_enter_wait(struct cpuidle_device *dev,
--			    struct cpuidle_driver *drv, int index)
-+static __cpuidle int imx6sl_enter_wait(struct cpuidle_device *dev,
-+				       struct cpuidle_driver *drv, int index)
- {
- 	imx6_set_lpm(WAIT_UNCLOCKED);
- 	/*
---- a/arch/arm/mach-imx/cpuidle-imx7ulp.c
-+++ b/arch/arm/mach-imx/cpuidle-imx7ulp.c
-@@ -12,8 +12,8 @@
- #include "common.h"
- #include "cpuidle.h"
- 
--static int imx7ulp_enter_wait(struct cpuidle_device *dev,
--			    struct cpuidle_driver *drv, int index)
-+static __cpuidle int imx7ulp_enter_wait(struct cpuidle_device *dev,
-+					struct cpuidle_driver *drv, int index)
- {
- 	if (index == 1)
- 		imx7ulp_set_lpm(ULP_PM_WAIT);
---- a/arch/arm/mach-s3c/cpuidle-s3c64xx.c
-+++ b/arch/arm/mach-s3c/cpuidle-s3c64xx.c
-@@ -19,9 +19,8 @@
- #include "regs-sys-s3c64xx.h"
- #include "regs-syscon-power-s3c64xx.h"
- 
--static int s3c64xx_enter_idle(struct cpuidle_device *dev,
--			      struct cpuidle_driver *drv,
--			      int index)
-+static __cpuidle int s3c64xx_enter_idle(struct cpuidle_device *dev,
-+					struct cpuidle_driver *drv, int index)
- {
- 	unsigned long tmp;
- 
---- a/arch/mips/kernel/idle.c
-+++ b/arch/mips/kernel/idle.c
-@@ -241,7 +241,7 @@ void __init check_wait(void)
+--- a/drivers/cpuidle/cpuidle.c
++++ b/drivers/cpuidle/cpuidle.c
+@@ -252,6 +252,18 @@ noinstr int cpuidle_enter_state(struct c
+ 		instrumentation_begin();
  	}
- }
  
--void arch_cpu_idle(void)
-+__cpuidle void arch_cpu_idle(void)
- {
- 	if (cpu_wait)
- 		cpu_wait();
-@@ -249,8 +249,8 @@ void arch_cpu_idle(void)
++	/*
++	 * NOTE!!
++	 *
++	 * For cpuidle_state::enter() methods that do *NOT* set
++	 * CPUIDLE_FLAG_RCU_IDLE RCU will be disabled here and these functions
++	 * must be marked either noinstr or __cpuidle.
++	 *
++	 * For cpuidle_state::enter() methods that *DO* set
++	 * CPUIDLE_FLAG_RCU_IDLE this isn't required, but they must mark the
++	 * function calling ct_cpuidle_enter() as noinstr/__cpuidle and all
++	 * functions called within the RCU-idle region.
++	 */
+ 	entered_state = target_state->enter(dev, drv, index);
  
- #ifdef CONFIG_CPU_IDLE
+ 	if (WARN_ONCE(!irqs_disabled(), "%ps leaked IRQ state", target_state->enter))
+--- a/include/linux/compiler_types.h
++++ b/include/linux/compiler_types.h
+@@ -233,6 +233,16 @@ struct ftrace_likely_data {
  
--int mips_cpuidle_wait_enter(struct cpuidle_device *dev,
--			    struct cpuidle_driver *drv, int index)
-+__cpuidle int mips_cpuidle_wait_enter(struct cpuidle_device *dev,
-+				      struct cpuidle_driver *drv, int index)
- {
- 	arch_cpu_idle();
- 	return index;
+ #define noinstr __noinstr_section(".noinstr.text")
+ 
++/*
++ * The __cpuidle section is used twofold:
++ *
++ *  1) the original use -- identifying if a CPU is 'stuck' in idle state based
++ *     on it's instruction pointer. See cpu_in_idle().
++ *
++ *  2) supressing instrumentation around where cpuidle disables RCU; where the
++ *     function isn't strictly required for #1, this is interchangeable with
++ *     noinstr.
++ */
+ #define __cpuidle __noinstr_section(".cpuidle.text")
+ 
+ #endif /* __KERNEL__ */
 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195542.335211484%40infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195542.397238052%40infradead.org.
