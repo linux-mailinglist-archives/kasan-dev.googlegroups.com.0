@@ -1,32 +1,32 @@
 Return-Path: <kasan-dev+bncBDBK55H2UQKRB4WMQGPAMGQEUGKNKOQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA690668018
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:42 +0100 (CET)
-Received: by mail-wm1-x33f.google.com with SMTP id i7-20020a05600c354700b003d62131fe46sf12971840wmq.5
-        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:42 -0800 (PST)
+Received: from mail-wr1-x438.google.com (mail-wr1-x438.google.com [IPv6:2a00:1450:4864:20::438])
+	by mail.lfdr.de (Postfix) with ESMTPS id 145D6668019
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:43 +0100 (CET)
+Received: by mail-wr1-x438.google.com with SMTP id l18-20020adfa392000000b002bbd5c680a3sf3336453wrb.14
+        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:43 -0800 (PST)
 ARC-Seal: i=2; a=rsa-sha256; t=1673553522; cv=pass;
         d=google.com; s=arc-20160816;
-        b=LJ/oi1FQSkojc1errPoqK8cP3JQLrwNxNluKJtsNsVXmSpQCsm5dryshl0+zprRf6w
-         BcN4SrWq2AWpg9aU1/oAA2KvaqcZFfIy8WdmGi8ccz1Q0fxQyiNng+qaFfX6co64pww5
-         OwWLfRawuSpN42zKHmJLHzRn6DffrX03GGoQKovUnKDypppMjS1zVkWc8dLIssF3USa9
-         JiBYUxXiZCr7ObEeZLlYPNMnPiYf8oEokxJf7QwxfkxrQD3iNnrirZqGFaHB/HhCUTXS
-         TwDIvyrAcG6/VKzPel2h9qQNjJIYC/gA1ppnHY3JG0duFmmaztXBA9O4gLqNaSCPrUKR
-         zy0A==
+        b=AQt7qw50Xc7ZNmq1Z8ZYwqbPIPtjglAFgFJnNE7Jll0e5fUO782v4SKGy9XoFj5Uja
+         5KdQwhkM0YiKxZrintj4BkV9dZ0Jzb3GiJGw8FGLohXlhoF3qJzTfF8KFQvNKbfDzEZ3
+         16dsVcXSmuwWfOrnT/pEO1w5+J971ys9FRx83vL8QOsra0d2AbniHl+iKVWdDcHO7XLe
+         frASDvtojOIZP0xUHzD4CKHBQybQoAZ9KhzhHG6Tm4VgViUtkLtPhkUDgMgTV8Cwn2M2
+         161EDH526oAfHar2NGV0uQkUIX/yp9mmNt5/mT4p1NI3EsgX0h2WgwI02NDtahQpHIao
+         GNvg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:subject:cc
          :to:from:date:user-agent:message-id:sender:dkim-signature;
-        bh=Wua+NxRnKnWy27t2wt7xKYer9aXNhLiI009ipL5OuVo=;
-        b=EDCcL3kkmRR9ZcEkXzTPHBqr98PM+QbBuN94ZRdFzl2FD5vH73nN3qDKUwA3naErDB
-         qKR9nN+oHWcpfHSSg83vtacZyfAsLsPpKsSMuYlkH5ceE7a3nCnlVJ5hNoUKQa4WYMZr
-         leby13HwFP0wbTyTz3N/XWwP33N4OKIpVsjJq+B+jOBcTVy1WeqdWtcQaG0OzSNKTktV
-         cGgm2KOqDueiieOx1pl8hlfyR2oIdQ1iIrUR5RiyEP3NO91pJ8TmM1Vcup4zJAXT1cIx
-         eYXiIpUbi3NeezkbjxiYTTZROixqY3RYb89ur9F57F9D7eGqXqIwqlgquvhx3GrrqQf7
-         4Nyg==
+        bh=S6Lzc0D1jz6PmmSv4htupm0tRAer3rETP4apU2gmW4g=;
+        b=BXfD2Ms/WhPfZBxEv3zULrc1gcmhisd4km8sCJdX4+3Vux5jETshI4uY9unCJ9ZJxY
+         QforAZjCWsFOT91XFB9N9zUIO8lGbP6fRgXlAe7Dx9FoyzfGWHaS0V9Oe4LbNkLqXEG+
+         iNch8Lh5FrfIUrCFkUFvw+mFEusVtNWlpeb6IF5krhFaLJazbo3rAtOAlFzk/BwaOINc
+         39cBJyrn5SIKeb8M1pNwd23ZLd1Jz1rzkjkU72nZMSnEPnjbn8cw3mR3WDBKNQQx5soO
+         LqsYeFC6a6sgPYzZh9T2LiMixqIaQM4r7Fx++uJuOjYU8Slzlxztf0OX9lzi1ZBgE1s2
+         MPvQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=EGHw1O+V;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=EXFl9MaM;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:subject:cc:to:from:date
          :user-agent:message-id:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Wua+NxRnKnWy27t2wt7xKYer9aXNhLiI009ipL5OuVo=;
-        b=eG+aiwEj5+wGy0eYENO/vOKHzfaGvg80be93+bYfsEOg9s2kqa8xkAkI60QKMTQ+ux
-         8MbibutEKU3CY1RnHnnMAtn9kAdYrI+7CY1pPgN+Sxce2ZAw5hQRhOEEVTchI65UMsDi
-         Z2Ay7hM1F3dciduYKkRQGjS++U9kf/z72BEVOHaFxA3eGCjHsASkCo425SaibyL5+TRX
-         BZVaUzTB86LgA3AZ8glYnCTOGvw/BCXS9So8+/F6AnDjDMNi0tTG2Ean/hCNVcQNXbci
-         pv1fYX3RgFYDTmj/Oa6e2ztLFpqLxoCx80Nhp24mebCXhlu2Q7icyKLyRRLody6HKKX/
-         f63w==
+        bh=S6Lzc0D1jz6PmmSv4htupm0tRAer3rETP4apU2gmW4g=;
+        b=twZgP994I6TPkltCrMDe9EJwkL9s+m98Y7SV/2/o2i8igJ4/616GJyAvER+5ZCXtbH
+         pC8KkjaTC70MImyYWnxWy3mDHtkmvSig+alB1Uyp0Nyevf15/vZ+wMEO7XwfOQCRi6aZ
+         PPSopncjOJTx7oJ883AEpslrTZQGSCbg6W7G6gtYRSnTA6xJVQrdKSDzTKvoSJUvUzVc
+         TmPXpDx/IDrdxHt3Do64xmYZmy8Gn2TFAdYJhhehCkPBK6brnabkGW3U39Z+tRRt0Es2
+         GUOq0FYSZiiuzVtSVwo1xt3RCNqMG8cBEzwVxRUIRJeo65TqXpwZ/iEOu7g3BACSUZZC
+         G9iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,66 +50,66 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:subject:cc:to:from:date:user-agent:message-id
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Wua+NxRnKnWy27t2wt7xKYer9aXNhLiI009ipL5OuVo=;
-        b=h68sVNWSNQYCNMf1T1L30iAeBnO8F13ExjSAuTn4yeatN7TFsGHqivR9fe6MAa7RK9
-         qaudfQCq71JINhPNo03KWzbrOT07b9zXNuGOUXa0jzxaNgAg0Kb+5+KiuUj1lxAgtirk
-         wUA9RtghJMWgXdl84p7mn/YLOwPNv8+L2KfaTdcbE7V3tUDdDzbj1/0QAvtFvTFI5QlF
-         VdtQ0Rp4OgUOXOlrzg91PjE2RvLnvPB4NAHK1PW7Gf1rBNRO5rqzUNFww+3r88M0Ss7V
-         /ietI2C2Rjgb7T2IR3acJovyDgJfE8u3GVRFf+czs6dX8duwGtgxXY7kb0VF6kx0hSF2
-         xlBw==
+        bh=S6Lzc0D1jz6PmmSv4htupm0tRAer3rETP4apU2gmW4g=;
+        b=qzvsy4LJVxbg1cfd8d4mTv4aoJLwqnzwNskSzXk2+yu/GIiSYv0X/Anc0nloWP1OI3
+         U6WXtxI7RArhsJKL7fYJ3U4kcPUBC/SD3fMopB0y8xjVTZ1F7X+HTRDKqQHv6X5s8UNH
+         jr2Zjyra8i4Sl+sjcmXstMgdXcY4hYDMFsH0bw+miBw4jReLb+Y4Z3EqCOCxAstWPQno
+         WWq4MFD7U9a2W0xyHLa6vnvI7484XT94MGdMMAcnPzeHhLoKJ2O05hLNyBtq12PVEd0z
+         LNOnPpC3eDxUqlJ6lJ6vd5fVODMLvWfVCiSS80isDp996Onc5FK9CrsKnRGN848ql+Na
+         Vmyg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2koAEqwtjJEX4+PTqAFnYRgG/iqNBASmgkK8FrpBu8tVjsJyrMvQ
-	ido6hHTgpAZeF9kGT/A2ylE=
-X-Google-Smtp-Source: AMrXdXu1+TFpgf9fcAII0AeSfN6b6f554PXtsTFtOBLReeCH3br7dfVW/0Y5ebf5f//2SR4HQSRTUA==
-X-Received: by 2002:a05:600c:4f95:b0:3d9:f21f:271e with SMTP id n21-20020a05600c4f9500b003d9f21f271emr1138369wmq.105.1673553522597;
+X-Gm-Message-State: AFqh2kpnCMvj3tWlZWHpjYd/YQP2+cCXaCuM5/yQVBvmrDmOzpt9Gvl1
+	jBnipfLp9ynztGdC560BBIE=
+X-Google-Smtp-Source: AMrXdXshPd8+jVxyLvwMtIJmvGvfgnq6JR4LQ4cBatjqsVfqkTXasgU6z2lVnP1lYY3Kh6J5rV8dYQ==
+X-Received: by 2002:adf:f7c7:0:b0:2bb:edb4:a50c with SMTP id a7-20020adff7c7000000b002bbedb4a50cmr901208wrq.652.1673553522761;
         Thu, 12 Jan 2023 11:58:42 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:e909:0:b0:3d9:c8dd:fd3f with SMTP id q9-20020a1ce909000000b003d9c8ddfd3fls1628201wmc.0.-pod-control-gmail;
+Received: by 2002:a5d:4943:0:b0:298:bd4a:4dd9 with SMTP id r3-20020a5d4943000000b00298bd4a4dd9ls1473978wrs.1.-pod-prod-gmail;
  Thu, 12 Jan 2023 11:58:41 -0800 (PST)
-X-Received: by 2002:a05:600c:1c21:b0:3d2:2043:9cb7 with SMTP id j33-20020a05600c1c2100b003d220439cb7mr55069792wms.5.1673553521575;
+X-Received: by 2002:a5d:5704:0:b0:2bd:dca8:a4b with SMTP id a4-20020a5d5704000000b002bddca80a4bmr410119wrv.63.1673553521531;
         Thu, 12 Jan 2023 11:58:41 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; t=1673553521; cv=none;
         d=google.com; s=arc-20160816;
-        b=yB8xEX4E7caLUGhyUCTnNBtHHoVnHxRMYcIEWjtHSIj/M8lCvak/NWbTQSQfa9t+6g
-         9yCtOA2w3g2bndJkzZ4q4FEva8AV57CkjV1AAP42r8vJmKu3H/ZbFq7wmVkm9JIOE5pv
-         Q9xA5jXM61jzdPpgASXniwHALLO8KCDWXYvOiLCELklkcmNUZ3JORHQhxJlHv6kvB8D8
-         qDgR3hfnQg7qnvDx5hLqa/9yVjTWaPDcUMGj4/QLcVzgqQ+i985rHrU/4FF8vzwQmFKb
-         cAeTY51XZ+cYJRMMoY7gAtcP51SmkEIELMqcdheUge0p2Oh5wvAzsHy7pzi3UeCvlm+R
-         jG2w==
+        b=fJw7i/nP4PNBM3Wt/f2EsfL9xtItIQTHt29yksa5mVtdn9eaoS+6FrEeABGb2iN05I
+         j2vj6RtiVwHCQk84+oS1ty0ntEdcohX0/wOQpWRsbVAA3FdpsSePKWuJuWXNAQ2QQi2J
+         Ld+S4OTNmwzU2X2FTuiWSC7SEV8iTVTuI5dFRLWQ7KYf0L/1aA96iETitDw7jXIa96JF
+         g/ElOmp2VjD4yY6PLixW82hl+n1+z26yNv2/H1ctXoZq2AOtjSLOD3M2LfSjLxbc2Ht6
+         ktlHylvJPq+j0bYEsIqmfegvj5d/E/zuWHdVYINGP29SMcDmPx1NdFXKo2erlYHnGYWd
+         gmfg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:references:subject:cc:to:from:date:user-agent
          :message-id:dkim-signature;
-        bh=xUXFMmNjQb3UrGtSZK0a2nhjQSuKqnZvrBUrV/kGZ/M=;
-        b=Gcrsgx9+NpaFpsT/m3OyQIM9AA7fAj7m3jLyRpOl01r1IyttjfuD0VimVfIw07ck6j
-         wSJ9N5YEB5miTH4uCvfXZQLcIu9vEqXy6Q5fM6T51rEF78XAw8Q2lDcr06qjff0W3LdW
-         PoMd1vmE0adGzuj/vpNyhLWeJ/VKVc5U+5F1zi0tJ4OS3SvuxXJ2pF8z7Vmz32iGmBVH
-         dom+rrp1fTLDW30+Kz537hYs63PqJa6bc4aWNiO94w7sVAE+raZFZZsmWDoot81w4pa7
-         MvBhUBJ7xXqZSmgfcpcqpQobW/PEayofggxK20UzBbcb1Mupw5PKlJte69rIInfTUdnS
-         pF9A==
+        bh=4aFpXbTN+2q/sQWoIhQXRuBIzQdX59WKAp/kjFjx5nI=;
+        b=Y+Yv9h3jAbm9LRE3xY/9t27MCk5qfQ/DYoFqeK3Ar1tXZQNJdZ5BsdvtUnRaoZ268T
+         thLB3ChfQhD2W8ywrnrKFjYdTbjRLWVXPe7LsnYZY/i4z0AxmRHzYX5Mxk33Mcs+sxie
+         uDIC8fHykSTmz4pltTIvjvy3SL0HCWypoWaYN2mK5Vfm9LCbVDojDlmf8+exXcok2x+Z
+         c5KYvfvvCOxPZwgKQiv6gpIA5uxHVDiX0BPWfk5tlQlnEESCodNmYXLtaRrKMrYNw8QA
+         kU/XlXWSbgIjagIcv9ZaJOPDBFt5Hi7owWzfByV5rSNDYwr9RtdMHjTZi00jxrCmXsNM
+         kg4g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=EGHw1O+V;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=EXFl9MaM;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by gmr-mx.google.com with ESMTPS id v6-20020a1cf706000000b003d9ae6cfd2esi918083wmh.2.2023.01.12.11.58.41
+        by gmr-mx.google.com with ESMTPS id m7-20020a5d56c7000000b0023677081f0esi826746wrw.7.2023.01.12.11.58.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 12 Jan 2023 11:58:41 -0800 (PST)
 Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pG3hK-0045pe-0d;
-	Thu, 12 Jan 2023 19:57:23 +0000
+	id 1pG3hL-0045pk-2M;
+	Thu, 12 Jan 2023 19:57:28 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id EC637303460;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id EFD64303464;
 	Thu, 12 Jan 2023 20:57:13 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 49A802CD0121F; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
-Message-ID: <20230112195541.721697850@infradead.org>
+	id 4EBB62CD066D0; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
+Message-ID: <20230112195541.782536366@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:43:53 +0100
+Date: Thu, 12 Jan 2023 20:43:54 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -257,15 +257,15 @@ Cc: richard.henderson@linaro.org,
  linux-mm@kvack.org,
  linux-trace-kernel@vger.kernel.org,
  kasan-dev@googlegroups.com,
- "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
- Ulf Hansson <ulf.hansson@linaro.org>
-Subject: [PATCH v3 39/51] arm,omap2: Use WFI for omap2_pm_idle()
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Subject: [PATCH v3 40/51] cpuidle,powerdomain: Remove trace_.*_rcuidle()
 References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=desiato.20200630 header.b=EGHw1O+V;
+ header.i=@infradead.org header.s=desiato.20200630 header.b=EXFl9MaM;
        spf=none (google.com: infradead.org does not designate permitted sender
  hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
@@ -280,101 +280,158 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-arch_cpu_idle() is a very simple idle interface and exposes only a
-single idle state and is expected to not require RCU and not do any
-tracing/instrumentation.
+OMAP was the one and only user.
 
-As such, omap2_pm_idle() is not a valid implementation. Replace it
-with a simple (shallow) omap2_do_wfi() call.
-
-Omap2 doesn't have a cpuidle driver; but adding one would be the
-recourse to (re)gain the other idle states.
-
-Suggested-by: Tony Lindgren <tony@atomide.com>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 Acked-by: Frederic Weisbecker <frederic@kernel.org>
 Tested-by: Tony Lindgren <tony@atomide.com>
 Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- arch/arm/mach-omap2/pm24xx.c |   51 +------------------------------------------
- 1 file changed, 2 insertions(+), 49 deletions(-)
+ arch/arm/mach-omap2/powerdomain.c |   10 +++++-----
+ drivers/base/power/runtime.c      |   24 ++++++++++++------------
+ 2 files changed, 17 insertions(+), 17 deletions(-)
 
---- a/arch/arm/mach-omap2/pm24xx.c
-+++ b/arch/arm/mach-omap2/pm24xx.c
-@@ -116,50 +116,12 @@ static int omap2_enter_full_retention(vo
+--- a/arch/arm/mach-omap2/powerdomain.c
++++ b/arch/arm/mach-omap2/powerdomain.c
+@@ -187,9 +187,9 @@ static int _pwrdm_state_switch(struct po
+ 			trace_state = (PWRDM_TRACE_STATES_FLAG |
+ 				       ((next & OMAP_POWERSTATE_MASK) << 8) |
+ 				       ((prev & OMAP_POWERSTATE_MASK) << 0));
+-			trace_power_domain_target_rcuidle(pwrdm->name,
+-							  trace_state,
+-							  raw_smp_processor_id());
++			trace_power_domain_target(pwrdm->name,
++						  trace_state,
++						  raw_smp_processor_id());
+ 		}
+ 		break;
+ 	default:
+@@ -541,8 +541,8 @@ int pwrdm_set_next_pwrst(struct powerdom
  
- static int sti_console_enabled;
+ 	if (arch_pwrdm && arch_pwrdm->pwrdm_set_next_pwrst) {
+ 		/* Trace the pwrdm desired target state */
+-		trace_power_domain_target_rcuidle(pwrdm->name, pwrst,
+-						  raw_smp_processor_id());
++		trace_power_domain_target(pwrdm->name, pwrst,
++					  raw_smp_processor_id());
+ 		/* Program the pwrdm desired target state */
+ 		ret = arch_pwrdm->pwrdm_set_next_pwrst(pwrdm, pwrst);
+ 	}
+--- a/drivers/base/power/runtime.c
++++ b/drivers/base/power/runtime.c
+@@ -442,7 +442,7 @@ static int rpm_idle(struct device *dev,
+ 	int (*callback)(struct device *);
+ 	int retval;
  
--static int omap2_allow_mpu_retention(void)
--{
--	if (!omap2xxx_cm_mpu_retention_allowed())
--		return 0;
--	if (sti_console_enabled)
--		return 0;
--
--	return 1;
--}
--
--static void omap2_enter_mpu_retention(void)
-+static void omap2_do_wfi(void)
- {
- 	const int zero = 0;
+-	trace_rpm_idle_rcuidle(dev, rpmflags);
++	trace_rpm_idle(dev, rpmflags);
+ 	retval = rpm_check_suspend_allowed(dev);
+ 	if (retval < 0)
+ 		;	/* Conditions are wrong. */
+@@ -481,7 +481,7 @@ static int rpm_idle(struct device *dev,
+ 			dev->power.request_pending = true;
+ 			queue_work(pm_wq, &dev->power.work);
+ 		}
+-		trace_rpm_return_int_rcuidle(dev, _THIS_IP_, 0);
++		trace_rpm_return_int(dev, _THIS_IP_, 0);
+ 		return 0;
+ 	}
  
--	/* The peripherals seem not to be able to wake up the MPU when
--	 * it is in retention mode. */
--	if (omap2_allow_mpu_retention()) {
--		/* REVISIT: These write to reserved bits? */
--		omap_prm_clear_mod_irqs(CORE_MOD, PM_WKST1, ~0);
--		omap_prm_clear_mod_irqs(CORE_MOD, OMAP24XX_PM_WKST2, ~0);
--		omap_prm_clear_mod_irqs(WKUP_MOD, PM_WKST, ~0);
--
--		/* Try to enter MPU retention */
--		pwrdm_set_next_pwrst(mpu_pwrdm, PWRDM_POWER_RET);
--
--	} else {
--		/* Block MPU retention */
--		pwrdm_set_next_pwrst(mpu_pwrdm, PWRDM_POWER_ON);
--	}
--
- 	/* WFI */
- 	asm("mcr p15, 0, %0, c7, c0, 4" : : "r" (zero) : "memory", "cc");
--
--	pwrdm_set_next_pwrst(mpu_pwrdm, PWRDM_POWER_ON);
--}
--
--static int omap2_can_sleep(void)
--{
--	if (omap2xxx_cm_fclks_active())
--		return 0;
--	if (__clk_is_enabled(osc_ck))
--		return 0;
--
--	return 1;
+@@ -493,7 +493,7 @@ static int rpm_idle(struct device *dev,
+ 	wake_up_all(&dev->power.wait_queue);
+ 
+  out:
+-	trace_rpm_return_int_rcuidle(dev, _THIS_IP_, retval);
++	trace_rpm_return_int(dev, _THIS_IP_, retval);
+ 	return retval ? retval : rpm_suspend(dev, rpmflags | RPM_AUTO);
  }
  
- static void omap2_pm_idle(void)
-@@ -169,16 +131,7 @@ static void omap2_pm_idle(void)
- 	if (omap_irq_pending())
- 		return;
+@@ -557,7 +557,7 @@ static int rpm_suspend(struct device *de
+ 	struct device *parent = NULL;
+ 	int retval;
  
--	error = cpu_cluster_pm_enter();
--	if (error || !omap2_can_sleep()) {
--		omap2_enter_mpu_retention();
--		goto out_cpu_cluster_pm;
--	}
--
--	omap2_enter_full_retention();
--
--out_cpu_cluster_pm:
--	cpu_cluster_pm_exit();
-+	omap2_do_wfi();
+-	trace_rpm_suspend_rcuidle(dev, rpmflags);
++	trace_rpm_suspend(dev, rpmflags);
+ 
+  repeat:
+ 	retval = rpm_check_suspend_allowed(dev);
+@@ -708,7 +708,7 @@ static int rpm_suspend(struct device *de
+ 	}
+ 
+  out:
+-	trace_rpm_return_int_rcuidle(dev, _THIS_IP_, retval);
++	trace_rpm_return_int(dev, _THIS_IP_, retval);
+ 
+ 	return retval;
+ 
+@@ -760,7 +760,7 @@ static int rpm_resume(struct device *dev
+ 	struct device *parent = NULL;
+ 	int retval = 0;
+ 
+-	trace_rpm_resume_rcuidle(dev, rpmflags);
++	trace_rpm_resume(dev, rpmflags);
+ 
+  repeat:
+ 	if (dev->power.runtime_error) {
+@@ -925,7 +925,7 @@ static int rpm_resume(struct device *dev
+ 		spin_lock_irq(&dev->power.lock);
+ 	}
+ 
+-	trace_rpm_return_int_rcuidle(dev, _THIS_IP_, retval);
++	trace_rpm_return_int(dev, _THIS_IP_, retval);
+ 
+ 	return retval;
  }
+@@ -1081,7 +1081,7 @@ int __pm_runtime_idle(struct device *dev
+ 		if (retval < 0) {
+ 			return retval;
+ 		} else if (retval > 0) {
+-			trace_rpm_usage_rcuidle(dev, rpmflags);
++			trace_rpm_usage(dev, rpmflags);
+ 			return 0;
+ 		}
+ 	}
+@@ -1119,7 +1119,7 @@ int __pm_runtime_suspend(struct device *
+ 		if (retval < 0) {
+ 			return retval;
+ 		} else if (retval > 0) {
+-			trace_rpm_usage_rcuidle(dev, rpmflags);
++			trace_rpm_usage(dev, rpmflags);
+ 			return 0;
+ 		}
+ 	}
+@@ -1202,7 +1202,7 @@ int pm_runtime_get_if_active(struct devi
+ 	} else {
+ 		retval = atomic_inc_not_zero(&dev->power.usage_count);
+ 	}
+-	trace_rpm_usage_rcuidle(dev, 0);
++	trace_rpm_usage(dev, 0);
+ 	spin_unlock_irqrestore(&dev->power.lock, flags);
  
- static void __init prcm_setup_regs(void)
+ 	return retval;
+@@ -1566,7 +1566,7 @@ void pm_runtime_allow(struct device *dev
+ 	if (ret == 0)
+ 		rpm_idle(dev, RPM_AUTO | RPM_ASYNC);
+ 	else if (ret > 0)
+-		trace_rpm_usage_rcuidle(dev, RPM_AUTO | RPM_ASYNC);
++		trace_rpm_usage(dev, RPM_AUTO | RPM_ASYNC);
+ 
+  out:
+ 	spin_unlock_irq(&dev->power.lock);
+@@ -1635,7 +1635,7 @@ static void update_autosuspend(struct de
+ 			atomic_inc(&dev->power.usage_count);
+ 			rpm_resume(dev, 0);
+ 		} else {
+-			trace_rpm_usage_rcuidle(dev, 0);
++			trace_rpm_usage(dev, 0);
+ 		}
+ 	}
+ 
 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195541.721697850%40infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195541.782536366%40infradead.org.
