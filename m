@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRB3GMQGPAMGQEEHHDFPY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRB5WMQGPAMGQEHTMEISQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id A03CE667FF8
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:36 +0100 (CET)
-Received: by mail-lf1-x13c.google.com with SMTP id x7-20020ac24887000000b004cb10694f9bsf7290566lfc.6
-        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:36 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673553516; cv=pass;
+Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id 316F066801C
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:47 +0100 (CET)
+Received: by mail-wr1-x439.google.com with SMTP id d27-20020adfa35b000000b002bc813ba677sf2667624wrb.6
+        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:47 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673553527; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lqHCbKTbEllegLCb06Uo5FQYebK/Tr9+WXmC392xOPHsR2Yhfxzi02QbZjtN8MQr+T
-         TRzpxkk32xqQEIdgyGjNr37dyVJj4b6KA+owUsorKjy1jVJXEHsWGb4xL80AeLRqMnlY
-         DDPEmGNNUEFJAHmWMAKVM9rBroP9hvnrLzjCfPz0ym6jfFJ3gdG8+U8cyy2NP3cyJ1ql
-         hTCr1WX9wKoFqLiSRz6Hm45qKVQKmxdkaL3CpVZteHLhqBGXr2OFPBf28RtdfS/Xt354
-         dIN75ahpQwugocrfIvo1AbmJFIPoTIcPqbj6K8yLSIcE0Z9Cwy8KxgXTukxXyiS/bNAW
-         s4Xw==
+        b=b8TxKR+76DT5w8gG3bf9eZwOqquD/+oLVhyeePjVWHq3b/T+pbE0TONCSI/S8iveRk
+         SW++SH2QqbAZvkLLX3RDCU2CgRHXfPtn8ln1sEKdnbQMYM+8elwzfEFW+tVtLAkPq/OA
+         CZLdoAW2ye/2D7/Cti0oBfBKXuo+RMBiuK/UJOcjoPYousSls1l+/OquhRsGU6zqZCgx
+         /BcNHom3SloS9/C9jY6wLO/zvZsyD57nAeHebBfKfDwL/BR/ZS+g5fKPRPhGinnA+kMV
+         yKomjnOEHZowpbp76kyv2Q+sxvajeX8H4DZ8dYRhhrMDkPU8E7kU6NoebDuSeJBooy61
+         IZIg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:subject:cc
          :to:from:date:user-agent:message-id:sender:dkim-signature;
-        bh=kkjbx8hSpunPzzv0h2RN0J6i97rx2MEIVRepIgfDucI=;
-        b=FF4z7U+Ttb66+rDnmLQL/EGwtwp4AI1r529mRvd+GBQUDwESgFVImafXXb54TNqA4w
-         XJVif9xFxey2KBXk1UYhLpzuoV+AwhjeIUBYsa0UkuCvUSm6YA320yOAN3g2oGu6ozjJ
-         YoWGrB2+hgThXUSwwKpOPoDwKg+8sXrGe04m86699NbFuq3X+rL34M4dwuJblg9EFByy
-         PLQQ4xUHCq0ycFwEsF3/OM3rsy0NiXfyMjW/UQ4eoIq4EqSk96MvujS6Bm5500r4D6KM
-         QkUElh7SDHQAd66f0ZEGvYEVARYXlPWaM6p1PQWxZ01N2C2UQHPZGcMnlC4W91SQRWt5
-         Katw==
+        bh=Hgnhhi0Y2zdpbwwKu4VAvBNevttEEdbKEHaWTVhHI2Y=;
+        b=dMQ/fcZf3yfY1uMXKW6xAIuXk7gjHPG15bVYsDKGNDS5JNI6dmUR6a0RwXIvPVoFDu
+         xky6BObJjdircWe9GAPwDvV30ay8iCBkEG4WS1G+3HaTcPFhKKUoH2YomK1DYLpnXRZJ
+         +qCH13asdX3U0RDEL/gTnOmMu+ETUiuhMwzhSRCReM+th99DYbMsPjxVr2Lg6BciSJyN
+         ZSuDQm60e04EFjj1fytXn8jImz/pgaJDJHp8hbkXluez6+fD+DONENpGqz8GR+SQgUeA
+         7H8hR+vcVirRAEvG1WKeNbigIOeBxsU4nHyNjCk/3AKxDfaSU5UMtWDx2AO/wOrufGW2
+         QIZw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=Qqod01hb;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=jkdiNqhE;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:subject:cc:to:from:date
          :user-agent:message-id:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kkjbx8hSpunPzzv0h2RN0J6i97rx2MEIVRepIgfDucI=;
-        b=FaCdPKu18tP1E62yR9vpun/ePNCiqdIKttJPkq/LI/DYNayPlm/Ot8nkHKJFEJO8Rv
-         VxZn+tKNrIYkfkpvyXUM+I5iXbvPuvr2rI5v8GXwwYdBan1QuIzBq95wv/FYrzcaRRrv
-         c5AVmvyRxoMHPVnatgn7EVlpf3n7D9obhDVPvJS4k81NDUDbbLMOgpIZMiQdPcAqCBgp
-         /OO8XrHgFZi6pMhY7geu9ZZNE2glvGcsqzI2MAUEnc5EYVXKh7vfPG6h4OmpiqKW3c0V
-         5a4DkmqvoBJYY44SqBF9VoZWUkEkbsQ1BJxYDNiGRt+cJ18CdGw/YTbtrZ116dO1Vpb+
-         H0tg==
+        bh=Hgnhhi0Y2zdpbwwKu4VAvBNevttEEdbKEHaWTVhHI2Y=;
+        b=W7b95Pu9H2qxtBsIj1AxGA4ku5RrINsPXICYQBUAoCU2XZuM8GgHw9jKbL8kbiaMUQ
+         8qGrA05bVThCd33zqJa1vtvJ92V6Yeg0KlBmKfIe4I3G07/ZAWQy73CaTOFPG8yAsztj
+         LWHQVldTsp8eRQZPrxSf6UU7+NOxxCTC51DSj6Jui2A0kLMYYhpVOpjGFEWebpEvk3Um
+         nne7Fkb0Y2L1g5RN+qgP7qTYOpopRH6Rs3a1/R4Q8iil5ZDVc1Wl7gyPwaYGeaCONWXE
+         iAvDyVpSPhDy9gSLJ7iGYNTGP9FoKW3mvGOxDW6nG2r7Bph1gYpVJXgs+zGzGCRQmQ3B
+         0S1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,66 +50,66 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:subject:cc:to:from:date:user-agent:message-id
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kkjbx8hSpunPzzv0h2RN0J6i97rx2MEIVRepIgfDucI=;
-        b=IOAdzgYM8gOuYT/0+cst3PPPoiBvUb1nk2epElb0jTti1gC4UPKO96SxdZg5g7UHFj
-         p/2IPt6ttsVjSAsCAv+CQ5i95moZu4eFr/vApTIy6SPnhpwVqIWbNWCvG7A+9QBybrHp
-         gzWqgqaPtEM6haEERf6VKpu+25Lt66NQR34VxmPlQZ5uLIH+Zxqo6fTbDI+ALwbiH/Yi
-         nA9qe5UbDisMghtBLEU0pSDXJEc52Sw2NTi0EC1qW5zI9dC+skA/7DMQW4QGID1m9LQ9
-         LYp2V4+8+hL2zo0mWummnyI7U/UM8DmC7PY2CDVz2AaxESrxClONpFBtDOShADkQc/05
-         Zv9g==
+        bh=Hgnhhi0Y2zdpbwwKu4VAvBNevttEEdbKEHaWTVhHI2Y=;
+        b=5/Qa7QnganzgB1LRZYBAXnLtKUOeJ1PYZ3kgsaYPWcqzd69RfiJSqxE89FiTxdxtcW
+         3M504LKP7CGrdE6mq3m475HzA4t4MifHUCbrY/qIR5UM2iyxevBZG7t+ZyWapwqmTsTp
+         euOtdmjRyi6uEXmVWqpul9v3idfiOOBzTREY5xb8StAvHsBOX3xw9duUE0AgEa0Pm75M
+         yPSr5sSFrHw0OCfLBWqZ1my9IYSlyeAqt6aJyKiSTypcSkAWwquMt7wAA0oCmVitpsfV
+         q7TaFvq1EV9C3xKVhVu0Z5ZCnHkRL09ZJ2OM7vlrzTae+7UOySSgrrvBQXaYWd2yjoZQ
+         Q1Fg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kqg0J1ISyrfLT02fnHVO9dvp7sfUNCVqEAS8n11siwopy982pra
-	ssEgtgNFPLehei8NXkwv11k=
-X-Google-Smtp-Source: AMrXdXtdIlKPH+jD0LC8y1NqHyg/q0e7L/gv/5TPVVNyLENPXDTnDfJ6IlbWd2oGWbxOE6ffwOlSzw==
-X-Received: by 2002:a05:6512:224d:b0:4b5:84a1:1b6c with SMTP id i13-20020a056512224d00b004b584a11b6cmr4640989lfu.560.1673553516343;
-        Thu, 12 Jan 2023 11:58:36 -0800 (PST)
+X-Gm-Message-State: AFqh2kr2vOXBGfR7evJGx5xr/5w74tTFTwiCy9Czm8N/b+UAZhJjaeHY
+	tPHMJL9qTh2Znd9PfFeus2s=
+X-Google-Smtp-Source: AMrXdXsBfYS3xsCTc3qdt5ug9Ndey4wzgvhpOM5BTNzLxwlSL8wtgUmubfaFSrL1HrUAto7nl7LySw==
+X-Received: by 2002:adf:fbc9:0:b0:2bd:db97:5cbd with SMTP id d9-20020adffbc9000000b002bddb975cbdmr61494wrs.179.1673553526863;
+        Thu, 12 Jan 2023 11:58:46 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:214f:b0:4c8:8384:83f3 with SMTP id
- s15-20020a056512214f00b004c8838483f3ls1937470lfr.3.-pod-prod-gmail; Thu, 12
- Jan 2023 11:58:34 -0800 (PST)
-X-Received: by 2002:a05:6512:1320:b0:4cb:90c:5719 with SMTP id x32-20020a056512132000b004cb090c5719mr20006753lfu.31.1673553514862;
-        Thu, 12 Jan 2023 11:58:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673553514; cv=none;
+Received: by 2002:a1c:7708:0:b0:3d9:bb72:6814 with SMTP id t8-20020a1c7708000000b003d9bb726814ls1603879wmi.3.-pod-control-gmail;
+ Thu, 12 Jan 2023 11:58:45 -0800 (PST)
+X-Received: by 2002:a05:600c:1d25:b0:3d3:50b9:b192 with SMTP id l37-20020a05600c1d2500b003d350b9b192mr67092125wms.18.1673553525620;
+        Thu, 12 Jan 2023 11:58:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673553525; cv=none;
         d=google.com; s=arc-20160816;
-        b=jbXdGnuVhQ1+n8npkTRFJe6JoJTW55Y/5ggifOe2vSSpkOGZ4BaeXpXiEIG4sXn2Bo
-         08wDr85rYQ844gRoS+Ka1XDGR8xubdsPUTFnhDHOQAcJ4cmX7fa/JiNEB72p4FXHWgrg
-         Wnfvyt4sMhLZ1unpcBsfsPfgqqZaUeDqy1AXkB0FRQzB2YtMpz+lrHok2E60E2wA35FB
-         7lwVWn/EB8KqEVyBoE4mO2ZvKPN+qUHvEy6Lom06+JMO840ZwsSY/UKRwSrw1gnb4F1/
-         19wVQbgqlPx14mTkOWjncu+thtXD4r2Elqct9Qbv0X20bKPIyELkYSkhvHnLfrJVu4fG
-         5H5A==
+        b=NJZ6d+HHhUyz7+hKrHs/ZVviGgHVCbaTLpG4wBgmcbKmkIOSqkSEbk0vUjp70WKIJL
+         kFqxflQLZMCyN57dxUINGwIMqKIJv9bn5M5dO1nb5DqyVCbhOLIgxKGgc5S/yZbOvf4y
+         nDshReQTGs6J1DHrWFlesensOijQA9VOHQ8bimrEl/vGyNPdUFECEaXSpfDUqBqHQ5ls
+         PoGXdBZS3dIdmKqNtdpx9J0j3XLGjm57XWJ6xWADIr8Bhp657RxL8BirCLKhnd/jdf3/
+         2A/hmv/+5PgRYtrIRcYOwAjYs0VTMRMaiSnloU4VzhXygiaL8m4DC8u8sPvxC6LUvY4j
+         /6gw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:references:subject:cc:to:from:date:user-agent
          :message-id:dkim-signature;
-        bh=9z+4CWfQMO+ElFQ60iDcVJO2pPanU43MIsqpSKsLu08=;
-        b=BEcRqAqgqKKFKvqUCFmfYFBBdmzfCllRHVxio5ur73N+kXtrFcuh7JxRfGnHXjXzRO
-         RPHAX5GUJhyIZoMaDOXisl7hm4zlza2vKnOS9RhU8dMRm2zkLFrJiMzcHFW5A56Vvnha
-         mVJ9Buq1kveJLD+HE/vD38T24sFjj+z1Ygaq0vVdYmAYzWH8SjF2kOqP3KyYuakxA4ma
-         TaqJ4dFuCxjpw9lh1N1/YyvE0vOfC8s0iSPUXMpMTteVEGs/HzXlJTeeAHjNVwtT+yd1
-         QQBvJ8diy1o3KoPEr1qroTKH/zIm87hU4GxINBlIehRkM8UUDyu50P5iH6CXSXFVs2/t
-         LEWw==
+        bh=53PdPXBrlefs7aSWYtbVMctVqERBXlbNfkzlUyuHUdw=;
+        b=b/BjXX/tOuWqYF66TugJnJJ5tjh9faJG3wenvKU5dju7e4E4++N+oO2UaGaB35ELGM
+         tVOkQT54ArHZ7hiiPP0mj5DqcfjfzBwrZkDp6gvydHifIoqU5jXTP+ZVjvxZIXLEbgJo
+         9lbaumk02JQHv3FySJEKyxUqCu8gVR07QU//G3XkNuyBeY8Hvzdy3xDsLEt7VYMUNwKi
+         AehsE+VwFe/nHc8kVxHCfHfr/KHFpBJ+P0Mq4U+JPOPhAAxpB7IwjjOhjkZiJjZSz8Ud
+         RpQ1RNxH10fpL4jek+y84C6gBOUEZMoXR2VKI9O/9RZU226hNSb6UXq5nwlW+ONeEspQ
+         Qotw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=Qqod01hb;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=jkdiNqhE;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
-Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id v9-20020a05651203a900b004cfb4a3fc7esi13618lfp.8.2023.01.12.11.58.34
+Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id j31-20020a05600c1c1f00b003da0515e72csi328996wms.2.2023.01.12.11.58.45
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jan 2023 11:58:34 -0800 (PST)
-Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
+        Thu, 12 Jan 2023 11:58:45 -0800 (PST)
+Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG3ht-005P6Q-HR; Thu, 12 Jan 2023 19:57:49 +0000
+	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1pG3hZ-0045wN-16;
+	Thu, 12 Jan 2023 19:57:33 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 370D230347D;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 40258303480;
 	Thu, 12 Jan 2023 20:57:14 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id 725472CD066E4; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
-Message-ID: <20230112195542.274096325@infradead.org>
+	id 767D32CD066F4; Thu, 12 Jan 2023 20:57:08 +0100 (CET)
+Message-ID: <20230112195542.335211484@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:44:02 +0100
+Date: Thu, 12 Jan 2023 20:44:03 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -257,13 +257,13 @@ Cc: richard.henderson@linaro.org,
  linux-mm@kvack.org,
  linux-trace-kernel@vger.kernel.org,
  kasan-dev@googlegroups.com
-Subject: [PATCH v3 48/51] cpuidle,arch: Mark all ct_cpuidle_enter() callers __cpuidle
+Subject: [PATCH v3 49/51] cpuidle,arch: Mark all regular cpuidle_state::enter methods __cpuidle
 References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=Qqod01hb;
+ header.i=@infradead.org header.s=desiato.20200630 header.b=jkdiNqhE;
        spf=none (google.com: infradead.org does not designate permitted sender
  hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
@@ -278,234 +278,127 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-For all cpuidle drivers that use CPUIDLE_FLAG_RCU_IDLE, ensure that
-all functions that call ct_cpuidle_enter() are marked __cpuidle.
+For all cpuidle drivers that do not use CPUIDLE_FLAG_RCU_IDLE (iow,
+the simple ones) make sure all the functions are marked __cpuidle.
 
 ( due to lack of noinstr validation on these platforms it is entirely
   possible this isn't complete )
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 ---
- arch/arm/mach-imx/cpuidle-imx6q.c         |    4 ++--
- arch/arm/mach-imx/cpuidle-imx6sx.c        |    4 ++--
- arch/arm/mach-omap2/omap-mpuss-lowpower.c |    4 ++--
- arch/arm/mach-omap2/pm34xx.c              |    2 +-
- arch/arm64/kernel/cpuidle.c               |    2 +-
- drivers/cpuidle/cpuidle-arm.c             |    4 ++--
- drivers/cpuidle/cpuidle-big_little.c      |    4 ++--
- drivers/cpuidle/cpuidle-mvebu-v7.c        |    6 +++---
- drivers/cpuidle/cpuidle-psci.c            |   17 ++++++-----------
- drivers/cpuidle/cpuidle-qcom-spm.c        |    4 ++--
- drivers/cpuidle/cpuidle-riscv-sbi.c       |   10 +++++-----
- drivers/cpuidle/cpuidle-tegra.c           |   10 +++++-----
- 12 files changed, 33 insertions(+), 38 deletions(-)
+ arch/arm/kernel/cpuidle.c           |    4 ++--
+ arch/arm/mach-davinci/cpuidle.c     |    4 ++--
+ arch/arm/mach-imx/cpuidle-imx5.c    |    4 ++--
+ arch/arm/mach-imx/cpuidle-imx6sl.c  |    4 ++--
+ arch/arm/mach-imx/cpuidle-imx7ulp.c |    4 ++--
+ arch/arm/mach-s3c/cpuidle-s3c64xx.c |    5 ++---
+ arch/mips/kernel/idle.c             |    6 +++---
+ 7 files changed, 15 insertions(+), 16 deletions(-)
 
---- a/arch/arm/mach-imx/cpuidle-imx6q.c
-+++ b/arch/arm/mach-imx/cpuidle-imx6q.c
-@@ -17,8 +17,8 @@
- static int num_idle_cpus = 0;
- static DEFINE_RAW_SPINLOCK(cpuidle_lock);
- 
--static int imx6q_enter_wait(struct cpuidle_device *dev,
--			    struct cpuidle_driver *drv, int index)
-+static __cpuidle int imx6q_enter_wait(struct cpuidle_device *dev,
-+				      struct cpuidle_driver *drv, int index)
+--- a/arch/arm/kernel/cpuidle.c
++++ b/arch/arm/kernel/cpuidle.c
+@@ -26,8 +26,8 @@ static struct cpuidle_ops cpuidle_ops[NR
+  *
+  * Returns the index passed as parameter
+  */
+-int arm_cpuidle_simple_enter(struct cpuidle_device *dev,
+-		struct cpuidle_driver *drv, int index)
++__cpuidle int arm_cpuidle_simple_enter(struct cpuidle_device *dev, struct
++				       cpuidle_driver *drv, int index)
  {
- 	raw_spin_lock(&cpuidle_lock);
- 	if (++num_idle_cpus == num_online_cpus())
---- a/arch/arm/mach-imx/cpuidle-imx6sx.c
-+++ b/arch/arm/mach-imx/cpuidle-imx6sx.c
-@@ -30,8 +30,8 @@ static int imx6sx_idle_finish(unsigned l
- 	return 0;
+ 	cpu_do_idle();
+ 
+--- a/arch/arm/mach-davinci/cpuidle.c
++++ b/arch/arm/mach-davinci/cpuidle.c
+@@ -44,8 +44,8 @@ static void davinci_save_ddr_power(int e
  }
  
--static int imx6sx_enter_wait(struct cpuidle_device *dev,
+ /* Actual code that puts the SoC in different idle states */
+-static int davinci_enter_idle(struct cpuidle_device *dev,
+-			      struct cpuidle_driver *drv, int index)
++static __cpuidle int davinci_enter_idle(struct cpuidle_device *dev,
++					struct cpuidle_driver *drv, int index)
+ {
+ 	davinci_save_ddr_power(1, ddr2_pdown);
+ 	cpu_do_idle();
+--- a/arch/arm/mach-imx/cpuidle-imx5.c
++++ b/arch/arm/mach-imx/cpuidle-imx5.c
+@@ -8,8 +8,8 @@
+ #include <asm/system_misc.h>
+ #include "cpuidle.h"
+ 
+-static int imx5_cpuidle_enter(struct cpuidle_device *dev,
+-			      struct cpuidle_driver *drv, int index)
++static __cpuidle int imx5_cpuidle_enter(struct cpuidle_device *dev,
++					struct cpuidle_driver *drv, int index)
+ {
+ 	arm_pm_idle();
+ 	return index;
+--- a/arch/arm/mach-imx/cpuidle-imx6sl.c
++++ b/arch/arm/mach-imx/cpuidle-imx6sl.c
+@@ -11,8 +11,8 @@
+ #include "common.h"
+ #include "cpuidle.h"
+ 
+-static int imx6sl_enter_wait(struct cpuidle_device *dev,
 -			    struct cpuidle_driver *drv, int index)
-+static __cpuidle int imx6sx_enter_wait(struct cpuidle_device *dev,
++static __cpuidle int imx6sl_enter_wait(struct cpuidle_device *dev,
 +				       struct cpuidle_driver *drv, int index)
  {
  	imx6_set_lpm(WAIT_UNCLOCKED);
- 
---- a/arch/arm/mach-omap2/omap-mpuss-lowpower.c
-+++ b/arch/arm/mach-omap2/omap-mpuss-lowpower.c
-@@ -224,8 +224,8 @@ static void __init save_l2x0_context(voi
-  *	2 - CPUx L1 and logic lost + GIC lost: MPUSS OSWR
-  *	3 - CPUx L1 and logic lost + GIC + L2 lost: DEVICE OFF
-  */
--int omap4_enter_lowpower(unsigned int cpu, unsigned int power_state,
--			 bool rcuidle)
-+__cpuidle int omap4_enter_lowpower(unsigned int cpu, unsigned int power_state,
-+				   bool rcuidle)
- {
- 	struct omap4_cpu_pm_info *pm_info = &per_cpu(omap4_pm_info, cpu);
- 	unsigned int save_state = 0, cpu_logic_state = PWRDM_POWER_RET;
---- a/arch/arm/mach-omap2/pm34xx.c
-+++ b/arch/arm/mach-omap2/pm34xx.c
-@@ -175,7 +175,7 @@ static int omap34xx_do_sram_idle(unsigne
- 	return 0;
- }
- 
--void omap_sram_idle(bool rcuidle)
-+__cpuidle void omap_sram_idle(bool rcuidle)
- {
- 	/* Variable to tell what needs to be saved and restored
- 	 * in omap_sram_idle*/
---- a/arch/arm64/kernel/cpuidle.c
-+++ b/arch/arm64/kernel/cpuidle.c
-@@ -62,7 +62,7 @@ int acpi_processor_ffh_lpi_probe(unsigne
- 	return psci_acpi_cpu_init_idle(cpu);
- }
- 
--int acpi_processor_ffh_lpi_enter(struct acpi_lpi_state *lpi)
-+__cpuidle int acpi_processor_ffh_lpi_enter(struct acpi_lpi_state *lpi)
- {
- 	u32 state = lpi->address;
- 
---- a/drivers/cpuidle/cpuidle-arm.c
-+++ b/drivers/cpuidle/cpuidle-arm.c
-@@ -31,8 +31,8 @@
-  * Called from the CPUidle framework to program the device to the
-  * specified target state selected by the governor.
-  */
--static int arm_enter_idle_state(struct cpuidle_device *dev,
--				struct cpuidle_driver *drv, int idx)
-+static __cpuidle int arm_enter_idle_state(struct cpuidle_device *dev,
-+					  struct cpuidle_driver *drv, int idx)
- {
  	/*
- 	 * Pass idle state index to arm_cpuidle_suspend which in turn
---- a/drivers/cpuidle/cpuidle-big_little.c
-+++ b/drivers/cpuidle/cpuidle-big_little.c
-@@ -122,8 +122,8 @@ static int notrace bl_powerdown_finisher
-  * Called from the CPUidle framework to program the device to the
-  * specified target state selected by the governor.
-  */
--static int bl_enter_powerdown(struct cpuidle_device *dev,
--				struct cpuidle_driver *drv, int idx)
-+static __cpuidle int bl_enter_powerdown(struct cpuidle_device *dev,
-+					struct cpuidle_driver *drv, int idx)
- {
- 	cpu_pm_enter();
- 	ct_cpuidle_enter();
---- a/drivers/cpuidle/cpuidle-mvebu-v7.c
-+++ b/drivers/cpuidle/cpuidle-mvebu-v7.c
-@@ -25,9 +25,9 @@
+--- a/arch/arm/mach-imx/cpuidle-imx7ulp.c
++++ b/arch/arm/mach-imx/cpuidle-imx7ulp.c
+@@ -12,8 +12,8 @@
+ #include "common.h"
+ #include "cpuidle.h"
  
- static int (*mvebu_v7_cpu_suspend)(int);
- 
--static int mvebu_v7_enter_idle(struct cpuidle_device *dev,
--				struct cpuidle_driver *drv,
--				int index)
-+static __cpuidle int mvebu_v7_enter_idle(struct cpuidle_device *dev,
-+					 struct cpuidle_driver *drv,
-+					 int index)
+-static int imx7ulp_enter_wait(struct cpuidle_device *dev,
+-			    struct cpuidle_driver *drv, int index)
++static __cpuidle int imx7ulp_enter_wait(struct cpuidle_device *dev,
++					struct cpuidle_driver *drv, int index)
  {
- 	int ret;
- 	bool deepidle = false;
---- a/drivers/cpuidle/cpuidle-psci.c
-+++ b/drivers/cpuidle/cpuidle-psci.c
-@@ -49,14 +49,9 @@ static inline u32 psci_get_domain_state(
- 	return __this_cpu_read(domain_state);
+ 	if (index == 1)
+ 		imx7ulp_set_lpm(ULP_PM_WAIT);
+--- a/arch/arm/mach-s3c/cpuidle-s3c64xx.c
++++ b/arch/arm/mach-s3c/cpuidle-s3c64xx.c
+@@ -19,9 +19,8 @@
+ #include "regs-sys-s3c64xx.h"
+ #include "regs-syscon-power-s3c64xx.h"
+ 
+-static int s3c64xx_enter_idle(struct cpuidle_device *dev,
+-			      struct cpuidle_driver *drv,
+-			      int index)
++static __cpuidle int s3c64xx_enter_idle(struct cpuidle_device *dev,
++					struct cpuidle_driver *drv, int index)
+ {
+ 	unsigned long tmp;
+ 
+--- a/arch/mips/kernel/idle.c
++++ b/arch/mips/kernel/idle.c
+@@ -241,7 +241,7 @@ void __init check_wait(void)
+ 	}
  }
  
--static inline int psci_enter_state(int idx, u32 state)
--{
--	return CPU_PM_CPU_IDLE_ENTER_PARAM(psci_cpu_suspend_enter, idx, state);
--}
--
--static int __psci_enter_domain_idle_state(struct cpuidle_device *dev,
--					  struct cpuidle_driver *drv, int idx,
--					  bool s2idle)
-+static __cpuidle int __psci_enter_domain_idle_state(struct cpuidle_device *dev,
-+						    struct cpuidle_driver *drv, int idx,
-+						    bool s2idle)
+-void arch_cpu_idle(void)
++__cpuidle void arch_cpu_idle(void)
  {
- 	struct psci_cpuidle_data *data = this_cpu_ptr(&psci_cpuidle_data);
- 	u32 *states = data->psci_states;
-@@ -192,12 +187,12 @@ static void psci_idle_init_cpuhp(void)
- 		pr_warn("Failed %d while setup cpuhp state\n", err);
- }
+ 	if (cpu_wait)
+ 		cpu_wait();
+@@ -249,8 +249,8 @@ void arch_cpu_idle(void)
  
--static int psci_enter_idle_state(struct cpuidle_device *dev,
--				struct cpuidle_driver *drv, int idx)
-+static __cpuidle int psci_enter_idle_state(struct cpuidle_device *dev,
-+					   struct cpuidle_driver *drv, int idx)
+ #ifdef CONFIG_CPU_IDLE
+ 
+-int mips_cpuidle_wait_enter(struct cpuidle_device *dev,
+-			    struct cpuidle_driver *drv, int index)
++__cpuidle int mips_cpuidle_wait_enter(struct cpuidle_device *dev,
++				      struct cpuidle_driver *drv, int index)
  {
- 	u32 *state = __this_cpu_read(psci_cpuidle_data.psci_states);
- 
--	return psci_enter_state(idx, state[idx]);
-+	return CPU_PM_CPU_IDLE_ENTER_PARAM(psci_cpu_suspend_enter, idx, state[idx]);
- }
- 
- static const struct of_device_id psci_idle_state_match[] = {
---- a/drivers/cpuidle/cpuidle-qcom-spm.c
-+++ b/drivers/cpuidle/cpuidle-qcom-spm.c
-@@ -58,8 +58,8 @@ static int qcom_cpu_spc(struct spm_drive
- 	return ret;
- }
- 
--static int spm_enter_idle_state(struct cpuidle_device *dev,
--				struct cpuidle_driver *drv, int idx)
-+static __cpuidle int spm_enter_idle_state(struct cpuidle_device *dev,
-+					  struct cpuidle_driver *drv, int idx)
- {
- 	struct cpuidle_qcom_spm_data *data = container_of(drv, struct cpuidle_qcom_spm_data,
- 							  cpuidle_driver);
---- a/drivers/cpuidle/cpuidle-riscv-sbi.c
-+++ b/drivers/cpuidle/cpuidle-riscv-sbi.c
-@@ -93,8 +93,8 @@ static int sbi_suspend(u32 state)
- 		return sbi_suspend_finisher(state, 0, 0);
- }
- 
--static int sbi_cpuidle_enter_state(struct cpuidle_device *dev,
--				   struct cpuidle_driver *drv, int idx)
-+static __cpuidle int sbi_cpuidle_enter_state(struct cpuidle_device *dev,
-+					     struct cpuidle_driver *drv, int idx)
- {
- 	u32 *states = __this_cpu_read(sbi_cpuidle_data.states);
- 	u32 state = states[idx];
-@@ -106,9 +106,9 @@ static int sbi_cpuidle_enter_state(struc
- 							     idx, state);
- }
- 
--static int __sbi_enter_domain_idle_state(struct cpuidle_device *dev,
--					  struct cpuidle_driver *drv, int idx,
--					  bool s2idle)
-+static __cpuidle int __sbi_enter_domain_idle_state(struct cpuidle_device *dev,
-+						   struct cpuidle_driver *drv, int idx,
-+						   bool s2idle)
- {
- 	struct sbi_cpuidle_data *data = this_cpu_ptr(&sbi_cpuidle_data);
- 	u32 *states = data->states;
---- a/drivers/cpuidle/cpuidle-tegra.c
-+++ b/drivers/cpuidle/cpuidle-tegra.c
-@@ -160,8 +160,8 @@ static int tegra_cpuidle_coupled_barrier
- 	return 0;
- }
- 
--static int tegra_cpuidle_state_enter(struct cpuidle_device *dev,
--				     int index, unsigned int cpu)
-+static __cpuidle int tegra_cpuidle_state_enter(struct cpuidle_device *dev,
-+					       int index, unsigned int cpu)
- {
- 	int err;
- 
-@@ -226,9 +226,9 @@ static int tegra_cpuidle_adjust_state_in
+ 	arch_cpu_idle();
  	return index;
- }
- 
--static int tegra_cpuidle_enter(struct cpuidle_device *dev,
--			       struct cpuidle_driver *drv,
--			       int index)
-+static __cpuidle int tegra_cpuidle_enter(struct cpuidle_device *dev,
-+					 struct cpuidle_driver *drv,
-+					 int index)
- {
- 	bool do_rcu = drv->states[index].flags & CPUIDLE_FLAG_RCU_IDLE;
- 	unsigned int cpu = cpu_logical_map(dev->cpu);
 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195542.274096325%40infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195542.335211484%40infradead.org.
