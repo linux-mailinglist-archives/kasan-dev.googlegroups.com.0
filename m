@@ -1,126 +1,267 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB4XA76OQMGQEEOV52II@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRB2WMQGPAMGQE5YWVWIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe37.google.com (mail-vs1-xe37.google.com [IPv6:2607:f8b0:4864:20::e37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602B9667103
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 12:35:16 +0100 (CET)
-Received: by mail-vs1-xe37.google.com with SMTP id l189-20020a6770c6000000b003d0cbd94bc0sf2018662vsc.7
-        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 03:35:16 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673523315; cv=pass;
+Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB32D667FF0
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:35 +0100 (CET)
+Received: by mail-lf1-x13c.google.com with SMTP id x7-20020ac24887000000b004cb10694f9bsf7290550lfc.6
+        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:35 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673553515; cv=pass;
         d=google.com; s=arc-20160816;
-        b=PuIGPneouvvKWOrzuzbBm03IENVdw4tPnEDXXGeIZ/L01aFZVmmeOpbXkgFYMpR0Ir
-         dfyeCy009uBtDQDpDdIyz53HqA9pWE+NAdUZSSNkh8pZk8EA/StjMQ2TtU5huz5BqYmZ
-         lmZR6e955JAisL26xK3mDbIeTztgK+dFL+m5Ugj66NQUocv3wn4L/Z8hi2xGKZFlgG0c
-         7QjKOhf+vPC1pI60o7hWSnxGmQYqVpSpXF8KhO+NFb8enc+VMR4n4weVFVp8Qnq3c7g7
-         POom56FvnxFFLJMKX47I4NnXkrbpKpw7OUm+qIxjSmMPeijohBoC3yFbRNfD08K9Lpw/
-         u6ig==
+        b=c1I34h0h0BeE17K7weS2LM45auG9A6XQDWaQojlWXGFYy7bqb0vGUs5NVuGjoH04zL
+         bMWpPK6hI9gxpd8MsWvo6lKGExVJiefFT4FrkGlTC0//56FHialYY0JU+KGxXjAlkDZm
+         jkvtA8TSyakn65v2gfylSA/S8tE5xDqWBv43GCaNUG8yf0B4Tocf34OBg1kT3Cc/zai9
+         JJomxwEuwButPqNtL48WnHkSQIEGq9jO0nQRgdu7Fa04uYzddKsv1AKoAhkvv0P0JTLV
+         xSGGT3uVVoZnbD6f4d+MpCf5RC54i735P7GwDT8vbnrfaWxuFl13JK8og1shkkKdWVyS
+         x4Mw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=5eL9dOVa7oYUg5RZx/Ifky8XIsQigP97HdIiVbBMcwk=;
-        b=cdogsuvsxO2TzqMiwtLbBCcDrxlpsUz/weRKD4MFltrAYGONw+PloCIxY4UrcSGFX8
-         Ibah/OMRjk/Q6S0xr/zbriDLwUxrnqBDmIW2ChOw77Qvke+9MoEXZxId6rCT6lsplrFg
-         BT25GS4ID3M9wyZxrpviXhIDdzoM7caTTmjvcjMA8CYjDuErCg941EJ5Y5BbwIhY1VqI
-         kevATPQhBEXMKZlHUZmeUEwZgM+nIjpIXepPOpRuLQZBP3yPY+y9kS702SL51mNw5lpt
-         A/faovIk4/7f+fo/lYvDr2m7IwPUw4prhK/DNHbVwIst5nmz8T5MNhsca/3HUrB8a016
-         DZ4Q==
+         :list-id:mailing-list:precedence:subject:cc:to:from:date:user-agent
+         :message-id:mime-version:sender:dkim-signature;
+        bh=Jh1HoGXi9pLJHXybLeW4FocSAG8jZQk+xVSY5vhiY4o=;
+        b=evQh49Wlu03e2qgOR1wnvJNobAz+/kxr2rxfNgK4rWj1g48X/wZFt14zZGeDOLJIBJ
+         UJrfhLf0xSg9KytQhnWHflOlNza0bCy+nPW6dhaFBWh9m3V0dhm7i7l3AA6O8FRcN+Wh
+         9E6jVCd5ZC0wk6g5UqF0jcFndT/HX0fJk5df6NtPZVIogVvG/aqPNqaBMbC3sfAtT5Fc
+         oXCyxW9Sbd1CCIFx8+GUm8StuPHpPAVZfBSwaKUp/W1AM7siKiz5yM7930DrUu70r2hE
+         zgZhQ3j6Jl8vCg5vEllmdovw0dsm3ttQ17RzGfzT9sf4cLk2lnj15tG+TDyjQ2tppMVI
+         srYA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=SmA+oCE6;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2d as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=YEW7kFaH;
+       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5eL9dOVa7oYUg5RZx/Ifky8XIsQigP97HdIiVbBMcwk=;
-        b=ljNMds7MHXA5QMdW5jq+4GxadfciX6JmbKm3t0cmXvZvQCpDLtTv4lmURFuXQg2IdA
-         1CVSi4vh08jW91+hHxBQB6mtUKonFgepdU3hPfVQbigTvMN3vHAkwrEx6o9Ms3JpSTdP
-         QuX7LD6z1dKswXaNH6TYYRbN7erN+twLtujwS5IKDwvAocvXO9d53WpbrGRAVShIgMkD
-         1f6Op2dkpYDfeYZCrv15E5UXy5+Jh5c7SE8redchx/Nrry3IonyW/DdwddUzWTH2oyLh
-         ewp66IrqaqoZE3wZkRLzrjoYQhncVJOMgU4oC9vxiyH4255HJg7l03iA1Ju2Yx3CV7qq
-         Ckyw==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:subject:cc:to:from:date:user-agent:message-id
+         :mime-version:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jh1HoGXi9pLJHXybLeW4FocSAG8jZQk+xVSY5vhiY4o=;
+        b=h9FH5KLuJTgXP7Fb4QFy+2HxK4/+W8g+czbbph5uAUaSJIjK5WX8YSzwn7Wh0J005k
+         X5rQ3Aerqvbc77eLucAvNKX1U6Rd1ysEHhSHQSver+bzYmqs7wJt0nhcuLIpc5dtuUaD
+         9ehKyt/Pb0hZEXv3/wgxb/pci3eYae2fZmWt9my84ozYS+9rSUtq6YhatcEv4B4a8jOK
+         /ENEz1rFabgFEuzMlR1EUMah6TyErtuGBzmzBxMyEjXDD8n3C26d1DW7+YVw0IenJaXF
+         bF67pyUM6wrw11oP2Eh1pCArThg/PgPh9+kdt7D6aJhxp7jXPNiIPWY1ak3G8M+fBLj2
+         8/tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5eL9dOVa7oYUg5RZx/Ifky8XIsQigP97HdIiVbBMcwk=;
-        b=fzauBfqUIhQ+qJBkrB0JbVBV3DQqOl0GhOM3eeRmGv6sFSrULYaPhJPbunY9uRA2oL
-         dqyEToLXXXX3r8imoH7g7DsNMjv0jdssbdQZ/UTEdUfJU2kgnV6cYMmNeHmb20YIYW/0
-         68a5ytY/KUmwLTdqlyAdr1OV4h54PrFPcdhihMkRa3jq4T5S3+SxYThGi6OUlTjthj06
-         tgq7SqzeLslM99WSzD2HZcur8B74IrCYqOEdrv9cgRkEp17ReqpGbOEUMnGOXzGAu9IO
-         mfR1bq3qWr2bRhsFLbLEnuHprP71Sp4FMYEnofNoIW6916NjRFuUZ5KkfcK8Izpg/Wfc
-         GgOQ==
-X-Gm-Message-State: AFqh2kr6FY+TC8VTWCGOER+sv8eO/ZPeOq+GjWviHggkK1CB4gL7mwjG
-	60VuVBkiPtMOJnaOVQDAt+0=
-X-Google-Smtp-Source: AMrXdXvvpSPTAbCWao08VbwZSVW1ZYCsiLKRnNFhQOLwWm6B485u1yUPuwfaE7MndLicfthn5OzfeQ==
-X-Received: by 2002:ab0:3b57:0:b0:5ed:f692:ee6b with SMTP id o23-20020ab03b57000000b005edf692ee6bmr132939uaw.49.1673523315040;
-        Thu, 12 Jan 2023 03:35:15 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:aa10:0:b0:3d8:d251:63a5 with SMTP id t16-20020a1faa10000000b003d8d25163a5ls289474vke.4.-pod-prod-gmail;
- Thu, 12 Jan 2023 03:35:14 -0800 (PST)
-X-Received: by 2002:a1f:3081:0:b0:3d5:5366:dc6c with SMTP id w123-20020a1f3081000000b003d55366dc6cmr34207483vkw.4.1673523314272;
-        Thu, 12 Jan 2023 03:35:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673523314; cv=none;
-        d=google.com; s=arc-20160816;
-        b=nwLOW32DKOgfN1lYZY0a0fkSX80agkM11ctiN2bR2xAxylGj5cvGS8ttuBaLYQXTVF
-         Qs1sULfdsxkHF/E6iLQoD0F+uFpRHjrZGE14ztKKNd33Eeb9DsgeT+LdP0sNK9ZofrD0
-         EumP7jn33WTy+DzucdrUi1LwgSywDqSeZ5FkOS9oXgzkcOu/19Q77LnMXeRJ3USiiOSc
-         8H/ArCaUaHzHf0kM4OVURdAO4t3SiMurso1ErGdUR1sZAaaRZtmka9Kr7cRFrNO66xd+
-         U5ueuGP5UcUh+biqtuWcFr06DvVaW2n9HFkoxZW9zQsXaHLFKpNp9LFjEM/0pUtB4yV2
-         sISA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=sZdRy8QTItnLRyny4d2jEHrecgEcHxwrD4J8NtmTL7Y=;
-        b=EhS3oCCCMqkitfSn2RpnSGqWeJyjpjefyTo/EqPNn+RQ1hmBor4yJ46K8+//MvHzI9
-         k6X2Rcvd3jcWoDA0xTz/S4NGlZCR6mIBgMjg0XEDE/VzdAEfX8deE5E+xfzb/WXYhOJ4
-         G1P1ozTMWR2F6H/2gyfiesWAItu+KUjrW5sCOnisiyHqzO7EbNhcrKmy9Hbc5kQ1Ft1C
-         bCr9wda8snIxYgP5U/zDk9I+wQ/5F0G+oCogAMuDW2qhxjtM7NVkLdFwA9cRF0BJ9lI4
-         L9+s/TZgTq+HBdPC7+1bEqYdu8LJN8P2gXcK1P5BF1pbyghLbMsTlEXjN05hb7x0PW8H
-         Tv7Q==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=SmA+oCE6;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2d as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com. [2607:f8b0:4864:20::b2d])
-        by gmr-mx.google.com with ESMTPS id w83-20020a1f9456000000b003d995c67be1si1227039vkd.4.2023.01.12.03.35.14
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jan 2023 03:35:14 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2d as permitted sender) client-ip=2607:f8b0:4864:20::b2d;
-Received: by mail-yb1-xb2d.google.com with SMTP id t15so18321279ybq.4
-        for <kasan-dev@googlegroups.com>; Thu, 12 Jan 2023 03:35:14 -0800 (PST)
-X-Received: by 2002:a5b:a90:0:b0:70b:87d5:4a73 with SMTP id
- h16-20020a5b0a90000000b0070b87d54a73mr5919340ybq.584.1673523313774; Thu, 12
- Jan 2023 03:35:13 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:subject:cc:to
+         :from:date:user-agent:message-id:mime-version:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Jh1HoGXi9pLJHXybLeW4FocSAG8jZQk+xVSY5vhiY4o=;
+        b=xwJA/U2ZhnQfzmZmgYUkR8rdIMMPP5SGOkNAvTWV2arLEcEsG5a8LF7OlTAKkuX54j
+         483cGLDnxrUVVdX5ZbhBkKJQysxa96vT6TziM8UQ7sDS6bnpDAzuCqkntuy076pjbGy7
+         WvxpCl72zamDElsEI7r7+0cRxWY37idctM9WDHupV9e/9pK4lDAbgUdC0bfmEr7RSMZ7
+         5vrHl3t68+4GvXyJeMu1tyVa0fQ/gdltmy69TxAaG7vOCCEPMhukUY9XfmoAFim7gqth
+         HUAHZ7tRoyc20jLTlOqKPvJfK93/CnXGC0Sg48A6QUjCDOo+iAttCq0QgffV+JJzsLk2
+         kfWw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AFqh2kpwCZrOoDddgRcFt8ZoKYEq3ogGserPqhLCWoHWQek4CalqGMr8
+	56FcVxFcDT7CnVQTh6WYXcg=
+X-Google-Smtp-Source: AMrXdXs8FzrZClpauD9LJw2BjKGGc2xotD2VedGi2B+bBlpMGSPaAnYAB7vxEd124VrfwtTXXdhPKw==
+X-Received: by 2002:a05:651c:221e:b0:27f:c88b:5ba4 with SMTP id y30-20020a05651c221e00b0027fc88b5ba4mr2865555ljq.446.1673553514927;
+        Thu, 12 Jan 2023 11:58:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20230112103147.382416-1-glider@google.com>
-In-Reply-To: <20230112103147.382416-1-glider@google.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 12 Jan 2023 12:34:37 +0100
-Message-ID: <CANpmjNMznQsC6ftzy7MCa7uQVCFv=MFg6JW28QdnGPyzFEZn5A@mail.gmail.com>
-Subject: Re: [PATCH] kmsan: silence -Wmissing-prototypes warnings
-To: Alexander Potapenko <glider@google.com>
-Cc: linux-kernel@vger.kernel.org, akpm@linux-foundation.org, 
-	peterz@infradead.org, mingo@redhat.com, dvyukov@google.com, 
-	linux-mm@kvack.org, kasan-dev@googlegroups.com, 
-	kernel test robot <lkp@intel.com>, Vlastimil Babka <vbabka@suse.cz>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-BeenThere: kasan-dev@googlegroups.com
+Received: by 2002:a05:6512:1182:b0:4b5:3cdf:5a65 with SMTP id
+ g2-20020a056512118200b004b53cdf5a65ls1755063lfr.2.-pod-prod-gmail; Thu, 12
+ Jan 2023 11:58:33 -0800 (PST)
+X-Received: by 2002:a05:6512:12c2:b0:4ce:88af:473b with SMTP id p2-20020a05651212c200b004ce88af473bmr489278lfg.54.1673553513475;
+        Thu, 12 Jan 2023 11:58:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673553513; cv=none;
+        d=google.com; s=arc-20160816;
+        b=ztvmJiIQMb7VlLAi9eIOF60JYi6XEVABMgezI8HHfWnPg9eCD1YlLEglqz8RrbS+16
+         OekBntZIyfvy6qSkrHIQ4l3WkoA8FJ92JjGL44pzWV7DzNGJQWPWc/J50QEqzapChooM
+         mWu18fwyjsbmUVBWo5eXL9AzsE/dTX8ybR0EQHrkDJmf3VibjhIPn5sMxQ9Zq/Q/KH3b
+         u6ykyyFad7gVOMv2OJu1PEgQK1eJSYxcSPNw9e/u3yW9SCRSpEWV3bkoLIFthaq2KVG2
+         Xc3v0lQBIYrXYz6wxtbQHZS03ZE2WHk4EriSIQ0pq53av4GVuAu9yPPb3gIGNz5N3IHC
+         LyDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=subject:cc:to:from:date:user-agent:message-id:dkim-signature;
+        bh=nVA2Mm1l3YORbADd6moHHe8hZRGP2vbv/t+d/ET+JHY=;
+        b=TY0xUt2CzduH7nps7X+JPOc78gVeBe/XX+6uAQmIq/Dp9w7LMGMd5CR4DCcVeyONhO
+         wg75I7v8o1XHU0YcKmEHf7RBh/JgzP8v5JbULnBE/hYvMtt091ifhM9X8u6+aldqD4Xu
+         K1euYFONa12t+W9dsc51LYX/gGs+lKf/1hlSPFEKKZAD4s6+4/mYosAfYlbvoubN2gK7
+         eliGFP/e8RUqOkKJbYux5hokSpRgUavlHRk+UW3zsDFIArT/0vvibM2hWWkzsO1jGM0w
+         SpXeyXrIp6B5bGDFBR3vGLBR1OHZKuEOsLIPqsRqzcgcgkgKhdsNv6xHL8W9jhIvYeBQ
+         jhFg==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=YEW7kFaH;
+       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
+Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
+        by gmr-mx.google.com with ESMTPS id v9-20020a05651203a900b004cfb4a3fc7esi13614lfp.8.2023.01.12.11.58.33
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Jan 2023 11:58:33 -0800 (PST)
+Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pG3hW-005OcE-N8; Thu, 12 Jan 2023 19:57:26 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A2F1D30012F;
+	Thu, 12 Jan 2023 20:57:07 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
+	id 892382CCF1F46; Thu, 12 Jan 2023 20:57:07 +0100 (CET)
+Message-ID: <20230112194314.845371875@infradead.org>
+User-Agent: quilt/0.66
+Date: Thu, 12 Jan 2023 20:43:14 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: peterz@infradead.org
+Cc: richard.henderson@linaro.org,
+ ink@jurassic.park.msu.ru,
+ mattst88@gmail.com,
+ vgupta@kernel.org,
+ linux@armlinux.org.uk,
+ nsekhar@ti.com,
+ brgl@bgdev.pl,
+ ulli.kroll@googlemail.com,
+ linus.walleij@linaro.org,
+ shawnguo@kernel.org,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ kernel@pengutronix.de,
+ festevam@gmail.com,
+ linux-imx@nxp.com,
+ tony@atomide.com,
+ khilman@kernel.org,
+ krzysztof.kozlowski@linaro.org,
+ alim.akhtar@samsung.com,
+ catalin.marinas@arm.com,
+ will@kernel.org,
+ guoren@kernel.org,
+ bcain@quicinc.com,
+ chenhuacai@kernel.org,
+ kernel@xen0n.name,
+ geert@linux-m68k.org,
+ sammy@sammy.net,
+ monstr@monstr.eu,
+ tsbogend@alpha.franken.de,
+ dinguyen@kernel.org,
+ jonas@southpole.se,
+ stefan.kristiansson@saunalahti.fi,
+ shorne@gmail.com,
+ James.Bottomley@HansenPartnership.com,
+ deller@gmx.de,
+ mpe@ellerman.id.au,
+ npiggin@gmail.com,
+ christophe.leroy@csgroup.eu,
+ paul.walmsley@sifive.com,
+ palmer@dabbelt.com,
+ aou@eecs.berkeley.edu,
+ hca@linux.ibm.com,
+ gor@linux.ibm.com,
+ agordeev@linux.ibm.com,
+ borntraeger@linux.ibm.com,
+ svens@linux.ibm.com,
+ ysato@users.sourceforge.jp,
+ dalias@libc.org,
+ davem@davemloft.net,
+ richard@nod.at,
+ anton.ivanov@cambridgegreys.com,
+ johannes@sipsolutions.net,
+ tglx@linutronix.de,
+ mingo@redhat.com,
+ bp@alien8.de,
+ dave.hansen@linux.intel.com,
+ x86@kernel.org,
+ hpa@zytor.com,
+ acme@kernel.org,
+ mark.rutland@arm.com,
+ alexander.shishkin@linux.intel.com,
+ jolsa@kernel.org,
+ namhyung@kernel.org,
+ jgross@suse.com,
+ srivatsa@csail.mit.edu,
+ amakhalov@vmware.com,
+ pv-drivers@vmware.com,
+ boris.ostrovsky@oracle.com,
+ chris@zankel.net,
+ jcmvbkbc@gmail.com,
+ rafael@kernel.org,
+ lenb@kernel.org,
+ pavel@ucw.cz,
+ gregkh@linuxfoundation.org,
+ mturquette@baylibre.com,
+ sboyd@kernel.org,
+ daniel.lezcano@linaro.org,
+ lpieralisi@kernel.org,
+ sudeep.holla@arm.com,
+ agross@kernel.org,
+ andersson@kernel.org,
+ konrad.dybcio@linaro.org,
+ anup@brainfault.org,
+ thierry.reding@gmail.com,
+ jonathanh@nvidia.com,
+ jacob.jun.pan@linux.intel.com,
+ atishp@atishpatra.org,
+ Arnd Bergmann <arnd@arndb.de>,
+ yury.norov@gmail.com,
+ andriy.shevchenko@linux.intel.com,
+ linux@rasmusvillemoes.dk,
+ dennis@kernel.org,
+ tj@kernel.org,
+ cl@linux.com,
+ rostedt@goodmis.org,
+ mhiramat@kernel.org,
+ frederic@kernel.org,
+ paulmck@kernel.org,
+ pmladek@suse.com,
+ senozhatsky@chromium.org,
+ john.ogness@linutronix.de,
+ juri.lelli@redhat.com,
+ vincent.guittot@linaro.org,
+ dietmar.eggemann@arm.com,
+ bsegall@google.com,
+ mgorman@suse.de,
+ bristot@redhat.com,
+ vschneid@redhat.com,
+ ryabinin.a.a@gmail.com,
+ glider@google.com,
+ andreyknvl@gmail.com,
+ dvyukov@google.com,
+ vincenzo.frascino@arm.com,
+ Andrew Morton <akpm@linux-foundation.org>,
+ jpoimboe@kernel.org,
+ linux-alpha@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-snps-arc@lists.infradead.org,
+ linux-omap@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org,
+ linux-csky@vger.kernel.org,
+ linux-hexagon@vger.kernel.org,
+ linux-ia64@vger.kernel.org,
+ loongarch@lists.linux.dev,
+ linux-m68k@lists.linux-m68k.org,
+ linux-mips@vger.kernel.org,
+ openrisc@lists.librecores.org,
+ linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org,
+ sparclinux@vger.kernel.org,
+ linux-um@lists.infradead.org,
+ linux-perf-users@vger.kernel.org,
+ virtualization@lists.linux-foundation.org,
+ linux-xtensa@linux-xtensa.org,
+ linux-acpi@vger.kernel.org,
+ linux-pm@vger.kernel.org,
+ linux-clk@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org,
+ linux-tegra@vger.kernel.org,
+ linux-arch@vger.kernel.org,
+ linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com
+Subject: [PATCH v3 00/51] cpuidle,rcu: Clean up the mess
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=SmA+oCE6;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b2d as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@infradead.org header.s=casper.20170209 header.b=YEW7kFaH;
+       spf=none (google.com: infradead.org does not designate permitted sender
+ hosts) smtp.mailfrom=peterz@infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -133,152 +274,186 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 12 Jan 2023 at 11:31, Alexander Potapenko <glider@google.com> wrote:
->
-> When building the kernel with W=1, the compiler reports numerous
-> warnings about the missing prototypes for KMSAN instrumentation hooks.
->
-> Because these functions are not supposed to be called explicitly by the
-> kernel code (calls to them are emitted by the compiler), they do not
-> have to be declared in the headers. Instead, we add forward declarations
-> right before the definitions to silence the warnings produced by
-> -Wmissing-prototypes.
->
-> Reported-by: kernel test robot <lkp@intel.com>
-> Link: https://lore.kernel.org/lkml/202301020356.dFruA4I5-lkp@intel.com/T/
-> Reported-by: Vlastimil Babka <vbabka@suse.cz>
-> Suggested-by: Marco Elver <elver@google.com>
-> Signed-off-by: Alexander Potapenko <glider@google.com>
+Hi All!
 
-Reviewed-by: Marco Elver <elver@google.com>
+The (hopefully) final respin of cpuidle vs rcu cleanup patches. Barring any
+objections I'll be queueing these patches in tip/sched/core in the next few
+days.
 
-> ---
->  mm/kmsan/instrumentation.c | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
->
-> diff --git a/mm/kmsan/instrumentation.c b/mm/kmsan/instrumentation.c
-> index 770fe02904f36..cf12e9616b243 100644
-> --- a/mm/kmsan/instrumentation.c
-> +++ b/mm/kmsan/instrumentation.c
-> @@ -38,7 +38,15 @@ get_shadow_origin_ptr(void *addr, u64 size, bool store)
->         return ret;
->  }
->
-> +/*
-> + * KMSAN instrumentation functions follow. They are not declared elsewhere in
-> + * the kernel code, so they are preceded by prototypes, to silence
-> + * -Wmissing-prototypes warnings.
-> + */
-> +
->  /* Get shadow and origin pointers for a memory load with non-standard size. */
-> +struct shadow_origin_ptr __msan_metadata_ptr_for_load_n(void *addr,
-> +                                                       uintptr_t size);
->  struct shadow_origin_ptr __msan_metadata_ptr_for_load_n(void *addr,
->                                                         uintptr_t size)
->  {
-> @@ -47,6 +55,8 @@ struct shadow_origin_ptr __msan_metadata_ptr_for_load_n(void *addr,
->  EXPORT_SYMBOL(__msan_metadata_ptr_for_load_n);
->
->  /* Get shadow and origin pointers for a memory store with non-standard size. */
-> +struct shadow_origin_ptr __msan_metadata_ptr_for_store_n(void *addr,
-> +                                                        uintptr_t size);
->  struct shadow_origin_ptr __msan_metadata_ptr_for_store_n(void *addr,
->                                                          uintptr_t size)
->  {
-> @@ -59,12 +69,16 @@ EXPORT_SYMBOL(__msan_metadata_ptr_for_store_n);
->   * with fixed size.
->   */
->  #define DECLARE_METADATA_PTR_GETTER(size)                                  \
-> +       struct shadow_origin_ptr __msan_metadata_ptr_for_load_##size(      \
-> +               void *addr);                                               \
->         struct shadow_origin_ptr __msan_metadata_ptr_for_load_##size(      \
->                 void *addr)                                                \
->         {                                                                  \
->                 return get_shadow_origin_ptr(addr, size, /*store*/ false); \
->         }                                                                  \
->         EXPORT_SYMBOL(__msan_metadata_ptr_for_load_##size);                \
-> +       struct shadow_origin_ptr __msan_metadata_ptr_for_store_##size(     \
-> +               void *addr);                                               \
->         struct shadow_origin_ptr __msan_metadata_ptr_for_store_##size(     \
->                 void *addr)                                                \
->         {                                                                  \
-> @@ -86,6 +100,7 @@ DECLARE_METADATA_PTR_GETTER(8);
->   * entering or leaving IRQ. We omit the check for kmsan_in_runtime() to ensure
->   * the memory written to in these cases is also marked as initialized.
->   */
-> +void __msan_instrument_asm_store(void *addr, uintptr_t size);
->  void __msan_instrument_asm_store(void *addr, uintptr_t size)
->  {
->         unsigned long ua_flags;
-> @@ -138,6 +153,7 @@ static inline void set_retval_metadata(u64 shadow, depot_stack_handle_t origin)
->  }
->
->  /* Handle llvm.memmove intrinsic. */
-> +void *__msan_memmove(void *dst, const void *src, uintptr_t n);
->  void *__msan_memmove(void *dst, const void *src, uintptr_t n)
->  {
->         depot_stack_handle_t origin;
-> @@ -162,6 +178,7 @@ void *__msan_memmove(void *dst, const void *src, uintptr_t n)
->  EXPORT_SYMBOL(__msan_memmove);
->
->  /* Handle llvm.memcpy intrinsic. */
-> +void *__msan_memcpy(void *dst, const void *src, uintptr_t n);
->  void *__msan_memcpy(void *dst, const void *src, uintptr_t n)
->  {
->         depot_stack_handle_t origin;
-> @@ -188,6 +205,7 @@ void *__msan_memcpy(void *dst, const void *src, uintptr_t n)
->  EXPORT_SYMBOL(__msan_memcpy);
->
->  /* Handle llvm.memset intrinsic. */
-> +void *__msan_memset(void *dst, int c, uintptr_t n);
->  void *__msan_memset(void *dst, int c, uintptr_t n)
->  {
->         depot_stack_handle_t origin;
-> @@ -217,6 +235,7 @@ EXPORT_SYMBOL(__msan_memset);
->   * uninitialized value to memory. When reporting an error, KMSAN unrolls and
->   * prints the whole chain of stores that preceded the use of this value.
->   */
-> +depot_stack_handle_t __msan_chain_origin(depot_stack_handle_t origin);
->  depot_stack_handle_t __msan_chain_origin(depot_stack_handle_t origin)
->  {
->         depot_stack_handle_t ret = 0;
-> @@ -237,6 +256,7 @@ depot_stack_handle_t __msan_chain_origin(depot_stack_handle_t origin)
->  EXPORT_SYMBOL(__msan_chain_origin);
->
->  /* Poison a local variable when entering a function. */
-> +void __msan_poison_alloca(void *address, uintptr_t size, char *descr);
->  void __msan_poison_alloca(void *address, uintptr_t size, char *descr)
->  {
->         depot_stack_handle_t handle;
-> @@ -272,6 +292,7 @@ void __msan_poison_alloca(void *address, uintptr_t size, char *descr)
->  EXPORT_SYMBOL(__msan_poison_alloca);
->
->  /* Unpoison a local variable. */
-> +void __msan_unpoison_alloca(void *address, uintptr_t size);
->  void __msan_unpoison_alloca(void *address, uintptr_t size)
->  {
->         if (!kmsan_enabled || kmsan_in_runtime())
-> @@ -287,6 +308,7 @@ EXPORT_SYMBOL(__msan_unpoison_alloca);
->   * Report that an uninitialized value with the given origin was used in a way
->   * that constituted undefined behavior.
->   */
-> +void __msan_warning(u32 origin);
->  void __msan_warning(u32 origin)
->  {
->         if (!kmsan_enabled || kmsan_in_runtime())
-> @@ -303,6 +325,7 @@ EXPORT_SYMBOL(__msan_warning);
->   * At the beginning of an instrumented function, obtain the pointer to
->   * `struct kmsan_context_state` holding the metadata for function parameters.
->   */
-> +struct kmsan_context_state *__msan_get_context_state(void);
->  struct kmsan_context_state *__msan_get_context_state(void)
->  {
->         return &kmsan_get_context()->cstate;
-> --
-> 2.39.0.314.g84b9a713c41-goog
->
+v2: https://lkml.kernel.org/r/20220919095939.761690562@infradead.org
+
+These here patches clean up the mess that is cpuidle vs rcuidle.
+
+At the end of the ride there's only on RCU_NONIDLE user left:
+
+  arch/arm64/kernel/suspend.c:            RCU_NONIDLE(__cpu_suspend_exit());
+
+And I know Mark has been prodding that with something sharp.
+
+The last version was tested by a number of people and I'm hoping to not have
+broken anything in the meantime ;-)
+
+
+Changes since v2:
+
+ - rebased to v6.2-rc3; as available at:
+     git://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/idle
+
+ - folded: https://lkml.kernel.org/r/Y3UBwYNY15ETUKy9@hirez.programming.kicks-ass.net
+   which makes the ARM cpuidle index 0 consistently not use
+   CPUIDLE_FLAG_RCU_IDLE, as requested by Ulf.
+
+ - added a few more __always_inline to empty stub functions as found by the
+   robot.
+
+ - Used _RET_IP_ instead of _THIS_IP_ in a few placed because of:
+   https://github.com/ClangBuiltLinux/linux/issues/263
+
+ - Added new patches to address various robot reports:
+
+     #35:  trace,hardirq: No moar _rcuidle() tracing
+     #47:  cpuidle: Ensure ct_cpuidle_enter() is always called from noinstr/__cpuidle
+     #48:  cpuidle,arch: Mark all ct_cpuidle_enter() callers __cpuidle
+     #49:  cpuidle,arch: Mark all regular cpuidle_state::enter methods __cpuidle
+     #50:  cpuidle: Comments about noinstr/__cpuidle
+     #51:  context_tracking: Fix noinstr vs KASAN
+
+
+---
+ arch/alpha/kernel/process.c               |  1 -
+ arch/alpha/kernel/vmlinux.lds.S           |  1 -
+ arch/arc/kernel/process.c                 |  3 ++
+ arch/arc/kernel/vmlinux.lds.S             |  1 -
+ arch/arm/include/asm/vmlinux.lds.h        |  1 -
+ arch/arm/kernel/cpuidle.c                 |  4 +-
+ arch/arm/kernel/process.c                 |  1 -
+ arch/arm/kernel/smp.c                     |  6 +--
+ arch/arm/mach-davinci/cpuidle.c           |  4 +-
+ arch/arm/mach-gemini/board-dt.c           |  3 +-
+ arch/arm/mach-imx/cpuidle-imx5.c          |  4 +-
+ arch/arm/mach-imx/cpuidle-imx6q.c         |  8 ++--
+ arch/arm/mach-imx/cpuidle-imx6sl.c        |  4 +-
+ arch/arm/mach-imx/cpuidle-imx6sx.c        |  9 ++--
+ arch/arm/mach-imx/cpuidle-imx7ulp.c       |  4 +-
+ arch/arm/mach-omap2/common.h              |  6 ++-
+ arch/arm/mach-omap2/cpuidle34xx.c         | 16 ++++++-
+ arch/arm/mach-omap2/cpuidle44xx.c         | 29 +++++++------
+ arch/arm/mach-omap2/omap-mpuss-lowpower.c | 12 +++++-
+ arch/arm/mach-omap2/pm.h                  |  2 +-
+ arch/arm/mach-omap2/pm24xx.c              | 51 +---------------------
+ arch/arm/mach-omap2/pm34xx.c              | 14 +++++--
+ arch/arm/mach-omap2/pm44xx.c              |  2 +-
+ arch/arm/mach-omap2/powerdomain.c         | 10 ++---
+ arch/arm/mach-s3c/cpuidle-s3c64xx.c       |  5 +--
+ arch/arm64/kernel/cpuidle.c               |  2 +-
+ arch/arm64/kernel/idle.c                  |  1 -
+ arch/arm64/kernel/smp.c                   |  4 +-
+ arch/arm64/kernel/vmlinux.lds.S           |  1 -
+ arch/csky/kernel/process.c                |  1 -
+ arch/csky/kernel/smp.c                    |  2 +-
+ arch/csky/kernel/vmlinux.lds.S            |  1 -
+ arch/hexagon/kernel/process.c             |  1 -
+ arch/hexagon/kernel/vmlinux.lds.S         |  1 -
+ arch/ia64/kernel/process.c                |  1 +
+ arch/ia64/kernel/vmlinux.lds.S            |  1 -
+ arch/loongarch/kernel/idle.c              |  1 +
+ arch/loongarch/kernel/vmlinux.lds.S       |  1 -
+ arch/m68k/kernel/vmlinux-nommu.lds        |  1 -
+ arch/m68k/kernel/vmlinux-std.lds          |  1 -
+ arch/m68k/kernel/vmlinux-sun3.lds         |  1 -
+ arch/microblaze/kernel/process.c          |  1 -
+ arch/microblaze/kernel/vmlinux.lds.S      |  1 -
+ arch/mips/kernel/idle.c                   | 14 +++----
+ arch/mips/kernel/vmlinux.lds.S            |  1 -
+ arch/nios2/kernel/process.c               |  1 -
+ arch/nios2/kernel/vmlinux.lds.S           |  1 -
+ arch/openrisc/kernel/process.c            |  1 +
+ arch/openrisc/kernel/vmlinux.lds.S        |  1 -
+ arch/parisc/kernel/process.c              |  2 -
+ arch/parisc/kernel/vmlinux.lds.S          |  1 -
+ arch/powerpc/kernel/idle.c                |  5 +--
+ arch/powerpc/kernel/vmlinux.lds.S         |  1 -
+ arch/riscv/kernel/process.c               |  1 -
+ arch/riscv/kernel/vmlinux-xip.lds.S       |  1 -
+ arch/riscv/kernel/vmlinux.lds.S           |  1 -
+ arch/s390/kernel/idle.c                   |  1 -
+ arch/s390/kernel/vmlinux.lds.S            |  1 -
+ arch/sh/kernel/idle.c                     |  1 +
+ arch/sh/kernel/vmlinux.lds.S              |  1 -
+ arch/sparc/kernel/leon_pmc.c              |  4 ++
+ arch/sparc/kernel/process_32.c            |  1 -
+ arch/sparc/kernel/process_64.c            |  3 +-
+ arch/sparc/kernel/vmlinux.lds.S           |  1 -
+ arch/um/kernel/dyn.lds.S                  |  1 -
+ arch/um/kernel/process.c                  |  1 -
+ arch/um/kernel/uml.lds.S                  |  1 -
+ arch/x86/boot/compressed/vmlinux.lds.S    |  1 +
+ arch/x86/coco/tdx/tdcall.S                | 15 +------
+ arch/x86/coco/tdx/tdx.c                   | 25 ++++-------
+ arch/x86/events/amd/brs.c                 | 13 +++---
+ arch/x86/include/asm/fpu/xcr.h            |  4 +-
+ arch/x86/include/asm/irqflags.h           | 11 ++---
+ arch/x86/include/asm/mwait.h              | 14 +++----
+ arch/x86/include/asm/nospec-branch.h      |  2 +-
+ arch/x86/include/asm/paravirt.h           |  6 ++-
+ arch/x86/include/asm/perf_event.h         |  2 +-
+ arch/x86/include/asm/shared/io.h          |  4 +-
+ arch/x86/include/asm/shared/tdx.h         |  1 -
+ arch/x86/include/asm/special_insns.h      |  8 ++--
+ arch/x86/include/asm/xen/hypercall.h      |  2 +-
+ arch/x86/kernel/cpu/bugs.c                |  2 +-
+ arch/x86/kernel/fpu/core.c                |  4 +-
+ arch/x86/kernel/paravirt.c                | 14 ++++++-
+ arch/x86/kernel/process.c                 | 65 ++++++++++++++--------------
+ arch/x86/kernel/vmlinux.lds.S             |  1 -
+ arch/x86/lib/memcpy_64.S                  |  5 +--
+ arch/x86/lib/memmove_64.S                 |  4 +-
+ arch/x86/lib/memset_64.S                  |  4 +-
+ arch/x86/xen/enlighten_pv.c               |  2 +-
+ arch/x86/xen/irq.c                        |  2 +-
+ arch/xtensa/kernel/process.c              |  1 +
+ arch/xtensa/kernel/vmlinux.lds.S          |  1 -
+ drivers/acpi/processor_idle.c             | 28 ++++++++-----
+ drivers/base/power/runtime.c              | 24 +++++------
+ drivers/clk/clk.c                         |  8 ++--
+ drivers/cpuidle/cpuidle-arm.c             |  4 +-
+ drivers/cpuidle/cpuidle-big_little.c      | 12 ++++--
+ drivers/cpuidle/cpuidle-mvebu-v7.c        | 13 ++++--
+ drivers/cpuidle/cpuidle-psci.c            | 26 +++++-------
+ drivers/cpuidle/cpuidle-qcom-spm.c        |  4 +-
+ drivers/cpuidle/cpuidle-riscv-sbi.c       | 19 +++++----
+ drivers/cpuidle/cpuidle-tegra.c           | 31 +++++++++-----
+ drivers/cpuidle/cpuidle.c                 | 70 ++++++++++++++++++++++---------
+ drivers/cpuidle/dt_idle_states.c          |  2 +-
+ drivers/cpuidle/poll_state.c              | 10 ++++-
+ drivers/idle/intel_idle.c                 | 19 ++++-----
+ drivers/perf/arm_pmu.c                    | 11 +----
+ drivers/perf/riscv_pmu_sbi.c              |  8 +---
+ include/asm-generic/vmlinux.lds.h         |  9 ++--
+ include/linux/clockchips.h                |  4 +-
+ include/linux/compiler_types.h            | 18 +++++++-
+ include/linux/cpu.h                       |  3 --
+ include/linux/cpuidle.h                   | 32 ++++++++++++++
+ include/linux/cpumask.h                   |  4 +-
+ include/linux/percpu-defs.h               |  2 +-
+ include/linux/sched/idle.h                | 40 +++++++++++++-----
+ include/linux/thread_info.h               | 18 +++++++-
+ include/linux/tracepoint.h                | 15 ++++++-
+ kernel/context_tracking.c                 | 12 +++---
+ kernel/cpu_pm.c                           |  9 ----
+ kernel/printk/printk.c                    |  2 +-
+ kernel/sched/idle.c                       | 47 ++++++---------------
+ kernel/time/tick-broadcast-hrtimer.c      | 29 ++++++-------
+ kernel/time/tick-broadcast.c              |  6 ++-
+ kernel/trace/trace.c                      |  3 ++
+ kernel/trace/trace_preemptirq.c           | 50 ++++++----------------
+ lib/ubsan.c                               |  5 ++-
+ mm/kasan/kasan.h                          |  4 ++
+ mm/kasan/shadow.c                         | 38 +++++++++++++++++
+ tools/objtool/check.c                     | 17 ++++++++
+ 131 files changed, 617 insertions(+), 523 deletions(-)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMznQsC6ftzy7MCa7uQVCFv%3DMFg6JW28QdnGPyzFEZn5A%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112194314.845371875%40infradead.org.
