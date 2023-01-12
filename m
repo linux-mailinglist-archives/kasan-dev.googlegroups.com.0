@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRB3GMQGPAMGQEEHHDFPY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRB4GMQGPAMGQERVECTBI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82FE9667FFE
-	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:37 +0100 (CET)
-Received: by mail-lf1-x13a.google.com with SMTP id bu42-20020a05651216aa00b004cb3df9b246sf7305736lfb.7
-        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:37 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673553517; cv=pass;
+Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F4D668013
+	for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 20:58:41 +0100 (CET)
+Received: by mail-wm1-x340.google.com with SMTP id bi11-20020a05600c3d8b00b003d9ebf905c9sf7129341wmb.5
+        for <lists+kasan-dev@lfdr.de>; Thu, 12 Jan 2023 11:58:41 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673553521; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hUvs8uneby4txC55t/tSRRY1N6bD3lzE0rf1fCOB0H1ZZeGs+/oi5yQdM/Fex0DqLJ
-         L4TW1jLikNICNS364sO54UKc7bU0poMZ41A7Oi0SYUa2gsD7HkJBN/8UVOBKWrMaM+uL
-         Khf4uNP8/D01NSUSHGNIBYCBo9SfmiKec3sABAHvO+pzNODVponnqY5QQFmAi8gpj+fc
-         fZvM5L/HhMDFuO/BxpRXDG2z5YYevcvoOTNnPnISdZZP4FemCFubowoT6CnPO1w9/RtK
-         ZVnv54D4uoYKdFbPclrIwDVas9kAsTlhJUqp3f1Y4CQPh3ccEHWvTM/cVRx7yqhgIcVI
-         nu6w==
+        b=GSqWvVQ61xQEAF5KcVyH4+o81GI8xXALDD73Ja8Y/R6HqstHENLnnMFwZqzJRffWBT
+         VgyvOVBmPTfajmaXEaR7Izo7WYCAHZXjF00yNKolWnGxA+mG2PYcx2PhDJkjsz6HA9bV
+         HQEfRI47LryAQoI8Q1RYdedI30sWwwHRkuwvxewOXNf2whrtk/e1lia0tg3ui5BJbInm
+         9xoOnvz9T5g9IK89w1mRoamppxCmUzGVJYON+93Jvw/ssk8VTV9fvrzHaufoXeg+QML1
+         nPtQBZxu8Ey+MHRyTdYxb3Jr78dlONMR6ZL+SNUBULi2y/mCVpXWy2ttrXlFHSDAy6Zg
+         6ioQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:subject:cc
          :to:from:date:user-agent:message-id:sender:dkim-signature;
-        bh=AYEbwHDto1u1V7+kqpFL2m8GfkBVzZ46C7wYlGKmsKU=;
-        b=oFxmQ46co+cZLWm4/WiYiWTtdzLQkLNB31bQxkLK9U2+wg9XCRWlqqhUpKunWeb3dQ
-         r7MB6iE0ZfOq+VDquYeoxFZsG+1D5DnAAQvc8QWQlGW63vWkbZcPeegjhz0+pHZJZyQS
-         l3cFhjr/94FQAfuEFFqQjkYRqbP0VfhRZHY7BizRx5P/7Ox++MZWlrjfZtDn8Z21V/+T
-         bjs646wVX49GbtL4CZ5bXxEDyL1iSObQq6RgFJAqVGtBA/X+a5n+BEKekyfa+0Bt2GuF
-         jKXNzHXwIFzc6G7N3OjTV0tVyYziKWA3UFrM5EdTsMD4yJ/5ec62deCD7KGKjulPCiEH
-         An4w==
+        bh=rsTNJ1ejqZzVy0ZTSWKyaZEsBoLlpwnKwIZG+8irmE8=;
+        b=bYJkQlu92jgvVe7HraafCg4/rDtvv75ziN3CMNm4LmAWnB56YJigQ5b1NmEbw121Em
+         qkxWDIafDJxy7n7XPhn/9znpn2FQOr56ukQvMOCbF5rCAPDnou71sDoES2+7udl9jGrc
+         dMHtCQDPiDgJPYLVu6k6DFFnDXTyrgqdXhoCYqkSCKQQ6bf6gLyhCtQWnj4BE8CHGLUC
+         ZUIWZ1H5Seki6nG6+7kYln4iJpWEbcY3C3R9lie5J5eGHLFsvOUx/PkT6cRtYCmPF4/R
+         gfPGWWPKORQP/8ZbEHEwhJT37bZnFwTX5luMQXciSEjVulVzEmqErb8Ilq4xUlPjR9H3
+         s7FQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=d9VgDAL2;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=iJIkTt+7;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:subject:cc:to:from:date
          :user-agent:message-id:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AYEbwHDto1u1V7+kqpFL2m8GfkBVzZ46C7wYlGKmsKU=;
-        b=AFstRPQURkCCDjLe9OyE3P/C1Hl7suroo7X/4JuM4+ZLJBYPs9O5V5mDF2K0Hz5NIL
-         V1wAV1lZDhbErVplK9BdkScj1iIiKymr4QR5myV0ZnNFBsT84CMyXjx8gMjqrGZWTFFR
-         XhHFfbeE2VVkoN2wNtsB8duJEQLCcl9QAyq5ZUrD4cr56zXTvTdgojdO2hnCPgYobeuA
-         qWj4vuyYOdYsnIARbIJJPfWHGzFY0dMQYrV181I4c2dWZm2glGfBmq9RLqwiOFn7l2kG
-         u6YkNdYkR+Jco4eiai67KvGXtLnV3zwjySSU0LHWciNzczdqLJzGHI8Vwq8IuWY1BUtg
-         ofug==
+        bh=rsTNJ1ejqZzVy0ZTSWKyaZEsBoLlpwnKwIZG+8irmE8=;
+        b=UM0EtPbHm1heZINJmRDq4lwqcWkKt8nipwYixplcbXw1zWyCg0Kzw6yPr5fvVJwnPU
+         t4wWJh1qpXr+x6wV/qr0Dc6vhcDQr07iA9rOoT5Gh5A6Yf+sFq1pszoPMMnz2VML3z5l
+         jd4iD8CL1cC6fy5vcyJnEweRX4c6zxlxpdVO7dhxQSM2NE5TvCr/O+IYIfi8rKfASt17
+         Vd1sTz4vJVM1RxyrVe76wQ/WxDKsrvOVUOq0jkid8S+q249aHPyGyiaYsIoWzdTHgDVh
+         42ad7s5EuVo6xO8Tdf4Q3igTzEItEsfsjs6IH5ulXzyP6sm7BlCXwYC2DUh3XYZ6G1GD
+         s4kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,66 +50,66 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:subject:cc:to:from:date:user-agent:message-id
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AYEbwHDto1u1V7+kqpFL2m8GfkBVzZ46C7wYlGKmsKU=;
-        b=kWrgiV1pCFSL3psbqBE0pH0tpbwhGKtKzYhsbwV0bBpX6t7iKe570iJvqY00pikw+s
-         f7SUAhor8XTLWkbFFgD1CRdZtPgoJ2XN/X84ENmZeavHA9WLxeDEqLk92aqiz//Y5rmG
-         kPxP61c0Q3jpiUW8HL7wsTpgEBG0ZVleyLBPQdz6UHL3R8740QBmrH7L3t0c2scj26X+
-         25PLskDd7dXNSNXCZxTdWJGxhWdCypaR8MmXAljYGcFZ45uJAlRLbqhQjkhDI66QEH82
-         T9eSZdKderQiwQU3YqCra0D/sf2zPbKb2n4M/2bK0zAGqivZ3F9aslgzzUzq+DCu40Vs
-         nhQQ==
+        bh=rsTNJ1ejqZzVy0ZTSWKyaZEsBoLlpwnKwIZG+8irmE8=;
+        b=WfJLLoSmyvP6HfBANmJ72ZrDrZtJAuRSVKnduDIjWcV5v1lP3/5FKTx8q8KLF4fkhP
+         7a8RIyV09Af3U8Q8l9D/aZjlNyiu7U4MMOBzQilbsSZrZkWLnVUZFkN5nZOqNhhbwekV
+         qHMmYEuEIQY5HFxMfLHsHfAemI4ibrPaPmfCh1wKiH53KdUQcpxXNq7qgrVC5czMhUVU
+         SipS44RHu4Kf65E2PRgLHolDfP5tUYknMH4jBDZbFmsx3oI2OghDDiZTvQlTFOpTGAXs
+         FObHrckYrBp2GXTSc9sEfR/3mpkpFl/9umvsKdyOAOtYb42/15s5LBU4SZYXU8a7W0VY
+         xx4w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kpP1uvofDUhl0STpfrJ1hHrVVn/BAuWKGbw+ZDN/1dJRPHDWLwm
-	KvvtszcpfiJbN2ESq5n/AbM=
-X-Google-Smtp-Source: AMrXdXukFC6/aNBk9S+jqFCxUxa17Mi9O0RTGXRC6wSFs4ufiXgUXhDY36jJneiElKn3frPs55r4fA==
-X-Received: by 2002:a05:651c:229:b0:287:e806:82d4 with SMTP id z9-20020a05651c022900b00287e80682d4mr839003ljn.1.1673553516970;
-        Thu, 12 Jan 2023 11:58:36 -0800 (PST)
+X-Gm-Message-State: AFqh2koGK2NPT9OXRIkPO9vjsnmwTEiQc9GH3KNyHMdQNp+4l58nhfzQ
+	s6yrfAlzBAmXNwyvNHbn1xM=
+X-Google-Smtp-Source: AMrXdXu8e7YcdXXGn4v/I3BOqboYSFRgQ/+mSLVmn+h9FQRLWH7PusnzhzpeDpy8LzaIctXBLqR92w==
+X-Received: by 2002:a05:600c:4c22:b0:3cf:f2aa:3dc2 with SMTP id d34-20020a05600c4c2200b003cff2aa3dc2mr4163963wmp.175.1673553520913;
+        Thu, 12 Jan 2023 11:58:40 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:1182:b0:4b5:3cdf:5a65 with SMTP id
- g2-20020a056512118200b004b53cdf5a65ls1755126lfr.2.-pod-prod-gmail; Thu, 12
- Jan 2023 11:58:35 -0800 (PST)
-X-Received: by 2002:a05:6512:1049:b0:4b6:edce:a192 with SMTP id c9-20020a056512104900b004b6edcea192mr25335870lfb.4.1673553515753;
-        Thu, 12 Jan 2023 11:58:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673553515; cv=none;
+Received: by 2002:a5d:4081:0:b0:225:6559:3374 with SMTP id o1-20020a5d4081000000b0022565593374ls1472529wrp.2.-pod-prod-gmail;
+ Thu, 12 Jan 2023 11:58:39 -0800 (PST)
+X-Received: by 2002:a5d:6987:0:b0:2bb:338e:3f2b with SMTP id g7-20020a5d6987000000b002bb338e3f2bmr15303987wru.55.1673553519861;
+        Thu, 12 Jan 2023 11:58:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673553519; cv=none;
         d=google.com; s=arc-20160816;
-        b=frnI4z9IZFJclywtwNv12vfCHOoppS8DPHduO7Me2mW2hCTqqeBBMVlFG6tkBEngXM
-         qfv0kuHg6PEopC2REvQJG5ZsHdSycsbBkSbuQ7NA8EopLDLJtr99HAGQ3GWIRbvg3mu/
-         XjsRIzWgdG6BqDoqEbadpJOKhAeolO+OQo1LjpLk/R4OOiBQGTYS8IidqBTmdU47JBfS
-         pumT0bRJ0/UmLC+0/waxlUOHrIjeDUGxPxezWYz13q1GEsTvXr+IhH/p6s3cwSie548w
-         UXnXlCPJJPggkdqZVlzHnGYaJTrlRn8GmUXlpYO7VtuM/B4OSczbU64uuN1D3ZHL6hB2
-         7UGg==
+        b=TYr6ZkjW6QqNHOAaB9SoN8uMs4JdhfVLWBRl7ZrWBqBNW+KP1p+S4tQnwEraYSKICl
+         ig0q0cntTSKunM+YwdcPUA0gOTCDphypctkxX8+9OzbPR7Lr3Pbmu1gSArqzSjRySWB2
+         TnFJ5BemWAJzJqrfL+/iMuLS3G0+sQkQDySG0O5f0edJ+V/4OzlC09rh8s+qBvZu9WQw
+         rT7uc3go/Yvaj1X8paRiDpEeFsDJjOGYEefu/MqiUbFGtEsynhEkivy6ET9gGG9111mD
+         dmLkcejrJg0TanOC8yRFI9D21A3DqqhGg/nBozOemdZbEnwFatemPNg1hw/MWpjQ7jbs
+         ptrw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:references:subject:cc:to:from:date:user-agent
          :message-id:dkim-signature;
-        bh=1NaK9G2/I/OTlb13IaE2Tqn3F/yijw+kp1Wy55f7+Ak=;
-        b=bLLJrQlPBvbe7AE/NG/6Jeu6d5SBd6HpUHQeSL0bbiKNcWDBuEt1gVTvJT3fjlDL/D
-         xlGUrJsm7jI1C7TpL8XYC++E/O/IijiKPlIB4iD0fNTQ/zzyHdx15ORUIX++A47hgcEx
-         3OEvoSyyJsv33xMGpzPRwTFL9Zcx/eKoHXDnkaf80CiR4vsfFTHbfV1HE0x9LXkp9zKC
-         QwfQh23UMEMBZfDbtdXQh5nMhKLZX469lu3u9kUnUG13yYNorn4L0cqqIFE7RXh6ucmJ
-         HHaerbbie0mZ7xqb6jvR9p4yh+wSwlZDLbOFVq4j1s2HlKoY3gm/w3nPs5Q9x2+nxGgh
-         AHIA==
+        bh=A36GBNDeZcYlVC8rkRiSg7Fkb66ciqPmteGiazOXnKo=;
+        b=jAAFD96zdvNRNwQ2T/aFpIBfsLIysKgUzu9OGu8CtulqKr26TdBwhX5g6Ni5HalTxk
+         +EKdemQOdRG9iiyVHxaLXaE5GSSFFXpoU+HACECK4bhqfDxsvsWl7TxB6VbchaJzGJ+x
+         9vJe4GuvI0kGBnghrZqIpMUJr+o04tbsoff92VXkkGT848ep81O1ee0h9TpW+q+dMsxQ
+         0I3WKl1f8oK6bj9XuiPwJcm9L4nYgcEOwLv5DKH5eapjfaJMDeYpo/lwuwdqU/V/5QLl
+         viF3i/ruhVjhiqdL16xfeLQ1PUOGAavYywINkiLJ0sFoE8OO17erwd/T7kvuBGpL2n/N
+         c30Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=d9VgDAL2;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=iJIkTt+7;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
-Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id j11-20020a056512344b00b004b49cc7bf6asi863042lfr.9.2023.01.12.11.58.35
+Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id bw27-20020a0560001f9b00b0029c9b8d8aafsi689110wrb.6.2023.01.12.11.58.39
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jan 2023 11:58:35 -0800 (PST)
-Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
+        Thu, 12 Jan 2023 11:58:39 -0800 (PST)
+Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pG3hZ-005Odf-Ny; Thu, 12 Jan 2023 19:57:30 +0000
+	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1pG3hE-0045oX-2P;
+	Thu, 12 Jan 2023 19:57:09 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 45C8F303418;
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 49A6330341B;
 	Thu, 12 Jan 2023 20:57:13 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
-	id DAA122CCF1F62; Thu, 12 Jan 2023 20:57:07 +0100 (CET)
-Message-ID: <20230112195540.312601331@infradead.org>
+	id DFC6A2CCF1F66; Thu, 12 Jan 2023 20:57:07 +0100 (CET)
+Message-ID: <20230112195540.373461409@infradead.org>
 User-Agent: quilt/0.66
-Date: Thu, 12 Jan 2023 20:43:30 +0100
+Date: Thu, 12 Jan 2023 20:43:31 +0100
 From: Peter Zijlstra <peterz@infradead.org>
 To: peterz@infradead.org
 Cc: richard.henderson@linaro.org,
@@ -259,13 +259,13 @@ Cc: richard.henderson@linaro.org,
  kasan-dev@googlegroups.com,
  "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
  Ulf Hansson <ulf.hansson@linaro.org>
-Subject: [PATCH v3 16/51] cpuidle: Annotate poll_idle()
+Subject: [PATCH v3 17/51] objtool/idle: Validate __cpuidle code as noinstr
 References: <20230112194314.845371875@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=d9VgDAL2;
+ header.i=@infradead.org header.s=desiato.20200630 header.b=iJIkTt+7;
        spf=none (google.com: infradead.org does not designate permitted sender
  hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
@@ -280,43 +280,463 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The __cpuidle functions will become a noinstr class, as such they need
-explicit annotations.
+Idle code is very like entry code in that RCU isn't available. As
+such, add a little validation.
 
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Reviewed-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 Acked-by: Frederic Weisbecker <frederic@kernel.org>
 Tested-by: Tony Lindgren <tony@atomide.com>
 Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
 ---
- drivers/cpuidle/poll_state.c |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ arch/alpha/kernel/vmlinux.lds.S      |    1 -
+ arch/arc/kernel/vmlinux.lds.S        |    1 -
+ arch/arm/include/asm/vmlinux.lds.h   |    1 -
+ arch/arm64/kernel/vmlinux.lds.S      |    1 -
+ arch/csky/kernel/vmlinux.lds.S       |    1 -
+ arch/hexagon/kernel/vmlinux.lds.S    |    1 -
+ arch/ia64/kernel/vmlinux.lds.S       |    1 -
+ arch/loongarch/kernel/vmlinux.lds.S  |    1 -
+ arch/m68k/kernel/vmlinux-nommu.lds   |    1 -
+ arch/m68k/kernel/vmlinux-std.lds     |    1 -
+ arch/m68k/kernel/vmlinux-sun3.lds    |    1 -
+ arch/microblaze/kernel/vmlinux.lds.S |    1 -
+ arch/mips/kernel/vmlinux.lds.S       |    1 -
+ arch/nios2/kernel/vmlinux.lds.S      |    1 -
+ arch/openrisc/kernel/vmlinux.lds.S   |    1 -
+ arch/parisc/kernel/vmlinux.lds.S     |    1 -
+ arch/powerpc/kernel/vmlinux.lds.S    |    1 -
+ arch/riscv/kernel/vmlinux-xip.lds.S  |    1 -
+ arch/riscv/kernel/vmlinux.lds.S      |    1 -
+ arch/s390/kernel/vmlinux.lds.S       |    1 -
+ arch/sh/kernel/vmlinux.lds.S         |    1 -
+ arch/sparc/kernel/vmlinux.lds.S      |    1 -
+ arch/um/kernel/dyn.lds.S             |    1 -
+ arch/um/kernel/uml.lds.S             |    1 -
+ arch/x86/include/asm/irqflags.h      |   11 ++++-------
+ arch/x86/include/asm/mwait.h         |    2 +-
+ arch/x86/kernel/vmlinux.lds.S        |    1 -
+ arch/xtensa/kernel/vmlinux.lds.S     |    1 -
+ include/asm-generic/vmlinux.lds.h    |    9 +++------
+ include/linux/compiler_types.h       |    8 ++++++--
+ include/linux/cpu.h                  |    3 ---
+ tools/objtool/check.c                |   13 +++++++++++++
+ 32 files changed, 27 insertions(+), 45 deletions(-)
 
---- a/drivers/cpuidle/poll_state.c
-+++ b/drivers/cpuidle/poll_state.c
-@@ -13,7 +13,10 @@
- static int __cpuidle poll_idle(struct cpuidle_device *dev,
- 			       struct cpuidle_driver *drv, int index)
- {
--	u64 time_start = local_clock();
-+	u64 time_start;
-+
-+	instrumentation_begin();
-+	time_start = local_clock();
+--- a/arch/alpha/kernel/vmlinux.lds.S
++++ b/arch/alpha/kernel/vmlinux.lds.S
+@@ -27,7 +27,6 @@ SECTIONS
+ 		HEAD_TEXT
+ 		TEXT_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		*(.fixup)
+ 		*(.gnu.warning)
+--- a/arch/arc/kernel/vmlinux.lds.S
++++ b/arch/arc/kernel/vmlinux.lds.S
+@@ -85,7 +85,6 @@ SECTIONS
+ 		_stext = .;
+ 		TEXT_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		KPROBES_TEXT
+ 		IRQENTRY_TEXT
+--- a/arch/arm/include/asm/vmlinux.lds.h
++++ b/arch/arm/include/asm/vmlinux.lds.h
+@@ -96,7 +96,6 @@
+ 		SOFTIRQENTRY_TEXT					\
+ 		TEXT_TEXT						\
+ 		SCHED_TEXT						\
+-		CPUIDLE_TEXT						\
+ 		LOCK_TEXT						\
+ 		KPROBES_TEXT						\
+ 		ARM_STUBS_TEXT						\
+--- a/arch/arm64/kernel/vmlinux.lds.S
++++ b/arch/arm64/kernel/vmlinux.lds.S
+@@ -175,7 +175,6 @@ SECTIONS
+ 			ENTRY_TEXT
+ 			TEXT_TEXT
+ 			SCHED_TEXT
+-			CPUIDLE_TEXT
+ 			LOCK_TEXT
+ 			KPROBES_TEXT
+ 			HYPERVISOR_TEXT
+--- a/arch/csky/kernel/vmlinux.lds.S
++++ b/arch/csky/kernel/vmlinux.lds.S
+@@ -34,7 +34,6 @@ SECTIONS
+ 		SOFTIRQENTRY_TEXT
+ 		TEXT_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		KPROBES_TEXT
+ 		*(.fixup)
+--- a/arch/hexagon/kernel/vmlinux.lds.S
++++ b/arch/hexagon/kernel/vmlinux.lds.S
+@@ -41,7 +41,6 @@ SECTIONS
+ 		IRQENTRY_TEXT
+ 		SOFTIRQENTRY_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		KPROBES_TEXT
+ 		*(.fixup)
+--- a/arch/ia64/kernel/vmlinux.lds.S
++++ b/arch/ia64/kernel/vmlinux.lds.S
+@@ -51,7 +51,6 @@ SECTIONS {
+ 		__end_ivt_text = .;
+ 		TEXT_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		KPROBES_TEXT
+ 		IRQENTRY_TEXT
+--- a/arch/loongarch/kernel/vmlinux.lds.S
++++ b/arch/loongarch/kernel/vmlinux.lds.S
+@@ -42,7 +42,6 @@ SECTIONS
+ 	.text : {
+ 		TEXT_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		KPROBES_TEXT
+ 		IRQENTRY_TEXT
+--- a/arch/m68k/kernel/vmlinux-nommu.lds
++++ b/arch/m68k/kernel/vmlinux-nommu.lds
+@@ -48,7 +48,6 @@ SECTIONS {
+ 		IRQENTRY_TEXT
+ 		SOFTIRQENTRY_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		*(.fixup)
+ 		. = ALIGN(16);
+--- a/arch/m68k/kernel/vmlinux-std.lds
++++ b/arch/m68k/kernel/vmlinux-std.lds
+@@ -19,7 +19,6 @@ SECTIONS
+ 	IRQENTRY_TEXT
+ 	SOFTIRQENTRY_TEXT
+ 	SCHED_TEXT
+-	CPUIDLE_TEXT
+ 	LOCK_TEXT
+ 	*(.fixup)
+ 	*(.gnu.warning)
+--- a/arch/m68k/kernel/vmlinux-sun3.lds
++++ b/arch/m68k/kernel/vmlinux-sun3.lds
+@@ -19,7 +19,6 @@ SECTIONS
+ 	IRQENTRY_TEXT
+ 	SOFTIRQENTRY_TEXT
+ 	SCHED_TEXT
+-	CPUIDLE_TEXT
+ 	LOCK_TEXT
+ 	*(.fixup)
+ 	*(.gnu.warning)
+--- a/arch/microblaze/kernel/vmlinux.lds.S
++++ b/arch/microblaze/kernel/vmlinux.lds.S
+@@ -36,7 +36,6 @@ SECTIONS {
+ 		EXIT_TEXT
+ 		EXIT_CALL
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		KPROBES_TEXT
+ 		IRQENTRY_TEXT
+--- a/arch/mips/kernel/vmlinux.lds.S
++++ b/arch/mips/kernel/vmlinux.lds.S
+@@ -61,7 +61,6 @@ SECTIONS
+ 	.text : {
+ 		TEXT_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		KPROBES_TEXT
+ 		IRQENTRY_TEXT
+--- a/arch/nios2/kernel/vmlinux.lds.S
++++ b/arch/nios2/kernel/vmlinux.lds.S
+@@ -24,7 +24,6 @@ SECTIONS
+ 	.text : {
+ 		TEXT_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		IRQENTRY_TEXT
+ 		SOFTIRQENTRY_TEXT
+--- a/arch/openrisc/kernel/vmlinux.lds.S
++++ b/arch/openrisc/kernel/vmlinux.lds.S
+@@ -52,7 +52,6 @@ SECTIONS
+           _stext = .;
+ 	  TEXT_TEXT
+ 	  SCHED_TEXT
+-	  CPUIDLE_TEXT
+ 	  LOCK_TEXT
+ 	  KPROBES_TEXT
+ 	  IRQENTRY_TEXT
+--- a/arch/parisc/kernel/vmlinux.lds.S
++++ b/arch/parisc/kernel/vmlinux.lds.S
+@@ -86,7 +86,6 @@ SECTIONS
+ 		TEXT_TEXT
+ 		LOCK_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		KPROBES_TEXT
+ 		IRQENTRY_TEXT
+ 		SOFTIRQENTRY_TEXT
+--- a/arch/powerpc/kernel/vmlinux.lds.S
++++ b/arch/powerpc/kernel/vmlinux.lds.S
+@@ -111,7 +111,6 @@ SECTIONS
+ #endif
+ 		NOINSTR_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		KPROBES_TEXT
+ 		IRQENTRY_TEXT
+--- a/arch/riscv/kernel/vmlinux-xip.lds.S
++++ b/arch/riscv/kernel/vmlinux-xip.lds.S
+@@ -39,7 +39,6 @@ SECTIONS
+ 		_stext = .;
+ 		TEXT_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		KPROBES_TEXT
+ 		ENTRY_TEXT
+--- a/arch/riscv/kernel/vmlinux.lds.S
++++ b/arch/riscv/kernel/vmlinux.lds.S
+@@ -42,7 +42,6 @@ SECTIONS
+ 		_stext = .;
+ 		TEXT_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		KPROBES_TEXT
+ 		ENTRY_TEXT
+--- a/arch/s390/kernel/vmlinux.lds.S
++++ b/arch/s390/kernel/vmlinux.lds.S
+@@ -42,7 +42,6 @@ SECTIONS
+ 		HEAD_TEXT
+ 		TEXT_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		KPROBES_TEXT
+ 		IRQENTRY_TEXT
+--- a/arch/sh/kernel/vmlinux.lds.S
++++ b/arch/sh/kernel/vmlinux.lds.S
+@@ -29,7 +29,6 @@ SECTIONS
+ 		HEAD_TEXT
+ 		TEXT_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		KPROBES_TEXT
+ 		IRQENTRY_TEXT
+--- a/arch/sparc/kernel/vmlinux.lds.S
++++ b/arch/sparc/kernel/vmlinux.lds.S
+@@ -50,7 +50,6 @@ SECTIONS
+ 		HEAD_TEXT
+ 		TEXT_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		KPROBES_TEXT
+ 		IRQENTRY_TEXT
+--- a/arch/um/kernel/dyn.lds.S
++++ b/arch/um/kernel/dyn.lds.S
+@@ -74,7 +74,6 @@ SECTIONS
+     _stext = .;
+     TEXT_TEXT
+     SCHED_TEXT
+-    CPUIDLE_TEXT
+     LOCK_TEXT
+     IRQENTRY_TEXT
+     SOFTIRQENTRY_TEXT
+--- a/arch/um/kernel/uml.lds.S
++++ b/arch/um/kernel/uml.lds.S
+@@ -35,7 +35,6 @@ SECTIONS
+     _stext = .;
+     TEXT_TEXT
+     SCHED_TEXT
+-    CPUIDLE_TEXT
+     LOCK_TEXT
+     IRQENTRY_TEXT
+     SOFTIRQENTRY_TEXT
+--- a/arch/x86/include/asm/irqflags.h
++++ b/arch/x86/include/asm/irqflags.h
+@@ -8,9 +8,6 @@
  
- 	dev->poll_time_limit = false;
+ #include <asm/nospec-branch.h>
  
-@@ -39,6 +42,7 @@ static int __cpuidle poll_idle(struct cp
- 	raw_local_irq_disable();
- 
- 	current_clr_polling();
-+	instrumentation_end();
- 
- 	return index;
+-/* Provide __cpuidle; we can't safely include <linux/cpu.h> */
+-#define __cpuidle __section(".cpuidle.text")
+-
+ /*
+  * Interrupt control:
+  */
+@@ -45,13 +42,13 @@ static __always_inline void native_irq_e
+ 	asm volatile("sti": : :"memory");
  }
+ 
+-static inline __cpuidle void native_safe_halt(void)
++static __always_inline void native_safe_halt(void)
+ {
+ 	mds_idle_clear_cpu_buffers();
+ 	asm volatile("sti; hlt": : :"memory");
+ }
+ 
+-static inline __cpuidle void native_halt(void)
++static __always_inline void native_halt(void)
+ {
+ 	mds_idle_clear_cpu_buffers();
+ 	asm volatile("hlt": : :"memory");
+@@ -84,7 +81,7 @@ static __always_inline void arch_local_i
+  * Used in the idle loop; sti takes one instruction cycle
+  * to complete:
+  */
+-static inline __cpuidle void arch_safe_halt(void)
++static __always_inline void arch_safe_halt(void)
+ {
+ 	native_safe_halt();
+ }
+@@ -93,7 +90,7 @@ static inline __cpuidle void arch_safe_h
+  * Used when interrupts are already enabled or to
+  * shutdown the processor:
+  */
+-static inline __cpuidle void halt(void)
++static __always_inline void halt(void)
+ {
+ 	native_halt();
+ }
+--- a/arch/x86/include/asm/mwait.h
++++ b/arch/x86/include/asm/mwait.h
+@@ -105,7 +105,7 @@ static inline void __sti_mwait(unsigned
+  * New with Core Duo processors, MWAIT can take some hints based on CPU
+  * capability.
+  */
+-static inline void mwait_idle_with_hints(unsigned long eax, unsigned long ecx)
++static __always_inline void mwait_idle_with_hints(unsigned long eax, unsigned long ecx)
+ {
+ 	if (static_cpu_has_bug(X86_BUG_MONITOR) || !current_set_polling_and_test()) {
+ 		if (static_cpu_has_bug(X86_BUG_CLFLUSH_MONITOR)) {
+--- a/arch/x86/kernel/vmlinux.lds.S
++++ b/arch/x86/kernel/vmlinux.lds.S
+@@ -129,7 +129,6 @@ SECTIONS
+ 		HEAD_TEXT
+ 		TEXT_TEXT
+ 		SCHED_TEXT
+-		CPUIDLE_TEXT
+ 		LOCK_TEXT
+ 		KPROBES_TEXT
+ 		SOFTIRQENTRY_TEXT
+--- a/arch/xtensa/kernel/vmlinux.lds.S
++++ b/arch/xtensa/kernel/vmlinux.lds.S
+@@ -125,7 +125,6 @@ SECTIONS
+     ENTRY_TEXT
+     TEXT_TEXT
+     SCHED_TEXT
+-    CPUIDLE_TEXT
+     LOCK_TEXT
+     *(.fixup)
+   }
+--- a/include/asm-generic/vmlinux.lds.h
++++ b/include/asm-generic/vmlinux.lds.h
+@@ -580,6 +580,9 @@
+ 		ALIGN_FUNCTION();					\
+ 		__noinstr_text_start = .;				\
+ 		*(.noinstr.text)					\
++		__cpuidle_text_start = .;				\
++		*(.cpuidle.text)					\
++		__cpuidle_text_end = .;					\
+ 		__noinstr_text_end = .;
+ 
+ /*
+@@ -620,12 +623,6 @@
+ 		*(.spinlock.text)					\
+ 		__lock_text_end = .;
+ 
+-#define CPUIDLE_TEXT							\
+-		ALIGN_FUNCTION();					\
+-		__cpuidle_text_start = .;				\
+-		*(.cpuidle.text)					\
+-		__cpuidle_text_end = .;
+-
+ #define KPROBES_TEXT							\
+ 		ALIGN_FUNCTION();					\
+ 		__kprobes_text_start = .;				\
+--- a/include/linux/compiler_types.h
++++ b/include/linux/compiler_types.h
+@@ -232,11 +232,15 @@ struct ftrace_likely_data {
+ #endif
+ 
+ /* Section for code which can't be instrumented at all */
+-#define noinstr								\
+-	noinline notrace __attribute((__section__(".noinstr.text")))	\
++#define __noinstr_section(section)					\
++	noinline notrace __attribute((__section__(section)))		\
+ 	__no_kcsan __no_sanitize_address __no_profile __no_sanitize_coverage \
+ 	__no_sanitize_memory
+ 
++#define noinstr __noinstr_section(".noinstr.text")
++
++#define __cpuidle __noinstr_section(".cpuidle.text")
++
+ #endif /* __KERNEL__ */
+ 
+ #endif /* __ASSEMBLY__ */
+--- a/include/linux/cpu.h
++++ b/include/linux/cpu.h
+@@ -176,9 +176,6 @@ void __noreturn cpu_startup_entry(enum c
+ 
+ void cpu_idle_poll_ctrl(bool enable);
+ 
+-/* Attach to any functions which should be considered cpuidle. */
+-#define __cpuidle	__section(".cpuidle.text")
+-
+ bool cpu_in_idle(unsigned long pc);
+ 
+ void arch_cpu_idle(void);
+--- a/tools/objtool/check.c
++++ b/tools/objtool/check.c
+@@ -376,6 +376,7 @@ static int decode_instructions(struct ob
+ 
+ 		if (!strcmp(sec->name, ".noinstr.text") ||
+ 		    !strcmp(sec->name, ".entry.text") ||
++		    !strcmp(sec->name, ".cpuidle.text") ||
+ 		    !strncmp(sec->name, ".text.__x86.", 12))
+ 			sec->noinstr = true;
+ 
+@@ -3361,6 +3362,12 @@ static inline bool noinstr_call_dest(str
+ 		return true;
+ 
+ 	/*
++	 * If the symbol is a static_call trampoline, we can't tell.
++	 */
++	if (func->static_call_tramp)
++		return true;
++
++	/*
+ 	 * The __ubsan_handle_*() calls are like WARN(), they only happen when
+ 	 * something 'BAD' happened. At the risk of taking the machine down,
+ 	 * let them proceed to get the message out.
+@@ -4155,6 +4162,12 @@ static int validate_noinstr_sections(str
+ 	if (sec) {
+ 		warnings += validate_section(file, sec);
+ 		warnings += validate_unwind_hints(file, sec);
++	}
++
++	sec = find_section_by_name(file->elf, ".cpuidle.text");
++	if (sec) {
++		warnings += validate_section(file, sec);
++		warnings += validate_unwind_hints(file, sec);
+ 	}
+ 
+ 	return warnings;
 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195540.312601331%40infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230112195540.373461409%40infradead.org.
