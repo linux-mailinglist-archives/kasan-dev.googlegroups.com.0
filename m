@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDZ3RP6QQMIBBCW6TKPAMGQEBLAKAVQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBSEATOPAMGQEK4JM3JA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7ED66E053
-	for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 15:22:03 +0100 (CET)
-Received: by mail-lf1-x140.google.com with SMTP id y26-20020a0565123f1a00b004b4b8aabd0csf11702582lfa.16
-        for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 06:22:03 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673965322; cv=pass;
+Received: from mail-ed1-x539.google.com (mail-ed1-x539.google.com [IPv6:2a00:1450:4864:20::539])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A4866E242
+	for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 16:35:37 +0100 (CET)
+Received: by mail-ed1-x539.google.com with SMTP id c12-20020a05640227cc00b0049e2c079aabsf2435918ede.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 07:35:37 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673969737; cv=pass;
         d=google.com; s=arc-20160816;
-        b=QY73MpaPM+71y0PAcax3brcr9iqxWhVBq8GW10kBXY47rwczLh+2jHpE7ZbernALnn
-         rvmhIMut1JbUV+ZIlkJ2EiDvu89Eaf+1VM7Yjs3s6ofAu4z4u1/GR0wrSleBJo2lGd3q
-         jHcLpOj4qQ+o2axO1gsTcCV39cISmAWHvHXkWgMZoAVqlaOMo18LRQx4Z70AF5pT7+JH
-         +wXnoEL3/Zp6LxfgUUGZaCQWjVYJDvDIU2iYE/n1Pk/ArXOYOPgFUjO/JBEEzCDzdWMJ
-         lU/Gdau37hCRq6yw2Wp5ipTH9tQK9jEzdFKxF8nQoISGZB8L5SdWNPM99xIKcmWNruiO
-         n87w==
+        b=JzJrJBINN4q9MZUBoQrjYkrVC7FjUw7XxW9ea7YxGB0GqvycrZiujR0LTdqup9QdFQ
+         5xurnUt1G27y4/A5rPgkCnWH8rNL/bais1xtdJJNRS4qCMrVbhqd3q0WohMK2rpIM5Ji
+         S9pP+j21HQd5cCDtIA4sd/bolRsXkGUL8wIfBiIkvvSSqAAT8b7r1ntb4lYUlUH+QAhR
+         CTbpUYfYyaNE3/dTwvbfoKkMTVHC5w1+PdGFQIxla+qgYf+QVMtfJwyDOyt0MHXB/ML+
+         98PPioXb1ovlV1fZVq0V8+gzx65Tr9TKKux9ZHGaLB+4JBtKH1OuingBj5JLCF7qMTIf
+         Evkw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=AMweAGBAo5FMtSD/IxSU/0p8ga90F5U6uSdb84lbov0=;
-        b=ObLmTRPRVnN5OTxRQzaIJhO89QRedbFwdYJ6K7oCMgoVVM8J3ybak+0X4PfcLY0SR9
-         d1naFlSfWZDOlhE+4OUR5PfXXuNSZdRNIBh1EjIJjJ5jp+OktJTMtm8FDKuzoRHIE9Gx
-         YE5olzHhgUAxsVYWjh665ffl7PyTewTM0+3EzRQsxT/0wDaujCPX4UXFdt1g7S5xqFzm
-         Ofa4/xCckULOgjv391xdTFvbAZT9+c3hqkbyFGNGnj0f2BTOerNYX+96tNcUzrprOg49
-         8jNPl/WIChntC4VORQKaWevvBQ+OQLCvHHEr4pih4/hQ8UmZXONL2dPWlLhfIN2rjMYa
-         P6rw==
+        bh=zL6F6BH05PRkPp730X08MuBfmGR0euP6npQYh44cvws=;
+        b=kr7XDjIw3XG3XMLxuQYHZFCMVTwEgLcDTFrEsva7MZpFzC//vAjBfqzZipK3jx24ET
+         nQ6smf2bX8hG4S86lpwre1sTLhVFwjiW3wpxdasKMq8IGZ+cXFxzyBgErsGqsZu/n5Db
+         ua0zJqdqjzuXoOBWAsYVlMfAsZwYTt4l4qpi694TF0zkBsFOummoJhPuJqG5cihoSKbJ
+         91zteI8itn/e3caBQAvwQKb9zW29C9ZzHB5RyhAUm626b61izOskrXZXJnUVJXNbIz34
+         OhgHHHNtgsKZbezD/F1nUtTnLQXKWFBy3aR/byOcoun0L0JzEKIyTQeSJEkQUvxn2maw
+         POUw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of sudeep.holla@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=sudeep.holla@arm.com;
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AMweAGBAo5FMtSD/IxSU/0p8ga90F5U6uSdb84lbov0=;
-        b=IZ0kIRcSHYhxeluC4zdvwbGsP4qjG30D+xYn/exopue1w0jmvzq3nhScItCMAAlRyH
-         a867YvCm9mZN8flXMMNU7JD8WUnGxxpAx8oW7lv4jhMs7apYIO8GzOGdytCIjsYilZXm
-         JmCZZ5K7QIZ/uWO/9nUKHtGkEpbgKEs6NZyHfYU4HfdmsV1ln1moxD+44GjpNsoeqDeN
-         uDZqlaEzjOES7RjRGg1KPw+8VEgX50OpV4gWffZ8ur92AH/8G8CEEpAHSc2Q63F7OOBf
-         ZELAbCKadESL/TLEMV/UJoIvedb/zA2uHYvvjG04DJbdK3wCSvD/E4OojLR7Y/x6iqfq
-         xx2w==
+        bh=zL6F6BH05PRkPp730X08MuBfmGR0euP6npQYh44cvws=;
+        b=CjcffqYb986OtZvSdaykhHTEZATbCxyG2BWLlEeNYXr6QoH43Kd6zjV2qArEMWpcoa
+         bwA4F9jkTCn7b52WfOaDZrDldMhx9hktUqKc43seQ7GmiO797mUyLAeXgdxtnq5gtUM+
+         LAaMpQi4iZZezK3I3rIKDvx3Qptng2pyhbEyTiVlmMK3n0FU1cEmrbnpX2zznyzcKjcD
+         EVKPnyMxy7ia75zqK+gMPiDox7/ujLcmJ0E9qX0AqJFL3QWELYRozp2x1v5OOt4cFmLZ
+         zrtW1Fh1Uoerrzy+evAZfAqwa2HfoLbutjB/9LCy/NYaBLuaImZRrmGIpwY78vrzluat
+         6gcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -51,59 +51,60 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AMweAGBAo5FMtSD/IxSU/0p8ga90F5U6uSdb84lbov0=;
-        b=LkdXnvxKQjKcmJqghm7xLI0EXMtueP+0Rr+aKN1y4Cc5HF3TN6zIyyizlIn6SmWQvR
-         KGvSF1OsKUX0eJ1ysJ5W9pqpbiFnVY/Xkb1EuTUR+JelXVvhW7c0JKSRHx5E4Q4JS4wy
-         qO4qdPAPPXc6+C6S9pxIuZu1dRfkMtIbrF5CQmnek5dDsRLzUZ3dOtu8WrKOqVJX+7HR
-         8VD96tDX0PRaYbjlU1Q7DE5BmMOdmMgy+zMmfi8E2R/jT5wJbA0uWv1spg21wYR7gN3f
-         mPSYF3ouk7D+xSmyVFFDOgIYbtoDcm+Adsre12TU09Npectuam4zsx+XJdu/rhcdwqK+
-         4JLQ==
+        bh=zL6F6BH05PRkPp730X08MuBfmGR0euP6npQYh44cvws=;
+        b=PWy8BVzJDLWcdWJripsryOBzH03hm8GkcP8cJOp0XMXSoAiQUHoAiy0nQ/nXh0274R
+         Cy4A+J9xJHXXVJR+VVoUG6ehLLfqbKjroJFmzQDgquUGm/yUVn/8r/WS3aTczQ4URRma
+         3ccs24Ho2rZKVtIR1+nRcZOazFjZ9UFrEGVxfKVUbWUSB4b1tyivxvMOWI7aa3AUTRHe
+         X6L0wwgPF3BQfPPGy4IRrkAnSONotygQ5/NdylY48C1484qDtvbE+/n2Tfegzb2aYO95
+         xuxCgOrKqzPUaUndRPa/MHysnAjEpyP/VuRVx4nxysICwbMM6H3/PaeysjDhDAt1DohO
+         5bVg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2koS97Xr9F5ouZoJW3zQCH3f3QOrrdlV4Kze5Vryw5IPYFldAeaG
-	pItDsB7bLEmlMpWzR0vXg6M=
-X-Google-Smtp-Source: AMrXdXuXyIRFbufEvY8djMMb9F3uCMoXZ63vz7++YtNa9fUBIrRXC61geL72M0rk7AIxpeagju1XTQ==
-X-Received: by 2002:ac2:51dc:0:b0:4b5:b87a:3271 with SMTP id u28-20020ac251dc000000b004b5b87a3271mr157450lfm.18.1673965322586;
-        Tue, 17 Jan 2023 06:22:02 -0800 (PST)
+X-Gm-Message-State: AFqh2kpjRzYUndBYEHK95xchCjr2NwuPWrapqO6qoJwnVkex5nvxOWgj
+	3tKjHJSWEWUxhMWhrxwJXVg=
+X-Google-Smtp-Source: AMrXdXtzTwhvb3HlVnY08NI9gTff808ARnuQAkUb4x7kO6/q2XU8KdpZJzaf3DrUFktBXQSCOmyvzg==
+X-Received: by 2002:a17:906:f149:b0:84d:feb0:270a with SMTP id gw9-20020a170906f14900b0084dfeb0270amr299082ejb.459.1673969736805;
+        Tue, 17 Jan 2023 07:35:36 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:9cc4:0:b0:27f:bedd:57d with SMTP id g4-20020a2e9cc4000000b0027fbedd057dls2198200ljj.10.-pod-prod-gmail;
- Tue, 17 Jan 2023 06:22:01 -0800 (PST)
-X-Received: by 2002:a05:651c:1593:b0:28b:803d:6edf with SMTP id h19-20020a05651c159300b0028b803d6edfmr1300471ljq.47.1673965321074;
-        Tue, 17 Jan 2023 06:22:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673965321; cv=none;
+Received: by 2002:a05:6402:274b:b0:49e:29ce:a2b with SMTP id
+ z11-20020a056402274b00b0049e29ce0a2bls2120052edd.0.-pod-prod-gmail; Tue, 17
+ Jan 2023 07:35:35 -0800 (PST)
+X-Received: by 2002:a05:6402:1f8c:b0:499:bf1b:5ee with SMTP id c12-20020a0564021f8c00b00499bf1b05eemr4201251edc.6.1673969735395;
+        Tue, 17 Jan 2023 07:35:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673969735; cv=none;
         d=google.com; s=arc-20160816;
-        b=b04YHyi2BQsEN8thi0g/exIrchd9+B2Lm/htNPy98G4RJCajFoBxNBANecgYaKPx3T
-         ZWfdsffDYM+VtJIyLBzs2UsWkdjwB1YlimYLMDVw0YkFxGkDYYVb/pkUV6k/kvlFTAG9
-         wmjIa3HuShLcx5ZPi//MnDnwlFxysnJB55i5cGTjYcFg6I6sjOqSPdOF7JzFUcaYuT6P
-         U0BJyHj/YiyZDwKghTUXFiSOUTNrq82+Zgacp0yWjCIHrh/WffW0hSDrI2YN4kCM+OmK
-         huOVujJwpJL8TSTJ++c3cdbbvv6dJDKBU8BHAOHgidQwAOiky87P8I6LUH5qYPJL8E2H
-         FCgg==
+        b=w2BFsioJEkgaqHfYI6zr53wjOH1cqsf+/fs7ctBTX+iRV4/3lyv3ezfmukZZSoijOL
+         iBeMAzivs+zuiHplj+jOC2bIhUQvHu+YIHZuoYqeR2kTo0kLfEO/shp4rRhDYlnBylMh
+         mOmgtDfMYq79yGcc2YjeM4Gy6W00LTTBWlSMV9TE/NU6alp5oDuo7nEKz6gNFOwP2u6V
+         /D0ZuzqgRPPcTleVQYLgV4IpcKNtOtVD9QhfYcsX+Kr7XwOqsKlKLdc9LW5gxfOdz44z
+         bT09UFk+3LSoB7CbdoSIBNWDlTcGNGfJoGL3BsE23lS+HBmEBmI8OFoP8/uaBBqjFFPR
+         4VuQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date;
-        bh=7+kFAh0wnPL2tfKa1ef1/Kgl91+ayvD2C78qXGWHpos=;
-        b=rZli4gwV+TKP8VwGxGuFW+qABXNJ53ezs3qVtkgzNVCDRA/hwcTcOuup6eIyOFSjOS
-         IytwA/K4BIEaisL0SzFh3JkPXCngsBeKa6WdXDimR7TkKXKPPuStvDcu2o1fdb1vdSKX
-         VbVkDXBH7Q8e3zWJb7I9j/+SVZanCEn803ixoAadDaskIo6Fh5fFlvzIbcBQhR7rIoYv
-         V7CiU+q44tpzMeaoEfd7T4oYRsx4dZZ456JxYLd+exF5Xl/ZvI5mScUnyCmuSTMnd265
-         HrgwmTzPN/R2mRtLoR6hdiSc5i/O3sZlJHtMCzgEObrxLnYDPltohfaAmZ1GnKGLy6wV
-         ba0Q==
+        bh=zRMGEyi2M8CFImB7lq5BYYcUkmwgPVDf60Xa15DMOao=;
+        b=gvRH0h5nD5JQRzqxBQ73uT4FwHf9JMdgw40vmoBn7dzXQNSHDLyKtAT7Pgk84V0Izm
+         vRSNMMfiF7rORym7b4Tp+nveWLyS27xJb8nzt49S/2tlSt2Th8PY2BVnSRcThswE7cgH
+         lN0FEyd/Cl+JVVTrLREObISB12VNfOuhyGwhCcaVjtsqFs++M6KKyNX+jwJJY0DapOj7
+         TofTF88tHCbIuSqSTDRqhni48nmh6KWzcgAfpiEBGE0t0k9DPGAtUp8f+IKwTW73M0ij
+         dihpXowQi4aLPNAvSTCVO6excchL+5Zm8kz2NHRtp7SWfky6s5Rx5BlZxTSLVKEj+TgJ
+         fbIA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of sudeep.holla@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=sudeep.holla@arm.com;
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id bf26-20020a2eaa1a000000b0028586d0af2fsi1103709ljb.7.2023.01.17.06.22.00
+        by gmr-mx.google.com with ESMTP id s1-20020aa7d781000000b0046c3ce626bdsi1339272edq.2.2023.01.17.07.35.35
         for <kasan-dev@googlegroups.com>;
-        Tue, 17 Jan 2023 06:22:00 -0800 (PST)
-Received-SPF: pass (google.com: domain of sudeep.holla@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+        Tue, 17 Jan 2023 07:35:35 -0800 (PST)
+Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6A88CAD7;
-	Tue, 17 Jan 2023 06:22:41 -0800 (PST)
-Received: from bogus (e103737-lin.cambridge.arm.com [10.1.197.49])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1B3A83F67D;
-	Tue, 17 Jan 2023 06:21:43 -0800 (PST)
-Date: Tue, 17 Jan 2023 14:21:40 +0000
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Mark Rutland <mark.rutland@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 92A771FB;
+	Tue, 17 Jan 2023 07:36:16 -0800 (PST)
+Received: from FVFF77S0Q05N.cambridge.arm.com (FVFF77S0Q05N.cambridge.arm.com [10.1.31.153])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ACA663F67D;
+	Tue, 17 Jan 2023 07:35:17 -0800 (PST)
+Date: Tue, 17 Jan 2023 15:35:10 +0000
+From: Mark Rutland <mark.rutland@arm.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
 Cc: Peter Zijlstra <peterz@infradead.org>, richard.henderson@linaro.org,
 	ink@jurassic.park.msu.ru, mattst88@gmail.com, vgupta@kernel.org,
 	linux@armlinux.org.uk, nsekhar@ti.com, brgl@bgdev.pl,
@@ -162,22 +163,22 @@ Cc: Peter Zijlstra <peterz@infradead.org>, richard.henderson@linaro.org,
 	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
 	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	Sudeep Holla <sudeep.holla@arm.com>
+	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com
 Subject: Re: [PATCH v3 00/51] cpuidle,rcu: Clean up the mess
-Message-ID: <20230117142140.g423hxisv7djudof@bogus>
+Message-ID: <Y8bALvyrPpdg++/J@FVFF77S0Q05N.cambridge.arm.com>
 References: <20230112194314.845371875@infradead.org>
  <Y8WCWAuQSHN651dA@FVFF77S0Q05N.cambridge.arm.com>
  <Y8Z31UbzG3LJgAXE@hirez.programming.kicks-ass.net>
  <Y8afpbHtDOqAHq9M@FVFF77S0Q05N.cambridge.arm.com>
+ <20230117142140.g423hxisv7djudof@bogus>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <Y8afpbHtDOqAHq9M@FVFF77S0Q05N.cambridge.arm.com>
-X-Original-Sender: sudeep.holla@arm.com
+In-Reply-To: <20230117142140.g423hxisv7djudof@bogus>
+X-Original-Sender: mark.rutland@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of sudeep.holla@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=sudeep.holla@arm.com;       dmarc=pass
+ (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -191,67 +192,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jan 17, 2023 at 01:16:21PM +0000, Mark Rutland wrote:
-> On Tue, Jan 17, 2023 at 11:26:29AM +0100, Peter Zijlstra wrote:
-> > On Mon, Jan 16, 2023 at 04:59:04PM +0000, Mark Rutland wrote:
-> > 
-> > > I'm sorry to have to bear some bad news on that front. :(
-> > 
-> > Moo, something had to give..
-> > 
-> > 
-> > > IIUC what's happenign here is the PSCI cpuidle driver has entered idle and RCU
-> > > is no longer watching when arm64's cpu_suspend() manipulates DAIF. Our
-> > > local_daif_*() helpers poke lockdep and tracing, hence the call to
-> > > trace_hardirqs_off() and the RCU usage.
-> > 
-> > Right, strictly speaking not needed at this point, IRQs should have been
-> > traced off a long time ago.
-> 
-> True, but there are some other calls around here that *might* end up invoking
-> RCU stuff (e.g. the MTE code).
-> 
-> That all needs a noinstr cleanup too, which I'll sort out as a follow-up.
-> 
-> > > I think we need RCU to be watching all the way down to cpu_suspend(), and it's
-> > > cpu_suspend() that should actually enter/exit idle context. That and we need to
-> > > make cpu_suspend() and the low-level PSCI invocation noinstr.
+On Tue, Jan 17, 2023 at 02:21:40PM +0000, Sudeep Holla wrote:
+> On Tue, Jan 17, 2023 at 01:16:21PM +0000, Mark Rutland wrote:
+> > On Tue, Jan 17, 2023 at 11:26:29AM +0100, Peter Zijlstra wrote:
+> > > On Mon, Jan 16, 2023 at 04:59:04PM +0000, Mark Rutland wrote:
 > > > 
-> > > I'm not sure whether 32-bit will have a similar issue or not.
+> > > > I'm sorry to have to bear some bad news on that front. :(
+> > > 
+> > > Moo, something had to give..
+> > > 
+> > > 
+> > > > IIUC what's happenign here is the PSCI cpuidle driver has entered idle and RCU
+> > > > is no longer watching when arm64's cpu_suspend() manipulates DAIF. Our
+> > > > local_daif_*() helpers poke lockdep and tracing, hence the call to
+> > > > trace_hardirqs_off() and the RCU usage.
+> > > 
+> > > Right, strictly speaking not needed at this point, IRQs should have been
+> > > traced off a long time ago.
 > > 
-> > I'm not seeing 32bit or Risc-V have similar issues here, but who knows,
-> > maybe I missed somsething.
+> > True, but there are some other calls around here that *might* end up invoking
+> > RCU stuff (e.g. the MTE code).
+> > 
+> > That all needs a noinstr cleanup too, which I'll sort out as a follow-up.
+> > 
+> > > > I think we need RCU to be watching all the way down to cpu_suspend(), and it's
+> > > > cpu_suspend() that should actually enter/exit idle context. That and we need to
+> > > > make cpu_suspend() and the low-level PSCI invocation noinstr.
+> > > > 
+> > > > I'm not sure whether 32-bit will have a similar issue or not.
+> > > 
+> > > I'm not seeing 32bit or Risc-V have similar issues here, but who knows,
+> > > maybe I missed somsething.
+> > 
+> > I reckon if they do, the core changes here give us the infrastructure to fix
+> > them if/when we get reports.
+> > 
+> > > In any case, the below ought to cure the ARM64 case and remove that last
+> > > known RCU_NONIDLE() user as a bonus.
+> > 
+> > The below works for me testing on a Juno R1 board with PSCI, using defconfig +
+> > CONFIG_PROVE_LOCKING=y + CONFIG_DEBUG_LOCKDEP=y + CONFIG_DEBUG_ATOMIC_SLEEP=y.
+> > I'm not sure how to test the LPI / FFH part, but it looks good to me.
+> > 
+> > FWIW:
+> > 
+> > Reviewed-by: Mark Rutland <mark.rutland@arm.com>
+> > Tested-by: Mark Rutland <mark.rutland@arm.com>
+> > 
+> > Sudeep, would you be able to give the LPI/FFH side a spin with the kconfig
+> > options above?
+> > 
 > 
-> I reckon if they do, the core changes here give us the infrastructure to fix
-> them if/when we get reports.
-> 
-> > In any case, the below ought to cure the ARM64 case and remove that last
-> > known RCU_NONIDLE() user as a bonus.
-> 
-> The below works for me testing on a Juno R1 board with PSCI, using defconfig +
-> CONFIG_PROVE_LOCKING=y + CONFIG_DEBUG_LOCKDEP=y + CONFIG_DEBUG_ATOMIC_SLEEP=y.
-> I'm not sure how to test the LPI / FFH part, but it looks good to me.
-> 
-> FWIW:
-> 
-> Reviewed-by: Mark Rutland <mark.rutland@arm.com>
-> Tested-by: Mark Rutland <mark.rutland@arm.com>
-> 
-> Sudeep, would you be able to give the LPI/FFH side a spin with the kconfig
-> options above?
-> 
+> Not sure if I have messed up something in my mail setup, but I did reply
+> earlier.
 
-Not sure if I have messed up something in my mail setup, but I did reply
-earlier. I did test both DT/cpuidle-psci driver and  ACPI/LPI+FFH driver
-with the fix Peter sent. I was seeing same splat as you in both DT and
-ACPI boot which the patch fixed it. I used the same config as described by
-you above.
+Sorry, that was my bad; I had been drafting my reply for a while and forgot to
+re-check prior to sending.
 
--- 
-Regards,
-Sudeep
+> I did test both DT/cpuidle-psci driver and  ACPI/LPI+FFH driver
+> with the fix Peter sent. I was seeing same splat as you in both DT and
+> ACPI boot which the patch fixed it. I used the same config as described by
+> you above.
+
+Perfect; thanks!
+
+Mark.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230117142140.g423hxisv7djudof%40bogus.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y8bALvyrPpdg%2B%2B/J%40FVFF77S0Q05N.cambridge.arm.com.
