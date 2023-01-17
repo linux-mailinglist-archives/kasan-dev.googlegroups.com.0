@@ -1,185 +1,136 @@
-Return-Path: <kasan-dev+bncBDV37XP3XYDRBSEATOPAMGQEK4JM3JA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQ2XPNX7EOBB3E4TOPAMGQEI3DZRFA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x539.google.com (mail-ed1-x539.google.com [IPv6:2a00:1450:4864:20::539])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A4866E242
-	for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 16:35:37 +0100 (CET)
-Received: by mail-ed1-x539.google.com with SMTP id c12-20020a05640227cc00b0049e2c079aabsf2435918ede.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 07:35:37 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673969737; cv=pass;
+Received: from mail-wr1-x43f.google.com (mail-wr1-x43f.google.com [IPv6:2a00:1450:4864:20::43f])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE14E66E3B1
+	for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 17:35:56 +0100 (CET)
+Received: by mail-wr1-x43f.google.com with SMTP id r1-20020adfa141000000b002be28fd4a7bsf312901wrr.12
+        for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 08:35:56 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673973356; cv=pass;
         d=google.com; s=arc-20160816;
-        b=JzJrJBINN4q9MZUBoQrjYkrVC7FjUw7XxW9ea7YxGB0GqvycrZiujR0LTdqup9QdFQ
-         5xurnUt1G27y4/A5rPgkCnWH8rNL/bais1xtdJJNRS4qCMrVbhqd3q0WohMK2rpIM5Ji
-         S9pP+j21HQd5cCDtIA4sd/bolRsXkGUL8wIfBiIkvvSSqAAT8b7r1ntb4lYUlUH+QAhR
-         CTbpUYfYyaNE3/dTwvbfoKkMTVHC5w1+PdGFQIxla+qgYf+QVMtfJwyDOyt0MHXB/ML+
-         98PPioXb1ovlV1fZVq0V8+gzx65Tr9TKKux9ZHGaLB+4JBtKH1OuingBj5JLCF7qMTIf
-         Evkw==
+        b=V/5HSkxuA1gdXGSR7G57kO+u7r6T3lCj7xtCMBhZQ58EGYHw9jYeuMN2j2w122Ax7y
+         KxjvDsJj8KR1F7tc1GXtzXbQ3OEmxB9Ga33oASASgbDnyGI1OPywsNY3TPQV4jBZczx8
+         WoAxhgYNRcSI3+vuF8NRhCh/FXNA9w5JvrqMR1CufwbYPlap2UPC/E6mDsbvF2zR/7VH
+         N3bixjZhlu405wEQGSu3rq2MoYZqctzi8Y/I43JkZquz0bgkHrl5Zvl8ttZvM6gQff3e
+         DO7xkfu38+ZsTpd74H5CkbbaLUMa4VEX5OrP76bQdS3bjc4U+/mqRu49Kuz0CfKBnulU
+         iUXw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=zL6F6BH05PRkPp730X08MuBfmGR0euP6npQYh44cvws=;
-        b=kr7XDjIw3XG3XMLxuQYHZFCMVTwEgLcDTFrEsva7MZpFzC//vAjBfqzZipK3jx24ET
-         nQ6smf2bX8hG4S86lpwre1sTLhVFwjiW3wpxdasKMq8IGZ+cXFxzyBgErsGqsZu/n5Db
-         ua0zJqdqjzuXoOBWAsYVlMfAsZwYTt4l4qpi694TF0zkBsFOummoJhPuJqG5cihoSKbJ
-         91zteI8itn/e3caBQAvwQKb9zW29C9ZzHB5RyhAUm626b61izOskrXZXJnUVJXNbIz34
-         OhgHHHNtgsKZbezD/F1nUtTnLQXKWFBy3aR/byOcoun0L0JzEKIyTQeSJEkQUvxn2maw
-         POUw==
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=OXdcO5FzwB3Yt3HnwKWdcnrPZJinXsLGUXSTVduLv0k=;
+        b=kRQ+kTbuW/x7iHgFELXzam77V2DZbkQYCbzvk0xABMYP1P8U5GeFxNrZD8CG9Z817K
+         ChCD3LwkdMjvTAKKwtxf/96dL+nyK/WV+9izZBN/I82jQ2u3n+TnLRmrRbxL61G0XNFS
+         2UceXLOlG21vUgN36t8ywaMya42yH+zVc19ewzJz8HFmza1CpvILTnXwzE9CDl7rgODe
+         4S4/6jC9dc/EfGmzd5qwVjMKjxBmU8EgdM27Q34IEqGHMPkcJ55loXKW+O2Sj7V4NaMz
+         EgJRycWp+Ll54BnBmjH1KmFuw8Svb/mEoO3SeyzAIkSS8W5vPv2JwvtPZEQksYLBi7Fc
+         AcfA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@google.com header.s=20210112 header.b=QeCeDVWg;
+       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::334 as permitted sender) smtp.mailfrom=jannh@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zL6F6BH05PRkPp730X08MuBfmGR0euP6npQYh44cvws=;
-        b=CjcffqYb986OtZvSdaykhHTEZATbCxyG2BWLlEeNYXr6QoH43Kd6zjV2qArEMWpcoa
-         bwA4F9jkTCn7b52WfOaDZrDldMhx9hktUqKc43seQ7GmiO797mUyLAeXgdxtnq5gtUM+
-         LAaMpQi4iZZezK3I3rIKDvx3Qptng2pyhbEyTiVlmMK3n0FU1cEmrbnpX2zznyzcKjcD
-         EVKPnyMxy7ia75zqK+gMPiDox7/ujLcmJ0E9qX0AqJFL3QWELYRozp2x1v5OOt4cFmLZ
-         zrtW1Fh1Uoerrzy+evAZfAqwa2HfoLbutjB/9LCy/NYaBLuaImZRrmGIpwY78vrzluat
-         6gcg==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OXdcO5FzwB3Yt3HnwKWdcnrPZJinXsLGUXSTVduLv0k=;
+        b=O+3LmZOyAiDTeLjrJGgA4hHuxag9vVZAwxxtDxlbo8eDu5nZ6IDPJdanjqJfdQhXpV
+         UcYxc5woM2MwYotm8RAyX7TyCgG3SyWENBuVBBA7XkhEXM06BAatTll416VP0eitioo8
+         B22ifNKn4P7uYeYhwcRJ4POst0vBKcuI08/Le57K1O4SNgSQ8DL/G1wmIhOAqPR6H45P
+         pmuZrgMthC7vub3i/2bDToQktkYR06iplspCDzcnQMN4ct0op9JShGhVUFgwkxhHd5wk
+         6HDqatT5Qncss4Szy/05S0cKvNdEv4tdkwrH+Pr9NVSKXDsR2+KAToiRxIA0Qdua2ojU
+         uXjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zL6F6BH05PRkPp730X08MuBfmGR0euP6npQYh44cvws=;
-        b=PWy8BVzJDLWcdWJripsryOBzH03hm8GkcP8cJOp0XMXSoAiQUHoAiy0nQ/nXh0274R
-         Cy4A+J9xJHXXVJR+VVoUG6ehLLfqbKjroJFmzQDgquUGm/yUVn/8r/WS3aTczQ4URRma
-         3ccs24Ho2rZKVtIR1+nRcZOazFjZ9UFrEGVxfKVUbWUSB4b1tyivxvMOWI7aa3AUTRHe
-         X6L0wwgPF3BQfPPGy4IRrkAnSONotygQ5/NdylY48C1484qDtvbE+/n2Tfegzb2aYO95
-         xuxCgOrKqzPUaUndRPa/MHysnAjEpyP/VuRVx4nxysICwbMM6H3/PaeysjDhDAt1DohO
-         5bVg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kpjRzYUndBYEHK95xchCjr2NwuPWrapqO6qoJwnVkex5nvxOWgj
-	3tKjHJSWEWUxhMWhrxwJXVg=
-X-Google-Smtp-Source: AMrXdXtzTwhvb3HlVnY08NI9gTff808ARnuQAkUb4x7kO6/q2XU8KdpZJzaf3DrUFktBXQSCOmyvzg==
-X-Received: by 2002:a17:906:f149:b0:84d:feb0:270a with SMTP id gw9-20020a170906f14900b0084dfeb0270amr299082ejb.459.1673969736805;
-        Tue, 17 Jan 2023 07:35:36 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OXdcO5FzwB3Yt3HnwKWdcnrPZJinXsLGUXSTVduLv0k=;
+        b=KuB7NPJ/WraCUGdj/MJnmFW3ysiKeaedp2pCoy8rH7numvXxqKvP87iOZ20cb/8Waa
+         /5OaqCZstZl77zfx8uf5gJIADKmhPMW9eomKB2j3mJPMm8x++I5a0rNr7j40PDw4BOoE
+         eb+1Jskk+spljQaZQ9kYeazSAEubYI8NkWNtCSVWU9wdRAOT47+icukDfZsg6DWP9UdA
+         IDs1RcnQmjtLcJhNreJyFHPwIxr/DJeZM+L7QHPUwUcK80pXzDDdTEwEIPjw/TxcTMJv
+         TOXOkkfG8Re7pxjDsn7j1QytL8FVhfNGfGE1oe4qj4xSC0n27qb+uL5laX1+tgr1m6Ju
+         aSkQ==
+X-Gm-Message-State: AFqh2krChbnMRiQ2mXnJ3qqHKjqZW/v6UGdJekzD1vspjDIypl6JOpFS
+	VsoyXXeMIGnkL17P0Cb6Bjc=
+X-Google-Smtp-Source: AMrXdXt9jXzwF5TwivJtPzFOqvHuQetLvibjEwZDlDaMWnbR2SPUSrhyNB7TJTc5NjKJpnfOh8fdrg==
+X-Received: by 2002:a05:600c:4d06:b0:3d0:59cd:5a65 with SMTP id u6-20020a05600c4d0600b003d059cd5a65mr180295wmp.69.1673973356393;
+        Tue, 17 Jan 2023 08:35:56 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:274b:b0:49e:29ce:a2b with SMTP id
- z11-20020a056402274b00b0049e29ce0a2bls2120052edd.0.-pod-prod-gmail; Tue, 17
- Jan 2023 07:35:35 -0800 (PST)
-X-Received: by 2002:a05:6402:1f8c:b0:499:bf1b:5ee with SMTP id c12-20020a0564021f8c00b00499bf1b05eemr4201251edc.6.1673969735395;
-        Tue, 17 Jan 2023 07:35:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673969735; cv=none;
+Received: by 2002:a05:600c:1d93:b0:3cf:9be3:73dd with SMTP id
+ p19-20020a05600c1d9300b003cf9be373ddls9549849wms.3.-pod-canary-gmail; Tue, 17
+ Jan 2023 08:35:55 -0800 (PST)
+X-Received: by 2002:a05:600c:3d16:b0:3cf:8b22:76b3 with SMTP id bh22-20020a05600c3d1600b003cf8b2276b3mr3660759wmb.0.1673973355439;
+        Tue, 17 Jan 2023 08:35:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673973355; cv=none;
         d=google.com; s=arc-20160816;
-        b=w2BFsioJEkgaqHfYI6zr53wjOH1cqsf+/fs7ctBTX+iRV4/3lyv3ezfmukZZSoijOL
-         iBeMAzivs+zuiHplj+jOC2bIhUQvHu+YIHZuoYqeR2kTo0kLfEO/shp4rRhDYlnBylMh
-         mOmgtDfMYq79yGcc2YjeM4Gy6W00LTTBWlSMV9TE/NU6alp5oDuo7nEKz6gNFOwP2u6V
-         /D0ZuzqgRPPcTleVQYLgV4IpcKNtOtVD9QhfYcsX+Kr7XwOqsKlKLdc9LW5gxfOdz44z
-         bT09UFk+3LSoB7CbdoSIBNWDlTcGNGfJoGL3BsE23lS+HBmEBmI8OFoP8/uaBBqjFFPR
-         4VuQ==
+        b=SLFcgKYt9aKImcLwGXuJmydLBysCx5/nkX99yZdcJ5b92EXwcwxKWJcYWaMIRICX8p
+         cXxEsOqbl3T4JmLvnia+WY83JTiYW08m+yh/pmwNYY14z9Oq/53Pbj4r2kzYcCH+XMVW
+         OIcwA/T3T40Mhud9A5MoZsHK91k6G3xMU5t8KvPckylr8VE2yX1faQg916LOcYo6PTEE
+         DBxLuCoXMMHmkiELlkVpbg9cx0U6vCFgVBx6TsBcNOEEOfw8oR4LG0miTlpH7fxHfGHk
+         Dom5Loz7sDp1QiGewMSJHLYmvXuxDIVXxZf7TDVjAJ94ZwKtc07ZCkpjaC+33GeSyK9o
+         Eh9A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=zRMGEyi2M8CFImB7lq5BYYcUkmwgPVDf60Xa15DMOao=;
-        b=gvRH0h5nD5JQRzqxBQ73uT4FwHf9JMdgw40vmoBn7dzXQNSHDLyKtAT7Pgk84V0Izm
-         vRSNMMfiF7rORym7b4Tp+nveWLyS27xJb8nzt49S/2tlSt2Th8PY2BVnSRcThswE7cgH
-         lN0FEyd/Cl+JVVTrLREObISB12VNfOuhyGwhCcaVjtsqFs++M6KKyNX+jwJJY0DapOj7
-         TofTF88tHCbIuSqSTDRqhni48nmh6KWzcgAfpiEBGE0t0k9DPGAtUp8f+IKwTW73M0ij
-         dihpXowQi4aLPNAvSTCVO6excchL+5Zm8kz2NHRtp7SWfky6s5Rx5BlZxTSLVKEj+TgJ
-         fbIA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=ZnZx85Sf0ezER0rilQtZPHDwVHsmiiEfW3AZAr5ZtFc=;
+        b=M4HmeNA4Cnhm1Dl9l9QJqlHb7BaB5CHk6jVqi49vJwFXbmSg62SFKccyCFL1r7r6cO
+         M3BSmEKsdAYwklpPltUZ/CzqTebKgcDBVDu6FUaHv5SCU+AKUZOGmoFYfVom2FhoInHJ
+         Gqo9it41+cjJo0J5FZHpaHDALPk2eyyxe7VQh5EYVWwyOSTBtcEpSrvH6REMMFte+QGA
+         B0f8GBvP5a1Tl6B6mpk2YkygaqZWVeGAmnXj6eKAgKlpA+lwVaDEP0ADsPIVLn1rUWjQ
+         XBO5VX9eBkT2bMPMTQUdMv1oE3cD08o764YuOscE70dMF5+PrhQR/o3ycPVxXvKDMA0o
+         vD5g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id s1-20020aa7d781000000b0046c3ce626bdsi1339272edq.2.2023.01.17.07.35.35
-        for <kasan-dev@googlegroups.com>;
-        Tue, 17 Jan 2023 07:35:35 -0800 (PST)
-Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 92A771FB;
-	Tue, 17 Jan 2023 07:36:16 -0800 (PST)
-Received: from FVFF77S0Q05N.cambridge.arm.com (FVFF77S0Q05N.cambridge.arm.com [10.1.31.153])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ACA663F67D;
-	Tue, 17 Jan 2023 07:35:17 -0800 (PST)
-Date: Tue, 17 Jan 2023 15:35:10 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, richard.henderson@linaro.org,
-	ink@jurassic.park.msu.ru, mattst88@gmail.com, vgupta@kernel.org,
-	linux@armlinux.org.uk, nsekhar@ti.com, brgl@bgdev.pl,
-	ulli.kroll@googlemail.com, linus.walleij@linaro.org,
-	shawnguo@kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
-	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-	tony@atomide.com, khilman@kernel.org,
-	krzysztof.kozlowski@linaro.org, alim.akhtar@samsung.com,
-	catalin.marinas@arm.com, will@kernel.org, guoren@kernel.org,
-	bcain@quicinc.com, chenhuacai@kernel.org, kernel@xen0n.name,
-	geert@linux-m68k.org, sammy@sammy.net, monstr@monstr.eu,
-	tsbogend@alpha.franken.de, dinguyen@kernel.org, jonas@southpole.se,
-	stefan.kristiansson@saunalahti.fi, shorne@gmail.com,
-	James.Bottomley@hansenpartnership.com, deller@gmx.de,
-	mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
-	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
-	borntraeger@linux.ibm.com, svens@linux.ibm.com,
-	ysato@users.sourceforge.jp, dalias@libc.org, davem@davemloft.net,
-	richard@nod.at, anton.ivanov@cambridgegreys.com,
-	johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, acme@kernel.org, alexander.shishkin@linux.intel.com,
-	jolsa@kernel.org, namhyung@kernel.org, jgross@suse.com,
-	srivatsa@csail.mit.edu, amakhalov@vmware.com, pv-drivers@vmware.com,
-	boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
-	rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
-	gregkh@linuxfoundation.org, mturquette@baylibre.com,
-	sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org,
-	agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org,
-	anup@brainfault.org, thierry.reding@gmail.com, jonathanh@nvidia.com,
-	jacob.jun.pan@linux.intel.com, atishp@atishpatra.org,
-	Arnd Bergmann <arnd@arndb.de>, yury.norov@gmail.com,
-	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
-	dennis@kernel.org, tj@kernel.org, cl@linux.com, rostedt@goodmis.org,
-	mhiramat@kernel.org, frederic@kernel.org, paulmck@kernel.org,
-	pmladek@suse.com, senozhatsky@chromium.org,
-	john.ogness@linutronix.de, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
-	vschneid@redhat.com, ryabinin.a.a@gmail.com, glider@google.com,
-	andreyknvl@gmail.com, dvyukov@google.com, vincenzo.frascino@arm.com,
-	Andrew Morton <akpm@linux-foundation.org>, jpoimboe@kernel.org,
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org, linux-omap@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org, linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-perf-users@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	linux-xtensa@linux-xtensa.org, linux-acpi@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v3 00/51] cpuidle,rcu: Clean up the mess
-Message-ID: <Y8bALvyrPpdg++/J@FVFF77S0Q05N.cambridge.arm.com>
-References: <20230112194314.845371875@infradead.org>
- <Y8WCWAuQSHN651dA@FVFF77S0Q05N.cambridge.arm.com>
- <Y8Z31UbzG3LJgAXE@hirez.programming.kicks-ass.net>
- <Y8afpbHtDOqAHq9M@FVFF77S0Q05N.cambridge.arm.com>
- <20230117142140.g423hxisv7djudof@bogus>
+       dkim=pass header.i=@google.com header.s=20210112 header.b=QeCeDVWg;
+       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::334 as permitted sender) smtp.mailfrom=jannh@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com. [2a00:1450:4864:20::334])
+        by gmr-mx.google.com with ESMTPS id n18-20020a05600c501200b003d9dfe01039si606533wmr.4.2023.01.17.08.35.55
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Jan 2023 08:35:55 -0800 (PST)
+Received-SPF: pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::334 as permitted sender) client-ip=2a00:1450:4864:20::334;
+Received: by mail-wm1-x334.google.com with SMTP id q10-20020a1cf30a000000b003db0edfdb74so65463wmq.1
+        for <kasan-dev@googlegroups.com>; Tue, 17 Jan 2023 08:35:55 -0800 (PST)
+X-Received: by 2002:a05:600c:1d92:b0:3d0:30c8:c47b with SMTP id p18-20020a05600c1d9200b003d030c8c47bmr2335336wms.2.1673973354962;
+        Tue, 17 Jan 2023 08:35:54 -0800 (PST)
+Received: from localhost ([2a00:79e0:9d:4:9df1:9663:75e8:617c])
+        by smtp.gmail.com with ESMTPSA id l24-20020a05600c1d1800b003db09692364sm2302292wms.11.2023.01.17.08.35.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Jan 2023 08:35:53 -0800 (PST)
+From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	linux-mm@kvack.org
+Cc: Uladzislau Rezki <urezki@gmail.com>,
+	Christoph Hellwig <hch@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	kasan-dev@googlegroups.com
+Subject: [PATCH] fork, vmalloc: KASAN-poison backing pages of vmapped stacks
+Date: Tue, 17 Jan 2023 17:35:43 +0100
+Message-Id: <20230117163543.1049025-1-jannh@google.com>
+X-Mailer: git-send-email 2.39.0.314.g84b9a713c41-goog
 MIME-Version: 1.0
+X-Original-Sender: jannh@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20210112 header.b=QeCeDVWg;       spf=pass
+ (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::334 as
+ permitted sender) smtp.mailfrom=jannh@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Jann Horn <jannh@google.com>
+Reply-To: Jann Horn <jannh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20230117142140.g423hxisv7djudof@bogus>
-X-Original-Sender: mark.rutland@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -192,73 +143,103 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jan 17, 2023 at 02:21:40PM +0000, Sudeep Holla wrote:
-> On Tue, Jan 17, 2023 at 01:16:21PM +0000, Mark Rutland wrote:
-> > On Tue, Jan 17, 2023 at 11:26:29AM +0100, Peter Zijlstra wrote:
-> > > On Mon, Jan 16, 2023 at 04:59:04PM +0000, Mark Rutland wrote:
-> > > 
-> > > > I'm sorry to have to bear some bad news on that front. :(
-> > > 
-> > > Moo, something had to give..
-> > > 
-> > > 
-> > > > IIUC what's happenign here is the PSCI cpuidle driver has entered idle and RCU
-> > > > is no longer watching when arm64's cpu_suspend() manipulates DAIF. Our
-> > > > local_daif_*() helpers poke lockdep and tracing, hence the call to
-> > > > trace_hardirqs_off() and the RCU usage.
-> > > 
-> > > Right, strictly speaking not needed at this point, IRQs should have been
-> > > traced off a long time ago.
-> > 
-> > True, but there are some other calls around here that *might* end up invoking
-> > RCU stuff (e.g. the MTE code).
-> > 
-> > That all needs a noinstr cleanup too, which I'll sort out as a follow-up.
-> > 
-> > > > I think we need RCU to be watching all the way down to cpu_suspend(), and it's
-> > > > cpu_suspend() that should actually enter/exit idle context. That and we need to
-> > > > make cpu_suspend() and the low-level PSCI invocation noinstr.
-> > > > 
-> > > > I'm not sure whether 32-bit will have a similar issue or not.
-> > > 
-> > > I'm not seeing 32bit or Risc-V have similar issues here, but who knows,
-> > > maybe I missed somsething.
-> > 
-> > I reckon if they do, the core changes here give us the infrastructure to fix
-> > them if/when we get reports.
-> > 
-> > > In any case, the below ought to cure the ARM64 case and remove that last
-> > > known RCU_NONIDLE() user as a bonus.
-> > 
-> > The below works for me testing on a Juno R1 board with PSCI, using defconfig +
-> > CONFIG_PROVE_LOCKING=y + CONFIG_DEBUG_LOCKDEP=y + CONFIG_DEBUG_ATOMIC_SLEEP=y.
-> > I'm not sure how to test the LPI / FFH part, but it looks good to me.
-> > 
-> > FWIW:
-> > 
-> > Reviewed-by: Mark Rutland <mark.rutland@arm.com>
-> > Tested-by: Mark Rutland <mark.rutland@arm.com>
-> > 
-> > Sudeep, would you be able to give the LPI/FFH side a spin with the kconfig
-> > options above?
-> > 
-> 
-> Not sure if I have messed up something in my mail setup, but I did reply
-> earlier.
+KASAN (except in HW_TAGS mode) tracks memory state based on virtual
+addresses. The mappings of kernel stack pages in the linear mapping are
+currently marked as fully accessible.
+Since stack corruption issues can cause some very gnarly errors, let's be
+extra careful and tell KASAN to forbid accesses to stack memory through the
+linear mapping.
 
-Sorry, that was my bad; I had been drafting my reply for a while and forgot to
-re-check prior to sending.
+Signed-off-by: Jann Horn <jannh@google.com>
+---
+I wrote this after seeing
+https://lore.kernel.org/all/Y8W5rjKdZ9erIF14@casper.infradead.org/
+and wondering about possible ways that this kind of stack corruption
+could be sneaking past KASAN.
+That's proooobably not the explanation, but still...
 
-> I did test both DT/cpuidle-psci driver and  ACPI/LPI+FFH driver
-> with the fix Peter sent. I was seeing same splat as you in both DT and
-> ACPI boot which the patch fixed it. I used the same config as described by
-> you above.
+ include/linux/vmalloc.h |  6 ++++++
+ kernel/fork.c           | 10 ++++++++++
+ mm/vmalloc.c            | 24 ++++++++++++++++++++++++
+ 3 files changed, 40 insertions(+)
 
-Perfect; thanks!
+diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
+index 096d48aa3437..bfb50178e5e3 100644
+--- a/include/linux/vmalloc.h
++++ b/include/linux/vmalloc.h
+@@ -297,4 +297,10 @@ bool vmalloc_dump_obj(void *object);
+ static inline bool vmalloc_dump_obj(void *object) { return false; }
+ #endif
+ 
++#if defined(CONFIG_MMU) && (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS))
++void vmalloc_poison_backing_pages(const void *addr);
++#else
++static inline void vmalloc_poison_backing_pages(const void *addr) {}
++#endif
++
+ #endif /* _LINUX_VMALLOC_H */
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 9f7fe3541897..5c8c103a3597 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -321,6 +321,16 @@ static int alloc_thread_stack_node(struct task_struct *tsk, int node)
+ 		vfree(stack);
+ 		return -ENOMEM;
+ 	}
++
++	/*
++	 * A virtually-allocated stack's memory should only be accessed through
++	 * the vmalloc area, not through the linear mapping.
++	 * Inform KASAN that all accesses through the linear mapping should be
++	 * reported (instead of permitting all accesses through the linear
++	 * mapping).
++	 */
++	vmalloc_poison_backing_pages(stack);
++
+ 	/*
+ 	 * We can't call find_vm_area() in interrupt context, and
+ 	 * free_thread_stack() can be called in interrupt context,
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index ca71de7c9d77..10c79c53cf5c 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -4042,6 +4042,30 @@ void pcpu_free_vm_areas(struct vm_struct **vms, int nr_vms)
+ }
+ #endif	/* CONFIG_SMP */
+ 
++#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
++/*
++ * Poison the KASAN shadow for the linear mapping of the pages used as stack
++ * memory.
++ * NOTE: This makes no sense in HW_TAGS mode because HW_TAGS marks physical
++ * memory, not virtual memory.
++ */
++void vmalloc_poison_backing_pages(const void *addr)
++{
++	struct vm_struct *area;
++	int i;
++
++	if (WARN(!PAGE_ALIGNED(addr), "bad address (%p)\n", addr))
++		return;
++
++	area = find_vm_area(addr);
++	if (WARN(!area, "nonexistent vm area (%p)\n", addr))
++		return;
++
++	for (i = 0; i < area->nr_pages; i++)
++		kasan_poison_pages(area->pages[i], 0, false);
++}
++#endif
++
+ #ifdef CONFIG_PRINTK
+ bool vmalloc_dump_obj(void *object)
+ {
 
-Mark.
+base-commit: 5dc4c995db9eb45f6373a956eb1f69460e69e6d4
+-- 
+2.39.0.314.g84b9a713c41-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y8bALvyrPpdg%2B%2B/J%40FVFF77S0Q05N.cambridge.arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230117163543.1049025-1-jannh%40google.com.
