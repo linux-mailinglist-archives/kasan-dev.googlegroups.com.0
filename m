@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRBX6ETGPAMGQEZQLMSFQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRBGHQTGPAMGQEMFNRTLA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x338.google.com (mail-ot1-x338.google.com [IPv6:2607:f8b0:4864:20::338])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A1B66D8CA
-	for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 09:54:57 +0100 (CET)
-Received: by mail-ot1-x338.google.com with SMTP id y14-20020a0568301d8e00b00670641b451bsf16066664oti.15
-        for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 00:54:57 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673945695; cv=pass;
+Received: from mail-vk1-xa38.google.com (mail-vk1-xa38.google.com [IPv6:2607:f8b0:4864:20::a38])
+	by mail.lfdr.de (Postfix) with ESMTPS id B687C66DAF9
+	for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 11:27:37 +0100 (CET)
+Received: by mail-vk1-xa38.google.com with SMTP id r23-20020a1f2b17000000b003b89463c349sf9084545vkr.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 02:27:37 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673951256; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Bs8VHhJl6r7zBbdEwQwRUBL9OuiILvUwKQnl74myZaCyB2dS/7upHNLuh0YsPnqcPM
-         bfuj6X+lJxL/5LWVoSJxNjAYZl4Popd+MEhbstdJy7Jh2ajxKAndzFxiFxBhAdXFAXKu
-         y0aAZBzyey+dUGxQzZKde0l2S7sI7b8IstZYxwVO6YHwtEk3fzpMSrmrl/L7WHWaUBbD
-         mpD4QNyc7xUd9e2fhCv+ql9IAlIMPXka6XOxIaPGJkCC1CplFMdO6PKItuUIvqnFI+UC
-         eS0/rx8jKZpg+aOBdvBlsN+aMCGKog3j7DFB9QwOgeQqtbOo8D5z0zongJZFHfZ2xOB5
-         e7mg==
+        b=I8i9MyZj0skKPGxD7vOU7qJKDbVZLEp/8FdRAzaXuSyX35AgpPQS+ZCdDaXgHPUq9b
+         1fgmPSgb1YpcZPuV9cq68TiPJfffR4YVcyYL+bcOXigelXo1kdwLuCSWdyoQlBAcGV54
+         jILE6qk4c4SxIyJGATXu/8SNR14dPM1uB3CsvlQasopnUEY6YuGS5h1eceKjoch8OoNf
+         tZajAo6q2asM8TQlj0cew7kOThLRRDDV2SprbRjDkMZy6caoVZwHNru+DD8Vnu0kNQ9P
+         XmSmUmsGkB3RXK8x1JCXbm45XiXXutnAV8GfJ9jz5MBhRO7nchuOwHPxDEFcWUfKG6gv
+         M5lA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=boC4P0IZPta1b3S0sITeZ050tR8zLeJHlXlHRAAiHwk=;
-        b=cdLES0tmQc5+iyyYXfyV5czfT1fbrlSTQnrcrbpfIIRTNiOTzKWVldIJO12onA56NL
-         ysYUnVhehYTmfuKYXkCA/P4l56QTAfbDgIlYeM44YmxhwK4I+d2JrWFLiFFmBiy3qr1J
-         U6NDeOVF+bzDY5tZJAxd5Oh7IOjUXzYtAdvk6tZ/wzXIyiiHOFat3tFJWoKrCb4JtE8h
-         r68rqWXJVFzZJE5LoCKP05C2zO3XsXZmpZ8TkYqxZDRnUDR3qaIvOHI9IxNVFWTUX4ub
-         o5lTl91sBkVTHa0w2pOPCjVA4y5L3TCzyh9Yxo1zlS5zPNoq79qMv5g9xpu78JVqzXiE
-         Cshg==
+        bh=akWT68toSUZEdMMylGZAsV5UOpeX0nUdC+vbRWBMO/4=;
+        b=VPr6iBVvfc4IMqCMZ2tcyPePGz3UZWop2byV4iq9QBIZHJU6I/lur1QGwC2gby8/bp
+         6ba3Iz58xhV2eRdjIm0nw38F4YTosIQebtnha4jgu0QU+92+APwhpgpDSu4ycNtJmqn0
+         3eMwmYnfOTSRGRlbaILEj3XJPxVOPIOJ+glTEYhcWXNXl4tSLCEkV9rmh9yn9Hu3adcI
+         ejnF58M5+Hs35TsHbWFMzDDBGgXGf29uFCLDzHLrOg8QzfZGG9To4gEhcxorOG79/smI
+         4Z+UEqBSnhmXVlvHT8DgUOcTe+A8iQv5uY+K+KG2B3FP8g2nBZxPeKl784sIq0283QwK
+         oblA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=Ke5GdVNv;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=eZ7RF5Th;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=boC4P0IZPta1b3S0sITeZ050tR8zLeJHlXlHRAAiHwk=;
-        b=SS6FQ7FZ7zo3/k7+sSuWmQ/zfbFoB4qqtjPtpQsx5LegbWa54jVdPRI1PIEr+0p6/t
-         6bhUF/w8cwcsplI8bMBSnV+TDOatrh3pPS1t8S6c4Z+rxwtbTlbR4tPJQujeCyrB1jLk
-         mb7Zxu5n41maA38J5/kPwfLR8BXDecxMQXW/Bb3XGNt3x4OZQTKB9jlfR7AGoYEVx/rw
-         CQrHWmGdWGMafNGNS69EwDg9dElwKXouXcLvnKmpb5VAkzShxcqq2SyrMohIpYsOOPnr
-         03wO+D3nJC2Y05/Iq2QxzsUOfUH/gcS19b21LmeuE3ZXG6OGIN7eXI3jNoJ3s9k3wpSf
-         VRqA==
+        bh=akWT68toSUZEdMMylGZAsV5UOpeX0nUdC+vbRWBMO/4=;
+        b=N8f8gaCoLp6FCwsjZkE9EcBbdUUq6q9yI8sAITgyip3TKQT0f33WJ1OEXAN57iAQL/
+         yhBHnKLv9bnubQE1e0IbxnqWxqOkau4TcQPQKhXbyMTOPWTAiKOyhy+bEaQObDdEPquR
+         +z7w85HfqpFQci6GHWwExunJO1v31p/lNG2Kqh+yl6ZTVxvLk0vIcN6UwSIs1x5Nzm5C
+         2pcN4fJzcP2XP5WF9svKTvobceNw4mPPY+gxUldgmpJQQ9DRqc3dUp9oNeiwIGYjO8HA
+         w1Cu8HTAX52ZMw5hZEpmEVLgGLGN7AC0zq5EH+cjvSkc4mR2U/Tn93BqH3vPihUAxxfi
+         AkHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -51,66 +51,66 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=boC4P0IZPta1b3S0sITeZ050tR8zLeJHlXlHRAAiHwk=;
-        b=QZmu0m95GqABlbGM6gFKykAPDqoFUk7HI/WneMQy2FVOzZ3/32NV0R5uPaoxTzyoDl
-         aACIUasqKLxeParvDobb0PW8jf0mwaYU5ptFkDPDNfZOmILnGXSouUk0dD9/mTPb9yWD
-         Nf9z7n/tYWpKw0KqP+D4xXWWbB+VtJtRsYXvWzx4CzoA9VeMnAe40qfe8hDOPayxZNOM
-         WKdDm8y6BfiR/IieMXr2aHpht0IZ3me0br/mY9VnCsYqEkrOVD2QODq2p5L3Lv7QPtl3
-         ApzVkTPWejvyOWz1HaJ+gUzBK+cPRow5ppS7XgMiyGcuiP1SsTOE2LsNF/bXdJzOhDUC
-         IW6Q==
+        bh=akWT68toSUZEdMMylGZAsV5UOpeX0nUdC+vbRWBMO/4=;
+        b=esZiTSUuP+oGJYtTLaGvJA+zrf2kipbmnIr9Dzs4FY6S3WQujgOg8h3qPq1KyLOsyG
+         i453Kj8qqFQGkocbL9Pn+i3UW/PYJYKWdzOL5wc2z1/NxXlbNU91Aw2tgfPsuSOWq5Bf
+         l2KRDLnQfFeqkHIWHVAR71HFbdevUXVqON8DwizvqDkpfmM/jjaKHvgkkndK1Fh97uw4
+         384LzzdxfFF9UQeimGqjE2Z1djF8DnkXr5FNetr2yUJYhWQk9dzCpedH7WPUl8944XND
+         PNYRZJATEEe0Gd95eNHNJGje6GQyhoOjJpTS95Y8cbuHUCVuPl9uqKKIZAZugBZATWye
+         IOpw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kq389zrgexCOUPa2DIEkBieHoiuBS3xBuL+b7+G2G/fURsvNurs
-	E1ZE2vGXcVniBQQxgMqkCEk=
-X-Google-Smtp-Source: AMrXdXsS1rnnZwXo6k66MiFr9acDyWUlS4W1l8RYUpkpYjOvPLpMA52TBHDm9e4TnTuu0KPjSUnKMQ==
-X-Received: by 2002:a05:6871:a6a7:b0:142:82cd:8194 with SMTP id wh39-20020a056871a6a700b0014282cd8194mr199982oab.286.1673945695465;
-        Tue, 17 Jan 2023 00:54:55 -0800 (PST)
+X-Gm-Message-State: AFqh2kqb+gHCOdB3dw93Nar09g4LNqlL3mFj0te9z7NRkdtgQoavZMoW
+	DvJwqke9qJm9HALld+Y6OtM=
+X-Google-Smtp-Source: AMrXdXtOL8EonNzfgfIqK+XJr/tmkM6Mtw3UNq1s220eQX8aT86mUm/6X5vF2/YdO5e6Xj3aMOHCmA==
+X-Received: by 2002:a05:6102:36c:b0:3d1:b51e:ba78 with SMTP id f12-20020a056102036c00b003d1b51eba78mr355426vsa.36.1673951256266;
+        Tue, 17 Jan 2023 02:27:36 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:648c:b0:684:ccc3:155d with SMTP id
- ck12-20020a056830648c00b00684ccc3155dls2513835otb.2.-pod-prod-gmail; Tue, 17
- Jan 2023 00:54:55 -0800 (PST)
-X-Received: by 2002:a9d:704f:0:b0:66e:378c:e39c with SMTP id x15-20020a9d704f000000b0066e378ce39cmr1072772otj.0.1673945694956;
-        Tue, 17 Jan 2023 00:54:54 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673945694; cv=none;
+Received: by 2002:a1f:b4ce:0:b0:3d2:6934:6234 with SMTP id d197-20020a1fb4ce000000b003d269346234ls2351488vkf.1.-pod-prod-gmail;
+ Tue, 17 Jan 2023 02:27:35 -0800 (PST)
+X-Received: by 2002:ac5:c55e:0:b0:3d9:8842:1844 with SMTP id d30-20020ac5c55e000000b003d988421844mr797732vkl.13.1673951255393;
+        Tue, 17 Jan 2023 02:27:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673951255; cv=none;
         d=google.com; s=arc-20160816;
-        b=Ns7j1ObDF+8WTje5BhugSf3p66pV+GRi/zWyr/pxt64XsYh8Xe4U6tvDkjQSw20evX
-         MWGenM4slQgvNEBLytcRBDoDJTCNan8y7Gtpef0Ciy9FB2B2QZh1xB3q5EtOMzSCy/Du
-         HgXdvoUrdzkDkhtYC0adp3CvoMinWWQJ12u67s0LmE2EiEXhq+LKPn+duRs8kTgJFlE7
-         pM48Y2kR7NtOehrsb5DvsWFfI2rwznZO8qm9k1cEh1lQCu8CYPaEcva7AC7TE6KUEhvo
-         +h/xfyE5H6t9uV/NPVPGzTimdTn0tGV0PbORNOo8J3tdrcgQJjP9Xhe56qmnoi3JUIRw
-         AYhg==
+        b=I+NuLGC601JOaRKCoB1ya4hUaFIjK7UJFVSIGoCTa13Ct+mX5UYKV78/VTqrZ8xmoa
+         4Z9d0DhkzyqOH4hwTl3wOXtZadqq9cldHSEAgpq3HpCalZS5LHxDT/ZuKAj7oMHU11dc
+         FkQvsMDQ4C6HD/0j+alnUfeUNCj28qTJOK6aHg5CVi0btG4PJKr8Zz81cisfOSQEDyDD
+         +TmA7kHPkMoH3NjB+GPvrxocO4lXHvIpS2e1qXLi0tMwkjIj3NKz9ZqWwj86xPE2Dluq
+         0zpmXEbK3/Ts+RxSCc1nGDRNMM4kMNjGe7XdKcDNMVR2/zRD1nQTLP8QM/ZiIRm9NzLb
+         rSTw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=82O7MPpmKDKH/y6naoktZs3WQBLC/PHyEl3Wjqd7/dM=;
-        b=aXfIxTWEy1gyaXGmN0ll+Pdr+eC/NwGeFlZ6aKuowePZ0oudHEvoJJm3FmgM0DbYFi
-         w+fR8/Ry7IxgH6SpQ6JUMKVPuaS0KucY0JfNYiyBZRXeJndITfYSukhU0CsrOquWFnRn
-         I2rJJAX5qe7Flv5gdMdrxSAnzP0prn7BaLrZjPo4yixK0ditOtQFdcXpDnEphoHLXzl4
-         AiAQTryLl4jbD3tK0d9tJ2xzOC0BVzNolanPl646f6Gy4MVPqVjK+b8Gy/ikWJOQHYZ3
-         /TRZ40/Yb47hfN5OisJ7ueaWhOu6C7jhCafNVHm1Pc181Fu/5DKs9M6i3B9Fl1ruT7ei
-         VmTw==
+        bh=oxrJBZkAaCeFAHBiyHLFWLeqn2s4gXmFVHT68O/MsFk=;
+        b=oLOBSGtDmJB7hP7Db+0HTZtewUaLmonxIFfkYTRHcSHuNIXygOa1EF6E1M7lgg0OcT
+         zMW2bteBQG7YQAa5TDz4p3+Cn5rohXcOaMIssPtVKM0Xja5FlMA8t8tSAJBp8PpSL1s6
+         iRDOP+6DgyvfhHtAXGIw4+sYUWwWn0zfjiP2HqwKSNhutDrIzCK41TJaLL3eAZYMjXu8
+         4yue2FBKgh0VJtjpmQAGdKvAPNE134QJP21Vsm9ZGMfFpCdWtO3A16/IyA6FvyHPqk7J
+         HEwbYg6WbySgRMhXICF2e3S+8bHpSklmi2T9pCKLiaIYPpLF4t+yA78sqcgKoRwNUorS
+         ring==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=Ke5GdVNv;
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=eZ7RF5Th;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
-Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id cg15-20020a056830630f00b0066fe878940fsi2525264otb.5.2023.01.17.00.54.54
+Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id ay9-20020a056130030900b005e2cbd30052si4300160uab.1.2023.01.17.02.27.34
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jan 2023 00:54:54 -0800 (PST)
-Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
+        Tue, 17 Jan 2023 02:27:34 -0800 (PST)
+Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pHhjP-009Wex-5i; Tue, 17 Jan 2023 08:54:11 +0000
+	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1pHjAe-005tmP-38;
+	Tue, 17 Jan 2023 10:26:25 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 781E9300193;
-	Tue, 17 Jan 2023 09:53:52 +0100 (CET)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 3731A300E86;
+	Tue, 17 Jan 2023 11:26:29 +0100 (CET)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 46751201ABB3C; Tue, 17 Jan 2023 09:53:52 +0100 (CET)
-Date: Tue, 17 Jan 2023 09:53:52 +0100
+	id C3475201C94B3; Tue, 17 Jan 2023 11:26:29 +0100 (CET)
+Date: Tue, 17 Jan 2023 11:26:29 +0100
 From: Peter Zijlstra <peterz@infradead.org>
-To: Masami Hiramatsu <mhiramat@kernel.org>
+To: Mark Rutland <mark.rutland@arm.com>
 Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
 	mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk,
 	nsekhar@ti.com, brgl@bgdev.pl, ulli.kroll@googlemail.com,
@@ -133,10 +133,9 @@ Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
 	richard@nod.at, anton.ivanov@cambridgegreys.com,
 	johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com,
 	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, acme@kernel.org, mark.rutland@arm.com,
-	alexander.shishkin@linux.intel.com, jolsa@kernel.org,
-	namhyung@kernel.org, jgross@suse.com, srivatsa@csail.mit.edu,
-	amakhalov@vmware.com, pv-drivers@vmware.com,
+	hpa@zytor.com, acme@kernel.org, alexander.shishkin@linux.intel.com,
+	jolsa@kernel.org, namhyung@kernel.org, jgross@suse.com,
+	srivatsa@csail.mit.edu, amakhalov@vmware.com, pv-drivers@vmware.com,
 	boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
 	rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
 	gregkh@linuxfoundation.org, mturquette@baylibre.com,
@@ -148,13 +147,13 @@ Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
 	Arnd Bergmann <arnd@arndb.de>, yury.norov@gmail.com,
 	andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
 	dennis@kernel.org, tj@kernel.org, cl@linux.com, rostedt@goodmis.org,
-	frederic@kernel.org, paulmck@kernel.org, pmladek@suse.com,
-	senozhatsky@chromium.org, john.ogness@linutronix.de,
-	juri.lelli@redhat.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
-	bristot@redhat.com, vschneid@redhat.com, ryabinin.a.a@gmail.com,
-	glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
-	vincenzo.frascino@arm.com,
+	mhiramat@kernel.org, frederic@kernel.org, paulmck@kernel.org,
+	pmladek@suse.com, senozhatsky@chromium.org,
+	john.ogness@linutronix.de, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, bristot@redhat.com,
+	vschneid@redhat.com, ryabinin.a.a@gmail.com, glider@google.com,
+	andreyknvl@gmail.com, dvyukov@google.com, vincenzo.frascino@arm.com,
 	Andrew Morton <akpm@linux-foundation.org>, jpoimboe@kernel.org,
 	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-snps-arc@lists.infradead.org, linux-omap@vger.kernel.org,
@@ -172,18 +171,17 @@ Cc: richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
 	linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
 	linux-arch@vger.kernel.org, linux-mm@kvack.org,
 	linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v3 35/51] trace,hardirq: No moar _rcuidle() tracing
-Message-ID: <Y8ZiIMHyXX/yW1EI@hirez.programming.kicks-ass.net>
+Subject: Re: [PATCH v3 00/51] cpuidle,rcu: Clean up the mess
+Message-ID: <Y8Z31UbzG3LJgAXE@hirez.programming.kicks-ass.net>
 References: <20230112194314.845371875@infradead.org>
- <20230112195541.477416709@infradead.org>
- <20230117132446.02ec12e4c10718de27790900@kernel.org>
+ <Y8WCWAuQSHN651dA@FVFF77S0Q05N.cambridge.arm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20230117132446.02ec12e4c10718de27790900@kernel.org>
+In-Reply-To: <Y8WCWAuQSHN651dA@FVFF77S0Q05N.cambridge.arm.com>
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=Ke5GdVNv;
+ header.i=@infradead.org header.s=desiato.20200630 header.b=eZ7RF5Th;
        spf=none (google.com: infradead.org does not designate permitted sender
  hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
@@ -198,41 +196,208 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jan 17, 2023 at 01:24:46PM +0900, Masami Hiramatsu wrote:
-> Hi Peter,
-> 
-> On Thu, 12 Jan 2023 20:43:49 +0100
-> Peter Zijlstra <peterz@infradead.org> wrote:
-> 
-> > Robot reported that trace_hardirqs_{on,off}() tickle the forbidden
-> > _rcuidle() tracepoint through local_irq_{en,dis}able().
-> > 
-> > For 'sane' configs, these calls will only happen with RCU enabled and
-> > as such can use the regular tracepoint. This also means it's possible
-> > to trace them from NMI context again.
-> > 
-> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> 
-> The code looks good to me. I just have a question about comment.
-> 
-> > ---
-> >  kernel/trace/trace_preemptirq.c |   21 +++++++++++++--------
-> >  1 file changed, 13 insertions(+), 8 deletions(-)
-> > 
-> > --- a/kernel/trace/trace_preemptirq.c
-> > +++ b/kernel/trace/trace_preemptirq.c
-> > @@ -20,6 +20,15 @@
-> >  static DEFINE_PER_CPU(int, tracing_irq_cpu);
-> >  
-> >  /*
-> > + * ...
-> 
-> Is this intended? Wouldn't you leave any comment here?
+On Mon, Jan 16, 2023 at 04:59:04PM +0000, Mark Rutland wrote:
 
-I indeed forgot to write the comment before posting, my bad :/ Ingo fixed
-it up when he applied.
+> I'm sorry to have to bear some bad news on that front. :(
+
+Moo, something had to give..
+
+
+> IIUC what's happenign here is the PSCI cpuidle driver has entered idle and RCU
+> is no longer watching when arm64's cpu_suspend() manipulates DAIF. Our
+> local_daif_*() helpers poke lockdep and tracing, hence the call to
+> trace_hardirqs_off() and the RCU usage.
+
+Right, strictly speaking not needed at this point, IRQs should have been
+traced off a long time ago.
+
+> I think we need RCU to be watching all the way down to cpu_suspend(), and it's
+> cpu_suspend() that should actually enter/exit idle context. That and we need to
+> make cpu_suspend() and the low-level PSCI invocation noinstr.
+> 
+> I'm not sure whether 32-bit will have a similar issue or not.
+
+I'm not seeing 32bit or Risc-V have similar issues here, but who knows,
+maybe I missed somsething.
+
+In any case, the below ought to cure the ARM64 case and remove that last
+known RCU_NONIDLE() user as a bonus.
+
+---
+diff --git a/arch/arm64/kernel/cpuidle.c b/arch/arm64/kernel/cpuidle.c
+index 41974a1a229a..42e19fff40ee 100644
+--- a/arch/arm64/kernel/cpuidle.c
++++ b/arch/arm64/kernel/cpuidle.c
+@@ -67,10 +67,10 @@ __cpuidle int acpi_processor_ffh_lpi_enter(struct acpi_lpi_state *lpi)
+ 	u32 state = lpi->address;
+ 
+ 	if (ARM64_LPI_IS_RETENTION_STATE(lpi->arch_flags))
+-		return CPU_PM_CPU_IDLE_ENTER_RETENTION_PARAM(psci_cpu_suspend_enter,
++		return CPU_PM_CPU_IDLE_ENTER_RETENTION_PARAM_RCU(psci_cpu_suspend_enter,
+ 						lpi->index, state);
+ 	else
+-		return CPU_PM_CPU_IDLE_ENTER_PARAM(psci_cpu_suspend_enter,
++		return CPU_PM_CPU_IDLE_ENTER_PARAM_RCU(psci_cpu_suspend_enter,
+ 					     lpi->index, state);
+ }
+ #endif
+diff --git a/arch/arm64/kernel/suspend.c b/arch/arm64/kernel/suspend.c
+index e7163f31f716..0fbdf5fe64d8 100644
+--- a/arch/arm64/kernel/suspend.c
++++ b/arch/arm64/kernel/suspend.c
+@@ -4,6 +4,7 @@
+ #include <linux/slab.h>
+ #include <linux/uaccess.h>
+ #include <linux/pgtable.h>
++#include <linux/cpuidle.h>
+ #include <asm/alternative.h>
+ #include <asm/cacheflush.h>
+ #include <asm/cpufeature.h>
+@@ -104,6 +105,10 @@ int cpu_suspend(unsigned long arg, int (*fn)(unsigned long))
+ 	 * From this point debug exceptions are disabled to prevent
+ 	 * updates to mdscr register (saved and restored along with
+ 	 * general purpose registers) from kernel debuggers.
++	 *
++	 * Strictly speaking the trace_hardirqs_off() here is superfluous,
++	 * hardirqs should be firmly off by now. This really ought to use
++	 * something like raw_local_daif_save().
+ 	 */
+ 	flags = local_daif_save();
+ 
+@@ -120,6 +125,8 @@ int cpu_suspend(unsigned long arg, int (*fn)(unsigned long))
+ 	 */
+ 	arm_cpuidle_save_irq_context(&context);
+ 
++	ct_cpuidle_enter();
++
+ 	if (__cpu_suspend_enter(&state)) {
+ 		/* Call the suspend finisher */
+ 		ret = fn(arg);
+@@ -133,8 +140,11 @@ int cpu_suspend(unsigned long arg, int (*fn)(unsigned long))
+ 		 */
+ 		if (!ret)
+ 			ret = -EOPNOTSUPP;
++
++		ct_cpuidle_exit();
+ 	} else {
+-		RCU_NONIDLE(__cpu_suspend_exit());
++		ct_cpuidle_exit();
++		__cpu_suspend_exit();
+ 	}
+ 
+ 	arm_cpuidle_restore_irq_context(&context);
+diff --git a/drivers/cpuidle/cpuidle-psci.c b/drivers/cpuidle/cpuidle-psci.c
+index 4fc4e0381944..312a34ef28dc 100644
+--- a/drivers/cpuidle/cpuidle-psci.c
++++ b/drivers/cpuidle/cpuidle-psci.c
+@@ -69,16 +69,12 @@ static __cpuidle int __psci_enter_domain_idle_state(struct cpuidle_device *dev,
+ 	else
+ 		pm_runtime_put_sync_suspend(pd_dev);
+ 
+-	ct_cpuidle_enter();
+-
+ 	state = psci_get_domain_state();
+ 	if (!state)
+ 		state = states[idx];
+ 
+ 	ret = psci_cpu_suspend_enter(state) ? -1 : idx;
+ 
+-	ct_cpuidle_exit();
+-
+ 	if (s2idle)
+ 		dev_pm_genpd_resume(pd_dev);
+ 	else
+@@ -192,7 +188,7 @@ static __cpuidle int psci_enter_idle_state(struct cpuidle_device *dev,
+ {
+ 	u32 *state = __this_cpu_read(psci_cpuidle_data.psci_states);
+ 
+-	return CPU_PM_CPU_IDLE_ENTER_PARAM(psci_cpu_suspend_enter, idx, state[idx]);
++	return CPU_PM_CPU_IDLE_ENTER_PARAM_RCU(psci_cpu_suspend_enter, idx, state[idx]);
+ }
+ 
+ static const struct of_device_id psci_idle_state_match[] = {
+diff --git a/drivers/firmware/psci/psci.c b/drivers/firmware/psci/psci.c
+index e7bcfca4159f..f3a044fa4652 100644
+--- a/drivers/firmware/psci/psci.c
++++ b/drivers/firmware/psci/psci.c
+@@ -462,11 +462,22 @@ int psci_cpu_suspend_enter(u32 state)
+ 	if (!psci_power_state_loses_context(state)) {
+ 		struct arm_cpuidle_irq_context context;
+ 
++		ct_cpuidle_enter();
+ 		arm_cpuidle_save_irq_context(&context);
+ 		ret = psci_ops.cpu_suspend(state, 0);
+ 		arm_cpuidle_restore_irq_context(&context);
++		ct_cpuidle_exit();
+ 	} else {
++		/*
++		 * ARM64 cpu_suspend() wants to do ct_cpuidle_*() itself.
++		 */
++		if (!IS_ENABLED(CONFIG_ARM64))
++			ct_cpuidle_enter();
++
+ 		ret = cpu_suspend(state, psci_suspend_finisher);
++
++		if (!IS_ENABLED(CONFIG_ARM64))
++			ct_cpuidle_exit();
+ 	}
+ 
+ 	return ret;
+diff --git a/include/linux/cpuidle.h b/include/linux/cpuidle.h
+index 630c879143c7..3183aeb7f5b4 100644
+--- a/include/linux/cpuidle.h
++++ b/include/linux/cpuidle.h
+@@ -307,7 +307,7 @@ extern s64 cpuidle_governor_latency_req(unsigned int cpu);
+ #define __CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter,			\
+ 				idx,					\
+ 				state,					\
+-				is_retention)				\
++				is_retention, is_rcu)			\
+ ({									\
+ 	int __ret = 0;							\
+ 									\
+@@ -319,9 +319,11 @@ extern s64 cpuidle_governor_latency_req(unsigned int cpu);
+ 	if (!is_retention)						\
+ 		__ret =  cpu_pm_enter();				\
+ 	if (!__ret) {							\
+-		ct_cpuidle_enter();					\
++		if (!is_rcu)						\
++			ct_cpuidle_enter();				\
+ 		__ret = low_level_idle_enter(state);			\
+-		ct_cpuidle_exit();					\
++		if (!is_rcu)						\
++			ct_cpuidle_exit();				\
+ 		if (!is_retention)					\
+ 			cpu_pm_exit();					\
+ 	}								\
+@@ -330,15 +332,21 @@ extern s64 cpuidle_governor_latency_req(unsigned int cpu);
+ })
+ 
+ #define CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx)	\
+-	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, idx, 0)
++	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, idx, 0, 0)
+ 
+ #define CPU_PM_CPU_IDLE_ENTER_RETENTION(low_level_idle_enter, idx)	\
+-	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, idx, 1)
++	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, idx, 1, 0)
+ 
+ #define CPU_PM_CPU_IDLE_ENTER_PARAM(low_level_idle_enter, idx, state)	\
+-	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, state, 0)
++	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, state, 0, 0)
++
++#define CPU_PM_CPU_IDLE_ENTER_PARAM_RCU(low_level_idle_enter, idx, state)	\
++	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, state, 0, 1)
+ 
+ #define CPU_PM_CPU_IDLE_ENTER_RETENTION_PARAM(low_level_idle_enter, idx, state)	\
+-	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, state, 1)
++	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, state, 1, 0)
++
++#define CPU_PM_CPU_IDLE_ENTER_RETENTION_PARAM_RCU(low_level_idle_enter, idx, state)	\
++	__CPU_PM_CPU_IDLE_ENTER(low_level_idle_enter, idx, state, 1, 1)
+ 
+ #endif /* _LINUX_CPUIDLE_H */
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y8ZiIMHyXX/yW1EI%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y8Z31UbzG3LJgAXE%40hirez.programming.kicks-ass.net.
