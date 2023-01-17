@@ -1,143 +1,139 @@
-Return-Path: <kasan-dev+bncBDIK727MYIIBBCVLTOPAMGQEJST67VI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQJP74GSUDRBNP7TOPAMGQESFE55ZI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x438.google.com (mail-wr1-x438.google.com [IPv6:2a00:1450:4864:20::438])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4750366E465
-	for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 18:06:19 +0100 (CET)
-Received: by mail-wr1-x438.google.com with SMTP id j30-20020adfb31e000000b002be008be32csf1657620wrd.13
-        for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 09:06:19 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1673975178; cv=pass;
+Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6FE566E765
+	for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 21:06:14 +0100 (CET)
+Received: by mail-il1-x140.google.com with SMTP id l14-20020a056e02066e00b0030bff7a1841sf24018562ilt.23
+        for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 12:06:14 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1673985973; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hflduiiHOSoHsAoIoi3yoi4cUedFLvIB/QMnMWZkRL4zjHX40Ok9HqMdM9aVaj6KAo
-         /kc3zjUtFM6t7hnPuKPcVbdz/o33jLHrurVO5uMw2o805VPvqoNn54gi5Q+DNV7nrc3M
-         wFIisgAKEICqiCaW27fIEt7iDfcj1DqhUl7+myVm5vupbFQ7aGZfTZfGay0VZ2Gkhf6X
-         MYphqRrq/Nc0Lv73yN9fSckX4JFP8g2mci1z1ExyHXEFZ4B+vMycnqmHtCiqRmhT+nKD
-         7aivQrK8WbKH3vMcshUveyUlkEYszL0DD+OM4Z08khRvO9bACGL/D+3GFQc5dMUK7f8i
-         ze2A==
+        b=0YSW+E7EBMjZeZSIl3BiHhw7rWUjfod1yG0PAeRByxqM9h9Q7jd2EmyuTQL642oeyj
+         SGfDt+6dqlMLMowUX/4vRuut/19aJPgQ0CKfSaldc867HWOwV4HK721lmtUUIVdTTugp
+         hUA9tmANJcmqrQnZ8BrpdARHIFJNWoK2e/Mgpg8w2cEcxQOl0+X6csg6bq2Bqju6h9n0
+         aQffqXX1phfS3nMKAN1/qZibJR2FusiH/QGvudDAqBGIrRDe76S/qhJyhxlF6R7Zfz9B
+         jDFesVk0KUzXmMyO2utz02EthM1b7sFbpELDNA7AN/+nNMyA59emGP9Z5pHlm1xUW44C
+         cGkw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=MNDJrygIlUpN/kfmvwDz6D9OxfOJxC6gjJ+BroWnrRI=;
-        b=aHADF3KVTpiJx0RR5hDa+/kWZuitjIQN2R2RUD1FEeZviq4VHxj2DIVCUZPOGoL/as
-         U5hdi02FiriOgPfbbTluUUTnSGsR6yveey2VjZfyZf/9XVNEfjfU2Gjo4c4TGKURkN0s
-         SP8hEbDzFh9DqoILMaVHpdSs6h0Pdo9AyvSKRMkKWBCH/1YTqOwXcfp1jDWzCg7F6IHl
-         GhqJFPnN6hLexip53CPZhMsux8vGomtTmr/1UGIF4YDBoIljpO0ac2NSmC11DIykBA+R
-         Yrg4+6j4eF5CpR4uTGUEYtQfDGvlnlIkdYrVK/1YmpSr3QxgnXfCNRK9BtX9W1F0w7/Y
-         fTew==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=gqBioSP/CuQK5yrRBiKisiFTdWGoHx9Lb9oIhnrAs90=;
+        b=mJuxQV4rlQ1SU9hZyIgjbAzZ1VnTnspNZKccszeExLv4mqS35arWYKytLq4SYgolt6
+         C1FNYWqmTPA9CtEq9HtfFOT3oTRlW3/yy0JeZHkID/l8gcp95WdoNGRWwFp/34RCUuAQ
+         mM2h1y3SaLEE19zJe4S411BPYX5GaUNOc2DS9pNNRS84tICYbYy1cBQdBSAj05EZC+QP
+         5T/klsBB+u98KOcHrYbN2VzpYmb3w9cE53v1a1LWuVTHQzH9kQnumBEw043VON+6x5Pp
+         qGm3GU+BQZkln8WXK4IAXhBTRRPeLbDGx8Uf4nS1Z1v98JaMLo9XQNB1B+FP/L+dO9oC
+         /JBg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of glaubitz@zedat.fu-berlin.de designates 130.133.4.66 as permitted sender) smtp.mailfrom=glaubitz@zedat.fu-berlin.de
+       spf=pass (google.com: domain of geert.uytterhoeven@gmail.com designates 209.85.219.44 as permitted sender) smtp.mailfrom=geert.uytterhoeven@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=MNDJrygIlUpN/kfmvwDz6D9OxfOJxC6gjJ+BroWnrRI=;
-        b=kFThOp/U5uHY7jvqI2VjIxDx+m+NGg97NXpi1DPOkZRt7hQ2FYFshcH+oSc6JG/3AP
-         N0YdNHkVjOXMdsYIm+EcwPdXi+EG5eizvC9kvrb+zjH6RLmoxwqLRXPQ7gENSRf7HlvL
-         ug8k9OZs5kzNVruP1CIBdV2WQoC44FRtfiT1AXsqjzbNHjMpSsv88EKjcJn6CDbWe7kR
-         ENHdGszXYmwhTIFjTLN5ZU3s5qI1biYlokf107TukiGkuLAsZQayj600wc3MicKpVRJp
-         NLTC9Mnq197Am6vFR4RkbjydIDN2YlJWmw5XGHcAfU4VJE1MjFwyC7q5kXqUXPr/7mqa
-         /2Zw==
+         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gqBioSP/CuQK5yrRBiKisiFTdWGoHx9Lb9oIhnrAs90=;
+        b=os2ScNY0zQ07geJou6Gdmp3f3v6yQlptJY8Bp5Tz/HzlA2T9eSSlPWxlVhTlWeVtKZ
+         q1u/S+jTzq7PniWn6rO+gvNfiOe3KlxiJvXoMp9sRxjcAFFADmpqCBoqokiR0OTjm8AT
+         StGAqaYSjXRTN+R0Uzr76XebKxnaMXshR1IaWdQFHn4FuNI2anAYesZ8AdO2G2lypylb
+         2kK3HLBAJGiHK2DizuKfeCXINbONN1WkivpbjqssHAKWk3Nz8mDuQcKc1ZiQ7z5iK/nR
+         Ff+UiTWVXZQSijjYha3qIGTxIkyAPzr31y6NOxAAY9Fkx0tMZT2CkpfgBHgIzulIp1Kv
+         ZWzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MNDJrygIlUpN/kfmvwDz6D9OxfOJxC6gjJ+BroWnrRI=;
-        b=uSPT2ibYcrsqNuSRkpswJKDYyrwsg3o2N3i3d/GOBNPfV1GhtPxYwkRt9iPRkXOkhz
-         fzCmDPFoaoSgmUMN1dmeuYfeGTqBRXq4bnnJmGpEooprj0hZPUVscGDt562ZCSqTX5iX
-         MNbaOq83U5oy0S0rYWH8JBmQMU2zAB0OuO2hH6QQj0JL0T3vl/pZEOg7etXTGmmgy9HC
-         obcjfHBwzEoAudgdtD1/qLY29UK4dwgVmlZEfEf2if2DkPcLQxKXH616Xvfs47hI1nkZ
-         hmnhwHAzkx+dJvQfVZY/NvnTBvzcV5Oq9Ml98cDVvs3s0IFAs/xVCBAJ6KBPIj843NDA
-         giLQ==
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gqBioSP/CuQK5yrRBiKisiFTdWGoHx9Lb9oIhnrAs90=;
+        b=lxZu/v9gE9trBLBXRYSaqAx6LWkUJMcamDP0HDQQhz4/POO3kZgTRgeUtlrSKw0w1Q
+         yiNy9NFh+BPITLoelNCQH89KPgyD+54O2Nw0wQgvA2eDcTdA6H56fGR7S4HvTm0U7zbh
+         paigBaJR5N1cYyNbE1IqmEGjMrDjmZOCpmtv+IkDv4ZMJaKFX7x4znvQnBLN3GQyyIgP
+         IAITmFrSfdfat5gIYBMDZII21aCzU4QnOsnH5/z2EOToMSs5jnrPE9jkkrVMkGWiTpdK
+         cQ9CwzHNhjOOF5ZD/3zbdQ5eFb5vQtL0IBn2/dmr/u8ecfuF8K+14bysybKMiXW8T3Ls
+         +blA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kq5txgdP/xNqkwR1OdtKDfQifk+I3W2YVwxUGE5GGjYkiRSGYNH
-	wovlSxvdgGZvyXP23crKSds=
-X-Google-Smtp-Source: AMrXdXt1MFSlD9ecwAZq7W3rF69R+zqlhqzQ14jKgpwIroWlXk6FYMaq46YQjMuFmTU+iA3aEubLMw==
-X-Received: by 2002:a5d:440a:0:b0:2be:f2a:a455 with SMTP id z10-20020a5d440a000000b002be0f2aa455mr126055wrq.559.1673975178887;
-        Tue, 17 Jan 2023 09:06:18 -0800 (PST)
+X-Gm-Message-State: AFqh2krM7a5lMHpvH4K8cIn/7L/NWFlrQhdtMc+SjN+Mz3PiEXfKnzVx
+	5tj3+OwFHxPhXROm8z+Ip5U=
+X-Google-Smtp-Source: AMrXdXu41F+SDX/9sF/hwxtNfaMfoYbKMBFxupDdE8Ed81Odk7PpbfCgp5VOQ/c/PRkPnGUhVHWXGA==
+X-Received: by 2002:a5e:9505:0:b0:704:aa70:2b13 with SMTP id r5-20020a5e9505000000b00704aa702b13mr310206ioj.91.1673985973652;
+        Tue, 17 Jan 2023 12:06:13 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:17d8:b0:3c6:c1ff:1fd with SMTP id
- y24-20020a05600c17d800b003c6c1ff01fdls9605104wmo.2.-pod-canary-gmail; Tue, 17
- Jan 2023 09:06:18 -0800 (PST)
-X-Received: by 2002:a05:600c:4d08:b0:3da:fef0:226b with SMTP id u8-20020a05600c4d0800b003dafef0226bmr3831466wmp.32.1673975177971;
-        Tue, 17 Jan 2023 09:06:17 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1673975177; cv=none;
+Received: by 2002:a6b:4917:0:b0:6da:9bee:b03e with SMTP id u23-20020a6b4917000000b006da9beeb03els3047744iob.2.-pod-prod-gmail;
+ Tue, 17 Jan 2023 12:06:13 -0800 (PST)
+X-Received: by 2002:a05:6602:5d9:b0:6e2:fd23:821b with SMTP id w25-20020a05660205d900b006e2fd23821bmr3171055iox.3.1673985973099;
+        Tue, 17 Jan 2023 12:06:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1673985973; cv=none;
         d=google.com; s=arc-20160816;
-        b=uCYbHZO+Nsm2/d3ZsD1sk6O5fnwZv62LTbtQ476QOE3BDP+EBNeSiQ2Hdir8DQMJmB
-         bQoNUEZYfcM1erDLK5X/zsB6lFqL1C9p4DXFMwSViJzdaLL0z99zJ3cNZO/WQvut/QbO
-         DL1b6cH21mG6nEy1M9oUcrgkEpR8yaeUfeCtVhmOVvkVLBJ/NMhmcmi5OY5BJm7wNzTB
-         V/+0C12dsm+YQ7dB7OzVvxC8niGzdZM3WSakej3NO8bbKSTUGU059khDI4nyYpgYlA54
-         RFMhlocNDaBCrtDdqpyuRm6q2A94fs/yvgmh9dg3wYdD9FHoS5/lOW45IT8IN2kbLohS
-         iQAw==
+        b=egxBjHWImWL2hicpYqei9QZQilTWo8q/Ko3g0lNAaJGMuwBeA6XJgVL3Eg/jDIBIbn
+         Ym4umnsnOu65fDNDAhXnaZYGSYpkVOEg5uK6QMWh8StVhnL6uaLiCTvjcd+8J/TVOe1G
+         31RtJ/RbldYLJMGRC7KON2LIAdBerfy6AVYSkQbRtrMUI7qxsphUo7gkRlJyIhcgOqGm
+         ylrQQrqSvbudKAg2gOyRj+MLNWqq9QyTQWi0HiQ+gFFWkHAG19hOONQE/HBXK2Zl+ZR6
+         Cl+l8LksHi18GEvk8OTEWYGvew1eM/dO8GvSgrCOGVNAgO0pNyoGl1tNHbnwhaLfy6Pb
+         lt9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=0kLX03Az6cKSTZEXY/z4ABJEUAyylqMMgPZyMU9LWOQ=;
-        b=n+8ZLhMpr6nMpXegSRIAIraORJu+VJF47N6OVye8SFvYBpIzv61eGOrOV8LXr29Gsv
-         J6/lWL4HYkwFdCpaxZeGAw1hRuoULxAEwG20P/XNd99qh986Q/FSRtUOnGILahGaK2H1
-         aQ7LraGiXoSJPtYp3xXw6Ew1+fJI3/WT5YEa4fxC+Ke3CbUA4F641AZDEXPBSvjtERRe
-         9djSXVmWTjs1RO/u1cV31AGqaHYZM6vwOK80P9prZRG2rMyP+s5ZnJ2Y/kM8OQZp8xN/
-         /i3AURQ9RkRlrLlt1ZvpbqT3eD7gScg6sJJ+rwpX2C/8pME92usjgHHkxoXZSSDb8YL+
-         B9NQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version;
+        bh=3xoeiV+nYOsKZ3P5r1QIbmJ251MgYmk7NsIx6imHg00=;
+        b=GajPgI/6775warNgw9guODBc3HSXShkERhioNZ7dZ+F2BVax99Cj8Ohb9L+ZLHvXXv
+         k+2+z+Q02IaNhczhvBHV5WRUgYUyxjsVSaYtxiYnB+tqaJIAn5acc96Z/Rfobt9lroTO
+         iVaFbfU8eP04o+niJ+tfo6Iu2Exkon81Upg9L7QDHqhr9sGHFO3gbDr83Gg65uJ5UoBz
+         zsJWynMWZmKhYmnXBtm91XVtDzCCosoqkf1EqkY7Fr/M+k4ZDlwHxOWTuYgbpsX5Cgh8
+         uhinbkretOkI17sBHxB1E8+q3U3Twy0oPg4Ay+Zhh7PNBvzyXLaxytF24l6+whKDSTYA
+         MoQw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of glaubitz@zedat.fu-berlin.de designates 130.133.4.66 as permitted sender) smtp.mailfrom=glaubitz@zedat.fu-berlin.de
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de. [130.133.4.66])
-        by gmr-mx.google.com with ESMTPS id e4-20020a05600c448400b003d9c774d43fsi731390wmo.2.2023.01.17.09.06.17
+       spf=pass (google.com: domain of geert.uytterhoeven@gmail.com designates 209.85.219.44 as permitted sender) smtp.mailfrom=geert.uytterhoeven@gmail.com
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com. [209.85.219.44])
+        by gmr-mx.google.com with ESMTPS id k13-20020a0566022d8d00b007048277b640si978239iow.3.2023.01.17.12.06.12
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jan 2023 09:06:17 -0800 (PST)
-Received-SPF: pass (google.com: domain of glaubitz@zedat.fu-berlin.de designates 130.133.4.66 as permitted sender) client-ip=130.133.4.66;
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.95)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1pHpPU-001nMn-Ss; Tue, 17 Jan 2023 18:06:08 +0100
-Received: from p57bd9464.dip0.t-ipconnect.de ([87.189.148.100] helo=[192.168.178.81])
-          by inpost2.zedat.fu-berlin.de (Exim 4.95)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_128_GCM_SHA256
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1pHpPT-002tRa-PS; Tue, 17 Jan 2023 18:06:08 +0100
-Message-ID: <429140e0-72fe-c91c-53bc-124d33ab5ffa@physik.fu-berlin.de>
-Date: Tue, 17 Jan 2023 18:06:07 +0100
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Jan 2023 12:06:12 -0800 (PST)
+Received-SPF: pass (google.com: domain of geert.uytterhoeven@gmail.com designates 209.85.219.44 as permitted sender) client-ip=209.85.219.44;
+Received: by mail-qv1-f44.google.com with SMTP id k12so1493303qvj.5
+        for <kasan-dev@googlegroups.com>; Tue, 17 Jan 2023 12:06:12 -0800 (PST)
+X-Received: by 2002:a0c:f608:0:b0:535:35ce:7906 with SMTP id r8-20020a0cf608000000b0053535ce7906mr2410457qvm.40.1673985971994;
+        Tue, 17 Jan 2023 12:06:11 -0800 (PST)
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com. [209.85.219.169])
+        by smtp.gmail.com with ESMTPSA id cx15-20020a05620a51cf00b00704c62638f4sm20448581qkb.89.2023.01.17.12.06.10
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Jan 2023 12:06:11 -0800 (PST)
+Received: by mail-yb1-f169.google.com with SMTP id 66so305846yba.4
+        for <kasan-dev@googlegroups.com>; Tue, 17 Jan 2023 12:06:10 -0800 (PST)
+X-Received: by 2002:a25:9012:0:b0:7b8:a0b8:f7ec with SMTP id
+ s18-20020a259012000000b007b8a0b8f7ecmr700718ybl.36.1673985970579; Tue, 17 Jan
+ 2023 12:06:10 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: Calculating array sizes in C - was: Re: Build
- regressions/improvements in v6.2-rc1
-Content-Language: en-US
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-sh@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
- linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com,
- linux-xtensa@linux-xtensa.org,
- Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>
 References: <CAHk-=wgf929uGOVpiWALPyC7pv_9KbwB2EAvQ3C4woshZZ5zqQ@mail.gmail.com>
- <20221227082932.798359-1-geert@linux-m68k.org>
- <alpine.DEB.2.22.394.2212270933530.311423@ramsan.of.borg>
+ <20221227082932.798359-1-geert@linux-m68k.org> <alpine.DEB.2.22.394.2212270933530.311423@ramsan.of.borg>
  <c05bee5d-0d69-289b-fe4b-98f4cd31a4f5@physik.fu-berlin.de>
  <CAMuHMdXNJveXHeS=g-aHbnxtyACxq1wCeaTg8LbpYqJTCqk86g@mail.gmail.com>
  <3800eaa8-a4da-b2f0-da31-6627176cb92e@physik.fu-berlin.de>
- <CAMuHMdWbBRkhecrqcir92TgZnffMe8ku2t7PcVLqA6e6F-j=iw@mail.gmail.com>
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-In-Reply-To: <CAMuHMdWbBRkhecrqcir92TgZnffMe8ku2t7PcVLqA6e6F-j=iw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Originating-IP: 87.189.148.100
-X-Original-Sender: glaubitz@physik.fu-berlin.de
+ <CAMuHMdWbBRkhecrqcir92TgZnffMe8ku2t7PcVLqA6e6F-j=iw@mail.gmail.com> <429140e0-72fe-c91c-53bc-124d33ab5ffa@physik.fu-berlin.de>
+In-Reply-To: <429140e0-72fe-c91c-53bc-124d33ab5ffa@physik.fu-berlin.de>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 17 Jan 2023 21:05:58 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWpHSsAB3WosyCVgS6+t4pU35Xfj3tjmdCDoyS2QkS7iw@mail.gmail.com>
+Message-ID: <CAMuHMdWpHSsAB3WosyCVgS6+t4pU35Xfj3tjmdCDoyS2QkS7iw@mail.gmail.com>
+Subject: Re: Calculating array sizes in C - was: Re: Build regressions/improvements
+ in v6.2-rc1
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, linux-mips@vger.kernel.org, 
+	linux-sh@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net, 
+	linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com, 
+	linux-xtensa@linux-xtensa.org, 
+	Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>, Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: geert@linux-m68k.org
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of glaubitz@zedat.fu-berlin.de designates 130.133.4.66 as
- permitted sender) smtp.mailfrom=glaubitz@zedat.fu-berlin.de
+ (google.com: domain of geert.uytterhoeven@gmail.com designates 209.85.219.44
+ as permitted sender) smtp.mailfrom=geert.uytterhoeven@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,32 +146,40 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi!
+Hi Adrian,
 
-On 1/17/23 18:01, Geert Uytterhoeven wrote:
-> The issue is that some of the parameters are not arrays, but
-> NULL. E.g.:
-> 
-> arch/sh/kernel/cpu/sh2/setup-sh7619.c:static
-> DECLARE_INTC_DESC(intc_desc, "sh7619", vectors, NULL,
-> arch/sh/kernel/cpu/sh2/setup-sh7619.c-                   NULL,
-> prio_registers, NULL);
+On Tue, Jan 17, 2023 at 6:06 PM John Paul Adrian Glaubitz
+<glaubitz@physik.fu-berlin.de> wrote:
+> On 1/17/23 18:01, Geert Uytterhoeven wrote:
+> > The issue is that some of the parameters are not arrays, but
+> > NULL. E.g.:
+> >
+> > arch/sh/kernel/cpu/sh2/setup-sh7619.c:static
+> > DECLARE_INTC_DESC(intc_desc, "sh7619", vectors, NULL,
+> > arch/sh/kernel/cpu/sh2/setup-sh7619.c-                   NULL,
+> > prio_registers, NULL);
+>
+> Isn't this supposed to be caught by this check:
+>
+>         a, __same_type(a, NULL)
+>
+> ?
 
-Isn't this supposed to be caught by this check:
+Yeah, but gcc thinks it is smarter than us...
+Probably it drops the test, assuming UB cannot happen.
 
-	a, __same_type(a, NULL)
+Gr{oetje,eeting}s,
 
-?
+                        Geert
 
-Adrian
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
--- 
-  .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/429140e0-72fe-c91c-53bc-124d33ab5ffa%40physik.fu-berlin.de.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAMuHMdWpHSsAB3WosyCVgS6%2Bt4pU35Xfj3tjmdCDoyS2QkS7iw%40mail.gmail.com.
