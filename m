@@ -1,150 +1,146 @@
-Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBFODT2PAMGQERHNDQKI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDY7XDHKR4OBBOP4T2PAMGQEHDQEJIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A5367151C
-	for <lists+kasan-dev@lfdr.de>; Wed, 18 Jan 2023 08:36:55 +0100 (CET)
-Received: by mail-lf1-x13e.google.com with SMTP id b24-20020a0565120b9800b004d593e1d644sf219085lfv.8
-        for <lists+kasan-dev@lfdr.de>; Tue, 17 Jan 2023 23:36:55 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674027414; cv=pass;
+Received: from mail-ot1-x340.google.com (mail-ot1-x340.google.com [IPv6:2607:f8b0:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBEA6717EB
+	for <lists+kasan-dev@lfdr.de>; Wed, 18 Jan 2023 10:39:06 +0100 (CET)
+Received: by mail-ot1-x340.google.com with SMTP id cz20-20020a0568306a1400b006849b669d65sf13003432otb.10
+        for <lists+kasan-dev@lfdr.de>; Wed, 18 Jan 2023 01:39:06 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674034745; cv=pass;
         d=google.com; s=arc-20160816;
-        b=LHMeN42ZUdtvC/PY//+J3XizbZgmCpbMmtxEIEbDNz6294fBlTC8lmqrdSEoncAldb
-         vjruxmJQPcgjIXgUUcszl6XMJuqwO37YE5VjqcwZCi4vMpVSlEG4aQriJ65fsHDrxjqz
-         R8VBirpJxXQXP/IW6IgszFZv+MpV5wNwmPe+/kLe/slmndPxAs5Bb/PF3MJdq38FsQjm
-         YjTuDQGuu4Kj7AACqOTBM7NcX2qIBQQHknd5logXUuisW5xveBL2LL4wMfi05cACatBK
-         w2YlwURXDdlSiX4GgxzsGqq+Zt+wzl0uUNhY9/+CfCq2hB1aOivaDMywq9dnoNtgy1fA
-         TJFA==
+        b=jhsCb0VWSAdVX5L2ytmwufJiIgrtgr2N+iWM/pahDXpHBAUZWrBLxl8OeRh5uoU9Sb
+         FwmT98WAWvVPH1I8r8i5uFP6i5NIvxFDhsDfHCZRf7GhXnejDVDIR4fz5raTZWSkLRvc
+         kVexTgCIkgXJeI14Ft4yuQA+xeaakgDmkuKexofsXtDa+XLXPPAUdaR3Mfh+iMO7/ctC
+         QNyk85gujVgrgP9tOWLXIQhM40uD3R/QF/ds2q5W4BQctC6N5DaHbeKC5/i2kBbycKNK
+         AlXZi/RFgKo+9l/GsrQrEvRwWxZfN6A/QwWbgZlg0VfdO3QXosodTsuhHSFsTWRFpybo
+         +HlQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=uXYI1trH4JdZ3AdRMJijYY7mcj9PI3t7JlYBmtlVsPA=;
-        b=TR8WJOUZu/DZBMw3ZuMDBRDBjwyxqGu9bfkJniWUEdpiJzBKNXyOXt/XKquXtsxnV4
-         PVjeUJ5o3JwaEaj5J193REs6Wmgx8kjCxY31AKljAKVL++D22dUz119jU4cHjNyqycPM
-         1/MHdnYzbYpZtkEFbP+zX7wETaO0rit0v/95Hp21VgEaIp9FX3m4DBB9Ngq3pozdQ2MO
-         PXSvA19iqoQFCxfYZNi4kwZEoh6HaOCCTq0IgQBqC3JlKCbj/nDFv90m9rEDdZrEK6CV
-         F1eU1okebdOr37RUPW3A5T0KeRp+VhHMFK5sYmc+17lsJdCnF34JE2/TI8jfiXtyMl6r
-         N6cg==
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=f0kKIYguWPRPR/tKcBZKYBlGrYKwQio/h2YmI97Duzg=;
+        b=SDBDIGcZEfrH1t9MPU0wXNteIzFMnONLEBYhcH1r/PQWhLNcASjYpVx24YEdT7Vdab
+         ki0gdISOMaiOnMUsjZPybqwqSGTgR9+SL4OmpSxi5oam18PPtPBmDs+NI6zfuATfYliW
+         6KCfdWo+I6UmJxueVI2O7e4VSdpdYPUI8gksqqFNGw3/vsmGnC9kIkMYoVIaW9IK0Yys
+         Y7oXflvcHwOU+69r+qN7hzXJfQBpH3m6OwIToh3ZGoO3fJNOujfbYYKthQRdZ+bV+YAs
+         AaUdU1U7U4NGmSo6ZG8lYlUxD8dhw2jXi0WOQDu+K3kibKjNU1AdwTJSZEC2gFprnkUu
+         yrOw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="ZfMfMP/8";
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=V8eIWzGw;
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:content-language:references:cc
-         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=uXYI1trH4JdZ3AdRMJijYY7mcj9PI3t7JlYBmtlVsPA=;
-        b=lLAzK3bS80KmkBwXRA0ugqdSLMlgBltQA5GoWmGvXA/s+Roy3k+akqt6DWApc8SPpZ
-         3DvczbYSc4Z3JKK/deSh0cOZUedGeP0vsNV7gNXQSXSGHY2zL5VpYrh8VcbYPNtRsjSf
-         aJlXod8IiU4n11N/26gmer5w6OFQioOQ9SlFkY9HXpOP+MtjTSzmOgzr71fCzDLQbJNb
-         kBAUEs3rjoARlC0RrHN12oIp4+EB2VmnIZgQdDJDyyvv9FHlNhzzcFVla9BiW6bI1plt
-         XSsaLT7KmQ8noNc5yu3DHMpFhjd5YdncdoRFd0m3Ienm8ebYMmHjcegrQKerVX61ESAc
-         4kBg==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f0kKIYguWPRPR/tKcBZKYBlGrYKwQio/h2YmI97Duzg=;
+        b=snfEoWWgb8L7bveh/jEScZ1oY8747LEnoYkfFcEFWFy+GMupTNXKung8MYc4qnY6CS
+         nfA0k9KOgAycWn5x7hUg4ievr0VkL79GXO9ptec+eYTAiI3Cdj847YYvKgMhr2GXvYpD
+         bYPjmbk6DWR5qjN26RVas60qxVoA7171MV50nZdhiCO55LbGrS5XReXCmFOh0HxkeBo2
+         vD60RVA7YWafDZ2iIllSe6LUfPereODGvffsTcfA+hl29/9AXsY7ldAOaYnCzqsbfr1V
+         G4Y9Z+TqdQv3EJzTvaiYZUO+cHohsbxgf5a4Iqwm2SjonNBdfI6XRkUvb1goAnBGdTFT
+         OSbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uXYI1trH4JdZ3AdRMJijYY7mcj9PI3t7JlYBmtlVsPA=;
-        b=ucGKFflDj0TgDhZvHGlU+Dovf7j3VBCTsOwMrjWVcaGpknWz7/H2m5qBsXl0ilrrch
-         AOHZEG8yAKiBmNl2rGq0itTpIUhfMdIB8Mbecg8KvUjrFVfwbzZ7WgQXYMbc8Av3iuJQ
-         E4NpMSJ6LnVN7GlPjq5giBkR2XAxAjbbUolVs0/JYOaky1V8wXvIk3AH/JSdLtcedS/9
-         i/GbO7AZRAmQOZF7PvDezpzxLW4XMj99lFu5p6czt7zrohRaLtbpebsfc9V+FpAkg8XI
-         IWcQVI/fr8fgrVsf0sehHwTTKORTE2bywv/csMGoYgtM9gJ3BWwO9CFWn8ld9B9kaXpl
-         OQBA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kozpdEC7hpxtSETIphIw0PX6+p3iHGPve5G//VbCIekaOo1k/pF
-	wo/n59ZegNXANmXKDJpGNW4=
-X-Google-Smtp-Source: AMrXdXt8xMBQDLAc42etcaZWJKfXdQjtOAPI6/G9u+FevVHVzG0UYh1o7DYMOy42qIuP30rcPT03Xg==
-X-Received: by 2002:a05:6512:1322:b0:4b6:f2a8:884e with SMTP id x34-20020a056512132200b004b6f2a8884emr608239lfu.191.1674027414335;
-        Tue, 17 Jan 2023 23:36:54 -0800 (PST)
+        bh=f0kKIYguWPRPR/tKcBZKYBlGrYKwQio/h2YmI97Duzg=;
+        b=OEMyONYnYQkhKWVNQdu2dJYJUW3eKEDhTwN4g/RMJfVCEvkBxxKmmTDotMRCzpJlcU
+         DHUHFv7Eb9naUCD/o3DGvDwXMeBEo9EaC0844zyYtQRNvLRGsLWb/uP4Qs5jQOQC7tQG
+         mt2yc3+npRSNRjBqrVNQsjGxIlzY52NkJ0BpbLRgYyIAIreeuGPHKCvtqCpXyN2BE9XF
+         jQ1J40R9AQMC3Qdg6pFOpr/vbv+HDI0HSsfohQrbRK9VcKB8lYBEiH3iYrunUVGDkcR+
+         LbEgGgx2ZRGQsQxmyB2EXcHvH4diPrut2ckt1urm1q8Msx65ZpxNytIDR0GGeslcdHYt
+         4alg==
+X-Gm-Message-State: AFqh2kpJJ2vW4ld4U4zo/Ebv64V2DQuMFajTwCg3SBgwFv/bQTvfK8Cz
+	nxvRVsbKgdOle1UtoU6xuCc=
+X-Google-Smtp-Source: AMrXdXsgsF0d/lEo30c6JLzjH5IwbXUk9XSDqrU79KicyQF8fS0o6vYhwJzbUXONZPrnBY170uLfKA==
+X-Received: by 2002:a05:6830:448:b0:684:c7ad:9c7a with SMTP id d8-20020a056830044800b00684c7ad9c7amr335296otc.254.1674034745453;
+        Wed, 18 Jan 2023 01:39:05 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:a554:0:b0:27f:b767:aaf6 with SMTP id e20-20020a2ea554000000b0027fb767aaf6ls2568228ljn.3.-pod-prod-gmail;
- Tue, 17 Jan 2023 23:36:52 -0800 (PST)
-X-Received: by 2002:a2e:9097:0:b0:27f:d351:5f05 with SMTP id l23-20020a2e9097000000b0027fd3515f05mr1697133ljg.49.1674027412559;
-        Tue, 17 Jan 2023 23:36:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674027412; cv=none;
+Received: by 2002:a05:6870:3a2a:b0:150:5959:52ad with SMTP id
+ du42-20020a0568703a2a00b00150595952adls7393271oab.3.-pod-prod-gmail; Wed, 18
+ Jan 2023 01:39:05 -0800 (PST)
+X-Received: by 2002:a05:6870:be8e:b0:15b:9ab9:75ee with SMTP id nx14-20020a056870be8e00b0015b9ab975eemr3323621oab.48.1674034745088;
+        Wed, 18 Jan 2023 01:39:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674034745; cv=none;
         d=google.com; s=arc-20160816;
-        b=NXQBWVR+yi/CE7l6ht8mbG5be2lkj5ILX/Sbcoo49tWjQFV/P7R0xhClHgUQwctg6H
-         zMwSWdso/tWLFVpyPtFCWph0XJHpOW4Bo9H7CP1rJCfes5qGVPBbmLsGFK0euWFUK8xR
-         FSTnT6Aed5CvhFmg7HIV2ViGccJy40oyc0zXgLyeqKNy+CYRNx75pF2FW0AkfexgXArV
-         fVsM0fdD62XMp4+e/1gcXIzwezIdfvaKkhQLAQvRLjOUOksfr3VC+zn2mtpkhT77Y93z
-         TX79ioYLgcyaAllvoA8VrvW46U7rqP4KHHIxw1FAPJ8TglZwSEX4CNqurLBGnPPMuIS0
-         E+IQ==
+        b=MJ5N+7veLlaqFtIRf+C12m9ywGwwCBOqEgH0WYJxRTylFFguESCx82sHpatNIxrVDv
+         kwWALcrn3YwKNrv8bgiyKIjojDx+6+2NjpZO2ou8oWZZA7zFsCicxkDowJdcQto9HcUb
+         4ZJmZWxYIVk3D2kpExOFterA644FnnHBhsI2XuaMkMAfP5I06ohzwBx8lVQN0zxWQa/I
+         91pvof8Gy5SMKnqdHKl9+JtJBHCnMDh6Vc/+QK5HUhVPP45OzMZmEY3ajLGADLy8cGYR
+         yaxSS5qdKmsesC0OzECEFzdLifYWjwc5KY9nDcJ3DE868j+c5243q9M07ECb0zxLxjGQ
+         dq/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature;
-        bh=MYuQWqLPhNPLil6KLFw9XlwkP5BswaDfjZz2ueIxD6Q=;
-        b=Fd5LJia48obBlm6DkMp11sNBGhV5ZYMaY5AhnhOi5RenRb7ovL6QPBHBDaHoj5ccv8
-         Fam+PoGAXcRPg/UKCpVz0uff9xRIxj9O0dS3HmA/CtSHqGsqT1ETIlsUoGdbG+eEn+5G
-         5hcjs6DMdR2wANUrW2oJ4gmhUdT9wBnVqX5qu0n0HjO+j3A+cNycstrNWJSmQDFiugDo
-         QFenALjqf9mRgPDImGlpAneaLg0T+9x6Sp90MIh4Va6xErEM96jUr/c+Ax+xp0oGhaWd
-         WMd2fK0O8VHRznHqhvjuzRktgt/PEutx3KvF6kASmq0sBRc8y8XKbSfvZjRs6WfOYQRy
-         T18w==
+        h=mime-version:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=WaDG+rrqxlJT/6GIGWHNWGiT1aQrPsWBNzoW/dbYNnM=;
+        b=s2qacNU88G7hV58J4vgz4ysvmUfIVpEPpetNX7WdDbAKNcOZxVIzbfr0KIr8gEn3GP
+         zhZEiNTvrL+I/WDAsKvzPhi8MB99+jHYQZ5EqkfmH/krnIKkA/0dXVXaT/zyupyK2WK4
+         ROvcH08GK4zfJSs3LWyV6V4mAVtQr5faDeDbFuvyeEuRZvi6Zv3KBUieXCsxOnod7o+j
+         U3pUiRriI4gem6b9iRwJNf2xSN6ia/zU+y5AW83tU6uS9tLCC6wQdfKTuGfTvJ1qT3vy
+         9i8aqnz+e32mFXb597JJdQ1qnrZHuA9uDuX48+FQ7u5YED4bdjIFOq+jARF5dXXoaIA6
+         jcAA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="ZfMfMP/8";
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2001:67c:2178:6::1d])
-        by gmr-mx.google.com with ESMTPS id z18-20020a2eb532000000b002865233e8b5si597295ljm.5.2023.01.17.23.36.52
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=V8eIWzGw;
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+Received: from mailgw01.mediatek.com ([60.244.123.138])
+        by gmr-mx.google.com with ESMTPS id z15-20020a056871014f00b0015452b4f27asi3129327oab.3.2023.01.18.01.39.04
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jan 2023 23:36:52 -0800 (PST)
-Received-SPF: softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) client-ip=2001:67c:2178:6::1d;
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B5ECA20EAD;
-	Wed, 18 Jan 2023 07:36:51 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 70B5E139D2;
-	Wed, 18 Jan 2023 07:36:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id FujMGpOhx2MqfQAAMHmgww
-	(envelope-from <vbabka@suse.cz>); Wed, 18 Jan 2023 07:36:51 +0000
-Message-ID: <bfe4ff8f-0244-739d-3dfa-60101c8bf6b8@suse.cz>
-Date: Wed, 18 Jan 2023 08:36:51 +0100
+        Wed, 18 Jan 2023 01:39:04 -0800 (PST)
+Received-SPF: pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) client-ip=60.244.123.138;
+X-UUID: eed0a592971311eda06fc9ecc4dadd91-20230118
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.18,REQID:7f928ffa-14cd-4fb0-8d02-1bf6c2c1c9c6,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:3ca2d6b,CLOUDID:b6c69b8c-8530-4eff-9f77-222cf6e2895b,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
+X-CID-BVR: 0
+X-UUID: eed0a592971311eda06fc9ecc4dadd91-20230118
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
+	(envelope-from <kuan-ying.lee@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1301835293; Wed, 18 Jan 2023 17:38:58 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Wed, 18 Jan 2023 17:38:57 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.792.15 via Frontend Transport; Wed, 18 Jan 2023 17:38:57 +0800
+From: "'Kuan-Ying Lee' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
+	<glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
+	<dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Matthias Brugger
+	<matthias.bgg@gmail.com>
+CC: <chinwen.chang@mediatek.com>, <qun-wei.lin@mediatek.com>, Kuan-Ying Lee
+	<Kuan-Ying.Lee@mediatek.com>, <kasan-dev@googlegroups.com>,
+	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v2] kasan: infer the requested size by scanning shadow memory
+Date: Wed, 18 Jan 2023 17:38:30 +0800
+Message-ID: <20230118093832.1945-1-Kuan-Ying.Lee@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH RFC] mm+net: allow to set kmem_cache create flag for
- SLAB_NEVER_MERGE
-To: Jesper Dangaard Brouer <brouer@redhat.com>, netdev@vger.kernel.org,
- linux-mm@kvack.org
-Cc: Christoph Lameter <cl@linux.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Mel Gorman <mgorman@techsingularity.net>,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>, penberg@kernel.org,
- Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- edumazet@google.com, pabeni@redhat.com, David Rientjes
- <rientjes@google.com>, Hyeonggon Yoo <42.hyeyoo@gmail.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- kasan-dev <kasan-dev@googlegroups.com>
-References: <167396280045.539803.7540459812377220500.stgit@firesoul>
-Content-Language: en-US
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <167396280045.539803.7540459812377220500.stgit@firesoul>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: vbabka@suse.cz
+X-MTK: N
+X-Original-Sender: Kuan-Ying.Lee@mediatek.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b="ZfMfMP/8";
-       dkim=neutral (no key) header.i=@suse.cz;       spf=softfail
- (google.com: domain of transitioning vbabka@suse.cz does not designate
- 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@mediatek.com header.s=dk header.b=V8eIWzGw;       spf=pass
+ (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138
+ as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+X-Original-From: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+Reply-To: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,181 +153,264 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 1/17/23 14:40, Jesper Dangaard Brouer wrote:
-> Allow API users of kmem_cache_create to specify that they don't want
-> any slab merge or aliasing (with similar sized objects). Use this in
-> network stack and kfence_test.
-> 
-> The SKB (sk_buff) kmem_cache slab is critical for network performance.
-> Network stack uses kmem_cache_{alloc,free}_bulk APIs to gain
-> performance by amortising the alloc/free cost.
-> 
-> For the bulk API to perform efficiently the slub fragmentation need to
-> be low. Especially for the SLUB allocator, the efficiency of bulk free
-> API depend on objects belonging to the same slab (page).
+We scan the shadow memory to infer the requested size instead of
+printing cache->object_size directly.
 
-Incidentally, would you know if anyone still uses SLAB instead of SLUB
-because it would perform better for networking? IIRC in the past discussions
-networking was one of the reasons for SLAB to stay. We are looking again
-into the possibility of removing it, so it would be good to know if there
-are benchmarks where SLUB does worse so it can be looked into.
+This patch will fix the confusing kasan slab-out-of-bounds
+report like below. [1]
+Report shows "cache kmalloc-192 of size 192", but user
+actually kmalloc(184).
 
-> When running different network performance microbenchmarks, I started
-> to notice that performance was reduced (slightly) when machines had
-> longer uptimes. I believe the cause was 'skbuff_head_cache' got
-> aliased/merged into the general slub for 256 bytes sized objects (with
-> my kernel config, without CONFIG_HARDENED_USERCOPY).
+==================================================================
+BUG: KASAN: slab-out-of-bounds in _find_next_bit+0x143/0x160 lib/find_bit.c:109
+Read of size 8 at addr ffff8880175766b8 by task kworker/1:1/26
+...
+The buggy address belongs to the object at ffff888017576600
+ which belongs to the cache kmalloc-192 of size 192
+The buggy address is located 184 bytes inside of
+ 192-byte region [ffff888017576600, ffff8880175766c0)
+...
+Memory state around the buggy address:
+ ffff888017576580: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+ ffff888017576600: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>ffff888017576680: 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc
+                                        ^
+ ffff888017576700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888017576780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+==================================================================
 
-So did things improve with SLAB_NEVER_MERGE?
+After this patch, slab-out-of-bounds report will show as below.
+==================================================================
+...
+The buggy address belongs to the object at ffff888017576600
+ which belongs to the cache kmalloc-192 of size 192
+The buggy address is located 0 bytes right of
+ allocated 184-byte region [ffff888017576600, ffff8880175766b8)
+...
+==================================================================
 
-> For SKB kmem_cache network stack have reasons for not merging, but it
-> varies depending on kernel config (e.g. CONFIG_HARDENED_USERCOPY).
-> We want to explicitly set SLAB_NEVER_MERGE for this kmem_cache.
-> 
-> Signed-off-by: Jesper Dangaard Brouer <brouer@redhat.com>
-> ---
->  include/linux/slab.h    |    2 ++
->  mm/kfence/kfence_test.c |    7 +++----
->  mm/slab.h               |    5 +++--
->  mm/slab_common.c        |    8 ++++----
->  net/core/skbuff.c       |   13 ++++++++++++-
->  5 files changed, 24 insertions(+), 11 deletions(-)
-> 
-> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> index 45af70315a94..83a89ba7c4be 100644
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -138,6 +138,8 @@
->  #define SLAB_SKIP_KFENCE	0
->  #endif
->  
-> +#define SLAB_NEVER_MERGE	((slab_flags_t __force)0x40000000U)
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=216457 [1]
 
-I think there should be an explanation what this does and when to consider
-it. We should discourage blind use / cargo cult / copy paste from elsewhere
-resulting in excessive proliferation of the flag.
+Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+---
+V1 -> V2:
+ - Implement getting allocated size of object for tag-based kasan.
+ - Refine the kasan report.
+ - Check if it is slab-out-of-bounds report type.
+ - Thanks for Andrey and Dmitry suggestion.
 
-- very specialized internal things like kfence? ok
-- prevent a bad user of another cache corrupt my cache due to merging? no,
-use slub_debug to find and fix the root cause
-- performance concerns? only after proper evaluation, not prematurely
+ mm/kasan/kasan.h          |  2 ++
+ mm/kasan/report.c         | 20 +++++++++++++-------
+ mm/kasan/report_generic.c | 24 ++++++++++++++++++++++++
+ mm/kasan/report_hw_tags.c | 18 ++++++++++++++++++
+ mm/kasan/report_sw_tags.c | 17 +++++++++++++++++
+ mm/kasan/report_tags.c    |  8 ++++++++
+ 6 files changed, 82 insertions(+), 7 deletions(-)
 
-> +
->  /* The following flags affect the page allocator grouping pages by mobility */
->  /* Objects are reclaimable */
->  #ifndef CONFIG_SLUB_TINY
-> diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
-> index b5d66a69200d..9e83e344ee3c 100644
-> --- a/mm/kfence/kfence_test.c
-> +++ b/mm/kfence/kfence_test.c
-> @@ -191,11 +191,10 @@ static size_t setup_test_cache(struct kunit *test, size_t size, slab_flags_t fla
->  	kunit_info(test, "%s: size=%zu, ctor=%ps\n", __func__, size, ctor);
->  
->  	/*
-> -	 * Use SLAB_NOLEAKTRACE to prevent merging with existing caches. Any
-> -	 * other flag in SLAB_NEVER_MERGE also works. Use SLAB_ACCOUNT to
-> -	 * allocate via memcg, if enabled.
-> +	 * Use SLAB_NEVER_MERGE to prevent merging with existing caches.
-> +	 * Use SLAB_ACCOUNT to allocate via memcg, if enabled.
->  	 */
-> -	flags |= SLAB_NOLEAKTRACE | SLAB_ACCOUNT;
-> +	flags |= SLAB_NEVER_MERGE | SLAB_ACCOUNT;
->  	test_cache = kmem_cache_create("test", size, 1, flags, ctor);
->  	KUNIT_ASSERT_TRUE_MSG(test, test_cache, "could not create cache");
->  
-> diff --git a/mm/slab.h b/mm/slab.h
-> index 7cc432969945..be1383176d3e 100644
-> --- a/mm/slab.h
-> +++ b/mm/slab.h
-> @@ -341,11 +341,11 @@ static inline slab_flags_t kmem_cache_flags(unsigned int object_size,
->  #if defined(CONFIG_SLAB)
->  #define SLAB_CACHE_FLAGS (SLAB_MEM_SPREAD | SLAB_NOLEAKTRACE | \
->  			  SLAB_RECLAIM_ACCOUNT | SLAB_TEMPORARY | \
-> -			  SLAB_ACCOUNT)
-> +			  SLAB_ACCOUNT | SLAB_NEVER_MERGE)
->  #elif defined(CONFIG_SLUB)
->  #define SLAB_CACHE_FLAGS (SLAB_NOLEAKTRACE | SLAB_RECLAIM_ACCOUNT | \
->  			  SLAB_TEMPORARY | SLAB_ACCOUNT | \
-> -			  SLAB_NO_USER_FLAGS | SLAB_KMALLOC)
-> +			  SLAB_NO_USER_FLAGS | SLAB_KMALLOC | SLAB_NEVER_MERGE)
->  #else
->  #define SLAB_CACHE_FLAGS (SLAB_NOLEAKTRACE)
->  #endif
-> @@ -366,6 +366,7 @@ static inline slab_flags_t kmem_cache_flags(unsigned int object_size,
->  			      SLAB_TEMPORARY | \
->  			      SLAB_ACCOUNT | \
->  			      SLAB_KMALLOC | \
-> +			      SLAB_NEVER_MERGE | \
->  			      SLAB_NO_USER_FLAGS)
->  
->  bool __kmem_cache_empty(struct kmem_cache *);
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index 1cba98acc486..269f67c5fee6 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -45,9 +45,9 @@ static DECLARE_WORK(slab_caches_to_rcu_destroy_work,
->  /*
->   * Set of flags that will prevent slab merging
->   */
-> -#define SLAB_NEVER_MERGE (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER | \
-> +#define SLAB_NEVER_MERGE_FLAGS (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER |\
->  		SLAB_TRACE | SLAB_TYPESAFE_BY_RCU | SLAB_NOLEAKTRACE | \
-> -		SLAB_FAILSLAB | kasan_never_merge())
-> +		SLAB_FAILSLAB | SLAB_NEVER_MERGE | kasan_never_merge())
->  
->  #define SLAB_MERGE_SAME (SLAB_RECLAIM_ACCOUNT | SLAB_CACHE_DMA | \
->  			 SLAB_CACHE_DMA32 | SLAB_ACCOUNT)
-> @@ -137,7 +137,7 @@ static unsigned int calculate_alignment(slab_flags_t flags,
->   */
->  int slab_unmergeable(struct kmem_cache *s)
->  {
-> -	if (slab_nomerge || (s->flags & SLAB_NEVER_MERGE))
-> +	if (slab_nomerge || (s->flags & SLAB_NEVER_MERGE_FLAGS))
->  		return 1;
->  
->  	if (s->ctor)
-> @@ -173,7 +173,7 @@ struct kmem_cache *find_mergeable(unsigned int size, unsigned int align,
->  	size = ALIGN(size, align);
->  	flags = kmem_cache_flags(size, flags, name);
->  
-> -	if (flags & SLAB_NEVER_MERGE)
-> +	if (flags & SLAB_NEVER_MERGE_FLAGS)
->  		return NULL;
->  
->  	list_for_each_entry_reverse(s, &slab_caches, list) {
-> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> index 79c9e795a964..799b9914457b 100644
-> --- a/net/core/skbuff.c
-> +++ b/net/core/skbuff.c
-> @@ -4629,12 +4629,23 @@ static void skb_extensions_init(void)
->  static void skb_extensions_init(void) {}
->  #endif
->  
-> +/* The SKB kmem_cache slab is critical for network performance.  Never
-> + * merge/alias the slab with similar sized objects.  This avoids fragmentation
-> + * that hurts performance of kmem_cache_{alloc,free}_bulk APIs.
-> + */
-> +#ifndef CONFIG_SLUB_TINY
-> +#define FLAG_SKB_NEVER_MERGE	SLAB_NEVER_MERGE
-> +#else /* CONFIG_SLUB_TINY - simple loop in kmem_cache_alloc_bulk */
-> +#define FLAG_SKB_NEVER_MERGE	0
-> +#endif
-> +
->  void __init skb_init(void)
->  {
->  	skbuff_head_cache = kmem_cache_create_usercopy("skbuff_head_cache",
->  					      sizeof(struct sk_buff),
->  					      0,
-> -					      SLAB_HWCACHE_ALIGN|SLAB_PANIC,
-> +					      SLAB_HWCACHE_ALIGN|SLAB_PANIC|
-> +						FLAG_SKB_NEVER_MERGE,
->  					      offsetof(struct sk_buff, cb),
->  					      sizeof_field(struct sk_buff, cb),
->  					      NULL);
-> 
-> 
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+index abbcc1b0eec5..15ffd46fec6a 100644
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -185,6 +185,7 @@ struct kasan_report_info {
+ 	const char *bug_type;
+ 	struct kasan_track alloc_track;
+ 	struct kasan_track free_track;
++	int obj_size;
+ };
+ 
+ /* Do not change the struct layout: compiler ABI. */
+@@ -306,6 +307,7 @@ static inline bool addr_has_metadata(const void *addr)
+ void *kasan_find_first_bad_addr(void *addr, size_t size);
+ void kasan_complete_mode_report_info(struct kasan_report_info *info);
+ void kasan_metadata_fetch_row(char *buffer, void *row);
++int kasan_get_alloc_size(void *object_addr, struct kmem_cache *cache);
+ 
+ #if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
+ void kasan_print_tags(u8 addr_tag, const void *addr);
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index df3602062bfd..dae0d4ae8fe9 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -210,12 +210,13 @@ static inline struct page *addr_to_page(const void *addr)
+ }
+ 
+ static void describe_object_addr(const void *addr, struct kmem_cache *cache,
+-				 void *object)
++				 void *object, int obj_size, const char *bug_type)
+ {
+ 	unsigned long access_addr = (unsigned long)addr;
+ 	unsigned long object_addr = (unsigned long)object;
+ 	const char *rel_type;
+ 	int rel_bytes;
++	bool slab_oob = false;
+ 
+ 	pr_err("The buggy address belongs to the object at %px\n"
+ 	       " which belongs to the cache %s of size %d\n",
+@@ -224,18 +225,22 @@ static void describe_object_addr(const void *addr, struct kmem_cache *cache,
+ 	if (access_addr < object_addr) {
+ 		rel_type = "to the left";
+ 		rel_bytes = object_addr - access_addr;
+-	} else if (access_addr >= object_addr + cache->object_size) {
++	} else if (access_addr >= object_addr + obj_size) {
+ 		rel_type = "to the right";
+-		rel_bytes = access_addr - (object_addr + cache->object_size);
++		rel_bytes = access_addr - (object_addr + obj_size);
+ 	} else {
+ 		rel_type = "inside";
+ 		rel_bytes = access_addr - object_addr;
+ 	}
+ 
++	if (strcmp(bug_type, "slab-out-of-bounds") == 0)
++		slab_oob = true;
++
+ 	pr_err("The buggy address is located %d bytes %s of\n"
+-	       " %d-byte region [%px, %px)\n",
+-		rel_bytes, rel_type, cache->object_size, (void *)object_addr,
+-		(void *)(object_addr + cache->object_size));
++	       " %s%d-byte region [%px, %px)\n",
++	       rel_bytes, rel_type, slab_oob ? "allocated " : "",
++	       obj_size, (void *)object_addr,
++	       (void *)(object_addr + obj_size));
+ }
+ 
+ static void describe_object_stacks(struct kasan_report_info *info)
+@@ -257,7 +262,8 @@ static void describe_object(const void *addr, struct kasan_report_info *info)
+ {
+ 	if (kasan_stack_collection_enabled())
+ 		describe_object_stacks(info);
+-	describe_object_addr(addr, info->cache, info->object);
++	describe_object_addr(addr, info->cache, info->object, info->obj_size,
++			info->bug_type);
+ }
+ 
+ static inline bool kernel_or_module_addr(const void *addr)
+diff --git a/mm/kasan/report_generic.c b/mm/kasan/report_generic.c
+index 043c94b04605..7b4bec9e6d1a 100644
+--- a/mm/kasan/report_generic.c
++++ b/mm/kasan/report_generic.c
+@@ -43,6 +43,25 @@ void *kasan_find_first_bad_addr(void *addr, size_t size)
+ 	return p;
+ }
+ 
++int kasan_get_alloc_size(void *addr, struct kmem_cache *cache)
++{
++	int size = 0;
++	u8 *shadow;
++
++	shadow = (u8 *)kasan_mem_to_shadow(addr);
++	while (size < cache->object_size) {
++		if (*shadow == 0)
++			size += KASAN_GRANULE_SIZE;
++		else if (*shadow >= 1 && *shadow <= KASAN_GRANULE_SIZE - 1)
++			size += *shadow;
++		else
++			return size;
++		shadow++;
++	}
++
++	return cache->object_size;
++}
++
+ static const char *get_shadow_bug_type(struct kasan_report_info *info)
+ {
+ 	const char *bug_type = "unknown-crash";
+@@ -149,6 +168,11 @@ void kasan_complete_mode_report_info(struct kasan_report_info *info)
+ 		memcpy(&info->free_track, &free_meta->free_track,
+ 		       sizeof(info->free_track));
+ 	}
++
++	if (strcmp(info->bug_type, "slab-out-of-bounds") == 0)
++		info->obj_size = kasan_get_alloc_size(info->object, info->cache);
++	else
++		info->obj_size = info->cache->object_size;
+ }
+ 
+ void kasan_metadata_fetch_row(char *buffer, void *row)
+diff --git a/mm/kasan/report_hw_tags.c b/mm/kasan/report_hw_tags.c
+index f3d3be614e4b..e462dd750fe2 100644
+--- a/mm/kasan/report_hw_tags.c
++++ b/mm/kasan/report_hw_tags.c
+@@ -21,6 +21,24 @@ void *kasan_find_first_bad_addr(void *addr, size_t size)
+ 	return kasan_reset_tag(addr);
+ }
+ 
++int kasan_get_alloc_size(void *addr, struct kmem_cache *cache)
++{
++	int size = 0, i = 0;
++	u8 memory_tag;
++
++	while (size < cache->object_size) {
++		memory_tag = hw_get_mem_tag(addr + i * KASAN_GRANULE_SIZE);
++
++		if (memory_tag != KASAN_TAG_INVALID)
++			size += KASAN_GRANULE_SIZE;
++		else
++			return size;
++		i++;
++	}
++
++	return cache->object_size;
++}
++
+ void kasan_metadata_fetch_row(char *buffer, void *row)
+ {
+ 	int i;
+diff --git a/mm/kasan/report_sw_tags.c b/mm/kasan/report_sw_tags.c
+index 7a26397297ed..d50caefd7fd5 100644
+--- a/mm/kasan/report_sw_tags.c
++++ b/mm/kasan/report_sw_tags.c
+@@ -45,6 +45,23 @@ void *kasan_find_first_bad_addr(void *addr, size_t size)
+ 	return p;
+ }
+ 
++int kasan_get_alloc_size(void *addr, struct kmem_cache *cache)
++{
++	int size = 0;
++	u8 *shadow;
++
++	shadow = (u8 *)kasan_mem_to_shadow(addr);
++	while (size < cache->object_size) {
++		if (*shadow != KASAN_TAG_INVALID)
++			size += KASAN_GRANULE_SIZE;
++		else
++			return size;
++		shadow++;
++	}
++
++	return cache->object_size;
++}
++
+ void kasan_metadata_fetch_row(char *buffer, void *row)
+ {
+ 	memcpy(buffer, kasan_mem_to_shadow(row), META_BYTES_PER_ROW);
+diff --git a/mm/kasan/report_tags.c b/mm/kasan/report_tags.c
+index ecede06ef374..b349a0ae1b83 100644
+--- a/mm/kasan/report_tags.c
++++ b/mm/kasan/report_tags.c
+@@ -7,6 +7,7 @@
+ #include <linux/atomic.h>
+ 
+ #include "kasan.h"
++#include "../slab.h"
+ 
+ extern struct kasan_stack_ring stack_ring;
+ 
+@@ -113,4 +114,11 @@ void kasan_complete_mode_report_info(struct kasan_report_info *info)
+ 	/* Assign the common bug type if no entries were found. */
+ 	if (!info->bug_type)
+ 		info->bug_type = get_common_bug_type(info);
++
++	if (info->object && info->cache) {
++		if (strcmp(info->bug_type, "slab-out-of-bounds") == 0)
++			info->obj_size = kasan_get_alloc_size(info->object, info->cache);
++		else
++			info->obj_size = info->cache->object_size;
++	}
+ }
+-- 
+2.18.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bfe4ff8f-0244-739d-3dfa-60101c8bf6b8%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230118093832.1945-1-Kuan-Ying.Lee%40mediatek.com.
