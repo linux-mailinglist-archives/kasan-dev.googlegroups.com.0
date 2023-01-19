@@ -1,145 +1,133 @@
-Return-Path: <kasan-dev+bncBD5LPQWS74GBBBVUUCPAMGQEHBQT3SI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQJ32NM6AJBBKUZUOPAMGQEVXLTGRQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63b.google.com (mail-pl1-x63b.google.com [IPv6:2607:f8b0:4864:20::63b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59BAB672297
-	for <lists+kasan-dev@lfdr.de>; Wed, 18 Jan 2023 17:10:48 +0100 (CET)
-Received: by mail-pl1-x63b.google.com with SMTP id b9-20020a170903228900b00194a0110d7bsf4259182plh.6
-        for <lists+kasan-dev@lfdr.de>; Wed, 18 Jan 2023 08:10:48 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674058247; cv=pass;
+Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
+	by mail.lfdr.de (Postfix) with ESMTPS id B97E16730A1
+	for <lists+kasan-dev@lfdr.de>; Thu, 19 Jan 2023 05:53:00 +0100 (CET)
+Received: by mail-pj1-x103b.google.com with SMTP id o19-20020a17090a9f9300b002296c011686sf502554pjp.8
+        for <lists+kasan-dev@lfdr.de>; Wed, 18 Jan 2023 20:53:00 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674103979; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jgBSfZIG/eygn/2wBO1tiaDtBTUPpKQa1HZef8KSlWRRitk/7td/Snf2sIrdRFbuUY
-         zA487Tt3PCdsDqrbCIOwWtjpEMfsbAOX3SgNK0Gx7QpulmfkmGRZBGQb3D+MqVuV17/M
-         WW/2OHCaX4De5zUWYsKWOFg+HuNQM6zuHqxPSdF3gXfa4oDaMSwFQQAzPhbvtbMy+WkP
-         p6Iku0nqkRljvwmprdKgwmVveLiYu6EA9WnPOK6e6MbC/r0ggwVsy/a18mLh42ihkKED
-         Vyl4EWTFTnfZc11mXu2RQlhhXpm8mJRiIx49IeaQyshRy/Oo9T7Q2lDlTlVXEXshsUI/
-         QeAw==
+        b=o7nE0IHzD2KJAZxLFHS94Dc9eVBTL1yGGXxNsEFC+5Vs/w8PmF6L/2ppCYHv/y3kmV
+         rT2u3eEQd5R9XS5Mk6haCNeWuJe9vqp4JYw0YacIMRfIV1dvVCWFGk+OZChlqVfyo4Tg
+         cMyT4xCOJJaXLn9Zk1cdFxo21L1enETTlG9/IDI7VlZrIp8phBzyuTYtI7XpyUp4X08E
+         AY0OiZFhL9ipg8KQgyKBTDNLN+e2P0GFg9UvuUHG8t7xJj+rZ/JsvE4Y1G8W/rHHymyT
+         Bp/xmQnm7jXkC/zoSgj0P8XZ2VWR9qkUS4W9I0tLl9sssJs939l6jyB/XIainfhcN/WC
+         6xSA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :subject:from:references:cc:to:user-agent:mime-version:date
-         :message-id:sender:dkim-signature;
-        bh=uNRn2uNAuRccuhMk23ORmhLXIc2ZHBCgNcCl+NsUB7k=;
-        b=w0cMz5JtXgJnJy8QjQ3bqIJQLF7SUGMsurzyq3APo0sC5SREqz/36sovF2glA4rOnG
-         HwWV3ilNQHBOsF+FlAN4jB8lzizKdLpiooSxPU4WGW/RAxv7WS73/q1+1pqTvbCgPSMf
-         fKyvz5WUiEunbAS1kPNulnHrAkFcwa1QEpXG4LWEiWztT+bh2lnbIIL4iphtr1SRZ9CF
-         Phnic6rAFBhXPX0Abuo7Mcba7icVBS/RDk2b0L05QVs83Df8Q422P3Q7pbcinZ8Wj68P
-         EfmmyEpLJJ77kGoWw4B8dCvSQHeEJ1UlVicDSIDHCMfXTdlPccclmhY7I/rhIVlHn3ee
-         kqFA==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=a10uDmbvEXhumu7uAs3iJyGTJ1GAXelWTtO6Z7Sj6Ns=;
+        b=bq2c1ZCv1vDzqpMZMyd6Yp257pSyFOhUZ8v0L+nFTP4TQIOB7GnG3boEl2tZx11jOf
+         3s+ju1NJ3Taw+mSXoVMWQZWBrIHKsIOIgMnEfG4MUNkGF+VQtLArCN+Og2MyI72VSc4h
+         kOVloAOms5z0OIP6QHDazZ3UEEikB0kw5y5jrMWK3JWwBQoa4Tqi93zlzMEAw1HxMvtn
+         aFQAePWilaDAoaWNSYl7dSom6yRURq1ODuEot28YD33e/K/RP+G7zIGlNy62E89U1iN6
+         zjDYJTVXbdeMm/47g2cMlnLgM+OAKe2Som/PuQf1/3dzQKJpulciCwSm/z3Br2l/IkbL
+         U1iw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b="Bjza/95z";
-       spf=pass (google.com: domain of joe.lawrence@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=joe.lawrence@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@fromorbit-com.20210112.gappssmtp.com header.s=20210112 header.b="ldYd/bdZ";
+       spf=neutral (google.com: 2607:f8b0:4864:20::431 is neither permitted nor denied by best guess record for domain of david@fromorbit.com) smtp.mailfrom=david@fromorbit.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-language:in-reply-to:subject:from
-         :references:cc:to:user-agent:mime-version:date:message-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uNRn2uNAuRccuhMk23ORmhLXIc2ZHBCgNcCl+NsUB7k=;
-        b=IPTPGJuschyh6n9x+so5w+IFX0zq7X7Wzzbn8cgbUD7HtYDwlNjoDt6ug3J8xqnsz7
-         ZDPY3Bdq+AnB6U4tiQDiDPd71FFl2DSVw4MdqOHu5QXHkhZ+lCzfwGlFWj33tiLhPX4v
-         yowfROpo0aYdNLrFng2Zt0xlbs37csjN848TR8hvRT2drcGbYMQXm07iQvqByHiQqYo1
-         uBrgN03buNAxOP9jZ9MqTeLReBxhOQqnAP7KYUjb0t2bggvTBFbNkdU5DwwvHsKqWtRm
-         RYiMDFKNSW0AgEvmlfMMRq7IRmjZScdrKCrZ9qSPoS6aNdw2HoPju15hZn41OWQ/dgrU
-         RaKA==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=a10uDmbvEXhumu7uAs3iJyGTJ1GAXelWTtO6Z7Sj6Ns=;
+        b=Yy4P0odPYzwJn2onVPDPxYAYQVnmTsrgwEk0hiCQqPthUsbzs/1Ig3ySaeNMsXzgxa
+         RUChm+YqVc/I5SxQwjQ+ZmXDR6QJfnMGGkGk9hk+Pn/E+JGOCRM4nUEtsAeznBJ5fOjK
+         AnK8pid647Sy69RrsIt+NHd9qHqs4nt/nzBo7ecN4pSmDiQ1XVIULv23PfiV/ijxAJ2O
+         PCiVgf5b6Jdoq9zagM2QgPW2exm0M6B7hkLuJ53MmaAg2PPS9LggxgbB8Et+fuOZta97
+         Gibbl9wvFY3E6RzD0/3AtwpgujG7VHKPFMvDL0fBf0rYjuF0hoPMQ2qhauJ1dUnbMGvn
+         8VPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-language:in-reply-to:subject:from:references:cc:to
-         :user-agent:mime-version:date:message-id:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uNRn2uNAuRccuhMk23ORmhLXIc2ZHBCgNcCl+NsUB7k=;
-        b=MFuDI7Atp2KkgxtqMS/DgPzbozkvaNTHH/WufELbhM/LnjUNHNcLPhHjZows1x0m7g
-         xBZJiPTY1B0YtPg1X8PHDe3idB31+L3pYoTTo45sCHqBd4A701NCZ2F2ibIpDmawoz/j
-         fVbNu5YLONnJ4y1CiyXdnP5+uwgOkBRCj06rTYCa/FqvBcML8BTzTrvg/OuxA4KCRAEl
-         MXvnl45ca8MSQdUZ9jBBdrlyKG80MtZamheReGL8wB8fXW7dDrSL/46ONzAV5JDNRar2
-         0Rd26yqTrGHlbadRrg+iRT4xvYc40AvsioNXLgtLbqwutvKCQTX63IIYFuVXdCRwmlah
-         nueA==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a10uDmbvEXhumu7uAs3iJyGTJ1GAXelWTtO6Z7Sj6Ns=;
+        b=mJOsHUr1QA6nEw6vX/si3G22zyyEdjtRJ51r5X0UQve/uVpNbrtuW7CtNPf6NU8fsT
+         DbGcBnKucGIZKJJvA11uNJpoTNRPckm+N0YJeldBEUw13ofg60oEMXy+4W5ZMwD5vh0t
+         shI18xQDAt8PGFy8ozq5qhd0c9/LpybXIMa6IGtnnoSkHoV54p07PslAzwWyPn9x+Wn/
+         bjG1Ji8bO63mcO/Te2YpYTLbwv1IFeApaABMneKFV8fTvYS7dqFfgWWKyfvzfBBL17i1
+         GzKUiYECoRshS8G83BeDZ0MSzUrzU56JBfkeuhFCOYLXtZzssIUDcsUBWfNErZ8tzv1k
+         0Wpg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kpIpNIu97V80cUJXaRQxmzbeUMuSbtMuFA6ByOpSd03DfgVJpuK
-	HgXIimzLnRWjmkr9KTN93rc=
-X-Google-Smtp-Source: AMrXdXviZCqVM0Mwyshf+FLGqBxNAYmFyfpdGri0/p89iEabFNtwGKH2CHZpW1K65ztUAUZCpN+fLw==
-X-Received: by 2002:a17:902:7c97:b0:192:7c0a:e137 with SMTP id y23-20020a1709027c9700b001927c0ae137mr662739pll.99.1674058246732;
-        Wed, 18 Jan 2023 08:10:46 -0800 (PST)
+X-Gm-Message-State: AFqh2kr6yQtcGRRy56By73K35RfLGeaeCN79kzgyH+RnWAC4dMG3WBBP
+	8plWH2HEW4DPExzkJZfevAM=
+X-Google-Smtp-Source: AMrXdXs4lcg2elrZqOcG3Bd/Zm+oizY53qzVR2YgdIuPPQcxWM8VTIzo9vLj5SnEIPJfLd3B1lZWuQ==
+X-Received: by 2002:a17:90a:3f86:b0:229:6b20:2418 with SMTP id m6-20020a17090a3f8600b002296b202418mr1069878pjc.117.1674103978996;
+        Wed, 18 Jan 2023 20:52:58 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:6946:b0:191:1e85:3329 with SMTP id
- k6-20020a170902694600b001911e853329ls19508140plt.3.-pod-prod-gmail; Wed, 18
- Jan 2023 08:10:46 -0800 (PST)
-X-Received: by 2002:a17:903:12cc:b0:194:c04c:deea with SMTP id io12-20020a17090312cc00b00194c04cdeeamr1450655plb.15.1674058245928;
-        Wed, 18 Jan 2023 08:10:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674058245; cv=none;
+Received: by 2002:a17:90a:3801:b0:227:1b53:908c with SMTP id
+ w1-20020a17090a380100b002271b53908cls4177156pjb.1.-pod-canary-gmail; Wed, 18
+ Jan 2023 20:52:58 -0800 (PST)
+X-Received: by 2002:a17:90a:7f8a:b0:229:3d3a:49cb with SMTP id m10-20020a17090a7f8a00b002293d3a49cbmr10429667pjl.4.1674103977971;
+        Wed, 18 Jan 2023 20:52:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674103977; cv=none;
         d=google.com; s=arc-20160816;
-        b=1Idi6pwp7Z4Ti7VFYIMuMAySpVx6epeLGfceofPPqywoYzj0IOkk44jFD7RHsaDvK8
-         m0YAg1miiwEmJZ7vZSJFfLK4awmNFg2iKbI7+t8WXDNXA8sJPUTudUboGmOupgh8RCC1
-         bGjoCpnHkxeM3GFs79E+ft08AfEeEGDZw3DFRdgvQHUHk0F2Y0GhoXRtMeBKzpNjEX25
-         MSQXBaSRgZKquZQcS53Q4C6CB8m2tqeYKRGIvEFRmKCuAuPsJtdfCqBhWCVh2Jjclxmz
-         4MM5anYmz2A4wyGZ5Wcxn71maAkIbZ34cOZmlPA7pqCHXg4GX3UAxb1aa4z/XXINapks
-         n4qg==
+        b=pY88jd+AdnRLzs+pm91/OmevDvNxkrWLxcIdNSP2NTLmWmLHpLtQ/LfMxSg7GS+R7v
+         45U5c31D1aW52EVdA+nk2yKu0Zhv9nJHWY3HsFSQ2mmnEbBN1Yky+qY9MXHAGkqoSL/4
+         OVRJw6+ijTBHxivsdHIeRKrYwqD1CCf5LMtZhWxL3wWrggK3YChdLEZit1AWOqS4gzd3
+         1fhLeiuIJqYfTQEItuwco6dXt2k3sKruGA8/KosZVm4+rOc4J3vog6hKTu8WhF7rZ3jT
+         jaj19CenwP+4pqSynpIF+86qQN/IJV2JsDATzqsgNBEZkTlGXUAkFG9jckOERm/Lvs2g
+         OZGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:subject:from
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=TsK70ryPdXW1s1KVy/uENOtHAZLYuMoVX6dcDpOTb+Y=;
-        b=xsRvxGms8Ybopfh6tBhrnFzPDIkXSFacujp2l/DdNh+Tacgvn6X0Ky4lvRo9vw+ayx
-         GDZZfEGL2v1lHbX0EfFfEnxWlGlxauA4bkOf5iPWVUlsV//dgNIY1Zp9ijpmoUbCn7O+
-         qRR92os8SJBqAqMc+wY8aVoKbzVhrqZK1a8Mq7umLWHbpIUt510kOUkY1WnIjLerhanh
-         Ynzwq7zXInRYv7VzECnb+9ay3dCVG5W2MqlOoBv2vRLBRxTVgNol4TTQffabuhY5WdWs
-         p1pDuzhtzlNw2ZKFuAKnFv+pICosRUKO+gE8FpoBTvGiWQquFAw8qfe7Adys+cAWIcgE
-         fDdw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=j62/8OeG5uBY+uaMfuKtbVcz9TiZfyS9W41aQ0k/c2Q=;
+        b=UR2rLLMEquNNyBDiYsiEGWwtDhWhXbAuAH+cct09QhfD/sf82v55rYV1qStzygesR2
+         hRKxD3irnM39A8GGsACQNWRv892mRKhiHIq2kzZ01el1aHw85K9escEawhImP6ArSlXp
+         Lfeo9zGND9pciRgCwnrz0tbHjAgiNYSWHhMx1tfV0kaup+afoMxL80iFFa7aZw9Ido6a
+         4GenJ1prJW6o4U4n2wBNV2anKb6kvV7iMSdwjlkR1XiAxFpYIITVpNlXTZigihn9fESu
+         57paXXGA9JK8AZ5m8dEZMK0+1F9bp9Jpf7f4qNGkFFP5eXT/Qz+6UpJ21VSY2bbBj0wc
+         3kNg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b="Bjza/95z";
-       spf=pass (google.com: domain of joe.lawrence@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=joe.lawrence@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id j8-20020a170903024800b00178112d1196si2777919plh.4.2023.01.18.08.10.45
+       dkim=pass header.i=@fromorbit-com.20210112.gappssmtp.com header.s=20210112 header.b="ldYd/bdZ";
+       spf=neutral (google.com: 2607:f8b0:4864:20::431 is neither permitted nor denied by best guess record for domain of david@fromorbit.com) smtp.mailfrom=david@fromorbit.com
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com. [2607:f8b0:4864:20::431])
+        by gmr-mx.google.com with ESMTPS id gt7-20020a17090af2c700b00219b6acf453si327550pjb.3.2023.01.18.20.52.57
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jan 2023 08:10:45 -0800 (PST)
-Received-SPF: pass (google.com: domain of joe.lawrence@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
-Received: from mail-yb1-f200.google.com (mail-yb1-f200.google.com
- [209.85.219.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-192-OF_vKXGfMaCdPbsL9_Ks5A-1; Wed, 18 Jan 2023 11:10:18 -0500
-X-MC-Unique: OF_vKXGfMaCdPbsL9_Ks5A-1
-Received: by mail-yb1-f200.google.com with SMTP id u186-20020a2560c3000000b007c8e2cf3668so20212842ybb.14
-        for <kasan-dev@googlegroups.com>; Wed, 18 Jan 2023 08:10:10 -0800 (PST)
-X-Received: by 2002:a81:8392:0:b0:43e:a87c:cd86 with SMTP id t140-20020a818392000000b0043ea87ccd86mr6674806ywf.29.1674058209612;
-        Wed, 18 Jan 2023 08:10:09 -0800 (PST)
-X-Received: by 2002:a81:8392:0:b0:43e:a87c:cd86 with SMTP id t140-20020a818392000000b0043ea87ccd86mr6674746ywf.29.1674058208847;
-        Wed, 18 Jan 2023 08:10:08 -0800 (PST)
-Received: from [192.168.1.16] (pool-68-160-135-240.bstnma.fios.verizon.net. [68.160.135.240])
-        by smtp.gmail.com with ESMTPSA id h18-20020a05620a401200b007064fa2c616sm8125910qko.66.2023.01.18.08.10.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Jan 2023 08:10:08 -0800 (PST)
-Message-ID: <42499854-b0ca-9efc-80a1-8d6dc0c968ea@redhat.com>
-Date: Wed, 18 Jan 2023 11:10:07 -0500
+        Wed, 18 Jan 2023 20:52:57 -0800 (PST)
+Received-SPF: neutral (google.com: 2607:f8b0:4864:20::431 is neither permitted nor denied by best guess record for domain of david@fromorbit.com) client-ip=2607:f8b0:4864:20::431;
+Received: by mail-pf1-x431.google.com with SMTP id 20so583654pfu.13
+        for <kasan-dev@googlegroups.com>; Wed, 18 Jan 2023 20:52:57 -0800 (PST)
+X-Received: by 2002:a05:6a00:21c9:b0:58d:f607:5300 with SMTP id t9-20020a056a0021c900b0058df6075300mr3984784pfj.8.1674103977488;
+        Wed, 18 Jan 2023 20:52:57 -0800 (PST)
+Received: from dread.disaster.area (pa49-186-146-207.pa.vic.optusnet.com.au. [49.186.146.207])
+        by smtp.gmail.com with ESMTPSA id 134-20020a62148c000000b0056bc30e618dsm22979484pfu.38.2023.01.18.20.52.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Jan 2023 20:52:56 -0800 (PST)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+	(envelope-from <david@fromorbit.com>)
+	id 1pIMuz-004okg-Lr; Thu, 19 Jan 2023 15:52:53 +1100
+Date: Thu, 19 Jan 2023 15:52:53 +1100
+From: Dave Chinner <david@fromorbit.com>
+To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+Cc: "linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+	Dave Chinner <dchinner@redhat.com>,
+	"Darrick J. Wong" <djwong@kernel.org>, kasan-dev@googlegroups.com,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Subject: Re: Lockdep splat with xfs
+Message-ID: <20230119045253.GI360264@dread.disaster.area>
+References: <f9ff999a-e170-b66b-7caf-293f2b147ac2@opensource.wdc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Kostya Serebryany <kcc@google.com>, kasan-dev <kasan-dev@googlegroups.com>
-References: <0c87033a-fcef-7c7e-742b-86f9a3477d78@redhat.com>
- <CAN=P9phn2xLw-saXVL2Y30KAMV3kgE-Sn0ASxpeZJfQLVZOZRg@mail.gmail.com>
- <CACT4Y+acK9nPmCFU7kPL2M0EeXzAL6rCQ5LhScGbzvFAFwHAQg@mail.gmail.com>
- <d4986b01-2386-b75b-ef4d-9b4a58fceeef@redhat.com>
- <CACT4Y+YYRc0_uG4y8YuX3f3WQUdmOjcRu4kP9xjhF4HVV+ob_A@mail.gmail.com>
-From: Joe Lawrence <joe.lawrence@redhat.com>
-Subject: Re: kpatch and kasan
-In-Reply-To: <CACT4Y+YYRc0_uG4y8YuX3f3WQUdmOjcRu4kP9xjhF4HVV+ob_A@mail.gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: joe.lawrence@redhat.com
+Content-Disposition: inline
+In-Reply-To: <f9ff999a-e170-b66b-7caf-293f2b147ac2@opensource.wdc.com>
+X-Original-Sender: david@fromorbit.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b="Bjza/95z";
-       spf=pass (google.com: domain of joe.lawrence@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=joe.lawrence@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@fromorbit-com.20210112.gappssmtp.com header.s=20210112
+ header.b="ldYd/bdZ";       spf=neutral (google.com: 2607:f8b0:4864:20::431 is
+ neither permitted nor denied by best guess record for domain of
+ david@fromorbit.com) smtp.mailfrom=david@fromorbit.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,82 +140,200 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 1/18/23 10:21, Dmitry Vyukov wrote:
-> On Wed, 18 Jan 2023 at 14:45, Joe Lawrence <joe.lawrence@redhat.com> wrote:
->>
->> On 1/18/23 02:21, Dmitry Vyukov wrote:
->>> On Tue, 17 Jan 2023 at 17:50, Kostya Serebryany <kcc@google.com> wrote:
->>>>
->>>> +kernel-dynamic-tools
->>>>
->>>> On Tue, Jan 17, 2023 at 6:32 AM Joe Lawrence <joe.lawrence@redhat.com> wrote:
->>>>>
->>>>> Hi Kostya,
->>>>>
->>>>> I work on the kernel livepatching Kpatch project [1] and was hoping to
->>>>> learn some info about compiler-generated (k)asan ELF sections.  If you
->>>>> can point me to any references or folks who might entertain questions,
->>>>> we would be much appreciated.
->>>>>
->>>>> The tl/dr; is that we would like to build kasan-enabled debug kernels
->>>>> and then kpatches for them to help verify CVE mitigations.
->>>>>
->>>>> If you are unfamiliar with kpatch, it accepts an input .patch file,
->>>>> builds a reference and patched kernel (with -ffunction-sections and
->>>>> -fdata-sections) ... then performs a binary comparison between
->>>>> reference/patched ELF sections.  New or changed ELF sections are
->>>>> extracted into a new object file.  Boilerplate code is then added to
->>>>> create a livepatch kernel module from that.
->>>>>
->>>>> The devil is in details, of course, so our kpatch-build tool needs to
->>>>> know whether it should omit, copy, or re-generate an ELF section
->>>>> depending on its purpose.  The kernel is rife with interesting sections
->>>>> like para-virt instructions, jump labels, static call sites, etc.
->>>>>
->>>>> So, before trying to reverse engineer sections like .data..LASANLOC1 and
->>>>> data..LASAN0 from the gcc source code, I was wondering if these were
->>>>> documented somewhere?
->>>>>
->>>>>
->>>>> Regards,
->>>>>
->>>>> [1] https://github.com/dynup/kpatch
->>>>> --
->>>>> Joe
->>>
->>> +kasan-dev
->>>
->>> Hi Joe,
->>>
->>> But why not just build a new KASAN kernel and re-test? This looks so
->>> much simpler.
->>>
->>
->> Hi Dmitry,
->>
->> Well yes, testing an ordinary (fixed) kernel build is much easier, however:
->>
->> 1 - Sometimes kpatches deviate from their kernel counterparts.  Examples
->> include ABI changes, fixups in initialization code, etc.
-> 
-> This does not prevent testing in a normal way, right? In fact I would
-> send the patch to the normal CI as the first thing.
-> 
+[cc kasan list as this is a kasan bug]
 
-Exactly.  At Red Hat, we typically wait for a corresponding kernel fix
-to pass tests before starting on our kpatch conversion (emergency CVEs
-aside) ... that way we're usually confident with the overall changes
-before we even start our work.
+On Thu, Jan 19, 2023 at 10:28:38AM +0900, Damien Le Moal wrote:
+> I got the below kasan splat running on 6.2-rc3.
+> 
+> The machine is currently running some SMR & CMR drives benchmarks and xfs is
+> used only for the rootfs (on an m.2 ssd) to log test results. So nothing special
+> really exercising xfs.
+> 
+> My tests are still running (they take several days so I do not want to interrupt
+> them) so I have not tried the latest Linus tree. Have you got reports of
+> something similar ? Is that fixed already ? I did not dig into the issue :)
+> 
+> 
+> ======================================================
+> WARNING: possible circular locking dependency detected
+> 6.2.0-rc3+ #1637 Not tainted
+> ------------------------------------------------------
+> kswapd0/177 is trying to acquire lock:
+> ffff8881fe452118 (&xfs_dir_ilock_class){++++}-{3:3}, at:
+> xfs_icwalk_ag+0x9d8/0x11f0 [xfs]
+> 
+> but task is already holding lock:
+> ffffffff83b5d280 (fs_reclaim){+.+.}-{0:0}, at: balance_pgdat+0x760/0xf90
+> 
+> which lock already depends on the new lock.
+> 
+> 
+> the existing dependency chain (in reverse order) is:
+> 
+> -> #1 (fs_reclaim){+.+.}-{0:0}:
+>        fs_reclaim_acquire+0x122/0x170
+>        __alloc_pages+0x1b3/0x690
+>        __stack_depot_save+0x3b4/0x4b0
+>        kasan_save_stack+0x32/0x40
+>        kasan_set_track+0x25/0x30
+>        __kasan_kmalloc+0x88/0x90
+>        __kmalloc_node+0x5a/0xc0
+>        xfs_attr_copy_value+0xf2/0x170 [xfs]
 
-In cases where the kernel fixes are verified via reproducer and KASAN
-enabled config, as long as our version is mostly 1:1 we can still be
-confident.  Giving our QA team a similar obvious verification with KASAN
-enabled kpatch would be bonus.
+It's a false positive, and the allocation context it comes from
+in XFS is documented as needing to avoid lockdep tracking because
+this path is know to trigger false positive memory reclaim recursion
+reports:
+
+        if (!args->value) {
+                args->value = kvmalloc(valuelen, GFP_KERNEL | __GFP_NOLOCKDEP);
+                if (!args->value)
+                        return -ENOMEM;
+        }
+        args->valuelen = valuelen;
+
+
+XFS is telling the allocator not to track this allocation with
+lockdep, and that is getting passed down through the allocator which
+has not passed it to lockdep (correct behaviour!), but then KASAN is
+trying to track the allocation and that needs to do a memory
+allocation.  __stack_depot_save() is passed the gfp mask from the
+allocation context so it has __GFP_NOLOCKDEP right there, but it
+does:
+
+        if (unlikely(can_alloc && !smp_load_acquire(&next_slab_inited))) {
+                /*
+                 * Zero out zone modifiers, as we don't have specific zone
+                 * requirements. Keep the flags related to allocation in atomic
+                 * contexts and I/O.
+                 */
+                alloc_flags &= ~GFP_ZONEMASK;
+>>>>>>>         alloc_flags &= (GFP_ATOMIC | GFP_KERNEL);
+                alloc_flags |= __GFP_NOWARN;
+                page = alloc_pages(alloc_flags, STACK_ALLOC_ORDER);
+
+It masks masks out anything other than GFP_ATOMIC and GFP_KERNEL
+related flags. This drops __GFP_NOLOCKDEP on the floor, hence
+lockdep tracks an allocation in a context we've explicitly said not
+to track. Hence lockdep (correctly!) explodes later when the
+false positive "lock inode in reclaim context" situation triggers.
+
+This is a KASAN bug. It should not be dropping __GFP_NOLOCKDEP from
+the allocation context flags.
+
+-Dave.
+
+
+>        xfs_attr_get+0x36a/0x4b0 [xfs]
+>        xfs_get_acl+0x1a5/0x3f0 [xfs]
+>        __get_acl.part.0+0x1d5/0x2e0
+>        vfs_get_acl+0x11b/0x1a0
+>        do_get_acl+0x39/0x520
+>        do_getxattr+0xcb/0x330
+>        getxattr+0xde/0x140
+>        path_getxattr+0xc1/0x140
+>        do_syscall_64+0x38/0x80
+>        entry_SYSCALL_64_after_hwframe+0x46/0xb0
+> 
+> -> #0 (&xfs_dir_ilock_class){++++}-{3:3}:
+>        __lock_acquire+0x2b91/0x69e0
+>        lock_acquire+0x1a3/0x520
+>        down_write_nested+0x9c/0x240
+>        xfs_icwalk_ag+0x9d8/0x11f0 [xfs]
+>        xfs_icwalk+0x4c/0xd0 [xfs]
+>        xfs_reclaim_inodes_nr+0x148/0x1f0 [xfs]
+>        super_cache_scan+0x3a5/0x500
+>        do_shrink_slab+0x324/0x900
+>        shrink_slab+0x376/0x4f0
+>        shrink_node+0x80f/0x1ae0
+>        balance_pgdat+0x6e2/0xf90
+>        kswapd+0x312/0x9b0
+>        kthread+0x29f/0x340
+>        ret_from_fork+0x1f/0x30
+> 
+> other info that might help us debug this:
+> 
+>  Possible unsafe locking scenario:
+> 
+>        CPU0                    CPU1
+>        ----                    ----
+>   lock(fs_reclaim);
+>                                lock(&xfs_dir_ilock_class);
+>                                lock(fs_reclaim);
+>   lock(&xfs_dir_ilock_class);
+> 
+>  *** DEADLOCK ***
+> 
+> 3 locks held by kswapd0/177:
+>  #0: ffffffff83b5d280 (fs_reclaim){+.+.}-{0:0}, at: balance_pgdat+0x760/0xf90
+>  #1: ffffffff83b2b8b0 (shrinker_rwsem){++++}-{3:3}, at: shrink_slab+0x237/0x4f0
+>  #2: ffff8881a73cc0e0 (&type->s_umount_key#36){++++}-{3:3}, at:
+> super_cache_scan+0x58/0x500
+> 
+> stack backtrace:
+> CPU: 16 PID: 177 Comm: kswapd0 Not tainted 6.2.0-rc3+ #1637
+> Hardware name: Supermicro AS -2014CS-TR/H12SSW-AN6, BIOS 2.4 02/23/2022
+> Call Trace:
+>  <TASK>
+>  dump_stack_lvl+0x50/0x63
+>  check_noncircular+0x268/0x310
+>  ? print_circular_bug+0x440/0x440
+>  ? check_path.constprop.0+0x24/0x50
+>  ? save_trace+0x46/0xd00
+>  ? add_lock_to_list+0x188/0x5a0
+>  __lock_acquire+0x2b91/0x69e0
+>  ? lockdep_hardirqs_on_prepare+0x410/0x410
+>  lock_acquire+0x1a3/0x520
+>  ? xfs_icwalk_ag+0x9d8/0x11f0 [xfs]
+>  ? lock_downgrade+0x6d0/0x6d0
+>  ? lock_is_held_type+0xdc/0x130
+>  down_write_nested+0x9c/0x240
+>  ? xfs_icwalk_ag+0x9d8/0x11f0 [xfs]
+>  ? up_read+0x30/0x30
+>  ? xfs_icwalk_ag+0x9d8/0x11f0 [xfs]
+>  ? rcu_read_lock_sched_held+0x3f/0x70
+>  ? xfs_ilock+0x252/0x2f0 [xfs]
+>  xfs_icwalk_ag+0x9d8/0x11f0 [xfs]
+>  ? xfs_inode_free_cowblocks+0x1f0/0x1f0 [xfs]
+>  ? lock_is_held_type+0xdc/0x130
+>  ? find_held_lock+0x2d/0x110
+>  ? xfs_perag_get+0x2c0/0x2c0 [xfs]
+>  ? rwlock_bug.part.0+0x90/0x90
+>  xfs_icwalk+0x4c/0xd0 [xfs]
+>  xfs_reclaim_inodes_nr+0x148/0x1f0 [xfs]
+>  ? xfs_reclaim_inodes+0x1f0/0x1f0 [xfs]
+>  super_cache_scan+0x3a5/0x500
+>  do_shrink_slab+0x324/0x900
+>  shrink_slab+0x376/0x4f0
+>  ? set_shrinker_bit+0x230/0x230
+>  ? mem_cgroup_calculate_protection+0x4a/0x4e0
+>  shrink_node+0x80f/0x1ae0
+>  balance_pgdat+0x6e2/0xf90
+>  ? finish_task_switch.isra.0+0x218/0x920
+>  ? shrink_node+0x1ae0/0x1ae0
+>  ? lock_is_held_type+0xdc/0x130
+>  kswapd+0x312/0x9b0
+>  ? balance_pgdat+0xf90/0xf90
+>  ? prepare_to_swait_exclusive+0x250/0x250
+>  ? __kthread_parkme+0xc1/0x1f0
+>  ? schedule+0x151/0x230
+>  ? balance_pgdat+0xf90/0xf90
+>  kthread+0x29f/0x340
+>  ? kthread_complete_and_exit+0x30/0x30
+>  ret_from_fork+0x1f/0x30
+>  </TASK>
+> 
+> 
+> -- 
+> Damien Le Moal
+> Western Digital Research
+> 
 
 -- 
-Joe
+Dave Chinner
+david@fromorbit.com
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/42499854-b0ca-9efc-80a1-8d6dc0c968ea%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230119045253.GI360264%40dread.disaster.area.
