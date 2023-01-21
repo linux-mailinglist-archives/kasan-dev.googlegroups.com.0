@@ -1,101 +1,103 @@
-Return-Path: <kasan-dev+bncBDUNBGN3R4KRBBFAV2PAMGQEANVBAJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDUNBGN3R4KRBBNAV2PAMGQEJFUC7FA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x438.google.com (mail-pf1-x438.google.com [IPv6:2607:f8b0:4864:20::438])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D4C6764D8
+Received: from mail-yb1-xb3b.google.com (mail-yb1-xb3b.google.com [IPv6:2607:f8b0:4864:20::b3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF48E6764D9
 	for <lists+kasan-dev@lfdr.de>; Sat, 21 Jan 2023 08:11:02 +0100 (CET)
-Received: by mail-pf1-x438.google.com with SMTP id y10-20020a62640a000000b0058de08b3336sf3337657pfb.4
+Received: by mail-yb1-xb3b.google.com with SMTP id k204-20020a256fd5000000b007b8b040bc50sf8072420ybc.1
         for <lists+kasan-dev@lfdr.de>; Fri, 20 Jan 2023 23:11:02 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674285060; cv=pass;
+ARC-Seal: i=2; a=rsa-sha256; t=1674285061; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wI473mjM/Nmz5Ue3Ez9rR2pfynul+77H/fK05oQJGJVHvBICf6XQUYxr55aFBhY/SI
-         OnAQ4FD9S2SyAkpxszVQOuf0X06yW9zl7/Nn1diAAdViD6zs+tB7yt2ty5r3EsynITzk
-         x01PaxLj4rsRLdQrpH4A2TTzdQwjKw5WwAGi1ALs5N75zgLXdxQKZMvEhr9V9g3FMxYt
-         6QlYnRYs0hp+M5y/1RReHWD0yC4sWVdo8RilNmWkUqtHzJnz2PRve97HG0KL1GMEn7dy
-         9CdhBrPLCZCTxCwMkTmFufrGscWs122XpOHlsc1yQFodEBvZS6alo8ufbiJ4Y05ko5ez
-         1m8A==
+        b=Z+/7nUpBlQNXHdgOGi3pRfTKPYn2fPuwWfsZxZwJ6Pasyr4Wr0yjTxhNKYn1yq7r2D
+         J+SumCXCK9UgGmzqr/mlaT7awp4GRphvxv/XKjpVzFc98+TXUVWW2TivmSMdBBLoR3wl
+         D+X7HbgyN66/9z6fHxE/PB9UtMXJbPHUGR7OGXnK0eDN84fSSN0T0RHVo1GyyPd/L6km
+         qssZblFWc80iY52tGD0sZFpQe7eEvsIh8CPwgcxaqPwoHgOxX1Vq0lajvGHA5rQ+GR4H
+         mHZ0qi27Y3wFMSW0UfTML+AH/2fV63gOPztRR/lczCuohRf3hz0x9aJABD+0OHz6BKSd
+         QbqA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=/SvvYcEa4+y2nu0TlSB7z6HwUfyCaLVwYlaa/gF4l7s=;
-        b=s4FA9Rp+qfYBGl8X14wpkZ3d1UAk2uTs4eQIu6Zh90uTImZZ8t+d0pSongaeFzFbLg
-         QgjGhA4RFqy/vcqhxVptv7QsHt6ugOtVEshxdZxt5nzG1Z1IlidlHXrPndu7Cy7hJqKk
-         ssu2RQNArJ6NEe/l7kDDTQJUOEccSnU6cCl27Z1poj8Qa74lCi5R8ULePzaNB3p96sO4
-         c5Aj2MAm/13Jm03jZTchSMC4HZfpO4HXnR/9iIB0v40N9ZrOVj7J1x6CVSQlhCxIMXA0
-         AETpMOmI5NNqP5ztpnjkZuxGnTLE8mDUNYzQCJ9myZn9SfZtbaDFIi5SkusDlojwd0gk
-         pHNw==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=0qsHMN+ohQ5ch4Z9YAzHQWLgBEpaosXwmFi9XyUtNJk=;
+        b=UgBh+Nygv9exvuuguBkyX32QWjjkZ/S7QmrZL4E0UDxJUXZtShtSvcrte8d04b2mou
+         qfGGrNZKD+lylnHS9Elxo3fbRjfoeAIpXgqBCLOLcLAj/GvYrRgcMJ5lUAHA0lzT8Wfi
+         cQMFV8NdK6jUzzy3jWytEG1N+c/TZjqzYry0wtrbxksmWMYPtL/a7B0vXAGaKPtGVapI
+         UWapOQBVYsMwEkvoh4cox4ZSygF1VMRXQO9T2shnvIjALor4wnoXSLOgkOgaVGGWdBDP
+         IcUhNDDnp0SW+0KwXWuumcI7y07qBVCoipz8YYqY2SbXkqhXK7LVWXlt1Q+vw69Qo6Yx
+         IQEQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=HCk2PP6U;
+       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=kCJyVDge;
        spf=none (google.com: bombadil.srs.infradead.org does not designate permitted sender hosts) smtp.mailfrom=BATV+1651c3ebed9361b307e7+7090+infradead.org+hch@bombadil.srs.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=/SvvYcEa4+y2nu0TlSB7z6HwUfyCaLVwYlaa/gF4l7s=;
-        b=WHLBK/aFK4qu7tbf4R6pIgLeUSxKVS2V2+tyYZVCaMYqoL6//gTRme/aQo/T4K5ULL
-         /O3emjATYMWn3zysPyEUhvERfbiLJKlL+BBXranoHCjlOTw0GWJ8xIFqWQr7dPBNNG69
-         F00KFku85bfiCoHfwL43LrpCdO6xdrd+NLAHaX7pde5CBRqskOTIC3aMgMX2FBVVVXJt
-         8f6y0h1AktcY2JO++N20Wsko00K9LfL7798eMJOUh0WGpVIVSK+kftPbtacJpFb3YqoH
-         zFkskROoUEqM1nRzYuv9ezklMjkQB6umjX486nrqrIrQfXOA0AhzTtKe6xt8RhSgOmps
-         OZqA==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0qsHMN+ohQ5ch4Z9YAzHQWLgBEpaosXwmFi9XyUtNJk=;
+        b=CLiDvAoj53EbI0HKClTh3mLmfPoHrbc1bTlbeA7eIRrhGZ3vdNI65KRu3ZXdbtgPrL
+         Njzj7z1NrW0X/kOhUE70KObH+3NN7yzSm3ejcWOz22v+1HFvbmshp1g/V4OE0VkFhLLo
+         gTx+TZLHxZCe86K35sGjs14R7194E2VdAgJRgdAD0M8q7cAV9b/vlRD8oNOFp3a0KmAx
+         iqT3GPwg0GKqoBMfs6oz2kGTjBMW0c8ZALDRbB9zKbL1sQjqLHcTpCSDifjpdby/JMvn
+         WgyB5t+3r2Th0+2ggp3yYZdgiYdOpIp6FYs6tKQkzQSFoJCuDlM/uL24sw5/Q1GIIQei
+         PBgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/SvvYcEa4+y2nu0TlSB7z6HwUfyCaLVwYlaa/gF4l7s=;
-        b=FntH/ukIE9LA0uMlj+nW+2j58Wpmqt+GXZVYdeF8QfSfFfDplZqaHJQuHM6rWbJktx
-         u3Is41adtWrYvJxdgeTL96CZeAmO0HPSE1XoZ5vXrSOSKy3lB+Jv750xzFhTbc492yiO
-         CWVE42Z5Kafodb0FFQzP9Fx1O79VAu9yJ8ImtGFg/PLxO8XqIAsGztM7CWNXpsTGvgdt
-         b2O6SMHcvrb2QIc2EmO4+Sds49bhsDKWk1fhw07opo4MMnILCauNSmzaSWyaxaD9kjLZ
-         AAIgQthjq5GWVRuzfzLJDUDGEQEu7ZjkZnnaYkikS4796dKLXiA5+PcXly+XaMzGagHG
-         mJTA==
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0qsHMN+ohQ5ch4Z9YAzHQWLgBEpaosXwmFi9XyUtNJk=;
+        b=pT1fqxRDfCbv8VxVD7Zx3VJxgwMhG8eiWaMIHzCvE7iJHg21l4U8qQrQa78M1p3tc3
+         g6Rt1cyBqX7m5AUCDYoFbG/NldG0c4B3uFE/slbg+o+YrVUvl9UxMjfuRqAcdYEDjD9W
+         55n8X+84mXCLK+6ihZRwruL4UY2PhVqYOV47wJ7hOYIb7DK8SZivN2Qux6UkIU9M/37c
+         /xa2VaRhMLfOGw+8lGoQre9uaGrWq+SwiZ8Aq64UH9ixsnZ/sUQzfQhYybFGowiYuBgr
+         dkVBbqIilx3+HON1OWiV1b70MJ9Q798N6HLczynLdYEURmMaceIzUdO3SIO422kXi4/j
+         LIgw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2krtPgVbWaaaMatmeJqPeTyuogEnQ7m1+Zr8sXMKG8aOO8aOuiuI
-	azVxIZMR4E9CV+/1nCcpqo4=
-X-Google-Smtp-Source: AMrXdXtsiKn0Uwgvye/AbLl9Vj0i4pu611tJ5XE/9y7V0c1rg8HILaeOKupXgIQvJYDgTLIsZ4eoSw==
-X-Received: by 2002:a17:90a:9b02:b0:226:2124:ef60 with SMTP id f2-20020a17090a9b0200b002262124ef60mr2608803pjp.201.1674285060395;
-        Fri, 20 Jan 2023 23:11:00 -0800 (PST)
+X-Gm-Message-State: AFqh2kpxBg84LV6b0bnsmGDr8LWhamBJ4LoFJlv8IRn/KZscZ2Pkofcc
+	WrhjRCrtjmm+r4PhXR2ifyw=
+X-Google-Smtp-Source: AMrXdXsp6wkJpYHNyrXXHHmVuohN03AQfMMpk7vfGaOjwUdJgaTWzQNzzv7wWi56ia+AL//x+h4EsA==
+X-Received: by 2002:a81:4b50:0:b0:4a2:936c:3922 with SMTP id y77-20020a814b50000000b004a2936c3922mr2133030ywa.89.1674285061399;
+        Fri, 20 Jan 2023 23:11:01 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:8e54:0:b0:581:bfab:c813 with SMTP id d20-20020aa78e54000000b00581bfabc813ls1904537pfr.7.-pod-prod-gmail;
- Fri, 20 Jan 2023 23:10:59 -0800 (PST)
-X-Received: by 2002:a05:6a00:328b:b0:577:1c59:a96c with SMTP id ck11-20020a056a00328b00b005771c59a96cmr20047417pfb.2.1674285059451;
-        Fri, 20 Jan 2023 23:10:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674285059; cv=none;
+Received: by 2002:a25:cc83:0:b0:803:4046:e75f with SMTP id l125-20020a25cc83000000b008034046e75fls1505326ybf.7.-pod-prod-gmail;
+ Fri, 20 Jan 2023 23:11:00 -0800 (PST)
+X-Received: by 2002:a25:db49:0:b0:7ff:f6a8:6fbd with SMTP id g70-20020a25db49000000b007fff6a86fbdmr4397633ybf.23.1674285060681;
+        Fri, 20 Jan 2023 23:11:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674285060; cv=none;
         d=google.com; s=arc-20160816;
-        b=Tw/U5WWOVQacsmpezZYYtPUJFnMaZfV/SnLu7Rk25NUc/z3U1+NjewFgV5iK7JF+qo
-         DxHMsV1qdWZSNszOETL7ATjBxoBMBrNu4fEt7kVkWDB1MaBDepr7gWNcWxMD6bisU8kk
-         1bbLKcd5k9DpUYgufueypq6rKRMExzDV1sbYkDWZl4EVXEtLM/Gdmfi44TBRg+HWsxWy
-         pGI4hfZ+Nf1U8DHgcD5ZczM+tjNZP+qgJddi2oIUObguUEn2jyeNb6N6QLTkyi5YTJJW
-         AkTB0eirZW8192iQ83Gf3doo2sDNy2xSl+C0VVwcVRLGKEeTmMdGBcatw2OoUTeeZhaf
-         3rjA==
+        b=CY40bKk8gXhSwC43T8MMPtYvPjAl9UaYEIG5ev240c8O56d/8lLDNcDxtJmaB07gpj
+         IveZWgw/pvMbUFwGOvc983puhHwwDrTdUknEX0eNZG6ZvlpYhRc269LbBzlHHOTzMDZV
+         xWgHxpF6gkw0kMloDzPNBJM2AmX+9xhCteoPSl/Tpvg8Q9ZnY+aIG+cqxcZhNWcgVNhO
+         yfLwVqF1DOdOMerabqyihKKTxbZbhp0MyR2QUHezZIXdyO/q93mHaxfbxXosQm5C1u+F
+         +4ZjoTsXzYiWb4fsK8KDtgKgpe9lxyBprIfSKz+hyJJ5ThIDpGyPj7HSx/7GrCENcENy
+         p6AQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=XxN/g06gXKKOzUk9/hxK/873YDVkeAm3rSW7JQGJyyY=;
-        b=xarHtENwfHw7P1xbY87dMgqBhTYOgA1QROpQLwdqtsK5zNCp9oWmqEaMIuh/sODiuh
-         OP+a/TBcIU/+zzQBOgtnQJi3Nfw5BcY9XLWVp0DZtetVRiQ1qcZQzEKeQ0QyrYQB+P2V
-         4HC68k1fxxeHhqjLPuQuv4yK06W05FW6W4uVySVARLjG98DwmbMtnSlqgSrNT0VK7dOl
-         Q6duXR58XbjI60fsPiNvz9t8JnYp1AWfBJs7ERT3Jy6xwDSDQa3eKGA3f5YGkLpCmf+G
-         MqXOsR9G+pP8FD/bU7lQCS8fP2Yv2SNoAaO9VP+8XT34xxaeXAhIIJltHLN9bdTrCsdw
-         ZKHQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=rOVb8YD5fFvB47xecqte18KDPoif4B7pWlksRr6JsfI=;
+        b=SFD9/JJzANNRjdl8W1Rh/78hbNW19urvCyxtFpEv2gzBC4oSmUkzrj4rP9imjko+hu
+         Z+GLaGyzdpade4uTihlV+XC1jtg+0qzvElW+0W7ojJp0KSJl2Px/uVlRPlRrffms7J4I
+         lSqIgcFVKjzkZ2LpKD1dUtUZAArhzO6MZLvRU4f9TvmFtPYTcKxPJPUEnkyCHhkKujeg
+         5C2BH+b8Lm2Wvu4hp9bwQp2khBaE2vyxKGoM1fdu7O7Eg8ZZv+VL9E51/Az34+ATrUlB
+         AUPSl6Mad7ECV1IOiB/dgPVK6raE0Umpw2o9/XNRIxLswynZ3IcJYHUXEQ9JjKE+4gw3
+         qF3A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=HCk2PP6U;
+       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=kCJyVDge;
        spf=none (google.com: bombadil.srs.infradead.org does not designate permitted sender hosts) smtp.mailfrom=BATV+1651c3ebed9361b307e7+7090+infradead.org+hch@bombadil.srs.infradead.org
 Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:3::133])
-        by gmr-mx.google.com with ESMTPS id q10-20020a056a0002aa00b0058e08791ba4si584710pfs.4.2023.01.20.23.10.59
+        by gmr-mx.google.com with ESMTPS id o134-20020a25738c000000b008032606ec55si327062ybc.0.2023.01.20.23.11.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 23:10:59 -0800 (PST)
+        Fri, 20 Jan 2023 23:11:00 -0800 (PST)
 Received-SPF: none (google.com: bombadil.srs.infradead.org does not designate permitted sender hosts) client-ip=2607:7c80:54:3::133;
 Received: from [2001:4bb8:19a:2039:6754:cc81:9ace:36fc] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pJ81d-00DTm3-SS; Sat, 21 Jan 2023 07:10:54 +0000
+	id 1pJ81g-00DTmK-Bn; Sat, 21 Jan 2023 07:10:56 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Uladzislau Rezki <urezki@gmail.com>
@@ -106,15 +108,17 @@ Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
 	Vincenzo Frascino <vincenzo.frascino@arm.com>,
 	kasan-dev@googlegroups.com,
 	linux-mm@kvack.org
-Subject: cleanup vfree and vunmap
-Date: Sat, 21 Jan 2023 08:10:41 +0100
-Message-Id: <20230121071051.1143058-1-hch@lst.de>
+Subject: [PATCH 01/10] mm: reject vmap with VM_FLUSH_RESET_PERMS
+Date: Sat, 21 Jan 2023 08:10:42 +0100
+Message-Id: <20230121071051.1143058-2-hch@lst.de>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230121071051.1143058-1-hch@lst.de>
+References: <20230121071051.1143058-1-hch@lst.de>
 MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 X-Original-Sender: hch@lst.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=bombadil.20210309 header.b=HCk2PP6U;
+ header.i=@infradead.org header.s=bombadil.20210309 header.b=kCJyVDge;
        spf=none (google.com: bombadil.srs.infradead.org does not designate
  permitted sender hosts) smtp.mailfrom=BATV+1651c3ebed9361b307e7+7090+infradead.org+hch@bombadil.srs.infradead.org
 Content-Type: text/plain; charset="UTF-8"
@@ -130,23 +134,33 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi all,
+VM_FLUSH_RESET_PERMS is just for use with vmalloc as it is tied to freeing
+the underlying pages.
 
-this little series untangles the vfree and vunmap code path a bit.
+Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
+---
+ mm/vmalloc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-For the KASAN maintainers:  the interesting patch re KASAN is patch 8.
-
-Note that it depends on 'Revert "remoteproc: qcom_q6v5_mss: map/unmap metadata
-region before/after use"' in linux-next.
-
-Changes since v1:
- - drop an extra WARN_ON
-
-Diffstat:
- vmalloc.c |  304 +++++++++++++++++++++++++++-----------------------------------
- 1 file changed, 134 insertions(+), 169 deletions(-)
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index 0781c5a8e0e73d..6957d15d526e46 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -2883,6 +2883,9 @@ void *vmap(struct page **pages, unsigned int count,
+ 
+ 	might_sleep();
+ 
++	if (WARN_ON_ONCE(flags & VM_FLUSH_RESET_PERMS))
++		return NULL;
++
+ 	/*
+ 	 * Your top guard is someone else's bottom guard. Not having a top
+ 	 * guard compromises someone else's mappings too.
+-- 
+2.39.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230121071051.1143058-1-hch%40lst.de.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230121071051.1143058-2-hch%40lst.de.
