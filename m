@@ -1,32 +1,32 @@
-Return-Path: <kasan-dev+bncBDUNBGN3R4KRBGNAV2PAMGQEW6FGDXA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDUNBGN3R4KRBHFAV2PAMGQEZ63TDMQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BDCA6764E1
-	for <lists+kasan-dev@lfdr.de>; Sat, 21 Jan 2023 08:11:23 +0100 (CET)
-Received: by mail-il1-x13b.google.com with SMTP id j11-20020a056e02218b00b0030f3e7a27a8sf4736036ila.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 20 Jan 2023 23:11:23 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674285082; cv=pass;
+Received: from mail-oa1-x3f.google.com (mail-oa1-x3f.google.com [IPv6:2001:4860:4864:20::3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6EE56764E2
+	for <lists+kasan-dev@lfdr.de>; Sat, 21 Jan 2023 08:11:25 +0100 (CET)
+Received: by mail-oa1-x3f.google.com with SMTP id 586e51a60fabf-15fe7396eb4sf708019fac.12
+        for <lists+kasan-dev@lfdr.de>; Fri, 20 Jan 2023 23:11:25 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674285084; cv=pass;
         d=google.com; s=arc-20160816;
-        b=IQgxCqn42njzu4RNFnFPHSI8pC2z0oxrDuBhkpgNJuMWUjnv9w0Js7jKsn1homHXBa
-         AR+PJfQJRO463ilhY+G3Y1aSRC9rqJM34npy5s0Ul8CnoQlZjBUtTXzF9YKMZeFYOEpn
-         +CJIkUXsBk0BSx0TfEskFU3YmlcVZSBwBEBA75AhSpR9Y2FX5xgvuG66PwcHDRb+SLzm
-         qN+2JT4OyKEHA+UUYYw1+Sxihn+afWm3/fERdgFP4XQ/fmPgHVLEEQyci7aEsHA8iro5
-         kiIzBbWeCkeVyx3j1PCW0p7jN8qeuMTmt48HvFnqSbZx52KeBzaiBNnSiGyU8dLe9yeU
-         gMvg==
+        b=TqUT0u1Z49ny5QRTe8SLBHDJjh/uEsZ96Aa6tsayGwlLwDaV3UPpBb5zz5ydg+WIQM
+         +Y6W0gI3dXkAOVctzo92gnmyTkRmLVGMi8VNd/3uoVxuUtnc6xIcdx1/IUC5pTbTUb9S
+         2zfr7G1PM1MWMZhwrKqyAM8uH9P9PQcVfAt/UMsvgPLcbncBGtS+A3gR5+HUnRjNXTxt
+         DuHxWQDWNf8sinHnSGi6OJv78AtE1vRFCJk3VqLQLJPAZVQCBHRWUiM8uanK7CcXSm7f
+         x/MoW4SE7NS5DOdYeBIkkewhl+TANFv3hTaIDDk8Yyest3Y66+gxSZoKac2s0nQmgkKM
+         CvcQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=mhEQY7QJUMR5P50UCEskgIDjWyyJw2vtwOWV8rGNS/w=;
-        b=fb7En260PVYQpSbDGMsPN3AjGbp9wKR1CkRLb5fUdshZ8FehtPePy+Ywd1/ddi1CJd
-         iWMNLbq1XEFm5+3pFcnrrMuU6d5mRyw0tV7CiF4BU+BcVv7FRgRInq2DijQX7zF6Ew/0
-         UHeqcyd2IAUkL//NgEI4EF1lHv2aBKC1iuDVGhh4mHfL7sRhjm8Bmpw+tFLfgYt6WXVn
-         hRBv23j3FU1y9g4+zlvfqximbEoW+yzw7Oc8j8v8dA4Gz9r8LuogO+fS7N35qXvFqtuh
-         VFVDNPkqanAq5l20/vV9ealydKp/lW9fU4IE9c6/FLuMKLJO1tQEKByxflI6v/0cn2W3
-         JY1g==
+        bh=b7//y9GljHZMzBgGzb3hV1NtRiB9DBy4lXBM7JsOfmo=;
+        b=I4zuvp516h5FdvgFfDZKvtctYIzHt7OAq1C7/vMDe/JokGgUdiailBwyQvLGSapNzD
+         4poCkZDFb3923W7BGgVRxwPdd/jkCdDPLF41dlQc0jTL1SWoPyFhGz5Lf+QefttYF1r/
+         SiHO53pLqzkU0QB0Ug7j6heRctW9+lSyEC8VVJOzYX0Ax/57OcqcOLARsD62XkSUZR89
+         H7FbDoYMDzYwsmr9MU8okaFLSm/5AN0epL/rrNcmNOEE9JnFkJeqiNF4hTr3MDkYV8K8
+         BhjE8M7Mfoiq/4pcQJLeK+FaIEUwRDZdYue/N51noym6Iny7h/4BZcOM+T7UBF+mPvdO
+         aIeQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=vk156WbC;
+       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=BxwUWG+8;
        spf=none (google.com: bombadil.srs.infradead.org does not designate permitted sender hosts) smtp.mailfrom=BATV+1651c3ebed9361b307e7+7090+infradead.org+hch@bombadil.srs.infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -35,13 +35,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mhEQY7QJUMR5P50UCEskgIDjWyyJw2vtwOWV8rGNS/w=;
-        b=Jhe75nTr7WUTEpmyX7SF2pgAY5Wg87ee5YjHBXJs5H5okmqdDJoJrt64szZ8/bccSv
-         WMere+EMn8/UERIgmhAbXx/iKcfrMEVn4i6RD0Snzj4oGRs7FS38yKccBkhwnTcrKLuJ
-         SRuh99ysHeQgrwYYquI/AMbaFcHNcykY7M40M5CQdGAW4ZeS9+1WmGp4gaDI0VDdQ1nt
-         9jxZG77skCZ85nduGPwZt/xGqJsbghQ2fwFXDW2IM3BhmxhKQcMsgtFrz5FpOw2/pjaC
-         hl4DPHupd8pBKGp6kpSc3+8yNcnZ9/nqEFITZj0clVYrfz1SyIn91jVHiSyaCs21oSEg
-         eOxQ==
+        bh=b7//y9GljHZMzBgGzb3hV1NtRiB9DBy4lXBM7JsOfmo=;
+        b=VEjeHHKjAPk3tpl00IGcf7PdUjx4JONiwo9OfyJ1VtwyVnL6X7ptaVNisAHaw+Tumo
+         7QQrTgdLoWCZ6FrwPgccedVrCR5eR3bNZdypCOVXMOIngL5P5cFMbCb6zmFmHcOzpl/6
+         2mbgl1YusMiob2OBpVk2OGWkNh8IIDiCXmidbeoXSRJfpL/s9kiDhO9UUItysF5zmD+U
+         cbTe8wFLYMVPd27Gy7THSNikycpyBTfnLrGoTpaTCCQ7t1cWOljrcC7abRPhO5pxpLt1
+         0eoFg3pICNjbMX+9YB9oygC3ppqOkKq+bPjlLFgCJ6E7m5mC7u3GrFc18GtQz3toVWOw
+         q8rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,54 +50,54 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mhEQY7QJUMR5P50UCEskgIDjWyyJw2vtwOWV8rGNS/w=;
-        b=xPWLQafvoT6lll26fp8QP2R9I/v3cyT4rPrUgg1ivc/VFnOAfgLm7HU63r/uzoUwPz
-         NgLZ3IpCfxYGBzuktZzsnGraZS8nz/VywYWilbVGqaZJcd0eaAOyq/JZ2eSXaG1VbPIg
-         9uX3KnTjB8XOgTcIDVgFr5S/zYeeROHmHoYcFkrw8SLnKFbaRiY6kz+Q1Zr19RCclL5S
-         VMHhowzitfIxGVCcsYLCMo1oA6awZABPjxDgAPz0PoyJAmDeRGJRcAVoNN1SDuwXa9/i
-         M3aPnptvqMCe17RRfLSAeDuwvanjFBC0ks2QCVfzLXKYU9xw14vDyit12mkbzLHCVjTT
-         tj+Q==
+        bh=b7//y9GljHZMzBgGzb3hV1NtRiB9DBy4lXBM7JsOfmo=;
+        b=ugA+TqETAr7D6OKrKJNQH2DAaBYNoLHyheNq3Oxn66AgWnokY9iSWPRTROH0mypj16
+         LS6t26WtrdsZ6Su591IpkvfR6KJ1kBxXf0jgXzwI8heITP0hErrR00yh72QfrgKlF63v
+         weBIXxwP7JOavBvp2p1mK9EL+iRFwD2MRm8HugJc0V9CbyErPIvGWMw0VtvIz2b5DPXb
+         fougjYTh3VG0CMpgLE9cIepmaokNXjsXx/NCfXsUbKkF1ULidk+tLtegsJgJTHWnP9uN
+         8UyxqGnNgx8kWY8Rka9Q5APbLTkVmRcr3Xd4o8qy4kXqZuMhixfNdDQCmlZsWPmG/z5/
+         8Wrw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2krRJSgyUa6Dw8z3YJxLsWUPad9tzICH6GpNX4uRcdwdPpDPG70E
-	SIeffb0wym5XuQxEmMH0lPo=
-X-Google-Smtp-Source: AMrXdXslJf7wjdnCC8fUvgoHRODcs4LT3hf51aDvM7EFuxIckdsF/SZyOL7XnUdiW2l7vVro/P8A4g==
-X-Received: by 2002:a05:6e02:48b:b0:30e:fdfe:3858 with SMTP id b11-20020a056e02048b00b0030efdfe3858mr1802507ils.215.1674285081876;
-        Fri, 20 Jan 2023 23:11:21 -0800 (PST)
+X-Gm-Message-State: AFqh2kpt8GTuENW5TXwusb+FgPXhNrpUKSjBBRzsCsHSPxCrn9GEI9n4
+	JhwMEXx9MhcuRe6ozT9J1Rs=
+X-Google-Smtp-Source: AMrXdXuHXKGKUZZLcKR0npBCzbhusxi/DtxSOslbiWVZc3HBhlX3SZC85du4CdhdmwIUXOq57ocBEA==
+X-Received: by 2002:a05:6871:4485:b0:150:2bf1:4446 with SMTP id ne5-20020a056871448500b001502bf14446mr1771605oab.228.1674285084467;
+        Fri, 20 Jan 2023 23:11:24 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:7a10:0:b0:30f:5830:d010 with SMTP id v16-20020a927a10000000b0030f5830d010ls1006628ilc.2.-pod-prod-gmail;
- Fri, 20 Jan 2023 23:11:21 -0800 (PST)
-X-Received: by 2002:a92:d284:0:b0:30e:f15d:4bed with SMTP id p4-20020a92d284000000b0030ef15d4bedmr12982424ilp.30.1674285081280;
-        Fri, 20 Jan 2023 23:11:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674285081; cv=none;
+Received: by 2002:a4a:52c4:0:b0:4a3:3f3b:df28 with SMTP id d187-20020a4a52c4000000b004a33f3bdf28ls357698oob.2.-pod-prod-gmail;
+ Fri, 20 Jan 2023 23:11:24 -0800 (PST)
+X-Received: by 2002:a4a:8f04:0:b0:4a3:9f7a:add0 with SMTP id e4-20020a4a8f04000000b004a39f7aadd0mr7436668ool.5.1674285083942;
+        Fri, 20 Jan 2023 23:11:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674285083; cv=none;
         d=google.com; s=arc-20160816;
-        b=zrJokhmD1TVI4Q2ivYd2dONqtfZB46yIyhtprWxFebHu1tyVL1ux0D5wuPvaSQ6HPA
-         kBmHGmlyCAyD0tSTGnbo8aV+i/zvvN/t6ENDR1u49qLfzO2ncnQkuJj3MBX9k0PIf9l2
-         8H64ClsA7kOvl1pWlqjVHLFG2WocizFbyJCHwOEgr5upBqz/a55BDZ44I6B2GSIn/oC5
-         a5m5U5xJHLDNgro6gezY9ojc8wY3mYBhq/N+WeT0ZtglTV75FizXeCU84y11xBHjEZXQ
-         eihTJ2en0M21kxlMaWuf3iwNT5LH70lhic4tnNKzM9225uz3S5K4aFh13C1hLHx8aEyb
-         XrrQ==
+        b=vjzh6rV2Pmunk5+YAGkr1/DPoGnZ85u8ih7T56FGuqHl1N59Erz0BAtsm3Wbq6YVlk
+         MBDJkQpo0RkScIMYlr3+8612ulP+wrA1Y/OYir3lA6zBbKVoDQwXr6djz0KsaF+t3B0N
+         ekil4sc8e7jyNOvp/7ox4GB39hfdO5LGwyUU6sf00L7w71F7ur/LvhZK62GL3fLoRyD4
+         iCtOih60KwTnNtGm9+8RN33sCDDWyJ1Brn3X97Jt/z16IFDVefQs+tQywf3ScnlrX9r+
+         8l4f8tnXYKY5D7TZdK8lhz+FXh5VC2B0tMG8ytXCUDkxekMcEfbb0R9w2/XX6AX+ca8q
+         yVgA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=2FZpTb+3bZJMUpb6YA7LoDb6w4aUjCraFIBMJjAahss=;
-        b=b+z2TTJcQ9egL7XNeV6U2tLNG7zyGf4N05wvdg0tr0tDpTXZSEW1GvdZdfQCP/F/Ba
-         LFmWA4UM18lBXOtJsbMBPBmv/h69M20CAnjkTiIQVlfALqKiHpM3B/+j/8XbsknByL0M
-         YohDnHozDC38R8dWCFg8sl+0yahnA08jMRzLFq5acVxKbqYgZ8L396lUo4U9JCn/tRIp
-         yUhjaTndl6d2ae5oBVuCjSdEqoOci6rA54333d00Su0yLVggykBM526NynBFk2QEjLny
-         +YuSORmSvq8E0JfCzhKOUBfX067nVtPt/YeJjhi3GgxWux3PAFXAtqjEJcY6dskTSl7d
-         cWmw==
+        bh=MVFwvinoUqx5/lg5psoeJPHtHhWtA7mgRAAlRnZDces=;
+        b=Q4eT5YUBBrBWVDVkAbJhteqAKmboL9reVGVI2NRPD6BzM87titNF34U+jTgfUiKJXV
+         nBlJqyKpOXLPfgeE8OcCkXPtby6wO8KLP2nJ2gVt6Kzf0kIfhnnt72O8DqmCMQ2eLiEO
+         ALQOH1zpTKEe/cSsoUYLvtsTgBLQNiIwBbkKJB45zLSQOpdtGsncWrwFTUfFhjKi9C5B
+         MPQW9aA0GdEXcDSdD255XUZO1WvDJVZikdKtSHrhEWjQGBGVppjI8WP6dzJwcH15hqvW
+         ygSgbNhLk1bYQo+1k6whFoPAxQPwpHVTZ+8Mlr4+fB+X2RHu8Lwn8vAsWUUmrcR1ODqD
+         +TUg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=vk156WbC;
+       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=BxwUWG+8;
        spf=none (google.com: bombadil.srs.infradead.org does not designate permitted sender hosts) smtp.mailfrom=BATV+1651c3ebed9361b307e7+7090+infradead.org+hch@bombadil.srs.infradead.org
 Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:3::133])
-        by gmr-mx.google.com with ESMTPS id f14-20020a02b78e000000b003a60ce0de5asi880987jam.0.2023.01.20.23.11.21
+        by gmr-mx.google.com with ESMTPS id f6-20020a4abb06000000b004f52827c8b8si1465707oop.2.2023.01.20.23.11.23
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 23:11:21 -0800 (PST)
+        Fri, 20 Jan 2023 23:11:23 -0800 (PST)
 Received-SPF: none (google.com: bombadil.srs.infradead.org does not designate permitted sender hosts) client-ip=2607:7c80:54:3::133;
 Received: from [2001:4bb8:19a:2039:6754:cc81:9ace:36fc] (helo=localhost)
 	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pJ821-00DTsL-5M; Sat, 21 Jan 2023 07:11:17 +0000
+	id 1pJ823-00DTtM-NY; Sat, 21 Jan 2023 07:11:20 +0000
 From: Christoph Hellwig <hch@lst.de>
 To: Andrew Morton <akpm@linux-foundation.org>,
 	Uladzislau Rezki <urezki@gmail.com>
@@ -108,9 +108,9 @@ Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
 	Vincenzo Frascino <vincenzo.frascino@arm.com>,
 	kasan-dev@googlegroups.com,
 	linux-mm@kvack.org
-Subject: [PATCH 09/10] mm: split __vunmap
-Date: Sat, 21 Jan 2023 08:10:50 +0100
-Message-Id: <20230121071051.1143058-10-hch@lst.de>
+Subject: [PATCH 10/10] mm: refactor va_remove_mappings
+Date: Sat, 21 Jan 2023 08:10:51 +0100
+Message-Id: <20230121071051.1143058-11-hch@lst.de>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230121071051.1143058-1-hch@lst.de>
 References: <20230121071051.1143058-1-hch@lst.de>
@@ -118,7 +118,7 @@ MIME-Version: 1.0
 X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 X-Original-Sender: hch@lst.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=bombadil.20210309 header.b=vk156WbC;
+ header.i=@infradead.org header.s=bombadil.20210309 header.b=BxwUWG+8;
        spf=none (google.com: bombadil.srs.infradead.org does not designate
  permitted sender hosts) smtp.mailfrom=BATV+1651c3ebed9361b307e7+7090+infradead.org+hch@bombadil.srs.infradead.org
 Content-Type: text/plain; charset="UTF-8"
@@ -134,131 +134,70 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-vunmap only needs to find and free the vmap_area and vm_strut, so open
-code that there and merge the rest of the code into vfree.
+Move the VM_FLUSH_RESET_PERMS to the caller and rename the function
+to better describe what it is doing.
 
 Signed-off-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
 ---
- mm/vmalloc.c | 84 +++++++++++++++++++++++++---------------------------
- 1 file changed, 41 insertions(+), 43 deletions(-)
+ mm/vmalloc.c | 27 ++++++++-------------------
+ 1 file changed, 8 insertions(+), 19 deletions(-)
 
 diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index 5b432508319a4f..6bd811e4b7561d 100644
+index 6bd811e4b7561d..dfde5324e4803d 100644
 --- a/mm/vmalloc.c
 +++ b/mm/vmalloc.c
-@@ -2666,45 +2666,6 @@ static void vm_remove_mappings(struct vm_struct *area, int deallocate_pages)
- 	set_area_direct_map(area, set_direct_map_default_noflush);
+@@ -2617,35 +2617,23 @@ static inline void set_area_direct_map(const struct vm_struct *area,
+ 			set_direct_map(area->pages[i]);
  }
  
--static void __vunmap(const void *addr, int deallocate_pages)
--{
--	struct vm_struct *area;
--
--	if (!addr)
+-/* Handle removing and resetting vm mappings related to the vm_struct. */
+-static void vm_remove_mappings(struct vm_struct *area, int deallocate_pages)
++/*
++ * Flush the vm mapping and reset the direct map.
++ */
++static void vm_reset_perms(struct vm_struct *area)
+ {
+ 	unsigned long start = ULONG_MAX, end = 0;
+ 	unsigned int page_order = vm_area_page_order(area);
+-	int flush_reset = area->flags & VM_FLUSH_RESET_PERMS;
+ 	int flush_dmap = 0;
+ 	int i;
+ 
+-	/* If this is not VM_FLUSH_RESET_PERMS memory, no need for the below. */
+-	if (!flush_reset)
 -		return;
 -
--	area = remove_vm_area(addr);
--	if (unlikely(!area)) {
--		WARN(1, KERN_ERR "Trying to vfree() nonexistent vm area (%p)\n",
--				addr);
+-	/*
+-	 * If not deallocating pages, just do the flush of the VM area and
+-	 * return.
+-	 */
+-	if (!deallocate_pages) {
+-		vm_unmap_aliases();
 -		return;
 -	}
 -
--	vm_remove_mappings(area, deallocate_pages);
--
--	if (deallocate_pages) {
--		int i;
--
--		for (i = 0; i < area->nr_pages; i++) {
--			struct page *page = area->pages[i];
--
--			BUG_ON(!page);
--			mod_memcg_page_state(page, MEMCG_VMALLOC, -1);
--			/*
--			 * High-order allocs for huge vmallocs are split, so
--			 * can be freed as an array of order-0 allocations
--			 */
--			__free_pages(page, 0);
--			cond_resched();
--		}
--		atomic_long_sub(area->nr_pages, &nr_vmalloc_pages);
--
--		kvfree(area->pages);
--	}
--
--	kfree(area);
--}
--
- static void delayed_vfree_work(struct work_struct *w)
- {
- 	struct vfree_deferred *p = container_of(w, struct vfree_deferred, wq);
-@@ -2757,6 +2718,9 @@ void vfree_atomic(const void *addr)
-  */
- void vfree(const void *addr)
- {
-+	struct vm_struct *vm;
-+	int i;
+ 	/*
+-	 * If execution gets here, flush the vm mapping and reset the direct
+-	 * map. Find the start and end range of the direct mappings to make sure
++	 * Find the start and end range of the direct mappings to make sure that
+ 	 * the vm_unmap_aliases() flush includes the direct map.
+ 	 */
+ 	for (i = 0; i < area->nr_pages; i += 1U << page_order) {
+ 		unsigned long addr = (unsigned long)page_address(area->pages[i]);
 +
- 	if (unlikely(in_interrupt())) {
- 		vfree_atomic(addr);
+ 		if (addr) {
+ 			unsigned long page_size;
+ 
+@@ -2740,7 +2728,8 @@ void vfree(const void *addr)
  		return;
-@@ -2766,8 +2730,32 @@ void vfree(const void *addr)
- 	kmemleak_free(addr);
- 	might_sleep();
+ 	}
  
--	if (addr)
--		__vunmap(addr, 1);
-+	if (!addr)
-+		return;
-+
-+	vm = remove_vm_area(addr);
-+	if (unlikely(!vm)) {
-+		WARN(1, KERN_ERR "Trying to vfree() nonexistent vm area (%p)\n",
-+				addr);
-+		return;
-+	}
-+
-+	vm_remove_mappings(vm, true);
-+	for (i = 0; i < vm->nr_pages; i++) {
-+		struct page *page = vm->pages[i];
-+
-+		BUG_ON(!page);
-+		mod_memcg_page_state(page, MEMCG_VMALLOC, -1);
-+		/*
-+		 * High-order allocs for huge vmallocs are split, so
-+		 * can be freed as an array of order-0 allocations
-+		 */
-+		__free_pages(page, 0);
-+		cond_resched();
-+	}
-+	atomic_long_sub(vm->nr_pages, &nr_vmalloc_pages);
-+	kvfree(vm->pages);
-+	kfree(vm);
- }
- EXPORT_SYMBOL(vfree);
- 
-@@ -2782,10 +2770,20 @@ EXPORT_SYMBOL(vfree);
-  */
- void vunmap(const void *addr)
- {
-+	struct vm_struct *vm;
-+
- 	BUG_ON(in_interrupt());
- 	might_sleep();
--	if (addr)
--		__vunmap(addr, 0);
-+
-+	if (!addr)
-+		return;
-+	vm = remove_vm_area(addr);
-+	if (unlikely(!vm)) {
-+		WARN(1, KERN_ERR "Trying to vunmap() nonexistent vm area (%p)\n",
-+				addr);
-+		return;
-+	}
-+	kfree(vm);
- }
- EXPORT_SYMBOL(vunmap);
+-	vm_remove_mappings(vm, true);
++	if (unlikely(vm->flags & VM_FLUSH_RESET_PERMS))
++		vm_reset_perms(vm);
+ 	for (i = 0; i < vm->nr_pages; i++) {
+ 		struct page *page = vm->pages[i];
  
 -- 
 2.39.0
@@ -266,4 +205,4 @@ index 5b432508319a4f..6bd811e4b7561d 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230121071051.1143058-10-hch%40lst.de.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230121071051.1143058-11-hch%40lst.de.
