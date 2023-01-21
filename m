@@ -1,127 +1,151 @@
-Return-Path: <kasan-dev+bncBDUNBGN3R4KRBHFAV2PAMGQEZ63TDMQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDIK727MYIIBBLFRWGPAMGQEAFQ5V2A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3f.google.com (mail-oa1-x3f.google.com [IPv6:2001:4860:4864:20::3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EE56764E2
-	for <lists+kasan-dev@lfdr.de>; Sat, 21 Jan 2023 08:11:25 +0100 (CET)
-Received: by mail-oa1-x3f.google.com with SMTP id 586e51a60fabf-15fe7396eb4sf708019fac.12
-        for <lists+kasan-dev@lfdr.de>; Fri, 20 Jan 2023 23:11:25 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674285084; cv=pass;
+Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51674676992
+	for <lists+kasan-dev@lfdr.de>; Sat, 21 Jan 2023 22:27:09 +0100 (CET)
+Received: by mail-wr1-x439.google.com with SMTP id t26-20020adfa2da000000b002be9cd25e90sf701245wra.11
+        for <lists+kasan-dev@lfdr.de>; Sat, 21 Jan 2023 13:27:09 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674336429; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TqUT0u1Z49ny5QRTe8SLBHDJjh/uEsZ96Aa6tsayGwlLwDaV3UPpBb5zz5ydg+WIQM
-         +Y6W0gI3dXkAOVctzo92gnmyTkRmLVGMi8VNd/3uoVxuUtnc6xIcdx1/IUC5pTbTUb9S
-         2zfr7G1PM1MWMZhwrKqyAM8uH9P9PQcVfAt/UMsvgPLcbncBGtS+A3gR5+HUnRjNXTxt
-         DuHxWQDWNf8sinHnSGi6OJv78AtE1vRFCJk3VqLQLJPAZVQCBHRWUiM8uanK7CcXSm7f
-         x/MoW4SE7NS5DOdYeBIkkewhl+TANFv3hTaIDDk8Yyest3Y66+gxSZoKac2s0nQmgkKM
-         CvcQ==
+        b=cK1pS/4QFmF9MDh93/XcVHxl3rJhXUamAFPencq7E2GCvqs5u3r7vENGBFvsC4jupI
+         QDGtFGidzScDsipo+lflEMLMa7CMpopyzXrlsRY7PqVsceogujpe+qIX7HVg/xQ9N6ao
+         JSTATAo/BSIzLhm9RBWKdPGcvxZb672j5YHO605ZCAufN1nCAMVmUtJBfbUvQjoXjl2l
+         mQyITinm3evSAUtEEBub9LczPtXELv/mX3lhMLAFBmnR0GezlODIBRCspIF8e5/GZ7wG
+         Ds7JpFjQXd2a4zLWptN0tYU+UrXKnn+WOCmOD7SHOnUvNkCHS393vAENtgDVa21SgOjR
+         Jsjg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=b7//y9GljHZMzBgGzb3hV1NtRiB9DBy4lXBM7JsOfmo=;
-        b=I4zuvp516h5FdvgFfDZKvtctYIzHt7OAq1C7/vMDe/JokGgUdiailBwyQvLGSapNzD
-         4poCkZDFb3923W7BGgVRxwPdd/jkCdDPLF41dlQc0jTL1SWoPyFhGz5Lf+QefttYF1r/
-         SiHO53pLqzkU0QB0Ug7j6heRctW9+lSyEC8VVJOzYX0Ax/57OcqcOLARsD62XkSUZR89
-         H7FbDoYMDzYwsmr9MU8okaFLSm/5AN0epL/rrNcmNOEE9JnFkJeqiNF4hTr3MDkYV8K8
-         BhjE8M7Mfoiq/4pcQJLeK+FaIEUwRDZdYue/N51noym6Iny7h/4BZcOM+T7UBF+mPvdO
-         aIeQ==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:mime-version:date:message-id:sender:dkim-signature;
+        bh=hm/Jl2eoJVafIrOzwJEV0CHHy8DvM22DeiQFwoVI+CA=;
+        b=GPAQWKwk3T79BTSqCO/lCGJoc3hrDoKXE0Sz9el5AONiJmLDfz/MtmFgUiK5ezTJDA
+         uouFz/DgNEq0Kgzg1PgIXz2b8WJAiq4WaMRV+ClpWfmGH9+4R61MHRjL4CSM0C7e6fVb
+         RC33l5XxWaUOuEOQ5mrdLbfK+Mmp6yS0WYmkeZU+Ae9oVSXWrWZx3BaJewc6QrTYmHPB
+         hefUrUV3xKlZTxYvUTzC301DumacT5cnOQrpvqPDz/ZHG/dOf/Pr6Jc1UpkX2d5vOWuN
+         M1c7wKWK4mi/1XciLdmGjNxhhhv6BXmxOnQkYvrgOHn7MLNkuu9i9N6cjfUaMngaY0iM
+         JUgg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=BxwUWG+8;
-       spf=none (google.com: bombadil.srs.infradead.org does not designate permitted sender hosts) smtp.mailfrom=BATV+1651c3ebed9361b307e7+7090+infradead.org+hch@bombadil.srs.infradead.org
+       spf=pass (google.com: domain of glaubitz@zedat.fu-berlin.de designates 130.133.4.66 as permitted sender) smtp.mailfrom=glaubitz@zedat.fu-berlin.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=b7//y9GljHZMzBgGzb3hV1NtRiB9DBy4lXBM7JsOfmo=;
-        b=VEjeHHKjAPk3tpl00IGcf7PdUjx4JONiwo9OfyJ1VtwyVnL6X7ptaVNisAHaw+Tumo
-         7QQrTgdLoWCZ6FrwPgccedVrCR5eR3bNZdypCOVXMOIngL5P5cFMbCb6zmFmHcOzpl/6
-         2mbgl1YusMiob2OBpVk2OGWkNh8IIDiCXmidbeoXSRJfpL/s9kiDhO9UUItysF5zmD+U
-         cbTe8wFLYMVPd27Gy7THSNikycpyBTfnLrGoTpaTCCQ7t1cWOljrcC7abRPhO5pxpLt1
-         0eoFg3pICNjbMX+9YB9oygC3ppqOkKq+bPjlLFgCJ6E7m5mC7u3GrFc18GtQz3toVWOw
-         q8rQ==
+         :x-original-sender:content-transfer-encoding:in-reply-to:from
+         :references:cc:to:content-language:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=hm/Jl2eoJVafIrOzwJEV0CHHy8DvM22DeiQFwoVI+CA=;
+        b=tgfmxUNPrcNYhKsoQdyEeM+apbGxrKFFhW/1N0bREtVS0R1qqi/V9cdlsLDhuTSRiU
+         qShN73KZ8uFl/jpdOISN8GJnqdQcfBKDn1VehuLUYeyeD0x+UVry0qoeafQU7XCKZcXm
+         8YUIKofrA9oVMJGjQRG+ikM8DuWLsROecOztORT3rvqGSPe3W5GC96JQ+d9oCanUJJF3
+         gq0z+ffHTL7BGR6jM4KRx5T0JrSgqvpRSuhUF4Nc3+LU4Ta4kiq1o987738OIlJrTEx3
+         Dn/XHS4gqm2eGLlWhScD41/red7lrxRrj1vFpDDa95xjez2idZdKs8aEMjzA/BLHV9Wo
+         R9YA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=b7//y9GljHZMzBgGzb3hV1NtRiB9DBy4lXBM7JsOfmo=;
-        b=ugA+TqETAr7D6OKrKJNQH2DAaBYNoLHyheNq3Oxn66AgWnokY9iSWPRTROH0mypj16
-         LS6t26WtrdsZ6Su591IpkvfR6KJ1kBxXf0jgXzwI8heITP0hErrR00yh72QfrgKlF63v
-         weBIXxwP7JOavBvp2p1mK9EL+iRFwD2MRm8HugJc0V9CbyErPIvGWMw0VtvIz2b5DPXb
-         fougjYTh3VG0CMpgLE9cIepmaokNXjsXx/NCfXsUbKkF1ULidk+tLtegsJgJTHWnP9uN
-         8UyxqGnNgx8kWY8Rka9Q5APbLTkVmRcr3Xd4o8qy4kXqZuMhixfNdDQCmlZsWPmG/z5/
-         8Wrw==
+        bh=hm/Jl2eoJVafIrOzwJEV0CHHy8DvM22DeiQFwoVI+CA=;
+        b=oVPrJ8Awukz/tqliHeWtxQLohA8A/aex3BqqM3IJWavyE95GSIjm3Up7x/xUARS6bq
+         U68Xbff3fe5NN6/u1T4fg1X07H/yzEPtjoeHI+pHxuU4gc0RvZZRxq32ZBxqdaoP81FU
+         wcOwVa7GIQg7YcfLNhXfPEJkZi9E2QdHQM5nWFBV3zuU5H1oZnGfPk/m17C7PRbzQ9Lp
+         zKuMxWKQKYHmq3AQ8N11/4kJELN/fnxIhWukYAwvkGjPmbKNaNZ463WZUwggUps0su9A
+         xoyCRS9hBjl9fuM9VDVu/UKWnLe1Edugx3ZMXW5s2K6Hua4U7bLN/mnhfU/OTPn473WC
+         n42g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kpt8GTuENW5TXwusb+FgPXhNrpUKSjBBRzsCsHSPxCrn9GEI9n4
-	JhwMEXx9MhcuRe6ozT9J1Rs=
-X-Google-Smtp-Source: AMrXdXuHXKGKUZZLcKR0npBCzbhusxi/DtxSOslbiWVZc3HBhlX3SZC85du4CdhdmwIUXOq57ocBEA==
-X-Received: by 2002:a05:6871:4485:b0:150:2bf1:4446 with SMTP id ne5-20020a056871448500b001502bf14446mr1771605oab.228.1674285084467;
-        Fri, 20 Jan 2023 23:11:24 -0800 (PST)
+X-Gm-Message-State: AFqh2kqIDK3lyjf0IP9KBXnMyFohP1+fgaXzOHBFqVEL9iYzp1EDGm7z
+	0wScBn8QfaYQqKKDgv48d0U=
+X-Google-Smtp-Source: AMrXdXvo8Xp0W8znmir3qPv9nPBn53Fhm1EYi9zUFR/IlsWbVoaBBP61jGJR3f8hCjWobS1NooAYEw==
+X-Received: by 2002:a05:600c:a52:b0:3db:99c:bca9 with SMTP id c18-20020a05600c0a5200b003db099cbca9mr1769540wmq.113.1674336428775;
+        Sat, 21 Jan 2023 13:27:08 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:52c4:0:b0:4a3:3f3b:df28 with SMTP id d187-20020a4a52c4000000b004a33f3bdf28ls357698oob.2.-pod-prod-gmail;
- Fri, 20 Jan 2023 23:11:24 -0800 (PST)
-X-Received: by 2002:a4a:8f04:0:b0:4a3:9f7a:add0 with SMTP id e4-20020a4a8f04000000b004a39f7aadd0mr7436668ool.5.1674285083942;
-        Fri, 20 Jan 2023 23:11:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674285083; cv=none;
+Received: by 2002:a05:6000:25a:b0:269:604b:a0dd with SMTP id
+ m26-20020a056000025a00b00269604ba0ddls5724066wrz.0.-pod-prod-gmail; Sat, 21
+ Jan 2023 13:27:07 -0800 (PST)
+X-Received: by 2002:adf:d1c7:0:b0:2be:544c:fe2c with SMTP id b7-20020adfd1c7000000b002be544cfe2cmr7595334wrd.25.1674336427757;
+        Sat, 21 Jan 2023 13:27:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674336427; cv=none;
         d=google.com; s=arc-20160816;
-        b=vjzh6rV2Pmunk5+YAGkr1/DPoGnZ85u8ih7T56FGuqHl1N59Erz0BAtsm3Wbq6YVlk
-         MBDJkQpo0RkScIMYlr3+8612ulP+wrA1Y/OYir3lA6zBbKVoDQwXr6djz0KsaF+t3B0N
-         ekil4sc8e7jyNOvp/7ox4GB39hfdO5LGwyUU6sf00L7w71F7ur/LvhZK62GL3fLoRyD4
-         iCtOih60KwTnNtGm9+8RN33sCDDWyJ1Brn3X97Jt/z16IFDVefQs+tQywf3ScnlrX9r+
-         8l4f8tnXYKY5D7TZdK8lhz+FXh5VC2B0tMG8ytXCUDkxekMcEfbb0R9w2/XX6AX+ca8q
-         yVgA==
+        b=KTkB7p65cw5MonC/L3IaZqxllR16XZtn8na10vrsVXtLwHpm5GGoMtWc5KAYGGpn/I
+         hrrUXx8FGepCX8sB6DaoC6ETHIPzjnKpNryv80qc/qu1+HILV29R5obRhu1HosmWc9c/
+         cejrBMmC4k8hYCFOzX0Y2d9x1EyDnOBluFcasiZACFW1jJv3z+kHSti+cS6W216kqm5I
+         9vV6niTDDSqzTJFTwjqTx/VfB/Z4CdhvVoRLj0OLrecPMYiHtHmySaV5JCO/s1LjluEx
+         9v1RomInWrbMxcn57pBur2EUxk2ynTRV1z/IlLnvMPPGmnm+YqzTAzsh6VBFXsSvWXQH
+         ue+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=MVFwvinoUqx5/lg5psoeJPHtHhWtA7mgRAAlRnZDces=;
-        b=Q4eT5YUBBrBWVDVkAbJhteqAKmboL9reVGVI2NRPD6BzM87titNF34U+jTgfUiKJXV
-         nBlJqyKpOXLPfgeE8OcCkXPtby6wO8KLP2nJ2gVt6Kzf0kIfhnnt72O8DqmCMQ2eLiEO
-         ALQOH1zpTKEe/cSsoUYLvtsTgBLQNiIwBbkKJB45zLSQOpdtGsncWrwFTUfFhjKi9C5B
-         MPQW9aA0GdEXcDSdD255XUZO1WvDJVZikdKtSHrhEWjQGBGVppjI8WP6dzJwcH15hqvW
-         ygSgbNhLk1bYQo+1k6whFoPAxQPwpHVTZ+8Mlr4+fB+X2RHu8Lwn8vAsWUUmrcR1ODqD
-         +TUg==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id;
+        bh=yhmwtE13OOMQNJIh4iCnBh8C5pkGPy9ns1M5J9HbuAU=;
+        b=LK8wK8DmGkVNIlsYNd/MjYBd0KXzp7cGijvWHN8Er3M6BjiJGOMwGubYvxpJPuQfUC
+         aWbxrmDKKmwuyQROs6uuHUiPwgUJh7WDAYbKwo8c1BUukzrK8g/j1gC/7V3gFJoGiiPB
+         IGx9oqCVdeFPiXxCYSXkSo2pHpTE3jdQSmA2TMI9JXw4tJ+qb2ttjnsHwFxmJZEnxGoL
+         /RIb4sEqTGVPxbeyrOgQmQ392fVSk40umWpcX9bf6e+AVX76S0zA4N1W2MRbreU+ldFK
+         UBkFcz1RfKCoU/ghC8hkeAh74FhCg/3egkeiSU2sIHsbceG5fHTUCaaFRFrmxmXo3xyD
+         rqeA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=BxwUWG+8;
-       spf=none (google.com: bombadil.srs.infradead.org does not designate permitted sender hosts) smtp.mailfrom=BATV+1651c3ebed9361b307e7+7090+infradead.org+hch@bombadil.srs.infradead.org
-Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:3::133])
-        by gmr-mx.google.com with ESMTPS id f6-20020a4abb06000000b004f52827c8b8si1465707oop.2.2023.01.20.23.11.23
+       spf=pass (google.com: domain of glaubitz@zedat.fu-berlin.de designates 130.133.4.66 as permitted sender) smtp.mailfrom=glaubitz@zedat.fu-berlin.de
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de. [130.133.4.66])
+        by gmr-mx.google.com with ESMTPS id c1-20020adfed81000000b002be29f05cdfsi608314wro.0.2023.01.21.13.27.07
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jan 2023 23:11:23 -0800 (PST)
-Received-SPF: none (google.com: bombadil.srs.infradead.org does not designate permitted sender hosts) client-ip=2607:7c80:54:3::133;
-Received: from [2001:4bb8:19a:2039:6754:cc81:9ace:36fc] (helo=localhost)
-	by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pJ823-00DTtM-NY; Sat, 21 Jan 2023 07:11:20 +0000
-From: Christoph Hellwig <hch@lst.de>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org
-Subject: [PATCH 10/10] mm: refactor va_remove_mappings
-Date: Sat, 21 Jan 2023 08:10:51 +0100
-Message-Id: <20230121071051.1143058-11-hch@lst.de>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230121071051.1143058-1-hch@lst.de>
-References: <20230121071051.1143058-1-hch@lst.de>
+        Sat, 21 Jan 2023 13:27:07 -0800 (PST)
+Received-SPF: pass (google.com: domain of glaubitz@zedat.fu-berlin.de designates 130.133.4.66 as permitted sender) client-ip=130.133.4.66;
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.95)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1pJLNr-001fc4-Li; Sat, 21 Jan 2023 22:26:43 +0100
+Received: from dynamic-089-012-154-190.89.12.pool.telefonica.de ([89.12.154.190] helo=[192.168.1.11])
+          by inpost2.zedat.fu-berlin.de (Exim 4.95)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1pJLNr-001xPR-F4; Sat, 21 Jan 2023 22:26:43 +0100
+Message-ID: <7c6b114a-38f8-1a0b-8623-d492f9cc2fb9@physik.fu-berlin.de>
+Date: Sat, 21 Jan 2023 22:26:42 +0100
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Original-Sender: hch@lst.de
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=bombadil.20210309 header.b=BxwUWG+8;
-       spf=none (google.com: bombadil.srs.infradead.org does not designate
- permitted sender hosts) smtp.mailfrom=BATV+1651c3ebed9361b307e7+7090+infradead.org+hch@bombadil.srs.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: Calculating array sizes in C - was: Re: Build
+ regressions/improvements in v6.2-rc1
+Content-Language: en-US
+To: Michael Karcher <kernel@mkarcher.dialup.fu-berlin.de>,
+ Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-sh@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linuxppc-dev@lists.ozlabs.org, kasan-dev@googlegroups.com,
+ linux-xtensa@linux-xtensa.org, Arnd Bergmann <arnd@arndb.de>
+References: <CAHk-=wgf929uGOVpiWALPyC7pv_9KbwB2EAvQ3C4woshZZ5zqQ@mail.gmail.com>
+ <20221227082932.798359-1-geert@linux-m68k.org>
+ <alpine.DEB.2.22.394.2212270933530.311423@ramsan.of.borg>
+ <c05bee5d-0d69-289b-fe4b-98f4cd31a4f5@physik.fu-berlin.de>
+ <CAMuHMdXNJveXHeS=g-aHbnxtyACxq1wCeaTg8LbpYqJTCqk86g@mail.gmail.com>
+ <3800eaa8-a4da-b2f0-da31-6627176cb92e@physik.fu-berlin.de>
+ <CAMuHMdWbBRkhecrqcir92TgZnffMe8ku2t7PcVLqA6e6F-j=iw@mail.gmail.com>
+ <429140e0-72fe-c91c-53bc-124d33ab5ffa@physik.fu-berlin.de>
+ <CAMuHMdWpHSsAB3WosyCVgS6+t4pU35Xfj3tjmdCDoyS2QkS7iw@mail.gmail.com>
+ <0d238f02-4d78-6f14-1b1b-f53f0317a910@physik.fu-berlin.de>
+ <1732342f-49fe-c20e-b877-bc0a340e1a50@fu-berlin.de>
+ <c1d233b9-bc85-dce9-ffa0-eb3170602c6c@physik.fu-berlin.de>
+ <def16c9b-7bb1-a454-0896-b063a9e85964@fu-berlin.de>
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+In-Reply-To: <def16c9b-7bb1-a454-0896-b063a9e85964@fu-berlin.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: 89.12.154.190
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of glaubitz@zedat.fu-berlin.de designates 130.133.4.66 as
+ permitted sender) smtp.mailfrom=glaubitz@zedat.fu-berlin.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -134,75 +158,56 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Move the VM_FLUSH_RESET_PERMS to the caller and rename the function
-to better describe what it is doing.
+Hi!
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
----
- mm/vmalloc.c | 27 ++++++++-------------------
- 1 file changed, 8 insertions(+), 19 deletions(-)
+On 1/20/23 20:29, Michael Karcher wrote:
+> Hello Adrian,
+>> Could you post a kernel patch for that? I would be happy to test it on m=
+y
+>> SH-7785CLR board. Also, I'm going to file a bug report against GCC.
+>=20
+> I filed the bug already. It's https://gcc.gnu.org/bugzilla/show_bug.cgi?i=
+d=3D108483.
+>=20
+> The diff is attached. It's published as CC0 in case anyone considers this=
+ trivial change copyrightable. This patch prevents this one specific warnin=
+g from being upgraded to "error" even if you configure the kernel to use "-=
+Werror". It still keeps it active as warning, though.
 
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index 6bd811e4b7561d..dfde5324e4803d 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -2617,35 +2617,23 @@ static inline void set_area_direct_map(const struct vm_struct *area,
- 			set_direct_map(area->pages[i]);
- }
- 
--/* Handle removing and resetting vm mappings related to the vm_struct. */
--static void vm_remove_mappings(struct vm_struct *area, int deallocate_pages)
-+/*
-+ * Flush the vm mapping and reset the direct map.
-+ */
-+static void vm_reset_perms(struct vm_struct *area)
- {
- 	unsigned long start = ULONG_MAX, end = 0;
- 	unsigned int page_order = vm_area_page_order(area);
--	int flush_reset = area->flags & VM_FLUSH_RESET_PERMS;
- 	int flush_dmap = 0;
- 	int i;
- 
--	/* If this is not VM_FLUSH_RESET_PERMS memory, no need for the below. */
--	if (!flush_reset)
--		return;
--
--	/*
--	 * If not deallocating pages, just do the flush of the VM area and
--	 * return.
--	 */
--	if (!deallocate_pages) {
--		vm_unmap_aliases();
--		return;
--	}
--
- 	/*
--	 * If execution gets here, flush the vm mapping and reset the direct
--	 * map. Find the start and end range of the direct mappings to make sure
-+	 * Find the start and end range of the direct mappings to make sure that
- 	 * the vm_unmap_aliases() flush includes the direct map.
- 	 */
- 	for (i = 0; i < area->nr_pages; i += 1U << page_order) {
- 		unsigned long addr = (unsigned long)page_address(area->pages[i]);
-+
- 		if (addr) {
- 			unsigned long page_size;
- 
-@@ -2740,7 +2728,8 @@ void vfree(const void *addr)
- 		return;
- 	}
- 
--	vm_remove_mappings(vm, true);
-+	if (unlikely(vm->flags & VM_FLUSH_RESET_PERMS))
-+		vm_reset_perms(vm);
- 	for (i = 0; i < vm->nr_pages; i++) {
- 		struct page *page = vm->pages[i];
- 
--- 
-2.39.0
+I used the following variant and it fixes the issue for me:
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230121071051.1143058-11-hch%40lst.de.
+diff --git a/arch/sh/Makefile b/arch/sh/Makefile
+index 5c8776482530..11b22f7167d2 100644
+--- a/arch/sh/Makefile
++++ b/arch/sh/Makefile
+@@ -167,7 +167,7 @@ drivers-y                   +=3D arch/sh/drivers/
+  cflags-y       +=3D $(foreach d, $(cpuincdir-y), -I $(srctree)/arch/sh/in=
+clude/$(d)) \
+                    $(foreach d, $(machdir-y), -I $(srctree)/arch/sh/includ=
+e/$(d))
+ =20
+-KBUILD_CFLAGS          +=3D -pipe $(cflags-y)
++KBUILD_CFLAGS          +=3D -pipe -Wno-error=3Dsizeof-pointer-div $(cflags=
+-y)
+  KBUILD_CPPFLAGS                +=3D $(cflags-y)
+  KBUILD_AFLAGS          +=3D $(cflags-y)
+
+If you agree, can you post a patch to LKML so we can unbreak the SH build f=
+or CONFIG_WERROR?
+
+Thanks,
+Adrian
+
+--=20
+  .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+   `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/7c6b114a-38f8-1a0b-8623-d492f9cc2fb9%40physik.fu-berlin.de.
