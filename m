@@ -1,122 +1,159 @@
-Return-Path: <kasan-dev+bncBCUJ7YGL3QFBBGMAWWPAMGQEIFQHG3Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCUJ7YGL3QFBBQ5LWWPAMGQEQSYFP4I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa3c.google.com (mail-vk1-xa3c.google.com [IPv6:2607:f8b0:4864:20::a3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B1A676D4B
-	for <lists+kasan-dev@lfdr.de>; Sun, 22 Jan 2023 14:54:35 +0100 (CET)
-Received: by mail-vk1-xa3c.google.com with SMTP id s203-20020a1f2cd4000000b003d5b4915319sf3820838vks.18
-        for <lists+kasan-dev@lfdr.de>; Sun, 22 Jan 2023 05:54:34 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674395673; cv=pass;
+Received: from mail-lj1-x23f.google.com (mail-lj1-x23f.google.com [IPv6:2a00:1450:4864:20::23f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1A7676FF3
+	for <lists+kasan-dev@lfdr.de>; Sun, 22 Jan 2023 16:27:00 +0100 (CET)
+Received: by mail-lj1-x23f.google.com with SMTP id r10-20020a2eb60a000000b00281ccc0c718sf2106985ljn.0
+        for <lists+kasan-dev@lfdr.de>; Sun, 22 Jan 2023 07:27:00 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674401219; cv=pass;
         d=google.com; s=arc-20160816;
-        b=mtLpmZSoEPHhqK6xxBdZti5dYORQ7TYSAQ3qu335XP2w2VaAEdyfw2LpgVjMillOZD
-         kvL6Rj3qccbE8HsfTDeYghbXkXpQv3L73iEMoJXW2ft/RGpzIglCbLMqgADgxObDcYFu
-         7c7mWc/w8+zg+mkvBwSYUJJLlf12U4bclIHCZSPnqDIxVK8zeYP40UaZUu9+cPdHmQJw
-         ZT0zn2dqWuMtulK1U4U3tPYOFPk4kVmpo+Odh7u4DZvtBIBNp3yz4JWkK87zzbwlL9Mx
-         2sS4Uraujsipd6ZBu07/2+Mf2kU7QuLv+TspeJvK8Acj0K/xsezKQEUpxNxsC2CZDZ8/
-         RIbQ==
+        b=suR0W4PwurhonJrV7GrssLMODpjh9zLnER018rmLeEorjj/+P1BDBaaV1OgCHr3iMO
+         8X/h3Du95PoOsSWyDOW9gn1cHCj22p+spvKpo7ELzX9jFXgZuMB3oUWvzDxPXsYTOV0J
+         v334pC+vcM0aVCZBLa1GnGQdYW209KO0sSyo4q4NrKh1KhRRdURWIvdjW96GoilIbTs/
+         FmKqpkmRY6IgdRk0ftIfso0HsrPNNtJIk6BFPBHA/N8qXZ/TvY5eN29c9L42pb2d1JUW
+         c50ijFJ5A4EprDUeKoveBgVbtIxBHeisULhJeiLDeUi5nOF2qbx4BULXYGD3kFDAcGvr
+         OT5A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date:from
-         :cc:to:subject:sender:dkim-signature;
-        bh=XtZFUNVfCNQ1WJ3mKDwLzpEi6fNaOSJqjl5iTeod6rY=;
-        b=lUyTE8l5aSUoBzy0V97u+S/YtPXFIhS3nj40+rrtRlfpwEQCW6FmhdZL/uCVhRqgmA
-         G/+RIg5Er7Wo14HSBPu96nVTKyfUdOJm2r49eVSG65HkwKCs7BKoMvYRJQMlJ2hGoiOb
-         RwFtQGmiGXkG8ZP2ORoA1RACquF5VGl46A7n4RLrDqBjcmnDsznpa5ECudU/5OKoPp6W
-         jwrWPPBeiJWBe6HEV6O8pmTsbVQ/yKQN1wj0cACzIuoc2hvbDWBVdXisw6kEgUURrXmH
-         hS0QfMXzXmr7LniaGCeXX9HSmQafglJ3/fO6Sjc3L8xmCKA+SjXk3h2T7JnpiUDoN1Vg
-         rOmg==
+         :list-id:mailing-list:precedence:mime-version:user-agent:references
+         :in-reply-to:message-id:date:subject:cc:to:from:sender
+         :dkim-signature;
+        bh=8SIBj3xj164T1TwqNuUg1zUtl2BRTB71fAS7U2s/ROg=;
+        b=MlCfc2IdjCSNFYTluUHmfgnNg+THJmwX3Y1B+7BQOFRivYLXEUSq+tPLgVaoCjTlR9
+         YYCcNbrpEQCGYkhbMEWIy8IXUoHN5xtXkg2qGcP3wJbmUEd+adeyFVkbAKhXzYug+G4f
+         MIEz1SAXzaxo4BM3TOafpdz0McLRYuqimTdbyaqo4s2skTMT5Js5ZdLVIT/cTJXu5QrL
+         58ytwRXKgm5T+2O2Cd5wJGKl1gNlzOs4M3dzcd8ZuXgb7QaqKR5ZxU+XlROh/lCQtwrS
+         CNuIkohsU2BiAAr3FWAkJBJIaSiPnpuj2LNDioVBOu36UXRBPoXoLd+9otUHTj4W6hTh
+         Nu1Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=dn2A8irw;
-       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=PiVNOgoQ;
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:from:cc:to:subject
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=XtZFUNVfCNQ1WJ3mKDwLzpEi6fNaOSJqjl5iTeod6rY=;
-        b=Tnc2Z6CfotmCFw5oN5ehg8ih1/QcioHMQGCCXAYsEh9e5hJsvCFY/3FO6tHf/IgGzY
-         kLWfX/LwOpAx69hbq0vnT9vC7KdFppL+pBBduazHs9APNxg0R44cM0sFMtYAfkTWPEWX
-         6VgHrb1jTZYy/hHV2zxxWVpMhN3KCoH3rD2a+aRjAqCCnGgnfjvkkySoM9nq4aHMKB1q
-         BZxEdr5lrmaLqr1gGC8QVOnE75v+8N5h5MHSVNNpIJopL+iakRGkVo3LoM4tjq5XTDwl
-         h5/SSee1bZ4Ufav52AYNgSuIPjZVkG8nKbEraK9tl7yJTRE0xRRgPXEnTOE8z6m8hwm+
-         /8CQ==
+         :x-original-sender:mime-version:user-agent:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8SIBj3xj164T1TwqNuUg1zUtl2BRTB71fAS7U2s/ROg=;
+        b=lTd/sk0+ALIwnd7xohCYsCUpbMRMhkjspIDXrbxGNcK7oMg+4BEhQTtoBwlh4QUmd7
+         mlXf5gYCTvWhpmb6eC8hrrMNMvxikUavcP857txtRRg+M3zxdrlHHz4HGZgzkl8Fb0CZ
+         lKIWWaS8gBtX+r3dXxCc2ZiFUwIFJTsy4rWyr9b4mKoKm3OlrsA1hry5kBZEWxRQTv73
+         Ya2RcQpGk8I6SRRzd+vIiOwVcJhTSXZbJekwrLeUdgmlIb7h2vwjQf0RD87lm4MCQHpv
+         rDtGeaFsA7IC3kX7CVlGCez+tQcegYN+ujsqgNWAtzgg4Vl7TtWEzTl4OZU6oOtbgnVv
+         rFnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:from:cc:to:subject:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=XtZFUNVfCNQ1WJ3mKDwLzpEi6fNaOSJqjl5iTeod6rY=;
-        b=D6jPH/NNKrkPG98IHIpYYmZU3Q5eJemG5WgKeRahf/JGeRqgDiDyCGMkks832D2jzG
-         D4h40n0DHtnqM40xPBukGiOhUKYiOf+iOa+IJT75z/25othknTVPZIw1yp6NcNd56YTY
-         1yWy/vyQD8rStq0Z3R/V7mXfvOA3JhXqYcqE/XIjWf8Et8mGq2jqS8pEsRvZ3T0AZB82
-         YwRGq9vZGcRbsUt85QCfFNoXtGdSjFbmjBxrvNYQwljsYFfu9OzsOI/4kAS5cL6bbaFe
-         3Kz5KXOtii0PPorafEprYFhvn6cj5NnYfXjI/dQxM1IYDZbAeG/qtxu41o9HvESlhGnf
-         6WXA==
+         :user-agent:references:in-reply-to:message-id:date:subject:cc:to
+         :from:x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8SIBj3xj164T1TwqNuUg1zUtl2BRTB71fAS7U2s/ROg=;
+        b=KFvrORnhB2ZFiURR7obNAfRPQGUWiCKHtIiVlfGVD/U5yN9WjRl+yz2NCJ76L/FsEq
+         kEJJWsfsCh/B+MfOEQy+KS+y8onNvSFUPMbl1+gfZx8OloSaNzoMXyDh6kPQaPaWZAa4
+         y4rEWSrr0DKciWQ0/zZnu+QDXFhqCiJJ6mbppR+mjM+1tf8u2FLcAB3IKTo6nV5t3X2m
+         e0gbcvbBeuqwzM6k3td1vjR9B965v5g6N4WJo30J8fD58LdpAjgfHVt7yU2vcORNifM8
+         rCTzb/X10wMjc/Pv5pPEJs+jN50C8xe5BhUzDw4x2MI9eo5H/ge4D/7gGHsk9vcg7WR5
+         qJFQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2koLt/pikaxtkw3LT2zY+SVMwSwVB794iIaL4pqXLTnRdTUq0QIJ
-	T8/2Dq6cTWbD3LOJoY9uS58=
-X-Google-Smtp-Source: AMrXdXthBZUBpsC/3Ug2xZ040o4GpbZmBLEWQ5noQ9oIL62toFsDlrHAxDKU9MIFSykdJBBs4OjzAw==
-X-Received: by 2002:ab0:1608:0:b0:5e8:e02e:f4bd with SMTP id k8-20020ab01608000000b005e8e02ef4bdmr1437514uae.113.1674395673226;
-        Sun, 22 Jan 2023 05:54:33 -0800 (PST)
+X-Gm-Message-State: AFqh2kofx1klWiq/y3Yfuy54MFH4vFDZ0qhP3ecINH4cFAvXrbsa28BV
+	b+jMatv7DV+qB9bbiih72LM=
+X-Google-Smtp-Source: AMrXdXtE7PEiyrRRO5xvTAPBT6wlHrdcxH5PwvIwR8jKlXX7HjD0iNbJYxS65Vo2MHpDroL8HaTubA==
+X-Received: by 2002:ac2:4bd4:0:b0:4b4:eb69:10dc with SMTP id o20-20020ac24bd4000000b004b4eb6910dcmr2491264lfq.552.1674401219503;
+        Sun, 22 Jan 2023 07:26:59 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:d488:0:b0:3cb:9ab3:81b0 with SMTP id g8-20020a67d488000000b003cb9ab381b0ls3297725vsj.7.-pod-prod-gmail;
- Sun, 22 Jan 2023 05:54:32 -0800 (PST)
-X-Received: by 2002:a05:6102:1512:b0:3d2:3737:f706 with SMTP id f18-20020a056102151200b003d23737f706mr20295840vsv.26.1674395672545;
-        Sun, 22 Jan 2023 05:54:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674395672; cv=none;
+Received: by 2002:a05:6512:368e:b0:4cf:ff9f:bbfd with SMTP id
+ d14-20020a056512368e00b004cfff9fbbfdls3088429lfs.1.-pod-prod-gmail; Sun, 22
+ Jan 2023 07:26:58 -0800 (PST)
+X-Received: by 2002:a05:6512:308d:b0:4aa:7821:8021 with SMTP id z13-20020a056512308d00b004aa78218021mr7631242lfd.34.1674401218292;
+        Sun, 22 Jan 2023 07:26:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674401218; cv=none;
         d=google.com; s=arc-20160816;
-        b=uNyHCLx4nUSJFP2vr3O645qZkbCM+rta73GmwNKaIZdNE/59oVBo0ARClJ3F393N5A
-         kNuLQKqRS8y2BC8plPyyEGaDPW+6nhL4xK2f2nhfsAMTrQnAz8fBYzHApAJTBYpB2ZtL
-         wFgbV7Ge9kr3Kf8s4PbNagJFW9FxBfC5pWO1UCpG5rrsOZETb69k/GsLnj8sBhohxUv8
-         zXv7z8x1ou6YblhWUoA0JUJvXiAwW9MCmQxneJqZSCenHpUY4GxhTlmhd5ktW1P5APzF
-         mdEzSbB0BNNtQ0TUYUOf8VEf/bzbi+Jlk02OJJiuJWR+/HPYEDRaV9+AtUa/FJIExtZ4
-         c1Xw==
+        b=VbpH8a5Qipy5E2tGy7kbw1GRDjZqURgTJHVbs9BdgP2Jxf9LCxZL+mbYxydtJ2MaeQ
+         0OgRPZ3zXEO9yza9SKH1f6KL2Tm7qLlvIyK6TZLbj5SudmPIBoI5dyT3fd8epwp2tYCf
+         x3zlz6kaJGlA+OsvP47f0R6oa32dpY6tAwXoBqx1zO/IohlPqku4vppKNLSo3XiUOF5L
+         Nl7ehCwWNJzgCCamQJE+FJPvqMRuQQDUUaiK5iwG+7mSAmrSDdBNzYfQxF1RRrFKubDv
+         HYJcVrW0nL4HoZoIT/sa0IaEVQ8kYWZctE1HnSCQ/BzUKmFxocMOUzAx7oyzcgjPsUHz
+         PeZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:from:cc:to
-         :subject:dkim-signature;
-        bh=SLRgZlL57wW8C0dqM1PoINtRmgX8oqd7dqFbX9mKpnk=;
-        b=e8cEr5Dd8I35MdBo1IObwr6R8bjwVg6L9oTC6ELw9O3saqVTOxJZVE3EXFJgt9sP8x
-         DbWwQgpgpfjYs+95thDrcAys2fF3lwLG5Kr0v1ooATjp7kUm3FxzKkiJkejL0OBzNE2N
-         pGVWWxC39JCiTuEauUeRYKtz/S7CjzQCP0CpiUK6l5QraJhIQ86d7xnSqiiSXNeVKty7
-         +9qULa8jbpA+7C29WB/G+z7l4BlP6EY+2jVz8kqjtXo72P9AId96xOdLwqttLAQevUyQ
-         r8ss2MavXs7LYpbymjVyyBlEvNEVgWDzeEKO5WzLlTUIjy/OZ0vvWgTxkwLTp/r9mMew
-         VFmg==
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=5svZGXzpRpEeF1fzdip1Pbs9ol6JvBAXG3U9qbuqc6w=;
+        b=dk5qv5pZu5BTI3nNnEnxmUX5QogVbaA/WQ4ddU7SeVG5tVHCLYHTYN2HoCeyv6abzG
+         o93DVs1+026Xi0/v8v3Zparj8aU++lUHwTrx458Y1l2eetRESG2rsqNggU70T3D/nYLj
+         xLMdf9BeGpel0XitLbgVGnrDxgLnnM1RiH6LVCR2oyKHLIXl0Ik4SvYcFW4woXzwsnGX
+         sm3wHfoQnuEgujXWITPgcnRrTUJYfagxXVhXryNLVFCHfsAGHWRHUo02+S7Ps1+QGgax
+         1I2U7FToOP3hcCDhr0D0ltmqojUl7Hj69VlotKBdRV2CrICAhvjNIWlkVL5z9RfCuAQa
+         +thA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=dn2A8irw;
-       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=PiVNOgoQ;
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id o8-20020a0561023f8800b003d04209e4e2si11556vsv.0.2023.01.22.05.54.32
+Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
+        by gmr-mx.google.com with ESMTPS id u5-20020a05651220c500b00492ce810d43si2081236lfr.10.2023.01.22.07.26.58
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 22 Jan 2023 05:54:32 -0800 (PST)
-Received-SPF: pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+        Sun, 22 Jan 2023 07:26:58 -0800 (PST)
+Received-SPF: pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 075D060C17;
-	Sun, 22 Jan 2023 13:54:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC19FC433D2;
-	Sun, 22 Jan 2023 13:54:30 +0000 (UTC)
-Subject: Patch "panic: Consolidate open-coded panic_on_warn checks" has been added to the 6.1-stable tree
-To: akpm@linux-foundation.org,andreyknvl@gmail.com,bigeasy@linutronix.de,bristot@redhat.com,bsegall@google.com,davidgow@google.com,dietmar.eggemann@arm.com,dvyukov@google.com,elver@google.com,glider@google.com,gpiccoli@igalia.com,gregkh@linuxfoundation.org,jannh@google.com,juri.lelli@redhat.com,kasan-dev@googlegroups.com,keescook@chromium.org,linux-mm@kvack.org,mcgrof@kernel.org,mgorman@suse.de,mingo@redhat.com,paulmck@kernel.org,peterz@infradead.org,pmladek@suse.com,rostedt@goodmis.org,ryabinin.a.a@gmail.com,skhan@linuxfoundation.org,tangmeng@uniontech.com,vincent.guittot@linaro.org,vincenzo.frascino@arm.com,vschneid@redhat.com,yangtiezhu@loongson.cn
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Sun, 22 Jan 2023 14:54:18 +0100
-Message-ID: <1674395658195135@kroah.com>
+	by ams.source.kernel.org (Postfix) with ESMTPS id CFAE0B80B1D;
+	Sun, 22 Jan 2023 15:26:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09FFDC433D2;
+	Sun, 22 Jan 2023 15:26:56 +0000 (UTC)
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Marco Elver <elver@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Gow <davidgow@google.com>,
+	tangmeng <tangmeng@uniontech.com>,
+	Jann Horn <jannh@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Tiezhu Yang <yangtiezhu@loongson.cn>,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Kees Cook <keescook@chromium.org>
+Subject: [PATCH 6.1 154/193] panic: Consolidate open-coded panic_on_warn checks
+Date: Sun, 22 Jan 2023 16:04:43 +0100
+Message-Id: <20230122150253.432742379@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230122150246.321043584@linuxfoundation.org>
+References: <20230122150246.321043584@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-stable: commit
-X-Patchwork-Hint: ignore
 X-Original-Sender: gregkh@linuxfoundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linuxfoundation.org header.s=korg header.b=dn2A8irw;       spf=pass
+ header.i=@linuxfoundation.org header.s=korg header.b=PiVNOgoQ;       spf=pass
  (google.com: domain of gregkh@linuxfoundation.org designates
- 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+ 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -129,27 +166,6 @@ List-Archive: <https://groups.google.com/group/kasan-dev
 List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:kasan-dev+subscribe@googlegroups.com>
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
-
-
-This is a note to let you know that I've just added the patch titled
-
-    panic: Consolidate open-coded panic_on_warn checks
-
-to the 6.1-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     panic-consolidate-open-coded-panic_on_warn-checks.patch
-and it can be found in the queue-6.1 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From 79cc1ba7badf9e7a12af99695a557e9ce27ee967 Mon Sep 17 00:00:00 2001
-From: Kees Cook <keescook@chromium.org>
-Date: Thu, 17 Nov 2022 15:43:24 -0800
-Subject: panic: Consolidate open-coded panic_on_warn checks
 
 From: Kees Cook <keescook@chromium.org>
 
@@ -302,19 +318,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	add_taint(TAINT_BAD_PAGE, LOCKDEP_STILL_OK);
 
 
-Patches currently in stable-queue which might be from keescook@chromium.org are
-
-queue-6.1/panic-consolidate-open-coded-panic_on_warn-checks.patch
-queue-6.1/exit-put-an-upper-limit-on-how-often-we-can-oops.patch
-queue-6.1/panic-introduce-warn_limit.patch
-queue-6.1/exit-allow-oops_limit-to-be-disabled.patch
-queue-6.1/panic-separate-sysctl-logic-from-config_smp.patch
-queue-6.1/exit-use-read_once-for-all-oops-warn-limit-reads.patch
-queue-6.1/exit-expose-oops_count-to-sysfs.patch
-queue-6.1/panic-expose-warn_count-to-sysfs.patch
-queue-6.1/docs-fix-path-paste-o-for-sys-kernel-warn_count.patch
-
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1674395658195135%40kroah.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230122150253.432742379%40linuxfoundation.org.
