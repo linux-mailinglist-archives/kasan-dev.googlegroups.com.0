@@ -1,138 +1,147 @@
-Return-Path: <kasan-dev+bncBCU4TIPXUUFRBM56XGPAMGQEIUO3FDQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC32535MUICBBOWFXGPAMGQELBSOOAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3581E6778F9
-	for <lists+kasan-dev@lfdr.de>; Mon, 23 Jan 2023 11:19:32 +0100 (CET)
-Received: by mail-lf1-x13d.google.com with SMTP id cf15-20020a056512280f00b004a28ba148bbsf4874247lfb.22
-        for <lists+kasan-dev@lfdr.de>; Mon, 23 Jan 2023 02:19:32 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674469171; cv=pass;
+Received: from mail-ua1-x93b.google.com (mail-ua1-x93b.google.com [IPv6:2607:f8b0:4864:20::93b])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFF0A677941
+	for <lists+kasan-dev@lfdr.de>; Mon, 23 Jan 2023 11:34:35 +0100 (CET)
+Received: by mail-ua1-x93b.google.com with SMTP id k12-20020a9f30cc000000b0059bd6246237sf3200434uab.7
+        for <lists+kasan-dev@lfdr.de>; Mon, 23 Jan 2023 02:34:35 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674470074; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gpL88yDGsX52BjLu2my6pnv5Pp1Ufsmx9rRLpe7nAcJURMcORJFp43MZrUXzKx+Cu+
-         oBmIJxA8gNmsJl0RDS8eJPZduSOZqKjWNFI9LyIpwGdPsgOw42bO4ie0Mwkwnmtbn8VD
-         9esQFgLFMaLbmG7B7w0dMH3j89m4WJtO0aafvWYWJFHoppa+Dxi8xNi8IeLgI7Iw6bXB
-         7vtngm6LR/IEQ1aN13SmPKo0shiOfKlOazXGIPuaXW1dhj/Z3/RphRL9TReoo54YMjES
-         1DoZnQe8Ln74UKE3ZESLxT/a0DCWyKPV9w942YmsADU3g3Oj+GJ1YvAlq64VJLwdbmJS
-         o3Vw==
+        b=rE5HO3b4n1DmDcYieHZohoTsac9pO+jILUzkK07NHLAEHTLq7qQ3GntjJsPI7Zkda8
+         4EORnRSFjzTcw+wku9O4IUn63JK1YlM5vKdcV/r6XflKZwsPgE+OLmGusGVheJvhBFVt
+         fXRn/bhY/qwCHWICid79YGd02dE+VTdcx52zbDlMOE88/bg8lz21OdMDSs/bbAFbOMSL
+         9o5IEJgqejgV00tflaUOfTc+JMhkvi9JHnpIpo99gqY8XxquDpzmpUU5ushQcDxRA1vx
+         1q7U7CAdhQulIYAMAbSRnCG2DalkNAg3JepdNq9BLIZoRtxiM0XfUBIcPaCqLhvkC9Cz
+         I7gg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=49+JSFRUU0MKTHapE5IrpR0MjEDE7JArS/CLhYFgIo8=;
-        b=kiHRVpJr1z4W9pnTrB6uW6r4NeO6EMxYgO7duBKZ80XA/9Z/rnmzFRPKg1LC+jcac8
-         c9VV59B4xSpxc317n7VvG31iLYEqhyu16GOnHowuJ5yV/iDjB6Ed8k7Vtxu5xFZVA59I
-         R1vuZ6uB/QF6tFfbVuZ/oqLdQb15oAwIyhOuSFHyTwFRNaGuMbJVbNBTKA6b7TOSZ84R
-         q7tOiBRkCqoGOoaAnkQSc3CEnJF5Ro/Zr0sY4lC7Qe8cdaM9PAjyZE3ZfaMBV5YD1KQx
-         8xoh5gzZs95Z3LcRwOhIw06b7wmiJbuorfo5+SynOU4rRJm4kthzw10DAR55BvG6sFsm
-         VKvw==
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :organization:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:dkim-signature;
+        bh=tPV8l9xA5Sd9pOOP6fl/5iVit5JmzDQA9rB7DLg3UuI=;
+        b=cXUUSOFbmqbfGeC9/YQcgC3R0MUQyhALR8jTJVU87LxNrSLgLKKndi63WFn7hbxZzO
+         ZP7lHWUdQTNVWsI+wLDflpM9SNlsZkCtKYZvV/Ah34oz63n8/8ttRLIoLCATwGM5s2BI
+         Trkm8a1jLD4SWUpT+TdCX/W+0bPW9xHBQ8t1KyD6aSg8l5LdA+/CBcQ6MpcZ65u026O6
+         oJWABP2Qn0VSufu1ewweBH9xPTe5izdxCs+GP2GsP12ssPriCDSlV7So/4FdQF7gi1+5
+         jZS0Jk4ee/q7XO74+KF2li7oY0DunNr/5YWLtZLd6+C77G6zqy9XexdRqrVoyEUaxeOI
+         HTkQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=qyAVZIfr;
-       spf=pass (google.com: domain of ardb@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=ardb@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=H52XZ+5r;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=49+JSFRUU0MKTHapE5IrpR0MjEDE7JArS/CLhYFgIo8=;
-        b=De2YGM3FCBsDy3bAUv1fSJn3If8Ctyp3019Oze0AiQhaPkAvoWM0f9CRqL8MJs0bmV
-         L3yKP/sMBrigWDimB95jBAosx4iJDYOgrx1Mxzwt+bYxB0IOJas+bkV/pCXLtDbRR0Mt
-         95Rb57mrAx8BVERlQRQ2N/lqbPQ4m2pWr9OV2MKIC5W5M9qUFdKeBmWHQdaFe9y02hQW
-         1NzSnkPGhfQqjW9BRWtL2TkYickN5jrkYaExBo0cbsntT6TgEbN4pmFjNsAfxf1+CtwY
-         LnTEwucqZuejmIV1g9fA0ofCo7Dwe88+EPG+U491u/34ZQEBHjY0y4olO8x6fqxVBM5q
-         /hpQ==
+         :x-original-sender:content-language:in-reply-to:organization:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=tPV8l9xA5Sd9pOOP6fl/5iVit5JmzDQA9rB7DLg3UuI=;
+        b=mCyr/vbCHM+b9Bdb52l38/PjXjT1CLQO8h1jcacq7UgDAhm/9uE5i0aW3IE+Wf7cYc
+         1ZXtp3KxTrTfJTqo4dhGi6GJ+70oKSCFQOeGCJ/TEv2ZiBHujcRf6rpq0lwCjv8Arv81
+         cMIEmVqU3+VLiTg/lsnBt9bHKqSqZg5Qp0i/tBsHrvgG4b3hngWP7KZVjoITv5A3iMTa
+         g5YP2GJyDiQ68eP+yuolA5BulUMkz4vYX9eMPlsbr1s59HorAbSfmO3COxrPoMSycbHE
+         DkKZqN+XYDhIQgWzun4gkHo9TQMOMC4McnrNhObdwhgcWi0sY/4Qxc5Ki9OzX/apvfYZ
+         6ESA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=49+JSFRUU0MKTHapE5IrpR0MjEDE7JArS/CLhYFgIo8=;
-        b=rOCRHYfKVZ1WEj6KPhsjBc0NZ36UQpK8hdHNaGmnMEgUBCplE9ka54RDdMogS/uFH4
-         +65D3stK77HKzK5uRs9jgsRim5QCoh59Nl5zAj4ISuUgBiw9m3rODmjYjPgvWbFJ0A8l
-         CDAUmp8CuOXenJLOXyps8dlo4r4YpWP/f1iJxNa6YOcGegbEpJJ33bGOYlVdAdTuEYMG
-         n9RC8SqzraJEz/aNW1vke6SiXk0cfGJCe4KLye/B/ptFqQHYDKn/ts9zidZunBPVXlpi
-         nNIzs7tkTFWHkcZIZm5w26kZEDn8bOWx6s11gfiPCpJxCQKDxQrmx8dK0OIBXtcIWDj1
-         d1xQ==
+         :x-original-authentication-results:x-original-sender
+         :content-language:in-reply-to:organization:from:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=tPV8l9xA5Sd9pOOP6fl/5iVit5JmzDQA9rB7DLg3UuI=;
+        b=7Y85gleZPqldVt5Cv6ySOCA4kcPhQVoZOrJqyQ00daeSFI20WEHZ1Jd/+vhB1UV25f
+         wnUDZBDTbWCL1tnUGWG0muYRSYH7flTmgxpqZbCvBVyHM1SRfy8Bm8xeJZPQsg3gm5KK
+         HqsP/HKU8hY19V/1a6g0I/Sq95PVZORUAON4bbjvKekHVzqJd+Pfo3SyQ6O50XB0fH0Q
+         tfrZdIHom0tc5foWWJDS6sjjmnWE+ofpJ5YFuKj/slnt89qbA0CPVQDnUktQnRGavby5
+         Gx2TcHZ96V/VSdnc6M/OrgI7wc4aFUVu6/QIRoreqQLvZdT/bKvCypnRTs/G9KFAddqB
+         zoYA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kq8oSqe5/2Ts0oDAlY4Kiz8KjVKN87/iG2COMOQKoHLzZxXZfIl
-	QhGTm2HgHe7xmO5piG55sug=
-X-Google-Smtp-Source: AMrXdXt3CXEHa/yGODf3SXjrzhlEHkhzqvklT8mZpI7DEQJ4qWd3CY2a7K7M1Gsgc7q+wfK1bfURSA==
-X-Received: by 2002:a05:651c:102b:b0:28b:95fe:660d with SMTP id w11-20020a05651c102b00b0028b95fe660dmr1581714ljm.131.1674469171633;
-        Mon, 23 Jan 2023 02:19:31 -0800 (PST)
+X-Gm-Message-State: AFqh2koFGB3x/l+X/SWghJs9vdZ641a7rq3Bmis2/Ikpb81voCFFpfy7
+	8iVneWPaaUbsErB+QtwrTvs=
+X-Google-Smtp-Source: AMrXdXtQYb6vZDND/CYK5Yx4zo54dx+TfR/uB406F9O4ZB5ZHaN67OnvSsZpcoP1U5gArQtKUynYAQ==
+X-Received: by 2002:a05:6102:5490:b0:3b5:1fe4:f1c2 with SMTP id bk16-20020a056102549000b003b51fe4f1c2mr3192455vsb.0.1674470074571;
+        Mon, 23 Jan 2023 02:34:34 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:b90c:0:b0:27f:d6d7:84c0 with SMTP id b12-20020a2eb90c000000b0027fd6d784c0ls1451092ljb.5.-pod-prod-gmail;
- Mon, 23 Jan 2023 02:19:30 -0800 (PST)
-X-Received: by 2002:a2e:86d4:0:b0:284:53cd:74d0 with SMTP id n20-20020a2e86d4000000b0028453cd74d0mr6178636ljj.14.1674469170208;
-        Mon, 23 Jan 2023 02:19:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674469170; cv=none;
+Received: by 2002:a67:d20f:0:b0:3d2:3980:e728 with SMTP id y15-20020a67d20f000000b003d23980e728ls3858718vsi.8.-pod-prod-gmail;
+ Mon, 23 Jan 2023 02:34:33 -0800 (PST)
+X-Received: by 2002:a05:6102:2135:b0:3c8:f1de:f5b6 with SMTP id f21-20020a056102213500b003c8f1def5b6mr12798563vsg.8.1674470073869;
+        Mon, 23 Jan 2023 02:34:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674470073; cv=none;
         d=google.com; s=arc-20160816;
-        b=bsFkYrCaVFmIJkTRckDMx6mpvw69dXAmyDJ0vtdUUUblRue9LBhghSlnOs9YkG1+My
-         QskPLwrIZqpJuwyehBdwKfPJm/kNMFitgpxHq52KcxIcbcnPhzMZtHeRkD6NExmwASsd
-         XAMMG3DcJzX4Rcvf1lBBiLBKl99B01FbXhD1BqS4UoZRelWccEM9hK2z77lZ5ysPxU6i
-         C3psGZT81xKczsD2VMwrF7n2+5sYB1uXrC+wzBZdV1vrqsGb/TzxwTtediMhHT8dYbcL
-         kWqLOWMFkROXyB6SLF36N5+lqMov4k3uxKwiYgumh0XAa74cfzxi7nw7pW0dDNi6B2zR
-         jJjA==
+        b=Pho1+w4vnR9Faf2v93Z74j1xA1zgQ4pjyNXElb+TJrV7kKf/XWFxRx9TgLw95ozTas
+         ZX+9yF0OMSOO5sgEPrw5JO+qLKVEAq2Uj+hV4k5k4C/XS2qm1+ZdECd18F12P96hYdlL
+         CoJrsURk16lHQLIGwQPV1YYd4yFjWe/f7mb6YpjHTDASADFv+ZLxoGFnmwCNNXd/EIwy
+         RrkxWwdh2/VNJN0GZ+ar5UoEinFetNbYViJ2iZHW57Z33Tyq87aFfxXGhMothq1uHAZI
+         /3Bnvsqq4Oj7ijUZkA7xADMVdpykSLSfayBCXTQO+NabxajJhF4SK3GZdT1adRnuXNTd
+         t29Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=49abDuRGTQoOeEHxYV8XHLPa9mr381EFlBAMY5a18W4=;
-        b=ZAffER+MUCOi3JNTnBQ61kC78cTD0ma14mfH6natJi5m7eYQF4iZ51KGBYNjostg/b
-         809MlyRQSm086sL+t8a9hKS15K9j1LoGoT90mibNMwuW22FUdNBHNJSGDEK57nVwa3to
-         YRIzcp3wsWxQ77KNRRd6UC+hdTOrT593UIgvwmfYIblquNgk5mCyPf8ESPfim3mLn3rC
-         rXxnEQTo3iw0NjexQ2hKbGhsJNLqE7yGyQ2HUsl+3FI9UcD5Hiz3R7y3NNpbxMzO0k2q
-         6aVaHEdD0PH2FJ2/I9XeuM4/tCwyud8fBUUd7sXEuWjjpdAJKx2eCWX8Tsd1xh7j3VC3
-         +J8A==
+        h=content-transfer-encoding:content-language:in-reply-to:organization
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:dkim-signature;
+        bh=CGkTtXjMJ0EjzS8ngVp9e2oUkRRYJC5lbvd8du7yqlI=;
+        b=VaaSNKnd26J2bm/blRWfHrXI4/cnMaBYMcYolhw4GD9EAPvCa+Q4Cr4+hsztjIiqwi
+         duf//Q5g//4htInK9A3mYICJ9QEKxFwaTjRefWoh8r86btVaeSvvIPIbsCM24555upCG
+         c0L+NNXs3Kr8xx4M2/+ahWc5P/upXQjSFAzq70yvlA/modA4AROyL3IJ0TbkZcv+lPvG
+         grNGI6Y3Pm4gkRG+Kw1jKALNfl9MTBjmQNgnanwLFh6Vb+4a4P5Z9it5qN8JRDzgrFRB
+         ETG3CfFuTT9aH1wz3Xfy7x6tCk1NCjPUQRxo/wDcvB3PKwFEh3nYxjAuOVFxvf4Uabfo
+         HVfA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=qyAVZIfr;
-       spf=pass (google.com: domain of ardb@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=ardb@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
-        by gmr-mx.google.com with ESMTPS id i21-20020a2e8655000000b0028bce3cdc06si335186ljj.3.2023.01.23.02.19.30
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=H52XZ+5r;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id b15-20020a67e98f000000b003980b6c8861si3444666vso.2.2023.01.23.02.34.33
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 23 Jan 2023 02:19:30 -0800 (PST)
-Received-SPF: pass (google.com: domain of ardb@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id B39CDB80B9F
-	for <kasan-dev@googlegroups.com>; Mon, 23 Jan 2023 10:19:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A1EEC4339B
-	for <kasan-dev@googlegroups.com>; Mon, 23 Jan 2023 10:19:28 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id o7so12590920ljj.8
-        for <kasan-dev@googlegroups.com>; Mon, 23 Jan 2023 02:19:28 -0800 (PST)
-X-Received: by 2002:a2e:964e:0:b0:27f:b833:cf6d with SMTP id
- z14-20020a2e964e000000b0027fb833cf6dmr1969790ljh.291.1674469166406; Mon, 23
- Jan 2023 02:19:26 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jan 2023 02:34:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-526-Xsp8K535N22CZpDIngG7jQ-1; Mon, 23 Jan 2023 05:34:24 -0500
+X-MC-Unique: Xsp8K535N22CZpDIngG7jQ-1
+Received: by mail-wm1-f72.google.com with SMTP id ay38-20020a05600c1e2600b003da7c41fafcso9214698wmb.7
+        for <kasan-dev@googlegroups.com>; Mon, 23 Jan 2023 02:34:24 -0800 (PST)
+X-Received: by 2002:a05:600c:4e03:b0:3db:262a:8ef with SMTP id b3-20020a05600c4e0300b003db262a08efmr14478499wmq.38.1674470063467;
+        Mon, 23 Jan 2023 02:34:23 -0800 (PST)
+X-Received: by 2002:a05:600c:4e03:b0:3db:262a:8ef with SMTP id b3-20020a05600c4e0300b003db262a08efmr14478481wmq.38.1674470063197;
+        Mon, 23 Jan 2023 02:34:23 -0800 (PST)
+Received: from ?IPV6:2003:cb:c704:1100:65a0:c03a:142a:f914? (p200300cbc704110065a0c03a142af914.dip0.t-ipconnect.de. [2003:cb:c704:1100:65a0:c03a:142a:f914])
+        by smtp.gmail.com with ESMTPSA id fm17-20020a05600c0c1100b003db06224953sm12144105wmb.41.2023.01.23.02.34.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Jan 2023 02:34:22 -0800 (PST)
+Message-ID: <1657418b-56f0-54f2-8aa8-6740a52fad68@redhat.com>
+Date: Mon, 23 Jan 2023 11:34:21 +0100
 MIME-Version: 1.0
-References: <20230123100951.810807-1-alexghiti@rivosinc.com> <20230123100951.810807-5-alexghiti@rivosinc.com>
-In-Reply-To: <20230123100951.810807-5-alexghiti@rivosinc.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Mon, 23 Jan 2023 11:19:15 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXEk0Vpf6-_iVwyg36MWtQa5HXGdExDzaFU5-12179shmw@mail.gmail.com>
-Message-ID: <CAMj1kXEk0Vpf6-_iVwyg36MWtQa5HXGdExDzaFU5-12179shmw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] riscv: Fix EFI stub usage of KASAN instrumented
- strcmp function
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	kasan-dev@googlegroups.com, linux-efi@vger.kernel.org, 
-	Alexandre Ghiti <alexghiti@alexghiti.eu.rivosinc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: ardb@kernel.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 01/10] mm: reject vmap with VM_FLUSH_RESET_PERMS
+To: Christoph Hellwig <hch@lst.de>, Andrew Morton
+ <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com,
+ linux-mm@kvack.org
+References: <20230121071051.1143058-1-hch@lst.de>
+ <20230121071051.1143058-2-hch@lst.de>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20230121071051.1143058-2-hch@lst.de>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: david@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=qyAVZIfr;       spf=pass
- (google.com: domain of ardb@kernel.org designates 2604:1380:4601:e00::1 as
- permitted sender) smtp.mailfrom=ardb@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@redhat.com header.s=mimecast20190719 header.b=H52XZ+5r;
+       spf=pass (google.com: domain of david@redhat.com designates
+ 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,43 +154,22 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 23 Jan 2023 at 11:14, Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
->
-> From: Alexandre Ghiti <alexghiti@alexghiti.eu.rivosinc.com>
->
-> The EFI stub must not use any KASAN instrumented code as the kernel
-> proper did not initialize the thread pointer and the mapping for the
-> KASAN shadow region.
->
-> Avoid using the generic strcmp function, instead use the one in
-> drivers/firmware/efi/libstub/string.c.
->
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-
-Acked-by: Ard Biesheuvel <ardb@kernel.org>
-
+On 21.01.23 08:10, Christoph Hellwig wrote:
+> VM_FLUSH_RESET_PERMS is just for use with vmalloc as it is tied to freeing
+> the underlying pages.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
 > ---
->  arch/riscv/kernel/image-vars.h | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/arch/riscv/kernel/image-vars.h b/arch/riscv/kernel/image-vars.h
-> index 7e2962ef73f9..15616155008c 100644
-> --- a/arch/riscv/kernel/image-vars.h
-> +++ b/arch/riscv/kernel/image-vars.h
-> @@ -23,8 +23,6 @@
->   * linked at. The routines below are all implemented in assembler in a
->   * position independent manner
->   */
-> -__efistub_strcmp               = strcmp;
-> -
->  __efistub__start               = _start;
->  __efistub__start_kernel                = _start_kernel;
->  __efistub__end                 = _end;
-> --
-> 2.37.2
->
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+-- 
+Thanks,
+
+David / dhildenb
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAMj1kXEk0Vpf6-_iVwyg36MWtQa5HXGdExDzaFU5-12179shmw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1657418b-56f0-54f2-8aa8-6740a52fad68%40redhat.com.
