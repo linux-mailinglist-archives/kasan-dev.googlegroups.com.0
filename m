@@ -1,199 +1,128 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRBF7EYOPAMGQECEKBM6I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBIXMYOPAMGQEUGIS3YA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73d.google.com (mail-qk1-x73d.google.com [IPv6:2607:f8b0:4864:20::73d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1304867AD60
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 10:10:49 +0100 (CET)
-Received: by mail-qk1-x73d.google.com with SMTP id j11-20020a05620a410b00b007066f45a99asf12567587qko.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 01:10:49 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674637848; cv=pass;
+Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A0167ADCC
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 10:28:04 +0100 (CET)
+Received: by mail-pj1-x1038.google.com with SMTP id n93-20020a17090a2ce600b0022beeabcf6csf845112pjd.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 01:28:04 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674638883; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XEOBjVm1oFv599HIsfvQCHiMVYcu414Fk5S5MmtSbCoGQjGNa2XWYi6Y8KLBo1xjQA
-         5r8FeALQUhcvgLnDj6Ied35h5Gz71L1iP3sV6kD15RIFqHErFEMLREHDtHjSj0hN7/lO
-         xaatrSbINWYVvwP6Cq808fap4dqzLwKy2gRbCrZu5RkSckhcOyt39VZ79Ny1zmd8jRVM
-         HYURgt45zzgZ9LhVq0geBXjzeVyPhTtF/ehnjDqRNynUikQMdlnIbKGxbx64lTkpZ8Pe
-         LVYOCnuO+HnAZr0wM0J6UammJKhAx2uyQgei+3H7haC9iEEucVH6Xor31e29yGGBc2rs
-         M1+w==
+        b=0nWzyNMbikAU0XqjyLRFQ3cZgvishwWoY4QM2emLxwbCI/eKQx+1MUlY9Gd4Vb875n
+         edqcn0bB4Z07PcHys+B3hrzY+aaalevX7UV2wrQZhFRbBUY334yg5joJFhwCheKY39/h
+         vxq/zwB0n8ZcwMcFACvnh5KTzTrkZO8+Zx0wNjsoVeRFs3+TYhdZdmZ1oEpCDfEVZNus
+         owe+Ess4Y6eyNyxZewq95tEbQp199KapoALcbq8oQyZIFYvSSiuKLlTJkaX4T9UzA99C
+         b0FaY4h/tHpsiCarjXxfZR+7ZrMFgtwdchzNa6W7wl4i2G8mcDqZL/FauZ5Uim5/ON1y
+         XG8w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=DUvBluytcZvkMlWDm5wpzEoZayWAhqiq/hFKmNm1Xxo=;
-        b=cK+c7KFI22cqXzTVexv+qeqOLEgDilwj/f+Z2Oq0HhtdE+FOQIm2pEA+yHDObQ9co1
-         Lz+8OKU8ul+gyhjx337aMEMoki7vzGgY1RDjfqWBmA72r4NYgxwQKxaX5GX0HvunEc1W
-         eOFpzZoWQesFj/+dMqJaf11k2DolnlV22v6JUM31zWBmSbn1VJQoujTj3n3seStiPh0n
-         UjI5193WAbcgHPGUS3zdaXK6dOpJAlRVn8ctTzK5T5xDHRYwiZ14pT58QkBzYgGeGM8G
-         gsd7uzHUQGqcwkYUoWX0yP2bWJMEHgPPnnonH2n2sYkIFDas3oCLDOIVSh46ZrHXix61
-         kYIQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=Q6SXOQnaVru96/+kw5XZjk3tOD/1NXA3A0neH5+xuX8=;
+        b=l14zH/OQZt/3RFkzXTf5hC88b4QmG0Ot0Lnr/jFCsRXeD5wHrojINnV4XBcYufy4VC
+         ZhUph+QTaFqhqyyufv1ldYYuCp60zQWPBSEGcH03pNNZ+nxI8CDyX5yF1kaf5kcJHpX5
+         hsRuLnsgU2ize9bS36PxHdHUIZrWplD7LWPcgwntR+qu7a6DC1l5wF4V2+5wTAWtra60
+         6o4DKFg09AgekIHhN4K4OlRJdF8vo9K5i6V7Hfyzj+jFlVnHdYzkxKsbU5YM2Qu3kzf9
+         RzkG9nuafPjHfECkQwD3jsdcQLCmn4K68TTAvucI3BgkNYpKyfVmEm4JTuc37zq4iE2a
+         fRcg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=qsa+lu0U;
-       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@google.com header.s=20210112 header.b=S24ranaz;
+       spf=pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::136 as permitted sender) smtp.mailfrom=jannh@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DUvBluytcZvkMlWDm5wpzEoZayWAhqiq/hFKmNm1Xxo=;
-        b=FXqbGXV/kUvbrPc7c2A27+qzxDLkOR7eEHUp4sZaasS3DerSV6dV+6ChPecSkwnLyy
-         FsimUFUicVFu12388m52FmRmk2/x9I7VMAj7yorweGsLKR5wMkECM3SQLRbzl5q30joq
-         BemB5ayScIR9E/PGc4l85ukzmBpWbtJMGQDS57TuNzaNJGyTvK91sBEfFoxY3IP1zMfB
-         3pa0O95fJ9e2PJHXWM8o7bHDg3eWQpdfkQMhARpFQAJX+UUTmG1y3jqli8N7lEJC5cho
-         eCzP9Ukf2KWBS7hVzChWtKoV+zKW4jGCjhociiClkFV4goRB31KSPNvW92KNHWsTp612
-         fAjg==
+        bh=Q6SXOQnaVru96/+kw5XZjk3tOD/1NXA3A0neH5+xuX8=;
+        b=H13+re4K3jrCoIO81JCF0R1HMNi9GHsu8qThd1M1khSlL67VoHCfKXCJJ6sRSDWyub
+         TXx3csFO5gD+/RbBK6OpeBIb6baa8MW16MizRcQEdX/GQM2CroVOXjQDRvX9a6IXzFfk
+         TQNqMAHYyTMdAyuAu1hUc4nJS5ddd5tgWFQTr3gOdCKXAUHN6uUM6F99CQ6o2c2Vk0AD
+         /lc1VMyoEVpXZIb60RtOOz4nXR/970OdYrmV4USAYW16AT1ZkQkA4asJtEREk/rqi4V2
+         l26AzlFOpi3R1tIAkyXRq695Gv7eWvQA51mfDkLp9VQ/wBxH23uH9en/IRqcSGOTMv1I
+         WY0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DUvBluytcZvkMlWDm5wpzEoZayWAhqiq/hFKmNm1Xxo=;
-        b=pX5lWn3cSdsAMCIbTYFHg9pbqcKrD2Qse/4ltnFeHB6RgK83lL4W+Ezid0607IkorY
-         r1hUyOR6xAl/CVijiihGf1AxXfW9qbZ3Buqfg/m3VMkbUxTYSdTazuHaWgZThi+dS2/+
-         cpEqPA7bwN1XFO/B55imy1NTAV801h+Holf+T8HrPVrxG+wgA93Z2CK26z652xuYQSZp
-         1uO4tMeCqW2K5GK/BJl3Oz+8b43bE9VUdtSyuySMOA1qGBJ0AP8SyPcF+0mlzeIP9kGB
-         TPQcXH8hev+N7UY963haRwmqxaokeAeJFVdo7GOfz0YzHf6aZ9QwLH6w0PhUUcF8neh9
-         +Gxw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kppsW8IpnOGzyg2LeOPS7JMnT+4sIkNhKEJ/NeUf3EaLsFhsfM8
-	yNjqNFkk9WynLJM6TXOz9L8=
-X-Google-Smtp-Source: AMrXdXt6ul1GyGZM95RPfvLnKjTW9xsr+zCQgPjeNoOLzFQV88krrbd+koCIJW4nX95ZA4zbF0PP7Q==
-X-Received: by 2002:a05:620a:2238:b0:6fe:fa63:58d8 with SMTP id n24-20020a05620a223800b006fefa6358d8mr1803262qkh.662.1674637848078;
-        Wed, 25 Jan 2023 01:10:48 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q6SXOQnaVru96/+kw5XZjk3tOD/1NXA3A0neH5+xuX8=;
+        b=f5xMXmQjqTqCgBMDk6ZLZZ2SIQRhXqUGatgHxp/sYgF11NAorhiS13UozSZfqDNPm1
+         tSdx3Gkgt3jPzC5P+V66zCIfMecAf0PL1ZtQGih3kiYXP2QeiSJSbXsUfZ7+qBOC3RZ4
+         XRIpmmv8Vqc733B10VlqppptjlP15l9z80FJsoFVgYXYx/BIkRuXDSqmt9sbS2CqS4QW
+         Vty9dqHQ7JqpJj1hgv2w+bwEecycL6Xy818+weTRqebidbNaUs6KVh1AMaD88ISQJefN
+         db0NYrv9tzLDqzTpaRAurAXQ/ud67fYYFORr4m2eSHqvdYjj1Kqx1BHnIyjynLcnx+np
+         UkXg==
+X-Gm-Message-State: AO0yUKX2NeshE1LHXzSx2oFDTDD1MDyHJt5cGMfo6Qgx1mvR51LzG0ni
+	mcLqiU6FNFYy3cGqIpePkR8=
+X-Google-Smtp-Source: AK7set/XUpH1bDBit23i7mYzvLKLJwfml+dlzOMHLGh16NBarujDmP18QOTMq8TIj+xS4Qc+Mcvn+g==
+X-Received: by 2002:aa7:8754:0:b0:590:18a5:9fb9 with SMTP id g20-20020aa78754000000b0059018a59fb9mr432528pfo.37.1674638883064;
+        Wed, 25 Jan 2023 01:28:03 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:a914:0:b0:532:228d:cad5 with SMTP id y20-20020a0ca914000000b00532228dcad5ls11108617qva.2.-pod-prod-gmail;
- Wed, 25 Jan 2023 01:10:47 -0800 (PST)
-X-Received: by 2002:a05:6214:3246:b0:534:afe8:f214 with SMTP id mt6-20020a056214324600b00534afe8f214mr48720864qvb.46.1674637847559;
-        Wed, 25 Jan 2023 01:10:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674637847; cv=none;
+Received: by 2002:a17:90a:7149:b0:227:1b53:908c with SMTP id
+ g9-20020a17090a714900b002271b53908cls1966547pjs.1.-pod-canary-gmail; Wed, 25
+ Jan 2023 01:28:02 -0800 (PST)
+X-Received: by 2002:a17:90b:1bcb:b0:229:dcec:bef with SMTP id oa11-20020a17090b1bcb00b00229dcec0befmr25165490pjb.33.1674638882347;
+        Wed, 25 Jan 2023 01:28:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674638882; cv=none;
         d=google.com; s=arc-20160816;
-        b=gyXeKi18BkqvFR3zaSsJFTqmNbFtuZf+uMyzyh1WRSmipscz4/arWLdEv9TakWxdX8
-         h3Z9f1djh64K2tqdHw4c5crLafjcX1RPyAgJANApvdGImbLwyI69uNXqcjX05l6XyZos
-         G+BKWVHlBY2q4Blc9LmB2NlFLVczboc4fVygY0LL/MWL8oXwt8n+IgfgPW7JLKNdZpNc
-         jj3c4HlAGrORyzRv/ahTEgSakwQT33BUexO96tb3Dee6QetZGjufS5Ha+a5YvuP+NPjs
-         QHbtUJ8CbDOnovVrDEXes6cBkSHGizmY4I/WkM0s1Z1eSPsa0gmAt1knS3H97isBGYpV
-         BYtA==
+        b=hA5MAFHn6WbZtIj0wjOQNsj9cOGd4wnostuutRpoVXDgTyZdCB2qLiE6U62RICyJqk
+         /p0cRPiNYUBsOKk6b5C4hbgqW7GmoRRZgNp3Eh6dsFfT5ot49HNEu2maoLbVFEkzqopd
+         d3PyrQzWbd9hIjUeAxxJNiT8ioQ1idgNwIFADzqUZRyN9nlHlEj8gsUAPg2dW9p2KeQR
+         IWtjIuaN/XSD2lB52ONHTT9rmU6NKzuQgzIxLDg1UJFPjsZbwniPb67zutK7cLvD/K/a
+         iIqQboxq4vl/UmGdtSR7RoszvlNrzoIDotUNAcwFfsyVNklqj8EgygPrrJxrZHcv5XNA
+         eghg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=hk+0OseVD3OO+ksIzhtEU5LrZV8KXEqXC3zpbOGn/ls=;
-        b=q2QxL0TlR1+1pwXSld7wAt4A+lvRtgSUf1wrNLFvZ8PEhu3teyTY0jPXgldi/OFFzL
-         U4bz5pq+rP7CoROVTq77hNXIdkZkVr5FSB9EqD2I02g/A07yhRQJexBVdxS6Pc964isv
-         rC6e3QjQzO0jfgTe76+rI8+JIMmqF8EjsYXjlNZiyp1a+rUkQYcybuB4/mdaAF47B7+R
-         94IHReyafweWjPRuIdBSTUP6tjh+fcH7m85wX2hJqJwe7/2csO8ETVlr19Vmw4fa3Fvm
-         u791TY6bvk+jDIDMkPgA2P/QCgvk2/oI1ZE/Xw3vlDoFXsJdbGcSQF2MZCvdK6LNSx9H
-         oWDQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=3vAoXdS/YoRTyt2xMAeJZRk1CWXWTFAex8XSq5QFxAI=;
+        b=kbNKgqYDwPA5RhCWrTfT3NusGC1sZfw8kAjwcd8dti+y8nkrlj7PzohHf6Coqk79K+
+         Z0EWFE6CjepekWzUayogJIQjtWiFLmcFlf90hSabdrUEUlZSnmh/a8hOJGjtvDJTQxjg
+         nzYUJwrXXxe+pt3VXMUuD5JZc19vw/mlBTKRcx+Vz6t4cVEvfhEgcfOJj5XoH1Z3tyHh
+         NnwC2dd9dMxyzi1biZ2lIoLE8JxyfPle0C50YljUWtCDiYU4vMN4iZ2676yE5AFC9bVM
+         MI0zGyNu3ZgCa1RctGfwOFH49yEonTViIr5XIrQMcLSt0hBP2uc8a9t1IgPlA8E2sY7Q
+         iqvw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=qsa+lu0U;
-       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
-Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by gmr-mx.google.com with ESMTPS id b15-20020a05620a270f00b0070f2c8e7344si359667qkp.5.2023.01.25.01.10.47
+       dkim=pass header.i=@google.com header.s=20210112 header.b=S24ranaz;
+       spf=pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::136 as permitted sender) smtp.mailfrom=jannh@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com. [2607:f8b0:4864:20::136])
+        by gmr-mx.google.com with ESMTPS id g2-20020a17090a9b8200b002295c9ea1a8si124094pjp.1.2023.01.25.01.28.02
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 01:10:47 -0800 (PST)
-Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-	id 1pKbmL-0026m7-1c;
-	Wed, 25 Jan 2023 09:09:21 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 83601300137;
-	Wed, 25 Jan 2023 10:09:37 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 673382C247607; Wed, 25 Jan 2023 10:09:37 +0100 (CET)
-Date: Wed, 25 Jan 2023 10:09:37 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, michel@lespinasse.org, jglisse@google.com,
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
-	mgorman@techsingularity.net, dave@stgolabs.net, willy@infradead.org,
-	liam.howlett@oracle.com, ldufour@linux.ibm.com, paulmck@kernel.org,
-	luto@kernel.org, songliubraving@fb.com, peterx@redhat.com,
-	david@redhat.com, dhowells@redhat.com, hughd@google.com,
-	bigeasy@linutronix.de, kent.overstreet@linux.dev,
-	punit.agrawal@bytedance.com, lstoakes@gmail.com,
-	peterjung1337@gmail.com, rientjes@google.com,
-	axelrasmussen@google.com, joelaf@google.com, minchan@google.com,
-	jannh@google.com, shakeelb@google.com, tatashin@google.com,
-	edumazet@google.com, gthelen@google.com, gurua@google.com,
-	arjunroy@google.com, soheil@google.com, hughlynch@google.com,
-	leewalsh@google.com, posk@google.com, will@kernel.org,
-	aneesh.kumar@linux.ibm.com, npiggin@gmail.com,
-	chenhuacai@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, richard@nod.at,
-	anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-	qianweili@huawei.com, wangzhou1@hisilicon.com,
-	herbert@gondor.apana.org.au, davem@davemloft.net, vkoul@kernel.org,
-	airlied@gmail.com, daniel@ffwll.ch,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, l.stach@pengutronix.de,
-	krzysztof.kozlowski@linaro.org, patrik.r.jakobsson@gmail.com,
-	matthias.bgg@gmail.com, robdclark@gmail.com,
-	quic_abhinavk@quicinc.com, dmitry.baryshkov@linaro.org,
-	tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
-	ray.huang@amd.com, kraxel@redhat.com, sre@kernel.org,
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com,
-	tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-	dimitri.sivanich@hpe.com, zhangfei.gao@linaro.org,
-	jejb@linux.ibm.com, martin.petersen@oracle.com,
-	dgilbert@interlog.com, hdegoede@redhat.com, mst@redhat.com,
-	jasowang@redhat.com, alex.williamson@redhat.com, deller@gmx.de,
-	jayalk@intworks.biz, viro@zeniv.linux.org.uk, nico@fluxnic.net,
-	xiang@kernel.org, chao@kernel.org, tytso@mit.edu,
-	adilger.kernel@dilger.ca, miklos@szeredi.hu,
-	mike.kravetz@oracle.com, muchun.song@linux.dev, bhe@redhat.com,
-	andrii@kernel.org, yoshfuji@linux-ipv6.org, dsahern@kernel.org,
-	kuba@kernel.org, pabeni@redhat.com, perex@perex.cz, tiwai@suse.com,
-	haojian.zhuang@gmail.com, robert.jarzmik@free.fr,
-	linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-	linuxppc-dev@lists.ozlabs.org, x86@kernel.org,
-	linux-kernel@vger.kernel.org, linux-graphics-maintainer@vmware.com,
-	linux-ia64@vger.kernel.org, linux-arch@vger.kernel.org,
-	loongarch@lists.linux.dev, kvm@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-sgx@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
-	linux-crypto@vger.kernel.org, nvdimm@lists.linux.dev,
-	dmaengine@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-	linux-samsung-soc@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
-	linux-tegra@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	xen-devel@lists.xenproject.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-accelerators@lists.ozlabs.org, sparclinux@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-	target-devel@vger.kernel.org, linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-aio@kvack.org, linux-fsdevel@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-	devel@lists.orangefs.org, kexec@lists.infradead.org,
-	linux-xfs@vger.kernel.org, bpf@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
-	selinux@vger.kernel.org, alsa-devel@alsa-project.org,
-	kernel-team@android.com
-Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
-Message-ID: <Y9Dx0cPXF2yoLwww@hirez.programming.kicks-ass.net>
-References: <20230125083851.27759-1-surenb@google.com>
- <20230125083851.27759-2-surenb@google.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Jan 2023 01:28:02 -0800 (PST)
+Received-SPF: pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::136 as permitted sender) client-ip=2607:f8b0:4864:20::136;
+Received: by mail-il1-x136.google.com with SMTP id i1so8530088ilu.8
+        for <kasan-dev@googlegroups.com>; Wed, 25 Jan 2023 01:28:02 -0800 (PST)
+X-Received: by 2002:a92:ca8d:0:b0:310:98bd:dbf0 with SMTP id
+ t13-20020a92ca8d000000b0031098bddbf0mr583597ilo.128.1674638881876; Wed, 25
+ Jan 2023 01:28:01 -0800 (PST)
 MIME-Version: 1.0
+References: <20230117163543.1049025-1-jannh@google.com> <CACT4Y+aQUeoWnWmbDG3O2_P75f=2u=VDRA1PjuTtbJsp5Xw2VA@mail.gmail.com>
+In-Reply-To: <CACT4Y+aQUeoWnWmbDG3O2_P75f=2u=VDRA1PjuTtbJsp5Xw2VA@mail.gmail.com>
+From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 25 Jan 2023 10:27:25 +0100
+Message-ID: <CAG48ez32X1WKryh5ueQ0=Mn=PMKc6zunOYsMHhwMMMxKKaMfqA@mail.gmail.com>
+Subject: Re: [PATCH] fork, vmalloc: KASAN-poison backing pages of vmapped stacks
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+	Uladzislau Rezki <urezki@gmail.com>, Christoph Hellwig <hch@infradead.org>, Andy Lutomirski <luto@kernel.org>, 
+	linux-kernel@vger.kernel.org, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20230125083851.27759-2-surenb@google.com>
-X-Original-Sender: peterz@infradead.org
+X-Original-Sender: jannh@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=desiato.20200630 header.b=qsa+lu0U;
-       spf=none (google.com: infradead.org does not designate permitted sender
- hosts) smtp.mailfrom=peterz@infradead.org
+ header.i=@google.com header.s=20210112 header.b=S24ranaz;       spf=pass
+ (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::136 as
+ permitted sender) smtp.mailfrom=jannh@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Jann Horn <jannh@google.com>
+Reply-To: Jann Horn <jannh@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -206,28 +135,81 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jan 25, 2023 at 12:38:46AM -0800, Suren Baghdasaryan wrote:
+On Wed, Jan 18, 2023 at 8:36 AM Dmitry Vyukov <dvyukov@google.com> wrote:
+> On Tue, 17 Jan 2023 at 17:35, Jann Horn <jannh@google.com> wrote:
+> >
+> > KASAN (except in HW_TAGS mode) tracks memory state based on virtual
+> > addresses. The mappings of kernel stack pages in the linear mapping are
+> > currently marked as fully accessible.
+>
+> Hi Jann,
+>
+> To confirm my understanding, this is not just KASAN (except in HW_TAGS
+> mode), but also CONFIG_VMAP_STACK is required, right?
 
-> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> index 2d6d790d9bed..6c7c70bf50dd 100644
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -491,7 +491,13 @@ struct vm_area_struct {
->  	 * See vmf_insert_mixed_prot() for discussion.
->  	 */
->  	pgprot_t vm_page_prot;
-> -	unsigned long vm_flags;		/* Flags, see mm.h. */
-> +
-> +	/*
-> +	 * Flags, see mm.h.
-> +	 * WARNING! Do not modify directly.
-> +	 * Use {init|reset|set|clear|mod}_vm_flags() functions instead.
-> +	 */
-> +	unsigned long vm_flags;
+Yes.
 
-We have __private and ACCESS_PRIVATE() to help with enforcing this.
+> > Since stack corruption issues can cause some very gnarly errors, let's be
+> > extra careful and tell KASAN to forbid accesses to stack memory through the
+> > linear mapping.
+> >
+> > Signed-off-by: Jann Horn <jannh@google.com>
+> > ---
+> > I wrote this after seeing
+> > https://lore.kernel.org/all/Y8W5rjKdZ9erIF14@casper.infradead.org/
+> > and wondering about possible ways that this kind of stack corruption
+> > could be sneaking past KASAN.
+> > That's proooobably not the explanation, but still...
+>
+> I think catching any silent corruptions is still very useful. Besides
+> confusing reports, sometimes they lead to an explosion of random
+> reports all over the kernel.
+>
+> >  include/linux/vmalloc.h |  6 ++++++
+> >  kernel/fork.c           | 10 ++++++++++
+> >  mm/vmalloc.c            | 24 ++++++++++++++++++++++++
+> >  3 files changed, 40 insertions(+)
+> >
+> > diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
+> > index 096d48aa3437..bfb50178e5e3 100644
+> > --- a/include/linux/vmalloc.h
+> > +++ b/include/linux/vmalloc.h
+> > @@ -297,4 +297,10 @@ bool vmalloc_dump_obj(void *object);
+> >  static inline bool vmalloc_dump_obj(void *object) { return false; }
+> >  #endif
+> >
+> > +#if defined(CONFIG_MMU) && (defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS))
+> > +void vmalloc_poison_backing_pages(const void *addr);
+> > +#else
+> > +static inline void vmalloc_poison_backing_pages(const void *addr) {}
+> > +#endif
+>
+> I think this should be in kasan headers and prefixed with kasan_.
+> There are also kmsan/kcsan that may poison memory and hw poisoning
+> (MADV_HWPOISON), so it's a somewhat overloaded term on its own.
+>
+> Can/should this be extended to all vmalloc-ed memory? Or some of it
+> can be accessed via both addresses?
+
+I think anything that does vmalloc_to_page() has a high chance of
+doing accesses via both addresses, in particular anything involving
+DMA.
+
+Oooh, actually, there is some CIFS code that does vmalloc_to_page()
+and talks about stack memory... I'll report that over on the other
+thread re CIFS weirdness.
+
+> Also, should we mprotect it instead while it's allocated as the stack?
+> If it works, it looks like a reasonable improvement for
+> CONFIG_VMAP_STACK in general. Would also catch non-instrumented
+> accesses.
+
+Well, we could also put it under CONFIG_DEBUG_PAGEALLOC and then use
+the debug_pagealloc_map_pages() / debug_pagealloc_unmap_pages()
+facilities to remove the page table entries. But I don't know if
+anyone actually runs fuzzing with CONFIG_DEBUG_PAGEALLOC.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y9Dx0cPXF2yoLwww%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG48ez32X1WKryh5ueQ0%3DMn%3DPMKc6zunOYsMHhwMMMxKKaMfqA%40mail.gmail.com.
