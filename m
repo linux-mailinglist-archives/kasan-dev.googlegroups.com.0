@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCKMR55PYIGBBOG5YOPAMGQEZAO234I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKMR55PYIGBBFPAYOPAMGQEST42BOA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0528767ACEA
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 09:56:25 +0100 (CET)
-Received: by mail-wr1-x43b.google.com with SMTP id i8-20020a05600011c800b002bfb6712623sf369996wrx.6
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 00:56:25 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674636984; cv=pass;
+Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C19A67AD1C
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 10:02:14 +0100 (CET)
+Received: by mail-wm1-x339.google.com with SMTP id o22-20020a05600c511600b003db02b921f1sf754223wms.8
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 01:02:14 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674637334; cv=pass;
         d=google.com; s=arc-20160816;
-        b=n+Uoj5S1gh6KLwiUDBrItJqp0uJHQfCeo+tn3ruWByWSLGjkKsFUHmwg9h0KQNOLdS
-         b5JAMLARRzbw79TpB9GtBnxuSdVMgpcpRKJ2iIQHxWJLTUuCuFgTU8h4GluqEZ0Z9KWl
-         mQix0998E8vrv/aOsAzkNZVewLpyCaD+d5tlIRI/r5P2918cHHeWShml2GyAj+v7bWt+
-         Iou8aLcsXJWydAg2ryzUfkmAV94MQjZc7gAemys9QJ5OkG46RPdXRkRxb5139EEITj9J
-         Q9rlUDuDaYoZToJ0U4VSYNznwo2jdDL6Qc6xIznZy0DES4oP122wDF2Lc82YcXqMecVx
-         Fk7Q==
+        b=UjYJfoClbKUTyY2cTj838YY6HzoAMipBav2TUunhASpbypRhzZ7CpCCy8k6pS52weY
+         SjRqbv3qO/fkTWt1hCbj6OSBXcGiNHtmhk/lym3Gl5aGO/YdkwTgbYBaprD7b+fllUVb
+         LFeLlQStCiY7ew5qyTwnSKQbWOvHqJN1HTXhOmSXO2+cvypxuvVZPA0EkJ8Z46Tz2uxb
+         /+UFJ8ahIFBiS8Ej7vN8NOWgcPrFUDk/XmczV5+l2clPhIENudlp8r5WsVBmSDLc1HgO
+         kkFKl/nKy6KhIA8tCif55P64LLgN/EHLrHIKumCjttadVhC6+7hPuD6UAtXbNqLRLVnv
+         9UbA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=H8HoL3s4ablVr8oWB7L6jfgxu2/WxcunZ290BSpXuwQ=;
-        b=H/B9JZNMFiGfZ861/uFaZJvjotHMvDUo2BTl5Yn3syKF6kKo2EsBmCuYj97mU6vdny
-         CqmhrGnrRhblLR99Gn9ztGICbmZAFwT/rDw0yz+pR63VDMaejcghsTHaB4nes3qzTd4E
-         fDqznsA/S9u2GXWrR6M1r+mpFebpOp2bDCUyKEKCeV6WAkgPlJZA9fW2XEfAURm6ZCEs
-         Mm3aDgjDWLPJZnZDF+DlEvOF4EhBcA3Vl7/fTtcuaZdRDG/3ajsQanwUy8U37oF0kWhQ
-         MRihUcjKBJvC7EH3Hf25FtIncziIxU01h9eg+hJ4oKl8BhbDwsPqGPwNxp/p+QrXsz8c
-         +3lg==
+        bh=3EdevzxFVVnSNanU9D/7CKBtKn1YkBWLY5VdnRnuQSQ=;
+        b=AGSdN8d0YvGmomQmYc8kyObpbegF642dpDgK69ic/wpwEYyRBLGlDuILILSiehxsfL
+         EhLOpx+spr1WvSskU+DtonXMcBYbgbc/TKe/dLMH9sYNH59wm347tB8709gur31C3pQ7
+         RsCRUiBa8JoGd8VO8baoJnCcTYpPBRLVwpPODd4zkdH5XS8Xo5/bgM2src6JdU5grtCY
+         TgY20oLYEXOMJcvbHT3uYlfz5JB4S4tI+gcu35amK2pbDYyNKrAVMj0WDa+DET3PYyuW
+         NLZb0DdbUWE1rA5ZSChntYnax+YX3GasDiBjGYicQ1OUwAWKFhQeB+hfCA5CmLJ1PvMK
+         AtKg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=sP3k2vbL;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=CylERLDb;
        spf=pass (google.com: domain of mhocko@suse.com designates 195.135.220.29 as permitted sender) smtp.mailfrom=mhocko@suse.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H8HoL3s4ablVr8oWB7L6jfgxu2/WxcunZ290BSpXuwQ=;
-        b=GtdRDt3n4gdoXkWlK+ZcCaj5DWcLITpV32Qbol+QAgl0ZKqe1XBNy7RVp2rQbiSPjt
-         owVuZsXwKuFA8VZd2YoYMyqykdgmJwjjRZFwiehwwPdzkHMFS5mLn7S5oa4R+dBivjus
-         xAlbqKKNVOQVD71i6Dl5FJn5Eth2VVX3o0xHCFUCs4J71iZ/re6K5kcgPURVyvNmH152
-         yKKABEqW0FKZ0sXP2b5Na5c4/ynyfeqTXB7i5OeewJkdPgxh5opq4qAoLKN214fSXSpA
-         XYiFXLNlze2/LASUN5f+Hl7HrKpLIxKh45XQ6xtRcYpoaQ88LEEkB1OhT5e1AoFlwYj8
-         AuqQ==
+        bh=3EdevzxFVVnSNanU9D/7CKBtKn1YkBWLY5VdnRnuQSQ=;
+        b=XxTAiuWdt/KBVT8iXSHI2KlkNrqV44oOAWDxpGDMsfig2/vGo+FjJLhHZI5eFBoklw
+         vcyglLmzfqKchfvT9clv1lBS6srDeuRufjNOap0wsk1gXcs55c3twfiBGaXv/uxS0ONG
+         ikC3bOncldhM25ZI4C3hTW/uXMC1u+VjMt8v+uEkz/b/6VsAKczAEwVg7uyQ0u6kPSo6
+         adFHvmXTL4bH2Kv0vDiCA55AgV6/tIKzvYJLdxh+tbMi4cHTNfgRuUk0xDj0IvZWluZ7
+         PtzfKoDi/GZCbhNHs+HN007mYnyusG31Z/50K9+Kei9ndR6yuO+SOaoZe4fg8CgAzlVE
+         RuXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -52,68 +52,69 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=H8HoL3s4ablVr8oWB7L6jfgxu2/WxcunZ290BSpXuwQ=;
-        b=R7Gm5pQnbxmv92RgDoa9X6XIubqDgsyuSwW4fOM9wIo+KZ4ycJQGIKBEFnm71kGcKC
-         MECQIrAkPYUe/SJHIvyLLdDaEjD91igogm52RUex/RG4GMTj4VYdd75UgNjWECOb3Hwb
-         CnRMvWQqvKmk10oi6qH8Ah3c1ktfN5Xwgqdz5KzFlmrpAWsQkzriJVXd8mf47ucSrtLq
-         kSd73PKgAUBhayM3ailLverNRf0xEGZgx8zGFHImLwa4Pc9csSlwiUf4KpguWFdHNLRq
-         C+ukc+W+6edvb0mmqN6ilmACwp/5gZUEtEFDnWVsY69W+H7Dpp0b/0UOqJAO7EunExas
-         Wl6w==
-X-Gm-Message-State: AFqh2koG7/rTxKoOToRXlWs7r3GQ0PpBimYqCUp2C3XE7OvLbPHPuomM
-	tUPVt0lyhiCmw/rnbThHYuM=
-X-Google-Smtp-Source: AMrXdXsuBphnM7PL5ES+XBTSVUvqajlmiuJZB3cmhSVkdogDtepl6yyJa68O6Afg0XytyJsbGVNFHw==
-X-Received: by 2002:a05:600c:4f41:b0:3db:14e1:d16e with SMTP id m1-20020a05600c4f4100b003db14e1d16emr2173674wmq.35.1674636984643;
-        Wed, 25 Jan 2023 00:56:24 -0800 (PST)
+        bh=3EdevzxFVVnSNanU9D/7CKBtKn1YkBWLY5VdnRnuQSQ=;
+        b=u3C1tIVkWDb1vJ0AwQbBxsJc7KJG+gcAeAYHwQex4ufVN98XPIsX4en6EIa3HX95sk
+         O7QWf/GD53xH94RDbTIJsyT0w8XmgSFcda64iBTKSuVPpBVCgpxzbFIdhJLiiHWhH3ej
+         /LOJVeBJk47obXYl9A6z1JXcgLqZBIMze05/CFUH7AFl3YGYIf5wh/hQpODpQ99VjF3Q
+         aLaSL2TyGjIczZDcaRmeqBBhk7UCkLj+loejI+Ixw3qZ9+Iory6jO/vI9os/MTWYo0Ah
+         SrAKd1zEedPi/MxkrMlFpR7lqQzm9t5fZvx9O6cmyNxnpRZHixHrHMgvaqMtOg5K9wHm
+         fy+A==
+X-Gm-Message-State: AO0yUKVaGicKA3vcGXjfsdzc8xaV2ZOeypm4RvMIgQcWLkiOR8JO7LZ3
+	RwHzEToKrQGr6thPIaioISE=
+X-Google-Smtp-Source: AK7set9Mza0Bxnv9Qp68mz4l1fAdY1ivcXtRNgDzbkvczRPNygxSHhsAJXrZNvaIo2dBYnyIgPCTVA==
+X-Received: by 2002:a5d:6247:0:b0:2bf:ae8e:c2de with SMTP id m7-20020a5d6247000000b002bfae8ec2demr255661wrv.588.1674637334096;
+        Wed, 25 Jan 2023 01:02:14 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:cd91:0:b0:2bf:adc3:9107 with SMTP id q17-20020adfcd91000000b002bfadc39107ls461127wrj.0.-pod-prod-gmail;
- Wed, 25 Jan 2023 00:56:23 -0800 (PST)
-X-Received: by 2002:adf:ef4f:0:b0:2bc:7ff8:fb83 with SMTP id c15-20020adfef4f000000b002bc7ff8fb83mr27209729wrp.47.1674636983427;
-        Wed, 25 Jan 2023 00:56:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674636983; cv=none;
+Received: by 2002:a05:6000:3c7:b0:2be:34f5:ab03 with SMTP id
+ b7-20020a05600003c700b002be34f5ab03ls488480wrg.3.-pod-prod-gmail; Wed, 25 Jan
+ 2023 01:02:12 -0800 (PST)
+X-Received: by 2002:a05:6000:10c6:b0:2bd:e33e:c04b with SMTP id b6-20020a05600010c600b002bde33ec04bmr25819647wrx.22.1674637332805;
+        Wed, 25 Jan 2023 01:02:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674637332; cv=none;
         d=google.com; s=arc-20160816;
-        b=HB9MhPdVb5O5YN6ouwPm5VFwG3LIt+t4Ntc/PqVSGBEGX/Po2LV30ADQskH019FerP
-         A2qUb0FmrKV5A3HyM2tSFxqoZZgOF5Ng9PDGlh5ZSPNt71upVb+5kTYI4RC3dityudd5
-         sYTihgZyqSwQP5qQ2exSuFz5fK60/gkTxz+JizorD7Akwaa13eniYVLiykl9TrcK6oiU
-         p9QZKdEkOhSZvhixW7qGQyJa4O4mIW7jOnqa+YRrqsTysjWN6DxQDlHVig205AtLn60K
-         TnMFZUjzDQxADPa+Z+NgdZcT2hRwQqFxTACDs811ceXUf4UJvtcnn9LxBjJV9IffSTfL
-         w6gQ==
+        b=hfeMEprwc9Brtph9Y0aIcYfmPQ/77REyPe0w3PYxICNrhqV0otUK8aOFZ8ecewQ/Zr
+         0iGuwvdBhdIBBtkDWprvt3efSahKPznZt1RQgFnbsx2VroADvCfd0Kol9QbohJ4HX9V1
+         Gcv3ctmA09wWd/7fQKkE1aBxpTFOr2K8ouUtiYC9sdR4KMiF+GytQ4g4UR9WuMLLDQum
+         RC0f1Z3XiNp0QpPpl+Mv3VhaeD5XkWOkbePw/n5gmQ2eZZYWUUIriSX5wnhYALBmxM7K
+         Z2UQe56sWtGvEHXFW30toPl41GpehT02VjO9zJymc1Dpznhsv53irY1Lz3BnWO7HP6n4
+         ZIFg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=HlfVezvAjFmKLztHMOaZ+yji8Nsqp9vLwu4LVliFLNo=;
-        b=Wc+FICPAU6y49sW1je3WqvncggIIaaJL6hp0TBrDXuMUmy+jCj/5/BN6DnHLBiLR4/
-         e2Muv+gMxcSMy2jITeAQNHbEmqLEU8lwd6ccfDPPFZMjhKwhuyvBV1bHC8fLZI2GcBla
-         FjtBxsEIsZhKK5YAf112QMlLAXvMzv8nJh1jEWPJjU+x+OruQsdNK62+6DuD/iHvBcbR
-         pFJjDv5V+JTbqtuyBt9bkHob+rg6bSUGAWSE9H//GBjP+vpEXljFu09JpsngDCVzIy52
-         NH1OwbNW6r7Ebin1TKT5IogSWV7hAUWbjUOsfQuqZO42ImbIJi3zXaZ1cr2qW0UURMVA
-         n/VQ==
+        bh=SlRMHnKgl2ysMiG3ziDgQVqy0pZ2+RMTN2tEUkXl1oQ=;
+        b=i0RJb8iWx1FrtPCsSPH3Nz1/FF5tpgzU7k3Nvx+0Gwe50+mqR9Z25il0nnIPrCnIPF
+         BVGxaxy3MzIkwCKZMEpbfjaTj3j7QQ/y328OJZ05FTAM89bX6TDBgUTRLV2S23mCSVDq
+         58m09Be8t7I+fjw/1WYy00Gx7UMmv6IaY+WB2094PngpDKJowpcBOn3umpBOSGFsgwyY
+         QU3mEgHo8RguQ7yp5Tq5tPx6LwBk6/92pTeOvKwrTXtEtC2ramKCmFM2ZSzrYTvkLKNO
+         UCG2R/bbYoxIZpT7daEmjXKVwoHa57JmqhDDVYtdYtUE70kN4cnW6cNKPVH6KkBK89MJ
+         3ukQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=sP3k2vbL;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=CylERLDb;
        spf=pass (google.com: domain of mhocko@suse.com designates 195.135.220.29 as permitted sender) smtp.mailfrom=mhocko@suse.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
 Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
-        by gmr-mx.google.com with ESMTPS id ba25-20020a0560001c1900b002be1052742esi208554wrb.4.2023.01.25.00.56.23
+        by gmr-mx.google.com with ESMTPS id co14-20020a0560000a0e00b002be378bf638si205505wrb.6.2023.01.25.01.02.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 00:56:23 -0800 (PST)
+        Wed, 25 Jan 2023 01:02:12 -0800 (PST)
 Received-SPF: pass (google.com: domain of mhocko@suse.com designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 0C21A1FED0;
-	Wed, 25 Jan 2023 08:56:23 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 705451FED6;
+	Wed, 25 Jan 2023 09:02:12 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B78841339E;
-	Wed, 25 Jan 2023 08:56:22 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 224651339E;
+	Wed, 25 Jan 2023 09:02:12 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id ZJ2WLLbu0GN/CQAAMHmgww
-	(envelope-from <mhocko@suse.com>); Wed, 25 Jan 2023 08:56:22 +0000
-Date: Wed, 25 Jan 2023 09:56:22 +0100
+	id reRPCBTw0GOqDAAAMHmgww
+	(envelope-from <mhocko@suse.com>); Wed, 25 Jan 2023 09:02:12 +0000
+Date: Wed, 25 Jan 2023 10:02:11 +0100
 From: "'Michal Hocko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Suren Baghdasaryan <surenb@google.com>
 Cc: akpm@linux-foundation.org, michel@lespinasse.org, jglisse@google.com,
@@ -186,17 +187,18 @@ Cc: akpm@linux-foundation.org, michel@lespinasse.org, jglisse@google.com,
 	linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
 	selinux@vger.kernel.org, alsa-devel@alsa-project.org,
 	kernel-team@android.com
-Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
-Message-ID: <Y9DuttqjdKSRCVYh@dhcp22.suse.cz>
+Subject: Re: [PATCH v2 2/6] mm: replace VM_LOCKED_CLEAR_MASK with
+ VM_LOCKED_MASK
+Message-ID: <Y9DwE4Z8hB38aX6X@dhcp22.suse.cz>
 References: <20230125083851.27759-1-surenb@google.com>
- <20230125083851.27759-2-surenb@google.com>
+ <20230125083851.27759-3-surenb@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20230125083851.27759-2-surenb@google.com>
+In-Reply-To: <20230125083851.27759-3-surenb@google.com>
 X-Original-Sender: mhocko@suse.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.com header.s=susede1 header.b=sP3k2vbL;       spf=pass
+ header.i=@suse.com header.s=susede1 header.b=CylERLDb;       spf=pass
  (google.com: domain of mhocko@suse.com designates 195.135.220.29 as permitted
  sender) smtp.mailfrom=mhocko@suse.com;       dmarc=pass (p=QUARANTINE
  sp=QUARANTINE dis=NONE) header.from=suse.com
@@ -214,90 +216,134 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed 25-01-23 00:38:46, Suren Baghdasaryan wrote:
-> vm_flags are among VMA attributes which affect decisions like VMA merging
-> and splitting. Therefore all vm_flags modifications are performed after
-> taking exclusive mmap_lock to prevent vm_flags updates racing with such
-> operations. Introduce modifier functions for vm_flags to be used whenever
-> flags are updated. This way we can better check and control correct
-> locking behavior during these updates.
-> 
+On Wed 25-01-23 00:38:47, Suren Baghdasaryan wrote:
+> To simplify the usage of VM_LOCKED_CLEAR_MASK in clear_vm_flags(),
+> replace it with VM_LOCKED_MASK bitmask and convert all users.
+>
 > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 
 Acked-by: Michal Hocko <mhocko@suse.com>
 
 > ---
->  include/linux/mm.h       | 37 +++++++++++++++++++++++++++++++++++++
->  include/linux/mm_types.h |  8 +++++++-
->  2 files changed, 44 insertions(+), 1 deletion(-)
+>  include/linux/mm.h | 4 ++--
+>  kernel/fork.c      | 2 +-
+>  mm/hugetlb.c       | 4 ++--
+>  mm/mlock.c         | 6 +++---
+>  mm/mmap.c          | 6 +++---
+>  mm/mremap.c        | 2 +-
+>  6 files changed, 12 insertions(+), 12 deletions(-)
 > 
 > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index c2f62bdce134..b71f2809caac 100644
+> index b71f2809caac..da62bdd627bf 100644
 > --- a/include/linux/mm.h
 > +++ b/include/linux/mm.h
-> @@ -627,6 +627,43 @@ static inline void vma_init(struct vm_area_struct *vma, struct mm_struct *mm)
->  	INIT_LIST_HEAD(&vma->anon_vma_chain);
->  }
+> @@ -421,8 +421,8 @@ extern unsigned int kobjsize(const void *objp);
+>  /* This mask defines which mm->def_flags a process can inherit its parent */
+>  #define VM_INIT_DEF_MASK	VM_NOHUGEPAGE
 >  
-> +/* Use when VMA is not part of the VMA tree and needs no locking */
-> +static inline void init_vm_flags(struct vm_area_struct *vma,
-> +				 unsigned long flags)
-> +{
-> +	vma->vm_flags = flags;
-> +}
-> +
-> +/* Use when VMA is part of the VMA tree and modifications need coordination */
-> +static inline void reset_vm_flags(struct vm_area_struct *vma,
-> +				  unsigned long flags)
-> +{
-> +	mmap_assert_write_locked(vma->vm_mm);
-> +	init_vm_flags(vma, flags);
-> +}
-> +
-> +static inline void set_vm_flags(struct vm_area_struct *vma,
-> +				unsigned long flags)
-> +{
-> +	mmap_assert_write_locked(vma->vm_mm);
-> +	vma->vm_flags |= flags;
-> +}
-> +
-> +static inline void clear_vm_flags(struct vm_area_struct *vma,
-> +				  unsigned long flags)
-> +{
-> +	mmap_assert_write_locked(vma->vm_mm);
-> +	vma->vm_flags &= ~flags;
-> +}
-> +
-> +static inline void mod_vm_flags(struct vm_area_struct *vma,
-> +				unsigned long set, unsigned long clear)
-> +{
-> +	mmap_assert_write_locked(vma->vm_mm);
-> +	vma->vm_flags |= set;
-> +	vma->vm_flags &= ~clear;
-> +}
-> +
->  static inline void vma_set_anonymous(struct vm_area_struct *vma)
->  {
->  	vma->vm_ops = NULL;
-> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> index 2d6d790d9bed..6c7c70bf50dd 100644
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -491,7 +491,13 @@ struct vm_area_struct {
->  	 * See vmf_insert_mixed_prot() for discussion.
->  	 */
->  	pgprot_t vm_page_prot;
-> -	unsigned long vm_flags;		/* Flags, see mm.h. */
-> +
-> +	/*
-> +	 * Flags, see mm.h.
-> +	 * WARNING! Do not modify directly.
-> +	 * Use {init|reset|set|clear|mod}_vm_flags() functions instead.
-> +	 */
-> +	unsigned long vm_flags;
+> -/* This mask is used to clear all the VMA flags used by mlock */
+> -#define VM_LOCKED_CLEAR_MASK	(~(VM_LOCKED | VM_LOCKONFAULT))
+> +/* This mask represents all the VMA flag bits used by mlock */
+> +#define VM_LOCKED_MASK	(VM_LOCKED | VM_LOCKONFAULT)
+>  
+>  /* Arch-specific flags to clear when updating VM flags on protection change */
+>  #ifndef VM_ARCH_CLEAR
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index 6683c1b0f460..03d472051236 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -669,7 +669,7 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
+>  			tmp->anon_vma = NULL;
+>  		} else if (anon_vma_fork(tmp, mpnt))
+>  			goto fail_nomem_anon_vma_fork;
+> -		tmp->vm_flags &= ~(VM_LOCKED | VM_LOCKONFAULT);
+> +		clear_vm_flags(tmp, VM_LOCKED_MASK);
+>  		file = tmp->vm_file;
+>  		if (file) {
+>  			struct address_space *mapping = file->f_mapping;
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index d20c8b09890e..4ecdbad9a451 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -6973,8 +6973,8 @@ static unsigned long page_table_shareable(struct vm_area_struct *svma,
+>  	unsigned long s_end = sbase + PUD_SIZE;
+>  
+>  	/* Allow segments to share if only one is marked locked */
+> -	unsigned long vm_flags = vma->vm_flags & VM_LOCKED_CLEAR_MASK;
+> -	unsigned long svm_flags = svma->vm_flags & VM_LOCKED_CLEAR_MASK;
+> +	unsigned long vm_flags = vma->vm_flags & ~VM_LOCKED_MASK;
+> +	unsigned long svm_flags = svma->vm_flags & ~VM_LOCKED_MASK;
 >  
 >  	/*
->  	 * For areas with an address space and backing store,
+>  	 * match the virtual addresses, permission and the alignment of the
+> diff --git a/mm/mlock.c b/mm/mlock.c
+> index 0336f52e03d7..5c4fff93cd6b 100644
+> --- a/mm/mlock.c
+> +++ b/mm/mlock.c
+> @@ -497,7 +497,7 @@ static int apply_vma_lock_flags(unsigned long start, size_t len,
+>  		if (vma->vm_start != tmp)
+>  			return -ENOMEM;
+>  
+> -		newflags = vma->vm_flags & VM_LOCKED_CLEAR_MASK;
+> +		newflags = vma->vm_flags & ~VM_LOCKED_MASK;
+>  		newflags |= flags;
+>  		/* Here we know that  vma->vm_start <= nstart < vma->vm_end. */
+>  		tmp = vma->vm_end;
+> @@ -661,7 +661,7 @@ static int apply_mlockall_flags(int flags)
+>  	struct vm_area_struct *vma, *prev = NULL;
+>  	vm_flags_t to_add = 0;
+>  
+> -	current->mm->def_flags &= VM_LOCKED_CLEAR_MASK;
+> +	current->mm->def_flags &= ~VM_LOCKED_MASK;
+>  	if (flags & MCL_FUTURE) {
+>  		current->mm->def_flags |= VM_LOCKED;
+>  
+> @@ -681,7 +681,7 @@ static int apply_mlockall_flags(int flags)
+>  	for_each_vma(vmi, vma) {
+>  		vm_flags_t newflags;
+>  
+> -		newflags = vma->vm_flags & VM_LOCKED_CLEAR_MASK;
+> +		newflags = vma->vm_flags & ~VM_LOCKED_MASK;
+>  		newflags |= to_add;
+>  
+>  		/* Ignore errors */
+> diff --git a/mm/mmap.c b/mm/mmap.c
+> index d4abc6feced1..323bd253b25a 100644
+> --- a/mm/mmap.c
+> +++ b/mm/mmap.c
+> @@ -2671,7 +2671,7 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
+>  		if ((vm_flags & VM_SPECIAL) || vma_is_dax(vma) ||
+>  					is_vm_hugetlb_page(vma) ||
+>  					vma == get_gate_vma(current->mm))
+> -			vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
+> +			clear_vm_flags(vma, VM_LOCKED_MASK);
+>  		else
+>  			mm->locked_vm += (len >> PAGE_SHIFT);
+>  	}
+> @@ -3340,8 +3340,8 @@ static struct vm_area_struct *__install_special_mapping(
+>  	vma->vm_start = addr;
+>  	vma->vm_end = addr + len;
+>  
+> -	vma->vm_flags = vm_flags | mm->def_flags | VM_DONTEXPAND | VM_SOFTDIRTY;
+> -	vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
+> +	init_vm_flags(vma, (vm_flags | mm->def_flags |
+> +		      VM_DONTEXPAND | VM_SOFTDIRTY) & ~VM_LOCKED_MASK);
+>  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+>  
+>  	vma->vm_ops = ops;
+> diff --git a/mm/mremap.c b/mm/mremap.c
+> index 1b3ee02bead7..35db9752cb6a 100644
+> --- a/mm/mremap.c
+> +++ b/mm/mremap.c
+> @@ -687,7 +687,7 @@ static unsigned long move_vma(struct vm_area_struct *vma,
+>  
+>  	if (unlikely(!err && (flags & MREMAP_DONTUNMAP))) {
+>  		/* We always clear VM_LOCKED[ONFAULT] on the old vma */
+> -		vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
+> +		clear_vm_flags(vma, VM_LOCKED_MASK);
+>  
+>  		/*
+>  		 * anon_vma links of the old vma is no longer needed after its page
 > -- 
 > 2.39.1
 
@@ -308,4 +354,4 @@ SUSE Labs
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y9DuttqjdKSRCVYh%40dhcp22.suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y9DwE4Z8hB38aX6X%40dhcp22.suse.cz.
