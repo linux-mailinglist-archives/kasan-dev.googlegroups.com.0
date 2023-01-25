@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCS5D2F7IUIM53WFTYDBUBHBGZ7S6@googlegroups.com>
+Return-Path: <kasan-dev+bncBCS5D2F7IUIN73WFTYDBUBCJPV77O@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53d.google.com (mail-pg1-x53d.google.com [IPv6:2607:f8b0:4864:20::53d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941A067B986
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 19:39:12 +0100 (CET)
-Received: by mail-pg1-x53d.google.com with SMTP id g31-20020a63111f000000b004bbc748ca63sf8637883pgl.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 10:39:12 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674671951; cv=pass;
+Received: from mail-ot1-x339.google.com (mail-ot1-x339.google.com [IPv6:2607:f8b0:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9147F67B993
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 19:39:28 +0100 (CET)
+Received: by mail-ot1-x339.google.com with SMTP id cg18-20020a056830631200b0068646c482f8sf9459245otb.18
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 10:39:28 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674671967; cv=pass;
         d=google.com; s=arc-20160816;
-        b=RXjjXPWW+UF4sFSvmvDcRvr998cE4nnXqqomKKntiSZwXBMI6E6MyB073IXwyB4vwO
-         GrwpBZFZ36ojy3Rbn72Cp8rKSP8gv9hM/IbX6TDFaEgOwBYcB8991r/W7XD/3uhdLmJu
-         EA5z7U+97xUb3z4oBKmSUEB7HqSpRWOMuJaYfTPGm1jXJea7X5lqTLV75+yT4BZ6dh0f
-         yLuwtzB/+FeFLVbwT7Qa/hT3YHXoAOx8IqDEDL3rNAnzCGf9Po165ryQuxSKLoVwKWUe
-         c1giFbPgE5JG19MrxjVi/EFe6M3J8dxgJouRKMBvAALarziT1AdFfZrRBT/UTXWYOFJ/
-         hm+Q==
+        b=gILdwKLebi0gg4hFNp89WmH/J2HaTTWMcofnixVU3VyUmSrVVaPG6Agb/0Zchfelne
+         v8ituZ749yY6Dp+yn7MUwjz2eV5v/zCwj28Z7RwqR5qou0f51RFRDEti9m0WgbV3x+0A
+         CYVoPg4Z2Hx2MNKUoTE6UU4/xJrpxHp1Iztltzcb6MO/16kXfgsrB9OC7nPBSdwp/mn+
+         /rXb/GnwiIPd9GuT6SLoN7zQSzVphOP2xLjPmCkfDeVnSvAsXAGbLj3EuWLlqV0gh/pl
+         46VTGeafbowVvvNeB4Dosv+hXDVo+NtnH3kDS3YUkS3NOoviqIczM4GK6MkO3Rorg4Xn
+         BUXw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=/2hJDQA/zRPfMXAuaiGRlPcHx2yZFoq7J4dSz2GnywU=;
-        b=odDG21nYGWO5SnsEs5gdC91MfGeM+8ogALU/AxMkdwWOlnM69LncdDS/cXOQptx6Qp
-         h3L/jwImONMar5UYjLjDLVDuQZpx8b6UlnW7l9HwtaeHwZqGA0CyqANHBcb+7URyP9d5
-         l0b9P2o9N6XurpqVqxThaiNpZD5sZH6j3OcJ6B3Jjdx/qxd7vYo5Yb6lsmj7I9D5OlTc
-         fWerBSWXRzoegVukBvDYIjcBfpcCTfmvJ+ZUCtlYnrnsAXMbv6mlLBhSqNB9BKj7QWtq
-         MX8mS/xnL/QbhueJ5xXGv1Vq4usnf/TZNqvjTANZQPE0KArTfbmAgQHV3RlTg+Ajl0FE
-         pjzw==
+        bh=bZ/tWC6G2Ap6yH+3R4HRpNDiWUCFj2Ph1H6DFnoud8k=;
+        b=IzBSd0SS8YBy7GKH8Z9wlTfOVpdQNmIxMrZVMntifiYOlzj0eq1S34H/bDokcEbx6x
+         TE9FuWhvXtlWgxiTnxcer41bdq/3mXIW6bsDMXcevfDBlnee4UTINbowmHn1w8w5J4rE
+         NTtpWEWdwWkgKloxaExiWqlrRspi7/qiheYlmkMFtbRsctz7Pe/fE4VA5+Q/q6zrp7hJ
+         hBpzve7kBt/j3fR7l1p9VVqjQEN3nWCFvyBFDA/cKy0I+xYTFPVM62876dXF1pR6bVcm
+         gNhLLf4aj4yPgvSFxoyNcBX1NYRYmnIWTUUz/je9ELQ+sQZXmtn9Ho9s2YEChegVJs/7
+         wtLA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=mx74wVm8;
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=uqNynxzu;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=willy@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/2hJDQA/zRPfMXAuaiGRlPcHx2yZFoq7J4dSz2GnywU=;
-        b=tHZzNaHu36rXvCxNhOtZEo9gu66njoJ2cGFwuLC9TW4vkfEk6TXW9p+nyMDAQ88iN0
-         tE2K1oNIqn55TK71B/Rvd6ZkTMhEIIlrfY3/FGcGf+dXxU0WoV/+MdJlaLz8tYVMd8B1
-         2OclmFnlWLNQz1dhyzRfkNjA72kdDpBNNWxf4ZTB3XMN7MUWa9YsbEcSOCzYNXgjzKSx
-         SaL74RNbwoXeVqSMbzDoA5ocy2JzN7rj6WyUpvdlSKGfYEaL8gySZaEGwmKK8GWBVpnR
-         /FVfFAYKa+raphDJAg8duRtJSL+EwBTYYIE+tEEK372sA1MK7soSPgt1SyoMoconW9Tt
-         v60g==
+        bh=bZ/tWC6G2Ap6yH+3R4HRpNDiWUCFj2Ph1H6DFnoud8k=;
+        b=ibj/RD10pdYYbxGmRxtTUtSmO75996q+XYeGOKO3euNsWXFkfnaUm9+B54nhC/hk9X
+         hXYzfla6ma/w/lYBU7eYpQnQsMauO1/bUvQ3oCxluNl+WiVQrZjhAihVqvBLQydxbrK1
+         SSwXD4Q/Ts8Vv7z1D69FhNONLqmnSAZlImq93vUGcJl2fkLbRp3503+MlbyV69NW6TiV
+         iDI0t0PRA3s/gK6cCSRX/Yu7UU0v9MrgL4vhDYzrhcHqT02V09AcQLCarFvgsyg9f8L2
+         Yxr42vjxRWcf4cLV9bOZNZZbMZYl10CYScoRl47OvyJUXBg1+OFg/wWCTVBLmNUqMC++
+         4r7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -51,66 +51,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/2hJDQA/zRPfMXAuaiGRlPcHx2yZFoq7J4dSz2GnywU=;
-        b=7pCc8KHaSMX0ChnCDGTrKpgHhUhwN4rN1JAQM2snfbX0/9bitJVOwHidc6HjUD7Djg
-         l22/crxuJRvPP+lk8SxYHb2qefeIDvm8VqcNWNthi05n0D3g8rJ0tsWjztOnPcFzpBxt
-         /fF66mN1GyDZ20o2+kfuG7s224ctBlIlMQ+lNJbfUDLkcB0RM7Ow7oX2w8rz5nVMYzvS
-         pgGVSc3L/n24y3chqElmmD/P2gWU//8devDobvjch3s/Wo1BsXbrhozYQqyyce5R0crk
-         4YRFouisHzDkpKJFpz06HJUH7965Y2RJIzD7l7H5gTFs0p6Pzc2m4/o/83lagsOrDi+9
-         8Dgw==
+        bh=bZ/tWC6G2Ap6yH+3R4HRpNDiWUCFj2Ph1H6DFnoud8k=;
+        b=ajY2q+6BYl8fOrGZDe7UMm9XK2tk29i+hZWXTzwdHzDwkTTusxcvFnPffdrg67ktnG
+         vXfy+p8Uj0VlTOZVfBvjO6hbuMpyF7xqpzacUTGvyuU9xIvnj+0tpT5IsoTDrVfhy/a7
+         ROdeouBH/Ma9byMAG7idQsI/VjpRhA5rMYT83GXXc2tygtULfMpm498SP3XtEJUoQ2F3
+         DI71P49CxJ8ubLmi0j19P2oyrMCoNhVsdOkSVQKnS4oJkzqa53xAUY6pREgXK9+DTVpW
+         roC4UljKJvEyZNWL3wrRekcQYjrspIiFtYJt9n1D2dkPaVZvY913O7Ppf2SGOuLxT9e1
+         HdMQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKVvjma3mKFH95ZHAeTKvF2J3FaxMdRdosdc31YI9D8V1TGlZ+l6
-	o4dgFIzrVTz6wdq5i3Iy7+M=
-X-Google-Smtp-Source: AK7set+By2HNgO3T8MGyABImWPM94lX/5sxLgtrmpqcKB718YkbbGJcb4UhFY9DMt9y9MIOthKk1BA==
-X-Received: by 2002:a17:902:6b86:b0:196:3b96:6a1a with SMTP id p6-20020a1709026b8600b001963b966a1amr34623plk.28.1674671950597;
-        Wed, 25 Jan 2023 10:39:10 -0800 (PST)
+X-Gm-Message-State: AFqh2krNGJVmPeF+kwvKcbDpklL1IP61D4KZPQFgMtpguXfuGVbVZZRp
+	y3JEDc7n7BRaOWHDKaaGjcU=
+X-Google-Smtp-Source: AMrXdXvQUqOmN3T+HGbDJft4oj0QbYlSJsG0cvHTGrIaYr45f5IExel9tzpOxbNih7LaHZjxZfdw4g==
+X-Received: by 2002:a05:6808:2201:b0:363:976b:9305 with SMTP id bd1-20020a056808220100b00363976b9305mr1870844oib.274.1674671967465;
+        Wed, 25 Jan 2023 10:39:27 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:744d:b0:214:246b:918a with SMTP id
- o13-20020a17090a744d00b00214246b918als3377455pjk.2.-pod-canary-gmail; Wed, 25
- Jan 2023 10:39:09 -0800 (PST)
-X-Received: by 2002:a17:902:e194:b0:196:29ba:ee49 with SMTP id y20-20020a170902e19400b0019629baee49mr2542094pla.67.1674671949633;
-        Wed, 25 Jan 2023 10:39:09 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674671949; cv=none;
+Received: by 2002:aca:785:0:b0:359:ca69:f473 with SMTP id 127-20020aca0785000000b00359ca69f473ls5997297oih.10.-pod-prod-gmail;
+ Wed, 25 Jan 2023 10:39:27 -0800 (PST)
+X-Received: by 2002:a05:6808:2222:b0:364:5a39:ec53 with SMTP id bd34-20020a056808222200b003645a39ec53mr19511482oib.22.1674671966999;
+        Wed, 25 Jan 2023 10:39:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674671966; cv=none;
         d=google.com; s=arc-20160816;
-        b=vOwap4cbdi1vYflV8KD2x5yVi13DhY0gXoZjxtLhrQ4/BX6zhUwfPX//C+AD0yOakj
-         yCMNIR5R6m3Yk89Ra9U8VhMiJF5OMx4DagLvuhTjg0OUfWvXcvsPIF6K3myax2Uh+fRI
-         cREzX4OVTiRc6BY7qA7JIH9e1nknj5Rw/t0jnushQ/nYq69TFE/QI10nR5H8rlPQcBAv
-         RDQnZObwaj0JcMjzC/4v52T6sfhuOc/wt+XbAqwAbX5byMFtsv9Fps4ema12Kn71JkzH
-         J35n+UzDRcGFHfEjamxX6Dv8Vd5QT/wwwSIHv6qtHkwGg0naPGIckmtCjk6wZQ1yoypL
-         2bPA==
+        b=vJJ47VHAQN7h5T5hYvT1sg6H9qFUlUsAhVyEdQ7ZLDv0AQvSzHYAoPeBBac8Q9p6jY
+         niNTlV9EWPqg8s3OUtlmv8rmBErDiqyWVGaNtyerOVtKFP88PuA4JeJJsCw+GAlXcXN5
+         EspXzoumQQ9cI8xIAwtoZSO3SsBWq1GlI3sl6hVqtmmnM6dKA0byrLfI2+tDxMhYqDFL
+         rm6grtjrJuty0FS6aECbnHDpbN8SaSzNA7GqJDp/Bn8QLE0ALzyurMDiuc0/FwoiE0U2
+         q2vXM0KP9qkYa+izf/bxk6+nhicmyS3jICK8ySmow2y+PDwQjAYfg2d8Puf24QQ9w0X2
+         3cJA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=WhE3p5nMlMDjaV/irGLArTSJUCL3MW0izpTScdbc1OU=;
-        b=cZVS6TSEhe3zHS8dkKAdNvuV3IgnOpdyod2w7aP4fbYRoi3o1oAF6odF7n80kfEk0j
-         xC+AGDtGZsEpg3RhLuTDZbFCq6J1N0K6K40MtK11+UzBcLBXcVRHpIjKbFNkfeHR1gNw
-         70jPbGrcGlPODIdgZz8EpnkFBc7EmvbwLg0IM+iUx80TRYtXAHFh54CZRccigWQv1bxw
-         0JDyWy028/DaAJfGKExT9PgJvc4yadDlkX6a92fI4sTABKAp822Ukkj67uE92a5xKduY
-         0ZF0xJ99SPb0YuDfr7f8QQkGujO1xaXIHgvlGqMJKUovu9F2ANmiBmoFh9lwULC96XEq
-         QoFA==
+        bh=j8xmcwaWWp8ClSuIcWbfPO9W4DI7+K1SIXYR1hupOAY=;
+        b=HUy4MRxxXor/y8+/KvGdF5I5GNyMKrBcwlc4S6f4LOo3x+PjGjnjPvU9gQVAGgn+RP
+         nC0xK8gMi7Lzcx/oAN4lzJzm8vj58mFY4FhyZZ4HHyWng57lK/dJugaWF8RXWuSt82nw
+         270QAagDeG/58I64WC8iMVEeKEQth9P1OpZayHXa/DBrhIAfwXyp4qqLVFkocS1QZ3+T
+         OHZfrxJqK/6bf5wOlF/WnuC/wCuBcrFVQgmE2mNKio1E67tH3I3mgp0K45KV3IpNajwI
+         oWf8Ys9/5Z3/w+GEZNLMqSMhSN+Jsa1tUow2JMn2awKk4Kpfr4kz1+jkPT8VR+iTtewx
+         LcBA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=mx74wVm8;
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=uqNynxzu;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=willy@infradead.org
 Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id n21-20020a170903405500b00178112d1196si479802pla.4.2023.01.25.10.39.09
+        by gmr-mx.google.com with ESMTPS id cd27-20020a056830621b00b00684c98d3502si1056741otb.3.2023.01.25.10.39.26
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 10:39:09 -0800 (PST)
+        Wed, 25 Jan 2023 10:39:26 -0800 (PST)
 Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
 Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1pKkaL-0066XZ-MG; Wed, 25 Jan 2023 18:33:25 +0000
-Date: Wed, 25 Jan 2023 18:33:25 +0000
+	id 1pKkeP-0066hH-0o; Wed, 25 Jan 2023 18:37:37 +0000
+Date: Wed, 25 Jan 2023 18:37:36 +0000
 From: Matthew Wilcox <willy@infradead.org>
 To: Suren Baghdasaryan <surenb@google.com>
-Cc: akpm@linux-foundation.org, michel@lespinasse.org, jglisse@google.com,
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
-	mgorman@techsingularity.net, dave@stgolabs.net,
-	liam.howlett@oracle.com, peterz@infradead.org,
-	ldufour@linux.ibm.com, paulmck@kernel.org, luto@kernel.org,
-	songliubraving@fb.com, peterx@redhat.com, david@redhat.com,
-	dhowells@redhat.com, hughd@google.com, bigeasy@linutronix.de,
-	kent.overstreet@linux.dev, punit.agrawal@bytedance.com,
-	lstoakes@gmail.com, peterjung1337@gmail.com, rientjes@google.com,
+Cc: Peter Zijlstra <peterz@infradead.org>, akpm@linux-foundation.org,
+	michel@lespinasse.org, jglisse@google.com, mhocko@suse.com,
+	vbabka@suse.cz, hannes@cmpxchg.org, mgorman@techsingularity.net,
+	dave@stgolabs.net, liam.howlett@oracle.com, ldufour@linux.ibm.com,
+	paulmck@kernel.org, luto@kernel.org, songliubraving@fb.com,
+	peterx@redhat.com, david@redhat.com, dhowells@redhat.com,
+	hughd@google.com, bigeasy@linutronix.de, kent.overstreet@linux.dev,
+	punit.agrawal@bytedance.com, lstoakes@gmail.com,
+	peterjung1337@gmail.com, rientjes@google.com,
 	axelrasmussen@google.com, joelaf@google.com, minchan@google.com,
 	jannh@google.com, shakeelb@google.com, tatashin@google.com,
 	edumazet@google.com, gthelen@google.com, gurua@google.com,
@@ -173,16 +172,18 @@ Cc: akpm@linux-foundation.org, michel@lespinasse.org, jglisse@google.com,
 	selinux@vger.kernel.org, alsa-devel@alsa-project.org,
 	kernel-team@android.com
 Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
-Message-ID: <Y9F19QEDX5d/44EV@casper.infradead.org>
+Message-ID: <Y9F28J9njAtwifuL@casper.infradead.org>
 References: <20230125083851.27759-1-surenb@google.com>
  <20230125083851.27759-2-surenb@google.com>
+ <Y9Dx0cPXF2yoLwww@hirez.programming.kicks-ass.net>
+ <CAJuCfpEcVCZaCGzc-Wim25eaV5e6YG1YJAAdKwZ6JHViB0z8aw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20230125083851.27759-2-surenb@google.com>
+In-Reply-To: <CAJuCfpEcVCZaCGzc-Wim25eaV5e6YG1YJAAdKwZ6JHViB0z8aw@mail.gmail.com>
 X-Original-Sender: willy@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=mx74wVm8;
+ header.i=@infradead.org header.s=casper.20170209 header.b=uqNynxzu;
        spf=none (google.com: infradead.org does not designate permitted sender
  hosts) smtp.mailfrom=willy@infradead.org
 Precedence: list
@@ -197,29 +198,34 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jan 25, 2023 at 12:38:46AM -0800, Suren Baghdasaryan wrote:
-> +/* Use when VMA is not part of the VMA tree and needs no locking */
-> +static inline void init_vm_flags(struct vm_area_struct *vma,
-> +				 unsigned long flags)
-> +{
-> +	vma->vm_flags = flags;
+On Wed, Jan 25, 2023 at 08:49:50AM -0800, Suren Baghdasaryan wrote:
+> On Wed, Jan 25, 2023 at 1:10 AM Peter Zijlstra <peterz@infradead.org> wrote:
+> > > +     /*
+> > > +      * Flags, see mm.h.
+> > > +      * WARNING! Do not modify directly.
+> > > +      * Use {init|reset|set|clear|mod}_vm_flags() functions instead.
+> > > +      */
+> > > +     unsigned long vm_flags;
+> >
+> > We have __private and ACCESS_PRIVATE() to help with enforcing this.
+> 
+> Thanks for pointing this out, Peter! I guess for that I'll need to
+> convert all read accesses and provide get_vm_flags() too? That will
+> cause some additional churt (a quick search shows 801 hits over 248
+> files) but maybe it's worth it? I think Michal suggested that too in
+> another patch. Should I do that while we are at it?
 
-vm_flags are supposed to have type vm_flags_t.  That's not been
-fully realised yet, but perhaps we could avoid making it worse?
+Here's a trick I saw somewhere in the VFS:
 
->  	pgprot_t vm_page_prot;
-> -	unsigned long vm_flags;		/* Flags, see mm.h. */
-> +
-> +	/*
-> +	 * Flags, see mm.h.
-> +	 * WARNING! Do not modify directly.
-> +	 * Use {init|reset|set|clear|mod}_vm_flags() functions instead.
-> +	 */
-> +	unsigned long vm_flags;
+	union {
+		const vm_flags_t vm_flags;
+		vm_flags_t __private __vm_flags;
+	};
 
-Including changing this line to vm_flags_t
+Now it can be read by anybody but written only by those using
+ACCESS_PRIVATE.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y9F19QEDX5d/44EV%40casper.infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y9F28J9njAtwifuL%40casper.infradead.org.
