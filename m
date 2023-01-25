@@ -1,110 +1,114 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBIOVYOPAMGQE3IAZ6ZY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBI6VYOPAMGQENERKMSI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id E501267ABEA
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 09:38:58 +0100 (CET)
-Received: by mail-ot1-x33d.google.com with SMTP id w15-20020a056830144f00b00687ec8c75cdsf1330943otp.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 00:38:58 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674635937; cv=pass;
+Received: from mail-pl1-x638.google.com (mail-pl1-x638.google.com [IPv6:2607:f8b0:4864:20::638])
+	by mail.lfdr.de (Postfix) with ESMTPS id E048267ABEB
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 09:39:01 +0100 (CET)
+Received: by mail-pl1-x638.google.com with SMTP id x10-20020a170902ec8a00b001949f64986bsf10377744plg.12
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 00:39:01 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674635940; cv=pass;
         d=google.com; s=arc-20160816;
-        b=b3YPMn+Y8htyQ0pb8fBfTbXKc/stihKwQ6Yen9EaDbdb6xZymuNq/W64AuSFNEm4gS
-         FIHyqLt/LQ6YhqN1PuhdNPCi5rtSXKTByyiwnX8MrB6U96pTJLYGUVUhXRlylXItrjUb
-         lpx2TNmJOgGjnkCeRx16bL0SF0klxunPGUrJ+E8Annnz5yWGMpZrO3fWNmS6TC4tic+h
-         g+cE8i2+GZyrIhpR6ljryoTZVKs7W82WW3HQ7b0lE2km33Ji9jHogy4Hs5mh2+A3babQ
-         C/DHLNLMzhe/KMkC17fKop5FHK5PVt5yhUlmPAWqAsji7HVaiFFhh8LZD8iLvRbBrqkg
-         vi3Q==
+        b=U/RuoqgnQEiaVoMhFonF5XNgdi7q+DqGOfaPH0nC+DxJY3+pmZw7Rn3dd2lD1w+JAc
+         lNmmtYwQf4T/lnXTrKW3XUTu7HbawxiLvtGslPiTzeUelRo1iRrIpTB+xYAz5qidWvF/
+         S6/MV+Paa4vODbLrpRKJFEf2iG6yBk7mlCJM3izE2hDcKpLkZA/YLFhTufV+t/HIDL5j
+         rCQQsf3uJHt0PDMd4i/VOQfmpDscwh/La14PIhUgr3qCClBGU+psnSqUXkLQzEMVYCZR
+         jkd+9fdycXHIy6pUQ1PuDbPvSncVl5JbfMACxM9Sgi02z7vcuojfgE1C4bCDkI4YqR1S
+         1MfA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:mime-version:date:dkim-signature;
-        bh=aCj/qyOkLuMtFvIGhJm+MStsllY4Xj2CBnMp1xqI4Kg=;
-        b=nEk3rZgLJWI9+24gBUO5HwqnDy8l4bOF/0CvQuALhPGnDlv4zqY/XshgURKiA/Cw1E
-         uKigcTlBCKKmzbN3KUV70AO6pt4o7NFSvW9LT3fJAlkAiYLbHycY7XWGVRHWljBBOYLv
-         rReykaWQ+OvYujMQtUNP+YX4Kpgh1Uz+Nc9FNra6s6PCRzgd79G8wkbyAXHTD2dkWAej
-         NEnL0TujNsDeamf3Hz4HNxWIWP9NEfC2yfBJ/AgxHTEsORbQYf188h3ssiZWPi0OEVZR
-         CdcupEA2s7ZCEJYhJ+ip/duGP9v8z51agWD1cZfaZhaYXTdlk2a47iN6NSAoVZO778Gl
-         B7kw==
+         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
+        bh=bP+b8RFCwrXf9ijiaefOsgSJbqyFhteXIJsyEqG7DPE=;
+        b=cD0iBEWKLWMq1KTkb/6M95aDHncxMif3/RRBjJulIhV8CFSUHIENZ4cJEkLLpArMNA
+         SSCx4eBNvCcmO5htVrT6KqsxjVPFht7viIp7+0KAWUqWZ/8oMAA5XEMFsAEtMyNu1ry+
+         o9S8HX0MBS644dwlGpisuRP6aAMlO3lBxDtQM4ETdOqxHA3oG674tRwXcwczvMuKkjL4
+         CDRtGr63Sm2Y9S8GfvJdPK+MUdiWBPMaeXKfiHuRHwMoI/P+Q6r5LjB3DtQ0w/T71RV/
+         OflIgwOD4JUOBt+B0jlFk5yuZxok6nUWY1a3M7z7UhOJxmuCep5RVscMSOvVpIomUDuh
+         HkMw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=lB4btchv;
-       spf=pass (google.com: domain of 3oorqywykcd0rtqdmafnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3oOrQYwYKCd0RTQDMAFNNFKD.BNLJ9R9M-CDUFNNFKDFQNTOR.BNL@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=FpW3Zfeo;
+       spf=pass (google.com: domain of 3ourqywykcd8tvsfochpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3ourQYwYKCd8TVSFOCHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aCj/qyOkLuMtFvIGhJm+MStsllY4Xj2CBnMp1xqI4Kg=;
-        b=SlRgM4s47ZCUEHPZ9CwMHzRDCs6CsdmpCubQVp08CXuyq/T5e7lJLqebZdjK2HUYIG
-         KIEXP4P6wnYmvbaZzP9fhDdnt+4tlTSjX1F47ZmBuYNmnPVxTENsUofl8/6ZQmb6tHIk
-         fsDo6IUc7Gn+vGdXEREvT4rjYbl5HKIFkrhysc0RcGvwmh2GvfAomgI0ew66vEbHiyJ8
-         cvUQV0QUhwP60z0eLWIxJ0V3ON8QlPs3c8Lkpto+NGuXLOPY713AUvYphorLu06BOn43
-         zOytQFSwaDckqdkbsi4vCJHggOw43sEANC4i6R0V+iVEvRyjc+08a5ABSSk21gX2cxES
-         37qg==
+         :subject:message-id:references:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=bP+b8RFCwrXf9ijiaefOsgSJbqyFhteXIJsyEqG7DPE=;
+        b=ZV2AH9cQM10GJlH+6CwZ2fYXlrrIIgKdVTb36pF+O2855QurLG+KPyCzA3qyr890Vn
+         kDsRnc8JVCZmhdWdgJf03aRwo7BzGzhjM+1x9ZxfJnzSWC7DSG1oNOXZimzMxug3WedZ
+         xk4BswcV5cCAnMvJxY1XgRbe0a0RdJQRmTfTr0p8yp2b+HwvArDFRM6GJZ+d/Cv7lcZW
+         /G59g0t1Bu4waKzjcTy2RKF5K8gjNyI1a4hJkiBNAL9nV5nB7V2SVePhs2RHpwOeQwlJ
+         w8t4uqDKzyiWTboqZbd5uX0kPy9cbKpmq8qgoM+6vz0+e+99Mv5UgYbIB7JYSdd/6COT
+         TMgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aCj/qyOkLuMtFvIGhJm+MStsllY4Xj2CBnMp1xqI4Kg=;
-        b=5pMFMm8tl6z4xnt5c/Bp/x0QIcebKuFtgaIDw2FPrznWPOd3FRBarOQMGGi0p+L684
-         24o/hrjYmO8DoHGh87ZgBFv3ujOipy2auQXWHjzjJYPRDRdR1M569hBUec94Jhct+PW1
-         HakpZQO8yQlsD2Y+hIVqmGRGFdue7Hp0fSdulhZar0XI7IjnAlF5Zg+IE8lpCjG5Jnum
-         0KNZdMzHOLCdix4d5C4VaAFEazEM2WQgFx7w7qcFI/dcwwTwtIFkwNGJKlYhMyjah8ci
-         mMfJSPBRwHtq9AgMoAFkQTpXq/fZLiHCHGGjQ7DvMGLhjuHIFZCtheS4F1eCS5aH9tYj
-         XBfA==
-X-Gm-Message-State: AFqh2krOZqFCTgQf3zzoMyKFdw3zZv6zV4BfGSCIcsFFw6iv8IHj/VMn
-	h9IcTkNQgt52k4Z+KLzcoF4=
-X-Google-Smtp-Source: AMrXdXt4/5JzhtAp+/aiDT0zEiK6+/OVnVJKSsZwCYYJ8SEuv3Y+KilN5PV39RF+RIUzSLZJJvLx4Q==
-X-Received: by 2002:a05:6870:5d93:b0:15e:ca6a:913 with SMTP id fu19-20020a0568705d9300b0015eca6a0913mr2689015oab.204.1674635937317;
-        Wed, 25 Jan 2023 00:38:57 -0800 (PST)
+         :subject:message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bP+b8RFCwrXf9ijiaefOsgSJbqyFhteXIJsyEqG7DPE=;
+        b=n07U3S2I+n9z0ga9eUvGVkjaO76wD67s/hy5Qe1AjHykfZ8c590ETwN1Fv+ZYfXzj+
+         26WFWLiqnSp5RJSJruSsHHoOGn0E4+UIMwmFiHIC8bmy9ZOySUq1fEap3PSRb2xLATAc
+         aidCsPSM2yObGxYM0jL6xsCoMwqaUHIWnRpz2HSkLRggDJ8/XSDWhfTpwj2jSVW8KTlF
+         JHqEdV7CldTpAKMI6/T8eR9JEsLm+NV/OkDnZkIToJJ6l99v/btK14aIe6pwICfzJmD2
+         NDNByUb0VPFjh/ev+EnZpjwy4RlSpiaSYO1yvapZ2VeSIaGVzmHyCNwuJT84naswHiUL
+         qB2g==
+X-Gm-Message-State: AFqh2krCdVbKbhVEzdF1r1K/qKPglEleTprp1GJ0TQui82+gW7omGaC9
+	Sw/AwvFYmbuGsDYVptRrAF8=
+X-Google-Smtp-Source: AMrXdXvyj3PdH4hcPMOQRvET2bO2owkOCx15cqs/WQEzlkyh3je4SiDSX5ytcPxGj+uiYNDMLpLFuA==
+X-Received: by 2002:a17:90a:1a0c:b0:229:3d15:4148 with SMTP id 12-20020a17090a1a0c00b002293d154148mr4520614pjk.124.1674635940088;
+        Wed, 25 Jan 2023 00:39:00 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aca:110f:0:b0:35b:2747:ee0f with SMTP id 15-20020aca110f000000b0035b2747ee0fls5456747oir.3.-pod-prod-gmail;
- Wed, 25 Jan 2023 00:38:57 -0800 (PST)
-X-Received: by 2002:a05:6808:1825:b0:35e:401a:7824 with SMTP id bh37-20020a056808182500b0035e401a7824mr20221335oib.51.1674635936912;
-        Wed, 25 Jan 2023 00:38:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674635936; cv=none;
+Received: by 2002:a17:903:2682:b0:196:2e27:844e with SMTP id
+ jf2-20020a170903268200b001962e27844els740124plb.7.-pod-prod-gmail; Wed, 25
+ Jan 2023 00:38:59 -0800 (PST)
+X-Received: by 2002:a17:90a:6545:b0:229:9b0a:360e with SMTP id f5-20020a17090a654500b002299b0a360emr33546697pjs.12.1674635939350;
+        Wed, 25 Jan 2023 00:38:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674635939; cv=none;
         d=google.com; s=arc-20160816;
-        b=xysloz7+QxHWw9OuL7xPLvR841KZamF/W4132ShjXE68hj8BnBd6Z/I6XP7ala6ID6
-         JzCnkLmq3ZNLANBYwkK1O47uVmK/OvyVwLyU5Ap9pAAqKE51zBznxnn1faRF/2kF5GP0
-         +DkqM5Vs3PKdfxbJFaA+YnKEzd+W+4Jf3TJv7aMC7axtsupiqPB1XKbYWuKiYdp1g5AW
-         oZ20n1wSIPP65QlQG7iwevNP4sqDk+6hhsDBQ8CWU1M71Udyy9/XeberoD385qTBXFCq
-         Rox1ozTzbhlPwoAjaYMTIl0ZoeA0pnL/hjgh3sK7LAm3//IVa+2HtD2NXICO8CKPOb3o
-         bEKQ==
+        b=tkl6PzbC4TfCFX9aAPUroZg5UuquDwFDd3yhMJ84gliegabJ1NzjfMWGN/WsvDMhS1
+         Y19XfRrrs4d67C3WOT8ZO9PNYLTSaMIC7n1OgVLG4A3JcRkJYwgUnqbQaY1Xdwrsy2MU
+         oXtiPCxPjO4Pw4MIfZrg0t6Gn+g+PZXQm+rY2MHJXKSdBk42Wjcev3FN+bmfWnl1ZiEZ
+         NW+Um+y1Mq/VB1+vEukFnmYlAzGT+ezycXq4T+h66VGIWw3ceyB2BqhCKkQKIQPSY0FT
+         GfXbEj6uwV0Di7qXagEZyJvUjcKI5vlClwCeto9jPsEGGXcr8WHM7g23A/7tVh2oN2pJ
+         BeoA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
-        bh=gBh0+9Ej4fdZiBcL1FEtjjBddEyxpct0JkyXcSRf3Wg=;
-        b=P4jRsj/jH41ZHTCfuF2xAbl5c7agALt10sj/r3XNZ8SPlrfR/SpEcKWHjNR5OibXf5
-         N1oPLsM5Nd4hwxAQi6YRRueJKjLx4d54wGosxEzsF23I+9RN1gLJzOxppI71TXZbo7Ri
-         5yVqgn8qgKxFhSX0WBWAcfgMRPCfN+UMKqNKjgFAuf20Uk/sioV3TUesDIFV8jBikPt2
-         0HOIODse4fjvPpWsCJNJOJewEDc9/8+H3TxsTEmyGH7ktbMceGpPrMfx/gt5AszKJhxL
-         lSkVl1LNC3Sf0VlQj49wBKEMMSdZyA8niC6/CEbQuezUSdKEvqU3X/KZZjL4f/RcRbgW
-         ZFKg==
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:dkim-signature;
+        bh=ralp0YsbeintaJ1+3rV0BJxcsbdnu/jVKuNhvnt0T5Y=;
+        b=LeJuiLOORkNPF5tvvis/cfx5hm0umhAnTAXATeiK5Bgo4CXB0WY+0Z5OYkOdgcI0Fn
+         i4utNAHREEHL92/Smhy/tlsGLSBIXail39ftrHCN7zQq4hZGBbSs3TIhH/onJOQ41zFp
+         ao0fkD+uI6Q9dpo9SQXdKkPEhU1D0q8cRkKIa7udUp2T06+PTvG3Q4ZvDOxVDUE8qn/W
+         z8XoLhFPGcu8rUYzRomL5OTXBNKi1O8xc5UJsG3ISLd5my6M98Eq3hEIDENIAN3/qEo0
+         QB4/7B1DkTuN5fLozBq81CASibbzkCh+0PfSxB0WLFthzELd93WVxDjfSMaDwVEU2sEJ
+         uRzA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=lB4btchv;
-       spf=pass (google.com: domain of 3oorqywykcd0rtqdmafnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3oOrQYwYKCd0RTQDMAFNNFKD.BNLJ9R9M-CDUFNNFKDFQNTOR.BNL@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=FpW3Zfeo;
+       spf=pass (google.com: domain of 3ourqywykcd8tvsfochpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3ourQYwYKCd8TVSFOCHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com. [2607:f8b0:4864:20::1149])
-        by gmr-mx.google.com with ESMTPS id bu7-20020a0568300d0700b0066fe878940fsi821010otb.5.2023.01.25.00.38.56
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com. [2607:f8b0:4864:20::b4a])
+        by gmr-mx.google.com with ESMTPS id br24-20020a17090b0f1800b00213290fa218si85453pjb.2.2023.01.25.00.38.59
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Jan 2023 00:38:56 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3oorqywykcd0rtqdmafnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) client-ip=2607:f8b0:4864:20::1149;
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-4c8e781bc0aso183719437b3.22
-        for <kasan-dev@googlegroups.com>; Wed, 25 Jan 2023 00:38:56 -0800 (PST)
+        Wed, 25 Jan 2023 00:38:59 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3ourqywykcd8tvsfochpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) client-ip=2607:f8b0:4864:20::b4a;
+Received: by mail-yb1-xb4a.google.com with SMTP id t13-20020a056902018d00b0074747131938so19209194ybh.12
+        for <kasan-dev@googlegroups.com>; Wed, 25 Jan 2023 00:38:59 -0800 (PST)
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:200:f7b0:20e8:ce66:f98])
- (user=surenb job=sendgmr) by 2002:a05:6902:34f:b0:6f9:7bf9:8fc7 with SMTP id
- e15-20020a056902034f00b006f97bf98fc7mr3373858ybs.279.1674635936246; Wed, 25
- Jan 2023 00:38:56 -0800 (PST)
-Date: Wed, 25 Jan 2023 00:38:45 -0800
+ (user=surenb job=sendgmr) by 2002:a81:3e07:0:b0:506:6185:4fad with SMTP id
+ l7-20020a813e07000000b0050661854fadmr450398ywa.451.1674635938431; Wed, 25 Jan
+ 2023 00:38:58 -0800 (PST)
+Date: Wed, 25 Jan 2023 00:38:46 -0800
+In-Reply-To: <20230125083851.27759-1-surenb@google.com>
 Mime-Version: 1.0
+References: <20230125083851.27759-1-surenb@google.com>
 X-Mailer: git-send-email 2.39.1.405.gd4c25cc71f-goog
-Message-ID: <20230125083851.27759-1-surenb@google.com>
-Subject: [PATCH v2 0/6] introduce vm_flags modifier functions
+Message-ID: <20230125083851.27759-2-surenb@google.com>
+Subject: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: michel@lespinasse.org, jglisse@google.com, mhocko@suse.com, vbabka@suse.cz, 
@@ -169,9 +173,9 @@ Cc: michel@lespinasse.org, jglisse@google.com, mhocko@suse.com, vbabka@suse.cz,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=lB4btchv;       spf=pass
- (google.com: domain of 3oorqywykcd0rtqdmafnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3oOrQYwYKCd0RTQDMAFNNFKD.BNLJ9R9M-CDUFNNFKDFQNTOR.BNL@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=FpW3Zfeo;       spf=pass
+ (google.com: domain of 3ourqywykcd8tvsfochpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3ourQYwYKCd8TVSFOCHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -187,167 +191,90 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This patchset was originally published as a part of per-VMA locking [1] and
-was split after suggestion that it's viable on its own and to facilitate
-the review process. It is now a preprequisite for the next version of per-VMA
-lock patchset, which reuses vm_flags modifier functions to lock the VMA when
-vm_flags are being updated.
+vm_flags are among VMA attributes which affect decisions like VMA merging
+and splitting. Therefore all vm_flags modifications are performed after
+taking exclusive mmap_lock to prevent vm_flags updates racing with such
+operations. Introduce modifier functions for vm_flags to be used whenever
+flags are updated. This way we can better check and control correct
+locking behavior during these updates.
 
-VMA vm_flags modifications are usually done under exclusive mmap_lock
-protection because this attrubute affects other decisions like VMA merging
-or splitting and races should be prevented. Introduce vm_flags modifier
-functions to enforce correct locking.
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+---
+ include/linux/mm.h       | 37 +++++++++++++++++++++++++++++++++++++
+ include/linux/mm_types.h |  8 +++++++-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
 
-[1] https://lore.kernel.org/all/20230109205336.3665937-1-surenb@google.com/
-
-The patchset applies cleanly over mm-unstable branch of mm tree.
-
-My apologies for an extremely large distribution list. The patch touches
-lots of files and many are in arch/ and drivers/.
-
-Suren Baghdasaryan (6):
-  mm: introduce vma->vm_flags modifier functions
-  mm: replace VM_LOCKED_CLEAR_MASK with VM_LOCKED_MASK
-  mm: replace vma->vm_flags direct modifications with modifier calls
-  mm: replace vma->vm_flags indirect modification in ksm_madvise
-  mm: introduce mod_vm_flags_nolock and use it in untrack_pfn
-  mm: export dump_mm()
-
- arch/arm/kernel/process.c                     |  2 +-
- arch/ia64/mm/init.c                           |  8 +--
- arch/loongarch/include/asm/tlb.h              |  2 +-
- arch/powerpc/kvm/book3s_hv_uvmem.c            |  5 +-
- arch/powerpc/kvm/book3s_xive_native.c         |  2 +-
- arch/powerpc/mm/book3s64/subpage_prot.c       |  2 +-
- arch/powerpc/platforms/book3s/vas-api.c       |  2 +-
- arch/powerpc/platforms/cell/spufs/file.c      | 14 ++---
- arch/s390/mm/gmap.c                           |  8 +--
- arch/x86/entry/vsyscall/vsyscall_64.c         |  2 +-
- arch/x86/kernel/cpu/sgx/driver.c              |  2 +-
- arch/x86/kernel/cpu/sgx/virt.c                |  2 +-
- arch/x86/mm/pat/memtype.c                     | 14 +++--
- arch/x86/um/mem_32.c                          |  2 +-
- drivers/acpi/pfr_telemetry.c                  |  2 +-
- drivers/android/binder.c                      |  3 +-
- drivers/char/mspec.c                          |  2 +-
- drivers/crypto/hisilicon/qm.c                 |  2 +-
- drivers/dax/device.c                          |  2 +-
- drivers/dma/idxd/cdev.c                       |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c       |  2 +-
- drivers/gpu/drm/amd/amdkfd/kfd_chardev.c      |  4 +-
- drivers/gpu/drm/amd/amdkfd/kfd_doorbell.c     |  4 +-
- drivers/gpu/drm/amd/amdkfd/kfd_events.c       |  4 +-
- drivers/gpu/drm/amd/amdkfd/kfd_process.c      |  4 +-
- drivers/gpu/drm/drm_gem.c                     |  2 +-
- drivers/gpu/drm/drm_gem_dma_helper.c          |  3 +-
- drivers/gpu/drm/drm_gem_shmem_helper.c        |  2 +-
- drivers/gpu/drm/drm_vm.c                      |  8 +--
- drivers/gpu/drm/etnaviv/etnaviv_gem.c         |  2 +-
- drivers/gpu/drm/exynos/exynos_drm_gem.c       |  4 +-
- drivers/gpu/drm/gma500/framebuffer.c          |  2 +-
- drivers/gpu/drm/i810/i810_dma.c               |  2 +-
- drivers/gpu/drm/i915/gem/i915_gem_mman.c      |  4 +-
- drivers/gpu/drm/mediatek/mtk_drm_gem.c        |  2 +-
- drivers/gpu/drm/msm/msm_gem.c                 |  2 +-
- drivers/gpu/drm/omapdrm/omap_gem.c            |  3 +-
- drivers/gpu/drm/rockchip/rockchip_drm_gem.c   |  3 +-
- drivers/gpu/drm/tegra/gem.c                   |  5 +-
- drivers/gpu/drm/ttm/ttm_bo_vm.c               |  3 +-
- drivers/gpu/drm/virtio/virtgpu_vram.c         |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_glue.c      |  2 +-
- drivers/gpu/drm/xen/xen_drm_front_gem.c       |  3 +-
- drivers/hsi/clients/cmt_speech.c              |  2 +-
- drivers/hwtracing/intel_th/msu.c              |  2 +-
- drivers/hwtracing/stm/core.c                  |  2 +-
- drivers/infiniband/hw/hfi1/file_ops.c         |  4 +-
- drivers/infiniband/hw/mlx5/main.c             |  4 +-
- drivers/infiniband/hw/qib/qib_file_ops.c      | 13 +++--
- drivers/infiniband/hw/usnic/usnic_ib_verbs.c  |  2 +-
- .../infiniband/hw/vmw_pvrdma/pvrdma_verbs.c   |  2 +-
- .../common/videobuf2/videobuf2-dma-contig.c   |  2 +-
- .../common/videobuf2/videobuf2-vmalloc.c      |  2 +-
- drivers/media/v4l2-core/videobuf-dma-contig.c |  2 +-
- drivers/media/v4l2-core/videobuf-dma-sg.c     |  4 +-
- drivers/media/v4l2-core/videobuf-vmalloc.c    |  2 +-
- drivers/misc/cxl/context.c                    |  2 +-
- drivers/misc/habanalabs/common/memory.c       |  2 +-
- drivers/misc/habanalabs/gaudi/gaudi.c         |  4 +-
- drivers/misc/habanalabs/gaudi2/gaudi2.c       |  8 +--
- drivers/misc/habanalabs/goya/goya.c           |  4 +-
- drivers/misc/ocxl/context.c                   |  4 +-
- drivers/misc/ocxl/sysfs.c                     |  2 +-
- drivers/misc/open-dice.c                      |  4 +-
- drivers/misc/sgi-gru/grufile.c                |  4 +-
- drivers/misc/uacce/uacce.c                    |  2 +-
- drivers/sbus/char/oradax.c                    |  2 +-
- drivers/scsi/cxlflash/ocxl_hw.c               |  2 +-
- drivers/scsi/sg.c                             |  2 +-
- .../staging/media/atomisp/pci/hmm/hmm_bo.c    |  2 +-
- drivers/staging/media/deprecated/meye/meye.c  |  4 +-
- .../media/deprecated/stkwebcam/stk-webcam.c   |  2 +-
- drivers/target/target_core_user.c             |  2 +-
- drivers/uio/uio.c                             |  2 +-
- drivers/usb/core/devio.c                      |  3 +-
- drivers/usb/mon/mon_bin.c                     |  3 +-
- drivers/vdpa/vdpa_user/iova_domain.c          |  2 +-
- drivers/vfio/pci/vfio_pci_core.c              |  2 +-
- drivers/vhost/vdpa.c                          |  2 +-
- drivers/video/fbdev/68328fb.c                 |  2 +-
- drivers/video/fbdev/core/fb_defio.c           |  4 +-
- drivers/xen/gntalloc.c                        |  2 +-
- drivers/xen/gntdev.c                          |  4 +-
- drivers/xen/privcmd-buf.c                     |  2 +-
- drivers/xen/privcmd.c                         |  4 +-
- fs/aio.c                                      |  2 +-
- fs/cramfs/inode.c                             |  2 +-
- fs/erofs/data.c                               |  2 +-
- fs/exec.c                                     |  4 +-
- fs/ext4/file.c                                |  2 +-
- fs/fuse/dax.c                                 |  2 +-
- fs/hugetlbfs/inode.c                          |  4 +-
- fs/orangefs/file.c                            |  3 +-
- fs/proc/task_mmu.c                            |  2 +-
- fs/proc/vmcore.c                              |  3 +-
- fs/userfaultfd.c                              |  2 +-
- fs/xfs/xfs_file.c                             |  2 +-
- include/linux/mm.h                            | 51 +++++++++++++++++--
- include/linux/mm_types.h                      |  8 ++-
- include/linux/pgtable.h                       |  5 +-
- kernel/bpf/ringbuf.c                          |  4 +-
- kernel/bpf/syscall.c                          |  4 +-
- kernel/events/core.c                          |  2 +-
- kernel/fork.c                                 |  2 +-
- kernel/kcov.c                                 |  2 +-
- kernel/relay.c                                |  2 +-
- mm/debug.c                                    |  1 +
- mm/hugetlb.c                                  |  4 +-
- mm/khugepaged.c                               |  2 +
- mm/ksm.c                                      |  2 +
- mm/madvise.c                                  |  2 +-
- mm/memory.c                                   | 19 +++----
- mm/memremap.c                                 |  4 +-
- mm/mlock.c                                    | 12 ++---
- mm/mmap.c                                     | 32 +++++++-----
- mm/mprotect.c                                 |  2 +-
- mm/mremap.c                                   |  8 +--
- mm/nommu.c                                    | 11 ++--
- mm/secretmem.c                                |  2 +-
- mm/shmem.c                                    |  2 +-
- mm/vmalloc.c                                  |  2 +-
- net/ipv4/tcp.c                                |  4 +-
- security/selinux/selinuxfs.c                  |  6 +--
- sound/core/oss/pcm_oss.c                      |  2 +-
- sound/core/pcm_native.c                       |  9 ++--
- sound/soc/pxa/mmp-sspa.c                      |  2 +-
- sound/usb/usx2y/us122l.c                      |  4 +-
- sound/usb/usx2y/usX2Yhwdep.c                  |  2 +-
- sound/usb/usx2y/usx2yhwdeppcm.c               |  2 +-
- 129 files changed, 292 insertions(+), 233 deletions(-)
-
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index c2f62bdce134..b71f2809caac 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -627,6 +627,43 @@ static inline void vma_init(struct vm_area_struct *vma, struct mm_struct *mm)
+ 	INIT_LIST_HEAD(&vma->anon_vma_chain);
+ }
+ 
++/* Use when VMA is not part of the VMA tree and needs no locking */
++static inline void init_vm_flags(struct vm_area_struct *vma,
++				 unsigned long flags)
++{
++	vma->vm_flags = flags;
++}
++
++/* Use when VMA is part of the VMA tree and modifications need coordination */
++static inline void reset_vm_flags(struct vm_area_struct *vma,
++				  unsigned long flags)
++{
++	mmap_assert_write_locked(vma->vm_mm);
++	init_vm_flags(vma, flags);
++}
++
++static inline void set_vm_flags(struct vm_area_struct *vma,
++				unsigned long flags)
++{
++	mmap_assert_write_locked(vma->vm_mm);
++	vma->vm_flags |= flags;
++}
++
++static inline void clear_vm_flags(struct vm_area_struct *vma,
++				  unsigned long flags)
++{
++	mmap_assert_write_locked(vma->vm_mm);
++	vma->vm_flags &= ~flags;
++}
++
++static inline void mod_vm_flags(struct vm_area_struct *vma,
++				unsigned long set, unsigned long clear)
++{
++	mmap_assert_write_locked(vma->vm_mm);
++	vma->vm_flags |= set;
++	vma->vm_flags &= ~clear;
++}
++
+ static inline void vma_set_anonymous(struct vm_area_struct *vma)
+ {
+ 	vma->vm_ops = NULL;
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 2d6d790d9bed..6c7c70bf50dd 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -491,7 +491,13 @@ struct vm_area_struct {
+ 	 * See vmf_insert_mixed_prot() for discussion.
+ 	 */
+ 	pgprot_t vm_page_prot;
+-	unsigned long vm_flags;		/* Flags, see mm.h. */
++
++	/*
++	 * Flags, see mm.h.
++	 * WARNING! Do not modify directly.
++	 * Use {init|reset|set|clear|mod}_vm_flags() functions instead.
++	 */
++	unsigned long vm_flags;
+ 
+ 	/*
+ 	 * For areas with an address space and backing store,
 -- 
 2.39.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230125083851.27759-1-surenb%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230125083851.27759-2-surenb%40google.com.
