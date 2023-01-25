@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCKMR55PYIGBBMPRYOPAMGQE47CHNJI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKMR55PYIGBBCHTYOPAMGQESAWI7UQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3461367AE20
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 10:38:58 +0100 (CET)
-Received: by mail-lf1-x13e.google.com with SMTP id d2-20020a0565123d0200b004d1b23f2047sf7955928lfv.20
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 01:38:58 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674639537; cv=pass;
+Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6135D67AE56
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 10:42:33 +0100 (CET)
+Received: by mail-wr1-x439.google.com with SMTP id v15-20020adfe4cf000000b002bf9413bc50sf2248436wrm.16
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Jan 2023 01:42:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674639753; cv=pass;
         d=google.com; s=arc-20160816;
-        b=v6jOIrjtXSsBiqUYXzhVnKrhS0lTy4vSoHgaifnmllAEQXdrR9VuFQz1UMaZeDyaU1
-         3dt/vlqGIboPqfKw/x6x7eTDrg94AFSLapYMDn3v2m7KtgSuDfkAqWaMiPGxyYCwsEZ9
-         SEN5co0CaLvPAFz4ELm6XeeNAnKmc/IzUDzwpMZ1fkZK9sVTyeSJ5T81msQ2An3tehjm
-         xPBcDtA3y72CEmacw/mjlcZ0YoXaNgcgSdFeQW/3cay1BU37MjvHfqBiSdMnHqRhfEQC
-         lsDGojGLJAzQOHDI/eSVO9DbnMPSiM8Gys3yq1wiVPB404rJCjxMmejT2q8Gxc1Ae7Me
-         1XGQ==
+        b=qoZh2mHaXJuwc1lR9V9hsiiWfyQmxG+We0Wef2NNvpRNSLtZaJ4CKaSbGQqk8uciPL
+         AD7EPdlVzSWmfwMgD0VTpIMTO4Dxm7toLb6wK6a0Fp7+U7Apuy8iChOojJRU2O21ZpBz
+         zJuqtQwg2Djufo3sPDioBbTkHfDrPgsF4JjlKLSi1bD1tVuSlkbTYx+s/i0MMilgXxE8
+         I+81KYid+mURH5p3XQKL2BAGl4BHOIQSKRyy6vjXpdhpx1vI2QENXqQDWy8Eqnc47+gD
+         44QrtHC8zXrzZJnBXUgdLRPXlgFDcPbTFkqyLO5lpF52jaNM+LCtuZCfxl14gi30eXXh
+         sdtQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=Nln9Y3HR/1iCFI3Z3t5fJhuBXVDw7j1UrS3IRGk4b5U=;
-        b=g/1G3BFoHZ4z+JAocneAyLJnLHwrAzCO2dvfHZlbdXXkKNfECUsoL6dmkLCLlT9aMR
-         zriLxvNPPv8Yoy5oe1WQKn66/lCE7OoYsOa7l9Q5R0JlVDjE2WizEhgEz8DF2NCdmTsX
-         OY1Fojd6PlxVBT/Js5uaRExrqup+rDzQ2doHV3Q7/oHsHZn5dWpKtZJClM3oKHmuBsoP
-         a+xyCFD4UyXTFGDGqKbeuhbfOs75Ani7+9g5uQezJQRKTvHcutOIk06tZo7SgW32DW9c
-         PgSldSSB1+u1lhy6l1OUa3ml3x8QClBfzGnwxxSQmoopV+J48U3uJ7ItPdLgbgZyqAoV
-         xqdw==
+        bh=wN7OlV7gxZwV6CvkgWoJTWUNWyn+/Ks8hFKSiZ6U778=;
+        b=isYOVaTQoGgoXEchUxbxrTaOt9rjFIzgl/in+yD7lkoM+1FdHbUKcI/WhOJIRDpEX/
+         nKl4/0enm0JLF+IVbQypsv4jF54HL6g9p4b2ZQFU2qgKjmdCyzVZ/zJj5/HrS6Br1RnG
+         bViqyQKByCzqvpsgfSMKTGTuAl7aLhd7zbXmwU3S2iMVza3RSljdAVoRBOiWm3WBEcHX
+         UlwMosxpdtCEx94ruuArlxo+nbJcQc6yPfgGghULJCXGQ68ISs0apE38Pnk1yIKSQau5
+         dsUAV59rY99rFxahqJ2LEZgn3h3drlToQMbevHsepAeeWAJ+jkBYSd3RTHYrcRSaMWtn
+         vzPg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=r0FIat4k;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=clWvQxTx;
        spf=pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1c as permitted sender) smtp.mailfrom=mhocko@suse.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Nln9Y3HR/1iCFI3Z3t5fJhuBXVDw7j1UrS3IRGk4b5U=;
-        b=C8NPDZGNZsMo/3jyJBORLQOSPShxLSOc13ZKzVQXVGslIHYC5OmV/GkbPyI3+K9is+
-         1IFoZCdkRGGd2loL/nfU+3OkfX2VW/AyXyCUL3H9BRy9d38iRRKt926xRqB0NhsBEE7P
-         ZCgFLPtJ1UewP3yfmWDBrhVHD9o29Lj93m+wbYOSssq+jdwT0OoDFmFUD9wzbiJTA+Lx
-         S2kxL2SgnISajl4AYcWgdBnPnkpjZmBB8TjeVTW2IFv0oSq/sR1Q/d0CfHgrygmzmZLs
-         1oztLf3jdzAvEgKPvd/R5mZcH8uKqmyMxWocdwAdS6dxOQQU2yx0fg5vD7r9TY7M9k8X
-         7pRw==
+        bh=wN7OlV7gxZwV6CvkgWoJTWUNWyn+/Ks8hFKSiZ6U778=;
+        b=r+jFqLCs9IuLKvsXbSkacQg3hglcpfeFxASEdfgrdMgMTSg2ciHQEUIg/jDx1Pteuo
+         VPYnTXhQZKXXzfJVjS2jSYMYrEETzg3zC1zNu4QmhctrxDfM8rL2FQ70GISciOM0TXTV
+         EmLdLN2rPXf0rq1/bQA/xOYBf1wREmFJujwXbjWJVt6nhO6zQ50IriJ90HV7RZ7p1bKB
+         OQIzCJCcHYt0ef9Qb+oOaA0VM4NGv9HfmfT4F3rmVa9pNmakaqa0/HOKWtuM7w6Xwhm/
+         dPsDRbmnXCSglwmrjLK/pI9lAvCpgJDsyq7AUFx/js0MiwFTthrL43LkxIylaXconWya
+         KJtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -52,68 +52,68 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Nln9Y3HR/1iCFI3Z3t5fJhuBXVDw7j1UrS3IRGk4b5U=;
-        b=0OGRb10d4VwWtc0gM06ByHSaT/NYq6GzZuJ6LXrF34uoiiM3dlh59RTHYRC8DICiK+
-         WWf8/QbRXTOdasRwHHlyE7McR99bbTM5CLLK5g4NuHvOw6bvxcRgD9ue4mym/P/NTvwT
-         1+hrJ0w/EndoAIg9L18nLrcmgUK/bhuyAoQAcquSP3fAlM032c6L0cUVdkQY91QkRqCl
-         V4N1RUYDuxFDlPYnE98Ew7FiaysUNsd7OKaQNrPGGSn7n1p2y7FgAxgd48GQnWLN/09E
-         YgSM7NK0dy0Z1iGxzbOumh2xi11nbfJDdMV1cdATd6p3dknblndZiatdSEgQa/f4Pj5R
-         Revw==
-X-Gm-Message-State: AFqh2ko2qN1G8Ygwu9br8Es6JueOm/1LegwKXEbSuvpD6E2SaMNXDFtg
-	28qeZ9FsWrUSb+cBxy9WGuw=
-X-Google-Smtp-Source: AMrXdXvw2RMf8EAmjTla7Mk61ofVK5PORSpVOaJEI0Prh3TT/xB4pyD5mB2cIUJIECmZvkZ50ktzkQ==
-X-Received: by 2002:a05:6512:23a2:b0:4cb:3bd2:2ea2 with SMTP id c34-20020a05651223a200b004cb3bd22ea2mr1642592lfv.594.1674639537649;
-        Wed, 25 Jan 2023 01:38:57 -0800 (PST)
+        bh=wN7OlV7gxZwV6CvkgWoJTWUNWyn+/Ks8hFKSiZ6U778=;
+        b=cT/CU0Bzv9zaVLN+5+BLZZpS6fekqGJI3KCALdMXEY9DRpsFWXGSzto2iQlya9kO2J
+         d7yAD0nHd58aaJOYZK5I1jqQDhCU5gdhfKz54fVaODqUiZm59IQ+yW2Uca2liAsuoimP
+         p2Q4QljmvvocSuIGoHChYiE80cF/UF6/KyJeHGDdj7B98hSFQEeg7YWrhbCuhkB0FMqW
+         IkhUrqY38O+kd/LFPeo2y+pzJxt98N2rHQwEXQwQtMHI7IoYAa0PAUHWdxS7yJ4EGeDy
+         ioya5k6SUL/NZRI4GQLSckmKsTiwQA8Z+USbqcQ0UwHD27wBlQtsZV9MPCFP7XSDHd1Q
+         Mbdg==
+X-Gm-Message-State: AO0yUKXz7s3Uo6dXO0D6ksunVdohm20oHdmQ0H71Tu/KL9xZy7JKmR05
+	hkva8Bg6zUbLT69cuAJC8FM=
+X-Google-Smtp-Source: AK7set+WnV8vzpeCGVOOKDhSc8LItakjoc0qqHlk9mtszTiBkPFt01Z5XafA+AlB/kBm4J/mU2HDKQ==
+X-Received: by 2002:a5d:6e55:0:b0:2bf:b2f2:bf66 with SMTP id j21-20020a5d6e55000000b002bfb2f2bf66mr206366wrz.440.1674639752827;
+        Wed, 25 Jan 2023 01:42:32 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:a413:0:b0:27f:e5b1:aff6 with SMTP id p19-20020a2ea413000000b0027fe5b1aff6ls2437677ljn.6.-pod-prod-gmail;
- Wed, 25 Jan 2023 01:38:56 -0800 (PST)
-X-Received: by 2002:a05:651c:1a29:b0:279:ee72:6ab1 with SMTP id by41-20020a05651c1a2900b00279ee726ab1mr10714996ljb.42.1674639535991;
-        Wed, 25 Jan 2023 01:38:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674639535; cv=none;
+Received: by 2002:adf:e48f:0:b0:2bf:ae0c:669b with SMTP id i15-20020adfe48f000000b002bfae0c669bls658961wrm.2.-pod-prod-gmail;
+ Wed, 25 Jan 2023 01:42:31 -0800 (PST)
+X-Received: by 2002:adf:e908:0:b0:2bd:e8a8:80bf with SMTP id f8-20020adfe908000000b002bde8a880bfmr27138277wrm.55.1674639751537;
+        Wed, 25 Jan 2023 01:42:31 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674639751; cv=none;
         d=google.com; s=arc-20160816;
-        b=UyPeHzw10sSpah+Npv3AMpMyGXfov/j8ivtFMqjMcr3swUNOdTXwqvOGV1FpLp5umq
-         TMl8N3sDLClhAb37eIcN5pvf8vu7BYuHkjRBQRFYflQZM5zpxzD/1C8XlD4nawA5UA1x
-         DJ5cYpo5CzM8vZWwxl9AmrInNK0oRzkfhoM5XBMFcl5iq/CdoIzx3+MJsDJL4/jvGmFZ
-         +T0A1AyirpUydRQitz0KdyLR/lyzFBEKSi369iUptDtzg0X2nirhm7U/fi9e+/DoBt9H
-         /dcnOlaibN3FxDkMivYJHl3G75DlT0d3DvwkElYNr/nvmFs8B8ghn6Rb+bKPWhlFAlIl
-         k8aA==
+        b=EQCw3cx26eCcNS+5VgJFnyqNqIMqOk6WPl8/qb7K63tFzXLBEH7irjyIqwvTEhAAV7
+         WI9VWw6rBdpQvKqe/IQNGJ9l/Fn4CX5J0yYw+ybhWCM9sR4wY27/9/zXq5Wij14wWjYx
+         0reKyYdYP1Ku7KdkOEVNDhcfqEMkrcw/MK1uTKyzt1mI6eUJOI9EMMPZTAPwyoQnRAf2
+         JxSf1Xz7mTklGzokckjc6zERZSXhuv5vw72kpU12g2ZRs39O99CRZRhH/qT8LXIgPAaO
+         rwXWR4RUoFszITPxAB698MCqdnFLwnr14Dx6FPQAIYVElArGXyVmp17CcBd0JQ63DDuD
+         zxqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=rlC3v8G7Qltb7/sMWGykfElAbj3RZvreU88MtZ+OLHM=;
-        b=ETTcgAkssYyFgy5bJBOn5VI5ZBowVZzIKt8sv7u8qyuh7pLV3Eh53iy7Ppp2GDzDKE
-         V9uKVZ/jW8or+1sED4e0vUkhv4tJh6NvvFLU8zJiyWJtbgrsKfJRGv2jcEZpBV3gzwKT
-         0bXGsoECDAk2UeJzNRHBcZkqL2AQDN6w65ZL9RZ0PIVnZnXwvdzgKMkRDoABXf0wparz
-         KpgTWogG9FRwCXH1Yk6SeV0mZgQfxi0S44HUHIZ9luMdAm9CgHZd/BE0mvcfd7PLaLaF
-         jAhk3z0AWKEE3FHwCybshB1j2h/Gext+ogWEI0Fb1srQD8nnhj3+QYJPjYCf4vPD6F6X
-         MZtw==
+        bh=wTTa+i+nU+PdO+h/KcQj1hMAey36ZrEColPN1KlfYvE=;
+        b=adbHaKgVb5f19t6XYGgXWlPudn48JY88mMcoIC9rIBGGUwrrwsObMC59k94eVdjhre
+         2ifS23UlXlpbgx5t6Uca4CaAaZIKPZdIWZnMMSEUTTDzlaO5w5KZfwvWBfjm8VVH+Qo3
+         Jwj7ARbePHXQJPZkGjo1qo9O3fmkA6uCICZW7FEg5udbFJ9ky5oIeD2DpHF6FiVmE2Gy
+         ml/lRtSNCsnogsx9oofDtBDP0d4f69mS8GHyoVN7XjfHwXhTfYU26LheB5a2FYellhp6
+         sn1x4az9pYo0HVkuqPeNF3t/VyvY1seY+tQBxJgtfFFwD1tQmiJh7xMbNy8+D5yOwmBk
+         YjmQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=r0FIat4k;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=clWvQxTx;
        spf=pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1c as permitted sender) smtp.mailfrom=mhocko@suse.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
 Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2001:67c:2178:6::1c])
-        by gmr-mx.google.com with ESMTPS id x27-20020a2ea99b000000b0028b731e8e20si217130ljq.1.2023.01.25.01.38.55
+        by gmr-mx.google.com with ESMTPS id h5-20020a05600016c500b002be29f05cdfsi221586wrf.0.2023.01.25.01.42.31
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Jan 2023 01:38:55 -0800 (PST)
+        Wed, 25 Jan 2023 01:42:31 -0800 (PST)
 Received-SPF: pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1c as permitted sender) client-ip=2001:67c:2178:6::1c;
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 94D5721C7F;
-	Wed, 25 Jan 2023 09:38:54 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4107E21C7E;
+	Wed, 25 Jan 2023 09:42:31 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 446411358F;
-	Wed, 25 Jan 2023 09:38:54 +0000 (UTC)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id EA4FB1358F;
+	Wed, 25 Jan 2023 09:42:30 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id jLUjEK740GMsIAAAMHmgww
-	(envelope-from <mhocko@suse.com>); Wed, 25 Jan 2023 09:38:54 +0000
-Date: Wed, 25 Jan 2023 10:38:53 +0100
+	id yLixOIb50GN6IgAAMHmgww
+	(envelope-from <mhocko@suse.com>); Wed, 25 Jan 2023 09:42:30 +0000
+Date: Wed, 25 Jan 2023 10:42:30 +0100
 From: "'Michal Hocko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Suren Baghdasaryan <surenb@google.com>
 Cc: akpm@linux-foundation.org, michel@lespinasse.org, jglisse@google.com,
@@ -186,18 +186,18 @@ Cc: akpm@linux-foundation.org, michel@lespinasse.org, jglisse@google.com,
 	linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
 	selinux@vger.kernel.org, alsa-devel@alsa-project.org,
 	kernel-team@android.com
-Subject: Re: [PATCH v2 4/6] mm: replace vma->vm_flags indirect modification
- in ksm_madvise
-Message-ID: <Y9D4rWEsajV/WfNx@dhcp22.suse.cz>
+Subject: Re: [PATCH v2 5/6] mm: introduce mod_vm_flags_nolock and use it in
+ untrack_pfn
+Message-ID: <Y9D5hjcprLI92VKf@dhcp22.suse.cz>
 References: <20230125083851.27759-1-surenb@google.com>
- <20230125083851.27759-5-surenb@google.com>
+ <20230125083851.27759-6-surenb@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20230125083851.27759-5-surenb@google.com>
+In-Reply-To: <20230125083851.27759-6-surenb@google.com>
 X-Original-Sender: mhocko@suse.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.com header.s=susede1 header.b=r0FIat4k;       spf=pass
+ header.i=@suse.com header.s=susede1 header.b=clWvQxTx;       spf=pass
  (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1c as
  permitted sender) smtp.mailfrom=mhocko@suse.com;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
@@ -215,18 +215,258 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed 25-01-23 00:38:49, Suren Baghdasaryan wrote:
-> Replace indirect modifications to vma->vm_flags with calls to modifier
-> functions to be able to track flag changes and to keep vma locking
-> correctness. Add a BUG_ON check in ksm_madvise() to catch indirect
-> vm_flags modification attempts.
+On Wed 25-01-23 00:38:50, Suren Baghdasaryan wrote:
+> In cases when VMA flags are modified after VMA was isolated and mmap_lock
+> was downgraded, flags modifications would result in an assertion because
+> mmap write lock is not held.
+> Introduce mod_vm_flags_nolock to be used in such situation.
+> Pass a hint to untrack_pfn to conditionally use mod_vm_flags_nolock for
+> flags modification and to avoid assertion.
 
-Those BUG_ONs scream to much IMHO. KSM is an MM internal code so I
-gueess we should be willing to trust it.
+The changelog nor the documentation of mod_vm_flags_nolock 
+really explain when it is safe to use it. This is really important for
+future potential users.
 
 > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
+>  arch/x86/mm/pat/memtype.c | 10 +++++++---
+>  include/linux/mm.h        | 12 +++++++++---
+>  include/linux/pgtable.h   |  5 +++--
+>  mm/memory.c               | 13 +++++++------
+>  mm/memremap.c             |  4 ++--
+>  mm/mmap.c                 | 16 ++++++++++------
+>  6 files changed, 38 insertions(+), 22 deletions(-)
+> 
+> diff --git a/arch/x86/mm/pat/memtype.c b/arch/x86/mm/pat/memtype.c
+> index ae9645c900fa..d8adc0b42cf2 100644
+> --- a/arch/x86/mm/pat/memtype.c
+> +++ b/arch/x86/mm/pat/memtype.c
+> @@ -1046,7 +1046,7 @@ void track_pfn_insert(struct vm_area_struct *vma, pgprot_t *prot, pfn_t pfn)
+>   * can be for the entire vma (in which case pfn, size are zero).
+>   */
+>  void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
+> -		 unsigned long size)
+> +		 unsigned long size, bool mm_wr_locked)
+>  {
+>  	resource_size_t paddr;
+>  	unsigned long prot;
+> @@ -1065,8 +1065,12 @@ void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
+>  		size = vma->vm_end - vma->vm_start;
+>  	}
+>  	free_pfn_range(paddr, size);
+> -	if (vma)
+> -		clear_vm_flags(vma, VM_PAT);
+> +	if (vma) {
+> +		if (mm_wr_locked)
+> +			clear_vm_flags(vma, VM_PAT);
+> +		else
+> +			mod_vm_flags_nolock(vma, 0, VM_PAT);
+> +	}
+>  }
+>  
+>  /*
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 55335edd1373..48d49930c411 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -656,12 +656,18 @@ static inline void clear_vm_flags(struct vm_area_struct *vma,
+>  	vma->vm_flags &= ~flags;
+>  }
+>  
+> +static inline void mod_vm_flags_nolock(struct vm_area_struct *vma,
+> +				       unsigned long set, unsigned long clear)
+> +{
+> +	vma->vm_flags |= set;
+> +	vma->vm_flags &= ~clear;
+> +}
+> +
+>  static inline void mod_vm_flags(struct vm_area_struct *vma,
+>  				unsigned long set, unsigned long clear)
+>  {
+>  	mmap_assert_write_locked(vma->vm_mm);
+> -	vma->vm_flags |= set;
+> -	vma->vm_flags &= ~clear;
+> +	mod_vm_flags_nolock(vma, set, clear);
+>  }
+>  
+>  static inline void vma_set_anonymous(struct vm_area_struct *vma)
+> @@ -2087,7 +2093,7 @@ static inline void zap_vma_pages(struct vm_area_struct *vma)
+>  }
+>  void unmap_vmas(struct mmu_gather *tlb, struct maple_tree *mt,
+>  		struct vm_area_struct *start_vma, unsigned long start,
+> -		unsigned long end);
+> +		unsigned long end, bool mm_wr_locked);
+>  
+>  struct mmu_notifier_range;
+>  
+> diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+> index 5fd45454c073..c63cd44777ec 100644
+> --- a/include/linux/pgtable.h
+> +++ b/include/linux/pgtable.h
+> @@ -1185,7 +1185,8 @@ static inline int track_pfn_copy(struct vm_area_struct *vma)
+>   * can be for the entire vma (in which case pfn, size are zero).
+>   */
+>  static inline void untrack_pfn(struct vm_area_struct *vma,
+> -			       unsigned long pfn, unsigned long size)
+> +			       unsigned long pfn, unsigned long size,
+> +			       bool mm_wr_locked)
+>  {
+>  }
+>  
+> @@ -1203,7 +1204,7 @@ extern void track_pfn_insert(struct vm_area_struct *vma, pgprot_t *prot,
+>  			     pfn_t pfn);
+>  extern int track_pfn_copy(struct vm_area_struct *vma);
+>  extern void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
+> -			unsigned long size);
+> +			unsigned long size, bool mm_wr_locked);
+>  extern void untrack_pfn_moved(struct vm_area_struct *vma);
+>  #endif
+>  
+> diff --git a/mm/memory.c b/mm/memory.c
+> index d6902065e558..5b11b50e2c4a 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -1613,7 +1613,7 @@ void unmap_page_range(struct mmu_gather *tlb,
+>  static void unmap_single_vma(struct mmu_gather *tlb,
+>  		struct vm_area_struct *vma, unsigned long start_addr,
+>  		unsigned long end_addr,
+> -		struct zap_details *details)
+> +		struct zap_details *details, bool mm_wr_locked)
+>  {
+>  	unsigned long start = max(vma->vm_start, start_addr);
+>  	unsigned long end;
+> @@ -1628,7 +1628,7 @@ static void unmap_single_vma(struct mmu_gather *tlb,
+>  		uprobe_munmap(vma, start, end);
+>  
+>  	if (unlikely(vma->vm_flags & VM_PFNMAP))
+> -		untrack_pfn(vma, 0, 0);
+> +		untrack_pfn(vma, 0, 0, mm_wr_locked);
+>  
+>  	if (start != end) {
+>  		if (unlikely(is_vm_hugetlb_page(vma))) {
+> @@ -1675,7 +1675,7 @@ static void unmap_single_vma(struct mmu_gather *tlb,
+>   */
+>  void unmap_vmas(struct mmu_gather *tlb, struct maple_tree *mt,
+>  		struct vm_area_struct *vma, unsigned long start_addr,
+> -		unsigned long end_addr)
+> +		unsigned long end_addr, bool mm_wr_locked)
+>  {
+>  	struct mmu_notifier_range range;
+>  	struct zap_details details = {
+> @@ -1689,7 +1689,8 @@ void unmap_vmas(struct mmu_gather *tlb, struct maple_tree *mt,
+>  				start_addr, end_addr);
+>  	mmu_notifier_invalidate_range_start(&range);
+>  	do {
+> -		unmap_single_vma(tlb, vma, start_addr, end_addr, &details);
+> +		unmap_single_vma(tlb, vma, start_addr, end_addr, &details,
+> +				 mm_wr_locked);
+>  	} while ((vma = mas_find(&mas, end_addr - 1)) != NULL);
+>  	mmu_notifier_invalidate_range_end(&range);
+>  }
+> @@ -1723,7 +1724,7 @@ void zap_page_range_single(struct vm_area_struct *vma, unsigned long address,
+>  	 * unmap 'address-end' not 'range.start-range.end' as range
+>  	 * could have been expanded for hugetlb pmd sharing.
+>  	 */
+> -	unmap_single_vma(&tlb, vma, address, end, details);
+> +	unmap_single_vma(&tlb, vma, address, end, details, false);
+>  	mmu_notifier_invalidate_range_end(&range);
+>  	tlb_finish_mmu(&tlb);
+>  }
+> @@ -2492,7 +2493,7 @@ int remap_pfn_range(struct vm_area_struct *vma, unsigned long addr,
+>  
+>  	err = remap_pfn_range_notrack(vma, addr, pfn, size, prot);
+>  	if (err)
+> -		untrack_pfn(vma, pfn, PAGE_ALIGN(size));
+> +		untrack_pfn(vma, pfn, PAGE_ALIGN(size), true);
+>  	return err;
+>  }
+>  EXPORT_SYMBOL(remap_pfn_range);
+> diff --git a/mm/memremap.c b/mm/memremap.c
+> index 08cbf54fe037..2f88f43d4a01 100644
+> --- a/mm/memremap.c
+> +++ b/mm/memremap.c
+> @@ -129,7 +129,7 @@ static void pageunmap_range(struct dev_pagemap *pgmap, int range_id)
+>  	}
+>  	mem_hotplug_done();
+>  
+> -	untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range));
+> +	untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range), true);
+>  	pgmap_array_delete(range);
+>  }
+>  
+> @@ -276,7 +276,7 @@ static int pagemap_range(struct dev_pagemap *pgmap, struct mhp_params *params,
+>  	if (!is_private)
+>  		kasan_remove_zero_shadow(__va(range->start), range_len(range));
+>  err_kasan:
+> -	untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range));
+> +	untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range), true);
+>  err_pfn_remap:
+>  	pgmap_array_delete(range);
+>  	return error;
+> diff --git a/mm/mmap.c b/mm/mmap.c
+> index 2c6e9072e6a8..69d440997648 100644
+> --- a/mm/mmap.c
+> +++ b/mm/mmap.c
+> @@ -78,7 +78,7 @@ core_param(ignore_rlimit_data, ignore_rlimit_data, bool, 0644);
+>  static void unmap_region(struct mm_struct *mm, struct maple_tree *mt,
+>  		struct vm_area_struct *vma, struct vm_area_struct *prev,
+>  		struct vm_area_struct *next, unsigned long start,
+> -		unsigned long end);
+> +		unsigned long end, bool mm_wr_locked);
+>  
+>  static pgprot_t vm_pgprot_modify(pgprot_t oldprot, unsigned long vm_flags)
+>  {
+> @@ -2136,14 +2136,14 @@ static inline void remove_mt(struct mm_struct *mm, struct ma_state *mas)
+>  static void unmap_region(struct mm_struct *mm, struct maple_tree *mt,
+>  		struct vm_area_struct *vma, struct vm_area_struct *prev,
+>  		struct vm_area_struct *next,
+> -		unsigned long start, unsigned long end)
+> +		unsigned long start, unsigned long end, bool mm_wr_locked)
+>  {
+>  	struct mmu_gather tlb;
+>  
+>  	lru_add_drain();
+>  	tlb_gather_mmu(&tlb, mm);
+>  	update_hiwater_rss(mm);
+> -	unmap_vmas(&tlb, mt, vma, start, end);
+> +	unmap_vmas(&tlb, mt, vma, start, end, mm_wr_locked);
+>  	free_pgtables(&tlb, mt, vma, prev ? prev->vm_end : FIRST_USER_ADDRESS,
+>  				 next ? next->vm_start : USER_PGTABLES_CEILING);
+>  	tlb_finish_mmu(&tlb);
+> @@ -2391,7 +2391,11 @@ do_vmi_align_munmap(struct vma_iterator *vmi, struct vm_area_struct *vma,
+>  			mmap_write_downgrade(mm);
+>  	}
+>  
+> -	unmap_region(mm, &mt_detach, vma, prev, next, start, end);
+> +	/*
+> +	 * We can free page tables without write-locking mmap_lock because VMAs
+> +	 * were isolated before we downgraded mmap_lock.
+> +	 */
+> +	unmap_region(mm, &mt_detach, vma, prev, next, start, end, !downgrade);
+>  	/* Statistics and freeing VMAs */
+>  	mas_set(&mas_detach, start);
+>  	remove_mt(mm, &mas_detach);
+> @@ -2704,7 +2708,7 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
+>  
+>  		/* Undo any partial mapping done by a device driver. */
+>  		unmap_region(mm, &mm->mm_mt, vma, prev, next, vma->vm_start,
+> -			     vma->vm_end);
+> +			     vma->vm_end, true);
+>  	}
+>  	if (file && (vm_flags & VM_SHARED))
+>  		mapping_unmap_writable(file->f_mapping);
+> @@ -3031,7 +3035,7 @@ void exit_mmap(struct mm_struct *mm)
+>  	tlb_gather_mmu_fullmm(&tlb, mm);
+>  	/* update_hiwater_rss(mm) here? but nobody should be looking */
+>  	/* Use ULONG_MAX here to ensure all VMAs in the mm are unmapped */
+> -	unmap_vmas(&tlb, &mm->mm_mt, vma, 0, ULONG_MAX);
+> +	unmap_vmas(&tlb, &mm->mm_mt, vma, 0, ULONG_MAX, false);
+>  	mmap_read_unlock(mm);
+>  
+>  	/*
+> -- 
+> 2.39.1
 
-Acked-by: Michal Hocko <mhocko@suse.com>
 -- 
 Michal Hocko
 SUSE Labs
@@ -234,4 +474,4 @@ SUSE Labs
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y9D4rWEsajV/WfNx%40dhcp22.suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y9D5hjcprLI92VKf%40dhcp22.suse.cz.
