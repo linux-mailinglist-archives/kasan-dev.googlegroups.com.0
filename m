@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBDOY5FWKT4KRBTEKZGPAMGQEYL6X3WY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDOY5FWKT4KRBY4LZGPAMGQENC7P4GA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8308B67C6B3
-	for <lists+kasan-dev@lfdr.de>; Thu, 26 Jan 2023 10:18:06 +0100 (CET)
-Received: by mail-pf1-x43d.google.com with SMTP id 12-20020a62160c000000b005808c2cd0b6sf678253pfw.12
-        for <lists+kasan-dev@lfdr.de>; Thu, 26 Jan 2023 01:18:06 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674724684; cv=pass;
+Received: from mail-ej1-x63e.google.com (mail-ej1-x63e.google.com [IPv6:2a00:1450:4864:20::63e])
+	by mail.lfdr.de (Postfix) with ESMTPS id C32F067C6E3
+	for <lists+kasan-dev@lfdr.de>; Thu, 26 Jan 2023 10:20:36 +0100 (CET)
+Received: by mail-ej1-x63e.google.com with SMTP id xh12-20020a170906da8c00b007413144e87fsf898487ejb.14
+        for <lists+kasan-dev@lfdr.de>; Thu, 26 Jan 2023 01:20:36 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674724835; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dIFS1+Xma7Ynliov++AQcgev4WvpJdrhxBefE+1lr/dfSSFRdzkASofmnfuQ+kFymd
-         1CPkSst0cIWV30T30DlDCpjdBQTSZ9b3N4HgXyHQ3NfG99c/6idlXyTx6PLJsBwPz6to
-         p2msSYgc26pqmB6cGuobPqBQ18mNIhkjEdoFyeagxDG4LzKw1y4NSw2eWCPD7ZAExWJ7
-         Tw1isjLx/3qlxAwi0iKznGTmTpPNX2y3tZZAEaCtZODSNoIJLnSBUXmrHwg6HcJkmJjW
-         BYRj9LLXgp9FR2EzQ4K4Rb5aSiYCeN8YJN1YxSpX7TglwGU/daYFI48jgH0cJdJs5tiT
-         h4Xw==
+        b=kXqZXUW0kx9cYzW8fg87EOCyqmFNoneaS1JGXlVClC4A6TDHjLyR65rcgmpIiUkCL6
+         IHyCDhb0aPBmFmJH3HCslt6XNQGQmzizVEZmQlQ5KLUHManKBT5LcTMo1jfo4iB6lnWv
+         Hjb/rVOqTzX5r518nRONQURZgCY6po651O2x3dwWW1/UT33s57fme00uxJxJMBc+Tjw1
+         l6FBTCJMRy1iycmZ0FBDGFETIKZvElWBIzkYH9wjyPZGATzkjg4TRFon3fCEKkumCm35
+         bXdw8SVSngATZVjIYbfPEruz8mRJVibB7T6RB3ikp6rHYR4dJVk9/mgraATHTAUu1kGx
+         N9Cw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=8lT99Lg4CldWHeedNAS2U5TpwUCVAZGzDYGW6GKdC5Y=;
-        b=Ff9+yQQN63RkIGy2fOe9sTQb5v+tFeBrcqQmepM9yUL9YTwdYcTICccZPNcxFadvgw
-         HqGTOT/Deb1beUiaF0l034FT9+ZnAwvoTChVoTPqtXKQ9xoegs8H66/sADBd6Xp1G2YL
-         wakO5qpoLYKbzU69IMgFE/pkOCtgsdE9XdnX5NuOZYO2tlN/cAP6fH+bQxAAnGqQimzx
-         iMvWbBTTWbwtTVF/Qmei1oSonNI3hlZdaVUUcGXWX+VRZeyj0zrJQetmrUHJvQrkpgtz
-         6zhsDLcQ7oYj6i0cij5CYvjdawFp/olRLLTNOobyivuf3FhclJtNjU6yduH6pfiYpMV4
-         gElA==
+        bh=W3EH2k2qHo8hwsans0PyZsy1B4OSdkNI1zqDGU8bDtk=;
+        b=xSQov8lS38RMi7/We9ocjolZMBqXv6/qRIL6zR5h/up8V/8KFaENWZmVdsRqyHVRSE
+         TLryT0VuFrwYVWbow0A0iZdaJX/3XNnbnQAPo+40RUsMkJfHhGDpmq9i9tCy68kt3PAy
+         MZ603YN8HC3Af3382GrCAQ3MkqG5OMtu8hH+Ej0whN4VjzUm0x+XGfwcK71U1l6p53SJ
+         TEOXV7ahZ6ZOHKRhKuRbLepeMzpJkoS2mbZr/im2P4MV+wMimRQvv6UTyRDTWv+efnMY
+         wPlhEmHs03KOK5VfQpbubEuERl9rFrn2HCSeiwVIzzF/Mewzmx1seYGjSed9AfIhMKL5
+         LSRQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=sky5enLF;
-       spf=pass (google.com: domain of rppt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=rppt@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JmyjvNON;
+       spf=pass (google.com: domain of rppt@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=rppt@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8lT99Lg4CldWHeedNAS2U5TpwUCVAZGzDYGW6GKdC5Y=;
-        b=Gf29K0M3GT1Glv/ANdu/MTzMqb6jCEhA/oolC+eMNxgIstpGCuBbm03pUWjVhGcPUp
-         bd7ZI67Q0LrM9UqXYus0iphxBv06bCaXYRK4ZC/QIpU65dDenlJtQaqnXjDVblnaeccZ
-         31rt3mtGauMII5yjGELWZxIkEvYwPkoL+0KO2wlOkC3DKgEnD+DSrxs4yWI/liDCMuUA
-         m6QyTap/UOuOBcdxSC5N6zSIB+bWZsP1LRUcJimXVbizWa9sjoJHT88jhj1j5Q9YkQQt
-         9F8Ci3rYtDzISPZ1M6w3S+ogPhDzNCt5pRlphdTlmRiai0/N3eyFo3BzefMdinvlXnbd
-         +0Ug==
+        bh=W3EH2k2qHo8hwsans0PyZsy1B4OSdkNI1zqDGU8bDtk=;
+        b=k74IAS4p/KZSEdXjUPihOLlXqvhyVeqwq/v/i1N6iMjIcNCG+jGR/SeNPBc1Nkojl1
+         HaorYvC9lDpSOU+b7FlosbF8uQjaoCxGq5f1tApm0qtFcnxggpk5Wex7vqvceU3gVLAL
+         mBeqWJkztz4g1flzkMdzcPysWEnYm0Jzt/fEItFy5o2w5hQgaqxlLfSnxpwoOCheXodz
+         IaZjRmfPm53yWimOVr/oGdv8RN/ai+6MCOnUEoBi+82WJWgJgNvWxKRw6MEGrwEoCo2R
+         6erUWHCr62Vs1tnPB0H7TbZvLQphoO3BdmLsr2fs0BvHeMHZxIG7yj+wT5jSY3BOHjuC
+         6NPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -52,61 +52,60 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8lT99Lg4CldWHeedNAS2U5TpwUCVAZGzDYGW6GKdC5Y=;
-        b=YF0on6W2dfiVp3KHJs5O2bnhw167RboZMNiaUpKNL3WRFDkUwd5egulpr9q0Nt44FU
-         3BITQtKRGcxACLy6D+GJ+BwzH5RRkPotpEC5/mkDuxzlwyRiJTqhd27YJhSPhs9t0VGM
-         xNIomubn1oYN1GxbCIHiuUrw0z8IIJUUuCiUz364U4ym0Z1saW6vAazMLWHAhn8dLSG9
-         gGHvAJcO3/eFZYkO2Ux2ElkFnjJ0v5+QP+m0o8nbdlyEyrEll9W6CptNnLZ0lS8gGseb
-         JNHBWq7+iV/INJjxHadfmyeYPaFhC+GD9Fiq0CFnx2pI1Gdks7S3ehXqoIjWDIqY0SLk
-         5WVA==
+        bh=W3EH2k2qHo8hwsans0PyZsy1B4OSdkNI1zqDGU8bDtk=;
+        b=Aj8iHbAmoimK3TRPm2tXJ1T6g/wAKOxpxH1+vuWds/dZ0hgijMWDfi8pPEREJPQZ+L
+         Py9uBkBcd1vwcZNcD0/rKFJoqoufRO+S92yWEaQSnduh2d0E3GgOgom16L2CQc44PHf5
+         M+dIxhwvmAK7CkSXc5ZE8srebnrNUhjdFBDFo0kcRoJZnA+coEi3kZElBhkvxFnOkH1f
+         x9I3qavko/pJSK2PwvgxtKAP5/2QkDsPsMFH9lRqEgvbTExxEkRVqioMG5dX9RVur0eE
+         755WypBsViN5xaUBOJSDjVoWmiHJofoPO7uiinOGsP0ZsXsdYK6W5FuWUHYcTIptBbIx
+         4Bzg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKVihzmmMV8vRZnEUc9+tS78psy7m41kXZLPPA17TCHWQ7w+zlwr
-	Wa3oevoE9Gk2FZaYTocRknw=
-X-Google-Smtp-Source: AK7set/PEnMGgzK8zVXUyz4vVfnWxvlinkoBznnqT/AS8Cg4RvypszPodUBv2KabCy7rjjSp7E09eA==
-X-Received: by 2002:a17:90a:6e4d:b0:22b:ee57:725b with SMTP id s13-20020a17090a6e4d00b0022bee57725bmr1771201pjm.159.1674724684663;
-        Thu, 26 Jan 2023 01:18:04 -0800 (PST)
+X-Gm-Message-State: AFqh2koyGYqUv2k0NgTPhNvnGcR9HBKdunM5EvtZvgVAP64W6osQAqHp
+	q5qx1ccEvnWU3onFBsG0qtY=
+X-Google-Smtp-Source: AMrXdXsXYJr8t5yPWMBWRPmVBgIC6rtD++qv1MPPqmXyRlNRtg5AOIxkxAeeBwaVRraR6if44aSbeA==
+X-Received: by 2002:a17:906:dfc1:b0:7bd:3a5c:4dea with SMTP id jt1-20020a170906dfc100b007bd3a5c4deamr4524213ejc.190.1674724835265;
+        Thu, 26 Jan 2023 01:20:35 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:2312:b0:194:d87a:ffa6 with SMTP id
- d18-20020a170903231200b00194d87affa6ls1709612plh.1.-pod-prod-gmail; Thu, 26
- Jan 2023 01:18:04 -0800 (PST)
-X-Received: by 2002:a17:90b:1bc7:b0:22b:bbe3:672b with SMTP id oa7-20020a17090b1bc700b0022bbbe3672bmr21453050pjb.9.1674724683911;
-        Thu, 26 Jan 2023 01:18:03 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674724683; cv=none;
+Received: by 2002:a50:d681:0:b0:49e:29ce:a2b with SMTP id r1-20020a50d681000000b0049e29ce0a2bls1477225edi.0.-pod-prod-gmail;
+ Thu, 26 Jan 2023 01:20:34 -0800 (PST)
+X-Received: by 2002:aa7:c619:0:b0:49e:6e34:c363 with SMTP id h25-20020aa7c619000000b0049e6e34c363mr28315128edq.35.1674724834258;
+        Thu, 26 Jan 2023 01:20:34 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674724834; cv=none;
         d=google.com; s=arc-20160816;
-        b=eMZga4jOCBPGb2vXka+jrNpdUW4rCfoMnPuhAPERIj2Bwoj5VPPRxra/eSDsD0DMXv
-         vJKLPhx2InEqFFo4YxJrqmAjFTIL2SqGyzis/7dWFgd4PW7lPGac9M8J80Lfgxi7HHc1
-         sIY1tZRg3bjC+BbGl59N4KVl+nomw0ywPZKnqrsJHRqoQDdw7DwID5+mqWiMRjzYokQn
-         H+thJT9253Tm4lUajZYgFAqme5SSxgaSr3OIOoNBperTV0b+A3fNPCU0zJ0HpdEKVzbV
-         7Z3LApARoUlrXBKNPxoFl2I9uM+RzfrnNwSYXZgexl9diIy/IVLV2m+gVnTAmvyUGMbr
-         txog==
+        b=tbKFNRFbPLJWJYqycQKVq/2fZgcuwasVxTRB9m9e2Qh9KBXV20N6QwHtJuUTxf5oUz
+         Xz6BxWX6Zt0uerORP/2WnNinQz9QX90dVRTBoEfo6rRmKfM77QXl/Ddxdo/Xt5Awu8Tk
+         4hYUJGlh0549z9KJEn/SPx8o6bzSOxeO3wP/Ns0Lxyn8paJKkOZRP9vLr7egGg0LIby5
+         Z0zMXDid8BjQYYmJug9cDk6jQrk0XUYbq6sV10Ha/mkaxH8b12OGDxeMgjC+k4TGFFqT
+         f9Z9nSKyuFUhYQb3JANCqjf7tKEMELfj/x2VwNWyOQQpvMbma8nQZq2nvMpZe6kqJKd1
+         Huww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=h2GT4+WZ8jGJqzdU7QXUBHwNvKESwP4EBaI52fm4yVY=;
-        b=jrr6KB0up2cNUMnm/r/hm9TBuHtEXT6y9+3bKq/IUQ3MWa/RN+/5MYDILya+kFnmQm
-         W8PYFnpAE2Fdk6tB1z06CTEKzBELpRyC1X7TuBvUHVWEsNas0x5N6VKOX9DUuAce9sIr
-         /NpeaWFusXh4hNBa9jSXELGec5BS0/1+9l/FAQ77uhsky7VFY2FxlzpSmUZynQEznkYq
-         TxQhyn74ZG8jZavyq9L77JLbtTYil6fEwZKAagPxNCL3vxjcVCfv1jSAC9yOSy9TGk/g
-         Kpxm0xnfpcy82QCgjJcP2P60nbqPS9zoyNfb8FzHCnf+LeHUeiqQ9GVY7Qgl9KtucOy2
-         cD3A==
+        bh=Nw0s+iOGwE5ewwKvFJLNs9mGXGEq6YMBUPCHPhGK/Xg=;
+        b=yIkiP8UdM8q1jXPuy2TFUx8x1g2UU/4lwDqLeDIWH4gN4QyPVpqcOKC5cieRJ2Jm3S
+         Z6CGbC7jYHJvSpINUVTIOTOGHGrOaxVW+5NOvl9Vdm1xe0RMPVyMBel/zuMMHnlNwKsA
+         ZhmvYMCtZHLNyNa8lQaQLsLzefLQSsz2GT16GYqi5aBSBH9jOQQE3s4iQGrcVm7Ulo4f
+         ujUoxYroScUn0jgpRrv45hWqgwvSfe1IJOl74uc9TMo7TlbFS7L5pSgAWPox9Bu9c3vJ
+         oUTCdwnoHGGg42YgWo+vYsOZwaaXA+eHQ6rvRyQMuMxZrIHgTmiGkOum1GTttd3BMnBz
+         LThw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=sky5enLF;
-       spf=pass (google.com: domain of rppt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=rppt@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JmyjvNON;
+       spf=pass (google.com: domain of rppt@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=rppt@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id t14-20020a17090ad50e00b0022975f69761si67013pju.0.2023.01.26.01.18.03
+Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
+        by gmr-mx.google.com with ESMTPS id es12-20020a056402380c00b0047014e8771fsi40337edb.3.2023.01.26.01.20.34
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 26 Jan 2023 01:18:03 -0800 (PST)
-Received-SPF: pass (google.com: domain of rppt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+        Thu, 26 Jan 2023 01:20:34 -0800 (PST)
+Received-SPF: pass (google.com: domain of rppt@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 148A86172A;
-	Thu, 26 Jan 2023 09:18:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B686C433EF;
-	Thu, 26 Jan 2023 09:17:19 +0000 (UTC)
-Date: Thu, 26 Jan 2023 11:17:09 +0200
+	by ams.source.kernel.org (Postfix) with ESMTPS id C04C8B81D19;
+	Thu, 26 Jan 2023 09:20:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F7DBC433D2;
+	Thu, 26 Jan 2023 09:19:45 +0000 (UTC)
+Date: Thu, 26 Jan 2023 11:19:37 +0200
 From: Mike Rapoport <rppt@kernel.org>
 To: Suren Baghdasaryan <surenb@google.com>
 Cc: akpm@linux-foundation.org, michel@lespinasse.org, jglisse@google.com,
@@ -179,20 +178,21 @@ Cc: akpm@linux-foundation.org, michel@lespinasse.org, jglisse@google.com,
 	linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
 	selinux@vger.kernel.org, alsa-devel@alsa-project.org,
 	kernel-team@android.com
-Subject: Re: [PATCH v2 1/6] mm: introduce vma->vm_flags modifier functions
-Message-ID: <Y9JFFYjfJf9uDijE@kernel.org>
+Subject: Re: [PATCH v2 2/6] mm: replace VM_LOCKED_CLEAR_MASK with
+ VM_LOCKED_MASK
+Message-ID: <Y9JFqaE4n/eGoWWi@kernel.org>
 References: <20230125083851.27759-1-surenb@google.com>
- <20230125083851.27759-2-surenb@google.com>
+ <20230125083851.27759-3-surenb@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20230125083851.27759-2-surenb@google.com>
+In-Reply-To: <20230125083851.27759-3-surenb@google.com>
 X-Original-Sender: rppt@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=sky5enLF;       spf=pass
- (google.com: domain of rppt@kernel.org designates 2604:1380:4641:c500::1 as
- permitted sender) smtp.mailfrom=rppt@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=JmyjvNON;       spf=pass
+ (google.com: domain of rppt@kernel.org designates 145.40.68.75 as permitted
+ sender) smtp.mailfrom=rppt@kernel.org;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -205,93 +205,134 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jan 25, 2023 at 12:38:46AM -0800, Suren Baghdasaryan wrote:
-> vm_flags are among VMA attributes which affect decisions like VMA merging
-> and splitting. Therefore all vm_flags modifications are performed after
-> taking exclusive mmap_lock to prevent vm_flags updates racing with such
-> operations. Introduce modifier functions for vm_flags to be used whenever
-> flags are updated. This way we can better check and control correct
-> locking behavior during these updates.
+On Wed, Jan 25, 2023 at 12:38:47AM -0800, Suren Baghdasaryan wrote:
+> To simplify the usage of VM_LOCKED_CLEAR_MASK in clear_vm_flags(),
+> replace it with VM_LOCKED_MASK bitmask and convert all users.
 > 
 > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> ---
->  include/linux/mm.h       | 37 +++++++++++++++++++++++++++++++++++++
->  include/linux/mm_types.h |  8 +++++++-
->  2 files changed, 44 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index c2f62bdce134..b71f2809caac 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -627,6 +627,43 @@ static inline void vma_init(struct vm_area_struct *vma, struct mm_struct *mm)
->  	INIT_LIST_HEAD(&vma->anon_vma_chain);
->  }
->  
-> +/* Use when VMA is not part of the VMA tree and needs no locking */
-> +static inline void init_vm_flags(struct vm_area_struct *vma,
-> +				 unsigned long flags)
-
-I'd suggest to make it vm_flags_init() etc.
-Except that
 
 Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
 
-> +{
-> +	vma->vm_flags = flags;
-> +}
-> +
-> +/* Use when VMA is part of the VMA tree and modifications need coordination */
-> +static inline void reset_vm_flags(struct vm_area_struct *vma,
-> +				  unsigned long flags)
-> +{
-> +	mmap_assert_write_locked(vma->vm_mm);
-> +	init_vm_flags(vma, flags);
-> +}
-> +
-> +static inline void set_vm_flags(struct vm_area_struct *vma,
-> +				unsigned long flags)
-> +{
-> +	mmap_assert_write_locked(vma->vm_mm);
-> +	vma->vm_flags |= flags;
-> +}
-> +
-> +static inline void clear_vm_flags(struct vm_area_struct *vma,
-> +				  unsigned long flags)
-> +{
-> +	mmap_assert_write_locked(vma->vm_mm);
-> +	vma->vm_flags &= ~flags;
-> +}
-> +
-> +static inline void mod_vm_flags(struct vm_area_struct *vma,
-> +				unsigned long set, unsigned long clear)
-> +{
-> +	mmap_assert_write_locked(vma->vm_mm);
-> +	vma->vm_flags |= set;
-> +	vma->vm_flags &= ~clear;
-> +}
-> +
->  static inline void vma_set_anonymous(struct vm_area_struct *vma)
->  {
->  	vma->vm_ops = NULL;
-> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-> index 2d6d790d9bed..6c7c70bf50dd 100644
-> --- a/include/linux/mm_types.h
-> +++ b/include/linux/mm_types.h
-> @@ -491,7 +491,13 @@ struct vm_area_struct {
->  	 * See vmf_insert_mixed_prot() for discussion.
->  	 */
->  	pgprot_t vm_page_prot;
-> -	unsigned long vm_flags;		/* Flags, see mm.h. */
-> +
-> +	/*
-> +	 * Flags, see mm.h.
-> +	 * WARNING! Do not modify directly.
-> +	 * Use {init|reset|set|clear|mod}_vm_flags() functions instead.
-> +	 */
-> +	unsigned long vm_flags;
+> ---
+>  include/linux/mm.h | 4 ++--
+>  kernel/fork.c      | 2 +-
+>  mm/hugetlb.c       | 4 ++--
+>  mm/mlock.c         | 6 +++---
+>  mm/mmap.c          | 6 +++---
+>  mm/mremap.c        | 2 +-
+>  6 files changed, 12 insertions(+), 12 deletions(-)
+> 
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index b71f2809caac..da62bdd627bf 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -421,8 +421,8 @@ extern unsigned int kobjsize(const void *objp);
+>  /* This mask defines which mm->def_flags a process can inherit its parent */
+>  #define VM_INIT_DEF_MASK	VM_NOHUGEPAGE
+>  
+> -/* This mask is used to clear all the VMA flags used by mlock */
+> -#define VM_LOCKED_CLEAR_MASK	(~(VM_LOCKED | VM_LOCKONFAULT))
+> +/* This mask represents all the VMA flag bits used by mlock */
+> +#define VM_LOCKED_MASK	(VM_LOCKED | VM_LOCKONFAULT)
+>  
+>  /* Arch-specific flags to clear when updating VM flags on protection change */
+>  #ifndef VM_ARCH_CLEAR
+> diff --git a/kernel/fork.c b/kernel/fork.c
+> index 6683c1b0f460..03d472051236 100644
+> --- a/kernel/fork.c
+> +++ b/kernel/fork.c
+> @@ -669,7 +669,7 @@ static __latent_entropy int dup_mmap(struct mm_struct *mm,
+>  			tmp->anon_vma = NULL;
+>  		} else if (anon_vma_fork(tmp, mpnt))
+>  			goto fail_nomem_anon_vma_fork;
+> -		tmp->vm_flags &= ~(VM_LOCKED | VM_LOCKONFAULT);
+> +		clear_vm_flags(tmp, VM_LOCKED_MASK);
+>  		file = tmp->vm_file;
+>  		if (file) {
+>  			struct address_space *mapping = file->f_mapping;
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index d20c8b09890e..4ecdbad9a451 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -6973,8 +6973,8 @@ static unsigned long page_table_shareable(struct vm_area_struct *svma,
+>  	unsigned long s_end = sbase + PUD_SIZE;
+>  
+>  	/* Allow segments to share if only one is marked locked */
+> -	unsigned long vm_flags = vma->vm_flags & VM_LOCKED_CLEAR_MASK;
+> -	unsigned long svm_flags = svma->vm_flags & VM_LOCKED_CLEAR_MASK;
+> +	unsigned long vm_flags = vma->vm_flags & ~VM_LOCKED_MASK;
+> +	unsigned long svm_flags = svma->vm_flags & ~VM_LOCKED_MASK;
 >  
 >  	/*
->  	 * For areas with an address space and backing store,
+>  	 * match the virtual addresses, permission and the alignment of the
+> diff --git a/mm/mlock.c b/mm/mlock.c
+> index 0336f52e03d7..5c4fff93cd6b 100644
+> --- a/mm/mlock.c
+> +++ b/mm/mlock.c
+> @@ -497,7 +497,7 @@ static int apply_vma_lock_flags(unsigned long start, size_t len,
+>  		if (vma->vm_start != tmp)
+>  			return -ENOMEM;
+>  
+> -		newflags = vma->vm_flags & VM_LOCKED_CLEAR_MASK;
+> +		newflags = vma->vm_flags & ~VM_LOCKED_MASK;
+>  		newflags |= flags;
+>  		/* Here we know that  vma->vm_start <= nstart < vma->vm_end. */
+>  		tmp = vma->vm_end;
+> @@ -661,7 +661,7 @@ static int apply_mlockall_flags(int flags)
+>  	struct vm_area_struct *vma, *prev = NULL;
+>  	vm_flags_t to_add = 0;
+>  
+> -	current->mm->def_flags &= VM_LOCKED_CLEAR_MASK;
+> +	current->mm->def_flags &= ~VM_LOCKED_MASK;
+>  	if (flags & MCL_FUTURE) {
+>  		current->mm->def_flags |= VM_LOCKED;
+>  
+> @@ -681,7 +681,7 @@ static int apply_mlockall_flags(int flags)
+>  	for_each_vma(vmi, vma) {
+>  		vm_flags_t newflags;
+>  
+> -		newflags = vma->vm_flags & VM_LOCKED_CLEAR_MASK;
+> +		newflags = vma->vm_flags & ~VM_LOCKED_MASK;
+>  		newflags |= to_add;
+>  
+>  		/* Ignore errors */
+> diff --git a/mm/mmap.c b/mm/mmap.c
+> index d4abc6feced1..323bd253b25a 100644
+> --- a/mm/mmap.c
+> +++ b/mm/mmap.c
+> @@ -2671,7 +2671,7 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
+>  		if ((vm_flags & VM_SPECIAL) || vma_is_dax(vma) ||
+>  					is_vm_hugetlb_page(vma) ||
+>  					vma == get_gate_vma(current->mm))
+> -			vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
+> +			clear_vm_flags(vma, VM_LOCKED_MASK);
+>  		else
+>  			mm->locked_vm += (len >> PAGE_SHIFT);
+>  	}
+> @@ -3340,8 +3340,8 @@ static struct vm_area_struct *__install_special_mapping(
+>  	vma->vm_start = addr;
+>  	vma->vm_end = addr + len;
+>  
+> -	vma->vm_flags = vm_flags | mm->def_flags | VM_DONTEXPAND | VM_SOFTDIRTY;
+> -	vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
+> +	init_vm_flags(vma, (vm_flags | mm->def_flags |
+> +		      VM_DONTEXPAND | VM_SOFTDIRTY) & ~VM_LOCKED_MASK);
+>  	vma->vm_page_prot = vm_get_page_prot(vma->vm_flags);
+>  
+>  	vma->vm_ops = ops;
+> diff --git a/mm/mremap.c b/mm/mremap.c
+> index 1b3ee02bead7..35db9752cb6a 100644
+> --- a/mm/mremap.c
+> +++ b/mm/mremap.c
+> @@ -687,7 +687,7 @@ static unsigned long move_vma(struct vm_area_struct *vma,
+>  
+>  	if (unlikely(!err && (flags & MREMAP_DONTUNMAP))) {
+>  		/* We always clear VM_LOCKED[ONFAULT] on the old vma */
+> -		vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
+> +		clear_vm_flags(vma, VM_LOCKED_MASK);
+>  
+>  		/*
+>  		 * anon_vma links of the old vma is no longer needed after its page
 > -- 
 > 2.39.1
 > 
@@ -300,4 +341,4 @@ Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y9JFFYjfJf9uDijE%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y9JFqaE4n/eGoWWi%40kernel.org.
