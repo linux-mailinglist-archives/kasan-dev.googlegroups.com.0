@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBDOY5FWKT4KRB7ESZGPAMGQEX5UIFEI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDOY5FWKT4KRBVVFZKPAMGQE2LZJRYY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9665367C769
-	for <lists+kasan-dev@lfdr.de>; Thu, 26 Jan 2023 10:35:57 +0100 (CET)
-Received: by mail-lf1-x13d.google.com with SMTP id n6-20020a0565120ac600b004d5a68b0f94sf686316lfu.14
-        for <lists+kasan-dev@lfdr.de>; Thu, 26 Jan 2023 01:35:57 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674725757; cv=pass;
+Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8D2967CEB9
+	for <lists+kasan-dev@lfdr.de>; Thu, 26 Jan 2023 15:48:55 +0100 (CET)
+Received: by mail-wm1-x33d.google.com with SMTP id h9-20020a1ccc09000000b003db1c488826sf2932288wmb.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 26 Jan 2023 06:48:55 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674744535; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ydD95h9xF+hyd9mMsopZIIt6GBWF/hDDTFNryEGmA4g7dT4Y/JzbN2gRVdJQF0JuVA
-         vFi9z8gJpptuZvEYPHdzKFEkRx870gdZnaKPq+oG8+94n4KmBSIv+JKxtV86b45JP2x9
-         CEu3wjIeZwRT091nq+zN2irUlegbz6Y4ub2wzMi2EG/NvAEABvYv97FwIlE+jNMGr8FN
-         5IbqrJww6Yw58U2voUG2DD3mq8ZuBcV/huMnhwDbsN2TnP7fLfCk8IalxwDkDu1mSrat
-         iK0gMFugP6vxGWAjiwKCvYL7ZSfW3Nfq0dI+wU1Qm18WgF7Iec1ywpXnePqd9F3t740I
-         xlZg==
+        b=A0Pzjr9p7Qk7LNEICBd70v9LXwV+rkg8nPhnxxtRKtTb2sKy2RY7b7MhpNEN02L8ET
+         cMu9ZqZEqyko4mog6TbOgn7T9Ymi11wM3t4W2wdkhMW9Nk/TmpGlasiZsLd1aniFtpCa
+         FHzyTXiKir9T1CctAJ8IA33/Q/W7IodQs28mhkP0oNkUOOsmS/Sxz6xmWT+V3TU/oJ5Y
+         j6KgdNQ8cedoUxQEgEkNpI9Az21MziWzFSVY/T/6LaXQiCGwELqAi/5e/PxYrR1wou8g
+         HK/vsYHznRAdQs2gqIHu57NJ+4xO3feWi2mtEx69dILtbqleq7zA2Ska9zWeQ1f/hAyl
+         yj1Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=mskzgbdWmtlTq6lxkaVF0egI9UcLgQGZYpzZIfWW5+Q=;
-        b=D24W3q4CZDeB1USlaArg0ff+lBUZ29kQE4krYzW+Dre6hjXXbhnwwY9OK0FfMunSzT
-         053ZOyA82KhjIQbBIrQeou5ejmFm35ZvmtmAXYUK9QbpV2uVvdZNLAPZaiweJJoxWcJm
-         2EahaPdSizvBz5pxBbNWR2VltD4bIaZPMZNF3elxlh2m/vR7kycYtjoSgLP3qMw0bxKb
-         1o3QdT+7d6gV9LrXxXzGE8sxbdt6Ul3MO74j4obGUk7523WlzAaYhaWCdp2zELyaXaZ1
-         uOAw5t/g+EntoQi4/favJtSXc8qsCtVriXsecb55bqEEzpBBaq5YVh26Gb1j7DWzNZXx
-         8X4w==
+        bh=GEhnQTfQu+BCCqAyxBSHhe75QA5ODi1NiALbAuoHG1Q=;
+        b=Z0mEdWskfwBHfbETHBEtFMgQB9vzu/j58pM1tRFbNHvVzMcXo+5CtuBtsA52TVCuct
+         Hi0y3paABpUef6qewizP/FtRNqoCemyCguXmpKCzTghxXAnX7+k8KFvU/9o/z0TSRNjt
+         W/j2LzE6uYtlpdsMvEfxaBZ/p6IiCwN8TJOz3F1F1nWFnaMKCmgTJr0l1rws7pQXbTWG
+         EnqEMuNzJZR7ROIc7qO57MZ8Yom9/SfEvFpGS1TP7lpPCUiO4M6wngNabs/kHCS3Tip8
+         5MWsNESp9idwX1FYmlv641PNaXES82tOgkwxHNUG03/le3nLymw7RJ75h7j/7kDdIDJk
+         Us+w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=DpDvg8hL;
-       spf=pass (google.com: domain of rppt@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=rppt@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=OyaVsT5e;
+       spf=pass (google.com: domain of rppt@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=rppt@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mskzgbdWmtlTq6lxkaVF0egI9UcLgQGZYpzZIfWW5+Q=;
-        b=Q0WJeCFI4yY73iRznbtkTXO7B4hIss4k5FJt526yIQK7eZQ/4NE97sDuxdqjXlTTSI
-         9Eg6fk7nPdP9fllkfjID/EkSd4N0YlK1a5s2IX8DKJhuP9YY2DOpLjPYy3o5BtVXqW79
-         I0YtNn5tntyiLcWjfcdP8Av47i+cFiBMNYe/3hxqvO14bKYHVvGIqMWD5c9+NYLPJPS2
-         kGvwNLTZ50RFZ4AjKwVkTlYkFfo5fEjb2JRsabmVe418cOm/10O4E2elDAHbHHoLiMkn
-         NSu5E4nfis7CCwCl0cAFIcgn8MHbZvfJDlYs4Nl/5N6NyxUVN8HZgCfb82ORTfGsKJgc
-         6KPA==
+        bh=GEhnQTfQu+BCCqAyxBSHhe75QA5ODi1NiALbAuoHG1Q=;
+        b=ZCO4ehfjEe9O3+bEixxcVazdpnB88vr8mgR+UD9uN9FsVNPRmaVqbvtQNnZRfCzagq
+         jAjRGPbVEsu6dJDwYqygKY80zQdhFB7l8I1xXnNIMGGkJzQjtnv+4gSqkH/DabSt8YM6
+         OE/2SLVLXHBNzqIbHBxVdljAnYCAvQqa8CrFNEhNtlwuOEDw6taVF/tdCzd+MyMWJmlL
+         4462bO57yArEA4JRfQXAEszsX5KB0Ng2l/sBaJlSJ84mzV0jEXPrEN9AGZ1q85LpG6Ta
+         6HgISVqNFuWsDXdhkCH5RLIoXIfvws1itntbMbiEB6qyawo/+rdVQK2ly2j+a927UpcK
+         kaJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -52,60 +52,61 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mskzgbdWmtlTq6lxkaVF0egI9UcLgQGZYpzZIfWW5+Q=;
-        b=zjEbomBUN46VN503JPn3sDWU+aN64zB5M7+JbQ6EDyCTx4pp7+Gz5khpJsxfvnYM0g
-         0FDwYh9VFil+HHak0AY3rq/yBOqf60nqlmY9vqATvQyCw6eNWyXslcg7HAHdcsp/hWBI
-         CyFb9vcz/uTf09b92gKW0Az9AZ+dJ8nZc+DUpRT1phtiSxaJp1sBNyyhbUePU4MiKEIc
-         ZyJlzTE+JreK7DWzOZXSt7NW3gT1K/j5GcyZwjUo5bVrHwlpQd6yDi/bqMIEGHzl7f/w
-         oXvdbbTi7mS7tUbvHd4RfRnKPjGuvQCW7G/x8/Z24AHbVDK/A589pxEJv98cY5PKRyQd
-         h6Rg==
+        bh=GEhnQTfQu+BCCqAyxBSHhe75QA5ODi1NiALbAuoHG1Q=;
+        b=PtcF3oKRQwIMEllmNObl7O+LY8cQhyR3VkQ1fiHmTBvVlO2bN1z93sADkjxY6KfLAb
+         iihYL4PsI9HUn/gEG6h924SfD2ivdANsVGpcV7ph90j7eZd0BfTyw0c82ZVhxapZGN0D
+         VcNKVgzzJBuC/li4EDHncSa26LLLd/a9SA91m1ShEFDSSGBWj93dYlEDKBrqOaCva9Me
+         ZGzRyZfjWyiU4a7aj92QuuL6R8jP7D3fvIKv/hQMxesweDjWI/awHfRI6z8fxaMbm5tY
+         0kp8rcqX9b9pVn+ck4Uqp7JQST2hXk+zSz6adD5tQfrQcOJLjFMstzIjpRjjv+iQscex
+         wUQg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kpgdeMoAlbUewKrWC6jrXSCzqngXhfn5mrSd4nPZn7nsKjWt0/T
-	6eLPMtTcRmophV0+i6fGbVc=
-X-Google-Smtp-Source: AMrXdXtUe7DwLvgEq/K1wHKthlag1KtCjDfPKP3pHxnReT/kGAVm9K9YxnYmXr8D0wxJqnKMMO7NZQ==
-X-Received: by 2002:a2e:9591:0:b0:28b:68b4:f3b0 with SMTP id w17-20020a2e9591000000b0028b68b4f3b0mr1921651ljh.101.1674725756744;
-        Thu, 26 Jan 2023 01:35:56 -0800 (PST)
+X-Gm-Message-State: AFqh2kq+nG1FlxE5y5wENOT72sf34lD+u3i7gUrjqy/Ssr/YVAw5G0QI
+	A2viBLwnvRF10AxIvkNDSMQ=
+X-Google-Smtp-Source: AMrXdXtMhpO710y1/HsGwK1CGi2rtT70gQYOOfmp/Iwo+LY7dWCzpg6AmoPElvDM5/FLFi7Vk66DIg==
+X-Received: by 2002:a05:6000:136b:b0:2bb:e864:7a2a with SMTP id q11-20020a056000136b00b002bbe8647a2amr1237582wrz.218.1674744535119;
+        Thu, 26 Jan 2023 06:48:55 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:9198:0:b0:27f:e626:ad40 with SMTP id f24-20020a2e9198000000b0027fe626ad40ls188694ljg.1.-pod-prod-gmail;
- Thu, 26 Jan 2023 01:35:55 -0800 (PST)
-X-Received: by 2002:a2e:9e0d:0:b0:284:819:1f85 with SMTP id e13-20020a2e9e0d000000b0028408191f85mr8938413ljk.40.1674725755514;
-        Thu, 26 Jan 2023 01:35:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674725755; cv=none;
+Received: by 2002:a05:600c:1da5:b0:3cd:d7d0:14b6 with SMTP id
+ p37-20020a05600c1da500b003cdd7d014b6ls1217118wms.1.-pod-control-gmail; Thu,
+ 26 Jan 2023 06:48:54 -0800 (PST)
+X-Received: by 2002:a05:600c:4fd3:b0:3cf:7197:e68a with SMTP id o19-20020a05600c4fd300b003cf7197e68amr33380959wmq.18.1674744534160;
+        Thu, 26 Jan 2023 06:48:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674744534; cv=none;
         d=google.com; s=arc-20160816;
-        b=WyQdVaZWn8fidwrAvSEsuh9AkYx20X84Rxc+ASnu0fBPjMfOzDj/M6jAiU67bqye5w
-         p3dmxJe+RjyXN+fI83stf4VfIz5SMn/KGOlPR7ieNHLsOCGlo95GeLxBlivX6lY4OlU1
-         TPp5zpZen8qDOPDCy3kFoSLU54O+U/NoM+MrzD1zutxwFnM/ApThLu2jSO5jtLCHtRVM
-         9xQohdvDW/05dbPSH/Lk35Z26Yif2uucwulbjMbi8LkQ8a5IhmqLvhvKB3STL+HiPuhH
-         VV0Rl3+UdEIH8HSOjk7nlop1lfR7LGJ5sQe9V28MNobkWWsvP2602LLDKOY7/kMcf7r1
-         1tlg==
+        b=sH/L6pVga1c9uGk7JVb2eiKWvdClKY/+g4Lo+fMpQjDLXGLjDCQB7fuWtPvmgqxcqI
+         imFZopBILkT2KlwrTgX1OYAvNDMQb8lNM+UPDjpYPUku4aq4xb9ftiKjyh2HA/nClGoC
+         uvrr5AtZ1yGm1JC3em8yls6tbNprnPdGX3AVOcP0CwPUITAz3+Aj0bpYYpsFa3YMSAny
+         TwmFq2Aav6q4Zco4QDxtskH53zOxSJVK/gEimEc+zOriercaCw+4b+k+F4Xm57Dg61uR
+         uL3qBbrBdMFDad8pFiYj9QH7agrdDGemasNCCSTXESWGHOxJKvKMGoouNEBwZv3YIM3y
+         i9Jg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=V6+CIInquHBEpxji0ytsGppDJ+ls0B8YpThTHtnrLyE=;
-        b=SGBteDpHVrR+4OxdZlkm9oPJEUB8Q0kjAT9Lu1XMIuqhp9pk395dYJMgiSIhKPgL7w
-         /6ugT04wIG09tnnTQoLwZmitc7IckTRFO32a8ANLxExBWsVUZzXBKrWrwo643hAZOEq9
-         JyHpQdV2ktMGEdcA6XJTJ16NUN5kAtkq/OlQsPBmUSBFdFx54mXCDrsNsbxOlkMaf46K
-         mniXIy7tzav141L0x/2lRVsfCF1vbhttCuM2S2J8cQlc+8d27jQsQWY/xBNf9iDiu7rh
-         oy7ldZASWaMAOcdrmFhFZG6rWl3pklrQfk2bNKREJBDS3bA8xMIGXvv2ocIN8uasYGW0
-         wCzQ==
+        bh=fK+Z6q5CCrbSGUGA/VU77diV1gJjJKFGcQC7IYueLvo=;
+        b=tV5T7TQ7gdSohzvdaWs3kCCeLz8CacjaHGE0whzvWDpdKwDFyQ6MwZGYMf132HGhV7
+         uqLqSCegNqZqpgoxwC8vhkEPeMcNMngh4Ye6V4NwiHY4VApTTuIQySi26USZeMf82NWV
+         CCPQPb5Vh7TOqfYqwkS1zFVUcGO4rNzu31WIpvIwd83N/LJjnkYsJwXPhDAZEFAxeKzq
+         DS1yB3J3R+U5XSNEUbglpMCDaxVQtpfTvhjTkD/nVI+nLfAdojeHwdW+pHMtsM8tYVMr
+         /6P5hMHKOeYT6CfMuaZK7Bpu/mLiu55ubYylatSLq1cWrNoKMVUOeScvoqkm0sLkd902
+         TOFg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=DpDvg8hL;
-       spf=pass (google.com: domain of rppt@kernel.org designates 145.40.68.75 as permitted sender) smtp.mailfrom=rppt@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=OyaVsT5e;
+       spf=pass (google.com: domain of rppt@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=rppt@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from ams.source.kernel.org (ams.source.kernel.org. [145.40.68.75])
-        by gmr-mx.google.com with ESMTPS id y5-20020a056512044500b004d579451cc2si39707lfk.12.2023.01.26.01.35.55
+Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
+        by gmr-mx.google.com with ESMTPS id az13-20020a05600c600d00b003db0037852esi594616wmb.0.2023.01.26.06.48.54
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 26 Jan 2023 01:35:55 -0800 (PST)
-Received-SPF: pass (google.com: domain of rppt@kernel.org designates 145.40.68.75 as permitted sender) client-ip=145.40.68.75;
+        Thu, 26 Jan 2023 06:48:54 -0800 (PST)
+Received-SPF: pass (google.com: domain of rppt@kernel.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.source.kernel.org (Postfix) with ESMTPS id 82E6DB81CB8;
-	Thu, 26 Jan 2023 09:35:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40FC4C433EF;
-	Thu, 26 Jan 2023 09:35:05 +0000 (UTC)
-Date: Thu, 26 Jan 2023 11:34:54 +0200
+	by ams.source.kernel.org (Postfix) with ESMTPS id A5903B81D69;
+	Thu, 26 Jan 2023 14:48:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05241C4339B;
+	Thu, 26 Jan 2023 14:48:14 +0000 (UTC)
+Date: Thu, 26 Jan 2023 16:48:04 +0200
 From: Mike Rapoport <rppt@kernel.org>
 To: Suren Baghdasaryan <surenb@google.com>
 Cc: akpm@linux-foundation.org, michel@lespinasse.org, jglisse@google.com,
@@ -178,21 +179,20 @@ Cc: akpm@linux-foundation.org, michel@lespinasse.org, jglisse@google.com,
 	linux-perf-users@vger.kernel.org, kasan-dev@googlegroups.com,
 	selinux@vger.kernel.org, alsa-devel@alsa-project.org,
 	kernel-team@android.com
-Subject: Re: [PATCH v2 5/6] mm: introduce mod_vm_flags_nolock and use it in
- untrack_pfn
-Message-ID: <Y9JJPvvuvSjQ+x9h@kernel.org>
+Subject: Re: [PATCH v2 6/6] mm: export dump_mm()
+Message-ID: <Y9KSpNJ4y0GMwkrW@kernel.org>
 References: <20230125083851.27759-1-surenb@google.com>
- <20230125083851.27759-6-surenb@google.com>
+ <20230125083851.27759-7-surenb@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20230125083851.27759-6-surenb@google.com>
+In-Reply-To: <20230125083851.27759-7-surenb@google.com>
 X-Original-Sender: rppt@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=DpDvg8hL;       spf=pass
- (google.com: domain of rppt@kernel.org designates 145.40.68.75 as permitted
- sender) smtp.mailfrom=rppt@kernel.org;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=OyaVsT5e;       spf=pass
+ (google.com: domain of rppt@kernel.org designates 2604:1380:4601:e00::1 as
+ permitted sender) smtp.mailfrom=rppt@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -205,260 +205,37 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jan 25, 2023 at 12:38:50AM -0800, Suren Baghdasaryan wrote:
-> In cases when VMA flags are modified after VMA was isolated and mmap_lock
-> was downgraded, flags modifications would result in an assertion because
-> mmap write lock is not held.
-> Introduce mod_vm_flags_nolock to be used in such situation.
-
-vm_flags_mod_nolock?
-
-> Pass a hint to untrack_pfn to conditionally use mod_vm_flags_nolock for
-> flags modification and to avoid assertion.
+On Wed, Jan 25, 2023 at 12:38:51AM -0800, Suren Baghdasaryan wrote:
+> mmap_assert_write_locked() is used in vm_flags modifiers. Because
+> mmap_assert_write_locked() uses dump_mm() and vm_flags are sometimes
+> modified from from inside a module, it's necessary to export
+> dump_mm() function.
 > 
 > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+
+Acked-by: Mike Rapoport (IBM) <rppt@kernel.org>
+
 > ---
->  arch/x86/mm/pat/memtype.c | 10 +++++++---
->  include/linux/mm.h        | 12 +++++++++---
->  include/linux/pgtable.h   |  5 +++--
->  mm/memory.c               | 13 +++++++------
->  mm/memremap.c             |  4 ++--
->  mm/mmap.c                 | 16 ++++++++++------
->  6 files changed, 38 insertions(+), 22 deletions(-)
+>  mm/debug.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/arch/x86/mm/pat/memtype.c b/arch/x86/mm/pat/memtype.c
-> index ae9645c900fa..d8adc0b42cf2 100644
-> --- a/arch/x86/mm/pat/memtype.c
-> +++ b/arch/x86/mm/pat/memtype.c
-> @@ -1046,7 +1046,7 @@ void track_pfn_insert(struct vm_area_struct *vma, pgprot_t *prot, pfn_t pfn)
->   * can be for the entire vma (in which case pfn, size are zero).
->   */
->  void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
-> -		 unsigned long size)
-> +		 unsigned long size, bool mm_wr_locked)
->  {
->  	resource_size_t paddr;
->  	unsigned long prot;
-> @@ -1065,8 +1065,12 @@ void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
->  		size = vma->vm_end - vma->vm_start;
->  	}
->  	free_pfn_range(paddr, size);
-> -	if (vma)
-> -		clear_vm_flags(vma, VM_PAT);
-> +	if (vma) {
-> +		if (mm_wr_locked)
-> +			clear_vm_flags(vma, VM_PAT);
-> +		else
-> +			mod_vm_flags_nolock(vma, 0, VM_PAT);
-> +	}
+> diff --git a/mm/debug.c b/mm/debug.c
+> index 9d3d893dc7f4..96d594e16292 100644
+> --- a/mm/debug.c
+> +++ b/mm/debug.c
+> @@ -215,6 +215,7 @@ void dump_mm(const struct mm_struct *mm)
+>  		mm->def_flags, &mm->def_flags
+>  	);
 >  }
+> +EXPORT_SYMBOL(dump_mm);
 >  
->  /*
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 55335edd1373..48d49930c411 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -656,12 +656,18 @@ static inline void clear_vm_flags(struct vm_area_struct *vma,
->  	vma->vm_flags &= ~flags;
->  }
+>  static bool page_init_poisoning __read_mostly = true;
 >  
-> +static inline void mod_vm_flags_nolock(struct vm_area_struct *vma,
-> +				       unsigned long set, unsigned long clear)
-> +{
-> +	vma->vm_flags |= set;
-> +	vma->vm_flags &= ~clear;
-> +}
-> +
->  static inline void mod_vm_flags(struct vm_area_struct *vma,
->  				unsigned long set, unsigned long clear)
->  {
->  	mmap_assert_write_locked(vma->vm_mm);
-> -	vma->vm_flags |= set;
-> -	vma->vm_flags &= ~clear;
-> +	mod_vm_flags_nolock(vma, set, clear);
->  }
->  
->  static inline void vma_set_anonymous(struct vm_area_struct *vma)
-> @@ -2087,7 +2093,7 @@ static inline void zap_vma_pages(struct vm_area_struct *vma)
->  }
->  void unmap_vmas(struct mmu_gather *tlb, struct maple_tree *mt,
->  		struct vm_area_struct *start_vma, unsigned long start,
-> -		unsigned long end);
-> +		unsigned long end, bool mm_wr_locked);
->  
->  struct mmu_notifier_range;
->  
-> diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-> index 5fd45454c073..c63cd44777ec 100644
-> --- a/include/linux/pgtable.h
-> +++ b/include/linux/pgtable.h
-> @@ -1185,7 +1185,8 @@ static inline int track_pfn_copy(struct vm_area_struct *vma)
->   * can be for the entire vma (in which case pfn, size are zero).
->   */
->  static inline void untrack_pfn(struct vm_area_struct *vma,
-> -			       unsigned long pfn, unsigned long size)
-> +			       unsigned long pfn, unsigned long size,
-> +			       bool mm_wr_locked)
->  {
->  }
->  
-> @@ -1203,7 +1204,7 @@ extern void track_pfn_insert(struct vm_area_struct *vma, pgprot_t *prot,
->  			     pfn_t pfn);
->  extern int track_pfn_copy(struct vm_area_struct *vma);
->  extern void untrack_pfn(struct vm_area_struct *vma, unsigned long pfn,
-> -			unsigned long size);
-> +			unsigned long size, bool mm_wr_locked);
->  extern void untrack_pfn_moved(struct vm_area_struct *vma);
->  #endif
->  
-> diff --git a/mm/memory.c b/mm/memory.c
-> index d6902065e558..5b11b50e2c4a 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -1613,7 +1613,7 @@ void unmap_page_range(struct mmu_gather *tlb,
->  static void unmap_single_vma(struct mmu_gather *tlb,
->  		struct vm_area_struct *vma, unsigned long start_addr,
->  		unsigned long end_addr,
-> -		struct zap_details *details)
-> +		struct zap_details *details, bool mm_wr_locked)
->  {
->  	unsigned long start = max(vma->vm_start, start_addr);
->  	unsigned long end;
-> @@ -1628,7 +1628,7 @@ static void unmap_single_vma(struct mmu_gather *tlb,
->  		uprobe_munmap(vma, start, end);
->  
->  	if (unlikely(vma->vm_flags & VM_PFNMAP))
-> -		untrack_pfn(vma, 0, 0);
-> +		untrack_pfn(vma, 0, 0, mm_wr_locked);
->  
->  	if (start != end) {
->  		if (unlikely(is_vm_hugetlb_page(vma))) {
-> @@ -1675,7 +1675,7 @@ static void unmap_single_vma(struct mmu_gather *tlb,
->   */
->  void unmap_vmas(struct mmu_gather *tlb, struct maple_tree *mt,
->  		struct vm_area_struct *vma, unsigned long start_addr,
-> -		unsigned long end_addr)
-> +		unsigned long end_addr, bool mm_wr_locked)
->  {
->  	struct mmu_notifier_range range;
->  	struct zap_details details = {
-> @@ -1689,7 +1689,8 @@ void unmap_vmas(struct mmu_gather *tlb, struct maple_tree *mt,
->  				start_addr, end_addr);
->  	mmu_notifier_invalidate_range_start(&range);
->  	do {
-> -		unmap_single_vma(tlb, vma, start_addr, end_addr, &details);
-> +		unmap_single_vma(tlb, vma, start_addr, end_addr, &details,
-> +				 mm_wr_locked);
->  	} while ((vma = mas_find(&mas, end_addr - 1)) != NULL);
->  	mmu_notifier_invalidate_range_end(&range);
->  }
-> @@ -1723,7 +1724,7 @@ void zap_page_range_single(struct vm_area_struct *vma, unsigned long address,
->  	 * unmap 'address-end' not 'range.start-range.end' as range
->  	 * could have been expanded for hugetlb pmd sharing.
->  	 */
-> -	unmap_single_vma(&tlb, vma, address, end, details);
-> +	unmap_single_vma(&tlb, vma, address, end, details, false);
->  	mmu_notifier_invalidate_range_end(&range);
->  	tlb_finish_mmu(&tlb);
->  }
-> @@ -2492,7 +2493,7 @@ int remap_pfn_range(struct vm_area_struct *vma, unsigned long addr,
->  
->  	err = remap_pfn_range_notrack(vma, addr, pfn, size, prot);
->  	if (err)
-> -		untrack_pfn(vma, pfn, PAGE_ALIGN(size));
-> +		untrack_pfn(vma, pfn, PAGE_ALIGN(size), true);
->  	return err;
->  }
->  EXPORT_SYMBOL(remap_pfn_range);
-> diff --git a/mm/memremap.c b/mm/memremap.c
-> index 08cbf54fe037..2f88f43d4a01 100644
-> --- a/mm/memremap.c
-> +++ b/mm/memremap.c
-> @@ -129,7 +129,7 @@ static void pageunmap_range(struct dev_pagemap *pgmap, int range_id)
->  	}
->  	mem_hotplug_done();
->  
-> -	untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range));
-> +	untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range), true);
->  	pgmap_array_delete(range);
->  }
->  
-> @@ -276,7 +276,7 @@ static int pagemap_range(struct dev_pagemap *pgmap, struct mhp_params *params,
->  	if (!is_private)
->  		kasan_remove_zero_shadow(__va(range->start), range_len(range));
->  err_kasan:
-> -	untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range));
-> +	untrack_pfn(NULL, PHYS_PFN(range->start), range_len(range), true);
->  err_pfn_remap:
->  	pgmap_array_delete(range);
->  	return error;
-> diff --git a/mm/mmap.c b/mm/mmap.c
-> index 2c6e9072e6a8..69d440997648 100644
-> --- a/mm/mmap.c
-> +++ b/mm/mmap.c
-> @@ -78,7 +78,7 @@ core_param(ignore_rlimit_data, ignore_rlimit_data, bool, 0644);
->  static void unmap_region(struct mm_struct *mm, struct maple_tree *mt,
->  		struct vm_area_struct *vma, struct vm_area_struct *prev,
->  		struct vm_area_struct *next, unsigned long start,
-> -		unsigned long end);
-> +		unsigned long end, bool mm_wr_locked);
->  
->  static pgprot_t vm_pgprot_modify(pgprot_t oldprot, unsigned long vm_flags)
->  {
-> @@ -2136,14 +2136,14 @@ static inline void remove_mt(struct mm_struct *mm, struct ma_state *mas)
->  static void unmap_region(struct mm_struct *mm, struct maple_tree *mt,
->  		struct vm_area_struct *vma, struct vm_area_struct *prev,
->  		struct vm_area_struct *next,
-> -		unsigned long start, unsigned long end)
-> +		unsigned long start, unsigned long end, bool mm_wr_locked)
->  {
->  	struct mmu_gather tlb;
->  
->  	lru_add_drain();
->  	tlb_gather_mmu(&tlb, mm);
->  	update_hiwater_rss(mm);
-> -	unmap_vmas(&tlb, mt, vma, start, end);
-> +	unmap_vmas(&tlb, mt, vma, start, end, mm_wr_locked);
->  	free_pgtables(&tlb, mt, vma, prev ? prev->vm_end : FIRST_USER_ADDRESS,
->  				 next ? next->vm_start : USER_PGTABLES_CEILING);
->  	tlb_finish_mmu(&tlb);
-> @@ -2391,7 +2391,11 @@ do_vmi_align_munmap(struct vma_iterator *vmi, struct vm_area_struct *vma,
->  			mmap_write_downgrade(mm);
->  	}
->  
-> -	unmap_region(mm, &mt_detach, vma, prev, next, start, end);
-> +	/*
-> +	 * We can free page tables without write-locking mmap_lock because VMAs
-> +	 * were isolated before we downgraded mmap_lock.
-> +	 */
-> +	unmap_region(mm, &mt_detach, vma, prev, next, start, end, !downgrade);
->  	/* Statistics and freeing VMAs */
->  	mas_set(&mas_detach, start);
->  	remove_mt(mm, &mas_detach);
-> @@ -2704,7 +2708,7 @@ unsigned long mmap_region(struct file *file, unsigned long addr,
->  
->  		/* Undo any partial mapping done by a device driver. */
->  		unmap_region(mm, &mm->mm_mt, vma, prev, next, vma->vm_start,
-> -			     vma->vm_end);
-> +			     vma->vm_end, true);
->  	}
->  	if (file && (vm_flags & VM_SHARED))
->  		mapping_unmap_writable(file->f_mapping);
-> @@ -3031,7 +3035,7 @@ void exit_mmap(struct mm_struct *mm)
->  	tlb_gather_mmu_fullmm(&tlb, mm);
->  	/* update_hiwater_rss(mm) here? but nobody should be looking */
->  	/* Use ULONG_MAX here to ensure all VMAs in the mm are unmapped */
-> -	unmap_vmas(&tlb, &mm->mm_mt, vma, 0, ULONG_MAX);
-> +	unmap_vmas(&tlb, &mm->mm_mt, vma, 0, ULONG_MAX, false);
->  	mmap_read_unlock(mm);
->  
->  	/*
 > -- 
 > 2.39.1
-> 
 > 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y9JJPvvuvSjQ%2Bx9h%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y9KSpNJ4y0GMwkrW%40kernel.org.
