@@ -1,129 +1,143 @@
-Return-Path: <kasan-dev+bncBCR5PSMFZYORBBVQZWPAMGQES32JPMY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDM6JJGWWMLRBEW3Z6PAMGQEBSGIWZQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa3a.google.com (mail-vk1-xa3a.google.com [IPv6:2607:f8b0:4864:20::a3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE0867DCF8
-	for <lists+kasan-dev@lfdr.de>; Fri, 27 Jan 2023 05:50:16 +0100 (CET)
-Received: by mail-vk1-xa3a.google.com with SMTP id d130-20020a1f9b88000000b003b87d0db0d9sf1512956vke.15
-        for <lists+kasan-dev@lfdr.de>; Thu, 26 Jan 2023 20:50:16 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674795015; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B9A67E971
+	for <lists+kasan-dev@lfdr.de>; Fri, 27 Jan 2023 16:28:19 +0100 (CET)
+Received: by mail-lj1-x238.google.com with SMTP id q11-20020a05651c054b00b0028d095d72c0sf1437146ljp.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 27 Jan 2023 07:28:19 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674833298; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WQT5jMOnN5f6IDc/OlqKBWIL5fgZ96DfQ7NjBXm/OxIkbtws4L1cD1M3ZoQmORGLci
-         l9xYMEPCts7Ev/N/4sNZu3g8reAdKUpyL91UIRHKtPCYwGjPX1L4pClnQJaCNLp9Gllf
-         x3IjyFJPc1OvMJhkhsffdj9/kkEvxPUIFlMvBqjGKb0SDEtP8l/wfb4ouBvK4xWd06qO
-         qiD+3xpYDeoLDPmWezcaNQ9+oPjEYm2o1RALOJhrai99VOUcgjaJ9AAX/mbHUEaMfQ6t
-         8zSTtAijgafTjsgCyobJB+cj2UsFThtQhvPblGH1o4RagGwdcJ4IzLUbEFMYtkdZzcie
-         negg==
+        b=QN2D6FVPUjcw5W8YHZsNr7oiXOTtfXzQcF+y8n0i7GSz3FcppbfuQpGelM+0EDhFOi
+         20Q2O09Zbmvz6nwfhKfiZf5OS3n7OxwjZ6+skpap6SC7xmhKdRgOj/hNNEEAgWXHQdjC
+         9rqfWF8bD9063n1bhMTrHSuTppAwXjy2QgtHp/wdihWHKlB0ntjYvhl7NrXYTsO/6JJI
+         Ot5+B+tVinaUJJ5Y2Kg+MC/kWpAuitAINAale6vXbz4dZb/KHl+xgQCpmZc6F1cTJLyV
+         da1jqpDvMZj1NW8vRCKPSbC/XbHZt4yGRt+tsg8+eOG6tnE64CnRHiZb79kHhhc9NHAL
+         GKAQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
-        bh=v/7foTv4iaOckD5luVPcP/nX4SE68hnkUGdwZO0CVhM=;
-        b=ZjNoWYgnqPjPFzyoYOWkPfcy3mhYtKyDpUeNT0qNoyu5e0O4mKiziujrrX4YysioMW
-         GobROoB9hrhgE+vgvc3EcrRaaxiaKeBhLE40QDVLttC9lSdTqo5NBPk63nLJX5MIgr6v
-         EKYqpuFBbjRcDxv2VBvLsxZmXqm6EdGmm0CnSYeB6FVxLrN30bn07Q1Z3tK9kve8Od+V
-         Tb1EGpHj6+CmRdmsY3cegzi2XjUGU+PGtPwOb4AIi40N0HzNkK0pQQpQHSgryxmRff46
-         UcLW72hzOhcww4uLaogo4jI2gcVhDvtNhcyJUDQOwd8d1tKidtMMRb2Tkk7+c2m/8z9x
-         CSvw==
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=+53++LUwaoBCU4Acmujtf5UOOzK3xcIYQiLrA05B8wg=;
+        b=Vt5PEhnLqWqgF0wn7uq6zY/FyTKAqMcIq8KpxplLAyeQCbQTyeoqHAgOcMk1b3f40u
+         4QU1oHDlec9JIBnEvz6NKa5W4RzWGB0+dQxpQnIGFQAuvqJqkXB8yj/meWFTLTShzLql
+         5K95nL3Bu+yFP8BDjnOyD2amETSCEJCcJsPUIPHXRcvoUlxMw5Naq9styPHmhnr7NmG1
+         FSt0S4PsGx7FvyIDpkQ7ws8/62th1ChUIWpNBkALocbyp9KWla0SfmiJDDUDZ/wqLVI7
+         W/YymrzR7n/s2DriNC7LGkexskKV/v/IuRI40p24sP422s1/r/MjE3cf8mj5bruzmh5p
+         /vyg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ellerman.id.au header.s=201909 header.b="oSu9/Iai";
-       spf=pass (google.com: domain of mpe@ellerman.id.au designates 2404:9400:2221:ea00::3 as permitted sender) smtp.mailfrom=mpe@ellerman.id.au
+       dkim=pass header.i=@microchip.com header.s=mchp header.b="nHG/YoUu";
+       spf=pass (google.com: domain of conor.dooley@microchip.com designates 68.232.154.123 as permitted sender) smtp.mailfrom=Conor.Dooley@microchip.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=microchip.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v/7foTv4iaOckD5luVPcP/nX4SE68hnkUGdwZO0CVhM=;
-        b=G8cglLDfhmOmcK62ye53DAEZH32I4OB5GFVFvwq7nzFhYbhqeQWdtytv67TsezRD7/
-         AnyFU6d4k8Y2kbCkgErNrNdfd6Yzzn1nREDAS7Lyn/U/3z+tMJoB8uoTcQy6nwZu0Ojz
-         beYP/RAyhXcjz/RrNNFmW+RH2caknHPsIF9g2Hok2kBDzj1B4eBoYx8yMN2PyWf+6MTw
-         KbftvWTak8B2hxALjpJfovevQMpJjuGC2AJ/EruZwIed5PFhHk3oWgky2Y8fo4R3KkRx
-         1FMHix8fc9r/2VwakcLWtoA3KOr/iRFwru3nDCKuPcPTpruBl6QfcwTz0omc1exbp3cG
-         f8uQ==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+53++LUwaoBCU4Acmujtf5UOOzK3xcIYQiLrA05B8wg=;
+        b=juGnJbrQl1Sq578U0ZQH/LsZx15K1gFzj1LjkLJlbQUTw6ax87qdE4/e3wQ797xA3A
+         m/ZI/kW565zydRV9vbcuULhY4PnbkuB0fHEHSx/YUE9EmtfFCY0Qz5QeC1Z7eEZq7oec
+         ThfOcq/P6xwtmU4s2an3TaD1DfvDB3QBdVM3mluyALfD8/G2aLaIxHtvQXaK+ZiO/4+F
+         OCSne/H8RQSGPNv0qYeJF4c9HghhqLLBNmeIlZR5ircxlQkeZVSHiArJA7u7V83HT0xo
+         yjwJ+gAhxO9cYuDTKIKZxo9QSMAuLZ3F5Kqb7UIBURUTjYBRqPObt1bifgPMu/R6X1Ib
+         tJsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:references:in-reply-to:subject:cc:to:from
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=v/7foTv4iaOckD5luVPcP/nX4SE68hnkUGdwZO0CVhM=;
-        b=KkK5L426cmwEZzb8ppq9QgzKZKEPLFQg4WKZsmplL4FBy2HS4zTMhT/oQ2W4/3nmcs
-         YAS0aA/jprwVYY6UynjVGRW78IO3GQqzNXpTReoSgsyCOZ7Pr3aYtDjpJkMUExhH2/9r
-         0TpoyqtKLk19X4lJ64UHuUllrdNDWqq3XcFRiyIH7PSPp34M7YQTDXi6n0A0JgVEQPWv
-         k2nxoMOsClaOOidhKLRXcl1CHs3xnBqNQF5G7ApyGfh9JEOsLLyFFgNAvTA4iIPCdRJE
-         jx78F9Ymo9/418dOzzyixm3rvduSZrjLCf8fCISb6SwMZAozweyvEPOuqanw+GK4vRhM
-         9vxw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKXShOFDFfZ8Q7eJ78UVYzeF8HrF3K6hMFKTqT9vMLkA5Yoytnqc
-	98QIHoQU2aGmhX1ONiwRnT4=
-X-Google-Smtp-Source: AK7set/FPVYGnTYYWEdRPF95DYhJcdlkW6OafBrJZZg7GBXy9NdJo1VwasSH5MIhEnKAOvqKO9n5mw==
-X-Received: by 2002:ab0:15b0:0:b0:657:6ebc:a2be with SMTP id i45-20020ab015b0000000b006576ebca2bemr1103024uae.64.1674795015207;
-        Thu, 26 Jan 2023 20:50:15 -0800 (PST)
+        bh=+53++LUwaoBCU4Acmujtf5UOOzK3xcIYQiLrA05B8wg=;
+        b=LgB7efKqRu3YfgClGc1SgazGDy89BfremSoWMYsguuC6jpfQD8eLXNkBXBfJjaARA9
+         TY6rxbzCP7oXXyIvYVblCto2ptsM/D9Puk0rDqWTFvhiJG098oz2BiqFmqSYx1CBzl5W
+         sJKXE3Zy1FAwoMFSoGMBKKoOH95ilBf1J9L+pr33CHYcjiR/93a0N6TRnyyhF/K1IJ3Q
+         li8CESObVWvgBjSNIVyOSzWTZMtIN3Yuo/+1R4Qgn1rLD5z84PSyD2AUYX1kPRvdQo2s
+         Nm1h9KPvO57ZfdPeodOPhPCFeEV+Nv0w5inwoJG/f3ZX9t1DZyIyv8YCRNAoJMQy48pF
+         CadQ==
+X-Gm-Message-State: AO0yUKUHJsOhEXW4vAz7D0rFYJhuyX9OS50lbA5YGD7aztSW1ERnPRhi
+	C0cPEyXAQRXouJfi1sMMVOU=
+X-Google-Smtp-Source: AK7set9YYBgfMVvU+gxCN6rZOuB0+8x226aaJO9HNVjiLdrmYtK/GXG+PwgN5P8vK255LMDfm7F6Xw==
+X-Received: by 2002:a2e:7d13:0:b0:28d:d748:8b7e with SMTP id y19-20020a2e7d13000000b0028dd7488b7emr650745ljc.129.1674833298459;
+        Fri, 27 Jan 2023 07:28:18 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a67:f413:0:b0:3b1:1703:92cb with SMTP id p19-20020a67f413000000b003b1170392cbls1350433vsn.1.-pod-prod-gmail;
- Thu, 26 Jan 2023 20:50:14 -0800 (PST)
-X-Received: by 2002:a05:6102:d93:b0:3e8:456f:3750 with SMTP id d19-20020a0561020d9300b003e8456f3750mr7164206vst.31.1674795014154;
-        Thu, 26 Jan 2023 20:50:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674795014; cv=none;
+Received: by 2002:ac2:4f13:0:b0:4d5:7ca1:c92f with SMTP id k19-20020ac24f13000000b004d57ca1c92fls199914lfr.2.-pod-prod-gmail;
+ Fri, 27 Jan 2023 07:28:16 -0800 (PST)
+X-Received: by 2002:a05:6512:2821:b0:4cc:58b9:117a with SMTP id cf33-20020a056512282100b004cc58b9117amr17493130lfb.36.1674833296303;
+        Fri, 27 Jan 2023 07:28:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1674833296; cv=none;
         d=google.com; s=arc-20160816;
-        b=Fi2ERD9uFG5RSKrjfuwlnHkLNHLnWIOyEyFP12SVn9ZzWY7ScbOEkPbqVucaoHVBI6
-         gC03S8JJPHTjEE0ate63+PGlaSPwmGYlkIU/MdVjxBfSbBMsXL1y0+SxzM6Z0HFdzht2
-         PWt6Hv8MQUzJyuZZs4cY7a6Jo21Ox4P6AtIB6kVlRt4czdywhnFmo4EPcr5bNr287NMl
-         +RC8Px/wSm8VxKn8i+0J98T7/UsTqZDj2AO0Tc8nWQZr70FKK5waYs7d0xZYGoqttDmC
-         lWIJaUv7QCazOYiIucBhDmIgXq+p5zXUl7CT2n4VxZg6khsejapNaSXUbTklgmP/ypNQ
-         sFQQ==
+        b=QG/tadyGM1ajXL25XgOjGjDc8H0MOf1XKSshnPW8dg+gHO8sZhdu9p15Qy1NaFW+PI
+         LJ8I28vKab/ZdLkojjlB4YExpT1V1TR43omGseS914V2OG+yj7UgaeQlppisweZ79Jyv
+         8c2MI2wI5zmesQxZTC7O/JR8bC9CWJd+O6r/Prb/cLqiDJ/w+YSyR7lYfCjX5+HPwFIh
+         umdfaDcsjHaKPjKEP/6qW8xXwiS/Rb8OyBy2/UF0owAbbcB7AwsoFoOsqD3rs466g9Og
+         FHyeq6iQ6CAVGfCLdCbVnTC4306JYyvBCD7vEDVBTqxJ7Hs58ID3YFtP7LcJbEKVyd56
+         esBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:dkim-signature;
-        bh=xrXkmoW88qRFi3cS/J8wdbXij99nXqiP/sRzTWWDpHM=;
-        b=rVGP4KDzZbMipOyRKkA1f4TNFKsvGFRfyOBCRYNa+o8uugWmZeg5E7ocvjdCSKY9vc
-         22aLKaKctr5AcU+rn4/HEz/Bey+A0R+WC86VLBLpjrN8vGEbuLEPo2olfNeDGd/QwSDj
-         icNC4XnKfVsJJ3cVRT1UxUi9kgiHDSYLQXHsbScLkURl6lFf7XDvOKhO8KMenutU3OKV
-         +8kKNL2bMpmR1K5p9OeAX2Q8Hp/TN6QzmQ0bkefziS5ZsqaDsH0ccNANmZGPFsX1S2kW
-         tF/zerVtkZ7h8+ZyEBLxgyrGp9Ru9qeO6Zz33zk5dUPvEiSqiNPEirKl2dbPGS96IA4U
-         AorQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=1CF+go139JBlcObPr93EZ7VhBghRAe58pqDLOeytHS4=;
+        b=Yu0oabos8e0MC+V87fVGTt9NCpYLvXB3gB1vYTA4O1PCkshd/138pYSNWQV81sDR4+
+         Xci2uqMFwkG8oI9lFUR5S3b3f4umxPIvGgAecPC8E+FWkuLsro5DFUWDQb4qa6ygYq0C
+         gtnVV8m/5a8WbklR9yUePOm5u6jEboIsQ+10hf8W1O3sHR0Qd4ZBGGgB7jZmwISS/ChQ
+         tSZ9X4Uu74MuPojQK5lonq62aTAc34zF2UYfDogVuwFq6yu3Ss0+rsjdK6esVIOeCM31
+         IrkD/4AfuUiEZex2+EbmRCrsvgYBEsf9kmbzQSX2yhzcKuphdEg9jhBc/djke/v9eE/S
+         gc5g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ellerman.id.au header.s=201909 header.b="oSu9/Iai";
-       spf=pass (google.com: domain of mpe@ellerman.id.au designates 2404:9400:2221:ea00::3 as permitted sender) smtp.mailfrom=mpe@ellerman.id.au
-Received: from gandalf.ozlabs.org (mail.ozlabs.org. [2404:9400:2221:ea00::3])
-        by gmr-mx.google.com with ESMTPS id f1-20020a056102150100b003d3da321f9fsi325231vsv.1.2023.01.26.20.50.12
+       dkim=pass header.i=@microchip.com header.s=mchp header.b="nHG/YoUu";
+       spf=pass (google.com: domain of conor.dooley@microchip.com designates 68.232.154.123 as permitted sender) smtp.mailfrom=Conor.Dooley@microchip.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=microchip.com
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com. [68.232.154.123])
+        by gmr-mx.google.com with ESMTPS id h6-20020ac25966000000b004d5786b729esi289494lfp.9.2023.01.27.07.28.14
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jan 2023 20:50:12 -0800 (PST)
-Received-SPF: pass (google.com: domain of mpe@ellerman.id.au designates 2404:9400:2221:ea00::3 as permitted sender) client-ip=2404:9400:2221:ea00::3;
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4P34rJ02zQz4xGM;
-	Fri, 27 Jan 2023 15:50:07 +1100 (AEDT)
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Andrew Morton <akpm@linux-foundation.org>, Christophe Leroy
- <christophe.leroy@csgroup.eu>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
- <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry
- Vyukov <dvyukov@google.com>, Vincenzo Frascino
- <vincenzo.frascino@arm.com>, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-mm@kvack.org,
- kasan-dev@googlegroups.com, Nathan Lynch <nathanl@linux.ibm.com>
-Subject: Re: [PATCH] kasan: Fix Oops due to missing calls to
- kasan_arch_is_ready()
-In-Reply-To: <20230126152024.bfdd25de2ff5107fa7c02986@linux-foundation.org>
-References: <150768c55722311699fdcf8f5379e8256749f47d.1674716617.git.christophe.leroy@csgroup.eu>
- <20230126152024.bfdd25de2ff5107fa7c02986@linux-foundation.org>
-Date: Fri, 27 Jan 2023 15:50:01 +1100
-Message-ID: <874jsctwcm.fsf@mpe.ellerman.id.au>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 27 Jan 2023 07:28:14 -0800 (PST)
+Received-SPF: pass (google.com: domain of conor.dooley@microchip.com designates 68.232.154.123 as permitted sender) client-ip=68.232.154.123;
+X-IronPort-AV: E=Sophos;i="5.97,251,1669100400"; 
+   d="asc'?scan'208";a="197710525"
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 27 Jan 2023 08:28:11 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Fri, 27 Jan 2023 08:28:06 -0700
+Received: from wendy (10.10.115.15) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16 via Frontend
+ Transport; Fri, 27 Jan 2023 08:28:04 -0700
+Date: Fri, 27 Jan 2023 15:27:40 +0000
+From: "'Conor Dooley' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+CC: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+	<palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Andrey Ryabinin
+	<ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey
+ Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Ard Biesheuvel
+	<ardb@kernel.org>, Conor Dooley <conor@kernel.org>,
+	<linux-riscv@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<kasan-dev@googlegroups.com>, <linux-efi@vger.kernel.org>
+Subject: Re: [PATCH v3 3/6] riscv: Move DTB_EARLY_BASE_VA to the kernel
+ address space
+Message-ID: <Y9PtbMSe9DUk3bCn@wendy>
+References: <20230125082333.1577572-1-alexghiti@rivosinc.com>
+ <20230125082333.1577572-4-alexghiti@rivosinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: mpe@ellerman.id.au
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Z01ixQvrSdrQQAm3"
+Content-Disposition: inline
+In-Reply-To: <20230125082333.1577572-4-alexghiti@rivosinc.com>
+X-Original-Sender: conor.dooley@microchip.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ellerman.id.au header.s=201909 header.b="oSu9/Iai";       spf=pass
- (google.com: domain of mpe@ellerman.id.au designates 2404:9400:2221:ea00::3
- as permitted sender) smtp.mailfrom=mpe@ellerman.id.au
+ header.i=@microchip.com header.s=mchp header.b="nHG/YoUu";       spf=pass
+ (google.com: domain of conor.dooley@microchip.com designates 68.232.154.123
+ as permitted sender) smtp.mailfrom=Conor.Dooley@microchip.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=microchip.com
+X-Original-From: Conor Dooley <conor.dooley@microchip.com>
+Reply-To: Conor Dooley <conor.dooley@microchip.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,26 +150,74 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Andrew Morton <akpm@linux-foundation.org> writes:
-> On Thu, 26 Jan 2023 08:04:47 +0100 Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
->
->> On powerpc64, you can build a kernel with KASAN as soon as you build it
->> with RADIX MMU support. However if the CPU doesn't have RADIX MMU,
->> KASAN isn't enabled at init and the following Oops is encountered.
->
-> Should we backport to -stable?  If so, can we identify a suitable Fixes: target?
+--Z01ixQvrSdrQQAm3
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
 
-It would be nice if it went to stable, but I'd defer to the Kasan maintainers.
+Hey Alex,
 
-The kasan_arch_is_ready() checks went in a while back, but there wasn't
-a meaningful user until the powerpc support went in, so I'd target that:
+On Wed, Jan 25, 2023 at 09:23:30AM +0100, Alexandre Ghiti wrote:
+> The early virtual address should lie in the kernel address space for
+> inline kasan instrumentation to succeed, otherwise kasan tries to
+> dereference an address that does not exist in the address space (since
+> kasan only maps *kernel* address space, not the userspace).
+> 
+> Simply use the very first address of the kernel address space for the
+> early fdt mapping.
+> 
+> It allowed an Ubuntu kernel to boot successfully with inline
+> instrumentation.
+> 
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 
-Fixes: 41b7a347bf14 ("powerpc: Book3S 64-bit outline-only KASAN support")
-Cc: stable@vger.kernel.org # v5.19+
+Been poking around in this area the last few days trying to hunt down
+some bugs... Things look functionally the same w/ this patch and we do
+get rid of the odd looking pointer which is nice.
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
 
-cheers
+Probably would've made the cause of 50e63dd8ed92 ("riscv: fix reserved
+memory setup") more difficult to find so glad I got that out of the way
+well before this patch!
+
+Thanks,
+Conor.
+
+> ---
+>  arch/riscv/mm/init.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+> index 478d6763a01a..87f6a5d475a6 100644
+> --- a/arch/riscv/mm/init.c
+> +++ b/arch/riscv/mm/init.c
+> @@ -57,7 +57,7 @@ unsigned long empty_zero_page[PAGE_SIZE / sizeof(unsigned long)]
+>  EXPORT_SYMBOL(empty_zero_page);
+>  
+>  extern char _start[];
+> -#define DTB_EARLY_BASE_VA      PGDIR_SIZE
+> +#define DTB_EARLY_BASE_VA      (ADDRESS_SPACE_END - (PTRS_PER_PGD / 2 * PGDIR_SIZE) + 1)
+>  void *_dtb_early_va __initdata;
+>  uintptr_t _dtb_early_pa __initdata;
+>  
+> -- 
+> 2.37.2
+> 
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/874jsctwcm.fsf%40mpe.ellerman.id.au.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y9PtbMSe9DUk3bCn%40wendy.
+
+--Z01ixQvrSdrQQAm3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHQEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY9PtbAAKCRB4tDGHoIJi
+0u7KAPY1hCi3Va5fAfv37uYg8QCBL7X4ZCQl3ls8gDg6rGp9AQDsdy5FKbSVrpX1
+z1qeXbmq0/jC3ZakOc10BTCtvty7Dw==
+=w080
+-----END PGP SIGNATURE-----
+
+--Z01ixQvrSdrQQAm3--
