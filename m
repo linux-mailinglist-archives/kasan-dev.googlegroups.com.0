@@ -1,141 +1,255 @@
-Return-Path: <kasan-dev+bncBAABBIFH2KPAMGQEHFHNDMQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDY7XDHKR4OBBIXQ2SPAMGQE23BHZWI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x113b.google.com (mail-yw1-x113b.google.com [IPv6:2607:f8b0:4864:20::113b])
-	by mail.lfdr.de (Postfix) with ESMTPS id E564F67F447
-	for <lists+kasan-dev@lfdr.de>; Sat, 28 Jan 2023 04:16:49 +0100 (CET)
-Received: by mail-yw1-x113b.google.com with SMTP id 00721157ae682-509ab88f98fsf66322087b3.10
-        for <lists+kasan-dev@lfdr.de>; Fri, 27 Jan 2023 19:16:49 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1674875808; cv=pass;
+Received: from mail-vk1-xa3f.google.com (mail-vk1-xa3f.google.com [IPv6:2607:f8b0:4864:20::a3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id A886967F8DF
+	for <lists+kasan-dev@lfdr.de>; Sat, 28 Jan 2023 15:58:43 +0100 (CET)
+Received: by mail-vk1-xa3f.google.com with SMTP id w6-20020a1f9406000000b00388997b8d31sf2829477vkd.3
+        for <lists+kasan-dev@lfdr.de>; Sat, 28 Jan 2023 06:58:43 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1674917922; cv=pass;
         d=google.com; s=arc-20160816;
-        b=oQi2W/Dv39pO9SPGJkGWwUfsMJRHb9/MzI/Xbzg1tqaO+aX7AEw4/F+6NM/FI/4ENR
-         uAcrT+S6U2h0DgGallGeQSwKn6zdm6e4SFTFcgiEzIfomcz69yAocA/bfxLxCoriN+i4
-         ehPT/uT81qb4JVccHWgSFzoXwNki592c7QmNN12rmdb/3EEkiT+IZA0pJQXy132F3cUI
-         ble4GZ+/LwL2+NaOoeE8OfJ59XK0/wAY1dCB3U9EjzJYm7/yNetIQR25u8C1ZoqfWRAI
-         IIZO0IaiLqO0kLeDt00DBz4P5yBhwWDrYtYyl8hv5QIghU91+z82QuxRHTuqFnvMjPmT
-         OuNA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=0IlIUeRjS9eivRgS+28aat2Ajoh8Aena5SkmlBEz3e5bkJiMrXfXp+mx5LlKjxBVrE
+         hlskTqdc7QD1yn/oBmdQtc9x5inEFVDv/0OjLdy0CDtDMXGba6agbEwPcTxDGZHHmyuN
+         WOiv/Etq/IOW0zqSUbT+Yb+mUSZIrV/V4nEMfOU9dgh1IQqXMViIkkOt/lN9A94ai6EM
+         SSbFfdkElzrn8hvGsj2f0DVwDl7EIxHTnc06qoEWhlbgqedZCnXA23OUUH9Wl8Mf6yG4
+         YYJnwkM0foHaKXkewqolMuDm+A477silUhUP8CwUuBLii905Tdbzc6MrIZXL/JaSZZRN
+         Gi2A==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:auto-submitted
-         :message-id:date:subject:to:from:sender:dkim-signature;
-        bh=Wl+1NihOpDyUKCNbgQyl10QCwCuNI0efPbYhAgUVT/s=;
-        b=kVOvlp2EKJoutf/NGRZvRbfnUhqsZsx2yjtAwHtpyMcHfwvjSmf5XvQ+KN+u27qLRc
-         0LQuRMencas2Ld1lFwsoX2Arx+LOK9EogamQsHshJIi5Y0Gs+8BEs9KaBa15RftEB+E8
-         Agi9LEYWg45aNXbDENzlb4ln1/0fNkzQcZYgoJI1A6H/wCt8ua+D/MdvHafxRAGIDa+Z
-         UBVKUl5dUmrlEfvIWop4hXKED1iJMkrQ7wIwkKwhsw9ivz2lwOvLgoYFIbSwxmsurfIQ
-         ls8p+9SvErEUAJs8JhDhpWuuEQbQeoETNfw9b8VhR8ST5ban3VebajQAjn6GxZYoIKV8
-         wQJw==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=NpruOuBu;
-       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+         :list-id:mailing-list:precedence:reply-to:mime-version
+         :content-transfer-encoding:content-id:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from:dkim-signature;
+        bh=1vrk30A+HYhQfbh8iid6UXYwAG818a4ffeWROeEEdOw=;
+        b=r+bOKUL+vuFoPrZWL3f1UgN+fn1BN5cN2EcIHcaIwj2soxCGHpeNP/0y6qTOpxsorQ
+         zm2dchNwm/3+4Zc7Ft4oH/Lo4Dm/H6A7LjbAw201qBawczmP82FMeMR58w472hdS5p+/
+         iWPf9g50TO8NCyzK+ErkzzGLG2cGuR3W1R/fhNl2muzGGt2Vo3Tj9YsLy3J3vOQNt6xe
+         sCtPUDtWObnOCyRyy8RzoyKw+uDhiySvM/sd/VxpwvFtZZjQkdiSWrzOwo6m4IkSzNUf
+         W/n72icBYgf+h7XXT87dl8v5KNQRyh1GQzOHiGooYrN7mxAXQ6INqLWOohigLNrJ9+Lb
+         VDJA==
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=UjBwyEed;
+       dkim=pass header.i=@mediateko365.onmicrosoft.com header.s=selector2-mediateko365-onmicrosoft-com header.b="Z5cVS/lE";
+       arc=pass (i=1 spf=pass spfdomain=mediatek.com dkim=pass dkdomain=mediatek.com dmarc=pass fromdomain=mediatek.com);
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:auto-submitted:message-id:date
-         :subject:to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wl+1NihOpDyUKCNbgQyl10QCwCuNI0efPbYhAgUVT/s=;
-        b=Si54IpKqc/pGjOIYyaR295kXBBpF0Mf4Vs6E3zv5HtKJtN0zs0GsZ35GJ1oiM6V3mJ
-         unaVuhRrCNtrnAGUgnL2di4QhXkhva7NmmPYZkPYKX91mbZJZ5yE8aUFwVXeIf4UjVVk
-         H0fkGONcSsWw2+ZA1duTVmXVNzUSMEwaTL7SciM2Zmw3KyHLREkF8sPRdmQskAxOxpjL
-         bMQKQ56wpbKvAwss5m8X0fRFP8FDwqcMOErNcT9vmEvi6Ytm9ocW9VtzG4RiJ5d3I2TH
-         OGu9rle7DpSPLm7hIhBGIjVLJJFKkqsGHSLv6eENLAk7RKfk+grent8JWO1J6h4tKksQ
-         Zb6A==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-transfer-encoding:content-id:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1vrk30A+HYhQfbh8iid6UXYwAG818a4ffeWROeEEdOw=;
+        b=bLGa/6eP0AH6PJhd55HhO0ZsL+uBzmENqeGpSQY3ZZ02dweWv7AxlRki9YDzvBgCrP
+         zGi8mTu2K6OJfOG2iWkVgv1b9xa9EWb1jAbFgVZ30e1eYpWDYkopZbZV7+A3jnJgLRrz
+         oZ1RbcV9cdJ4CU8JM3VpU0I3abYUv8OFmJv4K03ZdpXl1dG4y3OBIoJcb96gv97Gplms
+         Qf5ib4YGZMS7ffBLKFBUcZGgUESZzWf4iw3xRK6qQcbfEfjjdZtDEa8tlHThpCbvofP4
+         GclF7jf0rI5DrV+lAcuWfIPlbU7z1t+W1QgWnpDpILHbFwZk9ljVFN0VR2N+kqm7HBwV
+         J3IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
-         :auto-submitted:message-id:date:subject:to:from:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wl+1NihOpDyUKCNbgQyl10QCwCuNI0efPbYhAgUVT/s=;
-        b=LI+vjW7JHIgq+9yM7d7QorrTfwBCjMgsSgdNXmGaijkEE9aWtzQpvkG98QaAwcXaeI
-         19GIwOPGZ/e0i6+Mtt8bQOb06tqfea56j2oc43hOubh7yOn/MRyxerXAFBQPvEGPhRXd
-         PihpIzlOEu6/Q6HkfmUnBVzUMt2jjl+YdoEYSfsHuvqIbVeFB9SjP3ln5Hi1/VyH81F5
-         ncF9oGlYHFpbIzRequOrMKVPP9qJ7yBX+B9eqMs7v1qjnvCVDMNivh3RmMd4Jl1iaW6i
-         h5UbeE0g0/cOGiJ1n20BkDcPxEkNuyUVPtTOKQBoISilphbDlO0w4CVKMMhOcHfFTNBH
-         AGuQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AFqh2kqYtM+bvnOvUcIsR2fseDIV4VGL5oWMsbWaTxTeF6zUM1aR19jW
-	5lZondRh275bbMkFOlXZbvg=
-X-Google-Smtp-Source: AMrXdXsoXo0PAnI7shKVRMZhx6CorQi8YGgVKgu0GeHFeYfzhTZ5c0xsIj7iyarhThd+EFQb5SEWNQ==
-X-Received: by 2002:a25:8b11:0:b0:7c3:8ff0:88e7 with SMTP id i17-20020a258b11000000b007c38ff088e7mr6070148ybl.139.1674875808640;
-        Fri, 27 Jan 2023 19:16:48 -0800 (PST)
+         :content-transfer-encoding:content-id:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1vrk30A+HYhQfbh8iid6UXYwAG818a4ffeWROeEEdOw=;
+        b=6L3b+m3RNqoj0b59TB2EukoYjjIWSb4/KEKIROvpd3asenp5Zc7xYBUfY4VYColwIz
+         sYSDWbayPTtzxWTopmc7v0mGUtQjwXv1kvVWFxTZJwZOGf/L5OMrV6tKZfJJpgWlQFMg
+         zCHnmSBDmX5f2IhxjLEyp/UEcT2QUyxfg2Te69WwtFDyAaWEW9QJkqQUez+RakaiMw3L
+         6q1otiRtKcRG87PeGuYT0aHJvm+RJca31VyO+A7Q3b/mPRwTJPBm59R2e02Ti2hmq3lk
+         MBvGJOmmJly9w7zz9cP2xyKjBiQWRZXHf3EGnbV2XGzDKJqZf/cFs7Ycf79T9LM4biiD
+         VYog==
+X-Gm-Message-State: AFqh2krV58MZnwJl/dPgXvLrdHfyGAf9iFcODbG1WAQrFsu6nJyHHAxV
+	cN4aBos/ixaq8gbRR8C3FkM=
+X-Google-Smtp-Source: AMrXdXvpbH+DG0FCoaBQXjN5r2KQrQ07pbnzcocnnsupMz4sl7AZfyXkU3WMgRIcRSsJNFCy3e/BzA==
+X-Received: by 2002:a1f:accc:0:b0:3e1:9e11:8654 with SMTP id v195-20020a1faccc000000b003e19e118654mr5796982vke.3.1674917922292;
+        Sat, 28 Jan 2023 06:58:42 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:23cc:0:b0:7ba:b53e:630f with SMTP id j195-20020a2523cc000000b007bab53e630fls4458504ybj.9.-pod-prod-gmail;
- Fri, 27 Jan 2023 19:16:48 -0800 (PST)
-X-Received: by 2002:a25:bac1:0:b0:741:8085:50ed with SMTP id a1-20020a25bac1000000b00741808550edmr25670306ybk.38.1674875808124;
-        Fri, 27 Jan 2023 19:16:48 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1674875808; cv=none;
+Received: by 2002:a1f:4350:0:b0:3b5:df37:23a6 with SMTP id q77-20020a1f4350000000b003b5df3723a6ls1320364vka.7.-pod-prod-gmail;
+ Sat, 28 Jan 2023 06:58:41 -0800 (PST)
+X-Received: by 2002:a1f:aad2:0:b0:3e8:a035:4861 with SMTP id t201-20020a1faad2000000b003e8a0354861mr4792287vke.9.1674917921574;
+        Sat, 28 Jan 2023 06:58:41 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1674917921; cv=pass;
         d=google.com; s=arc-20160816;
-        b=FphCQ7HUJpduMNhitNra79D+K80cAc67/gqJmcwUA9iLKX0tDqi6NPVNNCqKmvjz7q
-         PyAKwKj4adTz0PJJgXIbfjgpIVphaRObhBW7Rah8APMHNVyYeBLG633QhHSyDTzLK+O7
-         H1Txi+zcaoWsUChSZFjw/BnaQXahYItKBjKsPp3ZmiLSpTuIPxarzNB5a6FbIQL28xW3
-         /YvaUWf6ZIrXUYcMZa//30Kfr61zRsyw9pzLH4Ex2K1f2vZ1rgXZM0ZRTlVvp9kJn7un
-         gp6QoNFIny4259PaKHTNfbMOaZ2vH/4XTmDN1k+3NGvn7W4M0A2oZ0Zh3oPfnBAArI4/
-         VS3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:auto-submitted:content-transfer-encoding:message-id
-         :date:subject:to:from:dkim-signature;
-        bh=L/Xg3pvitln0qmRQAfV0QSxvjuGTim7n4RHDOOqFiBc=;
-        b=rQyOs9mmDGnELAn6n1wFwUH107s7GEKPpX2M4Fx5KgR8FtCdicL8dHYkpQHAZUhjG8
-         RuT6bNPk4VLUCgHToCoOJ0oNly0DYxdQTQsSrrKFp/Tvz94BOV+hgiP5A7mPY57WpLA4
-         AT52OoveeRpWHft/09fZYN9Gyu55I4UwX503Ea+PCszKskCv1cL/N5HlYGraWJBiXiPg
-         Ekdr2DpAE4mdFj5eftxkmQJ47a67OqARRkNquZRas45GOVKBrpGO9t9GIQhM8Yxp4CUI
-         4Bsf6Sgxaiqh87Sx11H8c+HGjElNaIalxqQFIM1aaSe222sXPcHA42LusmVX8G0WPr0E
-         RJaA==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=NpruOuBu;
-       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id b204-20020a2534d5000000b007b62d9cf791si528440yba.2.2023.01.27.19.16.48
+        b=VadCaDcXansUqBB21WgA5lMCVJWuaF0ZByQvR1Wf3Pd8SnqXsAbYq0vnldC6lUKdw5
+         KzmG5aH4g0MVtDQMNKDLLlgBF7QdraItDanuRUwixfxcWQ3l8DQRMFr/YLZlDejWp4cy
+         LzHqwMvMUOD16INfDShbTp6VNrG2kX9bAp1yXqsEmPAfI2CWGg6uJ12Gf1kr+Or/IS0+
+         sLqJsTq4r/JTeAP3ZVkZo3WQjx7Th+bRrBsrVl4qXpI76kP8IbBOtLueRwAUzlc1EeKE
+         1sZaus9C0BxTP78x48ocqRMzd9xbLakNXT8SyN7xfDjTDBWTKMG51Tjl5c5nEzPXzLMR
+         ZeoA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-transfer-encoding:content-id:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from:dkim-signature:dkim-signature;
+        bh=8v/cCGgYZRfzG3Te+rmSI/vigoxlLGgcK744xQ9doDU=;
+        b=iX52EEGasiT/RZg+HJSD2bsBFvT7+4teoykr598UvF15D4oCmjDE1x06zVsOZAOxRB
+         L+oeGw/aeiHkeP2tBbXj+FqJoi2v8uzFGlVqDWPofovCgK1DAtN0jdtuLfaaUOIIPSwp
+         Lqvy7jkkY4onTkmVvEgtFFnDLRDUbIn2uyvaiGh+AAOnJO2fac2CpA8YZK2bfzxhDVtW
+         1kDUUBVEQYBY+5r/yBc1eHSraPPVnGiSooS22Bl7+yxPIUVhS09BMWPisfp+BCIZxlgG
+         /vMkxDy1LWP3bmIVmw9BcL0rAzh+JbAEiCYgmY59XcJfgUgWphSzvEEDQvnUJKGvstyB
+         6DiA==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=UjBwyEed;
+       dkim=pass header.i=@mediateko365.onmicrosoft.com header.s=selector2-mediateko365-onmicrosoft-com header.b="Z5cVS/lE";
+       arc=pass (i=1 spf=pass spfdomain=mediatek.com dkim=pass dkdomain=mediatek.com dmarc=pass fromdomain=mediatek.com);
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+Received: from mailgw01.mediatek.com ([60.244.123.138])
+        by gmr-mx.google.com with ESMTPS id u27-20020ac5c93b000000b003e7cdc9f219si517955vkl.2.2023.01.28.06.58.39
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 27 Jan 2023 19:16:48 -0800 (PST)
-Received-SPF: pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id BAC3F61D7C
-	for <kasan-dev@googlegroups.com>; Sat, 28 Jan 2023 03:16:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 28D6CC433EF
-	for <kasan-dev@googlegroups.com>; Sat, 28 Jan 2023 03:16:47 +0000 (UTC)
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 12281C43143; Sat, 28 Jan 2023 03:16:47 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: kasan-dev@googlegroups.com
-Subject: [Bug 216973] New: stackdepot: do not drop __GFP_NOLOCKDEP
-Date: Sat, 28 Jan 2023 03:16:46 +0000
-X-Bugzilla-Reason: CC
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Memory Management
-X-Bugzilla-Component: Sanitizers
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: andreyknvl@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cc cf_regression
-Message-ID: <bug-216973-199747@https.bugzilla.kernel.org/>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Jan 2023 06:58:40 -0800 (PST)
+Received-SPF: pass (google.com: domain of kuan-ying.lee@mediatek.com designates 60.244.123.138 as permitted sender) client-ip=60.244.123.138;
+X-UUID: 3c3351f89f1c11eda06fc9ecc4dadd91-20230128
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.18,REQID:ebb9be83-895d-4b5c-ba85-388c680c7dbf,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:3ca2d6b,CLOUDID:e0ccc5f6-ff42-4fb0-b929-626456a83c14,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
+X-CID-BVR: 0,NGT
+X-UUID: 3c3351f89f1c11eda06fc9ecc4dadd91-20230128
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
+	(envelope-from <kuan-ying.lee@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1298309249; Sat, 28 Jan 2023 22:58:33 +0800
+Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.792.15; Sat, 28 Jan 2023 22:58:32 +0800
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.239)
+ by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
+ 15.2.792.3 via Frontend Transport; Sat, 28 Jan 2023 22:58:32 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KXFxJf3WAQQqgIqdE+Ofiw9Za5MwVHEZQHNJHqnZ9eWQwQnGUuQfc/O9VqB0er4xFN4h7r6/sXjT7R/RABUcqQjU0pND6RG/ztyGDw+xmuUncv8n8BvtO+ojvNqkRF3yA1pHQKzVqyPpeS4QGsJVGIbHuNoKY+dZrgaRhOflbXpbIYUKpzNY197+tTfmRWuQJuoantjvNbY/SLCSDKphRi2GjbTObuXBK4rrmBRKAWUG33Vzq8B7ZEM5xANy0OS4pUZrOrvuKttvDDHZVHZFnEXyy78deCvpQzGrTawxPT1CjPVtOmtPE6Y7M9C9Oli/iecYZsvua5ha2L3GvrrRPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8v/cCGgYZRfzG3Te+rmSI/vigoxlLGgcK744xQ9doDU=;
+ b=jGCZcPAmUj/kpW+E9xNPXEDd1neAi6+X8z89EKJRO0jZ338LKU/IGqsMWxBIMT8CESMwLZnqxGqT3A9EnGsA12Roko6sd/kBz9rbkC586mhwEIxsumi7CeswdOVP0oUP1LelurCvyWlVPWo/E1Px8+NIdkroArBbu3KoO7zeUZKwei6XipXyaQlqg27fpLluaL90RF6Fcq6gV3GbdXYANdkVoOLMs+pbBycu5Xh3VvibeVyVcIxlUbNmSGQjUA+Oh3b8ACEnzgxkJbCAsNcg3OqIkAnT6QLzOyERsbbZtptAQjbmBgPBjo6I+hIgRCaD2F2okPM6MDrLel2gzgbjHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+Received: from PUZPR03MB5964.apcprd03.prod.outlook.com (2603:1096:301:b4::11)
+ by SI2PR03MB5529.apcprd03.prod.outlook.com (2603:1096:4:128::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.25; Sat, 28 Jan
+ 2023 14:58:30 +0000
+Received: from PUZPR03MB5964.apcprd03.prod.outlook.com
+ ([fe80::c43a:ce45:4a27:bd80]) by PUZPR03MB5964.apcprd03.prod.outlook.com
+ ([fe80::c43a:ce45:4a27:bd80%7]) with mapi id 15.20.6043.030; Sat, 28 Jan 2023
+ 14:58:30 +0000
+From: =?UTF-8?B?J0t1YW4tWWluZyBMZWUgKOadjuWGoOepjiknIHZpYSBrYXNhbi1kZXY=?= <kasan-dev@googlegroups.com>
+To: "andreyknvl@gmail.com" <andreyknvl@gmail.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	=?utf-8?B?UXVuLXdlaSBMaW4gKOael+e+pOW0tCk=?= <Qun-wei.Lin@mediatek.com>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	=?utf-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?=
+	<chinwen.chang@mediatek.com>, "dvyukov@google.com" <dvyukov@google.com>,
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"ryabinin.a.a@gmail.com" <ryabinin.a.a@gmail.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "vincenzo.frascino@arm.com"
+	<vincenzo.frascino@arm.com>, "glider@google.com" <glider@google.com>,
+	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
+Subject: Re: [PATCH v2] kasan: infer the requested size by scanning shadow
+ memory
+Thread-Topic: [PATCH v2] kasan: infer the requested size by scanning shadow
+ memory
+Thread-Index: AQHZKyCyrTNFvvt7mEemldTI9O5rMa6skisAgAdpiYA=
+Date: Sat, 28 Jan 2023 14:58:30 +0000
+Message-ID: <414630a65853f18c450cf1451e013b749382cbac.camel@mediatek.com>
+References: <20230118093832.1945-1-Kuan-Ying.Lee@mediatek.com>
+	 <CA+fCnZcS-p5nCALg4-96cp+sXNZSvN_u=L+=xK+zaH2rigJMKw@mail.gmail.com>
+In-Reply-To: <CA+fCnZcS-p5nCALg4-96cp+sXNZSvN_u=L+=xK+zaH2rigJMKw@mail.gmail.com>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PUZPR03MB5964:EE_|SI2PR03MB5529:EE_
+x-ms-office365-filtering-correlation-id: 73102858-5023-48d8-e494-08db01401e52
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: baR8vdz3Nl4InlnehFNohhMpKzjcX8JcII52vbmuP2e+KSQ5WgMDaA8x+noGk9Po5iS7eOWfTV5XxPzwl9o0zXTQUWD/TqzI4KQ8uv8TrIG/fBezBOS0Nb+JZnI2CDEXs+/fVkGc6D4bxFTm7WXcX8Ex5heD2EJd37ZQxaQRYT73Ez68ba7fJEpFkye9k/7SInlMFr7NDXGZWP3SGe3sbEPHMrH2MxD+muTM0WQgFqzSas8o/1ECjvqYJCo7aBZaK7xawiUyTXIcQeGecks/BLrOw6mqSb3yJDl+ItMBqTFMldPaMEjDQlftcFDCqAHZxgbovggtEMhX8/6nn792YZ/2ht3HogB6It0W5xRn3ABI7IjA0cE1qIPEilmb3Wm6ImfjDpeLF+dqgCHHCF61xUfbodi/zT6Eja7hiv9e6H6OlR3BTHjcmPIqTWvvVu2CiLJoL/k/KWjpyNu0ltF9OslIhVmOVRC9+dIyli+VEnowrJM49nuXrJHhblo+7tLp8BR5joSp0fQPNHyD6xQICOMEAeKZnM/bwSqVUlelb2arhfQp8mcNlHz+ZhZSJK5BN2PCQlLlEp1KK9aZLRgmomI9bDizHSiT1XW3KJeuoOznaPxVx4W6RkphPbnBF4U5zoehA4rrhSkQifMNUOI02fySwnIrD2MgoaB0moxGRYEQGSYYIOygly5r2uU8qtigS0EHeIrrSX1v9yWJD7IMeKUXl/PQtRRlq3nTTuw/iuje0vx3xk4OfbDzFKoEopt1s5jha7zDDezj0m1fRiHwYjx7wCFUajG0Lito/9H19ZGfQWeiMEyaZL71foaXYQgkmYiXfnh6NdV0YgASk2d4cQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR03MB5964.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(4636009)(366004)(376002)(136003)(346002)(396003)(39860400002)(451199018)(36756003)(85182001)(86362001)(2906002)(54906003)(2616005)(186003)(26005)(4326008)(76116006)(53546011)(66446008)(6512007)(8676002)(66946007)(64756008)(66556008)(66476007)(6916009)(91956017)(71200400001)(6506007)(316002)(6486002)(966005)(478600001)(38100700002)(122000001)(5660300002)(38070700005)(8936002)(7416002)(41300700001)(83380400001)(99106002)(505234007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UU5ETlYrSHpYTFpBOGRoMXVmN0ZRUDlpSjRvRmZ4Tm9MTDlkZ2xKcm9hMWxn?=
+ =?utf-8?B?SjVxMXR5bWV0a1ViTFRBNk9wN2tIaS9jM3U1NUU2eHpseXllaTVudkIrRFZp?=
+ =?utf-8?B?ajRFRDVZTHZBNFdMRzQyODhMVm9LQk9GWis4UXVTRzNhQVpiM25TMW9KSkFP?=
+ =?utf-8?B?VkorcmZINHhkTVh4NEtORDJuQWpUeW9GUHUyaDVkTDlETGFlS1hETTBMUGtn?=
+ =?utf-8?B?K2NneEJrZ2w5TFhMMGFrYk84SndCNWx4SFQya1dXZTFvVnkyenlUckVLNDBq?=
+ =?utf-8?B?UkdpY3JYdTI2blZyWmkxaWdCNG8wM0IvaE0wdHhJZE5HcGNhWjRNVi80cENm?=
+ =?utf-8?B?SGEyNm0vdlVMY3ZySGo5VTI1ZE9QVHQwTStZQUhoNFRZMndKcnMyb3kzOHRq?=
+ =?utf-8?B?eTdKZDltTWxVbTNIWHBDL2J4SzNONXJsZ29YWFV1bEtxMnBmZENWeDdJT1Fn?=
+ =?utf-8?B?VVVWbm81NjhlWTB2aUQrcFdzSlc4Zk8vejlCVE1BaTdIMHF3ZDhYV1poTWRD?=
+ =?utf-8?B?SUZwOElXVk1JRVJXS2pLSFg1QSt0MFY2S3hEQU1IMGZxT3RGd2VnazJGM1hG?=
+ =?utf-8?B?djZkbm1WdWoxZS9EbGw1NzlDQktQZ1BzTHZqU1RlMEdyQ0ZDdmQwTmo3bjQ1?=
+ =?utf-8?B?bXhLdUJXaUw5R3dQU2ZlaHZSdDBPVmkrd2xsRzBCeE0zMVIyK1ZRTTRGYi9o?=
+ =?utf-8?B?Smt6Q0V1aDY3eHhxVWNkMENFSHBwSGJUT08yZkU5b21Uc0ZSeldlM1lnSGFq?=
+ =?utf-8?B?c1ZiWEFzM041dVhGQUk0RWVRejFIcktaeWlmN0xWNHJrMGEzTmR2Q3M2YmRM?=
+ =?utf-8?B?eThlT0dPalBtZ2p6d0RWQ0s1QzZFMGkwM2tlTzJOZ2NyQ0FibS90SjQ1c2JS?=
+ =?utf-8?B?MHR6alJwTmsxam43Qk5mVUNPT3ZCS2dpcXRvcm1INTdRcy9JQjUyejRnZXNv?=
+ =?utf-8?B?QzNGQnVzSjUyVGR0aXdTbGFWbzNTNjRMc2tIN29FbTBXMHVqVEtXVU1ZUzNK?=
+ =?utf-8?B?bDlqckh3dGNVYm5VQXFCQU1lVFhxVFFISVlxdTErZGFQdlZGTUtUNzhLTGcx?=
+ =?utf-8?B?b3prRjRvSDJ2N3luTU9abEludlo1OUxVRnoxOE55YTM1c05hYUJxVTFCaFd6?=
+ =?utf-8?B?YmUwK3o3ejVIL2RBcUk0bVQ0b3R3Uk03b1ZvQ2Rod0d6VnJVRllBY0VkNDBk?=
+ =?utf-8?B?L21taExlUEoxclYweXRJV3RQOXRkMHRsL1lRcC9vOUdGSXpMR3l0Y2lDdFlz?=
+ =?utf-8?B?UU9rOWxQL2wyQ0xGYVVSL1Jka3c5QTIyWCtrbVZ1RXFEVG45VThiR0lUUDNs?=
+ =?utf-8?B?bkJqZi9CRFZ6cXdidXI1N3EvWWJLZW0weS9hNFlBZWV3NW1FUnhwcXBWV0tw?=
+ =?utf-8?B?Ym9DcTFGUkFFN09UYjN0ZnlSaWtHZXQyMS9uTDF3UjdKdGVCaGNGdklVY3lZ?=
+ =?utf-8?B?ZHh6MWFHZDVNN09oT2FCUEl2RnRsL0ZsVE9ZS2lOZ0t4YTBIOG9BeTFCVldV?=
+ =?utf-8?B?WFJoS1lqSCtCcTVhSXlwNm54V0lhbEZYYkRYc3A0N3pWbHk5RXIraFg3bFJT?=
+ =?utf-8?B?Ujg2UDBxNlJVTkpWdnlBdlJ6Z3NZRS9zL3VReEtpcmJPTnFLU2JQaDJrUFJL?=
+ =?utf-8?B?TytMYUZWQW5uWGQrS1hvNEJLT3RLdDJKZDVDK2tteTk3d0NNMWc3VW5HdUpJ?=
+ =?utf-8?B?Z3JPTEV0U2d0MDdIaCtVVFNPdU1uelBIVU83dFljMzZDTlkwK2pwOEMrQkdG?=
+ =?utf-8?B?RnZxcXBqUW9PN0txMHBuYlJuUVlpTytGUzN2S3FOK0ZiVWR2Tm5HdEI0SkRu?=
+ =?utf-8?B?RXR2cWFMdC9JZk9KL01tcXVRU01GZXFvZExIaWdjeG1jbnMvR2dCTVFYdk1X?=
+ =?utf-8?B?VlhEU2huV0IrU1A2cWZUWG9lc1VRb2lNYTc0Q2V6ZlFFSkNXanNGM1F0R3ov?=
+ =?utf-8?B?R09iYXlIVXhkeGRybmwwbTdmdkZCMEhGM2NKYXhlWXRESzBwNSs1c29oRzlp?=
+ =?utf-8?B?L0tNbGh4R0JKOVJuRXM2aUZ6cUZZVllFKzFZTVdIb3Z0bnQ5RXNXdnpieVla?=
+ =?utf-8?B?bnFzdWNJbGZ0YXdXTXVZMU11NUhZWTVmaUNlUEUvSndRMUFGZ0tLTGJMVmNp?=
+ =?utf-8?B?RytvMVBJR2owdkpEaTF0VU13RUMrV2Y5SnJxOWczK3dGZWhUbFljVWhhbklV?=
+ =?utf-8?B?N0E9PQ==?=
 Content-Type: text/plain; charset="UTF-8"
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Content-ID: <E94C125E35F5E94E8193876607E24EA4@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Original-Sender: bugzilla-daemon@kernel.org
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR03MB5964.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73102858-5023-48d8-e494-08db01401e52
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jan 2023 14:58:30.0715
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: C0A6kjEvqWU9jaf5yPFj4gbH8FfkAMdSVpNBamtlhFzeSvalJwhHr1o0f8Driw5ntpRTMM653iuvXPoPEz2vMmEUVrKVNxaixcIQpzNUMdA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR03MB5529
+X-MTK: N
+X-Original-Sender: Kuan-Ying.Lee@mediatek.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=NpruOuBu;       spf=pass
- (google.com: domain of bugzilla-daemon@kernel.org designates
- 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@mediatek.com header.s=dk header.b=UjBwyEed;       dkim=pass
+ header.i=@mediateko365.onmicrosoft.com header.s=selector2-mediateko365-onmicrosoft-com
+ header.b="Z5cVS/lE";       arc=pass (i=1 spf=pass spfdomain=mediatek.com
+ dkim=pass dkdomain=mediatek.com dmarc=pass fromdomain=mediatek.com);
+       spf=pass (google.com: domain of kuan-ying.lee@mediatek.com designates
+ 60.244.123.138 as permitted sender) smtp.mailfrom=kuan-ying.lee@mediatek.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+X-Original-From: =?utf-8?B?S3Vhbi1ZaW5nIExlZSAo5p2O5Yag56mOKQ==?=
+	<Kuan-Ying.Lee@mediatek.com>
+Reply-To: =?utf-8?B?S3Vhbi1ZaW5nIExlZSAo5p2O5Yag56mOKQ==?=
+	<Kuan-Ying.Lee@mediatek.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,65 +262,101 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=216973
+On Mon, 2023-01-23 at 22:46 +0100, Andrey Konovalov wrote:
+> On Wed, Jan 18, 2023 at 10:39 AM Kuan-Ying Lee
+> <Kuan-Ying.Lee@mediatek.com> wrote:
+> >=20
+> > We scan the shadow memory to infer the requested size instead of
+> > printing cache->object_size directly.
+> >=20
+> > This patch will fix the confusing kasan slab-out-of-bounds
+> > report like below. [1]
+> > Report shows "cache kmalloc-192 of size 192", but user
+> > actually kmalloc(184).
+> >=20
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > BUG: KASAN: slab-out-of-bounds in _find_next_bit+0x143/0x160
+> > lib/find_bit.c:109
+> > Read of size 8 at addr ffff8880175766b8 by task kworker/1:1/26
+> > ...
+> > The buggy address belongs to the object at ffff888017576600
+> >  which belongs to the cache kmalloc-192 of size 192
+> > The buggy address is located 184 bytes inside of
+> >  192-byte region [ffff888017576600, ffff8880175766c0)
+> > ...
+> > Memory state around the buggy address:
+> >  ffff888017576580: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
+> >  ffff888017576600: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > > ffff888017576680: 00 00 00 00 00 00 00 fc fc fc fc fc fc fc fc fc
+> >=20
+> >                                         ^
+> >  ffff888017576700: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> >  ffff888017576780: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >=20
+> > After this patch, slab-out-of-bounds report will show as below.
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > ...
+> > The buggy address belongs to the object at ffff888017576600
+> >  which belongs to the cache kmalloc-192 of size 192
+> > The buggy address is located 0 bytes right of
+> >  allocated 184-byte region [ffff888017576600, ffff8880175766b8)
+> > ...
+> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >=20
+> > Link:=20
+> > https://urldefense.com/v3/__https://bugzilla.kernel.org/show_bug.cgi?id=
+=3D216457__;!!CTRNKA9wMg0ARbw!iEOOICl7DzhvfYobmQ8MsNFAWmbqicXdjd0LYWw9uBOqw=
+j8lai7oEODVdRJyWUEXr11A3-m7wbIX2cdpxLwiW6Tm$
+> > $   [1]
+> >=20
+> > Signed-off-by: Kuan-Ying Lee <Kuan-Ying.Lee@mediatek.com>
+> > ---
+> > V1 -> V2:
+> >  - Implement getting allocated size of object for tag-based kasan.
+> >  - Refine the kasan report.
+> >  - Check if it is slab-out-of-bounds report type.
+> >  - Thanks for Andrey and Dmitry suggestion.
+>=20
+> Hi Kuan-Ying,
+>=20
+> I came up with a few more things to fix while testing your patch and
+> decided to address them myself. Please check the v3 here:
+>=20
+>=20
+https://urldefense.com/v3/__https://github.com/xairy/linux/commit/012a584a9=
+f11ba08a6051b075f7fd0a0eb54c719__;!!CTRNKA9wMg0ARbw!iEOOICl7DzhvfYobmQ8MsNF=
+AWmbqicXdjd0LYWw9uBOqwj8lai7oEODVdRJyWUEXr11A3-m7wbIX2cdpxNwCtfpJ$=C2=A0
+> =20
+>=20
+> The significant changes are to print "freed" for a slab-use-after-
+> free
+> and only print the region state for the Generic mode (printing it for
+> Tag-Based modes doesn't work properly atm, see the comment in the
+> code). The rest is clean-ups and a few added comments. See the full
+> list of changes in the commit message.
+>=20
+> Please check whether this v3 looks good to you, and then feel free to
+> submit it.
 
-            Bug ID: 216973
-           Summary: stackdepot: do not drop __GFP_NOLOCKDEP
-           Product: Memory Management
-           Version: 2.5
-    Kernel Version: upstream
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Sanitizers
-          Assignee: mm_sanitizers@kernel-bugs.kernel.org
-          Reporter: andreyknvl@gmail.com
-                CC: kasan-dev@googlegroups.com
-        Regression: No
+It looks good to me.
+I will send the v3.
+Thank you.
 
-From [1]:
+> Thank you!
 
-XFS is telling the allocator not to track this allocation with
-lockdep, and that is getting passed down through the allocator which
-has not passed it to lockdep (correct behaviour!), but then KASAN is
-trying to track the allocation and that needs to do a memory
-allocation.  __stack_depot_save() is passed the gfp mask from the
-allocation context so it has __GFP_NOLOCKDEP right there, but it
-does:
-
-        if (unlikely(can_alloc && !smp_load_acquire(&next_slab_inited))) {
-                /*
-                 * Zero out zone modifiers, as we don't have specific zone
-                 * requirements. Keep the flags related to allocation in atomic
-                 * contexts and I/O.
-                 */
-                alloc_flags &= ~GFP_ZONEMASK;
->>>>>>>         alloc_flags &= (GFP_ATOMIC | GFP_KERNEL);
-                alloc_flags |= __GFP_NOWARN;
-                page = alloc_pages(alloc_flags, STACK_ALLOC_ORDER);
-
-It masks masks out anything other than GFP_ATOMIC and GFP_KERNEL
-related flags. This drops __GFP_NOLOCKDEP on the floor, hence
-lockdep tracks an allocation in a context we've explicitly said not
-to track. Hence lockdep (correctly!) explodes later when the
-false positive "lock inode in reclaim context" situation triggers.
-
-This is a KASAN bug. It should not be dropping __GFP_NOLOCKDEP from
-the allocation context flags.
-
-[1]
-https://lore.kernel.org/linux-xfs/20230119045253.GI360264@dread.disaster.area/
-
--- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are on the CC list for the bug.
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-216973-199747%40https.bugzilla.kernel.org/.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/414630a65853f18c450cf1451e013b749382cbac.camel%40mediatek.com.
