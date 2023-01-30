@@ -1,132 +1,161 @@
-Return-Path: <kasan-dev+bncBDV37XP3XYDRB6F732PAMGQECHS5FQA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCUJ7YGL3QFBBBVD36PAMGQELHT5N7Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27616680B28
-	for <lists+kasan-dev@lfdr.de>; Mon, 30 Jan 2023 11:46:17 +0100 (CET)
-Received: by mail-wm1-x337.google.com with SMTP id l23-20020a7bc457000000b003db0cb8e543sf4182612wmi.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 30 Jan 2023 02:46:17 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1675075576; cv=pass;
+Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C47F6811F9
+	for <lists+kasan-dev@lfdr.de>; Mon, 30 Jan 2023 15:17:43 +0100 (CET)
+Received: by mail-lj1-x239.google.com with SMTP id x44-20020a2ea9ac000000b0028fd85f2e0asf1903626ljq.22
+        for <lists+kasan-dev@lfdr.de>; Mon, 30 Jan 2023 06:17:43 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1675088263; cv=pass;
         d=google.com; s=arc-20160816;
-        b=E36GU3YKF/3Nar0aF9cYjSdbZi4IF/zdd1KLCqltapGZARR66zxzmiH4y3tn2xLlDh
-         c+Vt66OcwHO0qh/PqJRTL/vAIHIFPSkv4euF2ev9J/Irvowa9dZN4Aq92rkQLF2BO4AS
-         ZvTCsxo8fdTeVM6P3Y04TlvtfH+ATLXjfuKF4MrkXo9P8p+U5Vpwde7iTs5gFimjLkWp
-         X/+cyPdiehqoyTCi0k5TzlcR3M2GobF73MkDhdn8f1WKVhw0hK3BA25hafydLznwcdLP
-         3VXI5oz/CvUaZDaflZbcGBQONRFow8HmHLgt9b7q244ew0RJ2k//1Vo/fAvVfCb1+YQN
-         iU7g==
+        b=g9gmie1mIplWhWO27qE25gvhHpx4uVfevzNxBtCoqpZLHiaAf/PT0nuCo/depHwmCG
+         U8HMv9bJracz4Rlg+XXuu+NbXbWeBqzqqR4pNwPeZ2/jSDc+2EWFV71tPLJh8rLVMKcO
+         gXf58VQ0YPZIaoG56sJDT0DWMWDEyMRGe1ld18vuKUbW5rC9FjBdaOzojgJuQafPgNSZ
+         xX5UGVB6/KOigUEf2E3yzBRSpMT/0dOZr+gVYPhGpbCVkSAG+psup2Yo4oX4O+pE8b08
+         nIiwKkgbR52+UgGiqfIZKIrbktn6h6C6evl4fGPiaRHH3UT9l9NE8KrfJca8c++BU/PI
+         Ojow==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :list-id:mailing-list:precedence:mime-version:user-agent:references
+         :in-reply-to:message-id:date:subject:cc:to:from:sender
          :dkim-signature;
-        bh=+CmRtrUDMjvlwKzA4rrqZ/kLB14RTVxYwtsz90fnDpM=;
-        b=BbZOnU2scxpAhIyqrX4a45htfBbUanQczTw6Vos3Awhay9+1GUHj91mdcCcNCKNzxU
-         qjk5pEIS6MF7X3Q3v2lEn6UyHiXr8C7hCGEmBO5N91oOd2S0U7zyN0SUlyyPpXZ3kw/P
-         SUySLQ9QKFc43ZkBM6ikHjjwGioe7G5hUo2rAgvK+H5bYYWmkxv9FdNcz7napXta2ASG
-         Ri/6JihAQzsEfKSt2z5fALoYc1N1kdM59YJuWfJk0b+LqOXEqUy+805K+Rra+lwtho+I
-         0cQkLHr2uN+hp8SDL7jbN8JVVVbxvE9Ntnz1q6MC+iXK1nkwUbVn8dm9UaAQlek2tM8M
-         ZrNQ==
+        bh=AL17yy7K89HUXsWJIQVu6Q1gUHLEWeCpyB10lzdJB3Q=;
+        b=qYpPAXdsGjeuegN6hPIkCDG2ERbt6xYBR5iZPvEHRqcuo52uV2yRXcX7cnLLGcuPWC
+         bAwZfrr1WPPbu1lU+h7b9X2Abz52wx4drIEA/Fm3rV+paADBvJsywfS5wUqELRanmCJj
+         LIlZFOcnvDvr2cHqEPD97HPfD6DxWQJCcPNibXKZFJnp9NMJxFfhvpQKYk4Cvj3UHmYg
+         cgeSH+OiccOR6gKI2S7gb098c+1MLT3XJxiL+VatGFoaDcxGnCtQWBTCIRC4nIXqphVS
+         xkTgNN3EoDE8KgklJuuNxvtbqMh1IA/4rpQG7wM7RWpTqCbjYqOYBvye44K21inl6t1e
+         tl0A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=c2Dn+EtM;
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+CmRtrUDMjvlwKzA4rrqZ/kLB14RTVxYwtsz90fnDpM=;
-        b=Wjn7fP76fTp0E3lRPcNAC9rUEaxSLyR3jRfg3MegNY9mIDn5Mw82RweeoiP/tFbi3a
-         dUQe1fKRvoiMnucIwGMqEGbfLRUzO3xEtYnH0NCLAmSKN3NCkZu/SvB+L77kLLAuTZTl
-         J0U52l3FOk1A0igHWqjVbwlPlYCLr++L/elJHt1mFSoiMFAen801psh09TlA3qBrDTWO
-         RSBlg6lD2YZaWQH+c8T6h5uazFYz0jMpz1/LEWYbiqH/Y6N1OLrRT2LleCJvqIBoobRI
-         TJHsYNO1ISNlwlld2bm9p9hej8SpBYPoYEd+MRtnmUNkxrv0x30UN8Zfd9SKrGxPyR5O
-         iUJQ==
+         :x-original-sender:mime-version:user-agent:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AL17yy7K89HUXsWJIQVu6Q1gUHLEWeCpyB10lzdJB3Q=;
+        b=iN/2wHWwZokmKpBPR5jSgVqTSpdux9DJBl+vl5EsO5kml1LZlLXzYeHbv+HGg5ZmdN
+         T8PKE/Z8uCK7qI3ixw/T5ROz5hMlqChQuAsc3qv/+fNAYE2WRsfayNfzkpRyaA3358wF
+         hPAIBtfitEXHUBbRsWqNMzudF0XD4UbzGKwhJ5t2b+s/wX5+lkr/Ca5m9zu+/KAnMTqO
+         Y+9zDpF4c3wUpH9APwvLYlyaUbxYWaTuLQHlhWGPzUEbpcAH13vrQ2QahoGoqLXQVNgK
+         xbm2JtZjXR/bUpaNfHZhp0xplGBWMweU+WUJIaqqX3o6gQa6ZLC0UjcSCKXfBjUh0Atn
+         ag/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+CmRtrUDMjvlwKzA4rrqZ/kLB14RTVxYwtsz90fnDpM=;
-        b=wQzNh8XnpjCReF1gF153y7w4Tu8Ua11x7aKMl778XcCJjKo32wyigXSfRwCsIf4JJl
-         /ROsOClEuelVm99aLcPLMDgQWWHjIdOCtKIn4dFy1xGKHgeVrjRaBRKYc8TsrrbiPyRz
-         aJDO3/i9Jb4jP7E8uGEQNCdOilje2HnTLAGd77gcF+qf9pfrcvvcmKD8VdBdi3Xr8k7n
-         qHiuboxGh90ukhMxW+sPJi6M4FG8662pRMflY2XvHVMFBUv5x3rv5BQIS18JRh2/3Wbg
-         mDQ7RfdoMym9ZwxymMnTbC88beG2oET+Muq+q9c0tKllSStyB0R0TkeFHogf3VNQyxhP
-         p8yA==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :user-agent:references:in-reply-to:message-id:date:subject:cc:to
+         :from:x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AL17yy7K89HUXsWJIQVu6Q1gUHLEWeCpyB10lzdJB3Q=;
+        b=Jrg2dg51q0xJ1VAPixUGoEkH1ERxiimZlFmxjgyAMMf0g0UdAmhMcYLMBZOp91HoIC
+         Z6MLcWpaotHo3faqV0PnlH2gHMx7WHgw2kGtqLqbgkLvCeP0dnoWALdu46s0B7El6PvC
+         oCp37QkpIrPeQ4SPhJ0PeBhxLcBXAkXXFIV46avu6cXk7AK4Ow43bKI9Du28mGXYMhv9
+         mQMqF/PFIsUAA+9bSWo5ys04nBWGKWQEehXRWxEmL0ZOYBEBcChamb+yRF//F5pCUPmF
+         4dv7L2fm02SUhkTI6T2uZJuNPY5i3W+O919/4HFe9+Qwp6mKwdVh/ab2yP1XBZwF5W0E
+         A6oQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKVgFQUKjRaDy8CrxQe9/gfd0slcUI7V8+mgpUpcKFOtXu9ar6FS
-	pKwX+nRAG7xemZAlgxqydhk=
-X-Google-Smtp-Source: AK7set9o2VR00hhX5gL63ihYXenLf/ZFZ9Ew1ZapBWyD/GNk7t8kMtEnE5MDt8OxfUuLRMmwAa82/g==
-X-Received: by 2002:a1c:2bc3:0:b0:3dc:2af8:83bc with SMTP id r186-20020a1c2bc3000000b003dc2af883bcmr813142wmr.144.1675075576541;
-        Mon, 30 Jan 2023 02:46:16 -0800 (PST)
+X-Gm-Message-State: AFqh2krt1hCexj5611MmwwLkrpGz4v1YCvX+fMP60P2TGJ7pWa/v73Bb
+	Eh2vvLJcESZ/4I0Fv+Xznwc=
+X-Google-Smtp-Source: AMrXdXuHoPjtMBjKdzWJdj71sFGE8q1tHi3f4ecVnIbhwTAFW4fp/RUT5yC71vT7FT5GS3CFaAONpA==
+X-Received: by 2002:a19:771d:0:b0:4b5:3f7f:f9ed with SMTP id s29-20020a19771d000000b004b53f7ff9edmr3487122lfc.177.1675088262683;
+        Mon, 30 Jan 2023 06:17:42 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:ce90:0:b0:2bf:ae0c:669b with SMTP id r16-20020adfce90000000b002bfae0c669bls945177wrn.2.-pod-prod-gmail;
- Mon, 30 Jan 2023 02:46:15 -0800 (PST)
-X-Received: by 2002:a5d:6f0e:0:b0:2bf:dcbc:c442 with SMTP id ay14-20020a5d6f0e000000b002bfdcbcc442mr7015089wrb.24.1675075575073;
-        Mon, 30 Jan 2023 02:46:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1675075575; cv=none;
+Received: by 2002:ac2:4f13:0:b0:4d5:7ca1:c92f with SMTP id k19-20020ac24f13000000b004d57ca1c92fls2161092lfr.2.-pod-prod-gmail;
+ Mon, 30 Jan 2023 06:17:41 -0800 (PST)
+X-Received: by 2002:a05:6512:3f26:b0:4a4:68b9:1a0b with SMTP id y38-20020a0565123f2600b004a468b91a0bmr18581410lfa.51.1675088261200;
+        Mon, 30 Jan 2023 06:17:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1675088261; cv=none;
         d=google.com; s=arc-20160816;
-        b=VUfg6VB//18khTUg969JE+e9sYSnSlDwzHLXLamISUB9GK/AoVD/b5y//eFQd+F+cr
-         +l76dcudO1TJmzpwbqGeL5Eq/lfFk2Qei7SaeRKonpT12xBEGdd0QCuLRDJ5+K7x0w70
-         UVToZ9dK0Qh0kBJ9nMOIIKIeidgl9yvRR6gnEBOXbUGyqlDTVhEPpwbR0SaBO7es8hRw
-         yT/nMAPSecl1+kCg8Z3r9L7UFvAQQa8W2Jlbi/2BLKyxhGMpBMKjXyrA3p/OPl/QCTe1
-         jd0upg1vOk1duCEpe3IiCEM5prz8Qr+qf1OK5hJmahjZo5Ju3Tp5WpAzV8GpVKAixOWD
-         xCmQ==
+        b=l1FSYgK9exE2ia4ex3y+2yESu/h17k61lg5v0a/gS2iJSCoDwygjPJ7yYooRugyzfd
+         XsXFxEriKLAA95wlKmVbEibfbdM+f7X7kAp6akkGNoZSSoub8+NSP3m9EXPZM2Y1ENAm
+         /03rWTQkyXTA//hl0aVB39Bu35fVxQKGx1CiC/SZhd1UwiY7T1bNf2D04PQ7GC5Pl9DU
+         BuuJDaMNFw8KT9EbyaSdZAZQeFbLrq7kv6UnG0fAZk9Rmcr8In7OGuqg0EFkeLdGFR7e
+         E1BgLf4+3+5SKHUulqE7YZJVVZWK5v6w0TI+VMZWM1F/PbTTQLqrc3YKurHie4jTuFu6
+         fiOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=xwrNlBydazc5t639iFN6aprL3WGemATs/tO8X4a/07Q=;
-        b=wnfSIkHIZNR9U0nwLQ5PmAFUQgjmUekGbOT0o6FGHGPY1XclOQVHfJHVPjDNBYkfDZ
-         DufVKHAg7JQYycdEEkGlvCk0KmQLGka2asJkmCwrigoX0Xq9yTavYxI6vL5MGDEmU8Cv
-         9zVwCXhFu5mktls9cBHXTSAI0mC2A/kamtvFVkXe3l/Mg0qnUcKEFp13xirzN/v0mveM
-         c8fvrQP6eBwJvj844wVYDFWFijpD5VtF3LhjB/QwSXF9e2fIL+rPdS9UZw1C9sSpJ17Y
-         FgIuyt0Gnmv1WyS/vyNEMEtsgn0FmJj0zhxQ8WC+JS9d5KflGFMH3zc3lxJmx+8VRfN7
-         krlA==
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=uyluDYmPAg9Fe3qpUBDneuVPmLqYruUbSAd4ixKVj0Q=;
+        b=Zr+FDZuoyNFNBE8ckchqqSrdIHtJm/rar1xX4Kpf8VA71EAGyDVi7pQr+lFQBUZLn/
+         rM+DjMpT09Be9Y72cUNNabeMfvHf429asY8e8UXlt/TcK2Zs8uYpo7UKg9GooVtlAzNI
+         sd6tg2KAm2SwgPTSNylolIR/0GVq56bMJwktGUWCOFcmsVN2WNeBg72b3SICS5vGOZYj
+         3OTt327QV/3CZUwva6K/+V01ZQTT6u8J/hn4ryG6uTgberx2351pp2ilK8tUxZABsRis
+         VAfAMtk0RPJyoXxbPv+8jmiB0YqSoN80kJ0yb/V3etAey+pJOBXzso3VJLeLn8PvWv2s
+         UU/Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id bt1-20020a056000080100b0024222ed1370si591387wrb.3.2023.01.30.02.46.14
-        for <kasan-dev@googlegroups.com>;
-        Mon, 30 Jan 2023 02:46:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 460BD16A3;
-	Mon, 30 Jan 2023 02:46:56 -0800 (PST)
-Received: from FVFF77S0Q05N (unknown [10.57.13.128])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DDCED3F71E;
-	Mon, 30 Jan 2023 02:46:11 -0800 (PST)
-Date: Mon, 30 Jan 2023 10:46:09 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: Marco Elver <elver@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
-	Jann Horn <jannh@google.com>, Thomas Gleixner <tglx@linutronix.de>,
-	Andrey Konovalov <andreyknvl@gmail.com>
-Subject: Re: [PATCH v2] perf: Allow restricted kernel breakpoints on user
- addresses
-Message-ID: <Y9ef8cKrE4RJsrO+@FVFF77S0Q05N>
-References: <20230127162409.2505312-1-elver@google.com>
- <Y9QUi7oU3nbdIV1J@FVFF77S0Q05N>
- <CANpmjNNGCf_NqS96iB+YLU1M+JSFy2tRRbuLfarkUchfesk2=A@mail.gmail.com>
+       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=c2Dn+EtM;
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
+Received: from ams.source.kernel.org (ams.source.kernel.org. [2604:1380:4601:e00::1])
+        by gmr-mx.google.com with ESMTPS id i30-20020a0565123e1e00b004d5e038aba2si634335lfv.7.2023.01.30.06.17.41
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 30 Jan 2023 06:17:41 -0800 (PST)
+Received-SPF: pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4601:e00::1 as permitted sender) client-ip=2604:1380:4601:e00::1;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ams.source.kernel.org (Postfix) with ESMTPS id 9ECB9B811D3;
+	Mon, 30 Jan 2023 14:17:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C96AC4339C;
+	Mon, 30 Jan 2023 14:17:38 +0000 (UTC)
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Marco Elver <elver@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Daniel Bristot de Oliveira <bristot@redhat.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Gow <davidgow@google.com>,
+	tangmeng <tangmeng@uniontech.com>,
+	Jann Horn <jannh@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Tiezhu Yang <yangtiezhu@loongson.cn>,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Kees Cook <keescook@chromium.org>,
+	Eric Biggers <ebiggers@google.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.15 138/204] panic: Consolidate open-coded panic_on_warn checks
+Date: Mon, 30 Jan 2023 14:51:43 +0100
+Message-Id: <20230130134322.600948088@linuxfoundation.org>
+X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230130134316.327556078@linuxfoundation.org>
+References: <20230130134316.327556078@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNNGCf_NqS96iB+YLU1M+JSFy2tRRbuLfarkUchfesk2=A@mail.gmail.com>
-X-Original-Sender: mark.rutland@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=arm.com
+X-Original-Sender: gregkh@linuxfoundation.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linuxfoundation.org header.s=korg header.b=c2Dn+EtM;       spf=pass
+ (google.com: domain of gregkh@linuxfoundation.org designates
+ 2604:1380:4601:e00::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,144 +168,176 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jan 30, 2023 at 08:00:00AM +0100, Marco Elver wrote:
-> On Fri, 27 Jan 2023 at 19:14, Mark Rutland <mark.rutland@arm.com> wrote:
-> >
-> > Hi Marco,
-> >
-> > Apologies for having not replies on v1...
-> >
-> > On Fri, Jan 27, 2023 at 05:24:09PM +0100, Marco Elver wrote:
-> > > Allow the creation of restricted breakpoint perf events that also fire
-> > > in the kernel (perf_event_attr::exclude_kernel=0), if:
-> > >
-> > >   1. No sample information is requested; samples may contain IPs,
-> > >      registers, or other information that may disclose kernel addresses.
-> > >
-> > >   2. The breakpoint (viz. data watchpoint) is on a user address.
-> >
-> > I think there's a potential problem here w.r.t. what constitutes a "user
-> > address". Below, the patch assumes that any address which access_ok() is happy
-> > with is a user address, but that's not always the case, and it's not
-> > necessarily always safe to allow watchpoints on such addresses.
-> 
-> Isn't that a deficiency with access_ok()?
-> 
-> https://www.kernel.org/doc/html/latest/core-api/mm-api.html#c.access_ok
-> "Checks if a pointer to a block of memory in user space is valid. [...]"
+From: Kees Cook <keescook@chromium.org>
 
-Arguably yes, but it's not really solvable in the current API design.
+commit 79cc1ba7badf9e7a12af99695a557e9ce27ee967 upstream.
 
-One issue is that this is contextual, and access_ok() is implicitly limited to
-some scenarios but not others. It's not meant to work for arbitrarty pointers
-in arbitrary contexts (as e.g. it has no way of distinguishing an idmap from
-userspace).
+Several run-time checkers (KASAN, UBSAN, KFENCE, KCSAN, sched) roll
+their own warnings, and each check "panic_on_warn". Consolidate this
+into a single function so that future instrumentation can be added in
+a single location.
 
-We largely don't take implicit context into account in access_ok(), other than
-the tag removal stuff we do on arm64 (and on x86 for LAM), and I don't think
-anyone was all that happy about extending it for that.
+Cc: Marco Elver <elver@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Juri Lelli <juri.lelli@redhat.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: Ben Segall <bsegall@google.com>
+Cc: Mel Gorman <mgorman@suse.de>
+Cc: Daniel Bristot de Oliveira <bristot@redhat.com>
+Cc: Valentin Schneider <vschneid@redhat.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Gow <davidgow@google.com>
+Cc: tangmeng <tangmeng@uniontech.com>
+Cc: Jann Horn <jannh@google.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: Petr Mladek <pmladek@suse.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: "Guilherme G. Piccoli" <gpiccoli@igalia.com>
+Cc: Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: kasan-dev@googlegroups.com
+Cc: linux-mm@kvack.org
+Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+Signed-off-by: Kees Cook <keescook@chromium.org>
+Reviewed-by: Marco Elver <elver@google.com>
+Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+Link: https://lore.kernel.org/r/20221117234328.594699-4-keescook@chromium.org
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ include/linux/panic.h | 1 +
+ kernel/kcsan/report.c | 3 +--
+ kernel/panic.c        | 9 +++++++--
+ kernel/sched/core.c   | 3 +--
+ lib/ubsan.c           | 3 +--
+ mm/kasan/report.c     | 4 ++--
+ mm/kfence/report.c    | 3 +--
+ 7 files changed, 14 insertions(+), 12 deletions(-)
 
-> > For example, UEFI runtime services may live in low adddresses below
-> > TASK_SIZE_MAX, and there are times when we run code in an idmap (or other
-> > low-half mapping) when we cannot safely take an exception for things like idle,
-> > suspend, kexec, pagetable rewriting on arm64, etc.
-> >
-> > So I think this may introduce functional issues (e.g. a mechanism to crash the
-> > kernel) in addition to any potential information disclosure, and I would not
-> > want this to be generally available to unprivileged users.
-> >
-> > Most of those happen in kernel threads, but they can also happen in the context
-> > of user threads (e.g. if triggering suspend/idle via sysfs), so special care
-> > will be needed, as above.
-> 
-> These are good points.
-> 
-> > > The rules constrain the allowable perf events such that no sensitive
-> > > kernel information can be disclosed.
-> > >
-> > > Despite no explicit kernel information disclosure, the following
-> > > questions may need answers:
-> > >
-> > >  1. Q: Is obtaining information that the kernel accessed a particular
-> > >     user's known memory location revealing new information?
-> > >
-> > >     A: Given the kernel's user space ABI, there should be no "surprise
-> > >     accesses" to user space memory in the first place.
-> >
-> > I think that may be true for userspace, but not true for other transient
-> > mappings in the low half of the address space. Ignoring the functional concern
-> > above, for idmap'd code this would at least provide a mechanism to probe for
-> > the phyiscal address of that code (and by extension, reveal the phyiscal
-> > location of the entire kernel).
-> 
-> This again feels like a deficiency with access_ok(). Is there a better
-> primitive than access_ok(), or can we have something that gives us the
-> guarantee that whatever it says is "ok" is a userspace address?
+diff --git a/include/linux/panic.h b/include/linux/panic.h
+index e71161da69c4..8eb5897c164f 100644
+--- a/include/linux/panic.h
++++ b/include/linux/panic.h
+@@ -11,6 +11,7 @@ extern long (*panic_blink)(int state);
+ __printf(1, 2)
+ void panic(const char *fmt, ...) __noreturn __cold;
+ void nmi_panic(struct pt_regs *regs, const char *msg);
++void check_panic_on_warn(const char *origin);
+ extern void oops_enter(void);
+ extern void oops_exit(void);
+ extern bool oops_may_print(void);
+diff --git a/kernel/kcsan/report.c b/kernel/kcsan/report.c
+index 21137929d428..b88d5d5f29e4 100644
+--- a/kernel/kcsan/report.c
++++ b/kernel/kcsan/report.c
+@@ -432,8 +432,7 @@ static void print_report(enum kcsan_value_change value_change,
+ 	dump_stack_print_info(KERN_DEFAULT);
+ 	pr_err("==================================================================\n");
+ 
+-	if (panic_on_warn)
+-		panic("panic_on_warn set ...\n");
++	check_panic_on_warn("KCSAN");
+ }
+ 
+ static void release_report(unsigned long *flags, struct other_info *other_info)
+diff --git a/kernel/panic.c b/kernel/panic.c
+index 0b560312878c..bf0324941e43 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -193,6 +193,12 @@ static void panic_print_sys_info(void)
+ 		ftrace_dump(DUMP_ALL);
+ }
+ 
++void check_panic_on_warn(const char *origin)
++{
++	if (panic_on_warn)
++		panic("%s: panic_on_warn set ...\n", origin);
++}
++
+ /**
+  *	panic - halt the system
+  *	@fmt: The text string to print
+@@ -628,8 +634,7 @@ void __warn(const char *file, int line, void *caller, unsigned taint,
+ 	if (regs)
+ 		show_regs(regs);
+ 
+-	if (panic_on_warn)
+-		panic("panic_on_warn set ...\n");
++	check_panic_on_warn("kernel");
+ 
+ 	if (!regs)
+ 		dump_stack();
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 2bd5e235d078..c1458fa8beb3 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -5560,8 +5560,7 @@ static noinline void __schedule_bug(struct task_struct *prev)
+ 		pr_err("Preemption disabled at:");
+ 		print_ip_sym(KERN_ERR, preempt_disable_ip);
+ 	}
+-	if (panic_on_warn)
+-		panic("scheduling while atomic\n");
++	check_panic_on_warn("scheduling while atomic");
+ 
+ 	dump_stack();
+ 	add_taint(TAINT_WARN, LOCKDEP_STILL_OK);
+diff --git a/lib/ubsan.c b/lib/ubsan.c
+index 36bd75e33426..60c7099857a0 100644
+--- a/lib/ubsan.c
++++ b/lib/ubsan.c
+@@ -154,8 +154,7 @@ static void ubsan_epilogue(void)
+ 
+ 	current->in_ubsan--;
+ 
+-	if (panic_on_warn)
+-		panic("panic_on_warn set ...\n");
++	check_panic_on_warn("UBSAN");
+ }
+ 
+ void __ubsan_handle_divrem_overflow(void *_data, void *lhs, void *rhs)
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index bf17704b302f..887af873733b 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -117,8 +117,8 @@ static void end_report(unsigned long *flags, unsigned long addr)
+ 	pr_err("==================================================================\n");
+ 	add_taint(TAINT_BAD_PAGE, LOCKDEP_NOW_UNRELIABLE);
+ 	spin_unlock_irqrestore(&report_lock, *flags);
+-	if (panic_on_warn && !test_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags))
+-		panic("panic_on_warn set ...\n");
++	if (!test_bit(KASAN_BIT_MULTI_SHOT, &kasan_flags))
++		check_panic_on_warn("KASAN");
+ 	if (kasan_arg_fault == KASAN_ARG_FAULT_PANIC)
+ 		panic("kasan.fault=panic set ...\n");
+ 	kasan_enable_current();
+diff --git a/mm/kfence/report.c b/mm/kfence/report.c
+index 37e140e7f201..cbd9456359b9 100644
+--- a/mm/kfence/report.c
++++ b/mm/kfence/report.c
+@@ -267,8 +267,7 @@ void kfence_report_error(unsigned long address, bool is_write, struct pt_regs *r
+ 
+ 	lockdep_on();
+ 
+-	if (panic_on_warn)
+-		panic("panic_on_warn set ...\n");
++	check_panic_on_warn("KFENCE");
+ 
+ 	/* We encountered a memory safety error, taint the kernel! */
+ 	add_taint(TAINT_BAD_PAGE, LOCKDEP_STILL_OK);
+-- 
+2.39.0
 
-I don't think so, since this is contextual and temporal -- a helper can't give
-a single correct answert in all cases because it could change.
 
-In the cases we switch to another mapping, we could try to ensure that we
-enable/disable potentially unsafe watchpoints/breakpoints.
-
-Taking a look at arm64, our idmap code might actually be ok, since we usually
-mask all the DAIF bits (and the 'D' or 'Debug' bit masks HW
-breakpoints/watchpoints). For EFI we largely switch to another thread (but not
-always), so that would need some auditing.
-
-So if this only needs to work in per-task mode rather than system-wide mode, I
-reckon we can have some save/restore logic around those special cases where we
-transiently install a mapping, which would protect us.
-
-For the threads that run with special mappings in the low half, I'm not sure
-what to do. If we've ruled out system-wide monitoring I believe those would be
-protected from unprivileged users.
-
-Thanks,
-Mark.
-
-> > >  2. Q: Does causing breakpoints on user memory accesses by the kernel
-> > >     potentially impact timing in a sensitive way?
-> > >
-> > >     A: Since hardware breakpoints trigger regardless of the state of
-> > >     perf_event_attr::exclude_kernel, but are filtered in the perf
-> > >     subsystem, this possibility already exists independent of the
-> > >     proposed change.
-> >
-> > Hmm... arm64's HW breakpoints and watchpoints have HW privilege filters, so I'm
-> > not sure the above statement is generally/necessarily true.
-> 
-> Right, I can see this being a valid concern on those architectures
-> that do support HW privilege filters.
-> 
-> > > Motivation:  Data breakpoints on user addresses that also fire in the
-> > > kernel provide complete coverage to track and debug accesses, not just
-> > > in user space but also through the kernel. For example, tracking where
-> > > user space invokes syscalls with pointers to specific memory.
-> > >
-> > > Breakpoints can be used for more complex dynamic analysis, such as race
-> > > detection, memory-safety error detection, or data-flow analysis. Larger
-> > > deployment by linking such dynamic analysis into binaries in production
-> > > only becomes possible when no additional capabilities are required by
-> > > unprivileged users. To improve coverage, it should then also be possible
-> > > to enable breakpoints on user addresses that fire in the kernel with no
-> > > additional capabilities.
-> >
-> > I can understand the argument for watchpoints (modulo my concerns above), but
-> > there's no need to support instruction breakpoints, right? i.e. there's no
-> > legitimate reason for a user to want to monitor a given user address
-> > system-wide, regardless of what's running?
-> >
-> > IIUC this only makes sense for watchpoints, and only in the context of a given
-> > task.
-> 
-> Right, there shouldn't be a need for instruction breakpoints, the
-> kernel shouldn't be executing user code.
-> 
-> Thanks,
-> -- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y9ef8cKrE4RJsrO%2B%40FVFF77S0Q05N.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230130134322.600948088%40linuxfoundation.org.
