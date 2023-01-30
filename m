@@ -1,33 +1,33 @@
 Return-Path: <kasan-dev+bncBAABBLW34CPAMGQEFTIND4Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB011681BC5
-	for <lists+kasan-dev@lfdr.de>; Mon, 30 Jan 2023 21:50:54 +0100 (CET)
-Received: by mail-wm1-x33e.google.com with SMTP id l8-20020a05600c1d0800b003dc25f6bb5dsf8208062wms.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 30 Jan 2023 12:50:54 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1675111854; cv=pass;
+Received: from mail-ej1-x639.google.com (mail-ej1-x639.google.com [IPv6:2a00:1450:4864:20::639])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58104681BC6
+	for <lists+kasan-dev@lfdr.de>; Mon, 30 Jan 2023 21:50:55 +0100 (CET)
+Received: by mail-ej1-x639.google.com with SMTP id xj11-20020a170906db0b00b0077b6ecb23fcsf8198839ejb.5
+        for <lists+kasan-dev@lfdr.de>; Mon, 30 Jan 2023 12:50:55 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1675111855; cv=pass;
         d=google.com; s=arc-20160816;
-        b=bKcAa73jQfx396tUY1NF4K0W2WHzlIzhX+vofGj0NMwgbW1Pt/3srrrscYQWHm2pYl
-         grr11qPyt5iKB57ljEz7cWyvT2Y2nfkBZx9uBs73wlC0lG2sIYW/eT9R6uMxrrJFmGnQ
-         Q67uLHz6+otAyFHoABoUlbvGj5cMHToqjSPU78zvg7zmltZXWNomWZhxl5+JmtGonlzm
-         VJqTSVAz6c5X7xOpQwzlPVEZz8XJwgEsp3x0uxAJ+KFZRXFMPEWcxbqbVMrXBJsxtHZ/
-         WPnc8aRNsnkt2GUZtBxtXaxB2J9p3DgBMMUBq4eyRr31ftI9niAlzIuFYRMqHxLdjUbH
-         1Nrw==
+        b=mqUI6PHHhQ9L4YCSOF5O2aqdzj/0rYwNSMAEknnAO4QEdVDd3y4TQW+g8VjcnxPc+W
+         gIMmnAJCVLRrRmGmg8dTaxTj0EPHv54DkvUAX2aVuIyKUjx/mJPhAn7V7Xo1N7xrFMos
+         j6cwFFNXJOgW17rzHj8Hs0xaL80alzM7bPqRJlGcmbgdl9XCNxZEkR2xNAMAE9KBlvI9
+         XjrozzbcOtutmVQltEEjMkia6sq18MmptJQXxfWe/e+bB/Y5BDAZqpfdu2mJ2Yyisv4O
+         8knW5IxzwLP9WkO5pkkRFUEfqXvviCFHD0V07KVYoJHPJNBpZsxNwpUKe+hEqnQCgSJo
+         bgDw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=9Hxsdviv9W/Nu8t5vngABPe+watcvODmLotwO/8G434=;
-        b=glY+L8rZIh7OTUtCfC7y9wJaxE+vAodEVqrMnedcBlHfEgiepO/B/Tm1VP+E1KCB6h
-         wliT2s1oFyS70ZvKAFmD23ow2kAIK4bKEQJaNaW/ur8xYFZbwjXqkqWEfGHTPmFWD8LP
-         o4YbJS2jfhnSGYPSxP/D6+ZOyjZUOfGfTIaoaFxbcTcCXnmC07zCmMp//IBFQ96KK4sK
-         n6j8a2Jj4NLjgtPdLI80tuLOvTtxjVRZ4nhvSIvBPMJkSHBNwGKmu9p9zSJV8B7pYaGn
-         IoYWlcFoIzhqpuhchLxLSMknwLn81IjoowT+l+aOOkn3f6FCRqz2RZk8oc5qQRZ+NkAv
-         G8IA==
+        bh=76CaOFvEhamqns5nqAIca8RIzvrASBGzip+8vYacDxM=;
+        b=qzQnoWqs6Q++y7jBy7qTGwQN6U8wc/nGqivz0+2tospm4JifYBu14vCXTs0U6gy3o4
+         76tg4+qItTDhXZb2O0PI9vfy9z7fbY1XQDQZ8daNDM6Vbegr4I3hL9Wq5KYlKN+P6YX8
+         Z9eWcyxsxelwkoLhy3gBjJlncGdws45Knfaw+J5sp7nJ85RQCXwtmE4qS8tiZYpVXEQ2
+         TNnZt+HmpOzW3BJRYbvdF1xqxj1TmMl7ZY1mWiE8n588hbGRU44DQxFFh2MisQQFKa3k
+         Uzwln+aecVYsdXQUhNdaxerwY5vO06z7TX1aSUd6q2mWzF6cEYfXnhVKXVzgfG3vG3D5
+         96wg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=tFaC4h3n;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.127 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=H0xZx4zS;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:1004:224b::74 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9Hxsdviv9W/Nu8t5vngABPe+watcvODmLotwO/8G434=;
-        b=Wa6u1fzWMxNFSNnNU2LUBVp1wqDUcmM9X80hjDcPGXvGo2qFx4SKi+s8mIv54G7bsj
-         KSh1BfxppMf6WZPb5PhRdJ4nh9Yy9KqzhzMpeRJDah1z13mMddL4uhtcO5dRtIeAwAsP
-         gmzfp2y1YFLUInmpwFsqfSyLzpznkpxBzUulcnkMTUNX+igeiLR+zGpk2aSc9aFtyVc7
-         8B56OnZrfD2kppQR+t6vJX6w1X4u0JBUAy1d9qJzOfrrYTZ0OP/yrnPJ//bst00cI0vw
-         WFozLALFq3iT6zWoEwNC4WQ/QjmUmybv1UfAnndY5oyYUHiUJSvNfFS2P61AEhg2KeSA
-         yotg==
+        bh=76CaOFvEhamqns5nqAIca8RIzvrASBGzip+8vYacDxM=;
+        b=oNu1BkrAog7GYLbygOmy2kY6Nivwa72+rx3vy3tMvyY3dPFJ+xtClB8neCsro+VxDV
+         8UPnGkNnew+pQUjWUpwfUKRDCgwVZ+hqas2vVa19cyHKp59jaZ0qU8iYpI/GrPxl2lFC
+         JmgFxxUXQislWFLLCQGec1QtjAswRXoMNgINqpC22yda8kD1BetbE3dZydHTdcYcjEE2
+         lmqcZHSldj3lh4bexn/8hqTdvYLfBX6ZKt/mkp/saau1rfw/VJFyVNoJofiZRc2xVr7h
+         Of994a8bovriBE9rtfefKSrjjr8DTujDmc93lbDy1xkydJpm7NOI/+8xOLLMmByabcdK
+         bQOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -51,53 +51,53 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9Hxsdviv9W/Nu8t5vngABPe+watcvODmLotwO/8G434=;
-        b=HDFFbIJ98HYglTbTB7T8z9cmXs/3rM170AwT5HLsdDN+83G9RRi11udQssSIbT7BEd
-         dCF/gFywddORFkh680oKRKf3NGR2CgTIPcnPuCbQv5L3BPrGCH9v4Z0tboZft//SOx5z
-         fN6EaYEXutTplEvkcIwMJi/IF9YS9vxA+Esgjv9IowPUUVzfaQgKIKdJwbCKec6dIahR
-         rdX/k2Hf+lHp6+TaSw49UEi3P3oi+oIpSbWKotqk21qNezAcbvoov9Thq/ad7ByIjJ2i
-         AvARYSIINQgkqRvPdnUnftt4Y9HNeAzS+BSBuQebvz5Mi21OOo81pDzMRiVG16Cy3qgc
-         5MoQ==
+        bh=76CaOFvEhamqns5nqAIca8RIzvrASBGzip+8vYacDxM=;
+        b=4yVcSYeRFddqgMpy5xJFxlgV427MQyz0WrPNNTB2j++qzwNdcWg8lxDeWKMLPb3J//
+         BUpavsmGGpL0TLfYk6LCSlvi9zJBGrZ/N3Ps5xYLJYSJMEc4i7koO2hLO3j+BPdL8y4B
+         c/Oop7a2wFCkmpxJXbJikEqMqpw7WFzjhKlCSqPowy2Ne3b7sz5lhLWylL4vgU1MynOU
+         Te89oc5UtCENLs6PNJBE25BMBIVbYjvqtLAXXfEmKRd93j1rPPHcIq8vBThuuTJP2Y3T
+         RktE/OLLjJmD9QqlbijFWZd7ULErvy/iSWxY0GdzMknEr+nayDR7yszNhXL9fuL6oh50
+         pIEg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKUZw6bg3rDyy1ec7oKr3NQIaTmAEWlmIDW5b3Bo3GDu9PScbVz9
-	sEfgJg3aEGvWDR2smJSnP30=
-X-Google-Smtp-Source: AK7set9zyLqTcK5LWRlN8YU8HSYjL/CWvlHp+GmUDR35xMX8RGQTlBqcVSTVKTTj/cr8fDKjg5vZKA==
-X-Received: by 2002:a05:6000:1a52:b0:2bf:b92d:8108 with SMTP id t18-20020a0560001a5200b002bfb92d8108mr657526wry.245.1675111854377;
-        Mon, 30 Jan 2023 12:50:54 -0800 (PST)
+X-Gm-Message-State: AO0yUKWY54y0LlVFTngD0QhZvBn8OqaLEebk7dBzv+OHYGvmMP4UnGcX
+	6ea9nIpHxSZ2cfIE/Ye3wbI=
+X-Google-Smtp-Source: AK7set9pdSBB2yw3Uu4YTj1YVFd/zJWZyE4jqIi59I9ZRUSzTRb6C+3RJYYZQXMus7DXzhpzfDyVIw==
+X-Received: by 2002:a17:906:19d3:b0:885:7f56:dd6d with SMTP id h19-20020a17090619d300b008857f56dd6dmr2355965ejd.227.1675111855095;
+        Mon, 30 Jan 2023 12:50:55 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:3509:b0:3cf:72dc:df8 with SMTP id
- h9-20020a05600c350900b003cf72dc0df8ls3367412wmq.0.-pod-canary-gmail; Mon, 30
- Jan 2023 12:50:53 -0800 (PST)
-X-Received: by 2002:a05:600c:4f06:b0:3dc:5321:8457 with SMTP id l6-20020a05600c4f0600b003dc53218457mr872138wmq.5.1675111853579;
-        Mon, 30 Jan 2023 12:50:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1675111853; cv=none;
+Received: by 2002:a05:6402:84d:b0:43d:b3c4:cd21 with SMTP id
+ b13-20020a056402084d00b0043db3c4cd21ls13210901edz.2.-pod-prod-gmail; Mon, 30
+ Jan 2023 12:50:54 -0800 (PST)
+X-Received: by 2002:a05:6402:34c3:b0:4a2:5a66:f4a8 with SMTP id w3-20020a05640234c300b004a25a66f4a8mr3047875edc.19.1675111854134;
+        Mon, 30 Jan 2023 12:50:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1675111854; cv=none;
         d=google.com; s=arc-20160816;
-        b=VQRoANt9WqE2G0hfmh/k4eIDtjJ+6HK52fc0uFhhWfj0oR1Ifl7A8E0AX86BfawJVn
-         G/J9c7p2ykmDxN593AM3Mh3TNeaOr1ma1wY5KCThUDaFCpZaF+PRz5UJgk2GHJHPuDYt
-         JBZxtvhwDoJFpIhOxReFnXKW9oNAIOG7On2swsCzLuwcU6lq3iWCLl4k2319fmIROQAn
-         M6DteY2oz7A9iYxDNj1Cwl9PdML+FIhE1UdQ7Y9/3J8iZ/Mfjiq33v8vSrEu27PaF+wV
-         Eb2rg2QpTJZFJDJgqkgrmsIRadaLOHWYhQQhHYSBis8up6kbdYIvoudtL67ReTRtOgTu
-         aljQ==
+        b=nFr1WmuheNjKoC4/PVVoc3JR9eIHpD3kZsegsS9kAxwyYWxMt+0SFXxp+BYsSPX8hB
+         /W2QHzuGSFykTPCuIswDsYuTEhJducjBVhFrPikmI8NE4wEMRK70XZLft6cxmJiRspGI
+         4NpDn9cHygScSmvcRaZEXuZ5welbbyuRB4FPNybKHOfuAWuNfA15IPU8s2fTiH5EUjaT
+         aTnJ4DCTPHahNsyPEtcBxgcX61oVZdLvGQj+B+1OA2LOxi2OUa9Ac9xQIQWY8nzngd1K
+         EIMokTnRGS8mk1YgfJFXUrppHKuoctSlFKaQs+fIqs8Wrt2iGAptxl8a1sc+xNojrh3C
+         P2og==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=57d540mJERXvBQP3H394VQ1KkYAn0jgbzOXp+cklDfk=;
-        b=nEnOcDAGCxRBFVBZGHW3TVmYvx6d09a5afc1UPsmeQq94+K4DtRHaK7oryxq1IyMNP
-         zY/qajCMRwZpiidsGrnCE4szju6cKdqH8MUvObswLH/C0RKUNq90BSk4RSRszkRxhOL5
-         e13Qc0UGib4QXEqWcJBvFClMoB/kPEG2oXDIYTqbpDUobsmADsxoDX1+Qcnkrmie5WC+
-         JFEQ/vhE/mwtiq8R+D8n1pJVwaw3QPymHNxlTXlWO/n6/UiQCTUPViKORhcoRMOW5jYW
-         5CrPRG0fURLwFnZCXItMEBf8DXJ3KXx+pp8XObH9+Puahd2HHIsA2Cc4DEDrBw9fQJEX
-         wcUA==
+        bh=iXlgsoHOs+BLuKG+iZUfAdscpmKEgHjXPVNxwccGfOc=;
+        b=nMTyM5TTmfM557Hyd8xJfeTdeEo1BmyBTjuQ7nTe1e4aCqOmjrx7nUmODsK7hEErRc
+         OVCachNY1qXTkGfoyIt6yJuJyKHAym0jJzajmKPYP3wKHlojWp1LQy2+Im4N2iXkD/Ip
+         J8LjUg+cFAZYPBJDc6rRICgwfEUd1hIPUC3yQkPvuRcrUEFXjL2cm1/YZqV4UROFUkPl
+         SJuPyypPzEsStxE6jtf7bnqmXz/xETKiC5YEuPblQDpD6YLwioLtrlgm9Yz90KWDqIdV
+         aKgCgACpoZxpPEP0xTLkW+GdOac1t0doWzdoNg4c+J3SN3MxBKQhj64BuAYCE8b9xj0x
+         tbGQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=tFaC4h3n;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.127 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=H0xZx4zS;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:1004:224b::74 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-127.mta0.migadu.com (out-127.mta0.migadu.com. [91.218.175.127])
-        by gmr-mx.google.com with ESMTPS id ch17-20020a5d5d11000000b002bddc018216si619280wrb.1.2023.01.30.12.50.53
+Received: from out-116.mta0.migadu.com (out-116.mta0.migadu.com. [2001:41d0:1004:224b::74])
+        by gmr-mx.google.com with ESMTPS id ez18-20020a056402451200b0046920d68fe2si548430edb.4.2023.01.30.12.50.54
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jan 2023 12:50:53 -0800 (PST)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.127 as permitted sender) client-ip=91.218.175.127;
+        Mon, 30 Jan 2023 12:50:54 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:1004:224b::74 as permitted sender) client-ip=2001:41d0:1004:224b::74;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
 To: Marco Elver <elver@google.com>,
@@ -110,18 +110,18 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH 10/18] lib/stackdepot: rename init_stack_slab
-Date: Mon, 30 Jan 2023 21:49:34 +0100
-Message-Id: <b756e381a3526c6e59cb68c53ac0f172ddd22776.1675111415.git.andreyknvl@google.com>
+Subject: [PATCH 11/18] lib/stackdepot: rename slab variables
+Date: Mon, 30 Jan 2023 21:49:35 +0100
+Message-Id: <fc73ab8b1469d476363a918cbdfe28e1388c043a.1675111415.git.andreyknvl@google.com>
 In-Reply-To: <cover.1675111415.git.andreyknvl@google.com>
 References: <cover.1675111415.git.andreyknvl@google.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=tFaC4h3n;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.127
- as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+ header.i=@linux.dev header.s=key1 header.b=H0xZx4zS;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates
+ 2001:41d0:1004:224b::74 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -138,66 +138,150 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-Rename init_stack_slab to depot_init_slab to align the name with
-depot_alloc_stack.
+Give better names to slab-related global variables: change "depot_"
+prefix to "slab_" to point out that these variables are related to
+stack depot slabs.
+
+Also rename the slabindex field in handle_parts to align its name with
+the slab_index global variable.
 
 No functional changes.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- lib/stackdepot.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ lib/stackdepot.c | 46 +++++++++++++++++++++++-----------------------
+ 1 file changed, 23 insertions(+), 23 deletions(-)
 
 diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-index cddcf029e307..69b9316b0d4b 100644
+index 69b9316b0d4b..023f299bedf6 100644
 --- a/lib/stackdepot.c
 +++ b/lib/stackdepot.c
-@@ -220,7 +220,7 @@ int stack_depot_init(void)
- }
- EXPORT_SYMBOL_GPL(stack_depot_init);
+@@ -56,7 +56,7 @@
+ union handle_parts {
+ 	depot_stack_handle_t handle;
+ 	struct {
+-		u32 slabindex : STACK_ALLOC_INDEX_BITS;
++		u32 slab_index : STACK_ALLOC_INDEX_BITS;
+ 		u32 offset : STACK_ALLOC_OFFSET_BITS;
+ 		u32 valid : STACK_ALLOC_NULL_PROTECTION_BITS;
+ 		u32 extra : STACK_DEPOT_EXTRA_BITS;
+@@ -93,11 +93,11 @@ static unsigned int stack_hash_mask;
+ /* Array of memory regions that store stack traces. */
+ static void *stack_slabs[STACK_ALLOC_MAX_SLABS];
+ /* Currently used slab in stack_slabs. */
+-static int depot_index;
++static int slab_index;
+ /* Offset to the unused space in the currently used slab. */
+-static size_t depot_offset;
++static size_t slab_offset;
+ /* Lock that protects the variables above. */
+-static DEFINE_RAW_SPINLOCK(depot_lock);
++static DEFINE_RAW_SPINLOCK(slab_lock);
+ /* Whether the next slab is initialized. */
+ static int next_slab_inited;
  
--static bool init_stack_slab(void **prealloc)
-+static bool depot_init_slab(void **prealloc)
- {
- 	if (!*prealloc)
- 		return false;
-@@ -268,12 +268,12 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
+@@ -230,13 +230,13 @@ static bool depot_init_slab(void **prealloc)
+ 	 */
+ 	if (smp_load_acquire(&next_slab_inited))
+ 		return true;
+-	if (stack_slabs[depot_index] == NULL) {
+-		stack_slabs[depot_index] = *prealloc;
++	if (stack_slabs[slab_index] == NULL) {
++		stack_slabs[slab_index] = *prealloc;
+ 		*prealloc = NULL;
+ 	} else {
+ 		/* If this is the last depot slab, do not touch the next one. */
+-		if (depot_index + 1 < STACK_ALLOC_MAX_SLABS) {
+-			stack_slabs[depot_index + 1] = *prealloc;
++		if (slab_index + 1 < STACK_ALLOC_MAX_SLABS) {
++			stack_slabs[slab_index + 1] = *prealloc;
+ 			*prealloc = NULL;
+ 			/*
+ 			 * This smp_store_release pairs with smp_load_acquire()
+@@ -258,35 +258,35 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
+ 
+ 	required_size = ALIGN(required_size, 1 << STACK_ALLOC_ALIGN);
+ 
+-	if (unlikely(depot_offset + required_size > STACK_ALLOC_SIZE)) {
+-		if (unlikely(depot_index + 1 >= STACK_ALLOC_MAX_SLABS)) {
++	if (unlikely(slab_offset + required_size > STACK_ALLOC_SIZE)) {
++		if (unlikely(slab_index + 1 >= STACK_ALLOC_MAX_SLABS)) {
+ 			WARN_ONCE(1, "Stack depot reached limit capacity");
+ 			return NULL;
+ 		}
+-		depot_index++;
+-		depot_offset = 0;
++		slab_index++;
++		slab_offset = 0;
  		/*
  		 * smp_store_release() here pairs with smp_load_acquire() from
  		 * |next_slab_inited| in stack_depot_save() and
--		 * init_stack_slab().
-+		 * depot_init_slab().
+ 		 * depot_init_slab().
  		 */
- 		if (depot_index + 1 < STACK_ALLOC_MAX_SLABS)
+-		if (depot_index + 1 < STACK_ALLOC_MAX_SLABS)
++		if (slab_index + 1 < STACK_ALLOC_MAX_SLABS)
  			smp_store_release(&next_slab_inited, 0);
  	}
--	init_stack_slab(prealloc);
-+	depot_init_slab(prealloc);
- 	if (stack_slabs[depot_index] == NULL)
+ 	depot_init_slab(prealloc);
+-	if (stack_slabs[depot_index] == NULL)
++	if (stack_slabs[slab_index] == NULL)
  		return NULL;
  
-@@ -402,7 +402,7 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
- 	 * lock.
- 	 *
- 	 * The smp_load_acquire() here pairs with smp_store_release() to
--	 * |next_slab_inited| in depot_alloc_stack() and init_stack_slab().
-+	 * |next_slab_inited| in depot_alloc_stack() and depot_init_slab().
- 	 */
- 	if (unlikely(can_alloc && !smp_load_acquire(&next_slab_inited))) {
- 		/*
-@@ -438,7 +438,7 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
- 		 * We didn't need to store this stack trace, but let's keep
- 		 * the preallocated memory for the future.
- 		 */
--		WARN_ON(!init_stack_slab(&prealloc));
-+		WARN_ON(!depot_init_slab(&prealloc));
+-	stack = stack_slabs[depot_index] + depot_offset;
++	stack = stack_slabs[slab_index] + slab_offset;
+ 
+ 	stack->hash = hash;
+ 	stack->size = size;
+-	stack->handle.slabindex = depot_index;
+-	stack->handle.offset = depot_offset >> STACK_ALLOC_ALIGN;
++	stack->handle.slab_index = slab_index;
++	stack->handle.offset = slab_offset >> STACK_ALLOC_ALIGN;
+ 	stack->handle.valid = 1;
+ 	stack->handle.extra = 0;
+ 	memcpy(stack->entries, entries, flex_array_size(stack, entries, size));
+-	depot_offset += required_size;
++	slab_offset += required_size;
+ 
+ 	return stack;
+ }
+@@ -418,7 +418,7 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
+ 			prealloc = page_address(page);
  	}
  
- 	raw_spin_unlock_irqrestore(&depot_lock, flags);
+-	raw_spin_lock_irqsave(&depot_lock, flags);
++	raw_spin_lock_irqsave(&slab_lock, flags);
+ 
+ 	found = find_stack(*bucket, entries, nr_entries, hash);
+ 	if (!found) {
+@@ -441,7 +441,7 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
+ 		WARN_ON(!depot_init_slab(&prealloc));
+ 	}
+ 
+-	raw_spin_unlock_irqrestore(&depot_lock, flags);
++	raw_spin_unlock_irqrestore(&slab_lock, flags);
+ exit:
+ 	if (prealloc) {
+ 		/* Nobody used this memory, ok to free it. */
+@@ -497,12 +497,12 @@ unsigned int stack_depot_fetch(depot_stack_handle_t handle,
+ 	if (!handle)
+ 		return 0;
+ 
+-	if (parts.slabindex > depot_index) {
++	if (parts.slab_index > slab_index) {
+ 		WARN(1, "slab index %d out of bounds (%d) for stack id %08x\n",
+-			parts.slabindex, depot_index, handle);
++			parts.slab_index, slab_index, handle);
+ 		return 0;
+ 	}
+-	slab = stack_slabs[parts.slabindex];
++	slab = stack_slabs[parts.slab_index];
+ 	if (!slab)
+ 		return 0;
+ 	stack = slab + offset;
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/b756e381a3526c6e59cb68c53ac0f172ddd22776.1675111415.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/fc73ab8b1469d476363a918cbdfe28e1388c043a.1675111415.git.andreyknvl%40google.com.
