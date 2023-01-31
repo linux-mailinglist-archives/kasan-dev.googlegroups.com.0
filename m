@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBE5V4OPAMGQEYKBVPPY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBM574OPAMGQELUTAMAA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3b.google.com (mail-qv1-xf3b.google.com [IPv6:2607:f8b0:4864:20::f3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58AEA68283D
-	for <lists+kasan-dev@lfdr.de>; Tue, 31 Jan 2023 10:08:37 +0100 (CET)
-Received: by mail-qv1-xf3b.google.com with SMTP id i7-20020a056214020700b004ffce246a2bsf7923099qvt.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 31 Jan 2023 01:08:37 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1675156116; cv=pass;
+Received: from mail-yw1-x113d.google.com (mail-yw1-x113d.google.com [IPv6:2607:f8b0:4864:20::113d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9574B6828DC
+	for <lists+kasan-dev@lfdr.de>; Tue, 31 Jan 2023 10:30:29 +0100 (CET)
+Received: by mail-yw1-x113d.google.com with SMTP id 00721157ae682-5065604854esf161811387b3.16
+        for <lists+kasan-dev@lfdr.de>; Tue, 31 Jan 2023 01:30:29 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1675157428; cv=pass;
         d=google.com; s=arc-20160816;
-        b=eFXd4QrrGIsxwGdUOjtJGxozXg2++gB3DOrTKepqGmeYSv7ecZQuaK9meD3gaxxJyW
-         YqU0jGiM56FzKnqvBkunsnwfu5KqmwTYTzUE0lmCLOg93X1nC9o7vboymzVCiEb2rM8F
-         KayI6O0E0V8hRvZwN3Uc/x/aHTNYNb42NnFRl81VQNAUbIn+zJ2r2IQ8WuL8di/tT5Bu
-         qVKWHWS4zqLCZ5lydtypWa9JD7xBiMenei3YfVQ+d78PR27abV2dS+V0gg2suu0eDAG7
-         RY9Xk/muJ2cCmTW8gN9t3X9pYY2bDOB3PiHLe+ZTJnqHaFH6QaPQCbJcPPsZ4BEwP4/t
-         z57A==
+        b=Ap4riJ0z0wUd+6zIdtGqzDWowO6tMa4VLpOuMibE/+uN1N4zQMPYtDIwyPHvkUMf2E
+         VnLGfgur8gjyL4wCgSLHzfFPrtIy/hVC4WWmgAslD9hYUlqrvqCQAHCeTxwQD/X6THwu
+         hoaXHAUetnaEe6MDRlVMAzVOWWWujigpxRsNjT1orxT+cxjrBvJ0d8tzswBGgCD5VAN3
+         wXxpf5yOrhRVqoyHSF+B95tzX8QB3yalQU4fPj8E6xf9EP8b7gotRpK5alYkEti3gNDO
+         4zKAWPozUEb+jDlDQ9bCGtKyHsWYcYTlPR9zvwyx4w7MgyXZbPUgrm+oMf5tmRFlh2uJ
+         fw6w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=KZWOq4LUZSvghXFsiqSbBpIBbpMdDCaCDTdIQhbbOpY=;
-        b=sa9koWsdUgSbpfDiLyHToNPPaGBZ255xzZTEUy7qi7Jqc4Qbdjf5XQWpos/4wwM1Fc
-         T2N31uBnSySUEsPdlx0qOzUWZKEUCM0E+rKWmxUtTZC2JD7Mm3LYHCbPjIDFuFIkCXvV
-         i2Jtv1+bZvV/lFvtHuGh61ITkhF63Dh8xB8N3nntjNqom9BrxDSOMPTtINV+VnSee9VM
-         QwRwCAxjqq4ny6A6crXSsuthJRoKtyTHuWoZmt36/ZVbRn/aCAu++5wOn5ZwhLXd533n
-         ZWu1E9nhH9erilJOPrWCmmC0o1dT9pAUcjuE3fuUMc8WTK7D8h/Rb2442a7KyCO2LrZY
-         USug==
+        bh=7pV5SXxAO9zLIvbCf3VBtoSy5V45b6n7sc7lLUtIqMU=;
+        b=De0hcTqw/1CrfQObH8yDkPTgmef/Wn5zxeQqAkQ1My3JBnBDFeLdiefu4PS8wv/aTA
+         iuzrC1HhN+AQALgmeuaydH3qYlznoB75g0huXdzXm6GsY2bND9LimmKVC2NriieLhalD
+         HQwZkY0O3w+49WI1kf8pKdBb/E7BU63j65LtPEQjq0y0txrj7qYrxJeWMhpGdLXsuoqF
+         PwZEcjScHpz31tw0sNSqrmJR++E0PGHFqaYND/e5AmSfVfUV3TX+AUPXVpD2cFANiT8I
+         lZdwOeY34SYbG/guMQVloCuTtNoHFOH04BXoBktA63nBNxMgCbARxx9zD20H0ik4Is3R
+         0nXg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=sGuXmQgy;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::e2b as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=XRAHzGnG;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::929 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KZWOq4LUZSvghXFsiqSbBpIBbpMdDCaCDTdIQhbbOpY=;
-        b=bz3R2PzO2lpNjblwGjKCIZ4D8/m+LVp9JspA9UfsPhBfagnzVF0EDdkvYwYMOzkIcs
-         NhHTmCdaseAXnsUR4bX4y/1wrEPsstLKaYW7LmGuMnMih9rJYZZMgAb/2j055CqquNwq
-         hEyQmznp+KNo/Hzbb/KlJ79yS6nbYQ9nV8GLBTqRwpqB3NlzGdk2PwMcOp3joSGjnIfe
-         5Ll3fh5q+SFYOHTDd+Uecj+zvM4euAXEc9vanUAQZBlebHjIxPP8pZUo4m3bBT6tXXw7
-         oknAyWNbBnXn6bcu4lPJIZF9DlqPYA+YuVc8MUt5DhP5/x3OlQR8Eq4+l/SDNw92jXM8
-         +zqA==
+        bh=7pV5SXxAO9zLIvbCf3VBtoSy5V45b6n7sc7lLUtIqMU=;
+        b=Y0hXDY6F4K/nVAT3aeNXjO0EH0bwa8KwonA45TQl/TZRkbULBsP5uvtNuRbO1bGjHD
+         RGHe+efmj/i3idA1g+1BKdjXNjSpqG6ltJHfjkxdaJn7gRvApLDk8MikmersCXbbtPcV
+         M/3CUqxS8bm2aKRmdELSxJPjq1I6cGDWSHkd3uMZRRbouudRie/sMKnQ8tPlt5MQfXzV
+         hSR/vac9YEdvB8C/1xnGcG615YtF7S6tfLxbmZWS9fmBly0ElNCk4DV8gg7fpsUnOgBj
+         NQhEZRpykMFjI54GfLzYnUDKvRuDzAYZkuyP6ptgYcBiKo1Xwg8a6PDTHKWQkW8dBHrR
+         ZwsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,63 +50,62 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KZWOq4LUZSvghXFsiqSbBpIBbpMdDCaCDTdIQhbbOpY=;
-        b=EKfiSorvKmlJOPY7Lmek3l26JZNO7WWGesKJJTToMPgUuHHIm/THCuSivzuJRMEXCn
-         D6aduPHKgFBgbrfl8f5OKeHcrOxNit04U13M0TVl+dyYeU+MjC3YasIBPeCjui2JPcYj
-         OgWJoHDRDBzjRXAHzk4x1vARkdEAQswFXyrB02ftoeUIu+oFEWw6g9se1+e8XpxSubTI
-         0dnago17Zgna/wQR4ZjeFw5Ekun0YCB7l+BBptVxQxzu72iBWJSQPsd+7lk1FqX+Qb4w
-         e2QXGJk+9N3IQUCNrm7Pf9CmMOz5BpGT2t5JunlHJvVBMzYjEb55ZguJNgoVyC0OHGgb
-         uVVw==
-X-Gm-Message-State: AFqh2koQKgNxrKzAy9zZ47YR5oCSMDHCSnUz+ryZ1R7BAwctcCJ9KXv9
-	JeiW4eSB9KTO9Z5HdEGikSs=
-X-Google-Smtp-Source: AMrXdXt4RHet1JCv+CIy+OJ8wf5DbsdTup9+A6SHhdTuYIR2BFQtj1DPgz2DPlUtnSAqOP1rIwadYA==
-X-Received: by 2002:a05:622a:1cc3:b0:3b6:3087:ead with SMTP id bc3-20020a05622a1cc300b003b630870eadmr3222202qtb.287.1675156116081;
-        Tue, 31 Jan 2023 01:08:36 -0800 (PST)
+        bh=7pV5SXxAO9zLIvbCf3VBtoSy5V45b6n7sc7lLUtIqMU=;
+        b=PvrPxGOop9+wbopT1Qto0RfOJnIXau9fHAbwhvefNoWVBI7s7iUL7kKkmImqqJ3wDb
+         +x2Ktu2m2qMBVM5uyDF+bL0Cfk1c/qZqW+z6of3wGiyXSzNKR0JZJ/54uzdO5rtGbaZB
+         HPg+zBsf+7xq+DWkjwYWDQGPgAX6T5wqiCIXOcC7sRoSXNDzY00wK7d2a/oJLJwzPPtr
+         PX+b1nkI033T9NyfSuNXuMYapxPXjMYsDwGVfuIAbrWslNKw4qC6oi+Dmey/Rj3dZjsg
+         KY4bQc/YjnedzdELeIJ9tRU19zUJwmAsa++CCOglRQ87lcR26OigyrWVlkdbFglCoUhF
+         nzoA==
+X-Gm-Message-State: AO0yUKXjSEY+g+VMfZ9hcuarmXq07ASW1+xRH9uFsgr0REpFL9tUK8sJ
+	GBPOph3yyttEOoi5Ifw8Q9w=
+X-Google-Smtp-Source: AK7set/s1eZmChGztvslLc+h7/Y0Uts+qzqaoqD9Wi847APLmJXPOOXKJWQcRswKI5Prsw5c8RHAKA==
+X-Received: by 2002:a25:c04d:0:b0:832:37b2:8402 with SMTP id c74-20020a25c04d000000b0083237b28402mr292946ybf.475.1675157428124;
+        Tue, 31 Jan 2023 01:30:28 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:4813:b0:3b8:130d:4473 with SMTP id
- fb19-20020a05622a481300b003b8130d4473ls3964591qtb.10.-pod-prod-gmail; Tue, 31
- Jan 2023 01:08:35 -0800 (PST)
-X-Received: by 2002:ac8:7293:0:b0:3ab:ac3b:966f with SMTP id v19-20020ac87293000000b003abac3b966fmr72869089qto.29.1675156115512;
-        Tue, 31 Jan 2023 01:08:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1675156115; cv=none;
+Received: by 2002:a0d:c746:0:b0:519:ebb1:f8ec with SMTP id j67-20020a0dc746000000b00519ebb1f8ecls2078209ywd.5.-pod-prod-gmail;
+ Tue, 31 Jan 2023 01:30:27 -0800 (PST)
+X-Received: by 2002:a81:ed6:0:b0:4b2:7:d0cf with SMTP id 205-20020a810ed6000000b004b20007d0cfmr35917799ywo.33.1675157427508;
+        Tue, 31 Jan 2023 01:30:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1675157427; cv=none;
         d=google.com; s=arc-20160816;
-        b=OFrhZN5f9GQzCNSL/F8nA7LDiwfeQfnwr4xWU87UrGpptYoXU6TZRW0SChpNXeEsQB
-         RlGt0vYppiO+fOq7HhxZmQSVgF3F2zxjJW7cFuWQ5IWEb57rvt0zenrwWVC1qEbQPsui
-         whrtSAIOvLcLEw6hx6s9p4pZ+FOJJLuBXDG5RtJjDbBRgRJ98NpL8P7fYHWJEJD3tzCo
-         qktKRFPmRi2d8+mpNa0QJWhfIdTo00ejdnSpmVS6zYYe2PjHtMkGdUVpOG8DBMwpXGc/
-         Tr5Us/MnRLBdAG3nwWbZlDX+Il0JI60VJALE1i+3sxsfnIZCnSKzoGkMJ2z+WJon9WLz
-         GEXQ==
+        b=coguxksvm1yZZcEmdIuxshuWES/id+2b/wZV4P/rsXswk08oChOD9ZC/Iy08ACMvGb
+         rYwQtKKu5IDLdsoYU9toD6JE0SRaJ9mc1zs4i3SxY+3RJZsys6tHRmfag+K+iMLqflb1
+         Wot5HgrtEE7ru8BfDUFnrshilDLX14leXYLUdyG9S7SuXWlCJR/3NAfVKMw9pyjAZ6Np
+         h3/W+plGCYo3VUoT3vSdAvzZHiv/ZCOizmfLfjJhOISgWvBHIoM3pCZ4DA7BGEveDJvO
+         bDYRdw/MBhgakFVNeV7QCHWhT7Y+yvybnxcvC0OKrCpwF7Rx9ZSVonFnsX3G7yweYuyV
+         YnAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=ahEni0vEoNstNN4puWfSl0I1TRpDbWT6saFFu8LT9dw=;
-        b=vEtq4BvPGfirBbd3x0ycltkDXPSAvcqWhY7l35mSkwF8Dc7gB+GjCcxnZNiPO1uT1a
-         R9t1tH71R9N0YoaacGM58EDndERn8kEw3/i5ZnlpxUWFoDoD/iNzN6D9lUuTZvYuLgLp
-         lr9xZV/NHuZcekYNTDOTvTEbk5hQ53LzQA1PIYi4rEWPSiZzvVpLKrmnGLbHtAl7FEfp
-         Y40Tww9jUn/mOoebHGqmvnGHPefI9iTsVTvYHkgz7qZf/4O6ms8H9zp+6Cspn5J/PkHD
-         IFDRpxYnQfLmsU7mU0cksDzMpCpr5uQ5Hj1GL3X3PH2LvnMIUNQEqU7Mz171ocGHB23v
-         BuZw==
+        bh=Cb4ZLvwVAqQMn3anowjzMX/KwREznkusXpss39hXIZs=;
+        b=ObBn20PSv6FvmNBeTvSA2E6qmd6Lyvp+PxkTtm8vXuhz4ek4EKrZPBXu63raX3WVbw
+         RCPr6z9wcA3U0re7D8suEmvpYev7qZzJoGdhZhizsO19jrXrt0AXHp0N1HR+ZmoPfHg9
+         PXIWN90IptGtpSz4Z0swc3mLS2e/NVVvnY4Y8oZrYRzb97xua+d6RhVH1ble18gWuH5r
+         0r9298cE6YNTFbnRhzo9sAWbKevgY3Rmwec4gNVQMhNAOzLXAWMlqpCqpNkJKMRpZMGc
+         2w2wIXj6agZox99wgTdLo1pUkQU77tQPBseqMAm9F5rBxH0q5ZvmwZqlcPtARQe3p+Mc
+         0Vzg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=sGuXmQgy;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::e2b as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=XRAHzGnG;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::929 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com. [2607:f8b0:4864:20::e2b])
-        by gmr-mx.google.com with ESMTPS id ed1-20020a05620a490100b00705bf2df50bsi194802qkb.0.2023.01.31.01.08.35
+Received: from mail-ua1-x929.google.com (mail-ua1-x929.google.com. [2607:f8b0:4864:20::929])
+        by gmr-mx.google.com with ESMTPS id bc29-20020a05690c001d00b004fa49c05aa9si2618917ywb.0.2023.01.31.01.30.27
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Jan 2023 01:08:35 -0800 (PST)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::e2b as permitted sender) client-ip=2607:f8b0:4864:20::e2b;
-Received: by mail-vs1-xe2b.google.com with SMTP id e9so7530668vsj.3
-        for <kasan-dev@googlegroups.com>; Tue, 31 Jan 2023 01:08:35 -0800 (PST)
-X-Received: by 2002:a67:c31e:0:b0:3ed:1e92:a87f with SMTP id
- r30-20020a67c31e000000b003ed1e92a87fmr2260239vsj.1.1675156115140; Tue, 31 Jan
- 2023 01:08:35 -0800 (PST)
+        Tue, 31 Jan 2023 01:30:27 -0800 (PST)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::929 as permitted sender) client-ip=2607:f8b0:4864:20::929;
+Received: by mail-ua1-x929.google.com with SMTP id g12so2813827uae.6
+        for <kasan-dev@googlegroups.com>; Tue, 31 Jan 2023 01:30:27 -0800 (PST)
+X-Received: by 2002:a9f:372c:0:b0:5ff:91d2:ea36 with SMTP id
+ z41-20020a9f372c000000b005ff91d2ea36mr6350452uad.43.1675157427073; Tue, 31
+ Jan 2023 01:30:27 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1675111415.git.andreyknvl@google.com> <9fbb4d2bf9b2676a29b120980b5ffbda8e2304ee.1675111415.git.andreyknvl@google.com>
 In-Reply-To: <9fbb4d2bf9b2676a29b120980b5ffbda8e2304ee.1675111415.git.andreyknvl@google.com>
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 31 Jan 2023 10:07:58 +0100
-Message-ID: <CAG_fn=U_WraAkVi9sdTNuk9sjQ8gEHWafsjcYEMYq2G8KX4HTg@mail.gmail.com>
+Date: Tue, 31 Jan 2023 10:29:51 +0100
+Message-ID: <CAG_fn=VO0iO4+EuwDR0bKP-4om9_Afir3fY6CExKGRNad+uPLA@mail.gmail.com>
 Subject: Re: [PATCH 01/18] lib/stackdepot: fix setting next_slab_inited in init_stack_slab
 To: andrey.konovalov@linux.dev
 Cc: Marco Elver <elver@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
@@ -116,8 +115,8 @@ Cc: Marco Elver <elver@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=sGuXmQgy;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::e2b as
+ header.i=@google.com header.s=20210112 header.b=XRAHzGnG;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::929 as
  permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
@@ -149,9 +148,32 @@ On Mon, Jan 30, 2023 at 9:49 PM <andrey.konovalov@linux.dev> wrote:
 >
 > Fixes: 305e519ce48e ("lib/stackdepot.c: fix global out-of-bounds in stack_slabs")
 > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-Reviewed-by: Alexander Potapenko <glider@google.com>
+
+Wait, I think there's a problem here.
+
+> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+> index 79e894cf8406..0eed9bbcf23e 100644
+> --- a/lib/stackdepot.c
+> +++ b/lib/stackdepot.c
+> @@ -105,12 +105,13 @@ static bool init_stack_slab(void **prealloc)
+>                 if (depot_index + 1 < STACK_ALLOC_MAX_SLABS) {
+If we get to this branch, but the condition is false, this means that:
+ - next_slab_inited == 0
+ - depot_index == STACK_ALLOC_MAX_SLABS+1
+ - stack_slabs[depot_index] != NULL.
+
+So stack_slabs[] is at full capacity, but upon leaving
+init_stack_slab() we'll always keep next_slab_inited==0.
+
+Now every time __stack_depot_save() is called for a known stack trace,
+it will preallocate 1<<STACK_ALLOC_ORDER pages (because
+next_slab_inited==0), then find the stack trace id in the hash, then
+pass the preallocated pages to init_stack_slab(), which will not
+change the value of next_slab_inited.
+Then the preallocated pages will be freed, and next time
+__stack_depot_save() is called they'll be allocated again.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG_fn%3DU_WraAkVi9sdTNuk9sjQ8gEHWafsjcYEMYq2G8KX4HTg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG_fn%3DVO0iO4%2BEuwDR0bKP-4om9_Afir3fY6CExKGRNad%2BuPLA%40mail.gmail.com.
