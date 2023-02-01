@@ -1,132 +1,135 @@
-Return-Path: <kasan-dev+bncBCMIZB7QWENRBNXN5CPAMGQE5LGVTKA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBBVC5GPAMGQE4CWJRWA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10A7A68632F
-	for <lists+kasan-dev@lfdr.de>; Wed,  1 Feb 2023 10:53:59 +0100 (CET)
-Received: by mail-wm1-x33d.google.com with SMTP id j37-20020a05600c1c2500b003deaf780ab6sf596343wms.4
-        for <lists+kasan-dev@lfdr.de>; Wed, 01 Feb 2023 01:53:59 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1675245238; cv=pass;
+Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B9F7686588
+	for <lists+kasan-dev@lfdr.de>; Wed,  1 Feb 2023 12:46:15 +0100 (CET)
+Received: by mail-wm1-x337.google.com with SMTP id r15-20020a05600c35cf00b003d9a14517b2sf942650wmq.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 01 Feb 2023 03:46:15 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1675251974; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SyMZwn93QEnN6a/03K1mYn6D6p7rzxbODymv6JzTARpjqQQC0iLp9YvGWj0LUPFPaw
-         GSsnkcSnikBmiUg9zElqYLUoX1CZrmc38HmprQVzBq08E1h8ouz0+bdiDHCMOisuR/n7
-         dviYD3hWjM+U7qYRIBn11nn/XPuoHatPY+6uZKjZq0JlcsfnFJcTkWlvNGbQ/AMuVZff
-         Yw4cq6uNXRdWbUMfEdfVLLLhr0Ril7Md6LmMWyfStV7is5jEQ3iD+47fZFktDqK2Xssx
-         DWP6eXq2DX8j7wWnR4PhQ5Mm4VnuKO3zkNwGCrWnNfpIxkObwSJZq5VnF0NbGsp/0+RX
-         d/TQ==
+        b=Hs+bvno8ZzmtKOvPKwYj3G+9z/PBc21vAKcArO/keYzaf53YmpmtLmHON8+0FBhKFY
+         AO3UprQ2jhFw/GvT7ywLU9ZnAPkLRzk3vBU+OB1ecY1VQ45Jioj/GEtz6Hfn2tUlmYgQ
+         YY+F5qw81s2Hno/dX3pjb5l70eoomHg1bjFZ0NHHfHggXAVZMr3yU659+sJI1YLIamUL
+         MibcHFR40DFYPxwuD8BHATvIp+mxKBe4DBHPpa0YbxyrwLvRK1R8Tjx08AFhkSuZCOyU
+         V2BD4qRY1WDXFn9pMQbUe0kMlIBantZswuED5UT40z5m18XCMuJ1+p9EJG3NrDQvgnWy
+         5PUQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=uKWJYD7mn+1M+p2mUUO8qc5nVJNIovOIUtoIdUusv9Q=;
-        b=pCSqEHpBa99XH/3ABKHGyUNUTTBsdEGIO1e5LpkC0DPXFt7SCOaO8dVTsEMB9MbGPP
-         qeQzoaBkNHNQf/wEltRCphrY4Hgz39yRWQAGmnlo9kQ0BC43Q2SPjXcryvcMiF7k8i2l
-         jGRYKXwyMf5VuIy0tS9HxoiqIKn5q0HMPz2ZDrIXGZZ/XRc9GczjKsxId/xG104934M0
-         O13lTrW7IT4VCZAuHtsy5TXtZdms1JbCD7Lxrz8kFunlsh7G98f4wveJ/u6AwuxjmW/v
-         H523JDj0Pp1kPKiQTKvI8sXRNiqL5cFaTSR+ArXUEBUh64638t4obj0WPHJ3p/zd9HHV
-         +eVQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=djcHy3dTfJB5suByUwNefwCsJPsmkc+SJwvw7Y82/Lc=;
+        b=08PZkRhMOsDiA+FnNlSJabYPyCej0LJEclTLoiWosytwxATmZfEwphDp1J8NggA0Z1
+         Okz5z1NmOQqWo9nXd9OaX/pdIbQmGmcHCPlO1QWXDzze+PbHeaylZjgnEW151YTeRoEQ
+         MMELhuyf7HXseXOimvS6P7ZbzxYlAADNwa8u21VSoiMXH8Yh86UJGpvYX2iydgNYeXxn
+         jqjnkSf/ryR3SrI/gi4QeoNK4QKoayZ4+nBT8PFVoSb1IN/umOycLjdTMdMJgAR9KK61
+         QCl6bZiq98i5kBLXViCIaXzenpjSWY42zJvLV9EFvBHnS2gGrOZl7oij46iMVh3sANhU
+         SG1A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=kGuhkOUG;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22f as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uKWJYD7mn+1M+p2mUUO8qc5nVJNIovOIUtoIdUusv9Q=;
-        b=ifJSGsJ+I5t0xZrmagIJAZI448mJSE1/PNJlMcOaVg2nrUsHYOUeCitmXcDpW9trwU
-         uTdo+heBncJTMf7UCClKlaU9/EJYAu8U5c5V4rOYbgY6HC+P7qhgrWwLmemXZxonVxwp
-         RoSsTUQYH+XLwbBCakKGR8TUsRztbKKXYxc9OlPn6Eb+VxMOqJ2c2ZoRrlfkYd7Oo4NA
-         0FzQbwL87OjCrPOggoWjvfp7VCpWcMO2oB30+vrED+RHMA3eBmu2AIpxJM65shr6QC9G
-         LCJ3scvcoq8sSZ2XZfQvevQghB5Zx0ENmODSN4mJIhmDK8ouboCB01LNXW+htWJ6eFoA
-         WfLA==
+        bh=djcHy3dTfJB5suByUwNefwCsJPsmkc+SJwvw7Y82/Lc=;
+        b=AfzolF4F3pd1Pr/Wwc3CP9yghA/I4KEM71SEmTOh2Lo/gEQIeThInTgfPpIeCql/Mj
+         zcf4E70EzpeUQ/+qwcw5W3otN4S8JGM8e18OpwUf+22i13PkWwESxpj3mYnNnnOkO313
+         Ckz/MrASawOFeY7PLKQhym2WHB+3Pzo4dqR+mfc0BDCYcFHOyybY8e70gPnMyJ4GbBWP
+         UFmVMF9rBkYnNnWNRehXu9GuoxJkEjhEZfSiUB6uarxsU9Z+1D0ph2T94PuWykY+fDPi
+         8Aiis0xcnvkadSeagkJeMLD27w0Cz1CTH9rFf+TXvgkv6fiiYI8LfQGP5TcAFAi6Kif4
+         UUZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uKWJYD7mn+1M+p2mUUO8qc5nVJNIovOIUtoIdUusv9Q=;
-        b=lzRwP58GaM3D5HPppzBuNQvaeEPu8vN+EHxfPXycz1dmXrxdqHhwmgLn3vzfgTMEi2
-         NeUZ28N0peRvM2I3Q6BcpIgVnFsCMPMrUj56IhSCBpqdm2FK04JvsV+lHmtUj4TmDQgU
-         kSD+/lRG90glcebd9SRq82V1Ho0YA0lEcrARSe2gbPlooTZqBPQuD5Nk20EezIGR0sg7
-         YTqov9HUcH1+fPQD0r4e/mJmQFeTP4uyxgk5xqWuqVBKenc1cj9FM0ucUa6cwowBM3/T
-         z5vs3YDF4C2g92SszI2bTuby+ZNiEm/cCxGA7PwcbLwGYFr2o6P3soHWEd737EzT4wB2
-         PLcg==
-X-Gm-Message-State: AO0yUKXpQv8/+58nkSBlvpr108/9opdfQsUB0iMlMmlipZxVBpiZ/NF6
-	Sz1WuB/QXGW5Fgf04vzkzCs=
-X-Google-Smtp-Source: AK7set/ZEieugxtkrqzlWBC1KSQg9Z6QoLx9BMQ+BycrvFprhRKwWdDTxdXeBW0bvfhOX/+X91RcHw==
-X-Received: by 2002:a05:600c:4ecb:b0:3dc:45a7:ffe4 with SMTP id g11-20020a05600c4ecb00b003dc45a7ffe4mr73826wmq.178.1675245238418;
-        Wed, 01 Feb 2023 01:53:58 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=djcHy3dTfJB5suByUwNefwCsJPsmkc+SJwvw7Y82/Lc=;
+        b=Ket8lYe+hno6H53awxvrJvbKPVTVVu4eixLzgM3pfo5DVqiHo6xaxegJxxpWMF3uXI
+         qP323grO9xagTXR/i+s+sBmCWAH7uIzkr7yPP/NMvpdDDhBa9Qb0HiwYkFGV5AZPcTZK
+         5uFL22JMGzmjEeaKRfQg8TFGt9rrVPXJo5WbJzcHOaVfQoChv3X9xR0qjx5UZ8H0G2zC
+         0AqdEuWtfPuamR8T3aPrbTmPwSMyw4GAt0x/1jomSCXe7Uq/qo2S/cHtv6aGTEGAWAhp
+         mIyXocRF3/QclPSpdY4NIVbZEvsq3DSNUic5YBPFlxDpSTAAZQ1/XMbpiRwRxtbkWxsM
+         OlgA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AO0yUKXWyO2b9LEdgxIxU/4uvA5b415U/odQjeNeIQc4HOeDKssBdIOs
+	A0LvdBypokNoYNBFdaLnVls=
+X-Google-Smtp-Source: AK7set/PVsc+OqMNNMVCgQe+f/0A99zEJfCPJhp14YJtLGLGJsrXQ/DgRXO+ekfEcyWKs6RRytY5mA==
+X-Received: by 2002:a05:600c:4f51:b0:3db:1838:3ee6 with SMTP id m17-20020a05600c4f5100b003db18383ee6mr131000wmq.168.1675251974551;
+        Wed, 01 Feb 2023 03:46:14 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:1d04:b0:3dc:4f57:78be with SMTP id
- l4-20020a05600c1d0400b003dc4f5778bels700467wms.2.-pod-control-gmail; Wed, 01
- Feb 2023 01:53:57 -0800 (PST)
-X-Received: by 2002:a05:600c:245:b0:3db:887:8c8c with SMTP id 5-20020a05600c024500b003db08878c8cmr1327721wmj.27.1675245237224;
-        Wed, 01 Feb 2023 01:53:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1675245237; cv=none;
+Received: by 2002:a05:600c:3caa:b0:3cf:72dc:df8 with SMTP id
+ bg42-20020a05600c3caa00b003cf72dc0df8ls896811wmb.0.-pod-canary-gmail; Wed, 01
+ Feb 2023 03:46:13 -0800 (PST)
+X-Received: by 2002:a05:600c:310b:b0:3dc:5bdc:a9e9 with SMTP id g11-20020a05600c310b00b003dc5bdca9e9mr1771255wmo.33.1675251973076;
+        Wed, 01 Feb 2023 03:46:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1675251973; cv=none;
         d=google.com; s=arc-20160816;
-        b=thjaesUXrDZHlB65+R5y9G3gVJ8p8/v4+m//sIB3tRF5Sfn3RtXQ+4tCYdVO2Z/V2o
-         N88GIF/ua7Ny+TN9RlRMqIFIM3oRfghxCvjXq1HMAr3vbXLhG8Tck7ylxG5ujM7GsNGh
-         N4LKpWoD2chxT9krlw09G7zMuVze1vbvhpYlhNLrBw8NXlAPV3KFgoa8BTQ5F4e/teuK
-         9QUZc70mdkRzHz/6XBe15+Pbu/KY1Ar1/n02Ehy/+yyvGZnuVzCXZkauvNgfuuVh7kDx
-         8PlFHihC8gGukA5dBkAPrvvGOUXWwSH3Po7aBirCa7QmeUDbbl7SOIvxNqf6w84TJSQ3
-         DpAA==
+        b=YClCRJQZUT3RYiPM+VNfLu/MW805XU1WPfyN7VWNEhg6ZKVYOaDiFSkF6u8ypSYBSm
+         /z51kbdF/FCqoL+rsKn7XE8j3Msb/wUPkEWwRxAud/iFUbRw+arYX4JdbXvwx+fi15ui
+         r+LPb64W6Rq51KBxPpF+C62QJDhwE0YnUK9phSR6hwvJYQsCHjlazlS0A2y2+2ILOL6l
+         bq2ZfgxAeALoE6vKFoiPlhajOhtjBQjz7T3ajcw5dYHpIsccBhkn0f/dF/vAPuGpGhhq
+         2KVAzDYnVrzd3fL7vfruZP8cDIUd+SrDMN+aAA3JRdYYdD6LtvbJdqekdmt2Pej2C8ES
+         WyDg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=hXBLBJgX4EaRecabGDlsbhKYn/5vHTxOlvqGwGoHBPg=;
-        b=PExvxzmyB7QQhrxKEtMeT/WKtBzTgzcQvirP8C7xCA9ZD8OSY+LhuYkRPzXfCX0W1X
-         3vpGV3I4RfJSe2UPAriB/zo3kC0mtuFY8L1QrV1RAqXtaMQ3azh6im/Z+1R163Zh4+jD
-         +mABLDwn/nGH/Wb/YqsdB8gqdHdsyPO6qNxS4LMLLPkyHV9D8H++nQPchF2wH9EHkQr0
-         7WA4sRH1B/QgL3iGgC41gu6G5l1tZ8A9UJBqIjY5WIg804OrlSCBeWIZQp4TbbmL/FRF
-         MIXYckO4gs4cPowFqbxD35feYYCNK+ut3pQgTYQCgVK04nghs2BRfLUNqlDk+pU5d1r5
-         6v2w==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=rqWgXxqqwp4Ql9UNC6Tqgtq44UdEHBaHnj3RXN3rx5g=;
+        b=TDcJcc476IbzPEDAqi+rpqpR0oD39pGAXdzasGZfFt941Hu9ArU9NQNplbOF3XGgls
+         wx+iMOTbHRftG3Md694Of5skN4SmHxV0xIg2d5xF2vL7/iJrdl0rVTC7f2p6RhJjhL6z
+         +5/gkprtu5jVmoHZuI9+f2V9Hjvf90EmQW1OgAqonjETKhVCwnRgQqzxKJjTIIQ/oA4v
+         LlGOdAYftUzsysAJDhPB9AScXoeyBcjrAV5nT4x+Zm2VJ/m1PSVuDk2mJPM4FRrwV632
+         qafnz3O28R7uz4NWJuPz2Q7m2lCiDtCKDOJ5mW7srJr3H35e7fe2oZHD1SwwXaESdsv2
+         LiAw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=kGuhkOUG;
-       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22f as permitted sender) smtp.mailfrom=dvyukov@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com. [2a00:1450:4864:20::22f])
-        by gmr-mx.google.com with ESMTPS id l4-20020a7bc444000000b003da0515e72csi62304wmi.2.2023.02.01.01.53.57
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Feb 2023 01:53:57 -0800 (PST)
-Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22f as permitted sender) client-ip=2a00:1450:4864:20::22f;
-Received: by mail-lj1-x22f.google.com with SMTP id d8so6445026ljq.9
-        for <kasan-dev@googlegroups.com>; Wed, 01 Feb 2023 01:53:57 -0800 (PST)
-X-Received: by 2002:a05:651c:231b:b0:290:7402:78a1 with SMTP id
- bi27-20020a05651c231b00b00290740278a1mr233501ljb.183.1675245236576; Wed, 01
- Feb 2023 01:53:56 -0800 (PST)
-MIME-Version: 1.0
-References: <20230127162409.2505312-1-elver@google.com> <Y9QUi7oU3nbdIV1J@FVFF77S0Q05N>
- <CANpmjNNGCf_NqS96iB+YLU1M+JSFy2tRRbuLfarkUchfesk2=A@mail.gmail.com>
- <Y9ef8cKrE4RJsrO+@FVFF77S0Q05N> <CANpmjNOEG2KPN+NaF37E-d8tbAExKvjVMAXUORC10iG=Bmk=vA@mail.gmail.com>
-In-Reply-To: <CANpmjNOEG2KPN+NaF37E-d8tbAExKvjVMAXUORC10iG=Bmk=vA@mail.gmail.com>
-From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 1 Feb 2023 10:53:44 +0100
-Message-ID: <CACT4Y+Yriv_JYXm9N1YAMh+YuiT57irnF-vyCqxnTTux-2Ffwg@mail.gmail.com>
-Subject: Re: [PATCH v2] perf: Allow restricted kernel breakpoints on user addresses
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id n23-20020a7bc5d7000000b003db0d2c3d6esi76294wmk.0.2023.02.01.03.46.12
+        for <kasan-dev@googlegroups.com>;
+        Wed, 01 Feb 2023 03:46:13 -0800 (PST)
+Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 586DE4B3;
+	Wed,  1 Feb 2023 03:46:54 -0800 (PST)
+Received: from FVFF77S0Q05N (unknown [10.57.12.10])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0F0963F882;
+	Wed,  1 Feb 2023 03:46:09 -0800 (PST)
+Date: Wed, 1 Feb 2023 11:46:07 +0000
+From: Mark Rutland <mark.rutland@arm.com>
 To: Marco Elver <elver@google.com>
-Cc: Mark Rutland <mark.rutland@arm.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Jiri Olsa <jolsa@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, linux-perf-users@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	Jann Horn <jannh@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
+Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Namhyung Kim <namhyung@kernel.org>,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
+	Jann Horn <jannh@google.com>, Thomas Gleixner <tglx@linutronix.de>,
 	Andrey Konovalov <andreyknvl@gmail.com>
+Subject: Re: [PATCH v2] perf: Allow restricted kernel breakpoints on user
+ addresses
+Message-ID: <Y9pQ/939u9O6teX0@FVFF77S0Q05N>
+References: <20230127162409.2505312-1-elver@google.com>
+ <Y9QUi7oU3nbdIV1J@FVFF77S0Q05N>
+ <CANpmjNNGCf_NqS96iB+YLU1M+JSFy2tRRbuLfarkUchfesk2=A@mail.gmail.com>
+ <Y9ef8cKrE4RJsrO+@FVFF77S0Q05N>
+ <CANpmjNOEG2KPN+NaF37E-d8tbAExKvjVMAXUORC10iG=Bmk=vA@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: dvyukov@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=kGuhkOUG;       spf=pass
- (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::22f
- as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Dmitry Vyukov <dvyukov@google.com>
-Reply-To: Dmitry Vyukov <dvyukov@google.com>
+Content-Disposition: inline
+In-Reply-To: <CANpmjNOEG2KPN+NaF37E-d8tbAExKvjVMAXUORC10iG=Bmk=vA@mail.gmail.com>
+X-Original-Sender: mark.rutland@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,8 +142,7 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 1 Feb 2023 at 10:34, Marco Elver <elver@google.com> wrote:
->
+On Wed, Feb 01, 2023 at 10:33:40AM +0100, Marco Elver wrote:
 > On Mon, 30 Jan 2023 at 11:46, Mark Rutland <mark.rutland@arm.com> wrote:
 > [...]
 > > > This again feels like a deficiency with access_ok(). Is there a better
@@ -149,30 +151,68 @@ On Wed, 1 Feb 2023 at 10:34, Marco Elver <elver@google.com> wrote:
 > >
 > > I don't think so, since this is contextual and temporal -- a helper can't give
 > > a single correct answert in all cases because it could change.
->
-> That's fair, but unfortunate. Just curious: would
-> copy_from_user_nofault() reliably fail if it tries to access one of
-> those mappings but where access_ok() said "ok"?
+ 
+One thing I just realised to note -- these mappings are installed in a distinct
+set of page tables that the kernel transiently switches to within the context
+of a task, they're not inside the same page tables as userspace associated with
+that task. So you can have distinct mappings at the same VA at different times.
 
-I also wonder if these special mappings are ever accessible in a user
-task context?
-If yes, can a racing process_vm_readv/writev mess with these special mappings?
+> That's fair, but unfortunate.
 
-We could use copy_from_user() to probe that the watchpoint address is
-legit. But I think the memory can be potentially PROT_NONE but still
-legit, so copy_from_user() won't work for these corner cases.
+Yup. :)
+
+> Just curious: would copy_from_user_nofault() reliably fail if it tries to
+> access one of those mappings but where access_ok() said "ok"?
+
+Generally, no. Most architectures don't have special instructions for accessing
+user memory specifically and are reliant on people not making uaccesses while
+such mappings are installed. That's generally enforced by mutual exclusion;
+userspace can't issue any new syscalls within the context of that task since it
+isn't executing while the special mappings are installed, and usually IRQs
+would be disabled, preventing IPIs and such. There *might* be a latent issue
+with interruptible EFI runtime services.
+
+On arm64, yes. Our uacccess routines including copy_from_user_nofault() use out
+`LDTR` and `STTR` instructions, which use the same permissions as accesses from
+userspace, and we create the special mappings without user access permissions,
+so any uaccess to those will fault. There are some special cases (e.g. the
+futex code), but those are never invoked in a context where the special
+mappings are in place.
 
 > Though that would probably restrict us to only creating watchpoints
 > for addresses that are actually mapped in the task.
->
+
+As above, since this is contextual and temporal, that wouldn't actually protect
+us.
+
+Consider a user task with something mapped at 0xCAFEF00D:
+
+* access_ok(0xCAFEF00D, 1) is true
+
+* copy_from_user_nofault(dst, 0xCAFEF00D, 1) succeeds without faulting.
+
+... so we would be able to install a watchpoint.
+
+However, after this the task might *transiently* use a different mapping (e.g.
+the idmap), which could have an unrelated mapping at 0xCAFEF00D (for which
+copy_from_user_nofault() would fault).
+
 > > In the cases we switch to another mapping, we could try to ensure that we
 > > enable/disable potentially unsafe watchpoints/breakpoints.
->
+> 
 > That seems it'd be too hard to reason that it's 100% safe, everywhere,
 > on every arch. I'm still convinced we can prohibit creation of such
 > watchpoints in the first place, but need something other than
 > access_ok().
->
+
+As above, I don't think that can be an ahead-of-time check. If we want the
+watchpoints to fire on kernel-mode accesses to user memory, we need a temporal
+boundary around when userspace mappings are transiently switched with other
+mappings.
+
+While that's arch specific, there are relatively few places that do that
+switch.
+
 > > Taking a look at arm64, our idmap code might actually be ok, since we usually
 > > mask all the DAIF bits (and the 'D' or 'Debug' bit masks HW
 > > breakpoints/watchpoints). For EFI we largely switch to another thread (but not
@@ -181,20 +221,38 @@ legit, so copy_from_user() won't work for these corner cases.
 > > So if this only needs to work in per-task mode rather than system-wide mode, I
 > > reckon we can have some save/restore logic around those special cases where we
 > > transiently install a mapping, which would protect us.
->
+> 
 > It should only work in per-task mode.
->
+
+Ok, that makes the problem much simpler; with that in mind arm64 might already
+be safe today.
+
+That rules out a user task trying to monitor a kthread, which is the common
+case (e.g. most EFI RTS calls or use of the idmap for idle).
+
+There are a few rare cases where we do this within the context of a user task.
+In those cases we're already doing a bunch of work to transiently switch page
+tables and other state, so we could add some hooks to transiently disable
+watchpoints and call those at the same time.
+
 > > For the threads that run with special mappings in the low half, I'm not sure
 > > what to do. If we've ruled out system-wide monitoring I believe those would be
 > > protected from unprivileged users.
->
+> 
 > Can the task actually access those special mappings, or is it only
 > accessible by the kernel?
->
-> Thanks,
-> -- Marco
+
+They're only accessible by the kernel, and are not accessible by a uaccess or
+actual userspace access.
+
+As above, they're in a distinct set of page tables (so not accessible from
+other threads within the same process), and they're mapped with kernel
+permissions, so the uaccess routines should fault.
+
+Thanks,
+Mark.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2BYriv_JYXm9N1YAMh%2BYuiT57irnF-vyCqxnTTux-2Ffwg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Y9pQ/939u9O6teX0%40FVFF77S0Q05N.
