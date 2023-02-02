@@ -1,147 +1,127 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBP7H52PAMGQETYBT4CA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXY7I6V6AMRB34D56PAMGQEDXZS6OY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x939.google.com (mail-ua1-x939.google.com [IPv6:2607:f8b0:4864:20::939])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFF3687E25
-	for <lists+kasan-dev@lfdr.de>; Thu,  2 Feb 2023 13:59:44 +0100 (CET)
-Received: by mail-ua1-x939.google.com with SMTP id x29-20020ab05add000000b0050f5111c4f0sf816407uae.5
-        for <lists+kasan-dev@lfdr.de>; Thu, 02 Feb 2023 04:59:44 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1675342783; cv=pass;
+Received: from mail-wr1-x440.google.com (mail-wr1-x440.google.com [IPv6:2a00:1450:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4E43687F74
+	for <lists+kasan-dev@lfdr.de>; Thu,  2 Feb 2023 15:00:15 +0100 (CET)
+Received: by mail-wr1-x440.google.com with SMTP id i9-20020a0560001ac900b002bfda39265asf235029wry.13
+        for <lists+kasan-dev@lfdr.de>; Thu, 02 Feb 2023 06:00:15 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1675346415; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hSCHzsnEEXkUN/I27vrAg2PUF25YdnE2VDuLkPg0QoWrOm+LLPouhslMzeLKo5pZeu
-         5m71XI/FVnyWv1r/diXL9ATgTwajkvQ0t0z+NOntU4M5YcVW9SCJCjwEZUMxuwwcC4Mu
-         azOonLG0QRg65cNN2LJekCYcAhoESfuxu3V4fGjm9pj+aHgjV82LAGqy3UqiUtKnKcCs
-         CNMJs/9qSJQ/jm0W3Tlz1gw7nf1lFuzXGMutWouh92b6+ZhcPDgF8b3nzQgEPBs6I/HP
-         A1JQHw+YGtq0E+ovi0ELFMq/kIo+qNtdqb2E/vfzmkr4CVKErcDJtR8KJd97PqevhRlb
-         wH4A==
+        b=bMPboEEs7vzD3Nn9kpbr0uWFEdgvSwqeLloeHsmDm1vAf3mBlQ4Jc8ZfBdm9oyuVG0
+         K9/FHd1P16ErX4HD2VFpMgEAWxQdroFPtDoUTK43ZLtuBhrilSBUcjp2szGv0/Jrxc9W
+         nlnrXXPfCEmsjAbn3TFhAlreo9KaKfOMxAEnFYyGEFu6PP8GYEsTKWAZjO008AOT62ot
+         IX/mQZpMDRHLVvsErHwVXyLtRhJ7ykCa+HLeNvgE4uPywXgv33aljlUltOy4QhBxaA9r
+         kZHJdHHoX+kp3r1POUx85KwrWzENcrrDrkEXiuF0PTr4OZYfd6Kgzk+JQPvKh0Cc9mZa
+         PgpQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=leP9po+V/3K3NXgZjjDhZe5x1qNmAnfJ1/BT2DvA65o=;
-        b=nT2NRRhllR4ZqshB6falFgEIcNyx2t5juOyAWtOscPVXXXp+ZvVOMtWL7WXjCmIy7h
-         H5YQmKhRpICyyhuglI/+7A5O+a5p17HXXookrphknai2yxqPoDl2TOCTtx++h8HJe43w
-         P0fuSbjoI49KcqO3wTOS2N7KLBWz9a4A03ucKSDNniCaSm5dHh7D8KMl/XvpDYWea9hf
-         i6Qvi9ofHyj6racNSMtWnJ4TzDjLIk7b80GLHqAqrvXv8gnfHNCMu5/w7urFhySjDl7m
-         m+8j59sSJOpVA1WsK8JuvKym1BScFZ/uChH3IYGUpIC/UnwwnCzrlsMHjfmnUIhUkh//
-         s3ZA==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=AJFwYaSEdcQI1c5qj2l2GydePIGeMaVWsHSlb9r3vbI=;
+        b=wYUpW0wLOFbiYl+IRmhOO+2KGXUsgGMczkFDJrfjf934UlxdOA4VblnqOXigQQIEvZ
+         yeOcgDz2FaAgv/39OMV0Ib5/MtDDm+nZBqhKh9s83sMnVt7ypHP87L41Wx3tUEv1YtNk
+         wK95mukwvgxSX6+SIrzu0YrF8T75nB8tpooiL02Totuak5XtNvuONKmviZQNBt+YsXU9
+         q6338B/SkuLkrDND4c+ciSSnb8JVseXKZxVMmVQR0XywHe9oBA9Z9d47AzshrFIuKYlO
+         skrDkWhkysybnA78/x537u48ogN/nlUallMD7xo8eZNYm9wpsXBcwp759Dq7n8s/T6Uu
+         jG6w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=UXfyf0kk;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::435 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@rivosinc-com.20210112.gappssmtp.com header.s=20210112 header.b=aX1rwy2Y;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::432 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=leP9po+V/3K3NXgZjjDhZe5x1qNmAnfJ1/BT2DvA65o=;
-        b=bQLenFpfOSn695eTAr2cR8k5+856R6swe+sbd/895QHIzAv3iTj2KRIKqgHXB3b/Hn
-         oxoDDj8IpwqGuMHJPKLk08WiHsWTEyNS+2MqCMO6WUXDiJDdYuFoYyh/0oUuD30gv+rI
-         c5fJB4ndNTBfmSd3B7OsCwvb2WtUaYQyAUG3tZn05ZU7nDxzBMMeVH7JQbXyP6EIwifS
-         /qRBklDOtfpzbHTvmEmg8C0DLPBLrrx3le+560DoucLCmjoCGbA4onWwxDwE69IS5FmQ
-         JaJwGMMAI/C5Xo4RuK52oOOiYqBh0VtZN0X8C4gg0OZXZ6aoBrnjeEDnJ5vZor0cRkl6
-         QIvA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=leP9po+V/3K3NXgZjjDhZe5x1qNmAnfJ1/BT2DvA65o=;
-        b=KVEsXJ40Vis7iDg6GUNoe+2VrNsjCuLjUKfkk6QSriM/WwwaqWXRrv5/dHzabIaMJO
-         NzHUchZ2jYhuCyqB4ZfwLzQjY9T4W4GSIGCA5FpgFD3J0vPW/fkaVXkgwRLd9pzgDsXs
-         Y1ylmzAvV+C62W0MloPOdzLadRkw8RMKSgFFd7JbPG/5YHZunbvYYClkhliuWhE0k8QN
-         7RV1yaLmOcDeVDagWvO11F4u5sy9tZXyaQHNSusjYeT1jvlXm4H9ZiYcBqShbCuF4Q2B
-         4FxzZGSowWYXAg2qpAJ0jbAAVrtssmedHn+ZtlzAYNP6TDnWL0Ii1/8oK5zzRZ3VdyNS
-         cY5Q==
+         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AJFwYaSEdcQI1c5qj2l2GydePIGeMaVWsHSlb9r3vbI=;
+        b=baurAZoEpYa8fSAHIjgwLMmisyRM3Y2z4X6Mf7OnEQz26FubkwDeVTjfgGyqos2UJQ
+         wS+WI8lJ2DOMgeKXp5jEync+Q9981siPLwZ6ktWlahW8J7sxenUND8gQ5htWAhU2eDb9
+         wxZo0WIfhA5mnknfURa5oLur7+XMqY1trmw/yNV5zCa9LAUI2llxXaoWmpMZOgUkNmXE
+         gPcum17geE8ir42csxJr43mNfCaUflA1cqzW9IfLebcbcxTj19uuqDx+aJwxwssp4wh8
+         X4Mx8rvKXLHJ7+z85mIBEaxOiMrExYVS+rWnrwkmyMF6ewkRj3LetDJJhKR/cxitALSw
+         289Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=leP9po+V/3K3NXgZjjDhZe5x1qNmAnfJ1/BT2DvA65o=;
-        b=j+UbKqXcG/lLIWFUgGNPB4sTCXHhuqldI7zYFt4ZKMjyaJqXakE0x6sf048s8ZxdTj
-         dXSm4WLwrJ3HbY1HZBTFqCzItUDDpNYx8YOJu8wwPmtVn6pDBIGR5ekR3h8ul3M4hEn+
-         ZYWkarqFnk7pVRHwGGq6L0odhMZrSHtFmtsNZb3MaJDH3uxgSkz7Ak6T2lLljVgvKIE+
-         asG8OWjPlrG2Q/RDBHAhjZUVeoNMmsoxuiVmbTIYc7Gg/rGC3RSL2cB7RQtOxPi7IJd6
-         KJhM29svtTkOJYp1ymh0jcRviVOU8yPpmHox3W07JmS9t35NrhB1nTudRUlW28CjJgo1
-         QWlg==
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AJFwYaSEdcQI1c5qj2l2GydePIGeMaVWsHSlb9r3vbI=;
+        b=Xun3epB2VsS0qFu+z/45iMTZLDLxrB91eV2qRfZ440DK4Qk1BVHGlU+MLVLv7hP2nm
+         UgOkQjH/FzTn/g+5+7+/ukg41USIU1bsBBRj96xYUsHST+vkzRAlB6ZDVgqtzyA5EHX8
+         d/r+guavI0XVWwPtMbW2KgB56wbk1ORG1uNGWh90xeIt8KLvXNiP4FB/aCNEErag2Esa
+         HzEiEG5+wJfs1NZBKQqDJ43oo5xdOm9gpDGsebctBO3ALfFAXNxrfwze0PTGgO7eoymh
+         5CLHuCNRzdq61e+keGqSUWQILRPkmQcfQ8gJW9XVNINomX6iXsp3O+3G8+R+8R0vV8ip
+         rUoQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKWYK2nT6EP1UHfeBkKffD+AXuKpeEp+yV/Q6yT1nWwj1TAx85Jy
-	ZMwQ0TKS72AKyGj/v7PvIXo=
-X-Google-Smtp-Source: AK7set8qEc52+8fImnfnEPi6SEad4QR9Q3RX5tIfP5YR7+ooLcF88D0hIHTtiymj9HkJfELw/iOARw==
-X-Received: by 2002:a9f:36cf:0:b0:5ff:91d2:ea36 with SMTP id p73-20020a9f36cf000000b005ff91d2ea36mr933733uap.43.1675342783558;
-        Thu, 02 Feb 2023 04:59:43 -0800 (PST)
+X-Gm-Message-State: AO0yUKXGoSY/6nE45jKhWVo2vdWGAzInylOF/afGYsvkIvq0wKIAgqAK
+	9UzWFiHQ3d5/1iOsN8HKi9Q=
+X-Google-Smtp-Source: AK7set+c8DIatskhGeHATYur6fuuwiMNJxoiquxZ10xGKmdy5im118En18FbBNp78amgbFMVMbxDcA==
+X-Received: by 2002:a05:600c:1d8f:b0:3dd:1c47:1e3e with SMTP id p15-20020a05600c1d8f00b003dd1c471e3emr260062wms.64.1675346415424;
+        Thu, 02 Feb 2023 06:00:15 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6102:1609:b0:3b0:9714:6c49 with SMTP id
- cu9-20020a056102160900b003b097146c49ls551995vsb.3.-pod-prod-gmail; Thu, 02
- Feb 2023 04:59:42 -0800 (PST)
-X-Received: by 2002:a05:6102:e07:b0:401:d7ce:7541 with SMTP id o7-20020a0561020e0700b00401d7ce7541mr2261774vst.5.1675342782888;
-        Thu, 02 Feb 2023 04:59:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1675342782; cv=none;
+Received: by 2002:a05:600c:1f1a:b0:3cd:d7d0:14b6 with SMTP id
+ bd26-20020a05600c1f1a00b003cdd7d014b6ls1074487wmb.1.-pod-control-gmail; Thu,
+ 02 Feb 2023 06:00:14 -0800 (PST)
+X-Received: by 2002:a1c:7906:0:b0:3d3:49db:9b25 with SMTP id l6-20020a1c7906000000b003d349db9b25mr5985643wme.26.1675346414147;
+        Thu, 02 Feb 2023 06:00:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1675346414; cv=none;
         d=google.com; s=arc-20160816;
-        b=BzPDJZPiFRkR5kAySCygqaykdnQcB/qiEuG0JYhMKHHPmRDhmivEwuAGQB006qRVWL
-         sQ3tVG8JdGxvoC/fY8T/bscg23tv77UiJVO06VAmQ3OhsoNMHSnkHU8GdtTq21oSG3Qr
-         qLWYv7vH/YkDdMkNDxN3N1gCeyzi9Nza9sVhT/+DgQhzK43bUNMYyIax7vttOkaTANTy
-         bX0JG5PxjqjgUPsEGF2kRP88VmdFSnVh6Gztr6OARyYbg3cxcEE/6k2/GL0cHbsz+iVL
-         akT2VitGOh4UXO2E7m9LFTAC5KHWWB7bU2ahs38VOwoQIWF9IDDsbnsp6IyjIZzc16KG
-         jiXg==
+        b=b7vpo4OfeGS36SJKPz7Qigfk51fQtsdP0XzJdEtAHzzscpeXXj1aU9fEMXgFUVWTMH
+         DlSrQhpoIsUg2QtbCyjmKhgTPz3JZdfoXaVrROnOxU3/9urtO5ZCEnBDWnMNqf3WklXB
+         0d1SyX5dY+mPv7czja80mCQbMRASFLDMjRkqqVjrx7UKd9ntmZEPV2jBepG4lvnWPa/X
+         6kYoPiA3on9/RJ/2FwCI4opoWdmL81++JXqjO1jsIrzuj5sfoYHKs/1rsmoRxOAki8Dj
+         isBunLBC1Gsl3BZlf1ZdI8VRJxv5GCoFVSJRFHA90A4KqKNrUWYyECLsJz2EePYy1ivY
+         Bskw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=loinkwxJErq9bon+a0JV3BFJ9k0H/+4mhcuNPmPw26M=;
-        b=c6criEqBEAcR/kiRP6K/2bZ0l/2Qtxtg6GvjRbP05g5AWZE84aYjAMoiAqRnTJ4dVr
-         1cokSLDwyErMTsK6RGlQIP0I+Lhjr0fCitzkAuzIZ5/6H4DfHJyka6JKC9eIE7iAp0HV
-         LtHbk09GFCR8HJOV9SO9OWoyQoqeHf0FMABEWLO6gkfBVXKLDckz0sOuueGMR4SWV47l
-         t6TNMhKtKyUVEligokPamG3Zdy20EfItERKjwGJczb8aGdrz5wJa155bM52l84gnK42T
-         f/MOzSvXDUk/0G/yvYNWqMcAvR9XW3XRrQIfSoqiQv1HYhFEaYj+Dob2K23ncr+PvC1S
-         8e7g==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=eMycSpSWqkLdJLuPU1kAliRBYKe3vnTJI8phLtEWdDI=;
+        b=bUKCpAE1O0NtFU3jGURCFoFfEJ6j9BHeAoCpUPN5/49QSM3K1tA8XA5OCVJW+XznvQ
+         I22lMCAhZBOhAMAO/nvArgDU+nuqmaXmbOhyQMtxujIyN8Wkd6K6rOxmKu3YrTuSgrE2
+         0rCrIzy9FT+gXGD8vKKkkNFYbcQJcBjQXWA/15SJ7+Q40C5yre1I4aMd+ysr65K3rTpT
+         D7V2ukwIj8Ruuc9vHdZeE/pV/Y5vib0XY7d97JsiSaclLeTuKO6ccKs5GqhFxbdj1UAV
+         Kz1bHG5fJ/coa2kw59Px6dncB/iP39j5XSc0EmEgnAAkLIYoay2ztyJ1Er/Id19tL4Cz
+         J1nQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=UXfyf0kk;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::435 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com. [2607:f8b0:4864:20::435])
-        by gmr-mx.google.com with ESMTPS id y21-20020a05610230b500b003f046825252si1339325vsd.1.2023.02.02.04.59.42
+       dkim=pass header.i=@rivosinc-com.20210112.gappssmtp.com header.s=20210112 header.b=aX1rwy2Y;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::432 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com. [2a00:1450:4864:20::432])
+        by gmr-mx.google.com with ESMTPS id l4-20020a7bc444000000b003da0515e72csi293597wmi.2.2023.02.02.06.00.14
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Feb 2023 04:59:42 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::435 as permitted sender) client-ip=2607:f8b0:4864:20::435;
-Received: by mail-pf1-x435.google.com with SMTP id cr11so1127569pfb.1
-        for <kasan-dev@googlegroups.com>; Thu, 02 Feb 2023 04:59:42 -0800 (PST)
-X-Received: by 2002:a62:6581:0:b0:593:c739:da73 with SMTP id
- z123-20020a626581000000b00593c739da73mr1304490pfb.10.1675342781846; Thu, 02
- Feb 2023 04:59:41 -0800 (PST)
+        Thu, 02 Feb 2023 06:00:14 -0800 (PST)
+Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::432 as permitted sender) client-ip=2a00:1450:4864:20::432;
+Received: by mail-wr1-x432.google.com with SMTP id h16so1769399wrz.12
+        for <kasan-dev@googlegroups.com>; Thu, 02 Feb 2023 06:00:14 -0800 (PST)
+X-Received: by 2002:adf:ffcb:0:b0:2bf:e95c:9918 with SMTP id
+ x11-20020adfffcb000000b002bfe95c9918mr211434wrs.330.1675346413910; Thu, 02
+ Feb 2023 06:00:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20220610152141.2148929-1-catalin.marinas@arm.com> <66cc7277b0e9778ba33e8b22a4a51c19a50fe6f0.camel@mediatek.com>
-In-Reply-To: <66cc7277b0e9778ba33e8b22a4a51c19a50fe6f0.camel@mediatek.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Thu, 2 Feb 2023 13:59:29 +0100
-Message-ID: <CA+fCnZfu7SdVWr9O=NxOptuBg0eHqE526ijA4PAQgiAEYfux6A@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] kasan: Fix ordering between MTE tag colouring and page->flags
-To: =?UTF-8?B?S3Vhbi1ZaW5nIExlZSAo5p2O5Yag56mOKQ==?= <Kuan-Ying.Lee@mediatek.com>
-Cc: "ryabinin.a.a@gmail.com" <ryabinin.a.a@gmail.com>, 
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
-	=?UTF-8?B?UXVuLXdlaSBMaW4gKOael+e+pOW0tCk=?= <Qun-wei.Lin@mediatek.com>, 
-	=?UTF-8?B?R3Vhbmd5ZSBZYW5nICjmnajlhYnkuJop?= <guangye.yang@mediatek.com>, 
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "pcc@google.com" <pcc@google.com>, 
-	"vincenzo.frascino@arm.com" <vincenzo.frascino@arm.com>, "will@kernel.org" <will@kernel.org>
+References: <20230125082333.1577572-3-alexghiti@rivosinc.com> <202302010819.RAsjyv6V-lkp@intel.com>
+In-Reply-To: <202302010819.RAsjyv6V-lkp@intel.com>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Thu, 2 Feb 2023 15:00:02 +0100
+Message-ID: <CAHVXubht443DmB6qZMJ=Hyxz=xi65Dkd=PuN_2i=uf783z0B=Q@mail.gmail.com>
+Subject: Re: [PATCH v3 2/6] riscv: Rework kasan population functions
+To: kernel test robot <lkp@intel.com>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Ard Biesheuvel <ardb@kernel.org>, Conor Dooley <conor@kernel.org>, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	linux-efi@vger.kernel.org, oe-kbuild-all@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: andreyknvl@gmail.com
+X-Original-Sender: alexghiti@rivosinc.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=UXfyf0kk;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::435
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@rivosinc-com.20210112.gappssmtp.com header.s=20210112
+ header.b=aX1rwy2Y;       spf=pass (google.com: domain of alexghiti@rivosinc.com
+ designates 2a00:1450:4864:20::432 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,195 +134,89 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Feb 2, 2023 at 6:25 AM Kuan-Ying Lee (=E6=9D=8E=E5=86=A0=E7=A9=8E)
-<Kuan-Ying.Lee@mediatek.com> wrote:
+On Wed, Feb 1, 2023 at 1:16 AM kernel test robot <lkp@intel.com> wrote:
 >
-> On Fri, 2022-06-10 at 16:21 +0100, Catalin Marinas wrote:
-> > Hi,
-> >
-> > That's a second attempt on fixing the race race between setting the
-> > allocation (in-memory) tags in a page and the corresponding logical
-> > tag
-> > in page->flags. Initial version here:
-> >
-> >
-> https://lore.kernel.org/r/20220517180945.756303-1-catalin.marinas@arm.com
-> >
-> > This new series does not introduce any new GFP flags but instead
-> > always
-> > skips unpoisoning of the user pages (we already skip the poisoning on
-> > free). Any unpoisoned page will have the page->flags tag reset.
-> >
-> > For the background:
-> >
-> > On a system with MTE and KASAN_HW_TAGS enabled, when a page is
-> > allocated
-> > kasan_unpoison_pages() sets a random tag and saves it in page->flags
-> > so
-> > that page_to_virt() re-creates the correct tagged pointer. We need to
-> > ensure that the in-memory tags are visible before setting the
-> > page->flags:
-> >
-> > P0 (__kasan_unpoison_range):    P1 (access via virt_to_page):
-> >   Wtags=3Dx                         Rflags=3Dx
-> >     |                               |
-> >     | DMB                           | address dependency
-> >     V                               V
-> >   Wflags=3Dx                        Rtags=3Dx
-> >
-> > The first patch changes the order of page unpoisoning with the tag
-> > storing in page->flags. page_kasan_tag_set() has the right barriers
-> > through try_cmpxchg().
-> >
-> > If a page is mapped in user-space with PROT_MTE, the architecture
-> > code
-> > will set the allocation tag to 0 and a subsequent page_to_virt()
-> > dereference will fault. We currently try to fix this by resetting the
-> > tag in page->flags so that it is 0xff (match-all, not faulting).
-> > However, setting the tags and flags can race with another CPU reading
-> > the flags (page_to_virt()) and barriers can't help, e.g.:
-> >
-> > P0 (mte_sync_page_tags):        P1 (memcpy from virt_to_page):
-> >                                   Rflags!=3D0xff
-> >   Wflags=3D0xff
-> >   DMB (doesn't help)
-> >   Wtags=3D0
-> >                                   Rtags=3D0   // fault
-> >
-> > Since clearing the flags in the arch code doesn't work, to do this at
-> > page allocation time when __GFP_SKIP_KASAN_UNPOISON is passed.
-> >
-> > Thanks.
-> >
-> > Catalin Marinas (4):
-> >   mm: kasan: Ensure the tags are visible before the tag in page-
-> > >flags
-> >   mm: kasan: Skip unpoisoning of user pages
-> >   mm: kasan: Skip page unpoisoning only if __GFP_SKIP_KASAN_UNPOISON
-> >   arm64: kasan: Revert "arm64: mte: reset the page tag in page-
-> > >flags"
-> >
-> >  arch/arm64/kernel/hibernate.c |  5 -----
-> >  arch/arm64/kernel/mte.c       |  9 ---------
-> >  arch/arm64/mm/copypage.c      |  9 ---------
-> >  arch/arm64/mm/fault.c         |  1 -
-> >  arch/arm64/mm/mteswap.c       |  9 ---------
-> >  include/linux/gfp.h           |  2 +-
-> >  mm/kasan/common.c             |  3 ++-
-> >  mm/page_alloc.c               | 19 ++++++++++---------
-> >  8 files changed, 13 insertions(+), 44 deletions(-)
-> >
+> Hi Alexandre,
 >
-> Hi kasan maintainers,
+> Thank you for the patch! Perhaps something to improve:
 >
-> We hit the following issue on the android-6.1 devices with MTE and HW
-> tag kasan enabled.
+> [auto build test WARNING on linus/master]
+> [also build test WARNING on v6.2-rc6 next-20230131]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
 >
-> I observe that the anon flag doesn't have skip_kasan_poison and
-> skip_kasan_unpoison flag and kasantag is weird.
+> url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Split-early-and-final-KASAN-population-functions/20230125-163113
+> patch link:    https://lore.kernel.org/r/20230125082333.1577572-3-alexghiti%40rivosinc.com
+> patch subject: [PATCH v3 2/6] riscv: Rework kasan population functions
+> config: riscv-randconfig-r006-20230201 (https://download.01.org/0day-ci/archive/20230201/202302010819.RAsjyv6V-lkp@intel.com/config)
+> compiler: riscv64-linux-gcc (GCC) 12.1.0
+> reproduce (this is a W=1 build):
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # https://github.com/intel-lab-lkp/linux/commit/c18726e8d14edbd59ec19854b4eb06d83fff716f
+>         git remote add linux-review https://github.com/intel-lab-lkp/linux
+>         git fetch --no-tags linux-review Alexandre-Ghiti/riscv-Split-early-and-final-KASAN-population-functions/20230125-163113
+>         git checkout c18726e8d14edbd59ec19854b4eb06d83fff716f
+>         # save the config file
+>         mkdir build_dir && cp config build_dir/.config
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv olddefconfig
+>         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-12.1.0 make.cross W=1 O=build_dir ARCH=riscv SHELL=/bin/bash arch/riscv/mm/
 >
-> AFAIK, kasantag of anon flag needs to be 0x0.
+> If you fix the issue, kindly add following tag where applicable
+> | Reported-by: kernel test robot <lkp@intel.com>
 >
-> [   71.953938] [T1403598] FramePolicy:
-> [name:report&]=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D
-> [   71.955305] [T1403598] FramePolicy: [name:report&]BUG: KASAN:
-> invalid-access in copy_page+0x10/0xd0
-> [   71.956476] [T1403598] FramePolicy: [name:report&]Read at addr
-> f0ffff81332a8000 by task FramePolicy/3598
-> [   71.957673] [T1403598] FramePolicy: [name:report_hw_tags&]Pointer
-> tag: [f0], memory tag: [ff]
-> [   71.958746] [T1403598] FramePolicy: [name:report&]
-> [   71.959354] [T1403598] FramePolicy: CPU: 4 PID: 3598 Comm:
-> FramePolicy Tainted: G S      W  OE      6.1.0-mainline-android14-0-
-> ga8a53f83b9e4 #1
-> [   71.960978] [T1403598] FramePolicy: Hardware name: MT6985(ENG) (DT)
-> [   71.961767] [T1403598] FramePolicy: Call trace:
-> [   71.962338] [T1403598] FramePolicy:  dump_backtrace+0x108/0x158
-> [   71.963097] [T1403598] FramePolicy:  show_stack+0x20/0x48
-> [   71.963782] [T1403598] FramePolicy:  dump_stack_lvl+0x6c/0x88
-> [   71.964512] [T1403598] FramePolicy:  print_report+0x2cc/0xa64
-> [   71.965263] [T1403598] FramePolicy:  kasan_report+0xb8/0x138
-> [   71.965986] [T1403598] FramePolicy:  __do_kernel_fault+0xd4/0x248
-> [   71.966782] [T1403598] FramePolicy:  do_bad_area+0x38/0xe8
-> [   71.967484] [T1403598] FramePolicy:  do_tag_check_fault+0x24/0x38
-> [   71.968261] [T1403598] FramePolicy:  do_mem_abort+0x48/0xb0
-> [   71.968973] [T1403598] FramePolicy:  el1_abort+0x44/0x68
-> [   71.969646] [T1403598] FramePolicy:  el1h_64_sync_handler+0x68/0xb8
-> [   71.970440] [T1403598] FramePolicy:  el1h_64_sync+0x68/0x6c
-> [   71.971146] [T1403598] FramePolicy:  copy_page+0x10/0xd0
-> [   71.971824] [T1403598] FramePolicy:  copy_user_highpage+0x20/0x40
-> [   71.972603] [T1403598] FramePolicy:  wp_page_copy+0xd0/0x9f8
-> [   71.973344] [T1403598] FramePolicy:  do_wp_page+0x374/0x3b0
-> [   71.974056] [T1403598] FramePolicy:  handle_mm_fault+0x3ec/0x119c
-> [   71.974833] [T1403598] FramePolicy:  do_page_fault+0x344/0x4ac
-> [   71.975583] [T1403598] FramePolicy:  do_mem_abort+0x48/0xb0
-> [   71.976294] [T1403598] FramePolicy:  el0_da+0x4c/0xe0
-> [   71.976934] [T1403598] FramePolicy:  el0t_64_sync_handler+0xd4/0xfc
-> [   71.977725] [T1403598] FramePolicy:  el0t_64_sync+0x1a0/0x1a4
-> [   71.978451] [T1403598] FramePolicy: [name:report&]
-> [   71.979057] [T1403598] FramePolicy: [name:report&]The buggy address
-> belongs to the physical page:
-> [   71.980173] [T1403598] FramePolicy:
-> [name:debug&]page:fffffffe04ccaa00 refcount:14 mapcount:13
-> mapping:0000000000000000 index:0x7884c74 pfn:0x1732a8
-> [   71.981849] [T1403598] FramePolicy:
-> [name:debug&]memcg:faffff80c0241000
-> [   71.982680] [T1403598] FramePolicy: [name:debug&]anon flags:
-> 0x43c000000048003e(referenced|uptodate|dirty|lru|active|swapbacked|arch
-> _2|zone=3D1|kasantag=3D0xf)
-> [   71.984446] [T1403598] FramePolicy: raw: 43c000000048003e
-> fffffffe04b99648 fffffffe04cca308 f2ffff8103390831
-> [   71.985684] [T1403598] FramePolicy: raw: 0000000007884c74
-> 0000000000000000 0000000e0000000c faffff80c0241000
-> [   71.986919] [T1403598] FramePolicy: [name:debug&]page dumped
-> because: kasan: bad access detected
-> [   71.988022] [T1403598] FramePolicy: [name:report&]
-> [   71.988624] [T1403598] FramePolicy: [name:report&]Memory state
-> around the buggy address:
-> [   71.989641] [T1403598] FramePolicy:  ffffff81332a7e00: fe fe fe fe
-> fe fe fe fe fe fe fe fe fe fe fe fe
-> [   71.990811] [T1403598] FramePolicy:  ffffff81332a7f00: fe fe fe fe
-> fe fe fe fe fe fe fe fe fe fe fe fe
-> [   71.991982] [T1403598] FramePolicy: >ffffff81332a8000: ff ff ff ff
-> f0 f0 fc fc fc fc fc fc fc f0 f0 f3
-> [   71.993149] [T1403598] FramePolicy:
-> [name:report&]                   ^
-> [   71.993972] [T1403598] FramePolicy:  ffffff81332a8100: f3 f3 f3 f3
-> f3 f3 f0 f0 f8 f8 f8 f8 f8 f8 f8 f0
-> [   71.995141] [T1403598] FramePolicy:  ffffff81332a8200: f0 fb fb fb
-> fb fb fb fb f0 f0 fe fe fe fe fe fe
-> [   71.996332] [T1403598] FramePolicy:
-> [name:report&]=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D
+> All warnings (new ones prefixed by >>):
 >
-> Originally, I suspect that some userspace pages have been migrated so
-> the page->flags will be lost and page->flags is re-generated by
-> alloc_pages().
+> >> arch/riscv/mm/kasan_init.c:442:6: warning: no previous prototype for 'create_tmp_mapping' [-Wmissing-prototypes]
+>      442 | void create_tmp_mapping(void)
+>          |      ^~~~~~~~~~~~~~~~~~
+>
+>
+> vim +/create_tmp_mapping +442 arch/riscv/mm/kasan_init.c
+>
+>    441
+>  > 442  void create_tmp_mapping(void)
+>    443  {
+>    444          void *ptr;
+>    445          p4d_t *base_p4d;
+>    446
+>    447          /*
+>    448           * We need to clean the early mapping: this is hard to achieve "in-place",
+>    449           * so install a temporary mapping like arm64 and x86 do.
+>    450           */
+>    451          memcpy(tmp_pg_dir, swapper_pg_dir, sizeof(pgd_t) * PTRS_PER_PGD);
+>    452
+>    453          /* Copy the last p4d since it is shared with the kernel mapping. */
+>    454          if (pgtable_l5_enabled) {
+>    455                  ptr = (p4d_t *)pgd_page_vaddr(*pgd_offset_k(KASAN_SHADOW_END));
+>    456                  memcpy(tmp_p4d, ptr, sizeof(p4d_t) * PTRS_PER_P4D);
+>    457                  set_pgd(&tmp_pg_dir[pgd_index(KASAN_SHADOW_END)],
+>    458                          pfn_pgd(PFN_DOWN(__pa(tmp_p4d)), PAGE_TABLE));
+>    459                  base_p4d = tmp_p4d;
+>    460          } else {
+>    461                  base_p4d = (p4d_t *)tmp_pg_dir;
+>    462          }
+>    463
+>    464          /* Copy the last pud since it is shared with the kernel mapping. */
+>    465          if (pgtable_l4_enabled) {
+>    466                  ptr = (pud_t *)p4d_page_vaddr(*(base_p4d + p4d_index(KASAN_SHADOW_END)));
+>    467                  memcpy(tmp_pud, ptr, sizeof(pud_t) * PTRS_PER_PUD);
+>    468                  set_p4d(&base_p4d[p4d_index(KASAN_SHADOW_END)],
+>    469                          pfn_p4d(PFN_DOWN(__pa(tmp_pud)), PAGE_TABLE));
+>    470          }
+>    471  }
+>    472
 
-Hi Kuan-Ying,
+Ok, I have to declare this function static to quiet this warning,
+there will be a v4 soon then.
 
-There recently was a similar crash due to incorrectly implemented sampling.
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests
 
-Do you have the following patch in your tree?
-
-https://android.googlesource.com/kernel/common/+/9f7f5a25f335e6e1484695da91=
-80281a728db7e2
-
-If not, please sync your 6.1 tree with the Android common kernel.
-Hopefully this will fix the issue.
-
-Thanks!
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CA%2BfCnZfu7SdVWr9O%3DNxOptuBg0eHqE526ijA4PAQgiAEYfux6A%40mail.gm=
-ail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAHVXubht443DmB6qZMJ%3DHyxz%3Dxi65Dkd%3DPuN_2i%3Duf783z0B%3DQ%40mail.gmail.com.
