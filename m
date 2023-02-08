@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBCXO5E6EQQFBB6VAR6PQMGQE6DG2Q4I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCXO5E6EQQFBBANBR6PQMGQEJIXPKSA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x37.google.com (mail-oa1-x37.google.com [IPv6:2001:4860:4864:20::37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E6C68F36A
-	for <lists+kasan-dev@lfdr.de>; Wed,  8 Feb 2023 17:40:27 +0100 (CET)
-Received: by mail-oa1-x37.google.com with SMTP id 586e51a60fabf-16a255a89cbsf6236908fac.16
-        for <lists+kasan-dev@lfdr.de>; Wed, 08 Feb 2023 08:40:27 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1675874426; cv=pass;
+Received: from mail-pl1-x63e.google.com (mail-pl1-x63e.google.com [IPv6:2607:f8b0:4864:20::63e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFBE68F370
+	for <lists+kasan-dev@lfdr.de>; Wed,  8 Feb 2023 17:40:35 +0100 (CET)
+Received: by mail-pl1-x63e.google.com with SMTP id t12-20020a170902b20c00b00192e3d10c5bsf10086323plr.4
+        for <lists+kasan-dev@lfdr.de>; Wed, 08 Feb 2023 08:40:35 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1675874434; cv=pass;
         d=google.com; s=arc-20160816;
-        b=iz/FENyV+SGWhmRiD1awlZdNAYblm+/JxBgvG4Pprlx73635HIrHTwUyQYLRTrbQTQ
-         fY1ssnCI75+zqCAIcU5PArgw8Oxj37TL/bvs/p/bLpSy9CdCxWVFyKwJrlEeHMqv9krV
-         bGeUbmq1sUESTimRIpX/565ROClpBJwVIWNtXd44AFqjV3xkbSKSeayeBnimGLDFMjZI
-         3LgJixP6OsEWGak5a4CWdZBOBZALbm6ZhP8KOg7bkcaNtFnZWTNopCvn+OO7R7NZ2sAL
-         fJyicRr8bdeEFyJ3tKsWPnaCybdmTpD9Wp4P9vlBr3ZRsBQheMRLQCskLuDqUnp4PeWw
-         UW6w==
+        b=rEZ9Sxk+/4n6X8XeuxJgBwAaahZs9rALh1PjpM3ZjKRzllz+ZFhdvNROuYrKYmkB0G
+         wF5B0HryhpcCl3nsc7wzp00+dR5EvVe71HcIgSQFHG3hsJt+CM3r/klEFMeFSe7k3/Km
+         iDtmIJwtCp3VcBhKWmhDzdlbLF/dOXczBR6azNxXFV2Ijepm1kFXEkp44U/BaS5zXBqz
+         yliLnXAIS4uI5jRdbfEHu8euhzn0VHo5vXDD6PvW2bl2LDzFE0GESurK6LQeL+/+y1Jb
+         TFQ+XhA65yMz9SJAr2Dkgs3RIMcUAjB93OfHy+rBR3A0Nu9P1Ig1JN35OI3qMN8XptaH
+         okHQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=SdwSy9yc8BbaBHT3ca88ydbhJQH67mAn7fWfV1VXZog=;
-        b=Ie5Kz7FciegTJt0j2jBOlWLjaZf+f0KJQQgiud5/6+QYg/HkfOc+LwjX0FNJMYicIJ
-         MtM3t6X4lu+azqFJvSklJtyd1LLfKOpV6ipXO1qxxC16gQqMT9E60pA395Y5ZL5v1TDe
-         zfOtI5qzVk2sIWh9qB9IOunpHwDxDSKU7DiXFeDIWyZdSgKuAGwoBnHMdMcYq1z1V1iz
-         58zFt49gj7gPuYz0QKwZh1Ohpzbt9SUkF5lJ1oXWcL7aLkYvXD6X1aP9Dq7gxWB6Rp3P
-         vaf1s52cA3FgufEOk6jQEoOyBQ6sP/IECvT5YwxID4xWZNf2T463lzP0DmMF6SQUaapz
-         JVMg==
+        bh=eoqLgtBusJXg9uQAbWI5956MZpUIuTaRPMWFVRHrIe4=;
+        b=KGyEjNKN9uO0kv/I08a/CQiIas17SI52ty2V3IHo6DZeJDjVRafiBGn388Y4R9bRY/
+         Y+t+bVALNrpw21xNiAjzWVpO6ZYld4q5yXaHtIk+SQv//FxEPSLnnXJQh4JLJjkc3dRp
+         +noe9ByMSXaLeZiqMBvD9eMSmw72HRHgEM3cjs+K88BBF1uiZiobjxLJkkrR6G3Kd4Ig
+         /ukWFRiXgq19YzcGqtKk1zjAxv+mSnyEe+KO5yuCG7ke+LKUibH1uW8xGPur4OqhRmqh
+         3apvHS0Pz7k1MQI0yAszr+jdG4n7TABS8EmtQk7Vqx464DX+VHJtcLt0Bw7oY9LfJURO
+         DU5g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=q1mVQCj5;
-       spf=pass (google.com: domain of arnd@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=arnd@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=ewkkWjBP;
+       spf=pass (google.com: domain of arnd@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=arnd@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SdwSy9yc8BbaBHT3ca88ydbhJQH67mAn7fWfV1VXZog=;
-        b=f/DH3hc078nIiBp2+ylX0tVbrGHoEpihvUJDd+0FnlDfkmS+Xh8FJa4RHhnGfV7ST9
-         hnLSTGEaai4OD/vQNsm1BcoNMl5fEhnhux+fNeitX/Y0HPk2smfwoUL7ThWqiivxg4hZ
-         5WFJOhavGxvM+jerCgJC3vmsPXvt9KDatmnJS4cV8UDxIFEMOYYPkherQeRrSK0MU8Kv
-         unFLibvDm6Suf9punG68rHPILwl4k2/QbNLs3sS3upgWAaYaW3SCQ1MurhFflqbR3zVD
-         jY1Cnj9yhDN8oKtTzumurb26+aeE9uE3mQtApm7OoAScLYI/QwygsqsO8YLNLgy62rvX
-         vDaw==
+        bh=eoqLgtBusJXg9uQAbWI5956MZpUIuTaRPMWFVRHrIe4=;
+        b=r9IBHdDHmEStCNy4/Ek6cv5tWArBs4An1FJkuNU+0BOlisKxGoN86s8JeAhTnvB7ry
+         X2CpDub2UTKLvMgunii6mW4DkILTS4tj9oaUCnQOplJESVtlN3n+oRf9Gcj6T1+z/eMc
+         VxdZCWDPswrBLiu8qchWsM4CfPmMQxKdfPaMMO9GO6P1V/p/nWaKJxQ3ER+3hzjQt9Xg
+         FB34pVAPbPgCFeZvmYw6zqpkQqMLAEbQMrM3Juv7VV/joMvbD3Cc127eSNf3zxjJpow2
+         /DRMISsS2CkNDlHbpXyf/M21US9ym8irjMteM/83XPCO9gANVK0WTQl5y+1Cq/NOBLB0
+         5RHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -51,87 +51,88 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SdwSy9yc8BbaBHT3ca88ydbhJQH67mAn7fWfV1VXZog=;
-        b=5gl2N9sDp4DPR2LVswY13D6MpfxRI+wO3i9qP6X9tTJ7mK4Cm++DI1IU2/RIJht4kA
-         /x2mDt7ptUZrO/YV5Znh+wXFa3ZsFwSEndwbn80deEMvQuY8RQdhaRYjqp0qk3vv7O7c
-         NAEPAP/RflyN5n8lpUlVy8eUjH/W2mHUyBT43eX5YYnxTira7fpH1hI6u2UpTUWQZraf
-         00i6qEFbdDJrwZ48zAIa9f5euw31/gMqDyvmR6PJjv2l2a0MMQcOi35muG2haI2qrEE3
-         ufBi1xatW2TgY3DaRclFWWnFdHKRTCWpuSw5M3pykuNLEkQ/+lVj3AXrMW9DHMtVHk4a
-         rE/w==
+        bh=eoqLgtBusJXg9uQAbWI5956MZpUIuTaRPMWFVRHrIe4=;
+        b=wgDo7446ZSSssBXV8m5e2P78sDQBipJMhMiNCGQ21o4LYGeQbpJw2eniu+lVAOPc32
+         UMFE2Hv3rERj20ZeF4f254vQF8GjBTVGMIqSarwsZH9HkSH03k407Y0C/EueJD/OSGER
+         gHaJ1ceOVPGYIcHQVr+yUFofrzJ+pVxKC6b4WVeGT5oNbYs4WO1KunoYznJqvzglKOUY
+         6HuWmJPb47NZOFJ35rNU3x8bTxSsdfT/JMwhWO5aJIRWrwwp7svIcBSRABORLATvycmC
+         quVF28PtQuhqJwcXffE/ujVegx+fhrDawU1QOmBqo6nGTRJT9oKI9H5k74IQMVGugnoD
+         aapg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKVZXANDTNdR9iTYxOK9/PMaUlwBY5uiCPpBavWVmwvhH0DCKWbM
-	HNjFfvSQLyvLqzNTPUzJk48=
-X-Google-Smtp-Source: AK7set8j8fCJxqP+CEBNBWm+/nuULLlbgZDebOjvBQHxRUc3SGQXt6lD2uTMCRzYUHDgIOMu592S6Q==
-X-Received: by 2002:a05:6870:3118:b0:163:c6d0:295d with SMTP id v24-20020a056870311800b00163c6d0295dmr352789oaa.135.1675874426406;
-        Wed, 08 Feb 2023 08:40:26 -0800 (PST)
+X-Gm-Message-State: AO0yUKVcNufQJ74A06OYOd0lWmGXlmB7kCHPKWoit/S2EWWrlk39oupC
+	C+s/ez5JSeybENLbHvFrxMU=
+X-Google-Smtp-Source: AK7set+LnXZymMmXDDZtXRq9G2LZN6/+nSmP1cDr5a6OTZ+cfchus5bKLZRPmF6CeMQ4W905SWgIVA==
+X-Received: by 2002:a62:1ec7:0:b0:592:5ac8:156f with SMTP id e190-20020a621ec7000000b005925ac8156fmr1883309pfe.39.1675874433843;
+        Wed, 08 Feb 2023 08:40:33 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6871:b11:b0:152:e7d4:7359 with SMTP id
- fq17-20020a0568710b1100b00152e7d47359ls9014102oab.2.-pod-prod-gmail; Wed, 08
- Feb 2023 08:40:26 -0800 (PST)
-X-Received: by 2002:a05:6870:330c:b0:16a:92b:4ee with SMTP id x12-20020a056870330c00b0016a092b04eemr3949658oae.56.1675874426031;
-        Wed, 08 Feb 2023 08:40:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1675874426; cv=none;
+Received: by 2002:a17:90a:e290:b0:226:e7:18f9 with SMTP id d16-20020a17090ae29000b0022600e718f9ls2991804pjz.0.-pod-canary-gmail;
+ Wed, 08 Feb 2023 08:40:33 -0800 (PST)
+X-Received: by 2002:a17:902:d04b:b0:199:5655:db41 with SMTP id l11-20020a170902d04b00b001995655db41mr269335pll.18.1675874433159;
+        Wed, 08 Feb 2023 08:40:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1675874433; cv=none;
         d=google.com; s=arc-20160816;
-        b=hfg5ddm0MePJKkCVWmthKlbmjglTxxOue/KFG3EEp9UUx2J+kp0J3EKu6Hhdev9Vkn
-         elbIEnL+MCs0/+M0N803x0I1TY9tA1GT0Hunsf60BSyTuO7XWQM2YKnjHatFptDDATg9
-         juncEgONzLLu0LyJf5OMMlO4aM00G9QBLXshnywpWaSLVcpx7ZvZ9iiS8s0gjsnDntyJ
-         dmfuMsDTEH22BzTraQeF8BueIB4Ze5g7O53psxMA2TvZxKLmqzbFAO/HKTnn3rIa0Eps
-         cmfRvnhE3OTJCAFHgmEwilJSFFzDvYl74nw+XqLTkuzHRnrwZ6HYmVkveEg4BeOwOeG/
-         a8yw==
+        b=kjjqmqsZVtosivlppplSh6NuwQnQPpUNUVliQf0Ul3O1IKb9PPxANvPCAwOqG/Gl8W
+         FEgbvu5V9mRnDDb3bFX7+H1pKV9Nx6egbp+QKkIQOBQVtGE1YHQM9vALVGDWmJGLgXPi
+         Z17PvyZJ7A5GZ357+922aMPtiq7qAkLDNqGT1vJQOJNIbLMGY8OPG//bJVwXi+vJbh6p
+         wvjkS/tlmnpbeQ3VnHNOuJJsJlpY13jruTDBwdFtvMtWRCe6v+DXybGE1l7s8kCRaERT
+         wewvy0lNIYS1ZP/hZSN729aKL9Q2iAQ3qH4e2vvUotzMf5/ajTzP61ZGn8xmYv/pnOzf
+         vyJw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=xvTbmEyJDH308Mr1kfAgZiukxgBd5MJ/ejaniJVGR/0=;
-        b=p0IrXlfjLrR4o5a05OQsM9L6T7v3NpFJ8yesZskTiGYhp704w06K/Cx3BDCBwO12T5
-         K1kkIfvufU1VVhNUyHCOoY9ED8eAl8xs0sbG4GGmWmi2JBgHH5d2d4UKye9PLA52XrCh
-         7oUZ9n/oh/ysc8WMnwToLybZtp0B9VBoaxp2n64fQCX/Y+Lgpy3NaLpQlPDj7RNZ/0we
-         LKQjrkru2axa4JyXjj2V6S3Ed8/M3PUtPKRPXYej5AVBJuVd9MRKptzNo7yiKuSqhjK1
-         pY+632SYgnwvS7ooxRGzmzvaMiUW69dShS48pDubeLpYKmRGP5RyqnKqdlr9tuVX4x2k
-         oa/Q==
+        bh=jF2tD5+GeZfdR+u2uMsmszDgDaCRZ/+kDNXUB3+Ta/s=;
+        b=FpblNN76tztboO/iUiSOHWspAH4eevg+70a9behjmtN53maL+5Nki3TJhGXvYxQkcz
+         RvBj7V55B/sd1Zq/4rCDHZ2TeUS6q7fudinnXqG6Rp+SCRcmjd13lMeInIkzVDJsvGhr
+         gQ346GEaARGe0IIx+c1JyPgJ5y4www5Ik+HNix4yqKrx0qvHcxX03OEvRJ7ddcHZAWZe
+         ZouviRh0P7HOAxNMJsBLK9axzN+Px3ZSadAYGnI8BntzeZz4Ad+A0Yt1ZrJdHcVofSB1
+         DD1Kpu6hxLYmsWoS4H8dYCFL8cOlqs+aehAAwwtKUHhfASJ524FHhuMy5OIlogqaVRfr
+         iodQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=q1mVQCj5;
-       spf=pass (google.com: domain of arnd@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=arnd@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=ewkkWjBP;
+       spf=pass (google.com: domain of arnd@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=arnd@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id s199-20020acaa9d0000000b0037803603d36si1371683oie.0.2023.02.08.08.40.25
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id d8-20020a170902854800b00178112d1196si1162766plo.4.2023.02.08.08.40.33
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 08 Feb 2023 08:40:26 -0800 (PST)
-Received-SPF: pass (google.com: domain of arnd@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+        Wed, 08 Feb 2023 08:40:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of arnd@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id CBDE461718;
-	Wed,  8 Feb 2023 16:40:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70A29C433D2;
-	Wed,  8 Feb 2023 16:40:22 +0000 (UTC)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 9F37361728;
+	Wed,  8 Feb 2023 16:40:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52B31C433EF;
+	Wed,  8 Feb 2023 16:40:29 +0000 (UTC)
 From: Arnd Bergmann <arnd@kernel.org>
 To: Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexander Potapenko <glider@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Marco Elver <elver@google.com>
+	Peter Zijlstra <peterz@infradead.org>
 Cc: kasan-dev@googlegroups.com,
+	Marco Elver <elver@google.com>,
 	Dmitry Vyukov <dvyukov@google.com>,
+	Alexander Potapenko <glider@google.com>,
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
 	Vincenzo Frascino <vincenzo.frascino@arm.com>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	Arnd Bergmann <arnd@arndb.de>,
-	linux-mm@kvack.org,
+	Borislav Petkov <bp@suse.de>,
+	Miroslav Benes <mbenes@suse.cz>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Sathvika Vasireddy <sv@linux.ibm.com>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] kmsan: disable ftrace in kmsan core code
-Date: Wed,  8 Feb 2023 17:39:56 +0100
-Message-Id: <20230208164011.2287122-2-arnd@kernel.org>
+Subject: [PATCH 3/4] objdump: add UACCESS exception for more stringops
+Date: Wed,  8 Feb 2023 17:39:57 +0100
+Message-Id: <20230208164011.2287122-3-arnd@kernel.org>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230208164011.2287122-1-arnd@kernel.org>
 References: <20230208164011.2287122-1-arnd@kernel.org>
 MIME-Version: 1.0
 X-Original-Sender: arnd@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=q1mVQCj5;       spf=pass
- (google.com: domain of arnd@kernel.org designates 139.178.84.217 as permitted
- sender) smtp.mailfrom=arnd@kernel.org;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=ewkkWjBP;       spf=pass
+ (google.com: domain of arnd@kernel.org designates 2604:1380:4641:c500::1 as
+ permitted sender) smtp.mailfrom=arnd@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -147,60 +148,47 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-objtool warns about some suspicous code inside of kmsan:
+The memset/memmove/memcpy string functions are wrapped in different
+ways based on configuration. While the __asan_mem* functions already
+have exceptions, the ones called from those do not:
 
-vmlinux.o: warning: objtool: __msan_metadata_ptr_for_load_n+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: __msan_metadata_ptr_for_store_n+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: __msan_metadata_ptr_for_load_1+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: __msan_metadata_ptr_for_store_1+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: __msan_metadata_ptr_for_load_2+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: __msan_metadata_ptr_for_store_2+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: __msan_metadata_ptr_for_load_4+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: __msan_metadata_ptr_for_store_4+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: __msan_metadata_ptr_for_load_8+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: __msan_metadata_ptr_for_store_8+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: __msan_instrument_asm_store+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: __msan_chain_origin+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: __msan_poison_alloca+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: __msan_warning+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: __msan_get_context_state+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: kmsan_copy_to_user+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: kmsan_unpoison_memory+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: kmsan_unpoison_entry_regs+0x4: call to __fentry__() with UACCESS enabled
-vmlinux.o: warning: objtool: kmsan_report+0x4: call to __fentry__() with UACCESS enabled
+mm/kasan/shadow.o: warning: objtool: __asan_memset+0x30: call to __memset() with UACCESS enabled
+mm/kasan/shadow.o: warning: objtool: __asan_memmove+0x51: call to __memmove() with UACCESS enabled
+mm/kasan/shadow.o: warning: objtool: __asan_memcpy+0x51: call to __memcpy() with UACCESS enabled
+vmlinux.o: warning: objtool: .altinstr_replacement+0x1406: call to memcpy_erms() with UACCESS enabled
+vmlinux.o: warning: objtool: .altinstr_replacement+0xed0: call to memset_erms() with UACCESS enabled
+vmlinux.o: warning: objtool: memset+0x4: call to memset_orig() with UACCESS enabled
+vmlinux.o: warning: objtool: memset+0x4: call to memset_orig() with UACCESS enabled
 
-Similar code already exists in kasan, which avoids this by skipping
-ftrace annotations, so do the same thing here.
+Add these to the list as well.
 
-Fixes: f80be4571b19 ("kmsan: add KMSAN runtime core")
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- mm/kmsan/Makefile | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ tools/objtool/check.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/mm/kmsan/Makefile b/mm/kmsan/Makefile
-index 98eab2856626..389fd767a11f 100644
---- a/mm/kmsan/Makefile
-+++ b/mm/kmsan/Makefile
-@@ -16,6 +16,14 @@ CC_FLAGS_KMSAN_RUNTIME += -DDISABLE_BRANCH_PROFILING
+diff --git a/tools/objtool/check.c b/tools/objtool/check.c
+index 0f67c6a8bc98..e8fb3bf7a2e3 100644
+--- a/tools/objtool/check.c
++++ b/tools/objtool/check.c
+@@ -1248,6 +1248,13 @@ static const char *uaccess_safe_builtin[] = {
+ 	"clear_user_erms",
+ 	"clear_user_rep_good",
+ 	"clear_user_original",
++	"__memset",
++	"__memcpy",
++	"__memmove",
++	"memset_erms",
++	"memcpy_erms",
++	"memset_orig",
++	"memcpy_orig",
+ 	NULL
+ };
  
- CFLAGS_REMOVE.o = $(CC_FLAGS_FTRACE)
- 
-+# Disable ftrace to avoid recursion.
-+CFLAGS_REMOVE_core.o = $(CC_FLAGS_FTRACE)
-+CFLAGS_REMOVE_hooks.o = $(CC_FLAGS_FTRACE)
-+CFLAGS_REMOVE_init.o = $(CC_FLAGS_FTRACE)
-+CFLAGS_REMOVE_instrumentation.o = $(CC_FLAGS_FTRACE)
-+CFLAGS_REMOVE_report.o = $(CC_FLAGS_FTRACE)
-+CFLAGS_REMOVE_shadow.o = $(CC_FLAGS_FTRACE)
-+
- CFLAGS_core.o := $(CC_FLAGS_KMSAN_RUNTIME)
- CFLAGS_hooks.o := $(CC_FLAGS_KMSAN_RUNTIME)
- CFLAGS_init.o := $(CC_FLAGS_KMSAN_RUNTIME)
 -- 
 2.39.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230208164011.2287122-2-arnd%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230208164011.2287122-3-arnd%40kernel.org.
