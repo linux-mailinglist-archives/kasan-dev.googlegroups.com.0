@@ -1,208 +1,149 @@
-Return-Path: <kasan-dev+bncBCINXLESYINBB7O2S2PQMGQEWVZNL7I@googlegroups.com>
+Return-Path: <kasan-dev+bncBD52JJ7JXILRB4GDS6PQMGQEO4JC7TI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5415E6916B6
-	for <lists+kasan-dev@lfdr.de>; Fri, 10 Feb 2023 03:35:42 +0100 (CET)
-Received: by mail-lj1-x23b.google.com with SMTP id r17-20020a2eb891000000b00290658792cesf1039220ljp.4
-        for <lists+kasan-dev@lfdr.de>; Thu, 09 Feb 2023 18:35:42 -0800 (PST)
-ARC-Seal: i=3; a=rsa-sha256; t=1675996541; cv=pass;
+Received: from mail-pg1-x53e.google.com (mail-pg1-x53e.google.com [IPv6:2607:f8b0:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A51B691871
+	for <lists+kasan-dev@lfdr.de>; Fri, 10 Feb 2023 07:19:31 +0100 (CET)
+Received: by mail-pg1-x53e.google.com with SMTP id h16-20020a63df50000000b004f74bc0c71fsf2118692pgj.18
+        for <lists+kasan-dev@lfdr.de>; Thu, 09 Feb 2023 22:19:31 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1676009969; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DycoPBv2lihujuVH8FmJBKo/S8grGzDWXgO7/GrPxbL5I3H533A+LB88p4KZHpxm85
-         pZfZDw0x1AsRWtVUdPux0+Qu2vHmgKzrd+aJbeujgGH3aDRH34jIQ3ROlPnR1ZmcXU/f
-         WYmfCkxA+8+f8LCfBr1jfPmfriBfdvbZmkdkf9PglgFMNe3cpYAbjwfppi0GoGufNYua
-         VGrPKOY0WBnYxyiaXmE85TIXi2f/ate+MYI2kj5+oW8E0XnIWYdbpS4bh2eq/C11CbQA
-         W1EnbMxogp+pYbgh/xpqvdpsMin3M1YETy0BwX1mvENkSvXAXRJdyjx6UVrXhr8jfWrs
-         GL0g==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=gK/GicENLX5kekxiFDd6fHyboo+xy/bK01ZwDUS/aIADSSUI/n4Ot1IA4Qgl2ewFCQ
+         JTs0s9iVuwNfZqLVDuus1WICJXn9O7OyjAmseFB1sG1iRlUG6YXLj9IM0DT23Euon3Rt
+         zt6io7blIPx/f/tw24U8I+edE4jq3FmFd4tq7+Ff6Do3g6V1FiuBC5jDWXlmYPxjjvGX
+         YAbaVAaN00yZuuSWaLOJ30SJvlOsDHz5wTmX4GnShU29LzLfvoWjgANR/jQqL/HFdHdf
+         CP84WbqTFmrI1VfAwbbemLSR4j1erAikMxpIoFB2r7Rn/kZkujZ7nvYyKa6NZ5ScdDIn
+         3UzA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version
-         :content-transfer-encoding:content-language:accept-language
-         :in-reply-to:references:message-id:date:thread-index:thread-topic
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=wfYQi1vigedOYlhOxEGysgL2WOcLtohJ6Z3Aj2/ZvMA=;
-        b=ut1nxZ9oYzA5LqpdUdYjO3rjZXVI9HoSpwJ6ZlH8nyAYeSUwSf9h+8K6PukmPbM//e
-         PrLyenI10EYzC1Ezlm+gIitaOWeiVf+ZlpsMueJXSIJOjMZJbZYoJJtNkORNR3+mCJ7o
-         T/7iq7yuIQI8SNVbucPcSCaE8ZGWPmoY6nqRmQcFVaksT50RW3+9flw/fmvSrpt7II43
-         NdXzBJGCGNzXVpvzmpYIOBEDuczlvF3XyNq9yayHyiXAVETx8dzdEjHoPqRGEEx2hif3
-         triQ4NhKTyBLY7DjLOeK20Jh5vEWepElB/qQTSRfaNb028CX6gReXH6Rw6hB5kqzkiYI
-         dEdA==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@zeku.com header.s=selector1 header.b=VXUDygMd;
-       arc=pass (i=1 spf=pass spfdomain=zeku.com dmarc=pass fromdomain=zeku.com);
-       spf=pass (google.com: domain of yuanshuai@zeku.com designates 2a01:111:f403:704b::704 as permitted sender) smtp.mailfrom=yuanshuai@zeku.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zeku.com
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=jtrHhBazH/V6J/xt+xJqYxuUn6AOxSHZ9E98KjAKWIQ=;
+        b=p10LAppXoZVRMlx7gpzHL1R3nRerM12al+PQCD8OXZuZg3+t3MRB1HqsCVfdWpoxPv
+         C+IiggagFaZ0ffdNO3xRJq7PzAnYFLv2HFcmVrrfRYPjE9wACouXOMfY57KcqEGy3XU9
+         2Ytjeso83oPJETUbhU42N3FfhFw5/QeH+9Kcqko4Qv+di8Z+CLS3mSzdzSq7DrVrtg50
+         3HqQEcoujufUNzrn+TwawdzSZHqdvedpQnedShSS2s0BCjoC5OG/dGbAkV/Vhchf9pOn
+         J8NZO6K7DFWyrxicMjRtUlq7W2dUuwWZBKfI6tG+jpet50TK6feFJdozQBu588FCRdml
+         1R1g==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=LDs6u0nY;
+       spf=pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::102f as permitted sender) smtp.mailfrom=pcc@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:content-transfer-encoding
-         :content-language:accept-language:in-reply-to:references:message-id
-         :date:thread-index:thread-topic:subject:cc:to:from:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wfYQi1vigedOYlhOxEGysgL2WOcLtohJ6Z3Aj2/ZvMA=;
-        b=pkpYQcTySCDvWFx9b3doZcigGkbu+DSOL04fVE8RsS2Lpj+WKRDNJilSEpVb5dc9RS
-         STBVQRxAU7IJhxfEJ5BWluOK0GJLaNx8xNmXv1SUkiXadT0cEU32sgGL6FxsO8BfFUoD
-         tCsJhGhYM+VAoMFqRlUsID97g9BqmPEbSOpen4E5zNLKyULtM/krTZI3by5hRBur13N4
-         vsuK2MbuylgTJJfFHbQXirm9xnb/EeCGb3ePxZSugxuWKE4oDhx2O1iImX0MFuciQ7LP
-         zUrsdY+Ab0yzWU3BYVtus9IMUP2cITIRdQxVdpggZWJkAVHd10RMU11NXrf3tISWi6S0
-         BAog==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=jtrHhBazH/V6J/xt+xJqYxuUn6AOxSHZ9E98KjAKWIQ=;
+        b=bBJs4FCxJXewdD4GqjBbMxmDfspgvNo2SgWRC0/Dm4otM1ACr4cJt0+fjvXSsJKw10
+         PWUJpwLWzYoWgukBjfWFHBMwn1QQQBfJcrKwE0RJrVXsN67n6RDC8WhI/ezCs8nFJ4dD
+         J7mZh8FPyISJBf7hi9UdqT9qQZzf2oOR/PZBBWRgKMEdQFi+mkXAArccr8YgKcD71KFz
+         in/qSCIicg1sOepftZ9TugTAcZza4WZqNo8tdCiHMyNz5f/rGywKOS78mti3BhMnxaxb
+         OwZQ/jB/TivtsUOJQ1H04jE7MBbc+9LRNHg6I6BB8gYIB8f7NKS8InKNoXdwBipL95+K
+         mgIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :content-transfer-encoding:content-language:accept-language
-         :in-reply-to:references:message-id:date:thread-index:thread-topic
-         :subject:cc:to:from:x-gm-message-state:sender:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=wfYQi1vigedOYlhOxEGysgL2WOcLtohJ6Z3Aj2/ZvMA=;
-        b=CWdGDPT0oo1JYc/+pueKkluj3p2PUEjoZUIMEKdrzfsh7aswlk+BcdVAG3proGQY7s
-         soyyFqipEr8jgq5KxpxOT+ztEojntPnKqIuN/Y4DpqlgiHu6S1VLfJyYMOjVGmvJWGwJ
-         mQSSaMSMWOKUfSxf3hSnaZ/47ZS++bgBR4K6x8yYiHSKvuCt2x3OjmbXU0//7Qd4BXwx
-         fU4Q/0jhPo4Dh+7Qvoa5YObCPxtMh5DXnZv/sHxE6M74RpTkUQVJXp96/LpvQH+gm7Zl
-         aerK8LC1mLu5VCyxoX3Brcb6Bc9soJCNWNzaH20Uw+/v19siqlyG51c35iNM/2e/n4ME
-         6IlQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKXLOS+0cR1b35rEzQvifUzgNwN/gknPT/9jNyvU9UCnHmnFIP2P
-	34SJKoY/NloxxaALVzBDqqk=
-X-Google-Smtp-Source: AK7set9LaDhbP1ZUyydkD1v7KKkrjz5AJhSImPDK9pYouacPPbsaMGbdLkJOHJKPfe4sabCGYPRCwg==
-X-Received: by 2002:ac2:4a99:0:b0:4a2:4b43:9aad with SMTP id l25-20020ac24a99000000b004a24b439aadmr2069361lfp.213.1675996541370;
-        Thu, 09 Feb 2023 18:35:41 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jtrHhBazH/V6J/xt+xJqYxuUn6AOxSHZ9E98KjAKWIQ=;
+        b=M2RIP5yvJkdsOp5RHSXrC2CjpscBNJlJDLzmOwpQ2QTMA4lvLDqebEa4lCdrmb8cHl
+         9twNnJaIxM9o1C5olHPMpSmBCQZdYcefspCi8GHJlNpJHuyhFCrAKICZGkv8HSr6zY8A
+         YO1rAhPKhcptcBXrniptbXEbFdvgYBHLF/wvQ5CgLr0aqFYC8ZoFsCsYPU38EJYSrMXM
+         CLpKdorCgBqsm/kfmiEIYexwYqPhl3Mkc/YqYIX70iQ5ozuQdZMyLOcUMBSTGo857yLd
+         +ly50Pj62XbyNXGsbcNDmAoJ3zLPsBqtMgjb8Fde3ZXwmshoZX5hBcwRCIFHLRrNyzZU
+         8KBw==
+X-Gm-Message-State: AO0yUKXZJxmWwiQCj8tYylOroVSryUUUHGT11zweNUdOT6cXNzBXX3mQ
+	ahvwQM8PYunVMFPlw2xJpHM=
+X-Google-Smtp-Source: AK7set8El3nS7xwQyCRnCconiykWGVoaltNbbvtbatJbFqKtqZhX7UOwwO6sYrr7uLs4bUdciZVjjQ==
+X-Received: by 2002:a62:6c2:0:b0:5a8:515a:eba2 with SMTP id 185-20020a6206c2000000b005a8515aeba2mr1157521pfg.2.1676009969065;
+        Thu, 09 Feb 2023 22:19:29 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:239f:b0:4cf:ff9f:bbfd with SMTP id
- c31-20020a056512239f00b004cfff9fbbfdls2641003lfv.1.-pod-prod-gmail; Thu, 09
- Feb 2023 18:35:40 -0800 (PST)
-X-Received: by 2002:ac2:4f86:0:b0:4cc:725d:9d3d with SMTP id z6-20020ac24f86000000b004cc725d9d3dmr4040083lfs.54.1675996539921;
-        Thu, 09 Feb 2023 18:35:39 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1675996539; cv=pass;
+Received: by 2002:a17:902:d650:b0:196:751e:4f6e with SMTP id
+ y16-20020a170902d65000b00196751e4f6els4769485plh.10.-pod-prod-gmail; Thu, 09
+ Feb 2023 22:19:28 -0800 (PST)
+X-Received: by 2002:a17:90b:350f:b0:22e:61ad:19a4 with SMTP id ls15-20020a17090b350f00b0022e61ad19a4mr15679203pjb.39.1676009968263;
+        Thu, 09 Feb 2023 22:19:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1676009968; cv=none;
         d=google.com; s=arc-20160816;
-        b=kpyv6v4sFKdWVPB7u79Q7U6Aht/OKT/ocIxcRLtteMLmNgC8W3URbzdFsRQ6TsT64k
-         /M3QLNy7TPR9pfwQKJpXYjnDXGEJ3DgFMnpoiibgRAy45Vd+3bs7Js7ZGSL2rWIfR+0/
-         IdumyXIx+qo+9xZxLOwKv1JwHZXCdRJ90iNva9JkHr0HlVxz5021/BOeWaJHjAzXNPbl
-         x4o+y3Y0OcfAdz+Uw4T453SDpPZRWNi5WZeDvTNvKvSK5m2CuOZUUkj7cyvvVQJwPabX
-         nv+7EK+PbUyAwr0prHFKvrdX5IPbe2lXi/jy747S0j/ydLwhncuDtmIGCLEIC24JWuIc
-         evnA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-transfer-encoding:content-language
-         :accept-language:in-reply-to:references:message-id:date:thread-index
-         :thread-topic:subject:cc:to:from:dkim-signature;
-        bh=b0yKomsjRaumVznH1jBW7gj+dR6xWuoQ6qn0ryUfhNo=;
-        b=pInkmY4VWS5RP/hv/V5OZtRtXQGHqgSTy3s0IBdEEkOg5Jxlh7llDWvjY6mvnVVj/K
-         91w7akuMiha+OYzAoezjBj8xY2Yk2fJZBnDpPzn9NgSi/Amx92VEdjkzo0+Kjb2thVx9
-         7j7bxUcp7V5bewKWBPNhtFPkTL6knhYSYX8hTTQPd/Pmr5qdNsOsYAqXP/CpiFvlZqX0
-         z/mDYD0g8oJYFPRcqa+6jRP2HcYDrO7okUUEyqXZUTvzmCUbCgAheJaoGhlfy9h9ME6D
-         q9FxaVaRZNv46rpWPsPKZntaaT8y6Vxu9mXv8eKJ7t9zJoqCBWmZQGSLwHOtu9/2RshW
-         ab4w==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@zeku.com header.s=selector1 header.b=VXUDygMd;
-       arc=pass (i=1 spf=pass spfdomain=zeku.com dmarc=pass fromdomain=zeku.com);
-       spf=pass (google.com: domain of yuanshuai@zeku.com designates 2a01:111:f403:704b::704 as permitted sender) smtp.mailfrom=yuanshuai@zeku.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=zeku.com
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on20704.outbound.protection.outlook.com. [2a01:111:f403:704b::704])
-        by gmr-mx.google.com with ESMTPS id be18-20020a056512251200b004d09f629f63si192188lfb.8.2023.02.09.18.35.39
+        b=V2ZDxdE0SDRjPuo2wduxy3J/m8wsSnx3drxJuE1LP9fiidP+a6DuVqPI5VKZMzQzoZ
+         BKIpFdAYzB3cJ85DnTbWzPJd6hMRXXgUHzzQ9wv5Xxx7u4bH6NC3eXvJm9ePMzoLxNwC
+         ahei2DI8zAZEj10DdEgCN0MIGkAMuUmHbAJ4sMa1SHAq5odAy1nGlSRZmOI7fyt4shZg
+         8UHYeKjV3TmGAp7shiAur3P8t392CYUuk/g1lU6/wVD89EXPO7xS2d/v3lapxxiVVFzb
+         kZ7gF3xM/VzPy5qRNp9IlX8U95wBqzTCEdTaC9RGX3uQh/AF9eXqdoHCql5sqDMRkqBT
+         5Y2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=/Dla9NFpkg9I5+DoaafZ7yizNZzus0cnFIKPt3aRDXE=;
+        b=pti8bSNReqLY+9gN40/KaxYeVEykPu4ZuMxjpG9qKY9wTHAXJ7CoFz4sYuSXaaNkkz
+         /Fyfn9EINTNYMdJ/r6bRir/+rtiiv3tSKco4vaYxUunewe/jkkoh79ajB2ErNjfEoeKJ
+         +VlQcbz/ewXLthY/FB7Ergp1ERjjFDoX7Wu3YJnktehR9hYL39uLKTCc5n7BQZzi8URN
+         uz5701hEV3486cB6tl4RAOeqtNL2DuiFeDR/OjqJ2Mh5bPX3hCH4dRZI9P+ByAc/nctF
+         gYaH43Fthy+HJ8NimYhpkg8uDkGADp04pUvV/SsCou/OfkHIgU0ik2aeFyZV1MMKiRx/
+         jIlA==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=LDs6u0nY;
+       spf=pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::102f as permitted sender) smtp.mailfrom=pcc@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com. [2607:f8b0:4864:20::102f])
+        by gmr-mx.google.com with ESMTPS id c24-20020a17090a8d1800b002309f8d0078si857740pjo.0.2023.02.09.22.19.28
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 09 Feb 2023 18:35:39 -0800 (PST)
-Received-SPF: pass (google.com: domain of yuanshuai@zeku.com designates 2a01:111:f403:704b::704 as permitted sender) client-ip=2a01:111:f403:704b::704;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TGVvx9gYG87xo1bxpoPx4UzGPTMK6wgpZZLS5uo66T/H/X+ZK+K4Pk13W+sYvoiqqn4DQP1X32bBsGfl2pj/kBtTiR7LXORnIxYCk0CHZNnbl53pj2dJ2sZRIJcMF1iQcdKADupQu6TYW6MjHLzl7ve2unbjPFJZq11pFxVzewjWwsbMSHndu0PTpZcbKvOskDKMjep8m7YDdwr7LE25KeBKoqHpJEI4s7KOQ+I7L3zzXia6UCqYrVHNpiqhQzqZ/mN/EDEZP++PqQnXrk8fC01oiEYC53vvbeutcaW1aRVPSK28TauK/ScP9ZfmMtH2F5X/3YS9W5hMEwESjxtMjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b0yKomsjRaumVznH1jBW7gj+dR6xWuoQ6qn0ryUfhNo=;
- b=F+j+7GijukDc34JHY3thdZU7xwpdzO3yMMmhjvMuup5b2ZgPmPGetmIQ2+vl4WKAr/nxLyvRU7u+3xu42SEUKYo6XeyeEBFSftt+zFQnvDQf5JCak49KMeS0wuAb/NE0GNKAmVIaJZNSy4O/jKhlI0+ot1XD+eZ6eJ0gVyQz2AtZao5h48EmucNYj3nWZzJUlgKgtTYtCW6o2/ZiDmBGwDl+GMrD8WU2boFNMkbEWA+OiLOBQrfIGq9+jMoDcnokEFwbSYt2hFPgLnwwNcHLyx7d8hFeNZZWVkOcdUE/qMVZ98VbL1BO0+zWwGuKng9Tu7b/VEd5h2YJ40okd24bLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 103.192.253.182) smtp.rcpttodomain=gmail.com smtp.mailfrom=zeku.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=zeku.com;
- dkim=none (message not signed); arc=none
-Received: from PS2PR01CA0048.apcprd01.prod.exchangelabs.com
- (2603:1096:300:58::36) by TYZPR02MB6161.apcprd02.prod.outlook.com
- (2603:1096:400:28a::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.18; Fri, 10 Feb
- 2023 02:35:36 +0000
-Received: from PSAAPC01FT049.eop-APC01.prod.protection.outlook.com
- (2603:1096:300:58:cafe::d3) by PS2PR01CA0048.outlook.office365.com
- (2603:1096:300:58::36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.19 via Frontend
- Transport; Fri, 10 Feb 2023 02:35:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 103.192.253.182)
- smtp.mailfrom=zeku.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=zeku.com;
-Received-SPF: Pass (protection.outlook.com: domain of zeku.com designates
- 103.192.253.182 as permitted sender) receiver=protection.outlook.com;
- client-ip=103.192.253.182; helo=sh-exhtc2.internal.zeku.com; pr=C
-Received: from sh-exhtc2.internal.zeku.com (103.192.253.182) by
- PSAAPC01FT049.mail.protection.outlook.com (10.13.39.177) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.6086.19 via Frontend Transport; Fri, 10 Feb 2023 02:35:36 +0000
-Received: from sh-exhtc5.internal.zeku.com (10.123.154.252) by
- sh-exhtc2.internal.zeku.com (10.123.21.106) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.12; Fri, 10 Feb 2023 10:32:30 +0800
-Received: from sh-exhtc4.internal.zeku.com (10.123.154.251) by
- sh-exhtc5.internal.zeku.com (10.123.154.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.5;
- Fri, 10 Feb 2023 10:32:29 +0800
-Received: from sh-exhtc4.internal.zeku.com ([fe80::b447:eb25:37fd:3fd8]) by
- sh-exhtc4.internal.zeku.com ([fe80::b447:eb25:37fd:3fd8%3]) with mapi id
- 15.02.0986.005; Fri, 10 Feb 2023 10:32:29 +0800
-From: =?utf-8?B?6KKB5biFKFNodWFpIFl1YW4p?= <yuanshuai@zeku.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
-	<dvyukov@google.com>
-CC: =?utf-8?B?5qyn6Ziz54Kc6ZKKKFdlaXpoYW8gT3V5YW5nKQ==?=
-	<ouyangweizhao@zeku.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander
- Potapenko <glider@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>, "kasan-dev@googlegroups.com"
-	<kasan-dev@googlegroups.com>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Weizhao Ouyang
-	<o451686892@gmail.com>, =?utf-8?B?5Lu756uL6bmPKFBlbmcgUmVuKQ==?=
-	<renlipeng@zeku.com>
-Subject: RE: [PATCH v2] kasan: fix deadlock in start_report()
-Thread-Topic: [PATCH v2] kasan: fix deadlock in start_report()
-Thread-Index: AQHZPDZzScKWhyj5L0eV70o/eMb/rq7FygeAgACH4+D//5aGAIAAy+8AgAC6aDA=
-Date: Fri, 10 Feb 2023 02:32:29 +0000
-Message-ID: <b058a424e46d4f94a1f2fdc61292606b@zeku.com>
-References: <20230209031159.2337445-1-ouyangweizhao@zeku.com>
- <CACT4Y+Zrz4KOU82jjEperYOM0sEp6TCmgse4XVMPkwAkS+dXrA@mail.gmail.com>
- <93b94f59016145adbb1e01311a1103f8@zeku.com>
- <CACT4Y+a=BaMNUf=_suQ5or9=ZksX2ht9gX8=XBSDEgHogyy3mg@mail.gmail.com>
- <CA+fCnZf3k-rsaOeti0Q7rqkmvsqDb2XxgxOq6V5Gqp6FGLH7Yg@mail.gmail.com>
-In-Reply-To: <CA+fCnZf3k-rsaOeti0Q7rqkmvsqDb2XxgxOq6V5Gqp6FGLH7Yg@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.122.89.15]
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Feb 2023 22:19:28 -0800 (PST)
+Received-SPF: pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::102f as permitted sender) client-ip=2607:f8b0:4864:20::102f;
+Received: by mail-pj1-x102f.google.com with SMTP id on9-20020a17090b1d0900b002300a96b358so4597139pjb.1
+        for <kasan-dev@googlegroups.com>; Thu, 09 Feb 2023 22:19:28 -0800 (PST)
+X-Received: by 2002:a17:903:48a:b0:198:af4f:de0f with SMTP id jj10-20020a170903048a00b00198af4fde0fmr94142plb.15.1676009967534;
+        Thu, 09 Feb 2023 22:19:27 -0800 (PST)
+Received: from google.com ([2620:15c:2d3:205:de7e:1ef:cb76:d198])
+        by smtp.gmail.com with ESMTPSA id z5-20020a633305000000b00499bc49fb9csm2241572pgz.41.2023.02.09.22.19.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Feb 2023 22:19:26 -0800 (PST)
+Date: Thu, 9 Feb 2023 22:19:20 -0800
+From: "'Peter Collingbourne' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Qun-wei Lin =?utf-8?B?KOael+e+pOW0tCk=?= <Qun-wei.Lin@mediatek.com>
+Cc: "andreyknvl@gmail.com" <andreyknvl@gmail.com>,
+	Kuan-Ying Lee =?utf-8?B?KOadjuWGoOepjik=?= <Kuan-Ying.Lee@mediatek.com>,
+	Guangye Yang =?utf-8?B?KOadqOWFieS4mik=?= <guangye.yang@mediatek.com>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= <chinwen.chang@mediatek.com>,
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+	"ryabinin.a.a@gmail.com" <ryabinin.a.a@gmail.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"vincenzo.frascino@arm.com" <vincenzo.frascino@arm.com>,
+	"will@kernel.org" <will@kernel.org>
+Subject: Re: [PATCH v2 0/4] kasan: Fix ordering between MTE tag colouring and
+ page->flags
+Message-ID: <Y+Xh6IuBFCYZhQIj@google.com>
+References: <20220610152141.2148929-1-catalin.marinas@arm.com>
+ <66cc7277b0e9778ba33e8b22a4a51c19a50fe6f0.camel@mediatek.com>
+ <CA+fCnZfu7SdVWr9O=NxOptuBg0eHqE526ijA4PAQgiAEYfux6A@mail.gmail.com>
+ <eeceea66a86037c4ca2b8e0d663d5451becd60ea.camel@mediatek.com>
+ <CA+fCnZfa=xcgL0RYwgf+kenLaKQX++UtiBghT_7mOginbmB+jA@mail.gmail.com>
+ <a16aa80c371a690a16e2d8bf679cb06153b5a73e.camel@mediatek.com>
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PSAAPC01FT049:EE_|TYZPR02MB6161:EE_
-X-MS-Office365-Filtering-Correlation-Id: aff9e88e-5d38-48f6-f4f9-08db0b0f7d9d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: y6LRCeDAcY71pXlxfgRGa74xJa9NWLWxXYi+6K5tCUzNo3XXIpSBcbVqT3ksJGnHlCBu/GnN9+4AEqCUy++d0f9Jkh2rnpignpKDsZza8DHJIFwl64JwFBmPpXORKRrYtmcT530FiZyPoTGCwBlsa9U1nvq5rDNczlJQgtds9JhFF62rh2hTYOosIslJ1yEkwXTphFVrSi9N6Ke91TGM8PBfgQi5W7X8gNFQHFaqdF3RUmG2LY6FVHu10snRxQms4KfLUUGMJTch0FtleJgoT/RChYEF1PklD16+3rJK8syfZCm/NY9ra1g1V8Al8Izz7nXMxz09PasPBXCnqq+A3tKbQVRGd//xN1dIcnCP9hjIXQ1lBpHhMm/t6Zt1YwaID/rPC8BTsSezsWoroLFI3lk4OvjljyPaeBOove0X6IU0Sa2OPSKsLgVdd+FNkzZyiC2Gfb/iqF8G7ZyCQ+dsE5xLm988kLAP5BAyCBuhhi6d/0pemkGr+ewYyAXYAIxIqwxBq+ivmV1Kl+MtoncoLLbvWhVYPNi/nktPDt05G1aXJIFuBH4ke2QjV2+sSKeoxcNyfeopA8GnUEQ2X/C49jVOFbN4op3yke1FKDUCNfHi8dPD7RCZBjUAW3zN8yYYOxmdgg+9MP33KROcauJvvsbEwqo5rvXYSn5hS8lZ/shjpWKSgy4Kjl+sK0dtSz3QHbAu2nBe7LgjeOnYZVqp6aamnKPY5r+Zt5ZZvKIFT/o=
-X-Forefront-Antispam-Report: CIP:103.192.253.182;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:sh-exhtc2.internal.zeku.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230025)(4636009)(346002)(376002)(396003)(39850400004)(136003)(451199018)(36840700001)(46966006)(2906002)(186003)(7416002)(86362001)(426003)(47076005)(108616005)(2616005)(8936002)(81166007)(336012)(5660300002)(26005)(82310400005)(36756003)(966005)(7696005)(478600001)(53546011)(24736004)(85182001)(107886003)(83380400001)(316002)(41300700001)(4326008)(40480700001)(8676002)(70586007)(82740400003)(54906003)(356005)(36860700001)(70206006)(110136005)(36900700001);DIR:OUT;SFP:1102;
-X-OriginatorOrg: zeku.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Feb 2023 02:35:36.1101
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: aff9e88e-5d38-48f6-f4f9-08db0b0f7d9d
-X-MS-Exchange-CrossTenant-Id: 171aedba-f024-43df-bc82-290d40e185ac
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=171aedba-f024-43df-bc82-290d40e185ac;Ip=[103.192.253.182];Helo=[sh-exhtc2.internal.zeku.com]
-X-MS-Exchange-CrossTenant-AuthSource: PSAAPC01FT049.eop-APC01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR02MB6161
-X-Original-Sender: yuanshuai@zeku.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <a16aa80c371a690a16e2d8bf679cb06153b5a73e.camel@mediatek.com>
+X-Original-Sender: pcc@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@zeku.com header.s=selector1 header.b=VXUDygMd;       arc=pass (i=1
- spf=pass spfdomain=zeku.com dmarc=pass fromdomain=zeku.com);       spf=pass
- (google.com: domain of yuanshuai@zeku.com designates 2a01:111:f403:704b::704
- as permitted sender) smtp.mailfrom=yuanshuai@zeku.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=zeku.com
+ header.i=@google.com header.s=20210112 header.b=LDs6u0nY;       spf=pass
+ (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::102f as
+ permitted sender) smtp.mailfrom=pcc@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Peter Collingbourne <pcc@google.com>
+Reply-To: Peter Collingbourne <pcc@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -215,72 +156,155 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Friday, February 10, 2023 at 6:54 AM Andrey Konovalov <andreyknvl@gmail.=
-com>
-wrote:
-> On Thu, Feb 9, 2023 at 11:44 AM Dmitry Vyukov <dvyukov@google.com>
-> wrote:
-> >
-> >  On Thu, 9 Feb 2023 at 10:19, =E8=A2=81=E5=B8=85(Shuai Yuan) <yuanshuai=
-@zeku.com>
-> wrote:
-> > >
-> > > Hi Dmitry Vyukov
-> > >
-> > > Thanks, I see that your means.
-> > >
-> > > Currently, report_suppressed() seem not work in Kasan-HW mode, it
-> always return false.
-> > > Do you think should change the report_suppressed function?
-> > > I don't know why CONFIG_KASAN_HW_TAGS was blocked separately
-> before.
-> >
-> > That logic was added by Andrey in:
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/com
-> > mit/?id=3Dc068664c97c7cf
-> >
-> > Andrey, can we make report_enabled() check current->kasan_depth and
-> > remove report_suppressed()?
->
-> I decided to not use kasan_depth for HW_TAGS, as we can always use a
-> match-all tag to make "invalid" memory accesses.
->
-> I think we can fix the reporting code to do exactly that so that it doesn=
-'t
-> cause MTE faults.
->
-> Shuai, could you clarify, at which point due kasan_report_invalid_free an
-> MTE exception is raised in your tests?
+On Wed, Feb 08, 2023 at 05:41:45AM +0000, Qun-wei Lin (=E6=9E=97=E7=BE=A4=
+=E5=B4=B4) wrote:
+> On Fri, 2023-02-03 at 18:51 +0100, Andrey Konovalov wrote:
+> > On Fri, Feb 3, 2023 at 4:41 AM Kuan-Ying Lee (=E6=9D=8E=E5=86=A0=E7=A9=
+=8E)
+> > <Kuan-Ying.Lee@mediatek.com> wrote:
+> > >=20
+> > > > Hi Kuan-Ying,
+> > > >=20
+> > > > There recently was a similar crash due to incorrectly implemented
+> > > > sampling.
+> > > >=20
+> > > > Do you have the following patch in your tree?
+> > > >=20
+> > > >=20
+> > >=20
+> > >=20
+> https://urldefense.com/v3/__https://android.googlesource.com/kernel/commo=
+n/*/9f7f5a25f335e6e1484695da9180281a728db7e2__;Kw!!CTRNKA9wMg0ARbw!hUjRlXir=
+PMSusdIWe0RIPt0PNqIHYDCJyd7GSd4o-TgLMP0CKRUkjElH-jcvtaz42-sgE2U58964rCCbuNT=
+JE5Jx$
+> > > >=20
+> > > >=20
+> > > > If not, please sync your 6.1 tree with the Android common kernel.
+> > > > Hopefully this will fix the issue.
+> > > >=20
+> > > > Thanks!
+> > >=20
+> > > Hi Andrey,
+> > >=20
+> > > Thanks for your advice.
+> > >=20
+> > > I saw this patch is to fix ("kasan: allow sampling page_alloc
+> > > allocations for HW_TAGS").
+> > >=20
+> > > But our 6.1 tree doesn't have following two commits now.
+> > > ("FROMGIT: kasan: allow sampling page_alloc allocations for
+> > > HW_TAGS")
+> > > (FROMLIST: kasan: reset page tags properly with sampling)
+> >=20
+> > Hi Kuan-Ying,
+> >=20
+>=20
+> Hi Andrey,
+> I'll stand in for Kuan-Ying as he's out of office.
+> Thanks for your help!
+>=20
+> > Just to clarify: these two patches were applied twice: once here on
+> > Jan 13:
+> >=20
+> >=20
+> https://urldefense.com/v3/__https://android.googlesource.com/kernel/commo=
+n/*/a2a9e34d164e90fc08d35fd097a164b9101d72ef__;Kw!!CTRNKA9wMg0ARbw!kE1XiSmu=
+nRcQb9rTpKGkFc1EFJA57qr1cj7v9EZAjUBzXcSzMl-ofCI2mdtEQsxn3J4n7Lkgxb0_G745_3o=
+O-3k$=C2=A0
+> > =20
+> >=20
+> https://urldefense.com/v3/__https://android.googlesource.com/kernel/commo=
+n/*/435e2a6a6c8ba8d0eb55f9aaade53e7a3957322b__;Kw!!CTRNKA9wMg0ARbw!kE1XiSmu=
+nRcQb9rTpKGkFc1EFJA57qr1cj7v9EZAjUBzXcSzMl-ofCI2mdtEQsxn3J4n7Lkgxb0_G745sDE=
+OYWY$=C2=A0
+> > =20
+> >=20
+>=20
+> Our codebase does not contain these two patches.
+>=20
+> > but then reverted here on Jan 20:
+> >=20
+> >=20
+> https://urldefense.com/v3/__https://android.googlesource.com/kernel/commo=
+n/*/5503dbe454478fe54b9cac3fc52d4477f52efdc9__;Kw!!CTRNKA9wMg0ARbw!kE1XiSmu=
+nRcQb9rTpKGkFc1EFJA57qr1cj7v9EZAjUBzXcSzMl-ofCI2mdtEQsxn3J4n7Lkgxb0_G745Bl7=
+7dFY$=C2=A0
+> > =20
+> >=20
+> https://urldefense.com/v3/__https://android.googlesource.com/kernel/commo=
+n/*/4573a3cf7e18735a477845426238d46d96426bb6__;Kw!!CTRNKA9wMg0ARbw!kE1XiSmu=
+nRcQb9rTpKGkFc1EFJA57qr1cj7v9EZAjUBzXcSzMl-ofCI2mdtEQsxn3J4n7Lkgxb0_G745K-J=
+8O-w$=C2=A0
+> > =20
+> >=20
+> > And then once again via the link I sent before together with a fix on
+> > Jan 25.
+> >=20
+> > It might be that you still have to former two patches in your tree if
+> > you synced it before the revert.
+> >=20
+> > However, if this is not the case:
+> >=20
+> > Which 6.1 commit is your tree based on?
+>=20
+>=20
+> https://android.googlesource.com/kernel/common/+/53b3a7721b7aec74d8fa2ee5=
+5c2480044cc7c1b8
+> (53b3a77 Merge 6.1.1 into android14-6.1) is the latest commit in our
+> tree.
+>=20
+> > Do you have any private MTE-related changes in the kernel?
+>=20
+> No, all the MTE-related code is the same as Android Common Kernel.
+>=20
+> > Do you have userspace MTE enabled?
+>=20
+> Yes, we have enabled MTE for both EL1 and EL0.
 
-Yes, I need some time to clarify this problem with a clear log by test.
+Hi Qun-wei,
 
-> > Then we can also remove the comment in kasan_report_invalid_free().
-> >
-> > It looks like kasan_disable_current() in kmemleak needs to affect
-> > HW_TAGS mode as well:
-> > https://elixir.bootlin.com/linux/v6.2-rc7/source/mm/kmemleak.c#L301
->
-> It uses kasan_reset_tag, so it should work properly with HW_TAGS.
-ZEKU
-=E4=BF=A1=E6=81=AF=E5=AE=89=E5=85=A8=E5=A3=B0=E6=98=8E=EF=BC=9A=E6=9C=AC=E9=
-=82=AE=E4=BB=B6=E5=8C=85=E5=90=AB=E4=BF=A1=E6=81=AF=E5=BD=92=E5=8F=91=E4=BB=
-=B6=E4=BA=BA=E6=89=80=E5=9C=A8=E7=BB=84=E7=BB=87ZEKU=E6=89=80=E6=9C=89=E3=
-=80=82 =E7=A6=81=E6=AD=A2=E4=BB=BB=E4=BD=95=E4=BA=BA=E5=9C=A8=E6=9C=AA=E7=
-=BB=8F=E6=8E=88=E6=9D=83=E7=9A=84=E6=83=85=E5=86=B5=E4=B8=8B=E4=BB=A5=E4=BB=
-=BB=E4=BD=95=E5=BD=A2=E5=BC=8F=EF=BC=88=E5=8C=85=E6=8B=AC=E4=BD=86=E4=B8=8D=
-=E9=99=90=E4=BA=8E=E5=85=A8=E9=83=A8=E6=88=96=E9=83=A8=E5=88=86=E6=8A=AB=E9=
-=9C=B2=E3=80=81=E5=A4=8D=E5=88=B6=E6=88=96=E4=BC=A0=E6=92=AD=EF=BC=89=E4=BD=
-=BF=E7=94=A8=E5=8C=85=E5=90=AB=E7=9A=84=E4=BF=A1=E6=81=AF=E3=80=82=E8=8B=A5=
-=E6=82=A8=E9=94=99=E6=94=B6=E4=BA=86=E6=9C=AC=E9=82=AE=E4=BB=B6=EF=BC=8C=E8=
-=AF=B7=E7=AB=8B=E5=8D=B3=E7=94=B5=E8=AF=9D=E6=88=96=E9=82=AE=E4=BB=B6=E9=80=
-=9A=E7=9F=A5=E5=8F=91=E4=BB=B6=E4=BA=BA=EF=BC=8C=E5=B9=B6=E5=88=A0=E9=99=A4=
-=E6=9C=AC=E9=82=AE=E4=BB=B6=E5=8F=8A=E9=99=84=E4=BB=B6=E3=80=82
-Information Security Notice: The information contained in this mail is sole=
-ly property of the sender's organization ZEKU. Any use of the information c=
-ontained herein in any way (including, but not limited to, total or partial=
- disclosure, reproduction, or dissemination) by persons other than the inte=
-nded recipient(s) is prohibited. If you receive this email in error, please=
- notify the sender by phone or email immediately and delete it.
+Thanks for the information. We encountered a similar issue internally
+with the Android 5.15 common kernel. We tracked it down to an issue
+with page migration, where the source page was a userspace page with
+MTE tags, and the target page was allocated using KASAN (i.e. having
+a non-zero KASAN tag). This caused tag check faults when the page was
+subsequently accessed by the kernel as a result of the mismatching tags
+from userspace. Given the number of different ways that page migration
+target pages can be allocated, the simplest fix that we could think of
+was to synchronize the KASAN tag in copy_highpage().
+
+Can you try the patch below and let us know whether it fixes the issue?
+
+diff --git a/arch/arm64/mm/copypage.c b/arch/arm64/mm/copypage.c
+index 24913271e898c..87ed38e9747bd 100644
+--- a/arch/arm64/mm/copypage.c
++++ b/arch/arm64/mm/copypage.c
+@@ -23,6 +23,8 @@ void copy_highpage(struct page *to, struct page *from)
+=20
+ 	if (system_supports_mte() && test_bit(PG_mte_tagged, &from->flags)) {
+ 		set_bit(PG_mte_tagged, &to->flags);
++		if (kasan_hw_tags_enabled())
++			page_kasan_tag_set(to, page_kasan_tag(from));
+ 		mte_copy_page_tags(kto, kfrom);
+ 	}
+ }
+
+Catalin, please let us know what you think of the patch above. It
+effectively partially undoes commit 20794545c146 ("arm64: kasan: Revert
+"arm64: mte: reset the page tag in page->flags""), but this seems okay
+to me because the mentioned race condition shouldn't affect "new" pages
+such as those being used as migration targets. The smp_wmb() that was
+there before doesn't seem necessary for the same reason.
+
+If the patch is okay, we should apply it to the 6.1 stable kernel. The
+problem appears to be "fixed" in the mainline kernel because of
+a bad merge conflict resolution on my part; when I rebased commit
+e059853d14ca ("arm64: mte: Fix/clarify the PG_mte_tagged semantics")
+past commit 20794545c146, it looks like I accidentally brought back the
+page_kasan_tag_reset() line removed in the latter. But we should align
+the mainline kernel with whatever we decide to do on 6.1.
+
+Peter
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -288,4 +312,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/b058a424e46d4f94a1f2fdc61292606b%40zeku.com.
+kasan-dev/Y%2BXh6IuBFCYZhQIj%40google.com.
