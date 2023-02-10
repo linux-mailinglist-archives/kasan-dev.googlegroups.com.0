@@ -1,33 +1,33 @@
-Return-Path: <kasan-dev+bncBAABBHPITKPQMGQEOH5GRWQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBW7ITKPQMGQEP7R4URY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ej1-x637.google.com (mail-ej1-x637.google.com [IPv6:2a00:1450:4864:20::637])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CC06692903
-	for <lists+kasan-dev@lfdr.de>; Fri, 10 Feb 2023 22:16:14 +0100 (CET)
-Received: by mail-ej1-x637.google.com with SMTP id i7-20020a17090685c700b008ab19875638sf4243647ejy.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 10 Feb 2023 13:16:14 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1676063774; cv=pass;
+Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D8969290B
+	for <lists+kasan-dev@lfdr.de>; Fri, 10 Feb 2023 22:17:16 +0100 (CET)
+Received: by mail-lj1-x23b.google.com with SMTP id a38-20020a2ebea6000000b0029065ed6963sf1883241ljr.16
+        for <lists+kasan-dev@lfdr.de>; Fri, 10 Feb 2023 13:17:16 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1676063835; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hKxWdGolL+iuZqmHdW3XoI2AUiLCDJi+s98p+vmPD8O0b3fYu9iTuxyV8kByzbwBLx
-         qGVl14hCsWErgy/K9VBiEM9c5SrZ1EOZNKrlZBKl45Ihz3qKC0TPvNpLOHwquzuI2rx4
-         x64Q/0q7U05Q/0Ig9UXZueRBhpcFoQbXTDHDDVRi85dQBz6IZt/m1oTMhp95TewFM44Y
-         gT9/u6Dc11pgWEkd4h3GqzWybrj3UhU1GzKUHQ1gvcMZ9/cVa3snh9+wXkWBdNWe0/XQ
-         HorfS2zBzt+FCgb7ua//r18TAPHcCTi8UPsdK9+f5M3O4nzBt0ctAP2zmGe9u0AUTyHm
-         P1mQ==
+        b=MvxG2sN87vrfZ1xfAZtqyVhrGPvkNXEzR1EIo1D58A+sUBitS7aDo6BZF/qSjEVzvO
+         2aToevdQKuDOaq/0CIG8TofK5lnbBDWczR4za9AxCVV7ZXeeSEu7jPecmCrZVCET5gG2
+         jc5kBT5nQmYbCDKZCa34epMufGOB1EwuoYJBKPEqZGgs0b9Ha5iNKInblz6yKhoPnX6d
+         DXksm5F5dkDBEPcJGUHRJLgf/3xOwQWAYnd6RFlLnbvoGpXwr/S1bqAA4g7ETb0i4RN/
+         KuheDwznyWVm23h980juBn8dWKcuyOi4KW3q4eWop7wDgexeyi9XSqw6rqYlDuKmKejV
+         PhDQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=lkCpVupCeCuKU8wcwzwWz1jpKatfJefP33ihLKynWlc=;
-        b=tWv7/NudB5tH9TX3j2pKYy0b9IGL/Xkz8lqF3NTNuJFTRgGyqfBTgBpNorsxWSOKb3
-         Mcaj7Xdso8kQ8NRQyO0UtXvebyr/t5/nsDLVhx9buKrwUdz0WVdqX4JUGo8nNSZNhcDW
-         kZZo8TdrS6e64ACxM94lbYn+iKgLP78dUR0MSZEYN8RNz11maYfNugecUdymyqLUzhkv
-         beb+qYkg9tqiWpSYNgDbBUgPpUpRm7Va/ymF1lrr7CQG3VqUvrdg6C6+8JmJxtxQRCrb
-         ozjEvW1668w7BsAijb8OZsOE9/v7CNrhxZ9StwwmRogFVsCKPuIuzl4J+4GMmeZvrmLF
-         IDsg==
+        bh=0exTReL7mHWJ9JLqsA8Ohk/Mr6MLccgA4xYRKQdGDVY=;
+        b=zjc7/9WXs0zMsyyWs4dW6Fu0PgyyUTZm7Ydw6N9oWD+eWDQ9YidFyBHkC/i+u3Fuuo
+         pXMyCilWI+4iy7fxfe4HpKWW4S2X4R0nph+cN9EuN8648glpJONKTBFuzKXdmy0Gqs8t
+         5EOFz/ejiTCWFG1ioEvUc9cPGYhET5+EsTX4sCYw+eV+Gd5l3o/Iy8OHoYg1AOyBnWsb
+         NG1YDHbJK3T/3U5iOFFZUZeebf0SGZM1nl7HM63VOTvFEZz/ZrpNjaced+ezY8twbWMa
+         nrRr4kMU9kg6SI1H2+tCfMycQ3hIcAlN3GZtHtdzmbrlEgoiNVnZFjDm4ZNI+gvcZuob
+         xKhQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=NMUMtEuq;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.156 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=oyhVeDaz;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:203:375::8d as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lkCpVupCeCuKU8wcwzwWz1jpKatfJefP33ihLKynWlc=;
-        b=Y46osZGx32VflYj8ithq53YVbA5Cyq9hvloEKH9rLy11dTMm8y/S9tPUrbXhDjL/DM
-         dZen43lMXpp4qhoS/HKmsUROelALchrfpawL/bzrB3aVKIUL2gVs7XS665w8q/e7ub7d
-         3QttjmcLv4H5nC1bnhkKIVuG1v78kWSI8ghfhEJuMY3WydnjzqMaWBEH398rJNGTHigI
-         pgOFIZZ1zHjuNnJZlXe0UzqAzq8YrYF/MFqRQ2UcLygIh4bFEkwlNIoos3TJSi0PYec4
-         6GYqk66O9aN4nREB6hep86J8KXxF1ac2nsnEXqnRGCECPU+nJj8aUMUgAtjjN4X2fFb1
-         hzVg==
+        bh=0exTReL7mHWJ9JLqsA8Ohk/Mr6MLccgA4xYRKQdGDVY=;
+        b=L5cxsKjrLP3p34KGHcct+xj0y5g8L1X3+jjvaTaVKaf27fgSrYnKd32shz2O/8Y3Ld
+         Mz/0iaExCSw/AL56K8jHE+IjmZmWyKhlCd+RNA/4yWnGcJQdzNVjDImd2zRVbdzb5Jli
+         8QTCmQNeo9hWfZP+dVDdFgkArFsOuk4ByXsyvbIraKEqvEn7tna1hypOldR2yh+iGla2
+         6RY/kp0sRlQiAu1CNlr6jyqiM/MmwYiLG8cz9LVGxoqywNu8Csq7bNnc1+43WxSD0ACG
+         KjowC5EaJYLk0WYMLl2IBMqEZ9YDVfZ0WAOQ9Op25GnnGAR92IcjnAsLM0tFInujqxQK
+         9Lyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -51,53 +51,52 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=lkCpVupCeCuKU8wcwzwWz1jpKatfJefP33ihLKynWlc=;
-        b=01YoPx23HKlWVOH+/e7GueXBsZyuGyV4WiTxxDeQ38WMyXfpFUEXz97ujEBGZ/9CrQ
-         oYOLlEoAF9MBwOy/nSG4mYbDZNeMaS5UGWzM5bq9V8PenZJ3aWmh2eerylvYiKkgeBXc
-         4xMfIFqvW7SQ9LJfXC9wdMlLRnAA9YidPg3yE0vmpNLWxlBHA+NLnBSIV6bNRbyvlgeC
-         WOhxpfugorDLNSSVMRM2xlRRi2kEtjFSgEp6qCvLW7XS5GkZSOTotmTZAG2eejWdEMQm
-         4MA5i6WvVZ1Kdbo5/UYdvs7XNwCoOPgOWnoPygNJ3ag+odXz39YpxMoNyr7Eulf+aNEE
-         0F5g==
+        bh=0exTReL7mHWJ9JLqsA8Ohk/Mr6MLccgA4xYRKQdGDVY=;
+        b=3tSU0OyrHxvQcywpCcDj/Tj7zbC3CP2C1L5Adhxl2N/SCZriYPDGEOelSaCizK8qPb
+         DqPLFGRs0TZhZmiPscrOcaJ2fzxuZf9+5/LnNoFzT9dnlxVejwIIiDlri8433mwR/Lmp
+         4OWiALSDe7gVai0ltFKg+7IGQ8T/fkXN0pmlqwX/kXNsFtGK1eWCKjV+fVUZzyNjdhby
+         dvvTraZG+HEBhI9XjI8rRaYKELNWBGPMLgSgPS8BI8jc5/V74JFNzM+HdO1KsMQjUpC4
+         1gsydnYlUlpeYrCCPy39TTD0oNXKxNSNQ8US6OnDkx4wiqesokIzVgsv93G7yqlAE4GZ
+         HpqQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKVV4/5iocJfvp6so7uY27waeTNtvEUnDaQDYT3J+2VaTGhhuH89
-	FozlaOtDkYZBjcZvLuzPOPM=
-X-Google-Smtp-Source: AK7set8Sdmgld6eaXQQN2Kx1VD/VFKJm3YNliztRL3v3OMuefenDLuXDsBpEFwW2pgw8Ar3WjPm19Q==
-X-Received: by 2002:a17:906:3d69:b0:877:e539:810b with SMTP id r9-20020a1709063d6900b00877e539810bmr1559586ejf.2.1676063773829;
-        Fri, 10 Feb 2023 13:16:13 -0800 (PST)
+X-Gm-Message-State: AO0yUKWIr0lrwy+gyWaYkPbsBIbKEyNFGmvfqwRjjP6hFl9bLGd1mtu8
+	lODAsDBE7EeoOqWmIx8rkLY=
+X-Google-Smtp-Source: AK7set9ZQrhwBcA0IU84ywEK8iLqmVNrVsIyd5D6qdQ30g8IHE01tsZI04y1ZcfZouW0xBhNsxrTOw==
+X-Received: by 2002:a05:6512:62:b0:4ca:fe64:1011 with SMTP id i2-20020a056512006200b004cafe641011mr2496682lfo.164.1676063835559;
+        Fri, 10 Feb 2023 13:17:15 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:906:296a:b0:877:7adf:37b with SMTP id
- x10-20020a170906296a00b008777adf037bls4610573ejd.8.-pod-prod-gmail; Fri, 10
- Feb 2023 13:16:12 -0800 (PST)
-X-Received: by 2002:a17:907:6d92:b0:882:c358:5bfd with SMTP id sb18-20020a1709076d9200b00882c3585bfdmr25947054ejc.59.1676063772839;
-        Fri, 10 Feb 2023 13:16:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1676063772; cv=none;
+Received: by 2002:a2e:4e12:0:b0:293:186a:1056 with SMTP id c18-20020a2e4e12000000b00293186a1056ls1113152ljb.10.-pod-prod-gmail;
+ Fri, 10 Feb 2023 13:17:14 -0800 (PST)
+X-Received: by 2002:a2e:9ed3:0:b0:293:1cea:e132 with SMTP id h19-20020a2e9ed3000000b002931ceae132mr4386346ljk.7.1676063834551;
+        Fri, 10 Feb 2023 13:17:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1676063834; cv=none;
         d=google.com; s=arc-20160816;
-        b=pgMgbhS+xG4TFHJL4taUSglYBt7akWiqaaZ1Bq2WCmc31hNB1Ir9PjNnGWQJaBboR9
-         KReaMlDw8DTTFYZgti9gRuHly0/l2/6h7C859TJwF9bLLP4jo/C/FaQaDWD5/1fzjxPC
-         tnbhIjd4DRljA9vbl+NJrcMJNcl5KgsAEnE/Jq2+EanK/a4FZjPgX4d2JjPIMsBkkZg/
-         p8yIuyX8i14Gn9yQmDfDpwsETj5ivnsnGckf9SXy/owNi80GKtVUZzuoTxTmmNNQ1urq
-         O60QaIkj11uaEWwqHTbuZgQzsxbT87l/8qLjKlQKXb0R5L4LrN4HkbRWkp8NRsih/7Da
-         CjEQ==
+        b=dy8VORyVf3t+dpBEM+TiwKfkKMpOxFNZEGl3N3bZ8HiqSmVS4UMhwBRabcCHSprl//
+         Tisn43bRUSiNXxyy6jCLmDKge8HNKcxquy8e3+pFNId9l0VoN4qN2IIimXE/rrRSVQIH
+         O7IZ6K9z2OdtPIH4VMWdpaoRRdL8/8waSVV/S0IHmkUACUAG/XLxYlMfnGFH5NKWNCn5
+         kGo+EhNahxgu6Gvbf3pLIh6KubYDbUADzRrtgt7je21ihh+izOK50ZxwsWlIS+Dh4t1V
+         DDzbzO66759rHge0nK+EI+llCqQQY7D+r9fcAMbaRu2dM7XeIyVA/oLelRgTRP56/yOU
+         LVlQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=b3Y1ZbtnHRjNaHONV9sUdyWjn+clMFk+2c4Skh5NOGM=;
-        b=kDdP2kcD7a3m07053yo6/qnFs0sRleeeUg0VLqc70ZAJtgZhB0/07w9TiVvmTyzjSe
-         xPtWLXPHYb76/BOkJYHYyZrqW85xpBJYsz60c6U5xqlXf3dOD8xmIbgoorcQm+/JRXdl
-         YbEkns7LeHN7twYtuATX4z/HaF7U0A/nOlcMAvVuJ9+Rlk0SsowOz8a5Hn9cvdaS3XfT
-         qnPVn2jwotgaWRnK5wLFPiF1AQr9AYWlTMRzkxeyh3Au+9LMlbMTV3oYkGTXTND0Lyvm
-         jVFCTMeHNXxiSPYGjDFLq6IPaV96dWamRHkI/dEoxgJbk6Gok0pzTDY3x/++AMnFDBtZ
-         mbUw==
+        bh=f9A90r0/KX/Fhu2j5j2j+xtwq4a98UiE0RWErOhidkA=;
+        b=Uzh1NZxq2PuENqVdgCh7nmBGrUBBtLtCQSa1+8nSJ09hG1qJKwALJBKVrZIX4bYkFk
+         N0IGrjQ06+zuywp6VB6VVtbwNeFw//sOXFjdEnkjHnzBEBid10q5GhDe1FdPJI/xf/3E
+         ANAdm8/hVcClxgkRtg85gIsnxVYIXbk6MN3Mtm3dRpcCJOjr6KypXdFvJ1Mp0gg4QLPt
+         c7JjhgaTpvktnrFE68xd9ShLHboHbR2ygZIpAi12zy6FP2TcQE/DJOZnVDEdqfpnHk3k
+         yjRHqZRvh2wO8Tk0dt7dQbtxExFFXBATa2mUXJDhQV21FAqmL388CHMIO+KIDsWJztPX
+         Dl9A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=NMUMtEuq;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.156 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=oyhVeDaz;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:203:375::8d as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-156.mta0.migadu.com (out-156.mta0.migadu.com. [91.218.175.156])
-        by gmr-mx.google.com with ESMTPS id k16-20020a1709067ad000b008778ede684dsi274105ejo.1.2023.02.10.13.16.12
+Received: from out-141.mta1.migadu.com (out-141.mta1.migadu.com. [2001:41d0:203:375::8d])
+        by gmr-mx.google.com with ESMTPS id z7-20020a2ebcc7000000b00293215eee9esi304134ljp.2.2023.02.10.13.17.14
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 13:16:12 -0800 (PST)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.156 as permitted sender) client-ip=91.218.175.156;
+        Fri, 10 Feb 2023 13:17:14 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:203:375::8d as permitted sender) client-ip=2001:41d0:203:375::8d;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
 To: Marco Elver <elver@google.com>,
@@ -110,18 +109,18 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v2 05/18] lib/stackdepot: annotate init and early init functions
-Date: Fri, 10 Feb 2023 22:15:53 +0100
-Message-Id: <d17fbfbd4d73f38686c5e3d4824a6d62047213a1.1676063693.git.andreyknvl@google.com>
+Subject: [PATCH v2 06/18] lib/stackdepot: lower the indentation in stack_depot_init
+Date: Fri, 10 Feb 2023 22:15:54 +0100
+Message-Id: <8e382f1f0c352e4b2ad47326fec7782af961fe8e.1676063693.git.andreyknvl@google.com>
 In-Reply-To: <cover.1676063693.git.andreyknvl@google.com>
 References: <cover.1676063693.git.andreyknvl@google.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=NMUMtEuq;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.156
- as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+ header.i=@linux.dev header.s=key1 header.b=oyhVeDaz;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates
+ 2001:41d0:203:375::8d as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -138,110 +137,109 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-Add comments to stack_depot_early_init and stack_depot_init to explain
-certain parts of their implementation.
+stack_depot_init does most things inside an if check. Move them out and
+use a goto statement instead.
 
-Also add a pr_info message to stack_depot_early_init similar to the one
-in stack_depot_init.
-
-Also move the scale variable in stack_depot_init to the scope where it
-is being used.
+No functional changes.
 
 Reviewed-by: Alexander Potapenko <glider@google.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- lib/stackdepot.c | 27 +++++++++++++++++++++------
- 1 file changed, 21 insertions(+), 6 deletions(-)
+ lib/stackdepot.c | 70 +++++++++++++++++++++++++-----------------------
+ 1 file changed, 37 insertions(+), 33 deletions(-)
 
 diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-index 202e07c4f02d..9fab711e4826 100644
+index 9fab711e4826..3c713f70b0a3 100644
 --- a/lib/stackdepot.c
 +++ b/lib/stackdepot.c
-@@ -115,24 +115,34 @@ void __init stack_depot_request_early_init(void)
- 	__stack_depot_early_init_requested = true;
- }
- 
-+/* Allocates a hash table via memblock. Can only be used during early boot. */
- int __init stack_depot_early_init(void)
- {
- 	unsigned long entries = 0;
- 
--	/* This is supposed to be called only once, from mm_init() */
-+	/* This function must be called only once, from mm_init(). */
- 	if (WARN_ON(__stack_depot_early_init_passed))
- 		return 0;
--
- 	__stack_depot_early_init_passed = true;
- 
-+	/*
-+	 * If KASAN is enabled, use the maximum order: KASAN is frequently used
-+	 * in fuzzing scenarios, which leads to a large number of different
-+	 * stack traces being stored in stack depot.
-+	 */
- 	if (kasan_enabled() && !stack_hash_order)
- 		stack_hash_order = STACK_HASH_ORDER_MAX;
- 
- 	if (!__stack_depot_early_init_requested || stack_depot_disabled)
- 		return 0;
- 
-+	/*
-+	 * If stack_hash_order is not set, leave entries as 0 to rely on the
-+	 * automatic calculations performed by alloc_large_system_hash.
-+	 */
- 	if (stack_hash_order)
--		entries = 1UL <<  stack_hash_order;
-+		entries = 1UL << stack_hash_order;
-+	pr_info("allocating hash table via alloc_large_system_hash\n");
- 	stack_table = alloc_large_system_hash("stackdepot",
- 						sizeof(struct stack_record *),
- 						entries,
-@@ -142,7 +152,6 @@ int __init stack_depot_early_init(void)
- 						&stack_hash_mask,
- 						1UL << STACK_HASH_ORDER_MIN,
- 						1UL << STACK_HASH_ORDER_MAX);
--
- 	if (!stack_table) {
- 		pr_err("hash table allocation failed, disabling\n");
- 		stack_depot_disabled = true;
-@@ -152,6 +161,7 @@ int __init stack_depot_early_init(void)
- 	return 0;
- }
- 
-+/* Allocates a hash table via kvcalloc. Can be used after boot. */
+@@ -165,46 +165,50 @@ int __init stack_depot_early_init(void)
  int stack_depot_init(void)
  {
  	static DEFINE_MUTEX(stack_depot_init_mutex);
-@@ -160,11 +170,16 @@ int stack_depot_init(void)
++	unsigned long entries;
+ 	int ret = 0;
+ 
  	mutex_lock(&stack_depot_init_mutex);
- 	if (!stack_depot_disabled && !stack_table) {
- 		unsigned long entries;
--		int scale = STACK_HASH_SCALE;
+-	if (!stack_depot_disabled && !stack_table) {
+-		unsigned long entries;
  
-+		/*
-+		 * Similarly to stack_depot_early_init, use stack_hash_order
-+		 * if assigned, and rely on automatic scaling otherwise.
-+		 */
- 		if (stack_hash_order) {
- 			entries = 1UL << stack_hash_order;
- 		} else {
-+			int scale = STACK_HASH_SCALE;
+-		/*
+-		 * Similarly to stack_depot_early_init, use stack_hash_order
+-		 * if assigned, and rely on automatic scaling otherwise.
+-		 */
+-		if (stack_hash_order) {
+-			entries = 1UL << stack_hash_order;
+-		} else {
+-			int scale = STACK_HASH_SCALE;
+-
+-			entries = nr_free_buffer_pages();
+-			entries = roundup_pow_of_two(entries);
+-
+-			if (scale > PAGE_SHIFT)
+-				entries >>= (scale - PAGE_SHIFT);
+-			else
+-				entries <<= (PAGE_SHIFT - scale);
+-		}
++	if (stack_depot_disabled || stack_table)
++		goto out_unlock;
+ 
+-		if (entries < 1UL << STACK_HASH_ORDER_MIN)
+-			entries = 1UL << STACK_HASH_ORDER_MIN;
+-		if (entries > 1UL << STACK_HASH_ORDER_MAX)
+-			entries = 1UL << STACK_HASH_ORDER_MAX;
+-
+-		pr_info("allocating hash table of %lu entries via kvcalloc\n",
+-				entries);
+-		stack_table = kvcalloc(entries, sizeof(struct stack_record *), GFP_KERNEL);
+-		if (!stack_table) {
+-			pr_err("hash table allocation failed, disabling\n");
+-			stack_depot_disabled = true;
+-			ret = -ENOMEM;
+-		}
+-		stack_hash_mask = entries - 1;
++	/*
++	 * Similarly to stack_depot_early_init, use stack_hash_order
++	 * if assigned, and rely on automatic scaling otherwise.
++	 */
++	if (stack_hash_order) {
++		entries = 1UL << stack_hash_order;
++	} else {
++		int scale = STACK_HASH_SCALE;
 +
- 			entries = nr_free_buffer_pages();
- 			entries = roundup_pow_of_two(entries);
- 
-@@ -179,7 +194,7 @@ int stack_depot_init(void)
- 		if (entries > 1UL << STACK_HASH_ORDER_MAX)
- 			entries = 1UL << STACK_HASH_ORDER_MAX;
- 
--		pr_info("allocating hash table of %lu entries with kvcalloc\n",
-+		pr_info("allocating hash table of %lu entries via kvcalloc\n",
- 				entries);
- 		stack_table = kvcalloc(entries, sizeof(struct stack_record *), GFP_KERNEL);
- 		if (!stack_table) {
++		entries = nr_free_buffer_pages();
++		entries = roundup_pow_of_two(entries);
++
++		if (scale > PAGE_SHIFT)
++			entries >>= (scale - PAGE_SHIFT);
++		else
++			entries <<= (PAGE_SHIFT - scale);
+ 	}
++
++	if (entries < 1UL << STACK_HASH_ORDER_MIN)
++		entries = 1UL << STACK_HASH_ORDER_MIN;
++	if (entries > 1UL << STACK_HASH_ORDER_MAX)
++		entries = 1UL << STACK_HASH_ORDER_MAX;
++
++	pr_info("allocating hash table of %lu entries via kvcalloc\n", entries);
++	stack_table = kvcalloc(entries, sizeof(struct stack_record *), GFP_KERNEL);
++	if (!stack_table) {
++		pr_err("hash table allocation failed, disabling\n");
++		stack_depot_disabled = true;
++		ret = -ENOMEM;
++		goto out_unlock;
++	}
++	stack_hash_mask = entries - 1;
++
++out_unlock:
+ 	mutex_unlock(&stack_depot_init_mutex);
++
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(stack_depot_init);
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/d17fbfbd4d73f38686c5e3d4824a6d62047213a1.1676063693.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8e382f1f0c352e4b2ad47326fec7782af961fe8e.1676063693.git.andreyknvl%40google.com.
