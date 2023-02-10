@@ -1,33 +1,33 @@
 Return-Path: <kasan-dev+bncBAABBHHITKPQMGQEPRFEWIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44EBB692901
+Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1FE9692902
 	for <lists+kasan-dev@lfdr.de>; Fri, 10 Feb 2023 22:16:13 +0100 (CET)
-Received: by mail-wr1-x43b.google.com with SMTP id n14-20020a5d598e000000b002c3f0a93825sf1601514wri.15
+Received: by mail-wm1-x337.google.com with SMTP id k17-20020a05600c1c9100b003dd41ad974bsf3162879wms.3
         for <lists+kasan-dev@lfdr.de>; Fri, 10 Feb 2023 13:16:13 -0800 (PST)
 ARC-Seal: i=2; a=rsa-sha256; t=1676063773; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xSCFOAvCzWznBIXkyHoOpe7bNP9HYi0Arh9h3yCsDGNJkcLwxq/0ntzf8LfP/V8EfV
-         89evPlUeg0bCHR1sYvDLY9Ps9TEuudG0NR/vM1vxShp0HdXhtspzFBaGLlTOaJ4UI797
-         /QEqBMv5Ct++JnZUuMNKngrHYvor99DJagFr3n3oJaOFXwWmHbn/BxBGwRgQ9nRSeXhA
-         vtk6OG6pNWCmHKySirFfQ80poni6+ypEvRmYX/dXRQAMXHCjap1FpjgyckHrJS9vicTX
-         u7+pipighU/BuE6hfNQMHZuHbyW7glMBcwoqc8cwWAp5A9FXfj9roJTmd3rlZPAqZLTW
-         cqNw==
+        b=UunKP+3MWRW+x8wN+v2ymxlPAxhiHymLbf8vNUGsITnvhK0zcncYeKvh4gzNJnANlb
+         u762arVbuw3iLlzF6uYDCbJ0IiMDOXwpr9JvWScLpZ4BnO8/UJxf8jJ99KVtWo+qd8FR
+         PGAFUzREu4d/0xMKMKH75lRzBvmS5APObGjAoRAYRvEnDV78TMEgr4nHP7rYbKexPa3Z
+         bn7w28UjqgShSCaak988ai6MxN1LI2ffigysMliFKXi43vkmSzsxhRHBwTfEuSQoXKVp
+         WUR7GsmFj/AmT3XwQvfgaX6+Yne3iz74gTBjQIWHc/mr15RPzG0mWT6r6s8xHUbStwDQ
+         Kyhw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=7Bezs+XXsJX4PmxOpOBnljws2hQtwc2r/U1IbuAbQf0=;
-        b=jhs0OpoeRmL06fgRiKAZ8+VFE76qwO4eQ2TQ99aKVZzbxTIvfGW6uWlsVVoA5o3hxm
-         oyDoBKSrwvCjktJWRQnNzW28Yuli3fvJoBC5Y67JWiS5DXcKcXK1zJ4AXDZSCVjalIUW
-         nD8Up2wgxMlchfeprK8fPJtCI9HwOUaxVBZtBe6QegHLVO9G5DC6zTRZX42wF2ELAArB
-         whgG7SgYx0R1ZGuYZULiWtYNFNrlkfumgYF4RLDTArvtLzfL5474GmUjqVAaCpX5NfBl
-         KfDv0GmQOyvdjSwRQujg7e9eG71H+1PLYc6sDMX1NcdSu2cCcM85CpDCmuu1piEBFac6
-         fZVA==
+        bh=f6Z2GeKruW2sQAZDswt084RS2DQzcIZwj3dq2c9+Usk=;
+        b=DbDLoleqLQgY0kf4g0y+86T6g7nz4reFgrzCTkS7rm0TOXaEFPvPeoETmuafMGerhf
+         yqZ440rpiMdk5E4FLy1aVSeC/QsnGT8k+eHaF5Ioi5RGnsiZzwtbq/0SqRBVn0Ff+ecM
+         RDTwwUDUJiYS3z88BUdpT5Wa3DQLtDeF2TjF+VNdoPKeSyTjHaDbNREmdWFNarCR/ne2
+         /nZnyLRIcx9BhjKzFOdrDBIg8uhWjn0ISoj+kGz84CkBOLx9lkZTNrsI0g9+CZk0fvop
+         8xME3m9lQ9lpyAR+AosdcZEmpIQvN0ILBWz38bSFiOi9+bBzKSovNvNqLwSQKcsmkPXe
+         qcWQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=dh6wp1Eq;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.100 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=SbrBALja;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.114 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7Bezs+XXsJX4PmxOpOBnljws2hQtwc2r/U1IbuAbQf0=;
-        b=FCQSWkt7P2A+2GLKGH4MaHjf8bYFzaiA/q06I4xECHEobVjLgvXJXEA93dRQA4tffk
-         sxOtnwqm2CbeUaqpgu/QL64dkJIPy9miJRBEk0T79egR7sUfFCq10/iP0VEF/amKZzMG
-         d+GQZlaytykCpDZM2Bx93T6LMrDGp8IYOPVvs8M2ayNixeEMu8qCN2vk6lm5h9y+gLyf
-         C59K7givYF06hscZZ5yVJ3D086mUaypI3Q8QT+rmLBw5HgEpD4UOn2uOPQGsWO8RDw7S
-         kFjU3cgs/QekyOVzbVuhnj8Kz+5geMnNuAC/kwuXHPsDchng2ZowCrBLwPhxCGl34vtn
-         8aXA==
+        bh=f6Z2GeKruW2sQAZDswt084RS2DQzcIZwj3dq2c9+Usk=;
+        b=iyTqxR9rN/DqEDOA9qqrTKemAgGZSZfZ1y++CmL2WUdP77Wrd3Mj+2t6P4VOoa9lDy
+         PSys72tzERp3OaSb9WpR1SkvyDIspIf6BRKh5t3/7hz+U788zjRz4LPbYdvC+1nW//s3
+         tikldMm28vVS0o9pDYS/ochF+66bwvBd+dNSkX2t6EHqttef2e33Jk4BZ85/jmmiVHjJ
+         6GyWFbvuV7J6hPcrFK3X/7yXAl4Jrkk48wwm6sjAjED6jtdMhABwDRdzIFNn/0dd0GEy
+         y/NjWFV3MbLpO/lvu7f4uurkObi3DS29f6SHyNaZRkWWFfeb3HTE1Q/e27YlhU6o6MyL
+         /oJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -51,52 +51,52 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7Bezs+XXsJX4PmxOpOBnljws2hQtwc2r/U1IbuAbQf0=;
-        b=EcuLb96ZrG2oWNYuezewFCxo5Yfd4FKxX1kXeWOyVDmPJWf2QBMOh5pydd99EjKlpx
-         xRJwvti1YmqFbSHS/Ze7x/BgwRtTF23I86kus32jXxXQ1FodxVu98ikc/+12Ig+dy1h3
-         pfi6v38YhclY13AhtiTcg53PDEfVIpl4pC/HUIK4lxbcoC0gjjc6PbrIieEKbjS4bn7m
-         6PO2evsuZfUQ7thUGtj++G89WR2v/TS/QM3+8gYdaKFcmG+2EpG+zAYQHIhAkkoESjGI
-         I+qU9kzJyDOWNnYvMc8Sjmf6AdfBzAAVy4jY6nJ15gqzara65SgpOrJQQ/yNk7la1kf8
-         WIvA==
+        bh=f6Z2GeKruW2sQAZDswt084RS2DQzcIZwj3dq2c9+Usk=;
+        b=wWsjJC9e4dbSG5gywujEqK00OAIQZQCAsWjoCDoTMoH2OQ0UmK/y7TC65MM/i7HYou
+         MPldo/gsnJyCziwBDJrMNCoNAg0o2+Un4WTIMEEYU5lB5WLcVRyzYQh/1nWmOLe7Ls+Y
+         r+sus4AKxEuBVaoVNdkW4fhS9rNvKjmHoWo53VBkl5YO5Yj2e8K2nJ+wJml1FKq5XJJw
+         9gOJH2gEiiT2U5ntbDh9FNvja+rq4W5osn77sVXKjmt0W3ZhIFMKQrchtxjw64LT/DlD
+         4cHBAjytaFw5sotqRrJipe7ArK5tuAKIKtUe2f4uSzpodhWymI4zp+T54H+H9m+S6dqQ
+         8j3A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKX+43mKbmHK2etU4ALZO9VMiTTXfH4iuxC90GqBeIwa5NL15VN0
-	Flcoi+IBI9//Rq/CHq1dCWY=
-X-Google-Smtp-Source: AK7set91D2IKsuPn8UHcjVpHGHYh1nFh5sfbvqudHSBFVvih9YqiuTCijjuH6q5TnM5K7blxjGkanw==
-X-Received: by 2002:adf:efca:0:b0:2bf:b6a2:a053 with SMTP id i10-20020adfefca000000b002bfb6a2a053mr757625wrp.287.1676063772632;
-        Fri, 10 Feb 2023 13:16:12 -0800 (PST)
+X-Gm-Message-State: AO0yUKVHWlYF3LPQcfMp1L+cLrDlr/UyAn0WRwbek6qitDfaYv7fvjMZ
+	X9PpN1fgxS92qr7cGwZlt0c=
+X-Google-Smtp-Source: AK7set8C5N8vW2KymhsWwbM6QCNofHyLuxzLViWLk5a64i4DLR2SVPLcOAngXUgceQbc0MkG5HI4WA==
+X-Received: by 2002:a05:600c:45d0:b0:3d3:5315:8de with SMTP id s16-20020a05600c45d000b003d3531508demr1240802wmo.50.1676063773218;
+        Fri, 10 Feb 2023 13:16:13 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:adf:ea50:0:b0:298:bd4a:4dd9 with SMTP id j16-20020adfea50000000b00298bd4a4dd9ls2229291wrn.1.-pod-prod-gmail;
- Fri, 10 Feb 2023 13:16:11 -0800 (PST)
-X-Received: by 2002:a05:6000:118c:b0:2bf:bd43:aacc with SMTP id g12-20020a056000118c00b002bfbd43aaccmr13673387wrx.55.1676063771705;
-        Fri, 10 Feb 2023 13:16:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1676063771; cv=none;
+Received: by 2002:a5d:58cd:0:b0:2bf:ccef:53a6 with SMTP id o13-20020a5d58cd000000b002bfccef53a6ls2226199wrf.0.-pod-prod-gmail;
+ Fri, 10 Feb 2023 13:16:12 -0800 (PST)
+X-Received: by 2002:adf:fcd2:0:b0:2c5:48cd:2f04 with SMTP id f18-20020adffcd2000000b002c548cd2f04mr3081341wrs.6.1676063772132;
+        Fri, 10 Feb 2023 13:16:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1676063772; cv=none;
         d=google.com; s=arc-20160816;
-        b=DNvaM4lRmi68q823w7+Son32F8WEQEfzoLi9e99+ANNKrogKD7ARKUdEQRY1FoP9iq
-         P4cebGAWMy0selsgOfqKDa9cpNFF053dRS/vueoZydFCjKEvXlIaHaoXykOo3thrInyn
-         aNdV+oBW7jVvs9BDmcSWm5Cnr+ztbdxNCLaQMIZGjzAQMURL2MXaSl+sBzT49hKg4Tt8
-         QOnf3TPA/uGrPZc3qKiboe9J3WAoeNpmdclpz4xD/Ym4N2iBo096P8ivD4ADd2MwrSYL
-         Lh/atC4qKYEmL3zOB8SPF7xcKQOBZ+7l8YUBqf/qoejdmtfqySM1Q651KJC84gPj5oIB
-         h8xQ==
+        b=Vmdx8rWJIzkZM4HziF1kOSFDdRlH2Vi0HqrEtHrtoQDMj2sRe0701MrXZ2g0fHn1BP
+         SWVAz4eZn4TamrV9P1aowrsl2flT3quILrNPjCi6jS9dhhjLJMbEv7IeT01qm7k3bJJ5
+         akMOGzwtf8p/SCdI1bJ7p4x7xjh0rsBVhgIg/W5w5xBxs22XsbU812dy0xEWwT7rXZRg
+         6B+Nc7LUjyE+j9BjKOa0jwe9pxllNqtj5XBHjiy+2MoTaTgvPmW33fMaj7VUqeIi5l13
+         8lW7T3WHuXIp0a4kAWy4dL7V2nhAQZUVImRp1ZA8Gn83AbirQFUiKArBF1ppLpccjaAs
+         Hn/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=TynB0J5qbcRBuS5BSP3vU74TPjYQ5881BbX5zggeusA=;
-        b=LxUWvwKCk1nORoFdBqWJkGeOu2JoL7/26x4QEjEt5OE64T2j1h9C5L7pPaY1WN9wDG
-         ZfzeA+szpMdIDotWiC4XtrFaT/b0NuqFYEV9vO5vFydRTvv1SDEzp5w3mdZg/h/5yQkN
-         6TyqUDJLXIISDhMkWpbVex3t/yu2AfNZTbmZJsUVyAEjEgI/EkxjAZsph1Qj4JoEE9dn
-         oZP1Aqgc/rTQf26AXPxk1ymk19I02rQbyzzjU1x4aFkhUBtR5VzArPmD7YTHzv/61+5E
-         T+06WKT0Lssnap1ic2mrLCJaIbRNRCM6MgVQwXf8jw5MOKU6l4tNlyaXiEsD+ymvtIFB
-         WLcg==
+        bh=1W2C2HZe7YWsaOly5qIInZGLXczRmh4K22qjFQ2kImw=;
+        b=q82jwLxzW2pMgFontH5q+t/Wp4eAKTBgmgXjcJls3SW5b/Dq0e+EqK3OJpBKJtCMkq
+         yvB0dzjRxibZOEdzZhcqOQV7uHVP/yYpWYa+sm0/37uh1HV4KlXPFdmIyskRwqPDxcqt
+         iRaHP/bakTp4BGYF/YWUyHSr7Z3+2AUqKPnOLJNke+R10e/F9zPsq5aXgcvoRmweoEwR
+         JL4lzUkzJU2QeCxVW2Xddd8+X6ts902ygZYBL4mdPXpb4fWgKLoDv9wHEq/I9ZSFm6BW
+         d+SPWz7Dx3CXyGWbzWzZh+HaYBqyd0z2B1zSXv9iFkvTLyCA1e+ltP07UMJernAgTK+V
+         mLrQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=dh6wp1Eq;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.100 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=SbrBALja;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.114 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-100.mta0.migadu.com (out-100.mta0.migadu.com. [91.218.175.100])
-        by gmr-mx.google.com with ESMTPS id 1-20020a056000156100b002c54cdd5f0bsi57605wrz.4.2023.02.10.13.16.11
+Received: from out-114.mta0.migadu.com (out-114.mta0.migadu.com. [91.218.175.114])
+        by gmr-mx.google.com with ESMTPS id b11-20020a05600003cb00b002c547397a4csi169793wrg.1.2023.02.10.13.16.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Feb 2023 13:16:11 -0800 (PST)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.100 as permitted sender) client-ip=91.218.175.100;
+        Fri, 10 Feb 2023 13:16:12 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.114 as permitted sender) client-ip=91.218.175.114;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
 To: Marco Elver <elver@google.com>,
@@ -109,17 +109,17 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v2 03/18] lib/stackdepot, mm: rename stack_depot_want_early_init
-Date: Fri, 10 Feb 2023 22:15:51 +0100
-Message-Id: <359f31bf67429a06e630b4395816a967214ef753.1676063693.git.andreyknvl@google.com>
+Subject: [PATCH v2 04/18] lib/stackdepot: rename stack_depot_disable
+Date: Fri, 10 Feb 2023 22:15:52 +0100
+Message-Id: <d78a07d222e689926e5ead229e4a2e3d87dc9aa7.1676063693.git.andreyknvl@google.com>
 In-Reply-To: <cover.1676063693.git.andreyknvl@google.com>
 References: <cover.1676063693.git.andreyknvl@google.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=dh6wp1Eq;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.100
+ header.i=@linux.dev header.s=key1 header.b=SbrBALja;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.114
  as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
@@ -137,139 +137,109 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-Rename stack_depot_want_early_init to stack_depot_request_early_init.
+Rename stack_depot_disable to stack_depot_disabled to make its name look
+similar to the names of other stack depot flags.
 
-The old name is confusing, as it hints at returning some kind of intention
-of stack depot. The new name reflects that this function requests an action
-from stack depot instead.
+Also put stack_depot_disabled's definition together with the other flags.
+
+Also rename is_stack_depot_disabled to disable_stack_depot: this name
+looks more conventional for a function that processes a boot parameter.
 
 No functional changes.
 
 Reviewed-by: Alexander Potapenko <glider@google.com>
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- include/linux/stackdepot.h | 14 +++++++-------
- lib/stackdepot.c           | 10 +++++-----
- mm/page_owner.c            |  2 +-
- mm/slub.c                  |  4 ++--
- 4 files changed, 15 insertions(+), 15 deletions(-)
+ lib/stackdepot.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/stackdepot.h b/include/linux/stackdepot.h
-index 1296a6eeaec0..c4e3abc16b16 100644
---- a/include/linux/stackdepot.h
-+++ b/include/linux/stackdepot.h
-@@ -31,26 +31,26 @@ typedef u32 depot_stack_handle_t;
-  * enabled as part of mm_init(), for subsystems where it's known at compile time
-  * that stack depot will be used.
-  *
-- * Another alternative is to call stack_depot_want_early_init(), when the
-+ * Another alternative is to call stack_depot_request_early_init(), when the
-  * decision to use stack depot is taken e.g. when evaluating kernel boot
-  * parameters, which precedes the enablement point in mm_init().
-  *
-- * stack_depot_init() and stack_depot_want_early_init() can be called regardless
-- * of CONFIG_STACKDEPOT and are no-op when disabled. The actual save/fetch/print
-- * functions should only be called from code that makes sure CONFIG_STACKDEPOT
-- * is enabled.
-+ * stack_depot_init() and stack_depot_request_early_init() can be called
-+ * regardless of CONFIG_STACKDEPOT and are no-op when disabled. The actual
-+ * save/fetch/print functions should only be called from code that makes sure
-+ * CONFIG_STACKDEPOT is enabled.
-  */
- #ifdef CONFIG_STACKDEPOT
- int stack_depot_init(void);
- 
--void __init stack_depot_want_early_init(void);
-+void __init stack_depot_request_early_init(void);
- 
- /* This is supposed to be called only from mm_init() */
- int __init stack_depot_early_init(void);
- #else
- static inline int stack_depot_init(void) { return 0; }
- 
--static inline void stack_depot_want_early_init(void) { }
-+static inline void stack_depot_request_early_init(void) { }
- 
- static inline int stack_depot_early_init(void)	{ return 0; }
- #endif
 diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-index 83787e46a3ab..136706efe339 100644
+index 136706efe339..202e07c4f02d 100644
 --- a/lib/stackdepot.c
 +++ b/lib/stackdepot.c
-@@ -71,7 +71,7 @@ struct stack_record {
+@@ -71,6 +71,7 @@ struct stack_record {
  	unsigned long entries[];	/* Variable-sized array of entries. */
  };
  
--static bool __stack_depot_want_early_init __initdata = IS_ENABLED(CONFIG_STACKDEPOT_ALWAYS_INIT);
-+static bool __stack_depot_early_init_requested __initdata = IS_ENABLED(CONFIG_STACKDEPOT_ALWAYS_INIT);
++static bool stack_depot_disabled;
+ static bool __stack_depot_early_init_requested __initdata = IS_ENABLED(CONFIG_STACKDEPOT_ALWAYS_INIT);
  static bool __stack_depot_early_init_passed __initdata;
  
- static void *stack_slabs[STACK_ALLOC_MAX_SLABS];
-@@ -107,12 +107,12 @@ static int __init is_stack_depot_disabled(char *str)
- }
- early_param("stack_depot_disable", is_stack_depot_disabled);
+@@ -91,21 +92,20 @@ static DEFINE_RAW_SPINLOCK(depot_lock);
+ static unsigned int stack_hash_order;
+ static unsigned int stack_hash_mask;
  
--void __init stack_depot_want_early_init(void)
-+void __init stack_depot_request_early_init(void)
+-static bool stack_depot_disable;
+ static struct stack_record **stack_table;
+ 
+-static int __init is_stack_depot_disabled(char *str)
++static int __init disable_stack_depot(char *str)
  {
--	/* Too late to request early init now */
-+	/* Too late to request early init now. */
- 	WARN_ON(__stack_depot_early_init_passed);
+ 	int ret;
  
--	__stack_depot_want_early_init = true;
-+	__stack_depot_early_init_requested = true;
+-	ret = kstrtobool(str, &stack_depot_disable);
+-	if (!ret && stack_depot_disable) {
++	ret = kstrtobool(str, &stack_depot_disabled);
++	if (!ret && stack_depot_disabled) {
+ 		pr_info("disabled\n");
+ 		stack_table = NULL;
+ 	}
+ 	return 0;
  }
+-early_param("stack_depot_disable", is_stack_depot_disabled);
++early_param("stack_depot_disable", disable_stack_depot);
  
- int __init stack_depot_early_init(void)
+ void __init stack_depot_request_early_init(void)
+ {
 @@ -128,7 +128,7 @@ int __init stack_depot_early_init(void)
  	if (kasan_enabled() && !stack_hash_order)
  		stack_hash_order = STACK_HASH_ORDER_MAX;
  
--	if (!__stack_depot_want_early_init || stack_depot_disable)
-+	if (!__stack_depot_early_init_requested || stack_depot_disable)
+-	if (!__stack_depot_early_init_requested || stack_depot_disable)
++	if (!__stack_depot_early_init_requested || stack_depot_disabled)
  		return 0;
  
  	if (stack_hash_order)
-diff --git a/mm/page_owner.c b/mm/page_owner.c
-index 2d27f532df4c..90a4a087e6c7 100644
---- a/mm/page_owner.c
-+++ b/mm/page_owner.c
-@@ -48,7 +48,7 @@ static int __init early_page_owner_param(char *buf)
- 	int ret = kstrtobool(buf, &page_owner_enabled);
+@@ -145,7 +145,7 @@ int __init stack_depot_early_init(void)
  
- 	if (page_owner_enabled)
--		stack_depot_want_early_init();
-+		stack_depot_request_early_init();
- 
- 	return ret;
- }
-diff --git a/mm/slub.c b/mm/slub.c
-index 13459c69095a..f2c6c356bc36 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -1592,7 +1592,7 @@ static int __init setup_slub_debug(char *str)
- 		} else {
- 			slab_list_specified = true;
- 			if (flags & SLAB_STORE_USER)
--				stack_depot_want_early_init();
-+				stack_depot_request_early_init();
- 		}
+ 	if (!stack_table) {
+ 		pr_err("hash table allocation failed, disabling\n");
+-		stack_depot_disable = true;
++		stack_depot_disabled = true;
+ 		return -ENOMEM;
  	}
  
-@@ -1611,7 +1611,7 @@ static int __init setup_slub_debug(char *str)
- out:
- 	slub_debug = global_flags;
- 	if (slub_debug & SLAB_STORE_USER)
--		stack_depot_want_early_init();
-+		stack_depot_request_early_init();
- 	if (slub_debug != 0 || slub_debug_string)
- 		static_branch_enable(&slub_debug_enabled);
- 	else
+@@ -158,7 +158,7 @@ int stack_depot_init(void)
+ 	int ret = 0;
+ 
+ 	mutex_lock(&stack_depot_init_mutex);
+-	if (!stack_depot_disable && !stack_table) {
++	if (!stack_depot_disabled && !stack_table) {
+ 		unsigned long entries;
+ 		int scale = STACK_HASH_SCALE;
+ 
+@@ -184,7 +184,7 @@ int stack_depot_init(void)
+ 		stack_table = kvcalloc(entries, sizeof(struct stack_record *), GFP_KERNEL);
+ 		if (!stack_table) {
+ 			pr_err("hash table allocation failed, disabling\n");
+-			stack_depot_disable = true;
++			stack_depot_disabled = true;
+ 			ret = -ENOMEM;
+ 		}
+ 		stack_hash_mask = entries - 1;
+@@ -353,7 +353,7 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
+ 	 */
+ 	nr_entries = filter_irq_stacks(entries, nr_entries);
+ 
+-	if (unlikely(nr_entries == 0) || stack_depot_disable)
++	if (unlikely(nr_entries == 0) || stack_depot_disabled)
+ 		goto fast_exit;
+ 
+ 	hash = hash_stack(entries, nr_entries);
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/359f31bf67429a06e630b4395816a967214ef753.1676063693.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/d78a07d222e689926e5ead229e4a2e3d87dc9aa7.1676063693.git.andreyknvl%40google.com.
