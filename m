@@ -1,33 +1,33 @@
 Return-Path: <kasan-dev+bncBAABBHHITKPQMGQEPRFEWIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331ED692900
+Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id 235506928FF
 	for <lists+kasan-dev@lfdr.de>; Fri, 10 Feb 2023 22:16:13 +0100 (CET)
-Received: by mail-lj1-x239.google.com with SMTP id s2-20020a2e1502000000b002917ff038dasf1856333ljd.7
+Received: by mail-lj1-x240.google.com with SMTP id z12-20020a2ebe0c000000b00292f8b0b433sf1854945ljq.12
         for <lists+kasan-dev@lfdr.de>; Fri, 10 Feb 2023 13:16:13 -0800 (PST)
 ARC-Seal: i=2; a=rsa-sha256; t=1676063772; cv=pass;
         d=google.com; s=arc-20160816;
-        b=QJTQkz8X/Qk5TUC6QwuSg9wDeourgswlgPzlS/cH8HoNSVGn5PBVd9CCM04AfjXCMV
-         q3Z3RXJ0zAcAS2p4uikrnBtVf32VtiS3/XJ6hns1MC4nUqmTs3TTEEm68d77J9juXXZM
-         jHKc7yYXtL5N1dEhbLigC/2xDUQbXnzRGfoC0zntH0DGduzoavV2Tls3yPVqX8DowipT
-         S4gRx4d8rHAZQTI5m40Cv1WADJHjLDZeqQDUBltjbZMFwKlgwpAZjAX9ORGSkI9SrkgF
-         ezFUi5BTBkEBHdGhcAkP/3pxf8M3XX4fnrD9ocbe+oo7kSSQT4kt25fdnYYHP1oZN4fZ
-         XahQ==
+        b=v8I5R7dckBRyUVYJYycGAuS2mKOXF/ofX17xkdSlGvsUGC3gtTVkaJoCyX1Y8tTHa1
+         oo0VwLfLbQAS50NhaLOcPCCRPQtgcG3thWeCRyZevs6vEuHUSNnf+IRoPY0xAkNFjvfc
+         zu410QGPqkgRkJwe9kxV1IynuR9Wtrux26zijG1KtU75+LneC0NFYJgk5EZ/7VOi5UgQ
+         2ZXGv8fVdYd0uF6DiB25LIZAL03Wl5dN6nb35a3XEWKe9J9zqlJcHQvOnsusZlinTFTt
+         DxyAgzuO28hyUzyOv/OaG4BOVlOqeuYSr+mTM1W08atSAdEG2g2fJedv0Km/TOmi3XMk
+         npJw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=XlBScMm0P4x/sgIhcts/BwhctNg1+4sD6xz6GxkBhPU=;
-        b=eJbuCoftumLtwfTkMka9AwlZGLrSfhWvCxgKS+1jsavxlLE3diB2cR2640LMzpGGXN
-         5uztMhWrn+ul3lW7m4bxjXodt9hktGM2fQdwmC82PQyqLou32Cy8Tm6aZ3pBtbkTFs+/
-         pL55J6KSs9gABkJUVStugopXVGcVIVvF/mdult6ijuwNN5uYrJ14bcpO44CR5EmP9lbw
-         vPbythAH86Cq9VuJ/ww0SFlx4p/7bM35qQVbhQczWLo0uvqSZQPNaUnFryxufgbxLhME
-         ob+rJB/QWav1au4pZVO1xMSJJ6LcgUGnxixffTcvByWh6oczv3WTYppMb0vXnD57wCP0
-         kFiA==
+        bh=0wRKVoSYCSDRJPf0aC5K1cgN+Wriklv33637poO9vOU=;
+        b=dhjFrzcBc5LsiUsZAdJhVKJH7jBREy58COYsuZOXK3mlcJ5LYH5CnOSI+4lFz1jrHI
+         H9u+e2Yzw39R4LGHLAqcqSVjxkHhaoM+jDNC9SyB/ui1OTqaVZlTzMXnQokrZ8w4twIk
+         JUGQSCFdEFj+sQiIsWoacnlE0RMWhsDV/CdzbSGavXLhUh4Qsbphj/7y4Ason4RhAE3v
+         wPwtKioMpW49ZxS5ydAJI8IdiAStyGVNgcQHnqQKf/faFyK6rw3oc60W+G3CGsi87jAJ
+         MUI37OahTJ3STQM7rdyFiv37vzKRHFX+Dqpo+wFjgBf2DNuhUdXyZ7g7ZF92ifHcxxNW
+         OLPQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=w90TbDJL;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.224 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=Lpp+lB8h;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:1004:224b::6b as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
@@ -36,13 +36,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XlBScMm0P4x/sgIhcts/BwhctNg1+4sD6xz6GxkBhPU=;
-        b=SlgAFnanwyeVlGL5Szwj2bLgtfs/tLz11oJEeFraW/83/GgQFXsJpKr23Ti+cKOGgM
-         VKSCd4G2GNqISLS7K4JxYDcbx6aTN6PModT8YZrZk/+M4BjvMxke7Drl0uUVBqWtgecz
-         vNMiNYF0nUmZwPebjUICyaw5oNM89JofYAe8c3S1e96tvaHCKYuMKdzTTOMLbkAMvwph
-         WI1N6lUXv6KJl/ayB/fXaWSQb3pff22KzSGq5xOxJz3Bg3r5OcW2LD83Hv7iACH+DIoJ
-         SYSOaGTAX6fP0dbify0mhAy4E2I6C1mW5tI4bg4+jK159L+UHBLJ4KyJyR4KG5c6kNeT
-         kwvA==
+        bh=0wRKVoSYCSDRJPf0aC5K1cgN+Wriklv33637poO9vOU=;
+        b=G/G6AyxRQbxDNF1gMH3euK+M1OJKCwjHdk46MAz+7tGCyWaD8RT/sbv7Kk14Yrc0Vw
+         OGy4aoh71to90IJU9Nz9MeJG4vWRYRbl9Ht9ZQuG3DVX0qW0d6K6brLidn6cR4DsgxSQ
+         JiQMP8SYmL0Z5qOzmnvpQkg3zDjDnDa39QS1iCfVGb0HYZPSdY5NlSxuPNphXdPX3Vxp
+         ikTNHaZGn4WV+M1qSschH3I3cJeYqlekEzXfFVMS3YpKnJVf4vkwRRO+p6ACXPdp2SB8
+         FrlUirhiwA1pzyX5U6+LABlLHlXluF5IsNWKOGDmXfuP8l94ZFQ6e7MphxXOCOJ62oOf
+         0D6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -51,53 +51,52 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XlBScMm0P4x/sgIhcts/BwhctNg1+4sD6xz6GxkBhPU=;
-        b=VBjFDapVcePF4iiUA4dno0gzX0sSfLZkJ2DJgB2J/pR1R3wirZkTN3f0cyGBFm94Ov
-         ScR8NgAjzB1l9ulg+JQlEtPjG2trRhSK8ivYjGDjZUbWfo8fhxC7xUeFUgXzbS3rM6Ok
-         ZLaY3yF69J48D1Yq0g5MI5bvE/QRDVEMq7499k60+SDhs419X2j6IpBhdDmfvW0tRflr
-         3aTxFu7evJ6vmq6B5bm3c6Afo75e51YHE71bEjR4fUOw0NhWzsaxNXlLmR40LpPldr2s
-         pcCF04TAEDfSDrQTmmUmmW1NG4Gd4bTRVCtft8R2FlAY87uaAILRbAJzytu4wnYRgKIj
-         H18g==
+        bh=0wRKVoSYCSDRJPf0aC5K1cgN+Wriklv33637poO9vOU=;
+        b=FNm3ok5h36ZrIsWJyvYVG7hRJa//GPYfBRbXrQEotge6GrCIfe/zJHTenX5NsJkjHN
+         WQAG90DJyN7l+Ejzi3eEtEoIwfRra5mNBIFgpWCzwek+TtfoxApzpDzlxc2zKxPSxpKh
+         4rDAkR+YhIEmlL1bz4Z/a7IxOSOC3PetOd+xiBlJRI0AX5X6+R5yCAlL6XSwQfULLtr9
+         805KFGyY7ryTJkjF4Agd5himZh7dRc5dqxCSzwwIehwXHCabr+RB+DpjXI/S1nHXEX2x
+         rX7F+o9Q4nw9w99sjO6p4oX6qiSnY/BAI5Z509n587P5SReeHRmDApUHYCoMwNRYkKMR
+         Jz1A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKWOgMa82VBC4NSQaec5Mmg8rWLJneuB65N3tCYEQ1v+9Dl72DUe
-	y1SAuIATExhItqpGvYuQKTg=
-X-Google-Smtp-Source: AK7set/PL7cSWwrZPyIAliSZ7I5tT2SF2X4WFcHvM3c/wEjp5MlcvlEnYBIZNCN12HYWWUkCFvPTng==
-X-Received: by 2002:a05:651c:171c:b0:290:6278:7806 with SMTP id be28-20020a05651c171c00b0029062787806mr2846334ljb.100.1676063772562;
+X-Gm-Message-State: AO0yUKUX2+AchqO3kB0ZWmEwmsI6JLvIXnxrRd0FBGvXpO6UYmFBO5n8
+	VgJTDzg5Z/f65Uwu0wiG2nXc2Q==
+X-Google-Smtp-Source: AK7set/2amJ38wdrO1qV5KwjLvCcGyreX0qImddqCtk0TLWSSTLsoO967R8bMqy32W/McmU6UHY7kQ==
+X-Received: by 2002:ac2:52ad:0:b0:4d8:5290:5ee8 with SMTP id r13-20020ac252ad000000b004d852905ee8mr2897792lfm.157.1676063772650;
         Fri, 10 Feb 2023 13:16:12 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3b25:b0:4d5:7ca1:c92f with SMTP id
- f37-20020a0565123b2500b004d57ca1c92fls1438616lfv.2.-pod-prod-gmail; Fri, 10
- Feb 2023 13:16:11 -0800 (PST)
-X-Received: by 2002:ac2:5de5:0:b0:4ca:f42f:c6a4 with SMTP id z5-20020ac25de5000000b004caf42fc6a4mr4364504lfq.36.1676063771148;
+Received: by 2002:a2e:a907:0:b0:28b:86c7:a456 with SMTP id j7-20020a2ea907000000b0028b86c7a456ls1110713ljq.11.-pod-prod-gmail;
+ Fri, 10 Feb 2023 13:16:11 -0800 (PST)
+X-Received: by 2002:a2e:7e12:0:b0:281:fc9:16f8 with SMTP id z18-20020a2e7e12000000b002810fc916f8mr4300082ljc.32.1676063771450;
         Fri, 10 Feb 2023 13:16:11 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; t=1676063771; cv=none;
         d=google.com; s=arc-20160816;
-        b=E4eqD15g4TYIpOOk6mENKtbbwjTnoqBXAPQmNfNcR1N/8S8q5NbYUVm+FlImSPE5vu
-         tNKJW4iqB6PYSmZRdWKXz9GSSOoZ1+pEXi6Jo0kltLmvWlKJX+L1xBTPVgVG/s5c+x18
-         KhFqGY2DWXylK5OjRtdFxduUS9TGHq7UDSgdrnedKsMY2yVmrF2BWQeUtGZdqVQJi9DQ
-         uQSLkr4XyIph87IekH/1AGPeg4H5p7rdwKe1Wzrrey2H9JCfALmBRTSvrYYUPH3xZ5fV
-         YT5HLWPS5UxnVz2x1XWZ28OhiEEGZfBWEfukarfnH4En4KLlZbXuYu74+dG7ltu9sG2Y
-         npXA==
+        b=iVT2zriY+bNis9LI5WcvUiclry8Ezf3khKUH+QnyPY8qWW++mxw5WeaRA4XiGTtjhX
+         YIQX2rb8o8itX7aJKVxFpv6Xx6Z/ctWEILJ5WYr7af1vACMetnLd+WnNrgHDD1zhkq7l
+         z/Nlj9ZikbmpylrUS0kTYDPNLSL7pouEbgxbURLAWD+AsVvemx1uCwLe3eA0NSL2hTBl
+         t84Cf0KXYKktcIYVyQZA2VV+Ro/kRgcJvUJFnc2XFWPCO9I9vBl4K0JE/8MBgy4JPpge
+         jtLFXQMe/giV9un8vKkktVEbhL5laDY0sD4YlEkqPLiY4i/TUkGpoclP4lZQ1IaQ/1Iy
+         M5Xw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=0D/1F5CMwtFSAEjWxVZCsgWbjza4wyrBe5NUV/UGD6o=;
-        b=P2SVnGjgIDSDUB7AHkXoTXCUsLRwRjE+gsZuDdpXZbNaV9kDAOgKbMjp+W1OhhNMhG
-         go+QWKBDqrk98rIwF0LKtQY2YqExhd3R24oGYQnAn+2nE8KV0xzRgK7VfPdrgFt+oDU6
-         8QET8SvTrGLXDa9X8RmZpc3+2hghvpFA0mjaH3h2T4ERkYcKfJo+HaADbtb+PEVuSExq
-         p0STZiHzUx6ZXJal+TDSdt1ZMrtFPDCr5PMbm2zE1OoZdyARyePtxdQdjmt/51G530FZ
-         3faLbWaNvG+rkl5tjY/Ss4IIUx5yUCo4yqn+iLQ9IV7/13nPs2ourN2EmTH1kbcwV2b5
-         mQXg==
+        bh=z1gm2uHZDO3x8BSiOJ0jeaJz4iOmzsaE5lyAkDJqHg0=;
+        b=G4rw/Uuo5Uh+e5Ge3tRIEmtDDPBIeOK2gthxEKPfQB5FYs3frd0P7HulvT4NFlbHTv
+         nbj/9x6Mn9hA2ce3ixANLWGppJ/6oMwtqArCyTcXLesfcy5vByUOcyNGaVW5R2YjALfJ
+         3pHFO1KEdo+jkv+QcUzaO545bNkkZMevcoWbrrLpiIQshD4+jhQGc5VCULO8Lxb9XH7a
+         ZYNWEfz50NbdlGXUyWja6vYYomLbSnWN8KTlYbSSEKr5qmTvEBRrdPjY7zH3cSP17fe4
+         P8DeJp/q8IBWCvbnQTCErxNsyJM0XxEUmwgvy2Y6Vf1aoAAGgcvpW3T8mmnzpx0EJiKB
+         61jQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=w90TbDJL;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.224 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=Lpp+lB8h;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:1004:224b::6b as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-224.mta0.migadu.com (out-224.mta0.migadu.com. [91.218.175.224])
-        by gmr-mx.google.com with ESMTPS id i1-20020a0565123e0100b004d3d4e49b7dsi318337lfv.13.2023.02.10.13.16.10
+Received: from out-107.mta0.migadu.com (out-107.mta0.migadu.com. [2001:41d0:1004:224b::6b])
+        by gmr-mx.google.com with ESMTPS id b30-20020a05651c0b1e00b0028d88cd79a3si265970ljr.8.2023.02.10.13.16.11
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 10 Feb 2023 13:16:11 -0800 (PST)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.224 as permitted sender) client-ip=91.218.175.224;
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:1004:224b::6b as permitted sender) client-ip=2001:41d0:1004:224b::6b;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
 To: Marco Elver <elver@google.com>,
@@ -110,18 +109,18 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v2 01/18] lib/stackdepot: put functions in logical order
-Date: Fri, 10 Feb 2023 22:15:49 +0100
-Message-Id: <daca1319b665d826b94c596b992a8d8117846147.1676063693.git.andreyknvl@google.com>
+Subject: [PATCH v2 02/18] lib/stackdepot: use pr_fmt to define message format
+Date: Fri, 10 Feb 2023 22:15:50 +0100
+Message-Id: <3d09db0171a0e92ff3eb0ee74de74558bc9b56c4.1676063693.git.andreyknvl@google.com>
 In-Reply-To: <cover.1676063693.git.andreyknvl@google.com>
 References: <cover.1676063693.git.andreyknvl@google.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=w90TbDJL;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.224
- as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+ header.i=@linux.dev header.s=key1 header.b=Lpp+lB8h;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates
+ 2001:41d0:1004:224b::6b as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -138,418 +137,64 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-Put stack depot functions' declarations and definitions in a more logical
-order:
-
-1. Functions that save stack traces into stack depot.
-2. Functions that fetch and print stack traces.
-3. stack_depot_get_extra_bits that operates on stack depot handles
-   and does not interact with the stack depot storage.
-
-No functional changes.
+Use pr_fmt to define the format for printing stack depot messages instead
+of duplicating the "Stack Depot" prefix in each message.
 
 Reviewed-by: Alexander Potapenko <glider@google.com>
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- include/linux/stackdepot.h |  15 +-
- lib/stackdepot.c           | 314 ++++++++++++++++++-------------------
- 2 files changed, 165 insertions(+), 164 deletions(-)
+ lib/stackdepot.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/stackdepot.h b/include/linux/stackdepot.h
-index 9ca7798d7a31..1296a6eeaec0 100644
---- a/include/linux/stackdepot.h
-+++ b/include/linux/stackdepot.h
-@@ -14,17 +14,13 @@
- #include <linux/gfp.h>
- 
- typedef u32 depot_stack_handle_t;
-+
- /*
-  * Number of bits in the handle that stack depot doesn't use. Users may store
-  * information in them.
-  */
- #define STACK_DEPOT_EXTRA_BITS 5
- 
--depot_stack_handle_t __stack_depot_save(unsigned long *entries,
--					unsigned int nr_entries,
--					unsigned int extra_bits,
--					gfp_t gfp_flags, bool can_alloc);
--
- /*
-  * Every user of stack depot has to call stack_depot_init() during its own init
-  * when it's decided that it will be calling stack_depot_save() later. This is
-@@ -59,17 +55,22 @@ static inline void stack_depot_want_early_init(void) { }
- static inline int stack_depot_early_init(void)	{ return 0; }
- #endif
- 
-+depot_stack_handle_t __stack_depot_save(unsigned long *entries,
-+					unsigned int nr_entries,
-+					unsigned int extra_bits,
-+					gfp_t gfp_flags, bool can_alloc);
-+
- depot_stack_handle_t stack_depot_save(unsigned long *entries,
- 				      unsigned int nr_entries, gfp_t gfp_flags);
- 
- unsigned int stack_depot_fetch(depot_stack_handle_t handle,
- 			       unsigned long **entries);
- 
--unsigned int stack_depot_get_extra_bits(depot_stack_handle_t handle);
-+void stack_depot_print(depot_stack_handle_t stack);
- 
- int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
- 		       int spaces);
- 
--void stack_depot_print(depot_stack_handle_t stack);
-+unsigned int stack_depot_get_extra_bits(depot_stack_handle_t handle);
- 
- #endif
 diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-index 79e894cf8406..4bfaf3bce619 100644
+index 4bfaf3bce619..83787e46a3ab 100644
 --- a/lib/stackdepot.c
 +++ b/lib/stackdepot.c
-@@ -79,84 +79,6 @@ static int next_slab_inited;
- static size_t depot_offset;
- static DEFINE_RAW_SPINLOCK(depot_lock);
+@@ -19,6 +19,8 @@
+  * Based on code by Dmitry Chernenkov.
+  */
  
--unsigned int stack_depot_get_extra_bits(depot_stack_handle_t handle)
--{
--	union handle_parts parts = { .handle = handle };
--
--	return parts.extra;
--}
--EXPORT_SYMBOL(stack_depot_get_extra_bits);
--
--static bool init_stack_slab(void **prealloc)
--{
--	if (!*prealloc)
--		return false;
--	/*
--	 * This smp_load_acquire() pairs with smp_store_release() to
--	 * |next_slab_inited| below and in depot_alloc_stack().
--	 */
--	if (smp_load_acquire(&next_slab_inited))
--		return true;
--	if (stack_slabs[depot_index] == NULL) {
--		stack_slabs[depot_index] = *prealloc;
--		*prealloc = NULL;
--	} else {
--		/* If this is the last depot slab, do not touch the next one. */
--		if (depot_index + 1 < STACK_ALLOC_MAX_SLABS) {
--			stack_slabs[depot_index + 1] = *prealloc;
--			*prealloc = NULL;
--		}
--		/*
--		 * This smp_store_release pairs with smp_load_acquire() from
--		 * |next_slab_inited| above and in stack_depot_save().
--		 */
--		smp_store_release(&next_slab_inited, 1);
--	}
--	return true;
--}
--
--/* Allocation of a new stack in raw storage */
--static struct stack_record *
--depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
--{
--	struct stack_record *stack;
--	size_t required_size = struct_size(stack, entries, size);
--
--	required_size = ALIGN(required_size, 1 << STACK_ALLOC_ALIGN);
--
--	if (unlikely(depot_offset + required_size > STACK_ALLOC_SIZE)) {
--		if (unlikely(depot_index + 1 >= STACK_ALLOC_MAX_SLABS)) {
--			WARN_ONCE(1, "Stack depot reached limit capacity");
--			return NULL;
--		}
--		depot_index++;
--		depot_offset = 0;
--		/*
--		 * smp_store_release() here pairs with smp_load_acquire() from
--		 * |next_slab_inited| in stack_depot_save() and
--		 * init_stack_slab().
--		 */
--		if (depot_index + 1 < STACK_ALLOC_MAX_SLABS)
--			smp_store_release(&next_slab_inited, 0);
--	}
--	init_stack_slab(prealloc);
--	if (stack_slabs[depot_index] == NULL)
--		return NULL;
--
--	stack = stack_slabs[depot_index] + depot_offset;
--
--	stack->hash = hash;
--	stack->size = size;
--	stack->handle.slabindex = depot_index;
--	stack->handle.offset = depot_offset >> STACK_ALLOC_ALIGN;
--	stack->handle.valid = 1;
--	stack->handle.extra = 0;
--	memcpy(stack->entries, entries, flex_array_size(stack, entries, size));
--	depot_offset += required_size;
--
--	return stack;
--}
--
- /* one hash table bucket entry per 16kB of memory */
- #define STACK_HASH_SCALE	14
- /* limited between 4k and 1M buckets */
-@@ -270,6 +192,76 @@ int stack_depot_init(void)
- }
- EXPORT_SYMBOL_GPL(stack_depot_init);
++#define pr_fmt(fmt) "stackdepot: " fmt
++
+ #include <linux/gfp.h>
+ #include <linux/jhash.h>
+ #include <linux/kernel.h>
+@@ -98,7 +100,7 @@ static int __init is_stack_depot_disabled(char *str)
  
-+static bool init_stack_slab(void **prealloc)
-+{
-+	if (!*prealloc)
-+		return false;
-+	/*
-+	 * This smp_load_acquire() pairs with smp_store_release() to
-+	 * |next_slab_inited| below and in depot_alloc_stack().
-+	 */
-+	if (smp_load_acquire(&next_slab_inited))
-+		return true;
-+	if (stack_slabs[depot_index] == NULL) {
-+		stack_slabs[depot_index] = *prealloc;
-+		*prealloc = NULL;
-+	} else {
-+		/* If this is the last depot slab, do not touch the next one. */
-+		if (depot_index + 1 < STACK_ALLOC_MAX_SLABS) {
-+			stack_slabs[depot_index + 1] = *prealloc;
-+			*prealloc = NULL;
-+		}
-+		/*
-+		 * This smp_store_release pairs with smp_load_acquire() from
-+		 * |next_slab_inited| above and in stack_depot_save().
-+		 */
-+		smp_store_release(&next_slab_inited, 1);
-+	}
-+	return true;
-+}
-+
-+/* Allocation of a new stack in raw storage */
-+static struct stack_record *
-+depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
-+{
-+	struct stack_record *stack;
-+	size_t required_size = struct_size(stack, entries, size);
-+
-+	required_size = ALIGN(required_size, 1 << STACK_ALLOC_ALIGN);
-+
-+	if (unlikely(depot_offset + required_size > STACK_ALLOC_SIZE)) {
-+		if (unlikely(depot_index + 1 >= STACK_ALLOC_MAX_SLABS)) {
-+			WARN_ONCE(1, "Stack depot reached limit capacity");
-+			return NULL;
-+		}
-+		depot_index++;
-+		depot_offset = 0;
-+		/*
-+		 * smp_store_release() here pairs with smp_load_acquire() from
-+		 * |next_slab_inited| in stack_depot_save() and
-+		 * init_stack_slab().
-+		 */
-+		if (depot_index + 1 < STACK_ALLOC_MAX_SLABS)
-+			smp_store_release(&next_slab_inited, 0);
-+	}
-+	init_stack_slab(prealloc);
-+	if (stack_slabs[depot_index] == NULL)
-+		return NULL;
-+
-+	stack = stack_slabs[depot_index] + depot_offset;
-+
-+	stack->hash = hash;
-+	stack->size = size;
-+	stack->handle.slabindex = depot_index;
-+	stack->handle.offset = depot_offset >> STACK_ALLOC_ALIGN;
-+	stack->handle.valid = 1;
-+	stack->handle.extra = 0;
-+	memcpy(stack->entries, entries, flex_array_size(stack, entries, size));
-+	depot_offset += required_size;
-+
-+	return stack;
-+}
-+
- /* Calculate hash for a stack */
- static inline u32 hash_stack(unsigned long *entries, unsigned int size)
- {
-@@ -309,85 +301,6 @@ static inline struct stack_record *find_stack(struct stack_record *bucket,
- 	return NULL;
- }
+ 	ret = kstrtobool(str, &stack_depot_disable);
+ 	if (!ret && stack_depot_disable) {
+-		pr_info("Stack Depot is disabled\n");
++		pr_info("disabled\n");
+ 		stack_table = NULL;
+ 	}
+ 	return 0;
+@@ -142,7 +144,7 @@ int __init stack_depot_early_init(void)
+ 						1UL << STACK_HASH_ORDER_MAX);
  
--/**
-- * stack_depot_snprint - print stack entries from a depot into a buffer
-- *
-- * @handle:	Stack depot handle which was returned from
-- *		stack_depot_save().
-- * @buf:	Pointer to the print buffer
-- *
-- * @size:	Size of the print buffer
-- *
-- * @spaces:	Number of leading spaces to print
-- *
-- * Return:	Number of bytes printed.
-- */
--int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
--		       int spaces)
--{
--	unsigned long *entries;
--	unsigned int nr_entries;
--
--	nr_entries = stack_depot_fetch(handle, &entries);
--	return nr_entries ? stack_trace_snprint(buf, size, entries, nr_entries,
--						spaces) : 0;
--}
--EXPORT_SYMBOL_GPL(stack_depot_snprint);
--
--/**
-- * stack_depot_print - print stack entries from a depot
-- *
-- * @stack:		Stack depot handle which was returned from
-- *			stack_depot_save().
-- *
-- */
--void stack_depot_print(depot_stack_handle_t stack)
--{
--	unsigned long *entries;
--	unsigned int nr_entries;
--
--	nr_entries = stack_depot_fetch(stack, &entries);
--	if (nr_entries > 0)
--		stack_trace_print(entries, nr_entries, 0);
--}
--EXPORT_SYMBOL_GPL(stack_depot_print);
--
--/**
-- * stack_depot_fetch - Fetch stack entries from a depot
-- *
-- * @handle:		Stack depot handle which was returned from
-- *			stack_depot_save().
-- * @entries:		Pointer to store the entries address
-- *
-- * Return: The number of trace entries for this depot.
-- */
--unsigned int stack_depot_fetch(depot_stack_handle_t handle,
--			       unsigned long **entries)
--{
--	union handle_parts parts = { .handle = handle };
--	void *slab;
--	size_t offset = parts.offset << STACK_ALLOC_ALIGN;
--	struct stack_record *stack;
--
--	*entries = NULL;
--	if (!handle)
--		return 0;
--
--	if (parts.slabindex > depot_index) {
--		WARN(1, "slab index %d out of bounds (%d) for stack id %08x\n",
--			parts.slabindex, depot_index, handle);
--		return 0;
--	}
--	slab = stack_slabs[parts.slabindex];
--	if (!slab)
--		return 0;
--	stack = slab + offset;
--
--	*entries = stack->entries;
--	return stack->size;
--}
--EXPORT_SYMBOL_GPL(stack_depot_fetch);
--
- /**
-  * __stack_depot_save - Save a stack trace from an array
-  *
-@@ -533,3 +446,90 @@ depot_stack_handle_t stack_depot_save(unsigned long *entries,
- 	return __stack_depot_save(entries, nr_entries, 0, alloc_flags, true);
- }
- EXPORT_SYMBOL_GPL(stack_depot_save);
-+
-+/**
-+ * stack_depot_fetch - Fetch stack entries from a depot
-+ *
-+ * @handle:		Stack depot handle which was returned from
-+ *			stack_depot_save().
-+ * @entries:		Pointer to store the entries address
-+ *
-+ * Return: The number of trace entries for this depot.
-+ */
-+unsigned int stack_depot_fetch(depot_stack_handle_t handle,
-+			       unsigned long **entries)
-+{
-+	union handle_parts parts = { .handle = handle };
-+	void *slab;
-+	size_t offset = parts.offset << STACK_ALLOC_ALIGN;
-+	struct stack_record *stack;
-+
-+	*entries = NULL;
-+	if (!handle)
-+		return 0;
-+
-+	if (parts.slabindex > depot_index) {
-+		WARN(1, "slab index %d out of bounds (%d) for stack id %08x\n",
-+			parts.slabindex, depot_index, handle);
-+		return 0;
-+	}
-+	slab = stack_slabs[parts.slabindex];
-+	if (!slab)
-+		return 0;
-+	stack = slab + offset;
-+
-+	*entries = stack->entries;
-+	return stack->size;
-+}
-+EXPORT_SYMBOL_GPL(stack_depot_fetch);
-+
-+/**
-+ * stack_depot_print - print stack entries from a depot
-+ *
-+ * @stack:		Stack depot handle which was returned from
-+ *			stack_depot_save().
-+ *
-+ */
-+void stack_depot_print(depot_stack_handle_t stack)
-+{
-+	unsigned long *entries;
-+	unsigned int nr_entries;
-+
-+	nr_entries = stack_depot_fetch(stack, &entries);
-+	if (nr_entries > 0)
-+		stack_trace_print(entries, nr_entries, 0);
-+}
-+EXPORT_SYMBOL_GPL(stack_depot_print);
-+
-+/**
-+ * stack_depot_snprint - print stack entries from a depot into a buffer
-+ *
-+ * @handle:	Stack depot handle which was returned from
-+ *		stack_depot_save().
-+ * @buf:	Pointer to the print buffer
-+ *
-+ * @size:	Size of the print buffer
-+ *
-+ * @spaces:	Number of leading spaces to print
-+ *
-+ * Return:	Number of bytes printed.
-+ */
-+int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
-+		       int spaces)
-+{
-+	unsigned long *entries;
-+	unsigned int nr_entries;
-+
-+	nr_entries = stack_depot_fetch(handle, &entries);
-+	return nr_entries ? stack_trace_snprint(buf, size, entries, nr_entries,
-+						spaces) : 0;
-+}
-+EXPORT_SYMBOL_GPL(stack_depot_snprint);
-+
-+unsigned int stack_depot_get_extra_bits(depot_stack_handle_t handle)
-+{
-+	union handle_parts parts = { .handle = handle };
-+
-+	return parts.extra;
-+}
-+EXPORT_SYMBOL(stack_depot_get_extra_bits);
+ 	if (!stack_table) {
+-		pr_err("Stack Depot hash table allocation failed, disabling\n");
++		pr_err("hash table allocation failed, disabling\n");
+ 		stack_depot_disable = true;
+ 		return -ENOMEM;
+ 	}
+@@ -177,11 +179,11 @@ int stack_depot_init(void)
+ 		if (entries > 1UL << STACK_HASH_ORDER_MAX)
+ 			entries = 1UL << STACK_HASH_ORDER_MAX;
+ 
+-		pr_info("Stack Depot allocating hash table of %lu entries with kvcalloc\n",
++		pr_info("allocating hash table of %lu entries with kvcalloc\n",
+ 				entries);
+ 		stack_table = kvcalloc(entries, sizeof(struct stack_record *), GFP_KERNEL);
+ 		if (!stack_table) {
+-			pr_err("Stack Depot hash table allocation failed, disabling\n");
++			pr_err("hash table allocation failed, disabling\n");
+ 			stack_depot_disable = true;
+ 			ret = -ENOMEM;
+ 		}
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/daca1319b665d826b94c596b992a8d8117846147.1676063693.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/3d09db0171a0e92ff3eb0ee74de74558bc9b56c4.1676063693.git.andreyknvl%40google.com.
