@@ -1,135 +1,145 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBJ6AU6PQMGQECQZ6U2Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBVU5VCPQMGQEQZ3TRQA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73e.google.com (mail-qk1-x73e.google.com [IPv6:2607:f8b0:4864:20::73e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D26693E94
-	for <lists+kasan-dev@lfdr.de>; Mon, 13 Feb 2023 08:00:57 +0100 (CET)
-Received: by mail-qk1-x73e.google.com with SMTP id g22-20020a05620a13d600b00726e7ad3f44sf6922521qkl.8
-        for <lists+kasan-dev@lfdr.de>; Sun, 12 Feb 2023 23:00:56 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1676271656; cv=pass;
+Received: from mail-ed1-x53b.google.com (mail-ed1-x53b.google.com [IPv6:2a00:1450:4864:20::53b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 349A36942B1
+	for <lists+kasan-dev@lfdr.de>; Mon, 13 Feb 2023 11:20:07 +0100 (CET)
+Received: by mail-ed1-x53b.google.com with SMTP id g14-20020a056402090e00b0046790cd9082sf7328393edz.21
+        for <lists+kasan-dev@lfdr.de>; Mon, 13 Feb 2023 02:20:07 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1676283606; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0X9xSNr0z8reXgv9SWxOITtytuyO6qzHbjJ7zUwpP3rlaRC8xxoTAV6aj3f0tMCqXF
-         E1mU3B5dwpHB5/nG0ZsIf6RgftX+Ix8bL5C/Y4e75AUdxKI8KkDSHGw3wME1V2WfQzwl
-         RoE2N8WDsjoi8vGhgrIROLcDc3K6N+9vwrX7pmlqHo+MblO+GWIGB071m2VhWiscU2x5
-         AqUT1Uodll4nRpW49IfxDVTKId592qp9NyjQ+JfQ8EYIzkVLN4WVQJxw6o4W0oLchmAf
-         S99L4Xr+xWuF5+JV/FQApbHgyf4B5bY7bqm/446F7azlrGFqPmnHlqZLCsbZipE5vXqO
-         Z64g==
+        b=SO/+iXPg0SUKqBWcdJIpcf5eZFqQSgS0MscnRbszTqs4eIbOwCFruDx80D53YSKO0x
+         4FnZ/QOtyklcShkdO2vDsJJ04cEUkTmWyt9pVk6/x1qwjfo9oGKe1ppqTh32Y2RN00te
+         biO+fTOP0SKzNJd8+SLX//tYExfRVeVwFkxdxKpJvja9DZeb7G73IOwJx2d4llalINL6
+         ORQkpoKx3NK61l2986AS34iTIXUtgsgtjOR6JDcUi3ab6R3K9CRssGEi/tXwfGxpGlJl
+         uIHI1GRLB89EvsHPNBT5D95io5878/nFz3La62rArkbTexy6Cu6rXx+6dnqRakCkX1Tq
+         uBrA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=dUqRUZNJ9Yp4WgBdA+PmFlHeShlD+Goz1K840S7ZWcA=;
-        b=E69PnXieDQ1m+9k6x3hJMIYKQcJGD8E6efUqlsJWqia0a9LRsaxXhyPC38g8RPjfbJ
-         3OizMw7EwC0D5mSj4LBL/UTp5czRAiP3L5sMZabOQZCY2DfJHo2odOoXrZGrbnAfCbF/
-         I/Pqj8U7Go54JfEHZ/O3YQxXab6/G2vCDPICXjA4VkvZ5Q1Fp/9rdqpruFNgazYAQrnV
-         ymsvas5QQuO8qhq78B9xZY+UM04KBCjQDMXrR8IWONqm0+aiMMVvLfkdd/CCV3nluxn9
-         JnoZmGBuarAwDI8Ua6kZiioqtmgdf1ty6Y4dvBYJ2FNCsoFsarhfxprkZsAdFP7TRKHj
-         6vdw==
+         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=6F6M/DmfMww9xIz4nItZ/Hijj8v65YT9ErVOBC774hU=;
+        b=t4cJqzOECwu/hAseH3Si1YxnmkxHhsVfF5iKH67f+OhAWmzC/7lcL+dvhcMb2/zH14
+         2mqT2pQ+VYr3z3E06RPM1T6xccCHhr8Fke/bCXef8fgHFboUKgRfRDM8Ydf0abuYrvwo
+         qxXyVzyiT54cCn6bseUnNGB4QYL4yYzgobRV9lck+o7JmDFMo29XbKCPDV82W6SNcg2U
+         jmfr0dXkVdP7PAtvkZ1iDacAFTvf7zScA3XeRdjjGBCQv6C9ZwfRXER6tQ7uRa+5nVf0
+         9OB6Fxaixm7VtrL83JVspYyfjecMyIzEwHYrlXoVaGCA08t6jpK+KhQEtgN3DdJAnrfH
+         ISgw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=qXgprL15;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a30 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=Fu364rm9;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1c as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dUqRUZNJ9Yp4WgBdA+PmFlHeShlD+Goz1K840S7ZWcA=;
-        b=fO34PSzmZPw7YafWcvJ2qES5/s9FtnMsffYcImKYTONd51ZhLhzOjNk8UugQZ/S0fd
-         lDyQSh8GJuWVYhwH6mGrhvq7AYwJduslFfFLDsGQ3DLmGDjVfp5PK5ZAgWQfsDx3fAeL
-         I9pUuycubgjMJH2HbxMvL2LWXx3M4+NYXCLYXJ4imBlCthB5o1q4biS+vSfz07dF7weG
-         kgQHUbEsLLi46AT90T7xLR/gzZn7h/dxFtlFX9eqmBSC3Zl18b9L5scX1ip3cwZD7o65
-         NWPlxgm2yjDImVWvOrGsTJvhxWuLlOdZfvqZnl1W/il9jLBq82zutCZkx7xDTQxIroi/
-         2/hg==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=6F6M/DmfMww9xIz4nItZ/Hijj8v65YT9ErVOBC774hU=;
+        b=dfC87xfPw9bChojz4tmI+E1sCrx0Ql1EYfOgAJYng14TOIQNJ0A3CMtkONi0kACJfx
+         5r+zHjSAMStzgU6q9+vgTSL8q1o+tpZRAhS7EhP5LzEWL9E4i9dven7m5ftT/hzs0quL
+         srmVaYqgIGyb25MXWEzuAGgG/HRv/doywYXRbZ5hiLV4Wj5NqoPg+NizJbG6ynggwcw/
+         IgDWwy8yXQL7lWga0YbImrNPTQtkEcHJSQ91nAm7V/Dn57SA76SdWDF7c/K0V79NRODK
+         5KVckwApZ95tlaTjpg9JpCHyp2eI6IGjhxuUC3Tsni4/DaaVq0s33ctXE8E7Vt9oS0J4
+         jMsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dUqRUZNJ9Yp4WgBdA+PmFlHeShlD+Goz1K840S7ZWcA=;
-        b=0uObLW5Y8Gqcy2DuOH9W6+q9x8AWE7TzElIv+8DziCeMFesh4MNFcP7MWwvPERQSD6
-         g5UUobBiQKZGOfJKJjxKxW9NUiXhDPfAxXSgm2DG6X1pNDnCXlK/ttnXqd01ObC2q24K
-         yBHFaNzJboxNv49QW0WVaoj9OXPdEjFlzxZhRH0znAkVR7MQ/nRvj0pqaRgCg3jdFtS9
-         e5VK1ScpplXlSq2sJdzO86xnXDpWdtAkbq++n5UDJF4kuPqo3ekWy+gTIjfJ7ZfYoPk4
-         hFS+utMuOB6vKrmtc/8F2pb6bhbDUEHQb1iEeDqLKK+z93XKQCOaz0RarK0eo49tJJhy
-         FEHA==
-X-Gm-Message-State: AO0yUKUUIKswbNQ2gGVf7jVPBgs0JGanZRaWwP3L/6PdfBaeV0c3Hna3
-	eHAjoFxxW53mZwk0X+V13iQ=
-X-Google-Smtp-Source: AK7set+UkVHL08NyhVwKrI9uIllyQxlAIK+y50jLPceTHuaHuZzlk3sEaqPVytK2zjFmMrohMvDW6A==
-X-Received: by 2002:a37:bcc5:0:b0:722:e22f:f9ac with SMTP id m188-20020a37bcc5000000b00722e22ff9acmr1799148qkf.263.1676271655832;
-        Sun, 12 Feb 2023 23:00:55 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6F6M/DmfMww9xIz4nItZ/Hijj8v65YT9ErVOBC774hU=;
+        b=GLbdKS7ULwCI7+SEhRXkX+sqvhhv2RmVtxYeIu8yCBhHlc+Js2uP8Lyw+KPGtUpSNu
+         lsYDqAz/3yGAtVf7Sf8D5hZJcU0kxEpLZlzTmrWoEINHPHxtQ9RB82/etKqCfzk5vt0q
+         oT1kJA5d2CKkDhtVBuUXrshYetfcPDl4D8b9+3uGifdGWZs5+Dyce4v85xDpa7Stx0tf
+         imwRZbpC25PpmbIfbf7HZvJe3qexj4fXmSydh5OvMDGhtZ6Sv5WM+FxsBajjaiL1LEFn
+         OC75KFfg2yk6UWs/rzKiPQxAL4pXyIqZVsIiFxXd2B2pH2w474r5UbBtn8HHtvlhnKnZ
+         ElFQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AO0yUKXg4iWhBeQ6hbuFagrNG7CG3EAOOA69KNUOaEVBeJFJTnsWjGuQ
+	hS/Hpuncze+LokV/A1B9dd4=
+X-Google-Smtp-Source: AK7set+zlDcFNz7gaUuZovFgQSoPcQfgDbsIhwieafBUZVgZVsDbxEBJ0Ar8zphYpXxpkg6Qx7LryA==
+X-Received: by 2002:a50:9ecb:0:b0:49d:ec5d:28b4 with SMTP id a69-20020a509ecb000000b0049dec5d28b4mr6551892edf.6.1676283606560;
+        Mon, 13 Feb 2023 02:20:06 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:50b:b0:56e:97ee:a1df with SMTP id
- px11-20020a056214050b00b0056e97eea1dfls4767889qvb.7.-pod-prod-gmail; Sun, 12
- Feb 2023 23:00:55 -0800 (PST)
-X-Received: by 2002:ad4:5dea:0:b0:56e:bd59:40f1 with SMTP id jn10-20020ad45dea000000b0056ebd5940f1mr56684qvb.48.1676271655191;
-        Sun, 12 Feb 2023 23:00:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1676271655; cv=none;
+Received: by 2002:a05:6402:2713:b0:4ac:b59b:6e28 with SMTP id
+ y19-20020a056402271300b004acb59b6e28ls1166014edd.2.-pod-prod-gmail; Mon, 13
+ Feb 2023 02:20:05 -0800 (PST)
+X-Received: by 2002:a50:c05a:0:b0:49e:1f0e:e209 with SMTP id u26-20020a50c05a000000b0049e1f0ee209mr6782517edd.10.1676283605156;
+        Mon, 13 Feb 2023 02:20:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1676283605; cv=none;
         d=google.com; s=arc-20160816;
-        b=qCcVp38eOcg4FWuw1wAr7SsDrAeEY/QxaDL0h78GFNFk5Qz/qgeKTI2EmXI70gvF9J
-         H0YcdTosdTmzDGBPSC0wzZadNuofqLbjCsSId9ZKv6/O6jnvnyIC6gKGiNUBphkBj0wm
-         c1NuKFe1hegIcKSbeEKy8EK/Lm7Y2YCEjBIJbH+yhQzubJKFAHbqmANdo80+JYyHIRl4
-         t7OlpaSeyAtPjPmYngzEMmbFf77FUuHjfefiD/siZribsUZnR+OtlFHr6PU4R2NgsYLR
-         cGj9PIMZwrEq/O3EtpZuzyuz91KCQmolYZ7R44veh/VYtgkSdyUmiPm0RZtJvmVln24J
-         lXmQ==
+        b=AMBEzkicInhkhF3Usziy06U1SDXanLxpLjsuO8zeoOA5dWft4ppLpn7p3XAlHUX3a+
+         sxHR//0N6kfhdq8Fl9bSM1CWhGuh0ylBhmZCR37qSmnk7cWR/bsUix9FnY7dsa/8x6Aw
+         WW+n5buQ9Au74m5YvRYzeMljhAttOdOK1M4YZeTEvx1qRZadYy87gtXD80SAQoR0wfhk
+         6EmT48QuK+kjqjzqvUhGpp6wZFdx6AELKn92kuMiH+OlVZPM9Htu3oGvBmANuFEbB20K
+         oalAA2r6UkCKeHFaQAv4V/YVkAT+XEYdoUEyk/5UW2bcQFNu+TdRe1GaNRamXaRCHzSj
+         viFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Cw3Q2nDkJ9Bv8PVsAGDCbfG6m5PVGNiCmox+HLaI3GE=;
-        b=BlVfxisoR6fCKGwgBscZfe7OzhRf75YhVyMIe0chmsj5Q5Qom4hjdSbVVqQk067D85
-         GP8vZdn5Ndr/yccyHytrg7ulNmskroYuq3lDf/XhfkXdygenwdBIWzHh8mkx1wIe1dXo
-         r2iDpFI1/w+ykosbpf6IkpUG35lzNVTVK71n1ZXuL6jj68Y0YXa/NtNf+zXcn/LdVWJW
-         uLXPzR71DpVXrtQQXE7jS/wI/hiMRxhPrlnzp+VA/48cr/VsQVEGSS33Rm1LZUw8wsAc
-         sV2UmAlQDtNqFz1tepX5kl+z8PPFhnzDk6GrfW+zTWMScsfsZkxqqoZBTzlHYz3w1Pgs
-         vPQA==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :dkim-signature:dkim-signature;
+        bh=65fYUfn3GoYatis0AOVMTqKcL936aMO9+NoqSfIfToQ=;
+        b=jx/vmz/0EO/MEHQifu3PJUoJCRkZJHJcWHw0sm4r3GolbmBfmWF66IUygTMn7ly6OK
+         VyZS1fWOogstdMCCbPibHxIatJltOUI3psGKSS9VtIoQhZ6pGQd3EVq9gApUHdzGdVIY
+         8y2Y9pBOMnBqSfDNHJtwA7drOhaNjyroHDQowLdplSlN3uzcW1TvTIIbngWvAtpMTK4t
+         +/Mqg2Efhq9QLPoVhBowQbqkMRatri/yhEu8cVHmOEud5jkY7hzeOWRO8BM144SmGcW6
+         JkfmafWBABfa52x2kPAkRPAx4nrJwX2ROO1AwaC5Zpz5v4aKffdRAsqAw0+UjSLGAtyz
+         doaQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=qXgprL15;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a30 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com. [2607:f8b0:4864:20::a30])
-        by gmr-mx.google.com with ESMTPS id z2-20020a05620a260200b0072ceb3a9fe4si963733qko.6.2023.02.12.23.00.55
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=Fu364rm9;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1c as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2001:67c:2178:6::1c])
+        by gmr-mx.google.com with ESMTPS id m26-20020aa7d35a000000b004acb6374876si272397edr.1.2023.02.13.02.20.05
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Feb 2023 23:00:55 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a30 as permitted sender) client-ip=2607:f8b0:4864:20::a30;
-Received: by mail-vk1-xa30.google.com with SMTP id b81so5786731vkf.1
-        for <kasan-dev@googlegroups.com>; Sun, 12 Feb 2023 23:00:55 -0800 (PST)
-X-Received: by 2002:a1f:284e:0:b0:401:42f3:5659 with SMTP id
- o75-20020a1f284e000000b0040142f35659mr1000487vko.44.1676271654615; Sun, 12
- Feb 2023 23:00:54 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Feb 2023 02:20:05 -0800 (PST)
+Received-SPF: softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1c as permitted sender) client-ip=2001:67c:2178:6::1c;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C294321B50;
+	Mon, 13 Feb 2023 10:20:04 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 98127138E6;
+	Mon, 13 Feb 2023 10:20:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id XK5CJNQO6mOpdwAAMHmgww
+	(envelope-from <vbabka@suse.cz>); Mon, 13 Feb 2023 10:20:04 +0000
+Message-ID: <2085e953-ff9d-4d2e-cb35-24383592f2c4@suse.cz>
+Date: Mon, 13 Feb 2023 11:20:04 +0100
 MIME-Version: 1.0
-References: <20230208184203.2260394-1-elver@google.com> <CA+fCnZeU=pRcyiBpj3nyri0ow+ZYp=ewU3dtSVm_6mh73y1NTA@mail.gmail.com>
- <CANpmjNP_Ka6RTqHNRD7xx93ebZhY+iz69GHBusT=A8X1KvViVA@mail.gmail.com>
- <CA+fCnZcNF5kNxNuphwj41P45tQEhQ9wX00ZA4g=KTX4sbUirQg@mail.gmail.com>
- <CANpmjNNH-O+38U6zRWJUCU-eJTfMhUosy==GWEOn1vcu=J2dcw@mail.gmail.com> <CA+fCnZcaNpX6f9fWU2ZU-vMRn1fQ9mkr4w1JyOn3RmmoBK4PmQ@mail.gmail.com>
-In-Reply-To: <CA+fCnZcaNpX6f9fWU2ZU-vMRn1fQ9mkr4w1JyOn3RmmoBK4PmQ@mail.gmail.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 13 Feb 2023 08:00:00 +0100
-Message-ID: <CANpmjNMdX9gzYEtUpESnFLT-0tPmZhU_GcK-6apW1yA0R2or0A@mail.gmail.com>
-Subject: Re: [PATCH -tip] kasan: Emit different calls for instrumentable memintrinsics
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, linux-kbuild@vger.kernel.org, 
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
-	Ingo Molnar <mingo@kernel.org>, Tony Lindgren <tony@atomide.com>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, linux-toolchains@vger.kernel.org, 
-	Mark Rutland <mark.rutland@arm.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [PATCH v2 09/18] lib/stackdepot: rename slab to pool
+Content-Language: en-US
+To: andrey.konovalov@linux.dev, Marco Elver <elver@google.com>,
+ Alexander Potapenko <glider@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>, kasan-dev@googlegroups.com,
+ Evgenii Stepanov <eugenis@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, Andrey Konovalov <andreyknvl@google.com>
+References: <cover.1676063693.git.andreyknvl@google.com>
+ <923c507edb350c3b6ef85860f36be489dfc0ad21.1676063693.git.andreyknvl@google.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <923c507edb350c3b6ef85860f36be489dfc0ad21.1676063693.git.andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=qXgprL15;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a30 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@suse.cz header.s=susede2_rsa header.b=Fu364rm9;       dkim=neutral
+ (no key) header.i=@suse.cz header.s=susede2_ed25519;       spf=softfail
+ (google.com: domain of transitioning vbabka@suse.cz does not designate
+ 2001:67c:2178:6::1c as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,81 +152,29 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 10 Feb 2023 at 22:37, Andrey Konovalov <andreyknvl@gmail.com> wrote:
->
-> On Fri, Feb 10, 2023 at 7:41 PM Marco Elver <elver@google.com> wrote:
-> >
-> > On Fri, 10 Feb 2023 at 17:13, Andrey Konovalov <andreyknvl@gmail.com> wrote:
-> > [...]
-> > > > Probably the same should be done for SW_TAGS, because arm64 will be
-> > > > GENERIC_ENTRY at one point or another as well.
-> > >
-> > > Yes, makes sense. I'll file a bug for this once I fully understand the
-> > > consequences of these changes.
-> > >
-> > > > KASAN + GCC on x86 will have no mem*() instrumentation after
-> > > > 69d4c0d32186, which is sad, so somebody ought to teach it the same
-> > > > param as above.
-> > >
-> > > Hm, with that patch we would have no KASAN checking within normal mem*
-> > > functions (not the ones embedded by the compiler) on GENERIC_ENTRY
-> > > arches even with Clang, right?
-> >
-> > Yes, that's the point - normal mem*() functions cannot be instrumented
-> > with GENERIC_ENTRY within noinstr functions, because the compiler
-> > sometimes decides to transform normal assignments into
-> > memcpy()/memset(). And if mem*() were instrumented (as it was before
-> > 69d4c0d32186), that'd break things for these architectures.
-> >
-> > But since most code is normally instrumented, with the right compiler
-> > support (which the patch here enables), we just turn mem*() in
-> > instrumented functions into __asan_mem*(), and get the instrumentation
-> > as before. 69d4c0d32186 already added those __asan functions. The fact
-> > that KASAN used to override mem*() is just the wrong choice in a world
-> > where compilers decide to inline or outline these. From an
-> > instrumentation point of view at the compiler level, we need to treat
-> > them like any other instrumentable instruction (loads, stores,
-> > atomics, etc.): transform each instrumentable instruction into
-> > something that does the right checks. Only then can we be sure that we
-> > don't accidentally instrument something that shouldn't be (noinstr
-> > functions), because instead of relying on the compiler, we forced
-> > instrumentation on every mem*().
->
-> I meant to ask whether the normal mem* calls from instrumented
-> functions will also be transformed to __asan_mem*() by the compiler.
-> But following the godbolt link you shared, I see that this is true.
->
-> Thank you for the explanation!
->
-> So the overall negative impact of these changes is that we don't get
-> KASAN checking in both normal mem* calls and the ones formed by
-> transforming assignments for GENERIC_ENTRY architectures with GCC and
-> with older Clang. This is not great. I wonder if we then need to print
-> some kind of warning when the kernel is built with these compilers.
+On 2/10/23 22:15, andrey.konovalov@linux.dev wrote:
+> From: Andrey Konovalov <andreyknvl@google.com>
+> 
+> Use "pool" instead of "slab" for naming memory regions stack depot
+> uses to store stack traces. Using "slab" is confusing, as stack depot
+> pools have nothing to do with the slab allocator.
+> 
+> Also give better names to pool-related global variables: change
+> "depot_" prefix to "pool_" to point out that these variables are
+> related to stack depot pools.
+> 
+> Also rename the slabindex (poolindex) field in handle_parts to pool_index
+> to align its name with the pool_index global variable.
+> 
+> No functional changes.
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
-Since these changes are already in -tip, and by judging from [1],
-there really is no other way. As-is, KASAN on x86 is already broken
-per [1] (though we got lucky thus far).
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
 
-Printing a warning wouldn't hurt, but I think nobody would notice the
-warning, and if somebody notices, they wouldn't care. Sooner or later,
-we just need to make sure that test robots (syzbot, etc.) have new
-compilers.
-
-> If these changes move forward, AFAIU, we can also drop these custom
-> mem* definitions for non-instrumented files for x86:
->
-> https://elixir.bootlin.com/linux/latest/source/arch/x86/include/asm/string_64.h#L88
-
-Yes, I think so.
-
-[1] https://lore.kernel.org/all/20230112194314.845371875@infradead.org/
-
-Last but not least are you ok with this patch? This patch ought to be
-applied to the same tree as 69d4c0d32186 anyway, so this patch lives
-or dies by that change.
+Thanks!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMdX9gzYEtUpESnFLT-0tPmZhU_GcK-6apW1yA0R2or0A%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2085e953-ff9d-4d2e-cb35-24383592f2c4%40suse.cz.
