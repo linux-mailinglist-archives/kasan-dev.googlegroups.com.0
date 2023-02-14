@@ -1,130 +1,137 @@
-Return-Path: <kasan-dev+bncBD52JJ7JXILRBXWSVOPQMGQET3VOYCY@googlegroups.com>
+Return-Path: <kasan-dev+bncBD52JJ7JXILRBWOUVOPQMGQEZOEVP5I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103e.google.com (mail-pj1-x103e.google.com [IPv6:2607:f8b0:4864:20::103e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2855E695628
-	for <lists+kasan-dev@lfdr.de>; Tue, 14 Feb 2023 02:52:33 +0100 (CET)
-Received: by mail-pj1-x103e.google.com with SMTP id mi18-20020a17090b4b5200b00230e56d5a44sf5354197pjb.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 13 Feb 2023 17:52:33 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1676339551; cv=pass;
+Received: from mail-ua1-x93d.google.com (mail-ua1-x93d.google.com [IPv6:2607:f8b0:4864:20::93d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA62695636
+	for <lists+kasan-dev@lfdr.de>; Tue, 14 Feb 2023 02:56:43 +0100 (CET)
+Received: by mail-ua1-x93d.google.com with SMTP id f6-20020ab03d06000000b0068a65937391sf2208046uax.6
+        for <lists+kasan-dev@lfdr.de>; Mon, 13 Feb 2023 17:56:43 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1676339802; cv=pass;
         d=google.com; s=arc-20160816;
-        b=nTV8wk1/5wXF/aep9qeIgMrcuLR673XJBTn5a0uGEL7r7uEbGlj9rHZUHG6ldtxjn8
-         PXxuSxw4dIvgwXuNBs0YYLeeXQaSkTRCWTmDkznyLddTKlR9b+LrW0Nz+2kxLe7/Cb+o
-         L9oLN616VJEDBbosMhLlngHsImHIxKMhE1pmnneyacSNwps47rsHMrTwfhhANWkfnyGB
-         AhghFBOvVJR+P/6wkKOyQXbTfRQKyJX2mbVw1gzwkCkT7nNEZhTDHZtD/gZTHKE5RU47
-         EVggRxP8ThZ9psAaJwpTHnXjpuIa7S9KEcdiBaqrEkaHmIJAMk+DxpcjfhQdmRAWOWbW
-         Tl1w==
+        b=haT1TcBjOjrjJfQjjYnKNSo+9BKvXyIc1phW3vlNGFK7zOyT+M1UQ95zgGfN9qFQQc
+         GnAwW0k9t74U2cWFfRCBu5Sm71IkYaOpM98Gyaka6q+1BB/c/a+1hYvTgk/HsgoId0SQ
+         +tXCBOn65rINgmuaeNzuagUlE5ElO1PO4+SL3ge5x0xvZdCtrvR/0WbeCyHNnvVWWfPn
+         FeZZQGp0PQfwQGR/WL/pT1oLtliecutIVcIRY8x2jb0r8/iqEiFMR0Xy9wjy+2KRFwEe
+         O55Dl3hCG2F4D3SFh1f4C2arYuqARTpBlJBU2ENxbL+vDh/d3yjV18vgTi//Uerat3Yj
+         U8Bg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=JZDSkjHtpDwEBsEMErHcvxqPadKF9TeYUkx3JOGYOng=;
-        b=tmzJdjs0NTAjb8n2iY9r4GyjffaSWt4IuZ4drNT2/G9I//i4y6RQKWVRvSyu54AtM5
-         XE4f/9a4VwlCImi3iJSN7hbIMY/9C0PbkES6VJcFGD/w1dmqLCPI8KhWdyUTKtruOFko
-         qbsrpEtZSu0SHDoC+5WLpa3BvOa1rhQ1GqPBFu7B7HlLZTeWOLXkTecBYQC3GjnAtqkR
-         L5IGISDBkKpOZEpA8wBKPqmogH8FPPGTkioAhFq1mITV/uGcQUoCILf+QSjMgujpmZ8j
-         nYOhs3jrXxaP/eZ8T4KW4kPNmAs8iwOyVZRgFFD/yJHprfI8u5aJ7WEHUY5zZk8z6vte
-         OFbA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=l0QccdSYaagrMladcw1Vn+LjvkJZ0zQ5dTYuhjMuXtc=;
+        b=cadDBBxKJaSvNvCoE9KUXAl6LC02W4qZI+usOFeIIBO/ooccb5I5WHdB79jZnHnNCB
+         6iIcKZta0BTSEfS8fwEeDWa6yK9IQnSVJNvlOpSOoB5iLO5syikf5yMoTi2t1RXIO0ZT
+         OXbXhbEaoYNG7uEbbvY6H8QSI+A4nq9FzJebXCGg28Z3S/Xm2ZdnErUZL68VQmHkVPip
+         fGDAt2U56sKUqP5ODkaFPwJdZSmUCmDTjSFobebDK5zWnH/8gzuWUtAPLpCJwOsJ19Tr
+         fVSFNToxhCAQNEbnpIBPFXZRLVImW95BqAfdCM/dzG42pyJ3rSD9Fl7CxuG0D95tvjGu
+         +9BA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=cF3vp2hn;
-       spf=pass (google.com: domain of 3xenqywmkcqireeiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3XenqYwMKCQIreeiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--pcc.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=WukYlK+o;
+       spf=pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::a2c as permitted sender) smtp.mailfrom=pcc@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112;
+        d=googlegroups.com; s=20210112; t=1676339802;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:from:subject:mime-version
-         :message-id:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JZDSkjHtpDwEBsEMErHcvxqPadKF9TeYUkx3JOGYOng=;
-        b=BoyCEX902sBRAtkescUKDLKXHvgviobZLil7XD38LQ8Zfc0ABarsUpEymrRbcWCcVU
-         6ZMb4SXQui+tqP84/zi4ukJweeYP9k37LMXUvaY1JXpDfr4WyJI0TFZzPyrpqBp2jbpW
-         IR3uatKX5zP1tAgNVetr9ALwed7aLyiJGYs4gux2OyIdStYn1RJ+/kWQpI28lf+5LSyP
-         VCEDbwJdhZeLheLmkpjM2rdVyJDXS/C4QCxaAod/qOEkUnW/ds52Z7cStA/Vmig0ul88
-         +ozBJo080vqsF59lqBgWM1eR6AyScvHxm6nHwwZC4PwyYruloEF03/FMz376Fj8p+y5V
-         XJ/Q==
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l0QccdSYaagrMladcw1Vn+LjvkJZ0zQ5dTYuhjMuXtc=;
+        b=TFBQ3p+m0rqV3rkZDmtxTRPxijUZJEHL5RlNj0KMCd/o2pp/8jQpB2FeITI9iquOqW
+         cyN0UOkE9j6gWJ3+r4gLqACSSuw6C9DsW3rHdQZEawwdNMPEtv/iQX7a8C2yZCm4g/T6
+         7WLm4etynkGNJ9ryvfvq89Kpfpf7sMdSi9YX3OUman9PuUNRdTmPZpCy3/emFPWYWiEJ
+         pr/woXntjYzBZ5ScvQcp9QnUsQtekifj5PRYsTb6zn1NKbL/LLlHceRhNBp5rdvgrUpP
+         mFfVnlhpIkBzd9oryKVG60NmFWYLarSMuMnP2nFo3sawxhNTAZAk5hlQbDWaIlGY3EnH
+         4giA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
+        d=1e100.net; s=20210112; t=1676339802;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:from:subject:mime-version
-         :message-id:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JZDSkjHtpDwEBsEMErHcvxqPadKF9TeYUkx3JOGYOng=;
-        b=OnE1iNiWdCaBD3FdnGkqUxUeVqUFz1fcClycFs7+Z114IxmKT4USSlt0lTmW4NyddW
-         KvOTLlzJiAl658K3T9zRDk1SXTBKvn58lNELT5qrt0hQFr0e4Ibomw+6oDXhtEmLydFh
-         xJALJQlN9BE5xJbpl7fR2eOycb03OduU8uHHng8xaKo9H7RvkK5ReSqMfDUrdCVMtX6w
-         lnrIX8KcEVrSV1Pg8TJ0HONoMx5iakAB5GUodehukm5Yp+6kQFeOOePEQa2lDVr41JOt
-         t83jvExr3tOzHFk4uNoWDXYmBiN1fdWb3qVxTIOl2cAw4fRzxY+sC6fMyD4StGrkNoIk
-         62sw==
-X-Gm-Message-State: AO0yUKVZSsY++LF4LCt7O2R1kRU4N5l1VVOm6KEJ76V71DxWmJfQTOvw
-	0Ry+ROu/yaWfS1iiMtLJU94=
-X-Google-Smtp-Source: AK7set+Rtoti6oLuOBK8kJLtEnYFJ4CrmIwKcC0OxSuyg4yllJoPTF9mPVEQ8cfqa0Yp/saEkbfCEQ==
-X-Received: by 2002:a62:7b83:0:b0:5a8:ad86:81a3 with SMTP id w125-20020a627b83000000b005a8ad8681a3mr119128pfc.25.1676339551123;
-        Mon, 13 Feb 2023 17:52:31 -0800 (PST)
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l0QccdSYaagrMladcw1Vn+LjvkJZ0zQ5dTYuhjMuXtc=;
+        b=TIdjscmqOnKC0QvRrxqbYYJYIl/BbQotbbX0WkHOB8Wf++rHVBeZ65GYn8IqMQ2URr
+         CED1wCUm14mITSgjFxnZtGuZUXoJaNG86RKVtHnVeLvPyfdC+hh8AT+jOck+OR8Xb3s9
+         hX1BBEiAs68Uzp23yS9dv3LsEH8iXjH04cYFpNdRT3RJdhhnsAk68zVRqNkhfFbNlXxo
+         gZl/TlePWYbrLT64c/2G/lFVHqJqWlzITgBBI41qxY1nYze0Y6NxMGv4mKJOo4j/sVbN
+         vNKIE5UKg7WmmLdiLPV/jN2ub9ZsghGYc762HHXW9n6NIran0TSqZb6CRi0zCCVnAUG4
+         SL2w==
+X-Gm-Message-State: AO0yUKXKfI/9EMIeAQ8AXd0Ci8EYHkFDcsjhUk0JdOIt64hpoKOpS/qP
+	6mKCrt6mTytK1W0RJ/FeAdE=
+X-Google-Smtp-Source: AK7set+6uKAA5DSk9wCb7AOVrsD0j6+Ur4ucVgB34AU3RIeSWzU/NejLPZeoWH6o1X1T4B/58wTc7A==
+X-Received: by 2002:a67:d58a:0:b0:412:197b:b3e2 with SMTP id m10-20020a67d58a000000b00412197bb3e2mr75686vsj.68.1676339802005;
+        Mon, 13 Feb 2023 17:56:42 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:f293:b0:199:50f5:6729 with SMTP id
- k19-20020a170902f29300b0019950f56729ls5132511plc.11.-pod-prod-gmail; Mon, 13
- Feb 2023 17:52:30 -0800 (PST)
-X-Received: by 2002:a17:90b:4a02:b0:234:5eb:2177 with SMTP id kk2-20020a17090b4a0200b0023405eb2177mr716112pjb.9.1676339550368;
-        Mon, 13 Feb 2023 17:52:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1676339550; cv=none;
+Received: by 2002:a1f:ce04:0:b0:3fd:2bb5:712c with SMTP id e4-20020a1fce04000000b003fd2bb5712cls2553875vkg.11.-pod-prod-gmail;
+ Mon, 13 Feb 2023 17:56:41 -0800 (PST)
+X-Received: by 2002:a1f:1685:0:b0:400:91cc:5c1c with SMTP id 127-20020a1f1685000000b0040091cc5c1cmr784278vkw.16.1676339801310;
+        Mon, 13 Feb 2023 17:56:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1676339801; cv=none;
         d=google.com; s=arc-20160816;
-        b=nxImbs6DZqME355et538kkPIj4yNdDYZXErN7kL48E5UWycPJ6ReEeoLPTBIY07j0h
-         +Qkhvk7SK3uuJ8nUamHd3KLEn87jIqatVxgiXJSaqS2SJdWAH9AmOdnm0rdi0rhpUNM+
-         hcTx/iT9bnOwNN2dGwx2ev2nU2DTuS3dzHQem37xXEF1DAKqe647jy2T7uLZ+Em8uvQB
-         NHoyQdsLP5/qOovx6bqD0oxxpFXvr0iGSj00yO24Zk2NLHjcNoQyvL2ha874ykpYaDKF
-         eV/JZCvZHBHWtvvGVgOg6FB6ZxREGyxfu7m5GfdHFmPX1v3+vQNxFBojHyFRq+LM0C1R
-         XcJQ==
+        b=lIN39z8VENbE6bp5g0S6cGwcFlRjTIsEocQoBCYV0+s7lk4IW08Pi4Z+clTYhIPXb/
+         FJ3ic+VGpKOEbw+6/1Ch4TAQR781PcpHDHwyveVT3GAb/PRRHuYHsh3vPn+/xl4enhhi
+         Num6HALdSO9OENH2TMdvWDpRQW19+Y/jcCwMxE2xPeD13c32Gel7QSWPbnv34TaRvaSS
+         YlbJus7xjWCy9oQHoVyPQKaQTgNMTmTX505mB3+QU05iK4podSTiMxH6DuZN5MpCwvZj
+         DYCjvEIghTrG3TzPoI3KaUxzwRZmgG98CO20bAnwnX5wakPGV6/GAlBL/K13oTZWRJVi
+         rN+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:from:subject:mime-version
-         :message-id:date:dkim-signature;
-        bh=2J+3GOG2P0hnwklMWKGq0tLBKfNtpEESwIEDcAq6rlI=;
-        b=r6m5proF0bCRk5qSgnBlRDPCE5Ae/8RwJCz5DuRl72ZKXtfzTQ1EQ9VHfbNWA1K7Tr
-         J0ycaegtOsQA21lVzE4f/sQj24BUD30pLFa/IZOklhj7VVzJ6nnsZUlJaADL/J00ktqL
-         E68RbQYh1iHInguVHXjJNs1DqP5Sxb9t/l9kAr7q5JZV/lPchRRvhIMg9s7AYuF+9Jb7
-         o4nI2lHSb1mGpOoB9edazeGlwO3/vvar6YlYHBLzi6rPQikyct4Ig4xTS1GLIb10bgxW
-         pZCdFUux8UFlcBRQMy1GuxiExWiXzd9hY0xhJDQgobqmFF8SRl47Vl/AA3NmUBklDsaK
-         AXaw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=8JwtFQD8SoayVtxvpf9Tvl5oCjOJCdMofv2mGIfAKNU=;
+        b=YlbprQgFm7YT89QhHJCI5BNgjnz6THqlExN8fx97LdrqRGvhWKRC36V8sWg0c1esZx
+         SdcFaw06hdWmOJBtG5gUYbxj1adZH70W/QgNC/V0gtg77x1yv9gav+bGFVCYm+ZEHjU8
+         Fe2G6QBL5rqMA9g9xbBzY+cDfl/MiwrKd6ujWZAAxFyZ0M3dT4MdMDRIf++VEYTcZ8lX
+         lRk1NmBeNFTazQ7XASsmhjyboTQgf9wPjG+znEd5U6QmTgHv/VWB097ye/FpcTTAj4LA
+         qizl4gn8QOWoWE2+tW1EJU7RgivSzVlGby+agTkwrLacr2ygPwP+XR2XvDzjHpvWtNY6
+         4vTw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=cF3vp2hn;
-       spf=pass (google.com: domain of 3xenqywmkcqireeiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3XenqYwMKCQIreeiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--pcc.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=WukYlK+o;
+       spf=pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::a2c as permitted sender) smtp.mailfrom=pcc@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com. [2607:f8b0:4864:20::b49])
-        by gmr-mx.google.com with ESMTPS id w2-20020a17090aad4200b0022c4c6f4b8dsi499649pjv.0.2023.02.13.17.52.30
+Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com. [2607:f8b0:4864:20::a2c])
+        by gmr-mx.google.com with ESMTPS id w4-20020a1fdf04000000b004016000b6d1si485368vkg.2.2023.02.13.17.56.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Feb 2023 17:52:30 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3xenqywmkcqireeiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) client-ip=2607:f8b0:4864:20::b49;
-Received: by mail-yb1-xb49.google.com with SMTP id y125-20020a25c883000000b0086349255277so14239740ybf.8
-        for <kasan-dev@googlegroups.com>; Mon, 13 Feb 2023 17:52:30 -0800 (PST)
-X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2d3:205:6153:a2b0:1bfd:87af])
- (user=pcc job=sendgmr) by 2002:a05:6902:1147:b0:8df:1fcb:f1c8 with SMTP id
- p7-20020a056902114700b008df1fcbf1c8mr9ybu.2.1676339549200; Mon, 13 Feb 2023
- 17:52:29 -0800 (PST)
-Date: Mon, 13 Feb 2023 17:52:14 -0800
-Message-Id: <20230214015214.747873-1-pcc@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.39.1.581.gbfd45094c4-goog
-Subject: [PATCH] arm64: Reset KASAN tag in copy_highpage with HW tags only
+        Mon, 13 Feb 2023 17:56:41 -0800 (PST)
+Received-SPF: pass (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::a2c as permitted sender) client-ip=2607:f8b0:4864:20::a2c;
+Received: by mail-vk1-xa2c.google.com with SMTP id n22so3319328vkm.11
+        for <kasan-dev@googlegroups.com>; Mon, 13 Feb 2023 17:56:41 -0800 (PST)
+X-Received: by 2002:a1f:7f1c:0:b0:401:87ef:e516 with SMTP id
+ o28-20020a1f7f1c000000b0040187efe516mr86906vki.16.1676339800880; Mon, 13 Feb
+ 2023 17:56:40 -0800 (PST)
+MIME-Version: 1.0
+References: <20220610152141.2148929-1-catalin.marinas@arm.com>
+ <66cc7277b0e9778ba33e8b22a4a51c19a50fe6f0.camel@mediatek.com>
+ <CA+fCnZfu7SdVWr9O=NxOptuBg0eHqE526ijA4PAQgiAEYfux6A@mail.gmail.com>
+ <eeceea66a86037c4ca2b8e0d663d5451becd60ea.camel@mediatek.com>
+ <CA+fCnZfa=xcgL0RYwgf+kenLaKQX++UtiBghT_7mOginbmB+jA@mail.gmail.com>
+ <a16aa80c371a690a16e2d8bf679cb06153b5a73e.camel@mediatek.com>
+ <Y+Xh6IuBFCYZhQIj@google.com> <Y+aMvBozFxma3A/q@arm.com> <CAMn1gO7Xw_txFx_XEqbDQHk5BSfQaLZjKi6=9rQzE=Wm6YMM7w@mail.gmail.com>
+ <Y+qF1y4+8kQGaN6l@arm.com>
+In-Reply-To: <Y+qF1y4+8kQGaN6l@arm.com>
 From: "'Peter Collingbourne' via kasan-dev" <kasan-dev@googlegroups.com>
-To: catalin.marinas@arm.com, andreyknvl@gmail.com
-Cc: Peter Collingbourne <pcc@google.com>, 
-	"=?UTF-8?q?Qun-wei=20Lin=20=28=E6=9E=97=E7=BE=A4=E5=B4=B4=29?=" <Qun-wei.Lin@mediatek.com>, 
-	"=?UTF-8?q?Guangye=20Yang=20=28=E6=9D=A8=E5=85=89=E4=B8=9A=29?=" <guangye.yang@mediatek.com>, linux-mm@kvack.org, 
-	"=?UTF-8?q?Chinwen=20Chang=20=28=E5=BC=B5=E9=8C=A6=E6=96=87=29?=" <chinwen.chang@mediatek.com>, kasan-dev@googlegroups.com, 
-	ryabinin.a.a@gmail.com, linux-arm-kernel@lists.infradead.org, 
-	vincenzo.frascino@arm.com, will@kernel.org, eugenis@google.com, 
-	"=?UTF-8?q?Kuan-Ying=20Lee=20=28=E6=9D=8E=E5=86=A0=E7=A9=8E=29?=" <Kuan-Ying.Lee@mediatek.com>, stable@vger.kernel.org
+Date: Mon, 13 Feb 2023 17:56:29 -0800
+Message-ID: <CAMn1gO6R=CmQz93zojsfw-pZwnBF-237x2a4drCyGkkE1xYEwA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] kasan: Fix ordering between MTE tag colouring and page->flags
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: =?UTF-8?B?UXVuLXdlaSBMaW4gKOael+e+pOW0tCk=?= <Qun-wei.Lin@mediatek.com>, 
+	"andreyknvl@gmail.com" <andreyknvl@gmail.com>, 
+	=?UTF-8?B?S3Vhbi1ZaW5nIExlZSAo5p2O5Yag56mOKQ==?= <Kuan-Ying.Lee@mediatek.com>, 
+	=?UTF-8?B?R3Vhbmd5ZSBZYW5nICjmnajlhYnkuJop?= <guangye.yang@mediatek.com>, 
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, 
+	=?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= <chinwen.chang@mediatek.com>, 
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>, 
+	"ryabinin.a.a@gmail.com" <ryabinin.a.a@gmail.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"vincenzo.frascino@arm.com" <vincenzo.frascino@arm.com>, "will@kernel.org" <will@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: pcc@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=cF3vp2hn;       spf=pass
- (google.com: domain of 3xenqywmkcqireeiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--pcc.bounces.google.com
- designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3XenqYwMKCQIreeiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--pcc.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+ header.i=@google.com header.s=20210112 header.b=WukYlK+o;       spf=pass
+ (google.com: domain of pcc@google.com designates 2607:f8b0:4864:20::a2c as
+ permitted sender) smtp.mailfrom=pcc@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Peter Collingbourne <pcc@google.com>
 Reply-To: Peter Collingbourne <pcc@google.com>
 Precedence: list
@@ -139,64 +146,66 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-During page migration, the copy_highpage function is used to copy the
-page data to the target page. If the source page is a userspace page
-with MTE tags, the KASAN tag of the target page must have the match-all
-tag in order to avoid tag check faults during subsequent accesses to the
-page by the kernel. However, the target page may have been allocated in
-a number of ways, some of which will use the KASAN allocator and will
-therefore end up setting the KASAN tag to a non-match-all tag. Therefore,
-update the target page's KASAN tag to match the source page.
+On Mon, Feb 13, 2023 at 10:47 AM Catalin Marinas
+<catalin.marinas@arm.com> wrote:
+>
+> On Fri, Feb 10, 2023 at 11:03:45AM -0800, Peter Collingbourne wrote:
+> > On Fri, Feb 10, 2023 at 10:28 AM Catalin Marinas
+> > <catalin.marinas@arm.com> wrote:
+> > > On Thu, Feb 09, 2023 at 10:19:20PM -0800, Peter Collingbourne wrote:
+> > > > Thanks for the information. We encountered a similar issue internally
+> > > > with the Android 5.15 common kernel. We tracked it down to an issue
+> > > > with page migration, where the source page was a userspace page with
+> > > > MTE tags, and the target page was allocated using KASAN (i.e. having
+> > > > a non-zero KASAN tag). This caused tag check faults when the page was
+> > > > subsequently accessed by the kernel as a result of the mismatching tags
+> > > > from userspace. Given the number of different ways that page migration
+> > > > target pages can be allocated, the simplest fix that we could think of
+> > > > was to synchronize the KASAN tag in copy_highpage().
+> > > >
+> > > > Can you try the patch below and let us know whether it fixes the issue?
+> > > >
+> > > > diff --git a/arch/arm64/mm/copypage.c b/arch/arm64/mm/copypage.c
+> > > > index 24913271e898c..87ed38e9747bd 100644
+> > > > --- a/arch/arm64/mm/copypage.c
+> > > > +++ b/arch/arm64/mm/copypage.c
+> > > > @@ -23,6 +23,8 @@ void copy_highpage(struct page *to, struct page *from)
+> > > >
+> > > >       if (system_supports_mte() && test_bit(PG_mte_tagged, &from->flags)) {
+> > > >               set_bit(PG_mte_tagged, &to->flags);
+> > > > +             if (kasan_hw_tags_enabled())
+> > > > +                     page_kasan_tag_set(to, page_kasan_tag(from));
+> > > >               mte_copy_page_tags(kto, kfrom);
+> > >
+> > > Why not just page_kasan_tag_reset(to)? If PG_mte_tagged is set on the
+> > > 'from' page, the tags are random anyway and page_kasan_tag(from) should
+> > > already be 0xff. It makes more sense to do the same for the 'to' page
+> > > rather than copying the tag from the 'from' page. IOW, we are copying
+> > > user-controlled tags into a page, the kernel should have a match-all tag
+> > > in page->flags.
+> >
+> > That would also work, but I was thinking that if copy_highpage() were
+> > being used to copy a KASAN page we should keep the original tag in
+> > order to maintain tag checks for page accesses.
+>
+> If PG_mte_tagged is set on the source, it means that the tags are no
+> longer trusted and we should reset to match-all. Otherwise if
+> copy_highpage() is called on a page that was never mapped as PROT_MTE in
+> user space, PG_mte_tagged would not be set on the source and no tags
+> copied. In such case, we should keep the original KASAN tag in the
+> destination. Unless I misunderstood what you meant.
 
-We ended up unintentionally fixing this issue as a result of a bad
-merge conflict resolution between commit e059853d14ca ("arm64: mte:
-Fix/clarify the PG_mte_tagged semantics") and commit 20794545c146 ("arm64:
-kasan: Revert "arm64: mte: reset the page tag in page->flags""), which
-preserved a tag reset for PG_mte_tagged pages which was considered to be
-unnecessary at the time. Because SW tags KASAN uses separate tag storage,
-update the code to only reset the tags when HW tags KASAN is enabled.
+I was thinking that it might be possible for PG_mte_tagged to be set
+on a page with KASAN tags. But as far as I can tell, this isn't
+actually possible (or not intended to be possible, at least). So I
+agree, we can just call page_kasan_tag_reset() here.
 
-Signed-off-by: Peter Collingbourne <pcc@google.com>
-Link: https://linux-review.googlesource.com/id/If303d8a709438d3ff5af5fd8570=
-6505830f52e0c
-Reported-by: "Kuan-Ying Lee (=E6=9D=8E=E5=86=A0=E7=A9=8E)" <Kuan-Ying.Lee@m=
-ediatek.com>
-Cc: <stable@vger.kernel.org> # 6.1
----
-For the stable branch, e059853d14ca needs to be cherry-picked and the follo=
-wing
-merge conflict resolution is needed:
+Patch sent (with stable backport instructions) here:
+https://lore.kernel.org/all/20230214015214.747873-1-pcc@google.com/
 
--               page_kasan_tag_reset(to);
-+               if (kasan_hw_tags_enabled())
-+                       page_kasan_tag_reset(to);
- -              /* It's a new page, shouldn't have been tagged yet */
- -              WARN_ON_ONCE(!try_page_mte_tagging(to));
+Peter
 
- arch/arm64/mm/copypage.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/mm/copypage.c b/arch/arm64/mm/copypage.c
-index 8dd5a8fe64b4..4aadcfb01754 100644
---- a/arch/arm64/mm/copypage.c
-+++ b/arch/arm64/mm/copypage.c
-@@ -22,7 +22,8 @@ void copy_highpage(struct page *to, struct page *from)
- 	copy_page(kto, kfrom);
-=20
- 	if (system_supports_mte() && page_mte_tagged(from)) {
--		page_kasan_tag_reset(to);
-+		if (kasan_hw_tags_enabled())
-+			page_kasan_tag_reset(to);
- 		/* It's a new page, shouldn't have been tagged yet */
- 		WARN_ON_ONCE(!try_page_mte_tagging(to));
- 		mte_copy_page_tags(kto, kfrom);
---=20
-2.39.1.581.gbfd45094c4-goog
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20230214015214.747873-1-pcc%40google.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAMn1gO6R%3DCmQz93zojsfw-pZwnBF-237x2a4drCyGkkE1xYEwA%40mail.gmail.com.
