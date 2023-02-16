@@ -1,131 +1,128 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBJMAXOPQMGQEK4MWJLQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBSUDXOPQMGQE57XIZNI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3024C69A29B
-	for <lists+kasan-dev@lfdr.de>; Fri, 17 Feb 2023 00:45:43 +0100 (CET)
-Received: by mail-lf1-x137.google.com with SMTP id bp18-20020a056512159200b004b59c4fb76bsf1364357lfb.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 16 Feb 2023 15:45:43 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1676591142; cv=pass;
+Received: from mail-pj1-x103f.google.com (mail-pj1-x103f.google.com [IPv6:2607:f8b0:4864:20::103f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D8E969A2AC
+	for <lists+kasan-dev@lfdr.de>; Fri, 17 Feb 2023 00:52:44 +0100 (CET)
+Received: by mail-pj1-x103f.google.com with SMTP id ip9-20020a17090b314900b0023445cc3e08sf1691690pjb.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 16 Feb 2023 15:52:43 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1676591562; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xWXN6iOspUFjlP/xbqT6KJtE5PQR+HMtrz2f0PHMqj2+qw4rSYWTs+ESdQLIYl3GfQ
-         22kWWjUQ5Ary71G7Bk5sVw9taCafHfyrYt0Hi2gTPVx3AxLILHpK72Hx6wk0sUTYxOGG
-         +seX9cJ5VI0H6qMt7BMqo/hlq44PGzS4+U36cX1SYspOk2uz/d7bVwIx8U9/aidcvuoy
-         OrfXsxIRHKM0JPuCdZRTXb18DJkJsatDg392bEZF/lo6fYVEiie7ftVsLT2xFLFg9ioG
-         gyVxh8XDeJn/N0OeHj578CWB1c+y6HsVI7dfnj3k7N2FNBlyXFO00v0yUiE0uOVab/5m
-         PzSA==
+        b=heMdBDA2Aoc3PP3M0xvErx89mGKhtnOMYIyzSQ8THEUxhZsnBGrcE96cGW37eP+vkz
+         2/F7/uCajh45V//qJ9OWWbxj2uXjNGxdGrD5rGCgMUBgvIHFACQV73Ly198COp5ibMPv
+         oWG23bVyyefu03cyngYmaN+pOpEeZ2SzxRLzbO+ekOPZxT5h71iPjOuYWpX+PZeOqcTb
+         agVsHueFfBgrFUfqy4Hjj5tPbY19E/FA2MfKB0bZqa7/+oVLtEK9d3s45jR7iDOxaN7U
+         YdESWVy8vjEyyRCNN1FX30vv2pomCQ0PJWQ6xgRhGmkG/2+5JEoFzPJCviUhLzICpWho
+         KaSQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=UrV0Kcf47E7ppjAgTrIqytelSfF5OEFwjm4v7T2K+5k=;
-        b=zM/Q1q5rUy61pwlwHNk5E6GmpLg9RINZ3Qy6P44GJ1HvCAnXpMhQYCA6PKWdrahtYE
-         0wq5OVhNUF6yxx6slNd8hxs5PzStd9Co/a82mcey+EwWYJ3xWlSb4WVr05OlgqxxJf4G
-         GEjh4jAU0O70UyCtC5T63ogfFaVLEw4gjElSQR2nZMJhSOen3ReHmKtxsgFUi2XUrKuR
-         VKN+0oDrVkp2uqDmickyUon3vLPQaRScxHQUyqSoXKYunRECU2O/NdtnJmeScWccoQ6+
-         jBOw00HNgsgbY4TEkiHmktNVoRouF/5ZG3LNA6rHEo8S3PnG1fN3U13/hRcQ6GV0wIJi
-         FZMQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=A4Q52zobQZxbsQVY9Y6xtTSTP3ecuMH1of6/zPH31Vc=;
+        b=qTdy5MDm4r7wjPBGN3an3Fq7/3OOEDZSOgiCmfK0KCZ857hreY1VgcWa5Oskwu+vgx
+         czec4A+8PrFVvjcyqIcnF4JCHyHVM63EDo2aClDeQJz9wOUjuxvcjpwWvUjI43CSlaJa
+         qTTuGQEj5JZthRcZHtgsLXWa+VvaU+a6tHEPX8wksP9N6xLZrO4ZgPJTSp9jTJTadEeQ
+         IxlVwu1d4UO4SXtWF1/Ug7mw99EptJMobL21ficewwhdHI115k6YXn8ia5bFhdltceUc
+         o8qOU/4etCks8j3EfYESK3otAIjhzcMuvCCzsaRugQpZRuG9TAhi9TWRjBvePZpa/JW2
+         83PQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=kxkMJWrb;
-       spf=pass (google.com: domain of 3i8duywukcyqmt3mzowwotm.kwusi0iv-lm3owwotmozw2x0.kwu@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3I8DuYwUKCYQmt3mzowwotm.kwusi0iv-lm3owwotmozw2x0.kwu@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b="BWv/RC5R";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2f as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UrV0Kcf47E7ppjAgTrIqytelSfF5OEFwjm4v7T2K+5k=;
-        b=OKR8FhhSQusFe3BeRo/DXHsOZbG63xGxrNxf/X40mMLeoSQd+fUgyO9dH5vT2q3BZn
-         DlEyGUlMP3lejX1P4ROhBROBUb9UATGhERhxyY2/OZIfhEsl3QGJWlAr32ha/xVrwWZM
-         p8+rvyDQJxiWqNEEQUhU1nkZNMLMI0PzIby+gxzhUVLZXzC0oPxSKKlfJeuO5D3GsMqQ
-         ccalicYOnuzGJMtTM5K+qkCKdFsSGFL6vOW28HmejL2/mZEOUK1Y33Ps5tpDKkc1Ouy4
-         fCQ8yjC2i4fusi8jnqBqkuQWk63G01AvRjOmqF9+S7dpbwaM2XTw0hpxReJDVvbA7urs
-         e+nQ==
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A4Q52zobQZxbsQVY9Y6xtTSTP3ecuMH1of6/zPH31Vc=;
+        b=hK9P0N1SsyP/W0ZHqmipcxZEqw5R9xVSgWbTOcs9ghZOyG7h6dxp861nARHp20Thbd
+         0ArhkM2IsePwi5z91DRN1u0wHDRuuMXhq1aoV6jMhJvBsnvNDsjAM4PckeqhSI8s2zLB
+         ROlG72F76209FHahWLhNzE95iU0H0oT6R2EAoz5UQ139C2FgfQFfp+ouSdMyGnQL3ZZM
+         t8tNusmx/D8qGOaD+3CC8iZ2kd0LHJPfj94SltP/g2Zbbe3ed2VA/fv0ZV5wQoojF0PP
+         9ZULjjeyJTKsxLUEJ0/kmVHieeNWM8hK5Yw9FjwRT+q9x7JmwwkgQwQVBXaGH29Xf3UQ
+         GLMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UrV0Kcf47E7ppjAgTrIqytelSfF5OEFwjm4v7T2K+5k=;
-        b=1iiMyVB1Z5UnC80+4u+IDv+s2FykgvlzG6pr8a7mY7RpQDtO2RROJmYIpusmk9DoKy
-         he8Yr4a2/0FAnDVgMXQoY2tGo0niUx45wV2S2L+sy8NcMIczneWyf5lJPIIVUyuVU3/K
-         +C/4dl8wriJIyDNn/33rjQp/bw7PBp0tP7fHIG+1bycwO+4UlEHjyacx17U3ihDoDdPm
-         KpdXi85iO9M0wlN6RtXhiaET7aX2djgHSrSmzHeA8N/3ragBBlHWCItUa7fY1RmY+cIV
-         Lbglk2kXliQFD1N9isRzu3F/9uIBWrQCDpFqqbj6rsHefxpRGWFEGWB9TAWufI+UZbwO
-         OaSw==
-X-Gm-Message-State: AO0yUKXqwHWzSFsJ8uWJLpfEx5q1lGtX0/PMD6MaxwYkiTPqU45Z8P8+
-	rVFTjjDEqpzApx7FfZ6xZVoP7Q==
-X-Google-Smtp-Source: AK7set/jumaH48UQEVirjlGLYfW3xxiqPazd3eooqy77B87Z9S4wEB2ArZ5x6mjkJAc3uZriMg+1Ig==
-X-Received: by 2002:a2e:a593:0:b0:293:7477:97bd with SMTP id m19-20020a2ea593000000b00293747797bdmr1854769ljp.3.1676591142140;
-        Thu, 16 Feb 2023 15:45:42 -0800 (PST)
+        bh=A4Q52zobQZxbsQVY9Y6xtTSTP3ecuMH1of6/zPH31Vc=;
+        b=GEDTcnZ9+w4anCUWfl3oa40Ov6KCVrVj0s+DXH1NuzhMx8Bzqm+a3+Bx7BDRa/0S54
+         6VU64jYyBMAFqKNjqRnDJ7mfpEI6Fx9FjRC8ltN0RZyk/jdSwtGZGLkeJ44I0Tdbyfhz
+         HSV7f/nRZ1O4mZnSD1kWmirWidfSstoS4YBUKwJ1XS/zdddbMk71JEmhilsK2pA2PNZV
+         C8V5D952G15TGL/CVimatXwbetGixMMLXqocH8dsaTaf3440VQJ63emz8zg+Tr5XFY2Y
+         9fDxGo7W0SkRBuT0Se3H8dZo49QsiEprPWvGKym41Djv7KaqOSO75UfwqLaxAlOUUOh3
+         A02A==
+X-Gm-Message-State: AO0yUKXdbr0Rc+rjuumCWVB5WqlG6TbmZA5bOMnT2oFpCZMxFXRkIHz7
+	VnEz6sZbpC57HyREFfP2JHw=
+X-Google-Smtp-Source: AK7set9IY2rNKsEBKfbr+3mzAw7G+y51LAB/bbXv/ZKyKjS31o3rVKkq0VZe6H/hZfwyaB7kzwO3tA==
+X-Received: by 2002:a17:90b:1d4d:b0:234:8ad5:3e48 with SMTP id ok13-20020a17090b1d4d00b002348ad53e48mr951677pjb.119.1676591562572;
+        Thu, 16 Feb 2023 15:52:42 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3da9:b0:4c8:8384:83f3 with SMTP id
- k41-20020a0565123da900b004c8838483f3ls1859531lfv.3.-pod-prod-gmail; Thu, 16
- Feb 2023 15:45:40 -0800 (PST)
-X-Received: by 2002:a05:6512:3ca6:b0:4dc:790c:9100 with SMTP id h38-20020a0565123ca600b004dc790c9100mr732195lfv.12.1676591140358;
-        Thu, 16 Feb 2023 15:45:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1676591140; cv=none;
+Received: by 2002:a17:902:8641:b0:19a:a6bf:cc9c with SMTP id
+ y1-20020a170902864100b0019aa6bfcc9cls3600374plt.4.-pod-prod-gmail; Thu, 16
+ Feb 2023 15:52:41 -0800 (PST)
+X-Received: by 2002:a17:902:ea09:b0:19a:9a66:9030 with SMTP id s9-20020a170902ea0900b0019a9a669030mr4036815plg.4.1676591561750;
+        Thu, 16 Feb 2023 15:52:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1676591561; cv=none;
         d=google.com; s=arc-20160816;
-        b=daKchU+mmpm0CEHXPNanpOVmAC/ukF+h2roT6cIPCyRd4xjs1nc+/5zInHyWc8Z4Gt
-         Jzj+CBW9S6J0BuVfgXJBFmnuajwsBBVj96qLHxRujCtEa/K2lYr3+nd9D+0/8SDojzpa
-         PCS/ACJD3RixA5tpeTK30EHBv3KtWD9+wVKD2FESVMgRzGY9ul28VeUhfZU1WdZ+/n4m
-         qtJiYPhvSl4UzZrfCN8wGbYOX5k/+Kj4yjXbkLQUdMH0VToIkfAcw9OVIEBIINpT4vzj
-         NN0j/bNpj2cYqMLFjx90z2yPu/WPjYFGvqX68W/cCKipaBmEAUug9CX7tKPJYZabhGmg
-         pHAg==
+        b=IAwtPt982i81/2XHVkvneyNWvKqVKYu7GX9+ZBmtcxOZeDYMomElTjMBkLk8WKt5az
+         5tciXz/k8MgBGGyluM3hnqGbKtyfLO8tEGmCxfAojHwiA9emqhzhcGKd9n0nqg6PzUzM
+         pcDKfg33YcWgh/rSo1d+2u8OnytBf/qgAYqQakRAq2JFc77QqQllu4H/qiU2q/GwACVv
+         M0vb3iOP0jhLUGigHXK/SRL141i2rHnn22HSBn/OeSrRaQAzUYiSNiwXLX9TR7v836UN
+         ivGDO78U06vLG9884zF/qGPYUymCOkVKxjNjTSBou0BsldD/eM2ELeHVxpc+ZARqv2ip
+         0WSQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:dkim-signature;
-        bh=gW18Fl3dm52InVgglE8m5dF8kxrMU+Nd8TZ0107EoLE=;
-        b=MwS9PKdticHQGLRovXyOZK/aC3V4l3qWCcTeWU6rt9H55To57ueTtd8onogGnF6+3h
-         lzcEAYfst/Xhzd0JukrrZot5cvSwANIY9P5RwoYj6IxK91JPcJc5dhbTfdNiVPSi6G7r
-         a6wp8K2S4f7+PncigyNCpARjq4PH86eymWzTORRF5urZ4LyjtqQbjzHqMw0YeAsFYvF8
-         on80Jd7ZzNjkGrtu7KAhnYZ7/3+M6tyAFSv3BFtVq6J1lGtStJ7E0fed/y11r2lX62RT
-         HDMDX+mxdLMoviRoS2Q6PU41oOL4YE/vtDhmneBelJ58mCZQDJQwrMHd7xvaIJBTZCoh
-         bLCg==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=r8AHC9C5MjMuHRim+xbd7khMCwzT9fB8DRzXrlAFNl0=;
+        b=hxo7fxYWoMO5wnaYZm7DVRP8AVEEW5z0k3R4OsHKBhOgRpTNlKPpXNf56KBHPAlTXr
+         ia3y88JOLxPSJm8v//4PU/NYwNCLUGKWZiFQg08pGacSpMWWGdoGLxCz0PmrZiz1LOVE
+         iSoHxjKrN4tXkR1gR5eAA3/YpcViyUR+tuArhpjEL8r7s/6gka3yfcOGoNqrE1ixLdtT
+         KBP3m2wxSKWYLmbl2WyEjyd6wuTT0u2GAoTq9NcdHX5T9OB5OZ0vhNi8/azGl/gIdJz5
+         7ppOkIASlZT1BIxSr7yM4YqJez+OAVl7DKbHRtTmFAnq6V0IIkz4RvoL32JtJM2PVtBj
+         EI5Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=kxkMJWrb;
-       spf=pass (google.com: domain of 3i8duywukcyqmt3mzowwotm.kwusi0iv-lm3owwotmozw2x0.kwu@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3I8DuYwUKCYQmt3mzowwotm.kwusi0iv-lm3owwotmozw2x0.kwu@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b="BWv/RC5R";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2f as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com. [2a00:1450:4864:20::54a])
-        by gmr-mx.google.com with ESMTPS id b14-20020a056512070e00b004dbafe55d43si140084lfs.13.2023.02.16.15.45.40
+Received: from mail-vs1-xe2f.google.com (mail-vs1-xe2f.google.com. [2607:f8b0:4864:20::e2f])
+        by gmr-mx.google.com with ESMTPS id x20-20020a17090300d400b00178112d1196si166090plc.4.2023.02.16.15.52.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Feb 2023 15:45:40 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3i8duywukcyqmt3mzowwotm.kwusi0iv-lm3owwotmozw2x0.kwu@flex--elver.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) client-ip=2a00:1450:4864:20::54a;
-Received: by mail-ed1-x54a.google.com with SMTP id i36-20020a0564020f2400b004ad793116d5so2020739eda.23
-        for <kasan-dev@googlegroups.com>; Thu, 16 Feb 2023 15:45:40 -0800 (PST)
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:34a3:b9c:4ef:ef85])
- (user=elver job=sendgmr) by 2002:a17:907:206e:b0:8b1:2653:c5f3 with SMTP id
- qp14-20020a170907206e00b008b12653c5f3mr3693391ejb.4.1676591139804; Thu, 16
- Feb 2023 15:45:39 -0800 (PST)
-Date: Fri, 17 Feb 2023 00:45:22 +0100
-In-Reply-To: <20230216234522.3757369-1-elver@google.com>
-Mime-Version: 1.0
-References: <20230216234522.3757369-1-elver@google.com>
-X-Mailer: git-send-email 2.39.2.637.g21b0678d19-goog
-Message-ID: <20230216234522.3757369-3-elver@google.com>
-Subject: [PATCH -tip v4 3/3] kasan: test: Fix test for new meminstrinsic instrumentation
+        Thu, 16 Feb 2023 15:52:41 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2f as permitted sender) client-ip=2607:f8b0:4864:20::e2f;
+Received: by mail-vs1-xe2f.google.com with SMTP id j40so1781091vsv.2
+        for <kasan-dev@googlegroups.com>; Thu, 16 Feb 2023 15:52:41 -0800 (PST)
+X-Received: by 2002:a67:70c6:0:b0:412:2e92:21a6 with SMTP id
+ l189-20020a6770c6000000b004122e9221a6mr1433170vsc.13.1676591560792; Thu, 16
+ Feb 2023 15:52:40 -0800 (PST)
+MIME-Version: 1.0
+References: <CA+G9fYvZqytp3gMnC4-no9EB=Jnzqmu44i8JQo6apiZat-xxPg@mail.gmail.com>
+ <CAG_fn=V3a-kLkjE252V4ncHWDR0YhMby7nd1P6RNQA4aPf+fRw@mail.gmail.com> <CAG_fn=VuD+8GL_3-aSa9Y=zLqmroK11bqk48GBuPgTCpZMe-jw@mail.gmail.com>
+In-Reply-To: <CAG_fn=VuD+8GL_3-aSa9Y=zLqmroK11bqk48GBuPgTCpZMe-jw@mail.gmail.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com, Peter Zijlstra <peterz@infradead.org>
-Cc: Ingo Molnar <mingo@kernel.org>, Jakub Jelinek <jakub@redhat.com>, linux-toolchains@vger.kernel.org, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kbuild@vger.kernel.org, 
-	Linux Kernel Functional Testing <lkft@linaro.org>
+Date: Fri, 17 Feb 2023 00:52:03 +0100
+Message-ID: <CANpmjNOciiDNkWDrkQ+BEgAj=rSYGQAuHVS1DTDfvPHSbAndoA@mail.gmail.com>
+Subject: Re: next: x86_64: kunit test crashed and kernel panic
+To: Alexander Potapenko <glider@google.com>
+Cc: Naresh Kamboju <naresh.kamboju@linaro.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Jakub Jelinek <jakub@redhat.com>, Peter Collingbourne <pcc@google.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, open list <linux-kernel@vger.kernel.org>, 
+	kunit-dev@googlegroups.com, lkft-triage@lists.linaro.org, 
+	regressions@lists.linux.dev, Anders Roxell <anders.roxell@linaro.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Andrey Konovalov <andreyknvl@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=kxkMJWrb;       spf=pass
- (google.com: domain of 3i8duywukcyqmt3mzowwotm.kwusi0iv-lm3owwotmozw2x0.kwu@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=3I8DuYwUKCYQmt3mzowwotm.kwusi0iv-lm3owwotmozw2x0.kwu@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+ header.i=@google.com header.s=20210112 header.b="BWv/RC5R";       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2f as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
 Precedence: list
@@ -140,159 +137,38 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The tests for memset/memmove have been failing since they haven't been
-instrumented in 69d4c0d32186.
+On Thu, 16 Feb 2023 at 19:59, Alexander Potapenko <glider@google.com> wrote:
+>
+> >
+> > > <4>[   38.796558]  ? kmalloc_memmove_negative_size+0xeb/0x1f0
+> > > <4>[   38.797376]  ? __pfx_kmalloc_memmove_negative_size+0x10/0x10
+> >
+> > Most certainly kmalloc_memmove_negative_size() is related.
+> > Looks like we fail to intercept the call to memmove() in this test,
+> > passing -2 to the actual __memmove().
+>
+> This was introduced by 69d4c0d321869 ("entry, kasan, x86: Disallow
+> overriding mem*() functions")
 
-Fix the test to recognize when memintrinsics aren't instrumented, and
-skip test cases accordingly. We also need to conditionally pass
--fno-builtin to the test, otherwise the instrumentation pass won't
-recognize memintrinsics and end up not instrumenting them either.
+Ah, thanks!
 
-Fixes: 69d4c0d32186 ("entry, kasan, x86: Disallow overriding mem*() functions")
-Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
-Signed-off-by: Marco Elver <elver@google.com>
----
-v4:
-* New patch.
----
- mm/kasan/Makefile     |  9 ++++++++-
- mm/kasan/kasan_test.c | 29 +++++++++++++++++++++++++++++
- 2 files changed, 37 insertions(+), 1 deletion(-)
+> There's Marco's "kasan: Emit different calls for instrumentable
+> memintrinsics", but it doesn't fix the problem for me (looking
+> closer...), and GCC support is still not there, right?
 
-diff --git a/mm/kasan/Makefile b/mm/kasan/Makefile
-index d4837bff3b60..7634dd2a6128 100644
---- a/mm/kasan/Makefile
-+++ b/mm/kasan/Makefile
-@@ -35,7 +35,14 @@ CFLAGS_shadow.o := $(CC_FLAGS_KASAN_RUNTIME)
- CFLAGS_hw_tags.o := $(CC_FLAGS_KASAN_RUNTIME)
- CFLAGS_sw_tags.o := $(CC_FLAGS_KASAN_RUNTIME)
- 
--CFLAGS_KASAN_TEST := $(CFLAGS_KASAN) -fno-builtin $(call cc-disable-warning, vla)
-+CFLAGS_KASAN_TEST := $(CFLAGS_KASAN) $(call cc-disable-warning, vla)
-+ifndef CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX
-+# If compiler instruments memintrinsics by prefixing them with __asan/__hwasan,
-+# we need to treat them normally (as builtins), otherwise the compiler won't
-+# recognize them as instrumentable. If it doesn't instrument them, we need to
-+# pass -fno-builtin, so the compiler doesn't inline them.
-+CFLAGS_KASAN_TEST += -fno-builtin
-+endif
- 
- CFLAGS_kasan_test.o := $(CFLAGS_KASAN_TEST)
- CFLAGS_kasan_test_module.o := $(CFLAGS_KASAN_TEST)
-diff --git a/mm/kasan/kasan_test.c b/mm/kasan/kasan_test.c
-index 74cd80c12b25..627eaf1ee1db 100644
---- a/mm/kasan/kasan_test.c
-+++ b/mm/kasan/kasan_test.c
-@@ -165,6 +165,15 @@ static void kasan_test_exit(struct kunit *test)
- 		kunit_skip((test), "Test requires " #config "=n");	\
- } while (0)
- 
-+#define KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test) do {		\
-+	if (IS_ENABLED(CONFIG_KASAN_HW_TAGS))				\
-+		break;  /* No compiler instrumentation. */		\
-+	if (IS_ENABLED(CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX))	\
-+		break;  /* Should always be instrumented! */		\
-+	if (IS_ENABLED(CONFIG_GENERIC_ENTRY))				\
-+		kunit_skip((test), "Test requires checked mem*()");	\
-+} while (0)
-+
- static void kmalloc_oob_right(struct kunit *test)
- {
- 	char *ptr;
-@@ -454,6 +463,8 @@ static void kmalloc_oob_16(struct kunit *test)
- 		u64 words[2];
- 	} *ptr1, *ptr2;
- 
-+	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-+
- 	/* This test is specifically crafted for the generic mode. */
- 	KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_KASAN_GENERIC);
- 
-@@ -476,6 +487,8 @@ static void kmalloc_uaf_16(struct kunit *test)
- 		u64 words[2];
- 	} *ptr1, *ptr2;
- 
-+	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-+
- 	ptr1 = kmalloc(sizeof(*ptr1), GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr1);
- 
-@@ -498,6 +511,8 @@ static void kmalloc_oob_memset_2(struct kunit *test)
- 	char *ptr;
- 	size_t size = 128 - KASAN_GRANULE_SIZE;
- 
-+	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-+
- 	ptr = kmalloc(size, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
- 
-@@ -511,6 +526,8 @@ static void kmalloc_oob_memset_4(struct kunit *test)
- 	char *ptr;
- 	size_t size = 128 - KASAN_GRANULE_SIZE;
- 
-+	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-+
- 	ptr = kmalloc(size, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
- 
-@@ -524,6 +541,8 @@ static void kmalloc_oob_memset_8(struct kunit *test)
- 	char *ptr;
- 	size_t size = 128 - KASAN_GRANULE_SIZE;
- 
-+	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-+
- 	ptr = kmalloc(size, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
- 
-@@ -537,6 +556,8 @@ static void kmalloc_oob_memset_16(struct kunit *test)
- 	char *ptr;
- 	size_t size = 128 - KASAN_GRANULE_SIZE;
- 
-+	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-+
- 	ptr = kmalloc(size, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
- 
-@@ -550,6 +571,8 @@ static void kmalloc_oob_in_memset(struct kunit *test)
- 	char *ptr;
- 	size_t size = 128 - KASAN_GRANULE_SIZE;
- 
-+	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-+
- 	ptr = kmalloc(size, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
- 
-@@ -566,6 +589,8 @@ static void kmalloc_memmove_negative_size(struct kunit *test)
- 	size_t size = 64;
- 	size_t invalid_size = -2;
- 
-+	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-+
- 	/*
- 	 * Hardware tag-based mode doesn't check memmove for negative size.
- 	 * As a result, this test introduces a side-effect memory corruption,
-@@ -590,6 +615,8 @@ static void kmalloc_memmove_invalid_size(struct kunit *test)
- 	size_t size = 64;
- 	size_t invalid_size = size;
- 
-+	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-+
- 	ptr = kmalloc(size, GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
- 
-@@ -618,6 +645,8 @@ static void kmalloc_uaf_memset(struct kunit *test)
- 	char *ptr;
- 	size_t size = 33;
- 
-+	KASAN_TEST_NEEDS_CHECKED_MEMINTRINSICS(test);
-+
- 	/*
- 	 * Only generic KASAN uses quarantine, which is required to avoid a
- 	 * kernel memory corruption this test causes.
--- 
-2.39.2.637.g21b0678d19-goog
+Only Clang 15 supports it at this point. Some future GCC will support it.
+
+> Failing to intercept memcpy/memset/memmove should normally result in
+> false negatives, but kmalloc_memmove_negative_size() makes a strong
+> assumption that KASAN will catch and prevent memmove(dst, src, -2).
+
+Ouch - ok, so we need to skip these tests if we know memintrinsics
+aren't instrumented.
+
+I've sent a series here:
+https://lore.kernel.org/all/20230216234522.3757369-1-elver@google.com/
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230216234522.3757369-3-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOciiDNkWDrkQ%2BBEgAj%3DrSYGQAuHVS1DTDfvPHSbAndoA%40mail.gmail.com.
