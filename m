@@ -1,32 +1,32 @@
 Return-Path: <kasan-dev+bncBDTMJ55N44FBBSNQ3GPQMGQE527QFKA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAB7A69FAA3
+Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AB969FAA4
 	for <lists+kasan-dev@lfdr.de>; Wed, 22 Feb 2023 19:00:42 +0100 (CET)
-Received: by mail-lj1-x239.google.com with SMTP id a9-20020a05651c210900b0028b97d2c493sf2418966ljq.2
+Received: by mail-wm1-x337.google.com with SMTP id m22-20020a05600c4f5600b003dffc7343c3sf3751468wmq.0
         for <lists+kasan-dev@lfdr.de>; Wed, 22 Feb 2023 10:00:42 -0800 (PST)
 ARC-Seal: i=2; a=rsa-sha256; t=1677088842; cv=pass;
         d=google.com; s=arc-20160816;
-        b=C7JU977YNCSkReo1Od3kzLigYj1y+mkC48kq4dvC41HRfdEPaMpxFoxxX33z51BrhZ
-         BJ2u7rtKw1PGbW5J882DpwyTlcXIyAjjUKEnbHga/ZdGBVVSZonKJOacJtrJoQKLIJJI
-         eIx1m6/qN5qOZ7dqiDV2MEEZcKHyLYN7yJ+OsiRi4KlLgewy0VDmO9m4JISKKTT2deRr
-         bbGKSpYOlGkmJUbp6+VSBk1rcULoa0RGBNFDSbkbT0YHbIUnPJ3eWR62j7cMZB/g+pm0
-         XBFZnmOefCqhs6Jzi06CsnmH3HCShSoZh1UNgC0uYEOAsvQaGnHqqHukjjfXR11XCj6i
-         74BQ==
+        b=oKAnU2Rmr4PenwaBCGn8wxPfZHILRFSGi4iq764UpdvheM+pSm2AKWfDL71U2dqMBk
+         dzGyRALkWb4Gy5c8zZ9VurQbe82RJLG2aY1aBSMAjM2RjePtTcwXLO0gfA8g6wdWD3na
+         UDWIqcdaX8BU/zKUHpOYo38GQnuA/vcThFWusbQXqBIRKNN/RChdqYZlRQmG3fD+0LJ4
+         cqNK0NZSfIx3mcGdxgbMKLb5bWVKzdUeBg499Lzz2SDBMaJyrzUReH4gmV0wJoP3LT1p
+         oyLg7NJTrkT/Xd7g1pavj559KLR2m9PYYkuQ/rHvuSdIkUCVfEgzmXbz7yuHCMrT3nZj
+         tXJg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=aI6fKOhvAOJOlFbJBv5qCPqYx2TDfryFtTjDpGjCsZ4=;
-        b=cZ8ZzOf/iFj5Ye26OuxP1QoRjwoYTlKsYrw34L0Xcunkx2ORisvoaZsQKqGF/hx9iq
-         CNNOT7+R8bImNsXSlMcKjUVNFR44lydq4A0tlyykS2kmacrmozVHfuSEZVJURnvD4dVG
-         hACHoPMENRu6XilfAVkHmOW5o9Je34QsHeYqFkCVQk++faRc4Vx2w/QQheuI2pPm0awV
-         ga8o+KRUys6qLEZFL2t3G9Sbldnwcn+JyAZvMAfSm5RyGT7O/RSslc1mrh5Q6Wcv0hEA
-         FFbi6ic3qARGVCq7Zu+83XO2HRb8SuPEFIxsQiqQ0CwS/dkG8hehG3zRNpB+rG4DiAvC
-         YIvA==
+        bh=SVGzu4kT0lIg5/uqiuUcCE5+3rKCTcnyaCAniWDHtMs=;
+        b=aHDZ5ZTEYxmWskKGTxJEKIR0edhdn+VUcb262EgEBa2eg2zQsY2q8rnHfdkgRZWzKu
+         +q9Iod2pwQG3Gn8Iuo13COk10GnKaal8BMD3Z/q+14ac1+adwCPzMrvO5tmXYVGmHMC3
+         XEMOhoAibccJks0Vsz1hA031I8QPn7fDajYh+ajaVLv8SkXoa88Osx+0WAviN4aMbT/y
+         YIgmYjLfZpiqejOjS2mD3rx8xiFmx/y9BlWlU5PyjnaVJUp1uBusQHY98qc9Gjb5rDtb
+         6CVYI8+DpvfE1U0B+C7YL2X/rPfc+vF+jI7kSolulp3ANriH4xbagdNqjQBm1FVlu0JL
+         pM7g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.128.46 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
+       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.128.52 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -34,13 +34,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aI6fKOhvAOJOlFbJBv5qCPqYx2TDfryFtTjDpGjCsZ4=;
-        b=NMzJfYiuyKovo6lFLhx6hz91/1w9U/waJ6CIHz7X/IkMRwY0XP1llCJ5jWWt3JUrMP
-         +AtO+P78lu9uN3frHbIDeNFSdfeQKAsNVWl5Elj0+toQj4+0OGmy6rPkI/2FeOLgWjub
-         AHVO5WNjtqBJkLG62qaC2YT+C0LUkYWuGREYGeJ/NXPS75iPjOAqwpxCGdS9zJzE9iDl
-         6ua346rBTvKyxeQDSvV7XkaRNKp+MP2LlfKt43EcOQZw9qdVLbjKZZCqQuRBOZDFGfxk
-         VWs4+N6SRjRjFuXf5nZsAxFPcM7UF9WjwjmjkSFV+YYcEnXROLQFUJFYWdDexDHt1qc4
-         4D8Q==
+        bh=SVGzu4kT0lIg5/uqiuUcCE5+3rKCTcnyaCAniWDHtMs=;
+        b=bzBvJgx297iOna81VVwprlApqJjmezWX2NKSaHogWwRvARIy5r0t/PkISFA//4xiI4
+         tPIWGeOZeBLx7sWUsyVlOZ+GcqLPptn/VV+GkB8cZhn80m8+yqqOf4liJXhn04xGmb2x
+         ZL+Sk0Z6nxouLyon0ht1pUkqHrwjgkIuszv7LEIm02SdseY0hC+p02I75I+iJ4pyAXVb
+         3xCootXNBI+htba0SzalsZujsurQ15TBfm5YiBRy+6+kW4AbYf6knUwxfM8BEpkUd0OC
+         M6lXGHLiFG0Gl0AT6HAhGPXiNrE0dj5YTPvs+38yxA1yTwBAjN1Uxv3+Qva5EOV036Fi
+         oWzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -49,59 +49,59 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=aI6fKOhvAOJOlFbJBv5qCPqYx2TDfryFtTjDpGjCsZ4=;
-        b=yEhaYd4Zu9vde1lRL8YmtzXSr66GGc9MtRiUuYoVkEkCpOmpD68qWbQQBBL/ds79VY
-         erV5TYGnMFym/kXplDToOyLkjorVWX+9QHOASQnyks6ivfhlD4Ssh+cGy1QxVlD4l3bT
-         XrTjSYJCu9zunjip9+EwutChPhnByXLhTjvYDGDkceZKT5IuVp4PExMnykldA9haY34p
-         90yI018hOOMBHXQoeL2JuzqCkl7njEgZR6+8mb0nxHYXiwEPwh+hU8nuv16CBGe42j0N
-         IScj5uyDxg8u0aUqgz7Dm6lEKn/PL7RyxBRCBbVq4f5LzIFAC8vZD2u5s0XINTfvWLc1
-         16Mw==
+        bh=SVGzu4kT0lIg5/uqiuUcCE5+3rKCTcnyaCAniWDHtMs=;
+        b=0Hf3yK/y0pbwhyH3fdAPAWt4JuAcjm5jgmHluG1PXuh8UHcREU5+b8L6vnaVPc0Wxf
+         des3YVfHIzoxdTrMHPHJzrbVIBOIiv3ZreSGqq16+aqXND9jxalNKX6Ea/Ll1HaitZKb
+         wgF/P7ije8SCwDB/uXRbLyrq53NhyMwl7mctT6v317lrvGGw2W81Y+aPOPIhbW0+xQen
+         K0CTUnjY45cPi5L6ubCI39wVt28QxH5l2PEo0yd34u305a+IpsZ3JL07+dhdnx/j/zr9
+         80ot1zp1ABUo0Pz5tyEtw4pf2JBDJfiwbijNRQb077qhe9iLnD61vFIHAmI+06Pydd21
+         kCIg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKXr3Sgc6DvMF8rit9ExdvSCJl850oEGyQjw073JG278sJF1IVHE
-	OT/UDyOBiXgfSIZG3MoSrQs=
-X-Google-Smtp-Source: AK7set9lr2p6kSVGG9bISUHYcSqvq8Cp17QXHSk10XcC4biIS2D02JvFYd/A9qbijjFEsOGIg7x3GA==
-X-Received: by 2002:ac2:5462:0:b0:4db:f0a:d574 with SMTP id e2-20020ac25462000000b004db0f0ad574mr3002916lfn.7.1677088841762;
-        Wed, 22 Feb 2023 10:00:41 -0800 (PST)
+X-Gm-Message-State: AO0yUKVzgxOTWH+/JZhT3uLukKyrQAeAgKu9I8Yt7pqM5gFX5M+OQVww
+	t8vdHyclyNyfn+GOGCUWAKw=
+X-Google-Smtp-Source: AK7set9XDXYklRa0G4ksStcCiXj1iteqBfLEGszogSz0aNohaEndpc57W9TndAoYQrMDmpw/Fg96lw==
+X-Received: by 2002:a05:600c:3d8e:b0:3e2:6ee:ce9a with SMTP id bi14-20020a05600c3d8e00b003e206eece9amr1804828wmb.51.1677088842009;
+        Wed, 22 Feb 2023 10:00:42 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:904:b0:294:5f5a:a482 with SMTP id
- e4-20020a05651c090400b002945f5aa482ls1505658ljq.4.-pod-prod-gmail; Wed, 22
+Received: by 2002:a05:6000:1e1a:b0:2c5:5262:2e24 with SMTP id
+ bj26-20020a0560001e1a00b002c552622e24ls2897550wrb.2.-pod-prod-gmail; Wed, 22
  Feb 2023 10:00:40 -0800 (PST)
-X-Received: by 2002:a2e:be14:0:b0:295:965e:8506 with SMTP id z20-20020a2ebe14000000b00295965e8506mr1775462ljq.41.1677088840002;
+X-Received: by 2002:a5d:5f03:0:b0:2c3:be89:7c2b with SMTP id cl3-20020a5d5f03000000b002c3be897c2bmr7881366wrb.14.1677088840677;
         Wed, 22 Feb 2023 10:00:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1677088839; cv=none;
+ARC-Seal: i=1; a=rsa-sha256; t=1677088840; cv=none;
         d=google.com; s=arc-20160816;
-        b=wwci2sDXF3ndrTKbkjm4igBzCkcK9zYVqPOWu1TmHqSGgMdSpaH7pxmBDdrTwaDvql
-         N3q7ZC2yNH28bg+SnZh9AbqFYm1MT/6omM0hHd+dlKQCXKBSwFkpfZIgZwe5+yfjbtKg
-         P3UgfRIwHzKKWzJIwZlWO4c31SXc7Y/9b77pxVBZdT/icwEMj/WdtBiL97k90HseT4ME
-         1pMNQGwwz0cInoJhxj6LusYCz2mt8MY7AnktmJ/b5a6ylYPdzBD/FmICTrgCGhazZBA5
-         rO2R6JQms4i4XQxeMG3KzGfbI6Y6/TfCHs95EHcxZ9oz5OK7yZkJ9HYQ/gfaOmw0V16H
-         D5dw==
+        b=ZWcY1IpawVhBlDqX50yh29EPaWbV40BzcYaXkmmrGZtj5mgXB4M3eaNF3yCoL83z2A
+         byhp04PW3gP35vTfUDlyZdmYM97fDI6A7VOcOautT4xWOGoZGZj/F59XMvlm0uuCbPPD
+         HuHHL4E5EEPjujbgmidTdqFLH1eprikgY0a7a5G+uzFqhc9PFLqv5/8Wf+q9vQk5bSyG
+         Q+5pgl/6X2+3KCptVxLaN6Xc2SC5tfs6s087XP0mgUwM3CZP7zKJbny5lsHI1GzVstAu
+         Q63UttM/xuCTF2NITGMgxKvAecucO9Vi6Kngu0qhtQR8lrziDads2JoMCKDpxipDZkcF
+         Y/jg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=3tEj3MEVlOpJ71FbGuEdO9VoX/sQZcmpHXDBJnglnR8=;
-        b=oHcCVh5uV6ZXYCCYBEOi78RI6H/SmfyJZfIzCWcovbCB3SzOf35v2M8v7lXLVr/QLK
-         wGAvqb+BIB2pC8FZAQV0j7kJdYIwVh+o290oChuZcsU5iiVnAV977ulFrZ9nQULrGA63
-         DY3zU4p/En0m5G6zrf9eDqJi4shlieN9L39EtqxyakllqdIH+WUP4jB9ItppYH2xM93R
-         +rsBIECk7MIDCXP/LrP5pGd+fkBY/PmmPcsuYAoaxzrCVwLNHvWDBV1UTwTrRli65oku
-         eQbfeR4+XA1A9KdJYupNTydpb2Sc1/qK2txv59Kt5s+H/DA6wWAOhXwgN3qzr4FHbPrx
-         aZVA==
+        bh=xNEnafHq9H7B13AnAe5txqBr7aKjs9xFRkNpLXSLW18=;
+        b=UgOdIDK9PmbvH2PmwxL81rlutsO0lGSb/HwT/dkJ/XXD6GJzf+MBvfwVLWr6KquoZ8
+         vKv0zDMC04VKdUOU62yIFBQhMZbmUR8G96MrzTWY9dj6dQUmGVwJX9r1oPAvUReT0MZK
+         ohyYupO3kheCZ/i1cZl7PAnmm4bnT2wEQDTURcr3RkBuSOPioYLeOwXe3uKS1Xb6ojfb
+         +zvZwhzxojGaQUktkC9WGrtAoUXLJqOZL8JhXrGK2BKTwj6/2VUP7UMuM+3nSq+YFtnh
+         v9Sk/BzeSfvqqV1VMpsCbmYMMwDnXyjRPn8Gi+bT+IocZ+sdrJzVvmBzf2muikLq16tE
+         Of7w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.128.46 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
-        by gmr-mx.google.com with ESMTPS id b26-20020a2ebc1a000000b002905672e241si322229ljf.5.2023.02.22.10.00.39
+       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.128.52 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com. [209.85.128.52])
+        by gmr-mx.google.com with ESMTPS id bu26-20020a056000079a00b002c56aba93edsi295099wrb.4.2023.02.22.10.00.40
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Feb 2023 10:00:39 -0800 (PST)
-Received-SPF: pass (google.com: domain of breno.debian@gmail.com designates 209.85.128.46 as permitted sender) client-ip=209.85.128.46;
-Received: by mail-wm1-f46.google.com with SMTP id j19-20020a05600c1c1300b003e9b564fae9so1292114wms.2
-        for <kasan-dev@googlegroups.com>; Wed, 22 Feb 2023 10:00:39 -0800 (PST)
-X-Received: by 2002:a05:600c:16c5:b0:3dc:37d0:e9df with SMTP id l5-20020a05600c16c500b003dc37d0e9dfmr1606404wmn.14.1677088839316;
-        Wed, 22 Feb 2023 10:00:39 -0800 (PST)
-Received: from localhost (fwdproxy-cln-002.fbsv.net. [2a03:2880:31ff:2::face:b00c])
-        by smtp.gmail.com with ESMTPSA id r1-20020adfdc81000000b002c5503a8d21sm5901528wrj.70.2023.02.22.10.00.38
+        Wed, 22 Feb 2023 10:00:40 -0800 (PST)
+Received-SPF: pass (google.com: domain of breno.debian@gmail.com designates 209.85.128.52 as permitted sender) client-ip=209.85.128.52;
+Received: by mail-wm1-f52.google.com with SMTP id c18so1708521wmr.3
+        for <kasan-dev@googlegroups.com>; Wed, 22 Feb 2023 10:00:40 -0800 (PST)
+X-Received: by 2002:a05:600c:4e41:b0:3e1:feb9:5a2f with SMTP id e1-20020a05600c4e4100b003e1feb95a2fmr7846372wmq.2.1677088840397;
+        Wed, 22 Feb 2023 10:00:40 -0800 (PST)
+Received: from localhost (fwdproxy-cln-023.fbsv.net. [2a03:2880:31ff:17::face:b00c])
+        by smtp.gmail.com with ESMTPSA id 1-20020a05600c274100b003dfe549da4fsm9179448wmw.18.2023.02.22.10.00.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Feb 2023 10:00:38 -0800 (PST)
+        Wed, 22 Feb 2023 10:00:40 -0800 (PST)
 From: Breno Leitao <leitao@debian.org>
 To: axboe@kernel.dk,
 	asml.silence@gmail.com,
@@ -111,16 +111,16 @@ Cc: linux-kernel@vger.kernel.org,
 	leit@meta.com,
 	kasan-dev@googlegroups.com,
 	Breno Leitao <leit@fb.com>
-Subject: [PATCH v2 1/2] io_uring: Move from hlist to io_wq_work_node
-Date: Wed, 22 Feb 2023 10:00:34 -0800
-Message-Id: <20230222180035.3226075-2-leitao@debian.org>
+Subject: [PATCH v2 2/2] io_uring: Add KASAN support for alloc_caches
+Date: Wed, 22 Feb 2023 10:00:35 -0800
+Message-Id: <20230222180035.3226075-3-leitao@debian.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20230222180035.3226075-1-leitao@debian.org>
 References: <20230222180035.3226075-1-leitao@debian.org>
 MIME-Version: 1.0
 X-Original-Sender: leitao@debian.org
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of breno.debian@gmail.com designates 209.85.128.46 as
+ (google.com: domain of breno.debian@gmail.com designates 209.85.128.52 as
  permitted sender) smtp.mailfrom=breno.debian@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -137,104 +137,137 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Breno Leitao <leit@fb.com>
 
-Having cache entries linked using the hlist format brings no benefit, and
-also requires an unnecessary extra pointer address per cache entry.
+Add support for KASAN in the alloc_caches (apoll and netmsg_cache).
+Thus, if something touches the unused caches, it will raise a KASAN
+warning/exception.
 
-Use the internal io_wq_work_node single-linked list for the internal
-alloc caches (async_msghdr and async_poll)
+It poisons the object when the object is put to the cache, and unpoisons
+it when the object is gotten or freed.
 
-This is required to be able to use KASAN on cache entries, since we do
-not need to touch unused (and poisoned) cache entries when adding more
-entries to the list.
-
-Suggested-by: Pavel Begunkov <asml.silence@gmail.com>
 Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- include/linux/io_uring_types.h |  2 +-
- io_uring/alloc_cache.h         | 26 +++++++++++++-------------
- 2 files changed, 14 insertions(+), 14 deletions(-)
+ io_uring/alloc_cache.h | 11 ++++++++---
+ io_uring/io_uring.c    | 14 ++++++++++++--
+ io_uring/net.c         |  2 +-
+ io_uring/net.h         |  4 ----
+ io_uring/poll.c        |  2 +-
+ 5 files changed, 22 insertions(+), 11 deletions(-)
 
-diff --git a/include/linux/io_uring_types.h b/include/linux/io_uring_types.h
-index 0efe4d784358..efa66b6c32c9 100644
---- a/include/linux/io_uring_types.h
-+++ b/include/linux/io_uring_types.h
-@@ -188,7 +188,7 @@ struct io_ev_fd {
- };
- 
- struct io_alloc_cache {
--	struct hlist_head	list;
-+	struct io_wq_work_node	list;
- 	unsigned int		nr_cached;
- };
- 
 diff --git a/io_uring/alloc_cache.h b/io_uring/alloc_cache.h
-index 729793ae9712..ae61eb383cae 100644
+index ae61eb383cae..6c6bdde6306b 100644
 --- a/io_uring/alloc_cache.h
 +++ b/io_uring/alloc_cache.h
-@@ -7,7 +7,7 @@
- #define IO_ALLOC_CACHE_MAX	512
- 
- struct io_cache_entry {
--	struct hlist_node	node;
-+	struct io_wq_work_node node;
- };
- 
- static inline bool io_alloc_cache_put(struct io_alloc_cache *cache,
-@@ -15,7 +15,7 @@ static inline bool io_alloc_cache_put(struct io_alloc_cache *cache,
- {
+@@ -16,16 +16,20 @@ static inline bool io_alloc_cache_put(struct io_alloc_cache *cache,
  	if (cache->nr_cached < IO_ALLOC_CACHE_MAX) {
  		cache->nr_cached++;
--		hlist_add_head(&entry->node, &cache->list);
-+		wq_stack_add_head(&entry->node, &cache->list);
+ 		wq_stack_add_head(&entry->node, &cache->list);
++		/* KASAN poisons object */
++		kasan_slab_free_mempool(entry);
  		return true;
  	}
  	return false;
-@@ -23,11 +23,11 @@ static inline bool io_alloc_cache_put(struct io_alloc_cache *cache,
+ }
  
- static inline struct io_cache_entry *io_alloc_cache_get(struct io_alloc_cache *cache)
+-static inline struct io_cache_entry *io_alloc_cache_get(struct io_alloc_cache *cache)
++static inline struct io_cache_entry *io_alloc_cache_get(struct io_alloc_cache *cache,
++							size_t size)
  {
--	if (!hlist_empty(&cache->list)) {
--		struct hlist_node *node = cache->list.first;
--
--		hlist_del(node);
--		return container_of(node, struct io_cache_entry, node);
-+	if (cache->list.next) {
-+		struct io_cache_entry *entry;
-+		entry = container_of(cache->list.next, struct io_cache_entry, node);
-+		cache->list.next = cache->list.next->next;
-+		return entry;
+ 	if (cache->list.next) {
+ 		struct io_cache_entry *entry;
+ 		entry = container_of(cache->list.next, struct io_cache_entry, node);
++		kasan_unpoison_range(entry, size);
+ 		cache->list.next = cache->list.next->next;
+ 		return entry;
  	}
- 
- 	return NULL;
-@@ -35,18 +35,18 @@ static inline struct io_cache_entry *io_alloc_cache_get(struct io_alloc_cache *c
- 
- static inline void io_alloc_cache_init(struct io_alloc_cache *cache)
- {
--	INIT_HLIST_HEAD(&cache->list);
-+	cache->list.next = NULL;
- 	cache->nr_cached = 0;
+@@ -40,10 +44,11 @@ static inline void io_alloc_cache_init(struct io_alloc_cache *cache)
  }
  
  static inline void io_alloc_cache_free(struct io_alloc_cache *cache,
- 					void (*free)(struct io_cache_entry *))
+-					void (*free)(struct io_cache_entry *))
++					void (*free)(struct io_cache_entry *),
++					size_t size)
  {
--	while (!hlist_empty(&cache->list)) {
--		struct hlist_node *node = cache->list.first;
--
--		hlist_del(node);
--		free(container_of(node, struct io_cache_entry, node));
-+	while (1) {
-+		struct io_cache_entry *entry = io_alloc_cache_get(cache);
-+		if (!entry)
-+			break;
-+		free(entry);
- 	}
- 	cache->nr_cached = 0;
+ 	while (1) {
+-		struct io_cache_entry *entry = io_alloc_cache_get(cache);
++		struct io_cache_entry *entry = io_alloc_cache_get(cache, size);
+ 		if (!entry)
+ 			break;
+ 		free(entry);
+diff --git a/io_uring/io_uring.c b/io_uring/io_uring.c
+index 80b6204769e8..01367145689b 100644
+--- a/io_uring/io_uring.c
++++ b/io_uring/io_uring.c
+@@ -2766,6 +2766,17 @@ static void io_req_caches_free(struct io_ring_ctx *ctx)
+ 	mutex_unlock(&ctx->uring_lock);
  }
+ 
++static __cold void io_uring_acache_free(struct io_ring_ctx *ctx)
++{
++
++	io_alloc_cache_free(&ctx->apoll_cache, io_apoll_cache_free,
++			    sizeof(struct async_poll));
++#ifdef CONFIG_NET
++	io_alloc_cache_free(&ctx->netmsg_cache, io_netmsg_cache_free,
++			    sizeof(struct io_async_msghdr));
++#endif
++}
++
+ static __cold void io_ring_ctx_free(struct io_ring_ctx *ctx)
+ {
+ 	io_sq_thread_finish(ctx);
+@@ -2781,8 +2792,7 @@ static __cold void io_ring_ctx_free(struct io_ring_ctx *ctx)
+ 		__io_sqe_files_unregister(ctx);
+ 	io_cqring_overflow_kill(ctx);
+ 	io_eventfd_unregister(ctx);
+-	io_alloc_cache_free(&ctx->apoll_cache, io_apoll_cache_free);
+-	io_alloc_cache_free(&ctx->netmsg_cache, io_netmsg_cache_free);
++	io_uring_acache_free(ctx);
+ 	mutex_unlock(&ctx->uring_lock);
+ 	io_destroy_buffers(ctx);
+ 	if (ctx->sq_creds)
+diff --git a/io_uring/net.c b/io_uring/net.c
+index fbc34a7c2743..8dc67b23b030 100644
+--- a/io_uring/net.c
++++ b/io_uring/net.c
+@@ -139,7 +139,7 @@ static struct io_async_msghdr *io_msg_alloc_async(struct io_kiocb *req,
+ 	struct io_async_msghdr *hdr;
+ 
+ 	if (!(issue_flags & IO_URING_F_UNLOCKED)) {
+-		entry = io_alloc_cache_get(&ctx->netmsg_cache);
++		entry = io_alloc_cache_get(&ctx->netmsg_cache, sizeof(struct io_async_msghdr));
+ 		if (entry) {
+ 			hdr = container_of(entry, struct io_async_msghdr, cache);
+ 			hdr->free_iov = NULL;
+diff --git a/io_uring/net.h b/io_uring/net.h
+index 5ffa11bf5d2e..d8359de84996 100644
+--- a/io_uring/net.h
++++ b/io_uring/net.h
+@@ -62,8 +62,4 @@ int io_send_zc_prep(struct io_kiocb *req, const struct io_uring_sqe *sqe);
+ void io_send_zc_cleanup(struct io_kiocb *req);
+ 
+ void io_netmsg_cache_free(struct io_cache_entry *entry);
+-#else
+-static inline void io_netmsg_cache_free(struct io_cache_entry *entry)
+-{
+-}
+ #endif
+diff --git a/io_uring/poll.c b/io_uring/poll.c
+index 8339a92b4510..295d59875f00 100644
+--- a/io_uring/poll.c
++++ b/io_uring/poll.c
+@@ -661,7 +661,7 @@ static struct async_poll *io_req_alloc_apoll(struct io_kiocb *req,
+ 		apoll = req->apoll;
+ 		kfree(apoll->double_poll);
+ 	} else if (!(issue_flags & IO_URING_F_UNLOCKED)) {
+-		entry = io_alloc_cache_get(&ctx->apoll_cache);
++		entry = io_alloc_cache_get(&ctx->apoll_cache, sizeof(struct async_poll));
+ 		if (entry == NULL)
+ 			goto alloc_apoll;
+ 		apoll = container_of(entry, struct async_poll, cache);
 -- 
 2.30.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230222180035.3226075-2-leitao%40debian.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230222180035.3226075-3-leitao%40debian.org.
