@@ -1,130 +1,124 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBMH26GPQMGQEHG3IIBQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBF6L6OPQMGQEMSTVK2Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EB346A3E99
-	for <lists+kasan-dev@lfdr.de>; Mon, 27 Feb 2023 10:51:45 +0100 (CET)
-Received: by mail-wm1-x33a.google.com with SMTP id z6-20020a05600c220600b003e222c9c5f4sf2191007wml.4
-        for <lists+kasan-dev@lfdr.de>; Mon, 27 Feb 2023 01:51:45 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1677491504; cv=pass;
+Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C106A47B4
+	for <lists+kasan-dev@lfdr.de>; Mon, 27 Feb 2023 18:17:12 +0100 (CET)
+Received: by mail-wm1-x33c.google.com with SMTP id l20-20020a05600c1d1400b003e10d3e1c23sf5634282wms.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 27 Feb 2023 09:17:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1677518231; cv=pass;
         d=google.com; s=arc-20160816;
-        b=rD2pEuegx6zn7SmbQFLsT1VMrhTAKB8S9SI88+dNlo+0ZxPQsuZaC4WqDIKu+IGDhg
-         ZQdiCTO0WyW2Ug7OLPT9KJAU6T+Rjf1ScQorcuORjX1wXgcah0WAPL/LcS5FBdBqAQt6
-         VAQmJjqO4T3BaAF2xOYGEG7g0FpPXiamurkPt6so9ZCNLKir5nP5lkGuX9sU+Wvba6ve
-         OS9lo2pxW7Gf0SxlB629VPcvSJdgyTEEMR6z1YF23cniCK7DyoLZg4WjeqkCp7F4MhjD
-         HVPQyy/+Y0WgkfwsepdnoeVcYsiTsV6oTY5+MP+Ym4ZuSAvPobHd0d0Vti5ggBqLrhlR
-         /PRA==
+        b=lEcqCFV/z5cZJIanDtrSNlTC1+1eWle6JJLqaY3uq+HhARIMph0WYg+OcEyLFRtTmO
+         iGEoTuibxghsHrApv4I1s2/fPiZxMxQB71slHMGm97GXnh68iRvDKEwAEp3BRd1dW1aI
+         DMJd/DsTwG3JCfi7a/bp0wJRAOHFn6cG78sfjomVvH+8FGIMQKNHtjnmhN84IOHlolv5
+         EZ0vHkejMZCXC3DqEiEH+/2t9iPlRBtyjC3jWpHgQuFJWHGkiYLYVRtz4UwuS4SihQzS
+         7LvmyCcZAL2t2tKvE8d7eO33eDI6B854HDykW1Pbz1liJpPtAYwIjGH1/1vFioQ2e0XF
+         g7XQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:mime-version:date:dkim-signature;
-        bh=po0p5ohk1msq7wKQeRIM65cDGPmbReW1gkkuywj8DJA=;
-        b=AJpIAI3THosUeA8vPsjksEEvjeL8a8uJztG1lgOB6ltvPFk46/uxoGWerIE/+r8wcR
-         aiqLIzu11APh3ZPcCvXpEP8xvH6sg6dmrW+1CsQLBxBvfzTGAswXe6y4ejYE+kxQsq/6
-         VI2jfkCqfUP9q6FrJXbPJOvfxVFL0OlMaN/eSMa7bGWNBZ7BlBcuGlROM1SkOnkL24Vo
-         vSVN/Rry2WreqhDvxvpMDLmv0t+aU4XKQKkIUzIxP7BQbf0nNLPpCVOOrOUnfUkn6ExP
-         niZbWojjMsBDVDgLqU0x1+k/6ckTMAoSNRD4LamDFJ5C7afITAie3L7PIts4NiyQ3FMK
-         E9QA==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=5/ZpfNdMGUbCOf/rWuQYEyMH4arXS2q4WgE+QtqEdiM=;
+        b=F4TK+LLKw9O9QonUvVpjB321EIwQz8fD8jkGA3FtbS73SWbqQQlRzKCD6nnqiEeTMb
+         032vGHtaO/cCkVe2uroc3m0gk7z6/5WroRGzGM3DG+Prw5y1ByVNqtsp7e1y+6C6rN1K
+         8eRAGLp7gG072apEPvhV30Tfugwny0JvNfY1/wwoxxslcAcRB9+S/x7wIYAOA7K17jFO
+         PoSsohZmgmNNOh9mldwRFpgMyRUiCixnfoE8ULRQoX5mlrKXjH2Z+QRVMk6/PHSfMUKC
+         31qWI4A0gfzXVBAsmnpkxpdzCYRztw8Hn5cuyUUStWtW0lXVRjjCQoY7pZVr43IrH009
+         R4Iw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=kMaj71Vf;
-       spf=pass (google.com: domain of 3ln38ywukcuehoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3Ln38YwUKCUEhoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=ZL6S5E+r;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.43 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=po0p5ohk1msq7wKQeRIM65cDGPmbReW1gkkuywj8DJA=;
-        b=PsLxkc+TpFpXHgaK/PwtiUUd7iL5d+Miq4tu+mOmaoEdlSOLlrGOxOtmYMM+wUX4O8
-         za5qbGEDfaAyb3MHdRGNAbcN/QoeeZdygrLvha3T4w/pLvAn8trGFvpuuiFsVCErHPvd
-         lBMXyJzZAIPmbFHNgJ1DHogiyvPuhcmmb5iGscVrv1o7SFRbLwTFXv4fUH/9/a1S4CZd
-         BpSkaJvujMgu+CIym1pUZPAu0f4guX2UYadnDy/hhnDu9F4hJkIXqHUx+cnn2AF3sNGr
-         j5rHO6CrdBO62v6NFeVqfUctLcKLHTJqLE+Q8+9gCAGDL3zepTaQZkLSE2vLmQm2o3fu
-         ztWA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=5/ZpfNdMGUbCOf/rWuQYEyMH4arXS2q4WgE+QtqEdiM=;
+        b=r6mLTT5pjZSX4J2lB6ltyXJtUrcmISPCD1oNgHsfmEPq2uKssujGosu3SuFdVJIcXh
+         HP05AtQoaJHhIECe+cHpcMbwEqVt4lBhyJzLulmKgzTBTNr/6o7VFAHxMZZ5Nf/qtg0D
+         djWVGy8PrQElDhnY28yJvsxFqUgtVhC9lv0290mWdwavIYL0cXD/lSum3/hfTNQYF6Un
+         Om2b8I/Hqpat5T+1M8DPObD0OliqPNbLEx1DUAEyvGjJp4Vec15MrI0BToQxRzzx7/cB
+         nCt6+CqvQs6uNtpUuSl1FWxbwud3U52N6dENmMTqTt12d4vEhUcUxaXXYC8YMvNam2Cy
+         cGww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=po0p5ohk1msq7wKQeRIM65cDGPmbReW1gkkuywj8DJA=;
-        b=1uzWgId/KKpY6IB+Kz3TSw6SyZ/RSPxIxB7n8IZIHPfil1FqEI2BGiwjLAez4Wl8eT
-         zDLa2vp4DSk9xRkZsHGBclP3oQWj5tZpHbuJEPxk2VtvQKD1c8ihOIzE7G7WS2YAvgLO
-         DekHqSMf5mzFNCuTMIADhLgaBSe69L40hlq3beDvh31RaAlb6TjTCpFifxiPSOzfb7W+
-         qXpn6V+0n6uPNKiD3lQBFe2zsR1s6YDgmM+p9Chf9X3tNxkO18Kku5t90BqCPQgHjyk4
-         pjm4ImxFUroksxqX0c3umvsuK+kNDdg5MgoUQ9XcxcKRTOJ2THt+p/S8q1TnXhwmGyr6
-         nSPg==
-X-Gm-Message-State: AO0yUKVwtYFuIF/mXAm0f5vfCuy1yUa57VRDQkNrbcw9Jn8cuGc/WVwu
-	WJ4qPgKpXVugXgQr0Dd7nng=
-X-Google-Smtp-Source: AK7set8wqZNh2zQrOwe/vIP0MNlO9Mzcy/KPhtokAoq5xzOBTf3wfmRaKi2kwqy7JPIL077KIR0wfg==
-X-Received: by 2002:a05:6000:1088:b0:2c7:3d2:fa20 with SMTP id y8-20020a056000108800b002c703d2fa20mr2096094wrw.13.1677491504382;
-        Mon, 27 Feb 2023 01:51:44 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5/ZpfNdMGUbCOf/rWuQYEyMH4arXS2q4WgE+QtqEdiM=;
+        b=4XZkhSe4keklta80r/W534zZAit2njZMyzEmwH5U11X4bGdqH1B5ivoF67C5HB66Qk
+         GYCWmGnlXAGXeFYwbw4wgVsfnFovmY6aH+8cc8lWkPzNSnsVuZng+iR227m5gDTHli2C
+         SoW12d/7VETZ+A/DWdntvqt8n5PgwCtCzvEF0ySwX5Syzxqh/P5DxVySNfLtT3M6+NBP
+         RoAv+iLkGpyiwf8Hv3oAPc9gX6sPCBUVUAGOGpO1oAJ4bqtThYXvJtMy8vWFFxMURHAm
+         R/w584zg8dJexGiiTnlffphxMQGCOn/woYUz9g7nTJh5+Heccuy+qmLgRhlCzYdS46QZ
+         LPsw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AO0yUKXUqKxfQORVmQ69JMCXv/dlPLrv+nNsGERRtnMUio01miUvoJx/
+	PfskNfKqwAA8hYkNHI0xa/E=
+X-Google-Smtp-Source: AK7set+XwagAI/JfJukZC8FE2NRbuDGqbYrcvCzdPpBwMC5LODxI4VtOxJqekclvfUpDfVJygtLirg==
+X-Received: by 2002:a5d:6a45:0:b0:2c7:11a8:e810 with SMTP id t5-20020a5d6a45000000b002c711a8e810mr1961177wrw.14.1677518231534;
+        Mon, 27 Feb 2023 09:17:11 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:1d21:b0:3e2:1bb8:4520 with SMTP id
- l33-20020a05600c1d2100b003e21bb84520ls1290585wms.1.-pod-preprod-gmail; Mon,
- 27 Feb 2023 01:51:42 -0800 (PST)
-X-Received: by 2002:a05:600c:1c16:b0:3e1:374:8b66 with SMTP id j22-20020a05600c1c1600b003e103748b66mr13254278wms.40.1677491502811;
-        Mon, 27 Feb 2023 01:51:42 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1677491502; cv=none;
+Received: by 2002:a05:600c:5110:b0:3e2:1c34:a7c8 with SMTP id
+ o16-20020a05600c511000b003e21c34a7c8ls7753267wms.1.-pod-canary-gmail; Mon, 27
+ Feb 2023 09:17:10 -0800 (PST)
+X-Received: by 2002:a05:600c:3089:b0:3eb:29fe:7343 with SMTP id g9-20020a05600c308900b003eb29fe7343mr8271332wmn.33.1677518230410;
+        Mon, 27 Feb 2023 09:17:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1677518230; cv=none;
         d=google.com; s=arc-20160816;
-        b=j89Pr1ejYDxSX4Ri5SwQHw68sgSqrMtnW14+8yKSCxsfgNsFWwEZiDo+dbCpwzn6bU
-         6YuFJyue78nmsXebTcrR5X88Mz86ley4MabGQ240NQ3MW+6gwvRT13BDYhiSyxXIEuz1
-         RVINjqD/JChX+ott78p/d7niB+8gC9tvdBSVrNIntsbDy2Hb3Jmhq3TQQ6LG/ZWOTLVp
-         3+4yMzKOjLwpSTViNr2Cpv72pdOE8PdkGDk/YTnPKO8O4EjJjfELTQDdbXOVK9ErIeoO
-         +/vdVUE0HIWOJMlVUQrMNkY6etkXLvXIzfoH2JQ0RGdJglpwq0MUcbW05caoH9PZ+8/d
-         0A/A==
+        b=XPrAZ5k6bPH+aou4SmQF28fhc+v57f4PojE1DfkD3EeLa7jObEF0m3RnNrxLB6U+yF
+         mIZfZ1xvm7tH2Ys0LNw0L+0AoLs045fjiSDr6rTNMIu+3p9wxJGUb4fhHADj/9ONn5OA
+         Svzq48TCD0vVTYDNYPlfuk3lTi1f4iVoRHfNTlRzlfCyLcceZCoz2NiFgCmd86/dobDl
+         YtXDfjlRePl2WsWJ0x3B6j/bkQuqM2jZ2Lrb0bsAlA4Yj4Np1pVDJnWDv2xQS368tWWm
+         mbJOTcto98B3LRF7IAkHiwzb1BzgYB/8LT1puFO4X6wLZS2ozFFnvK4SBnCNXD8TTi2B
+         hILw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
-        bh=vLAZSY9lX30lbRvxmgqsLOf9PyjLVjvwhzsapOvRcDY=;
-        b=yGrr9bP3kGgOfDuLGIil7VCn89YsmQnHLCVSc7vyDcN4Dj4ASXFtTxlGlmkj9W1Uie
-         OpHplmHQ+oewJPx8M5j3i8vlHswQRTNv8KIZbmJ/ld+G2JeX6I9xRYw5mDH4Nkfmn+eB
-         /OAvoG1sbnDYrABBzeMrfCzYL5wtggvnNxLBp8mCXmysKqeWnIef6xSc22zliZwBxzyT
-         CcBD95tWgv4gDfQ9QuQzdb2g99wYiLEv9jNwROAXua/k8halNpdQwTiHTrloiwXKCm23
-         J/JeYviK6s1U6QBguHTB0xWSQZHdo6Z0JXgFLhE8BCSfbYaHV4Vd74fqLNLZNuqmyUWf
-         SYnA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=i9zSXzAdjq87uOVavd3XUT89sHIO+bwDfGwXckE+rVI=;
+        b=y6Oa2pG6sUOGojmursNljcazhcHdaoil35YXBbS2ilYC3CgCwBA1R/1lFAdrNDnyD3
+         jKA1wqYXg6jyv8fMH3hQrlT/xx601lFVSNw9L/pVWt7bwKb3OOM/OBPUrfXQwUs6bYno
+         v8aa4jPGyCz8jRUH3h8SD6FCXfiaXx1PZ873bpCR9dVV7IycZIZq04L9tCXIS0kNa793
+         PT0hvl8lP2uAlL9qgRTLs7rTqpVVtnkt8dPXLgpd6kC9BO2tLFCjx6qDBYxsJnafkBdD
+         kYSb61wsu6N1CI8qNBxg1+L6WMjqoYQBedcz9xzf5ikj/kpLKdZqdj+rC0Luz0aLvgQt
+         4O6A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=kMaj71Vf;
-       spf=pass (google.com: domain of 3ln38ywukcuehoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3Ln38YwUKCUEhoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ed1-x549.google.com (mail-ed1-x549.google.com. [2a00:1450:4864:20::549])
-        by gmr-mx.google.com with ESMTPS id l2-20020a05600c4f0200b003e21b96f27asi349741wmq.2.2023.02.27.01.51.42
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=ZL6S5E+r;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.43 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out-43.mta1.migadu.com (out-43.mta1.migadu.com. [95.215.58.43])
+        by gmr-mx.google.com with ESMTPS id bi5-20020a05600c3d8500b003dd1c15e7ffsi338109wmb.2.2023.02.27.09.17.10
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Feb 2023 01:51:42 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3ln38ywukcuehoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) client-ip=2a00:1450:4864:20::549;
-Received: by mail-ed1-x549.google.com with SMTP id dm14-20020a05640222ce00b0046790cd9082so7781086edb.21
-        for <kasan-dev@googlegroups.com>; Mon, 27 Feb 2023 01:51:42 -0800 (PST)
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:1a89:611d:c416:e1ee])
- (user=elver job=sendgmr) by 2002:a17:907:60cd:b0:8b1:3540:7632 with SMTP id
- hv13-20020a17090760cd00b008b135407632mr5583442ejc.2.1677491502399; Mon, 27
- Feb 2023 01:51:42 -0800 (PST)
-Date: Mon, 27 Feb 2023 10:47:27 +0100
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.39.2.637.g21b0678d19-goog
-Message-ID: <20230227094726.3833247-1-elver@google.com>
-Subject: [PATCH mm] kasan, powerpc: Don't rename memintrinsics if compiler
- adds prefixes
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com, Andrew Morton <akpm@linux-foundation.org>
-Cc: Alexander Potapenko <glider@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Liam Howlett <liam.howlett@oracle.com>, kasan-dev@googlegroups.com, 
-	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, Daniel Axtens <dja@axtens.net>, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Feb 2023 09:17:10 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.43 as permitted sender) client-ip=95.215.58.43;
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: andrey.konovalov@linux.dev
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>,
+	Marco Elver <elver@google.com>,
+	Alexander Potapenko <glider@google.com>,
+	kasan-dev@googlegroups.com,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Andrey Konovalov <andreyknvl@google.com>
+Subject: [PATCH] kcov: improve documentation
+Date: Mon, 27 Feb 2023 18:17:03 +0100
+Message-Id: <0b5efd70e31bba7912cf9a6c951f0e76a8df27df.1677517724.git.andreyknvl@google.com>
+MIME-Version: 1.0
+X-Migadu-Flow: FLOW_OUT
+X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=kMaj71Vf;       spf=pass
- (google.com: domain of 3ln38ywukcuehoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3Ln38YwUKCUEhoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@linux.dev header.s=key1 header.b=ZL6S5E+r;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.43 as
+ permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,99 +131,260 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-With appropriate compiler support [1], KASAN builds use __asan prefixed
-meminstrinsics, and KASAN no longer overrides memcpy/memset/memmove.
+From: Andrey Konovalov <andreyknvl@google.com>
 
-If compiler support is detected (CC_HAS_KASAN_MEMINTRINSIC_PREFIX),
-define memintrinsics normally (do not prefix '__').
+Improve KCOV documentation:
 
-On powerpc, KASAN is the only user of __mem functions, which are used to
-define instrumented memintrinsics. Alias the normal versions for KASAN
-to use in its implementation.
+- Use KCOV instead of kcov, as the former is more widely-used.
 
-Link: https://lore.kernel.org/all/20230224085942.1791837-1-elver@google.com/ [1]
-Link: https://lore.kernel.org/oe-kbuild-all/202302271348.U5lvmo0S-lkp@intel.com/
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Marco Elver <elver@google.com>
+- Mention Clang in compiler requirements.
+
+- Use ``annotations`` for inline code.
+
+- Rework remote coverage collection documentation for better clarity.
+
+- Various smaller changes.
+
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- arch/powerpc/include/asm/kasan.h       |  2 +-
- arch/powerpc/include/asm/string.h      | 15 +++++++++++----
- arch/powerpc/kernel/prom_init_check.sh |  9 +++++++--
- 3 files changed, 19 insertions(+), 7 deletions(-)
+ Documentation/dev-tools/kcov.rst | 169 +++++++++++++++++++------------
+ 1 file changed, 102 insertions(+), 67 deletions(-)
 
-diff --git a/arch/powerpc/include/asm/kasan.h b/arch/powerpc/include/asm/kasan.h
-index 92a968202ba7..365d2720097c 100644
---- a/arch/powerpc/include/asm/kasan.h
-+++ b/arch/powerpc/include/asm/kasan.h
-@@ -2,7 +2,7 @@
- #ifndef __ASM_KASAN_H
- #define __ASM_KASAN_H
+diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
+index d83c9ab49427..a113a03a475f 100644
+--- a/Documentation/dev-tools/kcov.rst
++++ b/Documentation/dev-tools/kcov.rst
+@@ -1,42 +1,50 @@
+-kcov: code coverage for fuzzing
++KCOV: code coverage for fuzzing
+ ===============================
  
--#ifdef CONFIG_KASAN
-+#if defined(CONFIG_KASAN) && !defined(CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX)
- #define _GLOBAL_KASAN(fn)	_GLOBAL(__##fn)
- #define _GLOBAL_TOC_KASAN(fn)	_GLOBAL_TOC(__##fn)
- #define EXPORT_SYMBOL_KASAN(fn)	EXPORT_SYMBOL(__##fn)
-diff --git a/arch/powerpc/include/asm/string.h b/arch/powerpc/include/asm/string.h
-index 2aa0e31e6884..60ba22770f51 100644
---- a/arch/powerpc/include/asm/string.h
-+++ b/arch/powerpc/include/asm/string.h
-@@ -30,11 +30,17 @@ extern int memcmp(const void *,const void *,__kernel_size_t);
- extern void * memchr(const void *,int,__kernel_size_t);
- void memcpy_flushcache(void *dest, const void *src, size_t size);
+-kcov exposes kernel code coverage information in a form suitable for coverage-
+-guided fuzzing (randomized testing). Coverage data of a running kernel is
+-exported via the "kcov" debugfs file. Coverage collection is enabled on a task
+-basis, and thus it can capture precise coverage of a single system call.
++KCOV collects and exposes kernel code coverage information in a form suitable
++for coverage-guided fuzzing. Coverage data of a running kernel is exported via
++the ``kcov`` debugfs file. Coverage collection is enabled on a task basis, and
++thus KCOV can capture precise coverage of a single system call.
  
-+#ifdef CONFIG_KASAN
-+/* __mem variants are used by KASAN to implement instrumented meminstrinsics. */
-+#ifdef CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX
-+#define __memset memset
-+#define __memcpy memcpy
-+#define __memmove memmove
-+#else /* CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX */
- void *__memset(void *s, int c, __kernel_size_t count);
- void *__memcpy(void *to, const void *from, __kernel_size_t n);
- void *__memmove(void *to, const void *from, __kernel_size_t n);
--
--#if defined(CONFIG_KASAN) && !defined(__SANITIZE_ADDRESS__)
-+#ifndef __SANITIZE_ADDRESS__
- /*
-  * For files that are not instrumented (e.g. mm/slub.c) we
-  * should use not instrumented version of mem* functions.
-@@ -46,8 +52,9 @@ void *__memmove(void *to, const void *from, __kernel_size_t n);
- #ifndef __NO_FORTIFY
- #define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy, etc. */
- #endif
--
--#endif
-+#endif /* !__SANITIZE_ADDRESS__ */
-+#endif /* CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX */
-+#endif /* CONFIG_KASAN */
+-Note that kcov does not aim to collect as much coverage as possible. It aims
+-to collect more or less stable coverage that is function of syscall inputs.
+-To achieve this goal it does not collect coverage in soft/hard interrupts
+-and instrumentation of some inherently non-deterministic parts of kernel is
+-disabled (e.g. scheduler, locking).
++Note that KCOV does not aim to collect as much coverage as possible. It aims
++to collect more or less stable coverage that is a function of syscall inputs.
++To achieve this goal, it does not collect coverage in soft/hard interrupts
++(unless remove coverage collection is enabled, see below) and from some
++inherently non-deterministic parts of the kernel (e.g. scheduler, locking).
  
- #ifdef CONFIG_PPC64
- #ifndef CONFIG_KASAN
-diff --git a/arch/powerpc/kernel/prom_init_check.sh b/arch/powerpc/kernel/prom_init_check.sh
-index 311890d71c4c..f3f43a8f48cf 100644
---- a/arch/powerpc/kernel/prom_init_check.sh
-+++ b/arch/powerpc/kernel/prom_init_check.sh
-@@ -13,8 +13,13 @@
- # If you really need to reference something from prom_init.o add
- # it to the list below:
- 
--grep "^CONFIG_KASAN=y$" ${KCONFIG_CONFIG} >/dev/null
--if [ $? -eq 0 ]
-+has_renamed_memintrinsics()
-+{
-+	grep -q "^CONFIG_KASAN=y$" ${KCONFIG_CONFIG} && \
-+		! grep -q "^CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX=y" ${KCONFIG_CONFIG}
-+}
+-kcov is also able to collect comparison operands from the instrumented code
+-(this feature currently requires that the kernel is compiled with clang).
++Besides collecting code coverage, KCOV can also collect comparison operands.
++See the "Comparison operands collection" section for details.
 +
-+if has_renamed_memintrinsics
- then
- 	MEM_FUNCS="__memcpy __memset"
- else
++Besides collecting coverage data from syscall handlers, KCOV can also collect
++coverage for annotated parts of the kernel executing in background kernel
++tasks or soft interrupts. See the "Remote coverage collection" section for
++details.
+ 
+ Prerequisites
+ -------------
+ 
+-Configure the kernel with::
++KCOV relies on compiler instrumentation and requires GCC 6.1.0 or later
++or any Clang version supported by the kernel.
+ 
+-        CONFIG_KCOV=y
++Collecting comparison operands is only supported with Clang.
+ 
+-CONFIG_KCOV requires gcc 6.1.0 or later.
++To enable KCOV, configure the kernel with::
+ 
+-If the comparison operands need to be collected, set::
++        CONFIG_KCOV=y
++
++To enable comparison operands collection, set::
+ 
+ 	CONFIG_KCOV_ENABLE_COMPARISONS=y
+ 
+-Profiling data will only become accessible once debugfs has been mounted::
++Coverage data only becomes accessible once debugfs has been mounted::
+ 
+         mount -t debugfs none /sys/kernel/debug
+ 
+ Coverage collection
+ -------------------
+ 
+-The following program demonstrates coverage collection from within a test
+-program using kcov:
++The following program demonstrates how to use KCOV to collect coverage for a
++single syscall from within a test program:
+ 
+ .. code-block:: c
+ 
+@@ -84,7 +92,7 @@ program using kcov:
+ 		perror("ioctl"), exit(1);
+ 	/* Reset coverage from the tail of the ioctl() call. */
+ 	__atomic_store_n(&cover[0], 0, __ATOMIC_RELAXED);
+-	/* That's the target syscal call. */
++	/* Call the target syscall call. */
+ 	read(-1, NULL, 0);
+ 	/* Read number of PCs collected. */
+ 	n = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
+@@ -103,7 +111,7 @@ program using kcov:
+ 	return 0;
+     }
+ 
+-After piping through addr2line output of the program looks as follows::
++After piping through ``addr2line`` the output of the program looks as follows::
+ 
+     SyS_read
+     fs/read_write.c:562
+@@ -121,12 +129,13 @@ After piping through addr2line output of the program looks as follows::
+     fs/read_write.c:562
+ 
+ If a program needs to collect coverage from several threads (independently),
+-it needs to open /sys/kernel/debug/kcov in each thread separately.
++it needs to open ``/sys/kernel/debug/kcov`` in each thread separately.
+ 
+ The interface is fine-grained to allow efficient forking of test processes.
+-That is, a parent process opens /sys/kernel/debug/kcov, enables trace mode,
+-mmaps coverage buffer and then forks child processes in a loop. Child processes
+-only need to enable coverage (disable happens automatically on thread end).
++That is, a parent process opens ``/sys/kernel/debug/kcov``, enables trace mode,
++mmaps coverage buffer, and then forks child processes in a loop. The child
++processes only need to enable coverage (it gets disabled automatically when
++a thread exits).
+ 
+ Comparison operands collection
+ ------------------------------
+@@ -205,52 +214,78 @@ Comparison operands collection is similar to coverage collection:
+ 	return 0;
+     }
+ 
+-Note that the kcov modes (coverage collection or comparison operands) are
+-mutually exclusive.
++Note that the KCOV modes (collection of code coverage or comparison operands)
++are mutually exclusive.
+ 
+ Remote coverage collection
+ --------------------------
+ 
+-With KCOV_ENABLE coverage is collected only for syscalls that are issued
+-from the current process. With KCOV_REMOTE_ENABLE it's possible to collect
+-coverage for arbitrary parts of the kernel code, provided that those parts
+-are annotated with kcov_remote_start()/kcov_remote_stop().
+-
+-This allows to collect coverage from two types of kernel background
+-threads: the global ones, that are spawned during kernel boot in a limited
+-number of instances (e.g. one USB hub_event() worker thread is spawned per
+-USB HCD); and the local ones, that are spawned when a user interacts with
+-some kernel interface (e.g. vhost workers); as well as from soft
+-interrupts.
+-
+-To enable collecting coverage from a global background thread or from a
+-softirq, a unique global handle must be assigned and passed to the
+-corresponding kcov_remote_start() call. Then a userspace process can pass
+-a list of such handles to the KCOV_REMOTE_ENABLE ioctl in the handles
+-array field of the kcov_remote_arg struct. This will attach the used kcov
+-device to the code sections, that are referenced by those handles.
+-
+-Since there might be many local background threads spawned from different
+-userspace processes, we can't use a single global handle per annotation.
+-Instead, the userspace process passes a non-zero handle through the
+-common_handle field of the kcov_remote_arg struct. This common handle gets
+-saved to the kcov_handle field in the current task_struct and needs to be
+-passed to the newly spawned threads via custom annotations. Those threads
+-should in turn be annotated with kcov_remote_start()/kcov_remote_stop().
+-
+-Internally kcov stores handles as u64 integers. The top byte of a handle
+-is used to denote the id of a subsystem that this handle belongs to, and
+-the lower 4 bytes are used to denote the id of a thread instance within
+-that subsystem. A reserved value 0 is used as a subsystem id for common
+-handles as they don't belong to a particular subsystem. The bytes 4-7 are
+-currently reserved and must be zero. In the future the number of bytes
+-used for the subsystem or handle ids might be increased.
+-
+-When a particular userspace process collects coverage via a common
+-handle, kcov will collect coverage for each code section that is annotated
+-to use the common handle obtained as kcov_handle from the current
+-task_struct. However non common handles allow to collect coverage
+-selectively from different subsystems.
++Besides collecting coverage data from handlers of syscalls issued from a
++userspace process, KCOV can also collect coverage for parts of the kernel
++executing in other contexts - so-called "remote" coverage.
++
++Using KCOV to collect remote coverage requires:
++
++1. Modifying kernel code to annotate the code section from where coverage
++   should be collected with ``kcov_remote_start`` and ``kcov_remote_stop``.
++
++2. Using `KCOV_REMOTE_ENABLE`` instead of ``KCOV_ENABLE`` in the userspace
++   process that collects coverage.
++
++Both ``kcov_remote_start`` and ``kcov_remote_stop`` annotations and the
++``KCOV_REMOTE_ENABLE`` ioctl accept handles that identify particular coverage
++collection sections. The way a handle is used depends on the context where the
++matching code section executes.
++
++KCOV supports collecting remote coverage from the following contexts:
++
++1. Global kernel background tasks. These are the tasks that are spawned during
++   kernel boot in a limited number of instances (e.g. one USB ``hub_event``
++   worker is spawned per one USB HCD).
++
++2. Local kernel background tasks. These are spawned when a userspace process
++   interacts with some kernel interface and are usually killed when the process
++   exits (e.g. vhost workers).
++
++3. Soft interrupts.
++
++For #1 and #3, a unique global handle must be chosen and passed to the
++corresponding ``kcov_remote_start`` call. Then a userspace process must pass
++this handle to ``KCOV_REMOTE_ENABLE`` in the ``handles`` array field of the
++``kcov_remote_arg`` struct. This will attach the used KCOV device to the code
++section referenced by this handle. Multiple global handles identifying
++different code sections can be passed at once.
++
++For #2, the userspace process instead must pass a non-zero handle through the
++``common_handle`` field of the ``kcov_remote_arg`` struct. This common handle
++gets saved to the ``kcov_handle`` field in the current ``task_struct`` and
++needs to be passed to the newly spawned local tasks via custom kernel code
++modifications. Those tasks should in turn use the passed handle in their
++``kcov_remote_start`` and ``kcov_remote_stop`` annotations.
++
++KCOV follows a predefined format for both global and common handles. Each
++handle is a ``u64`` integer. Currently, only the one top and the lower 4 bytes
++are used. Bytes 4-7 are reserved and must be zero.
++
++For global handles, the top byte of the handle denotes the id of a subsystem
++this handle belongs to. For example, KCOV uses ``1`` as the USB subsystem id.
++The lower 4 bytes of a global handle denote the id of a task instance within
++that subsystem. For example, each ``hub_event`` worker uses the USB bus number
++as the task instance id.
++
++For common handles, a reserved value ``0`` is used as a subsystem id, as such
++handles don't belong to a particular subsystem. The lower 4 bytes of a common
++handle identify a collective instance of all local tasks spawned by the
++userspace process that passed a common handle to ``KCOV_REMOTE_ENABLE``.
++
++In practice, any value can be used for common handle instance id if coverage
++is only collected from a single userspace process on the system. However, if
++common handles are used by multiple processes, unique instance ids must be
++used for each process. One option is to use the process id as the common
++handle instance id.
++
++The following program demonstrates using KCOV to collect coverage from both
++local tasks spawned by the process and the global task that handles USB bus #1:
+ 
+ .. code-block:: c
+ 
 -- 
-2.39.2.637.g21b0678d19-goog
+2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230227094726.3833247-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/0b5efd70e31bba7912cf9a6c951f0e76a8df27df.1677517724.git.andreyknvl%40google.com.
