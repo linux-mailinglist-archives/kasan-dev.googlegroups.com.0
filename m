@@ -1,128 +1,129 @@
-Return-Path: <kasan-dev+bncBC7PZX4C3UKBBSUCRCQAMGQE3KLRCCQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRB6MCRCQAMGQEPPPUMSY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD9FA6A993D
-	for <lists+kasan-dev@lfdr.de>; Fri,  3 Mar 2023 15:16:43 +0100 (CET)
-Received: by mail-wm1-x339.google.com with SMTP id z6-20020a05600c220600b003e222c9c5f4sf984958wml.4
-        for <lists+kasan-dev@lfdr.de>; Fri, 03 Mar 2023 06:16:43 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1677853003; cv=pass;
+Received: from mail-oo1-xc3f.google.com (mail-oo1-xc3f.google.com [IPv6:2607:f8b0:4864:20::c3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id D72286A9941
+	for <lists+kasan-dev@lfdr.de>; Fri,  3 Mar 2023 15:17:30 +0100 (CET)
+Received: by mail-oo1-xc3f.google.com with SMTP id e137-20020a4a558f000000b0051a14b3d779sf952654oob.15
+        for <lists+kasan-dev@lfdr.de>; Fri, 03 Mar 2023 06:17:30 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1677853049; cv=pass;
         d=google.com; s=arc-20160816;
-        b=aIDYvIBnUIlN8biRf8rnCOv2pLCpz+OHpDC2rh0gWToC0uxpPbpKfq+Db2j/8WtIgF
-         NQtLmIL8EBbrwdpkTAt9u12AI3esXlkGQF+2/ZTsNvbcQ6wvSbYGMHFIz8b57JDwI1y+
-         74VyYxodZ5aAC1OpGY1ToUBaDZxrvBxxcO8Poc/h7q6l9vl82BSNaiXPalt4gkuz8g4P
-         H1R0dsqRgqKtx/shzSyeqHItilVGaCuMiqavdyso56gxdPVyNjM2B4SlBi++PbVtVRbV
-         EyPsstRel3NoWgdwJVvIN1IXEUpj6+9XHUJLvm/6AC33cbMrQNsx/OD1aJoMIF0Uxzc8
-         Rnaw==
+        b=MjHM/4CUFDKVPkSc/xfJQiNjIbtrT6bYhxGqEbmbLe4zCHjQo1PPQ+PEe0BlnXvaHO
+         Oob8KxVXBCNT5IW0LalMU8Med9s19bEPRAJUuirVKTjfL1h4vILm2VfhcQVP1bM/jIo3
+         fWJzS56sKmmEF5rDdEWgFgnD6jH9jmVZ9alHU8bun8i8CfP9D1WJIS34I9y3HYhIuYS9
+         GQosjMtiFOdbKEcA/a3PVF7TGoTF6Cxo2w7+8on7G8E8S4HfMu5MNFS343p/g5VWfld1
+         RgX6QkObu/rHwRb2uE0ZgDUZHDWOu9yOKb+jZCF+YPmOiaM1U6a2WpezIjmBHPicEixG
+         JCqg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:sender:dkim-signature;
-        bh=HGKl74g2rvWv1pKgI6jHRVb9yV42GOxSRqKL7a07P9Q=;
-        b=t0W7NJExb8KHks3l3ISnwRQhVFy/HZUzHxu2PdujbEpvLzllYDcavQBP1Oxsgy61z8
-         aDcL1bLTP0K4LmmY7t3TyGq9w00rpU0DvlP0t5lmNX0044hUi7g+vYr1KzeY1ZqPrbzh
-         qXf4OG/Dqz2wJJyBC7p48bFf+j/SIIi5t6K4GJAOoHu/dvmQwwT8MSnv6szltfj2/wg2
-         8crAIj5KPEItGQtH51r8zXTwj9eNydPq0nxusnaxH9VKC3cP/sBRLLC/6lD+1vtFd14l
-         SL07l5Xxgd741dql0EjdabRw5avtggsDFA1fkHnxhl8Q3W6Z9sjVCLOAwfvA0Gz1nRRQ
-         D1AQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=CW+tWH+nx3KUgvOsr9072a9mt6H8b8NrS/dOj+Du/SM=;
+        b=juKjbpSlfl+XRjTRU/H5EozknoZdeC+hpl7JbPIajAvCUf+k9EaTJ6kxJsydCbkVEl
+         xptlYzW6m8LswsyZ/YINfH2GmDIU614y0jwHektDx7eh17SAraP7UZcv2tNFLEhMdU4g
+         3Z4iA4aAlt5XhH+V9Z9HoRF2jFwW4PY4+aO02XJtVcxaM5lVYJ+VHoa86H0v7mcejaWy
+         /1an5q9sJtyIB7AehAV5ukte5lpar/dk27Y69Kuyd4zmlX9+5/NUCnFEoj5b/pdCG6Vz
+         fTgXzwxBgeUMLLOz5D/cF8dkL1IeXsKwlqKRU2d7Z+8TEUUIPyMBrI6OsVMxcLmuTOhr
+         Fu+A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=neutral (google.com: 217.70.178.230 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+       dkim=pass header.i=@google.com header.s=20210112 header.b=FEDTdi5M;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::12c as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1677853003;
+        d=googlegroups.com; s=20210112; t=1677853049;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:in-reply-to:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=HGKl74g2rvWv1pKgI6jHRVb9yV42GOxSRqKL7a07P9Q=;
-        b=gzgUUSlzD+RiFIV8rx2Q9M1KcIOgz918QimU6SXd9dZiRqZ0dWo9Z4O3142LOPi03B
-         yzyZzkip5jrwI+lyM95JCJwYa6G2p2Y/x0evcjYnyQUcgQ5XY1w+4QJ/VRh4foMlO/cI
-         gxWD2EqSX6RtyTMmOqh70MWZBWYEi3/LpgQrBDqStRG4id1y+SmPyc/lTsrPkcEcRZou
-         CtO4I8pOGeXGxp4WMyL3bhlrBzzOjAvGpRvw12Z+G9uD3WGHcjOfIPFwBDk48pO6CfmM
-         T1N5xmodchkVKtxspsJmGfuqYU1oqnF3RZlzCXS/LvBQEUeiiWX7scsLvCD1TxFknIXl
-         bIGg==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CW+tWH+nx3KUgvOsr9072a9mt6H8b8NrS/dOj+Du/SM=;
+        b=kiXzRZetdnix33sUc/Gv+sM6jPeH1bNmHydcySEcez07IlwhWguNaSIP5nHplpZZnz
+         Rkl8zn9aiMfUQoIEfTbpCOLSicoOjjaZ68BY5Nyzl3TtdHoSLurHUxJysRnSanX66nYm
+         f9tCTFVoOuHLRWAq2KVISQ/2DS4GIh3Wx91qA92xX1vbxsJvFH6uQUo3m6pQKobr2tU5
+         OINsyuH3LAeVvd75gsXZoLmJRUA7oYkFkms/wapV0euaJ2ucR01K2LZQw9YBMmeyBxjN
+         ha5UXZLMDPhGj1lKn62OVTbhhq4znagUVS4dzsRb2D21D+Zy71EX67BMNL++Mlu9kK4q
+         McCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1677853003;
+        d=1e100.net; s=20210112; t=1677853049;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HGKl74g2rvWv1pKgI6jHRVb9yV42GOxSRqKL7a07P9Q=;
-        b=pQs6fBibUeAjRS8w8Z7Szjq5igiO62QpiB4Q3GWYXVnWBQgLVO+vxhI88bhWzu89Cd
-         yFhl0aPCSXAio7QFrJxwTx0QRXP9lOb2AcBL0rjzpo4kJw+DSfNsCxrejalPd+np4hTV
-         RTHYzDmTxbNgWzf2azPxaFn/Nx1dEg/4ab6aLKC4FBSLZNkMT+Jh0L1oRJQG+eeXnGtn
-         1M3Ab0S9Bntbr8Ky1RqxmlRVohmPo4N4RtQEFfodKy5l4Khsfk7A3RQrHIt60u36+LEA
-         kWWYxsoKjseNXOKC6vPz+BVF+Tt8xvmNwK3x5WNYhB8xpH3SHKXjBqzKZgOtRjhK8dPv
-         4j9g==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKVT7SSUyA4brlQequlU847RfPX22D1hdNQ2jeX6V1u8QdAe3Day
-	vWzrMYkNvq6S08/8KCX+gmU=
-X-Google-Smtp-Source: AK7set9kTxSoPff+3cSKNbtK+MVQMW+7QhSMuWWLYequpFudUgmjK0boLyylbFzikoRzrHNS9BPzcw==
-X-Received: by 2002:a7b:c2a2:0:b0:3eb:5a1e:d524 with SMTP id c2-20020a7bc2a2000000b003eb5a1ed524mr458602wmk.3.1677853003075;
-        Fri, 03 Mar 2023 06:16:43 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CW+tWH+nx3KUgvOsr9072a9mt6H8b8NrS/dOj+Du/SM=;
+        b=K6g+N/L1UzZvD8lToWbHhnVPMGuM4PQHW7wtNxf00B2CtNBByrwgYxWX2dUXLriMIp
+         3D3Twbf1sPwpBzPMs80GeC4Jeq+ox1b3YYv/0ehmNf9OCASE8nDvlnQmIL+DZ2LVIA5s
+         Aj6NSEWZNbashuhJ5qIDdaiGrbAfDRhwR6+lQoyHXqyljEaW4bI3MVfN/DFUpTkk72Sv
+         wTw3WqAEn44+r8r/k+w5Bw+XdcwM5+0R8X/aIg0Auwsklsbh+yKFUpyBJIiBzYU/T+2U
+         4ROW++gtbcq2vctqRrAJCS+ntOXY5RKfGfSJx1VBCll1OVVjDm5a/jPdk8fgk5UL+rII
+         OG5Q==
+X-Gm-Message-State: AO0yUKVtEpiaAzaXCWJUveGWo0M0yoZwW/RbVyzm8NfHGeoEv6/h5mXw
+	5/2jSFOHxtK5ssmqElHOoDA=
+X-Google-Smtp-Source: AK7set9hL8ds2oAxm/x7rJnT9vZSkcFVsn7Q49qdEGDNdOJZglHrlbdmGr6hfP780ikpCH/YEKsv1A==
+X-Received: by 2002:a05:6808:2098:b0:383:f981:b1e5 with SMTP id s24-20020a056808209800b00383f981b1e5mr2923921oiw.5.1677853049403;
+        Fri, 03 Mar 2023 06:17:29 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:1ca4:b0:3e2:165f:33d0 with SMTP id
- k36-20020a05600c1ca400b003e2165f33d0ls1612158wms.2.-pod-control-gmail; Fri,
- 03 Mar 2023 06:16:41 -0800 (PST)
-X-Received: by 2002:a05:600c:3506:b0:3dc:405b:99bf with SMTP id h6-20020a05600c350600b003dc405b99bfmr1883668wmq.15.1677853001528;
-        Fri, 03 Mar 2023 06:16:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1677853001; cv=none;
+Received: by 2002:a05:6830:1e9c:b0:661:b84b:eb5e with SMTP id
+ n28-20020a0568301e9c00b00661b84beb5els680713otr.3.-pod-prod-gmail; Fri, 03
+ Mar 2023 06:17:29 -0800 (PST)
+X-Received: by 2002:a9d:7105:0:b0:684:d9da:6ead with SMTP id n5-20020a9d7105000000b00684d9da6eadmr518779otj.17.1677853048885;
+        Fri, 03 Mar 2023 06:17:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1677853048; cv=none;
         d=google.com; s=arc-20160816;
-        b=O/iQq5toW36/b1jyV0+4cGMQE1R+w8wngENIm9Js8ymRhQFYbyCtwCSkdBpxqEkYHC
-         jeq2gXhsviICJi9gaNWzFN7DaXxdI/DYGr8o115DivjCKCNHes80UHPsqSNAv1tQJfxC
-         8nUExBr8a3o2PBvNFKuOHq5HENa5j2WgVQEOFUv+Nv9WtIzo0X4mQVtIpC8X2mB7eCYt
-         hg2z/aODOP+9d9bYIk47uYW47RgLT9B5Uli6s/lEb2N2x5EKkuQy1uqYobIL9Y3QON0S
-         HU75q5ey9h/7KIbBeJgOjtIsfSL/zfVZMonwhCKUE58Std3ATt2m4/MBRyJqJbgs8O3p
-         A03A==
+        b=eKJMA3mrX2qHJey+RA1r6iKKKpB1oUACLQn/HlYamfj1a9FOiQGk+YxcSdMaMfQVWR
+         9b6k/wf29UM49OEMe+xiyK+fqG2MEpN8z0YOvEJ8LskZJ174LxN8VDKChkr1irJt3tMA
+         O8cq1yqLUIjS20CtnXs+0GUuc9rZJ0aTZjy0FWh49kEsUgaZnzIYcAmY9NQolBCM5cpt
+         DplbJyU+DqZbrZGLLihj+VRsaLNv8GpT3FuBktF4zm/AfXgYF52Nrx/brxpc/ylEexpS
+         kzLdwoRAd0yTRGZc8WCwUPfBp3TiX4ZummoRQnTzZzuA3bc8SAXGsdXMJlLD6JvAEV/5
+         c2rg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=qJ/igPCBTkjRhHgrNDDSIAX3lFUMXN8YIwEws64deHM=;
-        b=ZQUQsk9uJiDShMu+hT1vT6dkAQhltnW3ix8/kqqig2PluEgky4RWQTsdInjEXrOdiz
-         TCDiB0TyCPfIr3yFpaeA12U+deLrJqOqT42RVElKLPjZ+cywp4CO5XSVofPp2sRwkBOY
-         rQsYYLJ42CcZFNG8KDsKkbIAcfcHqu2rOFKRClLXCUp5SWYmwYJjK8crR69z8JumnyYq
-         hEzAaalANNq5gW8zyVErErA48UJeXIe/ulqjbelR9Oga9nuuFabkpfkO9c94Xh8AWmzF
-         kEFZvDWqV/wANbKP18EnTRaEd/NCjoMrpGJTs67he/q+WW6eFVNcEG4jRdn364Jtwdu5
-         z3GA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=0B3hgicuXjM7bBAtA4QLzoXhHV0rOr+vQWIDTCOLWjA=;
+        b=xyd3+eQ1tR7mVwiEilEqtLZGQVT57V7GGa+xyxX3czkySwsyo3S8vw2m51baFmNVOs
+         JdNJ6ORmaSfRt3YhHWUkGOfYb7EwTqpYYUzP8Gcoe6L+5Hfokecc5/SiE+O0O2Jmkt58
+         8bOhW/WV+ytPo43fd9QF2J3nSQGmAnCgjatUZfYdwa8tV2ITug8iF1mfWA3A8nCBEuZh
+         /t+BZMPP5paPyLSclaRxDv8feOHMcsekgjnfL2TK1tNlDY8fCyJxbkMduqno3iUtigMd
+         zl8i+4JBjVWDcyVWmW8a+/194JnJqm2AqNPyHzTuP15kbXvqFSPy4iMYviOo1v3SkGQ4
+         4Y5Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=neutral (google.com: 217.70.178.230 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net. [217.70.178.230])
-        by gmr-mx.google.com with ESMTPS id n37-20020a05600c502500b003e1eddc40cfsi374534wmr.3.2023.03.03.06.16.41
+       dkim=pass header.i=@google.com header.s=20210112 header.b=FEDTdi5M;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::12c as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-il1-x12c.google.com (mail-il1-x12c.google.com. [2607:f8b0:4864:20::12c])
+        by gmr-mx.google.com with ESMTPS id d1-20020a056830044100b00693cf8eb076si147951otc.5.2023.03.03.06.17.28
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 03 Mar 2023 06:16:41 -0800 (PST)
-Received-SPF: neutral (google.com: 217.70.178.230 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=217.70.178.230;
-Received: (Authenticated sender: alex@ghiti.fr)
-	by mail.gandi.net (Postfix) with ESMTPSA id 8BEF5240011;
-	Fri,  3 Mar 2023 14:16:38 +0000 (UTC)
-Message-ID: <6b2934bb-ff40-fd85-f305-d6ea8eb2b200@ghiti.fr>
-Date: Fri, 3 Mar 2023 15:16:38 +0100
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Mar 2023 06:17:28 -0800 (PST)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::12c as permitted sender) client-ip=2607:f8b0:4864:20::12c;
+Received: by mail-il1-x12c.google.com with SMTP id z5so1708203ilq.0
+        for <kasan-dev@googlegroups.com>; Fri, 03 Mar 2023 06:17:28 -0800 (PST)
+X-Received: by 2002:a05:6e02:130f:b0:315:9761:6965 with SMTP id
+ g15-20020a056e02130f00b0031597616965mr917889ilr.5.1677853048407; Fri, 03 Mar
+ 2023 06:17:28 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.1
-Subject: Re: RISC-V Linux kernel not booting up with KASAN enabled
-Content-Language: en-US
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: Chathura Rajapaksha <chathura.abeyrathne.lk@gmail.com>,
- linux-riscv@lists.infradead.org, kasan-dev@googlegroups.com
-References: <CAD7mqryyz0PGHotBxvME7Ff4V0zLS+OcL8=9z4TakaKagPBdLw@mail.gmail.com>
- <789371c4-47fd-3de5-d6c0-bb36b2864796@ghiti.fr>
- <CAD7mqrzv-jr_o2U3Kz7vTgcsOYPKgwHW-L=ARAucAPPJgs4HCw@mail.gmail.com>
- <CAD7mqryDQCYyJ1gAmtMm8SASMWAQ4i103ptTb0f6Oda=tPY2=A@mail.gmail.com>
- <067b7dda-8d3d-a26c-a0b1-bd6472a4b04d@ghiti.fr>
- <CACT4Y+avaVT4sBOioxm8N+iH26udKwAogRhjMwGWcp4zzC8JdA@mail.gmail.com>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <CACT4Y+avaVT4sBOioxm8N+iH26udKwAogRhjMwGWcp4zzC8JdA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: alex@ghiti.fr
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
- (google.com: 217.70.178.230 is neither permitted nor denied by best guess
- record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+References: <20230303141433.3422671-1-glider@google.com>
+In-Reply-To: <20230303141433.3422671-1-glider@google.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 3 Mar 2023 15:16:50 +0100
+Message-ID: <CAG_fn=X45qBJKgaZ4xVN=DHwDTYG7HzUb5kTwf79Rs1aJ-f9mg@mail.gmail.com>
+Subject: Re: [PATCH 1/4] x86: kmsan: Don't rename memintrinsics in
+ uninstrumented files
+To: glider@google.com
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, x86@kernel.org, dave.hansen@linux.intel.com, 
+	hpa@zytor.com, akpm@linux-foundation.org, elver@google.com, 
+	dvyukov@google.com, nathan@kernel.org, ndesaulniers@google.com, 
+	kasan-dev@googlegroups.com, Kees Cook <keescook@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: glider@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20210112 header.b=FEDTdi5M;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::12c as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,203 +136,9 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 3/3/23 06:44, Dmitry Vyukov wrote:
-> On Thu, 2 Mar 2023 at 21:11, Alexandre Ghiti <alex@ghiti.fr> wrote:
->> +cc Dmitry and kasan-dev, in case they know about this but I did not
->> find anything related
-> Hard to say anything w/o commit/symbolized report.
-> If it's stack unwinder and it's supposed to be precise, then it may be
-> a bug in the unwinder where it reads a wrong location and is imprecise
-> (not the frame pointer).
-> If it's supposed to be imprecise, then it should use READ_ONCE_NOCHECK
-> to read random stack locations.
+This is the second version of the patch. Sorry for the inconvenience.
 
-
-Please correct me if I say something obviously wrong.
-
-The config used to generate this trace does not set=20
-CONFIG_FRAME_POINTER: we were then in an imprecise stack unwinding mode.=20
-When set, the backtrace disappears: so IIUC, the issue lies in the stack=20
-unwinding function that reads the stack randomly and KASAN does not like=20
-that. So as you suggested, I used READ_ONCE_NOCHECK when reading the=20
-stack and the backtrace also disappears. So the following patch would be=20
-the fix for this, is that correct?
-
-
-diff --git a/arch/riscv/kernel/stacktrace.c b/arch/riscv/kernel/stacktrace.=
-c
-index f9a5a7c90ff0..64a9c093aef9 100644
---- a/arch/riscv/kernel/stacktrace.c
-+++ b/arch/riscv/kernel/stacktrace.c
-@@ -101,7 +101,7 @@ void notrace walk_stackframe(struct task_struct *task,
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 while (!kstack_end(ksp)) {
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 if (__kernel_text_address(pc) && unlikely(!fn(arg, pc)))
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
--=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 pc =3D (*ksp++) - 0x4;
-+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 pc =3D READ_ONCE_NOCHECK(*ksp++) - 0x4;
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
- =C2=A0}
-
-Thanks for your quick answer,
-
-Alex
-
-
->
->> On 3/2/23 19:01, Chathura Rajapaksha wrote:
->>> Hi Alex/All,
->>>
->>> Kernel is booting now but I get the following KASAN failure in the
->>> bootup itself.
->>> I didn't see this bug was reported before anywhere.
->>>
->>> [    0.000000] Memory: 63436K/129024K available (20385K kernel code,
->>> 7120K rwdata, 4096K rodata, 2138K init, 476K bss, 65588K reserved, 0K
->>> cma-reserved)
->>> [    0.000000] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>> [    0.000000] BUG: KASAN: stack-out-of-bounds in walk_stackframe+0x1b2=
-/0x1e2
->>> [    0.000000] Read of size 8 at addr ffffffff81e07c40 by task swapper/=
-0
->>> [    0.000000]
->>> [    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted
->>> 6.2.0-gae3419fbac84-dirty #7
->>> [    0.000000] Hardware name: riscv-virtio,qemu (DT)
->>> [    0.000000] Call Trace:
->>> [    0.000000] [<ffffffff8000ab9e>] walk_stackframe+0x0/0x1e2
->>> [    0.000000] [<ffffffff80108508>] init_param_lock+0x26/0x2a
->>> [    0.000000] [<ffffffff8000ad4c>] walk_stackframe+0x1ae/0x1e2
->>> [    0.000000] [<ffffffff813d86e0>] dump_stack_lvl+0x22/0x36
->>> [    0.000000] [<ffffffff813bd17a>] print_report+0x198/0x4a8
->>> [    0.000000] [<ffffffff80108508>] init_param_lock+0x26/0x2a
->>> [    0.000000] [<ffffffff8000ad4c>] walk_stackframe+0x1ae/0x1e2
->>> [    0.000000] [<ffffffff8023bd52>] kasan_report+0x9a/0xc8
->>> [    0.000000] [<ffffffff8000ad4c>] walk_stackframe+0x1ae/0x1e2
->>> [    0.000000] [<ffffffff8000ad4c>] walk_stackframe+0x1ae/0x1e2
->>> [    0.000000] [<ffffffff80108748>] stack_trace_save+0x88/0xa6
->>> [    0.000000] [<ffffffff801086bc>] filter_irq_stacks+0x8a/0x8e
->>> [    0.000000] [<ffffffff800b65e2>] devkmsg_read+0x3f8/0x3fc
->>> [    0.000000] [<ffffffff8023b2de>] kasan_save_stack+0x2c/0x56
->>> [    0.000000] [<ffffffff80108744>] stack_trace_save+0x84/0xa6
->>> [    0.000000] [<ffffffff8023b31a>] kasan_set_track+0x12/0x20
->>> [    0.000000] [<ffffffff8023b8f6>] __kasan_slab_alloc+0x58/0x5e
->>> [    0.000000] [<ffffffff8023aeae>] __kmem_cache_create+0x21e/0x39a
->>> [    0.000000] [<ffffffff8141623e>] create_boot_cache+0x70/0x9c
->>> [    0.000000] [<ffffffff8141b5f6>] kmem_cache_init+0x6c/0x11e
->>> [    0.000000] [<ffffffff8140125a>] mm_init+0xd8/0xfe
->>> [    0.000000] [<ffffffff8140145c>] start_kernel+0x190/0x3ca
->>> [    0.000000]
->>> [    0.000000] The buggy address belongs to stack of task swapper/0
->>> [    0.000000]  and is located at offset 0 in frame:
->>> [    0.000000]  stack_trace_save+0x0/0xa6
->>> [    0.000000]
->>> [    0.000000] This frame has 1 object:
->>> [    0.000000]  [32, 56) 'c'
->>> [    0.000000]
->>> [    0.000000] The buggy address belongs to the physical page:
->>> [    0.000000] page:(____ptrval____) refcount:1 mapcount:0
->>> mapping:0000000000000000 index:0x0 pfn:0x82007
->>> [    0.000000] flags: 0x1000(reserved|zone=3D0)
->>> [    0.000000] raw: 0000000000001000 ff60000007ca5090 ff60000007ca5090
->>> 0000000000000000
->>> [    0.000000] raw: 0000000000000000 0000000000000000 00000001ffffffff
->>> [    0.000000] page dumped because: kasan: bad access detected
->>> [    0.000000]
->>> [    0.000000] Memory state around the buggy address:
->>> [    0.000000]  ffffffff81e07b00: 00 00 00 00 00 00 00 00 00 00 00 00
->>> 00 00 00 00
->>> [    0.000000]  ffffffff81e07b80: 00 00 00 00 00 00 00 00 00 00 00 00
->>> 00 00 00 00
->>> [    0.000000] >ffffffff81e07c00: 00 00 00 00 00 00 00 00 f1 f1 f1 f1
->>> 00 00 00 f3
->>> [    0.000000]                                            ^
->>> [    0.000000]  ffffffff81e07c80: f3 f3 f3 f3 00 00 00 00 00 00 00 00
->>> 00 00 00 00
->>> [    0.000000]  ffffffff81e07d00: 00 00 00 00 00 00 00 00 00 00 00 00
->>> 00 00 00 00
->>> [    0.000000] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>
->> I was able to reproduce the exact same trace, I'll debug that tomorrow,
->> I hope it is a real bug :)
->>
->> Thanks for the report Chatura,
->>
->> Alex
->>
->>
->>> Best,
->>> Chath
->>>
->>> On Thu, Mar 2, 2023 at 11:25=E2=80=AFAM Chathura Rajapaksha
->>> <chathura.abeyrathne.lk@gmail.com> wrote:
->>>> Hi Alex,
->>>>
->>>> Thank you very much, kernel booted up with the patches you mentioned.
->>>> Bootup was pretty slow compared to before though (on a dev board).
->>>> I guess that is kind of expected with KASAN enabled.
->>>> Thanks again.
->>>>
->>>> Regards,
->>>> Chath
->>>>
->>>> On Thu, Mar 2, 2023 at 2:50=E2=80=AFAM Alexandre Ghiti <alex@ghiti.fr>=
- wrote:
->>>>> Hi Chatura,
->>>>>
->>>>> On 3/2/23 04:13, Chathura Rajapaksha wrote:
->>>>>> Hi All,
->>>>>>
->>>>>> I observed that RISC-V Linux hangs when I enable KASAN.
->>>>>> Without KASAN it works fine with QEMU.
->>>>>> I am using the commit ae3419fbac845b4d3f3a9fae4cc80c68d82cdf6e
->>>>>>
->>>>>> When KASAN is enabled, QEMU hangs after OpenSBI prints.
->>>>>>
->>>>>> I noticed a similar issue was reported before in
->>>>>> https://lore.kernel.org/lkml/CACT4Y+ZmuOpyf_0vHTT4t3wkmJuW8Ezvcg7v6y=
-DVd8YOViS=3DGA@mail.gmail.com/t/
->>>>>> But I believe I have the patch mentioned in that thread.
->>>>> I proposed a series that will be included in 6.3 regarding KASAN issu=
-es
->>>>> here: https://patchwork.kernel.org/project/linux-riscv/list/?series=
-=3D718458
->>>>>
->>>>> Can you give it a try and tell me if it works better?
->>>>>
->>>>> Thanks,
->>>>>
->>>>> Alex
->>>>>
->>>>>
->>>>>> My kernel config:
->>>>>> https://drive.google.com/file/d/1j9nU7f9MxCc_i-UHUCTvo7o6nDrcUz0w/vi=
-ew?usp=3Dsharing
->>>>>>
->>>>>> Best regards,
->>>>>> Chath
->>>>>>
->>>>>> _______________________________________________
->>>>>> linux-riscv mailing list
->>>>>> linux-riscv@lists.infradead.org
->>>>>> http://lists.infradead.org/mailman/listinfo/linux-riscv
->>>
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/6b2934bb-ff40-fd85-f305-d6ea8eb2b200%40ghiti.fr.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG_fn%3DX45qBJKgaZ4xVN%3DDHwDTYG7HzUb5kTwf79Rs1aJ-f9mg%40mail.gmail.com.
