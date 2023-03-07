@@ -1,141 +1,132 @@
-Return-Path: <kasan-dev+bncBDO2BZXZRYJRBEWQTKQAMGQE2L6ZB4Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKMP2VK2UCRB6WRTWQAMGQEDL3RL2Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43f.google.com (mail-wr1-x43f.google.com [IPv6:2a00:1450:4864:20::43f])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB246AD511
-	for <lists+kasan-dev@lfdr.de>; Tue,  7 Mar 2023 03:57:23 +0100 (CET)
-Received: by mail-wr1-x43f.google.com with SMTP id o3-20020a5d6483000000b002cc4fe0f7fcsf1799692wri.7
-        for <lists+kasan-dev@lfdr.de>; Mon, 06 Mar 2023 18:57:23 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1678157843; cv=pass;
+Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id 786306AE6E5
+	for <lists+kasan-dev@lfdr.de>; Tue,  7 Mar 2023 17:40:27 +0100 (CET)
+Received: by mail-lj1-x240.google.com with SMTP id v14-20020a2e9f4e000000b002934fe0289bsf4412298ljk.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 07 Mar 2023 08:40:27 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1678207227; cv=pass;
         d=google.com; s=arc-20160816;
-        b=STTxiquN2PHoubS0ZGkBBMZuhn0MJErO9XBg+6A7RzPONiAYV0Jz3F3wRV9A7Juxx4
-         9DfZHe8Vs6xZ9bJmp8ikH7RyGj4vK1CMCcn0tR5xj6w65rRek+ISpAtMk3nk+bo7aZd7
-         dCM+jbKyHm0YISURkVULxJlUk4T+z50ikfIr0uk3KOjZ7KddEROpdfgDkDAyf+135bxs
-         06T6W+SRfquhm4ymoA7pzDgZQJN8szSKWac/4zh/49vEHY8M2Pff4RYYV3chvx9FkiiI
-         bU2zZY5rSLyHbXzisLHYD4Td+z0jRWvH7qwEEbowzQUXbHJCv0d5rSgiTgrFgWoAadel
-         Q59Q==
+        b=auwhUS5VPZEfxocV3DZRasp8VObr5E7+8FhKQ4Y1/wxYtkx6wyv4L3mt8MZAIZPqjD
+         +nOGVcpZ66CF01acBQmqK4WENjKw4FuSvjxgLifA/dC1ouxbEI1IEQmDsHlKtFkVog3K
+         y25k+XenbqfP/KmFypp3eHR8uqCPav+FPDSJlvKfn3kRMtSBU0TYDY3mgQ13wOw1hKaJ
+         B5TwE7l2VgIxR/+HHAjF40UJ4uy/X30X+CsjkkZoVRJ70FSg6jgS3DEDQ4yZ8doSyMuu
+         tl14myQzis3eDBHAEvdN1kpF+B66OuIe0D8E3LuhxcFDuH2CbLPhv1P5ZUhM1z9AMqkP
+         XJEA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=BtM1TmyWxaW4AktN6YEC+0pk/CaeHLqSteuelT6c9eo=;
-        b=yIOVwxow4YVasALJj6wpWDpOptzupbN+PwHECRfe8eeM9GPUoxdvMo8SF/6V9hFDdZ
-         XHqFL7lJNzSqSSo9aV/gz7PinkHs4T3lk2ThEbA+K63q/R8Sr1GVPEQGkmRCMVkC1Nxd
-         eMRGSlW1LTcBHIOHXzf+JqjCutFuO9atpvD+OLr/LcHn31uhAvhfNlhnWm7RhPNrPYPH
-         ZYxnBA7nj0YOlNSPYZ/h9pPZq9uI2Ke/i+Nifm4eT6kvRtHmfytPj/8ZS8nPAlatMnI3
-         u+Z7TyVr0Md2FD4292mMjsZ1zyniDIJvNCvotAi+SRNMvzpMZJIgstOFYTT+C5AWeVrT
-         1UsQ==
+         :list-id:mailing-list:precedence:mime-version:references:message-id
+         :in-reply-to:subject:cc:to:from:date:sender:dkim-signature;
+        bh=Pqo0t3Xd9DWBdQKWsOQaU3xp6ewHrSpTw2ikNFpj1TI=;
+        b=UHCBvSAdDPJYhK/v4yOs0l/jPvgk3/ST1iWAzUlS4LaeCRyAkxLjI54KFAADWVJL58
+         v3rX1Qtv+A0AL+ZnmY0bApDDCdRB1GEhl2Ql4YTDHoGIlynmpALGXSOxPxDMrgxoggd7
+         4RZ3FipK/UHF3WiMvT7IEh3GAHmWcGbp/3iepZ7BC+yaw3P1zxGfrvpcnhLVsFCbAWAF
+         QKLvQCQq10h0t2CQRT8Z1ABtLWgEmEDFxI1tEGD5qvJEq4GHvHzX6peJK03Hz2uOGu9O
+         QWc9m2A1QPYl7Me7or30GdaYj63smGY0JgY1emF0yNS2YrMjy5WGoqRT+XFPNACy2I0m
+         fGdQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=G0KrM8Mg;
-       spf=pass (google.com: domain of chathura.abeyrathne.lk@gmail.com designates 2a00:1450:4864:20::136 as permitted sender) smtp.mailfrom=chathura.abeyrathne.lk@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=neutral (google.com: 2a02:1800:110:4::f00:1a is neither permitted nor denied by best guess record for domain of geert@linux-m68k.org) smtp.mailfrom=geert@linux-m68k.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1678157843;
+        d=googlegroups.com; s=20210112; t=1678207227;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:sender:from:to:cc:subject:date:message-id
+         :x-original-sender:mime-version:references:message-id:in-reply-to
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BtM1TmyWxaW4AktN6YEC+0pk/CaeHLqSteuelT6c9eo=;
-        b=sUjz+V5hSBCWkByyjQoCNl8HWRA/clV7iKyyJAU0vIF5GG3eifjdAQaCz4xO9ASb7x
-         UIg+91Rv5+t+vEl1Hwk5WoYcd4FRoN3uyAD7QxOETHunViVlQT7avGHI6w1v94K1gzjM
-         X/nKsdRzPiSPMFItLtfjzaVIClTqzjAYly4Laqwx123RhJJQfBZoKovUDUmMzC7X1Cxm
-         FB6kCdO9dWyl9HqFLghbCrqf7KfJRpRKzrseyigotsOcn7qzMMmD793vhG8UIP0fwVTq
-         3csblh7Lvfpsesfm9Z9+BREtPJj18UI6RB0QZjHNWx7pungw9YLLfyWj9ND0qIzrIG6k
-         3T9Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678157843;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BtM1TmyWxaW4AktN6YEC+0pk/CaeHLqSteuelT6c9eo=;
-        b=A+VdTAhcMi0qGYx5l80bm11lfrsMa02omAA9QZiIH2LHer+RUygAEcrqCS3jeOw88q
-         /TD+VPBVoCaUABI77X3ijPiiW6GX0amKO+vRZEV0NmOWdywplqg+l29SryZjwc+E06GF
-         ON0tLaJ4gbR8K3ZysY2ZPrjokBUOuvomi6GjuCOmqvHMdPBPJP0JFgSrGCOIsQspX3ia
-         huo14/ybA3WpVbkgCn6fePo7A2/mn/vF8Ye8io+3KR8ZTcyRK5IlM8X/LNRAE1ymT8ky
-         U3hU6SurRbla6sKw9SQJwEhAprnZ3fb+F/+8LvCv9/IZU8aAwQKIpCsD/pSXaHv6YfDZ
-         Juag==
+        bh=Pqo0t3Xd9DWBdQKWsOQaU3xp6ewHrSpTw2ikNFpj1TI=;
+        b=QkYwHPDonw67w/q6cb73uhbOPm5DTM8YlNG2l16hJrSWxrkROk8qslSqLmRnKAFxuJ
+         MWnquoILUen2I3/lnLoKbW2YyLslMJORA+KX393sYspuCCnCJuKhB+aAik/0e3/T/XiI
+         kuGLOy4FC/mUN6JmMGkntPhZPmvSqiT+5xXnwuiokc7eS4QDaqxRiKbh6iuN9aZ0LFjo
+         19R/8SnQev+VtHBsV8hlMkamzZ7zEQMAoFe5cHA6s8RkHUHS162AxCnPb14pxvmOj2Ge
+         guCROs84DpY9CWX0stH2y64oiJagNXjG5eJqV1ZYD/Ro3a05Nv2LBnxDRxx9TiB/wtLe
+         3dAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678157843;
+        d=1e100.net; s=20210112; t=1678207227;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:message-id:in-reply-to:subject:cc:to:from:date
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BtM1TmyWxaW4AktN6YEC+0pk/CaeHLqSteuelT6c9eo=;
-        b=2nXRpGkZ0dD2C/5mcc5hoppr7dPqrgcIZ+/34YxHo1sVuCVliop6VrrE2Sq6Gb9Ol7
-         9lYZ2F6OnFshFC/ma23NDkucCt3wAK7weGkQskXb0oPESMiT6rM+/QgkqLl5dTNMYLD5
-         zdEq56stqr0wNu1excXTFG6hP1zFl5sGcqmsIMczGcGXe/ZimzG/1PZQPoJAx6USGUUT
-         lqTVWNOi/6lILCnhatX285iubFP02W4dbO1R+bCZXlYjtYkXISFAWI5VxXHLzK1OZTuD
-         /25TKnrUJdJIrc3bBimjL5lXpMZv0qsnOEwwyAJL4qY/8JsvTo3mEKIwT5zBFq2ED7Uh
-         nXew==
+        bh=Pqo0t3Xd9DWBdQKWsOQaU3xp6ewHrSpTw2ikNFpj1TI=;
+        b=U+Xu7P/vcLAntdDGdTG7c7+22QuWwGVz617dSJ9RO4RB1puoXngBMsuoRbiHKLozyK
+         MrEet+ENjMHXwP3RYNn2f6m71Il7Da+IKMpaawyFLETeajd0vCpm3UrDdluxcg3cySee
+         fBbqNnEgf46+dhyhvDtlnNz/GwIy2c30tyW4/L3w4AojpQ5LjKiK4x74GOKsfh4ZoB7z
+         mDceOBYq9CStU7FosPZXiDoQ8HrFg6yMZBftY2rGXGt59mVfATQuHXIe17ffh6t9RCMU
+         JJ7ZufcMnVHCxPNFnyMLAnqReDx1iJnzXJsTXrMgAMqh1jefV49qcCZTcfyKFVYZVKBA
+         +hQQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKVkCO3NArVxnb0TG75ejBmIzOJNZLfgNzryckIeopeinm5zZMh8
-	KEplGTonrOf/I8fG2LAOODE=
-X-Google-Smtp-Source: AK7set+vhBeZbu9kyhIGi0hfDGeVmld9N1R43nuM88T2CVucQ6DahzNmc8MFeNHpwLWTZ2rk8ZYBWQ==
-X-Received: by 2002:adf:f88f:0:b0:2cb:8616:d3dd with SMTP id u15-20020adff88f000000b002cb8616d3ddmr2793781wrp.7.1678157843113;
-        Mon, 06 Mar 2023 18:57:23 -0800 (PST)
+X-Gm-Message-State: AO0yUKXavTyn0Du892s/N3rXFTfHKOTjCq2rUMqBUsfwIs5IaUHXjcY8
+	8gPUtCjCPDsA/GhfG+/V1Bg=
+X-Google-Smtp-Source: AK7set/ONBJoAmxcC4Te0R4AmZHLp8X/yDNGX+dpA/bL8Ylwvw9EGwipCLC0If7iHfziMZ0yV+hxEQ==
+X-Received: by 2002:ac2:43da:0:b0:4dd:a347:2146 with SMTP id u26-20020ac243da000000b004dda3472146mr4675189lfl.0.1678207226590;
+        Tue, 07 Mar 2023 08:40:26 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:3ba7:b0:3e2:19b0:7006 with SMTP id
- n39-20020a05600c3ba700b003e219b07006ls6250065wms.3.-pod-control-gmail; Mon,
- 06 Mar 2023 18:57:21 -0800 (PST)
-X-Received: by 2002:a05:600c:510e:b0:3ea:8ed9:8f03 with SMTP id o14-20020a05600c510e00b003ea8ed98f03mr11234425wms.24.1678157841605;
-        Mon, 06 Mar 2023 18:57:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1678157841; cv=none;
+Received: by 2002:a05:6512:281d:b0:4db:3331:2b29 with SMTP id
+ cf29-20020a056512281d00b004db33312b29ls820287lfb.0.-pod-prod-gmail; Tue, 07
+ Mar 2023 08:40:24 -0800 (PST)
+X-Received: by 2002:ac2:4a8b:0:b0:4e0:c0d0:e209 with SMTP id l11-20020ac24a8b000000b004e0c0d0e209mr4071663lfp.29.1678207224827;
+        Tue, 07 Mar 2023 08:40:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1678207224; cv=none;
         d=google.com; s=arc-20160816;
-        b=weDCPBVwpuat53XP9R4lJ3BTJWsys7lravuwrTJsfq2/iDpOb3XsRscuuZLv+Zz+Bn
-         NzrvBHaD82+4W9ln0D7Sf6HZu6qFt46Aj3i+rg/yjnjw/OHDrtroONuWhuiGiXkT3D+Z
-         3KDMKpdSBy5ODlpLYKO5P+m8nbcGa3CuxwEDK0TLnhxRWnTiSInSZbKzCV637OeAYmh1
-         Y3WR0Y/JGV+ArH7ipnuJxeXO9PPMaWy6YHucqLQzTDosKHWzysEyoG0tCdD8cxEn/x+5
-         65GLbHRYHmw9O6kTmYHsraCm9X1CVYzv65nLqFtfILSQsyo4OIcz1uL+0QoeaDV0xfG4
-         KEcw==
+        b=wUIHY6uILlQIaVfAtNPQmVAwm5tolfUjxfdghdKLcOkkXg7Mnae/LSTnQmsEdlrnXf
+         J08C/AXmstQ06Mo9NfzVnTQotv9YHjTLIi+YmWbxC2K0ueaTvdQxiHsggUyySPS7/rNK
+         aKsub16TdIOS9ehl3E2NLdkwkarOWN5EZTbqdZiQ8hYxcmEXx9m3d+wfLoCuUkq8RMa6
+         qRBidNSdYyqQRXxCotrKuV0FsKiZzUqZXbz3PJMohVipR1e7imfgkITytC2ojKPfkcGj
+         sgYwI1WaMqEPpFDuSVDI660CRWWi0vRFp95FVno1OFxu7gFWqZR5BPE/OLhtXVtSMMgB
+         7ayw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=MXE3r4DRRZF4vWFB+51VIYNyLys1Cywxy6liIMjnpXg=;
-        b=OQYQ6U+bP2ybJzYccGxwTBffo6Hbokd9gdfplrHO9VUosvbYU8ccb1UmLs4JFgwEo3
-         y7K3HW79Eob93Ylj1MzQfF7qU358ir+vVMjDwUEzVZykCElbRUc20ARuv6TMWeyZWEDI
-         +e3yN61aSIErvly7oSUrwH3762CyWrwgkbg92bcXquNkbO+9WwFKe+GsThblrswdcoiR
-         pnmTrZ//j8Z8tMoin2fvh61KPDcwyT9iNb9KN4/XKA2F+3n7jkdMClBeXROBn7Yhz725
-         Aa/lgp3Qs72uXOXGoGxa+fimuGg6PkGnBFGTwwS632aLRkLuMrU20548TR8O8ZaA3B4B
-         zF1A==
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date;
+        bh=mQoPgOsOdMQXLuw3hPjudPYNz7wYr2Os5a513yqYCuI=;
+        b=cPCjLRHTgu1smQGxL+iRK533jvKw4gPuC88dVED9Y0UXMYMo9AHEz90ymuLaC9hxuo
+         nxDbEUWUKHH2Wec43w5fRcwLF2n8PK/+vHBUbifiHunPQVH+6nxBkZdQuRZ39iR4vjdJ
+         sJ5sQDENFS/p/YX+Q2sdpsUQJa0ifAuPzXew3M+ERJRaAFF1JReCd2yTVeT09ABxc0IQ
+         fQ+eqXYFOgN8CPJOMzpe5W/PR2CDakOnvucczv67RqAZCNz5XmB0U/G3+3QH1E24t5o5
+         DbRwzmnGIqz2lp1/x90yUP6B1hzZ+m2Hdt/75eESgrg1jNmqVxNOILzI31ho4RShIeqZ
+         xTDw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=G0KrM8Mg;
-       spf=pass (google.com: domain of chathura.abeyrathne.lk@gmail.com designates 2a00:1450:4864:20::136 as permitted sender) smtp.mailfrom=chathura.abeyrathne.lk@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com. [2a00:1450:4864:20::136])
-        by gmr-mx.google.com with ESMTPS id b11-20020a05600018ab00b002c59c98f5dasi425408wri.3.2023.03.06.18.57.21
+       spf=neutral (google.com: 2a02:1800:110:4::f00:1a is neither permitted nor denied by best guess record for domain of geert@linux-m68k.org) smtp.mailfrom=geert@linux-m68k.org
+Received: from albert.telenet-ops.be (albert.telenet-ops.be. [2a02:1800:110:4::f00:1a])
+        by gmr-mx.google.com with ESMTPS id bp18-20020a056512159200b004dd8416c0d6si641674lfb.0.2023.03.07.08.40.24
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Mar 2023 18:57:21 -0800 (PST)
-Received-SPF: pass (google.com: domain of chathura.abeyrathne.lk@gmail.com designates 2a00:1450:4864:20::136 as permitted sender) client-ip=2a00:1450:4864:20::136;
-Received: by mail-lf1-x136.google.com with SMTP id i9so15381777lfc.6
-        for <kasan-dev@googlegroups.com>; Mon, 06 Mar 2023 18:57:21 -0800 (PST)
-X-Received: by 2002:ac2:46db:0:b0:4e1:d025:789e with SMTP id
- p27-20020ac246db000000b004e1d025789emr4022786lfo.13.1678157841053; Mon, 06
- Mar 2023 18:57:21 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 07 Mar 2023 08:40:24 -0800 (PST)
+Received-SPF: neutral (google.com: 2a02:1800:110:4::f00:1a is neither permitted nor denied by best guess record for domain of geert@linux-m68k.org) client-ip=2a02:1800:110:4::f00:1a;
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed50:614d:21b0:703:d0f9])
+	by albert.telenet-ops.be with bizsmtp
+	id VUg82900A3mNwr406Ug80J; Tue, 07 Mar 2023 17:40:24 +0100
+Received: from geert (helo=localhost)
+	by ramsan.of.borg with local-esmtp (Exim 4.95)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1pZaMC-00BCRZ-9r;
+	Tue, 07 Mar 2023 17:40:08 +0100
+Date: Tue, 7 Mar 2023 17:40:08 +0100 (CET)
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Peter Zijlstra <peterz@infradead.org>
+cc: Frederic Weisbecker <frederic@kernel.org>, Guo Ren <guoren@kernel.org>, 
+    "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
+    Kajetan Puchalski <kajetan.puchalski@arm.com>, 
+    Tony Lindgren <tony@atomide.com>, Ulf Hansson <ulf.hansson@linaro.org>, 
+    Ingo Molnar <mingo@kernel.org>, linux@armlinux.org.uk, linux-imx@nxp.com, 
+    linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org, 
+    linux-samsung-soc@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+    linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, 
+    linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org, 
+    linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+    linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+    linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 07/51] cpuidle,psci: Push RCU-idle into driver
+In-Reply-To: <20230112195539.760296658@infradead.org>
+Message-ID: <ff338b9f-4ab0-741b-26ea-7b7351da156@linux-m68k.org>
+References: <20230112194314.845371875@infradead.org> <20230112195539.760296658@infradead.org>
 MIME-Version: 1.0
-References: <CAD7mqryyz0PGHotBxvME7Ff4V0zLS+OcL8=9z4TakaKagPBdLw@mail.gmail.com>
- <789371c4-47fd-3de5-d6c0-bb36b2864796@ghiti.fr> <CAD7mqrzv-jr_o2U3Kz7vTgcsOYPKgwHW-L=ARAucAPPJgs4HCw@mail.gmail.com>
- <CAD7mqryDQCYyJ1gAmtMm8SASMWAQ4i103ptTb0f6Oda=tPY2=A@mail.gmail.com>
- <067b7dda-8d3d-a26c-a0b1-bd6472a4b04d@ghiti.fr> <CACT4Y+avaVT4sBOioxm8N+iH26udKwAogRhjMwGWcp4zzC8JdA@mail.gmail.com>
-In-Reply-To: <CACT4Y+avaVT4sBOioxm8N+iH26udKwAogRhjMwGWcp4zzC8JdA@mail.gmail.com>
-From: Chathura Rajapaksha <chathura.abeyrathne.lk@gmail.com>
-Date: Mon, 6 Mar 2023 21:57:09 -0500
-Message-ID: <CAD7mqrxY_BLP3fS0BnZNaGK+4j2cFjPYyWKehh7oe1f95Ca7iA@mail.gmail.com>
-Subject: Re: RISC-V Linux kernel not booting up with KASAN enabled
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: alex@ghiti.fr, linux-riscv@lists.infradead.org, kasan-dev@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: chathura.abeyrathne.lk@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=G0KrM8Mg;       spf=pass
- (google.com: domain of chathura.abeyrathne.lk@gmail.com designates
- 2a00:1450:4864:20::136 as permitted sender) smtp.mailfrom=chathura.abeyrathne.lk@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: geert@linux-m68k.org
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 2a02:1800:110:4::f00:1a is neither permitted nor denied by best
+ guess record for domain of geert@linux-m68k.org) smtp.mailfrom=geert@linux-m68k.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,13 +139,174 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Thanks, Dmitry and Alex. Let me know if you need anything else from me.
-Please let me know if you have a fix for this bug, I will be happy to verify.
+ 	Hoi Peter,
 
-Best regards,
-Chath
+(reduced the insane CC list)
+
+On Thu, 12 Jan 2023, Peter Zijlstra wrote:
+> Doing RCU-idle outside the driver, only to then temporarily enable it
+> again, at least twice, before going idle is daft.
+>
+> Notably once implicitly through the cpu_pm_*() calls and once
+> explicitly doing ct_irq_*_irqon().
+>
+> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> Reviewed-by: Frederic Weisbecker <frederic@kernel.org>
+> Reviewed-by: Guo Ren <guoren@kernel.org>
+> Acked-by: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
+> Tested-by: Kajetan Puchalski <kajetan.puchalski@arm.com>
+> Tested-by: Tony Lindgren <tony@atomide.com>
+> Tested-by: Ulf Hansson <ulf.hansson@linaro.org>
+
+Thanks for your patch, which is now commit e038f7b8028a1d1b ("cpuidle,
+psci: Push RCU-idle into driver") in v6.3-rc1.
+
+I have bisected a PSCI checker regression on Renesas R-Car Gen3/4 SoCs
+to commit a01353cf1896ea5b ("cpuidle: Fix ct_idle_*() usage") (the 7
+commits before that do not compile):
+
+psci_checker: PSCI checker started using 2 CPUs
+psci_checker: Starting hotplug tests
+psci_checker: Trying to turn off and on again all CPUs
+psci: CPU0 killed (polled 0 ms)
+Detected PIPT I-cache on CPU0
+CPU0: Booted secondary processor 0x0000000000 [0x411fd073]
+psci_checker: Trying to turn off and on again group 0 (CPUs 0-1)
+psci: CPU0 killed (polled 0 ms)
+Detected PIPT I-cache on CPU0
+CPU0: Booted secondary processor 0x0000000000 [0x411fd073]
+psci_checker: Hotplug tests passed OK
+psci_checker: Starting suspend tests (10 cycles per state)
+psci_checker: CPU 0 entering suspend cycles, states 1 through 1
+psci_checker: CPU 1 entering suspend cycles, states 1 through 1
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 177 at kernel/context_tracking.c:141 ct_kernel_exit.constprop.0+0xd8/0xf4
+Modules linked in:
+CPU: 1 PID: 177 Comm: psci_suspend_te Not tainted 6.2.0-rc1-salvator-x-00052-ga01353cf1896 #1415
+Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : ct_kernel_exit.constprop.0+0xd8/0xf4
+lr : ct_kernel_exit.constprop.0+0xc8/0xf4
+sp : ffffffc00b73bd30
+x29: ffffffc00b73bd30 x28: ffffff807fbadc90 x27: 0000000000000000
+x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
+x23: ffffff800981e140 x22: 0000000000000001 x21: 0000000000010000
+x20: ffffffc0086be1d8 x19: ffffff807fbac070 x18: 0000000000000000
+x17: ffffff80083d1000 x16: ffffffc00841fff8 x15: ffffffc00b73b990
+x14: ffffffc00895be78 x13: 0000000000000001 x12: 0000000000000000
+x11: 00000000000001aa x10: 00000000ffffffea x9 : 000000000000000f
+x8 : ffffffc00b73bb68 x7 : ffffffc00b73be18 x6 : ffffffc00815ff34
+x5 : ffffffc00a6a0c30 x4 : ffffffc00801ce00 x3 : 0000000000000000
+x2 : ffffffc008dc3070 x1 : ffffffc008dc3078 x0 : 0000000004208040
+Call trace:
+  ct_kernel_exit.constprop.0+0xd8/0xf4
+  ct_idle_enter+0x18/0x20
+  psci_enter_idle_state+0xa4/0xfc
+  suspend_test_thread+0x238/0x2f0
+  kthread+0xd8/0xe8
+  ret_from_fork+0x10/0x20
+irq event stamp: 0
+hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+hardirqs last disabled at (0): [<ffffffc0080798b0>] copy_process+0x608/0x13dc
+softirqs last  enabled at (0): [<ffffffc0080798b0>] copy_process+0x608/0x13dc
+softirqs last disabled at (0): [<0000000000000000>] 0x0
+---[ end trace 0000000000000000 ]---
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 177 at kernel/context_tracking.c:186 ct_kernel_enter.constprop.0+0x78/0xa4
+Modules linked in:
+CPU: 1 PID: 177 Comm: psci_suspend_te Tainted: G        W          6.2.0-rc1-salvator-x-00052-ga01353cf1896 #1415
+Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : ct_kernel_enter.constprop.0+0x78/0xa4
+lr : ct_kernel_enter.constprop.0+0x68/0xa4
+sp : ffffffc00b73bd30
+x29: ffffffc00b73bd30 x28: ffffff807fbadc90 x27: 0000000000000000
+x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
+x23: ffffff800981e140 x22: 0000000000000001 x21: 00000000ffffffa1
+x20: ffffffc0086be1d8 x19: 00000000000000c0 x18: 0000000000000000
+x17: ffffff80083d1000 x16: ffffffc00841fff8 x15: ffffffc00b73b990
+x14: ffffffc00895be78 x13: ffffff800e325180 x12: ffffffc076de9000
+x11: 0000000034d4d91d x10: 0000000000000008 x9 : 0000000000001000
+x8 : ffffffc008012800 x7 : 0000000000000000 x6 : ffffff807fbac070
+x5 : ffffffc008dc3070 x4 : 0000000000000000 x3 : 000000000001a9fc
+x2 : 0000000000000003 x1 : ffffffc008dc3070 x0 : 0000000004208040
+Call trace:
+  ct_kernel_enter.constprop.0+0x78/0xa4
+  ct_idle_exit+0x18/0x38
+  psci_enter_idle_state+0xdc/0xfc
+  suspend_test_thread+0x238/0x2f0
+  kthread+0xd8/0xe8
+  ret_from_fork+0x10/0x20
+irq event stamp: 0
+hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+hardirqs last disabled at (0): [<ffffffc0080798b0>] copy_process+0x608/0x13dc
+softirqs last  enabled at (0): [<ffffffc0080798b0>] copy_process+0x608/0x13dc
+softirqs last disabled at (0): [<0000000000000000>] 0x0
+---[ end trace 0000000000000000 ]---
+psci_checker: Failed to suspend CPU 1: error -1 (requested state 1, cycle 0)
+psci_checker: CPU 0 suspend test results: success 0, shallow states 10, errors 0
+mmcblk0rpmb: mmc0:0001 BGSD3R 4.00 MiB, chardev (243:0)
+psci_checker: CPU 1 suspend test results: success 0, shallow states 9, errors 1
+psci_checker: 1 error(s) encountered in suspend tests
+psci_checker: PSCI checker completed
+
+> ---
+> drivers/cpuidle/cpuidle-psci.c |    9 +++++----
+> 1 file changed, 5 insertions(+), 4 deletions(-)
+>
+> --- a/drivers/cpuidle/cpuidle-psci.c
+> +++ b/drivers/cpuidle/cpuidle-psci.c
+> @@ -69,12 +69,12 @@ static int __psci_enter_domain_idle_stat
+> 		return -1;
+>
+> 	/* Do runtime PM to manage a hierarchical CPU toplogy. */
+> -	ct_irq_enter_irqson();
+> 	if (s2idle)
+> 		dev_pm_genpd_suspend(pd_dev);
+> 	else
+> 		pm_runtime_put_sync_suspend(pd_dev);
+> -	ct_irq_exit_irqson();
+> +
+> +	ct_idle_enter();
+>
+> 	state = psci_get_domain_state();
+> 	if (!state)
+> @@ -82,12 +82,12 @@ static int __psci_enter_domain_idle_stat
+>
+> 	ret = psci_cpu_suspend_enter(state) ? -1 : idx;
+>
+> -	ct_irq_enter_irqson();
+> +	ct_idle_exit();
+> +
+> 	if (s2idle)
+> 		dev_pm_genpd_resume(pd_dev);
+> 	else
+> 		pm_runtime_get_sync(pd_dev);
+> -	ct_irq_exit_irqson();
+>
+> 	cpu_pm_exit();
+>
+> @@ -240,6 +240,7 @@ static int psci_dt_cpu_init_topology(str
+> 	 * of a shared state for the domain, assumes the domain states are all
+> 	 * deeper states.
+> 	 */
+> +	drv->states[state_count - 1].flags |= CPUIDLE_FLAG_RCU_IDLE;
+> 	drv->states[state_count - 1].enter = psci_enter_domain_idle_state;
+> 	drv->states[state_count - 1].enter_s2idle = psci_enter_s2idle_domain_idle_state;
+> 	psci_cpuidle_use_cpuhp = true;
+
+Gr{oetje,eeting}s,
+
+ 						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+ 							    -- Linus Torvalds
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAD7mqrxY_BLP3fS0BnZNaGK%2B4j2cFjPYyWKehh7oe1f95Ca7iA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ff338b9f-4ab0-741b-26ea-7b7351da156%40linux-m68k.org.
