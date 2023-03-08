@@ -1,128 +1,127 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBOH6UCQAMGQE73UJ35Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7PZX4C3UKBB45BUGQAMGQEGMWKNGY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13d.google.com (mail-il1-x13d.google.com [IPv6:2607:f8b0:4864:20::13d])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD87E6B0042
-	for <lists+kasan-dev@lfdr.de>; Wed,  8 Mar 2023 08:54:33 +0100 (CET)
-Received: by mail-il1-x13d.google.com with SMTP id l5-20020a92d8c5000000b00316f26477d6sf8275282ilo.10
-        for <lists+kasan-dev@lfdr.de>; Tue, 07 Mar 2023 23:54:33 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1678262072; cv=pass;
+Received: from mail-ed1-x537.google.com (mail-ed1-x537.google.com [IPv6:2a00:1450:4864:20::537])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CEDE6B0271
+	for <lists+kasan-dev@lfdr.de>; Wed,  8 Mar 2023 10:10:12 +0100 (CET)
+Received: by mail-ed1-x537.google.com with SMTP id z14-20020a05640235ce00b004e07ddbc2f8sf14233639edc.7
+        for <lists+kasan-dev@lfdr.de>; Wed, 08 Mar 2023 01:10:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1678266611; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Q7wQKdhzh2vk+fflkFf7CTsTmQll2kbZ9kXbRPc8ThIUkBzzE/IYPeiqfMGTwRc5CG
-         liwExZRJebUMApOADhM6aL7OoUBlN2E3FnhyA8wNKK9R1fnyARjNgQ+3dNafI1Q9BZtH
-         ZAb9hCdZuIqiCZd0Nc9WPJZ7UIXfEmBsiqhdFVYDxreVzCWAYVFSCO87RVShaA5khV7x
-         ecAcKPP0Os+1chB6Wc8IqZXIohiTiIJBf7Hkq1UcSa806O0/AoVD1gf5YLa9W3Ts5WZ3
-         TDTUT3rnCzH6lLqHi5BsCX5Udnean7BQ+WwgTHtlpTu2o2mmyoD1/w9zzRtvA/sKda9s
-         81yA==
+        b=YKMg3b0xrCsCXxgsYm+ZlPnN0tG9yXCV2qkLHuRce99buD3ELLr1XXDAsG1VNRq/FN
+         p2iUBvMRHfkmKsntY6BG35zlpuHABafwM8L8nnxUAw+nVJbRvXhiwx+D391nec6CKcuU
+         PqajB82Jhus+JhdPEXPzqUusvEZeVWHNvbHk+K8pH4PIzy40LxPIJ5tJupxMLDHfSBeu
+         R5WH6jqe66maVpqUB5JHuFxepC5G6t4NoV/1qVD+fpbQpnV0Mm4XfZcFAklJ8CBxEYCo
+         7nGZ+RsUKuRBeU3lGpP8rj3gFFf2wQe8iDFw3N1Sn9Hm8jjdDZj8FEUK/bf9rrriCq0r
+         JxVg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=5UorUAIDoFBy3eUc2KujLQhxUQO6mOJgxxvqsi1ifSY=;
-        b=kzUwvZO1xHtMSDSE/Ju1UhMXhcfPjnr0WGw0y777/PyYd3qgStYL3s35pioI775HL/
-         aAiFMXy8tBfuaaDvWEmhWCclzd6lOJYplIDDVCXYRre3dubUQH59dxBrqlGF7RY6BJL5
-         Xz6gh0KJibzTxdQE/XtLoO6oUPJv5c8uYcyea5ZW19el7uHO00u67Bzd6NeTaTg5bGTB
-         N654v7SWrn1TWmVMOfB2mlJrCx4XJ2dMQIfgNHNZ5E96lrwvD+GQkM4ppYgNHuYCwOrg
-         fPSlwEvAH3M8/zfLoadGhoKLhlysXaBjxhvBvyCnHu6CgQ54Vjqq4cI+40ZKa5Wb2+uq
-         VMGw==
+         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=NUSoVPvMQclQkrjQQASMKjqNEgpX59cDTI7pobcTb3w=;
+        b=jItKw+ctj4e6oC/cVQehsswCnEKZFOfPVFxKPAWQs1u6HDk4GPEolyz0r2muhIK57Y
+         E84CTGbEXBolep//kGDgK86l7RJTffCxAbuSr52SNqXOnDkkbEWq7O0ZYGkicr7XlH0X
+         Qj7/BsfMmJ3Jf4/1DvrV77A0IP2OWCmR0KkqgyXaZ6Ro+HPtKHiUkQ1Oh10NlKdUkzIa
+         eOElsEjwDnETEfLXwtzpRsmjpcO5MZbVCeqGz/4c4bflzZQMTWbLeafcaZ+4xGB9qauE
+         Nv9O0PKSOXTgMFJkOsMlV71qtrboUmkSL8u7am7nzH11xtTDC55IFapn451ge9k4JWPB
+         aDAg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=Lxu8zAqs;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e33 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=neutral (google.com: 2001:4b98:dc4:8::225 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1678262072;
+        d=googlegroups.com; s=20210112; t=1678266611;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5UorUAIDoFBy3eUc2KujLQhxUQO6mOJgxxvqsi1ifSY=;
-        b=rkyHEpHf4c38WhaVGMsokOzEUwls32ytEiHKUBT8xc3Xc9MmdZ7B7QhpaPnTWAFdxw
-         ekdqU/3WyHCFNcXFxDcK4XGbmO1aYGyCTryO3bSYs57bxXPk29dsmMR3mYYwQu+j0FB/
-         S6jRe1lBiBtjTWIYeYRTapXALRbymCSnJGomEcPJIzW4qz9qXqYCKIaIuYuqO42Loxrf
-         dO86Kx65a6pvgKmits08k5FdzqOqkR3wHs/LdWvQYLX6b0p/gDvg8F5LAVd/yPqo2iFO
-         AInctCUlNGgOGxBSU3DsL4S9qw4ItWSEJ0w8MYbialEi1dsVJkQSvPZe6P2cfjHM5wj1
-         6QrA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=NUSoVPvMQclQkrjQQASMKjqNEgpX59cDTI7pobcTb3w=;
+        b=dpvjdDJcGqButP3AcG4DRLWEc+KEBe1O8rySdq1Ff64CJzCZ4vaqgI7xuY3IQrj97H
+         HMiC9DVRlT4YWVysOsGr+piXswaKIZO5AZsVKW1M/QPq1rfLB1i6c5llB0ucDBoKbfSo
+         EWMBiln+hZJtrea8jrCnki+xbjTBNrrc/6qOogoT6mmRpK13IkRha2Bf3TKL2tmFPlB0
+         KdTFivXl5Fpj9rgKHj92jcUHllriH2KGHnLmiE6Xr5r5En3PD7G6oxOMLNp5W3PzU//x
+         jmqzXFVjA750QdsDug9i+eD03d51aYAs3vC7s1zeVxppxnbAzR2gdMP0F5rwH5DtcF6X
+         GwTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678262072;
+        d=1e100.net; s=20210112; t=1678266611;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5UorUAIDoFBy3eUc2KujLQhxUQO6mOJgxxvqsi1ifSY=;
-        b=eWLRyrOvtroOXreyMYexbKrGD2RX7DhOOYbTilyr9540KQTe4NSMxX6JVXSxJ28aHg
-         sFVapTT1NlG3PJ1PCnP1izyaCV2/6RKr6qNNeWnDaZ+wbTVd9oeh1tdZbM3azhOiYqN7
-         1sKQoINB4RYZi5DGGKLH1wmuhgJ111ln/wjfiUNT+gVvHsomoSOWhGEIpnW3vldWj1yh
-         h0FvvnkIR3RLPcL+HK4IjglyiqInTaBUzCfgYyAYxlAzvzrUiZyEMFeNSunn2ouuw3tW
-         hXjOrziflvURqcKCHVvxCvV+YgKacyRLISpkgKn0A67frc3AVJ3A9QcabZZORFm23Kkm
-         CeDQ==
-X-Gm-Message-State: AO0yUKUpTbfn+qGqddrHAOG5Zs/PkhaVMXRUVVcvBL+wQErQiHVBATdS
-	GCh9E7+SyFvXp7YXQLw5PXs=
-X-Google-Smtp-Source: AK7set+vZqqk0ueXEl0mshWYpCVOINeg+mzuROuugZPD6zEGp+L41aM6tZk+e02ljN8D7cq2b4BSqw==
-X-Received: by 2002:a5d:8605:0:b0:74c:bb62:6763 with SMTP id f5-20020a5d8605000000b0074cbb626763mr8118532iol.1.1678262072613;
-        Tue, 07 Mar 2023 23:54:32 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NUSoVPvMQclQkrjQQASMKjqNEgpX59cDTI7pobcTb3w=;
+        b=qqFQXep0rnwwdwYhVIzKsGxUOvqbkpDiQhoV2gJrYFNxwBNqehyGCW+SJi5yYC4zs+
+         AK7uzOOoO+2EEuYCokC0Q0qcR2ds0n1ntO/1+HU1wlon7GaWNPoV4eu3bR8k6YwUsbCp
+         Ol4pkyTjFS7YlWhUyfEPJs2Hts5r6crgv+0ckKsOEonnm5uYmxiqLuLhbxIfMehZDQt/
+         pBs4FyQSGDrlCFVLqrzDxlGdafpd0K/1sOl7orpdcOog6fzVwVlvuowkFevVXvXkfTwu
+         PpG3RAuNpx/iGto10QU7vCUp4Fo3pGhT98THTLqT0d9sPV2/d4ggxigb/ztPQmTX3EwZ
+         Peew==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AO0yUKUiwKFby6VCP7iM1rscZtZoHiixEeAQe1n1GC03YFNEQwa9K4BG
+	xmwvjdTSf0u1qtkVXCctKls=
+X-Google-Smtp-Source: AK7set9WcXOKv/stewaqt33ZRwUtFRCttVu4Vs86zB+dl3adpYoNWJFDimyocMy09twzcK8bocRk/g==
+X-Received: by 2002:a17:907:724f:b0:8b1:3c31:efe6 with SMTP id ds15-20020a170907724f00b008b13c31efe6mr12690237ejc.3.1678266611510;
+        Wed, 08 Mar 2023 01:10:11 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:c002:0:b0:314:10d2:cf32 with SMTP id q2-20020a92c002000000b0031410d2cf32ls4406835ild.7.-pod-prod-gmail;
- Tue, 07 Mar 2023 23:54:32 -0800 (PST)
-X-Received: by 2002:a05:6e02:1907:b0:315:4169:c5ac with SMTP id w7-20020a056e02190700b003154169c5acmr15584384ilu.30.1678262071995;
-        Tue, 07 Mar 2023 23:54:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1678262071; cv=none;
+Received: by 2002:a17:906:76ce:b0:897:68a7:5262 with SMTP id
+ q14-20020a17090676ce00b0089768a75262ls10453419ejn.10.-pod-prod-gmail; Wed, 08
+ Mar 2023 01:10:10 -0800 (PST)
+X-Received: by 2002:a17:907:728c:b0:8b1:788f:2198 with SMTP id dt12-20020a170907728c00b008b1788f2198mr21732553ejc.19.1678266610077;
+        Wed, 08 Mar 2023 01:10:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1678266610; cv=none;
         d=google.com; s=arc-20160816;
-        b=lLvLp8U2AfhDJYhWPL4KDiG5LOWwNbxnBBorf+bzDcM36J5FJ0006Jz2dDXRlexcSm
-         A3TMLeqReXdi8taZTsuFEZNbu2foD1Vhp52lvuYJw+mvrCdCrPjY1srNCpKkoe0ty0qt
-         UB/QlnuiTBT3JgbPehc7+UhousqV+1kh+eFmUmYpGmxcwKslO6+2ieMmrmLiY2yWQxSF
-         K+5TrDp2TAac1odK7LV4WAupEussDwfnyC1nv5FU5gS4apPuK8y10Ps92rmT9N5nIRWM
-         YUkXCIPZAMNvJC5+rODPVYWkkPzyFbMixh2xLAHLNlX4iUTXy7zl7TxWz7ShgiX1unY8
-         ZhbQ==
+        b=k/Njw0YsO9HBzaJqQpa/CbHiK9RqSqv4zN4/+K7pdotW50ULAXZ9KE72ZPQuVkVFNE
+         0PlRuPmRU4z1RX1iSgRofG6+7NIrSHsyBDBKAU2+sDXBcd1VgNlHYpYUwX73zzaSjdw3
+         JsPVP4IEXa7CQu95NjWbsZeDGQXAHSb2mdCRnI3MHsdOK3iZvUDpHlr2gRInQ1Pt2cCP
+         G3aGKX0xMwgWKFgjMOF5kDbx70eugmfUJA/j54qIOHmoE934O9r02nKakVz3x+yqDmoY
+         w2uAikagQ8ZOPSTLvdS966k0jIfKyrHpjg2HkUdnCKIdRDYKEA+eVg+VzasujQABNp8v
+         IkUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=ZROicEC9TU/Yf4zsBSpQ6SvtM6o02kLYOlQBx2ObDKY=;
-        b=HqnFq92yKjgDLaeWu9gujTXlWTH6j0ld7vcs/zlFUF4CdwAmjW2TnDJPobf0PcYg1Z
-         7lJj5/2UkucXDgGSL/IXY3wuXs0cNUIRM/3Y+cHkCijfT20FGKD28mijW5oBqJuhbt+k
-         vg5LbkuZH49YypRvQcFDUi/PwPWKsReOnbssOfOuWjRK0YQoOpI3cLQQE43Zrkt8F406
-         vdlAdSmeyuKnLQCsB/k+B4Wp6jRTw+wHkV98OjuaRZfOgbdquKMYNTkldllMSVo0upIw
-         +YLm+Zatt7nomKhwmRWMpqJLKpcP/Rb/hULWySVgFvcx7OkjZRic6M5x3koqJ3ef3vL2
-         skzg==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id;
+        bh=xn98x16UkP34rNQ4zmPGzHb5Q5aSpsbldan7joLE4/4=;
+        b=nK1hw98zSBbZTCNIAICbuHhRk/uz9fsW3+8UDwZuOAF0LmpwxK6Br5kdRe5x7YIlp0
+         u4xtxVC4UO0KkM/qOQjBdxXS30ABe0oUF8cQ3Tr/5l09VIn94nqzu+JuVtOoF39Q8AYO
+         i+aBQriRtHQYIP/beLAkW3KF/WNNRQHEPDkvSuQ7xX72YFlJF6s46efq/0k8lzfkyU8J
+         saK0PiWf5LAXDVdE0n1m7YBiUQSIJ351mg9AJinMt6EIAtRzVwzb4VRxrTEEgq5gv6G6
+         SZMzVReGMb/CsGTBiJkwTmkyvKdkhiQ+JqQxbK2CKWpSgjTglphRT3cDejX5pdf6+crZ
+         4Q5A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=Lxu8zAqs;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e33 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-vs1-xe33.google.com (mail-vs1-xe33.google.com. [2607:f8b0:4864:20::e33])
-        by gmr-mx.google.com with ESMTPS id o14-20020a92dace000000b003179767c2b2si644493ilq.0.2023.03.07.23.54.31
+       spf=neutral (google.com: 2001:4b98:dc4:8::225 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net. [2001:4b98:dc4:8::225])
+        by gmr-mx.google.com with ESMTPS id qa18-20020a170907869200b008dbae985b18si494795ejc.0.2023.03.08.01.10.10
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Mar 2023 23:54:31 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e33 as permitted sender) client-ip=2607:f8b0:4864:20::e33;
-Received: by mail-vs1-xe33.google.com with SMTP id o32so14614835vsv.12
-        for <kasan-dev@googlegroups.com>; Tue, 07 Mar 2023 23:54:31 -0800 (PST)
-X-Received: by 2002:a05:6102:e43:b0:412:565:7f7a with SMTP id
- p3-20020a0561020e4300b0041205657f7amr11660339vst.4.1678262071318; Tue, 07 Mar
- 2023 23:54:31 -0800 (PST)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 08 Mar 2023 01:10:10 -0800 (PST)
+Received-SPF: neutral (google.com: 2001:4b98:dc4:8::225 is neither permitted nor denied by best guess record for domain of alex@ghiti.fr) client-ip=2001:4b98:dc4:8::225;
+Received: (Authenticated sender: alex@ghiti.fr)
+	by mail.gandi.net (Postfix) with ESMTPSA id 1348C1C0002;
+	Wed,  8 Mar 2023 09:10:08 +0000 (UTC)
+Message-ID: <45046a6b-78cd-c2a0-6463-0bc40594164c@ghiti.fr>
+Date: Wed, 8 Mar 2023 10:10:08 +0100
 MIME-Version: 1.0
-References: <20230308022057.151078-1-haibo.li@mediatek.com>
-In-Reply-To: <20230308022057.151078-1-haibo.li@mediatek.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 8 Mar 2023 08:53:55 +0100
-Message-ID: <CANpmjNMj3JX6d=HS=CNzxZPZcJZWfz0G5wKmJjfGb_N525NNLw@mail.gmail.com>
-Subject: Re: [PATCH] kcsan:fix alignment_fault when read unaligned
- instrumented memory
-To: Haibo Li <haibo.li@mediatek.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, xiaoming.yu@mediatek.com, 
-	Mark Rutland <mark.rutland@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=Lxu8zAqs;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e33 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: RISC-V Linux kernel not booting up with KASAN enabled
+Content-Language: en-US
+To: Chathura Rajapaksha <chathura.abeyrathne.lk@gmail.com>,
+ Dmitry Vyukov <dvyukov@google.com>
+Cc: linux-riscv@lists.infradead.org, kasan-dev@googlegroups.com
+References: <CAD7mqryyz0PGHotBxvME7Ff4V0zLS+OcL8=9z4TakaKagPBdLw@mail.gmail.com>
+ <789371c4-47fd-3de5-d6c0-bb36b2864796@ghiti.fr>
+ <CAD7mqrzv-jr_o2U3Kz7vTgcsOYPKgwHW-L=ARAucAPPJgs4HCw@mail.gmail.com>
+ <CAD7mqryDQCYyJ1gAmtMm8SASMWAQ4i103ptTb0f6Oda=tPY2=A@mail.gmail.com>
+ <067b7dda-8d3d-a26c-a0b1-bd6472a4b04d@ghiti.fr>
+ <CACT4Y+avaVT4sBOioxm8N+iH26udKwAogRhjMwGWcp4zzC8JdA@mail.gmail.com>
+ <CAD7mqrxY_BLP3fS0BnZNaGK+4j2cFjPYyWKehh7oe1f95Ca7iA@mail.gmail.com>
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <CAD7mqrxY_BLP3fS0BnZNaGK+4j2cFjPYyWKehh7oe1f95Ca7iA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: alex@ghiti.fr
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
+ (google.com: 2001:4b98:dc4:8::225 is neither permitted nor denied by best
+ guess record for domain of alex@ghiti.fr) smtp.mailfrom=alex@ghiti.fr
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -135,118 +134,28 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 8 Mar 2023 at 03:21, 'Haibo Li' via kasan-dev
-<kasan-dev@googlegroups.com> wrote:
+
+On 3/7/23 03:57, Chathura Rajapaksha wrote:
+> Thanks, Dmitry and Alex. Let me know if you need anything else from me.
+> Please let me know if you have a fix for this bug, I will be happy to verify.
 >
-> After enable kcsan on arm64+linux-5.15,it reports alignment_fault
-> when access unaligned address.
-
-Is this KCSAN's fault or the fault of the code being instrumented?
-I.e. if you disable KCSAN, is there still an alignment fault reported?
-
-Because as-is, I don't understand how the instrumentation alone will
-cause an alignment fault, because for every normal memory access there
-is a corresponding instrumented access - therefore, that'd suggest
-that the real access was also unaligned. Note that the compiler
-inserts instrumentation _before_ the actual access, so if there's a
-problem, that problem will manifest inside KCSAN.
-
-Can you provide more information about what's going on (type of
-access, size of access, etc.)?
-
-> Here is the oops log:
-> "
-> Trying to unpack rootfs image as initramfs.....
-> Unable to handle kernel paging request at virtual address
->   ffffff802a0d8d7171
-> Mem abort info:o:
->   ESR = 0x9600002121
->   EC = 0x25: DABT (current EL), IL = 32 bitsts
->   SET = 0, FnV = 0 0
->   EA = 0, S1PTW = 0 0
->   FSC = 0x21: alignment fault
-> Data abort info:o:
->   ISV = 0, ISS = 0x0000002121
->   CM = 0, WnR = 0 0
-> swapper pgtable: 4k pages, 39-bit VAs, pgdp=000000002835200000
-> [ffffff802a0d8d71] pgd=180000005fbf9003, p4d=180000005fbf9003,
-> pud=180000005fbf9003, pmd=180000005fbe8003, pte=006800002a0d8707
-> Internal error: Oops: 96000021 [#1] PREEMPT SMP
-> Modules linked in:
-> CPU: 2 PID: 45 Comm: kworker/u8:2 Not tainted
->   5.15.78-android13-8-g63561175bbda-dirty #1
-> ...
-> pc : kcsan_setup_watchpoint+0x26c/0x6bc
-> lr : kcsan_setup_watchpoint+0x88/0x6bc
-> sp : ffffffc00ab4b7f0
-> x29: ffffffc00ab4b800 x28: ffffff80294fe588 x27: 0000000000000001
-> x26: 0000000000000019 x25: 0000000000000001 x24: ffffff80294fdb80
-> x23: 0000000000000000 x22: ffffffc00a70fb68 x21: ffffff802a0d8d71
-> x20: 0000000000000002 x19: 0000000000000000 x18: ffffffc00a9bd060
-> x17: 0000000000000001 x16: 0000000000000000 x15: ffffffc00a59f000
-> x14: 0000000000000001 x13: 0000000000000000 x12: ffffffc00a70faa0
-> x11: 00000000aaaaaaab x10: 0000000000000054 x9 : ffffffc00839adf8
-> x8 : ffffffc009b4cf00 x7 : 0000000000000000 x6 : 0000000000000007
-> x5 : 0000000000000000 x4 : 0000000000000000 x3 : ffffffc00a70fb70
-> x2 : 0005ff802a0d8d71 x1 : 0000000000000000 x0 : 0000000000000000
-> Call trace:
->  kcsan_setup_watchpoint+0x26c/0x6bc
->  __tsan_read2+0x1f0/0x234
->  inflate_fast+0x498/0x750
-
-^^ is it possible that an access in "inflate_fast" is unaligned?
-
->  zlib_inflate+0x1304/0x2384
->  __gunzip+0x3a0/0x45c
->  gunzip+0x20/0x30
->  unpack_to_rootfs+0x2a8/0x3fc
->  do_populate_rootfs+0xe8/0x11c
->  async_run_entry_fn+0x58/0x1bc
->  process_one_work+0x3ec/0x738
->  worker_thread+0x4c4/0x838
->  kthread+0x20c/0x258
->  ret_from_fork+0x10/0x20
-> Code: b8bfc2a8 2a0803f7 14000007 d503249f (78bfc2a8) )
-> ---[ end trace 613a943cb0a572b6 ]-----
-> "
+> Best regards,
+> Chath
 >
-> After checking linux 6.3-rc1 on QEMU arm64,it still has the possibility
-> to read unaligned address in read_instrumented_memory(qemu can not
-> emulate alignment fault)
->
-> To fix alignment fault and read the value of instrumented memory
-> more effective,bypass the unaligned access in read_instrumented_memory.
->
-> Signed-off-by: Haibo Li <haibo.li@mediatek.com>
-> ---
->  kernel/kcsan/core.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/kernel/kcsan/core.c b/kernel/kcsan/core.c
-> index 54d077e1a2dc..88e75d7d85d2 100644
-> --- a/kernel/kcsan/core.c
-> +++ b/kernel/kcsan/core.c
-> @@ -337,6 +337,11 @@ static void delay_access(int type)
->   */
->  static __always_inline u64 read_instrumented_memory(const volatile void *ptr, size_t size)
->  {
-> +       bool aligned_read = (size == 1) || IS_ALIGNED((unsigned long)ptr, size);
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
 
-(size==1) check is redundant because IS_ALIGNED(.., 1) should always
-return true.
 
-And this will also penalize other architectures which can do unaligned
-accesses. So this check probably wants to be guarded by
-"IS_ENABLED(CONFIG_ARM64)" or something.
+I'm about to propose a patch for this issue, if you can test it, that 
+would be nice,
 
-> +       if (!aligned_read)
-> +               return 0;
-> +
->         switch (size) {
->         case 1:  return READ_ONCE(*(const u8 *)ptr);
->         case 2:  return READ_ONCE(*(const u16 *)ptr);
+Thanks,
+
+Alex
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMj3JX6d%3DHS%3DCNzxZPZcJZWfz0G5wKmJjfGb_N525NNLw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/45046a6b-78cd-c2a0-6463-0bc40594164c%40ghiti.fr.
