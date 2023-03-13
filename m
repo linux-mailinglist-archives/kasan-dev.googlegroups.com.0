@@ -1,129 +1,145 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBNF5XSQAMGQELDOV2TI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCSL7B6LWYHBBVGPXSQAMGQE4PIWZJA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd37.google.com (mail-io1-xd37.google.com [IPv6:2607:f8b0:4864:20::d37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FB736B7849
-	for <lists+kasan-dev@lfdr.de>; Mon, 13 Mar 2023 14:01:43 +0100 (CET)
-Received: by mail-io1-xd37.google.com with SMTP id 9-20020a5ea509000000b0074ca36737d2sf6158941iog.7
-        for <lists+kasan-dev@lfdr.de>; Mon, 13 Mar 2023 06:01:43 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1678712501; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id B66226B7931
+	for <lists+kasan-dev@lfdr.de>; Mon, 13 Mar 2023 14:40:37 +0100 (CET)
+Received: by mail-lf1-x13f.google.com with SMTP id y9-20020a056512044900b004b4b8aabd0csf3604366lfk.16
+        for <lists+kasan-dev@lfdr.de>; Mon, 13 Mar 2023 06:40:37 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1678714837; cv=pass;
         d=google.com; s=arc-20160816;
-        b=o+AAvpEUiKtjgXkl3kUyMrkGSz++Dsuqh+arEzohyDEBS8iHTpWD0Uo/EQ/CPSfoPw
-         vGXUWZGhM+vN/5HMC+hygw9YVnJWIXAD9peG3x4KbHM92GASBV4SjH6vef1CUIoe5QOf
-         uKDYRKYrcPy5Sm+HYGZPuRlWI3e5EyejbLxDiljleMtEbGvOCKTBnepRQhEVttWYF9U9
-         Qm8jmj6IaPvSBFSlMNErnMJoSmOWkDGxJlZ41zxgzYaGDOrrG7PWMUAQ0/HEf6OS+rFT
-         R0sLk4WV4x0UREgYX+btkeuHIGNX4VNCzL+aHDOYoIMGG48zaOPJffR0IIOPRQzyiNbz
-         rniQ==
+        b=AfVlpgj9AWyGoKzGQKQNubBlJQXijd49XSPrBZwJWnR2Bx7UgpfXVHOS3eoGt1Iaib
+         G1OoAvzOrN/na5FfD5qikI6KhB3GHqTpn5X70q+XTzndUGwUrkngR4TgOlhLRc1+nVnN
+         AsGaLkb7GCYodkrJUh8/xF/p7TbnXWkPw81xUm8jPjd4c4Pk72/fUNC6sDEhEHyBl55Y
+         oxVPuBng/JrQXXHfM+2zUg2xg+BtURxQLEJqN43Wk2JnmTS8hOnA9ZyZZ0nzqKzLGRGc
+         EmL2+KDiQiXTs/tic2Dpz+moFprDddy3/EcxGtNbihfHURFH3JHD26GD3bL+cu2DFQXa
+         qsEA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=UMPWYSKutsyyRnKQ0atiQbawNM6IUnk9RA0V5gNntCQ=;
-        b=BZM78sQpfLz3R4v25GZPAivVj0h/iCPJN8DrAmN5cWe0tv3SV4OzDGr0fZ/gjBR7ac
-         tqDwlRWwHjopmz9sUw3LKOEzpEU8YA0OHD8YShjx2X4o6PneCFHNyKuseUg1e7BPBXq2
-         hx8j8h42YLZxMY2b6zb86nBlMwUrcnCMwafenF2bu5rlQmNr1aJ93/VR4nmgz9G5W3xp
-         IZ1FUhpeQe/L2t7F6NbplA8UkHaPAFBnwK0tPizqYC7KkZ5Gz2mvb1KkZcEw1mNQnRbP
-         eicHVxcO/dnMDJC7pxPB/H57eJfjyAQmnjxr1s324HXGHvjuso0yUw2yrxpG0a6C7xs3
-         M2nw==
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=vaT2UMMzENBtoxiIE8NcDZL34ew+eIJD9NnllRH2Ojw=;
+        b=f919tthHTVWseSxY1+M5gObIIhRqKUnJPHFZziYy7e3rq2OfhmY8LTVZnowrUIsioS
+         RbyQaIALcrlpxijp5mc7KwFrF8J79doAIe60aLHihNSkAN99TLmToAkOwloS98+HHn7S
+         3IndhgqCM9H5k9UZVJMZTfv+P71RYsSbZm7Inh1EO0LW8WAPEV0poOmRneUsyMie6Qg/
+         7/iBtGloENaRqwkmgQiak7854v64U9V06sIBL0cI2h6D3a+cs5LVKDoV+9puJ3Fxi2yG
+         vrS2UHuOXVvDWN8VSHUDULo+i1JQdVXDGjgwVO+TCyO1uBZbZQU7AjvTV628ZwtwE4lO
+         1tqA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=kz6RVKwl;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::131 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=a+yJWnEl;
+       spf=pass (google.com: domain of ryabinin.a.a@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=ryabinin.a.a@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1678712501;
+        d=googlegroups.com; s=20210112; t=1678714837;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vaT2UMMzENBtoxiIE8NcDZL34ew+eIJD9NnllRH2Ojw=;
+        b=aY05ZjAZ6vgJkFPa+WQkdI3o1vm3J6k6IZuHjlpZFc8JPz/wCPUKj6QyST0mLeLBdS
+         MC7IqGY7zgcxTQxSiHRR7d4FpRakGeV0t3og8AJD1iBvIKIJgWJQAwxgQideWpbOx6ae
+         AnbaJ2CS6K96Y8Tn4I9VCfdWLLn5MsGtdXZYc0xt/Jnp6QerfIcRvqMBmVy6rgX0Zr5F
+         CwTwbswSQOiu3WhBIWx9pOmCjEE0eZQGMfb1m0SEvup/O28ucTSXUVxlj7L7fJPy+e7R
+         +70sxgyD9LUQScoaWDvsQnn4yPxaKqPVb4B31w8oU30SLRTZE8BPPC+Zv1Jxl3WK6nBH
+         VOcQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678714837;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UMPWYSKutsyyRnKQ0atiQbawNM6IUnk9RA0V5gNntCQ=;
-        b=I90JWkZYcKeViVzpePi+FWL5J4znGH2luZdd3pXUcuKsXl48G8QtVz4Kxy42Q90Zkg
-         x9+bi+dbShDDHAQiUuF2dAkhrgHWexBH4saK5SdREsMoQt/fxA8TjUFlqYuzn13wb3SM
-         FSkoME7ghXz74RmW4GbaagJjTwNNIPQjMApt2OSc40dW0gUdkB/hp6IhamfEx2xW/yHB
-         EpPtrjltvmsMpa0F4qtaNkRzs4p7OQeWV+PM/wcPKD4NuXMRyvUYuTUppjYGx7lpD6eA
-         pjX630VeOudkzED50NAQgm/6tB8b6wLN9/trmZ+ACl2AVBXulSLBDWKZaueJky9EBttH
-         9zHw==
+        bh=vaT2UMMzENBtoxiIE8NcDZL34ew+eIJD9NnllRH2Ojw=;
+        b=Q2GYPAn3R7oLW7mzf4K+3pnC/oNTgYJeaTme9cuqSTMcVxNMpLLWuRWmRTJlDJAu4T
+         0swswU9sIZ5BCgbhPrMy/vU+E34FRAo/aeyvZpo01fTYWPN7D0Cw2jva5q2QL3DLOMzm
+         KDJL7CqcG4t7Tl0X9do7NZFrmfsHRnYFqxDxGp0d9LGwUyAYZhn25LQm1gf99piVX+2Z
+         yafwNXHrZyvTxleJ0f07BbYBIEZTpgKrC1gLhS6TWHN6RcvchfQKT5xBq0KzDrPtmHzR
+         0NskGnT823JNFPEGEN/7/Z5YqTAev+vLaIIUtSevH3z/yOOZVUZHjU0vVq68bTkWqFFw
+         3Egg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678712501;
+        d=1e100.net; s=20210112; t=1678714837;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UMPWYSKutsyyRnKQ0atiQbawNM6IUnk9RA0V5gNntCQ=;
-        b=vDQVThfjf0Hwj/EpmXeOC8gqAuXUiloEQ5hwyizoElkn9WY2tYPJ1GgJPg/9Uc+uUM
-         OCFCPMdQ5fJRgRIhGrotb4fQ3xRg/UT9wHDwfAGDNKSGbHHV0KD3PPSmAuUGBBNNoSk+
-         STx+E1iX+ElD0gySLSQ7JfWyiGg6StMIPTIFMHKHnVlKOGaL6r1gn1XmWUMOFc2ZD6AT
-         C2F8MJ1C9ltoBDQpaBZrZXPMswAmd1lgbucHCat+rCsf6GBibongGa2WuURiHzPfvLg3
-         VyHdVcN/a6BAWdFHS1PUeDrQwLAsndDDfjPsE4zfiL9/21t/yNJcNUfl9jdZPjPZ0uWU
-         x1Rw==
-X-Gm-Message-State: AO0yUKUnSmPCu0W4VdgRbhKMzNvbh7ZpCH5bcoXRwwU8UEeOefLuNYTR
-	mm+/1fqpAlIIbQhyRSFLb0s=
-X-Google-Smtp-Source: AK7set8kaLXXTfH/7d+e2/9kq/L6o1zJ2eHxzh+t5/5AaZsTMHlEYyVpRgG22JfbeqOQODXuvV3tKQ==
-X-Received: by 2002:a02:85e9:0:b0:3fc:e1f5:961a with SMTP id d96-20020a0285e9000000b003fce1f5961amr3401808jai.2.1678712500507;
-        Mon, 13 Mar 2023 06:01:40 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vaT2UMMzENBtoxiIE8NcDZL34ew+eIJD9NnllRH2Ojw=;
+        b=C4470JHQELNhbIZSVGbx1eegB0dzIWSuJ/Hv8lAC/i0HqYEAIWeGI6Emb4Y97pp/aj
+         VCfHZdxytMvA/BRDsV5suUnRkLjVaTMMOLCY8d0tJ104wlEPV/M789CLCeAE7i/sym5Q
+         mvstBBiKTWIdciHe8Nn0yXJmINX9HwrLYG4nxrHvAj0Nuyq2PcGCUdCuurhQaYM5rkrD
+         i7LCxTTtDvjLBdT1rmIN2o9PLyYQLooqtHuALHCqJ7jpcLZ5dAC58OasCEBcC/Klo1Hl
+         gdjQTp8jneo+GSxj++iMFuORlojbsWGvF5sRwwhXIzweVIgPWGv2Abh54KZcP42oZRiH
+         AAmw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AO0yUKXzOysaOls3hHOiz8Z7TVhb0VHjDodLcMpWZqxZHn2kbLUUd5G0
+	wy+9nP76PzlYZP0+E4U0BVQ=
+X-Google-Smtp-Source: AK7set9QsbhootjzPSbZWnhybMlqaP+8Bc5PqYOVL0RMxrZq/44jmm6Q5SxcMVm5hvajirHRypb67w==
+X-Received: by 2002:ac2:43d0:0:b0:4db:f0a:d574 with SMTP id u16-20020ac243d0000000b004db0f0ad574mr10344686lfl.7.1678714836714;
+        Mon, 13 Mar 2023 06:40:36 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:2e0f:0:b0:317:3bb1:afbc with SMTP id v15-20020a922e0f000000b003173bb1afbcls3890283ile.0.-pod-prod-gmail;
- Mon, 13 Mar 2023 06:01:38 -0700 (PDT)
-X-Received: by 2002:a05:6e02:c30:b0:316:e64b:2367 with SMTP id q16-20020a056e020c3000b00316e64b2367mr7432201ilg.8.1678712498438;
-        Mon, 13 Mar 2023 06:01:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1678712498; cv=none;
+Received: by 2002:a05:6512:3d05:b0:4db:51a5:d2e8 with SMTP id
+ d5-20020a0565123d0500b004db51a5d2e8ls40414lfv.2.-pod-prod-gmail; Mon, 13 Mar
+ 2023 06:40:35 -0700 (PDT)
+X-Received: by 2002:a05:6512:204:b0:4db:a19:6dfe with SMTP id a4-20020a056512020400b004db0a196dfemr9303673lfo.26.1678714834960;
+        Mon, 13 Mar 2023 06:40:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1678714834; cv=none;
         d=google.com; s=arc-20160816;
-        b=iTB/Xtse5x5f3i32mQHLYCYlzhZ6FaNpK/7rhwntKK9KJO81WvzGkaMYcQofCpRyKy
-         P7vKhr+4lb7ZNR5PHew+tD/5DciGY6CrsTbslOZ4JJXVrTEh9C3EeesDGWAwJvozUkKg
-         inAmZUehxQsVV00gUPM3MoOWgexp7CeWBbpBG5NW7bSNWhV685A17gIZhyy8ue4jStJJ
-         RvwBX3P3qZ5RFCC2HyCVbRI4zDn9Ww4mzQnNYpfWNOPBEaMXLEAvZjeC0mIBlpcOG/9D
-         PvgejDYO2GATS4JrSyYE0Iob8uDs92WLuoEkUpaa+FiPZOq/4i/zXBq64z2Gvtkxpn/g
-         6PNw==
+        b=BXFpFEKJoyq3b1c3iA5jsjTLsWTwcY+P9oDwTOlnC14i2UFyb4QumGCSESBl/KKidP
+         g2ggGaDLobPguBDTb31htPAABRoUjRcfqpo/b3H2pMm8nz9nmxf0E0vc7U/Tot8k5cjT
+         iPnXF53xiuumH7xLre/2qI/yUJFcs5gjKzcfcovpIK65gbh4OpfQV5pLV1L5YAnkiruH
+         cioMBLctZ4mGqy7OJJxHjBwYORcPPs+2TKBe3jVQVSubYiOA5Klst4WAiA9bjifG28PH
+         RNFh7HftvKZCzIt7a2RorZ5KZruP398WsyP+yCLbIZ8i2nN9wrhGwddJqnK3fuU4G3bp
+         S2TA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=UUegi1pERaaM+ShYDfaoYG51oElajvWu+QrEVQP0z44=;
-        b=sTc6rux7kjsYMP/ddqUkcuc4AKkQK6QRwVOQQjr6Ox+HaJ+xHL7Pq7TlPYCcO23+AT
-         FCUmfrpoWqqxypWRHQ1pymrvW7KSGGm3RmOLGybcACickGzno2XCF8vxIg9hcCFSjku5
-         AzNekgmFbrlWJcA1GcZAB5S7WUQOPenFW1xkWEOLt5fxQgkFwtExvNAamUV/KN0e94zg
-         benxNMjedkjfUWoKLau863JCRD7Xku6bLrQbCi0uoZNiti7QMhR4YIfAADN5r1OC8lWz
-         t0L0t4eepk9+lUbRJE6+gpu8QVEPvhlIYWIkIwcTL7MQl1c7YSU2QzUJWXTRUYk4D5Sc
-         18vQ==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=31bIBBam0f6kecXsPhvAYb/shqew87ztMsMZCGP7Fyo=;
+        b=JFpOTf9XO6S072RmAGbCztf/IiS8jvDvCbgTCdU69R9ij6nljRh81L1R/88nClYsSX
+         DaOnhQ6sr2quPi0/Cc93lDeECDyK/i7fIqA6v2MqCqya5Hp6fQQTAkYfLpqNXgIy43Xp
+         cW2GYuFdSnpJZlEP9uHkfZPxoitMDIfFXM1iJlhBENG4ydLwQ6/qx4ceLooJaHNeW9xT
+         QiniVeQFbsDYrn870oIz2beT3NNh6h5wdGIpBmb/IUT2yysO1cCkOIOd3PB1forQejD/
+         JvrH/vgRq+sx4wnE0OZw98KB0oDmx2KCdi2S+jIaE4Zkxe/4y6l8ifMOLuCKBmO//SeD
+         8Nfw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=kz6RVKwl;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::131 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com. [2607:f8b0:4864:20::131])
-        by gmr-mx.google.com with ESMTPS id z1-20020a92bf01000000b0031580b246e4si496047ilh.2.2023.03.13.06.01.38
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=a+yJWnEl;
+       spf=pass (google.com: domain of ryabinin.a.a@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=ryabinin.a.a@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com. [2a00:1450:4864:20::32f])
+        by gmr-mx.google.com with ESMTPS id m13-20020a0565120a8d00b004dc7d884e8fsi344027lfu.6.2023.03.13.06.40.34
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Mar 2023 06:01:38 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::131 as permitted sender) client-ip=2607:f8b0:4864:20::131;
-Received: by mail-il1-x131.google.com with SMTP id bp11so1493284ilb.3
-        for <kasan-dev@googlegroups.com>; Mon, 13 Mar 2023 06:01:38 -0700 (PDT)
-X-Received: by 2002:a05:6e02:4c4:b0:322:fe5b:d776 with SMTP id
- f4-20020a056e0204c400b00322fe5bd776mr2448276ils.4.1678712497945; Mon, 13 Mar
- 2023 06:01:37 -0700 (PDT)
+        Mon, 13 Mar 2023 06:40:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ryabinin.a.a@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) client-ip=2a00:1450:4864:20::32f;
+Received: by mail-wm1-x32f.google.com with SMTP id o38-20020a05600c512600b003e8320d1c11so7371314wms.1
+        for <kasan-dev@googlegroups.com>; Mon, 13 Mar 2023 06:40:34 -0700 (PDT)
+X-Received: by 2002:a7b:c843:0:b0:3eb:3e75:5db2 with SMTP id
+ c3-20020a7bc843000000b003eb3e755db2mr2468540wml.2.1678714834218; Mon, 13 Mar
+ 2023 06:40:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <1678708637-8669-1-git-send-email-quic_zhenhuah@quicinc.com>
-In-Reply-To: <1678708637-8669-1-git-send-email-quic_zhenhuah@quicinc.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 13 Mar 2023 14:00:56 +0100
-Message-ID: <CANpmjNNBhfdshGhiycY5S-sMnubQx=qGCBcKL5Hm=WL2HXQ2uw@mail.gmail.com>
-Subject: Re: [PATCH v6] mm,kfence: decouple kfence from page granularity
- mapping judgement
-To: Zhenhua Huang <quic_zhenhuah@quicinc.com>
-Cc: catalin.marinas@arm.com, will@kernel.org, glider@google.com, 
-	dvyukov@google.com, akpm@linux-foundation.org, robin.murphy@arm.com, 
-	mark.rutland@arm.com, jianyong.wu@arm.com, james.morse@arm.com, 
-	wangkefeng.wang@huawei.com, linux-arm-kernel@lists.infradead.org, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org, quic_pkondeti@quicinc.com, 
-	quic_guptap@quicinc.com, quic_tingweiz@quicinc.com
+References: <299fbb80-e3ab-3b7c-3491-e85cac107930@intel.com>
+ <CAPAsAGyG2_sUfb7aPSPuMatMraDbPCFKxhv2kSDkrV1XxQ8_bw@mail.gmail.com> <20230313094127.3cqsnmngbdegbe6o@blackpad>
+In-Reply-To: <20230313094127.3cqsnmngbdegbe6o@blackpad>
+From: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Date: Mon, 13 Mar 2023 14:40:33 +0100
+Message-ID: <CAPAsAGzYSi_mCy64rFH=o+m8eT-A9ffttsFO9Wx94=nsj+Q8Jg@mail.gmail.com>
+Subject: Re: KASLR vs. KASAN on x86
+To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc: Dave Hansen <dave.hansen@intel.com>, "the arch/x86 maintainers" <x86@kernel.org>, 
+	LKML <linux-kernel@vger.kernel.org>, Alexander Potapenko <glider@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com, 
+	Kees Cook <keescook@chromium.org>, Thomas Garnier <thgarnie@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: Ryabinin.A.A@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=kz6RVKwl;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::131 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@gmail.com header.s=20210112 header.b=a+yJWnEl;       spf=pass
+ (google.com: domain of ryabinin.a.a@gmail.com designates 2a00:1450:4864:20::32f
+ as permitted sender) smtp.mailfrom=ryabinin.a.a@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,229 +152,32 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 13 Mar 2023 at 12:57, Zhenhua Huang <quic_zhenhuah@quicinc.com> wrote:
+On Mon, Mar 13, 2023 at 10:41=E2=80=AFAM Michal Koutn=C3=BD <mkoutny@suse.c=
+om> wrote:
 >
-> Kfence only needs its pool to be mapped as page granularity, if it is
-> inited early. Previous judgement was a bit over protected. From [1], Mark
-> suggested to "just map the KFENCE region a page granularity". So I
-> decouple it from judgement and do page granularity mapping for kfence
-> pool only. Need to be noticed that late init of kfence pool still requires
-> page granularity mapping.
+> On Wed, Mar 08, 2023 at 06:24:05PM +0100, Andrey Ryabinin <ryabinin.a.a@g=
+mail.com> wrote:
+> > So the vmemmap_base and probably some part of vmalloc could easily end
+> > up in KASAN shadow.
 >
-> Page granularity mapping in theory cost more(2M per 1GB) memory on arm64
-> platform. Like what I've tested on QEMU(emulated 1GB RAM) with
-> gki_defconfig, also turning off rodata protection:
-> Before:
-> [root@liebao ]# cat /proc/meminfo
-> MemTotal:         999484 kB
-> After:
-> [root@liebao ]# cat /proc/meminfo
-> MemTotal:        1001480 kB
->
-> To implement this, also relocate the kfence pool allocation before the
-> linear mapping setting up, arm64_kfence_alloc_pool is to allocate phys
-> addr, __kfence_pool is to be set after linear mapping set up.
->
-> LINK: [1] https://lore.kernel.org/linux-arm-kernel/Y+IsdrvDNILA59UN@FVFF77S0Q05N/
-> Suggested-by: Mark Rutland <mark.rutland@arm.com>
-> Signed-off-by: Zhenhua Huang <quic_zhenhuah@quicinc.com>
-> ---
->  arch/arm64/mm/mmu.c      | 42 ++++++++++++++++++++++++++++++++++++++++++
->  arch/arm64/mm/pageattr.c |  8 ++++++--
->  include/linux/kfence.h   | 10 ++++++++++
->  mm/kfence/core.c         |  9 +++++++++
->  4 files changed, 67 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-> index 6f9d889..ca5c932 100644
-> --- a/arch/arm64/mm/mmu.c
-> +++ b/arch/arm64/mm/mmu.c
-> @@ -24,6 +24,7 @@
->  #include <linux/mm.h>
->  #include <linux/vmalloc.h>
->  #include <linux/set_memory.h>
-> +#include <linux/kfence.h>
->
->  #include <asm/barrier.h>
->  #include <asm/cputype.h>
-> @@ -525,6 +526,31 @@ static int __init enable_crash_mem_map(char *arg)
->  }
->  early_param("crashkernel", enable_crash_mem_map);
->
-> +#ifdef CONFIG_KFENCE
-> +
-> +static phys_addr_t arm64_kfence_alloc_pool(void)
-> +{
-> +       phys_addr_t kfence_pool;
-> +
-> +       if (!kfence_sample_interval)
-> +               return 0;
-> +
-> +       kfence_pool = memblock_phys_alloc(KFENCE_POOL_SIZE, PAGE_SIZE);
-> +       if (!kfence_pool)
-> +               pr_err("failed to allocate kfence pool\n");
-> +
-> +       return kfence_pool;
-> +}
-> +
-> +#else
-> +
-> +static phys_addr_t arm64_kfence_alloc_pool(void)
-> +{
-> +       return 0;
-> +}
-> +
-> +#endif
-> +
->  static void __init map_mem(pgd_t *pgdp)
->  {
->         static const u64 direct_map_end = _PAGE_END(VA_BITS_MIN);
-> @@ -532,6 +558,7 @@ static void __init map_mem(pgd_t *pgdp)
->         phys_addr_t kernel_end = __pa_symbol(__init_begin);
->         phys_addr_t start, end;
->         int flags = NO_EXEC_MAPPINGS;
-> +       phys_addr_t kfence_pool;
->         u64 i;
->
->         /*
-> @@ -564,6 +591,10 @@ static void __init map_mem(pgd_t *pgdp)
->         }
->  #endif
->
-> +       kfence_pool = arm64_kfence_alloc_pool();
-> +       if (kfence_pool)
-> +               memblock_mark_nomap(kfence_pool, KFENCE_POOL_SIZE);
-> +
->         /* map all the memory banks */
->         for_each_mem_range(i, &start, &end) {
->                 if (start >= end)
-> @@ -608,6 +639,17 @@ static void __init map_mem(pgd_t *pgdp)
->                 }
->         }
->  #endif
-> +
-> +       /* Kfence pool needs page-level mapping */
-> +       if (kfence_pool) {
-> +               __map_memblock(pgdp, kfence_pool,
-> +                       kfence_pool + KFENCE_POOL_SIZE,
-> +                       pgprot_tagged(PAGE_KERNEL),
-> +                       NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS);
-> +               memblock_clear_nomap(kfence_pool, KFENCE_POOL_SIZE);
-> +               /* kfence_pool really mapped now */
-> +               kfence_set_pool(kfence_pool);
-> +       }
->  }
->
->  void mark_rodata_ro(void)
-> diff --git a/arch/arm64/mm/pageattr.c b/arch/arm64/mm/pageattr.c
-> index 79dd201..25e4a983 100644
-> --- a/arch/arm64/mm/pageattr.c
-> +++ b/arch/arm64/mm/pageattr.c
-> @@ -7,6 +7,7 @@
->  #include <linux/module.h>
->  #include <linux/sched.h>
->  #include <linux/vmalloc.h>
-> +#include <linux/kfence.h>
->
->  #include <asm/cacheflush.h>
->  #include <asm/set_memory.h>
-> @@ -22,12 +23,15 @@ bool rodata_full __ro_after_init = IS_ENABLED(CONFIG_RODATA_FULL_DEFAULT_ENABLED
->  bool can_set_direct_map(void)
->  {
->         /*
-> -        * rodata_full, DEBUG_PAGEALLOC and KFENCE require linear map to be
-> +        * rodata_full and DEBUG_PAGEALLOC require linear map to be
->          * mapped at page granularity, so that it is possible to
->          * protect/unprotect single pages.
-> +        *
-> +        * Kfence pool requires page granularity mapping also if we init it
-> +        * late.
->          */
->         return (rodata_enabled && rodata_full) || debug_pagealloc_enabled() ||
-> -               IS_ENABLED(CONFIG_KFENCE);
-> +           (IS_ENABLED(CONFIG_KFENCE) && !kfence_sample_interval);
-
-If you're struggling with kfence_sample_interval not existing if
-!CONFIG_KFENCE, this is one of the occasions where it'd be perfectly
-fine to write:
-
-bool can_set_direct_map(void) {
-#ifdef CONFIG_KFENCE
-    /* ... your comment here ...*/
-    if (!kfence_sample_interval)
-        return true;
-}
-#endif
-     return .........
-}
-
->  }
->
->  static int change_page_range(pte_t *ptep, unsigned long addr, void *data)
-> diff --git a/include/linux/kfence.h b/include/linux/kfence.h
-> index 726857a..2b77eee 100644
-> --- a/include/linux/kfence.h
-> +++ b/include/linux/kfence.h
-> @@ -64,6 +64,12 @@ static __always_inline bool is_kfence_address(const void *addr)
->  void __init kfence_alloc_pool(void);
->
->  /**
-> + * kfence_set_pool() - allows an arch to set the
-> + * KFENCE pool during early init
-> + */
-> +void __init kfence_set_pool(phys_addr_t addr);
-> +
-> +/**
->   * kfence_init() - perform KFENCE initialization at boot time
->   *
->   * Requires that kfence_alloc_pool() was called before. This sets up the
-> @@ -222,8 +228,12 @@ bool __kfence_obj_info(struct kmem_obj_info *kpp, void *object, struct slab *sla
->
->  #else /* CONFIG_KFENCE */
->
-> +extern unsigned long kfence_sample_interval;
-
-This variable does not exist if !CONFIG_KFENCE, please remove. See
-suggestion above.
-
-> +#define KFENCE_POOL_SIZE 0
->  static inline bool is_kfence_address(const void *addr) { return false; }
->  static inline void kfence_alloc_pool(void) { }
-> +static inline void kfence_set_pool(phys_addr_t addr) { }
->  static inline void kfence_init(void) { }
->  static inline void kfence_shutdown_cache(struct kmem_cache *s) { }
->  static inline void *kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags) { return NULL; }
-> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> index 5349c37..0765395 100644
-> --- a/mm/kfence/core.c
-> +++ b/mm/kfence/core.c
-> @@ -814,12 +814,21 @@ void __init kfence_alloc_pool(void)
->         if (!kfence_sample_interval)
->                 return;
->
-> +       /* if the pool has already been initialized by arch, skip the below */
-> +       if (__kfence_pool)
-> +               return;
-> +
->         __kfence_pool = memblock_alloc(KFENCE_POOL_SIZE, PAGE_SIZE);
->
->         if (!__kfence_pool)
->                 pr_err("failed to allocate pool\n");
->  }
->
-> +void __init kfence_set_pool(phys_addr_t addr)
-> +{
-> +       __kfence_pool = phys_to_virt(addr);
-> +}
-> +
->  static void kfence_init_enable(void)
->  {
->         if (!IS_ENABLED(CONFIG_KFENCE_STATIC_KEYS))
-> --
-> 2.7.4
+> Would it help to (conditionally) reduce vaddr_end to the beginning of
+> KASAN shadow memory?
+> (I'm not that familiar with KASAN, so IOW, would KASAN handle
+> randomized: linear mapping (__PAGE_OFFSET), vmalloc (VMALLOC_START) and
+> vmemmap (VMEMMAP_START) in that smaller range.)
 >
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNBhfdshGhiycY5S-sMnubQx%3DqGCBcKL5Hm%3DWL2HXQ2uw%40mail.gmail.com.
+Yes, with the vaddr_end =3D KASAN_SHADOW_START  it should work,
+ kaslr_memory_enabled() can be removed in favor of just the kaslr_enabled()
+
+> Thanks,
+> Michal
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAPAsAGzYSi_mCy64rFH%3Do%2Bm8eT-A9ffttsFO9Wx94%3Dnsj%2BQ8Jg%40mai=
+l.gmail.com.
