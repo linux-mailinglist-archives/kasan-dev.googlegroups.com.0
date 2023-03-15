@@ -1,143 +1,136 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBXUOY2QAMGQEQ3RIVPA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBW5KY2QAMGQEWQV7JYY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814096BAB2E
-	for <lists+kasan-dev@lfdr.de>; Wed, 15 Mar 2023 09:52:48 +0100 (CET)
-Received: by mail-lf1-x13f.google.com with SMTP id d23-20020a193857000000b004d5a68b0f94sf5502833lfj.14
-        for <lists+kasan-dev@lfdr.de>; Wed, 15 Mar 2023 01:52:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1678870366; cv=pass;
+Received: from mail-oi1-x23d.google.com (mail-oi1-x23d.google.com [IPv6:2607:f8b0:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 929C16BACA3
+	for <lists+kasan-dev@lfdr.de>; Wed, 15 Mar 2023 10:52:28 +0100 (CET)
+Received: by mail-oi1-x23d.google.com with SMTP id q25-20020a056808201900b0037fcc209e73sf8316623oiw.21
+        for <lists+kasan-dev@lfdr.de>; Wed, 15 Mar 2023 02:52:28 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1678873947; cv=pass;
         d=google.com; s=arc-20160816;
-        b=KyEd50L+3I62eTI7LqPUPvLd0dx7Z7HUnES8yNbWsfsVHm9d/49rXcyLGjPFprhVgc
-         DufINEJ29dwfQAohjWj22q5ETDN/VHX6ClRPygAVcla7p4jezeClKL1HT2RU6mYMzDuz
-         ZTkhBMf/R1689gs41tRboLJ3T25jJJ0mVU8L/h2hLVeNRj1Ig9yYb/bJpWTCiZatRMuK
-         99vI+kYscODOA58RsyMOt++eRMNIEJYRPx/YzFoY6l+MFzIAw5rlQ/pyRGeSL8H8fptm
-         mV3bkkaw45dlPHhhTPwzjHGBJLo3bQoL6fC4RXhiizs1EKFed8X4wv+tg9ErTSDhLq7I
-         WQgA==
+        b=WqWDQo1jxNTZwxIzrs9nanPYFJLX9HzJqFVw9VwpmfeZElNyNVdP0NETfJ4FHdhCj2
+         X4J5cahozY5dC9ysePROHN/njuc/E1KPIj7zh1COxrsDFneWrVPfD/tTGEes9XyEW9tk
+         84VI6Se3Bd8mivEOMg6vbs8UwKu/IDSsuL8vGbj69rbwfx1Aimi0ULAktOv3aOIl8BIv
+         Qpu1VMyujmvemppU72AiRPc2ZY5NTcSbwsGIiKzRFAFmFR8hYGqFWrLQXUCEBdcF0wJC
+         FpoQgFdQnOe1+AXUHH73V6JsoCTi0mli3fnUS6U/SpSDKvvroBo1c3RsDbARy8v8aKRM
+         Ke+g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=MuT9+JZL5hOJQ0fhr17PeCB8ZP3nZbfEBIJun+qcQ0U=;
-        b=HIh2Ji+leEDjEeLdUmYJDZUEVhS9Gmfv7Mku6rdXYSeu8MH7XHpCIS8O6vIxh2upAi
-         uwpNCX8sgLIuyn5gwWYEu75bY5uocLVXy5A7svAxZhByl4xGHHdhEVI6ERS/gdneLxJx
-         rOLfFc7ncyUUHfjkXTjNTGMbU/6aT7SAgwEm9f40tJ0yJOFWDrr9MZyodXZsq5LwYZPH
-         7s1AY1IK3aOrTzmWamT8n/Il1yxxDmhg2ofYv09JsyQaiGbfDX54dSwWTPTJORhjqnY4
-         LehVsqfUIzsG+KMFLk0FXf7DshztD4e8tlL+9RfNP7vHcTmtaKPgWxJAVj00VX6nQOkd
-         u+pw==
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=G+SY4Fkljec7zCE3AfgykKzowdkO0kqgVx6SrQ9rP8M=;
+        b=EucKkORLRu/g2p1nfdRP0cGnh4MRV50X9vtbZb9ffrzlr0GxdtoHEquvMLaKhSpOXl
+         /DXpGc3cpvIFoL7Gu3ipEx2FY/kO613/ZNAXQMLLvztauEvMEpzLKKs84UosS9sYVwGH
+         v96mjw0VUGtFZOJj2mV+Fc86F/iOEpnFp0USsNb4W1aLBcKjA7BnEY1euWI5UYen36OC
+         yo3OTPZieHIq9A47I+IbR0jdjy5hTzMvH04xN5Cc1KpCR+uvOF1sQytZk30rVjT1NVAo
+         XwpPeNSo8nZdLH+2H0FfiGhLaxE4kEjPIVnvbeG9gt3t6Gv59SHZMSZXU+rEZYFR+DiU
+         jFWg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=BQIPymLA;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::334 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       spf=pass (google.com: domain of gongruiqi1@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=gongruiqi1@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1678870366;
+        d=googlegroups.com; s=20210112; t=1678873947;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:user-agent
-         :in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MuT9+JZL5hOJQ0fhr17PeCB8ZP3nZbfEBIJun+qcQ0U=;
-        b=Hxr8ObIINywX5Eg5kmVTIKrVO6KisjlVcQ+fsiXbTQ2mqBrXeB2rP4KLxo0yivvb3z
-         vnlpvLUdUPl0Mug6apQWHBOom3nuIO2cDyO4GpOwsn6cKfaBCQtdE2Sx0TQ+OyIxu36x
-         l+aWaRr2Lua7x7xWmrZwFBQp6IKfJiLsoHGvBP2S1e1YyVFr7JYX7oUgO60OxXAwhAxl
-         E69ZALWf64wIqT6ezawdTLShhnQglO9T3ZHKJpjo4UEjrVLttASukESE3jJNQUQ2My90
-         W6Ub8pfKk6hmi/PWJhRpEM+GXTxVEUknjLiXwig9EWZZXnieLxulf8yhaAoDrGA09JdW
-         nyWw==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G+SY4Fkljec7zCE3AfgykKzowdkO0kqgVx6SrQ9rP8M=;
+        b=J3AuL40k6qsfYW/U7QsNNEPNaYoXdwXS8Lh/2t4xETPLox6CzDX/Pg+L/xKq6dhyQA
+         OLxjHvG5XsmxzEhvZ8xPqHIfja1WgjXQnhXidA56ExOcbDcksYyYytZ5UiqUHgOXhzGS
+         nJXHiyKENIwS2VTCLBEi9l6z/D8pezg7Zgh42a2xzfRni1770WFuNy2/M4iUqYxXfHa5
+         QqcQwb4a5FnxsIBCx8hIIDyfTRMW60E/AR+ODyTaY+3EE6lea3RayW4PU58AsDQkFm+l
+         fKdQFgZ5ZFcQrklZyw/1jdyoOPeY/+5Ded+TKvMuxQFJNo9N+sF7nbdLhkzr2yndr/vk
+         lv4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678870366;
+        d=1e100.net; s=20210112; t=1678873947;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:user-agent
-         :in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MuT9+JZL5hOJQ0fhr17PeCB8ZP3nZbfEBIJun+qcQ0U=;
-        b=EnuGnnH8KNNWCFDMXPnm13P9eKnFLoQRtzzMr4yuqKZs+hZaE+JtimdRlJImhWS8dU
-         zXHr34cSUioRehzhF5GiIszwWYKgDUdBBRdIWehtnbOcgQxNfn3StvXW7oJwEi6yjsBV
-         JjxNiPduHbQi3FdyjbL6DnYSvPVOECmphDWrz/hJeunpm7dgvl2fDL7tz0zRWSwCITvu
-         nR6iATe4zTtOtotG2XmNNPfL2j8KxXfSD+YNkkDL3a+5KwQGCbbT1nR5DYO4aiSLPLDN
-         QKRizAL92n/boB78jbPBljnaQErXxqv4wkgwNQTRjkRho0y3+PJ+fU6SCrruW0nfftsN
-         YKxQ==
-X-Gm-Message-State: AO0yUKXVQps6/mZE9mUJnxIweoq7mtlTUo95Jdiyjduxc1J9fhCL2C98
-	Oja6t4BLllu/iQWWqR/Xtbc=
-X-Google-Smtp-Source: AK7set8Mzd6qjmx65+jXtqgCO2pZMiRXaQB7l9ocKixjy9rKf/cnDQA6Wy67DYcUQErWBLH7NfBOXw==
-X-Received: by 2002:a2e:aa27:0:b0:298:8770:548c with SMTP id bf39-20020a2eaa27000000b002988770548cmr614025ljb.8.1678870366343;
-        Wed, 15 Mar 2023 01:52:46 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=G+SY4Fkljec7zCE3AfgykKzowdkO0kqgVx6SrQ9rP8M=;
+        b=3CbX/iRikRZRpKUFo0dVdRHSWEHoaxS6TfwBU7+vBhVgn9a1/1r166XklSgoJHkQnL
+         tDh3idN8Gv79lFz41AFcMOSow5HvRlBaC1WimgmTLlhoAVw99Ftou7E2+uSeYb6WrEGN
+         0V9vODyunSsy135OYNRqbA0LIFYfU2W9g6So9W9R7vXX+GpQz/d5MBDR/UsuX8kzLxfV
+         HQ6G8HMj6h+USomPRDWc3/1sIlPlPrceoySPNk4foYtOY3ivxOiBbQWG5zy1Ip9fH9TV
+         FPQYbU060DZsBj2o01gDaAZcRITqA4bmEhUKlCOQfVe3qazcBF/pGj70kJczQ6Hl9iRw
+         jrjg==
+X-Gm-Message-State: AO0yUKVLbN2D+hu59QzbEydIW+CnwkxQs92UWsNl6DCt1l7uYRUGQ0yo
+	Q0leCuHVmZUk0dg+Oaf4uTM=
+X-Google-Smtp-Source: AK7set/b1bB3FDenPfwcBpZQIPBVbGFJbgQru2LZq+rSV+Tajb53PLkzq2LLK6vMisb1GloqV/OObw==
+X-Received: by 2002:a05:6808:3013:b0:383:f981:b1e5 with SMTP id ay19-20020a056808301300b00383f981b1e5mr795184oib.5.1678873947395;
+        Wed, 15 Mar 2023 02:52:27 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:15a7:b0:4e8:5851:74e4 with SMTP id
- bp39-20020a05651215a700b004e8585174e4ls1652295lfb.1.-pod-prod-gmail; Wed, 15
- Mar 2023 01:52:44 -0700 (PDT)
-X-Received: by 2002:a05:6512:11f2:b0:4e8:20f6:83f4 with SMTP id p18-20020a05651211f200b004e820f683f4mr1588120lfs.21.1678870364623;
-        Wed, 15 Mar 2023 01:52:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1678870364; cv=none;
+Received: by 2002:a05:6870:20d:b0:16d:c495:95f9 with SMTP id
+ j13-20020a056870020d00b0016dc49595f9ls4065620oad.0.-pod-prod-gmail; Wed, 15
+ Mar 2023 02:52:27 -0700 (PDT)
+X-Received: by 2002:a05:6870:1015:b0:17a:469c:42db with SMTP id 21-20020a056870101500b0017a469c42dbmr2621896oai.46.1678873946958;
+        Wed, 15 Mar 2023 02:52:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1678873946; cv=none;
         d=google.com; s=arc-20160816;
-        b=F/F42dNlb7AlJ4sLKR9zXmYXaLebERl+lt+IQMbInhUsaGddyicZVjyuvIxaQnYTiG
-         zuVmRt/P5pT50zBjVkm8uypqBv0AZX2O9L5BXYMmIppg/6uPT4kHFF/jjEg/4Bqpbe37
-         Gn+DcphM8K4Cnb8qu5nE5YAH3U7p/reBDVbqk3y9ybKG4p5UwSW3s98zrSPMZUkQIjuy
-         DHgWczThxCDIB1NpHE3EMjoEYHSbqKhMJCzBKFpBsu1Bxew7rXHhe5KJPOOMxmC940cC
-         MCXf9l7E9XUP+HoBKI9Yv1F8Y39XhtH1cSeRa1c+L7K+tm31+U87Ij5recMgwwXB8X9e
-         LCVQ==
+        b=QJdkSU8MrVCnIciF6WWTbS4qBIwJCzdcLN9imvYAxyiTEqnCalTRD6I97GeRZ+h5rD
+         V2CQwdCqDY8zntv4t9qTa75Oz0ouRGPU4Cn+pZ0TDqlotQyHakrCvHpAemkiJSmPT83d
+         6tvqEEcHChsXiEAa5ai3nbKPyENOVh1VeITlqPA2p8auok1ArlM8imDE6iPl1r2yiWrB
+         gXb0VFj22OqdVqqbmeEHHRumQAZwQtRXekMVzRXiUVGMZoRFmJPeNXWkN3mbrpqs+XDo
+         yrrUxbWElaw91/E+7OSYGhmot/9s5GUN347LoYlBxEwwis0aQVS1hIcSeGM+amGWoKxS
+         FVHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=ykAWNeQFRSXWiMQRkG7ruLQaPcfN8XGu9YKzk/Snc/Q=;
-        b=TR6UJG1yI8DXDDhuFoZPsp8CtB1PqAovfvDekylPGo9I9SnWWVPFeaS+dPZogP2kjl
-         9nQZqsmUv4UP5ohwecJN94UCsqVF0qgod0/ENqzGYGNg2W8fSVOmIdjKmRUcnuGE3T4d
-         iQHmY3wg4KhdFLRzMqduMsktpL4Z8XHeV/8sqsiLmOk8WD6T2cmWjr5ifBwPqo+YVsjQ
-         XJ7G001/5hSzqKHQjhx//I+gcVMScCE+SaNOPqDty/eILiME5C083rbBeO2WWYVU4N/o
-         RJmKdrVqnAm9Z8AF564SLyK64/hCMbtpa0+9x+FMzaOzVEw7TV9hshK2N9yv4idjyuuX
-         SCvA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=6u3nrY0kdNXk1PK/9U/ZHQ2WqtuIM++HCtuenPik/YQ=;
+        b=g2/CG5CecNwsD4O6DPpZHLBjqnxfb9p1lFtn60yh06M0JyNK5ikla9i8+VUUD+E6Wi
+         r9UEZqJBP/qJdBlEZdbASxf06MyzCDFx1p4pO1tW7usl2gtEt91+H4+6/NxKBdqRo/Kz
+         iiF6eMLyo8qp6JNyV/LNjBSnBHfzmylEz6mTQdw+vzVK5u7c+tUZ1YGJY6lhHCqOP0+o
+         wFew9ijhL/8AGQzRSm5vuVuMbwHBkzgu6KjrI5UYUxOasgj3AY8YmHX2wQCWP6bsNO1H
+         ByyJJ6guQtIDS7rBxazoAors+cFw8aJbzZIOg6LHMmA7U6oyU0ysEBJD3rLKu5Jeo/hK
+         kV/Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=BQIPymLA;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::334 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com. [2a00:1450:4864:20::334])
-        by gmr-mx.google.com with ESMTPS id g41-20020a0565123ba900b004e85e286f65si43636lfv.6.2023.03.15.01.52.44
+       spf=pass (google.com: domain of gongruiqi1@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=gongruiqi1@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
+        by gmr-mx.google.com with ESMTPS id u2-20020a056871008200b001762ba4d3ddsi795441oaa.0.2023.03.15.02.52.26
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Mar 2023 01:52:44 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::334 as permitted sender) client-ip=2a00:1450:4864:20::334;
-Received: by mail-wm1-x334.google.com with SMTP id j19-20020a05600c191300b003eb3e1eb0caso589165wmq.1
-        for <kasan-dev@googlegroups.com>; Wed, 15 Mar 2023 01:52:44 -0700 (PDT)
-X-Received: by 2002:a05:600c:cc6:b0:3ed:2949:9847 with SMTP id fk6-20020a05600c0cc600b003ed29499847mr7151983wmb.10.1678870363925;
-        Wed, 15 Mar 2023 01:52:43 -0700 (PDT)
-Received: from elver.google.com ([2a00:79e0:9c:201:54ce:e7e7:a29b:ab5f])
-        by smtp.gmail.com with ESMTPSA id y25-20020a1c4b19000000b003ed2a3eab71sm1113920wma.31.2023.03.15.01.52.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Mar 2023 01:52:40 -0700 (PDT)
-Date: Wed, 15 Mar 2023 09:52:33 +0100
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Zhenhua Huang <quic_zhenhuah@quicinc.com>
-Cc: Pavan Kondeti <quic_pkondeti@quicinc.com>, catalin.marinas@arm.com,
-	will@kernel.org, glider@google.com, dvyukov@google.com,
-	akpm@linux-foundation.org, robin.murphy@arm.com,
-	mark.rutland@arm.com, jianyong.wu@arm.com, james.morse@arm.com,
-	wangkefeng.wang@huawei.com, linux-arm-kernel@lists.infradead.org,
-	kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	quic_guptap@quicinc.com, quic_tingweiz@quicinc.com,
-	quic_charante@quicinc.com
-Subject: Re: [PATCH v8] mm,kfence: decouple kfence from page granularity
- mapping judgement
-Message-ID: <ZBGHUYJ2OY9Pz93U@elver.google.com>
-References: <1678777502-6933-1-git-send-email-quic_zhenhuah@quicinc.com>
- <20230314083645.GA556474@hu-pkondeti-hyd.qualcomm.com>
- <b1273aad-c952-8c42-f869-22b6fd78c632@quicinc.com>
- <20230314111422.GB556474@hu-pkondeti-hyd.qualcomm.com>
- <3253f502-aa2e-f8c9-b5bd-8eb20e5f6c5e@quicinc.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 15 Mar 2023 02:52:26 -0700 (PDT)
+Received-SPF: pass (google.com: domain of gongruiqi1@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
+Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.53])
+	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Pc5JF4rjrzrSsT;
+	Wed, 15 Mar 2023 17:51:25 +0800 (CST)
+Received: from huawei.com (10.67.174.33) by dggpemm500016.china.huawei.com
+ (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.21; Wed, 15 Mar
+ 2023 17:52:19 +0800
+From: "'GONG, Ruiqi' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph
+ Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, David Rientjes
+	<rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Vlastimil Babka <vbabka@suse.cz>
+CC: Roman Gushchin <roman.gushchin@linux.dev>, Hyeonggon Yoo
+	<42.hyeyoo@gmail.com>, Alexander Potapenko <glider@google.com>, Marco Elver
+	<elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>, Kees Cook
+	<keescook@chromium.org>, <linux-hardening@vger.kernel.org>, Paul Moore
+	<paul@paul-moore.com>, <linux-security-module@vger.kernel.org>, James Morris
+	<jmorris@namei.org>, Wang Weiyang <wangweiyang2@huawei.com>, Xiu Jianfeng
+	<xiujianfeng@huawei.com>
+Subject: [PATCH RFC] Randomized slab caches for kmalloc()
+Date: Wed, 15 Mar 2023 17:54:59 +0800
+Message-ID: <20230315095459.186113-1-gongruiqi1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <3253f502-aa2e-f8c9-b5bd-8eb20e5f6c5e@quicinc.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Original-Sender: elver@google.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=BQIPymLA;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::334 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+X-Originating-IP: [10.67.174.33]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500016.china.huawei.com (7.185.36.25)
+X-CFilter-Loop: Reflected
+X-Original-Sender: gongruiqi1@huawei.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of gongruiqi1@huawei.com designates 45.249.212.187 as
+ permitted sender) smtp.mailfrom=gongruiqi1@huawei.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+X-Original-From: "GONG, Ruiqi" <gongruiqi1@huawei.com>
+Reply-To: "GONG, Ruiqi" <gongruiqi1@huawei.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,57 +143,363 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Mar 15, 2023 at 02:51PM +0800, Zhenhua Huang wrote:
-[...]
-> > Is it possible to free this early allocated memory later in
-> > mm_init()->kfence_alloc_pool()? if that is not possible, can we think of
-> > adding early param for kfence?
-> 
-> If we freed that buffer, there may be no chance to get that page granularity
-> mapped buffer again.. as all these allocation/free are through normal buddy
-> allocator.
-> 
-> At this stage, seems only additional early param can work.. Marco previously
-> wanted to reuse sample_interval but seems not doable now.
-> 
-> Hi Marco,
-> 
-> Sorry, Can we thought of the solution again? like
-> ARM64:
-> 1. intercepts early boot arg and gives early alloc memory to KFENCE
-> 2. KFENCE to disable dynamic switch
-> 3. disable page gran and save memory overhead
-> The purpose is in the case of w/o boot arg, it's just same as now.. arch
-> specific kfence buffer will not allocate. And w/ boot arg, we can get
-> expected saving.
+When exploiting memory vulnerabilities, "heap spraying" is a common
+technique targeting those related to dynamic memory allocation (i.e. the
+"heap"), and it plays an important role in a successful exploitation.
+Basically, it is to overwrite the memory area of vulnerable object by
+triggering allocation in other subsystems or modules and therefore
+getting a reference to the targeted memory location. It's usable on
+various types of vulnerablity including use after free (UAF), heap out-
+of-bound write and etc.
 
-You can get kfence.sample_interval with early_param(). mm/kfence/core.c
-should be left as is with a module param, so it can be set at runtime in
-/sys/modules/kfence/parameters/.
+There are (at least) two reasons why the heap can be sprayed: 1) generic
+slab caches are shared among different subsystems and modules, and
+2) dedicated slab caches could be merged with the generic ones.
+Currently these two factors cannot be prevented at a low cost: the first
+one is a widely used memory allocation mechanism, and shutting down slab
+merging completely via `slub_nomerge` would be overkill.
 
-However you can add this to the #ifdef CONFIG_KFENCE in arm64 code
-you're adding:
+To efficiently prevent heap spraying, we propose the following approach:
+to create multiple copies of generic slab caches that will never be
+merged, and random one of them will be used at allocation. The random
+selection is based on the location of code that calls `kmalloc()`, which
+means it is static at runtime (rather than dynamically determined at
+each time of allocation, which could be bypassed by repeatedly spraying
+in brute force). In this way, the vulnerable object and memory allocated
+in other subsystems and modules will (most probably) be on different
+slab caches, which prevents the object from being sprayed.
 
-  static bool kfence_early_init __initdata = !!CONFIG_KFENCE_SAMPLE_INTERVAL;
-  static int __init parse_kfence_early_init(char *p) {
-  	int val;
+Signed-off-by: GONG, Ruiqi <gongruiqi1@huawei.com>
+---
 
-  	if (get_option(&p, &val))
-  		kfence_early_init = !!val;
-  	return 0;
-  }
-  early_param("kfence.sample_interval", parse_kfence_early_init);
+v0:
+The current implementation only randomize slab caches for KMALLOC_NORMAL
+allocation. Besides the patch itself, we would also like to know the
+opinion of the community about whether or not it's necessary to extend
+this randomization to all KMALLOC_*, and if so, if implementing a three-
+dimensional `kmalloc_caches` is a better choice.
 
-Nothing is preventing us from parsing kfence.sample_interval twice
-during boot. At this stage you don't need the actual sample_interval,
-only if kfence.sample_interval was provided on the cmdline and is not 0.
 
-That will avoid adding another new param.
+ include/linux/percpu.h  | 12 +++++++++---
+ include/linux/slab.h    | 24 +++++++++++++++++++-----
+ mm/Kconfig              | 20 ++++++++++++++++++++
+ mm/kfence/kfence_test.c |  4 ++--
+ mm/slab.c               |  2 +-
+ mm/slab.h               |  3 ++-
+ mm/slab_common.c        | 40 +++++++++++++++++++++++++++++++++++-----
+ 7 files changed, 88 insertions(+), 17 deletions(-)
 
-Thanks,
--- Marco
+diff --git a/include/linux/percpu.h b/include/linux/percpu.h
+index 1338ea2aa720..6cee6425951f 100644
+--- a/include/linux/percpu.h
++++ b/include/linux/percpu.h
+@@ -34,6 +34,12 @@
+ #define PCPU_BITMAP_BLOCK_BITS		(PCPU_BITMAP_BLOCK_SIZE >>	\
+ 					 PCPU_MIN_ALLOC_SHIFT)
+ 
++#ifdef CONFIG_RANDOM_KMALLOC_CACHES
++#define PERCPU_DYNAMIC_SIZE_SHIFT      13
++#else
++#define PERCPU_DYNAMIC_SIZE_SHIFT      10
++#endif
++
+ /*
+  * Percpu allocator can serve percpu allocations before slab is
+  * initialized which allows slab to depend on the percpu allocator.
+@@ -41,7 +47,7 @@
+  * for this.  Keep PERCPU_DYNAMIC_RESERVE equal to or larger than
+  * PERCPU_DYNAMIC_EARLY_SIZE.
+  */
+-#define PERCPU_DYNAMIC_EARLY_SIZE	(20 << 10)
++#define PERCPU_DYNAMIC_EARLY_SIZE	(20 << PERCPU_DYNAMIC_SIZE_SHIFT)
+ 
+ /*
+  * PERCPU_DYNAMIC_RESERVE indicates the amount of free area to piggy
+@@ -55,9 +61,9 @@
+  * intelligent way to determine this would be nice.
+  */
+ #if BITS_PER_LONG > 32
+-#define PERCPU_DYNAMIC_RESERVE		(28 << 10)
++#define PERCPU_DYNAMIC_RESERVE		(28 << PERCPU_DYNAMIC_SIZE_SHIFT)
+ #else
+-#define PERCPU_DYNAMIC_RESERVE		(20 << 10)
++#define PERCPU_DYNAMIC_RESERVE		(20 << PERCPU_DYNAMIC_SIZE_SHIFT)
+ #endif
+ 
+ extern void *pcpu_base_addr;
+diff --git a/include/linux/slab.h b/include/linux/slab.h
+index 87d687c43d8c..fea7644a1985 100644
+--- a/include/linux/slab.h
++++ b/include/linux/slab.h
+@@ -106,6 +106,12 @@
+ /* Avoid kmemleak tracing */
+ #define SLAB_NOLEAKTRACE	((slab_flags_t __force)0x00800000U)
+ 
++#ifdef CONFIG_RANDOM_KMALLOC_CACHES
++# define SLAB_RANDOMSLAB	((slab_flags_t __force)0x01000000U)
++#else
++# define SLAB_RANDOMSLAB	0
++#endif
++
+ /* Fault injection mark */
+ #ifdef CONFIG_FAILSLAB
+ # define SLAB_FAILSLAB		((slab_flags_t __force)0x02000000U)
+@@ -336,6 +342,12 @@ static inline unsigned int arch_slab_minalign(void)
+ #define SLAB_OBJ_MIN_SIZE      (KMALLOC_MIN_SIZE < 16 ? \
+                                (KMALLOC_MIN_SIZE) : 16)
+ 
++#ifdef CONFIG_RANDOM_KMALLOC_CACHES
++#define KMALLOC_RANDOM_NR CONFIG_RANDOM_KMALLOC_CACHES_NR
++#else
++#define KMALLOC_RANDOM_NR 1
++#endif
++
+ /*
+  * Whenever changing this, take care of that kmalloc_type() and
+  * create_kmalloc_caches() still work as intended.
+@@ -345,7 +357,9 @@ static inline unsigned int arch_slab_minalign(void)
+  * kmem caches can have both accounted and unaccounted objects.
+  */
+ enum kmalloc_cache_type {
+-	KMALLOC_NORMAL = 0,
++	KMALLOC_RANDOM_START = 0,
++	KMALLOC_RANDOM_END = KMALLOC_RANDOM_START + KMALLOC_RANDOM_NR - 1,
++	KMALLOC_NORMAL = KMALLOC_RANDOM_END,
+ #ifndef CONFIG_ZONE_DMA
+ 	KMALLOC_DMA = KMALLOC_NORMAL,
+ #endif
+@@ -378,14 +392,14 @@ kmalloc_caches[NR_KMALLOC_TYPES][KMALLOC_SHIFT_HIGH + 1];
+ 	(IS_ENABLED(CONFIG_ZONE_DMA)   ? __GFP_DMA : 0) |	\
+ 	(IS_ENABLED(CONFIG_MEMCG_KMEM) ? __GFP_ACCOUNT : 0))
+ 
+-static __always_inline enum kmalloc_cache_type kmalloc_type(gfp_t flags)
++static __always_inline enum kmalloc_cache_type kmalloc_type(gfp_t flags, unsigned long caller)
+ {
+ 	/*
+ 	 * The most common case is KMALLOC_NORMAL, so test for it
+ 	 * with a single branch for all the relevant flags.
+ 	 */
+ 	if (likely((flags & KMALLOC_NOT_NORMAL_BITS) == 0))
+-		return KMALLOC_NORMAL;
++		return KMALLOC_RANDOM_START + caller % KMALLOC_RANDOM_NR;
+ 
+ 	/*
+ 	 * At least one of the flags has to be set. Their priorities in
+@@ -578,7 +592,7 @@ static __always_inline __alloc_size(1) void *kmalloc(size_t size, gfp_t flags)
+ 
+ 		index = kmalloc_index(size);
+ 		return kmalloc_trace(
+-				kmalloc_caches[kmalloc_type(flags)][index],
++				kmalloc_caches[kmalloc_type(flags, _RET_IP_)][index],
+ 				flags, size);
+ 	}
+ 	return __kmalloc(size, flags);
+@@ -604,7 +618,7 @@ static __always_inline __alloc_size(1) void *kmalloc_node(size_t size, gfp_t fla
+ 
+ 		index = kmalloc_index(size);
+ 		return kmalloc_node_trace(
+-				kmalloc_caches[kmalloc_type(flags)][index],
++				kmalloc_caches[kmalloc_type(flags, _RET_IP_)][index],
+ 				flags, node, size);
+ 	}
+ 	return __kmalloc_node(size, flags, node);
+diff --git a/mm/Kconfig b/mm/Kconfig
+index bc828f640cd9..0b116bd8fdf0 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -333,6 +333,26 @@ config SLUB_CPU_PARTIAL
+ 	  which requires the taking of locks that may cause latency spikes.
+ 	  Typically one would choose no for a realtime system.
+ 
++config RANDOM_KMALLOC_CACHES
++	default n
++	depends on SLUB
++	bool "Random slab caches for normal kmalloc"
++	help
++	  A hardening feature that creates multiple copies of slab caches for
++	  normal kmalloc allocation and makes kmalloc randomly pick one based
++	  on code address, which makes the attackers unable to spray vulnerable
++	  memory objects on the heap for exploiting memory vulnerabilities.
++
++config RANDOM_KMALLOC_CACHES_NR
++	int "Number of random slab caches copies"
++	default 16
++	range 4 16
++	depends on RANDOM_KMALLOC_CACHES
++	help
++	  The number of copies of random slab caches. Bigger value makes the
++	  potentially vulnerable memory object less likely to collide with
++	  objects allocated from other subsystems or modules.
++
+ endmenu # SLAB allocator options
+ 
+ config SHUFFLE_PAGE_ALLOCATOR
+diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
+index b5d66a69200d..316d12af7202 100644
+--- a/mm/kfence/kfence_test.c
++++ b/mm/kfence/kfence_test.c
+@@ -213,7 +213,7 @@ static void test_cache_destroy(void)
+ 
+ static inline size_t kmalloc_cache_alignment(size_t size)
+ {
+-	return kmalloc_caches[kmalloc_type(GFP_KERNEL)][__kmalloc_index(size, false)]->align;
++	return kmalloc_caches[kmalloc_type(GFP_KERNEL, _RET_IP_)][__kmalloc_index(size, false)]->align;
+ }
+ 
+ /* Must always inline to match stack trace against caller. */
+@@ -284,7 +284,7 @@ static void *test_alloc(struct kunit *test, size_t size, gfp_t gfp, enum allocat
+ 		if (is_kfence_address(alloc)) {
+ 			struct slab *slab = virt_to_slab(alloc);
+ 			struct kmem_cache *s = test_cache ?:
+-					kmalloc_caches[kmalloc_type(GFP_KERNEL)][__kmalloc_index(size, false)];
++					kmalloc_caches[kmalloc_type(GFP_KERNEL, _RET_IP_)][__kmalloc_index(size, false)];
+ 
+ 			/*
+ 			 * Verify that various helpers return the right values
+diff --git a/mm/slab.c b/mm/slab.c
+index dabc2a671fc6..8dc7e183dcc5 100644
+--- a/mm/slab.c
++++ b/mm/slab.c
+@@ -1675,7 +1675,7 @@ static size_t calculate_slab_order(struct kmem_cache *cachep,
+ 			if (freelist_size > KMALLOC_MAX_CACHE_SIZE) {
+ 				freelist_cache_size = PAGE_SIZE << get_order(freelist_size);
+ 			} else {
+-				freelist_cache = kmalloc_slab(freelist_size, 0u);
++				freelist_cache = kmalloc_slab(freelist_size, 0u, _RET_IP_);
+ 				if (!freelist_cache)
+ 					continue;
+ 				freelist_cache_size = freelist_cache->size;
+diff --git a/mm/slab.h b/mm/slab.h
+index 43966aa5fadf..4f4caf422b77 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -280,7 +280,7 @@ void setup_kmalloc_cache_index_table(void);
+ void create_kmalloc_caches(slab_flags_t);
+ 
+ /* Find the kmalloc slab corresponding for a certain size */
+-struct kmem_cache *kmalloc_slab(size_t, gfp_t);
++struct kmem_cache *kmalloc_slab(size_t, gfp_t, unsigned long);
+ 
+ void *__kmem_cache_alloc_node(struct kmem_cache *s, gfp_t gfpflags,
+ 			      int node, size_t orig_size,
+@@ -374,6 +374,7 @@ static inline bool is_kmalloc_cache(struct kmem_cache *s)
+ 			      SLAB_TEMPORARY | \
+ 			      SLAB_ACCOUNT | \
+ 			      SLAB_KMALLOC | \
++			      SLAB_RANDOMSLAB | \
+ 			      SLAB_NO_USER_FLAGS)
+ 
+ bool __kmem_cache_empty(struct kmem_cache *);
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index bf4e777cfe90..895a3edb82d4 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -47,6 +47,7 @@ static DECLARE_WORK(slab_caches_to_rcu_destroy_work,
+  */
+ #define SLAB_NEVER_MERGE (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER | \
+ 		SLAB_TRACE | SLAB_TYPESAFE_BY_RCU | SLAB_NOLEAKTRACE | \
++		SLAB_RANDOMSLAB | \
+ 		SLAB_FAILSLAB | kasan_never_merge())
+ 
+ #define SLAB_MERGE_SAME (SLAB_RECLAIM_ACCOUNT | SLAB_CACHE_DMA | \
+@@ -722,7 +723,7 @@ static inline unsigned int size_index_elem(unsigned int bytes)
+  * Find the kmem_cache structure that serves a given size of
+  * allocation
+  */
+-struct kmem_cache *kmalloc_slab(size_t size, gfp_t flags)
++struct kmem_cache *kmalloc_slab(size_t size, gfp_t flags, unsigned long caller)
+ {
+ 	unsigned int index;
+ 
+@@ -737,7 +738,7 @@ struct kmem_cache *kmalloc_slab(size_t size, gfp_t flags)
+ 		index = fls(size - 1);
+ 	}
+ 
+-	return kmalloc_caches[kmalloc_type(flags)][index];
++	return kmalloc_caches[kmalloc_type(flags, caller)][index];
+ }
+ 
+ size_t kmalloc_size_roundup(size_t size)
+@@ -755,7 +756,7 @@ size_t kmalloc_size_roundup(size_t size)
+ 		return PAGE_SIZE << get_order(size);
+ 
+ 	/* The flags don't matter since size_index is common to all. */
+-	c = kmalloc_slab(size, GFP_KERNEL);
++	c = kmalloc_slab(size, GFP_KERNEL, _RET_IP_);
+ 	return c ? c->object_size : 0;
+ }
+ EXPORT_SYMBOL(kmalloc_size_roundup);
+@@ -778,12 +779,36 @@ EXPORT_SYMBOL(kmalloc_size_roundup);
+ #define KMALLOC_RCL_NAME(sz)
+ #endif
+ 
++#ifdef CONFIG_RANDOM_KMALLOC_CACHES
++#define __KMALLOC_RANDOM_CONCAT(a, b, c) a ## b ## c
++#define KMALLOC_RANDOM_NAME(N, sz) __KMALLOC_RANDOM_CONCAT(KMALLOC_RANDOM_, N, _NAME)(sz)
++#define KMALLOC_RANDOM_1_NAME(sz)                             .name[KMALLOC_RANDOM_START +  0] = "kmalloc-random-01-" #sz,
++#define KMALLOC_RANDOM_2_NAME(sz)  KMALLOC_RANDOM_1_NAME(sz)  .name[KMALLOC_RANDOM_START +  1] = "kmalloc-random-02-" #sz,
++#define KMALLOC_RANDOM_3_NAME(sz)  KMALLOC_RANDOM_2_NAME(sz)  .name[KMALLOC_RANDOM_START +  2] = "kmalloc-random-03-" #sz,
++#define KMALLOC_RANDOM_4_NAME(sz)  KMALLOC_RANDOM_3_NAME(sz)  .name[KMALLOC_RANDOM_START +  3] = "kmalloc-random-04-" #sz,
++#define KMALLOC_RANDOM_5_NAME(sz)  KMALLOC_RANDOM_4_NAME(sz)  .name[KMALLOC_RANDOM_START +  4] = "kmalloc-random-05-" #sz,
++#define KMALLOC_RANDOM_6_NAME(sz)  KMALLOC_RANDOM_5_NAME(sz)  .name[KMALLOC_RANDOM_START +  5] = "kmalloc-random-06-" #sz,
++#define KMALLOC_RANDOM_7_NAME(sz)  KMALLOC_RANDOM_6_NAME(sz)  .name[KMALLOC_RANDOM_START +  6] = "kmalloc-random-07-" #sz,
++#define KMALLOC_RANDOM_8_NAME(sz)  KMALLOC_RANDOM_7_NAME(sz)  .name[KMALLOC_RANDOM_START +  7] = "kmalloc-random-08-" #sz,
++#define KMALLOC_RANDOM_9_NAME(sz)  KMALLOC_RANDOM_8_NAME(sz)  .name[KMALLOC_RANDOM_START +  8] = "kmalloc-random-09-" #sz,
++#define KMALLOC_RANDOM_10_NAME(sz) KMALLOC_RANDOM_9_NAME(sz)  .name[KMALLOC_RANDOM_START +  9] = "kmalloc-random-10-" #sz,
++#define KMALLOC_RANDOM_11_NAME(sz) KMALLOC_RANDOM_10_NAME(sz) .name[KMALLOC_RANDOM_START + 10] = "kmalloc-random-11-" #sz,
++#define KMALLOC_RANDOM_12_NAME(sz) KMALLOC_RANDOM_11_NAME(sz) .name[KMALLOC_RANDOM_START + 11] = "kmalloc-random-12-" #sz,
++#define KMALLOC_RANDOM_13_NAME(sz) KMALLOC_RANDOM_12_NAME(sz) .name[KMALLOC_RANDOM_START + 12] = "kmalloc-random-13-" #sz,
++#define KMALLOC_RANDOM_14_NAME(sz) KMALLOC_RANDOM_13_NAME(sz) .name[KMALLOC_RANDOM_START + 13] = "kmalloc-random-14-" #sz,
++#define KMALLOC_RANDOM_15_NAME(sz) KMALLOC_RANDOM_14_NAME(sz) .name[KMALLOC_RANDOM_START + 14] = "kmalloc-random-15-" #sz,
++#define KMALLOC_RANDOM_16_NAME(sz) KMALLOC_RANDOM_15_NAME(sz) .name[KMALLOC_RANDOM_START + 15] = "kmalloc-random-16-" #sz,
++#else
++#define KMALLOC_RANDOM_NAME(N, sz)
++#endif
++
+ #define INIT_KMALLOC_INFO(__size, __short_size)			\
+ {								\
+ 	.name[KMALLOC_NORMAL]  = "kmalloc-" #__short_size,	\
+ 	KMALLOC_RCL_NAME(__short_size)				\
+ 	KMALLOC_CGROUP_NAME(__short_size)			\
+ 	KMALLOC_DMA_NAME(__short_size)				\
++	KMALLOC_RANDOM_NAME(CONFIG_RANDOM_KMALLOC_CACHES_NR, __short_size)	\
+ 	.size = __size,						\
+ }
+ 
+@@ -879,6 +904,11 @@ new_kmalloc_cache(int idx, enum kmalloc_cache_type type, slab_flags_t flags)
+ 		flags |= SLAB_CACHE_DMA;
+ 	}
+ 
++#ifdef CONFIG_RANDOM_KMALLOC_CACHES
++	if (type >= KMALLOC_RANDOM_START && type <= KMALLOC_RANDOM_END)
++		flags |= SLAB_RANDOMSLAB;
++#endif
++
+ 	kmalloc_caches[type][idx] = create_kmalloc_cache(
+ 					kmalloc_info[idx].name[type],
+ 					kmalloc_info[idx].size, flags, 0,
+@@ -905,7 +935,7 @@ void __init create_kmalloc_caches(slab_flags_t flags)
+ 	/*
+ 	 * Including KMALLOC_CGROUP if CONFIG_MEMCG_KMEM defined
+ 	 */
+-	for (type = KMALLOC_NORMAL; type < NR_KMALLOC_TYPES; type++) {
++	for (type = KMALLOC_RANDOM_START; type < NR_KMALLOC_TYPES; type++) {
+ 		for (i = KMALLOC_SHIFT_LOW; i <= KMALLOC_SHIFT_HIGH; i++) {
+ 			if (!kmalloc_caches[type][i])
+ 				new_kmalloc_cache(i, type, flags);
+@@ -958,7 +988,7 @@ void *__do_kmalloc_node(size_t size, gfp_t flags, int node, unsigned long caller
+ 		return ret;
+ 	}
+ 
+-	s = kmalloc_slab(size, flags);
++	s = kmalloc_slab(size, flags, caller);
+ 
+ 	if (unlikely(ZERO_OR_NULL_PTR(s)))
+ 		return s;
+-- 
+2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZBGHUYJ2OY9Pz93U%40elver.google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230315095459.186113-1-gongruiqi1%40huawei.com.
