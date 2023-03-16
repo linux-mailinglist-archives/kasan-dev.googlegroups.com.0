@@ -1,112 +1,115 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBPMYZSQAMGQESSOOUMA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBQMYZSQAMGQEZMOJD3A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3e.google.com (mail-oo1-xc3e.google.com [IPv6:2607:f8b0:4864:20::c3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465E16BCF86
-	for <lists+kasan-dev@lfdr.de>; Thu, 16 Mar 2023 13:31:59 +0100 (CET)
-Received: by mail-oo1-xc3e.google.com with SMTP id z20-20020a4ad594000000b00531ac1a175dsf291543oos.20
-        for <lists+kasan-dev@lfdr.de>; Thu, 16 Mar 2023 05:31:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1678969917; cv=pass;
+Received: from mail-pf1-x439.google.com (mail-pf1-x439.google.com [IPv6:2607:f8b0:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF1006BCF89
+	for <lists+kasan-dev@lfdr.de>; Thu, 16 Mar 2023 13:32:03 +0100 (CET)
+Received: by mail-pf1-x439.google.com with SMTP id g12-20020aa7874c000000b0062519d49a5dsf1060460pfo.12
+        for <lists+kasan-dev@lfdr.de>; Thu, 16 Mar 2023 05:32:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1678969922; cv=pass;
         d=google.com; s=arc-20160816;
-        b=J4/mXpzUnrT/xCB8zKWR45kioVGlElcZyivMolhUB0YCd6Koun8GAOsZK2q5jtdPAv
-         8y6V72nJ96hhz6U9Q9DkcWFC8AdaaxvnaRQQdmzVy3rOe/emIVutPqmNJPkvULYVLhEj
-         1sietTWOqrrs2Po13fcxMaLiVjGW1knz9w6qGXWX2ImhXczNHY7kVdRn9pTBK7DCC6LK
-         UIv43H5JSumqlUV2b3BCMQzhlzVMBjeoDhiYb+uB5u3EpFNkqNIzFtjYkbXqRMUo9l/c
-         BPYQnkT/OxxxUIY8xDh4/OOv2waX2p/faZY6C7OZFMyM0NeV7SjqSgFTbdgKMLOgTNeB
-         VPhA==
+        b=wg1peQt0f1BRxIb/OrWo1p0oG9FIy9xbqEEeUq14ao4TpCoFr41S4RCiUjmerK7v7I
+         zs6JMSQxxYHsX2rtA0AKu4/9sXUVlKOseNXFjZubMAxkUbvhhqmDrcHKnnH56+kRcf8C
+         yh/rGoGq1QsyEahaj2J0KyFI9FBoHH5J+otyRgBALiDB8eLfYVURq2lvFW1Cjy1NcrKE
+         uXYK9oNkHgjdHns2yqdKT++u7qKSPYyRMBRGnidB5LH2Rpc9/Bi1c657lNn/REb+CrGy
+         KtZ5G3pxfua83g278C6inVPFZTYlJpk5fFyGnIf4sVdrFPnGkJq2bzEag50noru2YlWR
+         wdbg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:mime-version:date:dkim-signature;
-        bh=sTlU52IB4H4kJnSHb4YCA9SCgTcdfK8R6Ee8atgKXMs=;
-        b=yFMkt+n9vdQya3WITLKCPDlgGicbzoit7Zt7G2BqjXs3KDszmBaFKQwgR3Ow73OIfz
-         TaaiVPhIJbVKr1px/FLlvHZUxPENjVgpBIHEu9iaMq61bYrdwypDFFSqZjEgovri15Cr
-         m7qwccu8I2Ht5pf0JxP8ojlJHQ4T93Lj4HqlRtNdrUIJ0JmBNm61PgQe7TH9jMKe5jrX
-         5D9RjMW3EyJKeB779XAOce7F9G520k85ogK/E/eSBMQOjMPa8lwHQU4/NPZuqNBd5hj0
-         dS+bcZODAJVXh7Ej4lwyj7twbLKEfIyXWOmZB0Vs2KkGuQh1NZ7D4JWPmNFNMmzhN0PZ
-         EQhg==
+         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
+        bh=aYOus/8xqSffdtyW2WT6xNu/UwpTcAbiqasq5Xo8NN8=;
+        b=Qs8h4gwEuatBhYUzEDodUiY6aN5x+RamFJ7LDmYkpoPUaz07TZjNGPOxDgZmY+l3jM
+         Q5jgXvrJtir6xZjtTtNj+8/sNHFnCxn8Zwwv4300efvqHpZfnNgCj6hSk+5N46c5Zqvj
+         BgKBsmhAiR9PwRMfRUXIgoRAoiSmhetoewLbldqxzaT2zWA8m4tFoGXGdP4zNlycKP9h
+         AlzB/XbrWgipXIvtzuLDVxgWFrBwTjzb9ZSmeLJBhmYBUdh3sXW9ren93nz1K3ggr2rb
+         6TxLwl2p3SSNq7r4Kwb5m0gjbqN3fPIAWg2zRcpsgMstBA+dQbetm8PE5C+8AUg0ecyU
+         H9vA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=qCtLERy6;
-       spf=pass (google.com: domain of 3pawtzaukcccry8r4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3PAwTZAUKCccry8r4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=AyWoKrQz;
+       spf=pass (google.com: domain of 3qawtzaukccsv2cv8x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3QAwTZAUKCcsv2Cv8x55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1678969917;
+        d=googlegroups.com; s=20210112; t=1678969922;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sTlU52IB4H4kJnSHb4YCA9SCgTcdfK8R6Ee8atgKXMs=;
-        b=IP/h5R7fjT6E53zymNBeir8BarLWbGPZvm7MEYUiSieICDT12IbsUdVEd2vwaX9WB3
-         AkkXm+y31kfgq3A8DSvae/HpTqK4ErGlt+zYqfDVlbUxYzmMfWMm+A5/fIbNQ/bOvqB8
-         npkS7XX5+TFqrDJDFGXYG7KfS2qXyQwDbOA8Lh5EvfIaqK1oz4Ej/YBpIRmMhctnWz/D
-         dmLW9qsdkNX+tArqxly38bmgkmfD5PZzl3ONvDw5norrG4dm2xqeKRQSRiHUeOKKJGio
-         0SEuRAtsBHWyGi5WNEPK4zotOPc08Aa4+uVbu0cySRxBwkihKoaX2dn2FW5aCV4zkHVX
-         opZA==
+         :subject:message-id:references:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=aYOus/8xqSffdtyW2WT6xNu/UwpTcAbiqasq5Xo8NN8=;
+        b=cFOOMKFLgtzm7UrZRp4sqi78CYV+3cZPqTDnqCtgImC7WpakYdvnMnKfq0H4awMV9/
+         9r/otRkeps4kCi+De8gc+k5bcOidSrOK7Q7EjZ+/YK9XBmFl7571KwdWAcFM+adVtotY
+         OawslYeb3Kyl3HGhF4hArMMzWPGCQVbLFjwd/HNVQrJTdzKst1j7J1KsBok7uxtaFC7n
+         r9O9ga3AV2vCuP+P5nWHIUOgGBTjLNoSl1IK2EefzAfPsEyfqPPj1RoxvDhVh4HAOo8S
+         qa9Af7+A78JVqW/EtID63hbZq5gBhG7E7qgLSjlg4Wo5Z5Zaq/nEUwjOJHi3ExhLML0M
+         ungQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678969917;
+        d=1e100.net; s=20210112; t=1678969922;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sTlU52IB4H4kJnSHb4YCA9SCgTcdfK8R6Ee8atgKXMs=;
-        b=rDwSoDnF6oHRjVk1Brh+ut7q+6HOnbM4lOSecnucixurdlI9lhCWJvf3ySKhfjbRE2
-         3vY2/iCFEI9HXE4rE+gjpsnkL6Zs89/Z1QZLnWsxd/wBWIn2Z8pAZ89ODIWFAQcjY7fK
-         eGpu5z+qJkjRmMfKWxBftjNTFgGPrQMU4+iS1AdJhOSnqiE7K5VS4Wqm1VSG1z5LmN3n
-         0DFypcqgT+ref0XRLReocMP4wLDGzu177UMV+vdfcdgxDKWB0NuDDUvtszZ+cdu92K85
-         KIPIizxmzrYIy6Y5SIAVl3nfLyyOTHSl9h+AamdmveVDRP28Uy/Vap/O0pqeI73GXCK4
-         W8tw==
-X-Gm-Message-State: AO0yUKWh5GskyPqV4gqeoQ4oUztNs4+SlnGpfbkpqLOY3pjNsPtEaDO1
-	L7VRUiSIN2Wg0/PRfePURHQ=
-X-Google-Smtp-Source: AK7set/yBS/8fXt2JjKjOjGcTXLcFV8IozBVkztdymnJ8Gk05qoLziTgxMvPujpC0jWeZucBbXqMYA==
-X-Received: by 2002:a9d:7094:0:b0:69b:af37:6fa0 with SMTP id l20-20020a9d7094000000b0069baf376fa0mr1234507otj.5.1678969917653;
-        Thu, 16 Mar 2023 05:31:57 -0700 (PDT)
+         :subject:message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aYOus/8xqSffdtyW2WT6xNu/UwpTcAbiqasq5Xo8NN8=;
+        b=B1i3JZcjwnW6ozOlx7Lwz7txgUiBoGf/3Im+LNK9QKqmhF6BiqI4shiAEx6Ia5lCNe
+         mUDXIAmbinZjTVF0g1SPyVZ1P5Ug0HhASkd/rzgoXaxWaWpoAw5L3y60ADgypSG2zqTE
+         tzBAlGs4g2xygF/3pNWREoKC/JtrxIsCC/i+huQFiu0fOvtaDK1wDubuHDDP93aq+55K
+         gH2z9elTiOPN2krSHuo7/IGwavREUgYH0t2jkVOnxhWip7hILnCWoRhjDQuflgE/IGZX
+         nwlkXqQA5R5hGufboxoaoAvrRBsQliaa3cdHR+f4Lt9tmrnthqc3GV27D94k+JWTITcw
+         tb0Q==
+X-Gm-Message-State: AO0yUKUu8HOTAdfk1UvB4XSOzk4Ip7xY6gp4Nfq9SX1zkqLl4EEe+281
+	IDrfNE/+ShVxkFO5TY+3XKo=
+X-Google-Smtp-Source: AK7set9J2CQg/HLSury0jIwElsDh3YyOI8dUf9NOelKSbQDLdXTf6lIy2wneQDrbJ4KyUdYpzgoARA==
+X-Received: by 2002:a17:902:e54c:b0:19a:5953:e85c with SMTP id n12-20020a170902e54c00b0019a5953e85cmr1386503plf.1.1678969921986;
+        Thu, 16 Mar 2023 05:32:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:24c:b0:384:d300:3fb8 with SMTP id
- m12-20020a056808024c00b00384d3003fb8ls385292oie.9.-pod-prod-gmail; Thu, 16
- Mar 2023 05:31:57 -0700 (PDT)
-X-Received: by 2002:aca:1812:0:b0:384:202f:be32 with SMTP id h18-20020aca1812000000b00384202fbe32mr2638493oih.11.1678969917109;
-        Thu, 16 Mar 2023 05:31:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1678969917; cv=none;
+Received: by 2002:a17:902:bf42:b0:19f:2451:31b6 with SMTP id
+ u2-20020a170902bf4200b0019f245131b6ls1972645pls.0.-pod-prod-gmail; Thu, 16
+ Mar 2023 05:32:01 -0700 (PDT)
+X-Received: by 2002:a17:902:d505:b0:19d:16e4:ac0f with SMTP id b5-20020a170902d50500b0019d16e4ac0fmr4108564plg.5.1678969921081;
+        Thu, 16 Mar 2023 05:32:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1678969921; cv=none;
         d=google.com; s=arc-20160816;
-        b=m9zv6EaWzOzkRF5HQ8jRiyCM9EHbfuP21HUTMp5A2kbiE66j8bRaVNCvYVXz2A7KJy
-         pRFAeyS/coO88aIha6SHLnaZDWVb4B7JAFgbZdrUJndUnusg9k7NUlUywz0tTKS7F7HI
-         JMOQCLN+2eUWCj1YYK4VrvSjexXAmNB5KMQQJ8TX176E+Bvm8mGibM/av5Xf+NM/elLc
-         aCbWgkk3/w2jTxF0GCoBue/r4gypX9wr6gsPuZjxWszSnWtkUqBRymx/eX4vuxMOjJQt
-         N9coOibEvGMGZLTBySrRee1bsUJPo/7ao0oig5wWHCbjn0KbNcQfVpWJFqzGXSWskBR4
-         4kYg==
+        b=TqafI3nzEz5nYZCArUqt6zIErV9dYD2MlXtw4ucETSrb1uJOR7daninbZ771+uzL8+
+         cGuigz41Ln5W8+4KyBKzN2xVIDrvi8E7BZUna/pS38djEdiB9XGfO7FBcmCDiCCpr082
+         h6gJ6gmvAM+WxyKP00AJ92tt0cz38JtJ4MHB2fPO3+rQFILvoJoTIdQZD6Nvx324kb7F
+         RDtyw7kvHaEnuaHyVYQ5LsRRse2uk8UEkDDB+Ultz6rSJewT3Gnx+g71/qR2Sa7kF8FM
+         LtgzuiOXOTw4602rgLXdye/dPRS/bzY+kgwFxQ29czW5VhdE/LzfjgZU0siqLwMMefFD
+         HGpQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
-        bh=87DZZv3zvWxq1JNrpUvBlJXCIWW+Rra/IVtOi+lv2AY=;
-        b=qbH16JKhYXcU/C1PyIK/p1upUdKBbL6u/uSUUqf1Nq5WOjTYQ2ErFI7TUUcMzY6dGv
-         WOTFw8qX+ngy+LIU6JcvmsRu019LWKRjHaRZeJhVoYpYEvCpjPh8BZLwmNyTTcSffJpQ
-         6YQ4lWbMYVb3jNwHQ+a06vp2RSMnUplVSaFWTPZ6dMQEdEty0mxzTkiIGC0pVDh2lHTo
-         LTXKtabvdBEnWnBEvhNjq/+7UxfCUOG4boMXzo7kdsfolF+7lk2x9ggQuKdbzHf0iMcA
-         l7YC4VgyzBR1BQceN6ctqzKuYfPcoi9eehk11ZQgRbDSyz9Jja+gtVu1m1QV+Jlj98Ew
-         3KYA==
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:dkim-signature;
+        bh=Wgf7EduwhN6551MQujeSUTn74g+txYbPhrHuCm2tsLY=;
+        b=Hg0PzK7k7OXyTLyWtJnUV8UTagabmw5nJPrZGr0G/XZ1Gv8rSXfn80CVDgsNehe22N
+         Vdd/eri60QSavKhJQutgoIJleiBLd3JR7UgnoNOdyJuj1nDdUBZjVJfowQSA+iXGTxzT
+         H8WsfcNoodVq1cPqC0MliKdKn4ytegaZl9J0J9g+ne0fGALIX/3UPe5s7RsggpZdOBM3
+         QdfrZVKzf8EUDtPAo5tVksGEDbJTCKZW07BjXVmEKwVuyqsLkuu0KrbL9pJFISv7IH98
+         n5xZIFOeDLG3tD0i3YNahRYyiSrTMtZVTWb9G9mvDK4h85frArcIs+NEBgwh8zqI1F7w
+         Vg8A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20210112 header.b=qCtLERy6;
-       spf=pass (google.com: domain of 3pawtzaukcccry8r4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3PAwTZAUKCccry8r4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20210112 header.b=AyWoKrQz;
+       spf=pass (google.com: domain of 3qawtzaukccsv2cv8x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3QAwTZAUKCcsv2Cv8x55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com. [2607:f8b0:4864:20::1149])
-        by gmr-mx.google.com with ESMTPS id db23-20020a056808409700b0036bbb25d978si473113oib.3.2023.03.16.05.31.57
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com. [2607:f8b0:4864:20::b4a])
+        by gmr-mx.google.com with ESMTPS id z3-20020a170902d54300b0019c35405665si310548plf.1.2023.03.16.05.32.01
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 16 Mar 2023 05:31:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3pawtzaukcccry8r4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) client-ip=2607:f8b0:4864:20::1149;
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5411f21f849so13695867b3.16
-        for <kasan-dev@googlegroups.com>; Thu, 16 Mar 2023 05:31:57 -0700 (PDT)
+        Thu, 16 Mar 2023 05:32:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3qawtzaukccsv2cv8x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) client-ip=2607:f8b0:4864:20::b4a;
+Received: by mail-yb1-xb4a.google.com with SMTP id 206-20020a2504d7000000b00b3511d10748so1661655ybe.20
+        for <kasan-dev@googlegroups.com>; Thu, 16 Mar 2023 05:32:01 -0700 (PDT)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:f359:6b95:96e:1317])
- (user=elver job=sendgmr) by 2002:a81:b306:0:b0:541:61aa:9e60 with SMTP id
- r6-20020a81b306000000b0054161aa9e60mr2038578ywh.6.1678969916701; Thu, 16 Mar
- 2023 05:31:56 -0700 (PDT)
-Date: Thu, 16 Mar 2023 13:30:27 +0100
+ (user=elver job=sendgmr) by 2002:a81:e508:0:b0:544:5fc7:f01f with SMTP id
+ s8-20020a81e508000000b005445fc7f01fmr2036499ywl.4.1678969920431; Thu, 16 Mar
+ 2023 05:32:00 -0700 (PDT)
+Date: Thu, 16 Mar 2023 13:30:28 +0100
+In-Reply-To: <20230316123028.2890338-1-elver@google.com>
 Mime-Version: 1.0
+References: <20230316123028.2890338-1-elver@google.com>
 X-Mailer: git-send-email 2.40.0.rc1.284.g88254d51c5-goog
-Message-ID: <20230316123028.2890338-1-elver@google.com>
-Subject: [PATCH v6 1/2] posix-timers: Prefer delivery of signals to the
- current thread
+Message-ID: <20230316123028.2890338-2-elver@google.com>
+Subject: [PATCH v6 2/2] selftests/timers/posix_timers: Test delivery of
+ signals across threads
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, 
 	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>
@@ -116,9 +119,9 @@ Cc: Oleg Nesterov <oleg@redhat.com>, "Eric W. Biederman" <ebiederm@xmission.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20210112 header.b=qCtLERy6;       spf=pass
- (google.com: domain of 3pawtzaukcccry8r4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3PAwTZAUKCccry8r4t11tyr.p1zxn5n0-qr8t11tyrt41725.p1z@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20210112 header.b=AyWoKrQz;       spf=pass
+ (google.com: domain of 3qawtzaukccsv2cv8x55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3QAwTZAUKCcsv2Cv8x55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -136,101 +139,118 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Dmitry Vyukov <dvyukov@google.com>
 
-POSIX timers using the CLOCK_PROCESS_CPUTIME_ID clock prefer the main
-thread of a thread group for signal delivery.     However, this has a
-significant downside: it requires waking up a potentially idle thread.
-
-Instead, prefer to deliver signals to the current thread (in the same
-thread group) if SIGEV_THREAD_ID is not set by the user. This does not
-change guaranteed semantics, since POSIX process CPU time timers have
-never guaranteed that signal delivery is to a specific thread (without
-SIGEV_THREAD_ID set).
-
-The effect is that we no longer wake up potentially idle threads, and
-the kernel is no longer biased towards delivering the timer signal to
-any particular thread (which better distributes the timer signals esp.
-when multiple timers fire concurrently).
+Test that POSIX timers using CLOCK_PROCESS_CPUTIME_ID eventually deliver
+a signal to all running threads.  This effectively tests that the kernel
+doesn't prefer any one thread (or subset of threads) for signal delivery.
 
 Signed-off-by: Dmitry Vyukov <dvyukov@google.com>
-Suggested-by: Oleg Nesterov <oleg@redhat.com>
-Reviewed-by: Oleg Nesterov <oleg@redhat.com>
 Signed-off-by: Marco Elver <elver@google.com>
 ---
 v6:
-- Split test from this patch.
-- Update wording on what this patch aims to improve.
-
-v5:
-- Rebased onto v6.2.
-
-v4:
-- Restructured checks in send_sigqueue() as suggested.
-
-v3:
-- Switched to the completely different implementation (much simpler)
-  based on the Oleg's idea.
-
-RFC v2:
-- Added additional Cc as Thomas asked.
+- Update wording on what the test aims to test.
+- Fix formatting per checkpatch.pl.
 ---
- kernel/signal.c | 25 ++++++++++++++++++++++---
- 1 file changed, 22 insertions(+), 3 deletions(-)
+ tools/testing/selftests/timers/posix_timers.c | 77 +++++++++++++++++++
+ 1 file changed, 77 insertions(+)
 
-diff --git a/kernel/signal.c b/kernel/signal.c
-index 8cb28f1df294..605445fa27d4 100644
---- a/kernel/signal.c
-+++ b/kernel/signal.c
-@@ -1003,8 +1003,7 @@ static void complete_signal(int sig, struct task_struct *p, enum pid_type type)
- 	/*
- 	 * Now find a thread we can wake up to take the signal off the queue.
- 	 *
--	 * If the main thread wants the signal, it gets first crack.
--	 * Probably the least surprising to the average bear.
-+	 * Try the suggested task first (may or may not be the main thread).
- 	 */
- 	if (wants_signal(sig, p))
- 		t = p;
-@@ -1970,8 +1969,23 @@ int send_sigqueue(struct sigqueue *q, struct pid *pid, enum pid_type type)
+diff --git a/tools/testing/selftests/timers/posix_timers.c b/tools/testing/selftests/timers/posix_timers.c
+index 0ba500056e63..8a17c0e8d82b 100644
+--- a/tools/testing/selftests/timers/posix_timers.c
++++ b/tools/testing/selftests/timers/posix_timers.c
+@@ -188,6 +188,80 @@ static int check_timer_create(int which)
+ 	return 0;
+ }
  
- 	ret = -1;
- 	rcu_read_lock();
-+	/*
-+	 * This function is used by POSIX timers to deliver a timer signal.
-+	 * Where type is PIDTYPE_PID (such as for timers with SIGEV_THREAD_ID
-+	 * set), the signal must be delivered to the specific thread (queues
-+	 * into t->pending).
-+	 *
-+	 * Where type is not PIDTYPE_PID, signals must just be delivered to the
-+	 * current process. In this case, prefer to deliver to current if it is
-+	 * in the same thread group as the target, as it avoids unnecessarily
-+	 * waking up a potentially idle task.
-+	 */
- 	t = pid_task(pid, type);
--	if (!t || !likely(lock_task_sighand(t, &flags)))
-+	if (!t)
-+		goto ret;
-+	if (type != PIDTYPE_PID && same_thread_group(t, current))
-+		t = current;
-+	if (!likely(lock_task_sighand(t, &flags)))
- 		goto ret;
++int remain;
++__thread int got_signal;
++
++static void *distribution_thread(void *arg)
++{
++	while (__atomic_load_n(&remain, __ATOMIC_RELAXED));
++	return NULL;
++}
++
++static void distribution_handler(int nr)
++{
++	if (!__atomic_exchange_n(&got_signal, 1, __ATOMIC_RELAXED))
++		__atomic_fetch_sub(&remain, 1, __ATOMIC_RELAXED);
++}
++
++/*
++ * Test that all running threads _eventually_ receive CLOCK_PROCESS_CPUTIME_ID
++ * timer signals. This primarily tests that the kernel does not favour any one.
++ */
++static int check_timer_distribution(void)
++{
++	int err, i;
++	timer_t id;
++	const int nthreads = 10;
++	pthread_t threads[nthreads];
++	struct itimerspec val = {
++		.it_value.tv_sec = 0,
++		.it_value.tv_nsec = 1000 * 1000,
++		.it_interval.tv_sec = 0,
++		.it_interval.tv_nsec = 1000 * 1000,
++	};
++
++	printf("Check timer_create() per process signal distribution... ");
++	fflush(stdout);
++
++	remain = nthreads + 1;  /* worker threads + this thread */
++	signal(SIGALRM, distribution_handler);
++	err = timer_create(CLOCK_PROCESS_CPUTIME_ID, NULL, &id);
++	if (err < 0) {
++		perror("Can't create timer\n");
++		return -1;
++	}
++	err = timer_settime(id, 0, &val, NULL);
++	if (err < 0) {
++		perror("Can't set timer\n");
++		return -1;
++	}
++
++	for (i = 0; i < nthreads; i++) {
++		if (pthread_create(&threads[i], NULL, distribution_thread, NULL)) {
++			perror("Can't create thread\n");
++			return -1;
++		}
++	}
++
++	/* Wait for all threads to receive the signal. */
++	while (__atomic_load_n(&remain, __ATOMIC_RELAXED));
++
++	for (i = 0; i < nthreads; i++) {
++		if (pthread_join(threads[i], NULL)) {
++			perror("Can't join thread\n");
++			return -1;
++		}
++	}
++
++	if (timer_delete(id)) {
++		perror("Can't delete timer\n");
++		return -1;
++	}
++
++	printf("[OK]\n");
++	return 0;
++}
++
+ int main(int argc, char **argv)
+ {
+ 	printf("Testing posix timers. False negative may happen on CPU execution \n");
+@@ -217,5 +291,8 @@ int main(int argc, char **argv)
+ 	if (check_timer_create(CLOCK_PROCESS_CPUTIME_ID) < 0)
+ 		return ksft_exit_fail();
  
- 	ret = 1; /* the signal is ignored */
-@@ -1993,6 +2007,11 @@ int send_sigqueue(struct sigqueue *q, struct pid *pid, enum pid_type type)
- 	q->info.si_overrun = 0;
- 
- 	signalfd_notify(t, sig);
-+	/*
-+	 * If the type is not PIDTYPE_PID, we just use shared_pending, which
-+	 * won't guarantee that the specified task will receive the signal, but
-+	 * is sufficient if t==current in the common case.
-+	 */
- 	pending = (type != PIDTYPE_PID) ? &t->signal->shared_pending : &t->pending;
- 	list_add_tail(&q->list, &pending->list);
- 	sigaddset(&pending->signal, sig);
++	if (check_timer_distribution() < 0)
++		return ksft_exit_fail();
++
+ 	return ksft_exit_pass();
+ }
 -- 
 2.40.0.rc1.284.g88254d51c5-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230316123028.2890338-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230316123028.2890338-2-elver%40google.com.
