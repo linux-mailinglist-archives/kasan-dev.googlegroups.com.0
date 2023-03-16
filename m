@@ -1,148 +1,163 @@
-Return-Path: <kasan-dev+bncBDVL3PXJZILBBKUSZSQAMGQET64L2PY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDVL3PXJZILBB44SZSQAMGQEPBKX7PQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb39.google.com (mail-yb1-xb39.google.com [IPv6:2607:f8b0:4864:20::b39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F7C46BCF3D
-	for <lists+kasan-dev@lfdr.de>; Thu, 16 Mar 2023 13:18:52 +0100 (CET)
-Received: by mail-yb1-xb39.google.com with SMTP id e129-20020a251e87000000b00b56598237f5sf1634005ybe.16
-        for <lists+kasan-dev@lfdr.de>; Thu, 16 Mar 2023 05:18:52 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1678969131; cv=pass;
+Received: from mail-oa1-x3f.google.com (mail-oa1-x3f.google.com [IPv6:2001:4860:4864:20::3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 614196BCF46
+	for <lists+kasan-dev@lfdr.de>; Thu, 16 Mar 2023 13:20:05 +0100 (CET)
+Received: by mail-oa1-x3f.google.com with SMTP id 586e51a60fabf-176249fbc56sf1100796fac.6
+        for <lists+kasan-dev@lfdr.de>; Thu, 16 Mar 2023 05:20:05 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1678969204; cv=pass;
         d=google.com; s=arc-20160816;
-        b=AXb+6F3VHIBmiM9VzbwaIATtvRMmCdot3gry9kEbEeLrM82M5E2QG6ogQl9t7NBmZb
-         JYtBhpwWFpbxU3w1JbLtOcP/L4XQaUVl+evMOsqsRfoqeLcS/MFiJuA408Wz/eGAiOge
-         IXD3no954AAZ4LP5sPEWcyLrgWSSFinsw6Kf4xVoBnZTfAK0T5d70KipiQdi8vovumPZ
-         FSimpeaOdGiVBlf/EVrDAOQzWeG2e6d9ljxaNmKmbSI6Shu/hFVilFvEsvVxRObJ/GSE
-         AoisAL3+ToYa+yoCMR0d8r1VAkVRKKh9eCrdn/bZgSbPwllExrOoEaWrdEbH/inhDgae
-         E77g==
+        b=KjmjgRtEDIVy5a1zTWPoUN8RBj1GewiM+eOWqRQdUeUrUF8IkPm8ZHNhN2CKYm4yr1
+         VqNZZJCM7iaA0Pd2Cz4NG6bsz+bQ6rvwYvplVv6yUmYCPB1luOqvSykrN7FspofBGtkj
+         a2BX5cPbpMeqfxQgCz7Od0sFPoOib6TnIud9Gg8/YrZfG4aQCpi1m+KnZXNNG1m8ppn7
+         hDBJR4hhIDqn/UPTrk9koDquw25/2EabQ2lAIr0ltfIGKjQ1W5PVdXGgFQnpvF35bs/y
+         9vdUnfjkaFGV7XLFe5sXoHFwtVhmMaHwgufL9mYFH7IN6Dq9XLX3b25rkOwHTTU+jktE
+         +X3g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=vJxiDTdynH8vfcBXRNpgXVeLlvLgXZeAmTizvPNRVUE=;
-        b=pdl2D9u+TAUICUk7gq8rsb+bLKiVQyOZ9btLLhwUhYqhkHKfv4FQvH8u55EMmQzIQF
-         cpmtmagfot0glZ4O24NOLZH6kDsAayn6SIP7BxicxUss4gVI+5vBlRWnXu6BH6GkPK1w
-         IVw59kXsoMm9i1uce+P+JLrjDM4yx3uZcx83mWpUkN3mO+7gchPonQD/Up8VNuY3aqz9
-         3jNBg5UCTfQt7bziWSLX+iFTWHhs8WkSSCZV/y1lj+xrH4POpDyR3dEPBvcP+hYqTgdu
-         P2/gEESj3jk7W8LAVGwJlMaTjUAZfTMRvWlU6u8RrlEoIAX+eZpbjwwSzRl1L4L0lk6t
-         2vdQ==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :in-reply-to:references:cc:to:from:content-language:subject
+         :user-agent:mime-version:date:message-id:sender:dkim-signature;
+        bh=CFYbMu+PK6e1TdfUILNQqgz0kQHwh2Fs0ju8oNndkMs=;
+        b=0Z4iSnSWCgZ4GdjwiyrLvKjpC06ApqYnxV7mVAfXB9tuBeJDmhO2EWe8ok/5/PMX3L
+         PqPKJpl3zu/P6iHwqRSNx471MgdE4dRPXP4Uy5jeHuRbALog6Ow/VaR9C/D5dYZ1aSvb
+         2MwOSRYYk0mUrWeP4PgXVKP3qbKebNgb+9SZQeOYGCt73Ymmu79bOESl/AjkVzaPpcBz
+         G/aNDJdM4zc/YsJGPBUFpr1oIyNL0X0NDJ1s4E4T9yWd0PRjbqpwz6+x2Ih9wtrZhTdm
+         m3SrJOrdMq6DUhxJlpoZn+lbW7xtsQas1dKSJIFBsfd0yRkM3E9yrWpunWQZaeSNKAiG
+         Zzcw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=ZSYKbSe4;
-       spf=pass (google.com: domain of quic_zhenhuah@quicinc.com designates 205.220.168.131 as permitted sender) smtp.mailfrom=quic_zhenhuah@quicinc.com;
+       dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=NDR7e9nT;
+       spf=pass (google.com: domain of quic_zhenhuah@quicinc.com designates 205.220.180.131 as permitted sender) smtp.mailfrom=quic_zhenhuah@quicinc.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1678969131;
+        d=googlegroups.com; s=20210112; t=1678969204;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=vJxiDTdynH8vfcBXRNpgXVeLlvLgXZeAmTizvPNRVUE=;
-        b=F9FJlP19IzjnjQmU9KAo/O5APAR7+vVyqm5raVb8mRDCazy8iffSoq1alCsrGAzor6
-         NuhsifFKTMR2Ht4RiEjsBReLg1y4TmZx+T3dYS82YhXlDpDFIzdeeE4tnxlSqdaUg4cu
-         G1QLhrvLgpyZw2r2CuF2BuyrotWi1ZfcRwJHVr1jsaGL96SScuue5Dh0EBMyKKFz16Gl
-         68dhXwZq53Q3FRI43oYnBqvWMvlZk8iyJpMJlkwbYsVSI2l7rak8i4Hss24aB0IRm3kp
-         jXL8DKjV3jfejUsjQOeZubOgX5ree39j/nBrK9kg8Un1zuYOiqEl4hH+k3GThLwvvZMw
-         ccVQ==
+         :x-original-sender:content-transfer-encoding:in-reply-to:references
+         :cc:to:from:content-language:subject:user-agent:mime-version:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=CFYbMu+PK6e1TdfUILNQqgz0kQHwh2Fs0ju8oNndkMs=;
+        b=CEqIoXQkgyF1h1nPkPnNxqWSsCCBX6D0jgI2wTVHgOxX2sF/IiwPQqzSox+iyc5a98
+         nLxPTI0BgI9LnEasWGHIaCeyYyi87ZI/bmtjSFhfQlsp2PqCvCgkJcjqX3/tRMH6iBns
+         VWHx0IK5jeUiOmjlo9gQOuaqx2+jz3byuLo6jdDb4HB0XY5NztUtx1STN4xQBRlwsTDw
+         7dkCUMhFEFGyxq1sLBZocpT6fpgmD8+Tzx3F3EjYPkXdQbe7Ag6AOMACQPhUM1f0Zdw4
+         rpSpS0UaZuVFrSS7JgvdV2Tog3wDPZZfCNwZyZjYOpYZcIs0IUU9xWF18cU9n9Bo1n4k
+         Ub1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678969131;
+        d=1e100.net; s=20210112; t=1678969204;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vJxiDTdynH8vfcBXRNpgXVeLlvLgXZeAmTizvPNRVUE=;
-        b=G/rEHMviqGgLEArfGCl4VgxzD71gpjmO4UYMAe57wCC3/FvDVetmoS/9V0GoN+kHJS
-         wfoCsUQ5ydKNN6bP3eQTdTCYCmW1BNHBbUov0fh42UHH+K0L8BCT/DZ72wGMJ7C1k19Z
-         37xPNuABbT3leW+S5eWKB2/4WugphQDDZbnoatNS1A+qbdrzTbqsz2TFYiQe+S2L+slb
-         fIlm5lgQIQLWB3q+n9j+tRbF5zFclNy2TB7GyhFkIB13tsLgmi9wv4SQQRPLxS0IkHRT
-         wem2SBnZDGeDdfZRLLwIABnGcYQvSRhTo4t/xVsjsJwAs80sSLovHhRhIfurU2ww3EHa
-         EsJA==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CFYbMu+PK6e1TdfUILNQqgz0kQHwh2Fs0ju8oNndkMs=;
+        b=nlQJqjcQB3DWLiQpc2saGCHgqXkc/rts9nZvBsTo3n7z6QnVyAvn3qY+D+jsPb8lDG
+         QXXFp441ht+nxZl4Wf9PKxCeFxkdLD1k6QT4pnOVjKFjLdOYJ81/ntpI8SPiLR7Uhv5F
+         lKkDjcLE4bzXnaJ+TycVD9aFe4lzxeaXNze+DVGDETE93l3qMy2CeA655yMaf6/vzCsl
+         lk//yRYFalyrmx8PKLTUw0JXjYuUn25RQfXYzYq6qynsR6+mmxiXfb6Ub/wg7E4XZfcp
+         1CEXBKHqRjKuvplERtS5BYzoyoD0XzJbDaDDiZt82HA/9tLj6/rcLecY1AXXC8UlYPfZ
+         nJDA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKUeaczRER1GfxnNa6mep84jRL1O8Cfa6QRLzYkPPgSWBcBDNjN7
-	lsBiwo5Pvz3KRFdeKc0b/LGgRg==
-X-Google-Smtp-Source: AK7set/QpsqZGlk0gdRPM6Kpj463XBsLR7rb+MjfK0HTjaJbwRS4yh3fM0uiLrCiP7kbr+L0GZHqbQ==
-X-Received: by 2002:a81:af63:0:b0:52e:d380:ab14 with SMTP id x35-20020a81af63000000b0052ed380ab14mr736006ywj.3.1678969131130;
-        Thu, 16 Mar 2023 05:18:51 -0700 (PDT)
+X-Gm-Message-State: AO0yUKUDNiUVEC5qph8Hs9VxjD/IJUdf60e+6WYtZD42N5fbfmwUc05t
+	WyIKx8pK6DHdT8ViG1cHdvM=
+X-Google-Smtp-Source: AK7set/URfaOHnYgNjfvqu6tyk6hn8Fnx7SNKH/gs0y5cGqzads1CaGdQBMwowWvSNv/xdRTy9lQeA==
+X-Received: by 2002:a05:6870:1058:b0:17a:b713:63e9 with SMTP id 24-20020a056870105800b0017ab71363e9mr3164298oaj.4.1678969204039;
+        Thu, 16 Mar 2023 05:20:04 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a81:72d6:0:b0:541:a39a:5892 with SMTP id n205-20020a8172d6000000b00541a39a5892ls659324ywc.5.-pod-prod-gmail;
- Thu, 16 Mar 2023 05:18:50 -0700 (PDT)
-X-Received: by 2002:a81:484e:0:b0:544:5382:be95 with SMTP id v75-20020a81484e000000b005445382be95mr3192074ywa.15.1678969130373;
-        Thu, 16 Mar 2023 05:18:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1678969130; cv=none;
+Received: by 2002:a05:6870:e999:b0:177:b908:1eda with SMTP id
+ r25-20020a056870e99900b00177b9081edals626688oao.1.-pod-prod-gmail; Thu, 16
+ Mar 2023 05:20:03 -0700 (PDT)
+X-Received: by 2002:a05:6871:413:b0:17a:d863:4cfc with SMTP id d19-20020a056871041300b0017ad8634cfcmr3092464oag.38.1678969203531;
+        Thu, 16 Mar 2023 05:20:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1678969203; cv=none;
         d=google.com; s=arc-20160816;
-        b=kfveWeB+CGfwc+FZE3By9EZveB6xkToRgFe75Yc0t8ijsT3gt3DSFNKSi2GhGiAWhR
-         B4yd6NXH5CZNuNED/ii9Mdl77KXCZ9wZdl+C9TkuHCN3DtSX8aOZLS1/fzaja5SUYTGu
-         xePiBriw2MzAe2o9/ZteSt/LGS0YeHc95cn44WPjhpsIj1D2oi0OgXgRPf2RJdhvONzb
-         6t3PM824+Tvp1mc6MMrMBPX1xA6+LiZNt96mu7nseenYIwWG98vCxDnF4RLXaRribVAX
-         F3wR6ItjV0HSQrXJVG0bclOI9fSkIV/71ASrAkn0n8S5v3A4JBUp1c3VpaUr1kAYHDq1
-         5kAA==
+        b=p7iPq/kS5fwq+P7mtFJo6vlDAVsl0KU1QHK+wcHqpICa7U65FM9ympE5adDZdhhiOe
+         +B2JjjcFbafKxyadL577NLW8nlkGQiht5vdj2xrqKVLahfq+W6wnzmBbtnoooEHm8Vys
+         2gMmgClVL1RIGrc4KOHsW0oOlYvgcVFOl6yiQ3BVINJYSvYz6dyCrbGgSMJ3TvO+5Y+/
+         tqJi0gaRSYte0DUkez4LuWCR9JKqFaF1+uqLJbZNLRICdcI0I7YX+Cx47/22zCulmH0d
+         +2Nw3lc6mOWYO8RHmqI40R0uTeidoWaNQmETXLt5geIqZpVwG0an57vSDvhUcOdSHEAa
+         gTJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=pt6m/4EMXuhZyv7EYfDFeBNPiQPywUM74OkTDbTcPuM=;
-        b=CX0W9gbMc1yY0uhnAAvFRQSbE2IQZQW9/4xHowwytJ/+reWCjHZ0ZX1AjkWUCXYh6j
-         HX9Fx0vRJPNpZOoaMXt9fRxH1jdMdj9zLkAFyZS8TdaWXKN6G18mXk1MsK4W8fTaFIAO
-         WOtWnYacYMVn8N2PH+R7Yw/azFEHdX6zggKh0asNgLtLGaQEPKr7/9yr3S8lQVD3M/jX
-         t0BSezLq8xwEpUJsZ/iHNrVOaWHvwCs/+sr+I+Svjqtx7VkfVG+eD4S72uvjHbgY/k7s
-         bBLicicm/PVCOtMre+INtVZnHefNEv7biteahHj7Wd//lKiq8+FZI2T7cJ5rR3RPxRdV
-         IDpA==
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=AG74fjdSctjP7e/B3IYzY6uBYNMQ0Wgjh9MkmYE2g/4=;
+        b=G4bncC14VNfLLoaRdqS8xB5JyYxJPz+8zaNNiuuFZtjBG2IwhnM2TQhafTpwIEtYgx
+         znQYQ1If2O6dxQ3NBg507En1AJWTtKsqy0pmIR5uqleTo3eH8RJ3uKj23CkiC1J5cSHh
+         fJ/thtenbWH13ChVroc9VeTpzYzYPeqRmZsxNeNuqvLks8M4RjrzCmqtvW06cgw7c9I2
+         cLiBZ1byZg2ISnJJz/5NEN0xiGGfkNqrOb9tuHQGI/bPm26Ai+rfaVit86U30Lq16Bk0
+         j9ra7WN9OFxYXi2oZCvIA8EsOriYUSBLahPxMFGespbntHDVEt5TSgoSGHlYiXGiQJCs
+         uC/w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=ZSYKbSe4;
-       spf=pass (google.com: domain of quic_zhenhuah@quicinc.com designates 205.220.168.131 as permitted sender) smtp.mailfrom=quic_zhenhuah@quicinc.com;
+       dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=NDR7e9nT;
+       spf=pass (google.com: domain of quic_zhenhuah@quicinc.com designates 205.220.180.131 as permitted sender) smtp.mailfrom=quic_zhenhuah@quicinc.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com. [205.220.168.131])
-        by gmr-mx.google.com with ESMTPS id bf9-20020a05690c028900b0053cba27e38dsi516257ywb.1.2023.03.16.05.18.50
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com. [205.220.180.131])
+        by gmr-mx.google.com with ESMTPS id pn12-20020a0568704d0c00b001723959e146si1352376oab.4.2023.03.16.05.20.03
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 16 Mar 2023 05:18:50 -0700 (PDT)
-Received-SPF: pass (google.com: domain of quic_zhenhuah@quicinc.com designates 205.220.168.131 as permitted sender) client-ip=205.220.168.131;
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32G4kFOd011172;
-	Thu, 16 Mar 2023 12:18:43 GMT
+        Thu, 16 Mar 2023 05:20:03 -0700 (PDT)
+Received-SPF: pass (google.com: domain of quic_zhenhuah@quicinc.com designates 205.220.180.131 as permitted sender) client-ip=205.220.180.131;
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32GAsYWl032638;
+	Thu, 16 Mar 2023 12:19:59 GMT
 Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pbpxshs6r-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pbpya1q4n-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 Mar 2023 12:18:43 +0000
+	Thu, 16 Mar 2023 12:19:59 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32GCIgeF012416
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32GCJwqH013552
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 Mar 2023 12:18:42 GMT
-Received: from zhenhuah-gv.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.41; Thu, 16 Mar 2023 05:18:37 -0700
+	Thu, 16 Mar 2023 12:19:58 GMT
+Received: from [10.239.132.245] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 16 Mar
+ 2023 05:19:54 -0700
+Message-ID: <33aae812-ab0a-d5fb-8211-6ed6f0368b42@quicinc.com>
+Date: Thu, 16 Mar 2023 20:19:51 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH v9] mm,kfence: decouple kfence from page granularity
+ mapping judgement
+Content-Language: en-US
 From: Zhenhua Huang <quic_zhenhuah@quicinc.com>
-To: <catalin.marinas@arm.com>, <will@kernel.org>, <glider@google.com>,
-        <elver@google.com>, <dvyukov@google.com>, <akpm@linux-foundation.org>,
+To: Marco Elver <elver@google.com>
+CC: <catalin.marinas@arm.com>, <will@kernel.org>, <glider@google.com>,
+        <dvyukov@google.com>, <akpm@linux-foundation.org>,
         <robin.murphy@arm.com>, <mark.rutland@arm.com>, <jianyong.wu@arm.com>,
-        <james.morse@arm.com>, <wangkefeng.wang@huawei.com>
-CC: Zhenhua Huang <quic_zhenhuah@quicinc.com>,
+        <james.morse@arm.com>, <wangkefeng.wang@huawei.com>,
         <linux-arm-kernel@lists.infradead.org>, <kasan-dev@googlegroups.com>,
         <linux-mm@kvack.org>, <quic_pkondeti@quicinc.com>,
         <quic_guptap@quicinc.com>, <quic_tingweiz@quicinc.com>
-Subject: [PATCH v10] mm,kfence: decouple kfence from page granularity mapping judgement
-Date: Thu, 16 Mar 2023 20:18:30 +0800
-Message-ID: <1678969110-11941-1-git-send-email-quic_zhenhuah@quicinc.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+References: <1678956620-26103-1-git-send-email-quic_zhenhuah@quicinc.com>
+ <ZBLqOv2RTScbydrj@elver.google.com>
+ <b47a9bc3-f9d7-77a6-c8d0-977e47f65f4a@quicinc.com>
+In-Reply-To: <b47a9bc3-f9d7-77a6-c8d0-977e47f65f4a@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: DCngU5f5BFwvwhE-Qhk82Xat-Ktq3CyO
-X-Proofpoint-ORIG-GUID: DCngU5f5BFwvwhE-Qhk82Xat-Ktq3CyO
+X-Proofpoint-ORIG-GUID: 46-ZSdruD3kHwpCRnPZdVnewAgSYLycm
+X-Proofpoint-GUID: 46-ZSdruD3kHwpCRnPZdVnewAgSYLycm
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-16_08,2023-03-16_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 phishscore=0
- lowpriorityscore=0 adultscore=0 priorityscore=1501 malwarescore=0
- impostorscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ mlxlogscore=999 spamscore=0 phishscore=0 bulkscore=0 impostorscore=0
+ adultscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
+ clxscore=1015 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2303150002 definitions=main-2303160102
 X-Original-Sender: quic_zhenhuah@quicinc.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@quicinc.com header.s=qcppdkim1 header.b=ZSYKbSe4;       spf=pass
- (google.com: domain of quic_zhenhuah@quicinc.com designates 205.220.168.131
+ header.i=@quicinc.com header.s=qcppdkim1 header.b=NDR7e9nT;       spf=pass
+ (google.com: domain of quic_zhenhuah@quicinc.com designates 205.220.180.131
  as permitted sender) smtp.mailfrom=quic_zhenhuah@quicinc.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
 Precedence: list
@@ -157,210 +172,422 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Kfence only needs its pool to be mapped as page granularity, if it is
-inited early. Previous judgement was a bit over protected. From [1], Mark
-suggested to "just map the KFENCE region a page granularity". So I
-decouple it from judgement and do page granularity mapping for kfence
-pool only. Need to be noticed that late init of kfence pool still requires
-page granularity mapping.
 
-Page granularity mapping in theory cost more(2M per 1GB) memory on arm64
-platform. Like what I've tested on QEMU(emulated 1GB RAM) with
-gki_defconfig, also turning off rodata protection:
-Before:
-[root@liebao ]# cat /proc/meminfo
-MemTotal:         999484 kB
-After:
-[root@liebao ]# cat /proc/meminfo
-MemTotal:        1001480 kB
 
-To implement this, also relocate the kfence pool allocation before the
-linear mapping setting up, arm64_kfence_alloc_pool is to allocate phys
-addr, __kfence_pool is to be set after linear mapping set up.
+On 2023/3/16 18:36, Zhenhua Huang wrote:
+>=20
+>=20
+> On 2023/3/16 18:06, Marco Elver wrote:
+>> On Thu, Mar 16, 2023 at 04:50PM +0800, Zhenhua Huang wrote:
+>>> Kfence only needs its pool to be mapped as page granularity, if it is
+>>> inited early. Previous judgement was a bit over protected. From [1],=20
+>>> Mark
+>>> suggested to "just map the KFENCE region a page granularity". So I
+>>> decouple it from judgement and do page granularity mapping for kfence
+>>> pool only. Need to be noticed that late init of kfence pool still=20
+>>> requires
+>>> page granularity mapping.
+>>>
+>>> Page granularity mapping in theory cost more(2M per 1GB) memory on arm6=
+4
+>>> platform. Like what I've tested on QEMU(emulated 1GB RAM) with
+>>> gki_defconfig, also turning off rodata protection:
+>>> Before:
+>>> [root@liebao ]# cat /proc/meminfo
+>>> MemTotal:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 999484 kB
+>>> After:
+>>> [root@liebao ]# cat /proc/meminfo
+>>> MemTotal:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 1001480 kB
+>>>
+>>> To implement this, also relocate the kfence pool allocation before the
+>>> linear mapping setting up, arm64_kfence_alloc_pool is to allocate phys
+>>> addr, __kfence_pool is to be set after linear mapping set up.
+>>>
+>>> LINK: [1]=20
+>>> https://lore.kernel.org/linux-arm-kernel/Y+IsdrvDNILA59UN@FVFF77S0Q05N/
+>>> Suggested-by: Mark Rutland <mark.rutland@arm.com>
+>>> Signed-off-by: Zhenhua Huang <quic_zhenhuah@quicinc.com>
+>>> ---
+>>> =C2=A0 arch/arm64/include/asm/kfence.h | 16 +++++++++++
+>>> =C2=A0 arch/arm64/mm/mmu.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 59=20
+>>> +++++++++++++++++++++++++++++++++++++++++
+>>> =C2=A0 arch/arm64/mm/pageattr.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 9 +++++--
+>>> =C2=A0 include/linux/kfence.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 1 +
+>>> =C2=A0 mm/kfence/core.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 +++
+>>> =C2=A0 5 files changed, 87 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/arch/arm64/include/asm/kfence.h=20
+>>> b/arch/arm64/include/asm/kfence.h
+>>> index aa855c6..8143c91 100644
+>>> --- a/arch/arm64/include/asm/kfence.h
+>>> +++ b/arch/arm64/include/asm/kfence.h
+>>> @@ -10,6 +10,22 @@
+>>> =C2=A0 #include <asm/set_memory.h>
+>>> +extern phys_addr_t early_kfence_pool;
+>>
+>> This should not be accessible if !CONFIG_KFENCE.
+>>
+>>> +#ifdef CONFIG_KFENCE
+>>> +
+>>> +extern char *__kfence_pool;
+>>> +static inline void kfence_set_pool(phys_addr_t addr)
+>>> +{
+>>> +=C2=A0=C2=A0=C2=A0 __kfence_pool =3D phys_to_virt(addr);
+>>> +}
+>>
+>> kfence_set_pool() is redundant if it's for arm64 only, because we know
+>> where it's needed, and there you could just access __kfence_pool
+>> directly. So let's just remove this function. (Initially I thought you
+>> want to provide it generally, also for other architectures.)
+>>
+>>> +#else
+>>> +
+>>> +static inline void kfence_set_pool(phys_addr_t addr) { }
+>>> +
+>>> +#endif
+>>> +
+>>> =C2=A0 static inline bool arch_kfence_init_pool(void) { return true; }
+>> [...]
+>>> +#endif
+>>> +
+>>> +phys_addr_t early_kfence_pool;
+>>
+>> This variable now exists in non-KFENCE builds, which is wrong.
+>>
+>>> =C2=A0 static void __init map_mem(pgd_t *pgdp)
+>>> =C2=A0 {
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 static const u64 direct_map_end =3D _PAG=
+E_END(VA_BITS_MIN);
+>>> @@ -543,6 +587,10 @@ static void __init map_mem(pgd_t *pgdp)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUILD_BUG_ON(pgd_index(direct_map_end - =
+1) =3D=3D=20
+>>> pgd_index(direct_map_end));
+>>> +=C2=A0=C2=A0=C2=A0 early_kfence_pool =3D arm64_kfence_alloc_pool();
+>>> +=C2=A0=C2=A0=C2=A0 if (early_kfence_pool)
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memblock_mark_nomap(early_k=
+fence_pool, KFENCE_POOL_SIZE);
+>>> +
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (can_set_direct_map())
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 flags |=3D NO_BL=
+OCK_MAPPINGS | NO_CONT_MAPPINGS;
+>>> @@ -608,6 +656,17 @@ static void __init map_mem(pgd_t *pgdp)
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>> =C2=A0 #endif
+>>> +
+>>> +=C2=A0=C2=A0=C2=A0 /* Kfence pool needs page-level mapping */
+>>> +=C2=A0=C2=A0=C2=A0 if (early_kfence_pool) {
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __map_memblock(pgdp, early_=
+kfence_pool,
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ear=
+ly_kfence_pool + KFENCE_POOL_SIZE,
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgp=
+rot_tagged(PAGE_KERNEL),
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NO_=
+BLOCK_MAPPINGS | NO_CONT_MAPPINGS);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memblock_clear_nomap(early_=
+kfence_pool, KFENCE_POOL_SIZE);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* kfence_pool really mappe=
+d now */
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kfence_set_pool(early_kfenc=
+e_pool);
+>>> +=C2=A0=C2=A0=C2=A0 }
+>>
+>> This whole piece of code could also be wrapped in another function,
+>> which becomes a no-op if !CONFIG_KFENCE. Then you also don't need to
+>> provide the KFENCE_POOL_SIZE define for 0 if !CONFIG_KFENCE.
+>>
+>> [...]
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 *
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Kfence pool requires page granularity mappi=
+ng also if we init it
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0 * late.
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return (rodata_enabled && rodata_full) |=
+|=20
+>>> debug_pagealloc_enabled() ||
+>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 IS_ENABLED(CONFIG_KFENCE);
+>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (IS_ENABLED(CONFIG_KFENCE) =
+&& !early_kfence_pool);
+>>
+>> Accessing a non-existent variable if !CONFIG_KFENCE works because the
+>> compiler optimizes out the access, but is generally bad style.
+>=20
+> Hi Marco,
+>=20
+> Actually my previous intention is not to do separation between KFENCE=20
+> and non-KFENCE, instead to ensure early_kfence_pool always to be NULL in=
+=20
+> non-KFENCE build. That works well from my side w/ and w/o=20
+> CONFIG_KFENCE.. but Yes that not clear to have this variable still in=20
+> non-Kfence build.
+>=20
+> Sure, I will follow your suggestion below and tested on my side. Thanks.
+>=20
+> Thanks,
+> Zhenhua
+>=20
+>>
+>>
+>> I think the only issue that I have is that the separation between KFENCE
+>> and non-KFENCE builds is not great.
+>>
+>> At the end of the email are is a diff against your patch which would be
+>> my suggested changes (while at it, I fixed up a bunch of other issues).
+>> Untested, so if you decide to adopt these changes, please test.
 
-LINK: [1] https://lore.kernel.org/linux-arm-kernel/Y+IsdrvDNILA59UN@FVFF77S0Q05N/
-Suggested-by: Mark Rutland <mark.rutland@arm.com>
-Signed-off-by: Zhenhua Huang <quic_zhenhuah@quicinc.com>
----
- arch/arm64/include/asm/kfence.h | 10 +++++++
- arch/arm64/mm/mmu.c             | 61 +++++++++++++++++++++++++++++++++++++++++
- arch/arm64/mm/pageattr.c        |  7 +++--
- mm/kfence/core.c                |  4 +++
- 4 files changed, 80 insertions(+), 2 deletions(-)
+Hi Marco,
 
-diff --git a/arch/arm64/include/asm/kfence.h b/arch/arm64/include/asm/kfence.h
-index aa855c6..a81937f 100644
---- a/arch/arm64/include/asm/kfence.h
-+++ b/arch/arm64/include/asm/kfence.h
-@@ -19,4 +19,14 @@ static inline bool kfence_protect_page(unsigned long addr, bool protect)
- 	return true;
- }
- 
-+#ifdef CONFIG_KFENCE
-+extern bool kfence_early_init;
-+static inline bool arm64_kfence_can_set_direct_map(void)
-+{
-+	return !kfence_early_init;
-+}
-+#else /* CONFIG_KFENCE */
-+static inline bool arm64_kfence_can_set_direct_map(void) { return false; }
-+#endif /* CONFIG_KFENCE */
-+
- #endif /* __ASM_KFENCE_H */
-diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
-index ae25524d..aaf1801 100644
---- a/arch/arm64/mm/mmu.c
-+++ b/arch/arm64/mm/mmu.c
-@@ -24,6 +24,7 @@
- #include <linux/mm.h>
- #include <linux/vmalloc.h>
- #include <linux/set_memory.h>
-+#include <linux/kfence.h>
- 
- #include <asm/barrier.h>
- #include <asm/cputype.h>
-@@ -38,6 +39,7 @@
- #include <asm/ptdump.h>
- #include <asm/tlbflush.h>
- #include <asm/pgalloc.h>
-+#include <asm/kfence.h>
- 
- #define NO_BLOCK_MAPPINGS	BIT(0)
- #define NO_CONT_MAPPINGS	BIT(1)
-@@ -521,12 +523,67 @@ static int __init enable_crash_mem_map(char *arg)
- }
- early_param("crashkernel", enable_crash_mem_map);
- 
-+#ifdef CONFIG_KFENCE
-+
-+bool kfence_early_init = !!CONFIG_KFENCE_SAMPLE_INTERVAL;
-+
-+/* early_param() will be parsed before map_mem() below. */
-+static int __init parse_kfence_early_init(char *arg)
-+{
-+	int val;
-+
-+	if (get_option(&arg, &val))
-+		kfence_early_init = !!val;
-+	return 0;
-+}
-+early_param("kfence.sample_interval", parse_kfence_early_init);
-+
-+static phys_addr_t arm64_kfence_alloc_pool(void)
-+{
-+	phys_addr_t kfence_pool;
-+
-+	if (!kfence_early_init)
-+		return 0;
-+
-+	kfence_pool = memblock_phys_alloc(KFENCE_POOL_SIZE, PAGE_SIZE);
-+	if (!kfence_pool) {
-+		pr_err("failed to allocate kfence pool\n");
-+		kfence_early_init = false;
-+		return 0;
-+	}
-+
-+	/* Temporarily mark as NOMAP. */
-+	memblock_mark_nomap(kfence_pool, KFENCE_POOL_SIZE);
-+
-+	return kfence_pool;
-+}
-+
-+static void arm64_kfence_map_pool(phys_addr_t kfence_pool, pgd_t *pgdp)
-+{
-+	if (!kfence_pool)
-+		return;
-+
-+	/* KFENCE pool needs page-level mapping. */
-+	__map_memblock(pgdp, kfence_pool, kfence_pool + KFENCE_POOL_SIZE,
-+			pgprot_tagged(PAGE_KERNEL),
-+			NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS);
-+	memblock_clear_nomap(kfence_pool, KFENCE_POOL_SIZE);
-+	__kfence_pool = phys_to_virt(kfence_pool);
-+}
-+#else /* CONFIG_KFENCE */
-+
-+static inline phys_addr_t arm64_kfence_alloc_pool(void) { return 0; }
-+static inline void arm64_kfence_map_pool(phys_addr_t kfence_pool, pgd_t *pgdp) { }
-+
-+#endif /* CONFIG_KFENCE */
-+
- static void __init map_mem(pgd_t *pgdp)
- {
- 	static const u64 direct_map_end = _PAGE_END(VA_BITS_MIN);
- 	phys_addr_t kernel_start = __pa_symbol(_stext);
- 	phys_addr_t kernel_end = __pa_symbol(__init_begin);
- 	phys_addr_t start, end;
-+	phys_addr_t early_kfence_pool;
- 	int flags = NO_EXEC_MAPPINGS;
- 	u64 i;
- 
-@@ -539,6 +596,8 @@ static void __init map_mem(pgd_t *pgdp)
- 	 */
- 	BUILD_BUG_ON(pgd_index(direct_map_end - 1) == pgd_index(direct_map_end));
- 
-+	early_kfence_pool = arm64_kfence_alloc_pool();
-+
- 	if (can_set_direct_map())
- 		flags |= NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS;
- 
-@@ -604,6 +663,8 @@ static void __init map_mem(pgd_t *pgdp)
- 		}
- 	}
- #endif
-+
-+	arm64_kfence_map_pool(early_kfence_pool, pgdp);
- }
- 
- void mark_rodata_ro(void)
-diff --git a/arch/arm64/mm/pageattr.c b/arch/arm64/mm/pageattr.c
-index debdecf..dd1291a 100644
---- a/arch/arm64/mm/pageattr.c
-+++ b/arch/arm64/mm/pageattr.c
-@@ -11,6 +11,7 @@
- #include <asm/cacheflush.h>
- #include <asm/set_memory.h>
- #include <asm/tlbflush.h>
-+#include <asm/kfence.h>
- 
- struct page_change_data {
- 	pgprot_t set_mask;
-@@ -22,12 +23,14 @@ bool rodata_full __ro_after_init = IS_ENABLED(CONFIG_RODATA_FULL_DEFAULT_ENABLED
- bool can_set_direct_map(void)
- {
- 	/*
--	 * rodata_full, DEBUG_PAGEALLOC and KFENCE require linear map to be
-+	 * rodata_full and DEBUG_PAGEALLOC require linear map to be
- 	 * mapped at page granularity, so that it is possible to
- 	 * protect/unprotect single pages.
-+	 *
-+	 * KFENCE pool requires page-granular mapping if initialized late.
- 	 */
- 	return (rodata_enabled && rodata_full) || debug_pagealloc_enabled() ||
--		IS_ENABLED(CONFIG_KFENCE);
-+		arm64_kfence_can_set_direct_map();
- }
- 
- static int change_page_range(pte_t *ptep, unsigned long addr, void *data)
-diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index 1417888..bf2f194c 100644
---- a/mm/kfence/core.c
-+++ b/mm/kfence/core.c
-@@ -824,6 +824,10 @@ void __init kfence_alloc_pool(void)
- 	if (!kfence_sample_interval)
- 		return;
- 
-+	/* if the pool has already been initialized by arch, skip the below. */
-+	if (__kfence_pool)
-+		return;
-+
- 	__kfence_pool = memblock_alloc(KFENCE_POOL_SIZE, PAGE_SIZE);
- 
- 	if (!__kfence_pool)
--- 
-2.7.4
+All below seems well except minor change like we can't define=20
+kfence_early_init as __initdata because it is used by non init function=20
+like can_set_direct_map. Warning reported:
+WARNING: modpost: vmlinux.o: section mismatch in reference:=20
+can_set_direct_map (section: .text) -> kfence_early_init (section:=20
+.init.data)
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1678969110-11941-1-git-send-email-quic_zhenhuah%40quicinc.com.
+I have modified and sent out a new patchset. Please help review.
+
+Thanks,
+Zhenhua
+
+>>
+>> Thanks,
+>> -- Marco
+>>
+>> ------ >8 ------
+>>
+>>
+>> diff --git a/arch/arm64/include/asm/kfence.h=20
+>> b/arch/arm64/include/asm/kfence.h
+>> index 8143c91854e1..a81937fae9f6 100644
+>> --- a/arch/arm64/include/asm/kfence.h
+>> +++ b/arch/arm64/include/asm/kfence.h
+>> @@ -10,22 +10,6 @@
+>> =C2=A0 #include <asm/set_memory.h>
+>> -extern phys_addr_t early_kfence_pool;
+>> -
+>> -#ifdef CONFIG_KFENCE
+>> -
+>> -extern char *__kfence_pool;
+>> -static inline void kfence_set_pool(phys_addr_t addr)
+>> -{
+>> -=C2=A0=C2=A0=C2=A0 __kfence_pool =3D phys_to_virt(addr);
+>> -}
+>> -
+>> -#else
+>> -
+>> -static inline void kfence_set_pool(phys_addr_t addr) { }
+>> -
+>> -#endif
+>> -
+>> =C2=A0 static inline bool arch_kfence_init_pool(void) { return true; }
+>> =C2=A0 static inline bool kfence_protect_page(unsigned long addr, bool=
+=20
+>> protect)
+>> @@ -35,4 +19,14 @@ static inline bool kfence_protect_page(unsigned=20
+>> long addr, bool protect)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return true;
+>> =C2=A0 }
+>> +#ifdef CONFIG_KFENCE
+>> +extern bool kfence_early_init;
+>> +static inline bool arm64_kfence_can_set_direct_map(void)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 return !kfence_early_init;
+>> +}
+>> +#else /* CONFIG_KFENCE */
+>> +static inline bool arm64_kfence_can_set_direct_map(void) { return=20
+>> false; }
+>> +#endif /* CONFIG_KFENCE */
+>> +
+>> =C2=A0 #endif /* __ASM_KFENCE_H */
+>> diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+>> index 61944c7091f0..683958616ac1 100644
+>> --- a/arch/arm64/mm/mmu.c
+>> +++ b/arch/arm64/mm/mmu.c
+>> @@ -528,17 +528,14 @@ static int __init enable_crash_mem_map(char *arg)
+>> =C2=A0 early_param("crashkernel", enable_crash_mem_map);
+>> =C2=A0 #ifdef CONFIG_KFENCE
+>> +bool kfence_early_init =3D !!CONFIG_KFENCE_SAMPLE_INTERVAL;
+>> -static bool kfence_early_init __initdata =3D=20
+>> !!CONFIG_KFENCE_SAMPLE_INTERVAL;
+>> -/*
+>> - * early_param can be parsed before linear mapping
+>> - * set up
+>> - */
+>> -static int __init parse_kfence_early_init(char *p)
+>> +/* early_param() will be parsed before map_mem() below. */
+>> +static int __init parse_kfence_early_init(char *arg)
+>> =C2=A0 {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int val;
+>> -=C2=A0=C2=A0=C2=A0 if (get_option(&p, &val))
+>> +=C2=A0=C2=A0=C2=A0 if (get_option(&arg, &val))
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kfence_early_init=
+ =3D !!val;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>> =C2=A0 }
+>> @@ -552,22 +549,34 @@ static phys_addr_t arm64_kfence_alloc_pool(void)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kfence_pool =3D memblock_phys_alloc(KFENC=
+E_POOL_SIZE, PAGE_SIZE);
+>> -=C2=A0=C2=A0=C2=A0 if (!kfence_pool)
+>> +=C2=A0=C2=A0=C2=A0 if (!kfence_pool) {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pr_err("failed to=
+ allocate kfence pool\n");
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kfence_early_init =3D false;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>> +=C2=A0=C2=A0=C2=A0 }
+>> +
+>> +=C2=A0=C2=A0=C2=A0 /* Temporarily mark as NOMAP. */
+>> +=C2=A0=C2=A0=C2=A0 memblock_mark_nomap(kfence_pool, KFENCE_POOL_SIZE);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return kfence_pool;
+>> =C2=A0 }
+>> -#else
+>> -
+>> -static phys_addr_t arm64_kfence_alloc_pool(void)
+>> +static void arm64_kfence_map_pool(phys_addr_t kfence_pool, pgd_t *pgdp)
+>> =C2=A0 {
+>> -=C2=A0=C2=A0=C2=A0 return 0;
+>> -}
+>> -
+>> -#endif
+>> +=C2=A0=C2=A0=C2=A0 if (!kfence_pool)
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>> -phys_addr_t early_kfence_pool;
+>> +=C2=A0=C2=A0=C2=A0 /* KFENCE pool needs page-level mapping. */
+>> +=C2=A0=C2=A0=C2=A0 __map_memblock(pgdp, kfence_pool, kfence_pool + KFEN=
+CE_POOL_SIZE,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 pgprot_tagged(PAGE_KERNEL),
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS);
+>> +=C2=A0=C2=A0=C2=A0 memblock_clear_nomap(kfence_pool, KFENCE_POOL_SIZE);
+>> +=C2=A0=C2=A0=C2=A0 __kfence_pool =3D phys_to_virt(kfence_pool);
+>> +}
+>> +#else /* CONFIG_KFENCE */
+>> +static inline phys_addr_t arm64_kfence_alloc_pool(void) { return 0; }
+>> +static inline void arm64_kfence_map_pool(phys_addr_t kfence_pool,=20
+>> pgd_t *pgdp) { }
+>> +#endif /* CONFIG_KFENCE */
+>> =C2=A0 static void __init map_mem(pgd_t *pgdp)
+>> =C2=A0 {
+>> @@ -575,6 +584,7 @@ static void __init map_mem(pgd_t *pgdp)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 phys_addr_t kernel_start =3D __pa_symbol(=
+_stext);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 phys_addr_t kernel_end =3D __pa_symbol(__=
+init_begin);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 phys_addr_t start, end;
+>> +=C2=A0=C2=A0=C2=A0 phys_addr_t early_kfence_pool;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 int flags =3D NO_EXEC_MAPPINGS;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u64 i;
+>> @@ -588,8 +598,6 @@ static void __init map_mem(pgd_t *pgdp)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 BUILD_BUG_ON(pgd_index(direct_map_end - 1=
+) =3D=3D=20
+>> pgd_index(direct_map_end));
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 early_kfence_pool =3D arm64_kfence_alloc_=
+pool();
+>> -=C2=A0=C2=A0=C2=A0 if (early_kfence_pool)
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memblock_mark_nomap(early_kf=
+ence_pool, KFENCE_POOL_SIZE);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (can_set_direct_map())
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 flags |=3D NO_BLO=
+CK_MAPPINGS | NO_CONT_MAPPINGS;
+>> @@ -656,17 +664,7 @@ static void __init map_mem(pgd_t *pgdp)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0 #endif
+>> -
+>> -=C2=A0=C2=A0=C2=A0 /* Kfence pool needs page-level mapping */
+>> -=C2=A0=C2=A0=C2=A0 if (early_kfence_pool) {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __map_memblock(pgdp, early_k=
+fence_pool,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 earl=
+y_kfence_pool + KFENCE_POOL_SIZE,
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pgpr=
+ot_tagged(PAGE_KERNEL),
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NO_B=
+LOCK_MAPPINGS | NO_CONT_MAPPINGS);
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memblock_clear_nomap(early_k=
+fence_pool, KFENCE_POOL_SIZE);
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* kfence_pool really mapped=
+ now */
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kfence_set_pool(early_kfence=
+_pool);
+>> -=C2=A0=C2=A0=C2=A0 }
+>> +=C2=A0=C2=A0=C2=A0 arm64_kfence_map_pool(early_kfence_pool, pgdp);
+>> =C2=A0 }
+>> =C2=A0 void mark_rodata_ro(void)
+>> diff --git a/arch/arm64/mm/pageattr.c b/arch/arm64/mm/pageattr.c
+>> index 7ce5295cc6fb..aa8fd12cc96f 100644
+>> --- a/arch/arm64/mm/pageattr.c
+>> +++ b/arch/arm64/mm/pageattr.c
+>> @@ -7,7 +7,6 @@
+>> =C2=A0 #include <linux/module.h>
+>> =C2=A0 #include <linux/sched.h>
+>> =C2=A0 #include <linux/vmalloc.h>
+>> -#include <linux/kfence.h>
+>> =C2=A0 #include <asm/cacheflush.h>
+>> =C2=A0 #include <asm/set_memory.h>
+>> @@ -28,11 +27,10 @@ bool can_set_direct_map(void)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * mapped at page granularity, so th=
+at it is possible to
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * protect/unprotect single pages.
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *
+>> -=C2=A0=C2=A0=C2=A0=C2=A0 * Kfence pool requires page granularity mappin=
+g also if we init it
+>> -=C2=A0=C2=A0=C2=A0=C2=A0 * late.
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * KFENCE pool requires page-granular mapping i=
+f initialized late.
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return (rodata_enabled && rodata_full) ||=
+=20
+>> debug_pagealloc_enabled() ||
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (IS_ENABLED(CONFIG_KFENCE) &=
+& !early_kfence_pool);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 arm64_kfen=
+ce_can_set_direct_map();
+>> =C2=A0 }
+>> =C2=A0 static int change_page_range(pte_t *ptep, unsigned long addr, voi=
+d=20
+>> *data)
+>> diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+>> index 91cbcc98e293..726857a4b680 100644
+>> --- a/include/linux/kfence.h
+>> +++ b/include/linux/kfence.h
+>> @@ -222,7 +222,6 @@ bool __kfence_obj_info(struct kmem_obj_info *kpp,=20
+>> void *object, struct slab *sla
+>> =C2=A0 #else /* CONFIG_KFENCE */
+>> -#define KFENCE_POOL_SIZE 0
+>> =C2=A0 static inline bool is_kfence_address(const void *addr) { return=
+=20
+>> false; }
+>> =C2=A0 static inline void kfence_alloc_pool(void) { }
+>> =C2=A0 static inline void kfence_init(void) { }
+>> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+>> index fab087d39633..e7f22af5e710 100644
+>> --- a/mm/kfence/core.c
+>> +++ b/mm/kfence/core.c
+>> @@ -818,7 +818,7 @@ void __init kfence_alloc_pool(void)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!kfence_sample_interval)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>> -=C2=A0=C2=A0=C2=A0 /* if the pool has already been initialized by arch,=
+ skip the=20
+>> below */
+>> +=C2=A0=C2=A0=C2=A0 /* If the pool has already been initialized by arch,=
+ skip the=20
+>> below. */
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (__kfence_pool)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+>=20
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/33aae812-ab0a-d5fb-8211-6ed6f0368b42%40quicinc.com.
