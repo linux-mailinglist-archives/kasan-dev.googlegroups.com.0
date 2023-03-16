@@ -1,162 +1,147 @@
-Return-Path: <kasan-dev+bncBDVL3PXJZILBBQPVZOQAMGQE6TIW3KY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDVL3PXJZILBBKUSZSQAMGQET64L2PY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103a.google.com (mail-pj1-x103a.google.com [IPv6:2607:f8b0:4864:20::103a])
-	by mail.lfdr.de (Postfix) with ESMTPS id A22926BCDD9
-	for <lists+kasan-dev@lfdr.de>; Thu, 16 Mar 2023 12:17:23 +0100 (CET)
-Received: by mail-pj1-x103a.google.com with SMTP id p9-20020a17090a930900b00237a7f862dfsf2406062pjo.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 16 Mar 2023 04:17:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1678965442; cv=pass;
+Received: from mail-yb1-xb39.google.com (mail-yb1-xb39.google.com [IPv6:2607:f8b0:4864:20::b39])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7C46BCF3D
+	for <lists+kasan-dev@lfdr.de>; Thu, 16 Mar 2023 13:18:52 +0100 (CET)
+Received: by mail-yb1-xb39.google.com with SMTP id e129-20020a251e87000000b00b56598237f5sf1634005ybe.16
+        for <lists+kasan-dev@lfdr.de>; Thu, 16 Mar 2023 05:18:52 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1678969131; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ns1ixmiQrv+ESASIN5FO+XkeKng1RNhsdyC5b35cTCQxi3/d9d7pwLZrC6tZOej6g9
-         2/rcqObCouGFe/wQLPbBGNeQTIsVLrPLTX2axYPp9VIHbUnlv9VTycwdzk5wiIxpreHs
-         sLLiNEdZFw/4l/ktF4F/MKC9csqnd0aqUtKwhsgUaRt0VBEWOU9mTQE8knMn235SYHol
-         FjJEj0+OAexkQQu60hhnBPfrdJmeA3DjZOc1Nz8XEG6G8b3vXHAclxmE6/idyktmC8wi
-         OJV4RKU2o4AD3KrYGHL6mfDeiLlZsLLO5LwfCFW7X7wBYaE2e/YNW4/Iohu2v3YS0Ulx
-         KJpQ==
+        b=AXb+6F3VHIBmiM9VzbwaIATtvRMmCdot3gry9kEbEeLrM82M5E2QG6ogQl9t7NBmZb
+         JYtBhpwWFpbxU3w1JbLtOcP/L4XQaUVl+evMOsqsRfoqeLcS/MFiJuA408Wz/eGAiOge
+         IXD3no954AAZ4LP5sPEWcyLrgWSSFinsw6Kf4xVoBnZTfAK0T5d70KipiQdi8vovumPZ
+         FSimpeaOdGiVBlf/EVrDAOQzWeG2e6d9ljxaNmKmbSI6Shu/hFVilFvEsvVxRObJ/GSE
+         AoisAL3+ToYa+yoCMR0d8r1VAkVRKKh9eCrdn/bZgSbPwllExrOoEaWrdEbH/inhDgae
+         E77g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:sender:dkim-signature;
-        bh=cFN04U1vVRUWKKoG5gkaQuSXNHBMSrRVrNakKonoDGE=;
-        b=z0vTlAyZaQtfhuE+L1x9LFrd7nO4HKZSRZtqaCk9zOod/sG3qCY5yPE7GlumK6F/5w
-         twDkAy540gj3E02OOL5Qb0WWuW5w6oSTVmm2/fWCICRJ41oH2e9I7LxJ8pwGyu7Fa1+7
-         ao9lwS9pwYmCZaDNIh6BdttqZh6MALF/ELc750/BbzBcwOfz6WSaTFd01P61g88enT2K
-         7Yw9jzJRfHKKYvoXzyNJASQNxkM78msZlyHTfFfYPbs3rFK2aFnhkBURWH+feZcGsELS
-         3MNZLmNtHrbkWJRNFi92sgneMQPr+9sfe8sdFkRoVs6WGJSkMkPI4domrrGF+hKz+WcC
-         uUMA==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=vJxiDTdynH8vfcBXRNpgXVeLlvLgXZeAmTizvPNRVUE=;
+        b=pdl2D9u+TAUICUk7gq8rsb+bLKiVQyOZ9btLLhwUhYqhkHKfv4FQvH8u55EMmQzIQF
+         cpmtmagfot0glZ4O24NOLZH6kDsAayn6SIP7BxicxUss4gVI+5vBlRWnXu6BH6GkPK1w
+         IVw59kXsoMm9i1uce+P+JLrjDM4yx3uZcx83mWpUkN3mO+7gchPonQD/Up8VNuY3aqz9
+         3jNBg5UCTfQt7bziWSLX+iFTWHhs8WkSSCZV/y1lj+xrH4POpDyR3dEPBvcP+hYqTgdu
+         P2/gEESj3jk7W8LAVGwJlMaTjUAZfTMRvWlU6u8RrlEoIAX+eZpbjwwSzRl1L4L0lk6t
+         2vdQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=JAZP3jAx;
+       dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=ZSYKbSe4;
        spf=pass (google.com: domain of quic_zhenhuah@quicinc.com designates 205.220.168.131 as permitted sender) smtp.mailfrom=quic_zhenhuah@quicinc.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1678965442;
+        d=googlegroups.com; s=20210112; t=1678969131;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:in-reply-to:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=cFN04U1vVRUWKKoG5gkaQuSXNHBMSrRVrNakKonoDGE=;
-        b=snzGv4YgdqMDvhEkfad57zIaDAKUWpc0mRjzD0he4fBsaFdKe4NHZwVC2AUqsP+GQX
-         YSgxTJH2rIHCOgzLks5QHYOQvLm8BMY/e73eoHU/VZEqfQKKaUyHu2buS7V1UY0ZfCED
-         JnK+XXSGVg09vRqgvHIYOeZEInu/nvmXlalrr9yAjdWngTSBS9dRbUCyyPXPJVma4ubq
-         JdzNB6Vb69HKGd9+LxBm7NawzixsiHC/X7+mNVC558i4YUZ+gEwH3tf+xhCO60WrU2ur
-         /1vIxclkpSkep5OzJj0gsd4d3XgeixG1xzaQYlbRIPHnCaLo/O2dKh9Qp+jsRku3Ra69
-         QQXQ==
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=vJxiDTdynH8vfcBXRNpgXVeLlvLgXZeAmTizvPNRVUE=;
+        b=F9FJlP19IzjnjQmU9KAo/O5APAR7+vVyqm5raVb8mRDCazy8iffSoq1alCsrGAzor6
+         NuhsifFKTMR2Ht4RiEjsBReLg1y4TmZx+T3dYS82YhXlDpDFIzdeeE4tnxlSqdaUg4cu
+         G1QLhrvLgpyZw2r2CuF2BuyrotWi1ZfcRwJHVr1jsaGL96SScuue5Dh0EBMyKKFz16Gl
+         68dhXwZq53Q3FRI43oYnBqvWMvlZk8iyJpMJlkwbYsVSI2l7rak8i4Hss24aB0IRm3kp
+         jXL8DKjV3jfejUsjQOeZubOgX5ree39j/nBrK9kg8Un1zuYOiqEl4hH+k3GThLwvvZMw
+         ccVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678965442;
+        d=1e100.net; s=20210112; t=1678969131;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cFN04U1vVRUWKKoG5gkaQuSXNHBMSrRVrNakKonoDGE=;
-        b=0k7o+28XGLnyybxs7f2sO0/6iaHbzXHlfreavFyy7FyZS3QJPsv7ubKt++A/HAAZ8p
-         nB/JkEnwGygYZnihdpJ26X3IYL31Gk5VbLlJCyEcBRbp/D7xWWpNdqteIila7Vk9XdcU
-         hM2tdrHH0OtRegdtvEKh7wUIT6JHH1yWZfULyy73HLXE9dKDGIa9CDojRTNyTT7w7SVC
-         qzrBmJk+tGQ1ixXw8ZP/vKrLaSiDxNCKT9zLcEHDD58KM1eTa25Dtaa7RUMNH9gd8RpZ
-         EZR2ORajUuD1fhYGgRYqtBRhLaN+ugHEf+T9lXMYUh/+1Ek2GuK9y3HlU/he/MUgXbg1
-         XklA==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vJxiDTdynH8vfcBXRNpgXVeLlvLgXZeAmTizvPNRVUE=;
+        b=G/rEHMviqGgLEArfGCl4VgxzD71gpjmO4UYMAe57wCC3/FvDVetmoS/9V0GoN+kHJS
+         wfoCsUQ5ydKNN6bP3eQTdTCYCmW1BNHBbUov0fh42UHH+K0L8BCT/DZ72wGMJ7C1k19Z
+         37xPNuABbT3leW+S5eWKB2/4WugphQDDZbnoatNS1A+qbdrzTbqsz2TFYiQe+S2L+slb
+         fIlm5lgQIQLWB3q+n9j+tRbF5zFclNy2TB7GyhFkIB13tsLgmi9wv4SQQRPLxS0IkHRT
+         wem2SBnZDGeDdfZRLLwIABnGcYQvSRhTo4t/xVsjsJwAs80sSLovHhRhIfurU2ww3EHa
+         EsJA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKWU+oEfkv9aRZ5T+ttFn9frNkUVBGl9zsmk2yJv+C9QegGVihtT
-	xF3M1kj6I1DLeQa7xtvAvZ4=
-X-Google-Smtp-Source: AK7set+s8/6Ha0atFylLu+Pzzsy/hKctgnLL8KqLpGw9rqAQfZ1qVckggp4QZMyTT+/bAvOgYOfNiA==
-X-Received: by 2002:a63:2dc6:0:b0:501:f894:ae62 with SMTP id t189-20020a632dc6000000b00501f894ae62mr884849pgt.4.1678965442080;
-        Thu, 16 Mar 2023 04:17:22 -0700 (PDT)
+X-Gm-Message-State: AO0yUKUeaczRER1GfxnNa6mep84jRL1O8Cfa6QRLzYkPPgSWBcBDNjN7
+	lsBiwo5Pvz3KRFdeKc0b/LGgRg==
+X-Google-Smtp-Source: AK7set/QpsqZGlk0gdRPM6Kpj463XBsLR7rb+MjfK0HTjaJbwRS4yh3fM0uiLrCiP7kbr+L0GZHqbQ==
+X-Received: by 2002:a81:af63:0:b0:52e:d380:ab14 with SMTP id x35-20020a81af63000000b0052ed380ab14mr736006ywj.3.1678969131130;
+        Thu, 16 Mar 2023 05:18:51 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a63:d242:0:b0:50b:ed87:84f3 with SMTP id t2-20020a63d242000000b0050bed8784f3ls340090pgi.1.-pod-prod-gmail;
- Thu, 16 Mar 2023 04:17:21 -0700 (PDT)
-X-Received: by 2002:aa7:9803:0:b0:593:ed9c:9f07 with SMTP id e3-20020aa79803000000b00593ed9c9f07mr2663956pfl.27.1678965441295;
-        Thu, 16 Mar 2023 04:17:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1678965441; cv=none;
+Received: by 2002:a81:72d6:0:b0:541:a39a:5892 with SMTP id n205-20020a8172d6000000b00541a39a5892ls659324ywc.5.-pod-prod-gmail;
+ Thu, 16 Mar 2023 05:18:50 -0700 (PDT)
+X-Received: by 2002:a81:484e:0:b0:544:5382:be95 with SMTP id v75-20020a81484e000000b005445382be95mr3192074ywa.15.1678969130373;
+        Thu, 16 Mar 2023 05:18:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1678969130; cv=none;
         d=google.com; s=arc-20160816;
-        b=fFuaJIf5R7Ana+UzTyDJxCMTzeAF5hZEt7CvI86CLWq8AywWTmtNfsTMLQFYlhpC99
-         dxMcHhjFj3kj8pWgqhq8mDD6oxPtQ25hlCCIXjshqSf9eIWQGXf0qAMAjQ3Fw2ejLPAU
-         Xi2jfdcgFoAXb/CR6IYe0nkyTX+cevsquL+NcAErsw6TWRcLBFgFbCwgPbSlOuT49640
-         PX0fNljtYAwJEggc7VcjQRNGQ3e55JHjxM4I8J+jRMs42kpc0axfACqxzi4Cf+V5n6ZQ
-         h/dqc8itvQeWFXjqx030kQQx3ofvSyY3CrTSB8bgKux7m6/DM9dxepJCEd/rCUWy3e70
-         5yWw==
+        b=kfveWeB+CGfwc+FZE3By9EZveB6xkToRgFe75Yc0t8ijsT3gt3DSFNKSi2GhGiAWhR
+         B4yd6NXH5CZNuNED/ii9Mdl77KXCZ9wZdl+C9TkuHCN3DtSX8aOZLS1/fzaja5SUYTGu
+         xePiBriw2MzAe2o9/ZteSt/LGS0YeHc95cn44WPjhpsIj1D2oi0OgXgRPf2RJdhvONzb
+         6t3PM824+Tvp1mc6MMrMBPX1xA6+LiZNt96mu7nseenYIwWG98vCxDnF4RLXaRribVAX
+         F3wR6ItjV0HSQrXJVG0bclOI9fSkIV/71ASrAkn0n8S5v3A4JBUp1c3VpaUr1kAYHDq1
+         5kAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=upmBsZgsLImCaMA1prwsb9RFr8WfsLuQGm9H1zzqgZs=;
-        b=ngA4VvGlGNl2cn/tlFleLb3tXkTvYoETk9V+2NExa1qcQsxbuz8b5yiqvKUuNrj3mx
-         MGI5UfsHj0ltHJrLaL/5gu++HCAN5AHQBlI8mFRfpbFBubfMlTNRSsXc8AhVs/AgsG8j
-         wuTRfgCHqVMPeQB0fAso5MXwl3cN8A/5K8Y+ahx371SCEdYD3L58AqHDsgbMtmcIgUQ6
-         XL/rIfWfK+bp1hxw2JlKss1RKG7w+sSFshWMCfvhEHrJRnoPTJQQVkCMAWeybvOUEUwn
-         /LTUVSjuvqSSAmmmm43o/jpRz+3ReGZjhQIkA54R6R78n0/psHzSXpj3LTWZkBO+QAde
-         2O9g==
+        h=mime-version:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=pt6m/4EMXuhZyv7EYfDFeBNPiQPywUM74OkTDbTcPuM=;
+        b=CX0W9gbMc1yY0uhnAAvFRQSbE2IQZQW9/4xHowwytJ/+reWCjHZ0ZX1AjkWUCXYh6j
+         HX9Fx0vRJPNpZOoaMXt9fRxH1jdMdj9zLkAFyZS8TdaWXKN6G18mXk1MsK4W8fTaFIAO
+         WOtWnYacYMVn8N2PH+R7Yw/azFEHdX6zggKh0asNgLtLGaQEPKr7/9yr3S8lQVD3M/jX
+         t0BSezLq8xwEpUJsZ/iHNrVOaWHvwCs/+sr+I+Svjqtx7VkfVG+eD4S72uvjHbgY/k7s
+         bBLicicm/PVCOtMre+INtVZnHefNEv7biteahHj7Wd//lKiq8+FZI2T7cJ5rR3RPxRdV
+         IDpA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=JAZP3jAx;
+       dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=ZSYKbSe4;
        spf=pass (google.com: domain of quic_zhenhuah@quicinc.com designates 205.220.168.131 as permitted sender) smtp.mailfrom=quic_zhenhuah@quicinc.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com. [205.220.168.131])
-        by gmr-mx.google.com with ESMTPS id bl24-20020a056a00281800b00625965308absi195459pfb.3.2023.03.16.04.17.21
+        by gmr-mx.google.com with ESMTPS id bf9-20020a05690c028900b0053cba27e38dsi516257ywb.1.2023.03.16.05.18.50
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 16 Mar 2023 04:17:21 -0700 (PDT)
+        Thu, 16 Mar 2023 05:18:50 -0700 (PDT)
 Received-SPF: pass (google.com: domain of quic_zhenhuah@quicinc.com designates 205.220.168.131 as permitted sender) client-ip=205.220.168.131;
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32G3q35V022413;
-	Thu, 16 Mar 2023 11:17:14 GMT
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pbpxjsn0r-1
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 32G4kFOd011172;
+	Thu, 16 Mar 2023 12:18:43 GMT
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3pbpxshs6r-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 Mar 2023 11:17:14 +0000
+	Thu, 16 Mar 2023 12:18:43 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32GBHDbg006838
+	by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 32GCIgeF012416
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 Mar 2023 11:17:13 GMT
-Received: from [10.239.132.245] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.41; Thu, 16 Mar
- 2023 04:17:09 -0700
-Message-ID: <5815d357-042e-2739-6d7b-960c81a50432@quicinc.com>
-Date: Thu, 16 Mar 2023 19:17:06 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v9] mm,kfence: decouple kfence from page granularity
- mapping judgement
-Content-Language: en-US
-To: Alexander Potapenko <glider@google.com>
-CC: Pavan Kondeti <quic_pkondeti@quicinc.com>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <elver@google.com>, <dvyukov@google.com>,
-        <akpm@linux-foundation.org>, <robin.murphy@arm.com>,
-        <mark.rutland@arm.com>, <jianyong.wu@arm.com>, <james.morse@arm.com>,
-        <wangkefeng.wang@huawei.com>, <linux-arm-kernel@lists.infradead.org>,
-        <kasan-dev@googlegroups.com>, <linux-mm@kvack.org>,
-        <quic_guptap@quicinc.com>, <quic_tingweiz@quicinc.com>
-References: <1678956620-26103-1-git-send-email-quic_zhenhuah@quicinc.com>
- <20230316095812.GA1695912@hu-pkondeti-hyd.qualcomm.com>
- <e363fd76-67fb-5a0f-5ef9-59d55aa2f447@quicinc.com>
- <CAG_fn=UigFQX8ZrNPoAFfXiV-JCP5ZyrtkD0TUNPJcN5-99VtA@mail.gmail.com>
+	Thu, 16 Mar 2023 12:18:42 GMT
+Received: from zhenhuah-gv.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.41; Thu, 16 Mar 2023 05:18:37 -0700
 From: Zhenhua Huang <quic_zhenhuah@quicinc.com>
-In-Reply-To: <CAG_fn=UigFQX8ZrNPoAFfXiV-JCP5ZyrtkD0TUNPJcN5-99VtA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+To: <catalin.marinas@arm.com>, <will@kernel.org>, <glider@google.com>,
+        <elver@google.com>, <dvyukov@google.com>, <akpm@linux-foundation.org>,
+        <robin.murphy@arm.com>, <mark.rutland@arm.com>, <jianyong.wu@arm.com>,
+        <james.morse@arm.com>, <wangkefeng.wang@huawei.com>
+CC: Zhenhua Huang <quic_zhenhuah@quicinc.com>,
+        <linux-arm-kernel@lists.infradead.org>, <kasan-dev@googlegroups.com>,
+        <linux-mm@kvack.org>, <quic_pkondeti@quicinc.com>,
+        <quic_guptap@quicinc.com>, <quic_tingweiz@quicinc.com>
+Subject: [PATCH v10] mm,kfence: decouple kfence from page granularity mapping judgement
+Date: Thu, 16 Mar 2023 20:18:30 +0800
+Message-ID: <1678969110-11941-1-git-send-email-quic_zhenhuah@quicinc.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 4112Lw9nuVKk6S1_yXK3RkNTiIv7VyBT
-X-Proofpoint-ORIG-GUID: 4112Lw9nuVKk6S1_yXK3RkNTiIv7VyBT
+X-Proofpoint-GUID: DCngU5f5BFwvwhE-Qhk82Xat-Ktq3CyO
+X-Proofpoint-ORIG-GUID: DCngU5f5BFwvwhE-Qhk82Xat-Ktq3CyO
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.254,Aquarius:18.0.942,Hydra:6.0.573,FMLib:17.11.170.22
  definitions=2023-03-16_08,2023-03-16_01,2023-02-09_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- priorityscore=1501 phishscore=0 malwarescore=0 lowpriorityscore=0
- adultscore=0 impostorscore=0 mlxscore=0 bulkscore=0 clxscore=1015
- mlxlogscore=662 suspectscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2303150002 definitions=main-2303160095
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 phishscore=0
+ lowpriorityscore=0 adultscore=0 priorityscore=1501 malwarescore=0
+ impostorscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2303150002 definitions=main-2303160102
 X-Original-Sender: quic_zhenhuah@quicinc.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@quicinc.com header.s=qcppdkim1 header.b=JAZP3jAx;       spf=pass
+ header.i=@quicinc.com header.s=qcppdkim1 header.b=ZSYKbSe4;       spf=pass
  (google.com: domain of quic_zhenhuah@quicinc.com designates 205.220.168.131
  as permitted sender) smtp.mailfrom=quic_zhenhuah@quicinc.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=quicinc.com
@@ -172,52 +157,210 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+Kfence only needs its pool to be mapped as page granularity, if it is
+inited early. Previous judgement was a bit over protected. From [1], Mark
+suggested to "just map the KFENCE region a page granularity". So I
+decouple it from judgement and do page granularity mapping for kfence
+pool only. Need to be noticed that late init of kfence pool still requires
+page granularity mapping.
 
+Page granularity mapping in theory cost more(2M per 1GB) memory on arm64
+platform. Like what I've tested on QEMU(emulated 1GB RAM) with
+gki_defconfig, also turning off rodata protection:
+Before:
+[root@liebao ]# cat /proc/meminfo
+MemTotal:         999484 kB
+After:
+[root@liebao ]# cat /proc/meminfo
+MemTotal:        1001480 kB
 
-On 2023/3/16 18:56, Alexander Potapenko wrote:
->=20
->=20
->      >> +=C2=A0 =C2=A0 /* Kfence pool needs page-level mapping */
->      >> +=C2=A0 =C2=A0 if (early_kfence_pool) {
->      >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 __map_memblock(pgdp, e=
-arly_kfence_pool,
->      >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 early_kfence_pool + KFENCE_POOL_SIZE,
->      >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 pgprot_tagged(PAGE_KERNEL),
->      >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS);
->      >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 memblock_clear_nomap(e=
-arly_kfence_pool,
->     KFENCE_POOL_SIZE);
->      >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* kfence_pool really =
-mapped now */
->      >> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 kfence_set_pool(early_=
-kfence_pool);
->      >> +=C2=A0 =C2=A0 }
->      >
->      > Why not wrap this under CONFIG_KFENCE ? early_kfence_pool can
->     also go in
->      > there?
->=20
->     Because I didn't want to add CONFIG_KFENCE in function.. in the case =
-of
->     w/o CONFIG_KFENCE, early_kfence_pool should be always NULL.
->=20
-> Please no. If the code is not used in non-KFENCE build, it should not be=
-=20
-> compiled. Same holds for the variables that only exist in KFENCE builds.
+To implement this, also relocate the kfence pool allocation before the
+linear mapping setting up, arm64_kfence_alloc_pool is to allocate phys
+addr, __kfence_pool is to be set after linear mapping set up.
 
-Got it, yeah.. it seems not make sense to have this variable w/o=20
-CONFIG_KFENCE.
+LINK: [1] https://lore.kernel.org/linux-arm-kernel/Y+IsdrvDNILA59UN@FVFF77S0Q05N/
+Suggested-by: Mark Rutland <mark.rutland@arm.com>
+Signed-off-by: Zhenhua Huang <quic_zhenhuah@quicinc.com>
+---
+ arch/arm64/include/asm/kfence.h | 10 +++++++
+ arch/arm64/mm/mmu.c             | 61 +++++++++++++++++++++++++++++++++++++++++
+ arch/arm64/mm/pageattr.c        |  7 +++--
+ mm/kfence/core.c                |  4 +++
+ 4 files changed, 80 insertions(+), 2 deletions(-)
 
-Thanks,
-Zhenhua
+diff --git a/arch/arm64/include/asm/kfence.h b/arch/arm64/include/asm/kfence.h
+index aa855c6..a81937f 100644
+--- a/arch/arm64/include/asm/kfence.h
++++ b/arch/arm64/include/asm/kfence.h
+@@ -19,4 +19,14 @@ static inline bool kfence_protect_page(unsigned long addr, bool protect)
+ 	return true;
+ }
+ 
++#ifdef CONFIG_KFENCE
++extern bool kfence_early_init;
++static inline bool arm64_kfence_can_set_direct_map(void)
++{
++	return !kfence_early_init;
++}
++#else /* CONFIG_KFENCE */
++static inline bool arm64_kfence_can_set_direct_map(void) { return false; }
++#endif /* CONFIG_KFENCE */
++
+ #endif /* __ASM_KFENCE_H */
+diff --git a/arch/arm64/mm/mmu.c b/arch/arm64/mm/mmu.c
+index ae25524d..aaf1801 100644
+--- a/arch/arm64/mm/mmu.c
++++ b/arch/arm64/mm/mmu.c
+@@ -24,6 +24,7 @@
+ #include <linux/mm.h>
+ #include <linux/vmalloc.h>
+ #include <linux/set_memory.h>
++#include <linux/kfence.h>
+ 
+ #include <asm/barrier.h>
+ #include <asm/cputype.h>
+@@ -38,6 +39,7 @@
+ #include <asm/ptdump.h>
+ #include <asm/tlbflush.h>
+ #include <asm/pgalloc.h>
++#include <asm/kfence.h>
+ 
+ #define NO_BLOCK_MAPPINGS	BIT(0)
+ #define NO_CONT_MAPPINGS	BIT(1)
+@@ -521,12 +523,67 @@ static int __init enable_crash_mem_map(char *arg)
+ }
+ early_param("crashkernel", enable_crash_mem_map);
+ 
++#ifdef CONFIG_KFENCE
++
++bool kfence_early_init = !!CONFIG_KFENCE_SAMPLE_INTERVAL;
++
++/* early_param() will be parsed before map_mem() below. */
++static int __init parse_kfence_early_init(char *arg)
++{
++	int val;
++
++	if (get_option(&arg, &val))
++		kfence_early_init = !!val;
++	return 0;
++}
++early_param("kfence.sample_interval", parse_kfence_early_init);
++
++static phys_addr_t arm64_kfence_alloc_pool(void)
++{
++	phys_addr_t kfence_pool;
++
++	if (!kfence_early_init)
++		return 0;
++
++	kfence_pool = memblock_phys_alloc(KFENCE_POOL_SIZE, PAGE_SIZE);
++	if (!kfence_pool) {
++		pr_err("failed to allocate kfence pool\n");
++		kfence_early_init = false;
++		return 0;
++	}
++
++	/* Temporarily mark as NOMAP. */
++	memblock_mark_nomap(kfence_pool, KFENCE_POOL_SIZE);
++
++	return kfence_pool;
++}
++
++static void arm64_kfence_map_pool(phys_addr_t kfence_pool, pgd_t *pgdp)
++{
++	if (!kfence_pool)
++		return;
++
++	/* KFENCE pool needs page-level mapping. */
++	__map_memblock(pgdp, kfence_pool, kfence_pool + KFENCE_POOL_SIZE,
++			pgprot_tagged(PAGE_KERNEL),
++			NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS);
++	memblock_clear_nomap(kfence_pool, KFENCE_POOL_SIZE);
++	__kfence_pool = phys_to_virt(kfence_pool);
++}
++#else /* CONFIG_KFENCE */
++
++static inline phys_addr_t arm64_kfence_alloc_pool(void) { return 0; }
++static inline void arm64_kfence_map_pool(phys_addr_t kfence_pool, pgd_t *pgdp) { }
++
++#endif /* CONFIG_KFENCE */
++
+ static void __init map_mem(pgd_t *pgdp)
+ {
+ 	static const u64 direct_map_end = _PAGE_END(VA_BITS_MIN);
+ 	phys_addr_t kernel_start = __pa_symbol(_stext);
+ 	phys_addr_t kernel_end = __pa_symbol(__init_begin);
+ 	phys_addr_t start, end;
++	phys_addr_t early_kfence_pool;
+ 	int flags = NO_EXEC_MAPPINGS;
+ 	u64 i;
+ 
+@@ -539,6 +596,8 @@ static void __init map_mem(pgd_t *pgdp)
+ 	 */
+ 	BUILD_BUG_ON(pgd_index(direct_map_end - 1) == pgd_index(direct_map_end));
+ 
++	early_kfence_pool = arm64_kfence_alloc_pool();
++
+ 	if (can_set_direct_map())
+ 		flags |= NO_BLOCK_MAPPINGS | NO_CONT_MAPPINGS;
+ 
+@@ -604,6 +663,8 @@ static void __init map_mem(pgd_t *pgdp)
+ 		}
+ 	}
+ #endif
++
++	arm64_kfence_map_pool(early_kfence_pool, pgdp);
+ }
+ 
+ void mark_rodata_ro(void)
+diff --git a/arch/arm64/mm/pageattr.c b/arch/arm64/mm/pageattr.c
+index debdecf..dd1291a 100644
+--- a/arch/arm64/mm/pageattr.c
++++ b/arch/arm64/mm/pageattr.c
+@@ -11,6 +11,7 @@
+ #include <asm/cacheflush.h>
+ #include <asm/set_memory.h>
+ #include <asm/tlbflush.h>
++#include <asm/kfence.h>
+ 
+ struct page_change_data {
+ 	pgprot_t set_mask;
+@@ -22,12 +23,14 @@ bool rodata_full __ro_after_init = IS_ENABLED(CONFIG_RODATA_FULL_DEFAULT_ENABLED
+ bool can_set_direct_map(void)
+ {
+ 	/*
+-	 * rodata_full, DEBUG_PAGEALLOC and KFENCE require linear map to be
++	 * rodata_full and DEBUG_PAGEALLOC require linear map to be
+ 	 * mapped at page granularity, so that it is possible to
+ 	 * protect/unprotect single pages.
++	 *
++	 * KFENCE pool requires page-granular mapping if initialized late.
+ 	 */
+ 	return (rodata_enabled && rodata_full) || debug_pagealloc_enabled() ||
+-		IS_ENABLED(CONFIG_KFENCE);
++		arm64_kfence_can_set_direct_map();
+ }
+ 
+ static int change_page_range(pte_t *ptep, unsigned long addr, void *data)
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index 1417888..bf2f194c 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -824,6 +824,10 @@ void __init kfence_alloc_pool(void)
+ 	if (!kfence_sample_interval)
+ 		return;
+ 
++	/* if the pool has already been initialized by arch, skip the below. */
++	if (__kfence_pool)
++		return;
++
+ 	__kfence_pool = memblock_alloc(KFENCE_POOL_SIZE, PAGE_SIZE);
+ 
+ 	if (!__kfence_pool)
+-- 
+2.7.4
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/5815d357-042e-2739-6d7b-960c81a50432%40quicinc.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1678969110-11941-1-git-send-email-quic_zhenhuah%40quicinc.com.
