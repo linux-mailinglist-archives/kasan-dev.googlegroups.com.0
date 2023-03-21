@@ -1,136 +1,127 @@
-Return-Path: <kasan-dev+bncBDGZTDNQ3ICBBF664SQAMGQEYPSK3SY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBHFO4WQAMGQEB22SS5A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3b.google.com (mail-qv1-xf3b.google.com [IPv6:2607:f8b0:4864:20::f3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D50E6C2908
-	for <lists+kasan-dev@lfdr.de>; Tue, 21 Mar 2023 05:14:17 +0100 (CET)
-Received: by mail-qv1-xf3b.google.com with SMTP id dg8-20020a056214084800b005acc280bf19sf7090688qvb.22
-        for <lists+kasan-dev@lfdr.de>; Mon, 20 Mar 2023 21:14:17 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1679372056; cv=pass;
+Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E9566C2B01
+	for <lists+kasan-dev@lfdr.de>; Tue, 21 Mar 2023 08:05:02 +0100 (CET)
+Received: by mail-lj1-x239.google.com with SMTP id t17-20020a05651c205100b0029f839410fcsf89569ljo.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 21 Mar 2023 00:05:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1679382301; cv=pass;
         d=google.com; s=arc-20160816;
-        b=NfbZzl4Ac8zKpzbpr81qTy4wqe/zKa6KnGvD4dejLHasXHtHLfWnCsILePj6w6viNL
-         CiiSCdRGOfCnEcl4e/cQKS4h4pcATVRbDYRLo9AIKaxFYcS0rtsdlz5xqFM1zOhDFU4p
-         Qc3VdSQcXIrrE1lMlYUqLnoa/27aabgHPVZ1u1uDEaSO65gxIQ4Z9XJ3wXOFo0QQBWga
-         VyNz+He2aOsZqGI6FDc2Y3Y5/lm/Hi38Ez/bkYShUCPm/8YFzx+6al9lFKEsxmTb9EjI
-         PCVmQsoB6CChfYwYT0G4w6uGwsrYworMNxEz/r7FK+tJ1kmrNjyFMD8U7TbZujoqGJIj
-         LEYQ==
+        b=X2IG7Vg1LtpJeZuhBlEfXb8xr0+QwmwlhI5ei5o51snKHWxa2vG+hr/3lFoaF287QM
+         JUXJuesxvq22TfFwPfBpDpWCFub7lqicMG/FCiArsQKUSoS5nZP9gJ6DFHcYTiqLg8LA
+         es7lyXtRzD9lhKPqN/eolN4YmpYAD16eHQgKtF5wdpk1An+PIecRJ3LltA4+u92cIA12
+         nfVivBtNtIyO9a5sOUvl5gDJQ/qcy3Wzcu9ZQmhofBbpXS1rVbIQ3Czq9S1pElKrdal6
+         9lcZrwGPwj8VvXbsIk+0IsajutASMa2VC/WwBq8FAvCXbNZQjAEp2CnHQxwR9pOlkbao
+         R1ww==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :in-reply-to:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:dkim-signature;
-        bh=4P1oIOlvfNj0y4NN67NRzKIjjjuSeH05Rw5R8Ufa9II=;
-        b=W35mtwigqo+RWn6c3+o+Oz+GD7kNScMztwGHLpRiHh4CHUSez8oWL98+MNYseaNj3D
-         4C8GzScuEULph6su/I6weEd2m6fcLf+H6tSDeBUGY3WbaqUmANkzO1I5sBT/H5K7+VUw
-         Vu69eEfQlm35xGt82kZ4AXjNP8ur9L/T34hbJAK+9ft3wjc/DzZYy/WCVXgTDdPZq6t9
-         tSnkvgCkWMamFBc7hFqwtpFBrU8A4SqI12xljwhDzTc7V55xrlwm9euH0/RNR9byPkvH
-         r+tFVN2WRX2Tnh+17u4qFxbc8sIMpODq5V+RxQebvounRzobA835XbdXD7KcQZpQWOsv
-         DrNQ==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :in-reply-to:from:references:cc:to:subject:mime-version:date
+         :message-id:sender:dkim-signature;
+        bh=itePead27ra3j/U7K3uBeGeSB8HV+Vl6/9NLhtLnCRs=;
+        b=TZqCs8d603W0wFXOZ/xiSguLDq58n9eGr85vBoHvWZuC5Jsh2RJY8odCS0sYeWEHUh
+         uuDVI+AkmoVn9Qm7kRQAoH9lMdlYDD24EGhkrUQnkFAuq3ZYgfvmdng+jfPcL3/s3epL
+         61jjSPudsnT71qYHQBwK9XPX6GGSKDbgGnGkITf0xEkxb1GvLglvqH5/RlmFbI6kWBA/
+         VsfCago0Yo+sbUH6RS05PCbNMjyFiwpKQeNGUTP4BKnMLktmZ1v1gL9ccoZyWtpcbxAn
+         ULk4x2NMtDDrx7fRkZwsi8h5BcPb2SMKVO3QYxJeHHoFXzgTOeIW4gJPKtILuGigRDi3
+         meAQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@bytedance.com header.s=google header.b=Vz4Mi71I;
-       spf=pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::52b as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=CJL06fy9;
+       spf=pass (google.com: domain of muchun.song@linux.dev designates 2001:41d0:203:375::2b as permitted sender) smtp.mailfrom=muchun.song@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1679372056;
+        d=googlegroups.com; s=20210112; t=1679382301;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4P1oIOlvfNj0y4NN67NRzKIjjjuSeH05Rw5R8Ufa9II=;
-        b=qxkXYzWOFlBS0nC44uuZMfr9yfcgSk59un+bYX+dJhFM2CrdC9KRjA4uk2kmRplxzL
-         91EHq7RWgB1ex6qBDmxWfZNUblUrPaKkN1b282yDQML/BtJ9d5WidW1apey+UxCqmbaU
-         m/g3y94/pDFBqFoV60x8d2Tg35fwrJ0sUVwMEJ3fKT1yAUq4mes1AxT2RMx1CqEL1Xtn
-         zImOd0/OaynMh8fdl0NTUor5PUbRNhIrhtxHdQcoBRNNwo0JayCzPYGrZ7NByfWKI2sN
-         IYgIA4D8PyAh0WHlR26EYqzQG1e5tKT2THsdcJgPUqRv6UWgreCponI8vVLIVlYgg3uV
-         LzBQ==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:in-reply-to:from
+         :references:cc:to:subject:mime-version:date:message-id:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=itePead27ra3j/U7K3uBeGeSB8HV+Vl6/9NLhtLnCRs=;
+        b=bW+MAxA/BViyircEKnTU6yFKzlTyJ31mWKDN/vpRF5mxWc2DtFQhIpV8bg0CgtmFI5
+         wyZEw5aodTP/prxYgPCxn82mVpnuXxIu9giYUEpjj9MoW8yT5cbNz6BzG3xiujNJQ/gc
+         /qrfbxiH2wpzbfHs43PPdRqfGiyGdjJQMk+zwSAZUUAoTCQJzbYTFAyfuT4Ojn+Up17h
+         RUSjJ3L03cnJ59pS1sdmRHjW4ML87y7eVK+t9PBVd+T3B7wlej10GVehjJXxYqmyYMGg
+         jfBw4AOSod8DGLLPNY90u8VGGbHPswDWTCk0nDfL0Ixd3b9kuiXyDhoCb5hSX+Hx7mKi
+         5hrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679372056;
+        d=1e100.net; s=20210112; t=1679382301;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=4P1oIOlvfNj0y4NN67NRzKIjjjuSeH05Rw5R8Ufa9II=;
-        b=Vs3w3jYfAQdyEjZN3q4fE16UQJldgm9aO2x57yfGcsey24ZjWp7D3E4Cs6qY3+6xx6
-         wUYFA3Q3GwRxSThdLVHJeOYlzmwBt5spXCJ63uJuXMhTPxjXhnI9U2iagIrN7V23zPpN
-         gBvmntpsd+Z3Cqf4edwYoJQj7kHB8tbycuTZEIUGReiWOTVOEREL8pK71MW30MMTWHiD
-         HU7AhZE/8847M6nP2fO1LYt4ve00BaO0UsRQokZmTcwGfdAna4u1g2qgwS4e5oXTlAtH
-         +xk7t+ugng0gV+E+skxPl7aFCAQqa95PvC4X8I82qmbbeDxGa+vTdogsuIGFIxp/Nx2U
-         0EjQ==
-X-Gm-Message-State: AO0yUKXcuXTWHTOU/xmmjm/1GAXMBDXw7pbWAjkukK/Q3Ifag77rVrpV
-	+90hI/IN8ehB8YFU9HWpkBM=
-X-Google-Smtp-Source: AK7set8cOv/MwozNqvgBV8dV4U0AP/OQPinjlxsKffU7awgXj18+beMsCTLg/KzUPp+RfnMV9AdWMQ==
-X-Received: by 2002:ac8:7f43:0:b0:3d9:d5a3:d3be with SMTP id g3-20020ac87f43000000b003d9d5a3d3bemr593354qtk.4.1679372055889;
-        Mon, 20 Mar 2023 21:14:15 -0700 (PDT)
+         :mime-version:date:message-id:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=itePead27ra3j/U7K3uBeGeSB8HV+Vl6/9NLhtLnCRs=;
+        b=OlwBrf874bclnOmJEW6B/x3wjrRua8CF1g2epimWLsZpYa80Cfw8/8O3qLeG9PkJhu
+         rO0f0QKmnmQUpzAYkOgR9y10lPuu9yI9tJPj/AHPjuXsdkisyspcQxoRemRY1iXvEu28
+         HdN/7rovLE6tJXL0gxqzdVwHVbaPaR0mheMU+VbHWbjwhgXq/o6wayNOT8x8T/RUofbu
+         i3Lijro5Av37wT1soM9Fg2aX+Wm/+NN+IP0R+V6i+pM/Ed5Wp7KqSM0mE+F5ksRZ0ZmA
+         GYdTfduW8rHhpzMQ+5sFAQ1aOgFDIfZTa4NkditkXOloEUqJ1CKRAS5k6y4+uLusMYsE
+         rzRQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AO0yUKUk1og4tM2fZ6arqQGQxlcITNeA9Cle6Jzn6N6QlQKYGUk73hZf
+	sUBV1ATgjjtu3/diUMqA5Cg=
+X-Google-Smtp-Source: AK7set8nGpwsSR0vrPaiPHd5tR/utUOoZjjuHx63BFfcdDBDysr6ebt3aK2M+lXl8KIKIBb2eyDI/Q==
+X-Received: by 2002:a2e:9045:0:b0:29b:d4e5:8fd8 with SMTP id n5-20020a2e9045000000b0029bd4e58fd8mr538578ljg.5.1679382301146;
+        Tue, 21 Mar 2023 00:05:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:12c4:0:b0:3bc:edc5:2588 with SMTP id b4-20020ac812c4000000b003bcedc52588ls13426245qtj.6.-pod-prod-gmail;
- Mon, 20 Mar 2023 21:14:15 -0700 (PDT)
-X-Received: by 2002:a05:622a:38a:b0:3bf:e3e8:f24e with SMTP id j10-20020a05622a038a00b003bfe3e8f24emr2397949qtx.62.1679372055312;
-        Mon, 20 Mar 2023 21:14:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1679372055; cv=none;
+Received: by 2002:a05:651c:4cf:b0:295:a3ad:f338 with SMTP id
+ e15-20020a05651c04cf00b00295a3adf338ls2683074lji.4.-pod-prod-gmail; Tue, 21
+ Mar 2023 00:05:00 -0700 (PDT)
+X-Received: by 2002:a2e:8457:0:b0:29b:d4d8:4d8c with SMTP id u23-20020a2e8457000000b0029bd4d84d8cmr429488ljh.1.1679382299970;
+        Tue, 21 Mar 2023 00:04:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1679382299; cv=none;
         d=google.com; s=arc-20160816;
-        b=SSxSZW+qu9veA0pTenLHnAQuVArJF3Amd9RaS3yjzqzgZzGpf7XgD20AyD5pM5ECsk
-         iOBUmtQmCDauYQl71P33ex5Us4jOQre6HZ75vSpPc/J2Vhr+vxiSOdc8bGpcAbofs8Oa
-         qbS1vgXxIpfgWrIfXXtYwEUPYYBO7lPMp6B0RfdTa4LT17anWySDDbjqC30ztd7Z/BhH
-         UkaKPC52qxIUnghp++PTnsiVjJSCeoOr1lJZYVl7F+QJsqFmRZ6R8AqzD7w9ObFPkmiv
-         zfyHyB12b1uEDsL4Ge7y2Qo+vOXj9esL6DkkawO4OAXMoqHlb609OzLLAYqLL5hsxoFM
-         2a1A==
+        b=xe0gxcqTUxdMstxeXq7pscmbNTUSs3D7UiB3joIuK6MWiXG09kjAtpr//c7aPi4uKt
+         KX1UUAVdSx+P1YVTrMG24IePqO3JTjDIDgbFyI5FXRCrehi+o6LDGZqydrFoNbpbZHBt
+         SmOWkUxsKNb7XcDWlDQWLdYl/tvmDdq4ppNQpbTLuDXdyPtre2qW68kah/7TVHxQJfyE
+         IwdBEEhCzXax69E/44kWZMqakGpt/fErPjXKpe+0JkgG3T+BEwrFjzY9Q1/Br5UtZQKj
+         4IFBNQ99AEzaBCC5C8Dkbk+n8QlTHcC5IIVXp3SDhPWS8ZWwnTfA0JJimHOzCZGRQM/B
+         v7FA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:dkim-signature;
-        bh=9ghHN1vnHe3Q9LXpob6M+hS+NoZYTu49dwl+0ycHuL0=;
-        b=0xzjPXOSINW7teTkd5qeQKIZ3/O4VzC+lBFxgA927j0oeivfl3Pazg1TC8KvNaxWRn
-         C/NOsXP3kAVfUQi1bwlh9HWjPUxWDiXwi3HgGufHb4VgzC4Ti0pljmP4ZIe2fl6FJ2uk
-         ARVqtf75osh4Jvegx3ARQjYbVzBALDN+Kj4iPQ385EPgT7B+WeeOHlokcQqP9i+YcYUM
-         p4Wga5VQxv8l5B00wXchPQ8IeBgb2s58W2r7btiUdwVUa1Se8FCSFeocLEdJZP1jqjd+
-         lhnHHtP4vYfrXntbeyDQwicGuYZTMk0fDcfNi4zef+bw41wS0D5qkhoVwci/iy20FYkV
-         tpBg==
+         :mime-version:date:dkim-signature:message-id;
+        bh=+McZTV1kAS70sseCFB9E43G9HETXQ3b8ag52JbteiD0=;
+        b=W29L3cEhoHkzJNEFkMZaf8Jun6GXqE25Xl0stLr1nANqwdGTqAKAiKidoHFL8Dyzlq
+         3WggvVIcm8vwGk1fxcAhiH1JIGA08usYxVl4EqmexxRiWaxA7tz2W1cmrBaMpFpBebw+
+         Wq+GS+pJBOLzDMdBIgkhxp9lnjH04pVf/kncJ+YM/8RB0lU0qh6nrtflRprZizhagP56
+         NpAGpfVQ7wSluaxtOpNILdXrBaioCEw3/b5V1/YwKz/wdUSQCEmURe7WvkamGautDEAe
+         hlSMtn0bNRjfgdg6jr+cNjgYAUQvEzpnZfScyIeK5Iz9tX6NL95nQz4jhq5nuckKYDee
+         S7qQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@bytedance.com header.s=google header.b=Vz4Mi71I;
-       spf=pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::52b as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com. [2607:f8b0:4864:20::52b])
-        by gmr-mx.google.com with ESMTPS id h19-20020a05620a401300b007427cf877eesi499941qko.2.2023.03.20.21.14.15
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=CJL06fy9;
+       spf=pass (google.com: domain of muchun.song@linux.dev designates 2001:41d0:203:375::2b as permitted sender) smtp.mailfrom=muchun.song@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out-43.mta1.migadu.com (out-43.mta1.migadu.com. [2001:41d0:203:375::2b])
+        by gmr-mx.google.com with ESMTPS id h1-20020a2ebc81000000b00299a6cef333si563230ljf.0.2023.03.21.00.04.59
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Mar 2023 21:14:15 -0700 (PDT)
-Received-SPF: pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::52b as permitted sender) client-ip=2607:f8b0:4864:20::52b;
-Received: by mail-pg1-x52b.google.com with SMTP id bn14so407223pgb.11
-        for <kasan-dev@googlegroups.com>; Mon, 20 Mar 2023 21:14:15 -0700 (PDT)
-X-Received: by 2002:a62:6304:0:b0:627:a283:5a04 with SMTP id x4-20020a626304000000b00627a2835a04mr823381pfb.27.1679372054389;
-        Mon, 20 Mar 2023 21:14:14 -0700 (PDT)
-Received: from ?IPV6:fdbd:ff1:ce00:1c2a:1cd4:8b91:108f:bf15? ([2404:9dc0:cd01::1a])
-        by smtp.gmail.com with ESMTPSA id 23-20020aa79117000000b005a8173829d5sm5135483pfh.66.2023.03.20.21.14.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Mar 2023 21:14:14 -0700 (PDT)
-Message-ID: <974ef73e-ab4f-7b24-d070-c981654e8c22@bytedance.com>
-Date: Tue, 21 Mar 2023 12:14:08 +0800
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Mar 2023 00:04:59 -0700 (PDT)
+Received-SPF: pass (google.com: domain of muchun.song@linux.dev designates 2001:41d0:203:375::2b as permitted sender) client-ip=2001:41d0:203:375::2b;
+Message-ID: <c22e1d58-e16f-fde5-cee7-c13dedbe1656@linux.dev>
+Date: Tue, 21 Mar 2023 15:04:46 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.8.0
 Subject: Re: [PATCH] mm: kfence: fix PG_slab and memcg_data clearing
-To: Muchun Song <songmuchun@bytedance.com>, glider@google.com,
- elver@google.com, dvyukov@google.com, akpm@linux-foundation.org,
- sjpark@amazon.de, jannh@google.com, muchun.song@linux.dev,
- roman.gushchin@linux.dev
+To: Peng Zhang <zhangpeng.00@bytedance.com>
 Cc: kasan-dev@googlegroups.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org
+ linux-kernel@vger.kernel.org, dvyukov@google.com, roman.gushchin@linux.dev,
+ jannh@google.com, sjpark@amazon.de, akpm@linux-foundation.org,
+ elver@google.com, glider@google.com, Muchun Song <songmuchun@bytedance.com>
 References: <20230320030059.20189-1-songmuchun@bytedance.com>
-From: "'Peng Zhang' via kasan-dev" <kasan-dev@googlegroups.com>
-In-Reply-To: <20230320030059.20189-1-songmuchun@bytedance.com>
+ <974ef73e-ab4f-7b24-d070-c981654e8c22@bytedance.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <974ef73e-ab4f-7b24-d070-c981654e8c22@bytedance.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: zhangpeng.00@bytedance.com
+X-Migadu-Flow: FLOW_OUT
+X-Original-Sender: muchun.song@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@bytedance.com header.s=google header.b=Vz4Mi71I;       spf=pass
- (google.com: domain of zhangpeng.00@bytedance.com designates
- 2607:f8b0:4864:20::52b as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
-X-Original-From: Peng Zhang <zhangpeng.00@bytedance.com>
-Reply-To: Peng Zhang <zhangpeng.00@bytedance.com>
+ header.i=@linux.dev header.s=key1 header.b=CJL06fy9;       spf=pass
+ (google.com: domain of muchun.song@linux.dev designates 2001:41d0:203:375::2b
+ as permitted sender) smtp.mailfrom=muchun.song@linux.dev;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,95 +135,96 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 
-=E5=9C=A8 2023/3/20 11:00, Muchun Song =E5=86=99=E9=81=93:
-> It does not reset PG_slab and memcg_data when KFENCE fails to initialize
-> kfence pool at runtime. It is reporting a "Bad page state" message when
-> kfence pool is freed to buddy. The checking of whether it is a compound
-> head page seems unnecessary sicne we already guarantee this when allocati=
-ng
-> kfence pool, removing the check to simplify the code.
->
-> Fixes: 0ce20dd84089 ("mm: add Kernel Electric-Fence infrastructure")
-> Fixes: 8f0b36497303 ("mm: kfence: fix objcgs vector allocation")
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> ---
->   mm/kfence/core.c | 30 +++++++++++++++---------------
->   1 file changed, 15 insertions(+), 15 deletions(-)
->
-> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> index 79c94ee55f97..d66092dd187c 100644
-> --- a/mm/kfence/core.c
-> +++ b/mm/kfence/core.c
-> @@ -561,10 +561,6 @@ static unsigned long kfence_init_pool(void)
->   		if (!i || (i % 2))
->   			continue;
->  =20
-> -		/* Verify we do not have a compound head page. */
-> -		if (WARN_ON(compound_head(&pages[i]) !=3D &pages[i]))
-> -			return addr;
-> -
->   		__folio_set_slab(slab_folio(slab));
->   #ifdef CONFIG_MEMCG
->   		slab->memcg_data =3D (unsigned long)&kfence_metadata[i / 2 - 1].objcg=
- |
-> @@ -597,12 +593,26 @@ static unsigned long kfence_init_pool(void)
->  =20
->   		/* Protect the right redzone. */
->   		if (unlikely(!kfence_protect(addr + PAGE_SIZE)))
-> -			return addr;
-> +			goto reset_slab;
->  =20
->   		addr +=3D 2 * PAGE_SIZE;
->   	}
->  =20
->   	return 0;
-> +
-> +reset_slab:
-> +	for (i =3D 0; i < KFENCE_POOL_SIZE / PAGE_SIZE; i++) {
-> +		struct slab *slab =3D page_slab(&pages[i]);
-> +
-> +		if (!i || (i % 2))
-> +			continue;
-> +#ifdef CONFIG_MEMCG
-> +		slab->memcg_data =3D 0;
-> +#endif
-> +		__folio_clear_slab(slab_folio(slab));
-> +	}
-Can this loop be simplified to this?
 
-	for (i =3D 2; i < KFENCE_POOL_SIZE / PAGE_SIZE; i+=3D2) {
-		struct slab *slab =3D page_slab(&pages[i]);
-#ifdef CONFIG_MEMCG
-		slab->memcg_data =3D 0;
-#endif
-		__folio_clear_slab(slab_folio(slab));
-	}
+On 2023/3/21 12:14, Peng Zhang wrote:
+>
+> =E5=9C=A8 2023/3/20 11:00, Muchun Song =E5=86=99=E9=81=93:
+>> It does not reset PG_slab and memcg_data when KFENCE fails to initialize
+>> kfence pool at runtime. It is reporting a "Bad page state" message when
+>> kfence pool is freed to buddy. The checking of whether it is a compound
+>> head page seems unnecessary sicne we already guarantee this when=20
+>> allocating
+>> kfence pool, removing the check to simplify the code.
+>>
+>> Fixes: 0ce20dd84089 ("mm: add Kernel Electric-Fence infrastructure")
+>> Fixes: 8f0b36497303 ("mm: kfence: fix objcgs vector allocation")
+>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+>> ---
+>> =C2=A0 mm/kfence/core.c | 30 +++++++++++++++---------------
+>> =C2=A0 1 file changed, 15 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+>> index 79c94ee55f97..d66092dd187c 100644
+>> --- a/mm/kfence/core.c
+>> +++ b/mm/kfence/core.c
+>> @@ -561,10 +561,6 @@ static unsigned long kfence_init_pool(void)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!i || (i % 2)=
+)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 continue;
+>> =C2=A0 -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Verify we do not h=
+ave a compound head page. */
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (WARN_ON(compound_head(&p=
+ages[i]) !=3D &pages[i]))
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retu=
+rn addr;
+>> -
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __folio_set_slab(=
+slab_folio(slab));
+>> =C2=A0 #ifdef CONFIG_MEMCG
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slab->memcg_data =
+=3D (unsigned long)&kfence_metadata[i / 2 -=20
+>> 1].objcg |
+>> @@ -597,12 +593,26 @@ static unsigned long kfence_init_pool(void)
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Protect=
+ the right redzone. */
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (unlikely(!kfe=
+nce_protect(addr + PAGE_SIZE)))
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retu=
+rn addr;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto=
+ reset_slab;
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 addr +=3D =
+2 * PAGE_SIZE;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>> +
+>> +reset_slab:
+>> +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < KFENCE_POOL_SIZE / PAGE_SIZE; i++)=
+ {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct slab *slab =3D page_s=
+lab(&pages[i]);
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!i || (i % 2))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cont=
+inue;
+>> +#ifdef CONFIG_MEMCG
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slab->memcg_data =3D 0;
+>> +#endif
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __folio_clear_slab(slab_foli=
+o(slab));
+>> +=C2=A0=C2=A0=C2=A0 }
+> Can this loop be simplified to this?
+>
+> =C2=A0=C2=A0=C2=A0=C2=A0for (i =3D 2; i < KFENCE_POOL_SIZE / PAGE_SIZE; i=
++=3D2) {
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct slab *slab =3D page_sla=
+b(&pages[i]);
+> #ifdef CONFIG_MEMCG
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slab->memcg_data =3D 0;
+> #endif
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __folio_clear_slab(slab_folio(=
+slab));
+> =C2=A0=C2=A0=C2=A0=C2=A0}
+>
 
-> +
-> +	return addr;
->   }
->  =20
->   static bool __init kfence_init_pool_early(void)
-> @@ -632,16 +642,6 @@ static bool __init kfence_init_pool_early(void)
->   	 * fails for the first page, and therefore expect addr=3D=3D__kfence_p=
-ool in
->   	 * most failure cases.
->   	 */
-> -	for (char *p =3D (char *)addr; p < __kfence_pool + KFENCE_POOL_SIZE; p =
-+=3D PAGE_SIZE) {
-> -		struct slab *slab =3D virt_to_slab(p);
-> -
-> -		if (!slab)
-> -			continue;
-> -#ifdef CONFIG_MEMCG
-> -		slab->memcg_data =3D 0;
-> -#endif
-> -		__folio_clear_slab(slab_folio(slab));
-> -	}
->   	memblock_free_late(__pa(addr), KFENCE_POOL_SIZE - (addr - (unsigned lo=
-ng)__kfence_pool));
->   	__kfence_pool =3D NULL;
->   	return false;
+It's a good simplification. The loop setting Pg_slab before this
+also can be simplified in the same way. However, I choose a
+consistent way to fix this bug. I'd like to send a separate
+simplification patch to simplify both two loops instead of
+in a bugfix patch.
+
+Thanks.
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -240,4 +232,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/974ef73e-ab4f-7b24-d070-c981654e8c22%40bytedance.com.
+kasan-dev/c22e1d58-e16f-fde5-cee7-c13dedbe1656%40linux.dev.
