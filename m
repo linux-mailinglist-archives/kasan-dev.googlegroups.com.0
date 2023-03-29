@@ -1,141 +1,152 @@
-Return-Path: <kasan-dev+bncBAABBW4JR2QQMGQEAJ7ZHYI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBO5YR2QQMGQEMJZHORI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x639.google.com (mail-pl1-x639.google.com [IPv6:2607:f8b0:4864:20::639])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E5056CCEB6
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Mar 2023 02:22:53 +0200 (CEST)
-Received: by mail-pl1-x639.google.com with SMTP id k17-20020a170902d59100b0019abcf45d75sf8332451plh.8
-        for <lists+kasan-dev@lfdr.de>; Tue, 28 Mar 2023 17:22:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1680049372; cv=pass;
+Received: from mail-oa1-x3f.google.com (mail-oa1-x3f.google.com [IPv6:2001:4860:4864:20::3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E906CCFBE
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Mar 2023 04:02:37 +0200 (CEST)
+Received: by mail-oa1-x3f.google.com with SMTP id 586e51a60fabf-17714741d9dsf7503434fac.4
+        for <lists+kasan-dev@lfdr.de>; Tue, 28 Mar 2023 19:02:37 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1680055355; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YTDOmhdIN4yiLsv6Y7EN9G0olTeF9tJqxTfiualFx+hvJWoL2blPFNkeRiHSn8gucb
-         Qd7RIvQNU1ZJg8OtqSXRRiCHm8hoktsvm5D6X7krTdvBwTSFpDd7ysARXbCSinLVVt1R
-         huIW/oSnoTpkej7NWieMgTinRquH2cDHfu70GS14VKZAJQADqPgqSAwK1jo2Tdta/jxG
-         yV5MrkHpGeWmTnzgKGe9J4tYT9eo+Mh8xzaQ9JGGjoHNShr6PoGVLBca2s2vCGXvC/ys
-         aE7RbuNOCawHeXjze1tHnjFdDZJprkFd9snCnlpnXPK2iXHMO7+uwFg3N8u4e7Y0EdMK
-         zG6A==
+        b=usueM29TAJTr6PBbAZcBoDNOXz0NqRaxrxq7u1hipQ061EVb2mCHPAlMs9Bk48/2pr
+         lrCkJHdRTojLuyigVIKsuPbVuw0f9o7noxQkJTsJz1ZbNU1k5i+lxK/jtp9BJxLWZNHK
+         4E5EiJ6abyxU/ii78aSLqw68ZqoeEG6sCt37mHcPZzWNjfY8ld+qFf4dzJcl6eoQTmcj
+         K0yGhlfHDlkS7Q+W+eRfUmX+aDfiA5CFMUM1yQUdUaZ/W5K/xaNIzk/LdRW0sXE/D73t
+         anUyolUsjAsCYvlTQLLd9gHBzK0aMKr5Li5TLqKAU9KhaSud9ILP8SzaJ8S/+G7tnZsH
+         ZsAw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature;
-        bh=pojLyizrccWr2rDdI+4uQCR6/EQVyDIaCXgBS0OtNwE=;
-        b=ITzSln437Hlrx4HojmRMMxm8sRilBvCcJJgKChuhrKeNlncuesOPscuGpUKHF4N3zn
-         FM3XdHFndL3D6d9op4Hd8nfH9EUtlZjhMh8Q8veGK7bql9Zm7LZJmmVHrqUHT+mjVnDz
-         oKgROjP7UOueuB7gVtTDDeqCqEVq/k1K8nw2r8VTtVcWgH22D85RtysAgQJwEEHj0z4h
-         LnoKq1ZoqUXEsIup7HI/MZ80hH3Mt2ikPIJ5MVv7UQDOrJZwKKJ0ka3QdwA31m0pUnHQ
-         GIavmPFqjWCTxpwq4NJT0g+r5Mbq2pvYBrOfrVvQ1EjUCEnEuId4N8/a5eJHmgko5j3I
-         YNZg==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :content-language:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:cc:to:subject:sender:dkim-signature;
+        bh=+xj8IvKewCqbJSA/oD4ywnWsn9fhQh/DHjukxANA6vs=;
+        b=GzJd+h/tnnL6nKLUddpFoPf2oBftB4joPYjCToibe+oEX4PusV6xebaBlzrY85G5z0
+         Q3cIqsTjGcySKr6t4FApU6luV6VXXFtYoYhbIZfzAYD3GFX0HWssnZ56fPHXB4O4xnZ5
+         P0ESIpyniYQYjw5QqsuheJSFOhV0jyUbHXJUryRUBHDtvL2c9fmBz1kryNbD8tFHsOId
+         HWL2ht5jggidxo+rrCN8vY5qv1NQnE/PSxYSMMPFnDynAvv9oyvpLhBrKTmUSx9iPJzI
+         jNnCrAMiWlvgNQxLd0rtDc/fEWYTsPiuQMOonaedW6Sp+mnfRBK1dMhQV7kx/zc+FOoH
+         hiHA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=kohoHxDp;
-       spf=pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of zhangqing@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=zhangqing@loongson.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1680049372;
+        d=googlegroups.com; s=20210112; t=1680055355;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pojLyizrccWr2rDdI+4uQCR6/EQVyDIaCXgBS0OtNwE=;
-        b=RXUrW0zvYAAU2iwK0RxX0JomQsqueynoG2nEMn2kqEfKUIP3D3L7U0M1PGFjvPFJAl
-         Lxkl84+A7+SWQ7jrvP2NFQ0njS7q28+KJEW8w26bkLRFobqtWHd5GEBglIMl5/1S4k/P
-         8b+Sku0COCEAP09Q0xZTTgobHfmeosf2KIkCjkFa5qZR0bJ0Ci0azcK+TQIW9g+LFguy
-         ePF6LmR5kcWSRlH0/mlrdBQagsdKjKzr56t9yErw9I5VKrDQxinxKNmGMeTm1v4BxL09
-         TNls/mod+vQd5RIaQUwK5+NcN1eNOcKmfbFG3o2S8soeeN5ye9ugaXxwxVsJiImSBHEc
-         2UZw==
+         :x-original-sender:content-transfer-encoding:content-language
+         :in-reply-to:mime-version:user-agent:date:message-id:from:references
+         :cc:to:subject:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=+xj8IvKewCqbJSA/oD4ywnWsn9fhQh/DHjukxANA6vs=;
+        b=YEiV+8g70saV0UyaLwPuPCCfyxyisGpYOzJtysPYHEBKfgyzAq0ACmaa6gakUHGT3+
+         YDpbGOPIZcHefr2oGHYbiIFlQ6jcFB/vTELFs+z1bb71XC44O4ywWzy6KuyjlGZgdoDt
+         1Ll9G/ScBoIPhzTCOMBIOzkB+4krEzU0hWhlUZ+cG9BPdtpyQx7VmElUZX2TGi51btd5
+         WorD0HIstq9tAPWRJDlWqoTRwhimPie/Rqqka5re7evPZ4LfhXHSh4dTR0BWZ0oaCaqr
+         H9LhXBqV/rqUMpTnmGB6vo+f2fOUKUXvmlYp9D/2oEctUgjDvm5EdmRCNG+84GSwAotJ
+         NWtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680049372;
+        d=1e100.net; s=20210112; t=1680055355;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pojLyizrccWr2rDdI+4uQCR6/EQVyDIaCXgBS0OtNwE=;
-        b=us71hhSikvqnfeG3J669oDh4Xox4pdIoTqimjpfQn1zldlKwofP82wGHqOpe/w2DfU
-         yRpKyy8plPiD/mdTCSt83cKIAL/iZwijZW9Lv4O2THdLfq0uy2IGWkhRJYiGiY7lEMbj
-         v/WWdPpe7JBwjVNHZCaUa828dwwapkHtIoM4tPBAzWWDBSQtQmxee9FCI8KEUFsofS1Q
-         O6Lj6ymD/ugVO98UExAp+tQq3+1eozU8o5sxoIQ3eIfi0XESqX4QhIRjYnSTlBCObV0r
-         QY0x1lp9eZdkz0TjAu3f6L2yCb5k6XMGjTGvQGttD+Slkf9JWK5Hkw4EEQhpxZM4MMyh
-         Ur3g==
+         :content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+xj8IvKewCqbJSA/oD4ywnWsn9fhQh/DHjukxANA6vs=;
+        b=axPghi5ktK6koCipbz8/KL8NE/ihwc0mE1HW1eAYwg6S60ZfQ3mlNQR9v0qaP89AyX
+         eTNzG2w+KluKdrhTaqjz13ASBx/SkM/YJ2c+ikHpfNrVd+jJFd05BIGExWFiL87PBpep
+         rlV6Zsrc2erNvsxsHwitOeMwAzkIo/xNGWhjUEFfQb3YJV2fsJiwOX6kAW/S/CuacTP2
+         VnUEIpb3Lorq+LXyVLl6LHn6xLE41WQiILayi975AAtIqQ1I2onNVPuirbO6mitAGs5X
+         jJcERU9lOiIOUN8qTtNc7jE7oWWTMQ1GaP+WjL5jpeYSTY4fm25tc2sCwB3KzLclIIjN
+         KiMg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AAQBX9fCdJMAXbOJIetdniPvKzS1JFCj41eVKAz/jNRMvnCgevfBaExB
-	PwcKMO8xU6iipqpsef8CbE8=
-X-Google-Smtp-Source: AKy350YnH1smKKRPAZBqX3WFhH9DaZfMaPz2GPpVxuWQgwLGTB7NAlpYcYbhDk3xK5PNkmw2us2LQA==
-X-Received: by 2002:a17:902:6943:b0:1a2:23f8:d122 with SMTP id k3-20020a170902694300b001a223f8d122mr5037379plt.9.1680049371917;
-        Tue, 28 Mar 2023 17:22:51 -0700 (PDT)
+X-Gm-Message-State: AAQBX9fihuzr9dtBTAptamgaibgMbV5JcYKDmp9dzBkE4cJxBquRi89v
+	BiGk4q+iAq8yybnibG0OteU=
+X-Google-Smtp-Source: AK7set/u1FaMmoqWekrHgBy7XXlDTd7XoZFljZNNg/lED9A8tILGFIz+IBqeZnFyPrJfgoc+KcnQaw==
+X-Received: by 2002:a05:6870:f901:b0:17a:dcce:86bf with SMTP id ao1-20020a056870f90100b0017adcce86bfmr6534410oac.8.1680055355649;
+        Tue, 28 Mar 2023 19:02:35 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:e388:b0:230:cffb:708e with SMTP id
- b8-20020a17090ae38800b00230cffb708els1271252pjz.0.-pod-preprod-gmail; Tue, 28
- Mar 2023 17:22:51 -0700 (PDT)
-X-Received: by 2002:a17:90b:1bc4:b0:23f:6d4e:72b3 with SMTP id oa4-20020a17090b1bc400b0023f6d4e72b3mr18788913pjb.25.1680049371324;
-        Tue, 28 Mar 2023 17:22:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1680049371; cv=none;
+Received: by 2002:a4a:d108:0:b0:53b:545d:9cb2 with SMTP id k8-20020a4ad108000000b0053b545d9cb2ls579650oor.6.-pod-prod-gmail;
+ Tue, 28 Mar 2023 19:02:35 -0700 (PDT)
+X-Received: by 2002:a4a:2c86:0:b0:53b:5510:9594 with SMTP id o128-20020a4a2c86000000b0053b55109594mr9425930ooo.1.1680055355104;
+        Tue, 28 Mar 2023 19:02:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1680055355; cv=none;
         d=google.com; s=arc-20160816;
-        b=ARXWpsulXohSieeVhK+2dFtbq4XOptL6ptsz4ussPAo2z/iZPHwViHwORR6GpXO+fS
-         TqKlnZPioztE2/hm7ArM8y1+P3ZLI8iINNHgVzVFImiQdxzEBTHlnWfysKjKPzpjCxgv
-         lQwTM73eJsBfEtAX5NlLovVjLvbA1MZs6AxH7txn6+UDlvOa3T45xd3R+V2wKAWc4vE7
-         3Nmzcd8fuebJ477o0+u+AJUhCuTJdtajtSMn/nCwV9q7cT9hMWm13UwkoB6sJL/g8kBT
-         9VmApJNQ/2ytwvHM3l+6ADz7dwmoLocVraDqmU3zlDLlhyHvgF+g6i8DNAnM/Shubbsc
-         GKVg==
+        b=JYMyMu36dibGQ63ykL9Mte5tI0SDnz//yIWlREJDk5vkkFSjGm44B2ptIgT6UnnrQ2
+         t0amff0oFkTxpfSeJVg5oszY2Y8n9Uy/aOqrNhygrWEhpY4lyOuQsfU/jEsDLIOxqEck
+         Gt+fb6r236fjFrMNHLX4XS+i9mEc/CqmPpzkrstQAZENX1bsz+9OrhtBOIJEoMaCSUHn
+         MmBrcSOOk5Yj6xchcWGWo4TAqlQqarPyWYEY2Fm1KBL0dKhbq8nrHUGybbee9YVhznET
+         sBEJiPSYiqztlyaqsqJFEkPDuoeQB3YE0Q57LUIiAIXXdBVjCt7+e8SC2X8G6kajpdK8
+         MrbQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=gvRM19O0+ENuKqUmsDi/B/LiIIqhUnSvjpgPO4O58bI=;
-        b=DzymB/JUD3G2NsNnrTh2wmfT31oYdMKAOr4wcDa81l3li6RcThYIB/UF/fSJupbRre
-         ShYwRT2tDRXPlMdSh1jehysNvWHSfsr7tZqeCVT1zDgj1zhcHkG3izjaFMcJRRANhFdk
-         rQzwLGOTYQb9dTa1VNs26I7ThyQikeO8Z8o85pffoQ8bB8BHEmhyJ7VK1Eqng3KX0aPA
-         Va1KCVRHXMImA34a21tKqkGuZOyraVa7IceBll1c90lvB+e3cc9JHTw/Sxaq8zqfnvn/
-         EizNe4tBMSHIi7ZcWBTSwQ99jFWSq2snmChZV1Jh4S8HURhOVKCDcGj/Z1objlTfqDeO
-         QY8w==
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=n0kv0SLrudmaBn80mc0pCccSKOLtnDG3O0At1e+cebk=;
+        b=Xta4JKdG78XOQ5Nq7TmTtEmg/T7DhxROlx79ygHQUTPKUN5odHT2Vp5F13+UYk76Xi
+         iY0YBIsyghFlIHgnufIM2dRPB5vIvd82fRUbAEg0WPcOlMTa0eRU6bYYORQqqa3JOb/7
+         6eIlAX8IafCdHF2iVfVjozGAUj4Smbtk3sHW56GaNxS+r7Re7GCQqagl5Jv3hPr+8zX6
+         57dIH2tWztoHpNlIfjkwL9reGC9LOsdLONV8wb1EVs2VGKl2LAYArQzmMi5ecwsM0vvz
+         lKkU727t+xxbhJutmbPOlnyyi0mIVpqoF5+TJCNzTWj8UxrwNmW01+oiR26OqiP41TaB
+         DjKA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=kohoHxDp;
-       spf=pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id x23-20020a17090aca1700b00229ee755cffsi185762pjt.2.2023.03.28.17.22.51
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 28 Mar 2023 17:22:51 -0700 (PDT)
-Received-SPF: pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id C767B619C4
-	for <kasan-dev@googlegroups.com>; Wed, 29 Mar 2023 00:22:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C08ACC433A0
-	for <kasan-dev@googlegroups.com>; Wed, 29 Mar 2023 00:22:49 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id x3so56603525edb.10
-        for <kasan-dev@googlegroups.com>; Tue, 28 Mar 2023 17:22:49 -0700 (PDT)
-X-Received: by 2002:a50:a444:0:b0:4fc:6494:81c3 with SMTP id
- v4-20020a50a444000000b004fc649481c3mr8371871edb.1.1680049367907; Tue, 28 Mar
- 2023 17:22:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230328111714.2056-1-zhangqing@loongson.cn> <9817aaa043e9f0ed964bd523773447bd64f6e2c0.camel@xry111.site>
- <1c231587-3b70-22ab-d554-ebe3de407909@loongson.cn>
-In-Reply-To: <1c231587-3b70-22ab-d554-ebe3de407909@loongson.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Wed, 29 Mar 2023 08:22:37 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5APsBxC8nNa81t3HXum1EU1hOj4S6UC7xLHD7_BCJd7g@mail.gmail.com>
-Message-ID: <CAAhV-H5APsBxC8nNa81t3HXum1EU1hOj4S6UC7xLHD7_BCJd7g@mail.gmail.com>
+       spf=pass (google.com: domain of zhangqing@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=zhangqing@loongson.cn
+Received: from loongson.cn (mail.loongson.cn. [114.242.206.163])
+        by gmr-mx.google.com with ESMTP id h7-20020a4ab447000000b00525240a102asi768335ooo.1.2023.03.28.19.02.34
+        for <kasan-dev@googlegroups.com>;
+        Tue, 28 Mar 2023 19:02:35 -0700 (PDT)
+Received-SPF: pass (google.com: domain of zhangqing@loongson.cn designates 114.242.206.163 as permitted sender) client-ip=114.242.206.163;
+Received: from loongson.cn (unknown [113.200.148.30])
+	by gateway (Coremail) with SMTP id _____8CxhdgZnCNkjnsTAA--.30250S3;
+	Wed, 29 Mar 2023 10:02:01 +0800 (CST)
+Received: from [10.130.0.102] (unknown [113.200.148.30])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxPL4XnCNkIQQQAA--.12984S3;
+	Wed, 29 Mar 2023 10:02:01 +0800 (CST)
 Subject: Re: [PATCH] LoongArch: Add kernel address sanitizer support
-To: Qing Zhang <zhangqing@loongson.cn>
-Cc: Xi Ruoyao <xry111@xry111.site>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	WANG Xuerui <kernel@xen0n.name>, Jiaxun Yang <jiaxun.yang@flygoat.com>, kasan-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, loongarch@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: Xi Ruoyao <xry111@xry111.site>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ WANG Xuerui <kernel@xen0n.name>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, linux-mm@kvack.org,
+ loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org
+References: <20230328111714.2056-1-zhangqing@loongson.cn>
+ <9817aaa043e9f0ed964bd523773447bd64f6e2c0.camel@xry111.site>
+ <1c231587-3b70-22ab-d554-ebe3de407909@loongson.cn>
+ <CAAhV-H5APsBxC8nNa81t3HXum1EU1hOj4S6UC7xLHD7_BCJd7g@mail.gmail.com>
+From: Qing Zhang <zhangqing@loongson.cn>
+Message-ID: <9a6f11a3-d01c-e0c9-a4f3-47db25ce02f3@loongson.cn>
+Date: Wed, 29 Mar 2023 10:01:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAAhV-H5APsBxC8nNa81t3HXum1EU1hOj4S6UC7xLHD7_BCJd7g@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: chenhuacai@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=kohoHxDp;       spf=pass
- (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1
- as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+X-CM-TRANSID: AQAAf8CxPL4XnCNkIQQQAA--.12984S3
+X-CM-SenderInfo: x2kd0wptlqwqxorr0wxvrqhubq/
+X-Coremail-Antispam: 1Uk129KBjvJXoW7uF43ur1UArykKF4xtw43Wrg_yoW8tw4Upr
+	y8GF4rtw48Jr40vrs2q34Duryjv3Z2qw1agr4DK34rZ3sF9F98Kr4DWr13uF929r1j9F4Y
+	vFWrtFWa934UJaDanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+	qI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUIcSsGvfJTRUUU
+	bxkYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s
+	1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xv
+	wVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4
+	x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2AI
+	xVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64
+	kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm
+	72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07AlzVAYIcxG8wCF04
+	k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18
+	MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr4
+	1lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l
+	IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
+	A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8zwZ7UUUUU==
+X-Original-Sender: zhangqing@loongson.cn
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of zhangqing@loongson.cn designates 114.242.206.163 as
+ permitted sender) smtp.mailfrom=zhangqing@loongson.cn
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,70 +159,80 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Mar 28, 2023 at 8:15=E2=80=AFPM Qing Zhang <zhangqing@loongson.cn> =
-wrote:
->
-> Hi, Ruoyao
->
-> On 2023/3/28 =E4=B8=8B=E5=8D=887:39, Xi Ruoyao wrote:
-> > On Tue, 2023-03-28 at 19:17 +0800, Qing Zhang wrote:
-> >
-> > /* snip */
-> >
-> >
-> >> -void * __init relocate_kernel(void)
-> >> +unsigned long __init relocate_kernel(void)
-> >
-> > Why we must modify relocate_kernel for KASAN?
->
-> When the CONFIG_RANDOMIZE_BASE is enabled, the kernel will be updated to
-> a random new address.
-> Kasan needs to call kasan_early_init before start_kernel.
-> There are two situations:
-> 1> After enabling CONFIG_RELOCATABLE, call kasan_early_init.
-> 2> After CONFIG_RELOCATABLE is not enabled, call kasan_early_init.
->
-> In order to prevent code redundancy and semantic problems caused by
-> calling kasan_early_init (before jr a0) at the old PC.
-In my opinion, you can call kasan_early_init before relocate_kernel in
-head.S, then no redundancy.
+Hi, Huacai
 
-Huacai
->
-> Thanks,
-> -Qing
-> >
-> >>   {
-> >>          unsigned long kernel_length;
-> >>          unsigned long random_offset =3D 0;
-> >>          void *location_new =3D _text; /* Default to original kernel s=
-tart */
-> >> -       void *kernel_entry =3D start_kernel; /* Default to original ke=
+On 2023/3/29 =E4=B8=8A=E5=8D=888:22, Huacai Chen wrote:
+> On Tue, Mar 28, 2023 at 8:15=E2=80=AFPM Qing Zhang <zhangqing@loongson.cn=
+> wrote:
+>>
+>> Hi, Ruoyao
+>>
+>> On 2023/3/28 =E4=B8=8B=E5=8D=887:39, Xi Ruoyao wrote:
+>>> On Tue, 2023-03-28 at 19:17 +0800, Qing Zhang wrote:
+>>>
+>>> /* snip */
+>>>
+>>>
+>>>> -void * __init relocate_kernel(void)
+>>>> +unsigned long __init relocate_kernel(void)
+>>>
+>>> Why we must modify relocate_kernel for KASAN?
+>>
+>> When the CONFIG_RANDOMIZE_BASE is enabled, the kernel will be updated to
+>> a random new address.
+>> Kasan needs to call kasan_early_init before start_kernel.
+>> There are two situations:
+>> 1> After enabling CONFIG_RELOCATABLE, call kasan_early_init.
+>> 2> After CONFIG_RELOCATABLE is not enabled, call kasan_early_init.
+>>
+>> In order to prevent code redundancy and semantic problems caused by
+>> calling kasan_early_init (before jr a0) at the old PC.
+> In my opinion, you can call kasan_early_init before relocate_kernel in
+> head.S, then no redundancy.
+>=20
+It has no effect now, but kasan_early_init generally maps everything to
+a single page of zeroes in kasan area, if placed
+Before relocate_kernel, when the kernel was relocated, I worried that
+there were changes other than the memory layout.
+
+Thanks,
+- Qing
+> Huacai
+>>
+>> Thanks,
+>> -Qing
+>>>
+>>>>    {
+>>>>           unsigned long kernel_length;
+>>>>           unsigned long random_offset =3D 0;
+>>>>           void *location_new =3D _text; /* Default to original kernel =
+start */
+>>>> -       void *kernel_entry =3D start_kernel; /* Default to original ke=
 rnel entry point */
-> >>          char *cmdline =3D early_ioremap(fw_arg1, COMMAND_LINE_SIZE); =
-/* Boot command line is passed in fw_arg1 */
-> >>
-> >>          strscpy(boot_command_line, cmdline, COMMAND_LINE_SIZE);
-> >> @@ -190,9 +189,6 @@ void * __init relocate_kernel(void)
-> >>
-> >>                  reloc_offset +=3D random_offset;
-> >>
-> >> -               /* Return the new kernel's entry point */
-> >> -               kernel_entry =3D RELOCATED_KASLR(start_kernel);
-> >> -
-> >>                  /* The current thread is now within the relocated ker=
-nel */
-> >>                  __current_thread_info =3D RELOCATED_KASLR(__current_t=
-hread_info);
-> >>
-> >> @@ -204,7 +200,7 @@ void * __init relocate_kernel(void)
-> >>
-> >>          relocate_absolute(random_offset);
-> >>
-> >> -       return kernel_entry;
-> >> +       return random_offset;
-> >
->
+>>>>           char *cmdline =3D early_ioremap(fw_arg1, COMMAND_LINE_SIZE);=
+ /* Boot command line is passed in fw_arg1 */
+>>>>
+>>>>           strscpy(boot_command_line, cmdline, COMMAND_LINE_SIZE);
+>>>> @@ -190,9 +189,6 @@ void * __init relocate_kernel(void)
+>>>>
+>>>>                   reloc_offset +=3D random_offset;
+>>>>
+>>>> -               /* Return the new kernel's entry point */
+>>>> -               kernel_entry =3D RELOCATED_KASLR(start_kernel);
+>>>> -
+>>>>                   /* The current thread is now within the relocated ke=
+rnel */
+>>>>                   __current_thread_info =3D RELOCATED_KASLR(__current_=
+thread_info);
+>>>>
+>>>> @@ -204,7 +200,7 @@ void * __init relocate_kernel(void)
+>>>>
+>>>>           relocate_absolute(random_offset);
+>>>>
+>>>> -       return kernel_entry;
+>>>> +       return random_offset;
+>>>
+>>
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -219,5 +240,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAAhV-H5APsBxC8nNa81t3HXum1EU1hOj4S6UC7xLHD7_BCJd7g%40mail.gmail.=
-com.
+kasan-dev/9a6f11a3-d01c-e0c9-a4f3-47db25ce02f3%40loongson.cn.
