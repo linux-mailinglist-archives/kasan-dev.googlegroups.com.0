@@ -1,149 +1,137 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBAOBSGQQMGQECCQ6QJY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBXG2SGQQMGQEEEK6U4Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3e.google.com (mail-io1-xd3e.google.com [IPv6:2607:f8b0:4864:20::d3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F8A6CEE44
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Mar 2023 18:00:02 +0200 (CEST)
-Received: by mail-io1-xd3e.google.com with SMTP id i2-20020a5d9e42000000b0074cfcc4ed07sf10108933ioi.22
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 Mar 2023 09:00:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1680105601; cv=pass;
+Received: from mail-yb1-xb3e.google.com (mail-yb1-xb3e.google.com [IPv6:2607:f8b0:4864:20::b3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id A770F6CEFEB
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Mar 2023 18:54:54 +0200 (CEST)
+Received: by mail-yb1-xb3e.google.com with SMTP id z4-20020a25bb04000000b00b392ae70300sf16128677ybg.21
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 Mar 2023 09:54:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1680108892; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0Wge7K7NCGHQoAFBm6/RaoihTT+c4Q3Q04ub3C6Dti5rdhCdedscF2i5Q4iy9Zsg6m
-         eFlh3Gh2/EVWZi0DVjyTSsB6JgvEH+erawG2PUlcKJmU4PQh+agX8bOEuclSqL9Y9wxV
-         cjJpMKtiUUO7Ybe0jHngFyM4iHrNPz0FpSwuesijv66wi2oGe9r8kzcGskVe5mUhkbSh
-         WoW6JVoC3GMqctpunlSrHCStmAzuGnXPaXacBt6kOr+I1VkAlCh9DxxQR2tKcFrqDADH
-         ImxcpVt+KQ/3rXmB/jrNnoCAoFY1hzR5Zd2f/zC/0fmTNnmgIdWaybpYU1r7jVkKOUzm
-         loPQ==
+        b=xZENZ75MZUjrLLLP6ugoIZMiihYAUKaQWQpbeJ1rnNrYfXCp9QyVIwSEVNg6uCsU9r
+         BULmFhAFzagBRB56zZwDIoN+TUPIXL+nVhuRPRFyquPGzSwxuysvhvCKOH29d/m5jWGc
+         lyhybYiNshpCSKaxVMlI7DxfSPq95tpE0m2FTqn5F2w4+SDjlI0JPXrz71zJGv+czhnH
+         NhdOxstqydCDNR8bUQainl7Xy6Pm05uiUXmNLHVmXDhwUHztp1xEy4VSYdFLEoogD6cI
+         2zEErcpUOf+/rVt2mkB+Gqt8mLyX9keCkCtFUUSGfy1jDntxbjOM21UKHRI/S65TZmP/
+         dcxA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=WjpzNpj+xmyrQKqkakl/YvPAAdwMtZQIzF0v+ehGKmY=;
-        b=W4xfQ/HAEyE/FLUWG8FpfXzI9zBHEqGilZy7q9UaCZocDWE3fNNaq8u6wEU7SlCkpr
-         MTwSM+2B93OwnFdWQ6kt6hlBSAOk03ZCREffa4JjJnHGHPp3G0bAirZhHGaN3CXT8fUA
-         ny71OAhAV53To1tQOS2SY2JFGWliAclznL74j46I9Cxl2eeUrbSI+7FRyU2zfE1EfWbs
-         QgNPT1ymK6yHHHX+ZGUqzVHhyaosBZriAsdofEJx9qkif0gLpR/4zbmEu6TuVMZ27ZyX
-         5VJsflNdxGDi18wcfhSqKNsTLdATj2yXZ9fQDzywvBZuX0kZoriJIi4ecZjW5MpkWItb
-         4yfA==
+         :list-id:mailing-list:precedence:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=pymBTC4el55TdNE9hvi2x8UtH3Jecme2/3NtCrSduO8=;
+        b=TNepml/xS6Mabm24juEP2exyB/usCYnx04PLLePyjZ3NtgxiaKBLzYW9nWh0mnnD7D
+         yQeZWX1yGtr0gDNPU2UjSYS7yLVduDvgLH6JR9fZ1bkx0O+vF7JzFi61Jp+dqFJnFIyv
+         KuAr6AK8JHmofy+kNTkMOZFc3g6GiEzZGOjRwmDdH7zPR9KYwPmnbX9oxq5G/8nb3Noc
+         Ju7b8kzs0NDhFl/ChBreCcX5MHrmIx/c1KJ+AyMcEVtt6KK5rtmxsmm3dI+78hpDygcb
+         IpqVTECbROGkK0GeZoYEFMBDx//33Ik+/FtgDpYUyt2d9ZowOfcfBb/Evrd94+Qqz+pU
+         6+sA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=IoeJ2hRh;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::42e as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1680105601;
+        d=googlegroups.com; s=20210112; t=1680108892;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WjpzNpj+xmyrQKqkakl/YvPAAdwMtZQIzF0v+ehGKmY=;
-        b=d09KPxDKW8WvQRWI2UPptcST/0XUzB2fFx+BSSOfEjxjfPqYEOlxEjueOEGfX1JEMr
-         LvCWbHdV+ts32/cOwCrH2PLfUjP75wI2elZwuEPTVbj4beaBgZSdAApDu7azAxGRg9gv
-         lMYPW8qZg3xJ0RNF1WoMqQdm0Zybkfzgnq1aTWg1MsNPpdC3exTrebH+SRU8WtXL/VA7
-         aR9GMOmGC/j9MFbOFdccqOGNUQFohjXslwcqT4eZNvNC/vW2E8vk8at9Lgwsqu3n5dCl
-         QJ6sA1RxwlM+8zx9tpi1A0AroXH+WkwBsBoSYUO26RqYluShQ3awfBl/DHDFYfXdfH+v
-         pZcQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680105601;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WjpzNpj+xmyrQKqkakl/YvPAAdwMtZQIzF0v+ehGKmY=;
-        b=BZ1TGOea9WpbSZWW47PiasBRD8H+D7ZRJUSxDxSwa3N+y/xuc691IfgRffv3PBcbUt
-         6zUZFabAWKzsA3IixkW3y9+nS8Yx8UC88BeaH0+ba1TKW48j7sOckMIVqX5LojWP9ViT
-         PnV0dOp+c3afKSJEXknT2/54a+SepfNfwtkO8TO0X3SN0z8AH1MsgBOZ4eqPqPGFw6mJ
-         Ry5FfgudpaCiTUmWGArOGXHcqUkQRKG6xZ31YdeBVnUyjPlqju3h74plJb0vE1d/jgw3
-         AA+nmQ893GNcp5oesCiDSw9YBAuu6CxyT7lB67m0n3JwvhVZkS+sXVdUpWtYw6ZZOhSH
-         Y6XA==
+         :x-original-sender:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=pymBTC4el55TdNE9hvi2x8UtH3Jecme2/3NtCrSduO8=;
+        b=mrjp7tMHXQeL5eawWeUR6M5oHTlIggcUM8xzPfSnWU8v19G/ywap1SEGTICGcXNmFq
+         C658i1e3vuzM9SjNapScg5ploDzn3exVOtvz/EWDksSqrmI1nndxTsfL495wWcCfaClX
+         3veVhEI1lNdKdDj/hFACCdir215J1nsv34OTR2V34QbGacLChzYwcu+98faKWiDdrVaw
+         Edtpppix8256LJArvNJrFzbi9BUDWnlupTzU+lMweQ+A3V92QzLNaYGCk6Xz6kN6xra/
+         9nzyub6bCK0B72ND9v1j+C8uDosdR6UyWJhZiwU5EX8eHq0h4tE2K/W61UKx9BiP+VKW
+         Wijg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680105601;
+        d=1e100.net; s=20210112; t=1680108892;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WjpzNpj+xmyrQKqkakl/YvPAAdwMtZQIzF0v+ehGKmY=;
-        b=h5M/lLkTh/ZXmgH6b5EiSYD11vPVhkklsvufhI+MvAgowcOdl7WkvVKjn+DDT3lUk8
-         IA3KsfHWNC326lFm5oS09Y8xKx3IzM3WlPLR2MpJ4HjJsJSRvg2HVRcypkC75WFZczUa
-         MHUTuR4F/bFiucr54Mv8ahmdwNK+VOqyNjuJ2jFHAhIt2EDhta7VMKvtZ/fzitgK0e2D
-         3+v9sU8mGF0CUkbpzSiimXg7d7lmtYXwr0KX4eBQTGJR7ixQNKaFFe0BHY/MSMa9uUFl
-         JeQk321P07jmqBR3MwCOXJV9Ouepj6bo6V0oWcnIv4J6bo8BjnupCMMsj9AXJRpCczsS
-         2Y5w==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=pymBTC4el55TdNE9hvi2x8UtH3Jecme2/3NtCrSduO8=;
+        b=CWe4Vh0fK5Rp7npPagNpaeaD6E4ZLwRMOgUUBQVB3wicleWSZjaTbXlBEBdR8wvJYo
+         OHx0n6OuJnNThNp+nfoxorkKZDJ357dMHqI8DBjjt4YQIu9pAQ7GXb/q3Ki6NQEnTqsL
+         WxESbW5Xi8f0qy3Aeny0gqoGOaD5JIT/bHx4Aqv/VM/x2elE5U8A++cQLBIqHV8vFy2B
+         /kt1KbP8PPDTg5MY19jV7pGGJQ+5u6NoThc+YDwzz2/eQLNnctLi5X7rOFv6WE2ahp2K
+         LfILGQyesis5+kvsEnZT1j5NAJ+YyAYFDiMsfrfHdeCZkMIphQ2qboao5SDZubcSFYpR
+         Ji1w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AO0yUKU5tnrAEovMlW438gBRB5qXHPsgR+tCtuR1fxCXHpoipbO9LQHD
-	wPfVhM+GDJ8FDSyZ+Gnu4/U=
-X-Google-Smtp-Source: AK7set8CdHgLvXLU3LUoQ/FNX+06GKXeYmQwYLw8GOpZFFohRDFILiMRV3iiszrvV0VltWIfZaZM2g==
-X-Received: by 2002:a02:95c3:0:b0:406:2cd0:a668 with SMTP id b61-20020a0295c3000000b004062cd0a668mr8231948jai.2.1680105601109;
-        Wed, 29 Mar 2023 09:00:01 -0700 (PDT)
+X-Gm-Message-State: AAQBX9dbgAENXn1xO0sTb8Ebv/8zUGp1BHq8OX4KB7CsXMnzdqSzCK8d
+	ivmXQsf+Llafmp+nA9L4BVg=
+X-Google-Smtp-Source: AKy350ZF2IM9rtc31G3XamBio1sc73sOXGfLkPmYUCu/lGgiTVDO0ZN55Au1/VXsRWUnvZR73VdbEA==
+X-Received: by 2002:a81:e308:0:b0:532:e887:2c23 with SMTP id q8-20020a81e308000000b00532e8872c23mr9907804ywl.9.1680108892653;
+        Wed, 29 Mar 2023 09:54:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:15c2:b0:317:9a9f:53a5 with SMTP id
- q2-20020a056e0215c200b003179a9f53a5ls4505058ilu.8.-pod-prod-gmail; Wed, 29
- Mar 2023 09:00:00 -0700 (PDT)
-X-Received: by 2002:a92:dc91:0:b0:325:c8ee:96e2 with SMTP id c17-20020a92dc91000000b00325c8ee96e2mr14240933iln.7.1680105600608;
-        Wed, 29 Mar 2023 09:00:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1680105600; cv=none;
+Received: by 2002:a05:6902:1607:b0:b61:1f9e:bff5 with SMTP id
+ bw7-20020a056902160700b00b611f9ebff5ls10295063ybb.11.-pod-prod-gmail; Wed, 29
+ Mar 2023 09:54:51 -0700 (PDT)
+X-Received: by 2002:a25:b10b:0:b0:b44:b1d0:3e82 with SMTP id g11-20020a25b10b000000b00b44b1d03e82mr21812678ybj.12.1680108891906;
+        Wed, 29 Mar 2023 09:54:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1680108891; cv=none;
         d=google.com; s=arc-20160816;
-        b=c55qFArgOmkMOvDyy5Y7qca6dybTK0UVDEPjp6/02wQrNWd3Dy4wdm9YagEyqmwyLF
-         9brazl2sGe18HTU1OZmNArjgZZ4wKscTIlE1wyLbniLtlpdiH55RY0vMHVmUqDNXZ8DP
-         q1xeA6cwQYiuOdLnYRY0LW1oOntVA1/yZ1JAFKF/h/z8tgqqt5FNS10Jt69WjjmcCSTD
-         lLVZCZHSpjlxqxCQG2kZi8rCFSQ3qKzbbd8yAlk1fs45gBdkg1Z7O2QYb/AY5HFyQ9rU
-         vuunuIGVR3nViIcs9DeKv/vvTA3bwtg5eqZkxjzShAx0K64IAkGul4B0purdgHy41CfG
-         UlkA==
+        b=zKzlQ2H0bNgRSm3t/T1elmw99CdfIExNtj2VsmEuGRoEwj9iR+bHSpjNOba14CVOX2
+         7S38GzWXwMV+iAzfqaNDlrXdnrBEtZI0RUyxKHwnREarBV7KDecFPpao0yxKi+38kIe4
+         PXMacOgOUMDnnNJs2tVNWUgdy7Xtt2MpMbGVJJBPxoBY750n3pbf/rtMamSExCbyt497
+         /qMEauXA0MAipzQ2rgKa8TXQe2tSxbrGtTp947/3eIpMHi8ZrISWBYpymDlIcAEP6LAi
+         mNsqKkXaX6qH/zmXzrcBnhi0QC7GJujhwDeeLiqA7VAJbMW/AlevuestOJdmCVdOmJcC
+         LGgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=w4mfqXcQDMgEMpQCXMX8Y+2J6yDMso+bxawxRo1V7AM=;
-        b=o+oMA67riGiD8HGYfDx4Aa4+fhi3fCC4thxlKAxCwfMakzOLrAZ1JcBrMEZPQ2yC1O
-         ow3uqc+ohMdxBMeJcPIwCZhrgmU7DM2V0EY0rxs+PoA70xejZdnfbXI7MJrmx2gQ6QvY
-         /XdlbeECQcM4THNS2C93zSQ6/QqDA0W8sDlRHe8RfnhrEXPjip3jtVcTqi6V3+y7BN8e
-         lZpicsCRgCzHJU+EvZvrCttub1hj793dhRl+I90qOGG4v+HX2LGSb6Ia0wR9S/KGj3BA
-         EYcBOraQ43tmDpgwrgVYKHvqIhsW+2+LEyV3IjnYnfpQddOQLPbLw9gn9/jGCP8e9njj
-         uo8g==
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date;
+        bh=/aZSZ0es9sTAj0t2pGa0MkaCKs14ZkTxuDWGo71gOwY=;
+        b=W6IsiTPAXkowBriP87EvqpJwj2RikyNhvtl52CFz9KIS4NDE7hMiDjHwpa2iEmePyp
+         kM74kYmOOjGFqBeU4MhD758U0mxQlJMdg0mxuK7Fghe5DTAROgaRntHQn28bbJEFcgme
+         gL4KsdzpXsVr+/D/DvLCIonm8BrG31ZPaRm7ihYeF8GOVTBW98V68tnO/CgHz9od+CHg
+         p4x++EuYyGVkxv/fwpY3IFTAUZ+3PEMoZAj3D//WUXSna+6edjWS8tvA+AI5tSK9WrEA
+         I8iEBGN4bHY0PO3G5iWu+dy2DuKDXibN/HHTGxJ1ZATkLj/3em7QHhCqiYUwbPjI8ns7
+         ymAw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=IoeJ2hRh;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::42e as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com. [2607:f8b0:4864:20::42e])
-        by gmr-mx.google.com with ESMTPS id s12-20020a056638218c00b00409125e3b19si800898jaj.2.2023.03.29.09.00.00
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id k4-20020a056902070400b00b633f199b9dsi84195ybt.1.2023.03.29.09.54.51
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Mar 2023 09:00:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::42e as permitted sender) client-ip=2607:f8b0:4864:20::42e;
-Received: by mail-pf1-x42e.google.com with SMTP id cm5so4762761pfb.0
-        for <kasan-dev@googlegroups.com>; Wed, 29 Mar 2023 09:00:00 -0700 (PDT)
-X-Received: by 2002:a05:6a00:1a8b:b0:627:d4fa:6a9c with SMTP id
- e11-20020a056a001a8b00b00627d4fa6a9cmr10678222pfv.6.1680105599791; Wed, 29
- Mar 2023 08:59:59 -0700 (PDT)
-MIME-Version: 1.0
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 29 Mar 2023 09:54:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 72C6161D85;
+	Wed, 29 Mar 2023 16:54:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6E6DC433D2;
+	Wed, 29 Mar 2023 16:54:48 +0000 (UTC)
+Date: Wed, 29 Mar 2023 17:54:45 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Qun-wei Lin =?utf-8?B?KOael+e+pOW0tCk=?= <Qun-wei.Lin@mediatek.com>
+Cc: "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"surenb@google.com" <surenb@google.com>,
+	"david@redhat.com" <david@redhat.com>,
+	Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= <chinwen.chang@mediatek.com>,
+	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
+	Kuan-Ying Lee =?utf-8?B?KOadjuWGoOepjik=?= <Kuan-Ying.Lee@mediatek.com>,
+	Casper Li =?utf-8?B?KOadjuS4reamrik=?= <casper.li@mediatek.com>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	Steven Price <steven.price@arm.com>
+Subject: Re: [BUG] Usersapce MTE error with allocation tag 0 when low on
+ memory
+Message-ID: <ZCRtVW9Q0WOKEQVX@arm.com>
 References: <5050805753ac469e8d727c797c2218a9d780d434.camel@mediatek.com>
-In-Reply-To: <5050805753ac469e8d727c797c2218a9d780d434.camel@mediatek.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Wed, 29 Mar 2023 17:59:48 +0200
-Message-ID: <CA+fCnZfVs44zQs1Sg_MXvyGcTHc=aNhx+5R+ku8Nh3yDBb45qg@mail.gmail.com>
-Subject: Re: [BUG] Usersapce MTE error with allocation tag 0 when low on memory
-To: Peter Collingbourne <pcc@google.com>
-Cc: "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "surenb@google.com" <surenb@google.com>, 
-	"david@redhat.com" <david@redhat.com>, =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?= <chinwen.chang@mediatek.com>, 
-	"kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>, 
-	=?UTF-8?B?S3Vhbi1ZaW5nIExlZSAo5p2O5Yag56mOKQ==?= <Kuan-Ying.Lee@mediatek.com>, 
-	=?UTF-8?B?Q2FzcGVyIExpICjmnY7kuK3mpq4p?= <casper.li@mediatek.com>, 
-	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, 
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, 
-	=?UTF-8?B?UXVuLXdlaSBMaW4gKOael+e+pOW0tCk=?= <qun-wei.lin@mediatek.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: andreyknvl@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=IoeJ2hRh;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::42e
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+In-Reply-To: <5050805753ac469e8d727c797c2218a9d780d434.camel@mediatek.com>
+X-Original-Sender: catalin.marinas@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as
+ permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
+ sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -156,20 +144,20 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Mar 29, 2023 at 4:56=E2=80=AFAM 'Qun-wei Lin (=E6=9E=97=E7=BE=A4=E5=
-=B4=B4)' via kasan-dev
-<kasan-dev@googlegroups.com> wrote:
->
++ Steven Price who added the MTE swap support.
+
+On Wed, Mar 29, 2023 at 02:55:49AM +0000, Qun-wei Lin (=E6=9E=97=E7=BE=A4=
+=E5=B4=B4) wrote:
 > Hi,
->
+>=20
 > We meet the mass MTE errors happened in Android T with kernel-6.1.
->
+>=20
 > When the system is under memory pressure, the MTE often triggers some
 > error reporting in userspace.
->
+>=20
 > Like the tombstone below, there are many reports with the acllocation
 > tags of 0:
->
+>=20
 > Build fingerprint:
 > 'alps/vext_k6897v1_64/k6897v1_64:13/TP1A.220624.014/mp2ofp23:userdebug/
 > dev-keys'
@@ -202,7 +190,7 @@ On Wed, Mar 29, 2023 at 4:56=E2=80=AFAM 'Qun-wei Lin (=E6=9E=97=E7=BE=A4=E5=
 >     x28 00000000000fe000  x29 00000075018d3b20
 >     lr  00000077f2d9f164  sp  00000075018d3ad0  pc  00000077f2d9f134  p
 > st 0000000080001000
->
+>=20
 > backtrace:
 >       #00 pc 000000000005d134  /system/lib64/libbinder.so
 > (android::IPCThreadState::talkWithDriver(bool)+244) (BuildId:
@@ -226,7 +214,7 @@ On Wed, Mar 29, 2023 at 4:56=E2=80=AFAM 'Qun-wei Lin (=E6=9E=97=E7=BE=A4=E5=
 >       #06 pc
 > 0000000000054930  /apex/com.android.runtime/lib64/bionic/libc.so
 > (__start_thread+64) (BuildId: 718ecc04753b519b0f6289a7a2fcf117)
->
+>=20
 > Memory tags around the fault address (0xd000075f1d8d7f0), one tag per
 > 16 bytes:
 >       0x75f1d8cf00: 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
@@ -245,42 +233,40 @@ On Wed, Mar 29, 2023 at 4:56=E2=80=AFAM 'Qun-wei Lin (=E6=9E=97=E7=BE=A4=E5=
 >       0x75f1d8dc00: 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
 >       0x75f1d8dd00: 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
 >       0x75f1d8de00: 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
->
+>=20
 > Also happens in coredump.
->
+>=20
 > This problem only occurs when ZRAM is enabled, so we think there are
 > some issues regarding swap in/out.
->
+>=20
 > Having compared the differences between Kernel-5.15 and Kernel-6.1,
 > We found the order of swap_free() and set_pte_at() is changed in
 > do_swap_page().
->
+>=20
 > When fault in, do_swap_page() will call swap_free() first:
 > do_swap_page() -> swap_free() -> __swap_entry_free() ->
 > free_swap_slot() -> swapcache_free_entries() -> swap_entry_free() ->
 > swap_range_free() -> arch_swap_invalidate_page() ->
 > mte_invalidate_tags_area() ->  mte_invalidate_tags() -> xa_erase()
->
+>=20
 > and then call set_pte_at():
 > do_swap_page() -> set_pte_at() -> __set_pte_at() -> mte_sync_tags() ->
 > mte_sync_page_tags() -> mte_restore_tags() -> xa_load()
->
+>=20
 > This means that the swap slot is invalidated before pte mapping, and
 > this will cause the mte tag in XArray to be released before tag
 > restore.
->
+>=20
 > After I moved swap_free() to the next line of set_pte_at(), the problem
 > is disappeared.
->
+>=20
 > We suspect that the following patches, which have changed the order, do
 > not consider the mte tag restoring in page fault flow:
 > https://lore.kernel.org/all/20220131162940.210846-5-david@redhat.com/
->
+>=20
 > Any suggestion is appreciated.
->
+>=20
 > Thank you.
-
-+Peter
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -288,5 +274,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CA%2BfCnZfVs44zQs1Sg_MXvyGcTHc%3DaNhx%2B5R%2Bku8Nh3yDBb45qg%40mai=
-l.gmail.com.
+kasan-dev/ZCRtVW9Q0WOKEQVX%40arm.com.
