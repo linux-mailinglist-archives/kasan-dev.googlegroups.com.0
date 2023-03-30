@@ -1,147 +1,132 @@
-Return-Path: <kasan-dev+bncBAABB37CSSQQMGQEFCXIBWY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBA7KSSQQMGQE3NZMTWY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103e.google.com (mail-pj1-x103e.google.com [IPv6:2607:f8b0:4864:20::103e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7136CFBED
-	for <lists+kasan-dev@lfdr.de>; Thu, 30 Mar 2023 08:51:29 +0200 (CEST)
-Received: by mail-pj1-x103e.google.com with SMTP id e8-20020a17090a118800b0023d35ae431esf5493660pja.8
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 Mar 2023 23:51:29 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1680159088; cv=pass;
+Received: from mail-ot1-x33c.google.com (mail-ot1-x33c.google.com [IPv6:2607:f8b0:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B5566CFC34
+	for <lists+kasan-dev@lfdr.de>; Thu, 30 Mar 2023 09:06:44 +0200 (CEST)
+Received: by mail-ot1-x33c.google.com with SMTP id z21-20020a9d7a55000000b0069f9c33a46bsf6611130otm.18
+        for <lists+kasan-dev@lfdr.de>; Thu, 30 Mar 2023 00:06:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1680160003; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vKnMaYwXsRelj8vq/qbvWib+S7/T9nzObKs94C3ZP1Qp2IxkyQslr4Wkvlq14zPNX+
-         nwNnYB43moKg00m8N2futMCxWRw3Pc0ZkpP2p2bFJ5C0iCpfM/RUaovtG6bBxwgpOICR
-         km+5lfsO8DyhJU65qExLSdfOyFp6g1AO2wQ/doninUKW6ojEINLSf3meLnrGbkH37VIa
-         xb+nidXC3jb9U/RKbwAniy1pk+U2ZFG+nEe2tNukRDLdJnHN7FR4VYpH4ThjrZFz8Xj8
-         bbjVnEY77YO4WrpKBfZFl9SDij5Ol+oGUrxdUaDUrWeg1w9T/NZ3zG20yyCCGeshaArh
-         KMdQ==
+        b=0qYObqw2/GEF6uIO10lqI4ox2UxLhAXvVFedmI7mlkVDxLMvE2nPAZdKPK7rHHCRv9
+         MYmX9g8ZWhSAw8wrFDcM+B0FcOdRLmYHj9vs6zC9nZlgVRLCxmKqYwmhDeTzGK7EHv4v
+         OwSCNQI+6R33nXphzcgNxSCP8oLf1vbXXKM6nFHyFDMjRg5QCxFtr8FpjFWYE/JMAh1M
+         /UcA5h6nQo1vbPfi+Zhmjn1rb4EzMRw9hXKc8uW2SVCFWmmT6ng8QZHD1gwwN7/NpcDK
+         hoxU8QFeKp245R2mZhqapsvQot7KfS1GUo9NY0fX/PxyRadYOjZsXCZtSHS5i5Kt14nZ
+         Hvww==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:mime-version:user-agent
-         :date:message-id:from:cc:references:to:subject:sender:dkim-signature;
-        bh=3I6Z/3rfcPOWyO04hB6s/qLF+UMLkMzqzk6Jh+vbfRo=;
-        b=fZc12RaBgeVr9Lx/K+0mi/I8aB0psRGJk/ue4tVxPPNa7+wR56uhEC8M9MZ5oQ10Yo
-         SpsOHGTxxXusIFb/qTN6m15pWluBrzmwZ+KgqT1WgL9i2t7+I6OrMVW31tKA9KmWTDOO
-         KfQ7ko96M0iMkBJeqDxLxMUBpWE1bqT6sx0dtOzvbsipmSt6mDrVp6/CLAxsMNIHvzMc
-         ahXfXmF6TQ7vc3ocOoEXhh6RoPif260jrKq2vTzJO6grqX5Q7rIji3OsyTHWkXfRf0+2
-         c7IFU+2+obOjuW0dXVvGmXwFokBJAAdN3fgY71fCveODmcjAEmQdbDEVwhPJbqhfEgH+
-         I6JQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=HCFY0b7wP4oRzXk8P6aeYAAJ8eebERJvbVB6MnevYGE=;
+        b=Y673BD7StEo6OsOeqoOkFX1y8ZzKuLp/kKTED47ZSegSax4cy5fpbrvy57KsvcXqh+
+         +Hgq2Fq8Zod65/1EbAEtfmDrhZMWHLRcED3y8IeP9dPg/k1FnGG3ScOHSMXaoyAKisCn
+         VIMAu87f6JHVQkp9cZT4g7mZxwZqx2Or8slvw2sTsjXyd1ekT1H3sng43TWOi7Zwb3Fa
+         ZxUPeBHGY7xJkFKLVMSD+6+pNaKkRXjyD7q5VN3ybu/CsxlSUu3Os4l3E+X3Q2ngb3a2
+         xfoijiZAK/tCz8xc0/uMcG1wRH92gSKspsrqD/ws3lYXHAYcBFrKlRyW1YkklNZO8WoD
+         0j0A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of tangyouling@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=tangyouling@loongson.cn
+       dkim=pass header.i=@google.com header.s=20210112 header.b=tAPDCrL2;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1680159088;
+        d=googlegroups.com; s=20210112; t=1680160003;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:mime-version:user-agent:date
-         :message-id:from:cc:references:to:subject:sender:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=3I6Z/3rfcPOWyO04hB6s/qLF+UMLkMzqzk6Jh+vbfRo=;
-        b=E2eA4NXnsXSvG4xQXzgLmZrYuESzB/OWvOeTHa5WrRtOJxH9JA2HsWZ/+VXedGTTCR
-         WkvrxdQwkgtrVsV3Pnl7/ZcfdISqibajbSFs4xh9kPU8By5YS3uyEzNojhAIWlY0aPMt
-         e5YrzlzYuKAweHBrsJHF6JIJbmWgXPrJHHc9VPAHGPt200FURVTB+GSRLYa79cCHrnD7
-         pGHW0PLSHL7/7IULWaweyGhyRY88a6PVuE6OF9HVgpvalHKHmL+fljZ1nKnJ7WXs9B3/
-         LJhm4iVq8KRiv/SY2T+avNpkNIIKLyLpzDrktK3kzz1cWhGIDEePIH0NbO7LoJq1fUU0
-         e0EQ==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HCFY0b7wP4oRzXk8P6aeYAAJ8eebERJvbVB6MnevYGE=;
+        b=L6NWhhmtqJNC14ao3VTOln7zSOx9nhFwcIGd7Mwevxc2Cg0CETy5UPNVwFvtwb7Mqa
+         K3HIIET04VeOvfUC1Wh6pGFrEj7RNhdQjwlktfqZa17Vp2u1RA82BX6CEagFsoNMZXaj
+         x7SxqIaeR7VhJcUPbD+pxWWrolKg8SD2V37gQHKZWNzBXd7fU8TiGB+sFDmaNAaUd3xq
+         kK9zzRQacyn3IbcFl7HFBZvV8xWZRtpIPNmlbUrJZPXKV2VYANzV4zqh3mcGrqnzD+jF
+         uPRVPxLhqgNf8AW6CtMcGQg0LU6LMc4fNOGWoXp48yqB43wkiCL9uUiDFuc/AIBEfbWd
+         ropg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680159088;
+        d=1e100.net; s=20210112; t=1680160003;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :mime-version:user-agent:date:message-id:from:cc:references:to
-         :subject:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3I6Z/3rfcPOWyO04hB6s/qLF+UMLkMzqzk6Jh+vbfRo=;
-        b=Y6NGSqHtZDCreNGHdb8Kp05t3uxk2N5CXwYagGrIhcHgCDDjbo86EPVeAsQ3uM5X/8
-         3iFeFp5A5PyFZylb1uygt+A/sqNpksMqvoOUi+bNyP+zMKS8igddghldpnFbqs4BfyCo
-         y9TEAts/A9J3/+zOSM/2HO4d+Op6v6KGz/6hk4AZr/GToQh1WXlc4IQI449YvpGnlG87
-         043GlYYajGmBovyOYOPBNabmtwmN0Fe9FBaDNzWUoZDykdWZtAVA23RzZrVWZUlxW5xC
-         ygfp30WN81jJxaLUwlXzilCEE/0ZSboVDzabg7ZZ2FUsSuY+GYswej+j7PpkPnTbO9Jg
-         udbw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AAQBX9cuiQxe0yfBtU8hNuBCsDOZSq90cjjLVstLPBDiZezBjMGZYcy0
-	FNcAaGUXWB/56cyH7ZccEHA=
-X-Google-Smtp-Source: AKy350aULCHES58fbNOvYuj2tBkjy2qK0IF7UvSFDRTpoglpDq1U+Bh34g7toAC6K9uqPJW8kXucGg==
-X-Received: by 2002:a17:903:22c6:b0:1a0:6000:7fd0 with SMTP id y6-20020a17090322c600b001a060007fd0mr8878894plg.5.1680159087940;
-        Wed, 29 Mar 2023 23:51:27 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HCFY0b7wP4oRzXk8P6aeYAAJ8eebERJvbVB6MnevYGE=;
+        b=2RtWCFAgjdOhxcLFQcXA4nU5+8IWkeWWXhmpfczCC3QzBPSXJPYZlRBeakpn+mEG7i
+         tcJwh/W6ERDxtCN/8nYm0twld4U1Dzy/j1PFtNo3Q9E/UDJrdORmbitvUCRf4ppfcX+v
+         7vF8bk0JdUd3GMTQuRxDixEeOiceyV8uSZh+/KG9eUs+hhEd4uiL1bpSCji4hm/knNjM
+         E7qY7MMIrf7qYO1fT6mB6wkyWjBsRMfUhYQ1g98ZZXKigU/kcb2n0QrsX4jQngbzwHvK
+         Zb4Q8o3bt6+462DS/r7nbRn0WNPb1LN0UVrzSNbC/7i7hULOhC+hwQs7XcMFNLMbecLm
+         xc/w==
+X-Gm-Message-State: AO0yUKWGyOAb+m682uMZmsBPxNIXcrqZdIgCrepdKSQwWUk7cejiD3oO
+	NthD51aYuycj69glaM9JwPw=
+X-Google-Smtp-Source: AK7set/meltQ12Zbkx2Vr+VcZZ21Kk/i0Cezn6/UuS/yKBjCJykVd4pBG5zVRPOuH0FdmQDvS+6J5A==
+X-Received: by 2002:a05:6808:659:b0:378:30dc:ae5b with SMTP id z25-20020a056808065900b0037830dcae5bmr6410580oih.5.1680160003205;
+        Thu, 30 Mar 2023 00:06:43 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:1106:b0:19c:b122:6f2d with SMTP id
- n6-20020a170903110600b0019cb1226f2dls1145559plh.2.-pod-prod-gmail; Wed, 29
- Mar 2023 23:51:27 -0700 (PDT)
-X-Received: by 2002:a17:903:2303:b0:19a:7f4b:3ef6 with SMTP id d3-20020a170903230300b0019a7f4b3ef6mr27724267plh.3.1680159087276;
-        Wed, 29 Mar 2023 23:51:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1680159087; cv=none;
+Received: by 2002:a05:6830:631b:b0:69f:7d7b:d8f6 with SMTP id
+ cg27-20020a056830631b00b0069f7d7bd8f6ls162427otb.4.-pod-prod-gmail; Thu, 30
+ Mar 2023 00:06:42 -0700 (PDT)
+X-Received: by 2002:a9d:7242:0:b0:690:f6d8:1f7a with SMTP id a2-20020a9d7242000000b00690f6d81f7amr2120215otk.19.1680160002438;
+        Thu, 30 Mar 2023 00:06:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1680160002; cv=none;
         d=google.com; s=arc-20160816;
-        b=x6cYpdapu7vBaSPdEITH6KjpyA5yODqbdywy/BKMT+xkLP4O1i6Xi0HAQzS/NvHncw
-         4NOTwEVa09jVjWn3zmoOkDMB0XhEITihngjiaPNXdFJK8mPRfkR4t7qcV2XloDtsMFxj
-         6QJB1MvZZ+EjQGl1EH/3N9whPLy5F/PYVIeMT6Y4kFrg5vvMbJFWkwO5vneogl1xbqV0
-         Jkr5KhGQ34dgxpNst7ze5wnRmIdkdPW5DwjB8+hQn7v56DigRdIdGXHHIZ9egJTddtS/
-         l3yuB2LRT8etiveoS2cEJMzoQxB5CqfdpLTZNX5MCvfcwWFVTZQtb+iwccIaO3C6rGOm
-         //xg==
+        b=SZTzjaIjhygUxLdPiwGFbJAtHcn2cbXb4aTuvJanBOZqI50Xis5gHJT2S5gT5TSi3t
+         cZ/PvIM5LOSwULakkfch+4ztm5zIOhj9MwS9UJS5LlSadCj3gOM2FICE0oVEq0t13I0g
+         i6EWU6AMnUF8EVegW7tQJai7JM5cUvpRgCzTX6njoob9jYdagpIcnE74k+IXO1eg+qf6
+         ZVoLAcy8pKqoMB5sgB5cUEw1iMC7z9CCzS1GOMTQ9eOp8VkQ6VwVEkR0F4rLzTrPigdU
+         4rtg1N+7lU8NGQaP1YXeUrYa0hVFkalNdhe/96/omWoZ/Zthb/HY1bhTXE88Vd4UWilx
+         HSlw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:mime-version:user-agent:date
-         :message-id:from:cc:references:to:subject;
-        bh=nY7bVFpyIBEvtvk6GyVvqGdtGyp5kHy1dxcrN8nslJ0=;
-        b=G7fRzyVy0CSZJ2KU//A1HwRlZ+Ca4BbtV18ShYAHjYLtyQ0w7DQQ9sdFz3W3kfeN9Q
-         5FtG+vDf2gv4GWSaAPeBKPUlfmX3NAHlrhRl5z23Vi+VWiMWJE0UKKKF+kFF4dH/YHm9
-         GvPXbP+p6PzJKPYcXl1QEF0WCiuaPAvEGe6Z+iO/EsTVxSW7gGOL3nB+xZUKGkf+fK/6
-         c03sVpx6Z9YbEU8XNRmjrgq3Bc5HcuaeAuBQB8CVqI/VyQ3XJLyzlAznRbvTNKjbKmGx
-         wQnkejZpsYI2abdDZqKDIJBk7oGYKWTtXv9JlVlZvwcnQ+RrxoSsAdUVkf3/YIS5S/hl
-         zSEA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=3Jf77sSPY4oJIgQXlj2P7B6cPGnB5oBp7xZ5q79ACU4=;
+        b=omRzDMUtn+4XZ4A/flbmxdFiEJcQslcc+VndRDn6TtTdlD6O/PKtZ4feeSMSscLo5Y
+         L+lmx5BcGYNxtgiwZNh041DrJaHGI6MmJgU7MEPtTW1DJPTE9o+YvxcAHsQq9h3BSoCx
+         uQSQ6klmPrTpBSQrBZ57SoqWOFg+SPGx0AvZTPQLhcxiOS6dj1GnCxA1VKSicxSy/tV5
+         XPMXAw0Aok5EXIz0VvHlsd02kmtBUaF2mu4+QSy7lvFcyecR5JIhiTh3NMSopgu+pEyR
+         nFEOQQWMg401mH2u4v1TRlCroRhlLKUnM43W1SQFZDW4rMOxxhE7DBB/rFefG69C4fmP
+         Mv0g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of tangyouling@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=tangyouling@loongson.cn
-Received: from loongson.cn (mail.loongson.cn. [114.242.206.163])
-        by gmr-mx.google.com with ESMTP id bi7-20020a170902bf0700b001a1e6e40fe8si758999plb.3.2023.03.29.23.51.26
-        for <kasan-dev@googlegroups.com>;
-        Wed, 29 Mar 2023 23:51:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of tangyouling@loongson.cn designates 114.242.206.163 as permitted sender) client-ip=114.242.206.163;
-Received: from loongson.cn (unknown [192.168.200.1])
-	by gateway (Coremail) with SMTP id _____8AxlF1OMSVk_kMUAA--.31013S3;
-	Thu, 30 Mar 2023 14:50:54 +0800 (CST)
-Received: from [0.0.0.0] (unknown [192.168.200.1])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8Cx_75LMSVklQcRAA--.48492S3;
-	Thu, 30 Mar 2023 14:50:53 +0800 (CST)
-Subject: Re: [PATCH] LoongArch: Add kernel address sanitizer support
-To: Qing Zhang <zhangqing@loongson.cn>
-References: <20230328111714.2056-1-zhangqing@loongson.cn>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Jonathan Corbet
- <corbet@lwn.net>, Huacai Chen <chenhuacai@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- WANG Xuerui <kernel@xen0n.name>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, linux-mm@kvack.org,
- loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-From: Youling Tang <tangyouling@loongson.cn>
-Message-ID: <4ad7dfe6-160a-d4a8-e262-1fb13a395510@loongson.cn>
-Date: Thu, 30 Mar 2023 14:50:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+       dkim=pass header.i=@google.com header.s=20210112 header.b=tAPDCrL2;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com. [2607:f8b0:4864:20::b33])
+        by gmr-mx.google.com with ESMTPS id cb11-20020a056830618b00b0069f8cf409d9si2821533otb.2.2023.03.30.00.06.42
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Mar 2023 00:06:42 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) client-ip=2607:f8b0:4864:20::b33;
+Received: by mail-yb1-xb33.google.com with SMTP id f188so3864941ybb.3
+        for <kasan-dev@googlegroups.com>; Thu, 30 Mar 2023 00:06:42 -0700 (PDT)
+X-Received: by 2002:a25:3606:0:b0:b72:1fae:defe with SMTP id
+ d6-20020a253606000000b00b721faedefemr5211656yba.25.1680160001845; Thu, 30 Mar
+ 2023 00:06:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20230328111714.2056-1-zhangqing@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-CM-TRANSID: AQAAf8Cx_75LMSVklQcRAA--.48492S3
-X-CM-SenderInfo: 5wdqw5prxox03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjvAXoWfJF1xuFWfKF4ftryrKrWUtwb_yoW8Jr47Xo
-	WFkF43Kw4rGw47CrZ8Xw4DJ34Utr109r4kA3y7Zr1fuF1xAFWak3yUtw4Sgry3t34kKr13
-	W3y2gFZ3J3sYyrn8n29KB7ZKAUJUUUUr529EdanIXcx71UUUUU7KY7ZEXasCq-sGcSsGvf
-	J3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnRJU
-	UUkq1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64
-	kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY
-	1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6x
-	kF7I0E14v26r4UJVWxJr1ln4kS14v26r1Y6r17M2AIxVAIcxkEcVAq07x20xvEncxIr21l
-	57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaV
-	Av8VWrMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67vI
-	Y487MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_WwCFx2IqxVCFs4IE7xkEbV
-	WUJVW8JwCFI7km07C267AKxVWUXVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
-	Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7
-	IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k2
-	6cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxV
-	AFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7xRihFxUUUUUU==
-X-Original-Sender: tangyouling@loongson.cn
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of tangyouling@loongson.cn designates 114.242.206.163 as
- permitted sender) smtp.mailfrom=tangyouling@loongson.cn
+References: <dc432429a6d87f197eefb179f26012c6c1ec6cd9.1680114854.git.andreyknvl@google.com>
+ <d14417c8bc5eea7589e99381203432f15c0f9138.1680114854.git.andreyknvl@google.com>
+In-Reply-To: <d14417c8bc5eea7589e99381203432f15c0f9138.1680114854.git.andreyknvl@google.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 30 Mar 2023 09:06:05 +0200
+Message-ID: <CANpmjNNqYN4h7bG6DZtzhevcUjevSy9amoFzp5J1y+CN=xKv_A@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] kasan: suppress recursive reports for HW_TAGS
+To: andrey.konovalov@linux.dev
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, kasan-dev@googlegroups.com, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Will Deacon <will@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, Peter Collingbourne <pcc@google.com>, 
+	Evgenii Stepanov <eugenis@google.com>, Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+	Weizhao Ouyang <ouyangweizhao@zeku.com>, linux-kernel@vger.kernel.org, 
+	Andrey Konovalov <andreyknvl@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20210112 header.b=tAPDCrL2;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::b33 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,322 +139,184 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi, Qing
+On Wed, 29 Mar 2023 at 20:38, <andrey.konovalov@linux.dev> wrote:
+>
+> From: Andrey Konovalov <andreyknvl@google.com>
+>
+> KASAN suppresses reports for bad accesses done by the KASAN reporting
+> code. The reporting code might access poisoned memory for reporting
+> purposes.
+>
+> Software KASAN modes do this by suppressing reports during reporting
+> via current->kasan_depth, the same way they suppress reports during
+> accesses to poisoned slab metadata.
+>
+> Hardware Tag-Based KASAN does not use current->kasan_depth, and instead
+> resets pointer tags for accesses to poisoned memory done by the reporting
+> code.
+>
+> Despite that, a recursive report can still happen:
+>
+> 1. On hardware with faulty MTE support. This was observed by Weizhao
+>    Ouyang on a faulty hardware that caused memory tags to randomly change
+>    from time to time.
+>
+> 2. Theoretically, due to a previous MTE-undetected memory corruption.
+>
+> A recursive report can happen via:
+>
+> 1. Accessing a pointer with a non-reset tag in the reporting code, e.g.
+>    slab->slab_cache, which is what Weizhao Ouyang observed.
+>
+> 2. Theoretically, via external non-annotated routines, e.g. stackdepot.
+>
+> To resolve this issue, resetting tags for all of the pointers in the
+> reporting code and all the used external routines would be impractical.
+>
+> Instead, disable tag checking done by the CPU for the duration of KASAN
+> reporting for Hardware Tag-Based KASAN.
+>
+> Without this fix, Hardware Tag-Based KASAN reporting code might deadlock.
+>
+> Fixes: 2e903b914797 ("kasan, arm64: implement HW_TAGS runtime")
+> Reported-by: Weizhao Ouyang <ouyangweizhao@zeku.com>
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
-On 03/28/2023 07:17 PM, Qing Zhang wrote:
-> 1/8 of kernel addresses reserved for shadow memory. But for LoongArch,
-> There are a lot of holes between different segments and valid address
-> space(256T available) is insufficient to map all these segments to kasan
-> shadow memory with the common formula provided by kasan core, saying
-> addr >> KASAN_SHADOW_SCALE_SHIFT) + KASAN_SHADOW_OFFSET
->
-> So Loongarch has a ARCH specific mapping formula,different segments
-> are mapped individually, and only limited length of space of that
-> specific segment is mapped to shadow.
->
-> At early boot stage the whole shadow region populated with just
-> one physical page (kasan_early_shadow_page). Later, this page is
-> reused as readonly zero shadow for some memory that Kasan currently
-> don't track.
-> After mapping the physical memory, pages for shadow memory are
-> allocated and mapped.
->
-> Functions like memset/memmove/memcpy do a lot of memory accesses.
-> If bad pointer passed to one of these function it is important
-> to catch this. Compiler's instrumentation cannot do this since
-> these functions are written in assembly.
-> KASan replaces memory functions with manually instrumented variants.
-> Original functions declared as weak symbols so strong definitions
-> in mm/kasan/kasan.c could replace them. Original functions have aliases
-> with '__' prefix in name, so we could call non-instrumented variant
-> if needed.
->
-> Signed-off-by: Qing Zhang <zhangqing@loongson.cn>
+Reviewed-by: Marco Elver <elver@google.com>
+
 > ---
->  Documentation/dev-tools/kasan.rst             |   4 +-
->  .../features/debug/KASAN/arch-support.txt     |   2 +-
->  arch/loongarch/Kconfig                        |   7 +
->  arch/loongarch/include/asm/kasan.h            | 120 +++++++++
->  arch/loongarch/include/asm/pgtable.h          |   7 +
->  arch/loongarch/include/asm/setup.h            |   2 +-
->  arch/loongarch/include/asm/string.h           |  20 ++
->  arch/loongarch/kernel/Makefile                |   3 +
->  arch/loongarch/kernel/head.S                  |  14 +-
->  arch/loongarch/kernel/relocate.c              |   8 +-
->  arch/loongarch/kernel/setup.c                 |   4 +
->  arch/loongarch/lib/memcpy.S                   |   4 +-
->  arch/loongarch/lib/memmove.S                  |  13 +-
->  arch/loongarch/lib/memset.S                   |   4 +-
->  arch/loongarch/mm/Makefile                    |   2 +
->  arch/loongarch/mm/kasan_init.c                | 255 ++++++++++++++++++
->  arch/loongarch/vdso/Makefile                  |   4 +
->  include/linux/kasan.h                         |   2 +
->  mm/kasan/generic.c                            |   5 +
->  mm/kasan/init.c                               |  10 +-
->  mm/kasan/kasan.h                              |   6 +
->  21 files changed, 470 insertions(+), 26 deletions(-)
->  create mode 100644 arch/loongarch/include/asm/kasan.h
->  create mode 100644 arch/loongarch/mm/kasan_init.c
 >
-> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
-> index e66916a483cd..ee91f2872767 100644
-> --- a/Documentation/dev-tools/kasan.rst
-> +++ b/Documentation/dev-tools/kasan.rst
-> @@ -41,8 +41,8 @@ Support
->  Architectures
->  ~~~~~~~~~~~~~
+> Considering that 1. the bug this patch fixes was only observed on faulty
+> MTE hardware, and 2. the patch depends on the other patches in this series,
+> I don't think it's worth backporting it into stable.
+
+Given the Fixes above, it's likely this may or may not still end up in stable.
+
+> Changes v1->v2:
+> - Disable preemption instead of migration.
+> - Fix comment typo.
+> ---
+>  mm/kasan/report.c | 59 ++++++++++++++++++++++++++++++++++++++---------
+>  1 file changed, 48 insertions(+), 11 deletions(-)
 >
-> -Generic KASAN is supported on x86_64, arm, arm64, powerpc, riscv, s390, and
-> -xtensa, and the tag-based KASAN modes are supported only on arm64.
-> +Generic KASAN is supported on x86_64, arm, arm64, powerpc, riscv, s390, xtensa,
-> +and loongarch, and the tag-based KASAN modes are supported only on arm64.
+> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> index 89078f912827..892a9dc9d4d3 100644
+> --- a/mm/kasan/report.c
+> +++ b/mm/kasan/report.c
+> @@ -72,10 +72,18 @@ static int __init kasan_set_multi_shot(char *str)
+>  __setup("kasan_multi_shot", kasan_set_multi_shot);
 >
->  Compilers
->  ~~~~~~~~~
-> diff --git a/Documentation/features/debug/KASAN/arch-support.txt b/Documentation/features/debug/KASAN/arch-support.txt
-> index bf0124fae643..c4581c2edb28 100644
-> --- a/Documentation/features/debug/KASAN/arch-support.txt
-> +++ b/Documentation/features/debug/KASAN/arch-support.txt
-> @@ -13,7 +13,7 @@
->      |        csky: | TODO |
->      |     hexagon: | TODO |
->      |        ia64: | TODO |
-> -    |   loongarch: | TODO |
-> +    |   loongarch: |  ok  |
->      |        m68k: | TODO |
->      |  microblaze: | TODO |
->      |        mips: | TODO |
-> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-> index 72dd00f48b8c..61f883c51045 100644
-> --- a/arch/loongarch/Kconfig
-> +++ b/arch/loongarch/Kconfig
-> @@ -7,6 +7,7 @@ config LOONGARCH
->  	select ACPI_MCFG if ACPI
->  	select ACPI_SYSTEM_POWER_STATES_SUPPORT	if ACPI
->  	select ARCH_BINFMT_ELF_STATE
-> +	select ARCH_DISABLE_KASAN_INLINE
->  	select ARCH_ENABLE_MEMORY_HOTPLUG
->  	select ARCH_ENABLE_MEMORY_HOTREMOVE
->  	select ARCH_HAS_ACPI_TABLE_UPGRADE	if ACPI
-> @@ -83,6 +84,7 @@ config LOONGARCH
->  	select HAVE_ARCH_AUDITSYSCALL
->  	select HAVE_ARCH_MMAP_RND_BITS if MMU
->  	select HAVE_ARCH_SECCOMP_FILTER
-> +	select HAVE_ARCH_KASAN if 64BIT
->  	select HAVE_ARCH_TRACEHOOK
->  	select HAVE_ARCH_TRANSPARENT_HUGEPAGE
->  	select HAVE_ASM_MODVERSIONS
-> @@ -626,6 +628,11 @@ config ARCH_MMAP_RND_BITS_MIN
->  config ARCH_MMAP_RND_BITS_MAX
->  	default 18
+>  /*
+> - * Used to suppress reports within kasan_disable/enable_current() critical
+> - * sections, which are used for marking accesses to slab metadata.
+> + * This function is used to check whether KASAN reports are suppressed for
+> + * software KASAN modes via kasan_disable/enable_current() critical sections.
+> + *
+> + * This is done to avoid:
+> + * 1. False-positive reports when accessing slab metadata,
+> + * 2. Deadlocking when poisoned memory is accessed by the reporting code.
+> + *
+> + * Hardware Tag-Based KASAN instead relies on:
+> + * For #1: Resetting tags via kasan_reset_tag().
+> + * For #2: Suppression of tag checks via CPU, see report_suppress_start/end().
+>   */
+> -static bool report_suppressed(void)
+> +static bool report_suppressed_sw(void)
+>  {
+>  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+>         if (current->kasan_depth)
+> @@ -84,6 +92,30 @@ static bool report_suppressed(void)
+>         return false;
+>  }
 >
-> +config KASAN_SHADOW_OFFSET
-> +	hex
-> +	default 0x0
-> +	depends on KASAN
-> +
->  menu "Power management options"
->
->  config ARCH_SUSPEND_POSSIBLE
-> diff --git a/arch/loongarch/include/asm/kasan.h b/arch/loongarch/include/asm/kasan.h
-> new file mode 100644
-> index 000000000000..582bcded311e
-> --- /dev/null
-> +++ b/arch/loongarch/include/asm/kasan.h
-> @@ -0,0 +1,120 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef __ASM_KASAN_H
-> +#define __ASM_KASAN_H
-> +
-> +#ifndef __ASSEMBLY__
-> +
-> +#include <linux/linkage.h>
-> +#include <linux/mmzone.h>
-> +#include <asm/addrspace.h>
-> +#include <asm/io.h>
-> +#include <asm/pgtable.h>
-> +
-> +#define __HAVE_ARCH_SHADOW_MAP
-> +
-> +#define KASAN_SHADOW_SCALE_SHIFT 3
-> +#define KASAN_SHADOW_OFFSET	_AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
-> +
-> +#define XRANGE_SHIFT (48)
-> +
-> +/* Valid address length */
-> +#define XRANGE_SHADOW_SHIFT	(PGDIR_SHIFT + PAGE_SHIFT - 3)
-> +/* Used for taking out the valid address */
-> +#define XRANGE_SHADOW_MASK	GENMASK_ULL(XRANGE_SHADOW_SHIFT - 1, 0)
-> +/* One segment whole address space size */
-> +#define	XRANGE_SIZE		(XRANGE_SHADOW_MASK + 1)
-> +
-> +/* 64-bit segment value. */
-> +#define XKPRANGE_UC_SEG		(0x8000)
-> +#define XKPRANGE_CC_SEG		(0x9000)
-> +#define XKVRANGE_VC_SEG		(0xffff)
-> +
-> +/* Cached */
-> +#define XKPRANGE_CC_START		CACHE_BASE
-> +#define XKPRANGE_CC_SIZE		XRANGE_SIZE
-> +#define XKPRANGE_CC_KASAN_OFFSET	(0)
-> +#define XKPRANGE_CC_SHADOW_SIZE		(XKPRANGE_CC_SIZE >> KASAN_SHADOW_SCALE_SHIFT)
-> +#define XKPRANGE_CC_SHADOW_END		(XKPRANGE_CC_KASAN_OFFSET + XKPRANGE_CC_SHADOW_SIZE)
-> +
-> +/* UnCached */
-> +#define XKPRANGE_UC_START		UNCACHE_BASE
-> +#define XKPRANGE_UC_SIZE		XRANGE_SIZE
-> +#define XKPRANGE_UC_KASAN_OFFSET	XKPRANGE_CC_SHADOW_END
-> +#define XKPRANGE_UC_SHADOW_SIZE		(XKPRANGE_UC_SIZE >> KASAN_SHADOW_SCALE_SHIFT)
-> +#define XKPRANGE_UC_SHADOW_END		(XKPRANGE_UC_KASAN_OFFSET + XKPRANGE_UC_SHADOW_SIZE)
-> +
-> +/* VMALLOC (Cached or UnCached)  */
-> +#define XKVRANGE_VC_START		MODULES_VADDR
-> +#define XKVRANGE_VC_SIZE		round_up(VMEMMAP_END - MODULES_VADDR + 1, PGDIR_SIZE)
-> +#define XKVRANGE_VC_KASAN_OFFSET	XKPRANGE_UC_SHADOW_END
-> +#define XKVRANGE_VC_SHADOW_SIZE		(XKVRANGE_VC_SIZE >> KASAN_SHADOW_SCALE_SHIFT)
-> +#define XKVRANGE_VC_SHADOW_END		(XKVRANGE_VC_KASAN_OFFSET + XKVRANGE_VC_SHADOW_SIZE)
-> +
-> +/* Kasan shadow memory start right after vmalloc. */
-> +#define KASAN_SHADOW_START		round_up(VMEMMAP_END, PGDIR_SIZE)
-> +#define KASAN_SHADOW_SIZE		(XKVRANGE_VC_SHADOW_END - XKPRANGE_CC_KASAN_OFFSET)
-> +#define KASAN_SHADOW_END		round_up(KASAN_SHADOW_START + KASAN_SHADOW_SIZE, PGDIR_SIZE)
-> +
-> +#define XKPRANGE_CC_SHADOW_OFFSET	(KASAN_SHADOW_START + XKPRANGE_CC_KASAN_OFFSET)
-> +#define XKPRANGE_UC_SHADOW_OFFSET	(KASAN_SHADOW_START + XKPRANGE_UC_KASAN_OFFSET)
-> +#define XKVRANGE_VC_SHADOW_OFFSET	(KASAN_SHADOW_START + XKVRANGE_VC_KASAN_OFFSET)
-> +
-> +extern bool kasan_early_stage;
-> +extern unsigned char kasan_early_shadow_page[PAGE_SIZE];
-> +
-> +static inline void *kasan_mem_to_shadow(const void *addr)
+> +static void report_suppress_start(void)
 > +{
-> +	if (kasan_early_stage) {
-> +		return (void *)(kasan_early_shadow_page);
-> +	} else {
-> +		unsigned long maddr = (unsigned long)addr;
-> +		unsigned long xrange = (maddr >> XRANGE_SHIFT) & 0xffff;
-> +		unsigned long offset = 0;
-> +
-> +		maddr &= XRANGE_SHADOW_MASK;
-> +		switch (xrange) {
-> +		case XKPRANGE_CC_SEG:
-> +			offset = XKPRANGE_CC_SHADOW_OFFSET;
-> +			break;
-> +		case XKPRANGE_UC_SEG:
-> +			offset = XKPRANGE_UC_SHADOW_OFFSET;
-> +			break;
-> +		case XKVRANGE_VC_SEG:
-> +			offset = XKVRANGE_VC_SHADOW_OFFSET;
-> +			break;
-> +		default:
-> +			WARN_ON(1);
-> +			return NULL;
-> +		}
-> +
-> +		return (void *)((maddr >> KASAN_SHADOW_SCALE_SHIFT) + offset);
-> +	}
-> +}
-> +
-> +static inline const void *kasan_shadow_to_mem(const void *shadow_addr)
-> +{
-> +	unsigned long addr = (unsigned long)shadow_addr;
-> +
-> +	if (unlikely(addr > KASAN_SHADOW_END) ||
-> +		unlikely(addr < KASAN_SHADOW_START)) {
-> +		WARN_ON(1);
-> +		return NULL;
-> +	}
-> +
-> +	if (addr >= XKVRANGE_VC_SHADOW_OFFSET)
-> +		return (void *)(((addr - XKVRANGE_VC_SHADOW_OFFSET) << KASAN_SHADOW_SCALE_SHIFT) + XKVRANGE_VC_START);
-> +	else if (addr >= XKPRANGE_UC_SHADOW_OFFSET)
-> +		return (void *)(((addr - XKPRANGE_UC_SHADOW_OFFSET) << KASAN_SHADOW_SCALE_SHIFT) + XKPRANGE_UC_START);
-> +	else if (addr >= XKPRANGE_CC_SHADOW_OFFSET)
-> +		return (void *)(((addr - XKPRANGE_CC_SHADOW_OFFSET) << KASAN_SHADOW_SCALE_SHIFT) + XKPRANGE_CC_START);
-> +	else {
-> +		WARN_ON(1);
-> +		return NULL;
-> +	}
-> +}
-> +
-> +void kasan_init(void);
-> +asmlinkage void kasan_early_init(void);
-> +
-> +#endif
-> +#endif
-> diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/include/asm/pgtable.h
-> index d28fb9dbec59..5cfdf79b287e 100644
-> --- a/arch/loongarch/include/asm/pgtable.h
-> +++ b/arch/loongarch/include/asm/pgtable.h
-> @@ -86,9 +86,16 @@ extern unsigned long zero_page_mask;
->  #define MODULES_END	(MODULES_VADDR + SZ_256M)
->
->  #define VMALLOC_START	MODULES_END
-> +
-> +#ifndef CONFIG_KASAN
->  #define VMALLOC_END	\
->  	(vm_map_base +	\
->  	 min(PTRS_PER_PGD * PTRS_PER_PUD * PTRS_PER_PMD * PTRS_PER_PTE * PAGE_SIZE, (1UL << cpu_vabits)) - PMD_SIZE - VMEMMAP_SIZE)
+> +#ifdef CONFIG_KASAN_HW_TAGS
+> +       /*
+> +        * Disable preemption for the duration of printing a KASAN report, as
+> +        * hw_suppress_tag_checks_start() disables checks on the current CPU.
+> +        */
+> +       preempt_disable();
+> +       hw_suppress_tag_checks_start();
 > +#else
-> +#define VMALLOC_END	\
-> +	(vm_map_base +	\
-> +	 min(PTRS_PER_PGD * PTRS_PER_PUD * PTRS_PER_PMD * PTRS_PER_PTE * PAGE_SIZE, (1UL << cpu_vabits) / 2) - PMD_SIZE - VMEMMAP_SIZE)
+> +       kasan_disable_current();
 > +#endif
->
->  #define vmemmap		((struct page *)((VMALLOC_END + PMD_SIZE) & PMD_MASK))
->  #define VMEMMAP_END	((unsigned long)vmemmap + VMEMMAP_SIZE - 1)
-> diff --git a/arch/loongarch/include/asm/setup.h b/arch/loongarch/include/asm/setup.h
-> index be05c0e706a2..2dca0d1dd90a 100644
-> --- a/arch/loongarch/include/asm/setup.h
-> +++ b/arch/loongarch/include/asm/setup.h
-> @@ -33,7 +33,7 @@ extern long __la_abs_end;
->  extern long __rela_dyn_begin;
->  extern long __rela_dyn_end;
->
-> -extern void * __init relocate_kernel(void);
-> +extern unsigned long __init relocate_kernel(void);
->
->  #endif
->
-> diff --git a/arch/loongarch/include/asm/string.h b/arch/loongarch/include/asm/string.h
-> index 7b29cc9c70aa..5bb5a90d2681 100644
-> --- a/arch/loongarch/include/asm/string.h
-> +++ b/arch/loongarch/include/asm/string.h
-> @@ -7,11 +7,31 @@
->
->  #define __HAVE_ARCH_MEMSET
->  extern void *memset(void *__s, int __c, size_t __count);
-> +extern void *__memset(void *__s, int __c, size_t __count);
->
->  #define __HAVE_ARCH_MEMCPY
->  extern void *memcpy(void *__to, __const__ void *__from, size_t __n);
-> +extern void *__memcpy(void *__to, __const__ void *__from, size_t __n);
->
->  #define __HAVE_ARCH_MEMMOVE
->  extern void *memmove(void *__dest, __const__ void *__src, size_t __n);
-> +extern void *__memmove(void *__dest, __const__ void *__src, size_t __n);
+> +}
 > +
-> +#if defined(CONFIG_KASAN) && !defined(__SANITIZE_ADDRESS__)
+> +static void report_suppress_stop(void)
+> +{
+> +#ifdef CONFIG_KASAN_HW_TAGS
+> +       hw_suppress_tag_checks_stop();
+> +       preempt_enable();
+> +#else
+> +       kasan_enable_current();
+> +#endif
+> +}
 > +
-> +/*
-> + * For files that are not instrumented (e.g. mm/slub.c) we
-> + * should use not instrumented version of mem* functions.
-> + */
-> +
-> +#define memset(s, c, n) __memset(s, c, n)
-> +#define memcpy(dst, src, len) __memcpy(dst, src, len)
-> +#define memmove(dst, src, len) __memmove(dst, src, len)
-> +
-> +#ifndef __NO_FORTIFY
-> +#define __NO_FORTIFY /* FORTIFY_SOURCE uses __builtin_memcpy, etc. */
-
-If we need to add __NO_FORTIFY processing, please add
-ARCH_HAS_FORTIFY_SOURCE in Kconfig, and submit a separate patch like
-9530141455c9 ("riscv: Add ARCH_HAS_FORTIFY_SOURCE").
-
-Youling.
+>  /*
+>   * Used to avoid reporting more than one KASAN bug unless kasan_multi_shot
+>   * is enabled. Note that KASAN tests effectively enable kasan_multi_shot
+> @@ -174,7 +206,7 @@ static void start_report(unsigned long *flags, bool sync)
+>         /* Do not allow LOCKDEP mangling KASAN reports. */
+>         lockdep_off();
+>         /* Make sure we don't end up in loop. */
+> -       kasan_disable_current();
+> +       report_suppress_start();
+>         spin_lock_irqsave(&report_lock, *flags);
+>         pr_err("==================================================================\n");
+>  }
+> @@ -192,7 +224,7 @@ static void end_report(unsigned long *flags, void *addr)
+>                 panic("kasan.fault=panic set ...\n");
+>         add_taint(TAINT_BAD_PAGE, LOCKDEP_NOW_UNRELIABLE);
+>         lockdep_on();
+> -       kasan_enable_current();
+> +       report_suppress_stop();
+>  }
+>
+>  static void print_error_description(struct kasan_report_info *info)
+> @@ -480,9 +512,13 @@ void kasan_report_invalid_free(void *ptr, unsigned long ip, enum kasan_report_ty
+>         struct kasan_report_info info;
+>
+>         /*
+> -        * Do not check report_suppressed(), as an invalid-free cannot be
+> -        * caused by accessing slab metadata and thus should not be
+> -        * suppressed by kasan_disable/enable_current() critical sections.
+> +        * Do not check report_suppressed_sw(), as an invalid-free cannot be
+> +        * caused by accessing poisoned memory and thus should not be suppressed
+> +        * by kasan_disable/enable_current() critical sections.
+> +        *
+> +        * Note that for Hardware Tag-Based KASAN, kasan_report_invalid_free()
+> +        * is triggered by explicit tag checks and not by the ones performed by
+> +        * the CPU. Thus, reporting invalid-free is not suppressed as well.
+>          */
+>         if (unlikely(!report_enabled()))
+>                 return;
+> @@ -517,7 +553,7 @@ bool kasan_report(unsigned long addr, size_t size, bool is_write,
+>         unsigned long irq_flags;
+>         struct kasan_report_info info;
+>
+> -       if (unlikely(report_suppressed()) || unlikely(!report_enabled())) {
+> +       if (unlikely(report_suppressed_sw()) || unlikely(!report_enabled())) {
+>                 ret = false;
+>                 goto out;
+>         }
+> @@ -549,8 +585,9 @@ void kasan_report_async(void)
+>         unsigned long flags;
+>
+>         /*
+> -        * Do not check report_suppressed(), as kasan_disable/enable_current()
+> -        * critical sections do not affect Hardware Tag-Based KASAN.
+> +        * Do not check report_suppressed_sw(), as
+> +        * kasan_disable/enable_current() critical sections do not affect
+> +        * Hardware Tag-Based KASAN.
+>          */
+>         if (unlikely(!report_enabled()))
+>                 return;
+> --
+> 2.25.1
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/4ad7dfe6-160a-d4a8-e262-1fb13a395510%40loongson.cn.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNqYN4h7bG6DZtzhevcUjevSy9amoFzp5J1y%2BCN%3DxKv_A%40mail.gmail.com.
