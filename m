@@ -1,153 +1,132 @@
-Return-Path: <kasan-dev+bncBAABBUWHT2QQMGQEFPSPDOI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGZTDNQ3ICBBDPEVGQQMGQEBXU4CMQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x337.google.com (mail-ot1-x337.google.com [IPv6:2607:f8b0:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8DDA6D2DEB
-	for <lists+kasan-dev@lfdr.de>; Sat,  1 Apr 2023 05:24:03 +0200 (CEST)
-Received: by mail-ot1-x337.google.com with SMTP id o3-20020a9d7183000000b00697e5dc461bsf5087719otj.7
-        for <lists+kasan-dev@lfdr.de>; Fri, 31 Mar 2023 20:24:03 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1680319442; cv=pass;
+Received: from mail-pg1-x53b.google.com (mail-pg1-x53b.google.com [IPv6:2607:f8b0:4864:20::53b])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F196D3D54
+	for <lists+kasan-dev@lfdr.de>; Mon,  3 Apr 2023 08:28:31 +0200 (CEST)
+Received: by mail-pg1-x53b.google.com with SMTP id q1-20020a656841000000b0050be5e5bb24sf8007371pgt.3
+        for <lists+kasan-dev@lfdr.de>; Sun, 02 Apr 2023 23:28:31 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1680503310; cv=pass;
         d=google.com; s=arc-20160816;
-        b=tQv7Zw2G5KSfFuf4kRyo0vMiBd/mXG/eWX5kmuy+3EsYlCexnA+H13nWl2AatIZjLP
-         DlLBqGed9qUHeYACPFFlt2tLyHslyKb0xh/RpNxAWn9pgoxF0FA+vbEOVh1S9i9qBIVi
-         fzXaaT493nysXqRY4aOjoT8eKYZvuT1fKiWnBISqRMsXW5h5vUqq0HUdzKzki8fgfPzE
-         zno370Mdn0InYwrMHpAHEdgO0BBt6NDGAGAYdg5T619mzBgLad/03E1lzhRpSmd+71LD
-         /8KnELZJmMlig5a7MD+btZPeCh+WVXFCO7gl5cSqPzpWxoSxE0+e3nTq0Zovi86yMl7S
-         rbKw==
+        b=IIbAftCS1gWQDoWJf5nh87NwNhVl0E/FvbomIKulSYXsr/VqVPaN5D3Dqn3YcDvX8i
+         hFjUfX/+EKJLtCTgyZ2EJ9mDq3B9+Ry+/584XqWtgYdrdeWZsYCWbwESg6FgmmXnxg4k
+         d7ZzyEI//t/GGVfcVzk0HynsSu2TVmwCYzLqK3k99UXtM30N5XtCIDO63XbLNb+9DxPA
+         EQLkynbd1IGmkc1DQjhUMgwFwHxYysezAcsNEhspDR55EeF5o6iXzigJKCUwv8LGm6ET
+         NIF7ulxsEKsyBHKUsYKb6T3W/K2UZgAthIjHgcCVsLZcJ+LoT0Pofmm5WnnCdWWJuhc+
+         MD6Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=MBFM3NHX8dLbGYIgP7qMA1lgIld+AaMqGvmoUjZAteo=;
-        b=dxLZ6NuS8XtcJ8HWcaOHEoke6W2IqLoNlg/EyRRdxnefnTErJ7IKn6PcRvHdoDEx4U
-         vaA8jQUjRd6Xhe2JM8iYg8FIn7tEVk+KZiGhm+TkFO7G1Ue/CZKGuCAkDS9zElWC5DqX
-         IylPYEqCYbZH/9nnacFX3oGQxEKS/4SLeOuwpyjfKnh9e+K3fQ6bJnUc3S8EHub+SFsZ
-         eTcKm8aIOwNVf0c2MRSh/n4bnxbO9pP3aQoTDEvszjWGXsiruJSfwbdE25HgI9v2GOaM
-         kncD5qL/p6tm0RMSIdqSSgBI6xu5xOPuX30KGK2diWpu/qP+eyt3rjHiRFhTn7PVnwvO
-         acvQ==
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=TDjlsXJ8Q67+pf8fNbtIezk015NwG2ejDnnB/VIiXKc=;
+        b=kvRGMKA3eshhXBWUjldc9llUjtCsN6lzZXvZosELkxx4p63zaeB389tsANkaYBX3q3
+         n1GZx5ZxNOHsl6RopLvWAui3qYhHgEjpJfLNZbbETYcQ6I9KFummfddBB6UO8tf7VruS
+         JzwNNnQWOq3SSkdWQcQflV0hmmh6QugK2MP1bzzfOKhW69EL8ED/ClVWwMW0qRFyVbnw
+         BgeOI+2V+2YobaoyVoZ/yriinoqWTYh/QloB3jEssXSDWicWO+xSCsfmxiO/MlbGauVZ
+         j7p/7YYo/tN/QQu9WTxhGOZ5x0n9Wgp7VmRFL7PyhQn4l94z9vKWKJm9vpfu+Z1+O5XV
+         9gEQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of zhangqing@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=zhangqing@loongson.cn
+       dkim=pass header.i=@bytedance.com header.s=google header.b=fIWatEyL;
+       spf=pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::429 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1680319442;
+        d=googlegroups.com; s=20210112; t=1680503310;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:content-language
-         :in-reply-to:mime-version:user-agent:date:message-id:from:references
-         :cc:to:subject:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=MBFM3NHX8dLbGYIgP7qMA1lgIld+AaMqGvmoUjZAteo=;
-        b=OPReHs4ZLL8rXVPAJUpJd+KCPVBj/gN/bJxN/rC1ZnnelxE2yLJaq9UdN6StyFFW6t
-         hEjjAoncNANsHWX99ssO8IP65sIFwlEZx9Yi2CodcQgTzLTNfj7nehtELStApNqE615r
-         U97Vfbv8dxU0Pj5aohGGiVObjnm/z98RpFKzDi54sX9QdZqooOi3OQ89UJWACGdRWedd
-         QkH54zka+6zSJwez+cFrpnKCKnH6Ro1+CXROFalu3QHIHJLclmvaoc6cH0rdmyg8h3TE
-         RAmjJcwk3I5zoh44JecllQTxeqdJsTXkzD2jcr/HFf4iqqaZhaQRmX8riSXsSnN44joa
-         RJ3A==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TDjlsXJ8Q67+pf8fNbtIezk015NwG2ejDnnB/VIiXKc=;
+        b=rd5zq1KLajV81gL2GLDeQEoXwdVBeNP3jrt3aZEUDwB33FLwi+xH0nYW2n4dDXmyxy
+         cDZvRgDI8nfLiy0M6bIY5aWS0wgq08WLVFpbBmkdZJoXMop0mhC+EwyaQYGDAwagG0jZ
+         U3m9JhCKaYbESjqx4WFSspxx8BrSheE5eX3Cvj7OGHs5GgUm+z6LQoz8oc364kR6mP6p
+         5u+B20bcflAUJYvayDJL9B8XYVJEEoRhhw7rLXu29HIUC5xpfW83ZIYdSQgRQ8WAWL+a
+         /4juTb5y84/jPJ+61aKAQrvgrXqfsIA6fsybsEkyH35oiHMwiudf8/hXOFrocZX4tPi6
+         iP0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680319442;
+        d=1e100.net; s=20210112; t=1680503310;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MBFM3NHX8dLbGYIgP7qMA1lgIld+AaMqGvmoUjZAteo=;
-        b=IshnHbVWQDDqSnWtFErJHdKRUTBTOfUDsCshR6K9MBl8pR0i8dJfDIuqr91gK1oS5d
-         HKbAUaAoQdAirAkU4ScO+kwXl1AmdP928nZ+g0l/TpusrZVrdrX7SElnMK2A84AAObL4
-         Y/qNJ7SUHkaRRKWFmVb7paemn41T1mzirrZ2I2iC3HDEUORI9rhzbSjI3oDcGrHZ7XS9
-         0vxxHapQbitTuMelVodN167OalttW/M4RojBIjTr0VOm1z+DSic1poFzYbzdx7L4shZN
-         qmLCbGMITMSf/cg/Ew9kwJUpGA5jN+jWHNFssTmaq5lqK/sSM+4LKWOGOJ9CGjq2PwQJ
-         w5dg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AAQBX9f81R808wpc/5/cxcT9Zq4BcSsluNR0+yOA5ilFJ6iCDITUsISJ
-	3W4g+0g98+4zw0OSUza3m8s=
-X-Google-Smtp-Source: AKy350byjda2jAv86cuVxTWiA3f/yJ6f7hnPaGoUTk+caHjn1V9GabEr7/tNCK1iuFy3RmGpAv8+EA==
-X-Received: by 2002:a05:6870:3324:b0:180:2a9f:1ac1 with SMTP id x36-20020a056870332400b001802a9f1ac1mr2726637oae.2.1680319442259;
-        Fri, 31 Mar 2023 20:24:02 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TDjlsXJ8Q67+pf8fNbtIezk015NwG2ejDnnB/VIiXKc=;
+        b=fqyglCDVg1aD3miLI5Vto06J0M5NBXzyQhjzM8Vi5TsxMAzl9qpmsg+uRgaSArBFKA
+         l1fdPpdF1jbnijNUNzLS6E9OCeTT0w8EbLYGjyPOUMvccoeHWVugaH5KZnrUmT7G/End
+         G+zVB+9hotySa2jKJyMPw0cOgCx4AmAQX3k7FFIQKz6B94+MkSoch3KbOlv+U5rMZ72p
+         jI7cHppG35D4sNrHeHZWmu2mKinZP7gvAU2cs1gU9ZX6UR9AGeq/5Y7qQCdX/b/N/ZPk
+         p6Lwte6a7T/KY1KPaOqW4GEc3Km1oVvVMSnp63NOtYy5n7Fi4pmLhkyh7Xh6PrJZyDsA
+         HBGw==
+X-Gm-Message-State: AAQBX9dObKpNRP5MGLJdPPhvnw23otVBBZU40tR+g2s2oxjW82eVANnr
+	E2VEXW/YO3l1ln1SFd/g7ec=
+X-Google-Smtp-Source: AKy350YadrveaMkbUUuO6N+2FI263Yd9ARe5z/h2Y878jKD3Z1ooInoawelkOv+u1Eh1DfE7ZVVCIw==
+X-Received: by 2002:a17:903:454:b0:1a0:5057:1b77 with SMTP id iw20-20020a170903045400b001a050571b77mr11780485plb.10.1680503309810;
+        Sun, 02 Apr 2023 23:28:29 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6808:1828:b0:384:d300:3fb8 with SMTP id
- bh40-20020a056808182800b00384d3003fb8ls1725121oib.9.-pod-prod-gmail; Fri, 31
- Mar 2023 20:24:01 -0700 (PDT)
-X-Received: by 2002:aca:1b0a:0:b0:389:9592:b4d0 with SMTP id b10-20020aca1b0a000000b003899592b4d0mr1634415oib.53.1680319441880;
-        Fri, 31 Mar 2023 20:24:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1680319441; cv=none;
+Received: by 2002:a17:903:2843:b0:194:d87a:ffa6 with SMTP id
+ kq3-20020a170903284300b00194d87affa6ls10325078plb.1.-pod-prod-gmail; Sun, 02
+ Apr 2023 23:28:29 -0700 (PDT)
+X-Received: by 2002:a17:903:11cf:b0:1a3:c8c2:c322 with SMTP id q15-20020a17090311cf00b001a3c8c2c322mr615579plh.29.1680503309011;
+        Sun, 02 Apr 2023 23:28:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1680503309; cv=none;
         d=google.com; s=arc-20160816;
-        b=zdpUuinwyuKFupsd8gn1rguf6vHUMXhd19g5p8s0Kl+Xax/aI8wXJzdbBn1RKumVwu
-         DKLv3PACiod3tFzZdX3A1MhXMmGg0CmlPNPYe1SmUNoQX1YLNG8LY+49Ol8XEL1fQFUr
-         5+GJodfZ9/T+NLZVff5XYRp26w76eMvxhFOV36pVmEaeJli03PuCCCrX99MJiVRZlrZg
-         2kTzzoHv95Us3+WFxTUqu7jAQ7ep7fkjGJeP2uWMpquWtHty9n3VaeSqdgkDPKQJdYFR
-         KoQbSsOd5b/YVse06lr8T8grRq4lIcmCAP2MNSGnLUVLEEI9QZCAVknllg3SuDw2n7cX
-         sV/w==
+        b=U/294/JpWZ04RCZCvzomjdwIkGxeA1o9idkx2DqlWjaFIqIgOchOllynMn/Dq69NpX
+         mc93VKWlK/hcBP4bD9f14meytEe2KPTAF5zRZWZrl4IwMHxpCDGMzJXmajNv2e6iY0j6
+         afslSTMReJHZ9dxl/7+Ti/TCmyLQc4daYzeH0CfeuDCAl/FP93rLixEmF+xeWM7qoxh0
+         XMA7y3twX/mj5z1Ic1tMAL2RQZlFeH8QsVqI9VF4/IqkeTcHJJzG+cemBqgjGkz0T5GN
+         2P72cSLeEcBf72k1n4jmucPebylNEAq6d/rcnQEeIVhBso7AwlHf5bWWqQ5ArIDKP/EE
+         DCpg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=Mvog04limpniNR5GCN+WElbsWp5SySjX0E8c0mW1ou8=;
-        b=l60d/2uHqSR5EbnjtD0JSwXn8A7yhXb36kYNRD+rP2UN8Id3yjeCjmwm+eOprQNYvy
-         3G8g1GTQ28g0pHXrBmsWN97bdjq5WGASTQrixzNIzKYyOvjuNhkMZluaiuwg8IrPA8+8
-         xepQjmYKf6kYBvXpjaSM+b3RskJf3PpZI2QL9aZTqS8obREd+1c1i0OZErzcmUMU1k0/
-         Ipi7BNLzPTd+cq0CIn8fsUR+Sk6bZ1zD8+hn68p8mzMnULRtI1RbWQXCN+fxvEbpnEOB
-         mA/gm/bPZn5bJekoB800rHe7QSFQGdlm+s3MwnZ7fsEAUzuLJ7uuPWddM5j4CqqUVMyM
-         xPnQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=8EZusFPyKlVLlAuor8AkBQgzEgMdx910d6xeQgDfz4M=;
+        b=iGlTVL5PN4f3bif3Rp64WaNt0Tsq0mNSZxuEJv0Tz2jid4j7T+hCLntudQr3vYwFQ9
+         sLWrBwra8y/bnb4oWyr/hhZUYTBQNXKt+xUGmsxMRJK1f75Poa720N5JLeg4kJYrxdL4
+         8zkBB7JRRy+m4njx6xVV9TQPd57vX/oQAQ0y4cuhiMAeZLfeLhad3oTWKAbiHqsNJsat
+         7RsQfsYVJe8pGstfAvqQa13v8DSshPXDfeaI6HAPB+ou4Bb+8VJ7btIug/kgLq6nLpIj
+         SGHMJmKyJZOXG+wbGnGroyboJLcNd5rKgcR1YU1tUci7pFGuX6aB/HTRYxxN9CRiFj9O
+         8Orw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of zhangqing@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=zhangqing@loongson.cn
-Received: from loongson.cn (mail.loongson.cn. [114.242.206.163])
-        by gmr-mx.google.com with ESMTP id s204-20020acadbd5000000b0038a7c1bb0dfsi167831oig.4.2023.03.31.20.24.00
-        for <kasan-dev@googlegroups.com>;
-        Fri, 31 Mar 2023 20:24:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of zhangqing@loongson.cn designates 114.242.206.163 as permitted sender) client-ip=114.242.206.163;
-Received: from loongson.cn (unknown [113.200.148.30])
-	by gateway (Coremail) with SMTP id _____8BxONmwoydk7yQVAA--.32512S3;
-	Sat, 01 Apr 2023 11:23:28 +0800 (CST)
-Received: from [10.130.0.102] (unknown [113.200.148.30])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8Axnr6uoydka4sSAA--.45160S3;
-	Sat, 01 Apr 2023 11:23:28 +0800 (CST)
-Subject: Re: [PATCH] LoongArch: Add kernel address sanitizer support
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Huacai Chen <chenhuacai@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>,
- WANG Xuerui <kernel@xen0n.name>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, linux-mm@kvack.org,
- loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, Andrey Ryabinin <ryabinin.a.a@gmail.com>
-References: <20230328111714.2056-1-zhangqing@loongson.cn>
- <CA+fCnZevgYh7CzJ9gOWJ80SwY4Y9w8UO2ZiFAXEnAhQhFgrffA@mail.gmail.com>
- <dccfbff3-7bad-de33-4d96-248bdff44a8b@loongson.cn>
- <CA+fCnZddt50+10SZ+hZRKBudsmMF0W9XpsDG6=58p1ot62LjXQ@mail.gmail.com>
- <2360000f-7292-9da8-d6b5-94b125c5f2b0@loongson.cn>
- <CA+fCnZfoTszdoy7o_EfPXOc4QYo_Jgw9Qf0ua2JoNp0PXdrTPA@mail.gmail.com>
-From: Qing Zhang <zhangqing@loongson.cn>
-Message-ID: <34a1a391-6ad9-8722-b206-1e830711b096@loongson.cn>
-Date: Sat, 1 Apr 2023 11:23:26 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+       dkim=pass header.i=@bytedance.com header.s=google header.b=fIWatEyL;
+       spf=pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::429 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com. [2607:f8b0:4864:20::429])
+        by gmr-mx.google.com with ESMTPS id z10-20020a170902ccca00b0019cb7349e64si433486ple.8.2023.04.02.23.28.28
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 02 Apr 2023 23:28:28 -0700 (PDT)
+Received-SPF: pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::429 as permitted sender) client-ip=2607:f8b0:4864:20::429;
+Received: by mail-pf1-x429.google.com with SMTP id cv11so5592044pfb.8
+        for <kasan-dev@googlegroups.com>; Sun, 02 Apr 2023 23:28:28 -0700 (PDT)
+X-Received: by 2002:a62:6346:0:b0:626:cc72:51a7 with SMTP id x67-20020a626346000000b00626cc7251a7mr34281634pfb.9.1680503308511;
+        Sun, 02 Apr 2023 23:28:28 -0700 (PDT)
+Received: from GL4FX4PXWL.bytedance.net ([139.177.225.248])
+        by smtp.gmail.com with ESMTPSA id k14-20020aa7820e000000b00625ee4c50eesm6013919pfi.77.2023.04.02.23.28.24
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 02 Apr 2023 23:28:28 -0700 (PDT)
+From: "'Peng Zhang' via kasan-dev" <kasan-dev@googlegroups.com>
+To: glider@google.com,
+	elver@google.com,
+	dvyukov@google.com,
+	akpm@linux-foundation.org
+Cc: kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Peng Zhang <zhangpeng.00@bytedance.com>
+Subject: [PATCH] mm: kfence: Improve the performance of __kfence_alloc() and __kfence_free()
+Date: Mon,  3 Apr 2023 14:27:57 +0800
+Message-Id: <20230403062757.74057-1-zhangpeng.00@bytedance.com>
+X-Mailer: git-send-email 2.37.0 (Apple Git-136)
 MIME-Version: 1.0
-In-Reply-To: <CA+fCnZfoTszdoy7o_EfPXOc4QYo_Jgw9Qf0ua2JoNp0PXdrTPA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-CM-TRANSID: AQAAf8Axnr6uoydka4sSAA--.45160S3
-X-CM-SenderInfo: x2kd0wptlqwqxorr0wxvrqhubq/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
-	ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
-	BjDU0xBIdaVrnRJUUUBSb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
-	xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
-	j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxV
-	AFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E
-	14v26r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI
-	0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280
-	aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2
-	xFo4CEbIxvr21l42xK82IYc2Ij64vIr41l4c8EcI0En4kS14v26r1Y6r17MxC20s026xCa
-	FVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1Y6r17MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2
-	IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxGrwCI
-	42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42
-	IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280
-	aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU2nYFDUUUU
-X-Original-Sender: zhangqing@loongson.cn
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of zhangqing@loongson.cn designates 114.242.206.163 as
- permitted sender) smtp.mailfrom=zhangqing@loongson.cn
+X-Original-Sender: zhangpeng.00@bytedance.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@bytedance.com header.s=google header.b=fIWatEyL;       spf=pass
+ (google.com: domain of zhangpeng.00@bytedance.com designates
+ 2607:f8b0:4864:20::429 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
+X-Original-From: Peng Zhang <zhangpeng.00@bytedance.com>
+Reply-To: Peng Zhang <zhangpeng.00@bytedance.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,30 +139,212 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2023/3/31 =E4=B8=8B=E5=8D=8811:58, Andrey Konovalov wrote:
-> On Thu, Mar 30, 2023 at 6:32=E2=80=AFAM Qing Zhang <zhangqing@loongson.cn=
-> wrote:
->>
->>> I get that, but you already added a special case for
->>> __HAVE_ARCH_SHADOW_MAP to addr_has_metadata, so you can just call it?
->>>
->> ok, all the changes are going to be in v2.
->=20
-> Could you also please put changes to the common KASAN code into a
-> separate patch/patches? This will simplify any potential backporting
-> of common KASAN code changes in the future.
->=20
-ok, no problem.
+In __kfence_alloc() and __kfence_free(), we will set and check canary.
+Assuming that the size of the object is close to 0, nearly 4k memory
+accesses are required because setting and checking canary is executed
+byte by byte.
 
-Thanks,
--Qing
-> Thanks!
->=20
+canary is now defined like this:
+KFENCE_CANARY_PATTERN(addr) ((u8)0xaa ^ (u8)((unsigned long)(addr) & 0x7))
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/34a1a391-6ad9-8722-b206-1e830711b096%40loongson.cn.
+Observe that canary is only related to the lower three bits of the
+address, so every 8 bytes of canary are the same. We can access 8-byte
+canary each time instead of byte-by-byte, thereby optimizing nearly 4k
+memory accesses to 4k/8 times.
+
+Use the bcc tool funclatency to measure the latency of __kfence_alloc()
+and __kfence_free(), the numbers (deleted the distribution of latency)
+is posted below. Though different object sizes will have an impact on the
+measurement, we ignore it for now and assume the average object size is
+roughly equal.
+
+Before playing patch:
+__kfence_alloc:
+avg = 5055 nsecs, total: 5515252 nsecs, count: 1091
+__kfence_free:
+avg = 5319 nsecs, total: 9735130 nsecs, count: 1830
+
+After playing patch:
+__kfence_alloc:
+avg = 3597 nsecs, total: 6428491 nsecs, count: 1787
+__kfence_free:
+avg = 3046 nsecs, total: 3415390 nsecs, count: 1121
+
+The numbers indicate that there is ~30% - ~40% performance improvement.
+
+Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
+---
+ mm/kfence/core.c   | 71 +++++++++++++++++++++++++++++++++-------------
+ mm/kfence/kfence.h | 10 ++++++-
+ mm/kfence/report.c |  2 +-
+ 3 files changed, 62 insertions(+), 21 deletions(-)
+
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index 79c94ee55f97..0b1b1298c738 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -297,20 +297,13 @@ metadata_update_state(struct kfence_metadata *meta, enum kfence_object_state nex
+ 	WRITE_ONCE(meta->state, next);
+ }
+ 
+-/* Write canary byte to @addr. */
+-static inline bool set_canary_byte(u8 *addr)
+-{
+-	*addr = KFENCE_CANARY_PATTERN(addr);
+-	return true;
+-}
+-
+ /* Check canary byte at @addr. */
+ static inline bool check_canary_byte(u8 *addr)
+ {
+ 	struct kfence_metadata *meta;
+ 	unsigned long flags;
+ 
+-	if (likely(*addr == KFENCE_CANARY_PATTERN(addr)))
++	if (likely(*addr == KFENCE_CANARY_PATTERN_U8(addr)))
+ 		return true;
+ 
+ 	atomic_long_inc(&counters[KFENCE_COUNTER_BUGS]);
+@@ -323,11 +316,27 @@ static inline bool check_canary_byte(u8 *addr)
+ 	return false;
+ }
+ 
+-/* __always_inline this to ensure we won't do an indirect call to fn. */
+-static __always_inline void for_each_canary(const struct kfence_metadata *meta, bool (*fn)(u8 *))
++static inline void set_canary(const struct kfence_metadata *meta)
+ {
+ 	const unsigned long pageaddr = ALIGN_DOWN(meta->addr, PAGE_SIZE);
+-	unsigned long addr;
++	unsigned long addr = pageaddr;
++
++	/*
++	 * The canary may be written to part of the object memory, but it does
++	 * not affect it. The user should initialize the object before using it.
++	 */
++	for (; addr < meta->addr; addr += sizeof(u64))
++		*((u64 *)addr) = KFENCE_CANARY_PATTERN_U64;
++
++	addr = ALIGN_DOWN(meta->addr + meta->size, sizeof(u64));
++	for (; addr - pageaddr < PAGE_SIZE; addr += sizeof(u64))
++		*((u64 *)addr) = KFENCE_CANARY_PATTERN_U64;
++}
++
++static inline void check_canary(const struct kfence_metadata *meta)
++{
++	const unsigned long pageaddr = ALIGN_DOWN(meta->addr, PAGE_SIZE);
++	unsigned long addr = pageaddr;
+ 
+ 	/*
+ 	 * We'll iterate over each canary byte per-side until fn() returns
+@@ -339,14 +348,38 @@ static __always_inline void for_each_canary(const struct kfence_metadata *meta,
+ 	 */
+ 
+ 	/* Apply to left of object. */
+-	for (addr = pageaddr; addr < meta->addr; addr++) {
+-		if (!fn((u8 *)addr))
++	for (; meta->addr - addr >= sizeof(u64); addr += sizeof(u64)) {
++		if (unlikely(*((u64 *)addr) != KFENCE_CANARY_PATTERN_U64))
+ 			break;
+ 	}
+ 
+-	/* Apply to right of object. */
+-	for (addr = meta->addr + meta->size; addr < pageaddr + PAGE_SIZE; addr++) {
+-		if (!fn((u8 *)addr))
++	/*
++	 * If the canary is damaged in a certain 64 bytes, or the canay memory
++	 * cannot be completely covered by multiple consecutive 64 bytes, it
++	 * needs to be checked one by one.
++	 */
++	for (; addr < meta->addr; addr++) {
++		if (unlikely(!check_canary_byte((u8 *)addr)))
++			break;
++	}
++
++	/*
++	 * Apply to right of object.
++	 * For easier implementation, check from high address to low address.
++	 */
++	addr = pageaddr + PAGE_SIZE - sizeof(u64);
++	for (; addr >= meta->addr + meta->size ; addr -= sizeof(u64)) {
++		if (unlikely(*((u64 *)addr) != KFENCE_CANARY_PATTERN_U64))
++			break;
++	}
++
++	/*
++	 * Same as above, checking byte by byte, but here is the reverse of
++	 * the above.
++	 */
++	addr = addr + sizeof(u64) - 1;
++	for (; addr >= meta->addr + meta->size; addr--) {
++		if (unlikely(!check_canary_byte((u8 *)addr)))
+ 			break;
+ 	}
+ }
+@@ -434,7 +467,7 @@ static void *kfence_guarded_alloc(struct kmem_cache *cache, size_t size, gfp_t g
+ #endif
+ 
+ 	/* Memory initialization. */
+-	for_each_canary(meta, set_canary_byte);
++	set_canary(meta);
+ 
+ 	/*
+ 	 * We check slab_want_init_on_alloc() ourselves, rather than letting
+@@ -495,7 +528,7 @@ static void kfence_guarded_free(void *addr, struct kfence_metadata *meta, bool z
+ 	alloc_covered_add(meta->alloc_stack_hash, -1);
+ 
+ 	/* Check canary bytes for memory corruption. */
+-	for_each_canary(meta, check_canary_byte);
++	check_canary(meta);
+ 
+ 	/*
+ 	 * Clear memory if init-on-free is set. While we protect the page, the
+@@ -751,7 +784,7 @@ static void kfence_check_all_canary(void)
+ 		struct kfence_metadata *meta = &kfence_metadata[i];
+ 
+ 		if (meta->state == KFENCE_OBJECT_ALLOCATED)
+-			for_each_canary(meta, check_canary_byte);
++			check_canary(meta);
+ 	}
+ }
+ 
+diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
+index 600f2e2431d6..2aafc46a4aaf 100644
+--- a/mm/kfence/kfence.h
++++ b/mm/kfence/kfence.h
+@@ -21,7 +21,15 @@
+  * lower 3 bits of the address, to detect memory corruptions with higher
+  * probability, where similar constants are used.
+  */
+-#define KFENCE_CANARY_PATTERN(addr) ((u8)0xaa ^ (u8)((unsigned long)(addr) & 0x7))
++#define KFENCE_CANARY_PATTERN_U8(addr) ((u8)0xaa ^ (u8)((unsigned long)(addr) & 0x7))
++
++/*
++ * Define a continuous 8-byte canary starting from a multiple of 8. The canary
++ * of each byte is only related to the lowest three bits of its address, so the
++ * canary of every 8 bytes is the same. 64-bit memory can be filled and checked
++ * at a time instead of byte by byte to improve performance.
++ */
++#define KFENCE_CANARY_PATTERN_U64 ((u64)0xaaaaaaaaaaaaaaaa ^ (u64)(0x0706050403020100))
+ 
+ /* Maximum stack depth for reports. */
+ #define KFENCE_STACK_DEPTH 64
+diff --git a/mm/kfence/report.c b/mm/kfence/report.c
+index 60205f1257ef..197430a5be4a 100644
+--- a/mm/kfence/report.c
++++ b/mm/kfence/report.c
+@@ -168,7 +168,7 @@ static void print_diff_canary(unsigned long address, size_t bytes_to_show,
+ 
+ 	pr_cont("[");
+ 	for (cur = (const u8 *)address; cur < end; cur++) {
+-		if (*cur == KFENCE_CANARY_PATTERN(cur))
++		if (*cur == KFENCE_CANARY_PATTERN_U8(cur))
+ 			pr_cont(" .");
+ 		else if (no_hash_pointers)
+ 			pr_cont(" 0x%02x", *cur);
+-- 
+2.20.1
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230403062757.74057-1-zhangpeng.00%40bytedance.com.
