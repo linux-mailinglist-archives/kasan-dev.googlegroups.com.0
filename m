@@ -1,146 +1,132 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBL6AWKQQMGQELFJHEMY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBKG3WKQQMGQE5RL5OMQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93d.google.com (mail-ua1-x93d.google.com [IPv6:2607:f8b0:4864:20::93d])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EB86D6FEC
-	for <lists+kasan-dev@lfdr.de>; Wed,  5 Apr 2023 00:09:52 +0200 (CEST)
-Received: by mail-ua1-x93d.google.com with SMTP id g34-20020ab059a5000000b0068fb77b4fccsf14741464uad.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 04 Apr 2023 15:09:52 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1680646191; cv=pass;
+Received: from mail-ej1-x63c.google.com (mail-ej1-x63c.google.com [IPv6:2a00:1450:4864:20::63c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 678A36D7066
+	for <lists+kasan-dev@lfdr.de>; Wed,  5 Apr 2023 01:07:21 +0200 (CEST)
+Received: by mail-ej1-x63c.google.com with SMTP id a640c23a62f3a-93d82828205sf2928066b.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 04 Apr 2023 16:07:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1680649641; cv=pass;
         d=google.com; s=arc-20160816;
-        b=bQMm6W8vu9YE1iUuPcdWUu/RSfg51sY2SeYlAmJfAqyQ1q6K25IAr1qEz7FPi5DRFl
-         r83qA8pz4RoubTO1ElhfnkF6vi0urLHHo+/nrPrTsG3i/YMObamjy80yvks1l5O0AWQN
-         StfEV1LT4SB7iyHNko8+fT31UUsTwyf9EjSg3pUIXHmqu/QoWo/HPC/FMRMCshOyFkbW
-         OzYm0VnKDB9h2u8/hBj1SUJLiiR9f7ZIP6jt3506+JSAZtEW54wdnb+uAT7uX+A2Zu1P
-         pb0B9dRe0x5vIzMAsaBhVnu7TXnHDKKgwSYnY10OFYWPVXrALL1hPEzvjOCNlftrabs5
-         9vzg==
+        b=LFbJW4WkPphmw+lcL6CNGViPq0sqSPk3aS7IlKP93IVfILTFntXW/WqX4eLK/uw+TC
+         fW9MQrFg6l1+8dIwnu3yiI7v+qDZ7TILkyGacWm+mebJQCBNliqnM+XfK79X8d8GsW5Z
+         r2GMoYTZHbp0rsfgoCoRaCVsy/JJdTCyVp7tXrpNltf1MJDpjRN5YdvhBIMpoPF3CiD8
+         qyLwCicK6HDC+5tst47Pag7obu1stqb2XMjKGGO8BZ8w+mMumIZd0tYayrEx3tStYp9n
+         Xvv4L+5Mkkv0WNSN3hjmAKdOAir0UEfLlprnqxXy7XgZN4nn7hP+CiCceX2hYxH/DzYa
+         prjw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=/x3Ou7cm7L3V1tr2L9bEUtcIIGBoDeuGuKVjMMEqGTA=;
-        b=0U+o5TRniFg0fW4/gNSCOH7OhhR3jDjnw8WcegOGvDDO94fWkXTRobcbtLguSK33TK
-         qjpTaahRp9R4YuO0y7ZjtTaCce4LmJSDepfDnnCfOT0gDda2f/guy2roGQkTmBOo8Spo
-         vuAYcBhSt2FDAV/wocpLin+W7gOVJ7mcQtTdUWiYxOhZph03s55ZWJi/xAdwwKA6j4YI
-         7YO5b+Zy72B4J5l6rPfQC+HTmDHW/d66KiLkCRx5aRPLRgnY13VtuFon9/C4p9WcTSlH
-         VchYM4VQVamM2lL1MHNSh24/uP1N1GJkbITRlJxdavE9xN/4F8YfqNfFghOKLT1e3eSB
-         XfUQ==
+        h=list-subscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:feedback-id:mime-version:list-unsubscribe
+         :message-id:subject:reply-to:from:to:date:dkim-signature;
+        bh=yvwlq0XOpWZQgof99iEBsFNHHbt9ssp6aQW26IaE84g=;
+        b=ncs7c7wztDlkFH3hV5ayCEBaPceSwvR2d9D0eBi1fKtqTgrCXt0YqbRgD+c3SOixKX
+         5AiNhzrAEocPoogRHQqI9fX/eVr8WERJqq6+kG+zyEYkWmgPPMnXZoLqzLdzwhmM8doz
+         gaj9RfOnZWHbR/VakNqwwvI2HJK5nse9nbc69hO+p5t81VRuLtD7JG4L8AGe7XBELXKZ
+         n38PNPeU3PVAau9x3nHHmaCUdlDmKfe67m5c1jXSkc/+Uyt6GiAyIqkhsQ4glR7AX9rs
+         n9jA2KA6hVMKCbLWqsYC1zzRiZlBlDt27pHgiknA1nF/uhlbhv1A6C3eDz32azWKfrm8
+         jeJQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=gUnEta5Y;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::1029 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@crlsrv.com header.s=jrt2xqh34kgxn26c7h3vz5kgqgg2otxh header.b=I0csrRr9;
+       dkim=pass header.i=@amazonses.com header.s=shh3fegwg5fppqsuzphvschd53n6ihuv header.b=AL4GRozS;
+       spf=pass (google.com: domain of 010201874e8653a5-58a1d67e-5aec-46e1-941f-aa6b909fd267-000000@email.crlsrv.com designates 69.169.231.80 as permitted sender) smtp.mailfrom=010201874e8653a5-58a1d67e-5aec-46e1-941f-aa6b909fd267-000000@email.crlsrv.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=crlsrv.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1680646191;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/x3Ou7cm7L3V1tr2L9bEUtcIIGBoDeuGuKVjMMEqGTA=;
-        b=jpikVAikLd0zOAWThFbmbuWsZHFjyQJyrvusgcf1fvuwtcNQgPHknbU3DN3frRWo+9
-         XxKOWdyKO4wfKYRUx+mEZVWDZAdhLeURZi7k/lYkn1unpeDJTn2C5dwfwx5lEQGe5D5I
-         lthMfhhErLKI++7gEWFCf2nIu2t9R4ZdS9v7KRtgsZg1xf2ShXKoWxT9UKpKpuaDCh/h
-         HxunEtsIIUz5Az6h1rqJXYMno/Fphi7XJP4wdggC/koRftMbaIuiqTuGAtBR3MiLAVSX
-         Wi2ve4Nr8dJYvdrZlc4zwXq4BmdUUYwokTRk6bLczM86CZwI/HLMsLNuNlneRQIkxj0U
-         AZqA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680646191;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/x3Ou7cm7L3V1tr2L9bEUtcIIGBoDeuGuKVjMMEqGTA=;
-        b=qT6CU80g5BVgJbme242oVJK8kyHQ4nOxoga9eyyV+NeQybH1BlSJn6MNOqvn4+ZRYU
-         vmNAMXPFzDsbBgoMczkhVB6J1DielE1IBSbvl4C0upeX0gj/UJHPptEhAQQc0fmBVZZn
-         tWrV7+SjJXKazr+yNC/GqVJ3MTR/Au/aB7CCtMbPoYOgwcUT16C+C4lZ/7wmO/V+VLnH
-         3tVfxRTwrY5auQ5VNTjBecdjoL+knyUkh4z//NBgsZHQ2Ea8JpqrnmIQIvyrCWszlbRs
-         R6DYvo379Mt3isVv+kQUJoUafJOsK+DiCWXSUkRKv6nURGid2aVvhpcj8A9iv08hwSM+
-         /lsw==
+        d=googlegroups.com; s=20210112; t=1680649641;
+        h=list-subscribe:list-archive:list-help:list-post:list-id
+         :mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:feedback-id:mime-version:list-unsubscribe
+         :message-id:subject:reply-to:from:to:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yvwlq0XOpWZQgof99iEBsFNHHbt9ssp6aQW26IaE84g=;
+        b=Rf4dBqDC6MtKVbFuMIaOtBKDgHHlWm0njcDj08w5pqbYa7j+UtusnPv/weHZ+7l4fI
+         LlrvGwdp7F2v47MWw0/j/W5yODEcbr0L1vVNmcGI8EEQdYOtddIUg32q42HsiVWua0Vw
+         ejWWMJRdM6/2D6LkB+Aps2SmzBIM+hes1bv+ZV5s8FgRVCeHTUGx1GjkeI9QEo5wcQdY
+         Dk2wKmpK1uVEiG8EA5vaJVT3g1zqi8J4JYC47IZewlOfN2nhjCSbTj6kbwHVwQLTwHQU
+         kos/PsXvmYwr+eIzFzYi6OHRsENxY4vlPs7Xg4679OcZGgss6M9c228x7JlNAp+s/lIa
+         xlHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680646191;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+        d=1e100.net; s=20210112; t=1680649641;
+        h=list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/x3Ou7cm7L3V1tr2L9bEUtcIIGBoDeuGuKVjMMEqGTA=;
-        b=WBXmNjSNJ19DETdWYSOg/vMA1wBrY1Uvd4Hv28yn//3rawsj4hEebqcMA5I9S2RKrU
-         t+W3nUXGiu0L9APy/sy6XPxzlSSwPjvMF1PQQRHVLWTRWKvO21UrE/ICkyvtHs2yWwXH
-         TNUtBswEmNEEtDWVYnwvPMOb4Y8Q/l3oyBl1ewxYmD9xF/lFUFFdw704xDCOR7X8I4jI
-         CLHtQpFG5T/mNvLQg8r6AJZ3kyGPPKRsUIdKhyk4nqJZsvjCLf1YRD0K29gUO2VLivtG
-         B4gAzEpBT4HdLnSXReQe+UvOEs/4e+TKvSXOThMyqbnV3KtJxLP6zqqseQQyW8RWJO+G
-         N+Dg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AAQBX9dyJz968Cbc3qhyjtAzK+yMB3+iY73HgSzLpnubuFSVfJ21F6o+
-	hwPb4DXfRzamsQMaWonzA4A=
-X-Google-Smtp-Source: AKy350YZjxK5gW8/T4rMU3XBAnZJQQGhDTqqtpos9yIEgm1Ob8i1xrHAu1A3ysKm4sh8nJk0suDn8w==
-X-Received: by 2002:a1f:acc9:0:b0:433:7ae0:6045 with SMTP id v192-20020a1facc9000000b004337ae06045mr3502695vke.0.1680646191397;
-        Tue, 04 Apr 2023 15:09:51 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:feedback-id
+         :mime-version:list-unsubscribe:message-id:subject:reply-to:from:to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yvwlq0XOpWZQgof99iEBsFNHHbt9ssp6aQW26IaE84g=;
+        b=ppg5e8NIUiA7BZ+PMed9Ceic4lxvKStitdeYIC8zp6v3xc4l24pFvtvoENLbYDESTK
+         QtE56UkPcb2hYE3AI0xN26ymNk5sDj1+xXxSG9PbwUrstnpmjfRvM1kalg26+CJMRdZ3
+         OJmg6uZM1bdm3Q2n3XTJWZdO5x5bVF8DMslHa4cF5kiKPPy7WSeAbi4qmcAzWrlWpi73
+         R8JHW6gXIdm5RiYx8h7DkArF7yZ/7Nhr1udl9HV4Dvm8E64GdJYqZwRt3yCNVKUENkyq
+         syKIGoTwceuGvxfFyA2U32xWu+2M19Sb5UAYIY60Lis29pkFMkqUJuknttLxMo2ABBrB
+         pH9g==
+X-Gm-Message-State: AAQBX9dkk+W4X0hjXF/eLzOMG31EqYChdIRD40rmtP7bb+9btIkTMmNK
+	7ENXFfOXYzdtQG3MLLBZQuw=
+X-Google-Smtp-Source: AKy350YNy17ZiI297LNbQ4OaLDbsm/ZT4u+gG6vJRpcpqynY3vXDy+GvJ9JVaPZr+0PIEuN2c5ecQQ==
+X-Received: by 2002:a50:a6db:0:b0:501:d2fb:44bb with SMTP id f27-20020a50a6db000000b00501d2fb44bbmr111436edc.5.1680649640579;
+        Tue, 04 Apr 2023 16:07:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:a8d6:0:b0:431:f7a2:156e with SMTP id r205-20020a1fa8d6000000b00431f7a2156els2023685vke.10.-pod-prod-gmail;
- Tue, 04 Apr 2023 15:09:50 -0700 (PDT)
-X-Received: by 2002:a05:6122:c9e:b0:436:f1e:6097 with SMTP id ba30-20020a0561220c9e00b004360f1e6097mr2690740vkb.7.1680646190601;
-        Tue, 04 Apr 2023 15:09:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1680646190; cv=none;
+Received: by 2002:a17:907:104a:b0:931:a3bb:127e with SMTP id
+ oy10-20020a170907104a00b00931a3bb127els9505604ejb.1.-pod-prod-gmail; Tue, 04
+ Apr 2023 16:07:19 -0700 (PDT)
+X-Received: by 2002:a17:906:7ccf:b0:86f:b99c:ac8d with SMTP id h15-20020a1709067ccf00b0086fb99cac8dmr1052059ejp.44.1680649639341;
+        Tue, 04 Apr 2023 16:07:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1680649639; cv=none;
         d=google.com; s=arc-20160816;
-        b=SBxf5NIMt+dK4ROtHGw7deEVhZK6UHefPXr6L65HFQSlm9mkWK+2LmN4dEu6CPeA8u
-         1c/97ACBIdq07Axq8ybNAhmIkeTCmyp8+X9nGT5DmXxFKroNU1jhWh2el2i7G/KBvnNh
-         RGV/NzIEYoGDz+snxP0hOrwaLX8yuoidQEHiRQTrhcs+U20jGl2HyyW5t1+hSt9JBdwU
-         5IvdTzUywKur2v6kAGHEaQKVbbHqnEpXRV2AI5ssrJS+qbeL5EwpYXAo6+3juCN4fwI/
-         HsH3FhFhGQ0rOtFGDiDm9l8bS0SNLOujKdGJTfyV+nBiTGLRCfPQg71DIXzyR9MTiAZN
-         9eJA==
+        b=Tur+Z3KaUUTKY4MhLodVklG9RT3ckL+ROdKPtSf2r7SxZkvz7H7z6R2boItXm1M1WJ
+         bLRYy9PpwMRwC/K3ocADiU0uhKFimOfePyYm/izGS0//HJy1/bmkkQLBeamgI5BWspA1
+         EIvGisc1xLNtlNrugO7YqCzXU0lluCVDDLNJ/zR91fkkxfHQ+ouugO5QDCWaaPvW1Quf
+         1TAEwy+I/G0+Ywk3asVwonk/E/Jet53xTjd4ivLUN9gIFuODBjLUs9bk+z8ZlTK4AoMg
+         mFb1F8s6qRefCG7IUcfoJ7wiN98ImmaQuVxm+FPHt6vWWfVXaVguP10CEf5gHJks2FII
+         O0ZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FhW41Lz+Mez52y9+7Sqb35hmOmVdAZ3fg2uw11nAPAE=;
-        b=wbVcLOs9lVi6blbUuANNI7620s9LoErVokp1r5U7/lBGLfopUX36BtcKTXA5R+eoTn
-         VD1gkH/UX2sr976lv0dOkO78YYjuvIgy/+jq+L1+vkAFP3vKV9z63arJSAYvKk8c8WNT
-         bYbj/LNDxKn0mmPpMIycotRi37lAPCqJ1tlasLsQGkNUiS+ulCVar1Lcnp1xOCgL8QgH
-         ELbLK6YAf9qV1VfQEHNeJx32MpNQ/qvnG4fjGfsPob2e0Jt4iU3Sj0xOReTW5Sork55J
-         aWUqBJG4UOs05ESErwIfAUzaYjhf/Vk1PRfSXhZRe7wRAUSTRy9LRSFjbIrlhQbb7poJ
-         lVxQ==
+        h=feedback-id:mime-version:list-unsubscribe:message-id:subject
+         :reply-to:from:to:date:dkim-signature:dkim-signature;
+        bh=M1Y6q3HQuYqCl3LB6Lz3Ve1yyQ8xrkNZU36D9iMOEAQ=;
+        b=pH1AJnKaGs0DMNPD3wirn7Ni1i1Q/buok7EBviARmjuE9bV2LxY299GMsHsBYDg1oX
+         gRDPRE2agN/Jy2MlBVN/5TFBeq/2+ZQOt6EyYrkq4Ie8ihRaXXIAbjLst+9JH/q6TYtg
+         0GI+kiK0AkeZZwHjAJNo2PGxo+AHkEY/lEDHESCckZi48nSaoNAwb0mqZv/oGE0x/BLE
+         I9MVAjk/cr1GTDXig/aCNmkbIkmCaOK2i9DxkZGJ0DFYt3rHDiPNdg8Ef9T167FswwsH
+         G95IWRsbwnS0Jfuig8HSYQfat6N5Se1RJGNaIRQ2WDQmpN3zV32JRwEI93nMiIY8ynVL
+         qLfw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=gUnEta5Y;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::1029 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com. [2607:f8b0:4864:20::1029])
-        by gmr-mx.google.com with ESMTPS id e29-20020ac5c15d000000b0043c402f9047si699046vkk.3.2023.04.04.15.09.50
+       dkim=pass header.i=@crlsrv.com header.s=jrt2xqh34kgxn26c7h3vz5kgqgg2otxh header.b=I0csrRr9;
+       dkim=pass header.i=@amazonses.com header.s=shh3fegwg5fppqsuzphvschd53n6ihuv header.b=AL4GRozS;
+       spf=pass (google.com: domain of 010201874e8653a5-58a1d67e-5aec-46e1-941f-aa6b909fd267-000000@email.crlsrv.com designates 69.169.231.80 as permitted sender) smtp.mailfrom=010201874e8653a5-58a1d67e-5aec-46e1-941f-aa6b909fd267-000000@email.crlsrv.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=crlsrv.com
+Received: from b231-80.smtp-out.eu-west-1.amazonses.com (b231-80.smtp-out.eu-west-1.amazonses.com. [69.169.231.80])
+        by gmr-mx.google.com with ESMTPS id 16-20020a170906319000b008b14694acaesi387444ejy.2.2023.04.04.16.07.19
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Apr 2023 15:09:50 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::1029 as permitted sender) client-ip=2607:f8b0:4864:20::1029;
-Received: by mail-pj1-x1029.google.com with SMTP id h12-20020a17090aea8c00b0023d1311fab3so35410701pjz.1
-        for <kasan-dev@googlegroups.com>; Tue, 04 Apr 2023 15:09:50 -0700 (PDT)
-X-Received: by 2002:a17:90b:e09:b0:240:228:95bd with SMTP id
- ge9-20020a17090b0e0900b00240022895bdmr1533929pjb.5.1680646189645; Tue, 04 Apr
- 2023 15:09:49 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 04 Apr 2023 16:07:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 010201874e8653a5-58a1d67e-5aec-46e1-941f-aa6b909fd267-000000@email.crlsrv.com designates 69.169.231.80 as permitted sender) client-ip=69.169.231.80;
+Date: Tue, 4 Apr 2023 23:07:18 +0000
+To: kasan-dev@googlegroups.com
+From: =?UTF-8?B?J0bDs3J1bSBYWEknIHZpYSBrYXNhbi1kZXY=?= <kasan-dev@googlegroups.com>
+Reply-To: =?UTF-8?Q?F=C3=B3rum_XXI?= <cuiciid2023@forumxxi.net>
+Subject: =?UTF-8?Q?Convocatoria/Call_for_papers/Chiamata/Chamada/Appel_Congreso_CUIC?=
+ =?UTF-8?Q?IID_2023_(no_presencial)_organizado_por_la_editorial_PETER_LANG_y?=
+ =?UTF-8?Q?_F=C3=B3rum_XXI?=
+Message-ID: <010201874e8653a5-58a1d67e-5aec-46e1-941f-aa6b909fd267-000000@eu-west-1.amazonses.com>
+X-Mailer: Acrelia News
+X-Report-Abuse: Please report abuse for this campaign
+ here:https://www.acrelianews.com/en/abuse-desk/
+List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
+ <https://groups.google.com/group/kasan-dev/subscribe>
+X-Campaign: XKZsub7LCp6vZJ1qMr892haA
+X-FBL: XKZsub7LCp6vZJ1qMr892haA-7892qhiZJ9KvgCIS2cDtvvmQ
 MIME-Version: 1.0
-References: <20230404084308.813-1-zhangqing@loongson.cn>
-In-Reply-To: <20230404084308.813-1-zhangqing@loongson.cn>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Wed, 5 Apr 2023 00:09:38 +0200
-Message-ID: <CA+fCnZentBDXuyyrZFzPLpt8Vdfo7YyAyxbgb506LFrR+v-D9Q@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] kasan: Add __HAVE_ARCH_SHADOW_MAP to support arch
- specific mapping
-To: Qing Zhang <zhangqing@loongson.cn>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Huacai Chen <chenhuacai@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, WANG Xuerui <kernel@xen0n.name>, 
-	Jiaxun Yang <jiaxun.yang@flygoat.com>, kasan-dev@googlegroups.com, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, loongarch@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: andreyknvl@gmail.com
+Content-Type: multipart/alternative;
+	boundary="b1_U6nTLG3xh7RqcYiz5EAdze5ELXYApPEaQtYfQIhoOiA"
+Feedback-ID: 1.eu-west-1.CZ8M1ekDyspZjn2D1EMR7t02QsJ1cFLETBnmGgkwErc=:AmazonSES
+X-SES-Outgoing: 2023.04.04-69.169.231.80
+X-Original-Sender: cuiciid2023=forumxxi.net@crlsrv.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=gUnEta5Y;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::1029
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@crlsrv.com header.s=jrt2xqh34kgxn26c7h3vz5kgqgg2otxh
+ header.b=I0csrRr9;       dkim=pass header.i=@amazonses.com
+ header.s=shh3fegwg5fppqsuzphvschd53n6ihuv header.b=AL4GRozS;       spf=pass
+ (google.com: domain of 010201874e8653a5-58a1d67e-5aec-46e1-941f-aa6b909fd267-000000@email.crlsrv.com
+ designates 69.169.231.80 as permitted sender) smtp.mailfrom=010201874e8653a5-58a1d67e-5aec-46e1-941f-aa6b909fd267-000000@email.crlsrv.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=crlsrv.com
+X-Original-From: =?UTF-8?Q?F=C3=B3rum_XXI?= <cuiciid2023=forumxxi.net@crlsrv.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,82 +136,107 @@ List-Post: <https://groups.google.com/group/kasan-dev/post>, <mailto:kasan-dev@g
 List-Help: <https://groups.google.com/support/>, <mailto:kasan-dev+help@googlegroups.com>
 List-Archive: <https://groups.google.com/group/kasan-dev
 List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:kasan-dev+subscribe@googlegroups.com>
-List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
- <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Apr 4, 2023 at 10:43=E2=80=AFAM Qing Zhang <zhangqing@loongson.cn> =
-wrote:
->
-> Like the LoongArch, which has many holes between different segments
-> and valid address space(256T available) is insufficient to map all
-> these segments to kasan shadow memory with the common formula provided
-> by kasan core, We need architecture specific mapping formula,different
-> segments are mapped individually, and only limited length of space of
-> that specific segment is mapped to shadow.
->
-> Therefore, when the incoming address is converted to a shadow, we need
-> to add a condition to determine whether it is valid.
->
-> Signed-off-by: Qing Zhang <zhangqing@loongson.cn>
-> ---
->  include/linux/kasan.h | 2 ++
->  mm/kasan/kasan.h      | 6 ++++++
->  2 files changed, 8 insertions(+)
->
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index f7ef70661ce2..3b91b941873d 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -54,11 +54,13 @@ extern p4d_t kasan_early_shadow_p4d[MAX_PTRS_PER_P4D]=
-;
->  int kasan_populate_early_shadow(const void *shadow_start,
->                                 const void *shadow_end);
->
-> +#ifndef __HAVE_ARCH_SHADOW_MAP
->  static inline void *kasan_mem_to_shadow(const void *addr)
->  {
->         return (void *)((unsigned long)addr >> KASAN_SHADOW_SCALE_SHIFT)
->                 + KASAN_SHADOW_OFFSET;
->  }
-> +#endif
->
->  int kasan_add_zero_shadow(void *start, unsigned long size);
->  void kasan_remove_zero_shadow(void *start, unsigned long size);
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index a61eeee3095a..033335c13b25 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -291,16 +291,22 @@ struct kasan_stack_ring {
->
->  #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
->
-> +#ifndef __HAVE_ARCH_SHADOW_MAP
->  static inline const void *kasan_shadow_to_mem(const void *shadow_addr)
->  {
->         return (void *)(((unsigned long)shadow_addr - KASAN_SHADOW_OFFSET=
-)
->                 << KASAN_SHADOW_SCALE_SHIFT);
->  }
-> +#endif
->
->  static __always_inline bool addr_has_metadata(const void *addr)
->  {
-> +#ifdef __HAVE_ARCH_SHADOW_MAP
-> +       return (kasan_mem_to_shadow((void *)addr) !=3D NULL);
-> +#else
->         return (kasan_reset_tag(addr) >=3D
->                 kasan_shadow_to_mem((void *)KASAN_SHADOW_START));
-> +#endif
->  }
->
->  /**
-> --
-> 2.20.1
->
+This is a multi-part message in MIME format.
+--b1_U6nTLG3xh7RqcYiz5EAdze5ELXYApPEaQtYfQIhoOiA
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
-
-Thanks!
+Ver en navegador [https://www.campaign-index.com/view.php?J=3DXKZsub7LCp6vZ=
+J1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ]=20
+=20
+=20
+=20
+ [https://www.email-index.com/click.php?L=3DgLUxflPkVOD8jp763wD89283Zw&J=3D=
+XKZsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ&F=3DdybgAwNZwARmi9SVn=
+jlQzw]=20
+=20
+ Congreso Internacional CUICIID 2023
+=20
+=20
+=20
+=20
+ Estimados colegas, caros colegas, chers coll=C3=A8gues, cari colleghi, dea=
+r colleagues:Estamos orgullosos de presentar ante la Academia la 13=C2=AA e=
+dici=C3=B3n del Congreso VIRTUAL y EN L=C3=8DNEA (no presencial) CUICIID 20=
+23 (Congreso Universitario Internacional sobre Contenidos, Investigaci=C3=
+=B3n, Innovaci=C3=B3n y Docencia) www.cuiciid.net.Los idiomas oficiales son=
+: espa=C3=B1ol, portugu=C3=A9s, italiano, ingl=C3=A9s y franc=C3=A9s y se p=
+odr=C3=A1n presentar 3 ponencias por autor (individualmente o en coautor=C3=
+=ADa) publicables en 2024. Este a=C3=B1o se desarrolla en colaboraci=C3=B3n=
+ entre la prestigiosa Editorial Suiza PETER LANG indizada en Primer Cuartil=
+ (Q-1) del =C3=ADndice SPI (https://www.email-index.com/click.php?L=3DvfUtk=
+aAonQBKOKKJqvcIRA&J=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ=
+&F=3DdybgAwNZwARmi9SVnjlQzw) y F=C3=B3rum XXI.CUICIID 2023 destaca por su v=
+ocaci=C3=B3n internacional y su amplia visibilizaci=C3=B3n ya que sus resul=
+tados curriculares (tras revisi=C3=B3n por dobles pares ciegos) ser=C3=A1n =
+publicados en:
+	Ponencia completa como cap=C3=ADtulo en libro de papel de la editorial sui=
+za PETER LANG (Q-1 en SPI).	Libro de Actas con los Res=C3=BAmenes con ISBN,=
+ lo que conlleva certificado de ponente-asistente.Fechas clave:
+	9 de mayo (lunes). Cierre de env=C3=ADo de Res=C3=BAmenes (1 p=C3=A1gina) =
+(pesta=C3=B1a =E2=80=98ENV=C3=8DOS').	30 de mayo (lunes). Fecha tope para e=
+l env=C3=ADo de informes de aceptaci=C3=B3n o denegaci=C3=B3n tras revisi=
+=C3=B3n por pares ciegos.	5 de junio (lunes). Cierre de matriculaci=C3=B3n =
+(215 =E2=82=AC por cada autor y por cada ponencia, m=C3=A1ximo 3 ponencias)=
+.Se puede fraccionar el pago en 4 mensualidades de 65 + 50 + 50 + 50 =E2=82=
+=AC.	3 de julio (lunes). Env=C3=ADo de ponencias-cap=C3=ADtulos de 14 p=C3=
+=A1ginas m=C3=A1ximo (pesta=C3=B1a =E2=80=98ENV=C3=8DOS') que se publicar=
+=C3=A1n en libros de papel de PETER LANG (Q-1 de SPI).	28 de julio (lunes).=
+ Voluntario. Env=C3=ADo de v=C3=ADdeos (.mov, .mp4 o .mpeg) para la defensa=
+ grabada.	11 de septiembre (lunes). Voluntario. Solicitud de defensa en dir=
+ecto.	4, 5 y 6 de octubre (mi=C3=A9rcoles, jueves y viernes). Celebraci=C3=
+=B3n del Congreso (virtual y en l=C3=ADnea, no presencial).Compuesto por 6 =
+=C3=81reas tem=C3=A1ticas desarrolladas a trav=C3=A9s de las siguientes mes=
+as de trabajo:=20
+	Comunicaci=C3=B3n: Comunicaci=C3=B3n persuasiva, Alfabetizaci=C3=B3n medi=
+=C3=A1tica, Marketing digital, Neuromarketing, Publicidad, Relaciones P=C3=
+=BAblicas, Periodismo, Protocolo, Lo audiovisual, Comunicaci=C3=B3n legal y=
+ m=C3=A9dica, Crisis de la COVID-19.	Docencia: Nueva metodolog=C3=ADas, TIC=
+, STEAM, F=C3=B3rmulas y contenidos docentes, Pol=C3=ADticas educativas, el=
+ EEES, la LOSU, pol=C3=ADticas educativas.	Ciencias Sociales y Humanismo: T=
+urismo, G=C3=A9nero, Antropolog=C3=ADa, Cultura, Derecho, Patrimonio, Ling=
+=C3=BC=C3=ADstica, Semi=C3=B3tica, Historia, Religi=C3=B3n, Filosof=C3=ADa,=
+ G=C3=A9nero, Psicolog=C3=ADa, Sociolog=C3=ADa, Sociedad, Agenda 2030, ODS.=
+	Innovaci=C3=B3n: Tem=C3=A1ticas emergentes, Redes Sociales, Meta, Los nuev=
+os trabajos doctorales, Contenidos acad=C3=A9micos actuales, Emprendimiento=
+.	Investigaci=C3=B3n: Nuevos proyectos, Investigaciones I+D+i, Art=C3=ADcul=
+os 83, Investigaciones no regladas, Ingenier=C3=ADas, Criterios de evaluaci=
+=C3=B3n, Inteligencia Artificial, ChatGPT, Dall-e.	Miscel=C3=A1nea: =C3=81r=
+ea abierta a contribuciones transversales.	Paneles tem=C3=A1ticos: Propuest=
+os por autores (m=C3=ADnimo 4 ponencias por panel). Ideal para Grupos de In=
+vestigaci=C3=B3n.=20
+CUICIID es el espacio id=C3=B3neo para la visibilizaci=C3=B3n de trabajos d=
+e doctorandos e investigadores de nuevo cu=C3=B1o en los =C3=A1mbitos acad=
+=C3=A9micos de mayor relevancia y es enmarcable dentro de los Congresos de =
+mayor impacto, los ubicados bajo el concepto =E2=80=98Congresos de Calidad =
+de la formaci=C3=B3n docente=E2=80=99, por aunar la innovaci=C3=B3n y la do=
+cencia y, merced a la revisi=C3=B3n por dobles pares ciegos de los trabajos=
+ presentados, sus resultados tienen un alto valor curricular.
+ Como =C3=BAltimo punto de inter=C3=A9s, CUICIID quiere focalizar sus esfue=
+rzos en animar a los Grupos y Equipos de Investigaci=C3=B3n que desean visi=
+bilizar sus resultados investigadores en publicaciones de primer nivel. Par=
+a cualquier duda, los emplazamos en la web: www.cuiciid.net [https://www.em=
+ail-index.com/click.php?L=3DA892atRCAfx3lGBhPUMIqJCQ&J=3DXKZsub7LCp6vZJ1qMr=
+892haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ&F=3DdybgAwNZwARmi9SVnjlQzw] y en nuestr=
+o correo: cuiciid2023@forumxxi.net [mailto:cuiciid2021@forumxxi.net]
+ Reciban mi m=C3=A1s cordial saludo. David Caldevilla Dom=C3=ADnguezUnivers=
+idad ComplutenseDirector del Congreso CUICIID 2023
+=20
+ [https://www.email-index.com/click.php?L=3DJTISdxEykPf9bvQpkVCS2A&J=3DXKZs=
+ub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ&F=3DdybgAwNZwARmi9SVnjlQz=
+w] [https://www.email-index.com/click.php?L=3DFxRUyU7636g763lw31c763G1pPMA&=
+J=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ&F=3DdybgAwNZwARmi=
+9SVnjlQzw] [https://www.email-index.com/click.php?L=3DCn532FkqBb07yvpsytaQB=
+w&J=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ&F=3DdybgAwNZwAR=
+mi9SVnjlQzw]=20
+=20
+ 	=20
+ Darme de baja de esta lista [https://www.email-index.com/unsubscribe.php?J=
+=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ] | Actualizar mis =
+datos [https://www.email-index.com/update.php?J=3DXKZsub7LCp6vZJ1qMr892haA&=
+C=3D7892qhiZJ9KvgCIS2cDtvvmQ] F=C3=93RUM XXI - Cine n=C2=BA 38. Bajo derech=
+a, 28024, Madrid
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -233,5 +244,1054 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CA%2BfCnZentBDXuyyrZFzPLpt8Vdfo7YyAyxbgb506LFrR%2Bv-D9Q%40mail.gm=
-ail.com.
+kasan-dev/010201874e8653a5-58a1d67e-5aec-46e1-941f-aa6b909fd267-000000%40eu=
+-west-1.amazonses.com.
+
+--b1_U6nTLG3xh7RqcYiz5EAdze5ELXYApPEaQtYfQIhoOiA
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w=
+3.org/TR/REC-html40/loose.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:schemas-microso=
+ft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:office"><head>
+                    <style type=3D'text/css'>
+                    div.OutlookMessageHeader{background-image:url('https://=
+www.email-index.com/email_forward_log_pic.php?J=3DXKZsub7LCp6vZJ1qMr892haA&=
+C=3D7892qhiZJ9KvgCIS2cDtvvmQ');}
+                    table.moz-email-headers-table{background-image:url('htt=
+ps://www.email-index.com/email_forward_log_pic.php?J=3DXKZsub7LCp6vZJ1qMr89=
+2haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ');}
+                    blockquote #t20141110{background-image:url('https://www=
+.email-index.com/email_forward_log_pic.php?J=3DXKZsub7LCp6vZJ1qMr892haA&C=
+=3D7892qhiZJ9KvgCIS2cDtvvmQ');}
+                    div.gmail_quote{background-image:url('https://www.email=
+-index.com/email_forward_log_pic.php?J=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892q=
+hiZJ9KvgCIS2cDtvvmQ');}
+                    div.yahoo_quoted{background-image:url('https://www.emai=
+l-index.com/email_forward_log_pic.php?J=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892=
+qhiZJ9KvgCIS2cDtvvmQ');}
+                    </style>                                               =
+        =20
+                    <style type=3D'text/css'>@media print{#t20141110{backgr=
+ound-image: url('https://www.email-index.com/email_print_log_pic.php?J=3DXK=
+Zsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ');}}</style>
+                    <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Ded=
+ge">
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-8">
+<meta name=3D"viewport" content=3D"width=3Ddevice-width; initial-scale=3D1.=
+0; maximum-scale=3D1.0;">
+<title id=3D"template_title"></title>
+<style type=3D"text/css" id=3D"acrstyle">
+td{/*position:relative*/}
+html{width:100%;}
+body{width:100%;background-color:#ffffff;margin:0;padding:0;}
+#template_body a img{border:none;}
+*{margin-top:0px;margin-bottom:0px;padding:0px;border:none;outline:none;lis=
+t-style:none;-webkit-text-size-adjust:nonel}
+div{line-height:}
+body{margin-top:0 !important;margin-bottom:0 !important;padding-top:0 !impo=
+rtant;padding-bottom:0 !important;width:100% !important;-webkit-text-size-a=
+djust:100% !important;-ms-text-size-adjust:100% !important;-webkit-font-smo=
+othing:antialiased !important;}
+img{border:0 !important;outline:none !important;}
+table{border-collapse:collapse;mso-table-lspace:0px;mso-table-rspace:0px;}
+td {border-collapse:collapse;mso-line-height-rule:exactly;}
+a {border-collapse:collapse;mso-line-height-rule:exactly;}
+span {border-collapse:collapse;mso-line-height-rule:exactly;}
+.ExternalClass * {line-height: 100%;}
+.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font,=
+ .ExternalClass td, .ExternalClass a, .ExternalClass div {line-height: 100%=
+;}
+.copy a {color: #444444;text-decoration:none;}
+.preheader1 {display: none !important; font-size:0px; visibility: hidden; o=
+pacity: 0; color: transparent; height: 0; width: 0;}
+#preheader1 {display: none !important; font-size:0px; visibility: hidden; o=
+pacity: 0; color: transparent; height: 0; width: 0;}
+</style><style type=3D"text/css" id=3D"block_social_css">=20
+.block_social table{border-collapse:collapse;mso-table-lspace:0pt;mso-table=
+-rspace:0pt;}                  =20
+.block_social a img{border:0;}
+.block_social a, .block_social a:hover, .block_social a:visited{text-decora=
+tion:none;}
+
+@media only screen and (max-width:480px){
+.block_social table[class*=3Dmain_table]{width:320px !important;}          =
+           =20
+.block_social td[class*=3Dpad_both]{padding-left:20px !important;padding-ri=
+ght:20px !important;}          =20
+} </style><style type=3D"text/css" id=3D"block_spacer_css"> .block_spacer t=
+able{border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;}  =
+                =20
+.block_spacer a img{border:0;}
+.block_spacer a, .block_spacer a:hover, .block_spacer a:visited{text-decora=
+tion:none;}         =20
+@media only screen and (max-width:480px){
+.block_spacer table[class*=3Dmain_table]{width:320px !important;}          =
+           =20
+.block_spacer td[class*=3Dpad_both]{padding-left:20px !important;padding-ri=
+ght:20px !important;}          =20
+} </style><style type=3D"text/css" id=3D"block_texto_css">=20
+.block_texto table{border-collapse:collapse;mso-table-lspace:0pt;mso-table-=
+rspace:0pt;}                  =20
+.block_texto a img{border:0;}
+.block_texto .texto{word-wrap:break-word;}
+.block_texto a, .block_texto a:hover, .block_text a:visited{text-decoration=
+:none;}         =20
+@media only screen and (max-width:480px){
+.block_texto table[class*=3Dmain_table]{width:320px !important;}           =
+          =20
+.block_texto td[class*=3Dpad_both]{padding-left:20px !important;padding-rig=
+ht:20px !important;}          =20
+} </style><style type=3D"text/css" id=3D"block_seccion_css">=20
+.block_seccion table{border-collapse:collapse;mso-table-lspace:0pt;mso-tabl=
+e-rspace:0pt;}                  =20
+.block_seccion a img{border:0;}
+.block_seccion a, .block_seccion a:hover, .block_seccion a:visited{text-dec=
+oration:none;}         =20
+@media only screen and (max-width:480px){
+.block_seccion table[class*=3Dmain_table]{width:280px !important;}         =
+=20
+} </style><style type=3D"text/css" id=3D"block_logo_css"> .block_logo table=
+{border-collapse:collapse;mso-table-lspace:0pt;mso-table-rspace:0pt;}      =
+            =20
+.block_logo a img{border:none;}                 =20
+.block_logo img{border:none;}
+.block_logo a, .block_logo a:hover, .block_logo a:visited{text-decoration:n=
+one !important;}          =20
+@media only screen and (max-width:480px){
+.block_logo table[class*=3Dmain_table]{width:320px !important;}            =
+         =20
+.block_logo td[class*=3Dpad_both]{padding-left:20px !important;padding-righ=
+t:20px !important;}          =20
+} </style><style type=3D"text/css" id=3D"acrstyle2">tr[class*=3D'block'] *{=
+list-style:inherit} tr[class*=3D'block'] ul{margin-bottom:10px;list-style-t=
+ype:disc !important;} tr[class*=3D'block'] ol{margin-bottom:10px;list-style=
+-type:decimal !important;} tr[class*=3D'block'] ul{margin-left:15px !import=
+ant;  list-style-position:inside;} tr[class*=3D'block'] ol{margin-left:15px=
+ !important;  list-style-position:inside;}</style><!--[if gte mso 9]><style=
+ type=3D'text/css'>li{margin-left:20px;}</style><![endif]-->
+<style id=3D"block_link_browser" type=3D"text/css">
+.block_link_browser table[class*=3Dmain_table]{width:580px;}
+.block_link_browser table{border-collapse:collapse;mso-table-lspace:0pt;mso=
+-table-rspace:0pt;}                  =20
+.block_link_browser a img{border:0;}          =20
+@media only screen and (max-width:480px){
+body {width:auto;}
+.block_link_browser table[class=3D"BoxWrap"]{width:280px;}
+.block_link_browser table[class*=3Dmain_table]{width:320px !important;}
+.block_link_browser td[class*=3Dpad_both]{padding-left:20px !important;padd=
+ing-right:20px !important;}
+}
+</style>
+<style id=3D"block_links_footer" type=3D"text/css">
+.block_links_footer table[class=3D"BoxWrap"]{width:580px;}
+.block_links_footer table{border-collapse:collapse;mso-table-lspace:0pt;mso=
+-table-rspace:0pt;}                  =20
+.block_links_footer a img{border:0;}          =20
+@media only screen and (max-width:480px){
+body {width:auto;}
+.block_links_footer table[class=3D"BoxWrap"]{width:280px;}
+.block_links_footer table[class*=3Dmain_table]{width:320px !important;}
+.block_links_footer td[class*=3Dpad_both]{padding-left:20px !important;padd=
+ing-right:20px !important;}  =20
+}
+</style>
+<style id=3D"block_links_footer" type=3D"text/css">
+.block_spacer table{border-collapse:collapse;mso-table-lspace:0pt;mso-table=
+-rspace:0pt;}                  =20
+.block_spacer a img{border:0;}
+.block_spacer a, .block_spacer a:hover, .block_spacer a:visited{text-decora=
+tion:none;}         =20
+@media only screen and (max-width:480px){
+.block_spacer table[class*=3Dmain_table]{width:320px !important;}          =
+           =20
+.block_spacer td[class*=3Dpad_both]{padding-left:20px !important;padding-ri=
+ght:20px !important;}          =20
+}
+</style>
+<style type=3D"text/css">@media only screen and (max-width:480px){.wrapper,=
+.main_table,#Imgfull,.BoxWrap,.block_texto table,.block_texto img,.block_se=
+ccion table,.block_seccion img,.block_2col table,.block_2col img,.block_2co=
+l_complete table,.block_2col_complete img,.block_2col_image table,.block_2c=
+ol_image img,.block_3col table,.block_3col img,.block_3col_complete table,.=
+block_3col_complete img,.block_3col_image table,.block_3col_image img,.bloc=
+k_image table,.block_image img,.block_image_full_complete table,.block_imag=
+e_full_complete img,.block_image_left table,.block_image_left img,.block_im=
+age_left_text table,.block_image_left_text img,.block_image_right table,.bl=
+ock_image_right img,.block_image_right_text table,.block_image_right_text i=
+mg,.block_image_small_left table,.block_image_small_left img,.block_image_s=
+mall_right table,.block_image_small_right img,.block_logo table,.block_logo=
+ img,.block_qrcode table,.block_qrcode img,.block_video table,.block_video =
+img,.block_button table,.block_button img,.block_seccion_titulo_texto_boton=
+ table,.block_seccion_titulo_texto_boton img,.block_spacer table,.block_spa=
+cer table.main_table,.block_spacer .main_table,.qrimage{max-width:100%!impo=
+rtant;width:100%!important;min-width:100%!important}tbody{display:table!imp=
+ortant;min-width:100%!important;width:100%!important;max-width:100%!importa=
+nt}.block_3col_complete table[class*=3Dwrapper]{display:table!important}.bl=
+ock_qrcode table.main_table td[width=3D"20"]{height:0px!important;width:0px=
+!important;display:none!important;visibility:hidden!important}.block_qrcode=
+ table.main_table td[height=3D"20"]{height:0px!important;width:0px!importan=
+t;display:none!important;visibility:hidden!important}img,.qrimage,table,td[=
+class*=3D"pad_both"],table[class=3D"wrapper"],table[class=3D"main_table"],#=
+Imgfull,.wrapper,.main_table,.BoxWrap{max-width:100%!important;width:100%!i=
+mportant;min-width:100%!important}.block_seccion img,.HeadTxt img,.title1 i=
+mg,.texto img,tr.block_footer img,tr.block_social img,.Txt img,.Section img=
+,.Title img{width:inherit!important;min-width:inherit!important;max-width:i=
+nherit!important}tr[class*=3D"block_"] td[class*=3D"pad_both"],td.pad_both{=
+padding:0px!important}tr.block_links_footer .pad_both{padding-left:20px!imp=
+ortant;padding-right:20px!important}tr.block_links_footer a{display:block!i=
+mportant}tr.block_links_footer td>span{display:block!important;padding-bott=
+om:10px!important}tr[class*=3D"block_"]{width:100px!important}.block_spacer=
+ td.pad_both{padding-left:0px!important;padding-right:0px!important;max-wid=
+th:100%!important;width:100%!important}}</style>
+
+
+<!--[if gte mso 9]><xml><o:OfficeDocumentSettings><o:AllowPNG/><o:PixelsPer=
+Inch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]--><styl=
+e type=3D"text/css">.preheader1{display:none !important;font-size:0px;visib=
+ility:hidden;opacity:0;color:transparent;height:0;width:0;}
+  #preheader1{display:none !important;font-size:0px;visibility:hidden;opaci=
+ty:0;color:transparent;height:0;width:0;}</style></head><body><span style=
+=3D" display:none !important;visibility:hidden;opacity:0;color:transparent;=
+height:0;width:0;font-size:1px !important" id=3D"preheader1" class=3D"prehe=
+ader1">Env&iacute;o de res&uacute;menes: 9 de mayo de 2023 Congreso CUICIID=
+ 2023</span><div style=3D"display:none;max-height:0px;overflow:hidden;">&#8=
+47;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;=
+&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zw=
+nj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;=
+&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nb=
+sp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;=
+&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#8=
+47;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;=
+&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zw=
+nj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;=
+&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nb=
+sp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;=
+&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#8=
+47;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;=
+&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zw=
+nj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;=
+&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nb=
+sp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;=
+&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#8=
+47;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;=
+&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zw=
+nj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;=
+&nbsp;&#847;&zwnj;&nbsp;</div><table height=3D"" bgcolor=3D" #fdfbfc" width=
+=3D"100%" cellpadding=3D"0" cellspacing=3D"0" align=3D"center" class=3D"ui-=
+sortable" style=3D"background-color: rgb(253, 251, 252); border-width: init=
+ial; border-style: none; border-color: initial; margin-top: 0px; padding: 0=
+px; margin-bottom: 0px;">
+	<tbody>
+		<tr class=3D"block_link_browser">
+			<td width=3D"100%" valign=3D"top" class=3D"" style=3D"background-color: =
+rgb(253, 251, 252); padding: 0px;">
+				<table width=3D"580" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" a=
+lign=3D"center" style=3D"margin: 0px auto; width: 580px; " class=3D"main_ta=
+ble ">                  =20
+                    <tbody><tr>
+                      <td class=3D"pad_both">
+                        <table width=3D"100%" border=3D"0" cellspacing=3D"0=
+" cellpadding=3D"0" align=3D"center" style=3D"">
+                          <tbody><tr>
+                            <td>
+                                <table width=3D"100%" border=3D"0" cellspac=
+ing=3D"0" cellpadding=3D"0" align=3D"center" class=3D"" style=3D"">
+                                    <tbody><tr>
+                                      <td height=3D"25" style=3D"text-align=
+:center; font-size: 11px; color: #b3b3b3; font-family: Helvetica, Arial, sa=
+ns-serif; vertical-align: middle;">
+                                            <a href=3D"https://www.campaign=
+-index.com/view.php?J=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvv=
+mQ" style=3D"text-decoration: underline; color:#333;"><span>Ver en navegado=
+r</span></a>
+                                      </td>
+                                    </tr>
+                                  </tbody></table>
+                              </td>
+                          </tr>
+                        </tbody></table>
+                      </td>
+                    </tr>                  =20
+                 </tbody></table>
+			</td>
+		</tr>
+		<tr class=3D"block_spacer">=20
+	<td width=3D"100%" valign=3D"top" style=3D"background-color: rgb(253, 251,=
+ 252); height: 20px; border-width: initial; border-style: none; border-colo=
+r: initial; margin-top: 0px; padding: 0px; margin-bottom: 0px;" class=3D"" =
+height=3D"20" bgcolor=3D" #fdfbfc">
+		<table class=3D"BoxWrap" cellpadding=3D"0" height=3D"100%" cellspacing=3D=
+"0" align=3D"center" style=3D"margin:0 auto; height:100%">
+			<tbody><tr>
+				<td height=3D"100%" style=3D"height: 100%; line-height: 20px;">
+                    <table width=3D"580" height=3D"100%" border=3D"0" cells=
+pacing=3D"0" cellpadding=3D"0" align=3D"center" class=3D"main_table" style=
+=3D"height: 100%; width: 580px;">                      =20
+                        <tbody><tr>
+                            <td class=3D"pad_both" style=3D"background-colo=
+r: inherit; height: 100%; line-height: 20px;" height=3D"100%">
+                                <table width=3D"100%" height=3D"100%" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0" style=3D"height: 100%;  border-=
+width: initial; border-style: none; border-color: initial; margin-top: 0px;=
+ padding: 0px; margin-bottom: 0px;" class=3D"">
+                                    <tbody><tr>
+                                      <td width=3D"100%" height=3D"100%" st=
+yle=3D"display: block; height: 100%; line-height: 20px; padding: 0px;">&nbs=
+p;</td>                                    =20
+                                    </tr>
+                                  </tbody></table>
+                              </td>
+                          </tr>
+                    </tbody></table>               =09
+				</td>
+			</tr>
+		</tbody></table>
+	</td>
+</tr>
+		<tr class=3D"block_logo">=20
+	<td width=3D"100%" valign=3D"top" class=3D"" style=3D"background-color: rg=
+b(253, 251, 252);">
+		<table class=3D"BoxWrap" cellpadding=3D"0" cellspacing=3D"0" align=3D"cen=
+ter" style=3D"margin:0 auto;">
+			<tbody><tr>
+				<td>
+                    <table width=3D"580" border=3D"0" cellspacing=3D"0" cel=
+lpadding=3D"0" align=3D"center" class=3D"main_table" style=3D"width:580px;"=
+>                      =20
+                        <tbody><tr>
+                            <td class=3D"pad_both" style=3D"background-colo=
+r: inherit;">
+                                <table width=3D"100%" border=3D"0" cellspac=
+ing=3D"0" cellpadding=3D"0" style=3D" border-width: initial; border-style: =
+none; border-color: initial; margin-top: 0px; padding: 0px; margin-bottom: =
+0px;" class=3D"">
+                                    <tbody><tr>                            =
+        =20
+                                      <td style=3D"padding: 0px;"><table wi=
+dth=3D"100%" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" align=3D"cent=
+er">                                         =20
+                                          <tbody><tr>
+                                            <td>
+                                                <table align=3D"center" sty=
+le=3D"font-size: 13px; font-weight: 400; font-family: Helvetica, Arial, san=
+s-serif;  border-width: initial; border-style: none; border-color: initial;=
+ padding: 0px; margin: 0px auto;" class=3D"">
+                                                    <tbody><tr>
+                                                        <td style=3D"paddin=
+g: 0px;"><a href=3D"https://www.email-index.com/click.php?L=3DrqPL2Mjm7qEJ8=
+Ym0cD9eYQ&J=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ&F=3DHKF=
+RcCbcnmxmc4f43DJP5g" style=3D" vertical-align: top; display: block;" title=
+=3D""><img align=3D"absbottom" border=3D"0" id=3D"Imgfull" width=3D"280" sr=
+c=3D"https://d1nn1beycom2nr.cloudfront.net/uploads/user/fBxrW1jUkXDcz7BTAyZ=
+Iqw/LOGO-CUICIID-ROJOSA-1.png?1680607686177" alt=3D"CUICIID" style=3D"width=
+: 280px; max-width: 280px; text-align: center; font-size: 18px; color: rgb(=
+255, 255, 255); font-weight: 700; text-shadow: black 0.1em 0.1em 0.2em; tex=
+t-transform: uppercase;" class=3D"acre_image_editable"></a></td>
+                                                    </tr>
+                                                </tbody></table>
+                                            </td>
+                                          </tr>                            =
+             =20
+                                        </tbody></table></td>              =
+                       =20
+                                    </tr>
+                                  </tbody></table>
+                              </td>
+                          </tr>
+                    </tbody></table>               =09
+				</td>
+			</tr>
+		</tbody></table>
+	</td>
+</tr>
+		<tr class=3D"block_seccion">=20
+	<td width=3D"100%" valign=3D"top" class=3D"" style=3D"background-color: rg=
+b(253, 251, 252);">
+		<table class=3D"BoxWrap" cellpadding=3D"0" cellspacing=3D"0" align=3D"cen=
+ter" style=3D"margin:0 auto;">
+			<tbody><tr>
+				<td>
+            <table width=3D"580" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" align=3D"center" class=3D"main_table" style=3D"width:580px;">       =
+               =20
+                <tbody><tr>
+                    <td style=3D"padding: 4px 20px;  border-width: initial;=
+ border-style: none; border-color: initial; margin-top: 0px; margin-bottom:=
+ 0px;" class=3D"">
+                        <table width=3D"100%" border=3D"0" cellspacing=3D"0=
+" cellpadding=3D"0">
+                            <tbody><tr>                                    =
+ =20
+                              <td><table width=3D"100%" border=3D"0" cellsp=
+acing=3D"0" cellpadding=3D"0" align=3D"center">
+                                  <tbody><tr>
+                                   =20
+                                  <td block=3D"" style=3D"word-break: break=
+-word; overflow-wrap: break-word; text-align: left; padding-bottom: 3px; fo=
+nt-size: 16px; margin-bottom: 7px; padding-top: 4px; font-family: Helvetica=
+, Arial, sans-serif; text-decoration: none; color: rgb(69, 72, 78);">
+<div style=3D"line-height: 20px; text-align: center;"><span style=3D"font-s=
+ize:16px"><span style=3D"color:#000000"><strong>Congreso Internacional </st=
+rong></span><span style=3D"color:#ff00cc"><strong>CUICIID 2023</strong></sp=
+an></span></div>
+</td></tr>
+                                </tbody></table></td>                      =
+               =20
+                            </tr>
+                          </tbody></table>
+                      </td>
+                  </tr>
+            </tbody></table>               =09
+				</td>
+			</tr>
+		</tbody></table>
+	</td>
+</tr><tr class=3D"block_spacer">=20
+	<td width=3D"100%" valign=3D"top" class=3D"" style=3D"height: 20px;" heigh=
+t=3D"20">
+		<table class=3D"BoxWrap" cellpadding=3D"0" height=3D"100%" cellspacing=3D=
+"0" align=3D"center" style=3D"margin:0 auto; height:100%">
+			<tbody><tr>
+				<td height=3D"100%" style=3D"height: 100%; line-height: 20px;">
+            <table width=3D"580" height=3D"100%" border=3D"0" cellspacing=
+=3D"0" cellpadding=3D"0" align=3D"center" class=3D"main_table" style=3D"hei=
+ght: 100%;width:580px;">                      =20
+                <tbody><tr>
+                    <td class=3D"pad_both" style=3D"background-color: inher=
+it; height: 100%; line-height: 20px;" height=3D"100%">
+                        <table width=3D"100%" height=3D"100%" border=3D"0" =
+cellspacing=3D"0" cellpadding=3D"0" style=3D"height: 100%;  border-width: i=
+nitial; border-style: none; border-color: initial; margin-top: 0px; padding=
+: 0px; margin-bottom: 0px;" class=3D"">
+                            <tbody><tr>
+                              <td width=3D"100%" height=3D"100%" style=3D"d=
+isplay: block; height: 100%; line-height: 20px; padding: 0px;">&nbsp;</td> =
+                                   =20
+                            </tr>
+                          </tbody></table>
+                      </td>
+                  </tr>
+            </tbody></table>               =09
+				</td>
+			</tr>
+		</tbody></table>
+	</td>
+</tr><tr class=3D"block_texto">=20
+	<td width=3D"100%" valign=3D"top" class=3D"" style=3D"background-color: rg=
+b(253, 251, 252);">
+		<table class=3D"BoxWrap" cellpadding=3D"0" cellspacing=3D"0" align=3D"cen=
+ter" style=3D"margin:0 auto;">
+			<tbody><tr>
+				<td>
+          <table width=3D"580" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" align=3D"center" class=3D"main_table" style=3D"width:580px;">       =
+               =20
+              <tbody><tr>
+                  <td class=3D"pad_both" style=3D"background-color: inherit=
+;">
+                      <table width=3D"100%" border=3D"0" cellspacing=3D"0" =
+cellpadding=3D"0" style=3D"background-color: rgb(255, 255, 255); border: no=
+ne;  margin-top: 0px; padding: 0px; margin-bottom: 0px;" class=3D"" bgcolor=
+=3D" #ffffff">
+                          <tbody><tr>
+                            <td style=3D"background-color: rgb(255, 255, 25=
+5); padding: 0px; width: 20px;" width=3D"20">&nbsp;</td>
+                            <td style=3D"background-color: rgb(255, 255, 25=
+5); padding: 0px;"><table width=3D"100%" border=3D"0" cellspacing=3D"0" cel=
+lpadding=3D"0" align=3D"center">
+                                <tbody><tr>
+                                  <td height=3D"20">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                 =20
+                                <td block=3D"" class=3D"texto" style=3D"wor=
+d-break: break-word; overflow-wrap: break-word; font-size: 13px; line-heigh=
+t: initial; font-family: Helvetica, Arial, sans-serif; color: rgb(123, 123,=
+ 123);">
+<div style=3D"line-height: 20px; text-align: justify;">
+<span style=3D"font-size:14px"><span style=3D"color:#000000">Estimados cole=
+gas, caros colegas, chers coll&egrave;gues, cari colleghi, dear colleagues:=
+<br>
+<br>
+Estamos orgullosos de presentar ante la Academia la 13&ordf; edici&oacute;n=
+ del <strong>Congreso VIRTUAL</strong> y </span><strong><span style=3D"colo=
+r:#000000">EN L&Iacute;NEA (no presencial)</span> <span style=3D"color:#ff3=
+3cc">CUICIID 2023</span></strong> <span style=3D"color:#000000">(Congreso U=
+niversitario Internacional sobre Contenidos, Investigaci&oacute;n, Innovaci=
+&oacute;n y Docencia) </span><span style=3D"color:#0000FF"><u>www.cuiciid.n=
+et</u></span><span style=3D"color:#000000">.</span></span><br>
+<br>
+<span style=3D"color:#000000">Los <strong>idiomas oficiales</strong> son: <=
+strong>espa&ntilde;ol, portugu&eacute;s, italiano, ingl&eacute;s y franc&ea=
+cute;s</strong> y se podr&aacute;n presentar 3 ponencias por autor (individ=
+ualmente o en coautor&iacute;a) publicables en 2024.<br>
+&nbsp;<br>
+Este a&ntilde;o se desarrolla en colaboraci&oacute;n entre la <strong>prest=
+igiosa Editorial Suiza PETER LANG</strong> indizada en <strong>Primer Cuart=
+il (Q-1) del &iacute;ndice SPI</strong></span> (<span style=3D"color:#0000F=
+F"><u>https://spi.csic.es/indicadores/prestigio-editorial/2022-clasificacio=
+n-general</u></span>) <span style=3D"color:#000000">y <strong>F&oacute;rum =
+XXI</strong>.</span><br>
+<br>
+<span style=3D"color:#ff33cc"><span style=3D"font-size:14px"><strong>CUICII=
+D 2023</strong></span></span><span style=3D"color:rgb(0, 0, 0); font-size:1=
+4px"> </span><span style=3D"color:#000000"><span style=3D"font-size:14px">d=
+</span><span style=3D"font-size:14px">estaca por su vocaci&oacute;n interna=
+cional y su amplia <strong>visibilizaci&oacute;n</strong> ya que sus <stron=
+g>resultados curriculares </strong>(<strong>tras revisi&oacute;n por dobles=
+ pares ciegos</strong>) ser&aacute;n publicados en:</span></span>
+</div>
+
+<ul>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"color=
+:#000000"><span style=3D"font-size:14px">Ponencia completa como cap&iacute;=
+tulo en libro de papel de la <strong>editorial suiza&nbsp;PETER LANG</stron=
+g>&nbsp;(<strong>Q-1 en SPI</strong>).</span></span></li>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"color=
+:#000000"><span style=3D"font-size:14px">Libro de Actas con los Res&uacute;=
+menes con ISBN, lo que conlleva certificado de ponente-asistente.</span></s=
+pan></li>
+</ul>
+
+<div style=3D"line-height: 20px; text-align: justify;"><span style=3D"color=
+:#000000"><span style=3D"font-size:14px"><strong>Fechas clave:</strong></sp=
+an></span></div>
+
+<ul>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"color=
+:#000000"><span style=3D"font-size:14px"><strong>9 de mayo</strong> (lunes)=
+. Cierre de env&iacute;o de Res&uacute;menes (1 p&aacute;gina) (pesta&ntild=
+e;a &lsquo;ENV&Iacute;OS').</span></span></li>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"color=
+:#000000"><span style=3D"font-size:14px"><strong>30 de mayo</strong> (lunes=
+). Fecha tope para el env&iacute;o de informes de aceptaci&oacute;n o deneg=
+aci&oacute;n tras revisi&oacute;n por pares ciegos.</span></span></li>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"color=
+:#000000"><span style=3D"font-size:14px"><strong>5 de junio</strong> (lunes=
+). Cierre de matriculaci&oacute;n (215&nbsp;&euro; por cada autor y por cad=
+a ponencia, m&aacute;ximo 3&nbsp;ponencias).Se puede fraccionar el pago en =
+4 mensualidades de 65 + 50 + 50 + 50 &euro;.</span></span></li>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"color=
+:#000000"><span style=3D"font-size:14px"><strong>3 de julio</strong> (lunes=
+). Env&iacute;o de ponencias-cap&iacute;tulos&nbsp;de 14 p&aacute;ginas m&a=
+acute;ximo (pesta&ntilde;a &lsquo;ENV&Iacute;OS') que se publicar&aacute;n =
+en libros de papel de <strong>PETER LANG</strong> (<strong>Q-1 de SPI</stro=
+ng>).</span></span></li>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"color=
+:#000000"><span style=3D"font-size:14px"><strong>28 de julio</strong> (lune=
+s).&nbsp;<strong>Voluntario</strong>. Env&iacute;o de <strong>v&iacute;deos=
+</strong> (.mov, .mp4 o .mpeg) para la defensa grabada.</span></span></li>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"color=
+:#000000"><span style=3D"font-size:14px"><strong>11 de septiembre </strong>=
+(lunes).&nbsp;<strong>Voluntario</strong>. Solicitud de <strong>defensa en =
+directo</strong>.</span></span></li>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"font-=
+size:14px"><span style=3D"color:#000000"><strong>4, 5 y 6 de octubre</stron=
+g> (mi&eacute;rcoles,&nbsp;jueves y viernes). Celebraci&oacute;n del Congre=
+so (virtual y en l&iacute;nea, no presencial).</span></span></li>
+</ul>
+
+<div style=3D"line-height: 20px; text-align: justify;">
+<span style=3D"font-size:14px"><span style=3D"color:#000000">Compuesto por =
+<strong>6 &Aacute;reas tem&aacute;ticas</strong>:</span></span><br>
+&nbsp;</div>
+
+<ul>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"font-=
+size:14px"><span style=3D"color:#000000"><strong>Comunicaci&oacute;n: </str=
+ong>Comunicaci&oacute;n persuasiva, Alfabetizaci&oacute;n medi&aacute;tica,=
+ Marketing digital, Neuromarketing, Publicidad, Relaciones P&uacute;blicas,=
+ Periodismo, Protocolo, Lo audiovisual, Comunicaci&oacute;n legal y m&eacut=
+e;dica, Crisis de la COVID-19.</span></span></li>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"font-=
+size:14px"><span style=3D"color:#000000"><strong>Docencia: </strong>Nueva m=
+etodolog&iacute;as, TIC, STEAM, F&oacute;rmulas y contenidos docentes, Pol&=
+iacute;ticas educativas, el EEES, la LOSU, pol&iacute;ticas educativas.</sp=
+an></span></li>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"font-=
+size:14px"><span style=3D"color:#000000"><strong>Ciencias Sociales y Humani=
+smo: </strong>Turismo, G&eacute;nero, Antropolog&iacute;a, Cultura, Derecho=
+, Patrimonio, Ling&uuml;&iacute;stica, Semi&oacute;tica, Historia, Religi&o=
+acute;n, Filosof&iacute;a, G&eacute;nero, Psicolog&iacute;a, Sociolog&iacut=
+e;a, Sociedad, Agenda 2030, ODS.</span></span></li>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"font-=
+size:14px"><span style=3D"color:#000000"><strong>Innovaci&oacute;n: </stron=
+g>Tem&aacute;ticas emergentes, Redes Sociales, Meta, Los nuevos trabajos do=
+ctorales, Contenidos acad&eacute;micos actuales, Emprendimiento.</span></sp=
+an></li>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"font-=
+size:14px"><span style=3D"color:#000000"><strong>Investigaci&oacute;n: </st=
+rong>Nuevos proyectos, Investigaciones I+D+i, Art&iacute;culos 83, Investig=
+aciones no regladas, Ingenier&iacute;as, Criterios de evaluaci&oacute;n, In=
+teligencia Artificial, ChatGPT, Dall-e.</span></span></li>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"font-=
+size:14px"><span style=3D"color:#000000"><strong>Miscel&aacute;nea: </stron=
+g>&Aacute;rea abierta a contribuciones transversales.</span></span></li>
+	<li style=3D"line-height: 20px; text-align: justify;"><span style=3D"font-=
+size:14px"><span style=3D"color:#000000"><strong>Paneles tem&aacute;ticos: =
+</strong>Propuestos por autores (m&iacute;nimo 4 ponencias por panel). Idea=
+l para Grupos de Investigaci&oacute;n.</span></span></li>
+</ul>
+
+<div style=3D"line-height:20px;"><span style=3D"font-size:14px"><span style=
+=3D"color:#000000">&nbsp;</span></span></div>
+
+<div style=3D"line-height: 20px; text-align: justify;"><span style=3D"font-=
+size:14px"><span style=3D"color:#ff33cc"><strong>CUICIID</strong></span><sp=
+an style=3D"color:#000000"><strong> </strong>es el espacio id&oacute;neo pa=
+ra la visibilizaci&oacute;n de trabajos de <strong>doctorandos</strong> e <=
+strong>investigadores</strong> de nuevo cu&ntilde;o en los &aacute;mbitos a=
+cad&eacute;micos de mayor relevancia y es enmarcable dentro de los Congreso=
+s de mayor impacto, los ubicados bajo el concepto &lsquo;<strong>Congresos =
+de Calidad de la formaci&oacute;n docente</strong>&rsquo;, por aunar la <st=
+rong>innovaci&oacute;n</strong> y la <strong>docencia</strong> y, merced a =
+la <strong>revisi&oacute;n por dobles pares ciegos</strong> de los trabajos=
+ presentados, sus resultados tienen un alto valor curricular.</span></span>=
+</div>
+
+<div style=3D"line-height: 20px; text-align: justify;"><span style=3D"font-=
+size:14px"><span style=3D"color:#000000">&nbsp;<br>
+Como &uacute;ltimo punto de inter&eacute;s, </span><span style=3D"color:#ff=
+33cc"><strong>CUICIID</strong></span><span style=3D"color:#000000"><strong>=
+ </strong>quiere focalizar sus esfuerzos en animar a los <strong>Grupos y E=
+quipos de Investigaci&oacute;n</strong> que desean visibilizar sus resultad=
+os investigadores en publicaciones de primer nivel.<br>
+&nbsp;<br>
+Para cualquier duda, los emplazamos en la web:</span> <u><a href=3D"https:/=
+/www.email-index.com/click.php?L=3DQHK614guF5pvBNLMQYXfyQ&J=3DXKZsub7LCp6vZ=
+J1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ&F=3DHKFRcCbcnmxmc4f43DJP5g">www.cu=
+iciid.net</a></u><span style=3D"color:#000000"> y en nuestro correo: </span=
+><u><a href=3D"mailto:cuiciid2021@forumxxi.net">cuiciid2023@forumxxi.net</a=
+></u></span></div>
+
+<div style=3D"line-height:20px;"><span style=3D"font-size:14px"><span style=
+=3D"color:#000000">&nbsp;</span></span></div>
+
+<div style=3D"line-height:20px;"><span style=3D"font-size:14px"><span style=
+=3D"color:#000000">&nbsp;<br>
+&nbsp;<br>
+Reciban mi m&aacute;s cordial saludo.<br>
+&nbsp;<br>
+<strong>David Caldevilla Dom&iacute;nguez</strong><br>
+Universidad Complutense<br>
+<strong>Director del Congreso </strong></span><span style=3D"color:#ff33cc"=
+><strong>CUICIID 2023</strong></span></span></div>
+</td></tr>
+                                <tr>
+                                  <td height=3D"20">&nbsp;</td>
+                                </tr>
+                              </tbody></table></td>
+                            <td style=3D"background-color: rgb(255, 255, 25=
+5); padding: 0px; width: 20px;" width=3D"20">&nbsp;</td>
+                          </tr>
+                        </tbody></table>
+                    </td>
+                </tr>
+          </tbody></table>               =09
+				</td>
+			</tr>
+		</tbody></table>
+	</td>
+</tr><tr class=3D"block_social">
+    <td valign=3D"top" style=3D""><table width=3D"100%" border=3D"0" cellsp=
+acing=3D"0" cellpadding=3D"0" align=3D"center" class=3D"" style=3D"">
+        <tbody><tr>
+          <td align=3D"center"><table width=3D"580" border=3D"0" cellspacin=
+g=3D"0" cellpadding=3D"0" align=3D"center" class=3D"main_table" style=3D"wi=
+dth:580px;">             =20
+              <tbody><tr>
+                <td class=3D"pad_both"><table width=3D"100%" border=3D"0" c=
+ellspacing=3D"0" cellpadding=3D"0" style=3D"background-color: rgb(255, 255,=
+ 255); border: none;  margin-top: 0px; padding: 0px; margin-bottom: 0px;" c=
+lass=3D"" bgcolor=3D" #ffffff">
+                    <tbody><tr>
+                      <td width=3D"20" class=3D"hide" style=3D"width: 20px;=
+ background-color: rgb(255, 255, 255); padding: 0px;">&nbsp;</td>
+                      <td style=3D"background-color: rgb(255, 255, 255); pa=
+dding: 0px;"><table width=3D"100%" border=3D"0" cellspacing=3D"0" cellpaddi=
+ng=3D"0" align=3D"center">
+                          <tbody><tr>
+                            <td height=3D"20">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td align=3D"center">                          =
+ =20
+                                <table border=3D"0" cellpadding=3D"0" cells=
+pacing=3D"0" width=3D"100%" style=3D"min-width:100%;">
+                                <tbody><tr>
+                                    <td align=3D"center" valign=3D"top">
+                                        <table align=3D"center" border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0">
+                                            <tbody><tr>
+                                                <td align=3D"center" valign=
+=3D"top">                                                   =20
+                                                    <table align=3D"center"=
+ border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+                                                    <tbody><tr>            =
+                                                                           =
+             =20
+                                                        <td align=3D"center=
+" valign=3D"top">                                                 =20
+                                                            <table align=3D=
+"left" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"display:in=
+line;">
+                                                                <tbody><tr>
+                                                                    <td val=
+ign=3D"top">
+                                                                        <ta=
+ble border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+                                                                           =
+ <tbody><tr>
+                                                                           =
+     <td align=3D"left" valign=3D"middle" style=3D"padding:3px">
+                                                                           =
+         <table align=3D"left" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" width=3D"">
+                                                                           =
+             <tbody><tr>   =20
+                                                                           =
+                     <td align=3D"center" valign=3D"middle" width=3D"38" st=
+yle=3D"width:38px;"><a href=3D"https://www.email-index.com/click.php?L=3DTv=
+866DyAqXG09s4BozkY7A&J=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtv=
+vmQ&F=3DHKFRcCbcnmxmc4f43DJP5g" style=3D" vertical-align: top; display: blo=
+ck;" title=3D""><img ac:social=3D"1" border=3D"0" width=3D"38" height=3D"38=
+" style=3D"width: 38px; max-width: 38px; height: 38px; border: 0px; display=
+: block; text-align: center; font-size: 18px; color: rgb(255, 255, 255); fo=
+nt-weight: 700; text-shadow: black 0.1em 0.1em 0.2em; text-transform: upper=
+case;" src=3D"https://d1nn1beycom2nr.cloudfront.net/news/img/ico-facebook-3=
+8.jpg" alt=3D"facebook CUICIID" class=3D"acre_image_editable"></a></td>
+                                                                           =
+             </tr>
+                                                                           =
+         </tbody></table>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+body></table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody></table=
+>                                              =20
+                                                        </td>
+                                                        <td align=3D"center=
+" valign=3D"top">
+                                                            <table align=3D=
+"left" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"display:in=
+line;">
+                                                                <tbody><tr>
+                                                                    <td val=
+ign=3D"top">
+                                                                        <ta=
+ble border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+                                                                           =
+ <tbody><tr>
+                                                                           =
+     <td align=3D"left" valign=3D"middle" style=3D"padding:3px">
+                                                                           =
+         <table align=3D"left" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" width=3D"">
+                                                                           =
+             <tbody><tr>
+                                                                           =
+                     <td align=3D"center" valign=3D"middle" width=3D"38" st=
+yle=3D"width:38px;"><a href=3D"https://www.email-index.com/click.php?L=3DgQ=
+UXwq892T1B3tW1OCF7631IjA&J=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2=
+cDtvvmQ&F=3DHKFRcCbcnmxmc4f43DJP5g" style=3D" vertical-align: top; display:=
+ block;" title=3D""><img ac:social=3D"1" border=3D"0" width=3D"38" height=
+=3D"38" style=3D"width: 38px; max-width: 38px; height: 38px; border: 0px; d=
+isplay: block; text-align: center; font-size: 18px; color: rgb(255, 255, 25=
+5); font-weight: 700; text-shadow: black 0.1em 0.1em 0.2em; text-transform:=
+ uppercase;" src=3D"https://d1nn1beycom2nr.cloudfront.net/news/img/ico-twit=
+ter-38.jpg" alt=3D"twitter CUICIID" class=3D"acre_image_editable"></a></td>
+                                                                           =
+             </tr>
+                                                                           =
+         </tbody></table>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+body></table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody></table=
+>                                                                          =
+                                    =20
+                                                        </td>              =
+                                   =20
+                                                        <td align=3D"center=
+" valign=3D"top">                                                          =
+                                          =20
+                                                            <table align=3D=
+"left" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" style=3D"display:in=
+line;">
+                                                                <tbody><tr>
+                                                                    <td val=
+ign=3D"top">
+                                                                        <ta=
+ble border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%">
+                                                                           =
+ <tbody><tr>
+                                                                           =
+     <td align=3D"left" valign=3D"middle" style=3D"padding:3px;">
+                                                                           =
+         <table align=3D"left" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" width=3D"">
+                                                                           =
+             <tbody><tr>
+                                                                           =
+                     <td align=3D"center" valign=3D"middle" width=3D"38" st=
+yle=3D"width:38px;"><a href=3D"https://www.email-index.com/click.php?L=3DIZ=
+IKxJkU6aijK2alJTybcQ&J=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtv=
+vmQ&F=3DHKFRcCbcnmxmc4f43DJP5g" style=3D" vertical-align: top; display: blo=
+ck;" title=3D""><img ac:social=3D"1" border=3D"0" width=3D"38" height=3D"38=
+" style=3D"width: 38px; max-width: 38px; height: 38px; border: 0px; display=
+: block; text-align: center; font-size: 18px; color: rgb(255, 255, 255); fo=
+nt-weight: 700; text-shadow: black 0.1em 0.1em 0.2em; text-transform: upper=
+case;" src=3D"https://d1nn1beycom2nr.cloudfront.net/news/img/ico-linkedin-3=
+8.jpg" alt=3D"linkedin CUICIID" class=3D"acre_image_editable"></a></td>
+                                                                           =
+             </tr>
+                                                                           =
+         </tbody></table>
+                                                                           =
+     </td>
+                                                                           =
+ </tr>
+                                                                        </t=
+body></table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody></table=
+>                                                      =20
+                                                        </td>
+                                                       =20
+                                                       =20
+                                                       =20
+                                                    </tr>
+                                                    </tbody></table>
+                                                </td>
+                                            </tr>
+                                        </tbody></table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            </table>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td height=3D"20">&nbsp;</td>
+                          </tr>
+                        </tbody></table></td>
+                      <td width=3D"20" class=3D"hide" style=3D"width: 20px;=
+ background-color: rgb(255, 255, 255); padding: 0px;">&nbsp;</td>
+                    </tr>
+                  </tbody></table></td>
+              </tr>           =20
+            </tbody></table></td>
+        </tr>
+      </tbody></table></td>
+  </tr><tr class=3D"block_spacer">=20
+	<td width=3D"100%" valign=3D"top" style=3D"background-color: rgb(253, 251,=
+ 252);" class=3D"">
+		<table class=3D"BoxWrap" cellpadding=3D"0" height=3D"100%" cellspacing=3D=
+"0" align=3D"center" style=3D"margin:0 auto; height:100%">
+			<tbody><tr>
+				<td height=3D"100%" style=3D"height: 100%; line-height:25px">
+                    <table width=3D"580" height=3D"100%" border=3D"0" cells=
+pacing=3D"0" cellpadding=3D"0" align=3D"center" class=3D"main_table" style=
+=3D"height: 100%; width: 580px;">                      =20
+                        <tbody><tr>
+                            <td class=3D"pad_both" style=3D"background-colo=
+r: inherit; height:100%" height=3D"100%">
+                                <table width=3D"100%" height=3D"100%" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0" style=3D"height: 100%;  border-=
+width: initial; border-style: none; border-color: initial; margin-top: 0px;=
+ padding: 0px; margin-bottom: 0px;" class=3D"">
+                                    <tbody><tr>
+                                      <td width=3D"100%" height=3D"100%" st=
+yle=3D"display: block; height: 100%; line-height: 25px; padding: 0px;">&nbs=
+p;</td>                                    =20
+                                    </tr>
+                                  </tbody></table>
+                              </td>
+                          </tr>
+                    </tbody></table>               =09
+				</td>
+			</tr>
+		</tbody></table>
+	</td>
+</tr>
+		<tr class=3D"block_links_footer">
+        	<td width=3D"100%" valign=3D"top" class=3D"" style=3D"background-c=
+olor: rgb(253, 251, 252);">
+        		<table width=3D"580" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" align=3D"center" class=3D"main_table " style=3D"margin: 0px auto; wi=
+dth: 580px; ">                  =20
+                    <tbody><tr>
+                      <td class=3D"pad_both">
+                        <table width=3D"100%" border=3D"0" cellspacing=3D"0=
+" cellpadding=3D"0" align=3D"center" style=3D"">
+                          <tbody><tr>
+                            <td>
+                                <table width=3D"100%" border=3D"0" cellspac=
+ing=3D"0" cellpadding=3D"0" align=3D"center" class=3D"" style=3D" border-wi=
+dth: initial; border-style: none; border-color: initial; margin-top: 0px; p=
+adding: 0px; margin-bottom: 0px;">
+                                    <tbody><tr>
+                                      <td height=3D"20" style=3D"text-align=
+: center; font-size: 11px; color: rgb(51, 51, 51); font-family: Helvetica, =
+Arial, sans-serif; vertical-align: middle; padding: 0px;">
+                                        <a href=3D"https://www.email-index.=
+com/unsubscribe.php?J=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvv=
+mQ" style=3D"text-decoration: underline; color:#333;"><span>Darme de baja d=
+e esta lista</span></a> |=20
+                                        <a href=3D"https://www.email-index.=
+com/update.php?J=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ" s=
+tyle=3D"text-decoration: underline; color:#333;"><span>Actualizar mis datos=
+</span></a>
+                                        <br><br>
+                                      <span>F&Oacute;RUM XXI - Cine n&ordm;=
+ 38. Bajo derecha, 28024, Madrid</span>
+                                      </td>
+                                    </tr>
+                                  </tbody></table>
+                              </td>
+                          </tr>
+                        </tbody></table>
+                      </td>
+                    </tr>                  =20
+                 </tbody></table>
+        	</td>
+        </tr>
+       =20
+        <tr class=3D"block_spacer">=20
+	<td width=3D"100%" valign=3D"top" style=3D"background-color: rgb(253, 251,=
+ 252);" class=3D"">
+		<table class=3D"BoxWrap" cellpadding=3D"0" height=3D"100%" cellspacing=3D=
+"0" align=3D"center" style=3D"margin:0 auto; height:100%">
+			<tbody><tr>
+				<td height=3D"100%" style=3D"height: 100%; line-height:25px">
+                    <table width=3D"580" height=3D"100%" border=3D"0" cells=
+pacing=3D"0" cellpadding=3D"0" align=3D"center" class=3D"main_table" style=
+=3D"height: 100%; width: 580px;">                      =20
+                        <tbody><tr>
+                            <td class=3D"pad_both" style=3D"background-colo=
+r: inherit; height:100%" height=3D"100%">
+                                <table width=3D"100%" height=3D"100%" borde=
+r=3D"0" cellspacing=3D"0" cellpadding=3D"0" style=3D"height: 100%;  border-=
+width: initial; border-style: none; border-color: initial; margin-top: 0px;=
+ padding: 0px; margin-bottom: 0px;" class=3D"">
+                                    <tbody><tr>
+                                      <td width=3D"100%" height=3D"100%" st=
+yle=3D"display: block; height: 100%; line-height: 25px; padding: 0px;">&nbs=
+p;</td>                                    =20
+                                    </tr>
+                                  </tbody></table>
+                              </td>
+                          </tr>
+                    </tbody></table>               =09
+				</td>
+			</tr>
+		</tbody></table>
+	</td>
+</tr>
+       =20
+       =20
+	</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        <table id=3D"ac_footer_email" width=3D"100%" style=
+=3D"width:100%">
+                            <tr>
+                                <td width=3D"100%" valign=3D"top" align=3D"=
+center">
+                                    <table width=3D"" align=3D"center">
+                                        <tr>
+                                            <td style=3D"text-align:center;=
+"><a href=3D"https://www.email-index.com/click.php?L=3DOzfHUpvJbhph30240XFk=
+ZQ&J=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ&F=3DHKFRcCbcnm=
+xmc4f43DJP5g"><img alt=3D"" border=3D"0" style=3D"border-style:none" src=3D=
+"https://d1nn1beycom2nr.cloudfront.net/uploads/user/fBxrW1jUkXDcz7BTAyZIqw/=
+images/R_9ea7e3_LINKEDIN LOGO CONGRESO LATINA 2021.png"/></a></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>               =20
+                        <img src=3D"https://www.email-index.com/email_open_=
+log_pic.php?J=3DXKZsub7LCp6vZJ1qMr892haA&C=3D7892qhiZJ9KvgCIS2cDtvvmQ" alt=
+=3D"" border=3D"0" height=3D"1" width=3D"1" style=3D"width:1px;height:1px,b=
+order:0"/><div id=3D't20141110'></div></body></html>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/010201874e8653a5-58a1d67e-5aec-46e1-941f-aa6b909fd267-=
+000000%40eu-west-1.amazonses.com?utm_medium=3Demail&utm_source=3Dfooter">ht=
+tps://groups.google.com/d/msgid/kasan-dev/010201874e8653a5-58a1d67e-5aec-46=
+e1-941f-aa6b909fd267-000000%40eu-west-1.amazonses.com</a>.<br />
+
+--b1_U6nTLG3xh7RqcYiz5EAdze5ELXYApPEaQtYfQIhoOiA--
+
