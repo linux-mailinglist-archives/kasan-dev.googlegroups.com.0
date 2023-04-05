@@ -1,159 +1,131 @@
-Return-Path: <kasan-dev+bncBCKJJ7XLVUBBBGGSWWQQMGQERHJQ5AQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCI4B6EH6IPBBQHPWWQQMGQETDGTAEA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3a.google.com (mail-io1-xd3a.google.com [IPv6:2607:f8b0:4864:20::d3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC866D7C87
-	for <lists+kasan-dev@lfdr.de>; Wed,  5 Apr 2023 14:27:06 +0200 (CEST)
-Received: by mail-io1-xd3a.google.com with SMTP id r25-20020a056602235900b0074d472df653sf21483946iot.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 05 Apr 2023 05:27:06 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1680697625; cv=pass;
+Received: from mail-vs1-xe37.google.com (mail-vs1-xe37.google.com [IPv6:2607:f8b0:4864:20::e37])
+	by mail.lfdr.de (Postfix) with ESMTPS id 173F36D7DB9
+	for <lists+kasan-dev@lfdr.de>; Wed,  5 Apr 2023 15:29:38 +0200 (CEST)
+Received: by mail-vs1-xe37.google.com with SMTP id p27-20020a05610223fb00b00425b0a40455sf12619557vsc.8
+        for <lists+kasan-dev@lfdr.de>; Wed, 05 Apr 2023 06:29:38 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1680701377; cv=pass;
         d=google.com; s=arc-20160816;
-        b=L2jKl8SBiayyx3xn9znFmLDcCGkeWi8D+rOGXl7pwflVHn5zPADFhUFdMTQuteEiPY
-         i+ci4LVWoyo0aaMN7APx2Di8vDSWOdOYH+n/auZrcY8IJuazqemiGJYQ5xs3Kc8m0ExT
-         vU8gWkNNp6SW5bG9MkJzwaW/1BzcTjATJ3hYHTHtYrLw1VnhkFeGXMMBksVsuPJMgGli
-         l1H04+79KrTVkwSwijPsV/FwnsDAn0GTenCs/9p2sfqf1a7MM2aSDM+Z3IODDQTccvm5
-         JxmM+xmwiREI0ZDZlk0/tCqqAP2MwEq1BaneoPaknGRxHOW6W7uCxBMADhqQfXyga8vb
-         q3VQ==
+        b=BCT1z0ygumleT9G/cTh6V0XwojBat/jhWzsVaUWHt/ixLwtlp9ARiwImQXxzHnbYh8
+         7n3oKWK8cOLy/0UYoN0P+9Fdrz+9yZG0EYePRKd2MikDP7GR8If/yizp11k15KeNcPdm
+         qRD3D3U8iI7Kmuqk8t9tJq7Y6XrQs8dlIEr+HEMmKxWC7R+rpFVG9l2k7xpPXPj/8lUN
+         dfVpNxusiYLMCdo/Gbm1Tphj8O2t4oC0DIUJDLLkiWlZKVZwNC+xQEIygF5b6TLHdzDY
+         o/rOxUUqw1cvplgjbfhOnbrNIu+3OQo86vOJpbZkzqxXQhd5YOEN018V+unutiic+VLm
+         /drQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:sender:dkim-signature
-         :dkim-signature;
-        bh=3g10rIr+lp2/PW41t/2/TkJTfAVCpY60rNZ1ZQ+J800=;
-        b=068Kpt2Zhn9MUWINEFEiTffXiw0sbpl6UoWr5ve0K7IGpgaKRcqCE0WLkBY1bZ5KG8
-         euzA75cfajYYdgPDUO5XKEjhJu/HmkUSQlNSWwhCpkhIN978SejRpPYh6Rf2I8jfrsN6
-         MVDF14rKaZ+K9Sy7XQpmhLF+GxxslmTLm3l/jMGwNIIpfmu4AB5KgkAZYoXuWdNo8aHV
-         fobJuvBM2IwDKCVYx8ilMVsc6Vk/c1mhB5PFHz+S9P6iXypJBZA7AuX5pH+2PfdgU8Nm
-         plq5f4KUbzHp8D0Q/cid1vUH7TowCthl3eNoFP8xYb0kexjzfmxDWn8gxFDQ4Cqje+AJ
-         qcAA==
+         :list-id:mailing-list:precedence:to:subject:message-id:date:from
+         :mime-version:sender:dkim-signature:dkim-signature;
+        bh=JMruhImXYeXp3/dTd448S04NFOb1KWVYxWcAh/eT2kI=;
+        b=A2cYIR/NYJM6qZjtP3us/XekJHpHpEdB2NvUt/wk9iUSWfiKZ1Pc0XZF6Fcn+MhQ73
+         lDp02CnLVUpX+2ebCuM8VIoxf/bEjHpbM5spHTyNGZ/9Z8mUYotjeyAgu6k4lEYokaIE
+         8M5re6eYU4Pe2nM0rfzWL+nHmBzM6n9xxnryB8FY2M+EWkXFd4tIl8Xp4ZBqOyC2LHJd
+         WPecAKGITQy1PpO5aKaBZum3+OGL8h2zRQPV8pOiQxSWFCeL7XjYTYGK4Nj5c0pRKhFU
+         FVQriTVPzo76dj/z2ShcRkophmDTTyuyuV5S64ApZQq51TKJ51DyDgNUTaAC355gvWwf
+         kBqQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=fM4nuxkN;
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::631 as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ifkwb9v+;
+       spf=pass (google.com: domain of samanthakipkalya24@gmail.com designates 2607:f8b0:4864:20::b2f as permitted sender) smtp.mailfrom=samanthakipkalya24@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1680697625;
+        d=googlegroups.com; s=20210112; t=1680701377;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=3g10rIr+lp2/PW41t/2/TkJTfAVCpY60rNZ1ZQ+J800=;
-        b=NPdv7wdB2fVss9AxUMEQtyu3iqtFaF/f/4i1T8y30uNrDv7nztKgjtHh2rc7baqgh/
-         PqDcBHsgeqt5tdxJChmAhbD635xvg1BVHZ7V9STCcmgdY1Nc02xmW17qAE74Gqrn+c1b
-         +WHkVns8F7gHNbM92+XLV8oLv7UGqm6Fwc3sD30iwxzsS0yMHntiLwbKRGgvsgt51yZe
-         DcztjR79Gc4FfEn8U5iGK55H5MI0iccr/6PAxvWlKfxZkF0AdWz854rSCCkQ+g220+Ik
-         usDGHOaf/bWJe7jdSSs93tkg8u8FV51QJbLhxS5QA/kmhKz27lVaxHVuKFPiy8rmeDhQ
-         lIRw==
+         :x-original-sender:to:subject:message-id:date:from:mime-version
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=JMruhImXYeXp3/dTd448S04NFOb1KWVYxWcAh/eT2kI=;
+        b=Z6GheLvOhrQ+ASsx4GQe7Sje0HUdms7xWRrRvNqEsvcmlqK/IRXWmtpTrsH4h0RROx
+         0QaOe9NhPBAb2fAijtNEstN6TKEnZ4NonspPm3FH7ATnse156SACxYNLK0CBCtYBBn1Q
+         fjkQTS6kzGubAJfcJT51W4wqEiu1e6nAz9tf0P4DFLKc/E6IoLiz0seYUe/n8DBtLo2m
+         VeCNUDL+gdbX/hvUh60NFX7Nbfn1DnsfN3ZGdrm628IBLB20Dzs2mE70HarZhnCDML0t
+         k0XmgfsBuUgrFz/jnFs0Xz2DNlMlR30qhe/gd+GZ5ZeU3oDC6jQKEtMGFVdiADXvKolC
+         f4mw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1680697625;
+        d=gmail.com; s=20210112; t=1680701377;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=3g10rIr+lp2/PW41t/2/TkJTfAVCpY60rNZ1ZQ+J800=;
-        b=Bfz3PTWa6zuxbEjMzcFkp7gs4yOmO/+ACazmQXR6sFoks3tqQDD3590MJPb5pAaE/g
-         fj3GIcj2QCQkkcUtHSgGhQe9IUk0M8JoQ/XvAAqHolt9oXtx9z1lTgTkkBwzKKYz2zB0
-         VtUcSuFsnnWXMLhBYFxLvQNspL2zbBS4VK5R603TI3pzmz8w08Y2kPW3nKxHCEpFj/uH
-         fAjTaYZAwMYBlgn5ltMyIew51Mc9IwNBrzQZDpk/KTzd5FDMf8S+y0JdlFMBEbJexoDj
-         VFIkNDFkTjvpK+qrcKbEG00RWEQLjxcMeFV6jBjD9iJgBse7FrMaE8SjlOx6rangEmPJ
-         FceQ==
+         :x-original-sender:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=JMruhImXYeXp3/dTd448S04NFOb1KWVYxWcAh/eT2kI=;
+        b=lZNUfeGh+kwIYalK/6zGQBBi0bn5oM05E+wIw4ZEmHCGjefuozKARZV6O+aMzRhlPp
+         tHDclubUDpIZpC42VxxlcKKHH9HSzK/fFV1s1Gl4C5SexsSLZhVnb1/dqRnGBqJtvL7U
+         yTE18Ln6SfhfMRLdL31tLjAGX5y4GtmPfBt3MmfEkv315U/RaoK0ZeAPjlnhs5w62+pO
+         L6KHM+ROPLVO7l28ca2QHge/cFUcyVi3tvAiKnzd4oJPtlRqEX3FB7qottx3sjEKCt/P
+         wEhSSGEncLGhiCqy43sfRiZEXBIGw0cTdCneJb2c6ufmL4BHMIwbQNQ1fqO299Ovsrw2
+         3CVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680697625;
+        d=1e100.net; s=20210112; t=1680701377;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3g10rIr+lp2/PW41t/2/TkJTfAVCpY60rNZ1ZQ+J800=;
-        b=fmEZh4iKcTRDY0St/jgHwBngN6+8Stmv/zKXhArsMENnK9gNTW3hvAyznOgn+6uvrR
-         r563X8jrITDSX5Pb56ow4gjVhdZ24QnhOIYzM/TyuMfUdpqZjF8sfg0LapFdImCczrVm
-         SqHRkv3++JpSJOZBvoUT2gEASeMVptgVwrAZ5AQcZrRjUU53s0jaHPxbSusa73r15ovR
-         Ffr22dRsL7x3ayOAuTMQfhmQVa3wBS6Vz175h79C8ijpWQKNbr8hYjX6J11EmeITGSRN
-         yxAIxZ68C59HfHOjnlAYqI8eQR20scpzSFcDtJsu7DzpGmMvTdnc6w+MZIZSeQ3+MYi1
-         G+mg==
+         :x-original-authentication-results:x-original-sender:to:subject
+         :message-id:date:from:mime-version:x-gm-message-state:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=JMruhImXYeXp3/dTd448S04NFOb1KWVYxWcAh/eT2kI=;
+        b=yNy0Z3d3KIp1/oGBKoUafw9UcF15XSkGaho3IAcdb3lqHKXhfbPv5mploraOlAmImI
+         zaDaKpjvc4jNelYZUz4Yhrmc5zArU6l/UnqcPKy+BlzfOj2khO3E0bYDsw+b7sBZUSDv
+         Poa+JOqJORBgTpOyTzCSEKvM7HDzSvKRKIHIeKkuo6dq06R//fLdFBtL68wQqfyNfASP
+         Y63RR2tQHs9xVOV9ZvnHbhbo+08a8CNYkvLDrgug7N6VHmpF8KQUnDOKsD8iEaZe+jqi
+         sZMHtkPEIVIalfyWS9IQnEEuXpQ30D8tEmQFEFNV8d7atImFYsHVGFjh5yDV9xyds+Sw
+         axng==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AAQBX9d9d6v3eu6blF+0GigmsZsoKbfh15z6nf0UyOyxJPB4VI+ZG5Bp
-	LcGpLPWV2urHWqcKb5CYdAs=
-X-Google-Smtp-Source: AKy350Z1DKJR8Vc1rQaw+E5u06J1kKE+e7bqQr+v3q0G4QNYiro6kTbrCcj4P24ZFuVyS2Mxzv2jWQ==
-X-Received: by 2002:a92:bd08:0:b0:326:34d7:5d68 with SMTP id c8-20020a92bd08000000b0032634d75d68mr3466537ile.4.1680697624764;
-        Wed, 05 Apr 2023 05:27:04 -0700 (PDT)
+X-Gm-Message-State: AAQBX9fP7AC/8Muk8uM5C7ZL/LFBzaKOO2VAL08SpQORBojzO88yG3KR
+	oKvAPN3s2/TAlRQXdu1gz9o=
+X-Google-Smtp-Source: AKy350bYuA6p7cwtE8YiAcCSwYEyPUxNluT3GDDbGRZcZCob5/O13VPmuI8L8b6bDvybbPCwktn02Q==
+X-Received: by 2002:a9f:3110:0:b0:68b:94c5:7683 with SMTP id m16-20020a9f3110000000b0068b94c57683mr4273974uab.0.1680701376710;
+        Wed, 05 Apr 2023 06:29:36 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:b70a:0:b0:317:9a9f:53a5 with SMTP id k10-20020a92b70a000000b003179a9f53a5ls5569204ili.8.-pod-prod-gmail;
- Wed, 05 Apr 2023 05:27:04 -0700 (PDT)
-X-Received: by 2002:a92:dc49:0:b0:318:d56e:9efa with SMTP id x9-20020a92dc49000000b00318d56e9efamr4712921ilq.24.1680697624046;
-        Wed, 05 Apr 2023 05:27:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1680697624; cv=none;
+Received: by 2002:a05:6122:104a:b0:43b:f241:ea10 with SMTP id
+ z10-20020a056122104a00b0043bf241ea10ls2263586vkn.6.-pod-prod-gmail; Wed, 05
+ Apr 2023 06:29:36 -0700 (PDT)
+X-Received: by 2002:a05:6122:188d:b0:43c:5af2:4340 with SMTP id bi13-20020a056122188d00b0043c5af24340mr2683398vkb.2.1680701376001;
+        Wed, 05 Apr 2023 06:29:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1680701375; cv=none;
         d=google.com; s=arc-20160816;
-        b=0eweI+6rfIcW7Pi/pR4ERa5YRfjcK/SraXvVWOgHEEF/I+5jTbMyLw59jz7NjqIc59
-         8Zr6GzieD5ZLSC//SA4XIHvDheioQWV7U0W6E9jrBuk5vbJt/txwrpG8evlRxaV1EIh5
-         CTeuddDBmYePpCk7hkJd5t//CMY3308JhqnjQf+q1Jbk+h6LeS9vDJgV0WkIOx/nTJnb
-         c3WYcTtq1NgHTHgozN+h0fsYTuX2tg8FfnpTmB7kk2I8X5aSwfXFvFRrsttSkFgar85t
-         3rXJZHzyg/kPF3U+g5mCc6cKeJG1ydzwg67CLRJB1E5nai7fcsec3M1BRdZZV/Zd/MPF
-         yAnQ==
+        b=Jx7jVAdIF+HNcAfs8RJ6HntyeOCCHyJkcyWVf2dPyCVrcH0juiNsn8JxZOxQZm9yK/
+         n+vg1LIW2ll5WPfHLHKIlzTbLKQxFMOWBPmaXoqPbek1sungzNDCVLXPwXS/qI1/ULq1
+         lmiRVfxUl8EACS7Hf7/xQxcPKVLWy0UoHs/yDMgp0rd5bONetlqRKfAYTFw+T4XF4Obx
+         +0LcjuLI0c+lFqsDTkhkTTJk0fWGyDoFCpXlOl1LzmspCt7GCxPA4epjitH5yoaZcfNt
+         nrPpWm9dKBGtyTQLlHoUED/A0NmG8WKlADO/Zv84y0hkz4sh/5x1ewCHliQbyVpyQtEK
+         gDag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=nSvnKg+6McgJprhw+if0EMirzUlxLZrKLELfH8kmkS0=;
-        b=upahilxokZ9cL/GucSWd2liiYM00B5Q0ZoclYgB6C58SIzI9CMcq3bfwTZ3bIDgNRY
-         aRTi4TcNs6vnAYfc9UbKyprg/L7y+JheH5ZV8u5UB0p4b0epjqIGYrSr2ZJcfy8RbbxX
-         3HK8h3sMisHGLE7e/554eL3HMIoxwaha3gxrwa8Qi9Nm3LdficV5JSyK0RYqc5sK/XlD
-         tBDZBcSQR4LphSTs+O9Y/+xJbLBm5kmBqzHtKnsVX4XDoiW+/gEV1+/III1XdEyWy6e8
-         crdGKUkOa62Jikiwgua9CxIcbNBBWixtaPTnhFp6IINDpx5cHBgAH6LzijzSh9j/t2j3
-         Wezw==
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=nWU7AO+a4H1149XuPSwXKN7DBadWmQfkHAREL40tPAw=;
+        b=rYoP2cbIEJ5fj0hrT+HMuaJGB0U8EhHmUABZWqzPR0Q27zj1yfhq3gHSjySeg4CrJk
+         sOO42iKmLRRqL8xRB69B1cmf1UIwg7Mu8JbkoS/UCVSXye21G/v72BhoUb6DsocjWizd
+         kSWScsDQX3A26yJnQkPwlbzus+lLuMyuZ9GIj7qo823EI/69YH7Sl+aiUza+pvvZ2FCc
+         P9ygEbZCzMGWfeJ08e0Hz4RbjexhKriQul0EJyCT0Kqg5r0a7306BR9spM6cbPCDBAGu
+         qrhOwmldpAo9NzP/IrDJMc9VTyXoTRSdAxb5v7Lv25/wHQN/HXdGN9RDgiY6vOsXlP1s
+         u/pQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20210112 header.b=fM4nuxkN;
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::631 as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20210112 header.b=Ifkwb9v+;
+       spf=pass (google.com: domain of samanthakipkalya24@gmail.com designates 2607:f8b0:4864:20::b2f as permitted sender) smtp.mailfrom=samanthakipkalya24@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com. [2607:f8b0:4864:20::631])
-        by gmr-mx.google.com with ESMTPS id g6-20020a056e021e0600b0032648a7d410si812373ila.5.2023.04.05.05.27.04
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com. [2607:f8b0:4864:20::b2f])
+        by gmr-mx.google.com with ESMTPS id bn10-20020a0561220f0a00b00400dba9ad27si747445vkb.0.2023.04.05.06.29.35
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Apr 2023 05:27:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::631 as permitted sender) client-ip=2607:f8b0:4864:20::631;
-Received: by mail-pl1-x631.google.com with SMTP id o11so34276269ple.1
-        for <kasan-dev@googlegroups.com>; Wed, 05 Apr 2023 05:27:03 -0700 (PDT)
-X-Received: by 2002:a17:90b:1c91:b0:23b:4388:7d8a with SMTP id oo17-20020a17090b1c9100b0023b43887d8amr6718995pjb.21.1680697623102;
-        Wed, 05 Apr 2023 05:27:03 -0700 (PDT)
-Received: from [192.168.0.6] ([211.108.101.96])
-        by smtp.gmail.com with ESMTPSA id q23-20020a170902789700b0019ac7319ed1sm10055186pll.126.2023.04.05.05.26.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Apr 2023 05:27:02 -0700 (PDT)
-Message-ID: <b7a7c5d7-d3c8-503f-7447-602ec2a18fb0@gmail.com>
-Date: Wed, 5 Apr 2023 21:26:47 +0900
+        Wed, 05 Apr 2023 06:29:35 -0700 (PDT)
+Received-SPF: pass (google.com: domain of samanthakipkalya24@gmail.com designates 2607:f8b0:4864:20::b2f as permitted sender) client-ip=2607:f8b0:4864:20::b2f;
+Received: by mail-yb1-xb2f.google.com with SMTP id m16so22171584ybk.0
+        for <kasan-dev@googlegroups.com>; Wed, 05 Apr 2023 06:29:35 -0700 (PDT)
+X-Received: by 2002:a25:d20f:0:b0:b78:8bd8:6e88 with SMTP id
+ j15-20020a25d20f000000b00b788bd86e88mr4217292ybg.6.1680701375557; Wed, 05 Apr
+ 2023 06:29:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.9.1
-Subject: Re: [PATCH RFC] Randomized slab caches for kmalloc()
-To: "GONG, Ruiqi" <gongruiqi1@huawei.com>, Dennis Zhou <dennis@kernel.org>,
- Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>,
- Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Andrew Morton <akpm@linux-foundation.org>, Vlastimil Babka <vbabka@suse.cz>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
- Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org,
- Paul Moore <paul@paul-moore.com>, linux-security-module@vger.kernel.org,
- James Morris <jmorris@namei.org>, Wang Weiyang <wangweiyang2@huawei.com>,
- Xiu Jianfeng <xiujianfeng@huawei.com>
-References: <20230315095459.186113-1-gongruiqi1@huawei.com>
-Content-Language: en-US
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-In-Reply-To: <20230315095459.186113-1-gongruiqi1@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: 42.hyeyoo@gmail.com
+From: Samantha Kipkalya <samanthakipkalya091@gmail.com>
+Date: Wed, 5 Apr 2023 06:36:38 -0700
+Message-ID: <CAL9mhjORuNNSPsDe1gj=Z+HhDckJQfG3ZxuyFf3D8jxMGSXSYw@mail.gmail.com>
+Subject: PLEASE MY DEAREST HELP ME OUT.
+To: undisclosed-recipients:;
+Content-Type: multipart/alternative; boundary="00000000000076bb8105f896c814"
+X-Original-Sender: samanthakipkalya091@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20210112 header.b=fM4nuxkN;       spf=pass
- (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::631
- as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@gmail.com header.s=20210112 header.b=Ifkwb9v+;       spf=pass
+ (google.com: domain of samanthakipkalya24@gmail.com designates
+ 2607:f8b0:4864:20::b2f as permitted sender) smtp.mailfrom=samanthakipkalya24@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -166,51 +138,128 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 3/15/2023 6:54 PM, GONG, Ruiqi wrote:
-> When exploiting memory vulnerabilities, "heap spraying" is a common
-> technique targeting those related to dynamic memory allocation (i.e. the
-> "heap"), and it plays an important role in a successful exploitation.
-> Basically, it is to overwrite the memory area of vulnerable object by
-> triggering allocation in other subsystems or modules and therefore
-> getting a reference to the targeted memory location. It's usable on
-> various types of vulnerablity including use after free (UAF), heap out-
-> of-bound write and etc.
->
-> There are (at least) two reasons why the heap can be sprayed: 1) generic
-> slab caches are shared among different subsystems and modules, and
-> 2) dedicated slab caches could be merged with the generic ones.
-> Currently these two factors cannot be prevented at a low cost: the first
-> one is a widely used memory allocation mechanism, and shutting down slab
-> merging completely via `slub_nomerge` would be overkill.
->
-> To efficiently prevent heap spraying, we propose the following approach:
-> to create multiple copies of generic slab caches that will never be
-> merged, and random one of them will be used at allocation. The random
-> selection is based on the location of code that calls `kmalloc()`, which
-> means it is static at runtime (rather than dynamically determined at
-> each time of allocation, which could be bypassed by repeatedly spraying
-> in brute force). In this way, the vulnerable object and memory allocated
-> in other subsystems and modules will (most probably) be on different
-> slab caches, which prevents the object from being sprayed.
->
-> Signed-off-by: GONG, Ruiqi <gongruiqi1@huawei.com>
-> ---
+--00000000000076bb8105f896c814
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I'm not yet sure if this feature is appropriate for mainline kernel.
+PLEASE MY DEAREST HELP ME OUT.
 
-I have few questions:
+Please my dearest help me!
 
-1) What is cost of this configuration, in terms of memory overhead, or=20
-execution time?
+MY cry for you
+Greetings my dearest one,
 
 
-2) The actual cache depends on caller which is static at build time, not=20
-runtime.
+I am writing this mail to you with tears and sorrow from my heart. With due
+respect, trust and humanity, i appeal to you to exercise a little patience
+and read through my letter, i wish to contact you personally for a long
+term business relationship and investment assistance in your Country so i
+feel quite safe dealing with you in this important business having gone
+through your remarkable profile, honestly i am writing this email to you
+with pains, tears and sorrow from my heart, i will really like to have a
+good relationship with you and i have a special reason why i decided to
+contact you, i decided to contact you due to the urgency of my situation,
+My name's are princess Samantha Kipkalya Kones, 24yrs old female and I held
+from Kenya in East Africa.
 
- =C2=A0=C2=A0=C2=A0 What about using (caller ^ (some subsystem-wide random =
-sequence)),
 
- =C2=A0=C2=A0=C2=A0 which is static at runtime?
+My father was the former Kenyan road Minister. He and Assistant Minister of
+Home Affairs Lorna Laboso had been on board the Cessna 210, which was
+headed to Kericho and crashed in a remote area called Kajong=E2=80=99a, in
+western Kenya. The plane crashed on the Tuesday 10th, June, 2008.
+
+You can read more about the crash through the below site:
+
+
+
+http://edition.cnn.com/2008/WORLD/africa/06/10/kenya.crash/index.html
+
+
+
+
+
+After the burial of my father, my stepmother and uncle conspired and sold
+my father=E2=80=99s property to an Italian Expert rate which the shared the=
+ money
+among themselves and live nothing for me. I am constrained to contact you
+because of the abuse I am receiving from my wicked stepmother and uncle.
+They planned to take away all my late father=E2=80=99s treasury and propert=
+ies from
+me since the unexpected death of my beloved Father. Meanwhile i wanted to
+escape to the USA but they hide away my international passport and other
+valuable travelling documents. Luckily they did not discover where i kept
+my fathers File which contains important documents.
+
+
+
+
+So I decided to run to the refugee camp where i am presently seeking asylum
+under the United Nations High Commission for the Refugee here in
+Ouagadougou, Republic of Burkina Faso.
+
+
+One faithful morning, I opened my father=E2=80=99s briefcase and found out =
+the
+documents which he has deposited huge amount of money in bank in Burkina
+Faso with my name as the next of kin. I travelled to Burkina Faso to
+withdraw the money for a better life so that I can take care of myself and
+start a new life, on my arrival, the Bank Director whom I met in person
+told me that my father=E2=80=99s instruction/will to the bank is that the m=
+oney
+would only be release to me when I am married or present a trustee who will
+help me and invest the money overseas.
+
+
+
+I am in search of an honest and reliable person who will help me and stand
+as my trustee so that I will present him to the Bank for transfer of the
+money to his bank account overseas. i have chosen to contact you after my
+prayers and I believe that you will not betray my trust. But rather take me
+as your own sister.
+
+
+
+Although, you may wonder why I am so soon revealing myself to you without
+knowing you, well I will say that my mind convinced me that you may be the
+true person to help me. More so, my father of blessed memory deposited the
+sum of (US$9.5) Dollars in Bank with my name as the next of kin. However, I
+shall forward you with the necessary documents on confirmation of your
+acceptance to assist me for the transfer and statement of the fund in your
+country.
+
+
+
+As you will help me in an investment, and i will like to complete my
+studies, as i was in my 1year in the university when my beloved father
+died. It is my intention to compensate you with 40% of the total money for
+your services and the balance shall be my capital in your establishment.
+
+
+As soon as I receive your positive response showing your interest I will
+put things into action immediately. In the light of the above. I shall
+appreciate an urgent message indicating your ability and willingness to
+handle
+this transaction sincerely.
+
+
+
+
+
+
+AWAITING YOUR URGENT AND POSITIVE RESPONSE, Please do keep this only to
+yourself for now untill the bank will transfer the fund.
+
+
+I beg you not to disclose it till i come over because I am afraid of my
+wicked stepmother who has threatened to kill me and have the money alone ,I
+thank God Today that am out from my country (KENYA) but now In (Burkina
+Faso) where my father deposited these money with my name as the next of
+Kin. I have the documents for the claims. i feel you are only one who can
+help me out of this
+
+Yours Sincerely
+ Princess Samantha Kipkalya Kones
+God bless you.
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -218,4 +267,92 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/b7a7c5d7-d3c8-503f-7447-602ec2a18fb0%40gmail.com.
+kasan-dev/CAL9mhjORuNNSPsDe1gj%3DZ%2BHhDckJQfG3ZxuyFf3D8jxMGSXSYw%40mail.gm=
+ail.com.
+
+--00000000000076bb8105f896c814
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">PLEASE MY DEAREST HELP ME OUT. <br><br>Please my dearest h=
+elp me!<br><br>MY cry for you <br>Greetings my dearest one,<br><br><br>I am=
+ writing this mail to you with tears and sorrow from my heart. With due res=
+pect, trust and humanity, i appeal to you to exercise a little patience and=
+ read through my letter, i wish to contact you personally for a long term b=
+usiness relationship and investment assistance in your Country so i feel qu=
+ite safe dealing with you in this important business having gone through yo=
+ur remarkable profile, honestly i am writing this email to you with pains, =
+tears and sorrow from my heart, i will really like to have a good relations=
+hip with you and i have a special reason why i decided to contact you, i de=
+cided to contact you due to the urgency of my situation, My name&#39;s are =
+princess Samantha Kipkalya Kones, 24yrs old female and I held from Kenya in=
+ East Africa. <br><br><br>My father was the former Kenyan road Minister. He=
+ and Assistant Minister of Home Affairs Lorna Laboso had been on board the =
+Cessna 210, which was headed to Kericho and crashed in a remote area called=
+ Kajong=E2=80=99a, in <br>western Kenya. The plane crashed on the Tuesday 1=
+0th, June, 2008.<br><br>You can read more about the crash through the below=
+ site:<br><br><br><br><a href=3D"http://edition.cnn.com/2008/WORLD/africa/0=
+6/10/kenya.crash/index.html">http://edition.cnn.com/2008/WORLD/africa/06/10=
+/kenya.crash/index.html</a><br><br><br><br><br><br>After the burial of my f=
+ather, my stepmother and uncle conspired and sold my father=E2=80=99s prope=
+rty to an Italian Expert rate which the shared the money among themselves a=
+nd live nothing for me. I am constrained to contact you because of the abus=
+e I am receiving from my wicked stepmother and uncle. They planned to take =
+away all my late father=E2=80=99s treasury and properties from me since the=
+ unexpected death of my beloved Father. Meanwhile i wanted to escape to the=
+ USA but they hide away my international passport and other valuable travel=
+ling documents. Luckily they did not discover where i kept my fathers File =
+which contains important documents. <br><br><br><br><br>So I decided to run=
+ to the refugee camp where i am presently seeking asylum under the United N=
+ations High Commission for the Refugee here in Ouagadougou, Republic of Bur=
+kina Faso.<br><br><br>One faithful morning, I opened my father=E2=80=99s br=
+iefcase and found out the documents which he has deposited huge amount of m=
+oney in bank in Burkina Faso with my name as the next of kin. I travelled t=
+o Burkina Faso to withdraw the money for a better life so that I can take c=
+are of myself and start a new life, on my arrival, the Bank Director whom I=
+ met in person told me that my father=E2=80=99s instruction/will to the ban=
+k is that the money would only be release to me when I am married or presen=
+t a trustee who will help me and invest the money overseas. <br><br><br><br=
+>I am in search of an honest and reliable person who will help me and stand=
+ as my trustee so that I will present him to the Bank for transfer of the m=
+oney to his bank account overseas. i have chosen to contact you after my pr=
+ayers and I believe that you will not betray my trust. But rather take me a=
+s your own sister.<br><br><br><br>Although, you may wonder why I am so soon=
+ revealing myself to you without knowing you, well I will say that my mind =
+convinced me that you may be the true person to help me. More so, my father=
+ of blessed memory deposited the sum of (US$9.5) Dollars in Bank with my na=
+me as the next of kin. However, I shall forward you with the necessary docu=
+ments on confirmation of your acceptance to assist me for the transfer and =
+statement of the fund in your country. <br><br><br><br>As you will help me =
+in an investment, and i will like to complete my studies, as i was in my 1y=
+ear in the university when my beloved father died. It is my intention to co=
+mpensate you with 40% of the total money for your services and the balance =
+shall be my capital in your establishment. <br><br><br>As soon as I receive=
+ your positive response showing your interest I will put things into action=
+ immediately. In the light of the above. I shall appreciate an urgent messa=
+ge indicating your ability and willingness to handle<br>this transaction si=
+ncerely.<br><br><br><br><br><br><br>AWAITING YOUR URGENT AND POSITIVE RESPO=
+NSE, Please do keep this only to yourself for now untill the bank will tran=
+sfer the fund. <br><br><br>I beg you not to disclose it till i come over be=
+cause I am afraid of my wicked stepmother who has threatened to kill me and=
+ have the money alone ,I thank God Today that am out from my country (KENYA=
+) but now In (Burkina Faso) where my father deposited these money with my n=
+ame as the next of Kin. I have the documents for the claims. i feel you are=
+ only one who can help me out of this<br><br>Yours Sincerely<br>=C2=A0Princ=
+ess Samantha Kipkalya Kones <br>God bless you.<br></div>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/CAL9mhjORuNNSPsDe1gj%3DZ%2BHhDckJQfG3ZxuyFf3D8jxMGSXSY=
+w%40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.g=
+oogle.com/d/msgid/kasan-dev/CAL9mhjORuNNSPsDe1gj%3DZ%2BHhDckJQfG3ZxuyFf3D8j=
+xMGSXSYw%40mail.gmail.com</a>.<br />
+
+--00000000000076bb8105f896c814--
