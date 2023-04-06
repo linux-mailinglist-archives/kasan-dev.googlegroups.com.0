@@ -1,136 +1,134 @@
-Return-Path: <kasan-dev+bncBC6PNFEKTYIBBOODXOQQMGQEN52PI5Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRBEOUXSQQMGQEU5QSXIY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FB9D6D9BE5
-	for <lists+kasan-dev@lfdr.de>; Thu,  6 Apr 2023 17:14:02 +0200 (CEST)
-Received: by mail-wr1-x439.google.com with SMTP id j17-20020adfb311000000b002d660153278sf5071022wrd.20
-        for <lists+kasan-dev@lfdr.de>; Thu, 06 Apr 2023 08:14:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1680794042; cv=pass;
+Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BD16DA28E
+	for <lists+kasan-dev@lfdr.de>; Thu,  6 Apr 2023 22:22:42 +0200 (CEST)
+Received: by mail-wm1-x339.google.com with SMTP id bi7-20020a05600c3d8700b003edecc610absf20600872wmb.7
+        for <lists+kasan-dev@lfdr.de>; Thu, 06 Apr 2023 13:22:42 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1680812562; cv=pass;
         d=google.com; s=arc-20160816;
-        b=W5owQNYQBGNXd5Ts+CCBzuiaWaAMmoY7BLg2CLJVFNrhJ0srQFq36eY5g/aLwbEGkq
-         3Ui+hwjR91TDwF8CnVO23yHj0XSxPkIjrehNd0YgbT6HZyO5bJKxCvZeD4AllDS4H//x
-         QGkEk5QjkHc5cUEqs/s9MpNZP2HGkaPVVpGsB1i9vgUeJVmRi+ur5r6dnvhfA81ilpwv
-         /ootLHcQ34rb/hBTzudaMYuV8wJrFDQjKXYGJgbgw1r0EOUu8C0fcI0QmrexFvRNpMhS
-         JNkHpXh4CyOYL5jfTdSZoU1Ql25EYx/vmHlJi74NpRe7EVv+RaiuJg0L4I/MuI1F8Ush
-         dVIA==
+        b=Ubk3roIIzRHu1DVIAzrvly427Zzrxm4YONT2RJEByvZFogNCTNc6ahfvRriJSeZWF7
+         aTzNS0pmexAQFM7/09Y3HIPudB+CugN+/E3hFnjj50Tbbzdf/VyESph45taJvUrDy16Y
+         7vysAcvtMyqABEju4Klth8gxhLvQiFN16LCNRFHfxELBTWkSwCIMk4s2Qsig56g7gHhC
+         gVpMPdJNgjrQiuFC7SUDv/hTFBXssmyVzXTgFUBjEO6LuwKXMQsujcmcpnRDrLPx532M
+         YMLcDSSAOlVb9g9uh/ei71ZtgWUreuZsP/PZ6l+tqplEK2beyBacFEbClUzPsn5hPjCw
+         AbeA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=R+ptFi9aVhBi0lbqR9CDKy+X7vlFORsAqvaYznTqAfw=;
-        b=V1rvDMZ2xbtXmW8HiefM0UfvgYcCL8aJ0dI4UPoafWZ3clMltAiAg2e+oaZf8RtFnC
-         pZ9ZZI4QBdXlZQRsbGnjs/zRl5KtEpRtSh5WdMcFZVjyiPBsvUI9uT4AYmmX3RXy2Wr4
-         f0nNnnNLbauB8NVoHwkVgpprrawgc0a6RrjmKKjAU//sOCMPnxxiNJT95p2Jz+GQBQb6
-         sM2FqpTSIZYSzHxJMPzDVx94AdO1IXXS2HE+jjjGq0X9LnVsx8yc9dfrizjHMmFpb5oj
-         a9Q8AHP5X2M9F6R0BpNmzruyeAsPeM6HcFUO08Qow/mc52HWLyb9ykLlyG3JiRYmHK3k
-         +cuA==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=DuEInHNo2fn8JGNOqC/J3/DLtUCHw/EpRTIuQewwzd8=;
+        b=gJr9sLdaw9sSYTE8JFLdsAWCe3AUZ/zCbKATmjPIJrRzapnXJyHPyScjC8+9QdreUw
+         xWu5U4n1mkj2V8FuiTSDfZRGGRZ1OCgCG7UCyQ6P8VnvAju1N6xI4+LETufG/R2gfqef
+         Zr7tyIvyuaPd2OXpfOICEAabivgHcXpYc2tG+OxG8tPfywsiiT61RWMWeTfc3N/I2C+I
+         cDDERy5meyS2dIi2zlIzOgQD4ZK8Ul3Z7JVh8qRU+XMe7vmjSHhE6FkrOil6ybIYqR0V
+         iqZX0chZQKQ+vuAcDDOXM6AW6H411Ea5YhIn1b7hZUvpZnawFmOIeakrJWG400Fw39pp
+         Lo3Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=IshdjaxE;
-       spf=pass (google.com: domain of frederic@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=frederic@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=QMxAnedN;
+       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20210112; t=1680794042;
+        d=googlegroups.com; s=20221208; t=1680812562;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=R+ptFi9aVhBi0lbqR9CDKy+X7vlFORsAqvaYznTqAfw=;
-        b=gRWapeT7xYmwJMjP94fQcMwMA2Nr3OPqbl6LD3fpc8ulKqN7o+93/WPx6oOQX/rIhv
-         pAToN8wAa056S82XvElRhN1OIG71/73c3CoyzkJ8XWq9CLaBcOP2/Yn83BUHGFVwXqAb
-         Y1uMzAf7YjyyxTOmF8kbGs3pQ2F2IYuuuHmXUcG52ORZHVxaKWVpfEde2p4vXVCrSPEh
-         jZ8G7mh9C86lusrQiyCwFMJlgCTRsOs4DD7xRW0AHr+vx8HHZAwU94g2sF78MGVsliuO
-         +6nhdkmLAP3ZHEppVh7cOuoflOt1DAbpDFInVhAHubrcKapkuk1SUulm/65cHpnMYqxG
-         r2qg==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DuEInHNo2fn8JGNOqC/J3/DLtUCHw/EpRTIuQewwzd8=;
+        b=JZFBpoUG5lzd9fz07ktMGLb1Fh+BRJjCjT/DYCIkEaDaDqCfx/rWyKVcPBR15IPxbT
+         9gsosTISjSrB0N0AlTzGrsizsP66vobcKmivCyHWgsRPSizGohnUbq8CN5IhfD7f+zOT
+         9GpuYIPee5bhkKoK/q6heNLS2J++qh3WS9CDGiEPR/2VwM3zgAp1rVoHmuB6vMyU4RFU
+         lPUgbA2UqQmWwmc4ehdfUZ2tpUnKE1cZ7bgVXyt61AFLXDYGL6BCMfqdLqMx6som1UBm
+         AlQres1H/antty0wJIKHueNYzyWXAy8AdnOr1fJDDneD6BUWiOHaEDhwMWjq+iIu+w5n
+         mfqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1680794042;
+        d=1e100.net; s=20210112; t=1680812562;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=R+ptFi9aVhBi0lbqR9CDKy+X7vlFORsAqvaYznTqAfw=;
-        b=YlEJNd+ehKfvumT6eLp7uk+DdyjhbmeIJ1RJsG30w1lSDQxIvak1NN+Ee6A1bEDDKd
-         9Be9gAf57ykx+M03HVu1J7qhopqK+9+pHOn33gVW5f88geRuDdSRfdsTUOY1gYnSSiFE
-         bZtFdScKukckCt2SSqQNMibP/TSkMsjwAU83BjyB+EoMQxn3489p87FhexyiCeDsGjV1
-         SKiz93TyJF/yqMzMS1QUFALXMa3wQ3RGUJR9yRY/J78uLAD/JzWu9/X/myhZCJGQvlI4
-         jDNZOxpv030bCUIhAHoQ2vF7pqP2uXV6tdIjghbhrkcYejTy2Dxi3+5qphJmkGglfU3K
-         d//Q==
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DuEInHNo2fn8JGNOqC/J3/DLtUCHw/EpRTIuQewwzd8=;
+        b=hgp5aMsZELU+BH3LO2ofuSzkIWx3UksgOdfG3V34ctAF+/xpRd9ADTokSwtYT+YRqQ
+         505Vdl646myM7nLoa4zmbN/ObVWR4YBW0dvXmPvcsqs0Gy1AX5MRgTYaKi6RvH8V8WUI
+         za9tQgOOJilie16tt29bsMXTpsqF9RZShjYfQhOu/ZdCxmFJZLFG020Xt8dtgjN5Iq1U
+         thJYlpg0SYcNPDoVo/zlp0TqYjMW672udab345gQ63N8asai+r8gMWmAEuU5BVfpdujM
+         cACS+7oGUEjF0q3qZmdRBFMyXglPWFgY8rcfnzgC4weS5Y6ETEWCu67IggMsj9Uk9uTc
+         iXng==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AAQBX9d9vcAY2x4/rkjJf7LecPOUAVvo+mbE/B3NP/aj7vEbu7t9+Upe
-	ySKmReU9nyqk9QiiM0V2ZhJTcw==
-X-Google-Smtp-Source: AKy350Z4cSMDdJrH7DZa4zkLoRiNyzs6Pr7HYOWffbU2o/HGZ6U1CatOoRnR79MhPZsx7hFM4Orgsg==
-X-Received: by 2002:a5d:4601:0:b0:2cf:e70f:970c with SMTP id t1-20020a5d4601000000b002cfe70f970cmr1918259wrq.12.1680794041558;
-        Thu, 06 Apr 2023 08:14:01 -0700 (PDT)
+X-Gm-Message-State: AAQBX9ftN9qsWHAJobj43QENlZLyt57ugzkDElmCCqreJJuWY/eS6wCP
+	rHXKs1Gt0XsDzsGQWQbAtfg=
+X-Google-Smtp-Source: AKy350a7K4GtJpo6A+2oJs6F7gqIYZa7z9D0zRFw087fLikFa3Yl4WVDHWdHeiDCI14rT3TJ33tpyA==
+X-Received: by 2002:a7b:c455:0:b0:3df:97fd:221f with SMTP id l21-20020a7bc455000000b003df97fd221fmr2632581wmi.5.1680812561847;
+        Thu, 06 Apr 2023 13:22:41 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:64ac:0:b0:2cf:ef77:1717 with SMTP id m12-20020a5d64ac000000b002cfef771717ls2536570wrp.0.-pod-prod-gmail;
- Thu, 06 Apr 2023 08:14:00 -0700 (PDT)
-X-Received: by 2002:adf:edd1:0:b0:2cf:e436:f722 with SMTP id v17-20020adfedd1000000b002cfe436f722mr7448269wro.64.1680794040096;
-        Thu, 06 Apr 2023 08:14:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1680794040; cv=none;
+Received: by 2002:a05:600c:3b17:b0:3f0:68c7:dc5d with SMTP id
+ m23-20020a05600c3b1700b003f068c7dc5dls1641558wms.3.-pod-canary-gmail; Thu, 06
+ Apr 2023 13:22:40 -0700 (PDT)
+X-Received: by 2002:a1c:6a13:0:b0:3df:e468:17dc with SMTP id f19-20020a1c6a13000000b003dfe46817dcmr7805602wmc.40.1680812560211;
+        Thu, 06 Apr 2023 13:22:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1680812560; cv=none;
         d=google.com; s=arc-20160816;
-        b=RWSPoynkTEUN6jZpv5MAL72C28a5UEnAV7zs+DIa3NAs2S3c5RHk3bm7/cR4HziSw2
-         dmgI4nyWJnEB7L7r0+UsgRR/exojV3jVp4vU+QblGCFcDT1CNaivYbtXPE3+UqL3r4Tc
-         +jFw/Vm/8NaIx6QWoJuhxtRkD7qEkdI3H4OZ7bML1krVN3pWwV+08eaAMw+GuXYXnk5O
-         Rawyh73kMdMyeoWlvBCDLABVUXwmnvr2v8VqcNS7cSjB0S/K1VH0chsxi0ZoSXmOJcmC
-         seWQuY16LBBuIN4CzNs5HZXCqy36yDDDE+W7t+/9jljnfqJ5P0FiUL/FQBA4CrND15zi
-         fLVQ==
+        b=AJHWuO5BmF5IMCl//LKUa6HuApk3c6iMobJAZsOHNdTNfu9MvjhZ+5VapKgzxEpU1S
+         cywVSPw5uXiGZYYtCw2bQfOJFdRVtR/1MrYT0YqMSeNKH0i2rKd+hRCSez0wHrS5+4S2
+         71/04i7ubTw9oKqxvM9shiNPSXQsxDj2YK0vmvrHKhcx3WrU0h7HAY9NZYm+5NeAogLM
+         mHczJYf5o/ck5wRg6Dv5zmD0oe16Hf/wOb0PxTFhroBixhroVth/NEUMGMmLdFH9DncR
+         yH3MYCm+Q7sJqgggiU5qUwoF9eMAZK8IRn1mu8qtimokF1D9dLTyOJPdIJrje/5ta6Ij
+         IYog==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=SrgVmLFNIiXz60UyzKRU9OO4QhY5ffv1afEFRrWoK98=;
-        b=FTy5oCYV9KTP+I3MrC4RvgmWUKp+IZcJQGHyi0lAcpjk96PEKikcHpN+y0RVPgK1Hy
-         UCipClVn2/LKGLV9LsTHrDRj839fHcnydCu6OGS6PuPlqP2X/RQUmONew8WWSP1mAirl
-         VxOAc3ZQcBwTECVAd5i8fkk8mO/foPyvQpCzmSTdLgHu10ehyYn2zO/zJOxAnzPEJlN1
-         7oaa+VoLj35qGqBDQ4T5b5V9qlt2EH+bnSpg01UK380rMmUFBzz7VjNiEr+fH6qPxkSF
-         ejHgKObFs2um19dJclVwSYNqZ/PMNHDgbnSlVlxu/Xu2yX2eoe8HgrOj68MYPxLjqjMC
-         tFuA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=hPBwWzsuf10OLaAVTCaYjPLONJGSSpf1kqp034sRoAQ=;
+        b=PHfDpVZebPYpJbujNvZk6h0FzgdImHUAd2le7hNrWW1rJ9jeiJZK2s8dGSFHXXzgyd
+         1V1CvI51O64vexhzDXxrvnDiVZIg0qpdCgNR3sehWJvS+rQJ4aVuH8ZJ8BFyK6df418c
+         8a8uYLm7MN7D0E1KWjMhVQDAU2WYuXzNe14GVgE8cp29tpZKkyexhs/oV8UWjuL5SRHJ
+         stf32p0BnMRMN7wt/SziInyubIlL1PNgm18D90OkmI8+4XcAeS3/1yoPhyGbbdMnVFQP
+         tsTSTPUuuFhCkwDVE2sQurg8BdhfSJaBCFQw8f/Xcy1RjV9a+Un74gP4HEK8fTGnnb6U
+         JjFA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=IshdjaxE;
-       spf=pass (google.com: domain of frederic@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=frederic@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id i13-20020a5d584d000000b002c6ec127706si83118wrf.0.2023.04.06.08.13.59
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=QMxAnedN;
+       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
+Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
+        by gmr-mx.google.com with ESMTPS id ay5-20020a05600c1e0500b003f0603058a9si305757wmb.0.2023.04.06.13.22.40
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 06 Apr 2023 08:14:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of frederic@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id D7331643C8;
-	Thu,  6 Apr 2023 15:13:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8F85C433EF;
-	Thu,  6 Apr 2023 15:13:57 +0000 (UTC)
-Date: Thu, 6 Apr 2023 17:13:54 +0200
-From: Frederic Weisbecker <frederic@kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Apr 2023 13:22:40 -0700 (PDT)
+Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1pkW7o-0008k6-W2; Thu, 06 Apr 2023 20:22:37 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id D2DB3300202;
+	Thu,  6 Apr 2023 22:22:27 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id B702A212E36AE; Thu,  6 Apr 2023 22:22:27 +0200 (CEST)
+Date: Thu, 6 Apr 2023 22:22:27 +0200
+From: Peter Zijlstra <peterz@infradead.org>
 To: Marco Elver <elver@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>,
 	"Eric W. Biederman" <ebiederm@xmission.com>,
 	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com
 Subject: Re: [PATCH v6 1/2] posix-timers: Prefer delivery of signals to the
  current thread
-Message-ID: <ZC7hsjyGc+0DP2D0@localhost.localdomain>
+Message-ID: <20230406202227.GD405948@hirez.programming.kicks-ass.net>
 References: <20230316123028.2890338-1-elver@google.com>
- <CANpmjNOwo=4_VpUs1PYajtxb8gvt3hyhgwc-Bk9RN4VgupZCyQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CANpmjNOwo=4_VpUs1PYajtxb8gvt3hyhgwc-Bk9RN4VgupZCyQ@mail.gmail.com>
-X-Original-Sender: frederic@kernel.org
+In-Reply-To: <20230316123028.2890338-1-elver@google.com>
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=IshdjaxE;       spf=pass
- (google.com: domain of frederic@kernel.org designates 2604:1380:4641:c500::1
- as permitted sender) smtp.mailfrom=frederic@kernel.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@infradead.org header.s=casper.20170209 header.b=QMxAnedN;
+       spf=none (google.com: infradead.org does not designate permitted sender
+ hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,55 +141,91 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Le Thu, Apr 06, 2023 at 04:12:04PM +0200, Marco Elver a =C3=A9crit :
-> On Thu, 16 Mar 2023 at 13:31, Marco Elver <elver@google.com> wrote:
-> One last semi-gentle ping. ;-)
->=20
-> 1. We're seeing that in some applications that use POSIX timers
-> heavily, but where the main thread is mostly idle, the main thread
-> receives a disproportional amount of the signals along with being
-> woken up constantly. This is bad, because the main thread usually
-> waits with the help of a futex or really long sleeps. Now the main
-> thread will steal time (to go back to sleep) from another thread that
-> could have instead just proceeded with whatever it was doing.
->=20
-> 2. Delivering signals to random threads is currently way too
-> expensive. We need to resort to this crazy algorithm: 1) receive timer
-> signal, 2) check if main thread, 3) if main thread (which is likely),
-> pick a random thread and do tgkill. To find a random thread, iterate
-> /proc/self/task, but that's just abysmal for various reasons. Other
-> alternatives, like inherited task clock perf events are too expensive
-> as soon as we need to enable/disable the timers (does IPIs), and
-> maintaining O(#threads) timers is just as horrible.
->=20
-> This patch solves both the above issues.
->=20
-> We acknowledge the unfortunate situation of attributing this patch to
-> one clear subsystem and owner: it straddles into signal delivery and
-> POSIX timers territory, and perhaps some scheduling. The patch itself
-> only touches kernel/signal.c.
->=20
-> If anyone has serious objections, please shout (soon'ish). Given the
-> patch has been reviewed by Oleg, and scrutinized by Dmitry and myself,
-> presumably we need to find a tree that currently takes kernel/signal.c
-> patches?
->=20
-> Thanks!
+On Thu, Mar 16, 2023 at 01:30:27PM +0100, Marco Elver wrote:
+> From: Dmitry Vyukov <dvyukov@google.com>
+> 
+> POSIX timers using the CLOCK_PROCESS_CPUTIME_ID clock prefer the main
+> thread of a thread group for signal delivery.     However, this has a
+> significant downside: it requires waking up a potentially idle thread.
+> 
+> Instead, prefer to deliver signals to the current thread (in the same
+> thread group) if SIGEV_THREAD_ID is not set by the user. This does not
+> change guaranteed semantics, since POSIX process CPU time timers have
+> never guaranteed that signal delivery is to a specific thread (without
+> SIGEV_THREAD_ID set).
+> 
+> The effect is that we no longer wake up potentially idle threads, and
+> the kernel is no longer biased towards delivering the timer signal to
+> any particular thread (which better distributes the timer signals esp.
+> when multiple timers fire concurrently).
+> 
+> Signed-off-by: Dmitry Vyukov <dvyukov@google.com>
+> Suggested-by: Oleg Nesterov <oleg@redhat.com>
+> Reviewed-by: Oleg Nesterov <oleg@redhat.com>
+> Signed-off-by: Marco Elver <elver@google.com>
 
-Thanks for the reminder!
+Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 
-In the very unlikely case Thomas ignores this before the next merge window,
-I'll tentatively do a pull request to Linus.
+> ---
+>  kernel/signal.c | 25 ++++++++++++++++++++++---
+>  1 file changed, 22 insertions(+), 3 deletions(-)
+> 
+> diff --git a/kernel/signal.c b/kernel/signal.c
+> index 8cb28f1df294..605445fa27d4 100644
+> --- a/kernel/signal.c
+> +++ b/kernel/signal.c
+> @@ -1003,8 +1003,7 @@ static void complete_signal(int sig, struct task_struct *p, enum pid_type type)
+>  	/*
+>  	 * Now find a thread we can wake up to take the signal off the queue.
+>  	 *
+> -	 * If the main thread wants the signal, it gets first crack.
+> -	 * Probably the least surprising to the average bear.
+> +	 * Try the suggested task first (may or may not be the main thread).
+>  	 */
+>  	if (wants_signal(sig, p))
+>  		t = p;
+> @@ -1970,8 +1969,23 @@ int send_sigqueue(struct sigqueue *q, struct pid *pid, enum pid_type type)
+>  
+>  	ret = -1;
+>  	rcu_read_lock();
+> +	/*
+> +	 * This function is used by POSIX timers to deliver a timer signal.
+> +	 * Where type is PIDTYPE_PID (such as for timers with SIGEV_THREAD_ID
+> +	 * set), the signal must be delivered to the specific thread (queues
+> +	 * into t->pending).
+> +	 *
+> +	 * Where type is not PIDTYPE_PID, signals must just be delivered to the
+> +	 * current process. In this case, prefer to deliver to current if it is
+> +	 * in the same thread group as the target, as it avoids unnecessarily
+> +	 * waking up a potentially idle task.
+> +	 */
+>  	t = pid_task(pid, type);
+> -	if (!t || !likely(lock_task_sighand(t, &flags)))
+> +	if (!t)
+> +		goto ret;
+> +	if (type != PIDTYPE_PID && same_thread_group(t, current))
+> +		t = current;
+> +	if (!likely(lock_task_sighand(t, &flags)))
+>  		goto ret;
+>  
+>  	ret = 1; /* the signal is ignored */
+> @@ -1993,6 +2007,11 @@ int send_sigqueue(struct sigqueue *q, struct pid *pid, enum pid_type type)
+>  	q->info.si_overrun = 0;
+>  
+>  	signalfd_notify(t, sig);
+> +	/*
+> +	 * If the type is not PIDTYPE_PID, we just use shared_pending, which
+> +	 * won't guarantee that the specified task will receive the signal, but
+> +	 * is sufficient if t==current in the common case.
+> +	 */
+>  	pending = (type != PIDTYPE_PID) ? &t->signal->shared_pending : &t->pending;
+>  	list_add_tail(&q->list, &pending->list);
+>  	sigaddset(&pending->signal, sig);
+> -- 
+> 2.40.0.rc1.284.g88254d51c5-goog
+> 
 
-Thanks.
-
->=20
-> -- Marco
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/ZC7hsjyGc%2B0DP2D0%40localhost.localdomain.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230406202227.GD405948%40hirez.programming.kicks-ass.net.
