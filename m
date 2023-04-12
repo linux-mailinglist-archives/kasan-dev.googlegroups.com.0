@@ -1,110 +1,114 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBUML3OQQMGQEIY6WWPY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBV4L3OQQMGQE5GDWS5I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe3c.google.com (mail-vs1-xe3c.google.com [IPv6:2607:f8b0:4864:20::e3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E61A6DF906
-	for <lists+kasan-dev@lfdr.de>; Wed, 12 Apr 2023 16:53:07 +0200 (CEST)
-Received: by mail-vs1-xe3c.google.com with SMTP id k12-20020a67c28c000000b0042c6ab80f1dsf2588517vsj.14
-        for <lists+kasan-dev@lfdr.de>; Wed, 12 Apr 2023 07:53:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1681311186; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2725F6DF907
+	for <lists+kasan-dev@lfdr.de>; Wed, 12 Apr 2023 16:53:12 +0200 (CEST)
+Received: by mail-lf1-x13f.google.com with SMTP id s22-20020a195e16000000b004e9b307b224sf4503620lfb.7
+        for <lists+kasan-dev@lfdr.de>; Wed, 12 Apr 2023 07:53:12 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1681311191; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TlLHrGP7AtcPulKH0hAbD1uBPnwM46m8Zt6QJe+mmoWjepKgPolOHK5KQRNHdMQtSQ
-         RnxRtZXXa3uY7Z+5TNGfkFDuCmUN3SwiOO34GA3v8CQJ1MBX25XADCNtCGScBbo8mwFD
-         4w4btBqI/JDa3DEFtxLu4mopOxf9Kii7pWVcDuT9PZ7JbBg6GwqhvAPCfEAi67+84BXb
-         xst3tnzad0/zru9J7TfPNsIrllpB6dMC3WpZs7yts0UhKgu23k4XiP2Fgch/p0ZEmYbK
-         ytCZgGTV695bfmDwDshXg5XBIeeG7OOj9sa1McC6l040ZTGC2tpEvgEjsm+WX+3PH3CS
-         u/CA==
+        b=W+vlUIafZv3Q23tj7T8jRio3sQKwqneytke4WHOrNrhE3UDqeOnJUcTjNZ7mAmg9dK
+         OBWWrkvKvazfuGC0ng5PrP3K6NPYUoPVWsr6uModvPJT3j5uwd0NWOnkMAbUUasead9v
+         J2KmNS3OzBVHd6JtiKC95E2iCu6arvAbkEAGdWU4w/hs7yPSC4ohXI0pBYk5mhYPp63K
+         DtKk1e8gEIqn5CVmqDwHy2YaGDUqKIr5Dc+ntJH5rcDa83QvDvHMHOxZf9C9yDNkuSvS
+         V12itiQ7hTMWFAtqn/L/Zrs0eKTwtpJOrM9xjZodk67r5l6D6Nxx+gWKUZNHFA6DRBiy
+         7xKA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:mime-version:date:dkim-signature;
-        bh=smDoaunM3eiuy+FrWBWOALeQBgDuf4CikwqtajhL5Ss=;
-        b=MQl5kd/9yP2LaQtaGCk74emY0vzMIchjHFt7kQF7wgNVPEV+ojx5NFMZo2gj4q23An
-         qfndxxfcb9Lqbs3M4Bj/06xhQ3No8K/JpGM5LILY3+7hLqnrDyMsphaSY8ajtJB5YJUA
-         fWw3lvUiazirAHdyD60vW7gdaZGW8bBPGOUS4jZdol6cC/x+Kw6ZIeiC7vZTlgWDnbK+
-         RnMQtdGX7NjK2IEihKIEkIzTASrt8zCxbZsFBFYmQ9aGpYR1aLaB/8nL0nejbqddbclw
-         ddm/Nwv7Vjx8u6h9wUExPNZJ8UxlwGFpEG/Jr0DLmysjyEb/4EZLOJrnyyx7ffkgSZ/I
-         +WEw==
+         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
+        bh=TqRRrsySWm/k484Q3fgy6xRdZNMrH2a+f5S1RWSFWgs=;
+        b=LkyeGQGD5BgKLZ0DD2453xWMBznERo+wgPF3yAvrl7/b/6BwpMz66AdOLTk9q8FeU2
+         mizE+ZoLAkma/XvkayvgCDI9POPCwNBDCzKJS2cKeX7uipQMk+czNcP1v1caN5Co1R7r
+         +FkFb1GnFm8Mi2qUtfsiE76VXxkStpbPPv6rQqk5P5SQG1H5Yic+ZGsRVmfDuK3cgqr3
+         gocK8MX2BdcENkZDu/MgphCE9XtC+Dha5fqt5p52eRiWbLDRoAvNAz5OwEnLB+mcbdJQ
+         3dFJKBeCrte8S1XdpK9gBJhOn0A40EkuGDlgtdQBBJQm/5dIZV9IBnnkslXgRaiqPZw4
+         JL5g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=BGJ19UUT;
-       spf=pass (google.com: domain of 30mu2zaykcv8difabodlldib.9ljh7p7k-absdlldibdolrmp.9lj@flex--glider.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=30MU2ZAYKCV8DIFABODLLDIB.9LJH7P7K-ABSDLLDIBDOLRMP.9LJ@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=utjKfmyg;
+       spf=pass (google.com: domain of 31cu2zaykcwqinkfgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=31cU2ZAYKCWQINKFGTIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1681311186; x=1683903186;
+        d=googlegroups.com; s=20221208; t=1681311191; x=1683903191;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=smDoaunM3eiuy+FrWBWOALeQBgDuf4CikwqtajhL5Ss=;
-        b=GKvM93XLITFDtz+wOLyAQeNOQ3OoX098JwJbAOn3vjfQ346uXpx+ybEe7mEKGkBGXq
-         T22wh4lXSbdUvu8TgOfWLfewyqm6kNCmeZu+3awpiEUfp/AkVWdinIz6ndFu6hs8fXI6
-         ue4bTAB2IBhoh8Dp249P2Ys81QLn8AiHV70JX1AntK1QTJh+4lb3mL2DSLEZ5V+2YjMq
-         p0CRmKxF3fPKlr8jSY+hit54KT/OUBxk7wk1ysM435wcXMs9rehlXTXfwXDxq5rYJYWm
-         u+1Bfmw9xFooso0ANGjlcuJ+TvWLeAS1vvMlCxMYjlgt2MQXpRyelyZ3NHZiZBFYkVwL
-         4XhQ==
+         :subject:message-id:references:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=TqRRrsySWm/k484Q3fgy6xRdZNMrH2a+f5S1RWSFWgs=;
+        b=c6/22pyTjoR7e+xEuizZoQhnwr1y5JLL5cyiYw0Jxv3ohaeDkpIA2Xa7/9TI1svpXw
+         dPPrQ966jdHnZtUMtsxH1Cr7DN859ebd+4QNwoP0cWyS4JdDnB51GPIBiQfTTPVr6TpB
+         abO7DPtdXw2+ZqsiXwbtfROIh+K5Bz+bKijvvipDKE8zYTblgijavKAUhD3k8U/VpOKD
+         xnSPmAajetXAQ3dFS6LWhTtDdYD5RC7uMGeEOrhT5jVVSvUW2/ZOT2ylnrQROylJrn1A
+         P88queqTTQT5V5jy8TkQKEDFtT0FPczl+kuWdxjXIJResLGcVTZn1fulz3AflWzZVvwY
+         vHfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1681311186; x=1683903186;
+        d=1e100.net; s=20210112; t=1681311191; x=1683903191;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=smDoaunM3eiuy+FrWBWOALeQBgDuf4CikwqtajhL5Ss=;
-        b=PMfORqBGJIftGoi2iwMzB/dRf9kSiYe2EFC9RQcVXpdUmfSOV3NMtURkF9iRRA5W9y
-         +8HTEMgv9y8Ac5w2Dtae2EGHJbLILFTqsMt00WRvYJMaEvM1BkGVirAZ2ARifAtOYj+z
-         XObz8b+g+pMAfsORGVoet4IKUWcQu6Fhi8SiYjE/Qk95uX12zoZHKlznSpyFuF3/YnA5
-         +UKAJ0rQbxtA+79qwdGZFFBMs+g5repAZHmcuVMDNIwoLXe3tGUnbXONStU5t6ZxGl2x
-         E/bhODVVHId9/zUHuFgst2Lqi3XtJPGiX/VD40bcXU7xt+eu27RxrQFhujPNmh9YrUOy
-         GexA==
-X-Gm-Message-State: AAQBX9cIRLupxRj9TPGhINuhTi4ijks884tAyw/apjMjLbq1jpQTfCXq
-	y8hVM5175ZrGjrqdk3YCACE=
-X-Google-Smtp-Source: AKy350Zd3q2Y8GfSe+1FAnLAwSVD1hTVgmUl9bzcgJNPIT/znsnqdJqfUTJbMBmqsGMo/5mq4A/Ziw==
-X-Received: by 2002:ab0:5481:0:b0:769:593d:b7ec with SMTP id p1-20020ab05481000000b00769593db7ecmr3949535uaa.2.1681311185645;
-        Wed, 12 Apr 2023 07:53:05 -0700 (PDT)
+         :subject:message-id:references:mime-version:in-reply-to:date
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TqRRrsySWm/k484Q3fgy6xRdZNMrH2a+f5S1RWSFWgs=;
+        b=RkkNU5t2Xzn3QwA8ofoPxq6VJdfElQymN7MntTdWU6s55L0XpvgaMAiGYxbMeFWBVF
+         qqWjheEIImLi4d8YTasuF45HLQIk8hDmLUI5LZJKYI47XGuS/TY/f0m3hT4n7b9PXEoq
+         Zz07Asfu75pKft7SNsYJbolDd97vv/5oeSVGKhIq/zW5Q5a7LKsuvY5AZsUIQfnrfdDL
+         WYIwGCULOhoxytAtNqO7pRmF9vNH65NeU6srEZ5xDxg36jxyQUv7sXPepB1Jm9brrynJ
+         eVHchay+KKWgX9rlYzrVciKl92QlY9khB891kltSbJQkMbonE8rj92jf6cDV7CQN/Mfs
+         4haw==
+X-Gm-Message-State: AAQBX9f3YBLnHOpJwdU7CaLnbeJzbFKibKWl16Tzql4+qnDsKZ+90HkD
+	7njRrQx6M/xXjpjBRGwLBck=
+X-Google-Smtp-Source: AKy350YhFYuSf+Js4LXrxBLakrzvCc2/zdb7OJm0DMJiLNZDRy661ypXIGHHH3EID88VnL5UvleyHQ==
+X-Received: by 2002:a2e:9c91:0:b0:2a7:6bb4:a701 with SMTP id x17-20020a2e9c91000000b002a76bb4a701mr4567089lji.5.1681311191204;
+        Wed, 12 Apr 2023 07:53:11 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1f:f8c5:0:b0:43f:c7ee:63a3 with SMTP id w188-20020a1ff8c5000000b0043fc7ee63a3ls1306959vkh.4.-pod-prod-gmail;
- Wed, 12 Apr 2023 07:53:05 -0700 (PDT)
-X-Received: by 2002:a05:6122:2193:b0:43f:e623:952 with SMTP id j19-20020a056122219300b0043fe6230952mr1197795vkd.2.1681311184936;
-        Wed, 12 Apr 2023 07:53:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1681311184; cv=none;
+Received: by 2002:ac2:4f06:0:b0:4ec:6fe6:9f26 with SMTP id k6-20020ac24f06000000b004ec6fe69f26ls916022lfr.0.-pod-prod-gmail;
+ Wed, 12 Apr 2023 07:53:09 -0700 (PDT)
+X-Received: by 2002:ac2:5086:0:b0:4df:51a7:a92 with SMTP id f6-20020ac25086000000b004df51a70a92mr3277620lfm.11.1681311189680;
+        Wed, 12 Apr 2023 07:53:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1681311189; cv=none;
         d=google.com; s=arc-20160816;
-        b=E36OaZDaOJVvFTfabZ1+AO5EHBOwDAy2EPsbjzt8hd7k/nVlLomdK2V/fBV5i+YoG0
-         NtYZybNInQvMeuGcami/rzSV17lE3NcHx3nUmXhyh2QkGdKD2NUZdsbFAnFN4bERWaP0
-         83YqX9cNTJI+nvyqF9nYtDY213/uaWLpzAKN5sCwkCssQ0/xef8bbf1337r9K80UBrx7
-         Grn3P4x4/aoXyjaclj983+D94R/87xod0kJIsmN3SsFQMyfJqGU5/d3LIk6UV1f14BSv
-         Y4fow8MByCa2c6JGTNrxExcFNBtPSY6qLLZaSFIQWui/NAWwfDhk9XSQOrdHMK+e3aNz
-         9JBQ==
+        b=fht4b6hxE0vwWdZg6nhyQ0B15XyeyRnu/9YWEWWnADGMyKlFt/ehccV9dIjKSEjtpT
+         McpuHyqkdtT9WKKT0FnZCrs4yXtYhMZAXYdDMj998NIh9ob0qYABQyRymCqv90G8W1RM
+         zq71ZYXsqaRRufLi7ODwJH1pP8DR2BNXd0Het3ZCnRtSIWMHB2ItoKd8RBsd188Mooew
+         /gG7ZrgQIpCzHORHm9wwqCtKOrfaj9KNJ/cjexNU80FVK9Lk2YMjeb6x2HP9bOCokJYA
+         8v0G7MHRSjgz1XOYwAwfqrEhfYytZtj+/x2JtUmoyPFA8njWuHs75aUX5L8k/thgnJ+k
+         u7uA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
-        bh=CwA0wdGrULC2XXBzkQfVWleO9hyls9jS7CAlyZ8lvMo=;
-        b=U1maCrFUEnY7d0418KhPPwg81BfLfKMi4TjAT08uK8/fbM/dAkwVrqMDNZ6dQHyRie
-         ErWsJJYtBlJYBEMdbryyxaYzvY4/MffiLtX8rns43Jz69MsJcAMkP6yooHxQNNozJbq7
-         Xbii1qnoJcmXGjphQhBgjpiFITe6UnvDldVm2RoxOLbRAfRLTvzvrFswcooKWRw+JEpQ
-         l8scAeBKsbvbwml8uIfYnsZ9TlTSog2VOh9BA33EzAoFil1cfjLpun3RFtGtDINVhRAv
-         1yAgSOMrEBJw9aRlb6yNsy5StGqD1Ut1g+Qi5EalHIH3DgLMf9lqp03H2npOVQu6ACwR
-         EmgQ==
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:dkim-signature;
+        bh=GLtuEgzLkzzznhMQcB+RHI4zD53wmkIOG/wGgFhyqPw=;
+        b=EY+fFNp1rqV6IP0FNIDdqZb6iL0c31YiH6Kq/u/MMQwUqltMyhRPQOObAsTZ9241fq
+         L1Fj8u/FOZNlBiYhbQUTz5X+7N9QlitnhsDf8ralUjrjoW15QB/925qYScj49p7bg9/A
+         D5mDP9zGb2BuBFBqGMRX69ELC2pNbYr+00n9N/p7GdYPk6ZrzHLXN4mNeAtv7hv/UDAF
+         LxSCrcvPgmKtjGbDdtt3sKxtq0GDchDtm7FPVSe9nRzjZMQkkk09arSesD9duMromlKl
+         VCq65QwPkGUGoIALAFcP6oJsrFKRkNaIzL+5dSITSw8jYS9YVJXWIXYZW/nmDkttpmQ0
+         fzGQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=BGJ19UUT;
-       spf=pass (google.com: domain of 30mu2zaykcv8difabodlldib.9ljh7p7k-absdlldibdolrmp.9lj@flex--glider.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=30MU2ZAYKCV8DIFABODLLDIB.9LJH7P7K-ABSDLLDIBDOLRMP.9LJ@flex--glider.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=utjKfmyg;
+       spf=pass (google.com: domain of 31cu2zaykcwqinkfgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=31cU2ZAYKCWQINKFGTIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com. [2607:f8b0:4864:20::b49])
-        by gmr-mx.google.com with ESMTPS id j4-20020ac5ccc4000000b0043fa939cd42si939986vkn.0.2023.04.12.07.53.04
+Received: from mail-ed1-x54a.google.com (mail-ed1-x54a.google.com. [2a00:1450:4864:20::54a])
+        by gmr-mx.google.com with ESMTPS id i3-20020a056512224300b004ec62de2d52si694971lfu.1.2023.04.12.07.53.09
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Apr 2023 07:53:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 30mu2zaykcv8difabodlldib.9ljh7p7k-absdlldibdolrmp.9lj@flex--glider.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) client-ip=2607:f8b0:4864:20::b49;
-Received: by mail-yb1-xb49.google.com with SMTP id c67-20020a254e46000000b00b88f1fd158fso27944853ybb.17
-        for <kasan-dev@googlegroups.com>; Wed, 12 Apr 2023 07:53:04 -0700 (PDT)
+        Wed, 12 Apr 2023 07:53:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 31cu2zaykcwqinkfgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--glider.bounces.google.com designates 2a00:1450:4864:20::54a as permitted sender) client-ip=2a00:1450:4864:20::54a;
+Received: by mail-ed1-x54a.google.com with SMTP id 4fb4d7f45d1cf-505149e1a4eso752042a12.1
+        for <kasan-dev@googlegroups.com>; Wed, 12 Apr 2023 07:53:09 -0700 (PDT)
 X-Received: from glider.muc.corp.google.com ([2a00:79e0:9c:201:901c:7904:40a1:1b6c])
- (user=glider job=sendgmr) by 2002:a25:c905:0:b0:b77:81f:42dc with SMTP id
- z5-20020a25c905000000b00b77081f42dcmr12063363ybf.1.1681311184657; Wed, 12 Apr
- 2023 07:53:04 -0700 (PDT)
-Date: Wed, 12 Apr 2023 16:52:59 +0200
+ (user=glider job=sendgmr) by 2002:a05:6402:550b:b0:4fb:e069:77ac with SMTP id
+ fi11-20020a056402550b00b004fbe06977acmr2006910edb.0.1681311189113; Wed, 12
+ Apr 2023 07:53:09 -0700 (PDT)
+Date: Wed, 12 Apr 2023 16:53:00 +0200
+In-Reply-To: <20230412145300.3651840-1-glider@google.com>
 Mime-Version: 1.0
+References: <20230412145300.3651840-1-glider@google.com>
 X-Mailer: git-send-email 2.40.0.577.gac1e443424-goog
-Message-ID: <20230412145300.3651840-1-glider@google.com>
-Subject: [PATCH 1/2] mm: kmsan: handle alloc failures in kmsan_vmap_pages_range_noflush()
+Message-ID: <20230412145300.3651840-2-glider@google.com>
+Subject: [PATCH 2/2] mm: kmsan: handle alloc failures in kmsan_ioremap_page_range()
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
 To: glider@google.com
 Cc: urezki@gmail.com, hch@infradead.org, linux-kernel@vger.kernel.org, 
@@ -114,9 +118,9 @@ Cc: urezki@gmail.com, hch@infradead.org, linux-kernel@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b=BGJ19UUT;       spf=pass
- (google.com: domain of 30mu2zaykcv8difabodlldib.9ljh7p7k-absdlldibdolrmp.9lj@flex--glider.bounces.google.com
- designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=30MU2ZAYKCV8DIFABODLLDIB.9LJH7P7K-ABSDLLDIBDOLRMP.9LJ@flex--glider.bounces.google.com;
+ header.i=@google.com header.s=20221208 header.b=utjKfmyg;       spf=pass
+ (google.com: domain of 31cu2zaykcwqinkfgtiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::54a as permitted sender) smtp.mailfrom=31cU2ZAYKCWQINKFGTIQQING.EQOMCUCP-FGXIQQINGITQWRU.EQO@flex--glider.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
 Reply-To: Alexander Potapenko <glider@google.com>
@@ -132,151 +136,158 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-As reported by Dipanjan Das, when KMSAN is used together with kernel
-fault injection (or, generally, even without the latter), calls to
-kcalloc() or __vmap_pages_range_noflush() may fail, leaving the
-metadata mappings for the virtual mapping in an inconsistent state.
-When these metadata mappings are accessed later, the kernel crashes.
-
-To address the problem, we return a non-zero error code from
-kmsan_vmap_pages_range_noflush() in the case of any allocation/mapping
-failure inside it, and make vmap_pages_range_noflush() return an error
-if KMSAN fails to allocate the metadata.
-
-This patch also removes KMSAN_WARN_ON() from vmap_pages_range_noflush(),
-as these allocation failures are not fatal anymore.
+Similarly to kmsan_vmap_pages_range_noflush(),
+kmsan_ioremap_page_range() must also properly handle allocation/mapping
+failures. In the case of such, it must clean up the already created
+metadata mappings and return an error code, so that the failure can be
+propagated to ioremap_page_range().
 
 Reported-by: Dipanjan Das <mail.dipanjan.das@gmail.com>
 Link: https://lore.kernel.org/linux-mm/CANX2M5ZRrRA64k0hOif02TjmY9kbbO2aCBPyq79es34RXZ=cAw@mail.gmail.com/
 Fixes: b073d7f8aee4 ("mm: kmsan: maintain KMSAN metadata for page operations")
 Signed-off-by: Alexander Potapenko <glider@google.com>
 ---
- include/linux/kmsan.h | 19 ++++++++++---------
- mm/kmsan/shadow.c     | 27 ++++++++++++++++++---------
- mm/vmalloc.c          |  6 +++++-
- 3 files changed, 33 insertions(+), 19 deletions(-)
+ include/linux/kmsan.h | 18 +++++++--------
+ mm/kmsan/hooks.c      | 53 +++++++++++++++++++++++++++++++++++++------
+ mm/vmalloc.c          |  4 ++--
+ 3 files changed, 57 insertions(+), 18 deletions(-)
 
 diff --git a/include/linux/kmsan.h b/include/linux/kmsan.h
-index e38ae3c346184..a0769d4aad1c8 100644
+index a0769d4aad1c8..fa5a4705ea379 100644
 --- a/include/linux/kmsan.h
 +++ b/include/linux/kmsan.h
-@@ -134,11 +134,12 @@ void kmsan_kfree_large(const void *ptr);
-  * @page_shift:	page_shift passed to vmap_range_noflush().
+@@ -160,11 +160,12 @@ void kmsan_vunmap_range_noflush(unsigned long start, unsigned long end);
+  * @page_shift:	page_shift argument passed to vmap_range_noflush().
   *
-  * KMSAN maps shadow and origin pages of @pages into contiguous ranges in
-- * vmalloc metadata address range.
-+ * vmalloc metadata address range. Returns 0 on success, callers must check
-+ * for non-zero return value.
+  * KMSAN creates new metadata pages for the physical pages mapped into the
+- * virtual memory.
++ * virtual memory. Returns 0 on success, callers must check for non-zero return
++ * value.
   */
--void kmsan_vmap_pages_range_noflush(unsigned long start, unsigned long end,
--				    pgprot_t prot, struct page **pages,
--				    unsigned int page_shift);
-+int kmsan_vmap_pages_range_noflush(unsigned long start, unsigned long end,
-+				   pgprot_t prot, struct page **pages,
-+				   unsigned int page_shift);
+-void kmsan_ioremap_page_range(unsigned long addr, unsigned long end,
+-			      phys_addr_t phys_addr, pgprot_t prot,
+-			      unsigned int page_shift);
++int kmsan_ioremap_page_range(unsigned long addr, unsigned long end,
++			     phys_addr_t phys_addr, pgprot_t prot,
++			     unsigned int page_shift);
  
  /**
-  * kmsan_vunmap_kernel_range_noflush() - Notify KMSAN about a vunmap.
-@@ -281,11 +282,11 @@ static inline void kmsan_kfree_large(const void *ptr)
+  * kmsan_iounmap_page_range() - Notify KMSAN about a iounmap_page_range() call.
+@@ -295,11 +296,10 @@ static inline void kmsan_vunmap_range_noflush(unsigned long start,
  {
  }
  
--static inline void kmsan_vmap_pages_range_noflush(unsigned long start,
--						  unsigned long end,
--						  pgprot_t prot,
--						  struct page **pages,
--						  unsigned int page_shift)
-+static inline int kmsan_vmap_pages_range_noflush(unsigned long start,
-+						 unsigned long end,
-+						 pgprot_t prot,
-+						 struct page **pages,
-+						 unsigned int page_shift)
+-static inline void kmsan_ioremap_page_range(unsigned long start,
+-					    unsigned long end,
+-					    phys_addr_t phys_addr,
+-					    pgprot_t prot,
+-					    unsigned int page_shift)
++static inline int kmsan_ioremap_page_range(unsigned long start,
++					   unsigned long end,
++					   phys_addr_t phys_addr, pgprot_t prot,
++					   unsigned int page_shift)
  {
  }
  
-diff --git a/mm/kmsan/shadow.c b/mm/kmsan/shadow.c
-index a787c04e9583c..b8bb95eea5e3d 100644
---- a/mm/kmsan/shadow.c
-+++ b/mm/kmsan/shadow.c
-@@ -216,27 +216,29 @@ void kmsan_free_page(struct page *page, unsigned int order)
- 	kmsan_leave_runtime();
- }
- 
--void kmsan_vmap_pages_range_noflush(unsigned long start, unsigned long end,
--				    pgprot_t prot, struct page **pages,
--				    unsigned int page_shift)
-+int kmsan_vmap_pages_range_noflush(unsigned long start, unsigned long end,
-+				   pgprot_t prot, struct page **pages,
-+				   unsigned int page_shift)
+diff --git a/mm/kmsan/hooks.c b/mm/kmsan/hooks.c
+index 3807502766a3e..02c17b7cb6ddd 100644
+--- a/mm/kmsan/hooks.c
++++ b/mm/kmsan/hooks.c
+@@ -148,35 +148,74 @@ void kmsan_vunmap_range_noflush(unsigned long start, unsigned long end)
+  * into the virtual memory. If those physical pages already had shadow/origin,
+  * those are ignored.
+  */
+-void kmsan_ioremap_page_range(unsigned long start, unsigned long end,
+-			      phys_addr_t phys_addr, pgprot_t prot,
+-			      unsigned int page_shift)
++int kmsan_ioremap_page_range(unsigned long start, unsigned long end,
++			     phys_addr_t phys_addr, pgprot_t prot,
++			     unsigned int page_shift)
  {
- 	unsigned long shadow_start, origin_start, shadow_end, origin_end;
- 	struct page **s_pages, **o_pages;
--	int nr, mapped;
-+	int nr, mapped, err = 0;
+ 	gfp_t gfp_mask = GFP_KERNEL | __GFP_ZERO;
+ 	struct page *shadow, *origin;
+ 	unsigned long off = 0;
+-	int nr;
++	int nr, err = 0, clean = 0, mapped;
  
- 	if (!kmsan_enabled)
--		return;
-+		return 0;
- 
- 	shadow_start = vmalloc_meta((void *)start, KMSAN_META_SHADOW);
- 	shadow_end = vmalloc_meta((void *)end, KMSAN_META_SHADOW);
- 	if (!shadow_start)
+ 	if (!kmsan_enabled || kmsan_in_runtime())
 -		return;
 +		return 0;
  
  	nr = (end - start) / PAGE_SIZE;
- 	s_pages = kcalloc(nr, sizeof(*s_pages), GFP_KERNEL);
- 	o_pages = kcalloc(nr, sizeof(*o_pages), GFP_KERNEL);
--	if (!s_pages || !o_pages)
-+	if (!s_pages || !o_pages) {
-+		err = -ENOMEM;
- 		goto ret;
-+	}
- 	for (int i = 0; i < nr; i++) {
- 		s_pages[i] = shadow_page_for(pages[i]);
- 		o_pages[i] = origin_page_for(pages[i]);
-@@ -249,10 +251,16 @@ void kmsan_vmap_pages_range_noflush(unsigned long start, unsigned long end,
  	kmsan_enter_runtime();
- 	mapped = __vmap_pages_range_noflush(shadow_start, shadow_end, prot,
- 					    s_pages, page_shift);
--	KMSAN_WARN_ON(mapped);
-+	if (mapped) {
-+		err = mapped;
-+		goto ret;
+-	for (int i = 0; i < nr; i++, off += PAGE_SIZE) {
++	for (int i = 0; i < nr; i++, off += PAGE_SIZE, clean = i) {
+ 		shadow = alloc_pages(gfp_mask, 1);
+ 		origin = alloc_pages(gfp_mask, 1);
+-		__vmap_pages_range_noflush(
++		if (!shadow || !origin) {
++			err = -ENOMEM;
++			goto ret;
++		}
++		mapped = __vmap_pages_range_noflush(
+ 			vmalloc_shadow(start + off),
+ 			vmalloc_shadow(start + off + PAGE_SIZE), prot, &shadow,
+ 			PAGE_SHIFT);
++		if (mapped) {
++			err = mapped;
++			goto ret;
++		}
++		shadow = NULL;
+ 		__vmap_pages_range_noflush(
+ 			vmalloc_origin(start + off),
+ 			vmalloc_origin(start + off + PAGE_SIZE), prot, &origin,
+ 			PAGE_SHIFT);
++		if (mapped) {
++			__vunmap_range_noflush(
++				vmalloc_shadow(start + off),
++				vmalloc_shadow(start + off + PAGE_SIZE));
++			err = mapped;
++			goto ret;
++		}
++		origin = NULL;
 +	}
- 	mapped = __vmap_pages_range_noflush(origin_start, origin_end, prot,
- 					    o_pages, page_shift);
--	KMSAN_WARN_ON(mapped);
-+	if (mapped) {
-+		err = mapped;
-+		goto ret;
-+	}
++	/* Page mapping loop finished normally, nothing to clean up. */
++	clean = 0;
++
++ret:
++	if (clean > 0) {
++		/*
++		 * Something went wrong. Clean up shadow/origin pages allocated
++		 * on the last loop iteration, then delete mappings created
++		 * during the previous iterations.
++		 */
++		if (shadow)
++			__free_pages(shadow, 1);
++		if (origin)
++			__free_pages(origin, 1);
++		__vunmap_range_noflush(
++			vmalloc_shadow(start),
++			vmalloc_shadow(start + clean * PAGE_SIZE));
++		__vunmap_range_noflush(
++			vmalloc_origin(start),
++			vmalloc_origin(start + clean * PAGE_SIZE));
+ 	}
+ 	flush_cache_vmap(vmalloc_shadow(start), vmalloc_shadow(end));
+ 	flush_cache_vmap(vmalloc_origin(start), vmalloc_origin(end));
  	kmsan_leave_runtime();
- 	flush_tlb_kernel_range(shadow_start, shadow_end);
- 	flush_tlb_kernel_range(origin_start, origin_end);
-@@ -262,6 +270,7 @@ void kmsan_vmap_pages_range_noflush(unsigned long start, unsigned long end,
- ret:
- 	kfree(s_pages);
- 	kfree(o_pages);
 +	return err;
  }
  
- /* Allocate metadata for pages allocated at boot time. */
+ void kmsan_iounmap_page_range(unsigned long start, unsigned long end)
 diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index a50072066221a..1355d95cce1ca 100644
+index 1355d95cce1ca..31ff782d368b0 100644
 --- a/mm/vmalloc.c
 +++ b/mm/vmalloc.c
-@@ -605,7 +605,11 @@ int __vmap_pages_range_noflush(unsigned long addr, unsigned long end,
- int vmap_pages_range_noflush(unsigned long addr, unsigned long end,
- 		pgprot_t prot, struct page **pages, unsigned int page_shift)
- {
--	kmsan_vmap_pages_range_noflush(addr, end, prot, pages, page_shift);
-+	int ret = kmsan_vmap_pages_range_noflush(addr, end, prot, pages,
-+						 page_shift);
-+
-+	if (ret)
-+		return ret;
- 	return __vmap_pages_range_noflush(addr, end, prot, pages, page_shift);
+@@ -313,8 +313,8 @@ int ioremap_page_range(unsigned long addr, unsigned long end,
+ 				 ioremap_max_page_shift);
+ 	flush_cache_vmap(addr, end);
+ 	if (!err)
+-		kmsan_ioremap_page_range(addr, end, phys_addr, prot,
+-					 ioremap_max_page_shift);
++		err = kmsan_ioremap_page_range(addr, end, phys_addr, prot,
++					       ioremap_max_page_shift);
+ 	return err;
  }
  
 -- 
@@ -285,4 +296,4 @@ index a50072066221a..1355d95cce1ca 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230412145300.3651840-1-glider%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230412145300.3651840-2-glider%40google.com.
