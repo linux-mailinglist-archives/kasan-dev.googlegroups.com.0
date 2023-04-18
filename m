@@ -1,129 +1,131 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBB4Q7KQQMGQEWOMVTXY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBXES7KQQMGQEQGQ22IQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F6E6E609D
-	for <lists+kasan-dev@lfdr.de>; Tue, 18 Apr 2023 14:07:37 +0200 (CEST)
-Received: by mail-pf1-x43c.google.com with SMTP id d2e1a72fcca58-63b64ada305sf1612418b3a.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 18 Apr 2023 05:07:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1681819655; cv=pass;
+Received: from mail-io1-xd3d.google.com (mail-io1-xd3d.google.com [IPv6:2607:f8b0:4864:20::d3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1486D6E60E6
+	for <lists+kasan-dev@lfdr.de>; Tue, 18 Apr 2023 14:13:18 +0200 (CEST)
+Received: by mail-io1-xd3d.google.com with SMTP id ca18e2360f4ac-7606df33b58sf215634039f.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 18 Apr 2023 05:13:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1681819996; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XA7ZNAhkpiZ9SrxtVlrjAiLvLmZJiokik2zyzisS12AK42FftzAarWDGlssjShH/KQ
-         scbfpZJ/NbJuUYJliloMvg3tsnYCwwksqxHwx5oMY8Vsan9kq1A7iTJy4qMFDPCQKz8z
-         VM11kcPxpV1uSuy00WU4X54GCJ2ZI1oOY1rlrLaqr+KfWu5BhsqXUIGN+cnP38yYTkcp
-         39c5UfRqyWF1sq9x3Y31HzowxBja6uJO2d6whEclofuTZrWOevnzguOzz0CqRycWH8rW
-         AEEQHa+ouse8v0sy5XONrqw08YQGpM4pd+bbU9qeJRn9/0syvOT72I7GH7LQFlgR0/2C
-         bH2w==
+        b=hrDWSIvm+by8fwH3wahaxnW0roM0Vhw4bFkv/0dA7pjF5aNEluAYO3Rul9X1IzjtPt
+         klnESeRdB+3nCEKVc+nUl7rDxI04sWnS6Byr58kYjZt45ZpMWir8CIqjz82GSo4Gi6o5
+         JOgJaNWtQmxnhjY6Fz0KBkUC15gdk+ysOubYN15/IhSJUa2PM7gAk45peIL1zmysKGaY
+         wnm/Dc8bsXKduSDTSUKKUU+TREmc5Tg7jR0DLSEQ3TSMvFZoO7C+lkBmu/wOZJyvG3we
+         C3Bo3Ie9cRKvr86jq+Af33usEMlD6We8mPvZ91C2BrgWhGKt+XsFU9TZuoFcMfEI/H5g
+         9IOg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=Gv5OTKUFPHh5i2eqhlTiNsPiMExun4okAPSqj5LcdyQ=;
-        b=wpozuXvVqvFo52lt25xF073l57iJOvNpo/DiGLo8ZTmVr2HL6qHIUvwT6YF++Nxo1g
-         iF4x5vbl/Cw1014JAiufO0Az1o75Qx6v88q5lCoFvvSns/LgIlHQlqTs4W6VAsfmK96T
-         0aGiUhWdmEX4NIBMQuvT30j50U7ly/3jklP0mhVMbxJROqnM14bZkTgxEdzQFpfLzuse
-         fD+BjjTak0fhHxy20IixdlD29HZIxiG/nx7C6DTiI2uZ6X1V7AEBYO2SFyRvYo6RWt+t
-         zt/f53rMT12CINhJSwCFgC+FSiX2td4bBYYpMR/JTd+J9zMSFS8q8UlHISkwTlaGmeH4
-         3z2w==
+        bh=FUTSQ0rK9pPWm93xJJTI51fEquZLac78hVY+zqZGbOI=;
+        b=gPV5qU3vDFtRj32jKQ7WBKWg78w1+E738Dwy9mRu9CDX4uXVLk9RiNzn0INmJjGIM+
+         DahZDtFnLDRgJrg5qpGPxg0wLgPrzJbvpEdZm1jDQokHmPJr2ImGM8FY3t5iSazlbiEk
+         GZ2nxndAhe1g38y/NaYFd5TRlxO+3sKN+BuTs5bDEFyuuumAp2q+dSCQM/CdOaELefHh
+         csGMG/3POfM6W4iGSj+3QdXeOcxRCCCKhuBW38upoIC+q4SjwE2f5xJUG85wqBIVywn/
+         AOOwW8ZK3ba9pokKS2ad4FeNMIMDc6yuvIFg60R5XmERO+7Gn6rSKzKzSY7gZogcEMkN
+         fWCA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=WOcobd9V;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::d2b as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b="Jyi6R/m8";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::d2d as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1681819655; x=1684411655;
+        d=googlegroups.com; s=20221208; t=1681819996; x=1684411996;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Gv5OTKUFPHh5i2eqhlTiNsPiMExun4okAPSqj5LcdyQ=;
-        b=EqT/y3lLx1yvSIyOuQLdhARltAWm9ERPzXb0FkqKNALbhUk5vwKVsebeXVkKHoUQtg
-         PWzIZXDhsdOubpyazVyaGmdmdsadZgdSfN8JImUKTV666vuFOpn9XVj3hGBJnV48takR
-         L9dWBduB6qAUFl7HmaQU6JIBQHICPJSDOGdXE2C6/pePvBaFITRplRDRN71DtIuuGMd2
-         sa9FSKn9ynCgAMAEM7SNgHCgXE6ORIReeqS3/M6um/qiAK6fgQ1kNIplIuEFgdvScuI8
-         B/S3xykZN2zGofLdFJ3AFk/Zs2FqvnVbaXO+iZ7nS5Z8Qz2hXF2U9fW3Hw02b85LdeVG
-         7ymg==
+        bh=FUTSQ0rK9pPWm93xJJTI51fEquZLac78hVY+zqZGbOI=;
+        b=JxS356Hq5Qt5jG/jAwUHbu24kpCZVZKjd0R4YqexmpHJyIjNK9RDeWAFuWf3RwlL2Q
+         sJ0TzW02gmidFEmTNRJ88BbU1UiTo68A0VkL8DnG1y4N+WxniIW3At2JtbdY/LKaWCtm
+         Q3uvg3qS8A75AXR31iNXIXPOwzKDLjzmgbdAbWssyPtznpnk3Vr2Uf0NnxgUnXbpgLAf
+         jXNi9Thxqkdt8ogc0GcFrjfeYImtPimz8drRwp2MldjhMc9U6dVvTZ4zFoQbJ8PSq0yd
+         hYVDswOX3bbwtRf4P7axxUf2CzcGMpIXONRjzGrpVvcbS7yGX/KJadEYm+hILLDjDk0/
+         EURQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681819655; x=1684411655;
+        d=1e100.net; s=20221208; t=1681819996; x=1684411996;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Gv5OTKUFPHh5i2eqhlTiNsPiMExun4okAPSqj5LcdyQ=;
-        b=hoVZWUvweo5SyLE4Tf2TfOer/uitQWfX9FqdT6QhdsUBaYbfdnVOQzmN697no28dKv
-         mH2nubzx2cSAOpO0YlGgH0dcxaZr1VXIQ/1hlljKVxPW0w2+s3DRZYtL8g7QiTFWym/d
-         GWO+EPzCM/KAeKZ0GkF14StcJeBroxj4x5aRoHQO9Ah7VIwTvhItQDN+6+V8p7kvwY7V
-         a292zXWVnn1coH7gLXAt+SiUNagLllmaPvX5dB5NM5W7bNRolgOoMuWjmPyxd3hwD04n
-         k63NQkSwoTKWM0KsdbTdDyVgccvaYFR4bFhnkiuvAAPLnXbQOBfGTRrGa04j9HyPtU9p
-         qZcQ==
-X-Gm-Message-State: AAQBX9e8mgBNpzF/ZLEEFY7djRfCwpklECCCPVHYHvKLuuJ+P1wUi2Vm
-	3KLJrmp8Ti4Z5m+rdPpbX0VTTA==
-X-Google-Smtp-Source: AKy350Z2qzaWfX98rjbl1FjAGIEX4ZBh3jGLrRGiJqRIiovZcJ+YdtOhWzu7h89DOjJiqaq7j7lP1g==
-X-Received: by 2002:a05:6a00:2e82:b0:626:2343:76b0 with SMTP id fd2-20020a056a002e8200b00626234376b0mr9232358pfb.6.1681819655431;
-        Tue, 18 Apr 2023 05:07:35 -0700 (PDT)
+        bh=FUTSQ0rK9pPWm93xJJTI51fEquZLac78hVY+zqZGbOI=;
+        b=MNyJb43amoPsZM0XBCdGdfyb0FGz/cqFtni1UI4a1beisQNMBdOiqEU2MNDCcmFR6D
+         srV5SVbFTeVfrGi+4I94YkQFPxSkhUC1UjtCOjAl6eTUsNVMvV4NCamJzrk5UfgGsdfR
+         MdkUS1wUwxEZPTFflcHjOlqtU0rdTcs89FN7GjjfiT0fATH5C9OOR1TfG/QYazCxO1L0
+         fD0aTOC3UdGNZEvERkYyET2xboiSSrYi1ug2adAJzv+CFluFWE+uGpGskTsLwliV17hK
+         0WQJ7nU2jQ7gqKefw/9SDj1ay7BMpWKP+Rc0XIPDTZQaxj0ZKgUhC6+T5/ju60aIK6Zm
+         fcOQ==
+X-Gm-Message-State: AAQBX9dm65c3bGpMb1B11Qzv+dFxRshIna/ZHL2BFdVOqDeovv1Gg0cW
+	OkoZAnANlpP8+2nUQZDXkiY=
+X-Google-Smtp-Source: AKy350YFGAoj3i8Kb3QCdYuUAxdvhR/BB1oIwduA+XItIgkSy9pOmTauhhmD4WlLci3FTWrHZrXDWA==
+X-Received: by 2002:a02:8643:0:b0:40f:b259:434f with SMTP id e61-20020a028643000000b0040fb259434fmr1341333jai.4.1681819996712;
+        Tue, 18 Apr 2023 05:13:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:c3ca:b0:1a1:a83b:2ab with SMTP id
- j10-20020a170902c3ca00b001a1a83b02abls9924440plj.7.-pod-prod-gmail; Tue, 18
- Apr 2023 05:07:34 -0700 (PDT)
-X-Received: by 2002:a17:90a:7c06:b0:23d:15d8:1bc3 with SMTP id v6-20020a17090a7c0600b0023d15d81bc3mr1764473pjf.39.1681819654448;
-        Tue, 18 Apr 2023 05:07:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1681819654; cv=none;
+Received: by 2002:a05:6602:3799:b0:762:bc18:99b with SMTP id
+ be25-20020a056602379900b00762bc18099bls941159iob.8.-pod-prod-gmail; Tue, 18
+ Apr 2023 05:13:16 -0700 (PDT)
+X-Received: by 2002:a6b:7307:0:b0:760:eaf6:59c6 with SMTP id e7-20020a6b7307000000b00760eaf659c6mr1825855ioh.11.1681819996124;
+        Tue, 18 Apr 2023 05:13:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1681819996; cv=none;
         d=google.com; s=arc-20160816;
-        b=bkih7vRcV8ZUQmaRRRAfhEHjyntNvEOL8Cvs16bpPgD70x9D8NcX0LN/glDoIICCAh
-         +yIy8p5842l5RUFzrQUnrl6PAvrz0Xxf9PrMVfR9K+EeKGiuLOTgTOi6FFeFMVigCqCW
-         ArlVm3tqTthVIqHxmmMdkZX4ppn7kDZUxAf4OCN2KARRk2Xo6DlMPvQIhLliPPm2FYFR
-         B7mBDfofvm/qE3RqFnayNOxKG6VGEdUovxi6YwTd6JLc+gNV3zC8EK1+lbfFk1Xg4m1a
-         BxCLHj99uuSC2g957yKEf7nUH2s++ggPI2y5iTcBWFPc9pzj/Z7/HuBrOe6mANThMOYm
-         fS2g==
+        b=fcvZVAqzNsKV3CBjEhxF2z48yJOt419BM4kmGDznwagzpNcvz4+nBelO2+5H86+0C4
+         zIE3SAuXon+7KVhyCG5wfBpNemld9akQ7libCHo8S8S2BCNBe5DktbOP9sqybwOnADC1
+         RUtqo1DKR25/+T4f8a2Qpwh48uLO2OJpTrb5bvjlDIsQn3AF+2oZY1YefN/yMd52YE2g
+         dhuroomtprd3U6maUUBl/1GxsEPg91vDndfL6Hrs8htfNKdhEFa3uYUvV/0TfBFQvJj6
+         OWb/YhgZUBOWyMcL20qIC+ujnPfhLr1OHBwG4+Qs+9Q/WPnMnCyUpTJnw956hvhc+Hmq
+         9x/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=P5YkRvYf1yCuUPW+Kk1SNC+gRw+VoF5jM1xlyDbolaQ=;
-        b=yDcH1zNelt+onRv2Ne/YN2C+GK9KmHT3D1+TmH+Gr6HEZmAfgrPMMfN92qM8XP+PEi
-         K323IksXGVWyH+iNxjhsXYpkovLjmVfoEpcKDCtN7w70eplTqGnQnDpja24g+Dt9gNfB
-         VsuBLk0wz/sjz93Uj/T+Vf+WLDkVVCZRNS7Q0R6yxIu8qLFQf7p5OAoRo+o1o5zzPupC
-         Y3CeWKXkA+OdLLax58C8IT/e8HzRXNk7Llwn6sgSczUoHpkAEjUObH1lFcB0HybpY0wv
-         EQtM/PStHoZdQzzuHdN02GEX5UTKy8v8X9tEiSCDOyjIb1lr+NzZ+JnhgIoRPfwzlWl2
-         NYNQ==
+        bh=3C41xG4p1BHPpadBDL6pJd1psfwz5yd3WchMAQj7wTI=;
+        b=ufIoJm2xzlTa7cqNbLpbPu6c4HAbh2APMk+nPbxrHuk9bCIyn//98jqMJtd6hFVTfj
+         K38eRr0/qBq61VCP6xxClhd4rhI2azjLF8PpjE8arm+0uxSgUvDJcc/1lVirsViWLTba
+         F+JRc5LZOg+QFg3qibblu8uGjWzyWmuvefzgaGUZ7wjoUVEK8V/HtTagpbNPPosnoZ88
+         qTMhWKUpsgaq4K3XexBkyyILNMdn5ua6yvriQ/QTG1BrCffY907wWMhUe76QpjDN3bK2
+         mfoWpzisD8kmojbfVsIH5c1dBTSEoqgwm8Rnc5gvvag7NRQJQewxGjMbvk4X7PLavHfQ
+         geVQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=WOcobd9V;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::d2b as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b="Jyi6R/m8";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::d2d as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com. [2607:f8b0:4864:20::d2b])
-        by gmr-mx.google.com with ESMTPS id oc3-20020a17090b1c0300b00246fa2ea350si132146pjb.1.2023.04.18.05.07.34
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com. [2607:f8b0:4864:20::d2d])
+        by gmr-mx.google.com with ESMTPS id 69-20020a6b1448000000b00760f0b7ff47si359355iou.3.2023.04.18.05.13.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Apr 2023 05:07:34 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::d2b as permitted sender) client-ip=2607:f8b0:4864:20::d2b;
-Received: by mail-io1-xd2b.google.com with SMTP id ca18e2360f4ac-760a5e0f752so53181739f.3
-        for <kasan-dev@googlegroups.com>; Tue, 18 Apr 2023 05:07:34 -0700 (PDT)
-X-Received: by 2002:a6b:e216:0:b0:74c:8cec:548e with SMTP id
- z22-20020a6be216000000b0074c8cec548emr1574390ioc.4.1681819653797; Tue, 18 Apr
- 2023 05:07:33 -0700 (PDT)
+        Tue, 18 Apr 2023 05:13:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::d2d as permitted sender) client-ip=2607:f8b0:4864:20::d2d;
+Received: by mail-io1-xd2d.google.com with SMTP id ca18e2360f4ac-7606ce89ebcso90795239f.0
+        for <kasan-dev@googlegroups.com>; Tue, 18 Apr 2023 05:13:16 -0700 (PDT)
+X-Received: by 2002:a6b:6e06:0:b0:762:7e58:8d38 with SMTP id
+ d6-20020a6b6e06000000b007627e588d38mr1759080ioh.10.1681819995595; Tue, 18 Apr
+ 2023 05:13:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230414082943.1341757-1-arnd@kernel.org> <20230414162605.GA2161385@dev-arch.thelio-3990X>
-In-Reply-To: <20230414162605.GA2161385@dev-arch.thelio-3990X>
+References: <20230224085942.1791837-1-elver@google.com> <ZDgOSp30Ec00u8wP@arm.com>
+In-Reply-To: <ZDgOSp30Ec00u8wP@arm.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 18 Apr 2023 14:06:57 +0200
-Message-ID: <CANpmjNMwYosrvqh4ogDO8rgn+SeDHM2b-shD21wTypm_6MMe=g@mail.gmail.com>
-Subject: Re: [PATCH] kasan: remove hwasan-kernel-mem-intrinsic-prefix=1 for clang-14
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Arnd Bergmann <arnd@kernel.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Nicolas Schier <nicolas@fjasle.eu>, 
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+Date: Tue, 18 Apr 2023 14:12:39 +0200
+Message-ID: <CANpmjNMNNc8yizJE8T1+Xrg1rGm+EbBuqybF9j1YE9miqdtasA@mail.gmail.com>
+Subject: Re: [PATCH v5 1/4] kasan: Emit different calls for instrumentable memintrinsics
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Jakub Jelinek <jakub@redhat.com>, linux-toolchains@vger.kernel.org, 
+	Alexander Potapenko <glider@google.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
 	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Tom Rix <trix@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Michael Ellerman <mpe@ellerman.id.au>, "Peter Zijlstra (Intel)" <peterz@infradead.org>, linux-kbuild@vger.kernel.org, 
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Kees Cook <keescook@chromium.org>, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kbuild@vger.kernel.org, 
+	linux-hardening@vger.kernel.org, 
+	Linux Kernel Functional Testing <lkft@linaro.org>, Naresh Kamboju <naresh.kamboju@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b=WOcobd9V;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::d2b as
+ header.i=@google.com header.s=20221208 header.b="Jyi6R/m8";       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::d2d as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -140,90 +142,71 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 14 Apr 2023 at 18:26, Nathan Chancellor <nathan@kernel.org> wrote:
+On Thu, 13 Apr 2023 at 16:14, Catalin Marinas <catalin.marinas@arm.com> wrote:
 >
-> On Fri, Apr 14, 2023 at 10:29:27AM +0200, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > Unknown -mllvm options don't cause an error to be returned by clang, so
-> > the cc-option helper adds the unknown hwasan-kernel-mem-intrinsic-prefix=1
-> > flag to CFLAGS with compilers that are new enough for hwasan but too
+> Hi Marco,
 >
-> Hmmm, how did a change like commit 0e1aa5b62160 ("kcsan: Restrict
-> supported compilers") work if cc-option does not work with unknown
-> '-mllvm' flags (or did it)? That definitely seems like a problem, as I
-> see a few different places where '-mllvm' options are used with
-> cc-option. I guess I will leave that up to the sanitizer folks to
-> comment on that further, one small comment below.
-
-Urgh, this one turns out to be rather ridiculous. It's only a problem
-with hwasan...
-
-If you try it for yourself, e.g. with something "normal" like:
-
-> clang -Werror -mllvm -asan-does-not-exist -c -x c /dev/null -o /dev/null
-
-It errors as expected. But with:
-
-> clang -Werror -mllvm -hwasan-does-not-exist -c -x c /dev/null -o /dev/null
-
-It ends up printing _help_ text, because anything "-h..." (if it
-doesn't recognize it as a long-form argument), will make it produce
-the help text.
-
-> > old for this option. This causes a rather unreadable build failure:
+> On Fri, Feb 24, 2023 at 09:59:39AM +0100, Marco Elver wrote:
+> > Clang 15 provides an option to prefix memcpy/memset/memmove calls with
+> > __asan_/__hwasan_ in instrumented functions: https://reviews.llvm.org/D122724
 > >
-> > fixdep: error opening file: scripts/mod/.empty.o.d: No such file or directory
-> > make[4]: *** [/home/arnd/arm-soc/scripts/Makefile.build:252: scripts/mod/empty.o] Error 2
-> > fixdep: error opening file: scripts/mod/.devicetable-offsets.s.d: No such file or directory
-> > make[4]: *** [/home/arnd/arm-soc/scripts/Makefile.build:114: scripts/mod/devicetable-offsets.s] Error 2
+> > GCC will add support in future:
+> > https://gcc.gnu.org/bugzilla/show_bug.cgi?id=108777
 > >
-> > Add a version check to only allow this option with clang-15, gcc-13
-> > or later versions.
+> > Use it to regain KASAN instrumentation of memcpy/memset/memmove on
+> > architectures that require noinstr to be really free from instrumented
+> > mem*() functions (all GENERIC_ENTRY architectures).
 > >
-> > Fixes: 51287dcb00cc ("kasan: emit different calls for instrumentable memintrinsics")
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > ---
-> > There is probably a better way to do this than to add version checks,
-> > but I could not figure it out.
-> > ---
-> >  scripts/Makefile.kasan | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
+> > Fixes: 69d4c0d32186 ("entry, kasan, x86: Disallow overriding mem*() functions")
+> > Signed-off-by: Marco Elver <elver@google.com>
+> > Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+> > Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+> > Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> > Tested-by: Naresh Kamboju <naresh.kamboju@linaro.org>
+> [...]
 > > diff --git a/scripts/Makefile.kasan b/scripts/Makefile.kasan
-> > index c186110ffa20..2cea0592e343 100644
+> > index b9e94c5e7097..fa9f836f8039 100644
 > > --- a/scripts/Makefile.kasan
 > > +++ b/scripts/Makefile.kasan
-> > @@ -69,7 +69,12 @@ CFLAGS_KASAN := -fsanitize=kernel-hwaddress \
+> > @@ -38,6 +38,11 @@ endif
+> >
+> >  CFLAGS_KASAN += $(call cc-param,asan-stack=$(stack_enable))
+> >
+> > +# Instrument memcpy/memset/memmove calls by using instrumented __asan_mem*()
+> > +# instead. With compilers that don't support this option, compiler-inserted
+> > +# memintrinsics won't be checked by KASAN on GENERIC_ENTRY architectures.
+> > +CFLAGS_KASAN += $(call cc-param,asan-kernel-mem-intrinsic-prefix=1)
+> > +
+> >  endif # CONFIG_KASAN_GENERIC
+> >
+> >  ifdef CONFIG_KASAN_SW_TAGS
+> > @@ -54,6 +59,9 @@ CFLAGS_KASAN := -fsanitize=kernel-hwaddress \
+> >               $(call cc-param,hwasan-inline-all-checks=0) \
 > >               $(instrumentation_flags)
 > >
-> >  # Instrument memcpy/memset/memmove calls by using instrumented __hwasan_mem*().
-> > +ifeq ($(call clang-min-version, 150000),y)
-> >  CFLAGS_KASAN += $(call cc-param,hwasan-kernel-mem-intrinsic-prefix=1)
-> > +endif
-> > +ifeq ($(call gcc-min-version, 130000),y)
+> > +# Instrument memcpy/memset/memmove calls by using instrumented __hwasan_mem*().
 > > +CFLAGS_KASAN += $(call cc-param,hwasan-kernel-mem-intrinsic-prefix=1)
-> > +endif
 >
-> I do not think you need to duplicate this block, I think
+> This patch breaks the arm64 kernel builds with KASAN_SW_TAGS enabled and
+> clang prior to version 15. Those prior clang versions don't like the
+> '-mllvm -hwasan-kernel-mem-intrinsic-prefix=1' option, end up printing
+> the help text instead of generating the object.
 >
->   ifeq ($(call clang-min-version, 150000)$(call gcc-min-version, 130000),y)
->   CFLAGS_KASAN += $(call cc-param,hwasan-kernel-mem-intrinsic-prefix=1)
->   endif
+> Do we need some combination of cc-option and cc-param? Or at least
+> disable this instrumentation if earlier clang versions are used.
+>
+> It's already in mainline as commit
+> 51287dcb00cc715c27bf6a6b4dbd431621c5b65a.
 
-We just need the clang version check. If the compiler is gcc, it'll do
-the "right thing" (i.e. not print help text). So at a minimum, we need
-if "clang version >= 15 or gcc". Checking if gcc is 13 or later
-doesn't hurt though, so I don't mind either way.
+Arnd posted a patch, but the reason why a workaround is needed is
+quite unfortunate:
+https://lore.kernel.org/all/CANpmjNMwYosrvqh4ogDO8rgn+SeDHM2b-shD21wTypm_6MMe=g@mail.gmail.com/
 
-So on a whole this patch is the right thing to do because fixing old
-clang versions to not interpret unrecognized options that start with
-"-h.." as help isn't something we can realistically do.
-
-Thanks,
--- Marco
+Clang apparently interprets unknown options that start with "-h..",
+i.e. "-mllvm -h..." as a request to print help text, which has exit
+code 0. So this is only a problem for hwasan options.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMwYosrvqh4ogDO8rgn%2BSeDHM2b-shD21wTypm_6MMe%3Dg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMNNc8yizJE8T1%2BXrg1rGm%2BEbBuqybF9j1YE9miqdtasA%40mail.gmail.com.
