@@ -1,138 +1,128 @@
-Return-Path: <kasan-dev+bncBC2NLZHUVQHRB2FO7WQQMGQETJCIZFY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBZFP72QQMGQEP3S6GXY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd39.google.com (mail-io1-xd39.google.com [IPv6:2607:f8b0:4864:20::d39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EB4D6E7159
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 Apr 2023 04:52:25 +0200 (CEST)
-Received: by mail-io1-xd39.google.com with SMTP id ca18e2360f4ac-760ebd1bc25sf190251339f.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 18 Apr 2023 19:52:25 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1681872744; cv=pass;
+Received: from mail-ot1-x33f.google.com (mail-ot1-x33f.google.com [IPv6:2607:f8b0:4864:20::33f])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B156E73FA
+	for <lists+kasan-dev@lfdr.de>; Wed, 19 Apr 2023 09:27:34 +0200 (CEST)
+Received: by mail-ot1-x33f.google.com with SMTP id 46e09a7af769-6a604fbda57sf817648a34.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Apr 2023 00:27:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1681889253; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DYciLIG2dASmE/zdOqEvxOwlUEhMrEqgAdzJQSTspMC7UmvWtfGMGL5c8AzIOKy564
-         TpYzwLT28QYkxMcrLgB0TW8atOfBvI0SWFxG6nDtVXWeQfjGxn6GoRDvM24utV6MM1kr
-         Mh9iKEJXv2dVjiatr8cK9v5PWH7aQLpJjBaOVVwqY3l3n3XruYYRU1OCLIHzPwCjRF2h
-         3rkLl0PV8vdN5k2TUDMrirR1T8vwh1RnLnqliy9po+cLfq1OupW1D9SSXCrYVeRKZa2z
-         5TlohH780q7jPEJqMDVEXpfL5ZAt4sdjOcsr/uDaq73hOXvehlrQbSWwvHgnJ9/AP4dv
-         w2sQ==
+        b=H4OTNKrC5yjjCHC74SA5aNOaohKbVpUTj1rCQqQccvPuemKhJdZIkeEEeOLX2a1MNY
+         mz/RrFxoBXJEb6CryQ7VO23PU1i03nUYn+z7rFbEs2dv+Icyr6LhkaMWoi3aP9EiTiz+
+         wFeU+7O8lEfCT5iGq7hw3P2uICFTiQYiZZpzG4B0k2aZwVvSXEWXh1c3TVwAbvsqhNAe
+         9N/GAM6vG+UN/zjB5hTGR+iIRRQFRMeV6DJ/RvZa626i/FWGBq+R3URsVMx7Bj5ItB0s
+         ED7KkYqIm/qzV+QSOsu8bhcpduK0gMRz0bMgrwpUu9CLaVUXieJxuvNNsTUfH0I/h+7z
+         sLJQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:dkim-signature;
-        bh=VLtQiX28PCg1S5+GY0OIUCaoXHQH5OBrMVk/8IZbNqY=;
-        b=hn+VXGBbznpETplbdX2IQinOtmm+4gry+JwJJspAB7B/GNtIr+uh0g9vivyFBfPJXM
-         PXg4N54gnqhrTQvM1UNGLHsD5YEoSW+zGjz7y5glaRaXw9Vrk2l6X5Bdj3VPFXL73Eyb
-         aO8Ys86KU1aOHzq21NcBmVs9P4lks375RxoIGvC6s6J+BgNa6FvlMes0E1dYpV5L5T2g
-         jRJlWo9ZXq6l9iKzp1S8/Fh2OEOEZlSl9fwy77g5m7ysoBi7pL4G4xUHaU29/XLVDxME
-         sRI/ijx4/MHFNP9zuc3za5gLdE5dHX9/KIss9yBoQ1boTNR3A4Qw9S8BTev9PrwTtDpP
-         w0gg==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=7hXzH+3At9NWOeh64b0ve4DBAdVJNryKsuL5RNY+T04=;
+        b=JNbGnHV45/b7C6iAPA883M3LZdQaTjLOqSFaF9UBOer8A1BR4hHe6WCnyAVg1+hntQ
+         kjBki8u4tQz1/JyfTE5/N4oxZ5RgEgJd4/yySS1442FIt64XK6gopP6A0md7mfdeMUdS
+         8hWLS5812vil0JttJ5JFbo6Q5kBRnQx4KMhXHGQfuwm/c/bg58yxEgxPWzLTP7QJLqXG
+         vjuuytZgI9M740l9UJeQqR2dn9zo7axEXJapp76UkcMimulCGIPuG3WUReXMbbed7mfE
+         OAZbg7kwenjAXYzcGbqSiRO0mn05U0dJBRYgoBELS2Fjg0gApPRCvW399G7UrCVgE6eg
+         XwkQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@bytedance.com header.s=google header.b=UBXsagd+;
-       spf=pass (google.com: domain of zhengqi.arch@bytedance.com designates 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=zhengqi.arch@bytedance.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
+       dkim=pass header.i=@google.com header.s=20221208 header.b=coR7f4X0;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::d2c as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1681872744; x=1684464744;
+        d=googlegroups.com; s=20221208; t=1681889253; x=1684481253;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VLtQiX28PCg1S5+GY0OIUCaoXHQH5OBrMVk/8IZbNqY=;
-        b=nmmNXc+vbYmS+No7LSWodXl7CWbTP4NLOxaBCT1+6dl5Z0bkgYboXRkMtLycFp9YtS
-         WbKF9ADe/qkQRnYhPDACLHOeFO+g4Fsi5ktu3K+cx9ed/HH3UpqirXGitPm+FF1Patyc
-         o/mCm5CR7Ns9dEpgMV8JEbR0xDuINlAxaxz6NUgJTjXbU78IHJFyiYYJIof41mmZF96n
-         f8uZPWeqK78+MouZBozXq1BrZmF2qP2sl+fHqejjbIE3Qc/7bz6iU2VT0zQP0gpeujyt
-         N3BnnP2kF4PNaVGLDGVLVwrJrnuIrw6OSjDB1Dx4LZLnAa5bIXo/136pzPc5TVzKbquk
-         JDGA==
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7hXzH+3At9NWOeh64b0ve4DBAdVJNryKsuL5RNY+T04=;
+        b=Dtfr+JPNJSUBqb6+jOskJsmLQIw1+NZS5Shvg4gCWBvnylmgeg2TOX5IZU7Rvg5BPo
+         rtIdTvhR5MhQVW9SgN4lJk0aTF2frLlXXk6vdgSoId+Pvsqbat/4drYY+HSCAgQ5kv51
+         1V7xcxd8SdPtRXKnMkjU5JHSac+luncp2ZwuWU3gUhV4vVaT6mPCOrcN+d9roCDP2GsF
+         6d+ccqBlLE6Qt2ymBMmhiZ0NWM5WLEe30kKk7hnv8PUOFwFP0PVJuzV4s6/komB6+lyh
+         8oQmnXmDwq5ITa7jYt7MfKDtQ8V+nhRjTiUfL++5st4fQmWybWNSIyJLnMlE1OZCmRG6
+         ow1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681872744; x=1684464744;
+        d=1e100.net; s=20221208; t=1681889253; x=1684481253;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=VLtQiX28PCg1S5+GY0OIUCaoXHQH5OBrMVk/8IZbNqY=;
-        b=GOEZvCSu4TgILGfl/i9XcQcM4zx8/UgNyhSftCX4t8s98lKrVfqUXaFiHR0ye6sMws
-         iTvtipVSwOEwiacm7irsaYoSVu3cyWxOmRzHTf1aWer6CBiDC8s/NNrei+/WplsuXQgn
-         cMH0kGlI2veflPj/2JDarOmV3T72EALf/bv1JPwikKUq1YyWmS0l3SCafc0Wqtb68Pmo
-         sTb3sExeVvLTyz4fHJD3H29rvUWJbE1CZDCL1rCD712TSLb+cswqh9Pyk3J9BN81Tbvp
-         hPg+lA4Yac6/epWMp0gXVJSz6KpI1lFD2Ps9yl7sORah9SjyUJ9YLc3SmwOjb3Czt1ev
-         VTQA==
-X-Gm-Message-State: AAQBX9e9n9FkWD3ovAzzPW6pHiBE23K06XdCkObxEpju2V4QyuiweR4q
-	71AxZa4mKSlMmNQKVts6YuE=
-X-Google-Smtp-Source: AKy350ZPQF8W2GaG2DE7zenCZNiogobzqVTeFC9S1yzwzsQtmTqTp72DW8KnE2YCXQY1LHedKFHrHw==
-X-Received: by 2002:a05:6602:3146:b0:760:e9b6:e6de with SMTP id m6-20020a056602314600b00760e9b6e6demr2998260ioy.0.1681872744123;
-        Tue, 18 Apr 2023 19:52:24 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7hXzH+3At9NWOeh64b0ve4DBAdVJNryKsuL5RNY+T04=;
+        b=YZhkbuSVbKeXqjJmDfiR2JB0tnrIXS6WN0voiu6brDzBcNXoybWE+EZBQksv1StSt7
+         xch27EU8sBttO5ZVCY0PG8fpiUrTv/H/WslC0LJRI5hAVA2PIMvNU+Cf8uzbPDQeCiwp
+         xb18KSaQDIIaGyx0JhvQy2lhkHNwnPEudh5oGxu2nkVyOY4eeerDHzexXxICrqBE2WKU
+         9/XiomisGo3tn8wFYNCKvGIT8QUjnoM1jNsUz4Lmnb0g1+vj51Cql+TcBn3inOIlphaC
+         f8N1Bgz+jpVgvsLAS11hqxuZAscLSuaAuHE3/MCp1L3sp+ZTuZBP56Wls4IDFhIjPfV4
+         XtuQ==
+X-Gm-Message-State: AAQBX9fqN54RLYAayFVu4Z4iJCtd5shj7e8b6hmVoHtsPgb1C3cSvpj/
+	egLehR5TL/zHIDDKunqe1pY=
+X-Google-Smtp-Source: AKy350ZleCnfQ+uAbfkCMIJTOofFl8AB8XJhoizrjUuoQpdnkVX0267zEsVE5UjfxolwsOGhg+qh1A==
+X-Received: by 2002:a05:6870:2402:b0:187:b0bf:313d with SMTP id n2-20020a056870240200b00187b0bf313dmr1981745oap.2.1681889253067;
+        Wed, 19 Apr 2023 00:27:33 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:1aaa:b0:325:cefc:db5b with SMTP id
- l10-20020a056e021aaa00b00325cefcdb5bls4164125ilv.7.-pod-prod-gmail; Tue, 18
- Apr 2023 19:52:23 -0700 (PDT)
-X-Received: by 2002:a92:da4f:0:b0:32a:314:a68c with SMTP id p15-20020a92da4f000000b0032a0314a68cmr17561178ilq.16.1681872743469;
-        Tue, 18 Apr 2023 19:52:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1681872743; cv=none;
+Received: by 2002:a05:6830:6018:b0:6a4:2aff:59e5 with SMTP id
+ bx24-20020a056830601800b006a42aff59e5ls3183447otb.7.-pod-prod-gmail; Wed, 19
+ Apr 2023 00:27:32 -0700 (PDT)
+X-Received: by 2002:a9d:6747:0:b0:6a5:d944:f1c6 with SMTP id w7-20020a9d6747000000b006a5d944f1c6mr2543192otm.12.1681889252578;
+        Wed, 19 Apr 2023 00:27:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1681889252; cv=none;
         d=google.com; s=arc-20160816;
-        b=YGzzV5yRzlBYzusDCRbiDPez5nxQItCrt0D8kV1io8QihfQJ368j+RBY6RFc0KZKhd
-         NjIHrFzVLAt3XuOARHUvtsjG6Hek/CoK2I1vbJCvTu1u1t9Rh4lN0JjSUEniw15Akeds
-         O1NBa+LcKBmxh+dNUN+nvUn9JFuNMJlxXZM8Aqk89EqMdla5knBU75YVsDYnt2qOEHPS
-         Eex9kT8ArTgnVyvDfmKSWj3aOjfPrplCHtaWSRAdFKo3sPkZF8nou6byUSei6PAITZ01
-         H2pmV91aFLT00OFQm4UZs3oNBb/DeUxVyflLPIopQ/jjhHuiGVGK9xTbNhv98kOoY+iZ
-         p5wg==
+        b=hh/aX/zKm3kQMXd7ftpdcFagMtzjvcOVq0OU6BRVcNb78NScWJV/o86JQ6oLnfBThE
+         y3fh2G953oRbrQL3zbuGV4XNh1aDncfGPRNWQgOGB0G4To0cQMTUmMXBjg8lnDKFusul
+         EDyh7pjBmobplJqFrllN5670SIiwmhkaL+PhK1gBzaE8mqPX9vFkgmXs19Lb4z2SYUr2
+         SQSNTzUxSSdaL+4jk8ktg9JNeAUmFXBPFFBC9GMtJSsS+JVguICo/QAvuG0m2XZAh4cO
+         0cuxywbS0V3tPtG4BXeWKdd4OVjqJGY+kux1WaWW+qko+t1e1empmGET1teQTfiKgISv
+         Ik2A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=9zzMcMOPEpfr5THwWMh35gYibbv6uY1wVkSMdB4TPrg=;
-        b=r3eb8//I/Kg5FuksbQcjcYr2V9fmhFE8m1e+xhLEU23EfKM4YsPt6TbPM2M28B96og
-         slf9TPP3vmTpvXwyJkhuLq+j1KmkVil6oZIk8r0ac/FbxC/g8Hni5lAUg622jye/HLUS
-         agW8BHRVuLmNhoN8UUtzWULsAeHaujI1O4xvCSjehmaeILTShKdgvyY2h8EanI8qVzdl
-         DEfBAwHgZ/3j/red+KJnDO/zkcc+3Iy2k35LecxwmdsJfi3dpdWFBb86jFulyEbMIbqb
-         C14RcSIgqX/4PO64qe3dfGUKRNrKpT4vj+mBnpIKx9H5tHb3PpcLX7z9bx10wIpalzK5
-         m8Og==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=4+jpKL/ey0sd/NtAlMmoATIMCLxVjtS/CGh7GhFIsWo=;
+        b=fTv6G3Lf555LLBAcUvaAM6LcPyd7thHcY/F0gdaE/DS5w0SEQogXfox/W+rsGk/jT0
+         WWzLpozw5NdYR+HpD6f/xXKzFtynIeaNPb0m6atpmnDM5Jm1b1x9th4nRJeYOp3oYIhw
+         rlv78Dg+r3FuRX/1j4dL2aSg2jt2T+1liUU5jl2TFp258TiyQDr+il7p6hrVwfYf60GB
+         Ic8n5xzCAwb6+gf01YI1YF1VkzrBaPyHM6MsQFxnh7dpecABqQGteBPUi4YKcw/I8ueP
+         mImDyBxdb40XpvKTGMn1V6jSH+5IqftKI47KzTIin0w4cdkP1X1okrMnqblElPJfak7t
+         +VlQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@bytedance.com header.s=google header.b=UBXsagd+;
-       spf=pass (google.com: domain of zhengqi.arch@bytedance.com designates 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=zhengqi.arch@bytedance.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com. [2607:f8b0:4864:20::42f])
-        by gmr-mx.google.com with ESMTPS id cs9-20020a056638470900b0040f8a20c639si796238jab.5.2023.04.18.19.52.23
+       dkim=pass header.i=@google.com header.s=20221208 header.b=coR7f4X0;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::d2c as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com. [2607:f8b0:4864:20::d2c])
+        by gmr-mx.google.com with ESMTPS id n17-20020a0568300a9100b006a42f0f76f4si91197otu.2.2023.04.19.00.27.32
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Apr 2023 19:52:23 -0700 (PDT)
-Received-SPF: pass (google.com: domain of zhengqi.arch@bytedance.com designates 2607:f8b0:4864:20::42f as permitted sender) client-ip=2607:f8b0:4864:20::42f;
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-63b7b18a336so839289b3a.1
-        for <kasan-dev@googlegroups.com>; Tue, 18 Apr 2023 19:52:23 -0700 (PDT)
-X-Received: by 2002:a17:903:11c9:b0:1a6:6bdb:b548 with SMTP id q9-20020a17090311c900b001a66bdbb548mr19768853plh.1.1681872742749;
-        Tue, 18 Apr 2023 19:52:22 -0700 (PDT)
-Received: from [10.70.252.135] ([139.177.225.245])
-        by smtp.gmail.com with ESMTPSA id jf1-20020a170903268100b001a245b49731sm10255632plb.128.2023.04.18.19.52.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Apr 2023 19:52:22 -0700 (PDT)
-Message-ID: <f16db6f6-2699-bb8f-d34c-2ce3d37a6498@bytedance.com>
-Date: Wed, 19 Apr 2023 10:52:15 +0800
+        Wed, 19 Apr 2023 00:27:32 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::d2c as permitted sender) client-ip=2607:f8b0:4864:20::d2c;
+Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-76375982b6aso12921439f.1
+        for <kasan-dev@googlegroups.com>; Wed, 19 Apr 2023 00:27:32 -0700 (PDT)
+X-Received: by 2002:a6b:e618:0:b0:760:ebae:4f8d with SMTP id
+ g24-20020a6be618000000b00760ebae4f8dmr4016341ioh.8.1681889252043; Wed, 19 Apr
+ 2023 00:27:32 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v2] kasan: Fix lockdep report invalid wait context
-To: Zqiang <qiang1.zhang@intel.com>, elver@google.com,
- ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
- dvyukov@google.com, akpm@linux-foundation.org,
- Vlastimil Babka <vbabka@suse.cz>
-Cc: kasan-dev@googlegroups.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org
 References: <20230327120019.1027640-1-qiang1.zhang@intel.com>
-Content-Language: en-US
-From: "'Qi Zheng' via kasan-dev" <kasan-dev@googlegroups.com>
 In-Reply-To: <20230327120019.1027640-1-qiang1.zhang@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Original-Sender: zhengqi.arch@bytedance.com
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 19 Apr 2023 09:26:54 +0200
+Message-ID: <CANpmjNOjPZm0hdxZmtp4HgqGpkevUvpj-9XGUe24rRTBRroiqg@mail.gmail.com>
+Subject: Re: [PATCH v2] kasan: Fix lockdep report invalid wait context
+To: Zqiang <qiang1.zhang@intel.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com, 
+	dvyukov@google.com, akpm@linux-foundation.org, kasan-dev@googlegroups.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Thomas Gleixner <tglx@linutronix.de>, Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@bytedance.com header.s=google header.b=UBXsagd+;       spf=pass
- (google.com: domain of zhengqi.arch@bytedance.com designates
- 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=zhengqi.arch@bytedance.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
-X-Original-From: Qi Zheng <zhengqi.arch@bytedance.com>
-Reply-To: Qi Zheng <zhengqi.arch@bytedance.com>
+ header.i=@google.com header.s=20221208 header.b=coR7f4X0;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::d2c as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,16 +135,15 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-
-On 2023/3/27 20:00, Zqiang wrote:
+On Mon, 27 Mar 2023 at 13:48, Zqiang <qiang1.zhang@intel.com> wrote:
+>
 > For kernels built with the following options and booting
-> 
+>
 > CONFIG_SLUB=y
 > CONFIG_DEBUG_LOCKDEP=y
 > CONFIG_PROVE_LOCKING=y
 > CONFIG_PROVE_RAW_LOCK_NESTING=y
-> 
+>
 > [    0.523115] [ BUG: Invalid wait context ]
 > [    0.523315] 6.3.0-rc1-yocto-standard+ #739 Not tainted
 > [    0.523649] -----------------------------
@@ -200,138 +189,125 @@ On 2023/3/27 20:00, Zqiang wrote:
 > [    0.523663]  x86_64_start_kernel+0xbb/0x120
 > [    0.523663]  secondary_startup_64_no_verify+0xe0/0xeb
 > [    0.523663]  </TASK>
-> 
+>
 > The local_lock_irqsave() is invoked in put_cpu_partial() and happens
 > in IPI context, due to the CONFIG_PROVE_RAW_LOCK_NESTING=y (the
 > LD_WAIT_CONFIG not equal to LD_WAIT_SPIN), so acquire local_lock in
 > IPI context will trigger above calltrace.
-
-Just to add another similar case:
-
-Call Trace:
-  <IRQ>
-  dump_stack_lvl+0x69/0x97
-  __lock_acquire+0x4a0/0x1b50
-  lock_acquire+0x261/0x2c0
-  ? restore_bytes+0x40/0x40
-  local_lock_acquire+0x21/0x70
-  ? restore_bytes+0x40/0x40
-  put_cpu_partial+0x41/0x130
-  ? flush_smp_call_function_queue+0x125/0x4d0
-  kfree+0x250/0x2c0
-  flush_smp_call_function_queue+0x125/0x4d0
-  __sysvec_call_function_single+0x3a/0x100
-  sysvec_call_function_single+0x4b/0x90
-  </IRQ>
-  <TASK>
-  asm_sysvec_call_function_single+0x16/0x20
-
-So we can't call kfree() and its friends in interrupt context?
-
-Also +Vlastimil Babka.
-
-Thanks,
-Qi
-
-> 
+>
 > This commit therefore move qlist_free_all() from hard-irq context to
 > task context.
-> 
+>
 > Signed-off-by: Zqiang <qiang1.zhang@intel.com>
+
+PROVE_RAW_LOCK_NESTING is for the benefit of RT kernels. So it's
+unclear if this is fixing anything on non-RT kernels, besides the
+lockdep warning.
+
+I'd be inclined to say that having unified code for RT and non-RT
+kernels is better.
+
+Acked-by: Marco Elver <elver@google.com>
+
++Cc RT folks
+
 > ---
->   v1->v2:
->   Modify the commit information and add Cc.
-> 
->   mm/kasan/quarantine.c | 34 ++++++++--------------------------
->   1 file changed, 8 insertions(+), 26 deletions(-)
-> 
+>  v1->v2:
+>  Modify the commit information and add Cc.
+>
+>  mm/kasan/quarantine.c | 34 ++++++++--------------------------
+>  1 file changed, 8 insertions(+), 26 deletions(-)
+>
 > diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
 > index 75585077eb6d..152dca73f398 100644
 > --- a/mm/kasan/quarantine.c
 > +++ b/mm/kasan/quarantine.c
 > @@ -99,7 +99,6 @@ static unsigned long quarantine_size;
->   static DEFINE_RAW_SPINLOCK(quarantine_lock);
->   DEFINE_STATIC_SRCU(remove_cache_srcu);
->   
+>  static DEFINE_RAW_SPINLOCK(quarantine_lock);
+>  DEFINE_STATIC_SRCU(remove_cache_srcu);
+>
 > -#ifdef CONFIG_PREEMPT_RT
->   struct cpu_shrink_qlist {
->   	raw_spinlock_t lock;
->   	struct qlist_head qlist;
+>  struct cpu_shrink_qlist {
+>         raw_spinlock_t lock;
+>         struct qlist_head qlist;
 > @@ -108,7 +107,6 @@ struct cpu_shrink_qlist {
->   static DEFINE_PER_CPU(struct cpu_shrink_qlist, shrink_qlist) = {
->   	.lock = __RAW_SPIN_LOCK_UNLOCKED(shrink_qlist.lock),
->   };
+>  static DEFINE_PER_CPU(struct cpu_shrink_qlist, shrink_qlist) = {
+>         .lock = __RAW_SPIN_LOCK_UNLOCKED(shrink_qlist.lock),
+>  };
 > -#endif
->   
->   /* Maximum size of the global queue. */
->   static unsigned long quarantine_max_size;
+>
+>  /* Maximum size of the global queue. */
+>  static unsigned long quarantine_max_size;
 > @@ -319,16 +317,6 @@ static void qlist_move_cache(struct qlist_head *from,
->   	}
->   }
->   
+>         }
+>  }
+>
 > -#ifndef CONFIG_PREEMPT_RT
 > -static void __per_cpu_remove_cache(struct qlist_head *q, void *arg)
 > -{
-> -	struct kmem_cache *cache = arg;
-> -	struct qlist_head to_free = QLIST_INIT;
+> -       struct kmem_cache *cache = arg;
+> -       struct qlist_head to_free = QLIST_INIT;
 > -
-> -	qlist_move_cache(q, &to_free, cache);
-> -	qlist_free_all(&to_free, cache);
+> -       qlist_move_cache(q, &to_free, cache);
+> -       qlist_free_all(&to_free, cache);
 > -}
 > -#else
->   static void __per_cpu_remove_cache(struct qlist_head *q, void *arg)
->   {
->   	struct kmem_cache *cache = arg;
+>  static void __per_cpu_remove_cache(struct qlist_head *q, void *arg)
+>  {
+>         struct kmem_cache *cache = arg;
 > @@ -340,7 +328,6 @@ static void __per_cpu_remove_cache(struct qlist_head *q, void *arg)
->   	qlist_move_cache(q, &sq->qlist, cache);
->   	raw_spin_unlock_irqrestore(&sq->lock, flags);
->   }
+>         qlist_move_cache(q, &sq->qlist, cache);
+>         raw_spin_unlock_irqrestore(&sq->lock, flags);
+>  }
 > -#endif
->   
->   static void per_cpu_remove_cache(void *arg)
->   {
+>
+>  static void per_cpu_remove_cache(void *arg)
+>  {
 > @@ -362,6 +349,8 @@ void kasan_quarantine_remove_cache(struct kmem_cache *cache)
->   {
->   	unsigned long flags, i;
->   	struct qlist_head to_free = QLIST_INIT;
-> +	int cpu;
-> +	struct cpu_shrink_qlist *sq;
->   
->   	/*
->   	 * Must be careful to not miss any objects that are being moved from
+>  {
+>         unsigned long flags, i;
+>         struct qlist_head to_free = QLIST_INIT;
+> +       int cpu;
+> +       struct cpu_shrink_qlist *sq;
+>
+>         /*
+>          * Must be careful to not miss any objects that are being moved from
 > @@ -372,20 +361,13 @@ void kasan_quarantine_remove_cache(struct kmem_cache *cache)
->   	 */
->   	on_each_cpu(per_cpu_remove_cache, cache, 1);
->   
+>          */
+>         on_each_cpu(per_cpu_remove_cache, cache, 1);
+>
 > -#ifdef CONFIG_PREEMPT_RT
-> -	{
-> -		int cpu;
-> -		struct cpu_shrink_qlist *sq;
+> -       {
+> -               int cpu;
+> -               struct cpu_shrink_qlist *sq;
 > -
-> -		for_each_online_cpu(cpu) {
-> -			sq = per_cpu_ptr(&shrink_qlist, cpu);
-> -			raw_spin_lock_irqsave(&sq->lock, flags);
-> -			qlist_move_cache(&sq->qlist, &to_free, cache);
-> -			raw_spin_unlock_irqrestore(&sq->lock, flags);
-> -		}
-> -		qlist_free_all(&to_free, cache);
-> +	for_each_online_cpu(cpu) {
-> +		sq = per_cpu_ptr(&shrink_qlist, cpu);
-> +		raw_spin_lock_irqsave(&sq->lock, flags);
-> +		qlist_move_cache(&sq->qlist, &to_free, cache);
-> +		raw_spin_unlock_irqrestore(&sq->lock, flags);
->   	}
+> -               for_each_online_cpu(cpu) {
+> -                       sq = per_cpu_ptr(&shrink_qlist, cpu);
+> -                       raw_spin_lock_irqsave(&sq->lock, flags);
+> -                       qlist_move_cache(&sq->qlist, &to_free, cache);
+> -                       raw_spin_unlock_irqrestore(&sq->lock, flags);
+> -               }
+> -               qlist_free_all(&to_free, cache);
+> +       for_each_online_cpu(cpu) {
+> +               sq = per_cpu_ptr(&shrink_qlist, cpu);
+> +               raw_spin_lock_irqsave(&sq->lock, flags);
+> +               qlist_move_cache(&sq->qlist, &to_free, cache);
+> +               raw_spin_unlock_irqrestore(&sq->lock, flags);
+>         }
 > -#endif
-> +	qlist_free_all(&to_free, cache);
->   
->   	raw_spin_lock_irqsave(&quarantine_lock, flags);
->   	for (i = 0; i < QUARANTINE_BATCHES; i++) {
-
--- 
-Thanks,
-Qi
+> +       qlist_free_all(&to_free, cache);
+>
+>         raw_spin_lock_irqsave(&quarantine_lock, flags);
+>         for (i = 0; i < QUARANTINE_BATCHES; i++) {
+> --
+> 2.25.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230327120019.1027640-1-qiang1.zhang%40intel.com.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/f16db6f6-2699-bb8f-d34c-2ce3d37a6498%40bytedance.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOjPZm0hdxZmtp4HgqGpkevUvpj-9XGUe24rRTBRroiqg%40mail.gmail.com.
