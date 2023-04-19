@@ -1,139 +1,129 @@
-Return-Path: <kasan-dev+bncBC2NLZHUVQHRB47E72QQMGQEYQVC2LY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCZM5DHZUQCBBDF2RORAMGQEE66E47I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x1138.google.com (mail-yw1-x1138.google.com [IPv6:2607:f8b0:4864:20::1138])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A2D6E7621
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 Apr 2023 11:20:52 +0200 (CEST)
-Received: by mail-yw1-x1138.google.com with SMTP id 00721157ae682-552cb2211bdsf69140627b3.6
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Apr 2023 02:20:52 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1681896051; cv=pass;
+Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B9536EB1EA
+	for <lists+kasan-dev@lfdr.de>; Fri, 21 Apr 2023 20:59:26 +0200 (CEST)
+Received: by mail-il1-x13a.google.com with SMTP id e9e14a558f8ab-32b42b751bcsf15569705ab.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 21 Apr 2023 11:59:26 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1682103565; cv=pass;
         d=google.com; s=arc-20160816;
-        b=BAwa/kXlcXMnxQPl1INgCvUEQA8AKQZF/lwSsfSA7yu0J0G4Mr7SZITYadGQjidF4Z
-         /s0/+yHegxdSHnbj5J72RRxPJ7OvPm7p8tUwyjP2k4WaM68J41JdJhD0I1d1aFJhXusG
-         vLA74URZmtaYlk7Awsc0UOI3PBHcckNU36PtBGYmvyKpc7MfeCrlafWQb9s/9FLJBm5b
-         0HN85L2ffCBg8BgWNFzHhJSTtqg9JR949qdDXUElPyjTX8CAcWOnOfp/6j42SY5CI21H
-         xHlX+CMXKfV7drTNYZ7cJHseBSIIMNWbUPqC2Aumw5YO0DojB+dhjHJ2ap1j4Gu6Ydcr
-         2k7g==
+        b=Qr66aQrMoumRYStRgjEokegRbNbLVbjFXNKibIQ3migOE4wCP05VZbwLe7buzMSsBb
+         M6YRYAWBaFRg/qfqBNu+SiD2EPZT8ju6iRYzb15ehwgpxq3+e4XHrYjN7UBxF7bAbcmM
+         pBRViFHCT9iiiRZjrrOUmaOx9aA5bThVBiFdE1YNBiPV53ooUx4AUU8oRpSyPzMbxpbm
+         gx4qJB3JlP8x7I3KIJYY6uJQufwwFNlMWq4AOBZWz9nX2NEF9K+rPqEFO3ZymdqKIbrr
+         YH7ZXSwAiuBVMHzMSGazZM7rbw+u4QyzFW+PpJ6Da5BDP4KGZGgQSI8A0tlYsC6QTlql
+         5KhQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:dkim-signature;
-        bh=UQ6VD6CGpwci2BW0iwQ2NQRIHXNTxoygMEGLUu8OJdI=;
-        b=dpHPTLdAP8W7RXvAOTpgtAuNsfjSKpDO7sljE3AID4VINm+gZFzp0Gi38EFCnzLz35
-         hS8OF0ojmEnjdmnIucskjmbJElkJ0OSyCgp0DWGdiD7dEcV/plVkxzTd+4SB4isiRh5H
-         qU29sBSWSaPkDjl5ycuNeCbdMu/m1cp7y9xKozDiyG1JVJEh85y3NDTQhgp1WwiF8jLt
-         Rpn8Ar7W50it9WNrAMAscnKp7XW7OAIrH6jt8MCZjgylaaUzwx4QoOfaJSBdYtMLqk20
-         QQH/5YMeVSHgu0ZRunrjyG4KafmBb8JCDD9grvJbybw7D5XYz2pjd+Ghk2z++hTiQwX/
-         capg==
+         :list-id:mailing-list:precedence:to:from:mime-version:date
+         :message-id:subject:references:in-reply-to:sender:dkim-signature;
+        bh=x9/ayrAj141S1dVRmrq0cx7R2icQ/vRcoH9+7m6VWb8=;
+        b=s6HcCD8rnv8G1Nv2wXIorftdyi5EWkzQDtnyAKIyeaFa5xMTuX9qjV1SxTCfdCSZnu
+         9SIm6mNPMyvZbsI72J3qS3HH19KKsWl88k71JOIOzrDKIQTg/I5GvUtC3NU6F7yBs/2Q
+         cfrod7w7xn7Vd+1f7zP7zplsiAj5bX2yKN7dv4evf2FPIF1QMrtgKImv6Db87qVKnyAl
+         N7P4Zj/R4fZbLhbUYIRQPjx0pO1ECufahKRTdx/25GQ/nWx5u30ZHzat/OOq73bh4Slh
+         66scLfkar207clTyazvjnTapT+Py9e9YD9mjpGpm5BmnH3c51oULU8yQjcJ7OjduxGCD
+         MG5g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@bytedance.com header.s=google header.b=W3ChJVWc;
-       spf=pass (google.com: domain of zhengqi.arch@bytedance.com designates 2607:f8b0:4864:20::102a as permitted sender) smtp.mailfrom=zhengqi.arch@bytedance.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
+       dkim=pass header.i=@rivosinc-com.20221208.gappssmtp.com header.s=20221208 header.b=1eyKirCq;
+       spf=pass (google.com: domain of palmer@rivosinc.com designates 2607:f8b0:4864:20::62d as permitted sender) smtp.mailfrom=palmer@rivosinc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1681896051; x=1684488051;
+        d=googlegroups.com; s=20221208; t=1682103565; x=1684695565;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:to:from:mime-version:date:message-id:subject
+         :references:in-reply-to:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UQ6VD6CGpwci2BW0iwQ2NQRIHXNTxoygMEGLUu8OJdI=;
-        b=nCPVIuktfL8hJFz3AZYgZwlJJGNnKqiEABRUW3goSU9RXlvQ34ALkwE4ZuXoX1Tn9l
-         Al9x98+4L5W0OihDm8PePCI+uC3/dgprl/1uXpSW651d6mMBvr+zwVXMTC6zcYV/qqLx
-         HaDuGYuWaVOqO/4Db3Is8NX7TBK3Oh9WBbm/RFAzpwFFGpaKjBqZuZ2mLQcijnD2FTRy
-         rzDpcglu1M5EyFOZuMTZkHbnTP/TGkHv8LKrcRjJRut3BA1w5EHpo0o3mzDT9o+7XqAU
-         DI61rW1znZ1Q7egXE/GRBmocsvHy5nH32sJHhXU0oJPcYahFnfILAyn/8/whCK5z9Uad
-         dCAA==
+        bh=x9/ayrAj141S1dVRmrq0cx7R2icQ/vRcoH9+7m6VWb8=;
+        b=GRIKVgz5tr81ObQ56idtvWKaL8D1FFQEjGY+zjILN5xpqp3qfyXahQa7dWQXGkJXeb
+         KUJ7W0SOuoign0jJANcwE70NSkF84Tj0RuS/ghCd7AUgtyC8+QKKlgpbR441P7AH5XVd
+         AsF844P83r0G9CYR0EV4hpsRB4AGF9P0EVfQu6S7BIo1klOFCshmqZ9Y/EqhUOvMwsRx
+         qUPg8Y/Riojrlw+xfNYSkZyEvUW9USdWRQGctJPvhEgUedE5IC0MV81ooQPIkchmUB5+
+         5CkhauuQS77avnSncKR7XPRnbvjBF4fovdfQH0HPtG7JW8k/UbbCCg+ClFf6R2VQOaZU
+         2qOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681896051; x=1684488051;
+        d=1e100.net; s=20221208; t=1682103565; x=1684695565;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=UQ6VD6CGpwci2BW0iwQ2NQRIHXNTxoygMEGLUu8OJdI=;
-        b=a6dQrcY5+4e4nDmBv0jo8CD5AQXilxlYcuguxeHjfvg1pl3NelSbr4NxrBwQ/jtBgy
-         Hs2/PwKzp9OIXZrOyO1b99+dDxzv/EKoQUYyx19QiPUvlHlxAMJP3XbDm07Nl5bW02iO
-         l8cPjJU5qo8czNplrIj2pzcCiKYg6GFGaYd0zz8w8XbKQvuDA1uXTBVM5qHinNVpE5eV
-         hFH8yA/3YUKf7wqJt1pkxXTYexsBPwh2UIKYWkkfVAytm9l/pb9ZB2hmg1OdInCiuwOj
-         98sdAVwIq42xanM88iEKpHNLni6b6ybt5UM9wC8S3Q8W+uWUy0ZTg7rJFaUr0zVD3fY9
-         0LqQ==
-X-Gm-Message-State: AAQBX9coKdwi6xCu7om3foiT1ljCt/6FPLpNXJjz7SM0zkFX3jzsoAvW
-	F7lq+vFbqytmet4XxGU0Pms=
-X-Google-Smtp-Source: AKy350a/Tryls2e0sSw6p+Cb+ADS0mRgfAx4/5dhh+CR1qOS9SOYg/QgLPpktS1XHCoem1Th3Eq+nw==
-X-Received: by 2002:a25:7385:0:b0:b92:3b14:b0f6 with SMTP id o127-20020a257385000000b00b923b14b0f6mr8440106ybc.7.1681896051387;
-        Wed, 19 Apr 2023 02:20:51 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:to:from
+         :mime-version:date:message-id:subject:references:in-reply-to
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=x9/ayrAj141S1dVRmrq0cx7R2icQ/vRcoH9+7m6VWb8=;
+        b=OO8WTGm2f8o3qA1C8xepmv/GKd7gNBRhl8qoz4z58nU/7+vnpVCGO1Q2TaL9/L6KIs
+         hIBiTdHZeelp3yeRE3DyN8ze+evt3r5Bl5HwPY01PVWBwJ+EjjjRE72fYL6UaoLFeIIP
+         WSaeXIYxlbNUSGUWMco/lSDqxoq94JOMZhkh7MlmjrBEeHnxotTBIYYUKzeM/H6EgO8E
+         hOJTWCA2smdREBkyTieyj0oq6toBef6EP1ij6VXC3pT6yxN53XifIsDGQOYZpcYRMG7j
+         sUQ53UVR2z5HdxyinUjWTI69wU7btKye6bp6X/PIzJwiPnvu8LwvtTNDO6EWLuJBshwq
+         SkaA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AAQBX9enU6Htr71XQx/UUZdPYMp9acni7C7A6isHg8Dl0cfAcFQ8r6z1
+	mRooRE4vQrU6v0LxsDbUIsKP2A==
+X-Google-Smtp-Source: AKy350bzpALgDJ/h1grISos/cXFnKcukY/veO+GcyoXobre6iwSWgYYNq39M3keZnwtUJ1vZkqcTxw==
+X-Received: by 2002:a92:c0c2:0:b0:32b:8bf:4d77 with SMTP id t2-20020a92c0c2000000b0032b08bf4d77mr3356175ilf.1.1682103564773;
+        Fri, 21 Apr 2023 11:59:24 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6902:188a:b0:b92:4a72:d990 with SMTP id
- cj10-20020a056902188a00b00b924a72d990ls5643308ybb.6.-pod-prod-gmail; Wed, 19
- Apr 2023 02:20:50 -0700 (PDT)
-X-Received: by 2002:a25:1f84:0:b0:b77:678b:ca53 with SMTP id f126-20020a251f84000000b00b77678bca53mr17228641ybf.64.1681896050601;
-        Wed, 19 Apr 2023 02:20:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1681896050; cv=none;
+Received: by 2002:a05:6e02:1201:b0:328:fee0:eb77 with SMTP id
+ a1-20020a056e02120100b00328fee0eb77ls1989764ilq.5.-pod-prod-gmail; Fri, 21
+ Apr 2023 11:59:24 -0700 (PDT)
+X-Received: by 2002:a92:dc82:0:b0:328:6e2d:5a2d with SMTP id c2-20020a92dc82000000b003286e2d5a2dmr3699732iln.6.1682103564230;
+        Fri, 21 Apr 2023 11:59:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1682103564; cv=none;
         d=google.com; s=arc-20160816;
-        b=0VEXJwAAYnwSR0LGRhhYyLa8i3B4OC2t81PgbQBJkY3m6ovEBH5im5XxWFFI7TQzNk
-         XF7x8xXmVOR8641F30TmCTNO3sZGkOD91qkF4pEvSI6g9iDheYbGRwkHlVb2EoVozpUR
-         Af6uZExLSDIxOCjXs+v3kr8IbYOjHDr8hIu9TPo4WqnyPCiNRiNaWKswg8iciU/jIkFW
-         A9VWQMIDbTrZVR0TDqNVm6zNTQcGzy+aoiQtuXmXWwDb6AGOGudI+PZxin/KRw1262Nq
-         uNVkkll59LbGAT25LqGLKsc6ClZMoRU+L+GhUCmKUHLTXL/IAktQCWhRhT0dlDrwdcxY
-         YPMw==
+        b=jd0Ufg9Iop3AYE45+GtzQrKP/HgnXcuQUMFLPyO9NBNV/a0CNqIjU94WXHpGjRvCJp
+         0yU3EasPNaMflN6pHBZ5UF8tQbKDhx8Thr5jPTTg5/H/1GxCf1FnlLWD3rK5UlQMzmTl
+         K78gWXmYGt2Q/8hvK1PbelLkPIy9GzQN3/QBwcM86LoWNDXnj3N0MpH0sl2GmucbYi3h
+         CVAhaBHJzxDcB34Cx+jYvP4MUFK0ACcU3QrSig3Xg6pG1DukVRSwajdxOPq1Pj4gGPUc
+         sOfWa6uOZCQ6reJrfhPOR5/6Z2Rlb5Jvh7BPgCNaxBraWiOUEjuHq3/MWPGCY++mWfSY
+         GeDg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=XTqHFht0rFwyDOCXCg3uc4JwZj9L0SsxUyVwxywupyM=;
-        b=nQT9PO7H6brH631b1JPKLutV+nAK2e8WeTBNyDGvLY2zyl0+gvjEhCZcIz1R5PwKrd
-         TvymIBUXJr3Bt/feSwUrDW7yDI25Dg/iTnX8dJ94+b3TwS/hdgOqwkUZHVyCPNAW8kHE
-         SQB0vrcMAuc1RjZMbrSAW+ty+EzIM0J1JiwevfhCCCFPnTbKbRn/mZSMyri6zXPLHPrk
-         b2PnAeAIv+U2B3hoeaMZCI5B/8kYRfmSLs9hjnNQyUeb/hK4laA6NVAhYU7vLIORiPxj
-         Y/T3Cxl2buqHFbwlOuEcHyFQx/htAEAl/lvcttGZSbdRqfw1aNYL+WYzao0M7KKpEEqe
-         NxlA==
+        h=to:from:content-transfer-encoding:mime-version:date:message-id
+         :subject:references:in-reply-to:dkim-signature;
+        bh=JnRCEEUMbL4VHxSaKuZGWLgXCAjCR6wrwzaIjE1iCNc=;
+        b=OvRELIVEGrgr8SS5KyrKXXu/cejRHLjwaqe4An7tEJbysTNgqkv14vp9SZop2GeIqW
+         r0McxMFd3LIcjWGcAUsg9oWdGNVaa/mJF7/3ROTcUtAagFLK5G7c/LnQA15JYZlJ6j8X
+         PWbis7BMw/S7JRAbcYcL6qES2rMJoG529AF8C1jYAtUH+Js57UEkWfBe69mkg09V6fTF
+         t5/4S3dRJ0H/lQ7Idy4CkRc0CgaVsSDtAcwzxSoc4C3DX1g88B0npCm9DHXrr0JYeCkS
+         WBDofbNtIiqQSJV7tSEQSyrgc1gb4Wn6mESWbqeZC2WTPpKTccB6dn/uPHHBiM0+kU9/
+         oJYA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@bytedance.com header.s=google header.b=W3ChJVWc;
-       spf=pass (google.com: domain of zhengqi.arch@bytedance.com designates 2607:f8b0:4864:20::102a as permitted sender) smtp.mailfrom=zhengqi.arch@bytedance.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com. [2607:f8b0:4864:20::102a])
-        by gmr-mx.google.com with ESMTPS id c17-20020a5b0991000000b00b95bf79bf9dsi175250ybq.2.2023.04.19.02.20.50
+       dkim=pass header.i=@rivosinc-com.20221208.gappssmtp.com header.s=20221208 header.b=1eyKirCq;
+       spf=pass (google.com: domain of palmer@rivosinc.com designates 2607:f8b0:4864:20::62d as permitted sender) smtp.mailfrom=palmer@rivosinc.com
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com. [2607:f8b0:4864:20::62d])
+        by gmr-mx.google.com with ESMTPS id x8-20020a927c08000000b0032616e0cb6asi150541ilc.2.2023.04.21.11.59.24
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Apr 2023 02:20:50 -0700 (PDT)
-Received-SPF: pass (google.com: domain of zhengqi.arch@bytedance.com designates 2607:f8b0:4864:20::102a as permitted sender) client-ip=2607:f8b0:4864:20::102a;
-Received: by mail-pj1-x102a.google.com with SMTP id 98e67ed59e1d1-2465835cf6fso1001786a91.1
-        for <kasan-dev@googlegroups.com>; Wed, 19 Apr 2023 02:20:50 -0700 (PDT)
-X-Received: by 2002:a17:90a:1d5:b0:246:fa2b:91be with SMTP id 21-20020a17090a01d500b00246fa2b91bemr15215000pjd.3.1681896049729;
-        Wed, 19 Apr 2023 02:20:49 -0700 (PDT)
-Received: from [10.70.252.135] ([139.177.225.245])
-        by smtp.gmail.com with ESMTPSA id lx3-20020a17090b4b0300b00246cc751c6bsm964575pjb.46.2023.04.19.02.20.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Apr 2023 02:20:49 -0700 (PDT)
-Message-ID: <a005e1ce-8c58-7d9a-0c55-09f3f5afc788@bytedance.com>
-Date: Wed, 19 Apr 2023 17:20:38 +0800
+        Fri, 21 Apr 2023 11:59:24 -0700 (PDT)
+Received-SPF: pass (google.com: domain of palmer@rivosinc.com designates 2607:f8b0:4864:20::62d as permitted sender) client-ip=2607:f8b0:4864:20::62d;
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1a68f2345c5so22030635ad.2
+        for <kasan-dev@googlegroups.com>; Fri, 21 Apr 2023 11:59:24 -0700 (PDT)
+X-Received: by 2002:a17:903:41d1:b0:1a6:492c:df22 with SMTP id u17-20020a17090341d100b001a6492cdf22mr7006809ple.17.1682103563482;
+        Fri, 21 Apr 2023 11:59:23 -0700 (PDT)
+Received: from localhost ([135.180.227.0])
+        by smtp.gmail.com with ESMTPSA id k9-20020a170902ba8900b001a0742b0806sm3055707pls.108.2023.04.21.11.59.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Apr 2023 11:59:22 -0700 (PDT)
+In-Reply-To: <20230203075232.274282-1-alexghiti@rivosinc.com>
+References: <20230203075232.274282-1-alexghiti@rivosinc.com>
+Subject: Re: [PATCH v4 0/6] RISC-V kasan rework
+Message-Id: <168191616322.7488.11200893464689398522.b4-ty@rivosinc.com>
+Date: Wed, 19 Apr 2023 07:56:03 -0700
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.10.0
-Subject: Re: [PATCH v2] kasan: Fix lockdep report invalid wait context
-Content-Language: en-US
-To: Vlastimil Babka <vbabka@suse.cz>, Zqiang <qiang1.zhang@intel.com>,
- elver@google.com, ryabinin.a.a@gmail.com, glider@google.com,
- andreyknvl@gmail.com, dvyukov@google.com, akpm@linux-foundation.org
-Cc: kasan-dev@googlegroups.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org
-References: <20230327120019.1027640-1-qiang1.zhang@intel.com>
- <f16db6f6-2699-bb8f-d34c-2ce3d37a6498@bytedance.com>
- <6f183ff4-f23e-b82a-3524-2d1f5d833a2d@suse.cz>
-From: "'Qi Zheng' via kasan-dev" <kasan-dev@googlegroups.com>
-In-Reply-To: <6f183ff4-f23e-b82a-3524-2d1f5d833a2d@suse.cz>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Original-Sender: zhengqi.arch@bytedance.com
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: b4 0.13-dev-901c5
+From: Palmer Dabbelt <palmer@rivosinc.com>
+To: Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+  Albert Ou <aou@eecs.berkeley.edu>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+  Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+  Vincenzo Frascino <vincenzo.frascino@arm.com>, Ard Biesheuvel <ardb@kernel.org>, Conor Dooley <conor@kernel.org>,
+  linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+  linux-efi@vger.kernel.org, Alexandre Ghiti <alexghiti@rivosinc.com>
+X-Original-Sender: palmer@rivosinc.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@bytedance.com header.s=google header.b=W3ChJVWc;       spf=pass
- (google.com: domain of zhengqi.arch@bytedance.com designates
- 2607:f8b0:4864:20::102a as permitted sender) smtp.mailfrom=zhengqi.arch@bytedance.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
-X-Original-From: Qi Zheng <zhengqi.arch@bytedance.com>
-Reply-To: Qi Zheng <zhengqi.arch@bytedance.com>
+ header.i=@rivosinc-com.20221208.gappssmtp.com header.s=20221208
+ header.b=1eyKirCq;       spf=pass (google.com: domain of palmer@rivosinc.com
+ designates 2607:f8b0:4864:20::62d as permitted sender) smtp.mailfrom=palmer@rivosinc.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,208 +137,37 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 
-
-On 2023/4/19 16:03, Vlastimil Babka wrote:
-> On 4/19/23 04:52, Qi Zheng wrote:
->>
->>
->> On 2023/3/27 20:00, Zqiang wrote:
->>> For kernels built with the following options and booting
->>>
->>> CONFIG_SLUB=y
->>> CONFIG_DEBUG_LOCKDEP=y
->>> CONFIG_PROVE_LOCKING=y
->>> CONFIG_PROVE_RAW_LOCK_NESTING=y
->>>
->>> [    0.523115] [ BUG: Invalid wait context ]
->>> [    0.523315] 6.3.0-rc1-yocto-standard+ #739 Not tainted
->>> [    0.523649] -----------------------------
->>> [    0.523663] swapper/0/0 is trying to lock:
->>> [    0.523663] ffff888035611360 (&c->lock){....}-{3:3}, at: put_cpu_partial+0x2e/0x1e0
->>> [    0.523663] other info that might help us debug this:
->>> [    0.523663] context-{2:2}
->>> [    0.523663] no locks held by swapper/0/0.
->>> [    0.523663] stack backtrace:
->>> [    0.523663] CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.3.0-rc1-yocto-standard+ #739
->>> [    0.523663] Call Trace:
->>> [    0.523663]  <IRQ>
->>> [    0.523663]  dump_stack_lvl+0x64/0xb0
->>> [    0.523663]  dump_stack+0x10/0x20
->>> [    0.523663]  __lock_acquire+0x6c4/0x3c10
->>> [    0.523663]  lock_acquire+0x188/0x460
->>> [    0.523663]  put_cpu_partial+0x5a/0x1e0
->>> [    0.523663]  __slab_free+0x39a/0x520
->>> [    0.523663]  ___cache_free+0xa9/0xc0
->>> [    0.523663]  qlist_free_all+0x7a/0x160
->>> [    0.523663]  per_cpu_remove_cache+0x5c/0x70
->>> [    0.523663]  __flush_smp_call_function_queue+0xfc/0x330
->>> [    0.523663]  generic_smp_call_function_single_interrupt+0x13/0x20
->>> [    0.523663]  __sysvec_call_function+0x86/0x2e0
->>> [    0.523663]  sysvec_call_function+0x73/0x90
->>> [    0.523663]  </IRQ>
->>> [    0.523663]  <TASK>
->>> [    0.523663]  asm_sysvec_call_function+0x1b/0x20
->>> [    0.523663] RIP: 0010:default_idle+0x13/0x20
->>> [    0.523663] RSP: 0000:ffffffff83e07dc0 EFLAGS: 00000246
->>> [    0.523663] RAX: 0000000000000000 RBX: ffffffff83e1e200 RCX: ffffffff82a83293
->>> [    0.523663] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffff8119a6b1
->>> [    0.523663] RBP: ffffffff83e07dc8 R08: 0000000000000001 R09: ffffed1006ac0d66
->>> [    0.523663] R10: ffff888035606b2b R11: ffffed1006ac0d65 R12: 0000000000000000
->>> [    0.523663] R13: ffffffff83e1e200 R14: ffffffff84a7d980 R15: 0000000000000000
->>> [    0.523663]  default_idle_call+0x6c/0xa0
->>> [    0.523663]  do_idle+0x2e1/0x330
->>> [    0.523663]  cpu_startup_entry+0x20/0x30
->>> [    0.523663]  rest_init+0x152/0x240
->>> [    0.523663]  arch_call_rest_init+0x13/0x40
->>> [    0.523663]  start_kernel+0x331/0x470
->>> [    0.523663]  x86_64_start_reservations+0x18/0x40
->>> [    0.523663]  x86_64_start_kernel+0xbb/0x120
->>> [    0.523663]  secondary_startup_64_no_verify+0xe0/0xeb
->>> [    0.523663]  </TASK>
->>>
->>> The local_lock_irqsave() is invoked in put_cpu_partial() and happens
->>> in IPI context, due to the CONFIG_PROVE_RAW_LOCK_NESTING=y (the
->>> LD_WAIT_CONFIG not equal to LD_WAIT_SPIN), so acquire local_lock in
->>> IPI context will trigger above calltrace.
->>
->> Just to add another similar case:
->>
->> Call Trace:
->>    <IRQ>
->>    dump_stack_lvl+0x69/0x97
->>    __lock_acquire+0x4a0/0x1b50
->>    lock_acquire+0x261/0x2c0
->>    ? restore_bytes+0x40/0x40
->>    local_lock_acquire+0x21/0x70
->>    ? restore_bytes+0x40/0x40
->>    put_cpu_partial+0x41/0x130
->>    ? flush_smp_call_function_queue+0x125/0x4d0
->>    kfree+0x250/0x2c0
->>    flush_smp_call_function_queue+0x125/0x4d0
->>    __sysvec_call_function_single+0x3a/0x100
->>    sysvec_call_function_single+0x4b/0x90
->>    </IRQ>
->>    <TASK>
->>    asm_sysvec_call_function_single+0x16/0x20
->>
->> So we can't call kfree() and its friends in interrupt context?
+On Fri, 03 Feb 2023 08:52:26 +0100, Alexandre Ghiti wrote:
+> As described in patch 2, our current kasan implementation is intricate,
+> so I tried to simplify the implementation and mimic what arm64/x86 are
+> doing.
 > 
-> We can (well not RT "hard IRQ" context AFAIK, but that shouldn't be the case
-> here), although I don't see from the part that you posted if it's again
-> CONFIG_PROVE_RAW_LOCK_NESTING clashing with something else (no KASAN in the
-> trace or I'm missing it?)
-
-I lost the corresponding vmlinux, but this should be a similar issue, we
-should continue to make lockdep recognize the !RT path.
-
+> In addition it fixes UEFI bootflow with a kasan kernel and kasan inline
+> instrumentation: all kasan configurations were tested on a large ubuntu
+> kernel with success with KASAN_KUNIT_TEST and KASAN_MODULE_TEST.
 > 
->> Also +Vlastimil Babka.
->>
->> Thanks,
->> Qi
->>
->>>
->>> This commit therefore move qlist_free_all() from hard-irq context to
->>> task context.
->>>
->>> Signed-off-by: Zqiang <qiang1.zhang@intel.com>
->>> ---
->>>    v1->v2:
->>>    Modify the commit information and add Cc.
->>>
->>>    mm/kasan/quarantine.c | 34 ++++++++--------------------------
->>>    1 file changed, 8 insertions(+), 26 deletions(-)
->>>
->>> diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
->>> index 75585077eb6d..152dca73f398 100644
->>> --- a/mm/kasan/quarantine.c
->>> +++ b/mm/kasan/quarantine.c
->>> @@ -99,7 +99,6 @@ static unsigned long quarantine_size;
->>>    static DEFINE_RAW_SPINLOCK(quarantine_lock);
->>>    DEFINE_STATIC_SRCU(remove_cache_srcu);
->>>    
->>> -#ifdef CONFIG_PREEMPT_RT
->>>    struct cpu_shrink_qlist {
->>>    	raw_spinlock_t lock;
->>>    	struct qlist_head qlist;
->>> @@ -108,7 +107,6 @@ struct cpu_shrink_qlist {
->>>    static DEFINE_PER_CPU(struct cpu_shrink_qlist, shrink_qlist) = {
->>>    	.lock = __RAW_SPIN_LOCK_UNLOCKED(shrink_qlist.lock),
->>>    };
->>> -#endif
->>>    
->>>    /* Maximum size of the global queue. */
->>>    static unsigned long quarantine_max_size;
->>> @@ -319,16 +317,6 @@ static void qlist_move_cache(struct qlist_head *from,
->>>    	}
->>>    }
->>>    
->>> -#ifndef CONFIG_PREEMPT_RT
->>> -static void __per_cpu_remove_cache(struct qlist_head *q, void *arg)
->>> -{
->>> -	struct kmem_cache *cache = arg;
->>> -	struct qlist_head to_free = QLIST_INIT;
->>> -
->>> -	qlist_move_cache(q, &to_free, cache);
->>> -	qlist_free_all(&to_free, cache);
->>> -}
->>> -#else
->>>    static void __per_cpu_remove_cache(struct qlist_head *q, void *arg)
->>>    {
->>>    	struct kmem_cache *cache = arg;
->>> @@ -340,7 +328,6 @@ static void __per_cpu_remove_cache(struct qlist_head *q, void *arg)
->>>    	qlist_move_cache(q, &sq->qlist, cache);
->>>    	raw_spin_unlock_irqrestore(&sq->lock, flags);
->>>    }
->>> -#endif
->>>    
->>>    static void per_cpu_remove_cache(void *arg)
->>>    {
->>> @@ -362,6 +349,8 @@ void kasan_quarantine_remove_cache(struct kmem_cache *cache)
->>>    {
->>>    	unsigned long flags, i;
->>>    	struct qlist_head to_free = QLIST_INIT;
->>> +	int cpu;
->>> +	struct cpu_shrink_qlist *sq;
->>>    
->>>    	/*
->>>    	 * Must be careful to not miss any objects that are being moved from
->>> @@ -372,20 +361,13 @@ void kasan_quarantine_remove_cache(struct kmem_cache *cache)
->>>    	 */
->>>    	on_each_cpu(per_cpu_remove_cache, cache, 1);
->>>    
->>> -#ifdef CONFIG_PREEMPT_RT
->>> -	{
->>> -		int cpu;
->>> -		struct cpu_shrink_qlist *sq;
->>> -
->>> -		for_each_online_cpu(cpu) {
->>> -			sq = per_cpu_ptr(&shrink_qlist, cpu);
->>> -			raw_spin_lock_irqsave(&sq->lock, flags);
->>> -			qlist_move_cache(&sq->qlist, &to_free, cache);
->>> -			raw_spin_unlock_irqrestore(&sq->lock, flags);
->>> -		}
->>> -		qlist_free_all(&to_free, cache);
->>> +	for_each_online_cpu(cpu) {
->>> +		sq = per_cpu_ptr(&shrink_qlist, cpu);
->>> +		raw_spin_lock_irqsave(&sq->lock, flags);
->>> +		qlist_move_cache(&sq->qlist, &to_free, cache);
->>> +		raw_spin_unlock_irqrestore(&sq->lock, flags);
->>>    	}
->>> -#endif
->>> +	qlist_free_all(&to_free, cache);
->>>    
->>>    	raw_spin_lock_irqsave(&quarantine_lock, flags);
->>>    	for (i = 0; i < QUARANTINE_BATCHES; i++) {
->>
-> 
-> 
+> [...]
 
+Applied, thanks!
+
+[1/6] riscv: Split early and final KASAN population functions
+      https://git.kernel.org/palmer/c/cd0334e1c091
+[2/6] riscv: Rework kasan population functions
+      https://git.kernel.org/palmer/c/96f9d4daf745
+[3/6] riscv: Move DTB_EARLY_BASE_VA to the kernel address space
+      https://git.kernel.org/palmer/c/401e84488800
+[4/6] riscv: Fix EFI stub usage of KASAN instrumented strcmp function
+      https://git.kernel.org/palmer/c/617955ca6e27
+[5/6] riscv: Fix ptdump when KASAN is enabled
+      https://git.kernel.org/palmer/c/ecd7ebaf0b5a
+[6/6] riscv: Unconditionnally select KASAN_VMALLOC if KASAN
+      https://git.kernel.org/palmer/c/864046c512c2
+
+Best regards,
 -- 
-Thanks,
-Qi
+Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/a005e1ce-8c58-7d9a-0c55-09f3f5afc788%40bytedance.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/168191616322.7488.11200893464689398522.b4-ty%40rivosinc.com.
