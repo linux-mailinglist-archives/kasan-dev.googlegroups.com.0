@@ -1,200 +1,132 @@
-Return-Path: <kasan-dev+bncBD6YJ5EM2QMRBBMSTKRAMGQEEUMS5AA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCF5XGNWYQBRBVW2TKRAMGQEYD64UIA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0BB16ECF93
-	for <lists+kasan-dev@lfdr.de>; Mon, 24 Apr 2023 15:49:58 +0200 (CEST)
-Received: by mail-lf1-x13f.google.com with SMTP id 2adb3069b0e04-4ecb47482aesf2182663e87.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 24 Apr 2023 06:49:58 -0700 (PDT)
+Received: from mail-oa1-x3b.google.com (mail-oa1-x3b.google.com [IPv6:2001:4860:4864:20::3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id C81AF6ED261
+	for <lists+kasan-dev@lfdr.de>; Mon, 24 Apr 2023 18:24:56 +0200 (CEST)
+Received: by mail-oa1-x3b.google.com with SMTP id 586e51a60fabf-18486cd43d7sf27401114fac.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 24 Apr 2023 09:24:56 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1682353495; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=Bdk437l3zKbGiAgGXQjM+ofcD1yPYwhcoAN49So1Q71Hz3iktXnfDlNwwHLWYwT+jz
+         CR/07IxuhXJrbiqrRAGcLYzRAqr7iA8Xny5Gsjm2wnn9Vzkp2AImrOJxKEuSB/c+q3Y+
+         35LK6EPJlEuaeiobcOjkLcarsUY++9oRZuGG74QIBm2NzPtjvAX+vWybg5fqvQAVr1TN
+         UypkBDviN8KnoWah1znR7Cvby9rgMxCUXFZ8I5kTHvoM7pT64YR5NtRQLNkEXczX9FGK
+         6tw0HIM+slnoSYBshlOp5VyW6M633kpSyM3pgPprxuPeX022HfcF9GOiA+5OngAbnCT2
+         KNiA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:subject:cc:to:from:date:message-id:sender
+         :dkim-signature;
+        bh=3udI53iC8HnRmlZ96I5Ob4xa9Ov40IHVKCIhsDvpcMs=;
+        b=vh6FYq24pdyb/5Y526UTCBBj6CipojKQTdKcn5Eo7W++UNq9S55P0i3kU7I47B2V++
+         XFHc52Irb8NOLnI4izdf/9eMzDndfEDXLmCHUMOTEFrzeWeeenAJhuqoJ4ueb2j+beVd
+         jgI2mVuXbV08CImnIwCudRs4yEyvZxJptco+pV9lrBhczKOmpSNV0bigzPNpheB/1YJm
+         TV8NCpsdo0xjiKGof7ML9YrCnCh9jC0E5OCh69WQEEGXDschedzK3uV5ADKLEdw7Oekh
+         hFfAQYZQw0szsnBOSZu6urEuR1vPo72YIHVmN5/5aQR4q/0S4qN8N9EwrjoBTR5jD06X
+         RJOA==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@chromium.org header.s=google header.b=D7tq8Eaw;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102f as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1682344198; x=1684936198;
+        d=googlegroups.com; s=20221208; t=1682353495; x=1684945495;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:content-transfer-encoding
-         :in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:date:message-id:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UyOYqvEsdj6Du7PZ2dm35qZc/PFwTDknV12QFQZBMOc=;
-        b=qh+UvREKpqKRb8diu1yJDl+OnamjUGydHRdjsV9KDI3GkhNlR+akzlBEGImGU0ePiO
-         qcIrmzGbvmWaLtWY1ABGaK/+BvYTZ3CfJg8E0Xpj9+f76r4QWn2cNqtfsjCZNl/oumcA
-         wBcs6sqIMNvpahFsYzjwCHRW4xmocj2nBrxFhBTEv7itt2fc9CeWoUB3SmdSZ9cN7dn0
-         y26RQ0Ch3umCFePzUoh8Slzm41ye6cLUzTkqO1E4fRJViH3AJ2Y4woHmwMqiDkvi3EaA
-         g8SJf/a6XocK0zcb2M1edA0t9otI3c3PvwfTDbi/VVQRSStZb5SAu/7LDyuUIJsAHH1T
-         uksQ==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:subject:cc:to:from:date:message-id:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3udI53iC8HnRmlZ96I5Ob4xa9Ov40IHVKCIhsDvpcMs=;
+        b=Yn3nY5nC1yIJxmaXWQZBJVhdf8Dt6GGX+p4ZUxsdGNwYkJ07I0oWJK9vkDOM+LjQCl
+         gRcdygs9L3kLDvG0C4cjAWfw82TKHOnW7FKkuI6La+Bd7ObnqZRN94sVJblwAuurwn8t
+         5HN1VyVc7ISi9bKupvoD4VfnyCXTSJp/GyHgVsIzsEy6hTcB8WzjYj74iGj83qUwXLwi
+         cGrXbunRkKxGK1dP7toPvJW/hmWAiyEj9R49wDJLOwchzZyKo2o4jbzvkupfF5axkVFG
+         d7ZifXxaTm65sX3NiSBl+PtyXECB1kPzx+WyTDLcoppL3a2+qzelzOdPgdPUhLUWsBVX
+         HFPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682344198; x=1684936198;
+        d=1e100.net; s=20221208; t=1682353495; x=1684945495;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:date:message-id:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UyOYqvEsdj6Du7PZ2dm35qZc/PFwTDknV12QFQZBMOc=;
-        b=kGKgMSbfm5lmbE+vP+GnLkXn7r2jmbRRgt+KD0ldiWebapsacCaqImyUVosWrodcYK
-         I3XNGhIffeTb0LhkprRXuktAnn21QyV1zxJ6he95lXXv35WhX+S4OwKvPF0FPRHonjT0
-         5A6aZtDrHtmTKxZ4R2uj++uedJFiisVCzHS3ILhf1zE9eNJPi2+yh44bHd0Zt2w8M1Mn
-         tOeR8FMctZVRcGLJVSex4riWg9B4+JlpR3ms6tUVP+VnscrhZtlYXOZKKwhsgmdQF3dS
-         ug/iMH/jTTO8PKc2WlhyN9geeCdo66n6/ltKAZ72YeeEl+AUAm3e+rhPzydQ0wOPOnqa
-         DoCg==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:subject:cc:to:from:date
+         :message-id:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=3udI53iC8HnRmlZ96I5Ob4xa9Ov40IHVKCIhsDvpcMs=;
+        b=N1YEB7RM1bc05k3GGNr0zyg/Lr9lXLaRy/aTqzz9RNJIhwTxDOeTP2TG9J/Wq65AT4
+         mUdzhtrdsZaBa2cMs+y7bw3EZk/BHQ8ti+ehnz83Mw3xYruPHgIaVC2oS2xzMUKOznPT
+         ACx8sJ8sDzz0exQUcmKOiozR+3pW5CD0E1bwVnhx8LNGQyGWU99UHcSNIsXHG/eoYW/k
+         qDGM7UZw/xYU0F7Kg9jjJ4r9XmpjwKchhw692J5kd0ATiYKGy980LBIN+7Jpf3R8oBrX
+         vhRWIDYs7T9ulhr+vDYKTRMLaAXiqOepThnEkyb/dGHxAAt6NTKnGh62TfgSdNA32ekn
+         dCbA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AAQBX9dz25vu2JR9FmdOHAbWj50I95RQDDfbdoUjYBc5XhG6ilhuUPi8
-	wiP2nSssppzgD9JwVpW9s7s=
-X-Google-Smtp-Source: AKy350YVz9RM81ArB+5dienCqShUA6y0cR8tC1CGL8SGvhmDERzPZrAH8otA+m4RnrfjucPCfvvbxQ==
-X-Received: by 2002:ac2:5939:0:b0:4ed:c608:d859 with SMTP id v25-20020ac25939000000b004edc608d859mr3202478lfi.11.1682344197615;
-        Mon, 24 Apr 2023 06:49:57 -0700 (PDT)
+X-Gm-Message-State: AAQBX9dGaOBTczlr83qRHoWUc5ZnuktL2akzcFgII71nijSp/qVbZMBH
+	vqVSR4OiTDBq8XknUaOEawI=
+X-Google-Smtp-Source: AKy350ZN1J8vggwLEiC1jBHDbm5/+XmFfCEsGFOvoRGuZQz3hWf/Y5I8GzlyYKQhgd5oBeCCOU90gA==
+X-Received: by 2002:a4a:6c5e:0:b0:547:4b06:e73e with SMTP id u30-20020a4a6c5e000000b005474b06e73emr3365190oof.0.1682353494830;
+        Mon, 24 Apr 2023 09:24:54 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:e86:b0:4ed:bafc:b947 with SMTP id
- bi6-20020a0565120e8600b004edbafcb947ls767234lfb.2.-pod-prod-gmail; Mon, 24
- Apr 2023 06:49:56 -0700 (PDT)
-X-Received: by 2002:ac2:4204:0:b0:4ea:e296:fe9e with SMTP id y4-20020ac24204000000b004eae296fe9emr3238502lfh.9.1682344196120;
-        Mon, 24 Apr 2023 06:49:56 -0700 (PDT)
-Received: from mga01.intel.com (mga01.intel.com. [192.55.52.88])
-        by gmr-mx.google.com with ESMTPS id h13-20020a0565123c8d00b004e85e286f65si716203lfv.6.2023.04.24.06.49.54
+Received: by 2002:a05:6830:368b:b0:6a3:d400:61a1 with SMTP id
+ bk11-20020a056830368b00b006a3d40061a1ls1766260otb.8.-pod-prod-gmail; Mon, 24
+ Apr 2023 09:24:54 -0700 (PDT)
+X-Received: by 2002:a05:6830:39e4:b0:6a5:db64:c9f4 with SMTP id bt36-20020a05683039e400b006a5db64c9f4mr6728093otb.34.1682353494338;
+        Mon, 24 Apr 2023 09:24:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1682353494; cv=none;
+        d=google.com; s=arc-20160816;
+        b=kAlTWW7HM6h+V4Eh+xeTU0RfbcyhmJTtdqemOzMg6/Xo5PE0Y41VWmN9WUyz87Z/zs
+         0LokWkENY57sBvaeDYCmAvkSx8KHcI1iSFlW/yv3yAYvU3BvXDHlPCDNplIddAvDcI5z
+         cxwPa0xS8eER1Xvz2B4gkfdvWC2wx/sIYsqWcDKy+9GuzETv76/ECpjVBU/M/rCb9fsy
+         xM26mmaRhKaHypew1eCnoxI/D44ploBJ3sPGA/q7HJ97WShS/uPK7mPDdAaSvZCfqSpI
+         M/qMx+m5tOEYVOXK2dgWHxEnbw7KzWYj12e+fhFTOVJVnR9uWtWPexgBcxxD0H+FLirj
+         HJPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=in-reply-to:content-disposition:mime-version:references:subject:cc
+         :to:from:date:message-id:dkim-signature;
+        bh=3Ec5rnpGl1sXrFHB3DIjsS4ZKrDnQgNacloNoA+YyYQ=;
+        b=viVq4eFwMGPmRwQJQWWmpmmGjRdBrklm4f7POo6NLPA/GVWhtjYXSoa4CcEZecl8sj
+         g/2Z9VCn8d3g4n3J8CxhQ5AN0pWVQrmnI2oIsfFX7FLhZYqa4i07mpBhL7+oKYCX8qYE
+         YGSoPBDziEnzr4T4YOH/xbK8gPWXTOyKs2iOA0IJQCYoWjx5RF36fWOr9bNoGmdHv1sW
+         vcouCM1KPNocnwu8z2FwBu4MmkOdP1i/D+4nMBa5aXF9gI2vLsvh+t8nJD5a1k3YzaEQ
+         7FeKdGZFcnNp0qZ9Tpn+u7UT95yfLSFXOaCsmmx1teWzdbLI12zw8hzRa3e4UIIDsOyu
+         DpvQ==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@chromium.org header.s=google header.b=D7tq8Eaw;
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102f as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com. [2607:f8b0:4864:20::102f])
+        by gmr-mx.google.com with ESMTPS id br26-20020a056830391a00b006a6203c4bc5si992004otb.5.2023.04.24.09.24.54
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 24 Apr 2023 06:49:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of aleksander.lobakin@intel.com designates 192.55.52.88 as permitted sender) client-ip=192.55.52.88;
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="374403528"
-X-IronPort-AV: E=Sophos;i="5.99,222,1677571200"; 
-   d="scan'208";a="374403528"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2023 06:48:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10690"; a="939332988"
-X-IronPort-AV: E=Sophos;i="5.99,222,1677571200"; 
-   d="scan'208";a="939332988"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by fmsmga006.fm.intel.com with ESMTP; 24 Apr 2023 06:48:25 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 24 Apr 2023 06:48:24 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Mon, 24 Apr 2023 06:48:24 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23 via Frontend Transport; Mon, 24 Apr 2023 06:48:24 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.23; Mon, 24 Apr 2023 06:48:20 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P2hHkFMUPW75Uf5UXsrv9SrfWE1HP9L5/84ue142Dl3CEoGkFW5e9k0HmxIqg+CfGwdSmjYPPk/cxv+RTvXHMLbTOsqplK7XbNahVxyAXXm680/C5PNDILuP1ZnnFIaf8Blut+weuG3rq9wqE7opndkcFakE06XfGRTMC16yCACLu4xWQBSgtnrQiDsd24whiEB4sdRe4s9rZsV7BEpTs1LKmXJM4YKReUkxXk8b5OAUYfm5C2qcAvjplr09rYJmL1r2dNbGDslM5ymU4Es1FYSYaceaKp0OpGIISjPsr3/GtnaOOLBY2hREiwmDdDYBzYtWcogTycxyqV80q6vDTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dcp9STYLO2yK6BgKCtseqlqGb7m7fprOdiUKhmTwUmg=;
- b=fKdU7B6gizqUeRXsMdTX4BNkOKAj/flC1KQf/XTXiqBEYK/+aTEhe6l+SvVi5Qo/0hMyis9WI974UQZKL/qLbKzko7/MW5vQft1Z98ehhqXBb7iyf0/lWDNmo+ue+tj/N1jXSj8FDXknFjHXF/IdMJePp782k6pAYMiqvoLVxgZwii4Wi/i1xxELkvf7UA2hdovpJaFWNH8d2IeXRxW/xDJmQ/JVsPQxMXMX+5vt3UHBz0nHpBQ3IE4ObVbCSO6gBTuIjVlw662p+8r27bRu82CknF/tBpWW6kbQMXIYP6PApiGW9RLUjj2tbY5TKX7dQpmmaKxAlyyivGjufob6/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB3625.namprd11.prod.outlook.com (2603:10b6:5:13a::21)
- by BL1PR11MB5447.namprd11.prod.outlook.com (2603:10b6:208:315::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6319.33; Mon, 24 Apr
- 2023 13:48:19 +0000
-Received: from DM6PR11MB3625.namprd11.prod.outlook.com
- ([fe80::4c38:d223:b2ac:813e]) by DM6PR11MB3625.namprd11.prod.outlook.com
- ([fe80::4c38:d223:b2ac:813e%5]) with mapi id 15.20.6319.032; Mon, 24 Apr 2023
- 13:48:18 +0000
-Message-ID: <ce1c307e-b7ae-2590-7b2e-43cbe963bc4d@intel.com>
-Date: Mon, 24 Apr 2023 15:46:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH RFC] Randomized slab caches for kmalloc()
-Content-Language: en-US
-To: Gong Ruiqi <gongruiqi1@huawei.com>
-CC: Hyeonggon Yoo <42.hyeyoo@gmail.com>, Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>, Pekka Enberg
-	<penberg@kernel.org>, David Rientjes <rientjes@google.com>, Joonsoo Kim
-	<iamjoonsoo.kim@lge.com>, Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@suse.cz>, Roman Gushchin <roman.gushchin@linux.dev>,
-	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>, <linux-mm@kvack.org>,
-	<linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>, Kees Cook
-	<keescook@chromium.org>, <linux-hardening@vger.kernel.org>, Paul Moore
-	<paul@paul-moore.com>, <linux-security-module@vger.kernel.org>, James Morris
-	<jmorris@namei.org>, Wang Weiyang <wangweiyang2@huawei.com>, Xiu Jianfeng
-	<xiujianfeng@huawei.com>
-References: <20230315095459.186113-1-gongruiqi1@huawei.com>
- <b7a7c5d7-d3c8-503f-7447-602ec2a18fb0@gmail.com>
- <36019eb3-4b71-26c4-21ad-b0e0eabd0ca5@intel.com>
- <f5b23bbc-6fb5-84d3-fcad-6253b346328a@huawei.com>
-From: Alexander Lobakin <aleksander.lobakin@intel.com>
-In-Reply-To: <f5b23bbc-6fb5-84d3-fcad-6253b346328a@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: FR0P281CA0211.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:ac::6) To DM6PR11MB3625.namprd11.prod.outlook.com
- (2603:10b6:5:13a::21)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Apr 2023 09:24:54 -0700 (PDT)
+Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102f as permitted sender) client-ip=2607:f8b0:4864:20::102f;
+Received: by mail-pj1-x102f.google.com with SMTP id 98e67ed59e1d1-24b29812c42so3431480a91.0
+        for <kasan-dev@googlegroups.com>; Mon, 24 Apr 2023 09:24:54 -0700 (PDT)
+X-Received: by 2002:a17:90a:4e07:b0:247:19ac:9670 with SMTP id n7-20020a17090a4e0700b0024719ac9670mr13749994pjh.26.1682353493627;
+        Mon, 24 Apr 2023 09:24:53 -0700 (PDT)
+Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id g9-20020a17090a67c900b002465ff5d829sm6599949pjm.13.2023.04.24.09.24.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Apr 2023 09:24:53 -0700 (PDT)
+Message-ID: <6446ad55.170a0220.c82cd.cedc@mx.google.com>
+Date: Mon, 24 Apr 2023 09:24:52 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Alexander Potapenko <glider@google.com>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	akpm@linux-foundation.org, elver@google.com, dvyukov@google.com,
+	kasan-dev@googlegroups.com, andy@kernel.org,
+	ndesaulniers@google.com, nathan@kernel.org
+Subject: Re: [PATCH] string: use __builtin_memcpy() in strlcpy/strlcat
+References: <20230424112313.3408363-1-glider@google.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3625:EE_|BL1PR11MB5447:EE_
-X-MS-Office365-Filtering-Correlation-Id: 69454748-e253-4595-5765-08db44ca8f41
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WfnM/suNFEt9asxGVmy5fvO0F48tJ6O7MJq2LL/9CxXALz9jkC/DR7SwoJlyfX5/C2TLSLWXLMkyiCu4wnybHqN93AgvbUNBzcHJ5eHeRnrhhcEdMQYh34yj+kK0PtYZU29PgckhP88M/3AX3/LqIKUyczrY2GbKIpm9R4x7szuS+R1pd28H/1nQdGiwI6Tb5D2DXkAfgLLVA0bh93k9Qxdcl0cViu5+2rsRSS31lQofCSsxbZEohP7ghplH5ABCbT86nYWqhpCVCVva1lrxNncGWiJFAGNNAFeSZ/nDhRn5WKybDGJt+neCRqKjySB/x7lrutdyEIdXrScPZWfJw8sYXGsp/USJQK49VpqMDTTkWlR9Vsni5SoIYCTNnvNn1mvwP/y0SfyvewOUj76he6n9GQ2XtjSg6saxakDYxBR1CKXjSinN6OgYwz+bZoyPQ19LzyIzJvw29VxX7SztZfx0fnzsIeRoq5nOUHNJxAmG2L9rGzTOSI3i4rUdS2OzxQvhv3CmQTC6Sfk868c5pkTMXmtIctsPfr78qK/g3WoRyuvFWwX6ruigJaatNt74WxqjT535FXeCSY4dWNZl/xSWPRQo/kJ6quqW82m4imDbNKZxB0uAwHfnggM0BLCQpsrAwxovqfpViEI+wutVsA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3625.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(136003)(39860400002)(366004)(376002)(346002)(396003)(451199021)(2906002)(66476007)(66556008)(66946007)(6916009)(316002)(4326008)(7416002)(8676002)(8936002)(5660300002)(41300700001)(36756003)(31696002)(86362001)(6512007)(26005)(186003)(53546011)(38100700002)(478600001)(6486002)(6666004)(31686004)(2616005)(6506007)(82960400001)(54906003)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cDZOMGFneFZQVjFHZnd2SHdBeUpSUFl3OGtrV3gwV3ZqaG9KdnlwRVBGOEdq?=
- =?utf-8?B?SzRsbEdXaTd0WlZyVDRseHp3SEx3MHdTV2dURXM1anBHV1hNRUdMYUVCTDl2?=
- =?utf-8?B?am52WjNyMURPU2xYanYyZ0ZCNm42Yi9BWXNDbFlSNzdEbEgzZysvSjE4OFQz?=
- =?utf-8?B?T25qMGlFUUlUTkdxT0hBWmFvaUxEMk5SaGV4dG1DUGFudGdXQ24wWHhua0l0?=
- =?utf-8?B?MSttb1JYOEQ1YXk4ZGYraWgvb09zUTFRQ0h6NWNvK3ZXRkpBTzc2VnZJSU1S?=
- =?utf-8?B?MWE2MEhyYm04LzNsWDRyVy9hZDlpVXhsTFNMczJ5bDd2Wkh6VGtDamZCMWh2?=
- =?utf-8?B?VC82WEx3Z0RKM09hQVlGODFHSUZKcmNRTVFpTnFzenBDdGUyNnZ0YmdVd2Jk?=
- =?utf-8?B?Y1NQTmZETGN2bnlJU0RnZFhRMjlqZ3ovVHNUVDlkcDFUUjRIYU5DK1Y4RGhJ?=
- =?utf-8?B?RDFNN1hhOVVuWm5ZVWZtaXY0Ujg4QnFGVlAzYk53bnJWUjZKOEwrOFkreHlF?=
- =?utf-8?B?TG5INjI2V3pJelp4YVhOMkMzN2l1VUYvdllQa0hmY0UzMVBDNE9ubVBicFd6?=
- =?utf-8?B?ZU5PRE1hbjUvVlRNTytneXoyRTg3b2tjaW90U2lhdGZwNnZibnh1VmRqbS9C?=
- =?utf-8?B?cHN2VCtqcGVybVpYUlhPenI4RjBrclhXZy9PbVlWL05IZ1gyS2dqcmFqaTFx?=
- =?utf-8?B?RjE4ZFVwdnliUDlDeldNbnp0RVh4Q29TNHRmNk50M1VqYU5lY1dqM3FURTlD?=
- =?utf-8?B?TmwyYVNzYjhKZkpRVDMzWFdwM1FmWU5Rak0va3VjM2JGVWZzeldOV3oxNTRi?=
- =?utf-8?B?RkIyRHV4RE9pQU5pdFN6VGxocVVUZmlycHdnRWFrM1VBYVB5Sm1tRmU5bUpY?=
- =?utf-8?B?KzhPbG5vZWtUeUFqVXpKenY2U21saWNXbXNFWHF4aVNoSGJFWkpkR2lvWFRV?=
- =?utf-8?B?MktlQStCQlcwOFFaSFdnL0VxSkZteXZLVUMvNnJCSG5lc2tFcjgrVU1kQm44?=
- =?utf-8?B?V1pBWW9oSHhiMG5TbGYxWTFFYWtHM3hEeVZQSm5XMDUyTnZ2dnNtVm9vRHg3?=
- =?utf-8?B?TFY1UGtkYWF1d1RpOUJZWTcwN0Q0enN3T1VqWFNDRlBDODk3MmZ2cVpjMWti?=
- =?utf-8?B?c3VmTEZERlA0em12b3phRTBhcmZyVEUwQ2dkS2xPR2pBbEZQR1llWWI1Vk55?=
- =?utf-8?B?QUJJYXlaZVZUYm1UWGhWOEduaXBpMTRMSEdWdncyTEloaHF3c2JZRWdRTGt2?=
- =?utf-8?B?OU5BbjNBbmtvbHhISXZSdFIzNjlBbDBOc3hvYzNtblhQaUoyVTBjMGpkMEM0?=
- =?utf-8?B?UG1NcXBmV0hIaWdLYUxPYXc0RmxPb1I5OUp3WXZEYjhWUHdDVHkzRWZINFl1?=
- =?utf-8?B?cGZsZnZIQm15dTVvcGNVQlNGaXgrNHJuRmQwcXNkS1lyYXNMR2xWUkUzYmo1?=
- =?utf-8?B?TVZkbDVqaU5qeEQ3YndmZjlKc0RGMkNQdmUyZTZ1N3BjblV1SHdLUWQ0Nktu?=
- =?utf-8?B?Vit1VWJSTm9SeUhUSzZUd0FzVVdiMWFaMjRHY3V5Ryt0SkJySFc3YmhBQ2Jw?=
- =?utf-8?B?alhRYTNJeFVZb0JLYmd3UFVTcjF3NFZoSWpIM3FvUUVMTWNoU0RrSXg4bjJL?=
- =?utf-8?B?MVc3NmxaaEJCd1JRaUlPTUVjbVpZZmxoRXBsOXYwMEpCektod1RtQytHU1l2?=
- =?utf-8?B?OUk1SHhRSHMwbHpCSTZZZU1XQ0t0dU4yclFXSzZyVk5GalBpc3lDb3RJNlJ3?=
- =?utf-8?B?b21udjNwNnd3bUsvQ3g5UlRwZ292ajFxWHZwUXdQbzVyVlFkek1aQ2VUTFdy?=
- =?utf-8?B?YzcyMWRiU1JmVjV1YXhpN2xwYjY5Mk9hUm9naWxGU2NaQXJUamZNUWJJZk5M?=
- =?utf-8?B?ak81OFdCblVxbmZTMzQ0RTB4VGpEVlA0bncxL25ic3VwUFhsM2YxL2Q3SURw?=
- =?utf-8?B?WFhQQktMeUZxUXVWSW1JcFdkSnJqME1BeTFnakNqcStSOHU4TnNja0U3dFlh?=
- =?utf-8?B?QW9Cd3BxeVFLNDJYT3pzMDRRVzVjaEhxWk1JZzNoSkx0bmwwcHRjLzI4Rjcw?=
- =?utf-8?B?R2NmYm1MdWlVUklDZ3FFVW94MzFDUnovWk9PaGFhOUlUQmgxRVRTVUcwVlFy?=
- =?utf-8?B?bERGdkVNTUlkUVkxTUdoOEFYdEl4aUtUSTRHdFBSSk80MFI3NGVBajQwYWc0?=
- =?utf-8?B?d2c9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69454748-e253-4595-5765-08db44ca8f41
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3625.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2023 13:48:18.5578
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bBEUQjZYgrSsCb4qLNjexKvAOM87Ta/ONZv5b2ppNQXN4EQ58SZeg4U13QyuF5BYlHthQFiBh/9nO2RdIb2vM1y/i8UBgoRucxenxkgvxQ8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5447
-X-OriginatorOrg: intel.com
-X-Original-Sender: aleksander.lobakin@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20230424112313.3408363-1-glider@google.com>
+X-Original-Sender: keescook@chromium.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=NE5sA556;       arc=fail
- (signature failed);       spf=pass (google.com: domain of aleksander.lobakin@intel.com
- designates 192.55.52.88 as permitted sender) smtp.mailfrom=aleksander.lobakin@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ header.i=@chromium.org header.s=google header.b=D7tq8Eaw;       spf=pass
+ (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::102f
+ as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -207,91 +139,64 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Gong, Ruiqi <gongruiqi1@huawei.com>
-Date: Mon, 24 Apr 2023 10:54:33 +0800
+On Mon, Apr 24, 2023 at 01:23:13PM +0200, Alexander Potapenko wrote:
+> lib/string.c is built with -ffreestanding, which prevents the compiler
+> from replacing certain functions with calls to their library versions.
+> 
+> On the other hand, this also prevents Clang and GCC from instrumenting
+> calls to memcpy() when building with KASAN, KCSAN or KMSAN:
+>  - KASAN normally replaces memcpy() with __asan_memcpy() with the
+>    additional cc-param,asan-kernel-mem-intrinsic-prefix=1;
+>  - KCSAN and KMSAN replace memcpy() with __tsan_memcpy() and
+>    __msan_memcpy() by default.
+> 
+> To let the tools catch memory accesses from strlcpy/strlcat, replace
+> the calls to memcpy() with __builtin_memcpy(), which KASAN, KCSAN and
+> KMSAN are able to replace even in -ffreestanding mode.
+> 
+> This preserves the behavior in normal builds (__builtin_memcpy() ends up
+> being replaced with memcpy()), and does not introduce new instrumentation
+> in unwanted places, as strlcpy/strlcat are already instrumented.
+> 
+> Suggested-by: Marco Elver <elver@google.com>
+> Signed-off-by: Alexander Potapenko <glider@google.com>
+> Link: https://lore.kernel.org/all/20230224085942.1791837-1-elver@google.com/
+> ---
+>  lib/string.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/lib/string.c b/lib/string.c
+> index 3d55ef8901068..be26623953d2e 100644
+> --- a/lib/string.c
+> +++ b/lib/string.c
+> @@ -110,7 +110,7 @@ size_t strlcpy(char *dest, const char *src, size_t size)
+>  
+>  	if (size) {
+>  		size_t len = (ret >= size) ? size - 1 : ret;
+> -		memcpy(dest, src, len);
+> +		__builtin_memcpy(dest, src, len);
+>  		dest[len] = '\0';
+>  	}
+>  	return ret;
+> @@ -260,7 +260,7 @@ size_t strlcat(char *dest, const char *src, size_t count)
+>  	count -= dsize;
+>  	if (len >= count)
+>  		len = count-1;
+> -	memcpy(dest, src, len);
+> +	__builtin_memcpy(dest, src, len);
+>  	dest[len] = 0;
+>  	return res;
 
-> Sorry for the late reply. I just came back from my paternity leave :)
->=20
-> On 2023/04/05 23:15, Alexander Lobakin wrote:
->> From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
->> Date: Wed, 5 Apr 2023 21:26:47 +0900
->>
->>> ...
->>>
->>> I'm not yet sure if this feature is appropriate for mainline kernel.
->>>
->>> I have few questions:
->>>
->>> 1) What is cost of this configuration, in terms of memory overhead, or
->>> execution time?
->>>
->>>
->>> 2) The actual cache depends on caller which is static at build time, no=
-t
->>> runtime.
->>>
->>> =C2=A0=C2=A0=C2=A0 What about using (caller ^ (some subsystem-wide rand=
-om sequence)),
->>>
->>> =C2=A0=C2=A0=C2=A0 which is static at runtime?
->>
->> Why can't we just do
->>
->> 	random_get_u32_below(CONFIG_RANDOM_KMALLOC_CACHES_NR)
->>
->> ?
->=20
-> This makes the cache selection "dynamic", i.e. each kmalloc() will
-> randomly pick a different cache at each time it's executed. The problem
-> of this approach is that it only reduces the probability of the cache
-> being sprayed by the attacker, and the attacker can bypass it by simply
-> repeating the attack multiple times in a brute-force manner.
->=20
-> Our proposal is to make the randomness be with respect to the code
-> address rather than time, i.e. allocations in different code paths would
-> most likely pick different caches, although kmalloc() at each place
-> would use the same cache copy whenever it is executed. In this way, the
-> code path that the attacker uses would most likely pick a different
-> cache than which the targeted subsystem/driver would pick, which means
-> in most of cases the heap spraying is unachievable.
+I *think* this isn't a problem for CONFIG_FORTIFY, since these will be
+replaced and checked separately -- but it still seems strange that you
+need to explicitly use __builtin_memcpy.
 
-Ah, I see now. Thanks for the explanation, made it really clear.
+Does this end up changing fortify coverage?
 
->=20
->> It's fast enough according to Jason... `_RET_IP_ % nr` doesn't sound
->> "secure" to me. It really is a compile-time constant, which can be
->> calculated (or not?) manually. Even if it wasn't, `% nr` doesn't sound
->> good, there should be at least hash_32().
->=20
-> Yes, `_RET_IP_ % nr` is a bit naive. Currently the patch is more like a
-> PoC so I wrote this. Indeed a proper hash function should be used here.
->=20
-> And yes _RET_IP_ could somehow be manually determined especially for
-> kernels without KASLR, and I think adding a per-boot random seed into
-> the selection could solve this.
+-- 
+Kees Cook
 
-I recall how it is done for kCFI/FineIBT in the x86 code -- it also uses
-per-boot random seed (although it gets patched into the code itself each
-time, when applying alternatives). So probably should be optimal enough.
-The only thing I'm wondering is where to store this per-boot seed :D
-It's generic code, so you can't patch it directly. OTOH storing it in
-.data/.bss can make it vulnerable to attacks... Can't it?
-
->=20
-> I will implement these in v2. Thanks!
->=20
->>
->> Thanks,
->> Olek
->>
-
-Thanks,
-Olek
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/ce1c307e-b7ae-2590-7b2e-43cbe963bc4d%40intel.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/6446ad55.170a0220.c82cd.cedc%40mx.google.com.
