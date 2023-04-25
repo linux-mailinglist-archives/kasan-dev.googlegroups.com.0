@@ -1,148 +1,134 @@
-Return-Path: <kasan-dev+bncBAABBKU6TWRAMGQEVMLK2WY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBNFQT6RAMGQEWWJ4UPQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x113e.google.com (mail-yw1-x113e.google.com [IPv6:2607:f8b0:4864:20::113e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C286EDAD1
-	for <lists+kasan-dev@lfdr.de>; Tue, 25 Apr 2023 05:55:24 +0200 (CEST)
-Received: by mail-yw1-x113e.google.com with SMTP id 00721157ae682-54f855ecb9csf71506837b3.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 24 Apr 2023 20:55:24 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1682394923; cv=pass;
+Received: from mail-ed1-x540.google.com (mail-ed1-x540.google.com [IPv6:2a00:1450:4864:20::540])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F8226EE33E
+	for <lists+kasan-dev@lfdr.de>; Tue, 25 Apr 2023 15:40:05 +0200 (CEST)
+Received: by mail-ed1-x540.google.com with SMTP id 4fb4d7f45d1cf-50489ad5860sf5185282a12.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 25 Apr 2023 06:40:05 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1682430005; cv=pass;
         d=google.com; s=arc-20160816;
-        b=x+d2DxFBL6p50cBRIx39e9nVEgp0vzju8MaG0/Ddtoa1ydVe5ARkkf+vq4p98CGcVH
-         YrpMtZZFeDWhIUkMlOUZhGq6ZzIaFOZxY6wB0esI40zFSlUpOCl3BBHKFNCAPCPl5DyZ
-         cq+C7vx+FOp7KCoA1QWcp/ZzHQmJX42MMm3B169eGPXb7FeqZSrWqB/eFS+1Fp5cmWYm
-         pn15JskwL4fgRcNP3jUWt+Z3XmXzmFM3cLOWrgAZHxJIf/M+IJcOM3TwmpQOWcyHD8wg
-         QmrM3pqn8zTXh4TDQIVnGSxQsqZBYTdZ6gmNhqAOMNnWooDBjQ9vNfxgjbvufqraJNPY
-         59IA==
+        b=RBLWR9/dV8GcN1ByMV7SavyFS2EBMkBV6UOcjle7dtJFyy3r5M4Z+kuITPvroQLm+6
+         lBAiufMHztoyDtx2+/KUr3p4Y0in1ki/m41+OY53aI282iFMb6vyVY4/A6aLefJU/2+e
+         kg9QbFqxwlYVS8tvHcM9mW3EAx/ZP7Qu0eOUMe86Ken9xD2LLPN22uEP+L/tx3ELY0TD
+         5lo6lKEVWfy/wrX9mFKALee2QQgMKS/TB8hhrt3K6COpxHTdvLsYNLLubPsew8piyfLd
+         gBAHztqnpzyImcpE75xSlP3SnZBpGlhWz5fQfTFkzrxEehBnVIEUbGAmT+6kMKVzt/J+
+         3DgQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:dkim-signature;
-        bh=x58BTD/VkwBmx8YNXQ9uj5TlNcmmLr511UGxnjM+XLY=;
-        b=jDPIkR6XJUtWErkyW5az8RWr00fLITKPGLHI4lTto0HtPbAtu5ruNKqJwn6H0g69RI
-         cyRlt3a2bCIPl4Kh+tQl+nworz75DaFESSkf9KbJPAUNMEcB5VgZycmwFVwnNzF6wHJG
-         cmRbkXDWMZvKVTNFA2EELb4S+CbgOKHwF9KT8idwOvKZc88PVARmmUYrO37CrhVc1A1G
-         WwBxA52LyLsV0VAWo76Gm6LQcHXKSRQx9DTrO48Ri8I4GMTDIxouom5dF7xP1OYI6cFo
-         iQ42lZ57eMASuXgQDHqv74LiQrtCWb9Hb2GjjCvoaEKIkygVA38LjeXUkHGu++jyU/PX
-         ToOw==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=gZ1rPtILXn1U+e3JPin9Jn1IvaGENadszLWN1olH/JA=;
+        b=d4eZDIUspU67IU04OjxnS0CtZ/VBbt/+Slsz2rV8sw8NEoywBE/aSMbhVkqhHvt1Cr
+         Eg4Aa014Du0ceJoJOr5qhNu3CixhPIyohBUcpnapMMn1ccTdJOyaaXPiYtP3c6brCIHR
+         mUdz4nDFP08Mp3+7xQU1mt+bUUM3LKLYm/hq35Fw90eoEjeTu4v6HJbk0niSLWYC566i
+         6DeO/gXkkmbjAGG+GVEQte5biUAd5EeSFfCAQqJZ8wxwxyg7n2FqvknRPeDydwtlXnL0
+         wLRJslnQj0ssVASkrxep2IKbYpd6NdYMpGj4x//4r1KfXPt4iS5Iq/dMVQXTFKFs9+Or
+         l4lg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of gongruiqi1@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=gongruiqi1@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1682394923; x=1684986923;
+        d=googlegroups.com; s=20221208; t=1682430005; x=1685022005;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=x58BTD/VkwBmx8YNXQ9uj5TlNcmmLr511UGxnjM+XLY=;
-        b=DE/8uUsZEqxD4pr6p/yYWRA0ZO4sINY94fHanziZaE//gNCZlzr7Km9id3zi4DRl/Z
-         gIFN7vUh1opg/M2wApXroZ437ulNE2STiX+D+lHOhkBHGvBxA6aZAAcmRUWhJOU+q9iz
-         7T1ZykLkPQF3KSvHdf1Qn9qO/56D6WAPPjADlsbkcENsIwf77mTFM/PmfravPbfzgyF1
-         glf4G3Q4lLFQ3JDA7QYLeeMGB/NIZsU8O0whscVkC0Gu6nRLfzbJAGrGAYTCVshEXxCD
-         RxiYCuSuQeHk6h1Xu7RO/c8CCsrth0vr02hMrW/KRbxjc/YkGG9V+5mPt0/5PDxxb3nm
-         ihjQ==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gZ1rPtILXn1U+e3JPin9Jn1IvaGENadszLWN1olH/JA=;
+        b=tc+8A7HhVYc8aaud4fPE2BFvmZ2QvFWmTRTn4erzjHYzFCOKC+UPdxLfMlQYeLG38N
+         PaQ3GjlMyLm31mc8dEShKEwx90z36Mq4JPeOu29zoRqCdhBYrdOI+Lh6CItZxMtKIidq
+         3hMMmFok4EiprVBwtjHEobwNop5ApY8BvN12fHoqDSpnB+zS+8APLQx+amQD4ZkcRlac
+         1r60Dyq1UtjIMb/IiR5rjAuoTB+iOlICDLkZ4X8npc2YPnbID7FL4m1lneHFLy0jCMrT
+         WDk5ICFyIrNLaTo+qcspBFNHdgw0M6LArjXgzBIYWw/fnd1oEuM9iHsZmgJgwgLvOaNu
+         leQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682394923; x=1684986923;
+        d=1e100.net; s=20221208; t=1682430005; x=1685022005;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=x58BTD/VkwBmx8YNXQ9uj5TlNcmmLr511UGxnjM+XLY=;
-        b=Z10HUs7DkKqMefz1GB34ndYlyiJ24EaFAzqylTCvmM1EDqp2QtIp+0GMd76t/j0kzZ
-         CVkNuGGaYg4MNNE3Iw1Xg/yRYSVjSy4fW+jeHguaCofY7hEMijDcr9qbOTxxGxu6xdKc
-         KajAlgylUl6uVH3yjQuaTMed9EIc6A/zhvnSaFQt9eys/br2O8TsSO10zuG250lcE3B4
-         epET2M1088lG83Bxdmfr/5THERyb1qixvCkZKMMxQAyO6njAQwifReRe3C4/j8vemyc1
-         Dp04JLG/Oc3lXi2H+8KyFFrWc4cKb3SrjLueaZUqPo4N2iBBZ/gcd0wpU/DRXCPXVLGL
-         qW0g==
-X-Gm-Message-State: AAQBX9dTw+QbhggccxP7HaGuOIxsmgfrku9HtOZjR7OJrt8shjU7SGL5
-	ctjqx9SwFRcouhtPsp/4tkE=
-X-Google-Smtp-Source: AKy350ZzQDdE+nt8J0fL8kP7uh2Ejvjp8xt+rNAbKkdM4gZtn1Kp33o5E8kb7ifPhcLzISvRAjzHGQ==
-X-Received: by 2002:a81:b667:0:b0:534:d71f:14e6 with SMTP id h39-20020a81b667000000b00534d71f14e6mr6948913ywk.9.1682394922942;
-        Mon, 24 Apr 2023 20:55:22 -0700 (PDT)
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gZ1rPtILXn1U+e3JPin9Jn1IvaGENadszLWN1olH/JA=;
+        b=EBHlJDHCzQk+Wxat819OZ11X3olm84tEwgsRCeZJlvNhsdNcZZK3RTMS6NvsnzEhck
+         BCbIFqGTwByzUWsixDvy8aT7Ud+XyGZ6ki6D2+Hn3foN21iddaIfbkqxGgrqmgNCi+r8
+         VdSu+SQBqBFm5FT7tqWlS2Ez3PLG/Qqy6e2FS1HR1i/fDYdg3gOjspxw3oZAI4s3vrlh
+         +qj/N94HQwx2z49M0NdlscqDaj04zi2QkwlOrfq7u0dPYhkUn/7WeIl0SkgJRXpkpBZe
+         jEs0rOQEQbPy1ErVjEFWSLA2L2bYExmBR2I8n6qOKGFIjCMhdQLSojA6z0wgvgTsMumx
+         zlZQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AAQBX9cXGmks1u1kv5FIBCjnLNaJoUCwd2HRYF296222gIes2rw/zyHO
+	hhpSkdnvdfqxw0AquKHUVmE=
+X-Google-Smtp-Source: AKy350Y6eZbQ6CHSh3GiF1x/rOgmviQWVK2gg9oJ2DOA8laGfu/ZOOj92Otl9vmeohZiewLBWXYTQQ==
+X-Received: by 2002:a50:a6dd:0:b0:504:8cf0:c3ec with SMTP id f29-20020a50a6dd000000b005048cf0c3ecmr5107942edc.8.1682430004789;
+        Tue, 25 Apr 2023 06:40:04 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:690c:dc8:b0:54e:f746:51d with SMTP id
- db8-20020a05690c0dc800b0054ef746051dls6955497ywb.4.-pod-prod-gmail; Mon, 24
- Apr 2023 20:55:22 -0700 (PDT)
-X-Received: by 2002:a81:914e:0:b0:545:acb:e5da with SMTP id i75-20020a81914e000000b005450acbe5damr8966577ywg.28.1682394922468;
-        Mon, 24 Apr 2023 20:55:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1682394922; cv=none;
+Received: by 2002:a05:6402:4402:b0:505:4cd:5bc2 with SMTP id
+ y2-20020a056402440200b0050504cd5bc2ls3515033eda.1.-pod-prod-gmail; Tue, 25
+ Apr 2023 06:40:03 -0700 (PDT)
+X-Received: by 2002:aa7:cd7c:0:b0:4fc:3777:f630 with SMTP id ca28-20020aa7cd7c000000b004fc3777f630mr13839755edb.0.1682430003145;
+        Tue, 25 Apr 2023 06:40:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1682430003; cv=none;
         d=google.com; s=arc-20160816;
-        b=aEXPKqScmOisvkopbw7vnfNuA/Dj9wBiyd8X29g6nnxFolbuJnNZI/UROpPPpBPLQS
-         8VKRo0+FGPMBymr7RxjzoTCl9LO2HZRFPRMa6gU4XIIj9TL7WZQlBQlpjpTznLK7ULX6
-         WUone+fB1azyZYhsp1J9FA5jzuDtVdFaM3r12rDdCSmf5XQQbvmaICU9tGBagmzeNMWO
-         /LGD5tcy/BlMq8mbqmcoxY1Hxy0MmDzXR3kljfV98cnPGByGcGaqGQ3Nyee8Q+8y3mpV
-         ljt8t825Ux5eHbrson3vztMb6hprc6N+J+1yR0OyqOfmOZIoD7iCvSJk7myY4oNRKoSe
-         rvdQ==
+        b=TxgiSpzHrPY+dXXmmnEm4C8s8pgMUtGun3av7EDYQqvNXKLUwJ/FiO5RrjjNscF0sA
+         D6YPIEGatIvuDMCQpEejo0dFTprk0yP+JY6x5i1JuyFR8a1+d5nFwbmDoUSjIWGfg2vR
+         S4VeuNOCw2aoBP2R+8XRLdmeg6kNKVvONCQxCujZkO4ojQxkEt/gVDGDHxkEp86mec2z
+         ySYkc0fxUVHR/bZnKzJSFYBXYfxhJbUPelCzJ2liB0qcMT9IbzgWkVLt45uOHQfuby10
+         wCljvNG/0f/XBkqBNNniM+qREjynrX/IiYKI7ta4kdoohHQ7QiaBknDHUArZjiGwO3uY
+         AKIQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=CoEKKzOJt3kg3DSMXzb/BFd6QDKZKPpl6ThiVhhnRcc=;
-        b=mNCOI/vGN20+igRmPuh54mzVq5vOk+6t3zh0rF41sHBMv7Ds71in1phcKwhVod8Y1I
-         HE2dG4GQQbOScU1yIBcodKDdIVlpHNY8ZwomWEiqgBflld825WlTsTBdRrQxAOBUgcf4
-         4R2qsKM+XeGu6xCwxHoBMcLiWgjXsuNbLUE99THyRXYyLGLpQun50rpDMkDVFpTw17Sw
-         4VGTDhS07kMh0/22kvtPw+s2IjgH2+FOyIVAvjqmskF0hNujqNNYhjVFIVERAHc9m8rn
-         GDg+UWtlGfRNcVRcrwauWlM7bCv+KVIKEo61Hyer5OfHKIMTTBOz0YbYNkGjI5ULFg13
-         qg6Q==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=4uqalJMT1EQCF07KjUmod8cV0hJoJJCz/DOHI0adsRU=;
+        b=UlQcXSDu1N4iNV7luLCiU/quX1+MDOk4/+PRDtA7mklfJIMnmNRF9b29KtTFsvbwxM
+         S9wFz8HNctEAUS2OSFQeSDO/KTsGFG6QrsnYl3aM/FzSv0HnQUrZkNVgCB7KvqeIHL8h
+         7OLkga6d4Ekr66WVI5VPKeFc7jwKOnn+82VztU3UTcLhDKDui4SIR1SeNCjJho46uwSI
+         KF6Z+mYLgyA+LGXgikzv6tHX5Pgd8uVAzJe3rjnkkFNOLnLh5fZmXmp/35xRGKYe1LBc
+         aFMbL3dKi2E4zZQuGJ+CABiE6FUyICW96lzXRaaX4OBhiy1BtnX/6oNo42jL8WHnUImY
+         0Rog==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of gongruiqi1@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=gongruiqi1@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com. [45.249.212.189])
-        by gmr-mx.google.com with ESMTPS id eh16-20020a05690c299000b0054f8f5de2f1si738489ywb.4.2023.04.24.20.55.22
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 24 Apr 2023 20:55:22 -0700 (PDT)
-Received-SPF: pass (google.com: domain of gongruiqi1@huawei.com designates 45.249.212.189 as permitted sender) client-ip=45.249.212.189;
-Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.53])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Q57RK54VWzKvMB;
-	Tue, 25 Apr 2023 11:54:21 +0800 (CST)
-Received: from [10.67.110.48] (10.67.110.48) by dggpemm500016.china.huawei.com
- (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Tue, 25 Apr
- 2023 11:55:18 +0800
-Message-ID: <0f3abe0f-216b-dda6-38c4-26ffa79d966f@huawei.com>
-Date: Tue, 25 Apr 2023 11:55:18 +0800
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id h15-20020a0564020e0f00b00504adbbf1a6si693335edh.1.2023.04.25.06.40.02
+        for <kasan-dev@googlegroups.com>;
+        Tue, 25 Apr 2023 06:40:03 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4CC6A4B3;
+	Tue, 25 Apr 2023 06:40:46 -0700 (PDT)
+Received: from FVFF77S0Q05N.cambridge.arm.com (FVFF77S0Q05N.cambridge.arm.com [10.1.38.148])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6C1123F64C;
+	Tue, 25 Apr 2023 06:40:00 -0700 (PDT)
+Date: Tue, 25 Apr 2023 14:39:51 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Youngmin Nam <youngmin.nam@samsung.com>
+Cc: catalin.marinas@arm.com, will@kernel.org, anshuman.khandual@arm.com,
+	broonie@kernel.org, alexandru.elisei@arm.com, ardb@kernel.org,
+	linux-arm-kernel@lists.infradead.org, hy50.seo@samsung.com,
+	andreyknvl@gmail.com, maz@kernel.org,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	Dmitry Vyukov <dvyukov@google.com>, d7271.choe@samsung.com
+Subject: Re: [PATCH] arm64: set __exception_irq_entry with __irq_entry as a
+ default
+Message-ID: <ZEfYJ5gDH4s6QJqp@FVFF77S0Q05N.cambridge.arm.com>
+References: <CGME20230424003252epcas2p29758e056b4766e53c252b5927a0cb406@epcas2p2.samsung.com>
+ <20230424010436.779733-1-youngmin.nam@samsung.com>
+ <ZEZhftx05blmZv1T@FVFF77S0Q05N>
+ <CACT4Y+bYJ=YHNMFAyWXaid8aNYyjnzkWrKyCfMumO21WntKCzw@mail.gmail.com>
+ <ZEZ/Pk0wqiBJNKEN@FVFF77S0Q05N>
+ <ZEc7gzyYus+HxhDc@perf>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH RFC] Randomized slab caches for kmalloc()
-Content-Language: en-US
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-CC: Hyeonggon Yoo <42.hyeyoo@gmail.com>, Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>, Pekka Enberg
-	<penberg@kernel.org>, David Rientjes <rientjes@google.com>, Joonsoo Kim
-	<iamjoonsoo.kim@lge.com>, Andrew Morton <akpm@linux-foundation.org>,
-	Vlastimil Babka <vbabka@suse.cz>, Roman Gushchin <roman.gushchin@linux.dev>,
-	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>, <linux-mm@kvack.org>,
-	<linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>, Kees Cook
-	<keescook@chromium.org>, <linux-hardening@vger.kernel.org>, Paul Moore
-	<paul@paul-moore.com>, <linux-security-module@vger.kernel.org>, James Morris
-	<jmorris@namei.org>, Wang Weiyang <wangweiyang2@huawei.com>, Xiu Jianfeng
-	<xiujianfeng@huawei.com>
-References: <20230315095459.186113-1-gongruiqi1@huawei.com>
- <b7a7c5d7-d3c8-503f-7447-602ec2a18fb0@gmail.com>
- <36019eb3-4b71-26c4-21ad-b0e0eabd0ca5@intel.com>
- <f5b23bbc-6fb5-84d3-fcad-6253b346328a@huawei.com>
- <ce1c307e-b7ae-2590-7b2e-43cbe963bc4d@intel.com>
-From: "'Gong Ruiqi' via kasan-dev" <kasan-dev@googlegroups.com>
-In-Reply-To: <ce1c307e-b7ae-2590-7b2e-43cbe963bc4d@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.67.110.48]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500016.china.huawei.com (7.185.36.25)
-X-CFilter-Loop: Reflected
-X-Original-Sender: gongruiqi1@huawei.com
+Content-Disposition: inline
+In-Reply-To: <ZEc7gzyYus+HxhDc@perf>
+X-Original-Sender: mark.rutland@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of gongruiqi1@huawei.com designates 45.249.212.189 as
- permitted sender) smtp.mailfrom=gongruiqi1@huawei.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: Gong Ruiqi <gongruiqi1@huawei.com>
-Reply-To: Gong Ruiqi <gongruiqi1@huawei.com>
+ (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -155,63 +141,223 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-
-On 2023/04/24 21:46, Alexander Lobakin wrote:
-> From: Gong, Ruiqi <gongruiqi1@huawei.com>
-> Date: Mon, 24 Apr 2023 10:54:33 +0800
+On Tue, Apr 25, 2023 at 11:31:31AM +0900, Youngmin Nam wrote:
+> On Mon, Apr 24, 2023 at 02:08:14PM +0100, Mark Rutland wrote:
+> > On Mon, Apr 24, 2023 at 02:09:05PM +0200, Dmitry Vyukov wrote:
+> > > On Mon, 24 Apr 2023 at 13:01, Mark Rutland <mark.rutland@arm.com> wrote:
+> > > >
+> > > > On Mon, Apr 24, 2023 at 10:04:36AM +0900, Youngmin Nam wrote:
+> > > > > filter_irq_stacks() is supposed to cut entries which are related irq entries
+> > > > > from its call stack.
+> > > > > And in_irqentry_text() which is called by filter_irq_stacks()
+> > > > > uses __irqentry_text_start/end symbol to find irq entries in callstack.
+> > > > >
+> > > > > But it doesn't work correctly as without "CONFIG_FUNCTION_GRAPH_TRACER",
+> > > > > arm64 kernel doesn't include gic_handle_irq which is entry point of arm64 irq
+> > > > > between __irqentry_text_start and __irqentry_text_end as we discussed in below link.
+> > > >
+> > > > TBH, the __irqentry_text annotations don't make much sense, and I'd love to
+> > > > remove them.
+> > > >
+> > > > The irqchip handlers are not the actual exception entry points, and we invoke a
+> > > > fair amount of code between those and the actual IRQ handlers (e.g. to map from
+> > > > the irq domain to the actual hander, which might involve poking chained irqchip
+> > > > handlers), so it doesn't make much sense for the irqchip handlers to be
+> > > > special.
+> > > >
+> > > > > https://lore.kernel.org/all/CACT4Y+aReMGLYua2rCLHgFpS9io5cZC04Q8GLs-uNmrn1ezxYQ@mail.gmail.com/#t
+> > > > >
+> > > > > This problem can makes unintentional deep call stack entries especially
+> > > > > in KASAN enabled situation as below.
+> > > >
+> > > > What exactly does KASAN need here? Is this just to limit the depth of the
+> > > > trace?
+> > > 
+> > > No, it's not just depth. Any uses of stack depot need stable
+> > > repeatable traces, so that they are deduplicated well. For irq stacks
+> > > it means removing the random part where the interrupt is delivered.
+> > > Otherwise stack depot grows without limits and overflows.
 > 
-> ...
+> Hi Dmitry Vyukov.
+> Thanks for your additional comments.
 > 
->>
->>> It's fast enough according to Jason... `_RET_IP_ % nr` doesn't sound
->>> "secure" to me. It really is a compile-time constant, which can be
->>> calculated (or not?) manually. Even if it wasn't, `% nr` doesn't sound
->>> good, there should be at least hash_32().
->>
->> Yes, `_RET_IP_ % nr` is a bit naive. Currently the patch is more like a
->> PoC so I wrote this. Indeed a proper hash function should be used here.
->>
->> And yes _RET_IP_ could somehow be manually determined especially for
->> kernels without KASLR, and I think adding a per-boot random seed into
->> the selection could solve this.
+> > 
+> > Sure -- you want to filter out the non-deterministic context that the interrupt
+> > was taken *from*.
+> > 
+> > > We don't need the exact entry point for this. A frame "close enough"
+> > > may work well if there are no memory allocations/frees skipped.
+> > 
+> > With that in mind, I think what we should do is cut this at the instant we
+> > enter the exception; for the trace below that would be el1h_64_irq. I've added
+> > some line spacing there to make it stand out.
+> > 
+> > That would mean that we'd have three entry points that an interrupt trace might
+> > start from:
+> > 
+> > * el1h_64_irq()
+> > * el0t_64_irq()
+> > * el0t_32_irq()
+> >
 > 
-> I recall how it is done for kCFI/FineIBT in the x86 code -- it also uses
-> per-boot random seed (although it gets patched into the code itself each
-> time, when applying alternatives). So probably should be optimal enough.
-> The only thing I'm wondering is where to store this per-boot seed :D
-> It's generic code, so you can't patch it directly. OTOH storing it in
-> .data/.bss can make it vulnerable to attacks... Can't it?
-
-I think marking the seed with __ro_after_init is enough, since we don't
-mind it could be read by the attacker.
-
-Given that the code paths the attacker can utilize to spray the heap is
-limited, our address-related randomness in most cases prevents
-kmalloc()s on these paths from picking the same cache the vulnerable
-subsystem/module would pick. Although _RET_IP_ of kmalloc()s could be
-known, without tampering the source code and rebuilding the image, the
-attacker can't do anything to make those caches collide if the cache
-selection algorithm says they don't.
-
-So in my perspective the per-boot random seed is more like an
-enhancement: if one day, by analyzing the open source code, the attacker
-does find a usable kmalloc that happens to pick the same cache with the
-vulnerable subsystem/module, the seed could make his/her effort wasted ;)
-
+> Hi Mark.
+> Thanks for your kind review.
 > 
->>
->> I will implement these in v2. Thanks!
->>
->>>
->>> Thanks,
->>> Olek
->>>
-> 
-> Thanks,
-> Olek
+> If I understand your intention corretly, I should add "__irq_entry"
+> to C function of irq_handler as below.
+
+I'd meant something like the below, marking the assembly (as x86 does) rather
+than the C code. I'll try to sort that out and send a proper patch series after
+-rc1.
+
+Thanks,
+Mark.
+
+---->8----
+From 7e54be3ea2420af348c710afab743b94ced72881 Mon Sep 17 00:00:00 2001
+From: Mark Rutland <mark.rutland@arm.com>
+Date: Tue, 25 Apr 2023 14:13:39 +0100
+Subject: [PATCH] WIP: arm64: entry: handle irqentry consistently
+
+Follow the example of x86 in commit:
+
+  f0178fc01fe46bab ("x86/entry: Unbreak __irqentry_text_start/end magic")
+
+... and consistently treat the asm IRQ/FIQ entry points as irqentry, and
+nothing else.
+
+TODO:
+* Explain stackdepot details
+* Explain why dropping __kprobes is fine
+* Explain why placing entry asm in .irqentry.text is fine.
+* Explain why we don't need to mark ret_to_* or the actual vector
+* Check how this works for ftrace
+
+Signed-off-by: Mark Rutland <mark.rutland@arm.com>
+---
+ arch/arm64/include/asm/exception.h | 10 +++++-----
+ arch/arm64/include/asm/irq.h       |  6 ++++++
+ arch/arm64/kernel/entry.S          | 20 +++++++++++---------
+ drivers/irqchip/irq-dw-apb-ictl.c  |  4 +++-
+ 4 files changed, 25 insertions(+), 15 deletions(-)
+
+diff --git a/arch/arm64/include/asm/exception.h b/arch/arm64/include/asm/exception.h
+index 92963f98afece..6c74a8a3aad99 100644
+--- a/arch/arm64/include/asm/exception.h
++++ b/arch/arm64/include/asm/exception.h
+@@ -13,11 +13,11 @@
+ 
+ #include <linux/interrupt.h>
+ 
+-#ifdef CONFIG_FUNCTION_GRAPH_TRACER
+-#define __exception_irq_entry	__irq_entry
+-#else
+-#define __exception_irq_entry	__kprobes
+-#endif
++/*
++ * irqchip drivers shared with arch/arm mark IRQ handlers with
++ * __exception_irq_entry. Make this a NOP for arm64.
++ */
++#define __exception_irq_entry
+ 
+ static inline unsigned long disr_to_esr(u64 disr)
+ {
+diff --git a/arch/arm64/include/asm/irq.h b/arch/arm64/include/asm/irq.h
+index fac08e18bcd51..a1af8fafc6cb5 100644
+--- a/arch/arm64/include/asm/irq.h
++++ b/arch/arm64/include/asm/irq.h
+@@ -6,6 +6,12 @@
+ 
+ #include <asm-generic/irq.h>
+ 
++/*
++ * The irq entry code is in assembly. Make the build fail if
++ * something moves a C function into the __irq_entry section.
++ */
++#define __irq_entry __invalid_section
++
+ struct pt_regs;
+ 
+ int set_handle_irq(void (*handle_irq)(struct pt_regs *));
+diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
+index ab2a6e33c0528..a66cd0ce79956 100644
+--- a/arch/arm64/kernel/entry.S
++++ b/arch/arm64/kernel/entry.S
+@@ -562,7 +562,8 @@ SYM_CODE_END(__bad_stack)
+ #endif /* CONFIG_VMAP_STACK */
+ 
+ 
+-	.macro entry_handler el:req, ht:req, regsize:req, label:req
++	.macro entry_handler el:req, ht:req, regsize:req, label:req, section = ".entry.text"
++	.pushsection \section, "ax"
+ SYM_CODE_START_LOCAL(el\el\ht\()_\regsize\()_\label)
+ 	kernel_entry \el, \regsize
+ 	mov	x0, sp
+@@ -573,29 +574,30 @@ SYM_CODE_START_LOCAL(el\el\ht\()_\regsize\()_\label)
+ 	b	ret_to_kernel
+ 	.endif
+ SYM_CODE_END(el\el\ht\()_\regsize\()_\label)
++	.popsection
+ 	.endm
+ 
+ /*
+  * Early exception handlers
+  */
+ 	entry_handler	1, t, 64, sync
+-	entry_handler	1, t, 64, irq
+-	entry_handler	1, t, 64, fiq
++	entry_handler	1, t, 64, irq,	".irqentry.text"
++	entry_handler	1, t, 64, fiq,	".irqentry.text"
+ 	entry_handler	1, t, 64, error
+ 
+ 	entry_handler	1, h, 64, sync
+-	entry_handler	1, h, 64, irq
+-	entry_handler	1, h, 64, fiq
++	entry_handler	1, h, 64, irq,	".irqentry.text"
++	entry_handler	1, h, 64, fiq,	".irqentry.text"
+ 	entry_handler	1, h, 64, error
+ 
+ 	entry_handler	0, t, 64, sync
+-	entry_handler	0, t, 64, irq
+-	entry_handler	0, t, 64, fiq
++	entry_handler	0, t, 64, irq,	".irqentry.text"
++	entry_handler	0, t, 64, fiq,	".irqentry.text"
+ 	entry_handler	0, t, 64, error
+ 
+ 	entry_handler	0, t, 32, sync
+-	entry_handler	0, t, 32, irq
+-	entry_handler	0, t, 32, fiq
++	entry_handler	0, t, 32, irq,	".irqentry.text"
++	entry_handler	0, t, 32, fiq,	".irqentry.text"
+ 	entry_handler	0, t, 32, error
+ 
+ SYM_CODE_START_LOCAL(ret_to_kernel)
+diff --git a/drivers/irqchip/irq-dw-apb-ictl.c b/drivers/irqchip/irq-dw-apb-ictl.c
+index d5c1c750c8d2d..ad315bdfc3ef6 100644
+--- a/drivers/irqchip/irq-dw-apb-ictl.c
++++ b/drivers/irqchip/irq-dw-apb-ictl.c
+@@ -19,6 +19,8 @@
+ #include <linux/of_irq.h>
+ #include <linux/interrupt.h>
+ 
++#include <asm/exception.h>
++
+ #define APB_INT_ENABLE_L	0x00
+ #define APB_INT_ENABLE_H	0x04
+ #define APB_INT_MASK_L		0x08
+@@ -30,7 +32,7 @@
+ /* irq domain of the primary interrupt controller. */
+ static struct irq_domain *dw_apb_ictl_irq_domain;
+ 
+-static void __irq_entry dw_apb_ictl_handle_irq(struct pt_regs *regs)
++static void __exception_irq_entry dw_apb_ictl_handle_irq(struct pt_regs *regs)
+ {
+ 	struct irq_domain *d = dw_apb_ictl_irq_domain;
+ 	int n;
+-- 
+2.30.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/0f3abe0f-216b-dda6-38c4-26ffa79d966f%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZEfYJ5gDH4s6QJqp%40FVFF77S0Q05N.cambridge.arm.com.
