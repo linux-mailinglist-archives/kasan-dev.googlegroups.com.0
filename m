@@ -1,203 +1,164 @@
-Return-Path: <kasan-dev+bncBCG4ZMWKSUNBBV6TUKRAMGQENOKWJGY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBY5PV2RAMGQEX6H4DNI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63f.google.com (mail-pl1-x63f.google.com [IPv6:2607:f8b0:4864:20::63f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 398016EECF9
-	for <lists+kasan-dev@lfdr.de>; Wed, 26 Apr 2023 06:34:33 +0200 (CEST)
-Received: by mail-pl1-x63f.google.com with SMTP id d9443c01a7336-1a63d87bd46sf42741255ad.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 25 Apr 2023 21:34:33 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1682483671; cv=pass;
+Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 069926F14A0
+	for <lists+kasan-dev@lfdr.de>; Fri, 28 Apr 2023 11:54:45 +0200 (CEST)
+Received: by mail-pf1-x43d.google.com with SMTP id d2e1a72fcca58-64115e69e1esf9544365b3a.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 28 Apr 2023 02:54:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1682675683; cv=pass;
         d=google.com; s=arc-20160816;
-        b=LfBLnF8NOM/P83DaTxdlc6NFLkSmSLDC3zE/bkwwpFNv3ltM20pE///ncxLKBeY4+f
-         XUy8pXlNa6K99ivkw7UtmJPiF2OhfRC9pFh8HOIALUavnks+VoCARIrodAHEVYj0gyFQ
-         IIoLcl6sinIJzsslXl0SOEKae+as3xu+zbaVNSxT2iyHqsy3rfq0H/Jt+1Ykwq5IPeF8
-         2HXVPqE3DiFg13Kc5LHbFHCiUqAk7bpSvOcWsS60HgeXwb7oFUA9yAngtOzLuEZtB3Pj
-         985jF5EPzKoB0kuZfMTy0VN9DE6WjrL2yXX76yCp5AnjDy3Onb295g2u3tE4+3GfE9HX
-         sJyA==
+        b=H10aZ1+bl0XaBEn75BMli3qNEXoB+xbMaWDw7c/mopB/1t+lLbfqj7BALThlY4hPe/
+         QmzJnWZqv6EKVw4hkK+1/yOG2AvuHHFRONMd4fFu4+xmHGwOwy/KPwSpsZ8GwBnzu5WD
+         aFqrf7QhldBpvPMtVo9Br4QuXfNuErMRlX5SY3RSsm2RI5tsuiISl/O1v6Aso8h3wSlu
+         GaRQIkcC9EPVrnZQGXyB94KfmUPqjaY77jPx97M0CDVD/8MiDX8r4hqm3bQnO5a6akue
+         yrmLau6xbShLDDlEd5SihlmWY28zedJsGJ5ENa/+n6z2i67FWY+ta8XLreBLYUTUQ7bQ
+         9cpQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:references:dlp-filter:cms-type
-         :in-reply-to:mime-version:message-id:subject:cc:to:from:date
-         :dkim-filter:sender:dkim-signature;
-        bh=3CxM2q/vYpwM0bYjyM6OTFWcg7k6b9LqrUA6lP6zwac=;
-        b=yQrG03/d92w6M5X3mBqsrnw/H1KKsBc646v8ny/unWd73oerBH8o4d7WDQ2xTKJeAq
-         5jfpARrqrL7QtZ0OIZXRwZ9fETFY7ZvH6lkQwqMltCXsMBHqftiwQf8InpP+hNhmrAv9
-         7xyAGqnZVoh+Z45DjlW2eqToTpa7MsBOOtXlGVF6KwF5WUWwxue0QuEJYFDWPoiFJWYD
-         S0Nkw7P5tzXs85BrztR1D3hkbTo1RH2yeYdc2dpJY5VM654XJ1S16jNqjkY28Wc9q+Tw
-         YAwII5XyuOzAK5lZw+ZPjNMPOQzjfuMkOcFGhYTWg7B3GgAakMSuzAit4nDqBrc1hgc/
-         SPyg==
+         :list-id:mailing-list:precedence:reply-to:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=vGtjzyRdhG/xAdFfxrEvBaZ5zjqqW1MinO3m5itVEb0=;
+        b=R7B4QME+kdkw1uqHq8jx2zCF3He0cwppZy4NCGSYkMrEyvs54Em7NBh0Ffl/pbD7xW
+         yaycKafBMNQ4ta7mYGbOLDK0crtKqCP2aze2ZiS1wIIarcuTvkNP653H9VxxXGdfjCdS
+         tnBhR2NRojz+FTnk2SDtR2JPTW/Q4rVPth9ld9UEFdCDIcnFMMHfE1AxQE6ZvGh0fCGp
+         SburH2bsAHSEY1U8P1Zol4LDvl3Fh71eECNvs7c0HWlkdbUIeoRiWbabZg4sOCXoO4ni
+         VxmLEYiGbby3BPzwzmsfS+0xruJ7m77Qb5fbUWyGt7W5VhwTTZBjnRp/s/NLALkiFGTV
+         oCYA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=slCRiE35;
-       spf=pass (google.com: domain of youngmin.nam@samsung.com designates 203.254.224.33 as permitted sender) smtp.mailfrom=youngmin.nam@samsung.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+       spf=pass (google.com: domain of houwenlong.hwl@antgroup.com designates 47.90.187.18 as permitted sender) smtp.mailfrom=houwenlong.hwl@antgroup.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=antgroup.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1682483671; x=1685075671;
+        d=googlegroups.com; s=20221208; t=1682675683; x=1685267683;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:references:dlp-filter:cms-type:in-reply-to
-         :mime-version:message-id:subject:cc:to:from:date:dkim-filter:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3CxM2q/vYpwM0bYjyM6OTFWcg7k6b9LqrUA6lP6zwac=;
-        b=ITlLpg8VKSU0+lAeiupyNN/3FNLmiNOw0zTq+e0r25j0ABpHb/ddB3iK5989kLpt/R
-         4SVSO9RshQJin4/+kQvcx0sApluyXTao7wEpnAquUeUiybkfsgu7h8oNHNom8uA37+Rs
-         eWOAQQVCpI4U5Hm02JlFKn7/WTzsRSRvx6ncQr8YH0AEAsM6KUkBIKWsZd9sMESXfOp2
-         cINTmh05wxJwDWHzHs3ilUQa8I9WvRYbpXz1jRcQY5nnDEGsWOHU/pk90TOaZ6Pa/YPb
-         HW/gywoZ9Er8UNIiNE3D5dskwfgcDzdAIGhpIqO0bTJ2lbeBD3R4xAKcv+/Z9uAGtlI8
-         4eeQ==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=vGtjzyRdhG/xAdFfxrEvBaZ5zjqqW1MinO3m5itVEb0=;
+        b=Q3vCyydc+D6gIlnCeqsSHKPfR4ETPXMpkaZ42zVWb4PHPu+eA1C5/ibQit8iroy9rK
+         G54jl2kd3TkGLOl2XOLYV8DfqPVlGKJbaPB3ctPkCh6ZXjnoi2IYxBYXtFEjtfDBWJTw
+         KFpuIfaZ8MzL+wJ3OsUCcVE029YACp+lwbdiVfhs7wn4fT8WyW3Ku+3j/bvekFJWIip7
+         kRy/vxK39NGb5M7F9vMSy6khq4dNC3Xz7fpNpoAsXIf/4TdLne6jYXpWTnzfTRjPS4jb
+         DU5nEwh3KyQtrcKa8q3vuubGbbW2BMhP9RDYx8YegzbvzPp9o+aX4vBTvyemy7tkyu0D
+         MpIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682483671; x=1685075671;
+        d=1e100.net; s=20221208; t=1682675683; x=1685267683;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:references
-         :dlp-filter:cms-type:in-reply-to:mime-version:message-id:subject:cc
-         :to:from:date:dkim-filter:x-beenthere:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3CxM2q/vYpwM0bYjyM6OTFWcg7k6b9LqrUA6lP6zwac=;
-        b=dbinKXBIu0hZYtfVYhnQd/1sqiVzn9Vn1MhP7RqR5x35Q+4oeAhxVfB8CTlcr/OMFg
-         6rIpNjaKzLy1wvcU1yJ2Ks2HDy0q0fkfRd79Yv8v9MykdhfSefv7T2UaCQ5Mvv2wf8Vx
-         1xAIIlSA4CdiUuV+ZStgeKpXUCy743Kpu+Kyi9njzm+n7f+MXY42jc0/njR1Ljo3ecni
-         wdz87DSYR9+0bOuQ27OaNTuScT44z3uEgQLffzgSy9pPrCOslIOiHWN6JMSmy8TZUfj3
-         xYUDUYQzDtj8RuWKU0Aoll/wKVK0BMM2P4koNbj1rYl+8hWZX6kMMY3L0fgctgeWe8Ic
-         rlsw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AAQBX9edrk1bqry6jQLP9ltRn0BZ/CKHN0dSvGmotw4zxhHgab+vELsk
-	FtmCrurHYqHeqdkwLL1HOgg=
-X-Google-Smtp-Source: AKy350aGQe0F0bCCyXsjTNJZbld0z8RvSMiLfqDMjDR/OkLGzzlBWaTzKjGXekE5n53RX6r1GOvdDA==
-X-Received: by 2002:a17:902:db0f:b0:1a2:8c7e:f30a with SMTP id m15-20020a170902db0f00b001a28c7ef30amr6311158plx.1.1682483671408;
-        Tue, 25 Apr 2023 21:34:31 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vGtjzyRdhG/xAdFfxrEvBaZ5zjqqW1MinO3m5itVEb0=;
+        b=YT19vsB/okelUrfMGinlTKkMQqESm4CEZA0/0lnBOfulVL0OuOHDqVesrtxRU3XPuf
+         wRjanqO4qoyY5MTmr73eN7XQ34lxPTTZZiq9HRwXmfLyNf0CvhayZZVb8WtOn6AG4tS/
+         ICMboKjKsm33eMWMTLIB9PFhKxb8lesyomlxe3WBvX+ALJg3DPAqALN6FylW/MJIOcsC
+         gY+arvL4TDdFKZQ0GydrnPUPqFTkeUkx54ih20iltL46mQNXjh6ww3E1qyxeyvnuZk/H
+         saDkY6jWUSEXmvgsXWQ9KcqEhJYPhm5SYRWfiMGKVc2oi+YryB8BifPIdIOgo1nn6eax
+         R+0A==
+X-Gm-Message-State: AC+VfDy30nUPeuviuA+KQMkhYFFzylIbYmGxe3yOSx+y46Q+llmRE5Ec
+	P36ZjQGG6DW6h+Gyn8fACDs=
+X-Google-Smtp-Source: ACHHUZ69ca4qdjB8Yeq4roInT769oNJGXFU+yG6JY3e2t2KFWDE1sYDLak+S5igfrFJGtHpZvZ5J+w==
+X-Received: by 2002:a05:6a00:26c4:b0:63b:7263:b8a7 with SMTP id p4-20020a056a0026c400b0063b7263b8a7mr1233058pfw.0.1682675683299;
+        Fri, 28 Apr 2023 02:54:43 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:3d02:b0:23c:1f9b:df20 with SMTP id
- pt2-20020a17090b3d0200b0023c1f9bdf20ls1107153pjb.1.-pod-control-gmail; Tue,
- 25 Apr 2023 21:34:30 -0700 (PDT)
-X-Received: by 2002:a17:90a:9802:b0:24b:fd8d:536b with SMTP id z2-20020a17090a980200b0024bfd8d536bmr56997pjo.29.1682483670477;
-        Tue, 25 Apr 2023 21:34:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1682483670; cv=none;
+Received: by 2002:a05:6a00:f91:b0:63b:5c82:42dd with SMTP id
+ ct17-20020a056a000f9100b0063b5c8242ddls1519208pfb.10.-pod-prod-gmail; Fri, 28
+ Apr 2023 02:54:42 -0700 (PDT)
+X-Received: by 2002:a05:6a00:2d87:b0:63d:254a:3901 with SMTP id fb7-20020a056a002d8700b0063d254a3901mr7470342pfb.25.1682675682631;
+        Fri, 28 Apr 2023 02:54:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1682675682; cv=none;
         d=google.com; s=arc-20160816;
-        b=nDAu4lQovJyTo9qnKwmuvi4y5RlIJRXSodjwubvYzSHcFatkPjod+eQ1HSxJ5RiD/m
-         UKrvA4RaHLyClI278bXj9GyJUhjUV1FtwxIRt/+Uz+DAZ4qP8LlIxRmm+NcJBCijcrLR
-         b+H/XFe2UFq15I+8RUixXSofTEs8IzxHFxzk/lAM0w58IDyuxcKeXKjGa6uYETyT8sN6
-         GZ3XSo4fSz2XaLqttyi08GEhAzDZj+iQ7ZaS60rHS+PReb1BFH6ctk7tcpERXfq9CxJ1
-         F5X/nnOipk0WadYiyyNsvXAnJEeZtfQbpjP7DzGSUwiKFnAm9KnxWmWv+eT9tBeqZT0h
-         smYA==
+        b=RfP5RjG6xBTpVC27ASYbgKg1QmFsWG54nUJcWDP2O/DGBMoVo1z3ojD68iT0NM3qfi
+         u1AYR/TW+iASHbPUOQRSh5g2vEeFw2e2JN3hem9Yv/Vts+6o/io7ubJxJn55s9U54M7P
+         dLEFA2acZfDsxsnIIA233iLIhh2dzesHy6ajJcyS3Wg1IiQZEm9DIlxDXmGxWYUNW4n+
+         YiBvWzcK7dEdcRexlJP47anYczaZu/0zv3s1ac4ZXaqvk5Rq/pIfPWNZT+rvc48CBNrN
+         gEMVhds2LgJER5jrnV1I+KX5UaZ7YRuxpivKsAd2wuzZXlgY2h/fqQ8AzXOcrncV6O5Z
+         tnfA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=references:dlp-filter:cms-type:in-reply-to:mime-version:message-id
-         :subject:cc:to:from:date:dkim-signature:dkim-filter;
-        bh=Uc3iZzzNNfvg7uppIGUgZCX7utPBuOk0LcUwE4Bt/og=;
-        b=oBOT2Tnh/95AfGexAXfui6Us+waSAeIE1hsrvavNOGOBhlnlfdQp+upw2w6Km28PSl
-         uywrURjR2cxUNxuxdXusbScR41A34eDrRxxYtGhS5vlhwMjj+dndOznPVKsecCvZ/hf9
-         A8DXYQhjMylJ5FdWDp3v9lcUfm7ak+8FcQCuWhisKb2uVxWRm5EJxubTAuyKlrxIVBmh
-         wKaJwpojMcdrcICvIhEZLPvF5PgnU7OaoatnCJxPYgeC/pehzK/ggwKCoRM23b4im1Nv
-         oMGDzOhvaWgS909inI64WuRHKL7cNH1QSugQnuwBBJ2aTLuurIc90At0bH9b8Kw3FKjs
-         Pqtw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from;
+        bh=EdAdQ9Tb6hB7wHplXheVJxpcL3/6Dv5LZoTL4rswUdQ=;
+        b=JA3YY4WlA5SPAZt2qlMau5jDC62y1ni6drETEaelbtTttng4SM/wDuRjbFDhaceMwL
+         7eb1UCyclDNiaOdOGrQCu/xXiEeTmp2UCNK+YGssGX8ioBLmq811MkGR9BpUOCnhyvgV
+         sr8zkc2k8GVteRZiJX2RFbgpL59vljUUTdJlI3e0KaOmAjMQuoTVZZJA+2zS44YE6vU5
+         PENJQQzdCREx1A/zsEuGUuFhJ7mGgqm0lXMTiq8SxOWEOo48h97fUo+j3pGsn2hYmiRD
+         Oadaaijm3e5RDqWJ7QwergDlgWCHRR+S3vjGwyvx8dZmTO8gSb/oTASKRSsIbaakAArJ
+         PTqw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=slCRiE35;
-       spf=pass (google.com: domain of youngmin.nam@samsung.com designates 203.254.224.33 as permitted sender) smtp.mailfrom=youngmin.nam@samsung.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
-Received: from mailout3.samsung.com (mailout3.samsung.com. [203.254.224.33])
-        by gmr-mx.google.com with ESMTPS id y7-20020a170902700700b001a64c3dded1si667706plk.12.2023.04.25.21.34.30
+       spf=pass (google.com: domain of houwenlong.hwl@antgroup.com designates 47.90.187.18 as permitted sender) smtp.mailfrom=houwenlong.hwl@antgroup.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=antgroup.com
+Received: from out187-18.us.a.mail.aliyun.com (out187-18.us.a.mail.aliyun.com. [47.90.187.18])
+        by gmr-mx.google.com with ESMTPS id cu7-20020a056a00448700b0062d7d718081si1336641pfb.2.2023.04.28.02.54.40
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 25 Apr 2023 21:34:30 -0700 (PDT)
-Received-SPF: pass (google.com: domain of youngmin.nam@samsung.com designates 203.254.224.33 as permitted sender) client-ip=203.254.224.33;
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230426043428epoutp0393e19cdbbffa80c81ee18d3f78435eb1~ZYftuwCQA2967229672epoutp03q
-	for <kasan-dev@googlegroups.com>; Wed, 26 Apr 2023 04:34:28 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230426043428epoutp0393e19cdbbffa80c81ee18d3f78435eb1~ZYftuwCQA2967229672epoutp03q
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas2p1.samsung.com (KnoxPortal) with ESMTP id
-	20230426043427epcas2p1e434fe8627622612fa468b484c54edfb~ZYftMUKz82074420744epcas2p1q;
-	Wed, 26 Apr 2023 04:34:27 +0000 (GMT)
-Received: from epsmges2p4.samsung.com (unknown [182.195.36.101]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4Q5mH71G0Vz4x9QC; Wed, 26 Apr
-	2023 04:34:27 +0000 (GMT)
-Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
-	epsmges2p4.samsung.com (Symantec Messaging Gateway) with SMTP id
-	7A.E3.22936.3D9A8446; Wed, 26 Apr 2023 13:34:27 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas2p1.samsung.com (KnoxPortal) with ESMTPA id
-	20230426043426epcas2p1aed491a1b7ecf266ac110858aaca4e65~ZYfsQjp5_2337823378epcas2p1I;
-	Wed, 26 Apr 2023 04:34:26 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20230426043426epsmtrp12fa17229fa2862520ea0608791101322~ZYfsPq1Gr2119821198epsmtrp1x;
-	Wed, 26 Apr 2023 04:34:26 +0000 (GMT)
-X-AuditID: b6c32a48-475ff70000005998-c2-6448a9d33094
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	15.E4.27706.2D9A8446; Wed, 26 Apr 2023 13:34:26 +0900 (KST)
-Received: from perf (unknown [10.229.95.91]) by epsmtip2.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230426043426epsmtip2ddd0be85797fb5fec6f67d51aa2818cd~ZYfr7aynj2923729237epsmtip2W;
-	Wed, 26 Apr 2023 04:34:26 +0000 (GMT)
-Date: Wed, 26 Apr 2023 14:06:25 +0900
-From: Youngmin Nam <youngmin.nam@samsung.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: catalin.marinas@arm.com, will@kernel.org, anshuman.khandual@arm.com,
-	broonie@kernel.org, alexandru.elisei@arm.com, ardb@kernel.org,
-	linux-arm-kernel@lists.infradead.org, hy50.seo@samsung.com,
-	andreyknvl@gmail.com, maz@kernel.org, kasan-dev
-	<kasan-dev@googlegroups.com>, Dmitry Vyukov <dvyukov@google.com>,
-	d7271.choe@samsung.com
-Subject: Re: [PATCH] arm64: set __exception_irq_entry with __irq_entry as a
- default
-Message-ID: <ZEixUYKPr3F0Y8Xn@perf>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Apr 2023 02:54:42 -0700 (PDT)
+Received-SPF: pass (google.com: domain of houwenlong.hwl@antgroup.com designates 47.90.187.18 as permitted sender) client-ip=47.90.187.18;
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=ay29a033018047213;MF=houwenlong.hwl@antgroup.com;NM=1;PH=DS;RN=44;SR=0;TI=SMTPD_---.STCEPzg_1682675659;
+Received: from localhost(mailfrom:houwenlong.hwl@antgroup.com fp:SMTPD_---.STCEPzg_1682675659)
+          by smtp.aliyun-inc.com;
+          Fri, 28 Apr 2023 17:54:20 +0800
+From: "'Hou Wenlong' via kasan-dev" <kasan-dev@googlegroups.com>
+To: linux-kernel@vger.kernel.org
+Cc: "Thomas Garnier" <thgarnie@chromium.org>,
+  "Lai Jiangshan" <jiangshan.ljs@antgroup.com>,
+  "Kees Cook" <keescook@chromium.org>,
+  "Hou Wenlong" <houwenlong.hwl@antgroup.com>,
+  "Alexander Potapenko" <glider@google.com>,
+  "Marco Elver" <elver@google.com>,
+  "Dmitry Vyukov" <dvyukov@google.com>,
+  "Thomas Gleixner" <tglx@linutronix.de>,
+  "Ingo Molnar" <mingo@redhat.com>,
+  "Borislav Petkov" <bp@alien8.de>,
+  "Dave Hansen" <dave.hansen@linux.intel.com>,
+   <x86@kernel.org>,
+  "H. Peter Anvin" <hpa@zytor.com>,
+  "Andy Lutomirski" <luto@kernel.org>,
+  "Peter Zijlstra" <peterz@infradead.org>,
+  "Andrey Ryabinin" <ryabinin.a.a@gmail.com>,
+  "Andrey Konovalov" <andreyknvl@gmail.com>,
+  "Vincenzo Frascino" <vincenzo.frascino@arm.com>,
+  "Ard Biesheuvel" <ardb@kernel.org>,
+  "Darren Hart" <dvhart@infradead.org>,
+  "Andy Shevchenko" <andy@infradead.org>,
+  "Andrew Morton" <akpm@linux-foundation.org>,
+  "=?UTF-8?B?TWlrZSBSYXBvcG9ydCAoSUJNKQ==?=" <rppt@kernel.org>,
+  "Guo Ren" <guoren@kernel.org>,
+  "Stafford Horne" <shorne@gmail.com>,
+  "David Hildenbrand" <david@redhat.com>,
+  "Juergen Gross" <jgross@suse.com>,
+  "Anshuman Khandual" <anshuman.khandual@arm.com>,
+  "Josh Poimboeuf" <jpoimboe@kernel.org>,
+  "Pasha Tatashin" <pasha.tatashin@soleen.com>,
+  "David Woodhouse" <dwmw@amazon.co.uk>,
+  "Brian Gerst" <brgerst@gmail.com>,
+  "XueBing Chen" <chenxuebing@jari.cn>,
+  "Yuntao Wang" <ytcoode@gmail.com>,
+  "Jonathan McDowell" <noodles@fb.com>,
+  "Jason A. Donenfeld" <Jason@zx2c4.com>,
+  "Dan Williams" <dan.j.williams@intel.com>,
+  "Jane Chu" <jane.chu@oracle.com>,
+  "Davidlohr Bueso" <dave@stgolabs.net>,
+  "Sean Christopherson" <seanjc@google.com>,
+   <kasan-dev@googlegroups.com>,
+   <linux-efi@vger.kernel.org>,
+   <platform-driver-x86@vger.kernel.org>
+Subject: [PATCH RFC 42/43] x86/pie: Allow kernel image to be relocated in top 512G
+Date: Fri, 28 Apr 2023 17:51:22 +0800
+Message-Id: <e7626d59df5791db397798caaa496796f0b0dff6.1682673543.git.houwenlong.hwl@antgroup.com>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cover.1682673542.git.houwenlong.hwl@antgroup.com>
+References: <cover.1682673542.git.houwenlong.hwl@antgroup.com>
 MIME-Version: 1.0
-In-Reply-To: <ZEfYJ5gDH4s6QJqp@FVFF77S0Q05N.cambridge.arm.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sf0xTVxTHc98r7z3cSp7V4U3dj6bNUHHQFlv6QNAlMPcy9weBacKyBV/b
-	l5ZQ2q6vNdZlyhalhTJHE9HQgTJh8jOTQFNLETBg+BEW/BncjDhYnRmQQeeYZGzTtby6+N/n
-	nPv9nnvOvYdARX5MTJSa7azNzJik2AZBYGQHlXa7ndYrlk5i1Nn22xi16j2LU4PjOuqvlWVA
-	1c09xKjlizWAmh7w4lTtXCVOdTbPCqi2Rz8hVE94OoH69u5NhOprmEigTtxXv51Ed53rAnSf
-	bwanm3oc9BXvBEb3dFRhdG/LcfqUvwMU4B+W5RhZRs/aJKxZZ9GXmg250v1FJXkl6kyFMk2Z
-	RWmkEjNTzuZK898vSNtXaoo2LJUcZkyOaKqA4TipfE+OzeKwsxKjhbPnSlmr3mTVWNM5ppxz
-	mA3pZtaerVQoMtRR4aEyo2v2CWoNZx1x1/pABViVV4NEApIqOFgVEVSDDYSIDAJYF+rG+eAx
-	gFPf/Q344AmAV8Od6HPLDfePccsAgPfHzmN8MAfg6VC1IKYSkG/ClbZLCTHGyDQYGH8KYryZ
-	3AZrQivrbpScRuC91UD0gCA2kQdg5wKMaYSkDE62TuE8b4QT9Q/XayaSe+D47BAa80LST8DW
-	9gdYzAvJfOht5PjuNsGFMT/OsxjOf1UZ5zLYuXYrzkeg60FNfJpd0PfItd4bShrhnfBlnC8p
-	g9fuCfh0EnSP/BtPC6G7UsQ7U+Da6W7A86uwv7kN5SU09PVK+BeZR+BYcEhQC173vTCM74XL
-	eH4LNvU/xnxRO0puha1PCR53wEsheRNI6ADJrJUrN7BchlX1///qLOU9YH19U+kg+Pq3SPow
-	QAgwDCCBSjcLhc539SKhnnEeZW2WEpvDxHLDQB39GS8qfkVnie6/2V6iVGUpVJmZSk2GWqGR
-	bhH+7pbpRaSBsbNlLGtlbc99CJEorkCyl8TYZKNvb/6xyDL78a+Wa66CH4KIMZIlzDu1P0/n
-	KRodqppaqBz+Y3IIs6Vm+gGy97P5n1tIgqOWrF86n8n07pcvDqq6Fi8Q3C83PEe9W7evvffs
-	6qfaEa1VOwXkH9htioHGy6MzjRWf5wRK57Q1X+gC27OCG+frc1vkTk3KP6/NoPU7x4vecPmL
-	dw82NBcng75F/13ckF185Zw3qWrt5sHu611F+DuaMxUXwEdMyvepDWHkpWbjsZXp456TS1to
-	x8F8bY8nOTQV5jx1rsO3VhbB6sLon7vcpDiYccBa2LctIuv9ZvG6U1iNHHIV1haeubOzf/fw
-	J6XnT6ADUgFnZJSpqI1j/gO9PQF8RwQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrDLMWRmVeSWpSXmKPExsWy7bCSvO6llR4pBofuKVlMX3mZzeL7xOns
-	FvtOJFv8/PKe0WLqwydsFu+X9TBaXNs7kd1iwsM2dovVix+wWKx4dp/JYtPja6wWS69fZLLY
-	Oeckq0XLHVMHPo8189YweuycdZfdY8GmUo89E0+yeWxa1cnmsXlJvUffllWMAexRXDYpqTmZ
-	ZalF+nYJXBlL97xmK1hsXrFr/nHmBsYLul2MnBwSAiYSFzpusnQxcnEICexmlHjV9IENIiEj
-	cXvlZVYIW1jifssRVoii+4wS9zb9A0uwCKhKfFmxHsxmE9CV2HbiHyOILSKgLtGz6wvYVGaB
-	a0wSvS2z2LsYOTiEBUIlVr+SAKnhFVCWOL38HDvE0NdMEpefvGOFSAhKnJz5hAXEZhbQkrjx
-	7yUTSC+zgLTE8n8cIGFOATuJEw/2M09gFJiFpGMWko5ZCB0LGJlXMUqmFhTnpucWGxYY5qWW
-	6xUn5haX5qXrJefnbmIER5CW5g7G7as+6B1iZOJgPMQowcGsJMLLW+meIsSbklhZlVqUH19U
-	mpNafIhRmoNFSZz3QtfJeCGB9MSS1OzU1ILUIpgsEwenVAPTxnULqiZEHVl/I8qspezqp4AO
-	9abV/7YkH9W9whZypSp/6dMJYUYOE/g4Sox2LG+rmKvEvlcr/NnxZubmN1sizZk/zAzW0mT4
-	cJK1oursIf3VC5SllNgvCHgfYbn6/Zvo7sWT7GeWq/CEcTncOF8v0brY+iDXlccMVs7z7n/a
-	JblD/JfG3/++7xxaM4snr2Fe/v3tCoULDwtebuN9Mn2xb9Xnp36TH1kK3F2Qndt+RefN7rS9
-	tfc+KUoe3m5ypbKDa/rimogTld8uu55SXH7wsxpL5f+GWMsLNYUTmE975MYxXdYv+nyMc8+B
-	oGfP1ppGZYcmRN4598NTWCP0RdLkpsQ8xmmrt3+qn/+L53TtWSWW4oxEQy3mouJEANnB8QMP
-	AwAA
-X-CMS-MailID: 20230426043426epcas2p1aed491a1b7ecf266ac110858aaca4e65
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----..lw3wo6cvlWZB4q78b.qMrUTx.UecKfd4NgAaoOFLJBmQ0t=_8920b_"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230424003252epcas2p29758e056b4766e53c252b5927a0cb406
-References: <CGME20230424003252epcas2p29758e056b4766e53c252b5927a0cb406@epcas2p2.samsung.com>
-	<20230424010436.779733-1-youngmin.nam@samsung.com>
-	<ZEZhftx05blmZv1T@FVFF77S0Q05N>
-	<CACT4Y+bYJ=YHNMFAyWXaid8aNYyjnzkWrKyCfMumO21WntKCzw@mail.gmail.com>
-	<ZEZ/Pk0wqiBJNKEN@FVFF77S0Q05N> <ZEc7gzyYus+HxhDc@perf>
-	<ZEfYJ5gDH4s6QJqp@FVFF77S0Q05N.cambridge.arm.com>
-X-Original-Sender: youngmin.nam@samsung.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@samsung.com header.s=mail20170921 header.b=slCRiE35;       spf=pass
- (google.com: domain of youngmin.nam@samsung.com designates 203.254.224.33 as
- permitted sender) smtp.mailfrom=youngmin.nam@samsung.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+X-Original-Sender: houwenlong.hwl@antgroup.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of houwenlong.hwl@antgroup.com designates 47.90.187.18 as
+ permitted sender) smtp.mailfrom=houwenlong.hwl@antgroup.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=antgroup.com
+X-Original-From: "Hou Wenlong" <houwenlong.hwl@antgroup.com>
+Reply-To: "Hou Wenlong" <houwenlong.hwl@antgroup.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -210,162 +171,479 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------..lw3wo6cvlWZB4q78b.qMrUTx.UecKfd4NgAaoOFLJBmQ0t=_8920b_
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
+For PIE kernel image, it could be relocated at any address. To be
+simplified, treat the 2G area which including kernel image, modules area
+and fixmap area as a whole, allow it to be relocated in top 512G.  After
+that, the relocated kernel address may be below than __START_KERNEL_map,
+so use a global variable to store the base of relocated kernel image.
+And pa/va transformation of kernel image address is adapted.
 
-On Tue, Apr 25, 2023 at 02:39:51PM +0100, Mark Rutland wrote:
-> On Tue, Apr 25, 2023 at 11:31:31AM +0900, Youngmin Nam wrote:
-> > On Mon, Apr 24, 2023 at 02:08:14PM +0100, Mark Rutland wrote:
-> > > On Mon, Apr 24, 2023 at 02:09:05PM +0200, Dmitry Vyukov wrote:
-> > > > On Mon, 24 Apr 2023 at 13:01, Mark Rutland <mark.rutland@arm.com> wrote:
-> > > > >
-> > > > > On Mon, Apr 24, 2023 at 10:04:36AM +0900, Youngmin Nam wrote:
-> > > > > > filter_irq_stacks() is supposed to cut entries which are related irq entries
-> > > > > > from its call stack.
-> > > > > > And in_irqentry_text() which is called by filter_irq_stacks()
-> > > > > > uses __irqentry_text_start/end symbol to find irq entries in callstack.
-> > > > > >
-> > > > > > But it doesn't work correctly as without "CONFIG_FUNCTION_GRAPH_TRACER",
-> > > > > > arm64 kernel doesn't include gic_handle_irq which is entry point of arm64 irq
-> > > > > > between __irqentry_text_start and __irqentry_text_end as we discussed in below link.
-> > > > >
-> > > > > TBH, the __irqentry_text annotations don't make much sense, and I'd love to
-> > > > > remove them.
-> > > > >
-> > > > > The irqchip handlers are not the actual exception entry points, and we invoke a
-> > > > > fair amount of code between those and the actual IRQ handlers (e.g. to map from
-> > > > > the irq domain to the actual hander, which might involve poking chained irqchip
-> > > > > handlers), so it doesn't make much sense for the irqchip handlers to be
-> > > > > special.
-> > > > >
-> > > > > > https://lore.kernel.org/all/CACT4Y+aReMGLYua2rCLHgFpS9io5cZC04Q8GLs-uNmrn1ezxYQ@mail.gmail.com/#t
-> > > > > >
-> > > > > > This problem can makes unintentional deep call stack entries especially
-> > > > > > in KASAN enabled situation as below.
-> > > > >
-> > > > > What exactly does KASAN need here? Is this just to limit the depth of the
-> > > > > trace?
-> > > > 
-> > > > No, it's not just depth. Any uses of stack depot need stable
-> > > > repeatable traces, so that they are deduplicated well. For irq stacks
-> > > > it means removing the random part where the interrupt is delivered.
-> > > > Otherwise stack depot grows without limits and overflows.
-> > 
-> > Hi Dmitry Vyukov.
-> > Thanks for your additional comments.
-> > 
-> > > 
-> > > Sure -- you want to filter out the non-deterministic context that the interrupt
-> > > was taken *from*.
-> > > 
-> > > > We don't need the exact entry point for this. A frame "close enough"
-> > > > may work well if there are no memory allocations/frees skipped.
-> > > 
-> > > With that in mind, I think what we should do is cut this at the instant we
-> > > enter the exception; for the trace below that would be el1h_64_irq. I've added
-> > > some line spacing there to make it stand out.
-> > > 
-> > > That would mean that we'd have three entry points that an interrupt trace might
-> > > start from:
-> > > 
-> > > * el1h_64_irq()
-> > > * el0t_64_irq()
-> > > * el0t_32_irq()
-> > >
-> > 
-> > Hi Mark.
-> > Thanks for your kind review.
-> > 
-> > If I understand your intention corretly, I should add "__irq_entry"
-> > to C function of irq_handler as below.
-> 
-> I'd meant something like the below, marking the assembly (as x86 does) rather
-> than the C code. I'll try to sort that out and send a proper patch series after
-> -rc1.
-> 
-> Thanks,
-> Mark.
-> 
-After applying your draft patch,
-I checked System.map and could see irq entries we expected were included as below.
+Suggested-by: Lai Jiangshan <jiangshan.ljs@antgroup.com>
+Signed-off-by: Hou Wenlong <houwenlong.hwl@antgroup.com>
+Cc: Thomas Garnier <thgarnie@chromium.org>
+Cc: Kees Cook <keescook@chromium.org>
+---
+ arch/x86/include/asm/kmsan.h            |  6 ++---
+ arch/x86/include/asm/page_64.h          |  8 +++----
+ arch/x86/include/asm/page_64_types.h    |  8 +++++++
+ arch/x86/include/asm/pgtable_64_types.h | 10 ++++----
+ arch/x86/kernel/head64.c                | 32 ++++++++++++++++++-------
+ arch/x86/kernel/head_64.S               | 12 ++++++++++
+ arch/x86/kernel/setup.c                 |  6 +++++
+ arch/x86/mm/dump_pagetables.c           |  9 ++++---
+ arch/x86/mm/init_64.c                   |  8 +++----
+ arch/x86/mm/kasan_init_64.c             |  4 ++--
+ arch/x86/mm/pat/set_memory.c            |  2 +-
+ arch/x86/mm/physaddr.c                  | 14 +++++------
+ arch/x86/platform/efi/efi_thunk_64.S    |  4 ++++
+ 13 files changed, 87 insertions(+), 36 deletions(-)
 
-ffffffc008000000 T _text
-ffffffc008010000 T __irqentry_text_start
-ffffffc008010000 T _stext
-ffffffc008010000 t el1t_64_irq
-ffffffc00801006c t el1t_64_fiq
-ffffffc0080100d8 t el1h_64_irq
-ffffffc008010144 t el1h_64_fiq
-ffffffc0080101b0 t el0t_64_irq
-ffffffc008010344 t el0t_64_fiq
-ffffffc0080104d8 t el0t_32_irq
-ffffffc008010670 t el0t_32_fiq
-ffffffc008010928 T __do_softirq
-ffffffc008010928 T __irqentry_text_end
-ffffffc008010928 T __softirqentry_text_start
-ffffffc008010fa0 T __entry_text_start
-ffffffc008010fa0 T __softirqentry_text_end
-
-And then, I confirmed callstack was cut correctly as below.
-
-[   89.738326]I[5:NetworkWatchlis: 1084]  kasan_save_stack+0x40/0x70
-[   89.738337]I[5:NetworkWatchlis: 1084]  save_stack_info+0x34/0x138
-[   89.738348]I[5:NetworkWatchlis: 1084]  kasan_save_free_info+0x18/0x24
-[   89.738358]I[5:NetworkWatchlis: 1084]  ____kasan_slab_free+0x16c/0x170
-[   89.738369]I[5:NetworkWatchlis: 1084]  __kasan_slab_free+0x10/0x20
-[   89.738379]I[5:NetworkWatchlis: 1084]  kmem_cache_free+0x238/0x53c
-[   89.738388]I[5:NetworkWatchlis: 1084]  mempool_free_slab+0x1c/0x28
-[   89.738397]I[5:NetworkWatchlis: 1084]  mempool_free+0x7c/0x1a0
-[   89.738405]I[5:NetworkWatchlis: 1084]  bvec_free+0x34/0x80
-[   89.738417]I[5:NetworkWatchlis: 1084]  bio_free+0x60/0x98
-[   89.738426]I[5:NetworkWatchlis: 1084]  bio_put+0x50/0x21c
-[   89.738434]I[5:NetworkWatchlis: 1084]  f2fs_write_end_io+0x4ac/0x4d0
-[   89.738444]I[5:NetworkWatchlis: 1084]  bio_endio+0x2dc/0x300
-[   89.738453]I[5:NetworkWatchlis: 1084]  __dm_io_complete+0x324/0x37c
-[   89.738464]I[5:NetworkWatchlis: 1084]  dm_io_dec_pending+0x60/0xa4
-[   89.738474]I[5:NetworkWatchlis: 1084]  clone_endio+0xf8/0x2f0
-[   89.738484]I[5:NetworkWatchlis: 1084]  bio_endio+0x2dc/0x300
-[   89.738493]I[5:NetworkWatchlis: 1084]  blk_update_request+0x258/0x63c
-[   89.738503]I[5:NetworkWatchlis: 1084]  scsi_end_request+0x50/0x304
-[   89.738514]I[5:NetworkWatchlis: 1084]  scsi_io_completion+0x88/0x160
-[   89.738524]I[5:NetworkWatchlis: 1084]  scsi_finish_command+0x17c/0x194
-[   89.738534]I[5:NetworkWatchlis: 1084]  scsi_complete+0xcc/0x158
-[   89.738543]I[5:NetworkWatchlis: 1084]  blk_mq_complete_request+0x4c/0x5c
-[   89.738553]I[5:NetworkWatchlis: 1084]  scsi_done_internal+0xf4/0x1e0
-[   89.738564]I[5:NetworkWatchlis: 1084]  scsi_done+0x14/0x20
-[   89.738575]I[5:NetworkWatchlis: 1084]  ufshcd_compl_one_cqe+0x578/0x71c
-[   89.738585]I[5:NetworkWatchlis: 1084]  ufshcd_mcq_poll_cqe_nolock+0xc8/0x150
-[   89.738594]I[5:NetworkWatchlis: 1084]  exynos_vendor_mcq_irq+0xac/0xc4 [ufs_exynos_core]
-[   89.738638]I[5:NetworkWatchlis: 1084]  __handle_irq_event_percpu+0xd0/0x348
-[   89.738647]I[5:NetworkWatchlis: 1084]  handle_irq_event_percpu+0x24/0x74
-[   89.738656]I[5:NetworkWatchlis: 1084]  handle_irq_event+0x74/0xe0
-[   89.738665]I[5:NetworkWatchlis: 1084]  handle_fasteoi_irq+0x174/0x240
-[   89.738675]I[5:NetworkWatchlis: 1084]  handle_irq_desc+0x6c/0x2c0
-[   89.738686]I[5:NetworkWatchlis: 1084]  generic_handle_domain_irq+0x1c/0x28
-[   89.738697]I[5:NetworkWatchlis: 1084]  gic_handle_irq+0x64/0x154
-[   89.738707]I[5:NetworkWatchlis: 1084]  call_on_irq_stack+0x2c/0x54
-[   89.738717]I[5:NetworkWatchlis: 1084]  do_interrupt_handler+0x70/0xa0
-[   89.738726]I[5:NetworkWatchlis: 1084]  el1_interrupt+0x34/0x68
-[   89.738737]I[5:NetworkWatchlis: 1084]  el1h_64_irq_handler+0x18/0x24
-[   89.738747]I[5:NetworkWatchlis: 1084]  el1h_64_irq+0x68/0x6c
-
-Thanks for your work.
-Please add me when you send the final patch so that I can test again.
-
-> ---->8----
+diff --git a/arch/x86/include/asm/kmsan.h b/arch/x86/include/asm/kmsan.h
+index 8fa6ac0e2d76..a635d825342d 100644
+--- a/arch/x86/include/asm/kmsan.h
++++ b/arch/x86/include/asm/kmsan.h
+@@ -63,16 +63,16 @@ static inline bool kmsan_phys_addr_valid(unsigned long addr)
+ static inline bool kmsan_virt_addr_valid(void *addr)
+ {
+ 	unsigned long x = (unsigned long)addr;
+-	unsigned long y = x - __START_KERNEL_map;
++	unsigned long y = x - KERNEL_MAP_BASE;
+ 
+-	/* use the carry flag to determine if x was < __START_KERNEL_map */
++	/* use the carry flag to determine if x was < KERNEL_MAP_BASE */
+ 	if (unlikely(x > y)) {
+ 		x = y + phys_base;
+ 
+ 		if (y >= KERNEL_IMAGE_SIZE)
+ 			return false;
+ 	} else {
+-		x = y + (__START_KERNEL_map - PAGE_OFFSET);
++		x = y + (KERNEL_MAP_BASE - PAGE_OFFSET);
+ 
+ 		/* carry flag will be set if starting x was >= PAGE_OFFSET */
+ 		if ((x > y) || !kmsan_phys_addr_valid(x))
+diff --git a/arch/x86/include/asm/page_64.h b/arch/x86/include/asm/page_64.h
+index cc6b8e087192..b8692e6cc939 100644
+--- a/arch/x86/include/asm/page_64.h
++++ b/arch/x86/include/asm/page_64.h
+@@ -20,10 +20,10 @@ extern unsigned long vmemmap_base;
+ 
+ static __always_inline unsigned long __phys_addr_nodebug(unsigned long x)
+ {
+-	unsigned long y = x - __START_KERNEL_map;
++	unsigned long y = x - KERNEL_MAP_BASE;
+ 
+-	/* use the carry flag to determine if x was < __START_KERNEL_map */
+-	x = y + ((x > y) ? phys_base : (__START_KERNEL_map - PAGE_OFFSET));
++	/* use the carry flag to determine if x was < KERNEL_MAP_BASE */
++	x = y + ((x > y) ? phys_base : (KERNEL_MAP_BASE - PAGE_OFFSET));
+ 
+ 	return x;
+ }
+@@ -34,7 +34,7 @@ extern unsigned long __phys_addr_symbol(unsigned long);
+ #else
+ #define __phys_addr(x)		__phys_addr_nodebug(x)
+ #define __phys_addr_symbol(x) \
+-	((unsigned long)(x) - __START_KERNEL_map + phys_base)
++	((unsigned long)(x) - KERNEL_MAP_BASE + phys_base)
+ #endif
+ 
+ #define __phys_reloc_hide(x)	(x)
+diff --git a/arch/x86/include/asm/page_64_types.h b/arch/x86/include/asm/page_64_types.h
+index e9e2c3ba5923..933d37845064 100644
+--- a/arch/x86/include/asm/page_64_types.h
++++ b/arch/x86/include/asm/page_64_types.h
+@@ -4,6 +4,8 @@
+ 
+ #ifndef __ASSEMBLY__
+ #include <asm/kaslr.h>
++
++extern unsigned long kernel_map_base;
+ #endif
+ 
+ #ifdef CONFIG_KASAN
+@@ -49,6 +51,12 @@
+ 
+ #define __START_KERNEL_map	_AC(0xffffffff80000000, UL)
+ 
++#ifdef CONFIG_X86_PIE
++#define KERNEL_MAP_BASE		kernel_map_base
++#else
++#define KERNEL_MAP_BASE		__START_KERNEL_map
++#endif /* CONFIG_X86_PIE */
++
+ /* See Documentation/x86/x86_64/mm.rst for a description of the memory map. */
+ 
+ #define __PHYSICAL_MASK_SHIFT	52
+diff --git a/arch/x86/include/asm/pgtable_64_types.h b/arch/x86/include/asm/pgtable_64_types.h
+index 38bf837e3554..3d6951128a07 100644
+--- a/arch/x86/include/asm/pgtable_64_types.h
++++ b/arch/x86/include/asm/pgtable_64_types.h
+@@ -187,14 +187,16 @@ extern unsigned int ptrs_per_p4d;
+ #define KMSAN_MODULES_ORIGIN_START	(KMSAN_MODULES_SHADOW_START + MODULES_LEN)
+ #endif /* CONFIG_KMSAN */
+ 
+-#define MODULES_VADDR		(__START_KERNEL_map + KERNEL_IMAGE_SIZE)
++#define RAW_MODULES_VADDR	(__START_KERNEL_map + KERNEL_IMAGE_SIZE)
++#define MODULES_VADDR		(KERNEL_MAP_BASE + KERNEL_IMAGE_SIZE)
+ /* The module sections ends with the start of the fixmap */
+ #ifndef CONFIG_DEBUG_KMAP_LOCAL_FORCE_MAP
+-# define MODULES_END		_AC(0xffffffffff000000, UL)
++# define RAW_MODULES_END       _AC(0xffffffffff000000, UL)
+ #else
+-# define MODULES_END		_AC(0xfffffffffe000000, UL)
++# define RAW_MODULES_END       _AC(0xfffffffffe000000, UL)
+ #endif
+-#define MODULES_LEN		(MODULES_END - MODULES_VADDR)
++#define MODULES_LEN		(RAW_MODULES_END - RAW_MODULES_VADDR)
++#define MODULES_END		(MODULES_VADDR + MODULES_LEN)
+ 
+ #define ESPFIX_PGD_ENTRY	_AC(-2, UL)
+ #define ESPFIX_BASE_ADDR	(ESPFIX_PGD_ENTRY << P4D_SHIFT)
+diff --git a/arch/x86/kernel/head64.c b/arch/x86/kernel/head64.c
+index c5cd61aab8ae..234ac796863a 100644
+--- a/arch/x86/kernel/head64.c
++++ b/arch/x86/kernel/head64.c
+@@ -66,6 +66,11 @@ unsigned long vmemmap_base __ro_after_init = __VMEMMAP_BASE_L4;
+ EXPORT_SYMBOL(vmemmap_base);
+ #endif
+ 
++#ifdef CONFIG_X86_PIE
++unsigned long kernel_map_base __ro_after_init = __START_KERNEL_map;
++EXPORT_SYMBOL(kernel_map_base);
++#endif
++
+ /*
+  * GDT used on the boot CPU before switching to virtual addresses.
+  */
+@@ -193,6 +198,7 @@ unsigned long __head __startup_64(unsigned long physaddr,
+ {
+ 	unsigned long load_delta, *p;
+ 	unsigned long pgtable_flags;
++	unsigned long kernel_map_base_offset = 0;
+ 	pgdval_t *pgd;
+ 	p4dval_t *p4d;
+ 	pudval_t *pud;
+@@ -252,6 +258,13 @@ unsigned long __head __startup_64(unsigned long physaddr,
+ 		pud[511] += load_delta;
+ 	}
+ 
++#ifdef CONFIG_X86_PIE
++	kernel_map_base_offset = text_base & PUD_MASK;
++	*fixup_long(&kernel_map_base, physaddr) = kernel_map_base_offset;
++	kernel_map_base_offset -= __START_KERNEL_map;
++	*fixup_long(&__FIXADDR_TOP, physaddr) += kernel_map_base_offset;
++#endif
++
+ 	pmd = fixup_pointer(level2_fixmap_pgt, physaddr);
+ 	for (i = FIXMAP_PMD_TOP; i > FIXMAP_PMD_TOP - FIXMAP_PMD_NUM; i--)
+ 		pmd[i] += load_delta;
+@@ -328,7 +341,7 @@ unsigned long __head __startup_64(unsigned long physaddr,
+ 	/* fixup pages that are part of the kernel image */
+ 	for (; i <= pmd_index(end_base); i++)
+ 		if (pmd[i] & _PAGE_PRESENT)
+-			pmd[i] += load_delta;
++			pmd[i] += load_delta + kernel_map_base_offset;
+ 
+ 	/* invalidate pages after the kernel image */
+ 	for (; i < PTRS_PER_PMD; i++)
+@@ -338,7 +351,8 @@ unsigned long __head __startup_64(unsigned long physaddr,
+ 	 * Fixup phys_base - remove the memory encryption mask to obtain
+ 	 * the true physical address.
+ 	 */
+-	*fixup_long(&phys_base, physaddr) += load_delta - sme_get_me_mask();
++	*fixup_long(&phys_base, physaddr) += load_delta + kernel_map_base_offset -
++					     sme_get_me_mask();
+ 
+ 	return sme_postprocess_startup(bp, pmd);
+ }
+@@ -376,7 +390,7 @@ bool __init __early_make_pgtable(unsigned long address, pmdval_t pmd)
+ 	if (!pgtable_l5_enabled())
+ 		p4d_p = pgd_p;
+ 	else if (pgd)
+-		p4d_p = (p4dval_t *)((pgd & PTE_PFN_MASK) + __START_KERNEL_map - phys_base);
++		p4d_p = (p4dval_t *)((pgd & PTE_PFN_MASK) + KERNEL_MAP_BASE - phys_base);
+ 	else {
+ 		if (next_early_pgt >= EARLY_DYNAMIC_PAGE_TABLES) {
+ 			reset_early_page_tables();
+@@ -385,13 +399,13 @@ bool __init __early_make_pgtable(unsigned long address, pmdval_t pmd)
+ 
+ 		p4d_p = (p4dval_t *)early_dynamic_pgts[next_early_pgt++];
+ 		memset(p4d_p, 0, sizeof(*p4d_p) * PTRS_PER_P4D);
+-		*pgd_p = (pgdval_t)p4d_p - __START_KERNEL_map + phys_base + _KERNPG_TABLE;
++		*pgd_p = (pgdval_t)p4d_p - KERNEL_MAP_BASE + phys_base + _KERNPG_TABLE;
+ 	}
+ 	p4d_p += p4d_index(address);
+ 	p4d = *p4d_p;
+ 
+ 	if (p4d)
+-		pud_p = (pudval_t *)((p4d & PTE_PFN_MASK) + __START_KERNEL_map - phys_base);
++		pud_p = (pudval_t *)((p4d & PTE_PFN_MASK) + KERNEL_MAP_BASE - phys_base);
+ 	else {
+ 		if (next_early_pgt >= EARLY_DYNAMIC_PAGE_TABLES) {
+ 			reset_early_page_tables();
+@@ -400,13 +414,13 @@ bool __init __early_make_pgtable(unsigned long address, pmdval_t pmd)
+ 
+ 		pud_p = (pudval_t *)early_dynamic_pgts[next_early_pgt++];
+ 		memset(pud_p, 0, sizeof(*pud_p) * PTRS_PER_PUD);
+-		*p4d_p = (p4dval_t)pud_p - __START_KERNEL_map + phys_base + _KERNPG_TABLE;
++		*p4d_p = (p4dval_t)pud_p - KERNEL_MAP_BASE + phys_base + _KERNPG_TABLE;
+ 	}
+ 	pud_p += pud_index(address);
+ 	pud = *pud_p;
+ 
+ 	if (pud)
+-		pmd_p = (pmdval_t *)((pud & PTE_PFN_MASK) + __START_KERNEL_map - phys_base);
++		pmd_p = (pmdval_t *)((pud & PTE_PFN_MASK) + KERNEL_MAP_BASE - phys_base);
+ 	else {
+ 		if (next_early_pgt >= EARLY_DYNAMIC_PAGE_TABLES) {
+ 			reset_early_page_tables();
+@@ -415,7 +429,7 @@ bool __init __early_make_pgtable(unsigned long address, pmdval_t pmd)
+ 
+ 		pmd_p = (pmdval_t *)early_dynamic_pgts[next_early_pgt++];
+ 		memset(pmd_p, 0, sizeof(*pmd_p) * PTRS_PER_PMD);
+-		*pud_p = (pudval_t)pmd_p - __START_KERNEL_map + phys_base + _KERNPG_TABLE;
++		*pud_p = (pudval_t)pmd_p - KERNEL_MAP_BASE + phys_base + _KERNPG_TABLE;
+ 	}
+ 	pmd_p[pmd_index(address)] = pmd;
+ 
+@@ -497,6 +511,7 @@ static void __init copy_bootdata(char *real_mode_data)
+ 
+ asmlinkage __visible void __init __noreturn x86_64_start_kernel(char * real_mode_data)
+ {
++#ifndef CONFIG_X86_PIE
+ 	/*
+ 	 * Build-time sanity checks on the kernel image and module
+ 	 * area mappings. (these are purely build-time and produce no code)
+@@ -509,6 +524,7 @@ asmlinkage __visible void __init __noreturn x86_64_start_kernel(char * real_mode
+ 	BUILD_BUG_ON(!(MODULES_VADDR > __START_KERNEL));
+ 	MAYBE_BUILD_BUG_ON(!(((MODULES_END - 1) & PGDIR_MASK) ==
+ 				(__START_KERNEL & PGDIR_MASK)));
++#endif
+ 
+ 	cr4_init_shadow();
+ 
+diff --git a/arch/x86/kernel/head_64.S b/arch/x86/kernel/head_64.S
+index 19cb2852238b..feb14304d1ed 100644
+--- a/arch/x86/kernel/head_64.S
++++ b/arch/x86/kernel/head_64.S
+@@ -130,7 +130,13 @@ SYM_CODE_START_NOALIGN(startup_64)
+ 	popq	%rsi
+ 
+ 	/* Form the CR3 value being sure to include the CR3 modifier */
++#ifdef CONFIG_X86_PIE
++	movq	kernel_map_base(%rip), %rdi
++	movabs	$early_top_pgt, %rcx
++	subq	%rdi, %rcx
++#else
+ 	movabs  $(early_top_pgt - __START_KERNEL_map), %rcx
++#endif
+ 	addq    %rcx, %rax
+ 	jmp 1f
+ SYM_CODE_END(startup_64)
+@@ -179,7 +185,13 @@ SYM_INNER_LABEL(secondary_startup_64_no_verify, SYM_L_GLOBAL)
+ #endif
+ 
+ 	/* Form the CR3 value being sure to include the CR3 modifier */
++#ifdef CONFIG_X86_PIE
++	movq	kernel_map_base(%rip), %rdi
++	movabs	$init_top_pgt, %rcx
++	subq	%rdi, %rcx
++#else
+ 	movabs	$(init_top_pgt - __START_KERNEL_map), %rcx
++#endif
+ 	addq    %rcx, %rax
+ 1:
+ 
+diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+index 16babff771bd..e68ca78b829c 100644
+--- a/arch/x86/kernel/setup.c
++++ b/arch/x86/kernel/setup.c
+@@ -808,11 +808,17 @@ static int
+ dump_kernel_offset(struct notifier_block *self, unsigned long v, void *p)
+ {
+ 	if (kaslr_enabled()) {
++#ifdef CONFIG_X86_PIE
++		pr_emerg("Kernel Offset: 0x%lx from 0x%lx\n",
++			kaslr_offset(),
++			__START_KERNEL);
++#else
+ 		pr_emerg("Kernel Offset: 0x%lx from 0x%lx (relocation range: 0x%lx-0x%lx)\n",
+ 			 kaslr_offset(),
+ 			 __START_KERNEL,
+ 			 __START_KERNEL_map,
+ 			 MODULES_VADDR-1);
++#endif
+ 	} else {
+ 		pr_emerg("Kernel Offset: disabled\n");
+ 	}
+diff --git a/arch/x86/mm/dump_pagetables.c b/arch/x86/mm/dump_pagetables.c
+index 81aa1c0b39cc..d5c6f61242aa 100644
+--- a/arch/x86/mm/dump_pagetables.c
++++ b/arch/x86/mm/dump_pagetables.c
+@@ -102,9 +102,9 @@ static struct addr_marker address_markers[] = {
+ #ifdef CONFIG_EFI
+ 	[EFI_END_NR]		= { EFI_VA_END,		"EFI Runtime Services" },
+ #endif
+-	[HIGH_KERNEL_NR]	= { __START_KERNEL_map,	"High Kernel Mapping" },
+-	[MODULES_VADDR_NR]	= { MODULES_VADDR,	"Modules" },
+-	[MODULES_END_NR]	= { MODULES_END,	"End Modules" },
++	[HIGH_KERNEL_NR]	= { 0UL,		"High Kernel Mapping" },
++	[MODULES_VADDR_NR]	= { 0UL,		"Modules" },
++	[MODULES_END_NR]	= { 0UL,		"End Modules" },
+ 	[FIXADDR_START_NR]	= { 0UL,		"Fixmap Area" },
+ 	[END_OF_SPACE_NR]	= { -1,			NULL }
+ };
+@@ -475,6 +475,9 @@ static int __init pt_dump_init(void)
+ 	address_markers[KASAN_SHADOW_START_NR].start_address = KASAN_SHADOW_START;
+ 	address_markers[KASAN_SHADOW_END_NR].start_address = KASAN_SHADOW_END;
+ #endif
++	address_markers[HIGH_KERNEL_NR].start_address = KERNEL_MAP_BASE;
++	address_markers[MODULES_VADDR_NR].start_address = MODULES_VADDR;
++	address_markers[MODULES_END_NR].start_address = MODULES_END;
+ 	address_markers[FIXADDR_START_NR].start_address = FIXADDR_START;
+ #endif
+ #ifdef CONFIG_X86_32
+diff --git a/arch/x86/mm/init_64.c b/arch/x86/mm/init_64.c
+index b7fd05a1ba1d..54bcd46c229d 100644
+--- a/arch/x86/mm/init_64.c
++++ b/arch/x86/mm/init_64.c
+@@ -413,7 +413,7 @@ void __init init_extra_mapping_uc(unsigned long phys, unsigned long size)
+ /*
+  * The head.S code sets up the kernel high mapping:
+  *
+- *   from __START_KERNEL_map to __START_KERNEL_map + size (== _end-_text)
++ *   from KERNEL_MAP_BASE to KERNEL_MAP_BASE + size (== _end-_text)
+  *
+  * phys_base holds the negative offset to the kernel, which is added
+  * to the compile time generated pmds. This results in invalid pmds up
+@@ -425,8 +425,8 @@ void __init init_extra_mapping_uc(unsigned long phys, unsigned long size)
+  */
+ void __init cleanup_highmap(void)
+ {
+-	unsigned long vaddr = __START_KERNEL_map;
+-	unsigned long vaddr_end = __START_KERNEL_map + KERNEL_IMAGE_SIZE;
++	unsigned long vaddr = KERNEL_MAP_BASE;
++	unsigned long vaddr_end = KERNEL_MAP_BASE + KERNEL_IMAGE_SIZE;
+ 	unsigned long end = roundup((unsigned long)_brk_end, PMD_SIZE) - 1;
+ 	pmd_t *pmd = level2_kernel_pgt;
+ 
+@@ -436,7 +436,7 @@ void __init cleanup_highmap(void)
+ 	 *	arch/x86/xen/mmu.c:xen_setup_kernel_pagetable().
+ 	 */
+ 	if (max_pfn_mapped)
+-		vaddr_end = __START_KERNEL_map + (max_pfn_mapped << PAGE_SHIFT);
++		vaddr_end = KERNEL_MAP_BASE + (max_pfn_mapped << PAGE_SHIFT);
+ 
+ 	for (; vaddr + PMD_SIZE - 1 < vaddr_end; pmd++, vaddr += PMD_SIZE) {
+ 		if (pmd_none(*pmd))
+diff --git a/arch/x86/mm/kasan_init_64.c b/arch/x86/mm/kasan_init_64.c
+index 0302491d799d..0edc8fdfb419 100644
+--- a/arch/x86/mm/kasan_init_64.c
++++ b/arch/x86/mm/kasan_init_64.c
+@@ -197,7 +197,7 @@ static inline p4d_t *early_p4d_offset(pgd_t *pgd, unsigned long addr)
+ 		return (p4d_t *)pgd;
+ 
+ 	p4d = pgd_val(*pgd) & PTE_PFN_MASK;
+-	p4d += __START_KERNEL_map - phys_base;
++	p4d += KERNEL_MAP_BASE - phys_base;
+ 	return (p4d_t *)p4d + p4d_index(addr);
+ }
+ 
+@@ -420,7 +420,7 @@ void __init kasan_init(void)
+ 			      shadow_cea_per_cpu_begin, 0);
+ 
+ 	kasan_populate_early_shadow((void *)shadow_cea_end,
+-			kasan_mem_to_shadow((void *)__START_KERNEL_map));
++			kasan_mem_to_shadow((void *)KERNEL_MAP_BASE));
+ 
+ 	kasan_populate_shadow((unsigned long)kasan_mem_to_shadow(_stext),
+ 			      (unsigned long)kasan_mem_to_shadow(_end),
+diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
+index c434aea9939c..2fb89be3a750 100644
+--- a/arch/x86/mm/pat/set_memory.c
++++ b/arch/x86/mm/pat/set_memory.c
+@@ -1709,7 +1709,7 @@ static int cpa_process_alias(struct cpa_data *cpa)
+ 	if (!within(vaddr, (unsigned long)_text, _brk_end) &&
+ 	    __cpa_pfn_in_highmap(cpa->pfn)) {
+ 		unsigned long temp_cpa_vaddr = (cpa->pfn << PAGE_SHIFT) +
+-					       __START_KERNEL_map - phys_base;
++					       KERNEL_MAP_BASE - phys_base;
+ 		alias_cpa = *cpa;
+ 		alias_cpa.vaddr = &temp_cpa_vaddr;
+ 		alias_cpa.flags &= ~(CPA_PAGES_ARRAY | CPA_ARRAY);
+diff --git a/arch/x86/mm/physaddr.c b/arch/x86/mm/physaddr.c
+index fc3f3d3e2ef2..9cb6d898329c 100644
+--- a/arch/x86/mm/physaddr.c
++++ b/arch/x86/mm/physaddr.c
+@@ -14,15 +14,15 @@
+ #ifdef CONFIG_DEBUG_VIRTUAL
+ unsigned long __phys_addr(unsigned long x)
+ {
+-	unsigned long y = x - __START_KERNEL_map;
++	unsigned long y = x - KERNEL_MAP_BASE;
+ 
+-	/* use the carry flag to determine if x was < __START_KERNEL_map */
++	/* use the carry flag to determine if x was < KERNEL_MAP_BASE */
+ 	if (unlikely(x > y)) {
+ 		x = y + phys_base;
+ 
+ 		VIRTUAL_BUG_ON(y >= KERNEL_IMAGE_SIZE);
+ 	} else {
+-		x = y + (__START_KERNEL_map - PAGE_OFFSET);
++		x = y + (KERNEL_MAP_BASE - PAGE_OFFSET);
+ 
+ 		/* carry flag will be set if starting x was >= PAGE_OFFSET */
+ 		VIRTUAL_BUG_ON((x > y) || !phys_addr_valid(x));
+@@ -34,7 +34,7 @@ EXPORT_SYMBOL(__phys_addr);
+ 
+ unsigned long __phys_addr_symbol(unsigned long x)
+ {
+-	unsigned long y = x - __START_KERNEL_map;
++	unsigned long y = x - KERNEL_MAP_BASE;
+ 
+ 	/* only check upper bounds since lower bounds will trigger carry */
+ 	VIRTUAL_BUG_ON(y >= KERNEL_IMAGE_SIZE);
+@@ -46,16 +46,16 @@ EXPORT_SYMBOL(__phys_addr_symbol);
+ 
+ bool __virt_addr_valid(unsigned long x)
+ {
+-	unsigned long y = x - __START_KERNEL_map;
++	unsigned long y = x - KERNEL_MAP_BASE;
+ 
+-	/* use the carry flag to determine if x was < __START_KERNEL_map */
++	/* use the carry flag to determine if x was < KERNEL_MAP_BASE */
+ 	if (unlikely(x > y)) {
+ 		x = y + phys_base;
+ 
+ 		if (y >= KERNEL_IMAGE_SIZE)
+ 			return false;
+ 	} else {
+-		x = y + (__START_KERNEL_map - PAGE_OFFSET);
++		x = y + (KERNEL_MAP_BASE - PAGE_OFFSET);
+ 
+ 		/* carry flag will be set if starting x was >= PAGE_OFFSET */
+ 		if ((x > y) || !phys_addr_valid(x))
+diff --git a/arch/x86/platform/efi/efi_thunk_64.S b/arch/x86/platform/efi/efi_thunk_64.S
+index c4b1144f99f6..0997363821e7 100644
+--- a/arch/x86/platform/efi/efi_thunk_64.S
++++ b/arch/x86/platform/efi/efi_thunk_64.S
+@@ -52,7 +52,11 @@ STACK_FRAME_NON_STANDARD __efi64_thunk
+ 	/*
+ 	 * Calculate the physical address of the kernel text.
+ 	 */
++#ifdef CONFIG_X86_PIE
++	movq	kernel_map_base(%rip), %rax
++#else
+ 	movq	$__START_KERNEL_map, %rax
++#endif
+ 	subq	phys_base(%rip), %rax
+ 
+ 	leaq	1f(%rip), %rbp
+-- 
+2.31.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZEixUYKPr3F0Y8Xn%40perf.
-
-------..lw3wo6cvlWZB4q78b.qMrUTx.UecKfd4NgAaoOFLJBmQ0t=_8920b_
-Content-Type: text/plain; charset="UTF-8"
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZEixUYKPr3F0Y8Xn%40perf.
-
-------..lw3wo6cvlWZB4q78b.qMrUTx.UecKfd4NgAaoOFLJBmQ0t=_8920b_--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/e7626d59df5791db397798caaa496796f0b0dff6.1682673543.git.houwenlong.hwl%40antgroup.com.
