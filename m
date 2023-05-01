@@ -1,115 +1,115 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERB7O5X6RAMGQEQ3ROVGI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERB765X6RAMGQERFZ5ZJA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x93a.google.com (mail-ua1-x93a.google.com [IPv6:2607:f8b0:4864:20::93a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F8856F33C0
-	for <lists+kasan-dev@lfdr.de>; Mon,  1 May 2023 18:55:26 +0200 (CEST)
-Received: by mail-ua1-x93a.google.com with SMTP id a1e0cc1a2514c-76e7bd716d1sf646586241.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 01 May 2023 09:55:26 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1682960125; cv=pass;
+Received: from mail-pg1-x538.google.com (mail-pg1-x538.google.com [IPv6:2607:f8b0:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C8B6F33C1
+	for <lists+kasan-dev@lfdr.de>; Mon,  1 May 2023 18:55:29 +0200 (CEST)
+Received: by mail-pg1-x538.google.com with SMTP id 41be03b00d2f7-52855ba7539sf1413548a12.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 01 May 2023 09:55:29 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1682960128; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wxQ56DXFye+wAHjRiJuROdSVgLH/xxQ7PyO4jqlCDGPb3quOxl6gEXbR9I8orNoSv+
-         7moysx6wCEaT9HTcFt5NySJPaSVrOA7Tf1C4z+IZLNEQMVB2qNfMIdt6gTwCresBdu3u
-         kRZ6Gg3slTtmtpkVJFu6gh6qmgRy8ouiYHSbUoj4YF/ac382vDMtgRwjFnhS7oeLARCv
-         TQRRKrKS9Yj1wLGE91DjzaLeddZwqJDwLEows1HwGwYrrFD6mPV+RRDgvfYGAh0vMcI6
-         a28x4gwkxYY7V9bnviJp/U7Rw/eh2G96kcdNNLOfpoVAAEpNQeptykyMdWBmlu2J9vtV
-         rEZg==
+        b=tcgCj8eYOL9K/71iyF/2csqZkAKg1nOs1+rzkcs4SsPG+Y9u8ELfDz8hQnPDaR659h
+         hlw5i4hwskYD99XBI6uy2I2D1SCHom3/BRNNk6SUle6sJgwGzlEICsAnrCsWjKJcNkPb
+         FER0GAaAYEn5Xzq98EtS1YDU+SOn2U96D2dzgeZsmkQkn/MWR2eGd45jqx/xega4g06H
+         KyrWwzASv0sBllrG01Jk8ux746xXUPHg96vY4cEos+VHUVc7aVHFRoACluWAD9sg4oCp
+         iGjbQK4Mf4uSQPtTzoe3TotXWrF//c7csezC3NL6UiNH3bxbB6y+HrLP4UacxUkJAmPK
+         yEnQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=CZ8txPp/Akh9EwD/3LoNn5Fl7M/jYJbvHGlFCp3Nb94=;
-        b=Ep9mQJVKbnw/LPk0zceVAH1AKhpKOSVB6M2dIRgro9LYTwizOj10HiiB/eVB8nWRrU
-         zgzVfjJ27+FfEjKWM5UjLw2mp37cRBNZwIsEvArWoKAa6g8P1jaKJJ3HCMQhigrC9hnZ
-         6H9hy8zloIo0sRJOZyH8Nx0riAJZtlguIEiddxDuZBW8Wnhh6mL+76HT8w7HSX4VaZM7
-         xJlWDStGq9Bp9JcS2lcWu3gTWB46WXaxABFSvzAcMOlMEXduyrAbxPITAPBn3W0ghfrD
-         m9XTwXTzKsrMvCpPKDGSe5Hm4kia9wu8gxlqevuJh4LAMpOiEM0VFkpHkFoLazWj3/+A
-         428w==
+        bh=683V4lRxR6bje4zPJhxUWqJiV2XTFfM2jU1Tbh/p0aw=;
+        b=eMvvYJA1dRB7nkXlCrjAEpi43YmHSJisGeWJqfiWR75CcnrkeSZTBQpwfCqIN8Q6r5
+         SJrBwfJFX55py0nqA1K2ElP0KeMJIW99hb2mZk205cXy63myyZUd5vpj5IYPLf6b1KNI
+         EiH/XWPm4erKVrzDYY4u2KinWkjef86E1qGj6n0Qq5UYtiDYgGztG9X4rTlBZzEYxJhx
+         D8jA93lFCyczLgXQIiiecebnJVfU/q2ZXdqdFm0B4cPkRpv3u3oRANfrRGfvnOFnjVHK
+         YiZWxOghHywAN7INMBPYApIUZPspUGppGb9BLSiRULnoxOIloshyXHJkB8sw8OKdaHc5
+         gf8g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=uyQWn2Ht;
-       spf=pass (google.com: domain of 3_o5pzaykcumxzwjsglttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3_O5PZAYKCUMxzwjsglttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=KndAV4af;
+       spf=pass (google.com: domain of 3_u5pzaykcuuz1yluinvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3_u5PZAYKCUUz1yluinvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1682960125; x=1685552125;
+        d=googlegroups.com; s=20221208; t=1682960128; x=1685552128;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=CZ8txPp/Akh9EwD/3LoNn5Fl7M/jYJbvHGlFCp3Nb94=;
-        b=mhfIt2Vq45ZEsmSgWVZ67nvv4EyPrE0OisMg3DsT3nOKEY5umJ5cIzclmoU2fYhqh+
-         eno1mDUhBPyqRnMAiiJyiN5UUPdEhUgEr4ynQpD8ThY47HdoZAkpUm0XZfvAPOSgNYQJ
-         r/ZqFnJb04/DzH4qvrnpiQetBV2XXntkC8bk3Yd9tHxdZeUHfi/Zi+bxTF77alp0jkFw
-         wx3NhFNRYqWDUJXv+JWIBWu92lInDm8oCgTjAHEZ3fXBUHaZFxAicZbFrES0grgLi6cY
-         RfXLuxcu/F74Jsfx1R8p6tW4epaJjnkxe2NQjQOjRBlwMvVuZNEpuEFS5YoHf2D++Icq
-         Hbnw==
+        bh=683V4lRxR6bje4zPJhxUWqJiV2XTFfM2jU1Tbh/p0aw=;
+        b=oDQ+m5Mh6LAamEN85ASQTnWEOs1UFmOe3C2Jj73nRVM7MIWKN4UYV5C6G7HB6qR+kU
+         PO4D33hf6hs7hKdaERWrFk7x6nxjMeX95VRnDKLN6fyPrVFFDXHmjvzVx7bILF1qFspi
+         XNuRQm813MjHEk3HoCvs22UVUDyhqKfxmbOKP+SvXRYg3kIgcuKHGHXKQ+MrpXg+Tm3j
+         PZ7FMqF4KuwG3uODF5YZzzspvjMMwwvOSkZ36DDLmyAGgZiNzrmdqBxQE88aenNzDFMk
+         aBy+Ua6XH56U2A+ehlLDCQoUei4x2Ftt2Ykk0vlbNmQNprddr91Dn+OChke2GirZi/uP
+         Y/Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682960125; x=1685552125;
+        d=1e100.net; s=20221208; t=1682960128; x=1685552128;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CZ8txPp/Akh9EwD/3LoNn5Fl7M/jYJbvHGlFCp3Nb94=;
-        b=cBwTTmIit2XjHz0UOSvch4KMr2WX+5wwNGgDKtHBgeWxsZExCz8Yk7QpG5DiZqtP1P
-         SKvJud8vq7SyKveTMX10B+eKHpGsmuLK8x5o2B9yz9WGvU/rpxQawda//JMxpr2W2NYK
-         V7EvEHGFqKd0cTK8fHYuVaQetjnvl22NYwXjmJV0PWfC7djyINgMhvBhNg0CrXUj9jzT
-         lBZsFtbXybqNSN7jmuHn01rZeTIyVH6cj+v8i+ebyG7q8J13Qh7eab3zcwxRhk6jmRXD
-         o2ylk9dlIMoreU824B2+gpLSzresZgrvJdCbdw7STUfjxIu1zM/KCXfDzMI+s1mjBxYz
-         NZiQ==
-X-Gm-Message-State: AC+VfDyGH3Al9z0eaQHuqwDDI3q3VrZQKjdnw7oUEMXH/RY6tf5V6zD1
-	KeNsSD/IUro1WOwX50O4vQI=
-X-Google-Smtp-Source: ACHHUZ4b3YqEGLF3oQ7L+u3GTHnCm9K1DQNjtdzMf81fwBR1t1eY/u3aUrmX3kgOWYgJIMgLsIxaiQ==
-X-Received: by 2002:a67:e1d3:0:b0:42d:bb69:668d with SMTP id p19-20020a67e1d3000000b0042dbb69668dmr6873892vsl.4.1682960125213;
-        Mon, 01 May 2023 09:55:25 -0700 (PDT)
+        bh=683V4lRxR6bje4zPJhxUWqJiV2XTFfM2jU1Tbh/p0aw=;
+        b=R7XEQzfbGWm2BF+sNfGMPQRxIWQGBU2o4a/uQaH3gsOSv0L3Y3e7OHARpCOIR9TC2W
+         y6ltA197bFD6vS9gJ2HwKhk0+pBRM+uvF2nRNv4e5DTl75djFXE7+IeXAF0UBOEkne77
+         zuxKsLKg7lGO/YgcHc3SF/C6btKe6GJe3lGm2oX32I+FiVcL4jhNS9ggqZwOAxJPDphE
+         6o8TGrMpY7XDpN3a4sgeoC/S47MTnsPQn8sRr0W33XKP4KlSYE7lhfI534kIF4B82bQv
+         Mrjtfiha6qX2i0JdMqr+lRw27QIcPCtSMApGt5uEdYuLBzGsh465WCGt9G+U6Z1lBLCM
+         Qung==
+X-Gm-Message-State: AC+VfDz/yj3TKmdM02FzfyGE0bk8aUiOofiRXPneCdGwADtEmvTai3Ir
+	9GZjaWz9CVJqBwSK9GdSUkc=
+X-Google-Smtp-Source: ACHHUZ77uwiojiJyYXxD2M6GnYd0fUQRm1N94Q7wAHACUFjaKzkKkzA9GGAfgA84lU1XonTZChVP8w==
+X-Received: by 2002:a63:151:0:b0:518:d3f7:d66d with SMTP id 78-20020a630151000000b00518d3f7d66dmr3529401pgb.4.1682960128077;
+        Mon, 01 May 2023 09:55:28 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6102:3f54:b0:426:b068:aa4a with SMTP id
- l20-20020a0561023f5400b00426b068aa4als2747129vsv.9.-pod-prod-gmail; Mon, 01
- May 2023 09:55:24 -0700 (PDT)
-X-Received: by 2002:a05:6102:a9d:b0:42f:46d3:31ce with SMTP id n29-20020a0561020a9d00b0042f46d331cemr5602170vsg.28.1682960124487;
-        Mon, 01 May 2023 09:55:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1682960124; cv=none;
+Received: by 2002:a17:902:8e85:b0:1a2:8e32:c59d with SMTP id
+ bg5-20020a1709028e8500b001a28e32c59dls11704837plb.8.-pod-prod-gmail; Mon, 01
+ May 2023 09:55:27 -0700 (PDT)
+X-Received: by 2002:a17:90a:9481:b0:24b:2d04:9174 with SMTP id s1-20020a17090a948100b0024b2d049174mr14717869pjo.0.1682960127343;
+        Mon, 01 May 2023 09:55:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1682960127; cv=none;
         d=google.com; s=arc-20160816;
-        b=1FBTm//1goe/dVDKzMuEC7d4kSkIaok5FtRo/4DVwffiIfiCRJ9i5VV/mfvgX83sCJ
-         0FnUr51WRM2yRp6JKvMdUP272/YwuPsVOvskCFLkU1/zAB26kAUOG1NaPWho1+nMmxYm
-         lO1JkHEgEG432Ryx5bTd3iXSHZdcgbSZPBBYneUGIw1+42SRCz9pB5w9px4oIqTpG6a2
-         UI6VzvaEkiy23izs+BLZoB4zzyIh6vcGAQWJ9XgTeE/J5thg3t49UzxnWTNh7dGTIuyB
-         3ZGFaEWPOep+/unMp7WnbtAABcaQcqXUa66rRbLry1Q+i8m4gnTpEPU4EjCphltkudGl
-         GT7A==
+        b=K0eg2y9Sl7v4kf1bSTN8I32IIaXCOOW6NnPWN3f3QQ4s8e31pgbDdHWtfJU16Sq0D+
+         CbtbYKJGjlyMqq1DRf6Lpe2H7LpM0GAxiNBWZM6I23XLSnk6LxRj7Eqx8/JqRDHPWkKW
+         t1I1XjoWcVVuIB8IAzAn+kBp7vfMa0qWMxm/OFoICbsXjM7Y3qpWl5Mijb1j6fctasiW
+         uqyX7PQQ95PxXx9MIfqYc5hoG56FWhbv6G5eco+idmfF8wWa2Y3QundUFEks2qXERqcQ
+         FgOa00TKpiy6O/fdiAIrN/qMWsm7cYAkp3hppI7FrgqZli/9UihhRwvoeAIk6LWLYEjq
+         WPsQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=O9K7OqGn67XevhyLqxW8/t3YPJ+QYtYh9lmzl+bkJrg=;
-        b=gLAFyHG07gE16Z4xRAay1BTDAzM5BsVG2gKinFXIc5cytANrVtW/f7T2x7PDrTvdo8
-         XeIdrVbIozd1/SrKD9EvAhfhbp9VhRIdcV2+EzN7eqkpEy+TzrJM78IBUrqgMiNFeRAc
-         Mh/7269IOvKiDshnl1Ax1vT8vA/Dz1vnrWO42ApQUv+7XZVx/Wln83Z/HNo0hVGJejrf
-         xr2MUR9wItSn3OquXzpgvFajnh1dx3b1Cm/sM20/R5/mcQCY7QbgrXgdmNG+kQx70tya
-         Py/KRtlRqaTTGwIw3lX7StK0Q3mEkwilKFP2zdp3KlGgx+4gmpwGf68JXOCZf2bSEDcB
-         OJOg==
+        bh=EpAPHCELRqlGyXafm3HOq1DjysfSUkIp0lW71FhLJ+Q=;
+        b=PT34UB0KhGrx+SvoRy2NhTIc2WggJNHKJuyNg2sgqWxWA6vxARFz0HoUvCUKrzOm8g
+         ml9uA5C+iYhva5zukX8dQ5q/VGtHSAUh61EUC4qE7jFhUklEDsTQxxk0IhV76Wm+FHIy
+         eHNfxeouX0SuNeczaaEXv1pswMBWeBOhCa7A3hJHs5v8ExnmRu1U8TPYLUPvpGflTRxd
+         dJeZKta4tURr0PByuZzRQkjbFzt+lvUaraSYvh25Bmo9HfmD/b5oJjV3IZzjL3yz8huc
+         jn2KaFNcTYwxsTsSv3KLBCBo2tPfrFvcY/fd1kM/v3COpgkYWPqAvriC1OfUc3cHlc4U
+         2+sQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=uyQWn2Ht;
-       spf=pass (google.com: domain of 3_o5pzaykcumxzwjsglttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3_O5PZAYKCUMxzwjsglttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=KndAV4af;
+       spf=pass (google.com: domain of 3_u5pzaykcuuz1yluinvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3_u5PZAYKCUUz1yluinvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com. [2607:f8b0:4864:20::b49])
-        by gmr-mx.google.com with ESMTPS id az40-20020a05613003a800b0077d31fab956si112424uab.1.2023.05.01.09.55.24
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com. [2607:f8b0:4864:20::b4a])
+        by gmr-mx.google.com with ESMTPS id pv15-20020a17090b3c8f00b00246fa2ea350si1972908pjb.1.2023.05.01.09.55.27
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 May 2023 09:55:24 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3_o5pzaykcumxzwjsglttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) client-ip=2607:f8b0:4864:20::b49;
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-b9a7df507c5so5360157276.1
-        for <kasan-dev@googlegroups.com>; Mon, 01 May 2023 09:55:24 -0700 (PDT)
+        Mon, 01 May 2023 09:55:27 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3_u5pzaykcuuz1yluinvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) client-ip=2607:f8b0:4864:20::b4a;
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-b8f32cc8c31so4978319276.2
+        for <kasan-dev@googlegroups.com>; Mon, 01 May 2023 09:55:27 -0700 (PDT)
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:6d24:3efd:facc:7ac4])
- (user=surenb job=sendgmr) by 2002:a05:6902:100e:b0:b8f:47c4:58ed with SMTP id
- w14-20020a056902100e00b00b8f47c458edmr8682966ybt.9.1682960124020; Mon, 01 May
- 2023 09:55:24 -0700 (PDT)
-Date: Mon,  1 May 2023 09:54:17 -0700
+ (user=surenb job=sendgmr) by 2002:a25:db10:0:b0:b9d:b2ef:1b1e with SMTP id
+ g16-20020a25db10000000b00b9db2ef1b1emr2548037ybf.7.1682960126449; Mon, 01 May
+ 2023 09:55:26 -0700 (PDT)
+Date: Mon,  1 May 2023 09:54:18 -0700
 In-Reply-To: <20230501165450.15352-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20230501165450.15352-1-surenb@google.com>
 X-Mailer: git-send-email 2.40.1.495.gc816e09b53d-goog
-Message-ID: <20230501165450.15352-8-surenb@google.com>
-Subject: [PATCH 07/40] Lazy percpu counters
+Message-ID: <20230501165450.15352-9-surenb@google.com>
+Subject: [PATCH 08/40] mm: introduce slabobj_ext to support slab object extensions
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -139,9 +139,9 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b=uyQWn2Ht;       spf=pass
- (google.com: domain of 3_o5pzaykcumxzwjsglttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3_O5PZAYKCUMxzwjsglttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20221208 header.b=KndAV4af;       spf=pass
+ (google.com: domain of 3_u5pzaykcuuz1yluinvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3_u5PZAYKCUUz1yluinvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -157,295 +157,620 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Kent Overstreet <kent.overstreet@linux.dev>
+Currently slab pages can store only vectors of obj_cgroup pointers in
+page->memcg_data. Introduce slabobj_ext structure to allow more data
+to be stored for each slab object. Wrap obj_cgroup into slabobj_ext
+to support current functionality while allowing to extend slabobj_ext
+in the future.
 
-This patch adds lib/lazy-percpu-counter.c, which implements counters
-that start out as atomics, but lazily switch to percpu mode if the
-update rate crosses some threshold (arbitrarily set at 256 per second).
-
-Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- include/linux/lazy-percpu-counter.h | 102 ++++++++++++++++++++++
- lib/Kconfig                         |   3 +
- lib/Makefile                        |   2 +
- lib/lazy-percpu-counter.c           | 127 ++++++++++++++++++++++++++++
- 4 files changed, 234 insertions(+)
- create mode 100644 include/linux/lazy-percpu-counter.h
- create mode 100644 lib/lazy-percpu-counter.c
+ include/linux/memcontrol.h |  20 +++--
+ include/linux/mm_types.h   |   4 +-
+ init/Kconfig               |   4 +
+ mm/kfence/core.c           |  14 ++--
+ mm/kfence/kfence.h         |   4 +-
+ mm/memcontrol.c            |  56 ++------------
+ mm/page_owner.c            |   2 +-
+ mm/slab.h                  | 148 +++++++++++++++++++++++++------------
+ mm/slab_common.c           |  47 ++++++++++++
+ 9 files changed, 185 insertions(+), 114 deletions(-)
 
-diff --git a/include/linux/lazy-percpu-counter.h b/include/linux/lazy-percpu-counter.h
-new file mode 100644
-index 000000000000..45ca9e2ce58b
---- /dev/null
-+++ b/include/linux/lazy-percpu-counter.h
-@@ -0,0 +1,102 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Lazy percpu counters:
-+ * (C) 2022 Kent Overstreet
-+ *
-+ * Lazy percpu counters start out in atomic mode, then switch to percpu mode if
-+ * the update rate crosses some threshold.
-+ *
-+ * This means we don't have to decide between low memory overhead atomic
-+ * counters and higher performance percpu counters - we can have our cake and
-+ * eat it, too!
-+ *
-+ * Internally we use an atomic64_t, where the low bit indicates whether we're in
-+ * percpu mode, and the high 8 bits are a secondary counter that's incremented
-+ * when the counter is modified - meaning 55 bits of precision are available for
-+ * the counter itself.
-+ */
-+
-+#ifndef _LINUX_LAZY_PERCPU_COUNTER_H
-+#define _LINUX_LAZY_PERCPU_COUNTER_H
-+
-+#include <linux/atomic.h>
-+#include <asm/percpu.h>
-+
-+struct lazy_percpu_counter {
-+	atomic64_t			v;
-+	unsigned long			last_wrap;
-+};
-+
-+void lazy_percpu_counter_exit(struct lazy_percpu_counter *c);
-+void lazy_percpu_counter_add_slowpath(struct lazy_percpu_counter *c, s64 i);
-+void lazy_percpu_counter_add_slowpath_noupgrade(struct lazy_percpu_counter *c, s64 i);
-+s64 lazy_percpu_counter_read(struct lazy_percpu_counter *c);
-+
-+/*
-+ * We use the high bits of the atomic counter for a secondary counter, which is
-+ * incremented every time the counter is touched. When the secondary counter
-+ * wraps, we check the time the counter last wrapped, and if it was recent
-+ * enough that means the update frequency has crossed our threshold and we
-+ * switch to percpu mode:
-+ */
-+#define COUNTER_MOD_BITS		8
-+#define COUNTER_MOD_MASK		~(~0ULL >> COUNTER_MOD_BITS)
-+#define COUNTER_MOD_BITS_START		(64 - COUNTER_MOD_BITS)
-+
-+/*
-+ * We use the low bit of the counter to indicate whether we're in atomic mode
-+ * (low bit clear), or percpu mode (low bit set, counter is a pointer to actual
-+ * percpu counters:
-+ */
-+#define COUNTER_IS_PCPU_BIT		1
-+
-+static inline u64 __percpu *lazy_percpu_counter_is_pcpu(u64 v)
-+{
-+	if (!(v & COUNTER_IS_PCPU_BIT))
-+		return NULL;
-+
-+	v ^= COUNTER_IS_PCPU_BIT;
-+	return (u64 __percpu *)(unsigned long)v;
-+}
-+
-+/**
-+ * lazy_percpu_counter_add: Add a value to a lazy_percpu_counter
-+ *
-+ * @c: counter to modify
-+ * @i: value to add
-+ */
-+static inline void lazy_percpu_counter_add(struct lazy_percpu_counter *c, s64 i)
-+{
-+	u64 v = atomic64_read(&c->v);
-+	u64 __percpu *pcpu_v = lazy_percpu_counter_is_pcpu(v);
-+
-+	if (likely(pcpu_v))
-+		this_cpu_add(*pcpu_v, i);
-+	else
-+		lazy_percpu_counter_add_slowpath(c, i);
-+}
-+
-+/**
-+ * lazy_percpu_counter_add_noupgrade: Add a value to a lazy_percpu_counter,
-+ * without upgrading to percpu mode
-+ *
-+ * @c: counter to modify
-+ * @i: value to add
-+ */
-+static inline void lazy_percpu_counter_add_noupgrade(struct lazy_percpu_counter *c, s64 i)
-+{
-+	u64 v = atomic64_read(&c->v);
-+	u64 __percpu *pcpu_v = lazy_percpu_counter_is_pcpu(v);
-+
-+	if (likely(pcpu_v))
-+		this_cpu_add(*pcpu_v, i);
-+	else
-+		lazy_percpu_counter_add_slowpath_noupgrade(c, i);
-+}
-+
-+static inline void lazy_percpu_counter_sub(struct lazy_percpu_counter *c, s64 i)
-+{
-+	lazy_percpu_counter_add(c, -i);
-+}
-+
-+#endif /* _LINUX_LAZY_PERCPU_COUNTER_H */
-diff --git a/lib/Kconfig b/lib/Kconfig
-index 5c2da561c516..7380292a8fcd 100644
---- a/lib/Kconfig
-+++ b/lib/Kconfig
-@@ -505,6 +505,9 @@ config ASSOCIATIVE_ARRAY
+diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+index 222d7370134c..b9fd9732a52b 100644
+--- a/include/linux/memcontrol.h
++++ b/include/linux/memcontrol.h
+@@ -339,8 +339,8 @@ struct mem_cgroup {
+ extern struct mem_cgroup *root_mem_cgroup;
  
- 	  for more information.
+ enum page_memcg_data_flags {
+-	/* page->memcg_data is a pointer to an objcgs vector */
+-	MEMCG_DATA_OBJCGS = (1UL << 0),
++	/* page->memcg_data is a pointer to an slabobj_ext vector */
++	MEMCG_DATA_OBJEXTS = (1UL << 0),
+ 	/* page has been accounted as a non-slab kernel page */
+ 	MEMCG_DATA_KMEM = (1UL << 1),
+ 	/* the next bit after the last actual flag */
+@@ -378,7 +378,7 @@ static inline struct mem_cgroup *__folio_memcg(struct folio *folio)
+ 	unsigned long memcg_data = folio->memcg_data;
  
-+config LAZY_PERCPU_COUNTER
+ 	VM_BUG_ON_FOLIO(folio_test_slab(folio), folio);
+-	VM_BUG_ON_FOLIO(memcg_data & MEMCG_DATA_OBJCGS, folio);
++	VM_BUG_ON_FOLIO(memcg_data & MEMCG_DATA_OBJEXTS, folio);
+ 	VM_BUG_ON_FOLIO(memcg_data & MEMCG_DATA_KMEM, folio);
+ 
+ 	return (struct mem_cgroup *)(memcg_data & ~MEMCG_DATA_FLAGS_MASK);
+@@ -399,7 +399,7 @@ static inline struct obj_cgroup *__folio_objcg(struct folio *folio)
+ 	unsigned long memcg_data = folio->memcg_data;
+ 
+ 	VM_BUG_ON_FOLIO(folio_test_slab(folio), folio);
+-	VM_BUG_ON_FOLIO(memcg_data & MEMCG_DATA_OBJCGS, folio);
++	VM_BUG_ON_FOLIO(memcg_data & MEMCG_DATA_OBJEXTS, folio);
+ 	VM_BUG_ON_FOLIO(!(memcg_data & MEMCG_DATA_KMEM), folio);
+ 
+ 	return (struct obj_cgroup *)(memcg_data & ~MEMCG_DATA_FLAGS_MASK);
+@@ -496,7 +496,7 @@ static inline struct mem_cgroup *folio_memcg_check(struct folio *folio)
+ 	 */
+ 	unsigned long memcg_data = READ_ONCE(folio->memcg_data);
+ 
+-	if (memcg_data & MEMCG_DATA_OBJCGS)
++	if (memcg_data & MEMCG_DATA_OBJEXTS)
+ 		return NULL;
+ 
+ 	if (memcg_data & MEMCG_DATA_KMEM) {
+@@ -542,7 +542,7 @@ static inline struct mem_cgroup *get_mem_cgroup_from_objcg(struct obj_cgroup *ob
+ static inline bool folio_memcg_kmem(struct folio *folio)
+ {
+ 	VM_BUG_ON_PGFLAGS(PageTail(&folio->page), &folio->page);
+-	VM_BUG_ON_FOLIO(folio->memcg_data & MEMCG_DATA_OBJCGS, folio);
++	VM_BUG_ON_FOLIO(folio->memcg_data & MEMCG_DATA_OBJEXTS, folio);
+ 	return folio->memcg_data & MEMCG_DATA_KMEM;
+ }
+ 
+@@ -1606,6 +1606,14 @@ unsigned long mem_cgroup_soft_limit_reclaim(pg_data_t *pgdat, int order,
+ }
+ #endif /* CONFIG_MEMCG */
+ 
++/*
++ * Extended information for slab objects stored as an array in page->memcg_data
++ * if MEMCG_DATA_OBJEXTS is set.
++ */
++struct slabobj_ext {
++	struct obj_cgroup *objcg;
++} __aligned(8);
++
+ static inline void __inc_lruvec_kmem_state(void *p, enum node_stat_item idx)
+ {
+ 	__mod_lruvec_kmem_state(p, idx, 1);
+diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+index 306a3d1a0fa6..e79303e1e30c 100644
+--- a/include/linux/mm_types.h
++++ b/include/linux/mm_types.h
+@@ -194,7 +194,7 @@ struct page {
+ 	/* Usage count. *DO NOT USE DIRECTLY*. See page_ref.h */
+ 	atomic_t _refcount;
+ 
+-#ifdef CONFIG_MEMCG
++#ifdef CONFIG_SLAB_OBJ_EXT
+ 	unsigned long memcg_data;
+ #endif
+ 
+@@ -320,7 +320,7 @@ struct folio {
+ 			void *private;
+ 			atomic_t _mapcount;
+ 			atomic_t _refcount;
+-#ifdef CONFIG_MEMCG
++#ifdef CONFIG_SLAB_OBJ_EXT
+ 			unsigned long memcg_data;
+ #endif
+ 	/* private: the union with struct page is transitional */
+diff --git a/init/Kconfig b/init/Kconfig
+index 32c24950c4ce..44267919a2a2 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -936,10 +936,14 @@ config CGROUP_FAVOR_DYNMODS
+ 
+           Say N if unsure.
+ 
++config SLAB_OBJ_EXT
 +	bool
 +
- config HAS_IOMEM
- 	bool
- 	depends on !NO_IOMEM
-diff --git a/lib/Makefile b/lib/Makefile
-index 876fcdeae34e..293a0858a3f8 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -164,6 +164,8 @@ obj-$(CONFIG_DEBUG_PREEMPT) += smp_processor_id.o
- obj-$(CONFIG_DEBUG_LIST) += list_debug.o
- obj-$(CONFIG_DEBUG_OBJECTS) += debugobjects.o
+ config MEMCG
+ 	bool "Memory controller"
+ 	select PAGE_COUNTER
+ 	select EVENTFD
++	select SLAB_OBJ_EXT
+ 	help
+ 	  Provides control over the memory footprint of tasks in a cgroup.
  
-+obj-$(CONFIG_LAZY_PERCPU_COUNTER) += lazy-percpu-counter.o
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index dad3c0eb70a0..aea6fa145080 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -590,9 +590,9 @@ static unsigned long kfence_init_pool(void)
+ 			continue;
+ 
+ 		__folio_set_slab(slab_folio(slab));
+-#ifdef CONFIG_MEMCG
+-		slab->memcg_data = (unsigned long)&kfence_metadata[i / 2 - 1].objcg |
+-				   MEMCG_DATA_OBJCGS;
++#ifdef CONFIG_MEMCG_KMEM
++		slab->obj_exts = (unsigned long)&kfence_metadata[i / 2 - 1].obj_exts |
++				 MEMCG_DATA_OBJEXTS;
+ #endif
+ 	}
+ 
+@@ -634,8 +634,8 @@ static unsigned long kfence_init_pool(void)
+ 
+ 		if (!i || (i % 2))
+ 			continue;
+-#ifdef CONFIG_MEMCG
+-		slab->memcg_data = 0;
++#ifdef CONFIG_MEMCG_KMEM
++		slab->obj_exts = 0;
+ #endif
+ 		__folio_clear_slab(slab_folio(slab));
+ 	}
+@@ -1093,8 +1093,8 @@ void __kfence_free(void *addr)
+ {
+ 	struct kfence_metadata *meta = addr_to_metadata((unsigned long)addr);
+ 
+-#ifdef CONFIG_MEMCG
+-	KFENCE_WARN_ON(meta->objcg);
++#ifdef CONFIG_MEMCG_KMEM
++	KFENCE_WARN_ON(meta->obj_exts.objcg);
+ #endif
+ 	/*
+ 	 * If the objects of the cache are SLAB_TYPESAFE_BY_RCU, defer freeing
+diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
+index 2aafc46a4aaf..8e0d76c4ea2a 100644
+--- a/mm/kfence/kfence.h
++++ b/mm/kfence/kfence.h
+@@ -97,8 +97,8 @@ struct kfence_metadata {
+ 	struct kfence_track free_track;
+ 	/* For updating alloc_covered on frees. */
+ 	u32 alloc_stack_hash;
+-#ifdef CONFIG_MEMCG
+-	struct obj_cgroup *objcg;
++#ifdef CONFIG_MEMCG_KMEM
++	struct slabobj_ext obj_exts;
+ #endif
+ };
+ 
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 4b27e245a055..f2a7fe718117 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -2892,13 +2892,6 @@ static void commit_charge(struct folio *folio, struct mem_cgroup *memcg)
+ }
+ 
+ #ifdef CONFIG_MEMCG_KMEM
+-/*
+- * The allocated objcg pointers array is not accounted directly.
+- * Moreover, it should not come from DMA buffer and is not readily
+- * reclaimable. So those GFP bits should be masked off.
+- */
+-#define OBJCGS_CLEAR_MASK	(__GFP_DMA | __GFP_RECLAIMABLE | __GFP_ACCOUNT)
+-
+ /*
+  * mod_objcg_mlstate() may be called with irq enabled, so
+  * mod_memcg_lruvec_state() should be used.
+@@ -2917,62 +2910,27 @@ static inline void mod_objcg_mlstate(struct obj_cgroup *objcg,
+ 	rcu_read_unlock();
+ }
+ 
+-int memcg_alloc_slab_cgroups(struct slab *slab, struct kmem_cache *s,
+-				 gfp_t gfp, bool new_slab)
+-{
+-	unsigned int objects = objs_per_slab(s, slab);
+-	unsigned long memcg_data;
+-	void *vec;
+-
+-	gfp &= ~OBJCGS_CLEAR_MASK;
+-	vec = kcalloc_node(objects, sizeof(struct obj_cgroup *), gfp,
+-			   slab_nid(slab));
+-	if (!vec)
+-		return -ENOMEM;
+-
+-	memcg_data = (unsigned long) vec | MEMCG_DATA_OBJCGS;
+-	if (new_slab) {
+-		/*
+-		 * If the slab is brand new and nobody can yet access its
+-		 * memcg_data, no synchronization is required and memcg_data can
+-		 * be simply assigned.
+-		 */
+-		slab->memcg_data = memcg_data;
+-	} else if (cmpxchg(&slab->memcg_data, 0, memcg_data)) {
+-		/*
+-		 * If the slab is already in use, somebody can allocate and
+-		 * assign obj_cgroups in parallel. In this case the existing
+-		 * objcg vector should be reused.
+-		 */
+-		kfree(vec);
+-		return 0;
+-	}
+-
+-	kmemleak_not_leak(vec);
+-	return 0;
+-}
+-
+ static __always_inline
+ struct mem_cgroup *mem_cgroup_from_obj_folio(struct folio *folio, void *p)
+ {
+ 	/*
+ 	 * Slab objects are accounted individually, not per-page.
+ 	 * Memcg membership data for each individual object is saved in
+-	 * slab->memcg_data.
++	 * slab->obj_exts.
+ 	 */
+ 	if (folio_test_slab(folio)) {
+-		struct obj_cgroup **objcgs;
++		struct slabobj_ext *obj_exts;
+ 		struct slab *slab;
+ 		unsigned int off;
+ 
+ 		slab = folio_slab(folio);
+-		objcgs = slab_objcgs(slab);
+-		if (!objcgs)
++		obj_exts = slab_obj_exts(slab);
++		if (!obj_exts)
+ 			return NULL;
+ 
+ 		off = obj_to_index(slab->slab_cache, slab, p);
+-		if (objcgs[off])
+-			return obj_cgroup_memcg(objcgs[off]);
++		if (obj_exts[off].objcg)
++			return obj_cgroup_memcg(obj_exts[off].objcg);
+ 
+ 		return NULL;
+ 	}
+@@ -2980,7 +2938,7 @@ struct mem_cgroup *mem_cgroup_from_obj_folio(struct folio *folio, void *p)
+ 	/*
+ 	 * folio_memcg_check() is used here, because in theory we can encounter
+ 	 * a folio where the slab flag has been cleared already, but
+-	 * slab->memcg_data has not been freed yet
++	 * slab->obj_exts has not been freed yet
+ 	 * folio_memcg_check() will guarantee that a proper memory
+ 	 * cgroup pointer or NULL will be returned.
+ 	 */
+diff --git a/mm/page_owner.c b/mm/page_owner.c
+index 31169b3e7f06..8b6086c666e6 100644
+--- a/mm/page_owner.c
++++ b/mm/page_owner.c
+@@ -372,7 +372,7 @@ static inline int print_page_owner_memcg(char *kbuf, size_t count, int ret,
+ 	if (!memcg_data)
+ 		goto out_unlock;
+ 
+-	if (memcg_data & MEMCG_DATA_OBJCGS)
++	if (memcg_data & MEMCG_DATA_OBJEXTS)
+ 		ret += scnprintf(kbuf + ret, count - ret,
+ 				"Slab cache page\n");
+ 
+diff --git a/mm/slab.h b/mm/slab.h
+index f01ac256a8f5..25d14b3a7280 100644
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -57,8 +57,8 @@ struct slab {
+ #endif
+ 
+ 	atomic_t __page_refcount;
+-#ifdef CONFIG_MEMCG
+-	unsigned long memcg_data;
++#ifdef CONFIG_SLAB_OBJ_EXT
++	unsigned long obj_exts;
+ #endif
+ };
+ 
+@@ -67,8 +67,8 @@ struct slab {
+ SLAB_MATCH(flags, __page_flags);
+ SLAB_MATCH(compound_head, slab_cache);	/* Ensure bit 0 is clear */
+ SLAB_MATCH(_refcount, __page_refcount);
+-#ifdef CONFIG_MEMCG
+-SLAB_MATCH(memcg_data, memcg_data);
++#ifdef CONFIG_SLAB_OBJ_EXT
++SLAB_MATCH(memcg_data, obj_exts);
+ #endif
+ #undef SLAB_MATCH
+ static_assert(sizeof(struct slab) <= sizeof(struct page));
+@@ -390,36 +390,106 @@ static inline bool kmem_cache_debug_flags(struct kmem_cache *s, slab_flags_t fla
+ 	return false;
+ }
+ 
+-#ifdef CONFIG_MEMCG_KMEM
++#ifdef CONFIG_SLAB_OBJ_EXT
 +
- obj-$(CONFIG_BITREVERSE) += bitrev.o
- obj-$(CONFIG_LINEAR_RANGES) += linear_ranges.o
- obj-$(CONFIG_PACKING)	+= packing.o
-diff --git a/lib/lazy-percpu-counter.c b/lib/lazy-percpu-counter.c
-new file mode 100644
-index 000000000000..4f4e32c2dc09
---- /dev/null
-+++ b/lib/lazy-percpu-counter.c
-@@ -0,0 +1,127 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/atomic.h>
-+#include <linux/gfp.h>
-+#include <linux/jiffies.h>
-+#include <linux/lazy-percpu-counter.h>
-+#include <linux/percpu.h>
-+
-+static inline s64 lazy_percpu_counter_atomic_val(s64 v)
+ /*
+- * slab_objcgs - get the object cgroups vector associated with a slab
++ * slab_obj_exts - get the pointer to the slab object extension vector
++ * associated with a slab.
+  * @slab: a pointer to the slab struct
+  *
+- * Returns a pointer to the object cgroups vector associated with the slab,
++ * Returns a pointer to the object extension vector associated with the slab,
+  * or NULL if no such vector has been associated yet.
+  */
+-static inline struct obj_cgroup **slab_objcgs(struct slab *slab)
++static inline struct slabobj_ext *slab_obj_exts(struct slab *slab)
+ {
+-	unsigned long memcg_data = READ_ONCE(slab->memcg_data);
++	unsigned long obj_exts = READ_ONCE(slab->obj_exts);
+ 
+-	VM_BUG_ON_PAGE(memcg_data && !(memcg_data & MEMCG_DATA_OBJCGS),
++#ifdef CONFIG_MEMCG
++	VM_BUG_ON_PAGE(obj_exts && !(obj_exts & MEMCG_DATA_OBJEXTS),
+ 							slab_page(slab));
+-	VM_BUG_ON_PAGE(memcg_data & MEMCG_DATA_KMEM, slab_page(slab));
++	VM_BUG_ON_PAGE(obj_exts & MEMCG_DATA_KMEM, slab_page(slab));
+ 
+-	return (struct obj_cgroup **)(memcg_data & ~MEMCG_DATA_FLAGS_MASK);
++	return (struct slabobj_ext *)(obj_exts & ~MEMCG_DATA_FLAGS_MASK);
++#else
++	return (struct slabobj_ext *)obj_exts;
++#endif
+ }
+ 
+-int memcg_alloc_slab_cgroups(struct slab *slab, struct kmem_cache *s,
+-				 gfp_t gfp, bool new_slab);
+-void mod_objcg_state(struct obj_cgroup *objcg, struct pglist_data *pgdat,
+-		     enum node_stat_item idx, int nr);
++int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
++			gfp_t gfp, bool new_slab);
+ 
+-static inline void memcg_free_slab_cgroups(struct slab *slab)
++static inline bool need_slab_obj_ext(void)
+ {
+-	kfree(slab_objcgs(slab));
+-	slab->memcg_data = 0;
++	/*
++	 * CONFIG_MEMCG_KMEM creates vector of obj_cgroup objects conditionally
++	 * inside memcg_slab_post_alloc_hook. No other users for now.
++	 */
++	return false;
+ }
+ 
++static inline void free_slab_obj_exts(struct slab *slab)
 +{
-+	/* Ensure output is sign extended properly: */
-+	return (v << COUNTER_MOD_BITS) >>
-+		(COUNTER_MOD_BITS + COUNTER_IS_PCPU_BIT);
-+}
++	struct slabobj_ext *obj_exts;
 +
-+static void lazy_percpu_counter_switch_to_pcpu(struct lazy_percpu_counter *c)
-+{
-+	u64 __percpu *pcpu_v = alloc_percpu_gfp(u64, GFP_ATOMIC|__GFP_NOWARN);
-+	u64 old, new, v;
-+
-+	if (!pcpu_v)
++	obj_exts = slab_obj_exts(slab);
++	if (!obj_exts)
 +		return;
 +
-+	preempt_disable();
-+	v = atomic64_read(&c->v);
-+	do {
-+		if (lazy_percpu_counter_is_pcpu(v)) {
-+			free_percpu(pcpu_v);
-+			return;
-+		}
-+
-+		old = v;
-+		new = (unsigned long)pcpu_v | 1;
-+
-+		*this_cpu_ptr(pcpu_v) = lazy_percpu_counter_atomic_val(v);
-+	} while ((v = atomic64_cmpxchg(&c->v, old, new)) != old);
-+	preempt_enable();
++	kfree(obj_exts);
++	slab->obj_exts = 0;
 +}
 +
-+/**
-+ * lazy_percpu_counter_exit: Free resources associated with a
-+ * lazy_percpu_counter
-+ *
-+ * @c: counter to exit
-+ */
-+void lazy_percpu_counter_exit(struct lazy_percpu_counter *c)
++static inline struct slabobj_ext *
++prepare_slab_obj_exts_hook(struct kmem_cache *s, gfp_t flags, void *p)
 +{
-+	free_percpu(lazy_percpu_counter_is_pcpu(atomic64_read(&c->v)));
++	struct slab *slab;
++
++	if (!p)
++		return NULL;
++
++	if (!need_slab_obj_ext())
++		return NULL;
++
++	slab = virt_to_slab(p);
++	if (!slab_obj_exts(slab) &&
++	    WARN(alloc_slab_obj_exts(slab, s, flags, false),
++		 "%s, %s: Failed to create slab extension vector!\n",
++		 __func__, s->name))
++		return NULL;
++
++	return slab_obj_exts(slab) + obj_to_index(s, slab, p);
 +}
-+EXPORT_SYMBOL_GPL(lazy_percpu_counter_exit);
 +
-+/**
-+ * lazy_percpu_counter_read: Read current value of a lazy_percpu_counter
-+ *
-+ * @c: counter to read
-+ */
-+s64 lazy_percpu_counter_read(struct lazy_percpu_counter *c)
++#else /* CONFIG_SLAB_OBJ_EXT */
++
++static inline struct slabobj_ext *slab_obj_exts(struct slab *slab)
 +{
-+	s64 v = atomic64_read(&c->v);
-+	u64 __percpu *pcpu_v = lazy_percpu_counter_is_pcpu(v);
++	return NULL;
++}
 +
-+	if (pcpu_v) {
-+		int cpu;
++static inline int alloc_slab_obj_exts(struct slab *slab,
++				      struct kmem_cache *s, gfp_t gfp,
++				      bool new_slab)
++{
++	return 0;
++}
 +
-+		v = 0;
-+		for_each_possible_cpu(cpu)
-+			v += *per_cpu_ptr(pcpu_v, cpu);
-+	} else {
-+		v = lazy_percpu_counter_atomic_val(v);
++static inline void free_slab_obj_exts(struct slab *slab)
++{
++}
++
++static inline struct slabobj_ext *
++prepare_slab_obj_exts_hook(struct kmem_cache *s, gfp_t flags, void *p)
++{
++	return NULL;
++}
++
++#endif /* CONFIG_SLAB_OBJ_EXT */
++
++#ifdef CONFIG_MEMCG_KMEM
++void mod_objcg_state(struct obj_cgroup *objcg, struct pglist_data *pgdat,
++		     enum node_stat_item idx, int nr);
++
+ static inline size_t obj_full_size(struct kmem_cache *s)
+ {
+ 	/*
+@@ -487,16 +557,15 @@ static inline void memcg_slab_post_alloc_hook(struct kmem_cache *s,
+ 		if (likely(p[i])) {
+ 			slab = virt_to_slab(p[i]);
+ 
+-			if (!slab_objcgs(slab) &&
+-			    memcg_alloc_slab_cgroups(slab, s, flags,
+-							 false)) {
++			if (!slab_obj_exts(slab) &&
++			    alloc_slab_obj_exts(slab, s, flags, false)) {
+ 				obj_cgroup_uncharge(objcg, obj_full_size(s));
+ 				continue;
+ 			}
+ 
+ 			off = obj_to_index(s, slab, p[i]);
+ 			obj_cgroup_get(objcg);
+-			slab_objcgs(slab)[off] = objcg;
++			slab_obj_exts(slab)[off].objcg = objcg;
+ 			mod_objcg_state(objcg, slab_pgdat(slab),
+ 					cache_vmstat_idx(s), obj_full_size(s));
+ 		} else {
+@@ -509,14 +578,14 @@ static inline void memcg_slab_post_alloc_hook(struct kmem_cache *s,
+ static inline void memcg_slab_free_hook(struct kmem_cache *s, struct slab *slab,
+ 					void **p, int objects)
+ {
+-	struct obj_cgroup **objcgs;
++	struct slabobj_ext *obj_exts;
+ 	int i;
+ 
+ 	if (!memcg_kmem_online())
+ 		return;
+ 
+-	objcgs = slab_objcgs(slab);
+-	if (!objcgs)
++	obj_exts = slab_obj_exts(slab);
++	if (!obj_exts)
+ 		return;
+ 
+ 	for (i = 0; i < objects; i++) {
+@@ -524,11 +593,11 @@ static inline void memcg_slab_free_hook(struct kmem_cache *s, struct slab *slab,
+ 		unsigned int off;
+ 
+ 		off = obj_to_index(s, slab, p[i]);
+-		objcg = objcgs[off];
++		objcg = obj_exts[off].objcg;
+ 		if (!objcg)
+ 			continue;
+ 
+-		objcgs[off] = NULL;
++		obj_exts[off].objcg = NULL;
+ 		obj_cgroup_uncharge(objcg, obj_full_size(s));
+ 		mod_objcg_state(objcg, slab_pgdat(slab), cache_vmstat_idx(s),
+ 				-obj_full_size(s));
+@@ -537,27 +606,11 @@ static inline void memcg_slab_free_hook(struct kmem_cache *s, struct slab *slab,
+ }
+ 
+ #else /* CONFIG_MEMCG_KMEM */
+-static inline struct obj_cgroup **slab_objcgs(struct slab *slab)
+-{
+-	return NULL;
+-}
+-
+ static inline struct mem_cgroup *memcg_from_slab_obj(void *ptr)
+ {
+ 	return NULL;
+ }
+ 
+-static inline int memcg_alloc_slab_cgroups(struct slab *slab,
+-					       struct kmem_cache *s, gfp_t gfp,
+-					       bool new_slab)
+-{
+-	return 0;
+-}
+-
+-static inline void memcg_free_slab_cgroups(struct slab *slab)
+-{
+-}
+-
+ static inline bool memcg_slab_pre_alloc_hook(struct kmem_cache *s,
+ 					     struct list_lru *lru,
+ 					     struct obj_cgroup **objcgp,
+@@ -594,7 +647,7 @@ static __always_inline void account_slab(struct slab *slab, int order,
+ 					 struct kmem_cache *s, gfp_t gfp)
+ {
+ 	if (memcg_kmem_online() && (s->flags & SLAB_ACCOUNT))
+-		memcg_alloc_slab_cgroups(slab, s, gfp, true);
++		alloc_slab_obj_exts(slab, s, gfp, true);
+ 
+ 	mod_node_page_state(slab_pgdat(slab), cache_vmstat_idx(s),
+ 			    PAGE_SIZE << order);
+@@ -603,8 +656,7 @@ static __always_inline void account_slab(struct slab *slab, int order,
+ static __always_inline void unaccount_slab(struct slab *slab, int order,
+ 					   struct kmem_cache *s)
+ {
+-	if (memcg_kmem_online())
+-		memcg_free_slab_cgroups(slab);
++	free_slab_obj_exts(slab);
+ 
+ 	mod_node_page_state(slab_pgdat(slab), cache_vmstat_idx(s),
+ 			    -(PAGE_SIZE << order));
+@@ -684,6 +736,7 @@ static inline void slab_post_alloc_hook(struct kmem_cache *s,
+ 					unsigned int orig_size)
+ {
+ 	unsigned int zero_size = s->object_size;
++	struct slabobj_ext *obj_exts;
+ 	size_t i;
+ 
+ 	flags &= gfp_allowed_mask;
+@@ -714,6 +767,7 @@ static inline void slab_post_alloc_hook(struct kmem_cache *s,
+ 		kmemleak_alloc_recursive(p[i], s->object_size, 1,
+ 					 s->flags, flags);
+ 		kmsan_slab_alloc(s, p[i], flags);
++		obj_exts = prepare_slab_obj_exts_hook(s, flags, p[i]);
+ 	}
+ 
+ 	memcg_slab_post_alloc_hook(s, objcg, flags, size, p);
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 607249785c07..f11cc072b01e 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -204,6 +204,53 @@ struct kmem_cache *find_mergeable(unsigned int size, unsigned int align,
+ 	return NULL;
+ }
+ 
++#ifdef CONFIG_SLAB_OBJ_EXT
++/*
++ * The allocated objcg pointers array is not accounted directly.
++ * Moreover, it should not come from DMA buffer and is not readily
++ * reclaimable. So those GFP bits should be masked off.
++ */
++#define OBJCGS_CLEAR_MASK	(__GFP_DMA | __GFP_RECLAIMABLE | __GFP_ACCOUNT)
++
++int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
++			gfp_t gfp, bool new_slab)
++{
++	unsigned int objects = objs_per_slab(s, slab);
++	unsigned long obj_exts;
++	void *vec;
++
++	gfp &= ~OBJCGS_CLEAR_MASK;
++	vec = kcalloc_node(objects, sizeof(struct slabobj_ext), gfp,
++			   slab_nid(slab));
++	if (!vec)
++		return -ENOMEM;
++
++	obj_exts = (unsigned long)vec;
++#ifdef CONFIG_MEMCG
++	obj_exts |= MEMCG_DATA_OBJEXTS;
++#endif
++	if (new_slab) {
++		/*
++		 * If the slab is brand new and nobody can yet access its
++		 * obj_exts, no synchronization is required and obj_exts can
++		 * be simply assigned.
++		 */
++		slab->obj_exts = obj_exts;
++	} else if (cmpxchg(&slab->obj_exts, 0, obj_exts)) {
++		/*
++		 * If the slab is already in use, somebody can allocate and
++		 * assign slabobj_exts in parallel. In this case the existing
++		 * objcg vector should be reused.
++		 */
++		kfree(vec);
++		return 0;
 +	}
 +
-+	return v;
++	kmemleak_not_leak(vec);
++	return 0;
 +}
-+EXPORT_SYMBOL_GPL(lazy_percpu_counter_read);
++#endif /* CONFIG_SLAB_OBJ_EXT */
 +
-+void lazy_percpu_counter_add_slowpath(struct lazy_percpu_counter *c, s64 i)
-+{
-+	u64 atomic_i;
-+	u64 old, v = atomic64_read(&c->v);
-+	u64 __percpu *pcpu_v;
-+
-+	atomic_i  = i << COUNTER_IS_PCPU_BIT;
-+	atomic_i &= ~COUNTER_MOD_MASK;
-+	atomic_i |= 1ULL << COUNTER_MOD_BITS_START;
-+
-+	do {
-+		pcpu_v = lazy_percpu_counter_is_pcpu(v);
-+		if (pcpu_v) {
-+			this_cpu_add(*pcpu_v, i);
-+			return;
-+		}
-+
-+		old = v;
-+	} while ((v = atomic64_cmpxchg(&c->v, old, old + atomic_i)) != old);
-+
-+	if (unlikely(!(v & COUNTER_MOD_MASK))) {
-+		unsigned long now = jiffies;
-+
-+		if (c->last_wrap &&
-+		    unlikely(time_after(c->last_wrap + HZ, now)))
-+			lazy_percpu_counter_switch_to_pcpu(c);
-+		else
-+			c->last_wrap = now;
-+	}
-+}
-+EXPORT_SYMBOL(lazy_percpu_counter_add_slowpath);
-+
-+void lazy_percpu_counter_add_slowpath_noupgrade(struct lazy_percpu_counter *c, s64 i)
-+{
-+	u64 atomic_i;
-+	u64 old, v = atomic64_read(&c->v);
-+	u64 __percpu *pcpu_v;
-+
-+	atomic_i  = i << COUNTER_IS_PCPU_BIT;
-+	atomic_i &= ~COUNTER_MOD_MASK;
-+
-+	do {
-+		pcpu_v = lazy_percpu_counter_is_pcpu(v);
-+		if (pcpu_v) {
-+			this_cpu_add(*pcpu_v, i);
-+			return;
-+		}
-+
-+		old = v;
-+	} while ((v = atomic64_cmpxchg(&c->v, old, old + atomic_i)) != old);
-+}
-+EXPORT_SYMBOL(lazy_percpu_counter_add_slowpath_noupgrade);
+ static struct kmem_cache *create_cache(const char *name,
+ 		unsigned int object_size, unsigned int align,
+ 		slab_flags_t flags, unsigned int useroffset,
 -- 
 2.40.1.495.gc816e09b53d-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230501165450.15352-8-surenb%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230501165450.15352-9-surenb%40google.com.
