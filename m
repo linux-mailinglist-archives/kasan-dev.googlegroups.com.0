@@ -1,132 +1,146 @@
-Return-Path: <kasan-dev+bncBDDL3KWR4EBRB4PVV6RAMGQE4QXILZA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERB3G5X6RAMGQEWXEKG4Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3d.google.com (mail-oa1-x3d.google.com [IPv6:2001:4860:4864:20::3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E4E96F1D0A
-	for <lists+kasan-dev@lfdr.de>; Fri, 28 Apr 2023 18:57:23 +0200 (CEST)
-Received: by mail-oa1-x3d.google.com with SMTP id 586e51a60fabf-18f16a11821sf13016484fac.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 28 Apr 2023 09:57:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1682701042; cv=pass;
+Received: from mail-pl1-x63c.google.com (mail-pl1-x63c.google.com [IPv6:2607:f8b0:4864:20::63c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BDF26F33B1
+	for <lists+kasan-dev@lfdr.de>; Mon,  1 May 2023 18:55:10 +0200 (CEST)
+Received: by mail-pl1-x63c.google.com with SMTP id d9443c01a7336-1aad9af33c1sf22356645ad.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 01 May 2023 09:55:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1682960109; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jSqU8yZX2yZUQ4BUCSGVStGeQsJDjLuYOKHFTw/k0tXUa9p6yFzmTwX6GZFkxSCoEL
-         orBWzj8ULVKk+Rn5gouNq20OxF4tKJi+eh28Omp/ycg4k3+TNcJOESUF7sBF96R3h5zQ
-         XAl45D8X5uNtUzqxxb1LA1/xEZOTTMG4RPu2zSrRpQyDiHv6tVOdIeTx2vSreXBVRNqV
-         ZAeaja/bgr8ep+4dtC4J74TAJqzt1b5tWcw84YpjGtvwupMgFCu9owZBj9n23deHDxms
-         B+zAixM46aLR/6XYU0XOJZ/eeiRNPAyu5e9gGWxetgxIy9+OqbKELGC5Ml6frGWHUiHZ
-         smCg==
+        b=vzXJOXjDXnagVWqr7hl6QZ5Z3HiRxT7g8V7yewJpPoEIA5s7QuiQmlPlQXxjy3v4de
+         phrbyw03BBPFZcnSZXaeEdRLTyv6pdmtDWpF3yvIwWWvCmhO5fSODPpR6bXA0ufhDc8V
+         7LFvrL6wu9m90H1dViomIYUDfL32Ua+mbEAVYYGWNOO4eaccu9gTtMBz5EE48NtZBX/V
+         lL3HO6jfgX2RlHpLZ/pYKs8i1FJC/9DFV8p6L+hol/FJFOlqmZ22gGpisJ6qddqCDMIp
+         60Dw4EQbhdkdO/Dnhiv4jwd2P8zawwkl9NfdP9NIuFmgMZtwxovBoSqmkNChhWZo+cW7
+         3qwQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=/jCA/pfQnid5baZvK89d8XMfuzz7Kjth1H8CCxXIOAs=;
-        b=DHaxoF7FUYAm/Tl9G9kUofYXDB6+3fgoG+F2A2SNE/XMoPo3Ux3YmrXFKAp46+jm1N
-         6C8Fe3TjdKKZPhyhGBqD76PIyYMqR4jEuGiTiKdPq1a9uzxeV5r2vAr22qYreuihMA8g
-         GdYCdOuMAkxBIs5kW4+YMcZdWzTNaBdalb59fZBcqqjyB5N2x0m+rQ5p72SIbx/3mN9+
-         P1U6PEy4UbB99yDuGqSAi1q3syvv6skMe38PkGJya+8kKZWSpl6NheHzx0Frjli4Eobi
-         NmnfnvGKsDR8/jEDfTLo2AKLoVTDa9bPENBeIcRz5Ji2kUOy0gNwN2cSBOkpjvTgOthx
-         3mWg==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :message-id:mime-version:date:dkim-signature;
+        bh=FMb6CU3I6WfPPSYh/PKuj+SOKCGSH1qRB1cG28ytyIE=;
+        b=RRCbwX1q/BonKe0ktJ+IBQoFjltr/cLAGmQQHTPu/X4ESFr4UlzBx3Kgg2DnbKdJL0
+         0xHRSJMUDGrZoBP+wx6R72PM3es53amkDAV4vPBj2iLyCV92roGNYRMUkBFtKk23lQcv
+         wibheqd1WjWPoqhALSyo0Bl/SrkyJag9l07Beiabg7DiF2InhNFKKVBhRD4Py1lhIPiv
+         60/sfJxpWPawO/mfh1Ok+l6W9aF+473zoo6gez9DosR0UwI5dylive+cL+zAgX0Z8SpP
+         /n6Yg/R8hKiQuFSQMIax3QNQeBVPPtQH/PE0ZNWhauGgzxs21yDNV1TQ419z6j0vlfbd
+         5jAw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@google.com header.s=20221208 header.b=IEVlqToz;
+       spf=pass (google.com: domain of 36-5pzaykctigifsbpuccuzs.qcayogob-rsjuccuzsufcidg.qca@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::449 as permitted sender) smtp.mailfrom=36-5PZAYKCTIgifSbPUccUZS.QcaYOgOb-RSjUccUZSUfcidg.Qca@flex--surenb.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1682701042; x=1685293042;
+        d=googlegroups.com; s=20221208; t=1682960109; x=1685552109;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/jCA/pfQnid5baZvK89d8XMfuzz7Kjth1H8CCxXIOAs=;
-        b=sT0ETso9ZCWNbhlg9K5G/WJDpjWhg6VZuOICk9rpmAZ2F4Sn84Ub+yyztj9V06RXxN
-         10rxDSGfZ8mV3SnG0AJdxIeqgKJk3AN1sOR0qcbyXh/K4UiL49vfWYk6FKC5k36eQesF
-         mDK82pV8QoK8YazR+9ICB+E3OPhBkkqN6qtRy971Cj5HkRSlVhJ+ZrlB+Fyp3p0iJuJ+
-         qeQH6hNJFNx80kvYCH+Z+oSK6w32RLyVLnyFntu3GFrt54nJ6ImNbPV5EJ0etIm6/dpe
-         LuULJRWM3w+DkSoj6+UTzLiHxZvGk0ULSCRtz3NvMiAu3O5rJ8zJy+KJfneiZE9vX69N
-         c0kA==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FMb6CU3I6WfPPSYh/PKuj+SOKCGSH1qRB1cG28ytyIE=;
+        b=tJotE2ABl+N51TshZB8UnXIU/iFtV8+a/HmZlJ62ENU3WE1y5mT9p585JJ90oyUHSu
+         JS4MGlekgV3zRS3auHxqSMYN4DWtzQ/LlyOlfSph/mbL1/j92ybiA3lk+6fDoN+M/31r
+         tXM57y1r+PahLynUScS29I8qtDr08MXg7TpeedP12mMETXOO9zemO3/9IGNg692z87pg
+         UfxOYXut1V07ZMRvcAcGa1Pj2anP3krPkzbofm5Y7fqp+UvXbAb2b+1jrwXuTHS6e16N
+         PruO9OG977QK++xPyudkEa99EYUQ+8PqyCEGPsTTQOEqgt1aD8t7tbRM1mUQe3zgQHUo
+         AMtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682701042; x=1685293042;
+        d=1e100.net; s=20221208; t=1682960109; x=1685552109;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/jCA/pfQnid5baZvK89d8XMfuzz7Kjth1H8CCxXIOAs=;
-        b=I4bWT9UE1SNJGVTP+IYM/YJn8JIuuApP3lkp6Yi7aJJvVEMabNZgjNJdUOh8lVkCbl
-         yqM/4QeMHU/gcFvg2QdTd/hg9UerEBly1ZrRbXbu2CniuKAjJ7wVt7pG2/HrJWhkX0iC
-         1AwNTkAuqQiXBerghcXYboQ7K0wX+M6Yi3jXPwnq//os//ebA3q4zQsu22N4eU3i2GDK
-         rcHuDAhETsBttvDbQ+oFBboDp/jvOnONpkEK41UfNWq3VSMOAs9hIKYBp4+5HAj0r5G6
-         at97djQV+jx8cqq6dGybsuICwARIz+w1BXcIh1xxpN9vCOSMrDBOaTLw6okgWFB8XXs0
-         p7HA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDwShuVno+85SBe8Y10nugdMdUWPFQYKHW42gw+6gprmqUonnNvM
-	29Xnt0pI3DyGiUXebqoBTg4=
-X-Google-Smtp-Source: ACHHUZ6OyEPAWHeu6AmaHfHUuuzUbsSHN7DqnkIwgS30YoPY1hbMWkZYocsh80EOoiPFIzYCkE9vmQ==
-X-Received: by 2002:aca:a8d8:0:b0:390:933c:80bc with SMTP id r207-20020acaa8d8000000b00390933c80bcmr1262541oie.3.1682701041947;
-        Fri, 28 Apr 2023 09:57:21 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FMb6CU3I6WfPPSYh/PKuj+SOKCGSH1qRB1cG28ytyIE=;
+        b=PFIUPIt6Qpkn9/ezyqyeUdrCNI8lI9j9N9vTREf33bOfUNr8BRGl+9ynf8ZYBQi8tE
+         klS6oAohKNi9zNJ4tew5b+vY1PTAAzw+jizLmIq3B1UYMA3whSuxz0QV4qFGtmGVcsD6
+         tpvJWyRUSuc/BxUldt1/36kbOVzw1BWDyuJwHosBno4eMjXt2snF/klF03M1LjwMthit
+         TH1/i3oilqDhOoWPDnt/WY8FFDzqC5gzuMt0pFymlf/0ZwidXgQqSqfwgpx/GTKcyldd
+         4R95/3q8misTebOrejbjquc8PHi/kvkOa92prkPH8/cHy+HGm10A81G+x08q4JtqoqQl
+         ae4w==
+X-Gm-Message-State: AC+VfDxKWfkR54isFBv2QWqsacBu8eCD6GnqKnyc0aQqiZWab6u9kNRY
+	gRtlLgrbHKkLDYU6KJQc1PI=
+X-Google-Smtp-Source: ACHHUZ61B3RiPJ6HlPHFkVAheYnkKpYYYfhNoFR+TSNqdFb+fT/VYtlKey3T5E8LOKoU/zgTdY8YsQ==
+X-Received: by 2002:a17:903:1103:b0:1a5:e03:55d with SMTP id n3-20020a170903110300b001a50e03055dmr4896015plh.11.1682960108718;
+        Mon, 01 May 2023 09:55:08 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6830:6305:b0:6a4:2aff:59e5 with SMTP id
- cg5-20020a056830630500b006a42aff59e5ls854553otb.7.-pod-prod-gmail; Fri, 28
- Apr 2023 09:57:21 -0700 (PDT)
-X-Received: by 2002:a05:6830:1bc9:b0:697:bcfe:43b1 with SMTP id v9-20020a0568301bc900b00697bcfe43b1mr2953876ota.15.1682701041360;
-        Fri, 28 Apr 2023 09:57:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1682701041; cv=none;
+Received: by 2002:a17:902:ce09:b0:1a0:482d:27cc with SMTP id
+ k9-20020a170902ce0900b001a0482d27ccls8028230plg.3.-pod-prod-gmail; Mon, 01
+ May 2023 09:55:07 -0700 (PDT)
+X-Received: by 2002:a05:6a20:3942:b0:f3:c08:ce12 with SMTP id r2-20020a056a20394200b000f30c08ce12mr23456548pzg.5.1682960107849;
+        Mon, 01 May 2023 09:55:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1682960107; cv=none;
         d=google.com; s=arc-20160816;
-        b=iYJngAS/7jXnYJmiNDmkKO4JfZPhydlgUmsdjHs28cKyzG22Nia2R+2VnfxToVOt5l
-         ilenFQMUoiNpAkyojMilvtjpr+N5by/UpwvU2V7y6jjc7swwzY89Bm8muu23XvL7D+pr
-         aDix21z6GknZdz5krpamJGrvDAkzeFFID8O84TNx8W/HVblCcQaI3JkkUyTtVpCAv3Y7
-         WmGnEQiwbipPCJ3PIe+WOEUgPsl+cV4Y/abD+Not6B9HonpvVIjVnWC3hl59oU7gJ6xz
-         Lp0SZVWBnM4u3Ri3epO+xfz7hUkzstPuMoQxXjZz/69EXrGduGok4E1SJpgsmnms0XWO
-         q52w==
+        b=aZi6Q6UUSasYJ7pSPEESmUBB+EQUYUz6b9T2UEKojHEn5JJlHNAvq0P33ojEd7Rxb6
+         R0eiVF327nn070GPdKwJH6gmAj2PazE/k40KseImBuxpNXaZD2RxsKBbo6SzZ3J4cK1D
+         dbWQLnqIw08u5CteL1SA397zTzXSy9C3goYlZ+W2vdWiwJ5WEVmFPQngSa5eKlCicMWX
+         aXRk44Ff4UdYKExzxebzvBM9KUBmPbM8z+08Ww0bH2q+AffYWnAFweLxpWftZ/b3JAoY
+         PKLqjDv+nvOeQZnwFlviRPl4e4FC2Efx9OQH8213Ji8eqsN4DGG2m0nXCxIIzcbtka2f
+         eWVw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=XcMJhcdwz9SdTlY3hewkIQP7+9SwMXkq+QLdtFEr/GE=;
-        b=pl7ZG8VLivw6eytNuBfGxs2/R93CrTqU+TPypINOFgyBUDU9zxXba1brgqK6W4QWQM
-         cdKdyBieQpIDk0drn9ZXTufuc+tnl45BvCivs86JXEMZB6Dymuvv5uRzqhPJSAqzJGJC
-         LL7SJlM8Uxs3jjcW2eLHmDcR54kQb67Wm7l1aKmNXxyx9OK+XcWz4056g2xWvXLIBm2q
-         HVy56+gojSPKOk4aAwh8hsw6KfLk2xl+EhbFKzO40jH5lT1By4GRrymuGylHcoAK/s9Y
-         UZnPNF20klBpZpWTweA4ZiB4zx6RllNM92+aC2djzzkkYSDyVX262iD8bd1d+cB6kuPn
-         q43w==
+        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
+        bh=rhc7v9a1uLQqVXD+LsRhZoVqkW3m5tSXn3Qy4JSVLy4=;
+        b=WNDh3zA6xrsRgtUBKppWd2XCZiO5zLeB/sQH5lCIEKbG4h2C+rD82KKCDzi824fT16
+         O3AggYsVSkSfyRzPMAOBWXkQ4T3qiXaMqTacblxLz8gh2KRj4xbNwwESV3esKoxjYcPG
+         d6qRWDBrNbplTDJeaxUQA0hvgcEd4Uq/UkptnANGLtwozCepAyCL9WIul18xfBOojCvv
+         +9po781DlbNm2qCMBeXY6N6x7hrAUZe3pPyas1T37U0kDNhn45UtvB/d4sbPKRMAehJ1
+         ZQXC2kxXo5CSOhMVgVEDvXiPeItyybbiv1PKF2kHizv7IxTvT6HZAKQAVqquN8kzL0YI
+         MwWQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id bl10-20020a056830370a00b006a5f12c714bsi1949456otb.0.2023.04.28.09.57.21
+       dkim=pass header.i=@google.com header.s=20221208 header.b=IEVlqToz;
+       spf=pass (google.com: domain of 36-5pzaykctigifsbpuccuzs.qcayogob-rsjuccuzsufcidg.qca@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::449 as permitted sender) smtp.mailfrom=36-5PZAYKCTIgifSbPUccUZS.QcaYOgOb-RSjUccUZSUfcidg.Qca@flex--surenb.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-pf1-x449.google.com (mail-pf1-x449.google.com. [2607:f8b0:4864:20::449])
+        by gmr-mx.google.com with ESMTPS id o23-20020a637e57000000b00513924516ddsi1547584pgn.5.2023.05.01.09.55.07
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 28 Apr 2023 09:57:21 -0700 (PDT)
-Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 22B4A6449D;
-	Fri, 28 Apr 2023 16:57:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F523C433EF;
-	Fri, 28 Apr 2023 16:57:18 +0000 (UTC)
-Date: Fri, 28 Apr 2023 17:57:15 +0100
-From: Catalin Marinas <catalin.marinas@arm.com>
-To: Peter Collingbourne <pcc@google.com>
-Cc: andreyknvl@gmail.com,
-	Qun-wei Lin =?utf-8?B?KOael+e+pOW0tCk=?= <Qun-wei.Lin@mediatek.com>,
-	Guangye Yang =?utf-8?B?KOadqOWFieS4mik=?= <guangye.yang@mediatek.com>,
-	linux-mm@kvack.org,
-	Chinwen Chang =?utf-8?B?KOW8temMpuaWhyk=?= <chinwen.chang@mediatek.com>,
-	kasan-dev@googlegroups.com, ryabinin.a.a@gmail.com,
-	linux-arm-kernel@lists.infradead.org, vincenzo.frascino@arm.com,
-	will@kernel.org, eugenis@google.com, stable@vger.kernel.org
-Subject: Re: [PATCH] arm64: Also reset KASAN tag if page is not PG_mte_tagged
-Message-ID: <ZEv66/xJQK1eNRpF@arm.com>
-References: <20230420210945.2313627-1-pcc@google.com>
-MIME-Version: 1.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 May 2023 09:55:07 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 36-5pzaykctigifsbpuccuzs.qcayogob-rsjuccuzsufcidg.qca@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::449 as permitted sender) client-ip=2607:f8b0:4864:20::449;
+Received: by mail-pf1-x449.google.com with SMTP id d2e1a72fcca58-64115ef7234so23366182b3a.1
+        for <kasan-dev@googlegroups.com>; Mon, 01 May 2023 09:55:07 -0700 (PDT)
+X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:6d24:3efd:facc:7ac4])
+ (user=surenb job=sendgmr) by 2002:a17:902:ec8a:b0:1a4:f550:de0b with SMTP id
+ x10-20020a170902ec8a00b001a4f550de0bmr6525014plg.4.1682960107332; Mon, 01 May
+ 2023 09:55:07 -0700 (PDT)
+Date: Mon,  1 May 2023 09:54:10 -0700
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.40.1.495.gc816e09b53d-goog
+Message-ID: <20230501165450.15352-1-surenb@google.com>
+Subject: [PATCH 00/40] Memory allocation profiling
+From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
+To: akpm@linux-foundation.org
+Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
+	juri.lelli@redhat.com, ldufour@linux.ibm.com, catalin.marinas@arm.com, 
+	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
+	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
+	ndesaulniers@google.com, gregkh@linuxfoundation.org, ebiggers@google.com, 
+	ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
+	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
+	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
+	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
+	shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com, 
+	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
+	surenb@google.com, kernel-team@android.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
+	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20230420210945.2313627-1-pcc@google.com>
-X-Original-Sender: catalin.marinas@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of cmarinas@kernel.org designates 2604:1380:4641:c500::1
- as permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail
- (p=NONE sp=NONE dis=NONE) header.from=arm.com
+X-Original-Sender: surenb@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20221208 header.b=IEVlqToz;       spf=pass
+ (google.com: domain of 36-5pzaykctigifsbpuccuzs.qcayogob-rsjuccuzsufcidg.qca@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::449 as permitted sender) smtp.mailfrom=36-5PZAYKCTIgifSbPUccUZS.QcaYOgOb-RSjUccUZSUfcidg.Qca@flex--surenb.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Suren Baghdasaryan <surenb@google.com>
+Reply-To: Suren Baghdasaryan <surenb@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,36 +153,246 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Apr 20, 2023 at 02:09:45PM -0700, Peter Collingbourne wrote:
-> Consider the following sequence of events:
-> 
-> 1) A page in a PROT_READ|PROT_WRITE VMA is faulted.
-> 2) Page migration allocates a page with the KASAN allocator,
->    causing it to receive a non-match-all tag, and uses it
->    to replace the page faulted in 1.
-> 3) The program uses mprotect() to enable PROT_MTE on the page faulted in 1.
-> 
-> As a result of step 3, we are left with a non-match-all tag for a page
-> with tags accessible to userspace, which can lead to the same kind of
-> tag check faults that commit e74a68468062 ("arm64: Reset KASAN tag in
-> copy_highpage with HW tags only") intended to fix.
-> 
-> The general invariant that we have for pages in a VMA with VM_MTE_ALLOWED
-> is that they cannot have a non-match-all tag. As a result of step 2, the
-> invariant is broken. This means that the fix in the referenced commit
-> was incomplete and we also need to reset the tag for pages without
-> PG_mte_tagged.
-> 
-> Fixes: e5b8d9218951 ("arm64: mte: reset the page tag in page->flags")
-> Cc: <stable@vger.kernel.org> # 5.15
-> Link: https://linux-review.googlesource.com/id/I7409cdd41acbcb215c2a7417c1e50d37b875beff
-> Signed-off-by: Peter Collingbourne <pcc@google.com>
+Memory allocation profiling infrastructure provides a low overhead
+mechanism to make all kernel allocations in the system visible. It can be
+used to monitor memory usage, track memory hotspots, detect memory leaks,
+identify memory regressions.
 
-Sorry, forgot to reply:
+To keep the overhead to the minimum, we record only allocation sizes for
+every allocation in the codebase. With that information, if users are
+interested in more detailed context for a specific allocation, they can
+enable in-depth context tracking, which includes capturing the pid, tgid,
+task name, allocation size, timestamp and call stack for every allocation
+at the specified code location.
 
-Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+The data is exposed to the user space via a read-only debugfs file called
+allocations. Usage example:
+
+$ sort -hr /sys/kernel/debug/allocations|head
+  153MiB     8599 mm/slub.c:1826 module:slub func:alloc_slab_page
+ 6.08MiB      49 mm/slab_common.c:950 module:slab_common func:_kmalloc_order
+ 5.09MiB     6335 mm/memcontrol.c:2814 module:memcontrol func:alloc_slab_obj_exts
+ 4.54MiB      78 mm/page_alloc.c:5777 module:page_alloc func:alloc_pages_exact
+ 1.32MiB      338 include/asm-generic/pgalloc.h:63 module:pgtable func:__pte_alloc_one
+ 1.16MiB      603 fs/xfs/xfs_log_priv.h:700 module:xfs func:xlog_kvmalloc
+ 1.00MiB      256 mm/swap_cgroup.c:48 module:swap_cgroup func:swap_cgroup_prepare
+  734KiB     5380 fs/xfs/kmem.c:20 module:xfs func:kmem_alloc
+  640KiB      160 kernel/rcu/tree.c:3184 module:tree func:fill_page_cache_func
+  640KiB      160 drivers/char/virtio_console.c:452 module:virtio_console func:alloc_buf
+
+For allocation context capture, a new debugfs file called allocations.ctx
+is used to select which code location should capture allocation context
+and to read captured context information. Usage example:
+
+$ cd /sys/kernel/debug/
+$ echo "file include/asm-generic/pgalloc.h line 63 enable" > allocations.ctx
+$ cat allocations.ctx
+  920KiB      230 include/asm-generic/pgalloc.h:63 module:pgtable func:__pte_alloc_one
+    size: 4096
+    pid: 1474
+    tgid: 1474
+    comm: bash
+    ts: 175332940994
+    call stack:
+         pte_alloc_one+0xfe/0x130
+         __pte_alloc+0x22/0xb0
+         copy_page_range+0x842/0x1640
+         dup_mm+0x42d/0x580
+         copy_process+0xfb1/0x1ac0
+         kernel_clone+0x92/0x3e0
+         __do_sys_clone+0x66/0x90
+         do_syscall_64+0x38/0x90
+         entry_SYSCALL_64_after_hwframe+0x63/0xcd
+...
+
+Implementation utilizes a more generic concept of code tagging, introduced
+as part of this patchset. Code tag is a structure identifying a specific
+location in the source code which is generated at compile time and can be
+embedded in an application-specific structure. A number of applications
+for code tagging have been presented in the original RFC [1].
+Code tagging uses the old trick of "define a special elf section for
+objects of a given type so that we can iterate over them at runtime" and
+creates a proper library for it. 
+
+To profile memory allocations, we instrument page, slab and percpu
+allocators to record total memory allocated in the associated code tag at
+every allocation in the codebase. Every time an allocation is performed by
+an instrumented allocator, the code tag at that location increments its
+counter by allocation size. Every time the memory is freed the counter is
+decremented. To decrement the counter upon freeing, allocated object needs
+a reference to its code tag. Page allocators use page_ext to record this
+reference while slab allocators use memcg_data (renamed into more generic
+slabobj_ext) of the slab page.
+
+Module allocations are accounted the same way as other kernel allocations.
+Module loading and unloading is supported. If a module is unloaded while
+one or more of its allocations is still not freed (rather rare condition),
+its data section will be kept in memory to allow later code tag
+referencing when the allocation is freed later on.
+
+As part of this series we introduce several kernel configs:
+CODE_TAGGING - to enable code tagging framework
+CONFIG_MEM_ALLOC_PROFILING - to enable memory allocation profiling
+CONFIG_MEM_ALLOC_PROFILING_DEBUG - to enable memory allocation profiling
+validation
+Note: CONFIG_MEM_ALLOC_PROFILING enables CONFIG_PAGE_EXTENSION to store
+code tag reference in the page_ext object. 
+
+nomem_profiling kernel command-line parameter is also provided to disable
+the functionality and avoid the performance overhead.
+Performance overhead:
+To evaluate performance we implemented an in-kernel test executing
+multiple get_free_page/free_page and kmalloc/kfree calls with allocation
+sizes growing from 8 to 240 bytes with CPU frequency set to max and CPU
+affinity set to a specific CPU to minimize the noise. Below is performance
+comparison between the baseline kernel, profiling when enabled, profiling
+when disabled (nomem_profiling=y) and (for comparison purposes) baseline
+with CONFIG_MEMCG_KMEM enabled and allocations using __GFP_ACCOUNT:
+
+			kmalloc			pgalloc
+Baseline (6.3-rc7)	9.200s			31.050s
+profiling disabled	9.800 (+6.52%)		32.600 (+4.99%)
+profiling enabled	12.500 (+35.87%)	39.010 (+25.60%)
+memcg_kmem enabled	41.400 (+350.00%)	70.600 (+127.38%)
+
+[1] https://lore.kernel.org/all/20220830214919.53220-1-surenb@google.com/
+
+Kent Overstreet (15):
+  lib/string_helpers: Drop space in string_get_size's output
+  scripts/kallysms: Always include __start and __stop symbols
+  fs: Convert alloc_inode_sb() to a macro
+  nodemask: Split out include/linux/nodemask_types.h
+  prandom: Remove unused include
+  lib/string.c: strsep_no_empty()
+  Lazy percpu counters
+  lib: code tagging query helper functions
+  mm/slub: Mark slab_free_freelist_hook() __always_inline
+  mempool: Hook up to memory allocation profiling
+  timekeeping: Fix a circular include dependency
+  mm: percpu: Introduce pcpuobj_ext
+  mm: percpu: Add codetag reference into pcpuobj_ext
+  arm64: Fix circular header dependency
+  MAINTAINERS: Add entries for code tagging and memory allocation
+    profiling
+
+Suren Baghdasaryan (25):
+  mm: introduce slabobj_ext to support slab object extensions
+  mm: introduce __GFP_NO_OBJ_EXT flag to selectively prevent slabobj_ext
+    creation
+  mm/slab: introduce SLAB_NO_OBJ_EXT to avoid obj_ext creation
+  mm: prevent slabobj_ext allocations for slabobj_ext and kmem_cache
+    objects
+  slab: objext: introduce objext_flags as extension to
+    page_memcg_data_flags
+  lib: code tagging framework
+  lib: code tagging module support
+  lib: prevent module unloading if memory is not freed
+  lib: add allocation tagging support for memory allocation profiling
+  lib: introduce support for page allocation tagging
+  change alloc_pages name in dma_map_ops to avoid name conflicts
+  mm: enable page allocation tagging
+  mm/page_ext: enable early_page_ext when
+    CONFIG_MEM_ALLOC_PROFILING_DEBUG=y
+  mm: create new codetag references during page splitting
+  lib: add codetag reference into slabobj_ext
+  mm/slab: add allocation accounting into slab allocation and free paths
+  mm/slab: enable slab allocation tagging for kmalloc and friends
+  mm: percpu: enable per-cpu allocation tagging
+  move stack capture functionality into a separate function for reuse
+  lib: code tagging context capture support
+  lib: implement context capture support for tagged allocations
+  lib: add memory allocations report in show_mem()
+  codetag: debug: skip objext checking when it's for objext itself
+  codetag: debug: mark codetags for reserved pages as empty
+  codetag: debug: introduce OBJEXTS_ALLOC_FAIL to mark failed slab_ext
+    allocations
+
+ .../admin-guide/kernel-parameters.txt         |   2 +
+ MAINTAINERS                                   |  22 +
+ arch/arm64/include/asm/spectre.h              |   4 +-
+ arch/x86/kernel/amd_gart_64.c                 |   2 +-
+ drivers/iommu/dma-iommu.c                     |   2 +-
+ drivers/xen/grant-dma-ops.c                   |   2 +-
+ drivers/xen/swiotlb-xen.c                     |   2 +-
+ include/asm-generic/codetag.lds.h             |  14 +
+ include/asm-generic/vmlinux.lds.h             |   3 +
+ include/linux/alloc_tag.h                     | 161 ++++++
+ include/linux/codetag.h                       | 159 ++++++
+ include/linux/codetag_ctx.h                   |  48 ++
+ include/linux/dma-map-ops.h                   |   2 +-
+ include/linux/fs.h                            |   6 +-
+ include/linux/gfp.h                           | 123 ++--
+ include/linux/gfp_types.h                     |  12 +-
+ include/linux/hrtimer.h                       |   2 +-
+ include/linux/lazy-percpu-counter.h           | 102 ++++
+ include/linux/memcontrol.h                    |  56 +-
+ include/linux/mempool.h                       |  73 ++-
+ include/linux/mm.h                            |   8 +
+ include/linux/mm_types.h                      |   4 +-
+ include/linux/nodemask.h                      |   2 +-
+ include/linux/nodemask_types.h                |   9 +
+ include/linux/page_ext.h                      |   1 -
+ include/linux/pagemap.h                       |   9 +-
+ include/linux/percpu.h                        |  19 +-
+ include/linux/pgalloc_tag.h                   |  95 ++++
+ include/linux/prandom.h                       |   1 -
+ include/linux/sched.h                         |  32 +-
+ include/linux/slab.h                          | 182 +++---
+ include/linux/slab_def.h                      |   2 +-
+ include/linux/slub_def.h                      |   4 +-
+ include/linux/stackdepot.h                    |  16 +
+ include/linux/string.h                        |   1 +
+ include/linux/time_namespace.h                |   2 +
+ init/Kconfig                                  |   4 +
+ kernel/dma/mapping.c                          |   4 +-
+ kernel/module/main.c                          |  25 +-
+ lib/Kconfig                                   |   3 +
+ lib/Kconfig.debug                             |  26 +
+ lib/Makefile                                  |   5 +
+ lib/alloc_tag.c                               | 464 +++++++++++++++
+ lib/codetag.c                                 | 529 ++++++++++++++++++
+ lib/lazy-percpu-counter.c                     | 127 +++++
+ lib/show_mem.c                                |  15 +
+ lib/stackdepot.c                              |  68 +++
+ lib/string.c                                  |  19 +
+ lib/string_helpers.c                          |   3 +-
+ mm/compaction.c                               |   9 +-
+ mm/filemap.c                                  |   6 +-
+ mm/huge_memory.c                              |   2 +
+ mm/kfence/core.c                              |  14 +-
+ mm/kfence/kfence.h                            |   4 +-
+ mm/memcontrol.c                               |  56 +-
+ mm/mempolicy.c                                |  30 +-
+ mm/mempool.c                                  |  28 +-
+ mm/mm_init.c                                  |   1 +
+ mm/page_alloc.c                               |  75 ++-
+ mm/page_ext.c                                 |  21 +-
+ mm/page_owner.c                               |  54 +-
+ mm/percpu-internal.h                          |  26 +-
+ mm/percpu.c                                   | 122 ++--
+ mm/slab.c                                     |  22 +-
+ mm/slab.h                                     | 224 ++++++--
+ mm/slab_common.c                              |  95 +++-
+ mm/slub.c                                     |  24 +-
+ mm/util.c                                     |  10 +-
+ scripts/kallsyms.c                            |  13 +
+ scripts/module.lds.S                          |   7 +
+ 70 files changed, 2765 insertions(+), 554 deletions(-)
+ create mode 100644 include/asm-generic/codetag.lds.h
+ create mode 100644 include/linux/alloc_tag.h
+ create mode 100644 include/linux/codetag.h
+ create mode 100644 include/linux/codetag_ctx.h
+ create mode 100644 include/linux/lazy-percpu-counter.h
+ create mode 100644 include/linux/nodemask_types.h
+ create mode 100644 include/linux/pgalloc_tag.h
+ create mode 100644 lib/alloc_tag.c
+ create mode 100644 lib/codetag.c
+ create mode 100644 lib/lazy-percpu-counter.c
+
+-- 
+2.40.1.495.gc816e09b53d-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZEv66/xJQK1eNRpF%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230501165450.15352-1-surenb%40google.com.
