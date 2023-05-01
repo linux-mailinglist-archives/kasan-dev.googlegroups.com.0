@@ -1,115 +1,115 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBFW6X6RAMGQEJTKSODQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBGG6X6RAMGQEGZB35XA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73e.google.com (mail-qk1-x73e.google.com [IPv6:2607:f8b0:4864:20::73e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E2CC6F33DB
-	for <lists+kasan-dev@lfdr.de>; Mon,  1 May 2023 18:55:51 +0200 (CEST)
-Received: by mail-qk1-x73e.google.com with SMTP id af79cd13be357-74e0e819d7fsf145051285a.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 01 May 2023 09:55:51 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1682960150; cv=pass;
+Received: from mail-oo1-xc40.google.com (mail-oo1-xc40.google.com [IPv6:2607:f8b0:4864:20::c40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77FC16F33DC
+	for <lists+kasan-dev@lfdr.de>; Mon,  1 May 2023 18:55:53 +0200 (CEST)
+Received: by mail-oo1-xc40.google.com with SMTP id 006d021491bc7-545db8dc9a4sf189912eaf.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 01 May 2023 09:55:53 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1682960152; cv=pass;
         d=google.com; s=arc-20160816;
-        b=v4b0mGtBRLlMQNvkk0mOazxNUMk7jgpy67S2eOvglI1CjOaokRgys4k6SxhD8bp3p8
-         sjTDW9O1v4KhmbJhTw9Uw+Ow0j49sqpu6NwBRrb/y8HuHXn9TdpLTry6SQzldObNgLlH
-         6R05yV1zYhbtmfoSYv+OBXviXofiwcqofDOEI321v8DWGuphvYB8eebtJF+Zfumfe15Z
-         KE3GZBEYA4AngdBvtW0jzBa9sF9EBE+gt9OCRUd/axbwf0nzn3WbnhmvPLTE/PdVvDiB
-         H0hk3/wTvpwOMCzyrJpDUZvlR6bACwFK3+/0FW9gYtrgOy54qpy+haFOY/mhmsq16+WB
-         4FvQ==
+        b=CZGC1w1DNKusP8RkR9Ujpw9j1ly4o10rhR7IkQxD8BJsNJDUsY/PydnEeD3tDo2VBo
+         rRMXsDrFEhVZ+Xu/4/fSAsE5O1noNeVl7xOrmw3YBxbAZD0sKNX5OxCaz0riW6181Duh
+         OQssOKHgerFAUdfJwH/8VgEFeM3HpKMoKLxZtvOymYy1WFEw3hUGAbBtZxa1QaApohlv
+         sec2ads4bjtw0mhCMt+E51WK6IkrwsEjBcun71EGXqruBUYmUb+MBKgOKChYVFd7mnDR
+         mUtllSEWCSE69NICjNFFpIisEC04AOFhIk+V82YObMrIuh2xs4i3eiVJthZazCkKY8ls
+         I/4A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=EwjHsArou4puiP33NwnALbJwZBK3iyJvtbti+P7eIQo=;
-        b=C34RzW0Tml4+dyIwUhkK6M8BZm7LBVBfxtX7Vt4KQwgHAfJ0Tz5qWF3ZVJ4TqmLZzU
-         /QPJzIHu2sC6KEpJjw1mlrcDBmFurtcYoXWA5fMcFrBKi7YC17vAAbWry1584D1xPoaT
-         rJGMBj05mc+9Ly9z/b2PbgzATabYde8RBTdVIOS9XG/itqqgmn/ZEcglBRpnRZqiEZ2S
-         HR4631JbAJpxqfRoevRBFvJyrnER8YRtDWBRWb6NXg+AlcpcPqRjPfU+4b0dteg46ecg
-         0//Mi1glAyD8aP21eCZ6M+q5nYjsAjLJCTen7iMsyEjcS42QQmJNh9AkOUFYzw+ve7H8
-         KviA==
+        bh=Uxp+uRU5VgdGuh8Cczcl0xbfxjpp2Z1HkIg+ouAsUfY=;
+        b=scqPLi/W6kXopczrI5JQige9X//SgjHNhtSkK9/nVMvayHokRVVvirohzAkVCK8TNF
+         mveo8pjUdb2UbyZeoFzrLBCPEiVEOCGYwN12tSqQKhvyir3Tb7dZ2Fqd9fpDQX0zX6wa
+         hYbJQWBgLSlaQwKGi3/6gx597zSXpUJfsm022kUpSBiBJKfgzbem0zxPbfN64tK52nsF
+         vyUA1XwiW3QlitHiRuZv51a1UHxZsTJi+OEzZhCWLsHkGw9+KyA8mO5porcFkXxxU32N
+         hR2q6O0iRtyETRMuDdRl2BTD4BNRhIuVT/IMyYqheBgCpAMmnxvybv14tlvbyyp8Z7rT
+         fikg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=PkT7GX0U;
-       spf=pass (google.com: domain of 3fe9pzaykcvwmol8h5aiiaf8.6ige4m4h-78paiiaf8aliojm.6ig@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3Fe9PZAYKCVwMOL8H5AIIAF8.6IGE4M4H-78PAIIAF8ALIOJM.6IG@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=hhMiGEI+;
+       spf=pass (google.com: domain of 3f-9pzaykcv4oqnaj7ckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3F-9PZAYKCV4OQNAJ7CKKCHA.8KIG6O6J-9ARCKKCHACNKQLO.8KI@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1682960150; x=1685552150;
+        d=googlegroups.com; s=20221208; t=1682960152; x=1685552152;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=EwjHsArou4puiP33NwnALbJwZBK3iyJvtbti+P7eIQo=;
-        b=M4oZM96pjh1K/+fBxhDX91HApfJElFfFkRo4oPCEor/LTnQa1CG4DFNZB9N4Xhwyzi
-         oOeWNthAgL7qcujxeBi058swjP04rYQ9kxp7QLrPLWI+0CHyttlKOKwXS9ZMbL5K3la0
-         3s6o4aFPuK1fnMU4cZgJKR4EfdelF5JqNSmU8y2nXLSJwwT6zHIUgPk5j03CKguyQbc7
-         cKmrqKnb6JwOPtlNeCUovEhkPwacL0nuBNu+Z5p26UmgKjevuPp17KBbYfRyx60VwGDA
-         GJ/kOIPDiDEC6RJrqCbPLhqS5dbMMNfcHrJemYYsDl/4M+83/sy3y44/ab2xkJEtFcrn
-         RB7w==
+        bh=Uxp+uRU5VgdGuh8Cczcl0xbfxjpp2Z1HkIg+ouAsUfY=;
+        b=bltpvq886Hk4GhUwDXmzVeOcEtWIle2FPl7G5GBBEjhkYniEsAtxg/eZylbYocjnjK
+         Rw4kk/yfA2Y/LRqxp1xFtaMjTmKdmbhjrntJzCfWuWQbkHFtrVKXdDEbmA3XzBH+dkP4
+         g6j2uxur0d1OPnnvYBHOlIHfVlcpk1vDBAHpiqvgmH8PaYxW057JN7vbVodN/GKa4iOj
+         1Od/JnmxBxGHkCeYBkcQccDjhzMbHwhD1xdo/cNTCB7Fw1vsWxxpGf9CUQoqF2Qz/vKK
+         w/IR11eU2AH/HoU4M5zdsWbGFJCtQ6Zy2aLD3PxkjAjE24fxgvsIQLlxAOgdLT+ngeFc
+         23SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682960150; x=1685552150;
+        d=1e100.net; s=20221208; t=1682960152; x=1685552152;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EwjHsArou4puiP33NwnALbJwZBK3iyJvtbti+P7eIQo=;
-        b=PjCzfuwHFH3CqwwcNBBBJLNId+UpK6fpxwnVpeMhZohxM/hI6P+7QErt8Xk/R35PHW
-         i/usGtn6EKZlvcdvAMiOjGXNa1vXKD1sEGQZ1KuRot3Zc5WLXSkLW3Tdp6LV112PSEAi
-         kSPoMhy/ga4fW4mQXKW4upoxmHOQTESGcn+83j3QntkQQTyw5RWSt7DEvAA1IYJw0nJs
-         4+L//koHiU3IO0sp5tq4VYea2o9Wt7KQkPUZNeAu/vca3EKtdrNvvzxXfeclhdeUFMAZ
-         qGK0R/vNHQcKYzgX6K4q/JAx9BvSMPSFV32VKDEy/zGsZx/6EHRYABAEFYGynL6oITyR
-         Z8FQ==
-X-Gm-Message-State: AC+VfDzdCTv1gY/pAYYsYQ0X7CjWRxbfB4yb2SBWEPnJ1LCTQwAtNy/Y
-	sZ4oXtJBSQ09KZCnZNJ2GCI=
-X-Google-Smtp-Source: ACHHUZ4CGbvEdltO0XijZ/mP7q1poyR7noIoiQfGGWzm8/y9U+wk4qRigq+JE3MZwxgGpo4CZkr/zg==
-X-Received: by 2002:a05:622a:1803:b0:3ef:3ead:149 with SMTP id t3-20020a05622a180300b003ef3ead0149mr5177725qtc.13.1682960150123;
-        Mon, 01 May 2023 09:55:50 -0700 (PDT)
+        bh=Uxp+uRU5VgdGuh8Cczcl0xbfxjpp2Z1HkIg+ouAsUfY=;
+        b=AmElY+kdc8Tbqi4yJaqgHeI1pZAYSK6ZXuqxVyaC3Oh8S9ZBpJm61ToTekecVEdky1
+         gGOREp/PPlKOn4NbGVfL+WO6uWTORkTK0hWBAQ1FkRSYtPmiBnTvtYzUNSgtZyFW7aE7
+         xHhtW1oW4vcsFKW7iGGYKCzrzUEluIuAFB4DgM337PRFZlhZGxqemdtrBUqM7RsNpiU8
+         ow5xvTo0A1nzNaGpRDm7gaXIzzS3DP51ohawn0baotCA2x5cydEDwX00JVvr5udMuBLF
+         MEkS5tKn+XsybYgXfx+57l2nDxiP1k77ohdunkBXxNhuOUxMpWsasW+nQakv8aQHvkHZ
+         3v+g==
+X-Gm-Message-State: AC+VfDwYU8Hn9VokelxVn27YvGFaxRU0pgYbrVYOPguR98eJ+QlsyeaV
+	XQq8GtBsFqHbVzOFCQBI3qQ=
+X-Google-Smtp-Source: ACHHUZ5elHkAOWNifkZellCgSQqu1UGjNIouBLutnT5JIuEXB5qPgN4u3DPtWBy4upUsS8c+uq94HQ==
+X-Received: by 2002:a05:6870:668f:b0:184:7f61:5486 with SMTP id ge15-20020a056870668f00b001847f615486mr3510917oab.6.1682960152375;
+        Mon, 01 May 2023 09:55:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:bce:b0:5e8:5d19:1c9d with SMTP id
- ff14-20020a0562140bce00b005e85d191c9dls7414519qvb.6.-pod-prod-gmail; Mon, 01
- May 2023 09:55:49 -0700 (PDT)
-X-Received: by 2002:ad4:5743:0:b0:5f1:5f73:aec1 with SMTP id q3-20020ad45743000000b005f15f73aec1mr999165qvx.19.1682960149626;
-        Mon, 01 May 2023 09:55:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1682960149; cv=none;
+Received: by 2002:a05:6870:884:b0:192:7291:2934 with SMTP id
+ fx4-20020a056870088400b0019272912934ls404173oab.9.-pod-prod-gmail; Mon, 01
+ May 2023 09:55:52 -0700 (PDT)
+X-Received: by 2002:a05:6870:8684:b0:17f:cf1f:9d8f with SMTP id p4-20020a056870868400b0017fcf1f9d8fmr6089411oam.8.1682960152008;
+        Mon, 01 May 2023 09:55:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1682960151; cv=none;
         d=google.com; s=arc-20160816;
-        b=Ip9KGZAKryGcZbzLlYilTy6v0D4I8iTBxFLJylmh9KOkXJED/vcYa78M5xUTYuY8AC
-         7m1i94UyItsqnqy3IIErGJsMC+aWbCJMhdYCBbr8q8DYfd462Maza34obBrUqZlLuejh
-         b9x9kgtlaaC9ObsTwfVm+qc8/UuGfhDYtqNT2uVu4srgvwzPr7UcENkn/84Vl18rh4QY
-         EePXAcQ/iGUpm8DO4okhEEMSrgWXdVR2XcyoZQzYC+e6hsFP3NIB1Dv+cmmP8+jxP68l
-         kZgpg0M6om+c6AWieFZu9aF2fBYJg+lk9+sOvNuMmsHMXI4na3YQF0ZYtLmGb9GgNP1U
-         2cRQ==
+        b=n33BwYRjPf5Qw5tG2tIg7957Op09qBSwhyrYK2jRaNhNhfLN0Eg5QPbL4UuDYVUSp6
+         /oFmJNvqdM6tP3YKo6uflAksE6+d4I/rUIj1SB/Q0C7pFVvtDGM4w18TFYqn09Uahhui
+         U1Jxf7tj4W1b0UO8fPD/OmxSPZck7L5mKcPblUKOFyImaGxYnXZNV9IpzuiY/ar3FXxR
+         QhU83Qc73tjQfeKUtjkx3+efRODEDqCpDaVBXbfeh8z3iYW1cNkAcdiOxvywmF0Lz4Tf
+         tzUF2ckY/Egfjg/1LuRGhX2oJihaW7doCAhSu8KGuHQhmGVg27C0RhHhPF+1ZJodu6Uj
+         yc/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=ANclwoiguD8BsbfKgYnGL1LnBw+SqNV6XnzUrNDvkRU=;
-        b=U4/kHBKglaguwDdCoFY4nksAl8c8+MCojA18+hW7UFM1lQwSzAjgU+b77rO/pDGHje
-         DktT59Cv9K2aDRJzN/J964dXBn5dNLc5s/KDde11oP+5I1IRywzKSwV/k8BXcPso9yE0
-         4S3pi9l8zWRetvMoqsSIO9TIImxE36AQY6SKC+1yO9zRzUgo52vuCYsxjqjVkKkXgBtm
-         EAG5kPhuAg2x8KOFT+MBbISXH+TAsHvT/oJXBzqhvYGtOFmRTjTjul6MJJp7iz92PC+v
-         o4kY67fm7AwJBNoTt7xOjFHfdGQW3bixI+i9H+YjQlSwuxifpEt6BNeVytM+maqiq30W
-         0umA==
+        bh=LeC1gX4P3RQjW1NYELsxA3PFCP+EdMyYyajg3MbW7ME=;
+        b=kp5uV5eT8U5YntBiLgoBvKPG5aFdemXLwjrrr6VgeUhufG6fni0y7T94/0ptm/RqtK
+         jsZDuCcVzg68zpQtd2Clhqh4+0fsSKX7OnyRfxLBnkRI+MlsmyjU2X4Ti24VltJhKHi7
+         XDvQHIQryEShDq/pUksuEmb6R8zCr+t/IcZq6yDtLVWh31nOYYSUi0ZavGH7LgWwanDU
+         f0ZRP5N9sIKtBJMmCqbLaDAnMf27d4VE1Kebo5hJBiSbVYY6joA6LWJlrNpoEHy8fs1t
+         tT2yBYDacbBYO+ZUzhe6EOXJoHuheLSJKkXmzp3nwuRLfNtK77E3TlOTNC553BzQ+BwF
+         n98g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=PkT7GX0U;
-       spf=pass (google.com: domain of 3fe9pzaykcvwmol8h5aiiaf8.6ige4m4h-78paiiaf8aliojm.6ig@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3Fe9PZAYKCVwMOL8H5AIIAF8.6IGE4M4H-78PAIIAF8ALIOJM.6IG@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=hhMiGEI+;
+       spf=pass (google.com: domain of 3f-9pzaykcv4oqnaj7ckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3F-9PZAYKCV4OQNAJ7CKKCHA.8KIG6O6J-9ARCKKCHACNKQLO.8KI@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com. [2607:f8b0:4864:20::b49])
-        by gmr-mx.google.com with ESMTPS id i3-20020ad44ba3000000b0061b5c30b3a3si132740qvw.8.2023.05.01.09.55.49
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com. [2607:f8b0:4864:20::1149])
+        by gmr-mx.google.com with ESMTPS id cr12-20020a056870ebcc00b0019272996894si95974oab.2.2023.05.01.09.55.51
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 May 2023 09:55:49 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3fe9pzaykcvwmol8h5aiiaf8.6ige4m4h-78paiiaf8aliojm.6ig@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) client-ip=2607:f8b0:4864:20::b49;
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-b9a6f15287eso27706851276.1
-        for <kasan-dev@googlegroups.com>; Mon, 01 May 2023 09:55:49 -0700 (PDT)
+        Mon, 01 May 2023 09:55:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3f-9pzaykcv4oqnaj7ckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) client-ip=2607:f8b0:4864:20::1149;
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-556011695d1so45700617b3.1
+        for <kasan-dev@googlegroups.com>; Mon, 01 May 2023 09:55:51 -0700 (PDT)
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:6d24:3efd:facc:7ac4])
- (user=surenb job=sendgmr) by 2002:a25:dbd2:0:b0:b99:cd69:cc32 with SMTP id
- g201-20020a25dbd2000000b00b99cd69cc32mr11391322ybf.0.1682960149191; Mon, 01
- May 2023 09:55:49 -0700 (PDT)
-Date: Mon,  1 May 2023 09:54:28 -0700
+ (user=surenb job=sendgmr) by 2002:a0d:ec4c:0:b0:55a:20a3:5ce3 with SMTP id
+ r12-20020a0dec4c000000b0055a20a35ce3mr2799132ywn.3.1682960151497; Mon, 01 May
+ 2023 09:55:51 -0700 (PDT)
+Date: Mon,  1 May 2023 09:54:29 -0700
 In-Reply-To: <20230501165450.15352-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20230501165450.15352-1-surenb@google.com>
 X-Mailer: git-send-email 2.40.1.495.gc816e09b53d-goog
-Message-ID: <20230501165450.15352-19-surenb@google.com>
-Subject: [PATCH 18/40] lib: introduce support for page allocation tagging
+Message-ID: <20230501165450.15352-20-surenb@google.com>
+Subject: [PATCH 19/40] change alloc_pages name in dma_map_ops to avoid name conflicts
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -139,9 +139,9 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b=PkT7GX0U;       spf=pass
- (google.com: domain of 3fe9pzaykcvwmol8h5aiiaf8.6ige4m4h-78paiiaf8aliojm.6ig@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3Fe9PZAYKCVwMOL8H5AIIAF8.6IGE4M4H-78PAIIAF8ALIOJM.6IG@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20221208 header.b=hhMiGEI+;       spf=pass
+ (google.com: domain of 3f-9pzaykcv4oqnaj7ckkcha.8kig6o6j-9arckkchacnkqlo.8ki@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3F-9PZAYKCV4OQNAJ7CKKCHA.8KIG6O6J-9ARCKKCHACNKQLO.8KI@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -157,176 +157,104 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Introduce helper functions to easily instrument page allocators by
-storing a pointer to the allocation tag associated with the code that
-allocated the page in a page_ext field.
+After redefining alloc_pages, all uses of that name are being replaced.
+Change the conflicting names to prevent preprocessor from replacing them
+when it's not intended.
 
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
-Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 ---
- include/linux/pgalloc_tag.h | 33 +++++++++++++++++++++++++++++++++
- lib/Kconfig.debug           |  1 +
- lib/alloc_tag.c             | 17 +++++++++++++++++
- mm/page_ext.c               | 12 +++++++++---
- 4 files changed, 60 insertions(+), 3 deletions(-)
- create mode 100644 include/linux/pgalloc_tag.h
+ arch/x86/kernel/amd_gart_64.c | 2 +-
+ drivers/iommu/dma-iommu.c     | 2 +-
+ drivers/xen/grant-dma-ops.c   | 2 +-
+ drivers/xen/swiotlb-xen.c     | 2 +-
+ include/linux/dma-map-ops.h   | 2 +-
+ kernel/dma/mapping.c          | 4 ++--
+ 6 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/include/linux/pgalloc_tag.h b/include/linux/pgalloc_tag.h
-new file mode 100644
-index 000000000000..f8c7b6ef9c75
---- /dev/null
-+++ b/include/linux/pgalloc_tag.h
-@@ -0,0 +1,33 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * page allocation tagging
-+ */
-+#ifndef _LINUX_PGALLOC_TAG_H
-+#define _LINUX_PGALLOC_TAG_H
-+
-+#include <linux/alloc_tag.h>
-+#include <linux/page_ext.h>
-+
-+extern struct page_ext_operations page_alloc_tagging_ops;
-+struct page_ext *lookup_page_ext(const struct page *page);
-+
-+static inline union codetag_ref *get_page_tag_ref(struct page *page)
-+{
-+	if (page && mem_alloc_profiling_enabled()) {
-+		struct page_ext *page_ext = lookup_page_ext(page);
-+
-+		if (page_ext)
-+			return (void *)page_ext + page_alloc_tagging_ops.offset;
-+	}
-+	return NULL;
-+}
-+
-+static inline void pgalloc_tag_dec(struct page *page, unsigned int order)
-+{
-+	union codetag_ref *ref = get_page_tag_ref(page);
-+
-+	if (ref)
-+		alloc_tag_sub(ref, PAGE_SIZE << order);
-+}
-+
-+#endif /* _LINUX_PGALLOC_TAG_H */
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index da0a91ea6042..d3aa5ee0bf0d 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -967,6 +967,7 @@ config MEM_ALLOC_PROFILING
- 	depends on DEBUG_FS
- 	select CODE_TAGGING
- 	select LAZY_PERCPU_COUNTER
-+	select PAGE_EXTENSION
- 	help
- 	  Track allocation source code and record total allocation size
- 	  initiated at that code location. The mechanism can be used to track
-diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
-index 3c4cfeb79862..4a0b95a46b2e 100644
---- a/lib/alloc_tag.c
-+++ b/lib/alloc_tag.c
-@@ -4,6 +4,7 @@
- #include <linux/fs.h>
- #include <linux/gfp.h>
- #include <linux/module.h>
-+#include <linux/page_ext.h>
- #include <linux/seq_buf.h>
- #include <linux/uaccess.h>
+diff --git a/arch/x86/kernel/amd_gart_64.c b/arch/x86/kernel/amd_gart_64.c
+index 56a917df410d..842a0ec5eaa9 100644
+--- a/arch/x86/kernel/amd_gart_64.c
++++ b/arch/x86/kernel/amd_gart_64.c
+@@ -676,7 +676,7 @@ static const struct dma_map_ops gart_dma_ops = {
+ 	.get_sgtable			= dma_common_get_sgtable,
+ 	.dma_supported			= dma_direct_supported,
+ 	.get_required_mask		= dma_direct_get_required_mask,
+-	.alloc_pages			= dma_direct_alloc_pages,
++	.alloc_pages_op			= dma_direct_alloc_pages,
+ 	.free_pages			= dma_direct_free_pages,
+ };
  
-@@ -159,6 +160,22 @@ static bool alloc_tag_module_unload(struct codetag_type *cttype, struct codetag_
- 	return module_unused;
- }
- 
-+static __init bool need_page_alloc_tagging(void)
-+{
-+	return true;
-+}
-+
-+static __init void init_page_alloc_tagging(void)
-+{
-+}
-+
-+struct page_ext_operations page_alloc_tagging_ops = {
-+	.size = sizeof(union codetag_ref),
-+	.need = need_page_alloc_tagging,
-+	.init = init_page_alloc_tagging,
-+};
-+EXPORT_SYMBOL(page_alloc_tagging_ops);
-+
- static int __init alloc_tag_init(void)
- {
- 	struct codetag_type *cttype;
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index dc1626be458b..eaf054ec276c 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -10,6 +10,7 @@
- #include <linux/page_idle.h>
- #include <linux/page_table_check.h>
- #include <linux/rcupdate.h>
-+#include <linux/pgalloc_tag.h>
- 
- /*
-  * struct page extension
-@@ -82,6 +83,9 @@ static struct page_ext_operations *page_ext_ops[] __initdata = {
- #if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
- 	&page_idle_ops,
- #endif
-+#ifdef CONFIG_MEM_ALLOC_PROFILING
-+	&page_alloc_tagging_ops,
-+#endif
- #ifdef CONFIG_PAGE_TABLE_CHECK
- 	&page_table_check_ops,
- #endif
-@@ -90,7 +94,7 @@ static struct page_ext_operations *page_ext_ops[] __initdata = {
- unsigned long page_ext_size;
- 
- static unsigned long total_usage;
--static struct page_ext *lookup_page_ext(const struct page *page);
-+struct page_ext *lookup_page_ext(const struct page *page);
- 
- bool early_page_ext __meminitdata;
- static int __init setup_early_page_ext(char *str)
-@@ -199,7 +203,7 @@ void __meminit pgdat_page_ext_init(struct pglist_data *pgdat)
- 	pgdat->node_page_ext = NULL;
- }
- 
--static struct page_ext *lookup_page_ext(const struct page *page)
-+struct page_ext *lookup_page_ext(const struct page *page)
- {
- 	unsigned long pfn = page_to_pfn(page);
- 	unsigned long index;
-@@ -219,6 +223,7 @@ static struct page_ext *lookup_page_ext(const struct page *page)
- 					MAX_ORDER_NR_PAGES);
- 	return get_entry(base, index);
- }
-+EXPORT_SYMBOL(lookup_page_ext);
- 
- static int __init alloc_node_page_ext(int nid)
- {
-@@ -278,7 +283,7 @@ static bool page_ext_invalid(struct page_ext *page_ext)
- 	return !page_ext || (((unsigned long)page_ext & PAGE_EXT_INVALID) == PAGE_EXT_INVALID);
- }
- 
--static struct page_ext *lookup_page_ext(const struct page *page)
-+struct page_ext *lookup_page_ext(const struct page *page)
- {
- 	unsigned long pfn = page_to_pfn(page);
- 	struct mem_section *section = __pfn_to_section(pfn);
-@@ -295,6 +300,7 @@ static struct page_ext *lookup_page_ext(const struct page *page)
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index 7a9f0b0bddbd..76a9d5ca4eee 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -1556,7 +1556,7 @@ static const struct dma_map_ops iommu_dma_ops = {
+ 	.flags			= DMA_F_PCI_P2PDMA_SUPPORTED,
+ 	.alloc			= iommu_dma_alloc,
+ 	.free			= iommu_dma_free,
+-	.alloc_pages		= dma_common_alloc_pages,
++	.alloc_pages_op		= dma_common_alloc_pages,
+ 	.free_pages		= dma_common_free_pages,
+ 	.alloc_noncontiguous	= iommu_dma_alloc_noncontiguous,
+ 	.free_noncontiguous	= iommu_dma_free_noncontiguous,
+diff --git a/drivers/xen/grant-dma-ops.c b/drivers/xen/grant-dma-ops.c
+index 9784a77fa3c9..6c7d984f164d 100644
+--- a/drivers/xen/grant-dma-ops.c
++++ b/drivers/xen/grant-dma-ops.c
+@@ -282,7 +282,7 @@ static int xen_grant_dma_supported(struct device *dev, u64 mask)
+ static const struct dma_map_ops xen_grant_dma_ops = {
+ 	.alloc = xen_grant_dma_alloc,
+ 	.free = xen_grant_dma_free,
+-	.alloc_pages = xen_grant_dma_alloc_pages,
++	.alloc_pages_op = xen_grant_dma_alloc_pages,
+ 	.free_pages = xen_grant_dma_free_pages,
+ 	.mmap = dma_common_mmap,
+ 	.get_sgtable = dma_common_get_sgtable,
+diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
+index 67aa74d20162..5ab2616153f0 100644
+--- a/drivers/xen/swiotlb-xen.c
++++ b/drivers/xen/swiotlb-xen.c
+@@ -403,6 +403,6 @@ const struct dma_map_ops xen_swiotlb_dma_ops = {
+ 	.dma_supported = xen_swiotlb_dma_supported,
+ 	.mmap = dma_common_mmap,
+ 	.get_sgtable = dma_common_get_sgtable,
+-	.alloc_pages = dma_common_alloc_pages,
++	.alloc_pages_op = dma_common_alloc_pages,
+ 	.free_pages = dma_common_free_pages,
+ };
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index 31f114f486c4..d741940dcb3b 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -27,7 +27,7 @@ struct dma_map_ops {
+ 			unsigned long attrs);
+ 	void (*free)(struct device *dev, size_t size, void *vaddr,
+ 			dma_addr_t dma_handle, unsigned long attrs);
+-	struct page *(*alloc_pages)(struct device *dev, size_t size,
++	struct page *(*alloc_pages_op)(struct device *dev, size_t size,
+ 			dma_addr_t *dma_handle, enum dma_data_direction dir,
+ 			gfp_t gfp);
+ 	void (*free_pages)(struct device *dev, size_t size, struct page *vaddr,
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index 9a4db5cce600..fc42930af14b 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -570,9 +570,9 @@ static struct page *__dma_alloc_pages(struct device *dev, size_t size,
+ 	size = PAGE_ALIGN(size);
+ 	if (dma_alloc_direct(dev, ops))
+ 		return dma_direct_alloc_pages(dev, size, dma_handle, dir, gfp);
+-	if (!ops->alloc_pages)
++	if (!ops->alloc_pages_op)
  		return NULL;
- 	return get_entry(page_ext, pfn);
+-	return ops->alloc_pages(dev, size, dma_handle, dir, gfp);
++	return ops->alloc_pages_op(dev, size, dma_handle, dir, gfp);
  }
-+EXPORT_SYMBOL(lookup_page_ext);
  
- static void *__meminit alloc_page_ext(size_t size, int nid)
- {
+ struct page *dma_alloc_pages(struct device *dev, size_t size,
 -- 
 2.40.1.495.gc816e09b53d-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230501165450.15352-19-surenb%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230501165450.15352-20-surenb%40google.com.
