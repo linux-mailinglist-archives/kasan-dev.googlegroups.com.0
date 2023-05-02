@@ -1,120 +1,125 @@
-Return-Path: <kasan-dev+bncBDAMN6NI5EERBUXCYSRAMGQEW7LZDMI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCLL3W4IUEDRBYPCYSRAMGQECOVN24Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B686F4798
-	for <lists+kasan-dev@lfdr.de>; Tue,  2 May 2023 17:50:43 +0200 (CEST)
-Received: by mail-lf1-x13b.google.com with SMTP id 2adb3069b0e04-4f00d3f91a3sf15089418e87.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 02 May 2023 08:50:43 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1683042643; cv=pass;
+Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1CE6F479F
+	for <lists+kasan-dev@lfdr.de>; Tue,  2 May 2023 17:50:58 +0200 (CEST)
+Received: by mail-lf1-x13c.google.com with SMTP id 2adb3069b0e04-4ef455ba61csf2480193e87.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 02 May 2023 08:50:58 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1683042658; cv=pass;
         d=google.com; s=arc-20160816;
-        b=r2yWlwaQTeB0Fv4Rwfqu6gz2dASgHgtp6pkheghLsJqF+ubduBgUJCU0cBOw64bQcu
-         wV3k8dEbGXKBvbZsgDtYmsvdqBefycB4JZliA5u3hitKrez2+bA8xzaD/mEwY/K+oXKO
-         vKoln2iQ4ZZ9AvJwkemzvwv2624URDJLCKjuANtZYkEFEK4I3GObXhyneL6Lg1TFXKjB
-         zc7A86pXrrZAyqpqmbRDyLeAeLaH6FZSHWkcHFo5Zj/feOYW6Pg/nYuuwSorfxFZUZw0
-         MhBqf5Q1dpfY2m+/3c21GAJkQgLP8fN+at1RpWXQdU5IwtJRCJCz//rNDqL+loCvP09a
-         GMXg==
+        b=OZaL49aD/Qbo+0xo2rFodpMXGqdWNtWbgO4UksZ07jyU3fkv7CMyyk2Et+XylV04uv
+         LJJKTk3rJKOXdGDhAlKrMNb4UweQ9+/ID8wUKM/YyeN3NN6HrgdKIpypr/r93xnIAvi4
+         mKiKOoXKaApgSILrXq+PIk9jIrcHdqUjDcLnq6vFY72cmfwf5LbJSdZLBAjod1rnTEj4
+         SQLTNT6ocDyhYBeH35dzJRfVVlKSY5jwBwVbPGdq6+TByH3W0nTElRGXLuyDHNUrnvVz
+         DEPhHUHdQFUya9K9ztgPUokLeE+Hiz/hVZBMcSuiRKdcX2CvHiWoKhyF48VBIGb1z3OL
+         JdUw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
-        bh=34FVsXx7cZ0X0WsyIS6awKQSvJHNtQLaazuj1fQLrEk=;
-        b=AaflPlQCEdDxrvyDXnZw99/ovVKe9XQHuRBu0eCkjLiXf1iUWRNZBFBF0Lq++JCy7T
-         XamkUtMddknsjgZqxc3WoZC2CkmzvaEl5tX8RlI9Q6q/mRxa/q+g3/PDado848AQWjry
-         6wC2WlfsI5B+MxXR/X1y3SW8PFW8eSrk0GNRkHTL6Wx6d9zvZRHR1A+8/0gHWRPUIOd2
-         lO3i/goVQ/V0016wWvnH8e+Uh/JHTj+4Oj+l6owsc1xaNpHdzjy2+E11PhA0mJm2ar96
-         VF6MFZ9n7MGUSXPsaND8uJYrjDn1XlDS3IAOs9v1KHLmDXbaBmu7ooCdSfpi3+S2ZBCm
-         Ffdg==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=kBeJQBkHckGBZzBA6KhzPdtVSTa4uqBSasKioNTcOH8=;
+        b=FWQLK2JayV6dQhh7YgY0/KJGDGqwD6ebJ6PDF35S4alT4UvcFckQG7R45yVRbP5fyS
+         FbbhtGF5A5EET/b65CpL9UIc2dm3UABIZxxswxTK9HJFUu0DsoJv5Qw4zKLKaC0QsQyS
+         X3n+l/t1ObfmB+UZz/U/z0ZRI9KxHjNAdX7FlgjzoypxPTqDod4LpLVp76lxyiaL7wOX
+         DzuBOhHCWDinc65W88zS4kevuLFQXCeQUQOvoAfqrjFV52e8EepaEfr6Q+SW0Xz62PhH
+         ms5V6Jox884OiNEkcqHpA1POuWyED6qEDai+MyfUKjjkMacokA50d8I0HI0CTuzZ5PCo
+         0N8A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=Rg36uIn8;
-       dkim=neutral (no key) header.i=@linutronix.de header.s=2020e;
-       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+       dkim=pass header.i=@tesarici.cz header.s=mail header.b=hpCWoQk8;
+       spf=pass (google.com: domain of petr@tesarici.cz designates 2a03:3b40:fe:2d4::1 as permitted sender) smtp.mailfrom=petr@tesarici.cz;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tesarici.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1683042643; x=1685634643;
+        d=googlegroups.com; s=20221208; t=1683042658; x=1685634658;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=34FVsXx7cZ0X0WsyIS6awKQSvJHNtQLaazuj1fQLrEk=;
-        b=S0PHENjQQlMyrfkpICIToPEvjVMecAvHZY3+LPLNkg7w5bbpY7MFeVedjxsheYEksy
-         JS+FzypllxP0B57ZHDAYjPy2a46yZ1MgS2OA8F2gAUWyOJRPPGbDGdV1+P6l5sJxSOVk
-         NDTT7+W8TGRN2TQ0oxrhXzbe5G4QRu7m28tzf3ieGAnXQUzOT6vA4XRSB0tX7Hh4d1FN
-         D6LlbkHdbIKrTp1mazQprzXXnVm83axsRxWOjT0N9XiEKn6sWD9NYOwmiJXR0obi5rEM
-         6LHce2252pSwMHryMFtAirBE6A5Le6nfug8pAsUyHbdjPwOuHKvCnTOdKneGVHESHYZ6
-         zStw==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kBeJQBkHckGBZzBA6KhzPdtVSTa4uqBSasKioNTcOH8=;
+        b=jtBKYYffz6SIN55rBTyZr7mucmSdsP620+VcZGUJ5zq+lQ7qk5aRuqGuULhXUXS9em
+         9FwAR1nx4kFNmnASb9aNViC7Osn48e1Q2EqTCUquDwOzedscZ/GWe7axq9ZMHCnr6Gl4
+         tJ3bBNMvTRs/vdO0gz5NZ0yVMIWl9cy3+iVrrXdvOSRGUnTTioSlJLJ+6EJi2SJFBZAe
+         EP2bLAVcCnH8UX+Rn/XFfUiQ1qaHl2xJbdzDgpncDwlz/TW57rU8OE/y7wYrBsKJ4WKg
+         w8iKyhOd+p40wH+Thzbr/iAEcsCCopzCZE/4pNY0tdHvf/eysscwa4Ppy9vMFFzUyFlW
+         RPNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683042643; x=1685634643;
+        d=1e100.net; s=20221208; t=1683042658; x=1685634658;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:references:in-reply-to:subject:cc:to:from
+         :references:in-reply-to:message-id:subject:cc:to:from:date
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=34FVsXx7cZ0X0WsyIS6awKQSvJHNtQLaazuj1fQLrEk=;
-        b=WQosRM9/kMX3GqTTL9NZSLZBv++TMuUGBonWbETsmTGxUQ26ufj1lXsQ4bHKo1hybG
-         QwDYfOS16vLz8z3r5ozU75OGmc5UUvMNAZDhT7nlTwPAJ6yy1Ojw4GcvRfdz8jOQYari
-         g/ZWzrwDDCqYYQEjfJikSqc7SvIvkIWs18UyputvdOE5OiMEm6Cg3o1h3cOAEGKI0Ub1
-         VuMRDqSbfRwp37dY6eVWkhO/OSqhj7zhc2MWSSWpMNkiHgRrIGov7VxB0j08AYdDTCP5
-         rX9Zs8rLlki8NsMgDTjmsAT3QqYt7mYReiMWXD9EaErWIfzqdDUySBRLH3Y7ccIj11ga
-         XkIQ==
+        bh=kBeJQBkHckGBZzBA6KhzPdtVSTa4uqBSasKioNTcOH8=;
+        b=jvtHOuv27hRC46K8vv+svIbDpyGGwTRI3xbvRLS/n7r687ia87lMY/nwmqCAkpiJ3b
+         Tn+U5g6bI5OHdVaN8lQkBLgce6TG0YIBd3BSpyRLxMcmwMCXkYRkaEHnDMb9El7i5ZGT
+         mE/RMHeSaZa2KDIzeg/ABFqxZTbOjzGSeKFnYxTNlQdVLIpHz0tX4Hc5TB3EN3POo2YV
+         3WScwfrzqc+Rwv/Hun1qnZkq+p/l5cbAwLa4FAxV10lk5JEZygf00PA8if6x0f8S5KAK
+         cXH8HiplL9YLUEH5QWMutoOutkP8nvUxexX227ooPGfas9a0Ufi2dyersybD5AZ/MxPR
+         brOw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDxorD0jKzJzaZEHWGrqHd2AjIqV/gsbC11XA2QZY7CMtToa5O+S
-	T2XFAEqHL5HUIsYqyZq2bHA=
-X-Google-Smtp-Source: ACHHUZ4EkzjiHWWnwohMI2LnwSRnLC43pAX71Rh61MnxJLuARWg1sG14V/hgHSbvb7xEEwA1sQKRnQ==
-X-Received: by 2002:a05:6512:3c9f:b0:4ed:c2d2:8079 with SMTP id h31-20020a0565123c9f00b004edc2d28079mr139529lfv.5.1683042643065;
-        Tue, 02 May 2023 08:50:43 -0700 (PDT)
+X-Gm-Message-State: AC+VfDwCmS/1Ow9vgW+2yUScSRMHPMt2E2cF8lX+YuuZEDcU2KC/HKcn
+	G5RiAyBFbtE3SHhEtUSiLJQ=
+X-Google-Smtp-Source: ACHHUZ4KMFXC7KM99rGEnoHme1hToAUJp7nW+znUAj1sVweB+57uKeyDA3hUGYiX2wCPbGhaOJtMXA==
+X-Received: by 2002:ac2:5990:0:b0:4e0:39f3:5b9a with SMTP id w16-20020ac25990000000b004e039f35b9amr92176lfn.13.1683042657785;
+        Tue, 02 May 2023 08:50:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:158d:b0:4ec:6fe6:9f26 with SMTP id
- bp13-20020a056512158d00b004ec6fe69f26ls777046lfb.0.-pod-prod-gmail; Tue, 02
- May 2023 08:50:41 -0700 (PDT)
-X-Received: by 2002:a05:6512:40d:b0:4eb:1048:1285 with SMTP id u13-20020a056512040d00b004eb10481285mr103413lfk.47.1683042641775;
-        Tue, 02 May 2023 08:50:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1683042641; cv=none;
+Received: by 2002:a05:6512:b15:b0:4e8:c8b4:347a with SMTP id
+ w21-20020a0565120b1500b004e8c8b4347als778173lfu.1.-pod-prod-gmail; Tue, 02
+ May 2023 08:50:56 -0700 (PDT)
+X-Received: by 2002:ac2:5612:0:b0:4ef:e97b:46ae with SMTP id v18-20020ac25612000000b004efe97b46aemr105536lfd.43.1683042656433;
+        Tue, 02 May 2023 08:50:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1683042656; cv=none;
         d=google.com; s=arc-20160816;
-        b=JH/Td67VBYq1OP8qK3lCM88/atE48aoTRUoB+/465DyPNMzk1UbK+ojZfzPVtgfvHo
-         Cl2uKmIHmEaynTakgHo5ZuG9x6t2fjnlreFq9yuG1l1RGVxRVoYTxRMaTZHadW/UL8on
-         wwbKhO4Hf1LLXv4ZOhIJ62zMtLHVgsr6BThY7yaguRBRcVYYiXUgEAAJtQ4AOqu/O9Re
-         cEJplCbYbimKR9ELJtRvEQflQx0alrYE8jjgdJlPhHumwt9GkQku8lHMk7FR6Y6Eggzy
-         sKpGHpLUTWkp/7E6lgGIH9k2ziWQ6hDpy/jA2/3TIDF8iTHajMRwjpFEbVD2ZqD8dNDT
-         TroA==
+        b=TQY0/QeKQtCYWM1FX+CK5qWpjTsbfsQwUKMhl/kjfMD2E+Ryc3CvcoscHQwHC7MuQg
+         cX1vmzqos9jNKKnrZj/2G7aR+pvBRG53j63OXyDqQSCzYXTNDH8CROgIcIDiFHIjId5H
+         8sNG6exc7V3ddIAKgaESNF0yXiX52XVZ8rvIzoUnjWT0EbuTKqvKlcvCVJF38W6+OMKe
+         WnnNMvyVTh55fTrrcfrIounBQrFQTq3MoNPd8mlQhvyEOyf3hgI+YfQeXJ17L5ibQVjT
+         ugNnK/Db/2QEzW5CMb+qR8A4RSnwEDusYJcPSuutsRdlPnnb0VULvFV+tXlZAuo+1MAL
+         wV5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :dkim-signature:dkim-signature:from;
-        bh=wZImvKcn9w5NAAzZW4fltpVUcvOYAB8X7GMAppUmOCM=;
-        b=ePeuWyuaC1O89B48J5h24+drjTf8oFzZgDv0LNtUDIQI4lJ/MPEB57qOpQ3gAgUsNC
-         Z967DuXudLsFRnHYo62pdvoKCgU3SqTmgk/07ttb2uLOtLSJeVdsiiSnxdSIEPD9pDCr
-         SUAFFfV2FfdzuNQ62pk5V8ZgszytOVHopL/I9ksBOT4rjmVGZhNOKgPhMBQ3GKvNO43k
-         u9ePa+ow8DUPEYtv53ZTgCvGlhdioEUojaiMy0DCOnVoHUh5Uehs2f7LMAMp5cScuTXD
-         x9IVhaGQB00SGlGws4+Ya5zkoYQUT2h/UC8GQZ0b8dGYMoazdqPuaHS5eOoLAISRDlaM
-         q24g==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=gA8QupUtMGX0BAGjUh9A20qUx/lBJYF50Tf/D+3/ix8=;
+        b=F4cJ/UpOlNE2UQitcQL87QjhCTjH8gJO3hWXR74VmEoAXkmUFiZzBD+2DzhrMrREFD
+         292KTAOkG/ganDxZ2AFFGig305vNhZ7Vrhpcc0Pd1GDM0sW8S9EhoTnALt4dbaILMAdV
+         pqvoiG4YYTvaQDO7x3GqTTvywMWamUbtTUNaLIZHBJgbQtHpuEM/7qemc7rjiDBckFeN
+         I4nYqVshB/ZPbCLNhmFw5cY8R9xyQJCxhgCz3Ih66CJWgovUT3PPbGhY1aVYtiuJOikW
+         9yVeLIfuUEfmgVxICwtOuSXmhdRXKzvDI4vzVKS5wxtbgThoFEhYE43403c6AUNEOGB3
+         z/TQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=Rg36uIn8;
-       dkim=neutral (no key) header.i=@linutronix.de header.s=2020e;
-       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
-Received: from galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
-        by gmr-mx.google.com with ESMTPS id h14-20020a05651c158e00b002aa399f4d60si1555861ljq.6.2023.05.02.08.50.41
+       dkim=pass header.i=@tesarici.cz header.s=mail header.b=hpCWoQk8;
+       spf=pass (google.com: domain of petr@tesarici.cz designates 2a03:3b40:fe:2d4::1 as permitted sender) smtp.mailfrom=petr@tesarici.cz;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tesarici.cz
+Received: from bee.tesarici.cz (bee.tesarici.cz. [2a03:3b40:fe:2d4::1])
+        by gmr-mx.google.com with ESMTPS id c35-20020a05651223a300b004efeb1773ebsi1685033lfv.11.2023.05.02.08.50.56
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 May 2023 08:50:41 -0700 (PDT)
-Received-SPF: pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
-From: Thomas Gleixner <tglx@linutronix.de>
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
- hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
- dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
- corbet@lwn.net, void@manifault.com, peterz@infradead.org,
- juri.lelli@redhat.com, ldufour@linux.ibm.com, catalin.marinas@arm.com,
- will@kernel.org, arnd@arndb.de, mingo@redhat.com,
- dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
- david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
- masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
- muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
- pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com,
- dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com,
- keescook@chromium.org, ndesaulniers@google.com,
+        Tue, 02 May 2023 08:50:56 -0700 (PDT)
+Received-SPF: pass (google.com: domain of petr@tesarici.cz designates 2a03:3b40:fe:2d4::1 as permitted sender) client-ip=2a03:3b40:fe:2d4::1;
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id E369D149DFD;
+	Tue,  2 May 2023 17:50:53 +0200 (CEST)
+Date: Tue, 2 May 2023 17:50:52 +0200
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
+ vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
+ mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
+ liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
+ peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
+ catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
+ tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+ x86@kernel.org, peterx@redhat.com, david@redhat.com, axboe@kernel.dk,
+ mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org,
+ dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+ paulmck@kernel.org, pasha.tatashin@soleen.com, yosryahmed@google.com,
+ yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
+ andreyknvl@gmail.com, keescook@chromium.org, ndesaulniers@google.com,
  gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
  vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
  bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
@@ -122,26 +127,26 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
  glider@google.com, elver@google.com, dvyukov@google.com,
  shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
  rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
- surenb@google.com, kernel-team@android.com, linux-doc@vger.kernel.org,
+ kernel-team@android.com, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
  linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
  linux-mm@kvack.org, linux-modules@vger.kernel.org,
  kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH 28/40] timekeeping: Fix a circular include dependency
-In-Reply-To: <20230501165450.15352-29-surenb@google.com>
+Subject: Re: [PATCH 19/40] change alloc_pages name in dma_map_ops to avoid
+ name conflicts
+Message-ID: <20230502175052.43814202@meshulam.tesarici.cz>
+In-Reply-To: <20230501165450.15352-20-surenb@google.com>
 References: <20230501165450.15352-1-surenb@google.com>
- <20230501165450.15352-29-surenb@google.com>
-Date: Tue, 02 May 2023 17:50:39 +0200
-Message-ID: <87sfce4trk.ffs@tglx>
+	<20230501165450.15352-20-surenb@google.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: tglx@linutronix.de
+X-Original-Sender: petr@tesarici.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linutronix.de header.s=2020 header.b=Rg36uIn8;       dkim=neutral
- (no key) header.i=@linutronix.de header.s=2020e;       spf=pass (google.com:
- domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted
- sender) smtp.mailfrom=tglx@linutronix.de;       dmarc=pass (p=NONE
- sp=QUARANTINE dis=NONE) header.from=linutronix.de
+ header.i=@tesarici.cz header.s=mail header.b=hpCWoQk8;       spf=pass
+ (google.com: domain of petr@tesarici.cz designates 2a03:3b40:fe:2d4::1 as
+ permitted sender) smtp.mailfrom=petr@tesarici.cz;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=tesarici.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,19 +159,115 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, May 01 2023 at 09:54, Suren Baghdasaryan wrote:
-> From: Kent Overstreet <kent.overstreet@linux.dev>
->
-> This avoids a circular header dependency in an upcoming patch by only
-> making hrtimer.h depend on percpu-defs.h
->
-> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
+On Mon,  1 May 2023 09:54:29 -0700
+Suren Baghdasaryan <surenb@google.com> wrote:
 
-Reviewed-by: Thomas Gleixner <tglx@linutronix.de>
+> After redefining alloc_pages, all uses of that name are being replaced.
+> Change the conflicting names to prevent preprocessor from replacing them
+> when it's not intended.
+> 
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
+>  arch/x86/kernel/amd_gart_64.c | 2 +-
+>  drivers/iommu/dma-iommu.c     | 2 +-
+>  drivers/xen/grant-dma-ops.c   | 2 +-
+>  drivers/xen/swiotlb-xen.c     | 2 +-
+>  include/linux/dma-map-ops.h   | 2 +-
+>  kernel/dma/mapping.c          | 4 ++--
+>  6 files changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/arch/x86/kernel/amd_gart_64.c b/arch/x86/kernel/amd_gart_64.c
+> index 56a917df410d..842a0ec5eaa9 100644
+> --- a/arch/x86/kernel/amd_gart_64.c
+> +++ b/arch/x86/kernel/amd_gart_64.c
+> @@ -676,7 +676,7 @@ static const struct dma_map_ops gart_dma_ops = {
+>  	.get_sgtable			= dma_common_get_sgtable,
+>  	.dma_supported			= dma_direct_supported,
+>  	.get_required_mask		= dma_direct_get_required_mask,
+> -	.alloc_pages			= dma_direct_alloc_pages,
+> +	.alloc_pages_op			= dma_direct_alloc_pages,
+>  	.free_pages			= dma_direct_free_pages,
+>  };
+>  
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index 7a9f0b0bddbd..76a9d5ca4eee 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+> @@ -1556,7 +1556,7 @@ static const struct dma_map_ops iommu_dma_ops = {
+>  	.flags			= DMA_F_PCI_P2PDMA_SUPPORTED,
+>  	.alloc			= iommu_dma_alloc,
+>  	.free			= iommu_dma_free,
+> -	.alloc_pages		= dma_common_alloc_pages,
+> +	.alloc_pages_op		= dma_common_alloc_pages,
+>  	.free_pages		= dma_common_free_pages,
+>  	.alloc_noncontiguous	= iommu_dma_alloc_noncontiguous,
+>  	.free_noncontiguous	= iommu_dma_free_noncontiguous,
+> diff --git a/drivers/xen/grant-dma-ops.c b/drivers/xen/grant-dma-ops.c
+> index 9784a77fa3c9..6c7d984f164d 100644
+> --- a/drivers/xen/grant-dma-ops.c
+> +++ b/drivers/xen/grant-dma-ops.c
+> @@ -282,7 +282,7 @@ static int xen_grant_dma_supported(struct device *dev, u64 mask)
+>  static const struct dma_map_ops xen_grant_dma_ops = {
+>  	.alloc = xen_grant_dma_alloc,
+>  	.free = xen_grant_dma_free,
+> -	.alloc_pages = xen_grant_dma_alloc_pages,
+> +	.alloc_pages_op = xen_grant_dma_alloc_pages,
+>  	.free_pages = xen_grant_dma_free_pages,
+>  	.mmap = dma_common_mmap,
+>  	.get_sgtable = dma_common_get_sgtable,
+> diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
+> index 67aa74d20162..5ab2616153f0 100644
+> --- a/drivers/xen/swiotlb-xen.c
+> +++ b/drivers/xen/swiotlb-xen.c
+> @@ -403,6 +403,6 @@ const struct dma_map_ops xen_swiotlb_dma_ops = {
+>  	.dma_supported = xen_swiotlb_dma_supported,
+>  	.mmap = dma_common_mmap,
+>  	.get_sgtable = dma_common_get_sgtable,
+> -	.alloc_pages = dma_common_alloc_pages,
+> +	.alloc_pages_op = dma_common_alloc_pages,
+>  	.free_pages = dma_common_free_pages,
+>  };
+> diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+> index 31f114f486c4..d741940dcb3b 100644
+> --- a/include/linux/dma-map-ops.h
+> +++ b/include/linux/dma-map-ops.h
+> @@ -27,7 +27,7 @@ struct dma_map_ops {
+>  			unsigned long attrs);
+>  	void (*free)(struct device *dev, size_t size, void *vaddr,
+>  			dma_addr_t dma_handle, unsigned long attrs);
+> -	struct page *(*alloc_pages)(struct device *dev, size_t size,
+> +	struct page *(*alloc_pages_op)(struct device *dev, size_t size,
+>  			dma_addr_t *dma_handle, enum dma_data_direction dir,
+>  			gfp_t gfp);
+>  	void (*free_pages)(struct device *dev, size_t size, struct page *vaddr,
+> diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+> index 9a4db5cce600..fc42930af14b 100644
+> --- a/kernel/dma/mapping.c
+> +++ b/kernel/dma/mapping.c
+> @@ -570,9 +570,9 @@ static struct page *__dma_alloc_pages(struct device *dev, size_t size,
+>  	size = PAGE_ALIGN(size);
+>  	if (dma_alloc_direct(dev, ops))
+>  		return dma_direct_alloc_pages(dev, size, dma_handle, dir, gfp);
+> -	if (!ops->alloc_pages)
+> +	if (!ops->alloc_pages_op)
+>  		return NULL;
+> -	return ops->alloc_pages(dev, size, dma_handle, dir, gfp);
+> +	return ops->alloc_pages_op(dev, size, dma_handle, dir, gfp);
+>  }
+>  
+>  struct page *dma_alloc_pages(struct device *dev, size_t size,
+
+I'm not impressed. This patch increases churn for code which does not
+(directly) benefit from the change, and that for limitations in your
+tooling?
+
+Why not just rename the conflicting uses in your local tree, but then
+remove the rename from the final patch series?
+
+Just my two cents,
+Petr T
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87sfce4trk.ffs%40tglx.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230502175052.43814202%40meshulam.tesarici.cz.
