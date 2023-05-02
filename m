@@ -1,156 +1,156 @@
-Return-Path: <kasan-dev+bncBCS2NBWRUIFBBCPAYWRAMGQE4SNYZAI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCLL3W4IUEDRBGXBYWRAMGQEXXBI44Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43e.google.com (mail-wr1-x43e.google.com [IPv6:2a00:1450:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498D66F4B2F
-	for <lists+kasan-dev@lfdr.de>; Tue,  2 May 2023 22:18:18 +0200 (CEST)
-Received: by mail-wr1-x43e.google.com with SMTP id ffacd0b85a97d-2f446161e5asf2610161f8f.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 02 May 2023 13:18:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1683058698; cv=pass;
+Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EDCE6F4B3E
+	for <lists+kasan-dev@lfdr.de>; Tue,  2 May 2023 22:20:43 +0200 (CEST)
+Received: by mail-wm1-x340.google.com with SMTP id 5b1f17b1804b1-3f080f53c49sf24906685e9.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 02 May 2023 13:20:43 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1683058843; cv=pass;
         d=google.com; s=arc-20160816;
-        b=nRZMRCKVR6R+CszGOQZnRW18B8+JaICIZFSwjqgN6cdFc4yPLprScQ/p0mjJRdcQbU
-         NgMG1+aiTORM7KU8r4/91Z8CC8INCretB9z2Ho4t8QX5A0o/Vp8nAy5w5YxKqm3CDWEl
-         EmXaUOf/Fl5s+IlFI4SHR/hNsMRj4F/7cnLWTdPw9doAp7F/aBdIqEf+BK24i0czmqlt
-         CPb/5DWQ6P9WUlnJ/yIfkXb7P52xidNey4pZw5DNm8JD8CYLThlWHQyJcoZpRPtqisHn
-         aoQfy3EB1s9outsBY3ywHPsiGBrEuz7+5H0FfbVBO7RITdPPQOwyoU0TlrGL4xIMqFhl
-         KeHQ==
+        b=fyufr5i2KwO8S4myljng8zdbfqukH4uYMdhQaXo5txBi8s5++qx2nnHqhPWnfiO/DO
+         WV83u6mvcSbt7eoMQjjQk6wzZWlvNPh5gKL4EZWTnLh3H2rvkgBkVRLCPRZJTnFKRnVQ
+         Qtk5pvuJXLDy4aQtzQTpo2bTh1vqaXMxLp9aQDrHaY+whUHdnPhNpqxzCyyea4MZcmJ8
+         Bd1ADSVB1YYo93qvbU0VdIfghEgDVXKlJBcr268Nf9XkEesMkiAztQhxgSyCXxX5hCoG
+         +hBYaF/85Av0Db0U2nfInmvrns8jCt2JctVfGanS9kDPCj1z3Y0AobWz8nN7NdVJLcoo
+         mLOg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=VjDEPee1w0BeBBQjJHgCtda5chJQ/OIQtNhnEjvoof0=;
-        b=rNrLJOS+qfWfM7Y5O8YhnUGr8eiLx3SEgG2JXfCxGyiV1Fhw2AndFmzH44iidDvhi7
-         QXa6jg4TiOeYV5x0C/cltma3XatXBXGoohGXtPxPwhFaEZXoNqIqVv3+JwBoZ1MKSANT
-         mlqWEte/gUQ8+5MfesDxFIjOreaWBX7YJtkVJRBSvMnUfSWqRwScaIiiSbLkMphGampo
-         H1knZukw8zy+5pJhbHBkW1EADbeH4kQkDxg1ZoTK6nqsHaIxBiiM6/86YQEvoE/2Sw93
-         OSkNQ+V6os2UI8IpeEV4x+5cwjwG8z8g/ziiLZyKq+zPPJF73jVFPx+jotlMJ7GuNuWw
-         AMHA==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:sender:dkim-signature;
+        bh=75bfBgoCSisbijBZ/E7NJYbcFyoue+mDAYirEAMGCB0=;
+        b=dlVLcOe5aGWDfuAHo2h38suB8cIcq3ESP1oby70dWVkZmKp90OJ1El/ZK3Jzr5k6gk
+         XguxsZxkJOxnR8rGCTRkE27Q41ovMJllSUIKbzMq9iPc67oTGqa2O+EZwYJArH+VWXhD
+         TUl0ZWUErDIviGAVcS0iAyLF/lrlgghnTQco8aM3M2ErOfnEX0sjK/kPIeQIE0LTHNUI
+         2viArP+dqN1t1fUxaP1/cdFOaQsEGC/2iVZ9DJfxAd1YJpOJhq7q80QGpq8IHI1icHkU
+         80xIQIo+RUjt+bfhliwewkQIMfv3spLDvncD8cjmEU/TRUjzDu62HDRD0UypSv0992rN
+         1c/w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=hgtKk0Mn;
-       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 95.215.58.9 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+       dkim=pass header.i=@tesarici.cz header.s=mail header.b=nPG1qjOr;
+       spf=pass (google.com: domain of petr@tesarici.cz designates 77.93.223.253 as permitted sender) smtp.mailfrom=petr@tesarici.cz;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tesarici.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1683058698; x=1685650698;
+        d=googlegroups.com; s=20221208; t=1683058843; x=1685650843;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=VjDEPee1w0BeBBQjJHgCtda5chJQ/OIQtNhnEjvoof0=;
-        b=YAVFhJGCmHzjm5TXdwuU66DWcJcZ4YFdj179CD2Yb1IqIxuerHKEf8ttDKh4WSDwAV
-         OkNxlFNLNzEawExCX/pkUTrdmWg1nZ75ZnzMNpkL97lIxYLMtTCnJHVpYEfwLvD86LiR
-         aWjDh311q700GO+2tr1GhPY9XAvLIxk05jsVqAOpnwpPjSP00RieY2YyO9looFUqSQ5M
-         CK02+qqXCVMwIrbbIP9cphtZDvOcpyu+pU8EK1gvZLWqWx5Nx79JfWVUG83YYUI3kPPU
-         j0bwWIt8/mR/qQ7+cbjKM7ZN/m9adfXfiL47x3wlmgS2JDruVBm73qAu6xUcjkAWW+p/
-         H+CQ==
+         :x-original-sender:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=75bfBgoCSisbijBZ/E7NJYbcFyoue+mDAYirEAMGCB0=;
+        b=eZaiK0u9eECcEOSglh4euXvAaQgwdeSkkS9ZjynWXcaFkD1PcKN4nMNAeyg7iDZ4G3
+         3eBjQPfVfjQMA20pb6zGuafzNtThOmPwAPp43MhV7Q6ovfZWIYIb8i9hJxixIn5ZCLmq
+         khe0YU9lCOERTz2CLSTSL+V4pTGtmccu0P8CMZ78Aee+1Cc9OPGBqfV5S/38kftS415K
+         EMkvLuEgPsicIbF86njSRoGcf1ZWl0SEimSfnQ9Sw94v6S3mOXMN0x2BKdKbohpZxzzU
+         ISu5fbbwhYIIATmWB3ngxuCiR7bqXFAVjs8p2Nh1MuWYetql6qi24ByTJ7Xw0X6m/20h
+         9iYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683058698; x=1685650698;
+        d=1e100.net; s=20221208; t=1683058843; x=1685650843;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VjDEPee1w0BeBBQjJHgCtda5chJQ/OIQtNhnEjvoof0=;
-        b=f9RJCTuXeO0NG5DGoX9d2DgzQPi/yM3IOMtxY5/+8bLK9tTrvaNCrOD3gS6nt/Lssz
-         c8dON82EOlod79Pmq8MmbhTIMLvDx0Pw0ayHHmKhsR+fk32X7fS/yZRmxmmnc0dQCsJ4
-         6dDfOVBxJMTNRmBytnf3oRE2ktUZrnT1edNN8cgeIYvm4nk0X0TVPd8Ls8QKNarT3qXa
-         eDEGKEgYr/qwlnxRMhgBuiBnQItkgHIMVcK3SdKmNSK84hva2Z0SO8DAqCvL+CNav+uy
-         5VKl8OyyPNBG4+gcUNHqOGvpLow6DVYcLiyp9IlPYe6+qgzqTZblC+qNeotHhVwoJoiO
-         yYeA==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=75bfBgoCSisbijBZ/E7NJYbcFyoue+mDAYirEAMGCB0=;
+        b=g3mSSF7McxWP7ZlqlOKGV3NNs7k+t9aZW2UVbmwjD3meF1S7kLNsmLda0KNt/1xAjL
+         TmhPkwROTc4bFNe8KLguj+eo6Y/0NQaiWWltgiecUvoG0wc0tgmPrjipBOzMA1310TpW
+         opS3wFTt/IMPOu0XC0aqKFS0bLmSf/VZ6MW1zrQkz1Y1y9+ilgEblLarOMCdQQIOjhlS
+         4yknGy3+cgDb5rDEUAcZmzQ3Rk0+wikOL/IYb6MPiOn/K03a614COW1O+kQ3/uDQwUJg
+         Ra2fLsrb1S4BqCaC7MwvDephxDaxg5RVkbcJpurWJ0UluCjKmwwKTYBvoiTMO1cJzMcO
+         sBjw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDz5cBGVAfpLgjS7gpB4hVz7p8GZy5OQFXPshmq55V7pCPlnqpU5
-	En05a7QX+MMEiS1qTOl3nmA=
-X-Google-Smtp-Source: ACHHUZ6ho6w2XmCyy+jAl/KshIfLs9jPeBBt+XQ44/dcH24y/Dn0895muoAwcA2WzxQ9NRcVqLRRug==
-X-Received: by 2002:a5d:6dc8:0:b0:304:7219:a5c9 with SMTP id d8-20020a5d6dc8000000b003047219a5c9mr2979393wrz.12.1683058697816;
-        Tue, 02 May 2023 13:18:17 -0700 (PDT)
+X-Gm-Message-State: AC+VfDyP0xIkjtlVPtoDQCdaJ/8dtRm8Er6g+Onzz0nk9Rvw/PGohi+t
+	VCmCb++zgKv5SvG8QwlI2BE=
+X-Google-Smtp-Source: ACHHUZ4GOnxVcUz3owbSspKFDMqilEeOwEgVI1QXPnn6vnaYOkPHxUcjvFXz9xpVqyIBTubH31mBDQ==
+X-Received: by 2002:a1c:6a02:0:b0:3f2:5004:be67 with SMTP id f2-20020a1c6a02000000b003f25004be67mr3304643wmc.4.1683058842817;
+        Tue, 02 May 2023 13:20:42 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a1c:f717:0:b0:3f1:7596:66be with SMTP id v23-20020a1cf717000000b003f1759666bels7240491wmh.3.-pod-control-gmail;
- Tue, 02 May 2023 13:18:16 -0700 (PDT)
-X-Received: by 2002:a7b:c5d9:0:b0:3f1:7278:66e0 with SMTP id n25-20020a7bc5d9000000b003f1727866e0mr13436504wmk.30.1683058696597;
-        Tue, 02 May 2023 13:18:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1683058696; cv=none;
+Received: by 2002:a05:600c:46c7:b0:3f0:9158:ad14 with SMTP id
+ q7-20020a05600c46c700b003f09158ad14ls474059wmo.0.-pod-preprod-gmail; Tue, 02
+ May 2023 13:20:41 -0700 (PDT)
+X-Received: by 2002:a1c:f706:0:b0:3f1:923e:e6bc with SMTP id v6-20020a1cf706000000b003f1923ee6bcmr12624766wmh.0.1683058841524;
+        Tue, 02 May 2023 13:20:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1683058841; cv=none;
         d=google.com; s=arc-20160816;
-        b=U60W66cfs4NyXERVQ6/F3RaALKHqIAu22B2RcwQ61foodV0z4t1K4kHmCDcz4vGSP8
-         3PT9wRo/Xo5w5hjU6SPFQYF05HHQTYVNZxXNlGT94PlJEv6kkz9AcMPLsT/6v8aUDJI8
-         Yx71enIqRfD/4YKbT4W3FAWWoOUdldEwQTaSZjyVXQYH1/pu0jSHzrNJy/C1Ie0g1il7
-         VCLw2AYTZ4yrlePFulTqrXmlFhxLQXx5LVs0paw9yDW1qPq0QDaCshbPNpXtglqRPtKI
-         FCNhgj/9JNyKVKJFcu28fzSI63ySKK0kMTsalBMuS/52JW3NvSb3EPOWL3NJvqzMR29K
-         qAMA==
+        b=t1MYwszZaXSIGyycagfRwgDKN4lj7cFdkEkts7DOZIX88HwAbK0v4iR3eFT6Pgv35i
+         dId2gyBTszg1lHMajgHHcEbs33WDth/75sZAlIwylDHESvvYCvlkxSpTul6vaYlKBGRj
+         d2l1Fj39sYiPQ7SqESvUwRxQTUGNq1nYiJiXtnvjZ1jJsgNRQHaAgWL4Cv9lFAwdTQM8
+         i5TP6bZG12/CENIpIt2mMluajEU2Mevz63xIUIrMSjtjexCJGPRYOGf/0v1mncVQQmlB
+         QODBa1qL5m5jphuB6TTy+ZMguampJOm8MsAjeJc/bZIiP+rmJo4IQpVHUfkk1D4ZdJI1
+         HHUw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from
-         :dkim-signature:date;
-        bh=WhFW8Rae+PmqA9NsRu2fCLYsKzvllBF+D9enxFH2HZY=;
-        b=vscTxhZIolddceRAh3k2DPqj6hU4oRteK3aA6dG81sz55Qaghsibc9o1kqGUm8lKjx
-         mVE9nwWg+3sAEQ1uXwSjfNkFTSofBy3DCyF7Td93uipJ/uA4653+eC8bwjeh7SlwZHKs
-         Yxvdp02Z7LY62AiKfc6u4LJPBQQ8Yt86c/rcrBqoOfEiamdxCh/ktJMO/fFUGlpp4ePz
-         i4EiLIX/Nd85B57OTswISQOuI9JMkSGMX5dd6//mxPbZmdSdFGPhoaN9F1YUjkzRdL26
-         bpjGGzzfgOc1vxaeHlJP+uX0BxLyHKZap18qmtdHLUfWdfFflme1HQUu0LN2wX0BLbl+
-         MeWA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=NjplYaLubWQQ5jZtL2++PWvD8pdyHWDOHPxaofdWA4k=;
+        b=BZ579/rtRM06iCVpWWOCDMA2+ncdk11Umgh5qnRBZlmsv3TtZA9HQhXd5uRgGlEzx2
+         vu9+Kf+07mlpbntlUmWTfSGThVWdGz6SOppavEa/0wtMRTQOqrbW0TnUc9RtClvm7liv
+         YKkc9zL9G9D9wRI6DLUld1gbeoME/jjMDtt7zLzGhGe7K3SeqYcGLUmWGtUHeo38t9IW
+         figUqktEClAiqGS29M6HxhcSVvd2TNnk2N1dW6dtIVfrnRXRwTwIXLNkxenCsbBrmG4J
+         OvqCyEu9pxAnQ6L8P5kk3l5ey+ZP7febA38MIAhM2OC1+Ns97RmuoSDwagBVNyGXCKzy
+         JY2g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=hgtKk0Mn;
-       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 95.215.58.9 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-9.mta1.migadu.com (out-9.mta1.migadu.com. [95.215.58.9])
-        by gmr-mx.google.com with ESMTPS id c17-20020a05600c0a5100b003f17618a207si855080wmq.0.2023.05.02.13.18.16
+       dkim=pass header.i=@tesarici.cz header.s=mail header.b=nPG1qjOr;
+       spf=pass (google.com: domain of petr@tesarici.cz designates 77.93.223.253 as permitted sender) smtp.mailfrom=petr@tesarici.cz;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tesarici.cz
+Received: from bee.tesarici.cz (bee.tesarici.cz. [77.93.223.253])
+        by gmr-mx.google.com with ESMTPS id d13-20020a05600c34cd00b003f173302d8bsi1708005wmq.1.2023.05.02.13.20.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 May 2023 13:18:16 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kent.overstreet@linux.dev designates 95.215.58.9 as permitted sender) client-ip=95.215.58.9;
-Date: Tue, 2 May 2023 16:18:04 -0400
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Petr =?utf-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+        Tue, 02 May 2023 13:20:41 -0700 (PDT)
+Received-SPF: pass (google.com: domain of petr@tesarici.cz designates 77.93.223.253 as permitted sender) client-ip=77.93.223.253;
+Received: from meshulam.tesarici.cz (nat-97.starnet.cz [178.255.168.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id 6FA1714DA42;
+	Tue,  2 May 2023 22:20:39 +0200 (CEST)
+Date: Tue, 2 May 2023 22:20:38 +0200
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
-	roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
-	willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
-	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
-	ldufour@linux.ibm.com, catalin.marinas@arm.com, will@kernel.org,
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
-	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
-	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
-	paulmck@kernel.org, pasha.tatashin@soleen.com,
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
-	ndesaulniers@google.com, gregkh@linuxfoundation.org,
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
-	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
-	glider@google.com, elver@google.com, dvyukov@google.com,
-	shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
-	rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
-	kernel-team@android.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-modules@vger.kernel.org,
-	kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH 19/40] change alloc_pages name in dma_map_ops to avoid
- name conflicts
-Message-ID: <ZFFv/IDprimshC8d@moria.home.lan>
+ mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
+ roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
+ willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
+ void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
+ ldufour@linux.ibm.com, catalin.marinas@arm.com, will@kernel.org,
+ arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+ dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+ david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
+ nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev,
+ rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
+ yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+ hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+ ndesaulniers@google.com, gregkh@linuxfoundation.org, ebiggers@google.com,
+ ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+ rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
+ vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+ iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+ elver@google.com, dvyukov@google.com, shakeelb@google.com,
+ songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
+ minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+ cgroups@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH 03/40] fs: Convert alloc_inode_sb() to a macro
+Message-ID: <20230502222038.57a47a85@meshulam.tesarici.cz>
+In-Reply-To: <ZFFrP8WKRFgZRzoB@moria.home.lan>
 References: <20230501165450.15352-1-surenb@google.com>
- <20230501165450.15352-20-surenb@google.com>
- <20230502175052.43814202@meshulam.tesarici.cz>
- <CAJuCfpGSLK50eKQ2-CE41qz1oDPM6kC8RmqF=usZKwFXgTBe8g@mail.gmail.com>
- <20230502220909.3f55ae41@meshulam.tesarici.cz>
+	<20230501165450.15352-4-surenb@google.com>
+	<20230502143530.1586e287@meshulam.tesarici.cz>
+	<ZFFrP8WKRFgZRzoB@moria.home.lan>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.37; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20230502220909.3f55ae41@meshulam.tesarici.cz>
-X-Migadu-Flow: FLOW_OUT
-X-Original-Sender: kent.overstreet@linux.dev
+X-Original-Sender: petr@tesarici.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=hgtKk0Mn;       spf=pass
- (google.com: domain of kent.overstreet@linux.dev designates 95.215.58.9 as
- permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+ header.i=@tesarici.cz header.s=mail header.b=nPG1qjOr;       spf=pass
+ (google.com: domain of petr@tesarici.cz designates 77.93.223.253 as permitted
+ sender) smtp.mailfrom=petr@tesarici.cz;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=tesarici.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -163,18 +163,115 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, May 02, 2023 at 10:09:09PM +0200, Petr Tesa=C5=99=C3=ADk wrote:
-> Ah, right, I admit I did not quite understand why this change is
-> needed. However, this is exactly what I don't like about preprocessor
-> macros. Each macro effectively adds a new keyword to the language.
->=20
-> I believe everything can be solved with inline functions. What exactly
-> does not work if you rename alloc_pages() to e.g. alloc_pages_caller()
-> and then add an alloc_pages() inline function which calls
-> alloc_pages_caller() with _RET_IP_ as a parameter?
+On Tue, 2 May 2023 15:57:51 -0400
+Kent Overstreet <kent.overstreet@linux.dev> wrote:
 
-Perhaps you should spend a little more time reading the patchset and
-learning how the code works before commenting.
+> On Tue, May 02, 2023 at 02:35:30PM +0200, Petr Tesa=C5=99=C3=ADk wrote:
+> > On Mon,  1 May 2023 09:54:13 -0700
+> > Suren Baghdasaryan <surenb@google.com> wrote:
+> >  =20
+> > > From: Kent Overstreet <kent.overstreet@linux.dev>
+> > >=20
+> > > We're introducing alloc tagging, which tracks memory allocations by
+> > > callsite. Converting alloc_inode_sb() to a macro means allocations wi=
+ll
+> > > be tracked by its caller, which is a bit more useful.
+> > >=20
+> > > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> > > Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> > > ---
+> > >  include/linux/fs.h | 6 +-----
+> > >  1 file changed, 1 insertion(+), 5 deletions(-)
+> > >=20
+> > > diff --git a/include/linux/fs.h b/include/linux/fs.h
+> > > index 21a981680856..4905ce14db0b 100644
+> > > --- a/include/linux/fs.h
+> > > +++ b/include/linux/fs.h
+> > > @@ -2699,11 +2699,7 @@ int setattr_should_drop_sgid(struct mnt_idmap =
+*idmap,
+> > >   * This must be used for allocating filesystems specific inodes to s=
+et
+> > >   * up the inode reclaim context correctly.
+> > >   */
+> > > -static inline void *
+> > > -alloc_inode_sb(struct super_block *sb, struct kmem_cache *cache, gfp=
+_t gfp)
+> > > -{
+> > > -	return kmem_cache_alloc_lru(cache, &sb->s_inode_lru, gfp);
+> > > -}
+> > > +#define alloc_inode_sb(_sb, _cache, _gfp) kmem_cache_alloc_lru(_cach=
+e, &_sb->s_inode_lru, _gfp) =20
+> >=20
+> > Honestly, I don't like this change. In general, pre-processor macros
+> > are ugly and error-prone. =20
+>=20
+> It's a one line macro, it's fine.
+
+It's not the same. A macro effectively adds a keyword, because it gets
+expanded regardless of context; for example, you can't declare a local
+variable called alloc_inode_sb, and the compiler errors may be quite
+confusing at first. See also the discussion about patch 19/40 in this
+series.
+
+> > Besides, it works for you only because __kmem_cache_alloc_lru() is
+> > declared __always_inline (unless CONFIG_SLUB_TINY is defined, but then
+> > you probably don't want the tracking either). In any case, it's going
+> > to be difficult for people to understand why and how this works. =20
+>=20
+> I think you must be confused. kmem_cache_alloc_lru() is a macro, and we
+> need that macro to be expanded at the alloc_inode_sb() callsite. It's
+> got nothing to do with whether or not __kmem_cache_alloc_lru() is inline
+> or not.
+
+Oh no, I am not confused. Look at the definition of
+kmem_cache_alloc_lru():
+
+void *kmem_cache_alloc_lru(struct kmem_cache *s, struct list_lru *lru,
+			   gfp_t gfpflags)
+{
+	return __kmem_cache_alloc_lru(s, lru, gfpflags);
+}
+
+See? No _RET_IP_ here. That's because it's here:
+
+static __fastpath_inline
+void *__kmem_cache_alloc_lru(struct kmem_cache *s, struct list_lru *lru,
+			     gfp_t gfpflags)
+{
+	void *ret =3D slab_alloc(s, lru, gfpflags, _RET_IP_, s->object_size);
+
+	trace_kmem_cache_alloc(_RET_IP_, ret, s, gfpflags, NUMA_NO_NODE);
+
+	return ret;
+}
+
+Now, if __kmem_cache_alloc_lru() is not inlined, then this _RET_IP_
+will be somewhere inside kmem_cache_alloc_lru(), which is not very
+useful.
+
+But what is __fastpath_inline? Well, it depends:
+
+#ifndef CONFIG_SLUB_TINY
+#define __fastpath_inline __always_inline
+#else
+#define __fastpath_inline
+#endif
+
+In short, if CONFIG_SLUB_TINY is defined, it's up to the C compiler
+whether __kmem_cache_alloc_lru() is inlined or not.
+
+> > If the actual caller of alloc_inode_sb() is needed, I'd rather add it
+> > as a parameter and pass down _RET_IP_ explicitly here. =20
+>=20
+> That approach was considered, but adding an ip parameter to every memory
+> allocation function would've been far more churn.
+
+See my reply to patch 19/40. Rename the original function, but add an
+__always_inline function with the original signature, and let it take
+care of _RET_IP_.
+
+Petr T
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -182,4 +279,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/ZFFv/IDprimshC8d%40moria.home.lan.
+kasan-dev/20230502222038.57a47a85%40meshulam.tesarici.cz.
