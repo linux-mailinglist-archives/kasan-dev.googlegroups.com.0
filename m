@@ -1,155 +1,176 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBGPLYWRAMGQE3L3YZHY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQJ32NM6AJBBLNHY2RAMGQE26N6TJA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33a.google.com (mail-ot1-x33a.google.com [IPv6:2607:f8b0:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DBFF6F4B81
-	for <lists+kasan-dev@lfdr.de>; Tue,  2 May 2023 22:42:03 +0200 (CEST)
-Received: by mail-ot1-x33a.google.com with SMTP id 46e09a7af769-6a638a6e4e7sf1557642a34.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 02 May 2023 13:42:03 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1683060122; cv=pass;
+Received: from mail-oa1-x37.google.com (mail-oa1-x37.google.com [IPv6:2001:4860:4864:20::37])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9AC86F4D22
+	for <lists+kasan-dev@lfdr.de>; Wed,  3 May 2023 00:50:22 +0200 (CEST)
+Received: by mail-oa1-x37.google.com with SMTP id 586e51a60fabf-18b018b1036sf1187561fac.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 02 May 2023 15:50:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1683067821; cv=pass;
         d=google.com; s=arc-20160816;
-        b=1DmXUDSnTf3Nbx+V/CcB2wvu315LZjSjfC7d2U4ysOnrf6AI/inSXICmZoXD59QnNv
-         hxCIc/CZv1Pro/pycpmwWfswiG/I5WBs001426wv0raCyigD3vWZUM8ir948Fx3tF5Wp
-         wwBacpT4du7Z7KFczW5cqCHSPcn3fNIpFbx1foC012NlP7lvao34a9GwByfRm1XWfDDD
-         7T3Sz8zWdjxNeHzU2dZVxBZfs9L1KPuJC0AFVwvE+qQW5O+jNiHRL2HLoT8Zo/YBHd/T
-         A0WrXH3fJn2ZUwzPPjavKi4BFeuGbdxLkA25MSYCn0eLvkbl//T4VYbATY6B+Xn7qWFG
-         Lq2w==
+        b=Uj+Um8uPt/u4mnDqj3WkizQNuxp+bLQxDFDiOQ+4w6XppWxjUVA574GOAzzmtRBigF
+         iRXoXRK8exVFgT2bwB3B6O5uQnpYI5lt4XllUK5QGRYAyCQGaxMNYMMBsMt1bDu+Qklv
+         o12HTtcmJCH5rJ5HzHr6k6KVrVUTm48t4u2elm2cdXVYG2UleoKF3CZA+C3JT9YRCqC2
+         0N0Dsm3LFVNSx7dFkbWUfwnIAbtsiI3rQGOo2WtAU3MD/fQfHLVrsixUIcNvW/pDI61l
+         4pdQ48IngbRzkfRV2BEgpJG/9IqBMDogyEzQYw9GrgIKp8hoxn11yxy+6g4mBozEwBN3
+         XUQQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=J4OnwEwqapjmkiyV7mekgUxV3HTPU/x2ruxn0Y1PGdA=;
-        b=wnxxXGZQ+TmxfpkZW5WSLxrnjwZGZ4xWfsnWYE9s5cERHYLvoueK0VnvAdw9v1t6gs
-         57wWLqDujttC8JwfWTSIVGPVpv44jv2LUDSbKY3CrL+tta8vp9EqHxjDPFLZuP+C8xpn
-         pepzzCUsyFzgW0QUK5wy4H/YcUSRGTHg8lQZjMhJ2FmwrGr1/PD37aQhlsKf9LC+njog
-         Uxzub/du8g64Cqx5c3gZgkJVDN3Rxnh6yUMyMo2DsstwLz80mt78Vd2WbQF8SD+AuzoW
-         9cFukB3oAVV3O06wV4f8Jb6Umm15V3V0sIASncP8S19M+MPCZoVdosJrNTa/XnR0Rr8r
-         vI5w==
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=JSmYIemBNFkT+66eira48CKL49UkDtLyVdj+VcW8NPc=;
+        b=he+m42qVw5a4d5xK56t4ELYy36PDoxoP1oSmeXEbv9zfsnUBbDh0DaQQmHDDZoe8aK
+         7WP3ZTnEtHIGwNjil/cycDIsWTWerWfYPecm5eDNhJBB1lNLtGJVbme3TOwkyiHbHfti
+         FSx4+UH8LEkSrRUQ4EXZd2vwS1SCn8VuoziSlXdJCp9b4R2ouX4jQ6t7W9Sbh88Qd1S7
+         2H0yDnXjj5UVcNjF6i2lbYTVhZKIt/AUBGPlhFDXGCK8BpbWhyoBFDfTLlUkn+eKc1mf
+         Y9fr/Pv6d4V2jK35xjXa5TkG6mdAhd+tPoEUE3zry/8n6aTFxjuYbnObcyHwdPZffQnK
+         AW+Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=USgXLop6;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2f as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@fromorbit-com.20221208.gappssmtp.com header.s=20221208 header.b=xLl94DvD;
+       spf=pass (google.com: domain of david@fromorbit.com designates 2607:f8b0:4864:20::636 as permitted sender) smtp.mailfrom=david@fromorbit.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=fromorbit.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1683060122; x=1685652122;
+        d=googlegroups.com; s=20221208; t=1683067821; x=1685659821;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J4OnwEwqapjmkiyV7mekgUxV3HTPU/x2ruxn0Y1PGdA=;
-        b=VGgAXKxhCQX2C/JR5jXxcIOnQo/Na1UyzoHXIbCrrGdgEzUIeQFjvmRhnAEhd25LEs
-         Mjb6MZJaWiv0SDqT6kG1E2JfO0aVCYB3/d4MhYEWo6HKX5ePo/5544x5H6mGXtqVHr7x
-         g3EHDdKnovPXpNrStxn0B3jzC8zZMcVWXLup7tFgww22AFHFCOIymjts/ur6aJxvWxqx
-         4BHTJqhR1mEochNSX89YCdGbviTgD4cKqCuCbI1UBRreDMRXt+lPwN+zuOzUKzAx8NnT
-         T2omE/KQwgLcXTskcTbpzZS3nIGmEVCTClr/z7Txy8fotRh8QArDqeR8hqBr7l5dgctq
-         t7Og==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=JSmYIemBNFkT+66eira48CKL49UkDtLyVdj+VcW8NPc=;
+        b=L6fz2keLgiUH2Nhstnx/N9mzP7LWQe9YyGN5DX21QxIxjJP/aCWOMjw6ZARPWELrDL
+         Z78rCAmp971nEg2xHInvULNbxtcIpgs5W5S5MRPbTidzQEn6njJPzmwkq14LW71yJQoI
+         3mXHdtqTZky2VHGJZIN6tTjtAw2eKQHUgZISay5pkAE9L677JCPCcTjCyyTOW5V+T9i1
+         iUhmiU8ZYzBwIvlSFpUUXHfDmi+veiYsJ8/OrXcyGBIlgSn+j3Jb/sCPil0tYVpcZd4R
+         KisDZKsDEOflEHIJ/yc6xAEFP/w5KO4emOX6PtdYxmxP2iEQbQdpFPRcwYIHplV5vGAC
+         asuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683060122; x=1685652122;
+        d=1e100.net; s=20221208; t=1683067821; x=1685659821;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J4OnwEwqapjmkiyV7mekgUxV3HTPU/x2ruxn0Y1PGdA=;
-        b=IQLBEr+9ZRWbYZsFlnmLATL/xz0+pN4kGLiiezG0cC6wwW+W4uFJIVyLGb/qz57zWn
-         j0ASPjFnY7QyCzVd5lspuXCV/3TaWh/XRstZDKc7hICaYGmNqK93V/SElPbqomD6VQkk
-         0xloJs29RV+FTonpmOet2iMUChyM7CLLIDi5jhs8esuxoqvGYBfoSKZMcVz4x8qz3kqB
-         QEoYBqBqDdaoxeNHPIrWUVL1J/7tKWH2dl7Fn1PJ3Fu4cAe0Fdf4NeKxr+oiGuKNuy5s
-         Eb2ovx8b+XOTbkZbWGIIzYg6CIru3VjG4dlofSh/uQA1uUXPTalW80neV/yUDWbvTPQX
-         VXGA==
-X-Gm-Message-State: AC+VfDyoaoAupcTIWsryVUNQP/kJ+AHaDtck6NrMAbyq/aKtTUahi5q2
-	CIw2Adihw5Yxmr1vavGySkQ=
-X-Google-Smtp-Source: ACHHUZ6yS7fwDucaiVX9Fuz3Cdeyesj9xCKBDIUOhkGWPbkY5XSpXOFp157XG2x2844TsGXIQobndg==
-X-Received: by 2002:a9d:5f1a:0:b0:6a6:633:9168 with SMTP id f26-20020a9d5f1a000000b006a606339168mr4372784oti.4.1683060122027;
-        Tue, 02 May 2023 13:42:02 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JSmYIemBNFkT+66eira48CKL49UkDtLyVdj+VcW8NPc=;
+        b=JLshKaCk8iJY7x+oYgfAxGAsjEp36/8ti47wF8XLAZasqDowzwz4PzZBnTIm4ro6tv
+         8aUgta91is1XTvrOgsVBqw94IcTEZB6rJnbpwPvmzgLGGIea8H3Vlt/Bh06jcLCYjnhx
+         x7nDDy+oPhe3RQ5wLQvqXbcp51k8osncPRB3W7QcSv2MXiaov0bjz4oCVqHpdyGwaJB3
+         PEv+BmdtuEuSKmavR4sEp/+ztfUxacqXoDFYqQuTs1xRmNom8KsdKFt0wRbnPdzcNn4W
+         rcKyAZhHD8MXzFXMX03zurcKSOkX2o6NTjYBTjSIutiZmL88T0i0ggCdt0o8tW4wbFQv
+         sFew==
+X-Gm-Message-State: AC+VfDzEhq6rOwrks/II4/p+A+n0wKs/edIPulbJNttJ2qhpBaPf209u
+	jVY09sjr0WObXetP1+GO/WU=
+X-Google-Smtp-Source: ACHHUZ4aiI0ZqodeiuNVJ9UgfGu3qrYCL/1n9tPcWcLKYgMrbQnqnZSJ4J8d47bVV6LkRaV/kTYDUw==
+X-Received: by 2002:a05:6870:9d9c:b0:187:8a98:1082 with SMTP id pv28-20020a0568709d9c00b001878a981082mr7133475oab.11.1683067821596;
+        Tue, 02 May 2023 15:50:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:de17:b0:18f:9d2:8d6b with SMTP id
- qg23-20020a056870de1700b0018f09d28d6bls4378345oab.7.-pod-prod-gmail; Tue, 02
- May 2023 13:42:01 -0700 (PDT)
-X-Received: by 2002:a05:6870:c6a7:b0:192:6deb:f704 with SMTP id cv39-20020a056870c6a700b001926debf704mr3188505oab.18.1683060121526;
-        Tue, 02 May 2023 13:42:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1683060121; cv=none;
+Received: by 2002:a05:6808:319b:b0:38e:2d4c:6cfd with SMTP id
+ cd27-20020a056808319b00b0038e2d4c6cfdls3608157oib.6.-pod-prod-gmail; Tue, 02
+ May 2023 15:50:21 -0700 (PDT)
+X-Received: by 2002:aca:2118:0:b0:389:4f7b:949d with SMTP id 24-20020aca2118000000b003894f7b949dmr8441381oiz.22.1683067820930;
+        Tue, 02 May 2023 15:50:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1683067820; cv=none;
         d=google.com; s=arc-20160816;
-        b=YQbUVJ1Cx2WYEhythBgqMtrvF6pqTSNPP94gAiZ8XlFiIonLd7BnXBHcsL0urGQfOq
-         iY15YOlGkoAVoWxuq+BeO+9drdHJ+632icUtXselk3B/PBBjBmuMB1bVbSdzrpdWApuD
-         5Kv6znuS+3m3c6mKsCg8gKa/IexIs3Dg153vuNzjxtuNcVsGK/YWA8BbpzBkywbhB55Q
-         HKLCYZohr+jYOCkWOrdUuPYovuWTjJTx3rsEa0KWxuSaIeZLaARvqQWslhhV+D4DmxEP
-         y1LnOuYlts14wosFmmRV8uZktaMYZjdvaV1yDRjmwyQ9YV+L2TcdF9VfmWO5vy5NNxcl
-         jYlw==
+        b=0MG1hXjPv6kAFH05zILOXjNmaldav2JhDnjbcfea4yC+UcvQkO058m1UO8LSH9pIZy
+         D2CmXXUXU5J5pOl86getuiyFbe29IGDlwWfERbsI+V9fklx4uubaWel2j5vXeuMqJUr/
+         GrVwUWHySZ/Vfz9Bl5YOlsRLL3ThQfkfOL5splUZ51Oap+KzsXtlk4UvUsxjEAOb9EUU
+         RboaqlLKIPATi4e8E75/ddrkPxS6beHY13/Xd7WFkubsweS6/EuXEVmah4bsYuYRYY3N
+         5AOsAMbS7GuP17whg2h3HsMqO4mfQ81wjgMhwSmc/M2FbXwrQvMSvSsWNhUht++caAAu
+         DDSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Jeq6+nx3g2wrW78uPfEerLbf18qIDqHe8kQ7v5/JI60=;
-        b=rbwkkkai1f8icq5B/VAHiqyNbiNyPxf5V5PMteOucIyYe4Fzih8myumFyiLbtoJqFX
-         sikwUCKNzg77AIOnDUi31sBzAhfQxRkG9mZFsUBFSSA+ErGn8JwKrpbjlj5LsHaYpNuL
-         mm8L8H//WDtfBBiHQ1N6DNXC4kslxciqSoKdi1/6j5ktaBxwugaf8E8HtPZfYTOj1adS
-         izUmGMd/MlO5XWwK02ZfqQ6T9KzexnMuqBkVO3Yu92akyopW8KkLKcYXb0c703qUulOv
-         WdFC1ciXwBIAbAHYEMbcbIu3f3Q28SFIhNAw6nXYYX6agPFO2QhY3iHnv2+1KFkSgrkM
-         Fj8g==
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=g8QAkHheKqFpH2L93tPDJOTqznflZZjkS+pV5SBVWTE=;
+        b=uRURX+iVwSfdFDxhZl7KRgZPsw8UP2HWeGs/DqmQUuT0YMg/iJ1tVKwh+DwpJzA1o4
+         RnRyH/d3J894Kw2JPgYd2rP99x0xFDAF0LvWopQNFpVvcdgRxzrNxr+dRRsAFh69UCno
+         X1VCsmUDnUOux72UJnoBSlcwyGaV2jccInmEx5qL3ULZpVqk9BuwjIAcxHCnmfO3wV4u
+         NQag1TiTqmAGXfFTMYp++KNWGeFECp2mvI7TnB/bCh4pZSFBmpDJUBjj2mGaygC0uY+j
+         fNekZr1Bb+Hds/L7bdzD9aygqZEOYXR90Rciu7oXM6/RGBwPlrNk8Sl8y9p8wHmsn7iR
+         sVcg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=USgXLop6;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2f as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com. [2607:f8b0:4864:20::b2f])
-        by gmr-mx.google.com with ESMTPS id gy16-20020a056870289000b0018b18eedb62si2040539oab.1.2023.05.02.13.42.01
+       dkim=pass header.i=@fromorbit-com.20221208.gappssmtp.com header.s=20221208 header.b=xLl94DvD;
+       spf=pass (google.com: domain of david@fromorbit.com designates 2607:f8b0:4864:20::636 as permitted sender) smtp.mailfrom=david@fromorbit.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=fromorbit.com
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com. [2607:f8b0:4864:20::636])
+        by gmr-mx.google.com with ESMTPS id y127-20020aca3285000000b0038c2f0e920bsi7774oiy.4.2023.05.02.15.50.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 May 2023 13:42:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2f as permitted sender) client-ip=2607:f8b0:4864:20::b2f;
-Received: by mail-yb1-xb2f.google.com with SMTP id 3f1490d57ef6-b9a6eec8611so107484276.0
-        for <kasan-dev@googlegroups.com>; Tue, 02 May 2023 13:42:01 -0700 (PDT)
-X-Received: by 2002:a25:e78d:0:b0:b9a:6a19:8153 with SMTP id
- e135-20020a25e78d000000b00b9a6a198153mr17807199ybh.5.1683060120872; Tue, 02
- May 2023 13:42:00 -0700 (PDT)
+        Tue, 02 May 2023 15:50:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of david@fromorbit.com designates 2607:f8b0:4864:20::636 as permitted sender) client-ip=2607:f8b0:4864:20::636;
+Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1aae46e62e9so26080885ad.2
+        for <kasan-dev@googlegroups.com>; Tue, 02 May 2023 15:50:20 -0700 (PDT)
+X-Received: by 2002:a17:902:db03:b0:1a9:7707:80b1 with SMTP id m3-20020a170902db0300b001a9770780b1mr23452836plx.67.1683067820093;
+        Tue, 02 May 2023 15:50:20 -0700 (PDT)
+Received: from dread.disaster.area (pa49-181-88-204.pa.nsw.optusnet.com.au. [49.181.88.204])
+        by smtp.gmail.com with ESMTPSA id r12-20020a170902be0c00b00194d14d8e54sm20215564pls.96.2023.05.02.15.50.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 May 2023 15:50:19 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+	(envelope-from <david@fromorbit.com>)
+	id 1ptyp6-00AcrA-Ao; Wed, 03 May 2023 08:50:16 +1000
+Date: Wed, 3 May 2023 08:50:16 +1000
+From: "'Dave Chinner' via kasan-dev" <kasan-dev@googlegroups.com>
+To: James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>,
+	Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
+	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
+	roman.gushchin@linux.dev, mgorman@suse.de, willy@infradead.org,
+	liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
+	peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
+	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
+	tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+	x86@kernel.org, peterx@redhat.com, david@redhat.com,
+	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
+	nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
+	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
+	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com,
+	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com,
+	keescook@chromium.org, ndesaulniers@google.com,
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
+	vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+	elver@google.com, dvyukov@google.com, shakeelb@google.com,
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+	cgroups@vger.kernel.org, Andy Shevchenko <andy@kernel.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Paul Mackerras <paulus@samba.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Noralf =?iso-8859-1?B?VHLvv71ubmVz?= <noralf@tronnes.org>
+Subject: Re: [PATCH 01/40] lib/string_helpers: Drop space in
+ string_get_size's output
+Message-ID: <20230502225016.GJ2155823@dread.disaster.area>
+References: <20230501165450.15352-1-surenb@google.com>
+ <20230501165450.15352-2-surenb@google.com>
+ <ouuidemyregstrijempvhv357ggp4tgnv6cijhasnungsovokm@jkgvyuyw2fti>
+ <ZFAUj+Q+hP7cWs4w@moria.home.lan>
+ <b6b472b65b76e95bb4c7fc7eac1ee296fdbb64fd.camel@HansenPartnership.com>
+ <ZFCA2FF+9MI8LI5i@moria.home.lan>
+ <2f5ebe8a9ce8471906a85ef092c1e50cfd7ddecd.camel@HansenPartnership.com>
 MIME-Version: 1.0
-References: <20230501165450.15352-1-surenb@google.com> <20230501165450.15352-20-surenb@google.com>
- <20230502175052.43814202@meshulam.tesarici.cz> <CAJuCfpGSLK50eKQ2-CE41qz1oDPM6kC8RmqF=usZKwFXgTBe8g@mail.gmail.com>
- <20230502220909.3f55ae41@meshulam.tesarici.cz> <CAJuCfpGGB204PKuqjjkPBn_XHL-xLPkn0bF6xc12Bfj8=Qzcrw@mail.gmail.com>
- <20230502223915.6b38f8c4@meshulam.tesarici.cz>
-In-Reply-To: <20230502223915.6b38f8c4@meshulam.tesarici.cz>
-From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 2 May 2023 13:41:49 -0700
-Message-ID: <CAJuCfpE2wBnekxOTNpCaHRwnMznPgBkSUJNHk5y1-togkAtkHw@mail.gmail.com>
-Subject: Re: [PATCH 19/40] change alloc_pages name in dma_map_ops to avoid
- name conflicts
-To: =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>
-Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, ldufour@linux.ibm.com, catalin.marinas@arm.com, 
-	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, gregkh@linuxfoundation.org, ebiggers@google.com, 
-	ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
-	rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
-	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
-	shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com, 
-	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
-	kernel-team@android.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: surenb@google.com
+In-Reply-To: <2f5ebe8a9ce8471906a85ef092c1e50cfd7ddecd.camel@HansenPartnership.com>
+X-Original-Sender: david@fromorbit.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b=USgXLop6;       spf=pass
- (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2f as
- permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Suren Baghdasaryan <surenb@google.com>
-Reply-To: Suren Baghdasaryan <surenb@google.com>
+ header.i=@fromorbit-com.20221208.gappssmtp.com header.s=20221208
+ header.b=xLl94DvD;       spf=pass (google.com: domain of david@fromorbit.com
+ designates 2607:f8b0:4864:20::636 as permitted sender) smtp.mailfrom=david@fromorbit.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=fromorbit.com
+X-Original-From: Dave Chinner <david@fromorbit.com>
+Reply-To: Dave Chinner <david@fromorbit.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -162,203 +183,178 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, May 2, 2023 at 1:39=E2=80=AFPM Petr Tesa=C5=99=C3=ADk <petr@tesaric=
-i.cz> wrote:
->
-> On Tue, 2 May 2023 13:24:37 -0700
-> Suren Baghdasaryan <surenb@google.com> wrote:
->
-> > On Tue, May 2, 2023 at 1:09=E2=80=AFPM Petr Tesa=C5=99=C3=ADk <petr@tes=
-arici.cz> wrote:
-> > >
-> > > On Tue, 2 May 2023 11:38:49 -0700
-> > > Suren Baghdasaryan <surenb@google.com> wrote:
-> > >
-> > > > On Tue, May 2, 2023 at 8:50=E2=80=AFAM Petr Tesa=C5=99=C3=ADk <petr=
-@tesarici.cz> wrote:
-> > > > >
-> > > > > On Mon,  1 May 2023 09:54:29 -0700
-> > > > > Suren Baghdasaryan <surenb@google.com> wrote:
-> > > > >
-> > > > > > After redefining alloc_pages, all uses of that name are being r=
-eplaced.
-> > > > > > Change the conflicting names to prevent preprocessor from repla=
-cing them
-> > > > > > when it's not intended.
-> > > > > >
-> > > > > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > > > > > ---
-> > > > > >  arch/x86/kernel/amd_gart_64.c | 2 +-
-> > > > > >  drivers/iommu/dma-iommu.c     | 2 +-
-> > > > > >  drivers/xen/grant-dma-ops.c   | 2 +-
-> > > > > >  drivers/xen/swiotlb-xen.c     | 2 +-
-> > > > > >  include/linux/dma-map-ops.h   | 2 +-
-> > > > > >  kernel/dma/mapping.c          | 4 ++--
-> > > > > >  6 files changed, 7 insertions(+), 7 deletions(-)
-> > > > > >
-> > > > > > diff --git a/arch/x86/kernel/amd_gart_64.c b/arch/x86/kernel/am=
-d_gart_64.c
-> > > > > > index 56a917df410d..842a0ec5eaa9 100644
-> > > > > > --- a/arch/x86/kernel/amd_gart_64.c
-> > > > > > +++ b/arch/x86/kernel/amd_gart_64.c
-> > > > > > @@ -676,7 +676,7 @@ static const struct dma_map_ops gart_dma_op=
-s =3D {
-> > > > > >       .get_sgtable                    =3D dma_common_get_sgtabl=
-e,
-> > > > > >       .dma_supported                  =3D dma_direct_supported,
-> > > > > >       .get_required_mask              =3D dma_direct_get_requir=
-ed_mask,
-> > > > > > -     .alloc_pages                    =3D dma_direct_alloc_page=
-s,
-> > > > > > +     .alloc_pages_op                 =3D dma_direct_alloc_page=
-s,
-> > > > > >       .free_pages                     =3D dma_direct_free_pages=
-,
-> > > > > >  };
-> > > > > >
-> > > > > > diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iomm=
-u.c
-> > > > > > index 7a9f0b0bddbd..76a9d5ca4eee 100644
-> > > > > > --- a/drivers/iommu/dma-iommu.c
-> > > > > > +++ b/drivers/iommu/dma-iommu.c
-> > > > > > @@ -1556,7 +1556,7 @@ static const struct dma_map_ops iommu_dma=
-_ops =3D {
-> > > > > >       .flags                  =3D DMA_F_PCI_P2PDMA_SUPPORTED,
-> > > > > >       .alloc                  =3D iommu_dma_alloc,
-> > > > > >       .free                   =3D iommu_dma_free,
-> > > > > > -     .alloc_pages            =3D dma_common_alloc_pages,
-> > > > > > +     .alloc_pages_op         =3D dma_common_alloc_pages,
-> > > > > >       .free_pages             =3D dma_common_free_pages,
-> > > > > >       .alloc_noncontiguous    =3D iommu_dma_alloc_noncontiguous=
-,
-> > > > > >       .free_noncontiguous     =3D iommu_dma_free_noncontiguous,
-> > > > > > diff --git a/drivers/xen/grant-dma-ops.c b/drivers/xen/grant-dm=
-a-ops.c
-> > > > > > index 9784a77fa3c9..6c7d984f164d 100644
-> > > > > > --- a/drivers/xen/grant-dma-ops.c
-> > > > > > +++ b/drivers/xen/grant-dma-ops.c
-> > > > > > @@ -282,7 +282,7 @@ static int xen_grant_dma_supported(struct d=
-evice *dev, u64 mask)
-> > > > > >  static const struct dma_map_ops xen_grant_dma_ops =3D {
-> > > > > >       .alloc =3D xen_grant_dma_alloc,
-> > > > > >       .free =3D xen_grant_dma_free,
-> > > > > > -     .alloc_pages =3D xen_grant_dma_alloc_pages,
-> > > > > > +     .alloc_pages_op =3D xen_grant_dma_alloc_pages,
-> > > > > >       .free_pages =3D xen_grant_dma_free_pages,
-> > > > > >       .mmap =3D dma_common_mmap,
-> > > > > >       .get_sgtable =3D dma_common_get_sgtable,
-> > > > > > diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xe=
-n.c
-> > > > > > index 67aa74d20162..5ab2616153f0 100644
-> > > > > > --- a/drivers/xen/swiotlb-xen.c
-> > > > > > +++ b/drivers/xen/swiotlb-xen.c
-> > > > > > @@ -403,6 +403,6 @@ const struct dma_map_ops xen_swiotlb_dma_op=
-s =3D {
-> > > > > >       .dma_supported =3D xen_swiotlb_dma_supported,
-> > > > > >       .mmap =3D dma_common_mmap,
-> > > > > >       .get_sgtable =3D dma_common_get_sgtable,
-> > > > > > -     .alloc_pages =3D dma_common_alloc_pages,
-> > > > > > +     .alloc_pages_op =3D dma_common_alloc_pages,
-> > > > > >       .free_pages =3D dma_common_free_pages,
-> > > > > >  };
-> > > > > > diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-ma=
-p-ops.h
-> > > > > > index 31f114f486c4..d741940dcb3b 100644
-> > > > > > --- a/include/linux/dma-map-ops.h
-> > > > > > +++ b/include/linux/dma-map-ops.h
-> > > > > > @@ -27,7 +27,7 @@ struct dma_map_ops {
-> > > > > >                       unsigned long attrs);
-> > > > > >       void (*free)(struct device *dev, size_t size, void *vaddr=
-,
-> > > > > >                       dma_addr_t dma_handle, unsigned long attr=
-s);
-> > > > > > -     struct page *(*alloc_pages)(struct device *dev, size_t si=
-ze,
-> > > > > > +     struct page *(*alloc_pages_op)(struct device *dev, size_t=
- size,
-> > > > > >                       dma_addr_t *dma_handle, enum dma_data_dir=
-ection dir,
-> > > > > >                       gfp_t gfp);
-> > > > > >       void (*free_pages)(struct device *dev, size_t size, struc=
-t page *vaddr,
-> > > > > > diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-> > > > > > index 9a4db5cce600..fc42930af14b 100644
-> > > > > > --- a/kernel/dma/mapping.c
-> > > > > > +++ b/kernel/dma/mapping.c
-> > > > > > @@ -570,9 +570,9 @@ static struct page *__dma_alloc_pages(struc=
-t device *dev, size_t size,
-> > > > > >       size =3D PAGE_ALIGN(size);
-> > > > > >       if (dma_alloc_direct(dev, ops))
-> > > > > >               return dma_direct_alloc_pages(dev, size, dma_hand=
-le, dir, gfp);
-> > > > > > -     if (!ops->alloc_pages)
-> > > > > > +     if (!ops->alloc_pages_op)
-> > > > > >               return NULL;
-> > > > > > -     return ops->alloc_pages(dev, size, dma_handle, dir, gfp);
-> > > > > > +     return ops->alloc_pages_op(dev, size, dma_handle, dir, gf=
-p);
-> > > > > >  }
-> > > > > >
-> > > > > >  struct page *dma_alloc_pages(struct device *dev, size_t size,
-> > > > >
-> > > > > I'm not impressed. This patch increases churn for code which does=
- not
-> > > > > (directly) benefit from the change, and that for limitations in y=
-our
-> > > > > tooling?
-> > > > >
-> > > > > Why not just rename the conflicting uses in your local tree, but =
-then
-> > > > > remove the rename from the final patch series?
-> > > >
-> > > > With alloc_pages function becoming a macro, the preprocessor ends u=
-p
-> > > > replacing all instances of that name, even when it's not used as a
-> > > > function. That what necessitates this change. If there is a way to
-> > > > work around this issue without changing all alloc_pages() calls in =
-the
-> > > > source base I would love to learn it but I'm not quite clear about
-> > > > your suggestion and if it solves the issue. Could you please provid=
+On Tue, May 02, 2023 at 07:42:59AM -0400, James Bottomley wrote:
+> On Mon, 2023-05-01 at 23:17 -0400, Kent Overstreet wrote:
+> > On Mon, May 01, 2023 at 10:22:18PM -0400, James Bottomley wrote:
+> > > It is not used just for debug.=C2=A0 It's used all over the kernel fo=
+r
+> > > printing out device sizes.=C2=A0 The output mostly goes to the kernel
+> > > print buffer, so it's anyone's guess as to what, if any, tools are
+> > > parsing it, but the concern about breaking log parsers seems to be
+> > > a valid one.
+> >=20
+> > Ok, there is sd_print_capacity() - but who in their right mind would
+> > be trying to scrape device sizes, in human readable units,
+>=20
+> If you bother to google "kernel log parser", you'll discover it's quite
+> an active area which supports a load of company business models.
+
+That doesn't mean log messages are unchangable ABI. Indeed, we had
+the whole "printk_index_emit()" addition recently to create
+an external index of printk message formats for such applications to
+use. [*]
+
+> >  from log messages when it's available in sysfs/procfs (actually, is
+> > it in sysfs? if not, that's an oversight) in more reasonable units?
+>=20
+> It's not in sysfs, no.  As aren't a lot of things, which is why log
+> parsing for system monitoring is big business.
+
+And that big business is why printk_index_emit() exists to allow
+them to easily determine how log messages change format and come and
+go across different kernel versions.
+
+> > Correct me if I'm wrong, but I've yet to hear about kernel log
+> > messages being consider a stable interface, and this seems a bit out
+> > there.
+>=20
+> It might not be listed as stable, but when it's known there's a large
+> ecosystem out there consuming it we shouldn't break it just because you
+> feel like it.
+
+But we've solved this problem already, yes?
+
+If the userspace applications are not using the kernel printk format
+index to detect such changes between kernel version, then they
+should be. This makes trivial issues like whether we have a space or
+not between units is completely irrelevant because the entry in the
+printk format index for the log output we emit will match whatever
+is output by the kernel....
+
+Cheers,
+
+Dave.
+
+[*]
+commit 337015573718b161891a3473d25f59273f2e626b
+Author: Chris Down <chris@chrisdown.name>
+Date:   Tue Jun 15 17:52:53 2021 +0100
+
+    printk: Userspace format indexing support
+   =20
+    We have a number of systems industry-wide that have a subset of their
+    functionality that works as follows:
+   =20
+    1. Receive a message from local kmsg, serial console, or netconsole;
+    2. Apply a set of rules to classify the message;
+    3. Do something based on this classification (like scheduling a
+       remediation for the machine), rinse, and repeat.
+   =20
+    As a couple of examples of places we have this implemented just inside
+    Facebook, although this isn't a Facebook-specific problem, we have this
+    inside our netconsole processing (for alarm classification), and as par=
+t
+    of our machine health checking. We use these messages to determine
+    fairly important metrics around production health, and it's important
+    that we get them right.
+   =20
+    While for some kinds of issues we have counters, tracepoints, or metric=
+s
+    with a stable interface which can reliably indicate the issue, in order
+    to react to production issues quickly we need to work with the interfac=
 e
-> > > > more details?
-> > >
-> > > Ah, right, I admit I did not quite understand why this change is
-> > > needed. However, this is exactly what I don't like about preprocessor
-> > > macros. Each macro effectively adds a new keyword to the language.
-> > >
-> > > I believe everything can be solved with inline functions. What exactl=
-y
-> > > does not work if you rename alloc_pages() to e.g. alloc_pages_caller(=
-)
-> > > and then add an alloc_pages() inline function which calls
-> > > alloc_pages_caller() with _RET_IP_ as a parameter?
-> >
-> > I don't think that would work because we need to inject the codetag at
-> > the file/line of the actual allocation call. If we pass _REP_IT_ then
-> > we would have to lookup the codetag associated with that _RET_IP_
-> > which results in additional runtime overhead.
->
-> OK. If the reference to source code itself must be recorded in the
-> kernel, and not resolved later (either by the debugfs read fops, or by
-> a tool which reads the file), then this information can only be
-> obtained with a preprocessor macro.
->
-> I was hoping that a debugging feature could be less intrusive. OTOH
-> it's not my call to balance the tradeoffs.
->
-> Thank you for your patient explanations.
+    which most kernel developers naturally use when developing: printk.
+   =20
+    Most production issues come from unexpected phenomena, and as such
+    usually the code in question doesn't have easily usable tracepoints or
+    other counters available for the specific problem being mitigated. We
+    have a number of lines of monitoring defence against problems in
+    production (host metrics, process metrics, service metrics, etc), and
+    where it's not feasible to reliably monitor at another level, this kind
+    of pragmatic netconsole monitoring is essential.
+   =20
+    As one would expect, monitoring using printk is rather brittle for a
+    number of reasons -- most notably that the message might disappear
+    entirely in a new version of the kernel, or that the message may change
+    in some way that the regex or other classification methods start to
+    silently fail.
+   =20
+    One factor that makes this even harder is that, under normal operation,
+    many of these messages are never expected to be hit. For example, there
+    may be a rare hardware bug which one wants to detect if it was to ever
+    happen again, but its recurrence is not likely or anticipated. This
+    precludes using something like checking whether the printk in question
+    was printed somewhere fleetwide recently to determine whether the
+    message in question is still present or not, since we don't anticipate
+    that it should be printed anywhere, but still need to monitor for its
+    future presence in the long-term.
+   =20
+    This class of issue has happened on a number of occasions, causing
+    unhealthy machines with hardware issues to remain in production for
+    longer than ideal. As a recent example, some monitoring around
+    blk_update_request fell out of date and caused semi-broken machines to
+    remain in production for longer than would be desirable.
+   =20
+    Searching through the codebase to find the message is also extremely
+    fragile, because many of the messages are further constructed beyond
+    their callsite (eg. btrfs_printk and other module-specific wrappers,
+    each with their own functionality). Even if they aren't, guessing the
+    format and formulation of the underlying message based on the aesthetic=
+s
+    of the message emitted is not a recipe for success at scale, and our
+    previous issues with fleetwide machine health checking demonstrate as
+    much.
+   =20
+    This provides a solution to the issue of silently changed or deleted
+    printks: we record pointers to all printk format strings known at
+    compile time into a new .printk_index section, both in vmlinux and
+    modules. At runtime, this can then be iterated by looking at
+    <debugfs>/printk/index/<module>, which emits the following format, both
+    readable by humans and able to be parsed by machines:
+   =20
+        $ head -1 vmlinux; shuf -n 5 vmlinux
+        # <level[,flags]> filename:line function "format"
+        <5> block/blk-settings.c:661 disk_stack_limits "%s: Warning: Device=
+ %s is misaligned\n"
+        <4> kernel/trace/trace.c:8296 trace_create_file "Could not create t=
+racefs '%s' entry\n"
+        <6> arch/x86/kernel/hpet.c:144 _hpet_print_config "hpet: %s(%d):\n"
+        <6> init/do_mounts.c:605 prepare_namespace "Waiting for root device=
+ %s...\n"
+        <6> drivers/acpi/osl.c:1410 acpi_no_auto_serialize_setup "ACPI: aut=
+o-serialization disabled\n"
+   =20
+    This mitigates the majority of cases where we have a highly-specific
+    printk which we want to match on, as we can now enumerate and check
+    whether the format changed or the printk callsite disappeared entirely
+    in userspace. This allows us to catch changes to printks we monitor
+    earlier and decide what to do about it before it becomes problematic.
+   =20
+    There is no additional runtime cost for printk callers or printk itself=
+,
+    and the assembly generated is exactly the same.
+   =20
+    Signed-off-by: Chris Down <chris@chrisdown.name>
+    Cc: Petr Mladek <pmladek@suse.com>
+    Cc: Jessica Yu <jeyu@kernel.org>
+    Cc: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+    Cc: John Ogness <john.ogness@linutronix.de>
+    Cc: Steven Rostedt <rostedt@goodmis.org>
+    Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+    Cc: Johannes Weiner <hannes@cmpxchg.org>
+    Cc: Kees Cook <keescook@chromium.org>
+    Reviewed-by: Petr Mladek <pmladek@suse.com>
+    Tested-by: Petr Mladek <pmladek@suse.com>
+    Reported-by: kernel test robot <lkp@intel.com>
+    Acked-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+    Acked-by: Jessica Yu <jeyu@kernel.org> # for module.{c,h}
+    Signed-off-by: Petr Mladek <pmladek@suse.com>
+    Link: https://lore.kernel.org/r/e42070983637ac5e384f17fbdbe86d19c7b212a=
+5.1623775748.git.chris@chrisdown.name
 
-Thanks for reviewing and the suggestions! I'll address the actionable
-ones in the next version.
-Suren.
-
->
-> Petr T
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to kernel-team+unsubscribe@android.com.
->
+--=20
+Dave Chinner
+david@fromorbit.com
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -366,5 +362,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAJuCfpE2wBnekxOTNpCaHRwnMznPgBkSUJNHk5y1-togkAtkHw%40mail.gmail.=
-com.
+kasan-dev/20230502225016.GJ2155823%40dread.disaster.area.
