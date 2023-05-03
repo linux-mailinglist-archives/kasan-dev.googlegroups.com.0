@@ -1,122 +1,108 @@
-Return-Path: <kasan-dev+bncBCKMR55PYIGBBGFFZCRAMGQE7KYJZUA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCS2NBWRUIFBBQNLZCRAMGQERQUIL3Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB476F524E
-	for <lists+kasan-dev@lfdr.de>; Wed,  3 May 2023 09:51:53 +0200 (CEST)
-Received: by mail-wr1-x43b.google.com with SMTP id ffacd0b85a97d-30633990a69sf793877f8f.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 03 May 2023 00:51:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1683100312; cv=pass;
+Received: from mail-wr1-x43c.google.com (mail-wr1-x43c.google.com [IPv6:2a00:1450:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4FBE6F52A9
+	for <lists+kasan-dev@lfdr.de>; Wed,  3 May 2023 10:05:22 +0200 (CEST)
+Received: by mail-wr1-x43c.google.com with SMTP id ffacd0b85a97d-30635d18e55sf709231f8f.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 03 May 2023 01:05:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1683101122; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0MTZfFun/Eyc6yzV3lOaObt6sddlCviXuuAr4H6GPLmOKiSSGPFkqrfyIDeO6JMQbE
-         UJ19oJSO0mctZ9lmdVOV6runKMKQ7Kv6tf6wlsZ9SUFpYYWuzTreB4697k7d+J9ZlPss
-         y9cbWinlN7f/OJ5Z9+bceKsfE3d213JaU7x/SjeXOVkqnIipJA28KG45WZhOvltQ4j0r
-         gPJ6jMUM/o/8T7hOHmGGmAiO0tgf/MpEj4/ptlaW0xtWT3bMpDhCCJtPEVeelhkjT6m7
-         FmC4s9XdqX9ssYEUcxJSGfFB8usTk0PgbbS6FFV+iEdl0im/jEN3BPVMgJqSNIpaOuIn
-         VkjQ==
+        b=l8kaUt2u70oP4RSoaylpxQkqQZlFVpPX1isyTxhGC2EOFdn2NKSdHunZvbDhlkZwdC
+         w6OdPK0taY7EvKBlKmMJmeM/BrTDTYLJwNE7J2S52i0kDzHLUiMhyIhQ2vrzjaqQD/De
+         7piYBOS0XIqhmD+sfXwmXSgNKQhzU3vSzYK+T+kC5jmc9dCrhjDGIiyXU3MJdBi8BFkE
+         rxW1MLtMQMUJhwXUD7aGvQR/H7aRROm7NdoHbUyJRQ8yBJ/0sMHm/73NkNJM5zYDiZ9z
+         W6QvfkLLB+vnYdIKAHxB6tAOifWu5vVLl8MNdmNLPKHqvI5CMqfHXqcyuEKTVvZYntiB
+         h8TQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=loaO68WZdI6NYL+SEouK8lPdofOO+IlL7TPygek5QpI=;
-        b=zuiPAteJK6EBKhARUCie5TvixBt+wFXj5vCpyQBntkWsYjypwE+wYIdakpgcZkW+/L
-         UvToJE1eFfHIp2gdeuXZJoOsfQZCGTJJZXJCZ9hYuI8ZGOTZ6Yaos6j5ZsXpzspNNug/
-         Pqx6fPgbjy8KBNJz0faM1sLI8YpwuUwgMqZMqb3S0B0svfiowhZBDJfYcm3CXoD6mMKk
-         VVNi8EQGx6oHj0jv6RAnfbvDKfqwPzn8fbphXNrUsIPAfLF0qC3bxobVsmKKrBao/EPV
-         hSz84z1fSUM1CH5+xXMjPUv772KaUHUqaG9ws+d02SKPAwXS7dIdZHCIQrObtgqFwDyy
-         BzoQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=GLDfx4zTD4zCcUYWy5KmiH7B+buymW/ce89hqyZGKwA=;
+        b=cYjz/oBn19ZFAubqfFBr4KVk6axkEyxWkbwpV0besWNE98C5Lx/eDcLVOSGNR7SWNs
+         lyhHVoLqYDfAT5PL1Vth7xB1raS5e+H5fQa22giEhvYBiZy/E3kfortgHkpIr9TmimuJ
+         6Pfl4PCLj+M5A560ewL4PhvtJhwLt7tBk1fWqOJOOiwaQb0bCY3CazSzeA4uo+30+BPO
+         H+J72Z8iXEav5Ia9BKTRZiucfAt+w6UPFq9J5Vse/3tkMEcnXmu+5Ne3x8NC/5ldW2DP
+         5SF31/LoVTNf3BZtuUi6IjPSiqkHwPfjy+TcV38bzzinUYA248YmWdg9CEFCmivXkAdm
+         oaHQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=u+JdKhxm;
-       spf=pass (google.com: domain of mhocko@suse.com designates 195.135.220.28 as permitted sender) smtp.mailfrom=mhocko@suse.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=rqHkCee1;
+       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 2001:41d0:203:375::39 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1683100312; x=1685692312;
+        d=googlegroups.com; s=20221208; t=1683101122; x=1685693122;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=loaO68WZdI6NYL+SEouK8lPdofOO+IlL7TPygek5QpI=;
-        b=H9Xxo5+v2x9/NAFwm/cDOC3LwdHFnmHM8uKa7XdQo67WA3CUrjyCCRsKfsjO3spN3M
-         /LMz2yRcyd65PAmuDbHjxxkh3vu+nuIXvRZQLLZ5v1LgVuWWFQA8aUSXik8d59Ty9dYs
-         cgE5V9EkZj4207lixo7glesxYBW8NGgyBFlkKxgfw4jU5ih4QiBbn7jawd1jwR0EEgHL
-         8EnZxtGwdDaLPQb6f+m53fUyclbx1tSGn6/9d5zln5hPa/yv2lDthGiWLq0IzteB14zU
-         QmSiyBm6jdL7Z/+DK4CdF5OiPyiizoKQvUOjiGJpz8mf03wwZXnIjRG2VO7rTM5y5Wst
-         7xTQ==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GLDfx4zTD4zCcUYWy5KmiH7B+buymW/ce89hqyZGKwA=;
+        b=DOR36YmHHK0TTdKkw7ljBwTHJjLCN1dZlvQPFk/7tbSEmaLuh7vmbs40RffzLRY1tp
+         EHJ7gvb25oGH291DrqWcSjv1LCzV6FGPeQU/gYYEpXTk3nSX7Jta59W0XGBeJsmOIfMJ
+         9TsRbZ1EKYLHYXscg/0NePWW8V5WpJAcSIdZUGKWcL2dLgkO36DJaMWmHqajJIUQsK3K
+         aBLeJ51oX4u3tNLejqh2CZVtYZuLpgKUtQLYF94ManMTuqWX4yrOqusK7uuM/E/ov6ZV
+         IUQX3pM2+6HC777I+cUerGQ970N9MewG7zs/FVgJmrtxZB7k8PvJWs+vTXccc0hx0lUv
+         Pu8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683100312; x=1685692312;
+        d=1e100.net; s=20221208; t=1683101122; x=1685693122;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=loaO68WZdI6NYL+SEouK8lPdofOO+IlL7TPygek5QpI=;
-        b=J+gLZhRxFUrkireCp4RIGWnXoaGu/XMY+Yb/E5f4MalWPsbCk3pcJXvdM46fUW0Gpa
-         4+TV5ZdRQJZbVwYptk+ki7e4FtA970p40Oi/nPdFfPQeFR75eWaUCsjq4HgK8FXFp/m9
-         RWG/ymjaGVJc9a9+MMZMDWKFa0qU1AlJJnz4Mu+omntYDvJnogopciwl+mWxy1rvlKVm
-         k0Wu7fpivPdbpOQw4fiYTOQvmTbzfO4N1HE0NOl+IWg0Mg12/3B79h66bxdeymArA9Cv
-         bOuQIhneE2+nTir6HcuvoPEM+JHi877kIWxNPv8agoxk2yTv1a5V4URcHGUD8MMwXnzs
-         nDbQ==
-X-Gm-Message-State: AC+VfDxevvW4PC5hbGNXfzOJMOSLctDk+5OjzjGoB+LLjo8BvQNegrMH
-	WvMZheb/DDiikwyNM+lcDJ0=
-X-Google-Smtp-Source: ACHHUZ5R2zpSd6iZQYe1q7l4ZM9pjg6gGbHcDdZ82zctc0KlQFfEq1f4bKoGISYy5GUW+nDmK77Qvw==
-X-Received: by 2002:a5d:510e:0:b0:2ff:f37:9d08 with SMTP id s14-20020a5d510e000000b002ff0f379d08mr2349478wrt.14.1683100312232;
-        Wed, 03 May 2023 00:51:52 -0700 (PDT)
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GLDfx4zTD4zCcUYWy5KmiH7B+buymW/ce89hqyZGKwA=;
+        b=NieM8hAVYMyOCZZDm15cdcskLdqGVk8FzIh6sXmjkeQYJtxVB/CGRKhdUmj93umwSO
+         eX2s/Is1VZ9wxRk0lIef2cryT93n6S0RmwtROSgb0MiALEzPwbL7vrhxerw7DXTJgZwl
+         s9odNsuTLLbMfAjjiCFsYnb+QY2t761xBtGK56CDIXKzls5ipseCftkNzn2lI8inYtT4
+         dT1U4pG3Raa3BLH9sCHEwpyy6dJ+p+HosPq0xFNXRtZzpnuKL6DJbfOXrH6+6rIyCylw
+         o6/dKbZ7O9L8UaKBIrJFkqsTgbITenVLbldWPEAn0sWOajCEG40R0+TyFvRTIZnOdaR/
+         UJaA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AC+VfDzxv7gQ07OniTM5UCJMc5WMil3DdqhWNkoqBBkt9huM0N2oh2U3
+	YJIiVWBxlG3vpcCGn6a1mAE=
+X-Google-Smtp-Source: ACHHUZ77UbMibVuYYvVL4kQrE+Wf+duy0SqIqJStZdTgJ73J2yQb6HSKAGuena5kdSTicltrLyzDaQ==
+X-Received: by 2002:a5d:65c8:0:b0:306:2ace:54c1 with SMTP id e8-20020a5d65c8000000b003062ace54c1mr1263904wrw.3.1683101121636;
+        Wed, 03 May 2023 01:05:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6000:1c0b:b0:306:28af:9a26 with SMTP id
- ba11-20020a0560001c0b00b0030628af9a26ls4241536wrb.0.-pod-prod-gmail; Wed, 03
- May 2023 00:51:50 -0700 (PDT)
-X-Received: by 2002:adf:f7cc:0:b0:2f5:9800:8d3e with SMTP id a12-20020adff7cc000000b002f598008d3emr13443803wrq.47.1683100310728;
-        Wed, 03 May 2023 00:51:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1683100310; cv=none;
+Received: by 2002:a05:6000:1787:b0:2f8:4432:9c7e with SMTP id
+ e7-20020a056000178700b002f844329c7els4319280wrg.3.-pod-prod-gmail; Wed, 03
+ May 2023 01:05:20 -0700 (PDT)
+X-Received: by 2002:a5d:6dc2:0:b0:2f2:9198:f0f with SMTP id d2-20020a5d6dc2000000b002f291980f0fmr14212252wrz.10.1683101120401;
+        Wed, 03 May 2023 01:05:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1683101120; cv=none;
         d=google.com; s=arc-20160816;
-        b=YadV7fP2IAZsCinMw4Zv8ZzCNxm2qW7WkzW/rjzHSvWL67MWoWx+ir6iQIu2Ep254H
-         PW/ZLYPQzm44Q+9qosfPQKtWW+UKDAu6OHQAKgh+9QSEn+J4RbhO6nMqbARWZMIpBQAy
-         706jTpP7EEvlRqBF2+W4igS8zVSwIKbvLCpSWBXNiQJnGEObjDc9vDgDpX36be5QDct7
-         cZIeOWeQ2ZdS9QyO2IpDUkzj8an29OUKh2pdAbEoN72uDOHj8hssOimgp4TiHMCdcACy
-         qF/RjhNt1EDGz+s3qv8twiCegXioOVoYUXuEX5xK8bEayBG0p+9dvvVg1XQeLSR9r6wB
-         rpFA==
+        b=Op2ekGuV7JnIYtnRS53jXBGhA0V800xNl2z1TLvBePpqc0nVbbYbTEjFQxVbHB4Jbz
+         dL/VmgPN5K888AcCfZi2LNTTR7M8W6lOaMmbpYWkGi+s4xXWaF/hTO2qo4kjZsSvpy2/
+         YDu2W1nSDyO5SNUdQYR+0SY4hHTH9G9ff6w2u00VkpH+z03+UaGtoBh2z8nW8eNih9M9
+         biBBa5bZjF2cg02hEHEQ+la6RTpSxe+nV9fvvBOUxQ5SLpayvJ9aZoJHNrMhIHhN7MeC
+         RJ4bNocPCpaiu12bfg6mmbYZTMAJjjnvkB1SOZu36VRy3YWINfgo6OfBA3zITYARdUcN
+         OIHA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=LbOettp3UaJGbcC185AxqMHgcSABvOiPPaXvjwmoDVE=;
-        b=oZ6ZnvNTEkhseKN0r4g+/iJhwbhzymnyFWLtCL/eXbO7QfYQJyqQdvheKS8ZI7/o08
-         0e99ch6pm3f/1R4i57/fpoWB0WriGo+R5QPd920r55AaDimdYndkI4vp5Q1tdM171thB
-         sanz6/SH9PRZOWjWIXCnlIlgNGK9VDPwHL3kvSyw6WN7Qo0ftKYlLh0W4X6GCF5r227H
-         bCpIZVCSEDLZ4iaOaKA7ZzhmaPj/FtqVKUSF455bicdN/SnNnHQM01WO5FNhMadcuG3d
-         0GO0P0/kFk6jopN/50js9Uoq4uQvfrs+kUn/AMx2IxADryPTcAPAnr25OKgiu6QqdHLn
-         IEIg==
+         :subject:cc:to:from:dkim-signature:date;
+        bh=Af+2O/2Jo9IC9XECoO60Ibec+DnzA9yRBnuv4Bp8O9Y=;
+        b=FDBlD873uvTSP505SS/7YBR5+ETt/IvuuEyLegmvBwJUhMqZVfJhvv1IvxaRorH/y9
+         42ZN3WIy3w2VsSmVngF3ipPn4wYPjZAZcon/9vUf3Egsi0RXaKSAZqtAROm+BAONGgcK
+         tb5q4CBFBJX/hE5LIAc1rE6GszNvIow28O3fwUaNkp0j9d3jPO2fOfG5Vqy2HPESs//C
+         AT2GL24OKYwQ7+FPzs6e7Ry+dQWyvOROt4OKvlAmGcybVoCDwcTMTDx8B1TZFKpsdUm4
+         BnftevuQhvGw6R1nRYRm2AtxM8vNahYtR1f/7RZ2houbevclCsWF7dN1Aow1rzOdEthz
+         vZeg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=u+JdKhxm;
-       spf=pass (google.com: domain of mhocko@suse.com designates 195.135.220.28 as permitted sender) smtp.mailfrom=mhocko@suse.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.220.28])
-        by gmr-mx.google.com with ESMTPS id a22-20020a05600c349600b003f189de7e3fsi54878wmq.0.2023.05.03.00.51.50
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=rqHkCee1;
+       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 2001:41d0:203:375::39 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out-57.mta1.migadu.com (out-57.mta1.migadu.com. [2001:41d0:203:375::39])
+        by gmr-mx.google.com with ESMTPS id co24-20020a0560000a1800b003062830249asi564570wrb.4.2023.05.03.01.05.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 May 2023 00:51:50 -0700 (PDT)
-Received-SPF: pass (google.com: domain of mhocko@suse.com designates 195.135.220.28 as permitted sender) client-ip=195.135.220.28;
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4CCCC21C30;
-	Wed,  3 May 2023 07:51:50 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2480E1331F;
-	Wed,  3 May 2023 07:51:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id YvrlCJYSUmQIXAAAMHmgww
-	(envelope-from <mhocko@suse.com>); Wed, 03 May 2023 07:51:50 +0000
-Date: Wed, 3 May 2023 09:51:49 +0200
-From: "'Michal Hocko' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
+        Wed, 03 May 2023 01:05:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kent.overstreet@linux.dev designates 2001:41d0:203:375::39 as permitted sender) client-ip=2001:41d0:203:375::39;
+Date: Wed, 3 May 2023 04:05:08 -0400
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Michal Hocko <mhocko@suse.com>
 Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
 	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
 	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
@@ -145,22 +131,22 @@ Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
 	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
 	cgroups@vger.kernel.org
 Subject: Re: [PATCH 00/40] Memory allocation profiling
-Message-ID: <ZFISlX+mSx4QJDK6@dhcp22.suse.cz>
+Message-ID: <ZFIVtB8JyKk0ddA5@moria.home.lan>
 References: <20230501165450.15352-1-surenb@google.com>
  <ZFIMaflxeHS3uR/A@dhcp22.suse.cz>
  <ZFIOfb6/jHwLqg6M@moria.home.lan>
+ <ZFISlX+mSx4QJDK6@dhcp22.suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <ZFIOfb6/jHwLqg6M@moria.home.lan>
-X-Original-Sender: mhocko@suse.com
+In-Reply-To: <ZFISlX+mSx4QJDK6@dhcp22.suse.cz>
+X-Migadu-Flow: FLOW_OUT
+X-Original-Sender: kent.overstreet@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.com header.s=susede1 header.b=u+JdKhxm;       spf=pass
- (google.com: domain of mhocko@suse.com designates 195.135.220.28 as permitted
- sender) smtp.mailfrom=mhocko@suse.com;       dmarc=pass (p=QUARANTINE
- sp=QUARANTINE dis=NONE) header.from=suse.com
-X-Original-From: Michal Hocko <mhocko@suse.com>
-Reply-To: Michal Hocko <mhocko@suse.com>
+ header.i=@linux.dev header.s=key1 header.b=rqHkCee1;       spf=pass
+ (google.com: domain of kent.overstreet@linux.dev designates
+ 2001:41d0:203:375::39 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -173,123 +159,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed 03-05-23 03:34:21, Kent Overstreet wrote:
-> On Wed, May 03, 2023 at 09:25:29AM +0200, Michal Hocko wrote:
-> > On Mon 01-05-23 09:54:10, Suren Baghdasaryan wrote:
-> > > Memory allocation profiling infrastructure provides a low overhead
-> > > mechanism to make all kernel allocations in the system visible. It can be
-> > > used to monitor memory usage, track memory hotspots, detect memory leaks,
-> > > identify memory regressions.
-> > > 
-> > > To keep the overhead to the minimum, we record only allocation sizes for
-> > > every allocation in the codebase. With that information, if users are
-> > > interested in more detailed context for a specific allocation, they can
-> > > enable in-depth context tracking, which includes capturing the pid, tgid,
-> > > task name, allocation size, timestamp and call stack for every allocation
-> > > at the specified code location.
-> > [...]
-> > > Implementation utilizes a more generic concept of code tagging, introduced
-> > > as part of this patchset. Code tag is a structure identifying a specific
-> > > location in the source code which is generated at compile time and can be
-> > > embedded in an application-specific structure. A number of applications
-> > > for code tagging have been presented in the original RFC [1].
-> > > Code tagging uses the old trick of "define a special elf section for
-> > > objects of a given type so that we can iterate over them at runtime" and
-> > > creates a proper library for it. 
-> > > 
-> > > To profile memory allocations, we instrument page, slab and percpu
-> > > allocators to record total memory allocated in the associated code tag at
-> > > every allocation in the codebase. Every time an allocation is performed by
-> > > an instrumented allocator, the code tag at that location increments its
-> > > counter by allocation size. Every time the memory is freed the counter is
-> > > decremented. To decrement the counter upon freeing, allocated object needs
-> > > a reference to its code tag. Page allocators use page_ext to record this
-> > > reference while slab allocators use memcg_data (renamed into more generic
-> > > slabobj_ext) of the slab page.
-> > [...]
-> > > [1] https://lore.kernel.org/all/20220830214919.53220-1-surenb@google.com/
-> > [...]
-> > >  70 files changed, 2765 insertions(+), 554 deletions(-)
+On Wed, May 03, 2023 at 09:51:49AM +0200, Michal Hocko wrote:
+> Your answers have shown your insight into tracing is very limited. I
+> have a clear recollection there were many suggestions on how to get what
+> you need and willingness to help out. Repeating your previous position
+> will not help much to be honest with you.
+
+Please enlighten us, oh wise one.
+
+> > > - It has been brought up that this is duplicating functionality already
+> > >   available via existing tracing infrastructure. You should make it very
+> > >   clear why that is not suitable for the job
 > > 
-> > Sorry for cutting the cover considerably but I believe I have quoted the
-> > most important/interesting parts here. The approach is not fundamentally
-> > different from the previous version [1] and there was a significant
-> > discussion around this approach. The cover letter doesn't summarize nor
-> > deal with concerns expressed previous AFAICS. So let me bring those up
-> > back. At least those I find the most important:
+> > Tracing people _claimed_ this, but never demonstrated it.
 > 
-> We covered this previously, I'll just be giving the same answers I did
-> before:
+> The burden is on you and Suren. You are proposing the implement an
+> alternative tracing infrastructure.
 
-Your answers have shown your insight into tracing is very limited. I
-have a clear recollection there were many suggestions on how to get what
-you need and willingness to help out. Repeating your previous position
-will not help much to be honest with you.
+No, we're still waiting on the tracing people to _demonstrate_, not
+claim, that this is at all possible in a comparable way with tracing. 
 
-> > - This is a big change and it adds a significant maintenance burden
-> >   because each allocation entry point needs to be handled specifically.
-> >   The cost will grow with the intended coverage especially there when
-> >   allocation is hidden in a library code.
+It's not on us to make your argument for you, and before making
+accusations about honesty you should try to be more honest yourself.
+
+The expectations you're trying to level have never been the norm in the
+kernel community, sorry. When there's a technical argument about the
+best way to do something, _code wins_ and we've got working code to do
+something that hasn't been possible previously.
+
+There's absolutely no rule that "tracing has to be the one and only tool
+for kernel visibility".
+
+I'm considering the tracing discussion closed until someone in the
+pro-tracing camp shows something new.
+
+> > > - We already have page_owner infrastructure that provides allocation
+> > >   tracking data. Why it cannot be used/extended?
+> > 
+> > Page owner is also very high overhead,
 > 
-> We've made this as clean and simple as posssible: a single new macro
-> invocation per allocation function, no calling convention changes (that
-> would indeed have been a lot of churn!)
+> Is there any data to prove that claim? I would be really surprised that
+> page_owner would give higher overhead than page tagging with profiling
+> enabled (there is an allocation for each allocation request!!!). We can
+> discuss the bare bone page tagging comparision to page_owner because of
+> the full stack unwinding but is that overhead really prohibitively costly?
+> Can we reduce that by trimming the unwinder information?
 
-That doesn't really make the concern any less relevant. I believe you
-and Suren have made a great effort to reduce the churn as much as
-possible but looking at the diffstat the code changes are clearly there
-and you have to convince the rest of the community that this maintenance
-overhead is really worth it. The above statement hasn't helped to
-convinced me to be honest.
+Honestly, this isn't terribly relevant, because as noted before page
+owner is limited to just page allocations.
 
-> > - It has been brought up that this is duplicating functionality already
-> >   available via existing tracing infrastructure. You should make it very
-> >   clear why that is not suitable for the job
 > 
-> Tracing people _claimed_ this, but never demonstrated it.
-
-The burden is on you and Suren. You are proposing the implement an
-alternative tracing infrastructure.
-
-> Tracepoints
-> exist but the tooling that would consume them to provide this kind of
-> information does not exist;
-
-Any reasons why an appropriate tooling cannot be developed?
-
-> it would require maintaining an index of
-> _every outstanding allocation_ so that frees could be accounted
-> correctly - IOW, it would be _drastically_ higher overhead, so not at
-> all comparable.
-
-Do you have any actual data points to prove your claim?
-
-> > - We already have page_owner infrastructure that provides allocation
-> >   tracking data. Why it cannot be used/extended?
+> > and the output is not very user
+> > friendly (tracking full call stack means many related overhead gets
+> > split, not generally what you want), and it doesn't cover slab.
 > 
-> Page owner is also very high overhead,
+> Is this something we cannot do anything about? Have you explored any
+> potential ways?
+> 
+> > This tracks _all_ memory allocations - slab, page, vmalloc, percpu.
 
-Is there any data to prove that claim? I would be really surprised that
-page_owner would give higher overhead than page tagging with profiling
-enabled (there is an allocation for each allocation request!!!). We can
-discuss the bare bone page tagging comparision to page_owner because of
-the full stack unwinding but is that overhead really prohibitively costly?
-Can we reduce that by trimming the unwinder information?
+Michel, the discussions with you seem to perpetually go in circles; it's
+clear you're negative on the patchset, you keep raising the same
+objections while refusing to concede a single point.
 
-> and the output is not very user
-> friendly (tracking full call stack means many related overhead gets
-> split, not generally what you want), and it doesn't cover slab.
-
-Is this something we cannot do anything about? Have you explored any
-potential ways?
-
-> This tracks _all_ memory allocations - slab, page, vmalloc, percpu.
-
--- 
-Michal Hocko
-SUSE Labs
+I believe I've answered enough, so I'll leave off further discussions
+with you.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZFISlX%2BmSx4QJDK6%40dhcp22.suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZFIVtB8JyKk0ddA5%40moria.home.lan.
