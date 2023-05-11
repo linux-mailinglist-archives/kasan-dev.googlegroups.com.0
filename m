@@ -1,136 +1,181 @@
-Return-Path: <kasan-dev+bncBAABBAOA6ORAMGQERG6ZDEA@googlegroups.com>
+Return-Path: <kasan-dev+bncBD6YJ5EM2QMRBUED6SRAMGQEUU5LU3I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x1138.google.com (mail-yw1-x1138.google.com [IPv6:2607:f8b0:4864:20::1138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22EBA6FF181
-	for <lists+kasan-dev@lfdr.de>; Thu, 11 May 2023 14:30:59 +0200 (CEST)
-Received: by mail-yw1-x1138.google.com with SMTP id 00721157ae682-559e55b8766sf139320127b3.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 11 May 2023 05:30:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1683808258; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=HBomNXBNiixYFCAxwFs5Ii62ehTuBxXDQxpcyvGuL5kimst80BMgmH7j1h2tq46nHt
-         mkYEMYrugdKoFHOifvmujc60ev4DZhKYU91cKrgxKvEq8TwGnMJiXfmqW/7PypmjwTED
-         osUWZ6j2uqKAXAIvgGis5WsbUABCC4uydkR5cvNtra15f5E4c9kpKZ7WXUDp+Kcq25aD
-         MqzhGQE3+dgGJbg4cpSWxyqFO0jycdK3qr/SPzjWralD90irZ9IYd9xOPY9ZAQchiqb4
-         J6urcUh2wHZ6fUqmY3+Z2P57ROiX7F28P0pyvAJQ7ExKsNo7hZOBgzkOrU3tK40trwQm
-         189g==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:dkim-signature;
-        bh=RkiARLf5kLWnUFxzX/ykbOiM7U9scXrQv4OyxRvNUWk=;
-        b=us7yMQm3O81N2rH/EaL5aS5JNNl+1KzU4TSCh24F7ufCBLoFuvV/Fr/Ta8u0U9W1Q+
-         S0znZxK6IGAICJcHqDDNsna90oCC3WPLckS87tfHbr2i7E37vAdknCSDVRlNwTZBPkbQ
-         WquxcziABMciOv+n4Nj1nu1ey5IwyQuvs8ptYcRPnVIYAZgQ2iHtMG5u/3zruzzpB+Jr
-         14BVFZDNzUqz7fuXzBwSdylzCfkGQnXhMg+oPFCajATAbhlzXC+1mSEV/PzVzgk9tern
-         Cz1/wDwOdy85Og5mJCJpNR5XZ0XdF3JLJ7/TmR1fotIptxlRoMHTmLKDlkIKzCISBzxg
-         Jy8A==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of xiujianfeng@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=xiujianfeng@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0DA56FF52F
+	for <lists+kasan-dev@lfdr.de>; Thu, 11 May 2023 16:55:13 +0200 (CEST)
+Received: by mail-wm1-x338.google.com with SMTP id 5b1f17b1804b1-3f33f8ffa37sf31619535e9.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 11 May 2023 07:55:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1683808258; x=1686400258;
+        d=googlegroups.com; s=20221208; t=1683816913; x=1686408913;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RkiARLf5kLWnUFxzX/ykbOiM7U9scXrQv4OyxRvNUWk=;
-        b=lg8JPc6lobt0UES7sRyPYAEcbtvGspeEPLg6mvEdOzVYJ1fzSP1u1QFsM1WD+510k4
-         h/tGIgVqt0yB0Z+VN0uuUdd5YssezDDaDuDyUOmiaH+PCVcbwAY4ecHbjZCdfS1NTJrw
-         DuQ7EmWTMJJMjHf3DygSuoNLVzekhnLUh5APyJI0Z7f25hQgYr+lGWj4yK8LdB+MML3E
-         M+7wbVhPnsdw1AZ7VUv3qchp95r5C8DNMYJji3UWqiHKTA8bY+fPSYbYHqDw5/xy3+sL
-         W1avSE2RoHtNDE3/4RufZhZ/0NJPHXGaGiQOmT6w7j4mhJJUjUPqx+8d+sAWylH8/40g
-         JHLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683808258; x=1686400258;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:from:to
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:date:message-id:sender:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=RkiARLf5kLWnUFxzX/ykbOiM7U9scXrQv4OyxRvNUWk=;
-        b=CZgCsRjdbQpheQBDA6wSReWUURJrlXDWTQwWaPPLFe0/lVQNMKOoBTFkJeUye/QfkW
-         Xi/PMw+d3gTJjzNEJfSrSyu/GZTTKReLXFeWEZSC5y2oII7rSkEI8mo0/WtfeNqDTICF
-         HIHsQOZGdrRURh2DtvxRbl8VYTAcE11Y3GFrJOlKf1SFJXknCLHXL0xdeBu7qZQKo5X9
-         AoLCDCBoZe+auom67/5D2joNUn4y11VM2QyElsiRT16ek+gcpXyHHnlx65lYKKZAgOXU
-         pTjOkmMBVgebJ4Ylk5nJcH8ILBXfsVKGx38pebGwjIAvWhkPTqzbclwcKZOqRXlQC9fQ
-         wt8g==
-X-Gm-Message-State: AC+VfDwGnCRP6eWx6WqUQk5ftAdjSOXPeky9wzHBTqjRIcUtUFcrzXTZ
-	3qi6kVpSaiHruGMIZWDYpzo=
-X-Google-Smtp-Source: ACHHUZ6hfoeU1dl51jCMoqtEEPkW1dxb86uY8twcflzzNGdK1I27Yaaduvm09mxyzE5ge9oH6fULIw==
-X-Received: by 2002:a81:b2c7:0:b0:559:e97a:cb21 with SMTP id q190-20020a81b2c7000000b00559e97acb21mr12429401ywh.9.1683808257796;
-        Thu, 11 May 2023 05:30:57 -0700 (PDT)
+        bh=u0koNBGRtOrP7nfQMBFYcs/YB0ogea8zxqAcTT9CNOg=;
+        b=Vujt1B3bxwvSC2VCr9x4GBdKPQ9LiEkkS2U4XJydpOpvWJrxTQw9fotP8XLoLafrJ9
+         fbnF4cOtV7oy0ugBJG/c/MxKQ+nSU33clX9mUNZHSUNWsmEPehIh/9wdJTiTgx71kRLl
+         jH5iDIlprRXubIfABE5t2j/colx34Y8QczyYHNvtF9x+t+YpC+WCDCJEn7BmVneD42C6
+         EFAP+PoVggTdAmyUzi9Yv9RHsftpQ90SaLHpUtd81SAg2wZcpMDyssj2FP4esJZBNIJH
+         LXNp/TycXC+r42pfrcbVf+7FmMVx5Ms90DLOMCSoka4+xXXobVtZkW3T/gHWZ2gUkmem
+         s/SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1683816913; x=1686408913;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :in-reply-to:from:references:cc:to:content-language:subject
+         :user-agent:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=u0koNBGRtOrP7nfQMBFYcs/YB0ogea8zxqAcTT9CNOg=;
+        b=DSGEwHlKw0DtGiEjPVFn1A9Oo97e/Re8uj8UUw3EstykwJqi36jlpdW+KoTwqWWmVD
+         6tYdQcVA3RzlWuUTHZQXueGiFY/Go9sdHpIcRTkDPDpNwa3n6LSchzmvj4evoIXNeLSn
+         lBILxraEwgJPLD8SZ3bbo1GvK6YjleO/4UIzemCxccYyxDnkHBdM4VrwiYaYa74Bn1/S
+         gca5FIPohWT3u3OmlWkAXYq8UA1kUqWXddDVLM2GoI16oLioc2LSj+tvT6r8sbTbKEfZ
+         V293ZMDCembmRj3E4CsGvvBINw8K8P4vt31Jrd5tR/TBrqEExzr8K0a4rPtFbec3V3IY
+         /PPw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AC+VfDyIOImo4RDOZQVVYiY++JrtzfvXwLBmXZ8Krojp7e0gdQYFc9WW
+	bWSvJGIBR4MoIpumkD2yBlY=
+X-Google-Smtp-Source: ACHHUZ4URihvUSquJMJ/2tj/r3O2OrNA3GjHLU/F8avvAvL45WDYqyH575npoXJy7OmXJo0yL3N8UA==
+X-Received: by 2002:a05:600c:2158:b0:3f4:2148:e8de with SMTP id v24-20020a05600c215800b003f42148e8demr3079753wml.1.1683816912764;
+        Thu, 11 May 2023 07:55:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:690c:2e8e:b0:560:eb68:ab45 with SMTP id
- eu14-20020a05690c2e8e00b00560eb68ab45ls1968126ywb.9.-pod-prod-gmail; Thu, 11
- May 2023 05:30:57 -0700 (PDT)
-X-Received: by 2002:a81:c24c:0:b0:55a:6e23:1a82 with SMTP id t12-20020a81c24c000000b0055a6e231a82mr20148875ywg.52.1683808257289;
-        Thu, 11 May 2023 05:30:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1683808257; cv=none;
-        d=google.com; s=arc-20160816;
-        b=t55wrvbtkRn9VGkrwVSG7yUGeX7M36RvXZlS3c+udwsoeokM0locht1xbG490hhx5W
-         qsaPFpLnopSouaU7nlgxFT+ARZ2LIN95SE79wFpFE1ZwnPTBEk7+1/op6DA9ed8p7vmY
-         dEx4ccoF63ipfP+bi1Ev7e/v7tdgl2XDMXJqb5FXL65VE19YVUR1IABObkTygCyzXfe+
-         gE2+4WPAsyboP3p9ktHgrYUYsOc9BF1bXla424uqWBSBR4kLmSP7xP4FTTr6uK1ISgw1
-         j6oRgIxBGrPIjHnAocZve4PSxUPznXQNHi+7gEqkdm+r7ml48PwIMOR1ltEGgy5NKK/R
-         vOcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=gk0/bf5Km+xGX9S4/V+Y+ni7xCYAD/RE0zXrRDM2lG8=;
-        b=nioH5XahllIr6FkwKmynruePoY2JILh2yk75r17R1LMvB05OEhjATcBD+sgpCeEAcw
-         nD8lAOmgVOdwFbr+PdBU87mdOI+gxS6vLWst6rdz08Q9VTvstdXCm6xgV/aXjayaBjNg
-         2/Z36Gx8cYYF6ye23ryhuVTGnYSDNe3s+SHOZMEPiDzFPJP8FLyJXECFyVZyXNG7l9QG
-         /r4cEwzdjVnbDKhqXfhXlo0Tf4pReIJUJ7SeyCSRPPQbBtn8bETjuzZ3YS9BCbD4zqc9
-         7qKmTaz3xwgXscTtfEwV/46CEgAzrPLESKzPyzusd502t/GjY7+aQjxYoa8JfNoUafHT
-         ln2g==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of xiujianfeng@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=xiujianfeng@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
-        by gmr-mx.google.com with ESMTPS id db20-20020a05690c0dd400b0055a5a7bcedcsi755761ywb.3.2023.05.11.05.30.56
+Received: by 2002:a05:600c:34d2:b0:3f4:267e:9f with SMTP id
+ d18-20020a05600c34d200b003f4267e009fls1636901wmq.1.-pod-control-gmail; Thu,
+ 11 May 2023 07:55:11 -0700 (PDT)
+X-Received: by 2002:a1c:720e:0:b0:3f0:7e15:f8fc with SMTP id n14-20020a1c720e000000b003f07e15f8fcmr15651343wmc.14.1683816911527;
+        Thu, 11 May 2023 07:55:11 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com. [192.55.52.120])
+        by gmr-mx.google.com with ESMTPS id o25-20020a05600c511900b003f4276a712bsi698396wms.1.2023.05.11.07.55.10
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 11 May 2023 05:30:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of xiujianfeng@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
-Received: from dggpeml500023.china.huawei.com (unknown [172.30.72.56])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4QHB334zv1zpVH6;
-	Thu, 11 May 2023 20:26:39 +0800 (CST)
-Received: from [10.67.110.112] (10.67.110.112) by
- dggpeml500023.china.huawei.com (7.185.36.114) with Microsoft SMTP Server
+        Thu, 11 May 2023 07:55:11 -0700 (PDT)
+Received-SPF: pass (google.com: domain of aleksander.lobakin@intel.com designates 192.55.52.120 as permitted sender) client-ip=192.55.52.120;
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="349359717"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
+   d="scan'208";a="349359717"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2023 07:55:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10707"; a="843998589"
+X-IronPort-AV: E=Sophos;i="5.99,266,1677571200"; 
+   d="scan'208";a="843998589"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmsmga001.fm.intel.com with ESMTP; 11 May 2023 07:55:09 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.23; Thu, 11 May 2023 20:30:52 +0800
-Message-ID: <1b270263-f457-e23b-e744-322a010d2a66@huawei.com>
-Date: Thu, 11 May 2023 20:30:52 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
+ 15.1.2507.23; Thu, 11 May 2023 07:55:08 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.23 via Frontend Transport; Thu, 11 May 2023 07:55:08 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.169)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.23; Thu, 11 May 2023 07:55:08 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oRPuzpHWFq4oP56QBIl9cu5xutw/UHfhzPo32Jy/mBaHO0OY1Tsq2ra9qCWyKFFwfQQrCWsmRlg/h3L44hXjTm20cflaCjreWOGVjL+eaQFKQwgZPLY+ArEreLm0Lo9KuVfnDbyLYS9b4Gxw2RC/znsrs9w41ZZfQmUGZE9dgTmgthR3k1GhIr7WYcicxdnlXScHs+SMyVhTo9OW4rAD+qcRWtdA/KgyyMSdhRVl+g9hxELEp/P3owBEhvkxcMVRchvN9/G0XG0d5YowcgvGZqoeftQFWlmQcBZXiS10KiFsv3JUM8IWL6RcPe7vmoSGWN8lvIeBW6OJzCCMCJ1FHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bak51/4RAowOJ93drTJqftvUYgcifJc+2PviNDDR8tg=;
+ b=TxOMcEMWj9CMIM+ZaSTdXHeDR+cBQo9HR/jt6Joo1NFZyWA/VRDGYJMR2sYMsumAqaazKxy56Eqo1RVB7mFf1UteqSBbezkspzICWzUQ79RhuY6tlS5QggsrpLWEmN70ztGXOBWroN7vlPT43tBfYbuJmYT/LGue3/r+zVPNDn04pEuaQWlC/bnXSXvzhfn/Kg7cbpb/X64iLA2B2Gh0tFoMS3LI1V2yTLEYjVzyjyz1SBapKmBOb1AVpMD3aLDJSuulwrRmbL94kKwRPR+5nVVhqdybGc0s607C/9R4Ks+3q3RsdvnsSA7e85J6NbvUj77ZpcfY5hnhrcpTKRgNKw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com (2603:10b6:5:13a::21)
+ by SA0PR11MB4573.namprd11.prod.outlook.com (2603:10b6:806:98::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6387.19; Thu, 11 May
+ 2023 14:55:06 +0000
+Received: from DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::64d9:76b5:5b43:1590]) by DM6PR11MB3625.namprd11.prod.outlook.com
+ ([fe80::64d9:76b5:5b43:1590%2]) with mapi id 15.20.6387.020; Thu, 11 May 2023
+ 14:55:06 +0000
+Message-ID: <75179e0d-f62c-6d3c-9353-e97dd5c9d9ad@intel.com>
+Date: Thu, 11 May 2023 16:54:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
 Subject: Re: [PATCH RFC v2] Randomized slab caches for kmalloc()
 Content-Language: en-US
-To: "GONG, Ruiqi" <gongruiqi1@huawei.com>, <linux-mm@kvack.org>,
-	<linux-kernel@vger.kernel.org>, <linux-hardening@vger.kernel.org>
-CC: Hyeonggon Yoo <42.hyeyoo@gmail.com>, Alexander Lobakin
-	<aleksander.lobakin@intel.com>, <kasan-dev@googlegroups.com>, Wang Weiyang
-	<wangweiyang2@huawei.com>
+To: "GONG, Ruiqi" <gongruiqi1@huawei.com>
+CC: <linux-mm@kvack.org>, <linux-hardening@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	<kasan-dev@googlegroups.com>, Wang Weiyang <wangweiyang2@huawei.com>, "Xiu
+ Jianfeng" <xiujianfeng@huawei.com>
 References: <20230508075507.1720950-1-gongruiqi1@huawei.com>
-From: "'xiujianfeng' via kasan-dev" <kasan-dev@googlegroups.com>
+From: Alexander Lobakin <aleksander.lobakin@intel.com>
 In-Reply-To: <20230508075507.1720950-1-gongruiqi1@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.67.110.112]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpeml500023.china.huawei.com (7.185.36.114)
-X-CFilter-Loop: Reflected
-X-Original-Sender: xiujianfeng@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of xiujianfeng@huawei.com designates 45.249.212.187 as
- permitted sender) smtp.mailfrom=xiujianfeng@huawei.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: xiujianfeng <xiujianfeng@huawei.com>
-Reply-To: xiujianfeng <xiujianfeng@huawei.com>
+X-ClientProxiedBy: JNAP275CA0017.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:4c::22)
+ To DM6PR11MB3625.namprd11.prod.outlook.com (2603:10b6:5:13a::21)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3625:EE_|SA0PR11MB4573:EE_
+X-MS-Office365-Filtering-Correlation-Id: d7203700-0068-4f34-f379-08db522fb513
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: E9MXEcacRhxUDBWOCG9F/JQUK6f5Q8THZePQtJ7d3rRuTD1pviqK1zbg3xum3ZmS2fX6GnHRZQhH0RfNZaZ4nto7KkWGEoGFn30l4zMHI3mjA0PT/PWDk4WbRdTclUijER/iR0+1oHCA1Ch+dXHSGYyj/EaML8PqR9x4/Pfn3LR9nqUWxh5OIny63qN1U9jabmPRc1O7CJzewU82T00cj7OkirHKfE3nhTU4E+EMbece9//xmMd29AB5+XisG6ZkPCz71rPGFt5mR0tkKZxZzplcXi0+d3qIFQVYUNdwcWXNOuZsX3jTfVnRyfiIm6nGZWcz3IUQUi3KCn14+MCqv6Qd4MKmcmO2UrobjSIrkazYsRKT8Mj7arQOHg/+Rh8w0BFy6404k45CY1ZdLJlLbV/UNn2QsAkyfuRRpF/yRV5vGRCykThqWFSUMozh5RkR4ECD077cHSBaDi+B3Ha27PMr3r6G9iK0QyN+fq9693zIX4Ja4IqQx+sVFNIuCKhK8mgHLmC9zetzjL0yCVcb1sNygNsJzpHy0MsB6YHWoXqtBLla8agA/0+5ypiBBIfpsjoZC7Ta960QvWWGevP9yyf2Cz2urdmEbA7ETW4b5T71uDnMpCTaqbei09dU8KLf4W/8P69bE3LYlvvQyAdiDw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3625.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230028)(376002)(39860400002)(396003)(136003)(346002)(366004)(451199021)(41300700001)(2906002)(478600001)(83380400001)(6512007)(6916009)(66556008)(2616005)(6486002)(66476007)(4326008)(6666004)(186003)(66946007)(54906003)(316002)(26005)(5660300002)(6506007)(8676002)(8936002)(38100700002)(31696002)(82960400001)(36756003)(86362001)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L1JzUjVOdGs4dHB1UlRJeGRxZW5LSEhXQVBGVDVuQzcxQjltdVpKOGZuMEVy?=
+ =?utf-8?B?b0M4c1p1MWFqendnc1lqdmdxdEgrdFB6S1Vta1ZSM0ZWY1VaQnRRSEdNQnlR?=
+ =?utf-8?B?SEJsTDNHRzZJcW5PeEF5TWp0bWJURlRPK3R1Yk1nY2Q3NTBxT0xLR1lZdW1r?=
+ =?utf-8?B?c01iY003b2VGZlU1b3hNZ1ZaMkI3NWYxbzIzMnZULzlUZGU3ZHRadU51ZXNz?=
+ =?utf-8?B?OThCZlArMkR2SWJzY0hTUjBuMG1XUWtCY3ZRc1Vpb1pMTEF1dHk3ZExHeVd4?=
+ =?utf-8?B?U2lBT0ZxVUZoZHduK25ETzVBTzNhYWl3T1MvVlRjTS81TUNBQWxwUlllN2hZ?=
+ =?utf-8?B?UzRpWEtOclBxVVpmMVlCbDdKaGp1K3dmK0RjWkpOVlhjaDZrd0FhbHJqaHlI?=
+ =?utf-8?B?L3VEcVpuS3Y0bXpGZmdRY1RzQno2eDgzWTc2UmR4eTdvNXBpbkZvWXVVR0lr?=
+ =?utf-8?B?RVBWVHpleGJkTkkvSU8rZ1R3dEN1aTc2VUk5Y1pGdDYzYmdYOFBmaTlpMjNU?=
+ =?utf-8?B?VStseUVLRlRZMTlKYlZ2bDdPSjlnbjlXcmg1b0JoNXhZUkNOMTRmd2ZxUEFH?=
+ =?utf-8?B?UFlBSmFSdHc4SEFRRkl1bXBGMXRFK3ZYN202TldDWXFiWk5ZalJEakVEYUhD?=
+ =?utf-8?B?b1o5NWxIcE9uNDI5dXBEMlFPNW5MUmIvNGM1dW1VSXFXcXg2eFkwWmN2bmJu?=
+ =?utf-8?B?VEFkNi9NcWZPci8rTVE5RVAwZlI0Y2RQNWl6aDBlTmpwa290N1R3QUY2d0F0?=
+ =?utf-8?B?R1FiWnErODJGd1ZaVkRaTzZCWUtqSFR5OGk0LzFtdGQ0QlhXc1plM2JuZDkx?=
+ =?utf-8?B?bkJNZU56NVQ5ZHB6UnRXU21Qa0lQbE1XQWNBTjhqMUpIb1Y1eThJVjBzQ29P?=
+ =?utf-8?B?bHRGQTVNRVorR2dpOWJWR2JxTWZITXZjT3ZIMXBSVEFma1Q0Zm04a3FLQjJR?=
+ =?utf-8?B?OXVKdlZodE84SjFQVnUyaERPRk1BWW4xMDZJQjB2Q3ZqaHJUZE1lVm94eU5J?=
+ =?utf-8?B?MzNPQk41Z0x4QzF1cWVQZEZySlV5T1BGV0xHeGRxWUJSRmFhQmlPMk9YbEYz?=
+ =?utf-8?B?b2ZCT29RbnVncVNhS2xMeHR1cGVFZW16K3l1NHdZMkpDbm9Dd1p1RzM3d3I0?=
+ =?utf-8?B?a1FXVzEzOFpmckVZS25JMmVZcDdxRHZvRlpJZi80TWZDUHdITWNyZnNsNWpo?=
+ =?utf-8?B?Zi9aQ2xkMzRnWUQ0SVcybUJzSVA4YUpNUFFNSEdOTnJaYjN4UHB3NGhQQk9h?=
+ =?utf-8?B?V0Y0cDd1cEgxT2lOcStjTVhTS3p3QUlTSFRQTDBaZm5LZ1RqZU9jSk4wR2My?=
+ =?utf-8?B?ZW1lODZjNCs3ZUdWcWJoWUR0VEhzMTBrL2dPUnBMR0xSZ3dIRlVIL1JybFlD?=
+ =?utf-8?B?STZKczlNanJzWXQ3bUdXTmVmRFZHZE9yQW1BblN5M3IvQ3dsNzhqamR1Um1j?=
+ =?utf-8?B?cTdiamh5d1RoQk9MakdOcWZmSTROMGNoYzhscGFWSEVNamd5WDljVGN3Vno3?=
+ =?utf-8?B?c1VyVFBUMDY0ZS9UdjB4SEFPTkxLTjhoRFZmTkpQTXdDelVlMjZsWUdHdjB1?=
+ =?utf-8?B?ZWpzV2NzdjdsYjlmVWJ5aU41S1ExOTd1c0tWeFpOTWc1WUo0WklCU1hRaW5r?=
+ =?utf-8?B?aklBTG5yL1BDSlJoc2JaRjBydk9SY0JaQXJyRUhXSDByR01mc3dCV1NHNEhP?=
+ =?utf-8?B?L01DZ1REdmgyb2VscGFPb1BKWU9zOHNvQ1h5VUlnSkNmRW1IRUErSTV3MklS?=
+ =?utf-8?B?VmY4WjZQc1BjM2xBVUJWeUlBVU5lcnBaV0FSZWErcEpUVHJIemxGdDNRcWFs?=
+ =?utf-8?B?SGFrcGJXSjlyTldyblNJODh4Z3Z6N3doazAzSk9oOXlrV2hKVmNWNlJoOHVu?=
+ =?utf-8?B?UStBZE5uNWFSTjRadW1WaWFMQUFPSTJERHZORkt2MzRsRDFmdnBHNGhSWXJq?=
+ =?utf-8?B?Q1FYN2N6cHM0cTN0VHFQNEtUblVhWWo3c0haeCtOZ2ljbjNGeWw1L3lhTjJk?=
+ =?utf-8?B?aUNQVGtsRHpBUHpjWEVmaFRqYlJjdEtWRzFLdEdlblBjVWdLeFl2V1d4RXN2?=
+ =?utf-8?B?SXB6VnB2Q3pUMEtOeGFPbG13cWw4UFJ2L1R6ai9EL0tEakE3TVY1VlBRdFhM?=
+ =?utf-8?B?dmQzbTE0ajI3cEFLT3FkWmhPSU5obHlvR255ZGJxeXc3UlB1MVlHNm0wRXJq?=
+ =?utf-8?B?Smc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7203700-0068-4f34-f379-08db522fb513
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3625.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2023 14:55:06.2269
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7QkvnENllz/Gto05Vqmz5Me6HgNnBJswzckfHFw1LH7ODlEbsJ18KjLmxT00EvS12KYAgKZWPX+0PqvNcylJVvlX+zPa3tEyYUl7hViuDlE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4573
+X-OriginatorOrg: intel.com
+X-Original-Sender: aleksander.lobakin@intel.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@intel.com header.s=Intel header.b="TV/+aPqP";       arc=fail
+ (signature failed);       spf=pass (google.com: domain of aleksander.lobakin@intel.com
+ designates 192.55.52.120 as permitted sender) smtp.mailfrom=aleksander.lobakin@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,9 +188,9 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+From: Gong, Ruiqi <gongruiqi1@huawei.com>
+Date: Mon, 8 May 2023 15:55:07 +0800
 
-
-On 2023/5/8 15:55, GONG, Ruiqi wrote:
 > When exploiting memory vulnerabilities, "heap spraying" is a common
 > technique targeting those related to dynamic memory allocation (i.e. the
 > "heap"), and it plays an important role in a successful exploitation.
@@ -154,352 +199,9 @@ On 2023/5/8 15:55, GONG, Ruiqi wrote:
 > getting a reference to the targeted memory location. It's usable on
 > various types of vulnerablity including use after free (UAF), heap out-
 > of-bound write and etc.
-> 
-> There are (at least) two reasons why the heap can be sprayed: 1) generic
-> slab caches are shared among different subsystems and modules, and
-> 2) dedicated slab caches could be merged with the generic ones.
-> Currently these two factors cannot be prevented at a low cost: the first
-> one is a widely used memory allocation mechanism, and shutting down slab
-> merging completely via `slub_nomerge` would be overkill.
-> 
-> To efficiently prevent heap spraying, we propose the following approach:
-> to create multiple copies of generic slab caches that will never be
-> merged, and random one of them will be used at allocation. The random
-> selection is based on the address of code that calls `kmalloc()`, which
-> means it is static at runtime (rather than dynamically determined at
-> each time of allocation, which could be bypassed by repeatedly spraying
-> in brute force). In this way, the vulnerable object and memory allocated
-> in other subsystems and modules will (most probably) be on different
-> slab caches, which prevents the object from being sprayed.
-> 
-> The overhead of performance has been tested on a 40-core x86 server by
-> comparing the results of `perf bench all` between the kernels with and
-> without this patch based on the latest linux-next kernel, which shows
-> minor difference. A subset of benchmarks are listed below:
-> 
-> 			control		experiment (avg of 3 samples)
-> sched/messaging (sec)	0.019		0.019
-> sched/pipe (sec)	5.253		5.340
-> syscall/basic (sec)	0.741		0.742
-> mem/memcpy (GB/sec)	15.258789	14.860495
-> mem/memset (GB/sec)	48.828125	50.431069
-> 
 
-Could this be a measurement error? otherwise it doesn't look reasonable
-to just improve memcpy and worsen memset.
+[...]
 
-
-> The overhead of memory usage was measured by executing `free` after boot
-> on a QEMU VM with 1GB total memory, and as expected, it's positively
-> correlated with # of cache copies:
-> 
-> 		control		4 copies	8 copies	16 copies
-> total		969.8M		968.2M		968.2M		968.2M
-> used		20.0M		21.9M		24.1M		26.7M
-> free		936.9M		933.6M		931.4M		928.6M
-> available	932.2M		928.8M		926.6M		923.9M
-> 
-> Signed-off-by: GONG, Ruiqi <gongruiqi1@huawei.com>
-> ---
-> 
-> v2:
->   - Use hash_64() and a per-boot random seed to select kmalloc() caches.
->   - Change acceptable # of caches from [4,16] to {2,4,8,16}, which is
-> more compatible with hashing.
->   - Supplement results of performance and memory overhead tests.
-> 
->  include/linux/percpu.h  | 12 ++++++---
->  include/linux/slab.h    | 25 +++++++++++++++---
->  mm/Kconfig              | 49 ++++++++++++++++++++++++++++++++++++
->  mm/kfence/kfence_test.c |  4 +--
->  mm/slab.c               |  2 +-
->  mm/slab.h               |  3 ++-
->  mm/slab_common.c        | 56 +++++++++++++++++++++++++++++++++++++----
->  7 files changed, 135 insertions(+), 16 deletions(-)
-> 
-> diff --git a/include/linux/percpu.h b/include/linux/percpu.h
-> index 1338ea2aa720..6cee6425951f 100644
-> --- a/include/linux/percpu.h
-> +++ b/include/linux/percpu.h
-> @@ -34,6 +34,12 @@
->  #define PCPU_BITMAP_BLOCK_BITS		(PCPU_BITMAP_BLOCK_SIZE >>	\
->  					 PCPU_MIN_ALLOC_SHIFT)
->  
-> +#ifdef CONFIG_RANDOM_KMALLOC_CACHES
-> +#define PERCPU_DYNAMIC_SIZE_SHIFT      13
-> +#else
-> +#define PERCPU_DYNAMIC_SIZE_SHIFT      10
-> +#endif
-> +
->  /*
->   * Percpu allocator can serve percpu allocations before slab is
->   * initialized which allows slab to depend on the percpu allocator.
-> @@ -41,7 +47,7 @@
->   * for this.  Keep PERCPU_DYNAMIC_RESERVE equal to or larger than
->   * PERCPU_DYNAMIC_EARLY_SIZE.
->   */
-> -#define PERCPU_DYNAMIC_EARLY_SIZE	(20 << 10)
-> +#define PERCPU_DYNAMIC_EARLY_SIZE	(20 << PERCPU_DYNAMIC_SIZE_SHIFT)
->  
->  /*
->   * PERCPU_DYNAMIC_RESERVE indicates the amount of free area to piggy
-> @@ -55,9 +61,9 @@
->   * intelligent way to determine this would be nice.
->   */
->  #if BITS_PER_LONG > 32
-> -#define PERCPU_DYNAMIC_RESERVE		(28 << 10)
-> +#define PERCPU_DYNAMIC_RESERVE		(28 << PERCPU_DYNAMIC_SIZE_SHIFT)
->  #else
-> -#define PERCPU_DYNAMIC_RESERVE		(20 << 10)
-> +#define PERCPU_DYNAMIC_RESERVE		(20 << PERCPU_DYNAMIC_SIZE_SHIFT)
->  #endif
->  
->  extern void *pcpu_base_addr;
-> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> index 6b3e155b70bf..939c41c20600 100644
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -18,6 +18,9 @@
->  #include <linux/workqueue.h>
->  #include <linux/percpu-refcount.h>
->  
-> +#ifdef CONFIG_RANDOM_KMALLOC_CACHES
-> +#include <linux/hash.h>
-> +#endif
->  
->  /*
->   * Flags to pass to kmem_cache_create().
-> @@ -106,6 +109,12 @@
->  /* Avoid kmemleak tracing */
->  #define SLAB_NOLEAKTRACE	((slab_flags_t __force)0x00800000U)
->  
-> +#ifdef CONFIG_RANDOM_KMALLOC_CACHES
-> +# define SLAB_RANDOMSLAB	((slab_flags_t __force)0x01000000U)
-> +#else
-> +# define SLAB_RANDOMSLAB	0
-> +#endif
-> +
->  /* Fault injection mark */
->  #ifdef CONFIG_FAILSLAB
->  # define SLAB_FAILSLAB		((slab_flags_t __force)0x02000000U)
-> @@ -331,7 +340,9 @@ static inline unsigned int arch_slab_minalign(void)
->   * kmem caches can have both accounted and unaccounted objects.
->   */
->  enum kmalloc_cache_type {
-> -	KMALLOC_NORMAL = 0,
-> +	KMALLOC_RANDOM_START = 0,
-> +	KMALLOC_RANDOM_END = KMALLOC_RANDOM_START + CONFIG_RANDOM_KMALLOC_CACHES_NR - 1,
-> +	KMALLOC_NORMAL = KMALLOC_RANDOM_END,
->  #ifndef CONFIG_ZONE_DMA
->  	KMALLOC_DMA = KMALLOC_NORMAL,
->  #endif
-> @@ -363,14 +374,20 @@ kmalloc_caches[NR_KMALLOC_TYPES][KMALLOC_SHIFT_HIGH + 1];
->  	(IS_ENABLED(CONFIG_ZONE_DMA)   ? __GFP_DMA : 0) |	\
->  	(IS_ENABLED(CONFIG_MEMCG_KMEM) ? __GFP_ACCOUNT : 0))
->  
-> -static __always_inline enum kmalloc_cache_type kmalloc_type(gfp_t flags)
-> +extern unsigned long random_kmalloc_seed;
-> +
-> +static __always_inline enum kmalloc_cache_type kmalloc_type(gfp_t flags, unsigned long caller)
->  {
->  	/*
->  	 * The most common case is KMALLOC_NORMAL, so test for it
->  	 * with a single branch for all the relevant flags.
->  	 */
->  	if (likely((flags & KMALLOC_NOT_NORMAL_BITS) == 0))
-> +#ifdef CONFIG_RANDOM_KMALLOC_CACHES
-> +		return KMALLOC_RANDOM_START + hash_64(caller ^ random_kmalloc_seed, CONFIG_RANDOM_KMALLOC_CACHES_BITS);
-> +#else
->  		return KMALLOC_NORMAL;
-> +#endif
->  
->  	/*
->  	 * At least one of the flags has to be set. Their priorities in
-> @@ -557,7 +574,7 @@ static __always_inline __alloc_size(1) void *kmalloc(size_t size, gfp_t flags)
->  
->  		index = kmalloc_index(size);
->  		return kmalloc_trace(
-> -				kmalloc_caches[kmalloc_type(flags)][index],
-> +				kmalloc_caches[kmalloc_type(flags, _RET_IP_)][index],
->  				flags, size);
->  	}
->  	return __kmalloc(size, flags);
-> @@ -573,7 +590,7 @@ static __always_inline __alloc_size(1) void *kmalloc_node(size_t size, gfp_t fla
->  
->  		index = kmalloc_index(size);
->  		return kmalloc_node_trace(
-> -				kmalloc_caches[kmalloc_type(flags)][index],
-> +				kmalloc_caches[kmalloc_type(flags, _RET_IP_)][index],
->  				flags, node, size);
->  	}
->  	return __kmalloc_node(size, flags, node);
-> diff --git a/mm/Kconfig b/mm/Kconfig
-> index 7672a22647b4..e868da87d9cd 100644
-> --- a/mm/Kconfig
-> +++ b/mm/Kconfig
-> @@ -311,6 +311,55 @@ config SLUB_CPU_PARTIAL
->  	  which requires the taking of locks that may cause latency spikes.
->  	  Typically one would choose no for a realtime system.
->  
-> +config RANDOM_KMALLOC_CACHES
-> +	default n
-> +	depends on SLUB
-> +	bool "Random slab caches for normal kmalloc"
-> +	help
-> +	  A hardening feature that creates multiple copies of slab caches for
-> +	  normal kmalloc allocation and makes kmalloc randomly pick one based
-> +	  on code address, which makes the attackers unable to spray vulnerable
-> +	  memory objects on the heap for exploiting memory vulnerabilities.
-> +
-> +choice
-> +	prompt "Number of random slab caches copies"
-> +	depends on RANDOM_KMALLOC_CACHES
-> +	default RANDOM_KMALLOC_CACHES_16
-> +	help
-> +	  The number of copies of random slab caches. Bigger value makes the
-> +	  potentially vulnerable memory object less likely to collide with
-> +	  objects allocated from other subsystems or modules.
-> +
-> +config RANDOM_KMALLOC_CACHES_2
-> +	bool "2"
-> +
-> +config RANDOM_KMALLOC_CACHES_4
-> +	bool "4"
-> +
-> +config RANDOM_KMALLOC_CACHES_8
-> +	bool "8"
-> +
-> +config RANDOM_KMALLOC_CACHES_16
-> +	bool "16"
-> +
-> +endchoice
-> +
-> +config RANDOM_KMALLOC_CACHES_BITS
-> +	int
-> +	default 0 if !RANDOM_KMALLOC_CACHES
-> +	default 1 if RANDOM_KMALLOC_CACHES_2
-> +	default 2 if RANDOM_KMALLOC_CACHES_4
-> +	default 3 if RANDOM_KMALLOC_CACHES_8
-> +	default 4 if RANDOM_KMALLOC_CACHES_16
-> +
-> +config RANDOM_KMALLOC_CACHES_NR
-> +	int
-> +	default 1 if !RANDOM_KMALLOC_CACHES
-> +	default 2 if RANDOM_KMALLOC_CACHES_2
-> +	default 4 if RANDOM_KMALLOC_CACHES_4
-> +	default 8 if RANDOM_KMALLOC_CACHES_8
-> +	default 16 if RANDOM_KMALLOC_CACHES_16
-> +
->  endmenu # SLAB allocator options
->  
->  config SHUFFLE_PAGE_ALLOCATOR
-> diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
-> index 6aee19a79236..8a95ef649d5e 100644
-> --- a/mm/kfence/kfence_test.c
-> +++ b/mm/kfence/kfence_test.c
-> @@ -213,7 +213,7 @@ static void test_cache_destroy(void)
->  
->  static inline size_t kmalloc_cache_alignment(size_t size)
->  {
-> -	return kmalloc_caches[kmalloc_type(GFP_KERNEL)][__kmalloc_index(size, false)]->align;
-> +	return kmalloc_caches[kmalloc_type(GFP_KERNEL, _RET_IP_)][__kmalloc_index(size, false)]->align;
->  }
->  
->  /* Must always inline to match stack trace against caller. */
-> @@ -284,7 +284,7 @@ static void *test_alloc(struct kunit *test, size_t size, gfp_t gfp, enum allocat
->  		if (is_kfence_address(alloc)) {
->  			struct slab *slab = virt_to_slab(alloc);
->  			struct kmem_cache *s = test_cache ?:
-> -					kmalloc_caches[kmalloc_type(GFP_KERNEL)][__kmalloc_index(size, false)];
-> +					kmalloc_caches[kmalloc_type(GFP_KERNEL, _RET_IP_)][__kmalloc_index(size, false)];
->  
->  			/*
->  			 * Verify that various helpers return the right values
-> diff --git a/mm/slab.c b/mm/slab.c
-> index bb57f7fdbae1..82e2a8d4cd9d 100644
-> --- a/mm/slab.c
-> +++ b/mm/slab.c
-> @@ -1674,7 +1674,7 @@ static size_t calculate_slab_order(struct kmem_cache *cachep,
->  			if (freelist_size > KMALLOC_MAX_CACHE_SIZE) {
->  				freelist_cache_size = PAGE_SIZE << get_order(freelist_size);
->  			} else {
-> -				freelist_cache = kmalloc_slab(freelist_size, 0u);
-> +				freelist_cache = kmalloc_slab(freelist_size, 0u, _RET_IP_);
->  				if (!freelist_cache)
->  					continue;
->  				freelist_cache_size = freelist_cache->size;
-> diff --git a/mm/slab.h b/mm/slab.h
-> index f01ac256a8f5..1e484af71c52 100644
-> --- a/mm/slab.h
-> +++ b/mm/slab.h
-> @@ -243,7 +243,7 @@ void setup_kmalloc_cache_index_table(void);
->  void create_kmalloc_caches(slab_flags_t);
->  
->  /* Find the kmalloc slab corresponding for a certain size */
-> -struct kmem_cache *kmalloc_slab(size_t, gfp_t);
-> +struct kmem_cache *kmalloc_slab(size_t, gfp_t, unsigned long);
->  
->  void *__kmem_cache_alloc_node(struct kmem_cache *s, gfp_t gfpflags,
->  			      int node, size_t orig_size,
-> @@ -319,6 +319,7 @@ static inline bool is_kmalloc_cache(struct kmem_cache *s)
->  			      SLAB_TEMPORARY | \
->  			      SLAB_ACCOUNT | \
->  			      SLAB_KMALLOC | \
-> +			      SLAB_RANDOMSLAB | \
->  			      SLAB_NO_USER_FLAGS)
->  
->  bool __kmem_cache_empty(struct kmem_cache *);
-> diff --git a/mm/slab_common.c b/mm/slab_common.c
-> index 607249785c07..70899b20a9a7 100644
-> --- a/mm/slab_common.c
-> +++ b/mm/slab_common.c
-> @@ -47,6 +47,7 @@ static DECLARE_WORK(slab_caches_to_rcu_destroy_work,
->   */
->  #define SLAB_NEVER_MERGE (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER | \
->  		SLAB_TRACE | SLAB_TYPESAFE_BY_RCU | SLAB_NOLEAKTRACE | \
-> +		SLAB_RANDOMSLAB | \
->  		SLAB_FAILSLAB | kasan_never_merge())
->  
->  #define SLAB_MERGE_SAME (SLAB_RECLAIM_ACCOUNT | SLAB_CACHE_DMA | \
-> @@ -679,6 +680,11 @@ kmalloc_caches[NR_KMALLOC_TYPES][KMALLOC_SHIFT_HIGH + 1] __ro_after_init =
->  { /* initialization for https://bugs.llvm.org/show_bug.cgi?id=42570 */ };
->  EXPORT_SYMBOL(kmalloc_caches);
->  
-> +#ifdef CONFIG_RANDOM_KMALLOC_CACHES
-> +unsigned long random_kmalloc_seed __ro_after_init;
-> +EXPORT_SYMBOL(random_kmalloc_seed);
-> +#endif
-> +
->  /*
->   * Conversion table for small slabs sizes / 8 to the index in the
->   * kmalloc array. This is necessary for slabs < 192 since we have non power
-> @@ -721,7 +727,7 @@ static inline unsigned int size_index_elem(unsigned int bytes)
->   * Find the kmem_cache structure that serves a given size of
->   * allocation
->   */
-> -struct kmem_cache *kmalloc_slab(size_t size, gfp_t flags)
-> +struct kmem_cache *kmalloc_slab(size_t size, gfp_t flags, unsigned long caller)
->  {
->  	unsigned int index;
->  
-> @@ -736,7 +742,7 @@ struct kmem_cache *kmalloc_slab(size_t size, gfp_t flags)
->  		index = fls(size - 1);
->  	}
->  
-> -	return kmalloc_caches[kmalloc_type(flags)][index];
-> +	return kmalloc_caches[kmalloc_type(flags, caller)][index];
->  }
->  
->  size_t kmalloc_size_roundup(size_t size)
-> @@ -754,7 +760,7 @@ size_t kmalloc_size_roundup(size_t size)
->  		return PAGE_SIZE << get_order(size);
->  
->  	/* The flags don't matter since size_index is common to all. */
-> -	c = kmalloc_slab(size, GFP_KERNEL);
-> +	c = kmalloc_slab(size, GFP_KERNEL, _RET_IP_);
->  	return c ? c->object_size : 0;
->  }
->  EXPORT_SYMBOL(kmalloc_size_roundup);
 > @@ -777,12 +783,44 @@ EXPORT_SYMBOL(kmalloc_size_roundup);
 >  #define KMALLOC_RCL_NAME(sz)
 >  #endif
@@ -530,6 +232,19 @@ to just improve memcpy and worsen memset.
 > +#define KMALLOC_RANDOM_14_NAME(sz) KMALLOC_RANDOM_13_NAME(sz) .name[KMALLOC_RANDOM_START + 13] = "kmalloc-random-14-" #sz,
 > +#define KMALLOC_RANDOM_15_NAME(sz) KMALLOC_RANDOM_14_NAME(sz) .name[KMALLOC_RANDOM_START + 14] = "kmalloc-random-15-" #sz,
 > +#define KMALLOC_RANDOM_16_NAME(sz) KMALLOC_RANDOM_15_NAME(sz) .name[KMALLOC_RANDOM_START + 15] = "kmalloc-random-16-" #sz,
+
+This all can be compressed. Only two things are variables here, so
+
+#define KMALLOC_RANDOM_N_NAME(cur, prev, sz)	\
+	KMALLOC_RANDOM_##prev##_NAME(sz),	\	
+	.name[KMALLOC_RANDOM_START + prev] =	\
+		"kmalloc-random-##cur##-" #sz
+
+#define KMALLOC_RANDOM_16_NAME(sz) KMALLOC_RANDOM_N_NAME(16, 15, sz)
+
+Also I'd rather not put commas ',' at the end of each macro, they're
+usually put outside where the macro is used.
+
 > +#endif
 > +#else // CONFIG_RANDOM_KMALLOC_CACHES
 > +#define KMALLOC_RANDOM_NAME(N, sz)
@@ -542,6 +257,12 @@ to just improve memcpy and worsen memset.
 >  	KMALLOC_CGROUP_NAME(__short_size)			\
 >  	KMALLOC_DMA_NAME(__short_size)				\
 > +	KMALLOC_RANDOM_NAME(CONFIG_RANDOM_KMALLOC_CACHES_NR, __short_size)	\
+
+Can't those names be __initconst and here you'd just do one loop from 1
+to KMALLOC_CACHES_NR, which would assign names? I'm not sure compilers
+will expand that one to a compile-time constant and assigning 69
+different string pointers per one kmalloc size is a bit of a waste to me.
+
 >  	.size = __size,						\
 >  }
 >  
@@ -563,6 +284,11 @@ to just improve memcpy and worsen memset.
 >  	 */
 > -	for (type = KMALLOC_NORMAL; type < NR_KMALLOC_TYPES; type++) {
 > +	for (type = KMALLOC_RANDOM_START; type < NR_KMALLOC_TYPES; type++) {
+
+Can't we just define something like __KMALLOC_TYPE_START at the
+beginning of the enum to not search for all such places each time
+something new is added?
+
 >  		for (i = KMALLOC_SHIFT_LOW; i <= KMALLOC_SHIFT_HIGH; i++) {
 >  			if (!kmalloc_caches[type][i])
 >  				new_kmalloc_cache(i, type, flags);
@@ -586,7 +312,10 @@ to just improve memcpy and worsen memset.
 >  	if (unlikely(ZERO_OR_NULL_PTR(s)))
 >  		return s;
 
+Thanks,
+Olek
+
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1b270263-f457-e23b-e744-322a010d2a66%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/75179e0d-f62c-6d3c-9353-e97dd5c9d9ad%40intel.com.
