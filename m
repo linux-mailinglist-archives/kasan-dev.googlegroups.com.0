@@ -1,111 +1,115 @@
-Return-Path: <kasan-dev+bncBD52JJ7JXILRBFNF7ORAMGQEOI3AJ3A@googlegroups.com>
+Return-Path: <kasan-dev+bncBD52JJ7JXILRBGFF7ORAMGQEOIABT4Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf39.google.com (mail-qv1-xf39.google.com [IPv6:2607:f8b0:4864:20::f39])
-	by mail.lfdr.de (Postfix) with ESMTPS id C04B77012D3
-	for <lists+kasan-dev@lfdr.de>; Sat, 13 May 2023 01:58:14 +0200 (CEST)
-Received: by mail-qv1-xf39.google.com with SMTP id 6a1803df08f44-61b1dbdb2f9sf141814416d6.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 12 May 2023 16:58:14 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1683935893; cv=pass;
+Received: from mail-io1-xd37.google.com (mail-io1-xd37.google.com [IPv6:2607:f8b0:4864:20::d37])
+	by mail.lfdr.de (Postfix) with ESMTPS id 466427012D4
+	for <lists+kasan-dev@lfdr.de>; Sat, 13 May 2023 01:58:18 +0200 (CEST)
+Received: by mail-io1-xd37.google.com with SMTP id ca18e2360f4ac-763c3442563sf689772239f.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 12 May 2023 16:58:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1683935897; cv=pass;
         d=google.com; s=arc-20160816;
-        b=OImhtb0BZE59TxnR1XRPGvhkGeO6EuEN6Z9TAwfoR5op4nmCFuBT+hUJlim+W3vlYk
-         uGdSy2YSDH3OGHrlxKIc0+bqT988I3TrXFGBye/Fn70kHEoCpZoVvTabIUPyYiq3pqFw
-         W7hXvflGwqJIGzXyb1LbFsf+LxnYExqrbboNdBiIb03Px7hXeRVrlLqbnOnGCGQdpL0h
-         3gpoad+cvqOFr0TeyUpKUNxF3LxJMNASQptkAUfZnBAHkt8mCx9k7vu/S28O6px30LQN
-         B16lis11/HzJB+8C0Gvl08dODWaEWXnJ3Jd1R080yeUfuj2rrvrm+m4a1p3pRU6FNLGg
-         +7uQ==
+        b=XSomZTcLYVgWSpGdw98v54wuprhUhtMjS0YYBqMrHaI0X2MtESp3RAFl6bVsY8iivZ
+         uzlJzA13/wMcMXpTaUABWVTFMQ/bnZirIzOrUIUMwRioTU5i1uf3V7K+v7o9TVaKNfMC
+         Q/zNWxKv11LcBlIU5YdW6aNLLYYbz1+I02d3fLUQ0mjMwtL2C+TjlDo/wZ2zGQ4QqM7K
+         Wq1lUlOijppdPqAdiPDI1oqz7IvSVI6VgVl4Lho3RzWTrOAF+Seqi9hlI8e3Cue0qPes
+         qNo505IeLFaa4Gv4QTRvmmfm4Uf/vE1rTlxETGmKloALcBktq5EQgpgse4gn2mnBEWGZ
+         7PIg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :mime-version:message-id:date:dkim-signature;
-        bh=I++ceXVfPudsbA9mDHIiRvzV8odblGDOP9kVK42/RRg=;
-        b=LQWCKUb09WZ1WM9z5caOTRSEvzYa2xBB1sf90XNeXTySyBcoaA0ZDdjkvooPVH2B+v
-         /vt3/dRTJ1ZDmqWoKDAd/c9P0/KFzwHuNh7goDDExJE5x43tFXnb1r9Kxx7NtnH9FII5
-         yVLvlMB8TB6PUMyZZ5DAWPK1bMZeVdafsMmzFBD7yyluQNEIBg559AqvT1p+78J7gw4y
-         zyHh9Bzi198sA7pANf66wlHLW5I21WU9aQ7atNVkCt1n9iNgf8T6xrCr1bvOScQ5U7MG
-         VYTNVuDZ8Le3K1FmHoy/A9C4TowjNYlNw3b4dVwJI7XTdy2Omd7+m4PVm5RrUuH/6F5x
-         hs+g==
+         :references:mime-version:message-id:in-reply-to:date:dkim-signature;
+        bh=EAKvNJP+QBmW02zk8DVx8K9rEsKn4xacDcfjWy1qYz4=;
+        b=n2Z4gI/4ife+pCGC3dadpd47qOBIHs0QA15z7oZFlgt3Ropi/o9z8N9JVz3eWhOfYN
+         G5eiLJdt2TrvrNSmxlkhWXINTgdIQ6VjnvIrUh8KGfjuVpZPv7yaY+qsZFb6447BISTj
+         jgTlRTvQah8qvNiNNZNFwc9k1FEyl8xHc4gGr7RiiRDgd7Y5nc7gI/jGUdbZ1EFLwdpY
+         m2H8OKYE9fYkEvzEfzdQCnU7poTz3h5p8YUTP7GhLr2dVvBZeQEZtbHK5sb6sMOoyYhe
+         eQU5a8x1LU6hrC8E0WysKXRimMTXsSyHIs78cOa2yMV6TqvkLmBrEjsO5EzW2349fpg2
+         U0Yw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b="MH/xgRcl";
-       spf=pass (google.com: domain of 3lnjezamkcd0obbfnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3lNJeZAMKCd0OBBFNNFKD.BNLJ9R9M-CDUFNNFKDFQNTOR.BNL@flex--pcc.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b="f5hclik/";
+       spf=pass (google.com: domain of 3ltjezamkcd8qddhpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3ltJeZAMKCd8QDDHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--pcc.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1683935893; x=1686527893;
+        d=googlegroups.com; s=20221208; t=1683935897; x=1686527897;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:mime-version:message-id:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I++ceXVfPudsbA9mDHIiRvzV8odblGDOP9kVK42/RRg=;
-        b=jawUtlOgBWHjMt0ltv+FeipOyuOd2mCYD0U3JH79KicgyuqLvUBD/WmU6VRyQZa7ww
-         ugFoqHC80idI69M+0yKB9Q+2U8P0xWsAxA+HeDFSiCe9PXsANYuZ9syJ9CKTpvfRGbwK
-         MrvaXfyYR5I3YI3ynpyWKuexPDSw+3H8qZOTZGQXXmH//i+tsvfyB2SM+o9MQATPMr6S
-         PCU1i0t5SddqnkLXOJi2hEBDDOdsr3+5wS9Q1cvf3z4SZQ9vES6DYwJ4eWon+a+I4cYZ
-         xSZ4gsScwZakpOtYYCrrXkjpS2fgGd+GNtw9hdgDWu/l3Y7SuKPZYNuL6GFSX8YZf6sR
-         CUnA==
+         :subject:references:mime-version:message-id:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=EAKvNJP+QBmW02zk8DVx8K9rEsKn4xacDcfjWy1qYz4=;
+        b=szQuf8VfBIFyW99uN3uKi/VJDmjpUdXBsogtiraC3ofIxHTCppNthnE6lUF7QTIQd7
+         zBteTDeGKftZUQM7YoWFr38vyso5arKxMGmf8/0lMoqodqhJa9XztwwoUA4g8/zw2o2+
+         VkabP5MQgKdpyLjPiyIWhdwkVhEpD7rzltm1uciVRs/JfByUmenif+4RP48f2gfpDQxq
+         vrLFGqno1W0e+MFSADjB45aglEqYAB4VU5iWZyOYWH+rcUeni/TWZkIi7NydS76RQ2Zx
+         TE8V8zyzLIK1U2xScVou8t/rICrGlacY/5myhg8KRYw510C0/+8sZovniHN6gOJGp/yQ
+         LaZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683935893; x=1686527893;
+        d=1e100.net; s=20221208; t=1683935897; x=1686527897;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:mime-version:message-id:date:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=I++ceXVfPudsbA9mDHIiRvzV8odblGDOP9kVK42/RRg=;
-        b=bzz6DBiEgkBaw90PV8D3IAf494zcNiNazmbvQdVOdGhvxfEQeOhU/30xTS4FrJzSMb
-         uD0gY4EdktvV8OM/3gVLs/KobFvSPV4bCM6Ay3V8TVMkA+yCXaWsH6waU/eNR7xE12AA
-         Fg7zWjWpMdKFCmVYPVmozAsUrWuxWbVBc5+DlvGqb6slIM+l2OFzm9JHGwZfxYgYewU2
-         5LdEoiKJpJUMCIa0vwSbtXWLqUZ6ga04cWuU6q3dyZLiyWTsqVSuxe0nf4DQyZ73gEDK
-         rTohBFz5rJg8tw0X09B7CI+T2UAmWL5jACx54Qfp50b/Wo1NY9RXzi4la5aUiNFs/JHt
-         qgXw==
-X-Gm-Message-State: AC+VfDyKgQFwd/7opAmVDtmGqdUrNRIPV/+r35gguNW9SLVoH67a8trX
-	wRVwEXf4mzr/Vebtu88OUc4=
-X-Google-Smtp-Source: ACHHUZ7YZkeX6T8eXGxRDFF0ndcuOON1l5UAYvI8CeKH6WvNAZzUYW89hHHTCOoF3sozxoKjwvCCRg==
-X-Received: by 2002:ad4:5505:0:b0:61b:637b:41f0 with SMTP id pz5-20020ad45505000000b0061b637b41f0mr4446377qvb.4.1683935893479;
-        Fri, 12 May 2023 16:58:13 -0700 (PDT)
+         :subject:references:mime-version:message-id:in-reply-to:date
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EAKvNJP+QBmW02zk8DVx8K9rEsKn4xacDcfjWy1qYz4=;
+        b=XLugWaXHK8L3+DQj2n2CSp5+pIlznuZTiCaK4SMuSJz+au86H6MNLacMPW9sWpMNKy
+         tQudtLSi71mxe5uOajfNPqi67S15zZw7sRLc+S9k0XeM1OwWioC67xuzZLwjW1DmFkhF
+         aClk9d3PBc09u1cu3GFp4P8YldMd/g28OqxnTqnRPoRqa16BwhrGjm540YCrToNcAhQ8
+         sEnioZmIF64qboPxDYuOafiXYA0Kjk0bGLZsVNYmspFCT1MSmeJyNt993HuKMpSpkpCP
+         r9mECDO6lPH0ZHRpviybW7vjyGH+yoXqkmEZ1QBOks76yQZT57oCyaNatLyrPE0TiLQK
+         m+xg==
+X-Gm-Message-State: AC+VfDzldU411X2+S1eKpOcw4XgUnHNOQbBgreisE6TqWofj6DEF6Qmk
+	uqHYTUwqutqYJ1XartSx0R4=
+X-Google-Smtp-Source: ACHHUZ6IMMW8mZhiPOunnnHvxGSlQfIz7zACGw5hZzf84/nXNwaJJPXg1xiziG0aOkMAD9usozsYqg==
+X-Received: by 2002:a02:b0c2:0:b0:416:1d9f:9887 with SMTP id w2-20020a02b0c2000000b004161d9f9887mr7000193jah.3.1683935896828;
+        Fri, 12 May 2023 16:58:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:1e87:b0:3f3:93c3:7e8d with SMTP id
- bz7-20020a05622a1e8700b003f393c37e8dls12561748qtb.1.-pod-prod-gmail; Fri, 12
- May 2023 16:58:13 -0700 (PDT)
-X-Received: by 2002:a05:622a:1:b0:3f3:a3f5:a3b2 with SMTP id x1-20020a05622a000100b003f3a3f5a3b2mr18505443qtw.8.1683935893010;
-        Fri, 12 May 2023 16:58:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1683935892; cv=none;
+Received: by 2002:a05:6e02:1043:b0:32e:2d9d:f290 with SMTP id
+ p3-20020a056e02104300b0032e2d9df290ls2102426ilj.1.-pod-prod-07-us; Fri, 12
+ May 2023 16:58:15 -0700 (PDT)
+X-Received: by 2002:a92:c806:0:b0:334:7796:f90c with SMTP id v6-20020a92c806000000b003347796f90cmr16886499iln.18.1683935895336;
+        Fri, 12 May 2023 16:58:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1683935895; cv=none;
         d=google.com; s=arc-20160816;
-        b=w3JniCAZgBh4F7jz0lfAfyZteehjXBh9UtsYyppbUpimyS0VblPT/ljptZ3yU4Yt7i
-         JJK/SuX+XcoIRlM7MVu7flGwNXXofu8AkKcTb4ERx00X1XFpmvExx0Ma7/lKRLVkfaVh
-         PeRGMGoqy2AtPi7jgAGaMYIa8MD9Cs/RUtHakcd9ZC7jFGKy/PBI8gc66LUaCaI2Fu2X
-         0o7M0162e1Nr38Hsw/OZVNDTnHkq/doM4dxyS0m9LZlZbcOkTxvI7Rb/eZEDqsPEKUhF
-         P8uRCQxBLPY1P4dxcfoKoM9d9bFHj3WB69V7r7xSBej9FZvZP4HRTs2zDPt7hRlZ3+OF
-         +KOQ==
+        b=OuhyPojOkBN7kZKEuUpou2+8ZI0OM8gd9jYjlt45j2esZ6k1TwUMdzer06BWvxBYDs
+         lF03sziHuIBOss1WHG3tfPglKi3/HrB52sFPcwU2MCHKOclV3s8LlDBXGCJPX3X0qt9p
+         /Be4ME9cKxzjQ6EB+pmUdtxbhYOaJ1riNAEUgHPv8Hm0K3CBhzwmJ8wtH5sHBEJ7SPzC
+         JRQnZxtgrOsjrAZvAZmMz+wQbVR7+Pd3X5ZEeL1o2MgNZsXcum21Lm/2qHZgosmZnkRi
+         Wv91mNpnbYyMWFr2j9zL9mBuasnVI/q7+My/nT4cLTlkJLhFxvcYjNRlLsB0ZSLClekN
+         s0Ww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:mime-version:message-id:date:dkim-signature;
-        bh=2B9ylj6BFfnRpivqhld1/fhZhP2W8ss3stfOx6ALHRA=;
-        b=W625mt0xKY1UoXS2xNMtK/MMgipGmR+jzD335EOZN8S/JsjPB2J7lyGh1q5dN5mSAw
-         bTInJupz65ZwchaDzx5HNbLPJzQ7dmQ+CHJfGxSMO907I0KGKC8Jgng2bdqkx04IWAnF
-         Ga3bSV8DZSER9NLWpJe0aVGTshLhdEIUxNZC3NlMoZR/MnRVgMxFMZQodCIuqIQG3K+B
-         Pq2uwPdoWkq20Zg3p8CJacaVLrmXvvF/CeqO5rijdSiPk2B+hi30hbOfMMF/PylgeDMS
-         Ab6F2cvaQSwLl8dyy6k9L1j1z757S+SjjP4F1huSb2Qx+FMmS8xfonzq96ukt2pIKwpA
-         +lEQ==
+        h=cc:to:from:subject:references:mime-version:message-id:in-reply-to
+         :date:dkim-signature;
+        bh=LVFc+Brp/nv5bcVUuCiFrcDkBMn4WnVlAUQLAdw9K1k=;
+        b=k+6jKZPz7saikQf7hpDlONPqymLI4p0bpwTZnsdB/l3GoxuBtJ/XTrpRueF7bjDkkM
+         xB5wauZpMjMaiNYwz1wjEVMpnIg7Qh5FVDMt4tNbtkb5fQAyHToyZ5N2xykE6ISHhTDD
+         PL85dRr1nwlOHjgRX9S1EelDWtDtxm2Z7WCvFN16HCMScAVpG3vccuXf1ul5NcWnjctz
+         mESwg9U6MkraGj5HhKuTaubu/ai/qcm/gZf2vW/mh3CuSl5hRjXKr//hNI3yzZJnN1tS
+         dbMJOU1SPR4RRYQ0Y8Jwvhko4H4uqzhzEVNVlC2oNHkvbmAqVZ1rDREnnwipSAgwM4Om
+         5wxQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b="MH/xgRcl";
-       spf=pass (google.com: domain of 3lnjezamkcd0obbfnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3lNJeZAMKCd0OBBFNNFKD.BNLJ9R9M-CDUFNNFKDFQNTOR.BNL@flex--pcc.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b="f5hclik/";
+       spf=pass (google.com: domain of 3ltjezamkcd8qddhpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3ltJeZAMKCd8QDDHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--pcc.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com. [2607:f8b0:4864:20::b49])
-        by gmr-mx.google.com with ESMTPS id u14-20020a05622a17ce00b003f395029e21si826792qtk.2.2023.05.12.16.58.12
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com. [2607:f8b0:4864:20::1149])
+        by gmr-mx.google.com with ESMTPS id ee24-20020a056638293800b0040fa7700d64si1475308jab.4.2023.05.12.16.58.15
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 May 2023 16:58:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3lnjezamkcd0obbfnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) client-ip=2607:f8b0:4864:20::b49;
-Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-b9968fb4a8cso19321204276.0
-        for <kasan-dev@googlegroups.com>; Fri, 12 May 2023 16:58:12 -0700 (PDT)
+        Fri, 12 May 2023 16:58:15 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3ltjezamkcd8qddhpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--pcc.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) client-ip=2607:f8b0:4864:20::1149;
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-559d8e22306so189871567b3.1
+        for <kasan-dev@googlegroups.com>; Fri, 12 May 2023 16:58:15 -0700 (PDT)
 X-Received: from pcc-desktop.svl.corp.google.com ([2620:15c:2d3:205:ff6:108b:739d:6a1c])
- (user=pcc job=sendgmr) by 2002:a05:6902:154b:b0:ba6:db51:a7e4 with SMTP id
- r11-20020a056902154b00b00ba6db51a7e4mr2646213ybu.11.1683935892703; Fri, 12
- May 2023 16:58:12 -0700 (PDT)
-Date: Fri, 12 May 2023 16:57:49 -0700
-Message-Id: <20230512235755.1589034-1-pcc@google.com>
+ (user=pcc job=sendgmr) by 2002:a81:b285:0:b0:559:f1b0:6eb with SMTP id
+ q127-20020a81b285000000b00559f1b006ebmr16091480ywh.4.1683935894947; Fri, 12
+ May 2023 16:58:14 -0700 (PDT)
+Date: Fri, 12 May 2023 16:57:50 -0700
+In-Reply-To: <20230512235755.1589034-1-pcc@google.com>
+Message-Id: <20230512235755.1589034-2-pcc@google.com>
 Mime-Version: 1.0
+References: <20230512235755.1589034-1-pcc@google.com>
 X-Mailer: git-send-email 2.40.1.606.ga4b1b128d6-goog
-Subject: [PATCH 0/3] mm: Fix bug affecting swapping in MTE tagged pages
+Subject: [PATCH 1/3] mm: Move arch_do_swap_page() call to before swap_free()
 From: "'Peter Collingbourne' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Catalin Marinas <catalin.marinas@arm.com>
 Cc: Peter Collingbourne <pcc@google.com>, 
@@ -118,13 +122,13 @@ Cc: Peter Collingbourne <pcc@google.com>,
 	"=?UTF-8?q?Casper=20Li=20=28=E6=9D=8E=E4=B8=AD=E6=A6=AE=29?=" <casper.li@mediatek.com>, 
 	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, vincenzo.frascino@arm.com, 
 	Alexandru Elisei <alexandru.elisei@arm.com>, will@kernel.org, eugenis@google.com, 
-	Steven Price <steven.price@arm.com>
+	Steven Price <steven.price@arm.com>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: pcc@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b="MH/xgRcl";       spf=pass
- (google.com: domain of 3lnjezamkcd0obbfnnfkd.bnlj9r9m-cdufnnfkdfqntor.bnl@flex--pcc.bounces.google.com
- designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3lNJeZAMKCd0OBBFNNFKD.BNLJ9R9M-CDUFNNFKDFQNTOR.BNL@flex--pcc.bounces.google.com;
+ header.i=@google.com header.s=20221208 header.b="f5hclik/";       spf=pass
+ (google.com: domain of 3ltjezamkcd8qddhpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--pcc.bounces.google.com
+ designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3ltJeZAMKCd8QDDHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--pcc.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Peter Collingbourne <pcc@google.com>
 Reply-To: Peter Collingbourne <pcc@google.com>
@@ -140,32 +144,95 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This patch series reworks the logic that handles swapping in page
-metadata to fix a reported bug [1] where metadata can sometimes not
-be swapped in correctly after commit c145e0b47c77 ("mm: streamline COW
-logic in do_swap_page()").
+Commit c145e0b47c77 ("mm: streamline COW logic in do_swap_page()") moved
+the call to swap_free() before the call to set_pte_at(), which meant that
+the MTE tags could end up being freed before set_pte_at() had a chance
+to restore them. One other possibility was to hook arch_do_swap_page(),
+but this had a number of problems:
 
-[1] https://lore.kernel.org/all/5050805753ac469e8d727c797c2218a9d780d434.camel@mediatek.com/
+- The call to the hook was also after swap_free().
 
-Peter Collingbourne (3):
-  mm: Move arch_do_swap_page() call to before swap_free()
-  mm: Call arch_swap_restore() from arch_do_swap_page() and deprecate
-    the latter
-  arm64: mte: Simplify swap tag restoration logic and fix uninitialized
-    tag issue
+- The call to the hook was after the call to set_pte_at(), so there was a
+  racy window where uninitialized metadata may be exposed to userspace.
+  This likely also affects SPARC ADI, which implements this hook to
+  restore tags.
 
- arch/arm64/include/asm/mte.h     |  4 ++--
- arch/arm64/include/asm/pgtable.h | 14 ++------------
- arch/arm64/kernel/mte.c          | 32 +++-----------------------------
- arch/arm64/mm/mteswap.c          |  7 +++----
- include/linux/pgtable.h          | 26 +++++++++++++-------------
- mm/memory.c                      | 26 +++++++++++++-------------
- 6 files changed, 36 insertions(+), 73 deletions(-)
+- As a result of commit 1eba86c096e3 ("mm: change page type prior to
+  adding page table entry"), we were also passing the new PTE as the
+  oldpte argument, preventing the hook from knowing the swap index.
 
+Fix all of these problems by moving the arch_do_swap_page() call before
+the call to free_page(), and ensuring that we do not set orig_pte until
+after the call.
+
+Signed-off-by: Peter Collingbourne <pcc@google.com>
+Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
+Link: https://linux-review.googlesource.com/id/I6470efa669e8bd2f841049b8c61020c510678965
+Cc: <stable@vger.kernel.org> # 6.1
+Fixes: ca827d55ebaa ("mm, swap: Add infrastructure for saving page metadata on swap")
+Fixes: 1eba86c096e3 ("mm: change page type prior to adding page table entry")
+---
+ mm/memory.c | 26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/mm/memory.c b/mm/memory.c
+index 01a23ad48a04..83268d287ff1 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -3914,19 +3914,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+ 		}
+ 	}
+ 
+-	/*
+-	 * Remove the swap entry and conditionally try to free up the swapcache.
+-	 * We're already holding a reference on the page but haven't mapped it
+-	 * yet.
+-	 */
+-	swap_free(entry);
+-	if (should_try_to_free_swap(folio, vma, vmf->flags))
+-		folio_free_swap(folio);
+-
+-	inc_mm_counter(vma->vm_mm, MM_ANONPAGES);
+-	dec_mm_counter(vma->vm_mm, MM_SWAPENTS);
+ 	pte = mk_pte(page, vma->vm_page_prot);
+-
+ 	/*
+ 	 * Same logic as in do_wp_page(); however, optimize for pages that are
+ 	 * certainly not shared either because we just allocated them without
+@@ -3946,8 +3934,21 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+ 		pte = pte_mksoft_dirty(pte);
+ 	if (pte_swp_uffd_wp(vmf->orig_pte))
+ 		pte = pte_mkuffd_wp(pte);
++	arch_do_swap_page(vma->vm_mm, vma, vmf->address, pte, vmf->orig_pte);
+ 	vmf->orig_pte = pte;
+ 
++	/*
++	 * Remove the swap entry and conditionally try to free up the swapcache.
++	 * We're already holding a reference on the page but haven't mapped it
++	 * yet.
++	 */
++	swap_free(entry);
++	if (should_try_to_free_swap(folio, vma, vmf->flags))
++		folio_free_swap(folio);
++
++	inc_mm_counter(vma->vm_mm, MM_ANONPAGES);
++	dec_mm_counter(vma->vm_mm, MM_SWAPENTS);
++
+ 	/* ksm created a completely new copy */
+ 	if (unlikely(folio != swapcache && swapcache)) {
+ 		page_add_new_anon_rmap(page, vma, vmf->address);
+@@ -3959,7 +3960,6 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+ 	VM_BUG_ON(!folio_test_anon(folio) ||
+ 			(pte_write(pte) && !PageAnonExclusive(page)));
+ 	set_pte_at(vma->vm_mm, vmf->address, vmf->pte, pte);
+-	arch_do_swap_page(vma->vm_mm, vma, vmf->address, pte, vmf->orig_pte);
+ 
+ 	folio_unlock(folio);
+ 	if (folio != swapcache && swapcache) {
 -- 
 2.40.1.606.ga4b1b128d6-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230512235755.1589034-1-pcc%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230512235755.1589034-2-pcc%40google.com.
