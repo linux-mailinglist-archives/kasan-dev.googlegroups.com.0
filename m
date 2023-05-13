@@ -1,126 +1,128 @@
-Return-Path: <kasan-dev+bncBC32535MUICBBOEI7SRAMGQESNAUGTQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC32535MUICBBRMK7SRAMGQEILRVQXQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3f.google.com (mail-io1-xd3f.google.com [IPv6:2607:f8b0:4864:20::d3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id B104E70142E
-	for <lists+kasan-dev@lfdr.de>; Sat, 13 May 2023 05:30:01 +0200 (CEST)
-Received: by mail-io1-xd3f.google.com with SMTP id ca18e2360f4ac-763646b324asf1573036639f.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 12 May 2023 20:30:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1683948600; cv=pass;
+Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 487EA701437
+	for <lists+kasan-dev@lfdr.de>; Sat, 13 May 2023 05:34:30 +0200 (CEST)
+Received: by mail-wm1-x33c.google.com with SMTP id 5b1f17b1804b1-3f41dcf1e28sf28361975e9.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 12 May 2023 20:34:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1683948870; cv=pass;
         d=google.com; s=arc-20160816;
-        b=caucZ8SzFys3F0b3on01pkifl2cZb1ER0e0yV2c2AH5yuz/RcUrIaKF9iDr5nDyDMe
-         OSI0nntxbV/iG8zOBnHLnyjxNNPtXStXbuDZzhZHYHrAr4Jetq3GgkvYKIjk3h4CfjoI
-         UTWM7j7mTxf8oa26vjnyvBgDLC6+3DECUsnACEcRaXFJXI4oFjeX6vM1reI9cs3dvEWt
-         +TUgByEpHTgquTjUL7DE7JrdSWAzT8TY3oC3G1ktcMR4nJz2ltTmRqdvTWk2jUO0vBUY
-         e5V4NppWzgdnhVVc3rC4uTo+/Ui3NtmRfRXl0GAUwY5pmOYvxQIPxTWneQUgGZYveMO/
-         dZYg==
+        b=I+rMeyrMdonrsvq6Uf/jRZqE2H7D5FPlgVk4E7bxVktnCMhGs7LWv8w9+E3UfltuEO
+         KOjQd/QgBdH31ocAq0rgLwFgyTJ1ihomPijT0nZ+XYeDi0dWELYyLM5oFye2Oz+9/1EP
+         4ghYwTiYo/R+ZiWBtQZBQ54IgaPej1ACnzO8Kz/HB+93Mbt/3680tH3qZpb/Sss7CuEl
+         7Fxh2eQDa52Y0btZhnqRfqXzxwtjEEgzHD9yAkbIWCkdmyk6vlT/TuVtFATLhSqb2baa
+         +85KNI38IwJe5EUN788mibwC5mp7rnlgf5BbhZGsF9H8iscYANZKiMcEJbO2KhLdcW99
+         rmtQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-language:in-reply-to
-         :subject:organization:from:references:cc:to:user-agent:mime-version
+         :organization:from:references:cc:to:subject:user-agent:mime-version
          :date:message-id:sender:dkim-signature;
-        bh=gAd/YsarGAEYIPOyArhSo6pcnUL0VYf4uOTcQKlKA30=;
-        b=tXRIeOIZqmo5JNDWQm3yk4cY9ZM71kl5lw31Xj40YDq90kFwj92v+KFRJ+dFq3Asmm
-         zt8UwkeE8aP8RwX5i8Q4lZItEqwSAkhl0GczkCnjU9W98h86CnSpi+q0y1Z2t7Zi0Tlp
-         td0WN/2l6wZdRf8fM9EEFRxM6j2o696uzkrv5+4USrGFLBIxStmFN+JYZuHeRICtg2fh
-         Lk69OmX0SISWWQ78M9NVB/2YfqrT/pSjDZQEMKSdWMWbncqPW49FjWR4qp6u6G2H1+JU
-         litljwrP+FosYQ3HUexabxgVN1Rowj+IoLQiEheFCcqS2XRr8SDuesshF19V2GJbUrFM
-         XE+w==
+        bh=PgbemjlFyDIJ9MOidhGbrIMMn6ELP6B/TKdmRjlyNgE=;
+        b=RmwgnSUKkkCQopCDG3TJQ4a10mZFJgnkFqHBajxpqrim2wltoV1TwovpcQ31p39r2G
+         x5CRAT67OpRSnR4htb6uo2MnTiOQdzrlNThu106KntH8qVfh1Dt8sz3TYjtamvTsos93
+         twuYOlbOrAsgwhNetrPX/sTMSaPRllcj6m8CkxUchqp26wWMEh7FEocIUiLNrLfJ1/lT
+         Ow9Ub6KcQOxpcx2t5hjAGPdODmVmfmj5WUwBneUmqDUIoeXe37UksqooG4qTDY5vpFqz
+         N64n5kxJceG01rcRc7QA7J6XK6r9k3dRVSBX4deL7GSrHW636/ntXy9QwtlZQIMeXlwy
+         yAhg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b="KQm3+J/O";
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=Zc4hkQfY;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1683948600; x=1686540600;
+        d=googlegroups.com; s=20221208; t=1683948870; x=1686540870;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-language:in-reply-to:subject:organization
-         :from:references:cc:to:user-agent:mime-version:date:message-id
+         :x-original-sender:content-language:in-reply-to:organization:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=gAd/YsarGAEYIPOyArhSo6pcnUL0VYf4uOTcQKlKA30=;
-        b=BLsE30Kvn2D6eAkurd7eV8qFiRFc37HqYZ0UzYWvEGallysZgX83FKGGkQ0Fo7OMmn
-         NWiQFm8C1ZImhX5pu8Ol0KbgapBk7cvvLej0kJxFTtWGKkQOkJnGYUhu8GF6h7JKXrow
-         yP5D3y4iTL0iRJpN5a39xbXgR8gWwC7ps1SM+Zeg5ybA3F2ZEgvbTgI730f9wwwnaU7n
-         zqmuFICb2HA/C6mHN9JMG5vSrKeHrJHZbDF5gWN8G+pAPWWCCrXiByhWHndqltzaSOly
-         54U7sgXHqMyz8jeLWjoKLyI2ahYQ92TJlQwZgm3q1nCuTO8oc9+Hrmn2p8GI52kWpmYT
-         yH4Q==
+        bh=PgbemjlFyDIJ9MOidhGbrIMMn6ELP6B/TKdmRjlyNgE=;
+        b=p/JxEaD6KBgB0uik4jxJixPh4KlQ5H7NzcdJTzoZNQaCHMo71j5FMx/QoKLtZLVPeH
+         yemlC8bcCM8/bZZCzGk0XD01192SFih1zr+D3sWeygGvo/KRUAClT+MfkyQCGmKXV8oD
+         I9hr7Fn4L4KzR6yI+A2Fj3XicStGzNMKeOK7dbjxBOu/65aKzSKKOQjLQyhFLR26Rjmp
+         GRZ1zOB1FGhOXflFnRWr3z8z/WUXqas16zgcFxkbtCdwTmIu43CdRhKGMiD84ZI99nWn
+         OyLDIRyEd/QM5OjoAhBVmkLBrhg985xvWT7Npbt0Ndu584EY167fgYkhLQv0u8/iCPF4
+         CnrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683948600; x=1686540600;
+        d=1e100.net; s=20221208; t=1683948870; x=1686540870;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
-         :content-language:in-reply-to:subject:organization:from:references
-         :cc:to:user-agent:mime-version:date:message-id:x-beenthere
+         :content-language:in-reply-to:organization:from:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:x-beenthere
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gAd/YsarGAEYIPOyArhSo6pcnUL0VYf4uOTcQKlKA30=;
-        b=W2N3Sz074e4cPYs1ERVL2CUvBDeOqEs8s4lNrtPraXGYZmRPDFZPlQ+GODl4D0SV86
-         DILNgRW2EiX1kRlr4VrvHtKzui5fhcPUc/gNw9RRhKLDmzfmxG1frrH3Y0wk5aACdNNz
-         RffEykXSyJxaeW51UoD1z0ZXS3ODX6dYSaH9m9MIPYhxligUKyFooECfeXyKf5j/jYey
-         N7+NBopFkcAl7F7dutxRwwSCc5ulf7jbBbi+AKrm9xBOKjU04ftUQaWGPuHjK8vIDiLV
-         HRKNv2xD5+/NrlSGJVIRpZ6FmBjBLSQlY0tOZEb9Oklob2sYpWoln2hJk87/R7+n505K
-         Dtbw==
+        bh=PgbemjlFyDIJ9MOidhGbrIMMn6ELP6B/TKdmRjlyNgE=;
+        b=BSI03rLkYjfG53NxFu/m3uUPRX7QVnXutDh8rKkAsZdfKPQ2R20orZVFk6JMn7/MBZ
+         5SJcwiJATNxovUeK3jYNFnWkUY0eajA2OsHmI8kyjh6nonWlyslnE0kv1BaGyeykksIB
+         Hrftu0HZqmqohNIgzJg1C5BUiNyAIlen8qpZnmSGoVL0iUCR4F756htAfUXCTf2o3Jv0
+         RD8Gqda14GrC6lVciCATLXuXIxtts7ti5dBqymTBdj+UFALqQhlrwmnplvN6/b8W5SUg
+         yualYwn70OHQCUxq5Ar0N4jm4HXISmZ/Wq8xu0pClkN+/6Z6jsXPmeQzj026O2TMyjhw
+         qKdw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDxPcl51kyVspEUsuL4XXQ8gRSrVNMUsFsMqAdvEOR0nng/MAd6j
-	8RyUZ+Xk/W+ob8LsCkU2QdA=
-X-Google-Smtp-Source: ACHHUZ4R/bFUxWwB0zx5zO7s+ePchjbaKheszlF1vLmLh1S2BAKBkBsTK+Iwib2VY7Rjhs6zjib1eg==
-X-Received: by 2002:a02:94a9:0:b0:40f:77a4:7e17 with SMTP id x38-20020a0294a9000000b0040f77a47e17mr7947162jah.0.1683948600211;
-        Fri, 12 May 2023 20:30:00 -0700 (PDT)
+X-Gm-Message-State: AC+VfDwjll8j/AZJcOCNDDe0Cxutbcf+VdcZ5KwQEJMURf11sz9j95hl
+	gnHeWlxaQ/ujLu053dxAXy0=
+X-Google-Smtp-Source: ACHHUZ5hCX10nRYuizUKewdZAYWj9zdvIVmYure1xFjSiEfLboue/gR3YTZQohiWn7Bph09auY7TfA==
+X-Received: by 2002:a5d:444f:0:b0:2fd:da4e:f706 with SMTP id x15-20020a5d444f000000b002fdda4ef706mr3623794wrr.6.1683948869617;
+        Fri, 12 May 2023 20:34:29 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:d45:b0:32c:8565:84fc with SMTP id
- h5-20020a056e020d4500b0032c856584fcls95982ilj.1.-pod-prod-08-us; Fri, 12 May
- 2023 20:29:58 -0700 (PDT)
-X-Received: by 2002:a6b:6d06:0:b0:76c:7b40:9b6b with SMTP id a6-20020a6b6d06000000b0076c7b409b6bmr5720078iod.1.1683948598670;
-        Fri, 12 May 2023 20:29:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1683948598; cv=none;
+Received: by 2002:a05:6000:16cd:b0:2f4:1b04:ed8f with SMTP id
+ h13-20020a05600016cd00b002f41b04ed8fls3974681wrf.1.-pod-prod-gmail; Fri, 12
+ May 2023 20:34:28 -0700 (PDT)
+X-Received: by 2002:a5d:4085:0:b0:307:f75:f581 with SMTP id o5-20020a5d4085000000b003070f75f581mr20862292wrp.18.1683948868214;
+        Fri, 12 May 2023 20:34:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1683948868; cv=none;
         d=google.com; s=arc-20160816;
-        b=Gr6ZUBu408942b9bODumbL6zGbBz8CPcc6LKBldWP8NPksSkIRw7yvMxtN6Q8Rhadn
-         +7MeO8A9Ayo9ymP88G2MwhmEZaXXWPToQ8f7mXfQcq8raznw0RmZXdAp8QgYTwj58TpW
-         xVaavFOMQg5mbY0JATLkIMgCa/kBE6Uyyks1UXFT234piX+PFSSUoYWs/U1wNJ1/u0TE
-         roR0fENqFKdqhVHE+pA51venrsIwbYc+PGfohykl82zNLxDVFlAROqsi1R7r0JXJnLr3
-         svyCNEklhLbCi2eK9qCh+cZX1Rhrgn8M07hl2rlCoNyQlS+huuG12MQqST5gS+nKuThj
-         /wzQ==
+        b=LTu5ZxJ8ZbV2bFyNwxq6bhJ66Cn0CbRm6ENtxRmGxSUJMNjCvl8/vRbRpSuj1Ax/VD
+         zwpKZWIV+QkV0nTrOVE+f8d7+ezewe6egcreryyWapQS7EtUhf333pTBb9qkscEUqVoR
+         BS2JVINNAF2mOvJL0nG+PKiPDohKA8G1SlKF5Ux8MGnUNVDH3CGJbrug3RvKKMy9TUrK
+         l48hYf3CsAr842JWhdVue5dRX+67wvWc88BrG8q+URWTqqxHyujsmX3WH5qvG8z7obb3
+         Qw+UoqLfXL325TrsPYu8URLpr+50z3dBxRuEGM0w0Xr1atv0rtLN93gj7HiIdY1sg6il
+         tGbg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:subject
-         :organization:from:references:cc:to:user-agent:mime-version:date
+        h=content-transfer-encoding:content-language:in-reply-to:organization
+         :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:dkim-signature;
-        bh=AjyiA8CSsNyrBFAulIeEup4nb5qDAbNqRQ7zOVhw7pM=;
-        b=QRRMJ9PtLPKK6yKQstOm9DdwEpc75qPraTvSg2+GmrIrxhwNOJt6tXxpRCI9IPvatK
-         TosS+0Jgf6ABbm3UgSXRd/As3rlz9OwmwoAB1rQl06owfc4Hks1v8LAF3P2YiaF0Jq/+
-         +GMsrIEqkVxknoF5dc0aviny6T+BzFdAKkBakgJXAKtu80a4VUusstDC3DMsOW/u6MN1
-         26+vvK2bLPqEqUYMtXWY7cF3dK0/pd8pJM7VnpEnhhTA/T7QaMAOUAJej1YvDTOkBlbw
-         w0LNR4tomToWxw1s3SguX/rwA6U2PCiU9ROHgckU4fhvxreFcgZvYrRsWiW+iA3M3yMF
-         2xiw==
+        bh=5iuN8vfyC5tHnzEyX8BlDAD7L1Af+tn1GvUhlcPzN64=;
+        b=SFeo7OWHokfSV9glC7q17j5Ue+oqvFTanN2kUULSv7oBvA6wst5kgCKPpU3N0AM4KB
+         PXqFQ6o9iVOYJYT3aorvlvbiKAcz3QD78a7ZBZcGXTcQ9rhEvKKuXt1JWlAqtbCHv8Rv
+         FwS8h5UNuO+WPXV44sMF9FJHa+kDxJ6sDsFM5rLllPqizXtjYCDLFgxrl+aQ6tXVfaPN
+         tJTW2apeE3Jwk+QFKVf1gp2Ihxd0bOdtul3ZNz02BRmzYwN4tL3h5/BeDNWcvZY07/xV
+         HMabbXe5ZslJTfxKUD5a+w+1IkRnrFhqgBlDjYLhPPBcXdxgUM69RGXVFjsWbX+u2jnS
+         q6EQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b="KQm3+J/O";
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=Zc4hkQfY;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
-        by gmr-mx.google.com with ESMTPS id v4-20020a056638250400b0040fc30ac205si1530855jat.0.2023.05.12.20.29.58
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id bt6-20020a056000080600b003062fa1b7a0si1391147wrb.2.2023.05.12.20.34.27
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 May 2023 20:29:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+        Fri, 12 May 2023 20:34:28 -0700 (PDT)
+Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-361-s4xBW-tQNZegd98mIMGcsQ-1; Fri, 12 May 2023 23:29:56 -0400
-X-MC-Unique: s4xBW-tQNZegd98mIMGcsQ-1
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-3ef6decfabeso64821591cf.0
-        for <kasan-dev@googlegroups.com>; Fri, 12 May 2023 20:29:56 -0700 (PDT)
-X-Received: by 2002:ac8:580e:0:b0:3ef:52ac:10d2 with SMTP id g14-20020ac8580e000000b003ef52ac10d2mr43450064qtg.43.1683948596196;
-        Fri, 12 May 2023 20:29:56 -0700 (PDT)
-X-Received: by 2002:ac8:580e:0:b0:3ef:52ac:10d2 with SMTP id g14-20020ac8580e000000b003ef52ac10d2mr43450038qtg.43.1683948595851;
-        Fri, 12 May 2023 20:29:55 -0700 (PDT)
+ us-mta-634-47LWmURZNkyMpDatjItBbA-1; Fri, 12 May 2023 23:34:24 -0400
+X-MC-Unique: 47LWmURZNkyMpDatjItBbA-1
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-61b78e49e99so55207806d6.1
+        for <kasan-dev@googlegroups.com>; Fri, 12 May 2023 20:34:24 -0700 (PDT)
+X-Received: by 2002:a05:6214:c8e:b0:621:5e3b:8eb1 with SMTP id r14-20020a0562140c8e00b006215e3b8eb1mr15765380qvr.21.1683948863651;
+        Fri, 12 May 2023 20:34:23 -0700 (PDT)
+X-Received: by 2002:a05:6214:c8e:b0:621:5e3b:8eb1 with SMTP id r14-20020a0562140c8e00b006215e3b8eb1mr15765364qvr.21.1683948863330;
+        Fri, 12 May 2023 20:34:23 -0700 (PDT)
 Received: from ?IPV6:2603:7000:3d00:1816::1772? (2603-7000-3d00-1816-0000-0000-0000-1772.res6.spectrum.com. [2603:7000:3d00:1816::1772])
-        by smtp.gmail.com with ESMTPSA id l20-20020ae9f014000000b00755951e48desm5710604qkg.135.2023.05.12.20.29.53
+        by smtp.gmail.com with ESMTPSA id a11-20020a0ce34b000000b0061b62c1534fsm3391537qvm.23.2023.05.12.20.34.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 May 2023 20:29:55 -0700 (PDT)
-Message-ID: <7471013e-4afb-e445-5985-2441155fc82c@redhat.com>
-Date: Sat, 13 May 2023 05:29:53 +0200
+        Fri, 12 May 2023 20:34:22 -0700 (PDT)
+Message-ID: <2bf4062d-b3f1-671f-0aa4-7f3e98402160@redhat.com>
+Date: Sat, 13 May 2023 05:34:19 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
+Subject: Re: [PATCH 2/3] mm: Call arch_swap_restore() from arch_do_swap_page()
+ and deprecate the latter
 To: Peter Collingbourne <pcc@google.com>,
  Catalin Marinas <catalin.marinas@arm.com>
 Cc: =?UTF-8?B?UXVuLXdlaSBMaW4gKOael+e+pOW0tCk=?= <Qun-wei.Lin@mediatek.com>,
@@ -137,21 +139,19 @@ Cc: =?UTF-8?B?UXVuLXdlaSBMaW4gKOael+e+pOW0tCk=?= <Qun-wei.Lin@mediatek.com>,
  will@kernel.org, eugenis@google.com, Steven Price <steven.price@arm.com>,
  stable@vger.kernel.org
 References: <20230512235755.1589034-1-pcc@google.com>
- <20230512235755.1589034-2-pcc@google.com>
+ <20230512235755.1589034-3-pcc@google.com>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-Subject: Re: [PATCH 1/3] mm: Move arch_do_swap_page() call to before
- swap_free()
-In-Reply-To: <20230512235755.1589034-2-pcc@google.com>
+In-Reply-To: <20230512235755.1589034-3-pcc@google.com>
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 X-Original-Sender: david@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b="KQm3+J/O";
+ header.i=@redhat.com header.s=mimecast20190719 header.b=Zc4hkQfY;
        spf=pass (google.com: domain of david@redhat.com designates
- 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+ 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -166,106 +166,30 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 On 13.05.23 01:57, Peter Collingbourne wrote:
-> Commit c145e0b47c77 ("mm: streamline COW logic in do_swap_page()") moved
-> the call to swap_free() before the call to set_pte_at(), which meant that
-> the MTE tags could end up being freed before set_pte_at() had a chance
-> to restore them. One other possibility was to hook arch_do_swap_page(),
-> but this had a number of problems:
+> The previous patch made it possible for MTE to restore tags before they
+> are freed by hooking arch_do_swap_page().
 > 
-> - The call to the hook was also after swap_free().
+> However, the arch_do_swap_page() hook API is incompatible with swap
+> restoration in circumstances where we do not have an mm or a vma,
+> such as swapoff with swapped out shmem, and I expect that ADI will
+> currently fail to restore tags in these circumstances. This implies that
+> arch-specific metadata stores ought to be indexed by swap index, as MTE
+> does, rather than by mm and vma, as ADI does, and we should discourage
+> hooking arch_do_swap_page(), preferring to hook arch_swap_restore()
+> instead, as MTE already does.
 > 
-> - The call to the hook was after the call to set_pte_at(), so there was a
->    racy window where uninitialized metadata may be exposed to userspace.
->    This likely also affects SPARC ADI, which implements this hook to
->    restore tags.
+> Therefore, instead of directly hooking arch_do_swap_page() for
+> MTE, deprecate that hook, change its default implementation to call
+> arch_swap_restore() and rely on the existing implementation of the latter
+> for MTE.
 > 
-> - As a result of commit 1eba86c096e3 ("mm: change page type prior to
->    adding page table entry"), we were also passing the new PTE as the
->    oldpte argument, preventing the hook from knowing the swap index.
-> 
-> Fix all of these problems by moving the arch_do_swap_page() call before
-> the call to free_page(), and ensuring that we do not set orig_pte until
-> after the call.
-> 
-> Signed-off-by: Peter Collingbourne <pcc@google.com>
-> Suggested-by: Catalin Marinas <catalin.marinas@arm.com>
-> Link: https://linux-review.googlesource.com/id/I6470efa669e8bd2f841049b8c61020c510678965
-> Cc: <stable@vger.kernel.org> # 6.1
-> Fixes: ca827d55ebaa ("mm, swap: Add infrastructure for saving page metadata on swap")
-> Fixes: 1eba86c096e3 ("mm: change page type prior to adding page table entry")
+> Fixes: c145e0b47c77 ("mm: streamline COW logic in do_swap_page()")
 
-I'm confused. You say c145e0b47c77 changed something (which was after 
-above commits), indicate that it fixes two other commits, and indicate 
-"6.1" as stable which does not apply to any of these commits.
+Can you enlighten me how this change fixes that commit? I'm afraid I am 
+missing something important.
 
-> ---
->   mm/memory.c | 26 +++++++++++++-------------
->   1 file changed, 13 insertions(+), 13 deletions(-)
-> 
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 01a23ad48a04..83268d287ff1 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -3914,19 +3914,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
->   		}
->   	}
->   
-> -	/*
-> -	 * Remove the swap entry and conditionally try to free up the swapcache.
-> -	 * We're already holding a reference on the page but haven't mapped it
-> -	 * yet.
-> -	 */
-> -	swap_free(entry);
-> -	if (should_try_to_free_swap(folio, vma, vmf->flags))
-> -		folio_free_swap(folio);
-> -
-> -	inc_mm_counter(vma->vm_mm, MM_ANONPAGES);
-> -	dec_mm_counter(vma->vm_mm, MM_SWAPENTS);
->   	pte = mk_pte(page, vma->vm_page_prot);
-> -
->   	/*
->   	 * Same logic as in do_wp_page(); however, optimize for pages that are
->   	 * certainly not shared either because we just allocated them without
-> @@ -3946,8 +3934,21 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
->   		pte = pte_mksoft_dirty(pte);
->   	if (pte_swp_uffd_wp(vmf->orig_pte))
->   		pte = pte_mkuffd_wp(pte);
-> +	arch_do_swap_page(vma->vm_mm, vma, vmf->address, pte, vmf->orig_pte);
->   	vmf->orig_pte = pte;
->   
-> +	/*
-> +	 * Remove the swap entry and conditionally try to free up the swapcache.
-> +	 * We're already holding a reference on the page but haven't mapped it
-> +	 * yet.
-> +	 */
-> +	swap_free(entry);
-> +	if (should_try_to_free_swap(folio, vma, vmf->flags))
-> +		folio_free_swap(folio);
-> +
-> +	inc_mm_counter(vma->vm_mm, MM_ANONPAGES);
-> +	dec_mm_counter(vma->vm_mm, MM_SWAPENTS);
-> +
->   	/* ksm created a completely new copy */
->   	if (unlikely(folio != swapcache && swapcache)) {
->   		page_add_new_anon_rmap(page, vma, vmf->address);
-> @@ -3959,7 +3960,6 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
->   	VM_BUG_ON(!folio_test_anon(folio) ||
->   			(pte_write(pte) && !PageAnonExclusive(page)));
->   	set_pte_at(vma->vm_mm, vmf->address, vmf->pte, pte);
-> -	arch_do_swap_page(vma->vm_mm, vma, vmf->address, pte, vmf->orig_pte);
->   
->   	folio_unlock(folio);
->   	if (folio != swapcache && swapcache) {
-
-
-You are moving the folio_free_swap() call after the 
-folio_ref_count(folio) == 1 check, which means that such (previously) 
-swapped pages that are exclusive cannot be detected as exclusive.
-
-There must be a better way to handle MTE here.
-
-Where are the tags stored, how is the location identified, and when are 
-they effectively restored right now?
+What is the user-visible impact of the problem, how was it caused by 
+c145e0b47c77, and how does your change fix it?
 
 -- 
 Thanks,
@@ -275,4 +199,4 @@ David / dhildenb
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/7471013e-4afb-e445-5985-2441155fc82c%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2bf4062d-b3f1-671f-0aa4-7f3e98402160%40redhat.com.
