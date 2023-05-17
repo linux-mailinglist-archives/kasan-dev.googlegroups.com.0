@@ -1,156 +1,128 @@
-Return-Path: <kasan-dev+bncBC32535MUICBBT5ESKRQMGQESJCS45Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCXO5E6EQQFBB4E2SORQMGQELONVL3Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43f.google.com (mail-pf1-x43f.google.com [IPv6:2607:f8b0:4864:20::43f])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E0F70630A
-	for <lists+kasan-dev@lfdr.de>; Wed, 17 May 2023 10:37:36 +0200 (CEST)
-Received: by mail-pf1-x43f.google.com with SMTP id d2e1a72fcca58-6439a13ba1esf547947b3a.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 17 May 2023 01:37:36 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1684312655; cv=pass;
+Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B98C70689B
+	for <lists+kasan-dev@lfdr.de>; Wed, 17 May 2023 14:49:54 +0200 (CEST)
+Received: by mail-pf1-x440.google.com with SMTP id d2e1a72fcca58-643fdfb437asf11137507b3a.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 17 May 2023 05:49:54 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1684327793; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lTXB24YohFbVAAtffTVIzH049wwIjrSuiNtANATXmgaXg3rFmqjC0tug1VS4DJX+Si
-         lROQSVUEgnjPeS/r8+9C8o5jRgqmdC0UJWIbWdUab/oDnAAaPXzwF5b5jSdaPJ+yQd/9
-         dTJt76Du6ymv/dobk83RuASjtgHaj9r4cRPT/Uwyv8kSSfoy3XWdfhyA3hLhZsC4hHv8
-         htzs8m5hrNuQNfMp2I1Da7mjP1mf7XDaWvYPuVgisTaw6Fg8YGfr7tPnkZw6L5G3MQvL
-         uS+3fvq4L6ARRreAAp6SYhkyizF16m2tQhUvNXzIL+lkZXjQ9lVBCIHdjHExtrzMMWbA
-         JqtQ==
+        b=dwTThY0Kwmztn+QgKOsC+Lzk3FJeeVZGSuCdyMapc0jgG1O8e4F5tDvNcBNQdUO5Pc
+         dPtPRkE/wBtVd+ssMs0i+nN4oi3S/ggbQt8/9cPMRQxUqLaihXRdIHNXANrh1c7ESXtO
+         IC3L+2xMxbO81ktu74wtW1Q2c1GzVgWJskDvjGNoyFJVfmduxiT2acPAH1btiwi7kW81
+         qzak7ijUnNlBtBpoMvqlCWAl3/sAnWAZvbbf9X6gH/dc1HUTV/wt+tnPEBLmJGpinMgK
+         /ToSlBlAfOfT1/2gqkL6AvZsP29rAh9Jt3Ml0sbu7V9fwC2AzMBlJj3qyXApzABD9cME
+         3Tpw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :organization:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:dkim-signature;
-        bh=EQpJh++uTw5hST312ARXO8dfJK2aAs2bNipK40OvfBk=;
-        b=eJNp4WBB92fTfHSaL4vtfgxfjTIbj49eaAAiet2kixnSY+nWUnuw/FcGpRu+boO3Sl
-         F/bDhB4sHSxbSZay5yk+MyPIgP5pAggU1tD2Plo7rGot9ik2+IilDh8Q8m61VGKeSCE6
-         4aHEnQGnU18v6Ty73hfprY7oqsDtnTgwkdbb1dp1LRh/yg/0EEj1OCMRrV6kUU1OpDBd
-         wvJe6hwUlSiTFA/eKbad07bqhQkH0HdT1edN6vtnY23rV6hcJpfwav28nChLfce7ChPR
-         bcteKgX2kq+MgeqcX26rl6ZwzYX/huGXu15rL/eKespbSkO6F+qqxX7L3MXEamG0jytQ
-         jUgw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=vjgeJn48CbYYu+0alia7SAps7KcmSVShnZtGZnOE/S8=;
+        b=MXeNq/PhDemnS3vYmZoPpKooh/fTyH6gzkcu9+h5UvcH+yLBt+xs+TAqcPCakz2KKu
+         E+Mra0cao4eUYnUUhk4uPxZI292hWCYw/llNfGMKde0NoHCwh5ybVYeGGfmw3Exm49qR
+         RZmAZiB4gTNGI4FmxOzUGHjTxCZTG3Bh7vuqhXoBJDOkW5h7N8FSNb6O/ogxUECKBtsX
+         k038q4cma9eYpeSpHkWAkSl2STuWxZvuTcNj4z60ZmxMtEOCxZWt0KEfmz5tqY+AqViA
+         T4uGwU8rljMOG5lILpwDzUqDyBNvVQSEKMBni4xsANecoaBVSm3rI/lqjmEngkBWRq5L
+         1aJA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=b2Y3aEMM;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=dUCYVuTn;
+       spf=pass (google.com: domain of arnd@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=arnd@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1684312655; x=1686904655;
+        d=googlegroups.com; s=20221208; t=1684327793; x=1686919793;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-language:in-reply-to:organization:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=EQpJh++uTw5hST312ARXO8dfJK2aAs2bNipK40OvfBk=;
-        b=neWYlnKbDhTw7eDMPzuMeQmt6lAUWuZB3DZENXHx74wPfOUWb6TceQ2fpGYd3/UhX+
-         roSdNon6hYEEn1kGwJU9M10eb5SVm74Wf44cMPweNeIlI2T8UqoD+2Sn+nSYheJK40jr
-         BDLfYclE56OM++8JrgHsDc4whSTSHvzcdXEWNUBCl76WEkUFIVT3ZKv28K7NOBKw3wKh
-         4216Drk2d6uiP9xi7LZzTe0eQ+/LYtqu/daXrl8XtYRcuqiLOfFad0WpeSOGWbFPMxyR
-         e6hcsXkVsfKoKlReiGagIVqgypo3PJ0vLk4azQVE0mc/1GClzKlPLZa54sUD6CfVecqR
-         gkyQ==
+        bh=vjgeJn48CbYYu+0alia7SAps7KcmSVShnZtGZnOE/S8=;
+        b=OUJGBLUIlaeiiq8lfdLjSmk5oloikr/n6z9HMbbnSEzVOfxT7SmMg030f6Mr5XYYdB
+         P9TL0X0qzwPimTtuOyMxSy+waVaFmEjrdxn4myHz7zgIOLOet55TUVqRyhXnUkD17bPQ
+         g5sqHze+HPFk2Z+fgHpqoQtrsxDNJvO8DHXBrrXCzizzWdQmjKGOof37pCLq+wrkuELU
+         pUowyLBM8Rgk086EY7OUgboHjdl0+VSYkJdb8yEtBjxv9fuXGOgfQ9aYOoFpP1PmDAAC
+         Rise+A+OL+RZ4TguFLsYBYpAaGFVoPolFiFuNyzZKnwN4AYVmuK6lcWj2GKHFr3Hchzf
+         hcow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684312655; x=1686904655;
+        d=1e100.net; s=20221208; t=1684327793; x=1686919793;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-language:in-reply-to:organization:from:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EQpJh++uTw5hST312ARXO8dfJK2aAs2bNipK40OvfBk=;
-        b=a6PYElQUMA5Z/DqZR1XcLeVm/OTDhSlqfyRMeLSnAGbzvNoNtbb9uUokxsrYRNh+jp
-         Mrp5KGf5QCO4jqY+voOuoO+UZSNQQ5Fd0AMF5Cq5DTRVN27lpoSdAD6zzMEgk75Ughhv
-         z6znUjpG5zOW0q7J7waqO2oiWMMl/on5mYTgezyoGV+MmSi6UuRuFUsqLq8bB8eQKeIN
-         NZvEWxTJ6gLtGnan7BAjrK+t/WH2ZfKG/muov3dVBnKdckxDuMEzzz8e3EDw+qVetfKe
-         zVX8nW+sKytCLrMzZJIwgZhC5JH10DBsx23oUm/iz16YRsaPg/D7ZQmOwTL0iM2snI3F
-         zHOg==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=vjgeJn48CbYYu+0alia7SAps7KcmSVShnZtGZnOE/S8=;
+        b=kJ/k7al8XUKPmAbZ6EuTeiOIRNC4vbSxkmNhyEjoJ9qdZ4M/KkkYWsx8NAmiGw/Owr
+         /y1eokoEEx7QI5LdZ7Qu/ojlQmaJNrC0FegRQUnieTxhX72+u3lwZ3wiS5f9lpINMVFF
+         zpMMvzyTldwHY73RA+bFgQdGwGQpf+lANRzvfAKOVfPVVX4TSjhvpwce3ZrsDVJWomGQ
+         sQNL6kQ+sM3W3WZRoyCR54WJ97p3IDUavoflpKw2vpV3gJ7KW9NYEbnCYZ/oW7lwCa9L
+         zp+cNWjnfPJsEJvt/qyMYfp+/pXqUzMA9XW1Fe9U3o366WTlhnYUPaAajhCvkbVuKhjh
+         3mFg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDxmUkfV0pk3fiFGjkWMIVv/rA37PEwacQyYs1dirIG1p7kuJ8NB
-	DJT5c95s0Gt7Plosn6tl0U4=
-X-Google-Smtp-Source: ACHHUZ4UUiOzbQYn1PxnQRZSm5zcXWqIpbjcFNOxd5WtxtP1bIydAG0ToNGMULeqERea8A1xpfsvTw==
-X-Received: by 2002:a05:6a00:21c9:b0:643:a3a6:115c with SMTP id t9-20020a056a0021c900b00643a3a6115cmr26148pfj.0.1684312655237;
-        Wed, 17 May 2023 01:37:35 -0700 (PDT)
+X-Gm-Message-State: AC+VfDz5bIqM6rJkWSxISPLaPD+LqVG9e4b35arOki3eFxUhkzYcxA6B
+	vOHtBTemUE73wlWUkk0pupQ=
+X-Google-Smtp-Source: ACHHUZ4Iaefw1uNRW/zTVZIDLIotcvhbH+D1kNFcdxzKicPL9S3AhmpHYUN3cJhdlQ06gWGuqIRtAQ==
+X-Received: by 2002:a17:90b:18a:b0:253:43af:b75f with SMTP id t10-20020a17090b018a00b0025343afb75fmr652816pjs.4.1684327792436;
+        Wed, 17 May 2023 05:49:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:244e:b0:1a6:78e7:cce7 with SMTP id
- l14-20020a170903244e00b001a678e7cce7ls2585415pls.1.-pod-prod-01-us; Wed, 17
- May 2023 01:37:34 -0700 (PDT)
-X-Received: by 2002:a17:902:9049:b0:1ab:19db:f2b with SMTP id w9-20020a170902904900b001ab19db0f2bmr42254990plz.36.1684312654362;
-        Wed, 17 May 2023 01:37:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1684312654; cv=none;
+Received: by 2002:a17:90a:df16:b0:23c:1f9b:df20 with SMTP id
+ gp22-20020a17090adf1600b0023c1f9bdf20ls18919985pjb.1.-pod-control-gmail; Wed,
+ 17 May 2023 05:49:51 -0700 (PDT)
+X-Received: by 2002:a17:90b:46cd:b0:250:6119:6c1f with SMTP id jx13-20020a17090b46cd00b0025061196c1fmr34694581pjb.19.1684327791654;
+        Wed, 17 May 2023 05:49:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1684327791; cv=none;
         d=google.com; s=arc-20160816;
-        b=mueIahNq7Wnv/Ahod2BHfxMst1dDaQYbWZCQvFNJwgl/W6k1dC9hTOYV9oSsTmWenq
-         b0k00Hhqapk8xDYM01qs8AAflPOluF+iX3ak5C2syoZPXh/D9HDnE2CApljdYzE/D7jD
-         gn7dNwSnYIKOEzYgjpzjckL6aevvyRfGL5ervCMzX8qLXxZaLs1AnZUe7lvwhdrt6cDP
-         vluN58TcBpIkJut0Po1nApm6B4dWOQzQ1hkvHVKuyeT1UgHDUq/Ia3+2fKt1aQnTxRrH
-         tuFL5HffsLZ3KMvWBbwleWqykyRzVjpHQqmr+dBOFH00r3i3Am+dhePnCQCRCBQ0UU9M
-         0bXQ==
+        b=wMHD9f+dYOCmagBfA5F94pdUQcg3mwTe+CZVUIa3OVy5kRN/ZAvzhFZwvq3oZlhAj8
+         izlqxHvhfA8fnjuOmb8uZQOJDYoFFaqqpf4TEo6Vo3a8VQLDduaFuLM5Kw99j80Ojf5D
+         cz2PViwNunT2Bddas5fwBB47YbTpwmRdYG4yIhRK257N1C3nl7My57MJsKPx3EF4d8fw
+         C/sUh3+zZXxd7qgoHHW7bkOHhtdf48wroQVI5bAtStD7G1VLlK4nC5ou9eM0b1Igzmpq
+         KswJtBU1tSMKTIOghZcGUrU4GvUQuCcxD9ooLbur2Z+aeh6lFW0CnaSDINuL6l5iIgBw
+         vU8A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:organization
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:dkim-signature;
-        bh=97ToGLKuvaj7XmcoRhe/olZuS/lpM05KUIrSj3Fc5mA=;
-        b=zwo79rmlYseDxaA2iqUzUN0NYI59CG++OoHzhlN2mYFKJhxfLqyl9EKYqeAoX5aHcZ
-         YY/SctD52R1T4MezmMFXDBMqBEJnecIWFcbOLILBQTar4hmV7RpPjALwB23dWyDTPmds
-         VZoqc6gz7ShEc52PvCBAdpjTVUsfVuNd53DzwqNuBJjaOYWCo4kcj+oBK2FqSTkBfHdd
-         DJJHPI+IX0091FRfSLHy3WHpP2t4LVuT5JEofxZLGme+M8Xf8s6sOjC/bKrQZaH/Iijm
-         Npufmsr2hEryf54slmMrMF6ICC9VhWnxpr5Yi9XzjpuUMlvUh99c2JejY6QlNYIg9iuz
-         eF4A==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=eaGAW5hFZoQd57dM1YBZwV9p9UPGMHofcmC8mrNVh0o=;
+        b=fd+EYI1am0qI8DBohzPxQlhJAdhNqfkfDlIrTWARb7XwgUgeIiy9XsfcLCCPpZ43uk
+         ZPRyMJFss6D9aWnH7mJiehBWOJzUMgLZUpr6pupjlybrRFMnMyJDniiXsyPCNPYWU/cH
+         031r+qLEmLmlnNI8q8MJQdFb1IgsFZIVImdgyoW1pIaSwvNLkiS7h3cWWPbryjKUQ9B3
+         dHSGgySe9l6TAGIoOJSQh2kRRbhYDIXl592yYaY83XEhbWXETrIxHXzWJjBmT5q4HQgF
+         uWMSTa/+qhXc0zdeLOTFCq2U8nkPOFoBHqEXb8VoF6vpkoY6Na4QqHoPCo69z0TcBRkJ
+         Hvjw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=b2Y3aEMM;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
-        by gmr-mx.google.com with ESMTPS id u10-20020a170902e80a00b001ab132cdbbcsi835657plg.12.2023.05.17.01.37.33
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=dUCYVuTn;
+       spf=pass (google.com: domain of arnd@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=arnd@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id s15-20020a17090aad8f00b0024e59d95b82si67053pjq.1.2023.05.17.05.49.51
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 May 2023 01:37:34 -0700 (PDT)
-Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-499-HcieAPOcMfiO-X3embG2wA-1; Wed, 17 May 2023 04:37:32 -0400
-X-MC-Unique: HcieAPOcMfiO-X3embG2wA-1
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-3f518f2900eso3502865e9.2
-        for <kasan-dev@googlegroups.com>; Wed, 17 May 2023 01:37:31 -0700 (PDT)
-X-Received: by 2002:a05:6000:548:b0:306:4162:ebbe with SMTP id b8-20020a056000054800b003064162ebbemr27840929wrf.49.1684312650868;
-        Wed, 17 May 2023 01:37:30 -0700 (PDT)
-X-Received: by 2002:a05:6000:548:b0:306:4162:ebbe with SMTP id b8-20020a056000054800b003064162ebbemr27840916wrf.49.1684312650566;
-        Wed, 17 May 2023 01:37:30 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c707:3900:757e:83f8:a99d:41ae? (p200300cbc7073900757e83f8a99d41ae.dip0.t-ipconnect.de. [2003:cb:c707:3900:757e:83f8:a99d:41ae])
-        by smtp.gmail.com with ESMTPSA id r14-20020adfe68e000000b00307d58b3da9sm2030355wrm.25.2023.05.17.01.37.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 May 2023 01:37:30 -0700 (PDT)
-Message-ID: <12b29199-4469-d970-579a-46a60e6e8236@redhat.com>
-Date: Wed, 17 May 2023 10:37:28 +0200
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 17 May 2023 05:49:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of arnd@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 0396663B83;
+	Wed, 17 May 2023 12:49:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C545AC433D2;
+	Wed, 17 May 2023 12:49:48 +0000 (UTC)
+From: Arnd Bergmann <arnd@kernel.org>
+To: kasan-dev@googlegroups.com
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Rong Tao <rongtao@cestc.cn>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] kcov: add prototypes for helper functions
+Date: Wed, 17 May 2023 14:49:25 +0200
+Message-Id: <20230517124944.929997-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v3 2/3] mm: Call arch_swap_restore() from unuse_pte()
-To: Peter Collingbourne <pcc@google.com>,
- Catalin Marinas <catalin.marinas@arm.com>
-Cc: =?UTF-8?B?UXVuLXdlaSBMaW4gKOael+e+pOW0tCk=?= <Qun-wei.Lin@mediatek.com>,
- linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, "surenb@google.com" <surenb@google.com>,
- =?UTF-8?B?Q2hpbndlbiBDaGFuZyAo5by16Yym5paHKQ==?=
- <chinwen.chang@mediatek.com>,
- "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
- =?UTF-8?B?S3Vhbi1ZaW5nIExlZSAo5p2O5Yag56mOKQ==?=
- <Kuan-Ying.Lee@mediatek.com>, =?UTF-8?B?Q2FzcGVyIExpICjmnY7kuK3mpq4p?=
- <casper.li@mediatek.com>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- vincenzo.frascino@arm.com, Alexandru Elisei <alexandru.elisei@arm.com>,
- will@kernel.org, eugenis@google.com, Steven Price <steven.price@arm.com>
-References: <20230517022115.3033604-1-pcc@google.com>
- <20230517022115.3033604-3-pcc@google.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20230517022115.3033604-3-pcc@google.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Original-Sender: david@redhat.com
+X-Original-Sender: arnd@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=b2Y3aEMM;
-       spf=pass (google.com: domain of david@redhat.com designates
- 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@kernel.org header.s=k20201202 header.b=dUCYVuTn;       spf=pass
+ (google.com: domain of arnd@kernel.org designates 139.178.84.217 as permitted
+ sender) smtp.mailfrom=arnd@kernel.org;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -163,47 +135,106 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 17.05.23 04:21, Peter Collingbourne wrote:
-> We would like to move away from requiring architectures to restore
-> metadata from swap in the set_pte_at() implementation, as this is not only
-> error-prone but adds complexity to the arch-specific code. This requires
-> us to call arch_swap_restore() before calling swap_free() whenever pages
-> are restored from swap. We are currently doing so everywhere except in
-> unuse_pte(); do so there as well.
-> 
-> Signed-off-by: Peter Collingbourne <pcc@google.com>
-> Link: https://linux-review.googlesource.com/id/I68276653e612d64cde271ce1b5a99ae05d6bbc4f
-> ---
->   mm/swapfile.c | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/mm/swapfile.c b/mm/swapfile.c
-> index 274bbf797480..e9843fadecd6 100644
-> --- a/mm/swapfile.c
-> +++ b/mm/swapfile.c
-> @@ -1794,6 +1794,13 @@ static int unuse_pte(struct vm_area_struct *vma, pmd_t *pmd,
->   		goto setpte;
->   	}
->   
-> +	/*
-> +	 * Some architectures may have to restore extra metadata to the page
-> +	 * when reading from swap. This metadata may be indexed by swap entry
-> +	 * so this must be called before swap_free().
-> +	 */
-> +	arch_swap_restore(entry, page_folio(page));
-> +
->   	/* See do_swap_page() */
->   	BUG_ON(!PageAnon(page) && PageMappedToDisk(page));
->   	BUG_ON(PageAnon(page) && PageAnonExclusive(page));
+From: Arnd Bergmann <arnd@arndb.de>
 
-Acked-by: David Hildenbrand <david@redhat.com>
+A number of internal functions in kcov are only called from
+generated code and don't technically need a declaration, but
+'make W=1' warns about global symbols without a prototype:
 
+kernel/kcov.c:199:14: error: no previous prototype for '__sanitizer_cov_trace_pc' [-Werror=missing-prototypes]
+kernel/kcov.c:264:14: error: no previous prototype for '__sanitizer_cov_trace_cmp1' [-Werror=missing-prototypes]
+kernel/kcov.c:270:14: error: no previous prototype for '__sanitizer_cov_trace_cmp2' [-Werror=missing-prototypes]
+kernel/kcov.c:276:14: error: no previous prototype for '__sanitizer_cov_trace_cmp4' [-Werror=missing-prototypes]
+kernel/kcov.c:282:14: error: no previous prototype for '__sanitizer_cov_trace_cmp8' [-Werror=missing-prototypes]
+kernel/kcov.c:288:14: error: no previous prototype for '__sanitizer_cov_trace_const_cmp1' [-Werror=missing-prototypes]
+kernel/kcov.c:295:14: error: no previous prototype for '__sanitizer_cov_trace_const_cmp2' [-Werror=missing-prototypes]
+kernel/kcov.c:302:14: error: no previous prototype for '__sanitizer_cov_trace_const_cmp4' [-Werror=missing-prototypes]
+kernel/kcov.c:309:14: error: no previous prototype for '__sanitizer_cov_trace_const_cmp8' [-Werror=missing-prototypes]
+kernel/kcov.c:316:14: error: no previous prototype for '__sanitizer_cov_trace_switch' [-Werror=missing-prototypes]
+
+Adding prototypes for these in a header solves that problem, but now
+there is a mismatch between the built-in type and the prototype on
+64-bit architectures because they expect some functions to take
+a 64-bit 'unsigned long' argument rather than an 'unsigned long long'
+u64 type:
+
+include/linux/kcov.h:84:6: error: conflicting types for built-in function '__sanitizer_cov_trace_switch'; expected 'void(long long unsigned int,  void *)' [-Werror=builtin-declaration-mismatch]
+   84 | void __sanitizer_cov_trace_switch(u64 val, u64 *cases);
+      |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Avoid this as well with a custom type definition.
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ include/linux/kcov.h | 17 +++++++++++++++++
+ kernel/kcov.c        |  7 ++++---
+ 2 files changed, 21 insertions(+), 3 deletions(-)
+
+diff --git a/include/linux/kcov.h b/include/linux/kcov.h
+index ee04256f28af..b851ba415e03 100644
+--- a/include/linux/kcov.h
++++ b/include/linux/kcov.h
+@@ -72,6 +72,23 @@ static inline void kcov_remote_stop_softirq(void)
+ 		kcov_remote_stop();
+ }
+ 
++#ifdef CONFIG_64BIT
++typedef unsigned long kcov_u64;
++#else
++typedef unsigned long long kcov_u64;
++#endif
++
++void __sanitizer_cov_trace_pc(void);
++void __sanitizer_cov_trace_cmp1(u8 arg1, u8 arg2);
++void __sanitizer_cov_trace_cmp2(u16 arg1, u16 arg2);
++void __sanitizer_cov_trace_cmp4(u32 arg1, u32 arg2);
++void __sanitizer_cov_trace_cmp8(kcov_u64 arg1, kcov_u64 arg2);
++void __sanitizer_cov_trace_const_cmp1(u8 arg1, u8 arg2);
++void __sanitizer_cov_trace_const_cmp2(u16 arg1, u16 arg2);
++void __sanitizer_cov_trace_const_cmp4(u32 arg1, u32 arg2);
++void __sanitizer_cov_trace_const_cmp8(kcov_u64 arg1, kcov_u64 arg2);
++void __sanitizer_cov_trace_switch(kcov_u64 val, void *cases);
++
+ #else
+ 
+ static inline void kcov_task_init(struct task_struct *t) {}
+diff --git a/kernel/kcov.c b/kernel/kcov.c
+index ddcf4f3ca9c9..c3124f6d5536 100644
+--- a/kernel/kcov.c
++++ b/kernel/kcov.c
+@@ -279,7 +279,7 @@ void notrace __sanitizer_cov_trace_cmp4(u32 arg1, u32 arg2)
+ }
+ EXPORT_SYMBOL(__sanitizer_cov_trace_cmp4);
+ 
+-void notrace __sanitizer_cov_trace_cmp8(u64 arg1, u64 arg2)
++void notrace __sanitizer_cov_trace_cmp8(kcov_u64 arg1, kcov_u64 arg2)
+ {
+ 	write_comp_data(KCOV_CMP_SIZE(3), arg1, arg2, _RET_IP_);
+ }
+@@ -306,16 +306,17 @@ void notrace __sanitizer_cov_trace_const_cmp4(u32 arg1, u32 arg2)
+ }
+ EXPORT_SYMBOL(__sanitizer_cov_trace_const_cmp4);
+ 
+-void notrace __sanitizer_cov_trace_const_cmp8(u64 arg1, u64 arg2)
++void notrace __sanitizer_cov_trace_const_cmp8(kcov_u64 arg1, kcov_u64 arg2)
+ {
+ 	write_comp_data(KCOV_CMP_SIZE(3) | KCOV_CMP_CONST, arg1, arg2,
+ 			_RET_IP_);
+ }
+ EXPORT_SYMBOL(__sanitizer_cov_trace_const_cmp8);
+ 
+-void notrace __sanitizer_cov_trace_switch(u64 val, u64 *cases)
++void notrace __sanitizer_cov_trace_switch(kcov_u64 val, void *arg)
+ {
+ 	u64 i;
++	u64 *cases = arg;
+ 	u64 count = cases[0];
+ 	u64 size = cases[1];
+ 	u64 type = KCOV_CMP_CONST;
 -- 
-Thanks,
-
-David / dhildenb
+2.39.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/12b29199-4469-d970-579a-46a60e6e8236%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230517124944.929997-1-arnd%40kernel.org.
