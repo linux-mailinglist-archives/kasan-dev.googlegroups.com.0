@@ -1,114 +1,112 @@
-Return-Path: <kasan-dev+bncBCJ4XP7WSYHRB3WWSORQMGQE6S4XP4A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCJ4XP7WSYHRBBGXSORQMGQERHSP5FA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7832706BD8
-	for <lists+kasan-dev@lfdr.de>; Wed, 17 May 2023 16:57:51 +0200 (CEST)
-Received: by mail-lj1-x239.google.com with SMTP id 38308e7fff4ca-2ac8393dd5esf3986041fa.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 17 May 2023 07:57:51 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1684335471; cv=pass;
+Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92EE1706BDD
+	for <lists+kasan-dev@lfdr.de>; Wed, 17 May 2023 16:58:13 +0200 (CEST)
+Received: by mail-lf1-x140.google.com with SMTP id 2adb3069b0e04-4edc7406cbasf574111e87.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 17 May 2023 07:58:13 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1684335493; cv=pass;
         d=google.com; s=arc-20160816;
-        b=BmqfeE+fc9ACOwmpW/PyrbbchduARVPAY5zwrX0K2/n7MgQW+lDLOXGxgw6QFwWl2j
-         TiS3OmegVNrk6aGMvwvRr/ZsCLyRkDN3VQHRqXlF0fSae+ZL+lem4HY9jFyiVZujI60V
-         V9zC9PufBfGepw82eqHrQYqDbEYU4iYYwkvLCh5hkncKGNAKxOtyY1JVTcojCG2y3KCM
-         2xehElkdEGGcM7fUyLk38p5UZz6lDVqzVSCXwBacgixLfgw2SKhHIVS29h8/F0i3X1Xz
-         KS2yMq5vnftLXrnlzHg1oBsTxdoWwcuHMqAGWcmQ1VRA9HyjeSFCqRs7OvNB6+Z+CF9B
-         fwUw==
+        b=lml+88ea8qJqMhiMVCzpFmEX0bv4zA4As3JHl7BCh+rZCEASKiBaNP1BpYXY82Puaj
+         jBNm9solbjA7p3pXmvK/Vi3/uSFNMhLA3B6qLnAGUMgukiWPOsmviXmAvB2cAWMLtxBe
+         R4C0rQEjwLpn93JnvP8ENiyPK/h8Qto+oyxyNxco99QK5bEKys63mcxLVNxUNFX/BV+p
+         E1hhDAUc/q7MCp1fdIu+iOp04ZisvK0cUxtps4I4nu+Dl3gkcy/9lhQtxgxjem9/mcVB
+         iI9d7ch6HHiKWNqzaHiK9ZF3ob8pA6/LoXCRJG2bXHSRl9GZGkEUOEOjDbIzlRRrAusZ
+         YCpQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:from:references:cc:to:content-language:subject
-         :user-agent:mime-version:date:message-id:sender:dkim-signature;
-        bh=HgadWGWRBMXDVbST7Z2FIHm89AcufN/tcX2JWUy1MRo=;
-        b=gvUsuWsmjBn9In2H/qzPlYKUPBuA25i9bhBPewkrlR6TOqc9TxsGwWxNebf/rItc4g
-         6CXLr92DnYUzoTH7PWU6jyvmIGb0lIk3YrVlgRjkOy0yEJ6psHM5rKYvuvLqeY9Q+IBi
-         84+pBsoTtfxUQHemoJQQgrwi40gu2px8b/la519VdopkfsUWDuBTlBSndfoxlB6OVjgb
-         3mdz6I9UvGpahxzvoUAY5hjnFGzftozeO7/1di5hr0mfUuWa7KrdagGfp3FyFpsX7TpJ
-         O+5KEXytnFLSffZ2poOaIxIWRwTK0S9nY8Xtitdh1v3P38tc7+ejfy0YdTmIesGkku6C
-         34xQ==
+         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=JiPcRrJbHGSY8WiU15gcBhBFehhI4NDqctMs06QbbfA=;
+        b=wvXV4xBp2X0yBepC71WhbLOBPdZwTlFQl9jiui+d/kBHkhqMIP71b3+a/+mg/YK8Z/
+         w+Mtn8zNfVu2sxW+HuRueQe8h40/U1juMhweoVSEzj7I6bJ/HHIyIml/60OKoYoAGazl
+         DDmjthnrsN7Cg60MrybrmUMjbzwCxVqw4kte9tk4rZjV2CN6Nx5fHTjKpnaiRR0Q2V1p
+         TK2HhBK3vW9UXNMHHhdTER5XJm7gIFCv72Tl/uL6RAG8rAB6bCLz2ajb4j678kx1ReXz
+         +jJ6PucavCwtdfH7Tv6YXCamgjG/Y1mqhOnSBat+jSTzorYjYYPtKdqB3XxhkWd7pNf7
+         oylQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of steven.price@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=steven.price@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1684335471; x=1686927471;
+        d=googlegroups.com; s=20221208; t=1684335493; x=1686927493;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:in-reply-to:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=HgadWGWRBMXDVbST7Z2FIHm89AcufN/tcX2JWUy1MRo=;
-        b=eZQZ2filCStzemjDJjNWABzvkYBTQMvS9nn+fyL7suMpcx/sklBhldFcawM23lFDQo
-         +GuuLagpQ3/bFLiZsP7lxFNh7lPQiyj6S5AEwUcAiOYszQ+ckSn01ut+LeqTmr7kaHJo
-         rYPfd4zwhk/DPmb8B7IfIBhNu1xOc+ky9xJlQ3SNwzfgrP/O6T1K4I7/GdJIXMTWGgcC
-         eLZddEW5VPrzsRsRu3J0ZtTscxOT9E9f3NE4NdVh7gviEnDcPvM2PqSuomQ0Mstw3D6t
-         kJOCeo5MBfkHrQLDoqzVlZsIoYUgGJO81QkdHVSJaEd/vW91x0V+x/nrl9zC4HeyiGuT
-         ycYg==
+         :x-original-sender:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=JiPcRrJbHGSY8WiU15gcBhBFehhI4NDqctMs06QbbfA=;
+        b=IWhNC3Mg6Jr9sCArw/koGtqs2mpppM9pPbhQXmvc5SL6PjMIZrY0hmkmuTEiFaMwqa
+         T/Ps2fzhnPTsjFxJmi4g+K04tXZHWSA7aM9U7wjttskrpudYT9GywxDvBSKZTfN6l8fG
+         UYEsPrqDtteXj8g18KT8IdoaZ27p+nh8WcqudxHrqjxgD7KjT++ksRRMOo31Zr/h+Nfj
+         ktKEpuDYmRhYowjvegiRQp38l3aWI4waHQ+s4TA/UlDhKy2A+7xt9oNvurP5eTIfAoD9
+         uLcYocDJLuscvQPq1l+6wNsfroRtSHZSYfv3TGb4ozIB3NGjroi1oSJkws98+gKKZx0x
+         j4Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684335471; x=1686927471;
+        d=1e100.net; s=20221208; t=1684335493; x=1686927493;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HgadWGWRBMXDVbST7Z2FIHm89AcufN/tcX2JWUy1MRo=;
-        b=BC3jljr2cYVzxylqjVh2vk9EsLza5pKqvJ4QmYQLG2HgQRSmXkK6cFGiAoLQXP0BTJ
-         P4tN0CjVWQd9clZONWqNW+qiqbFevcEdwkCQB5Eb8llnTVoKv3vdXFkgrGlqNDY1Hdpg
-         QRLZ+L/Mz7SBOEDt4A8UiY6a0XQPVrEHGRiFoTsKyvB7ARD1IQKrOgl2ZDILeTQz7PyD
-         8lHM8TRC2ATvhtaHO4kL/Nu4ch+z8/LoY5LzhsEhHSej2LvEjGHBhEfuiGXYy9bW7edw
-         9ba+da/IduofWOJxMyaShbRqxdLiKoMT8x6xFXist8Ghi4xIeME3xndN4fcNwcGBAvZv
-         BWyA==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JiPcRrJbHGSY8WiU15gcBhBFehhI4NDqctMs06QbbfA=;
+        b=Pfb0j1evL8K5g5PUwZy9VcJLjvIxnGr7p8gI4cP8GC8qoVA7wOSqIBM5yH3IK3/sNE
+         QhKNXhZXDURedOBbCptOaDxVyiZ+rTe+/KT2PImc8dM8QXsopIn2DHw/L3TfusB1mFW+
+         bgp+atcyvjwK1ZnheKbNQrhyRFY+PPReLluAfUlnxlMZ2sOsLoidWsKhhzRTuoSJOz8O
+         e7MhC9lAdiegNs+84I7KM6g4J3AdoJfkMAhgcudUNIbTwqXAh9zIDCyHRX+eacpzrPJW
+         Lxiye9YWIUv8YslqWA4yYrBnWnqyr45WXyhqIo6lfLVcOB1MausZkCtiIhGJa7fJtPd1
+         Vq1w==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDwf05y9zEUT5Ku7k9hs7rvlZCs8tnWGRluSjFsbZWoHPHVtPcmk
-	5b1hDZ3QPmS6Nx57kF4Z01c=
-X-Google-Smtp-Source: ACHHUZ71MkbnHVQG7Ji8pPhXhzP6VW/LRZ4aZE9+qeG6/BwCQ4OZhtNRa0npQj0wgFn4wEg3WNw5eA==
-X-Received: by 2002:a2e:88ce:0:b0:2ad:990f:de57 with SMTP id a14-20020a2e88ce000000b002ad990fde57mr7603967ljk.7.1684335470803;
-        Wed, 17 May 2023 07:57:50 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzM4vJTchVL5hm7gM9vQ7JSDznMnHjOLmvtNa2QeL5u0qrvv01r
+	8tSy2BQEBJhV/q3f0sQqwB8=
+X-Google-Smtp-Source: ACHHUZ6u6U+c7pW8Q5HPFrgf2NGzbL9jzWpjFnQ2rlfyXSLFQaF1RGNbxlUcOQmLG8SoKOQyso5a2w==
+X-Received: by 2002:ac2:48b1:0:b0:4d5:ca32:7bc5 with SMTP id u17-20020ac248b1000000b004d5ca327bc5mr231066lfg.12.1684335492525;
+        Wed, 17 May 2023 07:58:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:1a10:b0:2a7:7ca6:a43b with SMTP id
- by16-20020a05651c1a1000b002a77ca6a43bls786602ljb.1.-pod-prod-03-eu; Wed, 17
- May 2023 07:57:49 -0700 (PDT)
-X-Received: by 2002:a05:6512:4db:b0:4ee:e0c7:434d with SMTP id w27-20020a05651204db00b004eee0c7434dmr330083lfq.51.1684335469076;
-        Wed, 17 May 2023 07:57:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1684335469; cv=none;
+Received: by 2002:a2e:9945:0:b0:2ad:a1e5:c894 with SMTP id r5-20020a2e9945000000b002ada1e5c894ls162656ljj.1.-pod-prod-06-eu;
+ Wed, 17 May 2023 07:58:10 -0700 (PDT)
+X-Received: by 2002:a2e:900f:0:b0:298:a840:ec65 with SMTP id h15-20020a2e900f000000b00298a840ec65mr10506288ljg.36.1684335490590;
+        Wed, 17 May 2023 07:58:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1684335490; cv=none;
         d=google.com; s=arc-20160816;
-        b=KLSwDKu83gh/0hcHU6Kz/m5CUT1LoWZSjAt+/H1NvoV4jwRSdY6LXmpeyZSaLifqMy
-         Ez4cZHb8oujb9uph3Plsw5wtheJbrK2X6ggVlY+8eD1zLgJIXHwM5mcWrICF+DPZa2Zm
-         ZidCEC/yowK27Hb+uF/zNe7cY04yt6CSxGEYC5Aq/w66s+3LS48vjyaYaWnGvRuXLIWS
-         h3kawllgN39BdMHebluMr7qaWX77aohX8ika5nWo+GruCjhdkw7dsrr6vockZJNEE2IQ
-         e87JQJpfv63nMrYneOHrWaDrMcJRgz+oB7cbvKQLukBfAurOPNp7Bcg3NLVQ8Fcfxubp
-         Q1vg==
+        b=gLad1amPybehWVkb2LYNyyQjDN2TKRx0r6RGbXh1IkK1BvLM3HZx6aRaiVmjB7KvDa
+         /G0kCb5wVr3XYerlS8vBemAXLvzoFkhaJoJgo9SD+N/LAyGbHY+FIbKE+rUOm3b3ecu4
+         4PxEsjCXX/LLJK5I6wEhMnOtmcP607F25e5ImqCnEuCBOqVy8G0hXOX7/XZRrPypD6fq
+         Nsg3s2QQNj8NKwV/M12aeXTlNCgdV/+rRE52Nyr8KF65Q7Rm84g0UTjVWyaFL8To0Qvs
+         0UYDy2UKm2ZTFI1tca/YVLCl96AqName/G+xuAEYz2yz6YgnjAlhx1uXDfPHfXGHSkCN
+         d2dg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=+Zwx//lOdg6V9D63MW28GsqyK5yhFT+5Pyw49IqDxGo=;
-        b=fYH0jQM7gf9LoRuuLwXCvT1XxZ7Vyx7MDnGAh+l8JOa9z1rFPNh3NlHY3c+FmUljUj
-         91DB0my+wQ4B5KlGYkoZef9v5fbcLbmPK+iQL6MD2tF+JIwAyP09HOQvpW2ipWMWUIgG
-         W4lZQvJiAJK0fFdej1w2HYeSiDWz0e1FdMxmVazfEyZJyuzM9LFEZj0lO7eWgJMja1gA
-         X5QSlkIGqWcl8rBFzBH86YzNMnCNfTOF7Q1cQqXAU14aUFpY6XW01y4Tit9Wj972TFam
-         SKAJCqpywD6BBNFYa0SOMziMNkMZxWz1pghaPxc3UxBTCFfXYWBu450NC5FgBdR/DuLB
-         IwBw==
+        bh=td9MkxkNf87qbPdhiiQuWtIT/WbGO8lv0aeODdr9VrU=;
+        b=sk+lPefU1OsTy39xLlOqzMu4gk+V7+a1J8UY4E1TG4MBN/XWv0dRx1ekkIl7QSFEk8
+         jpAjl0wl+NpEvQGwApJAyhusjJHhQ+T8CoaH93OTLJxP210W7ZfXjorSv2+58bmV7x6p
+         Tifcznq/u02zrYMXFrT++3vTgeEgaIhiielTv4vr+O9pRFnWlD2PJBpCo9zhumpdBn4y
+         ZEf1cUQXzjvANc2V8TrdsERZkayXxlgbh0YjDApgdJYjoGQJi9rRORsskGFwx+sfDxRy
+         Z1ra7bxj5Cj6MVLQYhW59LSAXgoOQR5sUk36hWObxub/AHg3I8+GopJ5yLmdXCJbhN6D
+         qsGQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of steven.price@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=steven.price@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id h7-20020a0565123c8700b004f24cc1c786si1548194lfv.7.2023.05.17.07.57.48
+        by gmr-mx.google.com with ESMTP id bx43-20020a05651c19ab00b002ac75541fd4si1949525ljb.0.2023.05.17.07.58.10
         for <kasan-dev@googlegroups.com>;
-        Wed, 17 May 2023 07:57:48 -0700 (PDT)
+        Wed, 17 May 2023 07:58:10 -0700 (PDT)
 Received-SPF: pass (google.com: domain of steven.price@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 620641FB;
-	Wed, 17 May 2023 07:58:32 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2B29E2F4;
+	Wed, 17 May 2023 07:58:54 -0700 (PDT)
 Received: from [10.57.58.217] (unknown [10.57.58.217])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 66E9D3F73F;
-	Wed, 17 May 2023 07:57:44 -0700 (PDT)
-Message-ID: <9b9e7fbd-6166-09ce-9aeb-be28e51eaf10@arm.com>
-Date: Wed, 17 May 2023 15:57:42 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2FEA93F73F;
+	Wed, 17 May 2023 07:58:06 -0700 (PDT)
+Message-ID: <59cb3075-3747-7478-58e2-534b00b5daec@arm.com>
+Date: Wed, 17 May 2023 15:58:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.10.0
-Subject: Re: [PATCH v3 1/3] mm: Call arch_swap_restore() from do_swap_page()
+Subject: Re: [PATCH v3 2/3] mm: Call arch_swap_restore() from unuse_pte()
 Content-Language: en-GB
 To: Peter Collingbourne <pcc@google.com>,
  Catalin Marinas <catalin.marinas@arm.com>
@@ -124,13 +122,12 @@ Cc: =?UTF-8?B?UXVuLXdlaSBMaW4gKOael+e+pOW0tCk=?= <Qun-wei.Lin@mediatek.com>,
  <casper.li@mediatek.com>,
  "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
  vincenzo.frascino@arm.com, Alexandru Elisei <alexandru.elisei@arm.com>,
- will@kernel.org, eugenis@google.com, stable@vger.kernel.org
+ will@kernel.org, eugenis@google.com
 References: <20230517022115.3033604-1-pcc@google.com>
- <20230517022115.3033604-2-pcc@google.com>
+ <20230517022115.3033604-3-pcc@google.com>
 From: Steven Price <steven.price@arm.com>
-In-Reply-To: <20230517022115.3033604-2-pcc@google.com>
+In-Reply-To: <20230517022115.3033604-3-pcc@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: steven.price@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
  (google.com: domain of steven.price@arm.com designates 217.140.110.172 as
@@ -149,55 +146,42 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 On 17/05/2023 03:21, Peter Collingbourne wrote:
-> Commit c145e0b47c77 ("mm: streamline COW logic in do_swap_page()") moved
-> the call to swap_free() before the call to set_pte_at(), which meant that
-> the MTE tags could end up being freed before set_pte_at() had a chance
-> to restore them. Fix it by adding a call to the arch_swap_restore() hook
-> before the call to swap_free().
->=20
+> We would like to move away from requiring architectures to restore
+> metadata from swap in the set_pte_at() implementation, as this is not only
+> error-prone but adds complexity to the arch-specific code. This requires
+> us to call arch_swap_restore() before calling swap_free() whenever pages
+> are restored from swap. We are currently doing so everywhere except in
+> unuse_pte(); do so there as well.
+> 
 > Signed-off-by: Peter Collingbourne <pcc@google.com>
-> Link: https://linux-review.googlesource.com/id/I6470efa669e8bd2f841049b8c=
-61020c510678965
-> Cc: <stable@vger.kernel.org> # 6.1
-> Fixes: c145e0b47c77 ("mm: streamline COW logic in do_swap_page()")
-> Reported-by: Qun-wei Lin (=E6=9E=97=E7=BE=A4=E5=B4=B4) <Qun-wei.Lin@media=
-tek.com>
-> Closes: https://lore.kernel.org/all/5050805753ac469e8d727c797c2218a9d780d=
-434.camel@mediatek.com/
+> Link: https://linux-review.googlesource.com/id/I68276653e612d64cde271ce1b5a99ae05d6bbc4f
 
 Reviewed-by: Steven Price <steven.price@arm.com>
 
 > ---
-> v2:
-> - Call arch_swap_restore() directly instead of via arch_do_swap_page()
->=20
->  mm/memory.c | 7 +++++++
+>  mm/swapfile.c | 7 +++++++
 >  1 file changed, 7 insertions(+)
->=20
-> diff --git a/mm/memory.c b/mm/memory.c
-> index f69fbc251198..fc25764016b3 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -3932,6 +3932,13 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
->  		}
+> 
+> diff --git a/mm/swapfile.c b/mm/swapfile.c
+> index 274bbf797480..e9843fadecd6 100644
+> --- a/mm/swapfile.c
+> +++ b/mm/swapfile.c
+> @@ -1794,6 +1794,13 @@ static int unuse_pte(struct vm_area_struct *vma, pmd_t *pmd,
+>  		goto setpte;
 >  	}
-> =20
+>  
 > +	/*
 > +	 * Some architectures may have to restore extra metadata to the page
 > +	 * when reading from swap. This metadata may be indexed by swap entry
 > +	 * so this must be called before swap_free().
 > +	 */
-> +	arch_swap_restore(entry, folio);
+> +	arch_swap_restore(entry, page_folio(page));
 > +
->  	/*
->  	 * Remove the swap entry and conditionally try to free up the swapcache=
-.
->  	 * We're already holding a reference on the page but haven't mapped it
+>  	/* See do_swap_page() */
+>  	BUG_ON(!PageAnon(page) && PageMappedToDisk(page));
+>  	BUG_ON(PageAnon(page) && PageAnonExclusive(page));
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/9b9e7fbd-6166-09ce-9aeb-be28e51eaf10%40arm.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/59cb3075-3747-7478-58e2-534b00b5daec%40arm.com.
