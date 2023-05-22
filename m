@@ -1,147 +1,134 @@
-Return-Path: <kasan-dev+bncBCAP7WGUVIKBBMFGVWRQMGQE5FKUG6Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBC4LXIPCY4NRBLVEV2RQMGQEU472TSQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x740.google.com (mail-qk1-x740.google.com [IPv6:2607:f8b0:4864:20::740])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B7D70BBEB
-	for <lists+kasan-dev@lfdr.de>; Mon, 22 May 2023 13:34:10 +0200 (CEST)
-Received: by mail-qk1-x740.google.com with SMTP id af79cd13be357-75b16092b0dsf77724485a.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 22 May 2023 04:34:10 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1684755249; cv=pass;
+Received: from mail-ed1-x538.google.com (mail-ed1-x538.google.com [IPv6:2a00:1450:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15A4B70C2E8
+	for <lists+kasan-dev@lfdr.de>; Mon, 22 May 2023 18:02:56 +0200 (CEST)
+Received: by mail-ed1-x538.google.com with SMTP id 4fb4d7f45d1cf-5128dcbdfc1sf2048049a12.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 22 May 2023 09:02:56 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1684771375; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gCpUv/KDM3j/JaV+7uyY+072FeFy0BlKIQ/ZsvOU0XrVoKVaRiYfPAi9k7s5qH3wzo
-         epUL0WFrD/ug2B6ErELG3ql/Dsm1Rat9c47+oTiEQA3le2IJolXKsNZkEZNXDXE0WIYo
-         NdBhSX9mnc1zLMfi5GXRAK3NGTDrDDzHY3W49WJNCfRqH6xJr5XG41YzO6JjwEmIT6Np
-         FMUVzIHaPV/3DBRcXgQ4feT3Wn0oQLl8F7QZuuTSHSZkHE1EKG8OBiEzeEb7u0fM/gQO
-         dFaTRps8w53eMqO9D2P4wdZekKIhddrCXILDg+vnHYR9vgC9PA7zWwiikbtvhEDFmocd
-         v5SQ==
+        b=MJF6eF4vVttKRrgxEcDuROtDDeXO6daxtqqHMZERf0XscUTtHoGb3OMVtT5Es6rE/B
+         zBwmbTbaO+4GuMrGNVxseRhrQEiHLfT6Rm+tUiE9KoCAIHQnn0Z4qX7iRnZrzd2Tf/r1
+         5p7YDDOdWZUmzjfWplandMxz6UaikNu3c4b36IVObgAhtLlcgIupUDFxTw12rPPF5dr+
+         8HWatAuHaV6vwcgvJeppk102IQJdGkITiqd6re24qJHVJS+hdUfd/oH5uZo5fGqkMUfN
+         Bcl2xDEyg2gLPjA6OZe+CV952gGDuDB4pIIHaybD4WjVdz2Jpb/mgyVOskQnCHz4bo0l
+         1t0A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=6b8gADOtBWzw5UBaLs8PLFaJJj+svFr5Y2mg1qb4dos=;
-        b=iMRJoGWbvCfLN/i6QSNExFJVSsWAxSonChcPcuxRhio33mFSGY8dkoDY5/Cihz0PL3
-         M08rJVVLRM+J6u4gcy3jz04/fY5eOosZNnxDlMXmtY9H1/eQkbSODnO3SSK0UAuJIAx1
-         B5CSy1icMozc0mFMxo7UjNvrNOypo0PGbIfVB7X/Gu8MWgpqTseysliY60F+KO8+0vDX
-         W2vNluXjchB5FxB/jKTEkoUcbRfF8JA37ejIy1e7IizaBPkgnO/dTnR7DGH8qf9FrVHl
-         hiIno/qkaHbSPppAV1JCMPEcdSSE8xJXJNWLlq2VjH3i0JKbIYIJ8PUO1VcLc68KJ8qQ
-         HQcA==
+         :list-id:mailing-list:precedence:user-agent:message-id:subject:cc:to
+         :from:date:mime-version:sender:dkim-signature;
+        bh=oNIwhL4AZ4brFKihvI6GWMbGwERZC4aNN1Qs8SMPNGY=;
+        b=pmcR/+C9W5iIaxIcRFT4OHSNxx3wYjzt7TbkW2PxJdxJHmqMvWBw8oHW9sVjHRXvBO
+         Ge3mZyoZhifJm1UUEjwe8ca6ShX7lpysSuR+rb/JhM+KPGGnDLZRrBzm0MvIFloCbLVr
+         pSBcCRXXTCI0aPSdtlFdXfraLxoh1dOIWwIzqkZNxLl3wePyMtcYiatO1hP40+vsQSNb
+         6wr+VwIqHjj8kvUHOMVXpooft8oy8nYhMyzIve3EEEXHJg+hkzySNkKDx7lSm6+cnaAW
+         vB0rfUZZDUn0g8ZZ10ewvRO+sAX98RsrJ7Cw/TQ8xagVkrYlfk5kUXB5rGIZv3Lj8WeC
+         YwlQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+       dkim=pass header.i=@intel.com header.s=Intel header.b=ndvNs+oI;
+       spf=pass (google.com: domain of lkp@intel.com designates 134.134.136.126 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1684755249; x=1687347249;
+        d=googlegroups.com; s=20221208; t=1684771375; x=1687363375;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=6b8gADOtBWzw5UBaLs8PLFaJJj+svFr5Y2mg1qb4dos=;
-        b=og1PSTeFvGYSZcfHjQeQcDYcFOu4HqRms8gdw7HuxCizz1WXSNt08aNXMmjqZr1mv5
-         DfhEDoL/P56rcmIfj/QD3xoUSjhMVx5jTitj23+nm4MSdd7Zl9mvzrSGRBOTeQuqlD0a
-         UOSpdT2HV1/fd5n8jzap/cJMjIb2wNxX3hRLsePd/JBvdcuOXjh4fnh9CgAc3Fr6P6NY
-         XjZ7ow/4syOeH+h8CR4fQe6npa+b7+eJOUF3IQSBHsdnQiWQMOp4SKgcjTjKYzDQ0yV8
-         v/9tRsvAq7hstH/6H4XWVRGV1JlTc9qKJN4YzXuZ9y+LuTHuIb4+IjflkpOCx2TCO+LB
-         SLrA==
+         :x-original-sender:user-agent:message-id:subject:cc:to:from:date
+         :mime-version:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=oNIwhL4AZ4brFKihvI6GWMbGwERZC4aNN1Qs8SMPNGY=;
+        b=JSZ/Mbkqq56ptpxmz8febZCpUkL43jipKdvkWQQLJHjHOcaLe4YG5g8dltbhuuq9xr
+         3qtzhRBt3Fm6fKVRPjwceXvXRhlJ8iNofC742mQPBAILctKVvJCvGsNFvj7PyWfLRtdB
+         /IXNpXaJPfWVdVrZVaOdJRh5JcQeQK93FwL4QkLck1jre+asoXT9ktGlzd/tC8VKO0uq
+         nGlCxANFAQsMSOFmj9vHsfc9mZZlHXuf3WUwJVcVBy6U0sBQfH+nTa3CZN/BRdrdwgHg
+         j7xZFkEldjf0w875rvtPBU1mB/D8UVzxp8+dONoEz6jsNFXew+Z8iBeZc3Zt8fhgJ36A
+         Lntw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684755249; x=1687347249;
+        d=1e100.net; s=20221208; t=1684771375; x=1687363375;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=6b8gADOtBWzw5UBaLs8PLFaJJj+svFr5Y2mg1qb4dos=;
-        b=ORsv+TtlN+SZxU3dhBcfdg4HN3fxYxhk1iaIBbZCNwIJu2sZUfirQkB88q0JSW1ui1
-         DLHD0HKl1YUSdO49dBcey0cpXGyED9gfXlh218udg9zrhGlyEKvvcgudqzQc3BUwyvgN
-         LXM9fN1ggV32pX3KVjDa63vhEgD36ZZfs0VSqGChAWHLxrOJ2NeLI0HQkwg5yZ7zaATn
-         Rakb73nM1YTmHxHOD3KdvE8v3WQ+i2QaXX57E7VbKE8OlXmdBJURAUGKI1ITuH2Le5Ow
-         KdVcLd7QCp/JUEKAwOKyTaG4SdIxRIa4TfrFO19cJqISRs77vrSSssECR07hjGg9wv90
-         zk6g==
+         :x-original-authentication-results:x-original-sender:user-agent
+         :message-id:subject:cc:to:from:date:x-beenthere:mime-version
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oNIwhL4AZ4brFKihvI6GWMbGwERZC4aNN1Qs8SMPNGY=;
+        b=luj6Ze2QZ4djEsCFp6SvBtUfZLQZZ+tUGbdPAjF2wpNmZVC2FZkINoKP/DXDIJzS+X
+         Zkjw7VkZyJbqvQarHV3g+LBNkQHo2a2z57Cz8wI5RTVqLH2aeE5nMxZ2eexajaz5M2so
+         P+HYZ2HalCq5v5g9v7YWix2akWGuF4kJUpxihSyku/iomHjfookwGuf8uwDWVj0slZ83
+         64FgwYaY6QGYIRMZmqwe2XvbmH29em29wCgN/BLbpubGmDv8mbRpGSb1SPMMaItEDRA6
+         EdXdfgYGUhk7am2v1JIslzBHvRNWZes/xD8WSG3YGWJxYzJGuzBjY+HnrIKIR+Lq/A1L
+         BZsQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDw4rNeuJ4UCy3y/k4mPzPYVeCbH/cAAv74mbPZ4G41S5VmTQaXr
-	7XjAkKtvRSWrXgYpRRwmkr4=
-X-Google-Smtp-Source: ACHHUZ7J3tHXySPK3CvDxQND3XR62+ihXFCdccKUK2a4L5WCvJV4m+HGtFL3t998Zpf4eoZUtGcf9w==
-X-Received: by 2002:a05:620a:4694:b0:74d:33a7:1049 with SMTP id bq20-20020a05620a469400b0074d33a71049mr3245301qkb.14.1684755248806;
-        Mon, 22 May 2023 04:34:08 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:186d:b0:623:82b3:3d95 with SMTP id
- eh13-20020a056214186d00b0062382b33d95ls7160302qvb.1.-pod-prod-05-us; Mon, 22
- May 2023 04:34:07 -0700 (PDT)
-X-Received: by 2002:a05:6214:c46:b0:5f1:606b:a9ca with SMTP id r6-20020a0562140c4600b005f1606ba9camr16542542qvj.37.1684755247765;
-        Mon, 22 May 2023 04:34:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1684755247; cv=none;
-        d=google.com; s=arc-20160816;
-        b=DXsomusYh51fFWiHs1k05IDwOVKk/4JVni6YJUZHbIRatvZh1KACoK4YZybg0VLjbD
-         aSfHokHvvbegsShd+uGg1Znlh1jxsev4WLfyA0mPP4/r7toXfTjZ0lk+h/5Cccw2XeIt
-         fFjPJXc/J0H4uHkZYIGD/C8XyAfu7dxUUXJPnTc9QUCW1Fe0ISnMkcCNC/4S3W5JhgE9
-         KnoSaaJlLoy5TXyW8B0rbZCKTkEFmVvEsjXh7CfDxIzC+n1iD1WU3lvtScw/xLRWbE8z
-         XOUockrRB7gbTzL0NEgbE9zw24rVFmdwaNkJrm+qd4qnIBBAdFiqb2Bp8CPHwwWYh1/P
-         2DCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=AYDtoh5mxqYqc6EDdsPzMeP0JarrQHBBAVQsSfkeDKQ=;
-        b=Em9P3EQOwpI8Q6JDR96Rrt3vJORmc8Idq5X720osdKcEe/8cVtsdNR0hM3GBiVj3Bv
-         txvbsGY7BU24DqoJZTMMC/FGID7u0mIaR1l1+3kV2hXK0lpFwUUWMK75EF/9vAxhNJum
-         D23WncQRzjbmiyTnI2FRZCuGm3R8URhgk1Er9PFzuqxzhWuPmp60EuXTI7058jTbM71r
-         C2fgDsu0Nui5SLLJiIMP/xGjg+LYZKF+CyemBqTT5OjDI/9ovtP/NnjZCQEBXlhG41Qz
-         ArMRwt0J5o+Te6SF/usw5glmaZ+r60v0bXO5zAN3jbAYLEJQN9VCggFaEhgNFrV5PMJb
-         GcNQ==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp. [202.181.97.72])
-        by gmr-mx.google.com with ESMTPS id n8-20020a0ce948000000b005fc5135c65csi442577qvo.4.2023.05.22.04.34.06
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 22 May 2023 04:34:07 -0700 (PDT)
-Received-SPF: none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) client-ip=202.181.97.72;
-Received: from fsav315.sakura.ne.jp (fsav315.sakura.ne.jp [153.120.85.146])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 34MBXpNp050520;
-	Mon, 22 May 2023 20:33:51 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav315.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav315.sakura.ne.jp);
- Mon, 22 May 2023 20:33:51 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav315.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 34MBXpQF050517
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 22 May 2023 20:33:51 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <b3a5b8be-8a45-a72c-334d-0462cdc582d5@I-love.SAKURA.ne.jp>
-Date: Mon, 22 May 2023 20:33:49 +0900
+X-Gm-Message-State: AC+VfDy34xP/VdpT3wTAIq5vf0sXBorvcxYnGLk2kHBK0UBKIDr2nVvC
+	4ezprTDyDXrLEpGKP7ZsXhQ=
+X-Google-Smtp-Source: ACHHUZ5BRUx/gabm8H957qFTx2agj5LaQTV+qsEkt2PABFVBdVcTwoWgXgikZ/6zSU0HUh9J4vjrFA==
+X-Received: by 2002:a50:d65d:0:b0:50b:fc7b:de7f with SMTP id c29-20020a50d65d000000b0050bfc7bde7fmr4128158edj.2.1684771374980;
+        Mon, 22 May 2023 09:02:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH] lib/stackdepot: stackdepot: don't use
- __GFP_KSWAPD_RECLAIM from __stack_depot_save() if atomic context
-Content-Language: en-US
-To: "Huang, Ying" <ying.huang@intel.com>
-Cc: syzbot <syzbot+ece2915262061d6e0ac1@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com,
-        Mel Gorman <mgorman@techsingularity.net>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-        kasan-dev <kasan-dev@googlegroups.com>, linux-mm <linux-mm@kvack.org>,
-        Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>
-References: <000000000000cef3a005fc1bcc80@google.com>
- <ecba318b-7452-92d0-4a2f-2f6c9255f771@I-love.SAKURA.ne.jp>
- <ca8e3803-4757-358e-dcf2-4824213a9d2c@I-love.SAKURA.ne.jp>
- <48a6a627-183d-6331-0d8d-ae4b1d4b0101@I-love.SAKURA.ne.jp>
- <9c44eba9-5979-ee78-c9c8-626edc00f975@I-love.SAKURA.ne.jp>
- <87edn92jvz.fsf@yhuang6-desk2.ccr.corp.intel.com>
- <0471c62b-7047-050a-14f5-f47dfaffaba7@I-love.SAKURA.ne.jp>
- <87a5xx2hdk.fsf@yhuang6-desk2.ccr.corp.intel.com>
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <87a5xx2hdk.fsf@yhuang6-desk2.ccr.corp.intel.com>
+X-BeenThere: kasan-dev@googlegroups.com
+Received: by 2002:aa7:c78a:0:b0:513:ede5:64d4 with SMTP id n10-20020aa7c78a000000b00513ede564d4ls824158eds.0.-pod-prod-00-eu;
+ Mon, 22 May 2023 09:02:53 -0700 (PDT)
+X-Received: by 2002:a17:907:7f8c:b0:96a:f8ec:c311 with SMTP id qk12-20020a1709077f8c00b0096af8ecc311mr8963842ejc.36.1684771373583;
+        Mon, 22 May 2023 09:02:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1684771373; cv=none;
+        d=google.com; s=arc-20160816;
+        b=fooCpTdktw2gLCKMnLCb0TQL/0wBklM9hpZyadvHrSB4nUCI62TtMvRExoY5mO0FtD
+         cbsuTLdUvL2H2c+SbhwA17NW0DUxbEpEPugnnUYnJVFHfX63GHedW3r3Vc+UBKK3yU3g
+         pfcrLVJ1k6/1GXS4RsaI/uJea6m+u/eUC5+KBLfz9nKZmS347bxbFrQcsu20qtNCbxwn
+         4jf/fcdq+6t5zXqvtxD3z1DvgBfIjtYImhBjdgR8fKt8tBpfaeWfsBXbEOwoKf65uDXr
+         08TxG2ZvKIxAyivTZqcPMW07wg5QR0H724ZokbvwsyP/cRQDqveY74xRzRj/tJOhHiX0
+         eTqA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=user-agent:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=ebuw9B6502P0u5exBIt/HSk3zds23LABc9FCf0AlXaE=;
+        b=ihvxayMHvIVJTHrb3tCZfaLGyCxL1/VaQ+Dng9Tx7ncgGcUQWaeqKqu9NPnExLjE45
+         bWxlAvIpoC7hFV9HRNFQlr2K9NUk0zwcfo/mdDH5FgFibGHh/BzK7dUK4Tm0KEa3417r
+         jtetPvmoH6DZowtPabr1mvwwRzR1xWWxU98E6nFZ6uO7UNkA7hMbqAZA4EaB0wwH3T5J
+         34hJIsbhE+7R1tDCN5iGNX3h3paGAgCbJq6o98z/8t76SnrhlAcU9OHoMb2I++U/wZIz
+         sZDAeShbQbPDgEA4CXoN864+m6Eo3cpExy8wHdBqVfz4fvIanyQJPEnEkd7a6vQfXIbj
+         ZUXw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=ndvNs+oI;
+       spf=pass (google.com: domain of lkp@intel.com designates 134.134.136.126 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga18.intel.com (mga18.intel.com. [134.134.136.126])
+        by gmr-mx.google.com with ESMTPS id fl23-20020a1709072a9700b00965600719e4si435162ejc.1.2023.05.22.09.02.52
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 22 May 2023 09:02:53 -0700 (PDT)
+Received-SPF: pass (google.com: domain of lkp@intel.com designates 134.134.136.126 as permitted sender) client-ip=134.134.136.126;
+X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="337548592"
+X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
+   d="scan'208";a="337548592"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2023 09:02:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10718"; a="773427999"
+X-IronPort-AV: E=Sophos;i="6.00,184,1681196400"; 
+   d="scan'208";a="773427999"
+Received: from lkp-server01.sh.intel.com (HELO dea6d5a4f140) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 22 May 2023 09:02:48 -0700
+Received: from kbuild by dea6d5a4f140 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1q17zk-000CyJ-0L;
+	Mon, 22 May 2023 16:02:48 +0000
+Date: Tue, 23 May 2023 00:01:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Linux Memory Management List <linux-mm@kvack.org>,
+ amd-gfx@lists.freedesktop.org, kasan-dev@googlegroups.com,
+ kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-perf-users@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: [linux-next:master] BUILD SUCCESS WITH WARNING
+ 9f258af06b6268be8e960f63c3f66e88bdbbbdb0
+Message-ID: <20230522160155.au0hJ%lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Original-Sender: lkp@intel.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@intel.com header.s=Intel header.b=ndvNs+oI;       spf=pass
+ (google.com: domain of lkp@intel.com designates 134.134.136.126 as permitted
+ sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=intel.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: penguin-kernel@i-love.sakura.ne.jp
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=none
- (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,64 +141,275 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2023/05/22 12:07, Huang, Ying wrote:
-> Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp> writes:
-> 
->> On 2023/05/22 11:13, Huang, Ying wrote:
->>>> Any atomic allocation used by KASAN needs to drop __GFP_KSWAPD_RECLAIM bit.
->>>> Where do we want to drop this bit (in the caller side, or in the callee side)?
->>>
->>> Yes.  I think we should fix the KASAN.  Maybe define a new GFP_XXX
->>> (instead of GFP_ATOMIC) for debug code?  The debug code may be called at
->>> almost arbitrary places, and wakeup_kswap() isn't safe to be called in
->>> some situations.
->>
->> What do you think about removing __GFP_KSWAPD_RECLAIM from GFP_ATOMIC and GFP_NOWAIT?
->> Recent reports indicate that atomic allocations (GFP_ATOMIC and GFP_NOWAIT) are not safe
->> enough to think "atomic". They just don't do direct reclaim, but they do take spinlocks.
->> Removing __GFP_KSWAPD_RECLAIM from GFP_ATOMIC and GFP_NOWAIT simplifies locking dependency and
->> reduces latency of atomic allocations (which is important when called from "atomic" context).
->> I consider that memory allocations which do not do direct reclaim should be geared towards
->> less locking dependency.
-> 
-> Except debug code, where do you find locking issues for waking up kswapd?
+tree/branch: INFO setup_repo_specs: /db/releases/20230522162832/lkp-src/repo/*/linux-next
+https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 9f258af06b6268be8e960f63c3f66e88bdbbbdb0  Add linux-next specific files for 20230522
 
-I'm not aware of lockdep reports except debug code.
+Warning reports:
 
-But due to too many locking dependency, lockdep gives up tracking all dependency (e.g.
+https://lore.kernel.org/oe-kbuild-all/202305132244.DwzBUcUd-lkp@intel.com
 
-  https://syzkaller.appspot.com/bug?extid=8a249628ae32ea7de3a2
-  https://syzkaller.appspot.com/bug?extid=a70a6358abd2c3f9550f
-  https://syzkaller.appspot.com/bug?extid=9bbbacfbf1e04d5221f7
-  https://syzkaller.appspot.com/bug?extid=b04c9ffbbd2f303d00d9
+Warning: (recently discovered and may have been fixed)
 
-). I want to reduce locking patterns where possible. pgdat->{kswapd,kcompactd}_wait.lock
-and zonelist_update_seq are candidates which need not to be held from interrupt context.
+drivers/base/regmap/regcache-maple.c:113:23: warning: 'lower_index' is used uninitialized [-Wuninitialized]
+drivers/base/regmap/regcache-maple.c:113:36: warning: 'lower_last' is used uninitialized [-Wuninitialized]
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:6396:21: warning: variable 'count' set but not used [-Wunused-but-set-variable]
 
-> 
->> In general, GFP_ATOMIC or GFP_NOWAIT users will not allocate many pages.
->> It is likely that somebody else tries to allocate memory using __GFP_DIRECT_RECLAIM
->> right after GFP_ATOMIC or GFP_NOWAIT allocations. We unlikely need to wake kswapd
->> upon GFP_ATOMIC or GFP_NOWAIT allocations.
->>
->> If some GFP_ATOMIC or GFP_NOWAIT users need to allocate many pages, they can add
->> __GFP_KSWAPD_RECLAIM explicitly; though allocating many pages using GFP_ATOMIC or
->> GFP_NOWAIT is not recommended from the beginning...
-> 
->>From performance perspective, it's better to wake up kswapd as early as
-> possible.  Because it can reduce the possibility of the direct
-> reclaiming, which may case very long latency.
+Unverified Warning (likely false positive, please contact us if interested):
 
-My expectation is that a __GFP_DIRECT_RECLAIM allocation request which happened
-after a !__GFP_KSWAPD_RECLAIM allocation request wakes kswapd before future
-__GFP_DIRECT_RECLAIM allocation requests have to perform the direct reclaiming.
+arch/arm64/kvm/mmu.c:147:3-9: preceding lock on line 140
+fs/xfs/scrub/fscounters.c:459 xchk_fscounters() warn: ignoring unreachable code.
+kernel/events/uprobes.c:478 uprobe_write_opcode() warn: passing zero to 'PTR_ERR'
+kernel/watchdog.c:40:19: sparse: sparse: symbol 'watchdog_hardlockup_user_enabled' was not declared. Should it be static?
+kernel/watchdog.c:41:19: sparse: sparse: symbol 'watchdog_softlockup_user_enabled' was not declared. Should it be static?
 
-> 
-> Best Regards,
-> Huang, Ying
-> 
+Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- arc-allyesconfig
+|   |-- drivers-base-regmap-regcache-maple.c:warning:lower_index-is-used-uninitialized
+|   |-- drivers-base-regmap-regcache-maple.c:warning:lower_last-is-used-uninitialized
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- arc-buildonly-randconfig-r001-20230522
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- arm-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- arm-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- arm-randconfig-r036-20230521
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- arm64-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- arm64-randconfig-c041-20230521
+|   `-- arch-arm64-kvm-mmu.c:preceding-lock-on-line
+|-- arm64-randconfig-s053-20230521
+|   `-- mm-kfence-core.c:sparse:sparse:cast-to-restricted-__le64
+|-- i386-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- i386-randconfig-m021
+|   `-- kernel-events-uprobes.c-uprobe_write_opcode()-warn:passing-zero-to-PTR_ERR
+|-- ia64-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- ia64-randconfig-m041-20230521
+|   `-- fs-xfs-scrub-fscounters.c-xchk_fscounters()-warn:ignoring-unreachable-code.
+|-- loongarch-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- loongarch-defconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- loongarch-randconfig-r033-20230522
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- mips-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- mips-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- powerpc-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- riscv-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- riscv-randconfig-r042-20230521
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- s390-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- s390-randconfig-s042-20230521
+|   `-- mm-kfence-core.c:sparse:sparse:cast-to-restricted-__le64
+|-- sparc-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- sparc-randconfig-s052-20230521
+|   |-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_hardlockup_user_enabled-was-not-declared.-Should-it-be-static
+|   `-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_softlockup_user_enabled-was-not-declared.-Should-it-be-static
+|-- sparc64-randconfig-r016-20230521
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- x86_64-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm.c:warning:variable-count-set-but-not-used
+|-- x86_64-randconfig-m001
+|   `-- kernel-events-uprobes.c-uprobe_write_opcode()-warn:passing-zero-to-PTR_ERR
+|-- x86_64-randconfig-s021
+|   |-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_hardlockup_user_enabled-was-not-declared.-Should-it-be-static
+|   `-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_softlockup_user_enabled-was-not-declared.-Should-it-be-static
+`-- x86_64-randconfig-s022
+    |-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_hardlockup_user_enabled-was-not-declared.-Should-it-be-static
+    `-- kernel-watchdog.c:sparse:sparse:symbol-watchdog_softlockup_user_enabled-was-not-declared.-Should-it-be-static
+
+elapsed time: 722m
+
+configs tested: 166
+configs skipped: 12
+
+tested configs:
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+alpha                randconfig-r006-20230522   gcc  
+alpha                randconfig-r011-20230522   gcc  
+alpha                randconfig-r024-20230522   gcc  
+arc                              allyesconfig   gcc  
+arc          buildonly-randconfig-r001-20230522   gcc  
+arc          buildonly-randconfig-r003-20230522   gcc  
+arc                                 defconfig   gcc  
+arc                 nsimosci_hs_smp_defconfig   gcc  
+arc                  randconfig-r023-20230522   gcc  
+arc                  randconfig-r043-20230521   gcc  
+arc                  randconfig-r043-20230522   gcc  
+arm                              allmodconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                          gemini_defconfig   gcc  
+arm                      integrator_defconfig   gcc  
+arm                           omap1_defconfig   clang
+arm                  randconfig-r035-20230521   gcc  
+arm                  randconfig-r036-20230521   gcc  
+arm                  randconfig-r046-20230521   clang
+arm                  randconfig-r046-20230522   gcc  
+arm                          sp7021_defconfig   clang
+arm                    vt8500_v6_v7_defconfig   clang
+arm64                            allyesconfig   gcc  
+arm64        buildonly-randconfig-r006-20230522   gcc  
+arm64                               defconfig   gcc  
+arm64                randconfig-r016-20230522   clang
+csky         buildonly-randconfig-r004-20230521   gcc  
+csky                                defconfig   gcc  
+csky                 randconfig-r012-20230521   gcc  
+hexagon              randconfig-r002-20230522   clang
+hexagon              randconfig-r006-20230521   clang
+hexagon              randconfig-r024-20230521   clang
+hexagon              randconfig-r041-20230521   clang
+hexagon              randconfig-r041-20230522   clang
+hexagon              randconfig-r045-20230521   clang
+hexagon              randconfig-r045-20230522   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                 randconfig-a001-20230522   gcc  
+i386                 randconfig-a002-20230522   gcc  
+i386                 randconfig-a003-20230522   gcc  
+i386                 randconfig-a004-20230522   gcc  
+i386                 randconfig-a005-20230522   gcc  
+i386                 randconfig-a006-20230522   gcc  
+i386                 randconfig-a011-20230522   clang
+i386                 randconfig-a012-20230522   clang
+i386                 randconfig-a013-20230522   clang
+i386                 randconfig-a014-20230522   clang
+i386                 randconfig-a015-20230522   clang
+i386                 randconfig-a016-20230522   clang
+i386                 randconfig-r003-20230522   gcc  
+i386                 randconfig-r026-20230522   clang
+ia64                             allmodconfig   gcc  
+ia64                                defconfig   gcc  
+ia64                 randconfig-r005-20230522   gcc  
+ia64                          tiger_defconfig   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch            randconfig-r033-20230522   gcc  
+m68k                             allmodconfig   gcc  
+m68k                          atari_defconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                 randconfig-r014-20230522   gcc  
+m68k                 randconfig-r034-20230521   gcc  
+mips                             allmodconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                 decstation_r4k_defconfig   gcc  
+mips                           jazz_defconfig   gcc  
+mips                        qi_lb60_defconfig   clang
+mips                 randconfig-r022-20230522   gcc  
+nios2                               defconfig   gcc  
+nios2                randconfig-r004-20230522   gcc  
+nios2                randconfig-r031-20230522   gcc  
+nios2                randconfig-r032-20230521   gcc  
+openrisc     buildonly-randconfig-r002-20230521   gcc  
+openrisc                  or1klitex_defconfig   gcc  
+openrisc             randconfig-r002-20230521   gcc  
+parisc       buildonly-randconfig-r002-20230522   gcc  
+parisc       buildonly-randconfig-r004-20230522   gcc  
+parisc       buildonly-randconfig-r006-20230521   gcc  
+parisc                              defconfig   gcc  
+parisc64                         alldefconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                     akebono_defconfig   clang
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                   bluestone_defconfig   clang
+powerpc                      chrp32_defconfig   gcc  
+powerpc                     ksi8560_defconfig   clang
+powerpc                     mpc512x_defconfig   clang
+powerpc                      pcm030_defconfig   gcc  
+powerpc              randconfig-r033-20230521   clang
+powerpc                     skiroot_defconfig   clang
+powerpc                     tqm5200_defconfig   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                randconfig-r005-20230521   clang
+riscv                randconfig-r042-20230521   gcc  
+riscv                randconfig-r042-20230522   clang
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                 randconfig-r003-20230521   clang
+s390                 randconfig-r004-20230521   clang
+s390                 randconfig-r011-20230521   gcc  
+s390                 randconfig-r013-20230521   gcc  
+s390                 randconfig-r023-20230521   gcc  
+s390                 randconfig-r034-20230522   gcc  
+s390                 randconfig-r044-20230521   gcc  
+s390                 randconfig-r044-20230522   clang
+sh                               allmodconfig   gcc  
+sh                         apsh4a3a_defconfig   gcc  
+sh           buildonly-randconfig-r003-20230521   gcc  
+sh                   randconfig-r015-20230521   gcc  
+sh                   randconfig-r021-20230521   gcc  
+sh                           se7722_defconfig   gcc  
+sparc        buildonly-randconfig-r005-20230521   gcc  
+sparc                               defconfig   gcc  
+sparc                randconfig-r015-20230522   gcc  
+sparc                randconfig-r026-20230521   gcc  
+sparc                randconfig-r035-20230522   gcc  
+sparc64              randconfig-r001-20230521   gcc  
+sparc64              randconfig-r016-20230521   gcc  
+sparc64              randconfig-r025-20230521   gcc  
+sparc64              randconfig-r031-20230521   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64               randconfig-a001-20230522   gcc  
+x86_64               randconfig-a002-20230522   gcc  
+x86_64               randconfig-a003-20230522   gcc  
+x86_64               randconfig-a004-20230522   gcc  
+x86_64               randconfig-a005-20230522   gcc  
+x86_64               randconfig-a006-20230522   gcc  
+x86_64               randconfig-a011-20230522   clang
+x86_64               randconfig-a012-20230522   clang
+x86_64               randconfig-a013-20230522   clang
+x86_64               randconfig-a014-20230522   clang
+x86_64               randconfig-a015-20230522   clang
+x86_64               randconfig-a016-20230522   clang
+x86_64               randconfig-r013-20230522   clang
+x86_64               randconfig-x051-20230522   clang
+x86_64               randconfig-x052-20230522   clang
+x86_64               randconfig-x053-20230522   clang
+x86_64               randconfig-x054-20230522   clang
+x86_64               randconfig-x055-20230522   clang
+x86_64               randconfig-x056-20230522   clang
+x86_64               randconfig-x061-20230522   clang
+x86_64               randconfig-x062-20230522   clang
+x86_64               randconfig-x063-20230522   clang
+x86_64               randconfig-x064-20230522   clang
+x86_64               randconfig-x065-20230522   clang
+x86_64               randconfig-x066-20230522   clang
+x86_64                               rhel-8.3   gcc  
+xtensa               randconfig-r022-20230521   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/b3a5b8be-8a45-a72c-334d-0462cdc582d5%40I-love.SAKURA.ne.jp.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230522160155.au0hJ%25lkp%40intel.com.
