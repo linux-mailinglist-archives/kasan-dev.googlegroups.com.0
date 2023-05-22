@@ -1,140 +1,144 @@
-Return-Path: <kasan-dev+bncBCAP7WGUVIKBBWE2UWRQMGQEZHBMEYQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCN73WFGVYJRBE5AVORQMGQEYVQB6II@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2554970AB9C
-	for <lists+kasan-dev@lfdr.de>; Sun, 21 May 2023 00:44:42 +0200 (CEST)
-Received: by mail-qt1-x839.google.com with SMTP id d75a77b69052e-3f39abae298sf31669881cf.1
-        for <lists+kasan-dev@lfdr.de>; Sat, 20 May 2023 15:44:42 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1684622680; cv=pass;
+Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D86E70B315
+	for <lists+kasan-dev@lfdr.de>; Mon, 22 May 2023 04:14:46 +0200 (CEST)
+Received: by mail-pg1-x53c.google.com with SMTP id 41be03b00d2f7-52c3f0b1703sf5243476a12.1
+        for <lists+kasan-dev@lfdr.de>; Sun, 21 May 2023 19:14:46 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1684721684; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hKKIGcepbr9QFYmAeVjf8VYwSRW8shmuMFl+VaFrCVl2cQW6YXT4+EsvaAF1azRIW4
-         HyBDIPjLxgMyXP51AuOuUJOL8nbmuSYHjgT+fGDcg7O/OOFLglvyDiuUPBcQFpVJiRHq
-         mk+0LjI/QKU9vWEFuHFphZM5ua5+pfJjOQl1+WufzQ1ONoq6W1nBoWCEcaha/NJyP0E+
-         tWsoqE2LmqqvWex6zajjvZ2oZVnGapDO4FqT0+bgmWYY384zr33PgGTwj6+8KSv0GOBk
-         Q8CWAmPUyQSirh6ondCkJD49GXPyke5wQuOjmpa0qH3r0PIL1bLoqXI+mwbtH8cPKYni
-         uz4A==
+        b=wlfkxk2akCKa4cAO/e3sZbmqpvWMDvPGjjH+doIKNA9qmeXxwahxCBdnOQFEzT7yL/
+         UR0mrTkPi0dv7Dj/VkzyHxkjchmVN+g7wZE96UnspQTB/YJ2XXY+cglDJ7g7c/RLVLLK
+         W2gjJNzE5jax3FTnIsBmkwR1D4LBcPXHpf86A4creZZr0Hj4ikjEs38qCrZfVADNnMNv
+         Hg6bno2yoU0l7b7voWI7r6UkJHS4yX44NIg1UmR1doy/Rvb5hXp7e6It/5P+ffHbAwIS
+         k/mRSdoD6u//nNtqMGpfZ2ievdv9AmGWwk3HCH/Ehimc0CCq4Mc6opEYterNkUDq5s5A
+         k11A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=c2LQyCw2GVp3dcIWdmzikWfDRSt/rVX0zvnCIT9t33M=;
-        b=hEh+nUhUNTqkoCSnDsNaVt8wPqpyQ9/fessTqOKRTNXzlI9VCF8Cb/at6WOujK9MQx
-         VTQCdebZGhekXg03riBYiBC/ydVRpwgMH1d72IGT27UPmOdhu5WiEOdiBB6TLmbRGW7E
-         q9Z+NUFihmfctGJlRF3vrCHNtsl0vvDHm4KzXhbhaK1OryrNRGtwxldyd1Axwbm9/s+X
-         SCQOF875zV4RvVygxAWOF563TjcNA4hPc2Jm0g/PY1Ac4hOqIeaxZFe1Pm5yaUY4IWB8
-         2rgS3mpI+BUzCJJmC+5lA3KgDPDyPoDeX6vFEFxpaO8RVKsU7oqXBreypiWJkA1rVo2y
-         6qyA==
+         :list-id:mailing-list:precedence:mime-version:user-agent:message-id
+         :in-reply-to:date:references:subject:cc:to:from:sender
+         :dkim-signature;
+        bh=dea9HI99wuQoaZ5qOGiZanTg7eQsYkuFp3VVILfc73c=;
+        b=dtOhInRYR3sdlC1aIrIcNF0mke+XpoE8VWDLj+6q+p0bw10IyEzFH1JRDI2aB7kstd
+         mkX6fxO1swVJCPYW3NtOVJ3LD63bIPb1d9a/niYf+H+RhWq15BT9kCooslqt3ThnPBC7
+         FY3BTBtVPyB+hwtig4uDZx5U35bRRSq9hruKFycukMU2qIie/ItvNcg56wMqP0s291Fg
+         CsxoDPULANMTco0VEkbpHZwRRlW4PSocgI0ooKmQBKMOyO8iMpXc9x4PkzpBJkU39arQ
+         m6Zph3IsizUq9BEH0WXLOGlyhChmyRxPYaLmSOgJi4ZaIOTVXnxUTyvTdcnRTvx+bPd3
+         cI+Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+       dkim=pass header.i=@intel.com header.s=Intel header.b=Ca9OopQ3;
+       spf=pass (google.com: domain of ying.huang@intel.com designates 192.55.52.120 as permitted sender) smtp.mailfrom=ying.huang@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1684622680; x=1687214680;
+        d=googlegroups.com; s=20221208; t=1684721684; x=1687313684;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=c2LQyCw2GVp3dcIWdmzikWfDRSt/rVX0zvnCIT9t33M=;
-        b=o544RLIPw3bzOT3RQIuyW+ddZ36tIMuAb2B9urRq0dKrMSHYre23EfOFeGSabQ3j6p
-         aoduEg+xqS5lNDgqWfy0k1X7KABYnDPtU4UwOxU5tR5VU385Hr+IaWj4s7cVrFdsttAi
-         ldv+AHfT8bEslr1xma5S/2TeA3eNLZPy9NjKirHbYSi0M88wY5r0TaC0d4rFNCdUyS4M
-         qZFP4FGofA20lzyTi9orE97HxBK6aI29SWRHiWNUBVZb1ubD/agrGpcGw/9Tz/upzmLa
-         0IgzpfpmbtCMALGdNIBO6zx1HwxpMnYI0NS2ChGIk2+6B0Xkfz4CjiaDcwrQutXWrT9v
-         9K2g==
+         :x-original-sender:mime-version:user-agent:message-id:in-reply-to
+         :date:references:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dea9HI99wuQoaZ5qOGiZanTg7eQsYkuFp3VVILfc73c=;
+        b=jexdvwLe1fFedXD1iC4brZ8IdU6laR7MCb+UqMegcqWPj4u0jWTdwiHTZ6qlIFvTRO
+         GFVzRz8zhWsBOiXnCFwRxeHOeNYT+wIK++inqdZITjPF7wT7GPJwambNZuwXadgAkiB+
+         8CLQuGeezyPZsOBWxB16yJhwFK93qlPr2Xdl6ZJMhUml+TBHqoAgkCduOWOEXkSOnWGR
+         GT36xwmHut1hazNZq/We+44AFU5jAihVrfwo5cDEj10u73VfXlgqFpE/R31/CfrSpn7D
+         m3cQhEsCMNEraLT+ytr79cEF+aCBvuVeWLAY0vSOidSxIthC4kJpXgEAE4nqtBtPPgNp
+         prWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684622680; x=1687214680;
+        d=1e100.net; s=20221208; t=1684721684; x=1687313684;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :references:cc:to:from:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=c2LQyCw2GVp3dcIWdmzikWfDRSt/rVX0zvnCIT9t33M=;
-        b=kipI9z0U1BIk1BOnMfUNobX+9Im9WyHzOrS+vrO3L8aMsOOrL2Zh9RZaGCHupkWtNW
-         oXrb4OPySGFcdqx6gBj07lLuRyovgIBbPlOzC5/KPUJDoYUZRmOmKUWupyzXuwNRQxEv
-         lkDsL7xL09x7/Og1QwozDR7cLykZiSw516Rfcvnuyb1+4mXeeqM+F97vFNCJoKsJyQwQ
-         0DJw4RKm7gtWpOK4I/bri/UxFo0pmDa09u6yVJORD7xAaq8y6SCB6cEn5BsFBrIPEzps
-         CfGbdXfxCEqlXmH9CWiz2hVw4Ui4aALqQTSgwV9Hvg5R4MIOtLxQMiDIl4Sk667yLsDS
-         hk9A==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :user-agent:message-id:in-reply-to:date:references:subject:cc:to
+         :from:x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dea9HI99wuQoaZ5qOGiZanTg7eQsYkuFp3VVILfc73c=;
+        b=dUEfK9dhnyDacta4ZRft/KUl3zBT6tTMVNuPTbT0SuQHxM3mJVJbHvBfDii8YKaS7v
+         bVQ2YuN3mYoa/rptNLhZOTaPOZP39fjRANJ+7pBQUpNYHteF8V6uQxsGJMS0KJDsEBi6
+         6ehSx8j/xGOmo6f1s6rBBE7JuNhme8lPDQtgE71hRdPxKVC8/bfKM2xIq9HWI+bmZoU5
+         M0PGWj3Yt0d/e9LAGd3t7C/uRiq8G/1QzUpU20i8Qp8OBdC684MpN9pq0WSogQoxx/aH
+         VjQGm2FtiR7xihxE/HB0ah7VbLIePn4XYm3LeKO5xRjpvgw1Oxsb0iQeXQsgsdCcHYuy
+         GjXw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDxPmtVADe1ThY5qazSxb3ve8JZyYUMbKslaHzP3FdbCEToYcple
-	oUYw8gJsqgvXr3S64O/BtDw=
-X-Google-Smtp-Source: ACHHUZ4vMLFnLnacmPR1fkaQF6fti8pRpIK/jlJ/IYzGgxb3qiRFM6E1s6tImeikvKT13uSeLz2bRg==
-X-Received: by 2002:a05:622a:1002:b0:3f4:e3d3:f8ff with SMTP id d2-20020a05622a100200b003f4e3d3f8ffmr1958387qte.4.1684622680589;
-        Sat, 20 May 2023 15:44:40 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxKLfZaJfP1GBm48Y4Ccon5QksQbz8lgORrzu37ciChA/O7ZQYc
+	KBxZyWoND1pokC5UVlJYh2w=
+X-Google-Smtp-Source: ACHHUZ6BC/m/CwGbe3awj61ErnGMaITqw8+NY7mHQ9yDGJXv2yXCKZrqI4NTL7ONcd0gWNJcsYVFoA==
+X-Received: by 2002:a17:902:d14c:b0:1a9:baa8:359f with SMTP id t12-20020a170902d14c00b001a9baa8359fmr2051618plt.6.1684721684098;
+        Sun, 21 May 2023 19:14:44 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:45c1:0:b0:3f2:2428:26ed with SMTP id e1-20020ac845c1000000b003f2242826edls6634988qto.1.-pod-prod-07-us;
- Sat, 20 May 2023 15:44:39 -0700 (PDT)
-X-Received: by 2002:ac8:57cc:0:b0:3f6:a7c2:63d6 with SMTP id w12-20020ac857cc000000b003f6a7c263d6mr3575205qta.44.1684622679742;
-        Sat, 20 May 2023 15:44:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1684622679; cv=none;
+Received: by 2002:a17:902:8304:b0:1ac:896f:f650 with SMTP id
+ bd4-20020a170902830400b001ac896ff650ls2748259plb.1.-pod-prod-09-us; Sun, 21
+ May 2023 19:14:43 -0700 (PDT)
+X-Received: by 2002:a05:6a20:1590:b0:102:8f0a:5acf with SMTP id h16-20020a056a20159000b001028f0a5acfmr10161713pzj.62.1684721683225;
+        Sun, 21 May 2023 19:14:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1684721683; cv=none;
         d=google.com; s=arc-20160816;
-        b=BhUE+tCuT/tUwd8+iT3vGRMdnCeq32vkmLUi3t+QrY9F5LT8N8urpzUfYBeYNML3Q5
-         ogozW4vyjyfbWquQbtPNpA+6xiFjw3j92FTEBHRVUbulJ8CdCyf6B1Dq7AJtYzRJrCeK
-         6WFDa5zSVMFzUaMu/rMlm4Vvu+RQBjWFlTx7J6e96etZg6fyA6cs8yIumRrgviyBHIC3
-         eI8dvKwiG+aK4snbX9uEf0NfSDKDBxRTzkbD66Dp+HFE00gqhgR+GMNq7xXZ0Regy/XK
-         qnou+u61uS9Mse8zXTwv+L+ABv4kHeH742dUSIOu0KdFJ/v9Npbdo/WbIzcuJ5eF07ja
-         Qm4Q==
+        b=xJGCHIpwb/XG/Jz+hm2E/4EuHuFauZeidPWS6A9fmUlWSYUdA0lMYcSSZae4ZIIdfd
+         9btvBOk6ho21RF8ALKSNP8IaM85ajYTdwwABwZxJ7MAPxPZ4lyizajPkKF3kq8/wPtiN
+         3zyv2g8LBb9ptd9rD6kMw3U4fKM6cd2VaAI8ysDPZgFpcKqPsPWNTbMUEr5+n2Mi3aWN
+         9FQosHB0WE/FR6ePC9DdS9upy/fq8s3235Le3zkQwX/V84NjlMfYqjE5TP1/NfuTUZpn
+         8zkcoXihmyuYz+IyKptEKHr0gbKn4jViTk63B34ytLdSeepT7J5qEB9qZuaX84fmSFJp
+         cjUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=WbfzFnMrGuKehyMyFVGA+gKu6pKBYeFdxj6oxBEzsfI=;
-        b=ErxjF7kLAPSZBkUEMY+nITGpJAKfth5+SaYgzLX4YPNN7HBNmZby2WhYzBA2iwIgi4
-         glb5wp5I5EpxsVsm5c0Av6+QJCR4yXwJ6Ls4jLhEP4gMAKOfwUwY3oT4QGB8IjqK90gC
-         jh0iIhaOO7eOxK776eAe99LL/avT6DfKrCMM4Gs3RhLJkbIyKFQyM1pJxpIGzq25e5Ie
-         ck8VD1cKT6aQvoj36MFaC969zDob6UGR9OawuiXfWDToXumuSqKF9AmMu/NHl/9/RFTA
-         Td68cTrb7OfCDIfasapeqMMjXsuPEtIZ/FsYP0wR3IUJ1AhlaU5gYSF2ETc2h0FRQRh5
-         Yu2g==
+        h=mime-version:user-agent:message-id:in-reply-to:date:references
+         :subject:cc:to:from:dkim-signature;
+        bh=We3jTxvIVde71cTLw2VX8M1hrldlnhZiWJe07joqnEc=;
+        b=p9M1QSmwYGh5ShZeH7tyWmpdwpfUbNrgV+TA8El5JsdLNHFDDrVyvMnDfsfBU/bCfF
+         H2FWsSxfsSnUBirmiZJ6wZEKJz/agxtJVM6Yoqy3ouDuzg0j/vKYPworYdAsutsKa3iU
+         lmHEywZC1AMmWCXTvWb6hxudfZ2lZVdP+78fLZCSj70OiI4HtX0Hbkt/jp7aJOCfi4J5
+         wbHgpRK3k0L5lO2eM2kqJBwJjO/flaAY76HnRpY+kB8AsgdH/sHqrSSx0G2gs3YVZLU1
+         1m6r7AFkvIuqMMsgur3g+ToXnYbk2Fqk7CbB94Zeu5xmBnExMyZSUtV6SCRZCZ2AW4Nh
+         6BTQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp. [202.181.97.72])
-        by gmr-mx.google.com with ESMTPS id eb1-20020a05620a480100b00759328e1145si103362qkb.2.2023.05.20.15.44.38
+       dkim=pass header.i=@intel.com header.s=Intel header.b=Ca9OopQ3;
+       spf=pass (google.com: domain of ying.huang@intel.com designates 192.55.52.120 as permitted sender) smtp.mailfrom=ying.huang@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga04.intel.com (mga04.intel.com. [192.55.52.120])
+        by gmr-mx.google.com with ESMTPS id a4-20020a63e404000000b005289dd0b142si301553pgi.3.2023.05.21.19.14.42
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 20 May 2023 15:44:39 -0700 (PDT)
-Received-SPF: none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) client-ip=202.181.97.72;
-Received: from fsav118.sakura.ne.jp (fsav118.sakura.ne.jp [27.133.134.245])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 34KMiMiH053860;
-	Sun, 21 May 2023 07:44:22 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav118.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav118.sakura.ne.jp);
- Sun, 21 May 2023 07:44:22 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav118.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 34KMiMMB053856
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Sun, 21 May 2023 07:44:22 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <9c44eba9-5979-ee78-c9c8-626edc00f975@I-love.SAKURA.ne.jp>
-Date: Sun, 21 May 2023 07:44:20 +0900
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
+        Sun, 21 May 2023 19:14:43 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ying.huang@intel.com designates 192.55.52.120 as permitted sender) client-ip=192.55.52.120;
+X-IronPort-AV: E=McAfee;i="6600,9927,10717"; a="351654945"
+X-IronPort-AV: E=Sophos;i="6.00,183,1681196400"; 
+   d="scan'208";a="351654945"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2023 19:14:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10717"; a="1033427960"
+X-IronPort-AV: E=Sophos;i="6.00,183,1681196400"; 
+   d="scan'208";a="1033427960"
+Received: from yhuang6-desk2.sh.intel.com (HELO yhuang6-desk2.ccr.corp.intel.com) ([10.238.208.55])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2023 19:14:39 -0700
+From: "Huang, Ying" <ying.huang@intel.com>
+To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Cc: syzbot <syzbot+ece2915262061d6e0ac1@syzkaller.appspotmail.com>,
+  <syzkaller-bugs@googlegroups.com>,  Mel Gorman
+ <mgorman@techsingularity.net>,  Vlastimil Babka <vbabka@suse.cz>,  Andrew
+ Morton <akpm@linux-foundation.org>,  Alexander Potapenko
+ <glider@google.com>,  Andrey Konovalov <andreyknvl@gmail.com>,  Dmitry
+ Vyukov <dvyukov@google.com>,  Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+  kasan-dev <kasan-dev@googlegroups.com>,  linux-mm <linux-mm@kvack.org>,
+ Johannes Weiner <hannes@cmpxchg.org>
 Subject: Re: [PATCH] lib/stackdepot: stackdepot: don't use
  __GFP_KSWAPD_RECLAIM from __stack_depot_save() if atomic context
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To: syzbot <syzbot+ece2915262061d6e0ac1@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com,
-        Mel Gorman <mgorman@techsingularity.net>,
-        "Huang, Ying" <ying.huang@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Potapenko <glider@google.com>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: kasan-dev <kasan-dev@googlegroups.com>, linux-mm <linux-mm@kvack.org>
 References: <000000000000cef3a005fc1bcc80@google.com>
- <ecba318b-7452-92d0-4a2f-2f6c9255f771@I-love.SAKURA.ne.jp>
- <ca8e3803-4757-358e-dcf2-4824213a9d2c@I-love.SAKURA.ne.jp>
- <48a6a627-183d-6331-0d8d-ae4b1d4b0101@I-love.SAKURA.ne.jp>
-In-Reply-To: <48a6a627-183d-6331-0d8d-ae4b1d4b0101@I-love.SAKURA.ne.jp>
+	<ecba318b-7452-92d0-4a2f-2f6c9255f771@I-love.SAKURA.ne.jp>
+	<ca8e3803-4757-358e-dcf2-4824213a9d2c@I-love.SAKURA.ne.jp>
+	<48a6a627-183d-6331-0d8d-ae4b1d4b0101@I-love.SAKURA.ne.jp>
+	<9c44eba9-5979-ee78-c9c8-626edc00f975@I-love.SAKURA.ne.jp>
+Date: Mon, 22 May 2023 10:13:36 +0800
+In-Reply-To: <9c44eba9-5979-ee78-c9c8-626edc00f975@I-love.SAKURA.ne.jp>
+	(Tetsuo Handa's message of "Sun, 21 May 2023 07:44:20 +0900")
+Message-ID: <87edn92jvz.fsf@yhuang6-desk2.ccr.corp.intel.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: penguin-kernel@i-love.sakura.ne.jp
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=none
- (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+X-Original-Sender: ying.huang@intel.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@intel.com header.s=Intel header.b=Ca9OopQ3;       spf=pass
+ (google.com: domain of ying.huang@intel.com designates 192.55.52.120 as
+ permitted sender) smtp.mailfrom=ying.huang@intel.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,51 +151,66 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2023/05/20 22:14, Tetsuo Handa wrote:
-> On 2023/05/20 20:33, Tetsuo Handa wrote:
->> @@ -405,7 +405,10 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
->>  		 * contexts and I/O.
->>  		 */
->>  		alloc_flags &= ~GFP_ZONEMASK;
->> -		alloc_flags &= (GFP_ATOMIC | GFP_KERNEL);
->> +		if (!(alloc_flags & __GFP_DIRECT_RECLAIM))
->> +			alloc_flags &= __GFP_HIGH;
->> +		else
->> +			alloc_flags &= GFP_KERNEL;
->>  		alloc_flags |= __GFP_NOWARN;
-> 
-> Well, comparing with a report which reached __stack_depot_save() via fill_pool()
-> ( https://syzkaller.appspot.com/bug?extid=358bb3e221c762a1adbb ), I feel that
-> above lines might be bogus.
-> 
-> Maybe we want to enable __GFP_HIGH even if alloc_flags == GFP_NOWAIT because
-> fill_pool() uses __GFPHIGH | __GFP_NOWARN regardless of the caller's context.
-> Then, these lines could be simplified like below.
-> 
-> 	if (!(alloc_flags & __GFP_DIRECT_RECLAIM))
-> 		alloc_flags = __GFP_HIGH | __GFP_NOWARN;
-> 	else
-> 		alloc_flags = (alloc_flags & GFP_KERNEL) | __GFP_NOWARN;
-> 
-> How is the importance of memory allocation in __stack_depot_save() ?
-> If allocation failure is welcome, maybe we should not trigger OOM killer
-> by clearing __GFP_NORETRY when alloc_flags contained __GFP_FS ...
-> 
->>  		page = alloc_pages(alloc_flags, DEPOT_POOL_ORDER);
->>  		if (page)
-> 
+Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp> writes:
 
-Well, since stackdepot itself simply use GFP flags supplied by kasan,
-this should be considered as a kasan's problem?
+> On 2023/05/20 22:14, Tetsuo Handa wrote:
+>> On 2023/05/20 20:33, Tetsuo Handa wrote:
+>>> @@ -405,7 +405,10 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
+>>>  		 * contexts and I/O.
+>>>  		 */
+>>>  		alloc_flags &= ~GFP_ZONEMASK;
+>>> -		alloc_flags &= (GFP_ATOMIC | GFP_KERNEL);
+>>> +		if (!(alloc_flags & __GFP_DIRECT_RECLAIM))
+>>> +			alloc_flags &= __GFP_HIGH;
+>>> +		else
+>>> +			alloc_flags &= GFP_KERNEL;
+>>>  		alloc_flags |= __GFP_NOWARN;
+>> 
+>> Well, comparing with a report which reached __stack_depot_save() via fill_pool()
+>> ( https://syzkaller.appspot.com/bug?extid=358bb3e221c762a1adbb ), I feel that
+>> above lines might be bogus.
+>> 
+>> Maybe we want to enable __GFP_HIGH even if alloc_flags == GFP_NOWAIT because
+>> fill_pool() uses __GFPHIGH | __GFP_NOWARN regardless of the caller's context.
+>> Then, these lines could be simplified like below.
+>> 
+>> 	if (!(alloc_flags & __GFP_DIRECT_RECLAIM))
+>> 		alloc_flags = __GFP_HIGH | __GFP_NOWARN;
+>> 	else
+>> 		alloc_flags = (alloc_flags & GFP_KERNEL) | __GFP_NOWARN;
+>> 
+>> How is the importance of memory allocation in __stack_depot_save() ?
+>> If allocation failure is welcome, maybe we should not trigger OOM killer
+>> by clearing __GFP_NORETRY when alloc_flags contained __GFP_FS ...
+>> 
+>>>  		page = alloc_pages(alloc_flags, DEPOT_POOL_ORDER);
+>>>  		if (page)
+>> 
+>
+> Well, since stackdepot itself simply use GFP flags supplied by kasan,
+> this should be considered as a kasan's problem?
+>
+> __kasan_record_aux_stack() {
+> 	alloc_meta->aux_stack[0] = kasan_save_stack(GFP_NOWAIT, can_alloc); // May deadlock due to including __GFP_KSWAPD_RECLAIM bit.
+> }
+>
+> Any atomic allocation used by KASAN needs to drop __GFP_KSWAPD_RECLAIM bit.
+> Where do we want to drop this bit (in the caller side, or in the callee side)?
 
-__kasan_record_aux_stack() {
-	alloc_meta->aux_stack[0] = kasan_save_stack(GFP_NOWAIT, can_alloc); // May deadlock due to including __GFP_KSWAPD_RECLAIM bit.
-}
+Yes.  I think we should fix the KASAN.  Maybe define a new GFP_XXX
+(instead of GFP_ATOMIC) for debug code?  The debug code may be called at
+almost arbitrary places, and wakeup_kswap() isn't safe to be called in
+some situations.
 
-Any atomic allocation used by KASAN needs to drop __GFP_KSWAPD_RECLAIM bit.
-Where do we want to drop this bit (in the caller side, or in the callee side)?
+BTW: I still think that it's better to show the circular lock order in
+the patch description.  I know the information is in syzkaller report.
+It will make reader's life easier if the patch description is
+self-contained.
+
+Best Regards,
+Huang, Ying
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/9c44eba9-5979-ee78-c9c8-626edc00f975%40I-love.SAKURA.ne.jp.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87edn92jvz.fsf%40yhuang6-desk2.ccr.corp.intel.com.
