@@ -1,168 +1,154 @@
-Return-Path: <kasan-dev+bncBCKJJ7XLVUBBBC6NW2RQMGQESFFEHZY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKMR55PYIGBBGX5W6RQMGQEXEJWIPI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x340.google.com (mail-ot1-x340.google.com [IPv6:2607:f8b0:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F24970ED64
-	for <lists+kasan-dev@lfdr.de>; Wed, 24 May 2023 07:54:21 +0200 (CEST)
-Received: by mail-ot1-x340.google.com with SMTP id 46e09a7af769-6af6fcdd0dfsf362006a34.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 23 May 2023 22:54:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1684907660; cv=pass;
+Received: from mail-ej1-x638.google.com (mail-ej1-x638.google.com [IPv6:2a00:1450:4864:20::638])
+	by mail.lfdr.de (Postfix) with ESMTPS id A01F070F5ED
+	for <lists+kasan-dev@lfdr.de>; Wed, 24 May 2023 14:10:03 +0200 (CEST)
+Received: by mail-ej1-x638.google.com with SMTP id a640c23a62f3a-96f46e5897esf95050966b.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 24 May 2023 05:10:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1684930203; cv=pass;
         d=google.com; s=arc-20160816;
-        b=o8dWdPCsjqFaji2AYIcbiBjlUgPwCoUBz+5hBJSVrJI2Q4YgJNYHrf7V8k4YsViDP7
-         KKQeQWRP1P3k6wd0F4vdLrllz++tZgVjhPwvzyDO5Gn2bpzpooPG2x6QC5D6L+B0WddJ
-         Rak8RIziGEb3liyVGMSZsLXBRx+x1d4vzSOfz/+OpLWmxfapFrO8f02JCnnxg38NuGgM
-         0yEXRygvZTjg0quuiJ7R02Hn/hG6c77G1rE6PuXjRDueO1sTbtrDXbTyph30YpbYjWLM
-         zPyXYYif/OMiytH47u0nPuuf/ELg0cvNzpYTE+D3G5PAwMT1ff72haMXJpN9+VGAkAYt
-         9msw==
+        b=uAMvuOdEuzydrVTiVhS93F38ipQK62hEN6COExLJDHs6K/sPy7k6kwXoYQm2EFnry7
+         aPridD+NZ7T0CZY2ipWriAzL2f5yfXjDasxEhayr+zC814WcfQcX3KOaJ/oHn43x49Yq
+         bUs8M0E1Ojddb9gSg+NZ2oyJFEZ/GTUsUcTFv6ifHpxaenriwzzfrzE7+a5Ml44jr/U1
+         z4y4Y5/V123Z7jB/4JLWyuHj806UP/GoVd05JhF8Rv58tVArhQFAQ8piiVowd5oFdINd
+         OkkIIbvYmaAKScDxYWhjM2mqvKq3LzzKk5DXftl+I6Xqx0dJYZKMQdJqQ2b+kdvT/Eft
+         F7NQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature
-         :dkim-signature;
-        bh=Tf29r6g1Ynbti4xJlR8W/I9h863y9mNHSZ4q1qkW+sg=;
-        b=U8fULINZHAZgUwZiFD1iiOlrfkGMtNYQfeKtgT5cZP8paa69TYqLe6l2Fb2eBq+cby
-         Sx1NbtTeQgwBZHl35zIkMceX6SR8YfjT22OtAVTKzsSg2+wLCLz9VCPJ3oo9z56r5G+F
-         77YRpOxhiEShX3xd8TbCU+NQXUVWau7ZI1Y+Cl+Ip0hVYDRZ0JQ9AgdR4ZS9LhyKAsaK
-         lszITYA+KXldPHoaTILRy0iN/eioAOdciDKP2vkQv7abrg/JY8MhbWVrehNc13BUZMgU
-         SfVxYxEuXreg0n/0Yp1CUiH2AOXRvhsk4S2kje8U/Zk28l8qTheyG0H19u0RhxZIwfPL
-         zyzw==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20221208 header.b="Ll/kZY4z";
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::52b as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1684907659; x=1687499659;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-transfer-encoding
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tf29r6g1Ynbti4xJlR8W/I9h863y9mNHSZ4q1qkW+sg=;
-        b=A1tFJTe+bf8C6xFPN8VPNMWn+hNj0qWegsLtzHy5nDVWTPRDVWOvdCb/lnGJ2CH+1/
-         v60HaJBWeXDXs8R8dlVZqflmi0pN3YZR0yvlB60gbiAoeu6hemlATucXg5/zgmN6kzOb
-         G1OEnZZf4jPviwqnsackXSv61QR0/lkhZYNt5VpIQxa0E/ntbL3rs+mMpVLgRWA452Ps
-         MfZ3M0BXOiNi1m1jD4k1sOyYhRVHY9NJr7H4STRRZ6Pfyb2IvrT8cYVu/sqClMXhNCSi
-         MSkaQJeC2J7KQIdyz/QC1Wna9lJi6GoPxWwEEyNxxGIkExklLPqG+4Ppv51EsbUIrW1S
-         kGdg==
+         :to:from:date:dkim-signature;
+        bh=gu1yFWAxySI24xHVG6ke/WBmUoC45btcpS+5SQt62h8=;
+        b=oAZHh6jCP6CHIpyRZHgVrQUh33DjfIJQlrYY0A9QP4Fi3d83RwTl2EwLbvhlEu9ulx
+         J3E8gCMfmw9nmGdIgcCD8bHfuDV+24FOrX0O5VP5sEwejPEuNV0JfcbrFxZJsyW9orgA
+         HMTYxoHHCDEeWyLZJuWCv5bVCIAg7dNXbkUY++53IEOUw5hy7YU8F1nHGTbhSg4IuQqf
+         gVQrBKZ4f0EcXToNa4slhdWof2J4XjyUD+2GKyQ1L1iOFWGk5xyRH3sDKkc1ryk34JkC
+         XN+OqGew7VRu3x8zC96a5PDOpE9XkRFE5r/z6W3XaNkQ+MqCplU6/B4ztF/FY6+FThgv
+         BMbQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=iwA8pBLj;
+       spf=pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=mhocko@suse.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684907660; x=1687499660;
+        d=googlegroups.com; s=20221208; t=1684930203; x=1687522203;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-transfer-encoding
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tf29r6g1Ynbti4xJlR8W/I9h863y9mNHSZ4q1qkW+sg=;
-        b=GX0vqZET78iS2vXD6DlALy0gaqfFJ3ckdpDwQ0kc7WjbR4WsLs32UZbfsR3zYa1mEy
-         ZpIJVs1sSD/2hUjrhNoCnmxqYm7jKmnpUa+jqM6qJZt6UL5jOrVpXZPzF+HgVLMf8uu9
-         OLxBSIbCFeLzr0QMxPOYF/xOrIMXAiI+olTeYzoseGm0Y+fvgHiiGz0sAj/JcRnmrVk4
-         2I323IWHXrGsCt1lMsOlQWZ1xm7YufWEsQ+nVhv2gpBgjf8AtaTROamtEHu5+2v9tvXZ
-         tI9QOx1CVqHkvgCyj6ZX83NpGFqMYUHajpEIzt7HAno4tNABU3ZBian2yRphn9t26tlE
-         L5hw==
+        bh=gu1yFWAxySI24xHVG6ke/WBmUoC45btcpS+5SQt62h8=;
+        b=Iq3LJOuYaT0y+2UpamcV5tvqVnDjBgGvRvuSOij+m2VJ5VgG2SpIBirnKlZF9GxApF
+         q8Eyxfh+oV4UfiKZFjZ/ReF9XhQofMntybhhC7c0gohjOHAIflbAg79uxrnU2BNj876k
+         6/eU1KlYodSi6001S1K2jitSthY1WsamWzHY1kFdIhnEPCJ/b31NO3gOd4lgHt3cYLev
+         im9E/hxlIbmaCqXvmufO0kGdTrs8506k/HEhDFyPluIT7JrXAc6xSuAtBnF/tSl9BUE0
+         fHS6421Cn/PCy3J6801p/p/jg8C0VxYZEjQNG6RojDTnHhcaoVDJ4SmqTTqa35WvOUJb
+         cFyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684907660; x=1687499660;
+        d=1e100.net; s=20221208; t=1684930203; x=1687522203;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Tf29r6g1Ynbti4xJlR8W/I9h863y9mNHSZ4q1qkW+sg=;
-        b=hhLdZFECNkjb4xhBEbj1crekXt3g90Y6UklY5Yvajo93WUVFifuCElB3n1UkIQFPuk
-         /V5+BCoX22hF9eDn0Xyf2BUo85xiVYITGXaVobgeRLACXfMjh1aPJ13UTORb6shwkffR
-         qF+YK2Qp7iFS66/lSbAyZrpZW5HLuwgFhzR8xlnKmbKuabe21lRbFvpnDyyWO5QEvn3Y
-         mrr2dxWhNBL4dqJa9NrthYVYMYw+XMb32G2d7BNDcs4B8WpL3ZX+CFqXSlEcaZlEX7/6
-         Tt5fkVSJIETwqbUsIHRLldvEk/LEZtOu+f0NyKf6ndr7NCgh1llMkuAciUte5z56/f2r
-         oWEA==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDwNntcsNDoUMjEpt9qc96FEkxwxafLYfpBUW7+bar8zEiR2CGfJ
-	phibq3ZmY5Cbw5aVdoACkVM=
-X-Google-Smtp-Source: ACHHUZ6neJRrGo0NuHKZI9jB8l8YGpMm+lhcrPrp5eTzojKk78hCrpw29ohO8vFz5xZmQtdC9M+20g==
-X-Received: by 2002:a9d:7a56:0:b0:6aa:ff62:546f with SMTP id z22-20020a9d7a56000000b006aaff62546fmr4700757otm.5.1684907659702;
-        Tue, 23 May 2023 22:54:19 -0700 (PDT)
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gu1yFWAxySI24xHVG6ke/WBmUoC45btcpS+5SQt62h8=;
+        b=h2Z5+M1GPFvFXF0npsJTguWY5Ba2jwxZ4oG4WwVk14Gp+/atcyGjXr3nCUE4vwZJaE
+         Fn3VfUUFfz5CxYzmGbiKjROOXd/TPeTAuWwXswbv4W1Wfb0yixR+b+dswgl+9mvcDVig
+         zSeqOzKyNzyaEXr/4zbiKSKO5AqAZYFIFsEtVGZRpEu1K6HP/i6zQK8guD8863jCTHwT
+         QDHj7jyXi+iz23jAA+9/jWt9dMINTBFmwTJCbcqXx4+e1sKNQKzvIGPJgRItMaY2ZTGO
+         asPIA5FEAKQ7WoEYbwpYsVLiV9BfyRhLG9xoRz75hIGu/suZToKar0KhHeBjUPxocm4X
+         ptzQ==
+X-Gm-Message-State: AC+VfDzj6Be2OTV7FgsRk+MZuTGBORNZDF9BJcPCsOgHIXEJP7ACTcMa
+	2BnT9isNLr57RpbzI/HuB8U=
+X-Google-Smtp-Source: ACHHUZ6xS0Kh7yOwov+pZYY9BHjiY5QLzFAXaNrnhTGavfrTjhKESF0StAeooxbIKyRnsHHED3QuyQ==
+X-Received: by 2002:a17:906:dda:b0:966:530c:5278 with SMTP id p26-20020a1709060dda00b00966530c5278mr6463968eji.8.1684930202781;
+        Wed, 24 May 2023 05:10:02 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6820:316:b0:555:458b:d30d with SMTP id
- l22-20020a056820031600b00555458bd30dls694611ooe.0.-pod-prod-05-us; Tue, 23
- May 2023 22:54:19 -0700 (PDT)
-X-Received: by 2002:a05:6808:64b:b0:398:2f06:329 with SMTP id z11-20020a056808064b00b003982f060329mr2076104oih.9.1684907658978;
-        Tue, 23 May 2023 22:54:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1684907658; cv=none;
+Received: by 2002:a50:eb46:0:b0:50b:d7a3:3b76 with SMTP id z6-20020a50eb46000000b0050bd7a33b76ls62052edp.1.-pod-prod-08-eu;
+ Wed, 24 May 2023 05:10:01 -0700 (PDT)
+X-Received: by 2002:a17:907:3f16:b0:96f:48ad:73be with SMTP id hq22-20020a1709073f1600b0096f48ad73bemr22300888ejc.44.1684930201134;
+        Wed, 24 May 2023 05:10:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1684930201; cv=none;
         d=google.com; s=arc-20160816;
-        b=kEAKo0YMEqMCxDRtSIZAxHyVm5UycGk7J62QVwXAyRnSYewNKCNqJoo/tolgU72DZl
-         dQOa1gjqNBymBlGzCYRN+NhcAG4nDJGl9+JX55Bo5rTqr1pGeb8iWzteUpJU/N1xWTok
-         tdz47HCDO6lWSQEtsVhqwVYCXOfdimh0SaYokkU/mKhHMrZFCYgah7cxtKfOHsTUPJsq
-         mU5J+HDt2ymAn+LftBA8vQQogNT1Lp6Q367amGbhuNwWvpOoelBCaFIgwlLAtSMYHqKK
-         lFFzKkktwqs1D/wbc8cZoT5dgbOiBmN1XqC9u/JsL2m+Pu1la/UInXpbAuAkL6xS684c
-         /nJw==
+        b=otPhaEXH9B3VGAqOTALE73jlTYpHcwzy1S1fH/2a1hpyv6IPLl2KKU2gxTDF3ePYcf
+         7skq7EXhslWgAqtbzHuyJoV3FXZONGrkMS3C5GtQQ4suZP39W4gckuDBq297owwi37S9
+         zzcIcgLMrDd0gFm867IW7/6jDHPdyBjqhZyquFPNtCfjjJY0OFN/m26im+VN6nSMshDp
+         ptnw1kwqqVXy9HeNXV1g8SXyNn9CLu0bStBReWwxpTG/Tb3jPh6AZvzNBdzRuz98fiSR
+         sPcxT0q7UoWX0JZblitWQqWmteeFmZWnesyOHWe+ZWg7p14TFDYEjeQMXJ+vD2rjL27i
+         zFQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=qmpQ8CZWBqNpjBXlf/vqm5PoXrDI3CUBIg7+r/yPqX4=;
-        b=TG+LXEby4lsTfg1OWQb6QHjjs2h3s3DC8cM9Vjc6kGY2xK56Bp3RTv/HBv0PsgPmAD
-         5x1IxlsesOzCgjn/TC9rcdNo6fv1Y7GThe3Jzyr79mArnXUnBXDzOG2AVhOofArcX81E
-         3X0Mq7cIFsFVe9OhrG3Q78+qYx+rerwiXNDzpxvOyn4D9LdO40HlLPAX2qYbN1QU3mIb
-         JbxbBgrJ4WRW9iKV7xVk5gaevPk6y7H8RARAQ/J3Wy/zyUq04crsleekRaPZ3+0dqyAi
-         +G+gmVl5PHwj5gdgGcF4150kq2zi9UKA8J3DoVt351e1NNASyT3u3zWs5M72QWA1zALX
-         xWJw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=zLYVfPUqC5itE9Z1gpOugKKlSVBzS5/R2EGbMjp6o2k=;
+        b=S1zdTo+SlG3DJhwzD+sr1t8vPbKS77cZ8/mxphlcw9mGSfDejYtLqICtUdmmVfTW+w
+         ioSgiUvRAOncD1BPvzwlIeYk0fOxjjYFUdmhBv4D8KIjRzH+ps9fd8YM6Y7qIKG5O4Uc
+         59LU4j0Kb/oLueLL75vbLPtQ5iB5VMODhUPP6GbBMOba3un1hjg8uJ8EHseZWi5k6Vi/
+         ewaerEqkIB5+m3eN/ZgX1fgM6ZBY34XkMY42Z3TSxPPEB7qk9xeRjzVvuBky6ktVzMKH
+         Vi5pBJlbk/YBU+4sFWNHgqtwe8lN0i3nr/HXVpA07oYslRqY9pHH0sfESXUxwLvhH5TO
+         58UA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20221208 header.b="Ll/kZY4z";
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::52b as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com. [2607:f8b0:4864:20::52b])
-        by gmr-mx.google.com with ESMTPS id 126-20020aca0584000000b003925998258asi1246152oif.5.2023.05.23.22.54.18
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 May 2023 22:54:18 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::52b as permitted sender) client-ip=2607:f8b0:4864:20::52b;
-Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-53f158ecfe1so1830a12.0
-        for <kasan-dev@googlegroups.com>; Tue, 23 May 2023 22:54:18 -0700 (PDT)
-X-Received: by 2002:a17:903:188:b0:1ae:600d:3d07 with SMTP id z8-20020a170903018800b001ae600d3d07mr18751108plg.4.1684907658072;
-        Tue, 23 May 2023 22:54:18 -0700 (PDT)
-Received: from debian-BULLSEYE-live-builder-AMD64 ([211.216.218.61])
-        by smtp.gmail.com with ESMTPSA id m10-20020a170902bb8a00b001aaeeeebaf1sm7723002pls.201.2023.05.23.22.54.12
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=iwA8pBLj;
+       spf=pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=mhocko@suse.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2001:67c:2178:6::1d])
+        by gmr-mx.google.com with ESMTPS id g1-20020a056402320100b0050bd0abf2b4si1049760eda.3.2023.05.24.05.10.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 May 2023 22:54:17 -0700 (PDT)
-Date: Wed, 24 May 2023 14:54:33 +0900
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-To: "GONG, Ruiqi" <gongruiqi@huaweicloud.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	kasan-dev@googlegroups.com, Wang Weiyang <wangweiyang2@huawei.com>,
-	Xiu Jianfeng <xiujianfeng@huawei.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Christoph Lameter <cl@linux.com>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Wed, 24 May 2023 05:10:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1d as permitted sender) client-ip=2001:67c:2178:6::1d;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A8C561F8B6;
+	Wed, 24 May 2023 12:10:00 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 898C913425;
+	Wed, 24 May 2023 12:10:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id UTa0Hpj+bWSAXQAAMHmgww
+	(envelope-from <mhocko@suse.com>); Wed, 24 May 2023 12:10:00 +0000
+Date: Wed, 24 May 2023 14:09:59 +0200
+From: "'Michal Hocko' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: "Huang, Ying" <ying.huang@intel.com>,
+	syzbot <syzbot+ece2915262061d6e0ac1@syzkaller.appspotmail.com>,
+	syzkaller-bugs@googlegroups.com,
+	Mel Gorman <mgorman@techsingularity.net>,
+	Vlastimil Babka <vbabka@suse.cz>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Pekka Enberg <penberg@kernel.org>,
-	Kees Cook <keescook@chromium.org>, Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Gong Ruiqi <gongruiqi1@huawei.com>
-Subject: Re: [PATCH RFC v2] Randomized slab caches for kmalloc()
-Message-ID: <ZG2mmWT5dxfMC3DW@debian-BULLSEYE-live-builder-AMD64>
-References: <20230508075507.1720950-1-gongruiqi1@huawei.com>
- <CAB=+i9QxWL6ENDz_r1jPbiZsTUj1EE3u-j0uP6y_MxFSM9RerQ@mail.gmail.com>
- <5f5a858a-7017-5424-0fa0-db3b79e5d95e@huawei.com>
- <CAB=+i9R0GZiau7PKDSGdCOijPH1TVqA3rJ5tQLejJpoR55h6dg@mail.gmail.com>
- <19707cc6-fa5e-9835-f709-bc8568e4c9cd@huawei.com>
- <CAB=+i9T-iqtMZw8y7SxkaFBtiXA93YwFFEtQyGynBsorud1+_Q@mail.gmail.com>
- <1cec95d5-5cd4-fbf9-754b-e6a1229d45c3@huaweicloud.com>
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	kasan-dev <kasan-dev@googlegroups.com>,
+	linux-mm <linux-mm@kvack.org>, Johannes Weiner <hannes@cmpxchg.org>
+Subject: Re: [PATCH] lib/stackdepot: stackdepot: don't use
+ __GFP_KSWAPD_RECLAIM from __stack_depot_save() if atomic context
+Message-ID: <ZG3+l4qcCWTPtSMD@dhcp22.suse.cz>
+References: <000000000000cef3a005fc1bcc80@google.com>
+ <ecba318b-7452-92d0-4a2f-2f6c9255f771@I-love.SAKURA.ne.jp>
+ <ca8e3803-4757-358e-dcf2-4824213a9d2c@I-love.SAKURA.ne.jp>
+ <48a6a627-183d-6331-0d8d-ae4b1d4b0101@I-love.SAKURA.ne.jp>
+ <9c44eba9-5979-ee78-c9c8-626edc00f975@I-love.SAKURA.ne.jp>
+ <87edn92jvz.fsf@yhuang6-desk2.ccr.corp.intel.com>
+ <0471c62b-7047-050a-14f5-f47dfaffaba7@I-love.SAKURA.ne.jp>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <1cec95d5-5cd4-fbf9-754b-e6a1229d45c3@huaweicloud.com>
-X-Original-Sender: 42.hyeyoo@gmail.com
+In-Reply-To: <0471c62b-7047-050a-14f5-f47dfaffaba7@I-love.SAKURA.ne.jp>
+X-Original-Sender: mhocko@suse.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20221208 header.b="Ll/kZY4z";       spf=pass
- (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::52b
- as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@suse.com header.s=susede1 header.b=iwA8pBLj;       spf=pass
+ (google.com: domain of mhocko@suse.com designates 2001:67c:2178:6::1d as
+ permitted sender) smtp.mailfrom=mhocko@suse.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
+X-Original-From: Michal Hocko <mhocko@suse.com>
+Reply-To: Michal Hocko <mhocko@suse.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -175,93 +161,70 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, May 22, 2023 at 04:58:25PM +0800, GONG, Ruiqi wrote:
->=20
->=20
-> On 2023/05/22 16:03, Hyeonggon Yoo wrote:
-> > On Mon, May 22, 2023 at 4:35=E2=80=AFPM Gong Ruiqi <gongruiqi1@huawei.c=
-om> wrote:
-> >> On 2023/05/17 6:35, Hyeonggon Yoo wrote:
-> > [...]
-> >>>>>> +#ifdef CONFIG_RANDOM_KMALLOC_CACHES
-> >>>>>> +# define SLAB_RANDOMSLAB       ((slab_flags_t __force)0x01000000U=
-)
-> >>>>>> +#else
-> >>>>>> +# define SLAB_RANDOMSLAB       0
-> >>>>>> +#endif
-> >>>
-> >>> There is already the SLAB_KMALLOC flag that indicates if a cache is a
-> >>> kmalloc cache. I think that would be enough for preventing merging
-> >>> kmalloc caches?
-> >>
-> >> After digging into the code of slab merging (e.g. slab_unmergeable(),
-> >> find_mergeable(), SLAB_NEVER_MERGE, SLAB_MERGE_SAME etc), I haven't
-> >> found an existing mechanism that prevents normal kmalloc caches with
-> >> SLAB_KMALLOC from being merged with other slab caches. Maybe I missed
-> >> something?
-> >>
-> >> While SLAB_RANDOMSLAB, unlike SLAB_KMALLOC, is added into
-> >> SLAB_NEVER_MERGE, which explicitly indicates the no-merge policy.
-> >=20
-> > I mean, why not make slab_unmergable()/find_mergeable() not to merge km=
-alloc
-> > caches when CONFIG_RANDOM_KMALLOC_CACHES is enabled, instead of a new f=
-lag?
-> >=20
-> > Something like this:
-> >=20
-> > diff --git a/mm/slab_common.c b/mm/slab_common.c
-> > index 607249785c07..13ac08e3e6a0 100644
-> > --- a/mm/slab_common.c
-> > +++ b/mm/slab_common.c
-> > @@ -140,6 +140,9 @@ int slab_unmergeable(struct kmem_cache *s)
-> >   if (slab_nomerge || (s->flags & SLAB_NEVER_MERGE))
-> >   return 1;
-> >=20
-> > + if (IS_ENALBED(CONFIG_RANDOM_KMALLOC_CACHES) && (flags & SLAB_KMALLOC=
-))
-> > + return 1;
-> > +
-> >   if (s->ctor)
-> >   return 1;
-> >=20
-> > @@ -176,6 +179,9 @@ struct kmem_cache *find_mergeable(unsigned int
-> > size, unsigned int align,
-> >   if (flags & SLAB_NEVER_MERGE)
-> >   return NULL;
-> >=20
-> > + if (IS_ENALBED(CONFIG_RANDOM_KMALLOC_CACHES) && (flags & SLAB_KMALLOC=
-))
-> > + return NULL;
-> > +
-> >   list_for_each_entry_reverse(s, &slab_caches, list) {
-> >   if (slab_unmergeable(s))
-> >   continue;
->=20
-> Ah I see. My concern is that it would affect not only normal kmalloc
-> caches, but kmalloc_{dma,cgroup,rcl} as well: since they were all marked
-> with SLAB_KMALLOC when being created, this code could potentially change
-> their mergeablity. I think it's better not to influence those irrelevant
-> caches.
+On Mon 22-05-23 11:47:25, Tetsuo Handa wrote:
+> On 2023/05/22 11:13, Huang, Ying wrote:
+> >> Any atomic allocation used by KASAN needs to drop __GFP_KSWAPD_RECLAIM bit.
+> >> Where do we want to drop this bit (in the caller side, or in the callee side)?
+> > 
+> > Yes.  I think we should fix the KASAN.  Maybe define a new GFP_XXX
+> > (instead of GFP_ATOMIC) for debug code?  The debug code may be called at
+> > almost arbitrary places, and wakeup_kswap() isn't safe to be called in
+> > some situations.
+> 
+> What do you think about removing __GFP_KSWAPD_RECLAIM from GFP_ATOMIC and GFP_NOWAIT?
 
-I see. no problem at all as we're not running out of cache flags.
+Not a good idea IMO. It is really hard to achieve real locklessness in the
+page allocator. If we ever need something like that it should be pretty
+obviously requested by a dedicated gfp flag rather than overriding a
+long term established semantic. While GFP_ATOMIC is a bit of a misnomer
+it has many users who really only require non-sleeping behavior.
 
-By the way, is there any reason to only randomize normal caches
-and not dma/cgroup/rcl caches?
+> Recent reports indicate that atomic allocations (GFP_ATOMIC and GFP_NOWAIT) are not safe
+> enough to think "atomic". They just don't do direct reclaim, but they do take spinlocks.
+> Removing __GFP_KSWAPD_RECLAIM from GFP_ATOMIC and GFP_NOWAIT simplifies locking dependency and
+> reduces latency of atomic allocations (which is important when called from "atomic" context).
 
-Thanks,
+I would really like to see any numbers to believe this is the case
+actually. Waking up kswapd should be pretty non-visible.
 
---=20
-Hyeonggon Yoo
+> I consider that memory allocations which do not do direct reclaim should be geared towards
+> less locking dependency.
+> 
+> In general, GFP_ATOMIC or GFP_NOWAIT users will not allocate many pages.
 
-Doing kernel stuff as a hobby
-Undergraduate | Chungnam National University
-Dept. Computer Science & Engineering
+This hugely depend on the workload. I do not think we can make any
+generic statements like that.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/ZG2mmWT5dxfMC3DW%40debian-BULLSEYE-live-builder-AMD64.
+> It is likely that somebody else tries to allocate memory using __GFP_DIRECT_RECLAIM
+> right after GFP_ATOMIC or GFP_NOWAIT allocations. We unlikely need to wake kswapd
+> upon GFP_ATOMIC or GFP_NOWAIT allocations.
+
+The thing is that you do not know this is a the case. You might have a
+IRQ heavy prossing making a lot of memory allocations (e.g. networking)
+while the rest of the processing doesn't require any additional memory.
+ 
+> If some GFP_ATOMIC or GFP_NOWAIT users need to allocate many pages, they can add
+> __GFP_KSWAPD_RECLAIM explicitly; though allocating many pages using GFP_ATOMIC or
+> GFP_NOWAIT is not recommended from the beginning...
+
+As much as I do not really like the long term GFP_ATOMIC semantic I do
+not think we should be changing it to what you are proposing for reasons
+mentioned above. GFP_NOWAIT change is even more questionable. Many users
+simply use GFP_NOWAIT as a way of an optimistic allocation with a more
+expensinsive fallback. We do not want to allow those consumers to
+consume watermark gap memory to force others to hit the direct reclaim
+wall.
+
+Really there is very likely only a handfull of users who cannot even
+wake kswapd or perform other non-sleeping locking and those should
+currently drop __GFP_KSWAPD_RECLAIM. Maybe we should consider an alias
+for them to not bother with the low level flag. Maybe we will need
+GFP_LOCKLESS or something similar.
+-- 
+Michal Hocko
+SUSE Labs
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZG3%2Bl4qcCWTPtSMD%40dhcp22.suse.cz.
