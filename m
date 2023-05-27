@@ -1,204 +1,142 @@
-Return-Path: <kasan-dev+bncBCG4ZMWKSUNBBMOLX6RQMGQEP5OAHAQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCAP7WGUVIKBBMGEZCRQMGQEQ2J254I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x537.google.com (mail-pg1-x537.google.com [IPv6:2607:f8b0:4864:20::537])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD058711A52
-	for <lists+kasan-dev@lfdr.de>; Fri, 26 May 2023 00:48:19 +0200 (CEST)
-Received: by mail-pg1-x537.google.com with SMTP id 41be03b00d2f7-53b9eb7bda0sf51001a12.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 25 May 2023 15:48:19 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1685054898; cv=pass;
+Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5CB8713575
+	for <lists+kasan-dev@lfdr.de>; Sat, 27 May 2023 17:30:57 +0200 (CEST)
+Received: by mail-il1-x140.google.com with SMTP id e9e14a558f8ab-33b21c93c9dsf3192095ab.2
+        for <lists+kasan-dev@lfdr.de>; Sat, 27 May 2023 08:30:57 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1685201456; cv=pass;
         d=google.com; s=arc-20160816;
-        b=z4rD2ixwIgu7wK4+/ZxPRjDoRphCkeMeAjavNYuU2UhjcHwFDMYoOXtz/Otzlg/nsO
-         eD/lIRAmYeXi2dEfcDA4ro00ikJ8tQIgECJDPELz73xynIsx0ybQ5Yd+cvkHIHmzqgi9
-         ydbZdovLoAuLsjfT8OYqGBs4KiAhaqzy89j2Yj39OMLBb8LO5v6FSSYotcLz8cybsiy0
-         bihVESeefAMGHIW3LgwVP41XzTzm5TKxE4smsbex35ve1cUWEDbwzFbw2etQNl09TvnS
-         CLUla6q6JuPZ5NI7H+EDDeTHUFc9OiCIoOAbL3W1uLopNGp23G4xTTHnrmuLrsCZul3e
-         SvqA==
+        b=ennPrf3sUUFCF7am2l5LmoTzv3LyE9GGMrPdfIZp4laW38xAJflYnjwCCtrs0wQvY5
+         0wt6VTvSHih6CuEmwkM9cYbr4ELZ2jwrd11kbQtz8m0GKERinRfwy9OkV4FpVGN43ZgW
+         siugQ8EsfoQ2hZkoGB+tDuoNsFv7nzvFClXBOvj9+NLfe6Zk5UYFw80CApm0njZwQ5jZ
+         spzjMJcPafRBzjiPDhmXww6sn6g8o1NdIwu06uIyzeoIwdP26Jrc2v8/Es0T68T/+WNi
+         frVhrzOTVINxOE4WmA/fgAMEiD8xQ7+NDKSR/PPHsVb3UGMpGOay5Zl18OfkivqqCFiS
+         xXKA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:references:dlp-filter:cms-type
-         :in-reply-to:mime-version:message-id:subject:cc:to:from:date
-         :dkim-filter:sender:dkim-signature;
-        bh=l+0J38s9nPCSQ/PtMbyj4YbhlhFmkGb7GVOO/4i+yWI=;
-        b=XNaRW4fTLkRfwJOBNkqFRn/LyKVuMDtiUOWpqV6WEMspL9eIeSiH7YJvi3Y3WrMxM0
-         9mTjOM18hKzXbGrvhHFTM4Z2rI/GmrpBbr8fcyIBLfTZpmpCOb6l3MyuDd84zreWVLyy
-         obk+oZ0sO5DQ/gXl9K8YqlkgAzIc5kRQ7Efp7lgCTAMEoIW7mibb5ZSIpspiSCIASmru
-         yrPtBUxAyZnwbklFbNbcuuU6ZOD03Ye6tpzHAzNflkKrkcFl0sg9HnlSZVXenHz82Pek
-         yfDtDcXnCz7ABSpm9DZlADtVc3rVVHsCxqyYEMmz7VKOB1v7e/OkZWXE1zURK9u5Gxmz
-         GxFA==
+         :list-id:mailing-list:precedence:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=whL/xw7yIQL2PNuja6OQ6dF38uGC03MOIm/14qr1EhM=;
+        b=UusqOUcy3BdFGv2m9MLIxnmOdNZcrrdQddX+K6EeH664Ojafo3UGg5aQXumKBO1gfq
+         /2EDCdR51iYYdl8cr3bEpEzIijhx1hW401+TWtShxMoIyioqtKkfiJY/8Pg6AnPXVoHk
+         /h4n2sisQp3AJADTwN6kb013r7sbUwnBMwz3lXbICUO32Va/nATswfsZ+NmMVVlH9aQe
+         lkTjfYyLai0tg8DHf5Gaq6G08+QX99Fqpj/TDaKERlB1/UMPeDPEgzSnWHl67XicXAqz
+         1kd1FfLKvYq0w3PeVE4eE5NlOOKxI0GBSqEMu6tUXcBS3WSerro5EIteeHCBsgNoTvDp
+         nHvw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=asOch4kW;
-       spf=pass (google.com: domain of youngmin.nam@samsung.com designates 203.254.224.33 as permitted sender) smtp.mailfrom=youngmin.nam@samsung.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+       spf=none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1685054898; x=1687646898;
+        d=googlegroups.com; s=20221208; t=1685201456; x=1687793456;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:references:dlp-filter:cms-type:in-reply-to
-         :mime-version:message-id:subject:cc:to:from:date:dkim-filter:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=l+0J38s9nPCSQ/PtMbyj4YbhlhFmkGb7GVOO/4i+yWI=;
-        b=YSNqcF3vtKHwmVf6YMGw2qZObpgQ+zD/GTBKIe1g5JgcsH4gGc0gwPwCkSHGsMB/e8
-         4ZfaIzYTtxz+CRuRN3x9SH5GlrHHXBg3pG/8+yjTJItm3y/c6WILOfVKTJfpKn0Nujfz
-         EHu3L2EG4zKMl4dxjQYzaUDClrZ7VPbCl6BlVDR+HjFianUCL6ode9CQR53cdvGtLzlL
-         4SxOqlS+LB5PY+kuCQBrIj6t8h7L9t1Ab6l3G2Xyhi3dBokLuk+bMH0PWU3ANGjvzp3y
-         KJmaucO1HG2d+6+Q4+wUpx21RUyuVvBy9JJt5QZm1/tGN0IXxxZHBaGKpD4cBGT4y8v4
-         MaCA==
+         :x-original-sender:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=whL/xw7yIQL2PNuja6OQ6dF38uGC03MOIm/14qr1EhM=;
+        b=YJ/TynvyTC354u1FRPd2gpJBK3i5cuXSmzN/HWGAtKEfy8ME+Rx74lqKeQMvFOWLFy
+         VV9ngGfc5cuJXV7CgIemzNdR/R/3gZRKeW4zAc8bQxGQkIjnoXS+n94TVItI2FjM5Xzi
+         /T7f9h0vaCZiGpAsuVjRZUMGcvKcvTqVkNix4e0HEt9uXDgOpfgfY5RpUNSL6tmsNbLM
+         sOJsNT8RbBTSJp8V1FFIemByABHhE5zIXx8wE3bkPvJ57hz59bHNdD5WHZ+ym1knlj3f
+         Su5f5251yCO8jiDFmi7qjhzWMFtcCdunRb1whcklNtgJuBI3pX+rgCUgTjOn3tVc5BEC
+         +aXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685054898; x=1687646898;
+        d=1e100.net; s=20221208; t=1685201456; x=1687793456;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:references
-         :dlp-filter:cms-type:in-reply-to:mime-version:message-id:subject:cc
-         :to:from:date:dkim-filter:x-beenthere:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=l+0J38s9nPCSQ/PtMbyj4YbhlhFmkGb7GVOO/4i+yWI=;
-        b=FtaInRC5EwA/2fdzpp+5MeaLzhRo0V8Z39f1IzjM2iMwPs2JK+UvJcfoVOWn5yaFWu
-         nI+XzGrvyU2PL8t59Dz5OV2bu1HJ+uV5aFUkENcBn7I7GHaaw5N+ciAgIif5J/gXX5G/
-         pQAJBxg8wTa4VofJu+WXKCsUu+47zxMX/Fl3LcbMJhNa+q0ykzHJxFOsDw6eEJUC5rEb
-         tf7deYASylYYuf1H7UY3l/ZyClI+LkHlLTZ92pb2N/lP8xcYN5jLuaiIBP8TmHQ4n8Xq
-         ICHOdDDC/G1mAHBNl1YZ4X9JKbBoitDOEx5B8Pc2diTQD2YBIyw1CRFRTh+rrgWE3+zP
-         7H7g==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :references:cc:to:from:content-language:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=whL/xw7yIQL2PNuja6OQ6dF38uGC03MOIm/14qr1EhM=;
+        b=MuaF9Oiqq954AVnjTcqkfNQdoaBBHfmA9XEWnnTNiDdJMrB5thZsHSMFiJp7LrCHAu
+         PYYf3F5rthRqBIk5Gx4S87oSIgKNWY61XB+ehEjRLAB+vMFyDFpQKwdYF00UydBxhKqO
+         iCNe4ucx3YHCGIj1f56rE/p9HIk6VrXuwpnlX8C8OofDzoFVGt4dZ5pHMJTCkKDpcYgy
+         dCtuagMumV+S0Op5Heup/famNf4Pq07kXgvA4vY4iSFv2kC636dk/cH2vEUl5vpFE0er
+         UisqEdHNxClHSOQ34b8EsBlRfeoaui9peopKPVt2gYAuCNT3gvQTQCJPn6dPBGzQKxjj
+         WYUQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDw6XKmvM82FnYIh4UcC+DMODQ3l+ycpg0XNS0yaZPaaPV7GZJ7x
-	tTJweuIjf368EXiJzn8dx2o=
-X-Google-Smtp-Source: ACHHUZ7yy8IJjn5iq/EgPc6ig6sdHV+hK34wXnKZlWTAKJ6MRCvGvZ0wXUsOfGPO4Zp5MXfrW44ALQ==
-X-Received: by 2002:a63:541f:0:b0:52c:b46d:3609 with SMTP id i31-20020a63541f000000b0052cb46d3609mr52440pgb.12.1685054897805;
-        Thu, 25 May 2023 15:48:17 -0700 (PDT)
+X-Gm-Message-State: AC+VfDy20qnHTTsB2rhXi71P8wdiAYsrUIwe4Tyw9X2idzqmEiYQPcfn
+	mTbllw0Hw7LkFmyOF8ZCKDw=
+X-Google-Smtp-Source: ACHHUZ5Cd0xHDT1A3+VYNt6+uDrsHpfwZc3HNDbig+azXagRfMiqRHhhemIsl/W5gmA4HOwuQ7FEdg==
+X-Received: by 2002:a92:d1d2:0:b0:331:a813:8b17 with SMTP id u18-20020a92d1d2000000b00331a8138b17mr489493ilg.3.1685201456451;
+        Sat, 27 May 2023 08:30:56 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:db03:b0:250:b790:c2fc with SMTP id
- g3-20020a17090adb0300b00250b790c2fcls1712153pjv.1.-pod-prod-02-us; Thu, 25
- May 2023 15:48:16 -0700 (PDT)
-X-Received: by 2002:a17:90a:72c7:b0:255:4635:830c with SMTP id l7-20020a17090a72c700b002554635830cmr160411pjk.40.1685054896771;
-        Thu, 25 May 2023 15:48:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1685054896; cv=none;
+Received: by 2002:a05:6e02:505:b0:336:1c16:1cd2 with SMTP id
+ d5-20020a056e02050500b003361c161cd2ls1235686ils.0.-pod-prod-03-us; Sat, 27
+ May 2023 08:30:55 -0700 (PDT)
+X-Received: by 2002:a92:c848:0:b0:33b:b94:2519 with SMTP id b8-20020a92c848000000b0033b0b942519mr2096346ilq.14.1685201455593;
+        Sat, 27 May 2023 08:30:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1685201455; cv=none;
         d=google.com; s=arc-20160816;
-        b=nDKUrs2pdAB6OP9+4C2WI4wXuRU9DJAdLWle1hIWfAfPsDNaBM2nbskiokaMWkNi8j
-         mHKZTD2QLk+pv2JWQh+zcE+A+evbzMLv2S9Iq1Vp9Y8SiMDjQkE6IHqN/PBrbG9Rsj7V
-         kkgl2CcrhNCo16mTYA0/sMbs07SvVjwdkt4QgDeXaiE8CCfxt4QIDlhfjSaCbMheqHFl
-         xdO0qca00u4FtyOJl0qWjm6hg4k4loW87rH6DFD+MdGBsNjZxG5Ef9OhU+pVRqYT5dSi
-         96l7nJpaHQixLz96p37tIbInuv2D3OzRgKK1ff5tjq6maA6ROjwuW8cCLhjU2VG6uA8S
-         7RYQ==
+        b=PluS5ImfnvQ2KQXPFqVG+Ur4lkG5kfFvQGcshPHn+cNogE0dyiWLP7P4k3/c40q38h
+         56qLLAhtNOyMvg1coA+HMYer1ZyQZAP1NHsF576JyKlZzFn+QdIitYFMxf5xh3PHr78t
+         p/R2PWske/Ie6evRf3AqZQ5ou0u2mwvE1O3RU9VpTqpcrzDzMQ2DiPlQbOGmLd3+EBeU
+         TfPcGyLf9QJDSf6Ngzglh8v6Si9QRSD6xlsX9iuANOfBHIjoSPDd3nCfhp9AEKke+jxt
+         uGue+6P2kQcwX2agFr7tF8DiX8fLK5VDsddGDqOKchVTvWDtHspu0BDt4HsA+ZB06A7Z
+         0mlQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=references:dlp-filter:cms-type:in-reply-to:mime-version:message-id
-         :subject:cc:to:from:date:dkim-signature:dkim-filter;
-        bh=cuqiYyGVTSNlMib7a3dSbg6Z3ptpKNFLw5h4StleDco=;
-        b=aP52U2MP6v9K7DMMYh1+H54AQ/0KtPBypBtfXaZY3Vhpy0As95w65HaDhs1tdew4tj
-         cDBIiP72VBtTnb693nBteuXZH575161Bx6fodYgqvSStAgdEzemrkILt3Dhj8aUR3POJ
-         myvh12BQmbxwQ3brlnpqeOq6Ee0Z6SqxZAFWBZZ+P79pyrFvGzCJBJbJ5kfU1FsZMQPm
-         OT3oyWEKB0sI7Q8fBWGVXghobvT4kkfSJEEtMsxWTGJI3gmIpRH/NjKDbsflCvyq0YO6
-         kmUfVICTf4ch0CyRvY4iyX2Ec47EH5YDPufhuzf3HknggtvdAA5Bwa3IsIlRt50spKkT
-         HXZQ==
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id;
+        bh=sLVYHbXLr/f1aU52ldro7ocetcpgnwpOHlnDhJtPcLE=;
+        b=hQCTX7wBtTx8n9UzM4QaMkoURB4nB0P6B8KbU/0b5CYwGr2MifKnITHMV0w4FNuktv
+         zffaWS6+TasHo8K/GMYkWru+WhmJ/6/mhxpiuK+ivQz5ZvFvBJMk4K+sRHA+0lJ5dCtq
+         3tJhXOUEGnRScrPEuw7720OJIaFBIoUUoywFLOCuZ/PuJXMZIz87YaTdLtIK+L+0CrHF
+         TkbpE/JJ1ugXrobk7dT6pL5rHt0bgPw0dHmk6cby4gSzh4BW6muDS56S7FOMbYkKQth/
+         oFEGqmJG7wLz97FyQsrkgpcoQoWzz2so+idTsxJuUdZzSNDo2qjlD8JVSgBe/auXft7M
+         kXzw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@samsung.com header.s=mail20170921 header.b=asOch4kW;
-       spf=pass (google.com: domain of youngmin.nam@samsung.com designates 203.254.224.33 as permitted sender) smtp.mailfrom=youngmin.nam@samsung.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=samsung.com
-Received: from mailout3.samsung.com (mailout3.samsung.com. [203.254.224.33])
-        by gmr-mx.google.com with ESMTPS id pt13-20020a17090b3d0d00b002504e396db0si257613pjb.0.2023.05.25.15.48.16
-        for <kasan-dev@googlegroups.com>
+       spf=none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp. [202.181.97.72])
+        by gmr-mx.google.com with ESMTPS id g11-20020a056e021e0b00b0033a915e4e48si201650ila.4.2023.05.27.08.30.54
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 May 2023 15:48:16 -0700 (PDT)
-Received-SPF: pass (google.com: domain of youngmin.nam@samsung.com designates 203.254.224.33 as permitted sender) client-ip=203.254.224.33;
-Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230525224814epoutp030b0d916e383c7452cf9dc37d41292120~ihH_aVRdD1478014780epoutp03Q
-	for <kasan-dev@googlegroups.com>; Thu, 25 May 2023 22:48:14 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230525224814epoutp030b0d916e383c7452cf9dc37d41292120~ihH_aVRdD1478014780epoutp03Q
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-	epcas2p3.samsung.com (KnoxPortal) with ESMTP id
-	20230525224813epcas2p3969793adae63ecbdf613b1d4dbcfdea6~ihH9fHqPz0772307723epcas2p3t;
-	Thu, 25 May 2023 22:48:13 +0000 (GMT)
-Received: from epsmges2p1.samsung.com (unknown [182.195.36.99]) by
-	epsnrtp3.localdomain (Postfix) with ESMTP id 4QS39m647Jz4x9Pr; Thu, 25 May
-	2023 22:48:12 +0000 (GMT)
-Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
-	epsmges2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	23.78.11450.CA5EF646; Fri, 26 May 2023 07:48:12 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
-	20230525224812epcas2p4a554e246fb54c91294b209977c73e265~ihH8rlsDU1037410374epcas2p4Q;
-	Thu, 25 May 2023 22:48:12 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20230525224812epsmtrp25979228577d3670b5f8237fc82b16308~ihH8qr90t2708327083epsmtrp2h;
-	Thu, 25 May 2023 22:48:12 +0000 (GMT)
-X-AuditID: b6c32a45-1dbff70000022cba-3d-646fe5acaea6
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	48.6E.27706.CA5EF646; Fri, 26 May 2023 07:48:12 +0900 (KST)
-Received: from perf (unknown [10.229.95.91]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20230525224812epsmtip11695bab10cfe82146e0cc79bb0fc319c~ihH8bvmxk1534015340epsmtip1U;
-	Thu, 25 May 2023 22:48:12 +0000 (GMT)
-Date: Fri, 26 May 2023 08:20:36 +0900
-From: Youngmin Nam <youngmin.nam@samsung.com>
-To: Mark Rutland <mark.rutland@arm.com>
-Cc: lexandru.elisei@arm.com, andreyknvl@gmail.com,
-	anshuman.khandual@arm.com, ardb@kernel.org, broonie@kernel.org,
-	catalin.marinas@arm.com, d7271.choe@samsung.com, dvyukov@google.com,
-	hy50.seo@samsung.com, kasan-dev@googlegroups.com,
-	linux-arm-kernel@lists.infradead.org, maz@kernel.org, will@kernel.org,
-	youngmin.nam@samsung.com
-Subject: Re: [PATCH] arm64: set __exception_irq_entry with __irq_entry as a
- default
-Message-ID: <ZG/tRDjl4uR7C0dD@perf>
+        Sat, 27 May 2023 08:30:55 -0700 (PDT)
+Received-SPF: none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) client-ip=202.181.97.72;
+Received: from fsav314.sakura.ne.jp (fsav314.sakura.ne.jp [153.120.85.145])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 34RFUZME078764;
+	Sun, 28 May 2023 00:30:35 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav314.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav314.sakura.ne.jp);
+ Sun, 28 May 2023 00:30:35 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav314.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 34RFPWLC078150
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Sun, 28 May 2023 00:25:32 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <656cb4f5-998b-c8d7-3c61-c2d37aa90f9a@I-love.SAKURA.ne.jp>
+Date: Sun, 28 May 2023 00:25:31 +0900
 MIME-Version: 1.0
-In-Reply-To: <ZF5gmBz4NbDseDHp@FVFF77S0Q05N>
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TbUxTVxjHc3pL7y2meldRT4o6dvcK0tJiS6+b7CUKNoHFJmZbJFvqtb3S
-	pqXt+rIhH6abTUFkjKpA6BbW0cmQ4sbKS6QFtiBZ6ZwfJgQMCqOCLmERZkEmZNS1XFj89nv+
-	ef45/+c852AIP8ARYDqjjbYYKQPBSWZ3X0snhW33TBrxvZCI/MdVj5L9Q2pyeXEekLWRGQ45
-	31wFyNE+F0rWRJwo6fNOscmW+3+wyOEzlSjpnx5NIi+N/c4ie74KJ5GOOzLS+3MUfXOLoq2x
-	DSh63BOowuO3K3pdYY7C33qWo+j49pSiurMVKNEi/X4tTWloSxptVJs0OmNxLlFwRHVAJcsR
-	S4SSfaScSDNSJXQucbBQKczXGeKpibSPKIM9Likpq5XIen2/xWS30Wlak9WWS9BmjcEsN4us
-	VInVbiwWGWnbqxKxOFsWbzym13ZMNLPNIV5pQ7AOOQ2uJ1cCLgZxKfT6HrArQTLGx68COHdp
-	fr2IAuidml4vlgD0X+lCNizNLRtdfQA+Wu1EmSICYE1bL5roYuMvwhvXb64xBxfC7qEYSHAK
-	/jKsCiyuuRF8mAUHPQ3xAsO24u9A3yxM9PDw52G4NgAYfgaGG2bYCebimfBhnRNJeCHei8Hw
-	0gSLiXQQlkeq2QxvhbOhTpRhAVyY6+MwrIe+lZvreiksn6xaH2cvdN8vXzsMwbXwzOe3kUQe
-	GA8xOM5m5M2w4toqysg8WOHkM86X4MrFdsDwThj0tqw7FdDdkcZcSRCB3uUpUAN2u5+axv3U
-	YQxnQk8wynHH7QieCr+LYQymwx8CWR6Q1Aq202ZrSTFtzTZL/l+w2lTiB2uPOCPvKrjw4G/R
-	AGBhYABADCFSeO0Gk4bP01Any2iLSWWxG2jrAJDFV+NCBNvUpvgvMNpUEuk+sTQnRyLPlonl
-	xA5eam5YzceLKRutp2kzbdnwsTCu4DTrjfxeTuTHsd82SYss25WG8xX5E4cMyiOO9O638ho/
-	5BW173Q495x9n+p+NhCJbi58XHZ8SLkoALHmOudt5+VUh/AuDD55N0+s2UIc/ylzrunov2OT
-	hws8Hef/rFXpu5bkHx8rqBi/85nNtvrFCw2/FEaXHUu6/l+znqt9++6jr0O7RLsOI7wRbmz4
-	RLZct3xq73tAz1VLW6f5m5SXG2ukfQ+D35eTsT23Rq4siEx/wRMLlPPTyW2fZLCfnJv1pMwS
-	IZ+xfOSoqGm8p5g4WRjpulgdDPWUHqibsX/wTe/yKzeQL6OuliaTvNPQXzbucO04BOqHR0bP
-	PR7cfStQX/PawArBtmopSQZisVL/ATENBQBNBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpkkeLIzCtJLcpLzFFi42LZdlhJTnfN0/wUg9ezuS2+T5zObrHvRLLF
-	zy/vGS2mPnzCZvF+WQ+jxbW9E9ktJjxsY7dYvfgBi8WKZ/eZLC43d7FbbHp8jdVi6fWLTBY7
-	55xktWi5Y2qx+MAndgd+jzXz1jB67Jx1l91jwaZSjz0TT7J5bFrVyeaxeUm9R9+WVYwB7FFc
-	NimpOZllqUX6dglcGdPuvGAvaOeu6H/wgrGBcQlHFyMnh4SAicSyFe9Zuhi5OIQEdjNK/Ny5
-	jgUiISNxe+VlVghbWOJ+yxFWiKL7jBLbPj5mAkmwCKhKnD19iR3EZhPQldh24h8jiC0ioC7R
-	s+sL2FRmgctMEh1THgAVcXAIC4RKrH4lAVLDK6AscXLqLkaIoQeZJX7eWc4MkRCUODnzCdgV
-	zAJaEjf+vWQC6WUWkJZY/g/sak4BHYmP09qYJzAKzELSMQtJxyyEjgWMzKsYJVMLinPTc4sN
-	CwzzUsv1ihNzi0vz0vWS83M3MYJjSUtzB+P2VR/0DjEycTAeYpTgYFYS4d2Qk58ixJuSWFmV
-	WpQfX1Sak1p8iFGag0VJnPdC18l4IYH0xJLU7NTUgtQimCwTB6dUA9NW8etHLuWw1bFuvDKv
-	xUWZZaZY/Z7P2mLaHAtrGybdnJW2crWz/F+5STxO13ZdWS3BM+VQeEp2cYZQa5FkSMm/JXr/
-	71WG+ih+zLnvHzvhYN+ZPpFt6skrfBJObZJcrKyv6bmQN2BN9awfRS9fy3MseGq2n+GaU/RV
-	S+bWrZ48G9b/kXhr+traODv+UeEUsYMddz/9TJQSXlt/JfKZXT3LOr1ymU+vm1eUf//wa8Hu
-	hYyhTz7F7nTaXLXgvEeO3owjGo+eTZ8dxv722pyIvG/rDypk1oeGrue6LclSlC1yNu+LifqW
-	i2UTJv/NP9mf6zzLXz2Fq/mvyuOgnkUrZpWqXfy6Jmnqx6g7fnPnskUrsRRnJBpqMRcVJwIA
-	HfeopRQDAAA=
-X-CMS-MailID: 20230525224812epcas2p4a554e246fb54c91294b209977c73e265
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----Y9bAoTVPo7TEjNVVx8BuVeRnQePgNsPKB0hZTbOgiEUDqOwX=_3b99f_"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20230424003252epcas2p29758e056b4766e53c252b5927a0cb406
-References: <CGME20230424003252epcas2p29758e056b4766e53c252b5927a0cb406@epcas2p2.samsung.com>
-	<20230424010436.779733-1-youngmin.nam@samsung.com>
-	<ZEZhftx05blmZv1T@FVFF77S0Q05N>
-	<CACT4Y+bYJ=YHNMFAyWXaid8aNYyjnzkWrKyCfMumO21WntKCzw@mail.gmail.com>
-	<ZEZ/Pk0wqiBJNKEN@FVFF77S0Q05N> <ZEc7gzyYus+HxhDc@perf>
-	<ZEfYJ5gDH4s6QJqp@FVFF77S0Q05N.cambridge.arm.com> <ZEixUYKPr3F0Y8Xn@perf>
-	<ZF1+cLp7Io7L25yG@perf> <ZF5gmBz4NbDseDHp@FVFF77S0Q05N>
-X-Original-Sender: youngmin.nam@samsung.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@samsung.com header.s=mail20170921 header.b=asOch4kW;       spf=pass
- (google.com: domain of youngmin.nam@samsung.com designates 203.254.224.33 as
- permitted sender) smtp.mailfrom=youngmin.nam@samsung.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=samsung.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.1
+Subject: [PATCH] kasan,kmsan: remove __GFP_KSWAPD_RECLAIM usage from
+ kasan/kmsan
+Content-Language: en-US
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+To: syzbot <syzbot+ece2915262061d6e0ac1@syzkaller.appspotmail.com>,
+        syzkaller-bugs@googlegroups.com,
+        Mel Gorman <mgorman@techsingularity.net>,
+        "Huang, Ying" <ying.huang@intel.com>, Vlastimil Babka <vbabka@suse.cz>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Marco Elver <elver@google.com>
+Cc: kasan-dev <kasan-dev@googlegroups.com>, linux-mm <linux-mm@kvack.org>
+References: <000000000000cef3a005fc1bcc80@google.com>
+ <ecba318b-7452-92d0-4a2f-2f6c9255f771@I-love.SAKURA.ne.jp>
+ <ca8e3803-4757-358e-dcf2-4824213a9d2c@I-love.SAKURA.ne.jp>
+In-Reply-To: <ca8e3803-4757-358e-dcf2-4824213a9d2c@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: penguin-kernel@i-love.sakura.ne.jp
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=none
+ (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -211,60 +149,112 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------Y9bAoTVPo7TEjNVVx8BuVeRnQePgNsPKB0hZTbOgiEUDqOwX=_3b99f_
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
+syzbot is reporting lockdep warning in __stack_depot_save(), for
+the caller of __stack_depot_save() (i.e. __kasan_record_aux_stack() in
+this report) is responsible for masking __GFP_KSWAPD_RECLAIM flag in
+order not to wake kswapd which in turn wakes kcompactd.
 
-On Fri, May 12, 2023 at 04:51:52PM +0100, Mark Rutland wrote:
-> Hi,
-> 
-> On Fri, May 12, 2023 at 08:46:56AM +0900, Youngmin Nam wrote:
-> > On Wed, Apr 26, 2023 at 02:06:25PM +0900, Youngmin Nam wrote:
-> > > On Tue, Apr 25, 2023 at 02:39:51PM +0100, Mark Rutland wrote:
-> > > > On Tue, Apr 25, 2023 at 11:31:31AM +0900, Youngmin Nam wrote:
-> > > > > On Mon, Apr 24, 2023 at 02:08:14PM +0100, Mark Rutland wrote:
-> > > > > > With that in mind, I think what we should do is cut this at the instant we
-> > > > > > enter the exception; for the trace below that would be el1h_64_irq. I've added
-> > > > > > some line spacing there to make it stand out.
-> 
-> > > > I'd meant something like the below, marking the assembly (as x86 does) rather
-> > > > than the C code. I'll try to sort that out and send a proper patch series after
-> > > > -rc1.
-> > > > 
-> > > > Thanks,
-> > > > Mark.
-> > 
-> > Hi Mark.
-> > This is gentle remind for you.
-> > Can I know that you've sent the patch ?
-> > Actually I'm looking forward to seeing your patch. :)
-> 
-> Sorry; I haven't yet sent this out as I'm still looking into how this interacts
-> with ftrace.
-> 
-> I'll try to flesh out the commit message and get this out next week. You will
-> be Cc'd when I send it out.
-> 
-> Thanks,
-> Mark.
-> 
-Hi Mark.
-Sorry to rush you. Would you share your patch for us ? We're still waiting
-your patch. :)
+Since kasan/kmsan functions might be called with arbitrary locks held,
+mask __GFP_KSWAPD_RECLAIM flag from all GFP_NOWAIT/GFP_ATOMIC allocations
+in kasan/kmsan.
 
-Thanks.
+Note that kmsan_save_stack_with_flags() is changed to mask both
+__GFP_DIRECT_RECLAIM flag and __GFP_KSWAPD_RECLAIM flag, for
+wakeup_kswapd() from wake_all_kswapds() from __alloc_pages_slowpath()
+calls wakeup_kcompactd() if __GFP_KSWAPD_RECLAIM flag is set and
+__GFP_DIRECT_RECLAIM flag is not set.
+
+Reported-by: syzbot <syzbot+ece2915262061d6e0ac1@syzkaller.appspotmail.com>
+Closes: https://syzkaller.appspot.com/bug?extid=ece2915262061d6e0ac1
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+---
+ mm/kasan/generic.c         | 4 ++--
+ mm/kasan/tags.c            | 2 +-
+ mm/kmsan/core.c            | 6 +++---
+ mm/kmsan/instrumentation.c | 2 +-
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
+index e5eef670735e..2c94f4943240 100644
+--- a/mm/kasan/generic.c
++++ b/mm/kasan/generic.c
+@@ -488,7 +488,7 @@ static void __kasan_record_aux_stack(void *addr, bool can_alloc)
+ 		return;
+ 
+ 	alloc_meta->aux_stack[1] = alloc_meta->aux_stack[0];
+-	alloc_meta->aux_stack[0] = kasan_save_stack(GFP_NOWAIT, can_alloc);
++	alloc_meta->aux_stack[0] = kasan_save_stack(0, can_alloc);
+ }
+ 
+ void kasan_record_aux_stack(void *addr)
+@@ -518,7 +518,7 @@ void kasan_save_free_info(struct kmem_cache *cache, void *object)
+ 	if (!free_meta)
+ 		return;
+ 
+-	kasan_set_track(&free_meta->free_track, GFP_NOWAIT);
++	kasan_set_track(&free_meta->free_track, 0);
+ 	/* The object was freed and has free track set. */
+ 	*(u8 *)kasan_mem_to_shadow(object) = KASAN_SLAB_FREETRACK;
+ }
+diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
+index 67a222586846..7dcfe341d48e 100644
+--- a/mm/kasan/tags.c
++++ b/mm/kasan/tags.c
+@@ -140,5 +140,5 @@ void kasan_save_alloc_info(struct kmem_cache *cache, void *object, gfp_t flags)
+ 
+ void kasan_save_free_info(struct kmem_cache *cache, void *object)
+ {
+-	save_stack_info(cache, object, GFP_NOWAIT, true);
++	save_stack_info(cache, object, 0, true);
+ }
+diff --git a/mm/kmsan/core.c b/mm/kmsan/core.c
+index 7d1e4aa30bae..3adb4c1d3b19 100644
+--- a/mm/kmsan/core.c
++++ b/mm/kmsan/core.c
+@@ -74,7 +74,7 @@ depot_stack_handle_t kmsan_save_stack_with_flags(gfp_t flags,
+ 	nr_entries = stack_trace_save(entries, KMSAN_STACK_DEPTH, 0);
+ 
+ 	/* Don't sleep. */
+-	flags &= ~__GFP_DIRECT_RECLAIM;
++	flags &= ~(__GFP_DIRECT_RECLAIM | __GFP_KSWAPD_RECLAIM);
+ 
+ 	handle = __stack_depot_save(entries, nr_entries, flags, true);
+ 	return stack_depot_set_extra_bits(handle, extra);
+@@ -245,7 +245,7 @@ depot_stack_handle_t kmsan_internal_chain_origin(depot_stack_handle_t id)
+ 	extra_bits = kmsan_extra_bits(depth, uaf);
+ 
+ 	entries[0] = KMSAN_CHAIN_MAGIC_ORIGIN;
+-	entries[1] = kmsan_save_stack_with_flags(GFP_ATOMIC, 0);
++	entries[1] = kmsan_save_stack_with_flags(__GFP_HIGH, 0);
+ 	entries[2] = id;
+ 	/*
+ 	 * @entries is a local var in non-instrumented code, so KMSAN does not
+@@ -253,7 +253,7 @@ depot_stack_handle_t kmsan_internal_chain_origin(depot_stack_handle_t id)
+ 	 * positives when __stack_depot_save() passes it to instrumented code.
+ 	 */
+ 	kmsan_internal_unpoison_memory(entries, sizeof(entries), false);
+-	handle = __stack_depot_save(entries, ARRAY_SIZE(entries), GFP_ATOMIC,
++	handle = __stack_depot_save(entries, ARRAY_SIZE(entries), __GFP_HIGH,
+ 				    true);
+ 	return stack_depot_set_extra_bits(handle, extra_bits);
+ }
+diff --git a/mm/kmsan/instrumentation.c b/mm/kmsan/instrumentation.c
+index cf12e9616b24..cc3907a9c33a 100644
+--- a/mm/kmsan/instrumentation.c
++++ b/mm/kmsan/instrumentation.c
+@@ -282,7 +282,7 @@ void __msan_poison_alloca(void *address, uintptr_t size, char *descr)
+ 
+ 	/* stack_depot_save() may allocate memory. */
+ 	kmsan_enter_runtime();
+-	handle = stack_depot_save(entries, ARRAY_SIZE(entries), GFP_ATOMIC);
++	handle = stack_depot_save(entries, ARRAY_SIZE(entries), __GFP_HIGH);
+ 	kmsan_leave_runtime();
+ 
+ 	kmsan_internal_set_shadow_origin(address, size, -1, handle,
+-- 
+2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZG/tRDjl4uR7C0dD%40perf.
-
-------Y9bAoTVPo7TEjNVVx8BuVeRnQePgNsPKB0hZTbOgiEUDqOwX=_3b99f_
-Content-Type: text/plain; charset="UTF-8"
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZG/tRDjl4uR7C0dD%40perf.
-
-------Y9bAoTVPo7TEjNVVx8BuVeRnQePgNsPKB0hZTbOgiEUDqOwX=_3b99f_--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/656cb4f5-998b-c8d7-3c61-c2d37aa90f9a%40I-love.SAKURA.ne.jp.
