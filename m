@@ -1,144 +1,137 @@
-Return-Path: <kasan-dev+bncBAABB5743ORQMGQEYBNMACA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRB4EY3WRQMGQEW45HCFY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3b.google.com (mail-io1-xd3b.google.com [IPv6:2607:f8b0:4864:20::d3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF83A717955
-	for <lists+kasan-dev@lfdr.de>; Wed, 31 May 2023 09:59:52 +0200 (CEST)
-Received: by mail-io1-xd3b.google.com with SMTP id ca18e2360f4ac-7748b80141asf339035839f.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 31 May 2023 00:59:52 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1685519991; cv=pass;
+Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 229C67181EC
+	for <lists+kasan-dev@lfdr.de>; Wed, 31 May 2023 15:32:34 +0200 (CEST)
+Received: by mail-lf1-x13c.google.com with SMTP id 2adb3069b0e04-4f4c62e0c9esf3563565e87.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 31 May 2023 06:32:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1685539953; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0EgLX7ITMAFT7zpJT+GqA+8CqT10VtLQ9m8KTsQ/2YoJ2CsE5smV9qDQKu74x9ufHp
-         xQEwKkCjJzncfwiu6DEItnlLa0OWAYK7/mmeKNM17vAl5wk1aE5Ze/ik3mh+ql3ogdp2
-         PLPDLngB78RrW07BinpAVBl6fvh1Q509XJotA2t+cuMA/GdtFAAn1ajcVyY6vFlQJqEx
-         nbPuoZx5M8iyuGIwFzNXu4VkmDZCcAD/bBeqPnTRcFPQKHtOQg52oVVPqORByGaiQlRl
-         qHBcq4l0u9gpGyYLFhRS3ifpQGswAupizuRX9n50x1D0VqeBY79LE+lvItfBicrgmT0E
-         9eTw==
+        b=CzgLJJ7g6MwdCLCt4CUvIca7HvAPBCVilFtGpj04jxvjwsYuvOR+BV8512fdbrRerm
+         fntqCilKIa9gPPQssWlKCXMrZ/uk3vd0bV35t0FNlPId9tLrvKc9JMGgHT+Nhjf3aku5
+         UlIBsRX2NK1mRnX0OvjGH4xQ50MdeUlbpEzvHzO4HUfD7SOvCg4mVDi25WE8NQu/1Dh6
+         MRt10QtmgQG69Gnj2Uw+NgyHNbHLNn3D19/OUPSy3mKHjMPe/JTy5UzuUAYnjS5NiFdK
+         kD6mJDhNsBM70+lrflGGeEtYM7TEayiJBdiWm96SXjKg1MYLdHH/crR7vfteGO3F4adN
+         GvwQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:dkim-signature;
-        bh=eHxhx3cMoQz1DjpEImKHTadc4xhEAwLQs+6lny1Okn0=;
-        b=zUmqDtmcYbSEusgPBHrpPD7+vyrKBV3lXtmJYBRN9nHB390kxtdN1+Q6sHOT1CJSSa
-         qfUgyG0kG7Pvi4Il/WpaDtAQ4+65kPKgjbLQ2u72GUeHlMIwPEIrvk3EJoGJvT+7cysw
-         s7iFN2v+wAWaLFZg/csZgoRtBgIbAD6UM24WGNvSmNzBW/cK66V0cC++g/7Vm1e0QMpX
-         rJC0BI7PmaDSgJ9RpeXWzYBxtYZvq8TUt99SAjCbHAJLoo19YLgrsn1t+1e6LryBHDCR
-         c3OnGlqg8NzVS2fwpyVbOHGht7OYjnWmdGu4bDVN+SGEPBVEOTfX/6c6Ga4BzAHQXUgK
-         C2yA==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=nUpVU0I+W3NhY58ygn3Q+qbhnrQ2MeRFFbrE5mvXNPo=;
+        b=kGrahKbOKOphRKSjFMKHLzkJXXra/DjWlSsGtU9NMbRfMBTDr3xmq/QgUBU0FUVo6V
+         X7p/nrXDKV0O4dfv5UZg5q6CoMKsBickjyXbHlpq9Wr780JRSSVa9BkY8mt7E4GVGuWu
+         AeV1OXnVglBpsWcGMuRJv5+SUBx1/y77fhJNW9q7hbfVm8z0AgCyJ6SqCEcOmyJYJ4EM
+         G4bLDVrbz9aRLw6LLh76D46HGiULy9BQVfoA1WJy8b1C4v4CqdUAd+CGbCZwMmdz3iI6
+         dkUnbUwkRX767vGacmg9wRiYTKmyAOwsrPCH3e1KVuWixqVo8XaiuNlcJkAdEhQNoy2C
+         od0Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of gongruiqi1@huawei.com designates 45.249.212.255 as permitted sender) smtp.mailfrom=gongruiqi1@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@google.com header.s=20221208 header.b=eALIl38K;
+       spf=pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::332 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1685519991; x=1688111991;
+        d=googlegroups.com; s=20221208; t=1685539953; x=1688131953;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eHxhx3cMoQz1DjpEImKHTadc4xhEAwLQs+6lny1Okn0=;
-        b=ae/5A0cvzATa5crIwuqcY+Ga9adkw+jKOxdQEZHG0nlm4WBZq/nYMTaeHQX3DGNCqQ
-         /14mfB+x8oknZV8EYE8u0OohdnzYLWiToqxXuSJ+rOOBH/mfDuWGmdQHbO7VapHA7LJ2
-         aYWwuHElAtpn8Ei6SC9lQGpwITP9k2BQpwwRFYChw4jIwO1IVgaNg+7D6WzWjb63KPTH
-         3hFNOw3BHZv234iPU+nyVoD2a0OsaUBgf/7szKO9rb3cuAZKyG8wx/WDrpPFuUKFQGQF
-         BEtAk73b8ghqPMeciAj8Xmtd3tIhPTB4ciwBG/Tyt9ZfC+AhQSclBmSnkJG/sZ5H3r42
-         iwNQ==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nUpVU0I+W3NhY58ygn3Q+qbhnrQ2MeRFFbrE5mvXNPo=;
+        b=Un6WInbwbniwg/7s3Y1v4iumsI7QbPUZPAXfJb4YYWTDQ7bvgQE22Kd7o0F+6c75xz
+         Qyr9OdZ+gCMRcXaujRJr8qV1C31a3R2JRapGrgFj36LG3qCJwQHPGKcHcILohfEVDMhs
+         UiRUnbzivki3YJX5sApV4ONuPOZ21EsDdZt/KccJFRKjeRqXyMjyn8YmYyYrEsb4p2iz
+         BGyz0no0DkJmciP/EFMdZKdVZRB251KiruqNJuYGYsloX3UKSnl+a4SlIjdiO1Y+tthu
+         IQWzokgo0+3Ufl6T/uw1wN62aC2l+eRy307X5wP4PZNt/VII7o0NdF6wdMv/NYWRU1qj
+         IEwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685519991; x=1688111991;
+        d=1e100.net; s=20221208; t=1685539953; x=1688131953;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=eHxhx3cMoQz1DjpEImKHTadc4xhEAwLQs+6lny1Okn0=;
-        b=dh8MJrHSJEQYajS1Jg6MLbRcNOLnbjQ3z9JJgDairG165dqFqerw0BUzpuKZBiQ/n6
-         L1b21SdpT4PMEnwoxG8m19kuAOXAXfIUThurGOic4jcInk5D9GhnG9t0+XG6CvdAQUvJ
-         dl9lJRNZJA3BHonBXRZJ9NB+ocM8P3y5kf4fYoZi4iY7fAx2ykyLPkN6vMur4uYvBbcD
-         XTkBBDYmwBsx0VnWnhWFxurGNaSnfSG1LggDHPViFqdGGF7JwtJQIvgKc9Rdex/20TGe
-         s2h7Aw0/WBeUM1IyYbi9CDYh8hl3sNhHucuF5NRvYmUDnQIJqUcznLqyC87cCX4VsgrZ
-         kVLw==
-X-Gm-Message-State: AC+VfDxEMQIkay/dI4a5GYuH2Ag6FH9qoB3QB3zasHBKpddficX6ojF6
-	rSMYSRejB7ADsNNjAPOBHfU=
-X-Google-Smtp-Source: ACHHUZ5cuNrqZKgJi8XZ/SLtKmyGAdzEGV6oikTVA+oqQ4R/YB8ZSOB/8WYhnG9G0XRwCWhq543sKQ==
-X-Received: by 2002:a92:d4c4:0:b0:32f:776d:711 with SMTP id o4-20020a92d4c4000000b0032f776d0711mr1326281ilm.30.1685519991543;
-        Wed, 31 May 2023 00:59:51 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nUpVU0I+W3NhY58ygn3Q+qbhnrQ2MeRFFbrE5mvXNPo=;
+        b=BfoZ1aiFVFJVbUilOyA28zk6KA0S6oFY/EsLf78s2I7xwQMi+j58z2RprPn1KAF+5d
+         m3vMGfQUWsajW9TnvGYTOYshnDWMO338rTn9ZwV4yX5eo4budZdnjRMQqyGCfKG6YE86
+         AFPXSnFiAPVB+Gh6OM8muGtQ7fLrr5XDxnJi4QerTczgKeXOxgcZZOvd/+x/UPZJKkOc
+         qCjPhPvWHzwGDTM5uDuD+YL6t+YJOHUn9PyKzY9NGHpd6ZQJhRsz7iriIPDscuUVzN0/
+         SRcIif1jgUkJGib/yYx0tcA5S7bkH4B//jp+QYd4AkXVTDgEGwGQyE4xNtfPKJi9toDc
+         9jVQ==
+X-Gm-Message-State: AC+VfDyEpdpqNgq1qAQVluzWtZ+Hrb03JDc+BT+epJny4R3g8Ydg7v8+
+	QHPaZ+uVUucPlmXTo6ApQzM=
+X-Google-Smtp-Source: ACHHUZ5ZNEn/2SUVc00SdxSGughdBM7z8jf0o0ZbGTF3w3bMjGaeI6GF1LqHyDKWXhyKlvSnu3QM9A==
+X-Received: by 2002:ac2:4959:0:b0:4f1:4504:2679 with SMTP id o25-20020ac24959000000b004f145042679mr2876864lfi.41.1685539952881;
+        Wed, 31 May 2023 06:32:32 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:1aad:b0:33b:7f21:7d7e with SMTP id
- l13-20020a056e021aad00b0033b7f217d7els1192196ilv.0.-pod-prod-09-us; Wed, 31
- May 2023 00:59:51 -0700 (PDT)
-X-Received: by 2002:a92:dacd:0:b0:33b:ea2:fe6c with SMTP id o13-20020a92dacd000000b0033b0ea2fe6cmr1558943ilq.24.1685519991051;
-        Wed, 31 May 2023 00:59:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1685519991; cv=none;
+Received: by 2002:a05:6512:311c:b0:4f3:b4d4:13d6 with SMTP id
+ n28-20020a056512311c00b004f3b4d413d6ls227130lfb.1.-pod-prod-01-eu; Wed, 31
+ May 2023 06:32:31 -0700 (PDT)
+X-Received: by 2002:ac2:5452:0:b0:4f0:181:5a14 with SMTP id d18-20020ac25452000000b004f001815a14mr2545293lfn.21.1685539951390;
+        Wed, 31 May 2023 06:32:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1685539951; cv=none;
         d=google.com; s=arc-20160816;
-        b=zQk3FlRb/CnCaviqiV3dmZ80y59E+VXcEmilb3+S9s5vDXQFbtmZwZKH15vbsdk42/
-         rv00mOUoKlbpSQlWIe1UNYCnl2X5ICoPBm7tYXtCnzedwFNQ+b1O5/zGe/QVKMIdxYc1
-         4I1an9IaqWmFZcfwS8k/eSbsQrh6Sf0VSQdwNSaw9ew2w8eeK9D3sB8bZ7qOQ3IRADDH
-         3rxiccAWONwXYRgPwLyvN8xlM2SKGNqDkPYltIoj5tlwwGUcfuN1Acd9LR4Ni6Wzswb8
-         zEbdCrMG6s8wPeQNecsnwiJlwAQX2/d477VoFp4huLQDOYXx9r0zvTES+Bl1Fig8X53H
-         0Ntg==
+        b=raga7rniy4LH/yMvsRx/FOzbkTAtfjmQoxnR+4kB5XcBFXuA0uOgIBCnw0SxcmgxOY
+         Xxnc0L/sRgW8HFCAqBwOuPYTQCy+QeLsI6fLitAdEUId/OMwQ74p1EO5MHza3YP6e5kp
+         vilor5olWDjJo6aUu6Pmgfd9OjijKKOu72DQFsu3Gty7PAOf1ECJEJ7jIRSPCrsiBP2R
+         v9lfinQyyCzh3AVBf0bRbVHEkvcDvPOQ4XqsRFpZ21xyodIXKpO+RHWefOYAKZbKVVhT
+         Z7LnEkZ0aH6TZAjouJPM6rJk/g6O7/2Q3KynfZxqSGtyiq5bOf+agTU6xqnWh3cabM2H
+         YhJg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=xe/kXwhcoI5dvncy643diuvWWH0RH7DOGcTshuZsb+Y=;
-        b=G7ULCSzIkpWgyhSIoVJ+yRZdyN+KjI3h3tRWmazYocR69LrjgrpFpDeNt5stdhZ3Y5
-         QF5vIubsPc18lLJSSz2k0ovLFyhWHVcyVDWziwgg2TCgztVL135r31ilfTXpw1CWgagh
-         katdZaoIZqQiMNThQtHeWJUuKF+RegsQcmwK0nmKy1siFhiaid9kO/VrY+tYuLkfscLf
-         Tkz/JfB+FzUUv5miezY3xqjJCLZK2bodg/Ibmcna2F+pym0v29oCe1X4Vr5ycJhQBFR2
-         UEgPPIGHy8n50r926krbaBFWwwAbAEZlV7sXLFcv76K1cOkbFzp8IvV/tRJpSxP1Dtct
-         /cjw==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=FC5ZHQYhVGruRZzu25rwbdk8lIo1ZkShJ8yWfi2XGG0=;
+        b=AoS9QORqqFanulf11U+FTrFD/Hm2XNvrq6EHqobEK9kkLgUoDdwqg17KG+xFSFsGud
+         LRwFderuWI79h3vdlD2LibQA69qJdHI3Bz0A84X8wCmwjlDnKhViN12oL5UJqig/4vj6
+         FK7UKazXfvIyGRWrSwaBU5M2QWUcXIoMSEVGYCtJSFDDrZjkYCuQX2RTufpk1mT4zUWv
+         +tWURl78AvfWxOG7fICzoBuhJY71vgWf9NkKj/lxA8YVfanRbtfuXLDawOU5yF1H1dnj
+         0oMJU7Cq6bSkvZTuQTyP+Fy/Wz8N7n0acomhCFCClkSxJH2TKUo2tV1tEQH7z1VxOsGl
+         n7aA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of gongruiqi1@huawei.com designates 45.249.212.255 as permitted sender) smtp.mailfrom=gongruiqi1@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com. [45.249.212.255])
-        by gmr-mx.google.com with ESMTPS id j15-20020a056e02124f00b0033b35ceaa04si807152ilq.5.2023.05.31.00.59.50
+       dkim=pass header.i=@google.com header.s=20221208 header.b=eALIl38K;
+       spf=pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::332 as permitted sender) smtp.mailfrom=glider@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com. [2a00:1450:4864:20::332])
+        by gmr-mx.google.com with ESMTPS id b19-20020a056402279300b00510cd4eed58si857613ede.2.2023.05.31.06.32.31
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 31 May 2023 00:59:51 -0700 (PDT)
-Received-SPF: pass (google.com: domain of gongruiqi1@huawei.com designates 45.249.212.255 as permitted sender) client-ip=45.249.212.255;
-Received: from dggpemm500016.china.huawei.com (unknown [172.30.72.54])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4QWM4Z0qGdz18Lsy;
-	Wed, 31 May 2023 15:55:10 +0800 (CST)
-Received: from [10.67.110.48] (10.67.110.48) by dggpemm500016.china.huawei.com
- (7.185.36.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.23; Wed, 31 May
- 2023 15:59:47 +0800
-Message-ID: <83f6cfbd-d081-5a76-7c7f-5e0b90b4ac74@huawei.com>
-Date: Wed, 31 May 2023 15:59:47 +0800
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 May 2023 06:32:31 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2a00:1450:4864:20::332 as permitted sender) client-ip=2a00:1450:4864:20::332;
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-3f60b3f32b4so42630045e9.1
+        for <kasan-dev@googlegroups.com>; Wed, 31 May 2023 06:32:31 -0700 (PDT)
+X-Received: by 2002:a05:600c:2941:b0:3f6:174:8c32 with SMTP id
+ n1-20020a05600c294100b003f601748c32mr3696783wmd.6.1685539950854; Wed, 31 May
+ 2023 06:32:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH RFC v2] Randomized slab caches for kmalloc()
-Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>
-CC: Vlastimil Babka <vbabka@suse.cz>, <linux-mm@kvack.org>,
-	<linux-kernel@vger.kernel.org>, <linux-hardening@vger.kernel.org>, Hyeonggon
- Yoo <42.hyeyoo@gmail.com>, Alexander Lobakin <aleksander.lobakin@intel.com>,
-	<kasan-dev@googlegroups.com>, Wang Weiyang <wangweiyang2@huawei.com>, Xiu
- Jianfeng <xiujianfeng@huawei.com>, Christoph Lameter <cl@linux.com>, David
- Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Pekka Enberg <penberg@kernel.org>, Paul Moore
-	<paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge E. Hallyn"
-	<serge@hallyn.com>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, "GONG,
- Ruiqi" <gongruiqi@huaweicloud.com>
-References: <20230508075507.1720950-1-gongruiqi1@huawei.com>
- <202305161204.CB4A87C13@keescook>
-From: "'Gong Ruiqi' via kasan-dev" <kasan-dev@googlegroups.com>
-In-Reply-To: <202305161204.CB4A87C13@keescook>
+References: <000000000000cef3a005fc1bcc80@google.com> <ecba318b-7452-92d0-4a2f-2f6c9255f771@I-love.SAKURA.ne.jp>
+ <ca8e3803-4757-358e-dcf2-4824213a9d2c@I-love.SAKURA.ne.jp>
+ <656cb4f5-998b-c8d7-3c61-c2d37aa90f9a@I-love.SAKURA.ne.jp> <87353gx7wd.fsf@yhuang6-desk2.ccr.corp.intel.com>
+In-Reply-To: <87353gx7wd.fsf@yhuang6-desk2.ccr.corp.intel.com>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 31 May 2023 15:31:53 +0200
+Message-ID: <CAG_fn=UTTbkGeOX0teGcNOeobtgV=mfGOefZpV-NTN4Ouus7xA@mail.gmail.com>
+Subject: Re: [PATCH] kasan,kmsan: remove __GFP_KSWAPD_RECLAIM usage from kasan/kmsan
+To: "Huang, Ying" <ying.huang@intel.com>
+Cc: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, 
+	syzbot <syzbot+ece2915262061d6e0ac1@syzkaller.appspotmail.com>, 
+	syzkaller-bugs@googlegroups.com, Mel Gorman <mgorman@techsingularity.net>, 
+	Vlastimil Babka <vbabka@suse.cz>, Andrew Morton <akpm@linux-foundation.org>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Marco Elver <elver@google.com>, kasan-dev <kasan-dev@googlegroups.com>, 
+	linux-mm <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.67.110.48]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500016.china.huawei.com (7.185.36.25)
-X-CFilter-Loop: Reflected
-X-Original-Sender: gongruiqi1@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of gongruiqi1@huawei.com designates 45.249.212.255 as
- permitted sender) smtp.mailfrom=gongruiqi1@huawei.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: Gong Ruiqi <gongruiqi1@huawei.com>
-Reply-To: Gong Ruiqi <gongruiqi1@huawei.com>
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: glider@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20221208 header.b=eALIl38K;       spf=pass
+ (google.com: domain of glider@google.com designates 2a00:1450:4864:20::332 as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,149 +144,46 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Sorry for the late reply. I was trapped by other in-house kernel issues
-these days.
+On Mon, May 29, 2023 at 3:08=E2=80=AFAM Huang, Ying <ying.huang@intel.com> =
+wrote:
+>
+> Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp> writes:
+>
+> > syzbot is reporting lockdep warning in __stack_depot_save(), for
+> > the caller of __stack_depot_save() (i.e. __kasan_record_aux_stack() in
+> > this report) is responsible for masking __GFP_KSWAPD_RECLAIM flag in
+> > order not to wake kswapd which in turn wakes kcompactd.
+> >
+> > Since kasan/kmsan functions might be called with arbitrary locks held,
+> > mask __GFP_KSWAPD_RECLAIM flag from all GFP_NOWAIT/GFP_ATOMIC allocatio=
+ns
+> > in kasan/kmsan.
+> >
+> > Note that kmsan_save_stack_with_flags() is changed to mask both
+> > __GFP_DIRECT_RECLAIM flag and __GFP_KSWAPD_RECLAIM flag, for
+> > wakeup_kswapd() from wake_all_kswapds() from __alloc_pages_slowpath()
+> > calls wakeup_kcompactd() if __GFP_KSWAPD_RECLAIM flag is set and
+> > __GFP_DIRECT_RECLAIM flag is not set.
+> >
+> > Reported-by: syzbot <syzbot+ece2915262061d6e0ac1@syzkaller.appspotmail.=
+com>
+> > Closes: https://syzkaller.appspot.com/bug?extid=3Dece2915262061d6e0ac1
+> > Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+>
+> This looks good to me.  Thanks!
+>
+> Reviewed-by: "Huang, Ying" <ying.huang@intel.com>
 
-On 2023/05/17 3:34, Kees Cook wrote:
-> For new CCs, the start of this thread is here[0].
-> 
-> On Mon, May 08, 2023 at 03:55:07PM +0800, GONG, Ruiqi wrote:
->> When exploiting memory vulnerabilities, "heap spraying" is a common
->> technique targeting those related to dynamic memory allocation (i.e. the
->> "heap"), and it plays an important role in a successful exploitation.
->> Basically, it is to overwrite the memory area of vulnerable object by
->> triggering allocation in other subsystems or modules and therefore
->> getting a reference to the targeted memory location. It's usable on
->> various types of vulnerablity including use after free (UAF), heap out-
->> of-bound write and etc.
-> 
-> I heartily agree we need some better approaches to deal with UAF, and
-> by extension, heap spraying.
+Sorry for the late reply, but maybe it would be better to mask this
+flag in __stack_depot_save() (lib/stackdepot.c) instead?
+We are already masking out a number of flags there, and the problem
+seems quite generic.
 
-Thanks Kees :) Good to hear that!
-
-> 
->> There are (at least) two reasons why the heap can be sprayed: 1) generic
->> slab caches are shared among different subsystems and modules, and
->> 2) dedicated slab caches could be merged with the generic ones.
->> Currently these two factors cannot be prevented at a low cost: the first
->> one is a widely used memory allocation mechanism, and shutting down slab
->> merging completely via `slub_nomerge` would be overkill.
->>
->> To efficiently prevent heap spraying, we propose the following approach:
->> to create multiple copies of generic slab caches that will never be
->> merged, and random one of them will be used at allocation. The random
->> selection is based on the address of code that calls `kmalloc()`, which
->> means it is static at runtime (rather than dynamically determined at
->> each time of allocation, which could be bypassed by repeatedly spraying
->> in brute force). In this way, the vulnerable object and memory allocated
->> in other subsystems and modules will (most probably) be on different
->> slab caches, which prevents the object from being sprayed.
-> 
-> This is a nice balance between the best option we have now
-> ("slub_nomerge") and most invasive changes (type-based allocation
-> segregation, which requires at least extensive compiler support),
-> forcing some caches to be "out of reach".
-
-Yes it is, and it's also cost-effective: achieving a quite satisfactory
-mitigation with a small amount of code (only ~130 lines).
-
-I get this impression also because (believe it or not) we did try to
-implement similar idea as the latter one you mention, and that was super
-complex, and the workload was really huge ...
-
-> 
->>
->> The overhead of performance has been tested on a 40-core x86 server by
->> comparing the results of `perf bench all` between the kernels with and
->> without this patch based on the latest linux-next kernel, which shows
->> minor difference. A subset of benchmarks are listed below:
->>
->> 			control		experiment (avg of 3 samples)
->> sched/messaging (sec)	0.019		0.019
->> sched/pipe (sec)	5.253		5.340
->> syscall/basic (sec)	0.741		0.742
->> mem/memcpy (GB/sec)	15.258789	14.860495
->> mem/memset (GB/sec)	48.828125	50.431069
->>
->> The overhead of memory usage was measured by executing `free` after boot
->> on a QEMU VM with 1GB total memory, and as expected, it's positively
->> correlated with # of cache copies:
->>
->> 		control		4 copies	8 copies	16 copies
->> total		969.8M		968.2M		968.2M		968.2M
->> used		20.0M		21.9M		24.1M		26.7M
->> free		936.9M		933.6M		931.4M		928.6M
->> available	932.2M		928.8M		926.6M		923.9M
-> 
-> Great to see the impact: it's relatively tiny. Nice!
-> 
-> Back when we looked at cache quarantines, Jann pointed out that it
-> was still possible to perform heap spraying -- it just needed more
-> allocations. In this case, I think that's addressed (probabilistically)
-> by making it less likely that a cache where a UAF is reachable is merged
-> with something with strong exploitation primitives (e.g. msgsnd).
-> 
-> In light of all the UAF attack/defense breakdowns in Jann's blog
-> post[1], I'm curious where this defense lands. It seems like it would
-> keep the primitives described there (i.e. "upgrading" the heap spray
-> into a page table "type confusion") would be addressed probabilistically
-> just like any other style of attack. Jann, what do you think, and how
-> does it compare to the KCTF work[2] you've been doing?
-
-A kindly ping to Jann ;)
-
-> 
-> In addition to this work, I'd like to see something like the kmalloc
-> caches, but for kmem_cache_alloc(), where a dedicated cache of
-> variably-sized allocations can be managed. With that, we can split off
-> _dedicated_ caches where we know there are strong exploitation
-> primitives (i.e. msgsnd, etc). Then we can carve off known weak heap
-> allocation caches as well as make merging probabilistically harder.
-
-Would you please explain more about the necessity of applying similar
-mitigation mechanism to dedicated caches?
-
-Based on my knowledge, usually we believe dedicated caches are more
-secure, although it's still possible to spray them, e.g. by the
-technique that allocates & frees large amounts of slab objects to
-manipulate the heap in pages. Nevertheless in most of cases they are
-still good since such spraying is (considered to be) hard to implement.
-
-Meanwhile, the aforementioned spraying technique can hardly be mitigated
-within SLAB since it operates at the page level, and our randomization
-idea cannot protect against it either, so it also makes me inclined to
-believe it's not meaningful to apply randomization to dedicated caches.
-
-> I imagine it would be possible to then split this series into two
-> halves: one that creates the "make arbitrary-sized caches" API, and the
-> second that applies that to kmalloc globally (as done here).
-> 
->>
->> Signed-off-by: GONG, Ruiqi <gongruiqi1@huawei.com>
->> ---
->>
->> v2:
->>   - Use hash_64() and a per-boot random seed to select kmalloc() caches.
-> 
-> This is good: I was hoping there would be something to make it per-boot
-> randomized beyond just compile-time.
-> 
-> So, yes, I think this is worth it, but I'd like to see what design holes
-> Jann can poke in it first. :)
-
-Thanks again! I'm looking forward to receiving more comments from mm and
-hardening developers.
-
-> 
-> -Kees
-> 
-> [0] https://lore.kernel.org/lkml/20230508075507.1720950-1-gongruiqi1@huawei.com/
-> [1] https://googleprojectzero.blogspot.com/2021/10/how-simple-linux-kernel-memory.html
-> [2] https://github.com/thejh/linux/commit/a87ad16046f6f7fd61080ebfb93753366466b761
-> 
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/83f6cfbd-d081-5a76-7c7f-5e0b90b4ac74%40huawei.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAG_fn%3DUTTbkGeOX0teGcNOeobtgV%3DmfGOefZpV-NTN4Ouus7xA%40mail.gm=
+ail.com.
