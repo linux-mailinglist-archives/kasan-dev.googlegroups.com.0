@@ -1,142 +1,161 @@
-Return-Path: <kasan-dev+bncBCF5XGNWYQBRB74H4ORQMGQEKFFNRUQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDEKVJM7XAHRBC5V4ORQMGQE7A7WINQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF6071EE70
-	for <lists+kasan-dev@lfdr.de>; Thu,  1 Jun 2023 18:14:57 +0200 (CEST)
-Received: by mail-il1-x138.google.com with SMTP id e9e14a558f8ab-33b3f549628sf8722945ab.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 01 Jun 2023 09:14:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1685636096; cv=pass;
+Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA0A71F11A
+	for <lists+kasan-dev@lfdr.de>; Thu,  1 Jun 2023 19:51:09 +0200 (CEST)
+Received: by mail-lj1-x240.google.com with SMTP id 38308e7fff4ca-2af17f626e3sf10244771fa.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Jun 2023 10:51:09 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1685641868; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hC5AB6i7WG2dnE2WqqlUexZ7tZDA6x1WxZWg6M6QaSdK9obmNs9wGkW6tEbQB126Sd
-         1QRCYFhmSLYe/jHww4K9z1fxYUstQhRmFiO/1kbvv4pKotog0FxBeyfGqubMasR0GVz+
-         sl5lQHevxKw+UmdzvOUgmUJXvZ1CSGKjQOONnahusPRLkR4J2YpgKuyHmXYiYI1GCFjG
-         sV7hutF7+O+XMfIX2wt+MEkBSd7C706WxxSZHVf6USfmZQ5zOtUU0Zs+VSDcap1xlfGL
-         NajTcjrC8/0JRSBc7LFurZEyqYY430YcN016Aze77L6hBvhQ1fQFHJUdGDRRcDIJy+ms
-         nz2A==
+        b=RtojZfodIQ+qAKd+FBxKHnBHSJdFd9vjT7JUVYeUFwFNySV2MV/igKOubzkYR9pPQH
+         fvSE4yiTOmAcOFeaAHKik3gBZTsjr/OFE8EzTb3rCw3C7/06q5qGWGIg0ma6zsEe2xCe
+         NqZQngyWx6Cw5QRN9NoNbRgsM5lX8Ms2kEhBm1MDAF93fDbdSED6XR8mJII7FaqwhV5A
+         lleeoQkfWHEm654RveYAM001Sh7PHMKgSoDfqZ06R3UHPIVEpw4CrwOjwi3ZpU0IbnDL
+         qD/R+RcbNeZCMc8aSGDyuU3zFXA8gSTfQPoY4fCXr7nRAcQLRBiyWyq9E7rQpU6ggCzi
+         gjdA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :list-id:mailing-list:precedence:subject:cc:to:from:date:references
+         :in-reply-to:message-id:mime-version:user-agent:feedback-id:sender
          :dkim-signature;
-        bh=YOMBO7UzZlacd2URSqlgn2/o55Yp2/SQ0nrzpfMX8H0=;
-        b=hMYHBsfiakhS6N+Ya2XakSf3IjHbROyXDihgLbO3mDFtYACvq3kz2C0xNkAQ6cPO51
-         fAJ++YU4IFtI1Dhb+RsrSRjyjYLhNlV9QJ12lfd1GenD5yRrTVNB5upOYW9IwlSx1m/E
-         fCRPbk0+ObYCG4/is/4Ui9hG+2OFld+vGA6OwpyjyUpxL1ol5fTMIywHTfrRKc2fTUgs
-         GX73xRQ7+5vjBETuzcn5PoB6KjuknfsmGcUVl7TEb6PI5yUWkYkVcLy7G6WhJt9fD9Tc
-         vbZc/HriZh8XhHXgvcmuUJ9F4pS3IgYCjf/5ckjJjNbuIfKiKeQA/d54UrntGvuLccKl
-         seHg==
+        bh=tgP7rouXeqsYdZQQdsqcAeCKL3pzcAZIEkAPvk5JfvE=;
+        b=lze7zMjBXM1MUihvjB9bmd7DjhzRSF778ezelNPZnKWsLnXfvku7XrswoQfYHDNg4L
+         sjGME8It4wRPyitoOBFcMahjDrRO3aI/B3adsCZB+4PJVr3F2XwFEIXUnzdgthQBHqa1
+         Q4zGFdHSXa1yla9s6XUXnihzUvuUizNQWxly2DpEXvc0f43aMmwElHdInzqtFrY9l3u9
+         juWluki+vRruVKpW52hRMAuDr7fGcffevxB2rK+7rPyw0HY1pHrinxJOdRAhIuVniSrN
+         /DH1YQNOYS7uhMamcMGqo7Prol5enbwmnRLmMvfVsViOYtgMpzQmgJxTapm/gchOQyO0
+         7Sng==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=BLOJsskD;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62a as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+       dkim=pass header.i=@arndb.de header.s=fm3 header.b=YsbtSfmN;
+       dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=x278PMWM;
+       spf=pass (google.com: domain of arnd@arndb.de designates 64.147.123.21 as permitted sender) smtp.mailfrom=arnd@arndb.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1685636096; x=1688228096;
+        d=googlegroups.com; s=20221208; t=1685641868; x=1688233868;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :x-original-sender:subject:cc:to:from:date:references:in-reply-to
+         :message-id:mime-version:user-agent:feedback-id:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YOMBO7UzZlacd2URSqlgn2/o55Yp2/SQ0nrzpfMX8H0=;
-        b=LH6BWBAxYSmtPDYDR7kSnBW06h9zeChdiQ36StJJjIJkpBaGNJquFHinP/th95iUSJ
-         x/Hx5OnlwO8x2V6YNApBkOlXPQy2qrlWG4UV+vwLlk88M0hBJkE+0avwOLGjimTETdGT
-         N37GCUQ8dVdX1di/Gs07lbnKFuoJlQ1s+86JPYVab+pTQQOmYPvnQ/vgBKa7RIBMFJd8
-         yQ62En1oNfpgJaWqqb1hmUy/LBnuwrLDvaIa9J1IpEPWh3HAXRglHxAOngNiCJk8XZ21
-         1MgFvliD2EDITHDpGUiJw0SbNLGgy3NV96LBDZ7RCUZfb8YpIlSE6Q1YSbmrbktRU7ee
-         empA==
+        bh=tgP7rouXeqsYdZQQdsqcAeCKL3pzcAZIEkAPvk5JfvE=;
+        b=GYKSuQVs2PJyG4PrnneCsOIhFXzv8eJaHJrshwOp+lg9JJF+jU3AlXRHF6SXBJElxF
+         hV4J5tOV2DtSAmLBkLeRNNV1F0AkRzDXa5nP+hSHXD7HCTa5F6fNi43+7xlkkdPNOBuC
+         90yC3B5N/nNbDtNzcI+MU7jpNfOGbFCGdbTXkB85ZiYCo57fQxqrNLCZjntArh/bzA/F
+         q5UPyUvKaB84UsJwUKy+RQ6X45k7gAiiyPZ9wXg1tlKR4O+Skw9cCCdGImvQDmL4aul/
+         IA3aYRBxedXgCjJunwkPKpaZe1SkMmnM5FJNIiVWvywmJX5eUQZ6sQeXXvo7oLjkucjp
+         fyLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685636096; x=1688228096;
+        d=1e100.net; s=20221208; t=1685641868; x=1688233868;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :x-original-authentication-results:x-original-sender:subject:cc:to
+         :from:date:references:in-reply-to:message-id:mime-version:user-agent
+         :feedback-id:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YOMBO7UzZlacd2URSqlgn2/o55Yp2/SQ0nrzpfMX8H0=;
-        b=CZ0OiMvvIBMx4+AmEqpl8nlwLQd78WuI54O+Rx9CY7UNSNSCAd8hcCQM/8uyFwdSwX
-         zmTXo6rCVr32zV7gfgxJHC1RTs5G9/8RHaZSm+e0G4wgd0EOJS48f9vYn3OmPWeRNz/d
-         oDEvvPJ8wnszKRJgWW2ErVoYVbsb9q1sa5TtIsxp6HE2gLt2kW9IGWDRdtIl0gqXMmL8
-         GLNXZkkN/l3WEp1vdznkDjkmozuzFLPqi5KtiEFixhvZ0uUrb97XfwTqSRfAWXwDAYlx
-         sVF5B5XeZQMQCoZ+XvdDiZ3p/BOAzN9r9BPFjsS3eXUwcNqePAPvw2UKV9GvsGKvDHz0
-         /X/A==
+        bh=tgP7rouXeqsYdZQQdsqcAeCKL3pzcAZIEkAPvk5JfvE=;
+        b=HHM52FB3tEDbid6B7H/vFTMLwDKPSuhNZbUsd2wq6CcOXlTgRhlS9bQjBo1pzHPcgQ
+         7FVwP01sO5v8ld+KrkbJggxcHlAwYTYYEI+n04VC0ZV+1i36FY/A+lliUqMxunVx9SXw
+         vlFdmL5hVgiJ/obJKPoXA1WHXIjhuHGHMxL9eHDqwnrbb2zpa+eL5VhiM6aKetnXyAah
+         SE0ZQjwA8tk2O1pf0Z6sIoUsN6gCBcRIeB8zDEAh4PoWY4RY32jZi2AE7c/vOPrO6pCD
+         UytBTSjEgRjauPHmDrAfKlEF6bUOUBPZZTZuLk2IWEbHnlKnpWUlG8J/Q3aYAocc8HAT
+         8fDQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDx6P7MDLkFrW4L18h1JPxiVJnmyuk0nfmgnQqb8Y3FWL+Fr4pWN
-	s6SKAqOgm2whP2j16DLINwk=
-X-Google-Smtp-Source: ACHHUZ5rc3bAJVe9QbSCTnyHTvcFoEJEzeqxxlMFitHsNfnP1EtiDCqllIQLqWoyUKB99BfCQ5Xzaw==
-X-Received: by 2002:a92:d683:0:b0:33a:3823:bc7a with SMTP id p3-20020a92d683000000b0033a3823bc7amr5813573iln.18.1685636095831;
-        Thu, 01 Jun 2023 09:14:55 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxls9122LVzcaGuS3jLpue9aqrDyyzoIsfCVLklvPqd9PbiP3AN
+	Nkf8tGJVE5/GAsb1twCRYhE=
+X-Google-Smtp-Source: ACHHUZ5qG366NBhjy9TvrwHDxhKJVPR7sULOlv76yI4gqITj7e+M+7SVyWSZ2ClicUC7dt6NmsgCHg==
+X-Received: by 2002:a2e:330f:0:b0:2a8:adf6:b0e2 with SMTP id d15-20020a2e330f000000b002a8adf6b0e2mr143636ljc.13.1685641867922;
+        Thu, 01 Jun 2023 10:51:07 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:156a:b0:33b:5017:ce30 with SMTP id
- k10-20020a056e02156a00b0033b5017ce30ls1000878ilu.1.-pod-prod-04-us; Thu, 01
- Jun 2023 09:14:55 -0700 (PDT)
-X-Received: by 2002:a6b:f216:0:b0:774:7eca:d9c5 with SMTP id q22-20020a6bf216000000b007747ecad9c5mr8354617ioh.2.1685636095167;
-        Thu, 01 Jun 2023 09:14:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1685636095; cv=none;
+Received: by 2002:a2e:a593:0:b0:2ad:a1ce:ff1b with SMTP id m19-20020a2ea593000000b002ada1ceff1bls317119ljp.0.-pod-prod-02-eu;
+ Thu, 01 Jun 2023 10:51:06 -0700 (PDT)
+X-Received: by 2002:ac2:442a:0:b0:4f6:db0:f162 with SMTP id w10-20020ac2442a000000b004f60db0f162mr121644lfl.63.1685641866503;
+        Thu, 01 Jun 2023 10:51:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1685641866; cv=none;
         d=google.com; s=arc-20160816;
-        b=HWCFjYzFg7p5zXocwk1hrTlMBjNoAOGbP9tILx2fn/gEJxIueOYWKtsZ8gul+Q4Iei
-         SBhKqafS5+GRJjHlBgt47hE+wF+mmzvVES49oG5U19X+7Z8gtvuAEbAH1D4JScHIAHg1
-         JcO677hQ5UkNs947psvpsevQHmYzMTjEPx+lzQiwLfCML1sXeDVeosbyPxVUpZcXh4R6
-         8fm+LbswWSJc169DRNxV/EjcFLmuUqPKT5y4k3+eQ5UmW2VO1a9EA5/Ixb+OkydplgyQ
-         bgGvZm9bGDPXf4WfiaoQ4qZ5FoUVSvNLr+7H5HT3y2UbAnw1y4EUnit12Q9BOKARBdn/
-         iJtg==
+        b=e3M6qyQqJh0Xp3buSzzoDFS2kfMu8ZLUmFNozFnthJhs0Qn4rf3ptLUjp5rZKxfZDc
+         EOBSaV4PMxSQ6Hajfgn/w+OakCogye53GdAQx3tHNlSHQfqEha+K02jrR+CoYsh0gfD8
+         I4BVPFsU95/qWuXpHRdCvehw4wJe+4TGV59n4vKuODlr+JBnEhqJY2XyZKgURk42uoRh
+         YbKOuKXc7nfqGCxLcNcZRVYT72M/BQTAMAnlrHtUtFN8nI/2YZLzNpd1wu09c7UFC1m/
+         lC6pREHLghqDmM5+/pkRaM830D/JsvzcDAWMOHhnAl/GtIQbYTA3jRnhK6cm7b+5qdQ9
+         Fuqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=hf1MMDnk8ATuiHQnpftM3deH6vV2jBlcAPqcuKGi0Ek=;
-        b=brLqCc8GR6Wbd+cB9xPafshs4Xky7+NTIXtqd0iiGOY53asUe9WzJc1ltV3k7QVWCp
-         EhrU7vw0jm0HDM9xJ9HYEcAyAKpk5i9gVw31Jknfjsk+am9BCCf9+luxHdHsmzmVqZ/w
-         +bDDq7avsncNsiuVnroJI6CW+xn7Xkt+rEcKjGww7QGXIAFZ+JXRPEnTFDfx7/r7pvcE
-         3jOFhDCycij6HATLvyjspPnV1Eeag0yqpfKC2xELzGymlA5M8BPez2wwQ9XMsWjQUkIR
-         7oYBIDXxbrH+LipRUllc+Nvojq8uM+rxPpIpRnRqrHEh6LjSebqCFQ3cpoYTJTjwHxFE
-         H2+Q==
+        h=subject:cc:to:from:date:references:in-reply-to:message-id
+         :mime-version:user-agent:feedback-id:dkim-signature:dkim-signature;
+        bh=rIkHOu2cJZ+vhgMgLgXQFIzSc/FfETBAe+GmKBqE/d8=;
+        b=HBSHszFdiQWNACZ391dgBJbamawBPGuNhgrdC0+KCYJ7qnHJSCTHmW+rK+nsVNccqE
+         1Be61BKYCgDRqt9hb0OfYqQxpopEXXjZX/W6UQJBsr+OaDLbrPPe79J5MeHBlUQp5XYO
+         ZvEtPc6OFMTLfePnT+GTk/dQ966PT8O+4vN69N/6MsXntS4VA8uVFMHzmskfz/H4edOv
+         DsTO4116iFZdqlbAUtnV9UbhjTBG6n5V/TKrBA5QmH5/CcSeKBuHcISlA4HH7nKH4zNb
+         JDkJfP8QMJn778dC1nWhuuJoyH4QRL+WgyGKQbofateD8sokQQWFZ/BB34bZPY2AVqOH
+         +h5g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=BLOJsskD;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62a as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com. [2607:f8b0:4864:20::62a])
-        by gmr-mx.google.com with ESMTPS id bk7-20020a056602400700b00776f706bc63si1835787iob.3.2023.06.01.09.14.55
+       dkim=pass header.i=@arndb.de header.s=fm3 header.b=YsbtSfmN;
+       dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=x278PMWM;
+       spf=pass (google.com: domain of arnd@arndb.de designates 64.147.123.21 as permitted sender) smtp.mailfrom=arnd@arndb.de
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com. [64.147.123.21])
+        by gmr-mx.google.com with ESMTPS id c42-20020a05651223aa00b004f60948e9fasi149671lfv.3.2023.06.01.10.51.05
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Jun 2023 09:14:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62a as permitted sender) client-ip=2607:f8b0:4864:20::62a;
-Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1b18474cbb6so5954995ad.1
-        for <kasan-dev@googlegroups.com>; Thu, 01 Jun 2023 09:14:55 -0700 (PDT)
-X-Received: by 2002:a17:902:c20d:b0:1ac:6d4c:c24b with SMTP id 13-20020a170902c20d00b001ac6d4cc24bmr6045835pll.3.1685636094447;
-        Thu, 01 Jun 2023 09:14:54 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id g14-20020a1709029f8e00b001b176ba9f17sm3680035plq.149.2023.06.01.09.14.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jun 2023 09:14:53 -0700 (PDT)
-Date: Thu, 1 Jun 2023 09:14:53 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: kasan-dev@googlegroups.com, ryabinin.a.a@gmail.com, glider@google.com,
-	andreyknvl@gmail.com, dvyukov@google.com, vincenzo.frascino@arm.com,
-	elver@google.com, linux-media@vger.kernel.org,
-	linux-crypto@vger.kernel.org, herbert@gondor.apana.org.au,
-	ardb@kernel.org, mchehab@kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Tom Rix <trix@redhat.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, llvm@lists.linux.dev
-Subject: Re: [PATCH] [RFC] ubsan: disallow bounds checking with gcov on
- broken gcc
-Message-ID: <202306010909.89C4BED@keescook>
+        Thu, 01 Jun 2023 10:51:05 -0700 (PDT)
+Received-SPF: pass (google.com: domain of arnd@arndb.de designates 64.147.123.21 as permitted sender) client-ip=64.147.123.21;
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+	by mailout.west.internal (Postfix) with ESMTP id 5FF8832006F5;
+	Thu,  1 Jun 2023 13:51:02 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Thu, 01 Jun 2023 13:51:04 -0400
+X-ME-Sender: <xms:hNp4ZEB47iSnUPOggsaPyqB3htwwzNbBYiP2c2CDEU-GAelh2g8d0g>
+    <xme:hNp4ZGjPiJzGYKEOKXF8ZVG6qJObsay-XWlXTArfI2edvCGmlHvO6H8hcnSw2yE8S
+    M_zWTR4S9o1_3Selek>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfeeluddguddukecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeeigfeiieeiheejjeeiudekleevvddvffetieehteeikeeigeeiffdttdef
+    tdeggfenucffohhmrghinhepghhnuhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:hNp4ZHkX2OtLDMVwiM9pUSRildLjmx7b470Z9Ca5GPuJafo5YZtD1A>
+    <xmx:hNp4ZKwgiGYOpOdmKAbTAywxVof93l8RU1AQtJKMm8M8XxQ-KJalsw>
+    <xmx:hNp4ZJQ1JHiPxb1I71yRvpM9eN-KRrOUQGwapN-tDspykREevQDiyg>
+    <xmx:hdp4ZICyxJxKWz4v3ZWf754mlZqb1XGQlvWDQ_AdPqLkWWJ3D8psOg>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 38825B60086; Thu,  1 Jun 2023 13:51:00 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-447-ge2460e13b3-fm-20230525.001-ge2460e13
+Mime-Version: 1.0
+Message-Id: <f6fcae8a-9b50-48e4-84e9-c37613226c63@app.fastmail.com>
+In-Reply-To: <202306010909.89C4BED@keescook>
 References: <20230601151832.3632525-1-arnd@kernel.org>
-MIME-Version: 1.0
+ <202306010909.89C4BED@keescook>
+Date: Thu, 01 Jun 2023 19:50:38 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Kees Cook" <keescook@chromium.org>, "Arnd Bergmann" <arnd@kernel.org>
+Cc: kasan-dev@googlegroups.com, "Andrey Ryabinin" <ryabinin.a.a@gmail.com>,
+ "Alexander Potapenko" <glider@google.com>,
+ "Andrey Konovalov" <andreyknvl@gmail.com>,
+ "Dmitry Vyukov" <dvyukov@google.com>,
+ "Vincenzo Frascino" <vincenzo.frascino@arm.com>,
+ "Marco Elver" <elver@google.com>, linux-media@vger.kernel.org,
+ linux-crypto@vger.kernel.org, "Herbert Xu" <herbert@gondor.apana.org.au>,
+ "Ard Biesheuvel" <ardb@kernel.org>,
+ "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ "Dan Carpenter" <dan.carpenter@linaro.org>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>,
+ "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nick Desaulniers" <ndesaulniers@google.com>, "Tom Rix" <trix@redhat.com>,
+ "Josh Poimboeuf" <jpoimboe@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ llvm@lists.linux.dev
+Subject: Re: [PATCH] [RFC] ubsan: disallow bounds checking with gcov on broken gcc
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20230601151832.3632525-1-arnd@kernel.org>
-X-Original-Sender: keescook@chromium.org
+X-Original-Sender: arnd@arndb.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=BLOJsskD;       spf=pass
- (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62a
- as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+ header.i=@arndb.de header.s=fm3 header.b=YsbtSfmN;       dkim=pass
+ header.i=@messagingengine.com header.s=fm1 header.b=x278PMWM;       spf=pass
+ (google.com: domain of arnd@arndb.de designates 64.147.123.21 as permitted
+ sender) smtp.mailfrom=arnd@arndb.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,77 +168,40 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jun 01, 2023 at 05:18:11PM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Combining UBSAN and GCOV in randconfig builds results in a number of
-> stack frame size warnings, such as:
-> 
-> crypto/twofish_common.c:683:1: error: the frame size of 2040 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
-> drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1589:1: error: the frame size of 1696 bytes is larger than 1400 bytes [-Werror=frame-larger-than=]
-> drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c:754:1: error: the frame size of 1260 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
-> drivers/staging/media/ipu3/ipu3-css-params.c:1206:1: error: the frame size of 1080 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
-> drivers/staging/media/rkvdec/rkvdec-vp9.c:1042:1: error: the frame size of 2176 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
-> drivers/staging/media/rkvdec/rkvdec-vp9.c:995:1: error: the frame size of 1656 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
-> 
-> I managed to track this down to the -fsanitize=bounds option clashing
-> with the -fprofile-arcs option, which leads a lot of spilled temporary
-> variables in generated instrumentation code.
-> 
-> Hopefully this can be addressed in future gcc releases the same way
-> that clang handles the combination, but for existing compiler releases,
-> it seems best to disable one of the two flags. This can be done either
-> globally by just not passing both at the same time, or locally using
-> the no_sanitize or no_instrument_function attributes in the affected
-> functions.
-> 
-> Try the simplest approach here, and turn off -fsanitize=bounds on
-> gcc when GCOV is enabled, leaving the rest of UBSAN working. Doing
-> this globally also helps avoid inefficient code from the same
-> problem that did not push the build over the warning limit.
-> 
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Link: https://lore.kernel.org/stable/6b1a0ee6-c78b-4873-bfd5-89798fce9899@kili.mountain/
-> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110074
-> Link: https://godbolt.org/z/zvf7YqK5K
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+On Thu, Jun 1, 2023, at 18:14, Kees Cook wrote:
+> On Thu, Jun 01, 2023 at 05:18:11PM +0200, Arnd Bergmann wrote:
+>
+> I think more production systems will have CONFIG_UBSAN_BOUNDS enabled
+> (e.g. Ubuntu has had it enabled for more than a year now) than GCOV,
+> so I'd prefer we maintain all*config coverage for the more commonly
+> used config.
 
-I think more production systems will have CONFIG_UBSAN_BOUNDS enabled
-(e.g. Ubuntu has had it enabled for more than a year now) than GCOV,
-so I'd prefer we maintain all*config coverage for the more commonly
-used config.
+Fair enough, I can send that as v2, but let's see what the others
+think first.
 
-> ---
->  lib/Kconfig.ubsan | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
-> index f7cbbad2bb2f4..8f71ff8f27576 100644
-> --- a/lib/Kconfig.ubsan
-> +++ b/lib/Kconfig.ubsan
-> @@ -29,6 +29,8 @@ config UBSAN_TRAP
->  
->  config CC_HAS_UBSAN_BOUNDS_STRICT
->  	def_bool $(cc-option,-fsanitize=bounds-strict)
-> +	# work around https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110074
-> +	depends on GCC_VERSION > 140000 || !GCOV_PROFILE_ALL
->  	help
->  	  The -fsanitize=bounds-strict option is only available on GCC,
->  	  but uses the more strict handling of arrays that includes knowledge
+>>  config CC_HAS_UBSAN_BOUNDS_STRICT
+>>  	def_bool $(cc-option,-fsanitize=bounds-strict)
+>> +	# work around https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110074
+>> +	depends on GCC_VERSION > 140000 || !GCOV_PROFILE_ALL
+>>  	help
+>>  	  The -fsanitize=bounds-strict option is only available on GCC,
+>>  	  but uses the more strict handling of arrays that includes knowledge
+>
+> Alternatively, how about falling back to -fsanitize=bounds instead, as
+> that (which has less coverage) wasn't triggering the stack frame
+> warnings?
+>
+> i.e. fall back through these:
+> 	-fsanitize=array-bounds (Clang)
+> 	-fsanitize=bounds-strict (!GCOV || bug fixed in GCC)
+> 	-fsanitize=bounds
 
-Alternatively, how about falling back to -fsanitize=bounds instead, as
-that (which has less coverage) wasn't triggering the stack frame
-warnings?
+From what I can tell, -fsanitize=bounds has the same problem
+as -fsanitize=bounds-strict, so that would not help.
 
-i.e. fall back through these:
-	-fsanitize=array-bounds (Clang)
-	-fsanitize=bounds-strict (!GCOV || bug fixed in GCC)
-	-fsanitize=bounds
-
--- 
-Kees Cook
+     Arnd
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202306010909.89C4BED%40keescook.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/f6fcae8a-9b50-48e4-84e9-c37613226c63%40app.fastmail.com.
