@@ -1,145 +1,146 @@
-Return-Path: <kasan-dev+bncBAABB5OQ4GRQMGQE43JK2QY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCXO5E6EQQFBBWPN4KRQMGQEW6MG26I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3d.google.com (mail-io1-xd3d.google.com [IPv6:2607:f8b0:4864:20::d3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B3B5719758
-	for <lists+kasan-dev@lfdr.de>; Thu,  1 Jun 2023 11:44:23 +0200 (CEST)
-Received: by mail-io1-xd3d.google.com with SMTP id ca18e2360f4ac-7775a282e25sf73787139f.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 01 Jun 2023 02:44:23 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1685612662; cv=pass;
+Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F8D71A250
+	for <lists+kasan-dev@lfdr.de>; Thu,  1 Jun 2023 17:18:50 +0200 (CEST)
+Received: by mail-il1-x13b.google.com with SMTP id e9e14a558f8ab-33b0be9356bsf802195ab.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 01 Jun 2023 08:18:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1685632729; cv=pass;
         d=google.com; s=arc-20160816;
-        b=aW/JOMdOdjzerixLtax3xhrWCuYx/nbKoxGgehpvAahpyfiZd/Sl43al7Jp/S9dJqV
-         m6Trt+fHqMxA0VVJjcvZuciEpq0hI9E2h+pFuEHuYC+9ftpdP292WpZ+k1fZMpbyAc68
-         jsFfbLJ0XjEEtiRFxKfWjC+p5ZU2DqTjW+hXDgdmOr9Nv9HwISwOrtQSVZLeHupxwUPy
-         Q7qBS52v4Sz/2uLHVQCLnLt0leKxhAlyCe4iQLoeRm/KRKhGha/Tn+mL4aV4yHuYjYue
-         ZijxnvMFvf6SsCto2mJfyYFL3GFCmvCoAlwkR04LOZ7P9zHGaGasCbjh1D0UMyTmIavz
-         TNHg==
+        b=pmkprx5c3M9z3sXibccj80zIYvRwVEgy37W2HdcsJ3FocMDtGAfZiZQheQEzWPqQJ4
+         HFurq9erA0Gk0SJcc6RjlkvHytBMjNknXPM0n/Z9mSfYgLD/xowrCPW4AUU6afXcLx9u
+         /oluwADiSziQL73PksVfL4ixWp9i3XM1kiHEWAqUT6T2o/BpgQ1z7qnje52qQcqayjsB
+         vnmtg4We6mtdxaoxTehJ+LGox+YkHzsGuPtOqROmyyd+D0PNJKdKbwRTdGL8F+Z4RSz4
+         4um/WEf9rdo3pFdTK3GG90NaWMLDJQb67A8XqyMj9bL28CS/eq612lOTS2Pxs+GgU5Hi
+         6hMw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:auto-submitted
-         :references:in-reply-to:message-id:date:subject:to:from:sender
-         :dkim-signature;
-        bh=YV5ui8O8HTEs+PoU42+mP6RZ04BIcUNiRek3RcKn3m4=;
-        b=P9kMci1WLGf864S6XlN92KxkebJaGxq4rktsMwE+elcXuMZMGatTrCachD+1uHafSx
-         X2rSzAg3DOv61tb/R2FDOqsUpm6TxA5v6wl5uUgDwh0JaodqWiYgk9jTFPBA3F5HZV4/
-         JrEipEYDR9THfQeVLMEZz2UIrdps7bjlLsbK5Jdl+vXoFWU6/ZxCWwu4nU8JcjsgDA6u
-         41TCe8ljBYfD/dR942dCw8gsyZY9C3kgyn6mBKiLzmgivgdt9WJi4GBoykSWDDABEyX6
-         FwHSdXkg/jtJ3qdInTqB5sETrJyMqME+C91flxYYY6b4zn39pKxckZ6NJe23CagJyHgh
-         e6og==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=hGkJhOLxg6XliXmZmejKrFIUdUGGKjnz2LIz0lJ+GME=;
+        b=IOE4tFiuJj/uqNDqEdIXlfE7wMgeFG/0aoaJlGcRFkhKnJf9KSJaywJP/LlMYSa3EV
+         7EuoTwrq4c4a8eC7kWluZSObsMPjQplhxHg3FSvSxuZF5xkRakz7lkT4RcxBU9BGuy7U
+         +U3VbVAs9i+Aq8VRM+9ShTQ0vTuJG5rrCT1liyIwYaFsXnc1NveXfgORmrF/aNYzoOIr
+         B2C0OYJUFVL6RMseXF9BzJiVNoLiWhK6/N5aQ9FTeAO/2Dd/oYrs6l02YvI1ScMqQ1oc
+         0jsdvKw7hQzY2nlHh0JTK7zm8aXfU0X7bvB/arcHLWE4Az4ODvcNcEH0EyIajuK9DfxK
+         sD9A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="j0G/p2GH";
-       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=lOsYcDeZ;
+       spf=pass (google.com: domain of arnd@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=arnd@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1685612662; x=1688204662;
+        d=googlegroups.com; s=20221208; t=1685632729; x=1688224729;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:auto-submitted:references
-         :in-reply-to:message-id:date:subject:to:from:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YV5ui8O8HTEs+PoU42+mP6RZ04BIcUNiRek3RcKn3m4=;
-        b=luptZilVuRVb7YVtLXD5YvB2liKBnYSzvnqvBXSR6OYD7b2nhxArRGFYDZp7wN8qRN
-         VdU857tDTMYI7++51JU8YBxV8Hj06PgqLX5XFMWGTG1yhi7BMeKTg9xEf0BTiNrDyYT3
-         EBKbvHh0y9b5AbCNa50M9sdxQmgIUijRN9a02eQhjVoiL2XtbHhZWZG/jOa3dN/GgLnx
-         P/Ndnm5c1dWRnL4ekaM+DFI7wLLsvnFGzpop9dl7RERVCQYJSjn7kL5LxwGYX5i807Ub
-         8aE+j2uuwM+xuIRtw38aBiL1/bcORnIcetPeadNwxrOwZXgYfMKk7gw4PgGjUfUbmOiA
-         BusA==
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=hGkJhOLxg6XliXmZmejKrFIUdUGGKjnz2LIz0lJ+GME=;
+        b=D58ptJTDFAqKLiTs1sn8EZsOdokQyPglEZ7gdHXDZoMfFrKh8nbVWTemtszq9QumJi
+         lBBjvh3fDjQLy/XcLV8Nvv4Nzo5lY7xhaVZ1YEutawqTJHqgBHvoMlRkqO3HS2QJHeSj
+         xCQ9NZ1jmcuHZCCFqbfxNOectMBiXox9GFW2nCzZj9eHzDuFFjShKgIk0ox14PinKyfj
+         WdJIkBozEbCFP0FXbq6Uv0KKhZQN2MZQZP8zRZOPN0CFLaP291PKSua4wxGnnReTiNtW
+         /nzxa/Whx0mvDeJ8ez85DD4qQvClc+wK2SDwwBnpLYCVW/a7QG/7zce0HDTsRXJ+q25b
+         Ysrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685612662; x=1688204662;
+        d=1e100.net; s=20221208; t=1685632729; x=1688224729;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :auto-submitted:references:in-reply-to:message-id:date:subject:to
-         :from:x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YV5ui8O8HTEs+PoU42+mP6RZ04BIcUNiRek3RcKn3m4=;
-        b=Eeo2M0/fM7lhCufS6PSZO+VRQZd45amcd3R0/JSX+tiezooq8XV5IrAiuX+d8Yz6c6
-         41wVtSKK1/NqWWiRxKR6ODMS1iLaMnKt9g7+cMTmU2LhbCiZVODkCPkE/HHSeZqGAFNr
-         wDIgm4/es7Z56yP9msUXYUKgcVQcAduSlOq1BwsWdEi6X5wUt42hR/l+WHmlTDhaxds7
-         VD+rRH1yxWcU8om1q9ghpDYXxRh5BrzmUL8PlCTL6slbMNzM/H1eFY3BXQa1mf5E1kq3
-         Q4xEIhW/xoN9kOvN/kltlI+GnzytNtfCXFqXzDKmgFzCh+VPH5mxTNUUauF3Cbokw0xd
-         Q+1w==
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=hGkJhOLxg6XliXmZmejKrFIUdUGGKjnz2LIz0lJ+GME=;
+        b=UrX4Yt+EV068/NEJXMFuzKiIDbgtjnsLSPnAzSgGpDPfbm2z5Qg4lNG/no4XYgCU3S
+         TxzgscouLb6qh32lvD2BhbNjmDjBXQfNP2g71UjUgXNjsvljaTzMie7+k/brWvIDqXVF
+         DGT3xQW4rXRyDu/ysDQSzP6DvedHfnBeBadL24mP7eEhjCDiypuPplGowNAfKa0+mOXC
+         MTkIHsB+mJOWSL80/PbD0bG2kLodQxip0iNbbXGLXjWAuB2ZcJ+E2S+5BDSua8UC0qE0
+         YPNjvKsaGWHjfIYB01LYZo+9YDc+QR7r55DTZCP8s6sSpCgOfHlU6YPeEdwMNJy7ohqU
+         bDvA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDy2it+laDggzWtVpXnqaDZlgYlm16v5OB++F+2NTxnJSwB++NEE
-	9u4PsYZm9fT0XjeYXmmg7G4=
-X-Google-Smtp-Source: ACHHUZ42/30NdHVq1Cdba+r4e7LTl8lVnvtSWWI5Y+T61Vt83xSWxKpxSOiKz2w5rFtLDe4RjOl8+g==
-X-Received: by 2002:a92:c144:0:b0:33a:d0f6:9133 with SMTP id b4-20020a92c144000000b0033ad0f69133mr5596175ilh.12.1685612662049;
-        Thu, 01 Jun 2023 02:44:22 -0700 (PDT)
+X-Gm-Message-State: AC+VfDzeSvUjvIK+rvm6IKTa5jg/UfbAfc/pcgI2jmceAGIsYcJaceJN
+	G0X3BZrsCxW9DgH8K3o0MKc=
+X-Google-Smtp-Source: ACHHUZ78IepH3kUE1eUIyd79DiKW6BDSc9S4a5AIQEmfW4rIS7w1bAMyyffp/WZfrhg0fXdrXxLsrw==
+X-Received: by 2002:a05:6e02:1ba7:b0:338:1993:1194 with SMTP id n7-20020a056e021ba700b0033819931194mr233621ili.2.1685632729406;
+        Thu, 01 Jun 2023 08:18:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:1c04:b0:33b:c1d6:ecd3 with SMTP id
- l4-20020a056e021c0400b0033bc1d6ecd3ls695562ilh.0.-pod-prod-04-us; Thu, 01 Jun
- 2023 02:44:21 -0700 (PDT)
-X-Received: by 2002:a6b:6402:0:b0:776:f992:78cf with SMTP id t2-20020a6b6402000000b00776f99278cfmr7243264iog.12.1685612661454;
-        Thu, 01 Jun 2023 02:44:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1685612661; cv=none;
+Received: by 2002:a05:6e02:eea:b0:336:1c16:1cd2 with SMTP id
+ j10-20020a056e020eea00b003361c161cd2ls1048175ilk.0.-pod-prod-03-us; Thu, 01
+ Jun 2023 08:18:48 -0700 (PDT)
+X-Received: by 2002:a05:6602:2192:b0:770:28ee:fee1 with SMTP id b18-20020a056602219200b0077028eefee1mr6718324iob.7.1685632728792;
+        Thu, 01 Jun 2023 08:18:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1685632728; cv=none;
         d=google.com; s=arc-20160816;
-        b=D/gOdTOMp25LfemCrWEk7VclTPoU7r2943gpQMLtosNzKf7hZQY5vTk8wK5qjzoq63
-         e8Z3LbgvitmhPcIyrRxOKuFhZWMH7sioGNJp3pymbXKlNcVUH/vLXEwyd8PwsyjKE30J
-         hpicZ6pQ+kA+JgiNDbXZvxttFywKbGE2B+mXIPu0UGU6KrMGWC5c0L29q+6sW6SRH81I
-         3YXFSEjroxA2u4xO36S+BM4bWRgh9M3V/vjBbiP+lY4CQMbg4gbxSfa5GiTrzuChRUUY
-         ROS9aQ8+y9IG40xQLD94tTRqpbiAV/jd3Eo6qwksqpy63JMYcKiiwLVC4Qie8aRS2Nn+
-         WApQ==
+        b=g7KQBstqfmfl8atj8Exn63gVQKPEoCUQhF/oikCdcye15587uDYHFd8DMhhbC7a3wc
+         GADSGuWi3F60Uf+KT1NtQ58ZjOP2cje1TMwIZGZ4yj1r1N/VumO5058dm/dkNhHzxQF8
+         07kAIbEXC403cgpr4IW81BNMClsxLrWGuInXUduOpMETDQD8i4Jx+pQuDTEGZOz0IXQz
+         JaXb8FOpP8cfiQR9zU16SoCic7xejSbDeQoJZuG9QYOjIHetnTJ5zl9mOUC6x+PE5bVC
+         hbXwvXE0Dz7fdc07RAtv3GyFbeq04dfq8+nlbOOxRXQM5LkxG2yg1uUR7vBEWe0jvqxC
+         4Gnw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:auto-submitted:content-transfer-encoding:references
-         :in-reply-to:message-id:date:subject:to:from:dkim-signature;
-        bh=1OGCUaqwjj81XbO6PzQ69bcZuVIJ42RbhviriF8y7f0=;
-        b=R1pgJRev3ctI9+pZBcrzeEAcKwY4V7itRTMSuN/lOo3wpPW3hEdk5fc5bsl9Cgp2/r
-         LFajkCTQ+jpCP62nnotiubSUNHdiNI2kxRxjf9d9DMpEUXQLCKSqSJPzjiJDkVRmjpuu
-         UtQQ5E6hRVkA4E4vr7nX9KiXLd2yyKz/HWUvuQf3UP5ZKeeAKadu8qq/FHygUxDJml1U
-         ubw88feCPRQamCLG54/Vc6r/+mzf2JgOTW5v3GF9v4Lluyoly84Ccb0nXyM2KhTjm2zV
-         cU9Neo2LqvqSHRkDbzJG7uJfCA4f4BbhCiM6nSIDl/AbXzGWOJSa3OodnV+tVXjuw996
-         Pegw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=om6vVqhUTGRoMD24byuluNyuAPSz+SZ7EzIEE6u+Ouk=;
+        b=EHAAoSnnWY6M3A/E9RwQ4xSYKf6w1sT3jTO1Kc2qRDQ+cQ/4G+KNjIrB4ZwWKHUytO
+         HBq7WqVvvIbEVC683bT55rl5wtA7J+ILwStzqiOMl780RPbMMMa4KFN+fzIgdAy9TmQD
+         g8A5Dn1yXkR6hMYKC3FIdQ3kDne+67+v0LcsBBKmeanhZOgDLPCKhir7nCffiPRv/gIu
+         7rDzmVCeB7/82pHwmjVw0GT8HjNSQGvgBdfWzRBb/aOORc7Ir9OSeWLOptUJPPjtiwXT
+         9caH2/Fo9YjUPY5p2093mT/uKAIhWBjPcDT6mv8nJTvQbQRF7ErA/yuXmywOLNmK8FAr
+         3/Fg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="j0G/p2GH";
-       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=lOsYcDeZ;
+       spf=pass (google.com: domain of arnd@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=arnd@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id s7-20020a056638218700b0041abe5ca15bsi724629jaj.2.2023.06.01.02.44.21
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id 26-20020a0566380a5a00b0040fa7700d64si859832jap.4.2023.06.01.08.18.48
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 01 Jun 2023 02:44:21 -0700 (PDT)
-Received-SPF: pass (google.com: domain of bugzilla-daemon@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+        Thu, 01 Jun 2023 08:18:48 -0700 (PDT)
+Received-SPF: pass (google.com: domain of arnd@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 1D46060F76
-	for <kasan-dev@googlegroups.com>; Thu,  1 Jun 2023 09:44:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 85A00C433D2
-	for <kasan-dev@googlegroups.com>; Thu,  1 Jun 2023 09:44:20 +0000 (UTC)
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 7685CC43143; Thu,  1 Jun 2023 09:44:20 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: kasan-dev@googlegroups.com
-Subject: [Bug 198443] KCOV: trace arch/x86/kernel code
-Date: Thu, 01 Jun 2023 09:44:20 +0000
-X-Bugzilla-Reason: CC
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Memory Management
-X-Bugzilla-Component: Sanitizers
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: pengfei.xu@intel.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P2
-X-Bugzilla-Assigned-To: dvyukov@google.com
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-198443-199747-RAxiYABA6I@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-198443-199747@https.bugzilla.kernel.org/>
-References: <bug-198443-199747@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 5FC866468C;
+	Thu,  1 Jun 2023 15:18:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C525FC4339C;
+	Thu,  1 Jun 2023 15:18:42 +0000 (UTC)
+From: Arnd Bergmann <arnd@kernel.org>
+To: kasan-dev@googlegroups.com,
+	ryabinin.a.a@gmail.com
+Cc: glider@google.com,
+	andreyknvl@gmail.com,
+	dvyukov@google.com,
+	vincenzo.frascino@arm.com,
+	elver@google.com,
+	linux-media@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	herbert@gondor.apana.org.au,
+	ardb@kernel.org,
+	mchehab@kernel.org,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>,
+	Kees Cook <keescook@chromium.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	llvm@lists.linux.dev
+Subject: [PATCH] [RFC] ubsan: disallow bounds checking with gcov on broken gcc
+Date: Thu,  1 Jun 2023 17:18:11 +0200
+Message-Id: <20230601151832.3632525-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-Original-Sender: bugzilla-daemon@kernel.org
+X-Original-Sender: arnd@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b="j0G/p2GH";       spf=pass
- (google.com: domain of bugzilla-daemon@kernel.org designates 139.178.84.217
- as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=lOsYcDeZ;       spf=pass
+ (google.com: domain of arnd@kernel.org designates 2604:1380:4641:c500::1 as
+ permitted sender) smtp.mailfrom=arnd@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,126 +153,60 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=198443
+From: Arnd Bergmann <arnd@arndb.de>
 
---- Comment #3 from xupengfe (pengfei.xu@intel.com) ---
-I found I could use below item and enable at least SHSTK test.
-KCOV_INSTRUMENT_alternative.o                 :=n
-KCOV_INSTRUMENT_amd_gart_64.o                 :=n
-KCOV_INSTRUMENT_amd_nb.o                      :=n
-KCOV_INSTRUMENT_aperture_64.o                 :=n
-KCOV_INSTRUMENT_audit_64.o                    :=n
-KCOV_INSTRUMENT_bootflag.o                    :=n
-KCOV_INSTRUMENT_callthunks.o                  :=n
-KCOV_INSTRUMENT_check.o                       :=n
-KCOV_INSTRUMENT_cpuid.mod.o                   :=n
-KCOV_INSTRUMENT_cpuid.o                       :=n
-KCOV_INSTRUMENT_crash_core_64.o               :=n
-KCOV_INSTRUMENT_crash_dump_64.o               :=n
-KCOV_INSTRUMENT_crash.o                       :=n
-KCOV_INSTRUMENT_devicetree.o                  :=n
-KCOV_INSTRUMENT_dumpstack_64.o                :=n
-KCOV_INSTRUMENT_dumpstack.o                   :=n
-KCOV_INSTRUMENT_e820.o                        :=n
-KCOV_INSTRUMENT_early_printk.o                :=n
-KCOV_INSTRUMENT_early-quirks.o                :=n
-KCOV_INSTRUMENT_ebda.o                        :=n
-KCOV_INSTRUMENT_espfix_64.o                   :=n
-KCOV_INSTRUMENT_ftrace_64.o                   :=n
-KCOV_INSTRUMENT_ftrace.o                      :=n
-KCOV_INSTRUMENT_head_64.o                     :=n
-KCOV_INSTRUMENT_head64.o                      :=n
-KCOV_INSTRUMENT_hpet.o                        :=n
-KCOV_INSTRUMENT_hw_breakpoint.o               :=n
-KCOV_INSTRUMENT_i8237.o                       :=n
-KCOV_INSTRUMENT_i8253.o                       :=n
-KCOV_INSTRUMENT_i8259.o                       :=n
-KCOV_INSTRUMENT_idt.o                         :=n
-KCOV_INSTRUMENT_io_delay.o                    :=n
-KCOV_INSTRUMENT_ioport.o                      :=n
-KCOV_INSTRUMENT_irq_64.o                      :=n
-KCOV_INSTRUMENT_irqflags.o                    :=n
-KCOV_INSTRUMENT_irqinit.o                     :=n
-KCOV_INSTRUMENT_irq.o                         :=n
-KCOV_INSTRUMENT_irq_work.o                    :=n
-KCOV_INSTRUMENT_itmt.o                        :=n
-KCOV_INSTRUMENT_jailhouse.o                   :=n
-KCOV_INSTRUMENT_jump_label.o                  :=n
-KCOV_INSTRUMENT_kdebugfs.o                    :=n
-KCOV_INSTRUMENT_kexec-bzimage64.o             :=n
-KCOV_INSTRUMENT_kgdb.o                        :=n
-KCOV_INSTRUMENT_ksysfs.o                      :=n
-KCOV_INSTRUMENT_kvmclock.o                    :=n
-KCOV_INSTRUMENT_kvm.o                         :=n
-KCOV_INSTRUMENT_ldt.o                         :=n
-KCOV_INSTRUMENT_machine_kexec_64.o            :=n
-KCOV_INSTRUMENT_mmconf-fam10h_64.o            :=n
-KCOV_INSTRUMENT_module.o                      :=n
-KCOV_INSTRUMENT_mpparse.o                     :=n
-KCOV_INSTRUMENT_msr.o                         :=n
-KCOV_INSTRUMENT_nmi.o                         :=n
-KCOV_INSTRUMENT_paravirt.o                    :=n
-KCOV_INSTRUMENT_paravirt-spinlocks.o          :=n
-KCOV_INSTRUMENT_pci-dma.o                     :=n
-KCOV_INSTRUMENT_pcspeaker.o                   :=n
-KCOV_INSTRUMENT_perf_regs.o                   :=n
-KCOV_INSTRUMENT_platform-quirks.o             :=n
-KCOV_INSTRUMENT_pmem.o                        :=n
-KCOV_INSTRUMENT_probe_roms.o                  :=n
-KCOV_INSTRUMENT_process_64.o                  :=n
-KCOV_INSTRUMENT_process.o                     :=n
-KCOV_INSTRUMENT_ptrace.o                      :=n
-KCOV_INSTRUMENT_pvclock.o                     :=n
-KCOV_INSTRUMENT_quirks.o                      :=n
-KCOV_INSTRUMENT_reboot.o                      :=n
-KCOV_INSTRUMENT_relocate_kernel_64.o          :=n
-KCOV_INSTRUMENT_resource.o                    :=n
-KCOV_INSTRUMENT_rethook.o                     :=n
-KCOV_INSTRUMENT_rtc.o                         :=n
-KCOV_INSTRUMENT_sched_ipcc.o                  :=n
-KCOV_INSTRUMENT_setup.o                       :=n
-KCOV_INSTRUMENT_setup_percpu.o                :=n
-KCOV_INSTRUMENT_sev.o                         :=n
-KCOV_INSTRUMENT_signal_32.o                   :=n
-KCOV_INSTRUMENT_signal_64.o                   :=n
-KCOV_INSTRUMENT_signal.o                      :=n
-KCOV_INSTRUMENT_smpboot.o                     :=n
-KCOV_INSTRUMENT_smp.o                         :=n
-KCOV_INSTRUMENT_stacktrace.o                  :=n
-KCOV_INSTRUMENT_static_call.o                 :=n
-KCOV_INSTRUMENT_step.o                        :=n
-KCOV_INSTRUMENT_sys_ia32.o                    :=n
-KCOV_INSTRUMENT_sys_x86_64.o                  :=n
-KCOV_INSTRUMENT_tboot.o                       :=n
-KCOV_INSTRUMENT_time.o                        :=n
-KCOV_INSTRUMENT_tls.o                         :=n
-KCOV_INSTRUMENT_topology.o                    :=n
-KCOV_INSTRUMENT_trace_clock.o                 :=n
-KCOV_INSTRUMENT_trace.o                       :=n
-KCOV_INSTRUMENT_tracepoint.o                  :=n
-KCOV_INSTRUMENT_traps.o                       :=n
-KCOV_INSTRUMENT_tsc_msr.o                     :=n
-KCOV_INSTRUMENT_tsc.o                         :=n
-KCOV_INSTRUMENT_tsc_sync.o                    :=n
-KCOV_INSTRUMENT_umip.o                        :=n
-KCOV_INSTRUMENT_unwind_frame.o                :=n
-KCOV_INSTRUMENT_uprobes.o                     :=n
-KCOV_INSTRUMENT_vsmp_64.o                     :=n
-KCOV_INSTRUMENT_x86_init.o                    :=n
+Combining UBSAN and GCOV in randconfig builds results in a number of
+stack frame size warnings, such as:
 
+crypto/twofish_common.c:683:1: error: the frame size of 2040 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
+drivers/media/platform/mediatek/vcodec/vdec/vdec_vp9_req_lat_if.c:1589:1: error: the frame size of 1696 bytes is larger than 1400 bytes [-Werror=frame-larger-than=]
+drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c:754:1: error: the frame size of 1260 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
+drivers/staging/media/ipu3/ipu3-css-params.c:1206:1: error: the frame size of 1080 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
+drivers/staging/media/rkvdec/rkvdec-vp9.c:1042:1: error: the frame size of 2176 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
+drivers/staging/media/rkvdec/rkvdec-vp9.c:995:1: error: the frame size of 1656 bytes is larger than 1024 bytes [-Werror=frame-larger-than=]
 
-I will do more testing to think out some good way for it.
-Thanks a lot for Dmitry's guidance!
+I managed to track this down to the -fsanitize=bounds option clashing
+with the -fprofile-arcs option, which leads a lot of spilled temporary
+variables in generated instrumentation code.
 
-Thanks!
+Hopefully this can be addressed in future gcc releases the same way
+that clang handles the combination, but for existing compiler releases,
+it seems best to disable one of the two flags. This can be done either
+globally by just not passing both at the same time, or locally using
+the no_sanitize or no_instrument_function attributes in the affected
+functions.
 
+Try the simplest approach here, and turn off -fsanitize=bounds on
+gcc when GCOV is enabled, leaving the rest of UBSAN working. Doing
+this globally also helps avoid inefficient code from the same
+problem that did not push the build over the warning limit.
+
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Link: https://lore.kernel.org/stable/6b1a0ee6-c78b-4873-bfd5-89798fce9899@kili.mountain/
+Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110074
+Link: https://godbolt.org/z/zvf7YqK5K
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ lib/Kconfig.ubsan | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
+index f7cbbad2bb2f4..8f71ff8f27576 100644
+--- a/lib/Kconfig.ubsan
++++ b/lib/Kconfig.ubsan
+@@ -29,6 +29,8 @@ config UBSAN_TRAP
+ 
+ config CC_HAS_UBSAN_BOUNDS_STRICT
+ 	def_bool $(cc-option,-fsanitize=bounds-strict)
++	# work around https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110074
++	depends on GCC_VERSION > 140000 || !GCOV_PROFILE_ALL
+ 	help
+ 	  The -fsanitize=bounds-strict option is only available on GCC,
+ 	  but uses the more strict handling of arrays that includes knowledge
 -- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are on the CC list for the bug.
+2.39.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-198443-199747-RAxiYABA6I%40https.bugzilla.kernel.org/.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230601151832.3632525-1-arnd%40kernel.org.
