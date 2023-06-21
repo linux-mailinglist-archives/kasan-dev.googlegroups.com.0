@@ -1,150 +1,138 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBHGBY6SAMGQE3O46N7I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBHXHZOSAMGQETLN52JA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15C57372A7
-	for <lists+kasan-dev@lfdr.de>; Tue, 20 Jun 2023 19:23:41 +0200 (CEST)
-Received: by mail-lj1-x23c.google.com with SMTP id 38308e7fff4ca-2b483c8ff1dsf15633351fa.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 20 Jun 2023 10:23:41 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1687281821; cv=pass;
+Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D329738428
+	for <lists+kasan-dev@lfdr.de>; Wed, 21 Jun 2023 14:57:05 +0200 (CEST)
+Received: by mail-qv1-xf3a.google.com with SMTP id 6a1803df08f44-62ff6a6b4f4sf69177626d6.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Jun 2023 05:57:05 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1687352223; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DEfhQIZ9vjgzzGJTYzeZUsOwC/qhyVIkcsNC5hpa/0maNW6p6zQ1+Zm3e1lO0587Hy
-         4/3aWoioNoOMktSt1vXM+dBOPBt3d/e0+eLLHBZ1smAILcOHzTZtYv7i3bTJdX6rsXpU
-         pqXvFlBoB49NZIY6IVoHW0auN8lZ+EjHkzcCK3gILXq63Oi8CF2KtIGlZeNHxJ1Xxwpp
-         4adQ2TwRSseexSUAn/cee/m9KX14bez2lPMOknYyrz2HEVY46EAnIxvo1GLIPqjDcdPn
-         ftSxccuOYI9w0JclZ6BMwREI79RB2g8+q5YhOPj++lSj7vVCdYz1TgG7OY9Ak+iW1C/K
-         2RLg==
+        b=sr8PME+rC4O7f/ujnBLyAZzIo5KhTVhJf/4jI6KM6Hyb1OKxO95+wexFBl7D2E8Rhz
+         Qposnct7c0z4/Ce8vRAu/p7yI70niBjO/LQmaQazKTsYBWpFRR5iaJ9RLiOfubdZ+rk4
+         CI96xh4YjOnUgbiOjAG9J7vpM6xQI529dNNoE6U2iVTGJQLOc2YwuhJnAxakCghzefKH
+         85lWfCCkNKeWf05wyjcBtipPjLP1JP6HrRsChZC9O7MIduwal5J4XQTc8WpqVrY97YTZ
+         RugdUZRhQysmQ7CcHB0Zezp48l61kj9eHwt4gsvox9p9ARClbK/QiqrB9chPTOKTAgG7
+         O0Uw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=ZVxlkJPVzZ2F9rR4ncnh8j6uDPb710d1DgglwIiGjLU=;
-        b=cfjF022+KqCnlCSzNdZJgVv53SqjWg5p9BeA2jtnxyVibwKhuNamjlCxubYycczCU0
-         Q4i9FjCy90hw7rek0rUXk9NU24Mz0esPVqQnAMWNgFCY/OD4A/XiFHs9EbGc9pSmAeor
-         SwY/LmxquNY6L1s8uovGrREmCPrKzqhPg444dJve07f7lQbunXhGZtpSYxn44EzYf30k
-         GDKPqYHCRSTtCFxVYSJX00DvpRLEClAF7huHtcAxJWFxN9+88HQv1TxVM7DeRfjg51os
-         SmwvCW8HrIYo9b7Hmgfd3/wmoQJsVPzSEQ/xW+QY1Aq2iE6r6zpy/lfndDpGBK5AcqF1
-         8nFg==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=zQKjw/FCsmbyixhT9tfC0yRARo+zYG4KnfqI5y3Zxg0=;
+        b=UmeqokmqbwrE+tAj9MwiTuXhdwdVIkSRvR9q06WSukk3kWidK5utPpp8u/WpSOViOo
+         XzLCWGherZBRzqu16spo3qHDrw6kSE/Hj/Odph+a3IhYCR8gu0+k5vBiHXuuV/tcBeUs
+         QAS4ZefgsNzpK6sxnp7mM8P0SA/p62ihb4+25qESg4/rdhGR1fxIL0hA0plJHkpIlVkV
+         f3ihAeexOajfl/NoSf1m9w95pUCgD+OTPb1hvqhYX+TxcXEXL+Igo7eDuJv7SQ6nDsFi
+         xWpie8pZRSRW9JDGR5niO32P/S8Y1qnd6g2/B7N4W3IeeGtzcgGOroTsu35zSR5L2VJO
+         MILg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=sjjrqJuC;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=HguHzfhH;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::d2c as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1687281821; x=1689873821;
+        d=googlegroups.com; s=20221208; t=1687352223; x=1689944223;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:user-agent
-         :in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ZVxlkJPVzZ2F9rR4ncnh8j6uDPb710d1DgglwIiGjLU=;
-        b=YYbVpK4X7ogmQpcUf5psDd7psKH+RiIQ7RhU3+CPxJw7GpKJE9rkhOMFwfxtrC0f1G
-         YZ5fCpowYHhBoFpmE+o70xD0n6i8w8aYedgTqzeqao8/Y4fxUQryEANM4i1Edn8+L+6+
-         sD4gNWBGMlxR3yUrNN+HrTPEk6Bd7ntkq7uXBA23Llh/9kHG7uKXfHaT9cdMGC0/zVLi
-         TJTGJ/TR0NMbUkP+eZ5+XqdeZCmxKyekjJ9Hg6fG70Dm9evnT2eMRtezuhXpNh5HxS0q
-         vEzNU5CIxqXtqVs2SR6Y4G9rotC92lPxh5Mxu0gbMiivG1Vi8M6qISFt/UkIJ2fF52DL
-         oXTA==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zQKjw/FCsmbyixhT9tfC0yRARo+zYG4KnfqI5y3Zxg0=;
+        b=I4LYMJSnL0ARMIa40Iq5nXATaMLqs5/spwE6KBbnG15zraVKDbAh7EOKqS4z0HRrNo
+         oxdMLaK+giAtqaIz3QK2epkksooN+Lk5EIbHkGK8VXQ3Vs8qoDJ3otrKhkQxv7zFm3o6
+         y2zgNwzhnT4y9vLfroCiMdf9gZW+KaX0MGCHPmP/ichH9rrGg8iP5px000gvirIXNH+9
+         VVHrUQX0A4TXDiZ4aO2rccN8hY7YUMd6MduOSj5VasqvAGeESrMt/jUqpIpY5M9aU1TK
+         8niP+WZjtr2s8dPik/3qrxUCdWwXj0uQGcPg2i4KXtkrP9DLvQ8jA1aS5DPnSGeVBuUZ
+         szHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687281821; x=1689873821;
+        d=1e100.net; s=20221208; t=1687352223; x=1689944223;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:user-agent
-         :in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZVxlkJPVzZ2F9rR4ncnh8j6uDPb710d1DgglwIiGjLU=;
-        b=WLn/BaSLMSk0zF1yrcyypDKyJ5iuQs/O+Y9wRCasAY696bNo+yRsfaVKE9Rc7DveJn
-         c5PvjJPEfO07uHQIfXpL1RHAYK2NOj/QVsg4mER4pfn2iOg28c09Ig3wbjy0RzJ3Aqmr
-         6D1tulUh++/g3ndb4qK4juOQ1JKTBX4dhrgjz4ZHORuAnLKgdiFcKqNhyV+W5CRLYobQ
-         SXjlR6e/O2aIvtjqA/XVnct20128ZeH+264ON4AjqcruRP3q/xSCQUusMnNJcZquB+Jb
-         MXb2498HhCbcn5r+3uPTiewoMLEiF1ygG90YspLeCuEqqczG+s0xPugwaynHYPHeEb9R
-         oyHg==
-X-Gm-Message-State: AC+VfDwSzvaDvz7VeWX5ZGh+E0GgoXCgcGAQ9/cOBTlp6qPTAq9ALLg8
-	czKG4A2x8N+uSLdluInayeU=
-X-Google-Smtp-Source: ACHHUZ6rziVo2VVs6Sy43iIQYZkY8vsEGmUab/0fiQPlCZJxO7S0AUMqyrnLuCRzQ9S/GDw4jaaQCw==
-X-Received: by 2002:a2e:81c5:0:b0:2b4:8487:5f60 with SMTP id s5-20020a2e81c5000000b002b484875f60mr3300110ljg.35.1687281820660;
-        Tue, 20 Jun 2023 10:23:40 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zQKjw/FCsmbyixhT9tfC0yRARo+zYG4KnfqI5y3Zxg0=;
+        b=Fq/anqbgRY6QVShCCgQovRBZNThcAdduGypnJevsObOB/+3dlmdc2h96aeKSUGbFmi
+         yx1k84vCNy30tK+3eTBhw0CADVS+fD85JDxkHF2uWYQSooeyzoUIc+NcWg7Qoej4xEsg
+         bR+oSV8yVyYYqc3RfG2EVejTjzVaQy+3wKIbVTDQrLCQUrgfu9rD4pNH9n5X2ngds77Z
+         GgOFMGy2Nlv7VuUJmWHAPHMEV67ehbKrPu7eN+8oyCLuok7e0POcum5NUdlAkJfmI/05
+         uI+1afeWaFaAWbZvdxgzmHXaMPmuu1tS8fb32UGxXOjTdtKilwja93rq41iOc6Wrpnhx
+         22lw==
+X-Gm-Message-State: AC+VfDy1zkdC5jFuOYeTZ8aBPwyFaGFybFHnB58Lz3U3uSGEMIf84iAb
+	wy7M6z7X65qKaWNzj8Jd64c=
+X-Google-Smtp-Source: ACHHUZ5G4S9x95FGavJ3oRhD0A4+KdS3fvwO9xiWgVwvb6EzR0U4RW4fM75BX/1+42BlSCNQLBHG4w==
+X-Received: by 2002:a05:6214:212e:b0:62d:edb2:b42a with SMTP id r14-20020a056214212e00b0062dedb2b42amr19057615qvc.45.1687352223090;
+        Wed, 21 Jun 2023 05:57:03 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:7218:0:b0:2b4:6dc4:68cf with SMTP id n24-20020a2e7218000000b002b46dc468cfls674322ljc.1.-pod-prod-04-eu;
- Tue, 20 Jun 2023 10:23:39 -0700 (PDT)
-X-Received: by 2002:a2e:b616:0:b0:2b1:e5d7:633a with SMTP id r22-20020a2eb616000000b002b1e5d7633amr8878836ljn.1.1687281818973;
-        Tue, 20 Jun 2023 10:23:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1687281818; cv=none;
+Received: by 2002:a05:6214:b0d:b0:632:628:f73e with SMTP id
+ u13-20020a0562140b0d00b006320628f73els491428qvj.2.-pod-prod-05-us; Wed, 21
+ Jun 2023 05:57:02 -0700 (PDT)
+X-Received: by 2002:a05:6214:1bcb:b0:632:15e6:a75e with SMTP id m11-20020a0562141bcb00b0063215e6a75emr1275353qvc.46.1687352222388;
+        Wed, 21 Jun 2023 05:57:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1687352222; cv=none;
         d=google.com; s=arc-20160816;
-        b=awCcsEVAmp6mAZ+dWkuWZ0d5XbXgsSWdkqmmBaYIxT/jmBkNnjD91m/boOTPUTme1y
-         6HMqMym00ZIb60jhocCIjo9sw2akO66I9X9o6kHFs8R/lmTzn4iJa9AgoYEy5/ivBxVf
-         /BTEVbTbIp47v/QWUs5cOIfLhzA9IZpGg4deKcANZOUEar+4I7uaLBK4o54sJhRcJ45Q
-         y7f81FvXp7us2rLRfM42pEJSf6Uo7WQ8COI1K9JmCDXv5VvaTu9/GJraziA6ofTzHYN4
-         bbqxUcVn4Gi7wMoSgkdmA0JkMhs/hRhTOKxGJNjpDGvk6FpLVByNx4STyB48HdhX76lY
-         Mfqw==
+        b=f8eJ1wwuITt9TMHt3Rn58x8uZiCvLWrSyRurz2VRz5lh5Bj5CCe/igY8+kUIucq54R
+         SFMrDvpAuP31Vwy0gBdKmm0qWBoF1jwulE2UZm1XsbgNd15jc/Xse6cEZbY6Q7sJJyXB
+         PG9Qqpe1TpMeclaHm5tX6u7mplgcXuie91DZnPWi+1mmR8aybzgsbUoFe36qbIEJKVoS
+         HLLVoCxHIwVFiXkDbMsZ+1sa6UnYzjzXZLQNbI5w/UO7fCd2YCQYLR9xURR4SrcDBWsn
+         ZEOunBXWItaqv6bEiL980zUjYItT01wutjTdRpphAunRAaSbbhyMDkuerepgOZyU8zyO
+         frYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=s9mWYfGROnySR6uue4WG7vLMYCpdaHNd7ovm5oIrCjM=;
-        b=Hs4PdC2k7TBSi4tYlvO1vXB4kcHFVp6Eeg5vNVGPXnpzfEtZw96/omo0gzLfDkHmyy
-         9oD1oZ1ZUrOS8kYQUsS7iBmoAg8qQpeJEkugLJZl38JMr17GxQu/IuyH5kFjnNep4WVW
-         BK1Avc0XRTdTh6S9qd7JPgh6y+s4Im4lyekkVQN4EwFpU02OPC8D6o4y3RdU+by7a9kR
-         yw9P1AoIcfNjzinONVIzPnob8u5ZUgDwaTWPeGjyiNUqNDVW0kQNdVV4uZj00r4cglRM
-         dFRVTugzgpXe9QWUkFP3PQq8iQYuMnZiAGGz1B1E77x8oIqpfkoYqwVEEJ3+Fogalf4T
-         vekg==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=evIj23C5RuYH7l01ysd2yt+gQqbHOQ1C3V6W2tREipI=;
+        b=zSLIL1qqG60vZiou7ZUeWEweczukxgrJlZ2vadmJTVvNp+d3cdHo93cp3dDV2k257n
+         J3lhU+/uCBmVvhcbP4yFZnf5Q4jaUYqor2ppd/MbkB6UmLhUXrPz3EswT/eXbk4Yw50s
+         12kaxJ6gqmdf3uimkIEFhHPfb/aNOZf8zEvncNNPe6fD4sKBT7K240ZqDcpGY9Yb8hL8
+         YLmnkRyOUt+AtwM9YSIe6T6nEqOlpGbl9bOVCV05Xr3glmYO4ARCfqZl5yITe06r9QJt
+         OyR3OKQVMSx4UkBr+4QcBlaCuIM2u8DrbiI54tzsdU4RSeMgzpx6cEQBGw1KIVvAM5xw
+         LKqw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=sjjrqJuC;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=HguHzfhH;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::d2c as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com. [2a00:1450:4864:20::42b])
-        by gmr-mx.google.com with ESMTPS id w20-20020aa7d294000000b0050bd0abf2b4si132285edq.3.2023.06.20.10.23.38
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com. [2607:f8b0:4864:20::d2c])
+        by gmr-mx.google.com with ESMTPS id og5-20020a056214428500b0062625273f69si366785qvb.2.2023.06.21.05.57.02
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Jun 2023 10:23:38 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as permitted sender) client-ip=2a00:1450:4864:20::42b;
-Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-3112f2b9625so3320215f8f.1
-        for <kasan-dev@googlegroups.com>; Tue, 20 Jun 2023 10:23:38 -0700 (PDT)
-X-Received: by 2002:adf:f004:0:b0:311:1df7:3e05 with SMTP id j4-20020adff004000000b003111df73e05mr9335340wro.22.1687281818234;
-        Tue, 20 Jun 2023 10:23:38 -0700 (PDT)
-Received: from elver.google.com ([2a00:79e0:9c:201:8530:a6a3:373f:683c])
-        by smtp.gmail.com with ESMTPSA id g18-20020a7bc4d2000000b003f8d0308604sm14028860wmk.9.2023.06.20.10.23.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Jun 2023 10:23:37 -0700 (PDT)
-Date: Tue, 20 Jun 2023 19:23:31 +0200
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Taras Madan <tarasmadan@google.com>,
-	Aleksandr Nogikh <nogikh@google.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, kasan-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH] kasan: add support for kasan.fault=panic_on_write
-Message-ID: <ZJHgkxdnlSXfXLkn@elver.google.com>
-References: <20230614095158.1133673-1-elver@google.com>
- <CA+fCnZdy4TmMacvsPkoenCynUYsyKZ+kU1fx7cDpbh_6=cEPAQ@mail.gmail.com>
- <CANpmjNOSnVNy14xAVe6UHD0eHuMpxweg86+mYLQHpLM1k0H_cg@mail.gmail.com>
- <CA+fCnZccdLNqtxubVVtGPTOXcSoYfpM9CHk-nrYsZK7csC77Eg@mail.gmail.com>
- <ZJGSqdDQPs0sRQTb@elver.google.com>
- <CA+fCnZdZ0=kKN6hE_OF7jV_r_FjTh3FZtkGHBD57ZfqCXStKHg@mail.gmail.com>
- <ZJG8WiamZvEJJKUc@elver.google.com>
- <CA+fCnZdStZDyTGJfiW1uZVhhb-DraZmHnam0cdrB83-nnoottA@mail.gmail.com>
+        Wed, 21 Jun 2023 05:57:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::d2c as permitted sender) client-ip=2607:f8b0:4864:20::d2c;
+Received: by mail-io1-xd2c.google.com with SMTP id ca18e2360f4ac-77de8cc13b4so281937239f.2
+        for <kasan-dev@googlegroups.com>; Wed, 21 Jun 2023 05:57:02 -0700 (PDT)
+X-Received: by 2002:a05:6602:399:b0:77e:3d2f:d1f8 with SMTP id
+ f25-20020a056602039900b0077e3d2fd1f8mr8694965iov.10.1687352221671; Wed, 21
+ Jun 2023 05:57:01 -0700 (PDT)
 MIME-Version: 1.0
+References: <000000000000cef3a005fc1bcc80@google.com> <ecba318b-7452-92d0-4a2f-2f6c9255f771@I-love.SAKURA.ne.jp>
+ <ca8e3803-4757-358e-dcf2-4824213a9d2c@I-love.SAKURA.ne.jp>
+ <656cb4f5-998b-c8d7-3c61-c2d37aa90f9a@I-love.SAKURA.ne.jp>
+ <87353gx7wd.fsf@yhuang6-desk2.ccr.corp.intel.com> <CAG_fn=UTTbkGeOX0teGcNOeobtgV=mfGOefZpV-NTN4Ouus7xA@mail.gmail.com>
+ <20230609153124.11905393c03660369f4f5997@linux-foundation.org> <19d6c965-a9cf-16a5-6537-a02823d67c0a@I-love.SAKURA.ne.jp>
+In-Reply-To: <19d6c965-a9cf-16a5-6537-a02823d67c0a@I-love.SAKURA.ne.jp>
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 21 Jun 2023 14:56:25 +0200
+Message-ID: <CAG_fn=XBBVBj9VcFkirMNj9sQOHvx2Q12o9esDkgPB0BP33DKg@mail.gmail.com>
+Subject: Re: [PATCH v3] lib/stackdepot: fix gfp flags manipulation in __stack_depot_save()
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: Andrew Morton <akpm@linux-foundation.org>, "Huang, Ying" <ying.huang@intel.com>, 
+	syzbot <syzbot+ece2915262061d6e0ac1@syzkaller.appspotmail.com>, 
+	syzkaller-bugs@googlegroups.com, Mel Gorman <mgorman@techsingularity.net>, 
+	Vlastimil Babka <vbabka@suse.cz>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Marco Elver <elver@google.com>, 
+	kasan-dev <kasan-dev@googlegroups.com>, linux-mm <linux-mm@kvack.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CA+fCnZdStZDyTGJfiW1uZVhhb-DraZmHnam0cdrB83-nnoottA@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Original-Sender: elver@google.com
+X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b=sjjrqJuC;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42b as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ header.i=@google.com header.s=20221208 header.b=HguHzfhH;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::d2c as
+ permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,53 +145,157 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jun 20, 2023 at 06:27PM +0200, Andrey Konovalov wrote:
-> On Tue, Jun 20, 2023 at 4:49=E2=80=AFPM Marco Elver <elver@google.com> wr=
-ote:
-> >
-> > On Tue, Jun 20, 2023 at 03:56PM +0200, Andrey Konovalov wrote:
-> > ...
-> > > Could you move this to the section that describes the kasan.fault
-> > > flag? This seems more consistent.
-> >
-> > Like this?
-> >
-> >
-> > diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tool=
-s/kasan.rst
-> > index 7f37a46af574..f4acf9c2e90f 100644
-> > --- a/Documentation/dev-tools/kasan.rst
-> > +++ b/Documentation/dev-tools/kasan.rst
-> > @@ -110,7 +110,9 @@ parameter can be used to control panic and reportin=
-g behaviour:
-> >  - ``kasan.fault=3Dreport``, ``=3Dpanic``, or ``=3Dpanic_on_write`` con=
-trols whether
-> >    to only print a KASAN report, panic the kernel, or panic the kernel =
-on
-> >    invalid writes only (default: ``report``). The panic happens even if
-> > -  ``kasan_multi_shot`` is enabled.
-> > +  ``kasan_multi_shot`` is enabled. Note that when using asynchronous m=
-ode of
-> > +  Hardware Tag-Based KASAN, ``kasan.fault=3Dpanic_on_write`` always pa=
-nics on
-> > +  asynchronously checked accesses (including reads).
-> >
-> >  Software and Hardware Tag-Based KASAN modes (see the section about var=
-ious
-> >  modes below) support altering stack trace collection behavior:
->=20
-> Yes, this looks great! Thanks!
+On Sat, Jun 10, 2023 at 1:40=E2=80=AFPM Tetsuo Handa
+<penguin-kernel@i-love.sakura.ne.jp> wrote:
+>
+> syzbot is reporting lockdep warning in __stack_depot_save(), for
+> __kasan_record_aux_stack() is passing GFP_NOWAIT which will result in
+> calling wakeup_kcompactd() from wakeup_kswapd() from wake_all_kswapds()
+>  from __alloc_pages_slowpath().
+>
+> Strictly speaking, __kasan_record_aux_stack() is responsible for removing
+> __GFP_KSWAPD_RECLAIM flag in order not to wake kswapd which in turn wakes
+> kcompactd. But since KASAN and KMSAN functions might be called with
+> arbitrary locks held, we should consider removing __GFP_KSWAPD_RECLAIM
+> flag from KASAN and KMSAN. And this patch goes one step further; let's
+> remove __GFP_KSWAPD_RECLAIM flag in the __stack_depot_save() side, based
+> on the following reasons.
+>
+> Reason 1:
+>
+>   Currently, __stack_depot_save() has "alloc_flags &=3D ~GFP_ZONEMASK;" l=
+ine
+>   which is pointless because "alloc_flags &=3D (GFP_ATOMIC | GFP_KERNEL);=
+"
+>   line will also zero out zone modifiers.
 
-The patch here is already in mm-stable (which I recall doesn't do
-rebases?), so I sent
+Good catch, we indeed do not need the GFP_ZONEMASK line now.
+But looks like you'll need it at least in the __GFP_NOFAIL branch?
 
- https://lkml.kernel.org/r/ZJHfL6vavKUZ3Yd8@elver.google.com
+> But why is __stack_depot_save()
+>   trying to mask gfp flags supplied by the caller?
+>
+>   I guess that __stack_depot_save() tried to be as robust as possible. Bu=
+t
+>   __stack_depot_save() is a debugging function where all callers have to
+>   be able to survive allocation failures.
 
-to be used as a fixup or just added to mm-stable by Andrew at one point
-or another as well.
+This, but also the allocation should not deadlock.
+E.g. KMSAN can call __stack_depot_save() from almost any function in
+the kernel, so we'd better avoid heavyweight memory reclaiming,
+because that in turn may call __stack_depot_save() again.
 
-Thanks,
--- Marco
+>
+> Reason 2:
+>
+>   __stack_depot_save() from stack_depot_save() is also called by
+>   ref_tracker_alloc() from __netns_tracker_alloc() from
+>   netns_tracker_alloc() from get_net_track(), and some of get_net_track()
+>   users are passing GFP_ATOMIC because waking kswapd/kcompactd is safe.
+>   But even if we mask __GFP_KSWAPD_RECLAIM flag at __stack_depot_save(),
+>   it is very likely that allocations with __GFP_KSWAPD_RECLAIM flag happe=
+n
+>   somewhere else by the moment __stack_depot_save() is called for the nex=
+t
+>   time.
+>
+>   Therefore, not waking kswapd/kcompactd when doing allocation for
+>   __stack_depot_save() will be acceptable from the memory reclaim latency
+>   perspective.
+
+Ack.
+
+> While we are at it, let's make __stack_depot_save() accept __GFP_NORETRY
+> and __GFP_RETRY_MAYFAIL flags, based on the following reason.
+
+Looks like you're accepting a whole bunch of flags in addition to
+__GFP_NORETRY and __GFP_RETRY_MAYFAIL - maybe list the two explicitly?
+
+> Reason 3:
+>
+>   Since DEPOT_POOL_ORDER is defined as 2, we must mask __GFP_NOFAIL flag
+>   in order not to complain rmqueue(). But masking __GFP_NORETRY flag and
+>   __GFP_RETRY_MAYFAIL flag might be overkill.
+>
+>   The OOM killer might be needlessly invoked due to order-2 allocation if
+>   GFP_KERNEL is supplied by the caller, despite the caller might have
+>   passed GFP_KERNEL for doing order-0 allocation.
+
+As you noted above, stackdepot is a debug feature anyway, so invoking
+OOM killer because there is no memory for an order-2 allocation might
+be an acceptable behavior?
+
+>   Allocation for order-2 might stall if GFP_NOFS or GFP_NOIO is supplied
+>   by the caller, despite the caller might have passed GFP_NOFS or GFP_NOI=
+O
+>   for doing order-0 allocation.
+
+What if the caller passed GFP_NOFS to avoid calling back into FS, and
+discarding that flag would result in a recursion?
+Same for GFP_NOIO.
+
+>   Generally speaking, I feel that doing order-2 allocation from
+>   __stack_depot_save() with gfp flags supplied by the caller is an
+>   unexpected behavior for the callers. We might want to use only order-0
+>   allocation, and/or stop using gfp flags supplied by the caller...
+
+Right now stackdepot allows the following list of flags: __GFP_HIGH,
+__GFP_KSWAPD_RECLAIM, __GFP_DIRECT_RECLAIM, __GFP_IO, __GFP_FS.
+We could restrict it further to __GFP_HIGH | __GFP_DIRECT_RECLAIM to
+be on the safe side - plus allow __GFP_NORETRY and
+__GFP_RETRY_MAYFAIL.
+
+
+
+> Reported-by: syzbot <syzbot+ece2915262061d6e0ac1@syzkaller.appspotmail.co=
+m>
+> Closes: https://syzkaller.appspot.com/bug?extid=3Dece2915262061d6e0ac1
+> Suggested-by: Alexander Potapenko <glider@google.com>
+> Cc: Huang, Ying <ying.huang@intel.com>
+> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+> ---
+> Changes in v3:
+>   Huang, Ying thinks that masking __GFP_KSWAPD_RECLAIM flag in the caller=
+s
+>   side is preferable
+>   ( https://lkml.kernel.org/r/87fs7nyhs3.fsf@yhuang6-desk2.ccr.corp.intel=
+.com ).
+>   But Alexander Potapenko thinks that masking __GFP_KSWAPD_RECLAIM flag
+>   in the callee side would be the better
+>   ( https://lkml.kernel.org/r/CAG_fn=3DUTTbkGeOX0teGcNOeobtgV=3DmfGOefZpV=
+-NTN4Ouus7xA@mail.gmail.com ).
+>   I took Alexander's suggestion, and added reasoning for masking
+>   __GFP_KSWAPD_RECLAIM flag in the callee side.
+>
+> Changes in v2:
+>   Mask __GFP_KSWAPD_RECLAIM flag in the callers, suggested by Huang, Ying
+>   ( https://lkml.kernel.org/r/87edn92jvz.fsf@yhuang6-desk2.ccr.corp.intel=
+.com ).
+>
+>  lib/stackdepot.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+> index 2f5aa851834e..33ebefaa7074 100644
+> --- a/lib/stackdepot.c
+> +++ b/lib/stackdepot.c
+> @@ -405,7 +405,10 @@ depot_stack_handle_t __stack_depot_save(unsigned lon=
+g *entries,
+>                  * contexts and I/O.
+>                  */
+>                 alloc_flags &=3D ~GFP_ZONEMASK;
+> -               alloc_flags &=3D (GFP_ATOMIC | GFP_KERNEL);
+> +               if (!(alloc_flags & __GFP_DIRECT_RECLAIM))
+> +                       alloc_flags &=3D __GFP_HIGH;
+> +               else
+> +                       alloc_flags &=3D ~__GFP_NOFAIL;
+>                 alloc_flags |=3D __GFP_NOWARN;
+>                 page =3D alloc_pages(alloc_flags, DEPOT_POOL_ORDER);
+>                 if (page)
+> --
+> 2.18.4
+>
+>
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -211,4 +303,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/ZJHgkxdnlSXfXLkn%40elver.google.com.
+kasan-dev/CAG_fn%3DXBBVBj9VcFkirMNj9sQOHvx2Q12o9esDkgPB0BP33DKg%40mail.gmai=
+l.com.
