@@ -1,142 +1,156 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBSFF22SAMGQEOXHKBYQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDZJXP7F6YLRBYEW3CSAMGQE7ELMW5Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x113e.google.com (mail-yw1-x113e.google.com [IPv6:2607:f8b0:4864:20::113e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 371D973B78F
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jun 2023 14:40:42 +0200 (CEST)
-Received: by mail-yw1-x113e.google.com with SMTP id 00721157ae682-5704991ea05sf8640577b3.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 23 Jun 2023 05:40:42 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1687524041; cv=pass;
+Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 088A373C23A
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 Jun 2023 23:15:14 +0200 (CEST)
+Received: by mail-lj1-x23c.google.com with SMTP id 38308e7fff4ca-2b479d12b31sf10939061fa.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 23 Jun 2023 14:15:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1687554913; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vl+4E3rQTCQVN1/QAVGytLZP9WPRgjJp8MsEoSl2GJLJIcjIiE2GXH0zMo5aCrCaTC
-         GTXKG0x5EzTUHz95DBxoWquVviEi/uMlFyBLt1yZvpaO7DrXDlDcW7x+t7I1fVh0GEWZ
-         uwjDNc01CDsUNOn15/3lVEihngb1SrnFarIJpaIkccFualiCI+1B2deanDzqjW2TIiNl
-         NTAtNDCtlMLPqwZ+5vpUkFU8HrHx4EGTqyuFc7ooqKPFDRRcXccm6XbMqtc/n1kGTad2
-         AtB6uXoc1X3YesI4TZh8Li73PVWCSuhxlAScnfh8KAgMs48dp/yqmEZLciqf0Bu1IYe2
-         ZcUQ==
+        b=CHVFM+TACENQJeUP6Cn7pVlZaaclX6CNJrz7xpzO6QqzFFIluyjuAZBNHRFYj0G0b9
+         PZdp32gke7PYV/bb1DX3REtIE5CiohpPrUFRH3EGZwpnRlt1GVT36aNXFGgb7/QwMedM
+         v1dLQWR5Qhs6TpLzU/8a2KWlOgv3Dez9tzgj95zqwfHutL/CzNVH7yCUMFarKEw7hJqw
+         wmG4FmgeFzunJix/5rGhp+QN6GMtL+Ti+0HDLFoDm3G1QZEfTkaj28GYC8Oku+du6Tl7
+         GapTGyOqkDTT7p5oilJH6K0lohALw2U9i20w/ViJxgtpDMevIDhDhRxuoljZjNL/uX1P
+         AweA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=v+3vvLM1+Mc9jh4x6MXIFIrxTjP1jPXbGVFINOAwTIQ=;
-        b=hrGA3T0a8uXuD1QQeZzdIr69Piths86wqg8HOQpTZfWTzTVYOo/0GBHsmb3WMxDzDs
-         xU5QNfcRRFOVyApZFW91NvrmRnpjyDcUqt/Xo+Rdv6RYHr1e1Oy0wW2b6b2tgfJ8kD0r
-         fJx/xrTCk+DL/Z27TTTiS0EsnvlfssFDUdaa/nxa+BWE8jxxi4f6FetBlycKB9fa5iUv
-         UPbRvcT4Dw7B/BKrgFWvdfUx/enbwtDBpWNA7kl5T/hUrI64LRGMYmXKJZYJ5UqZ+0Gj
-         KScZD42rasWc1/0/q7Sqcdc29rWPH+dG91DDHjJpDlGnn0sG5d1o8cKO3LbAsA5Uhy5r
-         iHtw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=uF4TqofLHILq9gXtCqaH4njj+8LfkEpewu0BwB4H/mQ=;
+        b=H7bkv2bU4fV1WLuRisdZnFHYmJh70SBcaFwzVYj7hVCK8jprEw/6kbPcmNcvCTaWOT
+         GTTGRqhfF7CCeXBMhWNDT5sAg96d/LXIFqBU2GEVNpWagXHxCuB3NHIOhr2j+lQaczED
+         RQKCKwE/bTTUGoQP5OyjEexHfgJ+moXSwrw/kYln+J49xmUfhbcWbONnzzAvpu4BblJA
+         U/zIoNeEax+ixZw5HL+1+5Ay/j5lDYkJsJBfjv2mkavcSYuqaa7ieNGsHdN1KPqTYFrS
+         zjvBNQD0QjTM7zJObhar96+oEOPeH9yH28gASc8Y8HyetLXRE0kt87Lp8JwO3HODzUgQ
+         KP4A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20221208 header.b=ZaQ6V3LF;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::432 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@inria.fr header.s=dc header.b=PQ1b0Em2;
+       spf=pass (google.com: domain of julia.lawall@inria.fr designates 192.134.164.104 as permitted sender) smtp.mailfrom=Julia.Lawall@inria.fr;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=inria.fr
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1687524041; x=1690116041;
+        d=googlegroups.com; s=20221208; t=1687554913; x=1690146913;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=v+3vvLM1+Mc9jh4x6MXIFIrxTjP1jPXbGVFINOAwTIQ=;
-        b=Tzr7sUMuVxEZusJdS4/QtkaGOBvvzkqP2hKB4e8xNNE6hFQTrad0AJz5IXa9omoyHP
-         KHSZ5CVIprrccvFnC7iAklpN5u1gugEJasVXIWHP4UPDzs1H5UwOqpef0i8qA2HmKXOf
-         IfU0LKgHonbM3A5dYtCx4NWPeMeJ1+xZNbm2iBM1M6CotkEQMckIIQFDYjENlRzsTRX/
-         1ku9PTpCYRQCBVqsYpJPEcLyTy1gqXJnI39yeNnU0iK3NNOuQmwNgcFjI2ica29BIkFV
-         j/GcPIKLUwYqdQeu6KziEZ3fo6c+u8A/xjlZgXpR6Ycj+hAltTUq31urdCWrwFignT65
-         OS2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1687524041; x=1690116041;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=v+3vvLM1+Mc9jh4x6MXIFIrxTjP1jPXbGVFINOAwTIQ=;
-        b=RIZka+K05T4PQU6h6jxDfaOuyYuZm49+G36qC25G2vSWhQUqjV1RuM7/5zJLMC1iPD
-         jW8w2LTMUtAs/3QQ5EljikaEQ4njlLwK0A/HJeKqC+atxf1OA3E1sXli2rBOntszgDnJ
-         mg1cH4GtxT+DGJo1Rubh7wg1kRutZGx09U77wCpxcwAwdzQhiHEhVnewMHkGhVWYeEPt
-         FaZLnpxZaK2IzslSUiMzQau+xbxcyyy405xhVx22IrJm2fAzJ9POYNU3pUvmw1XbXIA1
-         hohMAcmv20n8JALuH9MD6G5yns+rT7XZs41TJbXlLGdu1R7nqUNsaHaPxSpbhca88wbt
-         UKkA==
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=uF4TqofLHILq9gXtCqaH4njj+8LfkEpewu0BwB4H/mQ=;
+        b=CJ/NRzkBtwzSC7vvWI0Se56wgmENIhTxHc+iSOanYS/EH2DK1hfSywj2hkRs6iStQy
+         14nlqeNhe2hjqqSLLK4oYYyq/TZu+X/HHVNCX7l8+xi+metY6vasKrWdqoemLySSX3rz
+         1OPDdurqo9Shucu0ajftTYiGJYXcHxG6PrMNVBOBTjk0arF/96d0pukKDQqf3d3dhRA1
+         69IlrmK53N0aqWuFaAi1xZuZukjwTMvDnDwzv4/GrOXeZgGGMmHr7VURAyNtYq2JRsqJ
+         vWosw/7Zzz5tJxB5wFcRTubIVGdzPyJ5nawjaluPhDmi8BmBHTXjO0sR+gnm6RNpm31U
+         OytA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687524041; x=1690116041;
+        d=1e100.net; s=20221208; t=1687554913; x=1690146913;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=v+3vvLM1+Mc9jh4x6MXIFIrxTjP1jPXbGVFINOAwTIQ=;
-        b=egodA7GxMnJ7ir3Jj19b527mSENoeB3sfLh5dCa0GvWzz70HQ81uiIIJcBifME+HSX
-         CgfsFbaCCRd8UYFFnJn778YM4oKeH9yqbseUGqP882+vshbNhg4oI4C1WzWgNGCZBaMA
-         8FM3N70EEqDb7w20GbmyBR6X3uobuqdThONhFqwM4G2Rxs8EVZE3Ug/PaG6qOJ+tnMDZ
-         rVHD4rQNY/XyDdBpnboTgaDSo7CThSLl7O/7XB5NxwbDhS2IvXgX8sk6V18KTfIKRRtd
-         UrXM+iMdZtywkFrFI8uUog76Emgy+8vfygMGTjO4AbZ9hLJi+RtmJytoPh9PQXC5GXJd
-         dIZQ==
+        bh=uF4TqofLHILq9gXtCqaH4njj+8LfkEpewu0BwB4H/mQ=;
+        b=OnuW54uT1JB2But6ypW9upP7yshE6Yl2cvP6xYyY+lkon+RqgnVNLL7YKAyZEQE0SN
+         fOG+Y6TNkivhLxb48wIT6R96i+v+RzgJrq8haHpjzLYMtiMzvkoeirD/2Q2x93fJYuBB
+         EE3A7mTUN6WekoK4EhQyq9vy/4DfAciuqKucjIAda6eAjM7wd8yXcdA+x4y6NlG20HJM
+         2QhQaB6PHHGGWnWX3NMfw22QvuU73Df8SMCsMWFiSeiLhb3nvvOtW8eY+/M0Uf+Q4JK8
+         2Q6bljvkOBt8bQHMCdJr9Pa/opTmFgMmtl4MJg+VGwK/UmF5dyd2jopr2oVHPnkQSnXJ
+         j3gg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDyM8DkRhebwzhymbw4inhrmt4UBX6r+CP2ztjyOKcDDtfwzDuY0
-	Q/uhzoiF9zhCZ3ui4V4wyrE=
-X-Google-Smtp-Source: ACHHUZ7l263MhO39ZHMoj7X9AJQpDYfWDaR/HhK5sISZgN32UTs43fgeA7hcSmXDz5yqXBNhMsHkjA==
-X-Received: by 2002:a25:6b50:0:b0:b9e:6fd1:4350 with SMTP id o16-20020a256b50000000b00b9e6fd14350mr20771243ybm.17.1687524040761;
-        Fri, 23 Jun 2023 05:40:40 -0700 (PDT)
+X-Gm-Message-State: AC+VfDxNxbs36gBHGkENfEUvXEOmMixYHRtRrFX4+6lt8kM0pNQNRtAF
+	nPRJc6o859wDUKIWFVHjFK0=
+X-Google-Smtp-Source: ACHHUZ7zcBwXI0ld9xKIWi+x/VtXF7VXImlSnN+RmgCe+4DIGwrh4Q1WjstjVj7tPyTFgva/I97LFQ==
+X-Received: by 2002:a2e:8004:0:b0:2b4:6b64:6863 with SMTP id j4-20020a2e8004000000b002b46b646863mr11260493ljg.16.1687554912706;
+        Fri, 23 Jun 2023 14:15:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5b:80e:0:b0:bfc:560e:9eed with SMTP id x14-20020a5b080e000000b00bfc560e9eedls269059ybp.2.-pod-prod-01-us;
- Fri, 23 Jun 2023 05:40:40 -0700 (PDT)
-X-Received: by 2002:a81:91c1:0:b0:55a:6430:e8fb with SMTP id i184-20020a8191c1000000b0055a6430e8fbmr25923635ywg.8.1687524039951;
-        Fri, 23 Jun 2023 05:40:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1687524039; cv=none;
+Received: by 2002:a05:651c:1a2a:b0:2b4:85a7:4e0 with SMTP id
+ by42-20020a05651c1a2a00b002b485a704e0ls548805ljb.0.-pod-prod-02-eu; Fri, 23
+ Jun 2023 14:15:11 -0700 (PDT)
+X-Received: by 2002:ac2:4d9a:0:b0:4f8:6e4e:6171 with SMTP id g26-20020ac24d9a000000b004f86e4e6171mr11685082lfe.1.1687554910967;
+        Fri, 23 Jun 2023 14:15:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1687554910; cv=none;
         d=google.com; s=arc-20160816;
-        b=XR4oFFipwqHNo8Qqhbs0Ix6p5aIx6jCokSOl+jk3pgOFRn/DC/DrM9wYnbkOXYaKFY
-         xQ4dzVYER+5XoGtrfLPvcARA8fCMsoCryjx177HX3SUsJtQPa/+d3+a7M7eaF/nzBmAh
-         oc41M3rzAt1/8rzqbslOXyLsgXGqkm7S3646uOjq5gMeHzyU27zhCmFNiijUHHzO6Uj8
-         CZwQWxWdUpvDbX+141GaS2OLJfYYwPmZU2LdN6w+ScvJNQcrhOJr9ANBIOY7XsxV2irr
-         GWna6E2zypaUul8Kv6ZQR0Yl51EoWSMD/U+pUZgh/azvttn5ILD7cOdvIi+yuw0MUVPi
-         bGNg==
+        b=gpKynPqAPyJr2VIzLGXDGdml7v22GOycBgRURvGSde8jP6AxukOWTHwPJNNiv9rcId
+         evQovLmNI4Jl4TkarSv9h4YI/C/Oiz1H9rVrUiLvNTYcCzwjk6zVRq1sO579Xriqps6/
+         MFRpTQIZnuNmD9aVYD1XOyF9EV+XmytrdbSUuCLFAyJYYWUH8taw+BVzkKedt5X0nBc/
+         QXTcAj5MDW/TXMeck3ln0elwBjwaE4a7DKcIpi8omgQ6xUU6KLUzzqWekBo/3B7Dey7R
+         7roMyJ28XUYPYsPZecmOEZpvhSOa+0CUFo1gM+6FQOfF7kj70WQT6mInurApZlnSGlHu
+         ozQg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ISCGsibdUDqUNcisOUEtsn5XzzcugHFWIWC+2smDI/w=;
-        b=nsb1JMqELEfLWkv842R7UtgdibqlEL9h8/LvbPIU0Xg0S37L/jqvACX/04KjT4b/M0
-         7L6Q2hElM84aSQ0R1ZY/PX5YGEv1opkZDc7bcH+vNvCquq16d3r3KaL/t+N1lPHM6VTp
-         O4e6cNX+O540E308DfOG6FYT/zboTE7hxgsDrm1jA7iKn0eoGE1qrGNGbEeazvpLu1rW
-         2mK0ICvZAXWAw2K5Pygjba/88XG5r0/GNl1oTigJuWQzxx48+yU4fMlK2fpBNxO0/OCs
-         NYSluHomh0R28em+ztqPsRAgPf5bDcayRSmrTBY8z189DKzvXiyg4Sxhg3IctVzCU1kG
-         65tA==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=yokMEiNdELJzyHFQdE73QSq1qzFaQMznhY0/hFJPXdI=;
+        fh=EcgdAC2FuFrIj/KrOL6pppTJGrygJuPsGjT/Pp+RpwA=;
+        b=b1HLxdkQrGpUcmREpRKfF/hgjyl31cDqGqCCbr1Lme2JajrdXADwK2Hx5EhWqVkh7h
+         RHdePf9o3FSc54NMjmYCtJYJbZE+lUZb8GNApMFJejfziN+lji+6Mal055CJa+5vwlyX
+         EtVhwQnOUMKQDv44HDL+wBmCxZgnxGmHVSmchwb5MgYOD1C2NrircPP7Hwd30qcDcleD
+         J4D5qjqXZjOlfoDfCUe2ET55Hjba8+wHT4wp1uCm7D3IGrLE661jvGwJFgW5NCml+0KN
+         DduJHxBa9OiM0yPa/rEPRwtn6SDdobFAMgiRMZBgaQlyXWHNQQaNtSNM/aYoE45RGJG9
+         2cvQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20221208 header.b=ZaQ6V3LF;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::432 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com. [2607:f8b0:4864:20::432])
-        by gmr-mx.google.com with ESMTPS id bg19-20020a05690c031300b00565aabff14bsi793907ywb.0.2023.06.23.05.40.39
+       dkim=pass header.i=@inria.fr header.s=dc header.b=PQ1b0Em2;
+       spf=pass (google.com: domain of julia.lawall@inria.fr designates 192.134.164.104 as permitted sender) smtp.mailfrom=Julia.Lawall@inria.fr;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=inria.fr
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr. [192.134.164.104])
+        by gmr-mx.google.com with ESMTPS id c31-20020a056512239f00b004f76ab5e91asi9415lfv.10.2023.06.23.14.15.10
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Jun 2023 05:40:39 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::432 as permitted sender) client-ip=2607:f8b0:4864:20::432;
-Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-6686a05bc66so297307b3a.1
-        for <kasan-dev@googlegroups.com>; Fri, 23 Jun 2023 05:40:39 -0700 (PDT)
-X-Received: by 2002:a05:6a20:4410:b0:121:7454:be2a with SMTP id
- ce16-20020a056a20441000b001217454be2amr15686808pzb.45.1687524039092; Fri, 23
- Jun 2023 05:40:39 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 23 Jun 2023 14:15:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of julia.lawall@inria.fr designates 192.134.164.104 as permitted sender) client-ip=192.134.164.104;
+X-IronPort-AV: E=Sophos;i="6.01,153,1684792800"; 
+   d="scan'208";a="59686157"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2023 23:15:09 +0200
+From: Julia Lawall <Julia.Lawall@inria.fr>
+To: linux-staging@lists.linux.dev
+Cc: keescook@chromium.org,
+	kernel-janitors@vger.kernel.org,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	linux-sgx@vger.kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	kasan-dev@googlegroups.com,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	iommu@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	Robin Murphy <robin.murphy@arm.com>,
+	Krishna Reddy <vdumpa@nvidia.com>,
+	linux-scsi@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Shailend Chand <shailend@google.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Liam Mark <lmark@codeaurora.org>,
+	Laura Abbott <labbott@redhat.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	virtualization@lists.linux-foundation.org,
+	mhi@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org,
+	linux-btrfs@vger.kernel.org,
+	intel-gvt-dev@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	VMware Graphics Reviewers <linux-graphics-maintainer@vmware.com>,
+	linux-hyperv@vger.kernel.org
+Subject: [PATCH 00/26] use array_size
+Date: Fri, 23 Jun 2023 23:14:31 +0200
+Message-Id: <20230623211457.102544-1-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <CA+fCnZfi_o6QbfDamUjsPXjtnEwKyBn8y+T8=zxV2mEpA=DUyQ@mail.gmail.com>
- <20230623075805.1630-1-chanho.min@lge.com>
-In-Reply-To: <20230623075805.1630-1-chanho.min@lge.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Fri, 23 Jun 2023 14:40:28 +0200
-Message-ID: <CA+fCnZfrUY+EZ8w6zDhfjOr=JSFS6bHO7JjVHx0pEykNXZQecg@mail.gmail.com>
-Subject: Re: [PATCH v2] kasan: fix mention for KASAN_HW_TAGS
-To: Chanho Min <chanho.min@lge.com>
-Cc: dvyukov@google.com, elver@google.com, glider@google.com, gunho.lee@lge.com, 
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	ryabinin.a.a@gmail.com, vincenzo.frascino@arm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: andreyknvl@gmail.com
+X-Original-Sender: Julia.Lawall@inria.fr
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20221208 header.b=ZaQ6V3LF;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::432
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@inria.fr header.s=dc header.b=PQ1b0Em2;       spf=pass (google.com:
+ domain of julia.lawall@inria.fr designates 192.134.164.104 as permitted
+ sender) smtp.mailfrom=Julia.Lawall@inria.fr;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=inria.fr
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,50 +163,147 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jun 23, 2023 at 9:58=E2=80=AFAM Chanho Min <chanho.min@lge.com> wro=
-te:
->
-> This patch fixes description of the KASAN_HW_TAGS's memory consumption.
-> KASAN_HW_TAGS are dependent on the HW implementation and are not reserved
-> from system memory like shadow memory.
->
-> Suggested-by: Andrey Konovalov <andreyknvl@gmail.com>
-> Signed-off-by: Chanho Min <chanho.min@lge.com>
-> ---
->  lib/Kconfig.kasan | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-> index fdca89c05745..f8f9e12510b7 100644
-> --- a/lib/Kconfig.kasan
-> +++ b/lib/Kconfig.kasan
-> @@ -124,7 +124,8 @@ config KASAN_HW_TAGS
->           Supported only on arm64 CPUs starting from ARMv8.5 and relies o=
-n
->           Memory Tagging Extension and Top Byte Ignore.
->
-> -         Consumes about 1/32nd of available memory.
-> +         Does not consume memory by itself but relies on the 1/32nd of
-> +         available memory being reserved by the firmware when MTE is ena=
-bled.
->
->           May potentially introduce problems related to pointer casting a=
-nd
->           comparison, as it embeds a tag into the top byte of each pointe=
-r.
-> --
-> 2.17.1
->
+Use array_size to protect against multiplication overflows.
 
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+This follows up on the following patches by Kees Cook from 2018.
 
-Thank you!
+42bc47b35320 ("treewide: Use array_size() in vmalloc()")
+fad953ce0b22 ("treewide: Use array_size() in vzalloc()")
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CA%2BfCnZfrUY%2BEZ8w6zDhfjOr%3DJSFS6bHO7JjVHx0pEykNXZQecg%40mail.=
-gmail.com.
+The changes were done using the following Coccinelle semantic patch,
+adapted from the one posted by Kees.
+
+// Drop single-byte sizes and redundant parens.
+@@
+    expression COUNT;
+    typedef u8;
+    typedef __u8;
+    type t = {u8,__u8,char,unsigned char};
+    identifier alloc = {vmalloc,vzalloc};
+@@
+      alloc(
+-           (sizeof(t)) * (COUNT)
++           COUNT
+      , ...)
+
+// 3-factor product with 2 sizeof(variable), with redundant parens removed.
+@@
+    expression COUNT;
+    size_t e1, e2, e3;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+
+(    
+      alloc(
+-           (e1) * (e2) * (e3)
++           array3_size(e1, e2, e3)
+      ,...)
+|
+      alloc(
+-           (e1) * (e2) * (COUNT)
++           array3_size(COUNT, e1, e2)
+      ,...)
+)
+
+// 3-factor product with 1 sizeof(type) or sizeof(expression), with
+// redundant parens removed.
+@@
+    expression STRIDE, COUNT;
+    size_t e;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+
+      alloc(
+-           (e) * (COUNT) * (STRIDE)
++           array3_size(COUNT, STRIDE, e)
+      ,...)
+
+// Any remaining multi-factor products, first at least 3-factor products
+// when they're not all constants...
+@@
+    expression E1, E2, E3;
+    constant C1, C2, C3;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+    
+(
+      alloc(C1 * C2 * C3,...)
+|
+      alloc(
+-           (E1) * (E2) * (E3)
++           array3_size(E1, E2, E3)
+      ,...)
+)
+
+// 2-factor product with sizeof(type/expression) and identifier or constant.
+@@
+    size_t e1,e2;
+    expression COUNT;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+
+(
+      alloc(
+-           (e1) * (e2)
++           array_size(e1, e2)
+      ,...)
+|
+      alloc(
+-           (e1) * (COUNT)
++           array_size(COUNT, e1)
+      ,...)
+)
+    
+// And then all remaining 2 factors products when they're not all constants.
+@@
+    expression E1, E2;
+    constant C1, C2;
+    identifier alloc = {vmalloc,vzalloc};
+@@
+    
+(
+      alloc(C1 * C2,...)
+|
+      alloc(
+-           (E1) * (E2)
++           array_size(E1, E2)
+      ,...)
+)
+
+
+---
+
+ arch/x86/kernel/cpu/sgx/main.c                    |    3 ++-
+ drivers/accel/habanalabs/common/device.c          |    3 ++-
+ drivers/accel/habanalabs/common/state_dump.c      |    6 +++---
+ drivers/bus/mhi/host/init.c                       |    4 ++--
+ drivers/comedi/comedi_buf.c                       |    4 ++--
+ drivers/dma-buf/heaps/system_heap.c               |    2 +-
+ drivers/gpu/drm/gud/gud_pipe.c                    |    2 +-
+ drivers/gpu/drm/i915/gvt/gtt.c                    |    6 ++++--
+ drivers/gpu/drm/vmwgfx/vmwgfx_devcaps.c           |    2 +-
+ drivers/infiniband/hw/bnxt_re/qplib_res.c         |    4 ++--
+ drivers/infiniband/hw/erdma/erdma_verbs.c         |    4 ++--
+ drivers/infiniband/sw/siw/siw_qp.c                |    4 ++--
+ drivers/infiniband/sw/siw/siw_verbs.c             |    6 +++---
+ drivers/iommu/tegra-gart.c                        |    4 ++--
+ drivers/net/ethernet/amd/pds_core/core.c          |    4 ++--
+ drivers/net/ethernet/freescale/enetc/enetc.c      |    4 ++--
+ drivers/net/ethernet/google/gve/gve_tx.c          |    2 +-
+ drivers/net/ethernet/marvell/octeon_ep/octep_rx.c |    2 +-
+ drivers/net/ethernet/microsoft/mana/hw_channel.c  |    2 +-
+ drivers/net/ethernet/pensando/ionic/ionic_lif.c   |    4 ++--
+ drivers/scsi/fnic/fnic_trace.c                    |    2 +-
+ drivers/scsi/qla2xxx/qla_init.c                   |    4 ++--
+ drivers/staging/media/ipu3/ipu3-mmu.c             |    2 +-
+ drivers/vdpa/vdpa_user/iova_domain.c              |    3 +--
+ drivers/virtio/virtio_mem.c                       |    6 +++---
+ fs/btrfs/zoned.c                                  |    5 +++--
+ kernel/kcov.c                                     |    2 +-
+ lib/test_vmalloc.c                                |   12 ++++++------
+ 28 files changed, 56 insertions(+), 52 deletions(-)
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230623211457.102544-1-Julia.Lawall%40inria.fr.
