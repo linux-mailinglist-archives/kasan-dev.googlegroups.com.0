@@ -1,131 +1,145 @@
-Return-Path: <kasan-dev+bncBDZJXP7F6YLRBKXL5OSAMGQEIPY6NZY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDH43ZGQR4ARB6NB5SSAMGQEM2Z7DZI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 072C973FE95
-	for <lists+kasan-dev@lfdr.de>; Tue, 27 Jun 2023 16:43:56 +0200 (CEST)
-Received: by mail-lj1-x23e.google.com with SMTP id 38308e7fff4ca-2b1d8fa45a6sf38531311fa.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 27 Jun 2023 07:43:56 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1687877035; cv=pass;
+Received: from mail-oa1-x39.google.com (mail-oa1-x39.google.com [IPv6:2001:4860:4864:20::39])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CFBA74016D
+	for <lists+kasan-dev@lfdr.de>; Tue, 27 Jun 2023 18:40:27 +0200 (CEST)
+Received: by mail-oa1-x39.google.com with SMTP id 586e51a60fabf-1b02751458asf19300fac.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 27 Jun 2023 09:40:27 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1687884025; cv=pass;
         d=google.com; s=arc-20160816;
-        b=pihUsUGTRctpSsdj/5J9kvnLBsTYY1j4EAmtqdp/mOIJFhoBuQOWZ+GQltjYGdnrj8
-         ucC6jtlKTIB5uwLaDJtWOEWqdOutDKMBksPa6ccl0xhx8tgKbMYz/q6yzLYsF0dx2wkQ
-         Y8WRL7eRMWcgzH3N0jYIrvrCDTOxatwhCecDyt7k4YXQyUbE9ATakLfx60S14gRvKxN3
-         MCsPnXWkc1+PqWEK5l2zfRq7BF60/BGpN1yVq1IkFL8RVbDT539CtUpk0hSo3vld1l8r
-         c6NwlgT8586SkPCXsqo7oTLjfhWWotaACPAeTOCKdHPQ8EaL/vJac9VXydmZZAnlYUCK
-         HicQ==
+        b=wguHfSjfSLuL3Onxb65qb/mOEuEMmSBWwoDZMTS6q4d4rlb4n0fxobW4CAivpCKjy4
+         b+LGpaShLNX+Wg4WlEugKcuzXUNwNXxnNXsVDdg9dwB227p4QTWvihtcRxq4pMjCVGMd
+         UcXBZrSPni3wyj6qyZj0PtPz+7uu0Eayhbn6vBbpm27PYq50Okke7qt8T+u0e7g6OK/s
+         mmpAWietW9oYLhuF0oILnloHhs+PMz5/9olFVzaijZoilCdCo4e997qSKvXFqW6+ybvB
+         ghMH45PGzSNdLeKhUttVwU/ftw/ehCfQJAtwFl05dzznF1GovegSxoRhuIrqD79Dpos2
+         Lcog==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=rBH7EUTgPLQYp0g779o7wf37tBD7ZGl4+MHG1EHmDhk=;
-        b=u0mqNzLnXI+yAs/gVSe/PwRHVdApYoCIUNhcRv6WBFoDPfJMpeUqSEXHIy9eAguXkS
-         4H0SJXkZoIeVo7wfozAU+ZesuLEbVyjGRxo7FqVAKVq2qL2K5w32Bmrfql9X8LjYZEON
-         tPJQEjkBJMcslogeFqO52Tl2DBYTVr7O6yZd0PFpDLva5VbBrWjDjxlos+KASK/akkhw
-         0SCN6nmWfPOApSAYO2IJ4OpksX+37AOr9g4+Ks/o2MYRc+6VTXbOzwdjmsup0T5v3S/E
-         jYcHgS7seP3iw+Gm0AetAPU5Rhtys72WX1PuMb+EHuiAzEW2zIHrHwRV71Vzv0ZpUH1k
-         gufg==
+         :list-id:mailing-list:precedence:cc:to:in-reply-to:references:date
+         :message-id:from:subject:mime-version:sender:dkim-signature;
+        bh=oReQ0XU9hJu4/mXIJftoCAypbrN2aviS7dMlZpaypy0=;
+        b=M70m5xNrk7of/p3hICKufBTI2zlVe42pS2f0gZik0cwL245wE7s0vk3OtCFpUlke+X
+         /imjaladksgbiDAmxX9kMPpIUaV0pzxJE7+z6ZZeUFyMW7tp7K/Ep9N2rpvTDiLWrvcK
+         Am4ygolQELE0ksKbVXaeu60XGZn79AESN+TB1H+SkRjhlEoZHaRdP/iFlPruJILeBw/3
+         YlXjv+LJtoC5zTB9xd4clxjW1Wsa9d6vAZZ0Hz9A7X9IjUXIWo8p+Wqc0tFwdlRlIMdh
+         zhxr6wb9F/4eoOxj9KaAbIEBAS9XoPtvGaiopS9rkQoeEUKildP/+tW6SrY9caRhktnd
+         pw7g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@inria.fr header.s=dc header.b=YFRO9acw;
-       spf=pass (google.com: domain of julia.lawall@inria.fr designates 192.134.164.83 as permitted sender) smtp.mailfrom=Julia.Lawall@inria.fr;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=inria.fr
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=XGRGiORn;
+       spf=pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1687877035; x=1690469035;
+        d=googlegroups.com; s=20221208; t=1687884025; x=1690476025;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :x-original-sender:cc:to:in-reply-to:references:date:message-id:from
+         :subject:mime-version:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rBH7EUTgPLQYp0g779o7wf37tBD7ZGl4+MHG1EHmDhk=;
-        b=mW3/W7UB1dUdQZT4Lx33//YXe/ZrdFIlUS3zwBFSnoZskC16OvMYcnttvgNJKcAuNA
-         MaiJ+cEI6UNYaeRqjM/ad9quD/ZaI287GQCe84zluGk13HCU/7pSvd9V20CtXV5BsTNW
-         F5KCFaX12rFBqqyc3V7pQ1Qpw8iBvCfmHEAmTbQ/7W3B2wd/194cDRw1ccEGB7yaTuyU
-         bP2aKrThaPZ7r7b7wnDP3y8gvBhlFXI3l/w/iKvjIR78c+2ktYK+EV8kCWogbZCoP1Zb
-         edSI7+SMPci/u9xQBNctyyOiq3Su97EHcgqNf9tvr7SgZg2X5bPqr3ovC2L6aQ9ZjaVs
-         5r5A==
+        bh=oReQ0XU9hJu4/mXIJftoCAypbrN2aviS7dMlZpaypy0=;
+        b=jzqCrJv+We7nxaz5t9g11nFyPK2NwRYyFkvOlga/NIZyAx4Fxmz9+cdWJohAbyvCKB
+         krf2Q8iRay9I+4yS24iMZhL/fQgrn6FybJOPkotYoyP9OdE1Zf/5uGE4tGGwVYXUiRT6
+         vU8kzAb5x+CzGh0af8s3Fzi460RaUvoAI+oDydRBqabVFOt1P5T1QVAgTcPWavKryAvy
+         wnZo3R6UJIw2KdC0B4yUvp8i0hACslXpNDFTUV6yZhScbYfjASTkExpG24E/61r1HmWo
+         i0ZLH5iNuRNzAewSNGRfKubY9zga4ktVnnX+XEZOCS5Z3x9ysDrOI42xjBy6RhUDGAeU
+         fZxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687877035; x=1690469035;
+        d=1e100.net; s=20221208; t=1687884025; x=1690476025;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-original-authentication-results:x-original-sender:cc:to
+         :in-reply-to:references:date:message-id:from:subject:mime-version
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rBH7EUTgPLQYp0g779o7wf37tBD7ZGl4+MHG1EHmDhk=;
-        b=EEn3qvAD2OxLwG/nVb6nATalOmVzypHirB2V7naEgX5oKw44nBydQeB3HSs1ck+Tfq
-         f4P3nI66G+tbfa4bvyPNiWI3pRJCQ9FmGk/zRtnkaL/sP43kgOcSQ923WUFPgWczZjf6
-         IlhgqKqc9ZzqesFYOD6VTVR+TIX6oVtCC6KH2bwmdwC4gMESiriFgWZzeVbMGdhVwoU/
-         Wautoi9wpmq+JJ76jtsrBI0PEjFP1u634VTtyb7TQldLCSaHDWvR+T2SolLAU/QHDotv
-         GhO7n12GDHp4Z2oN8P8qYxXuFVxn9G1790fXbh+tgbXbW9sBxkT3bCDEweKWg3hQG0Is
-         m75Q==
+        bh=oReQ0XU9hJu4/mXIJftoCAypbrN2aviS7dMlZpaypy0=;
+        b=JUACfczxJXYgagLLYS9uZl0qPpLkRCM/AUZ7sTwrNHWd6B3nRMFGioBVZBBDayHsaw
+         74K82fwxlaEpwAyyoa5U+SA+zlCyu0KAPFS4PvcYe81wiLsjdF05X5txZiPrzrApf8aT
+         AfkUteLTohi+c31gQ/oZsP3EW+iHdwDnbsNvxYEoXZ8GDsgzGh8h0+7iXPqXZvewcRZV
+         lker4zLd00FGyyafSY3op1XDAtb7cHtpVBiwp6HcfpcAAJvF5CCqX2MYqupsEU5A8nAU
+         4rYGwPUQr7AJ6QFj3fG4JXK3g4FNMUEtxksgjcKiqoN7+CJrnVm9et4f9m4G9ooYZRhu
+         HtTg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDxrlMFulcXFGlak4GTfdZYIFyfgYerjHBgvcXw6NZvQc6Xt6xLx
-	ni9rK6yDQ1ywVktCG3BL1zQ=
-X-Google-Smtp-Source: ACHHUZ4RgeUqdQF1qhYwZMIyQ8k3TRmHidAyKyPfwQcH8BkuieMuOuqdySNgiFqAJf2Jd/aAJH9WuQ==
-X-Received: by 2002:a19:6418:0:b0:4f9:571d:c50e with SMTP id y24-20020a196418000000b004f9571dc50emr11966249lfb.36.1687877034517;
-        Tue, 27 Jun 2023 07:43:54 -0700 (PDT)
+X-Gm-Message-State: AC+VfDyYq2GGmK6X8Yp1kES4wv6VjpydDAzKF8ROn7fzkGbP52j2aWvP
+	aojApIQ33L5ahtYVuLnQZSU=
+X-Google-Smtp-Source: ACHHUZ4MibYksOM7pGPrLeitJX+RzipgRo1TCg/A70cCaQQDDaEK1IT0T5Aw96G+LRD+wF5DCUdVoA==
+X-Received: by 2002:a05:6870:9565:b0:1b0:166f:dc66 with SMTP id v37-20020a056870956500b001b0166fdc66mr5631814oal.22.1687884025595;
+        Tue, 27 Jun 2023 09:40:25 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:608:b0:4f7:68dc:ff5d with SMTP id
- b8-20020a056512060800b004f768dcff5dls2139734lfe.1.-pod-prod-08-eu; Tue, 27
- Jun 2023 07:43:52 -0700 (PDT)
-X-Received: by 2002:a05:6512:3d02:b0:4fb:7392:c72c with SMTP id d2-20020a0565123d0200b004fb7392c72cmr5450190lfv.57.1687877032875;
-        Tue, 27 Jun 2023 07:43:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1687877032; cv=none;
+Received: by 2002:a05:6870:f70e:b0:1aa:1314:488f with SMTP id
+ ej14-20020a056870f70e00b001aa1314488fls836388oab.0.-pod-prod-00-us; Tue, 27
+ Jun 2023 09:40:25 -0700 (PDT)
+X-Received: by 2002:a05:6870:9106:b0:1b0:1dcb:e706 with SMTP id o6-20020a056870910600b001b01dcbe706mr4642326oae.26.1687884025172;
+        Tue, 27 Jun 2023 09:40:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1687884025; cv=none;
         d=google.com; s=arc-20160816;
-        b=0p6DyPnHthcuuXuuYKZdTVi8yBLPI6ShBvUwpOf20/r00oOBiWvN0TICv3znQqWDWU
-         NHCz6SifSYWcgJkQeWLAGfSj37F8jkn4xNaXLnueQwR+t5/7HnM1RVSg3m/3L645zvrR
-         gnCNLX95UmK3NJxpzauAeRhQVZ8B0N8Xs5XztclwrWA5mBDZip1P8cXUoSiCW1GKSPjx
-         0OiCNJQfbjKGpvNVcF/ZHu8yzB8QKUoYJ6ixyn4ZO6TUa4PsNKfDZOV+eV59g45Em1an
-         HO0pcGoAaegRvhZHdmNBPxjbRy0RXfWikUFEQuMvrt586ThpPEUi3t50Ea4DM+VV9hjN
-         dMrg==
+        b=TKOSURNgdW20ML86iaFxvHKrBHLF2aoMgU0LRqm16+/uH+210GFk+nlQ/fmARvtJ0k
+         4l5ZeyoFh+jmHMCOy5WizVnroJJLHnFBfFY/jlkbMGt7BjgC0xVLyGe7dOlHs2jPqHZi
+         wnWrKCAo77/gBsvUTPCIUwrTvCOpjeUoFLB0RDL4hphKvzIQosi1ZxYqOGk+OSxOAoUr
+         pKRvS+F+Ya36ES1/YBwskCkZoabJgRwbSzgUjRDk0OMnr70Pbwh9b9qDD7QXR2Lyh4f7
+         IIw8ESwGhhM3Sq4H4JffOpKEYOfULuB8dI2igbTDJBEM8me8QOVLFQavT6jM4NdwSF7k
+         8w5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=tzdHyO2WkZ+/4hPd1oFud1vh1gFsmlhbwd5pOc3CStU=;
-        fh=0KXxUBdGdTZUREAi7vY5lmM/NYX8UoMHfo6Q4BbR6pg=;
-        b=BTrlpir9OOZsib53FONcQQGiBVJLez2+UM/BDYfO2rv6DadD5apNGbvbBtoxM/rA16
-         sa+m4n7Zu6KILeP5U90uZ2RzIMxhK1OiDhiBx/6uiemK596946qW4gggYSNKNDS6jOKm
-         oJEK/Kf8kIN17jQxLyUVStwySgfMwGag5PcHigq+lPc5NphGH3rNCBaNWpPZlG0r+gT3
-         +1reGJw2+2U/rCNtAhpWTJoobu6Z78hvcl+3OTEnrOsHcmHufURbV4n5ZKDiCnudeq4n
-         Ize06Zasm1SQPqinuEg/5emLHZvN7fMJLWdredLazEl7dtfNVzW5if0q2o54BgjtReID
-         6C6A==
+        h=cc:to:in-reply-to:references:date:message-id:from:subject
+         :content-transfer-encoding:mime-version:dkim-signature;
+        bh=ZmpvG54YyN2RV5qgts0ahvI0sx/D9QE15f2q2zTG7d4=;
+        fh=bXTV400VIlhis8ER1uHZgXneWL8fPwBhBFvqvoIZR98=;
+        b=1JHyHFhC7BQSxZAjF+ErVaPGV2XJEDgF8dBDXAgz2GDW7ArQXmZoY+D9CIq68topOp
+         g9sPs8LtaZGWbs7iW2pcZGBxF0uGpx7DX8tveQFI9QW3Z6bJJG9Xluz98q7rZ2EJD3rM
+         yyliLvFG3yb3edTK6eG+Bj00gzN9ytKA8ucxcWWA8rQr1imeGbrWIBH/eS+JIWpaLjlV
+         zD7PlOJe8t/VhrdYNpUsosaMscQRHvK/IArJspSPGBpxPRaW/b7HDI+Jg3b4NwuceDXj
+         YFV6+6rneBKzLuRoyCtgbVRNm8avOqgTk2XkiMD5WBlZ14ebEtuPIyqSqWIIONXrYIC+
+         GqNQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@inria.fr header.s=dc header.b=YFRO9acw;
-       spf=pass (google.com: domain of julia.lawall@inria.fr designates 192.134.164.83 as permitted sender) smtp.mailfrom=Julia.Lawall@inria.fr;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=inria.fr
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr. [192.134.164.83])
-        by gmr-mx.google.com with ESMTPS id bp21-20020a056512159500b004fb8167d7desi154510lfb.4.2023.06.27.07.43.52
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=XGRGiORn;
+       spf=pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id bx12-20020a056830600c00b006b45ec3498esi719814otb.4.2023.06.27.09.40.25
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 27 Jun 2023 07:43:52 -0700 (PDT)
-Received-SPF: pass (google.com: domain of julia.lawall@inria.fr designates 192.134.164.83 as permitted sender) client-ip=192.134.164.83;
-X-IronPort-AV: E=Sophos;i="6.01,162,1684792800"; 
-   d="scan'208";a="114936340"
-Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2023 16:43:52 +0200
-From: Julia Lawall <Julia.Lawall@inria.fr>
-To: Dmitry Vyukov <dvyukov@google.com>
-Cc: kernel-janitors@vger.kernel.org,
-	keescook@chromium.org,
-	christophe.jaillet@wanadoo.fr,
-	kuba@kernel.org,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 17/24] kcov: use vmalloc_array and vcalloc
-Date: Tue, 27 Jun 2023 16:43:32 +0200
-Message-Id: <20230627144339.144478-18-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20230627144339.144478-1-Julia.Lawall@inria.fr>
-References: <20230627144339.144478-1-Julia.Lawall@inria.fr>
-MIME-Version: 1.0
-X-Original-Sender: Julia.Lawall@inria.fr
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@inria.fr header.s=dc header.b=YFRO9acw;       spf=pass (google.com:
- domain of julia.lawall@inria.fr designates 192.134.164.83 as permitted
- sender) smtp.mailfrom=Julia.Lawall@inria.fr;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=inria.fr
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Jun 2023 09:40:25 -0700 (PDT)
+Received-SPF: pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id BC0CE611F2;
+	Tue, 27 Jun 2023 16:40:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9D8F0C433C9;
+	Tue, 27 Jun 2023 16:40:23 +0000 (UTC)
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 7B046C64458;
+	Tue, 27 Jun 2023 16:40:23 +0000 (UTC)
 Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Subject: Re: [PATCH v2 00/24] use vmalloc_array and vcalloc
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: <168788402349.21860.17350888958370358926.git-patchwork-notify@kernel.org>
+Date: Tue, 27 Jun 2023 16:40:23 +0000
+References: <20230627144339.144478-1-Julia.Lawall@inria.fr>
+In-Reply-To: <20230627144339.144478-1-Julia.Lawall@inria.fr>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: linux-hyperv@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ keescook@chromium.org, christophe.jaillet@wanadoo.fr, kuba@kernel.org,
+ kasan-dev@googlegroups.com, andreyknvl@gmail.com, dvyukov@google.com,
+ iommu@lists.linux.dev, linux-tegra@vger.kernel.org, robin.murphy@arm.com,
+ vdumpa@nvidia.com, virtualization@lists.linux-foundation.org,
+ xuanzhuo@linux.alibaba.com, linux-scsi@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+ jstultz@google.com, Brian.Starkey@arm.com, labbott@redhat.com,
+ lmark@codeaurora.org, benjamin.gaignard@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, shailend@google.com, linux-rdma@vger.kernel.org,
+ mhi@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+ linux-btrfs@vger.kernel.org, intel-gvt-dev@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dave.hansen@linux.intel.com, hpa@zytor.com,
+ linux-sgx@vger.kernel.org
+X-Original-Sender: patchwork-bot+netdevbpf@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=k20201202 header.b=XGRGiORn;       spf=pass
+ (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates
+ 139.178.84.217 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,75 +152,42 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Use vmalloc_array and vcalloc to protect against
-multiplication overflows.
+Hello:
 
-The changes were done using the following Coccinelle
-semantic patch:
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-// <smpl>
-@initialize:ocaml@
-@@
+On Tue, 27 Jun 2023 16:43:15 +0200 you wrote:
+> The functions vmalloc_array and vcalloc were introduced in
+> 
+> commit a8749a35c399 ("mm: vmalloc: introduce array allocation functions")
+> 
+> but are not used much yet.  This series introduces uses of
+> these functions, to protect against multiplication overflows.
+> 
+> [...]
 
-let rename alloc =
-  match alloc with
-    "vmalloc" -> "vmalloc_array"
-  | "vzalloc" -> "vcalloc"
-  | _ -> failwith "unknown"
+Here is the summary with links:
+  - [v2,02/24] octeon_ep: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/32d462a5c3e5
+  - [v2,04/24] gve: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/a13de901e8d5
+  - [v2,09/24] pds_core: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/906a76cc7645
+  - [v2,11/24] ionic: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/f712c8297e0a
+  - [v2,18/24] net: enetc: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/fa87c54693ae
+  - [v2,22/24] net: mana: use vmalloc_array and vcalloc
+    https://git.kernel.org/netdev/net-next/c/e9c74f8b8a31
 
-@@
-    size_t e1,e2;
-    constant C1, C2;
-    expression E1, E2, COUNT, x1, x2, x3;
-    typedef u8;
-    typedef __u8;
-    type t = {u8,__u8,char,unsigned char};
-    identifier alloc = {vmalloc,vzalloc};
-    fresh identifier realloc = script:ocaml(alloc) { rename alloc };
-@@
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-(
-      alloc(x1*x2*x3)
-|
-      alloc(C1 * C2)
-|
-      alloc((sizeof(t)) * (COUNT), ...)
-|
--     alloc((e1) * (e2))
-+     realloc(e1, e2)
-|
--     alloc((e1) * (COUNT))
-+     realloc(COUNT, e1)
-|
--     alloc((E1) * (E2))
-+     realloc(E1, E2)
-)
-// </smpl>
-
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
-
----
-v2: Use vmalloc_array and vcalloc instead of array_size.
-This also leaves a multiplication of a constant by a sizeof
-as is.  Two patches are thus dropped from the series.
-
- kernel/kcov.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff -u -p a/kernel/kcov.c b/kernel/kcov.c
---- a/kernel/kcov.c
-+++ b/kernel/kcov.c
-@@ -901,7 +901,7 @@ void kcov_remote_start(u64 handle)
- 	/* Can only happen when in_task(). */
- 	if (!area) {
- 		local_unlock_irqrestore(&kcov_percpu_data.lock, flags);
--		area = vmalloc(size * sizeof(unsigned long));
-+		area = vmalloc_array(size, sizeof(unsigned long));
- 		if (!area) {
- 			kcov_put(kcov);
- 			return;
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230627144339.144478-18-Julia.Lawall%40inria.fr.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/168788402349.21860.17350888958370358926.git-patchwork-notify%40kernel.org.
