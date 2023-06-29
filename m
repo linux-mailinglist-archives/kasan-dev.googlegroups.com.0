@@ -1,130 +1,149 @@
-Return-Path: <kasan-dev+bncBDAZZCVNSYPBBCVM6GSAMGQEHT3664Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDA5BKNJ6MIBBZ426WSAMGQEPD2YNVQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AABE741592
-	for <lists+kasan-dev@lfdr.de>; Wed, 28 Jun 2023 17:47:24 +0200 (CEST)
-Received: by mail-pf1-x43d.google.com with SMTP id d2e1a72fcca58-666e5f0d639sf2627028b3a.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 28 Jun 2023 08:47:24 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1687967242; cv=pass;
+Received: from mail-wr1-x437.google.com (mail-wr1-x437.google.com [IPv6:2a00:1450:4864:20::437])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C94742327
+	for <lists+kasan-dev@lfdr.de>; Thu, 29 Jun 2023 11:22:49 +0200 (CEST)
+Received: by mail-wr1-x437.google.com with SMTP id ffacd0b85a97d-313e6020882sf196288f8f.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 29 Jun 2023 02:22:49 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1688030568; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GTVmrIWBcGQ4DCxIR8n2XMYb9/J4k1xez7WlM1S/4BYHPqR6EGXcfbjHdtkw3s8vCH
-         UlmwzOgsGog+Znnz71zlM8FHn4MGlomgBFjmDOnAR+eDFzqisQxtj44tEOLvNfX/HV0J
-         jBbBLChKLg2bP6tk3ZCx+sn3Y6Z8BNsGTy6bZ8rReHA4Uc6ccwK6IWqFTT+GUiaZzlfM
-         oEozWL9YiJybs4IuaYmSia+9skcx8ZBVVCP0hMXVYysvLLpVQuiDUia2Pj0wruFt0c9f
-         +784Ea25FR3e2isBQXPFPg+H7Od6/qMR/W+Y/SwW6lKG0CTZ5OY+NIjc6XWtpASbTy8c
-         FhYg==
+        b=CYXlOa+vHVNmUf5aGFcQtPxgqy7WyPCLeEH7ScLFoj6KIyGsiIlXrS2LAVArKy6Pzr
+         ibjEEsQdHLU2E5VDenqpfreCM1qZi6F/b8/5mEN/6USTYcVHdISJi+q2iZZrDn3dAMxr
+         OwLCnr1bpkUvicE+yGQExOwImeGwHOkVCb3Lbv+XxGuqSedl2OxLYsj2C0DCFpLuftPb
+         bD21ZywvPsU7RzZ8+2jOg6A+r+uq75ObkdPXtzDNBupVwDgpE038NEcG/lleD9sSY3Kw
+         hmjLSHnxLT1B9u668NSuJg2FapqvxW32OTBPJ9Hi5gvRE0rfRT9Ob7sN0xjrk8VYJeuQ
+         EMVQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=4KsqSez5ej8z38uXzQNUFJYOoo5cgbWN/ZthVPAzeRg=;
-        b=VGvCxflj/x+q3c6TVHPyT8ei47d2h3nMdj7wxiqLTuZemEYDVfRAv+Qi5+P+zv+IyS
-         2XvEcRfUFUD6Mp/FtEA8VdrMIzv7R60/ZqL3px/Ym0EuEmc3H5CV6uZUeFltfD0GaF2Q
-         y7mn+54aKLWn7sn246d+TFhBKeBK4ODSmkzu1L8GVMI7USbsIr1OtOdm57Z5PJt16t62
-         AvvLlIO01PO6ZTdUbTDKGDEovfPUjn5iKzNpsTzTldqA5bc8tCZma8lyObXKcYASIXLx
-         2EmdFLWHPI1eqCpxcWIBUYuto9eBYyjcyqTwY6nyXubd5cAHsMoJsqZVHXkRcGZ7GRRj
-         OKUQ==
+         :list-id:mailing-list:precedence:organization:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=nYynU6Pq9GVO4p1R1yqv9bXtS1i8125SC6mc3PDRtnM=;
+        fh=oJEGvmqGpB6zxnhcCDaOyJbCeiNEoA/wKf5UBfI3crA=;
+        b=gdvTF4+5Ne7i7hpW2V1q+4A4wf1QERQQwNowfvzTgpqwWmHl3eOTKaaUbji/XvpxG8
+         ounUQmofDEmKS2MXZj3dAuFKwnzkQTGp8YuiW+EYnaCLOwxORIlMAYXBuUeOUZfHgxot
+         V52msriOq1QmlUbx8fwA5sVPxqiBqBguLIcA/qaX03CVYcY4KBnzZ/sRIoDhs5wDnq57
+         9VgLenrx2Cigx5F8do7M4rBG3gwpNPiOKBiX8D1SKkInGL/cL5/LUxtUb3XjL1svIALH
+         LXnLHcYhqSwE0mKx1TH/kqSYNv/UXHl5M9igP/35OjNCFBOw+KgrHlhWu0orptSluCD5
+         iL2A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Q7WRoGUf;
-       spf=pass (google.com: domain of will@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=will@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@intel.com header.s=Intel header.b=M9YEfHpf;
+       spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1687967242; x=1690559242;
+        d=googlegroups.com; s=20221208; t=1688030568; x=1690622568;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:user-agent:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4KsqSez5ej8z38uXzQNUFJYOoo5cgbWN/ZthVPAzeRg=;
-        b=euaQGiWGQCRFViIiAxShgkZS79pxBA+PGnTR033TYdN2mmLb0XISLAyforuuJwlE+V
-         r8vKZ7AJRdZrvb2FzxkL+Y9vFUp4ARTTt7016LMUjsV/2DoDAbbfgHqUVuKCt44DuzE8
-         HBr1sPIZr4YfaZ7JZxTC4a1drL1fNV35AIZb3ErNC7BqY5KtjnpvhHyLVc753cWlThks
-         S/BVsssrbyOEnRN7PO8Pb4D8zBJi0jAg5xQ/VRLPsdfSQQxjjALJAHCb9YYOic59+K0n
-         y4GYfrJd1Usj+kmaEF7SxHbreSvMUGeHYz/NqivbZh1JsnEuH6hwrt8OAUxM7Fvps4Ok
-         DY+A==
+         :x-original-sender:organization:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nYynU6Pq9GVO4p1R1yqv9bXtS1i8125SC6mc3PDRtnM=;
+        b=Gg3Zjl1ybekrZrjv27twJZDajbUYOjjGMEpfgZZCAPgbPJnh57X8Vb+TqvKW6t1gJh
+         y46rlUWn8bH/YDP8TsQUuxGjJ/JEYNx4b4oj0rvhxH+nXNaneLWGRLr5JjBwUlubqJOa
+         zSbLGcKTpqnN1Z9Dyjo8isiI1SO21vNt+2pNb1UtYCFZlkECeX6CjG+NhHJFc32tceit
+         NOwb4uWFiBZudtCeM4zRKzvsQSBdKYMhDYUEam1Z7SaND7nvwNAA6J5fQgpYszvmA275
+         6qM8Cibr7mBwxO6SqBK6iHF2vrBdcEGamRQdFP4ugZKVH/stvltdggjEj4nKl9f3prFw
+         Qg6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1687967242; x=1690559242;
+        d=1e100.net; s=20221208; t=1688030568; x=1690622568;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:user-agent
-         :content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-original-authentication-results:x-original-sender:organization
+         :in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4KsqSez5ej8z38uXzQNUFJYOoo5cgbWN/ZthVPAzeRg=;
-        b=jXaGMNnvsa4BLBppAtB1Bft3Kb2r0Vj2EEN10fvLNjKJftzCRQICfDOoVzj5/sHto4
-         YalcmPAsXk4JeZs8MnLVZ1pzB/Pocs/xVz8IHT7lshvsWsrpqvgLzAFRBnhwQAt1X2zU
-         fXuZajljsyObj4ejkJN525A5Rp2gztXLoCvSZHX6wU7c9zzB1UXTNzoBXgbZORq6UFVC
-         owHBLRQQBzcsA7jgJXRMxTtnXFERQTRW4GqhwI8OILCTbFIFHdNUK/OejAGSfwpU4rzR
-         3Hbh5lwT3KYNCjzZIjNKf2okYmqKG4+NMO4d6RwgnG3yTpBszI2pZZQWUMDZhGe8mgSc
-         6eaw==
+        bh=nYynU6Pq9GVO4p1R1yqv9bXtS1i8125SC6mc3PDRtnM=;
+        b=VrWWALXQ3cSaO17hLh6hh2XAeXqRrQqXKAbDDGisA4g0bTxk3Ox5SC+5yPCPgCIVPq
+         JG1jm3+NGS62Aaiv8t18fCrc5ZJD1Tr2Ly1t0+TfVmiLyK5chUZZKcwHJdVzpC8zWeBt
+         KAxkweBcl+YtXwaIcWxdmVLxKMDOJyHtyAsP8oP4ar6rrCNlFe6++BOLGZezbpi+aCqT
+         uuWWiNBAqvsQiKOSyCawmc25ympJ5cDxWv2VT2p80ONgfGs8voX6CaDKP2ZS0OUkeITg
+         dFLRRMMyLBAccsLzfF71cJ/rP8qdrtnJdvY8BDt90ksDeIqVEQLwtUsD6pC5IZFoAqfy
+         8GGA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AC+VfDw1AlBQpy9eWaBTHW25p/hKezEHh3wb1WQQy27YNJoivGbM2aPH
-	bi7nWDJcXm0n/5Ol9yyLks0=
-X-Google-Smtp-Source: ACHHUZ7sIQ6TiV+SnRcNUj61IT44EnqqkcM5OigzspZGBQ4fiLJHLX+gRN5yCLoDo77ZlG38y3vLQg==
-X-Received: by 2002:a05:6a20:a121:b0:126:23d:cd03 with SMTP id q33-20020a056a20a12100b00126023dcd03mr11854727pzk.9.1687967242487;
-        Wed, 28 Jun 2023 08:47:22 -0700 (PDT)
+X-Gm-Message-State: AC+VfDwZtSB+lLJ5R1Ke6Mt79LDjBBtPUZbY9rovCL3LnjXiB9Dgamli
+	HoKAU5248pp2SZsetILXMBU=
+X-Google-Smtp-Source: ACHHUZ6+74vN1k2F8WufE2LTP0Xu42QwHt2dYzzhvZJXR/MK6q9F3So+JhFLKHPClcd2jGJFo/JXzA==
+X-Received: by 2002:adf:eec7:0:b0:312:7d4d:f1c0 with SMTP id a7-20020adfeec7000000b003127d4df1c0mr4169263wrp.32.1688030568113;
+        Thu, 29 Jun 2023 02:22:48 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a62:834a:0:b0:669:e427:4b0f with SMTP id h71-20020a62834a000000b00669e4274b0fls2840959pfe.2.-pod-prod-04-us;
- Wed, 28 Jun 2023 08:47:21 -0700 (PDT)
-X-Received: by 2002:a05:6a20:1394:b0:127:8833:cce3 with SMTP id hn20-20020a056a20139400b001278833cce3mr6467147pzc.8.1687967241607;
-        Wed, 28 Jun 2023 08:47:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1687967241; cv=none;
+Received: by 2002:a05:600c:3b10:b0:3fb:422d:501d with SMTP id
+ m16-20020a05600c3b1000b003fb422d501dls229401wms.2.-pod-prod-00-eu-canary;
+ Thu, 29 Jun 2023 02:22:46 -0700 (PDT)
+X-Received: by 2002:adf:ff8b:0:b0:314:c6b:b9a2 with SMTP id j11-20020adfff8b000000b003140c6bb9a2mr3669065wrr.13.1688030566851;
+        Thu, 29 Jun 2023 02:22:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1688030566; cv=none;
         d=google.com; s=arc-20160816;
-        b=WfD1BT/Vo+es7QNMh5Qt3zth/y9FpfhY7BkKh/epVg+ygTZvSuncIC0OCF04WERsk4
-         nQ8TIxS/Y1l9SErKSyb4vvUH8dlKZZ3K/fpRmGXc65zg0xd4DPRo8fFZoL7+F8PXWVlo
-         5qG+3x6YqwU9vybM19EKU/vQFE+3ogJ3K3Mj86jWia1apDPieKvuwRxPsut/MveSkbj4
-         eXoqHmzC9PXCNtlseB4zMnRuhDHs9IzpHZy4ZXKFKQ0C3+aFLu6YTdIwFhFb61h9Orw6
-         ujQ/rM/h/2MRS7mcuW/HMEqvFWqfnPccrv5uzMUqOKNc18CplHn4S4TuskwX0czZjnOw
-         FaDg==
+        b=QHWvKGfQ9UMsBLQ0KMJUGx+aIl4FaCNNgE+NdI0taiFjqKHXXShaAxtCau1UEI7zgP
+         kIk2PlA2HKjW7nF4hvPKgWVlKGKHsGScrX1h5rrNJVB4QEH1ZWjOW3Y9AleJvl6uK5/3
+         GMhICTBOnAQJfGxpV0uu8bU1YUcU+19utMjBZoWM4G1Hg6GI/QfHWfhqhqe9Flm52qnA
+         7OV167UyMP7I5eOHOUDw5gzHMFOIP9ieuLVgSPPCsFjhJDJNBPDzskA1B68h3x2LQoDF
+         GAskAnn/O7zS53pT5IbnuJ08t+jDvKGz0IXlyIuo2rlsktrccr/oaviBvhrewXl+6Rqo
+         6MjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:content-disposition:mime-version:message-id:subject:cc
+        h=organization:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=L1D3kzYp74bTc6MklXWPe/RPfxOnbnYqjTR79BG7rN0=;
-        fh=GV3KiSqTZcHbRYaYP/rFdPbCQDZo8YCB7soT2/7RWUw=;
-        b=TeCZRePvN0FyjvWpuxubXpPH61QlVpxgBUu9wqwzc9v/X+HqptGAudLA7VpNS0e/D3
-         0wW2gk8vGr+SjHJNAjyXIFm7kX/T1plJZftlHw437UjltpYhdg4CQE5H89nKA9vfASMP
-         4TsZXA7KeVFNUClo0D8AmQpY0k7bpP+2QjOpM2Uhjvulylab3DnXG8CErbpEqHkinpxB
-         UZhyEsoQ5DVKP2zR/4QnhHwW51UgEN7tv/Sn2eZdMwjJiEHtYOIgfByjVj/F9pojJeoC
-         QuPESvSbzqaCuG0Yqu5Rc4GfGeeEd6J/HSY2KWffnnavpPeNdK2+a7owzl519TS+tqxG
-         e60A==
+        bh=6VGwAQ4Mq2HZsq6DtsdkLPdNrBBoYj4oDRTrauv82qc=;
+        fh=TEA+DifO6hoID0PaZSlQizRwIbnT5g6SSMS2rTyyKhU=;
+        b=StQHos377e4oi6j8bJbimrQ7+XvzobdIVm/RWTfqJo/m316PC6+eUzvaeqLbPSa92F
+         vfXEMmhpyYKamaMeRDofPlGkTy6UpzyuxPVi/SfESL6YP1EZEHy4Sm/7lkk+8ecuPK5E
+         scjcP/22LWUxzSLuuJCuGBvwy8aZXuZ+okMD85mvKe0ZUbb/bphoPgPxcFPUnnrr8cUD
+         eALL1QcdDt144/QRmhPqUx5VIilDbssunYJxOPXsZ3qjbYO6Gw0CPzf9DouzBf/7QjD4
+         bybuVYRRI1CHWkCf5+key3Z+eFjdIam4cQxdVyU3J0Jq/sKSuIq6q51IXx+0cAEi1iRG
+         p+Uw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Q7WRoGUf;
-       spf=pass (google.com: domain of will@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=will@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id g18-20020a635212000000b00542924cbf7esi732032pgb.5.2023.06.28.08.47.21
+       dkim=pass header.i=@intel.com header.s=Intel header.b=M9YEfHpf;
+       spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mga04.intel.com (mga04.intel.com. [192.55.52.120])
+        by gmr-mx.google.com with ESMTPS id ck7-20020a5d5e87000000b00311110bace1si780798wrb.8.2023.06.29.02.22.46
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jun 2023 08:47:21 -0700 (PDT)
-Received-SPF: pass (google.com: domain of will@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 08B3F61365;
-	Wed, 28 Jun 2023 15:47:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D01FC433C0;
-	Wed, 28 Jun 2023 15:47:18 +0000 (UTC)
-Date: Wed, 28 Jun 2023 16:47:15 +0100
-From: Will Deacon <will@kernel.org>
-To: catalin.marinas@arm.com
-Cc: ryabinin.a.a@gmail.com, andreyknvl@gmail.com, pcc@google.com,
-	kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: HW-KASAN and CONFIG_SLUB_DEBUG_ON=y screams about redzone corruption
-Message-ID: <20230628154714.GB22090@willie-the-truck>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 29 Jun 2023 02:22:46 -0700 (PDT)
+Received-SPF: none (google.com: linux.intel.com does not designate permitted sender hosts) client-ip=192.55.52.120;
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="360913465"
+X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
+   d="scan'208";a="360913465"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2023 02:22:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10755"; a="782622678"
+X-IronPort-AV: E=Sophos;i="6.01,168,1684825200"; 
+   d="scan'208";a="782622678"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga008.fm.intel.com with ESMTP; 29 Jun 2023 02:22:42 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.96)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1qEnrM-000oP0-1N;
+	Thu, 29 Jun 2023 12:22:40 +0300
+Date: Thu, 29 Jun 2023 12:22:40 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Alexander Potapenko <glider@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>
+Subject: Re: [PATCH v1 1/1] kasan: Replace strreplace() with strchrnul()
+Message-ID: <ZJ1NYFtTJ/9CZ0qU@smile.fi.intel.com>
+References: <20230628153342.53406-1-andriy.shevchenko@linux.intel.com>
+ <CAG_fn=WjLDsnUPKFwF8XJiyqYP6M+Q9ZqUweRPzPT3dW0i_E+A@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Original-Sender: will@kernel.org
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAG_fn=WjLDsnUPKFwF8XJiyqYP6M+Q9ZqUweRPzPT3dW0i_E+A@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Original-Sender: andriy.shevchenko@linux.intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=Q7WRoGUf;       spf=pass
- (google.com: domain of will@kernel.org designates 2604:1380:4641:c500::1 as
- permitted sender) smtp.mailfrom=will@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@intel.com header.s=Intel header.b=M9YEfHpf;       spf=none
+ (google.com: linux.intel.com does not designate permitted sender hosts)
+ smtp.mailfrom=andriy.shevchenko@linux.intel.com;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,86 +156,32 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi memory tagging folks,
+On Wed, Jun 28, 2023 at 05:39:26PM +0200, Alexander Potapenko wrote:
+> On Wed, Jun 28, 2023 at 5:34=E2=80=AFPM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
 
-While debugging something else, I ended up running v6.4 on an arm64 (v9)
-fastmodel with both CONFIG_SLUB_DEBUG_ON=y and CONFIG_KASAN_HW_TAGS=y.
-This makes the system pretty unusable, as I see a tonne of kmalloc
-Redzone corruption messages pretty much straight out of startup (example
-below).
+...
 
-Please can you take a look?
+> >                 /* Strip line number; without filename it's not very he=
+lpful. */
+> > -               strreplace(token, ':', '\0');
+> > +               p[strchrnul(token, ':') - token] =3D '\0';
+>=20
+> Why not just
+>    *(strchrnul(token, ':')) =3D '\0';
+> ?
 
-Cheers,
+I don't like Pythonish style in the C. But if you insist, I can update it.
 
-Will
-
---->8
-
-[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=8, Nodes=1
-[    0.000000] =============================================================================
-[    0.000000] BUG kmalloc-128 (Not tainted): kmalloc Redzone overwritten
-[    0.000000] -----------------------------------------------------------------------------
-[    0.000000] 
-[    0.000000] 0xffff00080001a9b0-0xf1ff00080001a9ff @offset=2480. First byte 0x0 instead of 0xcc
-[    0.000000] Allocated in apply_wqattrs_prepare+0x90/0x2a4 age=0 cpu=0 pid=0
-[    0.000000]  kmalloc_trace+0x34/0x6c
-[    0.000000]  apply_wqattrs_prepare+0x90/0x2a4
-[    0.000000]  apply_workqueue_attrs+0x5c/0xb4
-[    0.000000]  alloc_workqueue+0x368/0x4f8
-[    0.000000]  workqueue_init_early+0x2e8/0x3ac
-[    0.000000]  start_kernel+0x168/0x394
-[    0.000000]  __primary_switched+0xbc/0xc4
-[    0.000000] Slab 0xfffffc0020000680 objects=21 used=8 fp=0xffff00080001ac80 flags=0xbfffc0000010200(slab|head|node=0|zone=2|lastcpupid=0xffff|kasantag=0x0)
-[    0.000000] Object 0xf1ff00080001a980 @offset=17437937757178562944 fp=0x0000000000000000
-[    0.000000] 
-[    0.000000] Redzone  ffff00080001a900: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-[    0.000000] Redzone  ffff00080001a910: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-[    0.000000] Redzone  ffff00080001a920: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-[    0.000000] Redzone  ffff00080001a930: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-[    0.000000] Redzone  ffff00080001a940: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-[    0.000000] Redzone  ffff00080001a950: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-[    0.000000] Redzone  ffff00080001a960: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-[    0.000000] Redzone  ffff00080001a970: cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc  ................
-[    0.000000] Object   ffff00080001a980: 00 00 00 00 00 00 00 00 ff 00 00 00 00 00 00 00  ................
-[    0.000000] Object   ffff00080001a990: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-[    0.000000] Object   ffff00080001a9a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-[    0.000000] Object   ffff00080001a9b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-[    0.000000] Object   ffff00080001a9c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-[    0.000000] Object   ffff00080001a9d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-[    0.000000] Object   ffff00080001a9e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-[    0.000000] Object   ffff00080001a9f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-[    0.000000] Redzone  ffff00080001aa00: cc cc cc cc cc cc cc cc                          ........
-[    0.000000] Padding  ffff00080001aa54: 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a  ZZZZZZZZZZZZZZZZ
-[    0.000000] Padding  ffff00080001aa64: 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a  ZZZZZZZZZZZZZZZZ
-[    0.000000] Padding  ffff00080001aa74: 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a              ZZZZZZZZZZZZ
-[    0.000000] CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.4.0-00001-g56e11237836c #1
-[    0.000000] Hardware name: FVP Base RevC (DT)
-[    0.000000] Call trace:
-[    0.000000]  dump_backtrace+0xec/0x108
-[    0.000000]  show_stack+0x18/0x2c
-[    0.000000]  dump_stack_lvl+0x50/0x68
-[    0.000000]  dump_stack+0x18/0x24
-[    0.000000]  print_trailer+0x1ec/0x230
-[    0.000000]  check_bytes_and_report+0x110/0x154
-[    0.000000]  check_object+0x31c/0x360
-[    0.000000]  free_to_partial_list+0x174/0x5d8
-[    0.000000]  __slab_free+0x220/0x28c
-[    0.000000]  __kmem_cache_free+0x364/0x3dc
-[    0.000000]  kfree+0x50/0x70
-[    0.000000]  apply_wqattrs_prepare+0x244/0x2a4
-[    0.000000]  apply_workqueue_attrs+0x5c/0xb4
-[    0.000000]  alloc_workqueue+0x368/0x4f8
-[    0.000000]  workqueue_init_early+0x2e8/0x3ac
-[    0.000000]  start_kernel+0x168/0x394
-[    0.000000]  __primary_switched+0xbc/0xc4
-[    0.000000] Disabling lock debugging due to kernel taint
-[    0.000000] FIX kmalloc-128: Restoring kmalloc Redzone 0xffff00080001a9b0-0xf1ff00080001a9ff=0xcc
-[    0.000000] FIX kmalloc-128: Object at 0xf1ff00080001a980 not freed
+--=20
+With Best Regards,
+Andy Shevchenko
 
 
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230628154714.GB22090%40willie-the-truck.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/ZJ1NYFtTJ/9CZ0qU%40smile.fi.intel.com.
