@@ -1,128 +1,127 @@
-Return-Path: <kasan-dev+bncBAABB664VCSQMGQEAH5RZWY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBWO7VCSQMGQE7LX5GBY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53d.google.com (mail-pg1-x53d.google.com [IPv6:2607:f8b0:4864:20::53d])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C6374C0C2
-	for <lists+kasan-dev@lfdr.de>; Sun,  9 Jul 2023 05:50:21 +0200 (CEST)
-Received: by mail-pg1-x53d.google.com with SMTP id 41be03b00d2f7-53425d37fefsf3882102a12.3
-        for <lists+kasan-dev@lfdr.de>; Sat, 08 Jul 2023 20:50:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1688874620; cv=pass;
+Received: from mail-yb1-xb3e.google.com (mail-yb1-xb3e.google.com [IPv6:2607:f8b0:4864:20::b3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0937074C0C4
+	for <lists+kasan-dev@lfdr.de>; Sun,  9 Jul 2023 05:56:11 +0200 (CEST)
+Received: by mail-yb1-xb3e.google.com with SMTP id 3f1490d57ef6-c5cea5773e8sf4192743276.1
+        for <lists+kasan-dev@lfdr.de>; Sat, 08 Jul 2023 20:56:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1688874969; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xI0Kx+tz5Yv/e8ol/EyvXdtOfPlOaQp0mMloBKtS+gJnrp2SUaretYhOuiJSxW2ARi
-         kRtlFzbEbfnH+gKfuiyoc/OGPvfG9kjp0idOGaApiihOXtCBO1kGgI+JIiv1ra4wyS2I
-         zyeoRybc0Q715IvZfR9VrOEzrNKZV8nXChxROWkFWzm5pLWDeFPefCsPfkOfRuVfGz7h
-         Ji4Yf4g+lWHWvMV1eFvoM8WrgwC7JlXETP8N8QKGDVPfBrmO1ES/okdlanytZBcGowzW
-         zFpJVGe7xqginc/HxCUjioiec/V0nOo6lnK9TWQZYosedJ96wZmyUIRjJak5ApJazBYV
-         pugA==
+        b=KnOISux66zGQ7kFKAQE+JBlCdz1Y7p9lNFkjg/q5HJfZkVOKH1Q4mWNIB9T2b9X/ZL
+         49/Hfu0jhtienjoYXxY5C7IwdWXoJMwy4uvKeDJ3vNQu1J/Q75jvxBnuDQqmZP6gPR0S
+         2SpqWAfW6zARzw9S9+U2IWa+3WkAyA3LpJBzvCI3WMCVDIB/FhPfiot/1xRYum9e9tAD
+         wI2JETCs4Xdq/7LJX0Fxk6RchmErAmaUDcRrn9MsajCXdxHbYALXWBuuA6mw0/g4yrsQ
+         Z5VnGQKJ4IoRVcgxYyvnjJ0y7Ev6jgIEjlf5d6M0F+zybm45mCWcl9WK8j/lwmp5po81
+         Cx9g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
          :subject:message-id:date:from:in-reply-to:references:mime-version
          :sender:dkim-signature;
-        bh=SxCZCZIAFXlq9oHL3HG6a5Flb15m/UF9yWGyGQtZLI4=;
+        bh=98KYRh2U+S3s6HkmnlNRKWHVl4vKSy98D/UgBqZHtDI=;
         fh=FnIIe/vQQbzYprQBokhgFj1uohkP19forFNv5hWqnzY=;
-        b=QZv4tEIUyvuz4DCQB8mbBhy4uJ6Z3b9I+LU8TEKIYOtVFsyzIqCs8g7+9jXE/YbWJu
-         c1LCiZ350WMQOuOaoDRNAypuz651UFjBCfrs411xa/xG87gl56avWz73sDnta7pQ0ccy
-         x0lRJ3rnflg+z9yRi6MTYELV37KUc5/GRPhzlq3EgKzkNKMOCh1eLNgozyrRLQqwXR6j
-         EaL1D//vr0pMbOPSh5YT1q9jZ1HJ1BXE3UP1JvaDEOlxhfurJS7P97CAASREb+E8tUcx
-         CkTRdjyegHGGUC5o1rZuvFywaZxqBCvOkVYSgydC/Flf+rX2os9WeJF1Htq4Pl/V0fJK
-         JdpA==
+        b=FSN7RHfaTAKJ6AqE7Pke7sUDh/SzLGcKr/Ndqr9ARCf9ZMpAishexdv6sEEHCXn9j4
+         q2pRv99x+3ihSX0gfFatxzdh1R2FgbQK2wwjVAClt8hfm/mU/J47j07JX9/SPuowmUnw
+         jhiKgg6vWT+hPkRntIqW7ik7jrtq9aRyJ3DqaGZttWytzQHp/kSfAtgLCcqAj6saiVsU
+         2vtdl2XrirhW/mDY7bzHcjSMs5EOuTpqV+ELzD57bSU6c8U5OmT5SlbYrTUtjLTWH9Uw
+         rPyjJ5woPtjZZQYMZq3qCB6xHyqEon2jfDWKzOewP51QHr/C4j4YcWct50+TtHElAxzn
+         ffTw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=h3sntgjy;
-       spf=pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=PKcvWCrU;
+       spf=pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1688874620; x=1691466620;
+        d=googlegroups.com; s=20221208; t=1688874969; x=1691466969;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=SxCZCZIAFXlq9oHL3HG6a5Flb15m/UF9yWGyGQtZLI4=;
-        b=AZ4Q923eau0TYGXh1sobYecWVCMemjvZpo2a/Ay0TeLhm+hax9cuoU3hQx/1cpUtcZ
-         itB1y3q9doHcXFTuR51IArOWTDV95tWjrvgimB5qKZ29udBP+3RRHwD3jY/sExukVgDN
-         vy7rK4gYdUZ2HsC0XjpntNpRlJyT6UrqmicEY42hnfcScZq7zVxTaaD/4Jb3hrwIoz5u
-         gvNctsxTZ9iRq/dbScd2A/An11QrTDTaY1RMw0qFLfVHomimYtffHu8KCKm79sL4Dyy9
-         7cnjVy5doT5Dr8jRepMyKx7zepcZLpjayhKPDKKXdwYEf6v3IGyt6OHTbQyeNbJCPG+z
-         vhhQ==
+        bh=98KYRh2U+S3s6HkmnlNRKWHVl4vKSy98D/UgBqZHtDI=;
+        b=RMuZjBvPq0GAfJfOvpQMC9CnIwcxciLCgjhwCRtxJTm4IKVec2RbAcFpaYIYssYVVT
+         VBzCQGHqGAv6Klw7cKlVwdcjPCtexFKIi2FOQ50Be24UXc8dQHypUGio/MFzfSLCVV5A
+         y8MmYQNLh+penYJrRWMJxRhuPuHHf7MswF2EBlzZ0Tbuy7x+p9orXR4oNtcKloaCw1zy
+         fwK4704FJAgZXdelmL8f/eVpU5qxCsZU7ef3O7bsRPLrjAkgqqu9ipCtlTAM4HmU5NRJ
+         laMe8LylXzIk4WGhEVEqIT+zC/nmLFZ2a50S1TY/2zAKkxQ2xWmU0wwRqgp4uXBcbKar
+         yL5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688874620; x=1691466620;
+        d=1e100.net; s=20221208; t=1688874969; x=1691466969;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=SxCZCZIAFXlq9oHL3HG6a5Flb15m/UF9yWGyGQtZLI4=;
-        b=SgqbRCNBg7DlxmnIQJXhzXtnS0K4Z2fdy+/EBoOzIXLj3dxWYCr+MEZIBHu/vDgyc/
-         CyuTM2s/FhSUB0RKBMo6++Cdj0YDTtbuuNviQkwHW5jDNP6LrCHsmkbqoHxTU4lYVk0x
-         9SLJnHe94Fr9ZnKbE03YSY1iS041Iv5PLHeJMpfN1BUeddv8QLLKRCRMOmh3c3qanQtT
-         RDyLEVgWdwUPY3GLfcvsv5nCUMiaGJPTTw8WNq8pr0UlTq35CrXLK/fwzA6J67T4Wb06
-         YTmevsBCsHAyMdfZ5tJZa1Phic3fr3N1tgzCqthQD9SOz5ruG7c1Bw0EDdImR30HDfyM
-         CARg==
+        bh=98KYRh2U+S3s6HkmnlNRKWHVl4vKSy98D/UgBqZHtDI=;
+        b=UbUW+Ho2T5jTGZQ6ICykhkskbiLfl0NiX+Ld+/BEquTqUrZdcrXFf/+NCZjZP01KbK
+         YTRi9Sdu77gE0RFi+t7hOtlCFF/LQmRU2I098R1/r3juykkerElpY87LlUFYHb2lsGOb
+         YCZS0o4+b0rbDfcuGX1323l7rCg7o/TchgmLT6ALTsKA6nKZX/gMP0O76CrnaNwQHjvR
+         vjPcUbHVmzzjSgaPSdrSkxcObJpAxlSFYoY/W1iQbCGJEiGFBC73mIowXqpVy0MYZVpx
+         Pe4jlX1JjMlAJKsiO4UOvLIqTH6Y3wFFYNIxKZRBqj8PgXNR+00Ye25fA/ZXtlMIwVQw
+         7Q5A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ABy/qLbQdKtyiL3k+RCP2AcgGvnpCk5Lwk9+oBB/XPCimnAE0CA7tozQ
-	Hi8NPSdK+boOUeLql9hQniQ=
-X-Google-Smtp-Source: APBJJlGiRjRZxL/USHD5vABqgNfn9YO7aukasTRIh61VhMo7XQtM4cNCE8p4OpavmAY8BN4Eo901og==
-X-Received: by 2002:a17:90b:4b88:b0:263:f68d:adca with SMTP id lr8-20020a17090b4b8800b00263f68dadcamr6816660pjb.20.1688874619336;
-        Sat, 08 Jul 2023 20:50:19 -0700 (PDT)
+X-Gm-Message-State: ABy/qLZhepmWOMMhpUXK747iBiBdMVvUdZyIPWq5d2hLjDSIsaiB/vBG
+	3Vf8P4BI+Hx8LvMswt8pWYU=
+X-Google-Smtp-Source: APBJJlHXRqB9QNeOVT7ZaLWaL2OIh70irmFeHQvhQxQj75KxQuXf0YF6L5BwXBfQZBNgLu6WQ/I0FQ==
+X-Received: by 2002:a5b:187:0:b0:c4e:50fc:c2e4 with SMTP id r7-20020a5b0187000000b00c4e50fcc2e4mr9002456ybl.61.1688874969682;
+        Sat, 08 Jul 2023 20:56:09 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:1907:b0:262:d7b2:10e5 with SMTP id
- mp7-20020a17090b190700b00262d7b210e5ls132896pjb.2.-pod-prod-02-us; Sat, 08
- Jul 2023 20:50:18 -0700 (PDT)
-X-Received: by 2002:a17:90a:f306:b0:263:f648:e6e1 with SMTP id ca6-20020a17090af30600b00263f648e6e1mr6939994pjb.14.1688874618699;
-        Sat, 08 Jul 2023 20:50:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1688874618; cv=none;
+Received: by 2002:a05:6902:1024:b0:c64:776a:a7d9 with SMTP id
+ x4-20020a056902102400b00c64776aa7d9ls625165ybt.0.-pod-prod-01-us; Sat, 08 Jul
+ 2023 20:56:09 -0700 (PDT)
+X-Received: by 2002:a25:9cc6:0:b0:bfe:d93a:8f2b with SMTP id z6-20020a259cc6000000b00bfed93a8f2bmr10045726ybo.60.1688874969207;
+        Sat, 08 Jul 2023 20:56:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1688874969; cv=none;
         d=google.com; s=arc-20160816;
-        b=j2SamWBUtt1xPRA6uN5Rku6z1seArXJDep5fQgBQ0c4f9hLwvan84KY5BX9b3J+dGm
-         EZPk8mW32Rr5zHXgjti1OW/Mm54g7d1ffcW0JzSywPkoqtf5JMMCaiD4+jHL+n0MJwSb
-         Lgm+ufwspAFmcELNNcr46Xy4iQUgRID6zQ6cYG3MeenCFCgyWzphzq50OpHhv8Fleww1
-         l0lARhtg8EyKakUiduuhBXZJPiAO63gbVSPVEdf7FSe21DCI2frEPuDYDqYhJ0mJKZxY
-         lehkG/MJBCgBoBhVKQbbRE11hUfaxLLziiO8esQpxtMt8QbmPjFmc5GajNpCkQcE+T/b
-         1KZw==
+        b=f7xMtlWBMOE8SdKAml15jvP0nWTJ56FNvGc8Lj377aX+GSHLXZqRDARkaqK2N8R1br
+         u/zJVa4T83SSBrlQpb1WV2pM1AhuUrT559otcfjQ09rFg4ivBohD8mWvleIuqk4ShNII
+         sMRz/koV/xa2ZP474cVG0YFwNSbf4zJET3ewszk3BQjHklRZHQjg2/utaJtwXQGLVjt6
+         Gx/uHggZtK42CExNFab4A8HOs2H82+uTOABhu5nyVpoBzNSKyeNk6+rzD5tMOjyPA6eP
+         es27fh5YZ59yncebeBtwH/H5wMkZlycBceuyLDN/AEpWGYVNd001OWnz1ShuyM9PE0ap
+         Pa6Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=/aE9vsrX9e9R1qNeQGQLaMfynFTqRhn3b4qZWtGaxzA=;
+        bh=6hOuVJtKeV3rBSbTyHOYN2VtgO/nlMSphMrotm1JH9A=;
         fh=FnIIe/vQQbzYprQBokhgFj1uohkP19forFNv5hWqnzY=;
-        b=oXcryMDpfycsvZglmuW8eiABFxuKA+fOt1vhpP2JEhS26hB56jB7sq2RSQANTE5CtY
-         qiD9vA8pLM/ms1F/SvsrJ8MPBwPpLApeJ0dvUQDywkh9oIieBRfhQm59q5QdQxkMdBgT
-         7eKoKmnNzhj57nh0owsSXUxCcNhKeGIr1OQ0AM81oR82vLmr+FKv2SEhh8idFtYq87cT
-         QhO5meTisfJpyFJB5lHzfp6yKqskSx51Avnu7DzPzS+mcqhXAn6yZ8GGvcuotSKsYLG0
-         rLiXrv1zO4UH1sOV5qJG9vJN/RMkT8NhA2DH9cW1lY6RGWarih+YK/Q8mIMqlNsQH442
-         hbaA==
+        b=fps1S+bfQ/FVC/vZtXtuMmRQBmkAlTxYolpU/jwsfZngZSA6CvJF1xMWUXY8wGzMPn
+         dpO5HKjA9GP0pwNHIvKew7jU4Ts8kdcqmJ3IAtaRzMB1M8jmn9PpU+6rr+ICjx4EeI2G
+         JN/TRwoG7JajP71Bptg1ZR/xOEh9SScALJnUr4W3TNj/yvBa+Q/OIiKw7dXxLlGlE0Nt
+         pJbIQrwCvQ6/cOvqODIHz5LDJJeQ9ghgIgdV944DYdp26VQvT467qq7B44bIa5uBA8/h
+         bk6uhZgc9sSlErX84uvAZndQ52OTYrIV+Sth5zUpd9jhCXl/VdVBkpTX5FuzjLB950dr
+         OG7A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=h3sntgjy;
-       spf=pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=PKcvWCrU;
+       spf=pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id x30-20020a17090a38a100b00262f57676a1si485767pjb.1.2023.07.08.20.50.18
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id s66-20020a257745000000b00c70b9b9189asi256107ybc.3.2023.07.08.20.56.09
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Jul 2023 20:50:18 -0700 (PDT)
-Received-SPF: pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+        Sat, 08 Jul 2023 20:56:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 1856C60B62
-	for <kasan-dev@googlegroups.com>; Sun,  9 Jul 2023 03:50:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68E7FC433C9
-	for <kasan-dev@googlegroups.com>; Sun,  9 Jul 2023 03:50:17 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-51e46e83d7fso1665490a12.1
-        for <kasan-dev@googlegroups.com>; Sat, 08 Jul 2023 20:50:17 -0700 (PDT)
-X-Received: by 2002:aa7:d052:0:b0:51d:a02d:f8fe with SMTP id
- n18-20020aa7d052000000b0051da02df8femr6401474edo.29.1688874615629; Sat, 08
- Jul 2023 20:50:15 -0700 (PDT)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id D71ED60B62
+	for <kasan-dev@googlegroups.com>; Sun,  9 Jul 2023 03:56:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28785C433CA
+	for <kasan-dev@googlegroups.com>; Sun,  9 Jul 2023 03:56:08 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-51e29913c35so4588835a12.0
+        for <kasan-dev@googlegroups.com>; Sat, 08 Jul 2023 20:56:08 -0700 (PDT)
+X-Received: by 2002:aa7:c0c6:0:b0:51e:166a:ac7f with SMTP id
+ j6-20020aa7c0c6000000b0051e166aac7fmr7183978edp.28.1688874966365; Sat, 08 Jul
+ 2023 20:56:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1688369658.git.chenfeiyang@loongson.cn> <cfc7b16d31d0f2dbe08d5d835f34796b2074a35a.1688369658.git.chenfeiyang@loongson.cn>
-In-Reply-To: <cfc7b16d31d0f2dbe08d5d835f34796b2074a35a.1688369658.git.chenfeiyang@loongson.cn>
+References: <cover.1688369658.git.chenfeiyang@loongson.cn> <8d10b1220434432dbc089fab8df4e1cca048cd0c.1688369658.git.chenfeiyang@loongson.cn>
+In-Reply-To: <8d10b1220434432dbc089fab8df4e1cca048cd0c.1688369658.git.chenfeiyang@loongson.cn>
 From: Huacai Chen <chenhuacai@kernel.org>
-Date: Sun, 9 Jul 2023 11:50:04 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5vKoqm4Cyt7Si5fLmYKvu+YXs3gnm4fr4Tk9USCc97Pg@mail.gmail.com>
-Message-ID: <CAAhV-H5vKoqm4Cyt7Si5fLmYKvu+YXs3gnm4fr4Tk9USCc97Pg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] LoongArch: relocatable: Provide kaslr_offset() to get
- the kernel offset
+Date: Sun, 9 Jul 2023 11:55:55 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4yaJExw8zSYvEiHaXQJXfCkmwa4yuFfrrT51QT_25NJw@mail.gmail.com>
+Message-ID: <CAAhV-H4yaJExw8zSYvEiHaXQJXfCkmwa4yuFfrrT51QT_25NJw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] LoongArch: Allow building with kcov coverage
 To: Feiyang Chen <chenfeiyang@loongson.cn>
 Cc: dvyukov@google.com, andreyknvl@gmail.com, loongarch@lists.linux.dev, 
 	kasan-dev@googlegroups.com, chris.chenfeiyang@gmail.com, 
@@ -131,9 +130,9 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: chenhuacai@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=h3sntgjy;       spf=pass
- (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as
- permitted sender) smtp.mailfrom=chenhuacai@kernel.org;       dmarc=pass
+ header.i=@kernel.org header.s=k20201202 header.b=PKcvWCrU;       spf=pass
+ (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1
+ as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -149,125 +148,46 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 Hi, Feiyang,
 
+Please update Documentation/features/debug/kcov/arch-support.txt, thanks.
+
+Huacai
+
 On Tue, Jul 4, 2023 at 8:53=E2=80=AFPM Feiyang Chen <chenfeiyang@loongson.c=
 n> wrote:
 >
-> Provide kaslr_offset() to get the kernel offset when KASLR is enabled.
-> Rename reloc_offset to __reloc_offset and export it.
+> Add ARCH_HAS_KCOV to the LoongArch Kconfig. Also disable
+> instrumentation of vdso.
 >
 > Signed-off-by: Feiyang Chen <chenfeiyang@loongson.cn>
 > ---
->  arch/loongarch/include/asm/setup.h |  6 ++++++
->  arch/loongarch/kernel/relocate.c   | 18 ++++++++----------
->  arch/loongarch/kernel/setup.c      |  3 +++
->  3 files changed, 17 insertions(+), 10 deletions(-)
+>  arch/loongarch/Kconfig       | 1 +
+>  arch/loongarch/vdso/Makefile | 2 ++
+>  2 files changed, 3 insertions(+)
 >
-> diff --git a/arch/loongarch/include/asm/setup.h b/arch/loongarch/include/=
-asm/setup.h
-> index 2dca0d1dd90a..39f9964bbdd4 100644
-> --- a/arch/loongarch/include/asm/setup.h
-> +++ b/arch/loongarch/include/asm/setup.h
-> @@ -37,4 +37,10 @@ extern unsigned long __init relocate_kernel(void);
+> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
+> index ed9a148cdcde..4c21a961ab88 100644
+> --- a/arch/loongarch/Kconfig
+> +++ b/arch/loongarch/Kconfig
+> @@ -14,6 +14,7 @@ config LOONGARCH
+>         select ARCH_HAS_ACPI_TABLE_UPGRADE      if ACPI
+>         select ARCH_HAS_CPU_FINALIZE_INIT
+>         select ARCH_HAS_FORTIFY_SOURCE
+> +       select ARCH_HAS_KCOV
+>         select ARCH_HAS_NMI_SAFE_THIS_CPU_OPS
+>         select ARCH_HAS_PTE_SPECIAL
+>         select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
+> diff --git a/arch/loongarch/vdso/Makefile b/arch/loongarch/vdso/Makefile
+> index 7bb794604af3..7dc87377688b 100644
+> --- a/arch/loongarch/vdso/Makefile
+> +++ b/arch/loongarch/vdso/Makefile
+> @@ -5,6 +5,8 @@ ifdef CONFIG_KASAN
+>  KASAN_SANITIZE :=3D n
+>  endif
 >
->  #endif
->
-> +extern unsigned long __reloc_offset;
-> +static inline unsigned long kaslr_offset(void)
-> +{
-> +       return __reloc_offset;
-I doubt that we should return random_offset here.
-
-Huacai
-> +}
+> +KCOV_INSTRUMENT :=3D n
 > +
->  #endif /* __SETUP_H */
-> diff --git a/arch/loongarch/kernel/relocate.c b/arch/loongarch/kernel/rel=
-ocate.c
-> index 6c3eff9af9fb..9ba560d514e1 100644
-> --- a/arch/loongarch/kernel/relocate.c
-> +++ b/arch/loongarch/kernel/relocate.c
-> @@ -16,11 +16,9 @@
->  #include <asm/sections.h>
->  #include <asm/setup.h>
->
-> -#define RELOCATED(x) ((void *)((long)x + reloc_offset))
-> +#define RELOCATED(x) ((void *)((long)x + __reloc_offset))
->  #define RELOCATED_KASLR(x) ((void *)((long)x + random_offset))
->
-> -static unsigned long reloc_offset;
-> -
->  static inline void __init relocate_relative(void)
->  {
->         Elf64_Rela *rela, *rela_end;
-> @@ -154,7 +152,7 @@ static inline void __init update_reloc_offset(unsigne=
-d long *addr, long random_o
->  {
->         unsigned long *new_addr =3D (unsigned long *)RELOCATED_KASLR(addr=
-);
->
-> -       *new_addr =3D (unsigned long)reloc_offset;
-> +       *new_addr =3D (unsigned long)__reloc_offset;
->  }
->
->  unsigned long __init relocate_kernel(void)
-> @@ -173,7 +171,7 @@ unsigned long __init relocate_kernel(void)
->         if (relocation_addr_valid(location_new))
->                 random_offset =3D (unsigned long)location_new - (unsigned=
- long)(_text);
->  #endif
-> -       reloc_offset =3D (unsigned long)_text - VMLINUX_LOAD_ADDRESS;
-> +       __reloc_offset =3D (unsigned long)_text - VMLINUX_LOAD_ADDRESS;
->
->         if (random_offset) {
->                 kernel_length =3D (long)(_end) - (long)(_text);
-> @@ -187,15 +185,15 @@ unsigned long __init relocate_kernel(void)
->                         "dbar 0 \t\n"
->                         ::: "memory");
->
-> -               reloc_offset +=3D random_offset;
-> +               __reloc_offset +=3D random_offset;
->
->                 /* The current thread is now within the relocated kernel =
-*/
->                 __current_thread_info =3D RELOCATED_KASLR(__current_threa=
-d_info);
->
-> -               update_reloc_offset(&reloc_offset, random_offset);
-> +               update_reloc_offset(&__reloc_offset, random_offset);
->         }
->
-> -       if (reloc_offset)
-> +       if (__reloc_offset)
->                 relocate_relative();
->
->         relocate_absolute(random_offset);
-> @@ -208,9 +206,9 @@ unsigned long __init relocate_kernel(void)
->   */
->  static void show_kernel_relocation(const char *level)
->  {
-> -       if (reloc_offset > 0) {
-> +       if (__reloc_offset > 0) {
->                 printk(level);
-> -               pr_cont("Kernel relocated by 0x%lx\n", reloc_offset);
-> +               pr_cont("Kernel relocated by 0x%lx\n", __reloc_offset);
->                 pr_cont(" .text @ 0x%px\n", _text);
->                 pr_cont(" .data @ 0x%px\n", _sdata);
->                 pr_cont(" .bss  @ 0x%px\n", __bss_start);
-> diff --git a/arch/loongarch/kernel/setup.c b/arch/loongarch/kernel/setup.=
-c
-> index 95e6b579dfdd..d7bda711824f 100644
-> --- a/arch/loongarch/kernel/setup.c
-> +++ b/arch/loongarch/kernel/setup.c
-> @@ -65,6 +65,9 @@ struct cpuinfo_loongarch cpu_data[NR_CPUS] __read_mostl=
-y;
->
->  EXPORT_SYMBOL(cpu_data);
->
-> +unsigned long __reloc_offset __ro_after_init;
-> +EXPORT_SYMBOL(__reloc_offset);
-> +
->  struct loongson_board_info b_info;
->  static const char dmi_empty_string[] =3D "        ";
+>  # Include the generic Makefile to check the built vdso.
+>  include $(srctree)/lib/vdso/Makefile
 >
 > --
 > 2.39.3
@@ -279,5 +199,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAAhV-H5vKoqm4Cyt7Si5fLmYKvu%2BYXs3gnm4fr4Tk9USCc97Pg%40mail.gmai=
-l.com.
+kasan-dev/CAAhV-H4yaJExw8zSYvEiHaXQJXfCkmwa4yuFfrrT51QT_25NJw%40mail.gmail.=
+com.
