@@ -1,154 +1,140 @@
-Return-Path: <kasan-dev+bncBDAZZCVNSYPBBV4GTKSQMGQEZO6QJTY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB664VCSQMGQEAH5RZWY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3a.google.com (mail-io1-xd3a.google.com [IPv6:2607:f8b0:4864:20::d3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69CC17497DE
-	for <lists+kasan-dev@lfdr.de>; Thu,  6 Jul 2023 11:03:21 +0200 (CEST)
-Received: by mail-io1-xd3a.google.com with SMTP id ca18e2360f4ac-77a1d6d2f7fsf17043239f.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 06 Jul 2023 02:03:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1688634200; cv=pass;
+Received: from mail-pg1-x53d.google.com (mail-pg1-x53d.google.com [IPv6:2607:f8b0:4864:20::53d])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C6374C0C2
+	for <lists+kasan-dev@lfdr.de>; Sun,  9 Jul 2023 05:50:21 +0200 (CEST)
+Received: by mail-pg1-x53d.google.com with SMTP id 41be03b00d2f7-53425d37fefsf3882102a12.3
+        for <lists+kasan-dev@lfdr.de>; Sat, 08 Jul 2023 20:50:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1688874620; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gKvdvyKzSn4/CUlmk621yThn4pseVwN9bbYvgsUPBbNBabWyRDoOgJ27xVU1DqTksn
-         fAFVgEas0YZ/c6pJR9nrT1n4a/odFQV81HONJR5pU85s8m7kCEW1tpNw5Ze5OAotkTDy
-         Y6Squ3AAkXmGHrbfFj5xiIVvI6+jdfySnu3wkzVPOJni5/epHmVrwV7XaXc4Csg0c55t
-         xv3wt1Drka5pB6MH+LauowOlYTB/UoVWWjLPBRCZWwGJ/njCU42MsurNhhvLpq5THeDu
-         MWwCDHnTNPlWuFM7meTXPgoKmLsH3G1JUkJzBKNarWNms7wVRxwr4uqVi5yxowluRND9
-         Lq7A==
+        b=xI0Kx+tz5Yv/e8ol/EyvXdtOfPlOaQp0mMloBKtS+gJnrp2SUaretYhOuiJSxW2ARi
+         kRtlFzbEbfnH+gKfuiyoc/OGPvfG9kjp0idOGaApiihOXtCBO1kGgI+JIiv1ra4wyS2I
+         zyeoRybc0Q715IvZfR9VrOEzrNKZV8nXChxROWkFWzm5pLWDeFPefCsPfkOfRuVfGz7h
+         Ji4Yf4g+lWHWvMV1eFvoM8WrgwC7JlXETP8N8QKGDVPfBrmO1ES/okdlanytZBcGowzW
+         zFpJVGe7xqginc/HxCUjioiec/V0nOo6lnK9TWQZYosedJ96wZmyUIRjJak5ApJazBYV
+         pugA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=0DjpQN5Oa/X2VjP2NHKNkPrm4TH28laaMkzB+cvEzgE=;
-        fh=kjNqJjZQxZ7McQkFUg/p0a124a1y1npHY6ij6kne6Po=;
-        b=1K1APpKiQUBULCC09QWB3SaHB3OqX1OY8E1st1oG5IM3flXRhuOgBH8fuLHhvoOipK
-         yi4l0Pml4hOIBQn49Lx+ascEYl/t+L1uwTYDujMo3Na3kxg+YHeOzUuNQQOv+w9aB0Zc
-         AzvNqRbHZR7O1UyN1PYTnQ70dlf0CRknKGlR8d6CR3YSwTKPTaRRvNrcZ0pvQzdCqbJw
-         1wDkRIyaiMCZ9XgFejqP1rX2SXGmTZEHgER34EZKyzrQJ9CYVzGLCxL25dNffgvNq3Rs
-         Jriin6G9n3EjF4Y+UYHoCTAXYpyiN+GnOVEKh8w6290MZOcv53+5y0TiiwKsRlxGLi6A
-         lPWw==
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature;
+        bh=SxCZCZIAFXlq9oHL3HG6a5Flb15m/UF9yWGyGQtZLI4=;
+        fh=FnIIe/vQQbzYprQBokhgFj1uohkP19forFNv5hWqnzY=;
+        b=QZv4tEIUyvuz4DCQB8mbBhy4uJ6Z3b9I+LU8TEKIYOtVFsyzIqCs8g7+9jXE/YbWJu
+         c1LCiZ350WMQOuOaoDRNAypuz651UFjBCfrs411xa/xG87gl56avWz73sDnta7pQ0ccy
+         x0lRJ3rnflg+z9yRi6MTYELV37KUc5/GRPhzlq3EgKzkNKMOCh1eLNgozyrRLQqwXR6j
+         EaL1D//vr0pMbOPSh5YT1q9jZ1HJ1BXE3UP1JvaDEOlxhfurJS7P97CAASREb+E8tUcx
+         CkTRdjyegHGGUC5o1rZuvFywaZxqBCvOkVYSgydC/Flf+rX2os9WeJF1Htq4Pl/V0fJK
+         JdpA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=rePQVRdZ;
-       spf=pass (google.com: domain of will@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=will@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=h3sntgjy;
+       spf=pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1688634200; x=1691226200;
+        d=googlegroups.com; s=20221208; t=1688874620; x=1691466620;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=0DjpQN5Oa/X2VjP2NHKNkPrm4TH28laaMkzB+cvEzgE=;
-        b=HET6Mf7x+IkTl4TKJK7dFAz4xaQikOic86dY64LT4EZMRXaaCMHlUxRLr3AXmyTJvl
-         P1cyV1evBsOHaDSsPVqQI0vRrLoMuoB4/C1kB8uaGqQcP4oL+twyoVYTLkl9NGdkhVZ0
-         ikCj7kbOSBP+k80zZXLFSGpx3X2aIWTleQ9lqnIV0AoHO3nr0yJhT10CbZqtS475Cdww
-         sIm8ih8yQdhFMSHuUxemgfqtYr1DKGejT52sSB+uPDYs0rzIM3U0MyeyD0XOsanGO6y7
-         CqlVkuDCZr2p4qOIg4JKjNDU9g6ifblJAccoV1Vtryavtb+xiGmDWX7Uo/MJ7DyQafoI
-         LIFQ==
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SxCZCZIAFXlq9oHL3HG6a5Flb15m/UF9yWGyGQtZLI4=;
+        b=AZ4Q923eau0TYGXh1sobYecWVCMemjvZpo2a/Ay0TeLhm+hax9cuoU3hQx/1cpUtcZ
+         itB1y3q9doHcXFTuR51IArOWTDV95tWjrvgimB5qKZ29udBP+3RRHwD3jY/sExukVgDN
+         vy7rK4gYdUZ2HsC0XjpntNpRlJyT6UrqmicEY42hnfcScZq7zVxTaaD/4Jb3hrwIoz5u
+         gvNctsxTZ9iRq/dbScd2A/An11QrTDTaY1RMw0qFLfVHomimYtffHu8KCKm79sL4Dyy9
+         7cnjVy5doT5Dr8jRepMyKx7zepcZLpjayhKPDKKXdwYEf6v3IGyt6OHTbQyeNbJCPG+z
+         vhhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688634200; x=1691226200;
+        d=1e100.net; s=20221208; t=1688874620; x=1691466620;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:user-agent
-         :in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0DjpQN5Oa/X2VjP2NHKNkPrm4TH28laaMkzB+cvEzgE=;
-        b=eT5kSHrg36dUFhcIamehN8jQ/WqCdv0PLEmQxsDjGXsiPwaHnEtuXjHn52yLW+PS4Z
-         mkLINDH1VFOLZBLORPivuwzXBmB7C32fQtKfHTQQg26d2hOLjVMTlBmW2q88TPK/+j67
-         X2AKSa/XintiB57gCig5svAcGbrU3KgUn5regnF1ru7Fzrriru+siMzSZTNlNmdofWl/
-         lUdMv/QqRHhsbwCAd6uAxSIslyL6slg2MBFiRPs4rzM5VkN63SvuAD8UAy4OV6mXMTIC
-         p84G3P593NdXun7PJ3azq22kkngEb/RPl0FbxyxJjWTj/sP4Q60vLQeD9fRLMg84LGLS
-         4A6w==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=SxCZCZIAFXlq9oHL3HG6a5Flb15m/UF9yWGyGQtZLI4=;
+        b=SgqbRCNBg7DlxmnIQJXhzXtnS0K4Z2fdy+/EBoOzIXLj3dxWYCr+MEZIBHu/vDgyc/
+         CyuTM2s/FhSUB0RKBMo6++Cdj0YDTtbuuNviQkwHW5jDNP6LrCHsmkbqoHxTU4lYVk0x
+         9SLJnHe94Fr9ZnKbE03YSY1iS041Iv5PLHeJMpfN1BUeddv8QLLKRCRMOmh3c3qanQtT
+         RDyLEVgWdwUPY3GLfcvsv5nCUMiaGJPTTw8WNq8pr0UlTq35CrXLK/fwzA6J67T4Wb06
+         YTmevsBCsHAyMdfZ5tJZa1Phic3fr3N1tgzCqthQD9SOz5ruG7c1Bw0EDdImR30HDfyM
+         CARg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ABy/qLbrkMd+cFGyyaJC/NUZ4gJeE786mNrwYcA5meJ0qbOdfoFyMSbO
-	/VCgmqHRY5wDY2QApAhA67M=
-X-Google-Smtp-Source: APBJJlE7GQdQocLZfvhHRIQ44aEI7uBlklEy+z5bpVDJGhhwlhkB+SVATEDkvVwjLgpRW/aqCV85/g==
-X-Received: by 2002:a05:6e02:686:b0:345:b6d7:854a with SMTP id o6-20020a056e02068600b00345b6d7854amr1633369ils.10.1688634199819;
-        Thu, 06 Jul 2023 02:03:19 -0700 (PDT)
+X-Gm-Message-State: ABy/qLbQdKtyiL3k+RCP2AcgGvnpCk5Lwk9+oBB/XPCimnAE0CA7tozQ
+	Hi8NPSdK+boOUeLql9hQniQ=
+X-Google-Smtp-Source: APBJJlGiRjRZxL/USHD5vABqgNfn9YO7aukasTRIh61VhMo7XQtM4cNCE8p4OpavmAY8BN4Eo901og==
+X-Received: by 2002:a17:90b:4b88:b0:263:f68d:adca with SMTP id lr8-20020a17090b4b8800b00263f68dadcamr6816660pjb.20.1688874619336;
+        Sat, 08 Jul 2023 20:50:19 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:1c07:b0:345:b082:4ee with SMTP id
- l7-20020a056e021c0700b00345b08204eels257498ilh.2.-pod-prod-08-us; Thu, 06 Jul
- 2023 02:03:19 -0700 (PDT)
-X-Received: by 2002:a05:6602:155:b0:785:cfa1:fcac with SMTP id v21-20020a056602015500b00785cfa1fcacmr1412004iot.20.1688634199227;
-        Thu, 06 Jul 2023 02:03:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1688634199; cv=none;
+Received: by 2002:a17:90b:1907:b0:262:d7b2:10e5 with SMTP id
+ mp7-20020a17090b190700b00262d7b210e5ls132896pjb.2.-pod-prod-02-us; Sat, 08
+ Jul 2023 20:50:18 -0700 (PDT)
+X-Received: by 2002:a17:90a:f306:b0:263:f648:e6e1 with SMTP id ca6-20020a17090af30600b00263f648e6e1mr6939994pjb.14.1688874618699;
+        Sat, 08 Jul 2023 20:50:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1688874618; cv=none;
         d=google.com; s=arc-20160816;
-        b=aId7l9+aICw3sO0zyUxbElTUpOXdJy4aAoGb+IjZNN0n0KEK1pQlGJ27WDlkaRSd2d
-         BRZbw6yrfU9COCg+nK8OL6f7Qh38FHJW9fFNpfbA8r7/P+Lw0MQ5PeGy/qpbixA0J6gJ
-         q1gBox5/psqg2u+Wx7RJKOpC9hBFurZSD5ifHxhZbd4F35xWayxFpAvASyWA8b8ycX7q
-         IYJABKU+mDHLX+xwO1lAREqB/CvxjJkGQHJAxr7Xl0Fm4My0WbwTcAjoaZoyB2tTAt0U
-         w7ZeLZLg2g0lK0i2Xr/raXdFHaFRY69TH3EQcAkKQpi6mzML7zXeRRyb7SpYXw+HBrjx
-         8szw==
+        b=j2SamWBUtt1xPRA6uN5Rku6z1seArXJDep5fQgBQ0c4f9hLwvan84KY5BX9b3J+dGm
+         EZPk8mW32Rr5zHXgjti1OW/Mm54g7d1ffcW0JzSywPkoqtf5JMMCaiD4+jHL+n0MJwSb
+         Lgm+ufwspAFmcELNNcr46Xy4iQUgRID6zQ6cYG3MeenCFCgyWzphzq50OpHhv8Fleww1
+         l0lARhtg8EyKakUiduuhBXZJPiAO63gbVSPVEdf7FSe21DCI2frEPuDYDqYhJ0mJKZxY
+         lehkG/MJBCgBoBhVKQbbRE11hUfaxLLziiO8esQpxtMt8QbmPjFmc5GajNpCkQcE+T/b
+         1KZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=aR7wzPTAeYXclNZiycSvdfYf/LLIfVq6+SCpN6+MKFo=;
-        fh=kjNqJjZQxZ7McQkFUg/p0a124a1y1npHY6ij6kne6Po=;
-        b=KIznZUNV0UFA9gNqgMX4RmIK9TrtaSV82MneuQ297SZfV16EuNiw6hbsVBY7BIdtwj
-         A5vrS3HA9XIKfG/2IPX1ppa1sBbKbOzxwObzPS4jBodIogG1pBdSEibvhiIJMgDZCNNo
-         HaRJHGMahjOSUwiQmiybJpGfQKP7/oQGm3ShnPEC3WucyyqjCjx3QXgkwVcugRTImuYt
-         n2ScIonhos/Q+prkx1b6w9W8Y7GfLDQ0J2JSaZoATytJgiw9PVBY8KeUApuXDJuWpI8F
-         hZgDiqYMwWxiGVJOZdVqwsCRMCJQd81MeqKxdVgjmzUDcR5LR9PIABv1cI77F1JX0Ugy
-         DK2g==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/aE9vsrX9e9R1qNeQGQLaMfynFTqRhn3b4qZWtGaxzA=;
+        fh=FnIIe/vQQbzYprQBokhgFj1uohkP19forFNv5hWqnzY=;
+        b=oXcryMDpfycsvZglmuW8eiABFxuKA+fOt1vhpP2JEhS26hB56jB7sq2RSQANTE5CtY
+         qiD9vA8pLM/ms1F/SvsrJ8MPBwPpLApeJ0dvUQDywkh9oIieBRfhQm59q5QdQxkMdBgT
+         7eKoKmnNzhj57nh0owsSXUxCcNhKeGIr1OQ0AM81oR82vLmr+FKv2SEhh8idFtYq87cT
+         QhO5meTisfJpyFJB5lHzfp6yKqskSx51Avnu7DzPzS+mcqhXAn6yZ8GGvcuotSKsYLG0
+         rLiXrv1zO4UH1sOV5qJG9vJN/RMkT8NhA2DH9cW1lY6RGWarih+YK/Q8mIMqlNsQH442
+         hbaA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=rePQVRdZ;
-       spf=pass (google.com: domain of will@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=will@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=h3sntgjy;
+       spf=pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id eg13-20020a056602498d00b0078369ced497si69355iob.2.2023.07.06.02.03.19
+        by gmr-mx.google.com with ESMTPS id x30-20020a17090a38a100b00262f57676a1si485767pjb.1.2023.07.08.20.50.18
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Jul 2023 02:03:19 -0700 (PDT)
-Received-SPF: pass (google.com: domain of will@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+        Sat, 08 Jul 2023 20:50:18 -0700 (PDT)
+Received-SPF: pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id D963261458;
-	Thu,  6 Jul 2023 09:03:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41383C433C7;
-	Thu,  6 Jul 2023 09:03:14 +0000 (UTC)
-Date: Thu, 6 Jul 2023 10:03:10 +0100
-From: Will Deacon <will@kernel.org>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Marco Elver <elver@google.com>, andrey.konovalov@linux.dev,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	kasan-dev@googlegroups.com,
-	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Peter Collingbourne <pcc@google.com>,
-	Feng Tang <feng.tang@intel.com>, stable@vger.kernel.org,
-	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-kernel@vger.kernel.org,
-	Andrey Konovalov <andreyknvl@google.com>
-Subject: Re: [PATCH] kasan, slub: fix HW_TAGS zeroing with slub_debug
-Message-ID: <20230706090309.GA29243@willie-the-truck>
-References: <678ac92ab790dba9198f9ca14f405651b97c8502.1688561016.git.andreyknvl@google.com>
- <CANpmjNO+spktteYZezk7PGLFOyoeuFyziKiU-1GXbpeyKLZLPg@mail.gmail.com>
- <CA+fCnZenzRuxS4qjzFiYm05zNxHBSAkTUK7-1zixXXDUQb3g3w@mail.gmail.com>
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 1856C60B62
+	for <kasan-dev@googlegroups.com>; Sun,  9 Jul 2023 03:50:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68E7FC433C9
+	for <kasan-dev@googlegroups.com>; Sun,  9 Jul 2023 03:50:17 +0000 (UTC)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-51e46e83d7fso1665490a12.1
+        for <kasan-dev@googlegroups.com>; Sat, 08 Jul 2023 20:50:17 -0700 (PDT)
+X-Received: by 2002:aa7:d052:0:b0:51d:a02d:f8fe with SMTP id
+ n18-20020aa7d052000000b0051da02df8femr6401474edo.29.1688874615629; Sat, 08
+ Jul 2023 20:50:15 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1688369658.git.chenfeiyang@loongson.cn> <cfc7b16d31d0f2dbe08d5d835f34796b2074a35a.1688369658.git.chenfeiyang@loongson.cn>
+In-Reply-To: <cfc7b16d31d0f2dbe08d5d835f34796b2074a35a.1688369658.git.chenfeiyang@loongson.cn>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Sun, 9 Jul 2023 11:50:04 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H5vKoqm4Cyt7Si5fLmYKvu+YXs3gnm4fr4Tk9USCc97Pg@mail.gmail.com>
+Message-ID: <CAAhV-H5vKoqm4Cyt7Si5fLmYKvu+YXs3gnm4fr4Tk9USCc97Pg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] LoongArch: relocatable: Provide kaslr_offset() to get
+ the kernel offset
+To: Feiyang Chen <chenfeiyang@loongson.cn>
+Cc: dvyukov@google.com, andreyknvl@gmail.com, loongarch@lists.linux.dev, 
+	kasan-dev@googlegroups.com, chris.chenfeiyang@gmail.com, 
+	loongson-kernel@lists.loongnix.cn
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CA+fCnZenzRuxS4qjzFiYm05zNxHBSAkTUK7-1zixXXDUQb3g3w@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Original-Sender: will@kernel.org
+X-Original-Sender: chenhuacai@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=rePQVRdZ;       spf=pass
- (google.com: domain of will@kernel.org designates 139.178.84.217 as permitted
- sender) smtp.mailfrom=will@kernel.org;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=kernel.org
+ header.i=@kernel.org header.s=k20201202 header.b=h3sntgjy;       spf=pass
+ (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as
+ permitted sender) smtp.mailfrom=chenhuacai@kernel.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -161,62 +147,131 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jul 05, 2023 at 03:19:06PM +0200, Andrey Konovalov wrote:
-> On Wed, Jul 5, 2023 at 2:51=E2=80=AFPM Marco Elver <elver@google.com> wro=
-te:
-> >
-> > On Wed, 5 Jul 2023 at 14:44, <andrey.konovalov@linux.dev> wrote:
-> > >
-> > > From: Andrey Konovalov <andreyknvl@google.com>
-> > >
-> > > Commit 946fa0dbf2d8 ("mm/slub: extend redzone check to extra allocate=
-d
-> > > kmalloc space than requested") added precise kmalloc redzone poisonin=
-g
-> > > to the slub_debug functionality.
-> > >
-> > > However, this commit didn't account for HW_TAGS KASAN fully initializ=
-ing
-> > > the object via its built-in memory initialization feature. Even thoug=
-h
-> > > HW_TAGS KASAN memory initialization contains special memory initializ=
-ation
-> > > handling for when slub_debug is enabled, it does not account for in-o=
-bject
-> > > slub_debug redzones. As a result, HW_TAGS KASAN can overwrite these
-> > > redzones and cause false-positive slub_debug reports.
-> > >
-> > > To fix the issue, avoid HW_TAGS KASAN memory initialization when slub=
-_debug
-> > > is enabled altogether. Implement this by moving the __slub_debug_enab=
-led
-> > > check to slab_post_alloc_hook. Common slab code seems like a more
-> > > appropriate place for a slub_debug check anyway.
-> > >
-> > > Fixes: 946fa0dbf2d8 ("mm/slub: extend redzone check to extra allocate=
-d kmalloc space than requested")
-> > > Cc: <stable@vger.kernel.org>
-> > > Reported-by: Mark Rutland <mark.rutland@arm.com>
-> >
-> > Is it fixing this issue:
-> >
-> >   https://lore.kernel.org/all/20230628154714.GB22090@willie-the-truck/
->=20
-> Yes, my bad, messed up the Reported-by tag. The correct one should be:
->=20
-> Reported-by: Will Deacon <will@kernel.org>
->=20
-> > Other than the question above, it looks sane:
-> >
-> > Acked-by: Marco Elver <elver@google.com>
->=20
-> Thank you, Marco!
+Hi, Feiyang,
 
-Cheers, this seems to fix the splats for me:
+On Tue, Jul 4, 2023 at 8:53=E2=80=AFPM Feiyang Chen <chenfeiyang@loongson.c=
+n> wrote:
+>
+> Provide kaslr_offset() to get the kernel offset when KASLR is enabled.
+> Rename reloc_offset to __reloc_offset and export it.
+>
+> Signed-off-by: Feiyang Chen <chenfeiyang@loongson.cn>
+> ---
+>  arch/loongarch/include/asm/setup.h |  6 ++++++
+>  arch/loongarch/kernel/relocate.c   | 18 ++++++++----------
+>  arch/loongarch/kernel/setup.c      |  3 +++
+>  3 files changed, 17 insertions(+), 10 deletions(-)
+>
+> diff --git a/arch/loongarch/include/asm/setup.h b/arch/loongarch/include/=
+asm/setup.h
+> index 2dca0d1dd90a..39f9964bbdd4 100644
+> --- a/arch/loongarch/include/asm/setup.h
+> +++ b/arch/loongarch/include/asm/setup.h
+> @@ -37,4 +37,10 @@ extern unsigned long __init relocate_kernel(void);
+>
+>  #endif
+>
+> +extern unsigned long __reloc_offset;
+> +static inline unsigned long kaslr_offset(void)
+> +{
+> +       return __reloc_offset;
+I doubt that we should return random_offset here.
 
-Tested-by: Will Deacon <will@kernel.org>
-
-Will
+Huacai
+> +}
+> +
+>  #endif /* __SETUP_H */
+> diff --git a/arch/loongarch/kernel/relocate.c b/arch/loongarch/kernel/rel=
+ocate.c
+> index 6c3eff9af9fb..9ba560d514e1 100644
+> --- a/arch/loongarch/kernel/relocate.c
+> +++ b/arch/loongarch/kernel/relocate.c
+> @@ -16,11 +16,9 @@
+>  #include <asm/sections.h>
+>  #include <asm/setup.h>
+>
+> -#define RELOCATED(x) ((void *)((long)x + reloc_offset))
+> +#define RELOCATED(x) ((void *)((long)x + __reloc_offset))
+>  #define RELOCATED_KASLR(x) ((void *)((long)x + random_offset))
+>
+> -static unsigned long reloc_offset;
+> -
+>  static inline void __init relocate_relative(void)
+>  {
+>         Elf64_Rela *rela, *rela_end;
+> @@ -154,7 +152,7 @@ static inline void __init update_reloc_offset(unsigne=
+d long *addr, long random_o
+>  {
+>         unsigned long *new_addr =3D (unsigned long *)RELOCATED_KASLR(addr=
+);
+>
+> -       *new_addr =3D (unsigned long)reloc_offset;
+> +       *new_addr =3D (unsigned long)__reloc_offset;
+>  }
+>
+>  unsigned long __init relocate_kernel(void)
+> @@ -173,7 +171,7 @@ unsigned long __init relocate_kernel(void)
+>         if (relocation_addr_valid(location_new))
+>                 random_offset =3D (unsigned long)location_new - (unsigned=
+ long)(_text);
+>  #endif
+> -       reloc_offset =3D (unsigned long)_text - VMLINUX_LOAD_ADDRESS;
+> +       __reloc_offset =3D (unsigned long)_text - VMLINUX_LOAD_ADDRESS;
+>
+>         if (random_offset) {
+>                 kernel_length =3D (long)(_end) - (long)(_text);
+> @@ -187,15 +185,15 @@ unsigned long __init relocate_kernel(void)
+>                         "dbar 0 \t\n"
+>                         ::: "memory");
+>
+> -               reloc_offset +=3D random_offset;
+> +               __reloc_offset +=3D random_offset;
+>
+>                 /* The current thread is now within the relocated kernel =
+*/
+>                 __current_thread_info =3D RELOCATED_KASLR(__current_threa=
+d_info);
+>
+> -               update_reloc_offset(&reloc_offset, random_offset);
+> +               update_reloc_offset(&__reloc_offset, random_offset);
+>         }
+>
+> -       if (reloc_offset)
+> +       if (__reloc_offset)
+>                 relocate_relative();
+>
+>         relocate_absolute(random_offset);
+> @@ -208,9 +206,9 @@ unsigned long __init relocate_kernel(void)
+>   */
+>  static void show_kernel_relocation(const char *level)
+>  {
+> -       if (reloc_offset > 0) {
+> +       if (__reloc_offset > 0) {
+>                 printk(level);
+> -               pr_cont("Kernel relocated by 0x%lx\n", reloc_offset);
+> +               pr_cont("Kernel relocated by 0x%lx\n", __reloc_offset);
+>                 pr_cont(" .text @ 0x%px\n", _text);
+>                 pr_cont(" .data @ 0x%px\n", _sdata);
+>                 pr_cont(" .bss  @ 0x%px\n", __bss_start);
+> diff --git a/arch/loongarch/kernel/setup.c b/arch/loongarch/kernel/setup.=
+c
+> index 95e6b579dfdd..d7bda711824f 100644
+> --- a/arch/loongarch/kernel/setup.c
+> +++ b/arch/loongarch/kernel/setup.c
+> @@ -65,6 +65,9 @@ struct cpuinfo_loongarch cpu_data[NR_CPUS] __read_mostl=
+y;
+>
+>  EXPORT_SYMBOL(cpu_data);
+>
+> +unsigned long __reloc_offset __ro_after_init;
+> +EXPORT_SYMBOL(__reloc_offset);
+> +
+>  struct loongson_board_info b_info;
+>  static const char dmi_empty_string[] =3D "        ";
+>
+> --
+> 2.39.3
+>
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -224,4 +279,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20230706090309.GA29243%40willie-the-truck.
+kasan-dev/CAAhV-H5vKoqm4Cyt7Si5fLmYKvu%2BYXs3gnm4fr4Tk9USCc97Pg%40mail.gmai=
+l.com.
