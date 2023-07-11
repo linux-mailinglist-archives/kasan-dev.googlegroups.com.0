@@ -1,141 +1,171 @@
-Return-Path: <kasan-dev+bncBCF5XGNWYQBRBEUDW2SQMGQEAV3N2DY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMMFP7V4IARBJEIW2SQMGQECDFIGEQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43a.google.com (mail-pf1-x43a.google.com [IPv6:2607:f8b0:4864:20::43a])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE8E174F504
-	for <lists+kasan-dev@lfdr.de>; Tue, 11 Jul 2023 18:21:40 +0200 (CEST)
-Received: by mail-pf1-x43a.google.com with SMTP id d2e1a72fcca58-682a4f1253asf9018152b3a.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 11 Jul 2023 09:21:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1689092499; cv=pass;
+Received: from mail-oa1-x3b.google.com (mail-oa1-x3b.google.com [IPv6:2001:4860:4864:20::3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8539674F551
+	for <lists+kasan-dev@lfdr.de>; Tue, 11 Jul 2023 18:32:38 +0200 (CEST)
+Received: by mail-oa1-x3b.google.com with SMTP id 586e51a60fabf-1ad34f55a63sf6595574fac.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 11 Jul 2023 09:32:38 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1689093157; cv=pass;
         d=google.com; s=arc-20160816;
-        b=fZhyLnGHqLyoSupbGJy9DtNAscjQObVFUIqmRTOjJCj8xfYpRRs6UGZbnRHphinVBy
-         kxua6m+whezezCmRWk/ZgjJpERnblWpqwNXDi8wwoWYMMKVbGvQcSnkQoB26zoXH08uY
-         /eMgN/9Z/EBprjtrlQO/0hb7G/XWq0Cg3iGXl/ooBXI9AyyJ7HOMou1VHpMsQxDzFAwP
-         Derkkp0NR+4EsM0TB5Wb6NUizUDF2ZjxbDGM1/HW4Ph7lNsJshgDtmDFmoCFq59wCSkL
-         yv1t2BDMZPLNxDXvxH9TCG+I8rtrSAqA4/FKJjNpuvgEhqKXXE8pvD3WLS8GR9oCB5MG
-         KWNg==
+        b=ewPel2LAyTLgJDF8cJYTK/eM1ajKJkgmnVlNkAVPBtTy/ZoIqE8phME47uRTjUt6+I
+         MS6MA8839WdiZOiDoPLso8dd6/ynK6ZlUbrk243/wKpaHY0F8aKQQv3XTlRVVzGgxfOp
+         M1ztCa8mut1O64kD6p9QWT+YwmdOFFtVmLaS9eugpSuUZ4QQb+1V9eOnFgLpSu24kYgh
+         dLhu+vcev76lJCwJd7OOOYPX3m+ajVYSluXJ258DSOt6RW8WI36SCCro8+XVaPTMNVyr
+         qNmC5SeFVyP6lVZCSOckvVPWF+5U4LUc8TlNH6ziy2EmTwFZgsCM+mSyFYwZiMpNBW1+
+         UiMg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=+MKB77X0P57N7ApXCCFFe6K9I3+k3oDEgXlS+QhuFIw=;
-        fh=uVhf7W460rgBYDoMEVmAaCiCt78MDctxX7/FHURrW1A=;
-        b=m59gVHXjvjzUWzu1x0aX7c6IfAzdIqXRXYEn/CyODj7al6JSbbpHRfRDpncntYtbm9
-         MONeqfFRlGW/g8abwQJ9qA2wjetNrSgLnYI1Bdr+t7m5FqWIIhDgFkU7yr/vsYtXGixC
-         eVQ+olLw/zEAOsEfkFfcuPNXhHYEnvAJybKs1c6XrznGmZDWcoGbaS6XmtrTs65K9qi1
-         Z2CAyiHbFIjfxIS75iVGPYTg6rlA0wOEqItRUV4KrRhHfzyw6tyBNM7zlnYJKR9pWEx+
-         rrFhcblvvV/OYd5xswvthjdhNpvY4NEQYogsj4z1jPvTLnfaYqL4uHexFFsw7ZY2wUX/
-         b9bg==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=K8XlqBL4R4pkclG+2xF1kcBpkPv5LnWXHi22Q2A49tE=;
+        fh=9l3WlPrJiKe0VE01dwZLc8FZUO+QwrxdBFb1JVM+yEc=;
+        b=wNuwZAD8M9JRxp+ReTHtbwHPkk5A2rwfNKzZwjoKsGrhGOtK4EFsnLAz4z7LiDQ7Pm
+         zIKX5zZuzDM37wmfS9I80x3kO5sAN5eYIsQ65ywAKsyGMJ0wTy9HxNuKf/pdeKvbM3vX
+         v1RKqjwYTubeJY+Wv1arGg1ZCVWtOxiSPVVeU6gYYcUdj/aqAW/sp6ZoP8Wa8m4mrbe9
+         6UcnU32/zOu7FCImQlD+h9VyVBWPwFcAic7E6JSyWA4jHrjpip7O2vXcEX34a6o2XH44
+         CK9lVTzNNAQDAKqHDWMVuHtp6GAImB/YNTZOU2M8EbUC58cl51SWa+DDK8Tgt1iUV7LO
+         ultQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=gpWbxLEJ;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::436 as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+       dkim=pass header.i=@oracle.com header.s=corp-2023-03-30 header.b=ymbOEdbz;
+       spf=pass (google.com: domain of martin.petersen@oracle.com designates 205.220.177.32 as permitted sender) smtp.mailfrom=martin.petersen@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1689092499; x=1691684499;
+        d=googlegroups.com; s=20221208; t=1689093157; x=1691685157;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+MKB77X0P57N7ApXCCFFe6K9I3+k3oDEgXlS+QhuFIw=;
-        b=dpjKjCm6soUiIADS/bGtYXQzg8OqX411smeSPYLzrPsOjpAkgXhKytcZOrkIFGby0+
-         o8QJTNFcPXyVyhZQnT5RUSS/bYObTUFkk6bkIkPQMXQXXSqSlkmVQ5N6HsImH+nUDi1S
-         MDZ219uZ88oyT5RIrdTnbm4GqYmNfByQ6ABAyYYdffpbrEn6bRTUv9Iuw2DcuDxYFrjR
-         ZL72LVB49/C5LvDsjc73/4vUSyq0cQoIgxJAEolxbEOoRX9DDBkNNU+4Jao8KxYG/m7y
-         BQxpEBHaW6oT+YaKnEPD5Q4L/vl1wwAWH+Y3OcboxN9uysOXQUP4evzudFjA1e5zfSnn
-         a7rw==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K8XlqBL4R4pkclG+2xF1kcBpkPv5LnWXHi22Q2A49tE=;
+        b=WP0y7oHhvAW/AMGhzOLBH9VE7q2uYcP6/jVYqp4JG+qtMIH4/PkIje8PJaWG0Xsrnh
+         RYO7RwtcXbwVaUAvhDI9xFs0bbpnUe9oqidZs5UJz6r1jM8v8kqKhIMYDNKCdqPc34zl
+         swhXNAvBq1Z3EQWAn8XvDhGy3lisBrflWj19s7xLHx8AnnCJAibzapjJ8IcviQ6lPobI
+         8Wb4+NRp51+9INk6VsikOGpENJwzG6Ty2kmi7SdUs+8C8vfnrI8HXPEXc7p2kgUjktvK
+         B/l8hWm40Ed3wPnihBjNXlf2OEJDYGSujraBjyrpysMAIuRjRKqynks39GGTRgPOBd55
+         uXUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689092499; x=1691684499;
+        d=1e100.net; s=20221208; t=1689093157; x=1691685157;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+MKB77X0P57N7ApXCCFFe6K9I3+k3oDEgXlS+QhuFIw=;
-        b=lUyvCIh41pWl9Wyu7rLubaFnw8NapBfDqNP2jiLyf7dq+rREnX8v7EzyD1l4E1WOA+
-         WNJQwl6UGWljz7Zs2EHbQPZsTEbZFVjqnz2Fv6T/72n/hFwpunWOVRtLe1Kn342l7ZfM
-         Iex2fSrRs4+NKRfqsKu4CDuwV8Mc/EGsN1U/4Fi+uBmQQd9+Mq6O0jPG0mj/mRcHRqgd
-         ZqpqDGSnup9bsBiu/Ht8Y+OTGSOjBaNgH+IuyMMLW2muWssYQXerzrRzgbQB6th2Jx0p
-         lYDM5RqTAJYM09hWBm9BE8uw4Zmn2y6j+UVaVFSvqhR5wQIsJq7QKuagxUJEzM6azZ2j
-         wTUw==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K8XlqBL4R4pkclG+2xF1kcBpkPv5LnWXHi22Q2A49tE=;
+        b=L8tWuHRAakva5M5CUKZOMVCntgXQGv+7tPApMEdQBXDLfGjFYJ6V39Ws/eG4Aapv7o
+         mZLp8KIZS5pNYl0G3jEXs/SXpwPXUA+XXJZsox59qMnXX5R7uSIbUrPnyWF5HgiGgRml
+         K/b50TezoVTOTi5/MJeme77BLx+5hKhex3xQXciNnCsdOT+U+jF7qHgMdlq6xI8TSJ3z
+         EHa/5+2nNztZnpMv+0DtfRcGXiHW2YJZutq1JSQ3thJmMM3PugMa33Dns6iIGEkiJCNB
+         yd9dnorOa1/NIH8TXcES29q+Qsv9NwtXbHU/crJq6tsjLVNf/yS1HZMESYMAjYmYi5Dj
+         H/xg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ABy/qLYvfHURf8KDX9hCp+OitaLWsJGT7v4M5smALi8rxHudlNnYy6zw
-	D0IXnO+vPELCI5StiKWE1JE=
-X-Google-Smtp-Source: APBJJlHhATDYFmNCdNXOmzHAw/S1MWAdDcTuofQgTlqA5BrcAOGPnk7MZBuQwo6znvFvndhDYy4qTw==
-X-Received: by 2002:a05:6a20:3951:b0:12f:acc9:286 with SMTP id r17-20020a056a20395100b0012facc90286mr24428720pzg.17.1689092498675;
-        Tue, 11 Jul 2023 09:21:38 -0700 (PDT)
+X-Gm-Message-State: ABy/qLZExRK63+JFeOUPqaVv5ublMjNVb1bGX+7yFND6hDPgJwk6n1kj
+	a9NarWljrEn2ZD/rM4DF54E=
+X-Google-Smtp-Source: APBJJlF1FoK4xH6dqdYbXnhpGH6UyeMu9RESx0g2uhBkLsFBSXmjrdlA2hejJKoUhnWEKglHrOAZhA==
+X-Received: by 2002:a05:6870:f10b:b0:1a6:987b:f09d with SMTP id k11-20020a056870f10b00b001a6987bf09dmr18616022oac.51.1689093156988;
+        Tue, 11 Jul 2023 09:32:36 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:96e7:0:b0:669:ebf8:2ce4 with SMTP id i7-20020aa796e7000000b00669ebf82ce4ls5105368pfq.2.-pod-prod-00-us;
- Tue, 11 Jul 2023 09:21:37 -0700 (PDT)
-X-Received: by 2002:a05:6a20:3ca7:b0:12c:8aa2:8b59 with SMTP id b39-20020a056a203ca700b0012c8aa28b59mr21215472pzj.28.1689092497629;
-        Tue, 11 Jul 2023 09:21:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1689092497; cv=none;
+Received: by 2002:a05:6820:61f:b0:565:b612:7f77 with SMTP id
+ e31-20020a056820061f00b00565b6127f77ls1308143oow.2.-pod-prod-02-us; Tue, 11
+ Jul 2023 09:32:36 -0700 (PDT)
+X-Received: by 2002:a05:6808:1986:b0:3a1:d656:21c with SMTP id bj6-20020a056808198600b003a1d656021cmr18546932oib.21.1689093156487;
+        Tue, 11 Jul 2023 09:32:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1689093156; cv=none;
         d=google.com; s=arc-20160816;
-        b=u6cEJvUQDNRQ70U1pN0J/8VtJIHlINZ2zCKDcv6GKcI3DoM0EXcJpPYZtnFav1ybRZ
-         jIWe7pgyziZVhxiFYbAnNy9b705iCwGs0Uy1UiOxnkgXx67QCIudsSZ+OBTPv4N53Wk0
-         wDuHXBmDnvCUn5NdYrdVKq/Sib6t9fbODdJJ4DKLEGEbE3JiEb3tf5sUKbu8Wh9cyreT
-         RTArH5j8rosCxIFPLbP4/kMCmYJIjxAHoM1UC90zJO1+bMgB96T6yPR3gMO6+CBmuTxY
-         vWTcBUW4lYU5ZwWw3yYytm/IHta9V0G5MBpDVFffm4gkMbGrKyyo2XBG9XFz1ZicnHEA
-         5H5w==
+        b=eVlKg+7s6j52nJrcoFFIrjtmyPM+iEt0/svrrakUJDD1TNXJAgMYToAF3GPJChpTa0
+         efew1ilLCA0DzbUkmaUW+QZEscwDBv7TJkIOG+Ft/3yw9GyQr0hjWKrFgrF3N7jiRTyY
+         ExZyHDXbxTivkZraZwJUUdyvRgrW8WPS/j1N9tYld6Qfe8nXgWmzvhfZd/+mDMqUH/2F
+         Js64fyqcauY0Z75gB1Hbl9QfdTrIi29XhZS/wSK93DjvPqrN1rhhNMovJfce108Xc8c5
+         LNNAaSHIyt5Pip1GeeLfgDxGsbVuFKYis5oZiUn9v+gwLoPQ7GAnGdGhmAsE0pRafqsg
+         Iq1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=FRd6MSnrDwuyQ7znWMqv6yCTnL1/DCJOC7bU8PD4YHA=;
-        fh=uVhf7W460rgBYDoMEVmAaCiCt78MDctxX7/FHURrW1A=;
-        b=kZS1Y1l602XdlLlZpJbdR/sxkR9xlB9EQlNo2CSa//kWrA9Gh8Vlb3U9Nz815slfh5
-         V+KVPIDyw8nhpsyPRrdVLAsenRr0E0BOFEJb4deQJYDvT/fHN/QjD4mfxo7PSkiaEKxl
-         g4qOa16PMOMm9qi/WPStwtL7DmC2fhtR7VHaFOn/OZ2K2wbqqQEj4/+d6pPkC6Mz+3Mu
-         Bo28thjgmdFAyFJYgyNnsmy3X1lmCTX9ZV6Adx8QjzP7TV8Hk0CDpplv63r7UuDoB/Sl
-         yhEGWfOjErs9zsdnWF8bTCjc37PvTLHZc2IrUwfrCLbiqpxQrrZD3eayscgFZtgD7wte
-         wD9g==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=+4V1nFRqwTelDtAcI310e7e7t3xc9C8kzlyU277DNxs=;
+        fh=9l3WlPrJiKe0VE01dwZLc8FZUO+QwrxdBFb1JVM+yEc=;
+        b=pp5up3TdTOelFcuhM47tm0SE2xJEFs+wo+TkHnSikNeAq4SNPnVONCObMJvmfLzL9C
+         Ni8LlC+hRkg9npzltXyh1OFCKOkUtAMCs9k0aACzqHjCKprNyhm8xE04YOBir0egi9H9
+         LzFo4E0p+Oe+w/kzkZ2nFLeBkTt2X55CzIYDwt2eaJKkO6JnL76REh9hoTgqVdcR09KM
+         fMsgG24xssap+pcJt+sTkbQzoH7UnzKrao1tlGFuCIpr06mMvCKZeKvSaQKnwRriPT3P
+         Y0B1wlTNs7cOzdzhZCL916IG2HdoPCKwaDbjgvylnCg/yFxBlaodewKB1C4XoM425ELZ
+         lO7g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=gpWbxLEJ;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::436 as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com. [2607:f8b0:4864:20::436])
-        by gmr-mx.google.com with ESMTPS id fh5-20020a056a00390500b00681f56016b9si221144pfb.4.2023.07.11.09.21.37
+       dkim=pass header.i=@oracle.com header.s=corp-2023-03-30 header.b=ymbOEdbz;
+       spf=pass (google.com: domain of martin.petersen@oracle.com designates 205.220.177.32 as permitted sender) smtp.mailfrom=martin.petersen@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com. [205.220.177.32])
+        by gmr-mx.google.com with ESMTPS id bf34-20020a056808192200b003a1ee7b28acsi215649oib.1.2023.07.11.09.32.36
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jul 2023 09:21:37 -0700 (PDT)
-Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::436 as permitted sender) client-ip=2607:f8b0:4864:20::436;
-Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-6726d5d92afso4485577b3a.1
-        for <kasan-dev@googlegroups.com>; Tue, 11 Jul 2023 09:21:37 -0700 (PDT)
-X-Received: by 2002:a17:90b:1d02:b0:263:114c:52fc with SMTP id on2-20020a17090b1d0200b00263114c52fcmr23830843pjb.12.1689092497290;
-        Tue, 11 Jul 2023 09:21:37 -0700 (PDT)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id dw16-20020a17090b095000b00260cce91d20sm2026175pjb.33.2023.07.11.09.21.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jul 2023 09:21:36 -0700 (PDT)
-Date: Tue, 11 Jul 2023 09:21:36 -0700
-From: Kees Cook <keescook@chromium.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>,
-	Pekka Enberg <penberg@kernel.org>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm@kvack.org,
-	patches@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Matteo Rizzo <matteorizzo@google.com>, Jann Horn <jannh@google.com>,
-	Andrey Konovalov <andreyknvl@google.com>,
-	Marco Elver <elver@google.com>,
-	Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 2/2] mm/slub: remove freelist_dereference()
-Message-ID: <202307110917.DEED145F0@keescook>
-References: <20230711134623.12695-3-vbabka@suse.cz>
- <20230711134623.12695-4-vbabka@suse.cz>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 11 Jul 2023 09:32:36 -0700 (PDT)
+Received-SPF: pass (google.com: domain of martin.petersen@oracle.com designates 205.220.177.32 as permitted sender) client-ip=205.220.177.32;
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 36BG3O1f022902;
+	Tue, 11 Jul 2023 16:32:04 GMT
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3rpyud5e6f-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 11 Jul 2023 16:32:04 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 36BGUtBm007087;
+	Tue, 11 Jul 2023 16:32:03 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3rpx854cdv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 11 Jul 2023 16:32:03 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 36BGQBXP019529;
+	Tue, 11 Jul 2023 16:32:02 GMT
+Received: from ca-mkp2.ca.oracle.com.com (mpeterse-ol9.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.251.135])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 3rpx854c4h-4;
+	Tue, 11 Jul 2023 16:32:02 +0000
+From: "Martin K. Petersen" <martin.petersen@oracle.com>
+To: linux-hyperv@vger.kernel.org, Julia Lawall <Julia.Lawall@inria.fr>
+Cc: "Martin K . Petersen" <martin.petersen@oracle.com>,
+        kernel-janitors@vger.kernel.org, keescook@chromium.org,
+        christophe.jaillet@wanadoo.fr, kuba@kernel.org,
+        kasan-dev@googlegroups.com, Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>, iommu@lists.linux.dev,
+        linux-tegra@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>,
+        Krishna Reddy <vdumpa@nvidia.com>,
+        virtualization@lists.linux-foundation.org,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>, linux-scsi@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+        John Stultz <jstultz@google.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Laura Abbott <labbott@redhat.com>, Liam Mark <lmark@codeaurora.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        netdev@vger.kernel.org, Shailend Chand <shailend@google.com>,
+        linux-rdma@vger.kernel.org, mhi@lists.linux.dev,
+        linux-arm-msm@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, linux-sgx@vger.kernel.org
+Subject: Re: (subset) [PATCH v2 00/24] use vmalloc_array and vcalloc
+Date: Tue, 11 Jul 2023 12:31:45 -0400
+Message-Id: <168909306205.1197987.4062725942946508296.b4-ty@oracle.com>
+X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20230627144339.144478-1-Julia.Lawall@inria.fr>
+References: <20230627144339.144478-1-Julia.Lawall@inria.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20230711134623.12695-4-vbabka@suse.cz>
-X-Original-Sender: keescook@chromium.org
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.254,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
+ definitions=2023-07-11_08,2023-07-11_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=801
+ adultscore=0 mlxscore=0 spamscore=0 phishscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2305260000 definitions=main-2307110148
+X-Proofpoint-ORIG-GUID: VdiqWRAD5JOoA45uglvHtoSxe29wDWJY
+X-Proofpoint-GUID: VdiqWRAD5JOoA45uglvHtoSxe29wDWJY
+X-Original-Sender: martin.petersen@oracle.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=gpWbxLEJ;       spf=pass
- (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::436
- as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+ header.i=@oracle.com header.s=corp-2023-03-30 header.b=ymbOEdbz;
+       spf=pass (google.com: domain of martin.petersen@oracle.com designates
+ 205.220.177.32 as permitted sender) smtp.mailfrom=martin.petersen@oracle.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=oracle.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,68 +178,28 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jul 11, 2023 at 03:46:25PM +0200, Vlastimil Babka wrote:
-> freelist_dereference() is a one-liner only used from get_freepointer().
-> Remove it and make get_freepointer() call freelist_ptr_decode()
-> directly to make the code easier to follow.
+On Tue, 27 Jun 2023 16:43:15 +0200, Julia Lawall wrote:
+
+> The functions vmalloc_array and vcalloc were introduced in
 > 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> ---
->  mm/slub.c | 16 ++++++----------
->  1 file changed, 6 insertions(+), 10 deletions(-)
+> commit a8749a35c399 ("mm: vmalloc: introduce array allocation functions")
 > 
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 07edad305512..c4556a5dab4b 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -397,18 +397,14 @@ static inline void *freelist_ptr_decode(const struct kmem_cache *s,
->  	return decoded;
->  }
->  
-> -/* Returns the freelist pointer recorded at location ptr_addr. */
-> -static inline void *freelist_dereference(const struct kmem_cache *s,
-> -					 void *ptr_addr)
-> -{
-> -	return freelist_ptr_decode(s, *(freeptr_t *)(ptr_addr),
-> -			    (unsigned long)ptr_addr);
-> -}
-> -
->  static inline void *get_freepointer(struct kmem_cache *s, void *object)
->  {
-> -	object = kasan_reset_tag(object);
-> -	return freelist_dereference(s, (freeptr_t *)(object + s->offset));
-> +	unsigned long ptr_addr;
-> +	freeptr_t p;
-> +
-> +	ptr_addr = ((unsigned long)kasan_reset_tag(object)) + s->offset;
-> +	p = *(freeptr_t *)(ptr_addr);
-> +	return freelist_ptr_decode(s, p, ptr_addr);
->  }
->  
->  #ifndef CONFIG_SLUB_TINY
-> -- 
-> 2.41.0
+> but are not used much yet.  This series introduces uses of
+> these functions, to protect against multiplication overflows.
 > 
+> [...]
 
-I like reducing the complexity here, but I find dropping the "object"
-reassignment makes this a bit harder to read. What about:
+Applied to 6.5/scsi-fixes, thanks!
 
-	object = kasan_reset_tag(object);
-	unsigned long ptr_addr = (unsigned long)object + s->offset;
-	freeptr_t p = *(freeptr_t *)(ptr_addr);
-
-	return freelist_ptr_decode(s, p, ptr_addr);
-
-?
-
-They're the same result, so either way:
-
-Acked-by: Kees Cook <keescook@chromium.org>
+[07/24] scsi: fnic: use vmalloc_array and vcalloc
+        https://git.kernel.org/mkp/scsi/c/b34c7dcaf311
+[24/24] scsi: qla2xxx: use vmalloc_array and vcalloc
+        https://git.kernel.org/mkp/scsi/c/04d91b783acf
 
 -- 
-Kees Cook
+Martin K. Petersen	Oracle Linux Engineering
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202307110917.DEED145F0%40keescook.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/168909306205.1197987.4062725942946508296.b4-ty%40oracle.com.
