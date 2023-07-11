@@ -1,138 +1,139 @@
-Return-Path: <kasan-dev+bncBDGZTDNQ3ICBBYOIV6SQMGQEMGEAB6I@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBBMBWSSQMGQEOCPT72I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x837.google.com (mail-qt1-x837.google.com [IPv6:2607:f8b0:4864:20::837])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5136574D40C
-	for <lists+kasan-dev@lfdr.de>; Mon, 10 Jul 2023 12:58:43 +0200 (CEST)
-Received: by mail-qt1-x837.google.com with SMTP id d75a77b69052e-403429b3331sf35286301cf.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 10 Jul 2023 03:58:43 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1688986722; cv=pass;
+Received: from mail-qv1-xf40.google.com (mail-qv1-xf40.google.com [IPv6:2607:f8b0:4864:20::f40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 061EC74E7B5
+	for <lists+kasan-dev@lfdr.de>; Tue, 11 Jul 2023 09:11:03 +0200 (CEST)
+Received: by mail-qv1-xf40.google.com with SMTP id 6a1803df08f44-635ed44d2afsf43701846d6.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 11 Jul 2023 00:11:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1689059461; cv=pass;
         d=google.com; s=arc-20160816;
-        b=tjW3JjYrc+e/4Wb4jCTosmubHqb8u+Zxh6GHGlRHEFrZHkaOPhdKU9G96q+1sRcTE0
-         wRUpjvZCh8wsRFY4qgSeIBRWmsG/HwRXVffK7PXR/LQRdpuzfKpNoA/OCdh/+iCH0x2/
-         Ee+Wu8rp5pfeuYylyZEXmgEoUxn53h24vD1VC/1B0i1l3VcbgOzTgtzLUrHCi6XAUqVc
-         q3ELTZwGTcMwMoMqARO+BXdY4oa58vooJHX9KVXa7shxCTIFU/ryDyqKPjhEAAzaWdAD
-         bl5KYPX2NdhHxSQu3VI9AqfNLgrRUPRnPaqVPDWiahm7i7IqNhw+BSvXdB7M7POi7S+7
-         g/Kw==
+        b=eGm8cyObvU+JzB2oN7MtazgoWjpp2vckEVncKSe41ri7Vd8P57sZBtYUJe68zszoQl
+         F9znYo9V6lSkVkUvAgjUTr5kohOnfICtrEnIDLxubkNeiSV7CSybIJeOtx4cR8dq7HH/
+         iVRvvRM2ON6sPN5/5wwEpGi4JoIY2pxWQAFlHlJ7AE0ItcqHfFhDUCxkFM/QP+QT4FD6
+         O4EIOgCpeFFmrfAFNpIMQ3109JFsAokI8VzdrGcBgInZbuCzzwFDojrtIjBOwe/p5QFE
+         s+OSapst+r6IONpPc29w1Cnw4kAViKYMaE9/p9jvis8JMfRsJyhuwBiYP4Q8dDzVrap2
+         Az9g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :in-reply-to:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:dkim-signature;
-        bh=tVwr7b4YYvRZuVboPj6krQytOSCjLS5XSP9L4NbaiMM=;
-        fh=qaTgcxw1t+XO8eb7IlA13DofIbUHoHaPKRBFwRBPJDg=;
-        b=DzE0vqTZ+NpVIUoTel5mZtFN3LmB9pdTV08wsbARK5R9BND78d4KxMCwYpDINGt9+b
-         9MV6pThbFqUWqMcMcThBVCzdjNV0hvBtpCC2Zs7apFsrqiPf9sj6MXlhdxWQdv8kr8h3
-         iZZmgDTGuBuJPjXfWtWy+6Odv4BxAvjpd0pEqOC9s6dievovzuefvNySrXRwkjoJ7jKz
-         wFKlnQUATA3Xp/gnPlCmpxP1Zvl8M1GsbleNyp71PeJ6QUEqP8SzPBBr4afyX6QBom/o
-         O7AAXcnr48/2q0l6cUrTrphVI63G0xsuJKyCmzHAQodfBkiYuymRFMuxZqC7WvnH01gR
-         Z9yw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=MbB5Z4yB2eVQDVYeE3tbxkCR2oF5W5kQlJgYa2MX/QI=;
+        fh=clsZS2VOcwrZf8nGTc+KacmVGHm+xLJqhWwb0JwGPbg=;
+        b=OX7C3gbRJFyUwWBvWz7xtWY4eIwadvVFtPmnMHbW0MzKhoj3M/AE474XnDdODgl3U+
+         hrluuWUQki115h3DRFF1/goVBg7wQ4xgtdRLzEgz4WV+93H7IFY9Ghr6out+Ky8TdvSH
+         wiFIB1252pVDTUDfGy7JMfjp6sr2AGoVzx0FW/Li4uLsSR7XLFO+rrpHv7uEs1OOwexJ
+         RPZvBNVswe8nPpVPgT9CPn4Hljsn3CkTkn6FSmQXi5s42BS6IU2OHRfPX8OQx/S1TBmG
+         NCirSaG/kpFy83/9PmOOlTqYq1fERfwKJY+uI9jvFJx06G4aTR1PY0Xwa8C9Qqq5tZMq
+         wgew==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@bytedance.com header.s=google header.b=cKdGo6lu;
-       spf=pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::536 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
+       spf=pass (google.com: domain of chenfeiyang@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=chenfeiyang@loongson.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1688986722; x=1691578722;
+        d=googlegroups.com; s=20221208; t=1689059461; x=1691651461;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tVwr7b4YYvRZuVboPj6krQytOSCjLS5XSP9L4NbaiMM=;
-        b=oT0Ize9FWlMWOTkHQMBQdM067ZGbEeKxnXS/WE3xWyM6MziR+Ve6c80ODjkiw97cC3
-         M4FWXBoJzr+srTYLDlplOww5HACy2sdfE+1AXMMJNPinEkM10UZCHg9XlKCA8+mcJkWy
-         K604ZQUUoVFRZBGudTbtZiLsSsO5ZvkHvS4EHj2zlaqnk2I/coHlBc8Wdrwj5ojWVfcP
-         lYj9SWZjMc8GdEJ+roo7I28Tzf2u2xWnwTWCjtgOOeXes7XKgsSGA7EeX4SIAOm7E7D2
-         BNwwWrkA0QDteVZLADSLSuKFNR1K1gfp5DpslgD7QVGQDF9ToZizgJvdzHdJdR5C7sKt
-         E3qQ==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=MbB5Z4yB2eVQDVYeE3tbxkCR2oF5W5kQlJgYa2MX/QI=;
+        b=VvYAaNl7pjo3f7VFkdsJgv3VrmzhfHAmT5EpUfxAF2UWafJZRd5vtTR0J4O3sSY4zO
+         XOsUS2vidXa6YNbPE7PMbkBi9dp5aztAPQWFcSWpwbvoop3j00wD/k5JIzZHPjNNm5Bp
+         YaQoaxtqw2G68xVlSzkHm8zTyT1a8n/bsg0H1NdjqMk+1UcFjid/5mLJjpwjV6RMurwh
+         /gVzccY5+8+Biq51I2y6a0RUU8KoJ7r9GwdEIY0NVcZDbNsaVoYEVamK6He3hrkEi36m
+         hz8UhCLBG3kLcEqGKpXhna7SjvXP8SbFzSeI+IJHFrduA0MEVwQUnsGtoB57ySevlUjU
+         k14A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688986722; x=1691578722;
+        d=1e100.net; s=20221208; t=1689059461; x=1691651461;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-beenthere
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tVwr7b4YYvRZuVboPj6krQytOSCjLS5XSP9L4NbaiMM=;
-        b=jo7yKbbn8ZXESiVri46Bmc05Y5SkMRT0FgV4gdnV4S7ShEAlVBZEJWYNbADLX6EcuW
-         6sQAAUgkbla/XSURIW3PBNpoS7Dx0MTFQHNRCnBYYibEgCN+QYbR7MXH+ToiHvy8RQ8E
-         ve5gWYLtgu5UNeKqKNpYFw5GKGgqknGQL7SgYmx7Wd8Y7iD05GbQ5E2mBSqQEnc2E6dD
-         3Lr7EWwLInA4u/RGfA9NJOhqWPlbulX/G9nAV6w7MFYc5yxkL9sWhQi/49iIE4VS2I2h
-         FhRGWMZ1PTKvdVfl3nVuwNR7cyIfayER8uop1yvdtoNs2ru2xWb1osP+6RzobCqA+3Qu
-         xUNg==
-X-Gm-Message-State: ABy/qLYZIOfP2VPaMLGljDX5rTMOGeLeNYxfDUZeyngBYiIh/DaKfcjq
-	zC6nNqv4DiJimA9Fo8KMOgs=
-X-Google-Smtp-Source: APBJJlEoCnZlp8tDEseIczcJFpcbdvMs8R+giNTxOi/njr1vk+4oHtiIem/aS9Jd1ro+xy8louU5ag==
-X-Received: by 2002:a05:622a:1189:b0:403:acbc:d1ee with SMTP id m9-20020a05622a118900b00403acbcd1eemr3017153qtk.42.1688986721926;
-        Mon, 10 Jul 2023 03:58:41 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=MbB5Z4yB2eVQDVYeE3tbxkCR2oF5W5kQlJgYa2MX/QI=;
+        b=Ckn9OQ8jYvMOR+PcxX36yuxoR+JOHUhzLLLhezJckW93Rfz+Ggp4X6wj/hJBxQEEvg
+         RrlrDJsjx1xNjdaYLVQjrMyuii+ImnaHIV02/mL1SrzYDcaipY6XBrAgfI2ZmFcPredg
+         xGr5gaTKFqU/AvIGR2gk6ksAnq9Ufvyl2EMjUgosbLPjcV7IwLhH4XBzar/+bu56LsNi
+         MbKnGjQ20r+Qqjt3UyQFF1Ih8jo0f/gp4w3Qro/HGMVbPl5rrFQDUMXPtTXFYLCkqehi
+         RZ544E4uXffvxPm7eXyh5mBHNBvu11I7cem2v0akCVCHkfgRfCP/wH1KIZ/eUVwcycsa
+         yoJQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ABy/qLaZ/ZX050QN5WOgqMnC4gCk1aiHMSjhCmvLEirPLoCxd0naVBfm
+	nO51Cl0yDrLne9RBxxfmuwc=
+X-Google-Smtp-Source: APBJJlE3c96vOb1+TsuJ6iK4m7ewPjd20zqrbwIerPyACf0FR0Fm/4/NMKNQSelSbCXSWQ8PtipA3A==
+X-Received: by 2002:ac8:5e53:0:b0:403:a1e0:e3e with SMTP id i19-20020ac85e53000000b00403a1e00e3emr10600309qtx.24.1689059461569;
+        Tue, 11 Jul 2023 00:11:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:71c9:0:b0:403:ab5a:9c10 with SMTP id i9-20020ac871c9000000b00403ab5a9c10ls881222qtp.0.-pod-prod-03-us;
- Mon, 10 Jul 2023 03:58:41 -0700 (PDT)
-X-Received: by 2002:a05:620a:2844:b0:767:6b08:578a with SMTP id h4-20020a05620a284400b007676b08578amr10472150qkp.71.1688986721386;
-        Mon, 10 Jul 2023 03:58:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1688986721; cv=none;
+Received: by 2002:ac8:4a09:0:b0:3f8:3f:7349 with SMTP id x9-20020ac84a09000000b003f8003f7349ls5022437qtq.1.-pod-prod-08-us;
+ Tue, 11 Jul 2023 00:11:00 -0700 (PDT)
+X-Received: by 2002:a05:620a:4011:b0:767:7843:973f with SMTP id h17-20020a05620a401100b007677843973fmr15305693qko.35.1689059460747;
+        Tue, 11 Jul 2023 00:11:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1689059460; cv=none;
         d=google.com; s=arc-20160816;
-        b=Z41hgwZUdoQo1nuxtKqeVmGmDL8gjpejs9XTBXttY0UaNGi1H7InwaEJWkHvq2rS2R
-         XC9twUEjhe5o4haeNviK2DnPFExHPhWixCDfi25xk47OcgfExxCOI7Lw/RbCNXmfIXSP
-         z0ZJRPMgiGspc8fpfibMhGcdJN9tcFuvPTKmlhb87bic11TWi612DeTTdf1+grtGV7aG
-         40z/vWF+WiuxVZtbNYw9ErM1HnZ+4pBwLwjGkyQWcN5rzE1p93YfXQRFBEwbF0iK4N7r
-         Y96GjxNMLTeVGB2UCgsEg46DvmRKgrg1uuAnxDOjTigcmY5iTMGIMb5l5GZI2pKB1FP+
-         cuXQ==
+        b=zbhLgG+W/TlIzjxQxjg2NRxYQ+jwUHhN7Hj4mUpslOLQ3ptre51UGmTEnqFwCT2gGx
+         3JKcHFAhyBbAoE/mpoLBp0HAtrxfpzufUN7Hae7YmbBug3YeBrdnkwry5bradFvB+IzS
+         2alK7f4VLA6G3kFg4PdNEoUngJR2ZflkeOE7Mv9zwzZkjD1mqsxCeqXGFSFjQu6u/cu5
+         bqWe1yH0cQDDYzd6y3PyEhg+v9jhucSg66rn973LJV64gWplpqimPVGe/kxpGq/8mLfO
+         KqAaYkZ745Thng67SjxSb6YrhDU5lDt8UT60fIFQHaR2yVJc5kVR7zHk9WLxBL/OeEGf
+         FjGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:dkim-signature;
-        bh=cJG2s9++f1Tq43C8nTe1vusCTWa1w6VOf0Nc/0qr1bc=;
-        fh=ze3n4caySbxAHVqHDChZBUej/9vsC83YAndyDuHgKKU=;
-        b=G1vcC7nCV9DPLI0krVSTsogYk+XV5A+W/ZoQRhs3fD0g+JKhfOc+L03IMEgOqxxPym
-         2DxRPZGE6nmtU6YxK4htTKUzd/Cd80Xb4nS4mEG6Z9aJ3c7r9+eSZPF4VoTxiRdwz9jt
-         itpqLalYb0xv3SFZyY/uaqj/eiJH60evjNX03od6RnoDHkIAi+a/yTIaypMJd9A6EDHK
-         9053Ew3LSa81o5uGgiQ+hM3OJHhC7kUsP3XrH+fuLGat8zCoXvXR+oWfWwjNsYoCwWQ4
-         3w+i/0pm27dksakYLUBh6t+1E1JUtVT9x2pfNZdoRTihXvLontYp+2ZK+3/AHrQtvorp
-         qf+g==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=yHs3ihkF7ExrMs9WgSKshcfMUHuHzpOgK23qip+hzAU=;
+        fh=clsZS2VOcwrZf8nGTc+KacmVGHm+xLJqhWwb0JwGPbg=;
+        b=ORqfNyJz1cW5oGZZegBhLkPY4d1SnCfl8MJ9x1GzOOX4orCNABEWCfFG1teFPpZoRn
+         cEtKrbWUOn0aeqIo6gZQETnZvwQViWV/Iha15gQyZ7BIlMzE66/uOyOJQzq+TtNIL6TA
+         BcsDfM8rz/Kom8xxSIdMj/1HdnY2TkA6/kkqmbw24KOVu/pbvm/A6pzLIG+hTRNOtgMj
+         G+Ix7AaCgVw6z7lPYcrWtKRZKzlZ5SYVy8mnLAtcpAqpqnWGfx6M5Dj8iQCuOKm2HKcr
+         opKAD8UpU6M81f7sLVFAebrC3gbE0Ki1T0iRnyZNPgsGNH2guK0vAtF9qZH3r+vOUm7s
+         UHuA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@bytedance.com header.s=google header.b=cKdGo6lu;
-       spf=pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::536 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com. [2607:f8b0:4864:20::536])
-        by gmr-mx.google.com with ESMTPS id c9-20020a05620a268900b00767644f9b25si524336qkp.2.2023.07.10.03.58.41
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Jul 2023 03:58:41 -0700 (PDT)
-Received-SPF: pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::536 as permitted sender) client-ip=2607:f8b0:4864:20::536;
-Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-53fbf2c42bfso3246420a12.3
-        for <kasan-dev@googlegroups.com>; Mon, 10 Jul 2023 03:58:41 -0700 (PDT)
-X-Received: by 2002:a05:6a20:5483:b0:127:3c6e:fc83 with SMTP id i3-20020a056a20548300b001273c6efc83mr15851991pzk.42.1688986720819;
-        Mon, 10 Jul 2023 03:58:40 -0700 (PDT)
-Received: from [10.90.35.114] ([203.208.167.147])
-        by smtp.gmail.com with ESMTPSA id u8-20020a62ed08000000b0067ab572c72fsm6919768pfh.84.2023.07.10.03.58.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Jul 2023 03:58:40 -0700 (PDT)
-Message-ID: <8bc21e32-fdb0-e1a3-477f-dd660646ccdd@bytedance.com>
-Date: Mon, 10 Jul 2023 18:58:35 +0800
+       spf=pass (google.com: domain of chenfeiyang@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=chenfeiyang@loongson.cn
+Received: from mail.loongson.cn (mail.loongson.cn. [114.242.206.163])
+        by gmr-mx.google.com with ESMTP id ed3-20020a05620a490300b007593c43f6edsi88317qkb.0.2023.07.11.00.10.59
+        for <kasan-dev@googlegroups.com>;
+        Tue, 11 Jul 2023 00:11:00 -0700 (PDT)
+Received-SPF: pass (google.com: domain of chenfeiyang@loongson.cn designates 114.242.206.163 as permitted sender) client-ip=114.242.206.163;
+Received: from loongson.cn (unknown [112.20.109.108])
+	by gateway (Coremail) with SMTP id _____8Ax1fCBAK1kS2oDAA--.9943S3;
+	Tue, 11 Jul 2023 15:10:57 +0800 (CST)
+Received: from localhost.localdomain (unknown [112.20.109.108])
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxF81_AK1k308oAA--.46365S2;
+	Tue, 11 Jul 2023 15:10:56 +0800 (CST)
+From: Feiyang Chen <chenfeiyang@loongson.cn>
+To: chenhuacai@kernel.org
+Cc: Feiyang Chen <chenfeiyang@loongson.cn>,
+	dvyukov@google.com,
+	andreyknvl@gmail.com,
+	corbet@lwn.net,
+	loongarch@lists.linux.dev,
+	kasan-dev@googlegroups.com,
+	loongson-kernel@lists.loongnix.cn,
+	chris.chenfeiyang@gmail.com
+Subject: [PATCH v2 0/2] LoongArch: Allow building with kcov coverage
+Date: Tue, 11 Jul 2023 15:10:41 +0800
+Message-Id: <20230711071043.4119353-1-chenfeiyang@loongson.cn>
+X-Mailer: git-send-email 2.39.3
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.12.0
-Subject: Re: [PATCH] mm: kfence: allocate kfence_metadata at runtime
-To: Alexander Potapenko <glider@google.com>
-Cc: elver@google.com, dvyukov@google.com, akpm@linux-foundation.org,
- kasan-dev@googlegroups.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, muchun.song@linux.dev,
- Peng Zhang <zhangpeng.00@bytedance.com>
-References: <20230710032714.26200-1-zhangpeng.00@bytedance.com>
- <CAG_fn=XH8s8JbMKjsyyw_FZhLuoBqAwWU_+hCGyAXwe3wTBCWQ@mail.gmail.com>
-From: "'Peng Zhang' via kasan-dev" <kasan-dev@googlegroups.com>
-In-Reply-To: <CAG_fn=XH8s8JbMKjsyyw_FZhLuoBqAwWU_+hCGyAXwe3wTBCWQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: zhangpeng.00@bytedance.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@bytedance.com header.s=google header.b=cKdGo6lu;       spf=pass
- (google.com: domain of zhangpeng.00@bytedance.com designates
- 2607:f8b0:4864:20::536 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
-X-Original-From: Peng Zhang <zhangpeng.00@bytedance.com>
-Reply-To: Peng Zhang <zhangpeng.00@bytedance.com>
+X-CM-TRANSID: AQAAf8CxF81_AK1k308oAA--.46365S2
+X-CM-SenderInfo: hfkh0wphl1t03j6o00pqjv00gofq/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+	ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+	BjDU0xBIdaVrnRJUUUkYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+	xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+	j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxV
+	AFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
+	67AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
+	I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2
+	jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20x
+	vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
+	3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
+	AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAI
+	cVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
+	IEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8j-e5UUUUU==
+X-Original-Sender: chenfeiyang@loongson.cn
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of chenfeiyang@loongson.cn designates 114.242.206.163 as
+ permitted sender) smtp.mailfrom=chenfeiyang@loongson.cn
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,35 +146,22 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+Provide kaslr_offset() and allow building with kcov.
 
+Feiyang Chen (2):
+  LoongArch: Provide kaslr_offset() to get kernel offset
+  LoongArch: Allow building with kcov coverage
 
-=E5=9C=A8 2023/7/10 18:37, Alexander Potapenko =E5=86=99=E9=81=93:
-> On Mon, Jul 10, 2023 at 5:27=E2=80=AFAM 'Peng Zhang' via kasan-dev
-> <kasan-dev@googlegroups.com> wrote:
->>
->> kfence_metadata is currently a static array. For the purpose of
->> allocating scalable __kfence_pool, we first change it to runtime
->> allocation of metadata. Since the size of an object of kfence_metadata
->> is 1160 bytes, we can save at least 72 pages (with default 256 objects)
->> without enabling kfence.
->>
->> Below is the numbers obtained in qemu (with default 256 objects).
->> before: Memory: 8134692K/8388080K available (3668K bss)
->> after: Memory: 8136740K/8388080K available (1620K bss)
->> More than expected, it saves 2MB memory.
->=20
-> Do you have an understanding of where these 2MB come from?
-> According to your calculations (which seem valid) the gain should be
-> 290K, so either 2MB is irrelevant to your change (then these numbers
-> should be omitted), or there's some hidden cost that we do not know
-> about.
-I don't know why the 2MB memory was saved, but it looks like it has to=20
-do with the .bss section, maybe removing this array affected the linker?
+ Documentation/features/debug/kcov/arch-support.txt | 2 +-
+ arch/loongarch/Kconfig                             | 2 ++
+ arch/loongarch/include/asm/setup.h                 | 6 ++++++
+ arch/loongarch/vdso/Makefile                       | 2 ++
+ 4 files changed, 11 insertions(+), 1 deletion(-)
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/8bc21e32-fdb0-e1a3-477f-dd660646ccdd%40bytedance.com.
+-- 
+2.39.3
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230711071043.4119353-1-chenfeiyang%40loongson.cn.
