@@ -1,103 +1,106 @@
 Return-Path: <kasan-dev+bncBAABBBMBWSSQMGQEOCPT72I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf40.google.com (mail-qv1-xf40.google.com [IPv6:2607:f8b0:4864:20::f40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061EC74E7B5
+Received: from mail-oi1-x23e.google.com (mail-oi1-x23e.google.com [IPv6:2607:f8b0:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CF7274E7B6
 	for <lists+kasan-dev@lfdr.de>; Tue, 11 Jul 2023 09:11:03 +0200 (CEST)
-Received: by mail-qv1-xf40.google.com with SMTP id 6a1803df08f44-635ed44d2afsf43701846d6.2
+Received: by mail-oi1-x23e.google.com with SMTP id 5614622812f47-3a36b52afcfsf4634911b6e.3
         for <lists+kasan-dev@lfdr.de>; Tue, 11 Jul 2023 00:11:02 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1689059461; cv=pass;
         d=google.com; s=arc-20160816;
-        b=eGm8cyObvU+JzB2oN7MtazgoWjpp2vckEVncKSe41ri7Vd8P57sZBtYUJe68zszoQl
-         F9znYo9V6lSkVkUvAgjUTr5kohOnfICtrEnIDLxubkNeiSV7CSybIJeOtx4cR8dq7HH/
-         iVRvvRM2ON6sPN5/5wwEpGi4JoIY2pxWQAFlHlJ7AE0ItcqHfFhDUCxkFM/QP+QT4FD6
-         O4EIOgCpeFFmrfAFNpIMQ3109JFsAokI8VzdrGcBgInZbuCzzwFDojrtIjBOwe/p5QFE
-         s+OSapst+r6IONpPc29w1Cnw4kAViKYMaE9/p9jvis8JMfRsJyhuwBiYP4Q8dDzVrap2
-         Az9g==
+        b=G7VWGlWyG7tY9oLWLSJi3iBukGEAFZW6eALx7uPBNmgX/GKLRj3gHRuL+oqMRp0Dgp
+         odgZEh8GH+RQrED1IRbJEgmNNul8Ww1mPHFxEvAgjRZJys/Fmi0pX0BYUNjjfF5iDYoV
+         +wgKP7zBBSmORTEbmDFbYdU7X8B1sWbfd8tTz1H/8EZ0HXT+Do1b9IMm8lPmvjzg+R86
+         zFWvwIfw+UffeH2+lrW2lSFhU2T4Xc61ZEu1Uz0DW+FXG8BSjYQr4T5pJxFxwiihTYP8
+         MWsIWPEO1q48XXRmCrDgbWS+Aj7hRa+A7hrTJLZxtcDf+TXnIpjafmBb66dzUW8VMsYS
+         Hqnw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=MbB5Z4yB2eVQDVYeE3tbxkCR2oF5W5kQlJgYa2MX/QI=;
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=3586g6DHqJZRoRnhkzTJRMalgtasTgcX3GgTQfzxxy0=;
         fh=clsZS2VOcwrZf8nGTc+KacmVGHm+xLJqhWwb0JwGPbg=;
-        b=OX7C3gbRJFyUwWBvWz7xtWY4eIwadvVFtPmnMHbW0MzKhoj3M/AE474XnDdODgl3U+
-         hrluuWUQki115h3DRFF1/goVBg7wQ4xgtdRLzEgz4WV+93H7IFY9Ghr6out+Ky8TdvSH
-         wiFIB1252pVDTUDfGy7JMfjp6sr2AGoVzx0FW/Li4uLsSR7XLFO+rrpHv7uEs1OOwexJ
-         RPZvBNVswe8nPpVPgT9CPn4Hljsn3CkTkn6FSmQXi5s42BS6IU2OHRfPX8OQx/S1TBmG
-         NCirSaG/kpFy83/9PmOOlTqYq1fERfwKJY+uI9jvFJx06G4aTR1PY0Xwa8C9Qqq5tZMq
-         wgew==
+        b=FnA+tyOh1VPIB/UQZkxY1aSiBJrZUYB0aY/C0FapCgrWiqJNsbc9MDz2K8l5LFK57X
+         wFxBBBxlX+zkouahMrP8UT0rUsTNA+sAS6V9KgvRJl6Ip8cthHY7hbpfre2ANHGfMo/h
+         ts43y5bWCxelnkk7pvETORwUmCb/GFKGXAhfLurSzocTbwmb6A0aMAnHMYGyW+stZEvs
+         v/bUipXzgn/pUTe85gvDSiGdeFowDZg+4V0RTDZuYDErgYGHyXIVOM9iDrheE7QrS7ad
+         Crys6UhZk+ACCLH0xymCBPPXAbbBNgVH6LK9Ppfz5twMNockw4nCQ3wKMBvZom1FlEiD
+         uXOA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of chenfeiyang@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=chenfeiyang@loongson.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20221208; t=1689059461; x=1691651461;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=MbB5Z4yB2eVQDVYeE3tbxkCR2oF5W5kQlJgYa2MX/QI=;
-        b=VvYAaNl7pjo3f7VFkdsJgv3VrmzhfHAmT5EpUfxAF2UWafJZRd5vtTR0J4O3sSY4zO
-         XOsUS2vidXa6YNbPE7PMbkBi9dp5aztAPQWFcSWpwbvoop3j00wD/k5JIzZHPjNNm5Bp
-         YaQoaxtqw2G68xVlSzkHm8zTyT1a8n/bsg0H1NdjqMk+1UcFjid/5mLJjpwjV6RMurwh
-         /gVzccY5+8+Biq51I2y6a0RUU8KoJ7r9GwdEIY0NVcZDbNsaVoYEVamK6He3hrkEi36m
-         hz8UhCLBG3kLcEqGKpXhna7SjvXP8SbFzSeI+IJHFrduA0MEVwQUnsGtoB57ySevlUjU
-         k14A==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3586g6DHqJZRoRnhkzTJRMalgtasTgcX3GgTQfzxxy0=;
+        b=KsyWA9mMqtdKs0mSDHSmWKhPSVHqcXkLZMIFvk/wWjg19LeBAhQxziH0KQOzFT+x0H
+         YIvmaqxrD4ncyJoj9whUp2yZQGOT5dDLJPEmoswNTNNLUguoZOSZoGKgoUQsqaq8Kj9+
+         WPlOhPmrFpNyy/5yMKKS/VQaN0tEteL9isi7A89jBSXw+hJ1VSAI1MbQlwEd0rE4Pxu1
+         DActemnQmYluXrfjCsf1dbVy1nX3HFYT0oPdci7TrUf8ck6xSE9Lf3RlfntADH/MxI6a
+         GI0gw1VdVZiaW4ajiLSKcfyedG+O416Sxzz24xNfYNrVz3Ht+rZLBQMu4I3vfQc4uqf7
+         WS0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20221208; t=1689059461; x=1691651461;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=MbB5Z4yB2eVQDVYeE3tbxkCR2oF5W5kQlJgYa2MX/QI=;
-        b=Ckn9OQ8jYvMOR+PcxX36yuxoR+JOHUhzLLLhezJckW93Rfz+Ggp4X6wj/hJBxQEEvg
-         RrlrDJsjx1xNjdaYLVQjrMyuii+ImnaHIV02/mL1SrzYDcaipY6XBrAgfI2ZmFcPredg
-         xGr5gaTKFqU/AvIGR2gk6ksAnq9Ufvyl2EMjUgosbLPjcV7IwLhH4XBzar/+bu56LsNi
-         MbKnGjQ20r+Qqjt3UyQFF1Ih8jo0f/gp4w3Qro/HGMVbPl5rrFQDUMXPtTXFYLCkqehi
-         RZ544E4uXffvxPm7eXyh5mBHNBvu11I7cem2v0akCVCHkfgRfCP/wH1KIZ/eUVwcycsa
-         yoJQ==
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3586g6DHqJZRoRnhkzTJRMalgtasTgcX3GgTQfzxxy0=;
+        b=hweGJfuGrfyG/bT3Dnt6vlgdp3y6Z31AJ11JCTPvGuWqXS3txAK8g0IpUX8QeX+bX3
+         VIj3B29DgHGds4OB9HO3o93+EL8iCo6aIKgOqAQBjQe5XQhEREF1RHgpksC5bJu+ne+V
+         B0bifr/Cv/kQEl/fRVj1z/sy6xhC/m79uV3zAKjEfXgkbnhTE8j/BpJyxnMWzWU46v6B
+         ylAdfQdyf5yrH+LvRUgfdBEWE9TBHJgj+mcUhEj+6kwlCvbGexFFUiqv3lfiivQz7rqm
+         hpxRtpsXRj4zRm0eWEzrl04HJSqhIq/2Y5oKl+IRxzI6bN3xmzHxgrNLHrHRjR5jegue
+         SGSQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ABy/qLaZ/ZX050QN5WOgqMnC4gCk1aiHMSjhCmvLEirPLoCxd0naVBfm
-	nO51Cl0yDrLne9RBxxfmuwc=
-X-Google-Smtp-Source: APBJJlE3c96vOb1+TsuJ6iK4m7ewPjd20zqrbwIerPyACf0FR0Fm/4/NMKNQSelSbCXSWQ8PtipA3A==
-X-Received: by 2002:ac8:5e53:0:b0:403:a1e0:e3e with SMTP id i19-20020ac85e53000000b00403a1e00e3emr10600309qtx.24.1689059461569;
+X-Gm-Message-State: ABy/qLZjgPk/McPdK52Loqg+B/IFD22Uk+8hup0ybk6MCyNz4zVlMHbV
+	V354FNAYpvujjMX49jRMEJ0=
+X-Google-Smtp-Source: APBJJlHUeEKS4fucEJQaPdz3NHPw1fo4HWmRltOKQvKSA3Q0/NhN1Df3BEM8sIrItTlxS2u1s102Wg==
+X-Received: by 2002:a05:6808:d51:b0:3a4:11df:bb63 with SMTP id w17-20020a0568080d5100b003a411dfbb63mr3355114oik.3.1689059461692;
         Tue, 11 Jul 2023 00:11:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:4a09:0:b0:3f8:3f:7349 with SMTP id x9-20020ac84a09000000b003f8003f7349ls5022437qtq.1.-pod-prod-08-us;
- Tue, 11 Jul 2023 00:11:00 -0700 (PDT)
-X-Received: by 2002:a05:620a:4011:b0:767:7843:973f with SMTP id h17-20020a05620a401100b007677843973fmr15305693qko.35.1689059460747;
+Received: by 2002:a17:90b:3593:b0:262:e480:3af8 with SMTP id
+ mm19-20020a17090b359300b00262e4803af8ls1926426pjb.2.-pod-prod-03-us; Tue, 11
+ Jul 2023 00:11:01 -0700 (PDT)
+X-Received: by 2002:a05:6a20:8e1a:b0:131:eeba:184b with SMTP id y26-20020a056a208e1a00b00131eeba184bmr4139955pzj.25.1689059460893;
         Tue, 11 Jul 2023 00:11:00 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1689059460; cv=none;
         d=google.com; s=arc-20160816;
-        b=zbhLgG+W/TlIzjxQxjg2NRxYQ+jwUHhN7Hj4mUpslOLQ3ptre51UGmTEnqFwCT2gGx
-         3JKcHFAhyBbAoE/mpoLBp0HAtrxfpzufUN7Hae7YmbBug3YeBrdnkwry5bradFvB+IzS
-         2alK7f4VLA6G3kFg4PdNEoUngJR2ZflkeOE7Mv9zwzZkjD1mqsxCeqXGFSFjQu6u/cu5
-         bqWe1yH0cQDDYzd6y3PyEhg+v9jhucSg66rn973LJV64gWplpqimPVGe/kxpGq/8mLfO
-         KqAaYkZ745Thng67SjxSb6YrhDU5lDt8UT60fIFQHaR2yVJc5kVR7zHk9WLxBL/OeEGf
-         FjGA==
+        b=S3n8tlGukK9FrxirYZZTKZIvhjJwjc8qauAlyDYrFX0Vi1FnL4uk9dipeocjFYgSCU
+         XZEUA7o/qvNFDwkPUkzevWMMuhhTqLj6h09vcn2iwFVBFvMe02tcuSIaPqBnzclELuFQ
+         Tw2lD6BfuX4O6S4uLY79nZrc6Zc7JirYui6TcCZTkyCYb9zsv+ePTLplhnPg7KnRCDpz
+         1wjvbnROMSHA71VX1yjXTwsl7+O7v1qfMyviU1N4dMwSLGnUflDKuA+BaWF3CBGbDoXm
+         DStkxGvE++b4hHHywZ3Bvr81PWKVNVSAYY9RwUbNoh2Ai3IqiTCANlLPihUJHVJzFPrx
+         dj1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=yHs3ihkF7ExrMs9WgSKshcfMUHuHzpOgK23qip+hzAU=;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from;
+        bh=wH8p6sYvEVgGBScH/CrtpA3AzQriJ8RQfEVCazbrY1c=;
         fh=clsZS2VOcwrZf8nGTc+KacmVGHm+xLJqhWwb0JwGPbg=;
-        b=ORqfNyJz1cW5oGZZegBhLkPY4d1SnCfl8MJ9x1GzOOX4orCNABEWCfFG1teFPpZoRn
-         cEtKrbWUOn0aeqIo6gZQETnZvwQViWV/Iha15gQyZ7BIlMzE66/uOyOJQzq+TtNIL6TA
-         BcsDfM8rz/Kom8xxSIdMj/1HdnY2TkA6/kkqmbw24KOVu/pbvm/A6pzLIG+hTRNOtgMj
-         G+Ix7AaCgVw6z7lPYcrWtKRZKzlZ5SYVy8mnLAtcpAqpqnWGfx6M5Dj8iQCuOKm2HKcr
-         opKAD8UpU6M81f7sLVFAebrC3gbE0Ki1T0iRnyZNPgsGNH2guK0vAtF9qZH3r+vOUm7s
-         UHuA==
+        b=u9o5rimQrDdFyhxB05yNxuhOrE8PVdk1EVSH7grmlYs5wPRgoYByUHDnX9DqyD7ouQ
+         d7kSTSsFXV2q+ZyWnOuM4ZBoNE7kyVwDmrFcSDGPM56Y6ZO8HJ6pu/v4ys7Z6NE3jdRG
+         1ioFU6IBMv7mPRoGfcdFy/ilIq6zI/d8XQtnFSDqTNbo9KNvwzABLrE9wsgIKJgM19eZ
+         Gj1AQiODraHXtNQ7N0l9u46zRNebX3axBqkog9wGHqJ59WRguM5btXDbhHwDjiU+k/TE
+         d6efLx5bXNRuSstmnl0VJ2W002CxImvyuoE5+onQsCrERCX+Ni08woQA0gf+KHwRxfJA
+         BBjA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of chenfeiyang@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=chenfeiyang@loongson.cn
 Received: from mail.loongson.cn (mail.loongson.cn. [114.242.206.163])
-        by gmr-mx.google.com with ESMTP id ed3-20020a05620a490300b007593c43f6edsi88317qkb.0.2023.07.11.00.10.59
+        by gmr-mx.google.com with ESMTP id i7-20020a6551c7000000b00542924cbf7esi48337pgq.5.2023.07.11.00.10.59
         for <kasan-dev@googlegroups.com>;
         Tue, 11 Jul 2023 00:11:00 -0700 (PDT)
 Received-SPF: pass (google.com: domain of chenfeiyang@loongson.cn designates 114.242.206.163 as permitted sender) client-ip=114.242.206.163;
 Received: from loongson.cn (unknown [112.20.109.108])
-	by gateway (Coremail) with SMTP id _____8Ax1fCBAK1kS2oDAA--.9943S3;
-	Tue, 11 Jul 2023 15:10:57 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____8BxHOuCAK1kUWoDAA--.4640S3;
+	Tue, 11 Jul 2023 15:10:58 +0800 (CST)
 Received: from localhost.localdomain (unknown [112.20.109.108])
-	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxF81_AK1k308oAA--.46365S2;
-	Tue, 11 Jul 2023 15:10:56 +0800 (CST)
+	by localhost.localdomain (Coremail) with SMTP id AQAAf8CxF81_AK1k308oAA--.46365S3;
+	Tue, 11 Jul 2023 15:10:58 +0800 (CST)
 From: Feiyang Chen <chenfeiyang@loongson.cn>
 To: chenhuacai@kernel.org
 Cc: Feiyang Chen <chenfeiyang@loongson.cn>,
@@ -108,27 +111,31 @@ Cc: Feiyang Chen <chenfeiyang@loongson.cn>,
 	kasan-dev@googlegroups.com,
 	loongson-kernel@lists.loongnix.cn,
 	chris.chenfeiyang@gmail.com
-Subject: [PATCH v2 0/2] LoongArch: Allow building with kcov coverage
-Date: Tue, 11 Jul 2023 15:10:41 +0800
-Message-Id: <20230711071043.4119353-1-chenfeiyang@loongson.cn>
+Subject: [PATCH v2 1/2] LoongArch: Provide kaslr_offset() to get kernel offset
+Date: Tue, 11 Jul 2023 15:10:42 +0800
+Message-Id: <20230711071043.4119353-2-chenfeiyang@loongson.cn>
 X-Mailer: git-send-email 2.39.3
+In-Reply-To: <20230711071043.4119353-1-chenfeiyang@loongson.cn>
+References: <20230711071043.4119353-1-chenfeiyang@loongson.cn>
 MIME-Version: 1.0
-X-CM-TRANSID: AQAAf8CxF81_AK1k308oAA--.46365S2
+X-CM-TRANSID: AQAAf8CxF81_AK1k308oAA--.46365S3
 X-CM-SenderInfo: hfkh0wphl1t03j6o00pqjv00gofq/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
-	ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
-	BjDU0xBIdaVrnRJUUUkYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
-	xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
-	j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxV
-	AFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
-	67AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44
-	I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2
-	jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20x
-	vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
-	3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
-	AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAI
-	cVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2js
-	IEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8j-e5UUUUU==
+X-Coremail-Antispam: 1Uk129KBj9xXoWrKryxXrW3CrWkWw1kKrWUJrc_yoWfJFX_Zw
+	13Xw4Uu3sYqF4xJ3sFvF93J34jga1ftF98uFn2vw47AF90vr1rWw4rK3Z5Ar4Y9wsxuF1Y
+	vFWUt3y3CryUKosvyTuYvTs0mTUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUb7kYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_JrI_Jryl8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUtVWrXwAv7VC2z280aVAF
+	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7V
+	AKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCj
+	r7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6x
+	IIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAI
+	w20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
+	0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU27PEDUUUU
 X-Original-Sender: chenfeiyang@loongson.cn
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
  (google.com: domain of chenfeiyang@loongson.cn designates 114.242.206.163 as
@@ -146,22 +153,39 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Provide kaslr_offset() and allow building with kcov.
+Provide kaslr_offset() to get the kernel offset when KASLR is enabled.
 
-Feiyang Chen (2):
-  LoongArch: Provide kaslr_offset() to get kernel offset
-  LoongArch: Allow building with kcov coverage
+Signed-off-by: Feiyang Chen <chenfeiyang@loongson.cn>
+---
+ arch/loongarch/include/asm/setup.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
- Documentation/features/debug/kcov/arch-support.txt | 2 +-
- arch/loongarch/Kconfig                             | 2 ++
- arch/loongarch/include/asm/setup.h                 | 6 ++++++
- arch/loongarch/vdso/Makefile                       | 2 ++
- 4 files changed, 11 insertions(+), 1 deletion(-)
-
+diff --git a/arch/loongarch/include/asm/setup.h b/arch/loongarch/include/asm/setup.h
+index 2dca0d1dd90a..a0bc159ce8bd 100644
+--- a/arch/loongarch/include/asm/setup.h
++++ b/arch/loongarch/include/asm/setup.h
+@@ -7,6 +7,7 @@
+ #define _LOONGARCH_SETUP_H
+ 
+ #include <linux/types.h>
++#include <asm/sections.h>
+ #include <uapi/asm/setup.h>
+ 
+ #define VECSIZE 0x200
+@@ -37,4 +38,9 @@ extern unsigned long __init relocate_kernel(void);
+ 
+ #endif
+ 
++static inline unsigned long kaslr_offset(void)
++{
++	return (unsigned long)&_text - VMLINUX_LOAD_ADDRESS;
++}
++
+ #endif /* __SETUP_H */
 -- 
 2.39.3
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230711071043.4119353-1-chenfeiyang%40loongson.cn.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230711071043.4119353-2-chenfeiyang%40loongson.cn.
