@@ -1,135 +1,138 @@
-Return-Path: <kasan-dev+bncBDGZTDNQ3ICBBZWCXGSQMGQE4ND7RTI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGZTDNQ3ICBBOGIXGSQMGQENKUFGJQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103a.google.com (mail-pj1-x103a.google.com [IPv6:2607:f8b0:4864:20::103a])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA3075010A
-	for <lists+kasan-dev@lfdr.de>; Wed, 12 Jul 2023 10:16:40 +0200 (CEST)
-Received: by mail-pj1-x103a.google.com with SMTP id 98e67ed59e1d1-263047f46f4sf349396a91.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 12 Jul 2023 01:16:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1689149799; cv=pass;
+Received: from mail-qk1-x73f.google.com (mail-qk1-x73f.google.com [IPv6:2607:f8b0:4864:20::73f])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F6E75017B
+	for <lists+kasan-dev@lfdr.de>; Wed, 12 Jul 2023 10:28:41 +0200 (CEST)
+Received: by mail-qk1-x73f.google.com with SMTP id af79cd13be357-76735d5eb86sf955369085a.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 12 Jul 2023 01:28:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1689150520; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XqmCmI01TUeeaAFPBodcCCwZJ8e00w+H1YR9RF7jStCXpGkaXItZqlN5N5pAoRHvTJ
-         9HDPb1iKasGtDwfevZn1u2seWdtVQTwbjE4WKRvEVj5sLK+LYf3f6o+xssn0CPPfplfk
-         /TSUxWkbRkaAriOXdNZ7CXcdeUkzXUnloXzabFENajGeQt/SOkE2Jp6hFWvRNHiO3/sf
-         rbLQ5w05+ATpTkJvQIOsEi7tcP+3wsUdrik+g/KO/neKBHA30t9zw0mmkhUXAo1lMNJ2
-         7nrdgX64f+AtrK6+KEsPAuDfweYOCyyE9MODhlUpGb/OTNQcpxO9aLQTjZOEGRjPyYJh
-         Aieg==
+        b=ZMNY62d8IJ0dtZ+CxXTheqhCeWlbiCNsPh6UonTDn1cvUNUgfvkKh6cgroT7/FU7lo
+         kUMyzS5pb3HWNQ6FytgiTTjzqz18OuT14fiOvgX+5n7SGyx2PmTvdDEejNK6yzpxxYHd
+         vdKKFkJgc+fT7jNPAzIB97ot7GiQuJCqIpCZO5kwRcOwV4wUjRzxzlejapPf1MK+qPHY
+         NbAHFg/8TGGy5x1tJaG//vpclDPxuG2HubZ+SN08sKYw76xKgWcVXmNhptD1MLQFhq/z
+         qBZRjKtIWPS6ULcf8/UrWMFBqlMBnjWuxeC+RoqFaUGQFWbAjiYRzwDEQrTBAurNlCFs
+         492A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=+4CCSzV3eg3lvQq9VeEpPE9wBLdVRD4RUK8MFRdAaQY=;
-        fh=2vNDz2r49DP/PlWxfCRxgW7k9QySHJXLDaTm5YbQXtY=;
-        b=GEivPB9u0JGDG1F0jzn3znBNKgAHqOuKEJFADvzQU774GkdtZkoBl2udYbmsYf+23b
-         eO+X3RnQ/kBo+Kdh4bZUSRtuiOHasK8nITlOC2MQKuLu/P0EasQdFD+QBlSLX9B+BRi7
-         SGqgS6nxf4rR0j92UbiBOq1cBkaFe8viowqyU7Q5O9aryoMmwdZJWuMh7TMHmI8dupf/
-         SKywuznaZEAjM7f9WlarYKzoiwlDLwFHwhSCu2J2W41eow+7+I2ttXHWYiGMtttvd/Da
-         +UBq3mPnJ9p9hNW6yVF6EOBlO+GOPXgjOjh6JR81IoJGRldJxQzeUvAkhQ/D0U5N1imp
-         515g==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:dkim-signature;
+        bh=XZVIYd8g/htTirGB/GJoswWBRhSqzuhIRkOPbjnfmCs=;
+        fh=kGmpU18qIeuWxWR6Tm14lWzk4/s/cNVjNtDaRv1CHks=;
+        b=0bPwmnzaijd9eGynI2e8WwnkORTMkXeVPYvLdP/vQXvFJXO6cqQKGD6/PNZN99YHnO
+         sustNkEfEij8uqWDZDH2N/CfjPVr9oAYbMTs11r87vZVrkOL8tlWmIjLVT1kZv3u31gk
+         Y5p16AGh3purPaWZ5+betnWwQ0iyShr+HERst48lxRobGhBdvz1yGYwUPjyt0FkR+lYY
+         H+1zik711JeyF45PAVrprMETLNgo/PFqbXySiONNHAUbwrkz9joFvMHFXpxwlDpHFtKS
+         wrIEbhjER6DBS5F0y5t4o8t2uU4aRkeDwV2dOGspNE1r8EsEun/fT55K/Q+5ruBf7Q9W
+         wwOg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@bytedance.com header.s=google header.b="BNe6/5m0";
-       spf=pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::430 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
+       dkim=pass header.i=@bytedance.com header.s=google header.b="D2i/AltB";
+       spf=pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::234 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1689149799; x=1691741799;
+        d=googlegroups.com; s=20221208; t=1689150520; x=1691742520;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+4CCSzV3eg3lvQq9VeEpPE9wBLdVRD4RUK8MFRdAaQY=;
-        b=WlZ6VfQANYro5alQ5jeMxbyr+cJaH9wEhMUtkHvpQe6YzC/w63qH8qwLmwxnsWL1Cy
-         FGyl1wpYUTziks462qWp/yKVM35NlTfovVyG8ydujHd1eGJhbSd9WTUKL7Kee1CvLxK4
-         o6Dk05WG+nmM8gje20mqJg/Ni23AUp9ysJTj+QsUloFoXZTwpvyN1Sm5IlM4b0XXL4At
-         RvvUnqpH3jV3LVIOpOOeRnUoUcuWfTjwsaPEOxb8QwqWFPGIj3yknEB+sPYGXzSEJAWb
-         pqxUdiDi6SzHDolSRSA4fy+DDMznwlIGTaTaPLi88jZrJSy3nQENTPQEtxcJf2AxCNN9
-         zr3A==
+        bh=XZVIYd8g/htTirGB/GJoswWBRhSqzuhIRkOPbjnfmCs=;
+        b=gdDGK0LNBm3+PfU7jlH7n0BkCa/2UAEqU+XOdHsoBeLWl0VtiC4FFz1yTVIwnGsQqT
+         Q7RqDSMRc9Ag9h1biKk6lnbGrE6++hlh8ZuW5E7ZD/ULplM+ETuGZbfcr+YjVuGnmKCV
+         CNiekosmRkdJXiaduqdxips/tW9RYwnWCMGUdvH94SFb5r6D4k7KZI3we6t99CXE2UsU
+         fCByyc7JXaGcZvopdaBP1d4nqCrMEEQEPzKj/IlAMyHWJpouFNTPqRQBmc+RcD5HFoR3
+         tooFLvzVtcOzCQdri5cEKVsMUORE8oB94U2t4aFbCM074stgKeDKYUlzD99O1iR6bcJt
+         8XLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689149799; x=1691741799;
+        d=1e100.net; s=20221208; t=1689150520; x=1691742520;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+4CCSzV3eg3lvQq9VeEpPE9wBLdVRD4RUK8MFRdAaQY=;
-        b=EuMz8HejP3wEBpUBc/mOHLx0k9za7qoWAAfqnhXTLp184qoGsES+Ua3I7SbCMPllVE
-         EGWqaLiHWX0sjfZEtAMvUCOir2dvdX1tp58Yp5iOP1ZAqyIRlHnabyhUe8o6SEh5Uf3v
-         tJuKNVqyIVvhDL36WKzFglPG1yNzfTrrOZcnRaLa/Pi3eNVLc4dPd3Tu87Sd8WPjs8Z6
-         xF1M52dGNXgY6E1Ws+DWFuWV+fLyFmQE6dmUWjij9E0HyVEAxmtv2HsLbODrtXIZS6TO
-         tIaEYOdjFBexeVKkhKsuJQhcIMgmsZa97eP54hgTDTOv6NMqwqhxi/zO2BIQZQBB5000
-         ClHg==
-X-Gm-Message-State: ABy/qLayTrLqWGB+aFSEaHJ4cWW+AUCV2i8+psc2t52KY0i04OA9l3IC
-	JBs2yrwCIvPZ89X/v++ixWY=
-X-Google-Smtp-Source: APBJJlHgMzQYgbEBJXKk5rwIUNJW/QyxkvARlHpYp76UNBAVWx9NiU9ivul4Qr085hjkPAQGLDsSRg==
-X-Received: by 2002:a17:90a:7605:b0:265:780e:5edc with SMTP id s5-20020a17090a760500b00265780e5edcmr1795883pjk.10.1689149798745;
-        Wed, 12 Jul 2023 01:16:38 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XZVIYd8g/htTirGB/GJoswWBRhSqzuhIRkOPbjnfmCs=;
+        b=OIL5s3WnuD/GcXjTYs6nk4ZAlBSKTyi00smP9MDof2xRFnYssnEFS2DGNC84emng2z
+         004sMbCvHW5jrUpwOHQhp0NGVSki6Q8/WN5az+Udk2NzQCqJd+XCC7jmb+/1fNPhnpKi
+         7nOdt6QtuMDQyUSH1qlO48ujumdQ0MmHNXzFhqSxhzUpzBYE+v3Vd0q2KAntepR7JEPn
+         jlSUnOKOrapqDmFEGv3gg6ysr9CMTbakW9pU9Rlm1N9aWWSSi7oDjHbxcLpVEw+2ax9V
+         LcKNd+XdNQPuUD6gU5VWsexICw7Qw9BHjQHY+IUbnBAGY8K0ZHmctaF7gIYd7+K9p6uA
+         Z9UQ==
+X-Gm-Message-State: ABy/qLaiYzyt343rRy9QtH+FzLeR0gzJzPoO8YisxlHkRBk5SB/icVTk
+	1vHy4FDGIgskjyzVWlaCpJQ=
+X-Google-Smtp-Source: APBJJlEU/65ZAqP5YZcTAYMOYUYCq6+mtlqkF93sT0t75XetMIGuOxp6K4MgVlWnU6R8+34D2cuVYA==
+X-Received: by 2002:a05:622a:1305:b0:3f8:58d:713 with SMTP id v5-20020a05622a130500b003f8058d0713mr22265367qtk.55.1689150520421;
+        Wed, 12 Jul 2023 01:28:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:3c02:b0:25e:b0af:8b59 with SMTP id
- pb2-20020a17090b3c0200b0025eb0af8b59ls269772pjb.1.-pod-prod-00-us-canary;
- Wed, 12 Jul 2023 01:16:38 -0700 (PDT)
-X-Received: by 2002:a17:90a:12c3:b0:263:7d48:64c4 with SMTP id b3-20020a17090a12c300b002637d4864c4mr1504461pjg.24.1689149797971;
-        Wed, 12 Jul 2023 01:16:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1689149797; cv=none;
+Received: by 2002:ac8:6a13:0:b0:403:ac2a:e862 with SMTP id t19-20020ac86a13000000b00403ac2ae862ls324484qtr.0.-pod-prod-04-us;
+ Wed, 12 Jul 2023 01:28:39 -0700 (PDT)
+X-Received: by 2002:ac8:7f94:0:b0:3f6:b7a3:8450 with SMTP id z20-20020ac87f94000000b003f6b7a38450mr22617095qtj.64.1689150519886;
+        Wed, 12 Jul 2023 01:28:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1689150519; cv=none;
         d=google.com; s=arc-20160816;
-        b=DdcLbEWdXSYPeedBxerewZYWDQNWJlTyy20XDDggy62YfrZHuadwxbfPL2cBDu24Ne
-         7kKnTd4a7U4Q77EnE5SaNBfxHhVRC/MbeKaiy6ixryC7Ar7bpVgwew/YpWNt8i4gZszR
-         Yc0WV13yng4huNFvFgPlVypFscCtzyJV/qNLmOpFInVPomiOK3zSTOvp9uEM8jQmwl5C
-         Thnk+xu2D8bujVhktfHubTDtcngq14RS7SauPAom14US6Xcrc4gANGsIrUP/1sFOvVKd
-         /DFtQ2ekvwjoY3Zb+M6HBMF8eUj4n3UertAD3DOvzZqpxKv8OtYvnMJsmbzW4hp5ZUDT
-         mykw==
+        b=ZwwDe/pwNubvKZZKVldlIZYf8lwfW+n/aELB6NyvlWmmuWBSfxJC+dde1YlGGyFZXn
+         kJgmavFiHs7nYXNTYTuuOehUuhrJ3rybDI+YPbanUdXXm+lqG9cSBeDa8kuUigSdVu1p
+         D2csIQxqy1fVBd4WVZJjqrAKIpZmwi5Fw3c+zrhc+Ek5nUYnv68oI6He29LluZ4ACyQG
+         Z5QrYyhlW6UcTgQO43tOwX0BqwyX1SB+DCzl0m/wbkmoPadY1NIlym4SbaHkB+aVZyX3
+         PRwz6VjbeCsNXQZXMhuNQrgm5QmeV1u/vwYP0W3TMW6tYs4KjnSpknchCgl078ihw/lD
+         hkfA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=oC+qyxbfAgsH4hJHeKoCaJaZtcxWMG8Si4Ik9TdQp1U=;
-        fh=WeaUOvWwJDuKP9KhwGpUORxQHZzhkJChjku0draIx7o=;
-        b=VVwcjrZq4AUWspX3tSjUaD/7U8fV+mF4kXirAWeFntsegSYxz+TXRXUXmbAq8RYliR
-         KRMrjGqTLKbKNiTOPS7MG5BGf7uYXTFDM8I4LbTI71uMQp1OKihmGyKTOqtEhrss9ZkE
-         vb+mnjBnSktYbrYn/t4KsH0hdA+XhzEN7e+msWeTGUl2D/Lwy40zE/ruiOJl43OfHVtG
-         Yw6H2/2MzQwaTwPF9GnKedqpyZ0E7fuW8PYyPW25CmVgvCEYgibTcms8ObkvDlekgPuA
-         bwC4NvHyjDiMtkPlPF/kcl1JBSgFt/00HVn8u0qkrCmDlX/YkoBc2CmDOvifR8brChjU
-         ac6g==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:dkim-signature;
+        bh=MKOx3ji7cu7+toV6q7E7Pf07IRWv+R94CaV9atCugGs=;
+        fh=RRQysK4pMbWEknOkJw26PKZ2ruZSr5AxDIz17Rud4U0=;
+        b=FbA2hqFdDjia4BcVcSvgyJVf7FVE0S0nWypJiW02A+pWIxWMAUEBGzb5OlBXiMKl6F
+         uvliTd8USlcgfXOT/sCSYUJ+pdc5uwMgQ6COmhAQcqcwVHUnPRDsq7c6lu6S8/pVCrmU
+         osnkSAHllYEEgKwhCMGsV2hy3pVYEbMl7ARvDUbFWKrvMbqPxaVpt2wTQ8i1DVq461qV
+         m59BF+A9KDM2+yJUUqwEbV9UzpoFfMxJwpKq0kC3o/pAtebLwoGzdHykWFkM4dUqdBM7
+         Eey/Q36kCHICM1SeCVuppq75kgacWyH7LSavypm4oylxRYOuSAJZeiyQXeE7UKjZ1D7N
+         9cPw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@bytedance.com header.s=google header.b="BNe6/5m0";
-       spf=pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::430 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
+       dkim=pass header.i=@bytedance.com header.s=google header.b="D2i/AltB";
+       spf=pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::234 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com. [2607:f8b0:4864:20::430])
-        by gmr-mx.google.com with ESMTPS id qa14-20020a17090b4fce00b0025679987800si166170pjb.3.2023.07.12.01.16.37
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com. [2607:f8b0:4864:20::234])
+        by gmr-mx.google.com with ESMTPS id fz23-20020a05622a5a9700b00403beff66b3si163679qtb.0.2023.07.12.01.28.39
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jul 2023 01:16:37 -0700 (PDT)
-Received-SPF: pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::430 as permitted sender) client-ip=2607:f8b0:4864:20::430;
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-668711086f4so327015b3a.1
-        for <kasan-dev@googlegroups.com>; Wed, 12 Jul 2023 01:16:37 -0700 (PDT)
-X-Received: by 2002:a05:6a00:2b8d:b0:666:c1ae:3b87 with SMTP id dv13-20020a056a002b8d00b00666c1ae3b87mr1547140pfb.12.1689149797588;
-        Wed, 12 Jul 2023 01:16:37 -0700 (PDT)
-Received: from GL4FX4PXWL.bytedance.net ([139.177.225.243])
-        by smtp.gmail.com with ESMTPSA id d7-20020aa78147000000b0063f2a5a59d1sm2988587pfn.190.2023.07.12.01.16.34
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 12 Jul 2023 01:16:37 -0700 (PDT)
-From: "'Peng Zhang' via kasan-dev" <kasan-dev@googlegroups.com>
-To: glider@google.com,
-	elver@google.com,
-	dvyukov@google.com,
-	akpm@linux-foundation.org
-Cc: kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	muchun.song@linux.dev,
-	Peng Zhang <zhangpeng.00@bytedance.com>
-Subject: [PATCH v2] mm: kfence: allocate kfence_metadata at runtime
-Date: Wed, 12 Jul 2023 16:16:16 +0800
-Message-Id: <20230712081616.45177-1-zhangpeng.00@bytedance.com>
-X-Mailer: git-send-email 2.37.0 (Apple Git-136)
+        Wed, 12 Jul 2023 01:28:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::234 as permitted sender) client-ip=2607:f8b0:4864:20::234;
+Received: by mail-oi1-x234.google.com with SMTP id 5614622812f47-3a412653335so1654888b6e.1
+        for <kasan-dev@googlegroups.com>; Wed, 12 Jul 2023 01:28:39 -0700 (PDT)
+X-Received: by 2002:a05:6808:152a:b0:3a3:ff72:14bf with SMTP id u42-20020a056808152a00b003a3ff7214bfmr9905777oiw.33.1689150518771;
+        Wed, 12 Jul 2023 01:28:38 -0700 (PDT)
+Received: from [10.254.22.102] ([139.177.225.243])
+        by smtp.gmail.com with ESMTPSA id x16-20020a056a00271000b00672ea40b8a9sm3122098pfv.170.2023.07.12.01.28.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Jul 2023 01:28:38 -0700 (PDT)
+Message-ID: <2a16a76c-506c-f325-6792-4fb58e8da531@bytedance.com>
+Date: Wed, 12 Jul 2023 16:28:32 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.13.0
+Subject: Re: [PATCH] mm: kfence: allocate kfence_metadata at runtime
+To: Marco Elver <elver@google.com>
+Cc: glider@google.com, dvyukov@google.com, akpm@linux-foundation.org,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, muchun.song@linux.dev,
+ Peng Zhang <zhangpeng.00@bytedance.com>
+References: <20230710032714.26200-1-zhangpeng.00@bytedance.com>
+ <CANpmjNOHz+dRbJsAyg29nksPMcd2P6109iPxTem_-b2qfUvXtw@mail.gmail.com>
+From: "'Peng Zhang' via kasan-dev" <kasan-dev@googlegroups.com>
+In-Reply-To: <CANpmjNOHz+dRbJsAyg29nksPMcd2P6109iPxTem_-b2qfUvXtw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: zhangpeng.00@bytedance.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@bytedance.com header.s=google header.b="BNe6/5m0";       spf=pass
+ header.i=@bytedance.com header.s=google header.b="D2i/AltB";       spf=pass
  (google.com: domain of zhangpeng.00@bytedance.com designates
- 2607:f8b0:4864:20::430 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
+ 2607:f8b0:4864:20::234 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
 X-Original-From: Peng Zhang <zhangpeng.00@bytedance.com>
 Reply-To: Peng Zhang <zhangpeng.00@bytedance.com>
-Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,298 +145,241 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-kfence_metadata is currently a static array. For the purpose of
-allocating scalable __kfence_pool, we first change it to runtime
-allocation of metadata. Since the size of an object of kfence_metadata
-is 1160 bytes, we can save at least 72 pages (with default 256 objects)
-without enabling kfence.
 
-Below is the numbers obtained in qemu (with default 256 objects).
-before: Memory: 8134692K/8388080K available (3668K bss)
-after: Memory: 8136740K/8388080K available (1620K bss)
-More than expected, it saves 2MB memory. It can be seen that the size
-of the .bss section has changed, possibly because it affects the linker.
 
-Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
----
-Changes since v1:
- - Fix a stupid problem of not being able to initialize kfence. The problem is
-   that I slightly modified the patch before sending it out, but it has not been
-   tested. I'm extremely sorry.
- - Drop kfence_alloc_metadata() and kfence_free_metadata() because they are no
-   longer reused.
- - Allocate metadata from memblock during early initialization. Fixed the issue
-   of allocating metadata size that cannot exceed the limit of the buddy system
-   during early initialization.
- - Fix potential UAF in kfence_shutdown_cache().
+=E5=9C=A8 2023/7/10 18:19, Marco Elver =E5=86=99=E9=81=93:
+> On Mon, 10 Jul 2023 at 05:27, 'Peng Zhang' via kasan-dev
+> <kasan-dev@googlegroups.com> wrote:
+>>
+>> kfence_metadata is currently a static array. For the purpose of
+>> allocating scalable __kfence_pool, we first change it to runtime
+>> allocation of metadata. Since the size of an object of kfence_metadata
+>> is 1160 bytes, we can save at least 72 pages (with default 256 objects)
+>> without enabling kfence.
+>>
+>> Below is the numbers obtained in qemu (with default 256 objects).
+>> before: Memory: 8134692K/8388080K available (3668K bss)
+>> after: Memory: 8136740K/8388080K available (1620K bss)
+>> More than expected, it saves 2MB memory.
+>>
+>> Signed-off-by: Peng Zhang <zhangpeng.00@bytedance.com>
+>=20
+> Seems like a reasonable optimization, but see comments below.
+>=20
+> Also with this patch applied on top of v6.5-rc1, KFENCE just doesn't
+> init at all anymore (early init). Please fix.
+I'm very sorry because I made a slight modification before sending the
+patch but it has not been tested, which caused it to not work properly.
+I fixed some of the issues you mentioned in v2[1].
 
-v1: https://lore.kernel.org/lkml/20230710032714.26200-1-zhangpeng.00@bytedance.com/
+[1]=20
+https://lore.kernel.org/lkml/20230712081616.45177-1-zhangpeng.00@bytedance.=
+com/
 
- include/linux/kfence.h |   5 +-
- mm/kfence/core.c       | 124 ++++++++++++++++++++++++++++-------------
- mm/kfence/kfence.h     |   5 +-
- mm/mm_init.c           |   2 +-
- 4 files changed, 94 insertions(+), 42 deletions(-)
+>=20
+>> ---
+>>   mm/kfence/core.c   | 102 ++++++++++++++++++++++++++++++++-------------
+>>   mm/kfence/kfence.h |   5 ++-
+>>   2 files changed, 78 insertions(+), 29 deletions(-)
+>>
+>> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+>> index dad3c0eb70a0..b9fec1c46e3d 100644
+>> --- a/mm/kfence/core.c
+>> +++ b/mm/kfence/core.c
+>> @@ -116,7 +116,7 @@ EXPORT_SYMBOL(__kfence_pool); /* Export for test mod=
+ules. */
+>>    * backing pages (in __kfence_pool).
+>>    */
+>>   static_assert(CONFIG_KFENCE_NUM_OBJECTS > 0);
+>> -struct kfence_metadata kfence_metadata[CONFIG_KFENCE_NUM_OBJECTS];
+>> +struct kfence_metadata *kfence_metadata;
+>>
+>>   /* Freelist with available objects. */
+>>   static struct list_head kfence_freelist =3D LIST_HEAD_INIT(kfence_free=
+list);
+>> @@ -643,13 +643,56 @@ static unsigned long kfence_init_pool(void)
+>>          return addr;
+>>   }
+>>
+>> +static int kfence_alloc_metadata(void)
+>> +{
+>> +       unsigned long nr_pages =3D KFENCE_METADATA_SIZE / PAGE_SIZE;
+>> +
+>> +#ifdef CONFIG_CONTIG_ALLOC
+>> +       struct page *pages;
+>> +
+>> +       pages =3D alloc_contig_pages(nr_pages, GFP_KERNEL, first_online_=
+node,
+>> +                                  NULL);
+>> +       if (pages)
+>> +               kfence_metadata =3D page_to_virt(pages);
+>> +#else
+>> +       if (nr_pages > MAX_ORDER_NR_PAGES) {
+>> +               pr_warn("KFENCE_NUM_OBJECTS too large for buddy allocato=
+r\n");
+>=20
+> Does this mean that KFENCE won't work at all if we can't allocate the
+> metadata? I.e. it won't work either in early nor late init modes?
+>=20
+> I know we already have this limitation for _late init_ of the KFENCE pool=
+.
+>=20
+> So I have one major question: when doing _early init_, what is the
+> maximum size of the KFENCE pool (#objects) with this change?
+It will be limited to 2^10/sizeof(struct kfence_metadata) by buddy
+system, so I used memblock to allocate kfence_metadata in v2.
+>=20
+>> +               return -EINVAL;
+>> +       }
+>> +       kfence_metadata =3D alloc_pages_exact(KFENCE_METADATA_SIZE,
+>> +                                           GFP_KERNEL);
+>> +#endif
+>> +
+>> +       if (!kfence_metadata)
+>> +               return -ENOMEM;
+>> +
+>> +       memset(kfence_metadata, 0, KFENCE_METADATA_SIZE);
+>=20
+> memzero_explicit, or pass __GFP_ZERO to alloc_pages?
+Unfortunately, __GFP_ZERO does not work successfully in
+alloc_contig_pages(), so I used memzero_explicit() in v2.
+Even though I don't know if memzero_explicit() is necessary
+(it just uses the barrier).
+>=20
+>> +       return 0;
+>> +}
+>> +
+>> +static void kfence_free_metadata(void)
+>> +{
+>> +       if (WARN_ON(!kfence_metadata))
+>> +               return;
+>> +#ifdef CONFIG_CONTIG_ALLOC
+>> +       free_contig_range(page_to_pfn(virt_to_page((void *)kfence_metada=
+ta)),
+>> +                         KFENCE_METADATA_SIZE / PAGE_SIZE);
+>> +#else
+>> +       free_pages_exact((void *)kfence_metadata, KFENCE_METADATA_SIZE);
+>> +#endif
+>> +       kfence_metadata =3D NULL;
+>> +}
+>> +
+>>   static bool __init kfence_init_pool_early(void)
+>>   {
+>> -       unsigned long addr;
+>> +       unsigned long addr =3D (unsigned long)__kfence_pool;
+>>
+>>          if (!__kfence_pool)
+>>                  return false;
+>>
+>> +       if (!kfence_alloc_metadata())
+>> +               goto free_pool;
+>> +
+>>          addr =3D kfence_init_pool();
+>>
+>>          if (!addr) {
+>> @@ -663,6 +706,7 @@ static bool __init kfence_init_pool_early(void)
+>>                  return true;
+>>          }
+>>
+>> +       kfence_free_metadata();
+>>          /*
+>>           * Only release unprotected pages, and do not try to go back an=
+d change
+>>           * page attributes due to risk of failing to do so as well. If =
+changing
+>> @@ -670,31 +714,12 @@ static bool __init kfence_init_pool_early(void)
+>>           * fails for the first page, and therefore expect addr=3D=3D__k=
+fence_pool in
+>>           * most failure cases.
+>>           */
+>> +free_pool:
+>>          memblock_free_late(__pa(addr), KFENCE_POOL_SIZE - (addr - (unsi=
+gned long)__kfence_pool));
+>>          __kfence_pool =3D NULL;
+>>          return false;
+>>   }
+>>
+>> -static bool kfence_init_pool_late(void)
+>> -{
+>> -       unsigned long addr, free_size;
+>> -
+>> -       addr =3D kfence_init_pool();
+>> -
+>> -       if (!addr)
+>> -               return true;
+>> -
+>> -       /* Same as above. */
+>> -       free_size =3D KFENCE_POOL_SIZE - (addr - (unsigned long)__kfence=
+_pool);
+>> -#ifdef CONFIG_CONTIG_ALLOC
+>> -       free_contig_range(page_to_pfn(virt_to_page((void *)addr)), free_=
+size / PAGE_SIZE);
+>> -#else
+>> -       free_pages_exact((void *)addr, free_size);
+>> -#endif
+>> -       __kfence_pool =3D NULL;
+>> -       return false;
+>> -}
+>> -
+>>   /* =3D=3D=3D DebugFS Interface =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D */
+>>
+>>   static int stats_show(struct seq_file *seq, void *v)
+>> @@ -896,6 +921,10 @@ void __init kfence_init(void)
+>>   static int kfence_init_late(void)
+>>   {
+>>          const unsigned long nr_pages =3D KFENCE_POOL_SIZE / PAGE_SIZE;
+>> +       unsigned long addr =3D (unsigned long)__kfence_pool;
+>> +       unsigned long free_size =3D KFENCE_POOL_SIZE;
+>> +       int ret;
+>> +
+>>   #ifdef CONFIG_CONTIG_ALLOC
+>>          struct page *pages;
+>>
+>> @@ -913,15 +942,29 @@ static int kfence_init_late(void)
+>>                  return -ENOMEM;
+>>   #endif
+>>
+>> -       if (!kfence_init_pool_late()) {
+>> -               pr_err("%s failed\n", __func__);
+>> -               return -EBUSY;
+>> +       ret =3D kfence_alloc_metadata();
+>> +       if (!ret)
+>> +               goto free_pool;
+>> +
+>> +       addr =3D kfence_init_pool();
+>> +       if (!addr) {
+>> +               kfence_init_enable();
+>> +               kfence_debugfs_init();
+>> +               return 0;
+>>          }
+>>
+>> -       kfence_init_enable();
+>> -       kfence_debugfs_init();
+>> +       pr_err("%s failed\n", __func__);
+>> +       kfence_free_metadata();
+>> +       free_size =3D KFENCE_POOL_SIZE - (addr - (unsigned long)__kfence=
+_pool);
+>> +       ret =3D -EBUSY;
+>>
+>> -       return 0;
+>> +free_pool:
+>> +#ifdef CONFIG_CONTIG_ALLOC
+>> +       free_contig_range(page_to_pfn(virt_to_page((void *)addr)), free_=
+size / PAGE_SIZE);
+>> +#else
+>> +       free_pages_exact((void *)addr, free_size);
+>> +#endif
+>=20
+> You moved this from kfence_init_pool_late - that did "__kfence_pool =3D
+> NULL" which is missing now.
+Thanks for spotting this, I added it in v2.
 
-diff --git a/include/linux/kfence.h b/include/linux/kfence.h
-index 726857a4b680..68e71562bfa7 100644
---- a/include/linux/kfence.h
-+++ b/include/linux/kfence.h
-@@ -59,9 +59,10 @@ static __always_inline bool is_kfence_address(const void *addr)
- }
- 
- /**
-- * kfence_alloc_pool() - allocate the KFENCE pool via memblock
-+ * kfence_alloc_pool_and_metadata() - allocate the KFENCE pool and KFENCE
-+ * metadata via memblock
-  */
--void __init kfence_alloc_pool(void);
-+void __init kfence_alloc_pool_and_metadata(void);
- 
- /**
-  * kfence_init() - perform KFENCE initialization at boot time
-diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-index dad3c0eb70a0..ed0424950cf1 100644
---- a/mm/kfence/core.c
-+++ b/mm/kfence/core.c
-@@ -116,7 +116,16 @@ EXPORT_SYMBOL(__kfence_pool); /* Export for test modules. */
-  * backing pages (in __kfence_pool).
-  */
- static_assert(CONFIG_KFENCE_NUM_OBJECTS > 0);
--struct kfence_metadata kfence_metadata[CONFIG_KFENCE_NUM_OBJECTS];
-+struct kfence_metadata *kfence_metadata;
-+
-+/*
-+ * When kfence_metadata is not NULL, it may be that kfence is being initialized
-+ * at this time, and it may be used by kfence_shutdown_cache() during
-+ * initialization. If the initialization fails, kfence_metadata will be released,
-+ * causing UAF. So it is necessary to add kfence_metadata_init for initialization,
-+ * and kfence_metadata will be visible only when initialization is successful.
-+ */
-+static struct kfence_metadata *kfence_metadata_init;
- 
- /* Freelist with available objects. */
- static struct list_head kfence_freelist = LIST_HEAD_INIT(kfence_freelist);
-@@ -591,7 +600,7 @@ static unsigned long kfence_init_pool(void)
- 
- 		__folio_set_slab(slab_folio(slab));
- #ifdef CONFIG_MEMCG
--		slab->memcg_data = (unsigned long)&kfence_metadata[i / 2 - 1].objcg |
-+		slab->memcg_data = (unsigned long)&kfence_metadata_init[i / 2 - 1].objcg |
- 				   MEMCG_DATA_OBJCGS;
- #endif
- 	}
-@@ -610,7 +619,7 @@ static unsigned long kfence_init_pool(void)
- 	}
- 
- 	for (i = 0; i < CONFIG_KFENCE_NUM_OBJECTS; i++) {
--		struct kfence_metadata *meta = &kfence_metadata[i];
-+		struct kfence_metadata *meta = &kfence_metadata_init[i];
- 
- 		/* Initialize metadata. */
- 		INIT_LIST_HEAD(&meta->list);
-@@ -626,6 +635,12 @@ static unsigned long kfence_init_pool(void)
- 		addr += 2 * PAGE_SIZE;
- 	}
- 
-+	/*
-+	 * Make kfence_metadata visible only when initialization is successful.
-+	 * Otherwise, if the initialization fails and kfence_metadata is
-+	 * freed, it may cause UAF in kfence_shutdown_cache().
-+	 */
-+	kfence_metadata = kfence_metadata_init;
- 	return 0;
- 
- reset_slab:
-@@ -672,26 +687,10 @@ static bool __init kfence_init_pool_early(void)
- 	 */
- 	memblock_free_late(__pa(addr), KFENCE_POOL_SIZE - (addr - (unsigned long)__kfence_pool));
- 	__kfence_pool = NULL;
--	return false;
--}
--
--static bool kfence_init_pool_late(void)
--{
--	unsigned long addr, free_size;
- 
--	addr = kfence_init_pool();
--
--	if (!addr)
--		return true;
-+	memblock_free_late(__pa(kfence_metadata_init), KFENCE_METADATA_SIZE);
-+	kfence_metadata_init = NULL;
- 
--	/* Same as above. */
--	free_size = KFENCE_POOL_SIZE - (addr - (unsigned long)__kfence_pool);
--#ifdef CONFIG_CONTIG_ALLOC
--	free_contig_range(page_to_pfn(virt_to_page((void *)addr)), free_size / PAGE_SIZE);
--#else
--	free_pages_exact((void *)addr, free_size);
--#endif
--	__kfence_pool = NULL;
- 	return false;
- }
- 
-@@ -841,19 +840,30 @@ static void toggle_allocation_gate(struct work_struct *work)
- 
- /* === Public interface ===================================================== */
- 
--void __init kfence_alloc_pool(void)
-+void __init kfence_alloc_pool_and_metadata(void)
- {
- 	if (!kfence_sample_interval)
- 		return;
- 
--	/* if the pool has already been initialized by arch, skip the below. */
--	if (__kfence_pool)
--		return;
--
--	__kfence_pool = memblock_alloc(KFENCE_POOL_SIZE, PAGE_SIZE);
--
-+	/*
-+	 * If the pool has already been initialized by arch, there is no need to
-+	 * re-allocate the memory pool.
-+	 */
- 	if (!__kfence_pool)
-+		__kfence_pool = memblock_alloc(KFENCE_POOL_SIZE, PAGE_SIZE);
-+
-+	if (!__kfence_pool) {
- 		pr_err("failed to allocate pool\n");
-+		return;
-+	}
-+
-+	/* The memory allocated by memblock has been zeroed out. */
-+	kfence_metadata_init = memblock_alloc(KFENCE_METADATA_SIZE, PAGE_SIZE);
-+	if (!kfence_metadata_init) {
-+		pr_err("failed to allocate metadata\n");
-+		memblock_free(__kfence_pool, KFENCE_POOL_SIZE);
-+		__kfence_pool = NULL;
-+	}
- }
- 
- static void kfence_init_enable(void)
-@@ -895,33 +905,68 @@ void __init kfence_init(void)
- 
- static int kfence_init_late(void)
- {
--	const unsigned long nr_pages = KFENCE_POOL_SIZE / PAGE_SIZE;
-+	const unsigned long nr_pages_pool = KFENCE_POOL_SIZE / PAGE_SIZE;
-+	const unsigned long nr_pages_meta = KFENCE_METADATA_SIZE / PAGE_SIZE;
-+	unsigned long addr = (unsigned long)__kfence_pool;
-+	unsigned long free_size = KFENCE_POOL_SIZE;
-+	int err = -ENOMEM;
-+
- #ifdef CONFIG_CONTIG_ALLOC
- 	struct page *pages;
--
--	pages = alloc_contig_pages(nr_pages, GFP_KERNEL, first_online_node, NULL);
-+	pages = alloc_contig_pages(nr_pages_pool, GFP_KERNEL, first_online_node,
-+				   NULL);
- 	if (!pages)
- 		return -ENOMEM;
-+
- 	__kfence_pool = page_to_virt(pages);
-+	pages = alloc_contig_pages(nr_pages_meta, GFP_KERNEL, first_online_node,
-+				   NULL);
-+	if (pages)
-+		kfence_metadata_init = page_to_virt(pages);
- #else
--	if (nr_pages > MAX_ORDER_NR_PAGES) {
-+	if (nr_pages_pool > MAX_ORDER_NR_PAGES ||
-+	    nr_pages_meta > MAX_ORDER_NR_PAGES) {
- 		pr_warn("KFENCE_NUM_OBJECTS too large for buddy allocator\n");
- 		return -EINVAL;
- 	}
-+
- 	__kfence_pool = alloc_pages_exact(KFENCE_POOL_SIZE, GFP_KERNEL);
- 	if (!__kfence_pool)
- 		return -ENOMEM;
-+
-+	kfence_metadata_init = alloc_pages_exact(KFENCE_METADATA_SIZE, GFP_KERNEL);
- #endif
- 
--	if (!kfence_init_pool_late()) {
--		pr_err("%s failed\n", __func__);
--		return -EBUSY;
-+	if (!kfence_metadata_init)
-+		goto free_pool;
-+
-+	memzero_explicit(kfence_metadata_init, KFENCE_METADATA_SIZE);
-+	addr = kfence_init_pool();
-+	if (!addr) {
-+		kfence_init_enable();
-+		kfence_debugfs_init();
-+		return 0;
- 	}
- 
--	kfence_init_enable();
--	kfence_debugfs_init();
-+	pr_err("%s failed\n", __func__);
-+	free_size = KFENCE_POOL_SIZE - (addr - (unsigned long)__kfence_pool);
-+	err = -EBUSY;
- 
--	return 0;
-+#ifdef CONFIG_CONTIG_ALLOC
-+	free_contig_range(page_to_pfn(virt_to_page((void *)kfence_metadata_init)),
-+			  nr_pages_meta);
-+free_pool:
-+	free_contig_range(page_to_pfn(virt_to_page((void *)addr)),
-+			  free_size / PAGE_SIZE);
-+#else
-+	free_pages_exact((void *)kfence_metadata_init, KFENCE_METADATA_SIZE);
-+free_pool:
-+	free_pages_exact((void *)addr, free_size);
-+#endif
-+
-+	kfence_metadata_init = NULL;
-+	__kfence_pool = NULL;
-+	return err;
- }
- 
- static int kfence_enable_late(void)
-@@ -941,6 +986,9 @@ void kfence_shutdown_cache(struct kmem_cache *s)
- 	struct kfence_metadata *meta;
- 	int i;
- 
-+	if (!kfence_metadata)
-+		return;
-+
- 	for (i = 0; i < CONFIG_KFENCE_NUM_OBJECTS; i++) {
- 		bool in_use;
- 
-diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
-index 392fb273e7bd..f46fbb03062b 100644
---- a/mm/kfence/kfence.h
-+++ b/mm/kfence/kfence.h
-@@ -102,7 +102,10 @@ struct kfence_metadata {
- #endif
- };
- 
--extern struct kfence_metadata kfence_metadata[CONFIG_KFENCE_NUM_OBJECTS];
-+#define KFENCE_METADATA_SIZE PAGE_ALIGN(sizeof(struct kfence_metadata) * \
-+					CONFIG_KFENCE_NUM_OBJECTS)
-+
-+extern struct kfence_metadata *kfence_metadata;
- 
- static inline struct kfence_metadata *addr_to_metadata(unsigned long addr)
- {
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index a1963c3322af..86b26d013f4b 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -2778,7 +2778,7 @@ void __init mm_core_init(void)
- 	 */
- 	page_ext_init_flatmem();
- 	mem_debugging_and_hardening_init();
--	kfence_alloc_pool();
-+	kfence_alloc_pool_and_metadata();
- 	report_meminit();
- 	kmsan_init_shadow();
- 	stack_depot_early_init();
--- 
-2.20.1
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230712081616.45177-1-zhangpeng.00%40bytedance.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/2a16a76c-506c-f325-6792-4fb58e8da531%40bytedance.com.
