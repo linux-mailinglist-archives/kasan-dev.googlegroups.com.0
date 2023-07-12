@@ -1,129 +1,139 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBSPFXGSQMGQEEUS5URI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGZTDNQ3ICBBG7IXGSQMGQEBDIWADQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3d.google.com (mail-oo1-xc3d.google.com [IPv6:2607:f8b0:4864:20::c3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB8EA75031B
-	for <lists+kasan-dev@lfdr.de>; Wed, 12 Jul 2023 11:30:50 +0200 (CEST)
-Received: by mail-oo1-xc3d.google.com with SMTP id 006d021491bc7-55e16833517sf6873154eaf.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 12 Jul 2023 02:30:50 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1689154249; cv=pass;
+Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id A43FB750356
+	for <lists+kasan-dev@lfdr.de>; Wed, 12 Jul 2023 11:36:28 +0200 (CEST)
+Received: by mail-il1-x13b.google.com with SMTP id e9e14a558f8ab-3461839c3f6sf30523525ab.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 12 Jul 2023 02:36:28 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1689154587; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gbqRAaDERDhYZt2aIDbTAw/t32N7FKsxsKgjHGgaLDHs5fcTe9Ih/0rG9v1CsPbeo8
-         yp6iP0uJ2MJvMAj6KfdF9uj3crPCUMmC/dthFDtNvUFKvhYdAaJfierTSw4rstW47f++
-         gVsGNv024O0aTI6V/dug6CZoR0ae+G5oCHolO7C4D2UMecama/ymsReFzFBNFrwTR0y5
-         ea3xD7jJ+HhJ4I/OyBxenS9OMYFc1RTaGevzzqvRk75/1CtU8elB3s7nVIE2RQV3+YQH
-         7lk1PqE+LgISJbObtg/5FEzwtC7GhCYLMt1xxESqooBs9CZHGmS15lysSpiSFzvKPnmG
-         zWaw==
+        b=qPaKYpjVWIwcQyw9EklZAt5buycaYDhqQIRwvPejfjw5VCCsYEgQ5biEnIkcruwThv
+         2x2fim8Q9r0ZSZ7cyhwkXjFVa+idMHU5iJFeRtRy1yz+JmSL7qlOu9NDB5kcHsIgL8wO
+         LBpQYylsptea7agMJV5GBnyEj+aEJuYVAUAOENCxeknY+x1MGUgYZ33WwQNGM7PHkKzY
+         bBE57gx9n4MXTHGxz+ILDFHK03MrwT/fNaHhtZ/YTMtVzzPSwE7iTtwjhg/VaXwVQq0i
+         HRJxVYqhDDQyYADKqmFs70VlfNAp/RC72HkV4jNmJlOPZFBX1j8sPkrWFCqkPM6Dmoul
+         HleA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=k1lig5a0Q0ucjAdjAx4TJ/zMymz0jPE9DItkptq595U=;
-        fh=I3l6q8BZSEVVxw0ZZxCYQ0USDIQ5E58I2gGuaSqKBkM=;
-        b=ZoKYFz5e1gcVK3CJwfUZoIS94AAbCopMpbXaezmfFrMVzFVA4RsFnv3v8ecCb131eJ
-         wq+04QtnAr/0R9CG8mCIuH5ircTmzF25LapVr2Y9Yreekn/gQf1bnyweAlRjTYZ2UjCS
-         +zJ3sfbY1zlXtBUNW5dQLlGb4LENwS7qamQOas3qza0nGL5vkCYnMm0siXDPVtjQL89y
-         im2VxRFwhtnl/VKnIWoArCbYLo+Ylh3imvtqBeP92+kpMkda8wmvrwtWzL89ir5ZFoq+
-         VGS/IFmVoD4uGO0NgpHfhS+EJVvwMefX9jjBnUeVA81nurALYzbUUQb802c7vDO+w23R
-         zPiA==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :in-reply-to:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:dkim-signature;
+        bh=We62TSeB5+p0tedoh0LnE64U8YKRAFkRgmnGMxT6MZw=;
+        fh=qaTgcxw1t+XO8eb7IlA13DofIbUHoHaPKRBFwRBPJDg=;
+        b=mPB0ktHC3Ly+aBAnOxsdfJ0Qd/8yGh+k9mOTnrlHqnaPkPx47QYw+EV+qHNXO/Jw7X
+         AsJj4nCPBgcFoVlxmyz8NUpikb+eY2oPPj8GINfAjHI+ItOlS+wHLIO7OqrRGC7a2Sl7
+         WnlqhLZp5tOymP6rbi9UNscQ2Nxdtgl2dE2H/fw5YqK0Tr1GZTp238p5SeQZkzz23aeW
+         YUFUZrm8NGTcFuKU2iFGaIXRBOhURv8IBj0nda0rlraqQ66srNufI+sbHZh6UurSvWYX
+         qXZrb+1b1tGNUiFjITBMgGLTIxby4FLwL6LPqYADrKIL+4ucbhYEPHyttoPmWtbUhBwU
+         +sVA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=JiHaHowj;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::d2a as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@bytedance.com header.s=google header.b=GKmJfOeI;
+       spf=pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::433 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1689154249; x=1691746249;
+        d=googlegroups.com; s=20221208; t=1689154587; x=1691746587;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=k1lig5a0Q0ucjAdjAx4TJ/zMymz0jPE9DItkptq595U=;
-        b=FDQlz80/BvRz+tSXgZist6whhIUSlV94NyXBM0XKwK9ObEog568+GyGv2cg7PU5Jlg
-         c6DWBpuuBQdVxB8l3nyA4AeA/D/EI7eSqH9BZOzBxTpGatgJWoPbDDpPwQgjyZTiNsyq
-         pAxT+ICir2imjFzqf2MZJQ4vY2e2j1qCunzZl3XIalcq1+3TKkaxGO5dE93LL4Y+qBS+
-         fnaaIdIRycb3v8L867iOpgpTx5Ej+KeFmV94wsVg2NZEzusTL8e9hFUJ9WQ830vdSu/x
-         xAP0+EyKPpoX2Ovvjx/5djBEHTNojmvur9bZk5s/v9ZThV43zfF/gPQ1C7X0ZRZnXeYE
-         +CHA==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=We62TSeB5+p0tedoh0LnE64U8YKRAFkRgmnGMxT6MZw=;
+        b=tVT7TwEdVbst5u2wan7PYGu3a7/iUhnzziqt+UUAbYcKmcOERX0a/2KOKBI0oR4bOu
+         Qp+0HJGwH1ODzq6cyYpEGzdhKxLDLrCY9qyb+P1AB+bjejTOsO+JXqQgjUgs4l8E9tde
+         or8s8Jh7YpfurSjzttPz+ITbdbZ78gsETbf3/bEQ6yM9kJ6RfJ5sON6ZYJHau76juSF7
+         QY2BzVd/OGt/q1Gog+lr6n9GYtXhOFGarq0Isod6l4+Qp0BzqDmR07wXrOHD9qnxDKPY
+         XKI5iOfmK6J1ZVIsPd43lPvyKS+E+8H0a/5VjZFQsfKsO0BRf6h+O06IahrKLgN28Yid
+         3Zbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689154249; x=1691746249;
+        d=1e100.net; s=20221208; t=1689154587; x=1691746587;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=k1lig5a0Q0ucjAdjAx4TJ/zMymz0jPE9DItkptq595U=;
-        b=jAw/bF8ZFM9ZB3SKdvetXuYeDETTdzVX87EPAypDnsUWl3uoLgboxT5wUANjs7jEd1
-         fDsCwgxHkaNML/kSwEy5HbIKkxujIcqm1ynpStoiq6FviG2HY2obCea2J/XqGoMumfJw
-         U3h5sejSz3paptgmNYtKTZTzg1qqpgGieCdBjCTCe0YGGP702qpNWU+mCwCsPVan7l+1
-         MybMYrhYJqm+lm43L8GXHzpxnU/o9gZAN6gr3Knl+rJC43RrpmMWnOX0ao7GMx06s/Et
-         +8HDNrIH29kXTaP0+P1USx/3jYNdxyMp6RPk68RzIbyP7dJf8GFZpuBdHqqdS2RwEs8h
-         NRJQ==
-X-Gm-Message-State: ABy/qLZYk/M791MJUOZHIHtdLOqeEnyRTpfvEkTiNKo5E9Mn5mM792un
-	U5gde+EHfHwxbQ78TfE175g=
-X-Google-Smtp-Source: APBJJlHADqj+ms0h8tERTAK4LyrrOG2d3OaDRhVgdQWyguE6a8Vyw+Y3E6cvYCWktgIBx/dn2LApyg==
-X-Received: by 2002:a05:6871:b14:b0:1b4:6d3b:3e15 with SMTP id fq20-20020a0568710b1400b001b46d3b3e15mr15115527oab.3.1689154249085;
-        Wed, 12 Jul 2023 02:30:49 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=We62TSeB5+p0tedoh0LnE64U8YKRAFkRgmnGMxT6MZw=;
+        b=F5HFew95lgFoXna9Vz5VHaxGX3AMj3//3bl1F1UyGb4P7rhYOnIh7dar0/ckLQYb8k
+         PoEP/fQ6j9ufb0+6tSF96D3RLoGI1Zqy8zDUkRvVXhwxjaez1Bmm2I89xvHWHufGlZTN
+         KOt1vgZpYJpGFi9FZb6fUj+A5JpDAOXYUTruwdSmzinLrNUOJ287OTbqx2DyllM0Ipbi
+         XfRZXBHTWrNGDxiltD5n7YcTpekwuo163Zq+j/NfJ8zJl83//dmx2vXazEzTklyz63eD
+         D2W9rgDqwGuPVoPgMELMwpVnqhtmA4etdxif8vdqtNdmFRRMLbMy6gFBSTX6hhRNE6Qx
+         fzEg==
+X-Gm-Message-State: ABy/qLYzFAmbkkNcrIf5F0k9eAf4cS7qv2TU5ax8zVssqcMdqTrZtlWS
+	Wi4te1GlEmFXXVUsUm0f1uQ=
+X-Google-Smtp-Source: APBJJlE0eGCXXBxuq2EQz3Mjf6uLvvfKk1osuqnvb19erx0eMX7x9N1ydJXQdRvMZsQ0vYE/3QXYdA==
+X-Received: by 2002:a92:cf41:0:b0:345:cdbe:833c with SMTP id c1-20020a92cf41000000b00345cdbe833cmr14789981ilr.28.1689154587221;
+        Wed, 12 Jul 2023 02:36:27 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:d626:b0:1b3:e129:dc1 with SMTP id
- a38-20020a056870d62600b001b3e1290dc1ls1763308oaq.0.-pod-prod-09-us; Wed, 12
- Jul 2023 02:30:48 -0700 (PDT)
-X-Received: by 2002:a9d:7445:0:b0:6b9:a399:85b3 with SMTP id p5-20020a9d7445000000b006b9a39985b3mr515661otk.34.1689154248650;
-        Wed, 12 Jul 2023 02:30:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1689154248; cv=none;
+Received: by 2002:a05:6e02:1d8e:b0:346:7cd6:b86c with SMTP id
+ h14-20020a056e021d8e00b003467cd6b86cls19075ila.2.-pod-prod-04-us; Wed, 12 Jul
+ 2023 02:36:26 -0700 (PDT)
+X-Received: by 2002:a6b:dc0c:0:b0:786:e0d0:78b4 with SMTP id s12-20020a6bdc0c000000b00786e0d078b4mr14655482ioc.9.1689154586714;
+        Wed, 12 Jul 2023 02:36:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1689154586; cv=none;
         d=google.com; s=arc-20160816;
-        b=JB6SXHFyavwY3hNBdGB7BxW0Q5Kp4/t/ZBpd4NJZ4wUMBVhYMS6eM/d1Owjir+aGxd
-         FCCmqQ8d9scBk3SPk0t6tEVVbZxezuoN8Fg7/7jpxFjwPRUI3afPhXLXlE8Y5bJVueBo
-         7/odByy8g4WpjVqiqAZVf2xxzW0MK3o9gCblYwayEzXX0HnxPTABNsbtLxHgg5ni8Rt4
-         rQ7j96WA4Kt+Py5DgyvtO3HqYpcxAf6GmijprSP9VmVdmtr+P4X0Bllr+//OFtfrpis6
-         gjDsYbeRcpMNNEqx2T7Z/t2OPcShjKF4Ais4oTg8M+3N1HCP7VPOx89Jg6AbobvkTk0S
-         dtig==
+        b=u9nIi2C000Wr+5SVJwdHr41LPLRDB8R08grhFvdrgxLfvOqUKeqiJVOBw4njgVvRIZ
+         QWZUHgVi4tLAl8NGLHcHvVC1epv4DjxmO7yjeqrrvyuZcJg1OwTQ2u4Ot+Ju/7ky13/d
+         FRlpD5hwx7qpyMnsqgpf9wjuC2EVUGnHCbobCKhVpfMEnTEHL1y4HXMDZCUAm/bWKOuZ
+         0EkPJp0fJar2H1A0riBLvFhQ1MBcpkcn7dfsvaO0itaXp5lE6c1o7L14/sa+xEKy12JR
+         hmem7dx2wInnOMh+FC9rhLNUtZDAZU5n52hljlva1FvNcEu90RktQAx6hniWBKjNyg38
+         Xx4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=AtYtKFoXSNaR0HimX7VOb+3+TUw1E5irFW1i/Ff7fdo=;
-        fh=I8TlVEBf2o11jnannDJ3ln3x0DL8glxwIDqILfWRWdA=;
-        b=Aqm/vaXGlI/nVg2rxB6fs0iwVUHOAl5O674gVkSxJex89aPzO3xhUfg/jMF/Nk+j/C
-         vPWyaCfkdWdVCV7pNZHV7MQj3H/sWBIbJoN45p5ZrimzDgxPHOHw+Cm18nTGEbEUTsW8
-         KjmjgLsHJopgRFTqsUWxV0DNoz7bAsOzPxI4lfEvDMVGr6S97vRmR/NAUzfDBplxD6C+
-         O6KslnE5t8gEvjR0YTNJDitON/xgaKonX3Et+38W1URlcfSoIt1EBn8nF1WZn5uzpp6N
-         2NHQkGbvz+wdfcUG7Jtj0proRLAXmzrUHxS8S7mMO2DknSC0J4cUKJlUj0EAjZVcAK4m
-         uf1A==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:dkim-signature;
+        bh=BFHWPlgRbtTouEuL3TeQmFRHeduzwEODVigacZ0+gS4=;
+        fh=ze3n4caySbxAHVqHDChZBUej/9vsC83YAndyDuHgKKU=;
+        b=hpJUHPG/qXx1MrL0/QOmoJPzxPuOXHrz+42Udn5MnDyqMJrI00Enicx/G84gePRCBf
+         2bNAxSAR9gryPtaI+f9Fy7fJ45ZTRIBdoq1lngI1BsKTuFaz2toE5lTKSM0nUKTpqsWB
+         npGJecHjezj1j4bxf6uDqz9AE/OhdnWwKJ+98S8Q+5c3LgFAl4BA/3SaBsp8eCBX5rOr
+         yljjzZVDQy1D+bm2Y/q0SfXJtWYznmH7dGwfsbVxEK5CNEMoz8f/3cz6TMNkwCyDsDJ3
+         ziELj4jcep0IHwRrysdAyzK1AVOZ1tC087Tag87FUhfdU02mh1WJ4J6IYSrEjsNJG/BD
+         iyIg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=JiHaHowj;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::d2a as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com. [2607:f8b0:4864:20::d2a])
-        by gmr-mx.google.com with ESMTPS id bk19-20020a056830369300b006a5f12c714bsi650856otb.0.2023.07.12.02.30.48
+       dkim=pass header.i=@bytedance.com header.s=google header.b=GKmJfOeI;
+       spf=pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::433 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com. [2607:f8b0:4864:20::433])
+        by gmr-mx.google.com with ESMTPS id h15-20020a056602154f00b00786deceee7esi208507iow.3.2023.07.12.02.36.26
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Jul 2023 02:30:48 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::d2a as permitted sender) client-ip=2607:f8b0:4864:20::d2a;
-Received: by mail-io1-xd2a.google.com with SMTP id ca18e2360f4ac-7835bad99fbso213434739f.1
-        for <kasan-dev@googlegroups.com>; Wed, 12 Jul 2023 02:30:48 -0700 (PDT)
-X-Received: by 2002:a5e:dd0c:0:b0:786:ea57:22e2 with SMTP id
- t12-20020a5edd0c000000b00786ea5722e2mr14334765iop.20.1689154248240; Wed, 12
- Jul 2023 02:30:48 -0700 (PDT)
+        Wed, 12 Jul 2023 02:36:26 -0700 (PDT)
+Received-SPF: pass (google.com: domain of zhangpeng.00@bytedance.com designates 2607:f8b0:4864:20::433 as permitted sender) client-ip=2607:f8b0:4864:20::433;
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6687466137bso4636637b3a.0
+        for <kasan-dev@googlegroups.com>; Wed, 12 Jul 2023 02:36:26 -0700 (PDT)
+X-Received: by 2002:a05:6a20:418:b0:112:cf5:d5fb with SMTP id a24-20020a056a20041800b001120cf5d5fbmr11212751pza.50.1689154585901;
+        Wed, 12 Jul 2023 02:36:25 -0700 (PDT)
+Received: from [10.254.22.102] ([139.177.225.243])
+        by smtp.gmail.com with ESMTPSA id p1-20020a639501000000b0054fe07d2f3dsm2973750pgd.11.2023.07.12.02.36.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Jul 2023 02:36:25 -0700 (PDT)
+Message-ID: <e38e8525-3e9c-8925-2160-228875183f28@bytedance.com>
+Date: Wed, 12 Jul 2023 17:36:20 +0800
 MIME-Version: 1.0
-References: <20230712081616.45177-1-zhangpeng.00@bytedance.com>
-In-Reply-To: <20230712081616.45177-1-zhangpeng.00@bytedance.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 12 Jul 2023 11:30:11 +0200
-Message-ID: <CAG_fn=Vj+rqkz0_3kvBoBVoxET10KV-zoD=YtJmCfsA8YEMemg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.13.0
 Subject: Re: [PATCH v2] mm: kfence: allocate kfence_metadata at runtime
-To: Peng Zhang <zhangpeng.00@bytedance.com>
-Cc: elver@google.com, dvyukov@google.com, akpm@linux-foundation.org, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	muchun.song@linux.dev
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: glider@google.com
+To: Alexander Potapenko <glider@google.com>
+Cc: elver@google.com, dvyukov@google.com, akpm@linux-foundation.org,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, muchun.song@linux.dev,
+ Peng Zhang <zhangpeng.00@bytedance.com>
+References: <20230712081616.45177-1-zhangpeng.00@bytedance.com>
+ <CAG_fn=Vj+rqkz0_3kvBoBVoxET10KV-zoD=YtJmCfsA8YEMemg@mail.gmail.com>
+From: "'Peng Zhang' via kasan-dev" <kasan-dev@googlegroups.com>
+In-Reply-To: <CAG_fn=Vj+rqkz0_3kvBoBVoxET10KV-zoD=YtJmCfsA8YEMemg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: zhangpeng.00@bytedance.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b=JiHaHowj;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::d2a as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@bytedance.com header.s=google header.b=GKmJfOeI;       spf=pass
+ (google.com: domain of zhangpeng.00@bytedance.com designates
+ 2607:f8b0:4864:20::433 as permitted sender) smtp.mailfrom=zhangpeng.00@bytedance.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
+X-Original-From: Peng Zhang <zhangpeng.00@bytedance.com>
+Reply-To: Peng Zhang <zhangpeng.00@bytedance.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,19 +146,26 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-> Below is the numbers obtained in qemu (with default 256 objects).
-> before: Memory: 8134692K/8388080K available (3668K bss)
-> after: Memory: 8136740K/8388080K available (1620K bss)
-> More than expected, it saves 2MB memory. It can be seen that the size
-> of the .bss section has changed, possibly because it affects the linker.
 
-The size of .bss should only change by ~288K. Perhaps it has crossed
-the alignment boundary for .bss, but this effect cannot be guaranteed
-and does not depend exclusively on this patch.
-I suggest that you omit these lines from the patch description, as
-they may confuse the readers.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG_fn%3DVj%2Brqkz0_3kvBoBVoxET10KV-zoD%3DYtJmCfsA8YEMemg%40mail.gmail.com.
+=E5=9C=A8 2023/7/12 17:30, Alexander Potapenko =E5=86=99=E9=81=93:
+>> Below is the numbers obtained in qemu (with default 256 objects).
+>> before: Memory: 8134692K/8388080K available (3668K bss)
+>> after: Memory: 8136740K/8388080K available (1620K bss)
+>> More than expected, it saves 2MB memory. It can be seen that the size
+>> of the .bss section has changed, possibly because it affects the linker.
+>=20
+> The size of .bss should only change by ~288K. Perhaps it has crossed
+> the alignment boundary for .bss, but this effect cannot be guaranteed
+> and does not depend exclusively on this patch.
+> I suggest that you omit these lines from the patch description, as
+> they may confuse the readers.
+Ok, I'll revise it to avoid confusion.
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/e38e8525-3e9c-8925-2160-228875183f28%40bytedance.com.
