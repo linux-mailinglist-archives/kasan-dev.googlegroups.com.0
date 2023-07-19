@@ -1,121 +1,122 @@
 Return-Path: <kasan-dev+bncBAABB7N532SQMGQEIVA6KFI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3f.google.com (mail-oo1-xc3f.google.com [IPv6:2607:f8b0:4864:20::c3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AA31759046
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 Jul 2023 10:29:50 +0200 (CEST)
-Received: by mail-oo1-xc3f.google.com with SMTP id 006d021491bc7-56364632e59sf9087265eaf.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jul 2023 01:29:50 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1689755389; cv=pass;
+Received: from mail-oa1-x3c.google.com (mail-oa1-x3c.google.com [IPv6:2001:4860:4864:20::3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60C76759048
+	for <lists+kasan-dev@lfdr.de>; Wed, 19 Jul 2023 10:29:51 +0200 (CEST)
+Received: by mail-oa1-x3c.google.com with SMTP id 586e51a60fabf-1b0812d43a0sf816959fac.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jul 2023 01:29:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1689755390; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0OTATDMUZ6AftxmmihUybazp/P/ravoSQgyGTWNxSt5zKpu7DwvYitHMKcTzSdE3Ez
-         MonyQ2b/kxta4Q9Xo0KYEqUDGAvQWKQqHMzKYBtcYNmnFH8gMNvz4r9FsvbRdgVd4F83
-         eMQxNg/yNUQvfUDJx1ttIJSdzkHpJ+gGaNUbgSOSCu0MbrEpKr9MZ/+/C3mwHnz1nLiN
-         FrEAczuRnXmRsWvoZoB/4aR1M2hONpYRkdJHNPbfGnVHROwfONl3x6FEChugNz8JkQfB
-         5J/PFoBUSTzQ4Rk2zWblYuMZF1ugb0MJm2D2wVqeVmQrvplDns/4f//wgpb8oXPUG+AQ
-         sWAA==
+        b=Xf3VvxA88AVANkPWtUwTlZLWFdc/mQY+k9GWuSgSwoC9Ct46WGvsE2mSwPd48Fh8dP
+         pSXlpTQ/hZ8iL4sFFWpAfmc7E7CAqTbJ60PUUw7lDHYy5gv8Ot7PGjerWDxvcWvvw+q4
+         1hCJiZ/UMGLzkvc36dL6+951ccbYL8D/clAbqGRaGqJVHpx0HnOAauKDyJAtUXdbz7Pj
+         KHu8h7VFgIVpZimkuCIrAk4kWOLQRM+VKaHpUbBk5dHv0O0jp6UJWfi6fxt+q/Ano4SW
+         7C7SAm2XnjHYmZK9RoNq99n5F8Y7WwRsIYiwG0t0qqIzcHhTqDP6k40ldSIDTkWESJoL
+         463Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=uIDvn3JDhbUG6HulGfFSbC5sglp4QUyUOu2XGAts7MI=;
+        bh=iZlKKg1W3TauT5RfT8tSCkr4kmpJhC5DMOavnph/D74=;
         fh=4qaMQtMKam1ltMqgGtEyZ2I4cIa0xnrLaOY+Yx+O4iM=;
-        b=XEjXCaWcCyUzx8bijFiJq08PHxK/XZChxEVvmXdFPCnkSf1n6aIHEmU6kR/rS2KNQY
-         qJMkLtOkhmCJFgeASqqyQFAfnIliPiaHuW9SsXox0EK3Fb9Gxkb6OM80anK+acVuOhrQ
-         S8DmpUkdM8tOjQGIxV3GWWUBBbFDmNI7eDh/7z1pfxcxzwr2zZC6MmjZ14Ha0G2jFWR3
-         Ml12n8xAj6u8Zu8s4iRgePr/yczXx2+P41nRDOrz40btV8vAV8po0hSU6tZgl4xTBtIu
-         phPamWSjLbw1kIFNVbR6B+6ePnaPulGaRrKy9s3ZfRtNZxEp/CjSI4/mPXPve12I4A5h
-         uZLg==
+        b=VYaIY63IrvQBxBmopa3SLrGnw1mjnKeo2DNBIhtf5+haAyjDOD0Sx9kOlkGt/HjWyE
+         b/m4Nd3mH3f+wpbmfoJxnQiCKBg8UK7Mjgq7jD0zEtg3wvU3tsDvn6QGwzOUAzlGnYPx
+         M3rdQDTPo0tEA2mMCcAQVqwF8AJDHYvKNapLtJfKsybL3MOSYuVZq+u0vXVLv63uhoWk
+         LGmQKtC2l4yfiL0Cv31+JfR0vMfvwZNfhkWU+RlQ6oAfR6glzjm4IqJEUVKaDHAeWMm2
+         UdD1k6fTg2RnYUfeZVYe+FkcCGKTMJgfK3GvyTC5h0GzI9fMjs4keQFOSGZH6loNVDJV
+         M4Ag==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) smtp.mailfrom=lienze@kylinos.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1689755389; x=1692347389;
+        d=googlegroups.com; s=20221208; t=1689755390; x=1692347390;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uIDvn3JDhbUG6HulGfFSbC5sglp4QUyUOu2XGAts7MI=;
-        b=IDlPKhg2q6ZkjEiFJ8RDxkXT5w37YQ4s0eShogHnZV7T9dakgi924kpJPX/MY/K7XH
-         XcLKnxqZsL+B8WD4gjI+YvSVxlDuUu13rDWHcbUYnCvNloz5qCqQuNTXs+h2rLr9TnHe
-         0AxsOyniKdoDg3fXDIrFx84G/4OoQgp8cDAlAt6h+mRHigy5O0S7gwpab58t2lJPWwjc
-         gSz7BrVcF9oKzswOlQMaIQTIfcK9zxxAsVEF5dxrPdOhXRYPosffQatrKRHJLbMZIW0v
-         hbdWofEiGRC+00huUXYT+pUDjnLYqxwqfG7tjKBQjoZ9e1sz855+2wqqbEDjC2JmncAD
-         o0yA==
+        bh=iZlKKg1W3TauT5RfT8tSCkr4kmpJhC5DMOavnph/D74=;
+        b=NjvahCFp+EmZ+gBUg/xbcLZ7Q1rD/dkxFxpCTkIl/iINilKsPfpcofh5TgajuMrBdx
+         C2cdb8j7XJVOgO1Ni9FdW58aimb4XGqQI8iVy1bhkP8H+ea6f1a0vyjpyih458aV5Tki
+         hsOUihrKsV/KR3xb/KUedRe/6ep9N8/HzRDL5351qcNzwvlra2icl6M4OZd2QaoJ3nXX
+         LJZPwOp2P2ZTySv1EL+FZXBiV1ohV4SC2EThdy3tiOfA0znSmUgmhvQoHBZ9l0D+B6U8
+         /PU+JldLtunLxclePE3/b9jYlWHh1wF7Bwg5LwqrjIa/odODfnhn7JV3BpZGX7UOFIkk
+         bXyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689755389; x=1692347389;
+        d=1e100.net; s=20221208; t=1689755390; x=1692347390;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uIDvn3JDhbUG6HulGfFSbC5sglp4QUyUOu2XGAts7MI=;
-        b=URyJD0m60WrR9qzC71QTQw1rSsyB08UKE+at20VwmXxg8tPO5fMmGaHkDpt3MuRXmI
-         6FrXJXVWUsdFHkEhC56SW0iHAg2w3ESrr2PcjtnFD4zoRC7gVIwgBNVg+ZIdb3GEtHJo
-         i+UarSqEDerX7E7XfK473ilCU/IlEPMbRXUN8wv2ZbIkzMFw0qVjZvBN2YJ4bwBbRZZK
-         cNImbwF7fnSDHHhCd0KO7PZ7cK1umj0Z6UAjmyHPhWDiz+mn23Xlm/8JNbjT/dZmjXCP
-         Bke4q2LCyXLx2r6RBJuhKST6bjjcuxYUx531mKb/dVA6E/tkLN/zPN6kTxVUY/9cThcA
-         tuIA==
+        bh=iZlKKg1W3TauT5RfT8tSCkr4kmpJhC5DMOavnph/D74=;
+        b=SRom/LOoTWiXwTDbfgheSkHyLgT68mBZEEjympeKae9XGBvJKV7/TKjjPGRcXLzqEO
+         Q2nYEQUa/C3DjaTEqhQIjgjUFIGGScLQf/3L85KDdcTeNCBOFzojAtNwTOeFThvEYNMj
+         hpOc9BtgArxypdf0Zm0xDVu+TLzrNj5jQDAvOWxG6LB5Chss3s1ltClIDnYyAy5CJ0m4
+         ieeNAYhC9rA2caeEXgGGAwMcHVZLlfRYB6KLTa0hioiYiFX9/AH4IFDXeD4DrDJUETRl
+         AQky+PXRGbe0DO6a3s5/UOvglzE9RcTmqM+4sQvbfG89uqkJX33gBoiK5kQa/9V2Co+i
+         mybw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ABy/qLaLNGrzH9Tr7lB2v9IL3+jKAcjOLPnO9c3ttK2GZO4d8DH1HjrV
-	8vL8EC+QKdq1zuRMDts25k4=
-X-Google-Smtp-Source: APBJJlHepABfivbW9+lGOa3HFKOqcW/Evy9NqNqo8YJvg4GUitpz73BtCh8nC/00Wv1ohQJAbDJkAg==
-X-Received: by 2002:a4a:4e83:0:b0:566:f69c:a6e4 with SMTP id r125-20020a4a4e83000000b00566f69ca6e4mr1148786ooa.9.1689755389236;
+X-Gm-Message-State: ABy/qLavdeMamZ1eSRiv/y/0u/tsUkedkIsBuVGCGcpsD29K6q2ZayW5
+	P4Xms/v9ghYWxjWFFbLA1ns=
+X-Google-Smtp-Source: APBJJlG91QKTvsSZo89j2lmaSJ5wZ8ZWgWkcKYDOHzq7cpXnS6p8Nl/83x19ZUIAq3g6JJR0redkNA==
+X-Received: by 2002:a05:6870:46a4:b0:1b0:6bc6:f608 with SMTP id a36-20020a05687046a400b001b06bc6f608mr1153757oap.24.1689755389864;
         Wed, 19 Jul 2023 01:29:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:49c4:0:b0:560:abe3:c26a with SMTP id z187-20020a4a49c4000000b00560abe3c26als5362252ooa.2.-pod-prod-03-us;
- Wed, 19 Jul 2023 01:29:48 -0700 (PDT)
-X-Received: by 2002:a05:6808:1292:b0:3a4:31c9:6849 with SMTP id a18-20020a056808129200b003a431c96849mr1890678oiw.54.1689755388742;
-        Wed, 19 Jul 2023 01:29:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1689755388; cv=none;
+Received: by 2002:a05:6870:9a20:b0:1ba:cb89:5d05 with SMTP id
+ fo32-20020a0568709a2000b001bacb895d05ls1118062oab.2.-pod-prod-00-us; Wed, 19
+ Jul 2023 01:29:49 -0700 (PDT)
+X-Received: by 2002:a05:6871:829:b0:1b0:45cb:706e with SMTP id q41-20020a056871082900b001b045cb706emr1082706oap.28.1689755389474;
+        Wed, 19 Jul 2023 01:29:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1689755389; cv=none;
         d=google.com; s=arc-20160816;
-        b=RRgvncO93nySbjR/DJs+DHcnqLuTvCAMVbYlS1mOzsLre1S32JgxE9EzE5uoia+bX7
-         yozoEetgA4AWVPS/QL4Cug1y8M/5D18KMR7nDExdpTCfKt3UoOXso10umoDKnvHqDvic
-         A36OXmc2fk4zYdM9ZsypyNp7cMOG5ntYbgS9frzLANp2arwuo/NPwvuAIy53VIhXqvt8
-         +ihTDDwrYs6+JLUVpbSW+UafUIdzTem4ILOt0Zu55huI6MzgVhaCjhoreCz1EvY1AHke
-         p1AvxlCwPEfnw6W1SxcI5Yar7IrLQtcItKB7Aakb8S7brmRvDNcTx2YAGWHHGztA2SvV
-         v5uA==
+        b=Q67K7LxxURSKKIVka1TtgbZ/rEGOeoZF88aJ26WDPEhV9k/MGzmbD7k5gADmY53bnw
+         f+Pz7LpwSmVElfoC0dar30GWkkGRnHpFbd5iEHlcv8YYpXN6NnNTlwc0PYPtBWPCJFvu
+         dEiDCiiUt85Pj9bNsC7OlQq5crlYCJNggoMWRSiQdoDCkiQ754/2GJ9f7sE05dqDZcY1
+         zx2oTpXWxdEGVxEIV6LcP0DKIOmEDb4vQa92VmjWT0MIhAr1pE6AwhazoXds8im/Qamn
+         ghZSBr3TEOsL9200V9qYUEXuNPePpSh4BH5+Kz76fCeJ1fssQdBwBnT4BvV/WlAKPLYb
+         oKMw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=is/o2XlXfziPQYbVwed6ZpOrsYYBjuEMJmcxzrFssG8=;
+        bh=KC9YfyphoSzaLmOt3LMaqSzSLLAiqFOHvQOOGBBNcIY=;
         fh=4qaMQtMKam1ltMqgGtEyZ2I4cIa0xnrLaOY+Yx+O4iM=;
-        b=gYvMgyzzp+KyYwrgmuW5t/2yOd25XMxfpEkbvno0IFfpFgLPy4mV72tMghAur9Tj0r
-         Y81MYIc2t81gesrV/7hRK1LpngnS/JRfPpmlB+wx7bHuJpR/7H7GCwhqvx/IIjUvUSqr
-         mQxRc/jqjfkX+heXx/P6s51Cm3ip7Qx/+tljwsquVKwG579YnR2JdQQHGtVmm0qJHHaG
-         Wi3ojXeq29IXSnciYQQlxbTeC8GR5+NLuMcK6P4AW4r4wcBErJFa4iO1VpkNMpnnKp1h
-         vRhTrtzWKVvmFnKmXuRMbjRGiz1J3pMKCgQ/5eD0AJ4lowse3hki+uNZ4qB2HCulsgRg
-         LVaw==
+        b=g6sf/iVk14h2RZK1fFCkIjmBvIgJ0Fo5wb5s47qE30niJZAYZsW399W8wH21t5MnO7
+         wM5uJKTpRYfTfysHxsJYEo9CWO7b5Bc7cjt2YPs5I2/cqvVZ3Si8YlSTTdcoqCBGn6Tg
+         vfuNeaXfCNYbgiP4nna4ffvZa4veqWG7ltDmf1tzffAkqsdNhRjYdlShY+8FlNC/Aiks
+         klZemFXfAO60outo3ZFcCrM4tMwezgWO/Jd2Id41/o7+ULcLFx5ioN1I+lvUWaWScZPp
+         5cs75g9c8fTeCx8xzl/HBhxWdqHx9emltmGAqWSv5+NWBGYsZ+TdCwQWM12Pz6G5zSgR
+         g7cg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) smtp.mailfrom=lienze@kylinos.cn
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn. [124.126.103.232])
-        by gmr-mx.google.com with ESMTPS id cp14-20020a056808358e00b003a4257a3cc8si217536oib.0.2023.07.19.01.29.47
+        by gmr-mx.google.com with ESMTPS id fu25-20020a0568705d9900b001b730b9901fsi356012oab.4.2023.07.19.01.29.48
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 19 Jul 2023 01:29:48 -0700 (PDT)
+        Wed, 19 Jul 2023 01:29:49 -0700 (PDT)
 Received-SPF: pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) client-ip=124.126.103.232;
-X-UUID: 25f9113b33364f9c9293b35a713a92b1-20230719
+X-UUID: 945de7dcea5f491fa0c7b85e294a5a7f-20230719
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.28,REQID:e4294bf5-82fa-43da-a7e8-27813948fcc4,IP:25,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:10
-X-CID-INFO: VERSION:1.1.28,REQID:e4294bf5-82fa-43da-a7e8-27813948fcc4,IP:25,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:10
-X-CID-META: VersionHash:176cd25,CLOUDID:caf5d58e-7caa-48c2-8dbb-206f0389473c,B
-	ulkID:230719161451V1QFHYNV,BulkQuantity:1,Recheck:0,SF:19|44|38|24|17|102,
+X-CID-O-INFO: VERSION:1.1.28,REQID:d1643b96-a21f-4a4b-a76a-72ceb643f1eb,IP:25,
+	URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACT
+	ION:release,TS:5
+X-CID-INFO: VERSION:1.1.28,REQID:d1643b96-a21f-4a4b-a76a-72ceb643f1eb,IP:25,UR
+	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:5
+X-CID-META: VersionHash:176cd25,CLOUDID:c9f5d58e-7caa-48c2-8dbb-206f0389473c,B
+	ulkID:230719161451G039KJPT,BulkQuantity:1,Recheck:0,SF:38|24|17|19|44|102,
 	TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:40,QS:nil,BEC:nil,COL:0,
 	OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0
 X-CID-BVR: 0
 X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
-X-UUID: 25f9113b33364f9c9293b35a713a92b1-20230719
+X-CID-FACTOR: TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS
+X-UUID: 945de7dcea5f491fa0c7b85e294a5a7f-20230719
 X-User: lienze@kylinos.cn
 Received: from ubuntu.. [(39.156.73.12)] by mailgw
 	(envelope-from <lienze@kylinos.cn>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 2096309486; Wed, 19 Jul 2023 16:28:18 +0800
+	with ESMTP id 1086783333; Wed, 19 Jul 2023 16:28:19 +0800
 From: Enze Li <lienze@kylinos.cn>
 To: chenhuacai@kernel.org,
 	kernel@xen0n.name,
@@ -129,9 +130,9 @@ Cc: zhangqing@loongson.cn,
 	yangtiezhu@loongson.cn,
 	dvyukov@google.com,
 	Enze Li <lienze@kylinos.cn>
-Subject: [PATCH 2/4] LoongArch: Get stack without NMI when providing regs parameter
-Date: Wed, 19 Jul 2023 16:27:30 +0800
-Message-Id: <20230719082732.2189747-3-lienze@kylinos.cn>
+Subject: [PATCH 3/4] KFENCE: Deferring the assignment of the local variable addr
+Date: Wed, 19 Jul 2023 16:27:31 +0800
+Message-Id: <20230719082732.2189747-4-lienze@kylinos.cn>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230719082732.2189747-1-lienze@kylinos.cn>
 References: <20230719082732.2189747-1-lienze@kylinos.cn>
@@ -153,87 +154,43 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Currently, executing arch_stack_walk can only get the full stack
-information including NMI.  This is because the implementation
-of arch_stack_walk is forced to ignore the information passed by the
-regs parameter and use the current stack information instead.
+The LoongArch architecture is different from other architectures.
+It needs to update __kfence_pool during arch_kfence_init_pool.
 
-For some detection systems like KFENCE, only partial stack information
-is needed.  In particular, the stack frame where the interrupt occurred.
-
-To support KFENCE, this patch modifies the implementation of the
-arch_stack_walk function so that if this function is called with the
-regs argument passed, it retains all the stack information in regs and
-uses it to provide accurate information.
-
-Before the patch applied, I get,
-[    1.531195 ] ==================================================================
-[    1.531442 ] BUG: KFENCE: out-of-bounds read in stack_trace_save_regs+0x48/0x6c
-[    1.531442 ]
-[    1.531900 ] Out-of-bounds read at 0xffff800012267fff (1B left of kfence-#12):
-[    1.532046 ]  stack_trace_save_regs+0x48/0x6c
-[    1.532169 ]  kfence_report_error+0xa4/0x528
-[    1.532276 ]  kfence_handle_page_fault+0x124/0x270
-[    1.532388 ]  no_context+0x50/0x94
-[    1.532453 ]  do_page_fault+0x1a8/0x36c
-[    1.532524 ]  tlb_do_page_fault_0+0x118/0x1b4
-[    1.532623 ]  test_out_of_bounds_read+0xa0/0x1d8
-[    1.532745 ]  kunit_generic_run_threadfn_adapter+0x1c/0x28
-[    1.532854 ]  kthread+0x124/0x130
-[    1.532922 ]  ret_from_kernel_thread+0xc/0xa4
-<snip>
-
-With this patch applied, I get the correct stack information.
-[    1.320220 ] ==================================================================
-[    1.320401 ] BUG: KFENCE: out-of-bounds read in test_out_of_bounds_read+0xa8/0x1d8
-[    1.320401 ]
-[    1.320898 ] Out-of-bounds read at 0xffff800012257fff (1B left of kfence-#10):
-[    1.321134 ]  test_out_of_bounds_read+0xa8/0x1d8
-[    1.321264 ]  kunit_generic_run_threadfn_adapter+0x1c/0x28
-[    1.321392 ]  kthread+0x124/0x130
-[    1.321459 ]  ret_from_kernel_thread+0xc/0xa4
-<snip>
+This patch modifies the assignment location of the local variable addr
+in the kfence_init_pool function to support the case of updating
+__kfence_pool in arch_kfence_init_pool.
 
 Signed-off-by: Enze Li <lienze@kylinos.cn>
 ---
- arch/loongarch/kernel/stacktrace.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ mm/kfence/core.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/arch/loongarch/kernel/stacktrace.c b/arch/loongarch/kernel/stacktrace.c
-index 2463d2fea21f..21f60811e26f 100644
---- a/arch/loongarch/kernel/stacktrace.c
-+++ b/arch/loongarch/kernel/stacktrace.c
-@@ -18,16 +18,20 @@ void arch_stack_walk(stack_trace_consume_fn consume_entry, void *cookie,
- 	struct pt_regs dummyregs;
- 	struct unwind_state state;
+diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+index dad3c0eb70a0..e124ffff489f 100644
+--- a/mm/kfence/core.c
++++ b/mm/kfence/core.c
+@@ -566,13 +566,14 @@ static void rcu_guarded_free(struct rcu_head *h)
+  */
+ static unsigned long kfence_init_pool(void)
+ {
+-	unsigned long addr = (unsigned long)__kfence_pool;
++	unsigned long addr;
+ 	struct page *pages;
+ 	int i;
  
--	regs = &dummyregs;
--
- 	if (task == current) {
--		regs->regs[3] = (unsigned long)__builtin_frame_address(0);
--		regs->csr_era = (unsigned long)__builtin_return_address(0);
-+		if (regs)
-+			memcpy(&dummyregs, regs, sizeof(*regs));
-+		else {
-+			dummyregs.regs[3] = (unsigned long)__builtin_frame_address(0);
-+			dummyregs.csr_era = (unsigned long)__builtin_return_address(0);
-+		}
- 	} else {
--		regs->regs[3] = thread_saved_fp(task);
--		regs->csr_era = thread_saved_ra(task);
-+		dummyregs.regs[3] = thread_saved_fp(task);
-+		dummyregs.csr_era = thread_saved_ra(task);
- 	}
+ 	if (!arch_kfence_init_pool())
+-		return addr;
++		return (unsigned long)__kfence_pool;
  
-+	regs = &dummyregs;
-+
- 	regs->regs[1] = 0;
- 	for (unwind_start(&state, task, regs);
- 	     !unwind_done(&state) && !unwind_error(&state); unwind_next_frame(&state)) {
++	addr = (unsigned long)__kfence_pool;
+ 	pages = virt_to_page(__kfence_pool);
+ 
+ 	/*
 -- 
 2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230719082732.2189747-3-lienze%40kylinos.cn.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230719082732.2189747-4-lienze%40kylinos.cn.
