@@ -1,144 +1,141 @@
-Return-Path: <kasan-dev+bncBAABBAOT46SQMGQEJFVRZSQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBXGV46SQMGQEO6HXDJA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8265475BC23
-	for <lists+kasan-dev@lfdr.de>; Fri, 21 Jul 2023 04:12:19 +0200 (CEST)
-Received: by mail-il1-x13a.google.com with SMTP id e9e14a558f8ab-34610c52cf8sf8161005ab.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 20 Jul 2023 19:12:19 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1689905538; cv=pass;
+Received: from mail-pg1-x537.google.com (mail-pg1-x537.google.com [IPv6:2607:f8b0:4864:20::537])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43A0F75BC27
+	for <lists+kasan-dev@lfdr.de>; Fri, 21 Jul 2023 04:18:07 +0200 (CEST)
+Received: by mail-pg1-x537.google.com with SMTP id 41be03b00d2f7-55c79a55650sf1128924a12.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 20 Jul 2023 19:18:07 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1689905885; cv=pass;
         d=google.com; s=arc-20160816;
-        b=z1LkHJvpX0a+0Ut0MX9JJSJEtYpd3xNV/oXiOwBJbeRth/jUuhPFV+vYPJcmDQawwZ
-         C5w+c4NSxqWWws4FrM9qDpHurKcsEbnKpKg3F4ZU5wU04J4pnoMritIqlDLWd+YheaQl
-         vyLSNpv68wfbSgxLN4tL+35xCHWMyH/Bck/4hkA0Z3OOjZ75VPqGvd8Fe9FDnBwhSmjB
-         NuOFqSZWstRgNKcybB5WS4y8UpBAZR7W5O+2RaYeqs2EDlNgcZUI3IE+d8ev+KQEeShF
-         hVfOKbXXB3AawImUMIwgVSUf0fel2MzbroiTzt7e3821Upkrl1lf5h3Rk18cCt5H9BEg
-         ucsg==
+        b=bNmUB9z0CPsJvBXFreYs6+/s4QrJ6KGUksgOJjQqTSIdHHxXfs3xwA5SwwOEIb6g6B
+         9B1jCRA3Gk22yUB9wPU7rYudg6ve0TcbpZEd2qRxhz8/zL41yXdk22S+hy8pYI7LjMEc
+         Ex4KU2MWE+XleGgIcviUnSimrDED2nHPYGK7zto6JX+5/v+FIYM/Dy487y2ByZnnI4m1
+         0bZIajI/ns1Dcu0VWsGhudJRtPLhwfKHVTGRyETxpK3velT1ENdnOBI+dDC6hzgVEv17
+         akOd0OgmIDEr/SkFJjMEeMtjaJp4QutsaeMtV6ducYTzBKr/x3GOCnmKn6nqLs34Uu3k
+         p50A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:sender:dkim-signature;
-        bh=p8ZPfguL6gV1V35zTyTan0jOrViNRtZVH3K8E4cZiEk=;
-        fh=PtPKd2tcWuVtu+yL18J6sFXYyO2PPLg/Xbo07e2JVhk=;
-        b=qRgGyjw5/UYzeiEBtdoTNGxmCz6JjCvY9o7bYmA6THHLELPzU7j1Y0SKfGQMEMgGi/
-         fNl9UQdrIPUjPcluyCWIFDe/mn9Z2xLmhMLy4fCDO40k6Fo5r+Evp/Qe6zhDiOhctLEM
-         L0k5KX4HI5+tZ/F5d/5OxocBvXWEI0dSiZJrjF2bLlxbdguKF8TXjWDN27mcwoppKNSa
-         U1E2M3yn6jz/Rjm0F7XrYSI39Yym8cIi7F9dnnTSVBoSpL9xdgyqvyg+9RC2vF5UJ/nY
-         xkCL/FoQhOjLJ1w41HAtph/qI0gtmHT66cXH+R7QANf6q2FdM+O2gY0+dvg9DwT1MyIz
-         Mz4Q==
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature;
+        bh=eG3PlV2d9F3P4HI3e/08LeHPTZ3QCAEAVwQaMXaYgYk=;
+        fh=sy4SP3vkEn2BvwOVbcJ42LyDgXjWTkePGWUGK7C0j7Y=;
+        b=d8F+ihMe13KuMkWJtYH40f7BFd85t+wC5PtA5nmkFPbJD/wCBIMZAeWXNE+fMcwG9R
+         GdnESVJldXtjkIUCLxDZ+cdrrWNCKrBbKwqbNRevsfqGFD6HcGlVMhN55Y5ccEMEgatA
+         i3Vgxrito/JRAmh5USLOTY5FLZjHWxc+1N0ehePc1c3euqozfF+RNJnvVmylE2sxfUMr
+         OTpeC8FRY0Y7AD8sTAzBou5OYb9ridhI7x5wtqAJjtyue82WiPHqbljFd/lZk5XeG+s+
+         5AnO8wI/PYsLC15zy/CkVbAWDMhXqt/TB7kGVicghgehpQqm5LwKHG5T7ojMSO4mraLS
+         eAZQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) smtp.mailfrom=lienze@kylinos.cn
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=O0Q0sK61;
+       spf=pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1689905538; x=1690510338;
+        d=googlegroups.com; s=20221208; t=1689905885; x=1690510685;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:mime-version:message-id
-         :date:references:in-reply-to:subject:cc:to:from:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p8ZPfguL6gV1V35zTyTan0jOrViNRtZVH3K8E4cZiEk=;
-        b=lynuRX40/8Wz8uzdfE2Zk6qSeKp2zCKkosTmbTCpvpqAskJ9B43eEZsLMnEe4cqNfA
-         OWgLINFiPOCE+QIZ+GjtXtkPqdkXU/x9BKzLiwtGCDR/mCZdg17dHyYe+Pv+rH6NVCxZ
-         kkUELto33IlF+VKnhqR3hpk6uvKCjvzBe/TizlndzaPRs3RGwJ5CvlGxUxpVYKPsM6HC
-         Y7CoHyoeu5fiH1mUSnOH6s42Loku9F/qlSkNsBbsTZm5uSr6wHn47KBU6QSUFUrdob51
-         CZ9SddO6Ot25SUXniMa4eCxF2vLQOmRtdDL+WKcd6Pb/nWDsv6qMJ87GBFG8A2hQd0b4
-         +Bdw==
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eG3PlV2d9F3P4HI3e/08LeHPTZ3QCAEAVwQaMXaYgYk=;
+        b=eYVlebTSp8rBudv+eRdrxL2Oa9gDj385rNxGqmKwydYFuZ7Nks95umeb5MCuwWcuLP
+         8fn6xufwmZtq65KWDmmg45qv3cpKlo4T6fGNwrwaZBiEybRHpXXrzGXA+yN4TB/kJP3k
+         iwojkcu2XGcQ/GL4BFtl8051LYf4rRHtx9mFBrDbp0bbZT3RxDyGFscSmEwOwtGuJChm
+         2rRPKRLiN/xjDDNheIBrftgFz2M4ojwnEpLPxpbW9JrXch6NDrjTt7lFw6llkXxXS3AS
+         r5JC2tZyBl3gzVF0HHCfFhvkkkSPhrqENlV6RIopM27hyWqP4NZ7wrI8Gz20Jxr6uIVb
+         xcbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689905538; x=1690510338;
+        d=1e100.net; s=20221208; t=1689905885; x=1690510685;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=p8ZPfguL6gV1V35zTyTan0jOrViNRtZVH3K8E4cZiEk=;
-        b=kd+mXEUN5TQpydx9NTVPsWYqwAUGJrGjYIt8bBaKWQXC3eUspHkVWcUqztbo2ydosY
-         H5rCOftvJsOG039SvWvIkNc6tt3BYipiDzsZqH4Sa3Cf6WRR/wq3R4qQHLzJODFpWfC9
-         rU2hTTEBV1t/HrMO4NSUyfWgyXcy8ln6njjg88iLZYZ1lLNn8Icn7sOYxcBi8956q99/
-         rlz+a8CM5CKi2gSC00R91OVN08VfekHVzpMIpherl5JyVldGq8GQZxd9wvXNp+qQFaun
-         dD1Z/WvZi1eX61vjgVt6gwl2KQZ4fkrMlUperROhH9efsfl+isiOk1lLUwNZFMzvayf7
-         RmEw==
+        bh=eG3PlV2d9F3P4HI3e/08LeHPTZ3QCAEAVwQaMXaYgYk=;
+        b=mALxS2ujGEpXEuHwAGlcYwbEfPrS8eba7R4SrQE1OxZgzHy+cuVZHpoQDvw1t3fubs
+         rI/jGKpBN2T5b1YS1ByqYE2XUAMjC+LPTuo3zAox2vVLqgN1BmsOTUA7OsNANpnfmSib
+         LiJz7X4n46OzwUWiK1HnRd/XwZ96TiVpMuL9UJRW7qPd+vOj7zx5G/nqEmTv7xBStKla
+         K2v5gvPXHGEOR5gMlRhC8cZ3ScDvcI6MhmKCs72JB7sDpn2g9HHY/4Vv2vyEeYaRHkzx
+         iWb7PflSnuHTgKgoey+Pt4rfBDpi8Tc+RpTrZaVE9a6iHr0oK9ZW4QWoywlSMig82QXr
+         Dpng==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ABy/qLbbUxWPPaUdr+Em8U7KjtLP1192Z2A80cBmdfGZuwLKh+ZujmeQ
-	36/iy3kYrSXL6DsFRM3zGd0=
-X-Google-Smtp-Source: APBJJlGYK1Svd76rt0cr4/ogTScAWhM4BMmq/nOldzMNty+msBVQQfEsFi/RfIxAP8d1p74uSYwW/A==
-X-Received: by 2002:a92:c5cc:0:b0:348:7980:1e65 with SMTP id s12-20020a92c5cc000000b0034879801e65mr716245ilt.14.1689905538022;
-        Thu, 20 Jul 2023 19:12:18 -0700 (PDT)
+X-Gm-Message-State: ABy/qLaog5bVc36LXbdeWnGyOlRYV+r5Zs/AP8hl1ffF0CkMrAttsrZV
+	5BkqUS0pssMN1c06NCkoAas=
+X-Google-Smtp-Source: APBJJlEqnkIuzIyariZqPDecdniEM3b/O+txqkxYOQCymx8dlfAaD5UeecqrWgr6kQLOstg+JVZesQ==
+X-Received: by 2002:a17:902:a986:b0:1b8:76fc:5bf6 with SMTP id bh6-20020a170902a98600b001b876fc5bf6mr628619plb.43.1689905884946;
+        Thu, 20 Jul 2023 19:18:04 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:a812:0:b0:348:81bd:2f8c with SMTP id o18-20020a92a812000000b0034881bd2f8cls859319ilh.1.-pod-prod-04-us;
- Thu, 20 Jul 2023 19:12:17 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1548:b0:340:54f1:35dc with SMTP id j8-20020a056e02154800b0034054f135dcmr780418ilu.18.1689905537432;
-        Thu, 20 Jul 2023 19:12:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1689905537; cv=none;
+Received: by 2002:a17:902:6548:b0:1b8:8dab:64f6 with SMTP id
+ d8-20020a170902654800b001b88dab64f6ls746716pln.0.-pod-prod-06-us; Thu, 20 Jul
+ 2023 19:18:04 -0700 (PDT)
+X-Received: by 2002:a17:902:e748:b0:1b6:b805:5ae3 with SMTP id p8-20020a170902e74800b001b6b8055ae3mr889721plf.3.1689905884006;
+        Thu, 20 Jul 2023 19:18:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1689905883; cv=none;
         d=google.com; s=arc-20160816;
-        b=H4VcmEuMZFgE4Ox7NNf9nk3D2RJLnn/+zzN6urRd7zmtQ4KXiCxouhgX2VVMqaN7xT
-         6bv/91TrRGhmY8zF9h/goUOkhPgxRyqUaU9e1HeJ+voZt3acNb7r5+tblOvCbqWHzdKg
-         +ir+QTMJyFUD/910uKHmM3ooevkgTiYwUvIn907AyzCZXBNeOl000tk3TuDvaQfMISYC
-         HasgBBErtO8t4bo84uFhLtsgtodIRwAiPf7vRzUd/mROz5cwIpuFbo0t44TqtSpw9yVb
-         dkNfOsoZkQDaytNcrHbi+6T1GMOSpwMpIsAhU4Pcp2naGR1BmZ3qkeUOIRSPqRDtdrX5
-         Tv6g==
+        b=ZRRuW4syx5Y4EJjSpigBirxzgbf8K+eKNOIaCrqZ/mc56ODSZs26tWbBuZxLYvskh+
+         y+iswZBAOYPu870amutoxJIoc8vHKHyBdsOx5SuXckryLSl6Vhhgk5RrFr2i8AqCzJma
+         X4F6iBAGNU+/6hG+7habQWhMizumu9gk/yo0nJmdVHj0oGkD5oosi84NUwDVfCi5Ucnl
+         zFEwww72LPCkhN7It0dXPy/NQaJ6nKZt5oRgRFKfKYknqRhikr94YVUY232Vs051vxKo
+         Tvk3UrjqQxp+WfEBhDnBUfXNUb69ucEH1D4zQ5H4NpEceFM5Jaua5UrkDpkzMemBFSL1
+         VDxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from;
-        bh=zWSbGXxd72gjemIO1LCjkwFpnRkMb8ce8lHduGHQtU4=;
-        fh=PtPKd2tcWuVtu+yL18J6sFXYyO2PPLg/Xbo07e2JVhk=;
-        b=pRQ99sM5nLfLclI6MFdR+iD2tLmlJLlGpzvnvprjWnBEAFj9K+Gd/yQNR4j2LlUtza
-         nW7LESPyWcHLGC092jB4dvtdEPVrO+GMb/wQB1x9KOOeNRRDvUBE579ZxW26HAAMO2Hc
-         cw4dX9WtJZjsEblnlsxWn62qCtyeHAc0sJU9ZFa6DE1WsLuJy+6CgRpilYkiYzR4Kx2v
-         iPUtxKl5OgmF0FMnMmIQDSCrPTkJGwZfy0ebM/Yx4Xcgf0ibl0KjS5jE934fwwXK7dWU
-         znKhxSOmurQq9+DfTQXf4HAbgSr4eTACHebTltmkBbedbFuOYb+mwjKSU52+Yce1gLQb
-         wuEQ==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2pwUjIqWGxpZikfBgBgd87CYfG2HI8r2bvuZKY9Dxs8=;
+        fh=sy4SP3vkEn2BvwOVbcJ42LyDgXjWTkePGWUGK7C0j7Y=;
+        b=OVp1HSMnLMqFMxco7oGrJBmCzpprnHFSVfguPWr3szMrOjTy/jmkzGywVNssx+SpLJ
+         LByUXUxIyGzFV2YuSDtpikmtOl1h/d0YfneaEHC5EX6Zi40G2T5UMM/u38DC1vrL5gny
+         5bF6cvTyt865P/EdcTwCctRjZ9zCFxHu6Elg4s29z6vw5gKiFYSA1Pa0NX22MEXMYsK1
+         ejSFJF2gsclTgNAB8EPpwyt1G+VQ3WuwlDXSXMFlPtjBvWjJGfB/bUSK3K9bz+LqxHJG
+         KB6elwWsEVroYZ3yhV+pppBzdeXl4rjB8G6xAF4/01gNz4imrsHC4xO1L4deeftjcrpA
+         7qng==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) smtp.mailfrom=lienze@kylinos.cn
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn. [124.126.103.232])
-        by gmr-mx.google.com with ESMTPS id d8-20020a056e021c4800b00346233ecb68si82393ilg.5.2023.07.20.19.12.16
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=O0Q0sK61;
+       spf=pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id c1-20020a170903234100b001b878f9e121si102742plh.0.2023.07.20.19.18.03
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 Jul 2023 19:12:17 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) client-ip=124.126.103.232;
-X-UUID: 987d0810b5e2432186d959547283f089-20230721
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.28,REQID:815b0b25-7515-4126-b1ce-6a90ada0293f,IP:15,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:0
-X-CID-INFO: VERSION:1.1.28,REQID:815b0b25-7515-4126-b1ce-6a90ada0293f,IP:15,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:0
-X-CID-META: VersionHash:176cd25,CLOUDID:5a34f44c-06c1-468b-847d-5b62d44dbb9b,B
-	ulkID:23072110121292XKGXD5,BulkQuantity:0,Recheck:0,SF:24|17|19|44|102,TC:
-	nil,Content:0,EDM:-3,IP:-2,URL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
-	I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_FSI,TF_CID_SPAM_ULS,TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,
-	TF_CID_SPAM_FSD
-X-UUID: 987d0810b5e2432186d959547283f089-20230721
-X-User: lienze@kylinos.cn
-Received: from ubuntu [(39.156.73.12)] by mailgw
-	(envelope-from <lienze@kylinos.cn>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 716535529; Fri, 21 Jul 2023 10:12:11 +0800
-From: Enze Li <lienze@kylinos.cn>
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: kernel@xen0n.name,  loongarch@lists.linux.dev,  glider@google.com,
-  elver@google.com,  akpm@linux-foundation.org,
-  kasan-dev@googlegroups.com,  linux-mm@kvack.org,  zhangqing@loongson.cn,
-  yangtiezhu@loongson.cn,  dvyukov@google.com
-Subject: Re: [PATCH 1/4] LoongArch: mm: Add page table mapped mode support
-In-Reply-To: <CAAhV-H5pWmd2owMgH9hiqxoWpeAOKGv_=j2V-urA+D87_uCMyg@mail.gmail.com>
-	(Huacai Chen's message of "Wed, 19 Jul 2023 23:29:37 +0800")
-References: <20230719082732.2189747-1-lienze@kylinos.cn>
-	<20230719082732.2189747-2-lienze@kylinos.cn>
-	<CAAhV-H5pWmd2owMgH9hiqxoWpeAOKGv_=j2V-urA+D87_uCMyg@mail.gmail.com>
-Date: Fri, 21 Jul 2023 10:12:06 +0800
-Message-ID: <87pm4mf1xl.fsf@kylinos.cn>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Jul 2023 19:18:03 -0700 (PDT)
+Received-SPF: pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 6539161CD6
+	for <kasan-dev@googlegroups.com>; Fri, 21 Jul 2023 02:18:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3ECDC433CB
+	for <kasan-dev@googlegroups.com>; Fri, 21 Jul 2023 02:18:02 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-4fbaef9871cso2345317e87.0
+        for <kasan-dev@googlegroups.com>; Thu, 20 Jul 2023 19:18:02 -0700 (PDT)
+X-Received: by 2002:a05:6512:2826:b0:4fb:76f7:fde9 with SMTP id
+ cf38-20020a056512282600b004fb76f7fde9mr369862lfb.30.1689905880781; Thu, 20
+ Jul 2023 19:18:00 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230719082732.2189747-1-lienze@kylinos.cn> <20230719082732.2189747-3-lienze@kylinos.cn>
+ <CAAhV-H5y2cbbzrWtPKPZtP-DwzAq+g=PvEExD=rru1PkQg37dA@mail.gmail.com> <87tttyf2zj.fsf@kylinos.cn>
+In-Reply-To: <87tttyf2zj.fsf@kylinos.cn>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Fri, 21 Jul 2023 10:17:48 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H4TUnX_mgdn_GUFMvKZeNCi6TSUfpLr-Gr_Vt0m=wGs4g@mail.gmail.com>
+Message-ID: <CAAhV-H4TUnX_mgdn_GUFMvKZeNCi6TSUfpLr-Gr_Vt0m=wGs4g@mail.gmail.com>
+Subject: Re: [PATCH 2/4] LoongArch: Get stack without NMI when providing regs parameter
+To: Enze Li <lienze@kylinos.cn>
+Cc: kernel@xen0n.name, loongarch@lists.linux.dev, glider@google.com, 
+	elver@google.com, akpm@linux-foundation.org, kasan-dev@googlegroups.com, 
+	linux-mm@kvack.org, zhangqing@loongson.cn, yangtiezhu@loongson.cn, 
+	dvyukov@google.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: lienze@kylinos.cn
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as
- permitted sender) smtp.mailfrom=lienze@kylinos.cn
+X-Original-Sender: chenhuacai@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=k20201202 header.b=O0Q0sK61;       spf=pass
+ (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as
+ permitted sender) smtp.mailfrom=chenhuacai@kernel.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,199 +148,142 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jul 19 2023 at 11:29:37 PM +0800, Huacai Chen wrote:
-
-> Hi, Enze,
+On Fri, Jul 21, 2023 at 9:50=E2=80=AFAM Enze Li <lienze@kylinos.cn> wrote:
 >
-> On Wed, Jul 19, 2023 at 4:34=E2=80=AFPM Enze Li <lienze@kylinos.cn> wrote=
-:
->>
->> According to LoongArch documentation online, there are two types of addr=
-ess
->> translation modes: direct mapped address translation mode (direct mapped=
- mode)
->> and page table mapped address translation mode (page table mapped mode).
->>
->> Currently, the upstream code only supports DMM (Direct Mapped Mode).
->> This patch adds a function that determines whether PTMM (Page Table
->> Mapped Mode) should be used, and also adds the corresponding handler
->> funcitons for both modes.
->>
->> For more details on the two modes, see [1].
->>
->> [1]
->> https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1-EN.htm=
-l#virtual-address-space-and-address-translation-mode
->>
->> Signed-off-by: Enze Li <lienze@kylinos.cn>
->> ---
->>  arch/loongarch/include/asm/page.h    | 10 ++++++++++
->>  arch/loongarch/include/asm/pgtable.h |  6 ++++++
->>  arch/loongarch/mm/pgtable.c          | 25 +++++++++++++++++++++++++
->>  3 files changed, 41 insertions(+)
->>
->> diff --git a/arch/loongarch/include/asm/page.h b/arch/loongarch/include/=
-asm/page.h
->> index 26e8dccb6619..05919be15801 100644
->> --- a/arch/loongarch/include/asm/page.h
->> +++ b/arch/loongarch/include/asm/page.h
->> @@ -84,7 +84,17 @@ typedef struct { unsigned long pgprot; } pgprot_t;
->>  #define sym_to_pfn(x)          __phys_to_pfn(__pa_symbol(x))
->>
->>  #define virt_to_pfn(kaddr)     PFN_DOWN(PHYSADDR(kaddr))
->> +
->> +#ifdef CONFIG_64BIT
->> +#define virt_to_page(kaddr)                                            =
-\
->> +({                                                                     =
-\
->> +       is_PTMM_addr((unsigned long)kaddr) ?                            =
-\
->> +       PTMM_virt_to_page((unsigned long)kaddr) :                       =
-\
->> +       DMM_virt_to_page((unsigned long)kaddr);                         =
-\
->> +})
-> 1, Rename these helpers to
-> is_dmw_addr()/dmw_virt_to_page()/tlb_virt_to_page() will be better.
-> 2, These helpers are so simple so can be defined as inline function or
-> macros in page.h.
-
-Hi Huacai,
-
-Except for tlb_virt_to_page(), the remaining two modifications are easy.
-
-I've run into a lot of problems when trying to make tlb_virt_to_page()
-as a macro or inline function.  That's because we need to export this
-symbol in order for it to be used by the module that called the
-virt_to_page() function, other wise, we got the following errors,
-
------------------------------------------------------------------------
-  MODPOST Module.symvers
-ERROR: modpost: "tlb_virt_to_page" [fs/hfsplus/hfsplus.ko] undefined!
-ERROR: modpost: "tlb_virt_to_page" [fs/smb/client/cifs.ko] undefined!
-ERROR: modpost: "tlb_virt_to_page" [crypto/gcm.ko] undefined!
-ERROR: modpost: "tlb_virt_to_page" [crypto/ccm.ko] undefined!
-ERROR: modpost: "tlb_virt_to_page" [crypto/essiv.ko] undefined!
-ERROR: modpost: "tlb_virt_to_page" [lib/crypto/libchacha20poly1305.ko] unde=
-fined!
-ERROR: modpost: "tlb_virt_to_page" [drivers/gpu/drm/ttm/ttm.ko] undefined!
-ERROR: modpost: "tlb_virt_to_page" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko] u=
-ndefined!
-ERROR: modpost: "tlb_virt_to_page" [drivers/scsi/iscsi_tcp.ko] undefined!
-ERROR: modpost: "tlb_virt_to_page" [drivers/scsi/qla2xxx/qla2xxx.ko] undefi=
-ned!
-WARNING: modpost: suppressed 44 unresolved symbol warnings because there we=
-re too many)
------------------------------------------------------------------------
-
-It seems to me that wrapping it into a common function might be the only
-way to successfully compile or link with this modification.
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
---- a/arch/loongarch/include/asm/pgtable.h
-+++ b/arch/loongarch/include/asm/pgtable.h
-@@ -360,6 +360,8 @@ static inline void pte_clear(struct mm_struct *mm, unsi=
-gned long addr, pte_t *pt
- #define PMD_T_LOG2     (__builtin_ffs(sizeof(pmd_t)) - 1)
- #define PTE_T_LOG2     (__builtin_ffs(sizeof(pte_t)) - 1)
-=20
-+inline struct page *tlb_virt_to_page(unsigned long kaddr);
-+
-
---- a/arch/loongarch/mm/pgtable.c
-+++ b/arch/loongarch/mm/pgtable.c
-@@ -9,6 +9,12 @@
- #include <asm/pgtable.h>
- #include <asm/tlbflush.h>
-=20
-+inline struct page *tlb_virt_to_page(unsigned long kaddr)
-+{
-+       return pte_page(*virt_to_kpte(kaddr));
-+}
-+EXPORT_SYMBOL_GPL(tlb_virt_to_page);
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
-
-WDYT?
-
-Best Regards,
-Enze
-
-> 3, CONFIG_64BIT can be removed here.
+> Hi Huacai,
 >
-> Huacai
+> Thanks for your review.
 >
->> +#else
->>  #define virt_to_page(kaddr)    pfn_to_page(virt_to_pfn(kaddr))
->> +#endif
->>
->>  extern int __virt_addr_valid(volatile void *kaddr);
->>  #define virt_addr_valid(kaddr) __virt_addr_valid((volatile void *)(kadd=
-r))
->> diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/inclu=
-de/asm/pgtable.h
->> index ed6a37bb55b5..0fc074b8bd48 100644
->> --- a/arch/loongarch/include/asm/pgtable.h
->> +++ b/arch/loongarch/include/asm/pgtable.h
->> @@ -360,6 +360,12 @@ static inline void pte_clear(struct mm_struct *mm, =
-unsigned long addr, pte_t *pt
->>  #define PMD_T_LOG2     (__builtin_ffs(sizeof(pmd_t)) - 1)
->>  #define PTE_T_LOG2     (__builtin_ffs(sizeof(pte_t)) - 1)
->>
->> +#ifdef CONFIG_64BIT
->> +struct page *DMM_virt_to_page(unsigned long kaddr);
->> +struct page *PTMM_virt_to_page(unsigned long kaddr);
->> +bool is_PTMM_addr(unsigned long kaddr);
->> +#endif
->> +
->>  extern pgd_t swapper_pg_dir[];
->>  extern pgd_t invalid_pg_dir[];
->>
->> diff --git a/arch/loongarch/mm/pgtable.c b/arch/loongarch/mm/pgtable.c
->> index 36a6dc0148ae..4c6448f996b6 100644
->> --- a/arch/loongarch/mm/pgtable.c
->> +++ b/arch/loongarch/mm/pgtable.c
->> @@ -9,6 +9,31 @@
->>  #include <asm/pgtable.h>
->>  #include <asm/tlbflush.h>
->>
->> +#ifdef CONFIG_64BIT
->> +/* DMM stands for Direct Mapped Mode. */
->> +struct page *DMM_virt_to_page(unsigned long kaddr)
->> +{
->> +       return pfn_to_page(virt_to_pfn(kaddr));
->> +}
->> +EXPORT_SYMBOL_GPL(DMM_virt_to_page);
->> +
->> +/* PTMM stands for Page Table Mapped Mode. */
->> +struct page *PTMM_virt_to_page(unsigned long kaddr)
->> +{
->> +       return pte_page(*virt_to_kpte(kaddr));
->> +}
->> +EXPORT_SYMBOL_GPL(PTMM_virt_to_page);
->> +
->> +bool is_PTMM_addr(unsigned long kaddr)
->> +{
->> +       if (unlikely((kaddr & GENMASK(BITS_PER_LONG - 1, cpu_vabits)) =
-=3D=3D
->> +                    GENMASK(BITS_PER_LONG - 1, cpu_vabits)))
->> +               return true;
->> +       return false;
->> +}
->> +EXPORT_SYMBOL_GPL(is_PTMM_addr);
->> +#endif
->> +
->>  pgd_t *pgd_alloc(struct mm_struct *mm)
->>  {
->>         pgd_t *ret, *init;
->> --
->> 2.34.1
->>
->>
+> On Wed, Jul 19 2023 at 11:17:14 PM +0800, Huacai Chen wrote:
+>
+> > Hi, Enze,
+> >
+> > On Wed, Jul 19, 2023 at 4:34=E2=80=AFPM Enze Li <lienze@kylinos.cn> wro=
+te:
+> >>
+> >> Currently, executing arch_stack_walk can only get the full stack
+> >> information including NMI.  This is because the implementation
+> >> of arch_stack_walk is forced to ignore the information passed by the
+> >> regs parameter and use the current stack information instead.
+> >>
+> >> For some detection systems like KFENCE, only partial stack information
+> >> is needed.  In particular, the stack frame where the interrupt occurre=
+d.
+> >>
+> >> To support KFENCE, this patch modifies the implementation of the
+> >> arch_stack_walk function so that if this function is called with the
+> >> regs argument passed, it retains all the stack information in regs and
+> >> uses it to provide accurate information.
+> >>
+> >> Before the patch applied, I get,
+> >> [    1.531195 ] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> [    1.531442 ] BUG: KFENCE: out-of-bounds read in stack_trace_save_re=
+gs+0x48/0x6c
+> >> [    1.531442 ]
+> >> [    1.531900 ] Out-of-bounds read at 0xffff800012267fff (1B left of k=
+fence-#12):
+> >> [    1.532046 ]  stack_trace_save_regs+0x48/0x6c
+> >> [    1.532169 ]  kfence_report_error+0xa4/0x528
+> >> [    1.532276 ]  kfence_handle_page_fault+0x124/0x270
+> >> [    1.532388 ]  no_context+0x50/0x94
+> >> [    1.532453 ]  do_page_fault+0x1a8/0x36c
+> >> [    1.532524 ]  tlb_do_page_fault_0+0x118/0x1b4
+> >> [    1.532623 ]  test_out_of_bounds_read+0xa0/0x1d8
+> >> [    1.532745 ]  kunit_generic_run_threadfn_adapter+0x1c/0x28
+> >> [    1.532854 ]  kthread+0x124/0x130
+> >> [    1.532922 ]  ret_from_kernel_thread+0xc/0xa4
+> >> <snip>
+> >>
+> >> With this patch applied, I get the correct stack information.
+> >> [    1.320220 ] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >> [    1.320401 ] BUG: KFENCE: out-of-bounds read in test_out_of_bounds_=
+read+0xa8/0x1d8
+> >> [    1.320401 ]
+> >> [    1.320898 ] Out-of-bounds read at 0xffff800012257fff (1B left of k=
+fence-#10):
+> >> [    1.321134 ]  test_out_of_bounds_read+0xa8/0x1d8
+> >> [    1.321264 ]  kunit_generic_run_threadfn_adapter+0x1c/0x28
+> >> [    1.321392 ]  kthread+0x124/0x130
+> >> [    1.321459 ]  ret_from_kernel_thread+0xc/0xa4
+> >> <snip>
+> >>
+> >> Signed-off-by: Enze Li <lienze@kylinos.cn>
+> >> ---
+> >>  arch/loongarch/kernel/stacktrace.c | 16 ++++++++++------
+> >>  1 file changed, 10 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/arch/loongarch/kernel/stacktrace.c b/arch/loongarch/kerne=
+l/stacktrace.c
+> >> index 2463d2fea21f..21f60811e26f 100644
+> >> --- a/arch/loongarch/kernel/stacktrace.c
+> >> +++ b/arch/loongarch/kernel/stacktrace.c
+> >> @@ -18,16 +18,20 @@ void arch_stack_walk(stack_trace_consume_fn consum=
+e_entry, void *cookie,
+> >>         struct pt_regs dummyregs;
+> >>         struct unwind_state state;
+> >>
+> >> -       regs =3D &dummyregs;
+> >> -
+> >>         if (task =3D=3D current) {
+> >> -               regs->regs[3] =3D (unsigned long)__builtin_frame_addre=
+ss(0);
+> >> -               regs->csr_era =3D (unsigned long)__builtin_return_addr=
+ess(0);
+> >> +               if (regs)
+> >> +                       memcpy(&dummyregs, regs, sizeof(*regs));
+> >> +               else {
+> >> +                       dummyregs.regs[3] =3D (unsigned long)__builtin=
+_frame_address(0);
+> >> +                       dummyregs.csr_era =3D (unsigned long)__builtin=
+_return_address(0);
+> >> +               }
+> >>         } else {
+> > When "task !=3D current", we don't need to handle the "regs !=3D NULL" =
+case?
+> >
+> > Huacai
+> >
+>
+> So far, I have not encountered this situation.  I'm not sure what
+> problems would arise from extending the modifications with "task !=3D
+> current".
+>
+> However, these modifications now are sufficient for the KFENCE
+> system.  I would suggest that we don't modify other parts until we
+> encounter problems.  This way, we can forge ahead steadily.
+I don't think so. In my opinion, "partial stack information" is a
+clear requirement, whether the task is current or not.
+
+So, if  the input regs is not NULL, we should always
+memcpy(&dummyregs, regs, sizeof(*regs));
+
+Or we may listen to Tiezhu's idea?
+
+Huacai
+>
+> Best Regards,
+> Enze
+>
+> >> -               regs->regs[3] =3D thread_saved_fp(task);
+> >> -               regs->csr_era =3D thread_saved_ra(task);
+> >> +               dummyregs.regs[3] =3D thread_saved_fp(task);
+> >> +               dummyregs.csr_era =3D thread_saved_ra(task);
+> >>         }
+> >>
+> >> +       regs =3D &dummyregs;
+> >> +
+> >>         regs->regs[1] =3D 0;
+> >>         for (unwind_start(&state, task, regs);
+> >>              !unwind_done(&state) && !unwind_error(&state); unwind_nex=
+t_frame(&state)) {
+> >> --
+> >> 2.34.1
+> >>
+> >>
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -351,4 +291,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/87pm4mf1xl.fsf%40kylinos.cn.
+kasan-dev/CAAhV-H4TUnX_mgdn_GUFMvKZeNCi6TSUfpLr-Gr_Vt0m%3DwGs4g%40mail.gmai=
+l.com.
