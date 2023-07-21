@@ -1,141 +1,126 @@
-Return-Path: <kasan-dev+bncBAABBPPS46SQMGQELWPLAAQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCUJ7YGL3QFBB2U35CSQMGQEWFWQODA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x339.google.com (mail-ot1-x339.google.com [IPv6:2607:f8b0:4864:20::339])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA4475BCBC
-	for <lists+kasan-dev@lfdr.de>; Fri, 21 Jul 2023 05:19:26 +0200 (CEST)
-Received: by mail-ot1-x339.google.com with SMTP id 46e09a7af769-6b9d320d986sf2978740a34.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 20 Jul 2023 20:19:26 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1689909565; cv=pass;
+Received: from mail-qv1-xf3b.google.com (mail-qv1-xf3b.google.com [IPv6:2607:f8b0:4864:20::f3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F4B75BD7B
+	for <lists+kasan-dev@lfdr.de>; Fri, 21 Jul 2023 06:47:39 +0200 (CEST)
+Received: by mail-qv1-xf3b.google.com with SMTP id 6a1803df08f44-635e6c83cf0sf19398796d6.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 20 Jul 2023 21:47:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1689914858; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DBhDOj3dOk4fHyTd5cW01cJ4ZR1GHH5aai/WGd3+kbMrTCVxxB6HxjptMo2LqSDfd5
-         UkJjCankHOuhYb7gFDOG/zDxII4fWA0lRR2dkNzdjRytGSfVreZ8CscEQYlvk9xlHw1i
-         GMwUmkEpe/+Qeo8ZDS2UJoPDc2NMKHLlr0/G/bEz4SwWP3a6GjgYLhlr4Vi8zSzUyUvG
-         vP/SkPMPFgbJYr+0FOBfb91Y+OmuUQDqqTafVRtUCr9poEvh/cpLcDxqxcKRuDI0NncA
-         SLo/zNnuSgSOAthxWjBRD7t0bIt5rzVueFlqWQJlQ3L8y58icbmB16yYkyUKkR79LVnm
-         NHIg==
+        b=jKd38X8EVxfLzmK5xWWnYRIwGFGxFqmQ1bE/cfddaNjzhd85pewAO70VXqALLKTuBs
+         H+F+mBEzobaXgWb/iyrtJrBC7uXYyBXAvuup1Xr6y6c7Xc0IHv51Xt3ck//k8DEx5I0G
+         /zqxHSRPmy5e2Yj24gtoXY9RHIIpvMfoHTi6nwHkUojGexZmGrwWcZCcd/3olKhJJXOE
+         9luao7QK71L93s95KQ5DEO0ml545yFqafKyJ+43MtendBnrxDGxdVexK8mjWi48kufh0
+         aKKNO/68YDEum2Mut2hupv2O1hOMzjh7RjyCDoMYbg3MUeRj3Ul54eWR/8SvCIdxfrSE
+         WPig==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature;
-        bh=NK9v7clQNy/KRbsEsqX62Awq5UVjx/bGkALtVfxYqt4=;
-        fh=sy4SP3vkEn2BvwOVbcJ42LyDgXjWTkePGWUGK7C0j7Y=;
-        b=sFumOJxxaMptogBS+3NU8fGumlL7DR+zpvnahKZ2npmB4ZYOiGsaFVLz8Md/ZkFRnY
-         6JeGMYrMaludaxEtm2/QC+Se1sNQYHyB84TybS0CkDn8kfJH8Q57q1KFcehY5/0wb8GZ
-         oMyBaYlLu5N73kEnbMWhEQRyOIyGZHRnyaGPhDG1WN4yVwHuSM+hyLGHBgzwaB/e4bgi
-         WAyN+lei3NPq1PsJvaCi+TZqajg57cgw33qbPUyt7V2mAl+LO9w/NO5HEanxrFS6/I60
-         u8+wRSaiKusp4ee6WGZQqwvdsWRd6xRdHb0GQ1CIG15YG1hEQ7VKjSXz+MNJQeApJRGl
-         S8Pg==
+         :list-id:mailing-list:precedence:mime-version:message-id:date:from
+         :cc:to:subject:sender:dkim-signature;
+        bh=He7MGQWdDJBJrqeIpMfRVQiS0+7OG5r3iqRPJF7Ugdc=;
+        fh=I3jawtxdOKE+DAnVtmfMFnY7h2erJmqxbEnAOy9ksnQ=;
+        b=AXdlBbFIsJVs/SK6gF9szRUsu+1Nh11FuUZT0L3s9ODwKKRDx4y20DYuUYt4vEvxEf
+         WfJX+u8uRkX5SDL9o1WIJcPR+6tpwd41RSDaaCQhaDKciC5mz3DEx+jWT1LXwzM0f648
+         PqpXjPpIfI3Xo4GBxwfUC/H4+PX7s/TXfN/s5rVk5Y0pmQ8YXj81VtsqJ6ZcrDO1yLFQ
+         7CUQoGbCzCY0msfD06BZLojCqGTG1mgOOfInts/rmqAZPjNNZenYwEGtT6BBx/vDdPOP
+         Qh/VlTHU+hor+g9DG92lfz+5j8xSG0A2VZEePphbxrKneJFtJXKJ+ScB5MY4es37Urlc
+         oiLg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=rJMBGazv;
-       spf=pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=wfjVMYsq;
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1689909565; x=1690514365;
+        d=googlegroups.com; s=20221208; t=1689914858; x=1690519658;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NK9v7clQNy/KRbsEsqX62Awq5UVjx/bGkALtVfxYqt4=;
-        b=X6Jpti+7Uql5YIIIdg7xymHsNoWtYCtx4p3xFLMDHA1vtFs4fZkJ+J90p7uBk2t2am
-         qDh6On74C/2hffvznRicdgOBhfzUtCS6Y0S3Llis7xGqanVfr51jJ+pM1bARP2VldMH6
-         gh1pAD4vVnfeTvcMb9MNe1GjvWHf7ansJzHogOKV/TcrrdtxQcz2pN1Z2nkOwwrZS8hr
-         rj4EiPyxFjsV47TDX4MAldypKotwvoag17CWY/wlN5AwZynj8BCHGtMe4LRGZ3ytl8Pm
-         xEIGZgcVfWLZ8juEzGFfqQjyp752ambi+BoMJ7Tb1vpyX68qvhjQiIcnxVaN4tnM7OZ4
-         IVWg==
+         :x-original-sender:mime-version:message-id:date:from:cc:to:subject
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=He7MGQWdDJBJrqeIpMfRVQiS0+7OG5r3iqRPJF7Ugdc=;
+        b=D6n8BZLrIABOUs0Ce23x6ai9UHYTQdoeRHXYFilkigCyFtaj/iSCc3v3orS1evifRu
+         9O4bOsqgtK+aaGR9dpnYRpfjoAaGh/4i96trqYeIuQY2PLi/AOomEyMGrRO2ZCyIEx0O
+         zLyBZ45/XsaJH73ESby8GfVCavG6V0bfLZ3nkUbpzbWJuK0YjhkX3YlSNCaP202frpfD
+         cvb6RCxkPeKJd+UEuo2OHT3HpLSGKm3oIUFm+y++6Y5TRZkCi7i+YXEzc8fJcGUvIe9M
+         XvSJUFsP0/8WGAx4vScOY6Ci4OH+wElAxY6+JnFyQKjxctLCOk7T/n2bej8DAqOTAhc5
+         oyjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689909565; x=1690514365;
+        d=1e100.net; s=20221208; t=1689914858; x=1690519658;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:from:cc:to:subject:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=NK9v7clQNy/KRbsEsqX62Awq5UVjx/bGkALtVfxYqt4=;
-        b=ZXJZUcpXOs5rX79PAKMF2Ho58ji2pyRa4amsezcnLdlZIh2OxD9R/fxdfALDdNtnUg
-         peJ0ZctwHD/8fxaFIpHjWg08UgQSAd43cJ0QML/kOscxPH1Zxlj2L/71Rsd5+TnMz1Co
-         XMx79MWgvf8SrG9ltig/vppEWKaZlMtOvX00Ig7ZlLniuutVm3BUDHyRSEXWHILoJUlR
-         vGCOUqCZRf5EWoh8HZhfI4h1X4a8IWaA8gxiNDFOzygxYlfGUx+yChgwGzm4TMxBdPgB
-         JU/m4lhG6UJ/EMaGkIwlDji/C9lxgcr0TIAUyWbQUEAtZDMr5YShckVYjzXzr1m2x8Mr
-         jGdQ==
+        bh=He7MGQWdDJBJrqeIpMfRVQiS0+7OG5r3iqRPJF7Ugdc=;
+        b=bamlkB36uaZTG9+UhplDzBhAuuRv61FGsOXW46rbQ/uGZfM2a5pOvrVqbKtwUeo59e
+         PGxeGNet7pr/XcZENIMa9s3rMRL/DAzlXh0EF+LInuef9iMrIzOLv9DSImppREBc31ce
+         7a9ud9nTwK5e54FoSl9B1mpWFEvwT7SUCI8sz3fEilu5OLJEZ9E9bjoiogNDR3u1/Fpu
+         naRqF/3AfQEPMPKUdgVjg0zIUz+vs9mi/iiTnK7daoJ9Nn/rnjNQdChVylSWvxKZLlgb
+         T1oh7DTmptoTlF1HRN25uix8z7vLnDE6rZLyr9ap1egI3IjGoYUN74Z7z176URBApD/E
+         XuGQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ABy/qLYPDaehRHQOKLmbrBkifOSrSiNorDfvNeGMeyX/gmob2cyBwrto
-	vN5+ew0lKPFK03g6XCWLmII=
-X-Google-Smtp-Source: APBJJlGsUJONwathH+hzpK7TzONivXT1FzUYfBx8rmcMvQA/kHr0WRoZeI9iB+zaTfjqSxpo94OaZA==
-X-Received: by 2002:a05:6870:b6a9:b0:177:ad57:cb36 with SMTP id cy41-20020a056870b6a900b00177ad57cb36mr823925oab.27.1689909565553;
-        Thu, 20 Jul 2023 20:19:25 -0700 (PDT)
+X-Gm-Message-State: ABy/qLZsbwv59zTvt/s8l4RgKosCgX09j9LQ3Jlg+hS825L/ik+XE7L5
+	knhdfvlnGzvpknMkbLVVz8g=
+X-Google-Smtp-Source: APBJJlGXUMvoK0SXNsahAWUoGqj3rYVLgWaNOyXk/CuJdC/0+OYvk68fNdRsncmQWkosqG0JO6h5tQ==
+X-Received: by 2002:a0c:f652:0:b0:635:e113:a0ff with SMTP id s18-20020a0cf652000000b00635e113a0ffmr986582qvm.30.1689914858419;
+        Thu, 20 Jul 2023 21:47:38 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:eca8:b0:1b3:98f0:abf1 with SMTP id
- eo40-20020a056870eca800b001b398f0abf1ls941968oab.2.-pod-prod-03-us; Thu, 20
- Jul 2023 20:19:25 -0700 (PDT)
-X-Received: by 2002:a05:6871:54c:b0:1ad:3647:1fd0 with SMTP id t12-20020a056871054c00b001ad36471fd0mr787863oal.22.1689909564997;
-        Thu, 20 Jul 2023 20:19:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1689909564; cv=none;
+Received: by 2002:a0c:aa17:0:b0:62d:f315:97a9 with SMTP id d23-20020a0caa17000000b0062df31597a9ls1302840qvb.1.-pod-prod-02-us;
+ Thu, 20 Jul 2023 21:47:37 -0700 (PDT)
+X-Received: by 2002:ac8:5ad0:0:b0:403:b6bf:ee50 with SMTP id d16-20020ac85ad0000000b00403b6bfee50mr1345957qtd.14.1689914857598;
+        Thu, 20 Jul 2023 21:47:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1689914857; cv=none;
         d=google.com; s=arc-20160816;
-        b=vFMIBykieFpf/BtVPrRgLufi26azAfrmPryJ090GCHu4AZvZXZ3ZxMEWTus+idwUAx
-         hetcM5/pvv13fWJG+JVf8sX+jNuxH8/6lVr4tJWiYXL9w5y9lCTE/IQop4hfi+4Ol+Pe
-         nlD/xFyLgxMSRHFyDCQi1OYg7tbckSq3RQoGG/Sax/mKCYcLAVWmg74EnQsRdrWmAJPF
-         TlJHlAT/+WAaZy1hSjS/PauSGZSE4MMrxUb6NXWwjs+jtIHKoA581QmlkCNtYuvt/Cwu
-         uPBc0alfOYVZsSwHawmTnYO97XGfYwclXaw/2qnmX92CH/1tRQEhUgQWVxlpF14JPiEP
-         b2Aw==
+        b=uRJAoRtMhxENe1cp/qiTGkt0IQdFBo3DAngCLNVkDxSRu20cGL4dNOPshA7fbcSmkW
+         OSl9a2xN45nR3lWWUg7SRcNuJ7G65+AZUSCpySpclZqy/xfRqHVM20Q3OIzV7dju/Rd3
+         Hr9QtJN3AbQT2ljOl3mTRe5lUn/wbC+Rce+eT5cAfRc4UZ9Bs9bCvqsqWvOdmoh/THQh
+         iw4KUu7UOtQwUWbP9LQu97nmMGTHLRA9q0P/vtvQCwqM0eCSnNuOLtnC/hJPwwyuRoKi
+         MBh8QxvkOfTPW7rAQ2SokavdXXnBwOaaIH9B1ylsxnDVaYwJqTJFn7l8Db+N6UjhqjS9
+         Q8xQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hBkaesJwVREKeZL4yZtB8GU3JN9BxPcUY+gMay0RI6s=;
-        fh=sy4SP3vkEn2BvwOVbcJ42LyDgXjWTkePGWUGK7C0j7Y=;
-        b=N1y9MQlreACtkOmjLnE4vAh51LbFH7jYDC+8Gd8NRK6kcQc8hcWFyNCKiizA+VUS++
-         VBc2ygsQx1mZaE1yCpS1XjXj5V0Sqv+2g98QvDZEnp8n+bBRYe1J7j6+cpgpnZxqhQox
-         inxm23yUqfB+tl0tNiWGlSIp0N7pN60ypqaFmd2Ki2JUPBHTK/yK9jUVCoqg9KnIsL7T
-         /lN35iV97TmG62R0977j26wMh6yrIqTGRnElQwJ0RL9MRrRqXO4x0fEdxGK4D3/CfDVs
-         LYZD/OuAQvWBbNWs0C79xmkN3t5BviWJeA7usfL4rRBqiUm39GOviKm/DKcoZFUEBtjT
-         xs+Q==
+        h=content-transfer-encoding:mime-version:message-id:date:from:cc:to
+         :subject:dkim-signature;
+        bh=Rkekmvls4yofjivbvxqx5E70zMdWBLiGsv2MXr06VNU=;
+        fh=I3jawtxdOKE+DAnVtmfMFnY7h2erJmqxbEnAOy9ksnQ=;
+        b=ebwCV6Ea/uzs2DkWVn16fEVit10H2xDS9Nmorg5gq1jBEz8wx4IH55rf020swMVFa2
+         7aNTt6KV/4zg+JS1UJHmoxokMRm05UMKE3uEKIf1k9JN9XzFRiC6gZy19RLufcCrKlGD
+         Q2mCZVJa7fGCBwIZ5YMwXAsA1fEHZWJw0AL5TVma5lMlZncbE7QrK3qGsyGVTBQj4VfV
+         tUut8LknnHioyzUZxJzLdID7LT8jFIc89mZThQcz+t9NGrNdHKZ8a1sezzooptd1U4DM
+         m63RdU16qrNo1mOuD/Mva1N+7AfEIAKwMTB80TomNthtKxrsKmIAUobYdujRZkb1GAcy
+         9QcQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=rJMBGazv;
-       spf=pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=wfjVMYsq;
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id j10-20020a056830270a00b006b9ea5121c2si270449otu.0.2023.07.20.20.19.24
+        by gmr-mx.google.com with ESMTPS id ez13-20020a05622a4c8d00b0040388ea9a6dsi194014qtb.2.2023.07.20.21.47.37
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jul 2023 20:19:24 -0700 (PDT)
-Received-SPF: pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+        Thu, 20 Jul 2023 21:47:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id B3F2A61CE8
-	for <kasan-dev@googlegroups.com>; Fri, 21 Jul 2023 03:19:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27E47C433CC
-	for <kasan-dev@googlegroups.com>; Fri, 21 Jul 2023 03:19:24 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-51e28b299adso2040586a12.2
-        for <kasan-dev@googlegroups.com>; Thu, 20 Jul 2023 20:19:24 -0700 (PDT)
-X-Received: by 2002:aa7:dcc7:0:b0:515:1e50:5498 with SMTP id
- w7-20020aa7dcc7000000b005151e505498mr505713edu.15.1689909562263; Thu, 20 Jul
- 2023 20:19:22 -0700 (PDT)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 175086108F;
+	Fri, 21 Jul 2023 04:47:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD908C433C9;
+	Fri, 21 Jul 2023 04:47:35 +0000 (UTC)
+Subject: Patch "kasan, slub: fix HW_TAGS zeroing with slub_debug" has been added to the 6.4-stable tree
+To: 42.hyeyoo@gmail.com,akpm@linux-foundation.org,andreyknvl@google.com,catalin.marinas@arm.com,cl@linux.com,dvyukov@google.com,elver@google.com,feng.tang@intel.com,glider@google.com,gregkh@linuxfoundation.org,iamjoonsoo.kim@lge.com,kasan-dev@googlegroups.com,mark.rutland@arm.com,pcc@google.com,penberg@kernel.org,rientjes@google.com,roman.gushchin@linux.dev,ryabinin.a.a@gmail.com,vbabka@suse.cz,vincenzo.frascino@arm.com,will@kernel.org
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Fri, 21 Jul 2023 06:45:53 +0200
+Message-ID: <2023072152-galore-apron-cd97@gregkh>
 MIME-Version: 1.0
-References: <20230719082732.2189747-1-lienze@kylinos.cn> <20230719082732.2189747-5-lienze@kylinos.cn>
- <CAAhV-H71sv+VeLfNzuiqitYcuB4rHnho=dRYQftwo1__3bLZSQ@mail.gmail.com> <87lefaez31.fsf@kylinos.cn>
-In-Reply-To: <87lefaez31.fsf@kylinos.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Fri, 21 Jul 2023 11:19:10 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6FoC1v9f9Vkq9rzk=0j88RczLgiYTiBUBNDwx3B=3tYA@mail.gmail.com>
-Message-ID: <CAAhV-H6FoC1v9f9Vkq9rzk=0j88RczLgiYTiBUBNDwx3B=3tYA@mail.gmail.com>
-Subject: Re: [PATCH 4/4] LoongArch: Add KFENCE support
-To: Enze Li <lienze@kylinos.cn>
-Cc: kernel@xen0n.name, loongarch@lists.linux.dev, glider@google.com, 
-	elver@google.com, akpm@linux-foundation.org, kasan-dev@googlegroups.com, 
-	linux-mm@kvack.org, zhangqing@loongson.cn, yangtiezhu@loongson.cn, 
-	dvyukov@google.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: chenhuacai@kernel.org
+X-stable: commit
+X-Patchwork-Hint: ignore
+X-Original-Sender: gregkh@linuxfoundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=rJMBGazv;       spf=pass
- (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1
- as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@linuxfoundation.org header.s=korg header.b=wfjVMYsq;       spf=pass
+ (google.com: domain of gregkh@linuxfoundation.org designates
+ 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,358 +133,144 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi, Enze,
 
-On Fri, Jul 21, 2023 at 11:14=E2=80=AFAM Enze Li <lienze@kylinos.cn> wrote:
->
-> On Wed, Jul 19 2023 at 11:27:50 PM +0800, Huacai Chen wrote:
->
-> > Hi, Enze,
-> >
-> > On Wed, Jul 19, 2023 at 4:34=E2=80=AFPM Enze Li <lienze@kylinos.cn> wro=
-te:
-> >>
-> >> The LoongArch architecture is quite different from other architectures=
-.
-> >> When the allocating of KFENCE itself is done, it is mapped to the dire=
-ct
-> >> mapping configuration window [1] by default on LoongArch.  It means th=
-at
-> >> it is not possible to use the page table mapped mode which required by
-> >> the KFENCE system and therefore it should be remapped to the appropria=
-te
-> >> region.
-> >>
-> >> This patch adds architecture specific implementation details for KFENC=
-E.
-> >> In particular, this implements the required interface in <asm/kfence.h=
->.
-> >>
-> >> Tested this patch by using the testcases and all passed.
-> >>
-> >> [1] https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1-=
-EN.html#virtual-address-space-and-address-translation-mode
-> >>
-> >> Signed-off-by: Enze Li <lienze@kylinos.cn>
-> >> ---
-> >>  arch/loongarch/Kconfig               |  1 +
-> >>  arch/loongarch/include/asm/kfence.h  | 62 +++++++++++++++++++++++++++=
+This is a note to let you know that I've just added the patch titled
+
+    kasan, slub: fix HW_TAGS zeroing with slub_debug
+
+to the 6.4-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     kasan-slub-fix-hw_tags-zeroing-with-slub_debug.patch
+and it can be found in the queue-6.4 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From fdb54d96600aafe45951f549866cd6fc1af59954 Mon Sep 17 00:00:00 2001
+From: Andrey Konovalov <andreyknvl@google.com>
+Date: Wed, 5 Jul 2023 14:44:02 +0200
+Subject: kasan, slub: fix HW_TAGS zeroing with slub_debug
+
+From: Andrey Konovalov <andreyknvl@google.com>
+
+commit fdb54d96600aafe45951f549866cd6fc1af59954 upstream.
+
+Commit 946fa0dbf2d8 ("mm/slub: extend redzone check to extra allocated
+kmalloc space than requested") added precise kmalloc redzone poisoning to
+the slub_debug functionality.
+
+However, this commit didn't account for HW_TAGS KASAN fully initializing
+the object via its built-in memory initialization feature.  Even though
+HW_TAGS KASAN memory initialization contains special memory initialization
+handling for when slub_debug is enabled, it does not account for in-object
+slub_debug redzones.  As a result, HW_TAGS KASAN can overwrite these
+redzones and cause false-positive slub_debug reports.
+
+To fix the issue, avoid HW_TAGS KASAN memory initialization when
+slub_debug is enabled altogether.  Implement this by moving the
+__slub_debug_enabled check to slab_post_alloc_hook.  Common slab code
+seems like a more appropriate place for a slub_debug check anyway.
+
+Link: https://lkml.kernel.org/r/678ac92ab790dba9198f9ca14f405651b97c8502.1688561016.git.andreyknvl@google.com
+Fixes: 946fa0dbf2d8 ("mm/slub: extend redzone check to extra allocated kmalloc space than requested")
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+Reported-by: Will Deacon <will@kernel.org>
+Acked-by: Marco Elver <elver@google.com>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Christoph Lameter <cl@linux.com>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Feng Tang <feng.tang@intel.com>
+Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+Cc: kasan-dev@googlegroups.com
+Cc: Pekka Enberg <penberg@kernel.org>
+Cc: Peter Collingbourne <pcc@google.com>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ mm/kasan/kasan.h |   12 ------------
+ mm/slab.h        |   16 ++++++++++++++--
+ 2 files changed, 14 insertions(+), 14 deletions(-)
+
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -466,18 +466,6 @@ static inline void kasan_unpoison(const
+ 
+ 	if (WARN_ON((unsigned long)addr & KASAN_GRANULE_MASK))
+ 		return;
+-	/*
+-	 * Explicitly initialize the memory with the precise object size to
+-	 * avoid overwriting the slab redzone. This disables initialization in
+-	 * the arch code and may thus lead to performance penalty. This penalty
+-	 * does not affect production builds, as slab redzones are not enabled
+-	 * there.
+-	 */
+-	if (__slub_debug_enabled() &&
+-	    init && ((unsigned long)size & KASAN_GRANULE_MASK)) {
+-		init = false;
+-		memzero_explicit((void *)addr, size);
+-	}
+ 	size = round_up(size, KASAN_GRANULE_SIZE);
+ 
+ 	hw_set_mem_tag_range((void *)addr, size, tag, init);
+--- a/mm/slab.h
++++ b/mm/slab.h
+@@ -684,6 +684,7 @@ static inline void slab_post_alloc_hook(
+ 					unsigned int orig_size)
+ {
+ 	unsigned int zero_size = s->object_size;
++	bool kasan_init = init;
+ 	size_t i;
+ 
+ 	flags &= gfp_allowed_mask;
+@@ -701,6 +702,17 @@ static inline void slab_post_alloc_hook(
+ 		zero_size = orig_size;
+ 
+ 	/*
++	 * When slub_debug is enabled, avoid memory initialization integrated
++	 * into KASAN and instead zero out the memory via the memset below with
++	 * the proper size. Otherwise, KASAN might overwrite SLUB redzones and
++	 * cause false-positive reports. This does not lead to a performance
++	 * penalty on production builds, as slub_debug is not intended to be
++	 * enabled there.
++	 */
++	if (__slub_debug_enabled())
++		kasan_init = false;
 +
-> >>  arch/loongarch/include/asm/pgtable.h |  6 +++
-> >>  arch/loongarch/mm/fault.c            | 22 ++++++----
-> >>  4 files changed, 83 insertions(+), 8 deletions(-)
-> >>  create mode 100644 arch/loongarch/include/asm/kfence.h
-> >>
-> >> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-> >> index 5411e3a4eb88..db27729003d3 100644
-> >> --- a/arch/loongarch/Kconfig
-> >> +++ b/arch/loongarch/Kconfig
-> >> @@ -93,6 +93,7 @@ config LOONGARCH
-> >>         select HAVE_ARCH_JUMP_LABEL
-> >>         select HAVE_ARCH_JUMP_LABEL_RELATIVE
-> >>         select HAVE_ARCH_KASAN
-> >> +       select HAVE_ARCH_KFENCE if 64BIT
-> > "if 64BIT" can be dropped here.
-> >
->
-> Fixed.
->
-> >>         select HAVE_ARCH_MMAP_RND_BITS if MMU
-> >>         select HAVE_ARCH_SECCOMP_FILTER
-> >>         select HAVE_ARCH_TRACEHOOK
-> >> diff --git a/arch/loongarch/include/asm/kfence.h b/arch/loongarch/incl=
-ude/asm/kfence.h
-> >> new file mode 100644
-> >> index 000000000000..2a85acc2bc70
-> >> --- /dev/null
-> >> +++ b/arch/loongarch/include/asm/kfence.h
-> >> @@ -0,0 +1,62 @@
-> >> +/* SPDX-License-Identifier: GPL-2.0 */
-> >> +/*
-> >> + * KFENCE support for LoongArch.
-> >> + *
-> >> + * Author: Enze Li <lienze@kylinos.cn>
-> >> + * Copyright (C) 2022-2023 KylinSoft Corporation.
-> >> + */
-> >> +
-> >> +#ifndef _ASM_LOONGARCH_KFENCE_H
-> >> +#define _ASM_LOONGARCH_KFENCE_H
-> >> +
-> >> +#include <linux/kfence.h>
-> >> +#include <asm/pgtable.h>
-> >> +#include <asm/tlb.h>
-> >> +
-> >> +static inline char *arch_kfence_init_pool(void)
-> >> +{
-> >> +       char *__kfence_pool_orig =3D __kfence_pool;
-> > I prefer kfence_pool than __kfence_pool_orig here.
-> >
->
-> Fixed.
->
-> >> +       struct vm_struct *area;
-> >> +       int err;
-> >> +
-> >> +       area =3D __get_vm_area_caller(KFENCE_POOL_SIZE, VM_IOREMAP,
-> >> +                                   KFENCE_AREA_START, KFENCE_AREA_END=
-,
-> >> +                                   __builtin_return_address(0));
-> >> +       if (!area)
-> >> +               return NULL;
-> >> +
-> >> +       __kfence_pool =3D (char *)area->addr;
-> >> +       err =3D ioremap_page_range((unsigned long)__kfence_pool,
-> >> +                                (unsigned long)__kfence_pool + KFENCE=
-_POOL_SIZE,
-> >> +                                virt_to_phys((void *)__kfence_pool_or=
-ig),
-> >> +                                PAGE_KERNEL);
-> >> +       if (err) {
-> >> +               free_vm_area(area);
-> >> +               return NULL;
-> >> +       }
-> >> +
-> >> +       return __kfence_pool;
-> >> +}
-> >> +
-> >> +/* Protect the given page and flush TLB. */
-> >> +static inline bool kfence_protect_page(unsigned long addr, bool prote=
-ct)
-> >> +{
-> >> +       pte_t *pte =3D virt_to_kpte(addr);
-> >> +
-> >> +       if (WARN_ON(!pte) || pte_none(*pte))
-> >> +               return false;
-> >> +
-> >> +       if (protect)
-> >> +               set_pte(pte, __pte(pte_val(*pte) & ~(_PAGE_VALID | _PA=
-GE_PRESENT)));
-> >> +       else
-> >> +               set_pte(pte, __pte(pte_val(*pte) | (_PAGE_VALID | _PAG=
-E_PRESENT)));
-> >> +
-> >> +       /* Flush this CPU's TLB. */
-> >> +       preempt_disable();
-> >> +       local_flush_tlb_one(addr);
-> >> +       preempt_enable();
-> >> +
-> >> +       return true;
-> >> +}
-> >> +
-> >> +#endif /* _ASM_LOONGARCH_KFENCE_H */
-> >> diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/inc=
-lude/asm/pgtable.h
-> >> index 0fc074b8bd48..5a9c81298fe3 100644
-> >> --- a/arch/loongarch/include/asm/pgtable.h
-> >> +++ b/arch/loongarch/include/asm/pgtable.h
-> >> @@ -85,7 +85,13 @@ extern unsigned long zero_page_mask;
-> >>  #define MODULES_VADDR  (vm_map_base + PCI_IOSIZE + (2 * PAGE_SIZE))
-> >>  #define MODULES_END    (MODULES_VADDR + SZ_256M)
-> >>
-> >> +#ifdef CONFIG_KFENCE
-> >> +#define KFENCE_AREA_START      MODULES_END
-> >> +#define KFENCE_AREA_END                (KFENCE_AREA_START + SZ_512M)
-> > Why you choose 512M here?
-> >
->
-> One day I noticed that 512M can hold 16K (default 255) KFENCE objects,
-> which should be more than enough and I think this should be appropriate.
->
-> As far as I see, KFENCE system does not have the upper limit of this
-> value(CONFIG_KFENCE_NUM_OBJECTS), which could theoretically be any
-> number.  There's another way, how about setting this value to be
-> determined by the configuration, like this,
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->  +#define KFENCE_AREA_END \
->  + (KFENCE_AREA_START + (CONFIG_KFENCE_NUM_OBJECTS + 1) * 2 * PAGE_SIZE)
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-How does other archs configure the size?
++	/*
+ 	 * As memory initialization might be integrated into KASAN,
+ 	 * kasan_slab_alloc and initialization memset must be
+ 	 * kept together to avoid discrepancies in behavior.
+@@ -708,8 +720,8 @@ static inline void slab_post_alloc_hook(
+ 	 * As p[i] might get tagged, memset and kmemleak hook come after KASAN.
+ 	 */
+ 	for (i = 0; i < size; i++) {
+-		p[i] = kasan_slab_alloc(s, p[i], flags, init);
+-		if (p[i] && init && !kasan_has_integrated_init())
++		p[i] = kasan_slab_alloc(s, p[i], flags, kasan_init);
++		if (p[i] && init && (!kasan_init || !kasan_has_integrated_init()))
+ 			memset(p[i], 0, zero_size);
+ 		kmemleak_alloc_recursive(p[i], s->object_size, 1,
+ 					 s->flags, flags);
 
->
-> >> +#define VMALLOC_START          KFENCE_AREA_END
-> >> +#else
-> >>  #define VMALLOC_START  MODULES_END
-> >> +#endif
-> > I don't like to put KFENCE_AREA between module and vmalloc range (it
-> > may cause some problems), can we put it after vmemmap?
->
-> I found that there is not enough space after vmemmap and that these
-> spaces are affected by KASAN. As follows,
->
-> Without KASAN
-> ###### module 0xffff800002008000~0xffff800012008000
-> ###### malloc 0xffff800032008000~0xfffffefffe000000
-> ###### vmemmap 0xffffff0000000000~0xffffffffffffffff
->
-> With KASAN
-> ###### module 0xffff800002008000~0xffff800012008000
-> ###### malloc 0xffff800032008000~0xffffbefffe000000
-> ###### vmemmap 0xffffbf0000000000~0xffffbfffffffffff
->
-> What about put it before MODULES_START?
-I temporarily drop KASAN in linux-next for you. You can update a new
-patch version without KASAN (still, put KFENCE after vmemmap), and
-then we can improve further.
 
-Huacai
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> --- a/arch/loongarch/include/asm/pgtable.h
-> +++ b/arch/loongarch/include/asm/pgtable.h
-> @@ -82,7 +82,14 @@ extern unsigned long zero_page_mask;
->   * Avoid the first couple of pages so NULL pointer dereferences will
->   * still reliably trap.
->   */
-> +#ifdef CONFIG_KFENCE
-> +#define KFENCE_AREA_START      (vm_map_base + PCI_IOSIZE + (2 * PAGE_SIZ=
-E))
-> +#define KFENCE_AREA_END        \
-> +       (KFENCE_AREA_START + (CONFIG_KFENCE_NUM_OBJECTS + 1) * 2 * PAGE_S=
-IZE)
-> +#define MODULES_VADDR  KFENCE_AREA_END
-> +#else
->  #define MODULES_VADDR  (vm_map_base + PCI_IOSIZE + (2 * PAGE_SIZE))
-> +#endif
->  #define MODULES_END    (MODULES_VADDR + SZ_256M)
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
->
-> Best Regards,
-> Enze
->
-> >>
-> >>  #ifndef CONFIG_KASAN
-> >>  #define VMALLOC_END    \
-> >> diff --git a/arch/loongarch/mm/fault.c b/arch/loongarch/mm/fault.c
-> >> index da5b6d518cdb..c0319128b221 100644
-> >> --- a/arch/loongarch/mm/fault.c
-> >> +++ b/arch/loongarch/mm/fault.c
-> >> @@ -23,6 +23,7 @@
-> >>  #include <linux/kprobes.h>
-> >>  #include <linux/perf_event.h>
-> >>  #include <linux/uaccess.h>
-> >> +#include <linux/kfence.h>
-> >>
-> >>  #include <asm/branch.h>
-> >>  #include <asm/mmu_context.h>
-> >> @@ -30,7 +31,8 @@
-> >>
-> >>  int show_unhandled_signals =3D 1;
-> >>
-> >> -static void __kprobes no_context(struct pt_regs *regs, unsigned long =
-address)
-> >> +static void __kprobes no_context(struct pt_regs *regs, unsigned long =
-address,
-> >> +                                unsigned long write)
-> >>  {
-> >>         const int field =3D sizeof(unsigned long) * 2;
-> >>
-> >> @@ -38,6 +40,9 @@ static void __kprobes no_context(struct pt_regs *reg=
-s, unsigned long address)
-> >>         if (fixup_exception(regs))
-> >>                 return;
-> >>
-> >> +       if (kfence_handle_page_fault(address, write, regs))
-> >> +               return;
-> >> +
-> >>         /*
-> >>          * Oops. The kernel tried to access some bad page. We'll have =
-to
-> >>          * terminate things with extreme prejudice.
-> >> @@ -51,14 +56,15 @@ static void __kprobes no_context(struct pt_regs *r=
-egs, unsigned long address)
-> >>         die("Oops", regs);
-> >>  }
-> >>
-> >> -static void __kprobes do_out_of_memory(struct pt_regs *regs, unsigned=
- long address)
-> >> +static void __kprobes do_out_of_memory(struct pt_regs *regs, unsigned=
- long address,
-> >> +                                      unsigned long write)
-> >>  {
-> >>         /*
-> >>          * We ran out of memory, call the OOM killer, and return the u=
-serspace
-> >>          * (which will retry the fault, or kill us if we got oom-kille=
-d).
-> >>          */
-> >>         if (!user_mode(regs)) {
-> >> -               no_context(regs, address);
-> >> +               no_context(regs, address, write);
-> >>                 return;
-> >>         }
-> >>         pagefault_out_of_memory();
-> >> @@ -69,7 +75,7 @@ static void __kprobes do_sigbus(struct pt_regs *regs=
-,
-> >>  {
-> >>         /* Kernel mode? Handle exceptions or die */
-> >>         if (!user_mode(regs)) {
-> >> -               no_context(regs, address);
-> >> +               no_context(regs, address, write);
-> >>                 return;
-> >>         }
-> >>
-> >> @@ -90,7 +96,7 @@ static void __kprobes do_sigsegv(struct pt_regs *reg=
-s,
-> >>
-> >>         /* Kernel mode? Handle exceptions or die */
-> >>         if (!user_mode(regs)) {
-> >> -               no_context(regs, address);
-> >> +               no_context(regs, address, write);
-> >>                 return;
-> >>         }
-> >>
-> >> @@ -149,7 +155,7 @@ static void __kprobes __do_page_fault(struct pt_re=
-gs *regs,
-> >>          */
-> >>         if (address & __UA_LIMIT) {
-> >>                 if (!user_mode(regs))
-> >> -                       no_context(regs, address);
-> >> +                       no_context(regs, address, write);
-> >>                 else
-> >>                         do_sigsegv(regs, write, address, si_code);
-> >>                 return;
-> >> @@ -211,7 +217,7 @@ static void __kprobes __do_page_fault(struct pt_re=
-gs *regs,
-> >>
-> >>         if (fault_signal_pending(fault, regs)) {
-> >>                 if (!user_mode(regs))
-> >> -                       no_context(regs, address);
-> >> +                       no_context(regs, address, write);
-> >>                 return;
-> >>         }
-> >>
-> >> @@ -232,7 +238,7 @@ static void __kprobes __do_page_fault(struct pt_re=
-gs *regs,
-> >>         if (unlikely(fault & VM_FAULT_ERROR)) {
-> >>                 mmap_read_unlock(mm);
-> >>                 if (fault & VM_FAULT_OOM) {
-> >> -                       do_out_of_memory(regs, address);
-> >> +                       do_out_of_memory(regs, address, write);
-> >>                         return;
-> >>                 } else if (fault & VM_FAULT_SIGSEGV) {
-> >>                         do_sigsegv(regs, write, address, si_code);
-> >> --
-> >> 2.34.1
-> >>
-> >>
->
+Patches currently in stable-queue which might be from andreyknvl@google.com are
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAAhV-H6FoC1v9f9Vkq9rzk%3D0j88RczLgiYTiBUBNDwx3B%3D3tYA%40mail.gm=
-ail.com.
+queue-6.4/kasan-slub-fix-hw_tags-zeroing-with-slub_debug.patch
+queue-6.4/kasan-fix-type-cast-in-memory_is_poisoned_n.patch
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2023072152-galore-apron-cd97%40gregkh.
