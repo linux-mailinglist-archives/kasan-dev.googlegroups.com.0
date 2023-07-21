@@ -1,125 +1,151 @@
-Return-Path: <kasan-dev+bncBCUJ7YGL3QFBB2U35CSQMGQEWFWQODA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCUJ7YGL3QFBBK665KSQMGQESTW3QPI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3b.google.com (mail-qv1-xf3b.google.com [IPv6:2607:f8b0:4864:20::f3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F4B75BD7B
-	for <lists+kasan-dev@lfdr.de>; Fri, 21 Jul 2023 06:47:39 +0200 (CEST)
-Received: by mail-qv1-xf3b.google.com with SMTP id 6a1803df08f44-635e6c83cf0sf19398796d6.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 20 Jul 2023 21:47:39 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1689914858; cv=pass;
+Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id E42CD75CDE4
+	for <lists+kasan-dev@lfdr.de>; Fri, 21 Jul 2023 18:15:40 +0200 (CEST)
+Received: by mail-oo1-xc3c.google.com with SMTP id 006d021491bc7-565d6b6c1c7sf4026283eaf.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 21 Jul 2023 09:15:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1689956139; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jKd38X8EVxfLzmK5xWWnYRIwGFGxFqmQ1bE/cfddaNjzhd85pewAO70VXqALLKTuBs
-         H+F+mBEzobaXgWb/iyrtJrBC7uXYyBXAvuup1Xr6y6c7Xc0IHv51Xt3ck//k8DEx5I0G
-         /zqxHSRPmy5e2Yj24gtoXY9RHIIpvMfoHTi6nwHkUojGexZmGrwWcZCcd/3olKhJJXOE
-         9luao7QK71L93s95KQ5DEO0ml545yFqafKyJ+43MtendBnrxDGxdVexK8mjWi48kufh0
-         aKKNO/68YDEum2Mut2hupv2O1hOMzjh7RjyCDoMYbg3MUeRj3Ul54eWR/8SvCIdxfrSE
-         WPig==
+        b=UAWQKzsMajFsXY4FrEuzjdTidditW12Tq5feYuilU4Io+q32Bd7BGkjbL5ZQk4y3N/
+         jBz+Aw8GHiRst87jiuFLZbGkEpn4SdSUKhaVTswXJq7LYKGmvrRoubwga2tTL556f5ng
+         HVloM3e1LJh2Y3kRhMQb1mo1ah/YzgARq36wIgkGL+ODr40IsMnJMaP1U11Aa2VkueDq
+         2zfHghyVDgLI87Fv0gIf5JId4bt78OqhOPP9sf81F0WUkVouOn1S3Tv2+fuV7gt35W+W
+         DjEQrN8xtYeyYm1SO3AjmR3gZtYs29baYyhP0uZyYnCKNJeR7jyHi5hBErSF03jMGdAm
+         pOfQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date:from
-         :cc:to:subject:sender:dkim-signature;
-        bh=He7MGQWdDJBJrqeIpMfRVQiS0+7OG5r3iqRPJF7Ugdc=;
-        fh=I3jawtxdOKE+DAnVtmfMFnY7h2erJmqxbEnAOy9ksnQ=;
-        b=AXdlBbFIsJVs/SK6gF9szRUsu+1Nh11FuUZT0L3s9ODwKKRDx4y20DYuUYt4vEvxEf
-         WfJX+u8uRkX5SDL9o1WIJcPR+6tpwd41RSDaaCQhaDKciC5mz3DEx+jWT1LXwzM0f648
-         PqpXjPpIfI3Xo4GBxwfUC/H4+PX7s/TXfN/s5rVk5Y0pmQ8YXj81VtsqJ6ZcrDO1yLFQ
-         7CUQoGbCzCY0msfD06BZLojCqGTG1mgOOfInts/rmqAZPjNNZenYwEGtT6BBx/vDdPOP
-         Qh/VlTHU+hor+g9DG92lfz+5j8xSG0A2VZEePphbxrKneJFtJXKJ+ScB5MY4es37Urlc
-         oiLg==
+         :list-id:mailing-list:precedence:mime-version:user-agent:references
+         :in-reply-to:message-id:date:subject:cc:to:from:sender
+         :dkim-signature;
+        bh=vosdUY7qX55FP6yOzb4cM4wxwNXQAexsmI2JMMeR2wE=;
+        fh=ZPGZKrQ+qxkFVLpEVH0HywtKANkkNHp0EtQFg2ItNoc=;
+        b=K36/Rh21DsGywCJ8g5/x8hDbdzUGMdlQfuS0yaWo273vxiD0zLDMm2t5Nh50yqXvSy
+         AWFy+gFfnpKOM7JTZeDhh313zOu8do/PONo+IA0tMeItTL00Ntnm9GJKG/bY9UK/cA1/
+         p3jYYsMCFLfPutRw1V/HHqD5NmkhQDkhf0JICWrYuQN6dHEWfvEfFlQY7Lc2wFJcsnlk
+         D4tomugRh3y6YuHECWBscB3kVdi1LZ/DOnTuu2mJfHJ1hROOI68x81XDFldHYCh27aFr
+         lsBksLXS+dwE/TgvIbT3/hnsZE92UKYbYjCzI2H2LLOuoufGAUeB49DSW/cmHi46Uj9l
+         ESRA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=wfjVMYsq;
-       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=GwOX9Zx8;
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1689914858; x=1690519658;
+        d=googlegroups.com; s=20221208; t=1689956139; x=1690560939;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:from:cc:to:subject
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=He7MGQWdDJBJrqeIpMfRVQiS0+7OG5r3iqRPJF7Ugdc=;
-        b=D6n8BZLrIABOUs0Ce23x6ai9UHYTQdoeRHXYFilkigCyFtaj/iSCc3v3orS1evifRu
-         9O4bOsqgtK+aaGR9dpnYRpfjoAaGh/4i96trqYeIuQY2PLi/AOomEyMGrRO2ZCyIEx0O
-         zLyBZ45/XsaJH73ESby8GfVCavG6V0bfLZ3nkUbpzbWJuK0YjhkX3YlSNCaP202frpfD
-         cvb6RCxkPeKJd+UEuo2OHT3HpLSGKm3oIUFm+y++6Y5TRZkCi7i+YXEzc8fJcGUvIe9M
-         XvSJUFsP0/8WGAx4vScOY6Ci4OH+wElAxY6+JnFyQKjxctLCOk7T/n2bej8DAqOTAhc5
-         oyjA==
+         :x-original-sender:mime-version:user-agent:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vosdUY7qX55FP6yOzb4cM4wxwNXQAexsmI2JMMeR2wE=;
+        b=gqxHwPvXPPvcWdDgTYzmRI6Bf2TmhAFROG+QAqgjdt0uAevpE2SLN3Zgzf8TFSTThk
+         9XqoWTdz/8+GUwcr/MdiUW3z3tb7wIxem4ijv2mdLsTCeWFWRmHzjJYnKF2GmB9KdhH2
+         7t2RBCrAacDVGFs7Yuc9hubvjHB55u7u3ot/p2vurvdx7EMH1GEmvnI7X6i3TSeuPtpa
+         LK2en4p1W6NgnRH9D3DfU1iu2LFMsLQaHs9tGAd3qwejQFSgDG1DNMZM9gKTtXkhFSNu
+         GZKucpMq+ZhKUddB9bxwNnZIVioIz65DQSwpOKYc+CJbNReZ/XUYFH6+tTUogNoX/Kub
+         +i7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1689914858; x=1690519658;
+        d=1e100.net; s=20221208; t=1689956139; x=1690560939;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:from:cc:to:subject:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=He7MGQWdDJBJrqeIpMfRVQiS0+7OG5r3iqRPJF7Ugdc=;
-        b=bamlkB36uaZTG9+UhplDzBhAuuRv61FGsOXW46rbQ/uGZfM2a5pOvrVqbKtwUeo59e
-         PGxeGNet7pr/XcZENIMa9s3rMRL/DAzlXh0EF+LInuef9iMrIzOLv9DSImppREBc31ce
-         7a9ud9nTwK5e54FoSl9B1mpWFEvwT7SUCI8sz3fEilu5OLJEZ9E9bjoiogNDR3u1/Fpu
-         naRqF/3AfQEPMPKUdgVjg0zIUz+vs9mi/iiTnK7daoJ9Nn/rnjNQdChVylSWvxKZLlgb
-         T1oh7DTmptoTlF1HRN25uix8z7vLnDE6rZLyr9ap1egI3IjGoYUN74Z7z176URBApD/E
-         XuGQ==
+         :user-agent:references:in-reply-to:message-id:date:subject:cc:to
+         :from:x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vosdUY7qX55FP6yOzb4cM4wxwNXQAexsmI2JMMeR2wE=;
+        b=NgAMbIotnnZFdVsDWv7GM4f3UaB2u7iYlluIh/3An8hbtNcx05Dw2ISoxg5tu58MTF
+         TR48y7naML8WANvOYu8FTWAs3NzZ3eGg0PrVPAuJD+WCOt4hZz05eWswCmeGOLI9ZEFt
+         gGA0BIpaO62c2GEYdxtTm4sS3ezJ0s4331PHKemx1VL4uj7afglRBLB3WMzgfxR1wf5C
+         I1BfTN576MSjYSN5Xabz2tNXhT0aN3usQn85VXB3Yfvau+NnDo2caBhV3MzU0+hNOz0R
+         ahbK7TI1jPgddupVVToeoJVbS4MkUiHMk+HKTWjRpdyYdZSaINaWJW/b1Cz4v8gTgtqA
+         MtGA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ABy/qLZsbwv59zTvt/s8l4RgKosCgX09j9LQ3Jlg+hS825L/ik+XE7L5
-	knhdfvlnGzvpknMkbLVVz8g=
-X-Google-Smtp-Source: APBJJlGXUMvoK0SXNsahAWUoGqj3rYVLgWaNOyXk/CuJdC/0+OYvk68fNdRsncmQWkosqG0JO6h5tQ==
-X-Received: by 2002:a0c:f652:0:b0:635:e113:a0ff with SMTP id s18-20020a0cf652000000b00635e113a0ffmr986582qvm.30.1689914858419;
-        Thu, 20 Jul 2023 21:47:38 -0700 (PDT)
+X-Gm-Message-State: ABy/qLbwgjEzoHs/szX6dGw1nUVMH7B5gQksFYAa8Gu8aCJWSFcnyKd5
+	sOWeQVGInWPNLWICXU70fBk=
+X-Google-Smtp-Source: APBJJlFehU2x2SPZWT0/kHQ0K8zPuXUGLPfFOuVZUFX8FKrQl8vBPZmpXGwe9HecL3aVjhvRUnpQAA==
+X-Received: by 2002:a05:6870:f69e:b0:1b0:43b6:e13b with SMTP id el30-20020a056870f69e00b001b043b6e13bmr2589423oab.54.1689956139458;
+        Fri, 21 Jul 2023 09:15:39 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:aa17:0:b0:62d:f315:97a9 with SMTP id d23-20020a0caa17000000b0062df31597a9ls1302840qvb.1.-pod-prod-02-us;
- Thu, 20 Jul 2023 21:47:37 -0700 (PDT)
-X-Received: by 2002:ac8:5ad0:0:b0:403:b6bf:ee50 with SMTP id d16-20020ac85ad0000000b00403b6bfee50mr1345957qtd.14.1689914857598;
-        Thu, 20 Jul 2023 21:47:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1689914857; cv=none;
+Received: by 2002:a4a:49d1:0:b0:564:377f:9511 with SMTP id z200-20020a4a49d1000000b00564377f9511ls2154227ooa.1.-pod-prod-04-us;
+ Fri, 21 Jul 2023 09:15:39 -0700 (PDT)
+X-Received: by 2002:a4a:6f03:0:b0:566:f7c7:93bb with SMTP id h3-20020a4a6f03000000b00566f7c793bbmr1922734ooc.4.1689956138938;
+        Fri, 21 Jul 2023 09:15:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1689956138; cv=none;
         d=google.com; s=arc-20160816;
-        b=uRJAoRtMhxENe1cp/qiTGkt0IQdFBo3DAngCLNVkDxSRu20cGL4dNOPshA7fbcSmkW
-         OSl9a2xN45nR3lWWUg7SRcNuJ7G65+AZUSCpySpclZqy/xfRqHVM20Q3OIzV7dju/Rd3
-         Hr9QtJN3AbQT2ljOl3mTRe5lUn/wbC+Rce+eT5cAfRc4UZ9Bs9bCvqsqWvOdmoh/THQh
-         iw4KUu7UOtQwUWbP9LQu97nmMGTHLRA9q0P/vtvQCwqM0eCSnNuOLtnC/hJPwwyuRoKi
-         MBh8QxvkOfTPW7rAQ2SokavdXXnBwOaaIH9B1ylsxnDVaYwJqTJFn7l8Db+N6UjhqjS9
-         Q8xQ==
+        b=QTNjS9xEShGbGU9Favzh6tCBHLNWdcQMhnTLRLsIXxuzetinC/dk6FwOkMLxNBQhF5
+         3PA65R8umIXmjEtWV//bCCmeuIHSbiju/WVVaALQw4OOBM5Trx+88qfrmfbevY8Kzi5A
+         VftasRzifl8GVgVbkg0y40QxwZ+kjfJx/hMs1hb3xQdkkSAleWLa7Jv8weIvymPCXul1
+         Iq6lUcUu2tjwqTYc8CBOc44l2iTdj8t5hOG9KBZ1Y20FL0TR8ayle9/YnQJQeaGgeClD
+         tG9+/I5f4LLkG70if6ipVpQaw8a/LpYlfE1Kg864swDw9sloRvlAxVOnqOSc0siXB1hb
+         4UIw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:from:cc:to
-         :subject:dkim-signature;
-        bh=Rkekmvls4yofjivbvxqx5E70zMdWBLiGsv2MXr06VNU=;
-        fh=I3jawtxdOKE+DAnVtmfMFnY7h2erJmqxbEnAOy9ksnQ=;
-        b=ebwCV6Ea/uzs2DkWVn16fEVit10H2xDS9Nmorg5gq1jBEz8wx4IH55rf020swMVFa2
-         7aNTt6KV/4zg+JS1UJHmoxokMRm05UMKE3uEKIf1k9JN9XzFRiC6gZy19RLufcCrKlGD
-         Q2mCZVJa7fGCBwIZ5YMwXAsA1fEHZWJw0AL5TVma5lMlZncbE7QrK3qGsyGVTBQj4VfV
-         tUut8LknnHioyzUZxJzLdID7LT8jFIc89mZThQcz+t9NGrNdHKZ8a1sezzooptd1U4DM
-         m63RdU16qrNo1mOuD/Mva1N+7AfEIAKwMTB80TomNthtKxrsKmIAUobYdujRZkb1GAcy
-         9QcQ==
+        h=content-transfer-encoding:mime-version:user-agent:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=4qWjtJMAM1r6qoAwdo21XlULlJBYYcbKba/hk/vjxx8=;
+        fh=ZPGZKrQ+qxkFVLpEVH0HywtKANkkNHp0EtQFg2ItNoc=;
+        b=z9Ks1ibuIJjAoaVrpCzGNDP2EZKYQKv85kxirK3reMsoY0xImhAt6510Ayz2XXHZ3A
+         BU7LXjl4VxxLbcB7mvYz7s1S9ir8TyOgF38XmcaMJITOXMoFX8Ew7FL1OBupk24xOnjv
+         qzM68nsKRNp3q+TyVhr/x49B4qVgf7bYSQllBe3kwxZvqc3C6kbH5HbzHuOmT3T+udHP
+         oxfbVRnjUTeoKf+LEtuAIrIswtWcvDIGH1T6yqZ0s7Wlv/njL5SJUht+RvVqs/zgy3dl
+         SiXGKkpvrCAFsVTBg/i68RES1xhWDyWkvSrIhXHTErZxsYevUcQe6t3MDok0PxQy/t/S
+         GkMw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=wfjVMYsq;
-       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+       dkim=pass header.i=@linuxfoundation.org header.s=korg header.b=GwOX9Zx8;
+       spf=pass (google.com: domain of gregkh@linuxfoundation.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id ez13-20020a05622a4c8d00b0040388ea9a6dsi194014qtb.2.2023.07.20.21.47.37
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id i21-20020a056820013500b00566fd59ede2si173066ood.2.2023.07.21.09.15.38
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Jul 2023 21:47:37 -0700 (PDT)
-Received-SPF: pass (google.com: domain of gregkh@linuxfoundation.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+        Fri, 21 Jul 2023 09:15:38 -0700 (PDT)
+Received-SPF: pass (google.com: domain of gregkh@linuxfoundation.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
 	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 175086108F;
-	Fri, 21 Jul 2023 04:47:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD908C433C9;
-	Fri, 21 Jul 2023 04:47:35 +0000 (UTC)
-Subject: Patch "kasan, slub: fix HW_TAGS zeroing with slub_debug" has been added to the 6.4-stable tree
-To: 42.hyeyoo@gmail.com,akpm@linux-foundation.org,andreyknvl@google.com,catalin.marinas@arm.com,cl@linux.com,dvyukov@google.com,elver@google.com,feng.tang@intel.com,glider@google.com,gregkh@linuxfoundation.org,iamjoonsoo.kim@lge.com,kasan-dev@googlegroups.com,mark.rutland@arm.com,pcc@google.com,penberg@kernel.org,rientjes@google.com,roman.gushchin@linux.dev,ryabinin.a.a@gmail.com,vbabka@suse.cz,vincenzo.frascino@arm.com,will@kernel.org
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Fri, 21 Jul 2023 06:45:53 +0200
-Message-ID: <2023072152-galore-apron-cd97@gregkh>
+	by dfw.source.kernel.org (Postfix) with ESMTPS id A71AF61D2B;
+	Fri, 21 Jul 2023 16:15:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90304C433C8;
+	Fri, 21 Jul 2023 16:15:37 +0000 (UTC)
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Andrey Konovalov <andreyknvl@google.com>,
+	Will Deacon <will@kernel.org>,
+	Marco Elver <elver@google.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Christoph Lameter <cl@linux.com>,
+	David Rientjes <rientjes@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Feng Tang <feng.tang@intel.com>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	kasan-dev@googlegroups.com,
+	Pekka Enberg <penberg@kernel.org>,
+	Peter Collingbourne <pcc@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH 6.4 138/292] kasan, slub: fix HW_TAGS zeroing with slub_debug
+Date: Fri, 21 Jul 2023 18:04:07 +0200
+Message-ID: <20230721160534.776366260@linuxfoundation.org>
+X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20230721160528.800311148@linuxfoundation.org>
+References: <20230721160528.800311148@linuxfoundation.org>
+User-Agent: quilt/0.67
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-stable: commit
-X-Patchwork-Hint: ignore
 X-Original-Sender: gregkh@linuxfoundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linuxfoundation.org header.s=korg header.b=wfjVMYsq;       spf=pass
- (google.com: domain of gregkh@linuxfoundation.org designates
- 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
+ header.i=@linuxfoundation.org header.s=korg header.b=GwOX9Zx8;       spf=pass
+ (google.com: domain of gregkh@linuxfoundation.org designates 139.178.84.217
+ as permitted sender) smtp.mailfrom=gregkh@linuxfoundation.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linuxfoundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -132,27 +158,6 @@ List-Archive: <https://groups.google.com/group/kasan-dev
 List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:kasan-dev+subscribe@googlegroups.com>
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
-
-
-This is a note to let you know that I've just added the patch titled
-
-    kasan, slub: fix HW_TAGS zeroing with slub_debug
-
-to the 6.4-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
-
-The filename of the patch is:
-     kasan-slub-fix-hw_tags-zeroing-with-slub_debug.patch
-and it can be found in the queue-6.4 subdirectory.
-
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
-
-
-From fdb54d96600aafe45951f549866cd6fc1af59954 Mon Sep 17 00:00:00 2001
-From: Andrey Konovalov <andreyknvl@google.com>
-Date: Wed, 5 Jul 2023 14:44:02 +0200
-Subject: kasan, slub: fix HW_TAGS zeroing with slub_debug
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
@@ -265,12 +270,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  					 s->flags, flags);
 
 
-Patches currently in stable-queue which might be from andreyknvl@google.com are
-
-queue-6.4/kasan-slub-fix-hw_tags-zeroing-with-slub_debug.patch
-queue-6.4/kasan-fix-type-cast-in-memory_is_poisoned_n.patch
-
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2023072152-galore-apron-cd97%40gregkh.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230721160534.776366260%40linuxfoundation.org.
