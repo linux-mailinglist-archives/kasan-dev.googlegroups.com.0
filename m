@@ -1,140 +1,139 @@
-Return-Path: <kasan-dev+bncBAABBAVI6OSQMGQEGCLIZLY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBAFQ6OSQMGQEPSIDSAA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1039.google.com (mail-pj1-x1039.google.com [IPv6:2607:f8b0:4864:20::1039])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D85C75E03B
-	for <lists+kasan-dev@lfdr.de>; Sun, 23 Jul 2023 09:17:24 +0200 (CEST)
-Received: by mail-pj1-x1039.google.com with SMTP id 98e67ed59e1d1-26814a011desf18373a91.0
-        for <lists+kasan-dev@lfdr.de>; Sun, 23 Jul 2023 00:17:24 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1690096642; cv=pass;
+Received: from mail-pf1-x43c.google.com (mail-pf1-x43c.google.com [IPv6:2607:f8b0:4864:20::43c])
+	by mail.lfdr.de (Postfix) with ESMTPS id E345A75E049
+	for <lists+kasan-dev@lfdr.de>; Sun, 23 Jul 2023 09:34:26 +0200 (CEST)
+Received: by mail-pf1-x43c.google.com with SMTP id d2e1a72fcca58-666edb72db2sf1934326b3a.0
+        for <lists+kasan-dev@lfdr.de>; Sun, 23 Jul 2023 00:34:26 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1690097665; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Jozrxc9kU/Fo/FPKWxDNqIOnnebNhL41m5fGXiuYvozJ1VGr35QJuhswS0t6pzpHpI
-         gOTEhTwmxMOaGVnmMYq6qbEC81osDPW9UxmGskB20OhVlfeaGaWonxHqxhgKepgV9mLy
-         mVsrWZ7xu0H1j4oTU5z5OGfo0ye2dINpUxz458lShmHr0+/EIXR9TE6I1XcDc7FF3+9f
-         u0QotcYSpmURCQGfRpXrjAw8kxIAf5Ydn7XbAcEny2RUpjUUfonAzbBWDB3VcCognbxS
-         1a6ENxSRWEtv80iMO2zofNvb4gPJWnu4S8w/RjBeDTFLFkJB/dau0rvLMbogXd7gWF3X
-         PWxQ==
+        b=HaUX5BzWASgYn7Sw5lhPwuZrw5G3QDX04j6WqOIMrp4anvh8pkgK8FkzEV+KM3zrhe
+         EAq+Her902z50Gxnxi7q6C7kcy+BB+ioCxRSTp4+gWHPlIz45XGtoyUiZJHIaF35isll
+         BKYtCpdhUbCPwX0SKBcuEiUV2NHkCFSI2srE3ZeiW0phOOS/f93L1I16RMo/aTSDXTK9
+         cMQQSkb/3BMLjrcHovW/1gYM9wC4VprCIIVW5YeTi39U4vsACl+IIRF3YxwkiHQ2+rSW
+         ZmSeZ2S5j3LHa/Im0lq/h3mGjDCuycR3yyQubHXwTlpgfm9R7av8PS42e1n9rPUXLJWg
+         tnhQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-transfer-encoding
          :mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:sender:dkim-signature;
-        bh=HGlC+q1ISPDruSATnjN/mP38D9AO8CW5o+c5ala3uFg=;
+        bh=rHtCNNwP9J4E5nV06fpJlJaI6ESuoKhW/qMyNLD+D1c=;
         fh=PtPKd2tcWuVtu+yL18J6sFXYyO2PPLg/Xbo07e2JVhk=;
-        b=v8Gto1VTOwsG5S3LnEwtwF4ceTokofkrdyErJ3oOD9VYxJvF/DkzYDlutdoXSw2xF/
-         rVA6sOjAPLiL2/X/+7WGW45PIixYOS907ZXLsLttiec11vjAS8YY+0SgXvxfGxI+OVqH
-         iyM9wM+jo3CnDNvchNGk25CG4S3H2pP8zakX+MsBBxnhKaVMHC7uqtp9XDODQVKsDtWl
-         N4mZWj495+pzfl04H53Y1vORGv/zUGKexThW2BIkFLPVuXHTIco8K3q8zqifKqaYwRyc
-         7IRMmjpOtcUmZPHHa+C4JCKdYYCdDU/gt35OYmI53h5a8YzpwQUUdcNBLzwX7SUrH1Ry
-         2Hyg==
+        b=H7TYsW4kAmjIKx2V91k/kxeBzS+PKMbykFzhYYL/CejREeAtZpvPpO5alKgUW61iQ6
+         ZWqaehTCg833qsT200N6ZB0k0oxZS5YvukygJTpLb473R82Dom3AHX91/C04dUPfxtwc
+         xHEbup3otIXDVqqUHZTIPgptuQ9QUn6eMkaMtna1/th2ioHb2zaoDzkR9rbb1FjrWtuM
+         iQXPpmJWN0byw3fsoMRvsmzel21nT9a4uGscU1SF0pMLlvBZiNMfs57QIscx0Zw9E1yr
+         dF/NXs/Z33lJjtn6ZSpEGBfqaa6fqlbGQIaOXJbNLcKzSkiWYjFvfbAkv8WOmTkcRyOb
+         Il2g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) smtp.mailfrom=lienze@kylinos.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1690096642; x=1690701442;
+        d=googlegroups.com; s=20221208; t=1690097665; x=1690702465;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:mime-version:message-id
          :date:references:in-reply-to:subject:cc:to:from:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HGlC+q1ISPDruSATnjN/mP38D9AO8CW5o+c5ala3uFg=;
-        b=XBhVL8Cl4vw8PLCw0TmANEHVcpks3O1yh1FytzSsPd3yWyR1/i/+Bw60L4mkF5P6Aq
-         HJEd3JjUjwL2rgv0juvHnnGlK6M0CtGdWgI6FSCzpEAa7ClnG0PPn5CLk5c1CZVk1K1y
-         rBE1LSWabxmSWgQwFH2qhQM5MWr3+xRH+ZqAd6iCycrBmDOzTRFjvjAd/gxwtScWRyjf
-         IhYllx9t1txmMSmjiclTsX+0IeZ0saSPjZ9roSS91dZMgH7J3XhguTo/jmKzQ2wqxEfq
-         8eRAivaHJ60PeF9BbZmTDNnWZWowtxBQv3fStKfbtJNdZID5eW1EZFGyZIGwkNk4SPUp
-         huSQ==
+        bh=rHtCNNwP9J4E5nV06fpJlJaI6ESuoKhW/qMyNLD+D1c=;
+        b=Kpm/aX9BVlYc4zBryPWhFhlcV0lIrIFe+CQ5CQdNz47PdDTfFiMR1OqmB9aJ6R0b+N
+         kkBZiGBs7oGmtW0IoHnJ02o9YFO69Ldg7GFPq3a1PhPaLqjgJASnocatcW0pj15p8pld
+         /oCxYSf4NTdTT/rayiK33g/I140NtYmpBw6PPjVbCClW0F9Hjv7TIRadpApYof9yrzZP
+         LBHVqUWwrjtrJEyZ1X2AgSH/hQJgWBw9+bV/7P61xXbF0VMyOj/WPZ5VNxVzTUqVlvTO
+         I2wUlQEbDVZNk6oQQZvK7hIPPP6mxgdqsQEgciaWyz+2jaUZcFmDYZWXolSFzZhv9LEs
+         wXoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690096642; x=1690701442;
+        d=1e100.net; s=20221208; t=1690097665; x=1690702465;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:mime-version:message-id:date:references
          :in-reply-to:subject:cc:to:from:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=HGlC+q1ISPDruSATnjN/mP38D9AO8CW5o+c5ala3uFg=;
-        b=VR1mnI3BmynQxfOG3ZmB8QYqHatAsYn4BoeJmk5FkWBTJFEgHNdKnDuu4V20AYSrCM
-         4eGhKLvICepVRRJYuWfrsSU+iK3qjIih1eav0EIBpCgMdw5YUw1wKWn6LJxTT+DqKtW1
-         xTRHL9oD8ad72AqtNycisXs6ADX8kobbqkO5uoD59sw2KdSQXOr499S4GeJ8NI0Qc4PD
-         73+u/enckXlilzeHOxofB5SZPQxqrlIodaF7Yx+55c5f9S9G3KMsdroCVrIezW9kbxTx
-         Z/jk8kbnNZsWjdfBfz2OexZy/9zxxaTCWb209OaCPC4zx7/M2sAGM2UegZiJJ7c0Tvtx
-         I81A==
+        bh=rHtCNNwP9J4E5nV06fpJlJaI6ESuoKhW/qMyNLD+D1c=;
+        b=GkNF7oAnHFToe0AF2Lk+PIRYDy3NZIaOXw6rSZrM1+pKw29a9aM5FLAvdsGCDRTbwb
+         KXjaNUlKv3YxH04Zj1hy/yNXIq2v20fBgzIML7z1tAHZKWyK21kOFK7K5yIquwe9rDfl
+         5XvQXtLtBhb2/NHEdj8v4PEyLJaFyp12tIxXk5OAxPuTfnVPV+J4tL77PzoQdqX3GvnI
+         CzydBfw5Ec27vfwsBbiD+Zs/DuzjB14nDZyzjNGCCYlUcUBVDY91xh0bWHhdZEN142hg
+         y8mHq81/cKz6fbGTgvz+510dpP1jhkUriFV2TkpQYQnZF107v6V/dw/5WkL/t6rTpU3O
+         liaw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ABy/qLb4OodQoZETbFP8os4mpVXPLbOwgZIpgsb1unzEbv1TWTmLHYyG
-	lDTG055jKzN6NoP0JTT9pzg=
-X-Google-Smtp-Source: APBJJlGA5uca5A3IwDBnDSsULtltzYB8q/XZFkpTD1Wp4eWPtzAGRpNn4a7WclVmZTbzpB1TETQHVA==
-X-Received: by 2002:a17:90b:4b88:b0:263:a37:fcc3 with SMTP id lr8-20020a17090b4b8800b002630a37fcc3mr5901425pjb.5.1690096642341;
-        Sun, 23 Jul 2023 00:17:22 -0700 (PDT)
+X-Gm-Message-State: ABy/qLYdT0eGKMI0DvxGOombMA1JOfMiRKeb4JImFqAEfECpdbjNnlTP
+	lqvKI1kpWhKj7bax6/1tn/U=
+X-Google-Smtp-Source: APBJJlHgD24jgInII/MuXnSxIupF0iCskWTEhvFW3uSVty/UDnU9kdQvsqG1DsWYalWKrCLxt+ibSg==
+X-Received: by 2002:a05:6a00:1350:b0:65b:351a:e70a with SMTP id k16-20020a056a00135000b0065b351ae70amr6782616pfu.29.1690097665113;
+        Sun, 23 Jul 2023 00:34:25 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:1991:b0:25e:a03a:113a with SMTP id
- mv17-20020a17090b199100b0025ea03a113als446861pjb.1.-pod-prod-01-us; Sun, 23
- Jul 2023 00:17:21 -0700 (PDT)
-X-Received: by 2002:a17:90a:fe15:b0:260:fe48:360e with SMTP id ck21-20020a17090afe1500b00260fe48360emr5575781pjb.29.1690096641596;
-        Sun, 23 Jul 2023 00:17:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1690096641; cv=none;
+Received: by 2002:a62:18ca:0:b0:666:e97f:cb0f with SMTP id 193-20020a6218ca000000b00666e97fcb0fls2130784pfy.0.-pod-prod-05-us;
+ Sun, 23 Jul 2023 00:34:24 -0700 (PDT)
+X-Received: by 2002:a05:6a20:7486:b0:132:d029:e2d7 with SMTP id p6-20020a056a20748600b00132d029e2d7mr7736018pzd.55.1690097664425;
+        Sun, 23 Jul 2023 00:34:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1690097664; cv=none;
         d=google.com; s=arc-20160816;
-        b=ZE+u84awSujdRQJclaWXGus0e4vgfppqdMpQNrYtpCs7ykczazPvWmWilbb8hnmJ/z
-         8mJueTe9sl5O4xIeNlsA24V8umyi7L9VwszbDCOefKwI9BjNZOzWqJ2kUnOSJdY27Z3O
-         skPpZLQ+ReyO5phMcHunfIzVtivHldgSGZKztCYBkFXR+7rArw0xztPCcIHeCJtlQkSn
-         w4VJ/uQz3viRlpvie7kOtCg8q3Ykbp8P5O76NZeXKaUIIuL0ifLb1QsdF7X0f8FfgxmF
-         e/oZ2e7NrZlwc2Yv09f9sia2q4iyfier+nl6VcN5TurNnt+WTUI1kSJDRuYSU9rFam2l
-         jIDg==
+        b=0k+IevfXcdwoVxu5w62XuhpOLpqaWSPuPmjl9YQCZARcvaty5tro/BFUsF3Xi9bYRw
+         iukwEScK8G5nB8Qykb6EzYSLH6xUS/qlDMZWz3mkWexN7P89aY4b+FL3qLX0jaherDQB
+         EoPULbIv4gM755jr9oC5giKmUcp0vAi4yFkIjKEXmM9ppZ8HNCLgg59ihe9hbkIW2JAQ
+         3llBNVwJc5G5EXC/NopLnSU0dK/6Kgxq3yfzfgzu0Q2gmYBdLuX+CgbnXnbZzORPvg4M
+         Z71ue/Wx1IFWtjhi5XMfPrSSk2ncqSmMCSBUeqy4aq6DEm7JVMGwC+LFxaoPpWFEMhgK
+         CHkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:message-id:date:references
          :in-reply-to:subject:cc:to:from;
-        bh=D8mYybgbLg6Tuhm+M8Sxa1OjqGjBnGOw8Xs2qE+56FA=;
+        bh=NTrjRsqDU0JPO/TksSAZQ2975dh9ntf+HqOxhoFiv8c=;
         fh=PtPKd2tcWuVtu+yL18J6sFXYyO2PPLg/Xbo07e2JVhk=;
-        b=bjwWf9Yxdvq+m48Kpr2EIRAQEMlnxCDTjaUlTP2VtKB7hMewSt6u6VEw9wF6IXbYxv
-         1z+j0u9eJNARfhZ+8jRG2o0O3/rMt6Z9DKzerdfite/rLN63Fcb8ugQbnNSadn2WwSGG
-         vnDGIcgMsc9cghjh6C8n4uvWGB8KM0BcYlBqe1/aFM4CzcHNvrv2gfU228HgT6KjEr9K
-         Htan4lcWhLa3r4wRWz4ZkkUTFp6w0NKJHhb99n2oQf1U6YxEmwJWiTM+K/fK0n8Q4IUb
-         7tBp15c0rQL+mctPL0ssYl5vyj0gW6yEkfPE70VCjkyR6VvYjTQxTQjkcbhlLdKL+3DW
-         8Dow==
+        b=EVt8vXWTmqRqLEA+s8G2FLWy/b0CdxUd+eSsXvr1gYVcwVHwiyjLy6K0rHsxGlxYCH
+         A+SvuebciVSAre93T9gIywxBtNz4IurR9o8nm+oqVPDbSAleYy4fIM15czRYfyJBdtH0
+         3/ZTFnBH0T5nW6XdOgC4rxR50hDTskW/18L5LWX+IQfO8WBurVhFjK6wgYfwhaxCWixI
+         Qd2Wii233tkHgcJ3E+ZAX/h8inxkDvXiHlR4jz3EcLr7JCVelX5++hi2xhs8g30ConST
+         LD6g0TeR5FPBhA6Vvp4qxAtsaFXjg/jQbqnebUx77YIgIdLa1RRVS3ug5rDQrmAfjv7L
+         9NUw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) smtp.mailfrom=lienze@kylinos.cn
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn. [124.126.103.232])
-        by gmr-mx.google.com with ESMTPS id nw3-20020a17090b254300b0025c1096a7a4si501267pjb.2.2023.07.23.00.17.19
+        by gmr-mx.google.com with ESMTPS id g36-20020a632024000000b0054fd799a6e2si498524pgg.2.2023.07.23.00.34.23
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 23 Jul 2023 00:17:20 -0700 (PDT)
+        Sun, 23 Jul 2023 00:34:24 -0700 (PDT)
 Received-SPF: pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) client-ip=124.126.103.232;
-X-UUID: a2b122842dc9453ab2efd54da6651013-20230723
+X-UUID: 03ea0833cfc34e699fa3ba5a09395578-20230723
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.28,REQID:d6aab440-a297-4c57-817b-f2ac0f74afac,IP:15,
+X-CID-O-INFO: VERSION:1.1.28,REQID:d0d69a12-911b-4bc0-b4f9-f8d6f42fbb37,IP:15,
 	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
 	ON:release,TS:0
-X-CID-INFO: VERSION:1.1.28,REQID:d6aab440-a297-4c57-817b-f2ac0f74afac,IP:15,UR
+X-CID-INFO: VERSION:1.1.28,REQID:d0d69a12-911b-4bc0-b4f9-f8d6f42fbb37,IP:15,UR
 	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
 	:release,TS:0
-X-CID-META: VersionHash:176cd25,CLOUDID:3276ee87-44fb-401c-8de7-6a5572f1f5d5,B
-	ulkID:230723151715MPCJT8N8,BulkQuantity:0,Recheck:0,SF:17|19|44|24|102,TC:
-	nil,Content:0,EDM:-3,IP:-2,URL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
-	I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0
+X-CID-META: VersionHash:176cd25,CLOUDID:c15ef98e-7caa-48c2-8dbb-206f0389473c,B
+	ulkID:230721111347J28IJWE1,BulkQuantity:2,Recheck:0,SF:24|17|19|44|102,TC:
+	nil,Content:0,EDM:-3,IP:-2,URL:1,File:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI
+	:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,
-	TF_CID_SPAM_ULS
-X-UUID: a2b122842dc9453ab2efd54da6651013-20230723
+X-CID-FACTOR: TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,TF_CID_SPAM_ULS,
+	TF_CID_SPAM_SNR
+X-UUID: 03ea0833cfc34e699fa3ba5a09395578-20230723
 X-User: lienze@kylinos.cn
 Received: from ubuntu [(39.156.73.12)] by mailgw
 	(envelope-from <lienze@kylinos.cn>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1175236445; Sun, 23 Jul 2023 15:17:11 +0800
+	with ESMTP id 1903500873; Sun, 23 Jul 2023 15:34:15 +0800
 From: Enze Li <lienze@kylinos.cn>
 To: Huacai Chen <chenhuacai@kernel.org>
 Cc: kernel@xen0n.name,  loongarch@lists.linux.dev,  glider@google.com,
   elver@google.com,  akpm@linux-foundation.org,
   kasan-dev@googlegroups.com,  linux-mm@kvack.org,  zhangqing@loongson.cn,
   yangtiezhu@loongson.cn,  dvyukov@google.com
-Subject: Re: [PATCH 1/4] LoongArch: mm: Add page table mapped mode support
-In-Reply-To: <CAAhV-H4+8_gBMMdLhx=uEAsCN5wK7kFONsKDyGPqm0kxW8FU=A@mail.gmail.com>
-	(Huacai Chen's message of "Fri, 21 Jul 2023 10:21:38 +0800")
+Subject: Re: [PATCH 4/4] LoongArch: Add KFENCE support
+In-Reply-To: <CAAhV-H6FoC1v9f9Vkq9rzk=0j88RczLgiYTiBUBNDwx3B=3tYA@mail.gmail.com>
+	(Huacai Chen's message of "Fri, 21 Jul 2023 11:19:10 +0800")
 References: <20230719082732.2189747-1-lienze@kylinos.cn>
-	<20230719082732.2189747-2-lienze@kylinos.cn>
-	<CAAhV-H5pWmd2owMgH9hiqxoWpeAOKGv_=j2V-urA+D87_uCMyg@mail.gmail.com>
-	<87pm4mf1xl.fsf@kylinos.cn>
-	<CAAhV-H4+8_gBMMdLhx=uEAsCN5wK7kFONsKDyGPqm0kxW8FU=A@mail.gmail.com>
-Date: Sun, 23 Jul 2023 15:17:05 +0800
-Message-ID: <87lef7ayha.fsf@kylinos.cn>
+	<20230719082732.2189747-5-lienze@kylinos.cn>
+	<CAAhV-H71sv+VeLfNzuiqitYcuB4rHnho=dRYQftwo1__3bLZSQ@mail.gmail.com>
+	<87lefaez31.fsf@kylinos.cn>
+	<CAAhV-H6FoC1v9f9Vkq9rzk=0j88RczLgiYTiBUBNDwx3B=3tYA@mail.gmail.com>
+Date: Sun, 23 Jul 2023 15:34:08 +0800
+Message-ID: <87h6pvaxov.fsf@kylinos.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -154,387 +153,368 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jul 21 2023 at 10:21:38 AM +0800, Huacai Chen wrote:
+On Fri, Jul 21 2023 at 11:19:10 AM +0800, Huacai Chen wrote:
 
-> On Fri, Jul 21, 2023 at 10:12=E2=80=AFAM Enze Li <lienze@kylinos.cn> wrot=
+> Hi, Enze,
+>
+> On Fri, Jul 21, 2023 at 11:14=E2=80=AFAM Enze Li <lienze@kylinos.cn> wrot=
 e:
 >>
->> On Wed, Jul 19 2023 at 11:29:37 PM +0800, Huacai Chen wrote:
+>> On Wed, Jul 19 2023 at 11:27:50 PM +0800, Huacai Chen wrote:
 >>
 >> > Hi, Enze,
 >> >
 >> > On Wed, Jul 19, 2023 at 4:34=E2=80=AFPM Enze Li <lienze@kylinos.cn> wr=
 ote:
 >> >>
->> >> According to LoongArch documentation online, there are two types of a=
-ddress
->> >> translation modes: direct mapped address translation mode (direct map=
-ped mode)
->> >> and page table mapped address translation mode (page table mapped mod=
-e).
+>> >> The LoongArch architecture is quite different from other architecture=
+s.
+>> >> When the allocating of KFENCE itself is done, it is mapped to the dir=
+ect
+>> >> mapping configuration window [1] by default on LoongArch.  It means t=
+hat
+>> >> it is not possible to use the page table mapped mode which required b=
+y
+>> >> the KFENCE system and therefore it should be remapped to the appropri=
+ate
+>> >> region.
 >> >>
->> >> Currently, the upstream code only supports DMM (Direct Mapped Mode).
->> >> This patch adds a function that determines whether PTMM (Page Table
->> >> Mapped Mode) should be used, and also adds the corresponding handler
->> >> funcitons for both modes.
+>> >> This patch adds architecture specific implementation details for KFEN=
+CE.
+>> >> In particular, this implements the required interface in <asm/kfence.=
+h>.
 >> >>
->> >> For more details on the two modes, see [1].
+>> >> Tested this patch by using the testcases and all passed.
 >> >>
->> >> [1]
->> >> https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1-EN.=
-html#virtual-address-space-and-address-translation-mode
+>> >> [1] https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1=
+-EN.html#virtual-address-space-and-address-translation-mode
 >> >>
 >> >> Signed-off-by: Enze Li <lienze@kylinos.cn>
 >> >> ---
->> >>  arch/loongarch/include/asm/page.h    | 10 ++++++++++
->> >>  arch/loongarch/include/asm/pgtable.h |  6 ++++++
->> >>  arch/loongarch/mm/pgtable.c          | 25 +++++++++++++++++++++++++
->> >>  3 files changed, 41 insertions(+)
+>> >>  arch/loongarch/Kconfig               |  1 +
+>> >>  arch/loongarch/include/asm/kfence.h  | 62 ++++++++++++++++++++++++++=
+++
+>> >>  arch/loongarch/include/asm/pgtable.h |  6 +++
+>> >>  arch/loongarch/mm/fault.c            | 22 ++++++----
+>> >>  4 files changed, 83 insertions(+), 8 deletions(-)
+>> >>  create mode 100644 arch/loongarch/include/asm/kfence.h
 >> >>
->> >> diff --git a/arch/loongarch/include/asm/page.h b/arch/loongarch/inclu=
-de/asm/page.h
->> >> index 26e8dccb6619..05919be15801 100644
->> >> --- a/arch/loongarch/include/asm/page.h
->> >> +++ b/arch/loongarch/include/asm/page.h
->> >> @@ -84,7 +84,17 @@ typedef struct { unsigned long pgprot; } pgprot_t;
->> >>  #define sym_to_pfn(x)          __phys_to_pfn(__pa_symbol(x))
->> >>
->> >>  #define virt_to_pfn(kaddr)     PFN_DOWN(PHYSADDR(kaddr))
+>> >> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
+>> >> index 5411e3a4eb88..db27729003d3 100644
+>> >> --- a/arch/loongarch/Kconfig
+>> >> +++ b/arch/loongarch/Kconfig
+>> >> @@ -93,6 +93,7 @@ config LOONGARCH
+>> >>         select HAVE_ARCH_JUMP_LABEL
+>> >>         select HAVE_ARCH_JUMP_LABEL_RELATIVE
+>> >>         select HAVE_ARCH_KASAN
+>> >> +       select HAVE_ARCH_KFENCE if 64BIT
+>> > "if 64BIT" can be dropped here.
+>> >
+>>
+>> Fixed.
+>>
+>> >>         select HAVE_ARCH_MMAP_RND_BITS if MMU
+>> >>         select HAVE_ARCH_SECCOMP_FILTER
+>> >>         select HAVE_ARCH_TRACEHOOK
+>> >> diff --git a/arch/loongarch/include/asm/kfence.h b/arch/loongarch/inc=
+lude/asm/kfence.h
+>> >> new file mode 100644
+>> >> index 000000000000..2a85acc2bc70
+>> >> --- /dev/null
+>> >> +++ b/arch/loongarch/include/asm/kfence.h
+>> >> @@ -0,0 +1,62 @@
+>> >> +/* SPDX-License-Identifier: GPL-2.0 */
+>> >> +/*
+>> >> + * KFENCE support for LoongArch.
+>> >> + *
+>> >> + * Author: Enze Li <lienze@kylinos.cn>
+>> >> + * Copyright (C) 2022-2023 KylinSoft Corporation.
+>> >> + */
 >> >> +
->> >> +#ifdef CONFIG_64BIT
->> >> +#define virt_to_page(kaddr)                                         =
-   \
->> >> +({                                                                  =
-   \
->> >> +       is_PTMM_addr((unsigned long)kaddr) ?                         =
-   \
->> >> +       PTMM_virt_to_page((unsigned long)kaddr) :                    =
-   \
->> >> +       DMM_virt_to_page((unsigned long)kaddr);                      =
-   \
->> >> +})
->> > 1, Rename these helpers to
->> > is_dmw_addr()/dmw_virt_to_page()/tlb_virt_to_page() will be better.
->> > 2, These helpers are so simple so can be defined as inline function or
->> > macros in page.h.
+>> >> +#ifndef _ASM_LOONGARCH_KFENCE_H
+>> >> +#define _ASM_LOONGARCH_KFENCE_H
+>> >> +
+>> >> +#include <linux/kfence.h>
+>> >> +#include <asm/pgtable.h>
+>> >> +#include <asm/tlb.h>
+>> >> +
+>> >> +static inline char *arch_kfence_init_pool(void)
+>> >> +{
+>> >> +       char *__kfence_pool_orig =3D __kfence_pool;
+>> > I prefer kfence_pool than __kfence_pool_orig here.
+>> >
 >>
->> Hi Huacai,
+>> Fixed.
 >>
->> Except for tlb_virt_to_page(), the remaining two modifications are easy.
+>> >> +       struct vm_struct *area;
+>> >> +       int err;
+>> >> +
+>> >> +       area =3D __get_vm_area_caller(KFENCE_POOL_SIZE, VM_IOREMAP,
+>> >> +                                   KFENCE_AREA_START, KFENCE_AREA_EN=
+D,
+>> >> +                                   __builtin_return_address(0));
+>> >> +       if (!area)
+>> >> +               return NULL;
+>> >> +
+>> >> +       __kfence_pool =3D (char *)area->addr;
+>> >> +       err =3D ioremap_page_range((unsigned long)__kfence_pool,
+>> >> +                                (unsigned long)__kfence_pool + KFENC=
+E_POOL_SIZE,
+>> >> +                                virt_to_phys((void *)__kfence_pool_o=
+rig),
+>> >> +                                PAGE_KERNEL);
+>> >> +       if (err) {
+>> >> +               free_vm_area(area);
+>> >> +               return NULL;
+>> >> +       }
+>> >> +
+>> >> +       return __kfence_pool;
+>> >> +}
+>> >> +
+>> >> +/* Protect the given page and flush TLB. */
+>> >> +static inline bool kfence_protect_page(unsigned long addr, bool prot=
+ect)
+>> >> +{
+>> >> +       pte_t *pte =3D virt_to_kpte(addr);
+>> >> +
+>> >> +       if (WARN_ON(!pte) || pte_none(*pte))
+>> >> +               return false;
+>> >> +
+>> >> +       if (protect)
+>> >> +               set_pte(pte, __pte(pte_val(*pte) & ~(_PAGE_VALID | _P=
+AGE_PRESENT)));
+>> >> +       else
+>> >> +               set_pte(pte, __pte(pte_val(*pte) | (_PAGE_VALID | _PA=
+GE_PRESENT)));
+>> >> +
+>> >> +       /* Flush this CPU's TLB. */
+>> >> +       preempt_disable();
+>> >> +       local_flush_tlb_one(addr);
+>> >> +       preempt_enable();
+>> >> +
+>> >> +       return true;
+>> >> +}
+>> >> +
+>> >> +#endif /* _ASM_LOONGARCH_KFENCE_H */
+>> >> diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/in=
+clude/asm/pgtable.h
+>> >> index 0fc074b8bd48..5a9c81298fe3 100644
+>> >> --- a/arch/loongarch/include/asm/pgtable.h
+>> >> +++ b/arch/loongarch/include/asm/pgtable.h
+>> >> @@ -85,7 +85,13 @@ extern unsigned long zero_page_mask;
+>> >>  #define MODULES_VADDR  (vm_map_base + PCI_IOSIZE + (2 * PAGE_SIZE))
+>> >>  #define MODULES_END    (MODULES_VADDR + SZ_256M)
+>> >>
+>> >> +#ifdef CONFIG_KFENCE
+>> >> +#define KFENCE_AREA_START      MODULES_END
+>> >> +#define KFENCE_AREA_END                (KFENCE_AREA_START + SZ_512M)
+>> > Why you choose 512M here?
+>> >
 >>
->> I've run into a lot of problems when trying to make tlb_virt_to_page()
->> as a macro or inline function.  That's because we need to export this
->> symbol in order for it to be used by the module that called the
->> virt_to_page() function, other wise, we got the following errors,
+>> One day I noticed that 512M can hold 16K (default 255) KFENCE objects,
+>> which should be more than enough and I think this should be appropriate.
 >>
->> -----------------------------------------------------------------------
->>   MODPOST Module.symvers
->> ERROR: modpost: "tlb_virt_to_page" [fs/hfsplus/hfsplus.ko] undefined!
->> ERROR: modpost: "tlb_virt_to_page" [fs/smb/client/cifs.ko] undefined!
->> ERROR: modpost: "tlb_virt_to_page" [crypto/gcm.ko] undefined!
->> ERROR: modpost: "tlb_virt_to_page" [crypto/ccm.ko] undefined!
->> ERROR: modpost: "tlb_virt_to_page" [crypto/essiv.ko] undefined!
->> ERROR: modpost: "tlb_virt_to_page" [lib/crypto/libchacha20poly1305.ko] u=
-ndefined!
->> ERROR: modpost: "tlb_virt_to_page" [drivers/gpu/drm/ttm/ttm.ko] undefine=
-d!
->> ERROR: modpost: "tlb_virt_to_page" [drivers/gpu/drm/amd/amdgpu/amdgpu.ko=
-] undefined!
->> ERROR: modpost: "tlb_virt_to_page" [drivers/scsi/iscsi_tcp.ko] undefined=
-!
->> ERROR: modpost: "tlb_virt_to_page" [drivers/scsi/qla2xxx/qla2xxx.ko] und=
-efined!
->> WARNING: modpost: suppressed 44 unresolved symbol warnings because there=
- were too many)
->> -----------------------------------------------------------------------
->>
->> It seems to me that wrapping it into a common function might be the only
->> way to successfully compile or link with this modification.
+>> As far as I see, KFENCE system does not have the upper limit of this
+>> value(CONFIG_KFENCE_NUM_OBJECTS), which could theoretically be any
+>> number.  There's another way, how about setting this value to be
+>> determined by the configuration, like this,
 >>
 >> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
->> --- a/arch/loongarch/include/asm/pgtable.h
->> +++ b/arch/loongarch/include/asm/pgtable.h
->> @@ -360,6 +360,8 @@ static inline void pte_clear(struct mm_struct *mm, u=
-nsigned long addr, pte_t *pt
->>  #define PMD_T_LOG2     (__builtin_ffs(sizeof(pmd_t)) - 1)
->>  #define PTE_T_LOG2     (__builtin_ffs(sizeof(pte_t)) - 1)
->>
->> +inline struct page *tlb_virt_to_page(unsigned long kaddr);
->> +
->>
->> --- a/arch/loongarch/mm/pgtable.c
->> +++ b/arch/loongarch/mm/pgtable.c
->> @@ -9,6 +9,12 @@
->>  #include <asm/pgtable.h>
->>  #include <asm/tlbflush.h>
->>
->> +inline struct page *tlb_virt_to_page(unsigned long kaddr)
->> +{
->> +       return pte_page(*virt_to_kpte(kaddr));
->> +}
->> +EXPORT_SYMBOL_GPL(tlb_virt_to_page);
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>  +#define KFENCE_AREA_END \
+>>  + (KFENCE_AREA_START + (CONFIG_KFENCE_NUM_OBJECTS + 1) * 2 * PAGE_SIZE)
 >> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
->>
->> WDYT?
->>
->> Best Regards,
->> Enze
-> If you define "static inline" functions in page.h, there will be no probl=
-ems.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> How does other archs configure the size?
 >
 
-Hi Huacai,
+They all use the same one with a macro named KFENCE_POOL_SIZE defined
+like this during kernel startup,
 
-After failed over and over and over again, I think I've found the reason
-why we can't define tlb_virt_to_page as macro or inline function in        =
-   =20
-asm/page.h or asm/pgtable.h. :)
+#define KFENCE_POOL_SIZE ((CONFIG_KFENCE_NUM_OBJECTS + 1) * 2 * PAGE_SIZE)
 
-I'll go through this step by step.
+For now, we do not need to consider the KASAN region, and get enough
+address space after vmemmap, this will not be a problem.
 
-If I put tlb_virt_to_page in asm/page.h as following,
+>>
+>> >> +#define VMALLOC_START          KFENCE_AREA_END
+>> >> +#else
+>> >>  #define VMALLOC_START  MODULES_END
+>> >> +#endif
+>> > I don't like to put KFENCE_AREA between module and vmalloc range (it
+>> > may cause some problems), can we put it after vmemmap?
+>>
+>> I found that there is not enough space after vmemmap and that these
+>> spaces are affected by KASAN. As follows,
+>>
+>> Without KASAN
+>> ###### module 0xffff800002008000~0xffff800012008000
+>> ###### malloc 0xffff800032008000~0xfffffefffe000000
+>> ###### vmemmap 0xffffff0000000000~0xffffffffffffffff
+>>
+>> With KASAN
+>> ###### module 0xffff800002008000~0xffff800012008000
+>> ###### malloc 0xffff800032008000~0xffffbefffe000000
+>> ###### vmemmap 0xffffbf0000000000~0xffffbfffffffffff
+>>
+>> What about put it before MODULES_START?
+> I temporarily drop KASAN in linux-next for you. You can update a new
+> patch version without KASAN (still, put KFENCE after vmemmap), and
+> then we can improve further.
+>
+> Huacai
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-+static inline struct page *tlb_virt_to_page(unsigned long kaddr)
-+{
-+       return pte_page(*virt_to_kpte(kaddr));
-+}
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
+Thank you so much. :)
 
-and compile kernel, gcc says to me the following error.
-
---------------------------------------------------------------------
-  CC      arch/loongarch/kernel/asm-offsets.s
-In file included from ./include/linux/shm.h:6,
-                 from ./include/linux/sched.h:16,
-                 from arch/loongarch/kernel/asm-offsets.c:8:
-./arch/loongarch/include/asm/page.h: In function =E2=80=98tlb_virt_to_page=
-=E2=80=99:
-./arch/loongarch/include/asm/page.h:126:16: error: implicit declaration of =
-function =E2=80=98pte_page=E2=80=99 [-Werror=3Dimplicit-function-declaratio=
-n]
-  126 |         return pte_page(*virt_to_kpte(kaddr));
-      |                ^~~~~~~~
----------------------------------------------------------------------
-
-"pte_page" is declared in asm/pgtable.h, so I put "#include
-<asm/pgtable.h>" ahead, like this,
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-+#include <asm/pgtable.h>
-+static inline struct page *tlb_virt_to_page(unsigned long kaddr)
-+{
-+       return pte_page(*virt_to_kpte(kaddr));
-+}
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-
-then compile again, gcc says,
-
----------------------------------------------------------------------
-  CC      arch/loongarch/kernel/asm-offsets.s                              =
-                             =20
-In file included from ./arch/loongarch/include/asm/page.h:98,              =
-                             =20
-                 from ./include/linux/shm.h:6,                             =
-                             =20
-                 from ./include/linux/sched.h:16,                          =
-                             =20
-                 from arch/loongarch/kernel/asm-offsets.c:8:               =
-                             =20
-./arch/loongarch/include/asm/page.h: In function =E2=80=98tlb_virt_to_page=
-=E2=80=99:                                    =20
-./arch/loongarch/include/asm/page.h:127:26: error: implicit declaration of =
-function =E2=80=98virt_to_kpte=E2=80=99; did you mean =E2=80=98virt_to_pfn=
-=E2=80=99? [-Werror=3Dimplicit-function-declaration]
-  127 |         return pte_page(*virt_to_kpte(kaddr));
-      |                          ^~~~~~~~~~~~
----------------------------------------------------------------------
-
-"virt_to_kpte" is defined in linux/pgtable.h, consequently I add "#include
-<linux/pgtable.h>" as well,
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-+#include <asm/pgtable.h>
-+#include <linux/pgtable.h>
-+static inline struct page *tlb_virt_to_page(unsigned long kaddr)
-+{
-+       return pte_page(*virt_to_kpte(kaddr));
-+}
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-
-and continue,
-
----------------------------------------------------------------------
-  CC      arch/loongarch/kernel/asm-offsets.s                              =
-                             =20
-  CALL    scripts/checksyscalls.sh                                         =
-                             =20
-  CC      arch/loongarch/vdso/vgetcpu.o                                    =
-                             =20
-  CC      arch/loongarch/vdso/vgettimeofday.o                              =
-                             =20
-In file included from ./arch/loongarch/include/asm/page.h:124,             =
-                             =20
-                 from ./include/linux/mm_types_task.h:16,                  =
-                             =20
-                 from ./include/linux/mm_types.h:5,                        =
-                             =20
-                 from ./include/linux/mmzone.h:22,                         =
-                             =20
-                 from ./include/linux/gfp.h:7,                             =
-                             =20
-                 from ./include/linux/mm.h:7,                              =
-                             =20
-                 from ./arch/loongarch/include/asm/vdso.h:10,              =
-                             =20
-                 from arch/loongarch/vdso/vgetcpu.c:6:                     =
-                             =20
-./arch/loongarch/include/asm/pgtable.h: In function =E2=80=98pte_accessible=
-=E2=80=99:                                   =20
-./arch/loongarch/include/asm/pgtable.h:436:40: error: invalid use of undefi=
-ned type =E2=80=98struct mm_struct=E2=80=99  =20
-  436 |                         atomic_read(&mm->tlb_flush_pending))       =
-                             =20
-      |                                        ^~      =20
----------------------------------------------------------------------
-
-The first line above shows that it compiled successfully for the
-asm-offsets module.  That's fair enough.  Actually, the point is the
-next one (invalid use of undefined type 'struct mm_struct').
-
-As we all know, before the compiler compiles, it expands the header
-files first.  For this example, it firstly expands from the header file
-vdso.h, then the mm.h file and so on.  We can see that the line 436 of
-asm/pgtable.h are using 'struct mm_struct'.  When we backtrack to a file
-that has been previously expanded, it's obvious that the definition of
-mm_struct does not appear in the expanded file.  Instead, it appears
-afterward (mm_types.h).
-
-To be clear, I'll exemplify this case with a cheap ASCII diagram.
-
-                                                                 ... <-|
-                    we're using 'mm_struct' here >>>   asm/pgtable.h <-|
-                                                                 ... <-|
-                                                                       |
-                                                               |->...  |
-                                                               |->asm/page.=
-h
-                                                               |->...
-                                                       |->...  |
-                                         |->...        |->mm_types_task.h
-                             |->...      |->mm_types.h-|->...
-                    |->...   |->mmzone.h-|->... |
-            |->...  |->gfp.h-|->...             |
-  |->...    |->mm.h-|->...            But 'mm_struct' is defined here.
-  |->vdso.h-|->...
-  |->...
-vgetcpu.c
-
-I've also tried to include mm_types.h in advance, but in this case that
-doesn't work because the _LINUX_MM_TYPES_H macro already exists.
-The "forward declaration" was also taken into account, in the end it was
-found to be unavailable as well.
-
-In summary, I'm afraid that rewriting tlb_virt_to_page in asm/page.h as
-a macro or inline function is not possible.  The root case of this is
-that both 'struct mm_struct' and 'virt_to_kpte' belong to high-level
-data structures, and if they are referenced in asm/page.h at the
-low-level, dependency problems arise.
-
-Anyway, we can at least define it as a normal function in asm/pgtable.h,
-is that Okay with you?
-
-It may be a bit wordy, so please bear with me.  In addition, all of the
-above is my understanding, am I missing something?
+The v2 of the patchset is on the way.
 
 Best Regards,
 Enze
 
 >>
->> > 3, CONFIG_64BIT can be removed here.
->> >
->> > Huacai
->> >
->> >> +#else
->> >>  #define virt_to_page(kaddr)    pfn_to_page(virt_to_pfn(kaddr))
->> >> +#endif
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+>> --- a/arch/loongarch/include/asm/pgtable.h
+>> +++ b/arch/loongarch/include/asm/pgtable.h
+>> @@ -82,7 +82,14 @@ extern unsigned long zero_page_mask;
+>>   * Avoid the first couple of pages so NULL pointer dereferences will
+>>   * still reliably trap.
+>>   */
+>> +#ifdef CONFIG_KFENCE
+>> +#define KFENCE_AREA_START      (vm_map_base + PCI_IOSIZE + (2 * PAGE_SI=
+ZE))
+>> +#define KFENCE_AREA_END        \
+>> +       (KFENCE_AREA_START + (CONFIG_KFENCE_NUM_OBJECTS + 1) * 2 * PAGE_=
+SIZE)
+>> +#define MODULES_VADDR  KFENCE_AREA_END
+>> +#else
+>>  #define MODULES_VADDR  (vm_map_base + PCI_IOSIZE + (2 * PAGE_SIZE))
+>> +#endif
+>>  #define MODULES_END    (MODULES_VADDR + SZ_256M)
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+>>
+>> Best Regards,
+>> Enze
+>>
 >> >>
->> >>  extern int __virt_addr_valid(volatile void *kaddr);
->> >>  #define virt_addr_valid(kaddr) __virt_addr_valid((volatile void *)(k=
-addr))
->> >> diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/in=
-clude/asm/pgtable.h
->> >> index ed6a37bb55b5..0fc074b8bd48 100644
->> >> --- a/arch/loongarch/include/asm/pgtable.h
->> >> +++ b/arch/loongarch/include/asm/pgtable.h
->> >> @@ -360,6 +360,12 @@ static inline void pte_clear(struct mm_struct *m=
-m, unsigned long addr, pte_t *pt
->> >>  #define PMD_T_LOG2     (__builtin_ffs(sizeof(pmd_t)) - 1)
->> >>  #define PTE_T_LOG2     (__builtin_ffs(sizeof(pte_t)) - 1)
+>> >>  #ifndef CONFIG_KASAN
+>> >>  #define VMALLOC_END    \
+>> >> diff --git a/arch/loongarch/mm/fault.c b/arch/loongarch/mm/fault.c
+>> >> index da5b6d518cdb..c0319128b221 100644
+>> >> --- a/arch/loongarch/mm/fault.c
+>> >> +++ b/arch/loongarch/mm/fault.c
+>> >> @@ -23,6 +23,7 @@
+>> >>  #include <linux/kprobes.h>
+>> >>  #include <linux/perf_event.h>
+>> >>  #include <linux/uaccess.h>
+>> >> +#include <linux/kfence.h>
 >> >>
->> >> +#ifdef CONFIG_64BIT
->> >> +struct page *DMM_virt_to_page(unsigned long kaddr);
->> >> +struct page *PTMM_virt_to_page(unsigned long kaddr);
->> >> +bool is_PTMM_addr(unsigned long kaddr);
->> >> +#endif
->> >> +
->> >>  extern pgd_t swapper_pg_dir[];
->> >>  extern pgd_t invalid_pg_dir[];
+>> >>  #include <asm/branch.h>
+>> >>  #include <asm/mmu_context.h>
+>> >> @@ -30,7 +31,8 @@
 >> >>
->> >> diff --git a/arch/loongarch/mm/pgtable.c b/arch/loongarch/mm/pgtable.=
-c
->> >> index 36a6dc0148ae..4c6448f996b6 100644
->> >> --- a/arch/loongarch/mm/pgtable.c
->> >> +++ b/arch/loongarch/mm/pgtable.c
->> >> @@ -9,6 +9,31 @@
->> >>  #include <asm/pgtable.h>
->> >>  #include <asm/tlbflush.h>
+>> >>  int show_unhandled_signals =3D 1;
 >> >>
->> >> +#ifdef CONFIG_64BIT
->> >> +/* DMM stands for Direct Mapped Mode. */
->> >> +struct page *DMM_virt_to_page(unsigned long kaddr)
->> >> +{
->> >> +       return pfn_to_page(virt_to_pfn(kaddr));
->> >> +}
->> >> +EXPORT_SYMBOL_GPL(DMM_virt_to_page);
->> >> +
->> >> +/* PTMM stands for Page Table Mapped Mode. */
->> >> +struct page *PTMM_virt_to_page(unsigned long kaddr)
->> >> +{
->> >> +       return pte_page(*virt_to_kpte(kaddr));
->> >> +}
->> >> +EXPORT_SYMBOL_GPL(PTMM_virt_to_page);
->> >> +
->> >> +bool is_PTMM_addr(unsigned long kaddr)
->> >> +{
->> >> +       if (unlikely((kaddr & GENMASK(BITS_PER_LONG - 1, cpu_vabits))=
- =3D=3D
->> >> +                    GENMASK(BITS_PER_LONG - 1, cpu_vabits)))
->> >> +               return true;
->> >> +       return false;
->> >> +}
->> >> +EXPORT_SYMBOL_GPL(is_PTMM_addr);
->> >> +#endif
->> >> +
->> >>  pgd_t *pgd_alloc(struct mm_struct *mm)
+>> >> -static void __kprobes no_context(struct pt_regs *regs, unsigned long=
+ address)
+>> >> +static void __kprobes no_context(struct pt_regs *regs, unsigned long=
+ address,
+>> >> +                                unsigned long write)
 >> >>  {
->> >>         pgd_t *ret, *init;
+>> >>         const int field =3D sizeof(unsigned long) * 2;
+>> >>
+>> >> @@ -38,6 +40,9 @@ static void __kprobes no_context(struct pt_regs *re=
+gs, unsigned long address)
+>> >>         if (fixup_exception(regs))
+>> >>                 return;
+>> >>
+>> >> +       if (kfence_handle_page_fault(address, write, regs))
+>> >> +               return;
+>> >> +
+>> >>         /*
+>> >>          * Oops. The kernel tried to access some bad page. We'll have=
+ to
+>> >>          * terminate things with extreme prejudice.
+>> >> @@ -51,14 +56,15 @@ static void __kprobes no_context(struct pt_regs *=
+regs, unsigned long address)
+>> >>         die("Oops", regs);
+>> >>  }
+>> >>
+>> >> -static void __kprobes do_out_of_memory(struct pt_regs *regs, unsigne=
+d long address)
+>> >> +static void __kprobes do_out_of_memory(struct pt_regs *regs, unsigne=
+d long address,
+>> >> +                                      unsigned long write)
+>> >>  {
+>> >>         /*
+>> >>          * We ran out of memory, call the OOM killer, and return the =
+userspace
+>> >>          * (which will retry the fault, or kill us if we got oom-kill=
+ed).
+>> >>          */
+>> >>         if (!user_mode(regs)) {
+>> >> -               no_context(regs, address);
+>> >> +               no_context(regs, address, write);
+>> >>                 return;
+>> >>         }
+>> >>         pagefault_out_of_memory();
+>> >> @@ -69,7 +75,7 @@ static void __kprobes do_sigbus(struct pt_regs *reg=
+s,
+>> >>  {
+>> >>         /* Kernel mode? Handle exceptions or die */
+>> >>         if (!user_mode(regs)) {
+>> >> -               no_context(regs, address);
+>> >> +               no_context(regs, address, write);
+>> >>                 return;
+>> >>         }
+>> >>
+>> >> @@ -90,7 +96,7 @@ static void __kprobes do_sigsegv(struct pt_regs *re=
+gs,
+>> >>
+>> >>         /* Kernel mode? Handle exceptions or die */
+>> >>         if (!user_mode(regs)) {
+>> >> -               no_context(regs, address);
+>> >> +               no_context(regs, address, write);
+>> >>                 return;
+>> >>         }
+>> >>
+>> >> @@ -149,7 +155,7 @@ static void __kprobes __do_page_fault(struct pt_r=
+egs *regs,
+>> >>          */
+>> >>         if (address & __UA_LIMIT) {
+>> >>                 if (!user_mode(regs))
+>> >> -                       no_context(regs, address);
+>> >> +                       no_context(regs, address, write);
+>> >>                 else
+>> >>                         do_sigsegv(regs, write, address, si_code);
+>> >>                 return;
+>> >> @@ -211,7 +217,7 @@ static void __kprobes __do_page_fault(struct pt_r=
+egs *regs,
+>> >>
+>> >>         if (fault_signal_pending(fault, regs)) {
+>> >>                 if (!user_mode(regs))
+>> >> -                       no_context(regs, address);
+>> >> +                       no_context(regs, address, write);
+>> >>                 return;
+>> >>         }
+>> >>
+>> >> @@ -232,7 +238,7 @@ static void __kprobes __do_page_fault(struct pt_r=
+egs *regs,
+>> >>         if (unlikely(fault & VM_FAULT_ERROR)) {
+>> >>                 mmap_read_unlock(mm);
+>> >>                 if (fault & VM_FAULT_OOM) {
+>> >> -                       do_out_of_memory(regs, address);
+>> >> +                       do_out_of_memory(regs, address, write);
+>> >>                         return;
+>> >>                 } else if (fault & VM_FAULT_SIGSEGV) {
+>> >>                         do_sigsegv(regs, write, address, si_code);
 >> >> --
 >> >> 2.34.1
 >> >>
@@ -547,4 +527,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/87lef7ayha.fsf%40kylinos.cn.
+kasan-dev/87h6pvaxov.fsf%40kylinos.cn.
