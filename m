@@ -1,140 +1,138 @@
-Return-Path: <kasan-dev+bncBAABB4H47WSQMGQEKHG5V4I@googlegroups.com>
+Return-Path: <kasan-dev+bncBCAP7WGUVIKBBSUF76SQMGQECGIQ5KY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83c.google.com (mail-qt1-x83c.google.com [IPv6:2607:f8b0:4864:20::83c])
-	by mail.lfdr.de (Postfix) with ESMTPS id E14DA760C56
-	for <lists+kasan-dev@lfdr.de>; Tue, 25 Jul 2023 09:49:05 +0200 (CEST)
-Received: by mail-qt1-x83c.google.com with SMTP id d75a77b69052e-403cddf284bsf69293101cf.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 25 Jul 2023 00:49:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1690271345; cv=pass;
+Received: from mail-pl1-x639.google.com (mail-pl1-x639.google.com [IPv6:2607:f8b0:4864:20::639])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFFCE761886
+	for <lists+kasan-dev@lfdr.de>; Tue, 25 Jul 2023 14:40:44 +0200 (CEST)
+Received: by mail-pl1-x639.google.com with SMTP id d9443c01a7336-1b9e8e096f6sf815955ad.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 25 Jul 2023 05:40:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1690288843; cv=pass;
         d=google.com; s=arc-20160816;
-        b=NVyDKKBiI6OlKRku6tbsjiLK2ymtB5dT5B++B2vXTJXtwprEd5tu3fQgxhJn8MKng6
-         Yp54TlpXSPet6ciBBm8lWyometzu/uPHjFwHw2Z2AP4dHk+KAL3+1NzeNgiSQpxw/UE2
-         K8oxhuW38nyFCDVuxPG2fZKIGm0PdoSivS7mXP5116qUgSI6D6Iy70d7Eqe9AhXAkmEI
-         GRnxW5t58MCqwBRZ0pOJD/iaH4K5GZIW0vPAmHeaRJeb/AgWH/wH79xNeDzNADt85PpY
-         PF+q73t1F7Bk/6VH5oc4mov+xx9D+4NJRDqplFHZmYR66uzyoKjGNiRal5gcFwoqLGCK
-         zSDA==
+        b=JkDqSSrTovU7xhD6derJKD9DfNahRbbQb2BdAFO4QzRcHwuEej8YG0A6rdWVFrg0pO
+         /e/NyXXyf4Ok/CtnyXmg0jJCQlmdNx4oc+2gZHgBou8ViKyZ9VyfwpVksvGhfwwr4Y1R
+         FeRKfv9yBZb9ZnPxQsP4vNgQUQlBPueChogjGEqHu3nGFtHZY6G1na6s8Wau2MWE0QcO
+         Yvpam7pQ3dcTIQTVrUh1Tl+yMA8rHOpcADZpK0djkMmo98Q5YHKWBqOgXqEjk78oH+Bu
+         0GCiL0VqGb8Iy1FlLA1/TExp9BDjJutqAT5rer6MGlyl0HB83pEg9Q9ImTjFdjXgb1qh
+         S17w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :sender:dkim-signature;
-        bh=5u+heO3ii011xBPjS9CIG5Pko8nm/R63WU2LlteBh1o=;
-        fh=sy4SP3vkEn2BvwOVbcJ42LyDgXjWTkePGWUGK7C0j7Y=;
-        b=mDyHIfa14g9Z2h4RnX49cy0kyh+LJKqS3bn2dDEnuG2N5rMN48Q9sMlOBX/TxFvcoJ
-         3IY4ZMActGecHVSWlbqdvsznCUgp8Lz7NmOeDovPKE0AWezPdTPILHQX7RH38AQWCszP
-         IOjm0yFxt5sA/PGtIQQXQQIsbWYXl3vgz5GIUAoNi5sSJU1wu7MrkBgxuODeNMgag551
-         lU/WQwv4vrQVqd+nWmmqLNKAbaS60EQZQMwUuvVjiCLvySpPRMUn78iUzs8I4p4TvX7R
-         wkCTlFepHPwcpXaPwBdBZw4mFfRGMVmjbTCSxnslezvj0IV26YTs/DtnifsLcegFoU7/
-         Is7A==
+        bh=36N1RLV9Y7FEhgpp4BAeNlLyyx+OSIUJGlVBr2emzaQ=;
+        fh=VwKJHJVMlQYnbAL2hmO8nT7Ie4y5JFSAD6akrrtD9H4=;
+        b=hQzzJ6ZEG7iYUvVy3NpHgCxqtBI0Z8a23QP7ztY9K4RTgyk1hwmidkaDzksHiBBqpc
+         TtabcV64QsMbAeN+RFRMypgoNMB4Ao9PUGp1YQucyk7QeEYUVd6DUZx64ZxNG/AXc2Ay
+         GG3Ad2wFTvI+4pyv/wfc3VUcvUPTZ4/jVGwFzcS3nXtn2JO2hMpTDF7mUH+PqjUkzGxF
+         xyTIzrSifCN9ANGwpZ9EJXhi+6gR2RJ81tKPubRaUPN8D4AcZN97faIZxbD/p0HecwYX
+         yNcd/tDwbhG2ijaNcTb/SM5A0/re3C90IgVlrXg7ft7XkwVRwLdk3ORZVz+t/RDUaaj7
+         g4gg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=WybcbO8m;
-       spf=pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1690271345; x=1690876145;
+        d=googlegroups.com; s=20221208; t=1690288843; x=1690893643;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5u+heO3ii011xBPjS9CIG5Pko8nm/R63WU2LlteBh1o=;
-        b=Swh+bxwPQ2F45ItYhwhBeVtD+/8Z5cxkMIITB/Jd4kVxWg7TQ7LG+IPG+7fjrZkzmy
-         sldZADUOXOTQCpYaTkT+Hykbw8hwEO34czQHPWDikTcQLLqceTQaE92c77JXK0RnUmsG
-         ucON+eh8dvzPkKCdktP+qwVgR2tZDZy4Ad3UvGeHrzlphS8K1mM+UZlfn5y6PtFZ67xi
-         9sq6UZa90pkAdgi2ZgVvAIWE4FDE6KKs7OhKbWJSBNPa+fxcGwnJSTK5zGfkQyOgLh1R
-         lJs5JlFDnia0v/XTbNfRfit3ezAP9h1w/TxQSXTGfa3Ktcq6j/qrhYX/vP0RwpBdTmzQ
-         Njlw==
+         :x-original-sender:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=36N1RLV9Y7FEhgpp4BAeNlLyyx+OSIUJGlVBr2emzaQ=;
+        b=D2hV3+hw0gNfr45ydyGOYDjH2I1YUw9lUoZH4sFW+PWRhT436gmNKHGjpcEzxs+b79
+         r3TkD6HtyACvJr31+RsEMrOW82lsHJX3fTj7IzlmHKnh7RV4nCXrICqdQzcLIR7SaNN2
+         7olBYDo+w/JdignDsMz2arAxKmnOfEmz1wIF+GboG62mCgrzp3U9G0snmhfiab2heyny
+         74fneY9n/6YC/8HXqO/Lt2JL+qVvXlmrn2i4yQqtO+c1R0enyN4pkmWJEuRuVliUWPOt
+         ssgdQqIBjuwC79Wv2L0uahJKi0DZMNWc8y6FFnfwWENHsMZAuO4cgdPqyuqgTYB8NZpv
+         6z8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690271345; x=1690876145;
+        d=1e100.net; s=20221208; t=1690288843; x=1690893643;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=5u+heO3ii011xBPjS9CIG5Pko8nm/R63WU2LlteBh1o=;
-        b=IvjewYOy3M1pLHAT6vtUkXroVvtvz7LdLMGdRy2G5OAl6TbavA0n0Ic9H+IMhhLbcn
-         s83/07nWD0Y48IJmw1EjQZrbr9FUvwf3dIf1QCgNy4bu5qM2hAvU+RkxGG5x90QneRn3
-         X8QOHADhZb/pxv7MpqK0wpS5uraVXYU9ONwYhOT//N5//iCQU2JFLgt0E6XDhevpZ9pt
-         C/8RMbeD1Wldk1piGqX0igGyvm/UzUG7DF0kTBYCuz1KzsjZ0Umf6wF0R0fjhxQz9TOV
-         lGhPVhVW6YvDaIuf0KTZsPUj0ZEQlR5CnYrUtxk6jmnmuUOOkEgdMsB/CTBQ3tJjrswM
-         eTXQ==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=36N1RLV9Y7FEhgpp4BAeNlLyyx+OSIUJGlVBr2emzaQ=;
+        b=VuChdUwfW8KWLmiH+1iKrv5kh4UJs/g70tCxUFJqDGO5OK48J7ELrO3gmpdaJCVK6R
+         qx8hH63lrxv/Af8EqWabbzdN/XjJgSSi7EX0rRAtCJavcFtsZqRHZlpR4W77khlvJ7aD
+         fuQ9w2/9ootr4QvwIRgFgRjwOmyjDxpXIDdCph+zrDV9XaZa2xIMvAt4DFu2k/wG87+9
+         x1s2r8mMghFtVSRXYU+8dNq52uwxxMkG7APHdn7rK+ZwK2/PoMN4Vxt0U1nYq1mDna11
+         6fPakzpcQUuMBcKXDzxfrUgH1wo6fOIMoDiGcGfxOxMRyY50XEvrRNvoBW0ZGT0FBtI/
+         e2mQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ABy/qLbBlUiKLYO8xq+JycyDYD2U2Dv9YEq1NGbT5VuIxohkcBy/IOsm
-	3QhE3BnfPa94wQQX04ZbVG8=
-X-Google-Smtp-Source: APBJJlHBs6XJEW1F0XQZUvJlDS06B8DZfgHF/6bGnWjlxQaeBAlfRn7KY78TTBbiXGQ+2tf7zHsecQ==
-X-Received: by 2002:ac8:5f91:0:b0:3f6:f839:15ec with SMTP id j17-20020ac85f91000000b003f6f83915ecmr2509380qta.56.1690271344616;
-        Tue, 25 Jul 2023 00:49:04 -0700 (PDT)
+X-Gm-Message-State: ABy/qLb38oyAhLxc5FnLEdVeacr2U9EhFxCbK+Zlp0/950rEW5oroBmW
+	f/zpCuRo04YDcIh28RhlhMc=
+X-Google-Smtp-Source: APBJJlE0xL77JaNmnvRQLlnoQqYTrFWJNq0LoFbjfbl+5z6jlx3z7KVCMNjLKLNP8oJoYq9l0uhbcg==
+X-Received: by 2002:a17:902:e80e:b0:1b9:e99e:fe with SMTP id u14-20020a170902e80e00b001b9e99e00femr118962plg.18.1690288843260;
+        Tue, 25 Jul 2023 05:40:43 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:6007:b0:403:ee8a:77b6 with SMTP id
- he7-20020a05622a600700b00403ee8a77b6ls6972027qtb.0.-pod-prod-07-us; Tue, 25
- Jul 2023 00:49:04 -0700 (PDT)
-X-Received: by 2002:a05:620a:3843:b0:76a:ca95:a5fd with SMTP id po3-20020a05620a384300b0076aca95a5fdmr1773341qkn.61.1690271344051;
-        Tue, 25 Jul 2023 00:49:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1690271344; cv=none;
+Received: by 2002:a05:6870:7014:b0:1aa:1b25:f18d with SMTP id
+ u20-20020a056870701400b001aa1b25f18dls254452oae.0.-pod-prod-08-us; Tue, 25
+ Jul 2023 05:40:42 -0700 (PDT)
+X-Received: by 2002:a05:6871:723:b0:1b7:2dfe:c205 with SMTP id f35-20020a056871072300b001b72dfec205mr13798906oap.20.1690288842190;
+        Tue, 25 Jul 2023 05:40:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1690288842; cv=none;
         d=google.com; s=arc-20160816;
-        b=VqtAxRYlrOtDguHKYmuHlKAXpthJ29ZwTIDzx2GDbeCUZ5m055Xy7rtmlS3hoz4ij/
-         xPIVK8Czn8Sl7OtqbemUihWsmjc6wfVi+HWnGXPksEvURNu2Shx/6U30RmTwvjDmi2d0
-         EHY83NGu2Tl63BahmmcjEzevT+R8/XV49CTxGpGCPfv72JXvx59vnxDUSEyvDkpAcB8m
-         SIbPnlEQ7+SbDY7xKHd82eNUozDiVi5T2fT2PYcNxd+g8YVSNwxuqgB+TqV3FPFaxPah
-         T9r7/WdM96b/I3PJG8LcjcHz2F34y/UQnpVFHOnh2pTJ+dV2WelISfGjZgKBXX4OJJuU
-         6eHQ==
+        b=N51a9PMl8/2SG5w0aWvoKJCeiUHmmq+oP6NmVVPZr9gNqLD9Z6STJMCcW6FZPL4kad
+         4GJqvpl+SeWK0euCZCrQ0tAUrvsYBYimOWmSm3L+abhsoZ9aoa8Ac1bEI8YGXjfZr+Lu
+         tIB9L+Hu4FnAiaFZnhbBYGEJE8pyhoMd9hHkPO3fTkqTc6t6JVaakurbDZWkcvwIyuzg
+         ymlmwS+V9b/PxhNHnj/HrkAfihnKGdTZV2rKUxnYfj7xZbBPlUtLMvRK41wt68A8ftJt
+         kAPwz77100T7uQjv4LD8lQXDGa3RIBE8LLApFPNV7qqN9nCu7pilZrtFoF0RqbihnwJH
+         t+IQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=KmakmmEgZueO/YFdbpdTsIKHFwM4SrXCiaoJfcNVhDM=;
-        fh=sy4SP3vkEn2BvwOVbcJ42LyDgXjWTkePGWUGK7C0j7Y=;
-        b=jjuxAx0q2OuKeUFm5M0rQ/rxs5IzqqfX+o2DNPTPHy+9MnSDuGMaVoSFB9EHvbRCBj
-         7IioleUyEygtIAJv8ji4gGVOoA++1FdwBsDlDl1UCq+Mp1joOiljSxeelANmtjto3l16
-         S0tU7yjKtRB9P1ARHIkqJkyhzaAvJ4fun5/CNQpIWyCCwTVEAj89asB7Fc7fQVES45E1
-         NFeIda2VMJ9tbm/AVY6EOtZtsHB7lREPi8oxrv+b54IoMQA/4p1J46oakQObOaritHF7
-         jz0QBvp3EGnV+yyNbfSF/bUOuRqNXzRqKxADFaGw684DmLzQUixAsCga7W1vw129WJf7
-         RkjA==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id;
+        bh=DPBwsea4FuEfXyTW+jC3iwo0K/IJqmIC3PQ+DoV4zks=;
+        fh=VwKJHJVMlQYnbAL2hmO8nT7Ie4y5JFSAD6akrrtD9H4=;
+        b=hogTfCS32n5vUUx3giQ+O+tiepv5Wi2JzLUBBKwLNO4XwYez6Srkvns4V0vIT5oKsT
+         8BbuJDFh1MikSYd92eLbAWDWqUn6ICUaXMZRozvSCZFRnmHjnNoBzKUAktvf1G4tykGG
+         8Sf7RdmqpYea04/lNz37Gne3FbHUmCZ19GZSO3wk9YRjDoB/L/Xy0SAIFq6st17jxZZ5
+         3ygTBTbxHjaJ7GxnuVGku4xF61/GXOfArhR4GlAF0F9to9bYlQ1wpFcte6RNC3ZKNo6I
+         ZCRzbs/RH5m1wapeu76MUdEZ4ZjP39RAOxKNluaFlirFq5EfnlSivaitMKwRk7uxQMmS
+         FcMw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=WybcbO8m;
-       spf=pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id pt6-20020a17090b3d0600b00262c6d85bdbsi602278pjb.0.2023.07.25.00.49.03
+       spf=none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp. [202.181.97.72])
+        by gmr-mx.google.com with ESMTPS id bp13-20020a05620a458d00b00763d5f6718esi597135qkb.5.2023.07.25.05.40.41
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jul 2023 00:49:03 -0700 (PDT)
-Received-SPF: pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by dfw.source.kernel.org (Postfix) with ESMTPS id 57E3461387
-	for <kasan-dev@googlegroups.com>; Tue, 25 Jul 2023 07:49:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46CA9C433D9
-	for <kasan-dev@googlegroups.com>; Tue, 25 Jul 2023 07:49:02 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-4fb7dc16ff0so7767678e87.2
-        for <kasan-dev@googlegroups.com>; Tue, 25 Jul 2023 00:49:02 -0700 (PDT)
-X-Received: by 2002:a05:6512:2523:b0:4f7:6966:36fb with SMTP id
- be35-20020a056512252300b004f7696636fbmr7905252lfb.12.1690271340083; Tue, 25
- Jul 2023 00:49:00 -0700 (PDT)
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 25 Jul 2023 05:40:41 -0700 (PDT)
+Received-SPF: none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) client-ip=202.181.97.72;
+Received: from fsav119.sakura.ne.jp (fsav119.sakura.ne.jp [27.133.134.246])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 36PCeGQT060305;
+	Tue, 25 Jul 2023 21:40:16 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav119.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav119.sakura.ne.jp);
+ Tue, 25 Jul 2023 21:40:16 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav119.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 36PCeFMV060302
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 25 Jul 2023 21:40:16 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <41b72295-8eb2-8609-7494-cb8f57c4443a@I-love.SAKURA.ne.jp>
+Date: Tue, 25 Jul 2023 21:40:17 +0900
 MIME-Version: 1.0
-References: <20230725061451.1231480-1-lienze@kylinos.cn> <20230725061451.1231480-5-lienze@kylinos.cn>
-In-Reply-To: <20230725061451.1231480-5-lienze@kylinos.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 25 Jul 2023 15:48:30 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H7j6R5zWvXuLucnq0Xvu=1Q-pxQzG1DavTAx63AL+GzbA@mail.gmail.com>
-Message-ID: <CAAhV-H7j6R5zWvXuLucnq0Xvu=1Q-pxQzG1DavTAx63AL+GzbA@mail.gmail.com>
-Subject: Re: [PATCH 4/4 v2] LoongArch: Add KFENCE support
-To: Enze Li <lienze@kylinos.cn>
-Cc: kernel@xen0n.name, loongarch@lists.linux.dev, glider@google.com, 
-	elver@google.com, akpm@linux-foundation.org, kasan-dev@googlegroups.com, 
-	linux-mm@kvack.org, zhangqing@loongson.cn, yangtiezhu@loongson.cn, 
-	dvyukov@google.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] Revert "fbcon: Use kzalloc() in fbcon_prepare_logo()"
+Content-Language: en-US
+To: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Kees Cook <keescook@chromium.org>,
+        Alexander Potapenko
+ <glider@google.com>,
+        Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+        kasan-dev <kasan-dev@googlegroups.com>, linux-fbdev@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Daniel Vetter <daniel@ffwll.ch>, Helge Deller <deller@gmx.de>
+References: <98b79fbdde69a4a203096eb9c8801045c5a055fb.1690218016.git.geert+renesas@glider.be>
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+In-Reply-To: <98b79fbdde69a4a203096eb9c8801045c5a055fb.1690218016.git.geert+renesas@glider.be>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: chenhuacai@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=WybcbO8m;       spf=pass
- (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1
- as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+X-Original-Sender: penguin-kernel@i-love.sakura.ne.jp
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=none
+ (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,285 +145,21 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi, Enze,
+On 2023/07/25 2:03, Geert Uytterhoeven wrote:
+> The syzbot report turned out to be a false possitive, caused by a KMSAN
+> problem.  Indeed, after allocating the buffer, it is fully initialized
+> using scr_memsetw().  Hence there is no point in allocating zeroed
+> memory, while this does incur some overhead.
 
-On Tue, Jul 25, 2023 at 2:15=E2=80=AFPM Enze Li <lienze@kylinos.cn> wrote:
->
-> The LoongArch architecture is quite different from other architectures.
-> When the allocating of KFENCE itself is done, it is mapped to the direct
-> mapping configuration window [1] by default on LoongArch.  It means that
-> it is not possible to use the page table mapped mode which required by
-> the KFENCE system and therefore it should be remapped to the appropriate
-> region.
->
-> This patch adds architecture specific implementation details for KFENCE.
-> In particular, this implements the required interface in <asm/kfence.h>.
->
-> Tested this patch by running the testcases and all passed.
->
-> [1] https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1-EN.=
-html#virtual-address-space-and-address-translation-mode
->
-> Signed-off-by: Enze Li <lienze@kylinos.cn>
-> ---
->  arch/loongarch/Kconfig               |  1 +
->  arch/loongarch/include/asm/kfence.h  | 62 ++++++++++++++++++++++++++++
->  arch/loongarch/include/asm/pgtable.h | 14 ++++++-
->  arch/loongarch/mm/fault.c            | 22 ++++++----
->  4 files changed, 90 insertions(+), 9 deletions(-)
->  create mode 100644 arch/loongarch/include/asm/kfence.h
->
-> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-> index 70635ea3d1e4..5b63b16be49e 100644
-> --- a/arch/loongarch/Kconfig
-> +++ b/arch/loongarch/Kconfig
-> @@ -91,6 +91,7 @@ config LOONGARCH
->         select HAVE_ARCH_AUDITSYSCALL
->         select HAVE_ARCH_JUMP_LABEL
->         select HAVE_ARCH_JUMP_LABEL_RELATIVE
-> +       select HAVE_ARCH_KFENCE
->         select HAVE_ARCH_MMAP_RND_BITS if MMU
->         select HAVE_ARCH_SECCOMP_FILTER
->         select HAVE_ARCH_TRACEHOOK
-> diff --git a/arch/loongarch/include/asm/kfence.h b/arch/loongarch/include=
-/asm/kfence.h
-> new file mode 100644
-> index 000000000000..fb39076fe4d7
-> --- /dev/null
-> +++ b/arch/loongarch/include/asm/kfence.h
-> @@ -0,0 +1,62 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * KFENCE support for LoongArch.
-> + *
-> + * Author: Enze Li <lienze@kylinos.cn>
-> + * Copyright (C) 2022-2023 KylinSoft Corporation.
-> + */
-> +
-> +#ifndef _ASM_LOONGARCH_KFENCE_H
-> +#define _ASM_LOONGARCH_KFENCE_H
-> +
-> +#include <linux/kfence.h>
-> +#include <asm/pgtable.h>
-> +#include <asm/tlb.h>
-> +
-> +static inline bool arch_kfence_init_pool(void)
-> +{
-> +       char *kfence_pool =3D __kfence_pool;
-> +       struct vm_struct *area;
-> +       int err;
-> +
-> +       area =3D __get_vm_area_caller(KFENCE_POOL_SIZE, VM_IOREMAP,
-> +                                   KFENCE_AREA_START, KFENCE_AREA_END,
-> +                                   __builtin_return_address(0));
-> +       if (!area)
-> +               return false;
-> +
-> +       __kfence_pool =3D (char *)area->addr;
-> +       err =3D ioremap_page_range((unsigned long)__kfence_pool,
-> +                                (unsigned long)__kfence_pool + KFENCE_PO=
-OL_SIZE,
-> +                                virt_to_phys((void *)kfence_pool),
-> +                                PAGE_KERNEL);
-> +       if (err) {
-> +               free_vm_area(area);
-> +               return false;
-> +       }
-> +
-> +       return true;
-> +}
-> +
-> +/* Protect the given page and flush TLB. */
-> +static inline bool kfence_protect_page(unsigned long addr, bool protect)
-> +{
-> +       pte_t *pte =3D virt_to_kpte(addr);
-> +
-> +       if (WARN_ON(!pte) || pte_none(*pte))
-> +               return false;
-> +
-> +       if (protect)
-> +               set_pte(pte, __pte(pte_val(*pte) & ~(_PAGE_VALID | _PAGE_=
-PRESENT)));
-> +       else
-> +               set_pte(pte, __pte(pte_val(*pte) | (_PAGE_VALID | _PAGE_P=
-RESENT)));
-> +
-> +       /* Flush this CPU's TLB. */
-This comment can be removed since the logic is obvious.
+I suggest using below description, for this problem was reported by me
+using a kernel built with syzbot's config file (i.e. syzbot is irrelevant).
 
-> +       preempt_disable();
-> +       local_flush_tlb_one(addr);
-> +       preempt_enable();
-> +
-> +       return true;
-> +}
-> +
-> +#endif /* _ASM_LOONGARCH_KFENCE_H */
-> diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/includ=
-e/asm/pgtable.h
-> index 98a0c98de9d1..2702a6ba7122 100644
-> --- a/arch/loongarch/include/asm/pgtable.h
-> +++ b/arch/loongarch/include/asm/pgtable.h
-> @@ -77,6 +77,13 @@ extern unsigned long zero_page_mask;
->         (virt_to_page((void *)(empty_zero_page + (((unsigned long)(vaddr)=
-) & zero_page_mask))))
->  #define __HAVE_COLOR_ZERO_PAGE
->
-> +#ifdef CONFIG_KFENCE
-> +#define KFENCE_AREA_SIZE \
-> +       (((CONFIG_KFENCE_NUM_OBJECTS + 1) * 2 + 2) * PAGE_SIZE)
-Needn't change to a new line.
+Commit a6a00d7e8ffd ("fbcon: Use kzalloc() in fbcon_prepare_logo()") is
+redundant, for the root cause that resulted in a false positive was fixed
+by commit 27f644dc5a77 ("x86: kmsan: use C versions of memset16/memset32/
+memset64").
 
-Others look good to me.
-
-Huacai
-
-> +#else
-> +#define KFENCE_AREA_SIZE       0
-> +#endif
-> +
->  /*
->   * TLB refill handlers may also map the vmalloc area into xkvrange.
->   * Avoid the first couple of pages so NULL pointer dereferences will
-> @@ -88,11 +95,16 @@ extern unsigned long zero_page_mask;
->  #define VMALLOC_START  MODULES_END
->  #define VMALLOC_END    \
->         (vm_map_base +  \
-> -        min(PTRS_PER_PGD * PTRS_PER_PUD * PTRS_PER_PMD * PTRS_PER_PTE * =
-PAGE_SIZE, (1UL << cpu_vabits)) - PMD_SIZE - VMEMMAP_SIZE)
-> +        min(PTRS_PER_PGD * PTRS_PER_PUD * PTRS_PER_PMD * PTRS_PER_PTE * =
-PAGE_SIZE, (1UL << cpu_vabits)) - PMD_SIZE - VMEMMAP_SIZE - KFENCE_AREA_SIZ=
-E)
->
->  #define vmemmap                ((struct page *)((VMALLOC_END + PMD_SIZE)=
- & PMD_MASK))
->  #define VMEMMAP_END    ((unsigned long)vmemmap + VMEMMAP_SIZE - 1)
->
-> +#ifdef CONFIG_KFENCE
-> +#define KFENCE_AREA_START      VMEMMAP_END
-> +#define KFENCE_AREA_END                (KFENCE_AREA_START + KFENCE_AREA_=
-SIZE)
-> +#endif
-> +
->  #define pte_ERROR(e) \
->         pr_err("%s:%d: bad pte %016lx.\n", __FILE__, __LINE__, pte_val(e)=
-)
->  #ifndef __PAGETABLE_PMD_FOLDED
-> diff --git a/arch/loongarch/mm/fault.c b/arch/loongarch/mm/fault.c
-> index da5b6d518cdb..c0319128b221 100644
-> --- a/arch/loongarch/mm/fault.c
-> +++ b/arch/loongarch/mm/fault.c
-> @@ -23,6 +23,7 @@
->  #include <linux/kprobes.h>
->  #include <linux/perf_event.h>
->  #include <linux/uaccess.h>
-> +#include <linux/kfence.h>
->
->  #include <asm/branch.h>
->  #include <asm/mmu_context.h>
-> @@ -30,7 +31,8 @@
->
->  int show_unhandled_signals =3D 1;
->
-> -static void __kprobes no_context(struct pt_regs *regs, unsigned long add=
-ress)
-> +static void __kprobes no_context(struct pt_regs *regs, unsigned long add=
-ress,
-> +                                unsigned long write)
->  {
->         const int field =3D sizeof(unsigned long) * 2;
->
-> @@ -38,6 +40,9 @@ static void __kprobes no_context(struct pt_regs *regs, =
-unsigned long address)
->         if (fixup_exception(regs))
->                 return;
->
-> +       if (kfence_handle_page_fault(address, write, regs))
-> +               return;
-> +
->         /*
->          * Oops. The kernel tried to access some bad page. We'll have to
->          * terminate things with extreme prejudice.
-> @@ -51,14 +56,15 @@ static void __kprobes no_context(struct pt_regs *regs=
-, unsigned long address)
->         die("Oops", regs);
->  }
->
-> -static void __kprobes do_out_of_memory(struct pt_regs *regs, unsigned lo=
-ng address)
-> +static void __kprobes do_out_of_memory(struct pt_regs *regs, unsigned lo=
-ng address,
-> +                                      unsigned long write)
->  {
->         /*
->          * We ran out of memory, call the OOM killer, and return the user=
-space
->          * (which will retry the fault, or kill us if we got oom-killed).
->          */
->         if (!user_mode(regs)) {
-> -               no_context(regs, address);
-> +               no_context(regs, address, write);
->                 return;
->         }
->         pagefault_out_of_memory();
-> @@ -69,7 +75,7 @@ static void __kprobes do_sigbus(struct pt_regs *regs,
->  {
->         /* Kernel mode? Handle exceptions or die */
->         if (!user_mode(regs)) {
-> -               no_context(regs, address);
-> +               no_context(regs, address, write);
->                 return;
->         }
->
-> @@ -90,7 +96,7 @@ static void __kprobes do_sigsegv(struct pt_regs *regs,
->
->         /* Kernel mode? Handle exceptions or die */
->         if (!user_mode(regs)) {
-> -               no_context(regs, address);
-> +               no_context(regs, address, write);
->                 return;
->         }
->
-> @@ -149,7 +155,7 @@ static void __kprobes __do_page_fault(struct pt_regs =
-*regs,
->          */
->         if (address & __UA_LIMIT) {
->                 if (!user_mode(regs))
-> -                       no_context(regs, address);
-> +                       no_context(regs, address, write);
->                 else
->                         do_sigsegv(regs, write, address, si_code);
->                 return;
-> @@ -211,7 +217,7 @@ static void __kprobes __do_page_fault(struct pt_regs =
-*regs,
->
->         if (fault_signal_pending(fault, regs)) {
->                 if (!user_mode(regs))
-> -                       no_context(regs, address);
-> +                       no_context(regs, address, write);
->                 return;
->         }
->
-> @@ -232,7 +238,7 @@ static void __kprobes __do_page_fault(struct pt_regs =
-*regs,
->         if (unlikely(fault & VM_FAULT_ERROR)) {
->                 mmap_read_unlock(mm);
->                 if (fault & VM_FAULT_OOM) {
-> -                       do_out_of_memory(regs, address);
-> +                       do_out_of_memory(regs, address, write);
->                         return;
->                 } else if (fault & VM_FAULT_SIGSEGV) {
->                         do_sigsegv(regs, write, address, si_code);
-> --
-> 2.34.1
->
->
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAAhV-H7j6R5zWvXuLucnq0Xvu%3D1Q-pxQzG1DavTAx63AL%2BGzbA%40mail.gm=
-ail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/41b72295-8eb2-8609-7494-cb8f57c4443a%40I-love.SAKURA.ne.jp.
