@@ -1,133 +1,143 @@
-Return-Path: <kasan-dev+bncBCSLFNNRQ4LRBOEQR2TAMGQEWBVJFTQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDLKHL4UYEFBBQ5ER2TAMGQEMU76REQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A8D17668AE
-	for <lists+kasan-dev@lfdr.de>; Fri, 28 Jul 2023 11:19:54 +0200 (CEST)
-Received: by mail-lj1-x237.google.com with SMTP id 38308e7fff4ca-2b9ce397ef1sf6283641fa.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 28 Jul 2023 02:19:54 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1690535993; cv=pass;
+Received: from mail-oo1-xc3e.google.com (mail-oo1-xc3e.google.com [IPv6:2607:f8b0:4864:20::c3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE497669AB
+	for <lists+kasan-dev@lfdr.de>; Fri, 28 Jul 2023 12:02:45 +0200 (CEST)
+Received: by mail-oo1-xc3e.google.com with SMTP id 006d021491bc7-56c589f42b6sf1839766eaf.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 28 Jul 2023 03:02:45 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1690538563; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ed+At+Gbimc1WZvpG2uypd2Py3YMK5wfKbvZNOK2IJ0e6dh/30Kojnsw2Jmg/KTu6E
-         fdaw7YnhpO3AC/HlSIl6BDvt44nB4RClr1JD1tVhCHf4N6nERfEI9JIJ2xIFwP0XxFsw
-         7vZwyq4DseKs2W5q86XNv2dM2004F5iLmpbpO8y2REc5S5sjKR79En+V8yhaUMsDv8X1
-         rXy3Js8O0yREKMLb3x46BHQhvEdhlFgRnfysFlqqRALUVGop9t0+gE4Og4RMvYn4gYjx
-         WtZxWP+v9+9sQ3Kxf3wgtIOh59BNUv0pwKZCKzjAuLukucJA84Q8FAPwpMHAveFi8xCe
-         q4FQ==
+        b=MAxNjr2Bh+o1BgBRIICvBrCZcaWtE5Tcbu+nwMQlY7Eh8o/bJJMp8M+xUSEkr4t8+R
+         aGqGgWzeHrXJnS9ekMwVqbBJdQK9icvoEPynJMGs6RGKEVWlh5P2ZsjcKfYyOnGpAPOb
+         pgoLId3qQn20gRfZklyeXoLkHcqJLCWqL/eXFCIzZg7gaMEjHgKyNOQEJgOXdI5qs5xD
+         Py12N9Vy8NyADEF50bwQODyaB6nnRpxxTiEry9vaHpAZmXEeiYYflo3GtNd7xvL3Jnha
+         41KsDfZWnxhRyldP8iqO4NeTM5HojCBnkM3EPjg8FVwDEhwLY/+DjXPOVWT3EX5rWWcn
+         zq/g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=qJJYOO3Hy4vMgxJzlUKwS9hDBK4FD0DSfSXz8U8JzXs=;
-        fh=8QOdoXAkdgM3kVmr53MK5lC0RpM8fsLltxTwScERO7w=;
-        b=JiSjUbaKeNXuD5NazMV4bdFIJZQqDxZuFEj9D9HRXSyleP/I0qSN/QYxA9XVqpC4wN
-         NVbC5h/ZH5eS2j7BAbwi+n6nHCD6eF6+UgXGbelK0K+dyXRS7ZAkYxjZBbBcAaznVeZH
-         RoeSruiY+UYwpsvpNlO/6voae6uJzWaoUXHIvFpCINN/BlSBUUrL9v6TnpVSO8bzcFuw
-         SNoOymymhZH2N6hDEBqaJMX6qgzliDzCjfqIWtf4h1IOxiaQrkAGLqx1Eg5iRfAVshCN
-         U8VVftvhYNOMZ8JC1CyfJ4iw3jUXs0Yv0BA42KRHvxAiSRO+4GljTfN69UC2pPDF7A2L
-         DgIQ==
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=XiFyf6P9eWFvJulrBi12qnDdSeOcOfn45NNQwsBMDFs=;
+        fh=m71XCBCvUgFhsWx/Tk3dB/0QiUCjM2LLEtQRlVGDA5Y=;
+        b=eN6HtYiM8XLjMWTnvOx/uR5ev+nDh8RrYld5fUqcpIVJa3UpxcnpO6/YvLciptdLTL
+         XREcmqhXQ/OSEBHzhazABhQ+Gy7ZnZRpKeSEDrIXi5f1m7/v/NOwYcKJ9I4hW/iIVtuo
+         TZWA6pyMInJzagm+Kj1sL8BvG06bMVdeP1GCKG20vplAjr58pCWU5WHkxxMuh4v6lzWa
+         Bpk1v65tplYL7s6KVV1m33eylTg5sWki4TCC8ZB3dReYBLxzQlbzDbmhVkZ4yNbG2cGl
+         YPmlGkZSwYUPnv/GJC08dU5bJIgTG7AcVzQsgvDsUGNP4nKSUnVGna99kI0ydWL/nyjC
+         eKFQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=neutral (google.com: 2a02:1800:120:4::f00:13 is neither permitted nor denied by best guess record for domain of geert@linux-m68k.org) smtp.mailfrom=geert@linux-m68k.org
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=RXTRsuof;
+       spf=pass (google.com: domain of fmartine@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=fmartine@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1690535993; x=1691140793;
+        d=googlegroups.com; s=20221208; t=1690538563; x=1691143363;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=qJJYOO3Hy4vMgxJzlUKwS9hDBK4FD0DSfSXz8U8JzXs=;
-        b=H5aAhSoTiRYde6ywW2pvfKxnJDOtvx6e0VAsFwagqsOn3jEra3XdriR3pkMqMXUsnz
-         hLytTus+eEnJESjI87p3c6W9HHjva9nBVOoo5T7ZqaABj961+g91Yl6sEoKPcZSiqp43
-         HmEzeYGheXQSWE1es2d5ImMkiZE85YxT3MEYphfaGC45SwoQqG4qOTCjTdvFWNBFaU5r
-         uD+DTrXgEckxI7X1ldTWnhdqFKj2/fhdDemKbSY0cuVsXJuvXWy2FwfX6ipf6Zc2gKee
-         QJM1y9KqUprVRZR2eSh94dbnNiIBnW3QgFDGzOlkIh4zw69ZRfDFNltU6a5c6Uhc8DUQ
-         gIQA==
+         :x-original-sender:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XiFyf6P9eWFvJulrBi12qnDdSeOcOfn45NNQwsBMDFs=;
+        b=cjtOJV6Q2McxXZfDYfTeUTOxYBPERTV32Id4ReJjlx4x7u5U4IjpLDGBQt+9wxA4cj
+         rmP/3+fedgDvRw8QFsEkTz3y/bdGJrfIvprZx62BSCIy2rWTjC+e+y88ENLHgTtK8ZC9
+         x/Ft213oIDC3czMvtiw/X0t3aYQD3+CeO7/WhkBnXqLFsz0QjT9QYYD5rmCDwD1RF9dk
+         MpmbLLSkhC1eeD/wShDGXMgH8Au7E4MuGNx0FsRXO35wHGrlX+fLnT5dLJL2AEQXDacc
+         LxZGubnPwmR0YZHxXBq/X5coXLUPJwnty0LnwErTLsPh2tCB8j7vH5s5crJVNZohwuJU
+         PtdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690535993; x=1691140793;
+        d=1e100.net; s=20221208; t=1690538563; x=1691143363;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=qJJYOO3Hy4vMgxJzlUKwS9hDBK4FD0DSfSXz8U8JzXs=;
-        b=lngB0YhD1XFSsZJwOujT4wWlOI2IVDKVsNZPIPmB7RWJ65jXXpUePMrq4WdPH8DeGd
-         12VZNFCDH/TbnhqP5g+40yd0St4AgYpG2foNFL6wk+uj/NVKbzaj04kwYMMpY2eFJgvc
-         8CYDHdLjd64SxR46ZbDq67tgG4OkXVnd1n9keiPwTqoz/bN+2bPzZ9HsZ8IVFOg6sCAg
-         I4+P15qX2F0SMHyC3S4chcFmhEl5Gqjz6RVMyAKDQhJ5+FNemKfRDplGxBch0zKDDmFH
-         k+iaLfutWyCS/w/hoeDK4L/E7LKRava+fKHQfplq4fHYwcjrKaP2QgSbH5841ITAZ65H
-         rTEg==
+         :message-id:date:references:in-reply-to:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XiFyf6P9eWFvJulrBi12qnDdSeOcOfn45NNQwsBMDFs=;
+        b=ZPm3tesRm6VnA/TEfIebaxAJcd8iCny8dhanJJaqZiPFf6g2/LbVlwm9Kgh2fJGr4h
+         9p84cg3qNZ0eKCOlrpRs+5mKcDcitmi7twPe+VZS4ofv52ORaXPacnpLKB1Ssja5tlAx
+         kk4H71QMf8y6Go6sSFZ1jUFGnC1vjDKqCTNDsBcm3bA1P1WEfM5ZRkF6Rwy4vDp1Rp41
+         0xxUYhy1BWd8mWxA2l6rgoEPwHe8Y5w4lO5L7ada2ZprXtrCpvlt9854A7aL1iVzLuIE
+         1DQ174wDjsAkJFDnpzwwIOZvIqUShc7gLOVZyFAGPSND3Sa4uBFDBLX2QhZtaeLYyZww
+         NOHA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ABy/qLZN1h2x6WqOk9bEUsp1SsGGb/x1Wu9DoazZen9rTZH1j2X/fOjm
-	ytCEpengmJR8LlhkVaGV3wg=
-X-Google-Smtp-Source: APBJJlFsv5UtB27woXgRfj9hOl+8qQxtClZ/JFV016i5kxN9EI8jvSzaM+wvBpLAxcGmGelGp9lfjA==
-X-Received: by 2002:a05:6512:3d1b:b0:4fd:d6ba:73c2 with SMTP id d27-20020a0565123d1b00b004fdd6ba73c2mr1669157lfv.54.1690535992568;
-        Fri, 28 Jul 2023 02:19:52 -0700 (PDT)
+X-Gm-Message-State: ABy/qLZe3thEiUYbm8q0rHuLtdiKcWQ91G2sLeA/eRRfiZaqPye3wc1Z
+	QNrQCpYZCgok3PT2Oqq7ncM=
+X-Google-Smtp-Source: APBJJlFxAHHNrgMPGuJMWMjs9PYO4iRoFzgJS8SZvXnFhQipZFnkCrUqQ7dXPXng55O1nVQkprZMXQ==
+X-Received: by 2002:a4a:3003:0:b0:566:f2b9:eb86 with SMTP id q3-20020a4a3003000000b00566f2b9eb86mr1985346oof.4.1690538563523;
+        Fri, 28 Jul 2023 03:02:43 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:5bdd:0:b0:4fe:678:6a1f with SMTP id u29-20020ac25bdd000000b004fe06786a1fls77431lfn.1.-pod-prod-06-eu;
- Fri, 28 Jul 2023 02:19:50 -0700 (PDT)
-X-Received: by 2002:ac2:57c4:0:b0:4fb:cc99:4e90 with SMTP id k4-20020ac257c4000000b004fbcc994e90mr1006337lfo.37.1690535990189;
-        Fri, 28 Jul 2023 02:19:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1690535990; cv=none;
+Received: by 2002:a4a:b08c:0:b0:566:5bc4:69dd with SMTP id k12-20020a4ab08c000000b005665bc469ddls1889614oon.1.-pod-prod-02-us;
+ Fri, 28 Jul 2023 03:02:42 -0700 (PDT)
+X-Received: by 2002:a05:6808:3a5:b0:3a5:ad17:371 with SMTP id n5-20020a05680803a500b003a5ad170371mr2196564oie.3.1690538562636;
+        Fri, 28 Jul 2023 03:02:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1690538562; cv=none;
         d=google.com; s=arc-20160816;
-        b=EwDizrmx2MAB1F5ixfNtzJMxT7vF6kFeD4ctGivG4cTSEg66l0/9Gzr+ltZtW93gt0
-         3D2B2RPzQmmwDBvblTupEwPeiPdG2JC1ml6H65n32cmegvVGUO+ho5FWdyhTBN+P7sK7
-         iQfE1wBcUBQ0iq0pgKLHQ9xYMK722DJTeo9ZyF83XRN61+WDq7uqeQqbXMFptHk8wGrK
-         3/AmcDstNXEx54o0oFs5H0C4taWvQn8q+RXHH0dmPsWEQjJCk7DgjOHQIoI/W2bE7cQ8
-         fDcHdWCNWX96FusvangKnWeRmJHCnFE0toBGJEmJlQlxMhBbTdMDB7IlYoWMzdCXWqjG
-         ILMQ==
+        b=G2ba3xN8UuYSeweRNdfdn9Ouys2ouT0Ed3RmchOX9JYX86UsCo9Y0GiQbUpPPWCp/s
+         +kOuxzNRcZLvyaJz35JUT9yMs1bHHKTaLzLEfEdYexZlyXJNekOymekdjKxu61fhkDKj
+         Ap44it3gZ8RctIBsQDXZgfv+iZRcNAaAH6L3kzePGPtmnBSDrPPC2ZaZQElebTM8OKid
+         i6uChCrZ/7d6YYRhnBeK/SwEBR3Zwc308h+FRabc8o+5Za7ULpD0PNpnJDRkydXbylVJ
+         jejQ1Lt/qDwNB7AtIoEb3L7AHBMJfGh/iX6qJtEYIC6X0z22QotI4gc+3flaVMP84z6X
+         ixFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=vj8xo2Q8HuQ0aIb6wvPrsig7eZ6sKhYUqfz+TQyYCYk=;
-        fh=8QOdoXAkdgM3kVmr53MK5lC0RpM8fsLltxTwScERO7w=;
-        b=x999AupRGF9gojY2lwdmXUdwrUALdnSB5odYcDKtMwFx6/Q0J/HM/CwjOq3oPwnAEu
-         3aa0lluiPYk0Bb5zIvStN+9AATa2CWSz+dUQAy9+qUPluyAgc8eIivqPUKW7wxVmQhBI
-         /a+fp0kjSwwv1ybB9RUh8mGGksBjSQ98PgRlOQLbj2bglamamS1VE0/X+lU/P9M5nhdY
-         1NktpJedHA+s0jgxPH4Mo086bI6gBTMVlIiTyg7iPIDoO0UVB6+Rh7jFYHbV4QFE4Qq5
-         vct5d8pAaWC00RBCivy1X0OI4DqY3125bwe/0gc56N2Bg5lFjk+c0uX7jAeZR+5vYPXa
-         rsjg==
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:dkim-signature;
+        bh=WJxfGpxbppzJwgJdPmeEdmGhAfwaruKH//tjBHG7QkQ=;
+        fh=m71XCBCvUgFhsWx/Tk3dB/0QiUCjM2LLEtQRlVGDA5Y=;
+        b=j3t23P3aogdlQzf8tL60Qaez67IBUT2bzq86nSSZCyXVxJzQf7b2Q/7HvBhinxhRfS
+         7hm0n3OeYj3chRyh3f3v0rooF6/hhIVjprf4jcoeqNTaiyHa93xs2eToLskMedOGDm0x
+         +z1q13DznrUGrksNvBOxPBY8sKk76Kutjbnh45SQB++CDrlQyg4OM7gIJRxRfmWkKN03
+         sKufQhI3U2o0npm9mFUtWZCvwziPZ1gupok7Jhl3/2xRdmHsMzvV8+m0hc6vONPjNYVQ
+         v2fM4PDgxfcgn3Z50KCeZYdIKT7cM9q+0hdla+VIfV6UDRLqPrkSF891JnPUw+OTJdYx
+         DVtw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=neutral (google.com: 2a02:1800:120:4::f00:13 is neither permitted nor denied by best guess record for domain of geert@linux-m68k.org) smtp.mailfrom=geert@linux-m68k.org
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be. [2a02:1800:120:4::f00:13])
-        by gmr-mx.google.com with ESMTPS id u10-20020a05651220ca00b004fbaaecae45si246631lfr.5.2023.07.28.02.19.49
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=RXTRsuof;
+       spf=pass (google.com: domain of fmartine@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=fmartine@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
+        by gmr-mx.google.com with ESMTPS id 20-20020a631154000000b005572dbd4d7bsi197973pgr.4.2023.07.28.03.02.42
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 28 Jul 2023 02:19:50 -0700 (PDT)
-Received-SPF: neutral (google.com: 2a02:1800:120:4::f00:13 is neither permitted nor denied by best guess record for domain of geert@linux-m68k.org) client-ip=2a02:1800:120:4::f00:13;
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:12b0:7b7e:d1ff:7873])
-	by baptiste.telenet-ops.be with bizsmtp
-	id SZKn2A0040d1nm801ZKnTg; Fri, 28 Jul 2023 11:19:49 +0200
-Received: from rox.of.borg ([192.168.97.57])
-	by ramsan.of.borg with esmtp (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1qPJdF-002ltR-W6;
-	Fri, 28 Jul 2023 11:19:47 +0200
-Received: from geert by rox.of.borg with local (Exim 4.95)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1qPJdT-00AoEo-3k;
-	Fri, 28 Jul 2023 11:19:47 +0200
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Helge Deller <deller@gmx.de>
-Cc: Kees Cook <keescook@chromium.org>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	kasan-dev <kasan-dev@googlegroups.com>,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2] Revert "fbcon: Use kzalloc() in fbcon_prepare_logo()"
-Date: Fri, 28 Jul 2023 11:19:45 +0200
-Message-Id: <bd8b71bb13af21cc48af40349db440f794336d3a.1690535849.git.geert+renesas@glider.be>
-X-Mailer: git-send-email 2.34.1
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jul 2023 03:02:42 -0700 (PDT)
+Received-SPF: pass (google.com: domain of fmartine@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-247-gLNGPys1NRuW-PeOqGj6Nw-1; Fri, 28 Jul 2023 06:02:38 -0400
+X-MC-Unique: gLNGPys1NRuW-PeOqGj6Nw-1
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-3fa96b67ac1so10763155e9.0
+        for <kasan-dev@googlegroups.com>; Fri, 28 Jul 2023 03:02:38 -0700 (PDT)
+X-Received: by 2002:a05:600c:290b:b0:3fd:1cfa:939e with SMTP id i11-20020a05600c290b00b003fd1cfa939emr1548203wmd.4.1690538557637;
+        Fri, 28 Jul 2023 03:02:37 -0700 (PDT)
+X-Received: by 2002:a05:600c:290b:b0:3fd:1cfa:939e with SMTP id i11-20020a05600c290b00b003fd1cfa939emr1548187wmd.4.1690538557338;
+        Fri, 28 Jul 2023 03:02:37 -0700 (PDT)
+Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
+        by smtp.gmail.com with ESMTPSA id m25-20020a7bcb99000000b003fc0505be19sm3716930wmi.37.2023.07.28.03.02.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Jul 2023 03:02:36 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Geert Uytterhoeven <geert+renesas@glider.be>, Tetsuo Handa
+ <penguin-kernel@I-love.SAKURA.ne.jp>, Daniel Vetter <daniel@ffwll.ch>,
+ Helge Deller <deller@gmx.de>
+Cc: Marco Elver <elver@google.com>, Kees Cook <keescook@chromium.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, linux-fbdev@vger.kernel.org,
+ kasan-dev <kasan-dev@googlegroups.com>, linux-kernel@vger.kernel.org,
+ Alexander Potapenko <glider@google.com>, dri-devel@lists.freedesktop.org,
+ Dmitry Vyukov <dvyukov@google.com>
+Subject: Re: [PATCH v2] Revert "fbcon: Use kzalloc() in fbcon_prepare_logo()"
+In-Reply-To: <bd8b71bb13af21cc48af40349db440f794336d3a.1690535849.git.geert+renesas@glider.be>
+References: <bd8b71bb13af21cc48af40349db440f794336d3a.1690535849.git.geert+renesas@glider.be>
+Date: Fri, 28 Jul 2023 12:02:36 +0200
+Message-ID: <87wmykxsjn.fsf@minerva.mail-host-address-is-not-set>
 MIME-Version: 1.0
-X-Original-Sender: geert+renesas@glider.be
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=neutral
- (google.com: 2a02:1800:120:4::f00:13 is neither permitted nor denied by best
- guess record for domain of geert@linux-m68k.org) smtp.mailfrom=geert@linux-m68k.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: javierm@redhat.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@redhat.com header.s=mimecast20190719 header.b=RXTRsuof;
+       spf=pass (google.com: domain of fmartine@redhat.com designates
+ 170.10.129.124 as permitted sender) smtp.mailfrom=fmartine@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,38 +150,32 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This reverts commit a6a00d7e8ffd78d1cdb7a43f1278f081038c638f.
+Geert Uytterhoeven <geert+renesas@glider.be> writes:
 
-This commit is redundant, as the root cause that resulted in a false
-positive was fixed by commit 27f644dc5a77f8d9 ("x86: kmsan: use C
-versions of memset16/memset32/memset64").
+Hello Geert,
 
-Closes: https://lore.kernel.org/r/CAMuHMdUH4CU9EfoirSxjivg08FDimtstn7hizemzyQzYeq6b6g@mail.gmail.com/
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Update description, as requested by Handa-san.
----
- drivers/video/fbdev/core/fbcon.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> This reverts commit a6a00d7e8ffd78d1cdb7a43f1278f081038c638f.
+>
+> This commit is redundant, as the root cause that resulted in a false
+> positive was fixed by commit 27f644dc5a77f8d9 ("x86: kmsan: use C
+> versions of memset16/memset32/memset64").
+>
+> Closes: https://lore.kernel.org/r/CAMuHMdUH4CU9EfoirSxjivg08FDimtstn7hizemzyQzYeq6b6g@mail.gmail.com/
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
 
-diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-index 62733f118833c6ca..f394c817bc074e0e 100644
---- a/drivers/video/fbdev/core/fbcon.c
-+++ b/drivers/video/fbdev/core/fbcon.c
-@@ -577,7 +577,7 @@ static void fbcon_prepare_logo(struct vc_data *vc, struct fb_info *info,
- 		if (scr_readw(r) != vc->vc_video_erase_char)
- 			break;
- 	if (r != q && new_rows >= rows + logo_lines) {
--		save = kzalloc(array3_size(logo_lines, new_cols, 2),
-+		save = kmalloc(array3_size(logo_lines, new_cols, 2),
- 			       GFP_KERNEL);
- 		if (save) {
- 			int i = min(cols, new_cols);
+Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+
+Pushed to drm-misc (drm-misc-next). Thanks!
+
 -- 
-2.34.1
+Best regards,
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bd8b71bb13af21cc48af40349db440f794336d3a.1690535849.git.geert%2Brenesas%40glider.be.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87wmykxsjn.fsf%40minerva.mail-host-address-is-not-set.
