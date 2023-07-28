@@ -1,137 +1,136 @@
-Return-Path: <kasan-dev+bncBAABBSNTRWTAMGQECES4UOY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBWWNRWTAMGQEGNY3ELQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55937663D5
-	for <lists+kasan-dev@lfdr.de>; Fri, 28 Jul 2023 08:01:46 +0200 (CEST)
-Received: by mail-il1-x13f.google.com with SMTP id e9e14a558f8ab-348c2705818sf393265ab.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 27 Jul 2023 23:01:46 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1690524105; cv=pass;
+Received: from mail-qt1-x83d.google.com (mail-qt1-x83d.google.com [IPv6:2607:f8b0:4864:20::83d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B18766494
+	for <lists+kasan-dev@lfdr.de>; Fri, 28 Jul 2023 08:57:32 +0200 (CEST)
+Received: by mail-qt1-x83d.google.com with SMTP id d75a77b69052e-4039eff865fsf746731cf.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 27 Jul 2023 23:57:32 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1690527451; cv=pass;
         d=google.com; s=arc-20160816;
-        b=n9a6NlpIA8nKutpH/7IdZalbFmUYwnHjBwOUL0Xp3ehqP7OP3lNIbT0yYQ8wivvazA
-         wIbwCWm/l14ci8/6CrC7SbWg7y8NbNpVzd3EoC5P05zXPFIecMSK6Ao1dNefZicaVFxY
-         PeqWP0frHKuqdkpN9XtPluE+E03x0KHKLeDtH0LDymReP3mdFdL/hwr4zBMJLbsgavPY
-         F8rp1hbvh5jytiXIvrFMcSvvX8z3e/3W2IurE8oT5fX8SgqKynQuoignmZBQcdrL5MHU
-         rBTr3tiSbVT33dXh2rO5N/w9vO0aoUGc54SNZwBU/FeagkaxK4idVzAHuXtnadbwJQzg
-         pUpA==
+        b=ClqgFHNqYFfOd7EIKv6F16MlBctWJDwr1CZD3NIhwQH9RI23yDHZxmg1D0Roz6UNwA
+         swBw1eq8/pp2c9O+dAgfxhkwhrjcMI9QmSoc9kQCnPDdx5KRxAfcsEAIbjAviRy72g/d
+         omKsEfQgII0oEC0UdQTwyBRCakTicd5YQLj/hkftdlQdbGElubZXThd5cGoUPKZTPyll
+         WE7pq77oLaLpfDgQ2PPWdbz3nLBwgpsW9nd5a4z+fQ4K0LQwaBEijyC3DSpzs2sZNcTL
+         4L2Qps4qOwmMQyy+jQRVCN/MUxfISAz4YFRWOAkJX7nDGmQHxUCLn0/P3UpILwsXxFqO
+         eKww==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-transfer-encoding
          :mime-version:message-id:date:references:in-reply-to:subject:cc:to
          :from:sender:dkim-signature;
-        bh=eyaWu4hAwiEOhO1m9tUy9yR56KkswUBtRmI/nPir/0s=;
-        fh=1dGRKi1xriwBGVfVkR2ESMRml7x/plugtzIacBSpAHc=;
-        b=cnJl94VRpwKnwtuY1GLN+NNcYmsi3MRBTlKxGhgAuJF8K4R2tOERKpPt0xjqvr2/+N
-         9BTxRdFQ1wzIANBZyg+oHC/2EUGF0f6t7MMjQIJsl01EBQSnBktCdCHfUMfA1W8W3635
-         JanTsqATf2JjvCr+UujqyLbXisOTzRA4GRZBTQKzal2axK1ta9rhnv/Z675zu5w9ZtP8
-         04z6T42+zA3kut8uJe27rGJKf4J8MY1EsoSahRsbzrvWbVxKOeo0Kv+v17ipun4tnnxq
-         4H0hczbYleJPrrju7J/MOMQpY7zdSPIxFN7KtcPS63uFZfcAxXhVbFbiCGr5F1SBv7hz
-         f9jg==
+        bh=VNEXTMVSgekrJ0GWZgQLA7+hrt2KrMuIFTc0hpt9jnY=;
+        fh=jDYuBkFg838PSUW/rvOmMfGTGpsOyGon+Kr8YrdvKJ8=;
+        b=VNdOf3bznNdrMULVyQxqGy9xg8nt7LctQPMFmzfcVEwsUuStrqg3C15zN/feSEBq7j
+         X294uCHR3C1/eZKbA7nYi7SMrr1nGyA6fkjHpLAWr2n2bqQENlYcAqAlUMOff/NXeH8W
+         28lXtgDV5ym6rvasmRgaQOo1DhO0noy40rjCCp+Fe+hKT6WK8dkwWhe5d1Di5GfOdQ5q
+         g+3vcoUYs9OyH/8xQ5hLVPVK7/yaQnMqruGGIeM35PgASGDAVBuaPx9JxfwxriSbEdgv
+         w9jKI+rrBOejjM0Yz1+PX+LIJFy02ecT2TigMaAmxi3sQ2R9pWrdD23mZP1g1An1IpBZ
+         nGng==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) smtp.mailfrom=lienze@kylinos.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1690524105; x=1691128905;
+        d=googlegroups.com; s=20221208; t=1690527451; x=1691132251;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:mime-version:message-id
          :date:references:in-reply-to:subject:cc:to:from:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eyaWu4hAwiEOhO1m9tUy9yR56KkswUBtRmI/nPir/0s=;
-        b=AnksfdfegEGZTQfIixRYJiwNIcW9spy8Iy31Hlfb/kRWxtfSbJgRkZyiEdPRpE4mVw
-         FdsN06mPYMDCzEhYaXTHjmJhSj0RzGwV70hi4Ol5+6vkzO3Vt9Ce7KOO0UYls9OU45kG
-         FX2u3i9Alq6rwxfWHpLtXNviZSMzVo8kpSj4QONhsJS+VnuGYWUKPjTB5JHCgU5VsRB3
-         ZGENHmlHB5PG4BKIkVvSHUXS5Qx/9bNa03Vt9Sx0mQ4SW6OWTPtEkvCf+fCRhJayCeGJ
-         BI7TuRic6ujh6JfWsjMeM78OyIM+DuCzK20r+PGAmr54utEbjE/P4sGA+cO+nK2SSUSL
-         0CuA==
+        bh=VNEXTMVSgekrJ0GWZgQLA7+hrt2KrMuIFTc0hpt9jnY=;
+        b=qBsmWsGrAfyg5AWTbejbG3H4ZQt3uLTCvEzCbTxltA9y4BXz22hG+ujWB1wj8KM/h2
+         de4dRTg1gMBmut4O+TlVPvlYkMOzF95Qz4DwW8gljuIyfy2VwB7C0anNZPERKyXCCogM
+         +PbxDQqC/J+kO3tGHvn5w8E517qlGlcho8xlBqgolLMTm19UhBMl/ZaiCVAPMIdLfIHj
+         NNEK56m/kAQjz52R6zQxJlziy2Ku08gZPMAjlz6LstC/s/WDuMCAJKIWXlidGPB2Fp9H
+         fgAKFxk5Fr0thnOr1JP7rKehI2uZw933B5YAPgrTucn2fvJmhcWFwOre/fVatb43F2zv
+         BEpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690524105; x=1691128905;
+        d=1e100.net; s=20221208; t=1690527451; x=1691132251;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:mime-version:message-id:date:references
          :in-reply-to:subject:cc:to:from:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=eyaWu4hAwiEOhO1m9tUy9yR56KkswUBtRmI/nPir/0s=;
-        b=IulG9ZUnxosvj4X6DnU5wnGsDgtIG/QdOVTyF5hnljaTlhcaW5h1+9PdylYv402n1/
-         etGUfWt2I+uOzi2HWWSMpNPYiraN8XlFX7xlCSQLJLNdKF3gdVU7bI33nO7eBPhJvku4
-         kGzoEti28xL6DwtojGPUvMqpc/mATNlquQpRH9Vyo5hsp+hqWJBl9GcQGmDou0M9TPCy
-         /Dalgdpv8DJyGkWaqPQdYeG0MWF4fuigalqYVU1n4VqMSRjJiAkK0M2HHBWfGLpFcZ4V
-         SHW9s17w8TCakB2uMeiwYW6r9C4Kb84x83/Cb8NiPmb89XfWr9xqGJX2f8Rys6KTATZl
-         GuSA==
+        bh=VNEXTMVSgekrJ0GWZgQLA7+hrt2KrMuIFTc0hpt9jnY=;
+        b=Eva84IvpLC1XkRNGOwdvie3WrsAPT1NGKI8Vu7LJWhi6FfqjkPGZGrzNHqfmcc+nVF
+         D81keSqYMOHozEjqilow0Nr2mJTWsqYh5fqYKM/hNUemSN1IgXogj/0rYcxe+itJsV6n
+         4F4m6yT2CRWcB1ba1A2+CAJD04OkWDm7meXfhCRI0mxD96b5bvxv2w+5g9tnaP4rCm1t
+         nPDnZutAZMWPtisO9SHhC+wJK52DpqvvkBa46twAT9k3OxKaNia08FbV0NyAzby4/tqa
+         zb+4fMWq9/2uw9dWqqDK+VUL0RWyhUBe9N4yMH8ewOlvR8PlUlQHgxLjOPDgpC7PZl9n
+         pf5g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ABy/qLYFPNCIdMyOavfxYM7CeDbwMxEH6WBJ2JT5dTQ41ChISqrFbV6k
-	gbvW43PaGL+QF3MXbkmr58A=
-X-Google-Smtp-Source: APBJJlEzJj5whdZWQWAc3wpzuWRDAfJkHkgRLqA/As3Un0hGj6elG6P8sGUeZ1O+wPisHiDLGUiOYw==
-X-Received: by 2002:a92:c26a:0:b0:348:d4f4:4d49 with SMTP id h10-20020a92c26a000000b00348d4f44d49mr127917ild.3.1690524105402;
-        Thu, 27 Jul 2023 23:01:45 -0700 (PDT)
+X-Gm-Message-State: ABy/qLYLUKx6Umalvnq1EgRpAseLcd4agdlpEU0OcyyzEu4x9uRCowYf
+	ZqaA5HPfctvhYbvzdDRO5ts=
+X-Google-Smtp-Source: APBJJlGBZb3NQ0vvZBsI+1BjuVmJLVfpY5kFxOIHsy/UL/H9aVS8vd6hSorZxuc6UQjXFnLUwcP3ig==
+X-Received: by 2002:a05:622a:198b:b0:403:dcd4:b9b1 with SMTP id u11-20020a05622a198b00b00403dcd4b9b1mr195463qtc.18.1690527451234;
+        Thu, 27 Jul 2023 23:57:31 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:6129:b0:1ba:2267:82c9 with SMTP id
- s41-20020a056870612900b001ba226782c9ls2062491oae.1.-pod-prod-04-us; Thu, 27
- Jul 2023 23:01:44 -0700 (PDT)
-X-Received: by 2002:a05:6870:14c1:b0:1b0:3075:2f9d with SMTP id l1-20020a05687014c100b001b030752f9dmr2201410oab.34.1690524104713;
-        Thu, 27 Jul 2023 23:01:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1690524104; cv=none;
+Received: by 2002:a0c:cd07:0:b0:62f:fb47:5672 with SMTP id b7-20020a0ccd07000000b0062ffb475672ls639359qvm.1.-pod-prod-07-us;
+ Thu, 27 Jul 2023 23:57:30 -0700 (PDT)
+X-Received: by 2002:a67:fd4f:0:b0:443:5af5:8128 with SMTP id g15-20020a67fd4f000000b004435af58128mr1097581vsr.0.1690527450359;
+        Thu, 27 Jul 2023 23:57:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1690527450; cv=none;
         d=google.com; s=arc-20160816;
-        b=L4oj4z5nPinAe+XjpoLgHfnVlJ0iMebhD4DQt2jNJd0+U3D26/j7pLLv37AGk4s+OH
-         Puc0HqKjn1BEudqBFZ0Nt5UnOLvgBAotvakRfCiIKelRTlVs5+76YyrnxL8aSuws7XlR
-         /87dYBfehz7j41nP5foPDmjSS7cCAc4yip5QmiUoXoMyHm5LLFqUwNSCTHDUvFX0A3hn
-         jqe12aqWcl9EzTofO1BqsbZcXqneHvIwc/PVe1uNiZ6glPoMW4Ph3M2DeQSc6uYbw7KQ
-         btokfO2nXCavJEiamywv1JtTHyF9YHVuc3SWiVRdcUFmw2+QZeB6/qaabBWUODvp7gB2
-         pccA==
+        b=irwwjnP9fgQfiRrajubI0/W8gp56jYFQ3g6i/eDofcfZeSmPmSUz5yH85LX+RccCWu
+         58pf4ss0ml9gB1XUH5YCs1BifaRwJDTHyB0/UZ5r848IBInGzUtgIOa9vcqRyAqBZ/bl
+         ETR9SawQOQ/gjZNpMn8yfoU750okLx5+bS1ByduaoLARn/NCUw0feXVYCm4BSoidKGhy
+         pee8OTABiJ/9obclo6eGDDJNW0HT1duh1l2iQ4rOHsCsD+RxfIbZlgMnSVPXgZrV2Bu/
+         uvL9NxZKDj3okmL11nCMy+DWDZyvkqbBQf5iL5NRkdiNr90KLIwaOCaH5JvHIVgqkx1z
+         9YYg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:message-id:date:references
          :in-reply-to:subject:cc:to:from;
-        bh=OD+aQJvPtw/BRqBGXBN6HjyY2HMr4e4whf2g7OZOeI0=;
-        fh=1dGRKi1xriwBGVfVkR2ESMRml7x/plugtzIacBSpAHc=;
-        b=IAFQkj/xdo0FTbb+VbjuyD32eKJQcLHLHC0HYHr5SkY5BPShNaQW7Ye2EcPUHPtfnW
-         5rEvyVGtfeXU64n+8WEQubhzuuFMVZYcHbnQbWrri+A/JQb1kQtkhiedc95QFKE4etvO
-         7L28cm4ou9wRlqxAXLhy3TYa88VnStq3Tg6GpDcvmCs5sfAI023TbwqLMPLz8d0hdRMq
-         BqftXVROk+foIubLpM6BrBiOOX2LQaU/kNjTQ4nc80OYZPpoSI8rIiXOzpdOkqqxD+I7
-         vKobUP+lwcP9r+NhB4pzCKaWZUR023m9x6T1uTAUShdS1H+ROtyHpn/DlBtkaYo/Newx
-         GgNw==
+        bh=zkKcKlDWBfzgHtqCr3ndv+FiHS1Av+omOji43ZX2V1k=;
+        fh=jDYuBkFg838PSUW/rvOmMfGTGpsOyGon+Kr8YrdvKJ8=;
+        b=EF3P0czn9Nr9jWhScINU+6sqgOuPkGY/z0IbeYdUXTAZOfOhfgCFOwkNw19VfvGtEV
+         XxF0fVFHN481EUEmuooT/uBeTwjE3UYam3PeQfdp8cDPPMFQsig+UikMfdZ71azql9co
+         AvnIkv7l8GteMoVdBadsYUbIIZJKjlX5e/R17bLgsEsGpB/qjeQRIqwMAgiQnNe8EQRA
+         4nuY5pdN0uDepQXE++d1itWrpPQFOlW3gBTN++E1+qO+5BCBeWnY2pUtu+8lEPbc7C9M
+         wKo5HwZ1IsOT9luVuJ9CR5uFn2iANVFROw/Ub0ZF6JiyjSxhfrV3pytS93kfekBu1e/8
+         5JXw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) smtp.mailfrom=lienze@kylinos.cn
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn. [124.126.103.232])
-        by gmr-mx.google.com with ESMTPS id l10-20020a056830334a00b006bc823723b5si62014ott.3.2023.07.27.23.01.43
+        by gmr-mx.google.com with ESMTPS id x22-20020ab036f6000000b0079a2dd67946si113493uau.0.2023.07.27.23.57.28
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 27 Jul 2023 23:01:44 -0700 (PDT)
+        Thu, 27 Jul 2023 23:57:29 -0700 (PDT)
 Received-SPF: pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) client-ip=124.126.103.232;
-X-UUID: 396d4dbed1354d1eab9d06acfbe96f85-20230728
+X-UUID: eefb8ffe66a04e8aa2bbd4540826a9fd-20230728
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.28,REQID:475f62b3-5a79-4e92-8548-a55a316fe131,IP:15,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:6
-X-CID-INFO: VERSION:1.1.28,REQID:475f62b3-5a79-4e92-8548-a55a316fe131,IP:15,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-9,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:6
-X-CID-META: VersionHash:176cd25,CLOUDID:18c58c42-d291-4e62-b539-43d7d78362ba,B
-	ulkID:230728112732139381RX,BulkQuantity:2,Recheck:0,SF:24|17|19|43|102,TC:
-	nil,Content:0,EDM:-3,IP:-2,URL:1,File:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI
-	:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0
+X-CID-O-INFO: VERSION:1.1.28,REQID:a4fd5e3c-7353-42fa-8118-c344962bb5e6,IP:25,
+	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
+	ON:release,TS:10
+X-CID-INFO: VERSION:1.1.28,REQID:a4fd5e3c-7353-42fa-8118-c344962bb5e6,IP:25,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:10
+X-CID-META: VersionHash:176cd25,CLOUDID:fe548d42-d291-4e62-b539-43d7d78362ba,B
+	ulkID:230728145721DEQA46GY,BulkQuantity:0,Recheck:0,SF:24|17|19|44|102,TC:
+	nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OS
+	I:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0
 X-CID-BVR: 0,NGT
 X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,
-	TF_CID_SPAM_ULS
-X-UUID: 396d4dbed1354d1eab9d06acfbe96f85-20230728
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
+X-UUID: eefb8ffe66a04e8aa2bbd4540826a9fd-20230728
 Received: from ubuntu [(39.156.73.12)] by mailgw
 	(envelope-from <lienze@kylinos.cn>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 189198503; Fri, 28 Jul 2023 14:01:35 +0800
+	with ESMTP id 1316808868; Fri, 28 Jul 2023 14:57:20 +0800
 From: Enze Li <lienze@kylinos.cn>
-To: Jackie Liu <liu.yun@linux.dev>
+To: Jinyang He <hejinyang@loongson.cn>
 Cc: chenhuacai@kernel.org,  kernel@xen0n.name,  loongarch@lists.linux.dev,
   glider@google.com,  elver@google.com,  akpm@linux-foundation.org,
-  kasan-dev@googlegroups.com,  linux-mm@kvack.org,  zhangqing@loongson.cn,
-  yangtiezhu@loongson.cn,  dvyukov@google.com
-Subject: Re: [PATCH 4/4 v2] LoongArch: Add KFENCE support
-In-Reply-To: <fa3dcc1b-03b2-567c-b143-8e3a100af9f6@linux.dev> (Jackie Liu's
-	message of "Tue, 25 Jul 2023 22:34:50 +0800")
+  kasan-dev@googlegroups.com,  linux-mm@kvack.org,  yangtiezhu@loongson.cn,
+  dvyukov@google.com
+Subject: Re: [PATCH 2/4 v2] LoongArch: Get stack without NMI when providing
+ regs parameter
+In-Reply-To: <e325ac53-ba3f-db7a-ccc2-5cfadf6462b9@loongson.cn> (Jinyang He's
+	message of "Wed, 26 Jul 2023 10:59:06 +0800")
 References: <20230725061451.1231480-1-lienze@kylinos.cn>
-	<20230725061451.1231480-5-lienze@kylinos.cn>
-	<fa3dcc1b-03b2-567c-b143-8e3a100af9f6@linux.dev>
-Date: Fri, 28 Jul 2023 14:01:25 +0800
-Message-ID: <87sf98a822.fsf@kylinos.cn>
+	<20230725061451.1231480-3-lienze@kylinos.cn>
+	<e325ac53-ba3f-db7a-ccc2-5cfadf6462b9@loongson.cn>
+Date: Fri, 28 Jul 2023 14:57:11 +0800
+Message-ID: <87o7jwa5h4.fsf@kylinos.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -151,98 +150,138 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jul 25 2023 at 10:34:50 PM +0800, Jackie Liu wrote:
+On Wed, Jul 26 2023 at 10:59:06 AM +0800, Jinyang He wrote:
 
-> =E5=9C=A8 2023/7/25 14:14, Enze Li =E5=86=99=E9=81=93:
->> The LoongArch architecture is quite different from other architectures.
->> When the allocating of KFENCE itself is done, it is mapped to the direct
->> mapping configuration window [1] by default on LoongArch.  It means that
->> it is not possible to use the page table mapped mode which required by
->> the KFENCE system and therefore it should be remapped to the appropriate
->> region.
+> On 2023-07-25 14:14, Enze Li wrote:
+>
+>> Currently, arch_stack_walk() can only get the full stack information
+>> including NMI.  This is because the implementation of arch_stack_walk()
+>> is forced to ignore the information passed by the regs parameter and use
+>> the current stack information instead.
 >>
->> This patch adds architecture specific implementation details for KFENCE.
->> In particular, this implements the required interface in <asm/kfence.h>.
+>> For some detection systems like KFENCE, only partial stack information
+>> is needed.  In particular, the stack frame where the interrupt occurred.
 >>
->> Tested this patch by running the testcases and all passed.
+>> To support KFENCE, this patch modifies the implementation of the
+>> arch_stack_walk() function so that if this function is called with the
+>> regs argument passed, it retains all the stack information in regs and
+>> uses it to provide accurate information.
 >>
->> [1] https://loongson.github.io/LoongArch-Documentation/LoongArch-Vol1-EN=
-.html#virtual-address-space-and-address-translation-mode
+>> Before the patch applied, I get,
+>> [    1.531195 ] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> [    1.531442 ] BUG: KFENCE: out-of-bounds read in stack_trace_save_regs=
++0x48/0x6c
+>> [    1.531442 ]
+>> [    1.531900 ] Out-of-bounds read at 0xffff800012267fff (1B left of kfe=
+nce-#12):
+>> [    1.532046 ]  stack_trace_save_regs+0x48/0x6c
+>> [    1.532169 ]  kfence_report_error+0xa4/0x528
+>> [    1.532276 ]  kfence_handle_page_fault+0x124/0x270
+>> [    1.532388 ]  no_context+0x50/0x94
+>> [    1.532453 ]  do_page_fault+0x1a8/0x36c
+>> [    1.532524 ]  tlb_do_page_fault_0+0x118/0x1b4
+>> [    1.532623 ]  test_out_of_bounds_read+0xa0/0x1d8
+>> [    1.532745 ]  kunit_generic_run_threadfn_adapter+0x1c/0x28
+>> [    1.532854 ]  kthread+0x124/0x130
+>> [    1.532922 ]  ret_from_kernel_thread+0xc/0xa4
+>> <snip>
+>>
+>> With this patch applied, I get the correct stack information.
+>> [    1.320220 ] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> [    1.320401 ] BUG: KFENCE: out-of-bounds read in test_out_of_bounds_re=
+ad+0xa8/0x1d8
+>> [    1.320401 ]
+>> [    1.320898 ] Out-of-bounds read at 0xffff800012257fff (1B left of kfe=
+nce-#10):
+>> [    1.321134 ]  test_out_of_bounds_read+0xa8/0x1d8
+>> [    1.321264 ]  kunit_generic_run_threadfn_adapter+0x1c/0x28
+>> [    1.321392 ]  kthread+0x124/0x130
+>> [    1.321459 ]  ret_from_kernel_thread+0xc/0xa4
+>> <snip>
 >>
 >> Signed-off-by: Enze Li <lienze@kylinos.cn>
 >> ---
->>   arch/loongarch/Kconfig               |  1 +
->>   arch/loongarch/include/asm/kfence.h  | 62 ++++++++++++++++++++++++++++
->>   arch/loongarch/include/asm/pgtable.h | 14 ++++++-
->>   arch/loongarch/mm/fault.c            | 22 ++++++----
->>   4 files changed, 90 insertions(+), 9 deletions(-)
->>   create mode 100644 arch/loongarch/include/asm/kfence.h
+>>   arch/loongarch/kernel/stacktrace.c | 20 ++++++++++++++------
+>>   1 file changed, 14 insertions(+), 6 deletions(-)
 >>
->> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
->> index 70635ea3d1e4..5b63b16be49e 100644
->> --- a/arch/loongarch/Kconfig
->> +++ b/arch/loongarch/Kconfig
->> @@ -91,6 +91,7 @@ config LOONGARCH
->>   	select HAVE_ARCH_AUDITSYSCALL
->>   	select HAVE_ARCH_JUMP_LABEL
->>   	select HAVE_ARCH_JUMP_LABEL_RELATIVE
->> +	select HAVE_ARCH_KFENCE
->>   	select HAVE_ARCH_MMAP_RND_BITS if MMU
->>   	select HAVE_ARCH_SECCOMP_FILTER
->>   	select HAVE_ARCH_TRACEHOOK
->> diff --git a/arch/loongarch/include/asm/kfence.h b/arch/loongarch/includ=
-e/asm/kfence.h
->> new file mode 100644
->> index 000000000000..fb39076fe4d7
->> --- /dev/null
->> +++ b/arch/loongarch/include/asm/kfence.h
->> @@ -0,0 +1,62 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +/*
->> + * KFENCE support for LoongArch.
->> + *
->> + * Author: Enze Li <lienze@kylinos.cn>
->> + * Copyright (C) 2022-2023 KylinSoft Corporation.
->> + */
+>> diff --git a/arch/loongarch/kernel/stacktrace.c b/arch/loongarch/kernel/=
+stacktrace.c
+>> index 2463d2fea21f..9dab30ae68ec 100644
+>> --- a/arch/loongarch/kernel/stacktrace.c
+>> +++ b/arch/loongarch/kernel/stacktrace.c
+>> @@ -18,16 +18,24 @@ void arch_stack_walk(stack_trace_consume_fn consume_=
+entry, void *cookie,
+>>   	struct pt_regs dummyregs;
+>>   	struct unwind_state state;
+>>   -	regs =3D &dummyregs;
+>> -
+>>   	if (task =3D=3D current) {
+>> -		regs->regs[3] =3D (unsigned long)__builtin_frame_address(0);
+>> -		regs->csr_era =3D (unsigned long)__builtin_return_address(0);
+>> +		if (regs)
+>> +			memcpy(&dummyregs, regs, sizeof(*regs));
+>> +		else {
+>> +			dummyregs.regs[3] =3D (unsigned long)__builtin_frame_address(0);
+>> +			dummyregs.csr_era =3D (unsigned long)__builtin_return_address(0);
+>> +		}
+>>   	} else {
+>> -		regs->regs[3] =3D thread_saved_fp(task);
+>> -		regs->csr_era =3D thread_saved_ra(task);
+>> +		if (regs)
+>> +			memcpy(&dummyregs, regs, sizeof(*regs));
+>> +		else {
+>> +			dummyregs.regs[3] =3D thread_saved_fp(task);
+>> +			dummyregs.csr_era =3D thread_saved_ra(task);
+>> +		}
+>>   	}
+>>   +	regs =3D &dummyregs;
 >> +
->> +#ifndef _ASM_LOONGARCH_KFENCE_H
->> +#define _ASM_LOONGARCH_KFENCE_H
->> +
->> +#include <linux/kfence.h>
->> +#include <asm/pgtable.h>
->> +#include <asm/tlb.h>
->> +
->> +static inline bool arch_kfence_init_pool(void)
->> +{
->> +	char *kfence_pool =3D __kfence_pool;
->> +	struct vm_struct *area;
->> +	int err;
->> +
->> +	area =3D __get_vm_area_caller(KFENCE_POOL_SIZE, VM_IOREMAP,
->> +				    KFENCE_AREA_START, KFENCE_AREA_END,
->> +				    __builtin_return_address(0));
->> +	if (!area)
->> +		return false;
->> +
->> +	__kfence_pool =3D (char *)area->addr;
->
-> I think there should be something wrong here.
->
->> +	err =3D ioremap_page_range((unsigned long)__kfence_pool,
->> +				 (unsigned long)__kfence_pool + KFENCE_POOL_SIZE,
->> +				 virt_to_phys((void *)kfence_pool),
->> +				 PAGE_KERNEL);
->> +	if (err) {
->> +		free_vm_area(area);
->
-> If err > 0, return area->addr here, It's not correct.
 
-Hi Jackie,
+Hi Jinyang,
 
-Good catch!  I'll fix this issue in v3.
+>
+> if (!regs) {
+> =C2=A0=C2=A0=C2=A0 regs =3D &dummyregs;
+>
+> =C2=A0=C2=A0=C2=A0 if (task =3D=3D current) {
+> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 regs->regs[3] =3D (unsigned long)__=
+builtin_frame_address(0);
+> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 regs->csr_era =3D (unsigned long)__=
+builtin_return_address(0);
+> =C2=A0=C2=A0=C2=A0 } else {
+> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 regs->regs[3] =3D thread_saved_fp(t=
+ask);
+> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 regs->csr_era =3D thread_saved_ra(t=
+ask);
+> =C2=A0=C2=A0=C2=A0 }
+> =C2=A0=C2=A0=C2=A0 regs->regs[1] =3D 0;
+> }
+
+Excellent!  FWIW, it looks easy to understand.
+I've tested this patch, and it works well.  Thank you.
 
 Cheers!
 Enze
+
+>
+> BTW, I remembered that __unwind_start() deals with this issue in regs,
+> task and current. arch_stack_walk() is unnecessary to provide current
+> or task regs if we fix the unwind_start() skip its parent frame
+> (caller is arch_stack_walk). But the current state is better, I think.
+>
+>
+> Thanks,
+>
+> Jinyang
+>
+>>   	regs->regs[1] =3D 0;
+>>   	for (unwind_start(&state, task, regs);
+>>   	     !unwind_done(&state) && !unwind_error(&state); unwind_next_frame=
+(&state)) {
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -250,4 +289,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/87sf98a822.fsf%40kylinos.cn.
+kasan-dev/87o7jwa5h4.fsf%40kylinos.cn.
