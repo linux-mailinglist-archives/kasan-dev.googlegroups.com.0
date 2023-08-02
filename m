@@ -1,138 +1,139 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBN7CVGTAMGQE43EYZDY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBZXEVGTAMGQEXNU5B3Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3a.google.com (mail-io1-xd3a.google.com [IPv6:2607:f8b0:4864:20::d3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788B876D10A
-	for <lists+kasan-dev@lfdr.de>; Wed,  2 Aug 2023 17:07:37 +0200 (CEST)
-Received: by mail-io1-xd3a.google.com with SMTP id ca18e2360f4ac-786a6443490sf607241639f.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 02 Aug 2023 08:07:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1690988856; cv=pass;
+Received: from mail-pl1-x63c.google.com (mail-pl1-x63c.google.com [IPv6:2607:f8b0:4864:20::63c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BBB576D128
+	for <lists+kasan-dev@lfdr.de>; Wed,  2 Aug 2023 17:12:40 +0200 (CEST)
+Received: by mail-pl1-x63c.google.com with SMTP id d9443c01a7336-1bb809b748csf563085ad.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 02 Aug 2023 08:12:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1690989159; cv=pass;
         d=google.com; s=arc-20160816;
-        b=S6M89p2KCWj5EcXyZBgzgV5qmP2jT8+nSeNoxZDYT7FRqwVISOZeZ9ushuKyAg+Lhx
-         enQusEutdJnV3NBlGir2nIw90Rr3dRG2aXvdmigDsWl9qw80dE7gk7Zvc56Ki3xxBciD
-         VyBecpGLQF8G7ErGjwjHDlyyo6GvSYGrE7WLVp6iw3s2dgHGZLE7TFrY/R9bKfjWa92p
-         SVKnkPhQgJBCDh4cjf5xqfJhEDsCC4S82C/Z+lQ/uCvIjgH/fUwUj1u9VO1h9Cgg5+sY
-         wHT3bTx6UTovFMNEzO2+I9tOBi04QBHJ7yk8bH+u/YAok2781wvnxDBLOo9Gz3vguqKf
-         QseA==
+        b=ae2yhoKZWCDJ681I6n/stLx3xNq0zC80W9P/NL4tmEO0CAYRheSepQunVT3/qQhZ52
+         sWsReTp89kOfI0A5o+yo+CZgtsXaX0R5KHzVkwn0OFfzH54+ZTWpnAGAh1jdzuQydbkc
+         Xd1lbGuVuubgGIws1b2P2FiDusWF9cmnYb0NdmvQpitFJvPd4HMOfaGFAFghFY2XuTtE
+         A9uhEjh6Frz5IS9KVVImCaBXlL93bVC1tMEXLwcPR9sbVFn20Lm7j8pPHN/p+AEhQpKR
+         eiwimx0tRcRawUS+JmkBxl/0wuRzS55dGUoLzS72EpGrD1g+AFVU65ycznbgDWmA+zTa
+         9c3Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=7v1V5p4GxLE75bKYt4d3MM8we89UHV9L1tKAW4kW6C0=;
-        fh=uAQSQbJ2uPOh1U3Yr1sxvPhVEW4wvg6y/uAlAwy6j5c=;
-        b=rLNzc2koBGXfV1Xi3gB6cRsPQmPNxG5gPyhQZ/7WbuBkwMeN3EMQ4cwMgkF0KNwP34
-         HWddM17dByVSdHooO/byZywGRX7EpxIKfHN5vkRYi3WsVGEhd8gL3xa1w411quSIe03a
-         Y2Y4E1MDlU7V5YoRfz2AyjL+PLrgt04vSVYCAyV+dm+bu2nJfd72640HL8M3v4ByiA6c
-         kEulw4H1cNCvoaDrgXpe7UbqB4xj2q7+FVGhfJFw+Hemu7i7vDXTTGYE8qF2iDZelL0t
-         N/XInlVFaaRpNmgewXhkr10ttAPxw1W0RNGnp2Tzdmq5Zn2uFuhiZPBG3yTIyLrbbwW4
-         N20g==
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature;
+        bh=eOdVjuTWYNg3+CPPui3vWrqOsqTF8ebruxqulhIxeSI=;
+        fh=sy4SP3vkEn2BvwOVbcJ42LyDgXjWTkePGWUGK7C0j7Y=;
+        b=q8JErpKqNx8nAgDY25FdNmAsaR8A3qF7TuFmV8rZ4KzqIBqc3T40mVUJee0LxJo9UO
+         IcWNhLgLabos5nEzhmADeJ9L2WP1eiqitSmXZxUY3fN3lRq+IoUP/e/ReEetxqEAjMwo
+         yLihIDpnQXxbQ8BQ1NdOLjc9r4tXwg4SHCRiea/jHDuscSdXhhyheHnh9ZR2Ov2x6jrK
+         d1wHC6/mi3SQblQGVKCpN72xj3ChiYsMFxgQsC5RbWs7w+A4veo+CptMAXFTDysRjU/H
+         x6iDMdF18EN0GxpEHWd55pPODINsF3t5E2z+bDzeqPmdEFt4yeGLo1LAweaTiLfXvo0a
+         rEbw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=4ZYamtVu;
-       spf=pass (google.com: domain of 3nnhkzaukcw8ryiretbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3NnHKZAUKCW8RYiReTbbTYR.PbZXNfNa-QRiTbbTYRTebhcf.PbZ@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=KTXzkScC;
+       spf=pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1690988856; x=1691593656;
+        d=googlegroups.com; s=20221208; t=1690989159; x=1691593959;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7v1V5p4GxLE75bKYt4d3MM8we89UHV9L1tKAW4kW6C0=;
-        b=OkFv11BD44xs0qYC5OHwA5jsxQBwNanLJdH+ziBn8Xw5VQBjOakopZ2hMZPz61Dbvp
-         z3cEq4rJ9V5nawdrui/6Sh4OQFfpjrF2MwOy7BrguJge1bDE3KwSSUrqBfoQJG+dPYqF
-         qw2o9BCJsfqsCKxeNGEDCRrv4qQQLiAWWx2/XHhRfNmmXLoVs/BiPuVo20J8ke7Vfkvq
-         6z5d4gI4grqjhga7sAIK3iBD0maVD+QVkzPpLj/NqQ4/ZRIuntZmSBOKtstb3E7q/BaO
-         FpxJCyymRc6CIwk1CROvONDlkiTQd9l3DVeNb1qeokBdjHi2RD6pFn0V5EEER94OPNX6
-         lvkg==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eOdVjuTWYNg3+CPPui3vWrqOsqTF8ebruxqulhIxeSI=;
+        b=aVpUkwYlsDyWvOFTeOlnDNE776N+wbk+AAEahpaovoY1CMPpjmrbLPzIfWVBrhmPCM
+         WvVr+Qt4uTzJTc3u+e/WwXEu7EcKKcYBr0O+vF8uDPzKnLfhFilts3+DboFH+XDH44LM
+         zzFxdcgqJDlSw2dw0Hug4ROfzLSLYZpbpfXGTyZ+hBl+hLg61VSauT66v8FhXnQnySo0
+         TFrNSgxMuOv2yLPXa3781k0DUKQfw/5rqK4cNnav2HtVxQ4I7oHDrx+knfhzRVFricIQ
+         bkw6uXgjJbQ3gplvrmpguOnL5RjJZc+DQrDSI37Uzbwz+jV49MBD0XL+yYoOQKjaTjyB
+         MfRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1690988856; x=1691593656;
+        d=1e100.net; s=20221208; t=1690989159; x=1691593959;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7v1V5p4GxLE75bKYt4d3MM8we89UHV9L1tKAW4kW6C0=;
-        b=Zd/vE3/JrkV0T+x4A2DrrODCEeaiBajWyz7YwNycY4ZesJo0T8EI7k32RJnySwvKdG
-         ZhZ7ENf5gDvGxmcHRR6CxuH9jPHsg5uP1or22mkp19IpfbomYt5Q6GCR1dTO+4UbTMsI
-         T89QBW6lw4wg7fi+y9hLs7KyQYp7I1qbTD++dtZbPusy0//BfM1IKA+sd6L8nZmW7tDf
-         8BJU+d+bSORulPfNzN8JEtrl5bB1rQUF2M6Qsq/muQk+3/CVyt/gM1yT4NHlLuTn43vh
-         l2rRXi69Lrlzjhm+N0tn2TUzahhlB5MUOY44esA+e/ii6D1Y1ni+GYTFNQ9ohgJPwI53
-         1TSw==
-X-Gm-Message-State: ABy/qLZetXq7jeJCoZJ30v8b6G75Z13tazb3VUczUt4h+u5+c5/UmWRc
-	fefQISAvtILC7kHmT+9mWok=
-X-Google-Smtp-Source: APBJJlEAr9hbBMbSwmk5QJFBfGd3IBDuPtOikFGJN4upgyy17lOZVKYKCmPpofL0jasTjSiHea21TQ==
-X-Received: by 2002:a05:6e02:1286:b0:346:6afb:8351 with SMTP id y6-20020a056e02128600b003466afb8351mr14232840ilq.9.1690988856061;
-        Wed, 02 Aug 2023 08:07:36 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=eOdVjuTWYNg3+CPPui3vWrqOsqTF8ebruxqulhIxeSI=;
+        b=Y3AGr3SK5RWD8odlHVWfCdEtylMrZdhyRv2nNx8dZUl8V6B0e9iQTTh0L+WaMnrM5u
+         FLB1a58rmH+u5B7vNT0DQtkvKR6mt8vcmCt3mPakH0VpbgyenKc2Wju5r8G7THRv33gQ
+         7pEr92BBFnKe+66VyWO6nVFcZ3vfnihf1d/kWeD1YgeiIvy4rj/ammX3Ru1tioPwr2fm
+         aYfqGABv5UomFx9P6dYiVarlwhCADokbC5giwyUZoSHrxKQMGSdd9hAKnyy3EjA5qGve
+         LovBrSEZEYmHRF8GO2ZYXKv/gWWvzOwc7E1TGVuD4Tt1eZTrzRLAgIhl9CUpmzICIt4y
+         WwgA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: ABy/qLbvzfOTABRZ/hlN41ExggRk9UwZbuywhKKA7EwkVr52ZBtddJnA
+	j2/5RhkfNU/7ULrB70YSklg=
+X-Google-Smtp-Source: APBJJlEjGuCw1Zbne1fzpshTunma7bG833XZv1oBW3bj4816Fx9uZWjh8FhbpfChSFBCPVZFJjApnw==
+X-Received: by 2002:a17:902:ce90:b0:1bb:ad19:6b78 with SMTP id f16-20020a170902ce9000b001bbad196b78mr846105plg.0.1690989158923;
+        Wed, 02 Aug 2023 08:12:38 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:a048:0:b0:349:7b9:7d22 with SMTP id b8-20020a92a048000000b0034907b97d22ls3604622ilm.1.-pod-prod-03-us;
- Wed, 02 Aug 2023 08:07:35 -0700 (PDT)
-X-Received: by 2002:a05:6602:2568:b0:790:8e84:8747 with SMTP id dj8-20020a056602256800b007908e848747mr15289010iob.17.1690988855220;
-        Wed, 02 Aug 2023 08:07:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1690988855; cv=none;
+Received: by 2002:a4a:4592:0:b0:56c:7bbc:374e with SMTP id y140-20020a4a4592000000b0056c7bbc374els6272614ooa.0.-pod-prod-05-us;
+ Wed, 02 Aug 2023 08:12:38 -0700 (PDT)
+X-Received: by 2002:a05:6358:880e:b0:134:ec9d:ef18 with SMTP id hv14-20020a056358880e00b00134ec9def18mr6250370rwb.28.1690989158341;
+        Wed, 02 Aug 2023 08:12:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1690989158; cv=none;
         d=google.com; s=arc-20160816;
-        b=PtPUJzBJC/6NPo0JrbB0HmWSn7egpMIEFXnhdOnpkdkPlm9vvReUt9YPb7w2X5me16
-         oC4oUmdFJZ0eSW0emeeeSHLyLqvH6qMa139sm1pgEwk4m22Exl0o9RvEXzkAj76FOfXX
-         ECTPHq3XGtqVO4beKv3P+M73KxMjCdab6iuKEqo6+I+oZWg0e18xB3+G3ysmJEeJkik6
-         Ydh3Zbg8LocsmsXUf+OzFLG2NCT2lPIb8HRozhHbldA5mU9t/QqkMfloM83dBiLvxhLe
-         oOONhZpBanL7qcvMDfXBWsJeLtEVOnzaCW7kOQhSmFGBoKLQQ//RQo3Gg7e0sQKPZnTb
-         09tw==
+        b=LPx4MCL8lttwi9S7diwOsDMpJGPxMEmEDVdwtLQl7nyeDR2ForHiHHLFxvis6u5ibF
+         ZjdOj4yqKNQflLNWhGY8l0U9idgXHCK5oiC1AZreRx2uHqUof1AM+Fe+eiUepshVVFDK
+         Yk4sHq5G7ZY8mmjwbaQgyIQ20MyH2jCw4EvniGBxI4KYgL5U4ncI1Qe2nWd3Af7Ktggq
+         iPDoKYmRWkV7bQzPNhHWzSKUCMxw0zcE3XaI5mYaPgq2ErNiXjT7S5wEmNaMHh9AfP9G
+         EDEeMNE2otbOhdXM0YXwTjloqQg9CV9/XDjvV7nDBu1SCSkCFcD3mno3yK/umbJrxH/d
+         3VMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:dkim-signature;
-        bh=QsQzCCvgsUc29iN0t+r4OrRLxcOlAg596pNmSZ7559A=;
-        fh=lNGG3jUJkf8aHp9vpCSrpIUZatSpkge/xU1iDADXpuE=;
-        b=xVLC7YVUIAPs+dUIBbWFIYKHYa3zmGrrvuhPPgbKppa3yjgwtUByjO3EN+XwbEkYTW
-         I9Bp90hFZHwVTIWabOLtYipPT4I2AT/pud1AkUmpjg0ky3rge0GiISla9q2a6+hiTObG
-         A7WVJ6+YZBSGeHhg44kXIQAUUdqOrkAvy9qZD6WI+tR5yA5v8/pwCJoRvrhUQlRYvJWL
-         1n25xldWc/23/kafpX8IjTEaDjqCnq6RUSoNsptiU3Dy5jpqgER6PwTUMtD7G+2b0Z/a
-         sM4JiQePePcV9Oxtsxn8sHfYhZE0cgXf5o78H+c84Y0hFSwrXL3NTk/fhwA/CDJx1Maz
-         ksRQ==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=mfYiR2Xby+itEFPf3/ZL0bWmx5pPHmkxC5yq48DJu/k=;
+        fh=sy4SP3vkEn2BvwOVbcJ42LyDgXjWTkePGWUGK7C0j7Y=;
+        b=bv3LUc51Jkj8kq7vrDkUNL0rvC+ElqOI+8g8fE6dp/ARqn5ytEzKcKs7hb0FqSGrYV
+         L7IAbwizFpBkjeww9k+KgyM+BmrqFap/aYqdGPgcyswVe5fSqLQ0gE8s1wIX2rStClzf
+         XDyxVilczB/EYa1Ju7f0K1NwqB0w29CrQ3JWSRiGnw/1S6G98/GLeQ46yWFEQy6rV6g1
+         fUWhpBWanBNDzvxzmDsGhZppYlUc3EFVGJH0URf7/ZCJRwf7By21fSmwqsUzSX5Su/xE
+         1bBeuPlwWVub9q+NsUQ/Edd3aldIOIl+2jeIHtDH6v9irvoeLYlf1K01RlJtU3GhrdU1
+         oUnQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=4ZYamtVu;
-       spf=pass (google.com: domain of 3nnhkzaukcw8ryiretbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3NnHKZAUKCW8RYiReTbbTYR.PbZXNfNa-QRiTbbTYRTebhcf.PbZ@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com. [2607:f8b0:4864:20::114a])
-        by gmr-mx.google.com with ESMTPS id y20-20020a056602049400b0078360746879si1521296iov.0.2023.08.02.08.07.35
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=KTXzkScC;
+       spf=pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id m17-20020a0cbf11000000b006363f2c380bsi1068244qvi.7.2023.08.02.08.12.38
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Aug 2023 08:07:35 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3nnhkzaukcw8ryiretbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) client-ip=2607:f8b0:4864:20::114a;
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5847479b559so81356307b3.1
-        for <kasan-dev@googlegroups.com>; Wed, 02 Aug 2023 08:07:35 -0700 (PDT)
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:5f73:1fc0:c9fd:f203])
- (user=elver job=sendgmr) by 2002:a81:b50d:0:b0:586:4e84:26d2 with SMTP id
- t13-20020a81b50d000000b005864e8426d2mr79140ywh.3.1690988854773; Wed, 02 Aug
- 2023 08:07:34 -0700 (PDT)
-Date: Wed,  2 Aug 2023 17:06:39 +0200
-In-Reply-To: <20230802150712.3583252-1-elver@google.com>
-Mime-Version: 1.0
-References: <20230802150712.3583252-1-elver@google.com>
-X-Mailer: git-send-email 2.41.0.585.gd2178a4bd4-goog
-Message-ID: <20230802150712.3583252-3-elver@google.com>
-Subject: [PATCH 3/3] list_debug: Introduce CONFIG_DEBUG_LIST_MINIMAL
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com, Andrew Morton <akpm@linux-foundation.org>, 
-	Kees Cook <keescook@chromium.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
-	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Tom Rix <trix@redhat.com>, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	Dmitry Vyukov <dvyukov@google.com>, Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com, 
-	linux-toolchains@vger.kernel.org
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Aug 2023 08:12:38 -0700 (PDT)
+Received-SPF: pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id CD319619E9
+	for <kasan-dev@googlegroups.com>; Wed,  2 Aug 2023 15:12:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FBE2C43391
+	for <kasan-dev@googlegroups.com>; Wed,  2 Aug 2023 15:12:37 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-522ab301692so7485740a12.2
+        for <kasan-dev@googlegroups.com>; Wed, 02 Aug 2023 08:12:37 -0700 (PDT)
+X-Received: by 2002:aa7:dcc3:0:b0:522:31d5:ee8e with SMTP id
+ w3-20020aa7dcc3000000b0052231d5ee8emr5771244edu.8.1690989155487; Wed, 02 Aug
+ 2023 08:12:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20230801025815.2436293-1-lienze@kylinos.cn>
+In-Reply-To: <20230801025815.2436293-1-lienze@kylinos.cn>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Wed, 2 Aug 2023 23:12:23 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6FqreZtuOXYayhu=bLZeij+fxygbK5Mpw_kVuPTvdbWw@mail.gmail.com>
+Message-ID: <CAAhV-H6FqreZtuOXYayhu=bLZeij+fxygbK5Mpw_kVuPTvdbWw@mail.gmail.com>
+Subject: Re: [PATCH 0/4 v3] Add KFENCE support for LoongArch
+To: Enze Li <lienze@kylinos.cn>
+Cc: kernel@xen0n.name, loongarch@lists.linux.dev, glider@google.com, 
+	elver@google.com, akpm@linux-foundation.org, kasan-dev@googlegroups.com, 
+	linux-mm@kvack.org, zhangqing@loongson.cn, yangtiezhu@loongson.cn, 
+	dvyukov@google.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: chenhuacai@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b=4ZYamtVu;       spf=pass
- (google.com: domain of 3nnhkzaukcw8ryiretbbtyr.pbzxnfna-qritbbtyrtebhcf.pbz@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3NnHKZAUKCW8RYiReTbbTYR.PbZXNfNa-QRiTbbTYRTebhcf.PbZ@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b=KTXzkScC;       spf=pass
+ (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as
+ permitted sender) smtp.mailfrom=chenhuacai@kernel.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,196 +146,109 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Numerous production kernel configs (see [1, 2]) are choosing to enable
-CONFIG_DEBUG_LIST, which is also being recommended by KSPP for hardened
-configs [3]. The feature has never been designed with performance in
-mind, yet common list manipulation is happening across hot paths all
-over the kernel.
+Hi, Enze,
 
-Introduce CONFIG_DEBUG_LIST_MINIMAL, which performs list pointer
-checking inline, and only upon list corruption delegates to the
-reporting slow path.
+I applied this series (with some small modifications) together with KASAN a=
+t:
+https://github.com/chenhuacai/linux/commits/loongarch-next
 
-To generate optimal machine code with CONFIG_DEBUG_LIST_MINIMAL:
+Please confirm everything works well for you.
 
-  1. Elide checking for pointer values which upon dereference would
-     result in an immediate access fault -- therefore "minimal" checks.
-     The trade-off is lower-quality error reports.
+Huacai
 
-  2. Use the newly introduced __preserve_most function attribute
-     (available with Clang, but not yet with GCC) to minimize the code
-     footprint for calling the reporting slow path. As a result,
-     function size of callers is reduced by avoiding saving registers
-     before calling the rarely called reporting slow path.
+On Tue, Aug 1, 2023 at 10:59=E2=80=AFAM Enze Li <lienze@kylinos.cn> wrote:
+>
+> Hi all,
+>
+> This patchset adds KFENCE support on LoongArch.
+>
+> To run the testcases, you will need to enable the following options,
+>
+> -> Kernel hacking
+>    [*] Tracers
+>        [*] Support for tracing block IO actions (NEW)
+>    -> Kernel Testing and Coverage
+>       <*> KUnit - Enable support for unit tests
+>
+> and then,
+>
+> -> Kernel hacking
+>    -> Memory Debugging
+>       [*] KFENCE: low-overhead sampling-based memory safety error detecto=
+r (NEW)
+>           <*> KFENCE integration test suite (NEW)
+>
+> With these options enabled, KFENCE will be tested during kernel startup.
+> And normally, you might get the following feedback,
+>
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> [   35.326363 ] # kfence: pass:23 fail:0 skip:2 total:25
+> [   35.326486 ] # Totals: pass:23 fail:0 skip:2 total:25
+> [   35.326621 ] ok 1 kfence
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+>
+> you might notice that 2 testcases have been skipped.  If you tend to run
+> all testcases, please enable CONFIG_INIT_ON_FREE_DEFAULT_ON, you can
+> find it here,
+>
+> -> Security options
+>    -> Kernel hardening options
+>       -> Memory initialization
+>          [*] Enable heap memory zeroing on free by default
+>
+> and you might get all testcases passed.
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> [   35.531860 ] # kfence: pass:25 fail:0 skip:0 total:25
+> [   35.531999 ] # Totals: pass:25 fail:0 skip:0 total:25
+> [   35.532135 ] ok 1 kfence
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+>
+> v3:
+>    * Address Huacai's comments.
+>    * Fix a bug that Jackie Liu pointed out.
+>    * Rewrite arch_stack_walk() with the suggestion of Jinyang He.
+>
+> v2:
+>    * Address Huacai's comments.
+>    * Fix typos in commit message.
+>
+> Thanks,
+> Enze
+>
+> Enze Li (4):
+>   KFENCE: Defer the assignment of the local variable addr
+>   LoongArch: mm: Add page table mapped mode support
+>   LoongArch: Get stack without NMI when providing regs parameter
+>   LoongArch: Add KFENCE support
+>
+>  arch/loongarch/Kconfig               |  1 +
+>  arch/loongarch/include/asm/kfence.h  | 66 ++++++++++++++++++++++++++++
+>  arch/loongarch/include/asm/page.h    |  8 +++-
+>  arch/loongarch/include/asm/pgtable.h | 16 ++++++-
+>  arch/loongarch/kernel/stacktrace.c   | 18 ++++----
+>  arch/loongarch/mm/fault.c            | 22 ++++++----
+>  arch/loongarch/mm/pgtable.c          |  7 +++
+>  mm/kfence/core.c                     |  5 ++-
+>  8 files changed, 123 insertions(+), 20 deletions(-)
+>  create mode 100644 arch/loongarch/include/asm/kfence.h
+>
+> --
+> 2.34.1
+>
 
-  3. Because the inline checks are a subset of the full set of checks in
-     ___list_*_valid(), always return false if the inline checks failed.
-     This avoids redundant compare and conditional branch right after
-     return from the slow path.
-
-As a side-effect of the checks being inline, if the compiler can prove
-some condition to always be true, it can completely elide some checks.
-
-Running netperf with CONFIG_DEBUG_LIST_MINIMAL (using a Clang compiler
-with "preserve_most") shows throughput improvements, in my case of ~7%
-on average (up to 20-30% on some test cases).
-
-Link: https://r.android.com/1266735 [1]
-Link: https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/blob/main/config [2]
-Link: https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings [3]
-Signed-off-by: Marco Elver <elver@google.com>
----
- arch/arm64/kvm/hyp/nvhe/list_debug.c |  2 +
- include/linux/list.h                 | 56 +++++++++++++++++++++++++---
- lib/Kconfig.debug                    | 15 ++++++++
- lib/list_debug.c                     |  2 +
- 4 files changed, 69 insertions(+), 6 deletions(-)
-
-diff --git a/arch/arm64/kvm/hyp/nvhe/list_debug.c b/arch/arm64/kvm/hyp/nvhe/list_debug.c
-index 589284496ac5..df718e29f6d4 100644
---- a/arch/arm64/kvm/hyp/nvhe/list_debug.c
-+++ b/arch/arm64/kvm/hyp/nvhe/list_debug.c
-@@ -26,6 +26,7 @@ static inline __must_check bool nvhe_check_data_corruption(bool v)
- 
- /* The predicates checked here are taken from lib/list_debug.c. */
- 
-+__list_valid_slowpath
- bool ___list_add_valid(struct list_head *new, struct list_head *prev,
- 		       struct list_head *next)
- {
-@@ -37,6 +38,7 @@ bool ___list_add_valid(struct list_head *new, struct list_head *prev,
- 	return true;
- }
- 
-+__list_valid_slowpath
- bool ___list_del_entry_valid(struct list_head *entry)
- {
- 	struct list_head *prev, *next;
-diff --git a/include/linux/list.h b/include/linux/list.h
-index e0b2cf904409..a28a215a3eb1 100644
---- a/include/linux/list.h
-+++ b/include/linux/list.h
-@@ -39,20 +39,64 @@ static inline void INIT_LIST_HEAD(struct list_head *list)
- }
- 
- #ifdef CONFIG_DEBUG_LIST
--extern bool ___list_add_valid(struct list_head *new,
--			      struct list_head *prev,
--			      struct list_head *next);
-+
-+#ifdef CONFIG_DEBUG_LIST_MINIMAL
-+# define __list_valid_slowpath __cold __preserve_most
-+#else
-+# define __list_valid_slowpath
-+#endif
-+
-+extern bool __list_valid_slowpath ___list_add_valid(struct list_head *new,
-+						    struct list_head *prev,
-+						    struct list_head *next);
- static __always_inline bool __list_add_valid(struct list_head *new,
- 					     struct list_head *prev,
- 					     struct list_head *next)
- {
--	return ___list_add_valid(new, prev, next);
-+	bool ret = true;
-+
-+	if (IS_ENABLED(CONFIG_DEBUG_LIST_MINIMAL)) {
-+		/*
-+		 * In the minimal config, elide checking if next and prev are
-+		 * NULL, since the immediate dereference of them below would
-+		 * result in a fault if NULL.
-+		 *
-+		 * With the minimal config we can afford to inline the checks,
-+		 * which also gives the compiler a chance to elide some of them
-+		 * completely if they can be proven at compile-time. If one of
-+		 * the pre-conditions does not hold, the slow-path will show a
-+		 * report which pre-condition failed.
-+		 */
-+		if (likely(next->prev == prev && prev->next == next && new != prev && new != next))
-+			return true;
-+		ret = false;
-+	}
-+
-+	ret &= ___list_add_valid(new, prev, next);
-+	return ret;
- }
- 
--extern bool ___list_del_entry_valid(struct list_head *entry);
-+extern bool __list_valid_slowpath ___list_del_entry_valid(struct list_head *entry);
- static __always_inline bool __list_del_entry_valid(struct list_head *entry)
- {
--	return ___list_del_entry_valid(entry);
-+	bool ret = true;
-+
-+	if (IS_ENABLED(CONFIG_DEBUG_LIST_MINIMAL)) {
-+		struct list_head *prev = entry->prev;
-+		struct list_head *next = entry->next;
-+
-+		/*
-+		 * In the minimal config, elide checking if next and prev are
-+		 * NULL, LIST_POISON1 or LIST_POISON2, since the immediate
-+		 * dereference of them below would result in a fault.
-+		 */
-+		if (likely(prev->next == entry && next->prev == entry))
-+			return true;
-+		ret = false;
-+	}
-+
-+	ret &= ___list_del_entry_valid(entry);
-+	return ret;
- }
- #else
- static inline bool __list_add_valid(struct list_head *new,
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index fbc89baf7de6..e72cf08af0fa 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1680,6 +1680,21 @@ config DEBUG_LIST
- 
- 	  If unsure, say N.
- 
-+config DEBUG_LIST_MINIMAL
-+	bool "Minimal linked list debug checks"
-+	default !DEBUG_KERNEL
-+	depends on DEBUG_LIST
-+	help
-+	  Only perform the minimal set of checks in the linked-list walking
-+	  routines to catch corruptions that are not guaranteed to result in an
-+	  immediate access fault.
-+
-+	  This trades lower quality error reports for improved performance: the
-+	  generated code should be more optimal and provide trade-offs that may
-+	  better serve safety- and performance- critical environments.
-+
-+	  If unsure, say Y.
-+
- config DEBUG_PLIST
- 	bool "Debug priority linked list manipulation"
- 	depends on DEBUG_KERNEL
-diff --git a/lib/list_debug.c b/lib/list_debug.c
-index fd69009cc696..daad32855f0d 100644
---- a/lib/list_debug.c
-+++ b/lib/list_debug.c
-@@ -17,6 +17,7 @@
-  * attempt).
-  */
- 
-+__list_valid_slowpath
- bool ___list_add_valid(struct list_head *new, struct list_head *prev,
- 		       struct list_head *next)
- {
-@@ -39,6 +40,7 @@ bool ___list_add_valid(struct list_head *new, struct list_head *prev,
- }
- EXPORT_SYMBOL(___list_add_valid);
- 
-+__list_valid_slowpath
- bool ___list_del_entry_valid(struct list_head *entry)
- {
- 	struct list_head *prev, *next;
--- 
-2.41.0.585.gd2178a4bd4-goog
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230802150712.3583252-3-elver%40google.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAAhV-H6FqreZtuOXYayhu%3DbLZeij%2BfxygbK5Mpw_kVuPTvdbWw%40mail.gm=
+ail.com.
