@@ -1,128 +1,134 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBJXSWKTAMGQEV6G2YXQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBK77WKTAMGQE7GRVUEA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37CBF76FC19
-	for <lists+kasan-dev@lfdr.de>; Fri,  4 Aug 2023 10:39:04 +0200 (CEST)
-Received: by mail-lf1-x137.google.com with SMTP id 2adb3069b0e04-4fe275023d4sf1866173e87.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 04 Aug 2023 01:39:04 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1691138343; cv=pass;
+Received: from mail-ed1-x538.google.com (mail-ed1-x538.google.com [IPv6:2a00:1450:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3809076FCDB
+	for <lists+kasan-dev@lfdr.de>; Fri,  4 Aug 2023 11:06:53 +0200 (CEST)
+Received: by mail-ed1-x538.google.com with SMTP id 4fb4d7f45d1cf-51bdae07082sf6070a12.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 04 Aug 2023 02:06:53 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1691140013; cv=pass;
         d=google.com; s=arc-20160816;
-        b=XkKPIZ/Lz4AQWeHscaGegPDIaddY/MrJWlInXa/7pAl9f0SVTYso8/j3GHAOKmDYz1
-         2Rwm278Cuw+HCoRJSdbAZ4xr7uA31UANPerjlHhMyjSnI6/xdNqTKlIfntK9iR59b4ap
-         YctEQCIUPbYE+wDz/JsFUtHXq1unlaet4C8BOeD3WeU/s2NQ0//d2WcNvu0+Ozi9Fyz9
-         kvytklNMAJDAGWPj9HspPLg/jLlb+zwLbgUvD9U6jedb2zMtLs0zYwEXQFHWFhtVQ/Oa
-         L6uRXuznkZ+TQDHBj13Si724bBlB0uFbcjuO4tiDLaybkUaYnw/nPcOQAe84DGgDFdN3
-         7mfg==
+        b=eyVj3nnZJdbXNffsDZ6YRdTORdZWt7T2yzgY3uYRm9M1Jha1mRBGq6HvPxUKKKfCJo
+         Wck0ogH70l0LfwuDnLBjH64d468/ByW7K5c3WVzYteLP9ef4p7Ppzn1JuuIPExrnkMyR
+         8SdtRZq5CiT7Bjn30AYMShEDLJ8gBmoIYuJkmbtBHVLn01dfoGiWd0kffZYquxaohTvG
+         ghyE7AjlTQqpLHLKXh4BYJ8fH+sm+bEr7CwQ184oBiul/i0dj3ecCuDfCfGwkizrJOWV
+         d0grARgJ9kpkUE0SqYCGFTNjzKaN6czDNVUXQiaEiB1FoJqCBKKW8LYWWIjAs0UkQMOE
+         9FRQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=oRY8pTcjLoezdj5LsOeo12PkIRjDLR97VSsIrqrMtwA=;
-        fh=vBnbiWWE5J32xErlpv4Tfv+f3srTk71IWb3k/O49hfY=;
-        b=M8RGiFv5AnKs/Z41tKTW0l4Uelr0Z8l3GDJYMgG1nBou6/sjvDRj51c0UpGBPCiMbs
-         bIPYDijKJi5/45E0wNe8SDKv8qt2yCCZBfBEEOgtcAfqqkj1/GrPxvWlo9idtgeDWW0c
-         1mr3QwH96m2lF/QoSz7Qjza3NOz9tG263Uf/4RfUwpD5ZhpCCIzdefXwZpNTJnSnQ5bI
-         x4C6p4hUknfm3F3sarTTbaGJvHZ7WQQsZuqt8I1Mt9CPogE1RkVeHjiMqIqedHK4+jBr
-         qrq+LdU34dAc72c1AsatJyOVoy0nn3r8rYssOTx2aGy9zrQbBfPXUMU/2pWDvHkZ+vBy
-         GdDw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :message-id:mime-version:date:dkim-signature;
+        bh=IBD3jw/4ncnaHBJDi3ZCxGPn3OlqwPMatMJbHpAfTqE=;
+        fh=3EsCV1kjHdS/GYEZbaUoPw6fO/lAfz1JWLpP8sfLAPw=;
+        b=l5k4n1HTvdz+tzBlb7UPG503dp23+KQse29D+F/2kYOR88nZApUR1Hx7k5RYbVFU/C
+         bePxnjr2zjvtUllf0nSynB34eYkPtD34zXDiFbgQIJT3jvHgCd6K1gLdpC0J5s7RtFEh
+         ZQlx/dhqlAqqH5DRogLvC2aD8/4B/czd5SS2+62bAzfLZ5MVmsS2NOENRPl9RybWRKNF
+         zqyqWj28AcUzthham6JFryQdiJ5kYDFbh7eXvOrxZTGrg+MnUAvU6AJkNdDNa07QFUyD
+         ksQf/QHgcQ8beDva77TBm64RjhsF66EwMKXdirBKGRoRYNIh0vJUAcY+TpTBDb5MMErN
+         Wlig==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=4wbtWBqY;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=5+NdHYLi;
+       spf=pass (google.com: domain of 3qb_mzaukcygqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3qb_MZAUKCYgqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1691138343; x=1691743143;
+        d=googlegroups.com; s=20221208; t=1691140013; x=1691744813;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oRY8pTcjLoezdj5LsOeo12PkIRjDLR97VSsIrqrMtwA=;
-        b=fJAiGsOc3Phf+ZCofQewXCRVqgIft3TgjH2x8CNnKeu1+TLAQu6T/cpFZSkl2ciQRi
-         InrHFOG8zWbMzIax1FasoQa97Iyl0OxXQ+SwjkLHxk8UmhgAxjIybfTmRI0FuMkQDMBp
-         QhkQxPRA/VJP+kyoWDTqY0eteLXbKf7uSlJuJvD55A5QxhXiu/Y0H5oUlN0nmP+umgBi
-         zTTx15ueQ3+sA+UvBPuoXLg6D42cwOnbLh/Mu9JNtDTcC0r0ibsXuKM4OGJl4V9eB+yX
-         rnDJT73N1aLFzG5XIqiFIBL0XFf5sTuHHi4zcmG/lPhE/0wdW+VLXgLHKhsD8Wp696lS
-         jy9Q==
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IBD3jw/4ncnaHBJDi3ZCxGPn3OlqwPMatMJbHpAfTqE=;
+        b=KKNH1L+wrnC4oNNK0Hm7qYp4gam/ZQm+gbZYLquZHcMsRTZqrdQkbbdl9j29h55D5l
+         TEzy6Wtxo9yhjA7d5byxZsb7bCFqufDRS19kQUS7CTh/2NGp7gai5b2St+rj9vLAxQUr
+         VvgytM1QZgjA/WSto8fDj8/eghOrZO24AtGELMM98X7c484lsxVH9pFuPUkicfOJwvzN
+         DmZYLTTkZsXk0ED2Ezn8t4zclbny87Fct0BWALYGZ3vab5tTCk9sTuGi9FXbXdcDhS27
+         zBXC90xBqygkj+6WnQ4RYQ8yN9OGPhU8YPXj1WLi6SQTBdTEj+V4zLEQWOykh84v4/L/
+         O/fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691138343; x=1691743143;
+        d=1e100.net; s=20221208; t=1691140013; x=1691744813;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oRY8pTcjLoezdj5LsOeo12PkIRjDLR97VSsIrqrMtwA=;
-        b=WXbH8SfgO1+B6QxVA3F0Rwfba7Ij0b7kuXjgSY1B6DG3mq8nDTFfWP5khWfxkb70Mx
-         hOA6DqkpJIYkWhoRqZmGL7Q524t70Q+1Lg1wSblWBkzIibldpam5ETcdfK7ekxXEmLPt
-         O8BcHkmKRhH517IlQXx3YpCQgsEkitFc+0vcLtBRBUl1K6u0yQ3+/u+RB5KU4/hUoFjt
-         HvRZyyune0YNP3n8u3Vio1De5GYkB/GO7TkMfZen3LiMWMbmaJRvbYf8ByFpHlxTI6v4
-         5UzgBEBo7MAh7r7F/cbx8KHwUyYu4X4xf/dylGnnHmTAi6VeJgoJdMRbIpjsNv0uv+eF
-         GM6g==
-X-Gm-Message-State: AOJu0YwZTtWHP9R7VnMqR9/FsDM7EdVblqIovZt7kQvVlSekJqMH8J4V
-	uvIo90TSMgjY77Vdojwez70=
-X-Google-Smtp-Source: AGHT+IEAVqwd6+IiMm5j7RBwKDwRWMBTH2rpc/Z2tEkus9sHqqrnDraxONRzf9+jm2KGrCWMqd3C9g==
-X-Received: by 2002:ac2:4db8:0:b0:4fb:8b2a:5e09 with SMTP id h24-20020ac24db8000000b004fb8b2a5e09mr810564lfe.43.1691138342768;
-        Fri, 04 Aug 2023 01:39:02 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IBD3jw/4ncnaHBJDi3ZCxGPn3OlqwPMatMJbHpAfTqE=;
+        b=BHZTTWj6mkyl9HIwD/s81CpFn/S7UNFCsSTJ6OzkDC582Km9XBSKRIWjGy86t5EVLX
+         dvvGfi/MjpPDl/XcAQtewXw0ucHCBciMAynKz+PJE310hWrM55xBMqdxKVzRFUVOK5rF
+         8oSDOXc/V0t1dfPxwd2V1aN9C+yE1wd2dMD6+0JzTRcPF/g5cd8iPT0zw/Q3R4eYf9eS
+         6+ZkBUKZXz2d77+KSbYVxJcFu5EWJDvPI9gPRLfcomldJMy/GIasWUro3J6oPfq/4cW5
+         lmQ4Frv7h+/MujqPtpTrKxqGSoeWpxfARhwTe5QFYSSYP/tD8xIQn2nlhhFoF+Z1pR93
+         K2dQ==
+X-Gm-Message-State: AOJu0YwYGnPHEtIvLsyS9wOftlKZsfu2oZqVI78ek6IVnq/KNEBd5wr5
+	HIFmKjk4rdSZ7ZVd1KX/k0k=
+X-Google-Smtp-Source: AGHT+IG0xi1FSFCUm3U/+TFV2PZF5OsCX+bCObfby47AUac5sI1Fggjsyo7sKizhT0MM2jD0TeZZrQ==
+X-Received: by 2002:a50:8d19:0:b0:523:13df:297b with SMTP id s25-20020a508d19000000b0052313df297bmr48729eds.1.1691140012215;
+        Fri, 04 Aug 2023 02:06:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:6517:0:b0:4fa:718c:85b0 with SMTP id z23-20020a196517000000b004fa718c85b0ls1160198lfb.2.-pod-prod-06-eu;
- Fri, 04 Aug 2023 01:39:00 -0700 (PDT)
-X-Received: by 2002:a2e:8ec7:0:b0:2b9:dfd1:3803 with SMTP id e7-20020a2e8ec7000000b002b9dfd13803mr897743ljl.30.1691138340385;
-        Fri, 04 Aug 2023 01:39:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1691138340; cv=none;
+Received: by 2002:aa7:dcc9:0:b0:523:10be:e7f9 with SMTP id w9-20020aa7dcc9000000b0052310bee7f9ls43861edu.0.-pod-prod-00-eu;
+ Fri, 04 Aug 2023 02:06:50 -0700 (PDT)
+X-Received: by 2002:a05:6402:2752:b0:51e:4218:b91b with SMTP id z18-20020a056402275200b0051e4218b91bmr1459212edd.1.1691140010328;
+        Fri, 04 Aug 2023 02:06:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1691140010; cv=none;
         d=google.com; s=arc-20160816;
-        b=nWvAzZ6h334id5Jd8ARK5lRnYoEl2fKMxyizYj6rHgs6cSNUIgZ0X8esohxyjyQ/EO
-         DAQFVLFS5e7TvnjCFwtAzx7jeXhGFztdyG5wQk9hLRC2RA1rBe4d6aKxuzW/lihwW3Vn
-         1vT6pb/FNsmsCi06FwWCBUAjkhQoBPr3g2w2FHccMf6WMUwR1d/SZ4cAdZBRKLuh4LGK
-         8OooWgBWHzYUhAcXcFHNMslsOdR01zGm7xIvBFCg/1WwErvjraiU5+zd15f8tFLN0mNQ
-         W5H0H2xt1CAkOhLI7McoiLl3X4r7VR5ns+fltEMkSfHcn3FMG25IJg6AJ24j9Rhyn1TY
-         wbsw==
+        b=tTPkeTxKqA2w1qrCrM3aMPkHwayJ8j+pSOzYZMO4tQwYbHVPmg+66ctZL93NzjiVyv
+         B8nj1UtiSEDEGibxJqrEGhXGP79+ZOVhpHvmgCsNetEoK9EAbMIWXy8Zum+9C2u77fuB
+         1pCHu/Em8Uq+IEm/V1WUR0/t3U5fI+3KYTtaeNHRDjNn4uMaspiSGDCGxq5vzbzUQ1rR
+         N8j21t0AIejP+ZpwvJEDjVTwa4JFoCxOjCqcZ9TW6fIqdjsKzBQ/gry8L2tkYxWJWTMz
+         OnV23iZ7r1hvWPAa9LIm8uvdOYEc3YurTSp7trz4nBaTu5trdZdPtjxqtrqvxc02sHBi
+         ouLQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=jQoJf42Fd/g+GKy4ubOkk+li/mbuiTLSPOgxMQ9ZBj4=;
-        fh=ahrhZVISO1jYveklmU/89wijxTnW9d78RPzA3SY9Ywk=;
-        b=V5zliRnjK/k7veiBg2E7ApgHLvn3M+4NKVsBJD8f4CWUHhzx5xkmw7e9Sm6k8l3K7y
-         X++txnA6jJupFLSfpUk/yK9y6QEByn+JEhy00iWquVzYbvrHNEKI7WOigp9l0B3DYlnk
-         qHVDg3ffsXaf7zB8L8W3hWn85UDGF9hIiDQ0ii7jM/dtVF1B8m5M6aZBbs2qj83zY82s
-         mH9N3Ct7CpacWQkOZMMOSUxKbtL1uRQLIu9aPQcMrZCQAypww4LXUNsIyHemeqEpWcPT
-         jYn3MKcbjSDlH3V5e+cLDsVh6IDOiGwM6zYnnca5EPBUH+8ScOHAdXAUMYua5F9V1zfV
-         fFww==
+        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
+        bh=mbDuRBO1V21kY8Ln+XMGj8tah/dM0ZngOK9DCSez6Ds=;
+        fh=J68g6MH/W7wOt124Z8Lp4h64rxBVPLWDnNTMQSSfdjs=;
+        b=EjSwMYaAH2b9auBySOkO9s75RgaYvF7SHRidgf/faHJfvdVmKgMXzgDEvJEYpWKISx
+         HD9frPSQYjgnae3qLu10yFckMP9b6oUmeCx1yKvsuWdaIEzHFglapNw6NdrnIN08G21X
+         FLDMwlpVIERxqgzIDv92LfcRMJlQVRvOaFZ0evpjWxxPNOnIz/dfIBoHmRUXZzUIezBN
+         sJKRevGNk2+6PDCY3Q5guiW+wCEMg9iRLhzIfZmyRssQrZ6ZEjdSfpyya3LjzOUyH9Ir
+         IoBDdDpf00ohJCOXv7KSKFZetHAKQmuK8QvSUUx5Ydvk6k/pPB+GvqTR2Mr/qz8Ud0K2
+         V+Yg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=4wbtWBqY;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=5+NdHYLi;
+       spf=pass (google.com: domain of 3qb_mzaukcygqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3qb_MZAUKCYgqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com. [2a00:1450:4864:20::32f])
-        by gmr-mx.google.com with ESMTPS id a32-20020a2ebaa0000000b002b98ad21968si150968ljf.5.2023.08.04.01.39.00
+Received: from mail-wr1-x44a.google.com (mail-wr1-x44a.google.com. [2a00:1450:4864:20::44a])
+        by gmr-mx.google.com with ESMTPS id p16-20020a056402501000b0052174fd486fsi133692eda.1.2023.08.04.02.06.50
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Aug 2023 01:39:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) client-ip=2a00:1450:4864:20::32f;
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-3fbea14700bso17939495e9.3
-        for <kasan-dev@googlegroups.com>; Fri, 04 Aug 2023 01:39:00 -0700 (PDT)
-X-Received: by 2002:a1c:4c13:0:b0:3fe:485f:ed1b with SMTP id
- z19-20020a1c4c13000000b003fe485fed1bmr897546wmf.28.1691138339742; Fri, 04 Aug
- 2023 01:38:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230804082619.61833-1-andriy.shevchenko@linux.intel.com> <20230804082619.61833-2-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20230804082619.61833-2-andriy.shevchenko@linux.intel.com>
+        Fri, 04 Aug 2023 02:06:50 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3qb_mzaukcygqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com designates 2a00:1450:4864:20::44a as permitted sender) client-ip=2a00:1450:4864:20::44a;
+Received: by mail-wr1-x44a.google.com with SMTP id ffacd0b85a97d-313c930ee0eso1032175f8f.0
+        for <kasan-dev@googlegroups.com>; Fri, 04 Aug 2023 02:06:50 -0700 (PDT)
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:2ebf:f3ea:4841:53b6])
+ (user=elver job=sendgmr) by 2002:adf:f587:0:b0:313:e68e:885d with SMTP id
+ f7-20020adff587000000b00313e68e885dmr6006wro.13.1691140009920; Fri, 04 Aug
+ 2023 02:06:49 -0700 (PDT)
+Date: Fri,  4 Aug 2023 11:02:56 +0200
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.640.ga95def55d0-goog
+Message-ID: <20230804090621.400-1-elver@google.com>
+Subject: [PATCH v2 1/3] compiler_types: Introduce the Clang __preserve_most
+ function attribute
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 4 Aug 2023 10:38:22 +0200
-Message-ID: <CANpmjNO5p5shpVoo1BLi9QzBc0Q0TSdfz-tUCrtgQj_ogHKx5w@mail.gmail.com>
-Subject: Re: [PATCH v1 1/4] lib/vsprintf: Declare no_hash_pointers in a local header
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	linux-mm@kvack.org, Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>
+To: elver@google.com, Andrew Morton <akpm@linux-foundation.org>, 
+	Kees Cook <keescook@chromium.org>
+Cc: Guenter Roeck <linux@roeck-us.net>, Peter Zijlstra <peterz@infradead.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	Dmitry Vyukov <dvyukov@google.com>, Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com, 
+	linux-toolchains@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b=4wbtWBqY;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
+ header.i=@google.com header.s=20221208 header.b=5+NdHYLi;       spf=pass
+ (google.com: domain of 3qb_mzaukcygqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::44a as permitted sender) smtp.mailfrom=3qb_MZAUKCYgqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
 Precedence: list
@@ -137,79 +143,81 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, 4 Aug 2023 at 10:26, Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> Sparse is not happy to see non-static variable without declaration:
-> lib/vsprintf.c:61:6: warning: symbol 'no_hash_pointers' was not declared. Should it be static?
->
-> Declare respective variable in the local header.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  lib/test_printf.c  | 4 ++--
->  lib/vsprintf.c     | 1 +
->  lib/vsprintf.h     | 7 +++++++
->  mm/kfence/report.c | 3 +--
->  4 files changed, 11 insertions(+), 4 deletions(-)
->  create mode 100644 lib/vsprintf.h
->
-> diff --git a/lib/test_printf.c b/lib/test_printf.c
-> index 7677ebccf3c3..9e04b5f7244a 100644
-> --- a/lib/test_printf.c
-> +++ b/lib/test_printf.c
-> @@ -24,6 +24,8 @@
->
->  #include <linux/property.h>
->
-> +#include "vsprintf.h"
-> +
->  #include "../tools/testing/selftests/kselftest_module.h"
->
->  #define BUF_SIZE 256
-> @@ -41,8 +43,6 @@ KSTM_MODULE_GLOBALS();
->  static char *test_buffer __initdata;
->  static char *alloced_buffer __initdata;
->
-> -extern bool no_hash_pointers;
-> -
->  static int __printf(4, 0) __init
->  do_test(int bufsize, const char *expect, int elen,
->         const char *fmt, va_list ap)
-> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-> index 40f560959b16..6774cf84e623 100644
-> --- a/lib/vsprintf.c
-> +++ b/lib/vsprintf.c
-> @@ -54,6 +54,7 @@
->
->  #include <linux/string_helpers.h>
->  #include "kstrtox.h"
-> +#include "vsprintf.h"
->
->  /* Disable pointer hashing if requested */
->  bool no_hash_pointers __ro_after_init;
-> diff --git a/lib/vsprintf.h b/lib/vsprintf.h
-> new file mode 100644
-> index 000000000000..ddffde905824
-> --- /dev/null
-> +++ b/lib/vsprintf.h
-> @@ -0,0 +1,7 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _LIB_VSPRINTF_H
-> +#define _LIB_VSPRINTF_H
-> +
-> +extern bool no_hash_pointers;
-> +
-> +#endif
+[1]: "On X86-64 and AArch64 targets, this attribute changes the calling
+convention of a function. The preserve_most calling convention attempts
+to make the code in the caller as unintrusive as possible. This
+convention behaves identically to the C calling convention on how
+arguments and return values are passed, but it uses a different set of
+caller/callee-saved registers. This alleviates the burden of saving and
+recovering a large register set before and after the call in the
+caller."
 
-It seems odd to create such a local header and then refer to it from
-other subsystems.
+[1] https://clang.llvm.org/docs/AttributeReference.html#preserve-most
 
-What's the downside of just putting this into the new
-include/linux/sprintf.h? If someone wants to access this variable,
-they will one way or another.
+Introduce the attribute to compiler_types.h as __preserve_most.
+
+Use of this attribute results in better code generation for calls to
+very rarely called functions, such as error-reporting functions, or
+rarely executed slow paths.
+
+Beware that the attribute conflicts with instrumentation calls inserted
+on function entry which do not use __preserve_most themselves. Notably,
+function tracing which assumes the normal C calling convention for the
+given architecture.  Where the attribute is supported, __preserve_most
+will imply notrace. It is recommended to restrict use of the attribute
+to functions that should or already disable tracing.
+
+Signed-off-by: Marco Elver <elver@google.com>
+---
+v2:
+* Imply notrace, to avoid any conflicts with tracing which is inserted
+  on function entry. See added comments.
+---
+ include/linux/compiler_types.h | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
+diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+index 547ea1ff806e..12c4540335b7 100644
+--- a/include/linux/compiler_types.h
++++ b/include/linux/compiler_types.h
+@@ -106,6 +106,33 @@ static inline void __chk_io_ptr(const volatile void __iomem *ptr) { }
+ #define __cold
+ #endif
+ 
++/*
++ * On x86-64 and arm64 targets, __preserve_most changes the calling convention
++ * of a function to make the code in the caller as unintrusive as possible. This
++ * convention behaves identically to the C calling convention on how arguments
++ * and return values are passed, but uses a different set of caller- and callee-
++ * saved registers.
++ *
++ * The purpose is to alleviates the burden of saving and recovering a large
++ * register set before and after the call in the caller.  This is beneficial for
++ * rarely taken slow paths, such as error-reporting functions that may be called
++ * from hot paths.
++ *
++ * Note: This may conflict with instrumentation inserted on function entry which
++ * does not use __preserve_most or equivalent convention (if in assembly). Since
++ * function tracing assumes the normal C calling convention, where the attribute
++ * is supported, __preserve_most implies notrace.
++ *
++ * Optional: not supported by gcc.
++ *
++ * clang: https://clang.llvm.org/docs/AttributeReference.html#preserve-most
++ */
++#if __has_attribute(__preserve_most__)
++# define __preserve_most notrace __attribute__((__preserve_most__))
++#else
++# define __preserve_most
++#endif
++
+ /* Builtins */
+ 
+ /*
+-- 
+2.41.0.640.ga95def55d0-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNO5p5shpVoo1BLi9QzBc0Q0TSdfz-tUCrtgQj_ogHKx5w%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230804090621.400-1-elver%40google.com.
