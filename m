@@ -1,139 +1,137 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBMP7WKTAMGQEKNMI3SQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBD7I3CGX5IPRBEULWOTAMGQE4JEBWTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x439.google.com (mail-pf1-x439.google.com [IPv6:2607:f8b0:4864:20::439])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CA876FCDE
-	for <lists+kasan-dev@lfdr.de>; Fri,  4 Aug 2023 11:06:59 +0200 (CEST)
-Received: by mail-pf1-x439.google.com with SMTP id d2e1a72fcca58-68790b952bbsf832284b3a.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 04 Aug 2023 02:06:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1691140018; cv=pass;
+Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id E46B476FD53
+	for <lists+kasan-dev@lfdr.de>; Fri,  4 Aug 2023 11:32:03 +0200 (CEST)
+Received: by mail-wm1-x33a.google.com with SMTP id 5b1f17b1804b1-3fbe4ebfe73sf116105e9.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 04 Aug 2023 02:32:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1691141523; cv=pass;
         d=google.com; s=arc-20160816;
-        b=sQMge13i0zJ2UDfiJ18sQU2fDVz0+g/2T97xlAGIycixn7NwWH/daLpTKBdN7yBxDV
-         izZIF+MEDzcY136E9728t2NJKxpxz3jZXiu3H2wuQBD2bpqcPMmBRzNc5zHqNDuXzLeg
-         PJm65E1aPKBLenC0tzV6ZCF2Qy/rNPcrDIMBXcfyf/GD2EFvh7b7T2Q91nAH8F/ASFSO
-         El6vNM2344DQPT2yj97cPrj1/UR1uHfCszNeUyob1P3IqZQQXj1K0PW2cEyH7IazwW+j
-         PyY7E1mqzuVqTbQmi3jINMnBdRyuMkmlAyNblnlM1icz3+y624j/UPwgPMMPF/Mb28CA
-         Adwg==
+        b=hrLDtyHo9EqRdzqpPtbVsDIiqbxd1q+lEvseMxHHvFn3dxIw2axHlCvuxmEzuJpQDJ
+         UTHEpc8iUVG6dvKN4Yc8SrWxw4ekuKjRXvCSoOfNIhxR1zJ4WDDoXn3hkkq5Gzp0TwAb
+         5qT4Ny9QEaCW3DVMBK21zY6WYF1NKyXfrALEX/IMUbSZfaERcIz29GTxzwvUSSHkG3DQ
+         boSoMpDjtZhtVvtlk0uNpX/ocrRZBhaTWoTpq3IeH0TTiClTRCwYVW9x2meD3DjPlOUk
+         JPRgdkRfRHfmvPdVPNRC0dOxsd/YUc6+shAxcvDP7bhBuYepHMKvv3jL4juuYqNMXN4S
+         pR9w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=RHXycKexvO1wi9h78dkvc0y16WN6hnfVrzMoqBKf5js=;
-        fh=3EsCV1kjHdS/GYEZbaUoPw6fO/lAfz1JWLpP8sfLAPw=;
-        b=ByqkyOWFDCLTHElkCbIpsrdY0gb/1s4TjCMP2q8J4KOQFmYJcMgXTsPMRmiXF7eqn+
-         T/Cnoq89Zfcki2rVOxr0R4nB0WIUO5Rxmn+Td3GMKjowLxZLxvJfNbpL0xXUDe+nARYv
-         lJ2tVtS1ASfWDqe60KGNmhVk1621lbQdASqB5sT3WbAN2TT5WJyjv6hFLAsuwSV4uRTb
-         EUET6cP0rgTksrmmTerpJVSPnbQzOwjbbUnfMZwOTS+AePdiRso/GKo3xnMIntZ1tQVz
-         GdCH0EyZtIWAuwyrLrkBo+TIATE8OHKSlTQiKC8pksRmnEQQKfI6HlPvBBt/+FHFpU4Q
-         IzLQ==
+         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=oF/VBpkLOTFe4LPmWsBbxFzQcPzZ72PHNd9Vz7vXvTk=;
+        fh=Al7vh/+j54dCP9T4Q/KoT2/pH0X7zpBvlgRVzT1f1/0=;
+        b=mKBF1pYcxi1ZOrgaXNgzOAKY+oVIIdNgy4YmxI9eNoB+szNM4QtEVQAFeAG/I8G958
+         sly01lzi1ug1EqnrWJ/pVqmX1PhLeP2Ii7e8ZVNxHaSKy3H1Vix5s5lb7RTAQ8nfpw0e
+         ueQM1j/oGVEDtpA7fNU2nph0T/eQuxUusHL9niYMm62jP0DAh0WppPyZoIn1MUKQ23YT
+         YB1Hdi4gTwgFTeOYrkNa3MM6pabSZdQeknZ+7I2qu8JB/PiudDKCnkgpiHlFG9yV9BOO
+         8/AMdrS0fR6AzySgenEDILDvT7biSbnteya2IfAImxBjyoBtUu8FHlZ7reNZ1T3f9anp
+         ycTg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=X1qQHJBN;
-       spf=pass (google.com: domain of 3r7_mzaukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3r7_MZAUKCY4w3Dw9y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@rasmusvillemoes.dk header.s=google header.b=cCylAwlh;
+       spf=pass (google.com: domain of linux@rasmusvillemoes.dk designates 2a00:1450:4864:20::130 as permitted sender) smtp.mailfrom=linux@rasmusvillemoes.dk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1691140018; x=1691744818;
+        d=googlegroups.com; s=20221208; t=1691141523; x=1691746323;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RHXycKexvO1wi9h78dkvc0y16WN6hnfVrzMoqBKf5js=;
-        b=JrJflvkCHsXZ9fap7UR7qK4UqE638NTcY/RK0SSKZjLzo09SD+AvlhH8ogptfNKvpQ
-         6ISKI4cSTb4F54NSBXvXTBF/CPDlaQWnAtucauMfK8A6w51+zCm+WSGxs/0gfA8LLnUe
-         uk8LFLhuCg6KcwFmOR5e9uPuGedhsirz1UDUbIee+sVDJyu6aRFkW7/low8U69j+uaDw
-         RS1e5rzBsPsQD8PGGRx76bK1LKLjK6cSWgZZuLfi3AbsV7u3rUSFpGcGleFhPGvS+wde
-         Hkh97Sbu7OGyFVYuVpnA6PPA9X4eY8V9omgKwUIRTpk8mSOD5kDBZdoESI8b19ifv0/l
-         qQrQ==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=oF/VBpkLOTFe4LPmWsBbxFzQcPzZ72PHNd9Vz7vXvTk=;
+        b=V2TJVumw86s+LighBOkKGTooSn4iqsYSQH/JJkCmGGwRwQ8w7zeuTvkVcj8UAqOws/
+         JbupCpAQBCk4/Lob3N1Y3dxSVIfon6pLjhIygJzExYqOedF0Kw0fLEN2ZttKbjr2Z26h
+         aNLkuISc4u0M54ccwsPo91Oim53wxBOdg8RKaYW6qHON1kNM7yXLyiK11SwJf3k6BViY
+         7HzhmCTrx/LtUZELrk9f/V/T1NUPHEfMgGuthJLWkd8PCv2pl0L29mB/FTxvKIA+6Cqe
+         eHhr/48V2NyLnGtCrr1RJ/nhlXiyNQuoQxJnbnkF7BPLkUvCw0TxyaA/i7O1qIH5ZMnR
+         pUJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691140018; x=1691744818;
+        d=1e100.net; s=20221208; t=1691141523; x=1691746323;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RHXycKexvO1wi9h78dkvc0y16WN6hnfVrzMoqBKf5js=;
-        b=LWUK9ObVnCfndPC4OI2Leb4CklzhmSBPhKIPgkymy3IJBaLBLdu8T0d6pPi3fjJuls
-         eflN42kCN6WDDJqcflyWR1k74Uq9oQQNm/8LQEV+jyXGi/E9jlLirA8ckZMXBEx/BnBZ
-         9SxJLHbnGb+Zf0Rw/pmfszzkgLDIDL4cO3Y4b6LXXQgPByI3I+Of6wzO1SG7f0JZhuu7
-         VTiQCR/k81l/2Tg9RKfHvc5GV5R+sRma1INQNzfy2TVnxAR/0OSQ6o/nWJ8swn0Jdpk0
-         DwSxY1fJuQo07bWh3s78C/vkjEd6sFH4fHhVigLMfQCPo0we8ccaQvM80WNNc906iWJq
-         3bHQ==
-X-Gm-Message-State: AOJu0YyNTeExfBUUZMTJ+9ofqQXYC9x6QaZ1fvrjnF5eV51N+SbW3oNf
-	SyzYfq0+W9f78MUIgWvuU8E=
-X-Google-Smtp-Source: AGHT+IH523roQa9VWXUO7lRubplmx9oJptC8RdJDovkBNiR3wJBeKEoCHU9rAw3l59bHvirfJuh41Q==
-X-Received: by 2002:a05:6a21:328a:b0:131:b3fa:eaaa with SMTP id yt10-20020a056a21328a00b00131b3faeaaamr1117657pzb.61.1691140017747;
-        Fri, 04 Aug 2023 02:06:57 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=oF/VBpkLOTFe4LPmWsBbxFzQcPzZ72PHNd9Vz7vXvTk=;
+        b=GuoIdjhZcsOOVI7Azm4aw/2ljV1uJO55dqrgyAbmiRPDsPxjgIP4N7MwNSA5a+TDhi
+         MO7+D4det7Spv+NK7e0c9qM7DmeG3QQqXWoj82vcs7C2yk3Oo7+oaQbMeEY7UuY4LQU5
+         LefSfw1qI262QLgaAT50lWxNBrZU11x61+1tveBPErXJyo4b+t8BxgF4SZXVmSyLXiSr
+         iEFNMLzhYmhq9YgqppCXzIC53xoXy7HYiviuATU2HNPg8fdF81vEzKOicA2+11JjRSOR
+         /kU3Z57tRfxrUN/Eb8iqk5YYFuo61j8mTGJL4wj0LvWjm4v4XSu/cYNkFaVqS4eRBvSl
+         EGdQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOJu0Yx9TJUfISxytAD/OV2EQRKfdt0k3yDNfGItca3MHzjsG3R7ejYE
+	9OF3GCq8jxsR6UQ6QGqUYhE=
+X-Google-Smtp-Source: AGHT+IEme2zTItWr9VNTICGokFG0SyHQy8nQn38Q7vuVG0xVkJkdo2z3C0TLYJUzCS5TNZEoLacm+A==
+X-Received: by 2002:a05:600c:4583:b0:3f1:6fe9:4a95 with SMTP id r3-20020a05600c458300b003f16fe94a95mr31878wmo.4.1691141522946;
+        Fri, 04 Aug 2023 02:32:02 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:9aea:0:b0:686:c224:d01f with SMTP id y10-20020aa79aea000000b00686c224d01fls5135051pfp.2.-pod-prod-09-us;
- Fri, 04 Aug 2023 02:06:56 -0700 (PDT)
-X-Received: by 2002:aa7:88c9:0:b0:687:35ab:d21f with SMTP id k9-20020aa788c9000000b0068735abd21fmr1330917pff.22.1691140016468;
-        Fri, 04 Aug 2023 02:06:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1691140016; cv=none;
+Received: by 2002:a05:600c:3caa:b0:3fb:422d:4ff8 with SMTP id
+ bg42-20020a05600c3caa00b003fb422d4ff8ls2003592wmb.1.-pod-prod-02-eu; Fri, 04
+ Aug 2023 02:32:01 -0700 (PDT)
+X-Received: by 2002:adf:ee11:0:b0:317:6513:da7c with SMTP id y17-20020adfee11000000b003176513da7cmr1079424wrn.18.1691141521392;
+        Fri, 04 Aug 2023 02:32:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1691141521; cv=none;
         d=google.com; s=arc-20160816;
-        b=KOSVGtmX5h7ya1HZrZJWXEIO/yXJx6S2vjT5S/+Uy+x5gaRInB/UyumqRYlhG/r4Fi
-         P41QXvhuCIQFsyqnjwSgjO9O14fCMI+a+FSLX58tls0PZPK5KJSlnDpxg1pqs9uuwpDO
-         zClk6AXb3krOaUA8cocV77+2HRStnwl0vPECraH0JxtILlPUF69vlkNtdca/hPXapuk3
-         fUMMXB5nfmBbmIXnlqup5PVbARgwvrjWs28jDDCOG9xLhuyGdBuIZKZj3xT5BR3BBxIn
-         vo5JNbVZWbOgjqL739aiyLlYfJO0GZkHsTuI21CI3MlEsqPakqsLaHjP5hIo+mNcctA6
-         +XOg==
+        b=d4PZ5ExGHLVmsoX4OPMIjk4tylhqXbLEN3N0NWUSgpV+/5XbR0jnXCVdiARqF2AFsX
+         mxcsNLbBwPPX9+Zv+F4CF8SfcXJHabtFEKOtgwbWaqWWIEZV4+25iSgy0DXnt8D+7NKK
+         NT6fJM66HRGhg/fHxeP+3oBcGKsKuQCz0E+m0Si4SbIYMDGFNAoqArGVk2GushlOLnsR
+         0KjDPzVHGuoZDZRwJNMT10ZKOQ1904U4AjwV3H++iWOtXcglf+2QvsRO/J68waAAkAYA
+         hMyscR2XwiyQx/ObFNsOov+jcdZUAAAAlq2ExI5mcnWFSq8jWaWDG8h8KoEcTItE+BMW
+         SAGw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:dkim-signature;
-        bh=MzWCD4HwKY1r1A6RBU3efg4gsiTlnVjc3j6YbCfBqUM=;
-        fh=J68g6MH/W7wOt124Z8Lp4h64rxBVPLWDnNTMQSSfdjs=;
-        b=sin/MYBUp1kq6fFzxUcH5XIkZJolEps8z/0zY3KPNk0P2Lyn0msqu7bU55J1yPRr/n
-         p+NTGSVBcZb/NsL2cbjI0NYRa0i/PorMM8bB66yeoJ+gyCdPpnJsl0SvsML3L7YmlmH0
-         rlM/Hauvjlh4rxUriqT2iahh3742m0i9ywjoXwonFgE0PW5y/Y4qjsY5ztzQJtH+0Pon
-         kZynH+SxWq9ICSaKDtMfsf5EwOQst+T7lVTXvkfWuVt3QIZCr8Eo4lcxAdDPq6zfW+YQ
-         8nkMe5cuUkG8LrWFJ4KhmGbSksbQp90yNKJE8Alx+z4cf9XMpyFeBGokOZPl0R6d6d+N
-         q/lw==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=YJcUmqfH4he3+bj4rk9cnVccev5fkfdS9FI/A70DRUM=;
+        fh=Al7vh/+j54dCP9T4Q/KoT2/pH0X7zpBvlgRVzT1f1/0=;
+        b=xxu/l9CH/y5aqWQX9ewW8Qp5zdoWwGdSGdHdN55IGDiEUNDC9VM+YvkaS52pWwZR/R
+         2aji0AHY2h5BUscW4Ry7P1Gr5V19LV+ERyCs/aGxc44tsF4Fji6eL3AUsccji1hV8+3t
+         PTgb+hU87zVSb7C15c83lneP6EUvYxqX4dvV4qjxvM6ilOoOAqBT6P/z5GI0rUB54gF7
+         lJFHOhK0dQQYjBp5zyje8b0jHT/28BSWe9kXUdRnOkI0GcL3zeGMz4yZnydMTEuHQUpR
+         LDLgLky9Ti5bApF0yKK7yuj81YaMfZ1Hq5pHfrDms6G9XyMAbFbkAg0w7jUsc4rokqSW
+         7TkA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=X1qQHJBN;
-       spf=pass (google.com: domain of 3r7_mzaukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3r7_MZAUKCY4w3Dw9y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com. [2607:f8b0:4864:20::1149])
-        by gmr-mx.google.com with ESMTPS id q17-20020a056a00085100b0068718e461fcsi103525pfk.1.2023.08.04.02.06.56
+       dkim=pass header.i=@rasmusvillemoes.dk header.s=google header.b=cCylAwlh;
+       spf=pass (google.com: domain of linux@rasmusvillemoes.dk designates 2a00:1450:4864:20::130 as permitted sender) smtp.mailfrom=linux@rasmusvillemoes.dk
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com. [2a00:1450:4864:20::130])
+        by gmr-mx.google.com with ESMTPS id bt7-20020a056000080700b00317b3b0a31bsi150880wrb.5.2023.08.04.02.32.01
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Aug 2023 02:06:56 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3r7_mzaukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) client-ip=2607:f8b0:4864:20::1149;
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-583f048985bso22167077b3.2
-        for <kasan-dev@googlegroups.com>; Fri, 04 Aug 2023 02:06:56 -0700 (PDT)
-X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:2ebf:f3ea:4841:53b6])
- (user=elver job=sendgmr) by 2002:a81:af41:0:b0:573:8316:8d04 with SMTP id
- x1-20020a81af41000000b0057383168d04mr7391ywj.4.1691140015704; Fri, 04 Aug
- 2023 02:06:55 -0700 (PDT)
-Date: Fri,  4 Aug 2023 11:02:58 +0200
-In-Reply-To: <20230804090621.400-1-elver@google.com>
-Mime-Version: 1.0
-References: <20230804090621.400-1-elver@google.com>
-X-Mailer: git-send-email 2.41.0.640.ga95def55d0-goog
-Message-ID: <20230804090621.400-3-elver@google.com>
-Subject: [PATCH v2 3/3] list_debug: Introduce CONFIG_DEBUG_LIST_MINIMAL
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com, Andrew Morton <akpm@linux-foundation.org>, 
-	Kees Cook <keescook@chromium.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, Peter Zijlstra <peterz@infradead.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
-	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
-	Zenghui Yu <yuzenghui@huawei.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	Dmitry Vyukov <dvyukov@google.com>, Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com, 
-	linux-toolchains@vger.kernel.org
+        Fri, 04 Aug 2023 02:32:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of linux@rasmusvillemoes.dk designates 2a00:1450:4864:20::130 as permitted sender) client-ip=2a00:1450:4864:20::130;
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-4fe0c566788so3210271e87.0
+        for <kasan-dev@googlegroups.com>; Fri, 04 Aug 2023 02:32:01 -0700 (PDT)
+X-Received: by 2002:a05:6512:158f:b0:4f8:67f0:7253 with SMTP id bp15-20020a056512158f00b004f867f07253mr1071071lfb.49.1691141520453;
+        Fri, 04 Aug 2023 02:32:00 -0700 (PDT)
+Received: from [172.16.11.116] ([81.216.59.226])
+        by smtp.gmail.com with ESMTPSA id t4-20020ac24c04000000b004fe09920fe5sm304024lfq.47.2023.08.04.02.31.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Aug 2023 02:31:59 -0700 (PDT)
+Message-ID: <71ce8516-21cb-32c6-84d3-b3f9bb3d625b@rasmusvillemoes.dk>
+Date: Fri, 4 Aug 2023 11:31:58 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v1 4/4] lib/vsprintf: Split out sprintf() and friends
+Content-Language: en-US, da
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Marco Elver <elver@google.com>, linux-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org
+Cc: Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>
+References: <20230804082619.61833-1-andriy.shevchenko@linux.intel.com>
+ <20230804082619.61833-5-andriy.shevchenko@linux.intel.com>
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+In-Reply-To: <20230804082619.61833-5-andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: linux@rasmusvillemoes.dk
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b=X1qQHJBN;       spf=pass
- (google.com: domain of 3r7_mzaukcy4w3dw9y66y3w.u642sas5-vwdy66y3wy96c7a.u64@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3r7_MZAUKCY4w3Dw9y66y3w.u642sAs5-vwDy66y3wy96C7A.u64@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@rasmusvillemoes.dk header.s=google header.b=cCylAwlh;
+       spf=pass (google.com: domain of linux@rasmusvillemoes.dk designates
+ 2a00:1450:4864:20::130 as permitted sender) smtp.mailfrom=linux@rasmusvillemoes.dk
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,204 +144,94 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Numerous production kernel configs (see [1, 2]) are choosing to enable
-CONFIG_DEBUG_LIST, which is also being recommended by KSPP for hardened
-configs [3]. The feature has never been designed with performance in
-mind, yet common list manipulation is happening across hot paths all
-over the kernel.
+On 04/08/2023 10.26, Andy Shevchenko wrote:
+> kernel.h is being used as a dump for all kinds of stuff for a long time.
+> sprintf() and friends are used in many drivers without need of the full
+> kernel.h dependency train with it.
+> 
+> Here is the attempt on cleaning it up by splitting out sprintf() and
+> friends.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  include/linux/kernel.h  | 30 +-----------------------------
+>  include/linux/sprintf.h | 24 ++++++++++++++++++++++++
+>  lib/vsprintf.c          |  1 +
+>  3 files changed, 26 insertions(+), 29 deletions(-)
+>  create mode 100644 include/linux/sprintf.h
+> 
+> diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+> index b9e76f717a7e..cee8fe87e9f4 100644
+> --- a/include/linux/kernel.h
+> +++ b/include/linux/kernel.h
+> @@ -29,6 +29,7 @@
+>  #include <linux/panic.h>
+>  #include <linux/printk.h>
+>  #include <linux/build_bug.h>
+> +#include <linux/sprintf.h>
+>  #include <linux/static_call_types.h>
+>  #include <linux/instruction_pointer.h>
+>  #include <asm/byteorder.h>
+> @@ -203,35 +204,6 @@ static inline void might_fault(void) { }
+>  
+>  void do_exit(long error_code) __noreturn;
+>  
+> -extern int num_to_str(char *buf, int size,
+> -		      unsigned long long num, unsigned int width);
+> -
+> -/* lib/printf utilities */
+> -
+> -extern __printf(2, 3) int sprintf(char *buf, const char * fmt, ...);
+> -extern __printf(2, 0) int vsprintf(char *buf, const char *, va_list);
+> -extern __printf(3, 4)
+> -int snprintf(char *buf, size_t size, const char *fmt, ...);
+> -extern __printf(3, 0)
+> -int vsnprintf(char *buf, size_t size, const char *fmt, va_list args);
+> -extern __printf(3, 4)
+> -int scnprintf(char *buf, size_t size, const char *fmt, ...);
+> -extern __printf(3, 0)
+> -int vscnprintf(char *buf, size_t size, const char *fmt, va_list args);
+> -extern __printf(2, 3) __malloc
+> -char *kasprintf(gfp_t gfp, const char *fmt, ...);
+> -extern __printf(2, 0) __malloc
+> -char *kvasprintf(gfp_t gfp, const char *fmt, va_list args);
+> -extern __printf(2, 0)
+> -const char *kvasprintf_const(gfp_t gfp, const char *fmt, va_list args);
+> -
+> -extern __scanf(2, 3)
+> -int sscanf(const char *, const char *, ...);
+> -extern __scanf(2, 0)
+> -int vsscanf(const char *, const char *, va_list);
+> -
+> -extern int no_hash_pointers_enable(char *str);
+> -
+>  extern int get_option(char **str, int *pint);
+>  extern char *get_options(const char *str, int nints, int *ints);
+>  extern unsigned long long memparse(const char *ptr, char **retptr);
+> diff --git a/include/linux/sprintf.h b/include/linux/sprintf.h
+> new file mode 100644
+> index 000000000000..00d1fdc70a3e
+> --- /dev/null
+> +++ b/include/linux/sprintf.h
+> @@ -0,0 +1,24 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _LINUX_KERNEL_SPRINTF_H_
+> +#define _LINUX_KERNEL_SPRINTF_H_
+> +
+> +#include <linux/types.h>
+> +
 
-Introduce CONFIG_DEBUG_LIST_MINIMAL, which performs list pointer
-checking inline, and only upon list corruption delegates to the
-reporting slow path.
+Shouldn't this at least also include compiler_attributes.h, to make it
+self-contained?
 
-To generate optimal machine code with CONFIG_DEBUG_LIST_MINIMAL:
+As Marco said, please just declare no_hash_pointers in this file as
+well. Perhaps with a comment about not accessing it unless one has good
+reason, but I suppose that's true in general for all kernel global
+variables, so maybe not worth it for this one.
 
-  1. Elide checking for pointer values which upon dereference would
-     result in an immediate access fault -- therefore "minimal" checks.
-     The trade-off is lower-quality error reports.
-
-  2. Use the newly introduced __preserve_most function attribute
-     (available with Clang, but not yet with GCC) to minimize the code
-     footprint for calling the reporting slow path. As a result,
-     function size of callers is reduced by avoiding saving registers
-     before calling the rarely called reporting slow path.
-
-     Note that all TUs in lib/Makefile already disable function tracing,
-     including list_debug.c, and __preserve_most's implied notrace has
-     no effect in this case.
-
-  3. Because the inline checks are a subset of the full set of checks in
-     ___list_*_valid(), always return false if the inline checks failed.
-     This avoids redundant compare and conditional branch right after
-     return from the slow path.
-
-As a side-effect of the checks being inline, if the compiler can prove
-some condition to always be true, it can completely elide some checks.
-
-Running netperf with CONFIG_DEBUG_LIST_MINIMAL (using a Clang compiler
-with "preserve_most") shows throughput improvements, in my case of ~7%
-on average (up to 20-30% on some test cases).
-
-Link: https://r.android.com/1266735 [1]
-Link: https://gitlab.archlinux.org/archlinux/packaging/packages/linux/-/blob/main/config [2]
-Link: https://kernsec.org/wiki/index.php/Kernel_Self_Protection_Project/Recommended_Settings [3]
-Signed-off-by: Marco Elver <elver@google.com>
----
-v2:
-* Note that lib/Makefile disables function tracing for everything and
-  __preserve_most's implied notrace is a noop here.
----
- arch/arm64/kvm/hyp/nvhe/list_debug.c |  2 +
- include/linux/list.h                 | 56 +++++++++++++++++++++++++---
- lib/Kconfig.debug                    | 15 ++++++++
- lib/list_debug.c                     |  2 +
- 4 files changed, 69 insertions(+), 6 deletions(-)
-
-diff --git a/arch/arm64/kvm/hyp/nvhe/list_debug.c b/arch/arm64/kvm/hyp/nvhe/list_debug.c
-index 589284496ac5..df718e29f6d4 100644
---- a/arch/arm64/kvm/hyp/nvhe/list_debug.c
-+++ b/arch/arm64/kvm/hyp/nvhe/list_debug.c
-@@ -26,6 +26,7 @@ static inline __must_check bool nvhe_check_data_corruption(bool v)
- 
- /* The predicates checked here are taken from lib/list_debug.c. */
- 
-+__list_valid_slowpath
- bool ___list_add_valid(struct list_head *new, struct list_head *prev,
- 		       struct list_head *next)
- {
-@@ -37,6 +38,7 @@ bool ___list_add_valid(struct list_head *new, struct list_head *prev,
- 	return true;
- }
- 
-+__list_valid_slowpath
- bool ___list_del_entry_valid(struct list_head *entry)
- {
- 	struct list_head *prev, *next;
-diff --git a/include/linux/list.h b/include/linux/list.h
-index e0b2cf904409..a28a215a3eb1 100644
---- a/include/linux/list.h
-+++ b/include/linux/list.h
-@@ -39,20 +39,64 @@ static inline void INIT_LIST_HEAD(struct list_head *list)
- }
- 
- #ifdef CONFIG_DEBUG_LIST
--extern bool ___list_add_valid(struct list_head *new,
--			      struct list_head *prev,
--			      struct list_head *next);
-+
-+#ifdef CONFIG_DEBUG_LIST_MINIMAL
-+# define __list_valid_slowpath __cold __preserve_most
-+#else
-+# define __list_valid_slowpath
-+#endif
-+
-+extern bool __list_valid_slowpath ___list_add_valid(struct list_head *new,
-+						    struct list_head *prev,
-+						    struct list_head *next);
- static __always_inline bool __list_add_valid(struct list_head *new,
- 					     struct list_head *prev,
- 					     struct list_head *next)
- {
--	return ___list_add_valid(new, prev, next);
-+	bool ret = true;
-+
-+	if (IS_ENABLED(CONFIG_DEBUG_LIST_MINIMAL)) {
-+		/*
-+		 * In the minimal config, elide checking if next and prev are
-+		 * NULL, since the immediate dereference of them below would
-+		 * result in a fault if NULL.
-+		 *
-+		 * With the minimal config we can afford to inline the checks,
-+		 * which also gives the compiler a chance to elide some of them
-+		 * completely if they can be proven at compile-time. If one of
-+		 * the pre-conditions does not hold, the slow-path will show a
-+		 * report which pre-condition failed.
-+		 */
-+		if (likely(next->prev == prev && prev->next == next && new != prev && new != next))
-+			return true;
-+		ret = false;
-+	}
-+
-+	ret &= ___list_add_valid(new, prev, next);
-+	return ret;
- }
- 
--extern bool ___list_del_entry_valid(struct list_head *entry);
-+extern bool __list_valid_slowpath ___list_del_entry_valid(struct list_head *entry);
- static __always_inline bool __list_del_entry_valid(struct list_head *entry)
- {
--	return ___list_del_entry_valid(entry);
-+	bool ret = true;
-+
-+	if (IS_ENABLED(CONFIG_DEBUG_LIST_MINIMAL)) {
-+		struct list_head *prev = entry->prev;
-+		struct list_head *next = entry->next;
-+
-+		/*
-+		 * In the minimal config, elide checking if next and prev are
-+		 * NULL, LIST_POISON1 or LIST_POISON2, since the immediate
-+		 * dereference of them below would result in a fault.
-+		 */
-+		if (likely(prev->next == entry && next->prev == entry))
-+			return true;
-+		ret = false;
-+	}
-+
-+	ret &= ___list_del_entry_valid(entry);
-+	return ret;
- }
- #else
- static inline bool __list_add_valid(struct list_head *new,
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index fbc89baf7de6..e72cf08af0fa 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -1680,6 +1680,21 @@ config DEBUG_LIST
- 
- 	  If unsure, say N.
- 
-+config DEBUG_LIST_MINIMAL
-+	bool "Minimal linked list debug checks"
-+	default !DEBUG_KERNEL
-+	depends on DEBUG_LIST
-+	help
-+	  Only perform the minimal set of checks in the linked-list walking
-+	  routines to catch corruptions that are not guaranteed to result in an
-+	  immediate access fault.
-+
-+	  This trades lower quality error reports for improved performance: the
-+	  generated code should be more optimal and provide trade-offs that may
-+	  better serve safety- and performance- critical environments.
-+
-+	  If unsure, say Y.
-+
- config DEBUG_PLIST
- 	bool "Debug priority linked list manipulation"
- 	depends on DEBUG_KERNEL
-diff --git a/lib/list_debug.c b/lib/list_debug.c
-index fd69009cc696..daad32855f0d 100644
---- a/lib/list_debug.c
-+++ b/lib/list_debug.c
-@@ -17,6 +17,7 @@
-  * attempt).
-  */
- 
-+__list_valid_slowpath
- bool ___list_add_valid(struct list_head *new, struct list_head *prev,
- 		       struct list_head *next)
- {
-@@ -39,6 +40,7 @@ bool ___list_add_valid(struct list_head *new, struct list_head *prev,
- }
- EXPORT_SYMBOL(___list_add_valid);
- 
-+__list_valid_slowpath
- bool ___list_del_entry_valid(struct list_head *entry)
- {
- 	struct list_head *prev, *next;
--- 
-2.41.0.640.ga95def55d0-goog
+Rasmus
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230804090621.400-3-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/71ce8516-21cb-32c6-84d3-b3f9bb3d625b%40rasmusvillemoes.dk.
