@@ -1,123 +1,123 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRBIEAWWTAMGQETYTX64A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRBKECWWTAMGQESHW3DGI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CC207707A5
-	for <lists+kasan-dev@lfdr.de>; Fri,  4 Aug 2023 20:14:57 +0200 (CEST)
-Received: by mail-wm1-x33e.google.com with SMTP id 5b1f17b1804b1-3fe15547164sf15144345e9.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 04 Aug 2023 11:14:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1691172896; cv=pass;
+Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C607707B0
+	for <lists+kasan-dev@lfdr.de>; Fri,  4 Aug 2023 20:19:21 +0200 (CEST)
+Received: by mail-wm1-x337.google.com with SMTP id 5b1f17b1804b1-3fbe356b8desf14558815e9.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 04 Aug 2023 11:19:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1691173160; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Rc4o3WlBf1v7tB3HatL3NeKJ9PqQz5wP3KP14LByO5wAHw7o8bmkAcCB4La9HOXIGn
-         VnUo709Bq/vcYaI3xdbKIcZZo6keoZVkMwQ31CGH1msuknmlwLorV83wzdU+aoo5I7qr
-         Uvsj/6bxhPyLxYd1l20Q4J+PRFdGXF7D2M+dTUueN46lcXebNCUfnvDHCo/Az56bFzee
-         GfusDcFMTkPvymRf9t6XnA8wye7fhjtDu54XSnWoKKATdJxRcnX2PTuZ6jOHIYBWmUd5
-         ckalsXFQCwWdh9zyJ48ZCHvxPr3oC7J73EjCpjxMgKmRVUP8PuY+4gz5Y6Yj1gQahQZG
-         B0/w==
+        b=SdgnyMPAA0+77fT99VNvTgD2gaqxAtLWrWZftDKE3TmlL8nD/kR8b0x3yFwVwq1b+3
+         NqQQN0xo9ZRybAa6SxyNXzXSZ5e9XNWJkBsXsUnva7a25PmY9VRKBJ2hl71do9uKfPqG
+         apXGAVY/uJs2eFw/XwZgRkltmqupNGWNjyEWglWhL800k3CO9S2sLoB/CnYeMbZOZjVK
+         ATw9QRx501pp2ohlVrOGkMO6aXQyp4MtMPc2br8j6sYTCcqfm9xJEk1+d7WlRK/Q9M9o
+         Z7CeNPVbkOjxZ7uwseNZm9EihTJplH94EG0ZrCQDDTC8OuimBpMDzO+RIAefkA/3PsPL
+         HA9w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=wi8Bm69Qwzpxy3f8k1/e0I9EF9x35RzPrz34tJh0Ugs=;
-        fh=Q7vk1ybPT/2u5cJmBziECgnGvctkDcGY/fG0TU1C4v4=;
-        b=V3/fIqcB2NKiUoLkVA4DoBeWW4GaBX724ZKAYEjJwAoP+aeS4yzxywZfCIGmDaYQ0U
-         XPcXEAEKikuUN9GXdcZMbo5zo3yhl7YdzcX48+NttvuqMZuLo38IDA9Rf61oMKYcHtsQ
-         F757KRBcU2Eq/pqCBJvtemfMqO5NPAnz+ONqjoeWSt3HFqFudIXFZwAj5UZkl/RpKnBx
-         Xs+QW3UNduxCuGmL13EsjfWnteqIwndFkLv004/OdB5QxL01yvAz11wxD+9OKJU6K+zQ
-         lILcl/760BD7XLJPlKfQu/jRzsf4468HlvxCJKZyK8SQYgVUkUGoAgrlcCvdONPrtqMB
-         78+Q==
+        bh=PV/YcyZAvz4gRTBNu9xU/3RNguVYLhP5xt6KRuKc8dw=;
+        fh=hSSNDiGS3tK8WhaqsnK30F/9W261ajxs+ySojVDfeOk=;
+        b=QjZua8h8fTO5/IrmxvvC7OGbgywggpE9XhU0obpXW+XA/CKmjY/iFlKjr0jznqnXFI
+         MeLdsIne1lc/Nq+3bQrlYgLDpwk3cKsbfCxJV8DzDOz5LuvQcQTXI2uNUsG9IBZwX2hE
+         UBGhYRJNIlcwBSHx/kCTZRg6Czg4PISiWGT3EMMYBhzJMxpQgexagLUBbuLLa57/lpQ0
+         oGXFIAVYGYC9Go1Vtraj2t9oYuhvWG/0q3NXSWpNrOVZnXUnwj8PNMdmJqrKtxFBOsA6
+         SPFsD2cVMfCXiL38TmjmobchR11YcztoLAH81BQXobSOQY/E1AOTGoq1rm2PZHQPgEg/
+         85Rg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=f1vfHE4L;
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=PnNUDq2P;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1691172896; x=1691777696;
+        d=googlegroups.com; s=20221208; t=1691173160; x=1691777960;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wi8Bm69Qwzpxy3f8k1/e0I9EF9x35RzPrz34tJh0Ugs=;
-        b=bobZtlLoqATV9LcWWARjn5r1vbp/upmFbE24kcd84h8yeYrEXEAoPPC4qZfMsAOK1m
-         4tKIixQmrl896f/+UE1E78FAd79jIO3GG6aMfA5CTebBXRnK9GbxSbIumEd40RxuxGoV
-         MymcVvHiCGr01PLO8dqFmGXq1CAJwJZnrFlqNQaOa2pYiLlFgzdsJyoPlOhVfuH4oeG8
-         NJnyUSh0hhKvPSxcsCYfltFbnZvfm9OZjWVVKwEdJMi32EzqjJm+Xh0XBneYVwb1jcZp
-         zpwwI6K1J8vbEqq2NzeuuIZ7/jpRG+vkeY+oB2mjgfciZjh3xVDBIRXffB3yELeDcJ6Z
-         1rOg==
+        bh=PV/YcyZAvz4gRTBNu9xU/3RNguVYLhP5xt6KRuKc8dw=;
+        b=HMYFBfvm9mJ1MMdh2oMzaPwP123Zznh8mPsOEpD4n83/zaxiwy+We9e80w+QvSs6hL
+         huwSm7gBvkZpWof+179EBndp6LwpB28yruvhFaGaqlT0shRnBU4w+eNTQ1gsjcPTg/TH
+         1UGcgbTGN52Ez3P3HS5d8pasN4fqAhf0RyTiZKOjJJa1IwXkMq9A7aob4xBLBWAX8JNe
+         QeNtKkICL3Asemsj0uRC89zikZsuK/zJ77AQFmuKRfJX8wCColoH+y+1kDOtGyhrCa6V
+         C9cEyRGdzOs0qVdQimph0MGbCHP6YDD4j89j0EDrwIyKNpjpo61zvsAj0n48se+XALsX
+         FVEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691172896; x=1691777696;
+        d=1e100.net; s=20221208; t=1691173160; x=1691777960;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wi8Bm69Qwzpxy3f8k1/e0I9EF9x35RzPrz34tJh0Ugs=;
-        b=YM6XbmcmFxmpbP7GwA2GhBRncVQ2NNtlj0IfJC0HuT/Lrdge066B0XzBNMwU5rccKa
-         iAf4v57tCpUdWy0AmXiqK+Q09uT31K29iDrc8+LpDYEhHzxHaZlrHiBTU+GEm1NG0Pxf
-         VpOZt2IQMRureS5KDlJEL4r6U31Y6ESvr9+KRaZwjV3hL77WSUO7cOBUGUNDvAR6QEU7
-         APPfH31mH3aLgEiJknYDSkJEbVlvhhgva/JTsusLz0wiNlTGJrUOcpHVJ1vHAXG7lnMv
-         qFBN6XSntMuwX8dEdtW5c2eUDNz5mwu21/kh7VDJe54xxhtQSyZJ9qXY3V2WES3TtWej
-         MSnw==
+        bh=PV/YcyZAvz4gRTBNu9xU/3RNguVYLhP5xt6KRuKc8dw=;
+        b=XGZFKhX6nfSv8UxwfL62WsUgv9nwyZL5xnRrdzc/ATf+c8cyH9jJqIoGoGPX5t/E+v
+         KvHxViaURwVdUh+WaUzUVjTDSazl2p/0Pzu5Pu1qraTI7BGyTv7dPehekj8glTe7niJ0
+         6ECOK9fRkQ2+lsTnEXizgsgjdvzGiNae7Avq7EOhxtKwhvdHy5Diy1SbBxkE+Eeb/klu
+         Fdc6FIhOC58e5FbCY6KKjRtF9tU3c9jO4Ea2pWPlANA+y8lpK+OD0CO/jHciUhyenLLu
+         FWzjsbKzsZELS8ATmqaWt8NC3ZtBtXa3opVZXXU0axE3Na7uVok3EEelf+QLgNOBjVcR
+         Re4Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YwswnSxCPfCajF8El4sYOhK6zW2zLlMgMhyrQJxSoxjnRKVlazJ
-	CK5fo1SFvzhsdknTITJ9X30=
-X-Google-Smtp-Source: AGHT+IHwIiakKg4HdgE41RpWEUwIWXVk1QPg1/z/gfhYxMwYpfeotkqd9Sb9favemK3FdFxgRd8/XA==
-X-Received: by 2002:a05:600c:b52:b0:3f9:255e:ee3b with SMTP id k18-20020a05600c0b5200b003f9255eee3bmr2070567wmr.30.1691172896242;
-        Fri, 04 Aug 2023 11:14:56 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwonhkaFZU5ttaSK1N48XDObC593GxGbEBI/RygQmQ5+TzGIxIN
+	juu4ZsJYFpZe8rasJ/AY1lo=
+X-Google-Smtp-Source: AGHT+IGlPyTvpTAJE0GBYB/ZcFJ0uhwyAbWrVFDVRvytLR68LxlbY8GKGJdhSE4ZCbEKHUsFnAxI2g==
+X-Received: by 2002:a7b:ca4e:0:b0:3fe:1820:2434 with SMTP id m14-20020a7bca4e000000b003fe18202434mr2147281wml.1.1691173160370;
+        Fri, 04 Aug 2023 11:19:20 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:3ba7:b0:3fe:240e:2547 with SMTP id
- n39-20020a05600c3ba700b003fe240e2547ls111665wms.0.-pod-prod-09-eu; Fri, 04
- Aug 2023 11:14:54 -0700 (PDT)
-X-Received: by 2002:a7b:c3d6:0:b0:3fd:1cfa:939e with SMTP id t22-20020a7bc3d6000000b003fd1cfa939emr2059770wmj.4.1691172894430;
-        Fri, 04 Aug 2023 11:14:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1691172894; cv=none;
+Received: by 2002:a05:600c:3b05:b0:3fa:ec98:7f12 with SMTP id
+ m5-20020a05600c3b0500b003faec987f12ls104872wms.2.-pod-prod-06-eu; Fri, 04 Aug
+ 2023 11:19:18 -0700 (PDT)
+X-Received: by 2002:a1c:f70f:0:b0:3fe:21a9:2feb with SMTP id v15-20020a1cf70f000000b003fe21a92febmr2021817wmh.33.1691173158480;
+        Fri, 04 Aug 2023 11:19:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1691173158; cv=none;
         d=google.com; s=arc-20160816;
-        b=x91dhyzq597/UHR7xbhwQzSKEBIp3X98A5/GUbEtrcoLVuZ+jGr9RnqHnidNWTtteB
-         avpHj9HT24eKOFj+f01FjL/B3cm3LI0Rd03tTMFuR7G6+EXhXIiwrH7Q5rWgnHeMluI3
-         48lcWC/vXdSiQMuOdsqVk76kKx7WH4DS8UofkpEQFa1RDFSl5aQ3fPpYtd8Gv99mWZRe
-         DeP02a8HSNRXApOO2/jJCiP/UsG/1CSx8l3dc0v1a3pm/UJlYqgZvswndXWGxT+yzPvH
-         oGYy2icSl9npnWBcL6/NaMoi0K+BCIGiq65cfxfIy82kVsityNJY4NH1COAeFM9pFa2h
-         31Sg==
+        b=xPkOM19GpaxdvEI5QscEaR/SCD+Oa4DEe2k7MGLARRXBJzFgzEOE3W74AXfanbqjfl
+         gr4YUZJhsMDgNEBKM3O4A9CN4tbCp+sU8dM33OS/GEScVJ/ni2Ih676WlHe88YJVaiOf
+         l7JTu9G2D/gmqY/AuoYSUpPQ0Y8NJvrE2pvubAS5RflNIGQl+B02JpXLEG+Smpw68T3+
+         MsVHqVxqDsu5EEG+A/9XNq3+oSH9PZF1u3NaApWrMrR6MEKtNwjq/5FJ+942ztV+wWqg
+         87oMTJDu8hgOQimG4PiUL4CWMys8ggUqq6qb78/yD2mXjJW+/+7ZMxvxpStGB77G3K8Q
+         gJ8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=YnOa/6fvU8ss9SgEPYf5nmoqAHQ4nJbGjVNgPXhtNF8=;
-        fh=Q7vk1ybPT/2u5cJmBziECgnGvctkDcGY/fG0TU1C4v4=;
-        b=fYVq7j6Yd7NtVfkeBWfwox7UL6IxIm1ZvDG6MpYJPndMfvWooLhMNJqy9Yj0CEcXYf
-         iUDi4y7nTB7vWUVVpCSKdWcCjWjlY9+kJ56YABwEhrB/8xG3YEPWX3ctOpxbGYFC+lpt
-         mcnakR1FwiRjYMMVFFdl1GlGhAoDcP0+siDNCtHS6mP5ZIYZ8C5sZq8Uy8BtIgZPe7eO
-         B0dcPytKxV+shv/stUagvnYW4Kro9qI3rQp6SCIcIm9bTPtt9M3RCdz5LKihA+wIHFsb
-         XGP3kvhD7ZcmCJFWai86jSu1hHiyfgJ6yvAxUkCNAQdMtrnAMQjod8ju12k/nvCEbmgZ
-         nSVQ==
+        bh=98qOA2hy/eGle7yAA5GlRvkVWWpa8WdU1Y+K5iryPA0=;
+        fh=hSSNDiGS3tK8WhaqsnK30F/9W261ajxs+ySojVDfeOk=;
+        b=0QwnNu7df+Yn0XlPcO0iYNNR0HFZhDlO93h06mD8xiKTy0E6t+URogIUkJ4z9N2qPd
+         l8/P1fY3W7xlGcN8H60EOm052MvOxXMhBhQNumSfiEbfvVLy8ofXR1QVPouH96KxyjlY
+         AAgTXTKORNP+mmqydHSbBC2JsSuke59yFeJcx4S952at8UM0UZrU2Vh97oOu0X1npkEX
+         3/UJRa4rYWxjd1U6f4xzXNkkiPEO8voqdg7/5gJmH/4YSQIsq6iCw7c4ziqP0VuaM1is
+         qFTRmMESqmpG0otbiIoa6zi/Vc4xTi6pcE/mPnjCvAaSMKzw1sUKMhjYyKXdknXzGfw9
+         dctw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=f1vfHE4L;
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=PnNUDq2P;
        spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id h9-20020a05600c350900b003fe275df1e1si449655wmq.0.2023.08.04.11.14.54
+        by gmr-mx.google.com with ESMTPS id o35-20020a05600c512300b003fe2591111dsi436165wms.1.2023.08.04.11.19.18
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Aug 2023 11:14:54 -0700 (PDT)
+        Fri, 04 Aug 2023 11:19:18 -0700 (PDT)
 Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
 Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
 	by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1qRzK0-00BK0t-UW; Fri, 04 Aug 2023 18:14:45 +0000
+	id 1qRzOM-00BKBq-3m; Fri, 04 Aug 2023 18:19:14 +0000
 Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(Client did not present a certificate)
-	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id AE059300235;
-	Fri,  4 Aug 2023 20:14:43 +0200 (CEST)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id EF129300235;
+	Fri,  4 Aug 2023 20:19:12 +0200 (CEST)
 Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 79E6127436E16; Fri,  4 Aug 2023 20:14:43 +0200 (CEST)
-Date: Fri, 4 Aug 2023 20:14:43 +0200
+	id CB5C92130B4DC; Fri,  4 Aug 2023 20:19:12 +0200 (CEST)
+Date: Fri, 4 Aug 2023 20:19:12 +0200
 From: Peter Zijlstra <peterz@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Marco Elver <elver@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Kees Cook <keescook@chromium.org>,
 	Guenter Roeck <linux@roeck-us.net>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>, Marc Zyngier <maz@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>,
 	Oliver Upton <oliver.upton@linux.dev>,
 	James Morse <james.morse@arm.com>,
 	Suzuki K Poulose <suzuki.poulose@arm.com>,
@@ -132,17 +132,22 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Dmitry Vyukov <dvyukov@google.com>,
 	Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com,
 	linux-toolchains@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] compiler_types: Introduce the Clang
- __preserve_most function attribute
-Message-ID: <20230804181443.GJ214207@hirez.programming.kicks-ass.net>
+Subject: Re: [PATCH v2 2/3] list_debug: Introduce inline wrappers for debug
+ checks
+Message-ID: <20230804181912.GN212435@hirez.programming.kicks-ass.net>
 References: <20230804090621.400-1-elver@google.com>
+ <20230804090621.400-2-elver@google.com>
+ <20230804120308.253c5521@gandalf.local.home>
+ <CANpmjNNN6b9L72DoLzu5usGGjLw5Li8rnfu0VuaCsL-p2iKTgg@mail.gmail.com>
+ <20230804135757.400eab72@gandalf.local.home>
+ <20230804135902.7925ebb6@gandalf.local.home>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20230804090621.400-1-elver@google.com>
+In-Reply-To: <20230804135902.7925ebb6@gandalf.local.home>
 X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b=f1vfHE4L;
+ header.i=@infradead.org header.s=casper.20170209 header.b=PnNUDq2P;
        spf=none (google.com: infradead.org does not designate permitted sender
  hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
@@ -157,121 +162,29 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Aug 04, 2023 at 11:02:56AM +0200, Marco Elver wrote:
-> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-> index 547ea1ff806e..12c4540335b7 100644
-> --- a/include/linux/compiler_types.h
-> +++ b/include/linux/compiler_types.h
-> @@ -106,6 +106,33 @@ static inline void __chk_io_ptr(const volatile void __iomem *ptr) { }
->  #define __cold
->  #endif
->  
-> +/*
-> + * On x86-64 and arm64 targets, __preserve_most changes the calling convention
-> + * of a function to make the code in the caller as unintrusive as possible. This
-> + * convention behaves identically to the C calling convention on how arguments
-> + * and return values are passed, but uses a different set of caller- and callee-
-> + * saved registers.
-> + *
-> + * The purpose is to alleviates the burden of saving and recovering a large
-> + * register set before and after the call in the caller.  This is beneficial for
-> + * rarely taken slow paths, such as error-reporting functions that may be called
-> + * from hot paths.
-> + *
-> + * Note: This may conflict with instrumentation inserted on function entry which
-> + * does not use __preserve_most or equivalent convention (if in assembly). Since
-> + * function tracing assumes the normal C calling convention, where the attribute
-> + * is supported, __preserve_most implies notrace.
-> + *
-> + * Optional: not supported by gcc.
-> + *
-> + * clang: https://clang.llvm.org/docs/AttributeReference.html#preserve-most
-> + */
-> +#if __has_attribute(__preserve_most__)
-> +# define __preserve_most notrace __attribute__((__preserve_most__))
-> +#else
-> +# define __preserve_most
-> +#endif
+On Fri, Aug 04, 2023 at 01:59:02PM -0400, Steven Rostedt wrote:
+> On Fri, 4 Aug 2023 13:57:57 -0400
+> Steven Rostedt <rostedt@goodmis.org> wrote:
+> 
+> > On Fri, 4 Aug 2023 19:49:48 +0200
+> > Marco Elver <elver@google.com> wrote:
+> > 
+> > > > I've been guilty of this madness myself, but I have learned the errors of
+> > > > my ways, and have been avoiding doing so in any new code I write.    
+> > > 
+> > > That's fair. We can call them __list_*_valid() (inline), and
+> > > __list_*_valid_or_report() ?  
+> > 
+> > __list_*_valid_check() ?
+> > 
+> 
+> I have to admit, I think the main reason kernel developers default to using
+> these useless underscores is because kernel developers are notoriously
+> lousy at naming. ;-)
 
-This seems to shrink the ARM64 vmlinux just a little and mirrors what we
-do on x86 in asm. I'll leave it to the arm64 people to judge if this is
-worth the hassle.
-
-Index: linux-2.6/arch/arm64/include/asm/preempt.h
-===================================================================
---- linux-2.6.orig/arch/arm64/include/asm/preempt.h
-+++ linux-2.6/arch/arm64/include/asm/preempt.h
-@@ -88,15 +88,18 @@ void preempt_schedule_notrace(void);
- #ifdef CONFIG_PREEMPT_DYNAMIC
- 
- DECLARE_STATIC_KEY_TRUE(sk_dynamic_irqentry_exit_cond_resched);
--void dynamic_preempt_schedule(void);
-+void __preserve_most dynamic_preempt_schedule(void);
- #define __preempt_schedule()		dynamic_preempt_schedule()
--void dynamic_preempt_schedule_notrace(void);
-+void __preserve_most dynamic_preempt_schedule_notrace(void);
- #define __preempt_schedule_notrace()	dynamic_preempt_schedule_notrace()
- 
- #else /* CONFIG_PREEMPT_DYNAMIC */
- 
--#define __preempt_schedule()		preempt_schedule()
--#define __preempt_schedule_notrace()	preempt_schedule_notrace()
-+void __preserve_most preserve_preempt_schedule(void);
-+void __preserve_most preserve_preempt_schedule_notrace(void);
-+
-+#define __preempt_schedule()		preserve_preempt_schedule()
-+#define __preempt_schedule_notrace()	preserve_preempt_schedule_notrace()
- 
- #endif /* CONFIG_PREEMPT_DYNAMIC */
- #endif /* CONFIG_PREEMPTION */
-Index: linux-2.6/kernel/sched/core.c
-===================================================================
---- linux-2.6.orig/kernel/sched/core.c
-+++ linux-2.6/kernel/sched/core.c
-@@ -6915,7 +6915,7 @@ DEFINE_STATIC_CALL(preempt_schedule, pre
- EXPORT_STATIC_CALL_TRAMP(preempt_schedule);
- #elif defined(CONFIG_HAVE_PREEMPT_DYNAMIC_KEY)
- static DEFINE_STATIC_KEY_TRUE(sk_dynamic_preempt_schedule);
--void __sched notrace dynamic_preempt_schedule(void)
-+void __sched __preserve_most dynamic_preempt_schedule(void)
- {
- 	if (!static_branch_unlikely(&sk_dynamic_preempt_schedule))
- 		return;
-@@ -6924,6 +6924,11 @@ void __sched notrace dynamic_preempt_sch
- NOKPROBE_SYMBOL(dynamic_preempt_schedule);
- EXPORT_SYMBOL(dynamic_preempt_schedule);
- #endif
-+#else
-+void __sched __preserve_most preserve_preempt_schedule(void)
-+{
-+	preempt_schedule();
-+}
- #endif
- 
- /**
-@@ -6988,7 +6993,7 @@ DEFINE_STATIC_CALL(preempt_schedule_notr
- EXPORT_STATIC_CALL_TRAMP(preempt_schedule_notrace);
- #elif defined(CONFIG_HAVE_PREEMPT_DYNAMIC_KEY)
- static DEFINE_STATIC_KEY_TRUE(sk_dynamic_preempt_schedule_notrace);
--void __sched notrace dynamic_preempt_schedule_notrace(void)
-+void __sched __preserve_most dynamic_preempt_schedule_notrace(void)
- {
- 	if (!static_branch_unlikely(&sk_dynamic_preempt_schedule_notrace))
- 		return;
-@@ -6997,6 +7002,11 @@ void __sched notrace dynamic_preempt_sch
- NOKPROBE_SYMBOL(dynamic_preempt_schedule_notrace);
- EXPORT_SYMBOL(dynamic_preempt_schedule_notrace);
- #endif
-+#else
-+void __sched __preserve_most preserve_preempt_schedule_notrace(void)
-+{
-+	preempt_schedule_notrace();
-+}
- #endif
- 
- #endif /* CONFIG_PREEMPTION */
+Well, that and I detest novella length identifiers.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230804181443.GJ214207%40hirez.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230804181912.GN212435%40hirez.programming.kicks-ass.net.
