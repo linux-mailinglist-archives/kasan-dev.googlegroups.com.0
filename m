@@ -1,142 +1,141 @@
-Return-Path: <kasan-dev+bncBAABB4N7VWTAMGQEU7RA5PY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDA5BKNJ6MIBBM7MWKTAMGQEMIEJCOA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd37.google.com (mail-io1-xd37.google.com [IPv6:2607:f8b0:4864:20::d37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70D4E76E26D
-	for <lists+kasan-dev@lfdr.de>; Thu,  3 Aug 2023 10:06:11 +0200 (CEST)
-Received: by mail-io1-xd37.google.com with SMTP id ca18e2360f4ac-7908cca2c06sf55040239f.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 03 Aug 2023 01:06:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1691049970; cv=pass;
+Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id 373D776FBED
+	for <lists+kasan-dev@lfdr.de>; Fri,  4 Aug 2023 10:26:29 +0200 (CEST)
+Received: by mail-wm1-x340.google.com with SMTP id 5b1f17b1804b1-3fe45e71db3sf4178615e9.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 04 Aug 2023 01:26:29 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1691137588; cv=pass;
         d=google.com; s=arc-20160816;
-        b=S++iplPpGlxCvBieeBEr385I7dxxsT2Aq73lwiUtnF6llTBAmJZVjn80EQ18GJrMv6
-         /SBqgjLhPMERO4NkFPCGVOn2CbELEG/j1AMciHRp/5KP+fT8aJSTRn2RAw3eWPy7Uc2h
-         /4vjNdb2qh9DAXjCr4GJHZ3nFeZw8V38AdI/zH72hqLmy0kloEyYeBeJB6kwej+TwWmE
-         iX7/MPSt4Y8W9ct76lgVSVP8hVa3cgBxDfsxztINeygEu6KpH0BA42hqxypq7C5Ghwda
-         NHsxJ3Vut1IqUhWy0PS7bUNctmFw2kOGodXeGUixhCbNP2hee4eHO8WxzS9jGcshdqhY
-         vPUQ==
+        b=ZXstAY9MHortHVkEks7+4YUhQlzHwruTOmP4ccnrjPZVropHPeSFzdQR+8QdM/QJMw
+         irSgSNJUeRsCFtWiN4PGqLPRCBKdR5SCL1T4WwKx7xAJGp9TZAVZjYBCAxy6zsqk5Pku
+         OE+0QxCUNKSiXrWVOW2h9GP42iO1SFdzoei3lnkeCLu3OS0Yjuzr812UAZEjAyOlhOzj
+         Hw00J2jU74YBgGrIJ/ss7bLMNFKBvAw/Lqlm5JfSOnNcOe9tjy5XZ+C97nWWsExrv4yI
+         D9u5sZc5Qd7kDnpjqCFqVK4JlUbOexYlB2d3vTki6VUzQL6a4+Hl29z5avj50UKfnAL8
+         2ZNA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:sender:dkim-signature;
-        bh=1N1KWROcmshLkpkjGd7PYbjohSDd21eTFZlUD2KJGwQ=;
-        fh=PtPKd2tcWuVtu+yL18J6sFXYyO2PPLg/Xbo07e2JVhk=;
-        b=lg0u3hFWizTjbDJcSnAJCFq7CKVJI25MvPosEVHlO8wSN2vUdWuLWKDZc6KiLLVoVC
-         xDp1UmPKuca53VGNVIl+VBwn5mZDAq05lGd4gWxw7E3EtWbExIV/vWDUl+fpmQHwMODE
-         Jivn7wUSogiHMvQJ1eZ5zbm/9gPxhkBomKujotIVEwzXRSrG8lpmXTvKmOT9wdCjrDeu
-         E6neNdqAzgVVnKiJi8e+2ywE6UZAYHRT0P0Ze1RVkuwTYfGd0WyK3eSR/EKIOO4z25N2
-         LOcWAVHFSPlSLqAeAIM0L7gwEZ4dKYlQkP0IzUUfEJzOxDwhP3z5iTIpdB6jng5/Jbzu
-         TaVA==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=WKfNb9d5sRgZXsh2Go1gcXTkIW4ncFdnafHk71S2zio=;
+        fh=ubSGe9Pf/KxTId9rGYzy0xYsiY5Gj5OI3uWYUzuWZkk=;
+        b=JMIV7aWeykm1uWR4uAhwcUIXsUX8yr+tNFsvaMbyk2KI/LiZ282pe3InalNH+chu9F
+         gDHqYCQ7SdV1gQUYBMQH/ZaqflR/RXvJc5+p09BbTnwCfYluTVRlMhmm9TtZMe2UxrPO
+         xPsewjSeAs/1PJpV5waF0ORLBwWtv1KAcGYYN8KV7mfbMoAz6RHraFDmtjP/uLOLMgO/
+         Wb1nGMmzzB3lzxhObdIOZbKh0s8cK9z/ZZw0e4Q2nE74jHLcz/EMo88Pr1TMwbVr+chs
+         Ov8O9QQ9uaMPdwsWkoFDeohFVsKIj8cKO0xYeG/9DRXXnzFZV92KRaX2hHM1vrLww6jV
+         i/LQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) smtp.mailfrom=lienze@kylinos.cn
+       dkim=pass header.i=@intel.com header.s=Intel header.b=GQt7rfUS;
+       spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1691049970; x=1691654770;
+        d=googlegroups.com; s=20221208; t=1691137588; x=1691742388;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:mime-version:message-id
-         :date:references:in-reply-to:subject:cc:to:from:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1N1KWROcmshLkpkjGd7PYbjohSDd21eTFZlUD2KJGwQ=;
-        b=rNLTOm5lVMgYzogk5AIKY93WIenUHvoG06HAum4LImkpxBMxp8SwtTrhDzEg37R95U
-         kvroLyioBNIKpEktbN5E53vxWgQe5HB9jnyS3hXgYFrFmFZmm6WQGxBAubDnK1ZNRV0p
-         uB8M44NE1xuXNNEcoMqRMRUZ0NqkoOSyfqf4uaVae7Z2fYjeo6WiqXWGjTRd2idFm68v
-         sDvE8w8lcwPpzi/LgvRHaUwRQPd72b0fFeNbh8fzAKtpiCCnrjsWSmHOTcG3e9JhTEVW
-         D3FuYBYfVCLQp2q2bXLsp3yLi+R/FdTQuhaWPDWIzZ0lVMAT9d1iUlEwHfrES/LvVUA+
-         oAGQ==
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=WKfNb9d5sRgZXsh2Go1gcXTkIW4ncFdnafHk71S2zio=;
+        b=lTjuq6gIsF+DDNQJ2X0QPBFBSUtCOqOepIoar1SkGmucG+92cUO0lWb2UOTEyUNQDm
+         L6JtFesYiY99BilNq2sXFPiMhIvJqq7FIXlD52iVz21DmnO9I/oHoXkU7411v7gu9tBi
+         AuEcV4vZpfmzpLCRzgf7j+x+PvZA5mtwugiUg6EO7VHnCevDId6m9lq0O24dGqwDLD+g
+         7TzvNUqGKYHvdx4Xb1U2J3hPgVhA1rEp6v7EnWLqLMaCzFR+mwNd0UsK271X3ErfBhx8
+         VwiJxORyQ4YcmJazDgnJvfxuolvN8C20bpkpbUNyUQTSvr/gelpMbvrFGBEwO6bMfb+l
+         Edqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691049970; x=1691654770;
+        d=1e100.net; s=20221208; t=1691137588; x=1691742388;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=1N1KWROcmshLkpkjGd7PYbjohSDd21eTFZlUD2KJGwQ=;
-        b=UW1J2Z/RRdOEzHhJhJ8616873pKjdtphpr7b9N+Tnd6U8kEA0tkpNaNEtgDwg+NySv
-         SS7lAMR2z7dw2I1wGbakS0fnSxpeazl9mplKJ6lrB0Hr4+47NuPW9XWgSTJjk+mLQSx4
-         iIavkOtb6+6TJQcb6dAk/kGtvOPXASIES/80Jukb8kuKPZ7diy1+9LcoTnBJa/ANNTIR
-         GNWggDaWr5N3xzaoI5h07A81pyOTkVNu92tIHpkvV7LxGfaG2OFJBxgD8wYwwSCbE2Qx
-         CTJItHT3IKBH4cutkzC+sDO9/XBeWVjhMqnf+EqdlvpxzYzgQ8JmBGp88K50a2QkYV7g
-         JOGA==
+        bh=WKfNb9d5sRgZXsh2Go1gcXTkIW4ncFdnafHk71S2zio=;
+        b=NIi29jyS1iaU9fQYdJl4QDR8WvWUc6prPZjC99DPttckFmpUqpstsILx0Fajs9IHeq
+         hfvObEZpd5aTK6eNN+PIDkPCwD9icjOftvaCeeAp1YFdRKk27HS66hkghkJLw1A+dQTd
+         ItF3gyXvBT4/sAFgm3fRN/OhVqYreGZCWTAIQlfW6AYKSKbUHVFvIfjlvfKxeBM+dC4w
+         PjPMh0zc0L+nNw5hcZ2d6gJEckguVhnD6Z9HL+Qft7SEOI04LBWYgbUPjEPzJV1ZCHcX
+         ftGyjIBtRSw8nxJUCaHoj9X9usFqlG4gCXpWwRZtNUr0wVKMdVxOEae18U5iCmnEZrJA
+         Yd9Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: ABy/qLaHL3aOmerE/g7oxVzT4cctmfjQoa1x+GRHF9TZKfvFe+gmf3O8
-	yuH5Vc/JK2dzO/DWgq65PV4=
-X-Google-Smtp-Source: APBJJlGA3Kx9GL9ETTf/xOY7aIq4SvUGGFHhyY7vo3HNnGVV+9/sivrbYlnyelBTTOcMBSHYOGJnJg==
-X-Received: by 2002:a05:6e02:1142:b0:348:b114:a3d2 with SMTP id o2-20020a056e02114200b00348b114a3d2mr14405782ill.21.1691049969851;
-        Thu, 03 Aug 2023 01:06:09 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzFEzl8a+74aSqR4XCUB0FoJrVhIpGg/Uzy6IK3z6iTiu6KwDbL
+	pJLgAsgBOI2XsR0nyeXkr7E=
+X-Google-Smtp-Source: AGHT+IEgMM8t9lWsgBMukjeNr1gxcezL5Lb7TC9E6ax6KJ1EcjVWX8fsPuZHVnFdfAZao7BOAbJ6Pg==
+X-Received: by 2002:a7b:cd10:0:b0:3fe:1deb:79 with SMTP id f16-20020a7bcd10000000b003fe1deb0079mr966593wmj.26.1691137588067;
+        Fri, 04 Aug 2023 01:26:28 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:5213:0:b0:33b:7f21:7d7e with SMTP id g19-20020a925213000000b0033b7f217d7els4962935ilb.0.-pod-prod-09-us;
- Thu, 03 Aug 2023 01:06:09 -0700 (PDT)
-X-Received: by 2002:a05:6e02:170d:b0:346:24c2:4f87 with SMTP id u13-20020a056e02170d00b0034624c24f87mr19601703ill.32.1691049969153;
-        Thu, 03 Aug 2023 01:06:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1691049969; cv=none;
+Received: by 2002:a05:600c:1c25:b0:3fd:2f74:fa8 with SMTP id
+ j37-20020a05600c1c2500b003fd2f740fa8ls1980462wms.2.-pod-prod-02-eu; Fri, 04
+ Aug 2023 01:26:26 -0700 (PDT)
+X-Received: by 2002:a1c:f715:0:b0:3fe:196f:b5f5 with SMTP id v21-20020a1cf715000000b003fe196fb5f5mr975360wmh.16.1691137586496;
+        Fri, 04 Aug 2023 01:26:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1691137586; cv=none;
         d=google.com; s=arc-20160816;
-        b=PT0crQJkwmNW3VG/nwPTe5enK05oZp1OzWBsAosQ0MxBQt951BxQ4h07BpueW0My+u
-         E63gMpaWEpBeS43ps9wgnf0Va0VY9KWEiVtVD+TFnTHWtoLbReJEDxxO4xIh9Qlme29u
-         ibItzn94wVuP1QfwIJ03U9Opt47j+feDtLX5BEskTVcvUWvpflcApJFNeJ32M8xc8Ca8
-         qJcrX0Xyqljj0UALJkovfRNQmCtR/735Gfsk/0MMPD4TWE+GIb3eIVXC4QL/S+XThTBF
-         QUcF2sWhbG6vXjRzZFce1OKZAP18iziL3uONDknXPOCCAkWSSVBX0PHjBWs8JriSBk0l
-         lmWQ==
+        b=RaBBCVxWYymmAHhXVFHzp9Jp+Tn5N2XBREbvWqV8byrgLa2X/h7VeiY1RJDLO1sd5X
+         IWNHW4CXKqvOhXHw9nUYp7LYtG6lC3OrQ7jG82KUazPAqvyGVqPojVLYUTscYuYD/or4
+         i1VoZ+AAT16fREi51cw1yJSpFOFCUAw3hyEU0SyKyfIpmHgt6D5IhpQRz6HJ3mVbzN5t
+         CAYS7QG61+KpNFB/GsenycLXy1f1A/ASj9ipbsPigH1iqBJ+J1b6YGDX1iy1lVy+aIEi
+         cUGo+DySkChuhoZmNm98JUjKvJ6znmce0EQheS1SrbYKb+FMp9OHhk+ti2Ev/KKLOXSD
+         fORw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from;
-        bh=MK5LYRbFtsUe3oM/I42XrNz9zfKU6z9T17StV29UIes=;
-        fh=PtPKd2tcWuVtu+yL18J6sFXYyO2PPLg/Xbo07e2JVhk=;
-        b=KQoUe5lu8NgjK+hKOXJBIS4B0nS7sh8aJXi4m2J5IaaH+4ti+UksgSMRSPed3WlrMo
-         UudIo3tzKLSRaDbpkhiqaJbOfsCNShhe4ncjtvWIX3oBen7wj0ifRRqE5aiTNMwlO05N
-         1UFPN0aQmRzdPlLnLbFpyvyfjMsE+J+SM+vIZSygFg1r2hZNeKXWP44FdrTPisVSZ4WB
-         5AJpCNlXR1ABs3mg/fGIN7ygl2HqUgdZsP5y4jbmRnlXga1ne8EhoL6kAi922XsMxG/A
-         ccTBVqRVZ5I2TpQs+h74n5Ccd9hgHX/UE7Gx9Mgde+S7qgIdDgsG73G9muyyS3VaZMEh
-         TKCg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=qGsLNWMarAuuCP4hn3WhePhRn9hLu0OcSV+cI8+VfVg=;
+        fh=ubSGe9Pf/KxTId9rGYzy0xYsiY5Gj5OI3uWYUzuWZkk=;
+        b=qAFVHQ8QIVYCDF3P7gDaSd7ilHJuMtGUR3kYZp0HfRjyVv1iDOPCVipt36B5/CHV+U
+         P3G5+a0RFDWrR2lzD+sse//IcAiwc2JI2IYSgx8EYejGu8zZp/xZkWFw4G/nTpQxhUVM
+         nxJgcfOSyHbcRPs79OZs6IyJoptDic/HCWkLF3h0s9S6706RpfswULi65IgisIXd4JnZ
+         6m9wzGY92ScUJP1mXudczLuv2EtkMfXCNVScr8H6zdxVhz1vB471My/FdbFBJ4z5PorB
+         yDj84RH3Bn2zFQ455/zQQGUmaVtcTZhQ0g4++KpsmoaEa0M9iJq16diAQzGKu8gzPwoz
+         hj7A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) smtp.mailfrom=lienze@kylinos.cn
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn. [124.126.103.232])
-        by gmr-mx.google.com with ESMTPS id y2-20020a023542000000b00429649d963fsi662875jae.6.2023.08.03.01.06.07
+       dkim=pass header.i=@intel.com header.s=Intel header.b=GQt7rfUS;
+       spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mgamail.intel.com (mgamail.intel.com. [192.55.52.115])
+        by gmr-mx.google.com with ESMTPS id p27-20020a05600c1d9b00b003fbf22a6ddcsi146408wms.1.2023.08.04.01.26.25
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 03 Aug 2023 01:06:08 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as permitted sender) client-ip=124.126.103.232;
-X-UUID: 31d6717c58ef4209b175782d51f77270-20230803
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.28,REQID:6068e0c5-4592-4c2a-864d-cdc44bfed288,IP:25,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:10
-X-CID-INFO: VERSION:1.1.28,REQID:6068e0c5-4592-4c2a-864d-cdc44bfed288,IP:25,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:10
-X-CID-META: VersionHash:176cd25,CLOUDID:2f581ab4-a467-4aa9-9e04-f584452e3794,B
-	ulkID:230802231252IHNI1SQW,BulkQuantity:1,Recheck:0,SF:19|44|24|17|102,TC:
-	nil,Content:0,EDM:-3,IP:-2,URL:1,File:nil,Bulk:40,QS:nil,BEC:nil,COL:0,OSI
-	:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,
-	TF_CID_SPAM_ULS
-X-UUID: 31d6717c58ef4209b175782d51f77270-20230803
-Received: from ubuntu [(39.156.73.12)] by mailgw
-	(envelope-from <lienze@kylinos.cn>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 166434915; Thu, 03 Aug 2023 16:05:58 +0800
-From: Enze Li <lienze@kylinos.cn>
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: kernel@xen0n.name,  loongarch@lists.linux.dev,  glider@google.com,
-  elver@google.com,  akpm@linux-foundation.org,
-  kasan-dev@googlegroups.com,  linux-mm@kvack.org,  zhangqing@loongson.cn,
-  yangtiezhu@loongson.cn,  dvyukov@google.com
-Subject: Re: [PATCH 0/4 v3] Add KFENCE support for LoongArch
-In-Reply-To: <CAAhV-H6FqreZtuOXYayhu=bLZeij+fxygbK5Mpw_kVuPTvdbWw@mail.gmail.com>
-	(Huacai Chen's message of "Wed, 2 Aug 2023 23:12:23 +0800")
-References: <20230801025815.2436293-1-lienze@kylinos.cn>
-	<CAAhV-H6FqreZtuOXYayhu=bLZeij+fxygbK5Mpw_kVuPTvdbWw@mail.gmail.com>
-Date: Thu, 03 Aug 2023 16:05:45 +0800
-Message-ID: <87a5v83606.fsf@kylinos.cn>
+        Fri, 04 Aug 2023 01:26:26 -0700 (PDT)
+Received-SPF: none (google.com: linux.intel.com does not designate permitted sender hosts) client-ip=192.55.52.115;
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="370090202"
+X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
+   d="scan'208";a="370090202"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Aug 2023 01:26:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10791"; a="733132236"
+X-IronPort-AV: E=Sophos;i="6.01,254,1684825200"; 
+   d="scan'208";a="733132236"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga007.fm.intel.com with ESMTP; 04 Aug 2023 01:26:21 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 6BD6FBAB; Fri,  4 Aug 2023 11:26:32 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Marco Elver <elver@google.com>,
+	linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org
+Cc: Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v1 0/4] lib/vsprintf: Rework header inclusions
+Date: Fri,  4 Aug 2023 11:26:15 +0300
+Message-Id: <20230804082619.61833-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
 MIME-Version: 1.0
+X-Original-Sender: andriy.shevchenko@linux.intel.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@intel.com header.s=Intel header.b=GQt7rfUS;       spf=none
+ (google.com: linux.intel.com does not designate permitted sender hosts)
+ smtp.mailfrom=andriy.shevchenko@linux.intel.com;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=intel.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: lienze@kylinos.cn
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of lienze@kylinos.cn designates 124.126.103.232 as
- permitted sender) smtp.mailfrom=lienze@kylinos.cn
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,125 +148,31 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Aug 02 2023 at 11:12:23 PM +0800, Huacai Chen wrote:
+Some patches that reduce the mess with the header inclusions related to
+vsprintf.c module. Each patch has its own description, and has no
+dependencies to each other, except the collisions over modifications
+of the same places. Hence the series.
 
-> Hi, Enze,
->
-> I applied this series (with some small modifications) together with KASAN=
- at:
-> https://github.com/chenhuacai/linux/commits/loongarch-next
->
-> Please confirm everything works well for you.
+Andy Shevchenko (4):
+  lib/vsprintf: Declare no_hash_pointers in a local header
+  lib/vsprintf: Sort headers alphabetically
+  lib/vsprintf: Remove implied inclusions
+  lib/vsprintf: Split out sprintf() and friends
 
-Hi Huacai,
+ include/linux/kernel.h  | 30 +-----------------------------
+ include/linux/sprintf.h | 24 ++++++++++++++++++++++++
+ lib/test_printf.c       |  4 ++--
+ lib/vsprintf.c          | 38 ++++++++++++++++++++------------------
+ lib/vsprintf.h          |  7 +++++++
+ mm/kfence/report.c      |  3 +--
+ 6 files changed, 55 insertions(+), 51 deletions(-)
+ create mode 100644 include/linux/sprintf.h
+ create mode 100644 lib/vsprintf.h
 
-Thanks for your patience these days.
+-- 
+2.40.0.1.gaa8946217a0b
 
-I've tested this on both a physical machine and a qemu VM.  It works
-well.
-
-BTW, if there're any modifications, bugs or improvments to KFENCE on
-LoongArch in the future, feel free to Cc me.  I'll appreciate it. :)
-
-Best Regards,
-Enze
-
->
-> Huacai
->
-> On Tue, Aug 1, 2023 at 10:59=E2=80=AFAM Enze Li <lienze@kylinos.cn> wrote=
-:
->>
->> Hi all,
->>
->> This patchset adds KFENCE support on LoongArch.
->>
->> To run the testcases, you will need to enable the following options,
->>
->> -> Kernel hacking
->>    [*] Tracers
->>        [*] Support for tracing block IO actions (NEW)
->>    -> Kernel Testing and Coverage
->>       <*> KUnit - Enable support for unit tests
->>
->> and then,
->>
->> -> Kernel hacking
->>    -> Memory Debugging
->>       [*] KFENCE: low-overhead sampling-based memory safety error detect=
-or (NEW)
->>           <*> KFENCE integration test suite (NEW)
->>
->> With these options enabled, KFENCE will be tested during kernel startup.
->> And normally, you might get the following feedback,
->>
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
->> [   35.326363 ] # kfence: pass:23 fail:0 skip:2 total:25
->> [   35.326486 ] # Totals: pass:23 fail:0 skip:2 total:25
->> [   35.326621 ] ok 1 kfence
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
->>
->> you might notice that 2 testcases have been skipped.  If you tend to run
->> all testcases, please enable CONFIG_INIT_ON_FREE_DEFAULT_ON, you can
->> find it here,
->>
->> -> Security options
->>    -> Kernel hardening options
->>       -> Memory initialization
->>          [*] Enable heap memory zeroing on free by default
->>
->> and you might get all testcases passed.
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
->> [   35.531860 ] # kfence: pass:25 fail:0 skip:0 total:25
->> [   35.531999 ] # Totals: pass:25 fail:0 skip:0 total:25
->> [   35.532135 ] ok 1 kfence
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
->>
->> v3:
->>    * Address Huacai's comments.
->>    * Fix a bug that Jackie Liu pointed out.
->>    * Rewrite arch_stack_walk() with the suggestion of Jinyang He.
->>
->> v2:
->>    * Address Huacai's comments.
->>    * Fix typos in commit message.
->>
->> Thanks,
->> Enze
->>
->> Enze Li (4):
->>   KFENCE: Defer the assignment of the local variable addr
->>   LoongArch: mm: Add page table mapped mode support
->>   LoongArch: Get stack without NMI when providing regs parameter
->>   LoongArch: Add KFENCE support
->>
->>  arch/loongarch/Kconfig               |  1 +
->>  arch/loongarch/include/asm/kfence.h  | 66 ++++++++++++++++++++++++++++
->>  arch/loongarch/include/asm/page.h    |  8 +++-
->>  arch/loongarch/include/asm/pgtable.h | 16 ++++++-
->>  arch/loongarch/kernel/stacktrace.c   | 18 ++++----
->>  arch/loongarch/mm/fault.c            | 22 ++++++----
->>  arch/loongarch/mm/pgtable.c          |  7 +++
->>  mm/kfence/core.c                     |  5 ++-
->>  8 files changed, 123 insertions(+), 20 deletions(-)
->>  create mode 100644 arch/loongarch/include/asm/kfence.h
->>
->> --
->> 2.34.1
->>
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/87a5v83606.fsf%40kylinos.cn.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230804082619.61833-1-andriy.shevchenko%40linux.intel.com.
