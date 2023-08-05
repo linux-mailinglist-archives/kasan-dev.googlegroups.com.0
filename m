@@ -1,115 +1,117 @@
-Return-Path: <kasan-dev+bncBDA5BKNJ6MIBBMUXXKTAMGQEVRDQFIY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDA5BKNJ6MIBBMEXXKTAMGQEOYWB2VQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0219877111F
-	for <lists+kasan-dev@lfdr.de>; Sat,  5 Aug 2023 19:49:40 +0200 (CEST)
-Received: by mail-lf1-x13a.google.com with SMTP id 2adb3069b0e04-4fe3a1e0329sf3112232e87.3
-        for <lists+kasan-dev@lfdr.de>; Sat, 05 Aug 2023 10:49:39 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1691257779; cv=pass;
+Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B77D77111D
+	for <lists+kasan-dev@lfdr.de>; Sat,  5 Aug 2023 19:49:38 +0200 (CEST)
+Received: by mail-lf1-x13c.google.com with SMTP id 2adb3069b0e04-4fe3fb358easf3102835e87.2
+        for <lists+kasan-dev@lfdr.de>; Sat, 05 Aug 2023 10:49:38 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1691257777; cv=pass;
         d=google.com; s=arc-20160816;
-        b=fuWEGhArJQstNpH9H1rU5D+vHGh1rtPkAszjq6FMaLgzpBbC4it+wDNasUJv/yzBT+
-         MMs79iVwumI6hEOAr7SNBPFt90u5KIIXBCiiFMKL494JRjeAGqnYYGNtdJ6nQOKdAPaG
-         5xEWDeA8/ye3aVgwmOaQ7Gpq/e20P0K19aHh3GWGW0vR5j+2ySds4YoxcvoUKaeyx5MX
-         gsJa8BufMATyccgocHCSlkM+QpFHo3TpPnOSduCRjp+supy7YiyHPgWIZhbXjS7mNIPY
-         MiTRbAPy0u4RZ14JVZYLebwtFqqnFNx6k/JDJS9OaJNB+vux4keQTedIHJZEJ3fwXwWD
-         yW/g==
+        b=iwGBlTANqrLVRWi7nVakbavEF7oC8Fkeb55UMWgKqN950yH45tMps1PgWN9XUYb5Eu
+         hsMIzlPC0DiLFr7UQV7L2U54V3DFb1YCqQhqNwJrcQQ4+7d1G4weDwM7kEyVxw3hPdYu
+         /LmAnSNiLJ0oWdl5UI+U+8t5xSfvRZSOLYjQlwGDpqPy8OFEDgLIVQ+aSMUbgf1hKjRO
+         VCVQi7Lj2NdCF3njdzMFw2fAN6yj9eqy8qAVgv5CqSkx49qS8ctSwvO7uoUL1DLMbYwZ
+         KMcFoQ7vu7hEW6T83+O1EWbKaZ/yfn4EkAGvIi0goY+QIwAHg1Lzp+MqdWU1MtoJcaZL
+         CmqA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=tQMocabo5Uva4ijKbjN3zcSPfTCS3yQabM80ygyqSY4=;
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=tmAGlbs6xa9L94MUCUktu/fldMALxksTSYpcYRMjImQ=;
         fh=RoWWTRK1ZrXNP/VtEBcCDaK18unRqwp2i1mhxrenPO0=;
-        b=kpRIbhg1F6hlD640QXX453ejgQQAdwfcviXW7dxWe+Rrev8C1kr/KFg4yorXMxx05i
-         dny7YuHDITMDpva1ydLxOl6mKxi6pxTuylG4NWnDyh9rMVXG5nWngeJrDBDTgol1EXHc
-         3GhQEiiuN9jzgCBbWYURdf2fzeBN/4ZDVvq7KGFNvDaTpsrdiWtKtCorqm8S6sU/GE1l
-         9jVo6GbULZf1+H8355zYX4dL3hcaWlI6P+o00/qIr/mzdA0twYZXtls+RWVqUkSd8WM8
-         7CFmk9SJ1VKD+OOQJ6ZXCUOxjmJhMiOIoL/A5TAeFUyQDpyU0xco2RHKlliZrnFfy6ix
-         MYKQ==
+        b=O88tFL4gICozA9TZdDHnVGheaqzk00qFPJBwDpfmO7BZU+Xxbqyy7Fz7qAyZpQTRxW
+         dDhMt/u+IKqsBlKv5f1OyHx2SspEd2vMW52u9mrWXZwWw5towCRMo+X1jst6J4xfqbOe
+         homQK5+jU94FEcwERebz3sA+h20maTHyl//w7OEPSHCGo2f5PO/FFfF/mBK9JfAuD0Uj
+         1zAVzc6CILql1h5vzhEnRFOimGwXsZjpNDv27J/xKZ7kjHbr9R3DAJx5Yd8ZQwkSpc0p
+         ZiOq4B+GNvxMNiVLaojsU1DsMFvVzLH76COCPu5IEKE9M0BaCgjSsJRaSgoN9L27Fb5J
+         Ud5w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=GED2JNqX;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=QEC83J08;
        spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1691257779; x=1691862579;
+        d=googlegroups.com; s=20221208; t=1691257777; x=1691862577;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=tQMocabo5Uva4ijKbjN3zcSPfTCS3yQabM80ygyqSY4=;
-        b=Rn1aqQlGGCBqBBF5M6b82VxHgxnjnWhqvUXkEXuKmHmmGO3xcmvwhZxEPi2w9BozoZ
-         vfQf4g90udH27e3UTLJzNNannZW+Y53uIdv93L92iz6meP/P0TxXJGJW/7n/NHw2qJDF
-         UBO8ZbhWsCj11zr7oP850W/6P9ckFU4FdziKo9/54EYOjvBzy5dZDdodOHVHBHYjmkKf
-         LhvDw7okpux9i2NC0vzhKyAMoBxhLt4O4zczMHRebBP+X9BSuwM9wplKwDpXRKzYSFFR
-         i08xHatJ1P/BsCSpuuG5Y5ccV0LqoVmu8ufWSub9u703XazbF+zSnNzp+pE0N4HfBg58
-         B/Sw==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tmAGlbs6xa9L94MUCUktu/fldMALxksTSYpcYRMjImQ=;
+        b=Fuge8Hh2HiWOdsaAsyOTY9m5CCTUURQz2A6mLI4nQmicSWXlTbdvhiugPO2FWMl9qw
+         3hXlHtlhJkBLLLZUFZYOig1zrVPp0y+7FXIPBMyRN9t+znHmVsfLIeZ5EKZMjn0BGEdM
+         perdTOh625uzYzf3QFvclPaXjBClCy9jdtml4VlP36JuK2chQ8zZdeTFbCL28stC0kLm
+         dvuMwb8DzbV8eIsNybetvo0Qp9jqBT+x+lD9yWruV2PjHzNRqR2smvR1/YaH85zOfWLl
+         PIllNCIYTAJyYA2gOoK1tLXCrGcJul2LjUIObSRrMNh4OEtkrIVn7saaBPemmKPEgH6Y
+         XK9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691257779; x=1691862579;
+        d=1e100.net; s=20221208; t=1691257777; x=1691862577;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=tQMocabo5Uva4ijKbjN3zcSPfTCS3yQabM80ygyqSY4=;
-        b=P34NNFpFCksXBEy9ER9c2qxGHhYTJ8lMD2kJFBqul4qLdOxVC6zhz1VHt4Ev2nMKXH
-         AjTXuLq3A4bWxmr1WFYysGhLOt3+qtMPHRzR8kMFgnt/JAGT/VfEyRnaJdieRrPZ3D7o
-         h1O3y56+uYm7Cw2c7fM8pfgSmwk35mrdrlw2hIk6knEL9bYVa9dZf/Y63JMiFRZLgpFh
-         oZuGuNUI7gBDG8asAFjfLj7RX6kQJaOhpQ4HJfGqEmwqnvVeK9Cfx+i8F8J2Fbk3b+AO
-         uNYV9AGLu4acSClycYgRbE6ETfCX7MUWVVMMUGU3RKFxG3J8tOgZEZkmRrx+CB4uyIIM
-         8Gow==
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tmAGlbs6xa9L94MUCUktu/fldMALxksTSYpcYRMjImQ=;
+        b=k36c7RdVkPIpo80we/+sdOFbA2t4KimHHSrDENpVZhU1SltuoTZg7Qs/rAZ8TcHjSe
+         k7wvSGUQ4ul6roVjQvVefmnjlJrfXvXYClIhRxNkc4UAd5aF20HrFm+meM8DsDHgzHs3
+         EhZIXfRgWcbL/+RfUh1Yj92GkqPvQqVqcSLwuGKhz506xwXCGH22yyeCo3UVy8bryiB0
+         WX0d80XLdVLbldbTMJ+PooKrCl3LaGUmhjoxs/ty+fF1B/DdZNSRHCsvcG1Q7rBXzf3m
+         KElg6cuBymhuBBZ8ogCdFbk5pZ70EP14h5/IswxL+rHUTFjI98yepA5K/TWhqWpkLgnT
+         Mm3Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YyiW5p+K5NB9NBQwnET3kwkFtEIbSbllF7jKt+NbaGwAi/BywYO
-	i8nmt7aUHNtSj9VNtIRo1U+e+g==
-X-Google-Smtp-Source: AGHT+IFU+cMlMBp4sVLaGvGDS/DrSG4iCiEBGFzfhQjhXjbeaueFbE3Y9mJW9HwkmsJTPSeuvW4yJw==
-X-Received: by 2002:a05:6512:6d2:b0:4fd:f7a8:a9f3 with SMTP id u18-20020a05651206d200b004fdf7a8a9f3mr4212197lff.38.1691257778979;
-        Sat, 05 Aug 2023 10:49:38 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:561a:0:b0:4f9:5593:b2ce with SMTP id k26-20020a19561a000000b004f95593b2cels429309lfb.2.-pod-prod-01-eu;
- Sat, 05 Aug 2023 10:49:37 -0700 (PDT)
-X-Received: by 2002:a19:9156:0:b0:4fb:79b5:5512 with SMTP id y22-20020a199156000000b004fb79b55512mr3368864lfj.66.1691257777310;
+X-Gm-Message-State: AOJu0YzJA+w9RIqv45tWAeOLPfhi0Z2A/3SQKfbjDbVdVLEZcw3tFZzD
+	IXFc2x91xr0O1gd+JTxLSh0=
+X-Google-Smtp-Source: AGHT+IHypqjjXK9OtWW0a9oo+mEem4PMo6phMz8m0Aea0jexJ5vNowKc0m9jvGCasp6HqPyGGLEPwg==
+X-Received: by 2002:a05:6512:406:b0:4fe:d0f:b4f7 with SMTP id u6-20020a056512040600b004fe0d0fb4f7mr3355989lfk.65.1691257777075;
         Sat, 05 Aug 2023 10:49:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1691257777; cv=none;
+X-BeenThere: kasan-dev@googlegroups.com
+Received: by 2002:ac2:464e:0:b0:4fe:56c5:2906 with SMTP id s14-20020ac2464e000000b004fe56c52906ls220766lfo.0.-pod-prod-07-eu;
+ Sat, 05 Aug 2023 10:49:35 -0700 (PDT)
+X-Received: by 2002:a05:6512:406:b0:4fe:d0f:b4f7 with SMTP id u6-20020a056512040600b004fe0d0fb4f7mr3355958lfk.65.1691257775118;
+        Sat, 05 Aug 2023 10:49:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1691257775; cv=none;
         d=google.com; s=arc-20160816;
-        b=gmWItD8/0dCw3W+3UEZNlKhka4ttw/norVhJwc6VEPbht/R9w8zjxm7yzmh+zcjxaN
-         q9EwWRKCN72YiklKhU0HUr/FhJATM/9u8T57Nv0RVqEH3FcVCCAJIiFeViaF3Ad/h2AF
-         rpQsYeREPozoR1ti39FMWPRdx2FUXxNsmS/6ZSoqG3K1bdkjNm2x1TxDHWpjILnh+p1F
-         vHZ56B0vEWcwYycyBlr+i9JZptjSLakD7tUgxlnTVgE/XHCO+VNVlClgUVi+nGNrZNWv
-         10hkC2BWTNBFFAz4GW2Kbz/6yeaingVLAab3ubEs1dSDU1VNDPQtV+ZD4St//80mB2QG
-         aAfw==
+        b=Is6INToRnulHCgs62Uqxe6HVyCUZ3dnEpRD2z5uEp3FGb68eUU+Xb2HSSlga52p9uO
+         WQOkfwT533WBTdMEw2Tw4Z3rGv0vOo42AaOcWPzK5P4o6rh/kbPhZGiH3DnS2ofqjYB7
+         kQGU9mzmev6mXsemqmL8PnA16jyBHfrDHzyuK5IIF8/hXTQWgqA8STZvCzO6+taXj/bQ
+         0nWOkImQPnUi6MTRkCl+wxlQ163oYIiuXTt6K0ZenB5nTYlkSTkocqZtEoMFr0mGpF+f
+         Zq2O/qsbyU8YzNkt9jSdQ7MpxmSBBjkvY97tvPsTL9jZvx5QKbJYRIvUdCsQH/pLvX6F
+         S/Lw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=M7sJ9gGeF49op4HZCyGN9WO14IstQT6js5K5KrYBSYM=;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=Nl4rJPbf9lJRqy1FTNc3L1ii3wsmDMe6b6YFfzVSNO8=;
         fh=RoWWTRK1ZrXNP/VtEBcCDaK18unRqwp2i1mhxrenPO0=;
-        b=yM9RGPuBNkdzerSxYtRkHPbP8pRZ375XDyrYVFzhEV/3ffROFPpnyL3zfrT+OVOy3Y
-         85XIZLyIpgBD+4CewMpyZzDpiNfCr19BxglVpI7p2qQZJ2TyZg14L5r7x7UcXvhsYIaO
-         EpoLuxhKZFfEhQRadd1m4TocN9x+gdronzJ0/pUyIGCwF93Yjqy6aSmCotqJDstbYLc3
-         aHJ4Vwq8zVphJ4plS3blCjgTmzW/OWDzM/S16j/S44G14AQ6ayepd3qHu0GW8Nvf6fmY
-         kKL2ogiObCot0hTAP5pX65kZzDm4Cfw+jEOJfl5UHbOMvbLTLoh+gtRU9Kcj2RemrOPb
-         EDqQ==
+        b=bIej9EPrT5F3dFRqujIEwWLwK/tamtAe5+IREMXGCFc7vHHiL/h2m+9BJu8qqsDrq5
+         u5MUD/Qc87aao1k3GIrPdO9lZOaZr0dvZ1SeTXA+bd90DOieT/XUYe49LbmW8/b8IZpW
+         hkre/aWQLiMsS00ymjk+K5ZEbZKUjWy3qix0u971vlOk86jm8wxU0gQPBmQRunWENmfB
+         y2P5XqvG1QekP7PqEnIKQat5xff0WjQi/rNhRSPhKBOyCesH/F610apA5zwGG+/L2KgU
+         zohDLVsdecQ6iHhL6K15MxPO1Uq7UTr51UuqxkjOks1d1rILP6GL6AsOjFHsucrb0dA/
+         isvg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=GED2JNqX;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=QEC83J08;
        spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Received: from mgamail.intel.com (mgamail.intel.com. [192.55.52.88])
-        by gmr-mx.google.com with ESMTPS id a7-20020ac25e67000000b004fba12b2dfasi289524lfr.2.2023.08.05.10.49.36
+        by gmr-mx.google.com with ESMTPS id a7-20020ac25e67000000b004fba12b2dfasi289524lfr.2.2023.08.05.10.49.34
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 05 Aug 2023 10:49:37 -0700 (PDT)
+        Sat, 05 Aug 2023 10:49:34 -0700 (PDT)
 Received-SPF: none (google.com: linux.intel.com does not designate permitted sender hosts) client-ip=192.55.52.88;
-X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="401292520"
+X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="401292529"
 X-IronPort-AV: E=Sophos;i="6.01,258,1684825200"; 
-   d="scan'208";a="401292520"
+   d="scan'208";a="401292529"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 10:49:31 -0700
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Aug 2023 10:49:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="820494256"
+X-IronPort-AV: E=McAfee;i="6600,9927,10793"; a="820494257"
 X-IronPort-AV: E=Sophos;i="6.01,258,1684825200"; 
-   d="scan'208";a="820494256"
+   d="scan'208";a="820494257"
 Received: from black.fi.intel.com ([10.237.72.28])
   by FMSMGA003.fm.intel.com with ESMTP; 05 Aug 2023 10:49:29 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 87E94241; Sat,  5 Aug 2023 20:50:29 +0300 (EEST)
+	id 905ABF7; Sat,  5 Aug 2023 20:50:29 +0300 (EEST)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Petr Mladek <pmladek@suse.com>,
@@ -123,14 +125,16 @@ Cc: Steven Rostedt <rostedt@goodmis.org>,
 	Alexander Potapenko <glider@google.com>,
 	Dmitry Vyukov <dvyukov@google.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v2 0/3] lib/vsprintf: Rework header inclusions
-Date: Sat,  5 Aug 2023 20:50:24 +0300
-Message-Id: <20230805175027.50029-1-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 1/3] lib/vsprintf: Sort headers alphabetically
+Date: Sat,  5 Aug 2023 20:50:25 +0300
+Message-Id: <20230805175027.50029-2-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.40.0.1.gaa8946217a0b
+In-Reply-To: <20230805175027.50029-1-andriy.shevchenko@linux.intel.com>
+References: <20230805175027.50029-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 X-Original-Sender: andriy.shevchenko@linux.intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=GED2JNqX;       spf=none
+ header.i=@intel.com header.s=Intel header.b=QEC83J08;       spf=none
  (google.com: linux.intel.com does not designate permitted sender hosts)
  smtp.mailfrom=andriy.shevchenko@linux.intel.com;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=intel.com
@@ -147,33 +151,122 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Some patches that reduce the mess with the header inclusions related to
-vsprintf.c module. Each patch has its own description, and has no
-dependencies to each other, except the collisions over modifications
-of the same places. Hence the series.
+Sorting headers alphabetically helps locating duplicates, and
+make it easier to figure out where to insert new headers.
 
-Changelog v2:
-- covered test_printf.c in patches 1 & 2
-- do not remove likely implict inclusions (Rasmus)
-- declare no_hash_pointers in sprintf.h (Marco, Steven, Rasmus)
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ lib/test_printf.c | 17 +++++++----------
+ lib/vsprintf.c    | 38 ++++++++++++++++++++------------------
+ 2 files changed, 27 insertions(+), 28 deletions(-)
 
-Andy Shevchenko (3):
-  lib/vsprintf: Sort headers alphabetically
-  lib/vsprintf: Split out sprintf() and friends
-  lib/vsprintf: Declare no_hash_pointers in sprintf.h
-
- include/linux/kernel.h  | 30 +-----------------------------
- include/linux/sprintf.h | 27 +++++++++++++++++++++++++++
- lib/test_printf.c       | 20 ++++++++------------
- lib/vsprintf.c          | 39 +++++++++++++++++++++------------------
- mm/kfence/report.c      |  3 +--
- 5 files changed, 58 insertions(+), 61 deletions(-)
- create mode 100644 include/linux/sprintf.h
-
+diff --git a/lib/test_printf.c b/lib/test_printf.c
+index 7677ebccf3c3..2ab09a0dc841 100644
+--- a/lib/test_printf.c
++++ b/lib/test_printf.c
+@@ -5,24 +5,21 @@
+ 
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
++#include <linux/bitmap.h>
++#include <linux/dcache.h>
++#include <linux/gfp.h>
++#include <linux/in.h>
+ #include <linux/init.h>
+ #include <linux/kernel.h>
++#include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/printk.h>
++#include <linux/property.h>
+ #include <linux/random.h>
+ #include <linux/rtc.h>
+ #include <linux/slab.h>
+-#include <linux/string.h>
+-
+-#include <linux/bitmap.h>
+-#include <linux/dcache.h>
+ #include <linux/socket.h>
+-#include <linux/in.h>
+-
+-#include <linux/gfp.h>
+-#include <linux/mm.h>
+-
+-#include <linux/property.h>
++#include <linux/string.h>
+ 
+ #include "../tools/testing/selftests/kselftest_module.h"
+ 
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 40f560959b16..b17e0744a7bc 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -17,42 +17,44 @@
+  * - scnprintf and vscnprintf
+  */
+ 
+-#include <linux/stdarg.h>
+ #include <linux/build_bug.h>
+ #include <linux/clk.h>
+ #include <linux/clk-provider.h>
+-#include <linux/errname.h>
+-#include <linux/module.h>	/* for KSYM_SYMBOL_LEN */
+-#include <linux/types.h>
+-#include <linux/string.h>
++#include <linux/compiler.h>
++#include <linux/cred.h>
+ #include <linux/ctype.h>
+-#include <linux/kernel.h>
++#include <linux/dcache.h>
++#include <linux/errname.h>
++#include <linux/ioport.h>
+ #include <linux/kallsyms.h>
++#include <linux/kernel.h>
+ #include <linux/math64.h>
+-#include <linux/uaccess.h>
+-#include <linux/ioport.h>
+-#include <linux/dcache.h>
+-#include <linux/cred.h>
++#include <linux/module.h>	/* for KSYM_SYMBOL_LEN */
++#include <linux/notifier.h>
++#include <linux/of.h>
++#include <linux/property.h>
+ #include <linux/rtc.h>
++#include <linux/siphash.h>
++#include <linux/stdarg.h>
++#include <linux/string.h>
++#include <linux/string_helpers.h>
+ #include <linux/time.h>
++#include <linux/types.h>
++#include <linux/uaccess.h>
+ #include <linux/uuid.h>
+-#include <linux/of.h>
+-#include <net/addrconf.h>
+-#include <linux/siphash.h>
+-#include <linux/compiler.h>
+-#include <linux/property.h>
+-#include <linux/notifier.h>
++
+ #ifdef CONFIG_BLOCK
+ #include <linux/blkdev.h>
+ #endif
+ 
++#include <net/addrconf.h>
++
+ #include "../mm/internal.h"	/* For the trace_print_flags arrays */
+ 
+-#include <asm/page.h>		/* for PAGE_SIZE */
+ #include <asm/byteorder.h>	/* cpu_to_le16 */
++#include <asm/page.h>		/* for PAGE_SIZE */
+ #include <asm/unaligned.h>
+ 
+-#include <linux/string_helpers.h>
+ #include "kstrtox.h"
+ 
+ /* Disable pointer hashing if requested */
 -- 
 2.40.0.1.gaa8946217a0b
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230805175027.50029-1-andriy.shevchenko%40linux.intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230805175027.50029-2-andriy.shevchenko%40linux.intel.com.
