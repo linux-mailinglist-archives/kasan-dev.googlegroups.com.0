@@ -1,139 +1,154 @@
-Return-Path: <kasan-dev+bncBDZKHAFW3AGBBO4PYSTAMGQEGXB6VRQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRB54QYSTAMGQEVB5I6FY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc39.google.com (mail-oo1-xc39.google.com [IPv6:2607:f8b0:4864:20::c39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E9C772883
-	for <lists+kasan-dev@lfdr.de>; Mon,  7 Aug 2023 17:03:25 +0200 (CEST)
-Received: by mail-oo1-xc39.google.com with SMTP id 006d021491bc7-56cff6fe7edsf7293720eaf.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 07 Aug 2023 08:03:25 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1691420604; cv=pass;
+Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF657728A0
+	for <lists+kasan-dev@lfdr.de>; Mon,  7 Aug 2023 17:06:32 +0200 (CEST)
+Received: by mail-wm1-x33f.google.com with SMTP id 5b1f17b1804b1-3f5df65fa35sf25960525e9.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 07 Aug 2023 08:06:32 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1691420792; cv=pass;
         d=google.com; s=arc-20160816;
-        b=NC81YTTlmO2X0hpYnqnIbdAYthhz0L03SfMK2ZJq3NBvQtJ64QkiHYv43S/do/qifZ
-         +Jfz+NpB+riBnmoUJ2Y9f3GpflLLFyv9yOd0bco2fa6UF1ij5eoQ0BwuD3hp4q3znfU/
-         0ET7oBYEfewjLUDAGLrofzNPdGK+UVjPwB1Qxx/te5imcvhusRVjgMm91vsK7TEsvv4k
-         sHzJ+OZyxW4GpGcuO8ce6I90nZMyZmCvwZ2MiH3n9ghuCRI2Lo8ApFUra20svEsSy7mG
-         B7P0pGyOtrAT1nLpbwSc9//shIERT1egL54drhQTjkQbdfnLqMe0PEVYhKAZuYIks/m/
-         lYXg==
+        b=DKBQgR9A9LX/f9u22WrlwkkK4YlAF8UDkBFQsV4f3Y1Xzck6oDh/ysiIPRpM+asHx0
+         T295n6gbbgkN6NeG9LLNmaLcAXLz5ry2dhcjN6HqPoNzpXeVg75RazvTD1nndICOWWNT
+         GOxeoDlqyadPFxrrjFoJDiHXPo4WnS73lpDzR7LNGB3Y2dkX+aCwxd3BwL5WSgKQrxlD
+         yLjP+pfXuDhtgmeXEovG8BkgnSPEKu9DgujjwQ730TEDBlxYf7jNmgdN4oTkMtkBKmL5
+         +4kHW94c+3JB2HaxGbWCTAcRaxrJRXUuBrlA1/XnIIFvGuGNN0340DMTgu460IelGY8S
+         U2cA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=szrM5+ls4g6FPnPCsftBEild96lNOFizxFJ4fmV7tOI=;
-        fh=GyiYDglD9h29HXXbD45R+obMNrZsHNJsyw6W2UMF2tI=;
-        b=mHOIXJ3eF4uvzVD/5n7jHBickY93pdohv/VzLjm+8aNXybDkvE6qTNmk59BwfBcMn/
-         foR303fRQqIQXXweIFSPtwUeGy7jO51+BTmYUkR7se/R+et7rQ7U4j6YnaUO6jZsK0Jq
-         ODTNCetdpQyJlgYhObqHfwx90KgL6ZcGu35y182dX1osDqU12FlZ/WChTI4tv0bIiTEb
-         Wv4hjviQJtha7W9agYspI7ae8ADIMEFvH/o7o9mePJ07fGgnyPYp16BkLc+qq5N5x59o
-         f3zVohHHCwIT78m5Vz0gjkvtQZ/NFy1y+ejiSycy3IAey/13mW7f1HSPn586Maa+nW7x
-         t4Rw==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=gzhkUHCa70BE0qkIoGjnMzjuRiMG9WP+EauebhRT5Co=;
+        fh=3T48dBajmuzuZqkU7TBWQfXJzDUTzUOImv3KVSY0ZcY=;
+        b=BD60JmdF5RtaYup88LzeQMTlBw6Vt1WYFsm/k0XjH8bsmTzpWbMLI5oBnLxE1aLxp2
+         3ZYVyN2swaZTN1D46R9I/J97W3K7id7V9X0TSXO1OoJQ+5pODMFfMQrvb52Qnwq9y1K2
+         +e7CtJw5Gz4Y6Q4zxPGudufm5f72Xb68z1ExnIWDpTXRr8v578aWCdbiZoj2kYUYGXrc
+         gqIdgK5p2T+Lf8Xkhrqt1XjJHpqppfoK3q/2QG+2hXOiDRRqmH9nu7BfyAB3NpBls6k2
+         TNqiiqFBm8QqSGe2bka/BJk/T31KSTvVz5do8pMlE2ANUhsGuYmeba1pN6AvciNpXG3y
+         BnZA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=e6SNj8R7;
-       spf=pass (google.com: domain of pmladek@suse.com designates 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=pmladek@suse.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=L84dIEOG;
+       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1691420604; x=1692025404;
+        d=googlegroups.com; s=20221208; t=1691420792; x=1692025592;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=szrM5+ls4g6FPnPCsftBEild96lNOFizxFJ4fmV7tOI=;
-        b=GBxwdFVdipk+oYPM0qdjziWo88WZq3nXGSz5olWlKGljwnnFTgYECbXRASKKaKAQSO
-         ZVjKs9vqMseBE7IOt/ebtIj+7J0OmntfpZhYQM4WtIvECmDc79Ie39eSOi+hiQW2ilx4
-         R9SPNxFjBkOmKnPfl09RXit9IC8x3/4QWzBxWi8eD0tHcZd6NizjOXWrtfdTidCTKUIE
-         L8PZM4CVXRHvlIeTTa8xKHtpAlrSslFkCdlmYN38MR8KWKVRBFCwCK5dLopHE4oS4Xbt
-         4clQsak6TqgLYvdocnDGQN4lm5DGqquZB6uZiNgDDkbi11DLZLZDsa0XzqpO6VgR8JIF
-         FR8A==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gzhkUHCa70BE0qkIoGjnMzjuRiMG9WP+EauebhRT5Co=;
+        b=pDANs3Brt6RXk/MdK1HBGNuKXd3bsLsEXnjeiLacgZKxnOesfQTe76cDN1PAQXYL/V
+         eDNH5P0H6bKami9NmAEJ4B2K9QH3+kKbpmkL+BIzLwnWxmwkb5HNa8f1jz/nHOfSAw6J
+         4dDS1dU5Qiaa52gx7NY8nPbF9q31mItjpJDa6rfiRBs5a/kzrti98gd50DEL5fQbewDm
+         +QXJpvg/ikOWvLnKGbHLbGbRFuZPUnLDigG+ROHmZo+jSW1kaHMoTvyqMhxYrmVtw8Dg
+         Hv+gTAKeyvVXwrXLGPxEV5i3bGzM9SEEhcyXck9bVj55XYuXJaDQLZbL7RGGv7wFr+lt
+         pzNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691420604; x=1692025404;
+        d=1e100.net; s=20221208; t=1691420792; x=1692025592;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=szrM5+ls4g6FPnPCsftBEild96lNOFizxFJ4fmV7tOI=;
-        b=gO6Xr95bVgb6i182YaL6bUtuzAOUD9upqUU8jqinNYdydbD2M3oCus8G0BCqAwaonW
-         WGInPDhmloIW1b9qn8sJOFhmuf9E4FB7KO/aBcKn2sD8W3rBOJOVMGqo3dDb3ASpHiCe
-         FL+NEoJiAUJkWsdMNTK5GvfVMJkxeCWpHc5pWf0bKYguGaE9RP3E3tB5AVbhaDJ45u/C
-         wl5c44T6lbnMrO87Me92okCYcP2aGxsoaCuDAwweGDUfQDtBJolVUigNUbLT6N8dQZTo
-         H3KY2Ys+O85zo9KTWEoJoBTBGRVD3GWlArDni+42d7pWtNJTeUfVvkE3yFfmz7Aq+kj6
-         GQyQ==
-X-Gm-Message-State: AOJu0YyKPIzAqoXOq27HHs3NqyS2HnnnESZapqNDY1j4aRvq0/bX0+2p
-	+N6WTxgQYP/iUUHk41IceaE=
-X-Google-Smtp-Source: AGHT+IG5JYTD7w1gVx0FN+fC7AnlphWQTYSF/mH+bL/drnhCux8+iHzb806LeTJQ4ukvYAipaZ7MUw==
-X-Received: by 2002:a4a:9243:0:b0:56c:e17e:72ab with SMTP id g3-20020a4a9243000000b0056ce17e72abmr8892498ooh.2.1691420603583;
-        Mon, 07 Aug 2023 08:03:23 -0700 (PDT)
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gzhkUHCa70BE0qkIoGjnMzjuRiMG9WP+EauebhRT5Co=;
+        b=krhnOclAm3hOOF6dgJL11pohWVMU68Va0XssLVI5dTeZim+rUiGV+6TrsQZYOvNrEY
+         EQAg9h9baZQsQdEL1wKp+U+yn7BeVrmBv3nR3WdG2SsA7X14Lc32Kv1/0AHm3z+cvV/5
+         IglIE7qHp0IRbRXTUtqq0NsfLY3V+FjVMtclSF2OcEnzTex08zd8iqahhFPMnxH0upgU
+         vzAMzIwaFUTFgdidb1LnbVF+ucG0MP27wTCTH6UZ50djNXxH0/bOFp7QOPuO+JRpg+T6
+         1Pog49B4QbuS+LRCbqbeBM+qZj/dIyZtVh/TuCLWYg/DevoY0L6ey+3urNcJJGmyDAhC
+         IcjA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOJu0YyU9NrU9vnG1h+83cAQ3pdDS9Pgy9rm+KY1o1x12XMxXtRC5nfH
+	7tsJi4M7Ji2LA3bkh9knWCk=
+X-Google-Smtp-Source: AGHT+IEEnFtMQtn9PKCsRGiGsamZqXvmqbGcjIZEn4ga7yk6uu7dM2KKMSDRp3Fu9R53uR6FNxY4UQ==
+X-Received: by 2002:a1c:7c05:0:b0:3fe:1923:2c3 with SMTP id x5-20020a1c7c05000000b003fe192302c3mr6168417wmc.30.1691420791942;
+        Mon, 07 Aug 2023 08:06:31 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:41d5:0:b0:56c:94b1:684d with SMTP id x204-20020a4a41d5000000b0056c94b1684dls3189881ooa.1.-pod-prod-08-us;
- Mon, 07 Aug 2023 08:03:23 -0700 (PDT)
-X-Received: by 2002:a05:6808:128c:b0:3a4:644:b482 with SMTP id a12-20020a056808128c00b003a40644b482mr14520758oiw.52.1691420602944;
-        Mon, 07 Aug 2023 08:03:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1691420602; cv=none;
+Received: by 2002:adf:e742:0:b0:315:9d1e:ee24 with SMTP id c2-20020adfe742000000b003159d1eee24ls751081wrn.0.-pod-prod-06-eu;
+ Mon, 07 Aug 2023 08:06:29 -0700 (PDT)
+X-Received: by 2002:a5d:5487:0:b0:314:1ca4:dbd9 with SMTP id h7-20020a5d5487000000b003141ca4dbd9mr5420132wrv.27.1691420789839;
+        Mon, 07 Aug 2023 08:06:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1691420789; cv=none;
         d=google.com; s=arc-20160816;
-        b=JAs3/YTyfcRVVtj+gF1fButpXbZYwrHPlsM3C+7icXzjp0GZKiradeVSArgVRpbmMz
-         YF6kQSxKuYjkmITJTLTPpNSXJKMBvksUILf0J2YikCJ62sftlPucSfJXeJz2I24fJcG6
-         O0dvYC7LpQj4TFayJcmLe8f2to9Lx3UKWy/W8FlGiXscWXxKOM6CAnHlVecUVamrYXVY
-         vps6Mr2RspqRgFA9D8gpCmMMIcdvQb6cEY4ZTFGgzqm8ifTeLTTrtIdV7FeNal1SkZaI
-         8gtE1SixcLmMg49c3d/iHSSj81+o4AXbKOpbblONluPC4P2o/+KoZi8+11DV6sZYb/7Q
-         eIXA==
+        b=N5sLbY+qPaRq7OGoBrjSIhFEte42xp9zI1+yFiB+CDvf7xVPfA95Gp1RMokqwp7PBM
+         PaffK+oGZ77Ry+oEJC85krOUOK+HAPz7lbwpwLp/sN/ViF8deWhiK/XL8zRoyyxuYR2O
+         gasNPPivif5ccwKd+ozUsRW6QVkO5wezDD+f1mVB2HAW1Z5+kovms/ka0Pj/qS+I5pKH
+         KScPmaO0wJJcmRJiOKbbNI4/+dcF1PDzyKaPYPCew6kjHb4LFpXVuROjv+YQ9P51vRlo
+         z/+M9OFS0e4YrRddygk03z0XiEJv4MpvKU661B+LzIvUO6Wsl4AGmf2UiWR187AUbp3w
+         GBOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=X3A2NsvXpmNRnd8PNau9KuaPdja1LGVqq+oucwV7B34=;
-        fh=vmUQn/KoiKBz0TN4QXh4zrTyMSy/18taF2m5XcOxj7k=;
-        b=LMiynBMVljddSzpEyJHUaLv4NVQXI9M45x0U4YiT+ukmEM+tor4GNZpnOvw+c3XmAb
-         EvW1wILoMLi/Tn8nXcOqTq73y7h1x5rA1pZuFqw7VrvyuaB99utQGF+6qGjPi41vaURK
-         aeF011hwbU7E9AkZZmk3iBNeaGDw0iJhg0T0pRiGcNwKxwLxPIIya2Yl/8HzwniiFRIF
-         cIJVSEgBMLHzz57mNp5smALTCfQfDQWiWd9RwQ7HQ2IuQZwWvDfFCC5xX16Em0+bJXX8
-         i2wfS7y7Eiihl00DVGLVWyHltrVTzsFu54FCEHP6g5n4Q35q6Nq4k1ee+Q0a2iWYo0sF
-         uPpw==
+        bh=zOz2Sl6sETEspUjEfHGN0Doq9IKMqDh9com1ZKQ2ccQ=;
+        fh=3T48dBajmuzuZqkU7TBWQfXJzDUTzUOImv3KVSY0ZcY=;
+        b=rS0bnjgcGdNiGGUp5+88AeCl6h2Eu03t/GkwvsI9r7lZoqHcixSUH1Zhjee7DFIzPI
+         KO1hjmwuNPRovrlUEvesqJ+M7ZFC6+DAVJcc4P2OnKBQOGV+dqWgHGEDANvIlt5JEX5y
+         fBDq95aI/d1ifBZux/TdEQQxmpK/ii5ZCOLjm9zHS4cUQNJCkqsIjKAzm0iclIifYDvR
+         jyTMzh9nxIw8EgK9hURFUuKW/uj+e0JqFHbymBLTxqcX+op3xLxU+WThU5pzmJv4LaTj
+         5q0ZW+6ErnmqOG8BwpOSl3q2YzwnPe5iWsuhvRPvMPZ7+vreJmuo9wyqF1aiG/rIS2JN
+         nPOw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=e6SNj8R7;
-       spf=pass (google.com: domain of pmladek@suse.com designates 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=pmladek@suse.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2001:67c:2178:6::1d])
-        by gmr-mx.google.com with ESMTPS id bl10-20020a056808308a00b003a747d9498esi618582oib.4.2023.08.07.08.03.22
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=L84dIEOG;
+       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
+Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id l27-20020a05600c1d1b00b003fe275df1c4si620530wms.0.2023.08.07.08.06.29
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Aug 2023 08:03:22 -0700 (PDT)
-Received-SPF: pass (google.com: domain of pmladek@suse.com designates 2001:67c:2178:6::1d as permitted sender) client-ip=2001:67c:2178:6::1d;
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id DE1E91FE49;
-	Mon,  7 Aug 2023 15:03:20 +0000 (UTC)
-Received: from suse.cz (unknown [10.100.201.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by relay2.suse.de (Postfix) with ESMTPS id 5ADD22C142;
-	Mon,  7 Aug 2023 15:03:20 +0000 (UTC)
-Date: Mon, 7 Aug 2023 17:03:19 +0200
-From: "'Petr Mladek' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Marco Elver <elver@google.com>, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Alexander Potapenko <glider@google.com>,
+        Mon, 07 Aug 2023 08:06:29 -0700 (PDT)
+Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1qT1oI-003w69-37;
+	Mon, 07 Aug 2023 15:06:19 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(Client did not present a certificate)
+	by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 6B7E7300473;
+	Mon,  7 Aug 2023 17:06:17 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 4840C2028F056; Mon,  7 Aug 2023 17:06:17 +0200 (CEST)
+Date: Mon, 7 Aug 2023 17:06:17 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Florian Weimer <fweimer@redhat.com>
+Cc: Marco Elver <elver@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kees Cook <keescook@chromium.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
 	Dmitry Vyukov <dvyukov@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v2 2/3] lib/vsprintf: Split out sprintf() and friends
-Message-ID: <ZNEHt564a8RCLWon@alley>
-References: <20230805175027.50029-1-andriy.shevchenko@linux.intel.com>
- <20230805175027.50029-3-andriy.shevchenko@linux.intel.com>
+	Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com,
+	linux-toolchains@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] compiler_types: Introduce the Clang
+ __preserve_most function attribute
+Message-ID: <20230807150617.GB569857@hirez.programming.kicks-ass.net>
+References: <20230804090621.400-1-elver@google.com>
+ <87il9rgjvw.fsf@oldenburg.str.redhat.com>
+ <CANpmjNN4h2+i3LUG__GHha849PZ3jK=mBoFQWpSz4jffXB4wrw@mail.gmail.com>
+ <87pm3zf2qi.fsf@oldenburg.str.redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20230805175027.50029-3-andriy.shevchenko@linux.intel.com>
-X-Original-Sender: pmladek@suse.com
+In-Reply-To: <87pm3zf2qi.fsf@oldenburg.str.redhat.com>
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.com header.s=susede1 header.b=e6SNj8R7;       spf=pass
- (google.com: domain of pmladek@suse.com designates 2001:67c:2178:6::1d as
- permitted sender) smtp.mailfrom=pmladek@suse.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
-X-Original-From: Petr Mladek <pmladek@suse.com>
-Reply-To: Petr Mladek <pmladek@suse.com>
+ header.i=@infradead.org header.s=desiato.20200630 header.b=L84dIEOG;
+       spf=none (google.com: infradead.org does not designate permitted sender
+ hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,44 +161,29 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat 2023-08-05 20:50:26, Andy Shevchenko wrote:
-> kernel.h is being used as a dump for all kinds of stuff for a long time.
-> sprintf() and friends are used in many drivers without need of the full
-> kernel.h dependency train with it.
-> 
-> Here is the attempt on cleaning it up by splitting out sprintf() and
-> friends.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  include/linux/kernel.h  | 30 +-----------------------------
->  include/linux/sprintf.h | 25 +++++++++++++++++++++++++
->  lib/test_printf.c       |  1 +
->  lib/vsprintf.c          |  1 +
->  4 files changed, 28 insertions(+), 29 deletions(-)
->  create mode 100644 include/linux/sprintf.h
+On Mon, Aug 07, 2023 at 02:36:53PM +0200, Florian Weimer wrote:
 
-I agree that kernel.h is not the right place. But are there any
-numbers how much separate sprintf.h might safe?
+> I think the GCC vs Clang thing is expected to work today, isn't it?
+> Using the Clang-based BPF tools with a GCC-compiled kernel requires a
+> matching ABI.
 
-Maybe, we should not reinvent the wheel and get inspired by
-userspace.
+Nope, all bets are off. There is no module ABI, in the widest possible
+sense.
 
-sprintf() and friends are basic functions which most people know
-from userspace. And it is pretty handy that the kernel variants
-are are mostly compatible as well.
+There's all sorts of subtle breakage, I don't remember the exact
+details, but IIRC building the kernel with a compiler that has
+asm-goto-output and modules with a compiler that doesn't have it gets
+you fireworks.
 
-IMHO, it might be handful when they are also included similar way
-as in userspace. From my POV printk.h is like stdio.h. And we already
-have include/linux/stdarg.h where the v*print*() function might
-fit nicely.
+We absolutely do even bother tracking any of this.
 
-How does this sound, please?
+There's also things like GCC plugins, they can randomly (literally in
+the case of struct randomization) change things around that isn't
+compatible with what the other compiler does -- or perhaps even a later
+version of the same compiler.
 
-Best Regards,
-Petr
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZNEHt564a8RCLWon%40alley.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230807150617.GB569857%40hirez.programming.kicks-ass.net.
