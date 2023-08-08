@@ -1,147 +1,146 @@
-Return-Path: <kasan-dev+bncBDA5BKNJ6MIBBCPTZCTAMGQEPNHQHPI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDA5BKNJ6MIBBOPUZCTAMGQE22APIVI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C5E773A42
-	for <lists+kasan-dev@lfdr.de>; Tue,  8 Aug 2023 14:48:11 +0200 (CEST)
-Received: by mail-lf1-x13f.google.com with SMTP id 2adb3069b0e04-4fe3fb358easf5586591e87.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 08 Aug 2023 05:48:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1691498890; cv=pass;
+Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id A124D773A44
+	for <lists+kasan-dev@lfdr.de>; Tue,  8 Aug 2023 14:51:07 +0200 (CEST)
+Received: by mail-lf1-x13c.google.com with SMTP id 2adb3069b0e04-4fe4ff53de4sf5504927e87.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 08 Aug 2023 05:51:07 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1691499067; cv=pass;
         d=google.com; s=arc-20160816;
-        b=u5BKx4OJOD/naquIFnT++siOfUAKzgLkQLEekT4oko8pJ+HWuSCX5stkupTmXqxJR4
-         vxXRe0nHQm/LJnHWp3Jmb8AOtLKNFL9JVcB6ypViTnLiAlIIaPjMztTTPVFmzueg+uAk
-         BEaZ3GEYbSUEM/AFeDuA/t3ZNdlVSDWESQ4tm9cEc2EV5/kwtpznYUpS3sRmz0yjsSAh
-         imJ8b5yLXMehNFAd7P432jvEqucA5tX9dqdYlvPhB+LWNd1XsFn3017n1ROdCySxGtpD
-         fiMZV/PLfTzTWC3PIvadqY2gUy5DN0L71h/7zMpmD0R7H9AKBMa3rssnkIHisNErNAtI
-         YK/Q==
+        b=oY7eqhNfm1x68XubsPjrpf4TzMhP8qwoij8EKbsguny7fkc4yx0emGOpKylhg5V6Dm
+         aEWwP7JdAYHukOrjIF6wcRjUIT8fIG2kK0ML6PXxQEBrkTB9QDjT23rKrU4HNZ66xNPt
+         AtP3n09ZPyRzXY6zW6/LwCBDMrQGhrcHc2ouoLeZAK/l9xou3CreQKIdR2qgBSWmu2ox
+         Ud2SXFpFckj5Kj5oGNJdelCnCt0N0TGbDmpQzvbIQHjDhjF1+Mh/OI6Vb+vvzxHiVGAh
+         30zSTm6yz8zVE3OsxoSZwIVE9ejDNSQTbL1GtgD6S8lOJMTitc+hBgnJzbkwh3TTMiQD
+         wwyA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:organization:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=cliyRuEGblXzb97xiFabrch2nz6Y5cDyX1+6GDT/mCI=;
-        fh=butcl/4cb234uvwnd9R+gLoHVnYq1VGIYFV0pEnGZqU=;
-        b=Cu2rWjQetA8p0wIAw6oNNqq/F9jn6/O/Gq2XmnRdTAVc+bdTeSU/0aJVx9lz0IMObc
-         hTht1Xg9aYDHyvrmhpuF1PA1pIuoiKdG6N+DGQqUIxYhT4cyrni23szc3r7IH7hYpeLM
-         D94K0MGCnLIwBcOPPP4UK0EEZ5+8K+1SBBnqsmQry6TEqBJaovNYYfKD1FBBlgQXtcdw
-         MQVdUc5KtrujjSXGll//xlDHF55yNE/XZjJ0UJqbShk/qyPCk8MyE0ZuK3QkRX0MRPi+
-         XqhKaVCI9t5vBSW2huXDt3mBiITzHJKkgqOr24mMuanKfEzVhkhZ3sY119J2JODQDRw6
-         1rtQ==
+        bh=gQJjlkW07SkIo7FFykfwPY/YIg+cT3Zs3VEQT0Gy6G0=;
+        fh=J8lwpheDG2nnnIgEay13Ip2qo+FJjLxdcKa96+yY5rM=;
+        b=Q33+z98RQG1FYu9zV1u6VrtCpkAsLCwd+70sfcs9rtKlCWAPJM2s0EAocOa29coOWF
+         7qsy9fh9PrhvJ/lmrjePdde+V1eDr3lJBt5aRvFbb2sZczyale8Zw8Lw2xbt84Fk8zCl
+         m3vNRu697QCBgQ5IYmIO3VxGZDtDIwliuWxiksz2KzoeeeDGIYTdroeTpvHrv3GTUPBE
+         nzSwGLFXTIXSeXQWtQL/3lJxU9mcaLWdmGFfs2B1UkODyllLoYiSRXNKX8AGn+F2HIeD
+         trrX2a50AfPzzsCvR6fR6kDLPEP9h4c/8ooKLYGyssmec7+xXct099q8gXyp2DK5TQUx
+         RG3w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=Ui2OVnqR;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=KWQR3Nqr;
        spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1691498890; x=1692103690;
+        d=googlegroups.com; s=20221208; t=1691499067; x=1692103867;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:organization:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=cliyRuEGblXzb97xiFabrch2nz6Y5cDyX1+6GDT/mCI=;
-        b=O5ARTlnAwED4zR0Z0DLPMobFSnS3ckjP7Z04sV+UIxdDMLNc+tm5q1ATGGAfBcYNJt
-         hF605W9x5kTpKKeY6OPxYG7VlKwjVE62mT7r87RGnCtoeB7xaTM1pwt2xR0jBZvHhsaL
-         DX4POZE8w9qqJFkOQiLeLX6bv2cCFCSeN0/U5Yt2qSs1432EPV2rJ7sOnGDx2baNgXY4
-         wC/pGXfzH3Bi7xn+siNGDm3sXRPGv3mF6Jxnnmp0MFqPrl6bVTBL8L52Q4jpL9Yj+nY8
-         kSDWr+ubRgYdH4huy4YMho3SAK7q7wIH91pmSnSPqiExLAmae9R05GNqgOVKaM3w7pcr
-         TX6g==
+        bh=gQJjlkW07SkIo7FFykfwPY/YIg+cT3Zs3VEQT0Gy6G0=;
+        b=RwMCkvzDEhS6wp/wKNMOV5wwB3f0B4/E8fGG8LOC2jdnNHKndDF6IEv9a/sMOq7OHP
+         ZE8rrvZ+DFVAI0M4adEKaUb8j8LGHejtSh7tSH6xd+7+Q0TaULHjkAoL4dIyImdEb1S0
+         Z+2PHhSD5UVJesBM1oT+LiSR2zH14cCxkOEkHcmRr/3h4tQQonzNw52Sf/40TAGxs4/g
+         HOuZAq5M4P6z6UM7S7om2vXxJzQfsvQm4WjmnvU2kz3usNIoalOE3g+72CirlUxFqD+D
+         STrhiQZQzsqMiPZMy+srBrxWusXuKsPo8WAG996ePAlGtliJwFJo7BZ79cuI7VYj5O2S
+         Cggg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691498890; x=1692103690;
+        d=1e100.net; s=20221208; t=1691499067; x=1692103867;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:organization
          :in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-beenthere:x-gm-message-state:sender:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=cliyRuEGblXzb97xiFabrch2nz6Y5cDyX1+6GDT/mCI=;
-        b=X5JLGwm+6NLHdFE+39MocVkKzuCw1qCMZ4a76+JmI22XCjAqAa/1wznbVCE0z7ZCCf
-         XsXkF8PhkElf8/WPIdqjttUYMz4qLN6j3lI4Qd8fUn/hOp/l6vbS+zD+q/zn7gIu63B+
-         DUFvDB0o0zaH9NxuJQjKQPWKKfx8jR+1705D1CvcQ6e9GUNHEuKYtmur+g87B9O2Hv4A
-         35gzNVCMxJI8FZUh1U7BeopTrdS+GSbOlcPXkHCVM9oX41K5oWq6LtnduOyO+HWeDKGh
-         ULW359Gcx2OXuyM50MGw+I7Wr91lQUAYwdmXPOiZFL4RGsqVCx2Jmn2cg+ly8CfrkHAd
-         nHPg==
+        bh=gQJjlkW07SkIo7FFykfwPY/YIg+cT3Zs3VEQT0Gy6G0=;
+        b=ecL8F6QYAtO6PGBt8IS5C4gOqBAf2CrYXSsunBRzRolNNMWUv0/bOTAQVFAniXXcyF
+         uqFI8WeIEANnjT+cl8eYceGVxoE8kFe3kvvqpWyzBkQc1xfiODorQe1vC9kqU7+dkLer
+         eArH5MrI7OhQaRlNGoRPdeEthIokIrrPOXHy0YlGUzZTlxSyXr7t1XGQhSM+LHe/+3Pv
+         UINpAxRnq1VDdkljqGes5g13D8GbfaZYKQm3D3F58ag7agFBKfFVjj4NCNWCCr7SUGAo
+         XIqHoHZB56TI3F9THm/r4P5OrIPEIEfsFn/73FGs2vTOArT/cPLI+R/u+iNFrvoY2k4+
+         B3YA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YyBv+B1WVHAVd6fqWHabmoCPI3wc8wLVV8i4oUcICMmsr/JtMNg
-	FECROQC/zdixQgcTYNePxoc=
-X-Google-Smtp-Source: AGHT+IGpXt5nkqCV4EGf9XvE7s1ivFgU9D8QT2Yl7/rXAXLC5L2JAdbKA+zGTor801XFyTLVCFGASQ==
-X-Received: by 2002:a05:6512:474:b0:4fb:caed:95c3 with SMTP id x20-20020a056512047400b004fbcaed95c3mr7339406lfd.53.1691498889721;
-        Tue, 08 Aug 2023 05:48:09 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yy8uoUqHRw0rx4vY+lsmC70CUv4ypJjepPci2QBGn8jzAaHUbYh
+	HSsN1DVLL+OYxoqX0up6msFBhg==
+X-Google-Smtp-Source: AGHT+IH8QdbWMf7jnWYhyL4tRZDVUxzBObXWNNFqKNebYHnYAT1BFNuYIRIy99w8VJd2dNHXMfxQTw==
+X-Received: by 2002:a05:6512:32d1:b0:4fe:c53:1824 with SMTP id f17-20020a05651232d100b004fe0c531824mr8156120lfg.40.1691499066079;
+        Tue, 08 Aug 2023 05:51:06 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:464e:0:b0:4fe:56c5:2906 with SMTP id s14-20020ac2464e000000b004fe56c52906ls40815lfo.0.-pod-prod-07-eu;
- Tue, 08 Aug 2023 05:48:08 -0700 (PDT)
-X-Received: by 2002:ac2:4d10:0:b0:4fe:82c:5c8a with SMTP id r16-20020ac24d10000000b004fe082c5c8amr6822710lfi.58.1691498887970;
-        Tue, 08 Aug 2023 05:48:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1691498887; cv=none;
+Received: by 2002:a05:6512:534:b0:4f9:5662:5ef9 with SMTP id
+ o20-20020a056512053400b004f956625ef9ls105758lfc.0.-pod-prod-02-eu; Tue, 08
+ Aug 2023 05:51:04 -0700 (PDT)
+X-Received: by 2002:a19:5e1b:0:b0:4fd:ddbc:158d with SMTP id s27-20020a195e1b000000b004fdddbc158dmr6775424lfb.17.1691499064364;
+        Tue, 08 Aug 2023 05:51:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1691499064; cv=none;
         d=google.com; s=arc-20160816;
-        b=JFpxBSJqyH92R75Vm63pi76ojoy9ngqROLgwJK9OF318kTeaey86BCRgI1FzrTW9Sh
-         B8wYwO9Z3xJsqzOb4pRlkqQlxinFdmX07ehiHdvODweFF03ATyJ7C52spbn317CaB7bJ
-         8tv5c5ZQRUpuVXJmbtmW8teXSwXVL1QzoWTslOqfD2nsZkEtKZF2/aHWu3B9OphwgBZ4
-         uLN6JjurElTIaL+vs9Ttas2FKfRUtlZHUnDp3AWh5tsSMjh2Q1VkDRb86DUuYQIOo6K7
-         nzsc5la7nzcJhe1aMO8U8269v1QMKrmNjTuvF0XS5YghcMIH3FW7jk+v1hXtEIgpXIDc
-         nrWQ==
+        b=PvjQrNfuakr8V9Ivvq/whnk/0LWSYup2DRCqBJqm+4VH3S4jPRHBIrfPpHspIgAaHA
+         8VO7J31whp701zpSG/UrHCD9ySeGVZ/+PsplF45mBGnG3tVG1bWEqKuMYdpFej1jJrje
+         b7X51UNpANT8C0XvjPx/AOrDBaYSTpJ5f3Sfmw+i5Ar+novuBYTXT58obocs/Ugvx2hy
+         xdnX/aCuTJZDureQ0uewvg4xhCALoQIt39WJ/NX91yq0gq8rgRYbKkxYM/gEkZ76YkAw
+         cALjizrJreXTS0ZT7XePe20kADFdkMGc+G9X27Z8Qoxdw9RiopA3JZ6hK9+MZSMkkrkD
+         cyrw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=organization:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=Vmmbn/SYTdAX6khGfnmT6e6vl79rTBhgIsmeqcQLC/8=;
-        fh=butcl/4cb234uvwnd9R+gLoHVnYq1VGIYFV0pEnGZqU=;
-        b=QbXryzkJ/1SJibAJ/tqdWbqFFPxfBuVEpurWa9Ro8SXuAjG7n2gX61P22Ycke+ldQ8
-         MIVd42VzS4RUY6kUSyF+PzZIAxqONzbjzzkwJLRt0kymY0f6S5YAMeQDVqPDD0hNl3g6
-         Nkn7iXN20ny1No5ocgYDo3j3lK1AFOGxk0vn+g9ZNm7CXx4IIhZtV0bKb+8gKjEha6AC
-         s5lAPo0iDO7gVvdnUQkp4mnBEHfSJ8oSlm577yhcOiE3AuD9usbZiP9l75JK7AgEWq7Y
-         WQVUfIdoKFMIXOBMEcC3mFWiup4k/lg8ZHPclojahUAeiaiN+xHq63RKl0nyLKGRQmhm
-         d4/g==
+        bh=c717CSUcQPSlow7vY+l0D1zfE/3ZWjsjq52MhwiY9jQ=;
+        fh=J8lwpheDG2nnnIgEay13Ip2qo+FJjLxdcKa96+yY5rM=;
+        b=kw2Rt1pSEE8AgwHM0evCACDk6nu99NUgI5fTA7NTqSO6wHHZKELA9rGJtXcnHCAE6s
+         00NdUkS8Mr3ilO/gToS9qINvFAMy/agkbOo1+qIJM/aZQt0lZTWgFVoYJ9BLonxhmxpB
+         tK1xh5tJok6/6NUgqwVp6RI+3JBHUtdO7PuOWi/Wu0Rt4261DrhcmUaa9NNkCdv4S/KU
+         UtX/JQXf05mlpGguFY0XeASqGwBNbLaH6QLCkCzTU1rzudtBo+vMLduanrGHs35oh1yg
+         QhXOkHVRhoOsG1b7Lla41MtGIHiBHr1HqddhI+x/P4ZyME884kPDraFN/2iuhvSwhlaL
+         m/hA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=Ui2OVnqR;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=KWQR3Nqr;
        spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=andriy.shevchenko@linux.intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [192.55.52.93])
-        by gmr-mx.google.com with ESMTPS id g36-20020a056402322400b0051fe8b74bddsi763945eda.0.2023.08.08.05.48.07
+Received: from mgamail.intel.com (mgamail.intel.com. [192.55.52.120])
+        by gmr-mx.google.com with ESMTPS id u8-20020a05651220c800b004fe3ba741c8si774500lfr.8.2023.08.08.05.51.03
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 08 Aug 2023 05:48:07 -0700 (PDT)
-Received-SPF: none (google.com: linux.intel.com does not designate permitted sender hosts) client-ip=192.55.52.93;
-X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="368258928"
+        Tue, 08 Aug 2023 05:51:04 -0700 (PDT)
+Received-SPF: none (google.com: linux.intel.com does not designate permitted sender hosts) client-ip=192.55.52.120;
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="369711747"
 X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
-   d="scan'208";a="368258928"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 05:48:04 -0700
+   d="scan'208";a="369711747"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2023 05:49:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.01,202,1684825200"; 
-   d="scan'208";a="874710309"
+X-IronPort-AV: E=McAfee;i="6600,9927,10795"; a="681226171"
+X-IronPort-AV: E=Sophos;i="6.01,156,1684825200"; 
+   d="scan'208";a="681226171"
 Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga001.fm.intel.com with ESMTP; 08 Aug 2023 05:48:05 -0700
+  by orsmga003.jf.intel.com with ESMTP; 08 Aug 2023 05:49:56 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.96)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1qTM80-008Nsn-09;
-	Tue, 08 Aug 2023 15:48:00 +0300
-Date: Tue, 8 Aug 2023 15:47:59 +0300
+	id 1qTM9q-008S3O-2i;
+	Tue, 08 Aug 2023 15:49:54 +0300
+Date: Tue, 8 Aug 2023 15:49:54 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Petr Mladek <pmladek@suse.com>
-Cc: Marco Elver <elver@google.com>, linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: Petr Mladek <pmladek@suse.com>, Marco Elver <elver@google.com>,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-mm@kvack.org, Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Sergey Senozhatsky <senozhatsky@chromium.org>,
 	Alexander Potapenko <glider@google.com>,
 	Dmitry Vyukov <dvyukov@google.com>,
 	Andrew Morton <akpm@linux-foundation.org>
 Subject: Re: [PATCH v2 2/3] lib/vsprintf: Split out sprintf() and friends
-Message-ID: <ZNI5f+5Akd0nwssv@smile.fi.intel.com>
+Message-ID: <ZNI58vThL83P4nRY@smile.fi.intel.com>
 References: <20230805175027.50029-1-andriy.shevchenko@linux.intel.com>
  <20230805175027.50029-3-andriy.shevchenko@linux.intel.com>
  <ZNEHt564a8RCLWon@alley>
  <ZNEJQkDV81KHsJq/@smile.fi.intel.com>
- <ZNEJm3Mv0QqIv43y@smile.fi.intel.com>
- <ZNEKNWJGnksCNJnZ@smile.fi.intel.com>
- <ZNHjrW8y_FXfA7N_@alley>
+ <20230807222455.27874f80@gandalf.local.home>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <ZNHjrW8y_FXfA7N_@alley>
+In-Reply-To: <20230807222455.27874f80@gandalf.local.home>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Original-Sender: andriy.shevchenko@linux.intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=Ui2OVnqR;       spf=none
+ header.i=@intel.com header.s=Intel header.b=KWQR3Nqr;       spf=none
  (google.com: linux.intel.com does not designate permitted sender hosts)
  smtp.mailfrom=andriy.shevchenko@linux.intel.com;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=intel.com
@@ -157,97 +156,52 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Aug 08, 2023 at 08:41:49AM +0200, Petr Mladek wrote:
-> On Mon 2023-08-07 18:13:57, Andy Shevchenko wrote:
-> > On Mon, Aug 07, 2023 at 06:11:24PM +0300, Andy Shevchenko wrote:
-> > > On Mon, Aug 07, 2023 at 06:09:54PM +0300, Andy Shevchenko wrote:
-> > > > On Mon, Aug 07, 2023 at 05:03:19PM +0200, Petr Mladek wrote:
-> > > > > On Sat 2023-08-05 20:50:26, Andy Shevchenko wrote:
+On Mon, Aug 07, 2023 at 10:24:55PM -0400, Steven Rostedt wrote:
+> On Mon, 7 Aug 2023 18:09:54 +0300
+> Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+> > On Mon, Aug 07, 2023 at 05:03:19PM +0200, Petr Mladek wrote:
+> > > On Sat 2023-08-05 20:50:26, Andy Shevchenko wrote:  
+> > > > kernel.h is being used as a dump for all kinds of stuff for a long time.
+> > > > sprintf() and friends are used in many drivers without need of the full
+> > > > kernel.h dependency train with it.
+> > > > 
+> > > > Here is the attempt on cleaning it up by splitting out sprintf() and
+> > > > friends.  
 
 ...
 
-> > > > > How does this sound, please?
-> > > > 
-> > > > Not every user (especially _header_) wants to have printk.h included just for
-> > > > sprintf.h that may have nothing to do with real output. So, same reasoning
-> > > > from me as keeping that in kernel.h, i.e. printk.h no better.
+> > > I agree that kernel.h is not the right place. But are there any
+> > > numbers how much separate sprintf.h might safe?
+> > > Maybe, we should not reinvent the wheel and get inspired by
+> > > userspace.
 > > > 
-> > > (haven't check these, just to show how many _headers_ uses sprintf() call)
+> > > sprintf() and friends are basic functions which most people know
+> > > from userspace. And it is pretty handy that the kernel variants
+> > > are are mostly compatible as well.
 > > > 
-> > > $ git grep -lw s.*printf -- include/linux/
-> > > include/linux/acpi.h
-> > > include/linux/audit.h
-> > > include/linux/btf.h
-> > > include/linux/dev_printk.h
-> > > include/linux/device-mapper.h
-> > > include/linux/efi.h
-> > > include/linux/fortify-string.h
-> > > include/linux/fs.h
-> > > include/linux/gameport.h
-> > > include/linux/kdb.h
-> > > include/linux/kdev_t.h
-> > > include/linux/kernel.h
-> > > include/linux/mmiotrace.h
-> > > include/linux/netlink.h
-> > > include/linux/pci-p2pdma.h
-> > > include/linux/perf_event.h
-> > > include/linux/printk.h
-> > > include/linux/seq_buf.h
-> > > include/linux/seq_file.h
-> > > include/linux/shrinker.h
-> > > include/linux/string.h
-> > > include/linux/sunrpc/svc_xprt.h
-> > > include/linux/tnum.h
-> > > include/linux/trace_seq.h
-> > > include/linux/usb.h
-> > > include/linux/usb/gadget_configfs.h
+> > > IMHO, it might be handful when they are also included similar way
+> > > as in userspace. From my POV printk.h is like stdio.h. And we already
+> > > have include/linux/stdarg.h where the v*print*() function might
+> > > fit nicely.
+> > > 
+> > > How does this sound, please?  
 > > 
-> > Okay, revised as my regexp was too lazy
-> > 
-> > $ git grep -lw s[^[:space:]_]*printf -- include/linux/
-> > include/linux/btf.h
-> > include/linux/device-mapper.h
-> > include/linux/efi.h
-> > include/linux/fortify-string.h
-> > include/linux/kdev_t.h
-> > include/linux/kernel.h
-> > include/linux/netlink.h
-> > include/linux/pci-p2pdma.h
-> > include/linux/perf_event.h
-> > include/linux/sunrpc/svc_xprt.h
-> > include/linux/tnum.h
-> > include/linux/usb.h
-> > include/linux/usb/gadget_configfs.h
+> > Not every user (especially _header_) wants to have printk.h included just for
+> > sprintf.h that may have nothing to do with real output. So, same reasoning
+> > from me as keeping that in kernel.h, i.e. printk.h no better.
 > 
-> This is only a tiny part of the picture.
+> If you separate out the sprintf() into its own header and still include
+> that in kernel.h, then for what you said in the other email:
 > 
-> $> git grep sc*n*printf | cut -d : -f1 | uniq | grep "\.c$" | wc -l
-> 5254
-> $> find . -name  "*.c" | wc -l
-> 32319
+> > What to do with _headers_ that include kernel.h for no reason other than
+> > sprintf.h (as an example)? Your suggestion, please?
 > 
-> It means that the vsprintf() family is used in 1/6 of all kernel
-> source files. They would need to include one extra header.
+> It can include sprintf.h (or printk.h or stdio.h, whatever) instead of kernel.h.
+> 
+> What's the issue?
 
-No, not only one. more, but the outcome of this is not using what is not used
-and unwinding the header dependency hell.
-
-But hey, I am not talking about C files right now, it's secondary, however
-in IIO we want to get rid of kernel.h in the C files as well.
-
-Also, please, go through all of them and tell, how many of them are using
-stuff from kernel.h besides sprintf.h and ARRAY_SIZE() (which I plan
-for a long time to split from kernel.h)?
-
-> If you split headers into so many small pieces then all
-> source files will start with 3 screens of includes. I do not see
-> how this helps with maintainability.
-
-It should be a compromise. But including kernel.h mess into a file
-(**especially** into header) for let's say a single sprintf() call
-or use ARRAY_SIZE() macro is a bad idea. _This_ is not maintainable
-code and developers definitely haven't put their brains to what they
-are doing with the header inclusion block in their code.
+The issue is the same, printk.h brings a lot more than just s*printf().
+Why should I include it for a, let's say, single sprintf() call?
 
 -- 
 With Best Regards,
@@ -257,4 +211,4 @@ Andy Shevchenko
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZNI5f%2B5Akd0nwssv%40smile.fi.intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZNI58vThL83P4nRY%40smile.fi.intel.com.
