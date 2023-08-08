@@ -1,153 +1,144 @@
-Return-Path: <kasan-dev+bncBDUL3A5FYIHBBW6TZCTAMGQEKBQWKLA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBHPNZCTAMGQEHA5R3SI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23a.google.com (mail-lj1-x23a.google.com [IPv6:2a00:1450:4864:20::23a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334EC7739EE
-	for <lists+kasan-dev@lfdr.de>; Tue,  8 Aug 2023 13:41:17 +0200 (CEST)
-Received: by mail-lj1-x23a.google.com with SMTP id 38308e7fff4ca-2b9bf493456sf56351501fa.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 08 Aug 2023 04:41:17 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1691494876; cv=pass;
+Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC38773A2D
+	for <lists+kasan-dev@lfdr.de>; Tue,  8 Aug 2023 14:35:43 +0200 (CEST)
+Received: by mail-lf1-x140.google.com with SMTP id 2adb3069b0e04-4fe275023d4sf5417685e87.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 08 Aug 2023 05:35:43 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1691498143; cv=pass;
         d=google.com; s=arc-20160816;
-        b=FXPkLWAQPA5ff3BxEqrz6smqsTo1Ln9X3sigsAHJXRrs/u8PhMKw/pV0nL76DIWAPu
-         SInmmXkv9zA0Nx4TuEXC7RSb8rwhmxJA6/iUeThKgyUNWYd7lP2HEpvx5tzFCGT3Stb4
-         2SCRd40m68KdIpA5NcwyhsK6NxO/tNPW/nWvL5ulEST9cKZ+1h1dK54y07akKcxybJ5f
-         xEA65AxetK6/t2ddPXhSkz/1dNQRbJnvNmG+3t47W6kI8CUCEzh7uxLiRAtyUqLlIIDP
-         +uoaK0Rz6tjQTBffgmR/wP+9aZEFgJpFJ1CGcQVTmfffRU+Rv3SVT2/FZshPL8GOqqFK
-         dcfg==
+        b=TcGDElEwDNNGT0MlvxAud2e1f4nR9VKdQnUz0TMUuVXlJEQqZWM3Z8q/XJnWF5vxhW
+         GZGipLfub6ALeoFMAp+u0uAe/4xhrTSAo9VVIq5hSuX6CXESbGQ98FjO1AFnu8GnIF6g
+         F5LFOkl3T7YXDPV8QTW8Owz27suYi8k85KF/zCKcp+7+S/7aY9h2pkyxmnMgrf5p8o1k
+         dvPcXUh3Kj0WPg8e1E5gW1nXiuTSiHBNQC+qIPiKys+KvR/xSGM56QNfkPMDi/3higVV
+         gd+WGnXDnPSDrNVhOaziV+e066XwbdoxverBntK2Viw7LmS/94GbWqLsHy0TN9ece7To
+         0Hbw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:user-agent:message-id
-         :in-reply-to:date:references:subject:cc:to:from:sender
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=odPx+5wdzB2so1r7RYRRgmIRtN4TDx3Ds/yx7rhYF8E=;
-        fh=shlGGbApy7qGdDHB+lq6z5bM4NEXnY9gUBYcpu2vW9U=;
-        b=GP1Vmu4ilE5I3qQkOkpWxDci8pAg39k7QovAfiFXdNJF9ibuM7cFPVojt9PWqVmYhA
-         F8xraPLJBITjDzxvzzDRLCA0qVVkpHor0kU/TXR6uJ6dfCuoal/r+I/OwKOVaXA/2gV/
-         SfMIMHrA9w3IlGwQOG6V+Jmg74aO6sE7lkdcMWayak5YeVv+nxzDL89XrJzIFl4kLW10
-         RmvENj21uzfBjul0JpWcOPNE36UlcIAedPSQt1JACNf4eofC0fgenP5tLDkr3CWfKXS5
-         LigHfOqicHfyAOBvkBW0ebYqSHDOnTC3yvdbiahuiLKql4cHCnUbfQf3ifuUBm2vgRKB
-         FS9A==
+        bh=pJcQVenZf/Ug9dCs2bSxxjODByKtUszG5Z+Xz5ab+ks=;
+        fh=OPkJlFMJKH10AVva8ynbVQRaZC9KW3M1lUV94+OTNXA=;
+        b=xQTjahxyZE4TOqf4K1MxgYxZXHI9lcKpHuBFWuV/Krn2+dFaFMTX/Va+QyTGh2ZHKw
+         fnIWYRWH9624L6DxIeYgCrGwil8Ed+SA+yNPKKv4mHH/zAgvVl2pSBewgZ5adHDcj5+v
+         QkEwtP6auH//I+4W3mfWRIW1rBPu9SRBY8dFvUe7xDTGYbBY9zXnijNOGKie37pizBSz
+         MHmi0SswRNl3muhYBkq57Q4qNuFSHbWUIU1mJ8TAiakXekX6V4tKiM9sDJWDkC0ygBAt
+         CBJGMiMDf3rAgHqI+bybnebED+wueKdEVppK5sQHqXutq/XuR7xv3Xqmya4lhhQjDcgA
+         mwwg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=BDiB5vuk;
-       spf=pass (google.com: domain of fweimer@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=fweimer@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1691494876; x=1692099676;
+        d=googlegroups.com; s=20221208; t=1691498143; x=1692102943;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:user-agent:message-id:in-reply-to
-         :date:references:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=odPx+5wdzB2so1r7RYRRgmIRtN4TDx3Ds/yx7rhYF8E=;
-        b=oTrHOO5VX0N9h3/fJPw7saP+XhJVMDgY3nnc+C6Qv9YoVQg2mPKZYvMpdp+LR2mUcx
-         iBYU+iSEfFKHTTRjtkMRrgrDG6mAEdALrLD6/m65pJRjHAKTVbEZ8UCsAuJvGDCm4+DE
-         UGNtMekDsIPy3G947IAPyJyiDEARyOgqhFjDVAxkYxLuPyjggwxaHcjaffzDGvdHR//6
-         +NRP8ed/mEq/kbF01iVldCeC2X1Z8UfWlmqHr4jXpQY2RQrFa9kriVyeDA61aE4uQUSZ
-         ArVFG/iQlZPqhKwwMGfa00KeNvVTsOqBobBlq3VtxxNM5ELcYa4zwqK9LPiGdVGxJSxw
-         K93Q==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pJcQVenZf/Ug9dCs2bSxxjODByKtUszG5Z+Xz5ab+ks=;
+        b=BCIh/7wDESmYV930kXPVywxTGqIvOquExZndReUUOo9L1Us/qaYt5nkz4ipqrCvmPd
+         rd5ka/e4dbzmLNduASysqFI1h7HwE3JeF474NyPiRoqOJUz2rZBxgx/zDidShN23gWZG
+         gLE0Crh3/I6M2c9DGyWPu14saROprvlhhEltjYbhfixrzSkdvAYRD7ci11m7adTGwwak
+         gcBVsimi3LLrQimtvF7j41JpfprfXZHIS6cSjo5qQEs1DnvyKbZFcSpeSdowaECAX6ra
+         lcLxU8IyWg5iUC7WXD2jXMmQBJgV2IRLx66M5Vx2Ltk3hjabwbNcP6bYHFfOpydSZUYX
+         MT3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691494876; x=1692099676;
+        d=1e100.net; s=20221208; t=1691498143; x=1692102943;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :user-agent:message-id:in-reply-to:date:references:subject:cc:to
-         :from:x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=odPx+5wdzB2so1r7RYRRgmIRtN4TDx3Ds/yx7rhYF8E=;
-        b=JhpeJwmM6Fsae9NPPgByCt1NqeY4SFpf4+aSQ8/MvVmQg1OMaGHtHlVPGKmERrGOpk
-         ldfqReYCViWATZKDCNdoAuK+qnFUMaNS3AKZHD4935YhElSqiAkhkKe7q8u+zqeUeed6
-         lsMI6zrc5j97I5NTOwRmcQUh8ckrKXbtES6mnhXQZRb4Qh/ZXkHO6XPV4w3swmTxhzwS
-         uY8ZdCJ2b4TfLeYCACecS2ZAhw/Spec+a6VTDwroKaOooRCq9d7TYq/l1bn5p+SORE9i
-         yTpRTZxg0/h5j1OCXR5D5KqhVnV5DSln2XuSvQZE8CkDCKPsbea26fw3r130mP3t+Ens
-         HJnA==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pJcQVenZf/Ug9dCs2bSxxjODByKtUszG5Z+Xz5ab+ks=;
+        b=K1SzdL/cL8GguYj9YJBt+6EMYoJdPwL28Q4K9YN7qOyW+Nk8vUaJ53q5wrUawFJTdA
+         +l7fLnJAPGacBbQSnnUk/vwLbkq1TJ+Yhh1vmXWeMY44aNYqA9cqmpD2Q4BPWXyybcYO
+         BUXynzsxIkHdNE/nBFeMhdx+pPqrynQquI9SKNbuTMikSlk9U+cTNGBOnqzRC3XcPIel
+         5N2kXkj7RYSU5LOgqV557e3hr86dXUOI4V9Hj304q8cvlozW+cdCv/qPEOj5NtUBZNyq
+         4sj6Gw4NCvYXEJl7UVxZGji1w2u7RBPtpknFCnTMYhLRaIG0v02qTbqG9RctM/Br552k
+         2HQQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YziZhGORiX+cun/tOWOmBeuTBh5AkArvJjoexUq7dXDcw+Af8gz
-	/eqAi56OqWEHiwrs9xJbjrM=
-X-Google-Smtp-Source: AGHT+IGmYjYzgepZIwzE6aDaCvithTmRFWPUDnXA7YKBhTO5qIWjX6swXOxUc3rSs0AnMlcJWiJLPQ==
-X-Received: by 2002:a2e:968a:0:b0:2b9:cce1:712d with SMTP id q10-20020a2e968a000000b002b9cce1712dmr8619360lji.41.1691494875606;
-        Tue, 08 Aug 2023 04:41:15 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yw8hp/elLcjwfJzbydl5PmlgcyZE1vQu5qzZn41VjJPJTNq5Ycm
+	ojlPHBYspHJmxc5gN0DPkW8=
+X-Google-Smtp-Source: AGHT+IFDFAV+xJ8SHk2625FH6nc2FyCJkcGNVeQKGfKb9mNEWVnJ0tNr9ycT4617eAGok/UBI0Yakg==
+X-Received: by 2002:a05:6512:3f6:b0:4fb:89f2:594d with SMTP id n22-20020a05651203f600b004fb89f2594dmr6543915lfq.63.1691498142139;
+        Tue, 08 Aug 2023 05:35:42 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:bc1b:0:b0:2b5:8027:4784 with SMTP id b27-20020a2ebc1b000000b002b580274784ls25434ljf.2.-pod-prod-07-eu;
- Tue, 08 Aug 2023 04:41:13 -0700 (PDT)
-X-Received: by 2002:a05:6512:348d:b0:4fb:76f7:fde9 with SMTP id v13-20020a056512348d00b004fb76f7fde9mr7783040lfr.30.1691494873642;
-        Tue, 08 Aug 2023 04:41:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1691494873; cv=none;
+Received: by 2002:a19:8c0e:0:b0:4fa:718c:85b0 with SMTP id o14-20020a198c0e000000b004fa718c85b0ls1461205lfd.2.-pod-prod-06-eu;
+ Tue, 08 Aug 2023 05:35:40 -0700 (PDT)
+X-Received: by 2002:a05:6512:70e:b0:4fb:9fa7:dcda with SMTP id b14-20020a056512070e00b004fb9fa7dcdamr7401722lfs.26.1691498140151;
+        Tue, 08 Aug 2023 05:35:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1691498140; cv=none;
         d=google.com; s=arc-20160816;
-        b=oBN4vojRuE7BABdUjJQNmaPvf5AGhBWXfQtB9KVzEa/mP5a0qejD9MhVF7GiygB+1z
-         jkbQx7WYgFXdUDBgEpUrBe5zoxaZp12Pe3+4nI3WV6imCG7nfDY7yIUDoReO68Yqccl0
-         Zmld07I9VqBjCp9bgwxtZNzOPhDnbnQP61O4N/Snv3SA2SDdW7mmNC5lWdjE/ZksL2K3
-         CuKnYw12aj98qESsFZGqGrTgkm6C23OJD7R02SahXrAbXDDO1KFupbaYOpSJjWhCELdS
-         xACPAUmTcEIKr3qrIg3Rf0ip7cNZanNeyjkAGGczHOiiwarpmiYMVxKgtV2TWLGElpMt
-         LDUg==
+        b=akt6t8O1cWhgkWvD8/LqbJp9upG1ZWUSEbr0pvfjfXiWlIjaiYa3PhNBV6e4tc5rh/
+         Q46JifvdxYDquL0Q4mn0bvC/kE18QcNlUdtLmlKBZXs+fHD4O4rrAQnixHMcP52UAM6t
+         FKymWLaW/sptjf5TTKJiZqKQ+lqIJbD5/qH7tu+moGXGDrKJaRsNMxAh1EupkbD3GIET
+         zQBk53n2vTqjFleaxKy5BxuaOk54lqILlJDA9413gAVOkgCT539P07rLoZdA/wmE5DdF
+         FbyDPB87QggQyDGGu10LKJqM4g6h/zOk3WkU71QsVnQDD+M+rfCBrB05y6oZ2grrziuZ
+         wnNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:user-agent:message-id:in-reply-to:date:references
-         :subject:cc:to:from:dkim-signature;
-        bh=LpOwTgxUQueKTTwOJlS9a4DMbQJlgeLRkDEjrIokCAc=;
-        fh=shlGGbApy7qGdDHB+lq6z5bM4NEXnY9gUBYcpu2vW9U=;
-        b=S7IvyWmG8dRXLSguJp0pPoPdsEP07DGUy3GCPUR+0Y1f7sdFRr1O1zyLwNmYKttBiH
-         NUDIZs9asLVSXOu9J9eQ9kppLMenr5ZQE0v+3ohcVbXwW6Pfyo/SWLN4+RrUotWsWQz+
-         uhMKc5woLKB5EJ8rqYuTPx0CXtYV3SU6u/Xzs1exkvUvPhwm4BBRO67/BPZPDwuBswUY
-         B5ueWi52YEd3L1V0HxK/vv8vGoLJv1j9i5WpLnbJ5eIfujEwdRRt6UPUH2y/HP8hbOOT
-         irBTfCbxFy+SHR55nh6OljrmO3eFEP3u7quIHD+lTkZB9ohwJfYDZaxRO0MkvATmu9kp
-         VZlw==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=xQeRfx/PxCLwYQhk/VjWSA+mNFDuNnUrVLEE343dnnw=;
+        fh=OPkJlFMJKH10AVva8ynbVQRaZC9KW3M1lUV94+OTNXA=;
+        b=asC4HePq/BPsaEh0+C7R17iBWHar4Cc/NnGSSTusbK0Gk6b4HNONJGTDjybp1tvaL1
+         WP0k3pfJiEH1MhaJEjfRQgNfxOEXTetw8n5e4kfezmh8klHFqKY4li/vojZSq1Q8DuWS
+         Mt/M4DCcHopcCwhVRhFxP5wcTSDIv1UsUdlJ1qbykn0MBhAN73zPfHyZ0JVyjLt0nabL
+         yWzWZhi5veLTgSOJRWrAK0OuDwUK4+u0n86/4YlX7o2+ejBohmZCtMyQdTiR9P+RxVis
+         5BixQ//0Yym0rcxi1sx0EFUyZkDIdX5tXFGbts4JwE8PWTf9lcUXc8UQ6B34SqIhrhTo
+         wxYQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=BDiB5vuk;
-       spf=pass (google.com: domain of fweimer@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=fweimer@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id v21-20020ac258f5000000b004fe3478235csi668239lfo.7.2023.08.08.04.41.13
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Aug 2023 04:41:13 -0700 (PDT)
-Received-SPF: pass (google.com: domain of fweimer@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
-Received: from mimecast-mx02.redhat.com (66.187.233.73 [66.187.233.73]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-678-x_BVl-L4N6OBZSXsqfsgqg-1; Tue, 08 Aug 2023 07:41:11 -0400
-X-MC-Unique: x_BVl-L4N6OBZSXsqfsgqg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com [10.11.54.3])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CFA37381AE42;
-	Tue,  8 Aug 2023 11:41:09 +0000 (UTC)
-Received: from oldenburg.str.redhat.com (unknown [10.2.16.12])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 462E41121314;
-	Tue,  8 Aug 2023 11:41:06 +0000 (UTC)
-From: Florian Weimer <fweimer@redhat.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Marco Elver <elver@google.com>,  Andrew Morton
- <akpm@linux-foundation.org>,  Kees Cook <keescook@chromium.org>,  Guenter
- Roeck <linux@roeck-us.net>,  Mark Rutland <mark.rutland@arm.com>,  Steven
- Rostedt <rostedt@goodmis.org>,  Marc Zyngier <maz@kernel.org>,  Oliver
- Upton <oliver.upton@linux.dev>,  James Morse <james.morse@arm.com>,
-  Suzuki K Poulose <suzuki.poulose@arm.com>,  Zenghui Yu
- <yuzenghui@huawei.com>,  Catalin Marinas <catalin.marinas@arm.com>,  Will
- Deacon <will@kernel.org>,  Nathan Chancellor <nathan@kernel.org>,  Nick
- Desaulniers <ndesaulniers@google.com>,  Tom Rix <trix@redhat.com>,  Miguel
- Ojeda <ojeda@kernel.org>,  linux-arm-kernel@lists.infradead.org,
-  kvmarm@lists.linux.dev,  linux-kernel@vger.kernel.org,
-  llvm@lists.linux.dev,  Dmitry Vyukov <dvyukov@google.com>,  Alexander
- Potapenko <glider@google.com>,  kasan-dev@googlegroups.com,
-  linux-toolchains@vger.kernel.org,  Josh Poimboeuf <jpoimboe@redhat.com>
-Subject: Re: [PATCH v2 1/3] compiler_types: Introduce the Clang
+       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id v21-20020ac258f5000000b004fe3478235csi676464lfo.7.2023.08.08.05.35.39
+        for <kasan-dev@googlegroups.com>;
+        Tue, 08 Aug 2023 05:35:40 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 681661576;
+	Tue,  8 Aug 2023 05:36:21 -0700 (PDT)
+Received: from FVFF77S0Q05N.cambridge.arm.com (FVFF77S0Q05N.cambridge.arm.com [10.1.35.148])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 36E633F59C;
+	Tue,  8 Aug 2023 05:35:35 -0700 (PDT)
+Date: Tue, 8 Aug 2023 13:35:29 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Marco Elver <elver@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Kees Cook <keescook@chromium.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	James Morse <james.morse@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com,
+	linux-toolchains@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] compiler_types: Introduce the Clang
  __preserve_most function attribute
-References: <20230804090621.400-1-elver@google.com>
-	<87il9rgjvw.fsf@oldenburg.str.redhat.com>
-	<20230808105705.GB212435@hirez.programming.kicks-ass.net>
-Date: Tue, 08 Aug 2023 13:41:05 +0200
-In-Reply-To: <20230808105705.GB212435@hirez.programming.kicks-ass.net> (Peter
-	Zijlstra's message of "Tue, 8 Aug 2023 12:57:05 +0200")
-Message-ID: <87pm3xhicu.fsf@oldenburg.str.redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Message-ID: <ZNI2kStGIPInDYIK@FVFF77S0Q05N.cambridge.arm.com>
+References: <20230808102049.465864-1-elver@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-X-Original-Sender: fweimer@redhat.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=BDiB5vuk;
-       spf=pass (google.com: domain of fweimer@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=fweimer@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Content-Disposition: inline
+In-Reply-To: <20230808102049.465864-1-elver@google.com>
+X-Original-Sender: mark.rutland@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
+ permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,38 +151,111 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-* Peter Zijlstra:
+On Tue, Aug 08, 2023 at 12:17:25PM +0200, Marco Elver wrote:
+> [1]: "On X86-64 and AArch64 targets, this attribute changes the calling
+> convention of a function. The preserve_most calling convention attempts
+> to make the code in the caller as unintrusive as possible. This
+> convention behaves identically to the C calling convention on how
+> arguments and return values are passed, but it uses a different set of
+> caller/callee-saved registers. This alleviates the burden of saving and
+> recovering a large register set before and after the call in the caller.
+> If the arguments are passed in callee-saved registers, then they will be
+> preserved by the callee across the call. This doesn't apply for values
+> returned in callee-saved registers.
+> 
+>  * On X86-64 the callee preserves all general purpose registers, except
+>    for R11. R11 can be used as a scratch register. Floating-point
+>    registers (XMMs/YMMs) are not preserved and need to be saved by the
+>    caller.
+> 
+>  * On AArch64 the callee preserve all general purpose registers, except
+>    x0-X8 and X16-X18."
+> 
+> [1] https://clang.llvm.org/docs/AttributeReference.html#preserve-most
+> 
+> Introduce the attribute to compiler_types.h as __preserve_most.
+> 
+> Use of this attribute results in better code generation for calls to
+> very rarely called functions, such as error-reporting functions, or
+> rarely executed slow paths.
+> 
+> Beware that the attribute conflicts with instrumentation calls inserted
+> on function entry which do not use __preserve_most themselves. Notably,
+> function tracing which assumes the normal C calling convention for the
+> given architecture.  Where the attribute is supported, __preserve_most
+> will imply notrace. It is recommended to restrict use of the attribute
+> to functions that should or already disable tracing.
+> 
+> The attribute may be supported by a future GCC version (see
+> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110899).
+> 
+> Signed-off-by: Marco Elver <elver@google.com>
+> Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+> Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-> Now, the problem with __preserve_most is that it makes it really easy to
-> deviate from this pattern, you can trivially write a function that is
-> not a trivial wrapper and then does not show up on unwind. This might
-> indeed be a problem.
+So long as this implies notrace I believe it is safe, so:
 
-Backtrace generation shouldn't be impacted by a compiler implementation
-of __preserve_most__.  If unwinding implies restoring register contents,
-the question becomes whether the unwinder can be taught to do this
-natively.  For .eh_frame/PT_GNU_EH_FRAME-based unwinders and
-__preserve_most__, I think that's true because they already support
-custom ABIs (and GCC uses them for local functions).  In other cases, if
-the unwinder does not support the extra registers, then it might still
-be possible to compensate for that via code generation (e.g., setjmp
-won't be __preserve_most__, so the compiler would have to preserve
-register contents by other means, also accounting for the returns-twice
-nature, likewise for exception handling landing pads).
+Acked-by: Mark Rutland <mark.rutland@arm.com>
 
-But __preserve_all__ is a completely different beast.  I *think* it is
-possible to do this with helpers (state size, state save, state restore)
-and strategically placed restores after returns-twice functions and the
-like, but people disagree.  This has come up before in the context of
-the s390x vector ABI and the desire to add new callee-saved registers.
-We just couldn't make that work at the time.  On the other hand,
-__preserve_all__ goes into the other direction (opt-in of extra saves),
-so it may be conceptually easier.
+Mark.
 
-Thanks,
-Florian
+> ---
+> v3:
+> * Quote more from LLVM documentation about which registers are
+>   callee/caller with preserve_most.
+> * Code comment to restrict use where tracing is meant to be disabled.
+> 
+> v2:
+> * Imply notrace, to avoid any conflicts with tracing which is inserted
+>   on function entry. See added comments.
+> ---
+>  include/linux/compiler_types.h | 28 ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+> 
+> diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+> index 547ea1ff806e..c88488715a39 100644
+> --- a/include/linux/compiler_types.h
+> +++ b/include/linux/compiler_types.h
+> @@ -106,6 +106,34 @@ static inline void __chk_io_ptr(const volatile void __iomem *ptr) { }
+>  #define __cold
+>  #endif
+>  
+> +/*
+> + * On x86-64 and arm64 targets, __preserve_most changes the calling convention
+> + * of a function to make the code in the caller as unintrusive as possible. This
+> + * convention behaves identically to the C calling convention on how arguments
+> + * and return values are passed, but uses a different set of caller- and callee-
+> + * saved registers.
+> + *
+> + * The purpose is to alleviates the burden of saving and recovering a large
+> + * register set before and after the call in the caller.  This is beneficial for
+> + * rarely taken slow paths, such as error-reporting functions that may be called
+> + * from hot paths.
+> + *
+> + * Note: This may conflict with instrumentation inserted on function entry which
+> + * does not use __preserve_most or equivalent convention (if in assembly). Since
+> + * function tracing assumes the normal C calling convention, where the attribute
+> + * is supported, __preserve_most implies notrace.  It is recommended to restrict
+> + * use of the attribute to functions that should or already disable tracing.
+> + *
+> + * Optional: not supported by gcc.
+> + *
+> + * clang: https://clang.llvm.org/docs/AttributeReference.html#preserve-most
+> + */
+> +#if __has_attribute(__preserve_most__)
+> +# define __preserve_most notrace __attribute__((__preserve_most__))
+> +#else
+> +# define __preserve_most
+> +#endif
+> +
+>  /* Builtins */
+>  
+>  /*
+> -- 
+> 2.41.0.640.ga95def55d0-goog
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87pm3xhicu.fsf%40oldenburg.str.redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZNI2kStGIPInDYIK%40FVFF77S0Q05N.cambridge.arm.com.
