@@ -1,132 +1,122 @@
-Return-Path: <kasan-dev+bncBDE6RCFOWIARBGPJ3GTAMGQETQ5W6EQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT4XGV33UIBBH723KTAMGQE2B65IHA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x837.google.com (mail-qt1-x837.google.com [IPv6:2607:f8b0:4864:20::837])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C80779673
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 19:49:15 +0200 (CEST)
-Received: by mail-qt1-x837.google.com with SMTP id d75a77b69052e-40fedf8472bsf27174721cf.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 10:49:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1691776154; cv=pass;
+Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
+	by mail.lfdr.de (Postfix) with ESMTPS id 278BB779AE4
+	for <lists+kasan-dev@lfdr.de>; Sat, 12 Aug 2023 00:58:41 +0200 (CEST)
+Received: by mail-qt1-x839.google.com with SMTP id d75a77b69052e-40ff56e1c97sf69771cf.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 15:58:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1691794720; cv=pass;
         d=google.com; s=arc-20160816;
-        b=JAZ2VljKyUhx5PEas6rbRXWDfCfwfGR3Vd6HscwPwj6DaQI1zLXxShatZnGITr0JjY
-         V9YX/xHhNlEndyqfuV/LTTDAjEefrDU9qzWS/qs5Y9f/I66k0INvQp5s6MYY41lT6lQW
-         d7eyyy1BNn3GAzCe9h2Db5wU7Cf/cSG75SmRzrqYmIndzN4y2HUbZpspSjRWlRD+mRkt
-         irB+0oOpd0GU6QfZ7lkiGVVSSrQHa/zKcJVubppHZMCzFqRHTdbATZSNCpOTF9bfPRAg
-         chBA9VtlAi93CuV07msUS7VgBuA0UyNEs0HXjlwagiR1973m1GPx4PypORf7WUYjOQuf
-         9csw==
+        b=TPElDy1lqEtEEIo1zUrvpt5HgapbYG8UEb9V5TX8CRXVgy5xwau9AHKyxJ3M/5Rno6
+         EvVjzAsyCXOX7QVN43SjNEIS7VJlWsq3Di7+YPnRSNeksGZNRGEgcs7+fGAtqRf3xiqJ
+         YOVcxVzOX/UvtzbIbZkZmjzXSVg45zc2YwK2l/1mNt9YcIHOCRZnGOr9fbf53qyV/ksg
+         jC8P+8BpfW7SnJHDaZtNxjL3jRym+bE7J7J34nGYS0Y3Z6zKoILGM2rGE82E4jdYsBc1
+         ecPkIIMbBU3Uu6G4BspnFmiLWm9/8CbKJAdwacfVNJdApFgNsvHVB9J1wFnYPvzqcKqK
+         YrNg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature;
-        bh=/1jXqmqFJEr60V8ws5JXknzKDp5HSX1NEFx+bp6yVHU=;
-        fh=zILISoE7VGbbu3UWaxFKiQ0mR6vgTFPbNdpozRo0CFI=;
-        b=jAbDRwMSYwq7TsbrBpjf9n71O3sF7GqOxfTQ9grl9qPIHvP+a6UbpAYn94eX1bz/c/
-         V40t4JMLy5jnZD7pNyw1qKcgukeAxBzO6puGVj29j1BVSe7Pr4Wsi5jA/GfxYDbdzdDW
-         JYnRRY5x177DuSBZbO9U7oGy9CxiuXJ4S6yQQee6yR2FjRq7nTHNqxjZl0m3wBqvq9kU
-         Wm3h0uIwtD8OJcbp9ljuJ3U/kqJ4NGHA1ryPD9MDCP/kiF8PASxoVEpFGb5WAnW32jm7
-         fdwGrhswwlRFch3Sx2Pnqt0VrEEk1OaFg70eef9g+6V+bTaIlJIRyKPyFq6NZC/8Nml0
-         tg5g==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :message-id:subject:from:to:date:mime-version:sender:dkim-signature;
+        bh=lydd3WfOEwmZ1nLhAyweHcpEUWDJ25njfRDqYYkEI4s=;
+        fh=0jO1JOzt27HyKkrjcL5NMcwM8KGfmM7wNTpPS5AH8Ow=;
+        b=wrOL6JttcD5NVhuD8Dq6RLuZW/33yA2wF02gsBwtrOwv8J8o494sWUgIPJWjytAKqe
+         7IlKCEgOi2zESgBGHqXUqI6q/kSm4XQASGR8lVtfMr99t0W+dJzbvGRtNIqi0W5KKJEG
+         y72iFpXQPyMrkZk0bV1i0+rtr0mQ0d7457QCDUqL4GX/alO0rSRpBDzHwcGdUnuddy1f
+         E+Xu/qYQ8S033PlfE3jcajyySD8LbCslNWlocTSZLCQY5+Ma9A+DvRoN9Ook59FFRr7i
+         Tgq3k659laR29d5tFO/bGX45gFW+vKBB5qC/+cK1L6uQeYkcYqxMsZFffMFtOvVSHOu+
+         W0hg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=Q1ZYrwwh;
-       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2607:f8b0:4864:20::b2d as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=LvgDGola;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1691776154; x=1692380954;
+        d=googlegroups.com; s=20221208; t=1691794720; x=1692399520;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/1jXqmqFJEr60V8ws5JXknzKDp5HSX1NEFx+bp6yVHU=;
-        b=MtX8yZrtPDAuAAmmd7Q00jLNYfB838M5GT8+IafkiNUhnIFZphTG6rjCNa//WHpcxk
-         4RG8t/8otnrTbRERah6QxcarpwIm2U9vByCGxGaydK5wSD8HUvhWU7SLBaB32s9vLAHd
-         /+EDYniGSaFrxCJkao6lUr9ZqfubxwLjbGVOqOXPQC/oDUW20RXtl5J8OFA++aXWAMVJ
-         eTNsmR2YjfIsOQnfZ8dTSJWavMYILsxxu76Y2jOMIaVTKnQTsIDY/O+lObqE7mH/05bt
-         2UQveHb++u8PS2OmjqeEdtjdItl42R2b+Y3S2mqBXjVa6E0F9wWsMctMBE+C5gaJSXeG
-         8BEA==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :x-original-authentication-results:x-original-sender:message-id
+         :subject:from:to:date:mime-version:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lydd3WfOEwmZ1nLhAyweHcpEUWDJ25njfRDqYYkEI4s=;
+        b=JOmXxmAYXY4k72AXZQNQNKHPP8ithUTIuW1HhSRYLJvSfPt9BkX01fu/H1UFyrfnHj
+         SSNMlum5Wyoyssx3tTh0ygf6xPJJ+h7lLXxa5xy8dC5AVZZJ7NTKQN+nEhA7G4KAgtg/
+         +OckRxAzoq0vqc0vVYrUEVZrLLvxCrsE3dWvjXUNY642izMtDmCFBNzY8MiIWAHS3iNN
+         sgZ+DE+R+CaA5K94l3RfiBg0X/vkztzlL9PWFsFL1d9ZkcBTQWc5OAmiRxnhNp3mb4w6
+         hCWIcVi4RES5723Q5RP9y10j6tdOJmD6CC6WkYRI9jT+vcDqa4rqiu3Bz1izWUdAtCkT
+         RDiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691776154; x=1692380954;
+        d=1e100.net; s=20221208; t=1691794720; x=1692399520;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=/1jXqmqFJEr60V8ws5JXknzKDp5HSX1NEFx+bp6yVHU=;
-        b=ZeR5fPzkp9Iv5Hm1uhxshqvlbrJJsDCXcjOROCU/sDYLD4Q5GVWcUY6E52FYHajV1c
-         0CKMIwXEqgbJDvoFWIjg//pCZdSlkZ4IPNJUuN5+04ofrt2grQQT2+TDuwlVg/zSlPyP
-         U4K/Mm//N3Ad84Y/17KZe64EcRhgkHgJUbYo/ZJro5wQwomjDiMwfCQ4djkGbt48xaTV
-         QXdkcN6jJ46hxYJqf832NRW2LmwrbWxWG8kV846hDlJkvtHwA9GNFkGCff+zgL2fjtto
-         uFbBT6ZpMk5bBrvfKjv9RiSG6a4jmuaNaYZNu39XjVqav8Ro+xWA1tO8K+dxzKFI8UtK
-         XufA==
+         :content-transfer-encoding:x-original-authentication-results
+         :x-original-sender:message-id:subject:from:to:date:x-beenthere
+         :mime-version:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lydd3WfOEwmZ1nLhAyweHcpEUWDJ25njfRDqYYkEI4s=;
+        b=f/yGaqWDStE/QsB15akTTk2dzPI/+DA4t1KzCKRcnOht2WhMPuTaRAhHx67bjXT0Wg
+         NOcu1Evp6/hLWfwL5ac+TbF6HbjbbZxS9jWiFceHbfnCMKaob0hwNyrCyN7ahHNG459U
+         EJlGr+6HI9h8SHWtfLH3y4y8yJqx4BSqwwjYJDHmRm/jXspqd+E3nnr8hQidixtEHfWG
+         anwvy32QIYH/eVFfIY7jAWHZOEdj4UUzj2UL/i9KcRZFd7/qOMurkiu6elXT3wCiJqqd
+         w2yIhaQ0sbJ/M2RVXZybTbuoZ7G90O5c4Upl12LOsox3il/fT0ZJmOwooVsGoo6zfOMk
+         S5Fg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yyl12bbAHN7O36aTzWBfIBI+4N7orWx5fN5425oNeWaQX20FPXq
-	lGsptjdz5Dr4bICGd3v271w=
-X-Google-Smtp-Source: AGHT+IECEQJIMT2ZpoVfJqf72abKQztg6gKRFwuoZzYXOx91HEJ/hKQy6Q6XM7vtfK26DhD3aMWxYw==
-X-Received: by 2002:a05:622a:1194:b0:40c:82f:b66c with SMTP id m20-20020a05622a119400b0040c082fb66cmr3443473qtk.34.1691776153727;
-        Fri, 11 Aug 2023 10:49:13 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:4555:0:b0:403:99fb:6d61 with SMTP id z21-20020ac84555000000b0040399fb6d61ls2702090qtn.0.-pod-prod-02-us;
- Fri, 11 Aug 2023 10:49:13 -0700 (PDT)
-X-Received: by 2002:a05:622a:11d2:b0:405:46e5:be3a with SMTP id n18-20020a05622a11d200b0040546e5be3amr3975136qtk.49.1691776152904;
-        Fri, 11 Aug 2023 10:49:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1691776152; cv=none;
-        d=google.com; s=arc-20160816;
-        b=zlGtuvbSXRLw9659Qr4KdGLb3OjDRjWy/dUn4XjyFoDAO1g392NygiRHcxABYxtkKd
-         QPByBSb4TBB/IJL0tCzkTAb83rpp68/HBH5SdbECch5UrYI720adwgeNpz0Wk89cuiBQ
-         whqK+7pg8zX1ua61QG1VXBiaC863gH6oNtyW7C5RRXL24Ls1+1EsAKDikVNAnS0m5xDA
-         mZTDEdlGCFS9TvzxEyOatmaJZWwYxuGGrWNo1flCyItCpOWf2wE1vDK4pQ1+uOmz2oJI
-         nODpEuEUVpgqgnYuelesn5bkT/loKeIN4cHet2D4XyfarX9H+TZ81oh9sdmQEDr0o93d
-         Qm/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=IUwS78/plVVa6OoEj+AWgYgZJxdiiaMtOa1TwsZ9DQw=;
-        fh=zILISoE7VGbbu3UWaxFKiQ0mR6vgTFPbNdpozRo0CFI=;
-        b=qvNDT8ylc8Gfkm11vnBID5mu6NzKXwT7RxADPR951GZZy63yqiI45SNj4jr/W/RnoF
-         0Ymxj062Ey4nLqjRx+/P/tD2XQjvdL9eiLXVkZTZ73b2M2DmlN6Mg7x/dfoiPV3U0E1C
-         OhEesPedIipamh6Q9v7L1JcrSkiG7ySCCAQ4bzizEKyBpW63gWQqicG22XZy0EtXyrpq
-         Oy5vI3QYGB2HPE5Sc6DJDC6Nm9T2HeMSIveVEU8SWu0qXIiJYfKGS97KnLhFM8XWSsX0
-         /LzEwEvClMPw6R/9jhJV5ePbgbVDkAYXmkFGtIxaOh6OdU6oKuL59scYFZMnfKo8yUqU
-         um1g==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=Q1ZYrwwh;
-       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2607:f8b0:4864:20::b2d as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com. [2607:f8b0:4864:20::b2d])
-        by gmr-mx.google.com with ESMTPS id ck4-20020a05622a230400b0040fda65c1e1si655089qtb.3.2023.08.11.10.49.12
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Aug 2023 10:49:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of linus.walleij@linaro.org designates 2607:f8b0:4864:20::b2d as permitted sender) client-ip=2607:f8b0:4864:20::b2d;
-Received: by mail-yb1-xb2d.google.com with SMTP id 3f1490d57ef6-d4364cf8be3so2118395276.1
-        for <kasan-dev@googlegroups.com>; Fri, 11 Aug 2023 10:49:12 -0700 (PDT)
-X-Received: by 2002:a25:e910:0:b0:c60:982f:680c with SMTP id
- n16-20020a25e910000000b00c60982f680cmr2199874ybd.63.1691776152522; Fri, 11
- Aug 2023 10:49:12 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yw9kPavutm+ZDGa+exjmHzzZU0Mfov4aZf1alc6ZfJ2OJSJ7I7Y
+	ef9y40zZ66dDbef3IAFcDNA=
+X-Google-Smtp-Source: AGHT+IHr7qTaKKH3eTeCSJKDxIPUzm7pouh9pGH7DPuua4e7Rq3jrenMx1OhRUSbXgVmwmxkcOGwvw==
+X-Received: by 2002:ac8:5841:0:b0:3f8:e0a:3e66 with SMTP id h1-20020ac85841000000b003f80e0a3e66mr304668qth.3.1691794720062;
+        Fri, 11 Aug 2023 15:58:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230811-virt-to-phys-s390-v1-1-b661426ca9cd@linaro.org> <ZNY7PvtP0jI1/xF1@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
-In-Reply-To: <ZNY7PvtP0jI1/xF1@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 11 Aug 2023 19:49:01 +0200
-Message-ID: <CACRpkda2H_Ls7FT-GPkM2HLci0rLomwcP+Y5e7CJgXtT2NxJqA@mail.gmail.com>
-Subject: Re: [PATCH] s390/mm: Make virt_to_pfn() a static inline
-To: Alexander Gordeev <agordeev@linux.ibm.com>
-Cc: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
-	Vineeth Vijayan <vneethv@linux.ibm.com>, kasan-dev@googlegroups.com, 
-	linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org
+X-BeenThere: kasan-dev@googlegroups.com
+Received: by 2002:a0c:f04e:0:b0:63d:253f:eb99 with SMTP id b14-20020a0cf04e000000b0063d253feb99ls2658971qvl.2.-pod-prod-01-us;
+ Fri, 11 Aug 2023 15:58:39 -0700 (PDT)
+X-Received: by 2002:a0c:e150:0:b0:625:bb19:278c with SMTP id c16-20020a0ce150000000b00625bb19278cmr3032554qvl.2.1691794719203;
+        Fri, 11 Aug 2023 15:58:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1691794719; cv=none;
+        d=google.com; s=arc-20160816;
+        b=GjTobYv1GDyC9p+C+vwGMz1aBTV0fwNDTMNCd6tGTV5HWm8CD2FE93o8JaookTJkKG
+         ufbZjGnvZk2Q0Jg0Y7Iy3bhCWtsXPz+iGo7xgXP+GD33C27YCYPogqZrVsKn8jmawrZt
+         pjH9a29cXLkXWy5AQdHT8IyLq3zXctKEzf6VmCp+uTzMAQVSVClJx2VCgQvFGihc0ZzX
+         XyvU5dvCDBxit2m0G7xdpuL94K8IwJR74qK3XtHJKZfl7yjDTMzOace3J3gwkjezG0EV
+         0z/DRaHAvuDPIKe0Gl59ubFjuMDgOnS46erhhBizNk15KzVL8wPBIcJFeEH7c0yS772K
+         elYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=message-id:subject:from:to:date:dkim-signature;
+        bh=abB26IkPeSLFx1uSjnrK9yFeLYS5H0Kiif+mS/cM3xw=;
+        fh=0jO1JOzt27HyKkrjcL5NMcwM8KGfmM7wNTpPS5AH8Ow=;
+        b=pCUkIX4ktZ1m7tDfpNG/ZWEsxj9y7HFhZQKmfNRYBFz6WlswLKHHlu7GGMW6BXN+tN
+         KERpge+7e9sJ8aHn0l8veeDF4qBJ6nuDYkTB8hOJ+1BlJbtRzHgjcKVgUR91T8KuKTuL
+         upKpE4CsLWOZjc8ydbjUyXdrVfpUxTSkWs2OXv0Nj04gxXuTUZxgO0kkLUvxBYwoYGvg
+         +rQMbCKQuq+dg08M4YNoR6I7lOpLX/pmJvwDVWunnA0/E7BNE580/Qp4DBfJ1BILGkNO
+         F0LERimF7/UDFmZN4IBrqeemNe9nRcZrsz72UL3r7ND3c0JV9IPqJBD20zrfnKpAiAZq
+         eVhg==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=LvgDGola;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id pc6-20020a056214488600b006261d48d4c2si310713qvb.0.2023.08.11.15.58.39
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Aug 2023 15:58:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by dfw.source.kernel.org (Postfix) with ESMTPS id 9C2556699C;
+	Fri, 11 Aug 2023 22:58:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F125BC433C9;
+	Fri, 11 Aug 2023 22:58:37 +0000 (UTC)
+Date: Fri, 11 Aug 2023 15:58:37 -0700
+To: mm-commits@vger.kernel.org,ying.huang@intel.com,will@kernel.org,vincenzo.frascino@arm.com,surenb@google.com,steven.price@arm.com,qun-wei.lin@mediatek.com,Kuan-Ying.Lee@mediatek.com,kasan-dev@googlegroups.com,gregkh@linuxfoundation.org,eugenis@google.com,david@redhat.com,chinwen.chang@mediatek.com,catalin.marinas@arm.com,alexandru.elisei@arm.com,pcc@google.com,akpm@linux-foundation.org
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: [merged mm-stable] mm-call-arch_swap_restore-from-unuse_pte.patch removed from -mm tree
+Message-Id: <20230811225837.F125BC433C9@smtp.kernel.org>
+X-Original-Sender: akpm@linux-foundation.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linux-foundation.org header.s=korg header.b=LvgDGola;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates
+ 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: linus.walleij@linaro.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linaro.org header.s=google header.b=Q1ZYrwwh;       spf=pass
- (google.com: domain of linus.walleij@linaro.org designates
- 2607:f8b0:4864:20::b2d as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,28 +129,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Aug 11, 2023 at 3:44=E2=80=AFPM Alexander Gordeev
-<agordeev@linux.ibm.com> wrote:
 
-> Funnily enough, except drivers/s390/char/vmcp.c none of affected
-> code pieces below is an offender. But anyway, to me it looks like
-> a nice improvement.
+The quilt patch titled
+     Subject: mm: call arch_swap_restore() from unuse_pte()
+has been removed from the -mm tree.  Its filename was
+     mm-call-arch_swap_restore-from-unuse_pte.patch
 
-I'm puzzled, vmcp.c is a char * so actually not an offender
-(I am trying to push a version without casting to the compile farm),
-the rest are unsigned long passed to the function which now
-(after my change) has const void * as argument?
+This patch was dropped because it was merged into the mm-stable branch
+of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
 
-Example:
+------------------------------------------------------
+From: Peter Collingbourne <pcc@google.com>
+Subject: mm: call arch_swap_restore() from unuse_pte()
+Date: Mon, 22 May 2023 17:43:09 -0700
 
-> > @@ -90,7 +90,7 @@ static long cmm_alloc_pages(long nr, long *counter,
+We would like to move away from requiring architectures to restore
+metadata from swap in the set_pte_at() implementation, as this is not only
+error-prone but adds complexity to the arch-specific code.  This requires
+us to call arch_swap_restore() before calling swap_free() whenever pages
+are restored from swap.  We are currently doing so everywhere except in
+unuse_pte(); do so there as well.
 
-unsigned long addr;
+Link: https://lkml.kernel.org/r/20230523004312.1807357-3-pcc@google.com
+Link: https://linux-review.googlesource.com/id/I68276653e612d64cde271ce1b5a=
+99ae05d6bbc4f
+Signed-off-by: Peter Collingbourne <pcc@google.com>
+Suggested-by: David Hildenbrand <david@redhat.com>
+Acked-by: David Hildenbrand <david@redhat.com>
+Acked-by: "Huang, Ying" <ying.huang@intel.com>
+Reviewed-by: Steven Price <steven.price@arm.com>
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Alexandru Elisei <alexandru.elisei@arm.com>
+Cc: Chinwen Chang <chinwen.chang@mediatek.com>
+Cc: Evgenii Stepanov <eugenis@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kasan-dev <kasan-dev@googlegroups.com>
+Cc: "Kuan-Ying Lee (=E6=9D=8E=E5=86=A0=E7=A9=8E)" <Kuan-Ying.Lee@mediatek.c=
+om>
+Cc: Qun-Wei Lin <qun-wei.lin@mediatek.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
 
-> > +             diag10_range(virt_to_pfn((void *)addr), 1);
+ mm/swapfile.c |    7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Yours,
-Linus Walleij
+--- a/mm/swapfile.c~mm-call-arch_swap_restore-from-unuse_pte
++++ a/mm/swapfile.c
+@@ -1778,6 +1778,13 @@ static int unuse_pte(struct vm_area_stru
+ 		goto setpte;
+ 	}
+=20
++	/*
++	 * Some architectures may have to restore extra metadata to the page
++	 * when reading from swap. This metadata may be indexed by swap entry
++	 * so this must be called before swap_free().
++	 */
++	arch_swap_restore(entry, page_folio(page));
++
+ 	/* See do_swap_page() */
+ 	BUG_ON(!PageAnon(page) && PageMappedToDisk(page));
+ 	BUG_ON(PageAnon(page) && PageAnonExclusive(page));
+_
+
+Patches currently in -mm which might be from pcc@google.com are
+
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -168,5 +203,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CACRpkda2H_Ls7FT-GPkM2HLci0rLomwcP%2BY5e7CJgXtT2NxJqA%40mail.gmai=
-l.com.
+kasan-dev/20230811225837.F125BC433C9%40smtp.kernel.org.
