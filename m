@@ -1,174 +1,140 @@
-Return-Path: <kasan-dev+bncBAABBS7W3CTAMGQESDZIQIA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBHVD3GTAMGQEMOUBY5I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x137.google.com (mail-il1-x137.google.com [IPv6:2607:f8b0:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739287790F2
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 15:44:45 +0200 (CEST)
-Received: by mail-il1-x137.google.com with SMTP id e9e14a558f8ab-349a322589csf2781315ab.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 06:44:45 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1691761484; cv=pass;
+Received: from mail-oo1-xc3a.google.com (mail-oo1-xc3a.google.com [IPv6:2607:f8b0:4864:20::c3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DAC87792D2
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 17:20:00 +0200 (CEST)
+Received: by mail-oo1-xc3a.google.com with SMTP id 006d021491bc7-56c13bf96b2sf2189612eaf.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 08:20:00 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1691767199; cv=pass;
         d=google.com; s=arc-20160816;
-        b=s5FuDM0f8W2hvHJhrZYdziL58mbOU4oelOIzS3yo2FsMLAEAC1owpzpnoo51u2bIWa
-         QQDRGdGMB9SNMUvAZvgzD+CNvrzq2f7tGsNdrhpUiBxECxkn31u/Gia+/dWiACaYcUDg
-         kbMlozEvMNBqgsP2IMYi/qDZfLb3R+eyjYo/+TbYsJOippIGnRewdxt6M2qzFX8QlEEk
-         siHj4w/pYfdhecTdW5aQABmUaiqzIVWqHup4+XOKNujpxwg38ZAGwws9HA3LMdm48Tfl
-         tSuA7IB+8Xr0FWImmYaEGoOEchUI09Qr/VyLnYMPhmqgxHs6Q+INr08gcfRQSUS07ao7
-         8Psg==
+        b=b+IdsmubmeK6OFrc6YHKeQL/XTjWOwztrVeguz1HiHe29IP2p6NQgX37cA1FcTW8qq
+         DYIKXGvHIO9ch0IR9fzVSg7gF94/NXRckvBAnfcfEHPB5IOgCAv97+lNXNlzMtdEpmAy
+         kBjCuLMdoc5sng2SnKlpCYtP6I8pJnavMPvPkaEQoNgG8i2pyLbwQly5m5bWBbJkLgDi
+         mxDKsmyAu7v7Kn+AAQW53E4Iyl9+PGrTE1Axw2TfUZHafaVW+LM5DDLXIdUoTlP6a5md
+         3iuYzGMhFxgwNDtBZRkQLZ6MGeUODRLdZMoJfXCKHCC+z43pOEUUFimA+YYJ82EL/Wvu
+         wdZw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=dH6XdEpDjYTuG0lZOJsNOlS/s7WkLeIUDR7tSk5bbEY=;
-        fh=cNj4+sEwHTCsbOqHNet+QnLeafJ2N9QqIMtjVwe7lAo=;
-        b=FdQbx+Hd30zeEJT2S2S5R7+jn+50nljTK8PTnNBLYtmhjqBJwJur9WGTWnDyrZT+kS
-         BDg+TiSzGWME5gJ5IuWdjihGgUKJkmuf+eiSyz3NPMgQzqEANPGwq7ElgwpXKXebeVB4
-         MX+SAk/LLOjlrytI08yZwMbvtuHvbr4mgayfos9XsxBDrZV62ePyIq+b6Wn0/R4Cw9pD
-         49MxeC6TUMbqR+mEXOWNWSa3fUIUyY+0eLOkEeyup3g7uA4Lm9OSV5y3SZpABP5PSMtm
-         6mvIY0NXIJrMuK6W9Gr5aL0XR75emoh2zW8WFXetVDzpJGuACMJH0dJv5+cqsSmiTZuf
-         t3pQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :message-id:mime-version:date:dkim-signature;
+        bh=MXjn6ilJiGMOVI/KJHQ3sOj4UL1tUHnIHo/Fuj9Jyp8=;
+        fh=qzUwxS9h9GHZXLKRdSveNA0UW/h6SdpMH03X1Oyv03c=;
+        b=cawOWg897hqpMTYwffmmT6YfQ01N5MYjyu499pyjgnbwFhFAak7nJQYruDtNU+B/mP
+         KWUuT5Zuy8tf0cXMK1q2+XJsXv5glqPoj+ieBpOhXVorBX9rhHsChWpwszYiOnEd6eyR
+         vFJ937gTdP0zcURzbauldMPzs2Y0EUEth7DM2F9hJHONH5AFG0jHEBrt0TJAfc2fQa7h
+         TIxkLUZbo754hyXxktuMZuZpwqAk3p13VKK50PowdyxhYT9a7FUrpDGbKCDySdWXKxTb
+         ESh4yyD2dRs3fGaFxY5ahjDINIWoSMLVZPO0xM4g4ihcXPqNntkhC1ZzfgT0df7Gv99M
+         N8xQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=GKykM6wj;
-       spf=pass (google.com: domain of agordeev@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=agordeev@linux.ibm.com;
-       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
+       dkim=pass header.i=@google.com header.s=20221208 header.b=5xqJ+9vO;
+       spf=pass (google.com: domain of 3nvhwzaukccyqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3nVHWZAUKCcYqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1691761484; x=1692366284;
+        d=googlegroups.com; s=20221208; t=1691767199; x=1692371999;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dH6XdEpDjYTuG0lZOJsNOlS/s7WkLeIUDR7tSk5bbEY=;
-        b=ro9XR9GD2wX2XJq3z6HH+2wMYEXDWbf9VBQxUrmN1IYzeEv/GorUwqVp6tofDR/LMK
-         RyfmXn2ns3SWvSZEOeCUriFej7czmI9j3RjyCMMKZi3YBHd6byilcM3Bo62TRHYtVefK
-         D9tuwi/Bj3GSatL6V7u6RTSj4w1aDV368ZefVYYwOAe1oL+ff8aaHpAFAdkcYSiJI7f6
-         s8iLLp4O/uvvHXJe73NMES+MTvpyGLij9QKlEjI8HVm3uddDd6FFpJgGnAqS17T8p5xi
-         Y5EU7FLK2RMA3AQzXTdWu31NGpsQsIuzJcLcuoyJHxWXt1s8zZkqFiAKkrxgdRrTSo9f
-         PBDA==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MXjn6ilJiGMOVI/KJHQ3sOj4UL1tUHnIHo/Fuj9Jyp8=;
+        b=N0/jAHT2zRAUsvBrR8qvVqKD+hQZXw0VTZK1RgKQfyaM3CQ3Uq/3+8sgoFIsXIXH0O
+         8dQ3eo3ayGeIR5ZehT8hXFJ2G/UDVhXblxKKbXlEbefsP17TkzhMVJwEbSWeAWoZUu9b
+         N+T8OE8Szo/ZHxDILCoibhniwrslAeqhMbpVlWoTCdTVld/qvbsi1aqXcLHnzzoE9y7u
+         Ae05HHQudBmSjqkCK2QPrvho0g+zc7RQw5aXz8YxJNwPX16bW/Ohli96gX5uH7x5JmR0
+         Jux0pmjn81RlFD+qpMnsYQN14MmScLLHqTbLIG44aICIXkNfGrBEwHiOqiqf/gwesCoq
+         W9Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691761484; x=1692366284;
+        d=1e100.net; s=20221208; t=1691767199; x=1692371999;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dH6XdEpDjYTuG0lZOJsNOlS/s7WkLeIUDR7tSk5bbEY=;
-        b=FdhO7ts3lmspfVb+zQ4K9dx/Y872+rUwQiaj97KwAx+05atHawGP5FNoUrdPOllSoY
-         OrniK5KhQSbwHg8NIK86WesmjG32VcxzidfKBpvzBgdbyMJffm/r5OwBINNNTNsJCpET
-         z81jMLC2rw5s3x3b1m+EhjtT8811P8FjR4a4axDmknJUPI88cnF5wirXBuqeb1s2Le8r
-         Ji3KnQIDnx6vjMq2iREyOMs5B4thQlPE4h5SO+iwdeFji0jfJownuir4HQEXG10Peaam
-         kkmF0mxMFGPvks+Dltdqqexysl0B++eq/yRtj3gGHBFoPP/fGFCJ6kkq0Q9P/ueidgpf
-         zUUw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YztC7Xca97PXvkEdVazAXCTInQIzovtqlNKwcopgItM0mPOUZEN
-	nWp/QBRZokIBDMzPwdmmVLE=
-X-Google-Smtp-Source: AGHT+IGXXrMPi7PgxAIosu3MAqLJOYpy590BhMm0E4H5ptQRfnCC0thyN/MuL54GuHXGTLt/M86tlw==
-X-Received: by 2002:a05:6e02:1a6f:b0:349:2d61:8631 with SMTP id w15-20020a056e021a6f00b003492d618631mr2610983ilv.10.1691761484003;
-        Fri, 11 Aug 2023 06:44:44 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MXjn6ilJiGMOVI/KJHQ3sOj4UL1tUHnIHo/Fuj9Jyp8=;
+        b=fcArWz3cLlAf/bLw5bDcJo/zkrO0PQZ03rYztGDRPKtfC25FIGHqk+duWSxgnv8KIS
+         LcNFLaDQjezEtk6ZXYm/Xtb3CIH0UZHjThOSi6KB28UcRTebF6vnpyKGQMCyfTjXgxTs
+         BEKS/VpHlO+lknU8tMFxTQS5uwWdMu91j9DqQfgRbFQjRSLiMDaQYbjdjO/TSqYifeBH
+         8GjVrCMa2IGSPMiwVDOVLrGmPdgL7SRyxnGJIkGhnrEWqihzfwJ6RBLQFUrwA7XiGiEZ
+         UJV4BLMAuscmBBICITFkLiaLEcj9xpu+PuXz8lX4UAOVE+n90qvEgRXxaiTIgA0FldH4
+         E55w==
+X-Gm-Message-State: AOJu0YyAZeUnz5sDUdVPAJ2yZuqTfyQa6Y020SLiTCwygnYS7xV+3V5t
+	7CaJR33zC9JtBzMIDlLJe8g=
+X-Google-Smtp-Source: AGHT+IGcWLIkyaAs79wVa4pZxBmZNu1+4taTLQOkei5DtBy0v7+G1mxm3zfi1dBGeqYVhT5VwVMoLQ==
+X-Received: by 2002:a4a:d1db:0:b0:56c:e4b7:2c0d with SMTP id a27-20020a4ad1db000000b0056ce4b72c0dmr1719564oos.1.1691767199004;
+        Fri, 11 Aug 2023 08:19:59 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:940a:0:b0:33b:7f21:7d7e with SMTP id c10-20020a92940a000000b0033b7f217d7els890215ili.0.-pod-prod-09-us;
- Fri, 11 Aug 2023 06:44:43 -0700 (PDT)
-X-Received: by 2002:a05:6e02:f83:b0:348:fc48:6d00 with SMTP id v3-20020a056e020f8300b00348fc486d00mr1983891ilo.12.1691761483317;
-        Fri, 11 Aug 2023 06:44:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1691761483; cv=none;
+Received: by 2002:a4a:5890:0:b0:563:492f:3514 with SMTP id f138-20020a4a5890000000b00563492f3514ls1857285oob.0.-pod-prod-09-us;
+ Fri, 11 Aug 2023 08:19:58 -0700 (PDT)
+X-Received: by 2002:a05:6830:1497:b0:6b7:319d:281e with SMTP id s23-20020a056830149700b006b7319d281emr2084031otq.19.1691767198246;
+        Fri, 11 Aug 2023 08:19:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1691767198; cv=none;
         d=google.com; s=arc-20160816;
-        b=UHExLMnfzyr6hnBt/RIXY4A9vHcHRIUWxXrDDawdf5bX8FrOu6RUXHAKCvhBoBgRqs
-         47UBcf2Zdd3I1xGPqQDlfMNDxBf1whQVNc8aJPIyhTEYYm2OZhc7PyfPNfpjYbIL109p
-         mNVwiGA07PdsXSWxeG4YYylZr0YtL3qUt91KwbhpgJpWuu2AORlab+8u3CnVMLGa8mkZ
-         6Aq87pr45+DfnGwXnmfVd9qmQyti8mtlrQl5U1R6QYnAi0JO3133wJn+XiHy0GXtXlhu
-         uwRMNgygYGZq8+81Tzd5NVjNQt5U2qOQOd8YauaEGEV/Sftf1t/cuxaGiTxfhjxIWjxD
-         3/ig==
+        b=mRFcJl/kPrS4SyoDpziQiAPZz3Mi3uTF7jVJoE+7DjIzJRktahVHFZP4PQftwe5PU0
+         n4DJZxTTbsoTwjnWe8DQquLdrCTqA8iVvkIePgKiyRsPsSR5tPTNOZGdj7pSk7k8fQ1i
+         Dj4D0GbRbhMqpVJYzsM09lqSVwDAEKTPUruOm5ip9Zckp4VUb4QuX/+tbY8ewQVIKroU
+         /ZcazuQ1/a2UGTFl/4EXB0WPGAauM+TaulWBHr4NXMxRcz8Itcyh+0hKeIF3HRkt8cPt
+         dKXSttFYQimgqpbJNgUUSvme/n6zHRjvh9CbqqwizUZUYlGd7FQGbl0/xCnb/1AMbeEA
+         iuUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=m1adlM4yJTuLnY0I9nU2ueYapM266OdGoygH2JXlcao=;
-        fh=cNj4+sEwHTCsbOqHNet+QnLeafJ2N9QqIMtjVwe7lAo=;
-        b=y2EqDf79UUqEzU/D01yQ/S71Plq4ExRQ+RgfjE4FsOobIgvkD7NpqI84zA6TnbI0F/
-         o2xtFAwEnOUfOnGHejt2aqBpgYy0eKAMSLoDZ/zd1Y5jM7KrWJ/E6Lc4UZLDnkvflrYG
-         CjGoH6qycsC/TDWuLLq4TwZKJUugKl8cRJXmVOMNYj9ko49TlBpSXXmMnROgnFppvDzF
-         T3dIa/DvHhdEfnrRk1N76SzrfO5mjxr/jPZqTn7lo+vqqvZ4HUz8Q3qAoekhdhbDl+OP
-         yxVlukLtSDKHcxC3X10ERTcvs4Tdjg2CA8wOxxg4Z25dUz7VHs4/5WsR4jZvVeObTRLY
-         rnOA==
+        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
+        bh=1vaThr58cHhzt3vCJBdqBIs2Yl/3Z2jvMp4OgQvCHVc=;
+        fh=xh/g7dNJbwYr9WVB3rCguj1R0VLL65UcAaOvl7LeWOQ=;
+        b=QiMJZAsQ6Y7UPSoaPQj9FFPILM5k99r8aIos/IPUCXf3fEkXGrZ8OteNyPhHzKGWsC
+         1cLXNh0TnDjnLtSpjoKQdmWAx+Ot12vCqv2LaQLHJZpAuoIDWC98ciOf+71dLk4y+ehM
+         ZMZTIdK5X2C2br2CP5Ds7nyivqdsSxvbt/VuxHqj0mjN1wztOOCgonIZenad68dE0tSj
+         bUrIBTI1Akn1riMpSxb5xG50G/dW8h8rf79u23Ci7fXIySgkPvA8W/jgFx0dNI38f1gR
+         Vikz0O4g9UoMMP+pk5vjmLvmBQVpqDUEL5bnTqoqa20XXr/ZafnM6o1qDZ7un5hCN8Fy
+         hUEQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=GKykM6wj;
-       spf=pass (google.com: domain of agordeev@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=agordeev@linux.ibm.com;
-       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com. [148.163.156.1])
-        by gmr-mx.google.com with ESMTPS id k4-20020a056e02134400b003497967ed88si321974ilr.4.2023.08.11.06.44.42
+       dkim=pass header.i=@google.com header.s=20221208 header.b=5xqJ+9vO;
+       spf=pass (google.com: domain of 3nvhwzaukccyqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3nVHWZAUKCcYqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com. [2607:f8b0:4864:20::114a])
+        by gmr-mx.google.com with ESMTPS id y21-20020a9d4615000000b006b885923798si333544ote.2.2023.08.11.08.19.58
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 11 Aug 2023 06:44:43 -0700 (PDT)
-Received-SPF: pass (google.com: domain of agordeev@linux.ibm.com designates 148.163.156.1 as permitted sender) client-ip=148.163.156.1;
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 37BDgIxv022559;
-	Fri, 11 Aug 2023 13:44:38 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sdp3u81uy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Aug 2023 13:44:38 +0000
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 37BDgVRx022953;
-	Fri, 11 Aug 2023 13:44:38 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3sdp3u81u7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Aug 2023 13:44:37 +0000
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 37BCMwPA006408;
-	Fri, 11 Aug 2023 13:44:36 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3sd2evger8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 11 Aug 2023 13:44:36 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 37BDiXmw23790082
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 11 Aug 2023 13:44:33 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5D8AB2004D;
-	Fri, 11 Aug 2023 13:44:33 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7093F20049;
-	Fri, 11 Aug 2023 13:44:32 +0000 (GMT)
-Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.171.86.49])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Fri, 11 Aug 2023 13:44:32 +0000 (GMT)
-Date: Fri, 11 Aug 2023 15:44:30 +0200
-From: Alexander Gordeev <agordeev@linux.ibm.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>, Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>, kasan-dev@googlegroups.com,
-        linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] s390/mm: Make virt_to_pfn() a static inline
-Message-ID: <ZNY7PvtP0jI1/xF1@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
-References: <20230811-virt-to-phys-s390-v1-1-b661426ca9cd@linaro.org>
-MIME-Version: 1.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Aug 2023 08:19:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3nvhwzaukccyqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) client-ip=2607:f8b0:4864:20::114a;
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5867fe87d16so25179957b3.2
+        for <kasan-dev@googlegroups.com>; Fri, 11 Aug 2023 08:19:58 -0700 (PDT)
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:8dc0:5176:6fda:46a0])
+ (user=elver job=sendgmr) by 2002:a81:451d:0:b0:589:9d51:c8c0 with SMTP id
+ s29-20020a81451d000000b005899d51c8c0mr41482ywa.2.1691767197794; Fri, 11 Aug
+ 2023 08:19:57 -0700 (PDT)
+Date: Fri, 11 Aug 2023 17:18:38 +0200
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.41.0.694.ge786442a9b-goog
+Message-ID: <20230811151847.1594958-1-elver@google.com>
+Subject: [PATCH v4 1/4] compiler_types: Introduce the Clang __preserve_most
+ function attribute
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com, Andrew Morton <akpm@linux-foundation.org>, 
+	Kees Cook <keescook@chromium.org>
+Cc: Guenter Roeck <linux@roeck-us.net>, Peter Zijlstra <peterz@infradead.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	James Morse <james.morse@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	llvm@lists.linux.dev, Dmitry Vyukov <dvyukov@google.com>, 
+	Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com, 
+	linux-toolchains@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20230811-virt-to-phys-s390-v1-1-b661426ca9cd@linaro.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: LVnEtS8ybxpv_rVUz-0TCfkkUxNaRY7n
-X-Proofpoint-GUID: 72TIciiGjblkNZ614wNTIQ-CHKtiP1pC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.267,Aquarius:18.0.957,Hydra:6.0.591,FMLib:17.11.176.26
- definitions=2023-08-11_05,2023-08-10_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
- impostorscore=0 clxscore=1011 lowpriorityscore=0 priorityscore=1501
- mlxscore=0 phishscore=0 malwarescore=0 spamscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2306200000 definitions=main-2308110124
-X-Original-Sender: agordeev@linux.ibm.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=GKykM6wj;       spf=pass (google.com:
- domain of agordeev@linux.ibm.com designates 148.163.156.1 as permitted
- sender) smtp.mailfrom=agordeev@linux.ibm.com;       dmarc=pass (p=REJECT
- sp=NONE dis=NONE) header.from=ibm.com
+ header.i=@google.com header.s=20221208 header.b=5xqJ+9vO;       spf=pass
+ (google.com: domain of 3nvhwzaukccyqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3nVHWZAUKCcYqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -181,141 +147,114 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Aug 11, 2023 at 09:02:47AM +0200, Linus Walleij wrote:
-> Making virt_to_pfn() a static inline taking a strongly typed
-> (const void *) makes the contract of a passing a pointer of that
-> type to the function explicit and exposes any misuse of the
-> macro virt_to_pfn() acting polymorphic and accepting many types
-> such as (void *), (unitptr_t) or (unsigned long) as arguments
-> without warnings.
-> 
-> For symmetry do the same with pfn_to_virt() reflecting the
-> current layout in asm-generic/page.h.
-> 
-> Doing this reveals a number of offenders in the arch code and
-> the S390-specific drivers, so just bite the bullet and fix up
-> all of those as well.
+[1]: "On X86-64 and AArch64 targets, this attribute changes the calling
+convention of a function. The preserve_most calling convention attempts
+to make the code in the caller as unintrusive as possible. This
+convention behaves identically to the C calling convention on how
+arguments and return values are passed, but it uses a different set of
+caller/callee-saved registers. This alleviates the burden of saving and
+recovering a large register set before and after the call in the caller.
+If the arguments are passed in callee-saved registers, then they will be
+preserved by the callee across the call. This doesn't apply for values
+returned in callee-saved registers.
 
-Funnily enough, except drivers/s390/char/vmcp.c none of affected
-code pieces below is an offender. But anyway, to me it looks like
-a nice improvement.
+ * On X86-64 the callee preserves all general purpose registers, except
+   for R11. R11 can be used as a scratch register. Floating-point
+   registers (XMMs/YMMs) are not preserved and need to be saved by the
+   caller.
 
-> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  arch/s390/include/asm/kfence.h |  2 +-
->  arch/s390/include/asm/page.h   | 12 ++++++++++--
->  arch/s390/mm/cmm.c             |  2 +-
->  arch/s390/mm/vmem.c            |  2 +-
->  drivers/s390/block/scm_blk.c   |  2 +-
->  drivers/s390/char/vmcp.c       |  2 +-
->  6 files changed, 15 insertions(+), 7 deletions(-)
-> 
-> diff --git a/arch/s390/include/asm/kfence.h b/arch/s390/include/asm/kfence.h
-> index d55ba878378b..e47fd8cbe701 100644
-> --- a/arch/s390/include/asm/kfence.h
-> +++ b/arch/s390/include/asm/kfence.h
-> @@ -35,7 +35,7 @@ static __always_inline void kfence_split_mapping(void)
->  
->  static inline bool kfence_protect_page(unsigned long addr, bool protect)
->  {
-> -	__kernel_map_pages(virt_to_page(addr), 1, !protect);
-> +	__kernel_map_pages(virt_to_page((void *)addr), 1, !protect);
->  	return true;
->  }
->  
-> diff --git a/arch/s390/include/asm/page.h b/arch/s390/include/asm/page.h
-> index a9c138fcd2ad..cfec0743314e 100644
-> --- a/arch/s390/include/asm/page.h
-> +++ b/arch/s390/include/asm/page.h
-> @@ -191,8 +191,16 @@ int arch_make_page_accessible(struct page *page);
->  #define phys_to_page(phys)	pfn_to_page(phys_to_pfn(phys))
->  #define page_to_phys(page)	pfn_to_phys(page_to_pfn(page))
->  
-> -#define pfn_to_virt(pfn)	__va(pfn_to_phys(pfn))
-> -#define virt_to_pfn(kaddr)	(phys_to_pfn(__pa(kaddr)))
-> +static inline void *pfn_to_virt(unsigned long pfn)
-> +{
-> +	return __va(pfn_to_phys(pfn));
-> +}
-> +
-> +static inline unsigned long virt_to_pfn(const void *kaddr)
-> +{
-> +	return phys_to_pfn(__pa(kaddr));
-> +}
-> +
->  #define pfn_to_kaddr(pfn)	pfn_to_virt(pfn)
->  
->  #define virt_to_page(kaddr)	pfn_to_page(virt_to_pfn(kaddr))
-> diff --git a/arch/s390/mm/cmm.c b/arch/s390/mm/cmm.c
-> index 5300c6867d5e..f47515313226 100644
-> --- a/arch/s390/mm/cmm.c
-> +++ b/arch/s390/mm/cmm.c
-> @@ -90,7 +90,7 @@ static long cmm_alloc_pages(long nr, long *counter,
->  			} else
->  				free_page((unsigned long) npa);
->  		}
-> -		diag10_range(virt_to_pfn(addr), 1);
-> +		diag10_range(virt_to_pfn((void *)addr), 1);
->  		pa->pages[pa->index++] = addr;
->  		(*counter)++;
->  		spin_unlock(&cmm_lock);
-> diff --git a/arch/s390/mm/vmem.c b/arch/s390/mm/vmem.c
-> index b26649233d12..30cd6e1be10d 100644
-> --- a/arch/s390/mm/vmem.c
-> +++ b/arch/s390/mm/vmem.c
-> @@ -36,7 +36,7 @@ static void vmem_free_pages(unsigned long addr, int order)
->  {
->  	/* We don't expect boot memory to be removed ever. */
->  	if (!slab_is_available() ||
-> -	    WARN_ON_ONCE(PageReserved(virt_to_page(addr))))
-> +	    WARN_ON_ONCE(PageReserved(virt_to_page((void *)addr))))
->  		return;
->  	free_pages(addr, order);
->  }
-> diff --git a/drivers/s390/block/scm_blk.c b/drivers/s390/block/scm_blk.c
-> index 0c1df1d5f1ac..3a9cc8a4a230 100644
-> --- a/drivers/s390/block/scm_blk.c
-> +++ b/drivers/s390/block/scm_blk.c
-> @@ -134,7 +134,7 @@ static void scm_request_done(struct scm_request *scmrq)
->  
->  		if ((msb->flags & MSB_FLAG_IDA) && aidaw &&
->  		    IS_ALIGNED(aidaw, PAGE_SIZE))
-> -			mempool_free(virt_to_page(aidaw), aidaw_pool);
-> +			mempool_free(virt_to_page((void *)aidaw), aidaw_pool);
->  	}
->  
->  	spin_lock_irqsave(&list_lock, flags);
-> diff --git a/drivers/s390/char/vmcp.c b/drivers/s390/char/vmcp.c
-> index 4cebfaaa22b4..f66906da83c4 100644
-> --- a/drivers/s390/char/vmcp.c
-> +++ b/drivers/s390/char/vmcp.c
-> @@ -89,7 +89,7 @@ static void vmcp_response_free(struct vmcp_session *session)
->  	order = get_order(session->bufsize);
->  	nr_pages = ALIGN(session->bufsize, PAGE_SIZE) >> PAGE_SHIFT;
->  	if (session->cma_alloc) {
-> -		page = virt_to_page((unsigned long)session->response);
-> +		page = virt_to_page((void *)session->response);
+ * On AArch64 the callee preserve all general purpose registers, except
+   x0-X8 and X16-X18."
 
-The cast to (void *) is extra, if I read your commit message
-correctly: "...makes the contract of a passing a pointer of that
-type to the function explicit..."
+[1] https://clang.llvm.org/docs/AttributeReference.html#preserve-most
 
->  		cma_release(vmcp_cma, page, nr_pages);
->  		session->cma_alloc = 0;
->  	} else {
-> 
-> ---
-> base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
-> change-id: 20230809-virt-to-phys-s390-2fa3d38b8855
+Introduce the attribute to compiler_types.h as __preserve_most.
 
-Thanks, Linus!
+Use of this attribute results in better code generation for calls to
+very rarely called functions, such as error-reporting functions, or
+rarely executed slow paths.
 
-> Best regards,
-> -- 
-> Linus Walleij <linus.walleij@linaro.org>
-> 
+Beware that the attribute conflicts with instrumentation calls inserted
+on function entry which do not use __preserve_most themselves. Notably,
+function tracing which assumes the normal C calling convention for the
+given architecture.  Where the attribute is supported, __preserve_most
+will imply notrace. It is recommended to restrict use of the attribute
+to functions that should or already disable tracing.
+
+Note: The additional preprocessor check against architecture should not
+be necessary if __has_attribute() only returns true where supported;
+also see https://github.com/ClangBuiltLinux/linux/issues/1908. But until
+__has_attribute() does the right thing, we also guard by known-supported
+architectures to avoid build warnings on other architectures.
+
+The attribute may be supported by a future GCC version (see
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110899).
+
+Signed-off-by: Marco Elver <elver@google.com>
+Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+Acked-by: Mark Rutland <mark.rutland@arm.com>
+---
+v4:
+* Guard attribute based on known-supported architectures to avoid
+  compiler warnings about the attribute being ignored.
+
+v3:
+* Quote more from LLVM documentation about which registers are
+  callee/caller with preserve_most.
+* Code comment to restrict use where tracing is meant to be disabled.
+
+v2:
+* Imply notrace, to avoid any conflicts with tracing which is inserted
+  on function entry. See added comments.
+---
+ include/linux/compiler_types.h | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
+index 547ea1ff806e..c523c6683789 100644
+--- a/include/linux/compiler_types.h
++++ b/include/linux/compiler_types.h
+@@ -106,6 +106,34 @@ static inline void __chk_io_ptr(const volatile void __iomem *ptr) { }
+ #define __cold
+ #endif
+ 
++/*
++ * On x86-64 and arm64 targets, __preserve_most changes the calling convention
++ * of a function to make the code in the caller as unintrusive as possible. This
++ * convention behaves identically to the C calling convention on how arguments
++ * and return values are passed, but uses a different set of caller- and callee-
++ * saved registers.
++ *
++ * The purpose is to alleviates the burden of saving and recovering a large
++ * register set before and after the call in the caller.  This is beneficial for
++ * rarely taken slow paths, such as error-reporting functions that may be called
++ * from hot paths.
++ *
++ * Note: This may conflict with instrumentation inserted on function entry which
++ * does not use __preserve_most or equivalent convention (if in assembly). Since
++ * function tracing assumes the normal C calling convention, where the attribute
++ * is supported, __preserve_most implies notrace.  It is recommended to restrict
++ * use of the attribute to functions that should or already disable tracing.
++ *
++ * Optional: not supported by gcc.
++ *
++ * clang: https://clang.llvm.org/docs/AttributeReference.html#preserve-most
++ */
++#if __has_attribute(__preserve_most__) && (defined(CONFIG_X86_64) || defined(CONFIG_ARM64))
++# define __preserve_most notrace __attribute__((__preserve_most__))
++#else
++# define __preserve_most
++#endif
++
+ /* Builtins */
+ 
+ /*
+-- 
+2.41.0.694.ge786442a9b-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZNY7PvtP0jI1/xF1%40li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230811151847.1594958-1-elver%40google.com.
