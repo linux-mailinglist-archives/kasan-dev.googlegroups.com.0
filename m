@@ -1,138 +1,140 @@
-Return-Path: <kasan-dev+bncBDE6RCFOWIARBG5226TAMGQE6GVL6CA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBQPW26TAMGQEPYOQCIA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62C777787CA
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 09:02:53 +0200 (CEST)
-Received: by mail-lf1-x13b.google.com with SMTP id 2adb3069b0e04-4fe275023d4sf1631330e87.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 00:02:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1691737372; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA5277897A
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 11:11:31 +0200 (CEST)
+Received: by mail-lf1-x13f.google.com with SMTP id 2adb3069b0e04-4fe52cd62aasf1994883e87.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 02:11:31 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1691745090; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Sz5drp5AcKyNetjcxE0tyLpjhH7RcmBfBqriZnbvnZWGMcwmLfWnyua9OVC3cCVmgn
-         oTh7Q/pRbp3dKMjfOy64AQWOHW7ejvknkAVMVCElVupUqyrjUzwuG2J341mo++c4cC5b
-         85g8HTXkBNS2pVtQjffesQrUTquS5OwWAe/R45jVTNIHAK9/l7FLjDOLEP9yRUz0mpQ2
-         kDKC1dJUWlcoEVAKn0yhcmuaz8b3CPkQP1SF3zacBuhMb9r+yP2jLS3ZILnWuMwvB6VQ
-         VNskxu7Xf6NvZdlJxQrndQD8va9bs4p0jDXQCsG/CGAyOVH1Dww91i3SyY568a5/dNnH
-         Bg7g==
+        b=A8MhPIWjjoiJLBjshldOZGI6pODlGRT4yJAQWlBxzVHLZPlHa0X/EaacZyIgNh86jn
+         SgwKF0hmpNUKduJYMD8+1Fo5RIoZ6GSFVEFVIH5gBcjF79wb7UiDvxXB2r1p9t8u3LFE
+         kiECDXiuqD+pkkv3i+2Y4G3N/bevvZOL3oajramD0voa4Kjc59ORpcf1KlrTHdn17bux
+         XpIOxL+W5nT1FnqwF9jsOLJpJZon7NSgCnPgTuOtMd6Hh9l0cNhgsa4Dv6Do3XvzbiN/
+         JVW3GupBVzoU9E5bA9w5tpa2r2G5mloFoXZgD9Vkfk3FicrPVpPQeRzL8gZo6xHxKX2W
+         Meow==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:message-id:mime-version
-         :subject:date:from:sender:dkim-signature;
-        bh=RVZN50H2HxH/Sq77l6ryxpIyd+BjWod3Q9iTmmhyAx4=;
-        fh=bkz5WMKprMAQgnPwdeYExW2THdr6ufWqpXcv3y7JC7A=;
-        b=tTvSqw3v+UdsJKDIuDIZLOjuWvWv3KdEbGeoRTaxIADml33T+tp2LZQKu4G7ADmZQk
-         lTEW8xpKPk+cUaLtWu+CaPdX5PQRGplo2xe4xKAEsdmbJyY6fQZCYI0pI5zkQ7Q/ghEf
-         23WG6oN2uKxVloYU0XXF2ZsAcGc3S9sX+ivKvHaHGuzIq1iVA3t/WWeq1tEWT9R8udkU
-         w7m40e9dHg+lNv4J44qhbVlWEJy50cF2DihzacfKYevEcf6Ad0TIpOp2E4YtvwuMMtGZ
-         0J2PZJ92wQpSstRUsTHSFFqcvtBoTcqE0JLrbj8AozaEctzB1yAbMGMW3Uo1G7tJzdvr
-         vgmw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=5fKpRXzytq/KXeCg+9TR53VlEdQTt80XuZExJgddxmM=;
+        fh=vmdFMLKDZK/wu+BJofufY+1eGg6sPdOV1xSEm+/W2OE=;
+        b=Ru/txjbI1ZV+Ogo+ryqGBhrXSLiSzkgyOjQhCyO6EBQquDzdXl8dl9sWp78V3C0PtK
+         MmpG2QYIHUsFl+REOT2E3CIYvMTBgDUbAeJq9tOpM2nI7zcdLKME9uVX3rWyK6ozlb3z
+         4kiWcVXLqD4NPODw7RAndAVO+iZ/J0LAODbDK7OCsnAE4NsuM2MUpZv6WxDPXKPts+DM
+         C2HErhD67u2UB3B87gp9lZMK4zTKho42Op6eeTclE7AkeSgKhz4Tk4NcePIoK9jxU49z
+         rA9y7Zk07wO2QLARQ5nSODvGVXcSLcC8wdsiIRzAYnrKu03rk80nF3N7lOAzsWm8QY+u
+         ejdQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b="P5Uqw3+/";
-       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::234 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+       dkim=pass header.i=@google.com header.s=20221208 header.b=xOeEvMhu;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::335 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1691737372; x=1692342172;
+        d=googlegroups.com; s=20221208; t=1691745090; x=1692349890;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:message-id:mime-version:subject:date:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=RVZN50H2HxH/Sq77l6ryxpIyd+BjWod3Q9iTmmhyAx4=;
-        b=Xmow9OX97+Z+mhcxM77sMZm5KR1N7Ipg9dO/dL9nyUwfdqnforOLUldBRsCRCo8CRj
-         FFAlmLuVUAkgKMh4pWv7AEPnrKBimX37jQ2auUgnB7TtcB7l9b7xN3X9M356UiUEy2D9
-         fZKaZj6YMJZ2LGj1mhQE1bj6thNYRKEGdoPTwut9SDOazXdyiCoBx76gpP2D5NSuOqcr
-         foYQo3+MLWFl4hMn6IgxPDurjxEMS144Dq1VTuf/kviFJbqb9IFi7r8RMz3ui5POyWJC
-         UIKsly83AmsLYzsmI2NqXwJcKR1xBa4ZFMAPxRa9M4SynTahAP4Szlr9Q8LZrFV2SyzO
-         GmNw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5fKpRXzytq/KXeCg+9TR53VlEdQTt80XuZExJgddxmM=;
+        b=Nf42tJAtp/GmC0gxxMX2VjLP87xokJe87JTvWq1amyYw5bPTUm79v5UjWbxC+i0TV3
+         Zne22YcWVbDIcOshf83H/BxWvkqMLGOlmS/bsv6JrEj9KRuVRbQaqendJzb8VwOPuDHT
+         JrT749mf+6TqWThEG6tTH754GzKYpxJfae5fscAXRGfQGAnIf1mnMsgwKnazQ53OnAKZ
+         aWYtVM8txC7CIr5Q91ez8f3hXDkIVoiBlUKBbZP8l3M8/TCOYYcbzUEJZF37RJNUg1Dz
+         6gMbWSL8jYFuIjNpPDi3DQAxoT0FBVyh37EJTBiousak+dDiFj8GclyXhcSgOPgNgwMK
+         hlAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691737372; x=1692342172;
+        d=1e100.net; s=20221208; t=1691745090; x=1692349890;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to
-         :message-id:mime-version:subject:date:from:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RVZN50H2HxH/Sq77l6ryxpIyd+BjWod3Q9iTmmhyAx4=;
-        b=fx7Vjjdf7OTIT12uXKrQ8ZSZLYash+IAmstu6ozLE4TVAoJfIt2sLv6/p/ZQhgq4Ih
-         I/fTZtc1fsagVOjqhMHdmCWKRFSp4pevkgdHhMUVookw/oZUsUYa9cNlm2tXAKfE9bFO
-         FWrJPKAF8Np2EJHH/s/45c08vh7gDoRJ+Cio/BG5rrXnf2lc/eaxNSu5ZGc7w89HNdj2
-         cZiV/a7zFTfK53ZwSK0SzVWp8i7ffGSU4vrqeK5uQvmP0exLWP1uuMgMLs3OeNLRIKTU
-         1a3Ke9sD69moJH1HSk2ZXdV/7drE2OXtv+XBjpTgYx8tICbRYMnD2MFyc66qa9MdxNls
-         oZvQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Ywjirg81CtG6aCYMwRJuKnNhg4rw++Kqj6DtkobR9Y9CIbieiZy
-	YMM+Vxz7LO3utd+hayQ+3E0=
-X-Google-Smtp-Source: AGHT+IFQIlpH7UMqZnjKf8++vlOkcxPRpI9UniJ3XLhrKDYWsi/Rw4isQlCIhRYCMsB4pQ/RgZwRrQ==
-X-Received: by 2002:a05:6512:3da4:b0:4fe:5654:9d00 with SMTP id k36-20020a0565123da400b004fe56549d00mr697348lfv.48.1691737371626;
-        Fri, 11 Aug 2023 00:02:51 -0700 (PDT)
+        bh=5fKpRXzytq/KXeCg+9TR53VlEdQTt80XuZExJgddxmM=;
+        b=VEVbmUHrk2YWbP329+f1q7bLNSgWS168Y0kvThxueoA1gZI2H28ia62fRHzTKuZpYe
+         Q89SQBQXxEd5xWmdJ46q6OEAur8Rf17Am39lNXStHrJpPIvyBqT7ZM0CPHOY3xeecxOI
+         aL9axZDpuqkz8Y4Ovdd+Kt3IQyvuvtbzioEQ3schIdswURdtdGPWyuTeZcFBKjvHHa0X
+         Iq9ZuvlcO91TKYY/LHXba5hFGiZDzeu7gesnItuZpjxKn5cTppWdlGmwClQYG22Ah9y7
+         Vp0lX4xhiPXdOu01Ijl8ARd3VXmIv+RvRQ4pI5V7UQB6LFkaIQP7QZw8srClOAaVpVLr
+         Teyw==
+X-Gm-Message-State: AOJu0YytEKHv1Zbx6bKEXBbNapfMGHBSUX1pXKs332WYUgv63JDxJabK
+	bM0/fnTdZMdljPfor13ZBo8=
+X-Google-Smtp-Source: AGHT+IFZ/RzUyUpa/6hw1aCfQGa2bhlNTNK1C8O7FN4Mfb4nCk1W+/yskRpuCR74f1ZT/nb3FLu/gQ==
+X-Received: by 2002:a05:6512:329b:b0:4fd:f590:1ff7 with SMTP id p27-20020a056512329b00b004fdf5901ff7mr848512lfe.40.1691745089623;
+        Fri, 11 Aug 2023 02:11:29 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:34c5:b0:3fe:22c6:fcc7 with SMTP id
- d5-20020a05600c34c500b003fe22c6fcc7ls814611wmq.1.-pod-prod-06-eu; Fri, 11 Aug
- 2023 00:02:49 -0700 (PDT)
-X-Received: by 2002:adf:f788:0:b0:314:dea:f1f8 with SMTP id q8-20020adff788000000b003140deaf1f8mr680428wrp.11.1691737369846;
-        Fri, 11 Aug 2023 00:02:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1691737369; cv=none;
+Received: by 2002:a19:381b:0:b0:4fe:28f1:9bff with SMTP id f27-20020a19381b000000b004fe28f19bffls653674lfa.2.-pod-prod-07-eu;
+ Fri, 11 Aug 2023 02:11:27 -0700 (PDT)
+X-Received: by 2002:a2e:3e14:0:b0:2b9:54e1:6711 with SMTP id l20-20020a2e3e14000000b002b954e16711mr1070535lja.7.1691745087330;
+        Fri, 11 Aug 2023 02:11:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1691745087; cv=none;
         d=google.com; s=arc-20160816;
-        b=I6M+A14edBMBPELr+JAhCwCVgb47/dgE7z2y1X166YM1tbtwh/WMU4WByChq5ggsFh
-         rw5MZAMDSERjF694/AFs8ihQJqYxvZddV55xNz89ZGWVoMvdirYkfHukm09Fyk8yg3ur
-         ClxLpk3G+6fMQBE5gRGaoUCRRqd4f4HB98rrK4/6sdhvdL2R2NHjRMyDCYY5A4rhqeAd
-         gYezR3twnVtLRmKX1H+JKfQhxdxiIQf0LNhAGBVgr5gZhi49Gy+V34+D+mVmug5s0qDx
-         /IGcD/O2KY0U39KJs1HA5eEuTCdJkOtlvd0WAN82GkMu78wCCN2/3ZVz1BYcEhtZPxpB
-         EbMA==
+        b=m33HkvI+pbF7UrwqieH9CMDlsKrHMDeojewfn1Oi3q2TyuzCB102omXKploEl2kkm1
+         uoXJux3fUnmJA0TAdh1QB+hrPGUpqCz8A5lwoOp5NIhMm1nzUEtCTPsFUga9eeSNxtsC
+         YZC2v/ncf61QBRaCV/zx3BNnajJYpuPVdDZHZoRsHMxfhOcbaLbqOeD9ZK7jx/N0IM5B
+         i6jxICY1ulLImHzKC3toZjPOgKArdJwHZFnaqNMg7V5wmIVfn6C51jcb4fdksXtm6Hh6
+         4fXtduNTSjjI/yziKxAVaF8n0hybuC8s7S9o2A4JC3P/YeCYWl5foX1pQhZQvGoEyRMJ
+         8gtg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:dkim-signature;
-        bh=YNg4syLFgaV0/aVnuzeWWgXpnl+cr4G1njIJ8+UBVvM=;
-        fh=bkz5WMKprMAQgnPwdeYExW2THdr6ufWqpXcv3y7JC7A=;
-        b=opcrqV3iCs4u35oM/+d1MlVPeqP/P9tuWPqcLu8asGfSNWTpC7OquWudKqYO8HHTUi
-         LXxz90AOz/RW8ouSgTMxvcZIyZr4+z2LL6FJlV/5j/b2T1xES5NvC09oLusqPyzVIcsz
-         lUAdi6i2RXNvNq5vMBEzkQjlUZPoJCkC2jo+84/P91yX/QvEmuJb9h5Fti4ELH4xM+gv
-         BpWRWwhm+3VM5RNTCe1bHjmUCH1A3EFkzc4crz0RG/gKACkomnpT2z49SXJvKsw6EcaF
-         8D3GyCT5UGmK7Mq83wUSID7WX8HKfQhxb+bo4B9xehNFuRqC7RQ9J2qijTaqodDS8uEM
-         /lzQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=msB7XSMQKNAACWPZ/GwjszE60e79zmFAGxGoY+G/BRc=;
+        fh=LKaigW6kcaoBEobqMDAGmBYUOoG9ezBMyQ26msU14yY=;
+        b=tzdilQt1VnbBdfk5LUVh1klwzvodGb+9DaTYrcbddmbdrNm+4J9yuj0dduUWClQZOW
+         cKOI51DJPve0ih2t4wdIJRU4pJf1JrQrMBiFAGAr7hARIp7eN4XVREzVIQXTjxl9xJQY
+         lksl1eOiaB4lHfylCW2X1qLgqhAcuZHMKLJ2HtYbGf+uo2ykQOhZIPYA9H7iEovy8X2/
+         yyAyweYs9trpwmB304IM65lmjUuEAzrd4x0JhrMGFKMquISQIh+b/ASywRx/7iKZS31n
+         zu5N8+EdEIrpAgnZuNqmFBuyjALKyedmIAWkiJYs7Xd9Cf+HpCuciGucngMK2QHACVGY
+         mQcg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b="P5Uqw3+/";
-       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::234 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com. [2a00:1450:4864:20::234])
-        by gmr-mx.google.com with ESMTPS id k8-20020adfd228000000b0031596f8eeebsi266684wrh.7.2023.08.11.00.02.49
+       dkim=pass header.i=@google.com header.s=20221208 header.b=xOeEvMhu;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::335 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com. [2a00:1450:4864:20::335])
+        by gmr-mx.google.com with ESMTPS id j16-20020a05600c1c1000b003fc39e1582fsi373278wms.1.2023.08.11.02.11.27
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Aug 2023 00:02:49 -0700 (PDT)
-Received-SPF: pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::234 as permitted sender) client-ip=2a00:1450:4864:20::234;
-Received: by mail-lj1-x234.google.com with SMTP id 38308e7fff4ca-2b9ba3d6157so25670401fa.3
-        for <kasan-dev@googlegroups.com>; Fri, 11 Aug 2023 00:02:49 -0700 (PDT)
-X-Received: by 2002:a05:651c:217:b0:2b6:e78e:1e58 with SMTP id y23-20020a05651c021700b002b6e78e1e58mr863999ljn.5.1691737369167;
-        Fri, 11 Aug 2023 00:02:49 -0700 (PDT)
-Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id h4-20020a2e9ec4000000b002b70aff9a97sm728848ljk.16.2023.08.11.00.02.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Aug 2023 00:02:48 -0700 (PDT)
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 11 Aug 2023 09:02:47 +0200
-Subject: [PATCH] s390/mm: Make virt_to_pfn() a static inline
+        Fri, 11 Aug 2023 02:11:27 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::335 as permitted sender) client-ip=2a00:1450:4864:20::335;
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-3fe2ba3e260so16013515e9.2
+        for <kasan-dev@googlegroups.com>; Fri, 11 Aug 2023 02:11:27 -0700 (PDT)
+X-Received: by 2002:a7b:cbcc:0:b0:3fe:10d8:e7fa with SMTP id
+ n12-20020a7bcbcc000000b003fe10d8e7famr1164390wmi.41.1691745086680; Fri, 11
+ Aug 2023 02:11:26 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230808102049.465864-1-elver@google.com> <20230808102049.465864-3-elver@google.com>
+ <202308081424.1DC7AA4AE3@keescook> <CANpmjNM3rc8ih7wvFc2GLuMDLpWcdA8uWfut-5tOajqtVG952A@mail.gmail.com>
+ <ZNNi/4L1mD8XPNix@elver.google.com> <20230809113021.63e5ef66@gandalf.local.home>
+ <ZNO/pf/pH5jJAZI0@elver.google.com> <202308101259.D2C4C72F8@keescook>
+In-Reply-To: <202308101259.D2C4C72F8@keescook>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 11 Aug 2023 11:10:49 +0200
+Message-ID: <CANpmjNN84DGUSutk1FxcVmPGDhgVa2PrOuFTzGYu92mv+WXUeQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] list_debug: Introduce CONFIG_DEBUG_LIST_MINIMAL
+To: Kees Cook <keescook@chromium.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Peter Zijlstra <peterz@infradead.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, James Morse <james.morse@arm.com>, 
+	Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu <yuzenghui@huawei.com>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	Dmitry Vyukov <dvyukov@google.com>, Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com, 
+	linux-toolchains@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Message-Id: <20230811-virt-to-phys-s390-v1-1-b661426ca9cd@linaro.org>
-X-B4-Tracking: v=1; b=H4sIABbd1WQC/x3MQQqAIBBA0avErBswRbCuEi0sx5xNhRNSRHdPW
- r7F/w8IZSaBoXkgU2Hhfavo2gaW5LeVkEM1aKWNcqrHwvnEc8cj3YJieoU6ehOMm52zFmp3ZIp
- 8/c9xet8PXOY11GMAAAA=
-To: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
- Dmitry Vyukov <dvyukov@google.com>, Heiko Carstens <hca@linux.ibm.com>, 
- Vasily Gorbik <gor@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Sven Schnelle <svens@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
- Vineeth Vijayan <vneethv@linux.ibm.com>
-Cc: kasan-dev@googlegroups.com, linux-s390@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.12.3
-X-Original-Sender: linus.walleij@linaro.org
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linaro.org header.s=google header.b="P5Uqw3+/";       spf=pass
- (google.com: domain of linus.walleij@linaro.org designates
- 2a00:1450:4864:20::234 as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+ header.i=@google.com header.s=20221208 header.b=xOeEvMhu;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::335 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,128 +147,78 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Making virt_to_pfn() a static inline taking a strongly typed
-(const void *) makes the contract of a passing a pointer of that
-type to the function explicit and exposes any misuse of the
-macro virt_to_pfn() acting polymorphic and accepting many types
-such as (void *), (unitptr_t) or (unsigned long) as arguments
-without warnings.
+On Thu, 10 Aug 2023 at 22:12, Kees Cook <keescook@chromium.org> wrote:
+>
+> On Wed, Aug 09, 2023 at 06:32:37PM +0200, Marco Elver wrote:
+> > On Wed, Aug 09, 2023 at 11:30AM -0400, Steven Rostedt wrote:
+> > [...]
+> > >
+> > > I would actually prefer DEBUG_LIST to select HARDEN_LIST and not the other
+> > > way around. It logically doesn't make sense that HARDEN_LIST would select
+> > > DEBUG_LIST. That is, I could by default want HARDEN_LIST always on, but not
+> > > DEBUG_LIST (because who knows, it may add other features I don't want). But
+> > > then, I may have stumbled over something and want more info, and enable
+> > > DEBUG_LIST (while still having HARDEN_LIST) enabled.
+> > >
+> > > I think you are looking at this from an implementation perspective and not
+> > > the normal developer one.
+> > >
+> > [...]
+> > >
+> > > That is, if DEBUG_LIST is enabled, we always call the
+> > > __list_add_valid_or_report(), but if only HARDEN_LIST is enabled, then we
+> > > do the shortcut.
+> >
+> > Good point - I think this is better. See below tentative v4.
+> >
+> > Kees: Does that also look more like what you had in mind?
+>
+> Yeah, this looks good. My only nit would be a naming one. All the
+> other hardening features are named "HARDENED", but perhaps the "ED"
+> is redundant in the others. Still, consistency seems nicer. What do you
+> think of CONFIG_LIST_HARDENED ? (The modern trend for Kconfig naming tends
+> to keep the subsystem name first and then apply optional elements after.)
 
-For symmetry do the same with pfn_to_virt() reflecting the
-current layout in asm-generic/page.h.
+Naming is a bit all over. :-/
+I agree with the <subsystem>_<suboption> scheme, generally. I think
+initially I tried to keep the name shorter, and also find a good
+counter-part to DEBUG_<suboption>, therefore HARDEN_LIST.
 
-Doing this reveals a number of offenders in the arch code and
-the S390-specific drivers, so just bite the bullet and fix up
-all of those as well.
+Let's just change it to CONFIG_LIST_HARDENED, given the existing
+"HARDENED" options.
 
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
- arch/s390/include/asm/kfence.h |  2 +-
- arch/s390/include/asm/page.h   | 12 ++++++++++--
- arch/s390/mm/cmm.c             |  2 +-
- arch/s390/mm/vmem.c            |  2 +-
- drivers/s390/block/scm_blk.c   |  2 +-
- drivers/s390/char/vmcp.c       |  2 +-
- 6 files changed, 15 insertions(+), 7 deletions(-)
+I don't have a strong preference.
 
-diff --git a/arch/s390/include/asm/kfence.h b/arch/s390/include/asm/kfence.h
-index d55ba878378b..e47fd8cbe701 100644
---- a/arch/s390/include/asm/kfence.h
-+++ b/arch/s390/include/asm/kfence.h
-@@ -35,7 +35,7 @@ static __always_inline void kfence_split_mapping(void)
- 
- static inline bool kfence_protect_page(unsigned long addr, bool protect)
- {
--	__kernel_map_pages(virt_to_page(addr), 1, !protect);
-+	__kernel_map_pages(virt_to_page((void *)addr), 1, !protect);
- 	return true;
- }
- 
-diff --git a/arch/s390/include/asm/page.h b/arch/s390/include/asm/page.h
-index a9c138fcd2ad..cfec0743314e 100644
---- a/arch/s390/include/asm/page.h
-+++ b/arch/s390/include/asm/page.h
-@@ -191,8 +191,16 @@ int arch_make_page_accessible(struct page *page);
- #define phys_to_page(phys)	pfn_to_page(phys_to_pfn(phys))
- #define page_to_phys(page)	pfn_to_phys(page_to_pfn(page))
- 
--#define pfn_to_virt(pfn)	__va(pfn_to_phys(pfn))
--#define virt_to_pfn(kaddr)	(phys_to_pfn(__pa(kaddr)))
-+static inline void *pfn_to_virt(unsigned long pfn)
-+{
-+	return __va(pfn_to_phys(pfn));
-+}
-+
-+static inline unsigned long virt_to_pfn(const void *kaddr)
-+{
-+	return phys_to_pfn(__pa(kaddr));
-+}
-+
- #define pfn_to_kaddr(pfn)	pfn_to_virt(pfn)
- 
- #define virt_to_page(kaddr)	pfn_to_page(virt_to_pfn(kaddr))
-diff --git a/arch/s390/mm/cmm.c b/arch/s390/mm/cmm.c
-index 5300c6867d5e..f47515313226 100644
---- a/arch/s390/mm/cmm.c
-+++ b/arch/s390/mm/cmm.c
-@@ -90,7 +90,7 @@ static long cmm_alloc_pages(long nr, long *counter,
- 			} else
- 				free_page((unsigned long) npa);
- 		}
--		diag10_range(virt_to_pfn(addr), 1);
-+		diag10_range(virt_to_pfn((void *)addr), 1);
- 		pa->pages[pa->index++] = addr;
- 		(*counter)++;
- 		spin_unlock(&cmm_lock);
-diff --git a/arch/s390/mm/vmem.c b/arch/s390/mm/vmem.c
-index b26649233d12..30cd6e1be10d 100644
---- a/arch/s390/mm/vmem.c
-+++ b/arch/s390/mm/vmem.c
-@@ -36,7 +36,7 @@ static void vmem_free_pages(unsigned long addr, int order)
- {
- 	/* We don't expect boot memory to be removed ever. */
- 	if (!slab_is_available() ||
--	    WARN_ON_ONCE(PageReserved(virt_to_page(addr))))
-+	    WARN_ON_ONCE(PageReserved(virt_to_page((void *)addr))))
- 		return;
- 	free_pages(addr, order);
- }
-diff --git a/drivers/s390/block/scm_blk.c b/drivers/s390/block/scm_blk.c
-index 0c1df1d5f1ac..3a9cc8a4a230 100644
---- a/drivers/s390/block/scm_blk.c
-+++ b/drivers/s390/block/scm_blk.c
-@@ -134,7 +134,7 @@ static void scm_request_done(struct scm_request *scmrq)
- 
- 		if ((msb->flags & MSB_FLAG_IDA) && aidaw &&
- 		    IS_ALIGNED(aidaw, PAGE_SIZE))
--			mempool_free(virt_to_page(aidaw), aidaw_pool);
-+			mempool_free(virt_to_page((void *)aidaw), aidaw_pool);
- 	}
- 
- 	spin_lock_irqsave(&list_lock, flags);
-diff --git a/drivers/s390/char/vmcp.c b/drivers/s390/char/vmcp.c
-index 4cebfaaa22b4..f66906da83c4 100644
---- a/drivers/s390/char/vmcp.c
-+++ b/drivers/s390/char/vmcp.c
-@@ -89,7 +89,7 @@ static void vmcp_response_free(struct vmcp_session *session)
- 	order = get_order(session->bufsize);
- 	nr_pages = ALIGN(session->bufsize, PAGE_SIZE) >> PAGE_SHIFT;
- 	if (session->cma_alloc) {
--		page = virt_to_page((unsigned long)session->response);
-+		page = virt_to_page((void *)session->response);
- 		cma_release(vmcp_cma, page, nr_pages);
- 		session->cma_alloc = 0;
- 	} else {
+> One note: do the LKDTM list hardening tests still pass? i.e.
+> CORRUPT_LIST_ADD
+> CORRUPT_LIST_DEL
 
----
-base-commit: 06c2afb862f9da8dc5efa4b6076a0e48c3fbaaa5
-change-id: 20230809-virt-to-phys-s390-2fa3d38b8855
+Yes, they do. Though I need to also adjust BUG_ON_DATA_CORRUPTION to
+select LIST_HARDENED, and the test should check for the new option
+(which is implied by DEBUG_LIST now). There will be an additional
+patch to adjust that.
 
-Best regards,
--- 
-Linus Walleij <linus.walleij@linaro.org>
+> > [...]
+> > +             /*
+> > +              * With the hardening version, elide checking if next and prev
+> > +              * are NULL, LIST_POISON1 or LIST_POISON2, since the immediate
+> > +              * dereference of them below would result in a fault.
+> > +              */
+> > +             if (likely(prev->next == entry && next->prev == entry))
+> > +                     return true;
+>
+> I'm not super excited about skipping those checks, since they are
+> values that can be reached through kernel list management confusion. If
+> an attacker is using a system where the zero-page has been mapped
+> and is accessible (i.e. lacking SMAP etc), then attacks could still
+> be constructed. However, I do recognize this chain of exploitation
+> prerequisites is getting rather long, so probably this is a reasonable
+> trade off on modern systems.
+
+Sure, it's a trade-off for systems which do have the bare minimum of
+modern hardware security features.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230811-virt-to-phys-s390-v1-1-b661426ca9cd%40linaro.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN84DGUSutk1FxcVmPGDhgVa2PrOuFTzGYu92mv%2BWXUeQ%40mail.gmail.com.
