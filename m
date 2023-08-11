@@ -1,113 +1,117 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBHVD3GTAMGQEMOUBY5I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBIVD3GTAMGQEU33RWXA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3a.google.com (mail-oo1-xc3a.google.com [IPv6:2607:f8b0:4864:20::c3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DAC87792D2
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 17:20:00 +0200 (CEST)
-Received: by mail-oo1-xc3a.google.com with SMTP id 006d021491bc7-56c13bf96b2sf2189612eaf.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 08:20:00 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1691767199; cv=pass;
+Received: from mail-oa1-x3c.google.com (mail-oa1-x3c.google.com [IPv6:2001:4860:4864:20::3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id E07747792D4
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 17:20:03 +0200 (CEST)
+Received: by mail-oa1-x3c.google.com with SMTP id 586e51a60fabf-1befca4fdfasf2504352fac.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Aug 2023 08:20:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1691767202; cv=pass;
         d=google.com; s=arc-20160816;
-        b=b+IdsmubmeK6OFrc6YHKeQL/XTjWOwztrVeguz1HiHe29IP2p6NQgX37cA1FcTW8qq
-         DYIKXGvHIO9ch0IR9fzVSg7gF94/NXRckvBAnfcfEHPB5IOgCAv97+lNXNlzMtdEpmAy
-         kBjCuLMdoc5sng2SnKlpCYtP6I8pJnavMPvPkaEQoNgG8i2pyLbwQly5m5bWBbJkLgDi
-         mxDKsmyAu7v7Kn+AAQW53E4Iyl9+PGrTE1Axw2TfUZHafaVW+LM5DDLXIdUoTlP6a5md
-         3iuYzGMhFxgwNDtBZRkQLZ6MGeUODRLdZMoJfXCKHCC+z43pOEUUFimA+YYJ82EL/Wvu
-         wdZw==
+        b=FsvvcmSEXYy9hjJau2/is51t9mg+o3Xh4tPy67seGbL9ZaslAd49CpekSJKb7CPJ3S
+         ljFfruIu1O/EFiJNQcHWD7hrGHD8R2RoWBo2cXj4QP8zjOp6DxGgudD0/XzaT/amw3Dp
+         XzCdCSEcLVqovVmm0jfcvXz++ARlZ9bXSdtJntkF/+U0tdJPje6hv5czcNUMtVWyJbn9
+         liJIRgsqgkIh2ANIw8v/REUqINndh4Tus4fK7p/77QHvVRExR/C9l2HLi84KUhgZRo1t
+         f/fSVCX/WlH7XcscjGFjF1WlMjz+I1Z6NbdvGxwI2GX8xqn1y8MEVOAZJm44AyrjuScx
+         AM+w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:mime-version:date:dkim-signature;
-        bh=MXjn6ilJiGMOVI/KJHQ3sOj4UL1tUHnIHo/Fuj9Jyp8=;
+         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
+        bh=3++ICTvGVJpHjezq6pCEAge25nn/n/CIBANeQbC4doY=;
         fh=qzUwxS9h9GHZXLKRdSveNA0UW/h6SdpMH03X1Oyv03c=;
-        b=cawOWg897hqpMTYwffmmT6YfQ01N5MYjyu499pyjgnbwFhFAak7nJQYruDtNU+B/mP
-         KWUuT5Zuy8tf0cXMK1q2+XJsXv5glqPoj+ieBpOhXVorBX9rhHsChWpwszYiOnEd6eyR
-         vFJ937gTdP0zcURzbauldMPzs2Y0EUEth7DM2F9hJHONH5AFG0jHEBrt0TJAfc2fQa7h
-         TIxkLUZbo754hyXxktuMZuZpwqAk3p13VKK50PowdyxhYT9a7FUrpDGbKCDySdWXKxTb
-         ESh4yyD2dRs3fGaFxY5ahjDINIWoSMLVZPO0xM4g4ihcXPqNntkhC1ZzfgT0df7Gv99M
-         N8xQ==
+        b=ioWcDJ8iP8EUdm6PrP2I8Ej5amWygYsc+WUbHBEGIAebh7FWKyXX83L9gfDCbim/RQ
+         EtxwjUcBVqNwsLxP6XxpAYlazmEXfP6PmePfrKoiEYjjy7ALAhweagwZYLNosCh0WSyV
+         /Xtmi0OlbhVkYoLTYHQ6AOsHy00dDowm6/VcJiRx4AOBjsYEUEza+77VmwHKc+87Rh+d
+         Vttny4Q68u8/o7lM5rGFym5AO6dzBCF/flyyRL1/d5SnUeXaXLnW9zgxhJezCxiOWZqW
+         G0TwlrAD07ZS0bOU/ujPhNBxPEeUPq5iwVfKHg1P06qWdV6WIx4KRprAvQg6hgyKdHBl
+         rBCw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=5xqJ+9vO;
-       spf=pass (google.com: domain of 3nvhwzaukccyqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3nVHWZAUKCcYqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b="m1/D3Wz2";
+       spf=pass (google.com: domain of 3ofhwzaukcckt0at6v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3oFHWZAUKCckt0At6v33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1691767199; x=1692371999;
+        d=googlegroups.com; s=20221208; t=1691767202; x=1692372002;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MXjn6ilJiGMOVI/KJHQ3sOj4UL1tUHnIHo/Fuj9Jyp8=;
-        b=N0/jAHT2zRAUsvBrR8qvVqKD+hQZXw0VTZK1RgKQfyaM3CQ3Uq/3+8sgoFIsXIXH0O
-         8dQ3eo3ayGeIR5ZehT8hXFJ2G/UDVhXblxKKbXlEbefsP17TkzhMVJwEbSWeAWoZUu9b
-         N+T8OE8Szo/ZHxDILCoibhniwrslAeqhMbpVlWoTCdTVld/qvbsi1aqXcLHnzzoE9y7u
-         Ae05HHQudBmSjqkCK2QPrvho0g+zc7RQw5aXz8YxJNwPX16bW/Ohli96gX5uH7x5JmR0
-         Jux0pmjn81RlFD+qpMnsYQN14MmScLLHqTbLIG44aICIXkNfGrBEwHiOqiqf/gwesCoq
-         W9Pg==
+         :subject:message-id:references:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=3++ICTvGVJpHjezq6pCEAge25nn/n/CIBANeQbC4doY=;
+        b=l6j3O71ZBrFiHZhWRAp1LZbEABwta5ZrRp/vnG82KYeVyqvawiSWRFe9nOK/PZgWDn
+         i4UMhie/sRX4gjOJ9vDGFB8nRueLB3OBllSQ0vJ3EHeDwKhcUVV/YGe155obHuvgiwY/
+         zlItD1lukYAaKnypWg7whwkuCyuQ67+TsLP05Ga+4s2pPxWYizdw9o6FyrQIb/BUyxUl
+         rlG6VSFonwSHGUAffWPWd0cLwUOHISehgOz8gRYDwk9mvnrSrc3qVMPtmr1jGxImVMX6
+         VW+Lv5nKaj0w56NJzO1afLzBcAY/bZ+sgbY1hElihMF251yP696Ki0mpuF/H6qcG9XPh
+         iE5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691767199; x=1692371999;
+        d=1e100.net; s=20221208; t=1691767202; x=1692372002;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MXjn6ilJiGMOVI/KJHQ3sOj4UL1tUHnIHo/Fuj9Jyp8=;
-        b=fcArWz3cLlAf/bLw5bDcJo/zkrO0PQZ03rYztGDRPKtfC25FIGHqk+duWSxgnv8KIS
-         LcNFLaDQjezEtk6ZXYm/Xtb3CIH0UZHjThOSi6KB28UcRTebF6vnpyKGQMCyfTjXgxTs
-         BEKS/VpHlO+lknU8tMFxTQS5uwWdMu91j9DqQfgRbFQjRSLiMDaQYbjdjO/TSqYifeBH
-         8GjVrCMa2IGSPMiwVDOVLrGmPdgL7SRyxnGJIkGhnrEWqihzfwJ6RBLQFUrwA7XiGiEZ
-         UJV4BLMAuscmBBICITFkLiaLEcj9xpu+PuXz8lX4UAOVE+n90qvEgRXxaiTIgA0FldH4
-         E55w==
-X-Gm-Message-State: AOJu0YyAZeUnz5sDUdVPAJ2yZuqTfyQa6Y020SLiTCwygnYS7xV+3V5t
-	7CaJR33zC9JtBzMIDlLJe8g=
-X-Google-Smtp-Source: AGHT+IGcWLIkyaAs79wVa4pZxBmZNu1+4taTLQOkei5DtBy0v7+G1mxm3zfi1dBGeqYVhT5VwVMoLQ==
-X-Received: by 2002:a4a:d1db:0:b0:56c:e4b7:2c0d with SMTP id a27-20020a4ad1db000000b0056ce4b72c0dmr1719564oos.1.1691767199004;
-        Fri, 11 Aug 2023 08:19:59 -0700 (PDT)
+         :subject:message-id:references:mime-version:in-reply-to:date
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3++ICTvGVJpHjezq6pCEAge25nn/n/CIBANeQbC4doY=;
+        b=dN15GzpkVID/Umym+9x7e93HBLRB+dd90SchYFkdENRyxXYtA8DLBJ7Pk0gcY4hePa
+         xTh8evLq0I9KUGhnGOlni9vSA0bt6XP2rezOJKIB+jzBDWmOu2xsdhxJlF8ep1IkXFX0
+         mVp5VZ50aGnqZ8Dy0Fs73QRNliTx+QPOPlZw0jvcqMELy8O6uCsx5J/qxWDaaioyKr4p
+         SOPffNluh1dDJLf9cWp+EZ8t+CCsSk/CPlSwnkqpa/e/ypytf+toUsu8dTijcBwecCAV
+         I7asNeBBRlXfm1zZO7SvH/A81ot7Fyt3fz2IeEJRlPOzb7T7xe5b5XJlIK9Tv04T5vzD
+         EYDQ==
+X-Gm-Message-State: AOJu0Yzu3MHN0pDwQggUGdqZ1f38hG1+R47yxqBcCUVVwdACrkTJ359E
+	9Z49XPqFatEocOn84LL2obxWUQ==
+X-Google-Smtp-Source: AGHT+IH24G/ifdVSoPf5jTmPqf+z9ySFwrSRJz0tvVQIfep8dSU2X9Au6qmB4HAIcANOlVS/oG3rKw==
+X-Received: by 2002:a05:6870:93c8:b0:1bf:50e0:95d9 with SMTP id c8-20020a05687093c800b001bf50e095d9mr2168373oal.26.1691767202513;
+        Fri, 11 Aug 2023 08:20:02 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:5890:0:b0:563:492f:3514 with SMTP id f138-20020a4a5890000000b00563492f3514ls1857285oob.0.-pod-prod-09-us;
- Fri, 11 Aug 2023 08:19:58 -0700 (PDT)
-X-Received: by 2002:a05:6830:1497:b0:6b7:319d:281e with SMTP id s23-20020a056830149700b006b7319d281emr2084031otq.19.1691767198246;
-        Fri, 11 Aug 2023 08:19:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1691767198; cv=none;
+Received: by 2002:a05:6870:2415:b0:19f:9f28:a580 with SMTP id
+ n21-20020a056870241500b0019f9f28a580ls2225176oap.1.-pod-prod-05-us; Fri, 11
+ Aug 2023 08:20:01 -0700 (PDT)
+X-Received: by 2002:a05:6870:a185:b0:1b0:18e8:9536 with SMTP id a5-20020a056870a18500b001b018e89536mr2262758oaf.52.1691767201676;
+        Fri, 11 Aug 2023 08:20:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1691767201; cv=none;
         d=google.com; s=arc-20160816;
-        b=mRFcJl/kPrS4SyoDpziQiAPZz3Mi3uTF7jVJoE+7DjIzJRktahVHFZP4PQftwe5PU0
-         n4DJZxTTbsoTwjnWe8DQquLdrCTqA8iVvkIePgKiyRsPsSR5tPTNOZGdj7pSk7k8fQ1i
-         Dj4D0GbRbhMqpVJYzsM09lqSVwDAEKTPUruOm5ip9Zckp4VUb4QuX/+tbY8ewQVIKroU
-         /ZcazuQ1/a2UGTFl/4EXB0WPGAauM+TaulWBHr4NXMxRcz8Itcyh+0hKeIF3HRkt8cPt
-         dKXSttFYQimgqpbJNgUUSvme/n6zHRjvh9CbqqwizUZUYlGd7FQGbl0/xCnb/1AMbeEA
-         iuUg==
+        b=w+vPxTZwq4oWBs8+VuWwM29s8wXNrQZziVx56hSUHllFQ4mVe2K/vJqtDAFAk5hczj
+         SRbXbOLPMKNuMSCXRdpj5VxB6nCT4lR4pYY3cB7mnArsoHBBCU40OTcnsC12WQxXgWD0
+         DDoI6K0aMIic7qgxc7F+Uo72a1/7obrheS5YUBW6UyNLRQ1U/Tb5Z3kbo6NG4VGXUTXu
+         uicu0IT2OYr/KsMcp5vbd0rmgIhGJL4H63PuCx8gRj0nF6/p9po+HJPJCxPuZxZhGRHA
+         fy/eXdNw9RzgaMog/lfjUyMcgG87x0FAiNRDNikHlW4g9pR5MCicEUpOYyia2M4hBDv5
+         IymA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
-        bh=1vaThr58cHhzt3vCJBdqBIs2Yl/3Z2jvMp4OgQvCHVc=;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:dkim-signature;
+        bh=vr1U486Irq718Y5Vjn28mDb0feV+v+GYGzM/Kj2uczY=;
         fh=xh/g7dNJbwYr9WVB3rCguj1R0VLL65UcAaOvl7LeWOQ=;
-        b=QiMJZAsQ6Y7UPSoaPQj9FFPILM5k99r8aIos/IPUCXf3fEkXGrZ8OteNyPhHzKGWsC
-         1cLXNh0TnDjnLtSpjoKQdmWAx+Ot12vCqv2LaQLHJZpAuoIDWC98ciOf+71dLk4y+ehM
-         ZMZTIdK5X2C2br2CP5Ds7nyivqdsSxvbt/VuxHqj0mjN1wztOOCgonIZenad68dE0tSj
-         bUrIBTI1Akn1riMpSxb5xG50G/dW8h8rf79u23Ci7fXIySgkPvA8W/jgFx0dNI38f1gR
-         Vikz0O4g9UoMMP+pk5vjmLvmBQVpqDUEL5bnTqoqa20XXr/ZafnM6o1qDZ7un5hCN8Fy
-         hUEQ==
+        b=Zz3+LKYK3FAHNiXr2t1qexvR6JJMCG0iH8cVRZ43Z39BHIpIBFVFDMfAeR19hYtT5y
+         w0L8dswSL1AJRVNWXz8am8bHit9lU/rTWOd9IpoU5s7Z2OOYeu0WFEGHvAkAGDqdOc8w
+         UFHd9YQVjXS9RwpTyv/zkUNiMzecl+RYFQnxcM888dy5MiIh0p10KyKk7vyo7qUcMrYd
+         3B/zZ2chMBwAoEFeUWs2LE6jvoVr6mWUeMjnZFnyG6aSzAMt+uZ+fieIGEnu+5EJMyZU
+         DBKCviYiR1SYLuOd2YUiQYSP25Zu8NdkkdLf/UdDeQ5p2ydOqGmTSMqIn6az46Xc6nN2
+         XCKQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=5xqJ+9vO;
-       spf=pass (google.com: domain of 3nvhwzaukccyqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3nVHWZAUKCcYqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b="m1/D3Wz2";
+       spf=pass (google.com: domain of 3ofhwzaukcckt0at6v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3oFHWZAUKCckt0At6v33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com. [2607:f8b0:4864:20::114a])
-        by gmr-mx.google.com with ESMTPS id y21-20020a9d4615000000b006b885923798si333544ote.2.2023.08.11.08.19.58
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com. [2607:f8b0:4864:20::b49])
+        by gmr-mx.google.com with ESMTPS id oe18-20020a17090b395200b0026812c2835dsi142501pjb.2.2023.08.11.08.20.01
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Aug 2023 08:19:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 3nvhwzaukccyqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) client-ip=2607:f8b0:4864:20::114a;
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5867fe87d16so25179957b3.2
-        for <kasan-dev@googlegroups.com>; Fri, 11 Aug 2023 08:19:58 -0700 (PDT)
+        Fri, 11 Aug 2023 08:20:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 3ofhwzaukcckt0at6v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) client-ip=2607:f8b0:4864:20::b49;
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-cf4cb742715so2030360276.2
+        for <kasan-dev@googlegroups.com>; Fri, 11 Aug 2023 08:20:01 -0700 (PDT)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:8dc0:5176:6fda:46a0])
- (user=elver job=sendgmr) by 2002:a81:451d:0:b0:589:9d51:c8c0 with SMTP id
- s29-20020a81451d000000b005899d51c8c0mr41482ywa.2.1691767197794; Fri, 11 Aug
- 2023 08:19:57 -0700 (PDT)
-Date: Fri, 11 Aug 2023 17:18:38 +0200
+ (user=elver job=sendgmr) by 2002:a25:b190:0:b0:d06:cbd:1f3e with SMTP id
+ h16-20020a25b190000000b00d060cbd1f3emr33009ybj.3.1691767200863; Fri, 11 Aug
+ 2023 08:20:00 -0700 (PDT)
+Date: Fri, 11 Aug 2023 17:18:39 +0200
+In-Reply-To: <20230811151847.1594958-1-elver@google.com>
 Mime-Version: 1.0
+References: <20230811151847.1594958-1-elver@google.com>
 X-Mailer: git-send-email 2.41.0.694.ge786442a9b-goog
-Message-ID: <20230811151847.1594958-1-elver@google.com>
-Subject: [PATCH v4 1/4] compiler_types: Introduce the Clang __preserve_most
- function attribute
+Message-ID: <20230811151847.1594958-2-elver@google.com>
+Subject: [PATCH v4 2/4] list_debug: Introduce inline wrappers for debug checks
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, Andrew Morton <akpm@linux-foundation.org>, 
 	Kees Cook <keescook@chromium.org>
@@ -129,9 +133,9 @@ Cc: Guenter Roeck <linux@roeck-us.net>, Peter Zijlstra <peterz@infradead.org>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b=5xqJ+9vO;       spf=pass
- (google.com: domain of 3nvhwzaukccyqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3nVHWZAUKCcYqx7q3s00sxq.o0ywm4mz-pq7s00sxqs30614.o0y@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20221208 header.b="m1/D3Wz2";       spf=pass
+ (google.com: domain of 3ofhwzaukcckt0at6v33v0t.r31zp7p2-stav33v0tv63947.r31@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3oFHWZAUKCckt0At6v33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -147,114 +151,138 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-[1]: "On X86-64 and AArch64 targets, this attribute changes the calling
-convention of a function. The preserve_most calling convention attempts
-to make the code in the caller as unintrusive as possible. This
-convention behaves identically to the C calling convention on how
-arguments and return values are passed, but it uses a different set of
-caller/callee-saved registers. This alleviates the burden of saving and
-recovering a large register set before and after the call in the caller.
-If the arguments are passed in callee-saved registers, then they will be
-preserved by the callee across the call. This doesn't apply for values
-returned in callee-saved registers.
+Turn the list debug checking functions __list_*_valid() into inline
+functions that wrap the out-of-line functions. Care is taken to ensure
+the inline wrappers are always inlined, so that additional compiler
+instrumentation (such as sanitizers) does not result in redundant
+outlining.
 
- * On X86-64 the callee preserves all general purpose registers, except
-   for R11. R11 can be used as a scratch register. Floating-point
-   registers (XMMs/YMMs) are not preserved and need to be saved by the
-   caller.
+This change is preparation for performing checks in the inline wrappers.
 
- * On AArch64 the callee preserve all general purpose registers, except
-   x0-X8 and X16-X18."
-
-[1] https://clang.llvm.org/docs/AttributeReference.html#preserve-most
-
-Introduce the attribute to compiler_types.h as __preserve_most.
-
-Use of this attribute results in better code generation for calls to
-very rarely called functions, such as error-reporting functions, or
-rarely executed slow paths.
-
-Beware that the attribute conflicts with instrumentation calls inserted
-on function entry which do not use __preserve_most themselves. Notably,
-function tracing which assumes the normal C calling convention for the
-given architecture.  Where the attribute is supported, __preserve_most
-will imply notrace. It is recommended to restrict use of the attribute
-to functions that should or already disable tracing.
-
-Note: The additional preprocessor check against architecture should not
-be necessary if __has_attribute() only returns true where supported;
-also see https://github.com/ClangBuiltLinux/linux/issues/1908. But until
-__has_attribute() does the right thing, we also guard by known-supported
-architectures to avoid build warnings on other architectures.
-
-The attribute may be supported by a future GCC version (see
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=110899).
+No functional change intended.
 
 Signed-off-by: Marco Elver <elver@google.com>
-Reviewed-by: Miguel Ojeda <ojeda@kernel.org>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
-Acked-by: Mark Rutland <mark.rutland@arm.com>
 ---
-v4:
-* Guard attribute based on known-supported architectures to avoid
-  compiler warnings about the attribute being ignored.
-
 v3:
-* Quote more from LLVM documentation about which registers are
-  callee/caller with preserve_most.
-* Code comment to restrict use where tracing is meant to be disabled.
-
-v2:
-* Imply notrace, to avoid any conflicts with tracing which is inserted
-  on function entry. See added comments.
+* Rename ___list_*_valid() to __list_*_valid_or_report().
+* Some documentation.
 ---
- include/linux/compiler_types.h | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+ arch/arm64/kvm/hyp/nvhe/list_debug.c |  6 ++---
+ include/linux/list.h                 | 37 +++++++++++++++++++++++++---
+ lib/list_debug.c                     | 11 ++++-----
+ 3 files changed, 41 insertions(+), 13 deletions(-)
 
-diff --git a/include/linux/compiler_types.h b/include/linux/compiler_types.h
-index 547ea1ff806e..c523c6683789 100644
---- a/include/linux/compiler_types.h
-+++ b/include/linux/compiler_types.h
-@@ -106,6 +106,34 @@ static inline void __chk_io_ptr(const volatile void __iomem *ptr) { }
- #define __cold
- #endif
+diff --git a/arch/arm64/kvm/hyp/nvhe/list_debug.c b/arch/arm64/kvm/hyp/nvhe/list_debug.c
+index d68abd7ea124..16266a939a4c 100644
+--- a/arch/arm64/kvm/hyp/nvhe/list_debug.c
++++ b/arch/arm64/kvm/hyp/nvhe/list_debug.c
+@@ -26,8 +26,8 @@ static inline __must_check bool nvhe_check_data_corruption(bool v)
  
+ /* The predicates checked here are taken from lib/list_debug.c. */
+ 
+-bool __list_add_valid(struct list_head *new, struct list_head *prev,
+-		      struct list_head *next)
++bool __list_add_valid_or_report(struct list_head *new, struct list_head *prev,
++				struct list_head *next)
+ {
+ 	if (NVHE_CHECK_DATA_CORRUPTION(next->prev != prev) ||
+ 	    NVHE_CHECK_DATA_CORRUPTION(prev->next != next) ||
+@@ -37,7 +37,7 @@ bool __list_add_valid(struct list_head *new, struct list_head *prev,
+ 	return true;
+ }
+ 
+-bool __list_del_entry_valid(struct list_head *entry)
++bool __list_del_entry_valid_or_report(struct list_head *entry)
+ {
+ 	struct list_head *prev, *next;
+ 
+diff --git a/include/linux/list.h b/include/linux/list.h
+index f10344dbad4d..130c6a1bb45c 100644
+--- a/include/linux/list.h
++++ b/include/linux/list.h
+@@ -39,10 +39,39 @@ static inline void INIT_LIST_HEAD(struct list_head *list)
+ }
+ 
+ #ifdef CONFIG_DEBUG_LIST
+-extern bool __list_add_valid(struct list_head *new,
+-			      struct list_head *prev,
+-			      struct list_head *next);
+-extern bool __list_del_entry_valid(struct list_head *entry);
 +/*
-+ * On x86-64 and arm64 targets, __preserve_most changes the calling convention
-+ * of a function to make the code in the caller as unintrusive as possible. This
-+ * convention behaves identically to the C calling convention on how arguments
-+ * and return values are passed, but uses a different set of caller- and callee-
-+ * saved registers.
-+ *
-+ * The purpose is to alleviates the burden of saving and recovering a large
-+ * register set before and after the call in the caller.  This is beneficial for
-+ * rarely taken slow paths, such as error-reporting functions that may be called
-+ * from hot paths.
-+ *
-+ * Note: This may conflict with instrumentation inserted on function entry which
-+ * does not use __preserve_most or equivalent convention (if in assembly). Since
-+ * function tracing assumes the normal C calling convention, where the attribute
-+ * is supported, __preserve_most implies notrace.  It is recommended to restrict
-+ * use of the attribute to functions that should or already disable tracing.
-+ *
-+ * Optional: not supported by gcc.
-+ *
-+ * clang: https://clang.llvm.org/docs/AttributeReference.html#preserve-most
++ * Performs the full set of list corruption checks before __list_add().
++ * On list corruption reports a warning, and returns false.
 + */
-+#if __has_attribute(__preserve_most__) && (defined(CONFIG_X86_64) || defined(CONFIG_ARM64))
-+# define __preserve_most notrace __attribute__((__preserve_most__))
-+#else
-+# define __preserve_most
-+#endif
++extern bool __list_add_valid_or_report(struct list_head *new,
++				       struct list_head *prev,
++				       struct list_head *next);
 +
- /* Builtins */
++/*
++ * Performs list corruption checks before __list_add(). Returns false if a
++ * corruption is detected, true otherwise.
++ */
++static __always_inline bool __list_add_valid(struct list_head *new,
++					     struct list_head *prev,
++					     struct list_head *next)
++{
++	return __list_add_valid_or_report(new, prev, next);
++}
++
++/*
++ * Performs the full set of list corruption checks before __list_del_entry().
++ * On list corruption reports a warning, and returns false.
++ */
++extern bool __list_del_entry_valid_or_report(struct list_head *entry);
++
++/*
++ * Performs list corruption checks before __list_del_entry(). Returns false if a
++ * corruption is detected, true otherwise.
++ */
++static __always_inline bool __list_del_entry_valid(struct list_head *entry)
++{
++	return __list_del_entry_valid_or_report(entry);
++}
+ #else
+ static inline bool __list_add_valid(struct list_head *new,
+ 				struct list_head *prev,
+diff --git a/lib/list_debug.c b/lib/list_debug.c
+index d98d43f80958..2def33b1491f 100644
+--- a/lib/list_debug.c
++++ b/lib/list_debug.c
+@@ -17,8 +17,8 @@
+  * attempt).
+  */
  
- /*
+-bool __list_add_valid(struct list_head *new, struct list_head *prev,
+-		      struct list_head *next)
++bool __list_add_valid_or_report(struct list_head *new, struct list_head *prev,
++				struct list_head *next)
+ {
+ 	if (CHECK_DATA_CORRUPTION(prev == NULL,
+ 			"list_add corruption. prev is NULL.\n") ||
+@@ -37,9 +37,9 @@ bool __list_add_valid(struct list_head *new, struct list_head *prev,
+ 
+ 	return true;
+ }
+-EXPORT_SYMBOL(__list_add_valid);
++EXPORT_SYMBOL(__list_add_valid_or_report);
+ 
+-bool __list_del_entry_valid(struct list_head *entry)
++bool __list_del_entry_valid_or_report(struct list_head *entry)
+ {
+ 	struct list_head *prev, *next;
+ 
+@@ -65,6 +65,5 @@ bool __list_del_entry_valid(struct list_head *entry)
+ 		return false;
+ 
+ 	return true;
+-
+ }
+-EXPORT_SYMBOL(__list_del_entry_valid);
++EXPORT_SYMBOL(__list_del_entry_valid_or_report);
 -- 
 2.41.0.694.ge786442a9b-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230811151847.1594958-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230811151847.1594958-2-elver%40google.com.
