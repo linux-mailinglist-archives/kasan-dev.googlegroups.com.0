@@ -1,113 +1,113 @@
-Return-Path: <kasan-dev+bncBDZKHAFW3AGBBP4K5GTAMGQEOUQ3Y5Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDZKHAFW3AGBBY4S5GTAMGQE6U6GJHI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC50D77BCC9
-	for <lists+kasan-dev@lfdr.de>; Mon, 14 Aug 2023 17:16:16 +0200 (CEST)
-Received: by mail-lf1-x13a.google.com with SMTP id 2adb3069b0e04-4fe2631f5a6sf4185849e87.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 14 Aug 2023 08:16:16 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1692026176; cv=pass;
+Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DF9C77BD1C
+	for <lists+kasan-dev@lfdr.de>; Mon, 14 Aug 2023 17:33:57 +0200 (CEST)
+Received: by mail-lj1-x23d.google.com with SMTP id 38308e7fff4ca-2b9da035848sf43202311fa.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 14 Aug 2023 08:33:57 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1692027236; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GAqatwwl0zB748rYrkFbiE3flCnaWcTcygBd17iTfI5mC74FHzwhzGYQRdOxhEKjjn
-         YUpXJqOAbahMrqs9hLb+fEuHC1u+rMm+CXvEO83RH977soWZME2QCuoq/wmXyGOnFjVi
-         P0dvneZr0XcJVVKAPQDQbgiO9Yz1jcbUGhD9ApTQkOQyFj3WroHApBH8aMCfrdi+KOx0
-         nseXQOk1iirgosBz5U+OOxhGBSkDD6yLqB0+NmB4es7jgzwM0l/Nzbm0DPHuelXKDYMe
-         5H10sW3oOAPYb/hbpKxowOJ46ROamURbqjmt+emWaPOuk/J7tSDnCJDg7TrVD29touoK
-         +hRQ==
+        b=vP3hd5DDm4TTf4a99SL85SsCMyVTguuHG3yUKLHGLjm3Cg0mvvMkZSp/9f2/R7cwZO
+         LZA4VVE5vSjxlO+QbfCAviHfRvSH/05FYQJ/QLmrXU5K0MiR/KX9c9iwKoCrZYYMK1wt
+         iIjxZf7Hb1lJd/3sixsI0OFJ5P3qIzAaPUJN1NjWc96nE9Z4Az5Vd7Ln93wlKLm3P3C7
+         eVOwMwm7dyOj1xi/TpXL2Q5RjYhp7deDmPG8Mdz9vUB3zBzZoaoC0ciADZs4TB3qKGu8
+         mgzBMhQlr50CkBWM7U9TDUudX7PdH1+2DswkRoypuld3+siAL/a31u1FtV49dUdh8gAP
+         xIZQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:dkim-signature;
-        bh=TDq+aIvBkGY4xx9fZvl8Sd00FTeo8h2mJ2bQOYaRNpY=;
+        bh=ORQMZExaoLMkEVlEgvlZH5sZZ0kLY82MxsKgKWBBd/c=;
         fh=u/gF7ZyBGMmmo/UTc8bA1WEwOtMaWAUQBwUz8Vu+LGM=;
-        b=WdIT3CT8IjlxG47LmQ+QdKIhLmqu81ETfblC9nbuSwGUv/9LjBgxhjITYEVQ/6h5Od
-         cjTqab5AcuegfANFaN4HCqpSe+rJDfCQWDlXWlOz1CjWYn51wARdK9R/3emC/WOi8nQQ
-         vg5f5BMbdeJPAgq7bsnzavzVC3h4SDQXjjXpMrYtb35oUk8d46sXGii3hR2ADw2R6SDG
-         deoj0aK5xMHVS0afARGMRgKrQP1Mc0pmnYhtR23FkXhf33HNOT4ooXrssRNfM744w7mm
-         0YerRD1NVRHTplZD9iVP3Yuq/Ny2bfe9Oj2tauseWqj9rj+PKCpi7BVOBJLHrVmQq4HE
-         0ceA==
+        b=RpgV++qBjwHRa/07ft7FTQtZ0RvicII+5TD24bZAUu9x2sHw9X3dapGsQzI06uhN9E
+         4o50wVb68nEnmTdxSttIUcSzSPr8TTLZq+6TaGXdkcHmH4w7sK7xwcK/I8bawwedy4ln
+         fMGa6ZnjmnaV6rNVE42Ryi1LHDrZvvCTWf2lHBQ/p4unZuoHHgtZX11LiVFn4HMxCitW
+         zXUsgfj+s+FnTIZKCY+FkWAln0XPkglhNW07Dx3qucolppgao8hJMRT//j2e/ohyVIw8
+         nUP4TFGmo0M6T6nFKmWqVdMkrSjgUL3xuySTv7rjrlotS8wVlCyd+EZ3XnayfnQuLGAS
+         8+TQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=ezgzhu83;
-       spf=pass (google.com: domain of pmladek@suse.com designates 195.135.220.28 as permitted sender) smtp.mailfrom=pmladek@suse.com;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=akFhWRIw;
+       spf=pass (google.com: domain of pmladek@suse.com designates 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=pmladek@suse.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1692026176; x=1692630976;
+        d=googlegroups.com; s=20221208; t=1692027236; x=1692632036;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TDq+aIvBkGY4xx9fZvl8Sd00FTeo8h2mJ2bQOYaRNpY=;
-        b=Sqk+a8MsETac88IQRsYPPikzQeo3JVyEFYOl/Q98HUbEiVTKXNhWzMqH8PALiVSYbP
-         x+HT1LMy0n7oBIMD9yzvBZONgy6gBJJdiqS9jcz8PTAP+SOPzc6SwQgM7HGAfsr5wEj9
-         JgR7vRcgH98dFzZPiN41luPfMC7BGrPq817BLilKNasqoS0lxXNV/x44FGuNdH6OIOBN
-         /WF4CfIh4JjY8+s0RuP1Y6VsMyRdwB7XdKTFroPMnJspWdij1yP7xmbgRdMF2OA7TNti
-         +sGqkPxDKLGaNIbeYGvn79hXHUUE0rJnwodC7jPTDu8wFyf0J4ICVh5F5LcB/Sjhe8wL
-         q6+w==
+        bh=ORQMZExaoLMkEVlEgvlZH5sZZ0kLY82MxsKgKWBBd/c=;
+        b=YyAt5DBbhvUBL8zBBE/glocoFgVYrjjQV49EuLPtK24fAd5B7fC9NTZF0aMW1nO9St
+         8jw3e/VKP7hvvSPf/MUfRAcrbuAzJgdsC9KmgOmBS/S2N+DCXSFrqUSLcXioN4lRC/eZ
+         SuGdPrTTjvqVD7AGGLaUKolNuxAD34aAmFAMDLfNR/VGcr7zcTd6gvth/CNbsPiqKluC
+         5Uprq45aFCWy4L/MDNAn2Dzd4ChVcWfpD9sggpesTgQ0T79teVVNxX+Zve59ey8BdNYi
+         n8yUzjp+2Atcxeltkotd+Efbwf8ZfT1gW3c3AXx0nVDQ/vk876hr6JDJ+8giLlTQxy58
+         /p4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1692026176; x=1692630976;
+        d=1e100.net; s=20221208; t=1692027236; x=1692632036;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TDq+aIvBkGY4xx9fZvl8Sd00FTeo8h2mJ2bQOYaRNpY=;
-        b=Ps2W69pyVpUhgmWbBakh7+sHAj/Mf18wgMqHDCwEj5WZaUh0F3NaeF0K/773Dlc+Sx
-         rBgFmEpmmgv5soRXtc45/iPwLt/M5Qaj9RQipW/q3GgHth4gmwyVsAsCmmHkjWD1G9rm
-         b2yjTcNIy7imB+zga5FwGGUQp/FTA0madpMJSU2yI0i7nC9/U8IhHQj0QpkNj5TI9uL/
-         I4/Xt+XOx6O31ZOXnaV8jBV1bO2LFUZ92bKm6ir/MjhGoWUHwcuu9cmhyu3PN6ednTd2
-         4VLNdyQPwRRKO7qrw3omgVbmJCWJabBWykQfasBSBkanGH6QhH11nxzRauuMV2EhpDWQ
-         W6JQ==
-X-Gm-Message-State: AOJu0YzKCQLQFjDcTAY/+KiMkl/gmozvRMeE4AYQlRk7uZzNqPDhSL4H
-	Qk9B6BWVN85DX5Lm/wYn5/0=
-X-Google-Smtp-Source: AGHT+IG83Qr7aeKuuvPNx+wKkYcRYUSJWsxxyavGDahMjsT1ksrvWQcsU0FHUL4PnF31kYBwrlE4ww==
-X-Received: by 2002:a19:6547:0:b0:4f8:6abe:5249 with SMTP id c7-20020a196547000000b004f86abe5249mr6225413lfj.3.1692026175736;
-        Mon, 14 Aug 2023 08:16:15 -0700 (PDT)
+        bh=ORQMZExaoLMkEVlEgvlZH5sZZ0kLY82MxsKgKWBBd/c=;
+        b=kmEtVfRcKUil8YaDswFT6GV06M3Dz9sBsCRVzw1Me74UuK/WqKUMkWVx6Zju5jEP7E
+         ct+OWg7YcqPVReoDzSr4OZ+sviaXf0aiEwBmjdrKPsQD6y2BHbn4mknjH7j7prfOrXog
+         COP2adC7gtTSYRNNyHy9CsMdJYMcd3qo2jUl8wy2ZjG5lG/Kdh97Dke3NXnbysS6qjOr
+         wzCnN2+1wC0T+CL+zucc3woEb0q6P0e+QmI88wCyjyS5hdKJ3FA0Ut2JPhK7zoL51gpk
+         k30JgpJV439LJhwuRPmxZbR8AcuLDpo6yXArBHA+cHaNvG4HCJM2kOT5ige3Bo1iJM72
+         hnlQ==
+X-Gm-Message-State: AOJu0YxHwGhB+TLnFAW/7KexILpZpTVzMDwrh8W9AEb8HiXt5z4d6kF6
+	zt2/dcigV8LQoNcZSSJIxrU=
+X-Google-Smtp-Source: AGHT+IFPCGAnpjfaGrfT5u4Q1IaMIeSDH3LXBzl69kmX8+g8lZNPIxr62My29bn8zKrfJ1R+ot5nAg==
+X-Received: by 2002:a2e:3609:0:b0:2ba:5ca7:230e with SMTP id d9-20020a2e3609000000b002ba5ca7230emr6438371lja.37.1692027235878;
+        Mon, 14 Aug 2023 08:33:55 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:4db1:0:b0:4fe:678:6a1f with SMTP id h17-20020ac24db1000000b004fe06786a1fls97166lfe.1.-pod-prod-06-eu;
- Mon, 14 Aug 2023 08:16:14 -0700 (PDT)
-X-Received: by 2002:a05:6512:3d0b:b0:4fd:faa5:64ed with SMTP id d11-20020a0565123d0b00b004fdfaa564edmr8589441lfv.11.1692026173941;
-        Mon, 14 Aug 2023 08:16:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1692026173; cv=none;
+Received: by 2002:a2e:a785:0:b0:2b9:35b5:8529 with SMTP id c5-20020a2ea785000000b002b935b58529ls364382ljf.1.-pod-prod-07-eu;
+ Mon, 14 Aug 2023 08:33:54 -0700 (PDT)
+X-Received: by 2002:a05:6512:70c:b0:4fa:ad2d:6c58 with SMTP id b12-20020a056512070c00b004faad2d6c58mr5595433lfs.61.1692027234077;
+        Mon, 14 Aug 2023 08:33:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1692027234; cv=none;
         d=google.com; s=arc-20160816;
-        b=HHiSOZbW9bg+8RPOXpH9XuC6FuWH2ooSDXwOifR/oUHLd9fWGHnOrrpbCK/qYPDRWR
-         mawot1OG4g/g89OnmVK8fvjFalME7j/kO8i6iC7Ny+S2wZwvrMb2IB/DAiQODHZtpSYk
-         Cn2vcMRZ3tgLzeDsKjU0RDLPjMSP5s39Gn4wpZNcpZlKX4zPyXxjHjxL8ldLzQBqOc3S
-         SaL9Sj/AKxXXtEcx393qW2VatKGNDN2nwukqBPsc9ATw06hL7JRyCY9yyMugsOiOWFzn
-         k0zowS/WVCJAGXQH523984wiO/sp22VYth5PnkyDGU3KvfJ6Bfz/Vguf14K0pkRmSejl
-         v6MQ==
+        b=zlhBamQL2PgTlKCesgmQYK01RGhxzwRSvMHS5//WBwxeJJxp/13cx4nAi0BU4AvkKF
+         FYnd0pzpNe02np+xgLxbe/HRdzZRTAZTyllU/Rk8BN/RXJmRIP5SYjPIFd1NEDe3rDEB
+         YLaWExOkRG1ygSDgeYezSIShlw5rCY/gK4Cg1wnjBOUJEZpnO/92kX/nzkbf6bZzVdyy
+         V9piFj14P/C4A1KNnhw5pMwVfN+Iib4aYeS655MwwnvEQiDqcdVq+7pKbvUI9rOJqYgX
+         bKcu64sSxehXZoTBVOW6wUSVSxaK6NnHHAd/3n6CGAkGPGAimCN3GT4z2sZgCCBmPL4K
+         +rvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=EW4Ch8A2iSc+Cjz4p0CqaXWCxLaA43Mv5OGHJCgj2xA=;
+        bh=PQUYAWAb1k9Z/YmXHKlOUY17GrFAyEmuzFZMJMKUnBY=;
         fh=am7PL/OkltPhRBlSqiRNdvZyQXhf053wUWF7t3kZnH8=;
-        b=02KBwT8LxgJJBo9d5MgV79Ppti7EASkRhvre1mrPKuW/L97oHfrB4h0bzP1aq02IpX
-         e2dBJAHks7jt99KN3b157vzHSQrhAdfZkGGda2euBmAY95SQd+Key1nzCM6vPHWITLZ0
-         yDeD22JUU6vCAQfzQdbYiP3ZMK4OecOj+qGSQql2T/+uJ34jdQoLMsn/0DMgM+NSbBxH
-         /WpL2gYZzvKQ3uSYgWB47TzdMFWOHujVOqUMHc5W9oUfQPZqHJM1mNhXHH8XZTn8LwlL
-         Db0Jv8oMBQDVa3G1x06Hp39QwEhvsP4NDEpvCUHR0LDxg7VtgpzmNNNXd/HHQD7XNlzF
-         sKPA==
+        b=w5vFgV6ja7325WFfic8PQNPsKVmkFofg8I/U5yReppM2X8FXVl6P3332QB/r3A5KBI
+         bOTTTVQOY0MahZ9tYHZqDO7cbMOWILLqe7Xeuc4pLJCjGjKqJpYxB1JSCtTkEC7f1paN
+         v0XVA8L+cCPWOTAeS2rQGbJpEXXHVCAHBm6IilSotOQ8BDcVmN5USFZqgNa4zVuDcqaK
+         ujmkB8X9BWLSgfFeK3VG8Gwld5TY4MjE1mVXVhHqcRHGAFBgvprw46x1PbT0xkCd40wj
+         lcm2N/McVEgPG+7POPMRiOIhebz0wrJtjTsmFVBalWEHixb6aRNwZWsrCKi8fBw/gI1s
+         T0Zw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.com header.s=susede1 header.b=ezgzhu83;
-       spf=pass (google.com: domain of pmladek@suse.com designates 195.135.220.28 as permitted sender) smtp.mailfrom=pmladek@suse.com;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=akFhWRIw;
+       spf=pass (google.com: domain of pmladek@suse.com designates 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=pmladek@suse.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.220.28])
-        by gmr-mx.google.com with ESMTPS id fk15-20020a05600c0ccf00b003fe0df12dfcsi962992wmb.2.2023.08.14.08.16.13
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2001:67c:2178:6::1d])
+        by gmr-mx.google.com with ESMTPS id n26-20020a05651203fa00b004ff76606e55si172464lfq.9.2023.08.14.08.33.53
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Aug 2023 08:16:13 -0700 (PDT)
-Received-SPF: pass (google.com: domain of pmladek@suse.com designates 195.135.220.28 as permitted sender) client-ip=195.135.220.28;
+        Mon, 14 Aug 2023 08:33:53 -0700 (PDT)
+Received-SPF: pass (google.com: domain of pmladek@suse.com designates 2001:67c:2178:6::1d as permitted sender) client-ip=2001:67c:2178:6::1d;
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 81B9321905;
-	Mon, 14 Aug 2023 15:16:13 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTP id 5B2311F45B;
+	Mon, 14 Aug 2023 15:33:53 +0000 (UTC)
 Received: from suse.cz (pmladek.udp.ovpn2.prg.suse.de [10.100.201.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by relay2.suse.de (Postfix) with ESMTPS id D31712C143;
-	Mon, 14 Aug 2023 15:16:12 +0000 (UTC)
-Date: Mon, 14 Aug 2023 17:16:11 +0200
+	by relay2.suse.de (Postfix) with ESMTPS id EE8C92C143;
+	Mon, 14 Aug 2023 15:33:52 +0000 (UTC)
+Date: Mon, 14 Aug 2023 17:33:49 +0200
 From: "'Petr Mladek' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Rasmus Villemoes <linux@rasmusvillemoes.dk>
 Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
@@ -118,26 +118,21 @@ Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Alexander Potapenko <glider@google.com>,
 	Dmitry Vyukov <dvyukov@google.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v2 2/3] lib/vsprintf: Split out sprintf() and friends
-Message-ID: <ZNpFO38u9zfPRHvf@alley>
+Subject: Re: [PATCH v2 1/3] lib/vsprintf: Sort headers alphabetically
+Message-ID: <ZNpJXapjZcYqJqFG@alley>
 References: <20230805175027.50029-1-andriy.shevchenko@linux.intel.com>
- <20230805175027.50029-3-andriy.shevchenko@linux.intel.com>
- <ZNEHt564a8RCLWon@alley>
- <ZNEJQkDV81KHsJq/@smile.fi.intel.com>
- <ZNEJm3Mv0QqIv43y@smile.fi.intel.com>
- <ZNEKNWJGnksCNJnZ@smile.fi.intel.com>
- <ZNHjrW8y_FXfA7N_@alley>
- <ZNI5f+5Akd0nwssv@smile.fi.intel.com>
- <ZNScla_5FXc28k32@alley>
- <67ddbcec-b96f-582c-a38c-259234c3f301@rasmusvillemoes.dk>
+ <20230805175027.50029-2-andriy.shevchenko@linux.intel.com>
+ <ZNEASXq6SNS5oIu1@alley>
+ <ZNEGrl2lzbbuelV7@smile.fi.intel.com>
+ <5eca0ab5-84be-2d8f-e0b3-c9fdfa961826@rasmusvillemoes.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <67ddbcec-b96f-582c-a38c-259234c3f301@rasmusvillemoes.dk>
+In-Reply-To: <5eca0ab5-84be-2d8f-e0b3-c9fdfa961826@rasmusvillemoes.dk>
 X-Original-Sender: pmladek@suse.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.com header.s=susede1 header.b=ezgzhu83;       spf=pass
- (google.com: domain of pmladek@suse.com designates 195.135.220.28 as
+ header.i=@suse.com header.s=susede1 header.b=akFhWRIw;       spf=pass
+ (google.com: domain of pmladek@suse.com designates 2001:67c:2178:6::1d as
  permitted sender) smtp.mailfrom=pmladek@suse.com;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
 X-Original-From: Petr Mladek <pmladek@suse.com>
@@ -154,124 +149,65 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu 2023-08-10 11:09:20, Rasmus Villemoes wrote:
-> On 10/08/2023 10.15, Petr Mladek wrote:
+On Mon 2023-08-07 21:47:17, Rasmus Villemoes wrote:
+> On 07/08/2023 16.58, Andy Shevchenko wrote:
+> > On Mon, Aug 07, 2023 at 04:31:37PM +0200, Petr Mladek wrote:
+> >> On Sat 2023-08-05 20:50:25, Andy Shevchenko wrote:
+> >>> Sorting headers alphabetically helps locating duplicates, and
+> >>> make it easier to figure out where to insert new headers.
+> >>
+> >> I agree that includes become a mess after some time. But I am
+> >> not persuaded that sorting them alphabetically in random source
+> >> files help anything.
+> >>
+> >> Is this part of some grand plan for the entire kernel, please?
+> >> Is this outcome from some particular discussion?
+> >> Will this become a well know rule checked by checkpatch.pl?
+> >>
+> >> I am personally not going to reject patches because of wrongly
+> >> sorted headers unless there is some real plan behind it.
+> >>
+> >> I agree that it might look better. An inverse Christmas' tree
+> >> also looks better. But it does not mean that it makes the life
+> >> easier.
+> > 
+> > It does from my point of view as maintainability is increased.
+> > 
+> >> The important things are still hidden in the details
+> >> (every single line).
+> >>
+> >> From my POV, this patch would just create a mess in the git
+> >> history and complicate backporting.
+> >>
+> >> I am sorry but I will not accept this patch unless there
+> >> is a wide consensus that this makes sense.
+> > 
+> > Your choice, of course, But I see in practice dup headers being
+> > added, or some unrelated ones left untouched because header list
+> > mess, and in those cases sorting can help (a bit) in my opinion.
 > 
-> > Everyone agrees that kernel.h should be removed. But there are always
-> > more possibilities where to move the definitions. For this, the use
-> > in C files must be considered. Otherwise, it is just a try&hope approach.
-> > 
-> >> Also, please, go through all of them and tell, how many of them are using
-> >> stuff from kernel.h besides sprintf.h and ARRAY_SIZE() (which I plan
-> >> for a long time to split from kernel.h)?
-> > 
-> > I am all for removing vsprintf declarations from linux.h.
-> > 
-> > I provided the above numbers to support the idea of moving them
-> > into printk.h.
-> > 
-> > The numbers show that the vsprintf function famility is used
-> > quite frequently. IMHO, creating an extra tiny include file
-> > will create more harm then good. By the harm I mean:
-> > 
-> >     + churn when updating 1/6 of source files
-> 
-> Well, we probably shouldn't do 5000 single-line patches to add that
-> sprintf.h include, and another 10000 to add an array-macros.h include
-> (just as an example). Some tooling and reasonable batching would
-> probably be required. Churn it will be, but how many thousands of
-> patches were done to make i2c drivers' probe methods lose a parameter
-> (first converting them all to .probe_new, then another round to again
-> assign to .probe when that prototype was changed). That's just the cost
-> of any tree-wide change in a tree our size.
+> I agree with Andy on this one. There doesn't need to be some grand
+> master plan to apply this to the entire kernel, but doing it to
+> individual files bit by bit does increase the maintainability. And I
+> really don't buy the backporting argument. Sure, backporting some patch
+> across the release that does the sorting is harder - but then,
+> backporting the sorting patch itself is entirely trivial (maybe not the
+> textual part, but redoing the semantics of it is). _However_,
+> backporting a patch from release z to release y, both of which being
+> later than the release x that did the sorting, is going to be _easier_.
+> It also reduces merge conflicts - that's also why lots of Makefiles are
+> kept sorted.
 
-OK.
+I am afraid that we will not find a consensus here. I agree that
+the sorting has some advantage.
 
-> >     + prolonging the list of #include lines in .c file. It will
-> >       not help with maintainability which was one of the motivation
-> >       in this patchset.
-> 
-> We really have to stop pretending it's ok to rely on header a.h
-> automatically pulling in b.h, if a .c file actually uses something
-> declared in b.h.
+But I would still like to get some wider agreement on this move
+from other subsystem. It is a good candidate for a mass change
+which would be part of some plan.
 
-Yes, we need to find some ballance.
-
-> >     + an extra work for people using vsprintf function family in
-> >       new .c files. People are used to get them for free,
-> >       together with printk().
-> 
-> This is flawed. Not every C source file does a printk, or uses anything
-> else from printk.h. E.g. a lot of drivers only do the dev_err() family,
-> some subsystems have their own wrappers, etc. So by moving the
-> declarations to printk.h you just replace the kernel.h with something
-> equally bad (essentially all existing headers are bad because they all
-> include each other recursively). Also, by not moving the declarations to
-> a separate header, you're ignoring the fact that your own numbers show
-> that 5/6 of the kernel's TUs would become _smaller_ by not having to
-> parse those declarations. And the 1/6 that do use sprintf() may become
-> smaller by thousands of lines once they can avoid kernel.h and all that
-> that includes recursively.
-
-OK, I did some grepping:
-
-## total number of .c files
-pmladek@alley:/prace/kernel/linux> find . -name *.c | wc -l
-32319
-
-# printk() usage:
-
-## .c files with printk() calls:
-$> git grep  "printk(\|pr_\(emerg\|alert\|crit\|err\|warn\|notice\|info\|cont\|debug\)(" | cut -d ":" -f 1 | uniq | grep "\.c$" | wc -l
-8966
-
-    => 28% .c files use printk() directly
-
-## .h files with printk() calls:
-$> git grep  "printk(\|pr_\(emerg\|alert\|crit\|err\|warn\|notice\|info\|cont\|debug\)(" | cut -d ":" -f 1 | uniq | grep "\.h$" | wc -l
-1006
-
-   => the number is probably much higher because it is also used
-      in 1000+ header files.
-
-
-# vprintf() usage:
-
-## .c files where printk() functions are use without vprintf() functions
-$> grep -f printf.list -v  printk.list | wc -l
-6725
-
-  => 21% .c files use vprintf() functions directly
-
-
-# unique usage:
-
-## .c files where vprintf() family functions are used directly
-$> git grep sc*n*printf | cut -d : -f1 | uniq | grep "\.c$" | wc -l
-5254
-
-  => 75% .c of files using printk() are not using vprintf()
-
-## .c files where vprintf() functions are use without printk() functions
-$> grep -f printk.list -v  printf.list | wc -l
-3045
-
-  => 45% .c of files using vprintf() are not using printk()
-
-
-My view:
-
-The overlap will likely be bigger because vprintk() family is often
-used directly in .c files but printk() is quite frequently used
-indirectly via .h files.
-
-But still, there seems to be non-trivial number of .c files which use
-vprintf() and not printk().
-
-=> The split might help after all.
-
-In each case, I do not want to discuss this to the death. And will
-not block this patch.
+I want to avoid reshuffling this more times according to personal
+preferences. And I do not want to add this cosmetic subsystem
+specific requirement.
 
 Best Regards,
 Petr
@@ -279,4 +215,4 @@ Petr
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZNpFO38u9zfPRHvf%40alley.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZNpJXapjZcYqJqFG%40alley.
