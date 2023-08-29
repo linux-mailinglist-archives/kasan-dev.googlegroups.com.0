@@ -1,49 +1,49 @@
 Return-Path: <kasan-dev+bncBAABBCWOXCTQMGQEA23KFUQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8745E78CA5D
+Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CEBE78CA5E
 	for <lists+kasan-dev@lfdr.de>; Tue, 29 Aug 2023 19:12:43 +0200 (CEST)
-Received: by mail-lj1-x23e.google.com with SMTP id 38308e7fff4ca-2b980182002sf71041fa.1
+Received: by mail-lf1-x137.google.com with SMTP id 2adb3069b0e04-500777449e5sf5227691e87.2
         for <lists+kasan-dev@lfdr.de>; Tue, 29 Aug 2023 10:12:43 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1693329163; cv=pass;
         d=google.com; s=arc-20160816;
-        b=RWp7s63aHBjUec/BUSC0+JYNm62+hnlTeIyY+YqPi3o13pJWZ6oG6PNd/TuMyNoO2x
-         JXM48rIVdOdGsj2O1jH26hZqatyfZ2U36braEkIny5OR55JIpRneJNGwOCZIH9ZecfBE
-         XUmfOVrtpJOAG273ZozjT8dWMZ2UbyG+j9mQizF8uIvara+rpzEwgvIAXMDTfZ/AHB0X
-         5YoD6amcA+EuDGOM9JxG9BOMRiR9LIdIXcEEisjE7mEmKpHA74XtK562pzXEx9g0tTqj
-         kYWeWi4homLe7CTJdqUlr9canB7iLH3AgIvnyr+pi8Ly8N1wgtktqBvjkW/Kmj9fjyLx
-         ldmQ==
+        b=lfpUriab4yWcbUxStnOS8j05UQk73CwEVB5C+ShnQpNWSbgKdPVKf/5SwD/1jGDt5p
+         kgnsWp5NTWjClwqycXLSbRZrUz5F8sImUcNTEX/2BFEwdKEGaBqIEd8CJXl/gdAxaY1I
+         SNWb4QrhsZJRyoyuGiHTRqjuQI5ITteV+qUkZL+p6fKER2Wtp8szsYmVxjH12BAeWkgb
+         vP9XLjIvO+SODeEafSEV9OtuZAZxB/sEE1EtJC7ks88LpEVpi5yQSOrk2ybue0xB3+6z
+         IqbI9+15NQi9W8OC7kf4ahp2ZJDMtLpFl7KDLha5gSgwMOIF2HW2HduylOidpzDhcH+t
+         7Csw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=T9kie2biMUy9sm3pmsIsZqbZnQVJNNl8F5yrkRWNl3w=;
-        fh=J1Qt2dYQZwHfoASHEf8Q1j6KnDtpzzpCUlDsDM7WT0M=;
-        b=T0eZNEPCYpPsNeoasrhTpMlTFe86vgpmEJ9MbkacfywUIgJSdPBZckr7YecVWA1hR2
-         UBmGkt9TGop1GmFQwHqSXj6OGjGOAsS2tyEb78X81NDLrhCiYa+KjOSWCG+Ct/KHMu6J
-         YWGPFnbD4T4AP1Uem6G5coihHkq+9LHuuw5POVd47LAaRYplMwnQC2xZjkj6GJ9Qzld/
-         BapX43X2GINHzCdVWG1RjZDjKWU100wNLT2VHXbnD9gEM0/LO7b14E+7/DTJw3GtStQ4
-         t7WACSGeMndeTBzf2Nw+VoXASaD2/JK37Vkocc8rMgQTyIKuwol+/OwjjA0eU1l0p295
-         i90w==
+        bh=3gt/uVibTCDujShygzDXgbbrCfCMGd16m12JImsZ+OU=;
+        fh=ZTTSst3850TI+4y2eqKpcuCmJhEtn1qZX9lpGyHR9Jg=;
+        b=PoqS0mBw7sN9r/WY5REpL6IvA2u5j+u2yLFkP8Gni4NHKDCVPzt8Ep+5zVoNFqbaRH
+         QcsMgXvcYnNG7jzz1BAma3+YmDMf5Of7GCUGH7KEYwQ+YWCt2Uq9BZrjcUlwrSAUaViW
+         6v1KlqGZE0MglZoe71jlK/PmWsni4ACYtagMMAJnV8ZpLDamyU2/uAfaXtLYyhxcD9+i
+         MCDL4567qeRs9cqgZbLVqvWyubelGyHRP73mOLDTg+RleWSw8oVfTv8xpjZmwLvftXqY
+         0EY7rXUR8q8BEy2W3xg4RmtemEYt9xqvFoms+4nYbmpTXr/HjpsAL5FDB/5It5VRYo8y
+         ycWQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=rTza+MTD;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.253 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=dEoDb6yz;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.244 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20221208; t=1693329163; x=1693933963; darn=lfdr.de;
+        d=googlegroups.com; s=20221208; t=1693329163; x=1693933963;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=T9kie2biMUy9sm3pmsIsZqbZnQVJNNl8F5yrkRWNl3w=;
-        b=XhgBuDj6tqu6TOzsKme+athgVVE3yeO7MYp7N/2u92lQOrxQ+Mcqzr5lhCZ7l7MMC7
-         Wy56/zCHEZuZMiYu+h84eBV1uplkqyoWQK0fzHewmeiEy8m2xVcMPPigenWnLQ1yxIag
-         DQFQSi1AMTL0EG0hBhSoQbNLGPG4ME0/zziKTkwdeZNmURx26SIRCb1/s07yzqd9o8Gr
-         mDlypsGUYv1zSdj4sP6P5GOFMCYfPx/4pctH9Jmi2L72QzYDHZNrJ7GjLxQ/DTIZ0pNq
-         nJnlkOfpvqBwsSerWxigL9oh9pMVLrS+2FcGndsl3wPJjQ7eQZl6Wnldp0rBSV95sFIe
-         Yn2A==
+        bh=3gt/uVibTCDujShygzDXgbbrCfCMGd16m12JImsZ+OU=;
+        b=TgQjbhvvaLWxHdFraUiRyxLR3jBCdJ1zq4kxLqaoCJxpNsV00sNbVdeDDWHiUXJpQZ
+         f8dYz7yXyGDoGqoUho/P+t85SIxzJmYhcuasCDck9XF810PKXe5LNJzV00DWGRLjHcIO
+         O3mNCnGDJgt7DL0DI+QQO1yiPiRV6PB8qvbCqCS3frB1HUqs3Z7oWSiMf5UQby0gcMqE
+         D1q62pHdGf6EGLSrh5W4ntqWY5OoyYIdGKpq5Xh9HwdTEEBVJALWXMFF9Nb/UBRvnn3l
+         O94x59wefn7TUF4TsSoqvTVluOzvGRw0kY4mvdz7MWNvdbLHnFctWQgguShJC6TsvgE8
+         LvJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20221208; t=1693329163; x=1693933963;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -52,53 +52,53 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=T9kie2biMUy9sm3pmsIsZqbZnQVJNNl8F5yrkRWNl3w=;
-        b=UEm+7+ObTjnvPwlaxlqoL1gr++zIvAtUgZg9MTIxD0HFrtE924Ixlmyv0uL/H0IwTU
-         ooyZ/8EBa5dEuu9eIibghhsgISAnE47dWhIrGDDbMfKb8Xesm2Mu0eBUhtVSNddXmkwy
-         ZkQTzMlqdzYFkq5MLDjd/CziK/O8eFJIcU/DEYsoxvJC4Ld9PtEbZ7zndKo95RRvwbR/
-         LIHzuEpA9v/nAXWnU1OjI2S49jz7gI9V13M1GtoInGs8WyMliy4myvqNrNzZ9zHNop3w
-         QI3nFls9NSBRyKQp/f12MCWQq+Op8j890G/QwI59YAT4ju2U2UF/6ceD5XkQXH94ST9m
-         yOqA==
+        bh=3gt/uVibTCDujShygzDXgbbrCfCMGd16m12JImsZ+OU=;
+        b=WT+dW/Yhbtem057RkXr1KCQpaANUlWjm8djdQFMmb3uIdRZEce7oiWBZo6sKttGzX8
+         0sAZp9XSDYitE2XJDaGVeK6oHpDvyuwCNL70D0PFKRddlkD8F69zPtTg1JMdA8ObCS5Q
+         bbV7keYEl9dE/nb2+X7P+4Z1HJjkjdTCUwdgaYC5GadTeSDbhIaCq0ML8fQhUKbzqNer
+         XbgyEV8As2rC9JvpAsWFcQDfnjRlN/4CCwiXM6KoNWFLWujasuHhszIKgyjEMsJvrBmK
+         spyeBD3RgSvumEvKjWl+E6mqo6OkXLguFDi98azCx7dCAeG/m1Hloe+c7X+dStVqxtz0
+         HLjg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yz4FziKGqtt8FXk5o0bXmZ2IbCpeRHuSfT1t5/nVjwXVe7S7PgA
-	qxXprWCsQpT0cWC6576wcYE=
-X-Google-Smtp-Source: AGHT+IFzlH/J9Mzb+i3uBurNxPvpoBI7Sybyus1B1lCyohQybRnDYT2BouxDbJF6iyuoLImyK4NK3w==
-X-Received: by 2002:a2e:b559:0:b0:2b9:b1fb:5ff4 with SMTP id a25-20020a2eb559000000b002b9b1fb5ff4mr1187418ljn.21.1693329162337;
+X-Gm-Message-State: AOJu0YzAVAWHJBQE2caYsHJunmBlAqQtxSLMCdlER47vwIvfDjTd9RZ9
+	lE4zsMMRFZwyNrQFVWOktAQ=
+X-Google-Smtp-Source: AGHT+IEHAAe24eMyGiAaSdUwq1skfxt8L9nXxzux52zbCyOXC4SiZviHLRQ/ofVsoFeuQzP5VnG8uA==
+X-Received: by 2002:a05:6512:2354:b0:4ff:a8c6:d1aa with SMTP id p20-20020a056512235400b004ffa8c6d1aamr22026789lfu.48.1693329162703;
         Tue, 29 Aug 2023 10:12:42 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:8e2d:0:b0:2bd:2240:b1c9 with SMTP id r13-20020a2e8e2d000000b002bd2240b1c9ls6884ljk.2.-pod-prod-00-eu;
+Received: by 2002:a19:2d0a:0:b0:4ff:80d4:e131 with SMTP id k10-20020a192d0a000000b004ff80d4e131ls1298148lfj.1.-pod-prod-09-eu;
  Tue, 29 Aug 2023 10:12:41 -0700 (PDT)
-X-Received: by 2002:a05:6512:3c86:b0:4fe:13c9:2071 with SMTP id h6-20020a0565123c8600b004fe13c92071mr1418334lfv.2.1693329160864;
-        Tue, 29 Aug 2023 10:12:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1693329160; cv=none;
+X-Received: by 2002:a05:6512:1587:b0:4fd:d470:203b with SMTP id bp7-20020a056512158700b004fdd470203bmr24177693lfb.69.1693329161261;
+        Tue, 29 Aug 2023 10:12:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1693329161; cv=none;
         d=google.com; s=arc-20160816;
-        b=f80Z8Xbl3HHENTLDgKZaEzgLHagG5JnFlyaZWimPsIy2MRHNroyiG3aqZAzbRzbHG7
-         aN4oOs+7A703xSv6H8uZyGAuOCyUTKEO7+kYaKHWjmNioVHxidw2f1VVCPwNYmlpeGxu
-         defZNRBiKRQaUl/iS86faRtm3qfM3WLabhNwS315VhlEX8qdbr5IpcFocMCAJNXKO2i+
-         QOy2b4JxHD1RrI2fXTlSmyMnraEgQLebAS/iiWsW1RDHkGqYMn6aHMclSB14S7C2HC4p
-         +hCLDXGRvKqh/Dp7f5ENnJPlLbcOlCrmY6U70SAU8gXhmP1jJOaiDh9s/ZnWc5lRZIAO
-         0ftw==
+        b=obXKc0QdpryhDWZyZCc7Hyu4ajsMqiKk2OSdmbOvvo2SI1Vp6NCmidcWQmYMN11m7z
+         /5kTD+Di/8BloXhXgG6Izx0Zas+x750NxmKx5LYItKMGRz25BnTrVf7c3bQHMUlIy7e4
+         ZBKorNwn37gvJA019eGhlNIB5uIZ6Y4dDBNssPFeZzHfVKbzaqgBP1Piv5aS2+RgkMlV
+         dwcwAdG4ceuJf8ivTBhasKCI92cdgBmQ4+y6RnGRIqf7bKhTk7nveXzD8vsETnXRsZFD
+         Pmh+UhDdDi5UE/XY0GWJQ3zgLAUQxEZoxYHe4ITDs8aiOPog7NN281XMKQ0KW5wja8Zs
+         mZJg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=TBLA9eVhfpPnUCaW6dvoHE+HvIWz4FYhXI+BxxI+EVo=;
+        bh=Z7PnYrb1S+8x+6HixwHlp8BbvsuCogeXMw7DcmkZ+jU=;
         fh=J1Qt2dYQZwHfoASHEf8Q1j6KnDtpzzpCUlDsDM7WT0M=;
-        b=k9RQ2tRgw6c1akik2skmGveK/g2bkCNQNy0uVXrohxaBdFg/ZI63z7RXXCrHiVg+i7
-         M5gqtggTVSjrG+mAGIas+cKipPnNvS21zUwEPwueZ8bUdxtBh4nfDYxC1LkAlyplNd1Q
-         dwoZ3I+rXIn7TI2rP/gqSZme1TuOQfsjzJ0ipBScOLfEVUVHUQiU6SB0WjXj7wzfm+qa
-         MeNs2LdYpkbwdNd1ueQsSAK1HbfeIETs7KqXl9s0oLUY+Bv6KEynFUbFgIP8eKn2/kAZ
-         aEK9WWrLWzbJsTSrSFbVBAJkqAzSlx2cApSWWA32B+eZWAQDI3i2fR7nV6xFgMjZmLLW
-         UbSg==
+        b=OSgVI6bOlIe/zrIpnnOwYE7U0OjHxT5vz2R27bLyM4XdL3H8wgbLhQ7t0818rCB+pk
+         vANp4vtu51QWHHHef5EASuB5gjrMIdQPNH1rDYrLLfozoaxOnN1s8of9LH+rdURC/+XH
+         Yl+sFaEZMmyRasclvQxuqfWi0+2eoWhereF9uSm008ss1+jfOXL+uH0Vkp+gHjAnmDbF
+         gv5dI0Tfg/tGHjBAvFeTtkwLp4iBJCv/Mp16OQOWHgCtRJjqRXJOk96e4sURObJBlzEF
+         fYxU3gqY3Ng8av3FV0B9SHndLtWdlTZOyhkkYNW24mQurjlrNrxeAnDkScyFaFXNKgKl
+         vlpw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=rTza+MTD;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.253 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=dEoDb6yz;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.244 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-253.mta1.migadu.com (out-253.mta1.migadu.com. [95.215.58.253])
-        by gmr-mx.google.com with ESMTPS id o23-20020ac24e97000000b004fe3719e054si642316lfr.12.2023.08.29.10.12.40
+Received: from out-244.mta1.migadu.com (out-244.mta1.migadu.com. [95.215.58.244])
+        by gmr-mx.google.com with ESMTPS id a28-20020ac25e7c000000b005009dc902ffsi723043lfr.4.2023.08.29.10.12.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Aug 2023 10:12:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.253 as permitted sender) client-ip=95.215.58.253;
+        Tue, 29 Aug 2023 10:12:41 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.244 as permitted sender) client-ip=95.215.58.244;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
 To: Marco Elver <elver@google.com>,
@@ -112,17 +112,17 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH 07/15] stackdepot: rework helpers for depot_alloc_stack
-Date: Tue, 29 Aug 2023 19:11:17 +0200
-Message-Id: <a8e6add5dae996633a45a1ae7291a26e31118dfb.1693328501.git.andreyknvl@google.com>
+Subject: [PATCH 08/15] stackdepot: rename next_pool_required to new_pool_required
+Date: Tue, 29 Aug 2023 19:11:18 +0200
+Message-Id: <f5dad29285c8aa7b4a1a3f809e554e7d28a87b6c.1693328501.git.andreyknvl@google.com>
 In-Reply-To: <cover.1693328501.git.andreyknvl@google.com>
 References: <cover.1693328501.git.andreyknvl@google.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=rTza+MTD;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.253 as
+ header.i=@linux.dev header.s=key1 header.b=dEoDb6yz;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.244 as
  permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
@@ -140,177 +140,151 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-Split code in depot_alloc_stack and depot_init_pool into 3 functions:
+Rename next_pool_required to new_pool_required.
 
-1. depot_keep_next_pool that keeps preallocated memory for the next pool
-   if required.
-
-2. depot_update_pools that moves on to the next pool if there's no space
-   left in the current pool, uses preallocated memory for the new current
-   pool if required, and calls depot_keep_next_pool otherwise.
-
-3. depot_alloc_stack that calls depot_update_pools and then allocates
-   a stack record as before.
-
-This makes it somewhat easier to follow the logic of depot_alloc_stack
-and also serves as a preparation for implementing the eviction of stack
-records from the stack depot.
+This a purely code readability change: the following patch will change
+stack depot to store the pointer to the new pool in a separate variable,
+and "new" seems like a more logical name.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- lib/stackdepot.c | 85 +++++++++++++++++++++++++++---------------------
- 1 file changed, 48 insertions(+), 37 deletions(-)
+ lib/stackdepot.c | 47 +++++++++++++++++++++++------------------------
+ 1 file changed, 23 insertions(+), 24 deletions(-)
 
 diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-index 9ae71e1ef1a7..869d520bc690 100644
+index 869d520bc690..11934ea3b1c2 100644
 --- a/lib/stackdepot.c
 +++ b/lib/stackdepot.c
-@@ -220,11 +220,11 @@ int stack_depot_init(void)
+@@ -94,12 +94,11 @@ static size_t pool_offset;
+ static DEFINE_RAW_SPINLOCK(pool_lock);
+ /*
+  * Stack depot tries to keep an extra pool allocated even before it runs out
+- * of space in the currently used pool.
+- * This flag marks that this next extra pool needs to be allocated and
+- * initialized. It has the value 0 when either the next pool is not yet
+- * initialized or the limit on the number of pools is reached.
++ * of space in the currently used pool. This flag marks whether this extra pool
++ * needs to be allocated. It has the value 0 when either an extra pool is not
++ * yet allocated or if the limit on the number of pools is reached.
+  */
+-static int next_pool_required = 1;
++static int new_pool_required = 1;
+ 
+ static int __init disable_stack_depot(char *str)
+ {
+@@ -220,20 +219,20 @@ int stack_depot_init(void)
  }
  EXPORT_SYMBOL_GPL(stack_depot_init);
  
--/* Uses preallocated memory to initialize a new stack depot pool. */
--static void depot_init_pool(void **prealloc)
-+/* Keeps the preallocated memory to be used for the next stack depot pool. */
-+static void depot_keep_next_pool(void **prealloc)
+-/* Keeps the preallocated memory to be used for the next stack depot pool. */
+-static void depot_keep_next_pool(void **prealloc)
++/* Keeps the preallocated memory to be used for a new stack depot pool. */
++static void depot_keep_new_pool(void **prealloc)
  {
  	/*
--	 * If the next pool is already initialized or the maximum number of
-+	 * If the next pool is already saved or the maximum number of
+-	 * If the next pool is already saved or the maximum number of
++	 * If a new pool is already saved or the maximum number of
  	 * pools is reached, do not use the preallocated memory.
  	 * READ_ONCE is only used to mark the variable as atomic,
  	 * there are no concurrent writes.
-@@ -232,44 +232,33 @@ static void depot_init_pool(void **prealloc)
- 	if (!READ_ONCE(next_pool_required))
+ 	 */
+-	if (!READ_ONCE(next_pool_required))
++	if (!READ_ONCE(new_pool_required))
  		return;
  
--	/* Check if the current pool is not yet allocated. */
--	if (stack_pools[pool_index] == NULL) {
--		/* Use the preallocated memory for the current pool. */
--		stack_pools[pool_index] = *prealloc;
-+	/*
-+	 * Use the preallocated memory for the next pool
-+	 * as long as we do not exceed the maximum number of pools.
-+	 */
-+	if (pool_index + 1 < DEPOT_MAX_POOLS) {
-+		stack_pools[pool_index + 1] = *prealloc;
- 		*prealloc = NULL;
--	} else {
--		/*
--		 * Otherwise, use the preallocated memory for the next pool
--		 * as long as we do not exceed the maximum number of pools.
--		 */
--		if (pool_index + 1 < DEPOT_MAX_POOLS) {
--			stack_pools[pool_index + 1] = *prealloc;
--			*prealloc = NULL;
--		}
--		/*
--		 * At this point, either the next pool is initialized or the
--		 * maximum number of pools is reached. In either case, take
--		 * note that initializing another pool is not required.
--		 * smp_store_release pairs with smp_load_acquire in
--		 * stack_depot_save.
--		 */
--		smp_store_release(&next_pool_required, 0);
+ 	/*
+-	 * Use the preallocated memory for the next pool
++	 * Use the preallocated memory for the new pool
+ 	 * as long as we do not exceed the maximum number of pools.
+ 	 */
+ 	if (pool_index + 1 < DEPOT_MAX_POOLS) {
+@@ -242,12 +241,12 @@ static void depot_keep_next_pool(void **prealloc)
  	}
-+
-+	/*
-+	 * At this point, either the next pool is kept or the maximum
-+	 * number of pools is reached. In either case, take note that
-+	 * keeping another pool is not required.
-+	 * smp_store_release pairs with smp_load_acquire in stack_depot_save.
-+	 */
-+	smp_store_release(&next_pool_required, 0);
+ 
+ 	/*
+-	 * At this point, either the next pool is kept or the maximum
++	 * At this point, either a new pool is kept or the maximum
+ 	 * number of pools is reached. In either case, take note that
+ 	 * keeping another pool is not required.
+ 	 * smp_store_release pairs with smp_load_acquire in stack_depot_save.
+ 	 */
+-	smp_store_release(&next_pool_required, 0);
++	smp_store_release(&new_pool_required, 0);
  }
  
--/* Allocates a new stack in a stack depot pool. */
--static struct stack_record *
--depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
-+/* Updates refences to the current and the next stack depot pools. */
-+static bool depot_update_pools(size_t required_size, void **prealloc)
- {
--	struct stack_record *stack;
--	size_t required_size = DEPOT_STACK_RECORD_SIZE;
--
- 	/* Check if there is not enough space in the current pool. */
- 	if (unlikely(pool_offset + required_size > DEPOT_POOL_SIZE)) {
- 		/* Bail out if we reached the pool limit. */
- 		if (unlikely(pool_index + 1 >= DEPOT_MAX_POOLS)) {
- 			WARN_ONCE(1, "Stack depot reached limit capacity");
--			return NULL;
-+			return false;
+ /* Updates refences to the current and the next stack depot pools. */
+@@ -262,7 +261,7 @@ static bool depot_update_pools(size_t required_size, void **prealloc)
  		}
  
  		/*
-@@ -279,9 +268,10 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
+-		 * Move on to the next pool.
++		 * Move on to the new pool.
+ 		 * WRITE_ONCE pairs with potential concurrent read in
+ 		 * stack_depot_fetch.
  		 */
- 		WRITE_ONCE(pool_index, pool_index + 1);
- 		pool_offset = 0;
-+
+@@ -271,12 +270,12 @@ static bool depot_update_pools(size_t required_size, void **prealloc)
+ 
  		/*
  		 * If the maximum number of pools is not reached, take note
--		 * that the next pool needs to initialized.
-+		 * that the next pool needs to be initialized.
+-		 * that the next pool needs to be initialized.
++		 * that yet another new pool needs to be allocated.
  		 * smp_store_release pairs with smp_load_acquire in
  		 * stack_depot_save.
  		 */
-@@ -289,9 +279,30 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
- 			smp_store_release(&next_pool_required, 1);
+ 		if (pool_index + 1 < DEPOT_MAX_POOLS)
+-			smp_store_release(&next_pool_required, 1);
++			smp_store_release(&new_pool_required, 1);
  	}
  
--	/* Assign the preallocated memory to a pool if required. */
-+	/* Check if the current pool is not yet allocated. */
-+	if (*prealloc && stack_pools[pool_index] == NULL) {
-+		/* Use the preallocated memory for the current pool. */
-+		stack_pools[pool_index] = *prealloc;
-+		*prealloc = NULL;
-+		return true;
-+	}
-+
-+	/* Otherwise, try using the preallocated memory for the next pool. */
- 	if (*prealloc)
--		depot_init_pool(prealloc);
-+		depot_keep_next_pool(prealloc);
-+	return true;
-+}
-+
-+/* Allocates a new stack in a stack depot pool. */
-+static struct stack_record *
-+depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
-+{
-+	struct stack_record *stack;
-+	size_t required_size = DEPOT_STACK_RECORD_SIZE;
-+
-+	/* Update current and next pools if required and possible. */
-+	if (!depot_update_pools(required_size, prealloc))
-+		return NULL;
+ 	/* Check if the current pool is not yet allocated. */
+@@ -287,9 +286,9 @@ static bool depot_update_pools(size_t required_size, void **prealloc)
+ 		return true;
+ 	}
  
- 	/* Check if we have a pool to save the stack trace. */
- 	if (stack_pools[pool_index] == NULL)
-@@ -325,7 +336,7 @@ static struct stack_record *depot_fetch_stack(depot_stack_handle_t handle)
- 	union handle_parts parts = { .handle = handle };
+-	/* Otherwise, try using the preallocated memory for the next pool. */
++	/* Otherwise, try using the preallocated memory for a new pool. */
+ 	if (*prealloc)
+-		depot_keep_next_pool(prealloc);
++		depot_keep_new_pool(prealloc);
+ 	return true;
+ }
+ 
+@@ -300,7 +299,7 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
+ 	struct stack_record *stack;
+ 	size_t required_size = DEPOT_STACK_RECORD_SIZE;
+ 
+-	/* Update current and next pools if required and possible. */
++	/* Update current and new pools if required and possible. */
+ 	if (!depot_update_pools(required_size, prealloc))
+ 		return NULL;
+ 
+@@ -432,13 +431,13 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
+ 		goto exit;
+ 
  	/*
- 	 * READ_ONCE pairs with potential concurrent write in
--	 * depot_alloc_stack.
-+	 * depot_update_pools.
- 	 */
- 	int pool_index_cached = READ_ONCE(pool_index);
- 	void *pool;
-@@ -425,7 +436,7 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
- 	 * the memory now - we won't be able to do that under the lock.
+-	 * Check if another stack pool needs to be initialized. If so, allocate
+-	 * the memory now - we won't be able to do that under the lock.
++	 * Check if another stack pool needs to be allocated. If so, allocate
++	 * the memory now: we won't be able to do that under the lock.
  	 *
  	 * smp_load_acquire pairs with smp_store_release
--	 * in depot_alloc_stack and depot_init_pool.
-+	 * in depot_update_pools and depot_keep_next_pool.
+-	 * in depot_update_pools and depot_keep_next_pool.
++	 * in depot_update_pools and depot_keep_new_pool.
  	 */
- 	if (unlikely(can_alloc && smp_load_acquire(&next_pool_required))) {
+-	if (unlikely(can_alloc && smp_load_acquire(&next_pool_required))) {
++	if (unlikely(can_alloc && smp_load_acquire(&new_pool_required))) {
  		/*
-@@ -462,7 +473,7 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
+ 		 * Zero out zone modifiers, as we don't have specific zone
+ 		 * requirements. Keep the flags related to allocation in atomic
+@@ -471,9 +470,9 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
+ 	} else if (prealloc) {
+ 		/*
  		 * Stack depot already contains this stack trace, but let's
- 		 * keep the preallocated memory for the future.
+-		 * keep the preallocated memory for the future.
++		 * keep the preallocated memory for future.
  		 */
--		depot_init_pool(&prealloc);
-+		depot_keep_next_pool(&prealloc);
+-		depot_keep_next_pool(&prealloc);
++		depot_keep_new_pool(&prealloc);
  	}
  
  	raw_spin_unlock_irqrestore(&pool_lock, flags);
@@ -320,4 +294,4 @@ index 9ae71e1ef1a7..869d520bc690 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/a8e6add5dae996633a45a1ae7291a26e31118dfb.1693328501.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/f5dad29285c8aa7b4a1a3f809e554e7d28a87b6c.1693328501.git.andreyknvl%40google.com.
