@@ -1,133 +1,146 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRBLHGXOTQMGQEHFBNQ2Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDWLZXP6ZEPRBZPHXOTQMGQEGZGSPPA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63f.google.com (mail-pl1-x63f.google.com [IPv6:2607:f8b0:4864:20::63f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617E678D3B1
-	for <lists+kasan-dev@lfdr.de>; Wed, 30 Aug 2023 09:43:42 +0200 (CEST)
-Received: by mail-pl1-x63f.google.com with SMTP id d9443c01a7336-1bf24089e4esf68374025ad.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 30 Aug 2023 00:43:42 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1693381421; cv=pass;
+Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB0178D3B6
+	for <lists+kasan-dev@lfdr.de>; Wed, 30 Aug 2023 09:46:47 +0200 (CEST)
+Received: by mail-qt1-x840.google.com with SMTP id d75a77b69052e-40ff56e1c97sf196741cf.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 30 Aug 2023 00:46:47 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1693381605; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Qp1kuwUcCDgPXEA9gQi0ae7T2wN4LuFHhiyXslRU7Nxpy2fWU6trsOlZbJ6sbWbTNd
-         jnN+aIlKoYrhWiLF1PNr4lbA+LLTHLpnUcgg6kr+A7SPs7XstOSOqg5YZu6as8jrauMN
-         hH5fOrP9X9T4azUXgYyXwczq3u/S1hC1DOTfL0VWYYQjSPTnlgrKt9UMZrvCXQDk9s+w
-         Re5OPtjfEvbQU7+SL2tZCzUUyjrIpHCwvsH4n+41yLWxd6Sa0pcRpKSq71UaE6077a90
-         /RWGP70HtHj7H7WvZxWcZhoGTCzD3jTg3ryTrY0Svjz//mBZhLYFDokLuGvk5YOkJk+1
-         TWLg==
+        b=hjAzQa4mEmLoLxp2FqmM6hlfU6XZLGtLuxcXCyjmMXXOcyS0NFbmqIbQnz/p8W0wTL
+         SCdckctgmsLvkNlbPTnm1l6QtHDYYtDMc3d6ahLXHRPptvAJyi6QPl+e4ceuU0K81kv7
+         /aWG/aqcr1MuB3xDSWMVgIYWpdb3iPnZf2zUmf/3jeKhecy3tspAQsaQ1ExLdGMhjgb2
+         T1ezha8kRkwH3maRtzDJcnLH5fo9QW8fEGoi1Rj2vZF7YkPslGRJUUJ2oQg0hgyzDRkz
+         w91T/yHrS8F2qr0PPTDOjrI9szt8+IwYAkhjf/yGN1ftGrrOGlvHMSzgT27/HbGrIiBt
+         0eHQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=FzPKoaG1k/yQyqO8wL+N8Uh1mCWpEywVwscbyOHmIoA=;
-        fh=2tgrBxnVwcLXHayTK7pIfhTdPsNvlLazimpmxCZaT7I=;
-        b=qJgS2gCz25xEfrxRXu+EwqiDai47tuQG1x2vRBnXbfJDLABGBGszW7NJ9FpKfm8S4J
-         nooLvTnfq2DDR7VlbZmXMBPqUn2Cm3HsKTUmKJ4rll5ek9nMtUXdc9AVXxEABuaNZPkH
-         nAzP7+xZnPUgp+nSZEbAN+FgQchB5ypK7OHavVlunV8oqcq42lj7Wi0QGgHYGrr5O5M6
-         6BpuhsQa4ESB9kGIjEOJl/kkB99z/J8WysDAbFtW+MIm8QERQyNRCNwHqXjvmRG03lTo
-         7bLgMvg6KGzoVAAGko5ONzzfnOIZWWuO7drmUcSLWz5e8K3Lb7uGGLcdQm/56t8G2aua
-         rVnw==
+         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=VGx9zFbNX0+ZxXypSjxNLKSiP7RzZc2qIyWg8kB5EJI=;
+        fh=hmTGvR8BoVXMJ8Viw/SSMi/sPWuQ4lRaxdihYWJuTs4=;
+        b=Sa9Cs6gkwos480Wg/+vhs0bBG6N7EWn9j6Loli9k+JCY1S9iuOtgbp4Hv1imqRVIC5
+         goTAm3vm311wAU1F6A06YMRInyKp2OWtwRzig+UJcOhQBswTCsiTaGDf4lcxslJOTgdy
+         2cpOBOqaBvRj6BSpsUqSkj0G5ga/0iAul8MMaA9XN3Yhu3nzidTtPCzSteyW0dP/0C9S
+         xdg9xiGwQWc3mDDpYVnI92RGPbU4HAm9KQiLZ0Co3Q7CZfxW2PYGHFAHwIFfz6fnMZbd
+         j9Hg/rR/uWx66Us6OOFTHRbM4AtUiTUD0SuhEdll43lNLkuyV7TzeHTIN54Xsznuq90r
+         DxoQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=1Una8lVg;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::d36 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=RGKsMd13;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1c as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1693381421; x=1693986221; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1693381605; x=1693986405; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FzPKoaG1k/yQyqO8wL+N8Uh1mCWpEywVwscbyOHmIoA=;
-        b=D4MFXJbNQ1EFbszMqMJwy5TieEIG4aGuUcK8bu2QHA5a0bF8KaFwaT+y1WignT2uch
-         1dk4rZmf12NC1c3FsJZRXxRbVgYjRXtN3SwtqEwk1BUPHAmyOJnrZQrf2XEno8tLxpZA
-         MW5vhxzcY2PJs2spjqvObRheIkES9VD6dpclEv45MvWokGf2/Jwljw0s7Y1M38FoREke
-         FqJEbjOOcET730Mk4a59TcC0ToAlDZtJb08FdP0bc+bPVonw68Tm9bg/ElkPykv5flAJ
-         yhK/zdPeQbwXXZIdnXf0Eo4u1UAOxeCwCO6it/5j7R74nUVd1q23XO1wlqVu2/kCw1uU
-         UuGw==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=VGx9zFbNX0+ZxXypSjxNLKSiP7RzZc2qIyWg8kB5EJI=;
+        b=ICvlLmVV1NKcu/dfE0d1W6eLwlJqp1moigSo+00xRDl9lnlIbXheZ3+hEZoW7AhU1Y
+         D+vtfzsfiFrTl+/diICPgNFzdUu6iz7GUw6YmRejVpJ3v/dKsGYLjShn0gBH8YVy3hg1
+         aVD3EiUrztbCqkJwsYooDp5Ldx6r20b7tLpexo62fWZjNBcsujIDt7gZ6o5JZ0XHMMv7
+         bU2Mu4NvKvud34ZF8oO0sw6MCJWK7OLwwT3Ey8Hi8qhN5XPq3a2OAlNuE2la08dhn46s
+         5lVPRFNP1S5AUMZEouU6n814hhq0BPrbHtB7jRwiqz2iq9K/Nh4f89HpLytU5RwgIKk4
+         AKtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693381421; x=1693986221;
+        d=1e100.net; s=20221208; t=1693381605; x=1693986405;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=FzPKoaG1k/yQyqO8wL+N8Uh1mCWpEywVwscbyOHmIoA=;
-        b=U2EwMsgsyaaIexyQksGjqzsH0TaK22C1qdX1DBrdceeJ0cI1Gzka5NylCfh5BLyc1w
-         eMNnEnRPbjPl4VRgR5DBaHZOdXBUDfO5CWA0lPGQ+dV5tEaEHMxv4coUcjdYSNoG0eJI
-         /ZPpgliRndOwixYAVxHfFzK9mII8bkfUD1KOEeHA0st/y3B6KBp9XTKPhUu9CXzuH2T3
-         BOK0TM/Si80K0bYRZD2gNA3iX34ARL2sEgXMB5ax5DsQOxmKbpbOZMgJKHhzYh/sd86W
-         9jzIC1sGLeMP24bQVubLApnRTjfEdikMWp+1CaEgQS7fy2xD1XaC7Lx2+EWcL2RY50cU
-         BdbA==
-X-Gm-Message-State: AOJu0YydlTgJ3YHkX//fGLR4yW2P1AVB1FusY5deoco1W1YoQ0ga2ijL
-	nThWPuioHLApMINimD66IvM=
-X-Google-Smtp-Source: AGHT+IGxbxNGFUTAf0KhWX3k2ImN2zVrtFPeUCxqCTEpwnfx3DNoM/TeqRNzaYRays8JAp/fUhEYfw==
-X-Received: by 2002:a17:902:ee82:b0:1b0:f8:9b2d with SMTP id a2-20020a170902ee8200b001b000f89b2dmr1370291pld.29.1693381420459;
-        Wed, 30 Aug 2023 00:43:40 -0700 (PDT)
+        bh=VGx9zFbNX0+ZxXypSjxNLKSiP7RzZc2qIyWg8kB5EJI=;
+        b=XaZAGaLe/IYg+2a2IZl2SVb5RMxKneQoZSIRuI+iy1yymtm9DVgVKhPVGb7hnXq1Uz
+         TA14E66u2sTTzpO3CllydWo6GKqnGsZ2c6uWnLnVzFRM/N+E3QSxB32naxxdrnFP/p72
+         Ow1DIhhCu8rh6NBzX1m6c7HFzv94lBwbT5AEE6ZTo20/eD56jt0jbghA6+078994FZlP
+         XXZu7OwoupWM/4UiwwMXyUDjtMQdOmqQ921UrHNoO8eXMz2NDUgCWhy409MjxLmJJXnK
+         hYazOaHq5OO1w21eJ+i20sFuS1z0Z8yF8gIh4qCXsZ91YRzFlaDM2+culpLFKLi5LM7v
+         4ZPg==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOJu0Ywm+il0/QEA0vnHngEc/4A5Z2JZAytXwqA2UEoSAjUDbf2tQ1iD
+	Pb/IqNwTmPxbKTxyI/0ul6Q=
+X-Google-Smtp-Source: AGHT+IEwlx6rABr7Q4k6aFr96MvQ7ACa0B0waw1hzuK9uhwU5JR1+lALDzoToiEA3ugP8Zq+BrR2uA==
+X-Received: by 2002:ac8:7d56:0:b0:403:eeb9:a76 with SMTP id h22-20020ac87d56000000b00403eeb90a76mr441615qtb.17.1693381605522;
+        Wed, 30 Aug 2023 00:46:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:a3cd:b0:1bf:60f8:e298 with SMTP id
- q13-20020a170902a3cd00b001bf60f8e298ls3682741plb.1.-pod-prod-06-us; Wed, 30
- Aug 2023 00:43:39 -0700 (PDT)
-X-Received: by 2002:a17:902:6b4a:b0:1c0:b8fd:9c6 with SMTP id g10-20020a1709026b4a00b001c0b8fd09c6mr1234198plt.42.1693381419384;
-        Wed, 30 Aug 2023 00:43:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1693381419; cv=none;
+Received: by 2002:a25:e7c9:0:b0:d7a:e0a5:9256 with SMTP id e192-20020a25e7c9000000b00d7ae0a59256ls4257624ybh.2.-pod-prod-03-us;
+ Wed, 30 Aug 2023 00:46:44 -0700 (PDT)
+X-Received: by 2002:a25:cf42:0:b0:cfe:8cbf:5d28 with SMTP id f63-20020a25cf42000000b00cfe8cbf5d28mr1527069ybg.31.1693381604417;
+        Wed, 30 Aug 2023 00:46:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1693381604; cv=none;
         d=google.com; s=arc-20160816;
-        b=tXoOUimgn0CEHBcKk5lcyrpiaG70tPZTt0ZJm27tyLIwKJVWQAUeEinfYWUd8VjZyS
-         JdGYD70UY9DvMEqyhqMPZS3Z1seDbmZNOm2E4wB+smqfq4h6OHHzk/PBdiRuDoVfF9E+
-         UZoT94BPhqwBbpGeTm/Vx7NIqEOMtvA8LIn1gPsHw0SuucC+JYvTpAeZFcbAZkmGLtWj
-         UkkpHVgLp/KwKsrK2hxf09byMLgtTlQKV7dqWzQCrwxtDGFqDPLWql6Ou5CvIfMfMwOU
-         nGIGDSv6djpxE0bHWIPzDpUFsVuZwlmpgQ+ZO848Hcu2k+3rSX9KVQtjlbQgPnDvZDU9
-         LXPQ==
+        b=ifFOh6+8Tp7Sfm2MLXhQ3WYOT8H4GENF+9+6rewk3KNAqsZ8BM+0UGRt5BIyc1VpeO
+         fPbWDA2sN0Tj7R8QeX9lJxE3pxYmyA9KFtawkfpfalfYB85/tI4JuKEwoq6y8Erbv3gN
+         tdxt9FXn4eYGCS89JI1/i5S8/PmAX9o8evmbqDWdKt30/g5KOVnVtmNUA8qJP/7fukZL
+         3TpZ6ERWhRZwI4S2jvQ59z6ffq5Zjbn4Voh8ttMvZXR4DmvF4iX0tYodTqFXR5M2G3bO
+         WnhxXGGdt+NpYi3cQZBRx0jxtczZ2LvJTfXWxmWlWtolWYp2HklO4CAqOLKu1JxDLOAW
+         3IzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=kGGarPsIuAKKUhNUS4INN8GZ8o0SRnTpA7kSJCMs1/s=;
-        fh=2tgrBxnVwcLXHayTK7pIfhTdPsNvlLazimpmxCZaT7I=;
-        b=EyNK+/TnyPlG50J1naKv7LvGtSWwvQM3lS3Jmu/qkcLsAp90dp7XCn2ZWdlerG1MDB
-         MXW3zfnS41t2BiSgtMUFNarck9G6EZ7oGbkR/uBDTsmNNhQJFRf5RRyh/x/+Ugx32kcE
-         Zl7+9t8/m0UmrxM+ywZXMFpZxk5ns5X/1gs86NxpJVqjolbSEJOQI89RPOWBR322abwo
-         o87oL8c6LkarIhm4SvaiUoYhA8KkicZWWL2Uxb2xrcdxvmGmCU0lzIWMUASrHRvYR5kJ
-         CRArQeMWh8PnSuXhaYAfIjewC3lAqfa0hDQuYG8d/5XhxMMWGCHrBR0izGqVl48WQPyO
-         eDrQ==
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :dkim-signature:dkim-signature;
+        bh=EanoFzDaTgMOXfxRNHB3pneacsX9gjh73UwzM6zHsNY=;
+        fh=hmTGvR8BoVXMJ8Viw/SSMi/sPWuQ4lRaxdihYWJuTs4=;
+        b=KGzDxym/ys9RsthLnQgzWjR4gRffRSGnSD0UqK/Me56eDdoI8wOgBWFsTSren7AJQQ
+         3aU0Ce7BJ0jTu/a9Px2oSN9zwdKd8scREN1T+//DYYn7jbqmkGFE/k8BuZ1DZ0K2xMRb
+         gW+PhCpHaMevRoGXyjgQvnRlsWDdVw2AlBNszrxrNTJzr7nGy8o7H/yCCN4qmEc2BfFw
+         p2r5BdlWDgGSQ3yR6G/ty4EZfUYIos4ss+5rKE5RNSZzviDeCa40Eb/rnhyW9hNGuKAQ
+         tHdrd1Q3s8VEWNK5V0UHbsgOIntlXUhb66dWgIMErCUm17JWzA+yzZ3E5WVU653hpsss
+         zsJg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=1Una8lVg;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::d36 as permitted sender) smtp.mailfrom=glider@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com. [2607:f8b0:4864:20::d36])
-        by gmr-mx.google.com with ESMTPS id g4-20020a170902868400b001b8918da8d5si818775plo.10.2023.08.30.00.43.39
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=RGKsMd13;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1c as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2001:67c:2178:6::1c])
+        by gmr-mx.google.com with ESMTPS id o16-20020a25d710000000b00d3bd00b18e7si1115718ybg.4.2023.08.30.00.46.43
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Aug 2023 00:43:39 -0700 (PDT)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::d36 as permitted sender) client-ip=2607:f8b0:4864:20::d36;
-Received: by mail-io1-xd36.google.com with SMTP id ca18e2360f4ac-794d98181f0so96206539f.2
-        for <kasan-dev@googlegroups.com>; Wed, 30 Aug 2023 00:43:39 -0700 (PDT)
-X-Received: by 2002:a6b:6112:0:b0:790:f733:2f9e with SMTP id
- v18-20020a6b6112000000b00790f7332f9emr1585375iob.13.1693381418668; Wed, 30
- Aug 2023 00:43:38 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Aug 2023 00:46:44 -0700 (PDT)
+Received-SPF: softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1c as permitted sender) client-ip=2001:67c:2178:6::1c;
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6A2CC211F0;
+	Wed, 30 Aug 2023 07:46:39 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2EF0A1353E;
+	Wed, 30 Aug 2023 07:46:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id cD+pCt/z7mTlYQAAMHmgww
+	(envelope-from <vbabka@suse.cz>); Wed, 30 Aug 2023 07:46:39 +0000
+Message-ID: <3948766e-5ebd-5e13-3c0d-f5e30c3ed724@suse.cz>
+Date: Wed, 30 Aug 2023 09:46:38 +0200
 MIME-Version: 1.0
-References: <cover.1693328501.git.andreyknvl@google.com> <eade4ff3e44769fc172e782a829853127c644737.1693328501.git.andreyknvl@google.com>
-In-Reply-To: <eade4ff3e44769fc172e782a829853127c644737.1693328501.git.andreyknvl@google.com>
-From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 30 Aug 2023 09:43:02 +0200
-Message-ID: <CAG_fn=XjBhiYadLE8=tqHJpcqSsdh+e-=+wHK8=8WddHZxORtw@mail.gmail.com>
-Subject: Re: [PATCH 03/15] stackdepot: drop valid bit from handles
-To: andrey.konovalov@linux.dev
-Cc: Marco Elver <elver@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vlastimil Babka <vbabka@suse.cz>, kasan-dev@googlegroups.com, 
-	Evgenii Stepanov <eugenis@google.com>, Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Andrey Konovalov <andreyknvl@google.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.14.0
+Subject: Re: [PATCH 00/15] stackdepot: allow evicting stack traces
+Content-Language: en-US
+To: andrey.konovalov@linux.dev, Marco Elver <elver@google.com>,
+ Alexander Potapenko <glider@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>,
+ Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
+ Evgenii Stepanov <eugenis@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, Andrey Konovalov <andreyknvl@google.com>
+References: <cover.1693328501.git.andreyknvl@google.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <cover.1693328501.git.andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: glider@google.com
+X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b=1Una8lVg;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::d36 as
- permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Alexander Potapenko <glider@google.com>
-Reply-To: Alexander Potapenko <glider@google.com>
+ header.i=@suse.cz header.s=susede2_rsa header.b=RGKsMd13;       dkim=neutral
+ (no key) header.i=@suse.cz;       spf=softfail (google.com: domain of
+ transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1c as
+ permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,22 +153,102 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Aug 29, 2023 at 7:11=E2=80=AFPM <andrey.konovalov@linux.dev> wrote:
->
+On 8/29/23 19:11, andrey.konovalov@linux.dev wrote:
 > From: Andrey Konovalov <andreyknvl@google.com>
->
-> Stack depot doesn't use the valid bit in handles in any way, so drop it.
+> 
+> Currently, the stack depot grows indefinitely until it reaches its
+> capacity. Once that happens, the stack depot stops saving new stack
+> traces.
+> 
+> This creates a problem for using the stack depot for in-field testing
+> and in production.
+> 
+> For such uses, an ideal stack trace storage should:
+> 
+> 1. Allow saving fresh stack traces on systems with a large uptime while
+>    limiting the amount of memory used to store the traces;
+> 2. Have a low performance impact.
 
-Good catch!
+I wonder if there's also another thing to consider for the future:
 
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-Reviewed-by: Alexander Potapenko <glider@google.com>
+3. With the number of stackdepot users increasing, each having their
+distinct set of stacks from others, would it make sense to create separate
+"storage instance" for each user instead of putting everything in a single
+shared one?
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DXjBhiYadLE8%3DtqHJpcqSsdh%2Be-%3D%2BwHK8%3D8WddHZxORtw%4=
-0mail.gmail.com.
+In any case, evicting support is a good development, thanks!
+
+> Implementing #1 in the stack depot is impossible with the current
+> keep-forever approach. This series targets to address that. Issue #2 is
+> left to be addressed in a future series.
+> 
+> This series changes the stack depot implementation to allow evicting
+> unneeded stack traces from the stack depot. The users of the stack depot
+> can do that via a new stack_depot_evict API.
+> 
+> Internal changes to the stack depot code include:
+> 
+> 1. Storing stack traces in 32-frame-sized slots (vs precisely-sized slots
+>    in the current implementation);
+> 2. Keeping available slots in a freelist (vs keeping an offset to the next
+>    free slot);
+> 3. Using a read/write lock for synchronization (vs a lock-free approach
+>    combined with a spinlock).
+> 
+> This series also integrates the eviction functionality in the tag-based
+> KASAN modes. (I will investigate integrating it into the Generic mode as
+> well in the following iterations of this series.)
+> 
+> Despite wasting some space on rounding up the size of each stack record
+> to 32 frames, with this change, the tag-based KASAN modes end up
+> consuming ~5% less memory in stack depot during boot (with the default
+> stack ring size of 32k entries). The reason for this is the eviction of
+> irrelevant stack traces from the stack depot, which frees up space for
+> other stack traces.
+> 
+> For other tools that heavily rely on the stack depot, like Generic KASAN
+> and KMSAN, this change leads to the stack depot capacity being reached
+> sooner than before. However, as these tools are mainly used in fuzzing
+> scenarios where the kernel is frequently rebooted, this outcome should
+> be acceptable.
+> 
+> There is no measurable boot time performace impact of these changes for
+> KASAN on x86-64. I haven't done any tests for arm64 modes (the stack
+> depot without performance optimizations is not suitable for intended use
+> of those anyway), but I expect a similar result. Obtaining and copying
+> stack trace frames when saving them into stack depot is what takes the
+> most time.
+> 
+> This series does not yet provide a way to configure the maximum size of
+> the stack depot externally (e.g. via a command-line parameter). This will
+> either be added in the following iterations of this series (if the used
+> approach gets approval) or will be added together with the performance
+> improvement changes.
+> 
+> Andrey Konovalov (15):
+>   stackdepot: check disabled flag when fetching
+>   stackdepot: simplify __stack_depot_save
+>   stackdepot: drop valid bit from handles
+>   stackdepot: add depot_fetch_stack helper
+>   stackdepot: use fixed-sized slots for stack records
+>   stackdepot: fix and clean-up atomic annotations
+>   stackdepot: rework helpers for depot_alloc_stack
+>   stackdepot: rename next_pool_required to new_pool_required
+>   stackdepot: store next pool pointer in new_pool
+>   stackdepot: store free stack records in a freelist
+>   stackdepot: use read/write lock
+>   stackdepot: add refcount for records
+>   stackdepot: add backwards links to hash table buckets
+>   stackdepot: allow users to evict stack traces
+>   kasan: use stack_depot_evict for tag-based modes
+> 
+>  include/linux/stackdepot.h |  11 ++
+>  lib/stackdepot.c           | 361 ++++++++++++++++++++++++-------------
+>  mm/kasan/tags.c            |   7 +-
+>  3 files changed, 249 insertions(+), 130 deletions(-)
+> 
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/3948766e-5ebd-5e13-3c0d-f5e30c3ed724%40suse.cz.
