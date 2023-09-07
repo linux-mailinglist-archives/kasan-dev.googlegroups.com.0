@@ -1,135 +1,125 @@
-Return-Path: <kasan-dev+bncBCRKFI7J2AJRBTPC4GTQMGQEGVTSBMI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRB2EV46TQMGQEDRQ2WCY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3e.google.com (mail-qv1-xf3e.google.com [IPv6:2607:f8b0:4864:20::f3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C9D0793CAC
-	for <lists+kasan-dev@lfdr.de>; Wed,  6 Sep 2023 14:32:14 +0200 (CEST)
-Received: by mail-qv1-xf3e.google.com with SMTP id 6a1803df08f44-64f5aeb8388sf37057196d6.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 06 Sep 2023 05:32:14 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1694003533; cv=pass;
+Received: from mail-lj1-x23f.google.com (mail-lj1-x23f.google.com [IPv6:2a00:1450:4864:20::23f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6212279728F
+	for <lists+kasan-dev@lfdr.de>; Thu,  7 Sep 2023 15:06:50 +0200 (CEST)
+Received: by mail-lj1-x23f.google.com with SMTP id 38308e7fff4ca-2bcb47970eesf10842851fa.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 07 Sep 2023 06:06:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1694092009; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hITDoM2ElgD9kb0lzfD8YpSTRVfTeaXYg55G99TY3a4NnTmSRcUjKhCcgHEie4sCmO
-         fD0vxyGyu5DOWclWlt4Q4QdsCOUh/WtMfHNDM5WPygxFNvz5PN89PsmcX7sNLA1Pi1rJ
-         tJlemhe2G5dRybDfChbIaNtn5MSyBXyshYZfbvMKEL8uLd6UryPTtBwIxSwlxDoan+G9
-         6wuKrmtCr0QYgs3fXp7EMPdX8eLmCnps9vwOrjJYZ9Hs1+D4Q2kPOQRZZ4gMz7rDhMqF
-         9msgBsB6IFSP9xhZx14q9fZzQUz0FifG70s2/EUg7SGtO+urXJF1V2vGaPIXok3qBmnm
-         95aw==
+        b=C0R0rg8MWrUYrXqanDgKIbKdX3nM6oJVbkalHe4VY8kcDsmhCcNVLoF0605asqfEOO
+         nuU3b9JlAV/uGYfyZvlnZ8A3T24n1QUW9lZZ5PyZBlVDcNSBN04vBq4G4IGycUW3zNVu
+         7Mc7ekx95EsAQqF0qS62lRDe7SKx2Q4I7fuNNd1kUvVpmcQ1/2tQvnXBzY29ObSwgBEP
+         vAQ/NjZB1V9waXwWvJcb4/ab++hExbh73pmwhDxN27DemJ77qzabC7lqJ4qk2mpIV6bZ
+         WUDzebQSyUUIDJUScXvAsSDr+OEP0MnmzTfJsvNNgjZNimUmUtRLXxi3Y/rByXapkaAo
+         FwQA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=l2M3l8WFhrjGY38ELPR7EEA5LMslyYrTFnGzpZHXm94=;
-        fh=yzysZ59oPk5DLEE5rhyc9UX9VwoFZbo45R1txxQt+Oc=;
-        b=QYRXpJeunUjMS6ffrgit+b7Ajw4rSeOCwoC61gaRnDc3CPS+2o8Ftu/EpQ++7enGdx
-         SrdCLQapWIIqj47pghPSDKjrdC2B1VkzX9pHsfgk7Y9kPombwZFDCs0jPZCJVciQ9R0O
-         PJHI/5YPslpdYYOqKiybJcc/cv0ZYslmDmsO0ob+9fJAyodTgbWC4ECF8/ZppF6BbB1X
-         wOx8oqAU/CrBI4BXGLuqU62/093/56nZVxkPN8CWFa7WpD6BhQBhOLzipa73Joa7JOSa
-         3PbHjUgLJ6wkguWmGrDeLV0qQu87XLd8fck4Jfy//NXJ7/aiQXsi17FMlbgtFuJc7sP/
-         npRA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :message-id:mime-version:date:dkim-signature;
+        bh=h5Dr7sRK5+EIel0uLYGIZw6rBqZOSbt6qDBMnh47xrs=;
+        fh=x/Eq99+ICi7e9grjZNFq4mA7WJOkDm5ZB5wM283JjUk=;
+        b=NWtZHjIMAUGfFjczpMvQZoIB3CvaFg1sh7eueZ/OgetyTmp4YrA1nPcbumnyrMs3aM
+         qKR1NjwQpHjJ3rjC5AJ8GgDMo7XohFCMzB7HzT8yMR3I7/tDxyEViq/6tZt5/l7F9z/C
+         ETrtlgWRpNI+OjuJxV7vh8Bij9ha41QcTeJ04/yCQtFLLnR10p6UQeotnabAolpLXdyx
+         bFVuqKLzGw4wI2tn4hVoszlzsng1u++a5ur8kXMVCJmk3voiHcxDHdOuFDLXDs8G6GcE
+         gqlj6ojAqaSL7pFqwrA8zGzOM9Rb1cewhvtDkY4W9HNDH+HnXLr03Q9vFvZ+tIrDLPJL
+         ZTJw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@google.com header.s=20221208 header.b=1LqUCt5D;
+       spf=pass (google.com: domain of 35sr5zaykcze163yzc19916z.x975vdv8-yzg19916z1c9fad.x97@flex--glider.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=35sr5ZAYKCZE163yzC19916z.x975vDv8-yzG19916z1C9FAD.x97@flex--glider.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1694003533; x=1694608333; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1694092009; x=1694696809; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=l2M3l8WFhrjGY38ELPR7EEA5LMslyYrTFnGzpZHXm94=;
-        b=M2RH1zVin4OcL3vVdOtPc/EUK3DHJnZlr7mnlj15vZXuFfFHKvwxWt87haBsdY1sPj
-         3snZ59x12jzKKd5oY8ZTcALYMVBBrKq1DcSd9FaP8lbeUvn/fqifOfYMxKJVlFL/Xe7y
-         iOy4aanBdoJqYineqayg7EFES9KvpbN7qKXw/LWfajUvNg8uNnMCkscvcJqCE7kLlWxC
-         K6V8lwrkDX3Lmg/1kb9KtVrUEhoibm8Aoupj0MseWMJdybmueZ6YL0G7/8orJi4mzqW4
-         7RvhMi7iNJ1NMK5xpcrKx2IEgBwXPBW3Z4Igase0ZxgmdNPgK95RzQxreb0C0NXQEKzN
-         jekg==
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h5Dr7sRK5+EIel0uLYGIZw6rBqZOSbt6qDBMnh47xrs=;
+        b=QaKVCUgkQmDfqNXtdSeQQNUHAjJcx6MTwmsy7UwenKcLSXH3eGbWegyN6op8imVWR8
+         sbTAo+4fYjyeosz5C8QG56h7KCP2L77BsLP1ZuyO+aFoV1kBI6Mws7GRE4sl/n49R4Ah
+         ZM5eKxd6UkIkG2d9SIV7SBdmSpJ50fcoB91SiyWjNSR0efMmOPH5Oh2hOWroJKqNpWUz
+         oHNlZ6bEmwMALIGuToudXovbPU5qY9L2aWhaazSbQZGA2GHYApApz2EVu92mATqm03TM
+         hvqpv5//oU7DZcRitU+YSVzQ7pQ85udrpWLoH5OXDILj6nznZzuSaFsuv4g34PJnesPm
+         iLLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1694003533; x=1694608333;
+        d=1e100.net; s=20221208; t=1694092009; x=1694696809;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l2M3l8WFhrjGY38ELPR7EEA5LMslyYrTFnGzpZHXm94=;
-        b=ElbCPzSKgUXaLw/HjatvyOP9RBIrQMddmuX8D6FNf4TZMRM6Uzjvb7ww/FEAtJtpwV
-         u4QEfau/HHOqt21jnY34cvKpjdkfAOKu7KDjbOngCnfzAyWDwxqCssgiXIBuhVvapkat
-         X04a7xowh7nIQUFU0kh61ySc1FsgbqhWq6egueZHEhBw4xKo6AJuoS8cW0MJBL58H8jR
-         xaC28yL7AgHFvk4Ts0wzvG8sPD5J8iMyJKfxYoVqEMKJlsOapdvgUCTSmDyJdDSCLgSm
-         q5JP6du/pQNBK5sw7aO48k8+RaZYEBQNqCzNVSoSWTRjCdqyjtiysJ/FzBdYyE3vjXIU
-         Vpxw==
-X-Gm-Message-State: AOJu0Yzt4tfgJqmS1KrcFmslAD+Q25Nu8dGldKf/6EjSChWs4GWW5azc
-	Vpi5i6xmX4FwPp5zAfXizjs=
-X-Google-Smtp-Source: AGHT+IG+QEngY56pRAY1SJ67dEzq43e0OWjPhy8RU/hFjWMkhuA1+q3+150PyEYa4XZw5FW5s1Gz3w==
-X-Received: by 2002:a0c:c3cc:0:b0:636:e4f:6b9a with SMTP id p12-20020a0cc3cc000000b006360e4f6b9amr15450878qvi.17.1694003533192;
-        Wed, 06 Sep 2023 05:32:13 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=h5Dr7sRK5+EIel0uLYGIZw6rBqZOSbt6qDBMnh47xrs=;
+        b=jFRleMbOjZH7PbbkAVrowlapmrmW4mmgp8GvARjSxGYv1KlP+sozTTNUqpC0ZyIrLD
+         +ZNJyAMT9652+8jNP6ShosOa5qDVAhwM39nijBWKJpBi4uX+apQ/g2kMcYYJXwtUVqrD
+         MY2z5u8DujetKhrO3ExFdJpXLz9dU85oLy0YPSsop95pNShhaynkg7TCN78XpbDW4Brt
+         t0xrOjq/vew/VlA88Uf8SMlCMZuUe/IIzJYcUCV75s3CpDPJazVPx2jC2gh+/ViK9Q20
+         C4azfIF9qtSA33CBoOeR2xhe2CNr4vl1n/TN1aTd1mKB0ZO0ZxSB+St+SA0wCCs3IOcy
+         itDg==
+X-Gm-Message-State: AOJu0Yw36v6JUbwOOGhn//r7CeRAGM538AuHt4T0TUoGE0NX16aHTyJo
+	Og3mU3uzj0iqnlPxlU1ea3U=
+X-Google-Smtp-Source: AGHT+IGFOybbHMluR4uz7NN2GUlzUI/ZtVp+XBx+XmDVT5f6fzc/ghRPweHljwGuWNVXh8ks3HrBzw==
+X-Received: by 2002:a05:651c:232:b0:2b8:39e4:2e2c with SMTP id z18-20020a05651c023200b002b839e42e2cmr4892744ljn.1.1694092009097;
+        Thu, 07 Sep 2023 06:06:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:ca12:0:b0:647:3660:dc31 with SMTP id c18-20020a0cca12000000b006473660dc31ls441251qvk.2.-pod-prod-01-us;
- Wed, 06 Sep 2023 05:32:12 -0700 (PDT)
-X-Received: by 2002:a67:fd9a:0:b0:44d:547d:7e84 with SMTP id k26-20020a67fd9a000000b0044d547d7e84mr2948137vsq.28.1694003532488;
-        Wed, 06 Sep 2023 05:32:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1694003532; cv=none;
+Received: by 2002:a2e:1f02:0:b0:2be:574a:3b04 with SMTP id f2-20020a2e1f02000000b002be574a3b04ls344818ljf.0.-pod-prod-08-eu;
+ Thu, 07 Sep 2023 06:06:47 -0700 (PDT)
+X-Received: by 2002:a05:6512:304d:b0:4fb:741f:75bf with SMTP id b13-20020a056512304d00b004fb741f75bfmr6183766lfb.16.1694092007281;
+        Thu, 07 Sep 2023 06:06:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1694092007; cv=none;
         d=google.com; s=arc-20160816;
-        b=naMPnQhy+4B0EhqLtT/GGTVIeIs8oS/uJFylh782QdBD8N7M+F0iTg2/FdqusDRtik
-         Wi4S17gDvfO7OqbDwhbqCrp0c5QlBIMf2SlmyT4SWNvbDS6OyV993WDRg4WXy9HvN1kG
-         y2Cs83qTSMhdBW7/CifrITxzHIa14dZyAXJJRvkobNrXOo5nNAvpuWqnI4Th7JGoX1Lb
-         WKtZwTQMHvpxqAEZ6wH2X5NZ/GwZb4y6VWAvVPFC2s1BAoMn419hWUMJNNKM97D+ANlJ
-         PuRx+2hLfgJQXQocOpPoRQe6zUCpVzT5bw8vF1dDkR9X0j4tGkodRwdMLzBXEQKjRe1y
-         3y6Q==
+        b=BuGs1KL2LHP0rgi7cGtP8G5N5DGo8f8yg8TjzsSpaosdYEZhRNuDDaG+dxwijEH0uO
+         HynVcLHUmWdsl+66fLRvX+niC89GxA9b9VzErQD4Rc47AT7FvoCvG/MjEIegLuqFKONc
+         saQQj/cq8OVPAwID1OFaKWY2bxT0mGCvduCelFtP3QA3CqgbskqnOmJbbryZtGqKlnmO
+         5toV0B8DtPh+5fNpNCfxYFKKjgWv0LNguEZYbmUl2VfGy0ChYEiJhCSjAKDEz5Z6i435
+         viuMd9B4yNYloVSaibdaOHOHt4DoQ7darIkvjYl+Aqkd4ijn8ufd+QyiwqlwC7ZGxGUv
+         XYAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from;
-        bh=YsHmY5hkpTTrJQqvQfSH4rSGK0inQUOy9GMYacmc4e0=;
-        fh=yzysZ59oPk5DLEE5rhyc9UX9VwoFZbo45R1txxQt+Oc=;
-        b=v8gFN1ZaEMK8diECoGJmq3u9goQgQGvsy7PIYCAjkDY1TUWykuvRzrvuaD68WHvGkL
-         wl4QmWTMMZyJSIvv/QhlxIYD8HAvUkNrUGBLKlEoi77tMXOrh+1FQiLbwMmZ8/n0fYVf
-         LT9kggM+5BL8WrEd5xvQL0MeDyfTBA3+WpF7k1OfBC3QEqUmnEg9GjEdaB+OCsMKzh/D
-         57fOq97K1pug7HREtrsYzP+BUntxlUo4vKLEUwjGTRy5vOC4jzqT5mnOKIEuTmsTKof/
-         az/x6xacG0z2BzEPLFJLIDvAcSbCH2LjIAMWM3LXkP05Zc4B71myIuR0OtNHZAZYanrv
-         EUbQ==
+        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
+        bh=pguS5nzVV0mhBjB/CrXM2tdNaYwlS7Rq+h24iaGnEBI=;
+        fh=x/Eq99+ICi7e9grjZNFq4mA7WJOkDm5ZB5wM283JjUk=;
+        b=KyRbsVuNHOctXcbSRArLQlSMEmlr3Wvl3ckNjYzAlzFhDB6k3vrbrrrFcFOFQG/o/u
+         eoOdMdT3/+IqpD754+eO+zRpjHyVuCALrv7fgf0TNrVtanH/k5NGpoNrya/JwXwpJkb+
+         2kqQ56S6nE1lHjwh4ni2DJeDoQRMr7yCMVjYLLQg6dkAFKK9MpPPar0HhqbZ5obT7d9W
+         MKEmVv+xOYvI8m/dt5i9pQVdW4oGp5hU8FWYQVn23kO0ttwFIzh22tsG9JQ1GFxqQ7Ow
+         0rRemRrr3qcng3ODrV78YMLB3hPS/mzAJr6UKoIApaIXN/j3I6aE+/l20G5b3mJWE4Kw
+         loOw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
-        by gmr-mx.google.com with ESMTPS id j19-20020a056102335300b0044d41076eedsi2103221vse.1.2023.09.06.05.32.12
+       dkim=pass header.i=@google.com header.s=20221208 header.b=1LqUCt5D;
+       spf=pass (google.com: domain of 35sr5zaykcze163yzc19916z.x975vdv8-yzg19916z1c9fad.x97@flex--glider.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=35sr5ZAYKCZE163yzC19916z.x975vDv8-yzG19916z1C9FAD.x97@flex--glider.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wm1-x34a.google.com (mail-wm1-x34a.google.com. [2a00:1450:4864:20::34a])
+        by gmr-mx.google.com with ESMTPS id u1-20020a05651220c100b004ffa23b6e2asi1078744lfr.5.2023.09.07.06.06.47
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 06 Sep 2023 05:32:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
-Received: from dggpemm100001.china.huawei.com (unknown [172.30.72.56])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4RghXr4FGFzrSb1;
-	Wed,  6 Sep 2023 20:30:20 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- dggpemm100001.china.huawei.com (7.185.36.93) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Wed, 6 Sep 2023 20:32:08 +0800
-From: "'Kefeng Wang' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
-	<glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
-	<dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Andrew
- Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>, Lorenzo Stoakes <lstoakes@gmail.com>,
-	<kasan-dev@googlegroups.com>, <linux-mm@kvack.org>
-CC: Kefeng Wang <wangkefeng.wang@huawei.com>
-Subject: [PATCH -rfc 3/3] mm: kasan: shadow: HACK: add cond_resched_lock() in kasan_depopulate_vmalloc_pte()
-Date: Wed, 6 Sep 2023 20:42:34 +0800
-Message-ID: <20230906124234.134200-4-wangkefeng.wang@huawei.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230906124234.134200-1-wangkefeng.wang@huawei.com>
-References: <20230906124234.134200-1-wangkefeng.wang@huawei.com>
-MIME-Version: 1.0
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Sep 2023 06:06:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 35sr5zaykcze163yzc19916z.x975vdv8-yzg19916z1c9fad.x97@flex--glider.bounces.google.com designates 2a00:1450:4864:20::34a as permitted sender) client-ip=2a00:1450:4864:20::34a;
+Received: by mail-wm1-x34a.google.com with SMTP id 5b1f17b1804b1-3feeb420c8aso6476545e9.2
+        for <kasan-dev@googlegroups.com>; Thu, 07 Sep 2023 06:06:47 -0700 (PDT)
+X-Received: from glider.muc.corp.google.com ([2a00:79e0:9c:201:33dd:e36e:b6dc:1a69])
+ (user=glider job=sendgmr) by 2002:a05:600c:2d84:b0:402:eacb:a797 with SMTP id
+ i4-20020a05600c2d8400b00402eacba797mr47988wmg.4.1694092006816; Thu, 07 Sep
+ 2023 06:06:46 -0700 (PDT)
+Date: Thu,  7 Sep 2023 15:06:41 +0200
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.42.0.283.g2d96d420d3-goog
+Message-ID: <20230907130642.245222-1-glider@google.com>
+Subject: [PATCH 1/2] kmsan: simplify kmsan_internal_memmove_metadata()
+From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
+To: glider@google.com, dvyukov@google.com, elver@google.com, 
+	akpm@linux-foundation.org, linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.175.113.25]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm100001.china.huawei.com (7.185.36.93)
-X-CFilter-Loop: Reflected
-X-Original-Sender: wangkefeng.wang@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.187
- as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-Reply-To: Kefeng Wang <wangkefeng.wang@huawei.com>
+X-Original-Sender: glider@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20221208 header.b=1LqUCt5D;       spf=pass
+ (google.com: domain of 35sr5zaykcze163yzc19916z.x975vdv8-yzg19916z1c9fad.x97@flex--glider.bounces.google.com
+ designates 2a00:1450:4864:20::34a as permitted sender) smtp.mailfrom=35sr5ZAYKCZE163yzC19916z.x975vDv8-yzG19916z1C9FAD.x97@flex--glider.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Alexander Potapenko <glider@google.com>
+Reply-To: Alexander Potapenko <glider@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -142,146 +132,239 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-There is a similar softlockup issue with large size in kasan_release_vmalloc(),
+kmsan_internal_memmove_metadata() is the function that implements
+copying metadata every time memcpy()/memmove() is called.
+Because shadow memory stores 1 byte per each byte of kernel memory,
+copying the shadow is trivial and can be done by a single memmove()
+call.
+Origins, on the other hand, are stored as 4-byte values corresponding
+to every aligned 4 bytes of kernel memory. Therefore, if either the
+source or the destination of kmsan_internal_memmove_metadata() is
+unaligned, the number of origin slots corresponding to the source or
+destination may differ:
 
-  watchdog: BUG: soft lockup - CPU#6 stuck for 48s! [kworker/6:1:59]
-  _raw_spin_unlock_irqrestore+0x50/0xb8
-  free_pcppages_bulk+0x2bc/0x3e0
-  free_unref_page_commit+0x1fc/0x290
-  free_unref_page+0x184/0x250
-  __free_pages+0x154/0x1a0
-  free_pages+0x88/0xb0
-  kasan_depopulate_vmalloc_pte+0x58/0x80
-  __apply_to_page_range+0x3ec/0x650
-  apply_to_existing_page_range+0x1c/0x30
-  kasan_release_vmalloc+0xa4/0x118
-  __purge_vmap_area_lazy+0x4f4/0xe30
-  drain_vmap_area_work+0x60/0xc0
-  process_one_work+0x4cc/0xa38
-  worker_thread+0x240/0x638
-  kthread+0x1c8/0x1e0
-  ret_from_fork+0x10/0x20
+  1) memcpy(0xffff888080a00000, 0xffff888080900000, 4)
+     copies 1 origin slot into 1 origin slot:
 
-But it is could be fixed by adding a cond_resched_lock(), but see comment
-about kasan_release_vmalloc(), free_vmap_area_lock is to protect the
-concurrency, so it looks risky, any advise to fix this issue?
+     src (0xffff888080900000): xxxx
+     src origins:              o111
+     dst (0xffff888080a00000): xxxx
+     dst origins:              o111
 
-Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+  2) memcpy(0xffff888080a00001, 0xffff888080900000, 4)
+     copies 1 origin slot into 2 origin slots:
+
+     src (0xffff888080900000): xxxx
+     src origins:              o111
+     dst (0xffff888080a00000): .xxx x...
+     dst origins:              o111 o111
+
+  3) memcpy(0xffff888080a00000, 0xffff888080900001, 4)
+     copies 2 origin slots into 1 origin slot:
+
+     src (0xffff888080900000): .xxx x...
+     src origins:              o111 o222
+     dst (0xffff888080a00000): xxxx
+     dst origins:              o111
+                           (or o222)
+
+Previously, kmsan_internal_memmove_metadata() tried to solve this
+problem by copying min(src_slots, dst_slots) as is and cloning the
+missing slot on one of the ends, if needed.
+This was error-prone even in the simple cases where 4 bytes were copied,
+and did not account for situations where the total number of nonzero
+origin slots could have increased by more than one after copying:
+
+  memcpy(0xffff888080a00000, 0xffff888080900002, 8)
+
+  src (0xffff888080900002): ..xx .... xx..
+  src origins:              o111 0000 o222
+  dst (0xffff888080a00000): xx.. ..xx
+                            o111 0000
+                        (or 0000 o222)
+
+The new implementation simply copies the shadow byte by byte, and
+updates the corresponding origin slot, if the shadow byte is nonzero.
+This approach can handle complex cases with mixed initialized and
+uninitialized bytes. Similarly to KMSAN inline instrumentation, latter
+writes to bytes sharing the same origin slots take precedence.
+
+Signed-off-by: Alexander Potapenko <glider@google.com>
 ---
- include/linux/kasan.h | 9 ++++++---
- mm/kasan/shadow.c     | 9 ++++++---
- mm/vmalloc.c          | 7 ++++---
- 3 files changed, 16 insertions(+), 9 deletions(-)
+ mm/kmsan/core.c | 127 ++++++++++++------------------------------------
+ 1 file changed, 31 insertions(+), 96 deletions(-)
 
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index 3df5499f7936..6d85715c47ad 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -385,7 +385,8 @@ void kasan_populate_early_vm_area_shadow(void *start, unsigned long size);
- int kasan_populate_vmalloc(unsigned long addr, unsigned long size);
- void kasan_release_vmalloc(unsigned long start, unsigned long end,
- 			   unsigned long free_region_start,
--			   unsigned long free_region_end);
-+			   unsigned long free_region_end,
-+			   void *lock);
+diff --git a/mm/kmsan/core.c b/mm/kmsan/core.c
+index 3adb4c1d3b193..c19f47af04241 100644
+--- a/mm/kmsan/core.c
++++ b/mm/kmsan/core.c
+@@ -83,131 +83,66 @@ depot_stack_handle_t kmsan_save_stack_with_flags(gfp_t flags,
+ /* Copy the metadata following the memmove() behavior. */
+ void kmsan_internal_memmove_metadata(void *dst, void *src, size_t n)
+ {
++	depot_stack_handle_t prev_old_origin = 0, prev_new_origin = 0;
++	int i, iter, step, src_off, dst_off, oiter_src, oiter_dst;
+ 	depot_stack_handle_t old_origin = 0, new_origin = 0;
+-	int src_slots, dst_slots, i, iter, step, skip_bits;
+ 	depot_stack_handle_t *origin_src, *origin_dst;
+-	void *shadow_src, *shadow_dst;
+-	u32 *align_shadow_src, shadow;
++	u8 *shadow_src, *shadow_dst;
++	u32 *align_shadow_dst;
+ 	bool backwards;
  
- #else /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
+ 	shadow_dst = kmsan_get_metadata(dst, KMSAN_META_SHADOW);
+ 	if (!shadow_dst)
+ 		return;
+ 	KMSAN_WARN_ON(!kmsan_metadata_is_contiguous(dst, n));
++	align_shadow_dst =
++		(u32 *)ALIGN_DOWN((u64)shadow_dst, KMSAN_ORIGIN_SIZE);
  
-@@ -400,7 +401,8 @@ static inline int kasan_populate_vmalloc(unsigned long start,
- static inline void kasan_release_vmalloc(unsigned long start,
- 					 unsigned long end,
- 					 unsigned long free_region_start,
--					 unsigned long free_region_end) { }
-+					 unsigned long free_region_end,
-+					 void *lock) { }
+ 	shadow_src = kmsan_get_metadata(src, KMSAN_META_SHADOW);
+ 	if (!shadow_src) {
+-		/*
+-		 * @src is untracked: zero out destination shadow, ignore the
+-		 * origins, we're done.
+-		 */
+-		__memset(shadow_dst, 0, n);
++		/* @src is untracked: mark @dst as initialized. */
++		kmsan_internal_unpoison_memory(dst, n, /*checked*/ false);
+ 		return;
+ 	}
+ 	KMSAN_WARN_ON(!kmsan_metadata_is_contiguous(src, n));
  
- #endif /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
+-	__memmove(shadow_dst, shadow_src, n);
+-
+ 	origin_dst = kmsan_get_metadata(dst, KMSAN_META_ORIGIN);
+ 	origin_src = kmsan_get_metadata(src, KMSAN_META_ORIGIN);
+ 	KMSAN_WARN_ON(!origin_dst || !origin_src);
+-	src_slots = (ALIGN((u64)src + n, KMSAN_ORIGIN_SIZE) -
+-		     ALIGN_DOWN((u64)src, KMSAN_ORIGIN_SIZE)) /
+-		    KMSAN_ORIGIN_SIZE;
+-	dst_slots = (ALIGN((u64)dst + n, KMSAN_ORIGIN_SIZE) -
+-		     ALIGN_DOWN((u64)dst, KMSAN_ORIGIN_SIZE)) /
+-		    KMSAN_ORIGIN_SIZE;
+-	KMSAN_WARN_ON((src_slots < 1) || (dst_slots < 1));
+-	KMSAN_WARN_ON((src_slots - dst_slots > 1) ||
+-		      (dst_slots - src_slots < -1));
  
-@@ -435,7 +437,8 @@ static inline int kasan_populate_vmalloc(unsigned long start,
- static inline void kasan_release_vmalloc(unsigned long start,
- 					 unsigned long end,
- 					 unsigned long free_region_start,
--					 unsigned long free_region_end) { }
-+					 unsigned long free_region_end,
-+					 void *lock) { }
- 
- static inline void *kasan_unpoison_vmalloc(const void *start,
- 					   unsigned long size,
-diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-index d7d6724da2e0..4bce98e2b30d 100644
---- a/mm/kasan/shadow.c
-+++ b/mm/kasan/shadow.c
-@@ -416,12 +416,14 @@ int kasan_populate_vmalloc(unsigned long addr, unsigned long size)
+ 	backwards = dst > src;
+-	i = backwards ? min(src_slots, dst_slots) - 1 : 0;
+-	iter = backwards ? -1 : 1;
+-
+-	align_shadow_src =
+-		(u32 *)ALIGN_DOWN((u64)shadow_src, KMSAN_ORIGIN_SIZE);
+-	for (step = 0; step < min(src_slots, dst_slots); step++, i += iter) {
+-		KMSAN_WARN_ON(i < 0);
+-		shadow = align_shadow_src[i];
+-		if (i == 0) {
+-			/*
+-			 * If @src isn't aligned on KMSAN_ORIGIN_SIZE, don't
+-			 * look at the first @src % KMSAN_ORIGIN_SIZE bytes
+-			 * of the first shadow slot.
+-			 */
+-			skip_bits = ((u64)src % KMSAN_ORIGIN_SIZE) * 8;
+-			shadow = (shadow >> skip_bits) << skip_bits;
++	step = backwards ? -1 : 1;
++	iter = backwards ? n - 1 : 0;
++	src_off = (u64)src % KMSAN_ORIGIN_SIZE;
++	dst_off = (u64)dst % KMSAN_ORIGIN_SIZE;
++
++	/* Copy shadow bytes one by one, updating the origins if necessary. */
++	for (i = 0; i < n; i++, iter += step) {
++		oiter_src = (iter + src_off) / KMSAN_ORIGIN_SIZE;
++		oiter_dst = (iter + dst_off) / KMSAN_ORIGIN_SIZE;
++		if (!shadow_src[iter]) {
++			shadow_dst[iter] = 0;
++			if (!align_shadow_dst[oiter_dst])
++				origin_dst[oiter_dst] = 0;
++			continue;
+ 		}
+-		if (i == src_slots - 1) {
+-			/*
+-			 * If @src + n isn't aligned on
+-			 * KMSAN_ORIGIN_SIZE, don't look at the last
+-			 * (@src + n) % KMSAN_ORIGIN_SIZE bytes of the
+-			 * last shadow slot.
+-			 */
+-			skip_bits = (((u64)src + n) % KMSAN_ORIGIN_SIZE) * 8;
+-			shadow = (shadow << skip_bits) >> skip_bits;
+-		}
+-		/*
+-		 * Overwrite the origin only if the corresponding
+-		 * shadow is nonempty.
+-		 */
+-		if (origin_src[i] && (origin_src[i] != old_origin) && shadow) {
+-			old_origin = origin_src[i];
+-			new_origin = kmsan_internal_chain_origin(old_origin);
++		shadow_dst[iter] = shadow_src[iter];
++		old_origin = origin_src[oiter_src];
++		if (old_origin == prev_old_origin)
++			new_origin = prev_new_origin;
++		else {
+ 			/*
+ 			 * kmsan_internal_chain_origin() may return
+ 			 * NULL, but we don't want to lose the previous
+ 			 * origin value.
+ 			 */
++			new_origin = kmsan_internal_chain_origin(old_origin);
+ 			if (!new_origin)
+ 				new_origin = old_origin;
+ 		}
+-		if (shadow)
+-			origin_dst[i] = new_origin;
+-		else
+-			origin_dst[i] = 0;
+-	}
+-	/*
+-	 * If dst_slots is greater than src_slots (i.e.
+-	 * dst_slots == src_slots + 1), there is an extra origin slot at the
+-	 * beginning or end of the destination buffer, for which we take the
+-	 * origin from the previous slot.
+-	 * This is only done if the part of the source shadow corresponding to
+-	 * slot is non-zero.
+-	 *
+-	 * E.g. if we copy 8 aligned bytes that are marked as uninitialized
+-	 * and have origins o111 and o222, to an unaligned buffer with offset 1,
+-	 * these two origins are copied to three origin slots, so one of then
+-	 * needs to be duplicated, depending on the copy direction (@backwards)
+-	 *
+-	 *   src shadow: |uuuu|uuuu|....|
+-	 *   src origin: |o111|o222|....|
+-	 *
+-	 * backwards = 0:
+-	 *   dst shadow: |.uuu|uuuu|u...|
+-	 *   dst origin: |....|o111|o222| - fill the empty slot with o111
+-	 * backwards = 1:
+-	 *   dst shadow: |.uuu|uuuu|u...|
+-	 *   dst origin: |o111|o222|....| - fill the empty slot with o222
+-	 */
+-	if (src_slots < dst_slots) {
+-		if (backwards) {
+-			shadow = align_shadow_src[src_slots - 1];
+-			skip_bits = (((u64)dst + n) % KMSAN_ORIGIN_SIZE) * 8;
+-			shadow = (shadow << skip_bits) >> skip_bits;
+-			if (shadow)
+-				/* src_slots > 0, therefore dst_slots is at least 2 */
+-				origin_dst[dst_slots - 1] =
+-					origin_dst[dst_slots - 2];
+-		} else {
+-			shadow = align_shadow_src[0];
+-			skip_bits = ((u64)dst % KMSAN_ORIGIN_SIZE) * 8;
+-			shadow = (shadow >> skip_bits) << skip_bits;
+-			if (shadow)
+-				origin_dst[0] = origin_dst[1];
+-		}
++		origin_dst[oiter_dst] = new_origin;
++		prev_new_origin = new_origin;
++		prev_old_origin = old_origin;
+ 	}
  }
  
- static int kasan_depopulate_vmalloc_pte(pte_t *ptep, unsigned long addr,
--					void *unused)
-+					void *lock)
- {
- 	unsigned long page;
- 
- 	page = (unsigned long)__va(pte_pfn(ptep_get(ptep)) << PAGE_SHIFT);
- 
-+	cond_resched_lock(lock);
-+
- 	spin_lock(&init_mm.page_table_lock);
- 	if (likely(!pte_none(ptep_get(ptep))))
- 		pte_clear(&init_mm, addr, ptep);
-@@ -511,7 +513,8 @@ static int kasan_depopulate_vmalloc_pte(pte_t *ptep, unsigned long addr,
-  */
- void kasan_release_vmalloc(unsigned long start, unsigned long end,
- 			   unsigned long free_region_start,
--			   unsigned long free_region_end)
-+			   unsigned long free_region_end,
-+			   void *lock)
- {
- 	void *shadow_start, *shadow_end;
- 	unsigned long region_start, region_end;
-@@ -547,7 +550,7 @@ void kasan_release_vmalloc(unsigned long start, unsigned long end,
- 		apply_to_existing_page_range(&init_mm,
- 					     (unsigned long)shadow_start,
- 					     size, kasan_depopulate_vmalloc_pte,
--					     NULL);
-+					     lock);
- 		flush_tlb_kernel_range((unsigned long)shadow_start,
- 				       (unsigned long)shadow_end);
- 	}
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index 228a4a5312f2..c40ea7d1b65e 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -1768,7 +1768,8 @@ static bool __purge_vmap_area_lazy(unsigned long start, unsigned long end)
- 
- 		if (is_vmalloc_or_module_addr((void *)orig_start))
- 			kasan_release_vmalloc(orig_start, orig_end,
--					      va->va_start, va->va_end);
-+					      va->va_start, va->va_end,
-+					      &free_vmap_area_lock);
- 
- 		atomic_long_sub(nr, &vmap_lazy_nr);
- 		num_purged_areas++;
-@@ -4198,7 +4199,7 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
- 				&free_vmap_area_list);
- 		if (va)
- 			kasan_release_vmalloc(orig_start, orig_end,
--				va->va_start, va->va_end);
-+				va->va_start, va->va_end, NULL);
- 		vas[area] = NULL;
- 	}
- 
-@@ -4248,7 +4249,7 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
- 				&free_vmap_area_list);
- 		if (va)
- 			kasan_release_vmalloc(orig_start, orig_end,
--				va->va_start, va->va_end);
-+				va->va_start, va->va_end, &free_vmap_area_lock);
- 		vas[area] = NULL;
- 		kfree(vms[area]);
- 	}
 -- 
-2.41.0
+2.42.0.283.g2d96d420d3-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230906124234.134200-4-wangkefeng.wang%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230907130642.245222-1-glider%40google.com.
