@@ -1,136 +1,140 @@
-Return-Path: <kasan-dev+bncBAABBWGL6KTQMGQEOZVPSTI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC4LXIPCY4NRBC456STQMGQEPRE2IOI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x38.google.com (mail-oa1-x38.google.com [IPv6:2001:4860:4864:20::38])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1689F799A2B
-	for <lists+kasan-dev@lfdr.de>; Sat,  9 Sep 2023 19:05:30 +0200 (CEST)
-Received: by mail-oa1-x38.google.com with SMTP id 586e51a60fabf-1c8d3bfbdbfsf850035fac.1
-        for <lists+kasan-dev@lfdr.de>; Sat, 09 Sep 2023 10:05:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1694279128; cv=pass;
+Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF33D799C30
+	for <lists+kasan-dev@lfdr.de>; Sun, 10 Sep 2023 02:32:12 +0200 (CEST)
+Received: by mail-lf1-x138.google.com with SMTP id 2adb3069b0e04-5029c5f4285sf2156069e87.3
+        for <lists+kasan-dev@lfdr.de>; Sat, 09 Sep 2023 17:32:12 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1694305932; cv=pass;
         d=google.com; s=arc-20160816;
-        b=fCZVkzpp1AarQChebyszpfriPJ0OjlytOCaKuJQyFkJgpnK3I3b0upGPnfZATIopix
-         zFaccs6DrOBaG8Gyz/NN0Xnr71EiwrbiaQveeePxe20qP/GIgz5sdix/jQBPm/HKuTZU
-         gZQLJTJKoWFx2ft4iIosyWaWIW2Y8hb8Ux7t4a1CJPVJk+VeJd2PmsBeGSOf09skaESI
-         QMDCnfc9R0f6b6D07VWDqfHJAXQ4LsewZipAv3pRcPkEuM/k2YNlNg2dTBrQdGFcbMpb
-         4g8zx2iU/aLmyD03t1qq6npWG2s6Ys/c5+hPuD8lUA94PVBFzISGJm67cMfc4/KwSIe/
-         gQiA==
+        b=MNRY2SY7qhY4gYGmnci+ddab6H0aeOoU8flI3YiG4x5C8GNSUzJIhC4xUcN7qn9xfr
+         M1ZL5nfsR8b9/mMfyzFR15YxMWd4rykO38uVImD7f84K1LjhKSJM9tf0Huj+heDunj9X
+         3nmRvE4Lu6L72n6+KGiQDdIhvZcNfC0qelOABUeoaTf/7uBmbNr5K1xRPvKZ5enoMf9T
+         VworScj/hAx41bE9/vDNOoI12dm5hHO4l2lXJCU6f0hdbNFswvx8tnqWkrYipHvo1KD8
+         UPXDlXyO7kUYswJfr9kwsu8Bww3XeXIaq6MNvRkI3S3EYV1yKx6++TUbsMBdpRpUpm3w
+         rkdA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=Bd5KiAiZdDZsCD70naukUNQ1WQr+BWYZBfxZ2iAOL1Q=;
-        fh=3dsbSci+tAkSjBLC9NYuww3Ydg6w6l16vREXpchVQqU=;
-        b=WZFs4jZt7L168xYmZu4pZ7TbacFxTncVO52Hh3eaTyhJ9kRqUqDqv2zuF4GD/d0NWc
-         EEdHjTWLdJx5UKztRQcjypSqT5+dDsUNRK9HtuvoE23J4oz2UoNEIST0VhYjEaqmyT96
-         RugujUlkD8PYwTNJ3Tk/8e0H//NnMbDS9Wm4aocnT9DWf2bEVAQqUtcQ7g6OkgaWpgrP
-         dkdtyUOP+BFJk4hFb6K1sNPFrSpqI0a8bB8aqdV4EsciHdz/XWNQ853o38jSHuP8delA
-         TMG3o1ibDT7vHtizSDLfDcDhgoZIa+uasrAwPZWbbh0SrkE+rX/lzwZksbObl7G7kl/b
-         AIbQ==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=dgICFcWvjTvzfjhj0yFVEYqO/YD6hk9GpSTuNJaK1Yo=;
+        fh=QPVjUeLKAzf4Q/HuuUwr+dq4KhHUpbsoc21/hSuco4c=;
+        b=yZ17+LyzkwkFL1tPcziGI3QrZ79xEyjh1AkgjGKbJkfme87Y5thN2YSDikTmEuly0r
+         NKZbzKKqZ3Y85mQMt+QhMEIEQvF9IHxrfgZk76rGwu1ekQOiAXvoJJ5KTN1iJgfjVYKH
+         ATjW2LTRaXZz81ED+ShqmmrfnwAuhyRp+v5DZZahFM3ynruGzYp7ZsrYczWLxheFQIhE
+         8TAA1HAiAqLbSIE1LWj/22kp19kKvCezlZdnvEdszGMI0EKNr99yjrTQjfDR7uGjvdOd
+         jZ7UvrD6EoWDfOYpxzLNUkCc6aE5T4AfS6zlGSGSQepp9gcYuZ8tvk0WyvJ3QcjoIXJm
+         5lWA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@xen0n.name header.s=mail header.b=ku0aRmJt;
-       spf=pass (google.com: domain of kernel@xen0n.name designates 115.28.160.31 as permitted sender) smtp.mailfrom=kernel@xen0n.name
+       dkim=pass header.i=@intel.com header.s=Intel header.b=DkAkiHtA;
+       spf=pass (google.com: domain of lkp@intel.com designates 134.134.136.20 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1694279128; x=1694883928; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1694305932; x=1694910732; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:content-language:references:cc
-         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Bd5KiAiZdDZsCD70naukUNQ1WQr+BWYZBfxZ2iAOL1Q=;
-        b=clz7DmHAGff8LgW2TEZ7Ken4nhA8lLzdmKW8fn81jEIphqwtmtpHnWkOTLilDmc1Jw
-         1WNwcc1rDeIRCtUA6X2Fhm0+YlX3UAr49QwRCxxoJeudAislmwu7iA3Z9azwBlpEtPGh
-         rwiilSsOwihERSd+L7St2fboCEalVm7nmRjDbiXVHEhexX3+YfToka/s5Qj740hNzqCH
-         qu8E5uhKD7QgYcNtxEOQBRQE8jzb0Hsu6a5KFaySKmgLfo1ROWcm6ADtEshSwnZxUjrN
-         ADziAxjo2wxg406SJSqMFW/wUScs5noL0YxZzMCrclJxAo3h7+E1kx5gBv2lX7VIdmX8
-         StHQ==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dgICFcWvjTvzfjhj0yFVEYqO/YD6hk9GpSTuNJaK1Yo=;
+        b=r3YpeJXdE/MqhSNmbozd8V5ObmRlV+lmjuulILR5OzSnMeEQL5yPwuBACensYaqCWy
+         O/BylvKM8lq4JPO/4TxzEcX+2gzDoViNzaoEUC/QDkk6RbHFtpb7cNaC6bpkqRn6a+zt
+         DCjItYj1hsIFW2p+hdcsWcZPCgi0R0vVrv8aSr3X3Hdt7pWfDbnEWEYVYuc46wcDBu8v
+         AnG/M0P0mMP65rXNkA1DnHT/HGljAQwMulekg7ADeJs2OcfiwxjbSHEg8XQ5nuG0ZLsD
+         cooskrTBKqu39kXLNCr2tyz4WjblOXt5IfL5T2Q5MHQORtgKRtCFw9K4yO2UwLqIuQEP
+         G+9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694279128; x=1694883928;
+        d=1e100.net; s=20230601; t=1694305932; x=1694910732;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Bd5KiAiZdDZsCD70naukUNQ1WQr+BWYZBfxZ2iAOL1Q=;
-        b=b/qSkpMFSQqG5yRjet8Vm/7AB3YsqT8cfThG8sCFEGL6i8+AiQuPnC6x0cYQfemFyK
-         AT6adqYIj4TyzZ1j36nxaTEPtvCfrdUJq72Zykkb9nSXpRtDzII9xiqkYzB71dq+PQb8
-         ysxc8eO0p152xGQ8XsWmUj/OaAgeeNhMaTO576aBLY5o+iLDc4GeN3VwCEergW1PF5iD
-         gCbwFK0Ek6vkqz4B1epcyqtJv/nLITZSxfYJZsRz64dTM8ME6+gvfXQtjhiymVpX1wBK
-         85yFUlEF9F/s5+df762i/p/VGy97eORAaTXHnawycfE/ft3h2XQi6Mp8G1c8dwPQbxUZ
-         iLMw==
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dgICFcWvjTvzfjhj0yFVEYqO/YD6hk9GpSTuNJaK1Yo=;
+        b=sy7wZeEIJJglDHlDJY1K+87iXZucZ5B+Nos5u79M/wMO4INUdG6qIViMmfa++g9Ngs
+         Eky+AlPaZZrWeRWoJTEYeo1ZMcRQD0ST71I9d5eYV4gyQrRUjlqPWcLeuZSclYm8Qwzu
+         xSFGGMYYHRUJfbpaNLd+pWV+ZitGf6PxlFajPCd9FPXc9RpxELzCxq7YJFlsnRhsqaTR
+         aVWqhjoSPa1bb7RoNNcSLUIs9OQ1Nzq5r7UqYuX00u1tWQgB9tIMAl4al8JAo4OFeefH
+         9OkvLUF7zBdAhMNFOShlbRXo9TKTV0AkRhkSbG+YHOGc0RoDyPSly7VPjKFW97H7mw5i
+         D7dg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YwJs31LmwC8btPiUDR4anEotFRrSJ/EsAyV3ya+bNfFYNcoiFZw
-	s9HEwicBPtmlyg71H6wdkhA=
-X-Google-Smtp-Source: AGHT+IECy7zYAEw1GuRryDfuH07V5KPUeODxJ+8jA0cZX7cELa8EGfEkkkQiAGspHKbYDITn8uMqAg==
-X-Received: by 2002:a05:6870:15c5:b0:1b7:613c:2e30 with SMTP id k5-20020a05687015c500b001b7613c2e30mr5859921oad.2.1694279128390;
-        Sat, 09 Sep 2023 10:05:28 -0700 (PDT)
+X-Gm-Message-State: AOJu0YyspEFpO3+IPBwkc72oeOcEaFNEADly0Y5MAYL+fdH/xA3jvR8o
+	Zc0TqV9iTpO1FGZaPPvjbVE=
+X-Google-Smtp-Source: AGHT+IHYWLACMwKUAVzh08991uew56fKDwHfINTkwGFcQzyaxvDu0P6wJQG/ddcYDihZwgXdrM6UAA==
+X-Received: by 2002:a05:6512:3713:b0:4f8:766f:8dc3 with SMTP id z19-20020a056512371300b004f8766f8dc3mr4347397lfr.32.1694305931419;
+        Sat, 09 Sep 2023 17:32:11 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:3313:b0:1bb:6485:798a with SMTP id
- x19-20020a056870331300b001bb6485798als2098620oae.1.-pod-prod-02-us; Sat, 09
- Sep 2023 10:05:27 -0700 (PDT)
-X-Received: by 2002:a05:6870:340a:b0:1bb:5af8:701f with SMTP id g10-20020a056870340a00b001bb5af8701fmr6634890oah.23.1694279127693;
-        Sat, 09 Sep 2023 10:05:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1694279127; cv=none;
+Received: by 2002:a05:6512:608:b0:4ff:80d4:e131 with SMTP id
+ b8-20020a056512060800b004ff80d4e131ls985498lfe.1.-pod-prod-09-eu; Sat, 09 Sep
+ 2023 17:32:09 -0700 (PDT)
+X-Received: by 2002:ac2:5629:0:b0:4fb:8f79:631 with SMTP id b9-20020ac25629000000b004fb8f790631mr4964716lff.46.1694305929560;
+        Sat, 09 Sep 2023 17:32:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1694305929; cv=none;
         d=google.com; s=arc-20160816;
-        b=SqH5wD+4GCYVIx8J6Mf6ydGzbtzitkqXg8ih2jX/Bndvd6JLOzYsTiduGWovURKomu
-         AScl/dJWaa358718nLDufBMsBvWJCmG3DcLsPSjRORHSu0u3k9Px90UYv+sMYADP5nD4
-         s2r6G7OLYMeqp56yj+c0NKSp17z1mu0Kk+ZUNjW1Wii28hcWST5tFJmHgOf3mz43E0u1
-         /sL31ND2awjNgRj38WbI2ANfOs+CkgVEg8el9TcvD4i8LIvBKntW2Mcf7sR0cMHoM42Z
-         C/kHIvRdXNHtgAYNGSdoWJIVxxI9VlmQddJTc9/gwHQsT1ozYWYPhxhlDzg755sbm+rC
-         UrGA==
+        b=d0rarGG0MEpvJvEFggmobOYyMK3QWcInSQ0nBSXmcIoREs4MaG0ppBQT17D1gvB12m
+         LBAEeXqUSun7ly3HOqBoccg336C4ymTK836+66fB4eDtC5QeWJVKwkvns4RRb468kLma
+         jnPwVhfE8zEe8aswAyHN1jQbjVqqB5dWIpP4WXKCrO2z92EXAT2VXIupBowH+ZxhRWun
+         /hU0o5nQACPF+IH4ks8Pt3kJwstvZZQFT2EvCvQtah/uffXkcURkpRrHdBwfHBdG6XXx
+         VtxWr74hWR1XGRvT2QD3d1wYhCLpQ8ivJgFF3rviaLxAb/7hKOiGLZVbgK9EaGmz2nvo
+         obLw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=C6jenCbCnB4h7iBrMsdz5u7QLHtc8tgkUkifabuEVVQ=;
-        fh=3dsbSci+tAkSjBLC9NYuww3Ydg6w6l16vREXpchVQqU=;
-        b=WSNyc/S0A74ZzJKcOo7erHJUXo7CIywznmEZFP5Ndlb0V1K1YcWGBcaw2eI7whk6Bu
-         +rUxF5XaFhkHzfxui+ys8INTAeO4u3VY3IkFGFFHOxRFSL55qMHw+UTPT8WoVr432J0d
-         QGawk2TePe5WArEjnvB/izmOA1ShawEwjmHh1R3SBaOIwT+ysACtYkSlPEPmZQ5XmgwN
-         JZCoaftOhde7zuS7rDtsgAuwEJb4bVIa0nYJEc1MY4Ram7/8dsAxWTWqywt5MNng5aCV
-         Uj54xxb1T0vsjpRm6Hey8of7yOxB9wDHf2CzrscAvLdQ/Ni4bXaIPP8SYGQ3ZElhaVl8
-         AWlg==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=WVMHJtdSnzene9Leu6JXJVHJ9+YuPoIq3bYcuTT+HVs=;
+        fh=QPVjUeLKAzf4Q/HuuUwr+dq4KhHUpbsoc21/hSuco4c=;
+        b=XDGm4X3ysuXBDbnWs4FdKih1auHXHTV7XM/FBHB53LqmjPzymBwYBRaTWAcuWHTeCc
+         LBEh5UjjNeVAxM2S4Ie4CVgsqEDzMc4TJfAT2vrWFY3GGe+5IQyA2/4Yr7L3mhxbF1Da
+         qDTGLN1IZFxGLavjvEc7uCQblapVxF3PFGrnGzwbqaI00LekLh+n8gRzzk+/09jNOlOM
+         Pj0UUo3wo7MPX4oTk4OqpSfeDb/SjVPlQeriIvcnsgWh2OTxMevnOrHXHGxbCeg82IrN
+         W5OBIks1QEPMc9L0ccZP1j/UqqOARd4LkuatbUBxmUcdNxs48tFAd5GvmOKVLY9Q7gFn
+         lHhQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@xen0n.name header.s=mail header.b=ku0aRmJt;
-       spf=pass (google.com: domain of kernel@xen0n.name designates 115.28.160.31 as permitted sender) smtp.mailfrom=kernel@xen0n.name
-Received: from mailbox.box.xen0n.name (mail.xen0n.name. [115.28.160.31])
-        by gmr-mx.google.com with ESMTPS id m7-20020a632607000000b0054fdb18c859si578669pgm.1.2023.09.09.10.05.26
+       dkim=pass header.i=@intel.com header.s=Intel header.b=DkAkiHtA;
+       spf=pass (google.com: domain of lkp@intel.com designates 134.134.136.20 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mgamail.intel.com (mgamail.intel.com. [134.134.136.20])
+        by gmr-mx.google.com with ESMTPS id d16-20020a056512369000b004fbcd4b8b84si321614lfs.0.2023.09.09.17.32.08
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Sep 2023 10:05:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kernel@xen0n.name designates 115.28.160.31 as permitted sender) client-ip=115.28.160.31;
-Received: from [192.168.9.172] (unknown [101.88.25.36])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mailbox.box.xen0n.name (Postfix) with ESMTPSA id E2B8560117;
-	Sun, 10 Sep 2023 01:05:23 +0800 (CST)
-Message-ID: <fc0f52e0-99a7-bde7-6674-9c1c579c6bc7@xen0n.name>
-Date: Sun, 10 Sep 2023 01:05:21 +0800
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 09 Sep 2023 17:32:08 -0700 (PDT)
+Received-SPF: pass (google.com: domain of lkp@intel.com designates 134.134.136.20 as permitted sender) client-ip=134.134.136.20;
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="368119148"
+X-IronPort-AV: E=Sophos;i="6.02,240,1688454000"; 
+   d="scan'208";a="368119148"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 17:32:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="916583516"
+X-IronPort-AV: E=Sophos;i="6.02,240,1688454000"; 
+   d="scan'208";a="916583516"
+Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 09 Sep 2023 17:32:03 -0700
+Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1qf8Mr-000464-0J;
+	Sun, 10 Sep 2023 00:32:01 +0000
+Date: Sun, 10 Sep 2023 08:31:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexander Potapenko <glider@google.com>, dvyukov@google.com,
+	elver@google.com, akpm@linux-foundation.org, linux-mm@kvack.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH 2/2] kmsan: prevent optimizations in memcpy tests
+Message-ID: <202309100805.cRHktAYd-lkp@intel.com>
+References: <20230907130642.245222-2-glider@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH 1/2] kasan: Cleanup the __HAVE_ARCH_SHADOW_MAP usage
-To: Huacai Chen <chenhuacai@loongson.cn>, Huacai Chen
- <chenhuacai@kernel.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Andrey Konovalov <andreyknvl@gmail.com>,
- Alexander Potapenko <glider@google.com>
-Cc: loongarch@lists.linux.dev, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com,
- linux-kernel@vger.kernel.org, loongson-kernel@lists.loongnix.cn,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <20230909115450.1903218-1-chenhuacai@loongson.cn>
-Content-Language: en-US
-From: WANG Xuerui <kernel@xen0n.name>
-In-Reply-To: <20230909115450.1903218-1-chenhuacai@loongson.cn>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Original-Sender: kernel@xen0n.name
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20230907130642.245222-2-glider@google.com>
+X-Original-Sender: lkp@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@xen0n.name header.s=mail header.b=ku0aRmJt;       spf=pass
- (google.com: domain of kernel@xen0n.name designates 115.28.160.31 as
- permitted sender) smtp.mailfrom=kernel@xen0n.name
+ header.i=@intel.com header.s=Intel header.b=DkAkiHtA;       spf=pass
+ (google.com: domain of lkp@intel.com designates 134.134.136.20 as permitted
+ sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,133 +147,126 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi,
+Hi Alexander,
 
-On 9/9/23 19:54, Huacai Chen wrote:
-> As Linus suggested, __HAVE_ARCH_XYZ is stupid and only for historical
-> uses. So cleanup the __HAVE_ARCH_SHADOW_MAP usage and use self-defined
+kernel test robot noticed the following build errors:
 
-For the first sentence, I suggest adding quotation marks to make the 
-opinion expression clearer. And paraphrasing a bit:
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v6.5 next-20230908]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
- > As Linus suggested, __HAVE_ARCH_XYZ is "stupid" and "having 
-historical uses of it doesn't make it good".
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Potapenko/kmsan-prevent-optimizations-in-memcpy-tests/20230907-210817
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230907130642.245222-2-glider%40google.com
+patch subject: [PATCH 2/2] kmsan: prevent optimizations in memcpy tests
+config: x86_64-buildonly-randconfig-006-20230910 (https://download.01.org/0day-ci/archive/20230910/202309100805.cRHktAYd-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309100805.cRHktAYd-lkp@intel.com/reproduce)
 
-What do you think?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202309100805.cRHktAYd-lkp@intel.com/
 
-> macros instead.
-"self-defined macro" doesn't really make sense, at least to me. I'd 
-suggest something like "migrate __HAVE_ARCH_SHADOW_MAP to separate 
-macros named after the respective functions", what about this one?
->
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-> ---
->   arch/loongarch/include/asm/kasan.h | 10 ++++++++--
->   include/linux/kasan.h              |  2 +-
->   mm/kasan/kasan.h                   |  8 +++-----
->   3 files changed, 12 insertions(+), 8 deletions(-)
->
-> diff --git a/arch/loongarch/include/asm/kasan.h b/arch/loongarch/include/asm/kasan.h
-> index deeff8158f45..a12ecab37da7 100644
-> --- a/arch/loongarch/include/asm/kasan.h
-> +++ b/arch/loongarch/include/asm/kasan.h
-> @@ -10,8 +10,6 @@
->   #include <asm/io.h>
->   #include <asm/pgtable.h>
->   
-> -#define __HAVE_ARCH_SHADOW_MAP
-> -
->   #define KASAN_SHADOW_SCALE_SHIFT 3
->   #define KASAN_SHADOW_OFFSET	_AC(CONFIG_KASAN_SHADOW_OFFSET, UL)
->   
-> @@ -68,6 +66,7 @@ static __always_inline bool kasan_arch_is_ready(void)
->   	return !kasan_early_stage;
->   }
->   
-> +#define kasan_mem_to_shadow kasan_mem_to_shadow
->   static inline void *kasan_mem_to_shadow(const void *addr)
->   {
->   	if (!kasan_arch_is_ready()) {
-> @@ -97,6 +96,7 @@ static inline void *kasan_mem_to_shadow(const void *addr)
->   	}
->   }
->   
-> +#define kasan_shadow_to_mem kasan_shadow_to_mem
->   static inline const void *kasan_shadow_to_mem(const void *shadow_addr)
->   {
->   	unsigned long addr = (unsigned long)shadow_addr;
-> @@ -119,6 +119,12 @@ static inline const void *kasan_shadow_to_mem(const void *shadow_addr)
->   	}
->   }
->   
-> +#define addr_has_metadata addr_has_metadata
-> +static __always_inline bool addr_has_metadata(const void *addr)
-> +{
-> +	return (kasan_mem_to_shadow((void *)addr) != NULL);
-Drop the outermost pair of parens that's not necessary? It's only a 
-simple comparison after all (although the left hand side is a bit "heavy").
-> +}
-> +
->   void kasan_init(void);
->   asmlinkage void kasan_early_init(void);
->   
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index 3df5499f7936..842623d708c2 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -54,7 +54,7 @@ extern p4d_t kasan_early_shadow_p4d[MAX_PTRS_PER_P4D];
->   int kasan_populate_early_shadow(const void *shadow_start,
->   				const void *shadow_end);
->   
-> -#ifndef __HAVE_ARCH_SHADOW_MAP
-> +#ifndef kasan_mem_to_shadow
->   static inline void *kasan_mem_to_shadow(const void *addr)
->   {
->   	return (void *)((unsigned long)addr >> KASAN_SHADOW_SCALE_SHIFT)
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index f70e3d7a602e..d37831b8511c 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -291,7 +291,7 @@ struct kasan_stack_ring {
->   
->   #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
->   
-> -#ifndef __HAVE_ARCH_SHADOW_MAP
-> +#ifndef kasan_shadow_to_mem
->   static inline const void *kasan_shadow_to_mem(const void *shadow_addr)
->   {
->   	return (void *)(((unsigned long)shadow_addr - KASAN_SHADOW_OFFSET)
-> @@ -299,15 +299,13 @@ static inline const void *kasan_shadow_to_mem(const void *shadow_addr)
->   }
->   #endif
->   
-> +#ifndef addr_has_metadata
->   static __always_inline bool addr_has_metadata(const void *addr)
->   {
-> -#ifdef __HAVE_ARCH_SHADOW_MAP
-> -	return (kasan_mem_to_shadow((void *)addr) != NULL);
-> -#else
->   	return (kasan_reset_tag(addr) >=
->   		kasan_shadow_to_mem((void *)KASAN_SHADOW_START));
-> -#endif
->   }
-> +#endif
->   
->   /**
->    * kasan_check_range - Check memory region, and report if invalid access.
+All errors (new ones prefixed by >>):
 
-The other parts look mechanical and okay to me. With the minor nits 
-addressed (or justified):
+>> mm/kmsan/kmsan_test.c:414:16: error: passing 'volatile void *' to parameter of type 'void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           return memcpy(dst, src, size);
+                         ^~~
+   arch/x86/include/asm/string_64.h:18:27: note: passing argument to parameter 'to' here
+   extern void *memcpy(void *to, const void *from, size_t len);
+                             ^
+>> mm/kmsan/kmsan_test.c:414:21: error: passing 'const volatile void *' to parameter of type 'const void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           return memcpy(dst, src, size);
+                              ^~~
+   arch/x86/include/asm/string_64.h:18:43: note: passing argument to parameter 'from' here
+   extern void *memcpy(void *to, const void *from, size_t len);
+                                             ^
+>> mm/kmsan/kmsan_test.c:468:21: error: passing 'volatile int *' to parameter of type 'const void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+           kmsan_check_memory(&uninit_src, sizeof(uninit_src));
+                              ^~~~~~~~~~~
+   include/linux/kmsan-checks.h:47:37: note: passing argument to parameter 'address' here
+   void kmsan_check_memory(const void *address, size_t size);
+                                       ^
+   3 errors generated.
 
-Reviewed-by: WANG Xuerui <git@xen0n.name>
+
+vim +414 mm/kmsan/kmsan_test.c
+
+   409	
+   410	/* Prevent the compiler from inlining a memcpy() call. */
+   411	static noinline void *memcpy_noinline(volatile void *dst,
+   412					      const volatile void *src, size_t size)
+   413	{
+ > 414		return memcpy(dst, src, size);
+   415	}
+   416	
+   417	/* Test case: ensure that memcpy() correctly copies initialized values. */
+   418	static void test_init_memcpy(struct kunit *test)
+   419	{
+   420		EXPECTATION_NO_REPORT(expect);
+   421		volatile int src;
+   422		volatile int dst = 0;
+   423	
+   424		src = 1;
+   425		kunit_info(
+   426			test,
+   427			"memcpy()ing aligned initialized src to aligned dst (no reports)\n");
+   428		memcpy_noinline((void *)&dst, (void *)&src, sizeof(src));
+   429		kmsan_check_memory((void *)&dst, sizeof(dst));
+   430		KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+   431	}
+   432	
+   433	/*
+   434	 * Test case: ensure that memcpy() correctly copies uninitialized values between
+   435	 * aligned `src` and `dst`.
+   436	 */
+   437	static void test_memcpy_aligned_to_aligned(struct kunit *test)
+   438	{
+   439		EXPECTATION_UNINIT_VALUE_FN(expect, "test_memcpy_aligned_to_aligned");
+   440		volatile int uninit_src;
+   441		volatile int dst = 0;
+   442	
+   443		kunit_info(
+   444			test,
+   445			"memcpy()ing aligned uninit src to aligned dst (UMR report)\n");
+   446		memcpy_noinline((void *)&dst, (void *)&uninit_src, sizeof(uninit_src));
+   447		kmsan_check_memory((void *)&dst, sizeof(dst));
+   448		KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+   449	}
+   450	
+   451	/*
+   452	 * Test case: ensure that memcpy() correctly copies uninitialized values between
+   453	 * aligned `src` and unaligned `dst`.
+   454	 *
+   455	 * Copying aligned 4-byte value to an unaligned one leads to touching two
+   456	 * aligned 4-byte values. This test case checks that KMSAN correctly reports an
+   457	 * error on the first of the two values.
+   458	 */
+   459	static void test_memcpy_aligned_to_unaligned(struct kunit *test)
+   460	{
+   461		EXPECTATION_UNINIT_VALUE_FN(expect, "test_memcpy_aligned_to_unaligned");
+   462		volatile int uninit_src;
+   463		volatile char dst[8] = { 0 };
+   464	
+   465		kunit_info(
+   466			test,
+   467			"memcpy()ing aligned uninit src to unaligned dst (UMR report)\n");
+ > 468		kmsan_check_memory(&uninit_src, sizeof(uninit_src));
+   469		memcpy_noinline((void *)&dst[1], (void *)&uninit_src,
+   470				sizeof(uninit_src));
+   471		kmsan_check_memory((void *)dst, 4);
+   472		KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+   473	}
+   474	
 
 -- 
-WANG "xen0n" Xuerui
-
-Linux/LoongArch mailing list: https://lore.kernel.org/loongarch/
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/fc0f52e0-99a7-bde7-6674-9c1c579c6bc7%40xen0n.name.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202309100805.cRHktAYd-lkp%40intel.com.
