@@ -1,140 +1,131 @@
-Return-Path: <kasan-dev+bncBC4LXIPCY4NRBC456STQMGQEPRE2IOI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7M5BFO7YCRBCOM66TQMGQECXQJIVI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF33D799C30
-	for <lists+kasan-dev@lfdr.de>; Sun, 10 Sep 2023 02:32:12 +0200 (CEST)
-Received: by mail-lf1-x138.google.com with SMTP id 2adb3069b0e04-5029c5f4285sf2156069e87.3
-        for <lists+kasan-dev@lfdr.de>; Sat, 09 Sep 2023 17:32:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1694305932; cv=pass;
+Received: from mail-qt1-x83e.google.com (mail-qt1-x83e.google.com [IPv6:2607:f8b0:4864:20::83e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E90799EE1
+	for <lists+kasan-dev@lfdr.de>; Sun, 10 Sep 2023 17:51:39 +0200 (CEST)
+Received: by mail-qt1-x83e.google.com with SMTP id d75a77b69052e-414e1c2b660sf36331981cf.1
+        for <lists+kasan-dev@lfdr.de>; Sun, 10 Sep 2023 08:51:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1694361098; cv=pass;
         d=google.com; s=arc-20160816;
-        b=MNRY2SY7qhY4gYGmnci+ddab6H0aeOoU8flI3YiG4x5C8GNSUzJIhC4xUcN7qn9xfr
-         M1ZL5nfsR8b9/mMfyzFR15YxMWd4rykO38uVImD7f84K1LjhKSJM9tf0Huj+heDunj9X
-         3nmRvE4Lu6L72n6+KGiQDdIhvZcNfC0qelOABUeoaTf/7uBmbNr5K1xRPvKZ5enoMf9T
-         VworScj/hAx41bE9/vDNOoI12dm5hHO4l2lXJCU6f0hdbNFswvx8tnqWkrYipHvo1KD8
-         UPXDlXyO7kUYswJfr9kwsu8Bww3XeXIaq6MNvRkI3S3EYV1yKx6++TUbsMBdpRpUpm3w
-         rkdA==
+        b=EYEB8YhiPku8MULdVFVbcS9u6grSdZuSRUYJLt3pZY0Rjj3AJFDLggs3CxgNOI0JnY
+         3Un8G3Y846JRHe3ofQFP0gh8EmjLrCCJeTGEO2vfI/xcEW6H5ifjOt9k3J8qqgeLJDmf
+         /QQ2NqKLfNSUR1IPU5Y51tLgU7XZO9TIzAxsLJUH12VjPkMPq8VnPsfaHdCWUxlbjg46
+         x3JM9WDy7S3m11f4J5mCpzFcnFSEvGE74UZisow4LpHWwGrt90oZ/NZ2JFGkMsPM6tlD
+         jk3LBdZGwTAeO/aWq9GnRzPhyjD8y4OqpKBhM1zt+Iz4DomQZ0gpEclzYomdm9P4OH4k
+         hbRA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=dgICFcWvjTvzfjhj0yFVEYqO/YD6hk9GpSTuNJaK1Yo=;
-        fh=QPVjUeLKAzf4Q/HuuUwr+dq4KhHUpbsoc21/hSuco4c=;
-        b=yZ17+LyzkwkFL1tPcziGI3QrZ79xEyjh1AkgjGKbJkfme87Y5thN2YSDikTmEuly0r
-         NKZbzKKqZ3Y85mQMt+QhMEIEQvF9IHxrfgZk76rGwu1ekQOiAXvoJJ5KTN1iJgfjVYKH
-         ATjW2LTRaXZz81ED+ShqmmrfnwAuhyRp+v5DZZahFM3ynruGzYp7ZsrYczWLxheFQIhE
-         8TAA1HAiAqLbSIE1LWj/22kp19kKvCezlZdnvEdszGMI0EKNr99yjrTQjfDR7uGjvdOd
-         jZ7UvrD6EoWDfOYpxzLNUkCc6aE5T4AfS6zlGSGSQepp9gcYuZ8tvk0WyvJ3QcjoIXJm
-         5lWA==
+        bh=ZBytUzYifu4VCHSN4muW+uiAg3IaWljmbHm7GVtNLRs=;
+        fh=adScp5UDE1YnVcPA6fwd6dUvHXI9u3Gf0Weaxk78Ejs=;
+        b=ZbgWIWCbXMXTsak5zE2vvAwzgACOPXb2k3xJv/ei38s3gOZ2V868v6ikEz98kzN0PY
+         8FL2y3kxf2Ls+l2uZ4Ve/u9oVWJ73v8CuN+OG3XIE6laxV7PAyMGZgY6Ugv6OqLzq/5M
+         6klD2WinSEIXsDyT5uFDcyp8bDd4X75pGlg0+0godXGiFumYq1QfcY4dOd0vKqblvHCz
+         cbl4gpOheysMOf9TGYcy5uGQTxKKAMgWQi7UFCd/rDt4BKHZNJ4w3w5fIJaZV+YNAMV2
+         PJ0nbuz/XQkaLXP0Vur+9Fcj2vQgD77ZH1HWOH67dq3g+SNl24JVl4rO/UFlmvb6KB57
+         OEQw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=DkAkiHtA;
-       spf=pass (google.com: domain of lkp@intel.com designates 134.134.136.20 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       dkim=pass header.i=@gmail.com header.s=20221208 header.b=BAvGmOB2;
+       spf=pass (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::1029 as permitted sender) smtp.mailfrom=groeck7@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1694305932; x=1694910732; darn=lfdr.de;
+        d=gmail.com; s=20221208; t=1694361098; x=1694965898; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dgICFcWvjTvzfjhj0yFVEYqO/YD6hk9GpSTuNJaK1Yo=;
-        b=r3YpeJXdE/MqhSNmbozd8V5ObmRlV+lmjuulILR5OzSnMeEQL5yPwuBACensYaqCWy
-         O/BylvKM8lq4JPO/4TxzEcX+2gzDoViNzaoEUC/QDkk6RbHFtpb7cNaC6bpkqRn6a+zt
-         DCjItYj1hsIFW2p+hdcsWcZPCgi0R0vVrv8aSr3X3Hdt7pWfDbnEWEYVYuc46wcDBu8v
-         AnG/M0P0mMP65rXNkA1DnHT/HGljAQwMulekg7ADeJs2OcfiwxjbSHEg8XQ5nuG0ZLsD
-         cooskrTBKqu39kXLNCr2tyz4WjblOXt5IfL5T2Q5MHQORtgKRtCFw9K4yO2UwLqIuQEP
-         G+9g==
+        bh=ZBytUzYifu4VCHSN4muW+uiAg3IaWljmbHm7GVtNLRs=;
+        b=n77PfQOjpG6LrholbJzKpluBE0fZ92WGvhbHLjBxsW6LYGMrkdTDSSg/nDpPzmV/dY
+         tJzUwAKUy6DlyATTU9w/FmiE7pIm5MjPCirMWv70VzxWD5qQczGWGG1g+N0UeYzhw6pJ
+         IZcDhL9vZ1TtomlW7+MiBoN1WfnxxJ8oit4SMH7J/PZNcOGdCymdl7ObQSZZmVoOIcS8
+         hswhnsUugigz9M4dYWh2yb+ZiVy6hpFZ+T5omgEQpbux+hSy/FxKHKq3rdj4yJf3lZdr
+         F/AQk2gfj2DufqJun2DzlHMkkLDuKNL4ukpmcVvKEKHugYHrKmm7pgn7ZJWpbeZhfLK6
+         Tedw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694305932; x=1694910732;
+        d=1e100.net; s=20230601; t=1694361098; x=1694965898;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :to:from:date:sender:x-beenthere:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=dgICFcWvjTvzfjhj0yFVEYqO/YD6hk9GpSTuNJaK1Yo=;
-        b=sy7wZeEIJJglDHlDJY1K+87iXZucZ5B+Nos5u79M/wMO4INUdG6qIViMmfa++g9Ngs
-         Eky+AlPaZZrWeRWoJTEYeo1ZMcRQD0ST71I9d5eYV4gyQrRUjlqPWcLeuZSclYm8Qwzu
-         xSFGGMYYHRUJfbpaNLd+pWV+ZitGf6PxlFajPCd9FPXc9RpxELzCxq7YJFlsnRhsqaTR
-         aVWqhjoSPa1bb7RoNNcSLUIs9OQ1Nzq5r7UqYuX00u1tWQgB9tIMAl4al8JAo4OFeefH
-         9OkvLUF7zBdAhMNFOShlbRXo9TKTV0AkRhkSbG+YHOGc0RoDyPSly7VPjKFW97H7mw5i
-         D7dg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YyspEFpO3+IPBwkc72oeOcEaFNEADly0Y5MAYL+fdH/xA3jvR8o
-	Zc0TqV9iTpO1FGZaPPvjbVE=
-X-Google-Smtp-Source: AGHT+IHYWLACMwKUAVzh08991uew56fKDwHfINTkwGFcQzyaxvDu0P6wJQG/ddcYDihZwgXdrM6UAA==
-X-Received: by 2002:a05:6512:3713:b0:4f8:766f:8dc3 with SMTP id z19-20020a056512371300b004f8766f8dc3mr4347397lfr.32.1694305931419;
-        Sat, 09 Sep 2023 17:32:11 -0700 (PDT)
+        bh=ZBytUzYifu4VCHSN4muW+uiAg3IaWljmbHm7GVtNLRs=;
+        b=BFmWDEsVllkg09aTOtacvQCxVlGjaG6bMFmrBqw2tvVN1VT7gKU936Bt5kDInrejmz
+         miQvncwFEZHcrgC01M0ePFLSK2MBRu2UPuPa5qlhGEmkraS4OYkhefKV1axkESpEWGf6
+         jAgZ7gSeBdC1ziWzPnUCkCKkGe/yW7t8XuPo5WnA8jgwbAskmNce+oKz7mrk4lZzxcPm
+         L8weoDpVr6WxbRI6z5sQq6pwEwDns4Srn+P4aO4679FfrE9kFTUQ5waLvVhxv+IQDVCP
+         uULSfd5ap7NLHdd5AjI3qSmJORbD5VyaC0pLwe43K0rG2ibEv/Roh94QPDlafBYxZFxl
+         mPcg==
+X-Gm-Message-State: AOJu0YzHvqV/EaVHVDsXQokFnBjZdpnemMO/LcnGYFJFK/nlicq9OPge
+	OTtMGjEKFeratKly56igjWI=
+X-Google-Smtp-Source: AGHT+IET8+k/FDeds6NgWFVs8IYskrtGwIhgszVP1BzbUmzQ2SCNtvUqPFYFm8QoJWYP743rmu7jhw==
+X-Received: by 2002:a05:622a:1a9d:b0:403:aa3a:36d with SMTP id s29-20020a05622a1a9d00b00403aa3a036dmr13743766qtc.5.1694361097883;
+        Sun, 10 Sep 2023 08:51:37 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:608:b0:4ff:80d4:e131 with SMTP id
- b8-20020a056512060800b004ff80d4e131ls985498lfe.1.-pod-prod-09-eu; Sat, 09 Sep
- 2023 17:32:09 -0700 (PDT)
-X-Received: by 2002:ac2:5629:0:b0:4fb:8f79:631 with SMTP id b9-20020ac25629000000b004fb8f790631mr4964716lff.46.1694305929560;
-        Sat, 09 Sep 2023 17:32:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1694305929; cv=none;
+Received: by 2002:a05:622a:5592:b0:415:2683:c8f8 with SMTP id
+ fk18-20020a05622a559200b004152683c8f8ls160008qtb.2.-pod-prod-00-us; Sun, 10
+ Sep 2023 08:51:37 -0700 (PDT)
+X-Received: by 2002:a05:6122:12eb:b0:493:fbe7:e71d with SMTP id k11-20020a05612212eb00b00493fbe7e71dmr3646528vkp.6.1694361096951;
+        Sun, 10 Sep 2023 08:51:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1694361096; cv=none;
         d=google.com; s=arc-20160816;
-        b=d0rarGG0MEpvJvEFggmobOYyMK3QWcInSQ0nBSXmcIoREs4MaG0ppBQT17D1gvB12m
-         LBAEeXqUSun7ly3HOqBoccg336C4ymTK836+66fB4eDtC5QeWJVKwkvns4RRb468kLma
-         jnPwVhfE8zEe8aswAyHN1jQbjVqqB5dWIpP4WXKCrO2z92EXAT2VXIupBowH+ZxhRWun
-         /hU0o5nQACPF+IH4ks8Pt3kJwstvZZQFT2EvCvQtah/uffXkcURkpRrHdBwfHBdG6XXx
-         VtxWr74hWR1XGRvT2QD3d1wYhCLpQ8ivJgFF3rviaLxAb/7hKOiGLZVbgK9EaGmz2nvo
-         obLw==
+        b=DgIYug8vpwX2I4w3oB6pp6ysq90yAO58IUAfnKMIQSnwFGThmVcg+A8zfe1Ws/B8+S
+         kGB2Qe3SLehJRMYEfnVJfHid9wQH8LpJ4BLI5uY8zIygihnqHJfwvzXT3BvGWw48+5Wl
+         PPZ+vEe9hxEHZJJgLvSFn/R8afxpy/8v5XQ1plrAESqMdpGvxskROSLTtrj66YkwrtTW
+         25S3aW6+/HZ7iSEHvfzMjY6S2kCiQE7E5yvFl9dsq/oPLi6nIbk3JTuoG/KuoPgV9q6N
+         WATjZ3XwuxWkuZnf1Zg96Zt1FfVInylU804DC8qI6Ftqfj+qNAf/Kp3csqv3WL0ZJwGT
+         Ge+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=WVMHJtdSnzene9Leu6JXJVHJ9+YuPoIq3bYcuTT+HVs=;
-        fh=QPVjUeLKAzf4Q/HuuUwr+dq4KhHUpbsoc21/hSuco4c=;
-        b=XDGm4X3ysuXBDbnWs4FdKih1auHXHTV7XM/FBHB53LqmjPzymBwYBRaTWAcuWHTeCc
-         LBEh5UjjNeVAxM2S4Ie4CVgsqEDzMc4TJfAT2vrWFY3GGe+5IQyA2/4Yr7L3mhxbF1Da
-         qDTGLN1IZFxGLavjvEc7uCQblapVxF3PFGrnGzwbqaI00LekLh+n8gRzzk+/09jNOlOM
-         Pj0UUo3wo7MPX4oTk4OqpSfeDb/SjVPlQeriIvcnsgWh2OTxMevnOrHXHGxbCeg82IrN
-         W5OBIks1QEPMc9L0ccZP1j/UqqOARd4LkuatbUBxmUcdNxs48tFAd5GvmOKVLY9Q7gFn
-         lHhQ==
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=Khig5fiAk2UrEWc554zDncIUcso6vVaeyXzrWK+GM7s=;
+        fh=adScp5UDE1YnVcPA6fwd6dUvHXI9u3Gf0Weaxk78Ejs=;
+        b=UXt+9Eu495MP4y0Sz8XHw88w6syPmL+RgW5BbWLJDCwRjweHlCmIwsFcpri2UoT0+W
+         5ubGcolYPPVv+CtZFjeg9QQe2CQj+xnmXSQsZJQzulb9akCKxsoS3RF7xXEyWJ2yK7qA
+         QXNAyToqFy7w8Bpst6MMtXNcRonpirxaKdvnK/1wclJUI67kZPk/DP8VQTQHOjNNpf4e
+         1x7RXtUQl3FGMViEY6dG09j9ylLFlgcB/CDQ6+fa9gntFHhj+DgvtELItMI+dzsAO832
+         Z8dJ9udl6eEmwNccexO20liWP22C8QkjKUOl3YmP0uo8xkbAOpuaLS7u2AIFW22DaKWp
+         UDtw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=DkAkiHtA;
-       spf=pass (google.com: domain of lkp@intel.com designates 134.134.136.20 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [134.134.136.20])
-        by gmr-mx.google.com with ESMTPS id d16-20020a056512369000b004fbcd4b8b84si321614lfs.0.2023.09.09.17.32.08
+       dkim=pass header.i=@gmail.com header.s=20221208 header.b=BAvGmOB2;
+       spf=pass (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::1029 as permitted sender) smtp.mailfrom=groeck7@gmail.com
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com. [2607:f8b0:4864:20::1029])
+        by gmr-mx.google.com with ESMTPS id dw8-20020a05613028c800b007a6109a9b8esi651245uab.0.2023.09.10.08.51.36
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 09 Sep 2023 17:32:08 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lkp@intel.com designates 134.134.136.20 as permitted sender) client-ip=134.134.136.20;
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="368119148"
-X-IronPort-AV: E=Sophos;i="6.02,240,1688454000"; 
-   d="scan'208";a="368119148"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2023 17:32:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10827"; a="916583516"
-X-IronPort-AV: E=Sophos;i="6.02,240,1688454000"; 
-   d="scan'208";a="916583516"
-Received: from lkp-server01.sh.intel.com (HELO 59b3c6e06877) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 09 Sep 2023 17:32:03 -0700
-Received: from kbuild by 59b3c6e06877 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qf8Mr-000464-0J;
-	Sun, 10 Sep 2023 00:32:01 +0000
-Date: Sun, 10 Sep 2023 08:31:44 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexander Potapenko <glider@google.com>, dvyukov@google.com,
-	elver@google.com, akpm@linux-foundation.org, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH 2/2] kmsan: prevent optimizations in memcpy tests
-Message-ID: <202309100805.cRHktAYd-lkp@intel.com>
-References: <20230907130642.245222-2-glider@google.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 10 Sep 2023 08:51:36 -0700 (PDT)
+Received-SPF: pass (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::1029 as permitted sender) client-ip=2607:f8b0:4864:20::1029;
+Received: by mail-pj1-x1029.google.com with SMTP id 98e67ed59e1d1-268bc714ce0so3305518a91.0
+        for <kasan-dev@googlegroups.com>; Sun, 10 Sep 2023 08:51:36 -0700 (PDT)
+X-Received: by 2002:a17:90b:33c2:b0:267:f8f4:73ab with SMTP id lk2-20020a17090b33c200b00267f8f473abmr14111217pjb.16.1694361095692;
+        Sun, 10 Sep 2023 08:51:35 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id w30-20020a17090a6ba100b0026b3a86b0d5sm4557834pjj.33.2023.09.10.08.51.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Sep 2023 08:51:34 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sun, 10 Sep 2023 08:51:33 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Feiyang Chen <chenfeiyang@loongson.cn>
+Cc: chenhuacai@kernel.org, dvyukov@google.com, andreyknvl@gmail.com,
+	loongarch@lists.linux.dev, kasan-dev@googlegroups.com,
+	chris.chenfeiyang@gmail.com, loongson-kernel@lists.loongnix.cn
+Subject: Re: [PATCH 2/2] LoongArch: Allow building with kcov coverage
+Message-ID: <66522279-c933-4952-9a5a-64301074a74a@roeck-us.net>
+References: <cover.1688369658.git.chenfeiyang@loongson.cn>
+ <8d10b1220434432dbc089fab8df4e1cca048cd0c.1688369658.git.chenfeiyang@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20230907130642.245222-2-glider@google.com>
-X-Original-Sender: lkp@intel.com
+In-Reply-To: <8d10b1220434432dbc089fab8df4e1cca048cd0c.1688369658.git.chenfeiyang@loongson.cn>
+X-Original-Sender: linux@roeck-us.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=DkAkiHtA;       spf=pass
- (google.com: domain of lkp@intel.com designates 134.134.136.20 as permitted
- sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=intel.com
+ header.i=@gmail.com header.s=20221208 header.b=BAvGmOB2;       spf=pass
+ (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::1029
+ as permitted sender) smtp.mailfrom=groeck7@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,126 +138,72 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Alexander,
+Hi,
 
-kernel test robot noticed the following build errors:
+On Tue, Jul 04, 2023 at 08:53:32PM +0800, Feiyang Chen wrote:
+> Add ARCH_HAS_KCOV to the LoongArch Kconfig. Also disable
+> instrumentation of vdso.
+> 
+> Signed-off-by: Feiyang Chen <chenfeiyang@loongson.cn>
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v6.5 next-20230908]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+When trying to build loongarch:allmodconfig, this patch results in
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Potapenko/kmsan-prevent-optimizations-in-memcpy-tests/20230907-210817
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230907130642.245222-2-glider%40google.com
-patch subject: [PATCH 2/2] kmsan: prevent optimizations in memcpy tests
-config: x86_64-buildonly-randconfig-006-20230910 (https://download.01.org/0day-ci/archive/20230910/202309100805.cRHktAYd-lkp@intel.com/config)
-compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20230910/202309100805.cRHktAYd-lkp@intel.com/reproduce)
+Error log:
+In file included from /opt/kernel/gcc-12.2.0-2.39-nolibc/loongarch64-linux-gnu/bin/../lib/gcc/loongarch64-linux-gnu/12.2.0/plugin/include/options.h:8,
+                 from /opt/kernel/gcc-12.2.0-2.39-nolibc/loongarch64-linux-gnu/bin/../lib/gcc/loongarch64-linux-gnu/12.2.0/plugin/include/tm.h:46,
+                 from /opt/kernel/gcc-12.2.0-2.39-nolibc/loongarch64-linux-gnu/bin/../lib/gcc/loongarch64-linux-gnu/12.2.0/plugin/include/backend.h:28,
+                 from /opt/kernel/gcc-12.2.0-2.39-nolibc/loongarch64-linux-gnu/bin/../lib/gcc/loongarch64-linux-gnu/12.2.0/plugin/include/gcc-plugin.h:30,
+                 from scripts/gcc-plugins/gcc-common.h:7,
+                 from scripts/gcc-plugins/latent_entropy_plugin.c:78:
+/opt/kernel/gcc-12.2.0-2.39-nolibc/loongarch64-linux-gnu/bin/../lib/gcc/loongarch64-linux-gnu/12.2.0/plugin/include/config/loongarch/loongarch-opts.h:31:10: fatal error: loongarch-def.h: No such file or directory
+   31 | #include "loongarch-def.h"
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202309100805.cRHktAYd-lkp@intel.com/
+for me. I tried with gcc 12.2 / binutils 2.39 and gcc 13.1 / binutils 2.40.
 
-All errors (new ones prefixed by >>):
+Reverting the patch or explicitly disabling CONFIG_GCC_PLUGINS fixes
+the problem.
 
->> mm/kmsan/kmsan_test.c:414:16: error: passing 'volatile void *' to parameter of type 'void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-           return memcpy(dst, src, size);
-                         ^~~
-   arch/x86/include/asm/string_64.h:18:27: note: passing argument to parameter 'to' here
-   extern void *memcpy(void *to, const void *from, size_t len);
-                             ^
->> mm/kmsan/kmsan_test.c:414:21: error: passing 'const volatile void *' to parameter of type 'const void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-           return memcpy(dst, src, size);
-                              ^~~
-   arch/x86/include/asm/string_64.h:18:43: note: passing argument to parameter 'from' here
-   extern void *memcpy(void *to, const void *from, size_t len);
-                                             ^
->> mm/kmsan/kmsan_test.c:468:21: error: passing 'volatile int *' to parameter of type 'const void *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-           kmsan_check_memory(&uninit_src, sizeof(uninit_src));
-                              ^~~~~~~~~~~
-   include/linux/kmsan-checks.h:47:37: note: passing argument to parameter 'address' here
-   void kmsan_check_memory(const void *address, size_t size);
-                                       ^
-   3 errors generated.
+What compiler / binutils version combination is needed for this to work,
+or, alternatively, how would I have to configure the compiler ?
 
+Thanks,
+Guenter
 
-vim +414 mm/kmsan/kmsan_test.c
-
-   409	
-   410	/* Prevent the compiler from inlining a memcpy() call. */
-   411	static noinline void *memcpy_noinline(volatile void *dst,
-   412					      const volatile void *src, size_t size)
-   413	{
- > 414		return memcpy(dst, src, size);
-   415	}
-   416	
-   417	/* Test case: ensure that memcpy() correctly copies initialized values. */
-   418	static void test_init_memcpy(struct kunit *test)
-   419	{
-   420		EXPECTATION_NO_REPORT(expect);
-   421		volatile int src;
-   422		volatile int dst = 0;
-   423	
-   424		src = 1;
-   425		kunit_info(
-   426			test,
-   427			"memcpy()ing aligned initialized src to aligned dst (no reports)\n");
-   428		memcpy_noinline((void *)&dst, (void *)&src, sizeof(src));
-   429		kmsan_check_memory((void *)&dst, sizeof(dst));
-   430		KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-   431	}
-   432	
-   433	/*
-   434	 * Test case: ensure that memcpy() correctly copies uninitialized values between
-   435	 * aligned `src` and `dst`.
-   436	 */
-   437	static void test_memcpy_aligned_to_aligned(struct kunit *test)
-   438	{
-   439		EXPECTATION_UNINIT_VALUE_FN(expect, "test_memcpy_aligned_to_aligned");
-   440		volatile int uninit_src;
-   441		volatile int dst = 0;
-   442	
-   443		kunit_info(
-   444			test,
-   445			"memcpy()ing aligned uninit src to aligned dst (UMR report)\n");
-   446		memcpy_noinline((void *)&dst, (void *)&uninit_src, sizeof(uninit_src));
-   447		kmsan_check_memory((void *)&dst, sizeof(dst));
-   448		KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-   449	}
-   450	
-   451	/*
-   452	 * Test case: ensure that memcpy() correctly copies uninitialized values between
-   453	 * aligned `src` and unaligned `dst`.
-   454	 *
-   455	 * Copying aligned 4-byte value to an unaligned one leads to touching two
-   456	 * aligned 4-byte values. This test case checks that KMSAN correctly reports an
-   457	 * error on the first of the two values.
-   458	 */
-   459	static void test_memcpy_aligned_to_unaligned(struct kunit *test)
-   460	{
-   461		EXPECTATION_UNINIT_VALUE_FN(expect, "test_memcpy_aligned_to_unaligned");
-   462		volatile int uninit_src;
-   463		volatile char dst[8] = { 0 };
-   464	
-   465		kunit_info(
-   466			test,
-   467			"memcpy()ing aligned uninit src to unaligned dst (UMR report)\n");
- > 468		kmsan_check_memory(&uninit_src, sizeof(uninit_src));
-   469		memcpy_noinline((void *)&dst[1], (void *)&uninit_src,
-   470				sizeof(uninit_src));
-   471		kmsan_check_memory((void *)dst, 4);
-   472		KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-   473	}
-   474	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> ---
+>  arch/loongarch/Kconfig       | 1 +
+>  arch/loongarch/vdso/Makefile | 2 ++
+>  2 files changed, 3 insertions(+)
+> 
+> diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
+> index ed9a148cdcde..4c21a961ab88 100644
+> --- a/arch/loongarch/Kconfig
+> +++ b/arch/loongarch/Kconfig
+> @@ -14,6 +14,7 @@ config LOONGARCH
+>  	select ARCH_HAS_ACPI_TABLE_UPGRADE	if ACPI
+>  	select ARCH_HAS_CPU_FINALIZE_INIT
+>  	select ARCH_HAS_FORTIFY_SOURCE
+> +	select ARCH_HAS_KCOV
+>  	select ARCH_HAS_NMI_SAFE_THIS_CPU_OPS
+>  	select ARCH_HAS_PTE_SPECIAL
+>  	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
+> diff --git a/arch/loongarch/vdso/Makefile b/arch/loongarch/vdso/Makefile
+> index 7bb794604af3..7dc87377688b 100644
+> --- a/arch/loongarch/vdso/Makefile
+> +++ b/arch/loongarch/vdso/Makefile
+> @@ -5,6 +5,8 @@ ifdef CONFIG_KASAN
+>  KASAN_SANITIZE := n
+>  endif
+>  
+> +KCOV_INSTRUMENT := n
+> +
+>  # Include the generic Makefile to check the built vdso.
+>  include $(srctree)/lib/vdso/Makefile
+>  
+> -- 
+> 2.39.3
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202309100805.cRHktAYd-lkp%40intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/66522279-c933-4952-9a5a-64301074a74a%40roeck-us.net.
