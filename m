@@ -1,138 +1,138 @@
-Return-Path: <kasan-dev+bncBAABBX6T66TQMGQEQTJSCHY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7M5BFO7YCRBZHF66TQMGQE5JCGTBY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3e.google.com (mail-yb1-xb3e.google.com [IPv6:2607:f8b0:4864:20::b3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D099799EEC
-	for <lists+kasan-dev@lfdr.de>; Sun, 10 Sep 2023 18:08:01 +0200 (CEST)
-Received: by mail-yb1-xb3e.google.com with SMTP id 3f1490d57ef6-d7b9eb73dcdsf3208195276.0
-        for <lists+kasan-dev@lfdr.de>; Sun, 10 Sep 2023 09:08:00 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1694362080; cv=pass;
+Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9538799F04
+	for <lists+kasan-dev@lfdr.de>; Sun, 10 Sep 2023 18:46:30 +0200 (CEST)
+Received: by mail-pj1-x1038.google.com with SMTP id 98e67ed59e1d1-26f49ad3b86sf4574321a91.3
+        for <lists+kasan-dev@lfdr.de>; Sun, 10 Sep 2023 09:46:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1694364389; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ponhhoE09qjYuSXx5jECfqyiLkKimqZKDp2whCCioePX95lUl2lFGMMnf0K37kDQzp
-         m3+wmsdpRhvWY+2BGBftgHm6+u8oaOpUdWSZIjx1encLnuCJ9O9r6dmVPvLkEkZWBACg
-         ASrnVHgkMl0jMs7TAaOQE6ZWJ1KWFJQx2jvYLM7wj7RyikIVC9+wLis3ZnuQP/rG5Jsc
-         IjvduuI2NylOUzKlVRWIwb1I56zpqMjHlK7hALQ37bRn3VdH2Yht6rdAZAWcVeh5mUXM
-         eANS42nT5zPz69zz/N1yq2X9RHPx72T6uGYMHRBzrL+5gR5bSLkxXG/QfF/fBJSTU595
-         yUyw==
+        b=yEFECVf2PTcJy9zJDR92xo8XIfm+1E/KNdyX52uuN3q9EzI0F5pqONYcohRBIb0fnI
+         UdFRrZRu40OFRkB63PjPCITdt8ZcYHi4zMD7agSLr2Ztk1jbegsZ7qVjfrsISGnryKdg
+         IwYmP0HgSUQKVP2ZQ5HWEVA66+OXqXsOdFPtqfjThNJAf803ozmEA8bQgrlAIT+RBjlu
+         E4P923LCwaRWpRB3i7kSI1x6sNnZSOXVwxtwZ+0s7P5CS+SMTGI0Nnma6fJ+NszzH/5s
+         hm2dVeLSILSM4+H77XZ/rMRgX6zMprB9VVbJN/m5jIKT5BxU7ngFcew3XNh2Y03lGSHv
+         Uwvw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:user-agent
-         :content-transfer-encoding:references:in-reply-to:date:cc:to:from
-         :subject:message-id:dkim-signature;
-        bh=dv7dE5sY4EJ+n+UeKRtL4LdNbZE4sLSW6SzIhqb9+9k=;
-        fh=cw6EbsTTO+jd0Mffn0MpxpOsh4uW0IfYYXJDZMV1Xa0=;
-        b=yOcfxtIY5x5zocbiNfL5D2AsVjtKwHv253iF5p6LlLV3N615fJHK7NdxWpCGWtVrED
-         AIqCcfsYo/v/WRuW7i24OnKxbJIED+g4+CJHX1/WBlmJagnPN56VLLzn7+jhSBDVEmzx
-         r5rlC+MGz3lnptB1dnYfHCJdLGs4ZhPZ0M4tCA0wOJTIdSOKcwgkw+TDX4xgsaHoO5wn
-         S49839I2akKrWSjOOo6FLIcMWTUOz7bjT2eoEDtgCDNSJ1j/SIKn488ZuXlyuJvT4sih
-         a6oNe9kjiMZakv31ii+V0BwL8GsOayDNFoQgGqHXO1GSVHW73R0oUkr+nBb8fzjtFZG9
-         muAA==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:sender:dkim-signature;
+        bh=xJZfDr61Z4YsX9dqqr0mCPJpWUyHBcQ15GLgp7RBbDk=;
+        fh=eYG+YXAxYhkQ9ZQImXJ+v8jHTytD/xSOca7sp/tDKBs=;
+        b=iNdR59GIOISt1ckssOtGxGkzJJUuGozKZEJ86U9IBpXp6DCa/p27CqhEgX7z3yVY++
+         ZLgD0cvIG706rN/tOwCOIFkPC4fng7ytcrgzL8cSi3bkIJCHDJb5fyeSgMwEtI0UrHGt
+         jg46WsnsIvSBOkZ76jwpD6ZkARbTd5bLDXXCA4frugCPNdkNxZvDF+vQSC/HnbwaAKMR
+         B0iOWZ+ZFA+v59UUCxOBDFRgp+V+LeWwO10qNaNrbfaz0sHz1GXwjxr8DDpKzw+c4k41
+         43di/gnXCPlq5MoAfjxIu51/4+GMnRVNkq6HqZto5t+g0bSU73jFgC12plTg7ijgLuVY
+         PvzQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@xry111.site header.s=default header.b=l1DZFW7Y;
-       spf=pass (google.com: domain of xry111@xry111.site designates 89.208.246.23 as permitted sender) smtp.mailfrom=xry111@xry111.site;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=xry111.site
+       dkim=pass header.i=@gmail.com header.s=20221208 header.b=q1M9NaeB;
+       spf=pass (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::d31 as permitted sender) smtp.mailfrom=groeck7@gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1694362080; x=1694966880; darn=lfdr.de;
+        d=gmail.com; s=20221208; t=1694364389; x=1694969189; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :user-agent:content-transfer-encoding:references:in-reply-to:date:cc
-         :to:from:subject:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dv7dE5sY4EJ+n+UeKRtL4LdNbZE4sLSW6SzIhqb9+9k=;
-        b=VBFmE1Bxcfurn1OG3byyCJCykybux02+dl2DpkKkyzuxjIJmBZYUycnD85hD2bc/SL
-         XGklQIgk8qyiWQuu6w0s4Xsa2Uf0TNwKVuNhlt3O3Fc69eXG3p/aKCMVW5uLJthvj+eL
-         fb77+YOqnCQqVhg8vc2RcFQ3ql7gtg8cPtJg/p3q8Dj/G34fUnmZ+a2fMoV+UayMaKj5
-         c31X0doj6shrS0vxIpUs9qGrTm/l/CqZZTRyryNg9KxM54eMzjSOGP+wjQjofJQu3W7c
-         NStc31LBCjNH/CZwGiYMgU5NPVv6/rT5kJ5l5dh+08apCjxD5BBfx65pphVXl6UtAB5Z
-         ugjw==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=xJZfDr61Z4YsX9dqqr0mCPJpWUyHBcQ15GLgp7RBbDk=;
+        b=BcHEVBJtRjsFZpCBauNhicInvwv57UFLOi5uggF8YGst7+GejCkaTixsncno++gOeV
+         B0dxiL1i6AKV72NEMOlRJf0pZEeZE0Uz/MfbSXsA8BKp7y+mdwhUbf8uKXnXCPvPcyxj
+         plj3CRuEF4bh0Enf0aJMjS/TyUTeLnFVy1esJG5B7LNGTlIe4y37jCleC9a9qIS7mua0
+         5h4FmuDY4zOGedQdzkraU3v39piA/OOnGKHCtGkl0+Qmdm/zJYCEL6FuBFhTPG7hjnTw
+         moJddmTziADOSY7mbb9biRrZC3UkiQZYembijTagVQPuIoJZ5/j6j1o81tP4ycOCxoey
+         6wSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694362080; x=1694966880;
+        d=1e100.net; s=20230601; t=1694364389; x=1694969189;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :user-agent:content-transfer-encoding:references:in-reply-to:date:cc
-         :to:from:subject:message-id:x-beenthere:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dv7dE5sY4EJ+n+UeKRtL4LdNbZE4sLSW6SzIhqb9+9k=;
-        b=E4W5KI2QuB2g6n9A4C1QqHqFeRhri8kopKuoY4rX2Gzek7JdpjhdRq4GWmL2QtmTpS
-         l/n2pLBo7p77S/CLvxnRe1/4eyyNbJVqGEH52c+XIvjAk4e+wLVDQhHL/jXkbjCkn2Qh
-         NdcC5Th9udxbCgvG2WnY+iXOu6yJ98zzXBGo9VThIhdptG529G83V3b6qicNm/d+3mdF
-         xJ1P6YOmfbrlkzD7qF4wCmoP5q8GGA5PhNUbDsSFGX2txXr3he7srElglirkbV1k33SD
-         QSvnAI8IQHo1HfEEOpLvG1iwHAlspEt4RblHv2hF3vKl+PEkcynV6dmAfYUcnwu/WkDT
-         7P9w==
-X-Gm-Message-State: AOJu0Yw21k7FhgcYYeNYH1Oqe5rWsalxbavkvsohWJ7iNgZLzgkAGlql
-	kCHb9fkW4DlKMgy3FPEhgCw=
-X-Google-Smtp-Source: AGHT+IFe2JTS1BqNXE1+IR8x9SYQPI3KQbzCk/oXpp2wOqH1fULR0gc+v4Gl/6jJ4Dl+pOz9Yp2dRg==
-X-Received: by 2002:a05:6902:1141:b0:d77:f518:ff59 with SMTP id p1-20020a056902114100b00d77f518ff59mr8462212ybu.11.1694362079715;
-        Sun, 10 Sep 2023 09:07:59 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xJZfDr61Z4YsX9dqqr0mCPJpWUyHBcQ15GLgp7RBbDk=;
+        b=ZUAavfn71hVS4Yo2nvLz99Eb1mOMiNxZ+0it58mQRdY7ruSbzRwHVxGIACmNgimRHD
+         41tTNrNI1yIGXcNm2V0SiTYmVPSrppxWMhZSfsh2ZdVm/xtSXxxzhKYdYD7jWcy/J+s0
+         8aJCHwyKuCkta+C3MdNvg1uElXzLYJFYA/z077IzGq9sC5R9AMVAce+2GNLswgZ9S+0l
+         I6wBV5dwKDzVfCB0tXKeVxDjksV1aA0yX/F77cga1zC2rVschELTd2oS3tS24ea+es7d
+         UeIhk1UOq/o8HTaLMMpeEpgM5JY4PG9GuCzbOtD0OumUYrGHJJXeb9FW/nyTjCX/sdLq
+         XnAQ==
+X-Gm-Message-State: AOJu0YzjcCTx4ksZZfQvDTuGmtbpAiDX971SLGNhng3v4S0wBCn6oJTN
+	JWm6vhw0YsazT7Z3QA2VAvE=
+X-Google-Smtp-Source: AGHT+IFXFnAFbqvYOYzY+BamolNEzolhhZlUuqvh1YXx489zRkYNNCLaKJsbKpVolW2vtb8aiOB3RQ==
+X-Received: by 2002:a17:90a:e144:b0:274:1bb1:415a with SMTP id ez4-20020a17090ae14400b002741bb1415amr68222pjb.41.1694364388706;
+        Sun, 10 Sep 2023 09:46:28 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6902:1141:b0:d05:4fc7:6cd7 with SMTP id
- p1-20020a056902114100b00d054fc76cd7ls862647ybu.0.-pod-prod-04-us; Sun, 10 Sep
- 2023 09:07:59 -0700 (PDT)
-X-Received: by 2002:a81:490e:0:b0:583:9e6c:eb69 with SMTP id w14-20020a81490e000000b005839e6ceb69mr8077580ywa.42.1694362079060;
-        Sun, 10 Sep 2023 09:07:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1694362079; cv=none;
+Received: by 2002:a17:90b:1912:b0:262:e296:d183 with SMTP id
+ mp18-20020a17090b191200b00262e296d183ls1824020pjb.1.-pod-prod-09-us; Sun, 10
+ Sep 2023 09:46:27 -0700 (PDT)
+X-Received: by 2002:a05:6a20:428b:b0:14d:7511:1c1 with SMTP id o11-20020a056a20428b00b0014d751101c1mr7451653pzj.49.1694364387514;
+        Sun, 10 Sep 2023 09:46:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1694364387; cv=none;
         d=google.com; s=arc-20160816;
-        b=kuD6s1E7BrHvDlqYXQsKS7IQ5+RKZh4yiVE1Ya/QCs24YgfhZuQDtJmHgNMnQKZQmi
-         ljAG5mv47v29HZStFfL/eRiIWjnX8cBw4xsYNJBxfNZrHclqyWjzRTz5AdUB1P56QCE9
-         Py3mc4bprAtNXUDNu18Pxmvu3vddEPzWGqoU06/ZRZXksyAcpWj/JRmrzn10wRIxPEBm
-         HUJPtsCeF9V/3FlXeakT+joaLxPiAZHVQLefKyxkc4eT2Su+CsKxHxe/DsTMmmNxBE9V
-         Db9ptsGjKSSxULJR7dBe0oiu9kuEAyDl9Iehh4CjWy00YqGTuPnvS9rnaITbKGkJe7ux
-         euBA==
+        b=C8XV7lYn7Kry9b2RKL1mW2UfFCDw+TLqPWuTRUPAvnnC24CTM6xn9uO4Lmg6YdxswB
+         Lej1w+Q9PyoHNUbFv5QG2ucAbwouILo0CKombPcqLwVKbO47L58ma6tM5X0KCXtSWOE3
+         PLxXsW/YNvyC1Oi4lFRc8kMKUoYFtsa2pwaZgo5J8iS8RIiPTYGrozE4Rx/I5aunqt8U
+         0RardiH5sQkUHVl2Ubw7J5OH7pwB6RVpd6fQauBfRYRqW+nvFs0dkIM1vIDbDstYlEv6
+         hIXG7un8HKkFiHFMle5vogRHx/6HOPZxjOFBUi6898+dfZU/JYnHn2SGp5cKBTHff+qm
+         K5Lg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:dkim-signature;
-        bh=Nxvwr3UyOjCueB1Qh0ByM6tTtpE31cdPxaDGzo0tJ0c=;
-        fh=cw6EbsTTO+jd0Mffn0MpxpOsh4uW0IfYYXJDZMV1Xa0=;
-        b=HXhQfjt4velwfU8aWuzPE2ZwwdfXkB36lK0pq14LMRPlt9vUkqOfCXsxhldiBtoeA4
-         9K6xmcOdQUcSCZjoLd87pk52xgJlBCG692ppegx8Yxfe82cA8zZdZ+Cvh2IvsqTVu9IM
-         jMs91yNuy/If+HgmtTXq9JC9TLrFAy8Pg2Wdx2Ad49nxTJa2pq7xZ/JzTSPSlhZ88BhN
-         1AkruMSZClPASupwHyyyJ0qDFhUV+9rW64QFh1b1r5iPNDz3KCRMqyIWahfqMEYXB/bm
-         pbtaMOsg2Dgal0fgHodAq7E/emXBZitHirFlpyZAwSMeRnkRYlfkjK7DesOkmqoretib
-         tPOA==
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=61vUwUdH6cPiu3s3z2+GRh4ZeJftNEs+VBuIsIetADI=;
+        fh=eYG+YXAxYhkQ9ZQImXJ+v8jHTytD/xSOca7sp/tDKBs=;
+        b=NpAE6XgnntPmT8MtxCfJgVzlpgcN7GJJG69fHkoVCvYnZY7FB6vo/e/ccnf1eGzeZE
+         ENHo2taumXgat83IMVux4yYYpF1iZeOx09K6l8SfC7uIO6MLBLfy314o/5s1FrppRhUk
+         l8GEq3/juQSzldNmxjLGK6C8wpT4zoXqLIuHg+2Kr209ne0sYFHWhg0PEZFDRN3oK1HL
+         oj7OAWDERqp2Ofv1jhauN0keNyD/X7xtK8mWmB2vPBFKGIqfljjIfZKqV+zSKtL3hvJO
+         Q5KdnCwTO9wgv2fx1D6X/+L6QieCnw46BlGXubI2a5NFYcm9fshYm4mIxrf4Us0ihOoM
+         xrng==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@xry111.site header.s=default header.b=l1DZFW7Y;
-       spf=pass (google.com: domain of xry111@xry111.site designates 89.208.246.23 as permitted sender) smtp.mailfrom=xry111@xry111.site;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=xry111.site
-Received: from xry111.site (xry111.site. [89.208.246.23])
-        by gmr-mx.google.com with ESMTPS id db18-20020a05690c0dd200b0058cb6211ff8si1086251ywb.4.2023.09.10.09.07.58
+       dkim=pass header.i=@gmail.com header.s=20221208 header.b=q1M9NaeB;
+       spf=pass (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::d31 as permitted sender) smtp.mailfrom=groeck7@gmail.com
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com. [2607:f8b0:4864:20::d31])
+        by gmr-mx.google.com with ESMTPS id y13-20020a170902b48d00b001b8a5937569si514505plr.8.2023.09.10.09.46.27
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Sep 2023 09:07:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of xry111@xry111.site designates 89.208.246.23 as permitted sender) client-ip=89.208.246.23;
-Received: from [IPv6:240e:358:1101:700:dc73:854d:832e:2] (unknown [IPv6:240e:358:1101:700:dc73:854d:832e:2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-384) server-digest SHA384)
-	(Client did not present a certificate)
-	(Authenticated sender: xry111@xry111.site)
-	by xry111.site (Postfix) with ESMTPSA id 76A79659C0;
-	Sun, 10 Sep 2023 12:07:52 -0400 (EDT)
-Message-ID: <ed3d5214b0a84486080993b56c0de45accfe4fce.camel@xry111.site>
-Subject: Re: [PATCH 2/2] LoongArch: Allow building with kcov coverage
-From: "'Xi Ruoyao' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Guenter Roeck <linux@roeck-us.net>, Feiyang Chen
- <chenfeiyang@loongson.cn>
-Cc: chenhuacai@kernel.org, dvyukov@google.com, andreyknvl@gmail.com, 
-	loongarch@lists.linux.dev, kasan-dev@googlegroups.com, 
-	chris.chenfeiyang@gmail.com, loongson-kernel@lists.loongnix.cn
-Date: Mon, 11 Sep 2023 00:07:46 +0800
-In-Reply-To: <66522279-c933-4952-9a5a-64301074a74a@roeck-us.net>
-References: <cover.1688369658.git.chenfeiyang@loongson.cn>
-	 <8d10b1220434432dbc089fab8df4e1cca048cd0c.1688369658.git.chenfeiyang@loongson.cn>
-	 <66522279-c933-4952-9a5a-64301074a74a@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 10 Sep 2023 09:46:27 -0700 (PDT)
+Received-SPF: pass (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::d31 as permitted sender) client-ip=2607:f8b0:4864:20::d31;
+Received: by mail-io1-xd31.google.com with SMTP id ca18e2360f4ac-7928ba24936so141857339f.0
+        for <kasan-dev@googlegroups.com>; Sun, 10 Sep 2023 09:46:27 -0700 (PDT)
+X-Received: by 2002:a6b:5915:0:b0:795:16b8:85fc with SMTP id n21-20020a6b5915000000b0079516b885fcmr9051442iob.0.1694364386703;
+        Sun, 10 Sep 2023 09:46:26 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id g2-20020a5ec742000000b0078337cd3b3csm1729489iop.54.2023.09.10.09.46.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 10 Sep 2023 09:46:25 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <2520edfc-32a3-a838-ef80-337f20cd7d9c@roeck-us.net>
+Date: Sun, 10 Sep 2023 09:46:23 -0700
 MIME-Version: 1.0
-X-Original-Sender: xry111@xry111.site
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.0
+Subject: Re: [PATCH 2/2] LoongArch: Allow building with kcov coverage
+To: Xi Ruoyao <xry111@xry111.site>, Feiyang Chen <chenfeiyang@loongson.cn>
+Cc: chenhuacai@kernel.org, dvyukov@google.com, andreyknvl@gmail.com,
+ loongarch@lists.linux.dev, kasan-dev@googlegroups.com,
+ chris.chenfeiyang@gmail.com, loongson-kernel@lists.loongnix.cn
+References: <cover.1688369658.git.chenfeiyang@loongson.cn>
+ <8d10b1220434432dbc089fab8df4e1cca048cd0c.1688369658.git.chenfeiyang@loongson.cn>
+ <66522279-c933-4952-9a5a-64301074a74a@roeck-us.net>
+ <ed3d5214b0a84486080993b56c0de45accfe4fce.camel@xry111.site>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+In-Reply-To: <ed3d5214b0a84486080993b56c0de45accfe4fce.camel@xry111.site>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: linux@roeck-us.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@xry111.site header.s=default header.b=l1DZFW7Y;       spf=pass
- (google.com: domain of xry111@xry111.site designates 89.208.246.23 as
- permitted sender) smtp.mailfrom=xry111@xry111.site;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=xry111.site
-X-Original-From: Xi Ruoyao <xry111@xry111.site>
-Reply-To: Xi Ruoyao <xry111@xry111.site>
+ header.i=@gmail.com header.s=20221208 header.b=q1M9NaeB;       spf=pass
+ (google.com: domain of groeck7@gmail.com designates 2607:f8b0:4864:20::d31 as
+ permitted sender) smtp.mailfrom=groeck7@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,66 +145,69 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sun, 2023-09-10 at 08:51 -0700, Guenter Roeck wrote:
-> Hi,
+On 9/10/23 09:07, Xi Ruoyao wrote:
+> On Sun, 2023-09-10 at 08:51 -0700, Guenter Roeck wrote:
+>> Hi,
+>>
+>> On Tue, Jul 04, 2023 at 08:53:32PM +0800, Feiyang Chen wrote:
+>>> Add ARCH_HAS_KCOV to the LoongArch Kconfig. Also disable
+>>> instrumentation of vdso.
+>>>
+>>> Signed-off-by: Feiyang Chen <chenfeiyang@loongson.cn>
+>>
+>> When trying to build loongarch:allmodconfig, this patch results in
+>>
+>> Error log:
+>> In file included from /opt/kernel/gcc-12.2.0-2.39-nolibc/loongarch64-lin=
+ux-gnu/bin/../lib/gcc/loongarch64-linux-gnu/12.2.0/plugin/include/options.h=
+:8,
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 from /opt/kernel/gcc-12.2.0-2.39-nolibc/loongar=
+ch64-linux-gnu/bin/../lib/gcc/loongarch64-linux-gnu/12.2.0/plugin/include/t=
+m.h:46,
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 from /opt/kernel/gcc-12.2.0-2.39-nolibc/loongar=
+ch64-linux-gnu/bin/../lib/gcc/loongarch64-linux-gnu/12.2.0/plugin/include/b=
+ackend.h:28,
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 from /opt/kernel/gcc-12.2.0-2.39-nolibc/loongar=
+ch64-linux-gnu/bin/../lib/gcc/loongarch64-linux-gnu/12.2.0/plugin/include/g=
+cc-plugin.h:30,
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 from scripts/gcc-plugins/gcc-common.h:7,
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 from scripts/gcc-plugins/latent_entropy_plugin.=
+c:78:
+>> /opt/kernel/gcc-12.2.0-2.39-nolibc/loongarch64-linux-gnu/bin/../lib/gcc/=
+loongarch64-linux-gnu/12.2.0/plugin/include/config/loongarch/loongarch-opts=
+.h:31:10: fatal error: loongarch-def.h: No such file or directory
+>>  =C2=A0=C2=A0 31 | #include "loongarch-def.h"
 >=20
-> On Tue, Jul 04, 2023 at 08:53:32PM +0800, Feiyang Chen wrote:
-> > Add ARCH_HAS_KCOV to the LoongArch Kconfig. Also disable
-> > instrumentation of vdso.
-> >=20
-> > Signed-off-by: Feiyang Chen <chenfeiyang@loongson.cn>
+>> for me. I tried with gcc 12.2 / binutils 2.39 and gcc 13.1 / binutils 2.=
+40.
 >=20
-> When trying to build loongarch:allmodconfig, this patch results in
+>> Reverting the patch or explicitly disabling CONFIG_GCC_PLUGINS fixes
+>> the problem.
+>>
+>> What compiler / binutils version combination is needed for this to work,
+>> or, alternatively, how would I have to configure the compiler ?
 >=20
-> Error log:
-> In file included from /opt/kernel/gcc-12.2.0-2.39-nolibc/loongarch64-linu=
-x-gnu/bin/../lib/gcc/loongarch64-linux-gnu/12.2.0/plugin/include/options.h:=
-8,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 from /opt/kernel/gcc-12.2.0-2.39-nolibc/loongarch6=
-4-linux-gnu/bin/../lib/gcc/loongarch64-linux-gnu/12.2.0/plugin/include/tm.h=
-:46,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 from /opt/kernel/gcc-12.2.0-2.39-nolibc/loongarch6=
-4-linux-gnu/bin/../lib/gcc/loongarch64-linux-gnu/12.2.0/plugin/include/back=
-end.h:28,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 from /opt/kernel/gcc-12.2.0-2.39-nolibc/loongarch6=
-4-linux-gnu/bin/../lib/gcc/loongarch64-linux-gnu/12.2.0/plugin/include/gcc-=
-plugin.h:30,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 from scripts/gcc-plugins/gcc-common.h:7,
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 from scripts/gcc-plugins/latent_entropy_plugin.c:7=
-8:
-> /opt/kernel/gcc-12.2.0-2.39-nolibc/loongarch64-linux-gnu/bin/../lib/gcc/l=
-oongarch64-linux-gnu/12.2.0/plugin/include/config/loongarch/loongarch-opts.=
-h:31:10: fatal error: loongarch-def.h: No such file or directory
-> =C2=A0=C2=A0 31 | #include "loongarch-def.h"
-
-> for me. I tried with gcc 12.2 / binutils 2.39 and gcc 13.1 / binutils 2.4=
-0.
-
-> Reverting the patch or explicitly disabling CONFIG_GCC_PLUGINS fixes
-> the problem.
+> Hi Guenter,
 >=20
-> What compiler / binutils version combination is needed for this to work,
-> or, alternatively, how would I have to configure the compiler ?
+> This is a GCC bug.  It's fixed in GCC trunk and the fix has been
+> backported to 12/13 release branches, so GCC 14.1, 13.3, and 12.4 will
+> contain the fix.
+>=20
+> The fix is available at https://gcc.gnu.org/r14-3331, you can apply the
+> patch building the compiler.
+>=20
+> Sorry for the inconvenience.
+>=20
 
-Hi Guenter,
+Thanks for the information. I'll add a note to my builders and just disable
+gcc plugins for now until the new compiler versions are available.
 
-This is a GCC bug.  It's fixed in GCC trunk and the fix has been
-backported to 12/13 release branches, so GCC 14.1, 13.3, and 12.4 will
-contain the fix.
-
-The fix is available at https://gcc.gnu.org/r14-3331, you can apply the
-patch building the compiler.
-
-Sorry for the inconvenience.
-
---=20
-Xi Ruoyao <xry111@xry111.site>
-School of Aerospace Science and Technology, Xidian University
+Guenter
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -212,4 +215,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/ed3d5214b0a84486080993b56c0de45accfe4fce.camel%40xry111.site.
+kasan-dev/2520edfc-32a3-a838-ef80-337f20cd7d9c%40roeck-us.net.
