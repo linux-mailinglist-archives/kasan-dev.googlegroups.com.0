@@ -1,124 +1,130 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBAX37OTQMGQE5QOCS7Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBA777OTQMGQEKNXZ4UQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619C379A7A9
-	for <lists+kasan-dev@lfdr.de>; Mon, 11 Sep 2023 13:44:08 +0200 (CEST)
-Received: by mail-wm1-x33b.google.com with SMTP id 5b1f17b1804b1-401be705672sf33473095e9.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 11 Sep 2023 04:44:08 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1694432643; cv=pass;
+Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E78E79A7B8
+	for <lists+kasan-dev@lfdr.de>; Mon, 11 Sep 2023 13:52:36 +0200 (CEST)
+Received: by mail-wm1-x338.google.com with SMTP id 5b1f17b1804b1-401b8089339sf31648765e9.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 11 Sep 2023 04:52:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1694433156; cv=pass;
         d=google.com; s=arc-20160816;
-        b=g2NRUDee6zCO5ubvLpHzJ/sc1hy33l1rvMmfFv8ySdyqx15Z0Z2cLh5L0sMMhG08tQ
-         222nC5EELVafSYTRo60Jv5Vhrdz1cn17FegcJ7W8fb7Bbn7wISimVocZXq8GBZ9a8azS
-         W20uFHfGu0HYRqbRCvB7yPG3oadkRC67fQVNQdGxJjlkOJGKYcYfBTMSf/pSFBK78SHg
-         GE/s7Vsibb2jh71kAia5HDCYGr1fa0I8qZ9peqizF7bEJfDqChrNGC6G+IYRArHhcI22
-         tUlekVpFDEnQ1CRyq6dDd4ryXkxo0LIJofpfq+GyVrbXp+v1Nt4hpQ9Wf/XEnZfdsYo0
-         tBJg==
+        b=Oh6OV/ZvHMdjGijzVd43Cb9u7VTr7TNKIEHr9uC6aMVpqh+TGnfG+WMufgPAcUPHlf
+         qS+8oVOkswl8oETqoUsuDstqj87BRlvlRM8FWVsYfOGfKkIFBV6OgQXHLJak9D0+ZtYa
+         1up0Knf4HDJJ6s9L8UC+DaZLIY2mPWOk0yKYCIj50Mfh6DnbQchSHuVkC/v/vm3QTcA2
+         UwCHusRAZVAN1EC0nNcEpRY1+hAogacpWYFxK1ylc+gue0ExMz7xTw5CpNr4W5yFc59P
+         GbM2+YSfJ0McQGwyrciuB00nhMeuQqblcvloHJmlRzFBKZAnTbpJGaMeGtHvI+0DMLmx
+         JDRQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=AFwTtRdRtzwf+g4v26WjrIcA5OI/ivQSOEONUnJDod8=;
-        fh=xOEYjjBxoZTZ/EHX1QhB46LMgR1TviO8E01fK4wIwx0=;
-        b=LQzfb9kFH99P48WpcmUkA4MGbCTsPxLAdUlKzjvwxQu0NIP4XiP6LjKVdb5Xl01Vl8
-         nuB8aYcTrpSQ8z+IpNJOZfk34dlLIggQ1ZwhBlOE8hHEtrtTf0ZmXUQQtuamzLPTg6uf
-         2SBnWjYir1nwwFJNHip29Iu6478mehjcAYEMomp5LITkTl+3gSvW0ySTKthb5EiDIChy
-         KGHNinQLMN9LYRJkoQGJmPsRMOd4iBHujDRNsT6RQrMWSVc9oGx1uMfk1kRBDSeNrHyN
-         qUhgxx/vzz4r3gFxuudb9MmTEO0NsAbsMe9RoYAHJq61r1Na7uknb2C1AhAxvJxHmepQ
-         1eiA==
+        bh=1hAsbtpRNm0CyGHEe91J5ACGnzYMNESw1mINZukOEYg=;
+        fh=ABOCXCjKElpPfFG45/OqJq5B05WH6L7O1Fq+aYV665E=;
+        b=EQhIYxSV8aAvSkCLHhvFtg0uEQ0qQGut7klE/qrctw7U6HxILZeq3n4FfRcgcXQMzn
+         ZMVeNYf5ahsvV15/snO/R2AE+KZ1MbeChTuRj5zDB2rtKbjzPHyyfoLr4G8f2eT98xFp
+         duBARIwCqPyeplTx9Y51YkCAMgy/jktQmr/aU9eXJCMWgH7UqwmuFweUnhWbxYiAY0el
+         LyelmHZ8IL6c3qvcXrGu3BXc1jgfObZCdeA5ZhiVCYlpIh0Umi+yU5DAbRHt0vUdoBIn
+         NuyHWlVez0iDK1DCt+/qeIeb4C1JPycfd7ZXTojGLhlxyjbiZ0oumScGPl0c5+8MuyTw
+         12aQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=fNT596GT;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32e as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=GzHFpWGD;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1694432643; x=1695037443; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1694433156; x=1695037956; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AFwTtRdRtzwf+g4v26WjrIcA5OI/ivQSOEONUnJDod8=;
-        b=OryaO5U2ZFco1SrfnmLMeq3CVKDiNKTfZ21eJMb5J88JbHOvzw/0dGjeKxsF2zSvqU
-         7uoZrw4dSb5EI5KcYyvJCUfoRCCi4zjwXXu+/3BL2MH8pYJPXYi1seVLxNRe4H/XYUiu
-         ZocqfdqfFscGKkGICLN5+VdoAQGtvlwebjwj5TdVdzPEVCYrIeby1+3fXHIElqTMHnH3
-         nsPm8hN/UnwNo/WZm0D3gbaFVv2InK9mUaH3JL9ko7b5E1yTDPM61KjrEWFeoYOQhjJ6
-         /5vYEfbKa1c/ppEen5293r+KJbM+nNK2iHlYIuqGwRr+zS3z4BbwXzvJ6bXZsMgUnJ4L
-         XRBg==
+        bh=1hAsbtpRNm0CyGHEe91J5ACGnzYMNESw1mINZukOEYg=;
+        b=vWaQ3ZvFVmRaCXJTB5bdYqe5bRuGBJMCLqfDdpPV+0xg4E3ihAfq1UbEJy4+R0OOX0
+         UHqMZU/zuGFHA4o34vRgeA2Ek95I77p+/2DAoywVEaBdcRYyYDffeYVeSH13Kli1l5yc
+         RZ55GFQLgQQeOKEWiHhtDLaz1H4gUtPShuzARMNJ/derl4Mr2My9MoiiHJaM7rZXsmn1
+         YR1lnf2z9xwF2Mvho5EPj1qhBMEvJprIqY5Tc24KJShMCok2QzgSpPx6Ed3B3E6J0ogj
+         7HC3pllmwyJ+UfJxvkj85rWVrCcH9VsN6ZBevlz2F6h0iKnauoYrXf3vf8DnCX/I8il/
+         LUCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694432643; x=1695037443;
+        d=1e100.net; s=20230601; t=1694433156; x=1695037956;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AFwTtRdRtzwf+g4v26WjrIcA5OI/ivQSOEONUnJDod8=;
-        b=oGZlxpLzYt5jbMvViGSY82ghIS5EMAM1g8x8f9d25DHdv2LkT5MGosLZBMNems8Kzz
-         A2vClVJ17ncF9b5n2hblVcNF1tR5iXiS/vz98n4nqZpzji5zDuPlLkm+8BtkiPhxIY6L
-         IuIMiVDKuNlAWuFTSEwooBcc9+VWhOfTlNMYgXqaiDvyDS1U0PIgnTvXmw2MLNKttzUe
-         pldZgPgPbkbgp5+RHwVw5XN/8Q8n4tnT6r2dfGGYY5crBwHw2z9IWfaahweqj/LZm6Ql
-         AelGxF4U3/i2NrbBuPJ+4bN3tUPUfM4BYaak1ua9wxeeMNCW4wCRenp5UPRzX1WZGmTs
-         EuRA==
-X-Gm-Message-State: AOJu0YxPJlmNYOCP5syiu02j/QRdWBwWwwdcKz9tD4rogMLtnEHL8ECg
-	XNJvjRwWS0YgCcQSFMTYQZY=
-X-Google-Smtp-Source: AGHT+IE+0V0hjwyYS9vSYJ+QUVkT8aRET0uEylsuIb996qw6zD3fxxKy8DLL70h2o6u9yg5ik22t/Q==
-X-Received: by 2002:a7b:c846:0:b0:401:b53e:6c39 with SMTP id c6-20020a7bc846000000b00401b53e6c39mr8467823wml.6.1694432642408;
-        Mon, 11 Sep 2023 04:44:02 -0700 (PDT)
+        bh=1hAsbtpRNm0CyGHEe91J5ACGnzYMNESw1mINZukOEYg=;
+        b=k5pkBNR6za24tJmB1fTv/6m/g799fxMgjpuo/jEYVoPzWCNr3jgR3J0hTZbYNs44mg
+         JGMBGunJrC99l4S5I9ixrghhqCUVM6V5ViZkXMzHMWU+KUbECri3LV1/jV5hx29F2T88
+         Wj3H19a14WNlyPOeYOIIpgUcak9WCfkSFdgiQdtruwMGAVqpDP/NLo7qfU9TE3H6g9n7
+         uDOX1AeB+qRETBi6avsPo24K/jH1DX50OTEBqdcB50D8PocEkeQsN7I5rXkS6K5qrcYB
+         OgJmZIKKDVp8mhDOvW0bCt1WiGNbT35jWNJeVQiPyPNmjrToqTn41M1DGqVrk1X7den/
+         2NpQ==
+X-Gm-Message-State: AOJu0YzZ5fjnyYRk3ymxjq4zwVCiKzmBAWMZEM58MapB+bVrui+nHEiK
+	EA+C+MZAO8aPbZQy5Aam1Ao=
+X-Google-Smtp-Source: AGHT+IFSYzCyAuzWhSDhz31bY0iiG/EEaZV02gqJUat6uZUujf5rviOjCnkSxmpuvZCu+77GF/jJrA==
+X-Received: by 2002:a05:600c:2116:b0:3fb:b008:2003 with SMTP id u22-20020a05600c211600b003fbb0082003mr8132875wml.38.1694433155867;
+        Mon, 11 Sep 2023 04:52:35 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:4f12:b0:3fe:e8fc:697a with SMTP id
- l18-20020a05600c4f1200b003fee8fc697als1883493wmq.1.-pod-prod-01-eu; Mon, 11
- Sep 2023 04:44:00 -0700 (PDT)
-X-Received: by 2002:a5d:444f:0:b0:317:6314:96e2 with SMTP id x15-20020a5d444f000000b00317631496e2mr9035619wrr.14.1694432640649;
-        Mon, 11 Sep 2023 04:44:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1694432640; cv=none;
+Received: by 2002:a5d:5004:0:b0:313:f555:72ba with SMTP id e4-20020a5d5004000000b00313f55572bals1024366wrt.1.-pod-prod-07-eu;
+ Mon, 11 Sep 2023 04:52:34 -0700 (PDT)
+X-Received: by 2002:adf:f6c7:0:b0:317:f18b:a94f with SMTP id y7-20020adff6c7000000b00317f18ba94fmr6731738wrp.1.1694433153985;
+        Mon, 11 Sep 2023 04:52:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1694433153; cv=none;
         d=google.com; s=arc-20160816;
-        b=G26PE9IsmVjXkPopV+tmf4ZOEix3UjM9ovr1u48LlbyJ1a65RR4R24FxO3gUScibMU
-         hlL/faiV2YKZuP4qdKJiVOCRP2GX9dZQ2DdAdt4fFZY+PTC4AqzL9KhweecoVucd25gX
-         drHSr4468jWjGcSpre3mhdMcZBR1PNui78nZA1l6WP9JLWDWzq0DHBRN5SBa1slCsFOs
-         i1q6sG14zNNhgakjilssbT9AWwMNfg8GaTAawTCf8812T95n/G5st9eCx7D3vdXS2UJh
-         IXPLHbEReYTbTUbJnaXMwD7KOn/6IjBdUmcWJt9l57MKHeGMuA7rdU6MlnZvbLs1Ia8/
-         uh3Q==
+        b=NowYVLK0gJAy+KhGT6Ds/ZMP83nLHpuCVRAnzULemIhmMT3WsrKsWFn2fHOM6AY9dV
+         wlHhUFQ02iKV4qvQN6CbkEyUZHAHSi2TAbXTFaCyr/1CS2VKogOh1yKb+tpIa+Ds/K/C
+         Jl4HC3oXArsiVOw+NZc8PYv016WyG8a2CTchB56RzzWUcZY275GoW4FbTgM1BkueeMs8
+         OkCHbSonr1klIo4+POqXx8Ua+8xsoJjjb3BXbtq53Js1uNVi4kdDlnT002HLyizpG0LC
+         ezuOKhBJV6Yiysm7E2ZlVycB+LRJK/j2y0tUx+u1xQRdS0i9RcWP9B4V231QPpproK9I
+         Vwyw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=FdxNots/ZdhIISnEaFRRuK2rgiRRh92V2Io2TUdmEu4=;
-        fh=xOEYjjBxoZTZ/EHX1QhB46LMgR1TviO8E01fK4wIwx0=;
-        b=IeAcJtZSHicD3grlSjKG1HIiFFZ2G/+ipG7wSw8E3yh9esmJWKv0NYIGpFyD76BvTR
-         67kDs12lW66hDWanSUOz+waNyC4N/U/gCxintpHxJHqcgcZXJAdZ/WfZN7JXxWmR22X3
-         74thvBRqKKIwXpVWa/PYoUZNavRCTbD8Qyax9PwxpaCXZVgfdkOIvhoVyLkkOpKi1enl
-         3cSIL6PJB3zfu1cbNw/gi/GVnEUemJiXiCifG0qLoTXoiq68cC1ryNsf16NCAyaQyEX8
-         esxG1GZPl7h+3Emu8am9rIeq3x6TN3EklWOQ18aa5ZUjj8ULtAMYMZxVApYOc2NA+/kx
-         KHtg==
+        bh=JfKbVxHo/CNepkMM/x7oyn8MnDrah5Pr16KpYlwPq0c=;
+        fh=ABOCXCjKElpPfFG45/OqJq5B05WH6L7O1Fq+aYV665E=;
+        b=c+vqXYDuAw5eJS6PguCekaqgdjr+c8Hc5GJ38JQF7jHMmAuJyIuF/0DRrMp/HBMyFE
+         UCwG5IDKkZjjTsjzsb5qikcMjoNil/m+xxhoPHOeAP8+4HJqYKAgKauoHn7gyHj/ahlD
+         A/fCuYHVG66oElLa31e3oMQRDktZCX98+bu0iJhsEioz/eL5Yn504p5J02C7yJ322g8m
+         ebeS/Jrp3lK8zZ+Y1xW87VUYD+FUZSQ4bLyUCJXQ/C1b3YRxDO/xzJHN804tQuG8dn3a
+         9Fbr0s/mOzA3Udv0f0kswD5tGMuV8hxROjNOdbVgdpXfn2nFJlBCjgEMXZQfmBzb0AuI
+         UyXA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=fNT596GT;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32e as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=GzHFpWGD;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com. [2a00:1450:4864:20::32e])
-        by gmr-mx.google.com with ESMTPS id ay14-20020a05600c1e0e00b00403018fc1e6si393542wmb.1.2023.09.11.04.44.00
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com. [2a00:1450:4864:20::32d])
+        by gmr-mx.google.com with ESMTPS id az4-20020adfe184000000b0031596f8eeebsi528124wrb.7.2023.09.11.04.52.33
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Sep 2023 04:44:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32e as permitted sender) client-ip=2a00:1450:4864:20::32e;
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-40061928e5aso49334105e9.3
-        for <kasan-dev@googlegroups.com>; Mon, 11 Sep 2023 04:44:00 -0700 (PDT)
-X-Received: by 2002:a7b:c389:0:b0:401:d947:c8a9 with SMTP id
- s9-20020a7bc389000000b00401d947c8a9mr7855842wmj.19.1694432640069; Mon, 11 Sep
- 2023 04:44:00 -0700 (PDT)
+        Mon, 11 Sep 2023 04:52:33 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32d as permitted sender) client-ip=2a00:1450:4864:20::32d;
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-401bbfc05fcso48238745e9.3
+        for <kasan-dev@googlegroups.com>; Mon, 11 Sep 2023 04:52:33 -0700 (PDT)
+X-Received: by 2002:a7b:c84b:0:b0:401:eb0:a974 with SMTP id
+ c11-20020a7bc84b000000b004010eb0a974mr8240140wml.3.1694433153346; Mon, 11 Sep
+ 2023 04:52:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230907130642.245222-1-glider@google.com>
-In-Reply-To: <20230907130642.245222-1-glider@google.com>
+References: <20230825211426.3798691-1-jannh@google.com>
+In-Reply-To: <20230825211426.3798691-1-jannh@google.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 11 Sep 2023 13:43:23 +0200
-Message-ID: <CANpmjNOO+LUgCWHPg4OXLzm9c7N3SNfLm1MsgME_ms07Ad5L=A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kmsan: simplify kmsan_internal_memmove_metadata()
-To: Alexander Potapenko <glider@google.com>
-Cc: dvyukov@google.com, akpm@linux-foundation.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
+Date: Mon, 11 Sep 2023 13:51:55 +0200
+Message-ID: <CANpmjNOVGos0b+6tqBzTCpuBqgaCBVDMx-Q3Q6x3TDGuYSYe-w@mail.gmail.com>
+Subject: Re: [PATCH] slub: Introduce CONFIG_SLUB_RCU_DEBUG
+To: Jann Horn <jannh@google.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Christoph Lameter <cl@linux.com>, 
+	Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>, 
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-hardening@vger.kernel.org, kernel-hardening@lists.openwall.com
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b=fNT596GT;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32e as
+ header.i=@google.com header.s=20221208 header.b=GzHFpWGD;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32d as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -135,250 +141,408 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 7 Sept 2023 at 15:06, Alexander Potapenko <glider@google.com> wrote:
+On Fri, 25 Aug 2023 at 23:15, 'Jann Horn' via kasan-dev
+<kasan-dev@googlegroups.com> wrote:
 >
-> kmsan_internal_memmove_metadata() is the function that implements
-> copying metadata every time memcpy()/memmove() is called.
-> Because shadow memory stores 1 byte per each byte of kernel memory,
-> copying the shadow is trivial and can be done by a single memmove()
-> call.
-> Origins, on the other hand, are stored as 4-byte values corresponding
-> to every aligned 4 bytes of kernel memory. Therefore, if either the
-> source or the destination of kmsan_internal_memmove_metadata() is
-> unaligned, the number of origin slots corresponding to the source or
-> destination may differ:
+> Currently, KASAN is unable to catch use-after-free in SLAB_TYPESAFE_BY_RCU
+> slabs because use-after-free is allowed within the RCU grace period by
+> design.
 >
->   1) memcpy(0xffff888080a00000, 0xffff888080900000, 4)
->      copies 1 origin slot into 1 origin slot:
+> Add a SLUB debugging feature which RCU-delays every individual
+> kmem_cache_free() before either actually freeing the object or handing it
+> off to KASAN, and change KASAN to poison freed objects as normal when this
+> option is enabled.
 >
->      src (0xffff888080900000): xxxx
->      src origins:              o111
->      dst (0xffff888080a00000): xxxx
->      dst origins:              o111
+> Note that this creates a 16-byte unpoisoned area in the middle of the
+> slab metadata area, which kinda sucks but seems to be necessary in order
+> to be able to store an rcu_head in there without triggering an ASAN
+> splat during RCU callback processing.
 >
->   2) memcpy(0xffff888080a00001, 0xffff888080900000, 4)
->      copies 1 origin slot into 2 origin slots:
+> For now I've configured Kconfig.kasan to always enable this feature in the
+> GENERIC and SW_TAGS modes; I'm not forcibly enabling it in HW_TAGS mode
+> because I'm not sure if it might have unwanted performance degradation
+> effects there.
 >
->      src (0xffff888080900000): xxxx
->      src origins:              o111
->      dst (0xffff888080a00000): .xxx x...
->      dst origins:              o111 o111
->
->   3) memcpy(0xffff888080a00000, 0xffff888080900001, 4)
->      copies 2 origin slots into 1 origin slot:
->
->      src (0xffff888080900000): .xxx x...
->      src origins:              o111 o222
->      dst (0xffff888080a00000): xxxx
->      dst origins:              o111
->                            (or o222)
->
-> Previously, kmsan_internal_memmove_metadata() tried to solve this
-> problem by copying min(src_slots, dst_slots) as is and cloning the
-> missing slot on one of the ends, if needed.
-> This was error-prone even in the simple cases where 4 bytes were copied,
-> and did not account for situations where the total number of nonzero
-> origin slots could have increased by more than one after copying:
->
->   memcpy(0xffff888080a00000, 0xffff888080900002, 8)
->
->   src (0xffff888080900002): ..xx .... xx..
->   src origins:              o111 0000 o222
->   dst (0xffff888080a00000): xx.. ..xx
->                             o111 0000
->                         (or 0000 o222)
->
-> The new implementation simply copies the shadow byte by byte, and
-> updates the corresponding origin slot, if the shadow byte is nonzero.
-> This approach can handle complex cases with mixed initialized and
-> uninitialized bytes. Similarly to KMSAN inline instrumentation, latter
-> writes to bytes sharing the same origin slots take precedence.
->
-> Signed-off-by: Alexander Potapenko <glider@google.com>
-
-I think this needs a Fixes tag.
-Also, is this corner case exercised by one of the KMSAN KUnit test cases?
-
-Otherwise,
-
-Acked-by: Marco Elver <elver@google.com>
-
+> Signed-off-by: Jann Horn <jannh@google.com>
 > ---
->  mm/kmsan/core.c | 127 ++++++++++++------------------------------------
->  1 file changed, 31 insertions(+), 96 deletions(-)
+> can I get a review from the KASAN folks of this?
+> I have been running it on my laptop for a bit and it seems to be working
+> fine.
 >
-> diff --git a/mm/kmsan/core.c b/mm/kmsan/core.c
-> index 3adb4c1d3b193..c19f47af04241 100644
-> --- a/mm/kmsan/core.c
-> +++ b/mm/kmsan/core.c
-> @@ -83,131 +83,66 @@ depot_stack_handle_t kmsan_save_stack_with_flags(gfp_t flags,
->  /* Copy the metadata following the memmove() behavior. */
->  void kmsan_internal_memmove_metadata(void *dst, void *src, size_t n)
->  {
-> +       depot_stack_handle_t prev_old_origin = 0, prev_new_origin = 0;
-> +       int i, iter, step, src_off, dst_off, oiter_src, oiter_dst;
->         depot_stack_handle_t old_origin = 0, new_origin = 0;
-> -       int src_slots, dst_slots, i, iter, step, skip_bits;
->         depot_stack_handle_t *origin_src, *origin_dst;
-> -       void *shadow_src, *shadow_dst;
-> -       u32 *align_shadow_src, shadow;
-> +       u8 *shadow_src, *shadow_dst;
-> +       u32 *align_shadow_dst;
->         bool backwards;
+> Notes:
+>     With this patch, a UAF on a TYPESAFE_BY_RCU will splat with an error
+>     like this (tested by reverting a security bugfix).
+>     Note that, in the ASAN memory state dump, we can see the little
+>     unpoisoned 16-byte areas storing the rcu_head.
 >
->         shadow_dst = kmsan_get_metadata(dst, KMSAN_META_SHADOW);
->         if (!shadow_dst)
->                 return;
->         KMSAN_WARN_ON(!kmsan_metadata_is_contiguous(dst, n));
-> +       align_shadow_dst =
-> +               (u32 *)ALIGN_DOWN((u64)shadow_dst, KMSAN_ORIGIN_SIZE);
+>     BUG: KASAN: slab-use-after-free in folio_lock_anon_vma_read+0x129/0x4c0
+>     Read of size 8 at addr ffff888004e85b00 by task forkforkfork/592
 >
->         shadow_src = kmsan_get_metadata(src, KMSAN_META_SHADOW);
->         if (!shadow_src) {
-> -               /*
-> -                * @src is untracked: zero out destination shadow, ignore the
-> -                * origins, we're done.
-> -                */
-> -               __memset(shadow_dst, 0, n);
-> +               /* @src is untracked: mark @dst as initialized. */
-> +               kmsan_internal_unpoison_memory(dst, n, /*checked*/ false);
->                 return;
->         }
->         KMSAN_WARN_ON(!kmsan_metadata_is_contiguous(src, n));
+>     CPU: 0 PID: 592 Comm: forkforkfork Not tainted 6.5.0-rc7-00105-gae70c1e1f6f5-dirty #334
+>     Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+>     Call Trace:
+>      <TASK>
+>      dump_stack_lvl+0x4a/0x80
+>      print_report+0xcf/0x660
+>      kasan_report+0xd4/0x110
+>      folio_lock_anon_vma_read+0x129/0x4c0
+>      rmap_walk_anon+0x1cc/0x290
+>      folio_referenced+0x277/0x2a0
+>      shrink_folio_list+0xb8c/0x1680
+>      reclaim_folio_list+0xdc/0x1f0
+>      reclaim_pages+0x211/0x280
+>      madvise_cold_or_pageout_pte_range+0x812/0xb70
+>      walk_pgd_range+0x70b/0xce0
+>      __walk_page_range+0x343/0x360
+>      walk_page_range+0x227/0x280
+>      madvise_pageout+0x1cd/0x2d0
+>      do_madvise+0x552/0x15a0
+>      __x64_sys_madvise+0x62/0x70
+>      do_syscall_64+0x3b/0x90
+>      entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+>     [...]
+>      </TASK>
 >
-> -       __memmove(shadow_dst, shadow_src, n);
-> -
->         origin_dst = kmsan_get_metadata(dst, KMSAN_META_ORIGIN);
->         origin_src = kmsan_get_metadata(src, KMSAN_META_ORIGIN);
->         KMSAN_WARN_ON(!origin_dst || !origin_src);
-> -       src_slots = (ALIGN((u64)src + n, KMSAN_ORIGIN_SIZE) -
-> -                    ALIGN_DOWN((u64)src, KMSAN_ORIGIN_SIZE)) /
-> -                   KMSAN_ORIGIN_SIZE;
-> -       dst_slots = (ALIGN((u64)dst + n, KMSAN_ORIGIN_SIZE) -
-> -                    ALIGN_DOWN((u64)dst, KMSAN_ORIGIN_SIZE)) /
-> -                   KMSAN_ORIGIN_SIZE;
-> -       KMSAN_WARN_ON((src_slots < 1) || (dst_slots < 1));
-> -       KMSAN_WARN_ON((src_slots - dst_slots > 1) ||
-> -                     (dst_slots - src_slots < -1));
+>     Allocated by task 574:
+>      kasan_save_stack+0x33/0x60
+>      kasan_set_track+0x25/0x30
+>      __kasan_slab_alloc+0x6e/0x70
+>      kmem_cache_alloc+0xfd/0x2b0
+>      anon_vma_fork+0x88/0x270
+>      dup_mmap+0x87c/0xc10
+>      copy_process+0x3399/0x3590
+>      kernel_clone+0x10e/0x480
+>      __do_sys_clone+0xa1/0xe0
+>      do_syscall_64+0x3b/0x90
+>      entry_SYSCALL_64_after_hwframe+0x6e/0xd8
 >
->         backwards = dst > src;
-> -       i = backwards ? min(src_slots, dst_slots) - 1 : 0;
-> -       iter = backwards ? -1 : 1;
-> -
-> -       align_shadow_src =
-> -               (u32 *)ALIGN_DOWN((u64)shadow_src, KMSAN_ORIGIN_SIZE);
-> -       for (step = 0; step < min(src_slots, dst_slots); step++, i += iter) {
-> -               KMSAN_WARN_ON(i < 0);
-> -               shadow = align_shadow_src[i];
-> -               if (i == 0) {
-> -                       /*
-> -                        * If @src isn't aligned on KMSAN_ORIGIN_SIZE, don't
-> -                        * look at the first @src % KMSAN_ORIGIN_SIZE bytes
-> -                        * of the first shadow slot.
-> -                        */
-> -                       skip_bits = ((u64)src % KMSAN_ORIGIN_SIZE) * 8;
-> -                       shadow = (shadow >> skip_bits) << skip_bits;
-> +       step = backwards ? -1 : 1;
-> +       iter = backwards ? n - 1 : 0;
-> +       src_off = (u64)src % KMSAN_ORIGIN_SIZE;
-> +       dst_off = (u64)dst % KMSAN_ORIGIN_SIZE;
-> +
-> +       /* Copy shadow bytes one by one, updating the origins if necessary. */
-> +       for (i = 0; i < n; i++, iter += step) {
-> +               oiter_src = (iter + src_off) / KMSAN_ORIGIN_SIZE;
-> +               oiter_dst = (iter + dst_off) / KMSAN_ORIGIN_SIZE;
-> +               if (!shadow_src[iter]) {
-> +                       shadow_dst[iter] = 0;
-> +                       if (!align_shadow_dst[oiter_dst])
-> +                               origin_dst[oiter_dst] = 0;
-> +                       continue;
->                 }
-> -               if (i == src_slots - 1) {
-> -                       /*
-> -                        * If @src + n isn't aligned on
-> -                        * KMSAN_ORIGIN_SIZE, don't look at the last
-> -                        * (@src + n) % KMSAN_ORIGIN_SIZE bytes of the
-> -                        * last shadow slot.
-> -                        */
-> -                       skip_bits = (((u64)src + n) % KMSAN_ORIGIN_SIZE) * 8;
-> -                       shadow = (shadow << skip_bits) >> skip_bits;
-> -               }
-> -               /*
-> -                * Overwrite the origin only if the corresponding
-> -                * shadow is nonempty.
-> -                */
-> -               if (origin_src[i] && (origin_src[i] != old_origin) && shadow) {
-> -                       old_origin = origin_src[i];
-> -                       new_origin = kmsan_internal_chain_origin(old_origin);
-> +               shadow_dst[iter] = shadow_src[iter];
-> +               old_origin = origin_src[oiter_src];
-> +               if (old_origin == prev_old_origin)
-> +                       new_origin = prev_new_origin;
-> +               else {
->                         /*
->                          * kmsan_internal_chain_origin() may return
->                          * NULL, but we don't want to lose the previous
->                          * origin value.
->                          */
-> +                       new_origin = kmsan_internal_chain_origin(old_origin);
->                         if (!new_origin)
->                                 new_origin = old_origin;
->                 }
-> -               if (shadow)
-> -                       origin_dst[i] = new_origin;
-> -               else
-> -                       origin_dst[i] = 0;
-> -       }
-> -       /*
-> -        * If dst_slots is greater than src_slots (i.e.
-> -        * dst_slots == src_slots + 1), there is an extra origin slot at the
-> -        * beginning or end of the destination buffer, for which we take the
-> -        * origin from the previous slot.
-> -        * This is only done if the part of the source shadow corresponding to
-> -        * slot is non-zero.
-> -        *
-> -        * E.g. if we copy 8 aligned bytes that are marked as uninitialized
-> -        * and have origins o111 and o222, to an unaligned buffer with offset 1,
-> -        * these two origins are copied to three origin slots, so one of then
-> -        * needs to be duplicated, depending on the copy direction (@backwards)
-> -        *
-> -        *   src shadow: |uuuu|uuuu|....|
-> -        *   src origin: |o111|o222|....|
-> -        *
-> -        * backwards = 0:
-> -        *   dst shadow: |.uuu|uuuu|u...|
-> -        *   dst origin: |....|o111|o222| - fill the empty slot with o111
-> -        * backwards = 1:
-> -        *   dst shadow: |.uuu|uuuu|u...|
-> -        *   dst origin: |o111|o222|....| - fill the empty slot with o222
-> -        */
-> -       if (src_slots < dst_slots) {
-> -               if (backwards) {
-> -                       shadow = align_shadow_src[src_slots - 1];
-> -                       skip_bits = (((u64)dst + n) % KMSAN_ORIGIN_SIZE) * 8;
-> -                       shadow = (shadow << skip_bits) >> skip_bits;
-> -                       if (shadow)
-> -                               /* src_slots > 0, therefore dst_slots is at least 2 */
-> -                               origin_dst[dst_slots - 1] =
-> -                                       origin_dst[dst_slots - 2];
-> -               } else {
-> -                       shadow = align_shadow_src[0];
-> -                       skip_bits = ((u64)dst % KMSAN_ORIGIN_SIZE) * 8;
-> -                       shadow = (shadow >> skip_bits) << skip_bits;
-> -                       if (shadow)
-> -                               origin_dst[0] = origin_dst[1];
-> -               }
-> +               origin_dst[oiter_dst] = new_origin;
-> +               prev_new_origin = new_origin;
-> +               prev_old_origin = old_origin;
->         }
+>     Freed by task 0:
+>      kasan_save_stack+0x33/0x60
+>      kasan_set_track+0x25/0x30
+>      kasan_save_free_info+0x2b/0x50
+>      __kasan_slab_free+0xfe/0x180
+>      slab_free_after_rcu_debug+0xad/0x200
+>      rcu_core+0x638/0x1620
+>      __do_softirq+0x14c/0x581
+>
+>     Last potentially related work creation:
+>      kasan_save_stack+0x33/0x60
+>      __kasan_record_aux_stack+0x94/0xa0
+>      __call_rcu_common.constprop.0+0x47/0x730
+>      __put_anon_vma+0x6e/0x150
+>      unlink_anon_vmas+0x277/0x2e0
+>      vma_complete+0x341/0x580
+>      vma_merge+0x613/0xff0
+>      mprotect_fixup+0x1c0/0x510
+>      do_mprotect_pkey+0x5a7/0x710
+>      __x64_sys_mprotect+0x47/0x60
+>      do_syscall_64+0x3b/0x90
+>      entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+>
+>     Second to last potentially related work creation:
+>     [...]
+>
+>     The buggy address belongs to the object at ffff888004e85b00
+>      which belongs to the cache anon_vma of size 192
+>     The buggy address is located 0 bytes inside of
+>      freed 192-byte region [ffff888004e85b00, ffff888004e85bc0)
+>
+>     The buggy address belongs to the physical page:
+>     [...]
+>
+>     Memory state around the buggy address:
+>      ffff888004e85a00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>      ffff888004e85a80: 00 00 00 00 00 00 00 00 fc 00 00 fc fc fc fc fc
+>     >ffff888004e85b00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>                        ^
+>      ffff888004e85b80: fb fb fb fb fb fb fb fb fc 00 00 fc fc fc fc fc
+>      ffff888004e85c00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>
+>  include/linux/kasan.h    |  6 ++++
+>  include/linux/slub_def.h |  3 ++
+>  lib/Kconfig.kasan        |  2 ++
+>  mm/Kconfig.debug         | 21 +++++++++++++
+>  mm/kasan/common.c        | 15 ++++++++-
+>  mm/slub.c                | 66 +++++++++++++++++++++++++++++++++++++---
+
+Nice!
+
+It'd be good to add a test case to lib/test_kasan module. I think you
+could just copy/adjust the test case "test_memcache_typesafe_by_rcu"
+from the KFENCE KUnit test suite.
+
+>  6 files changed, 107 insertions(+), 6 deletions(-)
+>
+> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> index 819b6bc8ac08..45e07caf4704 100644
+> --- a/include/linux/kasan.h
+> +++ b/include/linux/kasan.h
+> @@ -229,6 +229,8 @@ static __always_inline bool kasan_check_byte(const void *addr)
+>         return true;
 >  }
 >
-> --
-> 2.42.0.283.g2d96d420d3-goog
+> +size_t kasan_align(size_t size);
+> +
+>  #else /* CONFIG_KASAN */
 >
+>  static inline void kasan_unpoison_range(const void *address, size_t size) {}
+> @@ -278,6 +280,10 @@ static inline bool kasan_check_byte(const void *address)
+>  {
+>         return true;
+>  }
+> +static inline size_t kasan_align(size_t size)
+> +{
+> +       return size;
+> +}
+>
+>  #endif /* CONFIG_KASAN */
+>
+> diff --git a/include/linux/slub_def.h b/include/linux/slub_def.h
+> index deb90cf4bffb..b87be8fce64a 100644
+> --- a/include/linux/slub_def.h
+> +++ b/include/linux/slub_def.h
+> @@ -120,6 +120,9 @@ struct kmem_cache {
+>         int refcount;           /* Refcount for slab cache destroy */
+>         void (*ctor)(void *);
+>         unsigned int inuse;             /* Offset to metadata */
+> +#ifdef CONFIG_SLUB_RCU_DEBUG
+> +       unsigned int debug_rcu_head_offset;
+> +#endif
+>         unsigned int align;             /* Alignment */
+>         unsigned int red_left_pad;      /* Left redzone padding size */
+>         const char *name;       /* Name (only for display!) */
+> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+> index fdca89c05745..7ff7de96c6e4 100644
+> --- a/lib/Kconfig.kasan
+> +++ b/lib/Kconfig.kasan
+> @@ -79,6 +79,7 @@ config KASAN_GENERIC
+>         depends on HAVE_ARCH_KASAN && CC_HAS_KASAN_GENERIC
+>         depends on CC_HAS_WORKING_NOSANITIZE_ADDRESS
+>         select SLUB_DEBUG if SLUB
+> +       select SLUB_RCU_DEBUG if SLUB_DEBUG
+>         select CONSTRUCTORS
+>         help
+>           Enables Generic KASAN.
+> @@ -96,6 +97,7 @@ config KASAN_SW_TAGS
+>         depends on HAVE_ARCH_KASAN_SW_TAGS && CC_HAS_KASAN_SW_TAGS
+>         depends on CC_HAS_WORKING_NOSANITIZE_ADDRESS
+>         select SLUB_DEBUG if SLUB
+> +       select SLUB_RCU_DEBUG if SLUB_DEBUG
+>         select CONSTRUCTORS
+>         help
+>           Enables Software Tag-Based KASAN.
+> diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
+> index 018a5bd2f576..99cce7f0fbef 100644
+> --- a/mm/Kconfig.debug
+> +++ b/mm/Kconfig.debug
+> @@ -78,6 +78,27 @@ config SLUB_DEBUG_ON
+>           off in a kernel built with CONFIG_SLUB_DEBUG_ON by specifying
+>           "slub_debug=-".
+>
+> +config SLUB_RCU_DEBUG
+> +       bool "Make use-after-free detection possible in TYPESAFE_BY_RCU caches"
+> +       depends on SLUB && SLUB_DEBUG
+> +       default n
+> +       help
+> +         Make SLAB_TYPESAFE_BY_RCU caches behave approximately as if the cache
+> +         was not marked as SLAB_TYPESAFE_BY_RCU and every caller used
+> +         kfree_rcu() instead.
+> +
+> +         This is intended for use in combination with KASAN, to enable KASAN to
+> +         detect use-after-free accesses in such caches.
+> +         (KFENCE is able to do that independent of this flag.)
+> +
+> +         This might degrade performance.
+> +
+> +         If you're using this for testing bugs / fuzzing and care about
+> +         catching all the bugs WAY more than performance, you might want to
+> +         also turn on CONFIG_RCU_STRICT_GRACE_PERIOD.
+> +
+> +         If unsure, say N.
+> +
+>  config PAGE_OWNER
+>         bool "Track page owner"
+>         depends on DEBUG_KERNEL && STACKTRACE_SUPPORT
+> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> index 256930da578a..b4a3504f9f5e 100644
+> --- a/mm/kasan/common.c
+> +++ b/mm/kasan/common.c
+> @@ -191,6 +191,13 @@ void * __must_check __kasan_init_slab_obj(struct kmem_cache *cache,
+>         if (kasan_requires_meta())
+>                 kasan_init_object_meta(cache, object);
+>
+> +#ifdef CONFIG_SLUB_RCU_DEBUG
+> +       if (cache->flags & SLAB_TYPESAFE_BY_RCU) {
+> +               kasan_unpoison(object + cache->debug_rcu_head_offset,
+> +                              sizeof(struct rcu_head), false);
+> +       }
+> +#endif /* CONFIG_SLUB_RCU_DEBUG */
+> +
+>         /* Tag is ignored in set_tag() without CONFIG_KASAN_SW/HW_TAGS */
+>         object = set_tag(object, assign_tag(cache, object, true));
+>
+> @@ -218,7 +225,8 @@ static inline bool ____kasan_slab_free(struct kmem_cache *cache, void *object,
+>         }
+>
+>         /* RCU slabs could be legally used after free within the RCU period */
+> -       if (unlikely(cache->flags & SLAB_TYPESAFE_BY_RCU))
+> +       if (unlikely(cache->flags & SLAB_TYPESAFE_BY_RCU) &&
+> +           !IS_ENABLED(CONFIG_SLUB_RCU_DEBUG))
+>                 return false;
+>
+>         if (!kasan_byte_accessible(tagged_object)) {
+> @@ -450,3 +458,8 @@ bool __kasan_check_byte(const void *address, unsigned long ip)
+>         }
+>         return true;
+>  }
+> +
+> +size_t kasan_align(size_t size)
+> +{
+> +       return round_up(size, KASAN_GRANULE_SIZE);
+> +}
+> diff --git a/mm/slub.c b/mm/slub.c
+> index e3b5d5c0eb3a..bae6c2bc1e5f 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -1108,7 +1108,8 @@ static int check_bytes_and_report(struct kmem_cache *s, struct slab *slab,
+>   *     A. Free pointer (if we cannot overwrite object on free)
+>   *     B. Tracking data for SLAB_STORE_USER
+>   *     C. Original request size for kmalloc object (SLAB_STORE_USER enabled)
+> - *     D. Padding to reach required alignment boundary or at minimum
+> + *     D. RCU head for CONFIG_SLUB_RCU_DEBUG (with padding around it)
+> + *     E. Padding to reach required alignment boundary or at minimum
+>   *             one word if debugging is on to be able to detect writes
+>   *             before the word boundary.
+>   *
+> @@ -1134,6 +1135,11 @@ static int check_pad_bytes(struct kmem_cache *s, struct slab *slab, u8 *p)
+>                         off += sizeof(unsigned int);
+>         }
+>
+> +#ifdef CONFIG_SLUB_RCU_DEBUG
+> +       if (s->flags & SLAB_TYPESAFE_BY_RCU)
+> +               off = kasan_align(s->debug_rcu_head_offset + sizeof(struct rcu_head));
+> +#endif /* CONFIG_SLUB_RCU_DEBUG */
+> +
+>         off += kasan_metadata_size(s, false);
+>
+>         if (size_from_object(s) == off)
+> @@ -1751,12 +1757,17 @@ static bool freelist_corrupted(struct kmem_cache *s, struct slab *slab,
+>  #endif
+>  #endif /* CONFIG_SLUB_DEBUG */
+>
+> +#ifdef CONFIG_SLUB_RCU_DEBUG
+> +static void slab_free_after_rcu_debug(struct rcu_head *rcu_head);
+> +#endif
+> +
+>  /*
+>   * Hooks for other subsystems that check memory allocations. In a typical
+>   * production configuration these hooks all should produce no code at all.
+>   */
+>  static __always_inline bool slab_free_hook(struct kmem_cache *s,
+> -                                               void *x, bool init)
+> +                                               void *x, bool init,
+> +                                               bool after_rcu_delay)
+>  {
+>         kmemleak_free_recursive(x, s->flags);
+>         kmsan_slab_free(s, x);
+> @@ -1766,8 +1777,18 @@ static __always_inline bool slab_free_hook(struct kmem_cache *s,
+>         if (!(s->flags & SLAB_DEBUG_OBJECTS))
+>                 debug_check_no_obj_freed(x, s->object_size);
+>
+> +#ifdef CONFIG_SLUB_RCU_DEBUG
+> +       /* kfence does its own RCU delay */
+> +       if ((s->flags & SLAB_TYPESAFE_BY_RCU) && !after_rcu_delay &&
+> +           !is_kfence_address(x)) {
+> +               call_rcu(kasan_reset_tag(x) + s->debug_rcu_head_offset,
+> +                        slab_free_after_rcu_debug);
+> +               return true;
+> +       }
+> +#endif /* CONFIG_SLUB_RCU_DEBUG */
+> +
+>         /* Use KCSAN to help debug racy use-after-free. */
+> -       if (!(s->flags & SLAB_TYPESAFE_BY_RCU))
+> +       if (!(s->flags & SLAB_TYPESAFE_BY_RCU) || after_rcu_delay)
+>                 __kcsan_check_access(x, s->object_size,
+>                                      KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT);
+>
+> @@ -1802,7 +1823,7 @@ static inline bool slab_free_freelist_hook(struct kmem_cache *s,
+>         void *old_tail = *tail ? *tail : *head;
+>
+>         if (is_kfence_address(next)) {
+> -               slab_free_hook(s, next, false);
+> +               slab_free_hook(s, next, false, false);
+>                 return true;
+>         }
+>
+> @@ -1815,7 +1836,7 @@ static inline bool slab_free_freelist_hook(struct kmem_cache *s,
+>                 next = get_freepointer(s, object);
+>
+>                 /* If object's reuse doesn't have to be delayed */
+> -               if (!slab_free_hook(s, object, slab_want_init_on_free(s))) {
+> +               if (!slab_free_hook(s, object, slab_want_init_on_free(s), false)) {
+>                         /* Move object to the new freelist */
+>                         set_freepointer(s, object, *head);
+>                         *head = object;
+> @@ -3802,6 +3823,31 @@ static __fastpath_inline void slab_free(struct kmem_cache *s, struct slab *slab,
+>                 do_slab_free(s, slab, head, tail, cnt, addr);
+>  }
+>
+> +#ifdef CONFIG_SLUB_RCU_DEBUG
+> +static void slab_free_after_rcu_debug(struct rcu_head *rcu_head)
+> +{
+> +       struct slab *slab = virt_to_slab(rcu_head);
+> +       struct kmem_cache *s;
+> +       void *object;
+> +
+> +       if (WARN_ON(is_kfence_address(rcu_head)))
+> +               return;
+> +
+> +       /* find the object and the cache again */
+> +       if (WARN_ON(!slab))
+> +               return;
+> +       s = slab->slab_cache;
+> +       if (WARN_ON(!(s->flags & SLAB_TYPESAFE_BY_RCU)))
+> +               return;
+> +       object = (void *)rcu_head - s->debug_rcu_head_offset;
+> +
+> +       /* resume freeing */
+> +       if (slab_free_hook(s, object, slab_want_init_on_free(s), true))
+> +               return;
+> +       do_slab_free(s, slab, object, NULL, 1, _THIS_IP_);
+> +}
+> +#endif /* CONFIG_SLUB_RCU_DEBUG */
+> +
+>  #ifdef CONFIG_KASAN_GENERIC
+>  void ___cache_free(struct kmem_cache *cache, void *x, unsigned long addr)
+>  {
+> @@ -4443,6 +4489,16 @@ static int calculate_sizes(struct kmem_cache *s)
+>                 if (flags & SLAB_KMALLOC)
+>                         size += sizeof(unsigned int);
+>         }
+> +
+> +#ifdef CONFIG_SLUB_RCU_DEBUG
+> +       if (flags & SLAB_TYPESAFE_BY_RCU) {
+> +               size = kasan_align(size);
+> +               size = ALIGN(size, __alignof__(struct rcu_head));
+> +               s->debug_rcu_head_offset = size;
+> +               size += sizeof(struct rcu_head);
+> +               size = kasan_align(size);
+> +       }
+> +#endif /* CONFIG_SLUB_RCU_DEBUG */
+>  #endif
+>
+>         kasan_cache_create(s, &size, &s->flags);
+>
+> base-commit: 4f9e7fabf8643003afefc172e62dd276686f016e
+> --
+> 2.42.0.rc1.204.g551eb34607-goog
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230825211426.3798691-1-jannh%40google.com.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOO%2BLUgCWHPg4OXLzm9c7N3SNfLm1MsgME_ms07Ad5L%3DA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOVGos0b%2B6tqBzTCpuBqgaCBVDMx-Q3Q6x3TDGuYSYe-w%40mail.gmail.com.
