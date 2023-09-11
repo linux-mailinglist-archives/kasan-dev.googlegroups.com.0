@@ -1,124 +1,125 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBEG27STQMGQE4ABNG6I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBKO27STQMGQEZV6I5SY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53a.google.com (mail-ed1-x53a.google.com [IPv6:2a00:1450:4864:20::53a])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0CAB79A969
-	for <lists+kasan-dev@lfdr.de>; Mon, 11 Sep 2023 17:06:57 +0200 (CEST)
-Received: by mail-ed1-x53a.google.com with SMTP id 4fb4d7f45d1cf-51bdae07082sf34005a12.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 11 Sep 2023 08:06:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1694444817; cv=pass;
+Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
+	by mail.lfdr.de (Postfix) with ESMTPS id 906DC79A96A
+	for <lists+kasan-dev@lfdr.de>; Mon, 11 Sep 2023 17:07:22 +0200 (CEST)
+Received: by mail-wm1-x339.google.com with SMTP id 5b1f17b1804b1-401db2550e0sf37742045e9.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 11 Sep 2023 08:07:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1694444842; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Sfjrv0oZcT4HYDRW5wL1+2c6Pj3bLsvqUZ/wCleAUau7ar3GqWphx1Gz/AtoSCaqdN
-         R88C5UW14LFmfuYW1dEn9kbJuZm9zGWgFfBi1Rj69xFSG2CNwERUwODZP2JC6JHrKUc+
-         jWDUNRM9fNsLyZJWI26kt7zKaOpo2KgOhZbsck5jhqlDOm2UfEOw8pZn8NLdmop2uWt3
-         jAW/oIrIzs1DqB+E5GMGjNjjIwf076EB1zLOBaGlcddBVIpiifyv+ruVOrNldtR5M467
-         AB+PynTFNteasKZ7rdLJNXFdaSifZ1YaAoV1wFI57/UDAQt+ss5Lrd49UtipIYrA1F5e
-         hM0A==
+        b=QKkiyyV8x+s/DJtBIlBsZe77IPNkmuJLsbL21gPeP31IJi9QmF6uwMJcaM0TciP144
+         LFQuZn2G84Fbz2Lf5ZJ7jUfPYCWPt0w2iNcXjFtojdCCZ60Crb1kXKbrxmz1Xmm3E+SK
+         W33JOepzW2ZWRRf8hF86PoRr3B/Fxewy2NjI2BtjuHJ6u5ZjrVU5J7u1hOnw++nLlqLt
+         gl9MEtHC5sI98fmNX8g5HB7zKBzYQAo81uOOm+jZx0XpWpmGVxap29oqJ49GA6hcJa3V
+         BNyM8SCmBJDHv1+cXDtFOkAp0fBBlq5Mq4XiMjMrJVru65vJBKhyuEpJvumQxisW8KWp
+         lKmg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=T5ZSemWUDEdFtmxiR8VS5eS42VhAgnCVvQ9L8+FQVH8=;
+        bh=q+uZiv5eXa5s2PMv4S9nb5Hm0jKAzImUX1lxflcnFsU=;
         fh=xOEYjjBxoZTZ/EHX1QhB46LMgR1TviO8E01fK4wIwx0=;
-        b=W3ohKgqjDswjZiZXDuoezZh1v1VO8Dso1+Qbkk/E9wPJDZulXgJrmZGzqOFwhHH1mD
-         d4gFaP/xYi2TQyYk1GDPs48OiFsFAQO0pXIbvg9kvHSj0B/1Stnk0qOFuIcQOum4LK4j
-         GSxoKshgSeAO3sEbcL33SZu0dFVpeZ4SjWVPSqH0OqKoidfWsWbH+1U37D4nZ5R8vKX2
-         fuAGENR1XEON2Lpf9C/GgU+XqPALJGhSMEnvnaMYBh8C61xO8+yM0/I6m4psNoCPleEt
-         k0M72cR5GBFWQCO1vy9k8K+I3r3jO0kd8xW/QqET1f93k6Vs9hOkd6JSxXlgZwXdc0nH
-         p/UA==
+        b=0XJZbIFf5rmeaT+ZimwmDRiDWhx2hfKxrydA4mB/bNWjvvrdyKeICO84HD2QIsASgo
+         Tm8PJzSlqZcAXkvLR8GpC57vN3qt2ox4JODspKFxbYYYzB94UAW9qQW/cqaBFljWknpO
+         KeUnABAPHZ5JlVnlWNPUk4u4dMbrF7cnfSnrwOiAeXD+i1xv6d7TczT2II7ICWt0btHJ
+         HKkkXuO4PjfF8r6JmO67GSM2vIw6C0uY2m/SLsFCWJa+VcybfY/tEguN0qUhs32krTXM
+         O96/PTt8ibkqmPFar+2FCxsE/FYSWbMAPpz2TljNcjEA2dFUZi5FvqHLXoUhGYs4k0zp
+         6/5Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=QQtMuecs;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42f as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=SsdqREde;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32e as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1694444817; x=1695049617; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1694444842; x=1695049642; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=T5ZSemWUDEdFtmxiR8VS5eS42VhAgnCVvQ9L8+FQVH8=;
-        b=c8x5SoeUf0PccddO8Ec6z5NkxQrQ0iUou/RVCpUsjinjaQC4P33e/E/aK+jD5zAoGe
-         WOjf5v4AKPxCF04Z/dG1wD4w8kqx6usDTT2nlCjwfqczhlBTEKSKbok1bl9pDduclNJd
-         p0LhAmyP8WpqFh1UvagSBaRWjm78lgsjQuAf1vtbxcXB+62d5x+6rllxwUPtSbIRQ0ix
-         Wpq7bwv6y9Q0GCJ2gvVxoYM8Dr2wZTz0ZLbh5bvFE5DpiSQawx9ueZ3WqGx0Be/iodZ4
-         SQDX5/RWKvWmsrvkmw3pirOCXeMx4rCpexu3l3eK+YX8rekkvgXZSLzG5L7rZejvc96W
-         SNvQ==
+        bh=q+uZiv5eXa5s2PMv4S9nb5Hm0jKAzImUX1lxflcnFsU=;
+        b=brhXD3hbk+q5agcl4bF30BoNkqjGOXt9+s3QrCYbTK8G1//Yj92Bwl6sWd5Zn0Y9b/
+         w4QKN16uGxPnk03HoWvDVaeazanN3hUSFbBhjtU3+uaY/3M6I2SdJOlCejMzBQ2fOm3R
+         4QB4LfKnnyEgMaZefcvKhBoQVBYP7dOy3vUUaYPiZ3u8RuU4nb3LaCAB+ulKEWCHfCaw
+         Y9NNjhTAo4DRA2snoyk3whNBq1Zab/1gV9BCmN0cMkMqUa7GZiziqvnKngPZlgQxjv2a
+         whio64tGPnpvvDO+u9iEFTExY86EcGBaXfgvtasve8SPVRliCxxxkNJA6AkEEgQKJ1/7
+         +wGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694444817; x=1695049617;
+        d=1e100.net; s=20230601; t=1694444842; x=1695049642;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=T5ZSemWUDEdFtmxiR8VS5eS42VhAgnCVvQ9L8+FQVH8=;
-        b=DwWQpNUKKTTdooax+gc/M5na0J86DoD9oe41C4UhtFnXtRZNFouue0GTwnIPo2eA0S
-         V0u2pOOzDHNO9UfMDGxk9a0vpVK2bUQFy6DPAv/nJjqm8eu1hCdoZo5dBrvObPLmXUlL
-         PtPiVlYjE6Sn7Fwdc1ecffxjGFvj2keot/VoMUmWZ+aE+Fih8mvz6XWoOTg6+ZanMj7E
-         bkrYzVwaieKNOfrHyAEdOiZ4YsB0S217nvtZ/ZbDHj904vu6HH2LyorfNNH+C4Kq5pRQ
-         WxhVfZGYaJlFh2AWCxJxqx3myb31d4+HZPfxrWTcYlIUXqBUlm7SuJ832VK9Mxhwdmjb
-         OHSA==
-X-Gm-Message-State: AOJu0YzOyUcdonOEwgpSHnkxmg3Qqm9Lfmg8EVe+253/7jCRrt8lqlWx
-	iCOej2ND90JRTg/xYueB4sA=
-X-Google-Smtp-Source: AGHT+IGtQ6xX6kcrHglxywLsG+BhxsTQZaDOCZDQqFa93v0MweLprvnJEdrnhPsGKbyIVdor99D6gA==
-X-Received: by 2002:a05:6402:400e:b0:52f:2f32:e76c with SMTP id d14-20020a056402400e00b0052f2f32e76cmr137743eda.2.1694444817060;
-        Mon, 11 Sep 2023 08:06:57 -0700 (PDT)
+        bh=q+uZiv5eXa5s2PMv4S9nb5Hm0jKAzImUX1lxflcnFsU=;
+        b=A3PzDXBBqwZD3rz3b19dKE83ISpMg+XEoxMd/XLhTQ5VcdETvUndIlstd9c8kMwbNt
+         A3fIzTLfIDfXv2OFjedDBfJ9qelW/gsakdjQczD/EJLmjE44+SXz9hDU+onNyPA4fwHt
+         O+kQ0ZHmpyQlTLiVbbZwGMwUl3+XBg0LKGw/z6uRlEN9mreLPma5WLW2JXGyHHnk6Kum
+         HWmNQV9uPi7DNrzXnNIeBwgYr9La8B/wwoVuNNcQy2lGjIVMc9uZWeHy+GZEU+TEEhqq
+         WY/JlFb72+L2q6GgCl9flfsjhNjefsseHqytHprNL2+53IMQrl3wjKQKEFXXD/WLTj17
+         W3yw==
+X-Gm-Message-State: AOJu0YwfPM7Qkp4vqSRbp9EA3ORt4WX42iPkx7mRzBP9a0BTBngMmj+D
+	ElajlxkdOBv1c/lzXhfEaPA=
+X-Google-Smtp-Source: AGHT+IGq43WPesVLv5MaLoMSIWuyCgmrYdfUkOjZXvtKz7GtlF0tnjG1ge+YxEAisorcvxwtkiaIVg==
+X-Received: by 2002:a1c:f70b:0:b0:3fd:3006:410b with SMTP id v11-20020a1cf70b000000b003fd3006410bmr8226936wmh.34.1694444841725;
+        Mon, 11 Sep 2023 08:07:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:706:b0:525:b947:ff2 with SMTP id
- w6-20020a056402070600b00525b9470ff2ls460144edx.1.-pod-prod-00-eu; Mon, 11 Sep
- 2023 08:06:55 -0700 (PDT)
-X-Received: by 2002:a17:907:3f0b:b0:9a5:c2c0:1d0f with SMTP id hq11-20020a1709073f0b00b009a5c2c01d0fmr19568202ejc.12.1694444815212;
-        Mon, 11 Sep 2023 08:06:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1694444815; cv=none;
+Received: by 2002:a05:600c:474e:b0:401:b3a5:ebfe with SMTP id
+ w14-20020a05600c474e00b00401b3a5ebfels349741wmo.0.-pod-prod-03-eu; Mon, 11
+ Sep 2023 08:07:20 -0700 (PDT)
+X-Received: by 2002:a7b:c412:0:b0:3fb:df34:176e with SMTP id k18-20020a7bc412000000b003fbdf34176emr8978553wmi.31.1694444839959;
+        Mon, 11 Sep 2023 08:07:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1694444839; cv=none;
         d=google.com; s=arc-20160816;
-        b=CY9j6EG7dXuoONVULDyOL3P7eIzEB7mXO99urGlJM+/yfLUtBy55c+Nh94uAQ0bMjb
-         AKESwvmz5Nhgz/wrNXZz/1SYfj851vyRC3SVhixkKtoXzd6p7OEKlcWXxyyGsLLU8YpV
-         4H0Ahf5Br93nYN64FUs2x0sc58WBvu390iyZXyNoDl2JuewtLAakyWo5mhmB5LuhqBBV
-         Nn5WeimBZqnW5hgdLTzLuWE8auDodA7iX04Lm+d76liKmaekUKTRnfyxKUu/xn+J0iru
-         GfoKO7mq/CYhv8bUKIXFFlAcbuop6HIl/wBgDL2IAZluL/TdDyB/OnfjEmfddTVWG/Ww
-         1HTw==
+        b=CWDiv3Q/zdH5x5LbbNwLaD8wCuNiS5Nov3HgAtIttIPY6Fc0dfgdmAJn6+GA3bRVZ/
+         AX2GQCmzJuarJryOmy2sCnLhvaLAjD4zzc3t+0kZMet/l5YcIZlxk0Rh16KvkgR3BOwf
+         OcyUrXlBEFxdxcOVbx4nWixDBdYGp7pN2Hd1wPaqk6uN9vCWzkuZTOkAcdu8zUUu6wf1
+         1UHE1/gl2uCMvEKOFT3J8Ku2WnT1jkvcoomHbViI4wnhhvjJnYxoBvTnEBBb55p0LiVC
+         D3IwuNSPkFsWpGntS4BmKT21959j4SsIwqi4VDIJBFfmwswTAsTGUVjH9cQo4dZS/pSo
+         1kOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=XQQwAsg44hbarepY67H1tYdIQRedwFcPBpbpUI6JdQk=;
+        bh=dOpTUAby7ZVIO6+YPrYOI97+9Zg13vBp8MSTW+q41J4=;
         fh=xOEYjjBxoZTZ/EHX1QhB46LMgR1TviO8E01fK4wIwx0=;
-        b=MG7cFpm0C+7N5wS+77orz6my2HHretABDTXPLiUMw1E4wm08UjLQFuu0yl7qhV4B2r
-         EAS4axyeagvxUHggH4dxG0Ed/WdjUupgkFqD10xVNOgGWl9LYmCnZOSyrwCI3HUmILx1
-         j1GrcWqgrA64Ed5txfzkkQQL0QUp6YjNVzGVpbJ9zuDysDkAqybjNgUJN3D0XBcoxHG/
-         tzKAqKyyK8TcHXg8gDtXn4r2/Ui3TGoe2IKfhs9wUkoWqqZ59VWV8u04tX3dubTuwwKC
-         dtNfvfpN/v9HJZgIuUglmlIQDkifjW5vCnSY5TrVlwXf8TdKJd34OR6A4JO+BMFhcBG3
-         HS/A==
+        b=icroXZjV1aAkxWPeE9o/H4vUIusUYCAbCcis+YUUUw29KTl3W1QUsAHMj7EvqZ13Ku
+         UgNpQc985ECio96Nl1fH0zF8FRhHTcwRzVJz1MPRAFtO2m2v1hZ7QoQK9f1Kr1w1Ssdl
+         pwdUpE2pj5NHIqFuVwYfoBpm2UGzhAGgEfOdu9T3lRnSIPSGrvhtVcjrjx0klGmAWPgv
+         8RL1DMvOKVLvKRP4ozdhc50I+8od2Qj6G7R+X7LrQ2NGEYgxZlOJwhjQnHMCu3lB2An2
+         03hrg+q6fKiBtlOO4zifJJgrEh0fmD3TYwgXnmlLTzpbHB1p0+ZzdVm/x3PDHbqImKM3
+         d++A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20221208 header.b=QQtMuecs;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42f as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20221208 header.b=SsdqREde;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32e as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com. [2a00:1450:4864:20::42f])
-        by gmr-mx.google.com with ESMTPS id ey24-20020a1709070b9800b009a9f5afda63si722082ejc.0.2023.09.11.08.06.55
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com. [2a00:1450:4864:20::32e])
+        by gmr-mx.google.com with ESMTPS id ay40-20020a05600c1e2800b003fef434e6a5si1084972wmb.0.2023.09.11.08.07.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Sep 2023 08:06:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42f as permitted sender) client-ip=2a00:1450:4864:20::42f;
-Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-31aec0a1a8bso2859979f8f.0
-        for <kasan-dev@googlegroups.com>; Mon, 11 Sep 2023 08:06:55 -0700 (PDT)
-X-Received: by 2002:adf:e5c6:0:b0:314:3e96:bd7e with SMTP id
- a6-20020adfe5c6000000b003143e96bd7emr9131234wrn.4.1694444814652; Mon, 11 Sep
- 2023 08:06:54 -0700 (PDT)
+        Mon, 11 Sep 2023 08:07:19 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32e as permitted sender) client-ip=2a00:1450:4864:20::32e;
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-403012f276dso23473245e9.0
+        for <kasan-dev@googlegroups.com>; Mon, 11 Sep 2023 08:07:19 -0700 (PDT)
+X-Received: by 2002:a05:600c:b44:b0:401:dc7c:2488 with SMTP id
+ k4-20020a05600c0b4400b00401dc7c2488mr8666846wmr.11.1694444839305; Mon, 11 Sep
+ 2023 08:07:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230911145702.2663753-1-glider@google.com> <20230911145702.2663753-4-glider@google.com>
-In-Reply-To: <20230911145702.2663753-4-glider@google.com>
+References: <20230911145702.2663753-1-glider@google.com> <20230911145702.2663753-3-glider@google.com>
+In-Reply-To: <20230911145702.2663753-3-glider@google.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 11 Sep 2023 17:06:15 +0200
-Message-ID: <CANpmjNOnPhYg1hyvDRzatUF6aNdysOW4ftv=W4foRd6Wr8bPpQ@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] kmsan: introduce test_memcpy_initialized_gap()
+Date: Mon, 11 Sep 2023 17:06:42 +0200
+Message-ID: <CANpmjNP61zOdXR=FYjtzUqcjxg=j_Otqotqv_OTN_Hi2E-LXLg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/4] kmsan: merge test_memcpy_aligned_to_unaligned{,2}()
+ together
 To: Alexander Potapenko <glider@google.com>
 Cc: dvyukov@google.com, akpm@linux-foundation.org, linux-mm@kvack.org, 
 	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20221208 header.b=QQtMuecs;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::42f as
+ header.i=@google.com header.s=20221208 header.b=SsdqREde;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32e as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -137,90 +138,86 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 On Mon, 11 Sept 2023 at 16:57, Alexander Potapenko <glider@google.com> wrote:
 >
-> Add a regression test for the special case where memcpy() previously
-> failed to correctly set the origins: if upon memcpy() four aligned
-> initialized bytes with a zero origin value ended up split between two
-> aligned four-byte chunks, one of those chunks could've received the zero
-> origin value even despite it contained uninitialized bytes from other
-> writes.
+> Introduce report_reset() that allows checking for more than one KMSAN
+> report per testcase.
+> Fold test_memcpy_aligned_to_unaligned2() into
+> test_memcpy_aligned_to_unaligned(), so that they share the setup phase
+> and check the behavior of a single memcpy() call.
 >
 > Signed-off-by: Alexander Potapenko <glider@google.com>
-> Suggested-by: Marco Elver <elver@google.com>
 
 Acked-by: Marco Elver <elver@google.com>
 
 > ---
->  mm/kmsan/kmsan_test.c | 53 +++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 53 insertions(+)
+>  mm/kmsan/kmsan_test.c | 37 +++++++++++++------------------------
+>  1 file changed, 13 insertions(+), 24 deletions(-)
 >
 > diff --git a/mm/kmsan/kmsan_test.c b/mm/kmsan/kmsan_test.c
-> index 6eb1e1a4d08f9..07d3a3a5a9c52 100644
+> index a8d4ca4a1066d..6eb1e1a4d08f9 100644
 > --- a/mm/kmsan/kmsan_test.c
 > +++ b/mm/kmsan/kmsan_test.c
-> @@ -486,6 +486,58 @@ static void test_memcpy_aligned_to_unaligned(struct kunit *test)
->         KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> @@ -67,6 +67,17 @@ static bool report_available(void)
+>         return READ_ONCE(observed.available);
 >  }
 >
-> +/*
-> + * Test case: ensure that origin slots do not accidentally get overwritten with
-> + * zeroes during memcpy().
-> + *
-> + * Previously, when copying memory from an aligned buffer to an unaligned one,
-> + * if there were zero origins corresponding to zero shadow values in the source
-> + * buffer, they could have ended up being copied to nonzero shadow values in the
-> + * destination buffer:
-> + *
-> + *  memcpy(0xffff888080a00000, 0xffff888080900002, 8)
-> + *
-> + *  src (0xffff888080900002): ..xx .... xx..
-> + *  src origins:              o111 0000 o222
-> + *  dst (0xffff888080a00000): xx.. ..xx
-> + *  dst origins:              o111 0000
-> + *                        (or 0000 o222)
-> + *
-> + * (here . stands for an initialized byte, and x for an uninitialized one.
-> + *
-> + * Ensure that this does not happen anymore, and for both destination bytes
-> + * the origin is nonzero (i.e. KMSAN reports an error).
-> + */
-> +static void test_memcpy_initialized_gap(struct kunit *test)
+> +/* Reset observed.available, so that the test can trigger another report. */
+> +static void report_reset(void)
 > +{
-> +       EXPECTATION_UNINIT_VALUE_FN(expect, "test_memcpy_initialized_gap");
-> +       volatile char uninit_src[12];
-> +       volatile char dst[8] = { 0 };
+> +       unsigned long flags;
 > +
-> +       kunit_info(
-> +               test,
-> +               "unaligned 4-byte initialized value gets a nonzero origin after memcpy() - (2 UMR reports)\n");
-> +
-> +       uninit_src[0] = 42;
-> +       uninit_src[1] = 42;
-> +       uninit_src[4] = 42;
-> +       uninit_src[5] = 42;
-> +       uninit_src[6] = 42;
-> +       uninit_src[7] = 42;
-> +       uninit_src[10] = 42;
-> +       uninit_src[11] = 42;
-> +       memcpy_noinline((void *)&dst[0], (void *)&uninit_src[2], 8);
-> +
-> +       kmsan_check_memory((void *)&dst[0], 4);
-> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-> +       report_reset();
-> +       kmsan_check_memory((void *)&dst[2], 4);
-> +       KUNIT_EXPECT_FALSE(test, report_matches(&expect));
-> +       report_reset();
-> +       kmsan_check_memory((void *)&dst[4], 4);
-> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +       spin_lock_irqsave(&observed.lock, flags);
+> +       WRITE_ONCE(observed.available, false);
+> +       observed.ignore = false;
+> +       spin_unlock_irqrestore(&observed.lock, flags);
 > +}
 > +
->  /* Generate test cases for memset16(), memset32(), memset64(). */
->  #define DEFINE_TEST_MEMSETXX(size)                                          \
->         static void test_memset##size(struct kunit *test)                   \
-> @@ -579,6 +631,7 @@ static struct kunit_case kmsan_test_cases[] = {
+>  /* Information we expect in a report. */
+>  struct expect_report {
+>         const char *error_type; /* Error type. */
+> @@ -454,7 +465,7 @@ static void test_memcpy_aligned_to_aligned(struct kunit *test)
+>   *
+>   * Copying aligned 4-byte value to an unaligned one leads to touching two
+>   * aligned 4-byte values. This test case checks that KMSAN correctly reports an
+> - * error on the first of the two values.
+> + * error on the mentioned two values.
+>   */
+>  static void test_memcpy_aligned_to_unaligned(struct kunit *test)
+>  {
+> @@ -470,28 +481,7 @@ static void test_memcpy_aligned_to_unaligned(struct kunit *test)
+>                         sizeof(uninit_src));
+>         kmsan_check_memory((void *)dst, 4);
+>         KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> -}
+> -
+> -/*
+> - * Test case: ensure that memcpy() correctly copies uninitialized values between
+> - * aligned `src` and unaligned `dst`.
+> - *
+> - * Copying aligned 4-byte value to an unaligned one leads to touching two
+> - * aligned 4-byte values. This test case checks that KMSAN correctly reports an
+> - * error on the second of the two values.
+> - */
+> -static void test_memcpy_aligned_to_unaligned2(struct kunit *test)
+> -{
+> -       EXPECTATION_UNINIT_VALUE_FN(expect,
+> -                                   "test_memcpy_aligned_to_unaligned2");
+> -       volatile int uninit_src;
+> -       volatile char dst[8] = { 0 };
+> -
+> -       kunit_info(
+> -               test,
+> -               "memcpy()ing aligned uninit src to unaligned dst - part 2 (UMR report)\n");
+> -       memcpy_noinline((void *)&dst[1], (void *)&uninit_src,
+> -                       sizeof(uninit_src));
+> +       report_reset();
+>         kmsan_check_memory((void *)&dst[4], sizeof(uninit_src));
+>         KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+>  }
+> @@ -589,7 +579,6 @@ static struct kunit_case kmsan_test_cases[] = {
 >         KUNIT_CASE(test_init_memcpy),
 >         KUNIT_CASE(test_memcpy_aligned_to_aligned),
 >         KUNIT_CASE(test_memcpy_aligned_to_unaligned),
-> +       KUNIT_CASE(test_memcpy_initialized_gap),
+> -       KUNIT_CASE(test_memcpy_aligned_to_unaligned2),
 >         KUNIT_CASE(test_memset16),
 >         KUNIT_CASE(test_memset32),
 >         KUNIT_CASE(test_memset64),
@@ -231,4 +228,4 @@ Acked-by: Marco Elver <elver@google.com>
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOnPhYg1hyvDRzatUF6aNdysOW4ftv%3DW4foRd6Wr8bPpQ%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNP61zOdXR%3DFYjtzUqcjxg%3Dj_Otqotqv_OTN_Hi2E-LXLg%40mail.gmail.com.
