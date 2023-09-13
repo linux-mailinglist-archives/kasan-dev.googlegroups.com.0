@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBAABBD65Q6UAMGQEKARWI2Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBDW5Q6UAMGQEXCYBADQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C8DF79F035
+Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C7079F034
 	for <lists+kasan-dev@lfdr.de>; Wed, 13 Sep 2023 19:17:04 +0200 (CEST)
-Received: by mail-lf1-x139.google.com with SMTP id 2adb3069b0e04-501c70f247csf13223e87.1
+Received: by mail-wm1-x33e.google.com with SMTP id 5b1f17b1804b1-402c46c4a04sf207455e9.2
         for <lists+kasan-dev@lfdr.de>; Wed, 13 Sep 2023 10:17:04 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1694625424; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YEwztmmd3s4QGBresL2jVt49TvXwrEU5whETMJai45GyRnREcZzVhWQvLHuMJ3LSAE
-         7Klu0EYV5Y9Ny8cqG46m9ZHQrA5Qs+IRwQaIjS2At2M1Y/yXoROFh93Kk7KIYSr81KeI
-         w3Wi4s8a908JpP7F8ohi54fv74eaafCzwZ3CD+EU43YjhVEBXEbGe1FhddiVt8zfBJun
-         nnORWbe1IPcv/hXVDHqwIAdWmb1CidDTdo3qYCqp49hoyv9Gu3KghELmV9N2L3Gp4967
-         XAPSrKk76/cvsNDOldVURndnqbINXdMqXk44sY+COg3zEPtvFlnvN5OXFb8ZWR1qcRRG
-         PLuw==
+        b=Yuh4duE6pAK4SR/GzuIAAyr1wCscMzi5BoKWLDqFSB8n7H7B8OktyF+zakckWC6LFz
+         SpOGlzD5CZWDvKsovEa3HVkac0VvuL+u5HEtb520f+LxtHrcEMd8EytypC1eUg9iM29f
+         fJHKWRJVpW10n17ahN2nwrJWfCvTbrtxvp55q3Wt1cZEyaIoP2Sw0meRcDKf8ehl3p0O
+         EjRTCX9oxJKZ2Z3ewA3KzE77sZFviC25RquOcjYdRRK9Zs6WZqhRev/gb5vKPTBNB5r3
+         HuLmOcMcUS6xwgACYLZOZ/DQ3gFSFFB3H9VOp0Y34b8AOThNXa76MHRdSrHnVFSpQArb
+         lRMg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=SVj2il8kXwurYjKXtmtbwcUduz6TMprIfh9xOZb7qJI=;
+        bh=oMiPYeNnGaJ9sTePqafYeulNL92J0ySv5AiBvJdU23c=;
         fh=nfQSbTp1dWHt2Ier1Up8UhVNdXOqoJJLNvTrpT3jJEk=;
-        b=gR7gDhkeMb2Ar6eOJd5Nrj9sU2dv5wX6P1ZZOiui9nl95h62jePaU+i5xaO2uYvJxz
-         sOz7YdZ5Ozzds2i8YvexOnb755jE3feAJOwXEJs5/nVK3Hx74GB56FRBajF4EGFE5ARX
-         gZujZ+rLU3PO/X1vyAMgg6fljXbmaq+puTI22UWAKRe0xtCltdlceF6jlVQONrCo4yPO
-         5ziGB7OixEDbzPh4E3TEliLVUWFiugf3AJ9+ytx4/W/dm0Ks1MUot+GUUwviLtYXAR26
-         9ojmmmgTm+AJ1ZS8Jth6LWQDHV02kdKqpe4MW+MIdwYfF2ucqPh66g0oWw4DTF2awMyy
-         i7gg==
+        b=IH/Kpo8F1JU2ECbW+2jJdoq67C1tLoNx1hYbFLJ835RpI8bMuqG/iXCYH6GAqGiqWE
+         +hqyBM9vUyxHWfyf7IDkq6VJx5AIzTxzLqK4ms81lzC2+z1bNtjPKh7VR4F0d+/U9bPx
+         pmK6YpByjshYv9bsc00R1li0ggoah4bnewlOSi9TdnA7spskvuZs3/hNBXTloDBDaXj/
+         282TYjuchZFkITS6DwCE0e3sqO0y/9YfzH63JsLZ1F1D2zV57eCgdKUjiTDWtRsfrFD0
+         ea5muz/tnmBZXmCvoE+3kmbuwJJ5o4yDv5ngEJKlHA+dLsuQN3kCbJlFW5bDAfc2eaZq
+         J2sA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=iZqHPx4f;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.227 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=rPLyIHlB;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:203:375::d5 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20230601; t=1694625424; x=1695230224; darn=lfdr.de;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SVj2il8kXwurYjKXtmtbwcUduz6TMprIfh9xOZb7qJI=;
-        b=U96FmcDP9fA6lS/meG5TnMCoAKCgaRbsc7hiC+uhnycZM+XFW43KDc0Mg8MHcxbBMA
-         EQfE16UQsEtNnik2bm/o1/3vdmI/PDoOxMOsnuYDegyqpG+4KBKGn1Cyd5VEqactYcFL
-         byRRhYXscWFx8tvEQS8wsRDiB2rXGRrL0aSACfhVqxvgGN9rrO372ZPkPB2C62EHTEdN
-         LY1GnVuo8K+6rOjhgIdF1Nj0bWhfn11e5X2g+E5D/Ty8br7VOibC3RluzR3ITncXfjEz
-         L7nW3FKfIF45NIoLoYzfHcHDzSkL0JbImy9cazhnqPbJCsd40WkUjsKtwFv/jJIYJxdU
-         Ting==
+        bh=oMiPYeNnGaJ9sTePqafYeulNL92J0ySv5AiBvJdU23c=;
+        b=Pi63ldjzU6ON/jeaYnqP3CI/kM8sHwvzEgo2kyyw75VZ9kRJRDdlo83f8Sc5bjVIum
+         AgONUEY6vMeba74aRJydH87UxMlWYsrl+jeH4kyzJsJ5N96qmaDM7ano+lLTrqekzvnv
+         OaDXJ90k9aBVgBSD50ukpUrpuBjKoShGI0I0vn6acObZl+ZCM/vsskib6WqkMiX0ScRY
+         5PVXpGHV/g9E6EesH2GiK9sTOo369lr8NrPHIut7nJhD+MQ1K26XSGGu0Yrbg3bBKA+H
+         gduWJindFyy+xSQpnhjs3Pa6qvAjbhSg4pcUkpgViDSa0PEuLJbV1HmfjYMhY23hwmlm
+         tIMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1694625424; x=1695230224;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -52,54 +52,54 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SVj2il8kXwurYjKXtmtbwcUduz6TMprIfh9xOZb7qJI=;
-        b=bItPEqq8Uizmh5zGQSVun/9GlMpcluQt7vbOxUUpQ1vljg8QZE4YnrUnZNhcW03H9c
-         J/nBThkMUrfQo91y1+oJR6vNQ8WrTzHZeq1K9jFzIIEeeByfWjH+Igmevg6SWVL6ZVV1
-         qKX3Rs9q9mSS3t/R0kbZL23c1lb56dWM1YfB+L9mT0Aw2y4HcQNEkjheOy/1FtG9u7nu
-         fI1Exa9uRWE25XDHxsh+3iDnRztrLp8aIl3hvzxQv0s4yW2g0+JLQBMZV4Rpf/uWwoh5
-         EWJ+tEl1GSLVNc6KMVxHhWogYxDnswSqwetAbhwJY0JWeOa9RMSof8u3jRX5bRkmIXGa
-         j1lA==
+        bh=oMiPYeNnGaJ9sTePqafYeulNL92J0ySv5AiBvJdU23c=;
+        b=v1LUcwwcoaItXQ5HUXN59psBL25cjVQEU1EfUXRdTBWOKw7rfXIBk/aPuMpgXh3hbX
+         ABC/FPkq5d5JO7eNNRtvEm2qIddAHz643Tw2rsSK63jvO6FzMlqDD4M91i0Zmt9/P28L
+         eQxaBbS4jXewzNp6jyLfCS+Th19irv2iBOr8J6mu/iapKrbO2Z4HzGUoesRPefFNk0Sf
+         s8UrROdCthBbYNSADxs1+IwQeKD8YEDuExRh/A4uUO/F/kBXqResJosuQgHyOnsLkyDN
+         /43YgBqsXWPpYzMsvU4jAbTa+/LNSYAiJ8cSWsqKNaPqpaQALkfNL4hzi06TnvIlxokr
+         mSIQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YwnTJ3in4eQWUaF/ZzlNHq8y5ukBXrOgOAYCb14F5H6eF5Y1eHn
-	LB46Kb49SFjxsSbVJ8NVa4I=
-X-Google-Smtp-Source: AGHT+IHp9uvbcGuokT164ay008huF6A/WdDoI6+74HB81Ov8TS9QwHdtorXmpRrbqMIc5eFIh4rSjg==
-X-Received: by 2002:a19:ca42:0:b0:501:a5de:afed with SMTP id h2-20020a19ca42000000b00501a5deafedmr2334377lfj.37.1694625423353;
+X-Gm-Message-State: AOJu0YyxnlauI19kcE2tQQaikQgyAaJTCNfub4LMDiy8LaiGPj+T5DJM
+	l01GJn1nhfe8U6alZrdNkaDIsg==
+X-Google-Smtp-Source: AGHT+IFZN6KHPURtAUgrav7QBLNIAJXo8oNCn4aLu5Tv1Hd80s+SgT0byZ+L+9fo9gkwciRrCV6ThQ==
+X-Received: by 2002:a1c:7c02:0:b0:401:b0f2:88cf with SMTP id x2-20020a1c7c02000000b00401b0f288cfmr2687698wmc.40.1694625423182;
         Wed, 13 Sep 2023 10:17:03 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3136:b0:4fb:7be6:88e with SMTP id
- p22-20020a056512313600b004fb7be6088els1652463lfd.0.-pod-prod-08-eu; Wed, 13
+Received: by 2002:a05:6000:807:b0:31f:908e:6979 with SMTP id
+ bt7-20020a056000080700b0031f908e6979ls1579227wrb.1.-pod-prod-06-eu; Wed, 13
  Sep 2023 10:17:02 -0700 (PDT)
-X-Received: by 2002:a05:6512:234d:b0:4e0:a426:6ddc with SMTP id p13-20020a056512234d00b004e0a4266ddcmr3477505lfu.0.1694625421845;
+X-Received: by 2002:adf:d0c3:0:b0:31a:d2f9:7372 with SMTP id z3-20020adfd0c3000000b0031ad2f97372mr2691047wrh.29.1694625421950;
         Wed, 13 Sep 2023 10:17:01 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1694625421; cv=none;
         d=google.com; s=arc-20160816;
-        b=qdfsQI2uLA/jQ+j3K6Ng3JKyehMgARWUJyQNkpEOFn0Y038HjHYocM5UU/EXlQZztu
-         EUbRjwvtOXUTog95sVb3cKy7NAzDY0gt7byfWJRQow7HRiYisFZz/qkJnabfWfcfC2+5
-         D4AnstME3fqm/iEwsX7fKqAqypyQlT8l9kxvypwmmJtRDccWG4fj+9qbZ8fJvWRilanR
-         FO8t8cRawQxAkvD7+9ND8eIXYNdq/4G5ZAEdQ7b6C/Hq9WXKRwvDxiqkXsoUuJ/TnTcc
-         x5dWTvgPAeVAdDmRJuB/Hc9lPuSfvTm+9ayuSuhsEUf3fRgCxzNfn/s2lmulTiJKMIpI
-         Gr4w==
+        b=k2kF6jXtNfgZL010R6yvo83d0sYxqlRTW9o7wj+ogkOJ0ohVOOgOIHuwZoQitq3CMS
+         7kQQhPREHVOZu6ojZV29GuAAgB5ibkvFxfJy2m0HXGAw0IoEpMjO5II8eysOBud4CZHb
+         cgiGqE+V0gp00XY0OCaUMYaQkm6mbtw/F4xQRndGN1Q6wB7pIKRW9R80zifMwyWdqHt5
+         bnBji1LZWqGByj52j100pJZS3C1zkfpswZcYSIHEO8rOIDIYry6OYlS5Fd5ZgBqQ9Yzf
+         kjMlxFY9oFkbYVd3821oN+718uapFuAre0BHIo3WdTcg4vYfgDr01pYXgeUUXsCmU49U
+         ZM2w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=Y6OFfwxwVZx7oqRr59fNDzzOOQmJw0k24eVuDSDilTk=;
+        bh=iWiSl9lpWFlYTb7e84Z8P7HowCNwXEfuw/46H+rnea4=;
         fh=nfQSbTp1dWHt2Ier1Up8UhVNdXOqoJJLNvTrpT3jJEk=;
-        b=Tp50A2r3yN+HZjj7m5Dg7zmNyniG9ZNZgJvGfVWWFGxGmRoY0Ecs8A5lEd49niNzta
-         bze5pxBgnEBrkYRwJNvuXaxYzQD8LjJ02a08/7pZPrAGXwilHK5kplUXCyucpLOB5lkl
-         iuZ3tlNCP9nhhMJasast/goAhoRRmJOs9RKUZnRbl2Dvw7pZp1A2Te/aa61kolAQ6KGt
-         gr2XqZGAGZ2qnVdClbQj2MyZQBnbGV2YWXRgjWvgeOC1A66OVbwhA4LjV3UCz6e2KuVf
-         DRNOpLrlIFg5ux2Mr0UcX6dtkj2WtbWxYy61oxE8Rh4FiN93U2e9piGbt5SjgP84tp9O
-         Zdvg==
+        b=hBfbaQZF16FFJFcfl8EzKhVgb/ISgJqSYdubBzt68xXo7HZEvFoXDOH6WyBcLAk91w
+         gABESEVyV5mra7744pjxLjbwXajt2YdAXIlc7q7OjVppnlHEM7pWhiOYhmYSM4cUL62R
+         2A11j2a0R9XXo0weToS+CG+gm671d0K8jKkAMoyH4pQdNBmvznx81iVtrwIF7SqzMe+l
+         IZG3eaZZ5cwlF4XLBPpHkRhG2Na80nkJj2DTdHWp4hsel0leAHVEBbpqCLJeEphDqbgz
+         sjd8KTgXS/3kSKTX7pa63Nj27fTq3P9kRHpFtzYVypPXmT+L6FIt/D6RtGHlEBZ9e6gr
+         M1vQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=iZqHPx4f;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.227 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=rPLyIHlB;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:203:375::d5 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-227.mta1.migadu.com (out-227.mta1.migadu.com. [95.215.58.227])
-        by gmr-mx.google.com with ESMTPS id n10-20020a05651203ea00b00500d9706548si965599lfq.12.2023.09.13.10.17.01
+Received: from out-213.mta1.migadu.com (out-213.mta1.migadu.com. [2001:41d0:203:375::d5])
+        by gmr-mx.google.com with ESMTPS id t32-20020a056402242000b0052e7b1828cfsi961325eda.5.2023.09.13.10.17.01
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 13 Sep 2023 10:17:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.227 as permitted sender) client-ip=95.215.58.227;
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:203:375::d5 as permitted sender) client-ip=2001:41d0:203:375::d5;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
 To: Marco Elver <elver@google.com>,
@@ -114,19 +114,19 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v2 14/19] lib/stackdepot, kasan: add flags to __stack_depot_save and rename
-Date: Wed, 13 Sep 2023 19:14:39 +0200
-Message-Id: <2a161c99c47a45f8e9f7a21a732c60f0cd674a66.1694625260.git.andreyknvl@google.com>
+Subject: [PATCH v2 15/19] lib/stackdepot: add refcount for records
+Date: Wed, 13 Sep 2023 19:14:40 +0200
+Message-Id: <c15b94412d146957c8be423c8dc1d3b66f659709.1694625260.git.andreyknvl@google.com>
 In-Reply-To: <cover.1694625260.git.andreyknvl@google.com>
 References: <cover.1694625260.git.andreyknvl@google.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=iZqHPx4f;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.227 as
- permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+ header.i=@linux.dev header.s=key1 header.b=rPLyIHlB;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates
+ 2001:41d0:203:375::d5 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -142,270 +142,131 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-Change the bool can_alloc argument of __stack_depot_save to a
-u32 argument that accepts a set of flags.
+Add a reference counter for how many times a stack records has been added
+to stack depot.
 
-The following patch will add another flag to stack_depot_save_flags
-besides the existing STACK_DEPOT_FLAG_CAN_ALLOC.
+Add a new STACK_DEPOT_FLAG_GET flag to stack_depot_save_flags that
+instructs the stack depot to increment the refcount.
 
-Also rename the function to stack_depot_save_flags, as __stack_depot_save
-is a cryptic name,
+Do not yet decrement the refcount; this is implemented in one of the
+following patches.
+
+Do not yet enable any users to use the flag to avoid overflowing the
+refcount.
+
+This is preparatory patch for implementing the eviction of stack records
+from the stack depot.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
 ---
 
 Changes v1->v2:
-- This is a new patch.
+- Add forgotten refcount_inc() under write lock.
+- Add STACK_DEPOT_FLAG_GET flag for stack_depot_save_flags.
 ---
- include/linux/stackdepot.h | 36 +++++++++++++++++++++++++-----------
- lib/stackdepot.c           | 16 +++++++++++-----
- mm/kasan/common.c          |  7 ++++---
- mm/kasan/generic.c         |  9 +++++----
- mm/kasan/kasan.h           |  2 +-
- mm/kasan/tags.c            |  3 ++-
- 6 files changed, 48 insertions(+), 25 deletions(-)
+ include/linux/stackdepot.h | 13 ++++++++++---
+ lib/stackdepot.c           | 12 ++++++++++--
+ 2 files changed, 20 insertions(+), 5 deletions(-)
 
 diff --git a/include/linux/stackdepot.h b/include/linux/stackdepot.h
-index e58306783d8e..0b262e14144e 100644
+index 0b262e14144e..611716702d73 100644
 --- a/include/linux/stackdepot.h
 +++ b/include/linux/stackdepot.h
-@@ -32,6 +32,17 @@ typedef u32 depot_stack_handle_t;
+@@ -39,8 +39,9 @@ typedef u32 depot_flags_t;
+  * to its declaration for more details.
   */
- #define STACK_DEPOT_EXTRA_BITS 5
+ #define STACK_DEPOT_FLAG_CAN_ALLOC	((depot_flags_t)0x0001)
++#define STACK_DEPOT_FLAG_GET		((depot_flags_t)0x0002)
  
-+typedef u32 depot_flags_t;
-+
-+/*
-+ * Flags that can be passed to stack_depot_save_flags(); see the comment next
-+ * to its declaration for more details.
-+ */
-+#define STACK_DEPOT_FLAG_CAN_ALLOC	((depot_flags_t)0x0001)
-+
-+#define STACK_DEPOT_FLAGS_NUM	1
-+#define STACK_DEPOT_FLAGS_MASK	((depot_flags_t)((1 << STACK_DEPOT_FLAGS_NUM) - 1))
-+
+-#define STACK_DEPOT_FLAGS_NUM	1
++#define STACK_DEPOT_FLAGS_NUM	2
+ #define STACK_DEPOT_FLAGS_MASK	((depot_flags_t)((1 << STACK_DEPOT_FLAGS_NUM) - 1))
+ 
  /*
-  * Using stack depot requires its initialization, which can be done in 3 ways:
+@@ -94,6 +95,9 @@ static inline int stack_depot_early_init(void)	{ return 0; }
+  * flags of @alloc_flags). Otherwise, stack depot avoids any allocations and
+  * fails if no space is left to store the stack trace.
   *
-@@ -69,31 +80,34 @@ static inline int stack_depot_early_init(void)	{ return 0; }
- #endif
- 
- /**
-- * __stack_depot_save - Save a stack trace to stack depot
-+ * stack_depot_save_flags - Save a stack trace to stack depot
-  *
-  * @entries:		Pointer to the stack trace
-  * @nr_entries:		Number of frames in the stack
-  * @alloc_flags:	Allocation GFP flags
-- * @can_alloc:		Allocate stack pools (increased chance of failure if false)
-+ * @depot_flags:	Stack depot flags
++ * If STACK_DEPOT_FLAG_GET is set in @depot_flags, stack depot will increment
++ * the refcount on the saved stack trace if it already exists in stack depot.
 + *
-+ * Saves a stack trace from @entries array of size @nr_entries.
-  *
-- * Saves a stack trace from @entries array of size @nr_entries. If @can_alloc is
-- * %true, stack depot can replenish the stack pools in case no space is left
-- * (allocates using GFP flags of @alloc_flags). If @can_alloc is %false, avoids
-- * any allocations and fails if no space is left to store the stack trace.
-+ * If STACK_DEPOT_FLAG_CAN_ALLOC is set in @depot_flags, stack depot can
-+ * replenish the stack pools in case no space is left (allocates using GFP
-+ * flags of @alloc_flags). Otherwise, stack depot avoids any allocations and
-+ * fails if no space is left to store the stack trace.
-  *
   * If the provided stack trace comes from the interrupt context, only the part
   * up to the interrupt entry is saved.
   *
-- * Context: Any context, but setting @can_alloc to %false is required if
-+ * Context: Any context, but setting STACK_DEPOT_FLAG_CAN_ALLOC is required if
-  *          alloc_pages() cannot be used from the current context. Currently
-  *          this is the case for contexts where neither %GFP_ATOMIC nor
-  *          %GFP_NOWAIT can be used (NMI, raw_spin_lock).
-  *
-  * Return: Handle of the stack struct stored in depot, 0 on failure
-  */
--depot_stack_handle_t __stack_depot_save(unsigned long *entries,
--					unsigned int nr_entries,
--					gfp_t gfp_flags, bool can_alloc);
-+depot_stack_handle_t stack_depot_save_flags(unsigned long *entries,
-+					    unsigned int nr_entries,
-+					    gfp_t gfp_flags,
-+					    depot_flags_t depot_flags);
- 
- /**
-  * stack_depot_save - Save a stack trace to stack depot
-@@ -103,7 +117,7 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
+@@ -116,8 +120,11 @@ depot_stack_handle_t stack_depot_save_flags(unsigned long *entries,
+  * @nr_entries:		Number of frames in the stack
   * @alloc_flags:	Allocation GFP flags
   *
-  * Context: Contexts where allocations via alloc_pages() are allowed.
-- *          See __stack_depot_save() for more details.
-+ *          See stack_depot_save_flags() for more details.
+- * Context: Contexts where allocations via alloc_pages() are allowed.
+- *          See stack_depot_save_flags() for more details.
++ * Does not increment the refcount on the saved stack trace; see
++ * stack_depot_save_flags() for more details.
++ *
++ * Context: Contexts where allocations via alloc_pages() are allowed;
++ *          see stack_depot_save_flags() for more details.
   *
   * Return: Handle of the stack trace stored in depot, 0 on failure
   */
 diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-index 1b08897ebd2b..e5121225f124 100644
+index e5121225f124..e2c622054265 100644
 --- a/lib/stackdepot.c
 +++ b/lib/stackdepot.c
-@@ -438,19 +438,24 @@ static inline struct stack_record *find_stack(struct list_head *bucket,
- 	return NULL;
- }
- 
--depot_stack_handle_t __stack_depot_save(unsigned long *entries,
--					unsigned int nr_entries,
--					gfp_t alloc_flags, bool can_alloc)
-+depot_stack_handle_t stack_depot_save_flags(unsigned long *entries,
-+					    unsigned int nr_entries,
-+					    gfp_t alloc_flags,
-+					    depot_flags_t depot_flags)
- {
- 	struct list_head *bucket;
- 	struct stack_record *found = NULL;
- 	depot_stack_handle_t handle = 0;
- 	struct page *page = NULL;
- 	void *prealloc = NULL;
-+	bool can_alloc = depot_flags & STACK_DEPOT_FLAG_CAN_ALLOC;
- 	bool need_alloc = false;
- 	unsigned long flags;
- 	u32 hash;
- 
-+	if (depot_flags & ~STACK_DEPOT_FLAGS_MASK)
-+		return 0;
-+
- 	/*
- 	 * If this stack trace is from an interrupt, including anything before
- 	 * interrupt entry usually leads to unbounded stack depot growth.
-@@ -529,13 +534,14 @@ depot_stack_handle_t __stack_depot_save(unsigned long *entries,
- 		handle = found->handle.handle;
- 	return handle;
- }
--EXPORT_SYMBOL_GPL(__stack_depot_save);
-+EXPORT_SYMBOL_GPL(stack_depot_save_flags);
- 
- depot_stack_handle_t stack_depot_save(unsigned long *entries,
- 				      unsigned int nr_entries,
- 				      gfp_t alloc_flags)
- {
--	return __stack_depot_save(entries, nr_entries, alloc_flags, true);
-+	return stack_depot_save_flags(entries, nr_entries, alloc_flags,
-+				      STACK_DEPOT_FLAG_CAN_ALLOC);
- }
- EXPORT_SYMBOL_GPL(stack_depot_save);
- 
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 256930da578a..825a0240ec02 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -22,6 +22,7 @@
- #include <linux/sched.h>
- #include <linux/sched/task_stack.h>
+@@ -23,6 +23,7 @@
+ #include <linux/mutex.h>
+ #include <linux/percpu.h>
+ #include <linux/printk.h>
++#include <linux/refcount.h>
  #include <linux/slab.h>
-+#include <linux/stackdepot.h>
+ #include <linux/spinlock.h>
  #include <linux/stacktrace.h>
- #include <linux/string.h>
- #include <linux/types.h>
-@@ -37,19 +38,19 @@ struct slab *kasan_addr_to_slab(const void *addr)
- 	return NULL;
- }
+@@ -60,6 +61,7 @@ struct stack_record {
+ 	u32 hash;			/* Hash in hash table */
+ 	u32 size;			/* Number of stored frames */
+ 	union handle_parts handle;
++	refcount_t count;
+ 	unsigned long entries[CONFIG_STACKDEPOT_MAX_FRAMES];	/* Frames */
+ };
  
--depot_stack_handle_t kasan_save_stack(gfp_t flags, bool can_alloc)
-+depot_stack_handle_t kasan_save_stack(gfp_t flags, depot_flags_t depot_flags)
- {
- 	unsigned long entries[KASAN_STACK_DEPTH];
- 	unsigned int nr_entries;
- 
- 	nr_entries = stack_trace_save(entries, ARRAY_SIZE(entries), 0);
--	return __stack_depot_save(entries, nr_entries, flags, can_alloc);
-+	return stack_depot_save_flags(entries, nr_entries, flags, depot_flags);
- }
- 
- void kasan_set_track(struct kasan_track *track, gfp_t flags)
- {
- 	track->pid = current->pid;
--	track->stack = kasan_save_stack(flags, true);
-+	track->stack = kasan_save_stack(flags, STACK_DEPOT_FLAG_CAN_ALLOC);
- }
- 
- #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
-diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-index 4d837ab83f08..5d168c9afb32 100644
---- a/mm/kasan/generic.c
-+++ b/mm/kasan/generic.c
-@@ -25,6 +25,7 @@
- #include <linux/sched.h>
- #include <linux/sched/task_stack.h>
- #include <linux/slab.h>
-+#include <linux/stackdepot.h>
- #include <linux/stacktrace.h>
- #include <linux/string.h>
- #include <linux/types.h>
-@@ -472,7 +473,7 @@ size_t kasan_metadata_size(struct kmem_cache *cache, bool in_object)
- 			sizeof(struct kasan_free_meta) : 0);
- }
- 
--static void __kasan_record_aux_stack(void *addr, bool can_alloc)
-+static void __kasan_record_aux_stack(void *addr, depot_flags_t depot_flags)
- {
- 	struct slab *slab = kasan_addr_to_slab(addr);
- 	struct kmem_cache *cache;
-@@ -489,17 +490,17 @@ static void __kasan_record_aux_stack(void *addr, bool can_alloc)
- 		return;
- 
- 	alloc_meta->aux_stack[1] = alloc_meta->aux_stack[0];
--	alloc_meta->aux_stack[0] = kasan_save_stack(0, can_alloc);
-+	alloc_meta->aux_stack[0] = kasan_save_stack(0, depot_flags);
- }
- 
- void kasan_record_aux_stack(void *addr)
- {
--	return __kasan_record_aux_stack(addr, true);
-+	return __kasan_record_aux_stack(addr, STACK_DEPOT_FLAG_CAN_ALLOC);
- }
- 
- void kasan_record_aux_stack_noalloc(void *addr)
- {
--	return __kasan_record_aux_stack(addr, false);
-+	return __kasan_record_aux_stack(addr, 0);
- }
- 
- void kasan_save_alloc_info(struct kmem_cache *cache, void *object, gfp_t flags)
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index f70e3d7a602e..de3206e11888 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -370,7 +370,7 @@ static inline void kasan_init_cache_meta(struct kmem_cache *cache, unsigned int
- static inline void kasan_init_object_meta(struct kmem_cache *cache, const void *object) { }
- #endif
- 
--depot_stack_handle_t kasan_save_stack(gfp_t flags, bool can_alloc);
-+depot_stack_handle_t kasan_save_stack(gfp_t flags, depot_flags_t depot_flags);
- void kasan_set_track(struct kasan_track *track, gfp_t flags);
- void kasan_save_alloc_info(struct kmem_cache *cache, void *object, gfp_t flags);
- void kasan_save_free_info(struct kmem_cache *cache, void *object);
-diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
-index 7dcfe341d48e..4fd32121b0fd 100644
---- a/mm/kasan/tags.c
-+++ b/mm/kasan/tags.c
-@@ -13,6 +13,7 @@
- #include <linux/memblock.h>
- #include <linux/memory.h>
- #include <linux/mm.h>
-+#include <linux/stackdepot.h>
- #include <linux/static_key.h>
- #include <linux/string.h>
- #include <linux/types.h>
-@@ -101,7 +102,7 @@ static void save_stack_info(struct kmem_cache *cache, void *object,
- 	struct kasan_stack_ring_entry *entry;
- 	void *old_ptr;
- 
--	stack = kasan_save_stack(gfp_flags, true);
-+	stack = kasan_save_stack(gfp_flags, STACK_DEPOT_FLAG_CAN_ALLOC);
+@@ -361,6 +363,7 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
+ 	stack->hash = hash;
+ 	stack->size = size;
+ 	/* stack->handle is already filled in by depot_init_pool. */
++	refcount_set(&stack->count, 1);
+ 	memcpy(stack->entries, entries, flex_array_size(stack, entries, size));
  
  	/*
- 	 * Prevent save_stack_info() from modifying stack ring
+@@ -477,6 +480,8 @@ depot_stack_handle_t stack_depot_save_flags(unsigned long *entries,
+ 	/* Fast path: look the stack trace up without full locking. */
+ 	found = find_stack(bucket, entries, nr_entries, hash);
+ 	if (found) {
++		if (depot_flags & STACK_DEPOT_FLAG_GET)
++			refcount_inc(&found->count);
+ 		read_unlock_irqrestore(&pool_rwlock, flags);
+ 		goto exit;
+ 	}
+@@ -516,12 +521,15 @@ depot_stack_handle_t stack_depot_save_flags(unsigned long *entries,
+ 			list_add(&new->list, bucket);
+ 			found = new;
+ 		}
+-	} else if (prealloc) {
++	} else {
++		if (depot_flags & STACK_DEPOT_FLAG_GET)
++			refcount_inc(&found->count);
+ 		/*
+ 		 * Stack depot already contains this stack trace, but let's
+ 		 * keep the preallocated memory for future.
+ 		 */
+-		depot_keep_new_pool(&prealloc);
++		if (prealloc)
++			depot_keep_new_pool(&prealloc);
+ 	}
+ 
+ 	write_unlock_irqrestore(&pool_rwlock, flags);
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2a161c99c47a45f8e9f7a21a732c60f0cd674a66.1694625260.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/c15b94412d146957c8be423c8dc1d3b66f659709.1694625260.git.andreyknvl%40google.com.
