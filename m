@@ -1,152 +1,147 @@
-Return-Path: <kasan-dev+bncBAABBC77RKUAMGQERWK4AHI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBFUORWUAMGQEED7QQRQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3f.google.com (mail-oo1-xc3f.google.com [IPv6:2607:f8b0:4864:20::c3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52C1779FDDC
-	for <lists+kasan-dev@lfdr.de>; Thu, 14 Sep 2023 10:08:45 +0200 (CEST)
-Received: by mail-oo1-xc3f.google.com with SMTP id 006d021491bc7-57332cb9adfsf979745eaf.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 14 Sep 2023 01:08:45 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1694678924; cv=pass;
+Received: from mail-ot1-x33e.google.com (mail-ot1-x33e.google.com [IPv6:2607:f8b0:4864:20::33e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8278E7A0BF4
+	for <lists+kasan-dev@lfdr.de>; Thu, 14 Sep 2023 19:47:04 +0200 (CEST)
+Received: by mail-ot1-x33e.google.com with SMTP id 46e09a7af769-6bdb30c45f6sf1581716a34.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 14 Sep 2023 10:47:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1694713623; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ahWqZKo3rrLEAxS94ECszDAbZA1fy/d98RUWr8/pl9ZEsIxTQ5drtebzgbl4ngQZsT
-         wTUviFw9yub7YGBjRWI9+3k94PsPRhCqHAoiNQLrXwx0vC+JhYdD8BaBXe0tOFALmXuI
-         n2QJu81cm/XSKYdxwjZ8ZiOUTzGYEPxZja/YGZMudEYp40HICkbgOUuKTYTYaQmjsGzM
-         sBd4j1MKUgrIPk9YxusoFpQZxysMr1j9WUT+GjRo+YmKNLNO7JCS9KthCOObmQYlXKj9
-         60Fm6dsToYsV4hOBEemv+LZnagLPQ//LiGYbCxPpubrD/DGgWvZJyfgnbdX/jII69SrH
-         bbLA==
+        b=C/LRRP//FIZz9gOy2/f5AdoH3mIX6euo3dyiGpHy6PdyQawAkb96tzQ+8/VDugbA+b
+         2ZouazUgGtC8MQ8WE6+gX8O6+qQBVV7x7OdVXhHrfzVcybqTjCF+RCgnvsFIxZUpttgY
+         Cq+4iIkYyFRLtGWY7DAzX9QAjWUnMzn74B22m1WLHLDgbxvAQXwxSyyVT6eTJ/5ulRnE
+         1ZTebuZ/lKiCsxV9Z1bMMZYpTX6iiCQOcqcMc/EOVjMjnFIaUwPRVbyd/jS+rZEzZ+iR
+         3JCieiMdis3tzSZ1s1l2v1l5FstcwFRXidVNjeO2LfMAnbWFlo//b4udTWAT6qbvMosv
+         4r4A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=d+bLdhHdR0ctxgii+nq0CtIrgnqddJ2OQd2Ib/PDVCU=;
-        fh=9tNOOOHWf8rh1v5D9hdTIAxFWVvKZVqkP8B3+taMnLI=;
-        b=mEkSgU1FMk5jLVXi0ZYA1F11bFq9ySW5AZv/posOeijBccgKlstjg2mcK+mtkxLuIj
-         ylLiHLCnJbG4oWZNFRpZ3Q4nkroeHCcUmPxanSZU0r1dBREGxiNhUCg3xc3hkJ1KhZ8d
-         l8rKZdPVEbQynH15MTy/PEv7WpMrRj/87pJEJIBSL02JHKmhc084NeI7awZfYI8cQzOY
-         InpRGj/m62zsCDkx3l/h/t32bQgw/NEQlL4BKZd6062voI5gdTbdyZU2PewtXAJtxrpb
-         K7M/NrPmYWfYTbSImE/qstWjZoOpRX8WSPUfY27hv17pSyq+oQRwDdtO74QL8lX4Rq7y
-         l/dw==
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=Y8Fe8LNIE/O7C/ZbnVuwgz8qur3H5Mmnh60+BcMo2x0=;
+        fh=mOFVByfsJNle5OoL3xMTOfgYLnLvVWdorHp2SYW++nc=;
+        b=ItrwkTfTHAfXQh67lhlSGExiPuGmF2TzKOXVmYp4BqYdsoRT3Y/80JsQn9oISlObNt
+         ZpalpqnqEXEiQDl69MxX4bJuqiuHTrBX3BU/egtDtjvQ4Zam/pYMeiADAAdM9Owi2XOd
+         a9grM5KWgp8eUH2O8U219HBPWsdD0klshjHad9p2Tw7KJk/zCFOJeetCYw3Y22R+OisI
+         mwy3JsZl65It+Jp/wu5C6HGgc/TdQ6yqWCV1mUqaY0Mmq3AmOO0l7zKHPhUa+LGVtUTY
+         jKo3mFHU9gUUAhlINAf41F7nFX4U+4Z4yDYMGS1uLfnChK+H8qHGDGH7bEV2SmVM7HYl
+         0+mg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@mediatek.com header.s=dk header.b=nbN5kH2Z;
-       spf=pass (google.com: domain of haibo.li@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=haibo.li@mediatek.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+       dkim=pass header.i=@gmail.com header.s=20221208 header.b=Ffhl6wdC;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::1035 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1694678924; x=1695283724; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1694713623; x=1695318423; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d+bLdhHdR0ctxgii+nq0CtIrgnqddJ2OQd2Ib/PDVCU=;
-        b=KVP6PMRIw75TLK86x5cj+9G48buiUX5Z5N1UbJBVTNxHP8dXGXuE9wPYQTixv4XE36
-         TQD9csufDX32xknaeJHf8A2yzCGlvx52lbGo3H7jNwR+G/4cIS6EhzOV7UU/sJupMG5S
-         xNNSv7bD+D3p9AVegfoUv7hKy3nfdWnW4njMP7RnCVVX9avNWuuRk715fQEJyj/ymY8O
-         HAA1fcmMUdjApFdq9o0Wk4d94+2dKNwYu0EN71+RimSQFPaqyYA+6oxcrRUT0FECBhdE
-         kGiy4Yr+a/hRMlOozOvCHc0GlcxAV44unitUWy89t4PP67hl96G3ZBBGuEGPuGhNTKO0
-         V5xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694678924; x=1695283724;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=d+bLdhHdR0ctxgii+nq0CtIrgnqddJ2OQd2Ib/PDVCU=;
-        b=kl6a58SPwjaFdSBTrGBxvipI8M6jRxLqDzzDe+5YI0bVVAovq65b59NJyGUHIqSs9o
-         tLXeSBIu6Z3Xe7hd/JISGA0GuXDQbQMwdP0lafob8MMY8PfZ4gCW5VcrbwBFtOL1ohSI
-         iq7z0J3DK0Qkc9mKSKob55HTezzw38YIt8jw3NfWNGWq0vWnqIRXneP/ZprAjj1iv5qC
-         Q+n5vrL21zyQTflqsRRhg1bN9g/Hw4g0btQ4C87UrJd4Sw9D6Uf03nXULjRgHS2Brmcy
-         O1hLVWIBG6cNDJ3pyu+7cC9UMo5I1z8NseJtvSYSnmXpUvGFmuBvS8hf99pRwm639kKT
-         lezQ==
-X-Gm-Message-State: AOJu0YzgRSjv636N67t9Gi+tiEKIB85tMUz9w5QufzDbDv034xrt17oC
-	Ks4xf1LrzGmYKadz1sGtAaU=
-X-Google-Smtp-Source: AGHT+IGv8s7g2VJQYaJ2a/XI4BTklJJ1+WhVCLQaS2yX/Bn677xWa6PYwg/jSFogz+tUayGygo+cyA==
-X-Received: by 2002:a4a:610b:0:b0:576:941d:3154 with SMTP id n11-20020a4a610b000000b00576941d3154mr4871453ooc.6.1694678923961;
-        Thu, 14 Sep 2023 01:08:43 -0700 (PDT)
+        bh=Y8Fe8LNIE/O7C/ZbnVuwgz8qur3H5Mmnh60+BcMo2x0=;
+        b=K1c7EDRJZGtGVYp1o7DkB4gfxyenAMuXwn/IiT3nHvqL6v0AteL8/UdXEcy7D6ZpwZ
+         00npLwadWtia5aF5QafJKY9+zLxS2DPlZv3atCVkNdkUqz45/bgXARMx7V4Nn29hGSFs
+         HXeSrr8Twc06cl036KORn5ALRoi+ySAcAlldKOdBQZw8Hui+qeU6ohDY1tZABFRPWhHK
+         o9YSDlzPlQO8xHRcgTZOVe6fEMVEuzSiN76ZVHt9GhaF+qOoKZhs02p+RbY27OAZzVO+
+         neIh2ukXSJriMR/P/TJzDuLjO85b8jQ0jfPhqBi7wpIlK9wyKQr45SPBpXBOxO2Mnajf
+         PzzA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1694713623; x=1695318423; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Y8Fe8LNIE/O7C/ZbnVuwgz8qur3H5Mmnh60+BcMo2x0=;
+        b=lT05hmzpMukxiGM0bMoYB/PebILEekq7L+9IoABSB7CTpc5lg6ercyiTbQ71MtY+bj
+         eoc8aiO874Lj6QFO0c+z9FLWmsk46o/CVcq/3Uzhu0+i6vSlZhO3jyaFiEYVUKjZqWAW
+         krlCJvBUfDp/Q0zWTqyBbrSIGqTl7Nk6RqnY+IO4B4YuQ02zLrgVzX13dZxdZXWziMsa
+         WyJIhdZqXqqsjloBA9dmSKLh+l/nbkAZUP5vnw+FFaY51FUifQd3nsFJO6I9r3PsOUaH
+         tMu3UUlbhTToeUmXMeoxoEnUvE/9zKlhH6BHj88vA+ZdSTRyDQ1/RzWOWk8ThA1v1hyP
+         HMfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1694713623; x=1695318423;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y8Fe8LNIE/O7C/ZbnVuwgz8qur3H5Mmnh60+BcMo2x0=;
+        b=TmUAP2qHZvWHtBkdqiTU1WT9l2f8F24BaeU+SF0e/w0/iNFDUrXyxruEXn8qupoJxK
+         i3Eu/dMq+VCQxSDxgRiX0Cq0ah3wMvgL8clOtyoMXWMRzn8ZOBF4feZe7CNc4S9j2grO
+         Pi4XLVhWHt1ZjrSuLqse1yigllcxpnAs/kolpIKU5KylWFo0+kuggU72MAb2a4mEB81F
+         ooi7ip97lfbA6zJeUWsKJea5km9aIOwkEPembmelfsNkGWNOxv0YuQAoi8YBCbZV1IEp
+         DMlGcYgYzMSDu4Z4kFLrtdNws7VU9abwGVGeelh9jRbRTODs+QKrPnZcq5tBWMSSD56H
+         Dnlw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOJu0Yz4Nh73Q6DpxPFXx8Bsdh8VJP12KQbIcId8aJJZxWH8VJqfo6MO
+	ZKycpD/mtya8f1Z2E9yfuUA=
+X-Google-Smtp-Source: AGHT+IHYCvEXsYL7dY61H+eID+Ht3PEpWr7yW9JTq0226riFa5hwGHWFn4e6DEOURsycTSd+c1GJbA==
+X-Received: by 2002:a9d:6f04:0:b0:6b8:dcd2:8b9e with SMTP id n4-20020a9d6f04000000b006b8dcd28b9emr6981974otq.7.1694713623020;
+        Thu, 14 Sep 2023 10:47:03 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:4944:0:b0:571:1c89:f1e2 with SMTP id z65-20020a4a4944000000b005711c89f1e2ls500999ooa.0.-pod-prod-01-us;
- Thu, 14 Sep 2023 01:08:43 -0700 (PDT)
-X-Received: by 2002:a05:6808:3098:b0:3ab:7adb:7b35 with SMTP id bl24-20020a056808309800b003ab7adb7b35mr6337936oib.50.1694678923202;
-        Thu, 14 Sep 2023 01:08:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1694678923; cv=none;
+Received: by 2002:a4a:4f8c:0:b0:576:22ef:e4a4 with SMTP id c134-20020a4a4f8c000000b0057622efe4a4ls762084oob.2.-pod-prod-07-us;
+ Thu, 14 Sep 2023 10:47:02 -0700 (PDT)
+X-Received: by 2002:a9d:7642:0:b0:6b9:1917:b2f3 with SMTP id o2-20020a9d7642000000b006b91917b2f3mr6074820otl.33.1694713622137;
+        Thu, 14 Sep 2023 10:47:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1694713622; cv=none;
         d=google.com; s=arc-20160816;
-        b=JSXo3AqTeFWEUKVaAKVwiBpuYauSnQ0QwRMUuilD8KAGEgfwIYvkiCjw1zmEGRMsSb
-         hfkIdyCkcGabxb6JrA6XX4HHuD0lpTo1Z+hCFOLT1WtudS5C9WDM78NDJD3os1K/M8Cl
-         u2PKqsZxEl8CKOWXQM6SFVNikkx70ofmjyszvftCr87qZ2rm/2lopIqx4yYgeNCpsCEf
-         L4o1PfjLvl7+i7W/VelanlLft6ZxUk8yPbn5ileUFmAxdg/TPhxbQiq6WE4wkHCXtPbS
-         Q4sFkpH63bh2RnhVAwEOKRtojm6ov5twcRj/qGb3QqrGcT3LB/UbuPkKoOfjJc0nNP8h
-         djww==
+        b=dZkLuf1PPFEE0J/9lgnQGDJsDU5n9rBH/npb8EtY2uj4Mm9dW5lQ787EEKa1R/VQtS
+         UziJneBAo50JDUtqvrB5W3C+JQiseN/O2G2swvhTDkSeRoUqLXNtOyVHSihMZ3nYxGnG
+         0ciSgcvjVt3VWRi9+AG/JfgTIi/dupU6FuKoNJk9XFkefKl3lABdeEHQSB6b+hkUP9Re
+         9dGKIQz6DaSPbIjQFWb2AE8LvywxHL/5FYUqMKnjTjnJYAVmQxeFn1qsi35Sh7GxyVJp
+         SoICvWMVXa4tbAFuIictTGVUYYjip6+ZNvjQKt5itt/cMu77F3t2UqGWvtwRZRHqlWEF
+         xeCg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=mlOEeXuSL3Jd9KWoAGMasqY7uUX1ru96a24IVEsPgXk=;
-        fh=9tNOOOHWf8rh1v5D9hdTIAxFWVvKZVqkP8B3+taMnLI=;
-        b=XgDSKudq3mGDhMjA+yHIF4QCXTboD2Gcp7TFfY78HhztTdZi7G19Q+f0UhOeH96uET
-         5mL5I47JH0vjc0g1V/zRAxEkzhO6rAYjqGwF4SHYeqFdA6Nn9F6IxRxeGC9ygfsMwDap
-         p3MZVvJLfUyHS0XOmm1cUzqrZnjX7CB17CWn/GOyrkrrhfZBsp6IqJznkPf1yqQQRzsY
-         lJ83tqtrP1AAlxbZRFajzA2njdQErwJU8pb/zijv50b9HJXP3rOOkSJ6nSFOeq6iqBjE
-         XBk7jV2RdMlk8kBUoIMSjeuXIHll2Y05g8IbdxOOudN8dAsmKhXa8LUrQ3q8WGGDbymz
-         HBFg==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=J3P8BZDl5uXhLdi7mCkkSTzXwn0E2WaaQT91SGIepdI=;
+        fh=mOFVByfsJNle5OoL3xMTOfgYLnLvVWdorHp2SYW++nc=;
+        b=U1SmyxaIhKEMp0aJK50IiziN0wxZQQYKnFdNAL8euK3ust8CfolTWvf4s5N4pFU9Jt
+         jpr164q3gRL+FI3BETmUIjXIl6IymzIV/7JcaK9yIdlE0IBtnluTqPXVBTRkbLLoP0uo
+         9bGolazN66oX4H8f+pXs0qSRUJhjlnqIHeyeXWtDIUaQVIPt78BgEyk0oB3r7BDS4+xI
+         x9lHrqmLzWVzI8834XpJ7Ocv9Xky/yrMomhb7/N743+K5A2RbAieeSJjG/AtpMDnoVjN
+         oqFUSsxcflfGcjlVAW7n4aXrJoxslNkmV8767CGndzMfH+yUkvUm/9baoSInbLIPNaz2
+         IUMQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@mediatek.com header.s=dk header.b=nbN5kH2Z;
-       spf=pass (google.com: domain of haibo.li@mediatek.com designates 60.244.123.138 as permitted sender) smtp.mailfrom=haibo.li@mediatek.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
-Received: from mailgw01.mediatek.com ([60.244.123.138])
-        by gmr-mx.google.com with ESMTPS id et15-20020a056808280f00b003a843f1814csi149249oib.4.2023.09.14.01.08.42
+       dkim=pass header.i=@gmail.com header.s=20221208 header.b=Ffhl6wdC;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::1035 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com. [2607:f8b0:4864:20::1035])
+        by gmr-mx.google.com with ESMTPS id c14-20020a056830348e00b006b9f166fa6asi200558otu.4.2023.09.14.10.47.02
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Sep 2023 01:08:42 -0700 (PDT)
-Received-SPF: pass (google.com: domain of haibo.li@mediatek.com designates 60.244.123.138 as permitted sender) client-ip=60.244.123.138;
-X-UUID: e7bd0d1252d511eea33bb35ae8d461a2-20230914
-X-CID-CACHE: Type:Local,Time:202309141550+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.31,REQID:e318bec8-4d6f-4264-ad9c-b8bfbcc41368,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:0ad78a4,CLOUDID:228104c3-1e57-4345-9d31-31ad9818b39f,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
-	NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULN,TF_CID_SPAM_SNR
-X-UUID: e7bd0d1252d511eea33bb35ae8d461a2-20230914
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
-	(envelope-from <haibo.li@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1145535570; Thu, 14 Sep 2023 16:08:36 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 14 Sep 2023 16:08:35 +0800
-Received: from mszsdtlt101.gcn.mediatek.inc (10.16.4.141) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 14 Sep 2023 16:08:34 +0800
-From: "'Haibo Li' via kasan-dev" <kasan-dev@googlegroups.com>
-To: <linux-kernel@vger.kernel.org>
-CC: <xiaoming.yu@mediatek.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov
-	<andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino
-	<vincenzo.frascino@arm.com>, Andrew Morton <akpm@linux-foundation.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, <kasan-dev@googlegroups.com>,
-	<linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, Haibo Li <haibo.li@mediatek.com>
-Subject: [PATCH] kasan:fix access invalid shadow address when input is illegal
-Date: Thu, 14 Sep 2023 16:08:33 +0800
-Message-ID: <20230914080833.50026-1-haibo.li@mediatek.com>
-X-Mailer: git-send-email 2.25.1
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Sep 2023 10:47:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::1035 as permitted sender) client-ip=2607:f8b0:4864:20::1035;
+Received: by mail-pj1-x1035.google.com with SMTP id 98e67ed59e1d1-27474c64b0bso581720a91.3
+        for <kasan-dev@googlegroups.com>; Thu, 14 Sep 2023 10:47:02 -0700 (PDT)
+X-Received: by 2002:a17:90b:1d87:b0:268:5bed:708e with SMTP id
+ pf7-20020a17090b1d8700b002685bed708emr5548210pjb.24.1694713621533; Thu, 14
+ Sep 2023 10:47:01 -0700 (PDT)
 MIME-Version: 1.0
+References: <20230914080833.50026-1-haibo.li@mediatek.com>
+In-Reply-To: <20230914080833.50026-1-haibo.li@mediatek.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Thu, 14 Sep 2023 19:46:50 +0200
+Message-ID: <CA+fCnZeHNoccoiUy11pmCG9LWHAxyB+6C7+GTc3ixj8iBnbi0w@mail.gmail.com>
+Subject: Re: [PATCH] kasan:fix access invalid shadow address when input is illegal
+To: Haibo Li <haibo.li@mediatek.com>
+Cc: linux-kernel@vger.kernel.org, xiaoming.yu@mediatek.com, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, kasan-dev@googlegroups.com, 
+	linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
-X-MTK: N
-X-Original-Sender: haibo.li@mediatek.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: andreyknvl@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@mediatek.com header.s=dk header.b=nbN5kH2Z;       spf=pass
- (google.com: domain of haibo.li@mediatek.com designates 60.244.123.138 as
- permitted sender) smtp.mailfrom=haibo.li@mediatek.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
-X-Original-From: Haibo Li <haibo.li@mediatek.com>
-Reply-To: Haibo Li <haibo.li@mediatek.com>
+ header.i=@gmail.com header.s=20221208 header.b=Ffhl6wdC;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::1035
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -159,63 +154,50 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-when the input address is illegal,the corresponding shadow address
-from kasan_mem_to_shadow may have no mapping in mmu table.
-Access such shadow address causes kernel oops.
-Here is a sample about oops on arm64(VA 39bit) with KASAN_SW_TAGS on:
+On Thu, Sep 14, 2023 at 10:08=E2=80=AFAM 'Haibo Li' via kasan-dev
+<kasan-dev@googlegroups.com> wrote:
+>
+> when the input address is illegal,the corresponding shadow address
+> from kasan_mem_to_shadow may have no mapping in mmu table.
+> Access such shadow address causes kernel oops.
+> Here is a sample about oops on arm64(VA 39bit) with KASAN_SW_TAGS on:
+>
+> [ffffffb80aaaaaaa] pgd=3D000000005d3ce003, p4d=3D000000005d3ce003,
+>     pud=3D000000005d3ce003, pmd=3D0000000000000000
+> Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
+> Modules linked in:
+> CPU: 3 PID: 100 Comm: sh Not tainted 6.6.0-rc1-dirty #43
+> Hardware name: linux,dummy-virt (DT)
+> pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
+> pc : __hwasan_load8_noabort+0x5c/0x90
+> lr : do_ib_ob+0xf4/0x110
+> ffffffb80aaaaaaa is the shadow address for efffff80aaaaaaaa.
+> The problem is reading invalid shadow in kasan_check_range.
+>
+> The generic kasan also has similar oops.
+>
+> To fix it,check shadow address by reading it with no fault.
+>
+> After this patch,KASAN is able to report invalid memory access
+> for this case.
 
-[ffffffb80aaaaaaa] pgd=000000005d3ce003, p4d=000000005d3ce003,
-    pud=000000005d3ce003, pmd=0000000000000000
-Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 3 PID: 100 Comm: sh Not tainted 6.6.0-rc1-dirty #43
-Hardware name: linux,dummy-virt (DT)
-pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : __hwasan_load8_noabort+0x5c/0x90
-lr : do_ib_ob+0xf4/0x110
-ffffffb80aaaaaaa is the shadow address for efffff80aaaaaaaa.
-The problem is reading invalid shadow in kasan_check_range.
+Hi Haibo,
 
-The generic kasan also has similar oops.
+I thought this should be covered by the kasan_non_canonical_hook
+handler, which prints some additional information about how the GPF
+could be caused by accessing shadow memory.
 
-To fix it,check shadow address by reading it with no fault.
+Does it not work in your case? It might be that we need to add
+kasan_non_canonical_hook to some other arm64 internal fault handler
+functions then.
 
-After this patch,KASAN is able to report invalid memory access
-for this case.
+Thanks!
 
-Signed-off-by: Haibo Li <haibo.li@mediatek.com>
----
- mm/kasan/kasan.h | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
-
-diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-index f70e3d7a602e..bd30f35e18b2 100644
---- a/mm/kasan/kasan.h
-+++ b/mm/kasan/kasan.h
-@@ -304,8 +304,17 @@ static __always_inline bool addr_has_metadata(const void *addr)
- #ifdef __HAVE_ARCH_SHADOW_MAP
- 	return (kasan_mem_to_shadow((void *)addr) != NULL);
- #else
--	return (kasan_reset_tag(addr) >=
--		kasan_shadow_to_mem((void *)KASAN_SHADOW_START));
-+	u8 *shadow, shadow_val;
-+
-+	if (kasan_reset_tag(addr) <
-+		kasan_shadow_to_mem((void *)KASAN_SHADOW_START))
-+		return false;
-+	/* use read with nofault to check whether the shadow is accessible */
-+	shadow = kasan_mem_to_shadow((void *)addr);
-+	__get_kernel_nofault(&shadow_val, shadow, u8, fault);
-+	return true;
-+fault:
-+	return false;
- #endif
- }
- 
--- 
-2.25.1
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230914080833.50026-1-haibo.li%40mediatek.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CA%2BfCnZeHNoccoiUy11pmCG9LWHAxyB%2B6C7%2BGTc3ixj8iBnbi0w%40mail.=
+gmail.com.
