@@ -1,134 +1,127 @@
-Return-Path: <kasan-dev+bncBD2ZJZWL7ICRBZH3WSUAMGQEETLIMGA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCS5D2F7IUIJTDNVVADBUBA7PR4LQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E437AA9C5
-	for <lists+kasan-dev@lfdr.de>; Fri, 22 Sep 2023 09:10:30 +0200 (CEST)
-Received: by mail-lj1-x239.google.com with SMTP id 38308e7fff4ca-2ba1949656bsf22776151fa.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 22 Sep 2023 00:10:30 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1695366630; cv=pass;
+Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84AD97AAAAD
+	for <lists+kasan-dev@lfdr.de>; Fri, 22 Sep 2023 09:47:39 +0200 (CEST)
+Received: by mail-lf1-x139.google.com with SMTP id 2adb3069b0e04-502fff967ccsf2172027e87.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 22 Sep 2023 00:47:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1695368859; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Jx2XT+m6HOPHmgj5jq38+dg8kYGHz1wGFMHMpSYowijwzvP6rNQF2GJ1dTGzSZYOBE
-         WtnLEbNR0cHKUbD8+2WkPwhtBvz3BT9++a6bSTxVYMsVwEkZIz9ott6KFzGiOlZCv1jl
-         3I+a0qg772NIsYaP/HAAouYC6s0u/714JqqaVxop0EzPAdNEjtHKrxoyO+vJOoKPg6Eb
-         0rascpRXHz8Boz/we/+Zro13zb9VYQ2JvmbPZ2b/zao+XbcEvZFhHducEvBfRn0OCjw7
-         kE1+tZb9DOloszjPkTMgyVUhrzX8dOwKUm+9uoL6Oizufu48abva5RBK9RTWz4OY0WoR
-         VMKQ==
+        b=wylu2f3NItAN5laVlybj3pjnKC1kqeYsCfnNZ8XxqifZ+1XpB6uYzGk+ty7K9LoRHj
+         +CsC0kdUg14J+NGUy2RlAb8iBJlxohbYtOQ2dU0LMlp9AkyzJbKCyzQUCcNFEqBefvPe
+         WcbDoXUgZ9TE25rOqY+ATs/qKHu1MVkbST0+QL4VrorFiJse8N9XLTL6llz5WkE//Awb
+         W/HWnaSgy1hZyR2xp2y3wyT+ia5AZDUV4Iu3SpFibHUKgnEX2iF6UR8xeK42n4g/Dxdb
+         4oZML0Gnfd2HgJrOnKFMnJeNLj6Ubpb+85UeVpBoDEuSkSo84gjvBpExGmyLtBDwYoW6
+         vFFw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=Aqz8OTa8YZ15KF6kJrJYDlllG01uC9H52WpK1N+1xrQ=;
-        fh=KSy1dDf6lUvgdoPctzpy47/Mjv6bi14N3nvpkZLQDdc=;
-        b=MU1D9C97BqFoEucm+0kxI2kyBUM7ncNei3q7pc7IPXHz9roEd/P3ZtBlXRvstfp4DH
-         HQnGXEkagdylmUUv6fW5h3ba3MZYJ62FNjEE8eXnGJGlrEl3TttugSseSRwc+WQ+Q51a
-         aSs2DVFVmL2oRmYZxCS8dZWoETURnvJEP3VndD6MHPUf171xsjOaahH2gVVH0nsRbMBL
-         r8BzXcZO/qZZpP7krgY2YtecdE7SOwLJsHexCOJ7w+3F3Fv+Ct8HDVnlJYNUDevDbfvg
-         t8IZKpGzZI3uW/H5b5aniAncC01AsjVh0wF3cUFhZO/UzzY1kx2mzm56wbGiU+CHfz5S
-         q5Nw==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=TiSbcyeJNfO7jMCpz/fK03nEro37B4Y9GWkvF4fAd2A=;
+        fh=trpnYWfTNd13yDurm36qzuGYoHnnP1N+m/SMOchAaMI=;
+        b=Fk+OFl1WhuDVr4ZkhPg/1tj4VIC1gWtmAM4F8y5q8m/9jWlD8ompBBvfNet8m7FjmX
+         ZDwciZ4ezuk0MvxuGituB5XgJEWJfW/qQw38QbVnVbRmEle0rAUEcztJ6n9zOs4Y5U5R
+         PPzZka6aUpPaBpkpU0tfZheowL1/eE2s/payPUF9R/2/7VPREtYB+oDstmzPvDQU8OIF
+         mC6Q485cZW1KQD64v2kWjfB0VCvxQ8hKtfQVKs4shsQikVN512xl3J48SCtuT4bys0sV
+         Lt5HvXl+kjZUiNQz3dNMjd/ecahAzGGnRUqKU++jRmibRvLajH1OMQlWJrxpuTJj9hhw
+         a/EA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=fPPxKFrT;
-       spf=pass (google.com: domain of yajun.deng@linux.dev designates 91.218.175.217 as permitted sender) smtp.mailfrom=yajun.deng@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=cxr2t9Sc;
+       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=willy@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1695366630; x=1695971430; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1695368859; x=1695973659; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Aqz8OTa8YZ15KF6kJrJYDlllG01uC9H52WpK1N+1xrQ=;
-        b=NhpDj747hytRcIgMiI0zoHxLZ2p/Ar6BR/01ydEJW7punuu9zI6M4Jl0RbFpUZ0IKv
-         SHpdKcyZ/MP+NkboSd1NqfFpwRH0xeMgxR45+4kFgD3nF7HKGMgy8lObqH1dkdQoCz+i
-         hQyeWWAxawsLJKA9TRhhAkEhkipKj8aibw8Mj1bAedwlNkG9sXJ3O7eKTavYlpHoRzfb
-         qjKO7i+tVpnZBHTAtBc6Bk9BQGtrZN3VXIWuh5u/ObIG/9rIBKnx+XfYWDdKtWzIFbDi
-         NXYIOH/HHxNVfIyp0alXKyDcwK3tjryQD9Qf5KlV/fF8mZApzwn6FOoX6DeYQdDb1ZnB
-         arBQ==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TiSbcyeJNfO7jMCpz/fK03nEro37B4Y9GWkvF4fAd2A=;
+        b=kJ2+4l9ax89pTRRShfre6LD0ta40bCQyEGLLEGedJrytsp3S3E/hZUgeOns31Qv2n4
+         6gyGQN43Mua43W4WZW2GxFyqS+S46huGAOVYajphEf+mRcJN0EXe0aOdcVos+rH7lplO
+         9qx/hAR1KGlnggbpXXFF9m3UN5WIgE6jfFS4cz2gjilqVk/tRjukb8G7AjFihGEbJaLn
+         Kast3CCdH9k7f9TZHPS9cMQxdMPPezJqEJynWF3jcztiYs1TCER8RmVLYG9pARbIU7Jl
+         v6eQ0O7q/q0jzj9zpHX6FLjrJEKhChanpgWtkkjoxsPQzJ0Nv0fJXz9EQqa0qA5CkNtB
+         bdaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695366630; x=1695971430;
+        d=1e100.net; s=20230601; t=1695368859; x=1695973659;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Aqz8OTa8YZ15KF6kJrJYDlllG01uC9H52WpK1N+1xrQ=;
-        b=s17VdW7k2RkA5gM9vkdIWKwNRLbrTa0I2UaXS6p0tzMlc5ZYolVc3N9STBFmBB7QF+
-         J8HYMnCKBBsz0NlHgGzTLufFmwf0it0F9ZbLCFtZ7E6VuVoUaCKgWYyRbV4rV5+JqvYM
-         yVj32/unOPgJWN+xE4Hza+j4TWRyeOKHglOSoKRsWzjsop8IgkUgaem9jx17BD6E5nG1
-         /f5frws9U+AGYgN4P9L9kmJqJoT6LXbW6kqu8Hd8UlI7zSDA241LQcnm5OMHRwIP/PZe
-         E9I7ugFJYnpetUGQMYNsVTdlIuj6pcIq2VLX2xu6xuanWPA6znmq8Ne1R24Dx/Ra3Pzo
-         0oZA==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TiSbcyeJNfO7jMCpz/fK03nEro37B4Y9GWkvF4fAd2A=;
+        b=fpfMXPcuWPONVr6z1w8PbP5DcR6iKoGydjBHNEmVBXiUXqB4QwyUFEjTUg5pGPzMxR
+         L10zp3tXj85X+8kVTLbQMACxVjotFXdG555EIQjibUU+HzdQG3MfK5XR7OEhVr3dXU4k
+         mgx/4lmHF50TUPvjBGLKlpYHBjvzPriOL1m4E6FKAszE4gKTBkAoCNPVzLRzsiRHimaE
+         xvs0rTDW4PNl5pMv0iXhVoqrZD2eif0jYmdIlGzjjZPC3OXLfcZvusaS9R0mVpeNHIjV
+         BB0VfE5odOOaSsv5HO3iFiSKmMyLXVjy/FNdqSdh1DAttQnka9VtBoPoAIP26BmHEaCk
+         i46g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YxikJ2s6ObJPyGIlFVI8zZHC/gghjoplkN0OtMOX88JjvE1CiW/
-	UCyiqfpEBf928JlFRtEQ2qk=
-X-Google-Smtp-Source: AGHT+IHIj/TTLGGiJrJk9QWMZ1qkhv9Z6epQJ29SWN9ovXLfQq3x25rbH30KX9peXIsrha9zGEc8gg==
-X-Received: by 2002:a2e:870a:0:b0:2bf:a961:2374 with SMTP id m10-20020a2e870a000000b002bfa9612374mr6409875lji.47.1695366628395;
-        Fri, 22 Sep 2023 00:10:28 -0700 (PDT)
+X-Gm-Message-State: AOJu0YzMfgW12KZka9GZwk1+3hWrprSA6SXwxEEXAwSdsWqwJvbXLsYj
+	D5D8ziNupblZLMe+4CUbA6Y=
+X-Google-Smtp-Source: AGHT+IHYswHB84+IBeTfi0lRug5hXeaFmDjZZ5DHGr/N1au8xWFs77fwu5ebDfgZbRH+4NtcD3mTZA==
+X-Received: by 2002:a19:5f58:0:b0:503:3753:9db9 with SMTP id a24-20020a195f58000000b0050337539db9mr6626870lfj.35.1695368857985;
+        Fri, 22 Sep 2023 00:47:37 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:205b:b0:2bc:da88:b686 with SMTP id
- t27-20020a05651c205b00b002bcda88b686ls116524ljo.0.-pod-prod-01-eu; Fri, 22
- Sep 2023 00:10:26 -0700 (PDT)
-X-Received: by 2002:ac2:4642:0:b0:503:36cb:5433 with SMTP id s2-20020ac24642000000b0050336cb5433mr6695842lfo.6.1695366626414;
-        Fri, 22 Sep 2023 00:10:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1695366626; cv=none;
+Received: by 2002:ac2:5b87:0:b0:500:9b76:ced2 with SMTP id o7-20020ac25b87000000b005009b76ced2ls495127lfn.2.-pod-prod-03-eu;
+ Fri, 22 Sep 2023 00:47:35 -0700 (PDT)
+X-Received: by 2002:a05:6512:281b:b0:503:256a:80cc with SMTP id cf27-20020a056512281b00b00503256a80ccmr8808994lfb.42.1695368855761;
+        Fri, 22 Sep 2023 00:47:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1695368855; cv=none;
         d=google.com; s=arc-20160816;
-        b=A9FyAQcXyrQNonsKfK4sYd1JmrIH1exQukYQsDUqcqTz5ga9UsjKn/NjODhPZ9iEI0
-         PcyAxsMBePjPPiKgFIDxwmYK9qHJ/S94OH5pKAmh2hTtXZ9GG0Yscu0WvdFMCjbdrVff
-         VTUWzk9nGNR7rjuV2zVkrmKI2cbb8IIFEE3jm9GYxqgedhrd/8Hqzgqu1fttcy1AzUcu
-         Rhb8FqLj7Foiyt0W6VQcjHFSCLBvI+DAntrEKNWYkeLmt+eRWZ0EUMnLGlUGfeijQUV1
-         fu4npyYbU5rwMe8YUheNZ3v1bvgn4BaQ9msh+1DDVrhUwIuvf5PqTY0DTaKMF5QokSlb
-         koJQ==
+        b=WQUJ4JwKdQYu7UsRFxYcb2ZUUEAtKRe0mxudL38yNCgoqTMnkKdgNqErS+TcAvO1Ap
+         NUG0E8ME2UXFsEJpbs0rAz4Vwl5zDgPidrrRV+q9Y2VJuoFil9vWa7E3k/IFt2divRhw
+         ib5npO/+gHHg3oM34N5lZXsrkk3/Fb5IpJzO2hsgiWcqm10BGmJP3hvUVEKhe5A0Znx5
+         63/zDI1nYSJoyHopPMU29amI17uBE7A7AvkYL40Kl5jsSBqiKZI0dPTRE4aVCp8XD95J
+         MHdDYuYjfULHZU5b6CRg65ogP/uN8rkTnVU4L8YcJfIgvV47u4UtNlJr7fdfhlArH4XH
+         g+5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=0NMcmRX/w2n3M3EQea1/2ZhpgRQyZV6LdD1tfFyUHrY=;
-        fh=KSy1dDf6lUvgdoPctzpy47/Mjv6bi14N3nvpkZLQDdc=;
-        b=vkC9YjNZAVrMH/+K8xbgDy+XAd66tWe7f5W+UBoL42adEzEgQ0vp7DNShaj4FNKCDw
-         31ymnoLebzjfhF0l8RjgYFgHLnvO7md9Ldm3bCk5cSL7bPkIPHEGpG8dv1xU5acBXUmo
-         xaV5sUevNf3dQAL7z38jJ98PNoB04vOgDNiFT8Dq6GpiKz0xr1ivLNUUr83ozf765lld
-         Krj3+6j94CnYTSz2SLeDpLfAI7rnkR/4W1ABNWB4y+i4lOzo2P+b/w11qQNhpI61gBr0
-         in4Yqq/jSdX+F7zriKesIFKJryoOPqKaH3YzEyr1FW9Yzk4CGefScRayNxDZm1orDHtm
-         Z0KA==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=67+5P8IA4r3ycxzRXf9uS+CTU1WKObU4FRulN1vPJqY=;
+        fh=trpnYWfTNd13yDurm36qzuGYoHnnP1N+m/SMOchAaMI=;
+        b=IVtTMR7Rn74oZjqLcDgyWSFwTf1I1jY3PaE7xAecEqeen14aFxpa6d7QtnxaXt5PuA
+         ErpJjDOVRLgigzsvQqSm8k+pbdoRyzam4R6XrRbEEyeC+FW21pby+aPPHTDlNo30SPt0
+         HbrOyMbGXia9PlXb/AtCwhxclrN/C+F/92rji7qyqQ+c58dHlYQ0tB35Xjt4xAXxj5hs
+         pMyDXZQxo8imQ0EDQOmPRmiMvLCs5TTNqp3C7QBKIakNicdorC24x51kXY0FCeI0eO/L
+         lrkqgVAnXRzhKPl5y49p4Uxm0Ss8I01M63cy4Rwjh6EaYSZUITX8zLgcBL3PhNdETEG6
+         KU0w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=fPPxKFrT;
-       spf=pass (google.com: domain of yajun.deng@linux.dev designates 91.218.175.217 as permitted sender) smtp.mailfrom=yajun.deng@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-217.mta0.migadu.com (out-217.mta0.migadu.com. [91.218.175.217])
-        by gmr-mx.google.com with ESMTPS id g19-20020a056402321300b0051fe05f750asi286403eda.2.2023.09.22.00.10.26
+       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b=cxr2t9Sc;
+       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=willy@infradead.org
+Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
+        by gmr-mx.google.com with ESMTPS id s8-20020a056512314800b005032919f892si243597lfi.6.2023.09.22.00.47.35
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Sep 2023 00:10:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of yajun.deng@linux.dev designates 91.218.175.217 as permitted sender) client-ip=91.218.175.217;
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yajun Deng <yajun.deng@linux.dev>
-To: akpm@linux-foundation.org,
-	mike.kravetz@oracle.com,
-	muchun.song@linux.dev,
-	glider@google.com,
-	elver@google.com,
-	dvyukov@google.com,
-	rppt@kernel.org,
-	david@redhat.com,
-	osalvador@suse.de
-Cc: linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	Yajun Deng <yajun.deng@linux.dev>
-Subject: [PATCH 4/4] mm: don't set page count in deferred_init_pages
-Date: Fri, 22 Sep 2023 15:09:23 +0800
-Message-Id: <20230922070923.355656-5-yajun.deng@linux.dev>
-In-Reply-To: <20230922070923.355656-1-yajun.deng@linux.dev>
+        Fri, 22 Sep 2023 00:47:35 -0700 (PDT)
+Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1qjasd-00H0QI-U7; Fri, 22 Sep 2023 07:47:15 +0000
+Date: Fri, 22 Sep 2023 08:47:15 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Yajun Deng <yajun.deng@linux.dev>
+Cc: akpm@linux-foundation.org, mike.kravetz@oracle.com,
+	muchun.song@linux.dev, glider@google.com, elver@google.com,
+	dvyukov@google.com, rppt@kernel.org, david@redhat.com,
+	osalvador@suse.de, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com
+Subject: Re: [PATCH 1/4] mm: pass set_count and set_reserved to
+ __init_single_page
+Message-ID: <ZQ1Gg533lODfqvWd@casper.infradead.org>
 References: <20230922070923.355656-1-yajun.deng@linux.dev>
+ <20230922070923.355656-2-yajun.deng@linux.dev>
 MIME-Version: 1.0
-X-Migadu-Flow: FLOW_OUT
-X-Original-Sender: yajun.deng@linux.dev
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=fPPxKFrT;       spf=pass
- (google.com: domain of yajun.deng@linux.dev designates 91.218.175.217 as
- permitted sender) smtp.mailfrom=yajun.deng@linux.dev;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20230922070923.355656-2-yajun.deng@linux.dev>
+X-Original-Sender: willy@infradead.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@infradead.org header.s=casper.20170209 header.b=cxr2t9Sc;
+       spf=none (google.com: infradead.org does not designate permitted sender
+ hosts) smtp.mailfrom=willy@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,59 +134,28 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The operations of page count in deferred_init_pages and deferred_free_range
-is the opposite operation. It's unnecessary and time-consuming.
+On Fri, Sep 22, 2023 at 03:09:20PM +0800, Yajun Deng wrote:
+> -		__init_single_page(page, pfn, zone, nid);
+> +		__init_single_page(page, pfn, zone, nid, true, false);
 
-Don't set page count in deferred_init_pages, as it'll be reset later.
+So Linus has just had a big rant about not doing bool flags to
+functions.  And in particular _multiple_ bool flags to functions.
 
-The following data was tested on an x86 machine with 190GB of RAM.
+ie this should be:
 
-before:
-node 0 deferred pages initialised in 78ms
+#define INIT_PAGE_COUNT		(1 << 0)
+#define INIT_PAGE_RESERVED	(1 << 1)
 
-after:
-node 0 deferred pages initialised in 72ms
+		__init_single_page(page, pfn, zone, nid, INIT_PAGE_COUNT);
 
-Signed-off-by: Yajun Deng <yajun.deng@linux.dev>
----
- mm/mm_init.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+or something similar.
 
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index 1cc310f706a9..fe78f6916c66 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -1984,7 +1984,7 @@ static void __init deferred_free_range(unsigned long pfn,
- 	if (nr_pages == MAX_ORDER_NR_PAGES && IS_MAX_ORDER_ALIGNED(pfn)) {
- 		for (i = 0; i < nr_pages; i += pageblock_nr_pages)
- 			set_pageblock_migratetype(page + i, MIGRATE_MOVABLE);
--		__free_pages_core(page, MAX_ORDER, MEMINIT_LATE);
-+		__free_pages_core(page, MAX_ORDER, MEMINIT_EARLY);
- 		return;
- 	}
- 
-@@ -1994,7 +1994,7 @@ static void __init deferred_free_range(unsigned long pfn,
- 	for (i = 0; i < nr_pages; i++, page++, pfn++) {
- 		if (pageblock_aligned(pfn))
- 			set_pageblock_migratetype(page, MIGRATE_MOVABLE);
--		__free_pages_core(page, 0, MEMINIT_LATE);
-+		__free_pages_core(page, 0, MEMINIT_EARLY);
- 	}
- }
- 
-@@ -2068,7 +2068,7 @@ static unsigned long  __init deferred_init_pages(struct zone *zone,
- 		} else {
- 			page++;
- 		}
--		__init_single_page(page, pfn, zid, nid, true, false);
-+		__init_single_page(page, pfn, zid, nid, false, false);
- 		nr_pages++;
- 	}
- 	return (nr_pages);
--- 
-2.25.1
+I have no judgement on the merits of this patch so far.  Do you have
+performance numbers for each of these patches?  Some of them seem quite
+unlikely to actually help, at least on a machine which is constrained
+by cacheline fetches.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20230922070923.355656-5-yajun.deng%40linux.dev.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZQ1Gg533lODfqvWd%40casper.infradead.org.
