@@ -1,153 +1,145 @@
-Return-Path: <kasan-dev+bncBC4LXIPCY4NRBCER56UAMGQELCMC3VA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBLN47SUAMGQEZ6SKDUI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC3EA7B62D6
-	for <lists+kasan-dev@lfdr.de>; Tue,  3 Oct 2023 09:53:45 +0200 (CEST)
-Received: by mail-lf1-x13f.google.com with SMTP id 2adb3069b0e04-503c774fd61sf563884e87.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 03 Oct 2023 00:53:45 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1696319625; cv=pass;
+Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF66B7BAB7B
+	for <lists+kasan-dev@lfdr.de>; Thu,  5 Oct 2023 22:35:59 +0200 (CEST)
+Received: by mail-ot1-x33d.google.com with SMTP id 46e09a7af769-6c4f69456aesf1796918a34.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 05 Oct 2023 13:35:59 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1696538158; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GpCkG7/DnWM0Yuj1y2mAwWZM1fG8p8+s1F66a2oW/HlEGduXiqG70Ay7uAk+mew5io
-         gDNiX2UtP/GwuOeSj8v1gyitl/LAE4i1Oqn5co/q7mg7yWeN4h536ZjBwqBm0aU570Ro
-         ZO1IuaOgYO3nPnV7lS1H17HYTPRJnv1oO/JktaHuE0OVvI1/jNpeU8VhLqJr+uxx4p3d
-         oDPppNmI6/otfZoG3FlNL6bGTQAR6wZUVnBVi/Zp2TYlS2rNS+Wld7KP0W9AJb8AlcPK
-         qXZV8/E3OEuJqcyTMVl58WIxvoE9ThlqkrAa8x8aX6K02KvHF94vuTwGk6T93BZ+QPtM
-         XjhQ==
+        b=dwMZI32PX184rtpZf/YQp0EukEeO8uSAzkXA1+igJYJL1C3gLtrN3iFTLGcbHzuOK+
+         tjp0ybfr0ibGtYsy37THzfYoI5frNAjTrbbqnTdZgbSnUyb6D6Wv4t6WnJsc7X4x8q+c
+         3XBSZj0HQwsthAhucroyYKIIeTAQzdaW6FEvO1zVvzk3n5DLhjAN9N2wyJMB50wRo7jn
+         lgxJ35oykM1nMoHD62gFWNIRYKlAvoIzTsbiyyuMkG2LwebSB1aWlMxBgizE//Xt9Fkq
+         wMbtatG49Vnc4ZUq61rn5NPxZGE/wTMWAefjhoDHare/FzToMi0dodCPDXEHqaI3sqBM
+         kgnA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=CKFrZFIrmJ2YEh9ljPOUsbJbj/v2WjlgV8luQrUGoWQ=;
-        fh=bcfbn4ytBUbPWm9d5XklwLSqGFGw6hzHRExKbuwiuZ4=;
-        b=cUynrsyhm67DdHGmKi/w/HVB4sKgWGO9mx11QwfjqAYMGObnf9IlWP3l4XwQUYNIiL
-         Jsj0A8GgAC4EAxGEndNeA85ZwEpgRTbf0NY5wqJDMwzsQSdfNvO4HKMaJucgM9fYEN7M
-         2BO9WKCLZMEeIn5XTVnD4pG6jmBVVXQ6bUORMdYQ8CtChzAy7S4Hljlabj5yRD0eNq9m
-         2Q4Gxz5w2ADsV84SJ1i7mR8WNs0p9oC4vdhfqwaLR/doce4J9dq3suizpu3GGkGZgNFu
-         LR64lnxMYV5xk9ewzzb0DOgxrHs21MeVEPwbDgF1inC8CNv1dHO/T1UnQwKQrnAdc5NF
-         odZA==
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=AvV4MNw6/Xl6u7VDGh1FQhQxOBUyKtAhB6bIZ9/6VSk=;
+        fh=TIa2X87mE4UHMKDAmhIRCmKTwDakJ0nJjDODmaarSK4=;
+        b=N5gAQUiJy+0su2gavQtMdImWCXXher2frWfntjO6K8yTQvs2mOnzMeEDI3eCDRFqf8
+         NF/RcuValjHh2RfrBDBLBWhFyZ0pCPIVFy6XbBYwb+X+NawWmPOVKAFSCUJD/Qlwo9KJ
+         DgaUgtVoEYfsI5Pp8m4RyzrpMf23G0huqS8TFwrEtp3+eYYoZYwCmo23E1dqaCJlDI5W
+         LBQhhX+mEK2axdKBvo4EU4wIdINi9HNuqI0XzwE/2b15lISGOyjl9djhYv6Al4haWznO
+         JYS48q1j2e+FVTafYBMgGwhPXPF0zY3dmlwLWUf8MbJlJO/a6j1s2cGAA3weagLhrnuJ
+         oOzA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=FftPiatV;
-       spf=pass (google.com: domain of lkp@intel.com designates 134.134.136.24 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=QwHSdvCl;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52c as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1696319625; x=1696924425; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1696538158; x=1697142958; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AvV4MNw6/Xl6u7VDGh1FQhQxOBUyKtAhB6bIZ9/6VSk=;
+        b=NjOxjAVsuKFSfoNmkyliQPYg4gZfzls/4SV+f35WWCFu9iBVGdIlVU/XruoYxhmKOe
+         bt4Yobg26SG/lX0Dzyku4WKY2sZwXZPifPMBzHaIUX5Yi61vf/HCY4HZEB4qz+ocIBBi
+         dojxT6rn4Hhqmet2U+eLfRpw+NbU5wjTVwOQiEiNr1VmpuCVh1TK4cy9jR/QPCWsGf+w
+         3AayXQS4V2Rr4RUDAQn81JxYRX1NQdkq/hKMduqkuLUZuHVfNMLmIqFyAqY9ggkIYDqj
+         HISarIPc9Dz5r+cr4/0XbRAELdssSX/2k02PGHXyxdKp3DlsGnL6PkB2mnMl0OdHzcmE
+         x1Sg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1696538158; x=1697142958; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CKFrZFIrmJ2YEh9ljPOUsbJbj/v2WjlgV8luQrUGoWQ=;
-        b=GFvTx+CQSUWp+637QmZCRoP9OcEvBr0rJVksouL5lBLah6xyH+v+0AGq2zWw227G4g
-         j42ypalsULqsOBf6AXrnIFl21f7jbLZT3D4osw+4HW7N7m9THT2RIlvszDWXEw8a/yoF
-         1jyWPs/WBrl3KUboDlJwrJQ6UBFiFWyDqCaRA0DhuM7l41CYnvY4VzsuTGaZfFd+tTm/
-         R4jk2wu1aJPdltWSZPvkubVWRJjvGBgWWqb1Aip6zAXauCrHXnK78LCx5DCnmo0VTRhw
-         nnUHpUmVtlEGCfHiRh6q6yEtIglqEFnejuPHHguPQ0st4nGxXbG1HJpf+gFhtjq1CMIT
-         v3ag==
+        bh=AvV4MNw6/Xl6u7VDGh1FQhQxOBUyKtAhB6bIZ9/6VSk=;
+        b=esvBY/mCYITAc7y4TrMv7sZf7BFrxkzRJn56V6+LlQkN20xmF2JJwwzBkQsWxNf2yU
+         LZQ4VLBbRrwaBQjv0pzdk0AFuui3VUI2Np1lFjGO9l2KbR9mO/9ofSzffevT5dLpt5G4
+         N3vebMhqV4Ldj9OAZmmjNZL8VT3AY3nxYvzzOvL4FkxSBSUFvDaMsLKXjPB8dX06NE9a
+         b65d+rbtspSUmOxnzDnOI0pei+84W1frJD/ikTqrGvTDqIUgcgy2fj/vfIxoPBjxSfDy
+         Wa7dO8x1LGJzKxdTHaBeAkJ1cQNoauPzr00dSDETfpVOlvXdxo1WmlqBJjGQ0NHhbYc6
+         K7QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696319625; x=1696924425;
+        d=1e100.net; s=20230601; t=1696538158; x=1697142958;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CKFrZFIrmJ2YEh9ljPOUsbJbj/v2WjlgV8luQrUGoWQ=;
-        b=uwUKPomZZqf9VZo42rKSzv5RoZylTpl4qUq8FF4vTmvcxK/7SXjp7jNMs4+qrInqFj
-         Tfv+ZO3jfQntIrQXjkDw1Hi1/QUevXiJYxNAOpCP/CUXH6TfYu8OjXEk2eQLT1bJ1hgM
-         QOAR57r3zvPZq+uRpnpeYj/u7jtOFkIJpPt6EYY8XJmK8UwFSg3c1t7lSDgchhByOCuG
-         4XLiD9SYCbPz5VnllRvimE/ZBFpp9twG3coXfFcpgjzSq82Feap2gHqKOQjh1n2RtKgb
-         4/hTn1Sk6kr/Nho88UI3IRn5Zjaf+pawd5MYBPtwi+cizqn80PNMRWppD9UIzkmW490j
-         gPgw==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=AvV4MNw6/Xl6u7VDGh1FQhQxOBUyKtAhB6bIZ9/6VSk=;
+        b=DNVVRtT6j5Oz1b2siqXMdeh27b8yJVYUwNDRJ24D//wbJpCWMo/ZY0kBxxRQHBu0P7
+         w1kxvCgTW+nOEBc6YPLvwUcuNtKfxWH8hfoghzCNtxJw5TCBnn2RRR3DPW4SMw9H90ZV
+         mMoQpPQf+wJ3zLAF8V+avZh7p58dH/xi8qcUK84YShIz4EbKso8Ku+GM9uYVVGfvZDjJ
+         W5oqOQSVM3pbeQLngySbt+Sc81GVpve7Zeb/sDCpWo9snh3E3ivA1HwZsdUsywRxBoY0
+         8YtZg6ZNHK+2V9PnClY0HDH98P3ViDTrCJU8jBSX/y9GxqLikXKwLBWbsaME9VlNKUKW
+         2eOQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YwE+jQdfxcCOo3B0gfnQF6KCq3ZMianQqzDomNBwbi31WwuK3bN
-	468r8ooQGnugghpbHymJ40c=
-X-Google-Smtp-Source: AGHT+IGOGfwoDMdijasYtr3gDHBCbAdgigQzOO3dNnARHyTAz5czwm+ycfMwPx/Iam8aR5Mje6yWTQ==
-X-Received: by 2002:a05:6512:2507:b0:500:aed0:cb1b with SMTP id be7-20020a056512250700b00500aed0cb1bmr11013966lfb.24.1696319624489;
-        Tue, 03 Oct 2023 00:53:44 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwnrJ2aW0B0F+AkOT5tWGsEA0u0kmKlGJgGJGwrgtCyD518qWZY
+	DyBIeoWpJoidQfcS/i1XZYI=
+X-Google-Smtp-Source: AGHT+IHYUE5j+ttRAIFhD33bHpN04JSo6W6ahHvcE0M/JQWXNo+ZgRmgfN1fx4U6Knwg8SjJerYSHw==
+X-Received: by 2002:a05:6870:d0d5:b0:1d6:439d:d04e with SMTP id k21-20020a056870d0d500b001d6439dd04emr6600411oaa.53.1696538157759;
+        Thu, 05 Oct 2023 13:35:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:641d:0:b0:500:80c9:a128 with SMTP id y29-20020a19641d000000b0050080c9a128ls312595lfb.0.-pod-prod-03-eu;
- Tue, 03 Oct 2023 00:53:42 -0700 (PDT)
-X-Received: by 2002:a05:6512:2507:b0:500:aed0:cb1b with SMTP id be7-20020a056512250700b00500aed0cb1bmr11013902lfb.24.1696319622416;
-        Tue, 03 Oct 2023 00:53:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1696319622; cv=none;
+Received: by 2002:a0c:f594:0:b0:646:f0a7:568f with SMTP id k20-20020a0cf594000000b00646f0a7568fls1237121qvm.1.-pod-prod-08-us;
+ Thu, 05 Oct 2023 13:35:57 -0700 (PDT)
+X-Received: by 2002:a1f:e2c3:0:b0:496:1f95:209a with SMTP id z186-20020a1fe2c3000000b004961f95209amr5217209vkg.15.1696538156895;
+        Thu, 05 Oct 2023 13:35:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1696538156; cv=none;
         d=google.com; s=arc-20160816;
-        b=MnV5DbveNtz6PkcnyzE3R0PKtXoSmdIM2ZffpR2EHd6MM/o+05koC3iVbmt6++xLcb
-         XhCUk5xmEaDdBdB5c2gwf/u9QFQLI7UhQXwFW9GVNxUs4beIsVvTF1QmCPt4Dgh4YbT8
-         21Dw4Tn9wB4Co773D1/6gnFaEHTLKYeTWmPnaZrQzKGhwkpsNinMyhy3t5O6/VaAoWv1
-         ni0DL88fblOidJSRBy0T5817DkFaKUccdMJI3nTXaWl9fkMwfXX2fHcYCoW8lSoU40w6
-         WaclMl6slGbS/Fu/8a398fbxlHjl8qoeck17k/v4DcsQJDEa9ZXkPoyschQD93IqXLDG
-         9XRQ==
+        b=nrQ2aPH749mTutsmfmUiywANoFB4773mcWDg0BA3y2QWlg1O5gB/EDfGLZVTA6OvCo
+         me18IOVXKR6My0fJuIepNuZeI+JhXHLOBx2eA9Ph7uvehk3B+vXnYe68XlQ8aZDQfoag
+         4L2cOLErBxR2RZ3sAv96VHeofqCQgF1q27A5IpAmM115rVEXnfEA00FeLF88O+xJv1R/
+         dSoE1uM9qr4ZQcAQydKNQxWRrqhU0FZ/BWhsmTcy+c0zOXI5ZxB4JyQ9NqzAckIJQQVB
+         Q3JATHLlIe1NFp9rxQyu1wXiHh6lDydHAQCln2/HFUHb4cR9+odc2WfSmHiVyrTigPH7
+         elhg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=m7K0+FwtuhE4EKsjVm5hWwwIehi2E1MB208mtDdrg28=;
-        fh=bcfbn4ytBUbPWm9d5XklwLSqGFGw6hzHRExKbuwiuZ4=;
-        b=u91dA2a80DJdy6yBWb1cTyi63nmMg/Hp1GqK+AElRmgo2/tf5lSY4NbY0jpx7LbshO
-         kCFyElX32laoV/EmTETQhV7ztS43fdYQVzY30/5VulAwmygkLCOjGUhZwBco54fP7CSi
-         LI/Q4PE/We+4kfhypjCQ5BYzZsFQxnde3fN6cgrJj7SlvOJKyicJLt5SBvXpYBs16wQb
-         qEdz2NWH/lDT8LI1+34TBqVgeNUYViQuWdue6FrpmS3SUE/XVoQnuH49JFb5FT0/ZKmU
-         pEVfSPU71bAf0RYbZfXz0GwYXS+4+gUUHSzRO/EniTgd4W1yg80mv9ec7ZHttTq/vVZg
-         icGQ==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=fshyiHld1iaT92zV4X7OYvw4ri66Z9VzIvd68VZWy7U=;
+        fh=TIa2X87mE4UHMKDAmhIRCmKTwDakJ0nJjDODmaarSK4=;
+        b=Tsj1PlmVLd2LfqN0wVAqq05QHUH4milhHPwibVGVfW3qjYmGpPWZCPj//VIJWZrY4o
+         VOlVIq/jh7RmrvQtAOus67fKSiimN2C99OaSKFnpWSKE7yJVcIS2qoAtssMiFPU69tYq
+         zUAt5oudJi0P2ZgruV8RbvyHWtb3RXlgo3FsqVK+PnahErFDPWCG3/c6T0QSCio2fJMX
+         g3cy5m7zlYVGbu1At5+wi9a6wiwUWN+pbyztfswCEhoXkANURISOMSbxEZS01z0PsZ1d
+         /lL+ksSpbUhaQ8p4Xf8r/VnR18y9Q1eLpXSQdjLrSC3ZUnl4dtr55CWTHwSxRL/wl6UI
+         QFFQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=FftPiatV;
-       spf=pass (google.com: domain of lkp@intel.com designates 134.134.136.24 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [134.134.136.24])
-        by gmr-mx.google.com with ESMTPS id az11-20020a05600c600b00b0040653ab52e4si732061wmb.0.2023.10.03.00.53.39
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=QwHSdvCl;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52c as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com. [2607:f8b0:4864:20::52c])
+        by gmr-mx.google.com with ESMTPS id di1-20020a056122468100b0049362af6c50si71243vkb.5.2023.10.05.13.35.56
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 03 Oct 2023 00:53:42 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lkp@intel.com designates 134.134.136.24 as permitted sender) client-ip=134.134.136.24;
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="385639771"
-X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="385639771"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2023 00:53:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10851"; a="754323419"
-X-IronPort-AV: E=Sophos;i="6.03,196,1694761200"; 
-   d="scan'208";a="754323419"
-Received: from lkp-server02.sh.intel.com (HELO c3b01524d57c) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 03 Oct 2023 00:52:57 -0700
-Received: from kbuild by c3b01524d57c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1qnaD7-0006tx-2G;
-	Tue, 03 Oct 2023 07:52:54 +0000
-Date: Tue, 3 Oct 2023 15:52:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
-	Atish Patra <atishp@atishpatra.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	kasan-dev@googlegroups.com, linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org, linux-efi@vger.kernel.org,
-	linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: Re: [PATCH 2/5] mm: Introduce pudp/p4dp/pgdp_get() functions
-Message-ID: <202310031548.53wZmUUH-lkp@intel.com>
-References: <20231002151031.110551-3-alexghiti@rivosinc.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Oct 2023 13:35:56 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52c as permitted sender) client-ip=2607:f8b0:4864:20::52c;
+Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-5859b1c92a0so1008232a12.2
+        for <kasan-dev@googlegroups.com>; Thu, 05 Oct 2023 13:35:56 -0700 (PDT)
+X-Received: by 2002:a05:6a21:6d9b:b0:14b:8023:33cb with SMTP id
+ wl27-20020a056a216d9b00b0014b802333cbmr7689179pzb.11.1696538156295; Thu, 05
+ Oct 2023 13:35:56 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1694625260.git.andreyknvl@google.com>
+In-Reply-To: <cover.1694625260.git.andreyknvl@google.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Thu, 5 Oct 2023 22:35:45 +0200
+Message-ID: <CA+fCnZckOM0ycja3-=08=B3jwoWrYgn1w91eT=b6no9EN0UWLw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/19] stackdepot: allow evicting stack traces
+To: Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>, Vlastimil Babka <vbabka@suse.cz>, kasan-dev@googlegroups.com, 
+	Evgenii Stepanov <eugenis@google.com>, Oscar Salvador <osalvador@suse.de>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Andrey Konovalov <andreyknvl@google.com>, 
+	andrey.konovalov@linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20231002151031.110551-3-alexghiti@rivosinc.com>
-X-Original-Sender: lkp@intel.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: andreyknvl@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=FftPiatV;       spf=pass
- (google.com: domain of lkp@intel.com designates 134.134.136.24 as permitted
- sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=intel.com
+ header.i=@gmail.com header.s=20230601 header.b=QwHSdvCl;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52c
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,156 +152,83 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Alexandre,
+On Wed, Sep 13, 2023 at 7:14=E2=80=AFPM <andrey.konovalov@linux.dev> wrote:
+>
+> From: Andrey Konovalov <andreyknvl@google.com>
+>
+> Currently, the stack depot grows indefinitely until it reaches its
+> capacity. Once that happens, the stack depot stops saving new stack
+> traces.
+>
+> This creates a problem for using the stack depot for in-field testing
+> and in production.
+>
+> For such uses, an ideal stack trace storage should:
+>
+> 1. Allow saving fresh stack traces on systems with a large uptime while
+>    limiting the amount of memory used to store the traces;
+> 2. Have a low performance impact.
+>
+> Implementing #1 in the stack depot is impossible with the current
+> keep-forever approach. This series targets to address that. Issue #2 is
+> left to be addressed in a future series.
+>
+> This series changes the stack depot implementation to allow evicting
+> unneeded stack traces from the stack depot. The users of the stack depot
+> can do that via new stack_depot_save_flags(STACK_DEPOT_FLAG_GET) and
+> stack_depot_put APIs.
+>
+> Internal changes to the stack depot code include:
+>
+> 1. Storing stack traces in fixed-frame-sized slots; the slot size is
+>    controlled via CONFIG_STACKDEPOT_MAX_FRAMES (vs precisely-sized
+>    slots in the current implementation);
+> 2. Keeping available slots in a freelist (vs keeping an offset to the nex=
+t
+>    free slot);
+> 3. Using a read/write lock for synchronization (vs a lock-free approach
+>    combined with a spinlock).
+>
+> This series also integrates the eviction functionality in the tag-based
+> KASAN modes.
+>
+> Despite wasting some space on rounding up the size of each stack record,
+> with CONFIG_STACKDEPOT_MAX_FRAMES=3D32, the tag-based KASAN modes end up
+> consuming ~5% less memory in stack depot during boot (with the default
+> stack ring size of 32k entries). The reason for this is the eviction of
+> irrelevant stack traces from the stack depot, which frees up space for
+> other stack traces.
+>
+> For other tools that heavily rely on the stack depot, like Generic KASAN
+> and KMSAN, this change leads to the stack depot capacity being reached
+> sooner than before. However, as these tools are mainly used in fuzzing
+> scenarios where the kernel is frequently rebooted, this outcome should
+> be acceptable.
+>
+> There is no measurable boot time performance impact of these changes for
+> KASAN on x86-64. I haven't done any tests for arm64 modes (the stack
+> depot without performance optimizations is not suitable for intended use
+> of those anyway), but I expect a similar result. Obtaining and copying
+> stack trace frames when saving them into stack depot is what takes the
+> most time.
+>
+> This series does not yet provide a way to configure the maximum size of
+> the stack depot externally (e.g. via a command-line parameter). This will
+> be added in a separate series, possibly together with the performance
+> improvement changes.
 
-kernel test robot noticed the following build errors:
+Hi Marco and Alex,
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.6-rc4 next-20231003]
-[cannot apply to efi/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Could you PTAL at the not-yet-reviewed patches in this series when you
+get a chance?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/riscv-Use-WRITE_ONCE-when-setting-page-table-entries/20231002-231725
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20231002151031.110551-3-alexghiti%40rivosinc.com
-patch subject: [PATCH 2/5] mm: Introduce pudp/p4dp/pgdp_get() functions
-config: arm-moxart_defconfig (https://download.01.org/0day-ci/archive/20231003/202310031548.53wZmUUH-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231003/202310031548.53wZmUUH-lkp@intel.com/reproduce)
+Thanks!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310031548.53wZmUUH-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:29:
->> include/linux/pgtable.h:310:29: error: function cannot return array type 'pgd_t' (aka 'unsigned int[2]')
-     310 | static inline pgd_t pgdp_get(pgd_t *pgdp)
-         |                             ^
->> include/linux/pgtable.h:312:9: error: incompatible pointer to integer conversion returning 'const volatile pmdval_t *' (aka 'const volatile unsigned int *') from a function with result type 'int' [-Wint-conversion]
-     312 |         return READ_ONCE(*pgdp);
-         |                ^~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:47:28: note: expanded from macro 'READ_ONCE'
-      47 | #define READ_ONCE(x)                                                    \
-         |                                                                         ^
-      48 | ({                                                                      \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      50 |         __READ_ONCE(x);                                                 \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      51 | })
-         | ~~
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1075:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:97:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      97 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1075:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:97:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      97 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1075:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:113:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     113 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1075:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:113:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     113 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1075:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1075:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1075:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:156:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     156 | _SIG_SET_BINOP(sigorsets, _sig_or)
-
-
-vim +310 include/linux/pgtable.h
-
-   308	
-   309	#ifndef pgdp_get
- > 310	static inline pgd_t pgdp_get(pgd_t *pgdp)
-   311	{
- > 312		return READ_ONCE(*pgdp);
-   313	}
-   314	#endif
-   315	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202310031548.53wZmUUH-lkp%40intel.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CA%2BfCnZckOM0ycja3-%3D08%3DB3jwoWrYgn1w91eT%3Db6no9EN0UWLw%40mai=
+l.gmail.com.
