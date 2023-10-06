@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBAABBXOKQCUQMGQE7NMXHFY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBXWKQCUQMGQERIBOXXQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C50A7BBB9F
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FD47BBB9E
 	for <lists+kasan-dev@lfdr.de>; Fri,  6 Oct 2023 17:18:55 +0200 (CEST)
-Received: by mail-wm1-x338.google.com with SMTP id 5b1f17b1804b1-40667ced6aesf180925e9.0
+Received: by mail-wm1-x338.google.com with SMTP id 5b1f17b1804b1-4066a468880sf170925e9.0
         for <lists+kasan-dev@lfdr.de>; Fri, 06 Oct 2023 08:18:55 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1696605535; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0yISnItHLKkc8FEwTEKD4md9T3AFVThXfzPFfX4aCOGYnDuGlkkaEKkIHw62viFkoz
-         6yUyDpHac/qU26sFUSfvqv6rAgyUfqU/5VF/FMH4HxZf+6UpaheYPbBKzGUoSQjyUmDK
-         5x4v8iQ5Rx13nH8gxYZ4tWvKZgx3RAknYwZ0lAG7sXdR+0MHYUkFCawNvKTYz1RXbFdd
-         h4ucPA91LcvsfvsNQBx/SbmfhFuNP1LMIHOwxDHW35NQ8/x3+aFGZZXZ8f+iMRQLHXMh
-         +0oWau/O8jmQ7qgn95uT2xwALYiBOmSHgR/RN/HazJytPBN3O0SXLaEcB/iZ3Y4X6FzB
-         6Gdw==
+        b=qxj8TrB7C4vwT678PW4wzTGgbZuesGTQ+Yq5VLO8fxtI/cq9zWugwZddwQuV/2Ds/u
+         uB0jorw8yOEBquNxH5m+rPL6t66UDjvJ6rbQYhykRFgX6ab9PlX9E6n1fHB+pCGA0P9T
+         ym6ujhTHJMhzMxg3MvoI3YHF4Ic5KZcSO08jIGIXr40J+qB+6zr60Os3HhmFFqk7s8CV
+         OcPa7gZPLd9P2Qb95Y9A0NmnlfWflnn+Ge+G1ay4/pWp1KKEt4Xq5H01l1tc2jdET244
+         9ZZpgZofZKSp9SkteOD3TZ6OQ6E72XHP8Lx7N+yv0jy3Kxs/MkyQJR48zwRoNYosnbxP
+         DYjw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=SzyTr6I5DqYHYH89D/aIZlHd+atPL8RNYLSfpKgGM5s=;
-        fh=lnWC2s3YVhkirWx8kTqFekoOxXJ3q/uSKdwZdkIV6qE=;
-        b=PvAvzudYt1oE0XeAjfOT51ODEiSo5FnKWejRQEKkBCUmGysVgZeRO23ZGQjz5e9UWx
-         gLERdR7aiyKP4NN9183YbqwyljQiZawD4ImkYVXhFVjijDIr9dDLoYBVFVeZbwJHevau
-         BrBtayG6bcoWG3tigLfSVl/xBCa3MskEAFehCjPVLMbUo41TQgGMUrBBO5am53GUKesa
-         3quLgZ5i0inCMh/KrfLNOtIF1/kBjKEeyUHbLvJZFG80izGGP+89fYTAQ9Tv57FvGOzB
-         veez4Xh5YBdfcJjfiZ6+H72xfLJdHsieHaZyGv6yREp5LVS5wkn5WMUgHsySNSESQv45
-         uHAQ==
+        bh=7ZHz8Jruzw9J1UUeQIZvsGDbHXjSVOM4uBtB6w7aM2Q=;
+        fh=MvduW7TtfFJGfZiC/W6aaLQjI7EqApwiKAwimfBfFME=;
+        b=vA/k+ZIUiEohhXGgN7T5xLUmEAi7MLMnwcywat5+RthYNDPLPbSO8IJwVxoZXW0E8b
+         J5FiqGX2I7r09GsHBCZIBVt9Dh2gfv1HYEvYOQWjYPbLV6godQEaZ7V1Iac1548U3af4
+         5OlKLYtmolezsC2+sHVZbO4SgpfUH2U86dA5fS9+NO9NuURwhAW/X51ENZ1xsFHgSuhc
+         aQn9A4RD/wWWwdFnxCj609T9qOds6L2IWxdFd309f7s/0cBNE5GdUSKGcwCWUDPC2N72
+         DZSPtC3N6VfHQoZ8WVFjb8JO3rfkjKtuNiut2TWumka1xfaVMF03zUzjAQAPETgqee4/
+         WfTw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=L7U+Ncze;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.202 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=cvyFNI4O;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.209 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20230601; t=1696605535; x=1697210335; darn=lfdr.de;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SzyTr6I5DqYHYH89D/aIZlHd+atPL8RNYLSfpKgGM5s=;
-        b=Qm7pgDRPh/X9UWGZkw4dBjq49l12rhogXGEenX14NJCwBN6MQ4ONdrpdsRW1p9KOOp
-         J6EkCsenZ/asUKChG1GYpD7Skw4JkAO3B/AmZEhYxS9LYnIi0aJbpzsGtoQaMMT93YsS
-         w+j59umr1q8tAGVMdKlUQwDV9cO457W12XNi3yatSnKmTu2h/SVYs1uERM4/xU5bGNP2
-         e15Vz4E0Wst4d7qPm1s8NY2IVKE4YhxoP9hEHC22kBPNmyIIvlixSj5SUNmcUU0s24Ko
-         07+eEIhPI1U2AfLPHoRXalicKVA8VNGOkvgAbQAnG5Xg0g7vBRB1o2o15BpceqCgt6eZ
-         mvxw==
+        bh=7ZHz8Jruzw9J1UUeQIZvsGDbHXjSVOM4uBtB6w7aM2Q=;
+        b=R/86fZwWIUmfjyqql7XndlxUvWR480R3Tsz3GlHYnBA4D9Wln8+bcRszll1ZlHhWJz
+         iczvWkSK4Q9WVX1XOY3toj2hJSm7L2xW4vjwFDsr1FHYbQDQ7/SUP8B6HdDD3nfMD270
+         AD4q91cts4ZIruPRLiwoawJ4vsPIrkVZv6ccJ0x5Q1LaEsU2ANwdBmhuHVIcAcuXypEi
+         mvVBvA6/SKAaG/tRKJ8B/yJmWIpciCa6F1E22cE5Id+X0IGE8p/OV5hZkiDNWV8KK0FV
+         0wKDrMB39L8XZ6U8USdTuep0LLGWvRt/UDiqV7dJ6jBUCaGdkUvykBcDgS9HkmKJ2dnV
+         vGpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1696605535; x=1697210335;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -52,54 +52,54 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SzyTr6I5DqYHYH89D/aIZlHd+atPL8RNYLSfpKgGM5s=;
-        b=cRy7DCNcLagGeBwDzP0LN8ThIimVa3t5G0w2QcVW8ya1q39YbsmnPX29FEMlFbsDLr
-         ax5fgmeV55nnCNRc2udP/MXSdqHAsHdr+XQR5wADd2cfQi0mdJMzEwFUNdv/MCtoWmMq
-         GqQX0ixFr82bLBhGae6eZj12/t9yIreWXrKKSIalo2wP7tctL9Pw2F4Yec7sZq8Q6gEA
-         xfhSXh8adTY4V+ZyNmy+3gKihchyg2NW5PoY9sBN3vVMlOvizJ1GQV+0SwJYCUwPvnxN
-         hQYTda+J4MzFVtGySVuVJiDCFhXNzg+JG3pSR41m/z4Vo2/0htwS4mP5uR8RXz/HnRSF
-         umHA==
+        bh=7ZHz8Jruzw9J1UUeQIZvsGDbHXjSVOM4uBtB6w7aM2Q=;
+        b=Loi/ji2o/eEO2FNh41J0lUkKpBHW5KIz7NltTQFd3Py6aa2doZMnu2K2KlO9RArxJo
+         hH1Wqg9IcM/dkP4uz9H3L+lnEFODtfB3YmmhoQsm4wtd2UnCFFudN9mAcK436uQZG1W6
+         h82hN85uCF7Tlsfz/aD+vvJbHu5g3w8xzic4jhiURDPtTyrQCQgBA0s1qjyJAFlSO/ra
+         EkdZIZhELsZmZh30B8752xX9v4U4GIziifBZgMgIUyxbvTCWplEyU6+cE8OaUOIegnZL
+         3qRfqkNQHk+nMFmL4wsUAkYbuLQN3O3VsdlZGYGV+ofZlf14jjQYfAddDTDqgCoMDo5J
+         PaJQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yy5gEREHW6PjG7/bs52t2TvmH605shrFhrQ9xGqip4slu0D2BS1
-	iqy9BJvleQq+lNDbdD8azLU=
-X-Google-Smtp-Source: AGHT+IHgfFHw+rO9M9zHTEwEh6aurn0D95a4eU+e1l4qbgnYGPI0dhUD84ZF4RLiENuD5ytZmc/++g==
-X-Received: by 2002:a05:600c:2182:b0:404:7462:1f87 with SMTP id e2-20020a05600c218200b0040474621f87mr175667wme.6.1696605533768;
-        Fri, 06 Oct 2023 08:18:53 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwaYj2m3bp2Z1PVXkNkB5skeJyvp0+sPFmUBRVPI9gvsKFtMRAa
+	QVd6EXv52kZkeiTFsaVUQrU=
+X-Google-Smtp-Source: AGHT+IHY7KTS7MZTEbw29INjtnsotH1m2pQF+Le5I9jjuNofKe1PNY+Bx3h2tGucmyfTgUmkHPtPsA==
+X-Received: by 2002:a05:600c:45d1:b0:405:35bf:7362 with SMTP id s17-20020a05600c45d100b0040535bf7362mr173059wmo.0.1696605534511;
+        Fri, 06 Oct 2023 08:18:54 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:5129:b0:3fe:e525:caee with SMTP id
- o41-20020a05600c512900b003fee525caeels42402wms.0.-pod-prod-04-eu; Fri, 06 Oct
- 2023 08:18:52 -0700 (PDT)
-X-Received: by 2002:a7b:c3d2:0:b0:405:75f0:fd31 with SMTP id t18-20020a7bc3d2000000b0040575f0fd31mr7270601wmj.31.1696605532348;
+Received: by 2002:a05:600c:c15:b0:403:419:ad1b with SMTP id
+ fm21-20020a05600c0c1500b004030419ad1bls1191973wmb.1.-pod-prod-05-eu; Fri, 06
+ Oct 2023 08:18:53 -0700 (PDT)
+X-Received: by 2002:a1c:6a03:0:b0:406:535a:cfb4 with SMTP id f3-20020a1c6a03000000b00406535acfb4mr8080603wmc.1.1696605532963;
         Fri, 06 Oct 2023 08:18:52 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1696605532; cv=none;
         d=google.com; s=arc-20160816;
-        b=TDB7iRevZgpywRBmPe5e+Y3zV/WwqDmDnCNqfl28DZHiZ9aXavs5xMMLHp+ulYNirz
-         SDGgPztkEY++rsicZsaxDOjGeo3t6Ncc2CNHyJ2bhYnkwExud4feeBFtVuysK26aJADA
-         S5DU4dy+f6PAaQgom1aIqWsXC0mPlqfmR7cApkgmAqM0YBBklHHhjOE6TeCHy4t1itTQ
-         kY7kZLiPOeL2nffhOsDMd7axUKlURNnUAcKoOnPjXVenDoRp3PWZkTbvZm3JprroecMR
-         ZG36FZlMymJc131RRfc02H8hwpBGie+ly0fzdWXlO2+M0l+t+ZD8G2V/iZYoaaQKOpnq
-         UNeQ==
+        b=MBRloO/TiP2gvhE5qy7gSKq7f7uuEm5OgN0K4k0Bq6vIw/UnqwPPaaYvlr2OedIcOo
+         P1AC7C1c/KGwFcplNNUAjO2aQHAR7hkDRTDN92F50H8FN6zoE2Al0sGkUUSjgYLuYDfO
+         AU/EY5qp3stEMxIo8UrntzbjOaMWH1+O5EtUPxpKFmL0dnDJn/cILkWFVFKWE3qEoOVz
+         k+bCM2001u//MliHBSFDAD8dE9BNzjZQuvw9uNhO6umn7Nbe088dDlq+8gpxKcbClKlY
+         8w0K2THBttYf8OtfP/QbNdx/yoEpfCorWc1MdNHUSg6dFGl7OIsJehPAvuLuVb5EUk65
+         s1Ag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=EIqAxPuP24RonUYv8PBGZm7b4Pl2lfOTG5ClA7Kyoqk=;
-        fh=lnWC2s3YVhkirWx8kTqFekoOxXJ3q/uSKdwZdkIV6qE=;
-        b=EoKb3uEmwLgYxETdbEnYHU1LLiLAcCw3bXZdaO+ux6zQL+g2G0SyvZCXR4gbv/T6Dg
-         gIGPZlDPOvjLkvRH4+GcATjSdwjd2uruQEs1Fyqt+LGJMFssWz4xjVGEEYsOesRpVLm3
-         Gq4I6J6fT8vWyoVPGDN4J98ghtViaBbZNErvFJYjcfXABIPzzZSgprlMKwJZf1tjLPk+
-         uSBoyuoowdioLyxfIilcTGEgoMvXH1kcywq1vWq4e4+hi2IcqPD4hRdXINtuLWz1sbPG
-         u7q+M0xx0h6rbh8Nw8vifznSlyhBVpD25fvWsIffOvuWbcLAfDhmeverYOuSZR5rl3e8
-         1uVw==
+        bh=Er5Jgf/mIYSvRRXnkgZed7EeXQhYo+vHYR723lnpJKc=;
+        fh=MvduW7TtfFJGfZiC/W6aaLQjI7EqApwiKAwimfBfFME=;
+        b=nwMHQgn0pSbm1Th11dxgpkK6320mIeuNBDme1b5YUeKfJL4RunHEkHvSQF+fhZe3TZ
+         QD4YPXkWurZdokrZUIoKaKJ2j0Z0fp89NcPMiOwxIm7j6gmNOEcshc79Musw3ta1N29b
+         QK9wcybqjWIgMI5qjLsY7p04r1ftTsYsBmPkg9gjD7s5oPi2FbEStClKaxbTNqE36TfE
+         zKDEmnU1OfBxWs1lFyOWS/qx3Up0BwgwlhD+Eiqlg0RgvspHnzs+CT0XUi1dmlBEKfzG
+         DnHyFj1Ud4PKFVRe562PfkYh3IpGuSd1U/1UODZgrXuptq32wiE+oEuXBHhdx3ZrMZOX
+         O/lQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=L7U+Ncze;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.202 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=cvyFNI4O;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.209 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-202.mta0.migadu.com (out-202.mta0.migadu.com. [91.218.175.202])
-        by gmr-mx.google.com with ESMTPS id bp30-20020a5d5a9e000000b003263a6f9a2csi81290wrb.8.2023.10.06.08.18.52
+Received: from out-209.mta0.migadu.com (out-209.mta0.migadu.com. [91.218.175.209])
+        by gmr-mx.google.com with ESMTPS id fm18-20020a05600c0c1200b00405c7dd428csi383420wmb.2.2023.10.06.08.18.52
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 06 Oct 2023 08:18:52 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.202 as permitted sender) client-ip=91.218.175.202;
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.209 as permitted sender) client-ip=91.218.175.209;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
 To: Marco Elver <elver@google.com>,
@@ -111,19 +111,18 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	Andrey Konovalov <andreyknvl@google.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH 4/5] kasan: fix and update KUNIT_EXPECT_KASAN_FAIL comment
-Date: Fri,  6 Oct 2023 17:18:45 +0200
-Message-Id: <6fad6661e72c407450ae4b385c71bc4a7e1579cd.1696605143.git.andreyknvl@google.com>
+	Andrey Konovalov <andreyknvl@google.com>
+Subject: [PATCH 5/5] Documentation: *san: drop "the" from article titles
+Date: Fri,  6 Oct 2023 17:18:46 +0200
+Message-Id: <1c4eb354a3a7b8ab56bf0c2fc6157c22050793ca.1696605143.git.andreyknvl@google.com>
 In-Reply-To: <cover.1696605143.git.andreyknvl@google.com>
 References: <cover.1696605143.git.andreyknvl@google.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=L7U+Ncze;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.202
+ header.i=@linux.dev header.s=key1 header.b=cvyFNI4O;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.209
  as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
@@ -141,43 +140,69 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-Update the comment for KUNIT_EXPECT_KASAN_FAIL to describe the parameters
-this macro accepts.
+Drop "the" from the titles of documentation articles for KASAN, KCSAN,
+and KMSAN, as it is redundant.
 
-Also drop the mention of the "kasan_status" KUnit resource, as it no
-longer exists.
+Also add SPDX-License-Identifier for kasan.rst.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202308171757.7V5YUcje-lkp@intel.com/
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 ---
- mm/kasan/kasan_test.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ Documentation/dev-tools/kasan.rst | 7 +++++--
+ Documentation/dev-tools/kcsan.rst | 4 ++--
+ Documentation/dev-tools/kmsan.rst | 6 +++---
+ 3 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/mm/kasan/kasan_test.c b/mm/kasan/kasan_test.c
-index c707d6c6e019..2030c7ff7de9 100644
---- a/mm/kasan/kasan_test.c
-+++ b/mm/kasan/kasan_test.c
-@@ -91,10 +91,11 @@ static void kasan_test_exit(struct kunit *test)
- }
+diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+index 382818a7197a..858c77fe7dc4 100644
+--- a/Documentation/dev-tools/kasan.rst
++++ b/Documentation/dev-tools/kasan.rst
+@@ -1,5 +1,8 @@
+-The Kernel Address Sanitizer (KASAN)
+-====================================
++.. SPDX-License-Identifier: GPL-2.0
++.. Copyright (C) 2023, Google LLC.
++
++Kernel Address Sanitizer (KASAN)
++================================
  
- /**
-- * KUNIT_EXPECT_KASAN_FAIL() - check that the executed expression produces a
-- * KASAN report; causes a test failure otherwise. This relies on a KUnit
-- * resource named "kasan_status". Do not use this name for KUnit resources
-- * outside of KASAN tests.
-+ * KUNIT_EXPECT_KASAN_FAIL - check that the executed expression produces a
-+ * KASAN report; causes a KUnit test failure otherwise.
-+ *
-+ * @test: Currently executing KUnit test.
-+ * @expression: Expression that must produce a KASAN report.
-  *
-  * For hardware tag-based KASAN, when a synchronous tag fault happens, tag
-  * checking is auto-disabled. When this happens, this test handler reenables
+ Overview
+ --------
+diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
+index 3ae866dcc924..94b6802ab0ab 100644
+--- a/Documentation/dev-tools/kcsan.rst
++++ b/Documentation/dev-tools/kcsan.rst
+@@ -1,8 +1,8 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ .. Copyright (C) 2019, Google LLC.
+ 
+-The Kernel Concurrency Sanitizer (KCSAN)
+-========================================
++Kernel Concurrency Sanitizer (KCSAN)
++====================================
+ 
+ The Kernel Concurrency Sanitizer (KCSAN) is a dynamic race detector, which
+ relies on compile-time instrumentation, and uses a watchpoint-based sampling
+diff --git a/Documentation/dev-tools/kmsan.rst b/Documentation/dev-tools/kmsan.rst
+index 55fa82212eb2..323eedad53cd 100644
+--- a/Documentation/dev-tools/kmsan.rst
++++ b/Documentation/dev-tools/kmsan.rst
+@@ -1,9 +1,9 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ .. Copyright (C) 2022, Google LLC.
+ 
+-===================================
+-The Kernel Memory Sanitizer (KMSAN)
+-===================================
++===============================
++Kernel Memory Sanitizer (KMSAN)
++===============================
+ 
+ KMSAN is a dynamic error detector aimed at finding uses of uninitialized
+ values. It is based on compiler instrumentation, and is quite similar to the
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/6fad6661e72c407450ae4b385c71bc4a7e1579cd.1696605143.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1c4eb354a3a7b8ab56bf0c2fc6157c22050793ca.1696605143.git.andreyknvl%40google.com.
