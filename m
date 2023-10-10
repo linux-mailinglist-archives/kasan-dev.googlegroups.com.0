@@ -1,125 +1,124 @@
-Return-Path: <kasan-dev+bncBC5ZR244WYFRB5WMSSUQMGQEVYQDJHI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC5ZR244WYFRBLONSSUQMGQEBCPKERI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521A77BF884
-	for <lists+kasan-dev@lfdr.de>; Tue, 10 Oct 2023 12:24:56 +0200 (CEST)
-Received: by mail-wm1-x33d.google.com with SMTP id 5b1f17b1804b1-4066f75ec23sf15365955e9.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 10 Oct 2023 03:24:56 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1696933496; cv=pass;
+Received: from mail-ed1-x53a.google.com (mail-ed1-x53a.google.com [IPv6:2a00:1450:4864:20::53a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70EF37BF887
+	for <lists+kasan-dev@lfdr.de>; Tue, 10 Oct 2023 12:25:51 +0200 (CEST)
+Received: by mail-ed1-x53a.google.com with SMTP id 4fb4d7f45d1cf-5362b33e8ffsf4476343a12.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 10 Oct 2023 03:25:51 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1696933551; cv=pass;
         d=google.com; s=arc-20160816;
-        b=mDi2koH4xudokZBrinKxLNiGKPNwgXJ2Iqo6g1LsSBqgilbuXuBjmhDsFf+umFuKn9
-         LQIGgVkbJTDLV9fLVEkHQlTua41JJamaHRHnl6XzYridkEqBtsy6T1byk0pSFT+ToLKF
-         n9AwrEkJ6FzXKjXH2U/cdPHxfxaVZaJCIi4AUZHBFzkHnAD9vic01n8JI91VeppaL2Xz
-         gaP830da7tZyxQQgO+bgJvLKCWFDtgpIo7DxRWccGk58qiWtA/vMf9xl0hnMRSZZNAVj
-         JNdghP6KR0jiPqEjk5s7T+Fm+cedg24ZmhAal6ZBJ60Z97HrfWqI1L828ATWBSCiiZL9
-         YvKQ==
+        b=Yh98yf1rtYfyaemYZBRBmcicRv5jv4KdYOlMX0WkvEvgdi+pDb7Kqxq8sPRqulKHv9
+         NhKrmWoxIjRWh/vUptT6wYgYiYGOvx3+1wypYolTmm4Yd+fPU1dybQbIs4Wes9SmitH7
+         f9+2J0hE9sUgjRpF7DA0MondiOv8v0Ky/lQzu/kFC2oruMg0H6x/IDSjgk3rBIT2x3QC
+         TgozJP/3nswBwp900sAhPESZ9gIKN2pphLz+g5FnygP/b0DKb7+FLbMji9ZK8EqR+M9N
+         5wOK9aarDAXgyS4H42s6ILMKfNO8dM6jO3J4VxJLfqjtP9tDhaYxWdjVVaefdHBrDj/U
+         jzNA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=3r0Ast0EPI/i4tlNCdFm/6DyVFksS/JlwD8Fv1/Ir9Y=;
-        fh=Humky4e+hth+m5LjjwqZefHA/L96cUXUrx8t/v+3zX4=;
-        b=HwfEMsfNTZxtOopz+lhhuRGW+KBAd/vKmUujADPluvh3g6WX/8kVQZI/0MlHGg4Fcb
-         Crqx3YOOpB1/4Zu+xWPfX13GGKphZi5aBEkvJ8YZtbXtNE+qFSzeDz1otdLHtz2ZP/+D
-         U9OpPIvdL/7SIfLHrwPGQQAWt63VLkCIPSEHJXE2gRqZmlHR01c1vYLzncRpVeZRUc5A
-         NNO+6sbJhtwkL1y4Kpevgq33Od+fw5i5fguctS3AS9sAG0/sk++Ll8QE7il8nkfwHw7f
-         wBBBcwAU/8DgjuwV4aeojBD4FCuvzEs6rDTBJ8auElZuOhiEeQpJRtByBGC1rXcWwIJi
-         O+Uw==
+        bh=tVKVsJ1BO2VuWMOByFQE8gsYcBkRtHizeoYGe5A2NJw=;
+        fh=j6gH8MVd8SXUPRBQKuaUs95IQ8SMKFlgheGW6KdVuMs=;
+        b=M7+ID6qiYZuqsszn/LeZ41XCpJw7Mems8o7waWGSKO54QwKXmIFYROnPuGRnql23kX
+         YlSC0IXXy5WpQc7ZFoSDESDiTjT5I0KmjfHCRGb8qYM1PpU6EAS18dcJvpyz5ABVj/io
+         xrZFv3MtsgBuFisjJfORiTFaoAEY4Q/DPaL8NGwREDaHySTfQExYJI09qnJ3EfOH1tDO
+         3Y3tEPK6I50C5OlJxNeBKj0b3d8EfzSu/EqlIwcQCTIHcwHVU+GhwzENmuTbueES0rXJ
+         JjLP8jMoKnBxLJMPmZgFLCsv/opVwxX2W6hlzUw3UDDMTxU9vTctjgSecEk4HZvV/Opp
+         +sOQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=XlPsIIme;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=PkhQaQ3y;
        spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=kirill.shutemov@linux.intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1696933496; x=1697538296; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1696933551; x=1697538351; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3r0Ast0EPI/i4tlNCdFm/6DyVFksS/JlwD8Fv1/Ir9Y=;
-        b=iYcjcS5hFlTtIp15pQCwbmyPuF9WRWUqR8QLHM9TLd+1QmThS2/zjvGp6+xzzONTxy
-         ZADczXBpSgpy58hdQrEi7jy/mnk9mG+CZjZ/jJ3XwBzWIEhlEcotQyKn9lLtg7+Z8Yyw
-         ZvZkL2ihky7X5Ar2XQtOkmgx8vf0dlSHdd83dy6hSQpMRxEgay1CQXYRnDNd5w2bxVUN
-         EBAM2YV124uIhQxzzBo815pj8OZGeuzNX7nVyrfHCtA8TjDvK0dBuq3sLP9Ml6mllrTZ
-         FGPBa35AvaI2lh8dbyOnWLD2sx8h/qbY2lj8aLhnbd0xIOgZH1bgpePMBzg8ntIkTdsH
-         0IGA==
+        bh=tVKVsJ1BO2VuWMOByFQE8gsYcBkRtHizeoYGe5A2NJw=;
+        b=GnWoH6BvFgmaVJTlnoOXK5hfGaDqUclMA3UzcT0+BAQ2/qy6HlW2uDpBlJJa+avUCe
+         ig14yRt+7OdoVMgdILFAnb09TG1pjhHEQjgrMXN5sMiRwawo0azea9xvZpjLkMxuDm9e
+         gtRw4J6OFui7u4QteoMSI4Q5A+8Gbb33d1TV7NatASXKBrecDcJdVh2lSW0A3ha80Hbc
+         pAdVyn5LPODiPRcPr6hTdLJUfg3+urWdRuDNKQ5lPwcGhaPQRSvOyqMOvNUf/Fv/1fOB
+         vzvdojFSAiNLEC0N5tjoCMPDGLpItUMfVRsamQ28wenVcp6/3pNkKxP1ScHLIItOCp8r
+         vQuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696933496; x=1697538296;
+        d=1e100.net; s=20230601; t=1696933551; x=1697538351;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3r0Ast0EPI/i4tlNCdFm/6DyVFksS/JlwD8Fv1/Ir9Y=;
-        b=R2HG6pOZLO/DaPi/6djUWQRgHarJlzmDJ5rIuF5fMPnqcfHt19vbLxe10wO75tClwQ
-         9gRBSH/C5Xr909JCs6MREmBBYoU3EO5pEmme0ZRt7zM2dW+j+z7qENarrhImSLIK7uTi
-         ikapIeFZMwLM7yTeEuCfDL4OnXWb1YBBfRGg47MaIstaBKtG7EJxB6UtPQ+OUOxLdNe2
-         rc/sJg8NVVPTwg0KeV6yG7254yfrc1rI52RhFXHV0a39xuUgkxLzkKMFoN9wvNeHQ3Yd
-         v7OVwiLzOouc/8uCqQtVoOCIgMSq6kl7uzBFn8RNHiBf3PL584pEV24ajToq/n0MvDVv
-         p4FA==
+        bh=tVKVsJ1BO2VuWMOByFQE8gsYcBkRtHizeoYGe5A2NJw=;
+        b=fbYWWz0nY0adEaomBdb5osVvfmtgo6riehU1faDO+YBQg6MjGCIZNcWigzBO6DrK+2
+         aiJA/bmblY2Ku8wGOwyWfGAIiHBMacs80r/Ha2BWJxglaSq5HARVgU5QEENDuksmvOr5
+         NGbMTeR7OPEM/pEG6JG8pW8DuEqdeavwdy8m0JndUNcD9GG2p8obsMTSngvBFspmMf+m
+         Q58sTtsENXEhJM5dssSRDVO69NDGLBv35+TQcol5JUPZ2hiKlqOPWoO79v1kCAexQ//v
+         Cs6ja5FAwp8lMaPL/juLrX83Z2IrlgFrM6hF3S9niD4pH434QxW+UuwyW2llBHLPrbr6
+         xexQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yw3S8J4YYEQCqHEWiocliCUAaIAJmIQqvevFwfBpdgk7+81HoKu
-	zx4K1LgLkHFlh3WsE5UBurI=
-X-Google-Smtp-Source: AGHT+IF/E57CYeWH89xaA6C9JJwQxPDh/bCQMFyW93ys1rnZHBUcu9TxZn9zZJzHHpHXVgg6MrotBQ==
-X-Received: by 2002:a05:600c:3ca1:b0:405:3cc1:e115 with SMTP id bg33-20020a05600c3ca100b004053cc1e115mr16105446wmb.3.1696933494460;
-        Tue, 10 Oct 2023 03:24:54 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yyxf9rC4TX/eO4ItC31iaM5/s3VpcpYS+2LgfMWe0HOUrOHF7Bh
+	i4P2CV8UN0R/0i02Nv3kuUM=
+X-Google-Smtp-Source: AGHT+IE6Z7x9uQwFd2ytVGoiCK6euOqNNdjmPtzgavKDrtCaHHXNO0YL7lko3kAGZMqEhe7Cp1T7UA==
+X-Received: by 2002:aa7:c3da:0:b0:534:8392:879d with SMTP id l26-20020aa7c3da000000b005348392879dmr15814326edr.37.1696933549559;
+        Tue, 10 Oct 2023 03:25:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:1d9b:b0:404:77ae:53ad with SMTP id
- p27-20020a05600c1d9b00b0040477ae53adls1125394wms.1.-pod-prod-08-eu; Tue, 10
- Oct 2023 03:24:53 -0700 (PDT)
-X-Received: by 2002:a7b:cd8e:0:b0:406:45c1:a657 with SMTP id y14-20020a7bcd8e000000b0040645c1a657mr14875892wmj.6.1696933492877;
-        Tue, 10 Oct 2023 03:24:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1696933492; cv=none;
+Received: by 2002:aa7:db8b:0:b0:533:cc3e:9ee1 with SMTP id u11-20020aa7db8b000000b00533cc3e9ee1ls261131edt.0.-pod-prod-02-eu;
+ Tue, 10 Oct 2023 03:25:47 -0700 (PDT)
+X-Received: by 2002:a05:6402:4308:b0:53d:983c:2672 with SMTP id m8-20020a056402430800b0053d983c2672mr1030535edc.38.1696933547846;
+        Tue, 10 Oct 2023 03:25:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1696933547; cv=none;
         d=google.com; s=arc-20160816;
-        b=FPKn1dPWMpavJZHeJKwvCiJZpWHK6xtsSnuBMWnPWf/8EOkDVBcP+3QsoUyxE8ES14
-         ZTcY3qKQpI8x2h1ambFLC79/RslMVmyQzycjYav/puA79KtrneAs/f26JBZAgVILxKZd
-         beM2fjpWl/wFvUstk9redAYsQ7YuGTvpASzc2nZ8ywtj7mhGhb+2emLiAeW5vPU4UcF1
-         2G5SLGWRwRVjBxmvMdhMJH00uIR2aaHfsrqGXtTww2Mj41Ae7E2Hms8bWCdnPPNt8u6p
-         sp7WxvWsyrcWwdhrm+vsCJt2hmDnIDxZrcutyKHwSaVnbTGCxZ64mQpyyJmoVZ9944r7
-         aTbA==
+        b=NjSktiEhDGBnN8gPDz3XBbSoeYQbjxNzVkNupdN1QpyRVef2EF9xHk8jsKNYjvpklU
+         NB1lBRcaHrczuGq3fctDFj8x56ApcSlvnCu9rNLVSGXOSP/4DWBQl19VrzMBSO5BF9J7
+         GVn+iasA8xdVcrQlAVG6SVwJZpBCvQE4DDkZ7kNCsKa6KscqOEnpSGeaGlP4a0hFYtfY
+         IY9w30zTbSUApymJXA/MfPskMBiW0LtxKIaRx5MygB4GTKuyI6CCVIWqc329BqMj72qw
+         RiMDAFpkkw/dQXhyMYViTTVJI5Fo+D4IRdL8KOW0cpT2fkf/OFSs0gPcKFyHzyz2eeoe
+         Mlpw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=tKh8x8oY19PzBwcSOoxnn2dS2pp/W/rE1Xb9IqE8P3o=;
-        fh=Humky4e+hth+m5LjjwqZefHA/L96cUXUrx8t/v+3zX4=;
-        b=OiI24+/0DcLrVt9RH4O9vlogeKn6JM1AuE+aM3Q3LXAHmlCNqYNTC2jG1mK7aCkTwa
-         Bfr7pMshiBZqjgl6HfRWk6l84JMLOZ5vWSckr4dSyPRjZEs5GZfIXBtToNdASn2NBCSA
-         xEfzJgTaJXWgVmBvropcb7F//clSC9/QOtrmw1Jdw8JhUkFP1Urpv4gvZVXm97tG7vtq
-         tjRhEeMeQ8u9FxJj1chPMKZL11NdCSQcMeRSs06Xfzd5SsZd/0u0wuInqRSUKpkV/uob
-         HSy0OlwQGWXpg9BWRW52Mjq2ghPhsJZbEShhoJCJkcDlht1RMwuen9OIYfD8Kbt9jmqC
-         WmOA==
+        bh=8NMaAzm2KJMkDwvzedLJ+6AziWa5HWEcT2zpFFsyaCA=;
+        fh=j6gH8MVd8SXUPRBQKuaUs95IQ8SMKFlgheGW6KdVuMs=;
+        b=lhnD9AShs3piarGJ8o9C7gvuawEJ/x6bYwTJnJGJ0z2GmiipqBnjVHmrfCkhI11YNs
+         wKr2fpzFad+UV7xje8G4S6IDwTxR2yZ7yGMEsfq8j5f6pU+8K/nSks9tm3ttPXOuyN2T
+         +t+9rduy09xoTcZuHyEPMALbtIPg9oiWTUzHshVbgPYdapA79bXZ7w26a38g5LEsuksN
+         J5iwHd1evq//UXjr97h7DnnYfE/cPn5aOaZM7/XcphQ6OoBl3c6DZOgDPZ1oDgvprst9
+         hmP+5KxUn+h8hm9FihYGrQpBSV1JK58f+5yJssHkQTGBYyDN3bBSkkb+KZ5xuAIQ7MQQ
+         UzJg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=XlPsIIme;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=PkhQaQ3y;
        spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=kirill.shutemov@linux.intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [192.55.52.151])
-        by gmr-mx.google.com with ESMTPS id bg36-20020a05600c3ca400b003fe1f9a8405si442396wmb.0.2023.10.10.03.24.51
+Received: from mgamail.intel.com (mgamail.intel.com. [192.55.52.120])
+        by gmr-mx.google.com with ESMTPS id i16-20020a0564020f1000b005381936ef68si632945eda.3.2023.10.10.03.25.47
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 10 Oct 2023 03:24:52 -0700 (PDT)
-Received-SPF: none (google.com: linux.intel.com does not designate permitted sender hosts) client-ip=192.55.52.151;
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="364654353"
+        Tue, 10 Oct 2023 03:25:47 -0700 (PDT)
+Received-SPF: none (google.com: linux.intel.com does not designate permitted sender hosts) client-ip=192.55.52.120;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="383235949"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="364654353"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 03:24:41 -0700
+   d="scan'208";a="383235949"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 03:25:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="927087670"
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="869633637"
 X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
-   d="scan'208";a="927087670"
+   d="scan'208";a="869633637"
 Received: from albertmo-mobl2.ger.corp.intel.com (HELO box.shutemov.name) ([10.251.208.38])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 03:24:37 -0700
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 03:25:40 -0700
 Received: by box.shutemov.name (Postfix, from userid 1000)
-	id CA51710989E; Tue, 10 Oct 2023 13:24:34 +0300 (+03)
-Date: Tue, 10 Oct 2023 13:24:34 +0300
+	id EBD8410989E; Tue, 10 Oct 2023 13:25:37 +0300 (+03)
+Date: Tue, 10 Oct 2023 13:25:37 +0300
 From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
 	"H. Peter Anvin" <hpa@zytor.com>,
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
 	Alexander Potapenko <glider@google.com>,
@@ -130,18 +129,17 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
 	Fei Yang <fei.yang@intel.com>, stable@vger.kernel.org
 Subject: Re: [PATCH] x86/alternatives: Disable KASAN on text_poke_early() in
  apply_alternatives()
-Message-ID: <20231010102434.ncn3mxk7cesec6s5@box.shutemov.name>
+Message-ID: <20231010102537.qkrfcna2fwfkzgir@box.shutemov.name>
 References: <20231010053716.2481-1-kirill.shutemov@linux.intel.com>
  <20231010081938.GBZSUJGlSvEkFIDnES@fat_crate.local>
- <20231010084041.ut5sshyrofh27yyx@box.shutemov.name>
- <20231010091235.GFZSUVgzTetLj2K+s8@fat_crate.local>
+ <20231010101056.GF377@noisy.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20231010091235.GFZSUVgzTetLj2K+s8@fat_crate.local>
+In-Reply-To: <20231010101056.GF377@noisy.programming.kicks-ass.net>
 X-Original-Sender: kirill.shutemov@linux.intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=XlPsIIme;       spf=none
+ header.i=@intel.com header.s=Intel header.b=PkhQaQ3y;       spf=none
  (google.com: linux.intel.com does not designate permitted sender hosts)
  smtp.mailfrom=kirill.shutemov@linux.intel.com;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=intel.com
@@ -157,46 +155,60 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Oct 10, 2023 at 11:12:35AM +0200, Borislav Petkov wrote:
-> On Tue, Oct 10, 2023 at 11:40:41AM +0300, Kirill A. Shutemov wrote:
-> > __VIRTUAL_MASK_SHIFT used in many places. I don't think it is good idea to
-> > give up on patching completely.
+On Tue, Oct 10, 2023 at 12:10:56PM +0200, Peter Zijlstra wrote:
+> On Tue, Oct 10, 2023 at 10:19:38AM +0200, Borislav Petkov wrote:
+> > On Tue, Oct 10, 2023 at 08:37:16AM +0300, Kirill A. Shutemov wrote:
+> > > On machines with 5-level paging, cpu_feature_enabled(X86_FEATURE_LA57)
+> > > got patched. It includes KASAN code, where KASAN_SHADOW_START depends on
+> > > __VIRTUAL_MASK_SHIFT, which is defined with the cpu_feature_enabled().
+> > 
+> > So use boot_cpu_has(X86_FEATURE_LA57).
+> > 
+> > > It seems that KASAN gets confused when apply_alternatives() patches the
+> > 
+> > It seems?
+> > 
+> > > KASAN_SHADOW_START users. A test patch that makes KASAN_SHADOW_START
+> > > static, by replacing __VIRTUAL_MASK_SHIFT with 56, fixes the issue.
+> > > 
+> > > During text_poke_early() in apply_alternatives(), KASAN should be
+> > > disabled. KASAN is already disabled in non-_early() text_poke().
+> > > 
+> > > It is unclear why the issue was not reported earlier. Bisecting does not
+> > > help. Older kernels trigger the issue less frequently, but it still
+> > > occurs. In the absence of any other clear offenders, the initial dynamic
+> > > 5-level paging support is to blame.
+> > 
+> > This whole thing sounds like it is still not really clear what is
+> > actually happening...
 > 
-> Have you even looked at boot_cpu_has()'s asm?
+> somewhere along the line __asan_loadN() gets tripped, this then ends up
+> in kasan_check_range() -> check_region_inline() -> addr_has_metadata().
+> 
+> This latter has: kasan_shadow_to_mem() which is compared against
+> KASAN_SHADOW_START, which includes, as Kirill says __VIRTUAL_MASK_SHIFT.
+> 
+> Now, obviously you really don't want boot_cpu_has() in
+> __VIRTUAL_MASK_SHIFT, that would be really bad (Linus recently
+> complained about how horrible the code-gen is around this already, must
+> not make it far worse).
+> 
+> 
+> Anyway, being half-way through patching X86_FEATURE_LA57 thing *are*
+> inconsistent and I really can't blame things for going sideways.
+> 
+> That said, I don't particularly like the patch, I think it should, at
+> the veyr least, cover all of apply_alternatives, not just
+> text_poke_early().
 
-Obviously not :/
+I can do this, if it is the only stopper.
 
-Okay, as alternative, the patch below also make the issue go away.
+Do you want it disabled on caller side or inside apply_alternatives()?
 
-But I am not sure it is fundamentaly better. boot_cpu_has() generates call
-to __asan_load8_noabort(). I think it only works because all KASAN code
-has ASAN instrumentation disabled.
-
-diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.h
-index de75306b932e..bfe97013abb0 100644
---- a/arch/x86/include/asm/kasan.h
-+++ b/arch/x86/include/asm/kasan.h
-@@ -12,8 +12,15 @@
-  * for kernel really starts from compiler's shadow offset +
-  * 'kernel address space start' >> KASAN_SHADOW_SCALE_SHIFT
-  */
-+
-+#ifdef USE_EARLY_PGTABLE_L5
-+#define __KASAN_VIRT_SHIFT	(__pgtable_l5_enabled ? 56 : 47)
-+#else
-+#define __KASAN_VIRT_SHIFT	(boot_cpu_has(X86_FEATURE_LA57) ? 56 : 47)
-+#endif
-+
- #define KASAN_SHADOW_START      (KASAN_SHADOW_OFFSET + \
--					((-1UL << __VIRTUAL_MASK_SHIFT) >> \
-+					((-1UL << __KASAN_VIRT_SHIFT) >> \
- 						KASAN_SHADOW_SCALE_SHIFT))
- /*
-  * 47 bits for kernel address -> (47 - KASAN_SHADOW_SCALE_SHIFT) bits for shadow
 -- 
   Kiryl Shutsemau / Kirill A. Shutemov
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231010102434.ncn3mxk7cesec6s5%40box.shutemov.name.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231010102537.qkrfcna2fwfkzgir%40box.shutemov.name.
