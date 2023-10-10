@@ -1,121 +1,121 @@
-Return-Path: <kasan-dev+bncBCP4ZTXNRIFBBNMSSSUQMGQEKYDZABA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC5ZR244WYFRBFU4SSUQMGQEMYUT6SQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87ABE7BF590
-	for <lists+kasan-dev@lfdr.de>; Tue, 10 Oct 2023 10:20:07 +0200 (CEST)
-Received: by mail-lj1-x238.google.com with SMTP id 38308e7fff4ca-2c12a8576d4sf43960621fa.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 10 Oct 2023 01:20:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1696926007; cv=pass;
+Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79FB67BF636
+	for <lists+kasan-dev@lfdr.de>; Tue, 10 Oct 2023 10:40:56 +0200 (CEST)
+Received: by mail-lf1-x139.google.com with SMTP id 2adb3069b0e04-5039413f4f9sf2201547e87.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 10 Oct 2023 01:40:56 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1696927256; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CRPCJd/7FOTQyWn4ZmKDTQ449RZeJ1y1wxW8cZtY6Ee5qaLIHjaITOK/+DQ9B5Upro
-         EKA5ZdeHrFS4hRZJBkY1NbV9SMT+Vd6PuQoFdSPDO7QyzzStnbjsWrjyWT3jri1nIL1w
-         CxpYbPY1dhF1wbR0m4SNbWo2lhATlp0wmlnJ6cWQQnTwimNy4Dn8zCJwvIco+BYL5tnu
-         EA5jewV/1UuRxRFfYZRCSiz66YtsnZNd1jayHhVU9RsZGTbc7nC3U2+F50c5S85+tJQh
-         cjSpF6O9pkp1HUgfh57nGNlK4fCb8/EbCpBNGvjr3s7n0k+R+2JgHkBrucjGbEU3m8Hl
-         yaQQ==
+        b=n2IXJ3suLT6QtjW+aRZHLuQqcV2+1funFQFQyAwFZ5R40HQs0nw1zEBixIVlWGBRyg
+         HbGyu6Tsx+QAEKu2n8CyuuC61JCS89KxlCUxvO4RrusW79RxUMQAdwWAovr8BsV0qfdM
+         d5T/PMqpVuZQ14qfDgErTk2ASGarrqr93dLXZ8qFedswVBX/UVVM2brQ13w1MqXZrt+F
+         pRLd8PhLpmRebqwTceNJ7iP7IBrvYeqIvK9CUB56YzQGPgEDQ8RJqfJ6g3wgccQQHn1z
+         jU9wdu+12x2NZLyynb8yJw7TpU9GZTs4FgnA25MW6GXddvbTrfsa8UmNM95kZ39ixgZl
+         kV8Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=5aYGrntQtx4oV1EF1v18dUQcL4akc/THVitM4f+1t24=;
-        fh=tMvHKGT1+QcASgZQMJhW3iAjRPPaJkqDzc/tI8OKJZo=;
-        b=U12sAyaSipAnOpFDokxIsYlejkPzRWdPd8HZtG7lz0gIS6YWQibJBuKWlvIsL92svR
-         4g2zUlY8lIvw0IH+OHtHX60p0Y27JAyj089uU2Sf9f8oT47RnhU2zE2gv+Pdy2JGyd34
-         ll4PEA0SigDu7VHLg6E7GyOP5e1oqi43oVGKjwuOLxYlhJmA7JNKlOkOLQsFIzpJp+nM
-         wsMk7ITFsVMmKoRFZ4+DlbHgaCkClo99PJRgSeAkBgpdk4aYhh78QSWa5vjTBDhNUNnm
-         7x4rbED/OxbyteSBnHQPQO3d1R/XgavfimLT7Qe43iWkOFlWx4s2HB+0VnBL9O3Kuwna
-         HHuQ==
+        bh=hX6RUGDw4kcE7ecL1MZBnQex3+/lEbt5oXewSrAWI5w=;
+        fh=Humky4e+hth+m5LjjwqZefHA/L96cUXUrx8t/v+3zX4=;
+        b=kaqVsNd6F3+JHnmMD09gNpqaIfEk3mgHT0pTtHUfEADlScbt44ps6y/Yxh42U620Gu
+         5YxfKmcfJcBrxl9QKXB96iy5XEM8IQJSxhKuN7RhOGSqRJHKweuOaxH4n9vCMZB2KWBV
+         PSAifEwdxfgOt+eay8Fwk5cHnDB9x7lDXuduLnggP7qhj9m3ZjbcmOz9BUqlxVye70TV
+         CWYeVq1B/31U5vpKQ3aYOxc+JTOJ8ski51DtNdN5ZaIHqlIL9dSFCR/wVAWIID0wUh/Q
+         kR5GUBgmLcxNmAxbL/Q+W/egjyVPWkxRFDPX5Fg5kDWf2v8iC9MMt6cftVaMAXkLC3hd
+         ZYlQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@alien8.de header.s=alien8 header.b=YO31Bh3h;
-       spf=pass (google.com: domain of bp@alien8.de designates 2a01:4f9:3051:3f93::2 as permitted sender) smtp.mailfrom=bp@alien8.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
+       dkim=pass header.i=@intel.com header.s=Intel header.b=BaQLkl7Z;
+       spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=kirill.shutemov@linux.intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1696926007; x=1697530807; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1696927256; x=1697532056; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5aYGrntQtx4oV1EF1v18dUQcL4akc/THVitM4f+1t24=;
-        b=AEQvDSPl3ezvJ1JC9CZr+FOp6rBrApbY/nV9rpClOg95OgKJ8Eu7iuCqNXTa2rWVdj
-         kK85Nw67pydsAcgL9OFekSAFqTBbpeqVQUQkCLPvR+d4uHW2xH6BqhmsFuWy6VM16OEN
-         60p/IOc5trS4FiMUG7xUyA7pnzwpjHXVo/AkyWnSXtsKnIxgbfaMopVQLR/D4yw6qAcf
-         tWEsABrErpctB+/cSroVOCB4C220AvkuNksDJpIhq7TJ2b8Gag5JmBkWB/T0m17LqiYj
-         Ra/vdkhdzoZYSGzKXpL8B2jQy+xXVofZ/jQ1jU5MQeKAEN3ISJffRgMza7SLguPtsdCt
-         13aw==
+        bh=hX6RUGDw4kcE7ecL1MZBnQex3+/lEbt5oXewSrAWI5w=;
+        b=SxXyKrAxqHdS/uGtc9FYzKridfj8nky+nex0Sidgm0oAPEovwMl2qVcF18yKyD5Dyk
+         QFPpNPqObqrkjbUWdrIHHr3N/1Y8LADSBPfy99i8C0aj4E28VFNpTZcHErBKsTkDu1h3
+         EdTZiRpNTPnBOn1Uj+q8JEdzkzrnzu8C39KtjF74x0ScrE/tC4NMSVlcqpl+fv9MkCTB
+         gbtNjFyxgzkrsHAClo1JgtUxupVVmfVV6LzOQ+7uHdQZpUf/cy8e8CfraBoNbVr7duCd
+         Nochor9dtwHtxRwSJjvd1iGGKscqKV0sBK2FB1G6DBvifmDcxRJQvdIBDZdBpc0caNKV
+         wrOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696926007; x=1697530807;
+        d=1e100.net; s=20230601; t=1696927256; x=1697532056;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5aYGrntQtx4oV1EF1v18dUQcL4akc/THVitM4f+1t24=;
-        b=pVGRU2Tof+yM5W29pAXwEFCYfXf8mdDDbA+4BAJjBa03fDOHYuNEaAt2hctBZlJYTK
-         9//cg2RAbkuZZiVgcX5JiT3Ss3ycWzw+9w8Y5PjxZQ9M/96eUrhoM3+xOp8oqrQByA1Q
-         nXdxzs/Vc1gylX4jj6rtvQAeza2ZXkZur9gspINRiqsE57ACt4KHZfXdoaHmvM+odbpb
-         swafqzw0TdeBBxqi2oPeerFDDGG8O82EkmEPLAffuaUtbQuwhrZWo2pfX7RklJWJfeaA
-         rcTLmibo/YBfGoGUlMIeD44pyZWQQKOonOXvXJX2Upf/Y+9CKuM0VPSNYh/AzDd7JOtZ
-         83Rw==
+        bh=hX6RUGDw4kcE7ecL1MZBnQex3+/lEbt5oXewSrAWI5w=;
+        b=Mr3IuO4FHViDoXckc+BcxUAOXJ41aN76QDWlm1PYdfQFml2AEawoZjHPDrh3ENZjIR
+         9beKcOee4501aoPUJSAgR6PY8z7cvDZUZGNMg1pR+mdTXjHAU8rpGK83Ax5b6tRvheCt
+         ligsc9b1uZkZ6gwrb02a5KsVKafchpBYtoeWqeO76jV3cFkDY3l9vgozwMRxl6RnFjNF
+         m5vM6hl9iuuYd7NVjh0qTHTL+Rd2Cf607mjcJLfPI7lMiC74ojCb8Hf2JyZAM8A2zQ0o
+         Pm7GXtLeyJWrX0fbDwoapmmrbTv3I01Qd9l+dR7RLW+hIa8lPRRq23pyMEkKH9JbFAHJ
+         BKGQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yz9hehAilPuC0GtN7epaW70dtAYKVQk/zuEORgIyOUyy/TX+yIi
-	l1NzffDLT0GImfdGLKLZ1H4=
-X-Google-Smtp-Source: AGHT+IGcZpwLz+WzUIW7C+8qRQaAxGX8SUOcCWhiFuI2MtuMM34zLzl6V/EJhsTONhDfqPPYIvdBvg==
-X-Received: by 2002:a2e:2e15:0:b0:2bc:f439:b5a5 with SMTP id u21-20020a2e2e15000000b002bcf439b5a5mr17512437lju.14.1696926005897;
-        Tue, 10 Oct 2023 01:20:05 -0700 (PDT)
+X-Gm-Message-State: AOJu0YwK9d8/8wjZSj8olkN1yvNBjq328qe3nCXcskXzKIFI+cZu5ple
+	TCuE8/NTh4J/edUro46W6+U=
+X-Google-Smtp-Source: AGHT+IHldCLIb+dOpKliS1axaVcO1amWKbADUeHosxia5PiUtmowdA5/BZoQXv3i71/GJwgNd+y8eA==
+X-Received: by 2002:ac2:4bce:0:b0:503:1722:bf3a with SMTP id o14-20020ac24bce000000b005031722bf3amr16268332lfq.1.1696927254649;
+        Tue, 10 Oct 2023 01:40:54 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:9114:0:b0:2bf:f477:1994 with SMTP id m20-20020a2e9114000000b002bff4771994ls634534ljg.1.-pod-prod-09-eu;
- Tue, 10 Oct 2023 01:20:04 -0700 (PDT)
-X-Received: by 2002:a2e:90c7:0:b0:2bc:cff6:f506 with SMTP id o7-20020a2e90c7000000b002bccff6f506mr14720280ljg.0.1696926003968;
-        Tue, 10 Oct 2023 01:20:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1696926003; cv=none;
+Received: by 2002:ac2:5b1d:0:b0:500:7f17:b77d with SMTP id v29-20020ac25b1d000000b005007f17b77dls2609674lfn.2.-pod-prod-01-eu;
+ Tue, 10 Oct 2023 01:40:52 -0700 (PDT)
+X-Received: by 2002:ac2:5b1b:0:b0:503:2924:f8dd with SMTP id v27-20020ac25b1b000000b005032924f8ddmr15364486lfn.47.1696927252829;
+        Tue, 10 Oct 2023 01:40:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1696927252; cv=none;
         d=google.com; s=arc-20160816;
-        b=ZKTZYnR5QPQfPSHGFRN20+NcmYcaLUD2mRw/ciB86KnpOhBIKC/jnwHplwL9g4eqyi
-         943ikKJ2VI1lOA5QZsnQiW/h+7c4YIjAXHQSOK4s6yJsJ6mBgKtJS8lzfZq2zudX0+Wx
-         8SZQS0NpXvHQNvyWehXmvneT09laKgGHaExb5Gbwef7PkwvXsAtkVXjq4B5UUK0M45wm
-         4Lu8sDiF3gcIqoLzNvoD8lZmKMvwszODv1V3xCER1W7aH/15F/32gEZZAslxKcntofsp
-         1cGcoxnkzGhdBMP0GzlnpzwyN3zLXOl3rqJ9MrLk8b+yOPpshqJute8iY09zffZWKbeW
-         +llw==
+        b=abEiwOfK5yQx7m/ynDkuk+Ic9zLhGku8reXtrQqPyg0WLK8vRTDDPlqu7cCX0bHvb3
+         pRyPGQR98B6WnjsJFixiPZhighhWDze5Y5Ek2/J5rfLm8zX2BHcGwLN3Fkbtf7qz9y/E
+         1dCSut3YZlfJGF0TCWeiPhFNO2BTRGKXrJHp6BxUUU9uWOmKdQBYHiyxN9avwgz2e0DY
+         t2g/2oYastgs/hQHgKVThUPJbpMQrLsc/HeyhDYW02vuv5tj2BYYGyw2EyeFmNyFZijD
+         cFLa6FRnmJX6CNlXZKQPwKp+54WBO4wtCP5kBBCjnrAuBrH/dnDz9skWAPjFkORfC2KS
+         5ujw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=E9CMcde7JhHmBwITrfwM1TdYK1kSavxuW5gL57dtmNY=;
-        fh=tMvHKGT1+QcASgZQMJhW3iAjRPPaJkqDzc/tI8OKJZo=;
-        b=V3RiyCur5B/vlsoJJ8Sw/I1svR0/nf0Ab947JdQ2SR4HdWGz1QLKDgy/H+mnitI/tc
-         3QfA6+bQsTLPuOmCK2tPz/iDuJ8PBxXHlIXrXpFgc4OmRpZIzGRBnbqTeyYCt9C3dOSU
-         rPeRo3vjDIGx9kC3XZr3Ik8tslyA4tRYRxwdY36GDo75T+LUZrRyMH8CLYkRdlPcZu9g
-         k4lY2KcmkHYK+Ga/FtC7pftEpqBmMVWWBZzU7TdWEiiLV2G3TuMMlSMynQX+GlO/HaBg
-         7cSoRiMbC7P4OQWOqcvh8cJ2w0tzAy9P9QgSoJ45kwNl0JX7oheDXGQXh5ej+h8mN5Fm
-         I6bg==
+        bh=9yvMgqoPGHCM1ICdduxR2Gz0ugbAZLayCGVR1FAVNkI=;
+        fh=Humky4e+hth+m5LjjwqZefHA/L96cUXUrx8t/v+3zX4=;
+        b=fthIJuFYoInhYtmBahdrcE4ZZct9pLEc1V8Vl5R9Nc9cpmOKg0dnA2ltOG1NGku5rf
+         His4DnobOLlRr5a9UYi6D8rLytaqPndjhqhZgdi9EufNRgp+qq0galczSPeKlw9+jgyF
+         h9tIteQHpN+F6RcvEqGc1hT8kG2w6DJ8H2vajrgSSZDfNWPc7avzu5/tbhbvfUGleFrS
+         7Mi53JQ8SpWy94cGSancd50hfrQdryeuO9j62FKYPm44uiutsxMQ3Lz4j7cC+MT/ag6l
+         jNBK5Ir8QJA4Z1ZPEPMutD/MyKI68V3LMdcKCuaLxXNc59RVhB+pQHNyArV239f0m6x2
+         9ESA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@alien8.de header.s=alien8 header.b=YO31Bh3h;
-       spf=pass (google.com: domain of bp@alien8.de designates 2a01:4f9:3051:3f93::2 as permitted sender) smtp.mailfrom=bp@alien8.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
-Received: from mail.alien8.de (mail.alien8.de. [2a01:4f9:3051:3f93::2])
-        by gmr-mx.google.com with ESMTPS id i22-20020a2e8656000000b002bfbc15cfefsi718868ljj.6.2023.10.10.01.20.03
+       dkim=pass header.i=@intel.com header.s=Intel header.b=BaQLkl7Z;
+       spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=kirill.shutemov@linux.intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mgamail.intel.com (mgamail.intel.com. [192.55.52.120])
+        by gmr-mx.google.com with ESMTPS id a14-20020a056512200e00b004fe3e3471c8si447134lfb.10.2023.10.10.01.40.52
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Oct 2023 01:20:03 -0700 (PDT)
-Received-SPF: pass (google.com: domain of bp@alien8.de designates 2a01:4f9:3051:3f93::2 as permitted sender) client-ip=2a01:4f9:3051:3f93::2;
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 08C6C40E01AE;
-	Tue, 10 Oct 2023 08:20:03 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id Rlcgad57B5RT; Tue, 10 Oct 2023 08:20:01 +0000 (UTC)
-Received: from zn.tnic (pd953036a.dip0.t-ipconnect.de [217.83.3.106])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 8C73140E0187;
-	Tue, 10 Oct 2023 08:19:39 +0000 (UTC)
-Date: Tue, 10 Oct 2023 10:19:38 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 10 Oct 2023 01:40:52 -0700 (PDT)
+Received-SPF: none (google.com: linux.intel.com does not designate permitted sender hosts) client-ip=192.55.52.120;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="383220525"
+X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
+   d="scan'208";a="383220525"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 01:40:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="927059933"
+X-IronPort-AV: E=Sophos;i="6.03,212,1694761200"; 
+   d="scan'208";a="927059933"
+Received: from albertmo-mobl2.ger.corp.intel.com (HELO box.shutemov.name) ([10.251.208.38])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2023 01:40:45 -0700
+Received: by box.shutemov.name (Postfix, from userid 1000)
+	id CC6FC10A1A3; Tue, 10 Oct 2023 11:40:41 +0300 (+03)
+Date: Tue, 10 Oct 2023 11:40:41 +0300
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+To: Borislav Petkov <bp@alien8.de>
 Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
 	Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
@@ -129,18 +129,19 @@ Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
 	Fei Yang <fei.yang@intel.com>, stable@vger.kernel.org
 Subject: Re: [PATCH] x86/alternatives: Disable KASAN on text_poke_early() in
  apply_alternatives()
-Message-ID: <20231010081938.GBZSUJGlSvEkFIDnES@fat_crate.local>
+Message-ID: <20231010084041.ut5sshyrofh27yyx@box.shutemov.name>
 References: <20231010053716.2481-1-kirill.shutemov@linux.intel.com>
+ <20231010081938.GBZSUJGlSvEkFIDnES@fat_crate.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20231010053716.2481-1-kirill.shutemov@linux.intel.com>
-X-Original-Sender: bp@alien8.de
+In-Reply-To: <20231010081938.GBZSUJGlSvEkFIDnES@fat_crate.local>
+X-Original-Sender: kirill.shutemov@linux.intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@alien8.de header.s=alien8 header.b=YO31Bh3h;       spf=pass
- (google.com: domain of bp@alien8.de designates 2a01:4f9:3051:3f93::2 as
- permitted sender) smtp.mailfrom=bp@alien8.de;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=alien8.de
+ header.i=@intel.com header.s=Intel header.b=BaQLkl7Z;       spf=none
+ (google.com: linux.intel.com does not designate permitted sender hosts)
+ smtp.mailfrom=kirill.shutemov@linux.intel.com;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -153,38 +154,44 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Oct 10, 2023 at 08:37:16AM +0300, Kirill A. Shutemov wrote:
-> On machines with 5-level paging, cpu_feature_enabled(X86_FEATURE_LA57)
-> got patched. It includes KASAN code, where KASAN_SHADOW_START depends on
-> __VIRTUAL_MASK_SHIFT, which is defined with the cpu_feature_enabled().
-
-So use boot_cpu_has(X86_FEATURE_LA57).
-
-> It seems that KASAN gets confused when apply_alternatives() patches the
-
-It seems?
-
-> KASAN_SHADOW_START users. A test patch that makes KASAN_SHADOW_START
-> static, by replacing __VIRTUAL_MASK_SHIFT with 56, fixes the issue.
+On Tue, Oct 10, 2023 at 10:19:38AM +0200, Borislav Petkov wrote:
+> On Tue, Oct 10, 2023 at 08:37:16AM +0300, Kirill A. Shutemov wrote:
+> > On machines with 5-level paging, cpu_feature_enabled(X86_FEATURE_LA57)
+> > got patched. It includes KASAN code, where KASAN_SHADOW_START depends on
+> > __VIRTUAL_MASK_SHIFT, which is defined with the cpu_feature_enabled().
 > 
-> During text_poke_early() in apply_alternatives(), KASAN should be
-> disabled. KASAN is already disabled in non-_early() text_poke().
-> 
-> It is unclear why the issue was not reported earlier. Bisecting does not
-> help. Older kernels trigger the issue less frequently, but it still
-> occurs. In the absence of any other clear offenders, the initial dynamic
-> 5-level paging support is to blame.
+> So use boot_cpu_has(X86_FEATURE_LA57).
 
-This whole thing sounds like it is still not really clear what is
-actually happening...
+__VIRTUAL_MASK_SHIFT used in many places. I don't think it is good idea to
+give up on patching completely.
+
+> > It seems that KASAN gets confused when apply_alternatives() patches the
+> 
+> It seems?
+
+Admittedly, I don't understand KASAN well enough. I confirmed my idea
+indirectly, by patching KASASN_SHADOW_START, as I mentioned.
+
+> > KASAN_SHADOW_START users. A test patch that makes KASAN_SHADOW_START
+> > static, by replacing __VIRTUAL_MASK_SHIFT with 56, fixes the issue.
+> > 
+> > During text_poke_early() in apply_alternatives(), KASAN should be
+> > disabled. KASAN is already disabled in non-_early() text_poke().
+> > 
+> > It is unclear why the issue was not reported earlier. Bisecting does not
+> > help. Older kernels trigger the issue less frequently, but it still
+> > occurs. In the absence of any other clear offenders, the initial dynamic
+> > 5-level paging support is to blame.
+> 
+> This whole thing sounds like it is still not really clear what is
+> actually happening...
+
+Maybe KASAN folks can help to understand the situation.
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+  Kiryl Shutsemau / Kirill A. Shutemov
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231010081938.GBZSUJGlSvEkFIDnES%40fat_crate.local.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231010084041.ut5sshyrofh27yyx%40box.shutemov.name.
