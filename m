@@ -1,153 +1,146 @@
-Return-Path: <kasan-dev+bncBAABBWW4SKUQMGQEPP2IKBI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC5ZR244WYFRBH6GSOUQMGQEIEFNA3Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63d.google.com (mail-pl1-x63d.google.com [IPv6:2607:f8b0:4864:20::63d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1635D7BF084
-	for <lists+kasan-dev@lfdr.de>; Tue, 10 Oct 2023 03:52:29 +0200 (CEST)
-Received: by mail-pl1-x63d.google.com with SMTP id d9443c01a7336-1c75d501b01sf3089275ad.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 09 Oct 2023 18:52:29 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1696902747; cv=pass;
+Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5A87BF24C
+	for <lists+kasan-dev@lfdr.de>; Tue, 10 Oct 2023 07:37:37 +0200 (CEST)
+Received: by mail-lf1-x139.google.com with SMTP id 2adb3069b0e04-505a1b94382sf13613e87.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 09 Oct 2023 22:37:37 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1696916257; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jBk3WVlyRnWTccC8PzxjTQGJlA1qAZ7b5Oa+X6DD7G9lwdKTMjh8ppq7Q7eWEBz0fw
-         eXpeFqMfim7ezGJLU6Bg1aH3jZdfMqf8CYzpvD5r6hQ3M78fDJbKpfgwJUWJ94Tgp754
-         dpbTBN7y4hVhsPeRLR1zm/uiS05tI5K5q70Ego5qsl/FR4artD98/ILnEnxb3N6Yju+g
-         uJ/bqmVSQ1KgoWO9VIPO2gfiDQCH8kGzfiG88LKa9Ml34LgnaIlrI8qXmhbic6mRCbJz
-         HP/Pj8dJhrR1YWFI+kpx8vIEy50/1qI4/Zwx7Z2tc8ap2djLMqJiTx1aDVKIlO60smx5
-         QbgQ==
+        b=HJ89XMg4wAYnkKMqtG2QXEjSgTO3MQ45FSS1UKEX571oOTAZqs2zwuXjik1PPHzvU0
+         +IIthBHUzh5+LF5R3PotI5bACLFkJdlml6GubGpwuaYrAk8+dF3pyYp80l5bQz2YjQC/
+         3iuNJn5IZVTJ2H7NRirsyZYnrZCYjQMrikX0Qc6D3tOKfZf9b0uZztbQqidltUS5B35G
+         63t7gjSovd/tc/vUy0Ai9X43U9KN6NuHH1HUTbYdPTIUC+c3jb4PniLCUUBg3XjubM+d
+         LS8xGb9Z5k6aoZiCpLRL7zsEb1pnbtTsx0y0Tk/6zp35T2eiN8gVheWJqzTktiOxF4DL
+         D3Rw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=RtS9//vno78J2kPcjVK9d5DtZjdeY2nj6aFzTkuIoSM=;
-        fh=n6kUzP5LKQBZZaJd6g4YOH+s7337rIzf2mByIt/u9HY=;
-        b=Ueq0Fqt69ByRZe4PQvmWUUiNFfEMt+Bz+CdfziSoqwApVImWVr7mTA/y2nyYTvB4II
-         aZNIDaA80tHYgYtYyugjPiaFUtVbN5dGIRH+vIbqbttsoEbnaP59sDjn+XYBtusR1Ute
-         78DXBj0t16zHUZbIBEFCZd5fnB7EeUd2QRtGKFQ2g1ttLkCh1sqnsk25G/He4Lp5Chqy
-         l7cPYrkAxe7CCcf8IHuo20vX1J1U7x3nKzSbWilF+wsVuQXyAtVraeFdIOZpjgEssrGK
-         xgUQ1iJAV0PO3KbrVmcJBmV+MS7g52K3tzZgkN+8qtkSeelAImh4usgw9fT5ytvmi3Z+
-         RCxA==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=8fnBSm1H+daK3oNtwzVswu8JXs3SGF2SovzODMB4pG0=;
+        fh=TZ1FtIqeUfZfQ3GkbpRP0NuCIS8eHq7hqM2LIHeinyY=;
+        b=cns+8LrBQlTxFnpg3Kvfvv1VZJSqpAxxwV5TFidxy4WDSHJpj/DAkhg7XQyBtSe4xs
+         0iKkN2TXL0AeGoOQR15sys41aMthLClLDDpiHBJsyO2M/Yf6khP5jVL478z/m9ddowWi
+         bwwDLsi7uvs7AXWRqfuId/5OEnA0lxVb0nWa09eT6mbU19QXSkYzFaDjmLfvMFAaYsUV
+         HxvrKRRwvpJiUPXL4iBk6Efqys+Ofhqa3pczk1jiSO8UM+JwDm4+R58bKCchZxi2xEuh
+         UgIOA/BkJXLTO1emzpYdTxEUi3fb5pnCX60XMaT8Zl6mUDpM04uB9wti4gjnSDYgy4tr
+         DhdQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@mediatek.com header.s=dk header.b=ZTqiasz2;
-       spf=pass (google.com: domain of haibo.li@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=haibo.li@mediatek.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+       dkim=pass header.i=@intel.com header.s=Intel header.b="T/+IDaum";
+       spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=kirill.shutemov@linux.intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1696902747; x=1697507547; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1696916257; x=1697521057; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RtS9//vno78J2kPcjVK9d5DtZjdeY2nj6aFzTkuIoSM=;
-        b=MT/RJ5ZIqd7U8XN2PfOppVyoETN/+O969QzOnsdKWK97oKardbcvFrBSES7cYkfyCh
-         iK9jLinESv5BqAAGGIlkkGEzh6xZCaTgShqom69YCT/Q3y8ZxD7HQKG6j/LCT3yvofc5
-         22o6JPSiGjf2coZOyTWtmicIoWl0ac2NJcI8zMU4qLhfJsLHxVKsDjQXxnHHva8zBdvF
-         kjDsn8QMlmuNrp5e9clX1IIo7l2vR51JIuQAdxHSG+kjKepeuZZ3ExFITh/eUwYfzH+V
-         TPKSfVzjth+DePuRV+NbBdqY3nz9hWmkIpy9nnSNZs/h7we/v+R/9YNJv2UvSaA5f0BD
-         5aaQ==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=8fnBSm1H+daK3oNtwzVswu8JXs3SGF2SovzODMB4pG0=;
+        b=XjbajWG4MOBGQQ10j34r4tPs8/5h3YWOzQp8wQdJNciHr0LkGM/O1cZNp3xpiWhr8j
+         Vdd98xO3kdzJeWtZpOVEJzvDHYCg592jFjvr8bC/3rxs5nFpgI+Th9ruyN29z01ffMTM
+         t4oIhBq/R6Yi6ryew47+PsDGS+9jZEa7eg6QxMA1duo2eW5vFqRGnXkARusOmY9qpFux
+         OL6tWBxHLroz+9xVwcUs2dqBTMUXQ3X2vSmSnYpg2U94oWDZovnhALHVNC9h7xmrwPp0
+         Tovy6Xj9HmIwO/f4G83WCauk6pN4bZnVXkNCzevh6HOHCO1POUZitrVxqqhnqfB8HOAg
+         x9Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1696902747; x=1697507547;
+        d=1e100.net; s=20230601; t=1696916257; x=1697521057;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RtS9//vno78J2kPcjVK9d5DtZjdeY2nj6aFzTkuIoSM=;
-        b=LbBoVN3h1/bvjp9YNUw/4FEAMbPB5dpdE789s/jIegujh/ZJY4FTvIjp1T9RdaNTFL
-         V9+qCM5amT8GRRT2GZ6tfwHdPXktLH7NGlrsKzPYfccnh7lH2Z9pzOUPcn3XDbnkebM2
-         Bq7HZ/lM2ADdhjv3E8GVG3LarjTwhuoy+dgS9Ht/x1f9rJ//bjT91LVygChEwakJbukD
-         gjxdI95nrFSLRpBZ3S1b7NwuzlvIuyt33u5HXjaXc2eTELwv6BibrzCfTDM7kU0eJfcV
-         j6cGoESL7OakmoqpvAuAk4N5Lj8TidvGH39mC8YSzd0ytGcz6oU2MS72W82WYEdK9n8U
-         6TUg==
-X-Gm-Message-State: AOJu0YwHekZZcWZ+C7Km+4JOhk7GLvNuc7cuCCPjxEa3krHj2sfNH7g/
-	QCx4CX33lVKWPYfWvoFRYXo=
-X-Google-Smtp-Source: AGHT+IEQg8ISQakeZpZQ1x96IK+mNq2STP66O/F4wpa76HgshPoDQew5Vd8uFFhHM2v7B3O0918fKA==
-X-Received: by 2002:a17:903:2448:b0:1bc:29c3:5895 with SMTP id l8-20020a170903244800b001bc29c35895mr849467pls.0.1696902747017;
-        Mon, 09 Oct 2023 18:52:27 -0700 (PDT)
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=8fnBSm1H+daK3oNtwzVswu8JXs3SGF2SovzODMB4pG0=;
+        b=SG+KhX2h83+iiHT6AxgKZA0MteLjnSZRv21EXHijAigLBJ91vq0ABJ4sk2jPTsS7Au
+         06u+k7C8FmKk9LgmcUxvZnQHuNTUnq+aS+0QbwbF3iWwdbrXZcJsHpf3bVN3QA9ZMmjN
+         JWi6age0vVBUf3nREUnVjR3cG4bno4J4Ved1Gbs7byMktU8mWukB7oi1Uo10CBaNUURR
+         cfLGwHLWT4rHmG4PJ8Kzt84N9I+0oFu+XHYxXAvq2Hgvsn9tAaYxYpzL+ikIyoxzMDWR
+         TMm2WOpETy7z8aKQaKpb1Ilm7zjKbC4utiwHK9nf5q4Ym3mt5VqQ6IRw0Mbmdgre5/2j
+         /O+w==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOJu0YwYzH6quokAj9OntzEB7lwbhWt7RDVfuENSInznPSh4wdUmUKZY
+	SPC3qv8SS6qm9of3fyZqKDU=
+X-Google-Smtp-Source: AGHT+IF2F3fuDCDSEntCP1Dc8T+Lf+lwc7KfmdXz99uI0cx9Per7W3UjwbHQ+TIlj8oSVU/EDtjmjQ==
+X-Received: by 2002:a19:f014:0:b0:502:c615:99b0 with SMTP id p20-20020a19f014000000b00502c61599b0mr287311lfc.4.1696916255702;
+        Mon, 09 Oct 2023 22:37:35 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:3929:b0:1bb:6485:798a with SMTP id
- b41-20020a056870392900b001bb6485798als8716987oap.1.-pod-prod-02-us; Mon, 09
- Oct 2023 18:52:26 -0700 (PDT)
-X-Received: by 2002:a05:6358:3601:b0:143:2f7e:9b with SMTP id v1-20020a056358360100b001432f7e009bmr14365279rwd.16.1696902746086;
-        Mon, 09 Oct 2023 18:52:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1696902746; cv=none;
+Received: by 2002:a05:6512:32b2:b0:503:7b0:dff0 with SMTP id
+ q18-20020a05651232b200b0050307b0dff0ls2206723lfe.0.-pod-prod-04-eu; Mon, 09
+ Oct 2023 22:37:33 -0700 (PDT)
+X-Received: by 2002:ac2:5f0a:0:b0:500:af69:5556 with SMTP id 10-20020ac25f0a000000b00500af695556mr13460823lfq.29.1696916253753;
+        Mon, 09 Oct 2023 22:37:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1696916253; cv=none;
         d=google.com; s=arc-20160816;
-        b=zXDIy0ZnvxY8L8jPfxnZjVlmADcIwz2CVryWpkn31BtHu7fGZjXJAeLmNPkDqjYIGK
-         lJv0UaLLeXBIXpaGYzYLotiu1dnCZN9Xk4jP9lO9Oy/Lsj7udrU3+qGSFOurvuWHWPQ9
-         ku/fjeM8MWqhr1IYaqPi0iRwDJjY5UI2sWjsa5hT2ralr+U658zRPbGajH/EZqPJudAQ
-         D1RlmUp//A+mxxBr91yzLmZNsQtn90bSntaBE7c26jfEhqR5kL/vsoDLJ2kuTvG0g88j
-         tUQYFRCF29ADnaDv+PbRU2Gf003Ap1ZBn7cAHDGz4hQ70/+h7yFmD6HPD8dS/14+PCP7
-         oLkQ==
+        b=wDOJk2YjO02x39d12itQRy2xxBbYjPlr7JILzQU2IR5EfyHTXLJgBuv+ukK7WKnRdY
+         LNQ3KGNnbEQP9CND9nJeGTVaKSj+DUV/uteA54dvKScIaWFMRy3T7wweiaTSLA0I5r8T
+         oF+H+BUj70oOyC9U9GsruEyP+09OxLN59rB6j3WPtjET3DxdeWZZstfxLS5xCnJIOD0J
+         kBXge0d7pQfJ5Ji7I9MQUrDMiMFGOminAycrLLbRRFeLdi7PvlD7s/exrHp4lTBwM0Yy
+         4ODgIj6cq4fTdZSi9i2seb3ppjfhHHFhhOS4KrFcOdKm1zYtry8KvjQXiDPjwFMkrrr9
+         nu7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=wu/Ez0DKYV6FvYGCa4Fc/RxN6Eo8oqS6inmrf5HcxU4=;
-        fh=n6kUzP5LKQBZZaJd6g4YOH+s7337rIzf2mByIt/u9HY=;
-        b=bpzkiPeNddaE+/cP24LxSsPnzZmIfhrpGJuniOCrSVTvIOcRRzh6D9UiOgHx0F7TuU
-         L32X6vtdfmeWPzQ1IlSGCZIvLxecE9qixZNAqMLlfmQ3P7lrMhr7cmY0Bl9Qq15721KL
-         dgw11NU59jJblgCgrUv4h67lT5A0wjZm8bpbsR0qw4iNgGhYUYF5FUNhJlZ3PoemqQ6N
-         Q85Bd1+LXJz5cTOEW7tUQIxmk3+pctYljSfyw2o+xPGtjiEagt8K+ZJhHup7Mb9YullE
-         qj1kdahLwesCe8VAS7RiBtiJnusZPTo1BQiohkxoYOYtO1yMrnFoB4M/n+66zyBZ4T5/
-         drmg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=aksCWqdpxaf3UNK6qPj3rWj9wsmjDCN/R2ZbISdY6XY=;
+        fh=TZ1FtIqeUfZfQ3GkbpRP0NuCIS8eHq7hqM2LIHeinyY=;
+        b=DvqYwL6p5v9bacbDMd+NGC7yaVf5Mi1T1tkOF83NeVi0G60vzGNPwkrJIr96rJRH1T
+         j6ElW958cW0bhiGPXbjfL49JvcneBqvvt/GJ596VWV7PTsr1SxXIMbL09xZcCom/z2g9
+         Mkx5Nno184/X1ecjwMIDJYVsdMH7Kh2n/QMcovhCka2B0ObvfX7Us+jlc0sFvlqy1dOM
+         oYbo8qF2uLrKvKyAylcWVpEtCjAKNJzFeSEzSuXDULpjq6XJw/bmw/LM6jmz1fyIip4I
+         dEXlSy5KbzaOgvFRRANYpXvo4r32u2X01ksFtS6YnqOncaaIuHmOnuXoEjJwcqUUvFm0
+         RjAw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@mediatek.com header.s=dk header.b=ZTqiasz2;
-       spf=pass (google.com: domain of haibo.li@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=haibo.li@mediatek.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
-Received: from mailgw02.mediatek.com ([210.61.82.184])
-        by gmr-mx.google.com with ESMTPS id nw7-20020a17090b254700b0027691d39091si690634pjb.2.2023.10.09.18.52.25
+       dkim=pass header.i=@intel.com header.s=Intel header.b="T/+IDaum";
+       spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=kirill.shutemov@linux.intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.7])
+        by gmr-mx.google.com with ESMTPS id d7-20020a056512368700b004fe3ba741c8si456677lfs.8.2023.10.09.22.37.32
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Oct 2023 18:52:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of haibo.li@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
-X-UUID: a547ced8670f11ee8051498923ad61e6-20231010
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32,REQID:3ad6d434-5716-4d22-8262-c4f4dd7bc0bd,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:5f78ec9,CLOUDID:36329cf0-9a6e-4c39-b73e-f2bc08ca3dc5,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:817|102,TC:nil,Content:0|-5,EDM:-3,I
-	P:nil,URL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
-	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 1,FCT|NGT
-X-CID-BAS: 1,FCT|NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: a547ced8670f11ee8051498923ad61e6-20231010
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw02.mediatek.com
-	(envelope-from <haibo.li@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 825313921; Tue, 10 Oct 2023 09:52:19 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 10 Oct 2023 09:52:17 +0800
-Received: from mszsdtlt102.gcn.mediatek.inc (10.16.4.142) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 10 Oct 2023 09:52:17 +0800
-From: "'Haibo Li' via kasan-dev" <kasan-dev@googlegroups.com>
-To: <akpm@linux-foundation.org>
-CC: <andreyknvl@gmail.com>, <angelogioacchino.delregno@collabora.com>,
-	<dvyukov@google.com>, <glider@google.com>, <haibo.li@mediatek.com>,
-	<kasan-dev@googlegroups.com>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-mm@kvack.org>, <matthias.bgg@gmail.com>, <ryabinin.a.a@gmail.com>,
-	<vincenzo.frascino@arm.com>, <xiaoming.yu@mediatek.com>, <jannh@google.com>
-Subject: Re: [PATCH v2] kasan:print the original fault addr when access invalid shadow
-Date: Tue, 10 Oct 2023 09:52:16 +0800
-Message-ID: <20231010015216.67121-1-haibo.li@mediatek.com>
-X-Mailer: git-send-email 2.34.3
-In-Reply-To: <20231009170031.a294c11575d5d4941b8596a9@linux-foundation.org>
-References: <20231009170031.a294c11575d5d4941b8596a9@linux-foundation.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 09 Oct 2023 22:37:33 -0700 (PDT)
+Received-SPF: none (google.com: linux.intel.com does not designate permitted sender hosts) client-ip=192.198.163.7;
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="5871660"
+X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
+   d="scan'208";a="5871660"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 22:37:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10858"; a="1000541347"
+X-IronPort-AV: E=Sophos;i="6.03,211,1694761200"; 
+   d="scan'208";a="1000541347"
+Received: from geigerri-mobl.ger.corp.intel.com (HELO box.shutemov.name) ([10.252.41.165])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2023 22:37:26 -0700
+Received: by box.shutemov.name (Postfix, from userid 1000)
+	id D7AFB10A196; Tue, 10 Oct 2023 08:37:23 +0300 (+03)
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>
+Cc: x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Fei Yang <fei.yang@intel.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] x86/alternatives: Disable KASAN on text_poke_early() in apply_alternatives()
+Date: Tue, 10 Oct 2023 08:37:16 +0300
+Message-ID: <20231010053716.2481-1-kirill.shutemov@linux.intel.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-MTK: N
-X-Original-Sender: haibo.li@mediatek.com
+X-Original-Sender: kirill.shutemov@linux.intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@mediatek.com header.s=dk header.b=ZTqiasz2;       spf=pass
- (google.com: domain of haibo.li@mediatek.com designates 210.61.82.184 as
- permitted sender) smtp.mailfrom=haibo.li@mediatek.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
-X-Original-From: Haibo Li <haibo.li@mediatek.com>
-Reply-To: Haibo Li <haibo.li@mediatek.com>
+ header.i=@intel.com header.s=Intel header.b="T/+IDaum";       spf=none
+ (google.com: linux.intel.com does not designate permitted sender hosts)
+ smtp.mailfrom=kirill.shutemov@linux.intel.com;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=intel.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,97 +153,106 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-> On Mon, 9 Oct 2023 15:37:48 +0800 Haibo Li <haibo.li@mediatek.com> wrote:
+Fei has reported that KASAN triggers during apply_alternatives() on
+5-level paging machine:
 
-> 
+	BUG: KASAN: out-of-bounds in rcu_is_watching (./arch/x86/include/asm/atomic.h:23 ./include/linux/atomic/atomic-arch-fallback.h:444 ./include/linux/context_tracking.h:122 kernel/rcu/tree.c:699)
+	Read of size 4 at addr ff110003ee6419a0 by task swapper/0/0
 
-> > when the checked address is illegal,the corresponding shadow address
+	CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.6.0-rc5 #12
+	Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 0.0.0 02/06/2015
+	Call Trace:
+	<TASK>
+	dump_stack_lvl (lib/dump_stack.c:107)
+	print_report (mm/kasan/report.c:365 mm/kasan/report.c:475)
+	? __phys_addr (arch/x86/mm/physaddr.h:7 arch/x86/mm/physaddr.c:28)
+	? kasan_addr_to_slab (./include/linux/mm.h:1265 (discriminator 1) mm/kasan/../slab.h:213 (discriminator 1) mm/kasan/common.c:36 (discriminator 1))
+	kasan_report (mm/kasan/report.c:590)
+	? rcu_is_watching (./arch/x86/include/asm/atomic.h:23 ./include/linux/atomic/atomic-arch-fallback.h:444 ./include/linux/context_tracking.h:122 kernel/rcu/tree.c:699)
+	? rcu_is_watching (./arch/x86/include/asm/atomic.h:23 ./include/linux/atomic/atomic-arch-fallback.h:444 ./include/linux/context_tracking.h:122 kernel/rcu/tree.c:699)
+	? apply_alternatives (arch/x86/kernel/alternative.c:415 (discriminator 1))
+	__asan_load4 (mm/kasan/generic.c:259)
+	rcu_is_watching (./arch/x86/include/asm/atomic.h:23 ./include/linux/atomic/atomic-arch-fallback.h:444 ./include/linux/context_tracking.h:122 kernel/rcu/tree.c:699)
+	? text_poke_early (./arch/x86/include/asm/irqflags.h:42 ./arch/x86/include/asm/irqflags.h:77 ./arch/x86/include/asm/irqflags.h:135 arch/x86/kernel/alternative.c:1675)
+	trace_hardirqs_on (./include/trace/events/preemptirq.h:40 (discriminator 2) ./include/trace/events/preemptirq.h:40 (discriminator 2) kernel/trace/trace_preemptirq.c:56 (discriminator 2))
+	? __asan_load4 (./arch/x86/include/asm/cpufeature.h:171 mm/kasan/kasan.h:306 mm/kasan/generic.c:175 mm/kasan/generic.c:259)
+	text_poke_early (./arch/x86/include/asm/irqflags.h:42 ./arch/x86/include/asm/irqflags.h:77 ./arch/x86/include/asm/irqflags.h:135 arch/x86/kernel/alternative.c:1675)
+	apply_alternatives (arch/x86/kernel/alternative.c:415 (discriminator 1))
+	? __asan_load4 (./arch/x86/include/asm/cpufeature.h:171 mm/kasan/kasan.h:306 mm/kasan/generic.c:175 mm/kasan/generic.c:259)
+	? __pfx_apply_alternatives (arch/x86/kernel/alternative.c:400)
+	? __pfx_apply_returns (arch/x86/kernel/alternative.c:720)
+	? __this_cpu_preempt_check (lib/smp_processor_id.c:67)
+	? _sub_I_65535_1 (init/main.c:1573)
+	? int3_selftest_ip (arch/x86/kernel/alternative.c:1496)
+	? __pfx_int3_selftest (arch/x86/kernel/alternative.c:1496)
+	? lockdep_hardirqs_on (kernel/locking/lockdep.c:4422)
+	? fpu__init_cpu_generic (./arch/x86/include/asm/irqflags.h:42 ./arch/x86/include/asm/irqflags.h:77 ./arch/x86/include/asm/irqflags.h:135 ./arch/x86/include/asm/tlbflush.h:47 arch/x86/kernel/fpu/init.c:30)
+	alternative_instructions (arch/x86/kernel/alternative.c:1618)
+	arch_cpu_finalize_init (arch/x86/kernel/cpu/common.c:2404)
+	start_kernel (init/main.c:1037)
+	x86_64_start_reservations (arch/x86/kernel/head64.c:544)
+	x86_64_start_kernel (arch/x86/kernel/head64.c:486 (discriminator 5))
+	secondary_startup_64_no_verify (arch/x86/kernel/head_64.S:433)
+	</TASK>
 
-> > from kasan_mem_to_shadow may have no mapping in mmu table.
+	The buggy address belongs to the physical page:
+	page:(____ptrval____) refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x3ee641
+	flags: 0x20000000004000(reserved|node=0|zone=2)
+	page_type: 0xffffffff()
+	raw: 0020000000004000 ffd400000fb99048 ffd400000fb99048 0000000000000000
+	raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
+	page dumped because: kasan: bad access detected
 
-> > Access such shadow address causes kernel oops.
+	Memory state around the buggy address:
+	ff110003ee641880: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+	ff110003ee641900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+	>ff110003ee641980: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+	^
+	ff110003ee641a00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+	ff110003ee641a80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
-> > Here is a sample about oops on arm64(VA 39bit) 
+On machines with 5-level paging, cpu_feature_enabled(X86_FEATURE_LA57)
+got patched. It includes KASAN code, where KASAN_SHADOW_START depends on
+__VIRTUAL_MASK_SHIFT, which is defined with the cpu_feature_enabled().
 
-> > with KASAN_SW_TAGS and KASAN_OUTLINE on:
+It seems that KASAN gets confused when apply_alternatives() patches the
+KASAN_SHADOW_START users. A test patch that makes KASAN_SHADOW_START
+static, by replacing __VIRTUAL_MASK_SHIFT with 56, fixes the issue.
 
-> > 
+During text_poke_early() in apply_alternatives(), KASAN should be
+disabled. KASAN is already disabled in non-_early() text_poke().
 
-> > [ffffffb80aaaaaaa] pgd=000000005d3ce003, p4d=000000005d3ce003,
+It is unclear why the issue was not reported earlier. Bisecting does not
+help. Older kernels trigger the issue less frequently, but it still
+occurs. In the absence of any other clear offenders, the initial dynamic
+5-level paging support is to blame.
 
-> >     pud=000000005d3ce003, pmd=0000000000000000
+Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Reported-by: Fei Yang <fei.yang@intel.com>
+Fixes: 6657fca06e3f ("x86/mm: Allow to boot without LA57 if CONFIG_X86_5LEVEL=y")
+Cc: stable@vger.kernel.org
+---
+ arch/x86/kernel/alternative.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-> > Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
-
-> > Modules linked in:
-
-> > CPU: 3 PID: 100 Comm: sh Not tainted 6.6.0-rc1-dirty #43
-
-> > Hardware name: linux,dummy-virt (DT)
-
-> > pstate: 80000005 (Nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-
-> > pc : __hwasan_load8_noabort+0x5c/0x90
-
-> > lr : do_ib_ob+0xf4/0x110
-
-> > ffffffb80aaaaaaa is the shadow address for efffff80aaaaaaaa.
-
-> > The problem is reading invalid shadow in kasan_check_range.
-
-> > 
-
-> > The generic kasan also has similar oops.
-
-> > 
-
-> > It only reports the shadow address which causes oops but not
-
-> > the original address.
-
-> > 
-
-> > Commit 2f004eea0fc8("x86/kasan: Print original address on #GP")
-
-> > introduce to kasan_non_canonical_hook but limit it to KASAN_INLINE.
-
-> > 
-
-> > This patch extends it to KASAN_OUTLINE mode.
-
-> 
-
-> Is 2f004eea0fc8 a suitable Fixes: target for this?  If not, what is?
-
-> 
-
-Yes, 2f004eea0fc8 is a suitable fix.
-
-All we need is a better crash report for this case.
-
-After commit 2f004eea0fc8 and commit 
-
-07b742a4d912 ("arm64: mm: log potential KASAN shadow alias"),
-
-it is easy to understand the original address when
-
- out-of-bounds KASAN shadow accesses occur.
-
-Currently, this feature is only available for the KASAN_INLINE case.
-
-As Jann said, it is also suitable for the KASAN_OUTLINE case.
-
-
-
-> Also, I'm assuming that we want to backport this fix into earlier
-
-> kernel versions?
-
-My opinion:
-
- As it is to improve crash report,there is no requirement to backport.
+diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
+index 517ee01503be..56187fd8816e 100644
+--- a/arch/x86/kernel/alternative.c
++++ b/arch/x86/kernel/alternative.c
+@@ -450,7 +450,9 @@ void __init_or_module noinline apply_alternatives(struct alt_instr *start,
+ 		DUMP_BYTES(ALT, replacement, a->replacementlen, "%px:   rpl_insn: ", replacement);
+ 		DUMP_BYTES(ALT, insn_buff, insn_buff_sz, "%px: final_insn: ", instr);
+ 
++		kasan_disable_current();
+ 		text_poke_early(instr, insn_buff, insn_buff_sz);
++		kasan_enable_current();
+ 	}
+ }
+ 
+-- 
+2.41.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231010015216.67121-1-haibo.li%40mediatek.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231010053716.2481-1-kirill.shutemov%40linux.intel.com.
