@@ -1,145 +1,144 @@
-Return-Path: <kasan-dev+bncBDA65OGK5ABRBEUWWGUQMGQE3O47JZQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDA65OGK5ABRBGU2WGUQMGQEMXPIDDQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9686F7C9B78
-	for <lists+kasan-dev@lfdr.de>; Sun, 15 Oct 2023 22:26:59 +0200 (CEST)
-Received: by mail-wm1-x33a.google.com with SMTP id 5b1f17b1804b1-406710d9a4asf27692945e9.2
-        for <lists+kasan-dev@lfdr.de>; Sun, 15 Oct 2023 13:26:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1697401619; cv=pass;
+Received: from mail-qv1-xf3f.google.com (mail-qv1-xf3f.google.com [IPv6:2607:f8b0:4864:20::f3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE8E7C9B89
+	for <lists+kasan-dev@lfdr.de>; Sun, 15 Oct 2023 22:35:40 +0200 (CEST)
+Received: by mail-qv1-xf3f.google.com with SMTP id 6a1803df08f44-66acad63d74sf48730526d6.3
+        for <lists+kasan-dev@lfdr.de>; Sun, 15 Oct 2023 13:35:40 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1697402139; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ikFWP092V7M3Wu/Y5Gn4ViclL97COO1QiwQAtvGQGRt3rGNWGUnP/DnyG908u48hy/
-         EoNC39WipT0qRkZbgmG4qZp+qUjEKjyA4eQO/Np2+bCc6UZ24k1mGjZ2wdSvwoBZIv1m
-         J+UurDOUnkNdd7WaS6vxBKbFdfswB4JQaKa3XpCEBqZ+MdfLq6UH0Oe8/sEwvuDUkh2i
-         eX9t+GLHCjPzs0Up/sWteQgSNkNPNKvAvxXE2pkqVqlmHfgIoE5t2rhiJ5/DwZfzoylZ
-         TnWx9IsRXAQujqqGxPxV6YCQE9CI4Vz07ST4tFSDDVm55pOWy+UVORTbVHQ3ZDOhfokj
-         eTFg==
+        b=RUq8n8cHjF4y6rblayT/FVDP38vbfE6XWvej3mSknIlSXtvjzagnqdcp8Vy4xIeaAs
+         zzvtywiSlhNYPuuycbO9xYY9lXycTeNHHVFnqOo2fUcFrgJmxtzL8HbrBv6zBLqcNpk1
+         NjXVYO6gIlnIS6s6QmEA6o5f9Tx6FhHhfGqGWRyzie8dyHAqOH9PoPcOgoc63q8czuPH
+         XVTifE4k2JGNsAwUL4TCN6tqJip3GpjaHAXbhahZ/9wIxYcYo6ccaTgx1tlRowdEoCHy
+         +xUmgVNE5lwMeFvse645Bymw1RPI538Zg6DQdo82Ih+dRZvUu3fWk7Qg1WhR98MzT68w
+         gvKA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature:dkim-signature;
-        bh=oF+PmZjcuDLUMbBoQBp7voxRDTr8Ryecbc0i4u+4X5M=;
-        fh=8wIzoGKF/8WwnpUbhDb2usV0+hxy+4E6rjXfhoczKno=;
-        b=LnphdLYl2RwzHFlO8KfCqiIFYvF7qo/jkEQsw9aEvHrxQ68y39pKUTs0nKipsnDCBr
-         O3j5lVPGZo+UOPxLUa9wo9+L5ZwcPn2JUR67sPEHajpIzWsIN1Ync1ceRJGWbenfJNPg
-         YEyjeVWE/7Qu1vGo2+xs6P7/dlsIEA/FLtFwdnFn6nz0VGsXzqdDsxotHz8VvdFZQxEJ
-         XT1Acg3aPMy74LHdkHTufjzQooi/pzhx5vbv60Cfme1474+XhNKiIDRW5LKD6hh7wGF1
-         jyI61k0ohdraXppfiP56XT09YIhccX+TdiuBq+cEIFmuyBBn65W5gDpHpmLC9wnXfvbY
-         H+9Q==
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=FmkT+/lMnxDG8i/dTAyEQjLHljOPFMY3J8E94Bh4/4U=;
+        fh=dzDjLnSBpiWteN3VeVwQViw99DTJGyKI7iTcYcsotVc=;
+        b=JD/F27KRLSdUcVP3gV+ZrLNRfdErapktOGsBtGEjynD37mLo5In/NYlTxKCh7FCgwZ
+         U/BsWDtvQud3KYafe58yIaP8RBM8yBsLbFnI+WPzi1kqInEozPiU6zOQHeypa94XpzEG
+         mrmePT3WTgm3S+bREgwk41wKYbTTDkJB+xtEN8aOmNZn0w01YkiXDgj6VnBjns2Jd/Ic
+         kzbcXmex0sbTPgYrGh3n+XmS9QuSEy0aUATP5ChlCLnvYt0HAUKKPomFGdWi8J3ebIB+
+         L+3p6UvcNawlCAfc7OurEtK6N0lUB6zGA4wmPyBibvEsKhpMDJ3BwY0g4vLeGYd6V8Xi
+         6h9Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y8vmicA1;
-       spf=pass (google.com: domain of pedro.falcato@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) smtp.mailfrom=pedro.falcato@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=BRREXwUK;
+       spf=pass (google.com: domain of pedro.falcato@gmail.com designates 2607:f8b0:4864:20::a29 as permitted sender) smtp.mailfrom=pedro.falcato@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1697401619; x=1698006419; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1697402139; x=1698006939; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=oF+PmZjcuDLUMbBoQBp7voxRDTr8Ryecbc0i4u+4X5M=;
-        b=ctpfMWUZKk4dnGkOrBBh8Bc51DT6AECAmC1GDKskPNCZU4Y4ERXhiMN1uF/CRfELws
-         tVw3hhtdwPTuG1ixK0BpB4wotHs/jzMuwc8g2jLhN8yTpRLvwjY7KpjOwVVvlCmjEe65
-         P6nAFEqIu98SF/eWzly3ytCXcp8S+l0x+1IRpPHMb1BXdJ+ZO3YLW4vP/ZGELtyaKwYs
-         bu3j6aNaNt9ksDJElHIPmEI/oefQXICTOVQln0dncySnRrdreXWCgUwrgrgnf4YRW1/R
-         QtZTWZrL6SNIi8O3FLRyuscSX+CASmonJNKoEt+VnczX/FbwaiGw7C1Wc3uARXb8xLC7
-         liMg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697401619; x=1698006419; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=oF+PmZjcuDLUMbBoQBp7voxRDTr8Ryecbc0i4u+4X5M=;
-        b=KFG//oUpGWmer1qYntXrv9UWDHa+5psPp82RM93ziG+3V/QJA6Rv+VRInDgzfLD4W8
-         y416aU+uAY0x304UT6ySmUxUmaIOHyE2wvKDxHMFrap+gK54e0cP3nCEem2c9GcaAP5T
-         ke7AKC3uvvPLkDTeaBaQxNZTXY3CfbH8YEcTtZ8GWNi9u2ASMQiGKFQqKFRiA27Pjrpw
-         7UWDnnvdbxj0pEMpdhGHVRQvnvfOBrnYy7LU560sIMwbu95GNdooW/5fDF84OnzDk7BA
-         RkS4uoYh9VakvwnCeXz2/hev4vShUSUzT2c2lbAChqOhybWrHpZVROp4P1gpWcOKNbGW
-         UHhw==
+        bh=FmkT+/lMnxDG8i/dTAyEQjLHljOPFMY3J8E94Bh4/4U=;
+        b=xqNmGgrAdIcGQElqbpakH6IKSbHmH6EWEa3CbosmKv8tI0XobbRJVbnEGXgeRNXnY+
+         IS3ZDi46xrBMZphsvIuWnpPJ/hVdXb9xBUUpkpy3kDVjOO+w6cIzXl07Hr7zzO3iBxq5
+         EvdU3a0DnaX9XG4aecmIBbZJGbCXNODcrXyaajTTvqfn4pul21S0RtjeqhVo9nTrO2Mz
+         ihjqsZ5aqGzFPr6sDL1HQb8jy4Vh2xub7DiVSTX9qhRPwqJvQv+rZqONGviWEx6m5UNZ
+         lsD3Y96LCLFKRK+fUi1c/MU+Fmda2W/KZl5LwMKIy7wTYaMI07qqzZ0npYFg9XAVl3QR
+         yYjQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697402139; x=1698006939; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FmkT+/lMnxDG8i/dTAyEQjLHljOPFMY3J8E94Bh4/4U=;
+        b=WhJ3PTSN5ebi7BLaYBAP8d55z1jIM+QACEmh/UqiYKUCWZhmKClLs78P6IPjw9MnSg
+         ZnG+SKcNzHybBYJVaaRR6R8Fhm9Oov1B8QBJpLcztDbyWk1N/vHH4bM8dkhEyyRpnp5l
+         u/6IwS20LpvcDWJbeoJZCEaPS8erlEuAtRzR0kQbAP2lKZnjrf81DfI+nfgGpWixPI9K
+         +x8/T6HMkGkci6XUcslOntj3Z2xHil82yi++kzwUhtz7DU9Sbznt5VJ/+DUwXGIzLEgd
+         LUhscXNdcwFWlRrlnyVu93GrLZIyBo3YDaBcNLZ1gyhXpNXQC4RhvyYS8L/VW5D6zji0
+         kdXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697401619; x=1698006419;
+        d=1e100.net; s=20230601; t=1697402139; x=1698006939;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=oF+PmZjcuDLUMbBoQBp7voxRDTr8Ryecbc0i4u+4X5M=;
-        b=cbWKDu74zK1Cllt4OkIOUJhBYiLobDTeYmyOWElhR38uP7AKewbV13Zu6ijPYqjow4
-         6AjfTiIaZwHwBcfGwizfU3BxB1iBX7C3/zagGhWegttLqfZG2VlRd24EhbCzm2Qbx8bA
-         wm3Xi88xNbBZAw9+HpaXyJKEuzQ4GpHMLCclfQCvxBe3Ksrfp2LFhmSAn5GCGDz1a9o7
-         QhCphnHWe7hHxHBaJYKBs9DkER1nCPr2bgrWLtS5etEUC+LB2k85Rf9dDTZPRSyrcNjU
-         eqyC9M8RoHFAXNlSZVmlB2PETDTsTPkbCCCsWAk9BJqAfcWpmoFO+TgndhrGsoYWac09
-         8gfg==
+        bh=FmkT+/lMnxDG8i/dTAyEQjLHljOPFMY3J8E94Bh4/4U=;
+        b=kEu53Ymg2ZcAOJ8IkOFAj7B1wL46gGTCGxKSJ3P0xvATG09FKM9Gsxuhn7pPg6GuMD
+         XchxnfpOs1WNgnehL2n/AkWyImoIFQFktycdZAmdiJof7DLWmXkqiy3Oq00Zm1NXpCz3
+         SY9Kqc/pCuROQia5vXrai6nAAA+Ygkp3UMCeXRhNYziigu2SpCqIAhZhkfu20Qp0ykcF
+         eSe2ddA700qvP4ObCDWWMmdG9lV7sUacXAiWoVS0t4BhxS6HdzRD3xdbq/oPYnKiqVtd
+         Payx63tKhFQ+MMn4toB5gswY9a5tJedKZ7fKZfiao94Quo1QWD4LWO/4j9HXDDQrZlhr
+         MmZQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YxTdrAr4X2uhuvuAzOea14Q308ol1u6Eb6dBo+h1SfUSNewBKDm
-	R+iaqOYH/I/UfDzzfeW/PrU=
-X-Google-Smtp-Source: AGHT+IE7TlhcW0bia5WG6DBaQojHVYVsjcN3u3njBRgXn916UBdElun0i+Xfq6u8Cl3mv5FyeoMQXw==
-X-Received: by 2002:a05:600c:b91:b0:406:84cb:b014 with SMTP id fl17-20020a05600c0b9100b0040684cbb014mr26746020wmb.22.1697401618480;
-        Sun, 15 Oct 2023 13:26:58 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yw215p4pX//eDiig7OHGXJvE0RH/lMbjt7csKMZsayAR7OKtFb/
+	DTwMd1UcusRxkoEbG5AaEYg=
+X-Google-Smtp-Source: AGHT+IGNBYqsEvsws9Q+UtKTUs9u5BM4wqoclGyDOsxsFto/RT/+k30UVU3wD9WYvlkMTQkxu7vsKg==
+X-Received: by 2002:a05:6214:21a1:b0:66d:3f56:ec3f with SMTP id t1-20020a05621421a100b0066d3f56ec3fmr5013524qvc.13.1697402138716;
+        Sun, 15 Oct 2023 13:35:38 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:4e8f:b0:406:3989:98ae with SMTP id
- f15-20020a05600c4e8f00b00406398998aels690268wmq.1.-pod-prod-07-eu; Sun, 15
- Oct 2023 13:26:56 -0700 (PDT)
-X-Received: by 2002:a05:600c:2050:b0:405:40c6:2ba4 with SMTP id p16-20020a05600c205000b0040540c62ba4mr27135189wmg.5.1697401616799;
-        Sun, 15 Oct 2023 13:26:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1697401616; cv=none;
+Received: by 2002:a05:6214:1774:b0:65d:592:a279 with SMTP id
+ et20-20020a056214177400b0065d0592a279ls1886732qvb.0.-pod-prod-04-us; Sun, 15
+ Oct 2023 13:35:37 -0700 (PDT)
+X-Received: by 2002:a05:620a:1708:b0:775:7c53:c023 with SMTP id az8-20020a05620a170800b007757c53c023mr39348998qkb.18.1697402137794;
+        Sun, 15 Oct 2023 13:35:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1697402137; cv=none;
         d=google.com; s=arc-20160816;
-        b=0M1Oh21mK1sSbghGI9tAqaZRAd1xWFgaS38RGMfE8doDVFYptLlP/9QuH3xGe57Quz
-         WmuGPgOuQpLqybZNR2vKM3xoTZLJnGnH1EqQO18okTSJEbP4VMacZaDLeXdpwVWJshQV
-         6Ag/BYrCkyuJnqZqEmzlc0d82SKRL4FvDfBEaJ9IInRm+jg05GMEgw002HyoAaDOZnK7
-         uInoe603okphpC66lwFea+gpCL/abtmkcSvY+f59iTUdRRtDdLaJ4ysPxib5BAcdRgqE
-         TLJ++JtPDYYxmpknoxiG8bTRqDRGlcFHJyELj4fTL3TY02O0Wcaln0DqwXow090z9DSG
-         nVJQ==
+        b=MmYCzRLlU6x4iQTOJa/9vAs1KhICNZC+VVZVM9PQg9iCyarFoh6sU9/EfaNHSD3Yzw
+         1SLhmbUKTGw18r8EtTevhPRtF4s2wag5vt1pUIoJcClCEJIZncYLJkTuYSPMnC+zR7Dx
+         GA+tZJ5I61dS+XwzKbGdzazZuT0MlJ4mMRSUS2kRmq/Myod48riHmyfeLnrF6Mt9XvGo
+         vE6HQv9q4f2tptJJ1kSlVjDRd2hEAlutM6z2OVpgJRO1Xl+Bp5nzdyF5yuhZ+6ONnUsL
+         rbrtAxAeFDE46QRvP/V9bcLF5Zn+LUQCWkNXaN0dIPJe8mrwxYq7j3wgUrgzW9aGA7iL
+         N4xQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=9mJQUt7Wf0+dPq/8JTeI94cIlxhXMv5ZBTCjETmdTqU=;
-        fh=8wIzoGKF/8WwnpUbhDb2usV0+hxy+4E6rjXfhoczKno=;
-        b=f/Qp1hIVWuS7rwixsUee5WWD8Q++WaDKfe52+knROgKw2nKnZRHzEjyEzxKtznnR8Z
-         fTTrB6KQtYpx3yn6d4Y/wPMxNFYjVWndlYvgdIwDAXAr77Oe8ULgoFeDh6E7SxDuvSly
-         hvRX5p1uqEFl7EDBhe3FhWpeRO26jypbbLt0Wa2zR05G6aWE0CE727GtKs7jissXxKiZ
-         PxFSO4ryU+J50GtHdVINgiavGUzi6SYyVUc0EqSFMidwMYrPuxi0UScCe9T2/LPK4X4x
-         WfL2PT8umsOVekJ61490oYoM4XKXH1iVlK38iCYFOcA3dPM5lxQr5NuJmBmx+0uUeHGt
-         O2IA==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=KUi6hE5CuO5LVhmusvTHYPNNPWcnkaNQ7utVUkV5A98=;
+        fh=dzDjLnSBpiWteN3VeVwQViw99DTJGyKI7iTcYcsotVc=;
+        b=fPlmdOTDiYsqZTfTeYGHj4i85Q2xjrOW5KTKNt/rmok8zwHm9j7KFbsV21ZcdnbEeR
+         fXnTKP8OgXvss9NUSO1srZ20BenMAOil49xa8dGItAOwA5S1l8W1xnR97AaEowN+ctCd
+         CTAePwIE0jXqPqzMMNAhR6MZiZjsmBSQgbeber6DhgaLYFyjtvq6/lalLxSJ5tbhZRjE
+         bSu10dFHr4J4X9EYeV0tEQ3gsrJvY8qRp3DlJqAz51/COG7Ao2mMjabH5dhGfwjQXV8O
+         tQzlDkrkHAjBqmuy9bllFMjiwNrk2hDCYh+ZfQ25uVjHbkh3bv2gW8FyCm8RfyN4jx/m
+         vXmw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y8vmicA1;
-       spf=pass (google.com: domain of pedro.falcato@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) smtp.mailfrom=pedro.falcato@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=BRREXwUK;
+       spf=pass (google.com: domain of pedro.falcato@gmail.com designates 2607:f8b0:4864:20::a29 as permitted sender) smtp.mailfrom=pedro.falcato@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com. [2a00:1450:4864:20::433])
-        by gmr-mx.google.com with ESMTPS id bd7-20020a05600c1f0700b004045b3248b8si177942wmb.0.2023.10.15.13.26.56
+Received: from mail-vk1-xa29.google.com (mail-vk1-xa29.google.com. [2607:f8b0:4864:20::a29])
+        by gmr-mx.google.com with ESMTPS id dv22-20020a05620a1b9600b0077576de1665si384190qkb.3.2023.10.15.13.35.37
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Oct 2023 13:26:56 -0700 (PDT)
-Received-SPF: pass (google.com: domain of pedro.falcato@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) client-ip=2a00:1450:4864:20::433;
-Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-323168869daso3686056f8f.2
-        for <kasan-dev@googlegroups.com>; Sun, 15 Oct 2023 13:26:56 -0700 (PDT)
-X-Received: by 2002:a05:6000:1189:b0:321:6936:c217 with SMTP id g9-20020a056000118900b003216936c217mr26180665wrx.14.1697401615768;
-        Sun, 15 Oct 2023 13:26:55 -0700 (PDT)
-Received: from PC-PEDRO-ARCH.lan ([2001:8a0:7280:5801:9441:3dce:686c:bfc7])
-        by smtp.gmail.com with ESMTPSA id u1-20020adfa181000000b0032da49e18fasm4303429wru.23.2023.10.15.13.26.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Oct 2023 13:26:55 -0700 (PDT)
-From: Pedro Falcato <pedro.falcato@gmail.com>
-To: kasan-dev@googlegroups.com,
-	Alexander Potapenko <glider@google.com>
-Cc: Marco Elver <elver@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Pedro Falcato <pedro.falcato@gmail.com>
-Subject: [PATCH] mm: kmsan: Panic on failure to allocate early boot metadata
-Date: Sun, 15 Oct 2023 21:26:50 +0100
-Message-ID: <20231015202650.85777-1-pedro.falcato@gmail.com>
-X-Mailer: git-send-email 2.42.0
+        Sun, 15 Oct 2023 13:35:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of pedro.falcato@gmail.com designates 2607:f8b0:4864:20::a29 as permitted sender) client-ip=2607:f8b0:4864:20::a29;
+Received: by mail-vk1-xa29.google.com with SMTP id 71dfb90a1353d-49e15724283so1228428e0c.1
+        for <kasan-dev@googlegroups.com>; Sun, 15 Oct 2023 13:35:37 -0700 (PDT)
+X-Received: by 2002:a67:e006:0:b0:457:c57c:ef13 with SMTP id
+ c6-20020a67e006000000b00457c57cef13mr4889967vsl.31.1697402137240; Sun, 15 Oct
+ 2023 13:35:37 -0700 (PDT)
 MIME-Version: 1.0
+References: <20231015202650.85777-1-pedro.falcato@gmail.com>
+In-Reply-To: <20231015202650.85777-1-pedro.falcato@gmail.com>
+From: Pedro Falcato <pedro.falcato@gmail.com>
+Date: Sun, 15 Oct 2023 21:35:26 +0100
+Message-ID: <CAKbZUD01au=HoDe=yXSLtxJgYdivZccqqBfpmnmQ04R1Y1orvg@mail.gmail.com>
+Subject: Re: [PATCH] mm: kmsan: Panic on failure to allocate early boot metadata
+To: kasan-dev@googlegroups.com, Alexander Potapenko <glider@google.com>
+Cc: Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: pedro.falcato@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=Y8vmicA1;       spf=pass
- (google.com: domain of pedro.falcato@gmail.com designates 2a00:1450:4864:20::433
+ header.i=@gmail.com header.s=20230601 header.b=BRREXwUK;       spf=pass
+ (google.com: domain of pedro.falcato@gmail.com designates 2607:f8b0:4864:20::a29
  as permitted sender) smtp.mailfrom=pedro.falcato@gmail.com;       dmarc=pass
  (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,47 +151,56 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Given large enough allocations and a machine with low enough memory (i.e
-a default QEMU VM), it's entirely possible that
-kmsan_init_alloc_meta_for_range's shadow+origin allocation fails.
+On Sun, Oct 15, 2023 at 9:26=E2=80=AFPM Pedro Falcato <pedro.falcato@gmail.=
+com> wrote:
+>
+> Given large enough allocations and a machine with low enough memory (i.e
+> a default QEMU VM), it's entirely possible that
+> kmsan_init_alloc_meta_for_range's shadow+origin allocation fails.
 
-Instead of eating a NULL deref kernel oops, check explicitly for memblock_alloc()
-failure and panic with a nice error message.
+Ugh, forgot to run checkpatch.pl until it was too late :/
 
-Signed-off-by: Pedro Falcato <pedro.falcato@gmail.com>
----
- mm/kmsan/shadow.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+> Instead of eating a NULL deref kernel oops, check explicitly for memblock=
+_alloc()
 
-diff --git a/mm/kmsan/shadow.c b/mm/kmsan/shadow.c
-index 87318f9170f..3dae3d9c0b3 100644
---- a/mm/kmsan/shadow.c
-+++ b/mm/kmsan/shadow.c
-@@ -285,12 +285,18 @@ void __init kmsan_init_alloc_meta_for_range(void *start, void *end)
- 	size = PAGE_ALIGN((u64)end - (u64)start);
- 	shadow = memblock_alloc(size, PAGE_SIZE);
- 	origin = memblock_alloc(size, PAGE_SIZE);
-+
-+	if (!shadow || !origin)
-+		panic("%s: Failed to allocate metadata memory for early boot range "
-+		      "of size %llu",
-+		      __func__, size);
-+
- 	for (u64 addr = 0; addr < size; addr += PAGE_SIZE) {
- 		page = virt_to_page_or_null((char *)start + addr);
--		shadow_p = virt_to_page_or_null((char *)shadow + addr);
-+		shadow_p = virt_to_page((char *)shadow + addr);
- 		set_no_shadow_origin_page(shadow_p);
- 		shadow_page_for(page) = shadow_p;
--		origin_p = virt_to_page_or_null((char *)origin + addr);
-+		origin_p = virt_to_page((char *)origin + addr);
- 		set_no_shadow_origin_page(origin_p);
- 		origin_page_for(page) = origin_p;
- 	}
--- 
-2.42.0
+If there's no need for a v2, please wrap the above line and...
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231015202650.85777-1-pedro.falcato%40gmail.com.
+> failure and panic with a nice error message.
+>
+> Signed-off-by: Pedro Falcato <pedro.falcato@gmail.com>
+> ---
+>  mm/kmsan/shadow.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+>
+> diff --git a/mm/kmsan/shadow.c b/mm/kmsan/shadow.c
+> index 87318f9170f..3dae3d9c0b3 100644
+> --- a/mm/kmsan/shadow.c
+> +++ b/mm/kmsan/shadow.c
+> @@ -285,12 +285,18 @@ void __init kmsan_init_alloc_meta_for_range(void *s=
+tart, void *end)
+>         size =3D PAGE_ALIGN((u64)end - (u64)start);
+>         shadow =3D memblock_alloc(size, PAGE_SIZE);
+>         origin =3D memblock_alloc(size, PAGE_SIZE);
+> +
+> +       if (!shadow || !origin)
+> +               panic("%s: Failed to allocate metadata memory for early b=
+oot range "
+> +                     "of size %llu",
+
+unwrap this string like this:
+    "%s: Failed to allocate metadata memory for early boot range of size %l=
+lu",
+
+Silly mistake...
+
+--=20
+Pedro
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAKbZUD01au%3DHoDe%3DyXSLtxJgYdivZccqqBfpmnmQ04R1Y1orvg%40mail.gm=
+ail.com.
