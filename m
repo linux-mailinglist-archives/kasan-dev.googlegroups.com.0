@@ -1,142 +1,188 @@
-Return-Path: <kasan-dev+bncBCRKFI7J2AJRBSGRX6UQMGQEJG2C2OI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBF7VX6UQMGQEN4KOJIA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 743BC7CDF15
-	for <lists+kasan-dev@lfdr.de>; Wed, 18 Oct 2023 16:16:42 +0200 (CEST)
-Received: by mail-il1-x140.google.com with SMTP id e9e14a558f8ab-35760da0842sf28685535ab.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 18 Oct 2023 07:16:42 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1697638601; cv=pass;
+Received: from mail-qv1-xf3f.google.com (mail-qv1-xf3f.google.com [IPv6:2607:f8b0:4864:20::f3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA88B7CE139
+	for <lists+kasan-dev@lfdr.de>; Wed, 18 Oct 2023 17:32:40 +0200 (CEST)
+Received: by mail-qv1-xf3f.google.com with SMTP id 6a1803df08f44-66d08175882sf62596466d6.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 18 Oct 2023 08:32:40 -0700 (PDT)
+ARC-Seal: i=3; a=rsa-sha256; t=1697643159; cv=pass;
         d=google.com; s=arc-20160816;
-        b=FHrovIRj/oeFF43Gk3kAz2V98MY6yDx/Fr5ZLsQSJiLgvFcyafuFoXPajv36BMdJ8u
-         AztgPlyhoXF9bnfdP4njxms3rqMMavPcbg7U//xOL4shU2X8fow6XflI2IOama9C9Nsm
-         iNnYpUwGoplB/Rrebhb2Xfa5Y/3T09vFf4ne3Hy1fVXB+xjWnTf+cPxPWbe50rCrMMwB
-         hu6iz0Qh6WmzjFjWcBBqOLe8OO+tlw6hp+7/iYcyejNqmYS9x8JfeG/I63jeXgTBSD9L
-         zhDH3I2OPBOwlHcLG0xCwPu+JVbDV80KGRey6XUvgY/uNr4vAOHuoPOn0CI9TSVRUtxn
-         Gm1Q==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=COdxmoW/4NEjyhvfXDMFXDst+daZlp2t/rdfm9qeDAV0mqvSL32v4aAyTHsu2SKP/u
+         OrF3i3OhHBPr2gRRNTa9kumu2QIJBduhp1xSheNrkLD4BZ6jNw6dlxyql4cpzCjYyAP8
+         jPzgmGUQ6V2J2tndORu8lMRJW9kt7H60m9qIhCE65eXHfJBpT8wLlqp6PmkmQyxtm2oH
+         BrOINksEVPtdLTyKvbZtImOr2edScdTJgCGrMnxiCsKg6Wded1/czs2b1bSfGif22RQq
+         l63SRSsmvOhcj80J6r2zJoGaIqawVGA9FQCobUO00b70rgc5Pd3JH7JZojXJUjOZglVO
+         CMFQ==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :in-reply-to:references:to:from:content-language:subject:user-agent
-         :mime-version:date:message-id:dkim-signature;
-        bh=A7wruSdijyS2GwkyS4GOv3W6fRVVqKP+6DFB+cdyUdI=;
-        fh=IgWjnRjx/pelTxM5QYMkMq87TSCzEaYU6LtbrTlFROI=;
-        b=cBUw1ltFZMesLoz3Gz7ijTrIcPMLjrMA++MipU0b66ImjqPwHFZnlK3BM4LHTgUyeo
-         hA3SpVbIWo6Y0KXsHh1ock6osvmKF3pzbMD666m45h83dn4Ctvp64RWgNP9ldeCAVsTy
-         SkVz2F5smzN/nWOUwPVSG0VP5ppi9E3j+JGaX15RbEeE0c9qqmf/0piJ9LO04yg9Bu3p
-         qi6kCSp3aKs2UANRHl/8x0ZatQQky1QdtsfKj3zH2fzinUTXOyJ4N/A5MJ9q+20prWVG
-         qU+z4aMUBMtuWXrHFXxiv5ncsoTdIVmvDdyBM4m5bw7xN8DpfwaCBBWtYJDS/loJBSBI
-         z9Ww==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=mewZ01MNKSCaOnBsJo2iTfaBkchs7rIPM/7vFtzBruE=;
+        fh=0PnjhOJ24SnMLzYtKNrFO0j0HqDX3SBRyOrM3f29YRM=;
+        b=S4+kVN4qUXTUj2upyZtWRMzU5mfnVUuymsMfT3vb3S2HGhCCqI18HjwG+7aDy54VLd
+         fqWSJgCiYlLjLIhkgcRWbVtEqh6E8WxG27XODTtYbd9giXRz/YwghxaXUCn/PCnO/GxX
+         5dTk857Fto54rNYvbotlffPPyHGZsp8BXxPxnO6Kkj8IRlH2Eu9H1KwTT5TyoKHii8+o
+         8zHmf/Y5f3ReQGYTjrtsW9Bhog33sTVbI52e5zO9V+dSwZ+IMbP8X3Yb/WHyBfdMp8jd
+         apbuKQ3e0kYZ9SRv5U/BCt6F+SxLz8OqIDR86M2BIhhMxReOQsUfvb1bR2yljRPkRymh
+         IaTg==
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@amd.com header.s=selector1 header.b=Cl5teZ2e;
+       arc=pass (i=1 spf=pass spfdomain=amd.com dmarc=pass fromdomain=amd.com);
+       spf=pass (google.com: domain of hamza.mahfooz@amd.com designates 2a01:111:f400:7e89::607 as permitted sender) smtp.mailfrom=Hamza.Mahfooz@amd.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=amd.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1697638601; x=1698243401; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1697643159; x=1698247959; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:references:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=A7wruSdijyS2GwkyS4GOv3W6fRVVqKP+6DFB+cdyUdI=;
-        b=A1BGGBmCL9QkGNAAmLeNwBM5a4SqVBUT82tLmokKbBPs4OFjD1Pecer/mF1fzvAqeE
-         79S54L/FHzu//GMdrzUU/I0GzjWPj1QzCeZq3MbHtGFLK5cmiDGY8HSnNY7BaqjBx9dP
-         r+blajn9BsBa54/nwm5bWv3T5BlvELEeOuhtgheTYS/3o8YK8LQn7mH3MI0k4JGHYBBM
-         INt7lBhIfd9dG85f0dRBAJhPzr/y0vP8l8eQ6CL6iL0NAVmG5YuMrzcUK9x2Ou6c1u9l
-         XrVDqqQ4Ndw81aikYQQmwWg3/iBVfw5qJJankOteTgeAR1DfLX2q7wx18qmaAtd0GSsX
-         m/tA==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mewZ01MNKSCaOnBsJo2iTfaBkchs7rIPM/7vFtzBruE=;
+        b=afA+q5413TLer5PtNhNRIoLTYMaZwHJ5eA6Sp3ztY+c0ThsqRxm+ZdIcfAbPX75G4d
+         cvZedTdgdPXDx+DV8co3eFRjWYb9PSKMAFHrON12BHFqH4oHGgLSyjDtIiXaRTkSxjNm
+         tFULk+D5DEA0horjr4PyQ7mE8HgWDVuODGGm/JBlbAwpu+CeNMfJymQ5H7aZrgUoihxq
+         zLOXCLPCjs2wNiuwMc745rMclAX50kszfuh/GoEboZOHRmQhs9FVHtHSItY0GCLarir4
+         +sAhET08STBjcOY96ZtNH8Bymcd7g4KYB7dnYUcUWGzAqGZby5oS0WHs73AJj5YXAfZQ
+         wUaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697638601; x=1698243401;
+        d=1e100.net; s=20230601; t=1697643159; x=1698247959;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:references:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A7wruSdijyS2GwkyS4GOv3W6fRVVqKP+6DFB+cdyUdI=;
-        b=IKDb63bGk6DsH8ZwbVIUg+f0cTyYir92TTe/PaCRX2kOXMn+lQIds/znSFO6PBD92V
-         Toort1QXNVEwisB8o1cdJuOuj9HnuY7+A2BSPLbRqJJOlzhZid0SsFLWlQ8bAoGXpYS7
-         0Wt/KnprUl13AYS+TD/32USmRHOTe3AE4NkD9RVxQHGFfbFyqQYTnm2kNY/mqpaQGFmD
-         cxZDT60jqLUi0T58neHGhHk1n52o7vf9pUe73n1/HxMSAa9XwD4pyldZILWZEOZjtpTG
-         v9da/eSuN47laV4jIQ/EEK6SN0XqeU9V3S2PoPg2OnlAOBhOvr27wll0mYpvGEmJ9iPw
-         LzHw==
-X-Gm-Message-State: AOJu0YwlxvV1fOu4a4H+6qsnQ18Edhsjwafe3HxT2W8uPBNRpMdINmPj
-	JdnfV7Jc8rNubI6BPVzQAUk=
-X-Google-Smtp-Source: AGHT+IEeSyAMPyg9t4linnGAlxl0qwlhysF13UqvDMkxW8y1tUjU2uI8qQIbrz+C1ElIOXo6fUjKSQ==
-X-Received: by 2002:a05:6e02:145:b0:351:3546:dabe with SMTP id j5-20020a056e02014500b003513546dabemr4723995ilr.0.1697638601051;
-        Wed, 18 Oct 2023 07:16:41 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mewZ01MNKSCaOnBsJo2iTfaBkchs7rIPM/7vFtzBruE=;
+        b=jY7gUDlREUI86obMAGnvbMVxk5Pys2PmSf4+T5wnInCf2rZlyJzGB1n9iAUoR3NCHO
+         fNy47RPW5DuDRnIG4GCSkYJ5EeJEPTl/zeHLZ+IWOFyAWOhJlL5Zn0zQgSf5y7aN/kkn
+         neXeMQ44TDz6Ef9sJEMkSAjrozIvcr56QHfu2OtEQem5TyRnVtmJMlUtVS1zGdLWzDjO
+         9RC4QVYI43Whj1Ac+FkYGkwonJ9QLDttJid5E6myBXKVA7tF5yGn/fR2aaXiDtchNlLe
+         X1r9ybnnTzR8wQtiRnipd1wZDvu5+qCYf8YJq9Ntaqm2ENBaue17q41bXIhqnFs/J8/J
+         c0Nw==
+X-Gm-Message-State: AOJu0YxxTIp6yhVDGjYIA6TxIw1qYCvM6emG+yzEnR6KNZDn+LnHonNo
+	7cS0MUfT6VpNTjIsFzOpojQ=
+X-Google-Smtp-Source: AGHT+IGeGYtpCs+vj8gZvbkUd6GWtECx9w/sxnE/wsE+ey0II4yfYdwbgxekuA6uMTWzPyQdMSPFig==
+X-Received: by 2002:a05:6214:2487:b0:66d:4cb3:b385 with SMTP id gi7-20020a056214248700b0066d4cb3b385mr6533626qvb.22.1697643159585;
+        Wed, 18 Oct 2023 08:32:39 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:ef3:b0:357:a588:bfde with SMTP id
- j19-20020a056e020ef300b00357a588bfdels225805ilk.1.-pod-prod-00-us; Wed, 18
- Oct 2023 07:16:40 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1aad:b0:357:a853:dbd with SMTP id l13-20020a056e021aad00b00357a8530dbdmr1014106ilv.13.1697638600330;
-        Wed, 18 Oct 2023 07:16:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1697638600; cv=none;
+Received: by 2002:a05:6214:43ca:b0:65d:b9b:f30e with SMTP id
+ oi10-20020a05621443ca00b0065d0b9bf30els2763984qvb.0.-pod-prod-03-us; Wed, 18
+ Oct 2023 08:32:39 -0700 (PDT)
+X-Received: by 2002:a05:6122:90d:b0:493:7df9:bcc4 with SMTP id j13-20020a056122090d00b004937df9bcc4mr6039091vka.4.1697643158935;
+        Wed, 18 Oct 2023 08:32:38 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1697643158; cv=pass;
         d=google.com; s=arc-20160816;
-        b=fmlO6lxeiQ/1+7FLRJHLqM96pag3JBxmuhNleIM0EsS9HxS2p7TNED4ESpl4hElCfO
-         F/cJyHjGefiZYf6/+CfZ4kgmqtAOdp3vyvx1hVhB+SvquCbZilrR3m++bL7yZZeRkHAe
-         VoMmPeDXo4Rcdjx4DA9NpUOvsMNnC0CPrKNrF+jvQ8tb4Vx4ps1XkEF7MJrTaKaVlGOx
-         1JFUWDJCe8UnOa+XdVebmuVZ0NCDepgCUwkge6NEu9bXyfBfeeHdRsLbBy2Cy+pmtBn+
-         9EKemkCkL3byYk8GJLlKzZaZOVXqtsVMPyKMBLRZdlP+mMGQPFrTZBnV6hHip06lgRyR
-         KVRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:references:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=ydIkvbS+/6F0j1VegN2jh0ivkiZtXhAF4G/oPjr5WG0=;
-        fh=IgWjnRjx/pelTxM5QYMkMq87TSCzEaYU6LtbrTlFROI=;
-        b=zLaUSu3YWTokuevevLR/pJNQiFkxF+hY5aTjs5Q1EjTSpoHCrz/BsZEn4PP0MZaQon
-         TVCLSljNofmm0U02JrgOYHLAatlU7SyMxU4G6hL3wRPJcZVRg7qzK/qWB2Y0xeuEaZbO
-         6RNKONRIeVXlhJC7qUi4b9UWuqDQtQ8Pa3nbQO0RSUcZRa53KFUpJ/d0WNmTS5JThgdS
-         mku23S7J21EYASstc4yjXOTeLrbrYhBciqWbarMpMoUs+uQy9VSJNRn8h3itmVZLgFIS
-         AK0dCUhosz55HFZLKC/VlA7WghechsWJWaKNbrCjzSTctEuWqjRxmiSlpCBwj95QSuNA
-         3xzQ==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com. [45.249.212.189])
-        by gmr-mx.google.com with ESMTPS id a8-20020a926608000000b003512778fb27si363934ilc.2.2023.10.18.07.16.39
+        b=anXeIoC8PLooJORZqHNAHSoyEwNwpz1oVriUUfpe/SL/d6YJPaIav730Z9hqhlFAej
+         PiZmFr/BhyjFzRnQA8diI5y4uYDvmAKX0W0cV6pAMCeW7g8QEqnTG7XxDfC52tEJlwq5
+         1v2zu5JHYXuaswXxisBMKdf/haQ7GWulzOn+na0ft2YYQ1F1TaiC8080PLpSSUL7QG8s
+         gT/HDw4SxkLbgtZhpL7XcuWVSZ6Ysi0FLAJMiYki/7pi9K38fqTY+QfOhyr69+AKa/4b
+         yAlP05wrhr1G4nOL7s9epxVpEpZKvoCBi49R6Tj/JBLL5i3xkajcnBC/3beuhEzrLQb8
+         Lguw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=t4EGmEG7/6VTSsdQ95kDL3H+dHVvpGu9d8qKc+oIY+I=;
+        fh=0PnjhOJ24SnMLzYtKNrFO0j0HqDX3SBRyOrM3f29YRM=;
+        b=csw7o/Mw46PQLy3X5yyoxmldXVZ35NDUTqQvIt5HhW3ajTJEG5VEBqz2kw8S7YfgUE
+         TkbIyojH0shFaD9GusFBHXnO1vLjbG2wM3meipUmwrLjRO8B9hjVYJO8ShYjv4GpGOOs
+         7OsrB5+4uHoA/W9ucYvCp84bU2wLLwETh3FyX5WAgCt+4kgUgbyBplfTgU3hz5j0Jfmg
+         zTqvVxhGewGRS7HXQQJo9AqgM9uu8zeJsN4zk1u0V2XdhyCYUv2HtXuH/t1cBllM88cC
+         TcplBRu9dcAlVeuQjt7VdlnSNkNoXi+yhYvlmjoBWXmC0ukZI54IIhekMX2itaQzBuiS
+         ihtQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@amd.com header.s=selector1 header.b=Cl5teZ2e;
+       arc=pass (i=1 spf=pass spfdomain=amd.com dmarc=pass fromdomain=amd.com);
+       spf=pass (google.com: domain of hamza.mahfooz@amd.com designates 2a01:111:f400:7e89::607 as permitted sender) smtp.mailfrom=Hamza.Mahfooz@amd.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=amd.com
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on20607.outbound.protection.outlook.com. [2a01:111:f400:7e89::607])
+        by gmr-mx.google.com with ESMTPS id n4-20020a1f7204000000b0049362af6c50si374899vkc.5.2023.10.18.08.32.38
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 18 Oct 2023 07:16:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.189 as permitted sender) client-ip=45.249.212.189;
-Received: from dggpemm100001.china.huawei.com (unknown [172.30.72.57])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4S9Xpk2JxnzLp5f;
-	Wed, 18 Oct 2023 22:11:58 +0800 (CST)
-Received: from [10.174.177.243] (10.174.177.243) by
- dggpemm100001.china.huawei.com (7.185.36.93) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.31; Wed, 18 Oct 2023 22:16:03 +0800
-Message-ID: <dd39cb3e-b184-407d-b74f-5b90a7983c99@huawei.com>
-Date: Wed, 18 Oct 2023 22:16:02 +0800
+        Wed, 18 Oct 2023 08:32:38 -0700 (PDT)
+Received-SPF: pass (google.com: domain of hamza.mahfooz@amd.com designates 2a01:111:f400:7e89::607 as permitted sender) client-ip=2a01:111:f400:7e89::607;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=clNpQy5ZybGfdVjI2sKzIxRKmWpuzX2t0fMpvx+gtGr6SdUPC4mHrXl5pKMa8b8DqLnPfteTwDyz5c0OaQFge4/w+Gsm3R5UvaQxoyDzrGmJs/Vp/F5HCBwwnaUme88ndNW3u6vUA9LRRZc6LsddGgat8OubVIfSJyfaHFDJKMuabd6RkKuprPmBwoMqgb1mlBGxlM1qgl1AIc0Y17eCJJYIjAj/oGjmQXOcvp2IPW596LhXumYxTIGMCK+6n6ZRNhTzJ/6Cc90iilwhunel7douEx4Jh9lha9kABb8qq1h+2E/N/EM6QmyAhs/hrcvNFmdfZZykckfwC+ubAZWyVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t4EGmEG7/6VTSsdQ95kDL3H+dHVvpGu9d8qKc+oIY+I=;
+ b=AgXkfxaz5NN2az36eZOBWUJ3V1J6QcnydNd0R4y148BY+dpzaz/gzvL1G4ExrEUuRJci9+dlt42o331CYIcWJ6bFhCTSKvpJ343JmLh+yRPi3uZ3BEYmIoE9zZfswBfm79Y/p3RuYAJPEgfHfXUY9j8wK4IXdhWoSyCqHuUyt1bwLPC7Edh92FjiCIYZgxcOrMP0EFTa3wnhwg9wl8YzKksp9F72OrfEB/mChcmP0kmOpmYpML5IjbbOTf3BjwA73cHEwcJwIkbaU3wDKmxqbEtL+pAk/Y+pmo1kUEjZlY0baJ4ojqHpKNg1WFHRdAdkm3cW1OE8g31pk7fTRRQjjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+Received: from CH2PR18CA0024.namprd18.prod.outlook.com (2603:10b6:610:4f::34)
+ by IA1PR12MB6018.namprd12.prod.outlook.com (2603:10b6:208:3d6::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.36; Wed, 18 Oct
+ 2023 15:32:33 +0000
+Received: from DS3PEPF000099D6.namprd04.prod.outlook.com
+ (2603:10b6:610:4f:cafe::f0) by CH2PR18CA0024.outlook.office365.com
+ (2603:10b6:610:4f::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6907.21 via Frontend
+ Transport; Wed, 18 Oct 2023 15:32:32 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DS3PEPF000099D6.mail.protection.outlook.com (10.167.17.7) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6907.20 via Frontend Transport; Wed, 18 Oct 2023 15:32:32 +0000
+Received: from hamza-pc.localhost (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 18 Oct
+ 2023 10:32:31 -0500
+From: "'Hamza Mahfooz' via kasan-dev" <kasan-dev@googlegroups.com>
+To: <linux-kernel@vger.kernel.org>
+CC: Rodrigo Siqueira <rodrigo.siqueira@amd.com>, Harry Wentland
+	<harry.wentland@amd.com>, Alex Deucher <alexander.deucher@amd.com>, "Hamza
+ Mahfooz" <hamza.mahfooz@amd.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>, Andrey Konovalov
+	<andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino
+	<vincenzo.frascino@arm.com>, Marco Elver <elver@google.com>, "Nathan
+ Chancellor" <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>, <kasan-dev@googlegroups.com>,
+	<llvm@lists.linux.dev>
+Subject: [PATCH] lib: Kconfig: disable dynamic sanitizers for test builds
+Date: Wed, 18 Oct 2023 11:31:47 -0400
+Message-ID: <20231018153147.167393-1-hamza.mahfooz@amd.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH -rfc 0/3] mm: kasan: fix softlock when populate or
- depopulate pte
-Content-Language: en-US
-From: "'Kefeng Wang' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
-	<glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
-	<dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Andrew
- Morton <akpm@linux-foundation.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>, Lorenzo Stoakes <lstoakes@gmail.com>,
-	<kasan-dev@googlegroups.com>, <linux-mm@kvack.org>
-References: <20230906124234.134200-1-wangkefeng.wang@huawei.com>
- <4e2e075f-b74c-4daf-bf1a-f83fced742c4@huawei.com>
-In-Reply-To: <4e2e075f-b74c-4daf-bf1a-f83fced742c4@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.174.177.243]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm100001.china.huawei.com (7.185.36.93)
-X-CFilter-Loop: Reflected
-X-Original-Sender: wangkefeng.wang@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of wangkefeng.wang@huawei.com designates 45.249.212.189
- as permitted sender) smtp.mailfrom=wangkefeng.wang@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: Kefeng Wang <wangkefeng.wang@huawei.com>
-Reply-To: Kefeng Wang <wangkefeng.wang@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS3PEPF000099D6:EE_|IA1PR12MB6018:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7a9b12ee-24d8-449f-8024-08dbcfef7267
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mctP/W0JJzx5e8Gr0LMtnjvwecDuaiSjxQc0JAwdrUEgI52ao7heP2qJs/AjRaI4uxNjKcIaX+a1XmQMzQlJtdnbVrrGycazbHE1wn96wX6pI0Q2cfZIw2CiXtq1rthkYADckm0zVE2TePGJpAHpiPKoAXoBhWfnyX+pOmXs9UOSC+d0fbquVKZigbwzmUVMYBKcXz0gNi/89TjBK9jAKvq2BsPenHLB64J2/lDXjmQenYpwl4yD8Wa35NiE7nSVE8HnDo76kO5loD6dRNuwNmdNKBk1Xt3OGN7QeqUIno1XnRwTpQpnwnFx3KHzYOq6EST32iFZ2sucXBby52HRrrYUKDqrCW4Jm58KWtbYfISxDwAE0aBoQhDBbzX52bem1tvFaQuz4X5LKDK+Ps2Tfk0achvSMrv/2l+prssuff5qgOjo/nSloRtApFj/5maql8HfesCs/5u2C7oGxlomGWQCheLWWzZDh3e6V46io/T8Nro5/6FQE3A8dDDmzR1noVwOKUaXFgA/8ivrDPKE2iylFq9+5TYhqnkMKmFZ1hFGtWkALLSIEe0PdlNcc3DhAHgoGJOn5hMh3G7bPD+v869QZ3S2Un8xw1QvLav2vTL6IEmOjndxKQO5qJbL3VPQ/K6EosnmjiYUbsXy+knDtKWAJQVOlPs+bdNLZY4gAavafsMD7gAqgQF3SGLKugGTdDCe7RtgFjowSarCHVFN5U1S3Q3+l5a7ySo0pGs446zEBOzjk1SSCxuz3oMBcX4nCzvUAczYtEA42WlHwUW96IedgvNk8m+W9qIZaNHOIKQ=
+X-Forefront-Antispam-Report: CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(39860400002)(376002)(396003)(346002)(230922051799003)(186009)(1800799009)(82310400011)(64100799003)(451199024)(36840700001)(40470700004)(46966006)(478600001)(40460700003)(70206006)(70586007)(6916009)(54906003)(336012)(36756003)(40480700001)(16526019)(81166007)(426003)(1076003)(26005)(2616005)(86362001)(83380400001)(356005)(82740400003)(36860700001)(2906002)(7416002)(316002)(47076005)(41300700001)(6666004)(4326008)(5660300002)(8676002)(8936002)(44832011)(36900700001)(16060500005);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2023 15:32:32.5794
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7a9b12ee-24d8-449f-8024-08dbcfef7267
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DS3PEPF000099D6.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6018
+X-Original-Sender: hamza.mahfooz@amd.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@amd.com header.s=selector1 header.b=Cl5teZ2e;       arc=pass (i=1
+ spf=pass spfdomain=amd.com dmarc=pass fromdomain=amd.com);       spf=pass
+ (google.com: domain of hamza.mahfooz@amd.com designates 2a01:111:f400:7e89::607
+ as permitted sender) smtp.mailfrom=Hamza.Mahfooz@amd.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=amd.com
+X-Original-From: Hamza Mahfooz <hamza.mahfooz@amd.com>
+Reply-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,183 +195,58 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The issue is easy to reproduced with large vmalloc, kindly ping...
+kasan, kcsan and kmsan all have the tendency to blow up the stack
+and there isn't a lot of value in having them enabled for test builds,
+since they are intended to be useful for runtime debugging. So, disable
+them for test builds.
 
-On 2023/9/15 8:58, Kefeng Wang wrote:
-> Hi All=EF=BC=8C any suggest or comments=EF=BC=8Cmany thanks.
->=20
-> On 2023/9/6 20:42, Kefeng Wang wrote:
->> This is a RFC, even patch3 is a hack to fix the softlock issue when
->> populate or depopulate pte with large region, looking forward to your
->> reply and advise, thanks.
->=20
-> Here is full stack=EF=BC=8Cfor populate pte=EF=BC=8C
->=20
-> [=C2=A0=C2=A0=C2=A0 C3] watchdog: BUG: soft lockup - CPU#3 stuck for 26s!=
- [insmod:458]
-> [=C2=A0=C2=A0=C2=A0 C3] Modules linked in: test(OE+)
-> [=C2=A0=C2=A0=C2=A0 C3] irq event stamp: 320776
-> [=C2=A0=C2=A0=C2=A0 C3] hardirqs last=C2=A0 enabled at (320775): [<ffff80=
-00815a0c98>]=20
-> _raw_spin_unlock_irqrestore+0x98/0xb8
-> [=C2=A0=C2=A0=C2=A0 C3] hardirqs last disabled at (320776): [<ffff8000815=
-816e0>]=20
-> el1_interrupt+0x38/0xa8
-> [=C2=A0=C2=A0=C2=A0 C3] softirqs last=C2=A0 enabled at (318174): [<ffff80=
-0080040ba8>]=20
-> __do_softirq+0x658/0x7ac
-> [=C2=A0=C2=A0=C2=A0 C3] softirqs last disabled at (318169): [<ffff8000800=
-47fd8>]=20
-> ____do_softirq+0x18/0x30
-> [=C2=A0=C2=A0=C2=A0 C3] CPU: 3 PID: 458 Comm: insmod Tainted: G=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 OE 6.5.0+ #595
-> [=C2=A0=C2=A0=C2=A0 C3] Hardware name: QEMU QEMU Virtual Machine, BIOS 0.=
-0.0 02/06/2015
-> [=C2=A0=C2=A0=C2=A0 C3] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -=
-SSBS BTYPE=3D--)
-> [=C2=A0=C2=A0=C2=A0 C3] pc : _raw_spin_unlock_irqrestore+0x50/0xb8
-> [=C2=A0=C2=A0=C2=A0 C3] lr : _raw_spin_unlock_irqrestore+0x98/0xb8
-> [=C2=A0=C2=A0=C2=A0 C3] sp : ffff800093386d70
-> [=C2=A0=C2=A0=C2=A0 C3] x29: ffff800093386d70 x28: 0000000000000801 x27: =
-ffff0007ffffa9c0
-> [=C2=A0=C2=A0=C2=A0 C3] x26: 0000000000000000 x25: 000000000000003f x24: =
-fffffc0004353708
-> [=C2=A0=C2=A0=C2=A0 C3] x23: ffff0006d476bad8 x22: fffffc0004353748 x21: =
-0000000000000000
-> [=C2=A0=C2=A0=C2=A0 C3] x20: ffff0007ffffafc0 x19: 0000000000000000 x18: =
-0000000000000000
-> [=C2=A0=C2=A0=C2=A0 C3] x17: ffff80008024e7fc x16: ffff80008055a8f0 x15: =
-ffff80008024ec60
-> [=C2=A0=C2=A0=C2=A0 C3] x14: ffff80008024ead0 x13: ffff80008024e7fc x12: =
-ffff6000fffff5f9
-> [=C2=A0=C2=A0=C2=A0 C3] x11: 1fffe000fffff5f8 x10: ffff6000fffff5f8 x9 : =
-1fffe000fffff5f8
-> [=C2=A0=C2=A0=C2=A0 C3] x8 : dfff800000000000 x7 : 00000000f2000000 x6 : =
-dfff800000000000
-> [=C2=A0=C2=A0=C2=A0 C3] x5 : 00000000f2f2f200 x4 : dfff800000000000 x3 : =
-ffff700012670d70
-> [=C2=A0=C2=A0=C2=A0 C3] x2 : 0000000000000001 x1 : c9a5dbfae610fa24 x0 : =
-000000000004e507
-> [=C2=A0=C2=A0=C2=A0 C3] Call trace:
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 _raw_spin_unlock_irqrestore+0x50/0xb8
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 rmqueue_bulk+0x434/0x6b8
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 get_page_from_freelist+0xdd4/0x1680
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 __alloc_pages+0x244/0x508
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 alloc_pages+0xf0/0x218
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 __get_free_pages+0x1c/0x50
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 kasan_populate_vmalloc_pte+0x30/0x188
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 __apply_to_page_range+0x3ec/0x650
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 apply_to_page_range+0x1c/0x30
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 kasan_populate_vmalloc+0x60/0x70
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 alloc_vmap_area.part.67+0x328/0xe50
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 alloc_vmap_area+0x4c/0x78
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 __get_vm_area_node.constprop.76+0x130/0x240
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 __vmalloc_node_range+0x12c/0x340
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 __vmalloc_node+0x8c/0xb0
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 vmalloc+0x2c/0x40
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 show_mem_init+0x1c/0xff8 [test]
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 do_one_initcall+0xe4/0x500
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 do_init_module+0x100/0x358
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 load_module+0x2e64/0x2fc8
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 init_module_from_file+0xec/0x148
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 idempotent_init_module+0x278/0x380
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 __arm64_sys_finit_module+0x88/0xf8
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 invoke_syscall+0x64/0x188
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 el0_svc_common.constprop.1+0xec/0x198
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 do_el0_svc+0x48/0xc8
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 el0_svc+0x3c/0xe8
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 el0t_64_sync_handler+0xa0/0xc8
-> [=C2=A0=C2=A0=C2=A0 C3]=C2=A0 el0t_64_sync+0x188/0x190
->=20
-> and for depopuldate pte=EF=BC=8C
->=20
-> [=C2=A0=C2=A0=C2=A0 C6] watchdog: BUG: soft lockup - CPU#6 stuck for 48s!=
- [kworker/6:1:59]
-> [=C2=A0=C2=A0=C2=A0 C6] Modules linked in: test(OE+)
-> [=C2=A0=C2=A0=C2=A0 C6] irq event stamp: 39458
-> [=C2=A0=C2=A0=C2=A0 C6] hardirqs last=C2=A0 enabled at (39457): [<ffff800=
-0815a0c98>]=20
-> _raw_spin_unlock_irqrestore+0x98/0xb8
-> [=C2=A0=C2=A0=C2=A0 C6] hardirqs last disabled at (39458): [<ffff80008158=
-16e0>]=20
-> el1_interrupt+0x38/0xa8
-> [=C2=A0=C2=A0=C2=A0 C6] softirqs last=C2=A0 enabled at (39420): [<ffff800=
-080040ba8>]=20
-> __do_softirq+0x658/0x7ac
-> [=C2=A0=C2=A0=C2=A0 C6] softirqs last disabled at (39415): [<ffff80008004=
-7fd8>]=20
-> ____do_softirq+0x18/0x30
-> [=C2=A0=C2=A0=C2=A0 C6] CPU: 6 PID: 59 Comm: kworker/6:1 Tainted: G=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 OEL=20
-> 6.5.0+ #595
-> [=C2=A0=C2=A0=C2=A0 C6] Hardware name: QEMU QEMU Virtual Machine, BIOS 0.=
-0.0 02/06/2015
-> [=C2=A0=C2=A0=C2=A0 C6] Workqueue: events drain_vmap_area_work
-> [=C2=A0=C2=A0=C2=A0 C6] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -=
-SSBS BTYPE=3D--)
-> [=C2=A0=C2=A0=C2=A0 C6] pc : _raw_spin_unlock_irqrestore+0x50/0xb8
-> [=C2=A0=C2=A0=C2=A0 C6] lr : _raw_spin_unlock_irqrestore+0x98/0xb8
-> [=C2=A0=C2=A0=C2=A0 C6] sp : ffff80008fe676b0
-> [=C2=A0=C2=A0=C2=A0 C6] x29: ffff80008fe676b0 x28: fffffc000601d310 x27: =
-ffff000edf5dfa80
-> [=C2=A0=C2=A0=C2=A0 C6] x26: ffff000edf5dfad8 x25: 0000000000000000 x24: =
-0000000000000006
-> [=C2=A0=C2=A0=C2=A0 C6] x23: ffff000edf5dfad4 x22: 0000000000000000 x21: =
-0000000000000006
-> [=C2=A0=C2=A0=C2=A0 C6] x20: ffff0007ffffafc0 x19: 0000000000000000 x18: =
-0000000000000000
-> [=C2=A0=C2=A0=C2=A0 C6] x17: ffff8000805544b8 x16: ffff800080553d94 x15: =
-ffff8000805c11b0
-> [=C2=A0=C2=A0=C2=A0 C6] x14: ffff8000805baeb0 x13: ffff800080047e10 x12: =
-ffff6000fffff5f9
-> [=C2=A0=C2=A0=C2=A0 C6] x11: 1fffe000fffff5f8 x10: ffff6000fffff5f8 x9 : =
-1fffe000fffff5f8
-> [=C2=A0=C2=A0=C2=A0 C6] x8 : dfff800000000000 x7 : 00000000f2000000 x6 : =
-dfff800000000000
-> [=C2=A0=C2=A0=C2=A0 C6] x5 : 00000000f2f2f200 x4 : dfff800000000000 x3 : =
-ffff700011fcce98
-> [=C2=A0=C2=A0=C2=A0 C6] x2 : 0000000000000001 x1 : cf09d5450e2b4f7f x0 : =
-0000000000009a21
-> [=C2=A0=C2=A0=C2=A0 C6] Call trace:
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 _raw_spin_unlock_irqrestore+0x50/0xb8
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 free_pcppages_bulk+0x2bc/0x3e0
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 free_unref_page_commit+0x1fc/0x290
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 free_unref_page+0x184/0x250
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 __free_pages+0x154/0x1a0
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 free_pages+0x88/0xb0
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 kasan_depopulate_vmalloc_pte+0x58/0x80
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 __apply_to_page_range+0x3ec/0x650
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 apply_to_existing_page_range+0x1c/0x30
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 kasan_release_vmalloc+0xa4/0x118
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 __purge_vmap_area_lazy+0x4f4/0xe30
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 drain_vmap_area_work+0x60/0xc0
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 process_one_work+0x4cc/0xa38
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 worker_thread+0x240/0x638
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 kthread+0x1c8/0x1e0
-> [=C2=A0=C2=A0=C2=A0 C6]=C2=A0 ret_from_fork+0x10/0x20
->=20
->=20
->=20
->>
->> Kefeng Wang (3):
->> =C2=A0=C2=A0 mm: kasan: shadow: add cond_resched() in kasan_populate_vma=
-lloc_pte()
->> =C2=A0=C2=A0 mm: kasan: shadow: move free_page() out of page table lock
->> =C2=A0=C2=A0 mm: kasan: shadow: HACK add cond_resched_lock() in
->> =C2=A0=C2=A0=C2=A0=C2=A0 kasan_depopulate_vmalloc_pte()
->>
->> =C2=A0 include/linux/kasan.h |=C2=A0 9 ++++++---
->> =C2=A0 mm/kasan/shadow.c=C2=A0=C2=A0=C2=A0=C2=A0 | 20 +++++++++++++-----=
---
->> =C2=A0 mm/vmalloc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 7 ++++---
->> =C2=A0 3 files changed, 23 insertions(+), 13 deletions(-)
->>
+Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
+---
+ lib/Kconfig.kasan | 1 +
+ lib/Kconfig.kcsan | 1 +
+ lib/Kconfig.kmsan | 1 +
+ 3 files changed, 3 insertions(+)
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/dd39cb3e-b184-407d-b74f-5b90a7983c99%40huawei.com.
+diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+index fdca89c05745..fbd85c4872c0 100644
+--- a/lib/Kconfig.kasan
++++ b/lib/Kconfig.kasan
+@@ -38,6 +38,7 @@ menuconfig KASAN
+ 		    CC_HAS_WORKING_NOSANITIZE_ADDRESS) || \
+ 		   HAVE_ARCH_KASAN_HW_TAGS
+ 	depends on (SLUB && SYSFS && !SLUB_TINY) || (SLAB && !DEBUG_SLAB)
++	depends on !COMPILE_TEST
+ 	select STACKDEPOT_ALWAYS_INIT
+ 	help
+ 	  Enables KASAN (Kernel Address Sanitizer) - a dynamic memory safety
+diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
+index 609ddfc73de5..7bcefdbfb46f 100644
+--- a/lib/Kconfig.kcsan
++++ b/lib/Kconfig.kcsan
+@@ -14,6 +14,7 @@ menuconfig KCSAN
+ 	bool "KCSAN: dynamic data race detector"
+ 	depends on HAVE_ARCH_KCSAN && HAVE_KCSAN_COMPILER
+ 	depends on DEBUG_KERNEL && !KASAN
++	depends on !COMPILE_TEST
+ 	select CONSTRUCTORS
+ 	select STACKTRACE
+ 	help
+diff --git a/lib/Kconfig.kmsan b/lib/Kconfig.kmsan
+index ef2c8f256c57..eb05c885d3fd 100644
+--- a/lib/Kconfig.kmsan
++++ b/lib/Kconfig.kmsan
+@@ -13,6 +13,7 @@ config KMSAN
+ 	depends on HAVE_ARCH_KMSAN && HAVE_KMSAN_COMPILER
+ 	depends on SLUB && DEBUG_KERNEL && !KASAN && !KCSAN
+ 	depends on !PREEMPT_RT
++	depends on !COMPILE_TEST
+ 	select STACKDEPOT
+ 	select STACKDEPOT_ALWAYS_INIT
+ 	help
+-- 
+2.42.0
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231018153147.167393-1-hamza.mahfooz%40amd.com.
