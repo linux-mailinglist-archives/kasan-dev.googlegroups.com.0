@@ -1,134 +1,140 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBOU2YCUQMGQEU2Q655Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBD4NDKWHQYDRBIU4YCUQMGQEFB4HSEY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3d.google.com (mail-oa1-x3d.google.com [IPv6:2001:4860:4864:20::3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D01F7CE330
-	for <lists+kasan-dev@lfdr.de>; Wed, 18 Oct 2023 18:52:12 +0200 (CEST)
-Received: by mail-oa1-x3d.google.com with SMTP id 586e51a60fabf-1ea01dcf2ccsf6096386fac.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 18 Oct 2023 09:52:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1697647931; cv=pass;
+Received: from mail-ua1-x93d.google.com (mail-ua1-x93d.google.com [IPv6:2607:f8b0:4864:20::93d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 621A57CE337
+	for <lists+kasan-dev@lfdr.de>; Wed, 18 Oct 2023 18:56:04 +0200 (CEST)
+Received: by mail-ua1-x93d.google.com with SMTP id a1e0cc1a2514c-7b6612624besf28691241.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 18 Oct 2023 09:56:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1697648163; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WkLka3GvXYsFM7qgBFFs22G9gzfRkY1x0pvaCFY7QHj3oE3U7Kd7LE9LHc6pIbZfhe
-         dTw2/bqgNRfHRyAn/d/9F4S8avyZcZDmELPi4E6Qb6nFivpfzeQwecTa2knXetg79vVp
-         ccaPydnuwBzmSRMo21Vwdnypi0l5OM78PYDJW8GdOnvsGPtajXCDUWWARW8MzRndOaZO
-         qoWib6ufMFXyTA7iRmqSMqs/ShpF68qoSLuezFnBJsagWAM7onY9/SvBYgNa+/IeotrG
-         h9+/+eIgJxKPbYktbFC1NSJ3/fPfYYrwGVE9Na7WbcJRLeIop8/cPPffakfnmrgi2lHI
-         GovQ==
+        b=EJKI+LvWlhIZQ1doKs32Ng9oyYiTTwiVXyQjMm8utiyKeYnT6OeZKm1ePjxOHj2n21
+         Ef49jSHRyn8U8LqgUrnV31N6ZGc3qLkfVjAiiQK++y44UpIoLpLamozn2W7GDdTXFrv0
+         cdrXblCxuI9wTuJy02bHj50I97WP/d8JJe1FuKSCC5GkVWTmXO1jMSMyaibyc09SnBQt
+         DlIzZ1rTAl6ZYlu+cSl39Hy+Yb/gu3pPnLIjlu3TeMopaOJj5B60Xo8tY9AN1nFz2g5B
+         Vsni0YKUI+DZC0r3otnOkQpl9wOQwoLC/UPhT3HscLiYvw3jXHHJndt0BkRjGHWrhQV7
+         iUEg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=eZoopOqakGyflSFQxWJpshL3cMlf5NHpy7ZJmHdOrt0=;
-        fh=iavFEGiaH83Lc5aDzeABOQpyXUB7IiGge6GRfnQJa9w=;
-        b=y4Hs3M6Ja4MZQwVxKC6aEsxfNW5rdspR7sAfXghg2thY3D2Qd27ZkxSjvc6ITfoMSy
-         arLdOkZnsjgfGCcWF/0sBWDKgmHxGT4SvOunwpOXsdgxH5DvdntFkLk0J8dcW5rB5tr9
-         gJZBDNA6NFW7RpMtveQL1W+jp8OKC688/0+Gkzk3YjJL7t0w91m9JhVflYYTqE3Z2rK/
-         r79x/TP7dglHIFDaW2daT18REEylsV1UAxF68mI3YvvDZjCyDKq+pwzJ3N6kNPFtLyw6
-         B5nTzjrUbIn54aoR1HltARasqTJBBk1HEVXa31Il1m2PMcZXXkG3OfFy8ugcsDpucavx
-         5v6g==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=RU5xRmxu+KF1LG5SMOle5TbwsqV3iXcF65quANDJOkQ=;
+        fh=u8dRyJvPEF73QXyEqgpj3VkHAebZbv2VfqV0cynRMrA=;
+        b=bLKPmCC+JClKLfmzP6sMiL7aNdslyO+dBpZ2F6ZQcmEb6RZtxo0hqWfccqnoro2DhN
+         U6Kn9vql9aPUPleRXGzDczOvfyPcMCFGd+q3USecda4XxdrdLQDsi36AbfzNbNUb2NhJ
+         e9/LR6SpdaW/l7FBfJE4UdH5TMBo/jSWc1radA4RbBZ/ssTkV7MsxuJsaBRaiyV196d/
+         sF51hn1e7LVcXQ6Qe3qVIj1McnyGOifZUeTTf2s+Ia8aBhob5dC7uMEP2vEDKADUSBmO
+         Rpp/ycoyHkoIZgj20FCIkpmLOaV39Nq3RwI+3Qpz+fzP2vkALNEK4P/NgwBggSG8hGmv
+         3kTA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=eAA7FbGu;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e29 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=H3cQz036;
+       spf=pass (google.com: domain of nathan@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=nathan@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1697647931; x=1698252731; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1697648163; x=1698252963; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eZoopOqakGyflSFQxWJpshL3cMlf5NHpy7ZJmHdOrt0=;
-        b=b2nORwhcVeee5KOh7ssK2k4dc19rMvlS1HsWrxuAGOf1tJOx24nj160TphIcSAPKqG
-         7vkiLL25qCYHXlNhtIP47+uLw7gnKg/RWOFFNy1XCqHlH07A1bPyDSG1cR5jKJ6q1xDO
-         aVBQbQlMpyR/savoL6g09AMVyyQiEJq1o/+kYQfNPwXneZFY9SEKNBtJaybm5xnEe1Kg
-         hwN/zXo4B2IfB8kkJH7bW1h47TXrAfHNo2Gxq0ZAgpkltV1LftEaHkdaO9sVeFImb28F
-         gPx8m6YL/AFoxFLfvBMRixSAJPrmX7HH1GCYpTlLhQ/EU24Y5HmI+W+T5GzVP9/WvcRr
-         SO1Q==
+        bh=RU5xRmxu+KF1LG5SMOle5TbwsqV3iXcF65quANDJOkQ=;
+        b=LqfZj69yBTp6dhqhiNDxQO+bNq00OIKEWb7d9FIMdleFetlRnCV1StyYNyVoWy3oX0
+         ZDpCibzfVd9+gWF4mCIBIMshMcVcDPRlaEimTtHNFDLx+paLNLk6lwh3OtxekuNm2prt
+         FTlHwOJkSbEdYu/CfKWJD1v97oFwsNV/j7nSyRDei5hPD+6yj3b3jx22mdNJQf+e+Akp
+         I32Bz3AFHdHC+Yrn34O70Epk2PT1sDmA177MFYdU3w8r1+ZPSvnsR08keV9e8SZ7281Q
+         /zo7gdZ8pLsdWgn+8pyeYrB298u+RfgjM3dkPGlRK1Mby2lLwRX9D9tL95dpwLLfUMd1
+         FsfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697647931; x=1698252731;
+        d=1e100.net; s=20230601; t=1697648163; x=1698252963;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eZoopOqakGyflSFQxWJpshL3cMlf5NHpy7ZJmHdOrt0=;
-        b=Zca0F1Jcr6eKI8/Nv6jLLfKCHA0Snf2CFQIsWSZ6F7oviE524AP/rlEhJ4Q2xlgzIh
-         5KljktsCRs6bLOPf8bGQvbNlvQFY8gNIKPbcYQW3uuMYCFsHdXo9j3waa9iZfS62v2gX
-         cPTYRH9hSbnaxvF8SHWfb/sp5IYA5t2HRMp8ru/3yz0SJGpdq/dYej6PJAlWtDfVZ22O
-         umuPteYTqerfCZKHMGstfAnn6vxWv/R812rnqeOU98bYxXvKFf6SQ434v/KKQ9lNPUay
-         Zx9f52LYb1hdvrMlCMnmQPnh8N3DnGlJqBuobDfzAkh9R/trsOvW4m1WVL/SIZXTR6Lh
-         x+sw==
-X-Gm-Message-State: AOJu0YznY/vgiOHa6kU4YFKTFON+dWp4Yf33Le7M4PZUuNpQE/04ry0u
-	L7NHY9Fc1sj1reU1MTaetNY=
-X-Google-Smtp-Source: AGHT+IG7+kYqBVVFTLCwbH4PBqxKyc8poAOhfwolNQxF4AipeKQCqI5pr8vqqvz5+LtGls11yCCgBg==
-X-Received: by 2002:a05:6870:b521:b0:1e9:6a4e:6b56 with SMTP id v33-20020a056870b52100b001e96a4e6b56mr3176928oap.3.1697647930844;
-        Wed, 18 Oct 2023 09:52:10 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RU5xRmxu+KF1LG5SMOle5TbwsqV3iXcF65quANDJOkQ=;
+        b=Vgd3kbPNpx0YVFlRCWiPovxRyLXSORPlF7KXmJbFkNlB3q24B2lBUM3uircOCkrD8Z
+         pbl8ssTqxOpHAHI36+qfC6LKFyfQZsUTUIajayWCz1aaDJjaXN82giu+DheLkJi5ypM8
+         B777ar777RtvI4xWCUfWa/kZwhblmQtVWeOimPYyKZEWTUm+Zf5O/tVC+AUY5tqB8NCP
+         c36aR7Tt8/5/7rTXy1wrE5HDgzZnApdZc1QwFG6PYIig/EzWErfPJi+jdQr2O6QWGDRi
+         OWZkKG3PUWs79yDRUdM0VbxpMJOrmFkkiKIi1hN7zjBVbsEhczpRkbFaBr/C4TfAj7rx
+         tm1Q==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOJu0YxjlDsieShRxVPJRAjgIdF6MoYPqDOoUtw2dUKb37wGZVhaHbgo
+	9cSs7XIIin7O9wbHHN/5w4o=
+X-Google-Smtp-Source: AGHT+IE8Foo8n+ryPmmJf+vHWpPxvr63HKtoZ1HLMSRD/y6YaIXt+hkrmPgi04U3TMC4G1lkl26Eow==
+X-Received: by 2002:a05:6122:16a6:b0:493:5938:c8a1 with SMTP id 38-20020a05612216a600b004935938c8a1mr4647048vkl.0.1697648163026;
+        Wed, 18 Oct 2023 09:56:03 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6871:4307:b0:1d1:3283:6299 with SMTP id
- lu7-20020a056871430700b001d132836299ls2583155oab.1.-pod-prod-00-us; Wed, 18
- Oct 2023 09:52:10 -0700 (PDT)
-X-Received: by 2002:a05:6870:44ca:b0:1c8:c9ca:7092 with SMTP id t10-20020a05687044ca00b001c8c9ca7092mr3226789oai.11.1697647929901;
-        Wed, 18 Oct 2023 09:52:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1697647929; cv=none;
+Received: by 2002:a05:622a:514c:b0:41b:5e46:aa72 with SMTP id
+ ew12-20020a05622a514c00b0041b5e46aa72ls363434qtb.1.-pod-prod-07-us; Wed, 18
+ Oct 2023 09:56:02 -0700 (PDT)
+X-Received: by 2002:a05:622a:1647:b0:40f:ce6d:775e with SMTP id y7-20020a05622a164700b0040fce6d775emr6987844qtj.42.1697648162065;
+        Wed, 18 Oct 2023 09:56:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1697648162; cv=none;
         d=google.com; s=arc-20160816;
-        b=axxUXw15qBRMgh/UwTX3pK6tms9S3u/jnIIy9GtOmW4v/hYp8dokJDch04D5wS8Rb0
-         T7FTJqQ93T9CCMz1KCkxbq0oqxYsCmUO9q8sTlEVm0NVUeCLfqWJU4gCNNgNGEFj/K44
-         Zbaa004WGwYjbZ9VlsigsiDX5tQj125vZO4gSqvoMMYtZcKt0d4s8Cz/O0kE8KXGHbbp
-         sDG6TU+3XjcBrkp1fTWUUpLc9O2K7TVPN6F4199AOUndm3ix4ehFOyqeBrR+hCptbj+Z
-         5bFq8PPZDSxC/NLMR6leoXTIFgg1awhGWgKJEGzD5Ph0BqsFqcMJu9LfdULOnhnqbOuY
-         SOMQ==
+        b=p2IiDeJ7707c34SQx0ctT4g1acg8Qyu2MzYD3wisXuNDh07eSt0EZUg4Dn4ztMYFec
+         s9r49t8nwcTuajR5WnbdYoflJv3AvxiAVQWAIeN1Lx+bXSoJYHQwu6jeMWfQZdbMfMCw
+         sCaPvMd14Oz5fnV9chi8Adi7j7sBsncT0ypgvzUrAELhNtO+9sK2+nNyxysZkQfIFzGm
+         AyVi9FWBJ1kJUt26WlUkPG6Qbo+qnfM5EJgLqHJwZdeAlEdFzXbpz8w4v433M2VcIrQ+
+         cO+e63aeMZ2KI9tlvo84icza+IgYbvLG+6Nkay8ILwHPhd9UB3/PRxxRotLNGqcans/N
+         pZWw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=/pMxszsWHDpKedI/5pITYv9bsseXhLI86JME0Jv0Euc=;
-        fh=iavFEGiaH83Lc5aDzeABOQpyXUB7IiGge6GRfnQJa9w=;
-        b=OW0JGjrAjX71bxNfsFqjlDxq7kZuwCEUt7W842vYHiz88LL9pDpCcFUCV+9QwIfJJb
-         SkhenlW/G13DhTSRMjCgMDCeWGAoHGr6VBdcI3yE/vLARcYjt6zW1knKnwwF6U5Fsd/7
-         coKzBny9oxKf47rnaCZ0cj7DmB3LkgVM7m7aSKiAo/W+AKGS9PMkrmd3CzEI/QRNIdhK
-         NXT0efMqfr7OwAktqkKh+47BLmxFcOchBYcIH0BJ0JK5tF8cDlV2nd9hI4+dp+m8mnKn
-         TV/hyZtXT7UVoncTKsNXUNEzKtd0Qwde0NsiCqwnh8NrBC6OKUB52zFO+gq0CoGR3DLg
-         ZajQ==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=iEiVddyN23iDfzNTu1H4JbYfUqUWWqwzoO+DN6cFAWM=;
+        fh=u8dRyJvPEF73QXyEqgpj3VkHAebZbv2VfqV0cynRMrA=;
+        b=sqmYfwt1kcJ2Ab32+UKdINuYLck6XI9CUKLaZAadE72s9mVZ33aWbQyRCXanCWOLVT
+         wqp45++2TFk+WwSRjC/i9glLQFZ7fusGkb/N1LOYusm/4ZMXqNNJI2m12Nf4DBvSBoki
+         53V5j8IW+cheCMvbEkdPpFK4u7zZOaqqrGou+sihJRrfQTs1V6F97ljIdfGd+tNg81+l
+         kE0gtqpyf3G5h4dXA8XgTfn8cevGwSJKdR3DkqK4rQBNs1qBGFfQwD74z240USfHZn/8
+         mYTI1hdsSXCrb8btwxVmE7CwEteDONXmykIsoUqQ5Zg+HZ1nBXc0D3WBL/pM/CZ8KidU
+         7xVw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=eAA7FbGu;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e29 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com. [2607:f8b0:4864:20::e29])
-        by gmr-mx.google.com with ESMTPS id na25-20020a0568706c1900b001e9dab71a2dsi474626oab.4.2023.10.18.09.52.09
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=H3cQz036;
+       spf=pass (google.com: domain of nathan@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=nathan@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from sin.source.kernel.org (sin.source.kernel.org. [2604:1380:40e1:4800::1])
+        by gmr-mx.google.com with ESMTPS id e7-20020ac84907000000b004181fc30323si21713qtq.0.2023.10.18.09.56.01
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Oct 2023 09:52:09 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e29 as permitted sender) client-ip=2607:f8b0:4864:20::e29;
-Received: by mail-vs1-xe29.google.com with SMTP id ada2fe7eead31-457e36dcab6so2392861137.0
-        for <kasan-dev@googlegroups.com>; Wed, 18 Oct 2023 09:52:09 -0700 (PDT)
-X-Received: by 2002:a67:e156:0:b0:452:61eb:dc26 with SMTP id
- o22-20020a67e156000000b0045261ebdc26mr3477209vsl.16.1697647929398; Wed, 18
- Oct 2023 09:52:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20231018153147.167393-1-hamza.mahfooz@amd.com>
- <CANpmjNPZ0Eii3ZTrVqEL2Ez0Jv23y-emLBCLSZ==xmH--4E65g@mail.gmail.com> <c7a80dc5-d18f-4a7d-915b-1803cc3e33ca@amd.com>
-In-Reply-To: <c7a80dc5-d18f-4a7d-915b-1803cc3e33ca@amd.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 18 Oct 2023 18:51:31 +0200
-Message-ID: <CANpmjNN7yvEjvTDHzzEqvN2iKvxjvOjpsz_ugSjwh4VBKDNH6g@mail.gmail.com>
-Subject: Re: [PATCH] lib: Kconfig: disable dynamic sanitizers for test builds
-To: Hamza Mahfooz <hamza.mahfooz@amd.com>
-Cc: linux-kernel@vger.kernel.org, Rodrigo Siqueira <rodrigo.siqueira@amd.com>, 
-	Harry Wentland <harry.wentland@amd.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Tom Rix <trix@redhat.com>, kasan-dev@googlegroups.com, 
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Oct 2023 09:56:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of nathan@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) client-ip=2604:1380:40e1:4800::1;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 53E78CE262E;
+	Wed, 18 Oct 2023 16:55:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB57FC433C7;
+	Wed, 18 Oct 2023 16:55:57 +0000 (UTC)
+Date: Wed, 18 Oct 2023 09:55:56 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Marco Elver <elver@google.com>
+Cc: Hamza Mahfooz <hamza.mahfooz@amd.com>, linux-kernel@vger.kernel.org,
+	Rodrigo Siqueira <rodrigo.siqueira@amd.com>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Tom Rix <trix@redhat.com>, kasan-dev@googlegroups.com,
 	llvm@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH] lib: Kconfig: disable dynamic sanitizers for test builds
+Message-ID: <20231018165556.GA3842315@dev-arch.thelio-3990X>
+References: <20231018153147.167393-1-hamza.mahfooz@amd.com>
+ <CANpmjNPZ0Eii3ZTrVqEL2Ez0Jv23y-emLBCLSZ==xmH--4E65g@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <CANpmjNPZ0Eii3ZTrVqEL2Ez0Jv23y-emLBCLSZ==xmH--4E65g@mail.gmail.com>
+X-Original-Sender: nathan@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=eAA7FbGu;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e29 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@kernel.org header.s=k20201202 header.b=H3cQz036;       spf=pass
+ (google.com: domain of nathan@kernel.org designates 2604:1380:40e1:4800::1 as
+ permitted sender) smtp.mailfrom=nathan@kernel.org;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,114 +147,49 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 18 Oct 2023 at 18:43, Hamza Mahfooz <hamza.mahfooz@amd.com> wrote:
->
-> On 10/18/23 12:22, Marco Elver wrote:
-> > On Wed, 18 Oct 2023 at 17:32, 'Hamza Mahfooz' via kasan-dev
-> > <kasan-dev@googlegroups.com> wrote:
-> >>
-> >> kasan, kcsan and kmsan all have the tendency to blow up the stack
-> >> and there isn't a lot of value in having them enabled for test builds,
-> >> since they are intended to be useful for runtime debugging. So, disable
-> >> them for test builds.
-> >>
-> >> Signed-off-by: Hamza Mahfooz <hamza.mahfooz@amd.com>
-> >> ---
-> >>   lib/Kconfig.kasan | 1 +
-> >>   lib/Kconfig.kcsan | 1 +
-> >>   lib/Kconfig.kmsan | 1 +
-> >>   3 files changed, 3 insertions(+)
-> >
-> > Do you have links to discussions that motivate this change? This has
-> > been discussed in the past. One recommendation is to adjust the
->
-> Sure, you can checkout:
-> https://lore.kernel.org/amd-gfx/CADnq5_OyO9CHqahFvdnx7-8s9654udgdfhUntyxfjae+iHey0Q@mail.gmail.com/T/#m5d227dc1ef07b1f4953312287dce4568666c5e09
+On Wed, Oct 18, 2023 at 06:22:14PM +0200, Marco Elver wrote:
+> On Wed, 18 Oct 2023 at 17:32, 'Hamza Mahfooz' via kasan-dev
+> <kasan-dev@googlegroups.com> wrote:
 
-I would add this as a Link context to the patch.
+<snip>
 
-> > build/test scripts to exclude some combination of configs if they are
-> > causing issues. Or we increase CONFIG_FRAME_WARN if one of them is
-> > enabled (KMSAN sets it to 0, 32-bit KASAN increases it a bit).
-> >
-> > That being said, we're aware of KASAN having had more issues and there
-> > are some suboptions that have been disabled because of that (like
-> > KASAN_STACK). I'm not sure if Clang's KASAN instrumentation has had
-> > some recent improvements (we did investigate it, but I can't recall
-> > what the outcome was [1]) - maybe try a more recent compiler? However,
-> > KCSAN and KMSAN shouldn't have any issues (if KMSAN is enabled,
->
-> This patch was initially motivated by KCSAN (i.e. I am able to get it to
-> blow up the stack with a minimal .config). I don't mind dropping the
-> other ones since I only included them because Nathan implied that they
-> could cause similar issues.
+> > diff --git a/lib/Kconfig.kmsan b/lib/Kconfig.kmsan
+> > index ef2c8f256c57..eb05c885d3fd 100644
+> > --- a/lib/Kconfig.kmsan
+> > +++ b/lib/Kconfig.kmsan
+> > @@ -13,6 +13,7 @@ config KMSAN
+> >         depends on HAVE_ARCH_KMSAN && HAVE_KMSAN_COMPILER
+> >         depends on SLUB && DEBUG_KERNEL && !KASAN && !KCSAN
+> >         depends on !PREEMPT_RT
+> > +       depends on !COMPILE_TEST
+> 
+> KMSAN already selects FRAME_WARN of 0 and should not cause you any
+> issues during build testing.
 
-!COMPILE_TEST is not the solution. Clearly from the link you provided
-build testing is helpful in catching early issues, so that these tools
-remain usable for everyone. But we know they use a little more stack,
-and the warnings need to be adjusted accordingly.
+Yeah, this particular case is a bug in the AMDGPU dml2 Makefile, where
+CONFIG_FRAME_WARN=0 is not respected.
 
-My suggestion is to just increase FRAME_WARN for KCSAN, or set it to 0
-(like for KMSAN). My guess is that first trying to increase it is the
-safer option.
+diff --git a/drivers/gpu/drm/amd/display/dc/dml2/Makefile b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
+index f35ed8de260d..66431525f2a0 100644
+--- a/drivers/gpu/drm/amd/display/dc/dml2/Makefile
++++ b/drivers/gpu/drm/amd/display/dc/dml2/Makefile
+@@ -61,7 +61,7 @@ ifneq ($(CONFIG_FRAME_WARN),0)
+ frame_warn_flag := -Wframe-larger-than=2048
+ endif
+ 
+-CFLAGS_$(AMDDALPATH)/dc/dml2/display_mode_core.o := $(dml2_ccflags) -Wframe-larger-than=2048
++CFLAGS_$(AMDDALPATH)/dc/dml2/display_mode_core.o := $(dml2_ccflags) $(frame_warn_flag)
+ CFLAGS_$(AMDDALPATH)/dc/dml2/display_mode_util.o := $(dml2_ccflags)
+ CFLAGS_$(AMDDALPATH)/dc/dml2/dml2_wrapper.o := $(dml2_ccflags)
+ CFLAGS_$(AMDDALPATH)/dc/dml2/dml2_utils.o := $(dml2_ccflags)
 
-> > FRAME_WARN is 0). And having build tests with them enabled isn't
-> > useless at all: we're making sure that these tools (even though only
-> > for debugging), still work. We _want_ them to work during random build
-> > testing!
-> >
-> > Please share the concrete problem you're having, because this change
-> > will make things worse for everyone in the long run.
-> >
-> > [1] https://github.com/llvm/llvm-project/issues/38157
-> >
-> >> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-> >> index fdca89c05745..fbd85c4872c0 100644
-> >> --- a/lib/Kconfig.kasan
-> >> +++ b/lib/Kconfig.kasan
-> >> @@ -38,6 +38,7 @@ menuconfig KASAN
-> >>                      CC_HAS_WORKING_NOSANITIZE_ADDRESS) || \
-> >>                     HAVE_ARCH_KASAN_HW_TAGS
-> >>          depends on (SLUB && SYSFS && !SLUB_TINY) || (SLAB && !DEBUG_SLAB)
-> >> +       depends on !COMPILE_TEST
-> >>          select STACKDEPOT_ALWAYS_INIT
-> >>          help
-> >>            Enables KASAN (Kernel Address Sanitizer) - a dynamic memory safety
-> >
-> > This also disables KASAN_HW_TAGS, which is actually enabled in
-> > production kernels and does not use any compiler instrumentation.
-> >
-> >> diff --git a/lib/Kconfig.kcsan b/lib/Kconfig.kcsan
-> >> index 609ddfc73de5..7bcefdbfb46f 100644
-> >> --- a/lib/Kconfig.kcsan
-> >> +++ b/lib/Kconfig.kcsan
-> >> @@ -14,6 +14,7 @@ menuconfig KCSAN
-> >>          bool "KCSAN: dynamic data race detector"
-> >>          depends on HAVE_ARCH_KCSAN && HAVE_KCSAN_COMPILER
-> >>          depends on DEBUG_KERNEL && !KASAN
-> >> +       depends on !COMPILE_TEST
-> >>          select CONSTRUCTORS
-> >>          select STACKTRACE
-> >>          help
-> >> diff --git a/lib/Kconfig.kmsan b/lib/Kconfig.kmsan
-> >> index ef2c8f256c57..eb05c885d3fd 100644
-> >> --- a/lib/Kconfig.kmsan
-> >> +++ b/lib/Kconfig.kmsan
-> >> @@ -13,6 +13,7 @@ config KMSAN
-> >>          depends on HAVE_ARCH_KMSAN && HAVE_KMSAN_COMPILER
-> >>          depends on SLUB && DEBUG_KERNEL && !KASAN && !KCSAN
-> >>          depends on !PREEMPT_RT
-> >> +       depends on !COMPILE_TEST
-> >
-> > KMSAN already selects FRAME_WARN of 0 and should not cause you any
-> > issues during build testing.
-> >
-> > Nack.
-> --
-> Hamza
->
+I will try to send that patch soon, unless one of the AMDGPU folks wants
+to beat me to it.
+
+Cheers,
+Nathan
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN7yvEjvTDHzzEqvN2iKvxjvOjpsz_ugSjwh4VBKDNH6g%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231018165556.GA3842315%40dev-arch.thelio-3990X.
