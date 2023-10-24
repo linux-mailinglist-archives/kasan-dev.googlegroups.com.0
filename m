@@ -1,117 +1,116 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBXMV36UQMGQES5IZNRY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBX4V36UQMGQECXCCLSQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACDBF7D523B
-	for <lists+kasan-dev@lfdr.de>; Tue, 24 Oct 2023 15:47:10 +0200 (CEST)
-Received: by mail-qt1-x839.google.com with SMTP id d75a77b69052e-41cd5077ffesf1510091cf.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 24 Oct 2023 06:47:10 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1698155229; cv=pass;
+Received: from mail-oo1-xc3e.google.com (mail-oo1-xc3e.google.com [IPv6:2607:f8b0:4864:20::c3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id E52D57D523E
+	for <lists+kasan-dev@lfdr.de>; Tue, 24 Oct 2023 15:47:12 +0200 (CEST)
+Received: by mail-oo1-xc3e.google.com with SMTP id 006d021491bc7-581df11b5b4sf6521561eaf.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 24 Oct 2023 06:47:12 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1698155232; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xtPRBIWFJ4wBFA4vmEmWsqoVrN3mcRmEhd68DLTYjOKgyW6W/z3MBzSwDCgKuzQgcz
-         vRWYGs1b3bYxxse/zfATMfYT2P2geegQxUz/gX1fRksxvGDYXgJpNhR7Cai8IgDmsNQ9
-         ZIdQ2fzO60L2s54z57xhCapsvvID2SGFsNDSr/4cdH6sle25pzjHB21NrgVsx4nRNmLs
-         ibcRVBmrP04dD94svCZ8NIx/No/CfQtixSG160EhVcsIThDQuQyaUCY4G2RYre8fjfUG
-         cyzXWijlW5qgO8L2YDVVSNWg+jWBYyTmqfWfVcXwQlRen0AVtfL5F+oNf2+GRbDOuOZF
-         +PXQ==
+        b=ig/esBC1XQEICyMuF7c7Bg9GV2i8L7sUF8jcbzvp5eMRL+X5SO89qTBBddHjwvOMJo
+         oDdLrh4Z44V2EJrEIdntvbGfpGKjarFn7PjFvrZg9naYMtJ/mcG/iQ8MP9TrtjKVGzrf
+         q/Es9M6zYSb7Koqer4bgvMwCpMadm5mXch8cHAEYtTKIJ/XzZqRf0DFYlADSh0fg3Aa0
+         fHfsS8Al2ZcgJRg9IjM9hfs9hj3tiEgECLOnA0QJQOExu+thW9PgLTyuOehy6nOEfDqo
+         jKG4fNcVP67iVxv4CVDVyPOtiX6ZXW3zCESqTWJdOoKP+NvE4xk46qhQR7JAWporE0tT
+         U30g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=6eAqsYycIS2ghrnCKGJEL/CaCCBxCLyWDq7rTywqIgM=;
+        bh=/QkGgl6Kae1DpQCdf8yPUpjeO9Ea7LDxyntoPVneIq4=;
         fh=99ic5ujgrZ1PmcUIp20sJVy5ooX2fz6OKB+cA08Xtj0=;
-        b=nFCJxw9OSqOlYCFA4HuEoh3s/W44qdekBq14sF5El3I4psvOHptSfS9pOD6NF+S+ml
-         4p4cfPGDJD8qugzZNbTw46f0PKv1ZYI/AsOzgcIOo6Ufv/Rv6YLbeibMa2VOz3rpN4al
-         k/dInBaeBaVp+Lv2B/ESoHfemOEAN3ycmjoGGBnSijZN+6lOBRPmlknWzImATwOtZaGB
-         SC5HWdNK4vazvSVWQFflcd9VgCronm70KdxxvOzTsY/BsEngUt9nM0Mb8LeRohTon/NA
-         xu1y8CsESo5+mSu8br1t+k88CujCtqMyfQu9vsRBT7vC1Dsi7ah8aBIhsbZsaAdTY4kY
-         O7XQ==
+        b=p89pTAVDdPZyEekUFPYPWY1DRgWKfmStucVj77PpudQE7uT3lUd+vVAyr+8JzDoOwJ
+         HSLgJ9Ijn2aEcKseZuGM4t1XlRMAY7dMb4P7lcI0NsZV2byGZQt8NLNNOlqeE3fBCuSA
+         T9JKy/VuizqOlQJfLDjUPh8nMdxbJL9o4cz8c94J3+zmjq7vELm72eiUE9Ht4z3bbMGb
+         8Dy/F6O8FweBYWmR2noZOhcmgTIRARWmuUJ5VLPhg5j2kQxsjFgSNs3jUWZW+sobmSer
+         2CqqE4PDI/q9vpKK+V+WLGRB7lr4+mRVOcRPVcgV6zBOZozu6rFLgo67VMvhn0+Hj25N
+         tbLg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=JYPfnObL;
-       spf=pass (google.com: domain of 33mo3zqykcyexzwjsglttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=33Mo3ZQYKCYExzwjsglttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=1xRNMFyx;
+       spf=pass (google.com: domain of 33so3zqykcymz1yluinvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=33so3ZQYKCYMz1yluinvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1698155229; x=1698760029; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1698155232; x=1698760032; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=6eAqsYycIS2ghrnCKGJEL/CaCCBxCLyWDq7rTywqIgM=;
-        b=tv9SpoMGK5uF5i6KqIfjwpAwz8H0gnxJdEhFQxf8Oau5sOOsW1f2BnOXbBjQ6ySbD7
-         NwpfoAFVrPyXLh7tBBysfF3k/WZ2iZwflxB6eMIzIP9k9wkj5pmavlfeJUe7vprqgjQ0
-         htDRZdAqjnuszcjy7nWM16HPR/lY5iK2wCQjOUHlMin6PHOCqLzwSCk6Y0cpQfmrIBzF
-         0fz2SvJSd5zDf66F5SGzrSK2had6A7KDD8/mBs58r3wHNufq+MAzEbZiPIzIzldd0QIr
-         mqlThfb2ig+YvbO8ueZNXdd9PGJyU9rQfyfHt0Y4zWHfbkrlCO+scZdlFx2ZG4XeZY+4
-         vYVw==
+        bh=/QkGgl6Kae1DpQCdf8yPUpjeO9Ea7LDxyntoPVneIq4=;
+        b=s3kuGxvoqbdxt3aeJi3yLYzefSMgA3ymsqePAauzG/h+9R0HC8yQ/hFyPd7H1dLoq7
+         b7S7WanuB1Z6YMxWYs46uF1Qn/wEHnyaR1VmHbnU+cVUt6QEqXAY5gNptNUEAo5DLh3u
+         BC0hmUxg8GWnKruJ+qxdnFrUx7Lxjabn2bVu9W+ccFNJY5m4sFxn6iT6nIHD5d6PjZGv
+         pFJ9sXeQD4ih/usinghwfcs4qieH/88JiPidRFKkSCtjHFK/bYuzWZTuEiz9NpeUzVsJ
+         S/PrO2jWNYZphuJiQx89Apc63BftT86CjUkveUkIfI43EiKHdi2LaYaWKcjF7P0qBboD
+         ufVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698155229; x=1698760029;
+        d=1e100.net; s=20230601; t=1698155232; x=1698760032;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6eAqsYycIS2ghrnCKGJEL/CaCCBxCLyWDq7rTywqIgM=;
-        b=p7t1k6WLLJjGtoR1E06u6ZvH4zOQpfOc7CrVzWdczP7vhmVDg3sSwDDHQUacIkHMdU
-         8IP8er3DXBCZbqaB/2orm30hyqg/x3Bzntd3fpj2kvLVF5lVYkkzcPyg15t8b/UT/h5J
-         WJL0Oyppn9l7zsWUPnmEJum4c+wiyUquOxlbgDplrVzMuHcfx3PZShxK2BHMZ70dV6e9
-         hDBQIFrlUZuVHczbHIeY0ONmeWT7mZ9aKq+dlGKxfmn0kinsI3ku8iVcOyqCxNUneE6g
-         9o9ctHs8Lhke0SBnRL6Q1lqYJWxPZyeBohTvWyq+B/RKdp21yxyttJKgIpybyJBNkJFR
-         J7hQ==
-X-Gm-Message-State: AOJu0YwtUkPNR48jWb8N9FSFtF1iQk3UVYP5XaI6cnpT8S4UwAy1B5eu
-	YjQ8Xk+dGnO1x6pKCyP7geY=
-X-Google-Smtp-Source: AGHT+IF2OZh9aWrvmV4HDMyx6vjlbilkDa+RoGsh99CKZQEDTKkdOd17AoH1IwTtkFpfh02XVNaZ9w==
-X-Received: by 2002:a05:622a:268f:b0:41c:bdc5:7c32 with SMTP id kd15-20020a05622a268f00b0041cbdc57c32mr208745qtb.7.1698155229683;
-        Tue, 24 Oct 2023 06:47:09 -0700 (PDT)
+        bh=/QkGgl6Kae1DpQCdf8yPUpjeO9Ea7LDxyntoPVneIq4=;
+        b=t0oZLIUpNJoRHTw1De+lCHc23blS3ZaKbgXbhBHjdbyAFB68prNSM6keRROxV9Jmzy
+         EgNS3T+ou5oaiFACIG59hKDmQX6885u7+Rz8fxSm15BZsMa3oVyiaxkmkSq/83c0kTEM
+         vN+MV48ZHI6sJixDM5WNgdpr009RCrqmIIxiV1Vd7ZkXpMoVrJbKzUIbVEDq+VKjBnty
+         NH06pnNF8w4x1Med5jQxu2QYWUhHr4FmyP7MnogcB8Pp7sTHaXKpCl0tsOGEH5kCBxoN
+         2ohqpcCv17fWF3ynaDobsZy21Ao0jv2xR5UJeClpn2m0bawLsUoRDDa8eRG+YxZsLz2h
+         Nwmg==
+X-Gm-Message-State: AOJu0YxQgAMefTbLEAdjkCJdHCxCgp6ZLL0mMNi+UD5Qub9Dk8f0tM/l
+	xWM1b2JUU4xmytcgUeH//ig=
+X-Google-Smtp-Source: AGHT+IHO0yyoarXI6wy+77vRNjRWf/HvQFkBLQT+dXwm02qp7jGmDQGw1/4tD7sGGvIa7UUf0CTLfA==
+X-Received: by 2002:a4a:d84b:0:b0:57d:e5e7:6d00 with SMTP id g11-20020a4ad84b000000b0057de5e76d00mr12241396oov.6.1698155231742;
+        Tue, 24 Oct 2023 06:47:11 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:419f:b0:65b:e4f:d22f with SMTP id
- ld31-20020a056214419f00b0065b0e4fd22fls1322075qvb.2.-pod-prod-05-us; Tue, 24
- Oct 2023 06:47:08 -0700 (PDT)
-X-Received: by 2002:a05:6102:e0c:b0:45a:aab9:b613 with SMTP id o12-20020a0561020e0c00b0045aaab9b613mr1449544vst.21.1698155228724;
-        Tue, 24 Oct 2023 06:47:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1698155228; cv=none;
+Received: by 2002:a4a:4f83:0:b0:581:d755:f05f with SMTP id c125-20020a4a4f83000000b00581d755f05fls1622123oob.2.-pod-prod-05-us;
+ Tue, 24 Oct 2023 06:47:11 -0700 (PDT)
+X-Received: by 2002:a05:6830:20d:b0:6b9:8357:6150 with SMTP id em13-20020a056830020d00b006b983576150mr12642165otb.35.1698155230884;
+        Tue, 24 Oct 2023 06:47:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1698155230; cv=none;
         d=google.com; s=arc-20160816;
-        b=bWVNWCblZIPUbEr5emL1atl/MnpSGpms2S+kxrY9JsjRMkHIgdm20/hv8o43EvKqko
-         TSKqREqhNuNSJa4xwBFo2GmDI55IejnbdFLtKpjDbgzBJa+N2S7xIaPeEYh+Iwen5cgV
-         k+jmWYxtOCoBTBdOOFL4Nhbeypx5DHyHA1WVRKT7Pf8FB3rv9Qps3SKPneSb6+OEsIPE
-         fI++tx8F44UOpQ6PfFgF4PxZaADkUbK3UkzBdUUqYFmQzh0FqqWm7FYFdeoK2+/hMl3b
-         c3HexNadzmNnDoTfnSu03/xKSRbaf9Nj1YOyWuUv94tUND6UJ4YiRBSuIb8Rdkt1k+dx
-         J8VQ==
+        b=MmpnhzIbglS8Wwbabqw7ICLk+SgQKOFyUqbfdGrisaj6xjFS2km7Q7hb956aJjiPfZ
+         Vjr2B5vtFNhtw70CzZbyJafYqiW1rGYX55RrHjmQv/Jv8pbw9inBwFv553dMj+1PdmuF
+         DI8WZc9yH9waVIlMnNqFZEj4YTwnd5DYI1QxSMKguO++Nleqk60nSft++depXW365/bY
+         AK0eIVMg6Uc9a+7Rlv2Sj3NEA0g/HYTkkqydmvium8Nz+iN36YZBZXzI/48XSu9LBOsU
+         t1jvcUPhyCAAeNf4+JOWFQGY7iPJttHR7CUC6aLUUXcT9Y+U15VVnh92C1PUPFlgx/nA
+         /8ow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=9NoZOXA8j9UYH0qbl3Heb4+Wi1EaC598WUGqABNW4pA=;
+        bh=YavwLOEBRwC8H4iLOoVDT3e7zkyr1je9EHR8XAi9ck4=;
         fh=99ic5ujgrZ1PmcUIp20sJVy5ooX2fz6OKB+cA08Xtj0=;
-        b=cD7ALeigD+xS0Mj9VjXxfm48fxdZPQxrWI4Ns5Q6wvFdhyB6nkjcvtGbkHesgMs+VE
-         49fqNvJFzoTN3C5EZ0pW3P0eJddH9Y4pZiKRtizOrSIzbrBOPh4mMOtyPKkaknmBd8bZ
-         9A1ccmwlsR6eOGM4FcOq7mm2/o0i1m3hSgizdR0yEBh4NEODRrlXjNf5XeajlA4or75W
-         BT8K+CgIPF79UXwp8pQxwlO0FG1EgcBUj0gkuoQ1OAOX0YQS0i0Wfu6Rh98p9LimuiZu
-         0bUszfcFdNKkFEYkE2RUqgStEuDSCnHAkxjdwHEctUR5yDb0LltNr+J6W8bRuAsG5/AI
-         0fag==
+        b=YTKhrNNlqEvQYtJXI+B+MnZrTfXjGuVApLIepbvyAXoAh7WBkPi/G/Hi+J2mQVIwSj
+         KLd/0rPUX8dIdIPZ1r8/kJ0LpQHjcroVz140EcXLau/Iwd7XfSMHuz6GnKlNcfhTiXUJ
+         ICvCyCEHJCbxIF75yjaM5ecDA77WpGpOUDBxk0rAnsxfpXhsRYPEVCBYI2itNI+inTHr
+         Yl9Hfp9XbfQmL1CtPUDhuUqgtAcIJ1Orc4t0w866TsDu14IUlTseiDGcKYtTKCCt6sJh
+         bI5Q+iJpLhy4vMAHgemFaCSIW37xldn/BsJMu4MpX210GaJV78Ks/2v80JwSol6xk61w
+         2bOw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=JYPfnObL;
-       spf=pass (google.com: domain of 33mo3zqykcyexzwjsglttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=33Mo3ZQYKCYExzwjsglttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=1xRNMFyx;
+       spf=pass (google.com: domain of 33so3zqykcymz1yluinvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=33so3ZQYKCYMz1yluinvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com. [2607:f8b0:4864:20::114a])
-        by gmr-mx.google.com with ESMTPS id p19-20020ab03b93000000b007a5003d1b38si375920uaw.1.2023.10.24.06.47.08
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com. [2607:f8b0:4864:20::1149])
+        by gmr-mx.google.com with ESMTPS id n24-20020a9d4d18000000b006c64ecd75f8si869711otf.5.2023.10.24.06.47.10
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Oct 2023 06:47:08 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 33mo3zqykcyexzwjsglttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) client-ip=2607:f8b0:4864:20::114a;
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5a7ba10cb90so61769687b3.3
-        for <kasan-dev@googlegroups.com>; Tue, 24 Oct 2023 06:47:08 -0700 (PDT)
+        Tue, 24 Oct 2023 06:47:10 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 33so3zqykcymz1yluinvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) client-ip=2607:f8b0:4864:20::1149;
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5a7d1816bccso59393277b3.1
+        for <kasan-dev@googlegroups.com>; Tue, 24 Oct 2023 06:47:10 -0700 (PDT)
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:45ba:3318:d7a5:336a])
- (user=surenb job=sendgmr) by 2002:a81:a08c:0:b0:57a:e0b:f63 with SMTP id
- x134-20020a81a08c000000b0057a0e0b0f63mr272098ywg.7.1698155228147; Tue, 24 Oct
- 2023 06:47:08 -0700 (PDT)
-Date: Tue, 24 Oct 2023 06:46:09 -0700
+ (user=surenb job=sendgmr) by 2002:a81:4e0e:0:b0:5a2:3de0:24a9 with SMTP id
+ c14-20020a814e0e000000b005a23de024a9mr271520ywb.1.1698155230510; Tue, 24 Oct
+ 2023 06:47:10 -0700 (PDT)
+Date: Tue, 24 Oct 2023 06:46:10 -0700
 In-Reply-To: <20231024134637.3120277-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20231024134637.3120277-1-surenb@google.com>
 X-Mailer: git-send-email 2.42.0.758.gaed0368e0e-goog
-Message-ID: <20231024134637.3120277-13-surenb@google.com>
-Subject: [PATCH v2 12/39] lib: code tagging framework
+Message-ID: <20231024134637.3120277-14-surenb@google.com>
+Subject: [PATCH v2 13/39] lib: code tagging module support
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -142,9 +141,9 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=JYPfnObL;       spf=pass
- (google.com: domain of 33mo3zqykcyexzwjsglttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=33Mo3ZQYKCYExzwjsglttlqj.htrpfxfs-ij0lttlqjlwtzux.htr@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=1xRNMFyx;       spf=pass
+ (google.com: domain of 33so3zqykcymz1yluinvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=33so3ZQYKCYMz1yluinvvnsl.jvtrhzhu-kl2nvvnslnyv1wz.jvt@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -160,331 +159,162 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add basic infrastructure to support code tagging which stores tag common
-information consisting of the module name, function, file name and line
-number. Provide functions to register a new code tag type and navigate
-between code tags.
+Add support for code tagging from dynamically loaded modules.
 
+Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
 Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- include/linux/codetag.h |  71 ++++++++++++++
- lib/Kconfig.debug       |   4 +
- lib/Makefile            |   1 +
- lib/codetag.c           | 199 ++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 275 insertions(+)
- create mode 100644 include/linux/codetag.h
- create mode 100644 lib/codetag.c
+ include/linux/codetag.h | 12 +++++++++
+ kernel/module/main.c    |  4 +++
+ lib/codetag.c           | 58 +++++++++++++++++++++++++++++++++++++++--
+ 3 files changed, 72 insertions(+), 2 deletions(-)
 
 diff --git a/include/linux/codetag.h b/include/linux/codetag.h
-new file mode 100644
-index 000000000000..a9d7adecc2a5
---- /dev/null
+index a9d7adecc2a5..386733e89b31 100644
+--- a/include/linux/codetag.h
 +++ b/include/linux/codetag.h
-@@ -0,0 +1,71 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * code tagging framework
-+ */
-+#ifndef _LINUX_CODETAG_H
-+#define _LINUX_CODETAG_H
-+
-+#include <linux/types.h>
-+
-+struct codetag_iterator;
-+struct codetag_type;
-+struct seq_buf;
-+struct module;
-+
-+/*
-+ * An instance of this structure is created in a special ELF section at every
-+ * code location being tagged.  At runtime, the special section is treated as
-+ * an array of these.
-+ */
-+struct codetag {
-+	unsigned int flags; /* used in later patches */
-+	unsigned int lineno;
-+	const char *modname;
-+	const char *function;
-+	const char *filename;
-+} __aligned(8);
-+
-+union codetag_ref {
-+	struct codetag *ct;
-+};
-+
-+struct codetag_range {
-+	struct codetag *start;
-+	struct codetag *stop;
-+};
-+
-+struct codetag_module {
-+	struct module *mod;
-+	struct codetag_range range;
-+};
-+
-+struct codetag_type_desc {
-+	const char *section;
-+	size_t tag_size;
-+};
-+
-+struct codetag_iterator {
-+	struct codetag_type *cttype;
-+	struct codetag_module *cmod;
-+	unsigned long mod_id;
-+	struct codetag *ct;
-+};
-+
-+#define CODE_TAG_INIT {					\
-+	.modname	= KBUILD_MODNAME,		\
-+	.function	= __func__,			\
-+	.filename	= __FILE__,			\
-+	.lineno		= __LINE__,			\
-+	.flags		= 0,				\
-+}
-+
-+void codetag_lock_module_list(struct codetag_type *cttype, bool lock);
-+struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype);
-+struct codetag *codetag_next_ct(struct codetag_iterator *iter);
-+
-+void codetag_to_text(struct seq_buf *out, struct codetag *ct);
-+
-+struct codetag_type *
-+codetag_register_type(const struct codetag_type_desc *desc);
-+
-+#endif /* _LINUX_CODETAG_H */
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index fa307f93fa2e..2acbef24e93e 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -962,6 +962,10 @@ config DEBUG_STACKOVERFLOW
+@@ -42,6 +42,10 @@ struct codetag_module {
+ struct codetag_type_desc {
+ 	const char *section;
+ 	size_t tag_size;
++	void (*module_load)(struct codetag_type *cttype,
++			    struct codetag_module *cmod);
++	void (*module_unload)(struct codetag_type *cttype,
++			      struct codetag_module *cmod);
+ };
  
- 	  If in doubt, say "N".
+ struct codetag_iterator {
+@@ -68,4 +72,12 @@ void codetag_to_text(struct seq_buf *out, struct codetag *ct);
+ struct codetag_type *
+ codetag_register_type(const struct codetag_type_desc *desc);
  
-+config CODE_TAGGING
-+	bool
-+	select KALLSYMS
++#ifdef CONFIG_CODE_TAGGING
++void codetag_load_module(struct module *mod);
++void codetag_unload_module(struct module *mod);
++#else
++static inline void codetag_load_module(struct module *mod) {}
++static inline void codetag_unload_module(struct module *mod) {}
++#endif
 +
- source "lib/Kconfig.kasan"
- source "lib/Kconfig.kfence"
- source "lib/Kconfig.kmsan"
-diff --git a/lib/Makefile b/lib/Makefile
-index 740109b6e2c8..b50212b5b999 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -233,6 +233,7 @@ obj-$(CONFIG_OF_RECONFIG_NOTIFIER_ERROR_INJECT) += \
- 	of-reconfig-notifier-error-inject.o
- obj-$(CONFIG_FUNCTION_ERROR_INJECTION) += error-inject.o
- 
-+obj-$(CONFIG_CODE_TAGGING) += codetag.o
- lib-$(CONFIG_GENERIC_BUG) += bug.o
- 
- obj-$(CONFIG_HAVE_ARCH_TRACEHOOK) += syscall.o
-diff --git a/lib/codetag.c b/lib/codetag.c
-new file mode 100644
-index 000000000000..7708f8388e55
---- /dev/null
-+++ b/lib/codetag.c
-@@ -0,0 +1,199 @@
-+// SPDX-License-Identifier: GPL-2.0-only
+ #endif /* _LINUX_CODETAG_H */
+diff --git a/kernel/module/main.c b/kernel/module/main.c
+index 98fedfdb8db5..c0d3f562c7ab 100644
+--- a/kernel/module/main.c
++++ b/kernel/module/main.c
+@@ -56,6 +56,7 @@
+ #include <linux/dynamic_debug.h>
+ #include <linux/audit.h>
+ #include <linux/cfi.h>
 +#include <linux/codetag.h>
-+#include <linux/idr.h>
-+#include <linux/kallsyms.h>
-+#include <linux/module.h>
-+#include <linux/seq_buf.h>
-+#include <linux/slab.h>
+ #include <linux/debugfs.h>
+ #include <uapi/linux/module.h>
+ #include "internal.h"
+@@ -1242,6 +1243,7 @@ static void free_module(struct module *mod)
+ {
+ 	trace_module_free(mod);
+ 
++	codetag_unload_module(mod);
+ 	mod_sysfs_teardown(mod);
+ 
+ 	/*
+@@ -2975,6 +2977,8 @@ static int load_module(struct load_info *info, const char __user *uargs,
+ 	/* Get rid of temporary copy. */
+ 	free_copy(info, flags);
+ 
++	codetag_load_module(mod);
 +
-+struct codetag_type {
-+	struct list_head link;
-+	unsigned int count;
-+	struct idr mod_idr;
-+	struct rw_semaphore mod_lock; /* protects mod_idr */
-+	struct codetag_type_desc desc;
-+};
+ 	/* Done! */
+ 	trace_module_load(mod);
+ 
+diff --git a/lib/codetag.c b/lib/codetag.c
+index 7708f8388e55..4ea57fb37346 100644
+--- a/lib/codetag.c
++++ b/lib/codetag.c
+@@ -108,15 +108,20 @@ static inline size_t range_size(const struct codetag_type *cttype,
+ static void *get_symbol(struct module *mod, const char *prefix, const char *name)
+ {
+ 	char buf[64];
++	void *ret;
+ 	int res;
+ 
+ 	res = snprintf(buf, sizeof(buf), "%s%s", prefix, name);
+ 	if (WARN_ON(res < 1 || res > sizeof(buf)))
+ 		return NULL;
+ 
+-	return mod ?
++	preempt_disable();
++	ret = mod ?
+ 		(void *)find_kallsyms_symbol_value(mod, buf) :
+ 		(void *)kallsyms_lookup_name(buf);
++	preempt_enable();
 +
-+static DEFINE_MUTEX(codetag_lock);
-+static LIST_HEAD(codetag_types);
-+
-+void codetag_lock_module_list(struct codetag_type *cttype, bool lock)
-+{
-+	if (lock)
-+		down_read(&cttype->mod_lock);
-+	else
-+		up_read(&cttype->mod_lock);
-+}
-+
-+struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype)
-+{
-+	struct codetag_iterator iter = {
-+		.cttype = cttype,
-+		.cmod = NULL,
-+		.mod_id = 0,
-+		.ct = NULL,
-+	};
-+
-+	return iter;
-+}
-+
-+static inline struct codetag *get_first_module_ct(struct codetag_module *cmod)
-+{
-+	return cmod->range.start < cmod->range.stop ? cmod->range.start : NULL;
-+}
-+
-+static inline
-+struct codetag *get_next_module_ct(struct codetag_iterator *iter)
-+{
-+	struct codetag *res = (struct codetag *)
-+			((char *)iter->ct + iter->cttype->desc.tag_size);
-+
-+	return res < iter->cmod->range.stop ? res : NULL;
-+}
-+
-+struct codetag *codetag_next_ct(struct codetag_iterator *iter)
-+{
-+	struct codetag_type *cttype = iter->cttype;
-+	struct codetag_module *cmod;
-+	struct codetag *ct;
-+
-+	lockdep_assert_held(&cttype->mod_lock);
-+
-+	if (unlikely(idr_is_empty(&cttype->mod_idr)))
-+		return NULL;
-+
-+	ct = NULL;
-+	while (true) {
-+		cmod = idr_find(&cttype->mod_idr, iter->mod_id);
-+
-+		/* If module was removed move to the next one */
-+		if (!cmod)
-+			cmod = idr_get_next_ul(&cttype->mod_idr,
-+					       &iter->mod_id);
-+
-+		/* Exit if no more modules */
-+		if (!cmod)
-+			break;
-+
-+		if (cmod != iter->cmod) {
-+			iter->cmod = cmod;
-+			ct = get_first_module_ct(cmod);
-+		} else
-+			ct = get_next_module_ct(iter);
-+
-+		if (ct)
-+			break;
-+
-+		iter->mod_id++;
++	return ret;
+ }
+ 
+ static struct codetag_range get_section_range(struct module *mod,
+@@ -157,8 +162,11 @@ static int codetag_module_init(struct codetag_type *cttype, struct module *mod)
+ 
+ 	down_write(&cttype->mod_lock);
+ 	err = idr_alloc(&cttype->mod_idr, cmod, 0, 0, GFP_KERNEL);
+-	if (err >= 0)
++	if (err >= 0) {
+ 		cttype->count += range_size(cttype, &range);
++		if (cttype->desc.module_load)
++			cttype->desc.module_load(cttype, cmod);
 +	}
+ 	up_write(&cttype->mod_lock);
+ 
+ 	if (err < 0) {
+@@ -197,3 +205,49 @@ codetag_register_type(const struct codetag_type_desc *desc)
+ 
+ 	return cttype;
+ }
 +
-+	iter->ct = ct;
-+	return ct;
-+}
-+
-+void codetag_to_text(struct seq_buf *out, struct codetag *ct)
-+{
-+	seq_buf_printf(out, "%s:%u module:%s func:%s",
-+		       ct->filename, ct->lineno,
-+		       ct->modname, ct->function);
-+}
-+
-+static inline size_t range_size(const struct codetag_type *cttype,
-+				const struct codetag_range *range)
-+{
-+	return ((char *)range->stop - (char *)range->start) /
-+			cttype->desc.tag_size;
-+}
-+
-+static void *get_symbol(struct module *mod, const char *prefix, const char *name)
-+{
-+	char buf[64];
-+	int res;
-+
-+	res = snprintf(buf, sizeof(buf), "%s%s", prefix, name);
-+	if (WARN_ON(res < 1 || res > sizeof(buf)))
-+		return NULL;
-+
-+	return mod ?
-+		(void *)find_kallsyms_symbol_value(mod, buf) :
-+		(void *)kallsyms_lookup_name(buf);
-+}
-+
-+static struct codetag_range get_section_range(struct module *mod,
-+					      const char *section)
-+{
-+	return (struct codetag_range) {
-+		get_symbol(mod, "__start_", section),
-+		get_symbol(mod, "__stop_", section),
-+	};
-+}
-+
-+static int codetag_module_init(struct codetag_type *cttype, struct module *mod)
-+{
-+	struct codetag_range range;
-+	struct codetag_module *cmod;
-+	int err;
-+
-+	range = get_section_range(mod, cttype->desc.section);
-+	if (!range.start || !range.stop) {
-+		pr_warn("Failed to load code tags of type %s from the module %s\n",
-+			cttype->desc.section,
-+			mod ? mod->name : "(built-in)");
-+		return -EINVAL;
-+	}
-+
-+	/* Ignore empty ranges */
-+	if (range.start == range.stop)
-+		return 0;
-+
-+	BUG_ON(range.start > range.stop);
-+
-+	cmod = kmalloc(sizeof(*cmod), GFP_KERNEL);
-+	if (unlikely(!cmod))
-+		return -ENOMEM;
-+
-+	cmod->mod = mod;
-+	cmod->range = range;
-+
-+	down_write(&cttype->mod_lock);
-+	err = idr_alloc(&cttype->mod_idr, cmod, 0, 0, GFP_KERNEL);
-+	if (err >= 0)
-+		cttype->count += range_size(cttype, &range);
-+	up_write(&cttype->mod_lock);
-+
-+	if (err < 0) {
-+		kfree(cmod);
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+
-+struct codetag_type *
-+codetag_register_type(const struct codetag_type_desc *desc)
++void codetag_load_module(struct module *mod)
 +{
 +	struct codetag_type *cttype;
-+	int err;
 +
-+	BUG_ON(desc->tag_size <= 0);
-+
-+	cttype = kzalloc(sizeof(*cttype), GFP_KERNEL);
-+	if (unlikely(!cttype))
-+		return ERR_PTR(-ENOMEM);
-+
-+	cttype->desc = *desc;
-+	idr_init(&cttype->mod_idr);
-+	init_rwsem(&cttype->mod_lock);
-+
-+	err = codetag_module_init(cttype, NULL);
-+	if (unlikely(err)) {
-+		kfree(cttype);
-+		return ERR_PTR(err);
-+	}
++	if (!mod)
++		return;
 +
 +	mutex_lock(&codetag_lock);
-+	list_add_tail(&cttype->link, &codetag_types);
++	list_for_each_entry(cttype, &codetag_types, link)
++		codetag_module_init(cttype, mod);
 +	mutex_unlock(&codetag_lock);
++}
 +
-+	return cttype;
++void codetag_unload_module(struct module *mod)
++{
++	struct codetag_type *cttype;
++
++	if (!mod)
++		return;
++
++	mutex_lock(&codetag_lock);
++	list_for_each_entry(cttype, &codetag_types, link) {
++		struct codetag_module *found = NULL;
++		struct codetag_module *cmod;
++		unsigned long mod_id, tmp;
++
++		down_write(&cttype->mod_lock);
++		idr_for_each_entry_ul(&cttype->mod_idr, cmod, tmp, mod_id) {
++			if (cmod->mod && cmod->mod == mod) {
++				found = cmod;
++				break;
++			}
++		}
++		if (found) {
++			if (cttype->desc.module_unload)
++				cttype->desc.module_unload(cttype, cmod);
++
++			cttype->count -= range_size(cttype, &cmod->range);
++			idr_remove(&cttype->mod_idr, mod_id);
++			kfree(cmod);
++		}
++		up_write(&cttype->mod_lock);
++	}
++	mutex_unlock(&codetag_lock);
 +}
 -- 
 2.42.0.758.gaed0368e0e-goog
@@ -492,4 +322,4 @@ index 000000000000..7708f8388e55
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231024134637.3120277-13-surenb%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231024134637.3120277-14-surenb%40google.com.
