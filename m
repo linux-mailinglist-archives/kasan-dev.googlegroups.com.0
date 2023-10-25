@@ -1,155 +1,149 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBMPI4SUQMGQEBLWMNJY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAMN6NI5EERBT5C4WUQMGQEFC6ZS7A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54D87D70C0
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Oct 2023 17:28:50 +0200 (CEST)
-Received: by mail-il1-x13e.google.com with SMTP id e9e14a558f8ab-357ce7283d3sf1029575ab.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Oct 2023 08:28:50 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1698247729; cv=pass;
+Received: from mail-lf1-x13d.google.com (mail-lf1-x13d.google.com [IPv6:2a00:1450:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95B3C7D724C
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Oct 2023 19:33:04 +0200 (CEST)
+Received: by mail-lf1-x13d.google.com with SMTP id 2adb3069b0e04-5079641031asf5860755e87.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Oct 2023 10:33:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1698255184; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SKeNbz+MmH2ISlBsaBiP2csnLzAF8wDaUzDe2Cj7eigGznuvhK9Q2Z5IJSKj5nsTu/
-         +jdr76AOtiIAZ8rV29/9ppXU4qBjPyiaIhL7wmYPb6CBMOt7Pt4lNs1nvsgfSZAYj8Su
-         TgCGVMgjooH73+U8zLdvgDjhTaZoazbW7v/V8Rn0e2rX+935wKctf1qxuaZpLirF8t45
-         NG50A2A4ATMH8h1TIcBPMdM5CmlZxW36MgbZG/XbwbRH0ZYKHe+tXNAivuMjzBpyFG0+
-         PHRTdaPhu+EZcnzeNyUdzGafjXoTofCeexwmPyb6Qzb1Mdiajm3l5YHCmzGlc1uAST9i
-         Y5DQ==
+        b=0XiLSvomG9JV8wTQr1evS1gbbKbm0zS+oYBgnkQP3NvnFmdMB3V3d7IiNVT6LdphMh
+         hU3+23V7/kcxDVODE6fqgfR3AK8ZXmq0zYsr2hR4dD6b9uUrmE7EzeK4U3N5I8xY74cx
+         y3JeWxG5SXj97sZ5onWH6mA4qmpjM7xhJdJBI5x/X0TBp7Cgo0jYW80YzfAEl598GRmS
+         GN2xQVsImxcsNWKuYkJTxXW/PgraGoYdVfmDQ0+G0AVGF+u6+QfVVsKP8I5Pn9m/flLZ
+         VCYfraQAk7sANMtbdWQsBtvPtKmLf5eUI1qbeHq5sQv/VCm5zjHg0PHZCaNgErp1pGx/
+         Hu7w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=9fU6oGHKNxgb8Ambva/atsMuWvGRLcwy+N2LvCfFWbc=;
-        fh=usgaYvrONOYyRsl4Ga2j2zE19rakNAnb2l5blenKwN4=;
-        b=omXHdgZeJLQaKr5Bilyg5HABMBMI/tJynSgNMMwePz37zQ55acLv8acKSfc+H7NEhH
-         do5KoQaRykYV53jcEDMqFwpUC9NjdeMcxjajC1GncvOXeh6RE/D2iQUIUCNwKw4UvB+s
-         C6WrXjaGoclJsUIMyL1YcUVZhz80tmGqbVKDYBD3qW364gTMskPkRjXJuBx23Y1YSuvX
-         63cfCUcxzluias8JReQghvhw5FHJepXFDK+fFuFtlTUyQMdbkrp9IwpL16vtofqmyqGN
-         tF8uFR91s2NvDMbU7+EJVi8o0EVq6SpE7wJTFdpEWR45ZEY8ZhG3gC3gSc1kbc2zTTQQ
-         pcUw==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=Kr87gW6h6DQNrIkVr0UdBi1RnqgRh3HzKEdRB2T2O2c=;
+        fh=AFOxcCB9MfPdzo/iQ5IkYJt05Y8hJ+Uaf8xHeAP0L18=;
+        b=Jp+RD3F9TOEiB5vmQzOxvYhwbH7RWl6FDaUKVPa9npCiyeU2y6pV7qgNp2nq3SWcL5
+         fWxSpkawSB78ZFHszd5frohspSjGl729kHVjannAsmlBVhd/wuM/use05xwVxC/NMmTX
+         KL2DCYzFlqMB25yL1KROy1xXHUwvo+syxEYJQdPPg58zhVOVBou7Em8B9byaYNvJz2dP
+         Ia38IQeAttqpKDB48WG3T6Fbzdb7m4Id+N8mapDqf5XAxIyNyIEA4cuSIlugtSbYJ6AH
+         xZclogieBKWXnlYnYLvX0tjyjKGG6apvwEHW6VohhQM4UUSUFiMqDEn1APO5ZeU3rszm
+         zo+g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=u56UyU8w;
-       spf=pass (google.com: domain of surenb@google.com designates 2001:4860:4864:20::2f as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=14FcZImO;
+       dkim=neutral (no key) header.i=@linutronix.de header.b=CkKs0Vb+;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1698247729; x=1698852529; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1698255184; x=1698859984; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9fU6oGHKNxgb8Ambva/atsMuWvGRLcwy+N2LvCfFWbc=;
-        b=aOQVsef02uUWKbW3iW33olvqiLC+3Vn2HAiNqZ/RSJJyv8XOpYGDW41jOEnBPtBAsf
-         xWddt4ySNDKJJSlQ9OXclXqnT8YidyoSTZP7HWhkVq6quaVhxgyUOMFUzyQcIUoxUal8
-         LmUE4wXgC+7ifeHrdm8TXAv5eQ1vDdUX+lHiz9Sz3hZWteCitzJWnFudIFRZYMoBTjZ8
-         x1ViUKNX5UpOhYNzTNdNf/JhExGPjcMvvFtAdMexZbvhVmsFyYezqhSeSvp/operexYR
-         jg4a+eB8ykkgIfO/A5oQ/Q5+34wKjwUNgsEPU9uINtPGKf0E6K6CEXmLBue7ZykeTu83
-         Uv2g==
+        bh=Kr87gW6h6DQNrIkVr0UdBi1RnqgRh3HzKEdRB2T2O2c=;
+        b=kkInIaVR5kfO0fOYI+Muy6vM2+GWCYILq5ht/E7XxExCSHg3d5I4prqOSVH5s0tOsS
+         c8uOfxSAyvQ44E/3ejEAkg6BQmvGKyAjdhMueo5FHxhBhoKXLaliuniiUCjFAfrObTMj
+         K0tSLm+ajcHcuBXtwj2eLmdxGpm8mWyroPTmv9ntAOE+NvMgdMU6gqeD9N693jMC/C35
+         i5VsUGtxyXxIUgM+aNLGpjSoe6B1Im36w2rBgu7PfBPs32eZh/N6b10UEF+jI96o3Bnx
+         gpupYVVqDsHRgIz7/Cuski5ZZQ+HlnRJqJi8dqll0dfA4H8nteSnjKuitP7laH2/ESsw
+         gRdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698247729; x=1698852529;
+        d=1e100.net; s=20230601; t=1698255184; x=1698859984;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9fU6oGHKNxgb8Ambva/atsMuWvGRLcwy+N2LvCfFWbc=;
-        b=UwAOHlQ4xWwAPlggcDMRneNcywTNoZRe2r32fM6CqZKigI7wRvpYVRWX+9ET61Eb0h
-         UneFXKwTSUlrYs70P/zP7LQG/TpTAhdKnkke6w3WXz+GnajOOvzomUESmOV7qOjSoxUy
-         HNk5xWwjdLdcF/GuW8x2vblcgn+hrZ+T8n0WEs9i3QfpjekJ9gnodZgqlOvArE2xfuKX
-         ZgrvbbQFV9dVFZj1ehTQP0T0vN6/X7wDoODjtYD8xmW25s8A9UbuCwi8OIDnbYGIhf2p
-         rQmcOG52k+t0bJ/QEQN4RBxnrwicyDOSd3y2SdapfcSyJWo5TKmvXbmKYc5YXrCTMVLX
-         JaLQ==
-X-Gm-Message-State: AOJu0Yy45gaK/bFYhsaxDD6EYa1VVamoK+rFkEtFdUn5dD23KNZHFiE1
-	RpufsOE8sMewzvG0fCd5xuA=
-X-Google-Smtp-Source: AGHT+IEWqj5ZAik3BLTU9EFZnsTTKPCxt0D82aBAoPRndt5bVj+vnq5Ab/NJfXUju7u8RCDPIayisw==
-X-Received: by 2002:a92:c642:0:b0:357:f5d2:994d with SMTP id 2-20020a92c642000000b00357f5d2994dmr222063ill.4.1698247729242;
-        Wed, 25 Oct 2023 08:28:49 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:references:in-reply-to:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Kr87gW6h6DQNrIkVr0UdBi1RnqgRh3HzKEdRB2T2O2c=;
+        b=EnrBtnfnoG9cAG8+GJtXwhFkbp7ga624TM0UMpPhACmcOjE3plAeymonhRLB4BaPXr
+         LIgfVEnqtUppzIXUr/6y4IXL7BIfl6kF/dWBmPIF6CM86/G10LTlyD9STJB95k+Qf2/j
+         mnwezUASBY/n7/9go2kC0aWEF+gQWn9kanxZbOGFcqUEcdqitvt+oe27hxroEF5H58ID
+         SrDrsjyqs5TD1f664hsF+wUJtFFMDHG+8oqc0tKUVkaZUbcPubuK1lYMhNec+wI0HZv2
+         XwWwY+guspUjrthzjQ+C0DZoAwEspuwTtgODtoBoE1nAZA9QdZphsoo+iv4LMIHAP8Dv
+         MvTQ==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOJu0YzmSe3X+iAe7cklQUca5viOkX0CrHCx57dx4UhffKpm+K8HpQQh
+	wQtPUzd9pWhpsi/uYFa5ioA=
+X-Google-Smtp-Source: AGHT+IFTFbWJn1OMcIk80VYnsIeRIpFNkyXnE+yICmxVJOHsO47rCBeq3O1LUIGOZ4Pmb2RZbKHxvg==
+X-Received: by 2002:ac2:5df6:0:b0:507:b15d:2ff1 with SMTP id z22-20020ac25df6000000b00507b15d2ff1mr11437439lfq.38.1698255183319;
+        Wed, 25 Oct 2023 10:33:03 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:4ce:b0:34b:ae4b:a965 with SMTP id
- f14-20020a056e0204ce00b0034bae4ba965ls3190180ils.1.-pod-prod-03-us; Wed, 25
- Oct 2023 08:28:48 -0700 (PDT)
-X-Received: by 2002:a05:6602:1613:b0:7a9:5e03:a785 with SMTP id x19-20020a056602161300b007a95e03a785mr9892103iow.15.1698247728152;
-        Wed, 25 Oct 2023 08:28:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1698247728; cv=none;
+Received: by 2002:a05:6512:3d16:b0:507:b8d5:d6cf with SMTP id
+ d22-20020a0565123d1600b00507b8d5d6cfls172749lfv.1.-pod-prod-05-eu; Wed, 25
+ Oct 2023 10:33:01 -0700 (PDT)
+X-Received: by 2002:a2e:a9a7:0:b0:2c0:34ed:b5ea with SMTP id x39-20020a2ea9a7000000b002c034edb5eamr12112229ljq.45.1698255181385;
+        Wed, 25 Oct 2023 10:33:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1698255181; cv=none;
         d=google.com; s=arc-20160816;
-        b=wF+TWoghGU2zfKfkkdk8FBxmvjJ7b0eMKakiGWU/eu81OkCCTD9h0lFcJGzq4Edv/c
-         R3uxp4ZCf/Nfa4tYm4pDrRBfOjGrmHaFoDItPXDIlf2admkKof6w/CRLYO5oKRo+UBiz
-         I//ZHqzMgryLnc2sKQvVbLFbXkwJ61sn9tiM9JE63A/kuM0kGtlvLhvZE9KWSrMLZzoD
-         CZt8q30qCfkbSTowjtRKL7xirJk/7DLDIopEGFYDxsrh4tHGOwSBnC38ghD3viBFuJST
-         p1/RtZCnRPYC14gW9cDiEJQmiEkfIJf7NaQckIYLno40OBMkTJe0tQjUYnpdvPaaSR6g
-         ztWg==
+        b=NAisWVUmRNPhrC3u/Lj8I5YJcXIS+w9bfqpDJ7luBkwfkNK8L0II24eC4zklRKE6Te
+         g7tFtQfp/J6dJkOXE7I0o6Hv6WCWnlDXsuwZlIkJjXYCf0Z7Oag72Bm+IDpfapwC+vAB
+         vO8EMBYzpWCdrFxyLY3x8Jl0EYkm1IVMxCMu91MnQdJIrWMc8FYk/9iVm1bnF3lwWYyJ
+         jEroNMXxqPcYaaLKr/Fh/lxWEbIDW/0+ztBHOJAJvAlGK6reV83pKaBgPFEL4MXwLWzi
+         9PqWJE5Yrzj5txDO+HC/6dON5GSQZayqLEXKWWVb9LosLccYhcpcyYFvx8NHOtKTYdIc
+         9l+w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FLJnARkfIBMUfgquTTGlj0tPN4MXFqJ8fdXtHqq+8bA=;
-        fh=usgaYvrONOYyRsl4Ga2j2zE19rakNAnb2l5blenKwN4=;
-        b=J/tOzWE4GNS0GN4QF/0SJBisRt9Y5qpTYo/zkZuP1TsiOMPpyU6boczpc/o6lTbaL4
-         x+10P2jijy7cy9ptymu8RUU8ogVLWVdhByoUWrYBamfxejmhvK1D5ztMbvzyXAW6h3Qi
-         oB3tAWZCMtOVHaRxGp8Lz93zcScB9Wi2RWwlXJygYGaXc3EOaB4cz8+LInFjEbbmcnV2
-         6uKqM21gT2BEtN9gdkJA631sXmvlNCNSo1Qy883GnQftoElmI68FotqiCo9fj2Q3t88f
-         g1UXkX7znkBiHhFAZ6pVILnPq0Ez5v4Xio5hEvyDhN8I3c5uYmm+OsKTEnEBdNqhilv4
-         0zhA==
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :dkim-signature:dkim-signature:from;
+        bh=IMbPag9QwdHG5LCrp7GKbj7qfyS+r03W9FBPD7TqsHo=;
+        fh=AFOxcCB9MfPdzo/iQ5IkYJt05Y8hJ+Uaf8xHeAP0L18=;
+        b=dbRa4ysc/9mTOlQ+PNnjnqdz9V+GronHiZrSMOF2L469uZFra+oUZupZkOkdl3Z2Oh
+         igRR63cS2ijNh6+vLx7IvgpY43FWM/l5bRkc8q49bnrEkU2Clsbcm1pjF0J0W7zchhF0
+         bduyL7jQCAWlClT4MRmH52L0SAj7OaaaeHe7F8OWNHvzGa1TfbndPKJcC3ihJyqY/38d
+         ETlXjbW0f06+9QWkgL07szUhCKCkzmXu9l/wUCXti2X0Q6q3vtH2Dext/Wvia58nSOAI
+         1yuCuZ95I27gZDCh3jIw6skMesg4SsiAc46/pwz/d2ndtStTmoDBJtHFt3zoHIkVRtl1
+         Z+yA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=u56UyU8w;
-       spf=pass (google.com: domain of surenb@google.com designates 2001:4860:4864:20::2f as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oa1-x2f.google.com (mail-oa1-x2f.google.com. [2001:4860:4864:20::2f])
-        by gmr-mx.google.com with ESMTPS id n7-20020a6b5907000000b0079f955fa823si7108iob.1.2023.10.25.08.28.48
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=14FcZImO;
+       dkim=neutral (no key) header.i=@linutronix.de header.b=CkKs0Vb+;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+Received: from galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
+        by gmr-mx.google.com with ESMTPS id f1-20020a2eb5a1000000b002c12145a0cbsi470817ljn.7.2023.10.25.10.33.01
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Oct 2023 08:28:48 -0700 (PDT)
-Received-SPF: pass (google.com: domain of surenb@google.com designates 2001:4860:4864:20::2f as permitted sender) client-ip=2001:4860:4864:20::2f;
-Received: by mail-oa1-x2f.google.com with SMTP id 586e51a60fabf-1e5bc692721so3711650fac.0
-        for <kasan-dev@googlegroups.com>; Wed, 25 Oct 2023 08:28:48 -0700 (PDT)
-X-Received: by 2002:a05:6870:1157:b0:1da:ed10:bcb with SMTP id
- 23-20020a056870115700b001daed100bcbmr15750180oag.31.1698247727385; Wed, 25
- Oct 2023 08:28:47 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Oct 2023 10:33:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
+From: Thomas Gleixner <tglx@linutronix.de>
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
+ hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
+ dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
+ corbet@lwn.net, void@manifault.com, peterz@infradead.org,
+ juri.lelli@redhat.com, ldufour@linux.ibm.com, catalin.marinas@arm.com,
+ will@kernel.org, arnd@arndb.de, mingo@redhat.com,
+ dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+ david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+ masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, tj@kernel.org,
+ muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
+ pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com,
+ dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com,
+ keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com,
+ gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
+ bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+ penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+ glider@google.com, elver@google.com, dvyukov@google.com,
+ shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
+ rientjes@google.com, minchan@google.com, kaleshsingh@google.com,
+ surenb@google.com, kernel-team@android.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+ linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-modules@vger.kernel.org,
+ kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+Subject: Re: [PATCH v2 28/39] timekeeping: Fix a circular include dependency
+In-Reply-To: <20231024134637.3120277-29-surenb@google.com>
+References: <20231024134637.3120277-1-surenb@google.com>
+ <20231024134637.3120277-29-surenb@google.com>
+Date: Wed, 25 Oct 2023 19:33:00 +0200
+Message-ID: <87h6me620j.ffs@tglx>
 MIME-Version: 1.0
-References: <20231024134637.3120277-1-surenb@google.com> <20231024134637.3120277-7-surenb@google.com>
- <20231025074652.44bc0eb4@meshulam.tesarici.cz>
-In-Reply-To: <20231025074652.44bc0eb4@meshulam.tesarici.cz>
-From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 25 Oct 2023 08:28:32 -0700
-Message-ID: <CAJuCfpHS1JTRU69zFDAJjmMYR3K5TAS9+AsA3oYLs2LCs5aTBw@mail.gmail.com>
-Subject: Re: [PATCH v2 06/39] mm: enumerate all gfp flags
-To: =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>
-Cc: Neil Brown <neilb@suse.de>, akpm@linux-foundation.org, kent.overstreet@linux.dev, 
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
-	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, 
-	liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com, 
-	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
-	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, 
-	peterx@redhat.com, david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, 
-	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, tj@kernel.org, 
-	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, 
-	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
-	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
-	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
-	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: surenb@google.com
+X-Original-Sender: tglx@linutronix.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=u56UyU8w;       spf=pass
- (google.com: domain of surenb@google.com designates 2001:4860:4864:20::2f as
- permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Suren Baghdasaryan <surenb@google.com>
-Reply-To: Suren Baghdasaryan <surenb@google.com>
+ header.i=@linutronix.de header.s=2020 header.b=14FcZImO;       dkim=neutral
+ (no key) header.i=@linutronix.de header.b=CkKs0Vb+;       spf=pass
+ (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1
+ as permitted sender) smtp.mailfrom=tglx@linutronix.de;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -162,180 +156,15 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Oct 24, 2023 at 10:47=E2=80=AFPM Petr Tesa=C5=99=C3=ADk <petr@tesar=
-ici.cz> wrote:
+On Tue, Oct 24 2023 at 06:46, Suren Baghdasaryan wrote:
+> From: Kent Overstreet <kent.overstreet@linux.dev>
 >
-> On Tue, 24 Oct 2023 06:46:03 -0700
-> Suren Baghdasaryan <surenb@google.com> wrote:
->
-> > Introduce GFP bits enumeration to let compiler track the number of used
-> > bits (which depends on the config options) instead of hardcoding them.
-> > That simplifies __GFP_BITS_SHIFT calculation.
-> > Suggested-by: Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz>
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > ---
-> >  include/linux/gfp_types.h | 90 +++++++++++++++++++++++++++------------
-> >  1 file changed, 62 insertions(+), 28 deletions(-)
-> >
-> > diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
-> > index 6583a58670c5..3fbe624763d9 100644
-> > --- a/include/linux/gfp_types.h
-> > +++ b/include/linux/gfp_types.h
-> > @@ -21,44 +21,78 @@ typedef unsigned int __bitwise gfp_t;
-> >   * include/trace/events/mmflags.h and tools/perf/builtin-kmem.c
-> >   */
-> >
-> > +enum {
-> > +     ___GFP_DMA_BIT,
-> > +     ___GFP_HIGHMEM_BIT,
-> > +     ___GFP_DMA32_BIT,
-> > +     ___GFP_MOVABLE_BIT,
-> > +     ___GFP_RECLAIMABLE_BIT,
-> > +     ___GFP_HIGH_BIT,
-> > +     ___GFP_IO_BIT,
-> > +     ___GFP_FS_BIT,
-> > +     ___GFP_ZERO_BIT,
-> > +     ___GFP_UNUSED_BIT,      /* 0x200u unused */
-> > +     ___GFP_DIRECT_RECLAIM_BIT,
-> > +     ___GFP_KSWAPD_RECLAIM_BIT,
-> > +     ___GFP_WRITE_BIT,
-> > +     ___GFP_NOWARN_BIT,
-> > +     ___GFP_RETRY_MAYFAIL_BIT,
-> > +     ___GFP_NOFAIL_BIT,
-> > +     ___GFP_NORETRY_BIT,
-> > +     ___GFP_MEMALLOC_BIT,
-> > +     ___GFP_COMP_BIT,
-> > +     ___GFP_NOMEMALLOC_BIT,
-> > +     ___GFP_HARDWALL_BIT,
-> > +     ___GFP_THISNODE_BIT,
-> > +     ___GFP_ACCOUNT_BIT,
-> > +     ___GFP_ZEROTAGS_BIT,
-> > +#ifdef CONFIG_KASAN_HW_TAGS
-> > +     ___GFP_SKIP_ZERO_BIT,
-> > +     ___GFP_SKIP_KASAN_BIT,
-> > +#endif
-> > +#ifdef CONFIG_LOCKDEP
-> > +     ___GFP_NOLOCKDEP_BIT,
-> > +#endif
-> > +     ___GFP_LAST_BIT
-> > +};
-> > +
-> >  /* Plain integer GFP bitmasks. Do not use this directly. */
-> > -#define ___GFP_DMA           0x01u
-> > -#define ___GFP_HIGHMEM               0x02u
-> > -#define ___GFP_DMA32         0x04u
-> > -#define ___GFP_MOVABLE               0x08u
-> > -#define ___GFP_RECLAIMABLE   0x10u
-> > -#define ___GFP_HIGH          0x20u
-> > -#define ___GFP_IO            0x40u
-> > -#define ___GFP_FS            0x80u
-> > -#define ___GFP_ZERO          0x100u
-> > +#define ___GFP_DMA           BIT(___GFP_DMA_BIT)
-> > +#define ___GFP_HIGHMEM               BIT(___GFP_HIGHMEM_BIT)
-> > +#define ___GFP_DMA32         BIT(___GFP_DMA32_BIT)
-> > +#define ___GFP_MOVABLE               BIT(___GFP_MOVABLE_BIT)
-> > +#define ___GFP_RECLAIMABLE   BIT(___GFP_RECLAIMABLE_BIT)
-> > +#define ___GFP_HIGH          BIT(___GFP_HIGH_BIT)
-> > +#define ___GFP_IO            BIT(___GFP_IO_BIT)
-> > +#define ___GFP_FS            BIT(___GFP_FS_BIT)
-> > +#define ___GFP_ZERO          BIT(___GFP_ZERO_BIT)
-> >  /* 0x200u unused */
->
-> This comment can be also removed here, because it is already stated
-> above with the definition of ___GFP_UNUSED_BIT.
+> This avoids a circular header dependency in an upcoming patch by only
+> making hrtimer.h depend on percpu-defs.h
 
-Ack.
+What's the actual dependency problem?
 
->
-> Then again, I think that the GFP bits have never been compacted after
-> Neil Brown removed __GFP_ATOMIC with commit 2973d8229b78 simply because
-> that would mean changing definitions of all subsequent GFP flags. FWIW
-> I am not aware of any code that would depend on the numeric value of
-> ___GFP_* macros, so this patch seems like a good opportunity to change
-> the numbering and get rid of this unused 0x200u altogether.
->
-> @Neil: I have added you to the conversation in case you want to correct
-> my understanding of the unused bit.
-
-Hmm. I would prefer to do that in a separate patch even though it
-would be a one-line change. Seems safer to me in case something goes
-wrong and we have to bisect and revert it. If that sounds ok I'll post
-that in the next version.
-
->
-> Other than that LGTM.
-
-Thanks for the review!
-Suren.
-
->
-> Petr T
->
-> > -#define ___GFP_DIRECT_RECLAIM        0x400u
-> > -#define ___GFP_KSWAPD_RECLAIM        0x800u
-> > -#define ___GFP_WRITE         0x1000u
-> > -#define ___GFP_NOWARN                0x2000u
-> > -#define ___GFP_RETRY_MAYFAIL 0x4000u
-> > -#define ___GFP_NOFAIL                0x8000u
-> > -#define ___GFP_NORETRY               0x10000u
-> > -#define ___GFP_MEMALLOC              0x20000u
-> > -#define ___GFP_COMP          0x40000u
-> > -#define ___GFP_NOMEMALLOC    0x80000u
-> > -#define ___GFP_HARDWALL              0x100000u
-> > -#define ___GFP_THISNODE              0x200000u
-> > -#define ___GFP_ACCOUNT               0x400000u
-> > -#define ___GFP_ZEROTAGS              0x800000u
-> > +#define ___GFP_DIRECT_RECLAIM        BIT(___GFP_DIRECT_RECLAIM_BIT)
-> > +#define ___GFP_KSWAPD_RECLAIM        BIT(___GFP_KSWAPD_RECLAIM_BIT)
-> > +#define ___GFP_WRITE         BIT(___GFP_WRITE_BIT)
-> > +#define ___GFP_NOWARN                BIT(___GFP_NOWARN_BIT)
-> > +#define ___GFP_RETRY_MAYFAIL BIT(___GFP_RETRY_MAYFAIL_BIT)
-> > +#define ___GFP_NOFAIL                BIT(___GFP_NOFAIL_BIT)
-> > +#define ___GFP_NORETRY               BIT(___GFP_NORETRY_BIT)
-> > +#define ___GFP_MEMALLOC              BIT(___GFP_MEMALLOC_BIT)
-> > +#define ___GFP_COMP          BIT(___GFP_COMP_BIT)
-> > +#define ___GFP_NOMEMALLOC    BIT(___GFP_NOMEMALLOC_BIT)
-> > +#define ___GFP_HARDWALL              BIT(___GFP_HARDWALL_BIT)
-> > +#define ___GFP_THISNODE              BIT(___GFP_THISNODE_BIT)
-> > +#define ___GFP_ACCOUNT               BIT(___GFP_ACCOUNT_BIT)
-> > +#define ___GFP_ZEROTAGS              BIT(___GFP_ZEROTAGS_BIT)
-> >  #ifdef CONFIG_KASAN_HW_TAGS
-> > -#define ___GFP_SKIP_ZERO     0x1000000u
-> > -#define ___GFP_SKIP_KASAN    0x2000000u
-> > +#define ___GFP_SKIP_ZERO     BIT(___GFP_SKIP_ZERO_BIT)
-> > +#define ___GFP_SKIP_KASAN    BIT(___GFP_SKIP_KASAN_BIT)
-> >  #else
-> >  #define ___GFP_SKIP_ZERO     0
-> >  #define ___GFP_SKIP_KASAN    0
-> >  #endif
-> >  #ifdef CONFIG_LOCKDEP
-> > -#define ___GFP_NOLOCKDEP     0x4000000u
-> > +#define ___GFP_NOLOCKDEP     BIT(___GFP_NOLOCKDEP_BIT)
-> >  #else
-> >  #define ___GFP_NOLOCKDEP     0
-> >  #endif
-> > -/* If the above are modified, __GFP_BITS_SHIFT may need updating */
-> >
-> >  /*
-> >   * Physical address zone modifiers (see linux/mmzone.h - low four bits=
-)
-> > @@ -249,7 +283,7 @@ typedef unsigned int __bitwise gfp_t;
-> >  #define __GFP_NOLOCKDEP ((__force gfp_t)___GFP_NOLOCKDEP)
-> >
-> >  /* Room for N __GFP_FOO bits */
-> > -#define __GFP_BITS_SHIFT (26 + IS_ENABLED(CONFIG_LOCKDEP))
-> > +#define __GFP_BITS_SHIFT ___GFP_LAST_BIT
-> >  #define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) - 1))
-> >
-> >  /**
->
->
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAJuCfpHS1JTRU69zFDAJjmMYR3K5TAS9%2BAsA3oYLs2LCs5aTBw%40mail.gmai=
-l.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87h6me620j.ffs%40tglx.
