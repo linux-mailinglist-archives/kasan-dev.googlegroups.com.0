@@ -1,144 +1,156 @@
-Return-Path: <kasan-dev+bncBAABB6EG4GUQMGQE5OFWMFQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCLL3W4IUEDRBUWX4KUQMGQEN2SEQHA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103e.google.com (mail-pj1-x103e.google.com [IPv6:2607:f8b0:4864:20::103e])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6A17D5DFE
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Oct 2023 00:21:46 +0200 (CEST)
-Received: by mail-pj1-x103e.google.com with SMTP id 98e67ed59e1d1-27d0a173c7bsf4069368a91.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 24 Oct 2023 15:21:46 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1698186105; cv=pass;
+Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id A19D97D6147
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Oct 2023 07:47:00 +0200 (CEST)
+Received: by mail-lf1-x139.google.com with SMTP id 2adb3069b0e04-5079fd9754csf5275712e87.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 24 Oct 2023 22:47:00 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1698212820; cv=pass;
         d=google.com; s=arc-20160816;
-        b=pq4tHpsnvLNjqgO+97+sbsgvVTZ71KdxOHMSovLQchT3giHNFBq7xuPF0SwgBghZ3a
-         ItZx8Zaa13sIU2MqNH3T2rWVOb8m3NY1l88LGWMHgDF8QCbqWC2GeAWCLcjSkzxx9h0o
-         DA93qho85mWGnWpAmMmTxwl9PtKLPKL4+tfcRAmEXIc9WQERPg2atkQeIbVvdNnTvJFp
-         Eq5d8sYoO9oNMZPApWfhVbNxEUCKSzo0nHmTnn0c8JK/kR1MTaRu4gbcxjughK1Urrpk
-         R6lOu/BnDSduxb26Kb4nratj5+Rr8B0Akn67iV4CnqCee73hW1Zit2xlHVnO7V5NGzul
-         5N7w==
+        b=wiBNcgMl81mkdrFQOEn1gx79pO7k457KP7F+4A1BLIdm6qBe87LwfFhGJGVWYEGrzI
+         T8sHEisv70QIgx+Pi+Ow1Cviwr36wvfJtPZIjtgIl1aW5hCmmX1+d5jZFyWDHelZphcp
+         qGUhiV18SbXSVsZmt8UAVbp7xcnEx1nfyHKylqvvgLplfWSFyuKKNBXa/lu8wnPw5+Q5
+         CGDmHmHVCl0le580Uv0iQhvhfmqP1naaFb3boldtZXh8gCAm2BG5i7CFg4c0V5wde0Jd
+         XtpwJxEFDy2cY8YmKIb88NxdBokXY7fOlwkQHHPBsQ821m+eo3+O78NoWADETL1AwpXN
+         GVAg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:auto-submitted
-         :message-id:date:subject:to:from:sender:dkim-signature;
-        bh=Bbao+klE54ptNYvPXpWdn6WkBP16Ga3v8flnZD/5OSw=;
-        fh=uQCsmYQr+KJEcG63Y45gsyDulzJl/B4EdEfpx8XrGGo=;
-        b=ug5GCmSMmCLgZ301xvU4XlYXLpjFW8IwRsfuBVQz3CDkWKNC8CtKQ3CBrMJQkVzt+z
-         YCTimXRd+uIDTpz2otI6+5LLOdMgXO0elPfla+dFfD3k4FOXWboO3S2UC8PCoC8vfrSG
-         leXWrbWQUTxsdya4WppfAT21Sz9otvQX4Vq6aX2/2NXRkYBAczpFjApNgLd6WsHZjJn0
-         gQy/ZZgc8qa743Fh8hBzT6HiL19dkeCGJz2aB0RshDtZf98RSePZ7mx9ktInz4C8F+TA
-         7KIUwg0UIBB1zDU6WUt8/lHlYGIQcCli2e6Z3tibPB/D6VJlaNiTtWDPp5+E4yDrMRQ9
-         yZYA==
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:sender:dkim-signature;
+        bh=dn+GiE9WTBMR3PGsEAbmJ+lNuklLgas8VIR79onqKm0=;
+        fh=njOM5Z0AmjjssjsCwVLk+UhSJkgF9hqohHI5y28hjHs=;
+        b=rUByaqFdNrZDFBLan8YnBGbCsa6HEVuy0aNIIcURoBK98GplcEQSFZAap2iFlThVxQ
+         gYQ1EWtCYi96BIvI43EXLnDWcLrImoGVPln7VQP8EHkCTF+xjlrZIsrC+/xnIvhY2x6w
+         bjgcZ9UJciXsFITTFpLbrSNfBNLMWf6lKItEkAGBOFXwtQpQrkRKCrCE+bfYg14IbU9m
+         +5p2FZczXOctQgWhjcib3VbphFR2z71fjtmjvpFsOFFu6/A6gl50owGPqN22tr6U/C3p
+         rUogDWWBGaC8871F+e+l7e10gnSBRAsU0LgIsC84dWBjvjZ9qBTnOoa+pIsOF0ttp5jM
+         dd1g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=CGjcEela;
-       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@tesarici.cz header.s=mail header.b=CtP3+TzS;
+       spf=pass (google.com: domain of petr@tesarici.cz designates 77.93.223.253 as permitted sender) smtp.mailfrom=petr@tesarici.cz;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tesarici.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1698186105; x=1698790905; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1698212820; x=1698817620; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:auto-submitted:message-id:date
-         :subject:to:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bbao+klE54ptNYvPXpWdn6WkBP16Ga3v8flnZD/5OSw=;
-        b=MCpF5fJdJppU0/7F4X1i8Hzo88KH/8MdgTNBMoGpu1VQXBMUbVwwhcU0UVKsEznf2Y
-         eQwWD4dxZZ10Wqiz9ydcew9PmLSpHsoQ2y0undA3IStvX5alqYTK0DKdKmQU6598x5hD
-         i0bYIQOhS1P38nbEbnOFCKdWYiZdpTOEXKbB9KqjEDbGlrvX+pcGi0qyWgGiKU7SB36v
-         2rTHGw/CiLyINKfy+S8w/nmnZblgmBEa9SNN55QWM2RNc4PCPc5k+c28iMgJbUcC8vbg
-         pBZkFIxIwFX6kdgA0Eetl9qw357TncOLMFabIO0wHeZWJ0xPtqDgQPZarKwsHFAq0nPw
-         vnrg==
+         :x-original-sender:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dn+GiE9WTBMR3PGsEAbmJ+lNuklLgas8VIR79onqKm0=;
+        b=jK1O8NnkPNwWDoOK0tKmY8HQ/h3hVV4HWtKAaeJaIEcVmuM+/6kwnpHOPUvi/aezK2
+         mADxmKqbx6zbRhh/WQyrTBXijIK2HJ/RvtdKnUewBYEcOd4kH4c1LFdXR2fjSv7Bh4Nf
+         uSjqebnXvz5kQhRL0iXekNMAgpd4ukOVaVnCyKLfms+7thjaYmewVHskPM1NJB/wqegP
+         M18ArFga9Mue+26ybuzd/5csHs57Eso6yVrhi6FHEitvrGsc8eDqBPj8V55nhfIXppRI
+         DYH3iKCbXbfF/tnz7XEoenDkGJyWTth5AR+JUpQlzg9dreOrQ578omyqjzyi+5mviKBd
+         tRUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698186105; x=1698790905;
+        d=1e100.net; s=20230601; t=1698212820; x=1698817620;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :auto-submitted:message-id:date:subject:to:from:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Bbao+klE54ptNYvPXpWdn6WkBP16Ga3v8flnZD/5OSw=;
-        b=bIiG/PhtmCOwB74yBpGXelVnoehAu0TxLomHT9GNhz8ArVZekh7rw6FTwKXG+TJyL5
-         mlYGB99V8cdkRYcZF/QHce+y5fEh8U36G95n8DDa7XqWrvjJddl5WOkDPM9F1+FTg7pk
-         wS3wXYlZxbfCNrZ1T2zwQmkjqoAgU30VtfniDaMwXbcT3d9HcP0Snc4yHK4w+zbe42Ix
-         idN/PxmvbfWQ/+JmgpgShH9KFSdNTFxrW2AQb3RkGe2qcmCmNH2o0M7lq1fvlxYSrvs8
-         sXdr75t7ILLio+HcAxDQQzxBS+GXkO9M/9hevMjGwy6Brh0DIzJZcAWadd9WfLUAyTkm
-         XXCw==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=dn+GiE9WTBMR3PGsEAbmJ+lNuklLgas8VIR79onqKm0=;
+        b=jGOnDq5RpUMkewCcteAG7mWL9OEMWtjgstPO1RagyLiQKWLn+vbeoUjQRY5AhtyTGI
+         KFWgFu/qibSjn5S9WhUjryBpv2aKCg7kJ8kROw4sMIYMz6OHOUa/LgJSz9kZUdr4tk53
+         aVnEI9UF75RNc8jL8Y4UOBMV/YwcdO5IiGuP8WZ1mxi3uieYpLn9GG5s1rU3hqQBrk5k
+         rE73tL2oM+QCxtp1ZDvlecStUK39ha9yWCk/mz4y58zRXE0fFUIVWxZGxeZq7r1Q7OIf
+         5jTAxa7DTDF79h6X4ALwLrZMpeDlBLFGaI7NiuXqqag33T9zIC2EC62Jr4BUILU6Nxq9
+         iwTw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YzEhzbd6XKv5sAvlvMioFMC2quWqlMl58amUzLyn721C1w0JnVs
-	WPOPh9kwZO9QQMa+M/92NAE=
-X-Google-Smtp-Source: AGHT+IEworfEju4dVxLhiQgKehGN9oDlPdPCUYYu2L2N+HTCH92vOzWqSfZLdNUOcn+YvzFGU/VRkA==
-X-Received: by 2002:a17:90a:357:b0:27c:f315:8b14 with SMTP id 23-20020a17090a035700b0027cf3158b14mr10214105pjf.33.1698186105163;
-        Tue, 24 Oct 2023 15:21:45 -0700 (PDT)
+X-Gm-Message-State: AOJu0Yy3oNyRd4xKXFUb3XTDekvxIzxHw52JdLDb/xboDDy5y4M/Ncl9
+	ve5/6VPgRuxiVPGwSP7+bls=
+X-Google-Smtp-Source: AGHT+IGI2uJuzXZyiIWUvaCp29EFsCc5yww124ASbXmd+HRoGmQiLTctpTZnXLqXVMOdiPKo1TCwtg==
+X-Received: by 2002:a05:6512:3c8f:b0:507:cd39:a005 with SMTP id h15-20020a0565123c8f00b00507cd39a005mr12198013lfv.39.1698212818541;
+        Tue, 24 Oct 2023 22:46:58 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:4d83:b0:277:4d73:721c with SMTP id
- oj3-20020a17090b4d8300b002774d73721cls3218831pjb.1.-pod-prod-01-us; Tue, 24
- Oct 2023 15:21:44 -0700 (PDT)
-X-Received: by 2002:a17:90a:7e87:b0:268:5575:93d9 with SMTP id j7-20020a17090a7e8700b00268557593d9mr11601508pjl.10.1698186104243;
-        Tue, 24 Oct 2023 15:21:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1698186104; cv=none;
+Received: by 2002:a05:6512:3e0e:b0:507:cf9c:aa7e with SMTP id
+ i14-20020a0565123e0e00b00507cf9caa7els654886lfv.1.-pod-prod-07-eu; Tue, 24
+ Oct 2023 22:46:56 -0700 (PDT)
+X-Received: by 2002:a2e:b048:0:b0:2c0:122a:322b with SMTP id d8-20020a2eb048000000b002c0122a322bmr9099858ljl.48.1698212816564;
+        Tue, 24 Oct 2023 22:46:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1698212816; cv=none;
         d=google.com; s=arc-20160816;
-        b=Fhi3Dl5UH+kFJr2BQCVim2RlUkLlHIJoZAdN/k+5axhFqSgaSE6jktGDZAdmDGu/0i
-         aef6g0EK/5ba0jz98dXy5pjLDixAUDZTDJRH1jo41yBDgE99RuXMmz08MhhfiYquYTsD
-         C2RmPZ8i0b+/yRrUEybAxm8P1NqmUuddM+o2T3ojKNFgL8bCwVbPX/D6TQDoKyIXz0Su
-         maTcSMpDRmtWSKUVlgPjuaPjpaRC5vw5IFGre//wWxHz9H+UYbUY3yuaoYy0Yv/K0NSj
-         YGN5eCBBlCkUMJXVaMKB/2blN/HfKSRu3mvnk4L3dDwgxTyoaOCMFFN7mOtB2n5GtaWG
-         nVXw==
+        b=tYQM+NF/Wy9Hn5GYQ6OlimSPkFy3rQcdauIF2wOfDyOKaLDS82FexQoCyvrOCuKxev
+         3Ypa0CGq/YyCeXp26kqkwsbXoJv/hBmZ89zWVJN+9any0f0TXBgw+hI5AO8T86olNN3I
+         eWyTUsWjLhq/7sMIrwEnSk7jLGiYy+vg+DKlXET0uFwnfXpkJkhUbt6rr9aZabnQsUzY
+         2AwG3CG60er/hmjxxTz3WqRpFjolMJvfzyu7DWt0by52nPtoPTHTqkJIt/CMYWkecmT2
+         gbSuGmycXnG0wcu0jMf9hFLLIuFVxVukajrGB8poZtmY2EdjPeCZO+Hvk/9+GFopiP44
+         IZ5g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:auto-submitted:content-transfer-encoding:message-id
-         :date:subject:to:from:dkim-signature;
-        bh=mKBoOu3Cc0IKotjjU4GzF5VrFkLK6t+d2rypQcKR3K0=;
-        fh=uQCsmYQr+KJEcG63Y45gsyDulzJl/B4EdEfpx8XrGGo=;
-        b=f6XLOvBRM8Tmbkn04AwRb9R/zthaLsE1p2szqFuBBh1VTUq35IjqwR+TnSjRHtR7GN
-         ma6ObjyK0L5Sq3TATLir7xs1l+r/yU7bwR+Jld5YxgKovytIp4o0TlwrkNYJadl4Qdpu
-         KWmj4WcZZNGv8gLmYmyt2x/26FeSWxPQtPiqWgybYFhmxanO3jXdUItnVss1BEGKyIDg
-         4uYHRnyL7X9/J06AeSm7BygximTuZuMpOe2VNRrWiCFHXqGlEXxjAqY4nTdXZr50c1Fx
-         C/R3s0pwdXXUAX406DjaW0hchIIKsuGBORTA33sGSq2YusLRyOaFQpdMHECsK/xwVGij
-         s6sg==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=UqqJ79dloiHVNU0KwhCyPc6dgqQibRHVqcGY18Lj9uQ=;
+        fh=njOM5Z0AmjjssjsCwVLk+UhSJkgF9hqohHI5y28hjHs=;
+        b=tSX9QtM+RfO/ghJoPfaRh4lNdadsIcbTXq1KdCeOv87h0PK6MZQlKTo1QD3n8bjit7
+         Rc78GKyPZ/1dA/tvld6KA5MubwRAk6qX1Dh+10asCmpbRrjFDvEz+zraZag/55PTdygX
+         oKn7/nFDhZ3KHDWmRTs+fuZPOtH1pv2ODeEWQcMSfikhZA1n9QF1/c3Ukb7qrBMq0940
+         ry0TykbMFzWXQRsIrcOgbHXvzOv2rkchvvCk8hQaBgvftxc4U7gV/9iCcxagPyW74cn9
+         F7mje1oQBakYiud3xloZwkMYPm4JvR1H7aeX+Y3TTzrIAAUlvk1S9dTawVFu3Jiul/NR
+         CVlw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=CGjcEela;
-       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id gl21-20020a17090b121500b0027ddcc6164esi97027pjb.0.2023.10.24.15.21.44
+       dkim=pass header.i=@tesarici.cz header.s=mail header.b=CtP3+TzS;
+       spf=pass (google.com: domain of petr@tesarici.cz designates 77.93.223.253 as permitted sender) smtp.mailfrom=petr@tesarici.cz;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tesarici.cz
+Received: from bee.tesarici.cz (bee.tesarici.cz. [77.93.223.253])
+        by gmr-mx.google.com with ESMTPS id d13-20020a05651c01cd00b002c17e2e5fb9si452162ljn.5.2023.10.24.22.46.56
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Oct 2023 15:21:44 -0700 (PDT)
-Received-SPF: pass (google.com: domain of bugzilla-daemon@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 831E261BE7
-	for <kasan-dev@googlegroups.com>; Tue, 24 Oct 2023 22:21:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 1B2D8C433C8
-	for <kasan-dev@googlegroups.com>; Tue, 24 Oct 2023 22:21:42 +0000 (UTC)
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 02368C53BC6; Tue, 24 Oct 2023 22:21:42 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: kasan-dev@googlegroups.com
-Subject: [Bug 218043] New: KASAN (sw-tags): Clang incorrectly calculates
- shadow memory address
-Date: Tue, 24 Oct 2023 22:21:41 +0000
-X-Bugzilla-Reason: CC
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Memory Management
-X-Bugzilla-Component: Sanitizers
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: andreyknvl@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter cc
- cf_regression
-Message-ID: <bug-218043-199747@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Tue, 24 Oct 2023 22:46:56 -0700 (PDT)
+Received-SPF: pass (google.com: domain of petr@tesarici.cz designates 77.93.223.253 as permitted sender) client-ip=77.93.223.253;
+Received: from meshulam.tesarici.cz (dynamic-2a00-1028-83b8-1e7a-4427-cc85-6706-c595.ipv6.o2.cz [IPv6:2a00:1028:83b8:1e7a:4427:cc85:6706:c595])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by bee.tesarici.cz (Postfix) with ESMTPSA id A2366176EDE;
+	Wed, 25 Oct 2023 07:46:53 +0200 (CEST)
+Date: Wed, 25 Oct 2023 07:46:52 +0200
+From: Petr =?UTF-8?B?VGVzYcWZw61r?= <petr@tesarici.cz>
+To: Suren Baghdasaryan <surenb@google.com>, Neil Brown <neilb@suse.de>
+Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com,
+ vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev,
+ mgorman@suse.de, dave@stgolabs.net, willy@infradead.org,
+ liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com,
+ peterz@infradead.org, juri.lelli@redhat.com, ldufour@linux.ibm.com,
+ catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
+ tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+ x86@kernel.org, peterx@redhat.com, david@redhat.com, axboe@kernel.dk,
+ mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org,
+ dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+ paulmck@kernel.org, pasha.tatashin@soleen.com, yosryahmed@google.com,
+ yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
+ andreyknvl@gmail.com, keescook@chromium.org, ndesaulniers@google.com,
+ vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com,
+ ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+ rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
+ vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+ iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+ elver@google.com, dvyukov@google.com, shakeelb@google.com,
+ songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
+ minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+ cgroups@vger.kernel.org
+Subject: Re: [PATCH v2 06/39] mm: enumerate all gfp flags
+Message-ID: <20231025074652.44bc0eb4@meshulam.tesarici.cz>
+In-Reply-To: <20231024134637.3120277-7-surenb@google.com>
+References: <20231024134637.3120277-1-surenb@google.com>
+	<20231024134637.3120277-7-surenb@google.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-X-Original-Sender: bugzilla-daemon@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: petr@tesarici.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=CGjcEela;       spf=pass
- (google.com: domain of bugzilla-daemon@kernel.org designates 139.178.84.217
- as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@tesarici.cz header.s=mail header.b=CtP3+TzS;       spf=pass
+ (google.com: domain of petr@tesarici.cz designates 77.93.223.253 as permitted
+ sender) smtp.mailfrom=petr@tesarici.cz;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=tesarici.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -151,72 +163,160 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=218043
+On Tue, 24 Oct 2023 06:46:03 -0700
+Suren Baghdasaryan <surenb@google.com> wrote:
 
-            Bug ID: 218043
-           Summary: KASAN (sw-tags): Clang incorrectly calculates shadow
-                    memory address
-           Product: Memory Management
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: Sanitizers
-          Assignee: mm_sanitizers@kernel-bugs.kernel.org
-          Reporter: andreyknvl@gmail.com
-                CC: kasan-dev@googlegroups.com
-        Regression: No
+> Introduce GFP bits enumeration to let compiler track the number of used
+> bits (which depends on the config options) instead of hardcoding them.
+> That simplifies __GFP_BITS_SHIFT calculation.
+> Suggested-by: Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> ---
+>  include/linux/gfp_types.h | 90 +++++++++++++++++++++++++++------------
+>  1 file changed, 62 insertions(+), 28 deletions(-)
+>=20
+> diff --git a/include/linux/gfp_types.h b/include/linux/gfp_types.h
+> index 6583a58670c5..3fbe624763d9 100644
+> --- a/include/linux/gfp_types.h
+> +++ b/include/linux/gfp_types.h
+> @@ -21,44 +21,78 @@ typedef unsigned int __bitwise gfp_t;
+>   * include/trace/events/mmflags.h and tools/perf/builtin-kmem.c
+>   */
+> =20
+> +enum {
+> +	___GFP_DMA_BIT,
+> +	___GFP_HIGHMEM_BIT,
+> +	___GFP_DMA32_BIT,
+> +	___GFP_MOVABLE_BIT,
+> +	___GFP_RECLAIMABLE_BIT,
+> +	___GFP_HIGH_BIT,
+> +	___GFP_IO_BIT,
+> +	___GFP_FS_BIT,
+> +	___GFP_ZERO_BIT,
+> +	___GFP_UNUSED_BIT,	/* 0x200u unused */
+> +	___GFP_DIRECT_RECLAIM_BIT,
+> +	___GFP_KSWAPD_RECLAIM_BIT,
+> +	___GFP_WRITE_BIT,
+> +	___GFP_NOWARN_BIT,
+> +	___GFP_RETRY_MAYFAIL_BIT,
+> +	___GFP_NOFAIL_BIT,
+> +	___GFP_NORETRY_BIT,
+> +	___GFP_MEMALLOC_BIT,
+> +	___GFP_COMP_BIT,
+> +	___GFP_NOMEMALLOC_BIT,
+> +	___GFP_HARDWALL_BIT,
+> +	___GFP_THISNODE_BIT,
+> +	___GFP_ACCOUNT_BIT,
+> +	___GFP_ZEROTAGS_BIT,
+> +#ifdef CONFIG_KASAN_HW_TAGS
+> +	___GFP_SKIP_ZERO_BIT,
+> +	___GFP_SKIP_KASAN_BIT,
+> +#endif
+> +#ifdef CONFIG_LOCKDEP
+> +	___GFP_NOLOCKDEP_BIT,
+> +#endif
+> +	___GFP_LAST_BIT
+> +};
+> +
+>  /* Plain integer GFP bitmasks. Do not use this directly. */
+> -#define ___GFP_DMA		0x01u
+> -#define ___GFP_HIGHMEM		0x02u
+> -#define ___GFP_DMA32		0x04u
+> -#define ___GFP_MOVABLE		0x08u
+> -#define ___GFP_RECLAIMABLE	0x10u
+> -#define ___GFP_HIGH		0x20u
+> -#define ___GFP_IO		0x40u
+> -#define ___GFP_FS		0x80u
+> -#define ___GFP_ZERO		0x100u
+> +#define ___GFP_DMA		BIT(___GFP_DMA_BIT)
+> +#define ___GFP_HIGHMEM		BIT(___GFP_HIGHMEM_BIT)
+> +#define ___GFP_DMA32		BIT(___GFP_DMA32_BIT)
+> +#define ___GFP_MOVABLE		BIT(___GFP_MOVABLE_BIT)
+> +#define ___GFP_RECLAIMABLE	BIT(___GFP_RECLAIMABLE_BIT)
+> +#define ___GFP_HIGH		BIT(___GFP_HIGH_BIT)
+> +#define ___GFP_IO		BIT(___GFP_IO_BIT)
+> +#define ___GFP_FS		BIT(___GFP_FS_BIT)
+> +#define ___GFP_ZERO		BIT(___GFP_ZERO_BIT)
+>  /* 0x200u unused */
 
-Software Tag-Based KASAN calculates the shadow memory address based on the
-following formula:
+This comment can be also removed here, because it is already stated
+above with the definition of ___GFP_UNUSED_BIT.
 
-shadow_addr = (addr >> KASAN_SHADOW_SCALE_SHIFT) + KASAN_SHADOW_OFFSET,
+Then again, I think that the GFP bits have never been compacted after
+Neil Brown removed __GFP_ATOMIC with commit 2973d8229b78 simply because
+that would mean changing definitions of all subsequent GFP flags. FWIW
+I am not aware of any code that would depend on the numeric value of
+___GFP_* macros, so this patch seems like a good opportunity to change
+the numbering and get rid of this unused 0x200u altogether.
 
-where the bit shift operates on an unsigned value.
+@Neil: I have added you to the conversation in case you want to correct
+my understanding of the unused bit.
 
-With CONFIG_KASAN_SW_TAGS + CONFIG_KASAN_INLINE, Clang generates the following
-code to load a value from the shadow memory:
+Other than that LGTM.
 
-ffff8000800143f0 <__hwasan_check_x0_67043376>:
-ffff8000800143f0:       9344dc10        sbfx    x16, x0, #4, #52
-ffff8000800143f4:       38706930        ldrb    w16, [x9, x16]
+Petr T
 
-Here, x0 is addr, x16 is supposed to be (addr >> KASAN_SHADOW_SCALE_SHIFT), and
-x9 is KASAN_SHADOW_OFFSET.
+> -#define ___GFP_DIRECT_RECLAIM	0x400u
+> -#define ___GFP_KSWAPD_RECLAIM	0x800u
+> -#define ___GFP_WRITE		0x1000u
+> -#define ___GFP_NOWARN		0x2000u
+> -#define ___GFP_RETRY_MAYFAIL	0x4000u
+> -#define ___GFP_NOFAIL		0x8000u
+> -#define ___GFP_NORETRY		0x10000u
+> -#define ___GFP_MEMALLOC		0x20000u
+> -#define ___GFP_COMP		0x40000u
+> -#define ___GFP_NOMEMALLOC	0x80000u
+> -#define ___GFP_HARDWALL		0x100000u
+> -#define ___GFP_THISNODE		0x200000u
+> -#define ___GFP_ACCOUNT		0x400000u
+> -#define ___GFP_ZEROTAGS		0x800000u
+> +#define ___GFP_DIRECT_RECLAIM	BIT(___GFP_DIRECT_RECLAIM_BIT)
+> +#define ___GFP_KSWAPD_RECLAIM	BIT(___GFP_KSWAPD_RECLAIM_BIT)
+> +#define ___GFP_WRITE		BIT(___GFP_WRITE_BIT)
+> +#define ___GFP_NOWARN		BIT(___GFP_NOWARN_BIT)
+> +#define ___GFP_RETRY_MAYFAIL	BIT(___GFP_RETRY_MAYFAIL_BIT)
+> +#define ___GFP_NOFAIL		BIT(___GFP_NOFAIL_BIT)
+> +#define ___GFP_NORETRY		BIT(___GFP_NORETRY_BIT)
+> +#define ___GFP_MEMALLOC		BIT(___GFP_MEMALLOC_BIT)
+> +#define ___GFP_COMP		BIT(___GFP_COMP_BIT)
+> +#define ___GFP_NOMEMALLOC	BIT(___GFP_NOMEMALLOC_BIT)
+> +#define ___GFP_HARDWALL		BIT(___GFP_HARDWALL_BIT)
+> +#define ___GFP_THISNODE		BIT(___GFP_THISNODE_BIT)
+> +#define ___GFP_ACCOUNT		BIT(___GFP_ACCOUNT_BIT)
+> +#define ___GFP_ZEROTAGS		BIT(___GFP_ZEROTAGS_BIT)
+>  #ifdef CONFIG_KASAN_HW_TAGS
+> -#define ___GFP_SKIP_ZERO	0x1000000u
+> -#define ___GFP_SKIP_KASAN	0x2000000u
+> +#define ___GFP_SKIP_ZERO	BIT(___GFP_SKIP_ZERO_BIT)
+> +#define ___GFP_SKIP_KASAN	BIT(___GFP_SKIP_KASAN_BIT)
+>  #else
+>  #define ___GFP_SKIP_ZERO	0
+>  #define ___GFP_SKIP_KASAN	0
+>  #endif
+>  #ifdef CONFIG_LOCKDEP
+> -#define ___GFP_NOLOCKDEP	0x4000000u
+> +#define ___GFP_NOLOCKDEP	BIT(___GFP_NOLOCKDEP_BIT)
+>  #else
+>  #define ___GFP_NOLOCKDEP	0
+>  #endif
+> -/* If the above are modified, __GFP_BITS_SHIFT may need updating */
+> =20
+>  /*
+>   * Physical address zone modifiers (see linux/mmzone.h - low four bits)
+> @@ -249,7 +283,7 @@ typedef unsigned int __bitwise gfp_t;
+>  #define __GFP_NOLOCKDEP ((__force gfp_t)___GFP_NOLOCKDEP)
+> =20
+>  /* Room for N __GFP_FOO bits */
+> -#define __GFP_BITS_SHIFT (26 + IS_ENABLED(CONFIG_LOCKDEP))
+> +#define __GFP_BITS_SHIFT ___GFP_LAST_BIT
+>  #define __GFP_BITS_MASK ((__force gfp_t)((1 << __GFP_BITS_SHIFT) - 1))
+> =20
+>  /**
 
-However, sbfx (Signed Bit Field Extract) sign extends the value. As a result,
-the shadow address is calculated incorrectly:
-
-x0:  42fffb80aaaaaaaa
-x9:  efff800000000000
-x16: ffffffb80aaaaaaa
-
-x9 + x16 = 0xefff800000000000 + 0xffffffb80aaaaaaa = 0xefff7fb80aaaaaaa
-(0x1efff7fb80aaaaaaa fit to 64 bits)
-
-Instead, Clang should not sign extend the value when calculating x16:
-
-x0:  42fffb80aaaaaaaa
-x9:  efff800000000000
-x16: 0fffffb80aaaaaaa
-
-x9 + x16 = 0xefff800000000000 + 0x0fffffb80aaaaaaa = 0xffff7fb80aaaaaaa
-
-So far this has gone unnoticed, as only the top byte of the shadow address is
-miscalculated and Software Tag-Based KASAN requires TBI (Top Byte Ignore) to be
-enabled.
-
-This issue doesn't affect other mode/compiler combinations.
-
--- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are on the CC list for the bug.
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-218043-199747%40https.bugzilla.kernel.org/.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/20231025074652.44bc0eb4%40meshulam.tesarici.cz.
