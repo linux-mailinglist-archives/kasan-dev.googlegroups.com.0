@@ -1,120 +1,120 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBBPLZGVAMGQE632IULY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXYDPH3S4OBBBXLZGVAMGQE5P7265A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE437EA365
+Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8377EA366
 	for <lists+kasan-dev@lfdr.de>; Mon, 13 Nov 2023 20:14:15 +0100 (CET)
-Received: by mail-lj1-x23b.google.com with SMTP id 38308e7fff4ca-2c562dab105sf31797551fa.1
+Received: by mail-lf1-x138.google.com with SMTP id 2adb3069b0e04-507a3426041sf5117957e87.0
         for <lists+kasan-dev@lfdr.de>; Mon, 13 Nov 2023 11:14:15 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1699902854; cv=pass;
+ARC-Seal: i=2; a=rsa-sha256; t=1699902855; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WESq2YaLyhjmvdw12yVekhwb0HWoz3snfsGUZrCEPgUSTMT1CWeHm53PMHpi9VEmzx
-         420ELrPrqc9DBT7WgTXikJk1RLT/XT7gJ2wbIZSebthiRzFrjWQiITLigqdDNCKpvprv
-         hdCQMHC77RmXp7gPW2pyTH2TNYj4wu/FZ8zLobClOzPJqm/H/WSnStuu6IIZ9P4xxzDb
-         uE3atCY+xQPJGRbWR/+U0odHc0+psxTZ+9Z2/mG2vBwuiWd9f4FtxuFe/APrx8xlVYxP
-         MwstROzI9z8eeOXEqCH34SQ8ctXJWdvn0FhsnBI/rssKrm0dPt6oaVeyX7lGnWnrtkKG
-         gEzg==
+        b=SmaEJmlkPokEXDD0xVFMKddbwof/spXRMXT+KEWIQXjBkzArZ6ix5AOqFxI1qco1U/
+         6u/Tr0i4E1k3bllkbjwANGHgyWPRw+TVMVx+YPIybdVvms7g0VqQdzsAyTA0TVsGxn0Q
+         rOfsI+f5gzFs+hzCMPSlPYVYhs912o4UdHKDpAljqB0f1FKlJA8kMnWKvimTOYYE4log
+         qJor4U9hKkh8AR7n9Bxa0U5zFmiO3A3LFxP2YtFlF8EjplTUu5+Xg93dKlcshKwIiPaE
+         EkvhYa24h06k16Dr1y0rlcRIdecIOQ5YReVNRyTsmllayjFuaTuvqUoE0KS4pb7D5ASU
+         +HWw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=Z4hiqUl7PJ9CZF4/RUVE3vpKYM03Bu41iuIin+c9ugU=;
+        bh=KcaPE2kqf5X+WJ7D9ywcn2uYsH1/D6Rr2zNUXyrMx+4=;
         fh=RPAmrUlnQQdc1FhCirEqyhGh/OnPyRxUfAdj7ygPMx4=;
-        b=u7GN5MrYnNqKcVyv86+2g+HbLRNkImo56xvUhzwCg4aTHI6DBDFfaPW9Bwl15CLElw
-         kfXUa6usWDzNnFLSLhZNJbNammv/+Gz7Tqa2qQhNiLb847oodJ8eo2LJiCjVjv5FRp1M
-         DB/TQFSIk5ipWMd4OukgsEoSqZDfaYvZ3muQHbP5dfvaMWxB9HcGipan4shlsyAbz2rw
-         4aL1RKk5XEFMN2+dbmonmEte+1yDoMMRr2FtrylodoW6DeYIhMMRy9VeNXL0PranKTKQ
-         /i/aT9SdTcEdoWKtPLamVohj+DCwEj+j0UiZJ1gvWD6YXPiMtNz52I5X++cNQOdZQEQh
-         /WCg==
+        b=N2wcq+YObp4G8WlUmVGvHRQuknlUct7r2bqzwLkgG/sJoP18l4eoCxzpK/x9dqTbWU
+         QnCKwsheoYxrRzm/Oa1Ckb7l0y9z/d+AlDNiUd6KspEF7MrLGaLmSMpwkLwXZdB1xjxk
+         tH/j6gmdbleaJrqBYEAoMUgOfTbdEY+nO7XXXoW8G/UEBi1T+Zr+2+YzVw8034YfaYSL
+         Xu6eM/D//yi5w/1kvzXzJmZvqmapYPAucOSMsCuTWN1Zu2PlJYr174LN1Qu8FM8KK3qh
+         i26x2k/kcYwdYYqtSxtKwWzdD2Q3depcI5RNYhtWUNslhSasujWvRmhd3TSY1by6G6B/
+         g4ng==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=JkDwUha8;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=7F+W9fjH;
-       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=0Zk71Af4;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1699902854; x=1700507654; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1699902855; x=1700507655; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Z4hiqUl7PJ9CZF4/RUVE3vpKYM03Bu41iuIin+c9ugU=;
-        b=T7mTQ/tOxEQToLdFuQDDmhF2FvrWYw+cLVUuM42XU6wchNCOVazg4zZgjxCFw03Kht
-         3eBnSKxXvRMOZHyTwDAmE9M8qZS9IIu2J4kAJ0QJNDyBJb0zecNr8r142f9fuB6Xr4QB
-         LYjJPQKpOHOpl9PmlLJMcebPSiHt7XRffSQwU2ptdWxS0di2yY6yiKM9QERTZb30Xei2
-         H4lzLpZ2XEL2mmjcCPP4jCoI4IjQwUh3xIRMGzl5TLvvsU+H4BcNFya4aqLCidU12LZT
-         Gy7rDLRoycfithQtI9/f/YrWd38Apqv4o5PXTyuhA92aMQ+ILJQUGEEkvXhAKHI+bJoj
-         mW1g==
+        bh=KcaPE2kqf5X+WJ7D9ywcn2uYsH1/D6Rr2zNUXyrMx+4=;
+        b=JKXaxHjlbW6A710RFzVvg+vl8OX2JdGHVNC3ZLoUjnh8FGjC4Jn1ZdrcnwoVBNkeXy
+         fv6BfdC+kmAKpaQF7iZ9c2rvj3s0Ln9rBIGaWgWbyK8owz5VQ9pxVZZ0H2ztQwWQ4Top
+         ayj1fQU6BwgzZSQdkDrJc4dCaDkJC7wlKCek+cv4V3pdtXLKYpRRqXdVGNm3xpk8wgLj
+         K8RO7jO6+g/KTPsy0FO4OChippkYC4YxbJGlh6cd7G1agiw1E9uH0IysFb4QGtohb1QU
+         PUaU9686Zkt6Yvc034cr6Wuk96gss7m9cd9iDGYa4RqWX7tAQh3EA1TN/OuginERMmro
+         uJig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699902854; x=1700507654;
+        d=1e100.net; s=20230601; t=1699902855; x=1700507655;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Z4hiqUl7PJ9CZF4/RUVE3vpKYM03Bu41iuIin+c9ugU=;
-        b=ixTC8j6j9RIdXza2YR5+4JPAWTT9QJqDCr+OGpmL07ZIXyRE2Hk82RhKRtazhr84cm
-         069RrfTIpGVRISMQP2R+sJGQQJFo4GQtfDXg0SM6HVC6I3PYCrfx7ZAc2iq+e44bma3J
-         WBihMNXxw7/wJVRXRMIeYCNiT+Zg5ZL3Rt+7b1L2FG8/s10T6Ulvcu8T3xijbb7045WZ
-         vF/7ntyra3g3yc2EUJE/Mh5jLY8JZn7uO9iw0WZ1RS2UE5QMn6Oz6HHI0M/m0ENpvU7m
-         nL8hNOCeUFietZ5qG3gSJst6RT1SiikX2+Yr37/EmjSKRF2gA8AbMnt+rTT8LR+6orcw
-         fczA==
+        bh=KcaPE2kqf5X+WJ7D9ywcn2uYsH1/D6Rr2zNUXyrMx+4=;
+        b=JS8PgSIkxnxqkcYOONyylXoDSWKCfs2Soi/TMsp98caq7DIcZQvW+hoVO7Dwo6qlQQ
+         LhW8b9WE7vh3hzg/S3aDftg7JVEQZMjC77sbqHHUHXZwm+CfmeGfxvqK96UxvM2OA9u+
+         4mk4ejejfLTrSn4FCPGVcOBEsIardjeCfwbL5ruN6CiI05ZL2376/b89AtrDPiIAvOp4
+         IGEGTllXZtrdL6QfPJppYpTDcBoCoyWFjIiGJyn6kQYEE0YcGs7wOdqTtucAyf8s4tDe
+         2aI9gqZBllFcewm+U8wQzLNGFwKrczIuewYSXCwzcSNOhP3rCDA3B52xFG4zQzI4yLD6
+         AshQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YxFq9GWkaGpvnr/OP4abcEunLsjl9g3Y1b/6oYMAkgQFyoNDLu6
-	5YnvP1WiybgRhDfflyqflCg=
-X-Google-Smtp-Source: AGHT+IGiSaX15D4Y7EQje+oEls78JZVPVdE0qJCpJGbEFfjInzL9rFoGiKiaf7SGyWtuk4EsOCywoA==
-X-Received: by 2002:a05:6512:6cb:b0:509:d962:3c66 with SMTP id u11-20020a05651206cb00b00509d9623c66mr145419lff.21.1699902853976;
-        Mon, 13 Nov 2023 11:14:13 -0800 (PST)
+X-Gm-Message-State: AOJu0Yxse4BlSEbEwoePY5XGLUePmPGudQu5pYGfcOdN+oJQAz23FhBU
+	F1Bc0+e2251mNPllqznMvCM=
+X-Google-Smtp-Source: AGHT+IEVTe+/zUAcZ4dewUO6CJHdWJnP5tNHRAXs6X37iBQSEU4VnejaaceH+4SCut8rCovEpbpXkA==
+X-Received: by 2002:ac2:43a3:0:b0:509:3bba:e8a with SMTP id t3-20020ac243a3000000b005093bba0e8amr4668129lfl.39.1699902854287;
+        Mon, 13 Nov 2023 11:14:14 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3e1f:b0:505:14bb:6259 with SMTP id
- i31-20020a0565123e1f00b0050514bb6259ls867530lfv.0.-pod-prod-00-eu; Mon, 13
+Received: by 2002:a05:6512:159e:b0:507:9a12:cf84 with SMTP id
+ bp30-20020a056512159e00b005079a12cf84ls184030lfb.2.-pod-prod-09-eu; Mon, 13
  Nov 2023 11:14:12 -0800 (PST)
-X-Received: by 2002:a05:6512:15a6:b0:50a:6fb8:a0c0 with SMTP id bp38-20020a05651215a600b0050a6fb8a0c0mr152050lfb.19.1699902852042;
+X-Received: by 2002:a05:6512:2382:b0:509:1368:ddc1 with SMTP id c2-20020a056512238200b005091368ddc1mr6981974lfv.53.1699902852329;
         Mon, 13 Nov 2023 11:14:12 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; t=1699902852; cv=none;
         d=google.com; s=arc-20160816;
-        b=a3VMsDIr1v8Gm8xqnUeKwIj8kyA7LybcVF3gef2F6ymajzpl7iY1GJ9AZCxT5vbR7Q
-         irLBbo4YSU9qiALeveEFluYJf85f/QWauN3G0FcDeTNYNFjQRfhoLuvZ7FJQ1UdGuB7O
-         DX0AoUKpHZWRY306T0vPFM51/vm21ToYCO9W5mu9dwmFZhBN61EPeADuWov1eExmOoSJ
-         VkCx9s6wfZ6wbYZfX0XI69ceb5SkbOUkfapb7z6EcknIqh5C7cGifKSdE1qam/SgKvWB
-         Y3U5WwIn9Vg1n0Nwz3hKEvVwWvmy0UoDyg8ttwQUirTu4Q9VvO/vriF4KuMHB27rbMh2
-         6UPQ==
+        b=u7ACcm+pXrQOpPUcpTsgkIE+gxd84ZHxHLmzAMOY31Gfa2BU61iburVw+WMEw/0T1G
+         kt55YMfhJtlp3sH+d/8KJ8dB03Rv+D99V0AUJGKR4QALGZRfRb/LRKWqemh9G47vZ8Tj
+         zD8ozZ1Gq44WnxDBzEspyJTcAeEIjHT4/l/LQd9pBSMVSnhSKIF2Uo+GJ5BUVHMWkNsH
+         nM18XxtzAS1ptZt5CrjbdEXHe3zdMqiYN6d0Y7/zJuBit0ZhIYKPkabBC6cPJCfut1hj
+         UdhdRZQR+0X2gTer57dZ6epLeJJBETqEr4ZY2NXbTgdghQkCXD0kN9/VyqFEAfk0mqv9
+         j6JA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature:dkim-signature;
-        bh=foUH5Pkv5cwwnwudHkR/uUiz9PA77WygUi4ZtZ6vDeI=;
+        bh=lpvt5s4LImzllAEMKC9yyjTODPwLX4+6Y45s6lDAdck=;
         fh=RPAmrUlnQQdc1FhCirEqyhGh/OnPyRxUfAdj7ygPMx4=;
-        b=ARALssbC8QuZpd0q4ti0cSc1E8VvaaLsB9whm/pFGPHh3BUVw1HqWKYJs0ZVq94I0V
-         zNvoAcPgYip7RM6Qrxvi82Yag2YPz4nxy0TLTjPm0ulPgdipzjGLYvzn87TNvUemB+t3
-         O4bWJ5tkqDzUTw0HHC3s17aOs1mia3fAVNA/01Gsqf9IL06CMFbzwwqfsBG7m7YXKx0a
-         ZWWlluLiu06/0NYL6FNxPl4eupI/FMv3UFZKglhEBwj+1IiwZC9/HTAjEwyjZ5Ivrzj3
-         hGvor0pvPnPMAl4sfHHvQr2+jK/86HshdjE1SLmD/JIrGlWn2/qi+KnEWkq1UCqyA4WE
-         QC/w==
+        b=mlgKKekYkvAMGRcZWrGBHPYkkM8/Ngrc+bQWhcq3VWDRDisc1KO9D4RUlqVFtYoPuI
+         pvgH8uKY5kYj8zVP1IyjimrTRO7BIJ9LPidNo9cDHkV3jRdXpFUKJEQLX9y+VwTaStwM
+         MkrkGSISKnj8grLj3Gt75HjOHICjm7JgfnXhufDlo4YP8MnphnfM2Vy97z0mIsiB7elV
+         ZRPXRXbw0f6+5H3mO7hYxYYxNOqPAsBtCzqQgol67HWf2IsZuZyDachGY1MoeeDUuQTU
+         CbMeI1KTUgwafqYI6MtNVUkf7FWDrlOlRrLF5gyYpEA5870hnZX92IHwAN8Thcf6/n91
+         8KlQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=JkDwUha8;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=7F+W9fjH;
-       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2001:67c:2178:6::1d])
-        by gmr-mx.google.com with ESMTPS id v18-20020a056512097200b005068bf0b332si243569lft.1.2023.11.13.11.14.11
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=0Zk71Af4;
+       dkim=neutral (no key) header.i=@suse.cz;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.220.29])
+        by gmr-mx.google.com with ESMTPS id bp29-20020a056512159d00b005090fd18c05si232087lfb.11.2023.11.13.11.14.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 13 Nov 2023 11:14:12 -0800 (PST)
-Received-SPF: softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) client-ip=2001:67c:2178:6::1d;
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.220.29 as permitted sender) client-ip=195.135.220.29;
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 70BFD1F86A;
+	by smtp-out2.suse.de (Postfix) with ESMTPS id AE5771F86B;
 	Mon, 13 Nov 2023 19:14:11 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1307813398;
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 6270F13907;
 	Mon, 13 Nov 2023 19:14:11 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id 6MwFBIN1UmVFOgAAMHmgww
+	id +BNfF4N1UmVFOgAAMHmgww
 	(envelope-from <vbabka@suse.cz>); Mon, 13 Nov 2023 19:14:11 +0000
 From: Vlastimil Babka <vbabka@suse.cz>
 To: David Rientjes <rientjes@google.com>,
@@ -141,19 +141,18 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	kasan-dev@googlegroups.com,
 	cgroups@vger.kernel.org,
 	Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH 06/20] mm/slab: remove CONFIG_SLAB code from slab common code
-Date: Mon, 13 Nov 2023 20:13:47 +0100
-Message-ID: <20231113191340.17482-28-vbabka@suse.cz>
+Subject: [PATCH 07/20] mm/mempool/dmapool: remove CONFIG_DEBUG_SLAB ifdefs
+Date: Mon, 13 Nov 2023 20:13:48 +0100
+Message-ID: <20231113191340.17482-29-vbabka@suse.cz>
 X-Mailer: git-send-email 2.42.1
 In-Reply-To: <20231113191340.17482-22-vbabka@suse.cz>
 References: <20231113191340.17482-22-vbabka@suse.cz>
 MIME-Version: 1.0
 X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=JkDwUha8;       dkim=neutral
- (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=7F+W9fjH;
-       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does
- not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@suse.cz header.s=susede2_rsa header.b=0Zk71Af4;       dkim=neutral
+ (no key) header.i=@suse.cz;       spf=pass (google.com: domain of
+ vbabka@suse.cz designates 195.135.220.29 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -167,287 +166,62 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-In slab_common.c and slab.h headers, we can now remove all code behind
-CONFIG_SLAB and CONFIG_DEBUG_SLAB ifdefs, and remove all CONFIG_SLUB
-ifdefs.
+CONFIG_DEBUG_SLAB is going away with CONFIG_SLAB, so remove dead ifdefs
+in mempool and dmapool code.
 
 Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- include/linux/slab.h | 13 +--------
- mm/slab.h            | 69 ++++----------------------------------------
- mm/slab_common.c     | 22 ++------------
- 3 files changed, 8 insertions(+), 96 deletions(-)
+ mm/dmapool.c | 2 +-
+ mm/mempool.c | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index 34e43cddc520..90fb1f0d843a 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -24,7 +24,6 @@
+diff --git a/mm/dmapool.c b/mm/dmapool.c
+index a151a21e571b..f0bfc6c490f4 100644
+--- a/mm/dmapool.c
++++ b/mm/dmapool.c
+@@ -36,7 +36,7 @@
+ #include <linux/types.h>
+ #include <linux/wait.h>
  
- /*
-  * Flags to pass to kmem_cache_create().
-- * The ones marked DEBUG are only valid if CONFIG_DEBUG_SLAB is set.
-  */
- /* DEBUG: Perform (expensive) checks on alloc/free */
- #define SLAB_CONSISTENCY_CHECKS	((slab_flags_t __force)0x00000100U)
-@@ -302,25 +301,15 @@ static inline unsigned int arch_slab_minalign(void)
-  * Kmalloc array related definitions
-  */
- 
--#ifdef CONFIG_SLAB
- /*
-- * SLAB and SLUB directly allocates requests fitting in to an order-1 page
-+ * SLUB directly allocates requests fitting in to an order-1 page
-  * (PAGE_SIZE*2).  Larger requests are passed to the page allocator.
-  */
- #define KMALLOC_SHIFT_HIGH	(PAGE_SHIFT + 1)
- #define KMALLOC_SHIFT_MAX	(MAX_ORDER + PAGE_SHIFT)
- #ifndef KMALLOC_SHIFT_LOW
--#define KMALLOC_SHIFT_LOW	5
--#endif
--#endif
--
--#ifdef CONFIG_SLUB
--#define KMALLOC_SHIFT_HIGH	(PAGE_SHIFT + 1)
--#define KMALLOC_SHIFT_MAX	(MAX_ORDER + PAGE_SHIFT)
--#ifndef KMALLOC_SHIFT_LOW
- #define KMALLOC_SHIFT_LOW	3
- #endif
--#endif
- 
- /* Maximum allocatable size */
- #define KMALLOC_MAX_SIZE	(1UL << KMALLOC_SHIFT_MAX)
-diff --git a/mm/slab.h b/mm/slab.h
-index 3d07fb428393..014c36ea51fa 100644
---- a/mm/slab.h
-+++ b/mm/slab.h
-@@ -42,21 +42,6 @@ typedef union {
- struct slab {
- 	unsigned long __page_flags;
- 
--#if defined(CONFIG_SLAB)
--
--	struct kmem_cache *slab_cache;
--	union {
--		struct {
--			struct list_head slab_list;
--			void *freelist;	/* array of free object indexes */
--			void *s_mem;	/* first object */
--		};
--		struct rcu_head rcu_head;
--	};
--	unsigned int active;
--
--#elif defined(CONFIG_SLUB)
--
- 	struct kmem_cache *slab_cache;
- 	union {
- 		struct {
-@@ -91,10 +76,6 @@ struct slab {
- 	};
- 	unsigned int __unused;
- 
--#else
--#error "Unexpected slab allocator configured"
--#endif
--
- 	atomic_t __page_refcount;
- #ifdef CONFIG_MEMCG
- 	unsigned long memcg_data;
-@@ -111,7 +92,7 @@ SLAB_MATCH(memcg_data, memcg_data);
- #endif
- #undef SLAB_MATCH
- static_assert(sizeof(struct slab) <= sizeof(struct page));
--#if defined(system_has_freelist_aba) && defined(CONFIG_SLUB)
-+#if defined(system_has_freelist_aba)
- static_assert(IS_ALIGNED(offsetof(struct slab, freelist), sizeof(freelist_aba_t)));
+-#if defined(CONFIG_DEBUG_SLAB) || defined(CONFIG_SLUB_DEBUG_ON)
++#ifdef CONFIG_SLUB_DEBUG_ON
+ #define DMAPOOL_DEBUG 1
  #endif
  
-@@ -228,13 +209,7 @@ static inline size_t slab_size(const struct slab *slab)
- 	return PAGE_SIZE << slab_order(slab);
- }
+diff --git a/mm/mempool.c b/mm/mempool.c
+index 734bcf5afbb7..62dcbeb4c2a9 100644
+--- a/mm/mempool.c
++++ b/mm/mempool.c
+@@ -20,7 +20,7 @@
+ #include <linux/writeback.h>
+ #include "slab.h"
  
--#ifdef CONFIG_SLAB
--#include <linux/slab_def.h>
--#endif
--
--#ifdef CONFIG_SLUB
- #include <linux/slub_def.h>
--#endif
- 
- #include <linux/memcontrol.h>
- #include <linux/fault-inject.h>
-@@ -320,26 +295,16 @@ static inline bool is_kmalloc_cache(struct kmem_cache *s)
- 			 SLAB_CACHE_DMA32 | SLAB_PANIC | \
- 			 SLAB_TYPESAFE_BY_RCU | SLAB_DEBUG_OBJECTS )
- 
--#if defined(CONFIG_DEBUG_SLAB)
--#define SLAB_DEBUG_FLAGS (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER)
--#elif defined(CONFIG_SLUB_DEBUG)
-+#ifdef CONFIG_SLUB_DEBUG
- #define SLAB_DEBUG_FLAGS (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER | \
- 			  SLAB_TRACE | SLAB_CONSISTENCY_CHECKS)
- #else
- #define SLAB_DEBUG_FLAGS (0)
- #endif
- 
--#if defined(CONFIG_SLAB)
--#define SLAB_CACHE_FLAGS (SLAB_MEM_SPREAD | SLAB_NOLEAKTRACE | \
--			  SLAB_RECLAIM_ACCOUNT | SLAB_TEMPORARY | \
--			  SLAB_ACCOUNT | SLAB_NO_MERGE)
--#elif defined(CONFIG_SLUB)
- #define SLAB_CACHE_FLAGS (SLAB_NOLEAKTRACE | SLAB_RECLAIM_ACCOUNT | \
- 			  SLAB_TEMPORARY | SLAB_ACCOUNT | \
- 			  SLAB_NO_USER_FLAGS | SLAB_KMALLOC | SLAB_NO_MERGE)
--#else
--#define SLAB_CACHE_FLAGS (SLAB_NOLEAKTRACE)
--#endif
- 
- /* Common flags available with current configuration */
- #define CACHE_CREATE_MASK (SLAB_CORE_FLAGS | SLAB_DEBUG_FLAGS | SLAB_CACHE_FLAGS)
-@@ -672,18 +637,14 @@ size_t __ksize(const void *objp);
- 
- static inline size_t slab_ksize(const struct kmem_cache *s)
+-#if defined(CONFIG_DEBUG_SLAB) || defined(CONFIG_SLUB_DEBUG_ON)
++#ifdef CONFIG_SLUB_DEBUG_ON
+ static void poison_error(mempool_t *pool, void *element, size_t size,
+ 			 size_t byte)
  {
--#ifndef CONFIG_SLUB
--	return s->object_size;
--
--#else /* CONFIG_SLUB */
--# ifdef CONFIG_SLUB_DEBUG
-+#ifdef CONFIG_SLUB_DEBUG
- 	/*
- 	 * Debugging requires use of the padding between object
- 	 * and whatever may come after it.
- 	 */
- 	if (s->flags & (SLAB_RED_ZONE | SLAB_POISON))
- 		return s->object_size;
--# endif
-+#endif
- 	if (s->flags & SLAB_KASAN)
- 		return s->object_size;
- 	/*
-@@ -697,7 +658,6 @@ static inline size_t slab_ksize(const struct kmem_cache *s)
- 	 * Else we can use all the padding etc for the allocation
- 	 */
- 	return s->size;
--#endif
- }
- 
- static inline struct kmem_cache *slab_pre_alloc_hook(struct kmem_cache *s,
-@@ -775,23 +735,6 @@ static inline void slab_post_alloc_hook(struct kmem_cache *s,
-  * The slab lists for all objects.
-  */
- struct kmem_cache_node {
--#ifdef CONFIG_SLAB
--	raw_spinlock_t list_lock;
--	struct list_head slabs_partial;	/* partial list first, better asm code */
--	struct list_head slabs_full;
--	struct list_head slabs_free;
--	unsigned long total_slabs;	/* length of all slab lists */
--	unsigned long free_slabs;	/* length of free slab list only */
--	unsigned long free_objects;
--	unsigned int free_limit;
--	unsigned int colour_next;	/* Per-node cache coloring */
--	struct array_cache *shared;	/* shared per node */
--	struct alien_cache **alien;	/* on other nodes */
--	unsigned long next_reap;	/* updated without locking */
--	int free_touched;		/* updated without locking */
--#endif
--
--#ifdef CONFIG_SLUB
- 	spinlock_t list_lock;
- 	unsigned long nr_partial;
- 	struct list_head partial;
-@@ -800,8 +743,6 @@ struct kmem_cache_node {
- 	atomic_long_t total_objects;
- 	struct list_head full;
- #endif
--#endif
--
- };
- 
- static inline struct kmem_cache_node *get_node(struct kmem_cache *s, int node)
-@@ -818,7 +759,7 @@ static inline struct kmem_cache_node *get_node(struct kmem_cache *s, int node)
- 		 if ((__n = get_node(__s, __node)))
- 
- 
--#if defined(CONFIG_SLAB) || defined(CONFIG_SLUB_DEBUG)
-+#ifdef CONFIG_SLUB_DEBUG
- void dump_unreclaimable_slab(void);
- #else
- static inline void dump_unreclaimable_slab(void)
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index 8d431193c273..63b8411db7ce 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -71,10 +71,8 @@ static int __init setup_slab_merge(char *str)
- 	return 1;
- }
- 
--#ifdef CONFIG_SLUB
- __setup_param("slub_nomerge", slub_nomerge, setup_slab_nomerge, 0);
- __setup_param("slub_merge", slub_merge, setup_slab_merge, 0);
--#endif
- 
- __setup("slab_nomerge", setup_slab_nomerge);
- __setup("slab_merge", setup_slab_merge);
-@@ -197,10 +195,6 @@ struct kmem_cache *find_mergeable(unsigned int size, unsigned int align,
- 		if (s->size - size >= sizeof(void *))
- 			continue;
- 
--		if (IS_ENABLED(CONFIG_SLAB) && align &&
--			(align > s->align || s->align % align))
--			continue;
--
- 		return s;
+@@ -95,14 +95,14 @@ static void poison_element(mempool_t *pool, void *element)
+ 		kunmap_atomic(addr);
  	}
- 	return NULL;
-@@ -1222,12 +1216,8 @@ void cache_random_seq_destroy(struct kmem_cache *cachep)
  }
- #endif /* CONFIG_SLAB_FREELIST_RANDOM */
- 
--#if defined(CONFIG_SLAB) || defined(CONFIG_SLUB_DEBUG)
--#ifdef CONFIG_SLAB
--#define SLABINFO_RIGHTS (0600)
--#else
-+#ifdef CONFIG_SLUB_DEBUG
- #define SLABINFO_RIGHTS (0400)
--#endif
- 
- static void print_slabinfo_header(struct seq_file *m)
+-#else /* CONFIG_DEBUG_SLAB || CONFIG_SLUB_DEBUG_ON */
++#else /* CONFIG_SLUB_DEBUG_ON */
+ static inline void check_element(mempool_t *pool, void *element)
  {
-@@ -1235,18 +1225,10 @@ static void print_slabinfo_header(struct seq_file *m)
- 	 * Output format version, so at least we can change it
- 	 * without _too_ many complaints.
- 	 */
--#ifdef CONFIG_DEBUG_SLAB
--	seq_puts(m, "slabinfo - version: 2.1 (statistics)\n");
--#else
- 	seq_puts(m, "slabinfo - version: 2.1\n");
--#endif
- 	seq_puts(m, "# name            <active_objs> <num_objs> <objsize> <objperslab> <pagesperslab>");
- 	seq_puts(m, " : tunables <limit> <batchcount> <sharedfactor>");
- 	seq_puts(m, " : slabdata <active_slabs> <num_slabs> <sharedavail>");
--#ifdef CONFIG_DEBUG_SLAB
--	seq_puts(m, " : globalstat <listallocs> <maxobjs> <grown> <reaped> <error> <maxfreeable> <nodeallocs> <remotefrees> <alienoverflow>");
--	seq_puts(m, " : cpustat <allochit> <allocmiss> <freehit> <freemiss>");
--#endif
- 	seq_putc(m, '\n');
  }
- 
-@@ -1370,7 +1352,7 @@ static int __init slab_proc_init(void)
+ static inline void poison_element(mempool_t *pool, void *element)
+ {
  }
- module_init(slab_proc_init);
+-#endif /* CONFIG_DEBUG_SLAB || CONFIG_SLUB_DEBUG_ON */
++#endif /*CONFIG_SLUB_DEBUG_ON */
  
--#endif /* CONFIG_SLAB || CONFIG_SLUB_DEBUG */
-+#endif /* CONFIG_SLUB_DEBUG */
- 
- static __always_inline __realloc_size(2) void *
- __do_krealloc(const void *p, size_t new_size, gfp_t flags)
+ static __always_inline void kasan_poison_element(mempool_t *pool, void *element)
+ {
 -- 
 2.42.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231113191340.17482-28-vbabka%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231113191340.17482-29-vbabka%40suse.cz.
