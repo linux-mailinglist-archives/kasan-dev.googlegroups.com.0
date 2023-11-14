@@ -1,182 +1,131 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBC5SZ6VAMGQEZWZ7HPA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT4XGV33UIBBJX5Z6VAMGQELSBJQYI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x239.google.com (mail-lj1-x239.google.com [IPv6:2a00:1450:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644717EB7D1
-	for <lists+kasan-dev@lfdr.de>; Tue, 14 Nov 2023 21:31:09 +0100 (CET)
-Received: by mail-lj1-x239.google.com with SMTP id 38308e7fff4ca-2c737d1ba09sf47666731fa.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 14 Nov 2023 12:31:09 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1699993869; cv=pass;
+Received: from mail-oa1-x39.google.com (mail-oa1-x39.google.com [IPv6:2001:4860:4864:20::39])
+	by mail.lfdr.de (Postfix) with ESMTPS id C452D7EBA1E
+	for <lists+kasan-dev@lfdr.de>; Wed, 15 Nov 2023 00:11:35 +0100 (CET)
+Received: by mail-oa1-x39.google.com with SMTP id 586e51a60fabf-1ef393787e8sf608197fac.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 14 Nov 2023 15:11:35 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1700003494; cv=pass;
         d=google.com; s=arc-20160816;
-        b=aqr1rVDiiQ2pnvoaoXUvp3GFoveexfpLeKjSe/ysW4r+Kro2bcmUjV+gXOA6pLdO1J
-         04aVOEHtf3p4sn7jA85AYX9tecmchC/Rk8KEmnLZPLN97OD+2RvA6PQ9T6v/BuYehZGc
-         IuiTuUWPskd1jte5pe7yDp0XM3S8sL46qjNgRbVa54/8HfzKGOk0+7Ne0fCkx9HBPW4S
-         u4JjhzDnvkI1W7gPRRYSP0U4zur3WyvvW38kloaTPAbaNIQ5a9R4VRn4XHHYHooBMI0o
-         wAP9+c+j3afr+P97ksZXnw9DW8KkvpEKeQgpAAbvk93Lw3mIGqBkfSO8B39D9dQGcnVh
-         XIBg==
+        b=E4o4mqpIKE/FbCY7GQW1ORS1305XvMIcgHmvXiSuQXQMgOt23VdAzeKCHpmvMLVAkC
+         wLWoE4IIBGvm8Nl0tpH6YiLCQc0XN0fdv3PQzAjP6pzry87Vy1Oiay4I5/SaVNGZ+XVI
+         xAtnOP6b1qlOZhMCQRm/BHi7d9bOdUMf6fSYq+QnuS7uZe3erSinCtY17UMiUYUem53q
+         b7nri4ec6ZI7Magu6NLRITMx5jioSH3DsZ2DYW161Ncu6KXC7z91d3Pl+t18V5TefDpf
+         3TSAgcbfUXaCeE36VnmAIR4UoAyCJP3ec4rZsarDDHSMoDdkcHJS3WI9yhec6OyYDymB
+         O9dQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=HDb/4IdkjSywZBjmTXcWRXXOx3UscM8sqcQU4u0X1IM=;
-        fh=ZYn9MgmVpwKFi+h1WPMvL6yHYpyqaynezClwMkX7/CM=;
-        b=HmjC1gnkhP4MTXraSbxDWDEl+sNXHx8aTEy45tn9wWDOZg74oHgnzHYqKJhV26X0/n
-         ADf2O+mGdcJy8UZShV1F9HuTjCSLhSUTcOSj0wISMCydJLKD2N2M46BoB0aQU8Om7WQy
-         rCwwYOhNgNUCdebq6TWhST0/cBBej94Ce9Fb+az/2l490QD+buPsFpum4cUAt8mEpu2T
-         pT8zPf+reeIIQbPGPncbo+nO3wCVsyRXz2h0WRsyAMmMooKmhwL8OakWjizB1OM+eXth
-         ZcnrBKI8L+CnlBzYqL4eXtmByVJzFbrhZyC96ZFfSrr5m7lPtYZ/WgmHHnCLcMcy38mg
-         gThQ==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=kYrKZgQzUQvNFq9r8iW3ZWzJW7HUBQxYh2B3jgnJN+M=;
+        fh=y3qq6DpdB3PSI0H4IbJvKn5O5PXg1IMiCcdxaQaPqIg=;
+        b=nXUW/ulJbq05Udty82Vmw1r9byLtAQs790EGHGPD1piHfJyYk7DQBsr5YdSg09Yz71
+         4XdXVD+t5Yn+MUq0fsKAd4vIa+Y3YrUAXsfxqzkB2BlzjBAOfbDjCLZuJL8UmsEFSPYS
+         8nGTc0gtGIpo2ei9s+lF5uT4QQ1id2DWFKoHWUOsCSr7WckaoN+OvtI5vGO9W1eBZ1g4
+         Iaj5M0FrRFhOtBa9hzBzRrnX8TGMqeAK/Pabg06jTF0WtH+y0Ag3cEuadl1mU9lHWBGa
+         ZiWFe+GKj33Ohm38XwPbUMptDnoayaXOP6u8zy1uRQrIL1Bw68UDAOtgd4yDFOoBrpoD
+         AZwg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=bz0Tanb9;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=LyzijmPh;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1699993869; x=1700598669; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1700003494; x=1700608294; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=HDb/4IdkjSywZBjmTXcWRXXOx3UscM8sqcQU4u0X1IM=;
-        b=NAtvcgBY5DoyLJ7WwVAeq1nXdviHlsUZVntYRjcNwKmCTdjMURT49o/m4vf/phOCME
-         JqI5gh9tG4jOEAMm6b3UlS8aptHJfB1rsL2jbTketGxX+ul0llrk551DnlmbE8eWbaFV
-         HATWzZtUsqb5W00u9V7TrHjJChoWMg1qZ3/lmK0fwEQjDm/tcYIXF284hQOFZhdDZU9b
-         KaGHV+ulsI8S6dnfQfjkMnXDNkIkNqBpw9gSiZZYml6AXl1iBdygol/9an/9LrdzE18v
-         4a2akdfKHTYr1JKe+0Z7nac+InFTVfTUgUa9hE0Qi5Rbb5F6PI+fTS3ZBsiIx87JDe9T
-         avag==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kYrKZgQzUQvNFq9r8iW3ZWzJW7HUBQxYh2B3jgnJN+M=;
+        b=pz2bKkspzJdEK57zJudoiR1bSwfWo89loIUtkQff5Cz7r82zsBG48CTMvNez0k3Ecl
+         lZGWw2M4xinntIytvGZ0opeeNVMYJxAa8sTEo+0xwYhgJx71jIPxVB73HOaIVjIERa5r
+         prGGX79VdSAsf5b5E21YB/0rVKguc7TboJqwPV8/CwOGBhu2ALN4BrtJklvsPlsbER+9
+         m5gCj0qdmHOo8X8yaBN4x4/2CBSy9lT4ufLpo2diIlVcU6svUA7cyAaiH1SZpYl0nMI3
+         C11t2ct8eJ1/wNgKbRrzZNvBUjlyS1taUx2+lbhXH/4pIlmWIhDzonVLfV4jTCRPOyKk
+         6snA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699993869; x=1700598669;
+        d=1e100.net; s=20230601; t=1700003494; x=1700608294;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HDb/4IdkjSywZBjmTXcWRXXOx3UscM8sqcQU4u0X1IM=;
-        b=dA2H7eR8Ouu8GLQMYcaV07TAgWtdKOYtNM5XiJ3VHcOcPWgmGdZgmRC2yrGj9xraKP
-         Y7rCd1D4Ki0bBMFrpsJWCe62j3hktFIoh+6vbLS2c1th1bB5WTNf02M3ouZ6jwvrCrB5
-         ZbG1OLB1/bPis29uHFDL/bbC9Jw/FEuJBCq5t4kUTLruVIgfpzvbniscgb4iOe9hi0Z1
-         PNHXQUzGNufHfR5I1DdTdGHr1QaAW4Gd4IwZcCZHnH/s+UbKgWgU6Oe3HjWagGav9dOV
-         wtZoPnNV+FD45Pn8FHaFYWbpff/tSPYqAUzF+dQSCKHQQuuamT6szxyLvEc857EVIG2l
-         ozZA==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:subject:cc:to:from:date
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kYrKZgQzUQvNFq9r8iW3ZWzJW7HUBQxYh2B3jgnJN+M=;
+        b=aaXesb+TAAQsPEJbetaopg2sVWi13llEUEVO54bIja1SWb5/JGecEJkcKUb13D2w4z
+         pzbHsFkh50ihWKobWXEp1a590BkEgJzBcKLpplVdTs3MtaHwEzsD5i921OtZFhNcSuEi
+         hgTb3bzem+v9+xL719Q2YImYykpont2MnhnCZDszMhXWdWjeD79EoVwjuo3RAXcRjalp
+         E4TpNiVYZJzrTzRqhtlfnVMYkcMQrBL+sPte4kxJhmqWlsAu5Lq1SC2JGR1hSqCbSFum
+         tPzxx6lVHoZjcqWBLXXvoWdhlmRHl0lF8sDKNsjvXBTUq+S4DNWCT690nXuykaMG7ovS
+         Mrvg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yw9HwyGON6vRSZv39FW2T9FK5v/aU4og8X0c7y6E1VSjEFJI9kq
-	Vzft1tk6OS8BKN1kV+jzNCE=
-X-Google-Smtp-Source: AGHT+IFNNElqamHjTcpt11xu2f7RnLHrp3C3+N3H/CBfUGk5b9ZjCf184XGxA5hHjBpdS8egre/0cQ==
-X-Received: by 2002:a2e:88cc:0:b0:2c5:2184:c53d with SMTP id a12-20020a2e88cc000000b002c52184c53dmr2591031ljk.25.1699993867592;
-        Tue, 14 Nov 2023 12:31:07 -0800 (PST)
+X-Gm-Message-State: AOJu0YyXy5lDpVye6wM1ic9RgnFMvqHw/Hgds8lPrkrQgt0OUyElzyoh
+	hikAJBHtHLS93Dsqmnz/jhY=
+X-Google-Smtp-Source: AGHT+IEVJ+ikzuKzZ78ua8Vy2TtkKZq6e/vMo2bWDCjbgmUJL8XUM70w3KRDDdJoVn3pc9rPwiOG9g==
+X-Received: by 2002:a05:6870:1d0e:b0:1e9:8a7e:5893 with SMTP id pa14-20020a0568701d0e00b001e98a7e5893mr4431649oab.5.1700003494277;
+        Tue, 14 Nov 2023 15:11:34 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:c91:b0:2c5:dcb:9764 with SMTP id
- bz17-20020a05651c0c9100b002c50dcb9764ls826709ljb.0.-pod-prod-02-eu; Tue, 14
- Nov 2023 12:31:05 -0800 (PST)
-X-Received: by 2002:a05:651c:1a20:b0:2c5:3322:c2d6 with SMTP id by32-20020a05651c1a2000b002c53322c2d6mr2739002ljb.7.1699993865583;
-        Tue, 14 Nov 2023 12:31:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1699993865; cv=none;
+Received: by 2002:a05:6870:f299:b0:1f0:4ef9:f2b2 with SMTP id
+ u25-20020a056870f29900b001f04ef9f2b2ls2261021oap.0.-pod-prod-06-us; Tue, 14
+ Nov 2023 15:11:33 -0800 (PST)
+X-Received: by 2002:a05:6358:7e56:b0:169:57f3:7551 with SMTP id p22-20020a0563587e5600b0016957f37551mr3223827rwm.23.1700003493485;
+        Tue, 14 Nov 2023 15:11:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1700003493; cv=none;
         d=google.com; s=arc-20160816;
-        b=X/AvX+4MiFamY7SGDe6C1VDKBHzOoZe2Soa4+vV3L3nc5T/bzHIo1W8xLZm9UgBVCr
-         bFMUwqCg1O3Cp5uprmTLLPGTYyq6+EvHSs0vaQ8rpqmxZBZ8lhybwbvSzg/U7+Ru0KhH
-         QcCI95wt9ApXoMi0qAKTiOJVg8u84JDdlxRTpqhw1xoOjIeZKFoUjvU+156ylyCL2eu6
-         YSqB8Ah0UdvNuQ4UvTcym8BryZnGe8GzQFBhAG/qKchGwycH4Pci+uGYO/chpbTju1yQ
-         /6M5jEHdNijHGEoH+1RkOgDNt32Jc3kJQCx0gxD4rwVH6LnNf7XYaQPMTY2IuGjYihce
-         uE7g==
+        b=twYJuzc7jPyNsIjK0Ewpz9JEBu0RVtC1/k99S7GK4oKlMgcZAwp5bmH4vTp10GyxzY
+         PE8vE4F8nyBY1NeqYJEz7O4H1ZsJYKmRXwAq+ak1NXYLPGpwUhdqxaXIpUcggmJzFrkq
+         /aw+qQau3WDjcmtJxYj1oc2AENt+8KzrnCyiT8X3ZumcGqPI1jV9T2VZWuL47y95FR5x
+         VcBecIEpy0kqORl1kpccR0Bv7fZNo3EHT8QhY6vBoex4iHllwuoKoM/ZOuzgQf85cHmi
+         SnZUCGnljkSGExv9tUCGI7CAv6+cFHYWFt+a9v9FMLYtXuBjJDEVCLphDJlazt1l028s
+         xeDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature;
-        bh=K8/NrlXrx7sKxKw33qQLGmJG4ajpbjlsvtZQ38cozIM=;
-        fh=ZYn9MgmVpwKFi+h1WPMvL6yHYpyqaynezClwMkX7/CM=;
-        b=Xl8cSFEgLuBfcY/s9oSH9g9UI86TSAR/yK0PfsV6C1osn/PfYl+WoT8FFx8bHFZAw1
-         oEiRKcMeORUGgJkmKlcJ3RaBKAYCk4j502Fx7qdSRMerCwQLfHcEof7JulMRuXS53PfS
-         sRMm5PLTuhbN8bjRZhnugxsytWpQ1O9pSraQr8VGyUyvApamNfTQbVqYN+vEXa7GkY+R
-         qSju9C0lZTEGyDQ1gs7nDfd5PoX49sMc+khAdlX4MqReeAiJccPM+jDO1gKy3wt/B9YW
-         u5KCgCuX1ImpmF9Uif74XLcqwl4thyfo3mvEH+mD1QL1syI7tpxddr8bOEp5WEeFhTD0
-         TnDw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=9rk4Bb1F8kvlytED/CE4XkyISAHUHz/Ojr48noqKtLg=;
+        fh=y3qq6DpdB3PSI0H4IbJvKn5O5PXg1IMiCcdxaQaPqIg=;
+        b=h9NjiHStTTyuGAFO8nJBcLN9TiAweFRWB37PLMfk01JYWeqvQjxtvtJRkuGXZ60cjf
+         stHGlF5Za+pNDAHVeTpNjSfEI+p+e71og+MHOfx8G7xn4k1fUJ3kjlH7NLZIx60TBiUP
+         8RPGvAzyyWgAsKEow8YJO1/+MOtFOxJCEBq6ZkSWaZnnihaCkiUe2uii9RgzslOpwF3u
+         vHaDP1W1FdJBKNZTpXHxozruSVZHj0LWLfvs726hwcX5VnJSm0BFJteDHbooahMtXY8Q
+         vvj1u7C1FbkQpLybAEgcTwj7WtnuRQrFjDtu0CcwNIzC2NCFmXqeh0WbdErmvkX+BqKm
+         3FjQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=bz0Tanb9;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2001:67c:2178:6::1d])
-        by gmr-mx.google.com with ESMTPS id z21-20020a2e8e95000000b002b9d5a29ef7si326500ljk.4.2023.11.14.12.31.05
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=LyzijmPh;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from sin.source.kernel.org (sin.source.kernel.org. [2604:1380:40e1:4800::1])
+        by gmr-mx.google.com with ESMTPS id ay29-20020a05622a229d00b0041ce9eb6295si1286987qtb.1.2023.11.14.15.11.33
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Nov 2023 12:31:05 -0800 (PST)
-Received-SPF: softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) client-ip=2001:67c:2178:6::1d;
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 4C50F20430;
-	Tue, 14 Nov 2023 20:31:04 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0337013460;
-	Tue, 14 Nov 2023 20:31:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id O8kbAAjZU2UpYQAAMHmgww
-	(envelope-from <vbabka@suse.cz>); Tue, 14 Nov 2023 20:31:04 +0000
-Message-ID: <b7fd34fa-5623-5f78-1d95-d01c986c2271@suse.cz>
-Date: Tue, 14 Nov 2023 21:31:03 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 18/20] mm/slub: remove slab_alloc() and
- __kmem_cache_alloc_lru() wrappers
-Content-Language: en-US
-To: Kees Cook <keescook@chromium.org>
-Cc: David Rientjes <rientjes@google.com>, Christoph Lameter <cl@linux.com>,
- Pekka Enberg <penberg@kernel.org>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, patches@lists.linux.dev,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, Marco Elver
- <elver@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Michal Hocko <mhocko@kernel.org>, Shakeel Butt <shakeelb@google.com>,
- Muchun Song <muchun.song@linux.dev>, kasan-dev@googlegroups.com,
- cgroups@vger.kernel.org
-References: <20231113191340.17482-22-vbabka@suse.cz>
- <20231113191340.17482-40-vbabka@suse.cz> <202311132048.B3AADC400@keescook>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <202311132048.B3AADC400@keescook>
+        Tue, 14 Nov 2023 15:11:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) client-ip=2604:1380:40e1:4800::1;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id B12D9CE1ADF;
+	Tue, 14 Nov 2023 23:11:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A13A0C433C7;
+	Tue, 14 Nov 2023 23:11:29 +0000 (UTC)
+Date: Tue, 14 Nov 2023 15:11:28 -0800
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Marco Elver <elver@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>, Paul =?ISO-8859-1?Q?Heidekr?=
+ =?ISO-8859-1?Q?=FCger?= <paul.heidekrueger@tum.de>, Andrey Ryabinin
+ <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Dmitry
+ Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, Joe Perches
+ <joe@perches.com>
+Subject: Re: [PATCH] kasan: default to inline instrumentation
+Message-Id: <20231114151128.929a688ad48cd06781beb6e5@linux-foundation.org>
+In-Reply-To: <CANpmjNNQP5A0Yzv-pSCZyJ3cqEXGRc3x7uzFOxdsVREkHmRjWQ@mail.gmail.com>
+References: <20231109155101.186028-1-paul.heidekrueger@tum.de>
+	<CA+fCnZcMY_z6nOVBR73cgB6P9Kd3VHn8Xwi8m9W4dV-Y4UR-Yw@mail.gmail.com>
+	<CANpmjNNQP5A0Yzv-pSCZyJ3cqEXGRc3x7uzFOxdsVREkHmRjWQ@mail.gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Level: 
-X-Spam-Score: -2.60
-X-Spamd-Result: default: False [-2.60 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 RCVD_TLS_ALL(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-3.00)[-1.000];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-1.00)[-1.000];
-	 BAYES_HAM(-0.00)[41.96%];
-	 RCPT_COUNT_TWELVE(0.00)[23];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[google.com,linux.com,kernel.org,lge.com,linux-foundation.org,gmail.com,linux.dev,kvack.org,vger.kernel.org,lists.linux.dev,arm.com,cmpxchg.org,googlegroups.com];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Flag: NO
-X-Original-Sender: vbabka@suse.cz
+X-Original-Sender: akpm@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=bz0Tanb9;       dkim=neutral
- (no key) header.i=@suse.cz;       spf=softfail (google.com: domain of
- transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as
- permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@linux-foundation.org header.s=korg header.b=LyzijmPh;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates
+ 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -189,46 +138,45 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 11/14/23 05:50, Kees Cook wrote:
-> On Mon, Nov 13, 2023 at 08:13:59PM +0100, Vlastimil Babka wrote:
->> slab_alloc() is a thin wrapper around slab_alloc_node() with only one
->> caller.  Replace with direct call of slab_alloc_node().
->> __kmem_cache_alloc_lru() itself is a thin wrapper with two callers,
->> so replace it with direct calls of slab_alloc_node() and
->> trace_kmem_cache_alloc().
-> 
-> I'd have a sense that with 2 callers a wrapper is still useful?
+On Tue, 14 Nov 2023 12:00:49 +0100 Marco Elver <elver@google.com> wrote:
 
-Well it bothered me how many layers everything went through, it makes it
-harder to comprehend the code.
+> +Cc Andrew (get_maintainers.pl doesn't add Andrew automatically for
+> KASAN sources in lib/)
 
->> 
->> This also makes sure _RET_IP_ has always the expected value and not
->> depending on inlining decisions.
+Did I do this right?
 
-And there's also this argument. We should evaluate _RET_IP_ in
-kmem_cache_alloc() and kmem_cache_alloc_lru().
 
->> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
->> [...]
->>  void *kmem_cache_alloc_node(struct kmem_cache *s, gfp_t gfpflags, int node)
->>  {
->> -	void *ret = slab_alloc_node(s, NULL, gfpflags, node, _RET_IP_, s->object_size);
->> +	void *ret = slab_alloc_node(s, NULL, gfpflags, node, _RET_IP_,
->> +				    s->object_size);
->>  
-> 
-> Whitespace change here isn't mentioned in the commit log.
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: MAINTAINERS: add Andrew Morton for lib/*
+Date: Tue Nov 14 03:02:04 PM PST 2023
 
-OK, will mention.
+Add myself as the fallthough maintainer for material under lib/
 
-> Regardless:
-> 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
 
-Thanks!
+ MAINTAINERS |    7 +++++++
+ 1 file changed, 7 insertions(+)
+
+--- a/MAINTAINERS~a
++++ a/MAINTAINERS
+@@ -12209,6 +12209,13 @@ F:	include/linux/nd.h
+ F:	include/uapi/linux/ndctl.h
+ F:	tools/testing/nvdimm/
+ 
++LIBRARY CODE
++M:	Andrew Morton <akpm@linux-foundation.org>
++L:	linux-kernel@vger.kernel.org
++S:	Supported
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
++F:	lib/*
++
+ LICENSES and SPDX stuff
+ M:	Thomas Gleixner <tglx@linutronix.de>
+ M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+_
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/b7fd34fa-5623-5f78-1d95-d01c986c2271%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231114151128.929a688ad48cd06781beb6e5%40linux-foundation.org.
