@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBCM3H26GVIOBB2GW2SVAMGQEX2OVZMI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCM3H26GVIOBB2OW2SVAMGQEZPUUG7Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3b.google.com (mail-oa1-x3b.google.com [IPv6:2001:4860:4864:20::3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 621587ED227
+Received: from mail-io1-xd3d.google.com (mail-io1-xd3d.google.com [IPv6:2607:f8b0:4864:20::d3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE957ED228
 	for <lists+kasan-dev@lfdr.de>; Wed, 15 Nov 2023 21:34:50 +0100 (CET)
-Received: by mail-oa1-x3b.google.com with SMTP id 586e51a60fabf-1ea01dcf2ccsf1044595fac.1
+Received: by mail-io1-xd3d.google.com with SMTP id ca18e2360f4ac-7a926469269sf1419939f.2
         for <lists+kasan-dev@lfdr.de>; Wed, 15 Nov 2023 12:34:50 -0800 (PST)
 ARC-Seal: i=2; a=rsa-sha256; t=1700080489; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gHrtgHlnaMeICx0LI4svf3FsPUG1FXq29BSt7ohKwrtY0dmOgwOM5Y3FoQSDn7InTk
-         FZJGECvAcw19mf5vPwX+etK6MipWlyyyaDW1ngoD8L64l5wQoJQQAu2nGyly6Rc2bPE3
-         0qI/pXhAvLDhXXTFIII9EuXNDcE8vayMa4aJYeKrSpVlTJUj902DXI0qbq3QO/Cbzkri
-         +De5G4Ixe8bnPjQgeIneA4HUavi79LEvvN1tOS88dSPQt+yA/lbHWX6b3CoBo6kiUUKM
-         GqP07nVtKOSTzNdFrTe4eulGrOmAjbQofmxGUleJt19qCjQJNAZSEqANQ4PkGOmn3afv
-         U7NQ==
+        b=P7MNCgR0e02Jlh+V9oXEZgRvcWZ0jxhr5GyY5CgLZ2oMUm2fhnuhsTrDzBMfm2z3ao
+         N8jJ5W22LSLdbo9lwHR9xF3XJSnknp7j47lS+dpfkzMGfvxed/FfvsYxUJ8nxgFeUu2f
+         7uzyobemYSq2oODl8xl+0J3BPCSKG/KWzzoq6/8z8YPEctayxgI8Rvbd3NN1K+AhvGw4
+         IoO4uDUO/jC+BanDea+sbQgUqcR7IKtOQwe5ZNaw2Ze3AkYW948VXHKkKFn89fdR+avZ
+         57AqSkzmsPv6n4hxGZ+nOTRxaOIICVVbpI/ijncHkSikbvqivkG92C2NvKuCQjImSbNR
+         EowA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=53Y4Cc1cTvN8C5+7tvmWSGFSi9wA4eIWvt84H8/oc3M=;
+        bh=+lDrqIUPrGJhWGEG8CH/f/NytjSrBtr8ZM8GKTyIp3I=;
         fh=Mk/+hh3KXEiY642GJit3QcoQ60j/OUZTCvigu+jTRuo=;
-        b=AYGRCI0+79jKarRMobkIqkWV0/ugHvO3gt4cjFXK/R34d308GskBx6BYAIWiC/Kh95
-         OjNhkgRIedNbczaWaLfXWA/iIC9od/gqi7EjMpeqtqF/8AsdxaUx2ohxKasEUaSCY6D0
-         Cpq66TzWvv/VMzOQsTh27vXfQubXv2ShZgsnLlzHCh50o09xTMf8APj6fqedgodBvISp
-         qahjg5VaKwtw8MGj0CI1m3QYC6FiP1BTwxHMzA9woSgnXuKtvzga1rCIdfj+a2Zw7Zlb
-         kRVh3OMwyKx2pbjsSzRKwx+gfnZ9KajJqso9XX0kzjyNL1BpcLRmCdH8I6Z68B/Rm7KK
-         ddgQ==
+        b=cW6P/vj9ki6qTYIjmXfDHLgruuPYkjLhbYMUPsZPlp/iS84s6sBEa8Wsr5UeY1rVek
+         jLftpHf+l9aGMrG7MmVa6/II2ZvvD+wesi+QiUPdg94Q5eiHnPhIcVHUtJhf4PDLWS/9
+         6wVcsW4NGWHuZRET3Zf2+nlsIUdfqN9r5+Lgl4KwWF5rGykhnzQtGHFXrbsq8v+MUSff
+         hU0FSdKQrSCm6ZyY1/hkBtrtTYm61MFrBw6DYQVZsyi2Fo0bcFSReClnwoQiAV1IZfmK
+         zVAssWXnAWdk44BVuApo/soH/wNcLiwThqPHa820tumWeczXtcRCZowI7lI2bewqMNp1
+         3HYQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=YKFBdcKb;
-       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=MKmcWWar;
+       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
        dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20230601; t=1700080489; x=1700685289; darn=lfdr.de;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=53Y4Cc1cTvN8C5+7tvmWSGFSi9wA4eIWvt84H8/oc3M=;
-        b=JUlUpHRc7ieSaf6LqYJo76y6L9blhd4+sxmU5/1mKXCUgkSIjNnmbkTHfbyvW6JaHj
-         4nZWMeKtTHm5OjlcT5V0sA+hPVmErEXyw5nWZrvlTdZNJJH6+dgEvzSFw6C9P7q7eQVT
-         xOVjMeKyZPVnjfWbEh49oRfnhZAhqAAXE7TmOVDCQuFwqmTu1iXgp6v8AHqpgTE/uOt8
-         uAfN0vSNU5JDLHAxJaU/M6iJkZd59to+AddfcYT5cc5sCqc5MsKhRML4jqk3Txlww0WC
-         OZnQav3kXYTwsoFWq/dG48CzeYViT5NOEHWkYAkOmKS1S7im6Y1YSCgOCCvl2EnupvB/
-         Nx6g==
+        bh=+lDrqIUPrGJhWGEG8CH/f/NytjSrBtr8ZM8GKTyIp3I=;
+        b=iiggdYW3g9KBASXAvC/FsfnFaAS/NOgfnacPstCvOdWcOy9vkbR1DZxOUD2750UdkT
+         UEXQ6dCwZJ12c4FXRjfadyiPxrzd9KKVFpMxfZKdW4HQiRune6XSTOgnwh/OJL9BNY5r
+         +dcBvOZkBmxUXk5vpVl2JW2mbZ3PA9vasXVgDPvwDpzZ1T//wHKzzmJzZrJ+JGKw4yK7
+         Yg9eyJZVlKL3B7GrZOC4vpjfVbni0iXpEkwNKpDWQjhxSU6SuUnxYF+ZahdasF6L7+X5
+         NdJ7TIGRXfxxG8uDdbfc73EFiVxPfOU4nGxRRvVghNcDzENDMdp3ayM/nbGGTg2SU5lD
+         Tkmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1700080489; x=1700685289;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -52,88 +52,88 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=53Y4Cc1cTvN8C5+7tvmWSGFSi9wA4eIWvt84H8/oc3M=;
-        b=TDGEXznC+pBes6t4cmJ+8yGzqLB95IoeWSlbVW5d2jQwEdQ9CstzcCgdPbXpTe3bsQ
-         gUxopp81N1A/UTDbVWkomJs2DSjN7bWHHxbNJ/mKPFehNreIE94JEe8z2p9PFtJpHW6L
-         mTQ0fIJ6LWe4UbpK30LMYNZw9/L7LITJ8552UEqTnzAdAJmLg4ieNv0ooV0cUYtWVn5P
-         xXt0jWtwyUZ28Lx3kuYmdlChwAFfIjE5385K/nrCWNV5wNcy6JvFZSJ4e3GjlGP4xTEU
-         LG5mwQ0SKaAnR6EiZC+hCnyeDKstxTN8iy3B6F1cSIAIsikQ59tNMXcs7HdVXjuM6qEa
-         WhRg==
+        bh=+lDrqIUPrGJhWGEG8CH/f/NytjSrBtr8ZM8GKTyIp3I=;
+        b=FnBbSnTQ6dXLT0q1eS5y8DvbBCugD1WxANPkzJG4pYHmIAmqPitIPd6yQcTw0vIdqy
+         4bWam13JGmgB2ZGcue3lb9YcR1swbzxYGOX0B4d00B75vHNiyAetdBEH4OgZP6bnvFY9
+         yKV0DcNfOmYav5LwediAuLi2JLE4dRKPgbtlOiDMVzUMpXA4Q5nO0bZv9vmctF0ebNKc
+         p6hrytLS1+7e3tkN2225sO1ErGOGc2D6alOPvgX5H06bMeQOmjGaiNU81k3f2mTkKwlj
+         WWzdgRXGSKLfg+UJgbzjDzOH1zzc6WKYrf7IVoXVrvtSJu4co/TFIBO6c9jWCNEr50Q9
+         DsSg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Ywh6WFzV3Anf5v3lC5pUGobGvEotBrySxWQoyKoscQR9qidOjUk
-	Z9aF1yFBi+Z+x++h+mTnze0=
-X-Google-Smtp-Source: AGHT+IHBC+hd3j9MBK4Dz1tza5vXoY0l/SpxfgmHHDwypWTTe3GniY3zxeFslwTZZJyL43UjvD30CA==
-X-Received: by 2002:a05:6870:be8d:b0:1ef:9668:b532 with SMTP id nx13-20020a056870be8d00b001ef9668b532mr3575827oab.0.1700080489030;
+X-Gm-Message-State: AOJu0YzqUEER1Y6S9rHBk6jjpgWKRWJYpWFiTVl6Y9CnNkGH5rifLcdl
+	7gz8m1c3u8/L4FDqu0NaMx8=
+X-Google-Smtp-Source: AGHT+IGfWxV5xbY7spC6wZB/3IO6lZ+2bBrqr0aboJ8LNG2xBlvk2M4fM0vmoXKUTqTDtvbXVwVbUQ==
+X-Received: by 2002:a05:6e02:1a8b:b0:34f:70ec:d4cf with SMTP id k11-20020a056e021a8b00b0034f70ecd4cfmr20275878ilv.8.1700080489754;
         Wed, 15 Nov 2023 12:34:49 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:9e43:b0:1e9:923e:98cc with SMTP id
- pt3-20020a0568709e4300b001e9923e98ccls136476oab.0.-pod-prod-00-us; Wed, 15
- Nov 2023 12:34:48 -0800 (PST)
-X-Received: by 2002:a9d:64c3:0:b0:6d6:4a5f:47b4 with SMTP id n3-20020a9d64c3000000b006d64a5f47b4mr2710286otl.13.1700080488413;
+Received: by 2002:a05:6e02:2611:b0:35a:a617:5f3f with SMTP id
+ by17-20020a056e02261100b0035aa6175f3fls83437ilb.0.-pod-prod-09-us; Wed, 15
+ Nov 2023 12:34:49 -0800 (PST)
+X-Received: by 2002:a05:6602:2e92:b0:798:2415:1189 with SMTP id m18-20020a0566022e9200b0079824151189mr19272082iow.12.1700080488822;
         Wed, 15 Nov 2023 12:34:48 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; t=1700080488; cv=none;
         d=google.com; s=arc-20160816;
-        b=dtadzYz054vCBVbuegtOER9OoboBjZmHyfv4QCT+WggRoxNdmTkj1VOPrTFigeigHu
-         rpQBQYh2GJ/R4zCG7Nhhk2HLJesVmnZfREnPcjw6RnI8BYeE1/T2zGIMetGEixtYyuhv
-         pRiCGSi+UGM0gqXnDs63Q9JKGG+FM98t3brR7bGJdJIIMMWJfMNF7WknpQYsVhTbfqJy
-         EYzeaFOPwpJrYKtyseZFy1aV9DoIYRYKBoZFdX/Ap4FKJaGznsPop7wSgFaYvWGz5Qab
-         8o2TG6rv8/VvUZmR8EaHsXFvtf5eveTR697xo36ywZp0BCey5Pw2xdViLkkR8X2rk6pT
-         KgmA==
+        b=jU50omh81aFJw4bwVnn6gxhkkFS9PDrJauafiXjhO+H1o8zjHcNpO9l9Y1eUv12aYg
+         dFPQCw2Fw01W432hJb2kUuQG+FzG6AxrVECWlXfeC+rL5HT3y3VNLkhIzm5nXmpFMRg+
+         MjP4lkOkjfGildUWDthDB3oE5GWBazy382ZUBEjEz4dcCIpFnjqp3XXu2EpYfCs9PL10
+         rZJMAySOqwPH9NoZqSU5F1YSuYVTCvCP5RTs5kWtwQJifPHO4rDTqqamb5T234b/d+oO
+         2mx02vlnDLTpwBZ01QYOGu/4s4FLGxQmgAi1FG4lHxqjYzaVvAFgvuu8zWlHe8jA7Lvk
+         tqAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-transfer-encoding:references:in-reply-to
+        h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=JR4hU8usmRDdin50s82nkAgu6ZMVd3+rhBewhZJH1Ks=;
+        bh=TskbhcdErPcFfha1b/s0fcuykpiIcbkPzbroc8ZK1SI=;
         fh=Mk/+hh3KXEiY642GJit3QcoQ60j/OUZTCvigu+jTRuo=;
-        b=KP6MI9UtlU3mIJiffzntvHu/a2JPk5A0Q1F2ZMz3wyDdUK1k0fh5Gebd49M9Op2frD
-         QzfGScZPpJGq6nzOq69d199koryLUi0jZQcorqxOjWuTrvQc/zcKCY8KQC9MkLkxu6NM
-         bJH2S9q2Ir21bV5drsUblCs/LnpYdcSWX/SkTliZTBkFaMPIZC+jtEKUAXmnboxOi3RK
-         +g22VNCI3rI9UTJFlH9tm5PlxUgU9WXMyevCl5aYEWB+bmp7D/RoJyYeSQua0wddezQR
-         5zlGs6+XGwzvWIVLvSmhM/II6KLlvh4V0vS44pQoRVuR2x7nlodsnrMxLIcX/4nb9XRx
-         lL1w==
+        b=BuiI101YCSg2+iWR/QylmqsKNaJTSVT5e2HUkVbVxDYGsAseUbFEWP0h7bU0p5bpFC
+         mYV8axAn0iVPM1LNa/+4kx3e0ExWghkf1E3oz3u3U0AmiD2K36jkX+wWc8aj1OrGk1ws
+         N26jrEAtcd5NPeGcOTCRQT6fbcriGFZdpD9Co/3NJoBt5w6QOo06g018vS4iiXL2eVIz
+         eYkULZhPcx8wXVoAE1Oc/DWAMe4a4JklY3U9qseotam+sJGYiwJRWqx07nud8xrEboq5
+         2iQ4DFDbYr98yyM9zhU7OzXT19lRA6+MO1rBprVIUrIocvFv+x0qZmoIoxLUE2rWMvWH
+         OJTQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=YKFBdcKb;
-       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=MKmcWWar;
+       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
        dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com. [148.163.156.1])
-        by gmr-mx.google.com with ESMTPS id v10-20020a05683018ca00b006ce2f207148si644754ote.0.2023.11.15.12.34.48
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
+        by gmr-mx.google.com with ESMTPS id cp14-20020a056638480e00b00437bda7a9c2si1460769jab.2.2023.11.15.12.34.48
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
         Wed, 15 Nov 2023 12:34:48 -0800 (PST)
-Received-SPF: pass (google.com: domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender) client-ip=148.163.156.1;
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AFKRoBX004604;
-	Wed, 15 Nov 2023 20:34:44 GMT
+Received-SPF: pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
+Received: from pps.filterd (m0353722.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AFKXdxP001484;
+	Wed, 15 Nov 2023 20:34:46 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ud51q060w-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ud4v2rb8k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Nov 2023 20:34:45 +0000
+Received: from m0353722.ppops.net (m0353722.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3AFKYj4B005400;
+	Wed, 15 Nov 2023 20:34:45 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ud4v2rb8e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Nov 2023 20:34:45 +0000
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3AFKIvQS014607;
+	Wed, 15 Nov 2023 20:34:44 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3uaneksvut-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Wed, 15 Nov 2023 20:34:44 +0000
-Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3AFKSEvw006055;
-	Wed, 15 Nov 2023 20:34:43 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ud51q060h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 15 Nov 2023 20:34:43 +0000
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3AFKItrc010007;
-	Wed, 15 Nov 2023 20:34:42 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3uakxt2dv3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 15 Nov 2023 20:34:42 +0000
 Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3AFKYdCM65012072
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3AFKYfsg31523398
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 15 Nov 2023 20:34:39 GMT
+	Wed, 15 Nov 2023 20:34:41 GMT
 Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 55E0920040;
+	by IMSVA (Postfix) with ESMTP id 12F612004B;
+	Wed, 15 Nov 2023 20:34:41 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B854A20040;
 	Wed, 15 Nov 2023 20:34:39 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EA6ED20043;
-	Wed, 15 Nov 2023 20:34:37 +0000 (GMT)
 Received: from heavy.boeblingen.de.ibm.com (unknown [9.179.9.51])
 	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 15 Nov 2023 20:34:37 +0000 (GMT)
+	Wed, 15 Nov 2023 20:34:39 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Alexander Gordeev <agordeev@linux.ibm.com>,
         Alexander Potapenko <glider@google.com>,
@@ -153,29 +153,28 @@ Cc: Christian Borntraeger <borntraeger@linux.ibm.com>,
         Roman Gushchin <roman.gushchin@linux.dev>,
         Sven Schnelle <svens@linux.ibm.com>,
         Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH 18/32] lib/zlib: Unpoison DFLTCC output buffers
-Date: Wed, 15 Nov 2023 21:30:50 +0100
-Message-ID: <20231115203401.2495875-19-iii@linux.ibm.com>
+Subject: [PATCH 19/32] kmsan: Accept ranges starting with 0 on s390
+Date: Wed, 15 Nov 2023 21:30:51 +0100
+Message-ID: <20231115203401.2495875-20-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231115203401.2495875-1-iii@linux.ibm.com>
 References: <20231115203401.2495875-1-iii@linux.ibm.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: FcmPA45PTLlNdzoYRSKo5ivTe4t5LzGg
-X-Proofpoint-GUID: 9RBqKpW0ebiKf9o1-LJaYDwqoA8WDNjK
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: NqSGEOhYCvXYjJ2gmAhd8EZAV9lDeRqN
+X-Proofpoint-GUID: fI9InjhahjWpUFvyF7-N6n0DC7cim79b
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-15_20,2023-11-15_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 impostorscore=0
- phishscore=0 suspectscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999
- mlxscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
- definitions=main-2311150163
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ malwarescore=0 mlxscore=0 clxscore=1015 adultscore=0 spamscore=0
+ lowpriorityscore=0 bulkscore=0 priorityscore=1501 phishscore=0
+ mlxlogscore=981 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2311060000 definitions=main-2311150163
 X-Original-Sender: iii@linux.ibm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=YKFBdcKb;       spf=pass (google.com:
- domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender)
+ header.i=@ibm.com header.s=pp1 header.b=MKmcWWar;       spf=pass (google.com:
+ domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender)
  smtp.mailfrom=iii@linux.ibm.com;       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -190,93 +189,37 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The constraints of the DFLTCC inline assembly are not precise: they
-do not communicate the size of the output buffers to the compiler, so
-it cannot automatically instrument it.
+On s390 the virtual address 0 is valid (current CPU's lowcore is mapped
+there), therefore KMSAN should not complain about it.
 
-Add the manual kmsan_unpoison_memory() calls for the output buffers.
-The logic is the same as in [1].
+Disable the respective check on s390. There doesn't seem to be a
+Kconfig option to describe this situation, so explicitly check for
+s390.
 
-[1] https://github.com/zlib-ng/zlib-ng/commit/1f5ddcc009ac3511e99fc88736a9e1a6381168c5
-
-Reported-by: Alexander Gordeev <agordeev@linux.ibm.com>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- lib/zlib_dfltcc/dfltcc.h      |  1 +
- lib/zlib_dfltcc/dfltcc_util.h | 23 +++++++++++++++++++++++
- 2 files changed, 24 insertions(+)
+ mm/kmsan/init.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/lib/zlib_dfltcc/dfltcc.h b/lib/zlib_dfltcc/dfltcc.h
-index b96232bdd44d..0f2a16d7a48a 100644
---- a/lib/zlib_dfltcc/dfltcc.h
-+++ b/lib/zlib_dfltcc/dfltcc.h
-@@ -80,6 +80,7 @@ struct dfltcc_param_v0 {
-     uint8_t csb[1152];
- };
+diff --git a/mm/kmsan/init.c b/mm/kmsan/init.c
+index ffedf4dbc49d..14f4a432fddd 100644
+--- a/mm/kmsan/init.c
++++ b/mm/kmsan/init.c
+@@ -33,7 +33,9 @@ static void __init kmsan_record_future_shadow_range(void *start, void *end)
+ 	bool merged = false;
  
-+static_assert(offsetof(struct dfltcc_param_v0, csb) == 384);
- static_assert(sizeof(struct dfltcc_param_v0) == 1536);
+ 	KMSAN_WARN_ON(future_index == NUM_FUTURE_RANGES);
+-	KMSAN_WARN_ON((nstart >= nend) || !nstart || !nend);
++	KMSAN_WARN_ON((nstart >= nend) ||
++		      (!IS_ENABLED(CONFIG_S390) && !nstart) ||
++		      !nend);
+ 	nstart = ALIGN_DOWN(nstart, PAGE_SIZE);
+ 	nend = ALIGN(nend, PAGE_SIZE);
  
- #define CVT_CRC32 0
-diff --git a/lib/zlib_dfltcc/dfltcc_util.h b/lib/zlib_dfltcc/dfltcc_util.h
-index 4a46b5009f0d..ce2e039a55b5 100644
---- a/lib/zlib_dfltcc/dfltcc_util.h
-+++ b/lib/zlib_dfltcc/dfltcc_util.h
-@@ -2,6 +2,7 @@
- #ifndef DFLTCC_UTIL_H
- #define DFLTCC_UTIL_H
- 
-+#include "dfltcc.h"
- #include <linux/zutil.h>
- 
- /*
-@@ -20,6 +21,7 @@ typedef enum {
- #define DFLTCC_CMPR 2
- #define DFLTCC_XPND 4
- #define HBT_CIRCULAR (1 << 7)
-+#define DFLTCC_FN_MASK ((1 << 7) - 1)
- #define HB_BITS 15
- #define HB_SIZE (1 << HB_BITS)
- 
-@@ -34,6 +36,7 @@ static inline dfltcc_cc dfltcc(
- )
- {
-     Byte *t2 = op1 ? *op1 : NULL;
-+    unsigned char *orig_t2 = t2;
-     size_t t3 = len1 ? *len1 : 0;
-     const Byte *t4 = op2 ? *op2 : NULL;
-     size_t t5 = len2 ? *len2 : 0;
-@@ -59,6 +62,26 @@ static inline dfltcc_cc dfltcc(
-                      : "cc", "memory");
-     t2 = r2; t3 = r3; t4 = r4; t5 = r5;
- 
-+    switch (fn & DFLTCC_FN_MASK) {
-+    case DFLTCC_QAF:
-+        kmsan_unpoison_memory(param, sizeof(struct dfltcc_qaf_param));
-+        break;
-+    case DFLTCC_GDHT:
-+        kmsan_unpoison_memory(param, offsetof(struct dfltcc_param_v0, csb));
-+        break;
-+    case DFLTCC_CMPR:
-+        kmsan_unpoison_memory(param, sizeof(struct dfltcc_param_v0));
-+        kmsan_unpoison_memory(
-+                orig_t2,
-+                t2 - orig_t2 +
-+                    (((struct dfltcc_param_v0 *)param)->sbb == 0 ? 0 : 1));
-+        break;
-+    case DFLTCC_XPND:
-+        kmsan_unpoison_memory(param, sizeof(struct dfltcc_param_v0));
-+        kmsan_unpoison_memory(orig_t2, t2 - orig_t2);
-+        break;
-+    }
-+
-     if (op1)
-         *op1 = t2;
-     if (len1)
 -- 
 2.41.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231115203401.2495875-19-iii%40linux.ibm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231115203401.2495875-20-iii%40linux.ibm.com.
