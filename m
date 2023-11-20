@@ -1,105 +1,104 @@
-Return-Path: <kasan-dev+bncBAABBM5X52VAMGQEY3K7UTY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB45X52VAMGQE52Q5K6Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53f.google.com (mail-ed1-x53f.google.com [IPv6:2a00:1450:4864:20::53f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D87B7F1B59
-	for <lists+kasan-dev@lfdr.de>; Mon, 20 Nov 2023 18:47:32 +0100 (CET)
-Received: by mail-ed1-x53f.google.com with SMTP id 4fb4d7f45d1cf-548a12a78d4sf1217309a12.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 20 Nov 2023 09:47:32 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1700502452; cv=pass;
+Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id 583537F1B69
+	for <lists+kasan-dev@lfdr.de>; Mon, 20 Nov 2023 18:48:36 +0100 (CET)
+Received: by mail-lj1-x240.google.com with SMTP id 38308e7fff4ca-2c6f3cd892csf43931981fa.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 20 Nov 2023 09:48:36 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1700502515; cv=pass;
         d=google.com; s=arc-20160816;
-        b=1GcniAzLDkHX5gRs4Vh4HqV+dvlrq8mfvHypbX1265oqcmX2DrSBZ6m4NRCJ2g4w8v
-         8SdYAPxdaz8hCZ/uJpd2J2LQ4DU13bX+mg0F2allK7uGKmzkPKcUOKg1uugipcHiL7jv
-         +O3pLhroVA6kCL6WWmJgak8+uItpbBko5NjVWDIH//tl9SJ+L0o+z5SxbnkJFdSh1LT7
-         JtkZTHyHbH5qkLdwSvIP587ilVBOrNMnvRqF6tPZF732NW/k+M+VDdHKpjgfLxb27u6i
-         qHcGjhPRKzTQIQhh6Tb8DCGqPN8tzXsgTk+DdfXyvJk7WcN403jyUMn+TZFJUINeBZuN
-         70lA==
+        b=gmv8YmIbz2Mn9CCT+Kp5AMi8jgMPj6bzUnSt5YhoKjSX4n5TMCHL1F1ppNg4Zkkqzo
+         RqW+duJCUKkaAtvqiL2LLo90q0LB3lvyjXeGcq+P9n0r1Iu0Se5Y5zMCHFbGeJRhb4Ha
+         f23xiwyZKxqCckr+8jjqxy4mcWlPPGVs0Ibny9KId+0BzcSrGLI5TBqqqKJbGZ4kh1Oj
+         GLvDGIjx5Fw52gO8jk9nxYkAZCPxkzcl8rwAT1ROwCfMnpF7efc3QPfvxmsSUWJFNEk4
+         qrFcUhHJWBr8Yyx4MaeWcCZ2C50pqRJaJfnP9aKunbm+x/T9MTx99nxXrzRTJRwNYekX
+         Kmdw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=OT0sr1weeKHxUInPmLdA1599I0kzR1pssRYU71ro6FI=;
+        bh=8QhUiATtBrdbdziAsdEDLLO3K4thu7zqDYnO5JBHrZ0=;
         fh=qWoxmPN1zRqnLSoCWGpfFsDtzJsx/SGdqx98lbP+Uho=;
-        b=ivuzA3MwCv8a6VUpyXgfLt3ijL4EP8brM14BC9US0LR/tq+DH0LWgnlaMf9s0B0zEg
-         cFoJaq7E1Ypv+0Y0xB6kA9Xy6fkAih6rAiiZCNPTgtWCE21CdR3BZMJTiG49w1PcXVzT
-         r0LWeqNmDelOzsnkGfbw64BF4YNKpz4HqKK0c3vALY8S0MIIINtFGfqHML93LR+dJ5Ce
-         HhBTF6gnwuZaD0L5B7Bhe4GJrxASAnMjgUfMhyXWCyXNlUzYQCqqo6oiza/oCBshr3tZ
-         aePHejSPq5k7E5ZOZFZBUOk2VorJKLHsiIm6bPcVI/Skh9GExccUpXbLsNnlVxalZt+L
-         fPMA==
+        b=a/QaAjRA19wdvmRJIx7N//CgrOcwg8E9/jo5lLrPkXYJPuT+RQSwafkjvba74Bx4s9
+         1kJcs4jGaR2btXMj8r1YzHhJdXrJthUeB2XwTE3IO/HyysvbGbzC1vgzC18W1FqIVV6J
+         TeX46G979AwWLk8vAAQhVHB3rtFaRQwu+5cSMkhmRog3NElMeugcFrs0GSwYHmTj3YKh
+         fmlYUyFFMwvMBxGDwE7HEJr1s3rHd9NkfkHVDnyWLpUjlGe73z2BadIq+hDfaARdFdGZ
+         GwtkaWegCLWlJsdF2kPIl6FaFD4uJvWFHbsNyba7SIj/1F4nAKPwz8j3qRXPwOEGUZBW
+         WAxg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=Ql85St5S;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.171 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=v29OoaCr;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.185 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1700502452; x=1701107252; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1700502515; x=1701107315; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OT0sr1weeKHxUInPmLdA1599I0kzR1pssRYU71ro6FI=;
-        b=jihALW9+OGyfYjcrnBLNDmmSVMB+/KtyfGUhAk8eSXLDk+IC2RDceF/lWNwTf/jQNv
-         KcUBzUbbn6CqC8+JCU8Yq2vi3qHfGPEyf1fO45VZDHz6fTHrq+CHKluObur6wADjKobU
-         xU77QeNX5By6HDqb4og+cejIXUgHUSFRrZVkEZWi9F4ga+vGL/qz+pjDse7J8jQCkxSf
-         ORUj0at0rHBwjPafV4gk8fPFKcQfvR2YE+oqUKTUuJYGUkB0tHhJmIB0HL/7IK/RX30f
-         pM88asq/3hpLgO3K+POnFBlavuSGfkWxyiDSmlnsNR/31Nt/4lVRzms3xrLhojRnJKhl
-         o0sA==
+        bh=8QhUiATtBrdbdziAsdEDLLO3K4thu7zqDYnO5JBHrZ0=;
+        b=CPlzx1XkTjRbJNsQqz+EagNrr4B4xVsLkG+fujvUzahvoiOfwuLxxnDEczb++w06fP
+         qWM/nWbnxQnZ8LKZhrrhGv55Kim67ykUtQMzu0bzyCNS1WdrpY9UoTDNCkNGv5qSUNdr
+         MTwpkitPfkiphEjQqlnKZ+uMrwOaCTnz6oJHjr49CAYF0ii/s7jO4gHh5kJQCPGELbRZ
+         HkbTEow0GZc/dSSXQz643/hJXRE9AbdxENi+u+2P6Gqx+DbR4tw9m67R6ETOPHL0+Guw
+         CiS5p4VkDk0ekW/bjOzejRJEJBJ12nnkslnIQXKNQ0rmU9UaVjpDOLxEdzBEixt+JQ6U
+         WiRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700502452; x=1701107252;
+        d=1e100.net; s=20230601; t=1700502515; x=1701107315;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=OT0sr1weeKHxUInPmLdA1599I0kzR1pssRYU71ro6FI=;
-        b=PwkoygAEh2UNb542VBOLI1s1W+LFeAKOPC4fmR4ozC742WvQIcu//KiYpvhJsU71Nh
-         txaEv3NX303sz2HeI1JSvntDEcZEKQBixDDVCbF/wTTnMxN7sSRe2Q/4WsrDvTU0AC+c
-         /RaF6902dNHnczy5AX+WLu02mByLO2EwRBsELYPxGi0MU1U9MJYvVW9x0QrP+dop1iui
-         KZXTaqoPGCVtlNAePc+pdGtKyvXH+iMet5XKBEL9IjBcSai6gDLXHay6fioo+tk+uCnb
-         8tnvJ8IPXhX1uQBcrowo4v8FBHtSl6YlmryfP2xYpatHCOXV4H//U47sq1VnPTQkGgYN
-         OsKw==
+        bh=8QhUiATtBrdbdziAsdEDLLO3K4thu7zqDYnO5JBHrZ0=;
+        b=GqzY3WyiYcvcQcNErlHG2lPtpUK7LmMl5i/U7COw5HXvP558Svhcw9qQVaw4VPervH
+         p6hB2dVTDNmOdEwc2X4G4wYHUYqIj0i96x+Iwpvm82OCCNvmPinMrRPC4iO2FMoCD9te
+         HvoeQGq71hpmVWIc2KNOtuXVD8aepKTRWAQ/EAIZwF5FLnLW8NSoaS38AZNvumKM2Fe4
+         y7Zh9yz1BbTzznKVTYgEk2HW+/wgFxmC95BYKoC4L8G0eDKgL99yrqGcZNmx11Uuc+k3
+         ASCWBwgiXLt3KTKJS9gbZhilJXiG9oLp6gwwsidPamilI3iGCSYh9proxLsqcQSuSS/Q
+         cLbg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YzhirurIYNEZvpf0kachWWZuC98z/UQp1NAbxZuaQlkhmY4E//A
-	P/ElQYPpZdd8s3FV7EhtCTg=
-X-Google-Smtp-Source: AGHT+IHmIisujavj+7p6SxaGajrARlE4ABRPC9Z8m/id3x1LDa71hz939QfUY12AmhkX5i0c6MkpOA==
-X-Received: by 2002:aa7:d84c:0:b0:542:d69d:d075 with SMTP id f12-20020aa7d84c000000b00542d69dd075mr95151eds.6.1700502451657;
-        Mon, 20 Nov 2023 09:47:31 -0800 (PST)
+X-Gm-Message-State: AOJu0Ywth69y1Uhf7MQPgfv/oVjipuc9tX2vUTF0x1xTG/qzNVUHDnG6
+	66ZHw8CVCo8STG6LtdWfA1E=
+X-Google-Smtp-Source: AGHT+IHnACzKUY5MfJWAppSxkRvAyxK6r9EODTOc0O8rGYGvQP+ozKvhgA7EaV3NVm7rabJMOJ3fUQ==
+X-Received: by 2002:a2e:82c1:0:b0:2c6:edfd:658e with SMTP id n1-20020a2e82c1000000b002c6edfd658emr5369220ljh.52.1700502515253;
+        Mon, 20 Nov 2023 09:48:35 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:365:b0:548:b5d4:1a61 with SMTP id
- s5-20020a056402036500b00548b5d41a61ls199852edw.0.-pod-prod-04-eu; Mon, 20 Nov
- 2023 09:47:30 -0800 (PST)
-X-Received: by 2002:aa7:cd95:0:b0:542:d56c:ed67 with SMTP id x21-20020aa7cd95000000b00542d56ced67mr103157edv.4.1700502450063;
-        Mon, 20 Nov 2023 09:47:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1700502450; cv=none;
+Received: by 2002:a2e:83c6:0:b0:2b9:b171:d776 with SMTP id s6-20020a2e83c6000000b002b9b171d776ls842488ljh.2.-pod-prod-04-eu;
+ Mon, 20 Nov 2023 09:48:34 -0800 (PST)
+X-Received: by 2002:a05:651c:48c:b0:2c8:7173:6123 with SMTP id s12-20020a05651c048c00b002c871736123mr5600215ljc.32.1700502513675;
+        Mon, 20 Nov 2023 09:48:33 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1700502513; cv=none;
         d=google.com; s=arc-20160816;
-        b=unYDRczRTWvMxZtTq/87peYMQ1sF8OjiZkq9EhvVwbHJvPisBmD84Du780JUV13H3K
-         xifxUy5EMZEaanV7R3KwaHNOvzZB9fRwUj4P3VF04oF4Zz7QW6V+k2muWFhdASK0uMxI
-         3I/ZSsUieyV8aSt/f57YfVJ49OBJvShO5eBLVeM23fuzD96yuo6ViT6TIhjzrDk0j0QO
-         9WzFvHDUphGkYDblDGHMEjmWLp+JNrl7cLTshfY5mT2CEQse6ZLfJVIK6XdKkKImNOnp
-         uCqPjh09bbw+plMVxO9Z2GPoJMpEjofnFQ+cGl5dHWtAdFCRyBTjsHIcXfU5S3D3cbf3
-         ot3g==
+        b=Q25Bad1AJzDDJIIKbv1RlJIZautK0J5L6p1BMij+QShz4ep8LLY9qqB4reY8KKcKP/
+         JEftGYhSRUJcWcei+bJf3cjtrCxBa3xWpWR9vjVTt0wiUg9SHBK9J+20lTnZUfb+VZJh
+         H8Se2bCrQ/6Ady3xzfWf3mLcFnBAlWtNjoyNMaDEn/kPIE2JTHo5To5hbVmkQ/pyg1L5
+         KlwbczETbOjVU1Ue3vkiIGPCrkq3AojPT7zSdqyPMbhVUxwniB05fnoN1CiTiu7HRUXO
+         FibnxS4n6QUHCzw8LvOznE3nUToqMcaXAvnEKEECHG4omekItqrl+QvBFh3w4lcO/dvz
+         MAvg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=4+Y9MGkz9f3yZSUENZCgBAvLs1CfO+kuipQPdiyYS+c=;
+        bh=pu1XFZGC+3mxYm/tNoBY6t9qKRkAeXfQVUMTHQNQJK8=;
         fh=qWoxmPN1zRqnLSoCWGpfFsDtzJsx/SGdqx98lbP+Uho=;
-        b=FSfObSuaxfJKQRulwydP9K61kxcRPbMWRKUn1qS30PO3rzSoFDzlqevY6HJ7f8zhr8
-         UvH+doZQEAX57l5tOMd7mPkOlhvJseXrEB5oIm4DJl/e84HKrGsQ9d+2oZOeLr3qFKDq
-         tM12j1guw9lBZzbYmbIPgDc38hNRJqZVcEmzT2/nrqHK9w5s/FBnqBcWiCST1pgzpPy+
-         gheHA9vRwIiwTT/PtZP6I3MExo4A3VmH74i1WoDyFbwGdGZIpTYMSokAmZNpYEdx4K7Q
-         XupjM8yilm/OsEbWjvIPg46mza7dDrEA7rimX7Lx+p5cXNTJEzqsp0qJdPXq8/z8g8d/
-         cGWA==
+        b=fAzIlnhTeCEEpTCADFnPMZT1DulR1L+oojjGhOaIlwojXEs7nuYRMOrgj3noYO8ZLo
+         0LSPDe5/yFObjt1toqIV49J8LPIi1tjUZSTBSWpvyRfwgSTdDxPA0XWRSK41MYey7KZZ
+         Bo5O9/ccYFq643QnAaA+I2CzRAihd6ot3FvfrSFg+j9CVjYeWQbLLQ/dd7DJCqOtSQ9C
+         sbyT/R8t1+tBmZ0BK00rnWpHmkjkDmUdBqtEcibuAm6aC1QnPnyblALdrYAvonY3POnV
+         BqdwY1u8Utnxklm/0Ek+Q/oGxGmXXH7qrxklzj8XLqAl6mYFnsizfku8IO0gxIdGFm2v
+         yFSg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=Ql85St5S;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.171 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=v29OoaCr;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.185 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com. [95.215.58.171])
-        by gmr-mx.google.com with ESMTPS id t2-20020a056402240200b0053ea9bd0510si315821eda.0.2023.11.20.09.47.30
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com. [91.218.175.185])
+        by gmr-mx.google.com with ESMTPS id x22-20020a05651c105600b002c12145a0cbsi308128ljm.7.2023.11.20.09.48.33
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Nov 2023 09:47:30 -0800 (PST)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.171 as permitted sender) client-ip=95.215.58.171;
+        Mon, 20 Nov 2023 09:48:33 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.185 as permitted sender) client-ip=91.218.175.185;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
 To: Andrew Morton <akpm@linux-foundation.org>
@@ -114,19 +113,19 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH v4 05/22] lib/stackdepot: add depot_fetch_stack helper
-Date: Mon, 20 Nov 2023 18:47:03 +0100
-Message-Id: <170d8c202f29dc8e3d5491ee074d1e9e029a46db.1700502145.git.andreyknvl@google.com>
+Subject: [PATCH v4 06/22] lib/stackdepot: use fixed-sized slots for stack records
+Date: Mon, 20 Nov 2023 18:47:04 +0100
+Message-Id: <dce7d030a99ff61022509665187fac45b0827298.1700502145.git.andreyknvl@google.com>
 In-Reply-To: <cover.1700502145.git.andreyknvl@google.com>
 References: <cover.1700502145.git.andreyknvl@google.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=Ql85St5S;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.171 as
- permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+ header.i=@linux.dev header.s=key1 header.b=v29OoaCr;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.185
+ as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -142,104 +141,101 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-Add a helper depot_fetch_stack function that fetches the pointer to
-a stack record.
+Instead of storing stack records in stack depot pools one right after
+another, use fixed-sized slots.
 
-With this change, all static depot_* functions now operate on stack pools
-and the exported stack_depot_* functions operate on the hash table.
+Add a new Kconfig option STACKDEPOT_MAX_FRAMES that allows to select
+the size of the slot in frames. Use 64 as the default value, which is
+the maximum stack trace size both KASAN and KMSAN use right now.
 
-Reviewed-by: Alexander Potapenko <glider@google.com>
+Also add descriptions for other stack depot Kconfig options.
+
+This is preparatory patch for implementing the eviction of stack records
+from the stack depot.
+
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
 ---
 
-Changes v1->v2:
-- Minor comment fix as suggested by Alexander.
----
- lib/stackdepot.c | 45 ++++++++++++++++++++++++++++-----------------
- 1 file changed, 28 insertions(+), 17 deletions(-)
+Changes v2->v3:
+- Keep previously existing Kconfig options not configurable by users.
 
+Changes v1->v2:
+- Add and use STACKDEPOT_MAX_FRAMES Kconfig option.
+---
+ lib/Kconfig      | 10 ++++++++++
+ lib/stackdepot.c | 13 +++++++++----
+ 2 files changed, 19 insertions(+), 4 deletions(-)
+
+diff --git a/lib/Kconfig b/lib/Kconfig
+index 3ea1c830efab..5ddda7c2ed9b 100644
+--- a/lib/Kconfig
++++ b/lib/Kconfig
+@@ -713,10 +713,20 @@ config ARCH_STACKWALK
+ config STACKDEPOT
+ 	bool
+ 	select STACKTRACE
++	help
++	  Stack depot: stack trace storage that avoids duplication
+ 
+ config STACKDEPOT_ALWAYS_INIT
+ 	bool
+ 	select STACKDEPOT
++	help
++	  Always initialize stack depot during early boot
++
++config STACKDEPOT_MAX_FRAMES
++	int "Maximum number of frames in trace saved in stack depot"
++	range 1 256
++	default 64
++	depends on STACKDEPOT
+ 
+ config REF_TRACKER
+ 	bool
 diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-index 46a422d31c1f..e41713983cac 100644
+index e41713983cac..682497dbe081 100644
 --- a/lib/stackdepot.c
 +++ b/lib/stackdepot.c
-@@ -310,6 +310,7 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
- 	stack->handle.extra = 0;
- 	memcpy(stack->entries, entries, flex_array_size(stack, entries, size));
- 	pool_offset += required_size;
-+
- 	/*
- 	 * Let KMSAN know the stored stack record is initialized. This shall
- 	 * prevent false positive reports if instrumented code accesses it.
-@@ -319,6 +320,32 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
- 	return stack;
- }
+@@ -58,9 +58,12 @@ struct stack_record {
+ 	u32 hash;			/* Hash in the hash table */
+ 	u32 size;			/* Number of stored frames */
+ 	union handle_parts handle;
+-	unsigned long entries[];	/* Variable-sized array of frames */
++	unsigned long entries[CONFIG_STACKDEPOT_MAX_FRAMES];	/* Frames */
+ };
  
-+static struct stack_record *depot_fetch_stack(depot_stack_handle_t handle)
-+{
-+	union handle_parts parts = { .handle = handle };
-+	/*
-+	 * READ_ONCE pairs with potential concurrent write in
-+	 * depot_alloc_stack().
-+	 */
-+	int pool_index_cached = READ_ONCE(pool_index);
-+	void *pool;
-+	size_t offset = parts.offset << DEPOT_STACK_ALIGN;
-+	struct stack_record *stack;
++#define DEPOT_STACK_RECORD_SIZE \
++	ALIGN(sizeof(struct stack_record), 1 << DEPOT_STACK_ALIGN)
 +
-+	if (parts.pool_index > pool_index_cached) {
-+		WARN(1, "pool index %d out of bounds (%d) for stack id %08x\n",
-+		     parts.pool_index, pool_index_cached, handle);
-+		return NULL;
-+	}
-+
-+	pool = stack_pools[parts.pool_index];
-+	if (!pool)
-+		return NULL;
-+
-+	stack = pool + offset;
-+	return stack;
-+}
-+
- /* Calculates the hash for a stack. */
- static inline u32 hash_stack(unsigned long *entries, unsigned int size)
+ static bool stack_depot_disabled;
+ static bool __stack_depot_early_init_requested __initdata = IS_ENABLED(CONFIG_STACKDEPOT_ALWAYS_INIT);
+ static bool __stack_depot_early_init_passed __initdata;
+@@ -264,9 +267,7 @@ static struct stack_record *
+ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
  {
-@@ -462,14 +489,6 @@ EXPORT_SYMBOL_GPL(stack_depot_save);
- unsigned int stack_depot_fetch(depot_stack_handle_t handle,
- 			       unsigned long **entries)
- {
--	union handle_parts parts = { .handle = handle };
--	/*
--	 * READ_ONCE pairs with potential concurrent write in
--	 * depot_alloc_stack.
--	 */
--	int pool_index_cached = READ_ONCE(pool_index);
--	void *pool;
--	size_t offset = parts.offset << DEPOT_STACK_ALIGN;
  	struct stack_record *stack;
+-	size_t required_size = struct_size(stack, entries, size);
+-
+-	required_size = ALIGN(required_size, 1 << DEPOT_STACK_ALIGN);
++	size_t required_size = DEPOT_STACK_RECORD_SIZE;
  
- 	*entries = NULL;
-@@ -482,15 +501,7 @@ unsigned int stack_depot_fetch(depot_stack_handle_t handle,
- 	if (!handle || stack_depot_disabled)
- 		return 0;
+ 	/* Check if there is not enough space in the current pool. */
+ 	if (unlikely(pool_offset + required_size > DEPOT_POOL_SIZE)) {
+@@ -301,6 +302,10 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
+ 	if (stack_pools[pool_index] == NULL)
+ 		return NULL;
  
--	if (parts.pool_index > pool_index_cached) {
--		WARN(1, "pool index %d out of bounds (%d) for stack id %08x\n",
--			parts.pool_index, pool_index_cached, handle);
--		return 0;
--	}
--	pool = stack_pools[parts.pool_index];
--	if (!pool)
--		return 0;
--	stack = pool + offset;
-+	stack = depot_fetch_stack(handle);
- 
- 	*entries = stack->entries;
- 	return stack->size;
++	/* Limit number of saved frames to CONFIG_STACKDEPOT_MAX_FRAMES. */
++	if (size > CONFIG_STACKDEPOT_MAX_FRAMES)
++		size = CONFIG_STACKDEPOT_MAX_FRAMES;
++
+ 	/* Save the stack trace. */
+ 	stack = stack_pools[pool_index] + pool_offset;
+ 	stack->hash = hash;
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/170d8c202f29dc8e3d5491ee074d1e9e029a46db.1700502145.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/dce7d030a99ff61022509665187fac45b0827298.1700502145.git.andreyknvl%40google.com.
