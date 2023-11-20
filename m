@@ -1,34 +1,34 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBRON52VAMGQEYH5G65Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXYDPH3S4OBBRWN52VAMGQEZMRTXWI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653827F1C85
-	for <lists+kasan-dev@lfdr.de>; Mon, 20 Nov 2023 19:34:46 +0100 (CET)
-Received: by mail-wm1-x337.google.com with SMTP id 5b1f17b1804b1-40855a91314sf13378265e9.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 20 Nov 2023 10:34:46 -0800 (PST)
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F467F1C88
+	for <lists+kasan-dev@lfdr.de>; Mon, 20 Nov 2023 19:34:47 +0100 (CET)
+Received: by mail-lf1-x13f.google.com with SMTP id 2adb3069b0e04-509901ca83esf5455478e87.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 20 Nov 2023 10:34:47 -0800 (PST)
 ARC-Seal: i=2; a=rsa-sha256; t=1700505286; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hTRk8Ko2q7SPo4N9Sl+6YFdRAS+GquT6XQbTOJXDZWyDba62WbvGvbC/s2QaFfFOhS
-         zJiiFUPXT3Q0NKL28WYiUAIswbxXJm1z2ssSVdrz787D9emVS6a1ghVRIPxyOMpT85WD
-         Yg7pu2R/zr+Kv3B9ZL9qX4Llb3P8Ytzrxr3eEZuv7ja4YYV8wkyKx2FJq5Z121OzSRrC
-         FxlzD6H1ZiVz06KQNEAnJG1GJuMJN40uM5Ap24DIKDNanHuRGOBak3laCXmjp+xU/sAq
-         X2IBWYp5cnQlf9ZqZd2KseP+AWyQOJrqEb5WlNA9CydqipicK+zuoJFMk7n8lhlhsPa4
-         r4gg==
+        b=HdA36X0vMDDZzrplfqPXdno4BSpefJIstQhZzAY5qEeHJF5o7K+VRwM89y/DX2Y3JW
+         MqtQ3B6PDxr2F0Y+lLxecIK4KCiPMjezVRgAgPiYCm3umxIpo1xPhe+RbHtshGYg3NkX
+         8ppM4Se8/1fqiyR0bdZZjWqPB66ccoTtIqdLzybuE+rmll56D/YMDq3BM+nA4FTYcT3E
+         tVrMRnjVWLyhjFZl9b6GggyQYzbAUyfbHl6KW3y593ZFdleNKRHLrscJqKpEYPAMjC0X
+         5CPsg5sU6WUZ9fCVOvmkPBfUuMtYiW6eRyFJO2FfurDo9zPtBkke5DLkCq443EhcuyEN
+         7cNg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:in-reply-to:references
          :message-id:mime-version:subject:date:from:sender:dkim-signature;
-        bh=+UCBP6SHnigXa0NIqNc+36XQvO/s+VtAV697siBsanE=;
+        bh=DSfpWzvd2hEwgEVC19rH6zTT0xzsFco3v4l6CS4wOOw=;
         fh=ONqwzSuNvSIo96fWAp0pW54nN9xAdzTfApSlC7LEvRU=;
-        b=FtgiUYIc1jRwntOv18i+cA+rtQiMTYp5e01BSxODhooxPz5/7vRBNkrzoM5a//gpoz
-         kbf3yDHeXs95qPdQa/AZ/zsGWCwevurOF5nebigsXybqrOYijDatXHz0uDmyWJUjKrPR
-         xAWIgSbVA1mPqSA6+RuOsQus3COvxdS+D60poH3lZrm2CCqknAN03sUb1MCRyhpQphl8
-         wBtJxgRIo6JYgQXHpFWfCnLol5JRICDPxJ+0FlsEXGJIObVmHMD3ATX42T0mKe+yRA/i
-         yjHVBPTWoe6DuzIqa/H8TMhkocOqBJ3eTVE8ExXHIDJXi+rf3n4DVvQMtf0LdbPYTtLg
-         MXtQ==
+        b=Xs4KoS6sETS0YwRxTTJifixERstuYeIZV9TALCyxeipfTsJ+h2gFDalGPO11OLDEGQ
+         ItlQeIj+KCwuVWUwFZAxmMmtudb9FKUadyvGHIpzMFI/XpoWzlELkQaodaw4iH/Lucoh
+         GTT1juOsre64OCzVYoGQ0X9GyoELYZ5Og8qiu1emuNEg1qP4z361Tyx/+5FIyQd4YN0b
+         2DuI22SHR73UlubMFpakB0ELgz/Ct5gHZy40V5PdTTXy8ljvGCbTwQTUfGhKzea1rwIx
+         W0/dtIyK+n2s9CKLPBlYnZQu3cPFFJ6yTse1H9WDSz4ufOY5D9rl0qpsbhZTe/ph7wOd
+         8Naw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=LCzJgngk;
-       dkim=neutral (no key) header.i=@suse.cz;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=lMWFwPye;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=2WYXGeth;
        spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20230601; t=1700505286; x=1701110086; darn=lfdr.de;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:cc:to:in-reply-to:references:message-id
          :mime-version:subject:date:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+UCBP6SHnigXa0NIqNc+36XQvO/s+VtAV697siBsanE=;
-        b=nu2X1jixOxw3ziGYPU4zGNGBxXblX2mBvnCeSONku12Ew1hEmgDuetwiD25LLjmKIF
-         grjSzU6N6fuiqPozuLBRolSqp8FP6WjEnUlD+VLs93pA8Lw3c9J0i8gQPrRkkNdBm37+
-         srm5klSQNBTmgMZKWiEq4ZlBI3XgQ5Cpm8oSeg6vzvcWndVVL1VwBIwju8oCRb3om05g
-         ox8d8vkwynnRqQklQtbXqYBoIKvPc67BCsfsPq+nqMhzrRj2nymA4MVxm/iTOLyJPzYo
-         06O7/4RoK8WumuxPEfIjjNRCyIgJ0elMUqr33i3EJ8Sctixm3tazIOzvZLHSvX8q06S+
-         Qy+w==
+        bh=DSfpWzvd2hEwgEVC19rH6zTT0xzsFco3v4l6CS4wOOw=;
+        b=lD83qQ6CIbBWw4xVEEiBbQLadGAsKndSp59vlg92d6QlerH9U1hOAbP69qb5vNn48f
+         5Qwj/5t9pU8cwWuwOxUGQSkKS3jq0yrRSY2NfO9PJrfh/GUvz0UFyTABCIbvMZOKkNbb
+         tbeaJkV0W8DU4FC5FH2/AZtcZ9CLt3O8GSvHRUOEV0ImoO6lidyRjNZpPjhYpZuAXlbG
+         Sk/kIB8jQ9+9k3iIgJyCZ52YSsgCceAJEvh5pCLX9/RVf0mKV663u/pOu4I4PGO95ZDS
+         ujcM6DEj2Iwfxd8ZkColGqweHNuC74NGfrlQsSJroR+2VcB+7FUxmNt/ig6pys0BOt3U
+         SKWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1700505286; x=1701110086;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -52,50 +52,50 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :in-reply-to:references:message-id:mime-version:subject:date:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+UCBP6SHnigXa0NIqNc+36XQvO/s+VtAV697siBsanE=;
-        b=sxgK6FAhJjvzfRzxvLCHYoYWNm9A+z9j4Onn+5gPVM4GYYdj9pZzkXY8IvfT5SGZHM
-         XMkh8Sz9pgPBkQpyicrwjXh6Hvaw8JEvHUiAb8hwubRORXQALPJbV2lIOmPWfOs9k/Y1
-         a5d1yTgvN4R7y1dVjDD92hratCWuh8+UkzFFdfdgQaMTMztT18rxmrTMKPK6/FPLPBSS
-         bbIUmauSoeB5l8+t6Z9W/cuglxlvru4OoEYmilGuqbdqYUT9NrTYT4/9tAbtDRrqVGQi
-         kOvWL/pQoxFT2fVU4KANQbtEj7FSuLDa+CafVIGQRZNT8IR34/vyCOpQ6hzhmbpwM3ec
-         t2fw==
+        bh=DSfpWzvd2hEwgEVC19rH6zTT0xzsFco3v4l6CS4wOOw=;
+        b=XdFp3akq35STinjWZG5TVQLOJJ6NGDsrdoy7ftff7HNkzvFqsvZoBqUn7H1P+XumCF
+         7UCGh2Hia6zzFVKKq2EJShH24VRKkui8fZusk40r/QFU6QRFYfeh/B4wa5qanOiVyBka
+         NpzAQTIXV3D7cZTV6jSoFnN/wFnkKJ9tzEGIit9rbziDyVYMH9NU/Up5slLKyP3nyNv7
+         O4lO6oI87AygKMpKnbFRvQa1B4MyAzQxeU2kfPneS7O1QG1QuT7uqLAW48wTK/4LC0/1
+         +7fofq7dkyTZyyYUJrduf/9rINN1SU6vWfaGqWn0dTF+Vn8lYZamNBrR3hwheZUrqeOW
+         qvJw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YyvmlGFwXKXaKySWpcGKMYTqJGrtp3r7SxxCQPdLd6NWAVmEuqu
-	8t1cvXT9crf8okCCAuhhsDY=
-X-Google-Smtp-Source: AGHT+IEc23eiROgpwTnlyGNR4yizl2Pqk0L4eVZALA+DzWb8mX4/ptawOdpW+J00U61akeNeNF8yUw==
-X-Received: by 2002:a05:600c:354d:b0:405:358c:ba74 with SMTP id i13-20020a05600c354d00b00405358cba74mr346688wmq.0.1700505285814;
-        Mon, 20 Nov 2023 10:34:45 -0800 (PST)
+X-Gm-Message-State: AOJu0YzIIH/pwvVnJp1dBps+W8ZZvrxvy53sB1FgBRQcqOSLnzxOe3O5
+	iHQdI1PF/2Gmc7lgWVcy3Fk=
+X-Google-Smtp-Source: AGHT+IF8b68NOkkQUtR+0wd0h+Ul+mW7YjZW+l/5NJIxdCAEySiC6UB8ooPRAvaUT8Tb7ZxvtuFBog==
+X-Received: by 2002:ac2:5e81:0:b0:507:9996:f62b with SMTP id b1-20020ac25e81000000b005079996f62bmr6031717lfq.56.1700505286627;
+        Mon, 20 Nov 2023 10:34:46 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:3b9e:b0:409:5426:9d6a with SMTP id
- n30-20020a05600c3b9e00b0040954269d6als139971wms.1.-pod-prod-00-eu; Mon, 20
- Nov 2023 10:34:44 -0800 (PST)
-X-Received: by 2002:a05:600c:4f53:b0:40a:3ff8:e8eb with SMTP id m19-20020a05600c4f5300b0040a3ff8e8ebmr291085wmq.15.1700505284144;
+Received: by 2002:a05:6512:1295:b0:50a:a571:5cda with SMTP id
+ u21-20020a056512129500b0050aa5715cdals108190lfs.2.-pod-prod-02-eu; Mon, 20
+ Nov 2023 10:34:45 -0800 (PST)
+X-Received: by 2002:a2e:90c4:0:b0:2c7:b9b3:4ec1 with SMTP id o4-20020a2e90c4000000b002c7b9b34ec1mr5038001ljg.17.1700505284690;
         Mon, 20 Nov 2023 10:34:44 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; t=1700505284; cv=none;
         d=google.com; s=arc-20160816;
-        b=CUuuJTdJoxN4eruUWcmTgwOzh5y+CazdfxDsixVFoVCsfciuoPn84bbxMnPKdqwaEL
-         VChWxsRelXPSmEgoeE4le8//qdJ37ka0SVNiz21IHL6JPz2TLpbtUtU8jXy57S/COz/9
-         9eS/vJmzXC9e5o7rQiAGX+6UaDDeqGAqt1stSW9wmmzZq+/SGasWw+oncRGMRb3F/VFN
-         GLuXYApJ4NMF21yi6gfXRzmwdginoSwLdNW0w+F60bOqrcVfz9MKDaDDzxoSW0gLzI53
-         lZXto9yzMtbNUDRkbvFiU1RT6VxrWYZcaMDwZ+u+CNZqQZjDiXnRgKnHpWkbmHnbzSws
-         5HNw==
+        b=PobqcNrAygB2J0BUX5X36nlIjMEsZ6OIpTP8KAbRtkN2ftsMopkl5e4dBVB1olCXYy
+         QWesTrLkrSkrtTu3EfT19CuLuBfOfze6fwVci4Q/25byssb3ePH06AXN+cMvTpfK4pPJ
+         ii542EO5IS+uFsKVx/eDQi8gw+DY+fURqzgF9xCDjrZT5PHBIrBnzWYy1sGZmKIpK0za
+         OOMzMZ2sE4n3CenXFQulAyAgajOIu6xxXphPSaHPRyOE7JgPsZP0UySIhj0Ocu8WLgzI
+         +al3uMnKCxQr1UiuSveFmTSi6Rx2hh61CTXXHJ/mEtAeEY1pBx885ooXP7RvWt/vqQoh
+         3RzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:dkim-signature:dkim-signature;
-        bh=l41Jb+BHNYtQ2OIFgOGmX9WMKyvcGjadAJ7/ZFyre/E=;
+        bh=66Fcft8CxLuyGHKa/ns5P/AtbVP/SvETjQ6dsoMJ/dY=;
         fh=ONqwzSuNvSIo96fWAp0pW54nN9xAdzTfApSlC7LEvRU=;
-        b=mFWOqAOXYtWKDUNQUYMRq1Bh+S2i+LvuHrT/40q8+z1yiMVWqdNhJojSYaI1GXZfFO
-         LMk7aKYmuX36P/Ppmp3MK9tN8wvtujonIkzeUIC7MmpW5LBTP7x/zAKPlMru7khHZpfT
-         ll0/l/oCEsLRNNlXyFYYsiymxzM23wG+oKFXSvojh4AWD1gPdd0Zb3qbCG87muXuG+1F
-         W/LqsR67EA2CmrPBmX4MgyUERoyjwb5xNN/N8rGBwhr0kfbKIi2GcCGoD0dm3BqDjelW
-         yqQauOLJfQpstp4uKFQO3iVD3sieXavGKndbb94THHIYB07HnCbffxOgaFjXb18m6IJs
-         /rfA==
+        b=zk/wcmpBF7UejXK27D88qUCG/SamDWPJ8B2xqb8fo6sTDUk/b26FxjgdQzF8Kp9CYY
+         a6vlPeVc8nH5mEv1QwW2FarJQlvlB+xj5hxOQ54zKJ5IqQoH+T6T7KrfTYUFyGo+AR5u
+         47PJOgCCXkNr5V+LNV/Vl//9hRGFLPmJJJSoY8GSLYN/uXZPtUx7Cx0jC/e6vvf+qVgK
+         JNrVpr9FJ15YxrjtBOjXxGrYk4hP/3/V7iU22Ts+T6MKu7Ch72b7gBzCqlPPUQA4AFO4
+         u355RH2VuFFfDxtlFcnK2aiT8DpWQp2Qv//RL9j/uMCE6vH7UaQv74FbR+5tyzmON37A
+         ejrQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=LCzJgngk;
-       dkim=neutral (no key) header.i=@suse.cz;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=lMWFwPye;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=2WYXGeth;
        spf=softfail (google.com: domain of transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2001:67c:2178:6::1d])
-        by gmr-mx.google.com with ESMTPS id bi24-20020a05600c3d9800b00405c7dd428csi438576wmb.2.2023.11.20.10.34.44
+        by gmr-mx.google.com with ESMTPS id e16-20020a05651c151000b002c820f71e0bsi77182ljf.5.2023.11.20.10.34.44
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 20 Nov 2023 10:34:44 -0800 (PST)
@@ -104,25 +104,25 @@ Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C354A1F8B2;
-	Mon, 20 Nov 2023 18:34:43 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 150A71F8AB;
+	Mon, 20 Nov 2023 18:34:44 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
 	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8455213499;
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C8DFC13912;
 	Mon, 20 Nov 2023 18:34:43 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
 	by imap2.suse-dmz.suse.de with ESMTPSA
-	id OCGvH8OmW2UUMgAAMHmgww
+	id ULBvMMOmW2UUMgAAMHmgww
 	(envelope-from <vbabka@suse.cz>); Mon, 20 Nov 2023 18:34:43 +0000
 From: Vlastimil Babka <vbabka@suse.cz>
-Date: Mon, 20 Nov 2023 19:34:29 +0100
-Subject: [PATCH v2 18/21] mm/slab: move kmalloc() functions from
- slab_common.c to slub.c
+Date: Mon, 20 Nov 2023 19:34:30 +0100
+Subject: [PATCH v2 19/21] mm/slub: remove slab_alloc() and
+ __kmem_cache_alloc_lru() wrappers
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Message-Id: <20231120-slab-remove-slab-v2-18-9c9c70177183@suse.cz>
+Message-Id: <20231120-slab-remove-slab-v2-19-9c9c70177183@suse.cz>
 References: <20231120-slab-remove-slab-v2-0-9c9c70177183@suse.cz>
 In-Reply-To: <20231120-slab-remove-slab-v2-0-9c9c70177183@suse.cz>
 To: David Rientjes <rientjes@google.com>, Christoph Lameter <cl@linux.com>, 
@@ -170,10 +170,10 @@ X-Spamd-Result: default: False [1.30 / 50.00];
 X-Spam-Flag: NO
 X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=LCzJgngk;       dkim=neutral
- (no key) header.i=@suse.cz;       spf=softfail (google.com: domain of
- transitioning vbabka@suse.cz does not designate 2001:67c:2178:6::1d as
- permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@suse.cz header.s=susede2_rsa header.b=lMWFwPye;       dkim=neutral
+ (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=2WYXGeth;
+       spf=softfail (google.com: domain of transitioning vbabka@suse.cz does
+ not designate 2001:67c:2178:6::1d as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -186,320 +186,68 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This will eliminate a call between compilation units through
-__kmem_cache_alloc_node() and allow better inlining of the allocation
-fast path.
+slab_alloc() is a thin wrapper around slab_alloc_node() with only one
+caller.  Replace with direct call of slab_alloc_node().
+__kmem_cache_alloc_lru() itself is a thin wrapper with two callers,
+so replace it with direct calls of slab_alloc_node() and
+trace_kmem_cache_alloc().
+
+This also makes sure _RET_IP_ has always the expected value and not
+depending on inlining decisions.
 
 Reviewed-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- mm/slab.h        |   3 --
- mm/slab_common.c | 119 ----------------------------------------------------
- mm/slub.c        | 126 +++++++++++++++++++++++++++++++++++++++++++++++++++----
- 3 files changed, 118 insertions(+), 130 deletions(-)
+ mm/slub.c | 25 +++++++++----------------
+ 1 file changed, 9 insertions(+), 16 deletions(-)
 
-diff --git a/mm/slab.h b/mm/slab.h
-index 7d7cc7af614e..54deeb0428c6 100644
---- a/mm/slab.h
-+++ b/mm/slab.h
-@@ -416,9 +416,6 @@ kmalloc_slab(size_t size, gfp_t flags, unsigned long caller)
- 	return kmalloc_caches[kmalloc_type(flags, caller)][index];
- }
- 
--void *__kmem_cache_alloc_node(struct kmem_cache *s, gfp_t gfpflags,
--			      int node, size_t orig_size,
--			      unsigned long caller);
- gfp_t kmalloc_fix_flags(gfp_t flags);
- 
- /* Functions provided by the slab allocators */
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index 31ade17a7ad9..238293b1dbe1 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -936,50 +936,6 @@ void __init create_kmalloc_caches(slab_flags_t flags)
- 	slab_state = UP;
- }
- 
--static void *__kmalloc_large_node(size_t size, gfp_t flags, int node);
--static __always_inline
--void *__do_kmalloc_node(size_t size, gfp_t flags, int node, unsigned long caller)
--{
--	struct kmem_cache *s;
--	void *ret;
--
--	if (unlikely(size > KMALLOC_MAX_CACHE_SIZE)) {
--		ret = __kmalloc_large_node(size, flags, node);
--		trace_kmalloc(caller, ret, size,
--			      PAGE_SIZE << get_order(size), flags, node);
--		return ret;
--	}
--
--	if (unlikely(!size))
--		return ZERO_SIZE_PTR;
--
--	s = kmalloc_slab(size, flags, caller);
--
--	ret = __kmem_cache_alloc_node(s, flags, node, size, caller);
--	ret = kasan_kmalloc(s, ret, size, flags);
--	trace_kmalloc(caller, ret, size, s->size, flags, node);
--	return ret;
--}
--
--void *__kmalloc_node(size_t size, gfp_t flags, int node)
--{
--	return __do_kmalloc_node(size, flags, node, _RET_IP_);
--}
--EXPORT_SYMBOL(__kmalloc_node);
--
--void *__kmalloc(size_t size, gfp_t flags)
--{
--	return __do_kmalloc_node(size, flags, NUMA_NO_NODE, _RET_IP_);
--}
--EXPORT_SYMBOL(__kmalloc);
--
--void *__kmalloc_node_track_caller(size_t size, gfp_t flags,
--				  int node, unsigned long caller)
--{
--	return __do_kmalloc_node(size, flags, node, caller);
--}
--EXPORT_SYMBOL(__kmalloc_node_track_caller);
--
- /**
-  * __ksize -- Report full size of underlying allocation
-  * @object: pointer to the object
-@@ -1016,30 +972,6 @@ size_t __ksize(const void *object)
- 	return slab_ksize(folio_slab(folio)->slab_cache);
- }
- 
--void *kmalloc_trace(struct kmem_cache *s, gfp_t gfpflags, size_t size)
--{
--	void *ret = __kmem_cache_alloc_node(s, gfpflags, NUMA_NO_NODE,
--					    size, _RET_IP_);
--
--	trace_kmalloc(_RET_IP_, ret, size, s->size, gfpflags, NUMA_NO_NODE);
--
--	ret = kasan_kmalloc(s, ret, size, gfpflags);
--	return ret;
--}
--EXPORT_SYMBOL(kmalloc_trace);
--
--void *kmalloc_node_trace(struct kmem_cache *s, gfp_t gfpflags,
--			 int node, size_t size)
--{
--	void *ret = __kmem_cache_alloc_node(s, gfpflags, node, size, _RET_IP_);
--
--	trace_kmalloc(_RET_IP_, ret, size, s->size, gfpflags, node);
--
--	ret = kasan_kmalloc(s, ret, size, gfpflags);
--	return ret;
--}
--EXPORT_SYMBOL(kmalloc_node_trace);
--
- gfp_t kmalloc_fix_flags(gfp_t flags)
- {
- 	gfp_t invalid_mask = flags & GFP_SLAB_BUG_MASK;
-@@ -1052,57 +984,6 @@ gfp_t kmalloc_fix_flags(gfp_t flags)
- 	return flags;
- }
- 
--/*
-- * To avoid unnecessary overhead, we pass through large allocation requests
-- * directly to the page allocator. We use __GFP_COMP, because we will need to
-- * know the allocation order to free the pages properly in kfree.
-- */
--
--static void *__kmalloc_large_node(size_t size, gfp_t flags, int node)
--{
--	struct page *page;
--	void *ptr = NULL;
--	unsigned int order = get_order(size);
--
--	if (unlikely(flags & GFP_SLAB_BUG_MASK))
--		flags = kmalloc_fix_flags(flags);
--
--	flags |= __GFP_COMP;
--	page = alloc_pages_node(node, flags, order);
--	if (page) {
--		ptr = page_address(page);
--		mod_lruvec_page_state(page, NR_SLAB_UNRECLAIMABLE_B,
--				      PAGE_SIZE << order);
--	}
--
--	ptr = kasan_kmalloc_large(ptr, size, flags);
--	/* As ptr might get tagged, call kmemleak hook after KASAN. */
--	kmemleak_alloc(ptr, size, 1, flags);
--	kmsan_kmalloc_large(ptr, size, flags);
--
--	return ptr;
--}
--
--void *kmalloc_large(size_t size, gfp_t flags)
--{
--	void *ret = __kmalloc_large_node(size, flags, NUMA_NO_NODE);
--
--	trace_kmalloc(_RET_IP_, ret, size, PAGE_SIZE << get_order(size),
--		      flags, NUMA_NO_NODE);
--	return ret;
--}
--EXPORT_SYMBOL(kmalloc_large);
--
--void *kmalloc_large_node(size_t size, gfp_t flags, int node)
--{
--	void *ret = __kmalloc_large_node(size, flags, node);
--
--	trace_kmalloc(_RET_IP_, ret, size, PAGE_SIZE << get_order(size),
--		      flags, node);
--	return ret;
--}
--EXPORT_SYMBOL(kmalloc_large_node);
--
- #ifdef CONFIG_SLAB_FREELIST_RANDOM
- /* Randomize a generic freelist */
- static void freelist_randomize(unsigned int *list,
 diff --git a/mm/slub.c b/mm/slub.c
-index 2baa9e94d9df..d6bc15929d22 100644
+index d6bc15929d22..5683f1d02e4f 100644
 --- a/mm/slub.c
 +++ b/mm/slub.c
-@@ -3851,14 +3851,6 @@ void *kmem_cache_alloc_lru(struct kmem_cache *s, struct list_lru *lru,
+@@ -3821,33 +3821,26 @@ static __fastpath_inline void *slab_alloc_node(struct kmem_cache *s, struct list
+ 	return object;
+ }
+ 
+-static __fastpath_inline void *slab_alloc(struct kmem_cache *s, struct list_lru *lru,
+-		gfp_t gfpflags, unsigned long addr, size_t orig_size)
+-{
+-	return slab_alloc_node(s, lru, gfpflags, NUMA_NO_NODE, addr, orig_size);
+-}
+-
+-static __fastpath_inline
+-void *__kmem_cache_alloc_lru(struct kmem_cache *s, struct list_lru *lru,
+-			     gfp_t gfpflags)
++void *kmem_cache_alloc(struct kmem_cache *s, gfp_t gfpflags)
+ {
+-	void *ret = slab_alloc(s, lru, gfpflags, _RET_IP_, s->object_size);
++	void *ret = slab_alloc_node(s, NULL, gfpflags, NUMA_NO_NODE, _RET_IP_,
++				    s->object_size);
+ 
+ 	trace_kmem_cache_alloc(_RET_IP_, ret, s, gfpflags, NUMA_NO_NODE);
+ 
+ 	return ret;
+ }
+-
+-void *kmem_cache_alloc(struct kmem_cache *s, gfp_t gfpflags)
+-{
+-	return __kmem_cache_alloc_lru(s, NULL, gfpflags);
+-}
+ EXPORT_SYMBOL(kmem_cache_alloc);
+ 
+ void *kmem_cache_alloc_lru(struct kmem_cache *s, struct list_lru *lru,
+ 			   gfp_t gfpflags)
+ {
+-	return __kmem_cache_alloc_lru(s, lru, gfpflags);
++	void *ret = slab_alloc_node(s, lru, gfpflags, NUMA_NO_NODE, _RET_IP_,
++				    s->object_size);
++
++	trace_kmem_cache_alloc(_RET_IP_, ret, s, gfpflags, NUMA_NO_NODE);
++
++	return ret;
  }
  EXPORT_SYMBOL(kmem_cache_alloc_lru);
  
--void *__kmem_cache_alloc_node(struct kmem_cache *s, gfp_t gfpflags,
--			      int node, size_t orig_size,
--			      unsigned long caller)
--{
--	return slab_alloc_node(s, NULL, gfpflags, node,
--			       caller, orig_size);
--}
--
- /**
-  * kmem_cache_alloc_node - Allocate an object on the specified node
-  * @s: The cache to allocate from.
-@@ -3882,6 +3874,124 @@ void *kmem_cache_alloc_node(struct kmem_cache *s, gfp_t gfpflags, int node)
- }
- EXPORT_SYMBOL(kmem_cache_alloc_node);
- 
-+/*
-+ * To avoid unnecessary overhead, we pass through large allocation requests
-+ * directly to the page allocator. We use __GFP_COMP, because we will need to
-+ * know the allocation order to free the pages properly in kfree.
-+ */
-+static void *__kmalloc_large_node(size_t size, gfp_t flags, int node)
-+{
-+	struct page *page;
-+	void *ptr = NULL;
-+	unsigned int order = get_order(size);
-+
-+	if (unlikely(flags & GFP_SLAB_BUG_MASK))
-+		flags = kmalloc_fix_flags(flags);
-+
-+	flags |= __GFP_COMP;
-+	page = alloc_pages_node(node, flags, order);
-+	if (page) {
-+		ptr = page_address(page);
-+		mod_lruvec_page_state(page, NR_SLAB_UNRECLAIMABLE_B,
-+				      PAGE_SIZE << order);
-+	}
-+
-+	ptr = kasan_kmalloc_large(ptr, size, flags);
-+	/* As ptr might get tagged, call kmemleak hook after KASAN. */
-+	kmemleak_alloc(ptr, size, 1, flags);
-+	kmsan_kmalloc_large(ptr, size, flags);
-+
-+	return ptr;
-+}
-+
-+void *kmalloc_large(size_t size, gfp_t flags)
-+{
-+	void *ret = __kmalloc_large_node(size, flags, NUMA_NO_NODE);
-+
-+	trace_kmalloc(_RET_IP_, ret, size, PAGE_SIZE << get_order(size),
-+		      flags, NUMA_NO_NODE);
-+	return ret;
-+}
-+EXPORT_SYMBOL(kmalloc_large);
-+
-+void *kmalloc_large_node(size_t size, gfp_t flags, int node)
-+{
-+	void *ret = __kmalloc_large_node(size, flags, node);
-+
-+	trace_kmalloc(_RET_IP_, ret, size, PAGE_SIZE << get_order(size),
-+		      flags, node);
-+	return ret;
-+}
-+EXPORT_SYMBOL(kmalloc_large_node);
-+
-+static __always_inline
-+void *__do_kmalloc_node(size_t size, gfp_t flags, int node,
-+			unsigned long caller)
-+{
-+	struct kmem_cache *s;
-+	void *ret;
-+
-+	if (unlikely(size > KMALLOC_MAX_CACHE_SIZE)) {
-+		ret = __kmalloc_large_node(size, flags, node);
-+		trace_kmalloc(caller, ret, size,
-+			      PAGE_SIZE << get_order(size), flags, node);
-+		return ret;
-+	}
-+
-+	if (unlikely(!size))
-+		return ZERO_SIZE_PTR;
-+
-+	s = kmalloc_slab(size, flags, caller);
-+
-+	ret = slab_alloc_node(s, NULL, flags, node, caller, size);
-+	ret = kasan_kmalloc(s, ret, size, flags);
-+	trace_kmalloc(caller, ret, size, s->size, flags, node);
-+	return ret;
-+}
-+
-+void *__kmalloc_node(size_t size, gfp_t flags, int node)
-+{
-+	return __do_kmalloc_node(size, flags, node, _RET_IP_);
-+}
-+EXPORT_SYMBOL(__kmalloc_node);
-+
-+void *__kmalloc(size_t size, gfp_t flags)
-+{
-+	return __do_kmalloc_node(size, flags, NUMA_NO_NODE, _RET_IP_);
-+}
-+EXPORT_SYMBOL(__kmalloc);
-+
-+void *__kmalloc_node_track_caller(size_t size, gfp_t flags,
-+				  int node, unsigned long caller)
-+{
-+	return __do_kmalloc_node(size, flags, node, caller);
-+}
-+EXPORT_SYMBOL(__kmalloc_node_track_caller);
-+
-+void *kmalloc_trace(struct kmem_cache *s, gfp_t gfpflags, size_t size)
-+{
-+	void *ret = slab_alloc_node(s, NULL, gfpflags, NUMA_NO_NODE,
-+					    _RET_IP_, size);
-+
-+	trace_kmalloc(_RET_IP_, ret, size, s->size, gfpflags, NUMA_NO_NODE);
-+
-+	ret = kasan_kmalloc(s, ret, size, gfpflags);
-+	return ret;
-+}
-+EXPORT_SYMBOL(kmalloc_trace);
-+
-+void *kmalloc_node_trace(struct kmem_cache *s, gfp_t gfpflags,
-+			 int node, size_t size)
-+{
-+	void *ret = slab_alloc_node(s, NULL, gfpflags, node, _RET_IP_, size);
-+
-+	trace_kmalloc(_RET_IP_, ret, size, s->size, gfpflags, node);
-+
-+	ret = kasan_kmalloc(s, ret, size, gfpflags);
-+	return ret;
-+}
-+EXPORT_SYMBOL(kmalloc_node_trace);
-+
- static noinline void free_to_partial_list(
- 	struct kmem_cache *s, struct slab *slab,
- 	void *head, void *tail, int bulk_cnt,
 
 -- 
 2.42.1
@@ -507,4 +255,4 @@ index 2baa9e94d9df..d6bc15929d22 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231120-slab-remove-slab-v2-18-9c9c70177183%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231120-slab-remove-slab-v2-19-9c9c70177183%40suse.cz.
