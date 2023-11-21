@@ -1,190 +1,179 @@
-Return-Path: <kasan-dev+bncBAABBRWI6SVAMGQETCOUOXA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCM3H26GVIOBB76R6SVAMGQEVRV2RLI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC917F3877
-	for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 22:42:31 +0100 (CET)
-Received: by mail-qt1-x839.google.com with SMTP id d75a77b69052e-41cd5077ffesf102391cf.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 13:42:31 -0800 (PST)
-ARC-Seal: i=3; a=rsa-sha256; t=1700602950; cv=pass;
+Received: from mail-qv1-xf37.google.com (mail-qv1-xf37.google.com [IPv6:2607:f8b0:4864:20::f37])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF4FD7F388F
+	for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 23:02:40 +0100 (CET)
+Received: by mail-qv1-xf37.google.com with SMTP id 6a1803df08f44-6757f3d7911sf38172906d6.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 14:02:40 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1700604159; cv=pass;
         d=google.com; s=arc-20160816;
-        b=bmaUoE/yv1lG2QIpb0ObH+apBnpgjfzsufuel//pHMVSs6rflvlSagPK+xQis8eyiq
-         CDk8tA38l2rdCD9E551B4kjxI5naXJnevwPBtdKxWVfgUC6M5MQuUAoQjfyArriwpHxz
-         pQc8zQv6/qQXPbh92Hz4jJmrKlJKDJdzAC7KrYYkU9ByA7dqJtQxyjvVHprDiRjO6lZM
-         oG0kqElSt9vRtmuz/6jbhQjqlP4CDos5uiyWtYwghOqI6KtMGZWMszkKvHpaPzxQSjER
-         XOVevMareVaO//faj4ag9cmt2oExZsP3cD4nmkl9lmeVSBomMYS2Kyhalltwy+KR5Z0t
-         nhNA==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=BRLmIAC1VZgsfmsZ1Ych/62qzzg0wqkQLkF2A2JPaa2xp6YU22VaPi2qCIQ25WOO35
+         EYrF8Cqw/CRug4GWZa8ZlGaEOF+fwVan2mEHbAW4Zt7XoXsOHQs7kw8r6lJ3jmGYI1j4
+         Pkn20kQgc3BdtqYo/PyHYqosgXDnHoYeD/EmOcIwsudibRTzEftslZoUVOfY3T46sYm8
+         E5e19x9D5xiyaiPzxAM5dWF3I8+1fhuqEMUiGo3Gy4Bw8JwELwLzjixAeBumJ8nLFfTh
+         sOuXj/E0iGHx/5h2nh1T8hVNibwsfIWvKL4hY7BWGw6ZfGB6tP/J7HV7IcPgPlaGaFeG
+         gz2A==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:message-id:date
          :subject:cc:to:from:sender:dkim-signature;
-        bh=cUOVwsSD9cb3L52PU16h1gtOwhOdXrBQhNdFP8C61ts=;
-        fh=2KNG8pWZM1FFLpB08HYKQidB7bFxhRhLQxHWPZMWwTQ=;
-        b=s+/FF41RnznLVN5P8BLjwu/AuDBAJAwJyzOTwfjmJg6ZPXlo19PYptS7W+IwCTQ9jO
-         VHq84iRQT5Ryhf+ZXnE/uvVL+3oHv5XzMhNpPmgj3gzjLtoeI3MrEaMgsrB27Hk420ZX
-         EC0UuhfsVHhIMYTGfCiLz+16o1URDEHjUSuxZu5UwaYfFvxGQPuVvJQVZ1RFU7hFdgct
-         5Ct4xXxfWMvKbWQuojJiTjPO0k+456XcxefI+6o3Ye6MU5t3BRCIW1Sx9iVhmzJmcUr4
-         mQzO4AMKB/z3Rq32vKV6OFXNnDQ48VNzGLv32DbG2nuA8ZHWbF32cXSB6u6l7jJEnuD8
-         aDFg==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@outlook.com header.s=selector1 header.b=kfT4MzbL;
-       arc=pass (i=1);
-       spf=pass (google.com: domain of juntong.deng@outlook.com designates 2a01:111:f400:7e1b::801 as permitted sender) smtp.mailfrom=juntong.deng@outlook.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
+        bh=TdYsHoBvwDGyTRK6MTllksXmqsGZKtURTFYjmW0TYws=;
+        fh=TQATEbdDZNcnk8L2eDP6eFL9HlexFaHIexhR1TH2IlY=;
+        b=qGDJnXDi5gUyKwisePszBO7vUJJYWzUppWsr09BglMa/IoLZMfJ4AY1dWS5Ph+8DFf
+         RQRp08KilSjxoiCsB5BlH62rS/sjFd2NeiFHxAQkKS8W7gLpjS+jUrIfDZvQHxYc3GnM
+         sp3Bl3EZz+LEVHNCwUTmtIhXPTkUriEkCiWpgxKIFsM6y3WM7gUYcmN7H8j0biWoKDd2
+         /ob3XWt11Ru9OrM8yRsjm9IB56znn6wiEot9ckhn7Dqxllkasw5IaODqddhPOi9c1yec
+         U9kZJwXV4dr0jYQj+MZmTQoc0PXONEaUoKfHrBTU5KWSCReiRAY8B5EICc5y9FHsY02Q
+         orng==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=iiGY++jx;
+       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
+       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1700602950; x=1701207750; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1700604159; x=1701208959; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:message-id:date:subject:cc:to:from
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=cUOVwsSD9cb3L52PU16h1gtOwhOdXrBQhNdFP8C61ts=;
-        b=o/rVWK0SgRtDdrcly3OlooQ9okqZFmKkdstI5Awm8XSA2JkzJ4KCOou7Ixw4mUpzz/
-         M7ditICMSdkvpLNBerBedl2vuUZIFfcUY7B5TDPH7x4AxQTgj8CcvEHT8jt4IlyY96hN
-         +FV2tNqEjRTfp4aqbkGT156/p9rnp19agnzZBWKvlZ9er3DcuHmCIvc/z4iB0OpLTTZ7
-         D+qgCpjOhSSeHdHFSinuhnaEPrfc94oondw6WU8hArH2k5VyonEOTEVU6tRKXTcBF9HE
-         ERh2ApX2bVYp827o1+aUKg39N/YuBiGdf56OJvbabpIgfCCJhU3QovQP0dqoKU/IFi/5
-         owKw==
+        bh=TdYsHoBvwDGyTRK6MTllksXmqsGZKtURTFYjmW0TYws=;
+        b=D5otTE6MTkwzzlk+aEcP3Vl1NpmGuOEtscj9r8pp9Z8ORE1F3XuK7HI8PJNaN4z+bY
+         hlLPlrHQHsdqMjM+xmxYG3P6OWz1LWadvvRgfL2m7+dzoqFyBMdq5myI4dzsjmP8gmCk
+         CrdjL5X7PsWejzyURwCtmhddTEcTIEwJdpL6YkUVxeOgBfASOjnx9ZXuIb0FzE19Tiik
+         hI5zW4ioyZL9iOImMlQnriKLkjpRBLI4EfkQqnSzTrw7BmxKk+4OjeqpZfSmwEvBuSKO
+         gef18q/+yC7BugYwbWuFKbH3P5evM8Pg/ZJNzFnBMGSiwZQkiN+iJYBBqcoQPzH4+oa+
+         kXKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700602950; x=1701207750;
+        d=1e100.net; s=20230601; t=1700604159; x=1701208959;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=cUOVwsSD9cb3L52PU16h1gtOwhOdXrBQhNdFP8C61ts=;
-        b=Ikf80kYzyD6Z2uYPwFRStivm9yKRagWGtIy3qc8HRTQOJSXITZpUS5Xb3v9So+Pc5b
-         4EYAirxvobk+hBQn2AmIAaR81p+Vnr0dMmXfC7kNroyPBWCGTogZFTLIEiMW6cf0/6Zm
-         ebAPy0aTp8XzvzrZofeTT7t6IeEUy7wchEAWOrsax7tumMdxIp3uvz+dbprZ53p8g7lM
-         2q1zPd8/eUewSYSXsttaA5J7/Nkz9Y0PTwul7awAccj/I4tuU0DlMCfbfIWoT1uR0AmH
-         zn7sHJTwx3xZHngDs0YyhO4J/EkbcjiQ1n5WpQ64E4X30Gm9+rXeoKiqgBaIyew9ow4e
-         Y64A==
+        bh=TdYsHoBvwDGyTRK6MTllksXmqsGZKtURTFYjmW0TYws=;
+        b=SYOv04NYUAHKn1wj/ALhDV8N3UcHIRL9GtYdgUmGWL8cuA1oIAqa+iof2pccBqH7th
+         pLFag0z4MuvMBx6EDtxNAOtisJrLSvfZrdSY9/MtGpQJy2s5BBO5EdmwtrUAf/0aSfYs
+         5vN6o6vraGaQUIm4xBdc2l4U1IyVbnMSS5iZkS9+cAQuMELIgF4m6fxTDeDQiEUsPUBi
+         gXlNypltne791RNBczNT1BUDOqBeMpKljgPsGsYNRrmBzkQddQ4iskCfj+j2yMWCTz+R
+         12S+K1VDXVlL+jI5c0EMqeUwwDVweY4jSpgjX1wqUIOMv7HUrYgGGK0yX39WWx6zXu5+
+         rJCw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YxhgiapZt2Nx6krZ2WJJZrYw6lbEcz+kYEIQCfIPwlHpgZofLdz
-	/iRlmtk+5dwqn7VsxwBbeOs=
-X-Google-Smtp-Source: AGHT+IEBZtG1gOwtUv2+i2HkcQEpeGfs7tISRCvQxfa7tH6r1JlukMzPMX9qGX5XIdB36/HTXzi/Gw==
-X-Received: by 2002:ac8:7e95:0:b0:421:c39c:3eb2 with SMTP id w21-20020ac87e95000000b00421c39c3eb2mr11439qtj.3.1700602950513;
-        Tue, 21 Nov 2023 13:42:30 -0800 (PST)
+X-Gm-Message-State: AOJu0Ywo5bcSzYq9AE2PFJidp0LwGWudQYIZLO3CLHNm67AbJefycJUl
+	pu5Lu2dkgvKdtIohhrLwiLs=
+X-Google-Smtp-Source: AGHT+IFS3FDPOq0PgEsZt1jAen6Z44afl8Sqxln5IfqRTi2JhwCqNdaNLWSHOukiHPIczuViqAtQfA==
+X-Received: by 2002:a05:622a:92:b0:41c:d41b:1b99 with SMTP id o18-20020a05622a009200b0041cd41b1b99mr543958qtw.35.1700604159722;
+        Tue, 21 Nov 2023 14:02:39 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:20c:b0:41c:b879:6082 with SMTP id
- b12-20020a05622a020c00b0041cb8796082ls583373qtx.2.-pod-prod-09-us; Tue, 21
- Nov 2023 13:42:29 -0800 (PST)
-X-Received: by 2002:a05:620a:880c:b0:77b:9360:8839 with SMTP id qj12-20020a05620a880c00b0077b93608839mr280004qkn.68.1700602949543;
-        Tue, 21 Nov 2023 13:42:29 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1700602949; cv=pass;
+Received: by 2002:ac8:5704:0:b0:41e:89db:3bf4 with SMTP id 4-20020ac85704000000b0041e89db3bf4ls902916qtw.2.-pod-prod-08-us;
+ Tue, 21 Nov 2023 14:02:39 -0800 (PST)
+X-Received: by 2002:a05:620a:a0a:b0:779:859a:5ef8 with SMTP id i10-20020a05620a0a0a00b00779859a5ef8mr356662qka.31.1700604158881;
+        Tue, 21 Nov 2023 14:02:38 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1700604158; cv=none;
         d=google.com; s=arc-20160816;
-        b=eRWX1Boa38uPUQ3UYlHjJTdxLPomy3+FNCHjSCpOlCskJvOPygziqy6NYfeoRIeNm3
-         sS6dcZ16lKVsJtYml4z2lTflkX2+qeoLKzVzTXa02ldHSvPV/nsywZuGMGXZLhq33wbu
-         auYc4gomHBBogvHck7F9Q7vtiGjywGCAfGVqD0/j8BVVOrvvAt2iqOxgjRaN7qpWI7Ka
-         kbJtq1s8ksO4Jt1uXvBFRiINW3sHU+CUsn4cYG04lPRNBXbDBZgiEtyopewJ0bMJzEaz
-         bX9l64+M/qwisPOru8d2laoPHHPSAWYepctBkO7V1+XOe60bolLo6Msmp0XfBVoLWNcK
-         QTVw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=gT7OKZPHhzVUhzMSRSZ3FlXc5Vcml9zj7WbfqC2tvWe6NAX2V+5LwGcm+Z0CN0fI5e
+         fbhvv6imi5JxUipoYXluFsx7366wSnsiI2bXbPzWVWuTIPV3qUj313wE+Lq9DJsRZD/D
+         8jSsHWXq4WXC2f7ov4h3n4dQzLwBoPv3QxV6So9IZzaeS2SFpteM4Au3EDz/PBGPWmDy
+         10gBcYGRCdsDr9+47a7CN1N4romvdg4SiI3xjty51bH1k4MZwiMR3Qo/Ul0yiG9pckoy
+         g4uM3GtZEa8jrTQWMWM78UqX92dQ3/WCUnIvRuxZQi0vmvkdfJ+//tq2lFY08BcEvofU
+         Hs5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:content-transfer-encoding:message-id:date:subject:cc
          :to:from:dkim-signature;
-        bh=29jcc8/33Wt3un8RLmiE4c7QrGd7B8cnl+cNOftp/PY=;
-        fh=2KNG8pWZM1FFLpB08HYKQidB7bFxhRhLQxHWPZMWwTQ=;
-        b=BN+y9WFwZzvb7hoHXmQP4gQBNoTsc3vhAvI+EJ9tgqvvhnFdVeTt9ZpSloZk65/5be
-         P9wq/2a/5aHYeELKSTfCvuA/bTT+smToOvGx53x/ueA1ZLsg/BmUL6dRMKPWvHfUXg8T
-         /22C7o/Wrxo+RRng+cO3goqbzniWnyfwtyRlnPi5A12M5cEfBoNontyRLLqiRtRfOwAE
-         2D3D0OJ8ErsmNJJnJrCA4LFabSwgjvsFHhgt3f/7JHBdq5tB758AlqruIZcsLUmRlJY6
-         VLyQVpTvc1oVOqwFQ8o9FLcHHMRY8AutwnJxhpMLLp4tWhvjPj0JsRnchAYFQjIIraNT
-         0vAw==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@outlook.com header.s=selector1 header.b=kfT4MzbL;
-       arc=pass (i=1);
-       spf=pass (google.com: domain of juntong.deng@outlook.com designates 2a01:111:f400:7e1b::801 as permitted sender) smtp.mailfrom=juntong.deng@outlook.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05olkn20801.outbound.protection.outlook.com. [2a01:111:f400:7e1b::801])
-        by gmr-mx.google.com with ESMTPS id c10-20020a05620a268a00b0076709fdb678si739456qkp.4.2023.11.21.13.42.29
+        bh=RjV0VmLpgTE5xRgs1VZtKHdQWOiG339HDEHFOroOwi0=;
+        fh=TQATEbdDZNcnk8L2eDP6eFL9HlexFaHIexhR1TH2IlY=;
+        b=GFGX5EQ+/2v88wDSB0WRV3Mb1J7Op3wccMGr9bJY2RzYQfwaGSiLiXE0FmscCpAx54
+         sv+bdbR+6Z2bHwCkn8bPkYRprrczkJpyRDu89Qvx3E7OE7Cjsw1849eh+vzhAQyy9J4d
+         dd3wOoko2pb332HYzjydNsN3WNaEmAKlkiJBzNqS9B+j8z1oDmzcLP3HOWY+dFyrkJYL
+         DnjFo4J77SG1S9bbA3UDIVAStJ2/OMl69HKLOL2sg9FOv5He9MpH/FDYcHYgx2LEbMJO
+         SIcDlwJo6qlplQHvklLzaH6XAcgPuS1E3CSFsiLaVSBrib9qNGG+mT8OQHcdIeMItZZW
+         zvGA==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=iiGY++jx;
+       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
+       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
+        by gmr-mx.google.com with ESMTPS id bv20-20020a05622a0a1400b0041812c64692si1666287qtb.3.2023.11.21.14.02.38
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 21 Nov 2023 13:42:29 -0800 (PST)
-Received-SPF: pass (google.com: domain of juntong.deng@outlook.com designates 2a01:111:f400:7e1b::801 as permitted sender) client-ip=2a01:111:f400:7e1b::801;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V7DdMUeaeXMK7dydA1E2tkw6tj05plq38ElmULzPln/FGbGMgkXeHFF2MWYxm1HkLbOP+lwHKXw0E8i/y9na+pmnDdUBNcTV9Na9+iOs8Ctdll+Tc1VEmgTydFRWDbFm18TE4hvQ196avKNdaKHTDT0DQMXrxPNdGM43DVs6W+nCXV+B2rWiNasq7i+VHSInFyTQ8mH8U4+trrJvjl2MOaKblkIOPSAMYeyAq6UwEYT9UTXZ2qlyspxOf6HZ53ghh9dk0LcQw51Y2MMaZngUbHl3Dl1SMVwN1ox1E6wsMN/ZtMk9I/s4V79CkQ3glJ9UQK1a0WwC3CEl0d3OpH1uaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=29jcc8/33Wt3un8RLmiE4c7QrGd7B8cnl+cNOftp/PY=;
- b=TABwSwKo5RzKQ3H++98WCVJswhlmyKKvfa10bA4xZMWJbbbkmat6E4HQYNK7f/uUwNYhZhDXnGgwMFxvn/gYWwSLXb9u88i4vNQa8YJxzT1V3H/Q1w5ClW7N8GO7/O0slwlkpmBkba02ntX1Uzdzz4nZTbNMKNWVf5+6vFXqLW658vWw8lljKPVgHbqBSNcrsmONRb9gP+uy1IwgXCLJpmy7YyK49sCVNcZrUbeDM/gdOgsL/oK979SUbnwm7NYB5cQjMxA+LahX6o3LmpUIHYDkqyZm8NSkiAppDKwSnlSkEs1G8HH4rZ1ybKLOIdLDTqcFx2Ye9uL7FVyQgr1CYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
- by PAXP193MB1503.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:13f::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28; Tue, 21 Nov
- 2023 21:42:27 +0000
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::fdd2:7dbf:e16c:f4a4]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::fdd2:7dbf:e16c:f4a4%4]) with mapi id 15.20.7002.028; Tue, 21 Nov 2023
- 21:42:27 +0000
-From: Juntong Deng <juntong.deng@outlook.com>
-To: ryabinin.a.a@gmail.com,
-	glider@google.com,
-	andreyknvl@gmail.com,
-	dvyukov@google.com,
-	vincenzo.frascino@arm.com,
-	akpm@linux-foundation.org
-Cc: kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH v2] kasan: Improve free meta storage in Generic KASAN
-Date: Wed, 22 Nov 2023 05:41:26 +0800
-Message-ID: <VI1P193MB0752C0ADCF4F90AE8368C0B399BBA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.39.2
-Content-Type: text/plain; charset="UTF-8"
-X-TMN: [aBStXIVnfS+GP4EU6rrNTwppYbpfxVCc]
-X-ClientProxiedBy: LO4P123CA0568.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:276::18) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:800:32::19)
-X-Microsoft-Original-Message-ID: <20231121214126.53528-1-juntong.deng@outlook.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 21 Nov 2023 14:02:38 -0800 (PST)
+Received-SPF: pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
+Received: from pps.filterd (m0353723.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3ALLNPPt004548;
+	Tue, 21 Nov 2023 22:02:36 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3uh4dw0vq3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 21 Nov 2023 22:02:36 +0000
+Received: from m0353723.ppops.net (m0353723.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3ALLcJr7014500;
+	Tue, 21 Nov 2023 22:02:35 GMT
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3uh4dw0vcv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 21 Nov 2023 22:02:35 +0000
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3ALLnQNN022908;
+	Tue, 21 Nov 2023 22:02:05 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3uf7kt3yyb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 21 Nov 2023 22:02:04 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3ALM22eL40108430
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 21 Nov 2023 22:02:02 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1122220065;
+	Tue, 21 Nov 2023 22:02:02 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 923EB20063;
+	Tue, 21 Nov 2023 22:02:00 +0000 (GMT)
+Received: from heavy.boeblingen.de.ibm.com (unknown [9.179.23.98])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 21 Nov 2023 22:02:00 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Alexander Gordeev <agordeev@linux.ibm.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>, Marco Elver <elver@google.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Pekka Enberg <penberg@kernel.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Vasily Gorbik <gor@linux.ibm.com>, Vlastimil Babka <vbabka@suse.cz>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Hyeonggon Yoo <42.hyeyoo@gmail.com>, kasan-dev@googlegroups.com,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-s390@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        Mark Rutland <mark.rutland@arm.com>,
+        Roman Gushchin <roman.gushchin@linux.dev>,
+        Sven Schnelle <svens@linux.ibm.com>,
+        Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v2 00/33] kmsan: Enable on s390
+Date: Tue, 21 Nov 2023 23:00:54 +0100
+Message-ID: <20231121220155.1217090-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.41.0
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: ueXSjJJuaiHBGWPQrdyNp8xXxndxHB57
+X-Proofpoint-ORIG-GUID: luvmym5bCCb5oBro4vkAQpcqqUvW6UFi
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|PAXP193MB1503:EE_
-X-MS-Office365-Filtering-Correlation-Id: 690f3537-efd0-4c59-dea4-08dbeadac14b
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3HPfTPT0ur8NWreQU5zYm+w3m1DIR2Z8jGAxOyYCSUQTSp3oNWFyMlfM+Ns6If44pkzMEdD/lxL0f1BMomF+VLxZJqmvFo31wufUahRDJEpJKMdB6+FHNW3fiAj9JIJUPiGn9OJJMljkIdkaRvfrCjVZrUdMprhusgseI8X2LB+gWq69da16eiktbL4sQcYOisCVcnDzXMpECjqCxZCKBvrLCZqEv8DR/JUhBe43CezOdRwgolzHnyNNZlKs32lYJgUK/9jIfxCBgF/ui0rdei6uk/5MtwsZ8iQG8KwUr73+6GMKOzV7yAIRMmywoAkmef3kuz4sVmxWbWoPuvraY6f2KsVQJdlWtjGecuS/NSn/ae4K06FxnHjQyvd1a3+Vwh7Eg5hv8ztaAa+R+9NEGXWrID9vsuNk7KpIVqKJRkDO0nxOeMsRibgVN7fJTmLrU0JU6EG0hw1b6XjSQDYAAyUT8/Fpb7cQ/5OQn+uVXgu6MoNamFxX1qnFnY7DhoCbYSAv7eKdcWHSMf9JpiBTb+UABRie4DR+WEM/x7JHKEQI2nnYKYSYLFr6l8kZXDWq
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RJ32V+mru7FobK8CEA2A+P1u2wj/tbSLUNbI1AHLGDTvqnldw2ByW3zf+xy0?=
- =?us-ascii?Q?uoMn3vy1Fl00gTgrz1FrSap+SXToLJLKuFb2IiOSpN6sf3Laur8X+Jh2+AX+?=
- =?us-ascii?Q?QZ4cO3lKobuG23zsJBjm6wz6LsudtacvSvebbcVXZAF61lNRiZ1ngRAlZ8rn?=
- =?us-ascii?Q?BZ0ZhpDB75bmvcrTR+IneRpNK7MT4CqQCtOViBjHWj9CVbwtgHI7PfTFzy82?=
- =?us-ascii?Q?4/VijxQcdhPer/qnizDcW63JQvl/fSYNXCEtu2gY/drowxYZdelWVa9PfFAW?=
- =?us-ascii?Q?3GQyhw4KT056qnkFULxEqkTqMClu7mtR4Ker2/bjP0+fVB6caOuUSuNZ8NCj?=
- =?us-ascii?Q?SZrgGaxgVRC8HknbzSx97EmVULeQDVgGvkFh0tQHytH99Ffe3AdfEptUauML?=
- =?us-ascii?Q?0NQqLEizi64rcPfKv/whS6rqDpmiT8Fnk4Et03ph3+OxrUwsyGqa5e6ksYYE?=
- =?us-ascii?Q?fz8tsIc+31Wp6K64Hh6/q5si/tn+fpTK0qFep4H3afm2vFCMJSN7vJqtFcTT?=
- =?us-ascii?Q?hA2yFp1zJctpPT7gviu9h6bxYuTJCBSZwiUcV4QyAxsiMW/p1DrgEaDHGwlh?=
- =?us-ascii?Q?SdrFzUq+JdraEwtJTbBubOY4vSpsq/kUs0DBnDHMH7u1V+0wgr+gMea+6VTP?=
- =?us-ascii?Q?YwHqkbLS/Rb7kxho2iuJ3SJWMoyvuC7Fcg/Ctkc8xdYvc2Zfe0O7yaqI2TUq?=
- =?us-ascii?Q?0zs1+stTqyXW3KymMjqi0DNqWAxFl6pc2OkFF8svjJBhx/g2bT7QtzqVXJyQ?=
- =?us-ascii?Q?/MzX3IbchXPB7kxvxROApLZPb52wMzipg6crM8I8QYxWzNOqvpet5zTTDRYq?=
- =?us-ascii?Q?YIQcgWXUoyviC08qyf3Dzn6WbUb6csqQwG3YAFUsIf7H577rmmkddnLrbJm4?=
- =?us-ascii?Q?ArfPKscqVm6NOK3xnXW81EewoPSbKuN2JrHGHsriuSsDcI2R6HgeWVP+Ey+J?=
- =?us-ascii?Q?pWAuS0LA2W+pt78zIav/Y5zE7aEDXTBH5x/tIp3OCTdbIOjloz6qSVdZ8eEe?=
- =?us-ascii?Q?EtkHAwZCYEegLGmchkVVafM/jFtUBwBLi7azGQOl3rLgUtLt6fFdVPzK216v?=
- =?us-ascii?Q?SxBf1K2RuIG/BHmq5cC9ZML9xjT6/48Bt0kLK720t/RRzNXWTITiM43lfIDJ?=
- =?us-ascii?Q?+DuVLp++g2HAxn/EB3oO5rUoQEQi4g06N8MLIjoHUNw/zCweDMnMcRQDfhUW?=
- =?us-ascii?Q?GgAqs6U6Yq4Gd9Vvf8WWa6zY1i0f/kd6Nz82FGmlyzwy938ijvxNmeMMGAw?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 690f3537-efd0-4c59-dea4-08dbeadac14b
-X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 21:42:27.8261
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXP193MB1503
-X-Original-Sender: juntong.deng@outlook.com
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-21_12,2023-11-21_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=963
+ spamscore=0 suspectscore=0 phishscore=0 priorityscore=1501 malwarescore=0
+ clxscore=1015 impostorscore=0 adultscore=0 bulkscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311060000
+ definitions=main-2311210172
+X-Original-Sender: iii@linux.ibm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@outlook.com header.s=selector1 header.b=kfT4MzbL;       arc=pass
- (i=1);       spf=pass (google.com: domain of juntong.deng@outlook.com
- designates 2a01:111:f400:7e1b::801 as permitted sender) smtp.mailfrom=juntong.deng@outlook.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
+ header.i=@ibm.com header.s=pp1 header.b=iiGY++jx;       spf=pass (google.com:
+ domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender)
+ smtp.mailfrom=iii@linux.ibm.com;       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -197,127 +186,117 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Currently free meta can only be stored in object if the object is
-not smaller than free meta.
+v1: https://lore.kernel.org/lkml/20231115203401.2495875-1-iii@linux.ibm.com/
+v1 -> v2: Add comments, sort #includes, introduce
+          memset_no_sanitize_memory() and use it to avoid unpoisoning
+          of redzones, change vmalloc alignment to _REGION3_SIZE, add
+          R-bs (Alexander P.).
 
-After the improvement, even when the object is smaller than free meta,
-it is still possible to store part of the free meta in the object,
-reducing the increased size of the redzone.
+          Fix building
+          [PATCH 28/33] s390/string: Add KMSAN support
+          with FORTIFY_SOURCE.
+          Reported-by: kernel test robot <lkp@intel.com>
+          Closes: https://lore.kernel.org/oe-kbuild-all/202311170550.bSBo44ix-lkp@intel.com/
 
-Example:
+Hi,
 
-free meta size: 16 bytes
-alloc meta size: 16 bytes
-object size: 8 bytes
-optimal redzone size (object_size <= 64): 16 bytes
+This series provides the minimal support for Kernel Memory Sanitizer on
+s390. Kernel Memory Sanitizer is clang-only instrumentation for finding
+accesses to uninitialized memory. The clang support for s390 has already
+been merged [1].
 
-Before improvement:
-actual redzone size = alloc meta size + free meta size = 32 bytes
+With this series, I can successfully boot s390 defconfig and
+debug_defconfig with kmsan.panic=1. The tool found one real
+s390-specific bug (fixed in master).
 
-After improvement:
-actual redzone size = alloc meta size + (free meta size - object size)
-                    = 24 bytes
+Best regards,
+Ilya
 
-Suggested-by: Dmitry Vyukov <dvyukov@google.com>
-Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
----
-V1 -> V2: Make kasan_metadata_size() adapt to the improved
-free meta storage
+[1] https://reviews.llvm.org/D148596
 
- mm/kasan/generic.c | 50 +++++++++++++++++++++++++++++++---------------
- 1 file changed, 34 insertions(+), 16 deletions(-)
+Ilya Leoshkevich (33):
+  ftrace: Unpoison ftrace_regs in ftrace_ops_list_func()
+  kmsan: Make the tests compatible with kmsan.panic=1
+  kmsan: Disable KMSAN when DEFERRED_STRUCT_PAGE_INIT is enabled
+  kmsan: Increase the maximum store size to 4096
+  kmsan: Fix is_bad_asm_addr() on arches with overlapping address spaces
+  kmsan: Fix kmsan_copy_to_user() on arches with overlapping address
+    spaces
+  kmsan: Remove a useless assignment from
+    kmsan_vmap_pages_range_noflush()
+  kmsan: Remove an x86-specific #include from kmsan.h
+  kmsan: Introduce kmsan_memmove_metadata()
+  kmsan: Expose kmsan_get_metadata()
+  kmsan: Export panic_on_kmsan
+  kmsan: Allow disabling KMSAN checks for the current task
+  kmsan: Introduce memset_no_sanitize_memory()
+  kmsan: Support SLAB_POISON
+  kmsan: Use ALIGN_DOWN() in kmsan_get_metadata()
+  mm: slub: Let KMSAN access metadata
+  mm: kfence: Disable KMSAN when checking the canary
+  lib/string: Add KMSAN support to strlcpy() and strlcat()
+  lib/zlib: Unpoison DFLTCC output buffers
+  kmsan: Accept ranges starting with 0 on s390
+  s390: Turn off KMSAN for boot, vdso and purgatory
+  s390: Use a larger stack for KMSAN
+  s390/boot: Add the KMSAN runtime stub
+  s390/checksum: Add a KMSAN check
+  s390/cpacf: Unpoison the results of cpacf_trng()
+  s390/ftrace: Unpoison ftrace_regs in kprobe_ftrace_handler()
+  s390/mm: Define KMSAN metadata for vmalloc and modules
+  s390/string: Add KMSAN support
+  s390/traps: Unpoison the kernel_stack_overflow()'s pt_regs
+  s390/uaccess: Add KMSAN support to put_user() and get_user()
+  s390/unwind: Disable KMSAN checks
+  s390: Implement the architecture-specific kmsan functions
+  kmsan: Enable on s390
 
-diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-index 4d837ab83f08..802c738738d7 100644
---- a/mm/kasan/generic.c
-+++ b/mm/kasan/generic.c
-@@ -361,6 +361,8 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
- {
- 	unsigned int ok_size;
- 	unsigned int optimal_size;
-+	unsigned int rem_free_meta_size;
-+	unsigned int orig_alloc_meta_offset;
- 
- 	if (!kasan_requires_meta())
- 		return;
-@@ -394,6 +396,9 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
- 		/* Continue, since free meta might still fit. */
- 	}
- 
-+	ok_size = *size;
-+	orig_alloc_meta_offset = cache->kasan_info.alloc_meta_offset;
-+
- 	/*
- 	 * Add free meta into redzone when it's not possible to store
- 	 * it in the object. This is the case when:
-@@ -401,21 +406,26 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
- 	 *    be touched after it was freed, or
- 	 * 2. Object has a constructor, which means it's expected to
- 	 *    retain its content until the next allocation, or
--	 * 3. Object is too small.
- 	 * Otherwise cache->kasan_info.free_meta_offset = 0 is implied.
-+	 * Even if the object is smaller than free meta, it is still
-+	 * possible to store part of the free meta in the object.
- 	 */
--	if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor ||
--	    cache->object_size < sizeof(struct kasan_free_meta)) {
--		ok_size = *size;
--
-+	if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor) {
- 		cache->kasan_info.free_meta_offset = *size;
- 		*size += sizeof(struct kasan_free_meta);
-+	} else if (cache->object_size < sizeof(struct kasan_free_meta)) {
-+		rem_free_meta_size = sizeof(struct kasan_free_meta) -
-+								cache->object_size;
-+		*size += rem_free_meta_size;
-+		if (cache->kasan_info.alloc_meta_offset != 0)
-+			cache->kasan_info.alloc_meta_offset += rem_free_meta_size;
-+	}
- 
--		/* If free meta doesn't fit, don't add it. */
--		if (*size > KMALLOC_MAX_SIZE) {
--			cache->kasan_info.free_meta_offset = KASAN_NO_FREE_META;
--			*size = ok_size;
--		}
-+	/* If free meta doesn't fit, don't add it. */
-+	if (*size > KMALLOC_MAX_SIZE) {
-+		cache->kasan_info.free_meta_offset = KASAN_NO_FREE_META;
-+		cache->kasan_info.alloc_meta_offset = orig_alloc_meta_offset;
-+		*size = ok_size;
- 	}
- 
- 	/* Calculate size with optimal redzone. */
-@@ -464,12 +474,20 @@ size_t kasan_metadata_size(struct kmem_cache *cache, bool in_object)
- 	if (in_object)
- 		return (info->free_meta_offset ?
- 			0 : sizeof(struct kasan_free_meta));
--	else
--		return (info->alloc_meta_offset ?
--			sizeof(struct kasan_alloc_meta) : 0) +
--			((info->free_meta_offset &&
--			info->free_meta_offset != KASAN_NO_FREE_META) ?
--			sizeof(struct kasan_free_meta) : 0);
-+	else {
-+		size_t alloc_meta_size = info->alloc_meta_offset ?
-+								sizeof(struct kasan_alloc_meta) : 0;
-+		size_t free_meta_size = 0;
-+
-+		if (info->free_meta_offset != KASAN_NO_FREE_META) {
-+			if (info->free_meta_offset)
-+				free_meta_size = sizeof(struct kasan_free_meta);
-+			else if (cache->object_size < sizeof(struct kasan_free_meta))
-+				free_meta_size = sizeof(struct kasan_free_meta) -
-+									cache->object_size;
-+		}
-+		return alloc_meta_size + free_meta_size;
-+	}
- }
- 
- static void __kasan_record_aux_stack(void *addr, bool can_alloc)
+ Documentation/dev-tools/kmsan.rst   |   4 +-
+ arch/s390/Kconfig                   |   1 +
+ arch/s390/Makefile                  |   2 +-
+ arch/s390/boot/Makefile             |   3 +
+ arch/s390/boot/kmsan.c              |   6 ++
+ arch/s390/boot/startup.c            |   8 ++
+ arch/s390/boot/string.c             |  16 ++++
+ arch/s390/include/asm/checksum.h    |   2 +
+ arch/s390/include/asm/cpacf.h       |   2 +
+ arch/s390/include/asm/kmsan.h       |  36 +++++++++
+ arch/s390/include/asm/pgtable.h     |  10 +++
+ arch/s390/include/asm/string.h      |  20 +++--
+ arch/s390/include/asm/thread_info.h |   2 +-
+ arch/s390/include/asm/uaccess.h     | 110 ++++++++++++++++++++--------
+ arch/s390/kernel/ftrace.c           |   1 +
+ arch/s390/kernel/traps.c            |   6 ++
+ arch/s390/kernel/unwind_bc.c        |   4 +
+ arch/s390/kernel/vdso32/Makefile    |   3 +-
+ arch/s390/kernel/vdso64/Makefile    |   3 +-
+ arch/s390/purgatory/Makefile        |   2 +
+ include/linux/kmsan-checks.h        |  26 +++++++
+ include/linux/kmsan.h               |  23 ++++++
+ include/linux/kmsan_types.h         |   2 +-
+ kernel/trace/ftrace.c               |   1 +
+ lib/string.c                        |   6 ++
+ lib/zlib_dfltcc/dfltcc.h            |   1 +
+ lib/zlib_dfltcc/dfltcc_util.h       |  23 ++++++
+ mm/Kconfig                          |   1 +
+ mm/kfence/core.c                    |   5 +-
+ mm/kmsan/core.c                     |   2 +-
+ mm/kmsan/hooks.c                    |  30 +++++++-
+ mm/kmsan/init.c                     |   5 +-
+ mm/kmsan/instrumentation.c          |  11 +--
+ mm/kmsan/kmsan.h                    |   9 +--
+ mm/kmsan/kmsan_test.c               |   5 ++
+ mm/kmsan/report.c                   |   7 +-
+ mm/kmsan/shadow.c                   |   9 +--
+ mm/slub.c                           |  12 ++-
+ 38 files changed, 345 insertions(+), 74 deletions(-)
+ create mode 100644 arch/s390/boot/kmsan.c
+ create mode 100644 arch/s390/include/asm/kmsan.h
+
 -- 
-2.39.2
+2.41.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/VI1P193MB0752C0ADCF4F90AE8368C0B399BBA%40VI1P193MB0752.EURP193.PROD.OUTLOOK.COM.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231121220155.1217090-1-iii%40linux.ibm.com.
