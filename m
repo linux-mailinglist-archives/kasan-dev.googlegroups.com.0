@@ -1,139 +1,139 @@
-Return-Path: <kasan-dev+bncBCM3H26GVIOBBHGS6SVAMGQENUCY25Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCM3H26GVIOBBH6S6SVAMGQE6NRBKFA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 001347F38AC
-	for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 23:03:09 +0100 (CET)
-Received: by mail-il1-x13b.google.com with SMTP id e9e14a558f8ab-35b069d2809sf23138945ab.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 14:03:09 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1700604189; cv=pass;
+Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09C5D7F38AD
+	for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 23:03:13 +0100 (CET)
+Received: by mail-il1-x140.google.com with SMTP id e9e14a558f8ab-357429e8ac0sf58283665ab.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 14:03:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1700604192; cv=pass;
         d=google.com; s=arc-20160816;
-        b=pdMYRH/yxYcFGjPq7pzWOQaoJ3K93Cs6aYT8Iu1B+R1wSQoRnrh79bvSg7VFQnRXMp
-         Ii+nQu3aXoiAdmWd72sNptKwbqTQcomqftA8vJrOfp3Pw2yGDVwTnn1zABEWCTkgL7+5
-         6oYZhXo5UOi271pLxKgI1gjdihQEfYmDqrDlVc+trtoX2sJKC3i6UeWqd7v6PmhWc8xy
-         vnvcsHEj8oOCyg2g6zKQqJljOpRsDYen57kgmdd9JbeDXIjnk/AkAK2WpTBABcHUsH3q
-         +ELaAE+vb5LQW/Z27XUpdlVmawT3JZsyHB2LU73K7L6apZFJuFW/NoQzAtiLUuX0Yufv
-         4avQ==
+        b=CmpaSQNR6pmXdPBDhDfbFn9l0CHKHuaDxD2exn9ggrSO7CnBkAEGHyCBsBIxXuEf8V
+         TqfVzO7au7PK5lNKLoNiOlKbv1zrbrCd+gfHOP84Z0z9ykJt68xx20Mhmc4IACuFrxIp
+         TN4xEgOOvWJ7yUtJ8zJTWycd66G45efSIx9c59DlS/Oq5Syiy+X2D3ognEcDNTIjlRve
+         vbcNZqLiJb2MsggdMk7QlEn21aiVFVmJlKU0X56okCDabktjm86V/Za8amOnI1Wmr5ng
+         yjhJic3peLY57NPor9MZH64+ZGZI08W15hZHvquIfM/+4SBnPc/5mn389x308TdXtJo/
+         /J8A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=oFDDq+tPhFfWCjZ7m9b6kpcnzCLoa/h5YbUMrGkmCRs=;
+        bh=Po9CjP1H8GrMoXIJB+A1d+E1G1TNn0tC0cIBOICKmeM=;
         fh=TQATEbdDZNcnk8L2eDP6eFL9HlexFaHIexhR1TH2IlY=;
-        b=k6WjseRunMnUEr9UEC+aHGyG5q1w9IzKkPTeb+kMxBzy3Mnwl11sELTkSXe1oueF6W
-         JWcQH4zry9V4dVKW+VP4Crvel7RPZX/NfEXT4wCN6rSHPfCt0e82f4vtor/XMVGwqAEI
-         hMYYJOrmfuHDJCzf76HjCk54hgMrKkU1kWV1Ls/KNs4GRC7n7lMiDRB5qzvhBo9jmw/X
-         TQft4WZqH5E/P4dofAguie56G+X/W3fJRCkQtYHxKK/4MD8Pahes0i4zh2m1rp8xkoUR
-         e6SCcX9/SebgR1zRVLn8YsF2kE3WiXTutFzJY0PHQhFfDSFbTze0eP9xElFfHO/Nu77U
-         q90Q==
+        b=VRtgiUlGXm4xTM0u66z1mKwfWHBsOJkdmTxkQkwzsjWXHfx9Pnljtb2+JYrLmTXPgP
+         4+gGRsyvUo0hA8WbXF82aWoxpMSkZfTwTpv5Bsku7y3/75t5tw4RadbpLDhPRwbi2B5K
+         yuE0ndyGUMqO7KjHkz3N4bcFVKSbv8Yqr/wJHdwF+2EIRyQhM4Wfa7EyUr2jIPBIULuC
+         Fr8y1RPwblwvnMo6/g8uTsge+etBLtY7GsQlQ519cZjRGm7Pf8pzXqwd8Kv42L7HjHUl
+         BHE9Y9ky22wAPLE5cwABBEX5mvCtPBRqBy/ZJlosyUZQ4NBDfuQkjRc5g3kdWeclZrpw
+         34Lw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b="USgb/cGu";
-       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=kvD3L93D;
+       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
        dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1700604189; x=1701208989; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1700604192; x=1701208992; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oFDDq+tPhFfWCjZ7m9b6kpcnzCLoa/h5YbUMrGkmCRs=;
-        b=q3hZJAa0MmvnRyBBHx7jfQMTtzQ0kgUydfhKv+18pOI1zWKC6J/NISgUJGcDBKcaIl
-         wVxD7se6lSQsnbyZMQGNuCPB17H5Mo/w3Kzm46y0wBQcXPE06kAR+xZrAN0OAESZQHd2
-         Inv1IBLDQCQ3/LoQOShYVGbcEcWkF1C/H3fhY0Za5FMJDrhsUj3VC9vLwO9dQVTZ1TRT
-         5otc2NLvv582rp4Kh851SBSJTNZdSZKGqdFpp38tnVEt7ceZ4sm1tgEKfeDdRSz/yo27
-         PSEbx7KUqMr16rgkLlBkkSPoxaK1tIU5ZwD2tb0eg/umotRA5P0ULlbOLr62760lJML4
-         NIhA==
+        bh=Po9CjP1H8GrMoXIJB+A1d+E1G1TNn0tC0cIBOICKmeM=;
+        b=xiDm0aN3Sp1yG3NnSyJPkc9z5NIPYu04fuq71IzrcPfPxW41ZmJByqw4huwsE8bSQf
+         N08WyvWSTy2ATw476p4TWEbuq8V+dEWd/6KBGSfmmhxuHZCYruqYgupnB96hH1KEtagC
+         0r0v7hDVzQT8qIwuBqwi20icaZmGRNxMNqkqHs6joQdnz6JltyY3ALIiFnPZ8lu1q9h4
+         jGM5IDRLGUG3PiF6KgC+L8ODrurXMOHKpOaNzzgInL6RZrShC6Gq5fETLsYb5mCbTOTG
+         K9eOJjaRjrtoycFS6XOiaHKyb0Eul/W0E/x6wb1bJnWjctaPZVyyLcSa0GU6dBfAdxIK
+         P9HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700604189; x=1701208989;
+        d=1e100.net; s=20230601; t=1700604192; x=1701208992;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oFDDq+tPhFfWCjZ7m9b6kpcnzCLoa/h5YbUMrGkmCRs=;
-        b=AocaSugAJQ1lzYF/NEG883ZA+o9EdT/Zpr4tZdcmJjitMOntz/ILl4Vr89cmyxKYMq
-         zfxxsA/ABQBnqTUGwm9SgqeXgVWhRuqHri9MusRnH83+afSnNx4dsPFXundQLVswqQSV
-         3OMCvlsHMpffcIb5KCsr981jwQVoBjCL7jNX6x4C8CVki+EdiKqQ35e1qX7fkDkwTql1
-         ZdL6/pGgwZvunTPLAomDBa6oL4MEbof08U38sfTlaVyQiiXS80t7p1wnRLIZ5KJ4K3kB
-         IkjTf4TmZgyIF5le/U6m+24y7t/Ig1B12TyBmsAYAAkbYQmDcoWZ8Ay5pxtdgamDBJ4J
-         JCMQ==
+        bh=Po9CjP1H8GrMoXIJB+A1d+E1G1TNn0tC0cIBOICKmeM=;
+        b=i5/dVBLEvOqR7vzrNNHLYh0m9Uf8Q9NGPQfhV+fSq22zMpORWP1LR5D+nQ9tf6q9TL
+         NSDRXE8qqKA5YixuE6AEfrOmb3GABMxGA/aMNOvgM6BY0iWpDDfIZ47vZQglwyDGO90A
+         mT5OPm4IZTDV1e2E8Ze59NzLNft4YzBwwpet6Mf1l0YJrSc4r/LBjWjI2qjoEE8jWuBI
+         l6ebEZEejYWF0d5UAfszYmR/f4AMBu76WA0zG2Y+HsP+qgKxhNxd25HH0KgHq/Rp9Bn5
+         DFslSLGRMIKHjDpp07wvaH3J0ZV9747STnsGVFiKFmC+g17ilY4QTa/Ac2WZ6aVYZa6q
+         oQyg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yw/2ZB7skHe2r52E6d1Lpz6PL+8QHpCtLG8l0BhGpT1+XQwyitj
-	z76CL580lVs2L2ZzocEPka8=
-X-Google-Smtp-Source: AGHT+IHtaVZNF44Y09CRMwfgzerjMlh6XEvIfVXI+6O7nwC5NyV6mAQoTkL9vEGJLYNEdHxgZkCSaA==
-X-Received: by 2002:a92:b04:0:b0:35b:4731:15f3 with SMTP id b4-20020a920b04000000b0035b473115f3mr330170ilf.10.1700604188872;
-        Tue, 21 Nov 2023 14:03:08 -0800 (PST)
+X-Gm-Message-State: AOJu0YwKWc67atz+sjwntjsPY46Zz662PpgNJ7+bUxzNFkpeGTLGTCtq
+	nh5ZjwtXi1krk2JNbB+b1Qs=
+X-Google-Smtp-Source: AGHT+IGB7x64/fDABkF6WydG01swlrf8rhIP//cxzRKSA9Be0IESlcO1kJRVlBce1tSiMyoC/p9imA==
+X-Received: by 2002:a05:6e02:546:b0:359:523d:f1f7 with SMTP id i6-20020a056e02054600b00359523df1f7mr279113ils.9.1700604191830;
+        Tue, 21 Nov 2023 14:03:11 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:339c:b0:359:6bf2:7ab6 with SMTP id
- bn28-20020a056e02339c00b003596bf27ab6ls3792724ilb.2.-pod-prod-09-us; Tue, 21
- Nov 2023 14:03:08 -0800 (PST)
-X-Received: by 2002:a92:a305:0:b0:35b:1134:336d with SMTP id a5-20020a92a305000000b0035b1134336dmr301791ili.7.1700604188241;
-        Tue, 21 Nov 2023 14:03:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1700604188; cv=none;
+Received: by 2002:a05:6e02:1c88:b0:35a:fa96:e358 with SMTP id
+ w8-20020a056e021c8800b0035afa96e358ls1812799ill.0.-pod-prod-06-us; Tue, 21
+ Nov 2023 14:03:11 -0800 (PST)
+X-Received: by 2002:a05:6e02:1d07:b0:359:4b3b:530d with SMTP id i7-20020a056e021d0700b003594b3b530dmr368313ila.7.1700604191210;
+        Tue, 21 Nov 2023 14:03:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1700604191; cv=none;
         d=google.com; s=arc-20160816;
-        b=FAWfu5Bos57PK0OTCbBwID6gDCJ6eV6T5fQhA4U3jt9aXn6AKYsA7uOHiPDIoyLOCy
-         TyCHgfXbcNCcTkNOS6Bm7Tvl0wM6NOzxH14AKFzTquMfBwksuOA3TrYifeCfup+sR3B1
-         UySwvS7bu1vqnPUKWAlOpbI+t4pEyLbigzeQokVFA+U2BkE/XA69nvEx6SSlVZcwAubO
-         ZxzXrEoH7ZQ9cJdhf988Sj75FGNslkmXr/KB1njM7RTO4U0OU2Dv4wMaeUFFJGkKtS3p
-         LjuDQSVRanIKG/E1AY3+X5Sp+kklWCxNdCiZXqU9ei2pBV5ch6WZWTbVaiPdw0ACsXuH
-         +etQ==
+        b=fEfwFWypSCRATANC+kf/WPc509aY8mFLyWBhKawYFGRO5Vr7eS5+0TEyDhLCO2zMpo
+         SnVwKPQWsaUJ162S2++nbQW8ayCNnnWGAOEIrwMHZkh7hd/fGuRwRJRhgmyFY/MiTgIk
+         2w6hV5Zmfnb8ux0oezaYuCSIpYsZPPkiL5S+x5q0e8y7zZy7DqBmNcptSiLvDg0RFuMt
+         jMLbIAgFuLoQBrJyjtFYOahdv538CAp+k9J4hgPK4kpfKLDslIKEVeBkoX3MpOFc0WrD
+         mn43XXC/qQzGVILCwzBY1hCqVbIc7FQyNGTLIUu2UTHzfROc+ajf1BNGH7yEKmtI2vtg
+         vIjw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=6pHSy6ITOBZodEIKnOLq18weO5ojGJDLtwC8jf5C8h0=;
+        bh=pCHaNUsH9l0hG+UVZcWLc4ZJz+vOcJVUmc7g0ZpB+XI=;
         fh=TQATEbdDZNcnk8L2eDP6eFL9HlexFaHIexhR1TH2IlY=;
-        b=oYiVAUmcpCVRo0DU1mXmipWf15JJN+2RsWPi44O5jBvLJT/CASk1Xzy2r6gfLwJTJe
-         fAqyRoNrmHZxj6+2gqbcvd002g9YG5uNeSzlK6/WwaLinSH0nfy9Fv+hMlLwdJiDEf3J
-         Txnqs3skVvcF16Jwy0y1TQcik2xdvFl8BTAfPI9yqPCc9kEarYPnJDTB1cUx8txmMv8J
-         5okRhTI/HplZ/ONJzFeSFx8RzFWHMrLbdH735/u+t4FWjcBNS6iJgizVJWrR+DTYeygt
-         QWBQpcR8u+aMbtIYbhbgGJNLCK3dQXoBgGnFsMsuei99B0I6oWZRfjG3UVOa5BEc5xUx
-         DQ1w==
+        b=oWBRCa84rHEQAp4iVFfaw7W5i3DeeOQmRFm8qtQqDoL9jO6s/F+ATg2Zzjpdmo00C2
+         vZzYqdynLrjlWwn3oHbxE8mrJ7BnGYwfuiQIPxaFbhxTdbDS6RiTkNs4nmDEOpGRgb77
+         mmoXgIiEWgOk4K2KDJyOwK+fMN+8sAcGjuCxd9RV5FIeNe4VGesq9d0xeShQ0JdloNji
+         z50Ty7RAqwpDMyLHPmXqo/4d4YMFDLDEMOZ5hX8e8gC5/bXMJOiX0hJpv1tTp5eStm04
+         emkionOp439Dubw5ylW6bxc3mwbVBhVf8g2iVR57NEnPHtghL5EP8HWOb7aSssnJNemp
+         /Cgw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b="USgb/cGu";
-       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=kvD3L93D;
+       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
        dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
-        by gmr-mx.google.com with ESMTPS id g14-20020a05663816ce00b00437bda7a9c2si748440jat.2.2023.11.21.14.03.08
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com. [148.163.156.1])
+        by gmr-mx.google.com with ESMTPS id ba44-20020a0566383aac00b00439ca012a0bsi873160jab.6.2023.11.21.14.03.11
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 21 Nov 2023 14:03:08 -0800 (PST)
-Received-SPF: pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3ALJ7UrE028514;
-	Tue, 21 Nov 2023 22:03:04 GMT
+        Tue, 21 Nov 2023 14:03:11 -0800 (PST)
+Received-SPF: pass (google.com: domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender) client-ip=148.163.156.1;
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3ALLlV76020427;
+	Tue, 21 Nov 2023 22:03:07 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3uh11we7cn-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3uh4s68c89-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Nov 2023 22:03:03 +0000
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3ALLeZah017347;
-	Tue, 21 Nov 2023 22:03:03 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3uh11we7cd-1
+	Tue, 21 Nov 2023 22:03:06 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3ALLmuPP024544;
+	Tue, 21 Nov 2023 22:03:05 GMT
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3uh4s68c7a-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Nov 2023 22:03:03 +0000
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3ALLnVaJ010626;
-	Tue, 21 Nov 2023 22:03:02 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3uf93kujvn-1
+	Tue, 21 Nov 2023 22:03:05 +0000
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3ALLnIiM007606;
+	Tue, 21 Nov 2023 22:03:04 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3uf8knuq85-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 21 Nov 2023 22:03:02 +0000
+	Tue, 21 Nov 2023 22:03:04 +0000
 Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3ALM2xbE50331948
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3ALM31Gt19792508
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 21 Nov 2023 22:02:59 GMT
+	Tue, 21 Nov 2023 22:03:01 GMT
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0D40F20063;
+	by IMSVA (Postfix) with ESMTP id 131C120065;
+	Tue, 21 Nov 2023 22:03:01 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8F32A2005A;
 	Tue, 21 Nov 2023 22:02:59 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 96C3220067;
-	Tue, 21 Nov 2023 22:02:57 +0000 (GMT)
 Received: from heavy.boeblingen.de.ibm.com (unknown [9.179.23.98])
 	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 21 Nov 2023 22:02:57 +0000 (GMT)
+	Tue, 21 Nov 2023 22:02:59 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Alexander Gordeev <agordeev@linux.ibm.com>,
         Alexander Potapenko <glider@google.com>,
@@ -154,30 +154,29 @@ Cc: Christian Borntraeger <borntraeger@linux.ibm.com>,
         Roman Gushchin <roman.gushchin@linux.dev>,
         Sven Schnelle <svens@linux.ibm.com>,
         Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2 29/33] s390/traps: Unpoison the kernel_stack_overflow()'s pt_regs
-Date: Tue, 21 Nov 2023 23:01:23 +0100
-Message-ID: <20231121220155.1217090-30-iii@linux.ibm.com>
+Subject: [PATCH v2 30/33] s390/uaccess: Add KMSAN support to put_user() and get_user()
+Date: Tue, 21 Nov 2023 23:01:24 +0100
+Message-ID: <20231121220155.1217090-31-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231121220155.1217090-1-iii@linux.ibm.com>
 References: <20231121220155.1217090-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: urf4wyq_YMj9bTfGVt1cQOZ1POJmOTf-
-X-Proofpoint-ORIG-GUID: 3zsdaRQNzKCdIMz7-it2_V5FFdGTniq-
+X-Proofpoint-ORIG-GUID: zmsg0rsqRwIHfkoUeMMCHE1uQMZbOsJ6
+X-Proofpoint-GUID: xQEF54zQDF8Y0lAb497R7bcH1qccldfU
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-21_12,2023-11-21_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- lowpriorityscore=0 bulkscore=0 impostorscore=0 suspectscore=0 adultscore=0
- malwarescore=0 priorityscore=1501 phishscore=0 clxscore=1015
- mlxlogscore=999 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 mlxlogscore=999 bulkscore=0
+ mlxscore=0 malwarescore=0 adultscore=0 phishscore=0 lowpriorityscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2311060000 definitions=main-2311210172
 X-Original-Sender: iii@linux.ibm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b="USgb/cGu";       spf=pass
- (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as
- permitted sender) smtp.mailfrom=iii@linux.ibm.com;       dmarc=pass (p=REJECT
- sp=NONE dis=NONE) header.from=ibm.com
+ header.i=@ibm.com header.s=pp1 header.b=kvD3L93D;       spf=pass (google.com:
+ domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender)
+ smtp.mailfrom=iii@linux.ibm.com;       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -191,43 +190,228 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This is normally done by the generic entry code, but the
-kernel_stack_overflow() flow bypasses it.
+put_user() uses inline assembly with precise constraints, so Clang is
+in principle capable of instrumenting it automatically. Unfortunately,
+one of the constraints contains a dereferenced user pointer, and Clang
+does not currently distinguish user and kernel pointers. Therefore
+KMSAN attempts to access shadow for user pointers, which is not a right
+thing to do.
 
-Reviewed-by: Alexander Potapenko <glider@google.com>
+An obvious fix to add __no_sanitize_memory to __put_user_fn() does not
+work, since it's __always_inline. And __always_inline cannot be removed
+due to the __put_user_bad() trick.
+
+A different obvious fix of using the "a" instead of the "+Q" constraint
+degrades the code quality, which is very important here, since it's a
+hot path.
+
+Instead, repurpose the __put_user_asm() macro to define
+__put_user_{char,short,int,long}_noinstr() functions and mark them with
+__no_sanitize_memory. For the non-KMSAN builds make them
+__always_inline in order to keep the generated code quality. Also
+define __put_user_{char,short,int,long}() functions, which call the
+aforementioned ones and which *are* instrumented, because they call
+KMSAN hooks, which may be implemented as macros.
+
+The same applies to get_user() as well.
+
+Acked-by: Heiko Carstens <hca@linux.ibm.com>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- arch/s390/kernel/traps.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ arch/s390/include/asm/uaccess.h | 110 ++++++++++++++++++++++----------
+ 1 file changed, 78 insertions(+), 32 deletions(-)
 
-diff --git a/arch/s390/kernel/traps.c b/arch/s390/kernel/traps.c
-index 1d2aa448d103..f299b1203a20 100644
---- a/arch/s390/kernel/traps.c
-+++ b/arch/s390/kernel/traps.c
-@@ -27,6 +27,7 @@
- #include <linux/uaccess.h>
- #include <linux/cpu.h>
- #include <linux/entry-common.h>
-+#include <linux/kmsan.h>
- #include <asm/asm-extable.h>
- #include <asm/fpu/api.h>
- #include <asm/vtime.h>
-@@ -260,6 +261,11 @@ static void monitor_event_exception(struct pt_regs *regs)
+diff --git a/arch/s390/include/asm/uaccess.h b/arch/s390/include/asm/uaccess.h
+index 81ae8a98e7ec..b0715b88b55a 100644
+--- a/arch/s390/include/asm/uaccess.h
++++ b/arch/s390/include/asm/uaccess.h
+@@ -78,13 +78,23 @@ union oac {
  
- void kernel_stack_overflow(struct pt_regs *regs)
+ int __noreturn __put_user_bad(void);
+ 
+-#define __put_user_asm(to, from, size)					\
+-({									\
++#ifdef CONFIG_KMSAN
++#define GET_PUT_USER_NOINSTR_ATTRIBUTES inline __no_sanitize_memory
++#else
++#define GET_PUT_USER_NOINSTR_ATTRIBUTES __always_inline
++#endif
++
++#define DEFINE_PUT_USER(type)						\
++static GET_PUT_USER_NOINSTR_ATTRIBUTES int				\
++__put_user_##type##_noinstr(unsigned type __user *to,			\
++			    unsigned type *from,			\
++			    unsigned long size)				\
++{									\
+ 	union oac __oac_spec = {					\
+ 		.oac1.as = PSW_BITS_AS_SECONDARY,			\
+ 		.oac1.a = 1,						\
+ 	};								\
+-	int __rc;							\
++	int rc;								\
+ 									\
+ 	asm volatile(							\
+ 		"	lr	0,%[spec]\n"				\
+@@ -93,12 +103,28 @@ int __noreturn __put_user_bad(void);
+ 		"2:\n"							\
+ 		EX_TABLE_UA_STORE(0b, 2b, %[rc])			\
+ 		EX_TABLE_UA_STORE(1b, 2b, %[rc])			\
+-		: [rc] "=&d" (__rc), [_to] "+Q" (*(to))			\
++		: [rc] "=&d" (rc), [_to] "+Q" (*(to))			\
+ 		: [_size] "d" (size), [_from] "Q" (*(from)),		\
+ 		  [spec] "d" (__oac_spec.val)				\
+ 		: "cc", "0");						\
+-	__rc;								\
+-})
++	return rc;							\
++}									\
++									\
++static __always_inline int						\
++__put_user_##type(unsigned type __user *to, unsigned type *from,	\
++		  unsigned long size)					\
++{									\
++	int rc;								\
++									\
++	rc = __put_user_##type##_noinstr(to, from, size);		\
++	instrument_put_user(*from, to, size);				\
++	return rc;							\
++}
++
++DEFINE_PUT_USER(char);
++DEFINE_PUT_USER(short);
++DEFINE_PUT_USER(int);
++DEFINE_PUT_USER(long);
+ 
+ static __always_inline int __put_user_fn(void *x, void __user *ptr, unsigned long size)
  {
-+	/*
-+	 * Normally regs are unpoisoned by the generic entry code, but
-+	 * kernel_stack_overflow() is a rare case that is called bypassing it.
-+	 */
-+	kmsan_unpoison_entry_regs(regs);
- 	bust_spinlocks(1);
- 	printk("Kernel stack overflow.\n");
- 	show_regs(regs);
+@@ -106,24 +132,24 @@ static __always_inline int __put_user_fn(void *x, void __user *ptr, unsigned lon
+ 
+ 	switch (size) {
+ 	case 1:
+-		rc = __put_user_asm((unsigned char __user *)ptr,
+-				    (unsigned char *)x,
+-				    size);
++		rc = __put_user_char((unsigned char __user *)ptr,
++				     (unsigned char *)x,
++				     size);
+ 		break;
+ 	case 2:
+-		rc = __put_user_asm((unsigned short __user *)ptr,
+-				    (unsigned short *)x,
+-				    size);
++		rc = __put_user_short((unsigned short __user *)ptr,
++				      (unsigned short *)x,
++				      size);
+ 		break;
+ 	case 4:
+-		rc = __put_user_asm((unsigned int __user *)ptr,
++		rc = __put_user_int((unsigned int __user *)ptr,
+ 				    (unsigned int *)x,
+ 				    size);
+ 		break;
+ 	case 8:
+-		rc = __put_user_asm((unsigned long __user *)ptr,
+-				    (unsigned long *)x,
+-				    size);
++		rc = __put_user_long((unsigned long __user *)ptr,
++				     (unsigned long *)x,
++				     size);
+ 		break;
+ 	default:
+ 		__put_user_bad();
+@@ -134,13 +160,17 @@ static __always_inline int __put_user_fn(void *x, void __user *ptr, unsigned lon
+ 
+ int __noreturn __get_user_bad(void);
+ 
+-#define __get_user_asm(to, from, size)					\
+-({									\
++#define DEFINE_GET_USER(type)						\
++static GET_PUT_USER_NOINSTR_ATTRIBUTES int				\
++__get_user_##type##_noinstr(unsigned type *to,				\
++			    unsigned type __user *from,			\
++			    unsigned long size)				\
++{									\
+ 	union oac __oac_spec = {					\
+ 		.oac2.as = PSW_BITS_AS_SECONDARY,			\
+ 		.oac2.a = 1,						\
+ 	};								\
+-	int __rc;							\
++	int rc;								\
+ 									\
+ 	asm volatile(							\
+ 		"	lr	0,%[spec]\n"				\
+@@ -149,13 +179,29 @@ int __noreturn __get_user_bad(void);
+ 		"2:\n"							\
+ 		EX_TABLE_UA_LOAD_MEM(0b, 2b, %[rc], %[_to], %[_ksize])	\
+ 		EX_TABLE_UA_LOAD_MEM(1b, 2b, %[rc], %[_to], %[_ksize])	\
+-		: [rc] "=&d" (__rc), "=Q" (*(to))			\
++		: [rc] "=&d" (rc), "=Q" (*(to))				\
+ 		: [_size] "d" (size), [_from] "Q" (*(from)),		\
+ 		  [spec] "d" (__oac_spec.val), [_to] "a" (to),		\
+ 		  [_ksize] "K" (size)					\
+ 		: "cc", "0");						\
+-	__rc;								\
+-})
++	return rc;							\
++}									\
++									\
++static __always_inline int						\
++__get_user_##type(unsigned type *to, unsigned type __user *from,	\
++		  unsigned long size)					\
++{									\
++	int rc;								\
++									\
++	rc = __get_user_##type##_noinstr(to, from, size);		\
++	instrument_get_user(*to);					\
++	return rc;							\
++}
++
++DEFINE_GET_USER(char);
++DEFINE_GET_USER(short);
++DEFINE_GET_USER(int);
++DEFINE_GET_USER(long);
+ 
+ static __always_inline int __get_user_fn(void *x, const void __user *ptr, unsigned long size)
+ {
+@@ -163,24 +209,24 @@ static __always_inline int __get_user_fn(void *x, const void __user *ptr, unsign
+ 
+ 	switch (size) {
+ 	case 1:
+-		rc = __get_user_asm((unsigned char *)x,
+-				    (unsigned char __user *)ptr,
+-				    size);
++		rc = __get_user_char((unsigned char *)x,
++				     (unsigned char __user *)ptr,
++				     size);
+ 		break;
+ 	case 2:
+-		rc = __get_user_asm((unsigned short *)x,
+-				    (unsigned short __user *)ptr,
+-				    size);
++		rc = __get_user_short((unsigned short *)x,
++				      (unsigned short __user *)ptr,
++				      size);
+ 		break;
+ 	case 4:
+-		rc = __get_user_asm((unsigned int *)x,
++		rc = __get_user_int((unsigned int *)x,
+ 				    (unsigned int __user *)ptr,
+ 				    size);
+ 		break;
+ 	case 8:
+-		rc = __get_user_asm((unsigned long *)x,
+-				    (unsigned long __user *)ptr,
+-				    size);
++		rc = __get_user_long((unsigned long *)x,
++				     (unsigned long __user *)ptr,
++				     size);
+ 		break;
+ 	default:
+ 		__get_user_bad();
 -- 
 2.41.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231121220155.1217090-30-iii%40linux.ibm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231121220155.1217090-31-iii%40linux.ibm.com.
