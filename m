@@ -1,200 +1,151 @@
-Return-Path: <kasan-dev+bncBAABBLFP6OVAMGQEAOOI2DY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBFF66OVAMGQEX5Z3WQY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
-	by mail.lfdr.de (Postfix) with ESMTPS id 442A07F3370
-	for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 17:15:42 +0100 (CET)
-Received: by mail-qt1-x840.google.com with SMTP id d75a77b69052e-41e58a33efasf71604801cf.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 08:15:42 -0800 (PST)
-ARC-Seal: i=3; a=rsa-sha256; t=1700583341; cv=pass;
+Received: from mail-oa1-x3e.google.com (mail-oa1-x3e.google.com [IPv6:2001:4860:4864:20::3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC327F342A
+	for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 17:47:17 +0100 (CET)
+Received: by mail-oa1-x3e.google.com with SMTP id 586e51a60fabf-1f938874ff3sf2508642fac.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 08:47:17 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1700585236; cv=pass;
         d=google.com; s=arc-20160816;
-        b=PEUMZNLSGG5ml/c4hcnDzrKn7+JdJg562l0BrITaPeF+UP4csdcAMHX2Xls5tfXJeU
-         QXNfNzxC5k5N5yX76pBQZ3Tsbfu8NHbQbxxSGWM3GYqwTfrP7Hq+/9RqbrpCpOLlY4WD
-         vH5jJL8pQ+5lgPWGOdFp2NGt2lOXvOyWg80MnEt9M3olLZV++CSoI3Ra0gXz1RDbI63o
-         dx9FefYznlhc5FlpEHJLvA1yxGp5bmWfU6maf4TybvobFaIoJxTj6PTf5Ynpgq/jltB3
-         Ko0F2HVeIhVlyC4FFtWzlzvDkyJOpju3h6BECNvCDpMvvScySfZXdV65q82uozc2Mk9J
-         O6KA==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=couE1n3xwPIiNiR+OBZyYbPQeqEvRSKa8KSYvIDHbAhaAk/w1kkXpzJ/Q83ZLf/ySy
+         wl7grmJET56c/nYYq6qBuDMGZYwdEME+1mcXiNb/7gD4slBseO73pBMNta+rQ+1H1n5K
+         ApW6ppiRyLMp6Iz+uAn4ZLre9VZlfJAJ+ZI6AeF9IrJ6zw1KDd1uj4NdKCvMxUdb+nNS
+         ByQwWG4aBPSaV7+JJ8HMhilaWZjrT3MAnNVc0H0GVsCFPtbzA1Fpz/7A9RWq/oLTUs3N
+         Ek/lEFykCaNqryZnUNTamkgCDHI8MEytjJfTrdWZhb8zrO4vgeDZYHHfcT/N4FMtlIYy
+         WGsQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version
-         :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:date:message-id:sender:dkim-signature;
-        bh=dgp8LmibDYH/ba4i1KQ/9autQJNv8yHWX9o/Wb/xYVg=;
-        fh=PxC77I2mAcpdCi0Nvo4QY94RSHYBBqI4vgyiVskwuaw=;
-        b=bHQKjM689Z/Te8/EbULauZ9iacV6ihUlEdVVW1gbYlT/Adz2cyPLvKYjyKNp9Jhchv
-         RYE5ZII2w49YEsBJ+ifewgSPSUxhvshPuc5g2o/dMJgJd5A2ZHHl4LyqfgVoCZTEkgkS
-         ukZst5706HpIiHl6luBOfAXPKixwiBr1CGpuxTuQsFk+LKT0sWQ9xlnOjIQYPLcT5yaE
-         8pStRAQVPJqqfScy4F4RBV03uu3Hu/Qc1ngZHNf0I7HrYH84oxiJDaw25A3sZqTTKq/e
-         rZyWuXvnBf3Eu8HdCox1g6YNlBsdRJuVmKNYF9bEb9wpoyc8eUMKtY/Vj8nffYVm9dnN
-         cjJQ==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@outlook.com header.s=selector1 header.b="nCTJJq/Q";
-       arc=pass (i=1);
-       spf=pass (google.com: domain of juntong.deng@outlook.com designates 2a01:111:f400:fe1f::800 as permitted sender) smtp.mailfrom=juntong.deng@outlook.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=aUszJCYp8p5+YmnH+VPU+sdf7XjGQ69iN8cGoGaB90g=;
+        fh=mgiYqFMMLDYnPM/L5CQVqfnAGbSFJjlpMiK/q7So1D4=;
+        b=I6TMniLP0f3ntALNLFQ1Gx3BYaiz6KXnS/XcnHuxZlHipRapt7n5esKQbG8Poy7mIo
+         SL7PcCvse4wOJ/FBjmr78B567Qr34u1ReFiVt6W6tRFpDIoZttSQ3A4OwUbDH3ij+r6G
+         8mplyAxJmsiQhs6gOf3jXnJZ866NT0dzH8YGsUqiHVXTI/cwq3Q6gu0SXXlOLp/dzzUm
+         hJ/LCDh5knw0pb6zPC0WmrcJBsslCp4Mg65ovKwHNzuaoo66CHb/boK8kvPiypeOZeJ0
+         KDoFW65atuqLuHu7dKCWfG0lAaDBVETIcA2VTZ5wxEUvfAC//1F83Nw52uRAm4U5plm1
+         I8IQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Cs24nNsa;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52e as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1700583341; x=1701188141; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1700585236; x=1701190036; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:content-transfer-encoding
-         :in-reply-to:from:references:cc:to:subject:user-agent:date
-         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=dgp8LmibDYH/ba4i1KQ/9autQJNv8yHWX9o/Wb/xYVg=;
-        b=TtOtpN4ssOkWMyu8F9QiWk+7wLlTpqHrb5DnjqVfwOPtaph2Clo33Tk+/YczNd/nzV
-         IfXG7G7TCVNZ7ZD+ic9qSA0EOINeYYeIvgRVJ/ufdb4VNNLmLjQ/UikwHVAXJBEno+uo
-         j6EFXoKWJM0NoAM55NsDlKxksLhTPKUw2tHXoN5ophzkAhgSOuO1uLMAraSH+KkFF98c
-         65QEWoUsM5/YlXa5mersr7bFfoEQI85y3MXMZkpQWEoNoTQgKpPBk9fWc7gwRv0Tl3X/
-         7aWqrvW/pOWJVugYCqfag9SnADBf+haGhkbMKHJ48OlPPHfHbOsgxlaZTcJ2p1XGttWC
-         HfRg==
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aUszJCYp8p5+YmnH+VPU+sdf7XjGQ69iN8cGoGaB90g=;
+        b=Slz/l0BQx4HXY75rnQt0GOrzP5isJJJhyv9Bf467hM+gi2QQy2ZSqvKwjoKtVx0/xJ
+         jDRKLYmYDVy/SXykOmByvItC6ce7YlxHHOCWJftja0ouDTTMhQ+UZG7Cx/yqPEgcvWLR
+         RfZ4LIzEl5l4BUxzN9n+xQ3QRSO/y0U2wyP+uYPRK0ZEEYhONRHpAVafgcHP+UWskVak
+         c9cKxUX+sxLpVwC3r0pTaSqUtdxxNRmeMsZdpjsAJD+hLxanv05f7AixoQWE0ec3VFmV
+         bnJ41nkw6XeDLcNgEPVTKxkhqn2WnBfKFrSj/dxoFC0G4cxaXEJ11rVfS/KgOmU8W1nd
+         L4vw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700585236; x=1701190036; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aUszJCYp8p5+YmnH+VPU+sdf7XjGQ69iN8cGoGaB90g=;
+        b=iqqn2vlz2ETPOWHgqOajUBYibtKEzu+FNm9XQPpQKW9nxoGIs0oXtK7qWA/zd/op+E
+         aifluCD05rwVATCV2j7JzGCmsJP7qxy7SJ4U1B4q85aKrBS2r0x9zCu9IyU5HeZHdvhe
+         1YuKClsL/87uVbxV3EPfqy/AXI3fWPDdA+VyT3+tzVZzrP83Zxcv9o0Zh9HRG3IujaWS
+         p8hIVtfjSUx5AsOuGj8ofe+KGrsCVmxY8ODvSJoix8kehejZy3aa2S43ttVBgfpxKGNX
+         xVtD9FMwG69uLaUlV5F+YLnFKd9UIMH/c8SjpgFr/bkWeRaunbZ2bgFoGEHLlELaoaB6
+         ZIDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700583341; x=1701188141;
+        d=1e100.net; s=20230601; t=1700585236; x=1701190036;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dgp8LmibDYH/ba4i1KQ/9autQJNv8yHWX9o/Wb/xYVg=;
-        b=tFWIXxsz3uShUp4mqjhlXmji5h/KyIKex5yaD1hYQ8d3TxHIOJiWJxOhgZcpM1PcKM
-         l1Q1NdSlo4iE5v5bQvW7NezPGa8DlXduP2Kn0sK/L0lj96Z5y2JGAF+f0ku6PfbCO29J
-         HkzhgTWvYzHj8hrjg+MqArmCgtQLoVJ/cyCX/J0ocHKn4aoTFctIDZ7sCN4ElMdUgruV
-         dbJFjeGALxXgFCjBpN4dL7aN48u9yixEJBCIUGes9CqvUTB863hGp0b7lrO5p/V3dCd5
-         iM3xfb74zg/2WUgpSs38Qi4CjAtdeO5/edGPzyHKoTD7QDNWoAJTi+BDJSxtPl4sVLPd
-         kxsg==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=aUszJCYp8p5+YmnH+VPU+sdf7XjGQ69iN8cGoGaB90g=;
+        b=gsuZVvz91M9GgyT/NEi1NAhq2DlDctaszHjZgnSJh9ktD7rMvxuAFuLa+fHsbURG1J
+         w2TMgN4E07CMwqqWn1geVgcX0lnNxjGOeRtsdJIShfcr5DIHrUvNCDbe02KpzJ2RLeIs
+         FWC5RSli/YrFL24xJRQKfZL/1njuzElGta7yHj0GiiJgcutYqk9bUPVflHChuFStFyPm
+         sg8Pk8zYlLTCW4hf0wztZrW5cBTN6qv5JK+sOudjow2d4ZoDNlrBeF7QFYIm7JwIWBRQ
+         9qln0Vbc1hbOox3FsJVa1mVoSFKbezUfdqGIHyVvAMywaT9jR4enxlP6MKEfeFSjIV/7
+         Xdtw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yy4gybzYh9g17vYQLsL9bUcVYxqx/2/kk0e2MmPtC4I0stzU88l
-	4YwSOjA6fX7FOorvlK94gn8=
-X-Google-Smtp-Source: AGHT+IF9kb/mshzGB0typCQPSt05EWOcp8Ojs98oHX+qck98c/FtyiU8Nmuhs7DV9hrZr1SbJbZr8w==
-X-Received: by 2002:a05:622a:8f:b0:41c:c205:f718 with SMTP id o15-20020a05622a008f00b0041cc205f718mr14475391qtw.45.1700583340845;
-        Tue, 21 Nov 2023 08:15:40 -0800 (PST)
+X-Gm-Message-State: AOJu0YwWhy7PsFRR6XHtAxMgE0ZjqiFhQnIZymA9P4hGoV/5vPtOHBzD
+	z57AK/kyjqFnGMXxKmZbAYw=
+X-Google-Smtp-Source: AGHT+IH7AAlgrKPg05rKw9YnPsUhLduIJ7YUyYuX/6v9U3cUtiy35T6xZ4DDQ/uATL/HmI4l3olcVw==
+X-Received: by 2002:a05:6870:a10b:b0:1e9:b840:9c4b with SMTP id m11-20020a056870a10b00b001e9b8409c4bmr14489365oae.26.1700585236118;
+        Tue, 21 Nov 2023 08:47:16 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:1a1b:b0:41c:c118:e752 with SMTP id
- f27-20020a05622a1a1b00b0041cc118e752ls202976qtb.2.-pod-prod-05-us; Tue, 21
- Nov 2023 08:15:40 -0800 (PST)
-X-Received: by 2002:a05:620a:1434:b0:775:f1bd:f75e with SMTP id k20-20020a05620a143400b00775f1bdf75emr12065121qkj.39.1700583339963;
-        Tue, 21 Nov 2023 08:15:39 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1700583339; cv=pass;
+Received: by 2002:a05:6870:3284:b0:1f5:ba60:d17c with SMTP id
+ q4-20020a056870328400b001f5ba60d17cls594696oac.1.-pod-prod-08-us; Tue, 21 Nov
+ 2023 08:47:15 -0800 (PST)
+X-Received: by 2002:a05:6871:6102:b0:1d5:a72e:154e with SMTP id ra2-20020a056871610200b001d5a72e154emr12418545oab.36.1700585235567;
+        Tue, 21 Nov 2023 08:47:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1700585235; cv=none;
         d=google.com; s=arc-20160816;
-        b=j9ic216MYx837XJqn3EUTimoVzcsiLvOXY5EumCnyTpg/eZmw0BPYiTRboBasRgbGJ
-         YGkULosF+dk+Hogk2l4+ukfsA56veDUDAY+WHXbupHnNBXuMzdHDGgZIF/P6GVFRzVpt
-         rP7NjT3WhzlUBVlZHNMjgbY3QuVXqWVua3dGnhCWcorTcpLLLVRP8Vpc+Tzh5YLz/+lM
-         rizNjQBx7cC/Pn4rAUT+7zR7J8oEqKuVmnSd2d7Rzk5seu099sSEKmdb0xNP9x5rRtc1
-         DBqhnzg+c+DvaI0vns0Iohk683+sZIW6bykhQEsC9aJyXWG+Vcu+ZNNV0iOYIeLgj9D9
-         k6ng==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-transfer-encoding:in-reply-to:from:references
-         :cc:to:subject:user-agent:date:message-id:dkim-signature;
-        bh=yUzNLr+cwGdy045lqg+bNpl3hY3ODB4hHXj2I01kkIw=;
-        fh=PxC77I2mAcpdCi0Nvo4QY94RSHYBBqI4vgyiVskwuaw=;
-        b=fpxPmoM9kJ6PFnkRtY5UCb5jt77/4sS2/1EMzgK4JE2YJhDg1rQ7GmokD6vD/6QASs
-         f6GWWkPBO1LScOwv6FNcfax7+HaKuKecVMFsFTvpFuPkBAhRYkOqGTyk0n6drIbek1To
-         viqjQBjcO2k1Cf5M6NSZbrSB5AGzkot3oi0n8veEtT2BpeTcMeEJ0/Eat6xz/gF6EEfU
-         XxiAo+oHDp7Z1jhW8iGQcxIDgALdtq3cEM+a+7kYwE+EVCHiT525rMkSyxJiFfbt5EX3
-         Uaix/Qh//P/ly90AnN7rCgQ0yTLvtWvD5eDXkkNNhauqD/8abt9cC1+nra55mQkFAKWb
-         Uz6w==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@outlook.com header.s=selector1 header.b="nCTJJq/Q";
-       arc=pass (i=1);
-       spf=pass (google.com: domain of juntong.deng@outlook.com designates 2a01:111:f400:fe1f::800 as permitted sender) smtp.mailfrom=juntong.deng@outlook.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-ve1eur01olkn0800.outbound.protection.outlook.com. [2a01:111:f400:fe1f::800])
-        by gmr-mx.google.com with ESMTPS id bx11-20020a05622a090b00b0041790471199si1506737qtb.4.2023.11.21.08.15.39
+        b=gXcoizCZL7qDP0eVMvmtGQAiyKx2U6rZbVAnQkl3bLZJg+TtSYOdq3t5juybnJ9RON
+         GCkqTUGiMB82sY7MYaeCeLZywCif7Je5CHWAeGBCd7rnC2qUJvbvEv4sty6nTT0wy3WV
+         i9C+kGZa51ptBy+jWMPiIVjCsITnTVTnvkQPmVLtC/7Gc/oqNx11Ml6n0thMlN2Lbfcz
+         4vafsIYkVDqNsxAxaWHqzxXsExGi7DhoUAWmSBzSQ8YJgSE8wRrV+OK2PasK29ObKAco
+         JGk8QWhkQRQUqahOyE0MPBVo4An+t2iSuVP/in8Vy0A7JsCcdpyFT2OrRYEKKWT8Qdql
+         OWpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4pN2u4fGcywnuJpGPzQlph9Q+P1Toihu44zlYs+cFFQ=;
+        fh=mgiYqFMMLDYnPM/L5CQVqfnAGbSFJjlpMiK/q7So1D4=;
+        b=YlsNnpJ2ynOrnumoRL8pGKKkWWd+SUBTbDccWfmux5jzTAO4ixi5zxYz46Xv1ArnnC
+         PDbJC00iirqKSUCfRt22hx7tYDvyL8acwJ/1dNXrAcqHaq4zYCJ2H30H/jGmL/h+va86
+         QjQNiETCLn+rOhZHxF+fwDu2qQxjSZA63/VqGzdFmUeeGo2fR1NjW+w7Dh0JQB/q2bkP
+         Vnskz3MwQgOGoTHL5Vb64WHwNX6I0aXkEpCEeDyr+20aXfxn6VdFkvMvd9UHX5xLCmlF
+         7obH/aN03aDtu/Kk/DoXu+GL8ZHmPzBsLrHkdR98F0Nx6UL1GTqo0qXM/yyeBZVGD+TH
+         IK7g==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Cs24nNsa;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52e as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com. [2607:f8b0:4864:20::52e])
+        by gmr-mx.google.com with ESMTPS id fp42-20020a05687065aa00b001dcf3f50667si895413oab.0.2023.11.21.08.47.15
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 21 Nov 2023 08:15:39 -0800 (PST)
-Received-SPF: pass (google.com: domain of juntong.deng@outlook.com designates 2a01:111:f400:fe1f::800 as permitted sender) client-ip=2a01:111:f400:fe1f::800;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Rz2IIS9VT+vNNypS5OTm+GAxfq2rx2j635xrLr1MEhveBspw3FziVv5XEHACPVdN5CJ6kepfgft2yNr2HSB+pC44flHv3t4GdqqDhCQHC2cv4Wcg09uxKqEGN5j9HtCRJnR0zbC7DVIBpfQy0YzE4ukcjXy6og42LzG+xFO36GEtS0ugSxLOpQgfCNipx87JGEI1vf+hPFXs4rV4rUEeHRMNr7kZSnGN+Iske/YW8y420McR1JZUvL3O8EZEvUi1k4LbgUsD03xuL6CzCkLtGLuJp+usKMsLGf3guZN0+88sqFS8VqRWfAnQUItaiPHicYBczOlh0Vh6FwEX+NEwBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yUzNLr+cwGdy045lqg+bNpl3hY3ODB4hHXj2I01kkIw=;
- b=GxErmJjo2MhJkE5u3WE6CAdE93PmEpmf4/gNIMCjyxZholD6UyBLjx5875FubrUQ20xraY8+nsxHf7wVjWVUZq3cLjkRAp6F7B6v11Kz/hQATf2RlDlv3zwr3NQEueXtTTlVQl1Ss+U0KxTMuX9YrgOjt0t9E/r9q16+2AMdTGGa9QYqadJQSSVq/tbL5SEhBZ8l/eqhNHxzUyjcnYjG6y9fpe5jhB+yjb3dioHruKmICnnR4jtzl6ytoQ4ZyABy4ZsLS6n8i0kN1fMknaMoKxmG5LkQz89IKO74iec7IxLuVZbX4VVwJux7V6SXqnNTc9arJq0tO2vNNGO9DZQonw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
- by PR3P193MB1117.EURP193.PROD.OUTLOOK.COM (2603:10a6:102:a4::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28; Tue, 21 Nov
- 2023 16:15:38 +0000
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::fdd2:7dbf:e16c:f4a4]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::fdd2:7dbf:e16c:f4a4%4]) with mapi id 15.20.7002.028; Tue, 21 Nov 2023
- 16:15:38 +0000
-Message-ID: <VI1P193MB07527A880D3276B6415F29E499BBA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-Date: Wed, 22 Nov 2023 00:15:36 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kasan: Improve free meta storage in Generic KASAN
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: kernel test robot <oliver.sang@intel.com>, oe-lkp@lists.linux.dev,
- lkp@intel.com, Dmitry Vyukov <dvyukov@google.com>,
- kasan-dev@googlegroups.com, ryabinin.a.a@gmail.com, glider@google.com,
- vincenzo.frascino@arm.com, akpm@linux-foundation.org, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <202311212204.c9c64d29-oliver.sang@intel.com>
- <VI1P193MB07520067C14EFDFECCC0B4C399BBA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
- <CA+fCnZfTJwfmO-OYcUst0fsWhRa+MzDtkv1N_bMob9_1BivdJA@mail.gmail.com>
-From: Juntong Deng <juntong.deng@outlook.com>
-In-Reply-To: <CA+fCnZfTJwfmO-OYcUst0fsWhRa+MzDtkv1N_bMob9_1BivdJA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-TMN: [qJuxwt9riZ4A+iesZwU7TztC3P0OFlIS]
-X-ClientProxiedBy: LO2P123CA0004.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:a6::16) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:800:32::19)
-X-Microsoft-Original-Message-ID: <29437f37-f64b-4d40-be3f-3dd5f568a53e@outlook.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Nov 2023 08:47:15 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52e as permitted sender) client-ip=2607:f8b0:4864:20::52e;
+Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-5bcfc508d14so4516730a12.3
+        for <kasan-dev@googlegroups.com>; Tue, 21 Nov 2023 08:47:15 -0800 (PST)
+X-Received: by 2002:a17:90a:4411:b0:280:18bd:ffe7 with SMTP id
+ s17-20020a17090a441100b0028018bdffe7mr9875785pjg.48.1700585234819; Tue, 21
+ Nov 2023 08:47:14 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|PR3P193MB1117:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6610bd59-392c-44d5-0d4a-08dbeaad193b
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: G7il+3OTQjRSM4i0SxyTbBIytEMqcR6eWkSPbzrmC4JDOU32nhJmH24275QT5dRXysby6hqbyGcXO6yzlWrMg4DgNV8ue2vypL4NFiZE9xcjlBzfFCnIm5o0YD9TE65kCn1LlDNVjUaAVxm3qsd9FZ7bQcoaJ+Wylh+Vuxr5q0NefIE4F6bp7va/NAYFrRZVAJVdZOur3uvdFPH57ChC8dWrYuCnZGJdscTgsddWEETXIyDNOI7cqYfhdn7G3b5PfcRRTXgC8399cqnPtRyUseWxzDxfi7TaDDmho6ErvIe9sIYP2qX7ZUxDtpWzxsq7iGjoCjnWN6FB/Iawglkyv84XcRJ9pTk3cE4cQe+ZNbI5gBz+xP7QDsk/mWOcFfEPfcwAUWn1uBngQu84986fJL1tfeKh5+T/iZ37zEyRGevwAXoII4NuvTi2aQjJiXPGTs4jS2ge67MMYb+eC3UcTxzetxqRaOcDSFeII1sYLtkM9YzjLMG1ylTaMI+e7atvA2WcDqNUSCUIWLvDcxY1sdXcqQMn1UzGqC1F6FimZjwyhys6hG3vYt5tfQwePRVO
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q25rbWNIc0tUR2hESGVvVTU4a2hhd0NjQ1ZYYlFGaW1ock9uSWV1S1hWWk14?=
- =?utf-8?B?R3pZNlA1alFPTnZIS3MrbWJwZUVQRDVML3ZlY3V3bzN5R05YU1ZnKzkwTUFs?=
- =?utf-8?B?MEpNY2JiVDBzR3lZckVCVC9iR2I2RVRtZkxuNmE0Q2gyRnJDTHEvdGE2c2dn?=
- =?utf-8?B?V1JtQUJXWUlBd2xkamJzVGRBUWNxbW8yODQ0YnViTDNZTDBSSXhVTGlYRHNZ?=
- =?utf-8?B?UWZ6eVZTTW14c0tLOWZ2dUlWUlM4RnQwOUlEYzhpZnU0cDRITC9RTTVCSmcx?=
- =?utf-8?B?Qld0VnBtNG9DdEtreWRSVWNxc0VhREYvMUZucGFrTU9DU09Ha2JFNzExYjkz?=
- =?utf-8?B?YXNaK0VrTVNzQ1RlaXNUM2JRblRxR0VIOFV6ck5LUmdMY1JxbWZEcTA2UGRm?=
- =?utf-8?B?eEpvbW9KQngxOVloZ2NuY2JPaVhHQWhTMWxZdEhNcVN0WDNkOGcvN2ZibCtG?=
- =?utf-8?B?c1pqa0VrVFE3K2RrL1NVZTc5K1ZwT1lMVEtySjdEek83ZFdTTFV6ZUx5NGVO?=
- =?utf-8?B?ZjQwbjZ6K3N3WHZTTGdMUlVNSzhxWkJzWmM0RFA1d2NZTG9LRkdSbnF2NnhW?=
- =?utf-8?B?SjVZYTZxcDZKVG1zRXZuRmEvQko1cWNhSDFNdDRKcnpXek1zZDJiOVpua0I2?=
- =?utf-8?B?Vk55NVN4bzhIamtSZGI1Mmp2R2NIbVhNamtYLzBZU2dEWWkwZW1CUlpKU3Fj?=
- =?utf-8?B?VGtkMGZSam1ONHg3c1pQeDNsaDFFWnY4U2ZyM0tUcFVtOVJSVDhNOTNNczY3?=
- =?utf-8?B?eDVqbjZ5QnlyTncrU3VRRVpOdzZkcnJod1VKeDVzYU05OHZ0WFB1dzQvVWQx?=
- =?utf-8?B?SGsyNXZzN2Z5VFFEZ2dwUUJuOEVqdG9oREhyYnltVXI3NGt5WGtJcWl2S21J?=
- =?utf-8?B?aEhyVTVJM2hHUW9yK2ZCeUtZWVcyb0UvSlhXQ1hnY2MzZUlGMFpwVVFlU2dq?=
- =?utf-8?B?SFVnbUl4SFpzRVErMXFZY3FOVHZELzV2NDluZ29KUjhIc0dkNW5wa2tuNTNw?=
- =?utf-8?B?clczTEc0NUVQSGROWm5DTVZOQW1LVVdNdVMySVd2a2ZOMlBNblFLYkxiUito?=
- =?utf-8?B?UE0xcmVhc1dCd3o3eTJoQTNtNlJPaXByaS9PdGIxbk9WbTl4aElGUGlhSzEw?=
- =?utf-8?B?bUQ4WUxyTGNUVFZnUFdFRUNiY1lNaTlVQjR5cXcycDQwQ2xnV0JYUkp5dkVG?=
- =?utf-8?B?c1RKTzRUTXAyK0duaGNCcFZSVytlNHdmckZoN3V6b2lHVDZvc2lxNVZwU0dx?=
- =?utf-8?B?Z3FIWUZaQjhoc1dJNnlKZ1hqZjAyK3JJKzNHUE9wSUpUYmFia0FOM29ya2FY?=
- =?utf-8?B?M05zUnBydmxHVG15UURrdy9Ua3NLVlJ1UGNyZGpwUlpTOTlQcmtLVWxKNE5u?=
- =?utf-8?B?eGtQemdSZ2dIWnBGaHdScUdYaUR1a1hkdHRkZVFCZFlwdEpLT3ZDbU1JYVJs?=
- =?utf-8?B?MUxBWVRLKy8xalNSVE1kcWMyTDlBMFIwZ1BxOExsOGdEbmRDQ3BjR2tBTm00?=
- =?utf-8?B?YVFXd2hzeE5RUmZKZGx5ZWlvTkdrWXFSRmtOd0RZaE9iUzhZVkMwajZXcUlM?=
- =?utf-8?B?QzFDVEVFOFA0YVVlZlc0dS9OZ0pvS3FFTm1PbysrWXpyVTVIU2thY3FkdEF0?=
- =?utf-8?Q?FYcXP8rzkChSWAJNGoVJl82Sh8fFdtO3nveJToDJX7VU=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6610bd59-392c-44d5-0d4a-08dbeaad193b
-X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 16:15:37.9322
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P193MB1117
-X-Original-Sender: juntong.deng@outlook.com
+References: <20231120-slab-remove-slab-v2-0-9c9c70177183@suse.cz> <20231120-slab-remove-slab-v2-3-9c9c70177183@suse.cz>
+In-Reply-To: <20231120-slab-remove-slab-v2-3-9c9c70177183@suse.cz>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Tue, 21 Nov 2023 17:47:03 +0100
+Message-ID: <CA+fCnZdwLn_h3rsamXZMPcjcvqY3TwDmd+3gRUtjkfEad445Nw@mail.gmail.com>
+Subject: Re: [PATCH v2 03/21] KASAN: remove code paths guarded by CONFIG_SLAB
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: David Rientjes <rientjes@google.com>, Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, 
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Marco Elver <elver@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Michal Hocko <mhocko@kernel.org>, 
+	Shakeel Butt <shakeelb@google.com>, Muchun Song <muchun.song@linux.dev>, 
+	Kees Cook <keescook@chromium.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, cgroups@vger.kernel.org, 
+	linux-hardening@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: andreyknvl@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@outlook.com header.s=selector1 header.b="nCTJJq/Q";       arc=pass
- (i=1);       spf=pass (google.com: domain of juntong.deng@outlook.com
- designates 2a01:111:f400:fe1f::800 as permitted sender) smtp.mailfrom=juntong.deng@outlook.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
+ header.i=@gmail.com header.s=20230601 header.b=Cs24nNsa;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52e
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -207,23 +158,122 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2023/11/22 0:05, Andrey Konovalov wrote:
-> On Tue, Nov 21, 2023 at 5:03=E2=80=AFPM Juntong Deng <juntong.deng@outloo=
-k.com> wrote:
->>
->> This bug is caused by the fact that after improving the free meta
->> storage, kasan_metadata_size() continues to calculate the metadata
->> size according to the previous storage method.
->>
->> I will fix this in a separate patch.
->=20
-> Hi,
->=20
-> Please send a v2 with the fix folded in instead.
->=20
-> Thanks!
+On Mon, Nov 20, 2023 at 7:34=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
+>
+> With SLAB removed and SLUB the only remaining allocator, we can clean up
+> some code that was depending on the choice.
+>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Marco Elver <elver@google.com>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+>  mm/kasan/common.c     | 13 ++-----------
+>  mm/kasan/kasan.h      |  3 +--
+>  mm/kasan/quarantine.c |  7 -------
+>  3 files changed, 3 insertions(+), 20 deletions(-)
+>
+> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> index 256930da578a..5d95219e69d7 100644
+> --- a/mm/kasan/common.c
+> +++ b/mm/kasan/common.c
+> @@ -153,10 +153,6 @@ void __kasan_poison_object_data(struct kmem_cache *c=
+ache, void *object)
+>   * 2. A cache might be SLAB_TYPESAFE_BY_RCU, which means objects can be
+>   *    accessed after being freed. We preassign tags for objects in these
+>   *    caches as well.
+> - * 3. For SLAB allocator we can't preassign tags randomly since the free=
+list
+> - *    is stored as an array of indexes instead of a linked list. Assign =
+tags
+> - *    based on objects indexes, so that objects that are next to each ot=
+her
+> - *    get different tags.
+>   */
+>  static inline u8 assign_tag(struct kmem_cache *cache,
+>                                         const void *object, bool init)
+> @@ -171,17 +167,12 @@ static inline u8 assign_tag(struct kmem_cache *cach=
+e,
+>         if (!cache->ctor && !(cache->flags & SLAB_TYPESAFE_BY_RCU))
+>                 return init ? KASAN_TAG_KERNEL : kasan_random_tag();
+>
+> -       /* For caches that either have a constructor or SLAB_TYPESAFE_BY_=
+RCU: */
+> -#ifdef CONFIG_SLAB
+> -       /* For SLAB assign tags based on the object index in the freelist=
+. */
+> -       return (u8)obj_to_index(cache, virt_to_slab(object), (void *)obje=
+ct);
+> -#else
+>         /*
+> -        * For SLUB assign a random tag during slab creation, otherwise r=
+euse
+> +        * For caches that either have a constructor or SLAB_TYPESAFE_BY_=
+RCU,
+> +        * assign a random tag during slab creation, otherwise reuse
+>          * the already assigned tag.
+>          */
+>         return init ? kasan_random_tag() : get_tag(object);
+> -#endif
+>  }
+>
+>  void * __must_check __kasan_init_slab_obj(struct kmem_cache *cache,
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index 8b06bab5c406..eef50233640a 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+> @@ -373,8 +373,7 @@ void kasan_set_track(struct kasan_track *track, gfp_t=
+ flags);
+>  void kasan_save_alloc_info(struct kmem_cache *cache, void *object, gfp_t=
+ flags);
+>  void kasan_save_free_info(struct kmem_cache *cache, void *object);
+>
+> -#if defined(CONFIG_KASAN_GENERIC) && \
+> -       (defined(CONFIG_SLAB) || defined(CONFIG_SLUB))
+> +#ifdef CONFIG_KASAN_GENERIC
+>  bool kasan_quarantine_put(struct kmem_cache *cache, void *object);
+>  void kasan_quarantine_reduce(void);
+>  void kasan_quarantine_remove_cache(struct kmem_cache *cache);
+> diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
+> index ca4529156735..138c57b836f2 100644
+> --- a/mm/kasan/quarantine.c
+> +++ b/mm/kasan/quarantine.c
+> @@ -144,10 +144,6 @@ static void qlink_free(struct qlist_node *qlink, str=
+uct kmem_cache *cache)
+>  {
+>         void *object =3D qlink_to_object(qlink, cache);
+>         struct kasan_free_meta *meta =3D kasan_get_free_meta(cache, objec=
+t);
+> -       unsigned long flags;
+> -
+> -       if (IS_ENABLED(CONFIG_SLAB))
+> -               local_irq_save(flags);
+>
+>         /*
+>          * If init_on_free is enabled and KASAN's free metadata is stored=
+ in
+> @@ -166,9 +162,6 @@ static void qlink_free(struct qlist_node *qlink, stru=
+ct kmem_cache *cache)
+>         *(u8 *)kasan_mem_to_shadow(object) =3D KASAN_SLAB_FREE;
+>
+>         ___cache_free(cache, object, _THIS_IP_);
+> -
+> -       if (IS_ENABLED(CONFIG_SLAB))
+> -               local_irq_restore(flags);
+>  }
+>
+>  static void qlist_free_all(struct qlist_head *q, struct kmem_cache *cach=
+e)
+>
+> --
+> 2.42.1
+>
 
-OK, I will send patch V2.
+Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+
+Very nice to see SLAB-induced complexity being gone :)
+
+Thank you!
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -231,5 +281,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/VI1P193MB07527A880D3276B6415F29E499BBA%40VI1P193MB0752.EURP193.PR=
-OD.OUTLOOK.COM.
+kasan-dev/CA%2BfCnZdwLn_h3rsamXZMPcjcvqY3TwDmd%2B3gRUtjkfEad445Nw%40mail.gm=
+ail.com.
