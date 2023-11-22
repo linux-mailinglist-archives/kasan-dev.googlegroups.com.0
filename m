@@ -1,144 +1,145 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBOGO6WVAMGQE46QPB4Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKJJ7XLVUBBBSXF6WVAMGQEOJ37BBQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F097F3BC3
-	for <lists+kasan-dev@lfdr.de>; Wed, 22 Nov 2023 03:28:09 +0100 (CET)
-Received: by mail-pj1-x1040.google.com with SMTP id 98e67ed59e1d1-28035cf4306sf451735a91.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 18:28:09 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1700620088; cv=pass;
+Received: from mail-ot1-x33f.google.com (mail-ot1-x33f.google.com [IPv6:2607:f8b0:4864:20::33f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F9F07F3C41
+	for <lists+kasan-dev@lfdr.de>; Wed, 22 Nov 2023 04:17:32 +0100 (CET)
+Received: by mail-ot1-x33f.google.com with SMTP id 46e09a7af769-6ce53378ff9sf420725a34.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 19:17:32 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1700623050; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0jEBvf0xb8dRkj4O17vq9Q4dPpFTuUlLa0aFzRVwf5TkpyWGQxDExQxWs9SZ0kjDnr
-         Hn58VKDJe2begDZ7hk+sAkpJgB4DoJLQEJFvouRHwh713QOeHv6wSNYRVE+abwsl/VU1
-         VPV/9NwDjBOD4dFOPvG3ZfUNfswjl5mgnVuo1xY1eBOEDYqPFU79tBUqRnqThU9++6ci
-         Pnl91tE2ExSxJNuLPzGm0NDXSdkNplc9mCTSrxk+FJ8Xy0Qcchya9ZovYfLvaC5uIH0x
-         c1fcT5pIcOPkpQlRxz1a07nS8h1I5lUhHo6b+dw6dGaXB4MUTBH18T/TJG2OJIVNIEIm
-         A8PA==
+        b=fOn0+fY8AzfyzU7mUikv66WDE51sPRxpz+TlFS8L8CnMlu9VMr/IYIGmKVPGOZu09G
+         5ocKoUR+QMUlZ5506n6qdIQfI1Zb2m7p7cm125JCqPHeAcqhZEpEgYdCBydId2ZO3PAf
+         Oogb6qUBwCa97W8zD3Uj5qEexuXsQ/zgKzYVYAtBpaj3b99T6Yf4/h0+X8ItpBbczSqx
+         mMvEF26cjdSTpsIKzuvEcT0oS23L+jI57s6VceQ/ZcvgHa8NyGq9tYXD9u7FanIxgXx7
+         yLox8XC6tt7U59sXKGtZpzASLQWr3qIWr3rjx4wNOd16bwm3U9BWkrENe0M7NNbFED+5
+         zKAg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
          :subject:message-id:date:from:in-reply-to:references:mime-version
          :sender:dkim-signature:dkim-signature;
-        bh=gLeuTtZZ1btrgVqyomy2FWPDC9WUtft3scOO0oOU7xU=;
-        fh=3qba5YkzTL+bXHTu4hEoWcPGCZaYcQppgGBvzQQIBIU=;
-        b=0QuJ2yVCe+k25pQMMo62ixxJiV7SGVM29ZGcpjBtfDbvD6OpZXhfcxAjEf17fTkhnG
-         3p5agbe3w5tzGO/vf0K6bgph2q7Dtg0sQv2JHbvqeIwCt/R5nimfjhzBcM2CjvndH1jj
-         P2lG8U4nU6XsOU4Wbi/TQWq4TdurIv+5FmSIeFMTUbtskQ3IT9nG3zeOM0jDMDnkAOi3
-         sTr/BxHhiuLJzab4v2psT5+VR7QXH6z5/rld7+mNT+2wD6OSCTGn/myC7DYNssE1Wood
-         OugYh8j6zhqNu2SE9AbgrICcrPsZVFLMtxNz0uaB4pmvr0yXh+MbZxOqSZAdR+XEgeVM
-         sqxg==
+        bh=CMjxicsaZsCnnZH5BKps6nu90utEbpV5c9PeWEzx+Ns=;
+        fh=f4NfliIws/m/cVxsN15bE/hKmzbPReAFB+nEzn1MMbs=;
+        b=WBnzAl67Z/azIO0xAye5WA+19De/EKaNDEOqUFKhzjFw2ctwT0nee+9fN/ACBskxzv
+         0tp9x3QRSRjl8gI7Jpe4SsjGLKK4l/8kGZoqbXxMVpY5OwVObYquiD3PYO9zlPCMDLFw
+         kgIMf/zoxOyC2KlvHeiS5zvDRZmx7c1Y33x6TP49PJjIAvbAEmzausV2o5qlq0RG34cU
+         //H3LsGCrChOxJuduZpYCiK3X7HFu3niy9SKdBA7JDIpRqCaet0U/kqjwvH4f0UY18bg
+         KjADVMaAcVqhgFqQBpe8Sk3MqQ1rLf1amarHsxrrv5m8AVz3fCOrwCLJTrCj3B4lFkuw
+         nONQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=PkAsC8kp;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52e as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b="FtlrFt/B";
+       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::e2a as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1700620088; x=1701224888; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1700623050; x=1701227850; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=gLeuTtZZ1btrgVqyomy2FWPDC9WUtft3scOO0oOU7xU=;
-        b=IbIzphWOiQBMZtS3wkhD49Yy/WfuRETumCK6ueFPCcWMvSJf9/aH+RRE+Ki8q5y1Ur
-         S2bVkmFdeHdg7vtLqs0yqQCjwRnC/WExgVklT0m2UpKVNCShnEXmvlwP7hISj2YR+gNQ
-         b1sikU9kll9wIPcClP2HCsP82Rt+7B3ivXIrLlboCuc6/RQAAZV3XcnzWQKaTwOWg2s0
-         Mg+ZL6hEe+tDB6HDOmJbEzUyUUCfmU3cJGiSYwBO+xDJ7/+8OtwhAvs4xXCwPUbvnN4C
-         dgczEYiJDAjSrqjdtxaSkj9RzRVX1qHbwsRTRhnkBcAy7pVq8jb9hx0zSV4VPv2ohVu/
-         wLGA==
+        bh=CMjxicsaZsCnnZH5BKps6nu90utEbpV5c9PeWEzx+Ns=;
+        b=hZvbIycCzw04DYHyP4eFxHPRHiHQpTCyZ6Jh1WIApdAYu+Q9OdV+1zwWDHstlUpzMu
+         JEElsw3o8LToDDUWVrV8D9PEFxUCuuiK6pyksOyzyduVM/80LgZV6EUQqvnKzIycLPG9
+         r603tDw1Qpm8jyHQBPIWX32gQxR7cqoQDbABS5SbZb4U6s+51l0E4oMoBIzShLyHU0Gl
+         iZdmsXLfOQiggnScblv8pE4vxG0olVJeyuvK8+3iIgNj+WJ00UtJXllepAfLujYjUp0L
+         U0VuKXLjl+ynQ3TDcJmYYiCYabheehLEcFEbG3mdWGGWhmsgz2b6Bkffbva/ZtUHjosc
+         Wbbg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700620088; x=1701224888; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1700623050; x=1701227850; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gLeuTtZZ1btrgVqyomy2FWPDC9WUtft3scOO0oOU7xU=;
-        b=P9EWl+qpEIvO29+kZEFoGTPX9wcx4FzAdTTe1R1OAqTE8F9vVE/ix0/BPXZcPZf9Y9
-         L4fUTSLK/VVexRHH+SyhtcmZS6RkIpqtdj8WpaibJmekAvLwPAyCgg99+H+s5z7KOmH2
-         0v4HOww7tnENKHdQxnGEkBuyJF61Z6Fi1NuoOVVb13q1kiHBsc5Ap/vdf1eu1fz73XCf
-         ykJlLk1Mfmf2pTEFgb9Wy339aLqrBzx44deDt5ohTtlicuEBIWO3PVg+7LO2MaD9daLi
-         L3csaHihk/nb+/z6Z2mkzkW7qZxjGrsk41hgZ5FsWQsQJ64L1YSo7FgXz5H4S6BQ2VuK
-         iLFA==
+        bh=CMjxicsaZsCnnZH5BKps6nu90utEbpV5c9PeWEzx+Ns=;
+        b=Gh44djBd5GkESY0PK2R2V8CJBv2gJ+bDCqrVQAO5fRUuiXw9Fc1manT6FTr/yZo4Dk
+         crfE07SkVnW3OqoNBfb8PrVJZbU7lV0iySWmvjskd3zA26V6A+cChT6YgqNVn+oM20M8
+         8fqBiNdws0LoFMiC/p23STStMKLX20ckrfMZRHuzR4cHjFQfwpdx9jjqy4puGhI3z2Qf
+         0vXnKn2jaNaKR9BkV7SN6nEGdyNKX8viZy6SIe2SjKQ/0JhrGEYS9aKl/+MSR1QVIsJf
+         CnPWjUmEr93fXTLXqISNTKWmu2tqw2W+BT8NpbGtiRwD7fuH1sjgoYSn3vcaNb0VCL9/
+         9bzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700620088; x=1701224888;
+        d=1e100.net; s=20230601; t=1700623050; x=1701227850;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=gLeuTtZZ1btrgVqyomy2FWPDC9WUtft3scOO0oOU7xU=;
-        b=s+qLBBrKWqXRgcoRUJAbLwxKUfnyTIpJIfeunAzVqt0lqczEcNBSWcdljzYQXHT4FF
-         SOVkCjN8N1mIm2KUyxMsmOwC3pWt7uPO/EVGhJUmvQI6Sl4/EAOV7UnqUDhqsm/jwRq+
-         aIqh2o5MFUURidg1PRPWbA9moDZBQq+AOvZxipH5+LZyYIYn/6ClKZmra9BNktumZZlH
-         i6jO9R3/BrGkH8NV5JPKh0ts3bH/vGmXtPRdZu10IwRf0CqTCcG02XFVvd2lFTOYlP2z
-         a2Bkss+sVJTSbR3hZer3y/GVUb3yjTh5jqXgb/x++m0RXs4EnCZdxiQEnk5R+k2LDUq7
-         aqpA==
+        bh=CMjxicsaZsCnnZH5BKps6nu90utEbpV5c9PeWEzx+Ns=;
+        b=b3G6oRW4qiSo4HZi82hXP/kvcH9YrQdkx2O2tXJgFc5ETMlGX7eslvfsVZHZmzW3DY
+         zr8IbAu9D7pwVWMacqRSaHFEB6UyFIQoVjLKlOGKrwGoBTjC54KDJh3HOe7s8OIvMtJy
+         a/+LdFn9UwMDqz78CBd4UMJE5SD/xMceET3eY9j9SfYqxadqS9kdgAcM26F0OwSuLrMd
+         etGrdwaCZ3acgjyWG1NFSkTSso1XSIQuD38X/3koRtUbS+eugtAY98rOUGF9WbHcs44i
+         VXvB5EE9591pc9OQ+h9ob4isj1JAf85ueByQE0BPzxSErtKQHf82QUl+shcR6lxfDiaD
+         gtaA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YxCFFy4cepDyx6DIqz4GLTSGkK4RAr3hBvse3ASpBoa0SG176Nf
-	K153Ws+vsrvb/AZEkLUzCCo=
-X-Google-Smtp-Source: AGHT+IHarmBkmDcXSTKif3dTtWLqfuOaJe+NMxZzJM+NjvLQNtdR9Hc/sfs9oxQhvjbNLAH1TtBSXQ==
-X-Received: by 2002:a17:90a:854c:b0:280:4af4:1a41 with SMTP id a12-20020a17090a854c00b002804af41a41mr6779278pjw.15.1700620088163;
-        Tue, 21 Nov 2023 18:28:08 -0800 (PST)
+X-Gm-Message-State: AOJu0YwkSwuOUKcKNa3fYhpFN6r/0yNZ048wx64qCbGMlVAQ81six5N0
+	C8qVNq249c4fIaQZUwkjids=
+X-Google-Smtp-Source: AGHT+IGcISEALRp7GcE2DawLUAz8Dn4Dr22cPWnaVp3sr1vtZZRtHFJDsXnLd7BY7XgHtueKt8lofA==
+X-Received: by 2002:a9d:7581:0:b0:6bd:62c1:65c with SMTP id s1-20020a9d7581000000b006bd62c1065cmr2362151otk.18.1700623050475;
+        Tue, 21 Nov 2023 19:17:30 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:f696:b0:285:104c:6c8d with SMTP id
- cl22-20020a17090af69600b00285104c6c8dls273452pjb.0.-pod-prod-00-us-canary;
- Tue, 21 Nov 2023 18:28:07 -0800 (PST)
-X-Received: by 2002:a05:6a20:8421:b0:187:449d:a4cd with SMTP id c33-20020a056a20842100b00187449da4cdmr1714215pzd.27.1700620086947;
-        Tue, 21 Nov 2023 18:28:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1700620086; cv=none;
+Received: by 2002:a4a:8c2a:0:b0:587:a54a:b88f with SMTP id u39-20020a4a8c2a000000b00587a54ab88fls1339624ooj.1.-pod-prod-00-us;
+ Tue, 21 Nov 2023 19:17:29 -0800 (PST)
+X-Received: by 2002:a05:6808:14d6:b0:3b8:37f9:443b with SMTP id f22-20020a05680814d600b003b837f9443bmr1449611oiw.9.1700623049435;
+        Tue, 21 Nov 2023 19:17:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1700623049; cv=none;
         d=google.com; s=arc-20160816;
-        b=YDA0j3vQKKrUkkyhnw8IEcVd209P4fKBfer45nzpp+X3Hw54uRYhO2dFO8HtWlYd0Y
-         YMbbifsjhLjT3zDPigy7osC8atYd3skfpsaqOWva9gyKlL7jYPDcalPr2o3oK69YU0aq
-         PIdmBMw3QTkhCyimTOYkF5UB9deeo+pBgTV3ny8AjMkfwhLuKP7bwFE8BsxxRl25PL6P
-         fk3pqTStH4kxn0oDCJkuX4rAx+5VTo8GB6Fa7J9KEHEFq/MLhbO6GIWx9p6mTbD2mg1w
-         rTLY9rKtm538Vq4YMtcqyVFyZjkeGkH6rVE+TXcrff7xjhDn2rqJA57z8i1sZiV8bel9
-         o89g==
+        b=l12a3BAeXudXdl+sIRPrZXI9hNKgOlH4iYsgmGuQbYsO6crQhcV9I6t+eil0pPKdGj
+         f/cCZuZWxtJOXIUx1vV5M72rB1aTaKxOn0UBryJcC0Jl4HX+NmxbcgOitlBhb6OQf3bP
+         uxlIJArj0SE+JOpPPZY1Rk898buSQ7hok+EdhgRlJjhPGXg3QkbT7kExvgNuClEeZWUK
+         SLhBvKUyRTs7Zy0h6acGwXZlBTT8579/3gQJq5d0QQmZjCiAkM0PBSdnmu31zlFEJ+IV
+         HfAe1Gi1bnI9HhOfEvh1AjKCSmQS9bIXw6i90pAmlLkdJq09DokBjykycEfGPtQgnu46
+         hY9A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=kfTZswEnYt7aHpTJOx6kD98hPK28QoQ/YumgrlaBkC0=;
-        fh=3qba5YkzTL+bXHTu4hEoWcPGCZaYcQppgGBvzQQIBIU=;
-        b=uo7hzh25KCLm3A4YXHiBgMBR2g7QkvYa/yptQc+qECy+9XklX/yBsYjWElQxAEBYK4
-         e5l9e1AAPqMHmretFglHVmcYvI8OGpiq6E+001o8I+U58sHoek0RPwcV2QjWl9O4SkcL
-         SlsFSF5ldLcovFp19bnSUEGFODtw4BtbNoWa+qrWpbmpIvotK4MH2a3wKMBnB5rk6/lI
-         n/dY24V9TP07dD3ZPWLXkxfaHUaWKO9Gv9dck3KOsLf/2AG5gjD0xO0yHrNCtH2R/Cok
-         WrjrGCA+syUx6s0KVgWxvZCjxzTe+abLZku6TX5vD0cz1TeFFc7Wyrn/Loy+T+Vo1Svj
-         L7ng==
+        bh=+cifHwiL86k/hSfKeSdI4QL5cIbDxkzf2iHBxnZU0xs=;
+        fh=f4NfliIws/m/cVxsN15bE/hKmzbPReAFB+nEzn1MMbs=;
+        b=iai0GEiRru2UXldo1GSnyLoOp5c3cJO47tYh0p0twmywIHW8Dg0aqMDx2UiYYqd+cg
+         DK1F5YfHd7lhMIs3r/HKD0uls5f4ymhzHlMJS7PRPH8XsoBtHfqdf4t5wPLISZdgM9TT
+         /IvXOKTr7HXm/WagJhTaPB3g8aQz5eKL3o4MCOdHN8f1qUt0WBmkYaTCEW2aqrAKYJfa
+         Qpys6IGIxS7nh5RVjKx3n2bif7CnnUCLsXHZz0bBd5GGQMlHBP1U6aOP7yjtVU/TAr6M
+         ClZkAYpNvxts3x4IAK3UCzUTOl8zKR77QcnAks2grC5KUo7PnHmetzy98z/Wc2Db5Wuu
+         DH7Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=PkAsC8kp;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52e as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b="FtlrFt/B";
+       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::e2a as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com. [2607:f8b0:4864:20::52e])
-        by gmr-mx.google.com with ESMTPS id p10-20020a056a000a0a00b006c99448fdf8si643000pfh.6.2023.11.21.18.28.06
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com. [2607:f8b0:4864:20::e2a])
+        by gmr-mx.google.com with ESMTPS id m2-20020a0568080f0200b003ae413f2b6esi741881oiw.5.2023.11.21.19.17.29
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Nov 2023 18:28:06 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52e as permitted sender) client-ip=2607:f8b0:4864:20::52e;
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-5c1acc1fa98so306496a12.0
-        for <kasan-dev@googlegroups.com>; Tue, 21 Nov 2023 18:28:06 -0800 (PST)
-X-Received: by 2002:a17:90a:fe90:b0:280:4a23:3c84 with SMTP id
- co16-20020a17090afe9000b002804a233c84mr6491607pjb.22.1700620086495; Tue, 21
- Nov 2023 18:28:06 -0800 (PST)
+        Tue, 21 Nov 2023 19:17:29 -0800 (PST)
+Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::e2a as permitted sender) client-ip=2607:f8b0:4864:20::e2a;
+Received: by mail-vs1-xe2a.google.com with SMTP id ada2fe7eead31-45f3b583ce9so266259137.0
+        for <kasan-dev@googlegroups.com>; Tue, 21 Nov 2023 19:17:29 -0800 (PST)
+X-Received: by 2002:a05:6102:47:b0:462:7c78:ba53 with SMTP id
+ k7-20020a056102004700b004627c78ba53mr1343955vsp.16.1700623048669; Tue, 21 Nov
+ 2023 19:17:28 -0800 (PST)
 MIME-Version: 1.0
-References: <VI1P193MB0752C0ADCF4F90AE8368C0B399BBA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-In-Reply-To: <VI1P193MB0752C0ADCF4F90AE8368C0B399BBA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Wed, 22 Nov 2023 03:27:55 +0100
-Message-ID: <CA+fCnZfBM=UU0AyArERNMxBMeaPvbV-e6uyQDpwgqA5c6_f_DQ@mail.gmail.com>
-Subject: Re: [PATCH v2] kasan: Improve free meta storage in Generic KASAN
-To: Juntong Deng <juntong.deng@outlook.com>
-Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com, 
-	vincenzo.frascino@arm.com, akpm@linux-foundation.org, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org
+References: <cover.1700502145.git.andreyknvl@google.com> <5cef104d9b842899489b4054fe8d1339a71acee0.1700502145.git.andreyknvl@google.com>
+In-Reply-To: <5cef104d9b842899489b4054fe8d1339a71acee0.1700502145.git.andreyknvl@google.com>
+From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Date: Wed, 22 Nov 2023 12:17:17 +0900
+Message-ID: <CAB=+i9Q95W+w=-KC5vexJuqVi60JJ1P8e-_chegiXOUjB7C3DA@mail.gmail.com>
+Subject: [BISECTED] Boot hangs when SLUB_DEBUG_ON=y
+To: andrey.konovalov@linux.dev
+Cc: Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, kasan-dev <kasan-dev@googlegroups.com>, 
+	Evgenii Stepanov <eugenis@google.com>, Oscar Salvador <osalvador@suse.de>, 
+	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
+	Andrey Konovalov <andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: andreyknvl@gmail.com
+X-Original-Sender: 42.hyeyoo@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=PkAsC8kp;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52e
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ header.i=@gmail.com header.s=20230601 header.b="FtlrFt/B";       spf=pass
+ (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::e2a
+ as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
  (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -152,176 +153,87 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Nov 21, 2023 at 10:42=E2=80=AFPM Juntong Deng <juntong.deng@outlook=
-.com> wrote:
+On Tue, Nov 21, 2023 at 1:08=E2=80=AFPM <andrey.konovalov@linux.dev> wrote:
 >
-> Currently free meta can only be stored in object if the object is
-> not smaller than free meta.
+> From: Andrey Konovalov <andreyknvl@google.com>
 >
-> After the improvement, even when the object is smaller than free meta,
-> it is still possible to store part of the free meta in the object,
-> reducing the increased size of the redzone.
+> Evict alloc/free stack traces from the stack depot for Generic KASAN
+> once they are evicted from the quaratine.
 >
-> Example:
+> For auxiliary stack traces, evict the oldest stack trace once a new one
+> is saved (KASAN only keeps references to the last two).
 >
-> free meta size: 16 bytes
-> alloc meta size: 16 bytes
-> object size: 8 bytes
-> optimal redzone size (object_size <=3D 64): 16 bytes
+> Also evict all saved stack traces on krealloc.
 >
-> Before improvement:
-> actual redzone size =3D alloc meta size + free meta size =3D 32 bytes
+> To avoid double-evicting and mis-evicting stack traces (in case KASAN's
+> metadata was corrupted), reset KASAN's per-object metadata that stores
+> stack depot handles when the object is initialized and when it's evicted
+> from the quarantine.
 >
-> After improvement:
-> actual redzone size =3D alloc meta size + (free meta size - object size)
->                     =3D 24 bytes
+> Note that stack_depot_put is no-op if the handle is 0.
 >
-> Suggested-by: Dmitry Vyukov <dvyukov@google.com>
-> Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
+> Reviewed-by: Marco Elver <elver@google.com>
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
-I think this change as is does not work well with slub_debug.
+I observed boot hangs on a few SLUB configurations.
 
-slub_debug puts its metadata (redzone, tracks, and orig_size) right
-after the object (see calculate_sizes and the comment before
-check_pad_bytes). With the current code, KASAN's free meta either fits
-within the object or is placed after the slub_debug metadata and
-everything works well. With this change, KASAN's free meta tail goes
-right past object_size, overlaps with the slub_debug metadata, and
-thus can corrupt it.
+Having other users of stackdepot might be the cause. After passing
+'slub_debug=3D-' which disables SLUB debugging, it boots fine.
 
-Thus, to make this patch work properly, we need to carefully think
-about all metadatas layout and teach slub_debug that KASAN's free meta
-can go past object_size. Possibly, adjusting s->inuse by the size of
-KASAN's metas (along with moving kasan_cache_create and fixing up
-set_orig_size) would be enough. But I'm not familiar with the
-slub_debug code enough to be sure.
+compiler version: gcc-11
+config: https://download.kerneltesting.org/builds/2023-11-21-f121f2/.config
+bisect log: https://download.kerneltesting.org/builds/2023-11-21-f121f2/bis=
+ect.log.txt
 
-If you decide to proceed with improving this change, I've left some
-comments for the current code below.
+[dmesg]
+(gdb) lx-dmesg
+[    0.000000] Linux version 6.7.0-rc1-00136-g0e8b630f3053
+(hyeyoo@localhost.localdomain) (gcc (GCC) 11.3.1 20221121 (R3[
+0.000000] Command line: console=3DttyS0 root=3D/dev/sda1 nokaslr
+[    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted
+6.7.0-rc1-00136-g0e8b630f3053 #22
+[    0.000000] RIP: 0010:setup_arch+0x500/0x2250
+[    0.000000] Code: c6 09 08 00 48 89 c5 48 85 c0 0f 84 58 13 00 00
+48 c1 e8 03 48 83 05 be 97 66 00 01 80 3c 18 00 0f3[    0.000000] RSP:
+0000:ffffffff86007e00 EFLAGS: 00010046 ORIG_RAX: 0000000000000009
+[    0.000000] RAX: 1fffffffffe40088 RBX: dffffc0000000000 RCX: 1ffffffff11=
+ed630
+[    0.000000] RDX: 0000000000000000 RSI: feec4698e8103000 RDI: ffffffff88f=
+6b180
+[    0.000000] RBP: ffffffffff200444 R08: 8000000000000163 R09: 1ffffffff11=
+ed628
+[    0.000000] R10: ffffffff88f7a150 R11: 0000000000000000 R12: 00000000000=
+00010
+[    0.000000] R13: ffffffffff200450 R14: feec4698e8102444 R15: feec4698e81=
+02444
+[    0.000000] FS:  0000000000000000(0000) GS:ffffffff88d5b000(0000)
+knlGS:0000000000000000
+[    0.000000] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    0.000000] CR2: ffffffffff200444 CR3: 0000000008f0e000 CR4: 00000000000=
+000b0
+[    0.000000] Call Trace:
+[    0.000000]  <TASK>
+[    0.000000]  ? show_regs+0x87/0xa0
+[    0.000000]  ? early_fixup_exception+0x130/0x310
+[    0.000000]  ? do_early_exception+0x23/0x90
+[    0.000000]  ? early_idt_handler_common+0x2f/0x40
+[    0.000000]  ? setup_arch+0x500/0x2250
+[    0.000000]  ? __pfx_setup_arch+0x10/0x10
+[    0.000000]  ? vprintk_default+0x20/0x30
+[    0.000000]  ? vprintk+0x4c/0x80
+[    0.000000]  ? _printk+0xba/0xf0
+[    0.000000]  ? __pfx__printk+0x10/0x10
+[    0.000000]  ? init_cgroup_root+0x10f/0x2f0
+--Type <RET> for more, q to quit, c to continue without paging--
+[    0.000000]  ? cgroup_init_early+0x1e4/0x440
+[    0.000000]  ? start_kernel+0xae/0x790
+[    0.000000]  ? x86_64_start_reservations+0x28/0x50
+[    0.000000]  ? x86_64_start_kernel+0x10e/0x130
+[    0.000000]  ? secondary_startup_64_no_verify+0x178/0x17b
+[    0.000000]  </TASK>
 
-Thank you!
-
-> ---
-> V1 -> V2: Make kasan_metadata_size() adapt to the improved
-> free meta storage
->
->  mm/kasan/generic.c | 50 +++++++++++++++++++++++++++++++---------------
->  1 file changed, 34 insertions(+), 16 deletions(-)
->
-> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-> index 4d837ab83f08..802c738738d7 100644
-> --- a/mm/kasan/generic.c
-> +++ b/mm/kasan/generic.c
-> @@ -361,6 +361,8 @@ void kasan_cache_create(struct kmem_cache *cache, uns=
-igned int *size,
->  {
->         unsigned int ok_size;
->         unsigned int optimal_size;
-> +       unsigned int rem_free_meta_size;
-> +       unsigned int orig_alloc_meta_offset;
->
->         if (!kasan_requires_meta())
->                 return;
-> @@ -394,6 +396,9 @@ void kasan_cache_create(struct kmem_cache *cache, uns=
-igned int *size,
->                 /* Continue, since free meta might still fit. */
->         }
->
-> +       ok_size =3D *size;
-> +       orig_alloc_meta_offset =3D cache->kasan_info.alloc_meta_offset;
-> +
->         /*
->          * Add free meta into redzone when it's not possible to store
->          * it in the object. This is the case when:
-> @@ -401,21 +406,26 @@ void kasan_cache_create(struct kmem_cache *cache, u=
-nsigned int *size,
->          *    be touched after it was freed, or
->          * 2. Object has a constructor, which means it's expected to
->          *    retain its content until the next allocation, or
-
-Please drop "or" on the line above.
-
-> -        * 3. Object is too small.
->          * Otherwise cache->kasan_info.free_meta_offset =3D 0 is implied.
-> +        * Even if the object is smaller than free meta, it is still
-> +        * possible to store part of the free meta in the object.
->          */
-> -       if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor ||
-> -           cache->object_size < sizeof(struct kasan_free_meta)) {
-> -               ok_size =3D *size;
-> -
-> +       if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor) {
->                 cache->kasan_info.free_meta_offset =3D *size;
->                 *size +=3D sizeof(struct kasan_free_meta);
-> +       } else if (cache->object_size < sizeof(struct kasan_free_meta)) {
-> +               rem_free_meta_size =3D sizeof(struct kasan_free_meta) -
-> +                                                               cache->ob=
-ject_size;
-> +               *size +=3D rem_free_meta_size;
-> +               if (cache->kasan_info.alloc_meta_offset !=3D 0)
-> +                       cache->kasan_info.alloc_meta_offset +=3D rem_free=
-_meta_size;
-> +       }
->
-> -               /* If free meta doesn't fit, don't add it. */
-> -               if (*size > KMALLOC_MAX_SIZE) {
-> -                       cache->kasan_info.free_meta_offset =3D KASAN_NO_F=
-REE_META;
-> -                       *size =3D ok_size;
-> -               }
-> +       /* If free meta doesn't fit, don't add it. */
-> +       if (*size > KMALLOC_MAX_SIZE) {
-> +               cache->kasan_info.free_meta_offset =3D KASAN_NO_FREE_META=
-;
-> +               cache->kasan_info.alloc_meta_offset =3D orig_alloc_meta_o=
-ffset;
-> +               *size =3D ok_size;
->         }
->
->         /* Calculate size with optimal redzone. */
-> @@ -464,12 +474,20 @@ size_t kasan_metadata_size(struct kmem_cache *cache=
-, bool in_object)
->         if (in_object)
->                 return (info->free_meta_offset ?
->                         0 : sizeof(struct kasan_free_meta));
-
-This needs to be changed as well to something like min(cache->object,
-sizeof(struct kasan_free_meta)). However, with the slub_debug
-conflicts I mentioned above, we might need to change this to something
-else.
-
-
-
-> -       else
-> -               return (info->alloc_meta_offset ?
-> -                       sizeof(struct kasan_alloc_meta) : 0) +
-> -                       ((info->free_meta_offset &&
-> -                       info->free_meta_offset !=3D KASAN_NO_FREE_META) ?
-> -                       sizeof(struct kasan_free_meta) : 0);
-> +       else {
-> +               size_t alloc_meta_size =3D info->alloc_meta_offset ?
-> +                                                               sizeof(st=
-ruct kasan_alloc_meta) : 0;
-> +               size_t free_meta_size =3D 0;
-> +
-> +               if (info->free_meta_offset !=3D KASAN_NO_FREE_META) {
-> +                       if (info->free_meta_offset)
-> +                               free_meta_size =3D sizeof(struct kasan_fr=
-ee_meta);
-> +                       else if (cache->object_size < sizeof(struct kasan=
-_free_meta))
-> +                               free_meta_size =3D sizeof(struct kasan_fr=
-ee_meta) -
-> +                                                                       c=
-ache->object_size;
-> +               }
-> +               return alloc_meta_size + free_meta_size;
-> +       }
->  }
->
->  static void __kasan_record_aux_stack(void *addr, bool can_alloc)
-> --
-> 2.39.2
+--
+Hyeonggon
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -329,5 +241,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CA%2BfCnZfBM%3DUU0AyArERNMxBMeaPvbV-e6uyQDpwgqA5c6_f_DQ%40mail.gm=
-ail.com.
+kasan-dev/CAB%3D%2Bi9Q95W%2Bw%3D-KC5vexJuqVi60JJ1P8e-_chegiXOUjB7C3DA%40mai=
+l.gmail.com.
