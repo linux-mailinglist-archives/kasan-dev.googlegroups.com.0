@@ -1,129 +1,131 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBH757GVAMGQECDBRJNY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBSUV7KVAMGQE5C2O2JA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3f.google.com (mail-oa1-x3f.google.com [IPv6:2001:4860:4864:20::3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 089B47F5349
-	for <lists+kasan-dev@lfdr.de>; Wed, 22 Nov 2023 23:20:17 +0100 (CET)
-Received: by mail-oa1-x3f.google.com with SMTP id 586e51a60fabf-1efa8a172d5sf343472fac.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 22 Nov 2023 14:20:16 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1700691615; cv=pass;
+Received: from mail-ed1-x53a.google.com (mail-ed1-x53a.google.com [IPv6:2a00:1450:4864:20::53a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9857F5452
+	for <lists+kasan-dev@lfdr.de>; Thu, 23 Nov 2023 00:12:12 +0100 (CET)
+Received: by mail-ed1-x53a.google.com with SMTP id 4fb4d7f45d1cf-542e6564e2bsf7281a12.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 22 Nov 2023 15:12:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1700694731; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qlFJ3tLwqJ7Jzw87fzyO2E9G/I4LOAGy51jvlxAIP4SpxdO45UNsE7Ck+x8ziUM3Mb
-         2a7KqWx+eghDYgB67u7FCysmMhJgZJRpoaFkmSwcdYqPOJR/rOfyqqUzyKgn5wML5CJw
-         xjjAjbpTHmhAZ3aadYebk4mZQX4db5rq/XeeOUttZfsPE7vqAa6QBQn7vRH555atJyVk
-         jitDO7OLBc/7nREHsQoawvTT/ZjbYCWDWCRM69HXIUWmw5k4TaAmTuo4FvKO+oWwM8yZ
-         Aip6LFAQ5bXcabOPuEtddUjHmuS4kTkX846cNV8mWTuW0Ojy1IVRmEtClAsCqZD4u1Zu
-         PatA==
+        b=wD2UGsZR2hBWYNwCkdtDD7i3twX7Nzk57XY8vGgoCwocyvRBY33LIandpwYY8D2Khx
+         2bmMXa9poOYbH7mRQWrDsUJk044hntXFjFRoWbpMow0B+h5E0jVh6lMi99JgK6Sn3Wop
+         k76UUp5S33TvtfqszEZcBnzIVrr1xINTZmaiE+mTSzWTEs6kD8McM+mmtVhWz6iZniSL
+         kNnX7E5SzilZ1LUq84bktiKiY0Dt2OqDfq2d+lAS5RN6LweRi0Lb9SEGAsEyqjlJR4do
+         cn5VNJTB8FIBHuH2eSAOuI44ya7v25NDmPL8GrLcB+Iu2yZclTI+tN2svHJ0XJtdXUgm
+         e8aQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=RcAbFtHKywTcM6WlHa563M4vJ7Tje3AHqBrSmnC+IW4=;
-        fh=LubqLcB7navSDf0Nt52CtUnJ6CDCRU0TM1wxMFuJtiQ=;
-        b=Fqo8KYhEbeG4bamAxXZ9v1zEvglpX5hCKI0Csb7CM+4+ni1LicKvPvcj9D8rdKT0sN
-         YJykyx6l2YAed51UfG5sIi3UPHAHm/c0QBVCuiQCu0tSx4jnsCttkaM+mH7nGAmE2CMz
-         zZtqxNM3JimQXOTn+aA/EyrYdm2qOl0d2hIC1GSZDQI93Qq/GzNvs0ImTYKj7RXVl5jJ
-         23lZs7sb2tA3+Ug9P3aStvqBnUVQygH9rLP+MLtJMx8fl2JVhndXdZi5RzD/5VdKpOEu
-         2MDb00oIxuQyx/4Gp3FbCy85mDebXXDvBUCwYI8fqtji7edZGum20D19QBVxZn54c7gJ
-         oo9Q==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=76r00sDILIN/kvSvpYl3lHyOcx5pl/0OjtMrL5tdNoE=;
+        fh=fOg1Tf0zNjDt2cuVJIoiwDMJeeeK+fpyehPH3RFMkTQ=;
+        b=w0h6j9u/11bKYQzREq8+ahb3DqrBpdfXSbJDhjzXmE2W+nQyjZ5mWuCmUrxaoMGzHO
+         Vra6DfvVYSzeUK1FfO8OE0LildqmhMlH7CpgVe6T3RGgKoKSIhJF2+BiD90uVEqa6Yk4
+         KmBKgXwbHlhJGVdDA9MvXvyya+Z7qe+GOcos+a1IEJfxC/SMLVhUQzUrKMsvz22c9Y33
+         2pTM938geRKhXznWtP0na+qgoac5mtm8Vg2PWyFOb/QI3BPi6Y5oI92Eg5iNadOd3Xel
+         ZTVS0wtZj/Q+DvlLP5zhxePlP1j1tzEX7aoz2vTLeCiM7+S8ksRulXinJJSqbKehtJmQ
+         cHxg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=p1ZIS9GN;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a35 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=EbjD+Kjt;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.171 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1700691615; x=1701296415; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1700694731; x=1701299531; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RcAbFtHKywTcM6WlHa563M4vJ7Tje3AHqBrSmnC+IW4=;
-        b=RKXvezE7G9Elk7t76rYrO/0sweImgnBV9SQQigA5hYAtGSuJVCa6y69xTY3HEY3+IL
-         HjnpIuWcVli+vuc5VW9rRP5Qp+GXCsNL6xoO9ArJbJ3RNBQvV+TO7dsZa2uxOz0dpCkM
-         /TSfMQEkAUUigaQzfWkTe6tzIeHaumofEJv0/rYUWiVzF5UPyDlXEO+Xge44h+dZtZKS
-         M8vBwMpZmdUnrqqc+SsaJ/8hx4M4zKfzOR+Rgf+dCjq9moc6K+hY2WDcrZdNqAqkYtSY
-         JqOOhe9YseyV4qChWBESAvXXlgxNA+5H+rXOtnfyhVIxh7zQzIYP/5KzztgRQwnpuwGr
-         nfeA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=76r00sDILIN/kvSvpYl3lHyOcx5pl/0OjtMrL5tdNoE=;
+        b=Suc46wHk9Uj79i+b8OPi5vX/YyVq9SeynCEtUZPkEVgrPOrT3Y4ijvkNBiMM0VqfRY
+         XFkNK6XU0DfQ4XDUJMukOwrRr8kN9Ou7D/eoRFA1hK6ZiGJHLafiL/Ycmvr8kD3uE47M
+         owIllA3S97APZm7SI8AqTDQzE9tPwQHmr3IPXIvS9bB0+LwOJaIoovo8XXEZiZvsh2+8
+         FSMoQlK77jzdSKVAW9Zp3vdBIJjI84H4zqHmG68xRMinut7beBIf0Yn9To+Oxrr0lHct
+         a+KGuxgpTa89SCsJzh3yD/4yMBjEIREZ6m5FSxkCPLxZCLk6VUqEpinDt7L53U5mZn2p
+         bvOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700691615; x=1701296415;
+        d=1e100.net; s=20230601; t=1700694731; x=1701299531;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RcAbFtHKywTcM6WlHa563M4vJ7Tje3AHqBrSmnC+IW4=;
-        b=XY9T4T/x7xz781OFJCUpiZ98hEOVTrEYumRYEWgb7bm407wLyoL7q6l/Wu/BNS6tqD
-         okQeNxQIrwMionuEKZCT+XwEDs45IJSMXT3j6yaMl00HSGrtU/gmgUTXdaAVkvyhLYwQ
-         x4MQU20/N4ifjxq+1cZU/3FrU5jI71TbT4XBXYt532/HK9DEP1ZxE5Ap/Y2dS6/OyEE9
-         DXkZ+loun93tJfRDaiTGSBk5rM/2KKX/XPUfvc5RmLMURXx8t1A/opQlaylmZCCGS7qZ
-         zr2l8QIfzsphk/Kd6BMcB/zwZom0foY9zvrnAIH9ULXmPunMxCDWtgLp5LxGP2OqtxyY
-         nIqA==
-X-Gm-Message-State: AOJu0YysggyMv0wBb7/32ut4889JFMCtQVrQXBJnODA0ljyhDOEMLXqO
-	oQUNrU7HHZMzpSnp6qDDKO8=
-X-Google-Smtp-Source: AGHT+IH/E7YARp1FbbSVU/YMFyQ/Hv6dnpwCyf1t/ZVE/394eAt7Zr9x8ecDuS3ppVnu4S620yCDMQ==
-X-Received: by 2002:a05:6871:3a2c:b0:1ea:38:8e34 with SMTP id pu44-20020a0568713a2c00b001ea00388e34mr4556084oac.17.1700691615311;
-        Wed, 22 Nov 2023 14:20:15 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=76r00sDILIN/kvSvpYl3lHyOcx5pl/0OjtMrL5tdNoE=;
+        b=DSR2cm7lCLK1vW6sD+VFgikB/Fa9GC/8UynbzdmlfWN3AdkP7NClSYSPD5Q3T31VmA
+         ddtxsGc+LNfhMfvQguzJQ9QwNvKxMlgYprkHjj+M3SlCA7/ES0sz+XCuyQ/5LLEb9nnD
+         cBy7QCK+iKmKRtHcBu1VLZ1lvhENNqbyeI5/l9XY329S1XYbuuIhfv8fRqLQVgH1p/hl
+         T9Pnu2MwASk5BrvJH0KgZVo8anXJBQyo1M+lSEXgr+1xxX00OeGE8/zjRWRQkNcxQoG1
+         QMVtrig2fqyl7bVwHm7Hpgt9sfK+SfUnw5aMqBMrULT6zittc3RAhW3uw+gTn3A4bq84
+         AAxA==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOJu0Yz8q4uh8U9W4UIpLWdA2P8qjLNKCduK/UOqonwDARCFG6WgZCdL
+	PfjRpTbfpLMSRGBwHlPSyrk=
+X-Google-Smtp-Source: AGHT+IGrFseAX7oAgpS3gNLiLOMeotMzM5AHwZ20FBChlxFZ0EOu8ENY/0JALM0ybk8smUme8JQ6Hg==
+X-Received: by 2002:a05:6402:541b:b0:544:e2b8:ba6a with SMTP id ev27-20020a056402541b00b00544e2b8ba6amr215095edb.3.1700694731168;
+        Wed, 22 Nov 2023 15:12:11 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:5895:0:b0:423:7870:23d5 with SMTP id t21-20020ac85895000000b00423787023d5ls273221qta.2.-pod-prod-04-us;
- Wed, 22 Nov 2023 14:20:14 -0800 (PST)
-X-Received: by 2002:a05:620a:1018:b0:778:b068:9c89 with SMTP id z24-20020a05620a101800b00778b0689c89mr3682857qkj.51.1700691614471;
-        Wed, 22 Nov 2023 14:20:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1700691614; cv=none;
+Received: by 2002:a05:651c:c95:b0:2c5:356:6429 with SMTP id
+ bz21-20020a05651c0c9500b002c503566429ls158935ljb.0.-pod-prod-01-eu; Wed, 22
+ Nov 2023 15:12:09 -0800 (PST)
+X-Received: by 2002:ac2:52af:0:b0:50a:a7e2:f2b8 with SMTP id r15-20020ac252af000000b0050aa7e2f2b8mr2600808lfm.62.1700694729352;
+        Wed, 22 Nov 2023 15:12:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1700694729; cv=none;
         d=google.com; s=arc-20160816;
-        b=Fww0VeukSiYX20KE97aykIX4eJXgwWZp+iXVUGXlwFBJELz4qt1WkZdrSm0zAsHfI+
-         xY7MjqAhaCXIw5Hmbz2mq7pgSfIv4hHDXeHBQpN+Ml9Ta1r0ktoDy1zqQDrqbqz1L6rt
-         cUED79W8JvuRILVteB4WN9TgNAgGfXINFNytLxPtaQ8PdYwn9ddmYVFbV82KDG+2+evd
-         R5FihV9402V9LsoFixqkvTYue5LuHwIOGjI/nXRCoWvCXdrUtcYe3gTg2+8iwE63iEj3
-         4QdD8AgTE+GptnGOx6uX78aFH29q/cjjmtYhlSHZFz0deFn44fh6HN6Y/TIcNEhXEUR6
-         yr0g==
+        b=XCghgR4rqarkUE1fuZl5PtsoqSA2nBRGwB0IWXU+YzDp27ociucBZ6hIwIJtbYQdrh
+         IKd3fm+zz2A15JTvf3T+5AFyE6tfD5eIHmfb7WjZsMmf+tgcoY32XtIEkl1cSVPOkwFj
+         YvkZjsbY1LvWxwDZTbaidCEkx+0xADwXyN8Rv8GSXwmnw7IeOhnQx9ks5Ss9CAuGiXpJ
+         SAvwpOgFhyt/V/lou094XQtEV0CeDSNmVmx3r7bKMHsXRG778tbvaCvzT7ETvwxRQMya
+         7h3InpGImztdf+KC7YSbE4836Vws8OdYOagaVgqNxO6XDVM/eSEFvtCIFJ6BGJOlB47Q
+         Erqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=PHkAYUggtPd4uMdHb4XHRFzN0AgwRbLCE5uILh47HBE=;
-        fh=LubqLcB7navSDf0Nt52CtUnJ6CDCRU0TM1wxMFuJtiQ=;
-        b=HsCGjvY78Ep+1LRMrFsvUM8PLXEmcGbXM4wp5LT14I+BuFCGrVVpQtf7axpVs8gj+J
-         qgSJoPk1+TowRP+9KHqajuSsfteLIdby+yAqwm6iG0BRgQFlkfJWE4omjpVvAFk6KZXW
-         rorfdEgG3xVXM1nsQA5/db8WjlDuSCoA5jrd6JUq53qcLTN1Z13xdyZzjU71vOg+Z2ha
-         wCzFemFZ9mATpI3fZOG3QmwbRt9JCmiIkvgeAyCxQef6i3/piNJl6IlVEMGVDTtijRAJ
-         LFjctSBAG4EVuEER2hu0q0UWk8eYtoqxTeU1nmH4jMeYHMUut+Pk2nhXS8KcuTnuIbxA
-         soKw==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=uNmdlwYGwAMCb5jza2UGKjePd3PtCVqVMGoJzVDye+g=;
+        fh=fOg1Tf0zNjDt2cuVJIoiwDMJeeeK+fpyehPH3RFMkTQ=;
+        b=aAKkB4Q+W1P63IFsOZ3NsNaPM9vwPLbaFZWUIssLBa3tsvi+3OOTggLGhkPdJ6AxKL
+         MSJoDzAXiCzw1gxepbvRuGkQ7oZ4cc0SdfQwQKw0RfQmpV35zLssm1suoRDscNWVmyIr
+         lEKuyhb1eg4Ob6CUschAEXrrCVQ6qqdXYwtRPNlkmsgH5WuC62Ihqf2FHXZxU5pmIpB5
+         Xh9PPzuIioXoy27bybAJ9l5icGvK7h0PbcpXudsWyrOC1j8gv6YGtoUQzuz3Ff2zv3Rv
+         cJrVJEfVLpsvWnN42jnG8HIi8EGA71OL4LwVQuny20xJoJ/fUL2Jtg4H5H5lndBqUO53
+         rx2Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=p1ZIS9GN;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a35 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com. [2607:f8b0:4864:20::a35])
-        by gmr-mx.google.com with ESMTPS id dw10-20020a05620a600a00b0077d560a74e3si62906qkb.6.2023.11.22.14.20.14
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=EbjD+Kjt;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.171 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com. [91.218.175.171])
+        by gmr-mx.google.com with ESMTPS id k33-20020a0565123da100b004ffa201cad8si241lfv.9.2023.11.22.15.12.08
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Nov 2023 14:20:14 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a35 as permitted sender) client-ip=2607:f8b0:4864:20::a35;
-Received: by mail-vk1-xa35.google.com with SMTP id 71dfb90a1353d-4ac2c1a4b87so92533e0c.0
-        for <kasan-dev@googlegroups.com>; Wed, 22 Nov 2023 14:20:14 -0800 (PST)
-X-Received: by 2002:a05:6122:4019:b0:4b0:8de:d09c with SMTP id
- ca25-20020a056122401900b004b008ded09cmr4901290vkb.7.1700691613877; Wed, 22
- Nov 2023 14:20:13 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Nov 2023 15:12:08 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.171 as permitted sender) client-ip=91.218.175.171;
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: andrey.konovalov@linux.dev
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>,
+	Marco Elver <elver@google.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	kasan-dev@googlegroups.com,
+	Evgenii Stepanov <eugenis@google.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+	Feng Tang <feng.tang@intel.com>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Andrey Konovalov <andreyknvl@google.com>
+Subject: [PATCH mm] slub, kasan: improve interaction of KASAN and slub_debug poisoning
+Date: Thu, 23 Nov 2023 00:12:02 +0100
+Message-Id: <20231122231202.121277-1-andrey.konovalov@linux.dev>
 MIME-Version: 1.0
-References: <VI1P193MB0752A2F21C050D701945B62799BAA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
- <CANpmjNPvDhyEcc0DdxrL8hVd0rZ-J4k95R5M5AwoeSotg-HCVg@mail.gmail.com> <VI1P193MB0752E3CA6B2660860BD3923D99BAA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-In-Reply-To: <VI1P193MB0752E3CA6B2660860BD3923D99BAA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 22 Nov 2023 23:19:35 +0100
-Message-ID: <CANpmjNMejg7ekEhuuwdxpzOk5-mO+xn+qEL1qmx8ZVQG9bz_XA@mail.gmail.com>
-Subject: Re: [PATCH] kfence: Replace local_clock() with ktime_get_boot_fast_ns()
-To: Juntong Deng <juntong.deng@outlook.com>
-Cc: glider@google.com, dvyukov@google.com, akpm@linux-foundation.org, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Migadu-Flow: FLOW_OUT
+X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=p1ZIS9GN;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a35 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@linux.dev header.s=key1 header.b=EbjD+Kjt;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.171
+ as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -136,133 +138,114 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 22 Nov 2023 at 22:36, Juntong Deng <juntong.deng@outlook.com> wrote:
->
-> On 2023/11/23 4:35, Marco Elver wrote:
-> > On Wed, 22 Nov 2023 at 21:01, Juntong Deng <juntong.deng@outlook.com> wrote:
-> >>
-> >> The time obtained by local_clock() is the local CPU time, which may
-> >> drift between CPUs and is not suitable for comparison across CPUs.
-> >>
-> >> It is possible for allocation and free to occur on different CPUs,
-> >> and using local_clock() to record timestamps may cause confusion.
-> >
-> > The same problem exists with printk logging.
-> >
-> >> ktime_get_boot_fast_ns() is based on clock sources and can be used
-> >> reliably and accurately for comparison across CPUs.
-> >
-> > You may be right here, however, the choice of local_clock() was
-> > deliberate: it's the same timestamp source that printk uses.
-> >
-> > Also, on systems where there is drift, the arch selects
-> > CONFIG_HAVE_UNSTABLE_SCHED_CLOCK (like on x86) and the drift is
-> > generally bounded.
-> >
-> >> Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
-> >> ---
-> >>   mm/kfence/core.c | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> >> index 3872528d0963..041c03394193 100644
-> >> --- a/mm/kfence/core.c
-> >> +++ b/mm/kfence/core.c
-> >> @@ -295,7 +295,7 @@ metadata_update_state(struct kfence_metadata *meta, enum kfence_object_state nex
-> >>          track->num_stack_entries = num_stack_entries;
-> >>          track->pid = task_pid_nr(current);
-> >>          track->cpu = raw_smp_processor_id();
-> >> -       track->ts_nsec = local_clock(); /* Same source as printk timestamps. */
-> >> +       track->ts_nsec = ktime_get_boot_fast_ns();
-> >
-> > You have ignored the comment placed here - now it's no longer the same
-> > source as printk timestamps. I think not being able to correlate
-> > information from KFENCE reports with timestamps in lines from printk
-> > is worse.
-> >
-> > For now, I have to Nack: Unless you can prove that
-> > ktime_get_boot_fast_ns() can still be correlated with timestamps from
-> > printk timestamps, I think this change only trades one problem for
-> > another.
-> >
-> > Thanks,
-> > -- Marco
->
-> Honestly, the possibility of accurately matching a message in the printk
-> log by the timestamp in the kfence report is very low, since allocation
-> and free do not directly correspond to a certain event.
+From: Andrey Konovalov <andreyknvl@google.com>
 
-It's about being able to compare the timestamps. I don't want to match
-an exact event, but be able to figure out which event happened
-before/after an allocation or free, i.e. the logical ordering of
-events.
+When both KASAN and slub_debug are enabled, when a free object is being
+prepared in setup_object, slub_debug poisons the object data before KASAN
+initializes its per-object metadata.
 
-With CONFIG_PRINTK_CALLER we can see the CPU ID in printk lines and
-are therefore able to accurately compare printk lines with information
-given by KFENCE alloc/free info.
+Right now, in setup_object, KASAN only initializes the alloc metadata,
+which is always stored outside of the object. slub_debug is aware of
+this and it skips poisoning and checking that memory area.
 
-> Since time drifts across CPUs, timestamps may be different even if
-> allocation and free can correspond to a certain event.
+However, with the following patch in this series, KASAN also starts
+initializing its free medata in setup_object. As this metadata might be
+stored within the object, this initialization might overwrite the
+slub_debug poisoning. This leads to slub_debug reports.
 
-This is not a problem with CONFIG_PRINTK_CALLER.
+Thus, skip checking slub_debug poisoning of the object data area that
+overlaps with the in-object KASAN free metadata.
 
-> If we really need to find the relevant printk logs by the timestamps in
-> the kfence report, all we can do is to look for messages that are within
-> a certain time range.
->
-> If we are looking for messages in a certain time range, there is not
-> much difference between local_clock() and ktime_get_boot_fast_ns().
->
-> Also, this patch is in preparation for my next patch.
->
-> My next patch is to show the PID, CPU number, and timestamp when the
-> error occurred, in this case time drift from different CPUs can
-> cause confusion.
+Also make slub_debug poisoning of tail kmalloc redzones more precise when
+KASAN is enabled: slub_debug can still poison and check the tail kmalloc
+allocation area that comes after the KASAN free metadata.
 
-It's not quite clear how there's a dependency between this patch and a
-later patch, but generally it's good practice to send related patches
-as a patch series. That way it's easier to see what the overall
-changes are and provide feedback as a whole - as is, it's difficult to
-provide feedback.
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
-However, from what you say this information is already given.
-dump_stack_print_info() shows this - e.g this bit here is printed by
-where the error occurred:
+---
 
-| CPU: 0 PID: 484 Comm: kunit_try_catch Not tainted 5.13.0-rc3+ #7
-| Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2
-04/01/2014
+Andrew, please put this patch right before "kasan: use stack_depot_put
+for Generic mode".
+---
+ mm/slub.c | 41 ++++++++++++++++++++++++++---------------
+ 1 file changed, 26 insertions(+), 15 deletions(-)
 
-And if the printk log has timestamps, then these lines are prefixed
-with the timestamp where the error occurred.
-
-> For example, use-after-free caused by a subtle race condition, in which
-> the time between the free and the error occur will be very close.
->
-> Time drift from different CPUs may cause it to appear in the report that
-> the error timestamp precedes the free timestamp.
-
-That doesn't matter. I recommend that you go through a hypothetical
-debugging scenario:
-1. We are not interested in the absolute timings of events, but the
-logical ordering between them.
-
-2. The logical ordering of events is inherent from how KFENCE
-operates: an error _always_ follows an allocation and/or free. From a
-debugging point of view, the timestamps do not have any value here.
-
-3. The timestamps _do_ add value when trying to figure out the logical
-ordering between allocation, free, or the erroneous access _with
-other_ events in the system. A stream of other events is always shown
-in the kernel log (printk). Other streams of events can be obtained
-via e.g. ftrace (which also uses local_clock(), see
-kernel/trace/trace_clock.c).
-
-So, the timestamp that KFENCE should show is the one that most likely
-allows us to deduce the logical ordering with other events in the
-system.
+diff --git a/mm/slub.c b/mm/slub.c
+index 63d281dfacdb..782bd8a6bd34 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -870,20 +870,20 @@ static inline void set_orig_size(struct kmem_cache *s,
+ 				void *object, unsigned int orig_size)
+ {
+ 	void *p = kasan_reset_tag(object);
++	unsigned int kasan_meta_size;
+ 
+ 	if (!slub_debug_orig_size(s))
+ 		return;
+ 
+-#ifdef CONFIG_KASAN_GENERIC
+ 	/*
+-	 * KASAN could save its free meta data in object's data area at
+-	 * offset 0, if the size is larger than 'orig_size', it will
+-	 * overlap the data redzone in [orig_size+1, object_size], and
+-	 * the check should be skipped.
++	 * KASAN can save its free meta data inside of the object at offset 0.
++	 * If this meta data size is larger than 'orig_size', it will overlap
++	 * the data redzone in [orig_size+1, object_size]. Thus, we adjust
++	 * 'orig_size' to be as at least as big as KASAN's meta data.
+ 	 */
+-	if (kasan_metadata_size(s, true) > orig_size)
+-		orig_size = s->object_size;
+-#endif
++	kasan_meta_size = kasan_metadata_size(s, true);
++	if (kasan_meta_size > orig_size)
++		orig_size = kasan_meta_size;
+ 
+ 	p += get_info_end(s);
+ 	p += sizeof(struct track) * 2;
+@@ -1192,7 +1192,7 @@ static int check_object(struct kmem_cache *s, struct slab *slab,
+ {
+ 	u8 *p = object;
+ 	u8 *endobject = object + s->object_size;
+-	unsigned int orig_size;
++	unsigned int orig_size, kasan_meta_size;
+ 
+ 	if (s->flags & SLAB_RED_ZONE) {
+ 		if (!check_bytes_and_report(s, slab, object, "Left Redzone",
+@@ -1222,12 +1222,23 @@ static int check_object(struct kmem_cache *s, struct slab *slab,
+ 	}
+ 
+ 	if (s->flags & SLAB_POISON) {
+-		if (val != SLUB_RED_ACTIVE && (s->flags & __OBJECT_POISON) &&
+-			(!check_bytes_and_report(s, slab, p, "Poison", p,
+-					POISON_FREE, s->object_size - 1) ||
+-			 !check_bytes_and_report(s, slab, p, "End Poison",
+-				p + s->object_size - 1, POISON_END, 1)))
+-			return 0;
++		if (val != SLUB_RED_ACTIVE && (s->flags & __OBJECT_POISON)) {
++			/*
++			 * KASAN can save its free meta data inside of the
++			 * object at offset 0. Thus, skip checking the part of
++			 * the redzone that overlaps with the meta data.
++			 */
++			kasan_meta_size = kasan_metadata_size(s, true);
++			if (kasan_meta_size < s->object_size - 1 &&
++			    !check_bytes_and_report(s, slab, p, "Poison",
++					p + kasan_meta_size, POISON_FREE,
++					s->object_size - kasan_meta_size - 1))
++				return 0;
++			if (kasan_meta_size < s->object_size &&
++			    !check_bytes_and_report(s, slab, p, "End Poison",
++					p + s->object_size - 1, POISON_END, 1))
++				return 0;
++		}
+ 		/*
+ 		 * check_pad_bytes cleans up on its own.
+ 		 */
+-- 
+2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMejg7ekEhuuwdxpzOk5-mO%2Bxn%2BqEL1qmx8ZVQG9bz_XA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231122231202.121277-1-andrey.konovalov%40linux.dev.
