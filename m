@@ -1,196 +1,129 @@
-Return-Path: <kasan-dev+bncBAABBS7I7GVAMGQEXPU4GDI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBH757GVAMGQECDBRJNY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x1140.google.com (mail-yw1-x1140.google.com [IPv6:2607:f8b0:4864:20::1140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5682C7F52B2
-	for <lists+kasan-dev@lfdr.de>; Wed, 22 Nov 2023 22:36:13 +0100 (CET)
-Received: by mail-yw1-x1140.google.com with SMTP id 00721157ae682-5cce4a6a3basf2674827b3.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 22 Nov 2023 13:36:13 -0800 (PST)
-ARC-Seal: i=3; a=rsa-sha256; t=1700688972; cv=pass;
+Received: from mail-oa1-x3f.google.com (mail-oa1-x3f.google.com [IPv6:2001:4860:4864:20::3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 089B47F5349
+	for <lists+kasan-dev@lfdr.de>; Wed, 22 Nov 2023 23:20:17 +0100 (CET)
+Received: by mail-oa1-x3f.google.com with SMTP id 586e51a60fabf-1efa8a172d5sf343472fac.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 22 Nov 2023 14:20:16 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1700691615; cv=pass;
         d=google.com; s=arc-20160816;
-        b=cbShkYytRzYSjulR1nUeYa9y08zPDBNUIBwM81ZQXyheTNYp9K8wEdWxQmq0XcAyfD
-         YyoYhJApQjBtWiATNJwyRQDfJHRI4NFVNdGigSEj6W43wAH3TCdN/WtdJF7oFUnlyv4t
-         OpZtFjEfHSNPTdSg01gg5XYoJZ3bGFmVZbQu/oeUsJBv5RjJ45O87YqTIZ6t/GGzjBVz
-         mMLLQJ4SYeZs/FmQQrOsQrKx8IaGhg+AZuNMcE4d8tY+WA3XkS+ygV4By94PYlcSPBfQ
-         vbebFctkvy8BBjMFUwxwX0WPxjtnMAGK5DZblunQXBgCCKOGMG+GgQJf+4UuelHIBPC7
-         TZxw==
-ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:in-reply-to:from
-         :references:cc:to:subject:user-agent:date:message-id:sender
-         :dkim-signature;
-        bh=DwX5By2bd/6NpEEqTeymxOjSIZcgSqcjj8gYm8gXAkE=;
-        fh=ZPR0T8cST3w7zq2qt1LodueNlO+CD3oD3KyLDysf0ds=;
-        b=Z0o9BN8hJ262wtFIPGegsUCD0d6qc4LWJvScYs+4yMRAeRy3ZRySJT2D31mGLr2KGt
-         nznOICir4r1BuEpfRE6reRLeIngNWMCBp+JvCz3qoKFJZiq7NcQ3OhNTN33m3K3A/Qwm
-         l0y++Bi3Y1lIEVRX8htsGooWKMbF6vgf7qK9GihCdYeXoM/oJeV/7fPSaG8G2Wuykoof
-         QFgcj+AADOPRTqkgcuGs7fHT/13LsFBgXs2sT0m3/gMZk4Ly2PVae6bJqcATAmkpIgMe
-         roKsuHoaSF2dOaIrUxt2l+4CAcUE66dIkKfE+1wzgYtsQJLc+B4uASOKxIvQKB0l143j
-         DIIQ==
-ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@outlook.com header.s=selector1 header.b=t4hJeKLH;
-       arc=pass (i=1);
-       spf=pass (google.com: domain of juntong.deng@outlook.com designates 2a01:111:f400:fe12::802 as permitted sender) smtp.mailfrom=juntong.deng@outlook.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1700688972; x=1701293772; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:in-reply-to:from:references:cc:to
-         :subject:user-agent:date:message-id:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DwX5By2bd/6NpEEqTeymxOjSIZcgSqcjj8gYm8gXAkE=;
-        b=mFMab33EGepDe4f8WDybb8OhiDCFzFMG9TxvfHLk9bBNBH5uAG+2w32zUQ3MBx9i9z
-         5Yqgo5pBb+YlV853QWkHn7YrXrGEb/nCQ4zXf2F9NuTq6Ex4Lkn4H+3MHk57cQCbDJ9J
-         FkrOK3GCFFvnzh2XZkLLhw4l+mW5NGhHoNVmxiYCpv+LPc+mlPPWZP8ER0PlMsqkQ1r6
-         ZFvche/CqRienvEJ6QijR3ygdNLwWEvKaa5hSKwU156plXFlmWWp1Iq78e3QcQQD4dBE
-         +kLkdTbVb2cZbWWccVy6cOqPFoPs9B+z++gf1qaNC4oGG3+cTwW45zmAbJHLbLs6mwW1
-         Y49A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700688972; x=1701293772;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:from:references:cc:to:subject:user-agent:date
-         :message-id:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=DwX5By2bd/6NpEEqTeymxOjSIZcgSqcjj8gYm8gXAkE=;
-        b=rLcjlPamdYvQBtukG8h7v6tuQ5I6YBg3QhsyERsntniwao+id1ci8Khz3Bgt2s46gl
-         /fGxaGz/joMZapGYPLlZcwpMCWPn0w394ZC0YwEsOkdEWKR5gGoD8PmeKD7lGfIh/mOZ
-         2Mz5gHo+QCWanrh1S8MNq6nbty1+v3+AcjG3BBW9BTBLAYy0rbb4MxMchrTJmT+5hW9E
-         Zr6/jHP+FoBSf9qJ6HqECdILUED7ByWhxsuA3UJlUNSkARu2jx2rRow/GKOJdhWix70o
-         t4Mg4FtWWkg6sbxoJEXkL1H7Vc6lou6kDwja4yXYSMoN25+V/J0doMWvnPfk2KBYiKUQ
-         Wpqw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YzkOuAvUyONC3ZU6gU1AB/wrWuoW1Iq6mkpViBCIgBKkFfmQbFM
-	bJGHJcWgkiAIdO2xGmpXH5U=
-X-Google-Smtp-Source: AGHT+IGJsqmiDG1IF0wtAOaAoL0Cd9bdci8Q/h/tNv2AWkz6OayOR7Udnq0bPZsCYJf4azXpRyHPfg==
-X-Received: by 2002:a81:b726:0:b0:5cc:d0bc:fc24 with SMTP id v38-20020a81b726000000b005ccd0bcfc24mr2035767ywh.22.1700688971898;
-        Wed, 22 Nov 2023 13:36:11 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ad4:43c1:0:b0:679:fa52:346a with SMTP id o1-20020ad443c1000000b00679fa52346als255420qvs.0.-pod-prod-09-us;
- Wed, 22 Nov 2023 13:36:11 -0800 (PST)
-X-Received: by 2002:a1f:4b02:0:b0:4ac:5a8:f45b with SMTP id y2-20020a1f4b02000000b004ac05a8f45bmr4042844vka.5.1700688970977;
-        Wed, 22 Nov 2023 13:36:10 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1700688970; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=Up114IXcHZhefaYlecElJewfnoDgtvA7NxzXSN8DUeKEYjbFI5vilaQ+fXdSOWhs4N
-         ny5+opL2MgC/0VG+hqwr+hev09DAygbTlCd1IbOYE/EolPHElZHTx07/Vmo3zfX9rHTh
-         3SIXxFNiH+yNgFAnUNRO6tMHMw0nfP/XEUrMH1JMLo4kgGg9hQV69uunpaA7SO3JmQFN
-         uIe5+QO/eqOM76pCUn8bcwCng73L3IeB3r8p289ehz9oMkAbe7+fZc/YoSz3I+qr9idu
-         lg/D1vbH59E9J9sLvLdzKHSuITUsgbExtw2KHWE9FG46M9SfBZ76VFzfegaDWumeMgfc
-         9k2g==
+        b=qlFJ3tLwqJ7Jzw87fzyO2E9G/I4LOAGy51jvlxAIP4SpxdO45UNsE7Ck+x8ziUM3Mb
+         2a7KqWx+eghDYgB67u7FCysmMhJgZJRpoaFkmSwcdYqPOJR/rOfyqqUzyKgn5wML5CJw
+         xjjAjbpTHmhAZ3aadYebk4mZQX4db5rq/XeeOUttZfsPE7vqAa6QBQn7vRH555atJyVk
+         jitDO7OLBc/7nREHsQoawvTT/ZjbYCWDWCRM69HXIUWmw5k4TaAmTuo4FvKO+oWwM8yZ
+         Aip6LFAQ5bXcabOPuEtddUjHmuS4kTkX846cNV8mWTuW0Ojy1IVRmEtClAsCqZD4u1Zu
+         PatA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-transfer-encoding:in-reply-to:from:references
-         :cc:to:subject:user-agent:date:message-id:dkim-signature;
-        bh=OSqcW9CLX5X/DMZdqxALz09AR/LoG2nzJ0XH/yk6QwU=;
-        fh=ZPR0T8cST3w7zq2qt1LodueNlO+CD3oD3KyLDysf0ds=;
-        b=n2Pfn6cc48B1JpqHVm8DZTruX30ZxKhcn7ex6dRHJGcK4W40owz2KtniuF5g4UzB1c
-         kNRMyw+yXYTluGUHFfF3dUklYwfzeI8DFlens/W2hC7afsoM2QVsawghIg941ddyDkUD
-         7AMshgbnBdZnnvsA5V+5fB4BkKuYGWrsvOpSF4mb0UrkYMhtpb+TB/3E5TFQIxwVX747
-         GLNjNdWQIn/3oA7QH2l5UzVtU14s9Q9pIt0qSXLWva2Uhr6TonUiMRWiCfMC+rhHfvds
-         sk6W7HMUeeXtWiMRckq+RLNUqZTPBoM7R05WKrpk8fOtCLoMp7ucdOwzVAdihapGmp6i
-         oFyw==
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=RcAbFtHKywTcM6WlHa563M4vJ7Tje3AHqBrSmnC+IW4=;
+        fh=LubqLcB7navSDf0Nt52CtUnJ6CDCRU0TM1wxMFuJtiQ=;
+        b=Fqo8KYhEbeG4bamAxXZ9v1zEvglpX5hCKI0Csb7CM+4+ni1LicKvPvcj9D8rdKT0sN
+         YJykyx6l2YAed51UfG5sIi3UPHAHm/c0QBVCuiQCu0tSx4jnsCttkaM+mH7nGAmE2CMz
+         zZtqxNM3JimQXOTn+aA/EyrYdm2qOl0d2hIC1GSZDQI93Qq/GzNvs0ImTYKj7RXVl5jJ
+         23lZs7sb2tA3+Ug9P3aStvqBnUVQygH9rLP+MLtJMx8fl2JVhndXdZi5RzD/5VdKpOEu
+         2MDb00oIxuQyx/4Gp3FbCy85mDebXXDvBUCwYI8fqtji7edZGum20D19QBVxZn54c7gJ
+         oo9Q==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@outlook.com header.s=selector1 header.b=t4hJeKLH;
-       arc=pass (i=1);
-       spf=pass (google.com: domain of juntong.deng@outlook.com designates 2a01:111:f400:fe12::802 as permitted sender) smtp.mailfrom=juntong.deng@outlook.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02olkn20802.outbound.protection.outlook.com. [2a01:111:f400:fe12::802])
-        by gmr-mx.google.com with ESMTPS id ch5-20020a056122318500b004abe61eb6fdsi31861vkb.1.2023.11.22.13.36.10
+       dkim=pass header.i=@google.com header.s=20230601 header.b=p1ZIS9GN;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a35 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20230601; t=1700691615; x=1701296415; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RcAbFtHKywTcM6WlHa563M4vJ7Tje3AHqBrSmnC+IW4=;
+        b=RKXvezE7G9Elk7t76rYrO/0sweImgnBV9SQQigA5hYAtGSuJVCa6y69xTY3HEY3+IL
+         HjnpIuWcVli+vuc5VW9rRP5Qp+GXCsNL6xoO9ArJbJ3RNBQvV+TO7dsZa2uxOz0dpCkM
+         /TSfMQEkAUUigaQzfWkTe6tzIeHaumofEJv0/rYUWiVzF5UPyDlXEO+Xge44h+dZtZKS
+         M8vBwMpZmdUnrqqc+SsaJ/8hx4M4zKfzOR+Rgf+dCjq9moc6K+hY2WDcrZdNqAqkYtSY
+         JqOOhe9YseyV4qChWBESAvXXlgxNA+5H+rXOtnfyhVIxh7zQzIYP/5KzztgRQwnpuwGr
+         nfeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700691615; x=1701296415;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RcAbFtHKywTcM6WlHa563M4vJ7Tje3AHqBrSmnC+IW4=;
+        b=XY9T4T/x7xz781OFJCUpiZ98hEOVTrEYumRYEWgb7bm407wLyoL7q6l/Wu/BNS6tqD
+         okQeNxQIrwMionuEKZCT+XwEDs45IJSMXT3j6yaMl00HSGrtU/gmgUTXdaAVkvyhLYwQ
+         x4MQU20/N4ifjxq+1cZU/3FrU5jI71TbT4XBXYt532/HK9DEP1ZxE5Ap/Y2dS6/OyEE9
+         DXkZ+loun93tJfRDaiTGSBk5rM/2KKX/XPUfvc5RmLMURXx8t1A/opQlaylmZCCGS7qZ
+         zr2l8QIfzsphk/Kd6BMcB/zwZom0foY9zvrnAIH9ULXmPunMxCDWtgLp5LxGP2OqtxyY
+         nIqA==
+X-Gm-Message-State: AOJu0YysggyMv0wBb7/32ut4889JFMCtQVrQXBJnODA0ljyhDOEMLXqO
+	oQUNrU7HHZMzpSnp6qDDKO8=
+X-Google-Smtp-Source: AGHT+IH/E7YARp1FbbSVU/YMFyQ/Hv6dnpwCyf1t/ZVE/394eAt7Zr9x8ecDuS3ppVnu4S620yCDMQ==
+X-Received: by 2002:a05:6871:3a2c:b0:1ea:38:8e34 with SMTP id pu44-20020a0568713a2c00b001ea00388e34mr4556084oac.17.1700691615311;
+        Wed, 22 Nov 2023 14:20:15 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com
+Received: by 2002:ac8:5895:0:b0:423:7870:23d5 with SMTP id t21-20020ac85895000000b00423787023d5ls273221qta.2.-pod-prod-04-us;
+ Wed, 22 Nov 2023 14:20:14 -0800 (PST)
+X-Received: by 2002:a05:620a:1018:b0:778:b068:9c89 with SMTP id z24-20020a05620a101800b00778b0689c89mr3682857qkj.51.1700691614471;
+        Wed, 22 Nov 2023 14:20:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1700691614; cv=none;
+        d=google.com; s=arc-20160816;
+        b=Fww0VeukSiYX20KE97aykIX4eJXgwWZp+iXVUGXlwFBJELz4qt1WkZdrSm0zAsHfI+
+         xY7MjqAhaCXIw5Hmbz2mq7pgSfIv4hHDXeHBQpN+Ml9Ta1r0ktoDy1zqQDrqbqz1L6rt
+         cUED79W8JvuRILVteB4WN9TgNAgGfXINFNytLxPtaQ8PdYwn9ddmYVFbV82KDG+2+evd
+         R5FihV9402V9LsoFixqkvTYue5LuHwIOGjI/nXRCoWvCXdrUtcYe3gTg2+8iwE63iEj3
+         4QdD8AgTE+GptnGOx6uX78aFH29q/cjjmtYhlSHZFz0deFn44fh6HN6Y/TIcNEhXEUR6
+         yr0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=PHkAYUggtPd4uMdHb4XHRFzN0AgwRbLCE5uILh47HBE=;
+        fh=LubqLcB7navSDf0Nt52CtUnJ6CDCRU0TM1wxMFuJtiQ=;
+        b=HsCGjvY78Ep+1LRMrFsvUM8PLXEmcGbXM4wp5LT14I+BuFCGrVVpQtf7axpVs8gj+J
+         qgSJoPk1+TowRP+9KHqajuSsfteLIdby+yAqwm6iG0BRgQFlkfJWE4omjpVvAFk6KZXW
+         rorfdEgG3xVXM1nsQA5/db8WjlDuSCoA5jrd6JUq53qcLTN1Z13xdyZzjU71vOg+Z2ha
+         wCzFemFZ9mATpI3fZOG3QmwbRt9JCmiIkvgeAyCxQef6i3/piNJl6IlVEMGVDTtijRAJ
+         LFjctSBAG4EVuEER2hu0q0UWk8eYtoqxTeU1nmH4jMeYHMUut+Pk2nhXS8KcuTnuIbxA
+         soKw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=p1ZIS9GN;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a35 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com. [2607:f8b0:4864:20::a35])
+        by gmr-mx.google.com with ESMTPS id dw10-20020a05620a600a00b0077d560a74e3si62906qkb.6.2023.11.22.14.20.14
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 22 Nov 2023 13:36:10 -0800 (PST)
-Received-SPF: pass (google.com: domain of juntong.deng@outlook.com designates 2a01:111:f400:fe12::802 as permitted sender) client-ip=2a01:111:f400:fe12::802;
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CMtbjaaU9gJXbHUlxBzoNrHU+4xL9zEMSW9HTzVcrTJLNvY6KZWmnP7M+gkjrZx64pC/ZoalkLIn69VwF5xvdGbcZwxiIlCQoqR0K6fSzuYFDAMWsYSRCA7plpiDby4cnVcIKMRuLgXxaD3RPgpxNXM3MRlgPGcIhfPx9N+ys/J1vy2mCbsnEvWKUoeVhFoEjYi8d+n6l+FxUvH1f6YriEEivir5CVrFDpOX7Sl4nuRDmoSFGm2pwpkW161wuWzY8ppaaEBjbScI+JbkV2cHTnmyOMkbVOizIRjRrW4t9gwbPNk743ZG23PWH1fcK2CB8JJrwocubGxugur2KofzmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OSqcW9CLX5X/DMZdqxALz09AR/LoG2nzJ0XH/yk6QwU=;
- b=eRsxFHV9oVsAy0GlJYXINc9HQgE4/L6m7SBuGePpeeqS9LQv1l3plISoenvF/efW58ZE6yRUFgNnvftCFIJtdw2VMkkCMAooyGVA+dOewimMoDmhxP94iXsNs9lFdww2JMnvqEa2A7R4Z3JKP9jkh/snsEhbEyUR8yUYJ7LSRPId3ANYPcbsa9PS4Fxycx8iuW35T2fDEmP3nQYrluL9fdSpYm6H+oXHo4I4v9+C1sKiWuKLKosgk4AC1/OyOQzSzlDe1m0GebKWosK4upSOewqJOGUFqiA6NC0l+GxouVi50ldpe7F+JYdwZTrxeWxW3h18BScrSuGhNJSl6PhUEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
- by AM8P193MB1041.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:1ef::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.20; Wed, 22 Nov
- 2023 21:36:09 +0000
-Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::fdd2:7dbf:e16c:f4a4]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- ([fe80::fdd2:7dbf:e16c:f4a4%5]) with mapi id 15.20.7025.020; Wed, 22 Nov 2023
- 21:36:09 +0000
-Message-ID: <VI1P193MB0752E3CA6B2660860BD3923D99BAA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
-Date: Thu, 23 Nov 2023 05:36:08 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kfence: Replace local_clock() with
- ktime_get_boot_fast_ns()
-To: Marco Elver <elver@google.com>
-Cc: glider@google.com, dvyukov@google.com, akpm@linux-foundation.org,
- kasan-dev@googlegroups.com, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
-References: <VI1P193MB0752A2F21C050D701945B62799BAA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
- <CANpmjNPvDhyEcc0DdxrL8hVd0rZ-J4k95R5M5AwoeSotg-HCVg@mail.gmail.com>
-From: Juntong Deng <juntong.deng@outlook.com>
-In-Reply-To: <CANpmjNPvDhyEcc0DdxrL8hVd0rZ-J4k95R5M5AwoeSotg-HCVg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-TMN: [ARpD+7jaLWsVwXQ6CNIBsaM+1KFXvjcn]
-X-ClientProxiedBy: LO4P265CA0227.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:315::13) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:800:32::19)
-X-Microsoft-Original-Message-ID: <db5cd581-d646-4a01-8aff-a166e9bed259@outlook.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Nov 2023 14:20:14 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a35 as permitted sender) client-ip=2607:f8b0:4864:20::a35;
+Received: by mail-vk1-xa35.google.com with SMTP id 71dfb90a1353d-4ac2c1a4b87so92533e0c.0
+        for <kasan-dev@googlegroups.com>; Wed, 22 Nov 2023 14:20:14 -0800 (PST)
+X-Received: by 2002:a05:6122:4019:b0:4b0:8de:d09c with SMTP id
+ ca25-20020a056122401900b004b008ded09cmr4901290vkb.7.1700691613877; Wed, 22
+ Nov 2023 14:20:13 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|AM8P193MB1041:EE_
-X-MS-Office365-Filtering-Correlation-Id: 75cf1ad8-294e-48dd-42db-08dbeba30a65
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pSOu6HuNHaUdDZ78UidPyHkGa76MJPWXToqWn+ul60UQO3Foa4OJzLNUv6Ge6F03/J5enoKoXSvhh4XQfKZsTCWhxmU184lX4rUDKWaBaIH56yxwuZm+3BwHkym9XnxidS3KOUEETK1YNTKyt9JOuPPU4Orn+ZDdJSn9V4XNATDD8F70KWFxsZcXCB0goGl4KaPX+s+uYnwXoScw9VLze8YyojweqLC7drOV04u6w/8itmvevidayUljMA/AzNi0Mjh+igB/D2ID2v0utv6iyBMZ+CC1th+jTEsPFzpTK2wqp2KZ6tS5aW5GnoBGO8fnGPF62xxSnLLLpAxhkdcXaAYc2q2sbhiObG9WCvWwBYYgRITSGe1kG6tEIuACFG5lIuyLpF/0Yq2w1dEvKUulsZuHTKlBwcf5LXKGwCR7Zlx/FSbapfOGx9bKm4oXBM+n9YgfSDKzQFIfo4jYpJDQeSaxcg6cDKFaGMnDgzPTVKYRF59tZGfKoo32pXmT2e6EsVvlVOurqYcBXSCOlHjPJubAev3ZVV6TXXPtqSk4OyzOXaplpKdrdfsqzFTciKSu
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?aE00ajQ3Z01sanB5U0pWWnRUY3FpcG42aHJwYzFBMWxUaXNhTXpWbXNZZzR2?=
- =?utf-8?B?RTRZTDMrYXZiTitXa0ovR1FDUWI4SUZrTVUvd1RiTFN3MklNenFSUTJkQ01H?=
- =?utf-8?B?MzJHaXBGY08vbVh2MTdDdmFma2FKZTVBTCtRWEdlcXFDQkZ4QWlOSjVNUVBm?=
- =?utf-8?B?V1kzWFNwSlJnczBkcUxFTHVraTk4WENhWFgzVXBtS0ptUzJWd0NuN0FwUG9x?=
- =?utf-8?B?V29pSFlIajNiVGNZL2Rjbk0zVUJXaXFvWnprbXAvTkFPZFlNeVBvN05Sc1Y3?=
- =?utf-8?B?WUZzMmZuRStDeHRUcUlPTWVOdzJ0K04rVHF3azNyem5BdlNkaWtaSU5uYVB4?=
- =?utf-8?B?bCtRYUt3SGZZWmdHWGFtZ0lndG51QmZ0SmVRNkpSazJQMjJUb0IvTFhod2lT?=
- =?utf-8?B?cUV4ZmlJRmlWNzBBWFk0L1JQZDB2TVlVU3d1RjNIYmgvNjZnRUJNMWF5LzVs?=
- =?utf-8?B?Y0VDZXRvSy9POTF6U0hzZWh6T3kzS3Y2SlZ4UGVSVEFrRmNIbFhxQjVldFRn?=
- =?utf-8?B?ell1d1VXUGIzTFdrTUhXWHdjdktjcnBzcko3TGFhMkp5dHdQTUxVRDg1Tnp4?=
- =?utf-8?B?TExsUFhTNzNDaW5sNFdsZGk2UFV0emhGOTRjUXo2dDhMTDQwUk9ReDR6dTA5?=
- =?utf-8?B?eVBtZkVTMXJLbHd3dVRMRVFjM1FVODhLYWE3TzR6aGJMd2hTWGRUb0VvSEcy?=
- =?utf-8?B?b1piYnJxOXBzbENrSkFxc3YwQkRFbitNS0dYRUcwYlZuNHRSWWlVNTFiTU03?=
- =?utf-8?B?RFdyaTdUc0ozTzkzcHNUdU5VbnpWdFZxNFduQkFzOXcyT2Z5WFIwbllTTFdq?=
- =?utf-8?B?Q2FVTldZTGQ0OTVybUhVaHVrc0dROVEwa0RONTZWemwydXZQWGx4QjdqRmJL?=
- =?utf-8?B?NE9mU3hLZ0g4bWpaNW1weUJoWmVzUGFWaXR1c25peUc2TmNVTFFpVDhoVzF3?=
- =?utf-8?B?aGZIVlV4WDhyZ3JjcEtjOXg1NjREb3JVSmZOZ3FlcVg4RXBXcld3djBwVlFh?=
- =?utf-8?B?VEgyWXNia0d3b1cwd29wMk9vZWJHS1BxeEZNNmFMRlEwRmVGajdyeUkrOWdo?=
- =?utf-8?B?Q1FxVG91N2FlRWZYTU9iY2FHczloN3dqZnlVVVpNZFFremEwdVZqVnBZaFdK?=
- =?utf-8?B?N0Q1VGQxM1lyMllxc1lyL3ZlRXRWdHVlbTVwUmNQaXRsRnpWZ1RNSEUxc0Vr?=
- =?utf-8?B?aWQySUpwdElKbHVOR0hHeStvNlRoUHdMdDJYVVRuUVdKSGY4NFA4dFkyQjMy?=
- =?utf-8?B?Y2wvL2hnbWNEVndSMWZGemNNWHBIOGgyQm5YMklBUTlJK0o4cy80bTAwaTVO?=
- =?utf-8?B?a1UyOHNqeS9idEtvb2pjanU0VXVzdE8ybm55SnFVY3V2T2x2STBWdFNKcTM5?=
- =?utf-8?B?UVJadjI2UndPVHBUM1ZwVXJ5ZWVpSzJFa2lrWThZY2V5N1pWeVpFd2NwSGkx?=
- =?utf-8?B?TmFtdkVvdnZlazZlZi9IQUFNM1pCRGdsdjI0M21OeEkyVmZvZkRaU2xlUXJy?=
- =?utf-8?B?Wmx2RmNEUzlIUjltQ2NJWmRvQWxHL0lmWlBCeTV5RHBLYkE1eTc0LzJjMGtp?=
- =?utf-8?B?Rlp0Q2REbzA1dVFEOTM4ZmFSMHRsWUVlaTkzUFV3bFN1K01JT0NIYWt0SkFF?=
- =?utf-8?Q?HyDoPnyDFSv5BveIzkwx9Q+bujTAthngLbDKvcsL80oc=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75cf1ad8-294e-48dd-42db-08dbeba30a65
-X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 21:36:09.2508
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8P193MB1041
-X-Original-Sender: juntong.deng@outlook.com
+References: <VI1P193MB0752A2F21C050D701945B62799BAA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+ <CANpmjNPvDhyEcc0DdxrL8hVd0rZ-J4k95R5M5AwoeSotg-HCVg@mail.gmail.com> <VI1P193MB0752E3CA6B2660860BD3923D99BAA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+In-Reply-To: <VI1P193MB0752E3CA6B2660860BD3923D99BAA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 22 Nov 2023 23:19:35 +0100
+Message-ID: <CANpmjNMejg7ekEhuuwdxpzOk5-mO+xn+qEL1qmx8ZVQG9bz_XA@mail.gmail.com>
+Subject: Re: [PATCH] kfence: Replace local_clock() with ktime_get_boot_fast_ns()
+To: Juntong Deng <juntong.deng@outlook.com>
+Cc: glider@google.com, dvyukov@google.com, akpm@linux-foundation.org, 
+	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@outlook.com header.s=selector1 header.b=t4hJeKLH;       arc=pass
- (i=1);       spf=pass (google.com: domain of juntong.deng@outlook.com
- designates 2a01:111:f400:fe12::802 as permitted sender) smtp.mailfrom=juntong.deng@outlook.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
+ header.i=@google.com header.s=20230601 header.b=p1ZIS9GN;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a35 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -203,83 +136,133 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2023/11/23 4:35, Marco Elver wrote:
-> On Wed, 22 Nov 2023 at 21:01, Juntong Deng <juntong.deng@outlook.com> wrote:
->>
->> The time obtained by local_clock() is the local CPU time, which may
->> drift between CPUs and is not suitable for comparison across CPUs.
->>
->> It is possible for allocation and free to occur on different CPUs,
->> and using local_clock() to record timestamps may cause confusion.
-> 
-> The same problem exists with printk logging.
-> 
->> ktime_get_boot_fast_ns() is based on clock sources and can be used
->> reliably and accurately for comparison across CPUs.
-> 
-> You may be right here, however, the choice of local_clock() was
-> deliberate: it's the same timestamp source that printk uses.
-> 
-> Also, on systems where there is drift, the arch selects
-> CONFIG_HAVE_UNSTABLE_SCHED_CLOCK (like on x86) and the drift is
-> generally bounded.
-> 
->> Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
->> ---
->>   mm/kfence/core.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
->> index 3872528d0963..041c03394193 100644
->> --- a/mm/kfence/core.c
->> +++ b/mm/kfence/core.c
->> @@ -295,7 +295,7 @@ metadata_update_state(struct kfence_metadata *meta, enum kfence_object_state nex
->>          track->num_stack_entries = num_stack_entries;
->>          track->pid = task_pid_nr(current);
->>          track->cpu = raw_smp_processor_id();
->> -       track->ts_nsec = local_clock(); /* Same source as printk timestamps. */
->> +       track->ts_nsec = ktime_get_boot_fast_ns();
-> 
-> You have ignored the comment placed here - now it's no longer the same
-> source as printk timestamps. I think not being able to correlate
-> information from KFENCE reports with timestamps in lines from printk
-> is worse.
-> 
-> For now, I have to Nack: Unless you can prove that
-> ktime_get_boot_fast_ns() can still be correlated with timestamps from
-> printk timestamps, I think this change only trades one problem for
-> another.
-> 
-> Thanks,
-> -- Marco
+On Wed, 22 Nov 2023 at 22:36, Juntong Deng <juntong.deng@outlook.com> wrote:
+>
+> On 2023/11/23 4:35, Marco Elver wrote:
+> > On Wed, 22 Nov 2023 at 21:01, Juntong Deng <juntong.deng@outlook.com> wrote:
+> >>
+> >> The time obtained by local_clock() is the local CPU time, which may
+> >> drift between CPUs and is not suitable for comparison across CPUs.
+> >>
+> >> It is possible for allocation and free to occur on different CPUs,
+> >> and using local_clock() to record timestamps may cause confusion.
+> >
+> > The same problem exists with printk logging.
+> >
+> >> ktime_get_boot_fast_ns() is based on clock sources and can be used
+> >> reliably and accurately for comparison across CPUs.
+> >
+> > You may be right here, however, the choice of local_clock() was
+> > deliberate: it's the same timestamp source that printk uses.
+> >
+> > Also, on systems where there is drift, the arch selects
+> > CONFIG_HAVE_UNSTABLE_SCHED_CLOCK (like on x86) and the drift is
+> > generally bounded.
+> >
+> >> Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
+> >> ---
+> >>   mm/kfence/core.c | 2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
+> >> index 3872528d0963..041c03394193 100644
+> >> --- a/mm/kfence/core.c
+> >> +++ b/mm/kfence/core.c
+> >> @@ -295,7 +295,7 @@ metadata_update_state(struct kfence_metadata *meta, enum kfence_object_state nex
+> >>          track->num_stack_entries = num_stack_entries;
+> >>          track->pid = task_pid_nr(current);
+> >>          track->cpu = raw_smp_processor_id();
+> >> -       track->ts_nsec = local_clock(); /* Same source as printk timestamps. */
+> >> +       track->ts_nsec = ktime_get_boot_fast_ns();
+> >
+> > You have ignored the comment placed here - now it's no longer the same
+> > source as printk timestamps. I think not being able to correlate
+> > information from KFENCE reports with timestamps in lines from printk
+> > is worse.
+> >
+> > For now, I have to Nack: Unless you can prove that
+> > ktime_get_boot_fast_ns() can still be correlated with timestamps from
+> > printk timestamps, I think this change only trades one problem for
+> > another.
+> >
+> > Thanks,
+> > -- Marco
+>
+> Honestly, the possibility of accurately matching a message in the printk
+> log by the timestamp in the kfence report is very low, since allocation
+> and free do not directly correspond to a certain event.
 
-Honestly, the possibility of accurately matching a message in the printk
-log by the timestamp in the kfence report is very low, since allocation
-and free do not directly correspond to a certain event.
+It's about being able to compare the timestamps. I don't want to match
+an exact event, but be able to figure out which event happened
+before/after an allocation or free, i.e. the logical ordering of
+events.
 
-Since time drifts across CPUs, timestamps may be different even if
-allocation and free can correspond to a certain event.
+With CONFIG_PRINTK_CALLER we can see the CPU ID in printk lines and
+are therefore able to accurately compare printk lines with information
+given by KFENCE alloc/free info.
 
-If we really need to find the relevant printk logs by the timestamps in
-the kfence report, all we can do is to look for messages that are within
-a certain time range.
+> Since time drifts across CPUs, timestamps may be different even if
+> allocation and free can correspond to a certain event.
 
-If we are looking for messages in a certain time range, there is not
-much difference between local_clock() and ktime_get_boot_fast_ns().
+This is not a problem with CONFIG_PRINTK_CALLER.
 
-Also, this patch is in preparation for my next patch.
+> If we really need to find the relevant printk logs by the timestamps in
+> the kfence report, all we can do is to look for messages that are within
+> a certain time range.
+>
+> If we are looking for messages in a certain time range, there is not
+> much difference between local_clock() and ktime_get_boot_fast_ns().
+>
+> Also, this patch is in preparation for my next patch.
+>
+> My next patch is to show the PID, CPU number, and timestamp when the
+> error occurred, in this case time drift from different CPUs can
+> cause confusion.
 
-My next patch is to show the PID, CPU number, and timestamp when the
-error occurred, in this case time drift from different CPUs can
-cause confusion.
+It's not quite clear how there's a dependency between this patch and a
+later patch, but generally it's good practice to send related patches
+as a patch series. That way it's easier to see what the overall
+changes are and provide feedback as a whole - as is, it's difficult to
+provide feedback.
 
-For example, use-after-free caused by a subtle race condition, in which
-the time between the free and the error occur will be very close.
+However, from what you say this information is already given.
+dump_stack_print_info() shows this - e.g this bit here is printed by
+where the error occurred:
 
-Time drift from different CPUs may cause it to appear in the report that
-the error timestamp precedes the free timestamp.
+| CPU: 0 PID: 484 Comm: kunit_try_catch Not tainted 5.13.0-rc3+ #7
+| Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.14.0-2
+04/01/2014
+
+And if the printk log has timestamps, then these lines are prefixed
+with the timestamp where the error occurred.
+
+> For example, use-after-free caused by a subtle race condition, in which
+> the time between the free and the error occur will be very close.
+>
+> Time drift from different CPUs may cause it to appear in the report that
+> the error timestamp precedes the free timestamp.
+
+That doesn't matter. I recommend that you go through a hypothetical
+debugging scenario:
+1. We are not interested in the absolute timings of events, but the
+logical ordering between them.
+
+2. The logical ordering of events is inherent from how KFENCE
+operates: an error _always_ follows an allocation and/or free. From a
+debugging point of view, the timestamps do not have any value here.
+
+3. The timestamps _do_ add value when trying to figure out the logical
+ordering between allocation, free, or the erroneous access _with
+other_ events in the system. A stream of other events is always shown
+in the kernel log (printk). Other streams of events can be obtained
+via e.g. ftrace (which also uses local_clock(), see
+kernel/trace/trace_clock.c).
+
+So, the timestamp that KFENCE should show is the one that most likely
+allows us to deduce the logical ordering with other events in the
+system.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/VI1P193MB0752E3CA6B2660860BD3923D99BAA%40VI1P193MB0752.EURP193.PROD.OUTLOOK.COM.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMejg7ekEhuuwdxpzOk5-mO%2Bxn%2BqEL1qmx8ZVQG9bz_XA%40mail.gmail.com.
