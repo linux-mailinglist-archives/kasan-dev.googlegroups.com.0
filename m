@@ -1,146 +1,198 @@
-Return-Path: <kasan-dev+bncBCKJJ7XLVUBBBSXF6WVAMGQEOJ37BBQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB3EU66VAMGQEU253OBI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33f.google.com (mail-ot1-x33f.google.com [IPv6:2607:f8b0:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F9F07F3C41
-	for <lists+kasan-dev@lfdr.de>; Wed, 22 Nov 2023 04:17:32 +0100 (CET)
-Received: by mail-ot1-x33f.google.com with SMTP id 46e09a7af769-6ce53378ff9sf420725a34.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 21 Nov 2023 19:17:32 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1700623050; cv=pass;
+Received: from mail-ua1-x93e.google.com (mail-ua1-x93e.google.com [IPv6:2607:f8b0:4864:20::93e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 718707F41B0
+	for <lists+kasan-dev@lfdr.de>; Wed, 22 Nov 2023 10:31:25 +0100 (CET)
+Received: by mail-ua1-x93e.google.com with SMTP id a1e0cc1a2514c-7c43ef4b8a5sf130804241.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 22 Nov 2023 01:31:25 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1700645484; cv=pass;
         d=google.com; s=arc-20160816;
-        b=fOn0+fY8AzfyzU7mUikv66WDE51sPRxpz+TlFS8L8CnMlu9VMr/IYIGmKVPGOZu09G
-         5ocKoUR+QMUlZ5506n6qdIQfI1Zb2m7p7cm125JCqPHeAcqhZEpEgYdCBydId2ZO3PAf
-         Oogb6qUBwCa97W8zD3Uj5qEexuXsQ/zgKzYVYAtBpaj3b99T6Yf4/h0+X8ItpBbczSqx
-         mMvEF26cjdSTpsIKzuvEcT0oS23L+jI57s6VceQ/ZcvgHa8NyGq9tYXD9u7FanIxgXx7
-         yLox8XC6tt7U59sXKGtZpzASLQWr3qIWr3rjx4wNOd16bwm3U9BWkrENe0M7NNbFED+5
-         zKAg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        b=t7k8YxXZuZRv66Dq8ASTc4aPwvEl9miyCP9M63qMeUnDMgYjgOk/zzUvf4YqF6ljgw
+         jy+Rom8eAS0M2MZfyIHSo/mHXHDtYo3AkagHdvjghr1qwez38QHOc3vKH72gKWZCmh2d
+         I3ObGy0FtWqbu0xnybk1iGO627imlYY2Dow9nRlN5wJ/UjmkfreqV/2T4iiRocM51xAA
+         7WTNNymTqFTFHUs3VRaSbD/6kco6MTDYhvsUphIOoKBZoFGHobCZ3SQImMzY9+6/QDA2
+         fmAbvKHP1VlMJB8GOiS93Yp6mcTDuMsyQdVu1Ron+L6/V7wB9vIZPWNSZfQYkh0dT63Z
+         tGhA==
+ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=CMjxicsaZsCnnZH5BKps6nu90utEbpV5c9PeWEzx+Ns=;
-        fh=f4NfliIws/m/cVxsN15bE/hKmzbPReAFB+nEzn1MMbs=;
-        b=WBnzAl67Z/azIO0xAye5WA+19De/EKaNDEOqUFKhzjFw2ctwT0nee+9fN/ACBskxzv
-         0tp9x3QRSRjl8gI7Jpe4SsjGLKK4l/8kGZoqbXxMVpY5OwVObYquiD3PYO9zlPCMDLFw
-         kgIMf/zoxOyC2KlvHeiS5zvDRZmx7c1Y33x6TP49PJjIAvbAEmzausV2o5qlq0RG34cU
-         //H3LsGCrChOxJuduZpYCiK3X7HFu3niy9SKdBA7JDIpRqCaet0U/kqjwvH4f0UY18bg
-         KjADVMaAcVqhgFqQBpe8Sk3MqQ1rLf1amarHsxrrv5m8AVz3fCOrwCLJTrCj3B4lFkuw
-         nONQ==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b="FtlrFt/B";
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::e2a as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+         :list-id:mailing-list:precedence:mime-version
+         :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:date:message-id:sender:dkim-signature;
+        bh=Ky08No/vIYSjc1pO99yElDShGiBC5ptZwwlkAAjQNRw=;
+        fh=s0/lp7F24HpsT408w1znVuowr7gz8VUTtsMZNZU0Sj0=;
+        b=eTBi9giAEZht7e0HqEoRIKIDS91Msh1zkQ2ixslKxnMLcOFq7ZmktNWuX0A1mAW6al
+         i4xO6CM8xKbBG6U1JHbgjQjrAuHYEYZij+6dK3HNjpYBOcrxDOlfLI70iDqFaoTExhjA
+         +/3knSzeasxuhCDUsnGxAvgEX9hNT+vKIXIrYZtDUvup/LhuD0/Xolkhm/WTDdNPes54
+         xUr5mceyYzvqXZfqe6Gfe6CO6T8bWsjbIFryyIQqg0TT1GbQ3W9JJDCSCJD0f1U8NZ3w
+         nZLF5/MVI1AiZgGrU/7a4ssMboauLiZ1x4+eaXmGtQ5c3NW25/DmTBMX44FojXcHg43w
+         fxZQ==
+ARC-Authentication-Results: i=3; gmr-mx.google.com;
+       dkim=pass header.i=@outlook.com header.s=selector1 header.b=em30Hzhq;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of juntong.deng@outlook.com designates 2a01:111:f400:fe1b::803 as permitted sender) smtp.mailfrom=juntong.deng@outlook.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1700623050; x=1701227850; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1700645484; x=1701250284; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CMjxicsaZsCnnZH5BKps6nu90utEbpV5c9PeWEzx+Ns=;
-        b=hZvbIycCzw04DYHyP4eFxHPRHiHQpTCyZ6Jh1WIApdAYu+Q9OdV+1zwWDHstlUpzMu
-         JEElsw3o8LToDDUWVrV8D9PEFxUCuuiK6pyksOyzyduVM/80LgZV6EUQqvnKzIycLPG9
-         r603tDw1Qpm8jyHQBPIWX32gQxR7cqoQDbABS5SbZb4U6s+51l0E4oMoBIzShLyHU0Gl
-         iZdmsXLfOQiggnScblv8pE4vxG0olVJeyuvK8+3iIgNj+WJ00UtJXllepAfLujYjUp0L
-         U0VuKXLjl+ynQ3TDcJmYYiCYabheehLEcFEbG3mdWGGWhmsgz2b6Bkffbva/ZtUHjosc
-         Wbbg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700623050; x=1701227850; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CMjxicsaZsCnnZH5BKps6nu90utEbpV5c9PeWEzx+Ns=;
-        b=Gh44djBd5GkESY0PK2R2V8CJBv2gJ+bDCqrVQAO5fRUuiXw9Fc1manT6FTr/yZo4Dk
-         crfE07SkVnW3OqoNBfb8PrVJZbU7lV0iySWmvjskd3zA26V6A+cChT6YgqNVn+oM20M8
-         8fqBiNdws0LoFMiC/p23STStMKLX20ckrfMZRHuzR4cHjFQfwpdx9jjqy4puGhI3z2Qf
-         0vXnKn2jaNaKR9BkV7SN6nEGdyNKX8viZy6SIe2SjKQ/0JhrGEYS9aKl/+MSR1QVIsJf
-         CnPWjUmEr93fXTLXqISNTKWmu2tqw2W+BT8NpbGtiRwD7fuH1sjgoYSn3vcaNb0VCL9/
-         9bzg==
+         :x-original-sender:mime-version:content-transfer-encoding
+         :in-reply-to:from:references:cc:to:subject:user-agent:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ky08No/vIYSjc1pO99yElDShGiBC5ptZwwlkAAjQNRw=;
+        b=jMJ6QoBb/MmdTVIxtc1+YDF+FwaLKIP7BFYi8bXTvS02IK4/3G6BfEsr8y7vKUYyA/
+         j94/Cusa592nr0msQtw9yB2kbJsv1nF/49CWA5V3cYhkMk6REAw36AkbvPa11pg06rku
+         JS7Rkb9b6pBxoHefgr5l3KizNnqniavMg5al8mHDqgJcyiOZ1ZRLNrLQuVd/Gt+uoXkb
+         5FQzorXRMI9Ft0g10U657KhuFG2m7VX5YN0p0+CED3UFvTTfWn7psI9/U7aybbmlxjO+
+         TfO59LBIP2CFknZEMXaHZ5j/rPQMOj7hO1p829O7tI9l6KcsXLwHscFgvxrizwpnvJBH
+         UM6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700623050; x=1701227850;
+        d=1e100.net; s=20230601; t=1700645484; x=1701250284;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=CMjxicsaZsCnnZH5BKps6nu90utEbpV5c9PeWEzx+Ns=;
-        b=b3G6oRW4qiSo4HZi82hXP/kvcH9YrQdkx2O2tXJgFc5ETMlGX7eslvfsVZHZmzW3DY
-         zr8IbAu9D7pwVWMacqRSaHFEB6UyFIQoVjLKlOGKrwGoBTjC54KDJh3HOe7s8OIvMtJy
-         a/+LdFn9UwMDqz78CBd4UMJE5SD/xMceET3eY9j9SfYqxadqS9kdgAcM26F0OwSuLrMd
-         etGrdwaCZ3acgjyWG1NFSkTSso1XSIQuD38X/3koRtUbS+eugtAY98rOUGF9WbHcs44i
-         VXvB5EE9591pc9OQ+h9ob4isj1JAf85ueByQE0BPzxSErtKQHf82QUl+shcR6lxfDiaD
-         gtaA==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ky08No/vIYSjc1pO99yElDShGiBC5ptZwwlkAAjQNRw=;
+        b=YjI90EUPYUko9hKxVuge3P3DhsvcLOTgr4bRb0JscmsaIQMrKlYNRcjsc9r19SUC8z
+         N7eyj5wLrfnxt+Y0+HSskgoIKPb8D1FtMfNxX3wSWEv8yqXvCeNjeOL2c1Z0P7zjkenR
+         SHg0Hj9gHtQsE+fxMe1lQto/5nEm6TbOAHH7WBvIScf8cYTDSPWgwF6fBPTq+Me27X0G
+         nKcO9GKy8BPHf1aThOronYUKhKxYQEXN1O7QeSjlAEVmq1tV5/NlFYgSPgOuWhaIQI++
+         WIPlxRatRplMUlEj+jjl8t9BB5XAOAPdpUt4A4NavIhFDZCGHsiwdzzU/9/XUkpxcojg
+         6miA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YwkSwuOUKcKNa3fYhpFN6r/0yNZ048wx64qCbGMlVAQ81six5N0
-	C8qVNq249c4fIaQZUwkjids=
-X-Google-Smtp-Source: AGHT+IGcISEALRp7GcE2DawLUAz8Dn4Dr22cPWnaVp3sr1vtZZRtHFJDsXnLd7BY7XgHtueKt8lofA==
-X-Received: by 2002:a9d:7581:0:b0:6bd:62c1:65c with SMTP id s1-20020a9d7581000000b006bd62c1065cmr2362151otk.18.1700623050475;
-        Tue, 21 Nov 2023 19:17:30 -0800 (PST)
+X-Gm-Message-State: AOJu0YwSc/UoN6lO1fi+CXHG89cY2NkJDegUXpIeHDxuJW5EsEuW5Yfk
+	pFBRe6hZKKm9TYIIpZXyGiPHYg==
+X-Google-Smtp-Source: AGHT+IES34PqPdzRI01p4K6ZIoMedAj9ZADk/D4ay/jow13Umw1Z1QrzGS42nlfaLdx6ekf8uhflMQ==
+X-Received: by 2002:a05:6102:4754:b0:45f:3a78:ca20 with SMTP id ej20-20020a056102475400b0045f3a78ca20mr2032906vsb.0.1700645484274;
+        Wed, 22 Nov 2023 01:31:24 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:8c2a:0:b0:587:a54a:b88f with SMTP id u39-20020a4a8c2a000000b00587a54ab88fls1339624ooj.1.-pod-prod-00-us;
- Tue, 21 Nov 2023 19:17:29 -0800 (PST)
-X-Received: by 2002:a05:6808:14d6:b0:3b8:37f9:443b with SMTP id f22-20020a05680814d600b003b837f9443bmr1449611oiw.9.1700623049435;
-        Tue, 21 Nov 2023 19:17:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1700623049; cv=none;
+Received: by 2002:a05:6214:14f2:b0:677:fbda:b41f with SMTP id
+ k18-20020a05621414f200b00677fbdab41fls4262037qvw.2.-pod-prod-07-us; Wed, 22
+ Nov 2023 01:31:23 -0800 (PST)
+X-Received: by 2002:a05:6102:30ba:b0:462:8f47:cf9b with SMTP id y26-20020a05610230ba00b004628f47cf9bmr1960475vsd.16.1700645483592;
+        Wed, 22 Nov 2023 01:31:23 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1700645483; cv=pass;
         d=google.com; s=arc-20160816;
-        b=l12a3BAeXudXdl+sIRPrZXI9hNKgOlH4iYsgmGuQbYsO6crQhcV9I6t+eil0pPKdGj
-         f/cCZuZWxtJOXIUx1vV5M72rB1aTaKxOn0UBryJcC0Jl4HX+NmxbcgOitlBhb6OQf3bP
-         uxlIJArj0SE+JOpPPZY1Rk898buSQ7hok+EdhgRlJjhPGXg3QkbT7kExvgNuClEeZWUK
-         SLhBvKUyRTs7Zy0h6acGwXZlBTT8579/3gQJq5d0QQmZjCiAkM0PBSdnmu31zlFEJ+IV
-         HfAe1Gi1bnI9HhOfEvh1AjKCSmQS9bIXw6i90pAmlLkdJq09DokBjykycEfGPtQgnu46
-         hY9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=+cifHwiL86k/hSfKeSdI4QL5cIbDxkzf2iHBxnZU0xs=;
-        fh=f4NfliIws/m/cVxsN15bE/hKmzbPReAFB+nEzn1MMbs=;
-        b=iai0GEiRru2UXldo1GSnyLoOp5c3cJO47tYh0p0twmywIHW8Dg0aqMDx2UiYYqd+cg
-         DK1F5YfHd7lhMIs3r/HKD0uls5f4ymhzHlMJS7PRPH8XsoBtHfqdf4t5wPLISZdgM9TT
-         /IvXOKTr7HXm/WagJhTaPB3g8aQz5eKL3o4MCOdHN8f1qUt0WBmkYaTCEW2aqrAKYJfa
-         Qpys6IGIxS7nh5RVjKx3n2bif7CnnUCLsXHZz0bBd5GGQMlHBP1U6aOP7yjtVU/TAr6M
-         ClZkAYpNvxts3x4IAK3UCzUTOl8zKR77QcnAks2grC5KUo7PnHmetzy98z/Wc2Db5Wuu
-         DH7Q==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b="FtlrFt/B";
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::e2a as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com. [2607:f8b0:4864:20::e2a])
-        by gmr-mx.google.com with ESMTPS id m2-20020a0568080f0200b003ae413f2b6esi741881oiw.5.2023.11.21.19.17.29
+        b=u0Xvj5Yihl0iEA9+OlrxAGoEUuaszMMky341EKhh//FuBhnLeYPiXckvq6KjAIdox6
+         NZ4J5XPuRollfoaTfn5t/gR3Q0HiHjN6A0wvBlSxPvqy7XxzfmH+paSfnYxo/+boeW8B
+         vn653dDMNaYFmj/OdJSXw80yYOJbqbZrbtX65BunER8teRomCDRYZlwuK7LIYNpRt83Y
+         w9r5zpT9sqrNF3CTh+rr8VGM2iiTGAQBaFyljglVRafmk9RLqEbNN5tC7SPF+lpivtVv
+         CSfW3WXrJBrAnYvo1TH1Jz7fHvh4fnmGNu/9pma87mjeBR2/utY5POsmntITtNyNb4c4
+         tSCQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=mime-version:content-transfer-encoding:in-reply-to:from:references
+         :cc:to:subject:user-agent:date:message-id:dkim-signature;
+        bh=wPIXkEm/xEsL/EC11qE51rwRVlS83/az6sa636j1GNM=;
+        fh=s0/lp7F24HpsT408w1znVuowr7gz8VUTtsMZNZU0Sj0=;
+        b=dWjxmdehBYjwBj4PaF8GAWsqcWrRveUAKez4SFK5lipwCencPSepzADflxcGyL/XH2
+         37NWBNTEpa1iqzEoMoNs5JPq+B49p1EbaRYf59MdwYVFOCGjlhDEBDlK1AzvqeOTRkip
+         ZcdiFGYmbFThF5TegibI0yNB8GrF2C5GH5mFU5c5iwPI2kI7gIOrycCiOCwWGn72P0pc
+         Vvj1ceDh0WtLeGXywfjlNbG6WYGGJYWZLbTCm9zsS5sShiuGuasg02xA7/A55xUR5Cij
+         QmVQ55KjTZfWgM0cg9wFkKzo/GlkOVBe4cKGMFJSAvpZW4eDWKlnGy4+loB7TZRPpeVJ
+         d4WQ==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@outlook.com header.s=selector1 header.b=em30Hzhq;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of juntong.deng@outlook.com designates 2a01:111:f400:fe1b::803 as permitted sender) smtp.mailfrom=juntong.deng@outlook.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com (mail-vi1eur03olkn20803.outbound.protection.outlook.com. [2a01:111:f400:fe1b::803])
+        by gmr-mx.google.com with ESMTPS id d11-20020a056102148b00b004508d6fcf6csi1766516vsv.1.2023.11.22.01.31.23
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Nov 2023 19:17:29 -0800 (PST)
-Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::e2a as permitted sender) client-ip=2607:f8b0:4864:20::e2a;
-Received: by mail-vs1-xe2a.google.com with SMTP id ada2fe7eead31-45f3b583ce9so266259137.0
-        for <kasan-dev@googlegroups.com>; Tue, 21 Nov 2023 19:17:29 -0800 (PST)
-X-Received: by 2002:a05:6102:47:b0:462:7c78:ba53 with SMTP id
- k7-20020a056102004700b004627c78ba53mr1343955vsp.16.1700623048669; Tue, 21 Nov
- 2023 19:17:28 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1700502145.git.andreyknvl@google.com> <5cef104d9b842899489b4054fe8d1339a71acee0.1700502145.git.andreyknvl@google.com>
-In-Reply-To: <5cef104d9b842899489b4054fe8d1339a71acee0.1700502145.git.andreyknvl@google.com>
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Date: Wed, 22 Nov 2023 12:17:17 +0900
-Message-ID: <CAB=+i9Q95W+w=-KC5vexJuqVi60JJ1P8e-_chegiXOUjB7C3DA@mail.gmail.com>
-Subject: [BISECTED] Boot hangs when SLUB_DEBUG_ON=y
-To: andrey.konovalov@linux.dev
-Cc: Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Evgenii Stepanov <eugenis@google.com>, Oscar Salvador <osalvador@suse.de>, 
-	Linux Memory Management List <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Andrey Konovalov <andreyknvl@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 22 Nov 2023 01:31:23 -0800 (PST)
+Received-SPF: pass (google.com: domain of juntong.deng@outlook.com designates 2a01:111:f400:fe1b::803 as permitted sender) client-ip=2a01:111:f400:fe1b::803;
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NEQqjBNwXXNk8cH9xEXrxxRWWAI3rxzi/XcLe+EzUIWBxuE3AF49xLz3Gs0X3NHYssje17diUSgYC50jLfpthE6FN8MUP99rtYFJCMwY+oqcPN2fFe++fFd33tLZz0UCorkMyQ5mtvd3o7LY6rzSrCwBPscTbjtfa9fPLA9FpSVJ50V/fAbsgmphMRnrrD5lv/+hyCXUT6W9kpTtFjoNu+AwwYfIE6AjOZgGVBg42gGUAvMTOuCk+Zo73kC5OOQ/jt2SaTPOU0b9N1hnfR32G2tNNPMeWbt4YjRY9L/QIfBs7XBW14AYBgxbCqzYgJSNmc/BBSG8IQPQh1sLIwrUSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wPIXkEm/xEsL/EC11qE51rwRVlS83/az6sa636j1GNM=;
+ b=d8PqnLIMu5/U1EnensTO4OJdCrlloK0ZgdPYA0L16BvdtkICsOgbddfaAeVyd4mrv3bItXQsgJLolasWEwrPTV6u0GjYmWPYKWaAQC+xENaNG6Vii3XfcVSYzylrwhVR6U8tuYV7DR5b1U7RUoH2ffv2nfz4WvlacElMUntIqx6PxNkHWu32H87DP0dZusI5FtSHtImwm9RuGFUXl5D8VnTakRgyO6Sh63KqMTKA3SyisaEcR8c4V6Pktl1H6vAHZe8hoWW3l5sjXNXevQCI5KikD204cagONn0sp2AIqcxnSz/cKo/TfnTEcAkhFMFbXxBOlXBsiQKDacXC4LPA8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:32::19)
+ by GV1P193MB2406.EURP193.PROD.OUTLOOK.COM (2603:10a6:150:1e::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
+ 2023 09:31:20 +0000
+Received: from VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::fdd2:7dbf:e16c:f4a4]) by VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ ([fe80::fdd2:7dbf:e16c:f4a4%4]) with mapi id 15.20.7002.028; Wed, 22 Nov 2023
+ 09:31:20 +0000
+Message-ID: <VI1P193MB0752C8CE08222B9EA4D744F399BAA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+Date: Wed, 22 Nov 2023 17:31:19 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] kasan: Improve free meta storage in Generic KASAN
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com,
+ vincenzo.frascino@arm.com, akpm@linux-foundation.org,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linuxfoundation.org
+References: <VI1P193MB0752C0ADCF4F90AE8368C0B399BBA@VI1P193MB0752.EURP193.PROD.OUTLOOK.COM>
+ <CA+fCnZfBM=UU0AyArERNMxBMeaPvbV-e6uyQDpwgqA5c6_f_DQ@mail.gmail.com>
+From: Juntong Deng <juntong.deng@outlook.com>
+In-Reply-To: <CA+fCnZfBM=UU0AyArERNMxBMeaPvbV-e6uyQDpwgqA5c6_f_DQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: 42.hyeyoo@gmail.com
+X-TMN: [844qAesJ/jBR/CvE/c8M7SmratwBpcuW]
+X-ClientProxiedBy: LNXP265CA0022.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:5e::34) To VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:800:32::19)
+X-Microsoft-Original-Message-ID: <63744528-8fc5-4986-b74d-070297b1e6d1@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1P193MB0752:EE_|GV1P193MB2406:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a11d2a1-5303-459c-428d-08dbeb3dc8dd
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6xGYvrNnRYLRQZ8Cy3YybntJqRVSQSEt7ju4AFjBwvCW0cgwMHhGcsdlK0Dvu7csLsEM2H1zD+pfk3dwWAHOGVQC7Er+npznRRV48l4d0PjRj/WngNwzWW6WKHqs7144HNxbiJqB+v8XHbeJvv9f1cOjq6jsm6zjvQhY5ul9q3TLpgKQMrb3vPnkpjGz8YDjQ7cIWAcPMuLBBay6NbDP4efo1aZ8Hm7XTsH6HdabbDogkZna/NPGkvZHKrGAjJjhVnEqX9l4xPw60ZAe9MCBcEwTCtkvJNsjD0A3Kp8wz3CE+FM/+ctejUeMWYKF1sD2NcT8Sm7ICKyovRGlTADztv9yqQq8WQRXdhvjyOb04mKctZa69FOz7sCYSSgpam67OcsQu1Wc++9c52k3VSB87gYvbhVtjIaHEN5AwWTLqqciOBo829WawseUBHbL1+7ODvqW5pZoyEhwuhdPMHboOo9biVUXiSW/yaUYXiTwqwgFRShRvzaaB/bIj3WRzTPmwePBA98IJI1yXkr3SAJQsUHuBfFVZ/tbTqaslh3L+5/diF/WsQ1nhm5bHhy5Kj8D
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R3g1enY3cUdHR2xiMDBWd3dXaUxKTW4xejlISlpSVjVETk0yL2pYbDdiNWps?=
+ =?utf-8?B?eUJXaXpEdWJZVUJhYTdncXhzeEZOWVFIaDkrWlMwcVljT1lMNWFUb3lFVjZk?=
+ =?utf-8?B?dlBIT0ViWDh6UlJSUlZIMWIrVnpqSkxXZzhFSnR4OWpITExML2pvbXJPd3Rz?=
+ =?utf-8?B?djV0UW52Z2FxbExUNVVHWUxSS3ZJcEVWT1ZSQ0Q2aVBENnVlZ0NWZG00MGlm?=
+ =?utf-8?B?ZVk5OE9sSHJKd2Q2TkRGYlJIbXk4dS8rY2pDRlRzck5NaVMzbDhDZWs3M2ty?=
+ =?utf-8?B?MGN0dDFET3RRNllFZUlvS1dnTGJzWnQ5SHNLN1lRUnVKa1RsTmRFNVpaS2kr?=
+ =?utf-8?B?RHBVV284NUxzZlpqRHZibWVNbHlJYzNVRitZbDN4QTVNQkJpVFBValJwS1FO?=
+ =?utf-8?B?TGJaUEhyd3Q4OXJhUUh0c2dJMnpCOWZ0a280akV3NmczSHk3UlliTFBPbHVz?=
+ =?utf-8?B?KzR1YjVZNkJkTWlRS0IwRy9KK2ttQS9aZThtZVBBWWdSL1JvcmRIU2FNODlV?=
+ =?utf-8?B?amhlV2M2dm5zaXh1VGpRVzVEOWJpV3A2UExpR05uN2J6c0xDc0NxSDlZdW5O?=
+ =?utf-8?B?dXYxNXZwcFkvUmJwanJReHJrTDZCOG9RbGVDQjNXa2YrNUE4Tjl1K3NsVFNV?=
+ =?utf-8?B?QnVqaXVpaFdacmtjZWoxd0phQUxWWHh6SWNrRXpnMWZGLzdtRy92aEMweXoy?=
+ =?utf-8?B?aDlkMFBjakh0a1R1bXA2amxjWFM5d1Bna2M2dVkvdGIvTklUSkVucHhHd0kw?=
+ =?utf-8?B?dElrbDRONUhCSkZtYU9vaWJVRzNTenN4aW5UN2hPKzVYVk5wT2NCVGNIN21J?=
+ =?utf-8?B?ZFBBM09GZVpDT2lwWnE5ekJTdmdLdjFQU1EySmtiYlFTcEIycEFKZFMrbUs2?=
+ =?utf-8?B?RmFyVFQ2clBVSEtBdWpTUnduaGJseE9xQ3pFSEpMWFZrZjQ1aHlwZkZQTFNK?=
+ =?utf-8?B?ZHFMNTg1bGIvN0hPYkoxb2lMNk9DUWFSTko0NU9mZzdMOFRvVXJoUXQwZC8w?=
+ =?utf-8?B?dk80ZkowTDVmUDdCQ3d1djh2L3RWL0loZUhLMjBSdlA4ZmpQODNTMGEwcnpl?=
+ =?utf-8?B?cTVyWjdRUllGYlNabHpvL2hJNnZJRmV0SWRhZy9HRWdEQmRncWQ1R01LV3Bk?=
+ =?utf-8?B?Z0JYZVhPZzNsTlN5cEdtY0RTUFQ0a0FFSkF4NDMzVWQ5Q28ycmcrRGl2cFdr?=
+ =?utf-8?B?N1BLcllVelNSSytkYzNJc3V2Nlc1VnJ3SFNnbjhVWU14TDUreW1oSTA3bWVU?=
+ =?utf-8?B?OWlMVFoweGp6OXJGRGdlM3lhNkFlK3pnWDZFQ00rK3pXQlBtN3NsMnRBbDdl?=
+ =?utf-8?B?cUJPUHZCU0c4cUlXODU5aGVXbkxqWXgwcmpmODYzRlV3OGhPT2JkemtpZkJ2?=
+ =?utf-8?B?bEQ2bU9yZzRTZi9qTUJtSlViRERjbnptRk5yUzFKejZvbTI0NTdtR3gvZTUv?=
+ =?utf-8?B?bURJWUJJK0RVZjlZR0hPbE1kMkNJZFlMdmJXOGRmRkUxU1JmU01wVHJxNzdW?=
+ =?utf-8?B?b09SeG4yOVBycWRxajhpWXJ4U09nckhkMXBxL2dBSWlTQjg3R0IzVHdKYy9C?=
+ =?utf-8?B?b1M4RFZGekJ0bVlLUWlWcDM5YmNWb2RKTUlwWjJnemxRWGNvM1B2ak04NWxM?=
+ =?utf-8?Q?tdANndwOI6dSfmdu9BBJbehA2xgif2b9EeC+6qIruuV4=3D?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a11d2a1-5303-459c-428d-08dbeb3dc8dd
+X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0752.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 09:31:20.5028
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P193MB2406
+X-Original-Sender: juntong.deng@outlook.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b="FtlrFt/B";       spf=pass
- (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::e2a
- as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@outlook.com header.s=selector1 header.b=em30Hzhq;       arc=pass
+ (i=1);       spf=pass (google.com: domain of juntong.deng@outlook.com
+ designates 2a01:111:f400:fe1b::803 as permitted sender) smtp.mailfrom=juntong.deng@outlook.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=outlook.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -153,87 +205,202 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Nov 21, 2023 at 1:08=E2=80=AFPM <andrey.konovalov@linux.dev> wrote:
->
-> From: Andrey Konovalov <andreyknvl@google.com>
->
-> Evict alloc/free stack traces from the stack depot for Generic KASAN
-> once they are evicted from the quaratine.
->
-> For auxiliary stack traces, evict the oldest stack trace once a new one
-> is saved (KASAN only keeps references to the last two).
->
-> Also evict all saved stack traces on krealloc.
->
-> To avoid double-evicting and mis-evicting stack traces (in case KASAN's
-> metadata was corrupted), reset KASAN's per-object metadata that stores
-> stack depot handles when the object is initialized and when it's evicted
-> from the quarantine.
->
-> Note that stack_depot_put is no-op if the handle is 0.
->
-> Reviewed-by: Marco Elver <elver@google.com>
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+On 2023/11/22 10:27, Andrey Konovalov wrote:
+> On Tue, Nov 21, 2023 at 10:42=E2=80=AFPM Juntong Deng <juntong.deng@outlo=
+ok.com> wrote:
+>>
+>> Currently free meta can only be stored in object if the object is
+>> not smaller than free meta.
+>>
+>> After the improvement, even when the object is smaller than free meta,
+>> it is still possible to store part of the free meta in the object,
+>> reducing the increased size of the redzone.
+>>
+>> Example:
+>>
+>> free meta size: 16 bytes
+>> alloc meta size: 16 bytes
+>> object size: 8 bytes
+>> optimal redzone size (object_size <=3D 64): 16 bytes
+>>
+>> Before improvement:
+>> actual redzone size =3D alloc meta size + free meta size =3D 32 bytes
+>>
+>> After improvement:
+>> actual redzone size =3D alloc meta size + (free meta size - object size)
+>>                      =3D 24 bytes
+>>
+>> Suggested-by: Dmitry Vyukov <dvyukov@google.com>
+>> Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
+>=20
+> I think this change as is does not work well with slub_debug.
+>=20
+> slub_debug puts its metadata (redzone, tracks, and orig_size) right
+> after the object (see calculate_sizes and the comment before
+> check_pad_bytes). With the current code, KASAN's free meta either fits
+> within the object or is placed after the slub_debug metadata and
+> everything works well. With this change, KASAN's free meta tail goes
+> right past object_size, overlaps with the slub_debug metadata, and
+> thus can corrupt it.
+>=20
+> Thus, to make this patch work properly, we need to carefully think
+> about all metadatas layout and teach slub_debug that KASAN's free meta
+> can go past object_size. Possibly, adjusting s->inuse by the size of
+> KASAN's metas (along with moving kasan_cache_create and fixing up
+> set_orig_size) would be enough. But I'm not familiar with the
+> slub_debug code enough to be sure.
+>=20
+> If you decide to proceed with improving this change, I've left some
+> comments for the current code below.
+>=20
+> Thank you!
+>=20
 
-I observed boot hangs on a few SLUB configurations.
 
-Having other users of stackdepot might be the cause. After passing
-'slub_debug=3D-' which disables SLUB debugging, it boots fine.
+I delved into the memory layout of SLUB_DEBUG today.
 
-compiler version: gcc-11
-config: https://download.kerneltesting.org/builds/2023-11-21-f121f2/.config
-bisect log: https://download.kerneltesting.org/builds/2023-11-21-f121f2/bis=
-ect.log.txt
+I think a better option would be to let the free meta not pass through
+the object when SLUB_DEBUG is enabled.
 
-[dmesg]
-(gdb) lx-dmesg
-[    0.000000] Linux version 6.7.0-rc1-00136-g0e8b630f3053
-(hyeyoo@localhost.localdomain) (gcc (GCC) 11.3.1 20221121 (R3[
-0.000000] Command line: console=3DttyS0 root=3D/dev/sda1 nokaslr
-[    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted
-6.7.0-rc1-00136-g0e8b630f3053 #22
-[    0.000000] RIP: 0010:setup_arch+0x500/0x2250
-[    0.000000] Code: c6 09 08 00 48 89 c5 48 85 c0 0f 84 58 13 00 00
-48 c1 e8 03 48 83 05 be 97 66 00 01 80 3c 18 00 0f3[    0.000000] RSP:
-0000:ffffffff86007e00 EFLAGS: 00010046 ORIG_RAX: 0000000000000009
-[    0.000000] RAX: 1fffffffffe40088 RBX: dffffc0000000000 RCX: 1ffffffff11=
-ed630
-[    0.000000] RDX: 0000000000000000 RSI: feec4698e8103000 RDI: ffffffff88f=
-6b180
-[    0.000000] RBP: ffffffffff200444 R08: 8000000000000163 R09: 1ffffffff11=
-ed628
-[    0.000000] R10: ffffffff88f7a150 R11: 0000000000000000 R12: 00000000000=
-00010
-[    0.000000] R13: ffffffffff200450 R14: feec4698e8102444 R15: feec4698e81=
-02444
-[    0.000000] FS:  0000000000000000(0000) GS:ffffffff88d5b000(0000)
-knlGS:0000000000000000
-[    0.000000] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[    0.000000] CR2: ffffffffff200444 CR3: 0000000008f0e000 CR4: 00000000000=
-000b0
-[    0.000000] Call Trace:
-[    0.000000]  <TASK>
-[    0.000000]  ? show_regs+0x87/0xa0
-[    0.000000]  ? early_fixup_exception+0x130/0x310
-[    0.000000]  ? do_early_exception+0x23/0x90
-[    0.000000]  ? early_idt_handler_common+0x2f/0x40
-[    0.000000]  ? setup_arch+0x500/0x2250
-[    0.000000]  ? __pfx_setup_arch+0x10/0x10
-[    0.000000]  ? vprintk_default+0x20/0x30
-[    0.000000]  ? vprintk+0x4c/0x80
-[    0.000000]  ? _printk+0xba/0xf0
-[    0.000000]  ? __pfx__printk+0x10/0x10
-[    0.000000]  ? init_cgroup_root+0x10f/0x2f0
---Type <RET> for more, q to quit, c to continue without paging--
-[    0.000000]  ? cgroup_init_early+0x1e4/0x440
-[    0.000000]  ? start_kernel+0xae/0x790
-[    0.000000]  ? x86_64_start_reservations+0x28/0x50
-[    0.000000]  ? x86_64_start_kernel+0x10e/0x130
-[    0.000000]  ? secondary_startup_64_no_verify+0x178/0x17b
-[    0.000000]  </TASK>
+In other words, the free meta continues to be stored according to the
+previous method when SLUB_DEBUG is enabled.
 
---
-Hyeonggon
+Even if we teach SLUB_DEBUG that KASAN's free meta may pass through the
+object and move SLUB_DEBUG's metadata backward, it still destroys the
+original design intent of SLUB_DEBUG.
+
+Because SLUB_DEBUG checks for out-of-bounds by filling the redzones
+on both sides of the object with magic number, if SLUB_DEBUG's redzones
+move backward, leaving a gap, that will break the out-of-bounds
+checking.
+
+I will send patch V3 to fix this issue.
+
+
+>> ---
+>> V1 -> V2: Make kasan_metadata_size() adapt to the improved
+>> free meta storage
+>>
+>>   mm/kasan/generic.c | 50 +++++++++++++++++++++++++++++++---------------
+>>   1 file changed, 34 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
+>> index 4d837ab83f08..802c738738d7 100644
+>> --- a/mm/kasan/generic.c
+>> +++ b/mm/kasan/generic.c
+>> @@ -361,6 +361,8 @@ void kasan_cache_create(struct kmem_cache *cache, un=
+signed int *size,
+>>   {
+>>          unsigned int ok_size;
+>>          unsigned int optimal_size;
+>> +       unsigned int rem_free_meta_size;
+>> +       unsigned int orig_alloc_meta_offset;
+>>
+>>          if (!kasan_requires_meta())
+>>                  return;
+>> @@ -394,6 +396,9 @@ void kasan_cache_create(struct kmem_cache *cache, un=
+signed int *size,
+>>                  /* Continue, since free meta might still fit. */
+>>          }
+>>
+>> +       ok_size =3D *size;
+>> +       orig_alloc_meta_offset =3D cache->kasan_info.alloc_meta_offset;
+>> +
+>>          /*
+>>           * Add free meta into redzone when it's not possible to store
+>>           * it in the object. This is the case when:
+>> @@ -401,21 +406,26 @@ void kasan_cache_create(struct kmem_cache *cache, =
+unsigned int *size,
+>>           *    be touched after it was freed, or
+>>           * 2. Object has a constructor, which means it's expected to
+>>           *    retain its content until the next allocation, or
+>=20
+> Please drop "or" on the line above.
+>=20
+>> -        * 3. Object is too small.
+>>           * Otherwise cache->kasan_info.free_meta_offset =3D 0 is implie=
+d.
+>> +        * Even if the object is smaller than free meta, it is still
+>> +        * possible to store part of the free meta in the object.
+>>           */
+>> -       if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor ||
+>> -           cache->object_size < sizeof(struct kasan_free_meta)) {
+>> -               ok_size =3D *size;
+>> -
+>> +       if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor) {
+>>                  cache->kasan_info.free_meta_offset =3D *size;
+>>                  *size +=3D sizeof(struct kasan_free_meta);
+>> +       } else if (cache->object_size < sizeof(struct kasan_free_meta)) =
+{
+>> +               rem_free_meta_size =3D sizeof(struct kasan_free_meta) -
+>> +                                                               cache->o=
+bject_size;
+>> +               *size +=3D rem_free_meta_size;
+>> +               if (cache->kasan_info.alloc_meta_offset !=3D 0)
+>> +                       cache->kasan_info.alloc_meta_offset +=3D rem_fre=
+e_meta_size;
+>> +       }
+>>
+>> -               /* If free meta doesn't fit, don't add it. */
+>> -               if (*size > KMALLOC_MAX_SIZE) {
+>> -                       cache->kasan_info.free_meta_offset =3D KASAN_NO_=
+FREE_META;
+>> -                       *size =3D ok_size;
+>> -               }
+>> +       /* If free meta doesn't fit, don't add it. */
+>> +       if (*size > KMALLOC_MAX_SIZE) {
+>> +               cache->kasan_info.free_meta_offset =3D KASAN_NO_FREE_MET=
+A;
+>> +               cache->kasan_info.alloc_meta_offset =3D orig_alloc_meta_=
+offset;
+>> +               *size =3D ok_size;
+>>          }
+>>
+>>          /* Calculate size with optimal redzone. */
+>> @@ -464,12 +474,20 @@ size_t kasan_metadata_size(struct kmem_cache *cach=
+e, bool in_object)
+>>          if (in_object)
+>>                  return (info->free_meta_offset ?
+>>                          0 : sizeof(struct kasan_free_meta));
+>=20
+> This needs to be changed as well to something like min(cache->object,
+> sizeof(struct kasan_free_meta)). However, with the slub_debug
+> conflicts I mentioned above, we might need to change this to something
+> else.
+>=20
+>=20
+>=20
+>> -       else
+>> -               return (info->alloc_meta_offset ?
+>> -                       sizeof(struct kasan_alloc_meta) : 0) +
+>> -                       ((info->free_meta_offset &&
+>> -                       info->free_meta_offset !=3D KASAN_NO_FREE_META) =
+?
+>> -                       sizeof(struct kasan_free_meta) : 0);
+>> +       else {
+>> +               size_t alloc_meta_size =3D info->alloc_meta_offset ?
+>> +                                                               sizeof(s=
+truct kasan_alloc_meta) : 0;
+>> +               size_t free_meta_size =3D 0;
+>> +
+>> +               if (info->free_meta_offset !=3D KASAN_NO_FREE_META) {
+>> +                       if (info->free_meta_offset)
+>> +                               free_meta_size =3D sizeof(struct kasan_f=
+ree_meta);
+>> +                       else if (cache->object_size < sizeof(struct kasa=
+n_free_meta))
+>> +                               free_meta_size =3D sizeof(struct kasan_f=
+ree_meta) -
+>> +                                                                       =
+cache->object_size;
+>> +               }
+>> +               return alloc_meta_size + free_meta_size;
+>> +       }
+>>   }
+>>
+>>   static void __kasan_record_aux_stack(void *addr, bool can_alloc)
+>> --
+>> 2.39.2
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -241,5 +408,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAB%3D%2Bi9Q95W%2Bw%3D-KC5vexJuqVi60JJ1P8e-_chegiXOUjB7C3DA%40mai=
-l.gmail.com.
+kasan-dev/VI1P193MB0752C8CE08222B9EA4D744F399BAA%40VI1P193MB0752.EURP193.PR=
+OD.OUTLOOK.COM.
