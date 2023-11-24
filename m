@@ -1,134 +1,145 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBB45472VAMGQEWDKU7KQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDH7RNXZVMORBGXE76VAMGQEGO6TNUI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3b.google.com (mail-oo1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89DC7F66A1
-	for <lists+kasan-dev@lfdr.de>; Thu, 23 Nov 2023 19:48:20 +0100 (CET)
-Received: by mail-oo1-xc3b.google.com with SMTP id 006d021491bc7-587a54afb50sf1001983eaf.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 23 Nov 2023 10:48:20 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1700765299; cv=pass;
+Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B6F7F69E8
+	for <lists+kasan-dev@lfdr.de>; Fri, 24 Nov 2023 01:45:16 +0100 (CET)
+Received: by mail-il1-x13b.google.com with SMTP id e9e14a558f8ab-35ba0b303bdsf663445ab.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 23 Nov 2023 16:45:16 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1700786714; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hZN9wycJ0ZlBXxqLPXjTMNnu2QCeltiIKrZtOVgxym6pE+/Qtzl2qkVKE7oUCHs0fh
-         G/EKrZzL6maPztkAHGzmbVbnr/OaopPKFyrjl8tNIja+WSWftSzKnt2cIc+Bfxk60Z3V
-         YsgmZXigXc5wvREdO+F4YZ2NCuEZyV7jZXJbSZ8AFBfjbBBasmYrKaXfZDy8+V37m8eN
-         GFbeg8J6CnopgnJZWCXJvcAJtVI4+RNT1Oy9LfiKEpKXcu9zQ2SsfswhsMEtCDkWHhqG
-         AEIbnphIFsZqhf3kaio+2sTjzHXgRPIgHBuZYmZW3T/BJvMpFSVD8NzDZ5nVlv5tmGOb
-         3lIw==
+        b=pyxTTfVtg0m8+Y0vksG5FNnSlkse1z/kad2/hLOFv6opfDiUBJRfzWEYXwAINLB8Za
+         POYvRJYklIzr8jncYEPqfHJhpF+BU1rhpzmObeWveGH8bppIJH4UofWRMfblaDxRoPy6
+         3x0vQOAQxgGsZiB3ihmQo1Z3zOHSzf7xGySbay1y5cmZPBhr9/Hv3zJXHNZ2JF+a+u3k
+         ps9FEHaSMver7oTLxTQyviEO1AUzim6zGAoYHsPfwDNmhIof5s8jBrjvIalVitsEEtmf
+         wJ1gNISeouZk//Hid9JaW+U4407M1M0VnTC1wkY3amF/wykhT79z4zJ+FOerYgiW4Rbu
+         ENsw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=lC1UnSb9AvFY5gnmt46SjOxLCWxguwaUu+XQ+CKWyzE=;
-        fh=NSvAzB9689xOzGb9utbYfCotqde6p2+uodY2iw9anZY=;
-        b=mdJgxVdyVlDPmwHXrbJsx7kyROHoER7Z+JKKxVmcpH0bpqJqtlWVui8+SWPUoqsRRw
-         6LbprFXUpB9HlA905MaSa1Fa2EJmOauqyLZWIhvupACUZEjkFAjt0odDWdilIPsO5IrS
-         1r2fe0ytuYcmoToVi56dyAbV2FtpHzqZH9gnt6SQuDY0UYuTjgjARWGWbe94oZsBCdJG
-         M23+jFYTQ+oMbwHgz8t5LZGsLrtliuSvIZfekGzufgLmjXfSX4o4rf4WlWsps2PbfhwV
-         iAGiKYqxZZLx+3wgOAAXMyhsRGqEvfvz8/ZPD3VfPMyBeg/aH/DebljDX9hhiGbm/rt8
-         wOkw==
+         :list-id:mailing-list:precedence:reply-to:mime-version:references
+         :message-id:in-reply-to:subject:cc:to:from:date:dkim-signature;
+        bh=vA1fF4G+MYaTfDXu33M6/P9elq5NbBhCag+U1egig4g=;
+        fh=znRC6ertM1NN7yUqvRad/Q+ykfaWJVc1H+onLpZ+Buo=;
+        b=d8SBt+o8tg1F4raX9P9BVgaYMNSuyg+3m+CjJKEJF5+MLxc6xdDDbcZEqLRiZj8Zsq
+         Td6FQNYNERoroH45cwukzxzjyIhm6dKoz4gXLOAPVh8278rHLEhdiL18XaFD297cH5ay
+         VCOFg9KZWVElejnCswLxFPh0dyASnvK2MjRFJDIz2HBJj5im9JDBOtmuyVd0fVRw88i4
+         ZFlzORwqoockVRA1c2z0JVZUW+pvKA5TLmxw8rjlQ3pvA6PWGVvjzwd66MopIn65U/bX
+         PwYxXLAeGHbUx799Ze/q82uWRd6a08alt4vD8kLj1nlKAfTLFlyp5hGQ+qQZh7zBNhMR
+         ibaw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=A9fsCeDd;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2d as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=A1i0ErEi;
+       spf=pass (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::136 as permitted sender) smtp.mailfrom=rientjes@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1700765299; x=1701370099; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1700786714; x=1701391514; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lC1UnSb9AvFY5gnmt46SjOxLCWxguwaUu+XQ+CKWyzE=;
-        b=dp44Fj/Sj5E5oxeXPbkHojLzkXAokpneyOEN1DB7UsVIaW7K2w5H20vouUDt2WGoeO
-         tDpgL3MZwjG3o0GHAry03X3K+FjBNggJRFCMBjeR3DBNp5SLbklxqgqFD6SsNlXPn4oT
-         a6bGjMKji5oiD4P0rxT1rEYv5rg1M3lu+mo6PZc+Fnd01/varDfHNsTV6SRuM1ZqdK6T
-         ERy4D9TsoUxAfxB/+k+FO7Zf/466huhG2MbfWUwV94ov6NA+VjYvu1gr1nlUTh7pIR6Q
-         RxAOz7oqd8T2jS0oGfvG8Pe4vgQS4sgdCmOP/jUC5yzUkS84U/UkBnN5ctIha70Gj2Ab
-         ov3w==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:message-id:in-reply-to:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=vA1fF4G+MYaTfDXu33M6/P9elq5NbBhCag+U1egig4g=;
+        b=AcS3uQyLZYRtXNFwXHm3eWNdJLt6m+tyoSUr6ACohCoCsSs5/zdJh8oVN6DfLEUMmG
+         cpgRlMEq9m2cFVgosJ0i2DnNaCYdjaXy55TucPOED8R6QxkHjTTNA6UVL7NSw6k6Kxwm
+         nQaliX/64livKmE1veb3Ks53wFNA20XG625WUBosWiEbfUbEwgTR52FIuGLGv39BsYzQ
+         y4elKdmXPTZ1plaDvHGrBZUpCAaAxxUJIJ4+lD1vKNpjvnR1nORbvyZCPvvSiZhaboDB
+         5XsUFvFdFytYUL7aTOP+Ptu4BblGotVKfI2F6Kr9NQ19MGMHwjjp2zSt5OzN8Jqk/Sp1
+         bQag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700765299; x=1701370099;
+        d=1e100.net; s=20230601; t=1700786714; x=1701391514;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lC1UnSb9AvFY5gnmt46SjOxLCWxguwaUu+XQ+CKWyzE=;
-        b=fA0Tw1D3MP1rnvauZm2ARTuJPskTJB2aBjR7X8yyb8H1qSYD4x1MAoRysxQinOy7KM
-         JTTMfxwfSlfTtjbQhdeDlteRZAemxxWcnwGZjbhE+i8laZt/FFlLVRS/axIODV7nGCJS
-         W+qqYDp6UwfgyEonPqTS0zbxRkLgHGq0rJt1rdOlA6ZVUtzpUzULXKY7XgTrJ5qk6Ud1
-         xccpX3HbHILSVxfF1KabolDYqNZaECsHFmPY2dYHFbYfXtbNSEP6i7Tgs4eSvsqY+I7V
-         M2Y5QopMfuVM1b5PFbhODENzMbLqzlAggdSZ7wjCqc3hzqDNFIteOCR5COoSPRZXIKuc
-         xmJA==
-X-Gm-Message-State: AOJu0YwQ/ZdGIRb6fMB8cZx5XtTEeBQHuXiYNgvpRxy+1qtQ4Kt5n3JK
-	MiJtVAlorTaXXYtJXrYLi1I=
-X-Google-Smtp-Source: AGHT+IEvIeg8rDPrXqrfPhg+dodc93lOjrckqHraHnbKXGgOTyGuNfW2SgWJBvQv9C0xPvumNqm3yg==
-X-Received: by 2002:a05:6820:411:b0:576:bbf6:8a8e with SMTP id o17-20020a056820041100b00576bbf68a8emr1739481oou.2.1700765299285;
-        Thu, 23 Nov 2023 10:48:19 -0800 (PST)
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:message-id:in-reply-to:subject:cc:to:from:date
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vA1fF4G+MYaTfDXu33M6/P9elq5NbBhCag+U1egig4g=;
+        b=mkBZgngLKdgXTiPzClYKW6nKq/OtL/XQ1vRZUml9vTIcuxhC+lmDzI8Js0Lm4vP412
+         QE/BPWffqSCkDof0hp+AQWyZdMpE0cVjqKtkl1XyzpeNHG7BYv45tv55VU9r5OYsJxRJ
+         EjEr2hozkKpfeYGyEN2OHly/EHAWGEj5MLyDJg8E7gfUOtO8o+AVMtYDjQg80XboYNWE
+         AlqIRH46WxDV3l8On9bbuc1QL/yrtxCob3VkIpXX0Xk5fnVPUZxX2oMtE9x6JEYzkUig
+         g9HGBdcjyHTrcocsduzDYy6IPITk7CE7AU05PDSoLQ0vWq68NQWnIE1pTnr0jFFs9N3W
+         h2Sg==
+X-Gm-Message-State: AOJu0Yx9tSKWgw1+59X5K8RCh/GZR8ENDOY7cPCzPAsEFH2qaE8A0KrN
+	X3BjqPOGUUrux00s9aXvXno=
+X-Google-Smtp-Source: AGHT+IGphpASQHz48UIL+odMhzN4blIUnCbPHAcBoA/vs9AomTaE7sNKowp/xls4EJAK9EsnTzRjOA==
+X-Received: by 2002:a05:6e02:214d:b0:357:ccd6:a347 with SMTP id d13-20020a056e02214d00b00357ccd6a347mr335178ilv.19.1700786714643;
+        Thu, 23 Nov 2023 16:45:14 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6820:613:b0:587:a54a:b88f with SMTP id
- e19-20020a056820061300b00587a54ab88fls453003oow.1.-pod-prod-00-us; Thu, 23
- Nov 2023 10:48:18 -0800 (PST)
-X-Received: by 2002:a05:6830:22ea:b0:6cd:9f4:e088 with SMTP id t10-20020a05683022ea00b006cd09f4e088mr2026729otc.5.1700765298511;
-        Thu, 23 Nov 2023 10:48:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1700765298; cv=none;
+Received: by 2002:a05:6820:22a2:b0:589:f693:e94a with SMTP id
+ ck34-20020a05682022a200b00589f693e94als1136281oob.2.-pod-prod-08-us; Thu, 23
+ Nov 2023 16:45:14 -0800 (PST)
+X-Received: by 2002:a9d:4f02:0:b0:6c0:9498:7a77 with SMTP id d2-20020a9d4f02000000b006c094987a77mr1191255otl.32.1700786713806;
+        Thu, 23 Nov 2023 16:45:13 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1700786713; cv=none;
         d=google.com; s=arc-20160816;
-        b=FYAoy0sTkUkdklYOlfge3iOkQ6RZB7dD2CTh1yz46Au0YeAGwehr7TNrq8UisUFiQu
-         UUHvoHaslhxMie95Pw0oyTs9hhoeY2sQFe0mnMNxVABbPpjY0FRlFZWTnoF2lT+qMiTT
-         gQFDxqUXgWQ72IRdd9SWf998x2m90BhWYWecaDCbWFqTDirpZ2dCcyscA0+6yGxXBLNj
-         CiE05IyGh9oKP9v0q3q0rV/VsoSuHQdSBNrHRuLMJIzvDlVmjIelfiukm3DWp634nLEf
-         NqnkcKZcnr1AU7HyLKYvKQvEbMkX+3/UxRbL7cQk0Hflf2c5DUg25THRdnT40dCL4DBY
-         PtvA==
+        b=03SIgp5TdXB11egFc+KRmpgz2ssPKcqHa+Lk9K7YHYtg9d7toFqPdrSOahrQsOMJvb
+         cqbkW822guSKo+zbcENf+ZVftjsYlpF+ATBFcbNNb4LTou2QVl58mQXYqteui+h23Lw2
+         I6TlM+zz1/BPXq5oh9n5uaq+1jYM0Xus4Ay2ZAT5EMjVyBaeAPmBvUz7Od2wJaz7zf6J
+         JJHN0oCRXGbboCGjnpT7RTKrSZzCeHi2QmhnZcP+7U1HoFDAgOKfcdlGHbV0yySFh/Ev
+         hHhKgIupDGX1eEGIaIhnIED0KoebSYIu8jMgjI1Mi0LpznDwMjY99sN8dcIB430HJRqq
+         LYCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=l1r9JxSmLJtBWwQD5WMXoyMpcIa8PCU8/HG8nOTjmTc=;
-        fh=NSvAzB9689xOzGb9utbYfCotqde6p2+uodY2iw9anZY=;
-        b=UbzJt3p5bvxsDBahULnv9DhjwVzAB+PGZSn4qcDC6KSHD2JbPOpOtAt8ANKkhW06XX
-         iZ6QL9KHYvzD1nwmy8m+t2H1oeP86N9i8r7IS4MZTp0Fbjk/EZ6x0K59tMvv2Ks9TNIi
-         pVMI+7hrRsssYVk0HvWzQF1lla3kYzF//SwaoA9Xq6ELEb1vF1CG6MuYMJDeWwYTcIYb
-         tjYJVDDfnkq0ua1pULlBpDH8TtkyP+i+TPBn7TelIgtAT+EqeWipBdb144tfRbkttExY
-         As1UrlfCGm+izKhu6mQZHQ5SXTX2ysREiIECP1mYWSj7I1wrZoe7fMKmJHxIYzEpWG2H
-         zBOw==
+        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
+         :date:dkim-signature;
+        bh=RjvlNJZCYVj3BK/c/qbMtW/UyhsFITEp4fF0Uz8Mao8=;
+        fh=znRC6ertM1NN7yUqvRad/Q+ykfaWJVc1H+onLpZ+Buo=;
+        b=Vo0Q5b7kkg6p6fCZo+X/FCaGMzUjyR8WjuMqWNpX4NLlxJ+/CNW9Inz2+URQNO/l45
+         0nOsuoSJdHk3GMZmXzKEhp8U2l5qKq78Qe8ZSUVkDh1Xu4uz0sVnevVdrXKSsGKTLbCd
+         iug1YRiNgB0EuSKyt61gahJsydEjOVyNXzlRRS+lLETMfyo3C1TNj6AlA+vqwd69F2Dw
+         NxNim49qpElXqLyHoK9yvO9xszUZ/uR8vkILpyvMEVmZpA7bd9zgdm+JFKWn+Q9/QU15
+         aPL16UYQlYjJh/eHXwFCrOg+G7IXbcIPvK8i6NGkqo30zZFkdlXhLZbZQx2FawttWN0C
+         u4Wg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=A9fsCeDd;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2d as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=A1i0ErEi;
+       spf=pass (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::136 as permitted sender) smtp.mailfrom=rientjes@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com. [2607:f8b0:4864:20::e2d])
-        by gmr-mx.google.com with ESMTPS id r32-20020a05683044a000b006d69ecf7066si121098otv.4.2023.11.23.10.48.18
+Received: from mail-il1-x136.google.com (mail-il1-x136.google.com. [2607:f8b0:4864:20::136])
+        by gmr-mx.google.com with ESMTPS id n21-20020a635915000000b00569ee9c848fsi122875pgb.0.2023.11.23.16.45.13
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 23 Nov 2023 10:48:18 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2d as permitted sender) client-ip=2607:f8b0:4864:20::e2d;
-Received: by mail-vs1-xe2d.google.com with SMTP id ada2fe7eead31-4629eb39d67so672611137.1
-        for <kasan-dev@googlegroups.com>; Thu, 23 Nov 2023 10:48:18 -0800 (PST)
-X-Received: by 2002:a05:6102:38c7:b0:457:c953:bc39 with SMTP id
- k7-20020a05610238c700b00457c953bc39mr3960679vst.1.1700765297816; Thu, 23 Nov
- 2023 10:48:17 -0800 (PST)
+        Thu, 23 Nov 2023 16:45:13 -0800 (PST)
+Received-SPF: pass (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::136 as permitted sender) client-ip=2607:f8b0:4864:20::136;
+Received: by mail-il1-x136.google.com with SMTP id e9e14a558f8ab-35938a7d050so134975ab.0
+        for <kasan-dev@googlegroups.com>; Thu, 23 Nov 2023 16:45:13 -0800 (PST)
+X-Received: by 2002:a05:6e02:1687:b0:357:4335:77fe with SMTP id f7-20020a056e02168700b00357433577femr452960ila.27.1700786713087;
+        Thu, 23 Nov 2023 16:45:13 -0800 (PST)
+Received: from [2620:0:1008:15:ab09:50a5:ec6d:7b5c] ([2620:0:1008:15:ab09:50a5:ec6d:7b5c])
+        by smtp.gmail.com with ESMTPSA id q4-20020a631f44000000b005acd5d7e11bsm1919194pgm.35.2023.11.23.16.45.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Nov 2023 16:45:11 -0800 (PST)
+Date: Thu, 23 Nov 2023 16:45:06 -0800 (PST)
+From: "'David Rientjes' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+cc: Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, 
+    Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
+    Andrew Morton <akpm@linux-foundation.org>, 
+    Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
+    Roman Gushchin <roman.gushchin@linux.dev>, 
+    Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+    Alexander Potapenko <glider@google.com>, 
+    Andrey Konovalov <andreyknvl@gmail.com>, 
+    Dmitry Vyukov <dvyukov@google.com>, 
+    Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+    Marco Elver <elver@google.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+    Michal Hocko <mhocko@kernel.org>, Shakeel Butt <shakeelb@google.com>, 
+    Muchun Song <muchun.song@linux.dev>, Kees Cook <keescook@chromium.org>, 
+    linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+    kasan-dev@googlegroups.com, cgroups@vger.kernel.org, 
+    linux-hardening@vger.kernel.org, Michal Hocko <mhocko@suse.com>
+Subject: Re: [PATCH v2 00/21] remove the SLAB allocator
+In-Reply-To: <20231120-slab-remove-slab-v2-0-9c9c70177183@suse.cz>
+Message-ID: <b4d53ec4-482d-23ec-b73f-dfbc58ccc149@google.com>
+References: <20231120-slab-remove-slab-v2-0-9c9c70177183@suse.cz>
 MIME-Version: 1.0
-References: <cover.1699297309.git.andreyknvl@google.com> <9752c5fc4763e7533a44a7c9368f056c47b52f34.1699297309.git.andreyknvl@google.com>
- <ZV44eczk0L_ihkwi@elver.google.com> <CA+fCnZft0Nkc2RrKofi-0a0Yq9gX0Fw5Z+ubBfQy+dVYbWuPuQ@mail.gmail.com>
-In-Reply-To: <CA+fCnZft0Nkc2RrKofi-0a0Yq9gX0Fw5Z+ubBfQy+dVYbWuPuQ@mail.gmail.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 23 Nov 2023 19:47:40 +0100
-Message-ID: <CANpmjNMpPK56mc5wiSoL+AX1pgzG0Kz=SuqGPDme=FFCdhnf9w@mail.gmail.com>
-Subject: Re: [PATCH RFC 14/20] mempool: introduce mempool_use_prealloc_only
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: andrey.konovalov@linux.dev, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, kasan-dev@googlegroups.com, 
-	Evgenii Stepanov <eugenis@google.com>, Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Andrey Konovalov <andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: elver@google.com
+X-Original-Sender: rientjes@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=A9fsCeDd;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2d as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@google.com header.s=20230601 header.b=A1i0ErEi;       spf=pass
+ (google.com: domain of rientjes@google.com designates 2607:f8b0:4864:20::136
+ as permitted sender) smtp.mailfrom=rientjes@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: David Rientjes <rientjes@google.com>
+Reply-To: David Rientjes <rientjes@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,63 +152,121 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 23 Nov 2023 at 19:06, Andrey Konovalov <andreyknvl@gmail.com> wrote=
-:
->
-> On Wed, Nov 22, 2023 at 6:21=E2=80=AFPM Marco Elver <elver@google.com> wr=
-ote:
-> >
-> > On Mon, Nov 06, 2023 at 09:10PM +0100, andrey.konovalov@linux.dev wrote=
-:
-> > > From: Andrey Konovalov <andreyknvl@google.com>
-> > >
-> > > Introduce a new mempool_use_prealloc_only API that tells the mempool =
-to
-> > > only use the elements preallocated during the mempool's creation and =
-to
-> > > not attempt allocating new ones.
-> > >
-> > > This API is required to test the KASAN poisoning/unpoisoning functina=
-lity
-> > > in KASAN tests, but it might be also useful on its own.
-> > >
-> > > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
-> > > ---
-> > >  include/linux/mempool.h |  2 ++
-> > >  mm/mempool.c            | 27 ++++++++++++++++++++++++---
-> > >  2 files changed, 26 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/include/linux/mempool.h b/include/linux/mempool.h
-> > > index 4aae6c06c5f2..822adf1e7567 100644
-> > > --- a/include/linux/mempool.h
-> > > +++ b/include/linux/mempool.h
-> > > @@ -18,6 +18,7 @@ typedef struct mempool_s {
-> > >       int min_nr;             /* nr of elements at *elements */
-> > >       int curr_nr;            /* Current nr of elements at *elements =
-*/
-> > >       void **elements;
-> > > +     bool use_prealloc_only; /* Use only preallocated elements */
-> >
-> > This increases the struct size from 56 to 64 bytes (64 bit arch).
-> > mempool_t is embedded in lots of other larger structs, and this may
-> > result in some unwanted bloat.
-> >
-> > Is there a way to achieve the same thing without adding a new bool to
-> > the mempool struct?
->
-> We could split out the part of mempool_alloc that uses preallocated
-> elements without what waiting part and expose it in another API
-> function named something like mempool_alloc_preallocated. Would that
-> be better?
+On Mon, 20 Nov 2023, Vlastimil Babka wrote:
 
-Yes, that might be better. As long as other users of mempool (esp if
-KASAN is disabled) are unaffected then it should be fine.
+> Changes from v1:
+> - Added new Patch 01 to fix up kernel docs build (thanks Marco Elver)
+> - Additional changes to Kconfig user visible texts in Patch 02 (thanks Kees
+>   Cook)
+> - Whitespace fixes and other fixups (thanks Kees)
+> 
+> The SLAB allocator has been deprecated since 6.5 and nobody has objected
+> so far. As we agreed at LSF/MM, we should wait with the removal until
+> the next LTS kernel is released. This is now determined to be 6.6, and
+> we just missed 6.7, so now we can aim for 6.8 and start exposing the
+> removal to linux-next during the 6.7 cycle. If nothing substantial pops
+> up, will start including this in slab-next later this week.
+> 
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CANpmjNMpPK56mc5wiSoL%2BAX1pgzG0Kz%3DSuqGPDme%3DFFCdhnf9w%40mail.=
-gmail.com.
+I agree with the decision to remove the SLAB allocator, same as at LSF/MM.  
+Thanks for doing this, Vlastimil!
+
+And thanks for deferring this until the next LTS kernel, it will give any 
+last minute hold outs a full year to raise any issues in their switch to 
+SLUB if they only only upgrade to LTS kernels at which point we'll have 
+done our due diligence to make people aware of SLAB's deprecation in 6.6.
+
+I've completed testing on v1 of the series, so feel free to add
+
+Acked-by: David Rientjes <rientjes@google.com>
+Tested-by: David Rientjes <rientjes@google.com>
+
+to each patch so I don't spam the list unnecessarily.  I'll respond to 
+individual changes that were not in v1.
+
+Thanks again!
+
+> To keep the series reasonably sized and not pull in people from other
+> subsystems than mm and closely related ones, I didn't attempt to remove
+> every trace of unnecessary reference to dead config options in external
+> areas, nor in the defconfigs. Such cleanups can be sent to and handled
+> by respective maintainers after this is merged.
+> 
+> Instead I have added some patches aimed to reap some immediate benefits
+> of the removal, mainly by not having to split some fastpath code between
+> slab_common.c and slub.c anymore. But that is also not an exhaustive
+> effort and I expect more cleanups and optimizations will follow later.
+> 
+> Patch 09 updates CREDITS for the removed mm/slab.c. Please point out if
+> I missed someone not yet credited.
+> 
+> Git version: https://git.kernel.org/vbabka/l/slab-remove-slab-v2r1
+> 
+> ---
+> Vlastimil Babka (21):
+>       mm/slab, docs: switch mm-api docs generation from slab.c to slub.c
+>       mm/slab: remove CONFIG_SLAB from all Kconfig and Makefile
+>       KASAN: remove code paths guarded by CONFIG_SLAB
+>       KFENCE: cleanup kfence_guarded_alloc() after CONFIG_SLAB removal
+>       mm/memcontrol: remove CONFIG_SLAB #ifdef guards
+>       cpu/hotplug: remove CPUHP_SLAB_PREPARE hooks
+>       mm/slab: remove CONFIG_SLAB code from slab common code
+>       mm/mempool/dmapool: remove CONFIG_DEBUG_SLAB ifdefs
+>       mm/slab: remove mm/slab.c and slab_def.h
+>       mm/slab: move struct kmem_cache_cpu declaration to slub.c
+>       mm/slab: move the rest of slub_def.h to mm/slab.h
+>       mm/slab: consolidate includes in the internal mm/slab.h
+>       mm/slab: move pre/post-alloc hooks from slab.h to slub.c
+>       mm/slab: move memcg related functions from slab.h to slub.c
+>       mm/slab: move struct kmem_cache_node from slab.h to slub.c
+>       mm/slab: move kfree() from slab_common.c to slub.c
+>       mm/slab: move kmalloc_slab() to mm/slab.h
+>       mm/slab: move kmalloc() functions from slab_common.c to slub.c
+>       mm/slub: remove slab_alloc() and __kmem_cache_alloc_lru() wrappers
+>       mm/slub: optimize alloc fastpath code layout
+>       mm/slub: optimize free fast path code layout
+> 
+>  CREDITS                           |   12 +-
+>  Documentation/core-api/mm-api.rst |    2 +-
+>  arch/arm64/Kconfig                |    2 +-
+>  arch/s390/Kconfig                 |    2 +-
+>  arch/x86/Kconfig                  |    2 +-
+>  include/linux/cpuhotplug.h        |    1 -
+>  include/linux/slab.h              |   22 +-
+>  include/linux/slab_def.h          |  124 --
+>  include/linux/slub_def.h          |  204 --
+>  kernel/cpu.c                      |    5 -
+>  lib/Kconfig.debug                 |    1 -
+>  lib/Kconfig.kasan                 |   11 +-
+>  lib/Kconfig.kfence                |    2 +-
+>  lib/Kconfig.kmsan                 |    2 +-
+>  mm/Kconfig                        |   68 +-
+>  mm/Kconfig.debug                  |   16 +-
+>  mm/Makefile                       |    6 +-
+>  mm/dmapool.c                      |    2 +-
+>  mm/kasan/common.c                 |   13 +-
+>  mm/kasan/kasan.h                  |    3 +-
+>  mm/kasan/quarantine.c             |    7 -
+>  mm/kasan/report.c                 |    1 +
+>  mm/kfence/core.c                  |    4 -
+>  mm/memcontrol.c                   |    6 +-
+>  mm/mempool.c                      |    6 +-
+>  mm/slab.c                         | 4026 -------------------------------------
+>  mm/slab.h                         |  551 ++---
+>  mm/slab_common.c                  |  231 +--
+>  mm/slub.c                         |  617 +++++-
+>  29 files changed, 815 insertions(+), 5134 deletions(-)
+> ---
+> base-commit: b85ea95d086471afb4ad062012a4d73cd328fa86
+> change-id: 20231120-slab-remove-slab-a76ec668d8c6
+> 
+> Best regards,
+> -- 
+> Vlastimil Babka <vbabka@suse.cz>
+> 
+> 
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/b4d53ec4-482d-23ec-b73f-dfbc58ccc149%40google.com.
