@@ -1,71 +1,70 @@
-Return-Path: <kasan-dev+bncBDALF6UB7YORBJPIR2VQMGQEJYJI3EI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDALF6UB7YORBJXJR2VQMGQEVDEDR7A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53c.google.com (mail-pg1-x53c.google.com [IPv6:2607:f8b0:4864:20::53c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FB737F956A
-	for <lists+kasan-dev@lfdr.de>; Sun, 26 Nov 2023 22:09:59 +0100 (CET)
-Received: by mail-pg1-x53c.google.com with SMTP id 41be03b00d2f7-5c27822f1b6sf3449624a12.2
-        for <lists+kasan-dev@lfdr.de>; Sun, 26 Nov 2023 13:09:59 -0800 (PST)
+Received: from mail-pg1-x53d.google.com (mail-pg1-x53d.google.com [IPv6:2607:f8b0:4864:20::53d])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBE07F9571
+	for <lists+kasan-dev@lfdr.de>; Sun, 26 Nov 2023 22:12:08 +0100 (CET)
+Received: by mail-pg1-x53d.google.com with SMTP id 41be03b00d2f7-5c1b9860846sf5277764a12.2
+        for <lists+kasan-dev@lfdr.de>; Sun, 26 Nov 2023 13:12:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1701032998; x=1701637798; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1701033127; x=1701637927; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-sender:mime-version
          :subject:message-id:to:from:date:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Hd5MWsv4ESlUBCFvnsfrSSLPGYuzGqUv+/+hU3yYadQ=;
-        b=ay5YVgfXq+BRVZnGNnhKjVRYS3uFAT0FsHA7nKFFuhJuqsatC243zapDTCCpjRuQUp
-         ZxL/9yu7RqxSqvqscJ1xP4zaXWjJiM+erkKN87E6BNMe4yJ6QsGhim7WM4iKSt/ciPFs
-         qoyQmUg9pc/VLB0bQk5liz20s5qvOPelib0yOxiOhEg3fvorimsDqnyqDF7sPcuYrHQj
-         lqygXnQftbFttwfTmEC40lH/zXdM6DDorO/eSSRXETs78vr48Q7k2Y52YHUkCdLHfFFj
-         eXeUGsWFj+QpwdGBzXwn0waQiIQ0750RC/VZD+X/vV14iTRsovqAK+CEqP9gK8d3OqXc
-         xcSg==
+        bh=LzigNitXoX2th9vqMGvqMo1UBKuhy9SJ6cbl+yQZsCU=;
+        b=SqqEnHZDYhJFpf+Nl99QFdcfvlWBpnCH0hXSOzzbHzzGsUnVlKV4DLCy7AqSHtDIKX
+         pvT8mkw6hDHL1kk8UFDjClQSv4FBM+V/Kw54GhgUHja1soXKU8Hak6fvHD22SeNtMWhL
+         Og05hislL/hQ4wh4ceui0FhoS9pZcEJ/TY3BbOVHGJZVLW8JTtrtZyfIAL/eHuxsQh8H
+         T3CKpdxEXPj/WYSYMTuZfXmCG0GsxSQ8hS99olcGtxnvJhmKI9VRtC99iVVxKr5Q/bw1
+         8Oxh+JteXWILLoDjuQCcfm5P6FTR4Yef6CCWd/KTY2ftNJI6s3iAvR+0TbcM4spokjrk
+         HZQA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701032998; x=1701637798; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1701033127; x=1701637927; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-sender:mime-version
          :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Hd5MWsv4ESlUBCFvnsfrSSLPGYuzGqUv+/+hU3yYadQ=;
-        b=QoiuwxggkIwb4ZllHTpnZSRN4zvKABJhhvggNJNSR59kRTUoxcG/Gs8pncLkSw4e/3
-         cjf6+V2g89nLCY+hd120/tgc1kNkBC8Gz9h7PH/dV4lcHHWRnINueaddtzH6X20BKwzb
-         3mrlGfrioSeV/k+HAGmbiScToQ7tm0/FCZ3b7AoO/guTx3LhumNAPbLgh+7w0eqbD3kn
-         6+Ir3QGnOtR7qGxRYl4uOfdcxrk8RBrMEmDD0PBseVRMFuymTPEB1/pLoU3YM3vPPZKz
-         FcUZICXWFXPzheItY121H52UjxYcb2IkY2OgBxRRY2u62wFQhq67NZIa0IT73a9uVdcn
-         zCPQ==
+        bh=LzigNitXoX2th9vqMGvqMo1UBKuhy9SJ6cbl+yQZsCU=;
+        b=EC+E7/nHA7lWp3Kpz5IR+UT/PT63N/PUGR0C50HkCn0xLcsgWChasM3Ze+iBxZNtMH
+         jvgUkTenPtArW75vToWmgLDG1AisAQOlJzfqr5cTq6n7MLuO2aC4wy6JpoFyUtICPjAr
+         w3Xz8Vt16VaLgx0j24OWmHDedjzz5/mGyzOfcMCZOIjq5VktcP4jzTlcHld/vyDdtvyI
+         iegAJzz0X0jMSeyiiQAqNwEuKo+FqFqYiqTDHOKl9JX91qe2DxMGmabX/BIwX4/mgYKH
+         iovDYbzZEBg/YZZoQNC8KuW8sGIoC8fOebqC4VZRRl91IqzTtABJFq8RwQhNnrpY/Ybv
+         V2vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701032998; x=1701637798;
+        d=1e100.net; s=20230601; t=1701033127; x=1701637927;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-sender:mime-version:subject:message-id:to:from:date
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Hd5MWsv4ESlUBCFvnsfrSSLPGYuzGqUv+/+hU3yYadQ=;
-        b=JzXkau7TIWpJaSJIskkxNkUb03ZJM9JsXwSa72p6W4yzsmhWXtRBn8GeO3cTc/JiIm
-         M9zYOxsn9NzWzECVTWAQKyM7swvPKHX65WAxsjkKXvkYuRzKbpUFai+4RfarH+sGdxEO
-         arJW6bSkx436OByUnQ7cSQKbhGuZ5aZwDhU5PXZtcLF4jMEIIDxu/Oc37wqShnz18aB5
-         gCgZLfc0UenVNT6AfDH+sdFUOEZdcfHOsnXikyHVLizbvjbXo9np1RQh6OSojRTcMLwr
-         H5SgRrvJxaQuM2W2nC0Gf2jtjIZS2oCqlS1yApZtN/5/ivYj2RX7eRZZT25GSOtm0YYS
-         12ng==
+        bh=LzigNitXoX2th9vqMGvqMo1UBKuhy9SJ6cbl+yQZsCU=;
+        b=eFiPu+L5DH6yEOH2PLkrp5FyWC0VhcCcjqXfWquiT5cJxuUDTbaGZxUmX53SXgmLM9
+         V/nXo9iZnUZ2t6c9nJBEYep2lntlxWHTxGNGuZXeXIh1Scj3hewcSGfpo0qjZin/Es7l
+         wM3pd8DKObg1lZelvJ20bSuc0QQf/Ed6DsLMogRb90+Zgljd0ALltWeYh74t5QO84XN1
+         Ei1X8s7hfI6tzLYEmyKPNHdERXv1U//54mCUgGcCSieW7P0o7/r3aHf1zl1WA/oL+1U8
+         vtdIcIP5VokDP73LDloIH4SRiHXWIocYbP5tp4XC9ZebNcbTQMdmrg1tSJTV3Z+AdSyJ
+         8K0g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YxwPfzLi62BJtJRlBF1FvtO2qT3EwWeQRtAVzUXXMlClpCFKXM3
-	PSX21OOgLPnGN83+85rLKwY=
-X-Google-Smtp-Source: AGHT+IHBenfAIMA4C6v4RnfOyXo9l5NqnsaKy8mx9iAyjB3KDhhmcI3PGm4LWWK130JKIL/6TXO3aw==
-X-Received: by 2002:a05:6a20:8e17:b0:18c:4d89:6e6b with SMTP id y23-20020a056a208e1700b0018c4d896e6bmr3685015pzj.32.1701032997270;
-        Sun, 26 Nov 2023 13:09:57 -0800 (PST)
+X-Gm-Message-State: AOJu0Yyf+ZWFHAQIHDTud0f1XxyKMh3mGN21kMBZZ9PI6Vagfa7vZly7
+	8xr9ZF9pszlSEp8Nsvz9IAI=
+X-Google-Smtp-Source: AGHT+IEzh6LVfBhDY35x+FGq1KhC5wpBhOmwb4y5vCC+xzNMEnlgaG1PrvwlShxtSppAsBqvaK5Lfg==
+X-Received: by 2002:a05:6a20:231c:b0:18a:181b:146b with SMTP id n28-20020a056a20231c00b0018a181b146bmr8174065pzc.29.1701033126826;
+        Sun, 26 Nov 2023 13:12:06 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:a08:b0:6c9:9153:5b24 with SMTP id
- p8-20020a056a000a0800b006c991535b24ls2899079pfh.2.-pod-prod-09-us; Sun, 26
- Nov 2023 13:09:56 -0800 (PST)
-X-Received: by 2002:a63:2dc4:0:b0:5bd:d616:b903 with SMTP id t187-20020a632dc4000000b005bdd616b903mr1549634pgt.0.1701032996124;
-        Sun, 26 Nov 2023 13:09:56 -0800 (PST)
-Date: Sun, 26 Nov 2023 13:09:55 -0800 (PST)
+Received: by 2002:aa7:93b3:0:b0:6cb:4361:61b9 with SMTP id x19-20020aa793b3000000b006cb436161b9ls1686870pff.1.-pod-prod-07-us;
+ Sun, 26 Nov 2023 13:12:06 -0800 (PST)
+X-Received: by 2002:a63:5a1a:0:b0:5c2:82b4:a524 with SMTP id o26-20020a635a1a000000b005c282b4a524mr1576592pgb.0.1701033125766;
+        Sun, 26 Nov 2023 13:12:05 -0800 (PST)
+Date: Sun, 26 Nov 2023 13:12:05 -0800 (PST)
 From: Fenna Jaggers <jaggersfenna@gmail.com>
 To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <62440918-fa7c-42db-baf8-170ca352635dn@googlegroups.com>
-Subject: Camtasia Studio 8.0.1 ( Build 903 ) Serial Serial Key
+Message-Id: <cc09d467-a19c-4491-8c86-6ee3b265c9f1n@googlegroups.com>
+Subject: Engineering Mathematics Das Pal Vol 1 Pdf Free Download
 MIME-Version: 1.0
 Content-Type: multipart/mixed; 
-	boundary="----=_Part_10098_1739445157.1701032995451"
+	boundary="----=_Part_12086_1197271026.1701033125085"
 X-Original-Sender: jaggersfenna@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -79,75 +78,71 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_10098_1739445157.1701032995451
+------=_Part_12086_1197271026.1701033125085
 Content-Type: multipart/alternative; 
-	boundary="----=_Part_10099_653544387.1701032995451"
+	boundary="----=_Part_12087_895623611.1701033125085"
 
-------=_Part_10099_653544387.1701032995451
+------=_Part_12087_895623611.1701033125085
 Content-Type: text/plain; charset="UTF-8"
 
-How to Download and Install Wilcom Embroidery Studio E3 Full CracklIf you 
-are looking for a professional embroidery software that can help you create 
-stunning designs and logos, then you might want to check out Wilcom 
-Embroidery Studio E3. This software is one of the most popular and trusted 
-embroidery programs in the market, with features such as digitizing, 
-editing, lettering, and more. However, the software is not cheap, and you 
-might be wondering how to get it for free. In this article, we will show 
-you how to download and install Wilcom Embroidery Studio E3 full crackl, 
-which is a cracked version of the software that bypasses the license 
-activation.
+Engineering Mathematics Das Pal Vol 1: A Comprehensive Textbook for 
+Engineering StudentsEngineering Mathematics Das Pal Vol 1 is a popular 
+textbook that covers the fundamentals of engineering mathematics for 
+undergraduate students of various branches of engineering. The book is 
+written by B. K. Pal and K. Das, who are both experienced professors and 
+authors in the field of mathematics. The book is divided into 13 chapters, 
+each dealing with a specific topic such as differential calculus, integral 
+calculus, differential equations, vector analysis, complex analysis, 
+Laplace transforms, Fourier series and transforms, Z-transforms, numerical 
+methods, probability and statistics, linear algebra, and optimization 
+techniques. The book follows the latest syllabus of MAKAUT (formerly WBUT) 
+and other universities.
 
-Camtasia Studio 8.0.1 ( Build 903 ) Serial Serial Key
-Download File https://t.co/j0jZ1A77Xk
+Engineering Mathematics Das Pal Vol 1 Pdf Free Download
+DOWNLOAD https://t.co/XQpok7keyk
 
 
-What is Wilcom Embroidery Studio E3 Full Crackl?Wilcom Embroidery Studio E3 
-full crackl is a modified version of the original software that allows you 
-to use it without paying for a license. The crackl file is a patch that 
-replaces some of the original files in the software folder, making it think 
-that it is activated. This way, you can enjoy all the features and 
-functions of Wilcom Embroidery Studio E3 without spending a dime.
-Is Wilcom Embroidery Studio E3 Full Crackl Safe?Before you download and 
-install Wilcom Embroidery Studio E3 full crackl, you should be aware of the 
-risks and consequences of using cracked software. First of all, using 
-cracked software is illegal and unethical, as it violates the intellectual 
-property rights of the developers. You could face legal actions or fines if 
-you are caught using pirated software. Secondly, using cracked software is 
-risky for your computer 
+The book is designed to provide a clear and concise exposition of the 
+concepts and methods of engineering mathematics, with numerous solved 
+examples, exercises, and objective questions. The book also includes 
+appendices on special functions, matrices and determinants, and 
+differential equations of higher order. The book is suitable for self-study 
+as well as classroom learning, and can help students to prepare for various 
+competitive examinations. The book is available in both print and digital 
+formats, and can be downloaded for free from various websites.
+Some of the features of Engineering Mathematics 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/62440918-fa7c-42db-baf8-170ca352635dn%40googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/cc09d467-a19c-4491-8c86-6ee3b265c9f1n%40googlegroups.com.
 
-------=_Part_10099_653544387.1701032995451
+------=_Part_12087_895623611.1701033125085
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-How to Download and Install Wilcom Embroidery Studio E3 Full CracklIf you a=
-re looking for a professional embroidery software that can help you create =
-stunning designs and logos, then you might want to check out Wilcom Embroid=
-ery Studio E3. This software is one of the most popular and trusted embroid=
-ery programs in the market, with features such as digitizing, editing, lett=
-ering, and more. However, the software is not cheap, and you might be wonde=
-ring how to get it for free. In this article, we will show you how to downl=
-oad and install Wilcom Embroidery Studio E3 full crackl, which is a cracked=
- version of the software that bypasses the license activation.<div><br /></=
-div><div>Camtasia Studio 8.0.1 ( Build 903 ) Serial Serial Key</div><div>Do=
-wnload File https://t.co/j0jZ1A77Xk</div><div><br /></div><div><br /></div>=
-<div>What is Wilcom Embroidery Studio E3 Full Crackl?Wilcom Embroidery Stud=
-io E3 full crackl is a modified version of the original software that allow=
-s you to use it without paying for a license. The crackl file is a patch th=
-at replaces some of the original files in the software folder, making it th=
-ink that it is activated. This way, you can enjoy all the features and func=
-tions of Wilcom Embroidery Studio E3 without spending a dime.</div><div>Is =
-Wilcom Embroidery Studio E3 Full Crackl Safe?Before you download and instal=
-l Wilcom Embroidery Studio E3 full crackl, you should be aware of the risks=
- and consequences of using cracked software. First of all, using cracked so=
-ftware is illegal and unethical, as it violates the intellectual property r=
-ights of the developers. You could face legal actions or fines if you are c=
-aught using pirated software. Secondly, using cracked software is risky for=
- your computer=C2=A0</div>
+Engineering Mathematics Das Pal Vol 1: A Comprehensive Textbook for Enginee=
+ring StudentsEngineering Mathematics Das Pal Vol 1 is a popular textbook th=
+at covers the fundamentals of engineering mathematics for undergraduate stu=
+dents of various branches of engineering. The book is written by B. K. Pal =
+and K. Das, who are both experienced professors and authors in the field of=
+ mathematics. The book is divided into 13 chapters, each dealing with a spe=
+cific topic such as differential calculus, integral calculus, differential =
+equations, vector analysis, complex analysis, Laplace transforms, Fourier s=
+eries and transforms, Z-transforms, numerical methods, probability and stat=
+istics, linear algebra, and optimization techniques. The book follows the l=
+atest syllabus of MAKAUT (formerly WBUT) and other universities.<div><br />=
+</div><div>Engineering Mathematics Das Pal Vol 1 Pdf Free Download</div><di=
+v>DOWNLOAD https://t.co/XQpok7keyk</div><div><br /></div><div><br /></div><=
+div>The book is designed to provide a clear and concise exposition of the c=
+oncepts and methods of engineering mathematics, with numerous solved exampl=
+es, exercises, and objective questions. The book also includes appendices o=
+n special functions, matrices and determinants, and differential equations =
+of higher order. The book is suitable for self-study as well as classroom l=
+earning, and can help students to prepare for various competitive examinati=
+ons. The book is available in both print and digital formats, and can be do=
+wnloaded for free from various websites.</div><div>Some of the features of =
+Engineering Mathematics=C2=A0</div>
 
 <p></p>
 
@@ -158,11 +153,11 @@ To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
 +unsubscribe@googlegroups.com</a>.<br />
 To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/62440918-fa7c-42db-baf8-170ca352635dn%40googlegroups.c=
+om/d/msgid/kasan-dev/cc09d467-a19c-4491-8c86-6ee3b265c9f1n%40googlegroups.c=
 om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/62440918-fa7c-42db-baf8-170ca352635dn%40googlegroups.com</a>.<b=
+d/kasan-dev/cc09d467-a19c-4491-8c86-6ee3b265c9f1n%40googlegroups.com</a>.<b=
 r />
 
-------=_Part_10099_653544387.1701032995451--
+------=_Part_12087_895623611.1701033125085--
 
-------=_Part_10098_1739445157.1701032995451--
+------=_Part_12086_1197271026.1701033125085--
