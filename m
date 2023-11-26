@@ -1,71 +1,71 @@
-Return-Path: <kasan-dev+bncBDALF6UB7YORB77MR2VQMGQEEJXDJ4Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDALF6UB7YORB7HNR2VQMGQEBDTPTDI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF7E7F957C
-	for <lists+kasan-dev@lfdr.de>; Sun, 26 Nov 2023 22:20:00 +0100 (CET)
-Received: by mail-il1-x138.google.com with SMTP id e9e14a558f8ab-35b48b8fb7fsf2317925ab.1
-        for <lists+kasan-dev@lfdr.de>; Sun, 26 Nov 2023 13:20:00 -0800 (PST)
+Received: from mail-oa1-x3a.google.com (mail-oa1-x3a.google.com [IPv6:2001:4860:4864:20::3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9698D7F957D
+	for <lists+kasan-dev@lfdr.de>; Sun, 26 Nov 2023 22:22:06 +0100 (CET)
+Received: by mail-oa1-x3a.google.com with SMTP id 586e51a60fabf-1fa2c05f064sf1831417fac.3
+        for <lists+kasan-dev@lfdr.de>; Sun, 26 Nov 2023 13:22:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1701033599; x=1701638399; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1701033725; x=1701638525; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-sender:mime-version
          :subject:message-id:to:from:date:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zZk6zlOMsL6k05kVTfvEKnjLnqYzNKgy7PJy24NUMvU=;
-        b=uNDxTrxmnvhRIeCKABaPECUyASvRt6K8V8Z0cM2EFXxgCt6AbjGPxD0Ce6+lFA4PjF
-         c3AfkfJQ1SLeKjqDbzT2pDvYT4CCm/GYBqh19yjjoPuRbtvzDzW9qbmO2a9JLXrwrrd1
-         3JHy/nZqsKhYMJCWl2iBhslUIz92Y95uQoRoMYD7JiZnIXz/BBtRS0BY7LYQ+49+GSke
-         u10cuhuvBJXZEukJ/n9RFMYrCtoYvOrCBfGywUtswaPZ/Fe6rx/XU7He/7ZCm4+uEVIT
-         jDaXDcNxPlmVC1p6Sn39k6J3iIJCxzDxavyJqhPjin0S1XwnlRTuxDJjgzb4tjTFNcVJ
-         807g==
+        bh=jaHXO1V5ZGdeyjZSvMp74M5hSp5Za5BWRHnXrSZbHk8=;
+        b=kADRxeshN8C1ztbzd5ON+KvY64qlGA3JXTPhE/3hke/RgjdthCJcM8BUNIG5ru8RyL
+         MCwWq7hdcBY+zdIbMyDOUBqCgmUGqpz84wBDQbHh9pBSmCZav94WVBU7YesgCUpkACe9
+         w1rH74uvXNq63oE6ndTPxcJD28DCJRG4ngTeSKQWCkX3fvZln4YOvHzqQElWNtb+GB/z
+         OBAToS+9ls82vPqziFFNjL1l15QlAtPX5NGEh5Lpw5HxboJK+SoUHD7J+s10fUvw8GqZ
+         LmWa8cbgRHiKyRxLCAiPmYBvoJnXQAN+OrZAS6mBH3cUKVVjFCoTXfId4z1DxJVlkGkh
+         4P3g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701033599; x=1701638399; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1701033725; x=1701638525; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-sender:mime-version
          :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zZk6zlOMsL6k05kVTfvEKnjLnqYzNKgy7PJy24NUMvU=;
-        b=J8OHvFMu87ea93WxYWM6myusbdOhJPJwXy5npLXEXzOYZCvu/4kgM84AmSBpv07wWh
-         /dd//WkijH6eIT+D4+SueUTChMvc0n3ZnIU4Um/EXX85+96irLicoxPud1ppAZkcuVzL
-         pvPlXSaQyKmr0uiae7Rpif1T8F4q0xVTJEzzRo7mvhimGOylpF8ggvCsgbP2E6CZ3dsf
-         ax0zh1dA7R2j5bE0YpWVumetk1wNBaUeipJXzLwrptl7S35E8q4iGVrH0blsjgx7hcl8
-         bdKGcgBoqPxAYwj7VZAmtaTUKCUyfJDCmNk+dHGkx1XsEbOaCvgoUefON81JI5TxBijb
-         4miQ==
+        bh=jaHXO1V5ZGdeyjZSvMp74M5hSp5Za5BWRHnXrSZbHk8=;
+        b=WEefKOgjDb80rnOkdSEQ2TsogfRtFe6ho/Nzc2w/EO51RvDLEl3Ubsgjjq25Qis38E
+         NcqyDf9mgWFrJx4JY66gA1eem6Oev2niliwDbAKcLACXWV5F/SGPGS/B0alIkBVQtmXf
+         c1OxZKN3I4kTUihq6QwXQkhdxUFXiro0x+CbdNFcCaEFFiH3C4MqmLJCId8YU1Q4byHN
+         Y28mL+sEaJXXRl1zsdZ+J4GVuY6qiavWmzjHHri1WL+hvAgwpI+vY+6mzYqjP4NGEoKT
+         VedzdV9pz/7MeXkoWVkNLhtRnshfOXZgaZhCH+TmjPbEsRx7DO2vf9E8V8NIVm6++TlW
+         3dug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701033599; x=1701638399;
+        d=1e100.net; s=20230601; t=1701033725; x=1701638525;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-sender:mime-version:subject:message-id:to:from:date
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zZk6zlOMsL6k05kVTfvEKnjLnqYzNKgy7PJy24NUMvU=;
-        b=dRwaSia9xTsputeSjC4bb3tGb6F1+LnBTO+ObWATwsK3QHDngXUIVPRq5nLybi38v2
-         mK5A2/4N99Q9RU0+Qbi+jkSfJ+iTJSEqUcQMEzVObCO50/9jCSV9RtluL77Ehlq98EKR
-         /Fx68Eje2eUBxaddlb4xZkMzHCW1QwT6ceGAArC95xfBPO6Nei00pAnJXVxG0P+weiIH
-         3akCj796rclfJ1Tj890uXtfxgcJmUhWWrJ6ZpVL1zufzWZaKmK6/BpZV6JzszrE4f5VP
-         l2pT/4Sx7S+xc2EGY4DZPdoFuvCVwX6sXxsnYE4uqVxn5MvAHYpS8EneYbG9yBMcbXR4
-         +1nw==
+        bh=jaHXO1V5ZGdeyjZSvMp74M5hSp5Za5BWRHnXrSZbHk8=;
+        b=oroYNzdn4/Fp1WF7KCUwIt38IUovuoaiTOZ9PG4HJ6pXtXIGnvv6irwREtWaMycGHi
+         mxd18EB/wSJ52xC28EMtrIKtvkWDXFaJMGU0eA+C39HGmmT36Uoiuy6riP8dWT5uR6xp
+         JafmWZiwYeRFr9jj7GWaCAfqjQpCkHYZXtc/BgvpweC8sBjGatMm4vZ5Fq7fQPDbukkI
+         g4g26bBfi5IbbcXnxIDe5qPoSikLwUVC/EFzjB5oKIijuqHu49zUI9x0UXnBvV22pBPo
+         aYuh+AGqIW20QXV98FHnwaNZyR9z++QfwczQZ5PQfz3D8QiJyOABsjCI6KK4C7O/YSzg
+         eufA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YxN8RnW9POGBYNGMVHtRYCiY3RtpqqDy1a/oQWIgK5wD+/nhJ0v
-	AnYBsWoDV19atnGrO4QndGA=
-X-Google-Smtp-Source: AGHT+IGtJUyFHvQWHzk5V/rWxN8lveO1viQa00TzIB2tpjuOfVZNNd5pQuz8y3JwH4y6dHTK4Tu8xA==
-X-Received: by 2002:a05:6e02:20cc:b0:35b:1857:2173 with SMTP id 12-20020a056e0220cc00b0035b18572173mr599994ilq.23.1701033599398;
-        Sun, 26 Nov 2023 13:19:59 -0800 (PST)
+X-Gm-Message-State: AOJu0YzKxlHhfaqmVoHEKwlDz+CJ7bkTbpH7hwAdK8CjDmYLguPGfXYt
+	FS8mRV0HJJ9Hm2dHs+5gAus=
+X-Google-Smtp-Source: AGHT+IFVp2RjcRPVmKK1y1E72z84dJxOdz7blSMch1WT7o/MsWiz7XgiwFWdrfECNhjGn+gVL1HcIQ==
+X-Received: by 2002:a05:6870:88e:b0:1fa:2d2c:9ca4 with SMTP id fx14-20020a056870088e00b001fa2d2c9ca4mr5917375oab.49.1701033724794;
+        Sun, 26 Nov 2023 13:22:04 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6871:4105:b0:1fa:530d:9b46 with SMTP id
- la5-20020a056871410500b001fa530d9b46ls242290oab.0.-pod-prod-04-us; Sun, 26
- Nov 2023 13:19:58 -0800 (PST)
-X-Received: by 2002:a05:6870:b150:b0:1ef:c715:f52 with SMTP id a16-20020a056870b15000b001efc7150f52mr326538oal.6.1701033598446;
-        Sun, 26 Nov 2023 13:19:58 -0800 (PST)
-Date: Sun, 26 Nov 2023 13:19:57 -0800 (PST)
+Received: by 2002:a05:6871:4097:b0:1f9:ebd7:d381 with SMTP id
+ kz23-20020a056871409700b001f9ebd7d381ls1179358oab.1.-pod-prod-00-us; Sun, 26
+ Nov 2023 13:22:04 -0800 (PST)
+X-Received: by 2002:a05:6870:b609:b0:1fa:16c4:8958 with SMTP id cm9-20020a056870b60900b001fa16c48958mr255887oab.3.1701033724181;
+        Sun, 26 Nov 2023 13:22:04 -0800 (PST)
+Date: Sun, 26 Nov 2023 13:22:03 -0800 (PST)
 From: Fenna Jaggers <jaggersfenna@gmail.com>
 To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <bc5d95b3-5cc8-40ff-87f3-6adc2bcc4258n@googlegroups.com>
-Subject: ITubeDownloader 6 For Mac 6.5.6
+Message-Id: <2c97ed69-4f19-4b05-accc-000d56031ea9n@googlegroups.com>
+Subject: Perkins Est 2011b Keygen Software
 MIME-Version: 1.0
 Content-Type: multipart/mixed; 
-	boundary="----=_Part_3568_1349965418.1701033597988"
+	boundary="----=_Part_19798_1488130841.1701033723697"
 X-Original-Sender: jaggersfenna@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -79,78 +79,81 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_3568_1349965418.1701033597988
+------=_Part_19798_1488130841.1701033723697
 Content-Type: multipart/alternative; 
-	boundary="----=_Part_3569_669303962.1701033597988"
+	boundary="----=_Part_19799_124810330.1701033723697"
 
-------=_Part_3569_669303962.1701033597988
+------=_Part_19799_124810330.1701033723697
 Content-Type: text/plain; charset="UTF-8"
 
-iTubeDownloader 6 for Mac 6.5.6: A Reliable and Easy-to-Use Video 
-DownloaderIf you are looking for a way to download videos from YouTube and 
-other popular streaming websites on your Mac, you might want to try 
-iTubeDownloader 6 for Mac 6.5.6. This is a handy tool that lets you browse, 
-play, and download videos with just a few clicks. You can also convert the 
-downloaded videos to various formats and sync them to your devices.
-In this article, we will review the features, benefits, and drawbacks of 
-iTubeDownloader 6 for Mac 6.5.6, and show you how to use it to download 
-your favorite videos.
+Perkins EST 2011B: A Diagnostic Software for Perkins EnginesPerkins EST 
+2011B is a software tool that allows users to diagnose problems and 
+configure parameters of Perkins engines. It is compatible with Windows XP, 
+Vista, 7 and 8, and requires a Pentium/Athlon 1.8 GHz or higher processor, 
+256 MB of RAM, 500 MB of hard drive space and a CD-ROM drive[^1^].
 
-iTubeDownloader 6 for Mac 6.5.6
-Download https://t.co/sS2KudBft3
+perkins est 2011b keygen software
+Download Zip https://t.co/rzKztSBV8O
 
 
-Features of iTubeDownloader 6 for Mac 6.5.6iTubeDownloader 6 for Mac 6.5.6 
-has a minimalist and user-friendly interface that resembles a web browser. 
-You can use the address bar to enter any URL, or use the built-in browser 
-plugin to download videos directly from YouTube. You can also open multiple 
-windows and tabs to browse different websites at the same time.
-Once you find a video that you want to download, you can simply click the 
-"Download" button embedded into the screen, or copy and paste the video URL 
-into the designated section of the main window. You can choose the video 
-resolution, format, and output folder before starting the download. You can 
-also extract only audio from a video if you prefer.
-iTubeDownloader 6 for Mac 6.5.6 supports batch downloads, which means you 
-can download multiple videos at once without slowing down your Mac. You can 
-also pause, resume, or cancel downloads at any time. You can monitor the 
-download progress by clicking the download icon in the top right corner of 
-the window.
-Another useful feature of iTubeDownloader 6 for Mac 6.5.6 is the b
+Perkins EST 2011B can communicate with Perkins engines via a serial port or 
+a USB port. It can also work with Olympian generators that use Perkins 
+engines. Some of the features of Perkins EST 2011B are:
+Viewing engine status and fault codesClearing fault codes and resetting the 
+enginePerforming diagnostic tests and calibrationsAdjusting engine settings 
+and parametersUpdating engine software and configuration filesViewing 
+engine history and service informationPrinting reports and graphsTo use 
+Perkins EST 2011B, users need to purchase a license key that is valid for 
+one PC. The license key can be obtained from various online sources, such 
+as EasySoft[^2^], which sells it for $30. Users also need to have a 
+compatible communication adapter that can connect to the engine's data link 
+connector. Some examples of communication adapters are:
+Nexiq USB-LinkDPA5 Dearborn Protocol Adapter 5CAT Comm Adapter IIIPerkins 
+EDI Interface KitPerkins EST 2011B is a useful tool for anyone who works 
+with Perkins engines, as it can help them troubleshoot issues, optimize 
+performance and maintain the engine's health.
+ReferencesPerkins EST-Olympian (Electronic Service Tool) 2011B English - 
+MHH AUTO - Page 1Perkins EST 2011B v1.0 + Keygen - EasySoftHere are some 
+more paragraphs for the article:
+
+
+Perkins EST 2011B is not the latest vers
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bc5d95b3-5cc8-40ff-87f3-6adc2bcc4258n%40googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2c97ed69-4f19-4b05-accc-000d56031ea9n%40googlegroups.com.
 
-------=_Part_3569_669303962.1701033597988
+------=_Part_19799_124810330.1701033723697
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-iTubeDownloader 6 for Mac 6.5.6: A Reliable and Easy-to-Use Video Downloade=
-rIf you are looking for a way to download videos from YouTube and other pop=
-ular streaming websites on your Mac, you might want to try iTubeDownloader =
-6 for Mac 6.5.6. This is a handy tool that lets you browse, play, and downl=
-oad videos with just a few clicks. You can also convert the downloaded vide=
-os to various formats and sync them to your devices.<div>In this article, w=
-e will review the features, benefits, and drawbacks of iTubeDownloader 6 fo=
-r Mac 6.5.6, and show you how to use it to download your favorite videos.</=
-div><div><br /></div><div>iTubeDownloader 6 for Mac 6.5.6</div><div>Downloa=
-d https://t.co/sS2KudBft3</div><div><br /></div><div><br /></div><div>Featu=
-res of iTubeDownloader 6 for Mac 6.5.6iTubeDownloader 6 for Mac 6.5.6 has a=
- minimalist and user-friendly interface that resembles a web browser. You c=
-an use the address bar to enter any URL, or use the built-in browser plugin=
- to download videos directly from YouTube. You can also open multiple windo=
-ws and tabs to browse different websites at the same time.</div><div>Once y=
-ou find a video that you want to download, you can simply click the "Downlo=
-ad" button embedded into the screen, or copy and paste the video URL into t=
-he designated section of the main window. You can choose the video resoluti=
-on, format, and output folder before starting the download. You can also ex=
-tract only audio from a video if you prefer.</div><div>iTubeDownloader 6 fo=
-r Mac 6.5.6 supports batch downloads, which means you can download multiple=
- videos at once without slowing down your Mac. You can also pause, resume, =
-or cancel downloads at any time. You can monitor the download progress by c=
-licking the download icon in the top right corner of the window.</div><div>=
-Another useful feature of iTubeDownloader 6 for Mac 6.5.6 is the b</div>
+Perkins EST 2011B: A Diagnostic Software for Perkins EnginesPerkins EST 201=
+1B is a software tool that allows users to diagnose problems and configure =
+parameters of Perkins engines. It is compatible with Windows XP, Vista, 7 a=
+nd 8, and requires a Pentium/Athlon 1.8 GHz or higher processor, 256 MB of =
+RAM, 500 MB of hard drive space and a CD-ROM drive[^1^].<div><br /></div><d=
+iv>perkins est 2011b keygen software</div><div>Download Zip https://t.co/rz=
+KztSBV8O<br /><br /><br />Perkins EST 2011B can communicate with Perkins en=
+gines via a serial port or a USB port. It can also work with Olympian gener=
+ators that use Perkins engines. Some of the features of Perkins EST 2011B a=
+re:</div><div>Viewing engine status and fault codesClearing fault codes and=
+ resetting the enginePerforming diagnostic tests and calibrationsAdjusting =
+engine settings and parametersUpdating engine software and configuration fi=
+lesViewing engine history and service informationPrinting reports and graph=
+sTo use Perkins EST 2011B, users need to purchase a license key that is val=
+id for one PC. The license key can be obtained from various online sources,=
+ such as EasySoft[^2^], which sells it for $30. Users also need to have a c=
+ompatible communication adapter that can connect to the engine's data link =
+connector. Some examples of communication adapters are:</div><div>Nexiq USB=
+-LinkDPA5 Dearborn Protocol Adapter 5CAT Comm Adapter IIIPerkins EDI Interf=
+ace KitPerkins EST 2011B is a useful tool for anyone who works with Perkins=
+ engines, as it can help them troubleshoot issues, optimize performance and=
+ maintain the engine's health.</div><div>ReferencesPerkins EST-Olympian (El=
+ectronic Service Tool) 2011B English - MHH AUTO - Page 1Perkins EST 2011B v=
+1.0 + Keygen - EasySoftHere are some more paragraphs for the article:</div>=
+<div><br /></div><div><br /></div><div>Perkins EST 2011B is not the latest =
+vers</div>
 
 <p></p>
 
@@ -161,11 +164,11 @@ To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
 +unsubscribe@googlegroups.com</a>.<br />
 To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/bc5d95b3-5cc8-40ff-87f3-6adc2bcc4258n%40googlegroups.c=
+om/d/msgid/kasan-dev/2c97ed69-4f19-4b05-accc-000d56031ea9n%40googlegroups.c=
 om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/bc5d95b3-5cc8-40ff-87f3-6adc2bcc4258n%40googlegroups.com</a>.<b=
+d/kasan-dev/2c97ed69-4f19-4b05-accc-000d56031ea9n%40googlegroups.com</a>.<b=
 r />
 
-------=_Part_3569_669303962.1701033597988--
+------=_Part_19799_124810330.1701033723697--
 
-------=_Part_3568_1349965418.1701033597988--
+------=_Part_19798_1488130841.1701033723697--
