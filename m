@@ -1,182 +1,72 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBTWYQGVQMGQEVHVW5XY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDALF6UB7YORB6XGR2VQMGQE6WDNSNI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43a.google.com (mail-pf1-x43a.google.com [IPv6:2607:f8b0:4864:20::43a])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7277F6F7E
-	for <lists+kasan-dev@lfdr.de>; Fri, 24 Nov 2023 10:26:40 +0100 (CET)
-Received: by mail-pf1-x43a.google.com with SMTP id d2e1a72fcca58-6c334d2fd4csf1841678b3a.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 24 Nov 2023 01:26:40 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1700817999; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=PV9pv7zZpKmfaY92idSqOlG8tfNlLjjZJEGS3JwAKTvU977UJIuRku1ZEMjqk2g8AK
-         lA7QldcgDkWxs0mFuQ9vJ6uy2jBqWHxCrhT9utc9uOSsyEej2RNvXrmc9bfUtOHFnEI5
-         fHOf/Ng2HmALSq5lBJbEmz7oMZbgvYbPglun0xmyhEaECFlVnArZBk4lN2KOFwc0j52G
-         9capN0/JRAzA6l5huGeAm43CSIOOsjIe9mjfnTwhoZNz1CIFfIeLErbYHantuLA3xhFB
-         yil4mYHL9MaE+Vom8l3BVl9hQQh7ZzdmpgYsZDL8T2eJgCl/wtcEdEZmhoYx+WAH3bpZ
-         kIrg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=9IwApfyFos8vJ4Cm2DJjER/3c5EpMER5BQbNcJuZxbs=;
-        fh=BbELjiKDpogQBABjZcqeHo2dtHt5oIJN1+5JylGausM=;
-        b=nlwrVigwMCr6Cjb5P3bsGTaRvrQclmi8cPPkvBx/cMkBRIOBXys0J78J30lCaYYqjv
-         ZnsloHH+anUrMRuR98bhik1jUAVAEggdlBbLnOutTmdrh/pzn3EYpxUqiBH6VaNs6v4X
-         nXIJtnhEzfuOIkNvPyK6ax8W0AXk2f/Eg4/Phsr7Zj9Mh8pzb5xhjQq3rzbOQlcLlVXG
-         E/pKbYCi7TX41j+xAtTNPDF4ghTfXa4ZG5mlzLWdqt3L2SS5CC7yz1b9ohgunxvJsL48
-         bL0/WxG8GobS1xgsSHgLnanWf/+Dn/lz+efTw8eY4NO8zgh8tK1zuRddq7EACq1prYlM
-         Duzg==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=wi7zjCRT;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=0W5OjFqN;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C127F9568
+	for <lists+kasan-dev@lfdr.de>; Sun, 26 Nov 2023 22:07:08 +0100 (CET)
+Received: by mail-pj1-x1040.google.com with SMTP id 98e67ed59e1d1-2855e4715e4sf5562713a91.0
+        for <lists+kasan-dev@lfdr.de>; Sun, 26 Nov 2023 13:07:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1700817999; x=1701422799; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1701032826; x=1701637626; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=9IwApfyFos8vJ4Cm2DJjER/3c5EpMER5BQbNcJuZxbs=;
-        b=VWPQ2liwKNVWOanly/vvoe5sNcByhN8VaNbGfDr0guJeGDtazpRFSqOIUZ17OVFL1O
-         rN2RwvY1hIcbpC1ors0nl7u5M8E05LnEQ1f8jfWDuyNZ1NgNbXYXsVCzIoE0Vh9W3Ri8
-         km0gWz/l2rfHedOfSk7s25izpxaRgPBm+RzvO3gTtF87RJLDXdJMPqzK2Vk0/y0cTm4W
-         9RUjrHYUloCfLQVcDN3sIJnjHGX3JcOi4WPeC9JLkKZ9nIWlt13anzJxduvcykgV9+8r
-         A6yXJwLP6ZB25xeR3sihd6fpcFiEch/ldBqNa+8+/8adq1GI7QWAz5/8XhDCzp4nBFsI
-         OrNg==
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:message-id:to:from:date:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7iBsR55eA2mTLb0oWb/mfhmkCCImLzG2PU5B7beakUc=;
+        b=KeJclc0/KnvzTm34cyFmil/Kg+LvDVNjKiudC6+SQBdtHk78Ajv+H6jcOUQSahCTkk
+         vnvgNwJWAg8NHICUdkTrCtm/Y5nvMUm6dDmtebj/G85YQ67j5lsq7GlPFiBW+Ln/fsmW
+         8VBWf7nAk1t+PBQf2HNUknon8cm4g+ka6fqnnij0/v0l8b469dCB927em3+IHDO4j5YD
+         4uJynIs0J3DGA+1/S/qUccRIcea3gAN/UG6foxewcfQKyUiz+6HWk73htKFrgL4LstqD
+         4L5bTpuG7opTmP7c723BPNKLO8xGfCgrrd+rqHf1UREXoL5i1944UnNxKv0KEjxKpSVQ
+         ZEgg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701032826; x=1701637626; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7iBsR55eA2mTLb0oWb/mfhmkCCImLzG2PU5B7beakUc=;
+        b=jySXrjZcd6ACNjriG0JOnjf63bvy/E8Y+Wh8dx53JG+kOX4idFkWysIIZIuhWUB0tw
+         MN67d83HntZtbsZ23ZjB1mRvVswxGAcmTKTH+g5hMpMhhVnvZmLLOoFYM+E4ocsPLf2F
+         Q9zG0JJNtlNbekFj9iGLK9M8H2TnFmihGq6mJE0azNqJPsUbNv/xdt3z6g3Hem4LuUHi
+         unaaELLF5/wkLAdgzNqDtCsx+Tk+n8INUHs9Ix8KKQ3pb8bLC4baevdu5g4VbSw8a+tA
+         UwlzMuiUiitFJ6jPRjvJ3o7qmeBXzbrWc/GsNsTp3BrICrt/S9rbIdh0RExLG21h7z6n
+         wS7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700817999; x=1701422799;
+        d=1e100.net; s=20230601; t=1701032826; x=1701637626;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9IwApfyFos8vJ4Cm2DJjER/3c5EpMER5BQbNcJuZxbs=;
-        b=aOU5b4YFkkL3pUF2i3+ba7Da/peVosp5lNfMoGYUeZwUo+zuuqUlvPfNlck/hLm9sC
-         nP2pls/auiVWPTVhf910LBYjlQ7wWBcvgOTb/uSmNkM1NOi9R1+I3MLzNJKGl+NgFvTy
-         vwVTovaBfBEdm5217FcJcF+usr8u103Sj0Zc+YxuioDJLtWAAWTo/0dE/rFLHLWNrz6t
-         63o1lPK6T+07YohqVMcXuTdw6iQLBA4sQQ6tOOrioKz6CrPEL7fSO8x7hWSGm0H2hFyy
-         usZiVryv2lebCkpP0T36ueQVK75SjUhXNBHOYv/jVky8m/+a33N/MqjRRq4uHVzX3JYM
-         94JQ==
+         :x-original-sender:mime-version:subject:message-id:to:from:date
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7iBsR55eA2mTLb0oWb/mfhmkCCImLzG2PU5B7beakUc=;
+        b=tY/op4E+cNuOF2KEk/o/C+xW7C66FgKsbNj7Wlt6TqYPSVMd3jmWuZGhWGwMrnYJgr
+         Bv3nYwp+UZ5vit/KFdHcE3NjBZi2KDE6ge4EKirIeu+kZTxEjVToSk6SPZ3jtDhvx2iL
+         caNj/Ojmr54VwsIDaKH614/H5TUmfWNCjFpB6CsFmIUgVTM7Upvu3LsUoxNY2Cq31f6L
+         oee7/2qtUBtkgrLb9DO1LZXn5l6Fk3pZVXz13OqJw42le0W1U5Mja9lDW4XgSISTVfO2
+         vxSxm6V40KoGyNkClRGDpNn4VXgPM1dzbDyNU3BW3QPagg3il5Jj0908SKQ0clmw4IT6
+         tj/A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YyhC/sNMvWvPebGoVhV2yjVv0yc9eKYItziHH710jWIbixWJoJJ
-	cubIKUsS6iJFSY3Re+l7dgY=
-X-Google-Smtp-Source: AGHT+IGCo+8xJsun/Nlfmxo7UCYBs1SC2tvZ8py84ETDBeb1CKt3qbwu5ZdOcXE7fe37pwi2KgSASg==
-X-Received: by 2002:a05:6a00:130f:b0:6cb:a60c:1d with SMTP id j15-20020a056a00130f00b006cba60c001dmr2055496pfu.17.1700817999112;
-        Fri, 24 Nov 2023 01:26:39 -0800 (PST)
+X-Gm-Message-State: AOJu0Ywo8PojI+Dh4wQ9ZFI27Jk23ZxFz6xK0zln0KPna6hqYlQqjf7T
+	im72RFMfbM38IS0kxqTLXZM=
+X-Google-Smtp-Source: AGHT+IHgBqolnjf55tKKbZXbDnAhZeVvW1E0e8MpD1qc0zcf+iWULM4J8g8tNQ2jlv3PW79CAWkTCw==
+X-Received: by 2002:a17:90b:314c:b0:285:a18a:49c0 with SMTP id ip12-20020a17090b314c00b00285a18a49c0mr7014657pjb.28.1701032826333;
+        Sun, 26 Nov 2023 13:07:06 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:21d4:b0:6cb:735c:685a with SMTP id
- t20-20020a056a0021d400b006cb735c685als1269719pfj.1.-pod-prod-05-us; Fri, 24
- Nov 2023 01:26:38 -0800 (PST)
-X-Received: by 2002:a05:6a21:998d:b0:187:a2ca:409c with SMTP id ve13-20020a056a21998d00b00187a2ca409cmr2434779pzb.5.1700817998064;
-        Fri, 24 Nov 2023 01:26:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1700817998; cv=none;
-        d=google.com; s=arc-20160816;
-        b=GzT/MtaHit/AGy164uJlwLl8jvBYLvcRsEaoYXJTAeWfdHg0o4QA630zHc8nMvMJYG
-         /MxK5D1tAjvDz3uFH9bUqkYd3QN1gg2yf3MWxGz2jptA2TDHyHt/7Ehcoq4cWdBFE0tJ
-         pNyGABmpTYtv3uHtzP57zG0eo+5HwY8GvBMvOVRRmHaglmBivMS2A8T8h6qiYQnlbSIC
-         UYu6wVwuKA7rvy0nV43Vs1JOSZeqdlWcIFbX1QZHN6dV99dTHHXZM96/SZK/FwRcoE9c
-         lIw72caNovi9UqezJr1EaUWmtzSr2UkudugliXHa9baNuJ0gpNAVqfm9LfwOvNYMbvBE
-         Hp7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature;
-        bh=9LgMMddRm1Z0VKUmKvdY8oWuzJ6UIJ2B5WVeljH1gzY=;
-        fh=BbELjiKDpogQBABjZcqeHo2dtHt5oIJN1+5JylGausM=;
-        b=ipePGhfKa2n4knaRYrcCILRfWjzUcFydIfc9YeC07NLH0GXHGX6nF/+6/MLSGcJWCc
-         dGCi4qvgiN4fVXrYEDO+nJF55Y3THyDuT4EoNLvAOM/MeUViXEQspUY8LabOEPwgsKo9
-         IFjCcwX4tBQ5lzSnk6dPSeomhqGR2nNz/PP60YVGOWqKRrbl2+jlYdezVZcBoemlaTqT
-         G5mAQAvQV0ivzNBPQZbaiXfLTjMHWXMvLcg68OFuJA5+1num2hPRb0QkZ1DNY9Sj1iOY
-         pEcEvaYyiDiY7u/o+9H47HzZrSLDZXIkIXgq4k6fCRdhj1qZO08yPCAIIdd5gHQZk2Lb
-         0/ag==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=wi7zjCRT;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=0W5OjFqN;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2a07:de40:b251:101:10:150:64:1])
-        by gmr-mx.google.com with ESMTPS id nm1-20020a17090b19c100b00285105ac839si178667pjb.0.2023.11.24.01.26.37
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 01:26:37 -0800 (PST)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:1;
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 05E2E21CC1;
-	Fri, 24 Nov 2023 09:26:36 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CB51D13A98;
-	Fri, 24 Nov 2023 09:26:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 739GMUtsYGVxZQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 24 Nov 2023 09:26:35 +0000
-Message-ID: <2d0626b2-793c-315f-dc93-af021bd5cb85@suse.cz>
-Date: Fri, 24 Nov 2023 10:26:35 +0100
+Received: by 2002:a17:90b:3696:b0:285:8a5f:d96f with SMTP id
+ mj22-20020a17090b369600b002858a5fd96fls1588881pjb.0.-pod-prod-02-us; Sun, 26
+ Nov 2023 13:07:05 -0800 (PST)
+X-Received: by 2002:a17:90b:1913:b0:285:56b5:9a0e with SMTP id mp19-20020a17090b191300b0028556b59a0emr2006932pjb.3.1701032825215;
+        Sun, 26 Nov 2023 13:07:05 -0800 (PST)
+Date: Sun, 26 Nov 2023 13:07:04 -0800 (PST)
+From: Fenna Jaggers <jaggersfenna@gmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <7c90c79f-49f1-42c2-ac54-568bd49604fbn@googlegroups.com>
+Subject: How To Install Rover T4 Software
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 00/21] remove the SLAB allocator
-Content-Language: en-US
-To: David Rientjes <rientjes@google.com>
-Cc: Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, Marco Elver
- <elver@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Michal Hocko <mhocko@kernel.org>, Shakeel Butt <shakeelb@google.com>,
- Muchun Song <muchun.song@linux.dev>, Kees Cook <keescook@chromium.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com, cgroups@vger.kernel.org,
- linux-hardening@vger.kernel.org, Michal Hocko <mhocko@suse.com>
-References: <20231120-slab-remove-slab-v2-0-9c9c70177183@suse.cz>
- <b4d53ec4-482d-23ec-b73f-dfbc58ccc149@google.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <b4d53ec4-482d-23ec-b73f-dfbc58ccc149@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Score: 0.20
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [0.20 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BAYES_SPAM(0.00)[35.47%];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_TWELVE(0.00)[24];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[linux.com,kernel.org,lge.com,linux-foundation.org,gmail.com,linux.dev,google.com,arm.com,cmpxchg.org,chromium.org,kvack.org,vger.kernel.org,googlegroups.com,suse.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Original-Sender: vbabka@suse.cz
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=wi7zjCRT;       dkim=neutral
- (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=0W5OjFqN;
-       spf=pass (google.com: domain of vbabka@suse.cz designates
- 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_1226_89174854.1701032824290"
+X-Original-Sender: jaggersfenna@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -189,42 +79,90 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 11/24/23 01:45, David Rientjes wrote:
-> On Mon, 20 Nov 2023, Vlastimil Babka wrote:
-> 
->> Changes from v1:
->> - Added new Patch 01 to fix up kernel docs build (thanks Marco Elver)
->> - Additional changes to Kconfig user visible texts in Patch 02 (thanks Kees
->>   Cook)
->> - Whitespace fixes and other fixups (thanks Kees)
->> 
->> The SLAB allocator has been deprecated since 6.5 and nobody has objected
->> so far. As we agreed at LSF/MM, we should wait with the removal until
->> the next LTS kernel is released. This is now determined to be 6.6, and
->> we just missed 6.7, so now we can aim for 6.8 and start exposing the
->> removal to linux-next during the 6.7 cycle. If nothing substantial pops
->> up, will start including this in slab-next later this week.
->> 
-> 
-> I agree with the decision to remove the SLAB allocator, same as at LSF/MM.  
-> Thanks for doing this, Vlastimil!
-> 
-> And thanks for deferring this until the next LTS kernel, it will give any 
-> last minute hold outs a full year to raise any issues in their switch to 
-> SLUB if they only only upgrade to LTS kernels at which point we'll have 
-> done our due diligence to make people aware of SLAB's deprecation in 6.6.
-> 
-> I've completed testing on v1 of the series, so feel free to add
-> 
-> Acked-by: David Rientjes <rientjes@google.com>
-> Tested-by: David Rientjes <rientjes@google.com>
+------=_Part_1226_89174854.1701032824290
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_1227_1797169328.1701032824290"
 
-Thanks! And others too.
+------=_Part_1227_1797169328.1701032824290
+Content-Type: text/plain; charset="UTF-8"
 
-I've now pushed this series to slab/for-6.8/slab-removal and slab/for-next
+How To Install Rover T4 Software: A Step-By-Step GuideIf you are looking 
+for a way to enhance your Rover T4 robot's performance and capabilities, 
+you might want to install the Rover T4 software. This software is designed 
+to provide your robot with advanced features such as voice control, facial 
+recognition, obstacle avoidance, and more. In this article, we will show 
+you how to install Rover T4 software on your robot in a few simple steps.
 
+How To Install Rover T4 Software
+Download File https://t.co/66quMyj1K8
+
+
+What You NeedBefore you start the installation process, make sure you have 
+the following items:
+A Rover T4 robot with a fully charged battery.A computer with an internet 
+connection and a USB port.A USB cable compatible with your robot.A Rover T4 
+software download link. You can get it from the official website or from 
+the GitHub repository.How To Install Rover T4 SoftwareOnce you have 
+everything ready, follow these steps to install Rover T4 software on your 
+robot:
+Turn on your robot and connect it to your computer using the USB cable.Open 
+the Rover T4 software download link on your computer and save the file to a 
+location of your choice.Extract the zip file and run the setup.exe 
+file.Follow the instructions on the screen to complete the installation. 
+You might need to enter your robot's serial number and password, which you 
+can find on the back of your robot or in the user manual.When the 
+installation is finished, disconnect your robot from your computer and 
+restart it.Congratulations! You have successfully installed Rover T4 
+software on your robot. You can now enjoy its new features and 
+functions.TroubleshootingIf you e
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2d0626b2-793c-315f-dc93-af021bd5cb85%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/7c90c79f-49f1-42c2-ac54-568bd49604fbn%40googlegroups.com.
+
+------=_Part_1227_1797169328.1701032824290
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+How To Install Rover T4 Software: A Step-By-Step GuideIf you are looking fo=
+r a way to enhance your Rover T4 robot's performance and capabilities, you =
+might want to install the Rover T4 software. This software is designed to p=
+rovide your robot with advanced features such as voice control, facial reco=
+gnition, obstacle avoidance, and more. In this article, we will show you ho=
+w to install Rover T4 software on your robot in a few simple steps.<div><br=
+ /></div><div>How To Install Rover T4 Software</div><div>Download File http=
+s://t.co/66quMyj1K8<br /><br /><br />What You NeedBefore you start the inst=
+allation process, make sure you have the following items:</div><div>A Rover=
+ T4 robot with a fully charged battery.A computer with an internet connecti=
+on and a USB port.A USB cable compatible with your robot.A Rover T4 softwar=
+e download link. You can get it from the official website or from the GitHu=
+b repository.How To Install Rover T4 SoftwareOnce you have everything ready=
+, follow these steps to install Rover T4 software on your robot:</div><div>=
+Turn on your robot and connect it to your computer using the USB cable.Open=
+ the Rover T4 software download link on your computer and save the file to =
+a location of your choice.Extract the zip file and run the setup.exe file.F=
+ollow the instructions on the screen to complete the installation. You migh=
+t need to enter your robot's serial number and password, which you can find=
+ on the back of your robot or in the user manual.When the installation is f=
+inished, disconnect your robot from your computer and restart it.Congratula=
+tions! You have successfully installed Rover T4 software on your robot. You=
+ can now enjoy its new features and functions.TroubleshootingIf you e</div>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/7c90c79f-49f1-42c2-ac54-568bd49604fbn%40googlegroups.c=
+om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
+d/kasan-dev/7c90c79f-49f1-42c2-ac54-568bd49604fbn%40googlegroups.com</a>.<b=
+r />
+
+------=_Part_1227_1797169328.1701032824290--
+
+------=_Part_1226_89174854.1701032824290--
