@@ -1,77 +1,172 @@
-Return-Path: <kasan-dev+bncBCR4DL77YAGRBAM3SSVQMGQEY2JJZ7I@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBDP7S2VQMGQELXUT4YQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33f.google.com (mail-ot1-x33f.google.com [IPv6:2607:f8b0:4864:20::33f])
-	by mail.lfdr.de (Postfix) with ESMTPS id C75EE7FACBA
-	for <lists+kasan-dev@lfdr.de>; Mon, 27 Nov 2023 22:43:30 +0100 (CET)
-Received: by mail-ot1-x33f.google.com with SMTP id 46e09a7af769-6d814de304bsf2176517a34.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 27 Nov 2023 13:43:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1701121409; x=1701726209; darn=lfdr.de;
+Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7128A7FB70E
+	for <lists+kasan-dev@lfdr.de>; Tue, 28 Nov 2023 11:23:11 +0100 (CET)
+Received: by mail-il1-x13f.google.com with SMTP id e9e14a558f8ab-35b48b8fb7fsf181685ab.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 28 Nov 2023 02:23:11 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1701166990; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=UjdHZjwrQP7N0hZ5Pbdv2auYE46btRWwo7vq0vzjuKa6Fv54kG9HaetXhrg4JgOtEf
+         FN5El6dC3OhtGimLA89MywJsszdUyFxfR/CGJXe1iumF4ozSRzDIwoJf9MJmj+6CBaS8
+         JRvZsNstty90pjO+YSXUaBS6RvY3JneJUVgDdX8OUoGSmFgGA2HmpKtIDCCjSHTTV/Nj
+         UTuwSJRKTlCldYafjTLxqJ8Hwc/hioMoj/mzqbuKm1JCs5sy34SnpjEctDqfQKNLodbk
+         uXOsCRRG+FsAl4YMSYFG4xoYNy2FNgG3dWkTGebcgm1UoK9ISNgScgCLVdgzsf91fCpZ
+         CQ2g==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:message-id:to:from:date:sender:from:to:cc:subject:date
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=DpX1/Ziq3mwvWxdd5Vzwt00OtGLUbQTUsSCVEM8p38U=;
+        fh=uAklwYpXEGtDKNZgxEAPfoFxfjdS+Hk0v3HkyV4V+1s=;
+        b=A7BLINzL6fgVmgHkKv7YnwYTaZBGQJa/DVy7ff4Qw8suIibihnWhYNleTPKNl+yUGt
+         xbwSBmgwYF9WchnoNcAhggOVSrCyr8KRw75lNfCspzODtFtHN0/gBbw62rEbq3PH5g3w
+         lVsehJy1q7WaCBZPBzhwyH+GV6TZKzPhpjwVXtqjUh2fI1UtGSdeQ8TwzMNJdVVitfxk
+         ZFpwXhewzI8nbYdFcTXk7Obrb6unwUy2J43MG/uC4vyKOpyU2MHNbdDSN/yux+jNVFQl
+         uBKNgm29ysxG8U1OJpcN3wdmJWkUaiTxFZwCEBiSp8P4A/barxdMmzqDsgdpnQNxOUdc
+         zsBg==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=isnw1ekp;
+       spf=pass (google.com: domain of haibo.li@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=haibo.li@mediatek.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20230601; t=1701166990; x=1701771790; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=meNVUj3iI0vHY5ON+MwFi5xjV7/N83pXmLqTgfnvXa8=;
-        b=wdTwc70eqeF3+Kl91q2IfjjjPD6qArjPuxhfPsE3GA2kVcMnYJICQiH20okkYZAmxl
-         U9TmhExOaxiXbvrpI1frkHv8rZmxXIhRKcFdVs9ztu3pMPVyqWZxCaohftkx8EbjU9+B
-         /07o7MYpD8ndVHunqum+Osm62l0QXuWzxsSTs41WnpaPXwS7WAKB7rqS49MtGWkrJjLT
-         LxnAJQTTvQ61a1yavVft+b3+sRXiikOWixTTPDoV0PxW840v16asXbldls1ZYAgNpl4/
-         u5j/heEAVmbtYUDHRHTImKG3e85aGyfluH7AuiFdW8srQQ8QAgUYsddK/AtlqLyXD22k
-         h3HA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701121409; x=1701726209; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=meNVUj3iI0vHY5ON+MwFi5xjV7/N83pXmLqTgfnvXa8=;
-        b=KM6n/0VcqsqoruZlEZQBXJI1k0oOmwcHwvaZCnRjSDZMJiPgoNk99Sd0WSYDvjLFe3
-         sl+aOFG06rmbgMo8DkAyoLIuoL4H96tjuFc9dazZvKVVf2X/BmVyauxxnEffO9cM3uUH
-         G36ciyoY493IiM+9H60LbmYjaBbenSkX0ba1YMeFrqwFLRXR3KCNiX8Dj963mUUvi3+j
-         v/fupyE1jZ4vwQ2SR0jioDDDiVjZxysEcH+jd6n+bJve+ep3Yi9QEib7U3Eu0VuFJ5Ui
-         sYfx/Dpg6T4fKd8o6od+bqYwMo/8cuzMndebX8ICJoq8fKKUQDU5MtQ0or7kdn1CBbOo
-         lwtQ==
+        bh=DpX1/Ziq3mwvWxdd5Vzwt00OtGLUbQTUsSCVEM8p38U=;
+        b=O/1qcmUS28bsen6Rr1vE2Xp6YxNC4Mdl+MoT4YJcOw2I8s87/0uzZwFsCCgHI4zpp2
+         cUZj0OCByhLRFF56pZjEHfrzGSbiaUufx4FmsgZuvwlXy+agn7QTNYSxt4cYAARQIDEG
+         Oe4SPgP21N3rtks7NiOUSOzhOnCv/7qShV1z0LWITJk7AEW9r6xfg7XDhiL/ZWul1ZRN
+         vpJUEmbd0DzmebS7ny7YIJn4OvyyshLNnO78xK3Mbw85zaUWfo/kOBRHpJRD9r+38rBq
+         76yR5YrhBVGTim4MQxbxr0I1ISLc7+HTz9fgUyPvMFl2g6g3TsHTdN+ir7UL1obM4/p0
+         UOeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701121409; x=1701726209;
+        d=1e100.net; s=20230601; t=1701166990; x=1701771790;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-sender:mime-version:subject:message-id:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=meNVUj3iI0vHY5ON+MwFi5xjV7/N83pXmLqTgfnvXa8=;
-        b=ZYNrr22jLJs46YSis+z6s45KiEsjQJAFlYJc8pE4IMbskJ0P1MDHy9+P7HB5lOWVsZ
-         8AtVxRsinz480eTYNkMzSmJuFdAOLzbYwlZeuJVC/tN45zLsMZ7QfgsyFwXO55foLYAX
-         sHM2I31DDnoLkTEBjq+ueqNuq/fnFtMSD2omtOXTD6k8ZdoIIHyrbQ9dbNzkdw7wdBmF
-         jO1dozCuE2nULFD1XGvG/P5s3GHeUzma40WctUN/OyerkCEqeN89Ze6Wfn8tWMwdbq+j
-         +U2MQOhh+QcsKj6ifcvmeOhC0lmUEJ2mRDnFfQI32qw0s2PTOY+5Kd/2cTY3aSWLLxvK
-         tf/Q==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YzsUV+5h2gDmZLBzkO6QBMKajMb/8ED6IfcaFDUVu5Xl6il81Fv
-	HJtLjGt+PACzwkS/kXSd/QM=
-X-Google-Smtp-Source: AGHT+IFQFDbvpZ+cWRNe9lM8pz7NqKs/E3tVmJStYKl5vLLepf/o1GWuq2P0FrdhaWMV/Mi96aDh9g==
-X-Received: by 2002:a05:6830:63c1:b0:6d8:1159:2f58 with SMTP id ci1-20020a05683063c100b006d811592f58mr4090125otb.19.1701121409238;
-        Mon, 27 Nov 2023 13:43:29 -0800 (PST)
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DpX1/Ziq3mwvWxdd5Vzwt00OtGLUbQTUsSCVEM8p38U=;
+        b=LC/8Xf6rfZDGCtGgqEDefR3PugXqLHoSMpiZSOwzJJYqkM6ez59XQrKu3gq268Gwgv
+         UoLSFIEvVQnB+XBLUSDABR/SUOFUxn7BzXoXuHd3ggGrNDRS1F1IND28AaUReTYY14ru
+         kb9Tj3tKcN3UqPPGg+FKwxUby5nx9kD6xYbU4vuUDnerCpDmgG/e1apu0w44cW2e0lu/
+         MDpcp8euhE9SOIZQF2EvJ8YYtbwHEx3q5pEzKAk2a+gz8yplNKD/Q1u6ICFjUHLbKFZE
+         cMshZeKaeQk9eufn9Ootwjj9ob+WPbzTRLCa/D9QpY0pmm4UVi+L8pslIqgimwp5ZdGZ
+         YZag==
+X-Gm-Message-State: AOJu0YyzMO43PsgsM8rq5lSsRIyIhrm4hEKNiQv7PEcTNroi1/9jJTOn
+	kSfmqXALc6S17lXarX76z1A=
+X-Google-Smtp-Source: AGHT+IFzRnZEkrNdsicvRvv48MPcFoCnZg1i0UNZB5inRstCyIsAeVqCQDWAJXUWW2NasS3ZQPy1AQ==
+X-Received: by 2002:a05:6e02:11a6:b0:35c:cc6c:96ab with SMTP id 6-20020a056e0211a600b0035ccc6c96abmr353830ilj.25.1701166989970;
+        Tue, 28 Nov 2023 02:23:09 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6820:553:b0:58a:758e:d0b5 with SMTP id
- n19-20020a056820055300b0058a758ed0b5ls4531536ooj.0.-pod-prod-06-us; Mon, 27
- Nov 2023 13:43:28 -0800 (PST)
-X-Received: by 2002:a05:6820:1caa:b0:582:786:26dc with SMTP id ct42-20020a0568201caa00b00582078626dcmr1092872oob.1.1701121408418;
-        Mon, 27 Nov 2023 13:43:28 -0800 (PST)
-Date: Mon, 27 Nov 2023 13:43:28 -0800 (PST)
-From: Nguyet Edmondson <edmondsonnguyet@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <bd81026d-e566-4103-9576-bcbd0fc0f9b9n@googlegroups.com>
-Subject: Digital Image Processing By Jayaraman S, Veerakumar T, Esakkirajan
- S
+Received: by 2002:a05:6870:1f16:b0:1fa:4e81:9897 with SMTP id
+ pd22-20020a0568701f1600b001fa4e819897ls296885oab.1.-pod-prod-01-us; Tue, 28
+ Nov 2023 02:23:09 -0800 (PST)
+X-Received: by 2002:a05:6870:d60f:b0:1fa:31ab:dfb3 with SMTP id a15-20020a056870d60f00b001fa31abdfb3mr277919oaq.0.1701166989715;
+        Tue, 28 Nov 2023 02:23:09 -0800 (PST)
+Received: by 2002:a05:6808:179f:b0:3b8:5d96:faea with SMTP id 5614622812f47-3b85d96ffa8msb6e;
+        Mon, 27 Nov 2023 23:55:43 -0800 (PST)
+X-Received: by 2002:a05:6870:3c05:b0:1fa:1ebc:df4b with SMTP id gk5-20020a0568703c0500b001fa1ebcdf4bmr15615495oab.28.1701158143162;
+        Mon, 27 Nov 2023 23:55:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1701158143; cv=none;
+        d=google.com; s=arc-20160816;
+        b=h25tHi24ENzuSifW9sswiilIJpckVgokVrKucl8oeVORIwpd71JzieozVtYOclNXwH
+         lKoX/sYO2YFxYDxeGNOVlf4v/4426zlx2w1o2He5ZiQG1CKTROlqEi58JYRoTo0CUVE0
+         ESWf2UNXg+vqYAi1KuXRgOUgNy1LiYwwKws2u5z30MfdnDMN+53o7xAvtS+XWlxCUYJN
+         zYm2Z9TIRJZAmBxMYFswEGLBPBPJkACXoCe0wx+s7Ypwl55kTwMW9mYXHSJoLKdUt5YR
+         fudm/xWuKT1jN7d9EhzSvrBF50TFGEE8h/KOB6+C6CcVWJrqCzfFcUUWKE1KXwsI0cH3
+         Z0Rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=EIqL2tD5DZPZv4cReb9xm7HmNydPz9ibyBpjJNHePvQ=;
+        fh=uAklwYpXEGtDKNZgxEAPfoFxfjdS+Hk0v3HkyV4V+1s=;
+        b=MlD85AkEFWaQEEylAi5V2G/fuTx8U0a+Ga/yAX8mDLy6Ov96tDBk9HWHBh/btW0ZGD
+         ADrkoZln5XNVicDrjcuDbujj5Jo7Sm6QAiSMnHHz4MLXSlE8IcSgLrBjOf9FBTy0/HO1
+         Uz3100kqzJ8oB0SrmxO2UZUJ5nyfpZf8pHa7RjFACXLiAnoXhKmL5yE19YGSD9H688cw
+         MQJL8UFZk4LFF16rjnKT7hFdJiD4FPwEXkAMKqQmtMtVKwhVWVUOQ9Mjl0aFDeFmHo3G
+         j0PT43Lrv5LXkYJyO17/If7BGvlkel9WwzA98wvQc5S27uDnrf8o6eK3JC9y0cnFkFcw
+         ZCnQ==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@mediatek.com header.s=dk header.b=isnw1ekp;
+       spf=pass (google.com: domain of haibo.li@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=haibo.li@mediatek.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+Received: from mailgw02.mediatek.com ([210.61.82.184])
+        by gmr-mx.google.com with ESMTPS id u27-20020a056870f29b00b001dcf3f50667si2039199oap.0.2023.11.27.23.55.42
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Nov 2023 23:55:42 -0800 (PST)
+Received-SPF: pass (google.com: domain of haibo.li@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
+X-UUID: 839542ea8dc311ee8051498923ad61e6-20231128
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.34,REQID:4a3aa1d3-ec6a-4d77-8b8f-f09482cef926,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:abefa75,CLOUDID:5ca19060-c89d-4129-91cb-8ebfae4653fc,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
+	NO,DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 839542ea8dc311ee8051498923ad61e6-20231128
+Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
+	(envelope-from <haibo.li@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 877891212; Tue, 28 Nov 2023 15:55:36 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 28 Nov 2023 15:55:34 +0800
+Received: from mszsdtlt102.gcn.mediatek.inc (10.16.4.142) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 28 Nov 2023 15:55:34 +0800
+From: "'Haibo Li' via kasan-dev" <kasan-dev@googlegroups.com>
+To: <linux-kernel@vger.kernel.org>
+CC: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
+	<glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
+	<dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, "Andrew
+ Morton" <akpm@linux-foundation.org>, Matthias Brugger
+	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, <kasan-dev@googlegroups.com>,
+	<linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <xiaoming.yu@mediatek.com>, Haibo Li
+	<haibo.li@mediatek.com>, kernel test robot <lkp@intel.com>
+Subject: [PATCH] fix comparison of unsigned expression < 0
+Date: Tue, 28 Nov 2023 15:55:32 +0800
+Message-ID: <20231128075532.110251-1-haibo.li@mediatek.com>
+X-Mailer: git-send-email 2.34.3
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_24435_1612973340.1701121408013"
-X-Original-Sender: edmondsonnguyet@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--2.749500-8.000000
+X-TMASE-MatchedRID: iv01+ZwXeFIryFHbNnBLG0Zakoam9+aebT2gc93yznn9Ez/5IpHqp8lm
+	7UT8OKjb009cKtuMq44lKzzhiO1jPncna+FgAjo0nVTWWiNp+v/jxSCk4x2AYd9RlPzeVuQQObA
+	90TJq6C8/ApdYBbUVKYAy6p60ZV621gi3JUE8ePKSkBrqwsq4PfoLR4+zsDTttrrTuahHzlFU1G
+	84il7EfntKKivhCrlfE0eoKE0hYr807dg5hv5gH9S5x4PKrQ/8rxK9BaJJfxtRJt1IVZ02lKixa
+	UIRQLoOAGAn9m+WxPvyNp7g4PXe0BXsxz6ujBxUq1f8XSkHBUmNJXmEMVvLtpRMZUCEHkRt
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--2.749500-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 181391F854EACAAB2F00F5A6344B770795AAFA39D774CB1EEFDEC7134135C8032000:8
+X-MTK: N
+X-Original-Sender: haibo.li@mediatek.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@mediatek.com header.s=dk header.b=isnw1ekp;       spf=pass
+ (google.com: domain of haibo.li@mediatek.com designates 210.61.82.184 as
+ permitted sender) smtp.mailfrom=haibo.li@mediatek.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+X-Original-From: Haibo Li <haibo.li@mediatek.com>
+Reply-To: Haibo Li <haibo.li@mediatek.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
-X-Spam-Checked-In-Group: kasan-dev@googlegroups.com
 X-Google-Group-Id: 358814495539
 List-Post: <https://groups.google.com/group/kasan-dev/post>, <mailto:kasan-dev@googlegroups.com>
 List-Help: <https://groups.google.com/support/>, <mailto:kasan-dev+help@googlegroups.com>
@@ -80,135 +175,45 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_24435_1612973340.1701121408013
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_24436_180840392.1701121408013"
+Kernel test robot reported:
 
-------=_Part_24436_180840392.1701121408013
-Content-Type: text/plain; charset="UTF-8"
+'''
+mm/kasan/report.c:637 kasan_non_canonical_hook() warn:
+unsigned 'addr' is never less than zero.
+'''
+The KASAN_SHADOW_OFFSET is 0 on loongarch64.
 
-Digital Image Processing: A Pragmatic Approach by Jayaraman, Veerakumar and 
-EsakkirajanDigital image processing is the field of study that deals with 
-manipulating and analyzing images using various techniques and algorithms. 
-It has applications in many domains such as computer vision, medical 
-imaging, biometrics, remote sensing, security, entertainment and more.
+To fix it,check the KASAN_SHADOW_OFFSET before do comparison.
 
-digital image processing by jayaraman s, veerakumar t, esakkirajan s
-Download File https://urlgoal.com/2wGKAE
+Signed-off-by: Haibo Li <haibo.li@mediatek.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/
+  202311270743.3oTCwYPd-lkp@intel.com/
+---
+ mm/kasan/report.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-
-One of the most popular and comprehensive books on digital image processing 
-is Digital Image Processing by S. Jayaraman, T. Veerakumar and S. 
-Esakkirajan. This book provides a clear, up-to-date and practical 
-introduction to the subject for students and practicing engineers. It 
-covers the fundamental concepts and methods of image processing such as 
-image representation, enhancement, restoration, segmentation, compression, 
-feature extraction, recognition and classification. It also includes 
-illustrative examples and MATLAB applications to help readers understand 
-and implement the theory in practice.
-The book is divided into 12 chapters that cover the following topics:
-Chapter 1: Introduction to Digital Image ProcessingChapter 2: Digital Image 
-FundamentalsChapter 3: Image Enhancement in Spatial DomainChapter 4: Image 
-Enhancement in Frequency DomainChapter 5: Image RestorationChapter 6: Color 
-Image ProcessingChapter 7: Image CompressionChapter 8: Morphological Image 
-ProcessingChapter 9: Image SegmentationChapter 10: Representation and 
-DescriptionChapter 11: Object RecognitionChapter 12: Wavelets and 
-Multiresolution ProcessingThe book is published by Tata McGraw Hill 
-Education and has received positive reviews from readers and experts. It is 
-suitable for undergraduate and postgraduate courses in engineering and 
-computer science as well as for self-study and reference.
-One of the main features of the book is its illustrative approach, which 
-uses numerous figures, tables and diagrams to explain the concepts and 
-techniques of image processing. The book also provides several practical 
-examples and case studies to demonstrate the applications of image 
-processing in various domains such as face recognition, fingerprint 
-recognition, iris recognition, license plate recognition, medical image 
-analysis, satellite image analysis and more.
-Another feature of the book is its MATLAB applications, which are given at 
-the end of each chapter. These applications help the readers to implement 
-the algorithms and methods discussed in the book using MATLAB, a popular 
-software tool for numerical computation and visualization. The MATLAB code 
-and images used in the book are also available online for download.
-
-
-The book is written in a simple and lucid style that makes it easy to read 
-and understand. The authors have used a logical and systematic approach to 
-present the topics and have avoided unnecessary mathematical details and 
-derivations. The book also contains review questions, multiple choice 
-questions and exercises at the end of each chapter to test the readers' 
-comprehension and reinforce their learning.
- 35727fac0c
-
+diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+index e77facb62900..dafec2df0268 100644
+--- a/mm/kasan/report.c
++++ b/mm/kasan/report.c
+@@ -634,10 +634,10 @@ void kasan_non_canonical_hook(unsigned long addr)
+ {
+ 	unsigned long orig_addr;
+ 	const char *bug_type;
+-
++#if KASAN_SHADOW_OFFSET > 0
+ 	if (addr < KASAN_SHADOW_OFFSET)
+ 		return;
+-
++#endif
+ 	orig_addr = (addr - KASAN_SHADOW_OFFSET) << KASAN_SHADOW_SCALE_SHIFT;
+ 	/*
+ 	 * For faults near the shadow address for NULL, we can be fairly certain
+-- 
+2.18.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bd81026d-e566-4103-9576-bcbd0fc0f9b9n%40googlegroups.com.
-
-------=_Part_24436_180840392.1701121408013
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Digital Image Processing: A Pragmatic Approach by Jayaraman, Veerakumar and=
- EsakkirajanDigital image processing is the field of study that deals with =
-manipulating and analyzing images using various techniques and algorithms. =
-It has applications in many domains such as computer vision, medical imagin=
-g, biometrics, remote sensing, security, entertainment and more.<div><br />=
-</div><div>digital image processing by jayaraman s, veerakumar t, esakkiraj=
-an s</div><div>Download File https://urlgoal.com/2wGKAE<br /><br /><br />On=
-e of the most popular and comprehensive books on digital image processing i=
-s Digital Image Processing by S. Jayaraman, T. Veerakumar and S. Esakkiraja=
-n. This book provides a clear, up-to-date and practical introduction to the=
- subject for students and practicing engineers. It covers the fundamental c=
-oncepts and methods of image processing such as image representation, enhan=
-cement, restoration, segmentation, compression, feature extraction, recogni=
-tion and classification. It also includes illustrative examples and MATLAB =
-applications to help readers understand and implement the theory in practic=
-e.</div><div>The book is divided into 12 chapters that cover the following =
-topics:</div><div>Chapter 1: Introduction to Digital Image ProcessingChapte=
-r 2: Digital Image FundamentalsChapter 3: Image Enhancement in Spatial Doma=
-inChapter 4: Image Enhancement in Frequency DomainChapter 5: Image Restorat=
-ionChapter 6: Color Image ProcessingChapter 7: Image CompressionChapter 8: =
-Morphological Image ProcessingChapter 9: Image SegmentationChapter 10: Repr=
-esentation and DescriptionChapter 11: Object RecognitionChapter 12: Wavelet=
-s and Multiresolution ProcessingThe book is published by Tata McGraw Hill E=
-ducation and has received positive reviews from readers and experts. It is =
-suitable for undergraduate and postgraduate courses in engineering and comp=
-uter science as well as for self-study and reference.</div><div>One of the =
-main features of the book is its illustrative approach, which uses numerous=
- figures, tables and diagrams to explain the concepts and techniques of ima=
-ge processing. The book also provides several practical examples and case s=
-tudies to demonstrate the applications of image processing in various domai=
-ns such as face recognition, fingerprint recognition, iris recognition, lic=
-ense plate recognition, medical image analysis, satellite image analysis an=
-d more.</div><div>Another feature of the book is its MATLAB applications, w=
-hich are given at the end of each chapter. These applications help the read=
-ers to implement the algorithms and methods discussed in the book using MAT=
-LAB, a popular software tool for numerical computation and visualization. T=
-he MATLAB code and images used in the book are also available online for do=
-wnload.</div><div><br /></div><div><br /></div><div>The book is written in =
-a simple and lucid style that makes it easy to read and understand. The aut=
-hors have used a logical and systematic approach to present the topics and =
-have avoided unnecessary mathematical details and derivations. The book als=
-o contains review questions, multiple choice questions and exercises at the=
- end of each chapter to test the readers' comprehension and reinforce their=
- learning.</div><div>=C2=A035727fac0c</div><div><br /></div><div><br /></di=
-v>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/bd81026d-e566-4103-9576-bcbd0fc0f9b9n%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/bd81026d-e566-4103-9576-bcbd0fc0f9b9n%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_24436_180840392.1701121408013--
-
-------=_Part_24435_1612973340.1701121408013--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231128075532.110251-1-haibo.li%40mediatek.com.
