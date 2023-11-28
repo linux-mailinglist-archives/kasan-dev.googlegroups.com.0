@@ -1,172 +1,76 @@
-Return-Path: <kasan-dev+bncBAABBDP7S2VQMGQELXUT4YQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDMPBUH7QUBBBNOKTGVQMGQEDOMGRSQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7128A7FB70E
-	for <lists+kasan-dev@lfdr.de>; Tue, 28 Nov 2023 11:23:11 +0100 (CET)
-Received: by mail-il1-x13f.google.com with SMTP id e9e14a558f8ab-35b48b8fb7fsf181685ab.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 28 Nov 2023 02:23:11 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1701166990; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=UjdHZjwrQP7N0hZ5Pbdv2auYE46btRWwo7vq0vzjuKa6Fv54kG9HaetXhrg4JgOtEf
-         FN5El6dC3OhtGimLA89MywJsszdUyFxfR/CGJXe1iumF4ozSRzDIwoJf9MJmj+6CBaS8
-         JRvZsNstty90pjO+YSXUaBS6RvY3JneJUVgDdX8OUoGSmFgGA2HmpKtIDCCjSHTTV/Nj
-         UTuwSJRKTlCldYafjTLxqJ8Hwc/hioMoj/mzqbuKm1JCs5sy34SnpjEctDqfQKNLodbk
-         uXOsCRRG+FsAl4YMSYFG4xoYNy2FNgG3dWkTGebcgm1UoK9ISNgScgCLVdgzsf91fCpZ
-         CQ2g==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=DpX1/Ziq3mwvWxdd5Vzwt00OtGLUbQTUsSCVEM8p38U=;
-        fh=uAklwYpXEGtDKNZgxEAPfoFxfjdS+Hk0v3HkyV4V+1s=;
-        b=A7BLINzL6fgVmgHkKv7YnwYTaZBGQJa/DVy7ff4Qw8suIibihnWhYNleTPKNl+yUGt
-         xbwSBmgwYF9WchnoNcAhggOVSrCyr8KRw75lNfCspzODtFtHN0/gBbw62rEbq3PH5g3w
-         lVsehJy1q7WaCBZPBzhwyH+GV6TZKzPhpjwVXtqjUh2fI1UtGSdeQ8TwzMNJdVVitfxk
-         ZFpwXhewzI8nbYdFcTXk7Obrb6unwUy2J43MG/uC4vyKOpyU2MHNbdDSN/yux+jNVFQl
-         uBKNgm29ysxG8U1OJpcN3wdmJWkUaiTxFZwCEBiSp8P4A/barxdMmzqDsgdpnQNxOUdc
-         zsBg==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@mediatek.com header.s=dk header.b=isnw1ekp;
-       spf=pass (google.com: domain of haibo.li@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=haibo.li@mediatek.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
+Received: from mail-pj1-x103a.google.com (mail-pj1-x103a.google.com [IPv6:2607:f8b0:4864:20::103a])
+	by mail.lfdr.de (Postfix) with ESMTPS id D34607FC915
+	for <lists+kasan-dev@lfdr.de>; Tue, 28 Nov 2023 23:09:59 +0100 (CET)
+Received: by mail-pj1-x103a.google.com with SMTP id 98e67ed59e1d1-285adde28a0sf5727461a91.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 28 Nov 2023 14:09:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1701166990; x=1701771790; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1701209398; x=1701814198; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:message-id:to:from:date:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DpX1/Ziq3mwvWxdd5Vzwt00OtGLUbQTUsSCVEM8p38U=;
-        b=O/1qcmUS28bsen6Rr1vE2Xp6YxNC4Mdl+MoT4YJcOw2I8s87/0uzZwFsCCgHI4zpp2
-         cUZj0OCByhLRFF56pZjEHfrzGSbiaUufx4FmsgZuvwlXy+agn7QTNYSxt4cYAARQIDEG
-         Oe4SPgP21N3rtks7NiOUSOzhOnCv/7qShV1z0LWITJk7AEW9r6xfg7XDhiL/ZWul1ZRN
-         vpJUEmbd0DzmebS7ny7YIJn4OvyyshLNnO78xK3Mbw85zaUWfo/kOBRHpJRD9r+38rBq
-         76yR5YrhBVGTim4MQxbxr0I1ISLc7+HTz9fgUyPvMFl2g6g3TsHTdN+ir7UL1obM4/p0
-         UOeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701166990; x=1701771790;
+        bh=TGs6S19cGWH0mtlZDEJgkjdJ2OErlDyqk1SzKRfT3ac=;
+        b=rWwehprxbZa/zId/IYV7wb494EQHV/3nXehbIKisb/BpiFGg0U4sfJKsQsm9/ztFTP
+         78Xz+rUG2GjPNdUI4QkgV+xo2Y5nGW7SrsWFS/UMjlPPN5k3LQlJ3jS5GlRX0l1/kEjv
+         WMO3YMvSCqurztMQylOYBDezxSIy2kHpqXgNw7weLu+wCexrpubr1m9Wsip6XJ08UwnE
+         TTcLngMRmqZn1aKsH4Dsq83HfIP7Mp9nsZftjvGpVkbuEvSlmfy1gHtuprt2a0WoM9w9
+         b4fodMtTmhLb0FHdeGTvwcRf3VfyMD6rCyg7Jn0sN70zNkEvE0/t/f3nYqwfwTMJw13v
+         LfSw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701209398; x=1701814198; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DpX1/Ziq3mwvWxdd5Vzwt00OtGLUbQTUsSCVEM8p38U=;
-        b=LC/8Xf6rfZDGCtGgqEDefR3PugXqLHoSMpiZSOwzJJYqkM6ez59XQrKu3gq268Gwgv
-         UoLSFIEvVQnB+XBLUSDABR/SUOFUxn7BzXoXuHd3ggGrNDRS1F1IND28AaUReTYY14ru
-         kb9Tj3tKcN3UqPPGg+FKwxUby5nx9kD6xYbU4vuUDnerCpDmgG/e1apu0w44cW2e0lu/
-         MDpcp8euhE9SOIZQF2EvJ8YYtbwHEx3q5pEzKAk2a+gz8yplNKD/Q1u6ICFjUHLbKFZE
-         cMshZeKaeQk9eufn9Ootwjj9ob+WPbzTRLCa/D9QpY0pmm4UVi+L8pslIqgimwp5ZdGZ
-         YZag==
-X-Gm-Message-State: AOJu0YyzMO43PsgsM8rq5lSsRIyIhrm4hEKNiQv7PEcTNroi1/9jJTOn
-	kSfmqXALc6S17lXarX76z1A=
-X-Google-Smtp-Source: AGHT+IFzRnZEkrNdsicvRvv48MPcFoCnZg1i0UNZB5inRstCyIsAeVqCQDWAJXUWW2NasS3ZQPy1AQ==
-X-Received: by 2002:a05:6e02:11a6:b0:35c:cc6c:96ab with SMTP id 6-20020a056e0211a600b0035ccc6c96abmr353830ilj.25.1701166989970;
-        Tue, 28 Nov 2023 02:23:09 -0800 (PST)
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TGs6S19cGWH0mtlZDEJgkjdJ2OErlDyqk1SzKRfT3ac=;
+        b=Ws36C2AOSvnzhm63P84etyH9IQD+tdcp+FmJEI7WtW2n21yrhgMFAiJpW8l4HH87bu
+         oXmrBvNxdVVPyevV4UbfFrDg4fXS5EjlmzI+w7QhSgmiYy9fHyrggSmrcCjtDerN4is4
+         CoJ3eexLmGVyhFxEs5p4FsCgV3PBxwsu0jOm+FwUwuN0x6b1Sl7GAFN+OvpB/+lj2F3N
+         yQkOb5pcGO12JnsJxj6u+ajW/Wo0QAavnZaYpmzRS/A4RX5seIcwm7m9D9osXKJ/Auxj
+         Hw0ECiEilvF5/fuhCVxDdiNehXc2TSaH12ztwuECesaAW3w1pG7y0xYpN9t1vLVJ7aQm
+         N+jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701209398; x=1701814198;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-sender:mime-version:subject:message-id:to:from:date
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TGs6S19cGWH0mtlZDEJgkjdJ2OErlDyqk1SzKRfT3ac=;
+        b=bM0Tl3HsxkZ5HmaiLYEWkMzTl7dbdaPItQU9w+1E9H7dqj6lRFvIdt+WabuxSH8ZN5
+         v4bMOjDeYKpyHZ9VmMMZCPZ6/TuBBNynVYuxZN/ksYc2TI6JSEPPbZek95uAfSuVgy+T
+         JyojKcsPbfxXqwz8Bxc865DPis74sud4qg5wFu8kfQH31sBO7msg4IfM9bMIk2oyQOLq
+         qvlLe5gCKTQtDSlgGLZgXJjbAvMwD6mqAjWerpQ7p5CcpirLfRcU7j7+/1OFhFe1xx8f
+         RO+uhf5S4vI4ojmHHLK4cr1rodu0A0MZrKgU7MECKgp6MOIhY2W3N0xPk2HdqpW92g8Q
+         902A==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOJu0YyQed/8OvMNAqEYucuyFpYeOeFIhAbu4MakXfZNh6BIHFbYm51O
+	pJoteZhFSwIhYD0KSHQGQ9k=
+X-Google-Smtp-Source: AGHT+IHwBtShR9o3MdqVKbph66rfW0XqZRZXj21uK4B7wScIlvdl/zW5jU3k1xgsVk5606TdkckLLw==
+X-Received: by 2002:a17:90b:1b44:b0:285:b0fa:f7c6 with SMTP id nv4-20020a17090b1b4400b00285b0faf7c6mr12942381pjb.10.1701209397850;
+        Tue, 28 Nov 2023 14:09:57 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:1f16:b0:1fa:4e81:9897 with SMTP id
- pd22-20020a0568701f1600b001fa4e819897ls296885oab.1.-pod-prod-01-us; Tue, 28
- Nov 2023 02:23:09 -0800 (PST)
-X-Received: by 2002:a05:6870:d60f:b0:1fa:31ab:dfb3 with SMTP id a15-20020a056870d60f00b001fa31abdfb3mr277919oaq.0.1701166989715;
-        Tue, 28 Nov 2023 02:23:09 -0800 (PST)
-Received: by 2002:a05:6808:179f:b0:3b8:5d96:faea with SMTP id 5614622812f47-3b85d96ffa8msb6e;
-        Mon, 27 Nov 2023 23:55:43 -0800 (PST)
-X-Received: by 2002:a05:6870:3c05:b0:1fa:1ebc:df4b with SMTP id gk5-20020a0568703c0500b001fa1ebcdf4bmr15615495oab.28.1701158143162;
-        Mon, 27 Nov 2023 23:55:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1701158143; cv=none;
-        d=google.com; s=arc-20160816;
-        b=h25tHi24ENzuSifW9sswiilIJpckVgokVrKucl8oeVORIwpd71JzieozVtYOclNXwH
-         lKoX/sYO2YFxYDxeGNOVlf4v/4426zlx2w1o2He5ZiQG1CKTROlqEi58JYRoTo0CUVE0
-         ESWf2UNXg+vqYAi1KuXRgOUgNy1LiYwwKws2u5z30MfdnDMN+53o7xAvtS+XWlxCUYJN
-         zYm2Z9TIRJZAmBxMYFswEGLBPBPJkACXoCe0wx+s7Ypwl55kTwMW9mYXHSJoLKdUt5YR
-         fudm/xWuKT1jN7d9EhzSvrBF50TFGEE8h/KOB6+C6CcVWJrqCzfFcUUWKE1KXwsI0cH3
-         Z0Rg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=EIqL2tD5DZPZv4cReb9xm7HmNydPz9ibyBpjJNHePvQ=;
-        fh=uAklwYpXEGtDKNZgxEAPfoFxfjdS+Hk0v3HkyV4V+1s=;
-        b=MlD85AkEFWaQEEylAi5V2G/fuTx8U0a+Ga/yAX8mDLy6Ov96tDBk9HWHBh/btW0ZGD
-         ADrkoZln5XNVicDrjcuDbujj5Jo7Sm6QAiSMnHHz4MLXSlE8IcSgLrBjOf9FBTy0/HO1
-         Uz3100kqzJ8oB0SrmxO2UZUJ5nyfpZf8pHa7RjFACXLiAnoXhKmL5yE19YGSD9H688cw
-         MQJL8UFZk4LFF16rjnKT7hFdJiD4FPwEXkAMKqQmtMtVKwhVWVUOQ9Mjl0aFDeFmHo3G
-         j0PT43Lrv5LXkYJyO17/If7BGvlkel9WwzA98wvQc5S27uDnrf8o6eK3JC9y0cnFkFcw
-         ZCnQ==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@mediatek.com header.s=dk header.b=isnw1ekp;
-       spf=pass (google.com: domain of haibo.li@mediatek.com designates 210.61.82.184 as permitted sender) smtp.mailfrom=haibo.li@mediatek.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
-Received: from mailgw02.mediatek.com ([210.61.82.184])
-        by gmr-mx.google.com with ESMTPS id u27-20020a056870f29b00b001dcf3f50667si2039199oap.0.2023.11.27.23.55.42
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Nov 2023 23:55:42 -0800 (PST)
-Received-SPF: pass (google.com: domain of haibo.li@mediatek.com designates 210.61.82.184 as permitted sender) client-ip=210.61.82.184;
-X-UUID: 839542ea8dc311ee8051498923ad61e6-20231128
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.34,REQID:4a3aa1d3-ec6a-4d77-8b8f-f09482cef926,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:abefa75,CLOUDID:5ca19060-c89d-4129-91cb-8ebfae4653fc,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
-	NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 839542ea8dc311ee8051498923ad61e6-20231128
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw02.mediatek.com
-	(envelope-from <haibo.li@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 877891212; Tue, 28 Nov 2023 15:55:36 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Tue, 28 Nov 2023 15:55:34 +0800
-Received: from mszsdtlt102.gcn.mediatek.inc (10.16.4.142) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Tue, 28 Nov 2023 15:55:34 +0800
-From: "'Haibo Li' via kasan-dev" <kasan-dev@googlegroups.com>
-To: <linux-kernel@vger.kernel.org>
-CC: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
-	<glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
-	<dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, "Andrew
- Morton" <akpm@linux-foundation.org>, Matthias Brugger
-	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, <kasan-dev@googlegroups.com>,
-	<linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-mediatek@lists.infradead.org>, <xiaoming.yu@mediatek.com>, Haibo Li
-	<haibo.li@mediatek.com>, kernel test robot <lkp@intel.com>
-Subject: [PATCH] fix comparison of unsigned expression < 0
-Date: Tue, 28 Nov 2023 15:55:32 +0800
-Message-ID: <20231128075532.110251-1-haibo.li@mediatek.com>
-X-Mailer: git-send-email 2.34.3
+Received: by 2002:a17:90b:1949:b0:268:14f6:5312 with SMTP id
+ nk9-20020a17090b194900b0026814f65312ls5263405pjb.2.-pod-prod-08-us; Tue, 28
+ Nov 2023 14:09:56 -0800 (PST)
+X-Received: by 2002:a17:90b:1e03:b0:285:f464:80e1 with SMTP id pg3-20020a17090b1e0300b00285f46480e1mr904194pjb.8.1701209396387;
+        Tue, 28 Nov 2023 14:09:56 -0800 (PST)
+Date: Tue, 28 Nov 2023 14:09:55 -0800 (PST)
+From: Cari Hauskins <carihauskins@gmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <c13f7d65-2feb-4926-9281-b85ef5bd9426n@googlegroups.com>
+Subject: Tradeguider Eod V4 Download 15
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--2.749500-8.000000
-X-TMASE-MatchedRID: iv01+ZwXeFIryFHbNnBLG0Zakoam9+aebT2gc93yznn9Ez/5IpHqp8lm
-	7UT8OKjb009cKtuMq44lKzzhiO1jPncna+FgAjo0nVTWWiNp+v/jxSCk4x2AYd9RlPzeVuQQObA
-	90TJq6C8/ApdYBbUVKYAy6p60ZV621gi3JUE8ePKSkBrqwsq4PfoLR4+zsDTttrrTuahHzlFU1G
-	84il7EfntKKivhCrlfE0eoKE0hYr807dg5hv5gH9S5x4PKrQ/8rxK9BaJJfxtRJt1IVZ02lKixa
-	UIRQLoOAGAn9m+WxPvyNp7g4PXe0BXsxz6ujBxUq1f8XSkHBUmNJXmEMVvLtpRMZUCEHkRt
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--2.749500-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 181391F854EACAAB2F00F5A6344B770795AAFA39D774CB1EEFDEC7134135C8032000:8
-X-MTK: N
-X-Original-Sender: haibo.li@mediatek.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@mediatek.com header.s=dk header.b=isnw1ekp;       spf=pass
- (google.com: domain of haibo.li@mediatek.com designates 210.61.82.184 as
- permitted sender) smtp.mailfrom=haibo.li@mediatek.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=mediatek.com
-X-Original-From: Haibo Li <haibo.li@mediatek.com>
-Reply-To: Haibo Li <haibo.li@mediatek.com>
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_10656_1468714856.1701209395408"
+X-Original-Sender: carihauskins@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
+X-Spam-Checked-In-Group: kasan-dev@googlegroups.com
 X-Google-Group-Id: 358814495539
 List-Post: <https://groups.google.com/group/kasan-dev/post>, <mailto:kasan-dev@googlegroups.com>
 List-Help: <https://groups.google.com/support/>, <mailto:kasan-dev+help@googlegroups.com>
@@ -175,45 +79,187 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Kernel test robot reported:
+------=_Part_10656_1468714856.1701209395408
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_10657_715149079.1701209395408"
 
-'''
-mm/kasan/report.c:637 kasan_non_canonical_hook() warn:
-unsigned 'addr' is never less than zero.
-'''
-The KASAN_SHADOW_OFFSET is 0 on loongarch64.
+------=_Part_10657_715149079.1701209395408
+Content-Type: text/plain; charset="UTF-8"
 
-To fix it,check the KASAN_SHADOW_OFFSET before do comparison.
+How to Download Trade Guider EOD V4 for FreeTrade Guider EOD V4 is a 
+software that helps traders analyze the market and identify trading 
+opportunities based on volume spread analysis. It can scan multiple markets 
+and timeframes, and generate signals and alerts based on the smart money 
+activity. Trade Guider EOD V4 is a powerful tool for both beginners and 
+experienced traders who want to improve their trading performance.
+However, Trade Guider EOD V4 is not a cheap software. It costs $2,995 for a 
+lifetime license, or $995 for a yearly subscription. If you are looking for 
+a way to download Trade Guider EOD V4 for free, you might be tempted to 
+search for cracked versions or torrents online. But beware, these sources 
+are not reliable and can expose you to malware, viruses, or legal issues.
 
-Signed-off-by: Haibo Li <haibo.li@mediatek.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/
-  202311270743.3oTCwYPd-lkp@intel.com/
----
- mm/kasan/report.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+tradeguider eod v4 download 15
+DOWNLOAD https://t.co/2EtTfK1hkY
 
-diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-index e77facb62900..dafec2df0268 100644
---- a/mm/kasan/report.c
-+++ b/mm/kasan/report.c
-@@ -634,10 +634,10 @@ void kasan_non_canonical_hook(unsigned long addr)
- {
- 	unsigned long orig_addr;
- 	const char *bug_type;
--
-+#if KASAN_SHADOW_OFFSET > 0
- 	if (addr < KASAN_SHADOW_OFFSET)
- 		return;
--
-+#endif
- 	orig_addr = (addr - KASAN_SHADOW_OFFSET) << KASAN_SHADOW_SCALE_SHIFT;
- 	/*
- 	 * For faults near the shadow address for NULL, we can be fairly certain
--- 
-2.18.0
+
+Fortunately, there is a safe and legal way to download Trade Guider EOD V4 
+for free. You can take advantage of the 14-day trial offer that Trade 
+Guider provides on its official website. This way, you can test the 
+software and see if it suits your trading style and needs before you decide 
+to buy it.
+To download Trade Guider EOD V4 for free, you need to follow these steps:
+Go to https://tradeguider.com/trial and fill out the form with your name, 
+email, phone number, and country.Check your email and confirm your 
+subscription. You will receive a link to download Trade Guider EOD 
+V4.Download and install Trade Guider EOD V4 on your computer. You will need 
+to enter your email and password to activate the software.Enjoy your 14-day 
+free trial of Trade Guider EOD V4. You can access all the features and 
+functions of the software, including live data feed, scanning, signals, 
+alerts, indicators, charts, tutorials, and support.If you like Trade Guider 
+EOD V4 and want to continue using it after the trial period ends, you can 
+purchase a license from the website or contact the sales team. If you don't 
+like it or don't want to buy it, you can uninstall it from your computer 
+without any obligation or charge.
+Trade Guider EOD V4 is a great software for traders who want to learn and 
+apply volume spread analysis in their trading. It can help you spot the 
+smart money moves and trade with them, not against them. By downloading 
+Trade Guider EOD V4 for free from the official website, you can try it 
+risk-free and see if it works for you.
+What are the benefits of using Trade Guider EOD V4?
+Trade Guider EOD V4 is based on the principles of volume spread analysis 
+(VSA), which is a method of analyzing the market by looking at the 
+relationship between volume and price. VSA can help traders to identify the 
+following:
+The strength and weakness of supply and demandThe accumulation and 
+distribution of positions by professional tradersThe signs of market 
+manipulation and deceptionThe potential turning points and trend changesThe 
+optimal entry and exit points for tradesBy using Trade Guider EOD V4, 
+traders can gain an edge over the market by following the footsteps of the 
+smart money, or the professional traders who have the power and influence 
+to move the market. Trade Guider EOD V4 can help traders to avoid being 
+trapped by false signals and whipsaws, and to trade in harmony with the 
+market direction.
+How to use Trade Guider EOD V4 effectively?
+
+
+Trade Guider EOD V4 is a user-friendly software that can be easily 
+installed and configured on any Windows computer. It can work with any data 
+feed that provides end-of-day data for stocks, futures, forex, or any other 
+market. Trade Guider EOD V4 has a simple interface that allows traders to 
+scan, analyze, and trade multiple markets and timeframes with ease.
+Trade Guider EOD V4 has four main components:
+The Scanner: This tool allows traders to scan thousands of symbols across 
+multiple markets and timeframes for trading opportunities based on VSA 
+signals and setups.The Analyzer: This tool allows traders to view detailed 
+charts of any symbol with various indicators, tools, and annotations that 
+highlight the VSA signals and setups.The Signals: These are color-coded 
+icons that appear on the charts to indicate the presence of VSA signals and 
+setups. They also provide audio and visual alerts when they occur.The 
+Advisor: This is a pop-up window that provides a summary of the current 
+market situation and trading advice based on VSA principles. It also shows 
+the risk-reward ratio and stop-loss level for each trade.To use Trade 
+Guider EOD V4 effectively, traders should follow these steps:
+Select a market and timeframe that suits their trading style and 
+objectives.Use the Scanner to find symbols that show VSA signals and 
+setups.Use the Analyzer to confirm the signals and setups on the charts.Use 
+the Signals to enter and exit trades according to the VSA rules.Use the 
+Advisor to monitor the market conditions and adjust the trades accordingly.
+ 35727fac0c
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231128075532.110251-1-haibo.li%40mediatek.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/c13f7d65-2feb-4926-9281-b85ef5bd9426n%40googlegroups.com.
+
+------=_Part_10657_715149079.1701209395408
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+How to Download Trade Guider EOD V4 for FreeTrade Guider EOD V4 is a softwa=
+re that helps traders analyze the market and identify trading opportunities=
+ based on volume spread analysis. It can scan multiple markets and timefram=
+es, and generate signals and alerts based on the smart money activity. Trad=
+e Guider EOD V4 is a powerful tool for both beginners and experienced trade=
+rs who want to improve their trading performance.<div>However, Trade Guider=
+ EOD V4 is not a cheap software. It costs $2,995 for a lifetime license, or=
+ $995 for a yearly subscription. If you are looking for a way to download T=
+rade Guider EOD V4 for free, you might be tempted to search for cracked ver=
+sions or torrents online. But beware, these sources are not reliable and ca=
+n expose you to malware, viruses, or legal issues.</div><div><br /></div><d=
+iv>tradeguider eod v4 download 15</div><div>DOWNLOAD https://t.co/2EtTfK1hk=
+Y<br /><br /><br />Fortunately, there is a safe and legal way to download T=
+rade Guider EOD V4 for free. You can take advantage of the 14-day trial off=
+er that Trade Guider provides on its official website. This way, you can te=
+st the software and see if it suits your trading style and needs before you=
+ decide to buy it.</div><div>To download Trade Guider EOD V4 for free, you =
+need to follow these steps:</div><div>Go to https://tradeguider.com/trial a=
+nd fill out the form with your name, email, phone number, and country.Check=
+ your email and confirm your subscription. You will receive a link to downl=
+oad Trade Guider EOD V4.Download and install Trade Guider EOD V4 on your co=
+mputer. You will need to enter your email and password to activate the soft=
+ware.Enjoy your 14-day free trial of Trade Guider EOD V4. You can access al=
+l the features and functions of the software, including live data feed, sca=
+nning, signals, alerts, indicators, charts, tutorials, and support.If you l=
+ike Trade Guider EOD V4 and want to continue using it after the trial perio=
+d ends, you can purchase a license from the website or contact the sales te=
+am. If you don't like it or don't want to buy it, you can uninstall it from=
+ your computer without any obligation or charge.</div><div>Trade Guider EOD=
+ V4 is a great software for traders who want to learn and apply volume spre=
+ad analysis in their trading. It can help you spot the smart money moves an=
+d trade with them, not against them. By downloading Trade Guider EOD V4 for=
+ free from the official website, you can try it risk-free and see if it wor=
+ks for you.</div><div>What are the benefits of using Trade Guider EOD V4?<b=
+r />Trade Guider EOD V4 is based on the principles of volume spread analysi=
+s (VSA), which is a method of analyzing the market by looking at the relati=
+onship between volume and price. VSA can help traders to identify the follo=
+wing:</div><div>The strength and weakness of supply and demandThe accumulat=
+ion and distribution of positions by professional tradersThe signs of marke=
+t manipulation and deceptionThe potential turning points and trend changesT=
+he optimal entry and exit points for tradesBy using Trade Guider EOD V4, tr=
+aders can gain an edge over the market by following the footsteps of the sm=
+art money, or the professional traders who have the power and influence to =
+move the market. Trade Guider EOD V4 can help traders to avoid being trappe=
+d by false signals and whipsaws, and to trade in harmony with the market di=
+rection.</div><div>How to use Trade Guider EOD V4 effectively?</div><div><b=
+r /></div><div><br /></div><div>Trade Guider EOD V4 is a user-friendly soft=
+ware that can be easily installed and configured on any Windows computer. I=
+t can work with any data feed that provides end-of-day data for stocks, fut=
+ures, forex, or any other market. Trade Guider EOD V4 has a simple interfac=
+e that allows traders to scan, analyze, and trade multiple markets and time=
+frames with ease.</div><div>Trade Guider EOD V4 has four main components:</=
+div><div>The Scanner: This tool allows traders to scan thousands of symbols=
+ across multiple markets and timeframes for trading opportunities based on =
+VSA signals and setups.The Analyzer: This tool allows traders to view detai=
+led charts of any symbol with various indicators, tools, and annotations th=
+at highlight the VSA signals and setups.The Signals: These are color-coded =
+icons that appear on the charts to indicate the presence of VSA signals and=
+ setups. They also provide audio and visual alerts when they occur.The Advi=
+sor: This is a pop-up window that provides a summary of the current market =
+situation and trading advice based on VSA principles. It also shows the ris=
+k-reward ratio and stop-loss level for each trade.To use Trade Guider EOD V=
+4 effectively, traders should follow these steps:</div><div>Select a market=
+ and timeframe that suits their trading style and objectives.Use the Scanne=
+r to find symbols that show VSA signals and setups.Use the Analyzer to conf=
+irm the signals and setups on the charts.Use the Signals to enter and exit =
+trades according to the VSA rules.Use the Advisor to monitor the market con=
+ditions and adjust the trades accordingly.</div><div>=C2=A035727fac0c</div>=
+<div><br /></div><div><br /></div>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/c13f7d65-2feb-4926-9281-b85ef5bd9426n%40googlegroups.c=
+om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
+d/kasan-dev/c13f7d65-2feb-4926-9281-b85ef5bd9426n%40googlegroups.com</a>.<b=
+r />
+
+------=_Part_10657_715149079.1701209395408--
+
+------=_Part_10656_1468714856.1701209395408--
