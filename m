@@ -1,133 +1,128 @@
-Return-Path: <kasan-dev+bncBAABBYEVTSVQMGQERZN5UVI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBV4VTSVQMGQEKUEBUAY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5162D7FD35C
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 10:56:50 +0100 (CET)
-Received: by mail-pf1-x43d.google.com with SMTP id d2e1a72fcca58-6c7c69e4367sf7426185b3a.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 01:56:50 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1701251809; cv=pass;
+Received: from mail-pg1-x53d.google.com (mail-pg1-x53d.google.com [IPv6:2607:f8b0:4864:20::53d])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A377FD358
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 10:56:40 +0100 (CET)
+Received: by mail-pg1-x53d.google.com with SMTP id 41be03b00d2f7-5c5dd157f5csf3368976a12.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 01:56:40 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1701251799; cv=pass;
         d=google.com; s=arc-20160816;
-        b=D9jVsNDU3BN3zFI2UE29fEQOE5Mgd5gMfOgWx5MHU0IPeOVlf1K3BIOZSBfhbNCZ+P
-         6AztyjwkcLEhAgxdU84VCtAY+iZz7Fiin4n+p95BftvWb9QozIf/xThOtObdcORTnbGb
-         /EVJZFqXfXUwufK/pG215WqqO2VBtP5I6KE3Nh3CPqVY1fOYN04BSKU04723S/KF9Ng2
-         S90GF7CnEsc+rH9RwmDSjWpvonjTXh/S122PDC+VkuRSA648aQDYrvwGbdfqZx057Gsb
-         bo8Wi4LlQGvFdmDQovq/1TzXSwlUGeACY1CKEwf/53o9sGJqXtsQYKWKS+d+Qk+BSrB/
-         14/g==
+        b=bXV99l/eg26lsFjofPr0GhaZZJLq9fN3FrTa/CmS949ApC6npzNLea2zk/I8k+0nKl
+         cheA972jv1JpLFQp0m9FnCkqEMZmfkAgSgX+FF7P1l/4QrXdpxp5bkhfxMrre3Cb1opT
+         QaB9EBUH2Gob4SL6aZFFxc9T1O1BiUiqk8X7mfQ21XDuAvFogP5ewHyVBe+uiUcIrJj7
+         P2F51vPRjvddYwjHzQ23P2fens57+C3L/jjo5dWiLUptKYSrOxqS+N0Oyty2DNZ25ajF
+         weWI5wVxwnp5bFodH9cPsv67gC1tdu+9RPGfqDGBjI+qwwYYzIoE9AGFf7SAidxs3E1B
+         mgiQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:mime-version:message-id:date
-         :subject:from:sender:dkim-signature;
-        bh=hk88JcMw5vA6ah4vkXVcWnwbqZXL302pcPVsxI9jgIo=;
+         :list-id:mailing-list:precedence:cc:to:in-reply-to:references
+         :message-id:mime-version:subject:date:from:sender:dkim-signature;
+        bh=5u8cqiJLXcRsss+/ewhdNC0LW3gInvZ5ZPErNnFSTAU=;
         fh=uYnIsWZ9n80gkcnhZMgoujzKtxA7UEl4GQvTBFLbimw=;
-        b=IouBE3ENMUqySzFRV3tXCurtKuLlYKFG11MIHOC5pS6+tnne/HBrGyH39fP3yqNRYl
-         og5/Y3brtrEHlN//eWqGPKvrJlGoVaW32dP6Ntb+3msxmWWlrZ5TP4fVvo+wsRlbhEC5
-         6g/Xsll+lZfXFuSS4PgNUyYiNl3F8Qspf6ouAg6lTE17HIBWySpyvj4iEREP0ibIU/3+
-         aUrLgVKh9NLJZB6Zz9CB+3OEO1FQo2Xjjn/MA5mq4l8T/dCkk5pQnx+ucr9qveDMHBkL
-         /c3UEZieuD4/XvFKz7GkB/7RqiRTUTQWBvlw+XpAzdfXmOJdJ75aKmK0L/va6iUJcWJ2
-         W7gw==
+        b=NkciahDgPQmtMiTgx/gujRStn64vwq5bgn6/dmK3jiwBxG0CtabPlgQaKrLUVaX7v0
+         6pc6DnrhNLkwzLk0gaVM9jPUAmk7VhhCJttBgcrbU1MQI6yeXePJ2S4k2KFVpTtIYOZ/
+         jV1voyu7hDsrC/TSbp8v+jOE19kXf9FJZdsNyfL6CpZWfEgXSxNw6GLHuA2iH+3oHBXA
+         JzLW1/WTNOSPTji2DThBiA4V9OjLfK9pqbB1oXA34wIRGpoRW09sMohxTMKcqxa3T8Ad
+         C2l87gQzgtKei3VyWN6H/3TGpKQaAw2QdF3dDjCxUjoxIEPsL+6SKvRd6zsSF8ki5POs
+         EeNg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=DhAjX4+x;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=AFGProdn;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1701251809; x=1701856609; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1701251799; x=1701856599; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:mime-version:message-id:date:subject:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=hk88JcMw5vA6ah4vkXVcWnwbqZXL302pcPVsxI9jgIo=;
-        b=JzgMcC0Vxf2OFNmh6ZwbY/mL6jFiTwdbtbDo7MUxt2eUYkii/bkYE7GoCa6dnq60rY
-         0w7/21wm8IfNaJ+81Oqkle6DD+fXSRhnvk0AnM36SA1l5kMx5yYDY3kfC24ZVCtEAvV1
-         Z/DuGmlwXPlgSl29o6aHkB+gOk4njqLfqu/edZixKumt4625pITm6pQd9lTk07YvhSdO
-         5VWmVrV49nQsrnMqXSP9whLUlqQEHAYjJqNJu4i0W08uLa5pFTBxkHhBhNd53qSyFBM/
-         PuOBGAbKccN4MKOHZ3qy2ClIPmKzNlxbhBdMm9iDWeh2tlg3kFhGFxi0iFncTkEFbPsv
-         tozA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701251809; x=1701856609;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:mime-version:message-id:date:subject:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :x-original-sender:cc:to:in-reply-to:references:message-id
+         :mime-version:subject:date:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hk88JcMw5vA6ah4vkXVcWnwbqZXL302pcPVsxI9jgIo=;
-        b=clgK9LrdRbKXWAJrUpbGa7LT8lMoAJI7uEydqCuslnLFbq6IOJgVz43YNjak5SAtD9
-         f2ZgmbZ1Ti3qX+1LUpjDaTexHYTEY6tjwI5WQEtwLamOpiUgh3/KA97YuoSSZQXBNfsB
-         2zXaryQGtMeVYsKR1tGTXH9wrpb/IRyuV4QjO0NyHd8jsBlfy/Rakhe36Jbg2/hw4y1o
-         Pz36KNpQpnbwPN3PV0C+lCB4KDqnjjsJGqj/7yvhsyCjg0YBkNwdxbsn5PJ36DVqVGAO
-         3oPTYZvesnCnj2UDDqELAOAyKMKWBuTiGVttkU/AIMWhtAIxK+9hQmh4ktlEciiiJLEa
-         2MIw==
+        bh=5u8cqiJLXcRsss+/ewhdNC0LW3gInvZ5ZPErNnFSTAU=;
+        b=BFVvKSQ+77dzLp+W1t8N7c8dz7nL7kvkXir53FUFdr9LhbRZMeyBBdHJwgSufLq1KK
+         xk036OWSc4acuTDanvugU6WbLgyOQmIeS1mEPuidIJcJTZMNcwE9TnUuWSAyGD+Vs92i
+         9A53yK2/jFxned5W9oeF/UxqfayYM+/Gv5smXIvJP/mV5RY9h3WOaZ9pcfisOVOVewyL
+         qJve/OGqlpv47n73hySt1Os5OK+Ih+O5v45D2E9vVfhvBC0y//QnLjxm6q32c7VAWWsY
+         TVjfy7A/PatmB9cJVps9/lx8ysNlnkxsrG8vAsWq64ZZtWeVOskCL5t4PO61XMr4ILVJ
+         qk4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701251799; x=1701856599;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:cc:to:in-reply-to:references:message-id
+         :mime-version:subject:date:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=5u8cqiJLXcRsss+/ewhdNC0LW3gInvZ5ZPErNnFSTAU=;
+        b=kD4fTKfevldOZqkuh4zBo1cN5tsYgMXUiajhuC5K7NWHRfhj9mzKK7xfEnJnXikOhb
+         Qi7iWVUYS9NcVM0Om9r876N3k1iDMuNrsKICkpvwgRH3LbEc/xCdHj99pRytHudTRfq3
+         2gBq5fIjCTQv4YTclaSJ7pVQAe3ayy15zyZ6sEZU0PcypWEpJTHvvNFi2aRX0wgVShME
+         CxGUViQ28iKZFZesVEhYgc1WJe5DivpiXw8uk2NQb8z8DaNz2ovz/83xt3jZR4CraC7B
+         R1KgKtq+Xy8+vOBK9SGovpvuQZskIRqX8tesCC33YSyOyLO9rso8vBXtDa3hMh4Nwz3/
+         MsCA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YyWH3oHVdakhQ/8oMjpBCeOIOicKNJsdKyuhCWQIIzYyWeMJKzq
-	lQOZTBiL2gBTon3W+ZIm9PE=
-X-Google-Smtp-Source: AGHT+IEVDTJKacKx0zCJJUBNb03WgcWLYHEe5EpKlSoFRjkJuYer6sII9xGVCuRJ03jDnE03G2ePAg==
-X-Received: by 2002:aa7:9a49:0:b0:6cd:d0f4:cd3c with SMTP id x9-20020aa79a49000000b006cdd0f4cd3cmr1390042pfj.23.1701251808890;
-        Wed, 29 Nov 2023 01:56:48 -0800 (PST)
+X-Gm-Message-State: AOJu0Ywop0y3G7nM5xMwUyVgWo0xQu2rBPimVPfxsUpXLNPLMyPKCQyd
+	8P9BiVyGh7G8O31dLLId7no=
+X-Google-Smtp-Source: AGHT+IGdXobTnyHByaNdN2ZuR0jzadbMYXTTdRk92YjzUWSKNFs6chkyD2fg98ahO0M8Ak1ktvTvQg==
+X-Received: by 2002:a05:6a20:c189:b0:187:ce5a:2a87 with SMTP id bg9-20020a056a20c18900b00187ce5a2a87mr18920224pzb.12.1701251799179;
+        Wed, 29 Nov 2023 01:56:39 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:1398:b0:6cb:4a9a:4f33 with SMTP id
- t24-20020a056a00139800b006cb4a9a4f33ls579202pfg.0.-pod-prod-02-us; Wed, 29
- Nov 2023 01:56:48 -0800 (PST)
-X-Received: by 2002:a05:6a00:3927:b0:690:2fa3:9769 with SMTP id fh39-20020a056a00392700b006902fa39769mr4768803pfb.5.1701251808283;
-        Wed, 29 Nov 2023 01:56:48 -0800 (PST)
-Received: by 2002:a05:620a:2410:b0:778:a9dc:3cb2 with SMTP id af79cd13be357-77d641b56c2ms85a;
+Received: by 2002:a05:6a00:8c11:b0:690:ffcd:3bfd with SMTP id
+ ih17-20020a056a008c1100b00690ffcd3bfdls4730229pfb.2.-pod-prod-00-us; Wed, 29
+ Nov 2023 01:56:38 -0800 (PST)
+X-Received: by 2002:a05:6a00:acd:b0:6c6:9f26:3a00 with SMTP id c13-20020a056a000acd00b006c69f263a00mr5456915pfl.2.1701251798610;
+        Wed, 29 Nov 2023 01:56:38 -0800 (PST)
+Received: by 2002:a05:620a:191d:b0:77b:cc25:607f with SMTP id af79cd13be357-77d63f5307cms85a;
         Wed, 29 Nov 2023 01:53:40 -0800 (PST)
-X-Received: by 2002:a05:6512:308d:b0:50b:a689:1fbc with SMTP id z13-20020a056512308d00b0050ba6891fbcmr12475128lfd.6.1701251618826;
+X-Received: by 2002:a05:600c:a04:b0:408:369a:dad1 with SMTP id z4-20020a05600c0a0400b00408369adad1mr4364223wmp.4.1701251618568;
         Wed, 29 Nov 2023 01:53:38 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; t=1701251618; cv=none;
         d=google.com; s=arc-20160816;
-        b=gPgrCP/W2nj3JeuIbMXhlhjquYSgvdT0Ii2bzRv+a1yriKe2EnqAhyC2T0phoYOF+v
-         /txhC7EPmDr4eL3Mv5ECueBwVFdULrN6b1iRgC8i6QRCB0eu6IT66icRNsK1fQ0ABDMO
-         H9NBoCE6ArSPHSyTBfkGR62OH3mrXmLyJH0zlHZsNUnnc/WjW1ikbyLy1td7xMB9JgTb
-         D0gTwd6uX80J7i3lo8wuX2V1K56FCOoKa5NQNJg0ovGDiao5v+GzWZs84WLsjalzL4S/
-         UC9vwno9YIH1O5PWNzgNujInV1IfDd87Jt/RMxVO85SeQhaIN3y3sypOS3Zb991h/AdE
-         ghWg==
+        b=TPudFCLsOa0ubYnHDkeoL07zF990Kfok5eKL0puWI7EJEVYI2K+3WSlaG7k5c8wDix
+         6KRqPEdiA45pBcx+FE7CAc3NkOXpvIoGqc2p6zY3jolkUgj5nmgDWw1IomNevZvfw+xj
+         kn01UlMskzHHkudRCjVs8VRwF5RSrN6jYjPXPw0U8wBSciSRuhIgtuq+nXIDGOjwecDL
+         /JoKu2+s1OVxmQ22PRPJcogaus8bDRvm2PkllX+Igil3vDaoSzwCRL3xpBz4B+Ib48EC
+         /B2IUEpKZVZf+4gIlilR+PgwH5DwHwuBqM/Ewd3CJfHLgHhsgt3daGELqJ+9shDeMAiV
+         AGiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:dkim-signature:dkim-signature;
-        bh=eoFLVBeLcmc4evqkljz3fngHIKUUCOgba17WIJPWQ+0=;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from;
+        bh=DUPnHPdnAWU/UCFeEX1tNeDnCcnIMYmNivE3br+UPhg=;
         fh=uYnIsWZ9n80gkcnhZMgoujzKtxA7UEl4GQvTBFLbimw=;
-        b=G9vCbmggs8CO77VweViTnuyAlc8OgHQpFrrei59Gqlm17VdkDEYNU3SGz+o8f+aKT3
-         3j3fxMgHhuPOdosfIfDG69P4Rx/wvmmZewhnDgsmL8qPUVsDeTAt6XVKlzhtTSzrISwC
-         UOhbQFKy9sfKf9MSgWxsvNEBj2EpRw/W2bLU8tjMeQlBlYnAMgEvtuQhDeE1qK6SO/1u
-         pUReLiOZsav5tUOhIydZGRG3afwUSIDFGqCzh9MLQGJy5AVX47QFk/SM3JqhS1BOPRB5
-         urC2k5Vvr9ZNTmyoCyhrW3J5juSn9PsQtqrZFucXAo6WXEXKWYqT7UR6XzJMWcGjGxpY
-         ZZbw==
+        b=Y0Ec/Z0sTXbpVwwT6j/staleE6zEgzltgabKLx3cUnN+AluH9hQBSts4xxwK3cyOwK
+         AQ4ybCt9rVxKwYeQLExIMfkUeKkC/m/+aqE4ZvZZ9t+IEo1SF/arczUY1lI9jUa9reyY
+         0M/8hE8M5LxK98BojN/yDMXcB4FZV9EvRknB5sBaiIRZOd6i7hcnE808IN7Ht1NEo+0p
+         doRQtWXj3eWpV2UIIdxVxiBxoigY/ZlSrwds8IjFKzvqICwaoXA1vkugt0PnJJ07CJBP
+         Q2uTU0nSTa3y0qCtD1pIlsW6I4kWLbx2KYMkO2pVTR+hc3iT5+d2wK+h15AMOAlfnHqd
+         Sj9A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=DhAjX4+x;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=AFGProdn;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.223.130])
-        by gmr-mx.google.com with ESMTPS id f15-20020a05651232cf00b005098ece8aa9si824683lfg.12.2023.11.29.01.53.38
+       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2a07:de40:b251:101:10:150:64:1])
+        by gmr-mx.google.com with ESMTPS id p35-20020a05600c1da300b0040b4055397csi82159wms.1.2023.11.29.01.53.38
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 29 Nov 2023 01:53:38 -0800 (PST)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.223.130 as permitted sender) client-ip=195.135.223.130;
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:1;
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id CA5F72198B;
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E3FEA21990;
 	Wed, 29 Nov 2023 09:53:36 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC1FA1388B;
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C819013A96;
 	Wed, 29 Nov 2023 09:53:36 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8pWoKSAKZ2UrfQAAD6G6ig
+	id wISPMCAKZ2UrfQAAD6G6ig
 	(envelope-from <vbabka@suse.cz>); Wed, 29 Nov 2023 09:53:36 +0000
 From: Vlastimil Babka <vbabka@suse.cz>
-Subject: [PATCH RFC v3 0/9] SLUB percpu array caches and maple tree nodes
-Date: Wed, 29 Nov 2023 10:53:25 +0100
-Message-Id: <20231129-slub-percpu-caches-v3-0-6bcf536772bc@suse.cz>
+Date: Wed, 29 Nov 2023 10:53:26 +0100
+Subject: [PATCH RFC v3 1/9] mm/slub: fix bulk alloc and free stats
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-B4-Tracking: v=1; b=H4sIABUKZ2UC/z2MQQ6CMBAAv0L27JJuIQU8mZj4AK/GQymLNCo0X
- SFGwt9tPHicSWZWEI6eBfbZCpEXL34aExS7DNxgxxuj7xKDVrog0jXKY24xcHRhRmfdwIJNWVL
- daEXUVZDCELn379/0AufTEa5J9nF64muIbP8/VZMiUxhd5UYrgw0urW3v9iCzcO4+sG1fIbWTd
- aAAAAA=
+Message-Id: <20231129-slub-percpu-caches-v3-1-6bcf536772bc@suse.cz>
+References: <20231129-slub-percpu-caches-v3-0-6bcf536772bc@suse.cz>
+In-Reply-To: <20231129-slub-percpu-caches-v3-0-6bcf536772bc@suse.cz>
 To: Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, 
  David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
  Matthew Wilcox <willy@infradead.org>, 
@@ -140,38 +135,43 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
  linux-kernel@vger.kernel.org, maple-tree@lists.infradead.org, 
  kasan-dev@googlegroups.com, Vlastimil Babka <vbabka@suse.cz>
 X-Mailer: b4 0.12.4
+X-Spamd-Bar: ++++++++++++
+X-Spam-Score: 12.03
+X-Rspamd-Server: rspamd1
+X-Rspamd-Queue-Id: E3FEA21990
 X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-2.80 / 50.00];
-	 ARC_NA(0.00)[];
+X-Spam-Level: ************
+X-Spamd-Result: default: False [12.03 / 50.00];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 FROM_HAS_DN(0.00)[];
+	 BAYES_SPAM(0.00)[18.74%];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	 TO_DN_SOME(0.00)[];
+	 R_SPF_SOFTFAIL(4.60)[~all];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 MX_GOOD(-0.01)[];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 R_DKIM_NA(2.20)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 ARC_NA(0.00)[];
+	 FROM_HAS_DN(0.00)[];
 	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 TAGGED_RCPT(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 BAYES_HAM(-3.00)[100.00%];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 DMARC_NA(1.20)[suse.cz];
+	 NEURAL_SPAM_LONG(2.84)[0.812];
 	 RCPT_COUNT_TWELVE(0.00)[17];
 	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
 	 FREEMAIL_CC(0.00)[linux-foundation.org,linux.dev,gmail.com,google.com,kvack.org,vger.kernel.org,lists.infradead.org,googlegroups.com,suse.cz];
 	 RCVD_TLS_ALL(0.00)[];
 	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Score: -2.80
 X-Original-Sender: vbabka@suse.cz
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=DhAjX4+x;       dkim=neutral
- (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=AFGProdn;
-       spf=pass (google.com: domain of vbabka@suse.cz designates
- 195.135.223.130 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1
+ as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -183,144 +183,61 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Also in git [1]. Changes since v2 [2]:
+The SLUB sysfs stats enabled CONFIG_SLUB_STATS have two deficiencies
+identified wrt bulk alloc/free operations:
 
-- empty cache refill/full cache flush using internal bulk operations
-- bulk alloc/free operations also use the cache
-- memcg, KASAN etc hooks processed when the cache is used for the
-  operation - now fully transparent
-- NUMA node-specific allocations now explicitly bypass the cache
+- Bulk allocations from cpu freelist are not counted. Add the
+  ALLOC_FASTPATH counter there.
 
-[1] https://git.kernel.org/vbabka/l/slub-percpu-caches-v3r2
-[2] https://lore.kernel.org/all/20230810163627.6206-9-vbabka@suse.cz/
+- Bulk fastpath freeing will count a list of multiple objects with a
+  single FREE_FASTPATH inc. Add a stat_add() variant to count them all.
 
-----
-
-At LSF/MM I've mentioned that I see several use cases for introducing
-opt-in percpu arrays for caching alloc/free objects in SLUB. This is my
-first exploration of this idea, speficially for the use case of maple
-tree nodes. The assumptions are:
-
-- percpu arrays will be faster thank bulk alloc/free which needs
-  relatively long freelists to work well. Especially in the freeing case
-  we need the nodes to come from the same slab (or small set of those)
-
-- preallocation for the worst case of needed nodes for a tree operation
-  that can't reclaim due to locks is wasteful. We could instead expect
-  that most of the time percpu arrays would satisfy the constained
-  allocations, and in the rare cases it does not we can dip into
-  GFP_ATOMIC reserves temporarily. So instead of preallocation just
-  prefill the arrays.
-
-- NUMA locality of the nodes is not a concern as the nodes of a
-  process's VMA tree end up all over the place anyway.
-
-Patches 1-4 are preparatory, but should also work as standalone fixes
-and cleanups, so I would like to add them for 6.8 after review, and
-probably rebasing on top of the current series in slab/for-next, mainly
-SLAB removal, as it should be easier to follow than the necessary
-conflict resolutions.
-
-Patch 5 adds the per-cpu array caches support. Locking is stolen from
-Mel's recent page allocator's pcplists implementation so it can avoid
-disabling IRQs and just disable preemption, but the trylocks can fail in
-rare situations - in most cases the locks are uncontended so the locking
-should be cheap.
-
-Then maple tree is modified in patches 6-9 to benefit from this. From
-that, only Liam's patches make sense and the rest are my crude hacks.
-Liam is already working on a better solution for the maple tree side.
-I'm including this only so the bots have something for testing that uses
-the new code. The stats below thus likely don't reflect the full
-benefits that can be achieved from cache prefill vs preallocation.
-
-I've briefly tested this with virtme VM boot and checking the stats from
-CONFIG_SLUB_STATS in sysfs.
-
-Patch 5:
-
-slub per-cpu array caches implemented including new counters but maple
-tree doesn't use them yet
-
-/sys/kernel/slab/maple_node # grep . alloc_cpu_cache alloc_*path free_cpu_cache free_*path cpu_cache* | cut -d' ' -f1
-alloc_cpu_cache:0
-alloc_fastpath:20213
-alloc_slowpath:1741
-free_cpu_cache:0
-free_fastpath:10754
-free_slowpath:9232
-cpu_cache_flush:0
-cpu_cache_refill:0
-
-Patch 7:
-
-maple node cache creates percpu array with 32 entries,
-not changed anything else
-
-majority alloc/free operations are satisfied by the array, number of
-flushed/refilled objects is 1/3 of the cached operations so the hit
-ratio is 2/3. Note the flush/refill operations also increase the
-fastpath/slowpath counters, thus the majority of those indeed come from
-the flushes and refills.
-
-alloc_cpu_cache:11880
-alloc_fastpath:4131
-alloc_slowpath:587
-free_cpu_cache:13075
-free_fastpath:437
-free_slowpath:2216
-cpu_cache_flush:4336
-cpu_cache_refill:3216
-
-Patch 9:
-
-This tries to replace maple tree's preallocation with the cache prefill.
-Thus should reduce all of the counters as many of the preallocations for
-the worst-case scenarios are not needed in the end. But according to
-Liam it's not the full solution, which probably explains why the
-reduction is only modest.
-
-alloc_cpu_cache:11540
-alloc_fastpath:3756
-alloc_slowpath:512
-free_cpu_cache:12775
-free_fastpath:388
-free_slowpath:1944
-cpu_cache_flush:3904
-cpu_cache_refill:2742
-
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 ---
-Liam R. Howlett (2):
-      tools: Add SLUB percpu array functions for testing
-      maple_tree: Remove MA_STATE_PREALLOC
+ mm/slub.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-Vlastimil Babka (7):
-      mm/slub: fix bulk alloc and free stats
-      mm/slub: introduce __kmem_cache_free_bulk() without free hooks
-      mm/slub: handle bulk and single object freeing separately
-      mm/slub: free KFENCE objects in slab_free_hook()
-      mm/slub: add opt-in percpu array cache of objects
-      maple_tree: use slub percpu array
-      maple_tree: replace preallocation with slub percpu array prefill
+diff --git a/mm/slub.c b/mm/slub.c
+index 63d281dfacdb..f0cd55bb4e11 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -341,6 +341,14 @@ static inline void stat(const struct kmem_cache *s, enum stat_item si)
+ #endif
+ }
+ 
++static inline void stat_add(const struct kmem_cache *s, enum stat_item si, int v)
++{
++#ifdef CONFIG_SLUB_STATS
++	raw_cpu_add(s->cpu_slab->stat[si], v);
++#endif
++}
++
++
+ /*
+  * Tracks for which NUMA nodes we have kmem_cache_nodes allocated.
+  * Corresponds to node_state[N_NORMAL_MEMORY], but can temporarily
+@@ -3784,7 +3792,7 @@ static __always_inline void do_slab_free(struct kmem_cache *s,
+ 
+ 		local_unlock(&s->cpu_slab->lock);
+ 	}
+-	stat(s, FREE_FASTPATH);
++	stat_add(s, FREE_FASTPATH, cnt);
+ }
+ #else /* CONFIG_SLUB_TINY */
+ static void do_slab_free(struct kmem_cache *s,
+@@ -3986,6 +3994,7 @@ static inline int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags,
+ 		c->freelist = get_freepointer(s, object);
+ 		p[i] = object;
+ 		maybe_wipe_obj_freeptr(s, p[i]);
++		stat(s, ALLOC_FASTPATH);
+ 	}
+ 	c->tid = next_tid(c->tid);
+ 	local_unlock_irqrestore(&s->cpu_slab->lock, irqflags);
 
- include/linux/slab.h                    |   4 +
- include/linux/slub_def.h                |  12 +
- lib/maple_tree.c                        |  46 ++-
- mm/Kconfig                              |   1 +
- mm/slub.c                               | 561 +++++++++++++++++++++++++++++---
- tools/include/linux/slab.h              |   4 +
- tools/testing/radix-tree/linux.c        |  14 +
- tools/testing/radix-tree/linux/kernel.h |   1 +
- 8 files changed, 578 insertions(+), 65 deletions(-)
----
-base-commit: b85ea95d086471afb4ad062012a4d73cd328fa86
-change-id: 20231128-slub-percpu-caches-9441892011d7
-
-Best regards,
 -- 
-Vlastimil Babka <vbabka@suse.cz>
+2.43.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231129-slub-percpu-caches-v3-0-6bcf536772bc%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231129-slub-percpu-caches-v3-1-6bcf536772bc%40suse.cz.
