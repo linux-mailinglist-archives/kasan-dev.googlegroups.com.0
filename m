@@ -1,72 +1,147 @@
-Return-Path: <kasan-dev+bncBDMPBUH7QUBBBVOKTGVQMGQE7Y5A2XA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBKGTTKVQMGQE5PPNLQQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87F77FC918
-	for <lists+kasan-dev@lfdr.de>; Tue, 28 Nov 2023 23:10:31 +0100 (CET)
-Received: by mail-pf1-x43d.google.com with SMTP id d2e1a72fcca58-6cbe14087c7sf8408122b3a.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 28 Nov 2023 14:10:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1701209430; x=1701814230; darn=lfdr.de;
+Received: from mail-qv1-xf40.google.com (mail-qv1-xf40.google.com [IPv6:2607:f8b0:4864:20::f40])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDFE67FCD22
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 04:02:01 +0100 (CET)
+Received: by mail-qv1-xf40.google.com with SMTP id 6a1803df08f44-67a36efeab4sf38398036d6.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 28 Nov 2023 19:02:01 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1701226920; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=lSzplrRWVYkvOBECsDO4q7ts0pxY1n8HEkf78d1k7I9QY3a/w6b2K5TdX6IWhwLbd5
+         j1UT0u8dLxbofTVKtcq8+U5nFhsTnthJVi3eld+B0LHwjHoM+SbhJ0g6bRG1Ywdrq2Ri
+         64jH+JbH/8ojn4ntMVZDZrewg7VMPt8VzHlDVQP+lb+Xa+ODzx3pRl4VsxEFxC9Y8NN2
+         lXlolqhO533hgf/NoGni4gU7+VQkR8uwpxb32UXC/cv/Nw34XL64pKWvrD0YOugAEfMZ
+         X9/9Eznk2PVxcpsiSrjJg/J9vR7DD2M+h9REdH424yf0az4p/UnEwJFgxwsjRIgmlgC3
+         9eEw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:message-id:to:from:date:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iVP48SvuQc/M2UT5D0aAzYbz6aRgzBwM9zgq9fRab5o=;
-        b=SNJruNzZbuzHJTOVKTxl09UM2XXw7IqxVnNT/ZTn3Aee3/ktgItmfHfh08RVmSuHu1
-         MVHAEZXzJ2bA2V1OFZnKVrxyl8w75PciQYSnTqODo00jbNGsDoby/1vgpQQAJ9I9NHY1
-         pKmP0B5TVf818vvYqmp0TSgWZ03a/1ZV9F9EMFTf7+10BeZGNwo6GgHYx/e2XcoDRYfb
-         3A9Y/ClLxV4TtqIry4Ds36ueT1DhlLDIz4MzTuR3UW9oDFwQ6+QyiqcNaBM54JQmEpJi
-         TZVwt0Q12FkZFYe87cw8NahLkVB+QMIZU/EmiT/GeBBCVxYwiy7EYpiNF98Ql7JEEmYp
-         /Slg==
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=apO3coxJPXMX7Sjpmoa8GznFCgI99pBxQARPF+duhTs=;
+        fh=kr4SrwCPpjd/itQqfxbAHnjRgjjSCQqDqYIShluYXBk=;
+        b=p0tPsaXSxVdY+0yzifMaKqKp54EOUgkqx6fJSyxZvGzq6c+5Yn2iwApFfp2pytVlRR
+         NIrB6ls6x5mf0/ebsiH7lofd232XkH7YWLRvgx7qQQ7y6rEPBXn8x6Wj3wt5J+7s3srY
+         nRQw3TKfl+Iqfle0ff6dwyCMxnk+B3TM1ZhScAzCJ4wOGbAWN6fR+kGbdIoHKBzVMLFg
+         VbOcvRWQxbjVSvzYZu4dQ1/IqO6E5fuQkFywWA5VRp+CZHELdKtHzBBOfOgbMx7ZOpKn
+         fuuVXVqsk7Li6OGSyUEhWC3perLQ4AZak/WxuhKF/+Biy1i6gEbpVbrQmXoef8UuPCl/
+         fZWw==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=B4rP+SCn;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::1033 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701209430; x=1701814230; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1701226920; x=1701831720; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iVP48SvuQc/M2UT5D0aAzYbz6aRgzBwM9zgq9fRab5o=;
-        b=RufhReOrCLZFbkpR8qF16oVh10ZmsNgIN5Pv1qyBet5YDfqtYGAHJGmWgbjb2efw2D
-         ff7qYwjM//6DHHkyJRh1YU/JrVo/Vbj+IfNpHT04lPoTi3gcdrjBzBYcXWsKMHYVVm9d
-         RJUioMMlAvbeBDknoG/V59GhM7RMiyxJ1bEWID9KCPFAiHdZBwvMq4EInpg+1EJptSgO
-         5wCB030xCuA1Dehp7nJmTnvFtXQ6h+IwSyyiu1dgvWf40k6x05TMv+h8z0hPstNnAEoh
-         TO38qKyJRzI0fyZblxfa/oVRA0GNHOS9CN1Vq9ckLrQzTKv3kwAKxyXF0ekZmul2z80r
-         gZCQ==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=apO3coxJPXMX7Sjpmoa8GznFCgI99pBxQARPF+duhTs=;
+        b=GmRD8NyNBUa9C1uWiKXduPAZvKMdxRHMvrYyooP6JJA0eS8Ulb889NWTbHNWqDJ3uh
+         eh7BDG/TXpru4AQXKbCbTooRmSQyzUcw2r22XK3CJG0mnh9DoEr88yuMQEG2TsYI/HEc
+         piNTHjdauOOBbKmPkJWctPJog1yrPCxQZ7md2rBlaUL/tpiN9pO8rpvibTX5pDRi7uj7
+         XUxH216WJ1PfJjo7oTOH7AE2opIVLr4Zw/qlMT1TSkRvdn+gFhX0naq92GOw8YAHH4Gh
+         kvTLJPV7Oly2JXqVr4B4iva16w50mnc6lf0gLNv7W+8KznnCTJlHoDzb64Bfn/JNNJYI
+         QvNA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701226920; x=1701831720; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=apO3coxJPXMX7Sjpmoa8GznFCgI99pBxQARPF+duhTs=;
+        b=c/pCip+Fk03OYnae/tH5XOyfmgV85C/KdX7oXZS5l4jYZ67TEhE9JQGtMk1aYOOtx3
+         IxV+CTsadyJsN3lCIpX9CPfV+QCoyAhjVVVH/f9BzDpZ2xoy8oQ8Xq/rylPTMe8I8Zk8
+         WT54OwMSrB/y0JDs+MMuE3e+lWj305X48hJY2rfvbLdXsFaQhk5kHsfXVlLu7LOUExae
+         Nve3rWSRz2bcOYm1Sqd6YwxE/Qsp5dtSOqx+IUG1gNFbOsUsafsE8NFvCmWHglZFop9u
+         dWcdEj7h5wJjzfrG4/NUl1A73SLrEnoxkLumn70Q1oVYE40ssGgnqxgNa5YgJ4feszee
+         SR6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701209430; x=1701814230;
+        d=1e100.net; s=20230601; t=1701226920; x=1701831720;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-sender:mime-version:subject:message-id:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iVP48SvuQc/M2UT5D0aAzYbz6aRgzBwM9zgq9fRab5o=;
-        b=ofL/TrVY7PUVWZRdbxRMH1QgE+U019h4bnKGkQV7bgLA88y3lW5uxpGq4X5BkApU9m
-         k/A1HLTUBIK2uXKaG/naTFmRd4Ov9XTokJ5eF+ttYZdnZ5am3Kn6rca+WStpy8BBFtUU
-         F69t7k3uUEfoZH3lcFMwB2c3oPsg+8JnRuID5tWrKnOHhb+F8mZCDCMLVV6dQh4dO9U5
-         9Nl/dLqRZT7oBADLIbtg9VIzhNiU04u7a7bRhT2TOAWxKFCgGBMdLuRXWxuxL9SZLNYb
-         SrHU+8yvcGafEQ9gNPlNAa2ognKJdCp/KZ6wJBnp9ROHjcGdQCg3QARkm1z59IMre4Ah
-         YPvg==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=apO3coxJPXMX7Sjpmoa8GznFCgI99pBxQARPF+duhTs=;
+        b=G/fmJhBcmp+WY4jIP3AJa4wtE3VMgdnVi3BmkyJFt0QzvBMNeFVLcba1Enzo98Fb5w
+         o5GQ7nm0OeneG8giek8PwmaRU3W11I2Rm0wmECpXuswaQvqRdFombXvGb1EX7RLixgrk
+         x0V/dWd6NawLokXDef6H5ZK2Ihf125g/HVc0J3TpME6f2NA1SLJT+3jJlkT1O/Jg0MFy
+         MqiwsKe8kQKOY8N4k4VdjJpq0C/BnBVQVgDIb7RNayk4TPHgZE0Pi6usLAeToYwMNttl
+         OmK0naiW3dFRZMyh8wkCuC4vRYgkV3M3RjvWXp4gxQ9tzn7T4PuCym1JlFxgVmjq782j
+         LneA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YyVG5vVtLXzpaHDqjg/5/ryNqsPDsljjIYzX0soOCocPDHzmQgU
-	h7yCjb92vi2YWmdgzr+5C6M=
-X-Google-Smtp-Source: AGHT+IHnmAspmbGNM8q6Q6eR510VaP4/w3gdhNbsCRn6agWovw4LOsoaY59vpSouD7ohKxpjsSg74A==
-X-Received: by 2002:a05:6a00:1a91:b0:6c4:9672:9a17 with SMTP id e17-20020a056a001a9100b006c496729a17mr20656089pfv.1.1701209430081;
-        Tue, 28 Nov 2023 14:10:30 -0800 (PST)
+X-Gm-Message-State: AOJu0YwvcbbEHHVSC1bfhg0S5JC9j3qTDSPO9YcAOEd0BS1EfNZIKJn1
+	0i+b49+v70I5UjwBa2Vn9zE=
+X-Google-Smtp-Source: AGHT+IH26WCDiwvFOu+EIur06/CBvGefRiUw7b3QsrgjUxkYHMtyQffoyhybXC8aGK2X5wBjxjjEMg==
+X-Received: by 2002:a05:6214:303:b0:67a:360a:daa7 with SMTP id i3-20020a056214030300b0067a360adaa7mr9885243qvu.63.1701226920668;
+        Tue, 28 Nov 2023 19:02:00 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:21d4:b0:6cb:735c:685a with SMTP id
- t20-20020a056a0021d400b006cb735c685als4729987pfj.1.-pod-prod-05-us; Tue, 28
- Nov 2023 14:10:29 -0800 (PST)
-X-Received: by 2002:a05:6a00:190f:b0:6c0:568b:d9e5 with SMTP id y15-20020a056a00190f00b006c0568bd9e5mr4040283pfi.1.1701209428973;
-        Tue, 28 Nov 2023 14:10:28 -0800 (PST)
-Date: Tue, 28 Nov 2023 14:10:27 -0800 (PST)
-From: Cari Hauskins <carihauskins@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <58787197-1e5c-45bd-9d45-f9f2494e4237n@googlegroups.com>
-Subject: ZD Soft Screen Recorder 11.2.1 Crack Plus Serial Key (Latest) 2020
+Received: by 2002:ad4:548e:0:b0:677:f602:655f with SMTP id pv14-20020ad4548e000000b00677f602655fls1077467qvb.0.-pod-prod-08-us;
+ Tue, 28 Nov 2023 19:01:59 -0800 (PST)
+X-Received: by 2002:a05:6214:1928:b0:67a:6e6c:c79e with SMTP id es8-20020a056214192800b0067a6e6cc79emr10263qvb.12.1701226919646;
+        Tue, 28 Nov 2023 19:01:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1701226919; cv=none;
+        d=google.com; s=arc-20160816;
+        b=v5qb086AWQnVeW8kjpxuzO19CArXtCD657BiYvaJLkYvQQ/0dAYhE9w08GElbM8wDh
+         bap2+lburm55NY9/8b9iK3WJIgPqCrv/Pmz8DCk2MOK3XEezEFvw5oJ0/yGUNEIMpGmN
+         QpRFWv+yALCxet1dWicPdV0UhQDEaowTux1F/FezfWoDvElJWsc67Y5E3VkA2pX1+r11
+         GhcVgrIWxAi8MjXBPIEQ7oQ7qP5P+Q5Ad8nTUBFpTVLFpPXBd/923D/k1mvz/BQC/XWZ
+         GBj4f31jV6sW9qlUmwrUw68yAXN9yCMbA740hX6eMNtY32mSa6DTeZyCQBjet/e/Esn2
+         jGFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YmmZdnMG5cx1ucOkJTYJz9C0ueulBI91QAmZKkzSQnk=;
+        fh=kr4SrwCPpjd/itQqfxbAHnjRgjjSCQqDqYIShluYXBk=;
+        b=NZwNmOqd56M30M022Ne7WQScb8asjkbBWxFOEf6pJQPJ3VyNG71RRfuF1ZHOgYHxSL
+         +ItBgzLkrlnaoVO4uDTHfO2UiTFtveiO4f7URNWVVJzNwQVfOG6ktYvXR7eaiSz70trG
+         PLBGkNWqmeH4ayeiGUGVhb5iavAN5TWGT4UTuQQeykzmxKKtp1iGa/jcwtd2W+mNSNom
+         /aUwVprwiB3qiTbXJCUS/HZgf8Hs4siUEFJdhwpOvKU07ufQPVdYoI4BJCkxAm0GAKrt
+         TQcmU0OrxV2PZK5A/0gLKvVk052zMEZmTIhFtKtf7iVb8DUdmNIygIH11uInf+4Lcrkh
+         spsA==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=B4rP+SCn;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::1033 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com. [2607:f8b0:4864:20::1033])
+        by gmr-mx.google.com with ESMTPS id l6-20020a0ce6c6000000b0067a51a92287si479803qvn.8.2023.11.28.19.01.59
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Nov 2023 19:01:59 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::1033 as permitted sender) client-ip=2607:f8b0:4864:20::1033;
+Received: by mail-pj1-x1033.google.com with SMTP id 98e67ed59e1d1-285b926e5deso3236261a91.0
+        for <kasan-dev@googlegroups.com>; Tue, 28 Nov 2023 19:01:59 -0800 (PST)
+X-Received: by 2002:a17:90b:4c02:b0:285:dbbe:1178 with SMTP id
+ na2-20020a17090b4c0200b00285dbbe1178mr7726571pjb.39.1701226918871; Tue, 28
+ Nov 2023 19:01:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_179983_1725343252.1701209427987"
-X-Original-Sender: carihauskins@gmail.com
+References: <20231128075532.110251-1-haibo.li@mediatek.com> <20231128172238.f80ed8dd74ab2a13eba33091@linux-foundation.org>
+In-Reply-To: <20231128172238.f80ed8dd74ab2a13eba33091@linux-foundation.org>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Wed, 29 Nov 2023 04:01:47 +0100
+Message-ID: <CA+fCnZcLwXn6crGF1E1cY3TknMaUN=H8-_hp0-cC+s8-wj95PQ@mail.gmail.com>
+Subject: Re: [PATCH] fix comparison of unsigned expression < 0
+To: Andrew Morton <akpm@linux-foundation.org>, kernel test robot <lkp@intel.com>, 
+	Haibo Li <haibo.li@mediatek.com>
+Cc: linux-kernel@vger.kernel.org, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, kasan-dev@googlegroups.com, 
+	linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org, xiaoming.yu@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: andreyknvl@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20230601 header.b=B4rP+SCn;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::1033
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -79,141 +154,59 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_179983_1725343252.1701209427987
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_179984_1676307395.1701209427987"
+On Wed, Nov 29, 2023 at 2:22=E2=80=AFAM Andrew Morton <akpm@linux-foundatio=
+n.org> wrote:
+>
+> On Tue, 28 Nov 2023 15:55:32 +0800 Haibo Li <haibo.li@mediatek.com> wrote=
+:
+>
+> > Kernel test robot reported:
+> >
+> > '''
+> > mm/kasan/report.c:637 kasan_non_canonical_hook() warn:
+> > unsigned 'addr' is never less than zero.
+> > '''
+> > The KASAN_SHADOW_OFFSET is 0 on loongarch64.
+> >
+> > To fix it,check the KASAN_SHADOW_OFFSET before do comparison.
+> >
+> > --- a/mm/kasan/report.c
+> > +++ b/mm/kasan/report.c
+> > @@ -634,10 +634,10 @@ void kasan_non_canonical_hook(unsigned long addr)
+> >  {
+> >       unsigned long orig_addr;
+> >       const char *bug_type;
+> > -
+> > +#if KASAN_SHADOW_OFFSET > 0
+> >       if (addr < KASAN_SHADOW_OFFSET)
+> >               return;
+> > -
+> > +#endif
+>
+> We'd rather not add ugly ifdefs for a simple test like this.  If we
+> replace "<" with "<=3D", does it fix?  I suspect that's wrong.
 
-------=_Part_179984_1676307395.1701209427987
-Content-Type: text/plain; charset="UTF-8"
+Changing the comparison into "<=3D" would be wrong.
 
-```htmlZD Soft Screen Recorder 11.2.1 Crack Plus Serial Key (Latest) 2020ZD 
-Soft Screen Recorder 11.2.1 Crack is a powerful and easy-to-use software 
-that allows you to capture any area of your screen with high quality. 
-Whether you want to record a video tutorial, a gameplay, a webinar, or a 
-live stream, ZD Soft Screen Recorder can help you do it with ease.
+But I actually don't think we need to fix anything here.
 
-ZD Soft Screen Recorder 11.2.1 Crack Plus Serial Key (Latest) 2020
-Download File https://t.co/JIN85RDChl
+This issue looks quite close to a similar comparison with 0 issue
+Linus shared his opinion on here:
 
+https://lore.kernel.org/all/Pine.LNX.4.58.0411230958260.20993@ppc970.osdl.o=
+rg/
 
-In this article, we will show you how to download and install ZD Soft 
-Screen Recorder 11.2.1 Crack Plus Serial Key (Latest) 2020 for free. You 
-will also learn about the features and benefits of this amazing screen 
-recording software.
-Features of ZD Soft Screen Recorder 11.2.1 CrackZD Soft Screen Recorder 
-11.2.1 Crack has many features that make it stand out from other screen 
-recording software. Here are some of them:
-It supports multiple sources of audio and video, such as webcam, 
-microphone, speakers, system sound, etc.It allows you to record your screen 
-in full screen, windowed mode, region mode, or freehand mode.It has a 
-built-in editor that lets you trim, crop, rotate, add watermark, adjust 
-volume, and more.It can save your recordings in various formats, such as 
-MP4, AVI, WMV, FLV, GIF, etc.It can upload your recordings to YouTube, 
-Facebook, Vimeo, Dropbox, Google Drive, etc.It has a scheduler that enables 
-you to start and stop recording automatically at a specific time.It has a 
-mouse cursor effects feature that allows you to highlight your mouse cursor 
-with different colors and shapes.It has a zoom feature that lets you zoom 
-in and out of any part of your screen while recording.It has a real-time 
-FPS display that shows you the frame rate of your recording.It has a hotkey 
-feature that lets you control your recording with keyboard 
-shortcuts.Benefits of ZD Soft Screen Recorder 11.2.1 CrackZD Soft Screen 
-Recorder 11.2.1 Crack is not only a powerful screen recording software but 
-also a beneficial one. Here are some of the benefits of using it:
+I don't know if the common consensus with the regard to issues like
+that changed since then. But if not, perhaps we can treat this kernel
+test robot report as a false positive.
 
+Thanks!
 
-It helps you create professional-looking videos for various purposes, such 
-as education, entertainment, business, etc.It saves you time and money by 
-allowing you to record your screen without any watermark or time limit.It 
-enhances your creativity and productivity by providing you with various 
-tools and options to customize your recordings.It improves your 
-communication and presentation skills by enabling you to share your 
-recordings with your audience easily and effectively.How to Download and 
-Install ZD Soft Screen Recorder 11.2.1 Crack Plus Serial Key (Latest) 
-2020If you want to enjoy the features and benefits of ZD Soft Screen 
-Recorder 11.2.1 Crack Plus Serial Key (Latest) 2020 for free, follow these 
-simple steps:
-Click on the link below to download the setup file of ZD Soft Screen 
-Recorder 11.2.1 Crack Plus Serial Key (Latest) 2020.
-https://example.com/downloadRun the setup file and follow the instructions 
-to install ZD Soft Screen Recorder 11.2.1 on your computer.Copy the serial 
-key from the text file and paste it into the registration window of ZD Soft 
-Screen Recorder 11.2.1.
-https://example.com/serialkeyEnjoy using ZD Soft Screen Recorder 11.2.1 
-Crack Plus Serial Key (Latest) 2020 for free!```
- 35727fac0c
-
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/58787197-1e5c-45bd-9d45-f9f2494e4237n%40googlegroups.com.
-
-------=_Part_179984_1676307395.1701209427987
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-```htmlZD Soft Screen Recorder 11.2.1 Crack Plus Serial Key (Latest) 2020ZD=
- Soft Screen Recorder 11.2.1 Crack is a powerful and easy-to-use software t=
-hat allows you to capture any area of your screen with high quality. Whethe=
-r you want to record a video tutorial, a gameplay, a webinar, or a live str=
-eam, ZD Soft Screen Recorder can help you do it with ease.<div><br /></div>=
-<div>ZD Soft Screen Recorder 11.2.1 Crack Plus Serial Key (Latest) 2020</di=
-v><div>Download File https://t.co/JIN85RDChl</div><div><br /></div><div><br=
- /></div><div>In this article, we will show you how to download and install=
- ZD Soft Screen Recorder 11.2.1 Crack Plus Serial Key (Latest) 2020 for fre=
-e. You will also learn about the features and benefits of this amazing scre=
-en recording software.</div><div>Features of ZD Soft Screen Recorder 11.2.1=
- CrackZD Soft Screen Recorder 11.2.1 Crack has many features that make it s=
-tand out from other screen recording software. Here are some of them:</div>=
-<div>It supports multiple sources of audio and video, such as webcam, micro=
-phone, speakers, system sound, etc.It allows you to record your screen in f=
-ull screen, windowed mode, region mode, or freehand mode.It has a built-in =
-editor that lets you trim, crop, rotate, add watermark, adjust volume, and =
-more.It can save your recordings in various formats, such as MP4, AVI, WMV,=
- FLV, GIF, etc.It can upload your recordings to YouTube, Facebook, Vimeo, D=
-ropbox, Google Drive, etc.It has a scheduler that enables you to start and =
-stop recording automatically at a specific time.It has a mouse cursor effec=
-ts feature that allows you to highlight your mouse cursor with different co=
-lors and shapes.It has a zoom feature that lets you zoom in and out of any =
-part of your screen while recording.It has a real-time FPS display that sho=
-ws you the frame rate of your recording.It has a hotkey feature that lets y=
-ou control your recording with keyboard shortcuts.Benefits of ZD Soft Scree=
-n Recorder 11.2.1 CrackZD Soft Screen Recorder 11.2.1 Crack is not only a p=
-owerful screen recording software but also a beneficial one. Here are some =
-of the benefits of using it:</div><div><br /></div><div><br /></div><div>It=
- helps you create professional-looking videos for various purposes, such as=
- education, entertainment, business, etc.It saves you time and money by all=
-owing you to record your screen without any watermark or time limit.It enha=
-nces your creativity and productivity by providing you with various tools a=
-nd options to customize your recordings.It improves your communication and =
-presentation skills by enabling you to share your recordings with your audi=
-ence easily and effectively.How to Download and Install ZD Soft Screen Reco=
-rder 11.2.1 Crack Plus Serial Key (Latest) 2020If you want to enjoy the fea=
-tures and benefits of ZD Soft Screen Recorder 11.2.1 Crack Plus Serial Key =
-(Latest) 2020 for free, follow these simple steps:</div><div>Click on the l=
-ink below to download the setup file of ZD Soft Screen Recorder 11.2.1 Crac=
-k Plus Serial Key (Latest) 2020.</div><div>https://example.com/downloadRun =
-the setup file and follow the instructions to install ZD Soft Screen Record=
-er 11.2.1 on your computer.Copy the serial key from the text file and paste=
- it into the registration window of ZD Soft Screen Recorder 11.2.1.</div><d=
-iv>https://example.com/serialkeyEnjoy using ZD Soft Screen Recorder 11.2.1 =
-Crack Plus Serial Key (Latest) 2020 for free!```</div><div>=C2=A035727fac0c=
-</div><div><br /></div><div><br /></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/58787197-1e5c-45bd-9d45-f9f2494e4237n%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/58787197-1e5c-45bd-9d45-f9f2494e4237n%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_179984_1676307395.1701209427987--
-
-------=_Part_179983_1725343252.1701209427987--
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CA%2BfCnZcLwXn6crGF1E1cY3TknMaUN%3DH8-_hp0-cC%2Bs8-wj95PQ%40mail.=
+gmail.com.
