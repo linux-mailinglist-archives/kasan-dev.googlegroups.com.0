@@ -1,200 +1,137 @@
-Return-Path: <kasan-dev+bncBCM3H26GVIOBBQUZTSVQMGQELFM6B3Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBCVITSVQMGQEBGYQWCQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43b.google.com (mail-pf1-x43b.google.com [IPv6:2607:f8b0:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id A50B07FD37B
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 11:04:52 +0100 (CET)
-Received: by mail-pf1-x43b.google.com with SMTP id d2e1a72fcca58-6cddc344b98sf82967b3a.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 02:04:52 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1701252291; cv=pass;
+Received: from mail-qt1-x83d.google.com (mail-qt1-x83d.google.com [IPv6:2607:f8b0:4864:20::83d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26A8D7FD45A
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 11:35:56 +0100 (CET)
+Received: by mail-qt1-x83d.google.com with SMTP id d75a77b69052e-41cb4d6744bsf80539181cf.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 02:35:56 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1701254155; cv=pass;
         d=google.com; s=arc-20160816;
-        b=A90bhnq7X60vBXrhHAr2oaibEVkQNQ61vRn2U/yRyDLOkhpbu7XpZefiOw3VErXeAY
-         3xXk4eEpzhyTwXzyK+V9hqczx3ZaG9Mcl4CW51oWGHJQS7QuEgszpySyFszp+0tg4amf
-         99x2eaLtTNVGJeFM+HHXI2d5xdl8hS+M74A/sQrZ6xibmCvA/zV7ekAwT5Nl1OX+JoNT
-         GMViufYrhHJqtOpo9BpusBtgtnMqMZMKzFcWEtz3KAi4I0U+8XtAt7gdh1lPMSZP1YFw
-         WfXSKPYzYgpkE0ryUZVwNVISC7NUb5IfdMFqXjyLOnUmxCc1JRDLNIbM9psOEdQnmMwn
-         WV8w==
+        b=rhKlCkdDgqllwls2Av4JdQzY2RFDT2wUJxhQN60fs+r1MmdWLNkihc8lTon3yYwRB7
+         zBosTZ0IXsb5ls51PFmBma77tBE6F4I4xvQWRQeVhXZJAGPpvJ4EtsKnezOM5CjKSLnq
+         L0+5ad6DbyuHKhZR+UIlfsMdZ8tkxqy7YGuryyHcKWeyRCOpVW49nBbTla/VTwsV3Ciu
+         icRFlVv+L/yZz4aoCcP+xyuf135u1LNfPFZkD64MHniLBlugIq867Z82h4wA+mMnMB6q
+         zbpAnDqeNycUweoLTctfLrMHMKSWt8FI7kBnw57VREPAKWLDvxqA5OTz3x419mrcysW0
+         /npA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:sender
-         :dkim-signature;
-        bh=YDVqcCEU7NBEIHgtFD/KpWXyEJbXLQvHgw2LW1GljHk=;
-        fh=SMIKM+y1F5Yf09jEKMp9vgMRdDDYr6DfomPBwv55HT4=;
-        b=PWwGGncsZ5+9hkrTmAFFCLJN8C6i5y3DRt9hmf5X8hKQj8P2h0BzIaOJ17fMyNxJml
-         E5MaR14Axsnahk5V28/+aEhuKZGgdA69xCmeoZb0zd88Z/J7lkm9wKbNqkWjZITXbQto
-         yWlcApOYuv2SBhaWK0yjSg4MnsrqKwUNbbTUjv+B8o8QDeC2Nv4+r4kMzn6RfITQJXYD
-         QK4Orc7TXB69VCwhPTXqsgY5SC0Af6u6vSB5UzfdpmbnsTTc9XzpXd9Hum5fIAC4NEBK
-         Xk+eddsM48nfMTQdQcRqP4kZJ3vxkrS+ylfN2cYd+PuyG3JgMoXJZDO4qumYz+6BKz0b
-         Cp/A==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=Al1gl/VVVKmFG7OJk60lMThW5W7hSA1n3WpWGyNjl70=;
+        fh=BCNYuPqol1vLzLo/yJnM/ouRZane89kp7ezRxw3G5Zc=;
+        b=XkVyDo6WTuHqS9IkhIdnyfsYNY7+r5XFWCJuYzU5pHil8A73aKmIenNrMESb3pLPux
+         Sz/rCLtsEbw/9LEbJSkeE1mvFXi249HxS4DYvwcEzdYn6w0XcNvYvhnRBTQG95JaykcH
+         Kn4T/mxcbbrixUYtTzMO0cdMwN46ppbr7IYB483MQ3/ICeLru5rB45mEcGarn0OBHzCG
+         fcD7jVy0SEWLLnlcWiehcz2nTnhwMwsRZSmNe3uintSfwjC4R0QZS8AEDOZHIOvjYczt
+         /7d20AcCS4KisUd+MITVdURLyF4p+Qcpkd+/xeE0bfmMduXCn44ERI8U6CWRb2IKDWNR
+         wHyw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=RYnmXqyq;
-       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
-       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
+       dkim=pass header.i=@google.com header.s=20230601 header.b="Lp/+o5/S";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2b as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1701252291; x=1701857091; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1701254155; x=1701858955; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:user-agent:references:in-reply-to
-         :date:cc:to:from:subject:message-id:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YDVqcCEU7NBEIHgtFD/KpWXyEJbXLQvHgw2LW1GljHk=;
-        b=mEAhfdXHE9jAIfgu0oIIB2ysdf2m966Hvqc7Npx9UqSCvcS8x+8YgEDx+W0aJzEmdI
-         vlWXkOJd4RI0kabldoPG4/6G21JYkcdebfplFQVj2WTWv3kUnP7BoLNZYq/NjsXEfUny
-         Y0iAmhaWErL5tFkSXPPMnd71JskaCj7kKLuwSSb9Mp38gkT/+XLax98Nf+gbBsVO3VjR
-         JynRoqxHd0B1tM4Ef9GI5euqfTI5/MSOjv9H0R/i6otVroqbpbt9zyLDVZgGhDPoyl8s
-         yHd2BuO4kTS87PDVNPUItt3cecoG7je9r1/FocDNfMRPp+AjnCKWkkw9+XmSkov+wRR1
-         jSpg==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Al1gl/VVVKmFG7OJk60lMThW5W7hSA1n3WpWGyNjl70=;
+        b=xtP8TUmSrOw8zrp4mOrAsPs64PLghLgzaJX1QlTL5Qm1q/TTpljSvD2DbYTbwZeBvS
+         kPsuYERJmSTI78zUjcKBXiW45eYoAzlitJjkbYluanKg/8L+3gKOYxDEiJZrhq24FJjY
+         Ek3/ldcidFAQKPaTDEaS4vqhn2lLhV6Z9emfSJK2LlhNNE/rt+I4qiO9YAV5cp74rY5V
+         k7uWwCMR/1Na2+8Ce9ku1riEYuC5VkyV/wKJc8W9bN3N4xAOWdfBxsXtq7v7vcpBD5KL
+         cs4PRX6pZE2Pdu6soF3w3bGT8VlDtIY9+nC6DFtv0kEf72CQKP/4tTCKusGT77oA98Xb
+         Rn1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701252291; x=1701857091;
+        d=1e100.net; s=20230601; t=1701254155; x=1701858955;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:user-agent:references:in-reply-to
-         :date:cc:to:from:subject:message-id:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=YDVqcCEU7NBEIHgtFD/KpWXyEJbXLQvHgw2LW1GljHk=;
-        b=Ka0QURISJkYrb7Zo5RWQ5/49zI3qzFZS2E1WA08EnlWEX2B79idT2e/Kal/6CoaWbe
-         Y54ubVYEoU17GFelPHhpn1E3dki9WU1dgtnXdNcdlR2vV02Tq4J8Xc+EOgk5eo2qwpGc
-         bbVJNAPkMa/Anp00EX9qP1YiHdpaMJUzhrKDTh8p0VAdtYt8CRs/v/4Nxuzn7J3AT5t7
-         h1Xp6TUOC8r321UZrVIVPqnQueI/poeuuhqYq7TSC7uV7O6vUW7aWj7AhJLYAHc+jh3q
-         T9HOvUL0C6JI0U1nech4Mp/poOQHA4TsN4KyPYGjlQFQQPKqB248zk+NFoDeyrtZiOrz
-         f5Jg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yxhm0YYGKa8c8uot0Amq3n0gNOz/KBbYyZe7lYAaMFagHgY3ZKf
-	cmnq2D5W9Ucd4s62liSbL+E=
-X-Google-Smtp-Source: AGHT+IGDbIgqENzUOLSyHur3trcqzE+R+yEIJfTGBBMBAeZH5hxraUULpRlNOA+jSaK4kJUw4hm0Tg==
-X-Received: by 2002:a05:6a00:244a:b0:6cb:a2f7:83d with SMTP id d10-20020a056a00244a00b006cba2f7083dmr20886645pfj.19.1701252291060;
-        Wed, 29 Nov 2023 02:04:51 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Al1gl/VVVKmFG7OJk60lMThW5W7hSA1n3WpWGyNjl70=;
+        b=rCProuEtYi7hOiGxZjhLfsAMuGvzDXw96yw4LZVi5v4iPptocvzA7XmZYu4ME8VNph
+         2PJjrzK2CGp/wqO+TcyjNH4vatYNDM9lOZ+CWHHDeZU8D/7CrD6JwFNkhO9dvw+G32+x
+         BqYBeXGx1ZH+nxBR8vZKKFSucnbDV0BcqqHSmL3V3htuSyeKfoK+kT+EQemoa5pHIMod
+         rI2ecuDsYCYdyaepyENSHdabYFwvVkBPB8XSG+6XPyY8Uo5W8Gn5KZ8arcgFUs8K/wEc
+         qQV8gIIFO+e+2ejCo0WMdf4HuHEROhReKrvfet+TSZGc1rp+V2HW+wWcHzC5SCvbUjuy
+         w57A==
+X-Gm-Message-State: AOJu0YxADi2DNAyuwDy20SYhkPbIsKf1LATzEmsAUWhbrKQcQyCvgwfk
+	uZS9QL+VqeKQlUSD20Pc6I0=
+X-Google-Smtp-Source: AGHT+IH92PEhVA5t9TzcFVb2dus0OXlp2Hse8YYPoLH+NnZ/C0CI/NrIDVk0LQGQLuVUGM1cFxL8qQ==
+X-Received: by 2002:a05:622a:1214:b0:412:206b:92e6 with SMTP id y20-20020a05622a121400b00412206b92e6mr21630835qtx.16.1701254155020;
+        Wed, 29 Nov 2023 02:35:55 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:1c85:b0:6cb:e4aa:4071 with SMTP id
- y5-20020a056a001c8500b006cbe4aa4071ls4660678pfw.0.-pod-prod-00-us; Wed, 29
- Nov 2023 02:04:50 -0800 (PST)
-X-Received: by 2002:a05:6a00:acd:b0:6c6:9f26:3a00 with SMTP id c13-20020a056a000acd00b006c69f263a00mr5463981pfl.2.1701252290463;
-        Wed, 29 Nov 2023 02:04:50 -0800 (PST)
-Received: by 2002:a05:6808:179f:b0:3b8:5d96:faea with SMTP id 5614622812f47-3b85d96ffa8msb6e;
-        Wed, 29 Nov 2023 01:58:56 -0800 (PST)
-X-Received: by 2002:a54:4587:0:b0:3a9:b9eb:998e with SMTP id z7-20020a544587000000b003a9b9eb998emr17021352oib.51.1701251935501;
-        Wed, 29 Nov 2023 01:58:55 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1701251935; cv=none;
+Received: by 2002:a05:622a:17cc:b0:423:a0d4:8c4a with SMTP id
+ u12-20020a05622a17cc00b00423a0d48c4als1018469qtk.0.-pod-prod-03-us; Wed, 29
+ Nov 2023 02:35:54 -0800 (PST)
+X-Received: by 2002:a05:620a:10b5:b0:77d:776b:528d with SMTP id h21-20020a05620a10b500b0077d776b528dmr17814935qkk.44.1701254154260;
+        Wed, 29 Nov 2023 02:35:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1701254154; cv=none;
         d=google.com; s=arc-20160816;
-        b=LOMXowhbQog/4zD8pzd/Ysd1htFlFZHMKpoyeO0qkRtAWaUwCG0p77U5ggodSNuckv
-         xk93FAaRq/AsNtRKCWvHvSK80TusMjpkNcuCJ2ENaqTKJsVCQ88d7In7fFftixjGoUX+
-         vXMqPpyLMQOXTdICNrPGh1eVVxytwrQdxI6qpyUPSY4dUYdXIdGiUxuzJKuz4HsZW2qX
-         tkAWlaZfYUnZGmPgSNgFsYJ+L/Zj0SwEkYM5JkfFxgr6NHiXjc/+Ui/yVPNo2vYuXBPQ
-         3ydK7N5e/ToX9LuUdC/Yj67BZRi85nfWd6w/owBEdS8P87XkZFUfnuo44O7TCTs3ulu7
-         xftA==
+        b=KVoPx5UjjP7H3nWsJKL6/6hPvQ27QoRFZzVX4vlzZE/LprU6G/OBTtRRiX6Ymq7nvF
+         isoOQrdt1xuLDiyoJ9IW7enoRw5sClnYMvtQz0r/Tlo83TVrzpIE3uZk5L/RR6OSnkCo
+         mjrApCXi9wp2/hJkJ1Nku9KdG8/x7mK3CAL4kVjVGRnTa5f1/md6PSCISnq5pX3ba1a9
+         fXzY0bYzsOp9OUtgxOZiQr29vB23kLztDNHMv9sXmOy+63SLWLW0W9HsooqM2lgkB/t6
+         60USRGwcOOVWZ9gZbffPoNC4yP+5Bdj1H6qw/QznW/fxdqFavK7oArQ9vTriAeN/SIrh
+         0xVQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:content-transfer-encoding:user-agent:references
-         :in-reply-to:date:cc:to:from:subject:message-id:dkim-signature;
-        bh=Hv358qHkkkSpvNupSHYh3b+P8ZW0/9o2ISigxsZiDRc=;
-        fh=SMIKM+y1F5Yf09jEKMp9vgMRdDDYr6DfomPBwv55HT4=;
-        b=FWQzi6DDuyHmdpSrMXnbzp2HI5D8PqhQFlq9oW/F9x+XzY4ttqNTygCoSkxRaRc/HC
-         qJrUgq2G6DzTG2Batzl2CszVCW95QfYrUP+n1nRC1gX8b9H/iryy/37iMtR9cAyEGghJ
-         gKivWh1A9M2My3M4jB7huOgOxlu8i/bY8xdKxpEah9dmCFWLK0MthC08v7OVocdS4Xcm
-         23trssRmC7DNOPENRTADXJFB40yrkwAy7Hp9lmDYfIkEvoNgu3TnMpym+cqYocz7msRN
-         0hSne0DeRZnjUj6adb0p4mubiVMC+Irx9LzdmEoJWe5FykRtg6v3/S2M8ibtNsRd4ylw
-         UtBw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=iMrQed01JJcN4xQKdeWzhemwVY/MGHkgvTWPoO+Z2wQ=;
+        fh=BCNYuPqol1vLzLo/yJnM/ouRZane89kp7ezRxw3G5Zc=;
+        b=O/NnyGywUxchH1Ivrg8/AmOd5nMLFHSxlP3I+4hzllt8xuGT8h1hvOuEaJ5+3aEmOk
+         q2FZl5OkPkEEfLo8tuUDm4iJPpd4LSKxmKFGTRwdpdJwncKE9geveOAKJh0EH+INAmtP
+         YQfltK5Ba1x1iuzbXj9z1FgqueFXGjD+qnHxw3sSTzOEMJc0pb9nfJ7D3gqhFfYVqNdx
+         id9x34ZEPS1wH7Jrb43NUkbltEEtGEfdYaHgs6iul2MBOqeRppqiSH3BUv5WagWnhff+
+         qdaR2asdmOGpDOhed8ezvnoESqyXj/vwSBaGXiPfOtMYAsTl88nmGixJvRaYMeTwFmjf
+         eB3A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=RYnmXqyq;
-       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
-       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
-        by gmr-mx.google.com with ESMTPS id x18-20020a056808145200b003aef18f3442si1310369oiv.0.2023.11.29.01.58.55
+       dkim=pass header.i=@google.com header.s=20230601 header.b="Lp/+o5/S";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2b as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com. [2607:f8b0:4864:20::e2b])
+        by gmr-mx.google.com with ESMTPS id r11-20020a05620a298b00b0077576de1665si1214886qkp.3.2023.11.29.02.35.54
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 29 Nov 2023 01:58:55 -0800 (PST)
-Received-SPF: pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AT8lip4006099;
-	Wed, 29 Nov 2023 09:58:52 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3up23phqtg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 29 Nov 2023 09:58:52 +0000
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3AT9hwi3002169;
-	Wed, 29 Nov 2023 09:58:51 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3up23phqsh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 29 Nov 2023 09:58:51 +0000
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3AT8VHNw012197;
-	Wed, 29 Nov 2023 09:58:49 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3ukvrkp9tm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 29 Nov 2023 09:58:49 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com [10.20.54.106])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3AT9wkHg16057068
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 29 Nov 2023 09:58:46 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9F79A20043;
-	Wed, 29 Nov 2023 09:58:46 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 646F820040;
-	Wed, 29 Nov 2023 09:58:45 +0000 (GMT)
-Received: from [9.171.93.155] (unknown [9.171.93.155])
-	by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 29 Nov 2023 09:58:45 +0000 (GMT)
-Message-ID: <edd48d556f3951384f9ac72462f16ee9309a739e.camel@linux.ibm.com>
-Subject: Re: [PATCH v2 33/33] kmsan: Enable on s390
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Alexander Potapenko <glider@google.com>
-Cc: Alexander Gordeev <agordeev@linux.ibm.com>,
-        Andrew Morton
- <akpm@linux-foundation.org>,
-        Christoph Lameter <cl@linux.com>,
-        David
- Rientjes <rientjes@google.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Joonsoo
- Kim <iamjoonsoo.kim@lge.com>, Marco Elver <elver@google.com>,
-        Masami
- Hiramatsu <mhiramat@kernel.org>,
-        Pekka Enberg <penberg@kernel.org>,
-        Steven
- Rostedt <rostedt@goodmis.org>,
-        Vasily Gorbik <gor@linux.ibm.com>, Vlastimil
- Babka <vbabka@suse.cz>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>, kasan-dev@googlegroups.com,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-s390@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Sven Schnelle
- <svens@linux.ibm.com>
-Date: Wed, 29 Nov 2023 10:58:45 +0100
-In-Reply-To: <CAG_fn=XCeE7JF5hbpzXu2A0Cae3R16_hnDwF0==oJMX320wBHQ@mail.gmail.com>
-References: <20231121220155.1217090-1-iii@linux.ibm.com>
-	 <20231121220155.1217090-34-iii@linux.ibm.com>
-	 <CAG_fn=XCeE7JF5hbpzXu2A0Cae3R16_hnDwF0==oJMX320wBHQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38)
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: bHuUrUxcKhPwsCQNukrG6dt9RnefPY2L
-X-Proofpoint-ORIG-GUID: XkNrh_4ciRiXY49x-H9GVRo1-JXJIiVh
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Nov 2023 02:35:54 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2b as permitted sender) client-ip=2607:f8b0:4864:20::e2b;
+Received: by mail-vs1-xe2b.google.com with SMTP id ada2fe7eead31-462a978c470so1342608137.2
+        for <kasan-dev@googlegroups.com>; Wed, 29 Nov 2023 02:35:54 -0800 (PST)
+X-Received: by 2002:a67:fb15:0:b0:464:408a:5d87 with SMTP id
+ d21-20020a67fb15000000b00464408a5d87mr3293331vsr.33.1701254153678; Wed, 29
+ Nov 2023 02:35:53 -0800 (PST)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-29_07,2023-11-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- clxscore=1015 suspectscore=0 mlxscore=0 malwarescore=0 adultscore=0
- phishscore=0 mlxlogscore=832 priorityscore=1501 spamscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311290073
-X-Original-Sender: iii@linux.ibm.com
+References: <20231129-slub-percpu-caches-v3-0-6bcf536772bc@suse.cz> <20231129-slub-percpu-caches-v3-5-6bcf536772bc@suse.cz>
+In-Reply-To: <20231129-slub-percpu-caches-v3-5-6bcf536772bc@suse.cz>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Wed, 29 Nov 2023 11:35:15 +0100
+Message-ID: <CANpmjNNOUozLuop+QddSdNd462J6CysPVcTbS9jP+aswKS9XHg@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 5/9] mm/slub: add opt-in percpu array cache of objects
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, 
+	David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
+	Matthew Wilcox <willy@infradead.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	maple-tree@lists.infradead.org, kasan-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=RYnmXqyq;       spf=pass (google.com:
- domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender)
- smtp.mailfrom=iii@linux.ibm.com;       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
+ header.i=@google.com header.s=20230601 header.b="Lp/+o5/S";       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2b as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
+X-Spam-Checked-In-Group: kasan-dev@googlegroups.com
 X-Google-Group-Id: 358814495539
 List-Post: <https://groups.google.com/group/kasan-dev/post>, <mailto:kasan-dev@googlegroups.com>
 List-Help: <https://groups.google.com/support/>, <mailto:kasan-dev+help@googlegroups.com>
@@ -203,22 +140,122 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 2023-11-29 at 10:19 +0100, Alexander Potapenko wrote:
-> Hi Ilya,
-> 
-> Sorry for this taking so long, I'll probably take a closer look next
-> week.
-> Overall, the s390 part looks good to me, but I wanted to check the
-> x86
-> behavior once again (and perhaps figure out how to avoid introducing
-> another way to disable KMSAN).
-> Do you happen to have a Git repo with your patches somewhere?
+On Wed, 29 Nov 2023 at 10:53, Vlastimil Babka <vbabka@suse.cz> wrote:
+>
+> kmem_cache_setup_percpu_array() will allocate a per-cpu array for
+> caching alloc/free objects of given size for the cache. The cache
+> has to be created with SLAB_NO_MERGE flag.
+>
+> When empty, half of the array is filled by an internal bulk alloc
+> operation. When full, half of the array is flushed by an internal bulk
+> free operation.
+>
+> The array does not distinguish NUMA locality of the cached objects. If
+> an allocation is requested with kmem_cache_alloc_node() with numa node
+> not equal to NUMA_NO_NODE, the array is bypassed.
+>
+> The bulk operations exposed to slab users also try to utilize the array
+> when possible, but leave the array empty or full and use the bulk
+> alloc/free only to finish the operation itself. If kmemcg is enabled and
+> active, bulk freeing skips the array completely as it would be less
+> efficient to use it.
+>
+> The locking scheme is copied from the page allocator's pcplists, based
+> on embedded spin locks. Interrupts are not disabled, only preemption
+> (cpu migration on RT). Trylock is attempted to avoid deadlock due to an
+> interrupt; trylock failure means the array is bypassed.
+>
+> Sysfs stat counters alloc_cpu_cache and free_cpu_cache count objects
+> allocated or freed using the percpu array; counters cpu_cache_refill and
+> cpu_cache_flush count objects refilled or flushed form the array.
+>
+> kmem_cache_prefill_percpu_array() can be called to ensure the array on
+> the current cpu to at least the given number of objects. However this is
+> only opportunistic as there's no cpu pinning between the prefill and
+> usage, and trylocks may fail when the usage is in an irq handler.
+> Therefore allocations cannot rely on the array for success even after
+> the prefill. But misses should be rare enough that e.g. GFP_ATOMIC
+> allocations should be acceptable after the refill.
+>
+> When slub_debug is enabled for a cache with percpu array, the objects in
+> the array are considered as allocated from the slub_debug perspective,
+> and the alloc/free debugging hooks occur when moving the objects between
+> the array and slab pages. This means that e.g. an use-after-free that
+> occurs for an object cached in the array is undetected. Collected
+> alloc/free stacktraces might also be less useful. This limitation could
+> be changed in the future.
+>
+> On the other hand, KASAN, kmemcg and other hooks are executed on actual
+> allocations and frees by kmem_cache users even if those use the array,
+> so their debugging or accounting accuracy should be unaffected.
+>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+>  include/linux/slab.h     |   4 +
+>  include/linux/slub_def.h |  12 ++
+>  mm/Kconfig               |   1 +
+>  mm/slub.c                | 457 ++++++++++++++++++++++++++++++++++++++++++++++-
+>  4 files changed, 468 insertions(+), 6 deletions(-)
+>
+> diff --git a/include/linux/slab.h b/include/linux/slab.h
+> index d6d6ffeeb9a2..fe0c0981be59 100644
+> --- a/include/linux/slab.h
+> +++ b/include/linux/slab.h
+> @@ -197,6 +197,8 @@ struct kmem_cache *kmem_cache_create_usercopy(const char *name,
+>  void kmem_cache_destroy(struct kmem_cache *s);
+>  int kmem_cache_shrink(struct kmem_cache *s);
+>
+> +int kmem_cache_setup_percpu_array(struct kmem_cache *s, unsigned int count);
+> +
+>  /*
+>   * Please use this macro to create slab caches. Simply specify the
+>   * name of the structure and maybe some flags that are listed above.
+> @@ -512,6 +514,8 @@ void kmem_cache_free(struct kmem_cache *s, void *objp);
+>  void kmem_cache_free_bulk(struct kmem_cache *s, size_t size, void **p);
+>  int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size, void **p);
+>
+> +int kmem_cache_prefill_percpu_array(struct kmem_cache *s, unsigned int count, gfp_t gfp);
+> +
+>  static __always_inline void kfree_bulk(size_t size, void **p)
+>  {
+>         kmem_cache_free_bulk(NULL, size, p);
+> diff --git a/include/linux/slub_def.h b/include/linux/slub_def.h
+> index deb90cf4bffb..2083aa849766 100644
+> --- a/include/linux/slub_def.h
+> +++ b/include/linux/slub_def.h
+> @@ -13,8 +13,10 @@
+>  #include <linux/local_lock.h>
+>
+>  enum stat_item {
+> +       ALLOC_PCA,              /* Allocation from percpu array cache */
+>         ALLOC_FASTPATH,         /* Allocation from cpu slab */
+>         ALLOC_SLOWPATH,         /* Allocation by getting a new cpu slab */
+> +       FREE_PCA,               /* Free to percpu array cache */
+>         FREE_FASTPATH,          /* Free to cpu slab */
+>         FREE_SLOWPATH,          /* Freeing not to cpu slab */
+>         FREE_FROZEN,            /* Freeing to frozen slab */
+> @@ -39,6 +41,8 @@ enum stat_item {
+>         CPU_PARTIAL_FREE,       /* Refill cpu partial on free */
+>         CPU_PARTIAL_NODE,       /* Refill cpu partial from node partial */
+>         CPU_PARTIAL_DRAIN,      /* Drain cpu partial to node partial */
+> +       PCA_REFILL,             /* Refilling empty percpu array cache */
+> +       PCA_FLUSH,              /* Flushing full percpu array cache */
+>         NR_SLUB_STAT_ITEMS
+>  };
+>
+> @@ -66,6 +70,13 @@ struct kmem_cache_cpu {
+>  };
+>  #endif /* CONFIG_SLUB_TINY */
+>
+> +struct slub_percpu_array {
+> +       spinlock_t lock;
+> +       unsigned int count;
+> +       unsigned int used;
+> +       void * objects[];
 
-Hi, yes, the latest version of the patches is available at [1].
-
-[1] https://github.com/iii-i/linux/tree/kmsan
+checkpatch complains: "foo * bar" should be "foo *bar"
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/edd48d556f3951384f9ac72462f16ee9309a739e.camel%40linux.ibm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNOUozLuop%2BQddSdNd462J6CysPVcTbS9jP%2BaswKS9XHg%40mail.gmail.com.
