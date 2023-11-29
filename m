@@ -1,136 +1,139 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBUGPTSVQMGQE76SIPOY@googlegroups.com>
+Return-Path: <kasan-dev+bncBD2INDP3VMPBBC6FT2VQMGQEGPBERDA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vk1-xa37.google.com (mail-vk1-xa37.google.com [IPv6:2607:f8b0:4864:20::a37])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA3587FD623
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 13:00:17 +0100 (CET)
-Received: by mail-vk1-xa37.google.com with SMTP id 71dfb90a1353d-4abd0306062sf2099714e0c.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 04:00:17 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1701259216; cv=pass;
+Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC657FE142
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 21:43:56 +0100 (CET)
+Received: by mail-qt1-x840.google.com with SMTP id d75a77b69052e-4238a576bfesf3146501cf.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 12:43:56 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1701290635; cv=pass;
         d=google.com; s=arc-20160816;
-        b=KxNDohEOvfeTDNq9SBsCCNcFHYmDFJJhJGd9NnMh2CFs8XjcQ3ay2a6Qv0+HukY0+9
-         nQjSWtuCm8ai6PVXB+DkWKdGFHKQlFGdXtMPupdb6WvXPyybQqfWRMayGlqLhyecy/Ln
-         VR73fqv4G9F2XZ3zC99CpImYvg3cVfS5XFUY2tC3Yo8Xt7CvC8IdNAJBS4AomnPGQxEw
-         5i+QnITmRmVFTDpW+pGQWXVwd74v0eHIQ5tEsYaXc5DBHqd7STDTgUTp4s/VkxFz9z5W
-         IjmJAr+XD1xC3Gq8utyYXxx6mw3U4GBrhI6hsxFtnR/zutermhy1oLYyl0Wy+n/ItB34
-         f8FA==
+        b=IQzdsxCnyq4nV5Mf8Q5xw7dFxAykjYwjzFu+yHN49oX1IZWFARiY0DJAvlCoXMy4ET
+         VvftARIvtKIKK9fKDOYjSYG4gJ/+NniA52VEe+ex7YASIB0bBWu9Ubamw9/KogI08x01
+         u0n2nx2AG+NrnUcolWhLGjzS/FHqnXh9iGDXmbMoe964IIZvhYuK8u8thfAyQdx0/Rut
+         qLktW1mtxoRnhk0tEGirCQORA4GnbFsp+Sq86aGr5LVis0CmRNL/xlyBsnBIeJp3yA30
+         yCOUvEI6cXXttSPEpNA7DpDLaRZw/wOnnR6gwGdMtdJ4/RamINM0hNc219+9lqCYNUW+
+         8xdw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=TsG+uBUQSqziuZAYeqXfdlw1LxNmw9CE8/EaJPkz3BY=;
-        fh=BCNYuPqol1vLzLo/yJnM/ouRZane89kp7ezRxw3G5Zc=;
-        b=pn9RyQuuJcp3dqUbko3RYjl3qXd9mTgCgTdRpORwGcXTUWA949UZzDzfyk3DEG68Lk
-         VD3WyCRwXZhWtAp2uLqMaon3+rMLZBXyX9kPWuN1VglzFacgtc4J9vld9DgbiFtndbE/
-         oUipvlZAY6r6UQI7epiWeLd/LdbwGClsWmElMtTujAZWedkY1WIEHPOhuqOIOQcYA2Hh
-         VgJVhxadO8S6a9TD8TXtA15UN0gdoN8pvLT81VG0GKVRk5dBsvKMdMureba/vNvrMQuk
-         HrUIDf5y4dRVl0NYKuIBjWt9Miz358qi8rTuV/g7ixoMXDW1rhI68fkNBlyOjc79L9Ev
-         BKaQ==
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date
+         :user-agent:from:references:in-reply-to:mime-version:sender
+         :dkim-signature;
+        bh=AXiL9hFeCTFUKIRcfTFyTRCUYMLphgSLGo60DzKo01k=;
+        fh=mNh2dTT9hNlTAwR4JHScUJJPxlkXeBvbZ1V6FxZnDSc=;
+        b=ftygLgncsNDYga3tGqq4HIwLu+kEYtvKLmP560QPvFFvT8pTcxu9RYtGk/oCw7IX3V
+         +dBBYKcSmYukl5EwCXAbSOgXcO+z8uF0FTVvKuKkeGDO9mbnU6uC53kHq9E2ajuIrxpP
+         SfayhkDWacf7/2S0nAMb+YwE1P6HKD8kByR/xExy1AOyIlPZ4/MBFtBHXwaGTf19SF8z
+         rqsc2b+STVzF63lfce1OX61YIwbsgUBW9+i3xCKiuQSHeKUk5WsGWlx3jAwR3Au1VaN5
+         enwbb0An5GVEw4Aen1ctjOFP6r+WQCL+XGaEU1c+rNuN/WummPswZua5/8UziTg4BuDt
+         Lh7A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=L0qKD8U5;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::935 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@chromium.org header.s=google header.b=WEhMfW0p;
+       spf=pass (google.com: domain of swboyd@chromium.org designates 2a00:1450:4864:20::230 as permitted sender) smtp.mailfrom=swboyd@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1701259216; x=1701864016; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1701290635; x=1701895435; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TsG+uBUQSqziuZAYeqXfdlw1LxNmw9CE8/EaJPkz3BY=;
-        b=eShSit9qrIQtZNhB7pFi3g6pFgtVRaUHz7WY23W5jJgnv29a5gIWFd801PaEutFzji
-         gecRMknXBO57Gusfkp7Psq3sBOkvLM1mPGQsTn1Q3JWLD+4qal1QXg4aMofGMMgINN6f
-         aUrufrd6d2NwNgJ47u3PBW32cKdmQJ2TB/pkN2eR/F1tCeXmd5MZPXHEJntIYCx6k8eD
-         1EPDrN0JT5OFkfl56Qnka2rJGGFWZwvjV4YZNEi2qsE8hvGISDvvwHhxF9dL2GrfjxPX
-         G+zTicTd/1Rrk7E9mxb4Dc0T+JBs4QDp4gyC2Nw3SWB/MSa02pDqTVJc4cuBfXvd/cOc
-         AqNw==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:cc:to:subject:message-id:date:user-agent:from
+         :references:in-reply-to:mime-version:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AXiL9hFeCTFUKIRcfTFyTRCUYMLphgSLGo60DzKo01k=;
+        b=Q0W5dQwsz/u61hS3+fsNV9U0xB0xfChC4wu3HCt4wAa91wkBtqWJc40e+IQ4/uBYhp
+         aAl44+JL5RDo4YE/5Fn1rgtS/BIYwVV4h1E3j1wqeU3CtadQk2DKAgKLNlKcG8Wouyb5
+         Zw5oI2a9cmECPprfGS7IbgdN1rTcdia3Ab11fkZyRi3gGYb7eie9w7YJ9u3rNuyewo2v
+         Ys+yDKbAnVHO5bnQrWd4bxDqQIVXTWZpVE4c50og3UauW2xiAUWpQfAdzuaTOzBenMr9
+         R65RbipKlwa+6LkbP0r6ox6R432qnVPzvshPnLBICglc4HRzduVAo2JgEVQmCmFMFj5K
+         FDAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701259216; x=1701864016;
+        d=1e100.net; s=20230601; t=1701290635; x=1701895435;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TsG+uBUQSqziuZAYeqXfdlw1LxNmw9CE8/EaJPkz3BY=;
-        b=jdCxIDUTK//lXJWMQBQopGoIqHOa9sfQ9qrHoVe71QqF7F2tPewFqjOYMPyJ+1qORG
-         RrXnMTN3lAWPaU/jn76tonz3SmXX8C8br7EsTLJdHgK2rrzlsGnCa3FfFeY12akSppDC
-         CdyAGKPBwZKIPChlEMjoI9zIqA+ZIS26dYwV0CIPdFliYrXz977DFvr0Y3uFgVkb7r8g
-         aEL0CohogxnqZlZxYQt8Bh67odZ0JchlZWoGkb5GxPxbLdex1t731ag2aKUWHTRQQOUv
-         gnl9voqeWHnPeIPxHJrOFB9ih7ryqjz+8gQtw1+Q+AQIvQ474IKjyQw1l26rq3V7xeKa
-         6qFA==
-X-Gm-Message-State: AOJu0Yw6/0YAFY4ahkq15sJIjgj7hQxAWAigUUY77WLlCXwUOrNvof/o
-	FpLf9CYmlNtKz2q2/bN/z8c=
-X-Google-Smtp-Source: AGHT+IEyk4QNW+xMVV9crRxkscBXaIXyecskoLd1hpwbox+YcbekcHY4W/Qg/yK/4IMxdsijdxjtDA==
-X-Received: by 2002:a1f:4ac2:0:b0:495:cace:d59c with SMTP id x185-20020a1f4ac2000000b00495caced59cmr14630051vka.0.1701259216416;
-        Wed, 29 Nov 2023 04:00:16 -0800 (PST)
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:cc:to:subject:message-id:date:user-agent:from
+         :references:in-reply-to:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=AXiL9hFeCTFUKIRcfTFyTRCUYMLphgSLGo60DzKo01k=;
+        b=RTLIhmiS+HfsWXiElFFQz41m7v8juO+5YabunNO0z3Izpxv4BM0Wehx3xgq78ICAdh
+         Pi7XQ624kGTVT4cqqWBtptazbpLC19u51+sev2ho/Sr7EAQQO+Aav1dIoodzhKjRfM7o
+         0iL8Kiz+82SQh0FflvlI2Q5FvvFpuzoviam/vpGZKxq0Z4r0UDIqZc20OnIxvJdIHU8e
+         +EsKqIiLJPQx8XyxDUP4jM+83UN2pZPvqSDJYQtFTvPT1A5J9qHpe1I9oDoP4SDbi1ez
+         rc2a1QzDCxcW9s9utVoDjam8+j39CILqFB5AZNEg356jRWOQeL462tAqrGPspFmO2p+I
+         I37g==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOJu0YwSc72q+lYtlkTB4AfI2WA4TDevNCH3GbkpGSmW2EqeWieGKy4v
+	sl5nQMoKtRpun5SFaNppWOs=
+X-Google-Smtp-Source: AGHT+IFcQ4+DCLcfbkPbaYi6LPVKgS2s4Ly++Gb2fv28FAZ5bQk/vDSDxS4LnvsFIO4XGUEvFh/EYA==
+X-Received: by 2002:a05:622a:1702:b0:41c:c3ad:922d with SMTP id h2-20020a05622a170200b0041cc3ad922dmr28612244qtk.52.1701290635326;
+        Wed, 29 Nov 2023 12:43:55 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:5dce:0:b0:423:8c6b:503a with SMTP id e14-20020ac85dce000000b004238c6b503als1987715qtx.1.-pod-prod-07-us;
- Wed, 29 Nov 2023 04:00:15 -0800 (PST)
-X-Received: by 2002:a05:6122:208f:b0:48d:1b20:268e with SMTP id i15-20020a056122208f00b0048d1b20268emr20414959vkd.10.1701259215570;
-        Wed, 29 Nov 2023 04:00:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1701259215; cv=none;
+Received: by 2002:a05:622a:181f:b0:423:a0d4:8c61 with SMTP id
+ t31-20020a05622a181f00b00423a0d48c61ls252861qtc.2.-pod-prod-09-us; Wed, 29
+ Nov 2023 12:43:55 -0800 (PST)
+X-Received: by 2002:a37:ac10:0:b0:77d:9b92:5638 with SMTP id e16-20020a37ac10000000b0077d9b925638mr340482qkm.15.1701290634960;
+        Wed, 29 Nov 2023 12:43:54 -0800 (PST)
+Received: by 2002:a05:620a:170d:b0:77d:a5e0:dc7c with SMTP id af79cd13be357-77da5e0dd27ms85a;
+        Wed, 29 Nov 2023 12:42:17 -0800 (PST)
+X-Received: by 2002:ac2:599d:0:b0:50b:ba79:957d with SMTP id w29-20020ac2599d000000b0050bba79957dmr4313524lfn.2.1701290535463;
+        Wed, 29 Nov 2023 12:42:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1701290535; cv=none;
         d=google.com; s=arc-20160816;
-        b=MvyjqPyx+IrPbrIPoJzwYr85Cd9Ef3auAPSiUbhTsO1I5zcVcASGAKp3OP6YpAwCB8
-         iR7U1Tw5NH4zbalukGOiYK8vbQZEbcX4YEntt7MVslj6Z2vEdXoPrwcoghEKFalW3RpL
-         2S/s+tx9VhZx6OHHeG/6VeVuglYKftfyjlQB4R1Fvvzq78Y0GZkoY5Ov4gyK/1Tb0hAE
-         VsPQmBX4JjLFOd7xsgDE8rbhsn3u0TvsdNV9ixjkW1K2fL/lXRbb2CH6Y3CF3t2WnSgS
-         J3+ZozHkVGjke1j7E7pll5RLJm2/3C6bal7bxAxq6zlpBdG3OD9V5j4oTQcrF/1sd+Vy
-         C5Rw==
+        b=NHgg99893D3l9U1fCqMjIQCv2I8lJPvPsJTMPD+Hk7JZ/Z9U1KCotb5IUV2CmMY7yI
+         OIFSmKTYX1V5yXSXQeGhd3JI5yFNC3F3zPPgUeWPBUpL0XN7W+lAi5wX6i84LYOlDHeH
+         T4bxuTBzv58xwDnJl3cO0tYMVIRhQGx/sesN5PaftfNvCQ+LBB46qENUWbSChkurIfc/
+         n8lacOoCDk96Vn+tM6ivEXp4rnEv7MZyD5HPfmiMCliU72s6EJ1OfnOaTgO/CsLaYraO
+         DmpBgyFU0iJobdpR0rfYk07+JuiKrCKIzFaWGmcU+a2qJPaIhZARO/lg8Sbc58j1TeUG
+         HgMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=nPXPu1JYkKeWx1IZ2D0WOSznovDcK9NZrhDXsB39l8g=;
-        fh=BCNYuPqol1vLzLo/yJnM/ouRZane89kp7ezRxw3G5Zc=;
-        b=wiPbPyrFK7EYtFbc5WRhC9apYOz5lJT0zBUsL7zG8gqxv3FKb89OCpC1RHsa72WYl5
-         o7nYT0qHr7NvY8sBy8CL0HrX/lArOy2wt4mqLx+VV+CxFynCsxIrDg6DN3kujzBZRDYb
-         S9PLWIr2d4LecgIFdhbi1snxWbQoBkfJ9Ti1pDW8WF7ryYNAt+IFgsf4ZwaGeDT5vkyO
-         UDdtE97HFySIJ/ZNVOWAV4smsueXLv/kveR6f8SGGLDBmUm4xJMI75i9hoPI8J5cDFZG
-         kFKiAkglWoXd67Kw1kHP0CQBaFXfdLQWWpecj+e2mevQFN2pQ/lAP5gCxlK8g2XRkF7k
-         Arfg==
+        h=cc:to:subject:message-id:date:user-agent:from:references
+         :in-reply-to:mime-version:dkim-signature;
+        bh=SjyD2uy7rhiIwUguKMOS6O61vfhptuzTgpHO35Q0vkM=;
+        fh=mNh2dTT9hNlTAwR4JHScUJJPxlkXeBvbZ1V6FxZnDSc=;
+        b=Hh3pUqoGK6QAWYR1ZqC8cfMH8j17x3YDJMqHo0l4WA5G31RbevYSpiWWF6ctttJusS
+         E05VcZ22jw5Cm8OpcSRooDvP7v56nGDNkui8QT+sFvkZ+bKZHDu/nKIlSkjBkyquPGqW
+         UW3mSbd/cIxB9ZhKnse3ne9dgDfFdM7Mm81d+sVafynqPZ0N7hD5L5LQZRyUGM8We/oy
+         h0Efvhr5jU2BIf6Y+R1ttPOAweEOBNeZuD1mjV47mDSCTpFOW5PC8HBvvTSCpntL+ZmU
+         XgckuNijFzKLBv0RCcpw4KjKRrxmkbON2GYBtuB5FURyZTXfTEyYqdZ8gn/LubE/9QW0
+         sbAA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=L0qKD8U5;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::935 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ua1-x935.google.com (mail-ua1-x935.google.com. [2607:f8b0:4864:20::935])
-        by gmr-mx.google.com with ESMTPS id ge31-20020a0561224e1f00b004abd0f58a5esi1691934vkb.2.2023.11.29.04.00.15
+       dkim=pass header.i=@chromium.org header.s=google header.b=WEhMfW0p;
+       spf=pass (google.com: domain of swboyd@chromium.org designates 2a00:1450:4864:20::230 as permitted sender) smtp.mailfrom=swboyd@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com. [2a00:1450:4864:20::230])
+        by gmr-mx.google.com with ESMTPS id i21-20020a056512341500b0050bc7296c7csi105256lfr.2.2023.11.29.12.42.15
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 04:00:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::935 as permitted sender) client-ip=2607:f8b0:4864:20::935;
-Received: by mail-ua1-x935.google.com with SMTP id a1e0cc1a2514c-7bb3e55c120so1953187241.0
-        for <kasan-dev@googlegroups.com>; Wed, 29 Nov 2023 04:00:15 -0800 (PST)
-X-Received: by 2002:a05:6102:5108:b0:460:621c:d14b with SMTP id
- bm8-20020a056102510800b00460621cd14bmr20684204vsb.20.1701259215088; Wed, 29
- Nov 2023 04:00:15 -0800 (PST)
+        Wed, 29 Nov 2023 12:42:15 -0800 (PST)
+Received-SPF: pass (google.com: domain of swboyd@chromium.org designates 2a00:1450:4864:20::230 as permitted sender) client-ip=2a00:1450:4864:20::230;
+Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2c875207626so3038491fa.1
+        for <kasan-dev@googlegroups.com>; Wed, 29 Nov 2023 12:42:15 -0800 (PST)
+X-Received: by 2002:a2e:9d8e:0:b0:2c9:c22e:31eb with SMTP id
+ c14-20020a2e9d8e000000b002c9c22e31ebmr1958958ljj.22.1701290534275; Wed, 29
+ Nov 2023 12:42:14 -0800 (PST)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 29 Nov 2023 12:42:13 -0800
 MIME-Version: 1.0
-References: <20231129-slub-percpu-caches-v3-0-6bcf536772bc@suse.cz> <20231129-slub-percpu-caches-v3-4-6bcf536772bc@suse.cz>
-In-Reply-To: <20231129-slub-percpu-caches-v3-4-6bcf536772bc@suse.cz>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 29 Nov 2023 13:00:00 +0100
-Message-ID: <CANpmjNN-RCZEzU8tLsUVGLtuDgXMRjddOW3fj6bEzCw2+FSiNg@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 4/9] mm/slub: free KFENCE objects in slab_free_hook()
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, 
-	Matthew Wilcox <willy@infradead.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	maple-tree@lists.infradead.org, kasan-dev@googlegroups.com
+In-Reply-To: <202311291219.A6E3E58@keescook>
+References: <20231127234946.2514120-1-swboyd@chromium.org> <202311291219.A6E3E58@keescook>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.10
+Date: Wed, 29 Nov 2023 12:42:13 -0800
+Message-ID: <CAE-0n53x8AXUPaq5_TaqF6PN5u5J6g5RYoNWALN-MnEJBa5syA@mail.gmail.com>
+Subject: Re: [PATCH] lkdtm: Add kfence read after free crash type
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	kasan-dev@googlegroups.com, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+X-Original-Sender: swboyd@chromium.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=L0qKD8U5;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::935 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@chromium.org header.s=google header.b=WEhMfW0p;       spf=pass
+ (google.com: domain of swboyd@chromium.org designates 2a00:1450:4864:20::230
+ as permitted sender) smtp.mailfrom=swboyd@chromium.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
-X-Spam-Checked-In-Group: kasan-dev@googlegroups.com
 X-Google-Group-Id: 358814495539
 List-Post: <https://groups.google.com/group/kasan-dev/post>, <mailto:kasan-dev@googlegroups.com>
 List-Help: <https://groups.google.com/support/>, <mailto:kasan-dev+help@googlegroups.com>
@@ -139,118 +142,106 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 29 Nov 2023 at 10:53, Vlastimil Babka <vbabka@suse.cz> wrote:
->
-> When freeing an object that was allocated from KFENCE, we do that in the
-> slowpath __slab_free(), relying on the fact that KFENCE "slab" cannot be
-> the cpu slab, so the fastpath has to fallback to the slowpath.
->
-> This optimization doesn't help much though, because is_kfence_address()
-> is checked earlier anyway during the free hook processing or detached
-> freelist building. Thus we can simplify the code by making the
-> slab_free_hook() free the KFENCE object immediately, similarly to KASAN
-> quarantine.
->
-> In slab_free_hook() we can place kfence_free() above init processing, as
-> callers have been making sure to set init to false for KFENCE objects.
-> This simplifies slab_free(). This places it also above kasan_slab_free()
-> which is ok as that skips KFENCE objects anyway.
->
-> While at it also determine the init value in slab_free_freelist_hook()
-> outside of the loop.
->
-> This change will also make introducing per cpu array caches easier.
->
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+Adding kfence folks (will add on v2).
 
-Tested-by: Marco Elver <elver@google.com>
+Quoting Kees Cook (2023-11-29 12:22:27)
+> On Mon, Nov 27, 2023 at 03:49:45PM -0800, Stephen Boyd wrote:
+> > Add the ability to allocate memory from kfence and trigger a read after
+> > free on that memory to validate that kfence is working properly. This is
+> > used by ChromeOS integration tests to validate that kfence errors can be
+> > collected on user devices and parsed properly.
+>
+> This looks really good; thanks for adding this!
+>
+> >
+> > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+> > ---
+> >  drivers/misc/lkdtm/heap.c | 64 +++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 64 insertions(+)
+> >
+> > diff --git a/drivers/misc/lkdtm/heap.c b/drivers/misc/lkdtm/heap.c
+> > index 0ce4cbf6abda..608872bcc7e0 100644
+> > --- a/drivers/misc/lkdtm/heap.c
+> > +++ b/drivers/misc/lkdtm/heap.c
+> > @@ -4,6 +4,7 @@
+> >   * page allocation and slab allocations.
+> >   */
+> >  #include "lkdtm.h"
+> > +#include <linux/kfence.h>
+> >  #include <linux/slab.h>
+> >  #include <linux/vmalloc.h>
+> >  #include <linux/sched.h>
+> > @@ -132,6 +133,66 @@ static void lkdtm_READ_AFTER_FREE(void)
+> >       kfree(val);
+> >  }
+> >
+> > +#if IS_ENABLED(CONFIG_KFENCE)
+>
+> I really try hard to avoid having tests disappear depending on configs,
+> and instead report the expected failure case (as you have). Can this be
+> built without the IS_ENABLED() tests?
+>
 
-> ---
->  mm/slub.c | 21 ++++++++++-----------
->  1 file changed, 10 insertions(+), 11 deletions(-)
->
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 7d23f10d42e6..59912a376c6d 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -1772,7 +1772,7 @@ static bool freelist_corrupted(struct kmem_cache *s, struct slab *slab,
->   * production configuration these hooks all should produce no code at all.
->   *
->   * Returns true if freeing of the object can proceed, false if its reuse
-> - * was delayed by KASAN quarantine.
-> + * was delayed by KASAN quarantine, or it was returned to KFENCE.
->   */
->  static __always_inline
->  bool slab_free_hook(struct kmem_cache *s, void *x, bool init)
-> @@ -1790,6 +1790,9 @@ bool slab_free_hook(struct kmem_cache *s, void *x, bool init)
->                 __kcsan_check_access(x, s->object_size,
->                                      KCSAN_ACCESS_WRITE | KCSAN_ACCESS_ASSERT);
->
-> +       if (kfence_free(kasan_reset_tag(x)))
-> +               return false;
-> +
->         /*
->          * As memory initialization might be integrated into KASAN,
->          * kasan_slab_free and initialization memset's must be
-> @@ -1819,22 +1822,25 @@ static inline bool slab_free_freelist_hook(struct kmem_cache *s,
->         void *object;
->         void *next = *head;
->         void *old_tail = *tail;
-> +       bool init;
->
->         if (is_kfence_address(next)) {
->                 slab_free_hook(s, next, false);
-> -               return true;
-> +               return false;
->         }
->
->         /* Head and tail of the reconstructed freelist */
->         *head = NULL;
->         *tail = NULL;
->
-> +       init = slab_want_init_on_free(s);
-> +
->         do {
->                 object = next;
->                 next = get_freepointer(s, object);
->
->                 /* If object's reuse doesn't have to be delayed */
-> -               if (slab_free_hook(s, object, slab_want_init_on_free(s))) {
-> +               if (slab_free_hook(s, object, init)) {
->                         /* Move object to the new freelist */
->                         set_freepointer(s, object, *head);
->                         *head = object;
-> @@ -3619,9 +3625,6 @@ static void __slab_free(struct kmem_cache *s, struct slab *slab,
->
->         stat(s, FREE_SLOWPATH);
->
-> -       if (kfence_free(head))
-> -               return;
-> -
->         if (IS_ENABLED(CONFIG_SLUB_TINY) || kmem_cache_debug(s)) {
->                 free_to_partial_list(s, slab, head, tail, cnt, addr);
->                 return;
-> @@ -3806,13 +3809,9 @@ static __fastpath_inline
->  void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
->                unsigned long addr)
->  {
-> -       bool init;
-> -
->         memcg_slab_free_hook(s, slab, &object, 1);
->
-> -       init = !is_kfence_address(object) && slab_want_init_on_free(s);
-> -
-> -       if (likely(slab_free_hook(s, object, init)))
-> +       if (likely(slab_free_hook(s, object, slab_want_init_on_free(s))))
->                 do_slab_free(s, slab, object, object, 1, addr);
->  }
->
->
-> --
-> 2.43.0
->
+We need IS_ENABLED() for the kfence_sample_interval variable. I suppose
+if the config isn't set that variable can be assumed as zero and then
+the timeout would hit immediately. We can either define the name
+'kfence_sample_interval' as 0 in the header, or put an ifdef in the
+function.
+
+---8<---
+diff --git a/drivers/misc/lkdtm/heap.c b/drivers/misc/lkdtm/heap.c
+index 4f467d3972a6..574d0aa726dc 100644
+--- a/drivers/misc/lkdtm/heap.c
++++ b/drivers/misc/lkdtm/heap.c
+@@ -138,6 +138,14 @@ static void lkdtm_KFENCE_READ_AFTER_FREE(void)
+ 	int *base, val, saw;
+ 	unsigned long timeout, resched_after;
+ 	size_t len = 1024;
++	unsigned long interval;
++
++#ifdef CONFIG_KFENCE
++	interval = kfence_sample_interval;
++#else
++	interval = 0;
++#endif
++
+ 	/*
+ 	 * The slub allocator will use the either the first word or
+ 	 * the middle of the allocation to store the free pointer,
+@@ -150,13 +158,13 @@ static void lkdtm_KFENCE_READ_AFTER_FREE(void)
+ 	 * 100x the sample interval should be more than enough to ensure we get
+ 	 * a KFENCE allocation eventually.
+ 	 */
+-	timeout = jiffies + msecs_to_jiffies(100 * kfence_sample_interval);
++	timeout = jiffies + msecs_to_jiffies(100 * interval);
+ 	/*
+ 	 * Especially for non-preemption kernels, ensure the allocation-gate
+ 	 * timer can catch up: after @resched_after, every failed allocation
+ 	 * attempt yields, to ensure the allocation-gate timer is scheduled.
+ 	 */
+-	resched_after = jiffies + msecs_to_jiffies(kfence_sample_interval);
++	resched_after = jiffies + msecs_to_jiffies(interval);
+ 	do {
+ 		base = kmalloc(len, GFP_KERNEL);
+ 		if (!base) {
+
+---8<----
+diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+index 401af4757514..88100cc9caba 100644
+--- a/include/linux/kfence.h
++++ b/include/linux/kfence.h
+@@ -223,6 +223,8 @@ bool __kfence_obj_info(struct kmem_obj_info *kpp,
+void *object, struct slab *sla
+
+ #else /* CONFIG_KFENCE */
+
++#define kfence_sample_interval	(0)
++
+ static inline bool is_kfence_address(const void *addr) { return false; }
+ static inline void kfence_alloc_pool_and_metadata(void) { }
+ static inline void kfence_init(void) { }
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN-RCZEzU8tLsUVGLtuDgXMRjddOW3fj6bEzCw2%2BFSiNg%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAE-0n53x8AXUPaq5_TaqF6PN5u5J6g5RYoNWALN-MnEJBa5syA%40mail.gmail.com.
