@@ -1,140 +1,138 @@
-Return-Path: <kasan-dev+bncBCS5D2F7IUIIBXU6VMDBUBBACEWBG@googlegroups.com>
+Return-Path: <kasan-dev+bncBD2INDP3VMPBBMPBT2VQMGQEIQ6QBVA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3b.google.com (mail-oa1-x3b.google.com [IPv6:2001:4860:4864:20::3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8619D7FE21F
-	for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 22:37:05 +0100 (CET)
-Received: by mail-oa1-x3b.google.com with SMTP id 586e51a60fabf-1f5acc3dcf2sf182142fac.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 13:37:05 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1701293824; cv=pass;
+Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D547FE233
+	for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 22:44:18 +0100 (CET)
+Received: by mail-il1-x13f.google.com with SMTP id e9e14a558f8ab-35d37340e5bsf117765ab.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 29 Nov 2023 13:44:18 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1701294257; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TNGNhbNTH/0wdfVzO5+4fg25exKutE32HjRm5YJYhThQgcVvOIPJVnJ2ZJekbYZSC5
-         PNgCmWdrMWAI52VV5YILNZwG6nXQDPiKCYvlY/Zp95IBIbswUC0EqnKOp8O9tTUjSz5T
-         6nWGzg9fBKUflYa8U2Duzjl9UpldzDMPONAn9L4Or7ie8ZqygWzSEPJDGqa8RuLD8Su8
-         0mCgS0RTflk0QtOgHkCxdf6v1W88Cp3mnc/IB0tmc06m5xC/klqRKH3vBvDV3JcIjOj4
-         9XVd9sYAAfFEATruPDqx6MQBXtT4G6Wtpuf5Igu59AK2/r/Iv6p4GJs1i/cBNBKZBgFt
-         J0Ww==
+        b=NoceLPEwobIz9HUVIbam/RAA5HKWedpjiQF01vB7ClYPXML0inEF7AmdPmLzjQ7D7M
+         cv74eF8oHAVLUKbKhT/B0VHQ8E8v/mYXEqtIP2EI1W3aoBSQNYiyiG1iAHkx2oBurQXI
+         aCo/S1O7aSb0k7lFS0u4Jon1ZHgQuRY48Y338x0yq24eL6vXA4LPRC/I+QNB7AUG8L0C
+         naurXssQleyuYkAjc9S7ZZslLQ7B9fEVB9lQ1mw2mXoeHEWovPGXA4zrUHKu+fadD/dw
+         fZD9RQJOFJAsuuwq+oYFIKkQuHbe7AdufRg8F0r6MwOkH7vVpyjVfonwwrOFYgot4apn
+         +ilQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=xr85iuyNVGRskfZyuLV8mC6HZ2Q4cFegtS15nBKOCbM=;
-        fh=sfyFUDc2Yxxc7p69NEOsj8/pSFZtRk/Y39NPcEotCLs=;
-        b=Nx6qBKJ/7g8jlmHHFPeCKL5jypCpOl661EywMFYRNJF3An47f/96pdjNvl3wk7L9uP
-         ZMHngBqKe77StkJvSXWZZmliNTi8kg5F+2nnd4tRQ4EP9X5Opq19N9hp1r58mlHr5njA
-         ydWXyI6MSuZc4SUz2BLyDhVqFjjI3Pok2fwKL0XRbc8HfWQv2MMFD8m6rw8T6+bKQwT7
-         mpannC1Z0Y00OOeCsO8yYuD6q0l/MohZ5SIzBJouL+kIKPpUiOj/EIPkfBYOmuhZbsdX
-         fACB16QzuYQHl6Anv8bVQfGWxHR9wHp5+B5wBVvCj70gFGTn89nn6FoVhBfBVzGwJIhh
-         KZ3g==
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=ZReK06640IYgPSmDQVT8Ds/ckn+4jphqduC7Lt578Zc=;
+        fh=x8a3OjaLFwIU7qMtOgGoexhvLtunbmhI+SfwfyrBClc=;
+        b=N2TcJ5ZguM3gbbYS+GlkuE8CRVG+TBEodkMMnjtv3Awfd81Pdt+DqEweh97lGwoKac
+         4cNNYSinDGKpbfuis33ii9NYkdd9Pz49xTdwqy8kqsMUykiUcu8SnzJLCFiuhOVGHQyi
+         P0A1GqsmGNfbpbd1u50zRr/YxTnMXVEGgIexNnfFaOstRYYN7AfYPvq9++hBK2cyJXHQ
+         An+SyNlHwrxEQl+ItteFU7DFGdcBZBy7XlgOVzXsEwzUDFkHuMEYDr9SPFoYpTv2+qov
+         1BUOOnTvmEg8deY3rWgufKE4XYoMH1KoxUrLyx1Ta6kQ7doWHSzbhJCWGn8k7nkm3fWZ
+         CKwA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b="Trk/qX+6";
-       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=willy@infradead.org
+       dkim=pass header.i=@chromium.org header.s=google header.b=QAlYoBZp;
+       spf=pass (google.com: domain of swboyd@chromium.org designates 2607:f8b0:4864:20::534 as permitted sender) smtp.mailfrom=swboyd@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1701293824; x=1701898624; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1701294257; x=1701899057; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xr85iuyNVGRskfZyuLV8mC6HZ2Q4cFegtS15nBKOCbM=;
-        b=YtmdYFHxme3CkSnLNxRgwl+xvDd2x+CT68y2LyzKTWL8q8Jd70arHSNQJR5ucqizR1
-         +SLx4Eu5xzK/8AbBvnGj8sYRAxMTHvtH9eThdjTXeBum9TiRyfevj50gwSRG+ah3/2IQ
-         YYMdStnXUA3yrvIIaneTFLBkpKxNqw7QUDJ24YBxQ5z537kkK4XQxde4FhmNzyvhWdPV
-         NszcDJchNS987HUozt5XQ/OV5eVl98ukmg9uhhuN1TaFTiMjPByUQm/D1lTdbK9tMWy6
-         EkH9y1+9Afum0Cp17nU0uDPoCfjXci+8xnhjX/VrXFRXo2GCIXOZKpGOdZOgPu6lJmNX
-         nr9g==
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZReK06640IYgPSmDQVT8Ds/ckn+4jphqduC7Lt578Zc=;
+        b=B6NjcDVcnmBgLm82GqdJ9qbG6A6BEKor409JScY0YQF6/xSa0/zbc4kNrF5q9PXgjI
+         N+Q2ydxMTWU3CYDwcfg+ixarw03pS19gC4rFY8Qp4G38c6cUhZyvjDNfjl6Oabqg1vMN
+         HTrLD7n8OKfNYBR1eJdrOcp9GIbIkPgN7QY4vDX9wCUWWc3oP50FEyIqhC016I2/Lcab
+         tpykg6GVh3PyrobJQ9189gNYdDCBKIMHmmk/9luW5PfBfoKlStyUpXSi1GvpSJnVYyUT
+         pVIueEk2oeqnukIG3EilKXV2srqRzbVcqh6lgc6vbC3TylnYG0JEVhZrj9rxac3Ymsiv
+         /v2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701293824; x=1701898624;
+        d=1e100.net; s=20230601; t=1701294257; x=1701899057;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xr85iuyNVGRskfZyuLV8mC6HZ2Q4cFegtS15nBKOCbM=;
-        b=hEeisGcvfJFFu9h5syFMBORPK4yq8sobnp12SbZ5te++KVk4xPT6Ap49ACWPFVIYT2
-         tnzrBzHTtdN4weSwqoU1NCs3aXAtPs2garZmzZFEN82UPBT6oN3ZGuheS4vSe3MS7Arn
-         ehI9/F2ZEcTcidw41jK4yE6zXSOgkAhdE0K9xsxpe0HFbvqZHEMcvQny0s4yzUNunJVH
-         9dj4dZ4o3+qpezISWDojyj5hwMBJJIlhPfYcqGRqGcp79Kkk5zamZHzWWKTeoJe8t8nZ
-         E+JqO4xTqU+HFXTfCsyJX1ITJQ6J39vHRkew6w9ivvv4yczejBt1triz1zXwt/oy4tCa
-         tDEg==
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZReK06640IYgPSmDQVT8Ds/ckn+4jphqduC7Lt578Zc=;
+        b=uRWw8pNeLmRy5A7QjAmzKn+W8GAQ8uniyn3z+Xei+8pBNoR4IjUV9F8Z4Oz7ZrSuVN
+         BL3KG4d2tYc7aF6LUcqFoKLo62hJ5GNitXH6PELgCZlQUJlamACBGXjtApK85pu5EYQY
+         onEH4ADlV/0KXOz/O3/BgKQ+Q0TKLrGQTWU9bGCnOnDFfKOIeRSi4mw5OAzdpxkHkugp
+         vSRvaxRKGMy5oknksg6N+A6K6tyEkKOvcHcqDEne5F08Dl++6C4Qnpv4mM2jUwgJ9pPI
+         QNK9Ww6mfAzLSyGb9IqEo/BtC1Wr9vmLgQmIYsIORNu4BbiJ0lMIe7m72hsUCS7cH4nK
+         buDw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YwUJQzVUxhRMX/wCvxa621ew7oBUfPV7phSSC74ovw3B5Z7X8Aw
-	5XohW1WZSG0IXJvNNB6izpQ=
-X-Google-Smtp-Source: AGHT+IHVmyYqvcFb5yBqKMXBhg7qGA2tEdBkB+6lhL1ALnytlWh1wOfohl9tCKlqT5uM0NN2RHFS8A==
-X-Received: by 2002:a05:6870:9a14:b0:1fa:ca1:1f1c with SMTP id fo20-20020a0568709a1400b001fa0ca11f1cmr26444329oab.44.1701293824168;
-        Wed, 29 Nov 2023 13:37:04 -0800 (PST)
+X-Gm-Message-State: AOJu0YzWs/8Mre3w5ZbOUuPGifSRo4AXHAG5KWoRDvMP+9bqTg7J9tHm
+	zrqcRNrSCDJEfGnFiag+Yis=
+X-Google-Smtp-Source: AGHT+IEw0rreBR/w7UHhjNKtt6+fBxPzwHQEPLEPnSgtCvqb3LbbohiJIVPBwNudBtNFOiYPx4WOqg==
+X-Received: by 2002:a05:6e02:23ca:b0:35d:2d08:d729 with SMTP id br10-20020a056e0223ca00b0035d2d08d729mr5730ilb.3.1701294257178;
+        Wed, 29 Nov 2023 13:44:17 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:1a91:b0:41c:d096:577c with SMTP id
- s17-20020a05622a1a9100b0041cd096577cls515901qtc.2.-pod-prod-07-us; Wed, 29
- Nov 2023 13:37:03 -0800 (PST)
-X-Received: by 2002:a05:620a:a94:b0:76c:8fe1:604 with SMTP id v20-20020a05620a0a9400b0076c8fe10604mr523936qkg.13.1701293823772;
-        Wed, 29 Nov 2023 13:37:03 -0800 (PST)
-Received: by 2002:a05:620a:8ec3:b0:77d:cfff:33fb with SMTP id af79cd13be357-77dcfff3958ms85a;
-        Wed, 29 Nov 2023 13:20:42 -0800 (PST)
-X-Received: by 2002:a2e:9496:0:b0:2c9:bad8:3ac6 with SMTP id c22-20020a2e9496000000b002c9bad83ac6mr2888971ljh.30.1701292840903;
-        Wed, 29 Nov 2023 13:20:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1701292840; cv=none;
+Received: by 2002:a05:6870:c6a6:b0:1fa:a4a0:84be with SMTP id
+ cv38-20020a056870c6a600b001faa4a084bels291055oab.2.-pod-prod-09-us; Wed, 29
+ Nov 2023 13:44:16 -0800 (PST)
+X-Received: by 2002:a05:6871:58a1:b0:1f9:e123:4fb with SMTP id ok33-20020a05687158a100b001f9e12304fbmr23149823oac.55.1701294256578;
+        Wed, 29 Nov 2023 13:44:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1701294256; cv=none;
         d=google.com; s=arc-20160816;
-        b=Szhrqd3mvNCmr1rcwJlb0XZ0fbKzlKgV52rKFbkyPn24K2PakEO8WqFnS39JRfeP71
-         tbEZpG9pf8ps+Oo3OsNKp/P9i7wwdpk16RuJ5EH22RR6FhZRz6UL+3ovE+IoLPsftK7u
-         8QfrshpXJywgxRdyrk/JDxFRmSwZmkQ6fV5aF1kCKH5yy9w/ZgJ0Vu4n52b159bB+HvL
-         qaKiGKJCLD9nw/6ZGVijNM1JlNsVJUZ4fhCl4IxQNOaZln4ZjDM3wSwdJ41Pj5I/5IfX
-         0veP9LD+CdVyLYzAB7xlCewJ3nVOUGpoXntD1YLrYsVE+b/+OkvoUTVvf75JI5KYIXnC
-         6QEw==
+        b=BaO0CyxPrBL0eBVp3L4JbhhGOpXmclZdUlJZ0ZbEA49n3ojea3dxKuS6jsGpQ2GTMb
+         fV2yplme8eMdUabbLZObVWOEYjiJV4ONa1DoeKbqO/RshC2E/hYUdiiZpXq1a6m5LLLc
+         N+ptCs66R46XcMf61KTUOc60JPGp58qtT6+Zqd7BBO9RJTZLuE3Tc8ebndy4WLioKh4S
+         4NQFyMobI1BUZwV4qjwVVoDeLj/bla8XsyzjIWD/W7d2L0G+siOhjrq+E1awZS98HUdC
+         osrp7BuMWYoaOh3jj9Obg18FXQhkzsX5aPPTQ9lytUFS54oRuNOfZWMJbf1PcICJGG50
+         RaoQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=snbaImfv3zlormUNSdyLXEJtHqS0syGmg48S3ZeIobc=;
-        fh=sfyFUDc2Yxxc7p69NEOsj8/pSFZtRk/Y39NPcEotCLs=;
-        b=XtUI+yKMX2cVUhZO7TYOz9yy1CxyeU6/qH+UIWtDyRvJAvFJ/hvIzs/hO9NIx7gPLV
-         QBwvL+ab0hTp7iJfT4LrwNxwTjUQCbnq7Gfa6SyyA30S7jpCV1ZOvGJWmaeoX5O5LAuH
-         oHNP1KDkas0au+Hi84qokfHZ7G8Oad4wXIcx5hSNZm0lKg2JBsOQYkuNprofgt0MMfcR
-         zr6h/xdvkHMoHPSLa+ZAwmVzMNgvuHaaGMDJ4UI9j054sSa8OG3gxEvi84X/alP+jCWT
-         nJA8z3KKQWF+Ax9vN6BYkLyK5WVoM+2oyHETUAyWIdwMs3WH40oVWaPx1yMNnoLnNwSv
-         CgPg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=oaAuMlegGKyvqGQjlfSP0WNWjaMX9AyKOGu0wZi1ey8=;
+        fh=x8a3OjaLFwIU7qMtOgGoexhvLtunbmhI+SfwfyrBClc=;
+        b=Raf9DB3iBI3H/cB2RSATB5jwCupAxdYsRMMihC25pks0muLd/UV1dj+4UkOBpPRF4i
+         ThMnYL+C/DgvctxYotZgFV1GJsK6lfaUNjxtg4JKJaN8TckWdMqegJhcHDiaHG4NCGE7
+         5TbZrdm9oPsDgZFfc6QCKDAAVfI+rQlmzKDf7lb05Ol9DK5dhfQa78zz0o22xHIe8WAe
+         6SRzkIyPN+/JfzhtBF/A/UZdI+IhCyCoRCoTSlbmfASAP9wsSBytx/0Irmy8CC1eyMPa
+         +rQ0rFVjO5I1bS/17Z5N53tAGGWQFmsRkyqQ4qI6tH53QfbS3//sR86K7whljwU3gF61
+         7+Ag==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=casper.20170209 header.b="Trk/qX+6";
-       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=willy@infradead.org
-Received: from casper.infradead.org (casper.infradead.org. [2001:8b0:10b:1236::1])
-        by gmr-mx.google.com with ESMTPS id u20-20020a05600c139400b0040b47a6405bsi114710wmf.1.2023.11.29.13.20.40
+       dkim=pass header.i=@chromium.org header.s=google header.b=QAlYoBZp;
+       spf=pass (google.com: domain of swboyd@chromium.org designates 2607:f8b0:4864:20::534 as permitted sender) smtp.mailfrom=swboyd@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com. [2607:f8b0:4864:20::534])
+        by gmr-mx.google.com with ESMTPS id bn18-20020a0568300c9200b006c44affd0c6si1179582otb.2.2023.11.29.13.44.16
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Nov 2023 13:44:16 -0800 (PST)
+Received-SPF: pass (google.com: domain of swboyd@chromium.org designates 2607:f8b0:4864:20::534 as permitted sender) client-ip=2607:f8b0:4864:20::534;
+Received: by mail-pg1-x534.google.com with SMTP id 41be03b00d2f7-5c229dabbb6so228522a12.0
+        for <kasan-dev@googlegroups.com>; Wed, 29 Nov 2023 13:44:16 -0800 (PST)
+X-Received: by 2002:a17:903:249:b0:1ce:64fb:e507 with SMTP id j9-20020a170903024900b001ce64fbe507mr23901888plh.27.1701294255812;
+        Wed, 29 Nov 2023 13:44:15 -0800 (PST)
+Received: from smtp.gmail.com ([2620:15c:11a:201:d538:51cb:f23a:b78c])
+        by smtp.gmail.com with ESMTPSA id n10-20020a170902d2ca00b001cfcbeceacesm6793162plc.117.2023.11.29.13.44.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 13:20:40 -0800 (PST)
-Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1236::1;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-	id 1r8Rye-00Dm4H-GD; Wed, 29 Nov 2023 21:20:12 +0000
-Date: Wed, 29 Nov 2023 21:20:12 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: "Christoph Lameter (Ampere)" <cl@linux.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>, Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>,
+        Wed, 29 Nov 2023 13:44:15 -0800 (PST)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-	maple-tree@lists.infradead.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH RFC v3 0/9] SLUB percpu array caches and maple tree nodes
-Message-ID: <ZWerDCdvVkAfsStz@casper.infradead.org>
-References: <20231129-slub-percpu-caches-v3-0-6bcf536772bc@suse.cz>
- <b51bfc04-d770-3385-736a-01aa733c4622@linux.com>
+	Marco Elver <elver@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	kasan-dev@googlegroups.com
+Subject: [PATCH v2] lkdtm: Add kfence read after free crash type
+Date: Wed, 29 Nov 2023 13:44:04 -0800
+Message-ID: <20231129214413.3156334-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.43.0.rc1.413.gea7ed67945-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <b51bfc04-d770-3385-736a-01aa733c4622@linux.com>
-X-Original-Sender: willy@infradead.org
+X-Original-Sender: swboyd@chromium.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=casper.20170209 header.b="Trk/qX+6";
-       spf=none (google.com: infradead.org does not designate permitted sender
- hosts) smtp.mailfrom=willy@infradead.org
+ header.i=@chromium.org header.s=google header.b=QAlYoBZp;       spf=pass
+ (google.com: domain of swboyd@chromium.org designates 2607:f8b0:4864:20::534
+ as permitted sender) smtp.mailfrom=swboyd@chromium.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
+X-Spam-Checked-In-Group: kasan-dev@googlegroups.com
 X-Google-Group-Id: 358814495539
 List-Post: <https://groups.google.com/group/kasan-dev/post>, <mailto:kasan-dev@googlegroups.com>
 List-Help: <https://groups.google.com/support/>, <mailto:kasan-dev+help@googlegroups.com>
@@ -143,31 +141,130 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Nov 29, 2023 at 12:16:17PM -0800, Christoph Lameter (Ampere) wrote:
-> Percpu arrays require the code to handle individual objects. Handling
-> freelists in partial SLABS means that numerous objects can be handled at
-> once by handling the pointer to the list of objects.
+Add the ability to allocate memory from kfence and trigger a read after
+free on that memory to validate that kfence is working properly. This is
+used by ChromeOS integration tests to validate that kfence errors can be
+collected on user devices and parsed properly.
 
-That works great until you hit degenerate cases like having one or two free
-objects per slab.  Users have hit these cases and complained about them.
-Arrays are much cheaper than lists, around 10x in my testing.
+Cc: Alexander Potapenko <glider@google.com>
+Acked-by: Marco Elver <elver@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: <kasan-dev@googlegroups.com>
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+---
 
-> In order to make the SLUB in page freelists work better you need to have
-> larger freelist and that comes with larger page sizes. I.e. boot with
-> slub_min_order=5 or so to increase performance.
+Changes from v1 (https://lore.kernel.org/r/20231127234946.2514120-1-swboyd@chromium.org):
+ * Removed ifdefs so code is always available but fails without kfence
 
-That comes with its own problems, of course.
+ drivers/misc/lkdtm/heap.c | 60 +++++++++++++++++++++++++++++++++++++++
+ include/linux/kfence.h    |  2 ++
+ 2 files changed, 62 insertions(+)
 
-> Also this means increasing TLB pressure. The in page freelists of SLUB cause
-> objects from the same page be served. The SLAB queueing approach
-> results in objects being mixed from any address and thus neighboring objects
-> may require more TLB entries.
+diff --git a/drivers/misc/lkdtm/heap.c b/drivers/misc/lkdtm/heap.c
+index 0ce4cbf6abda..4f467d3972a6 100644
+--- a/drivers/misc/lkdtm/heap.c
++++ b/drivers/misc/lkdtm/heap.c
+@@ -4,6 +4,7 @@
+  * page allocation and slab allocations.
+  */
+ #include "lkdtm.h"
++#include <linux/kfence.h>
+ #include <linux/slab.h>
+ #include <linux/vmalloc.h>
+ #include <linux/sched.h>
+@@ -132,6 +133,64 @@ static void lkdtm_READ_AFTER_FREE(void)
+ 	kfree(val);
+ }
+ 
++static void lkdtm_KFENCE_READ_AFTER_FREE(void)
++{
++	int *base, val, saw;
++	unsigned long timeout, resched_after;
++	size_t len = 1024;
++	/*
++	 * The slub allocator will use the either the first word or
++	 * the middle of the allocation to store the free pointer,
++	 * depending on configurations. Store in the second word to
++	 * avoid running into the freelist.
++	 */
++	size_t offset = sizeof(*base);
++
++	/*
++	 * 100x the sample interval should be more than enough to ensure we get
++	 * a KFENCE allocation eventually.
++	 */
++	timeout = jiffies + msecs_to_jiffies(100 * kfence_sample_interval);
++	/*
++	 * Especially for non-preemption kernels, ensure the allocation-gate
++	 * timer can catch up: after @resched_after, every failed allocation
++	 * attempt yields, to ensure the allocation-gate timer is scheduled.
++	 */
++	resched_after = jiffies + msecs_to_jiffies(kfence_sample_interval);
++	do {
++		base = kmalloc(len, GFP_KERNEL);
++		if (!base) {
++			pr_err("FAIL: Unable to allocate kfence memory!\n");
++			return;
++		}
++
++		if (is_kfence_address(base)) {
++			val = 0x12345678;
++			base[offset] = val;
++			pr_info("Value in memory before free: %x\n", base[offset]);
++
++			kfree(base);
++
++			pr_info("Attempting bad read from freed memory\n");
++			saw = base[offset];
++			if (saw != val) {
++				/* Good! Poisoning happened, so declare a win. */
++				pr_info("Memory correctly poisoned (%x)\n", saw);
++			} else {
++				pr_err("FAIL: Memory was not poisoned!\n");
++				pr_expected_config_param(CONFIG_INIT_ON_FREE_DEFAULT_ON, "init_on_free");
++			}
++			return;
++		}
++
++		kfree(base);
++		if (time_after(jiffies, resched_after))
++			cond_resched();
++	} while (time_before(jiffies, timeout));
++
++	pr_err("FAIL: kfence memory never allocated!\n");
++}
++
+ static void lkdtm_WRITE_BUDDY_AFTER_FREE(void)
+ {
+ 	unsigned long p = __get_free_page(GFP_KERNEL);
+@@ -327,6 +386,7 @@ static struct crashtype crashtypes[] = {
+ 	CRASHTYPE(VMALLOC_LINEAR_OVERFLOW),
+ 	CRASHTYPE(WRITE_AFTER_FREE),
+ 	CRASHTYPE(READ_AFTER_FREE),
++	CRASHTYPE(KFENCE_READ_AFTER_FREE),
+ 	CRASHTYPE(WRITE_BUDDY_AFTER_FREE),
+ 	CRASHTYPE(READ_BUDDY_AFTER_FREE),
+ 	CRASHTYPE(SLAB_INIT_ON_ALLOC),
+diff --git a/include/linux/kfence.h b/include/linux/kfence.h
+index 401af4757514..88100cc9caba 100644
+--- a/include/linux/kfence.h
++++ b/include/linux/kfence.h
+@@ -223,6 +223,8 @@ bool __kfence_obj_info(struct kmem_obj_info *kpp, void *object, struct slab *sla
+ 
+ #else /* CONFIG_KFENCE */
+ 
++#define kfence_sample_interval	(0)
++
+ static inline bool is_kfence_address(const void *addr) { return false; }
+ static inline void kfence_alloc_pool_and_metadata(void) { }
+ static inline void kfence_init(void) { }
 
-Is that still a concern for modern CPUs?  We're using 1GB TLB entries
-these days, and there are usually thousands of TLB entries.  This feels
-like more of a concern for a 90s era CPU.
+base-commit: b85ea95d086471afb4ad062012a4d73cd328fa86
+-- 
+https://chromeos.dev
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZWerDCdvVkAfsStz%40casper.infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231129214413.3156334-1-swboyd%40chromium.org.
