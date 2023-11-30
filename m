@@ -1,153 +1,130 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBX5EUGVQMGQELSCOMVY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBAO3UGVQMGQETKLSC6I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1C87FEB9E
-	for <lists+kasan-dev@lfdr.de>; Thu, 30 Nov 2023 10:14:09 +0100 (CET)
-Received: by mail-lf1-x13c.google.com with SMTP id 2adb3069b0e04-50bca4c8dd7sf896670e87.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 30 Nov 2023 01:14:09 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1701335648; cv=pass;
+Received: from mail-oa1-x3e.google.com (mail-oa1-x3e.google.com [IPv6:2001:4860:4864:20::3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0777FED88
+	for <lists+kasan-dev@lfdr.de>; Thu, 30 Nov 2023 12:09:55 +0100 (CET)
+Received: by mail-oa1-x3e.google.com with SMTP id 586e51a60fabf-1f9e2d92cd7sf1151369fac.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 30 Nov 2023 03:09:55 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1701342594; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YguQJAohXV8T3RtP0uqVHUgkrdvOGopSZ23aPEBaVVX+vCOUBp4YBwDmgdEBpbnPCV
-         Sa0TAjPJcgR0jMSOa2QiYQxvgzfZr19WR5XFTZH3mdLYelux9JI8AdZCU6K4AC2V4odb
-         KQuntB/9vxEtYEkW2wLT/gA3NcHiHXwnOu8UbqWNREyO2eSmwI7Z1BmWMNl/aWItEfzo
-         GJIFEy/4V8zcAdkh8l2r3VGqoHUwE6OoIh7vIhF0LJ35u4c+t34cJdvSpLsUR+13rYl0
-         eKQQI9xjTLY8uI61Hb4UYzyx9bemRKfafBNFgVI7oNibp+1TMapvdARbS4Az3X7GgQ+t
-         ZDgg==
+        b=xx6XIhsCTW5YRvafxEe2lddJRaCm+YzNAXm+o6gmvEduAKJecEHJDUxCeNxVjmKanj
+         4ZVrFQ/zzWh8F5jGbvAmRnT5Dq2kFKYYDhfzaIvN1iAQUJGZyab6YIg+bDldyne4Gjrp
+         9Q/x9fm9nnVgDTCh586gDLL2CgJWaw7ouEEGJl4iL1U2oa4OciqKgY4InLB38vt3RGTu
+         4+adgW609FH6ARkJcigJbSL2FUiDE25+L2YuVZ5I6JqLBZ8ZyXqvosURyLwH05mICFAO
+         E+UskeSZUcMV1q8rG6aPaeNMeLM2DwpAv8jbxdZU+t4lk87tqqMPZNkfqyYIaXIHJ1DP
+         RzSg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=f/hJn9wdO7pNv0zpweHGZtQzP7PEC+UUwVg9TEzQg4U=;
-        fh=IqoG/Q43KwGDHJLdGpM0sloqIMOuGjCMFkz9t/Fk49o=;
-        b=VpGQeRPi8T1gWmCuWioqU6tS1LFXyALlVINYCcVa8aRNH/F8K43NWdYBFEagALq4xv
-         WyX0gY7LdyatmnIGj42T6qNJI+xsfw0RNF3dbD86rqvsbwDGgj0NgqsorlaZoaVr3Y7a
-         63HnilnKS5ubW1L+bsKKNiY9dJ7g7W8frBYY9pwjkLpZCkPg7+6oWl+83MQyfBbvuPFo
-         bIamHSIbYAxzBkBHRPjLxdHi0xd7U51xjShYLLmBic7GExJCwEZ59q8QqSbooZhezYBs
-         BLCTQsGifko0SuFcdc4MauMaX4cwq7b9SyNPDLXGFBNEoTyZ0V47EPHNyUYkUkOlp8cO
-         oQnQ==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=HA1zB0tkujOyBlOGBpvg+Sp2KC1DxIdxuZW0m5m4UYI=;
+        fh=fwWJ42K6w6cdbJRbPUk/A0m9E3CoA/JFe3Wn1sPWXJk=;
+        b=LbCEAbv2ZpFHmyG+nwTEdQGK3Nbm3DS7SCweI3Q/x26AxQSDRfuW3xDEROEsJjY3HK
+         qYArWNUM24AyH5RvC83r3xbMvOILWkKFIdSRH3lJXHEf9wsd5+G+fjRtNoJB1p4JPk/p
+         S8+EzxM3W3dLfFCvYw8raGmDlG1M1vJzeV6VT4PRFmS5CbAt32kHqxYG733OsIdrRozc
+         CU3s9ZbNtYG5c8Ceqat4ZIU7LUehxAJC5cu3sW2TJbAoMt2vS9ARSYmIXm5CqfnM9UEu
+         h1Sr7mguDY35hS2c5ugyrdd+16R4NYMZ5jHu/rcqhj000nq/i+cg12Ss0uPwZDwMKi20
+         sjHQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@google.com header.s=20230601 header.b="mH90Ezy/";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::931 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1701335648; x=1701940448; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1701342594; x=1701947394; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=f/hJn9wdO7pNv0zpweHGZtQzP7PEC+UUwVg9TEzQg4U=;
-        b=WrZB03N4FNHbVTuBBWcySgrPff6w68oGnx5WbEh2NIS+v0AFRTKJtkzXHk19E+oYdO
-         RJsSbncKUpRZumUnUQSo8ZH/aZaaKHB1fiZZPcdTTrxBGxilJd3eH1H1An1rZGrBtlwL
-         /ZvAE8JJ8kicM6k26CBR2sCIFWt6Mc5NktrJ0OfFURlVm8b/Ol/CHs7QJNF9Ed4VcY2y
-         YQmWFeHTKHINxyWXxMRwOglx774em4Irly0RBa9UWF2ec864DSrujY0eyydax116VdS/
-         htjw9JbUp5SioD4IV2JbW9cgJEgT9POGFsEyzzMF7F6j825DaHu/YQYcMje/FKtQWSq3
-         FKUw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HA1zB0tkujOyBlOGBpvg+Sp2KC1DxIdxuZW0m5m4UYI=;
+        b=Trj6j7y+C9z4n7EhnlAiYXGVyAClPoKWutnickG2ad9mJh7Ykacor5rX0OwttPC7pW
+         GuN4BqQQXcawqORR1o2wTj0dR/0Lr3F3oOBE1jssnowCFQmyTdWQVDhQJRWtK7ujpPhC
+         1UQ6ZQRPcyctQpvTZpnWDIWpc8XnFObOkitzCgDYPVtMoSJ9alfruXpPOQ6pmXZ8SNbJ
+         tyGE01wdyvSvCZvCoLbmUzPeUigFPzNXhbNSj+b6IX8TSc3WnCvBIsKaQGoyZxMEQeWA
+         OckXswKTSGpkT5KXy9CudqjfLTjw6Yh+T0DeSTCeqmVPpEWFGlqR0tynRxNdOSWfihSw
+         +rlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701335648; x=1701940448;
+        d=1e100.net; s=20230601; t=1701342594; x=1701947394;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=f/hJn9wdO7pNv0zpweHGZtQzP7PEC+UUwVg9TEzQg4U=;
-        b=LXhM8OhtScfU96g1GUExHPjK2YhpCeGFxFNNvGdrJ4cxhrGeg6w+1mpgtWw8o/MN6Z
-         f5PbPpsTFowIhxrH6R7AXJ7AlrvkDkwNt4NCqqBkYEmpxH2EBrIqk5aGuuGmr4YFEQuM
-         l7uWbpl5H4c358w+LCiHImLBQK+rZjo/GDMlLHYCZRCjP51O18+FsTnsg8f7I+Iq6SUX
-         6kbay+UtrH46d3OisSw5KiKdjM0SFZvJ9PyW0ez/11pbVFMmRQDQ9nYfPZyeQM7UW4sT
-         /bWIKG6Uck+LS4M2huei7YRIe2sQUWM8juKfuu9ZnYAWytgMBUVolc7Q7n6ibvncU+1D
-         6VUQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yw5XsPMC5Ja453khhrlQ3bg3osbgIvVitjjzdxvK4XT0y/v2fNo
-	+VkveMqiEDcj6Geqq3Jm1w8=
-X-Google-Smtp-Source: AGHT+IGiTpzdE+GqTBYFXVYRhhTShO0Yj5+bIhSnW9cMJa+sWy7iDVFFuMca7ME98kznqqsY0/A5hQ==
-X-Received: by 2002:a05:6512:3f0f:b0:50a:a14e:92c5 with SMTP id y15-20020a0565123f0f00b0050aa14e92c5mr17224787lfa.45.1701335647927;
-        Thu, 30 Nov 2023 01:14:07 -0800 (PST)
+        bh=HA1zB0tkujOyBlOGBpvg+Sp2KC1DxIdxuZW0m5m4UYI=;
+        b=SsH1Xs8Dqc/qOQhHT/fBOdCSpZOaes7gDlujMEfXRe9LYf5dT6qLboiP8+kVKVfppP
+         GEGlj4Ib+iQM8flV/rhFPUwYJsQDVhRMvS/GA4YRYJWxQ5JCgI6IMonW+ygiAqAi423e
+         XbQ2E/ywxYaJ6H9MtWPnvMZeMGQ28zgWBDZqti26CpvvEu8oyF4UeekV8kFzntIWc1Jx
+         YwUxOFUNEqn5jVLdz43trl7IywGjMrUXEB72wmDPST12hLoaqlCoDGv3K0AqwxWsp2tZ
+         /mnMLk63Ag8xqDyvK2MnPzUvgSVPgRzYXEIgwg44CVklMLS0qFmxBHPNJvZ/XrRe+Gys
+         1gMQ==
+X-Gm-Message-State: AOJu0YzqPHV9aIH3AUVB9wjAlWCAaBul7rDw64qWt5o+L6wUw/9+gHqX
+	QLp9Cc76oExRODN6K5Bc8l0=
+X-Google-Smtp-Source: AGHT+IFvRcTPUYjEiL4SM0BkuB9vwKiRcD3vW1o82jirKpI4LMuHYTmygnHcg1VFKOAwaDQHPhXQUg==
+X-Received: by 2002:a05:6870:213:b0:1f4:b1d6:573f with SMTP id j19-20020a056870021300b001f4b1d6573fmr25582501oad.13.1701342594053;
+        Thu, 30 Nov 2023 03:09:54 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:5d5:b0:50a:a571:5cda with SMTP id
- o21-20020a05651205d500b0050aa5715cdals173314lfo.2.-pod-prod-02-eu; Thu, 30
- Nov 2023 01:14:06 -0800 (PST)
-X-Received: by 2002:a2e:9e03:0:b0:2c9:c31c:bfe8 with SMTP id e3-20020a2e9e03000000b002c9c31cbfe8mr2237466ljk.52.1701335645862;
-        Thu, 30 Nov 2023 01:14:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1701335645; cv=none;
+Received: by 2002:a05:6871:890b:b0:1f9:e591:9c62 with SMTP id
+ ti11-20020a056871890b00b001f9e5919c62ls3754oab.2.-pod-prod-03-us; Thu, 30 Nov
+ 2023 03:09:53 -0800 (PST)
+X-Received: by 2002:a05:6870:c44:b0:1fa:1ca4:b917 with SMTP id lf4-20020a0568700c4400b001fa1ca4b917mr25695109oab.41.1701342593280;
+        Thu, 30 Nov 2023 03:09:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1701342593; cv=none;
         d=google.com; s=arc-20160816;
-        b=M8jfgWRioMrKPFYDoC6rNNKJam3bqMFE8h5ROox/I6V138h+XJVc2z74etHzSjLVYZ
-         U0wUw5niRxmuYTOyvXQYmfV5ahILjjiVRA81drrhiv9mM7r+3f6wCNd6jSj/199QLbnr
-         6yv0y+VnwnJOK7jZ3xFilYoh8OQyduo8L+ZMV+N8hDDviou32+3CqNx/5kG29GOQDraf
-         XaHw3Vjx89fpi2erJ8zk/iC1s63vf6A66PmvnzxTrSAUOr1c8cpTTVNLY2ghBJVmoIw3
-         Qt5uKvt2ZZcONoh5+QC7KUoiBg/+tMQrYsBwO7MZPMXN5LQStjCzeLCGsizxO/EmI4cF
-         REag==
+        b=Pmezi76sp0T1xSeexJzhn11Jnod1j3qT/AonmjjzrFNXcA86QAJAPp2toqO49SeyTi
+         oeTOLlrq7KjRM3w/v+Z+5OKg1aDL6IojjmzYGaX7vHhZqtwwIYVmi9IpTT3ghNbSfBfv
+         MuE3y4GoHgfKfKJN+mS7fXIykiIVASv5H0tiMw4OoQkuqNjqi/LkjgRW631adNdFzFKC
+         S9rwXuKAr1pXeivJ3OZkW02Q6trjOaL5ByDR7Z5e6+pBSsgeRKf1IUAgOT4ebWY3vQgS
+         aUx+7JEn4pikiK2LS+xyr5ATIbGRzXkctjt4t4oJhRgsBTp+RFYN+adyFot4WCJNJ9Ux
+         RcqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=6wHEp4Y1hTNAzDfV2irjriE4iDC85aq39PBbbkS7X3M=;
-        fh=IqoG/Q43KwGDHJLdGpM0sloqIMOuGjCMFkz9t/Fk49o=;
-        b=zdI3LJuNX4r8KDL9iu59hZGKwtloYe+RZfeNQUkKdRxoTZLZNm/jxhoEW+HY/mKnRN
-         TcU8cfrCib5KpzIeeqAmT4z2PIzDyxj0+faZ4iTPCWLlKYJQOVPtqVLP7/Eu9eFERS3e
-         ptJHc/LZx8Ioj7sOOeIqCk/ofpUAFZtHz+PQi9GZj9Y0M5bJsFg9u2LdRNpJIAktUgwt
-         CewogmrEMmC2PUjdMoE5XEnqpW0eTdgNE2Aqgh7niYHFARBzCNm290imq1UNI1QL6+SL
-         KF0aEbzHlsTVD4X/C6ZMY8TBFAVfojrVEVX0Eza+YfLpRT83a1VDLiXzCeZRCG13FTt0
-         PMcQ==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=2WunqtOIKV/FoN9YcD9MHGxp9/5dKzq2zQLQrxQi39c=;
+        fh=fwWJ42K6w6cdbJRbPUk/A0m9E3CoA/JFe3Wn1sPWXJk=;
+        b=rvIUlpD30RoFsB54gUL3DeKtpGDjaPUyIfjPKB/uCd40C/iMBVG5jThoZXs94gll5W
+         olFtHxnzvIFH2NF5clpwHgRvJnMQS9h9wIMPuqQJSdJ8+Wm26wZ3cz1EvMjRp66LDvC2
+         1LBmLxdazJ072++I+eSUIalwmw8jvIm2nmAExrbDq/rt1rZoI4gb2+kAtOk9+3CARnpO
+         a/9Q9ubRjT3m+cy4Of524O9xqC0Pyq6fHtVKLVXmMZyqhfchpCgVI7kGNtqJdgfvkP1E
+         lsplL+odME5Gvbm58FsjODhFhitrcDWoEphChIjbOPDGxvZgYZhnMUpisugD+pvHY/gU
+         d31w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2a07:de40:b251:101:10:150:64:2])
-        by gmr-mx.google.com with ESMTPS id y18-20020a2eb012000000b002c9ba61d807si42390ljk.3.2023.11.30.01.14.05
+       dkim=pass header.i=@google.com header.s=20230601 header.b="mH90Ezy/";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::931 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com. [2607:f8b0:4864:20::931])
+        by gmr-mx.google.com with ESMTPS id i16-20020a056871029000b001f9ea588ca0si223322oae.3.2023.11.30.03.09.53
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 01:14:05 -0800 (PST)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:2;
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DAEAE1FBF2;
-	Thu, 30 Nov 2023 09:14:04 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BBE6D1342E;
-	Thu, 30 Nov 2023 09:14:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jDaELVxSaGUJewAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Thu, 30 Nov 2023 09:14:04 +0000
-Message-ID: <dbc38932-8a68-6feb-2148-615f5c2a446e@suse.cz>
-Date: Thu, 30 Nov 2023 10:14:04 +0100
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Nov 2023 03:09:53 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::931 as permitted sender) client-ip=2607:f8b0:4864:20::931;
+Received: by mail-ua1-x931.google.com with SMTP id a1e0cc1a2514c-7c461a8cb0dso260673241.0
+        for <kasan-dev@googlegroups.com>; Thu, 30 Nov 2023 03:09:53 -0800 (PST)
+X-Received: by 2002:a05:6102:1794:b0:464:4b26:5111 with SMTP id
+ je20-20020a056102179400b004644b265111mr4097465vsb.8.1701342592610; Thu, 30
+ Nov 2023 03:09:52 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH RFC v3 0/9] SLUB percpu array caches and maple tree nodes
-Content-Language: en-US
-To: "Christoph Lameter (Ampere)" <cl@linux.com>
-Cc: Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>, Matthew Wilcox <willy@infradead.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Alexander Potapenko
- <glider@google.com>, Marco Elver <elver@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, maple-tree@lists.infradead.org,
- kasan-dev@googlegroups.com
-References: <20231129-slub-percpu-caches-v3-0-6bcf536772bc@suse.cz>
- <b51bfc04-d770-3385-736a-01aa733c4622@linux.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <b51bfc04-d770-3385-736a-01aa733c4622@linux.com>
+References: <ZWgml3PCpk1kWcEg@cork>
+In-Reply-To: <ZWgml3PCpk1kWcEg@cork>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 30 Nov 2023 12:09:14 +0100
+Message-ID: <CANpmjNMpty5+g76RLy5uZARZAfx+Uzr+z5uAKMp-om9__2O77Q@mail.gmail.com>
+Subject: Re: dynamic kfence scaling
+To: =?UTF-8?Q?J=C3=B6rn_Engel?= <joern@purestorage.com>
+Cc: dvyukov@google.com, kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	 TAGGED_RCPT(0.00)[];
-	 REPLY(-4.00)[]
-X-Spam-Score: -4.00
-X-Rspamd-Queue-Id: DAEAE1FBF2
-X-Spam-Flag: NO
-X-Original-Sender: vbabka@suse.cz
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2
- as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20230601 header.b="mH90Ezy/";       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::931 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,82 +137,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 11/29/23 21:16, Christoph Lameter (Ampere) wrote:
-> On Wed, 29 Nov 2023, Vlastimil Babka wrote:
-> 
->> At LSF/MM I've mentioned that I see several use cases for introducing
->> opt-in percpu arrays for caching alloc/free objects in SLUB. This is my
->> first exploration of this idea, speficially for the use case of maple
->> tree nodes. The assumptions are:
-> 
-> Hohumm... So we are not really removing SLAB but merging SLAB features 
-> into SLUB.
+Hi J=C3=B6rn,
 
-Hey, you've tried a similar thing back in 2010 too :)
-https://lore.kernel.org/all/20100521211541.003062117@quilx.com/
+On Thu, 30 Nov 2023 at 07:07, J=C3=B6rn Engel <joern@purestorage.com> wrote=
+:
+>
+> Hello Marco!
+>
+> One thing that came up for us is that we want a more aggressive kfence
+> during in-house testing.  But we don't want a debug build, those tend to
+> cause more trouble than they are worth.  So the goal is to dynamically
+> scale kfence via sysfs-knobs.
 
-In addition to per cpu slabs, we now have per cpu queues.
+Glad to hear KFENCE is working out for you.
 
-But importantly, it's very consciously opt-in. Whether the caches using
-percpu arrays can also skip per cpu (partial) slabs, remains to be seen.
+> That works for the instrumentation frequency.  But it doesn't work for
+> the amount of memory reserved for kfence.  We should be able to scale
+> that dynamically as well.
 
->> - percpu arrays will be faster thank bulk alloc/free which needs
->>  relatively long freelists to work well. Especially in the freeing case
->>  we need the nodes to come from the same slab (or small set of those)
-> 
-> Percpu arrays require the code to handle individual objects. Handling 
-> freelists in partial SLABS means that numerous objects can be handled at 
-> once by handling the pointer to the list of objects.
-> 
-> In order to make the SLUB in page freelists work better you need to have 
-> larger freelist and that comes with larger page sizes. I.e. boot with
-> slub_min_order=5 or so to increase performance.
+Yeah, that's been requested before. The main problem is that it'd add
+a few more instructions to the allocator fast path (in the simplest
+version). Discussed previously here:
 
-In the freeing case, you might still end up with objects mixed from
-different slab pages, so the detached freelist building will be inefficient.
+https://lore.kernel.org/lkml/Ye5hKItk3j7arjaI@elver.google.com/
 
-> Also this means increasing TLB pressure. The in page freelists of SLUB 
-> cause objects from the same page be served. The SLAB queueing approach
-> results in objects being mixed from any address and thus neighboring 
-> objects may require more TLB entries.
+Maybe it's possible to add a config option and if you can live with a
+few more instructions in the allocator fast path, then maybe that
+could work.
 
-As Willy noted, we have 1GB entries in directmap. Also we found out that
-even if there are actions that cause it to fragment, it's not worth trying
-to minimize the fragmentations - https://lwn.net/Articles/931406/
+Also, we found that in most scenarios, preventing the pool from
+exhausting works well with tweaking kfence.skip_covered_thresh [1].
 
->> - preallocation for the worst case of needed nodes for a tree operation
->>  that can't reclaim due to locks is wasteful. We could instead expect
->>  that most of the time percpu arrays would satisfy the constained
->>  allocations, and in the rare cases it does not we can dip into
->>  GFP_ATOMIC reserves temporarily. So instead of preallocation just
->>  prefill the arrays.
-> 
-> The partial percpu slabs could already do the same.
+[1] https://docs.kernel.org/dev-tools/kfence.html#implementation-details
 
-Possibly for the prefill, but efficient freeing will always be an issue.
+> I don't think we have time to implement this anytime soon.  You are
+> probably in no better position, but at least you should be aware that
+> this would be useful.
+>
+> If I had a magical wand and six months of spare time, I would reserve a
+> fairly large portion of virtual memory and add/remove physical pages to
+> that range as desired.  That approach seems the cleanest and can easily
+> scale from tiny to huge amounts of memory, on 64bit systems at least.
+> Drawback is that we likely need some new infrastructure, hence the six
+> months.
 
->> - NUMA locality of the nodes is not a concern as the nodes of a
->>  process's VMA tree end up all over the place anyway.
-> 
-> NUMA locality is already controlled by the user through the node 
-> specification for percpu slabs. All objects coming from the same in page 
-> freelist of SLUB have the same NUMA locality which simplifies things.
-> 
-> If you would consider NUMA locality for the percpu array then you'd be
-> back to my beloved alien caches. We were not able to avoid that when we 
-> tuned SLAB for maximum performance.
+From this I infer you mean an effectively unbounded pool, or just
+having a soft upper limit, right? That looks rather tricky.
 
-True, it's easier not to support NUMA locality.
+I think an intermediate solution is the ability to resize the static pool.
 
->> Patch 5 adds the per-cpu array caches support. Locking is stolen from
->> Mel's recent page allocator's pcplists implementation so it can avoid
->> disabling IRQs and just disable preemption, but the trylocks can fail in
->> rare situations - in most cases the locks are uncontended so the locking
->> should be cheap.
-> 
-> Ok the locking is new but the design follows basic SLAB queue handling.
+FYI, we recently published a paper on the general sampling
+memory-safety error detection idea and our results (that also
+discusses KFENCE): https://arxiv.org/pdf/2311.09394.pdf
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/dbc38932-8a68-6feb-2148-615f5c2a446e%40suse.cz.
+Looking at the problem space from a higher level, we're hoping that
+Arm MTE and whatever the equivalent will be on x86 systems will be the
+long-term solution to this. KASAN already has the required support
+with CONFIG_KASAN_HW_TAGS (i.e. MTE-enabled KASAN). If you're running
+arm64 servers, you may be in luck sooner than later.
+
+Thanks,
+-- Marco
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CANpmjNMpty5%2Bg76RLy5uZARZAfx%2BUzr%2Bz5uAKMp-om9__2O77Q%40mail.=
+gmail.com.
