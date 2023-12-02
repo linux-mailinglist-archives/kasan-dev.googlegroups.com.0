@@ -1,142 +1,90 @@
-Return-Path: <kasan-dev+bncBD63B2HX4EPBBFOGVCVQMGQEYF4YL7Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7KJLMS4AJBBYOBV2VQMGQETVBGZNI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C61A801266
-	for <lists+kasan-dev@lfdr.de>; Fri,  1 Dec 2023 19:16:55 +0100 (CET)
-Received: by mail-pj1-x103b.google.com with SMTP id 98e67ed59e1d1-285b77f7e1fsf2275424a91.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 01 Dec 2023 10:16:55 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1701454613; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=Rvq6VOLtoM1Piq/Ha0WIphEV5kwDS9bkdd3d8E7sDfzQ+hL17UskfTYp+BAR7huHbM
-         6WngqYSZp0l1NZW142vTVly7ApntZ1hqLcERTSnQqCApEoM+r//K/1YOsKiu0mZqyBLf
-         uXbagQGFeNIHEQIwqKAXUvg95mMrf+9V1k5VSdhvNZstTVKjPcNEG3ewZpaR8Qa+NZP4
-         UxJNTtW5uZXo81f4/dfb0zZumqlmKJoo6etG3aizi0EhLOkqRwan9VMFHOkBrzXWAuaq
-         kf7XkLmlTZZ1esAKRoAiLj7T+uAiFvqJnzAhHISBR9xcgI5P03uYuS8vwFln6ESqLLIk
-         i2FA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=k3wJBsphzA667CwNncdT93LUdCIV0zo4Ty5by+gLv0A=;
-        fh=BCL3G4/EB/6E43qIQvqiTmSskf1MQ2+iKF4M83YUI6k=;
-        b=PN2nPIKBk1bBakh7MMnhy70YEvKwlxevqegIy5NBoyzTJOWTsk8of1MOAOLVDzLNm/
-         uvSNuwGbAwt6coFV6/ZQY+PZfE044xmWQg/wqZqYJ68bs6ltTrY/w+W8boQOQ/nv8+r6
-         gLPgdvkv8tcWFjdWFBQr3SGFZcky9OoWkKa+AzjLR8tLLvxfxnoo+jFO6Ss8H+ouziZC
-         pauKLhqwnxuC/E9WsWzjWEnV12XA7YKVC0+Yy2cpltbsGCLlXdVe+20zzyovEJL0zW7D
-         MTFeQxnw3On8bVIvUaVmLG984wo6uBT6sz4I5jhE/hUAgE0EbsOHKXMDl7E4tzb2IMgd
-         AkIA==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@purestorage.com header.s=google2022 header.b=drT40XQu;
-       spf=pass (google.com: domain of joern@purestorage.com designates 2607:f8b0:4864:20::102b as permitted sender) smtp.mailfrom=joern@purestorage.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=purestorage.com
+Received: from mail-oo1-xc3d.google.com (mail-oo1-xc3d.google.com [IPv6:2607:f8b0:4864:20::c3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2016801EA8
+	for <lists+kasan-dev@lfdr.de>; Sat,  2 Dec 2023 22:25:54 +0100 (CET)
+Received: by mail-oo1-xc3d.google.com with SMTP id 006d021491bc7-58d11a85f90sf3880611eaf.3
+        for <lists+kasan-dev@lfdr.de>; Sat, 02 Dec 2023 13:25:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1701454613; x=1702059413; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1701552353; x=1702157153; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=k3wJBsphzA667CwNncdT93LUdCIV0zo4Ty5by+gLv0A=;
-        b=DItgEaobm4CFrwYrLTi0BUpGbikiH6qplXZQLoX/+MnWpTP9IBaI8S+LOLESBApPDv
-         JWurCS1LHTlyH7l+mFiZcSli95CFH2rhTqEHpkowRoyMUHW76+S9j33dbnVWPTgD/dGw
-         hMmeFryZ87SNVkwMzaLrp/F2gcxRB75U2RILuCkssGq0JaUH4gVIX6cMvGPT1M6unZKq
-         wNenVW0yE2tnYKXeXJEnqJZkly4TVrpNub2229HtwEzQ4Se+ckN9/NZCO1834QqbEEHk
-         J4l4gxcpZf/qKu2ufy+zrowQUCcCP5cAc2VnDuHMYHwcJI+8rZ0c3y5pouvDAmybbFKQ
-         /Cqg==
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:references:in-reply-to:message-id:to:from:date:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=D146lnGMigsL9QUo8LoVT4349JrLh63di1n+n/0HZFs=;
+        b=X/+oaHrbJ/3v2l7VPF4wYCg4zTE2XybWuk4ERzEazrBzvQI4bOiayzLcl5TqgUTA+T
+         Ub4LaG5RKSEbV7ToNnmzCtYG3gP+CoIdkQ1dFFMPqjqi2a17qulumjW/vmxLJvfwyy6e
+         sePc/4/D5oSU2qVZRnWjwSIRHt4r7f3r9vpo9L6+LUsiIWr8Wu7cTHoUsb6B4Chx1DRI
+         /K+9r4DSyk+j93sTYPlAljLXx/HcTC1sE8JAg4XBgpFUkfeH3rUfAXkq7Z4pWDQN8YCY
+         Xv/SkIlZIq1G6T4+v7IEAkUwzGyMFOTYXgSAPOwGc3wai3QMLpuybvYKB+c2ZsBbqDRR
+         3D3Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701552353; x=1702157153; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:references:in-reply-to:message-id:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=D146lnGMigsL9QUo8LoVT4349JrLh63di1n+n/0HZFs=;
+        b=KoU+6S33GgnpFsGMISImLUYMSPr5N0j2H2SIO+1/GudsgFNSB59iN6gSLOaO48psiQ
+         7wBDuS5DC1S0876E+CeR+AyeglyJFxP1JuNvNMSxfxhxuHOi67aaWiiQfD6L3DFHdaLY
+         s37vi6qpZYs6sA1hwJqvscHIqxfRavhBHMS/yW9jkaYR+4htH4z7TKZuXFDnTiCF6qMN
+         ut0M/LlX7QUMg/VkU7uz+646qPqITXgdgSL/6XmMbSl+nOcYY1fPXld/CgFoTcKFFxvx
+         HnuXrCc8c2i8jHFq9Twexq/iubXWJy13ZzN6MngIm6AzpmAqeBYOCZ3gvyLCoSNbLy51
+         +4vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701454613; x=1702059413;
+        d=1e100.net; s=20230601; t=1701552353; x=1702157153;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=k3wJBsphzA667CwNncdT93LUdCIV0zo4Ty5by+gLv0A=;
-        b=mAuGWfltbv2wr3sGEhhaTcnCbCJxjFrOf89ubZwhpl6qCm1BQle15jg2Iv5IXtzAWn
-         l263IjnCv6qKGhOXjSmzf2nx8Ghu1CRe9nAcjCcbxBAwwUkVzVyJXLYyiZoWZFfnhOoo
-         1YFQdCWQHRVG86h0/KEKEoHJamR7z400rVYsypOSgluojAieRi7FxduRhZWayu4+SzsB
-         y1GO1tuQpArnDmAWMq1EOuJ+K0MbyX6bdSW2+73PYwGY4sedgUMAeWIQbbAHHM4oAm3t
-         eCnimklRloooJQ2rIJ6p4b31tWCewY7DpnkIyT49KyX4FohnfSAcTs75JayLdhN4aUBx
-         M6Ig==
-X-Gm-Message-State: AOJu0YwvV4tCeEbFR4p52EZoTNByssSG+CgoSE0KVwHhx94U11J/xf4u
-	xvZvUkWfz39w0ew3Y+uPc5o=
-X-Google-Smtp-Source: AGHT+IFcoTcmWOBoRbqVqJjRiGwQFn7uVlP+bFJnVwXy7oY4tPEPuKgpySKdnxuQS6bw2a9e7ngOkg==
-X-Received: by 2002:a17:90a:df95:b0:283:a384:5732 with SMTP id p21-20020a17090adf9500b00283a3845732mr41485962pjv.9.1701454613295;
-        Fri, 01 Dec 2023 10:16:53 -0800 (PST)
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:references:in-reply-to:message-id:to:from:date:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D146lnGMigsL9QUo8LoVT4349JrLh63di1n+n/0HZFs=;
+        b=Hgb49NuMxX+Ft8GsV1orjMS/qqegQHn531DWiVRK7z+VMnnQ0METdPXz2Jt/A+0dyv
+         tIZ50X8gEL41iIL1xXqIxMgPlXhRBOu7uHZO//uEYm14yKWwriMDY84Sg+TwCaGVUGbV
+         oRxybeaxG0+zI+Vo3KPCK/4dVUW5wFW7/+uL7iMN/0D+TQrbnPiRwp5J+CWx8LiJZStr
+         uxITVZasfDubcL9qxjEBC3NDaqZhEXK+EVFvQQlZQjgjHkDPKLLHHr9ja+HxNSivSqwy
+         bZtciXrU5H1bJfhbPOAF3gSIJ0sRfsAn+OyXykNy1yw/nkLOu2qlkJWpxfSqsl7gKc2Q
+         BR8w==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOJu0YxTkHJ5Ca4gG2dAYmq5RdcWWrpUQYR5Gouju9dEH6+cg9/S6MMM
+	2Gn3J4dbky0QrdDVqvfKxMz0JA==
+X-Google-Smtp-Source: AGHT+IGHQhOaylxXayoYKt1EgR6xheUWdMV0eRxrl2/uOEFQB3Yoi3OSUonRiqoqaXiU2Ro+MNjQOA==
+X-Received: by 2002:a4a:3c0c:0:b0:58e:32a8:2ff8 with SMTP id d12-20020a4a3c0c000000b0058e32a82ff8mr29643ooa.4.1701552353279;
+        Sat, 02 Dec 2023 13:25:53 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:389:b0:285:196b:e7b9 with SMTP id
- ga9-20020a17090b038900b00285196be7b9ls1250775pjb.1.-pod-prod-00-us; Fri, 01
- Dec 2023 10:16:52 -0800 (PST)
-X-Received: by 2002:a17:90a:2f63:b0:286:5127:d9ba with SMTP id s90-20020a17090a2f6300b002865127d9bamr5554793pjd.8.1701454612230;
-        Fri, 01 Dec 2023 10:16:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1701454612; cv=none;
-        d=google.com; s=arc-20160816;
-        b=U5CT1N+DLWxWcOlpVZ6SWT6HagGLffpszpC/Syvf+UcFWns316DqUpGovOWGi8kuQf
-         BcQUHZNMn39YudzUU6EcrlArWVfG3YmcZeWoHOQLrUXQ7qtnnZ0SQbPxN2d+I5fCtgfA
-         JgX11VUR94ZQWJ4b93zKis7HSNxPb5qlLQJNcgCY7lvCcdxoagJZ9EsbLltRfEOCjPzD
-         nRc1ykYI+nZyum+PuQ1DEcbFVcTQkteNWwlGy0Kbi884rT6A1LWkpQJ7tTpZjidS7i3t
-         fN5tYaL+4SIAJHlW+EjqUOgPOa3TCNn8JlkK11Pb67a94eV7wubntlK8Ui+B1Yy26W5y
-         LZ5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=4ebbCKVYhmxFesM9IONNBoJ5hFIr8xSzZ7n3Tl7QDgM=;
-        fh=BCL3G4/EB/6E43qIQvqiTmSskf1MQ2+iKF4M83YUI6k=;
-        b=X7GoJeMaw+8ObVzN5lIsOwnz7dUYetKMtIZmAaHAkTnJJuwlLVM08+H/LAx3AW+dCB
-         YXCzUMhbBTMTKSu2XSsj620cDZTgKSSfKD7F1CA04+8x5L0AXqmRncrl9Rmw6dCav9I8
-         4GT6lDNNWz32cVQXPdbtW3OJZnjscn/sr0dVoRSU5/+vPdR8jZ30CNAX82wSCjpuWEIg
-         knWwquGmpiFfDiH9mEeLCSFPVCZfqzsxNIKv56B/UEKgum7Etmns8KZxVFob38iEtvbO
-         Njv9z6cjWjg7z0okEug+eDQw+PYiPaO9MLTxmHaOXbC6Ntrx67WGBzg38/cWePRhVCht
-         i+4g==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@purestorage.com header.s=google2022 header.b=drT40XQu;
-       spf=pass (google.com: domain of joern@purestorage.com designates 2607:f8b0:4864:20::102b as permitted sender) smtp.mailfrom=joern@purestorage.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=purestorage.com
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com. [2607:f8b0:4864:20::102b])
-        by gmr-mx.google.com with ESMTPS id nu8-20020a17090b1b0800b002864835846asi230463pjb.0.2023.12.01.10.16.52
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Dec 2023 10:16:52 -0800 (PST)
-Received-SPF: pass (google.com: domain of joern@purestorage.com designates 2607:f8b0:4864:20::102b as permitted sender) client-ip=2607:f8b0:4864:20::102b;
-Received: by mail-pj1-x102b.google.com with SMTP id 98e67ed59e1d1-285e54f32d3so426472a91.1
-        for <kasan-dev@googlegroups.com>; Fri, 01 Dec 2023 10:16:52 -0800 (PST)
-X-Received: by 2002:a17:90b:1dc8:b0:285:71b5:7b7d with SMTP id pd8-20020a17090b1dc800b0028571b57b7dmr26374435pjb.0.1701454611756;
-        Fri, 01 Dec 2023 10:16:51 -0800 (PST)
-Received: from cork (c-73-158-249-15.hsd1.ca.comcast.net. [73.158.249.15])
-        by smtp.gmail.com with ESMTPSA id ds20-20020a17090b08d400b002801ca4fad2sm5439916pjb.10.2023.12.01.10.16.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 10:16:51 -0800 (PST)
-Date: Fri, 1 Dec 2023 10:16:49 -0800
-From: =?UTF-8?B?J0rDtnJuIEVuZ2VsJyB2aWEga2FzYW4tZGV2?= <kasan-dev@googlegroups.com>
-To: Marco Elver <elver@google.com>
-Cc: dvyukov@google.com, kasan-dev@googlegroups.com
-Subject: Re: dynamic kfence scaling
-Message-ID: <ZWojEV6Ct9J4pT2I@cork>
-References: <ZWgml3PCpk1kWcEg@cork>
- <CANpmjNMpty5+g76RLy5uZARZAfx+Uzr+z5uAKMp-om9__2O77Q@mail.gmail.com>
- <ZWjMC9FXSEXZjNw9@cork>
- <CANpmjNMQMzsPan_1MB98h7M8c5qXeum35MEhohtuCA6OqC4LSg@mail.gmail.com>
+Received: by 2002:a05:6820:82c:b0:58d:582d:7fef with SMTP id
+ bg44-20020a056820082c00b0058d582d7fefls1719733oob.0.-pod-prod-05-us; Sat, 02
+ Dec 2023 13:25:53 -0800 (PST)
+X-Received: by 2002:a9d:5548:0:b0:6d8:5a82:b9ab with SMTP id h8-20020a9d5548000000b006d85a82b9abmr832575oti.2.1701552353006;
+        Sat, 02 Dec 2023 13:25:53 -0800 (PST)
+Received: by 2002:a05:6808:1a0d:b0:3b3:ed04:dbd0 with SMTP id 5614622812f47-3b8a856eed0msb6e;
+        Sat, 2 Dec 2023 11:34:55 -0800 (PST)
+X-Received: by 2002:a05:6870:fb93:b0:1fb:121c:c29b with SMTP id kv19-20020a056870fb9300b001fb121cc29bmr938711oab.1.1701545694819;
+        Sat, 02 Dec 2023 11:34:54 -0800 (PST)
+Date: Sat, 2 Dec 2023 11:34:54 -0800 (PST)
+From: Javad Zandi <jzand002@gmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <f8c28cc4-beef-40af-af44-616bcaa916e6n@googlegroups.com>
+In-Reply-To: <bf45cf22-662b-e99c-4868-bfc64a0622b0@arm.com>
+References: <20210211153353.29094-1-vincenzo.frascino@arm.com>
+ <20210211153353.29094-5-vincenzo.frascino@arm.com>
+ <20210212172128.GE7718@arm.com>
+ <c3d565da-c446-dea2-266e-ef35edabca9c@arm.com>
+ <20210222175825.GE19604@arm.com>
+ <6111633c-3bbd-edfa-86a0-be580a9ebcc8@arm.com>
+ <20210223120530.GA20769@arm.com>
+ <20210223124951.GA10563@willie-the-truck>
+ <bf45cf22-662b-e99c-4868-bfc64a0622b0@arm.com>
+Subject: Re: [PATCH v13 4/7] arm64: mte: Enable TCO in functions that can
+ read beyond buffer limits
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CANpmjNMQMzsPan_1MB98h7M8c5qXeum35MEhohtuCA6OqC4LSg@mail.gmail.com>
-X-Original-Sender: joern@purestorage.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@purestorage.com header.s=google2022 header.b=drT40XQu;
-       spf=pass (google.com: domain of joern@purestorage.com designates
- 2607:f8b0:4864:20::102b as permitted sender) smtp.mailfrom=joern@purestorage.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=purestorage.com
-X-Original-From: =?iso-8859-1?Q?J=F6rn?= Engel <joern@purestorage.com>
-Reply-To: =?iso-8859-1?Q?J=F6rn?= Engel <joern@purestorage.com>
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_58025_1347864504.1701545694612"
+X-Original-Sender: jzand002@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
-X-Spam-Checked-In-Group: kasan-dev@googlegroups.com
 X-Google-Group-Id: 358814495539
 List-Post: <https://groups.google.com/group/kasan-dev/post>, <mailto:kasan-dev@googlegroups.com>
 List-Help: <https://groups.google.com/support/>, <mailto:kasan-dev+help@googlegroups.com>
@@ -145,32 +93,59 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Dec 01, 2023 at 12:25:01PM +0100, Marco Elver wrote:
->=20
-> The problem is we can't "just" hand out virtual addresses slab
-> allocations: https://lore.kernel.org/lkml/CANpmjNO8g_MB-5T9YxLKHOe=3DMo8A=
-WTmSFGh5jmr479s=3Dj-v0Pg@mail.gmail.com/
+------=_Part_58025_1347864504.1701545694612
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_58026_1987175825.1701545694612"
 
-Ouch!  I didn't realize that "kmalloc returns memory with a simple 1:1
-virt->phys mapping" is such a fundamental thing.
+------=_Part_58026_1987175825.1701545694612
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Which makes me wonder.  Is there a solid reason why we depend on the
-simple mapping or is that mostly because we've historically always had
-it and nobody ever tried to remove it?  True virt_to_phys() is more
-expensive, but CPUs spend a lot of silicon on making it efficient.
+I am not sure whether this question is proper or not. I stuck at enabling=
+=20
+MTE for Apple-M1 process and ubuntu22LTS. Is thee any chance on how to let=
+=20
+me know how can I enable MTE on ubuntu22 with apple M1 processor which=20
+already has MTE feature?
 
-I did a quick grep and couldn't see any callers where making virt_to_*
-more generic would significantly hurt performance.  So maybe...
+Regards,
+Javad
 
-...but I should resist the temptation.  I don't have the time for yet
-another project right now.
+On Tuesday, February 23, 2021 at 9:21:03=E2=80=AFAM UTC-5 Vincenzo Frascino=
+ wrote:
 
-J=C3=B6rn
-
---
-You can't do much carpentry with your bare hands and you can't do much
-thinking with your bare brain.
--- unknown
+> On 2/23/21 12:49 PM, Will Deacon wrote:
+> >>> I totally agree on this point. In the case of runtime switching we=20
+> might need
+> >>> the rethink completely the strategy and depends a lot on what we want=
+=20
+> to allow
+> >>> and what not. For the kernel I imagine we will need to expose=20
+> something in sysfs
+> >>> that affects all the cores and then maybe stop_machine() to propagate=
+=20
+> it to all
+> >>> the cores. Do you think having some of the cores running in sync mode=
+=20
+> and some
+> >>> in async is a viable solution?
+> >> stop_machine() is an option indeed. I think it's still possible to run
+> >> some cores in async while others in sync but the static key here would
+> >> only be toggled when no async CPUs are left.
+> > Just as a general point, but if we expose stop_machine() via sysfs we
+> > probably want to limit that to privileged users so you can't DoS the=20
+> system
+> > by spamming into the file.
+>
+> I agree, if we ever introduce the runtime switching and go for this optio=
+n=20
+> we
+> should make sure that we do it safely.
+>
+> --=20
+> Regards,
+> Vincenzo
+>
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -178,4 +153,66 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/ZWojEV6Ct9J4pT2I%40cork.
+kasan-dev/f8c28cc4-beef-40af-af44-616bcaa916e6n%40googlegroups.com.
+
+------=_Part_58026_1987175825.1701545694612
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+I am not sure whether this question is proper or not. I stuck at enabling M=
+TE for Apple-M1 process and ubuntu22LTS. Is thee any chance on how to let m=
+e know how can I enable MTE on ubuntu22 with apple M1 processor which alrea=
+dy has MTE feature?<div><br /></div><div>Regards,</div><div>Javad<br /><br =
+/></div><div class=3D"gmail_quote"><div dir=3D"auto" class=3D"gmail_attr">O=
+n Tuesday, February 23, 2021 at 9:21:03=E2=80=AFAM UTC-5 Vincenzo Frascino =
+wrote:<br/></div><blockquote class=3D"gmail_quote" style=3D"margin: 0 0 0 0=
+.8ex; border-left: 1px solid rgb(204, 204, 204); padding-left: 1ex;">On 2/2=
+3/21 12:49 PM, Will Deacon wrote:
+<br>&gt;&gt;&gt; I totally agree on this point. In the case of runtime swit=
+ching we might need
+<br>&gt;&gt;&gt; the rethink completely the strategy and depends a lot on w=
+hat we want to allow
+<br>&gt;&gt;&gt; and what not. For the kernel I imagine we will need to exp=
+ose something in sysfs
+<br>&gt;&gt;&gt; that affects all the cores and then maybe stop_machine() t=
+o propagate it to all
+<br>&gt;&gt;&gt; the cores. Do you think having some of the cores running i=
+n sync mode and some
+<br>&gt;&gt;&gt; in async is a viable solution?
+<br>&gt;&gt; stop_machine() is an option indeed. I think it&#39;s still pos=
+sible to run
+<br>&gt;&gt; some cores in async while others in sync but the static key he=
+re would
+<br>&gt;&gt; only be toggled when no async CPUs are left.
+<br>&gt; Just as a general point, but if we expose stop_machine() via sysfs=
+ we
+<br>&gt; probably want to limit that to privileged users so you can&#39;t D=
+oS the system
+<br>&gt; by spamming into the file.
+<br>
+<br>I agree, if we ever introduce the runtime switching and go for this opt=
+ion we
+<br>should make sure that we do it safely.
+<br>
+<br>--=20
+<br>Regards,
+<br>Vincenzo
+<br></blockquote></div>
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/f8c28cc4-beef-40af-af44-616bcaa916e6n%40googlegroups.c=
+om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
+d/kasan-dev/f8c28cc4-beef-40af-af44-616bcaa916e6n%40googlegroups.com</a>.<b=
+r />
+
+------=_Part_58026_1987175825.1701545694612--
+
+------=_Part_58025_1347864504.1701545694612--
