@@ -1,135 +1,151 @@
-Return-Path: <kasan-dev+bncBCAP7WGUVIKBBM4EWSVQMGQECIU5ONA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC65ZG75XIPRBIF6XCVQMGQEZNSMUTI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc38.google.com (mail-oo1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
-	by mail.lfdr.de (Postfix) with ESMTPS id D06ED802872
-	for <lists+kasan-dev@lfdr.de>; Sun,  3 Dec 2023 23:33:25 +0100 (CET)
-Received: by mail-oo1-xc38.google.com with SMTP id 006d021491bc7-58dc2d926e7sf5471109eaf.0
-        for <lists+kasan-dev@lfdr.de>; Sun, 03 Dec 2023 14:33:25 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1701642804; cv=pass;
+Received: from mail-ot1-x33f.google.com (mail-ot1-x33f.google.com [IPv6:2607:f8b0:4864:20::33f])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3718803D6D
+	for <lists+kasan-dev@lfdr.de>; Mon,  4 Dec 2023 19:49:05 +0100 (CET)
+Received: by mail-ot1-x33f.google.com with SMTP id 46e09a7af769-6d811dc2a60sf4565307a34.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 04 Dec 2023 10:49:05 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1701715744; cv=pass;
         d=google.com; s=arc-20160816;
-        b=NkdfpGxTCGIb766Fvw32XwjkQebar/xpEGSiy/LM97RVmHq+w2S4m5oGiw8Yx9medg
-         c7WROyOezFT4c0G6g1BZQG6OGc2RYSrKoJmF3aNkMl8w1KwNVCTN4nhALn+Rl2vI2FcO
-         xbM6wy2couPnwPPlTGmXe/KgqO+RGMz/fIYILlmFqRYNeRjPlw6xOs1Ei+Yw/XysyPTn
-         eIPQbdqq7NliEqAK7Sd3gr8Tqquxk6RNw7pxdGcWiTinpkIKCEoRaDS+7woN4/Son0mg
-         HsbETuXhBI+i1quVGKL2M4/bFM2g5xfyyn4NYCRIq/kq2CNdXUSE68WAteEsaJb/+ofL
-         Pg4g==
+        b=YjcM0x8tyVhuFUjPf9ZKNWahpywX8u6oTNfjkyYp3P5fp73aCSGFQwm4igalw0Xul7
+         sC/D221lpfIMEkUi0R3LbV2XeayULJU0v5YZX+1BmQYZ8DeZRDpmH/SmekGWgehiWwzf
+         bmXKDpaEzLYzUh5i1JjthbnvMXnM3gCUNGent2cFbWQLly4INRsuPBDVIzz1no+n2Ssf
+         DJmZ2gdGLNJfO0nlJ/9M3XpbQ1gROtUTcOe5Y6z1FvGan1YX7ebU1H9M9IPoOnO75JAT
+         GtKq+9ATPLIpwxgQJu8TTHUtqJhaVtqi2hBMBVE3XlhgMzMelMGiSXACMERw9GBTcbD9
+         hvhA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:cc:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=eyIyeBU9v4vn92LMqvOmVqYcKboJi7UdHwyt0e+EW+Y=;
-        fh=iONX4EgxVUl8AUsvjKDlswL102JSBisx8m4gcplemwk=;
-        b=VXrQ3Og+WApui3aHhTodWeTUqbVA9g3v2IlAzVHC2wTWNxHYkvauFfHnjDV/Kt8v/x
-         l1DJ9h7xGxRii0pMrIAmCDZrYYg6igXXf7ZzqdR9OJsGWAPU0V2ciUddpiXS7ucYT3F3
-         JZPalfLvcDF7cgZq4Ysje0WUYkgJK10vE/gRbdggD1z2jYQ7FxJUks25G4NpcNzVM+n2
-         ZCf83k5AlXXTzxYzvOlmZICQ4dIHVkIfVXZsUtUyhaKVYI7SZaMI8VRftsUE7SSP698e
-         qwtvF52ocJFfj7SZjjKOvbEOcb/5o5J4xgOAvyYNsvst9+EzlMerWt3NyHYSYQvvPFw2
-         4+tQ==
+         :list-id:mailing-list:precedence:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=5/NUo9aNPVCBB4BIelQ5oDfF2AClPWPahc6q1D9dq9s=;
+        fh=LA5TcmG+J+MIumlHbsq7Y7740AEUuCryJJIwYOuLYy0=;
+        b=lVx4CC1m4YlawmPtac4LLp7EwQOrpRo6rVWhbU5MTA5kRpQk8z7o041cDwykxYr/MC
+         WvMZJXeWZ/pmPLbHL2Lyfl59I5KpBr0IHgMONfUNu9Ki+KwdbLo2PWjDXLimMecVkzCl
+         GyYnF4ut3ZwBcbzeBAliVcYigyHgUeCEQjjTG+Lpko8S35Xvsr7eE9SMk9liMOaMoKWL
+         xP1gm9ECuqyimxXtBs4BIKpzVJITUmm0IE54EXhsnQbsL30/oaqhw/18+JrJeHakiTOe
+         ypOCpkvQUAuKhSGV41FjcC2TnDPnBGPNRSHvRxvxaUzy7tSkfvpcQw4tXypedxNYRkij
+         SM4g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+       dkim=pass header.i=@linaro.org header.s=google header.b=EPw8sxTe;
+       spf=pass (google.com: domain of dan.carpenter@linaro.org designates 2a00:1450:4864:20::32b as permitted sender) smtp.mailfrom=dan.carpenter@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1701642804; x=1702247604; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1701715744; x=1702320544; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:cc:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=eyIyeBU9v4vn92LMqvOmVqYcKboJi7UdHwyt0e+EW+Y=;
-        b=lDIJ65yLzC23kx6ulEiBpuVJhRfSsBrmi8XqqvzsVBk7WlGT2Y2B8Jrb3Lp3sRuBFH
-         UoWDBT33It0X9KBknmmp6MzELnGeH9AxVSA+cfMt7Ti1RwkO1B21ylUg15N7OTnH2Jjt
-         hfZM+AoWZxgbbggzQI/BEOgyNkWX3iQEwL0eA8XP50fZo14cqzD/FiG9PX4/FGUv2iho
-         kY3vsVetpm6ZcaqdmgCJ/oqD/z7mkYHVsJZuysOmdT17F9MED1k+okkc+GXDQZqY8GS9
-         vc0HaSagynK17+BQ9H85cVZW4WBhE9R5IP2q+ZEhrAd5PFujjG4+2ACO0xeCVPGUh3dl
-         6zJg==
+         :x-original-sender:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=5/NUo9aNPVCBB4BIelQ5oDfF2AClPWPahc6q1D9dq9s=;
+        b=HF/pU4xGA0sHz9Z4rmPtEctRV1MAWzD9F6Jzxe977Lw6NahWKZ9PJj8Fy0HHZDZPCL
+         UJDlU8a4CSXMEeLd+uuaIVslrjTN4fuVcrmP3q1Lmh3x4lFAXDRnKcEl7Br3J6YoS1A6
+         jDt8TeIQgz8HigD2YAvWn3tmd6HcK8kaxOTiVwYbcjMhyOw/WVaj7YMi9VE/tMWRChye
+         jhM684VgOzUvQWwuI/gsd7Y6jJvBofqIByVOftTKFBh0Ohubd9hLOwXZ0TEupRFA1maV
+         fFtvI293Z6EtA7D/e07QmnJvZePLJkinfaQNXtCwMvDUB8PQepmqEZbFIm7vLVzBcxc1
+         g1pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701642804; x=1702247604;
+        d=1e100.net; s=20230601; t=1701715744; x=1702320544;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:cc:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eyIyeBU9v4vn92LMqvOmVqYcKboJi7UdHwyt0e+EW+Y=;
-        b=wueyAlBL30v0vYCeBUVeW/zCbHqxr1LMRC/2di5urhLAjmFTv3BQJVcYe1lpHLd1W8
-         Yxsv4ifYOKQfTfMWeGP6znZE3L+eQ/Ym4U+iJw+jpgKgv5Y2HMWnRVsoimD7r3HkPJxQ
-         1nuMBN3apz3FYojMdZWtfRpaCL4KSpntE2Ahg8SP7/QLvFVxI2BzTbKkW7Hck/LUl4Hk
-         XAPH7uUVFFT+434Tt3TtpyVRn9E/Gvd0tIm+1JVU5UvsQ3mEe8ng7URvoOyVRblInH3p
-         xu+l5XhPMow0KbhNwI8utoJg7UcG0ark3fvVY7IBCb1XHlZAnKj81Cf9vvmmIAwvcaEY
-         dP/w==
+         :x-original-sender:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5/NUo9aNPVCBB4BIelQ5oDfF2AClPWPahc6q1D9dq9s=;
+        b=phXppGYLZeZ5ZqxZbxn6pGvRtMul7jJvChzzdZhi3oa4PRX5GwW7vVl4K2rUx2xDsc
+         2i5y1NjR6qb7CNEQOmOtcVpuJcwTQd7LFnhwsqitpj98euPBB3f9I/0vqXIkUBpB0Dns
+         FLdHigvG0Bg8Oxqa6E4nh4Kcjt+7wn5p5vKp1aLN6RzHMfazu+4yzEfEUZPGPukNG2so
+         oRfnZl+MqOoqKrDhtdgjUwmMJLquQIWwO7KPKeHFeSKXIhzZTkAJxh2xZUTY5IocnV47
+         BR9n1760Goz0oEldSrXl47ckuKXwhbNO2JM3N/qd1SUZAm5EVJIj0X4lUI7Ue1h8IPVg
+         cLDw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YwqLwAI5jS0LkQRUe+gHk0I55vDGwGGMWg/RYtLw/UZYgt2kmxl
-	DL4tQMEzeIfQQoGMwzaYD34=
-X-Google-Smtp-Source: AGHT+IEzKVNPLjjjxMUUfdKJjUwVERegemSM4K4S+eY5bc2rSYqcl/dlj9XuHLoQqlilCgTwsgHS8Q==
-X-Received: by 2002:a05:6820:2c98:b0:58e:1c48:1ede with SMTP id dx24-20020a0568202c9800b0058e1c481edemr1412702oob.16.1701642803848;
-        Sun, 03 Dec 2023 14:33:23 -0800 (PST)
+X-Gm-Message-State: AOJu0YyebWz3qH298CF4rhNsE/gxat/0f6k5HvTwxmaaLEyDXJyuCNPI
+	rupzv6OPIuK4Q7aclmyy4jM=
+X-Google-Smtp-Source: AGHT+IG7n3YmvHfu5ETvmrKD0NaVTy8YW16xoEC6fR84Vmn8NxabeAaQYUVDtzj1ALArU+VqxWfeFw==
+X-Received: by 2002:a05:6820:46:b0:57b:eee7:4a40 with SMTP id v6-20020a056820004600b0057beee74a40mr2560211oob.7.1701715744258;
+        Mon, 04 Dec 2023 10:49:04 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:a345:0:b0:58e:2e05:d95f with SMTP id u5-20020a4aa345000000b0058e2e05d95fls1330007ool.1.-pod-prod-02-us;
- Sun, 03 Dec 2023 14:33:23 -0800 (PST)
-X-Received: by 2002:a9d:619a:0:b0:6d8:8067:daf9 with SMTP id g26-20020a9d619a000000b006d88067daf9mr758706otk.4.1701642803160;
-        Sun, 03 Dec 2023 14:33:23 -0800 (PST)
-Received: by 2002:a05:6808:2182:b0:3b2:e349:d5c2 with SMTP id 5614622812f47-3b8a8292eabmsb6e;
-        Sun, 3 Dec 2023 05:17:38 -0800 (PST)
-X-Received: by 2002:a05:6a00:1c88:b0:6ce:2732:277 with SMTP id y8-20020a056a001c8800b006ce27320277mr651624pfw.38.1701609457792;
-        Sun, 03 Dec 2023 05:17:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1701609457; cv=none;
+Received: by 2002:a05:6820:1c88:b0:58d:be41:d25a with SMTP id
+ ct8-20020a0568201c8800b0058dbe41d25als318622oob.2.-pod-prod-00-us; Mon, 04
+ Dec 2023 10:49:04 -0800 (PST)
+X-Received: by 2002:a05:6808:14cb:b0:3b8:37f9:4383 with SMTP id f11-20020a05680814cb00b003b837f94383mr115847oiw.5.1701715743860;
+        Mon, 04 Dec 2023 10:49:03 -0800 (PST)
+Received: by 2002:a05:620a:4725:b0:77d:a5e0:dc7c with SMTP id af79cd13be357-77de1779ac1ms85a;
+        Sun, 3 Dec 2023 20:12:41 -0800 (PST)
+X-Received: by 2002:a05:600c:1c9c:b0:40b:5e21:d374 with SMTP id k28-20020a05600c1c9c00b0040b5e21d374mr2147654wms.125.1701663159813;
+        Sun, 03 Dec 2023 20:12:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1701663159; cv=none;
         d=google.com; s=arc-20160816;
-        b=EEo3Z6Lwo+qghpsjbEhNb9TatHRlI20eCvfnPqT79WqWFNTnfF1/rWYXmK3KZS7Foz
-         x8e/GSWsjILSqZZxUUXvqWochqIuvI7BhpKT3xFeYLd9sHKGrIBH/2Te+g1Cbs1ENTQi
-         jONtdmQEd0CFJIdtktd0YmsBWvMBoJngmRkLme3jAnfPJBI1BMV7pd9lqgqyZ0YSaIaj
-         RfAKCx9LNBLqINV5mEdnGZunpiaGh0LNlqmT4J/2vWxquwHOraTsxht7J+w1L+EvWLGQ
-         u8mTrsjcgFpRG3HgWsl4sFFSyWyKGdwkPDbyvqqb0M9p2tgTHCHmKmHtXsVca3TaOCr3
-         fBxQ==
+        b=bK82zncSrAabDwPZF/7SIr6Oce6nv6GxlozhFU7mmN1+wdZ0YXVUAhSqth842QnXuN
+         SgPjSHGbLw43cbQzLA7wB4oCEUthB8Zu8ftnhEN2w7DtTiph2kJ2LESpyXntHc5PQmMG
+         PwEhHhIJSt8JWT9OZ4UfZvMOBso6PC0y9FDFniVv7RvkYDPK79Ro1O5sXBaDEwWF4tMh
+         5q95fbUDZIPcpjbhRvwYHcf8tqW3IbiLaeMjl3Cu4pVazGCAnT1Qgeh9OBBx+y8/y4pH
+         n2o2oPmEWDiVd0SkhZQF6RWpxSQq1S/PBexMMMKgsmug3I2o+2XmCpmoGWld2FfDIs5h
+         lW0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:cc:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=IF9x/2vET7H34gWiQo4C9nkHVzCwSKcs+yfdih/G+44=;
-        fh=iONX4EgxVUl8AUsvjKDlswL102JSBisx8m4gcplemwk=;
-        b=mrLrRo/h/ViBAgEmnMdTHVADDN+W186q1GJ2me5ClnkZCvIhUQ9gICLQJlCuN9jwPi
-         edIfznkMO7py4SsB5UphMX8KdkxlYFQmDK9S46Sg6SAw8obC2ZktjjELOwJ9W98OOGeB
-         kHJTAK6Ob1TkY5w1iqR+H7dF0c1vdZpxzT3LW49lzDa7iRvInQw3RbtN/mrPvxNtc9tp
-         LgXn3/ez/h8xx71KMsiAJwE7/0fp6MR+xzc/JR9z/wIMNiLKuNFRrru7IFRvTrpqiyIL
-         8il3M7GIaUqZD+aRo9Z/3/AZSqnH4oy4S6muHkLXzbM4hrZcSJFJ+K6xExtGEv39VomP
-         69wA==
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=uSIjHQyxvuiMYpm126xyxG1Zci+DFvN4cs1bYgkFaNU=;
+        fh=LA5TcmG+J+MIumlHbsq7Y7740AEUuCryJJIwYOuLYy0=;
+        b=h/BIRkpcmoD5ZZbFZ9yBheOhMs5C+G9is1yDt791qJHrZIsWYRkUKOK/41Auz2XOGs
+         1fdj3I2fpS2lbYZV6vpt+WifGY/rIP3VFK4QYMy/sfz7/6ijB5uuxGAnK2pR4Qp93SdD
+         RsNO3QU/dX14RpVvANT5s+oI4YpE+XqQpXKwaRL1c+C7afFjIETct1T4Ef/5Owx6gmDh
+         rgMmkmJMQcQi4cVHG6LTAmaKYkGy22WclI/i5eMpp8ERMdHTu/UIryUroVgO7hP15ZY7
+         O0Mq2rIQCnGdlD6SclFw2qGKjyeEiGmNueld1eAUCPL6ODizWauCu787J0Bfg8AUnqKs
+         Lv4w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp. [202.181.97.72])
-        by gmr-mx.google.com with ESMTPS id hj20-20020a056a00871400b006ce43f6e146si52087pfb.5.2023.12.03.05.17.37
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 03 Dec 2023 05:17:37 -0800 (PST)
-Received-SPF: none (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) client-ip=202.181.97.72;
-Received: from fsav415.sakura.ne.jp (fsav415.sakura.ne.jp [133.242.250.114])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 3B3DHTpg021425;
-	Sun, 3 Dec 2023 22:17:29 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav415.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav415.sakura.ne.jp);
- Sun, 03 Dec 2023 22:17:29 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav415.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 3B3DHTER021421
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Sun, 3 Dec 2023 22:17:29 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <0c079048-79ef-4e50-8fe2-a9626e40b363@I-love.SAKURA.ne.jp>
-Date: Sun, 3 Dec 2023 22:17:25 +0900
+       dkim=pass header.i=@linaro.org header.s=google header.b=EPw8sxTe;
+       spf=pass (google.com: domain of dan.carpenter@linaro.org designates 2a00:1450:4864:20::32b as permitted sender) smtp.mailfrom=dan.carpenter@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com. [2a00:1450:4864:20::32b])
+        by gmr-mx.google.com with ESMTPS id p7-20020a05600c1d8700b0040a25ec1cfesi506210wms.0.2023.12.03.20.12.39
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 Dec 2023 20:12:39 -0800 (PST)
+Received-SPF: pass (google.com: domain of dan.carpenter@linaro.org designates 2a00:1450:4864:20::32b as permitted sender) client-ip=2a00:1450:4864:20::32b;
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-40bda47c489so19339745e9.3
+        for <kasan-dev@googlegroups.com>; Sun, 03 Dec 2023 20:12:39 -0800 (PST)
+X-Received: by 2002:a05:600c:3b1d:b0:40b:5e1e:cf9 with SMTP id m29-20020a05600c3b1d00b0040b5e1e0cf9mr1855181wms.52.1701663159222;
+        Sun, 03 Dec 2023 20:12:39 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id b19-20020a05600c4e1300b0040648217f4fsm17107376wmq.39.2023.12.03.20.12.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Dec 2023 20:12:38 -0800 (PST)
+Date: Mon, 4 Dec 2023 07:12:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Andrey Konovalov <andreyknvl@gmail.com>,
+	"Liu, Yujie" <yujie.liu@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	kernel test robot <lkp@intel.com>, Haibo Li <haibo.li@mediatek.com>,
+	linux-kernel@vger.kernel.org,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	kasan-dev@googlegroups.com, linux-mm@kvack.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, xiaoming.yu@mediatek.com
+Subject: Re: [PATCH] fix comparison of unsigned expression < 0
+Message-ID: <ecf38b22-ee64-41e5-b9b5-c32fc1cb57bc@moroto.mountain>
+References: <20231128075532.110251-1-haibo.li@mediatek.com>
+ <20231128172238.f80ed8dd74ab2a13eba33091@linux-foundation.org>
+ <CA+fCnZcLwXn6crGF1E1cY3TknMaUN=H8-_hp0-cC+s8-wj95PQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [kernel?] possible deadlock in stack_depot_put
-Content-Language: en-US
-To: syzbot <syzbot+186b55175d8360728234@syzkaller.appspotmail.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-References: <000000000000784b1c060b0074a2@google.com>
-Cc: "kasan-dev@googlegroups.com >> kasan-dev" <kasan-dev@googlegroups.com>
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <000000000000784b1c060b0074a2@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: penguin-kernel@i-love.sakura.ne.jp
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=none
- (google.com: i-love.sakura.ne.jp does not designate permitted sender hosts) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CA+fCnZcLwXn6crGF1E1cY3TknMaUN=H8-_hp0-cC+s8-wj95PQ@mail.gmail.com>
+X-Original-Sender: dan.carpenter@linaro.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@linaro.org header.s=google header.b=EPw8sxTe;       spf=pass
+ (google.com: domain of dan.carpenter@linaro.org designates
+ 2a00:1450:4864:20::32b as permitted sender) smtp.mailfrom=dan.carpenter@linaro.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,14 +157,79 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2023/11/26 6:07, syzbot wrote:
-> refcount_t: underflow; use-after-free.
+On Wed, Nov 29, 2023 at 04:01:47AM +0100, Andrey Konovalov wrote:
+> On Wed, Nov 29, 2023 at 2:22=E2=80=AFAM Andrew Morton <akpm@linux-foundat=
+ion.org> wrote:
+> >
+> > On Tue, 28 Nov 2023 15:55:32 +0800 Haibo Li <haibo.li@mediatek.com> wro=
+te:
+> >
+> > > Kernel test robot reported:
+> > >
+> > > '''
+> > > mm/kasan/report.c:637 kasan_non_canonical_hook() warn:
+> > > unsigned 'addr' is never less than zero.
+> > > '''
+> > > The KASAN_SHADOW_OFFSET is 0 on loongarch64.
+> > >
+> > > To fix it,check the KASAN_SHADOW_OFFSET before do comparison.
+> > >
+> > > --- a/mm/kasan/report.c
+> > > +++ b/mm/kasan/report.c
+> > > @@ -634,10 +634,10 @@ void kasan_non_canonical_hook(unsigned long add=
+r)
+> > >  {
+> > >       unsigned long orig_addr;
+> > >       const char *bug_type;
+> > > -
+> > > +#if KASAN_SHADOW_OFFSET > 0
+> > >       if (addr < KASAN_SHADOW_OFFSET)
+> > >               return;
+> > > -
+> > > +#endif
+> >
+> > We'd rather not add ugly ifdefs for a simple test like this.  If we
+> > replace "<" with "<=3D", does it fix?  I suspect that's wrong.
+>=20
+> Changing the comparison into "<=3D" would be wrong.
+>=20
 
-#syz set subsystems: kasan
+I would say that changing it to <=3D is seldom the correct thing.  I've
+wanted to make that trigger a warning as well.
 
-By the way, shouldn't pool_rwlock section be guarded by printk_deferred_enter() ?
+> But I actually don't think we need to fix anything here.
+>=20
+> This issue looks quite close to a similar comparison with 0 issue
+> Linus shared his opinion on here:
+>=20
+> https://lore.kernel.org/all/Pine.LNX.4.58.0411230958260.20993@ppc970.osdl=
+.org/
+>=20
+> I don't know if the common consensus with the regard to issues like
+> that changed since then. But if not, perhaps we can treat this kernel
+> test robot report as a false positive.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/0c079048-79ef-4e50-8fe2-a9626e40b363%40I-love.SAKURA.ne.jp.
+I would say that the consensus has changed somewhere around 2015 or
+so.  Unsigned comparisons to zero used to be one of the most common
+types of bugs in new code but now almost all subsystems have turned on
+the GCC warning for this.
+
+However, this is a Smatch warning and I agree with Linus on this.  For
+example, Smatch doesn't complain about the example code the Linus
+mentioned.
+
+	if (a < 0 || a > X)
+
+And in this case, it's a one liner fix for me to add KASAN_SHADOW_OFFSET
+as an allowed macro and silence the warning.
+
+regards,
+dan carpenter
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/ecf38b22-ee64-41e5-b9b5-c32fc1cb57bc%40moroto.mountain.
