@@ -1,182 +1,163 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBRMBYGVQMGQEPP5F34Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKJJ7XLVUBBBOMFYGVQMGQEB6XXO3Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3f.google.com (mail-io1-xd3f.google.com [IPv6:2607:f8b0:4864:20::d3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45695806AD0
-	for <lists+kasan-dev@lfdr.de>; Wed,  6 Dec 2023 10:37:11 +0100 (CET)
-Received: by mail-io1-xd3f.google.com with SMTP id ca18e2360f4ac-7b39e0d8185sf681443039f.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 06 Dec 2023 01:37:11 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1701855429; cv=pass;
+Received: from mail-qt1-x83d.google.com (mail-qt1-x83d.google.com [IPv6:2607:f8b0:4864:20::83d])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3C5806AF8
+	for <lists+kasan-dev@lfdr.de>; Wed,  6 Dec 2023 10:45:31 +0100 (CET)
+Received: by mail-qt1-x83d.google.com with SMTP id d75a77b69052e-42541bff239sf13643861cf.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 06 Dec 2023 01:45:31 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1701855930; cv=pass;
         d=google.com; s=arc-20160816;
-        b=fZ6L6wyag7tCeowj75qX8o8I1V7FODaOXNSWe5ufL/2gy99gijsk9W6dIP+KY4SCAJ
-         3yfqDKLgAa2uvGfxz2OY9xFapZXorQt/s5saLDEPs7iWCmwA9cQJueJmy2pO0sViwjU3
-         zp3pf/+BKE8lQbXYVx1yoa1itrHNLNL7JQhEoTKgkELbBEHtU/X6qBhOOgYGl7gJquQI
-         n2OuicGO5ISuWE0DgId0KS0kJuF5HIREhaywv/dUsJbcKhta1pYy3/ANo0VhUlK8ZCVN
-         rsKV4W786c3nyA9vyvzZlH/9bbWwsshA/D7xsPm/j4TU7uf3jEPqYjtaP+P42BfOPA4b
-         1I6A==
+        b=CpsDfe6FQp2g3oygXMWD8qshoeuxknv5EXeDtvoK4CNvS9vzP1XeGzg5DdrkuBp1Ic
+         /LUPnG8M9lkCitBGWG4zIvw7/FkLmvoEL4bW6dVqBQr5hysMuwb9zmCEgYpqRV5mNxU6
+         kHICJgtV2ZrhFHHWl/gO12Rxh2P+bMaiK1+S15ig5UDLftf+D59lXELxOQAjOVSBTFyz
+         gPEiU4GP+Sx7aP7BSRygz2Lo/J6dsglMs74wWvFjd3q6Uz4oqfhQTG09q5/UcH2suXJv
+         Lgddr5XKvf/l8IJ7qfzK4gG6PAV/LBI3HmZSKJic7ikOKAMDayb/PiLEqZwOkiTvoefA
+         RF1g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=sAienBsfVVPco4cTvCgUQUO5pkaHlzKLu2HSk5TtD5k=;
-        fh=06sOGDy6+X3nN0awOxb/HH+z4VuvuKLqmFUbQx9UqP4=;
-        b=1FZhYyg26Yk6O4NTD7GsebvcFujI2lisu5S2VRlkpufmOQKbBceGuJMANOd/duBPhN
-         2+5FxJZUpVB3eDIS0uBKx5sZ7fV7S32TziWD2rhhqdfEvYdDq6uxFthvdUT1EV/rqMSc
-         +9TccgqCFr99w2EyYWe/bj4Qo6rqJGzRn0ZhXWTLCxFi+Z35MnuCeC0x3Q1ObnsgFY+L
-         OdKdjJC58PgB38codl/cgIuv+fllIp802K2ordeY7Ml4RJlliqDdxtLVn8dvU7HCopKF
-         iJc2xAkht5RPE3lz6L3tfTqiV5h64C3VkEW0JafObkdDhzNgoXW8w+K6cJJwspk/3zmo
-         6Vkg==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature:dkim-signature;
+        bh=St4tnJkPmP6IulWuQAOEbaHUeG5ih9PgOfyrXXZ3Yig=;
+        fh=ezGgTJoHdqijbJ6IWHiSjHZUYI0p+VPBCX/sPRmQd+E=;
+        b=XYoTlzzaDwhZWklSc1vmFFfcbxjzU6TH2iOAjaoUyzJ58j9LyICECFj+k5sIdprg/j
+         rOkG/CpJF+JdRO1DZ8kCiogoqqmgvBa/shFVSwanAhkvJLLUHvpX/RL3FQiNI5xF0Y7d
+         v6SP6PfpgNkHMyS2JsrAG1hVRC/TtzA655Lrcs3LWIEHgOiWdAT8d3ZpDJs7UhHdV5ay
+         KddNsPxlk3WaP+NF598+D9kB8ut9UP/Emspy2Tj375JJS1azIgcHl7X7FFdpX5+ka7xr
+         CWX1/VKGcCtFlTzAAXzPP7nXXjWRQhdXC4DaEqL0LgThgWmC4sRFzHIlDihuoTAM8M1p
+         iOTA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=YMsDkGCg;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=D6B11Dfv;
+       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::102d as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1701855429; x=1702460229; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1701855930; x=1702460730; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=sAienBsfVVPco4cTvCgUQUO5pkaHlzKLu2HSk5TtD5k=;
-        b=it6scVq/2az3navrDZCg+I7WYx/KR8mAL9i3NxRfSwnL7brjwm7G9kaTe/B5MUqyjR
-         VXi/FJYYNVyGbgdmJm3ej2p69CRtoAZIOeqUjqsDY8FvdwBHgmJFZKuZzRt+hjydPa7r
-         n+l1kfQcNfX2kPOSbZ3hIkd4pXs3Z0zp7QOCFMb1OqNyrrZjVnMvaNXe4MAh/pRUo3NV
-         5L3GuOzAU49r14RAvB6Q4xEvf0NP1+Tj3XB++SQIEJ2cs/iX10aGbSt+IijXqIs6U9gV
-         AEFlNirP445gT1rOju28Dh+FpWnRnoL7s14CoR9nhVkSLHPy2bnMrDCDsGIteXtiHQm1
-         cUKA==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=St4tnJkPmP6IulWuQAOEbaHUeG5ih9PgOfyrXXZ3Yig=;
+        b=emRJAWnpJgbkxdJIpGMoc/m5ywgv5Pc7NkcgcV/sIxNjD7VutWWcNQoJYiFhxfW6ad
+         dPQmUkNozW+lXUohwpV3k2RQPsqXAO+bq7KJX0BAtLwt/JKfkprJqgxL77x8Fx7TAfLW
+         EQY/CmkQWRl1zdMfdGeZfJh27rsLiJVPYodo3FzInCDawkOX9uE8iQehk6JH4govj8TR
+         MFGLCLJHhpwCdZbJOU808yz4IHPNsuHI4Mt1i1o5rbiK7Rp9hlvUeo1J4m/Suwr8bj3E
+         2D8bZlwjrF+EPEM0l5z6xOlGTErEqvZm1xsGmmG5w9IEmZKL09LLyoTj/C4TZq6rI4st
+         E4Zg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701855930; x=1702460730; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=St4tnJkPmP6IulWuQAOEbaHUeG5ih9PgOfyrXXZ3Yig=;
+        b=mGXx2fMJlIAtnYrMiMQzV+hPi/lS50XKpEtD8dbwh60/+8meTjm5YlnBHpiScCs8mw
+         OprThR1opOyWed1YKf37olmkoEUppSi0VBuFcdE2bR33QkSJ3TrzdYqM7uAoPzzl8qjt
+         wu6E6KLU6FgBgu/5T0YjiEojTmhn/f5uFWYau8u82dsSToFSSQeuT2AlgXV6q+/5qBg6
+         /ogNyxGlKezlukrT+XCttXZaoxsWevcclcyh99oWm3dlMV18frwica+3KihNkTN5qHOk
+         pfzwp/LminzCsu7gKGEASB+V0ZZiLrWg0RBOtZ5fyZBwYaY7o6NhuMX3m8BqZu4EDBGY
+         e5vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701855429; x=1702460229;
+        d=1e100.net; s=20230601; t=1701855930; x=1702460730;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sAienBsfVVPco4cTvCgUQUO5pkaHlzKLu2HSk5TtD5k=;
-        b=L0vScOyKwxweIgZlj4n3vb4r4UfSBTHT13KO/IR+doQF3LeFUAEq6Nt0dDM49a3PwH
-         IwwdK+qaTOSr56IRsJMDlyRbLiRdOWm4GaDY+FFRPl7CGj3+zMxQ0zgmLbaGR4JOGBNh
-         Z8vRxNsArin91Jq4uqQmcnwOnVH9WWvDMptcW7zb1wylf4iMRMITvJlCnXyjWt0jSZj6
-         exxzWWkx5ai0b26Gsl/F12zO0BcH6jN3fu4yJ3zdh1i/9Gag/64hG8ZtoQ6B4T8ZW+do
-         TZnuzGPb49TaGSARoi0DaPdCf7p3Iu0QBTWEafmSQwx7/GrxUCTzE6A91C2YxksDg3oy
-         cSaw==
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=St4tnJkPmP6IulWuQAOEbaHUeG5ih9PgOfyrXXZ3Yig=;
+        b=MBa8HVAIfRPgX/pOfeHNFl+X0we02cpJzkNL5kJMzeO1VtOjcAIeYnkS1/xoAxhZHI
+         1QAOt/NlKx4sgLrLg0Q5HaBOoZlUaDJDjBFDe7KyPk+pUq8hEsX36NPUjgYFDfq5RM/9
+         yw8FMFO+onphqxVTbbg+HamrUE/Pq/s1csRyeEvf9ROkqHpDbeKdQxn4zGLVPiWebv/W
+         YmN74RyAEqx6Wo1vlBHIPJNEaiR8fLlv1Hinf0DGl+GrOJgHnPWtXbI2UZbzFot5Nyat
+         AbBbvShFcHZJbMjrjrsiZkHbTmXJiXMXgc0zDg8zQywXCJBygx4H7M14DEfKLm2F3ae/
+         plzA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yx3QXKc/GBHqOm293b4OHZM7eat+dtwDfGA1uN/J9xVLMLDTK3D
-	2DnXGegoCEAe3Vlv5yLVkZY=
-X-Google-Smtp-Source: AGHT+IELWhdY+xlGbcygCHfMtAmvFYKMUVBXuFHTLdw2y3Khw2UsmjjToq3dz+nmpgZeihDohr2bPw==
-X-Received: by 2002:a92:760d:0:b0:35d:59a2:bec with SMTP id r13-20020a92760d000000b0035d59a20becmr743764ilc.130.1701855429589;
-        Wed, 06 Dec 2023 01:37:09 -0800 (PST)
+X-Gm-Message-State: AOJu0Ywc39w4IQlF2oPhW1dD8GAN5CPcLmqGc3DqvzMbWqIJ1EVr2VY6
+	kYmROwHQyd5sMmVwT4Pyma4=
+X-Google-Smtp-Source: AGHT+IFjcwPrVtnEy+25HxlQ2g+sMOKG4u+XjjxNADdKdkSi5tx8oUTGrfzW2hDjZhGFcMEYe2ASWQ==
+X-Received: by 2002:a0c:f90c:0:b0:67a:ceb6:26c1 with SMTP id v12-20020a0cf90c000000b0067aceb626c1mr1045153qvn.2.1701855930049;
+        Wed, 06 Dec 2023 01:45:30 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:c081:0:b0:35d:6f98:f426 with SMTP id h1-20020a92c081000000b0035d6f98f426ls2164193ile.1.-pod-prod-03-us;
- Wed, 06 Dec 2023 01:37:08 -0800 (PST)
-X-Received: by 2002:a92:d591:0:b0:35d:6648:ae51 with SMTP id a17-20020a92d591000000b0035d6648ae51mr630167iln.5.1701855428458;
-        Wed, 06 Dec 2023 01:37:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1701855428; cv=none;
+Received: by 2002:ad4:4428:0:b0:67a:dd5b:643c with SMTP id e8-20020ad44428000000b0067add5b643cls1286149qvt.0.-pod-prod-03-us;
+ Wed, 06 Dec 2023 01:45:29 -0800 (PST)
+X-Received: by 2002:a05:6122:50c:b0:4b2:83ab:7ebd with SMTP id x12-20020a056122050c00b004b283ab7ebdmr272395vko.11.1701855929110;
+        Wed, 06 Dec 2023 01:45:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1701855929; cv=none;
         d=google.com; s=arc-20160816;
-        b=B+c505+QDgcpBsybSmmd/+yF43ZEoITpsdZ+sjpt2mCmcKMyZ7ilqbJfVR/2juAU1j
-         F+k+8HAJ0ayWmxEh5R+aHVug8m6b5USZXpu2+tHtFBOJhQXbc0W1epDHkVlpcx0rjyBj
-         ww4KTegNabi1GFLz9fONjzgQWX0ZwxWwSl6Ff6ZSHlivzatpf0+gyJ1ZnzIlpwpg3txT
-         Fl6MSHlxLYEe5AB9SLoHoEo4aF6tCQ2RCrhTjaxroaUCZ7Gg1HZ+SHMiXbRk7O1vOmdu
-         Yg82YHSsQWjKMAvg/jff9LEwZSY9ktj5AjdKy/7kP+/Lc+kqiLHjigOw1ZgZ8C2OWbOf
-         IV8Q==
+        b=FftHt5X5uTU42DEoQLtRtpmBNux9d4REicI+GhKJc8tdHHAmUeSjuTJ51MnLgjW0eO
+         BLG32jeRIi/JY3qRRGJlQzgVz/ynvcx5E5gyzGXiCmkktxo1h4gO4sU2qh9XyZJSK+SM
+         X+4PC3lLlz3hCkQJWq69S/TE3dwcIs93cLRFy3Xz2DJ+jkFwbE6Fz2EiSm8J24RC64Jo
+         8b118dtCnQlcKw81z7ZhCrxZz8KIaMQIt3Q/wdlVn/EKJKTDAh962jYUfxWW164oVqi8
+         Z7uhnNtafhFB02eHaW1TiSsBhwPgInkziEheiIMcyB7W2Iz+Fd7VvK3lzI8zRyFCg6ny
+         ktUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature;
-        bh=0RhjCKHQblZR+lvAtLCjbDfVvYyouCwUYRk6G4t7QCw=;
-        fh=06sOGDy6+X3nN0awOxb/HH+z4VuvuKLqmFUbQx9UqP4=;
-        b=NfLTP+oUhHM1p/oX7JMZgMCR/HEzpct0rmcxiMDrCAnACSd4dJFAb+vYIC+Ef9x0js
-         P2DEjVMKfds2WixmZDAKlZMlXcMIY5kZ8wvrxRUCoYHuqpYsAMM1aCjq7skoPntw9yow
-         42DNvNb7zVqWydtca8XgBcbfyXZwGoUIsVs4jaygbuy1fjLH4zEqEWdnAl7vTbnngdrF
-         QtE4pRyCyFnFZEvJduK5FxuWARTPyarGzUJkLSq3P+8w1fHDukmndGZUZiJKpvgrH08s
-         ZGW3oJhiIOE9OKpLvNRvbqN1rZukEdaqrXBYLKY57YAubhB5zfvzyp50d8pqGcX5Uvw8
-         SP0w==
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=cDd5Zi7vCvO2ycBR8Ub2HRlOTkCLIJYdUeR29MHQbio=;
+        fh=ezGgTJoHdqijbJ6IWHiSjHZUYI0p+VPBCX/sPRmQd+E=;
+        b=tkI9O9JcB2QTwVDIQyNzMcYZCuLM+exdZXiSCea3xIo2EVY3cxZjz2Wphv9IZwN3Vq
+         f6w3xpWbALg2HVlDgwhnILHC2H/N35ZhePqN5h00VbALp8yWX+L6qVdXRb9ksoqo/+9d
+         9NlwHux7PHUQlQr0dBSP3RjGxOOeAq/VUF+xO6xGvn4GfUNapzAm9jAuhvvbAhUNX/zY
+         52d5JRA78sNU1svwXABukG5ae89/M8AHQlrdNO+7QnoSMlqL95jJ3ySbeGzP5ar/Zd48
+         +Zhl5vWEETDXzE9eV84/vjaLqeOgMsWJ1Cyyd+Dhh1gvn+er/nH9CsUztasnHxY/Uoqt
+         i0NA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=YMsDkGCg;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2a07:de40:b251:101:10:150:64:1])
-        by gmr-mx.google.com with ESMTPS id t10-20020a92c0ca000000b0035c8d7c3820si265379ilf.2.2023.12.06.01.37.08
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=D6B11Dfv;
+       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::102d as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com. [2607:f8b0:4864:20::102d])
+        by gmr-mx.google.com with ESMTPS id d3-20020a05612212c300b004b2c71cd532si896268vkp.5.2023.12.06.01.45.29
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Dec 2023 01:45:29 -0800 (PST)
+Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::102d as permitted sender) client-ip=2607:f8b0:4864:20::102d;
+Received: by mail-pj1-x102d.google.com with SMTP id 98e67ed59e1d1-28694702c18so3492701a91.3
+        for <kasan-dev@googlegroups.com>; Wed, 06 Dec 2023 01:45:29 -0800 (PST)
+X-Received: by 2002:a17:90b:1298:b0:286:6cc0:cac2 with SMTP id fw24-20020a17090b129800b002866cc0cac2mr546651pjb.57.1701855927932;
+        Wed, 06 Dec 2023 01:45:27 -0800 (PST)
+Received: from localhost.localdomain ([1.245.180.67])
+        by smtp.gmail.com with ESMTPSA id ms10-20020a17090b234a00b0028679f2ee38sm938188pjb.0.2023.12.06.01.45.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 01:37:08 -0800 (PST)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:1;
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0548921A3B;
-	Wed,  6 Dec 2023 09:37:06 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CA3E313408;
-	Wed,  6 Dec 2023 09:37:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id OgMBMcFAcGXVRgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 06 Dec 2023 09:37:05 +0000
-Message-ID: <15e22e38-6eee-3a55-df27-51b7bc0c5976@suse.cz>
-Date: Wed, 6 Dec 2023 10:37:05 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 09/21] mm/slab: remove mm/slab.c and slab_def.h
-Content-Language: en-US
-To: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+        Wed, 06 Dec 2023 01:45:27 -0800 (PST)
+Date: Wed, 6 Dec 2023 18:45:19 +0900
+From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+To: Vlastimil Babka <vbabka@suse.cz>
 Cc: David Rientjes <rientjes@google.com>, Christoph Lameter <cl@linux.com>,
- Pekka Enberg <penberg@kernel.org>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, Marco Elver
- <elver@google.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Michal Hocko <mhocko@kernel.org>, Shakeel Butt <shakeelb@google.com>,
- Muchun Song <muchun.song@linux.dev>, Kees Cook <keescook@chromium.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com, cgroups@vger.kernel.org,
- linux-hardening@vger.kernel.org
+	Pekka Enberg <penberg@kernel.org>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Marco Elver <elver@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	Michal Hocko <mhocko@kernel.org>,
+	Shakeel Butt <shakeelb@google.com>,
+	Muchun Song <muchun.song@linux.dev>,
+	Kees Cook <keescook@chromium.org>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	cgroups@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2 11/21] mm/slab: move the rest of slub_def.h to
+ mm/slab.h
+Message-ID: <ZXBCr2n9m/jfXxFw@localhost.localdomain>
 References: <20231120-slab-remove-slab-v2-0-9c9c70177183@suse.cz>
- <20231120-slab-remove-slab-v2-9-9c9c70177183@suse.cz>
- <ZXA+Ur55OR1EU/5L@localhost.localdomain>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <ZXA+Ur55OR1EU/5L@localhost.localdomain>
+ <20231120-slab-remove-slab-v2-11-9c9c70177183@suse.cz>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [0.20 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 RCPT_COUNT_TWELVE(0.00)[23];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,suse.cz:email,selenic.com:email];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[google.com,linux.com,kernel.org,lge.com,linux-foundation.org,linux.dev,gmail.com,arm.com,cmpxchg.org,chromium.org,kvack.org,vger.kernel.org,googlegroups.com];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Score: 0.20
-X-Spam-Level: 
-X-Original-Sender: vbabka@suse.cz
+Content-Disposition: inline
+In-Reply-To: <20231120-slab-remove-slab-v2-11-9c9c70177183@suse.cz>
+X-Original-Sender: 42.hyeyoo@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=YMsDkGCg;       dkim=neutral
- (no key) header.i=@suse.cz header.s=susede2_ed25519;       spf=pass
- (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1
- as permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@gmail.com header.s=20230601 header.b=D6B11Dfv;       spf=pass
+ (google.com: domain of 42.hyeyoo@gmail.com designates 2607:f8b0:4864:20::102d
+ as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -189,42 +170,336 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 12/6/23 10:31, Hyeonggon Yoo wrote:
-> On Mon, Nov 20, 2023 at 07:34:20PM +0100, Vlastimil Babka wrote:
->> Remove the SLAB implementation. Update CREDITS.
->> Also update and properly sort the SLOB entry there.
->> 
->> RIP SLAB allocator (1996 - 2024)
->> 
->> Reviewed-by: Kees Cook <keescook@chromium.org>
->> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
->> ---
->>  CREDITS                  |   12 +-
->>  include/linux/slab_def.h |  124 --
->>  mm/slab.c                | 4005 ----------------------------------------------
->>  3 files changed, 8 insertions(+), 4133 deletions(-)
+On Mon, Nov 20, 2023 at 07:34:22PM +0100, Vlastimil Babka wrote:
+> mm/slab.h is the only place to include include/linux/slub_def.h which
+> has allowed switching between SLAB and SLUB. Now we can simply move the
+> contents over and remove slub_def.h.
 > 
-> Acked-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+> Use this opportunity to fix up some whitespace (alignment) issues.
 > 
->> diff --git a/CREDITS b/CREDITS
->> index f33a33fd2371..943a73e96149 100644
->> --- a/CREDITS
->> +++ b/CREDITS
->> @@ -9,10 +9,6 @@
->>  			Linus
->>  ----------
->>  
->> -N: Matt Mackal
->> -E: mpm@selenic.com
->> -D: SLOB slab allocator
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+>  include/linux/slub_def.h | 150 -----------------------------------------------
+>  mm/slab.h                | 138 ++++++++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 137 insertions(+), 151 deletions(-)
 > 
-> by the way I just realized that commit 16e943bf8db
-> ("MAINTAINERS: SLAB maintainer update") incorrectly put her lastname
-> (Mackall is correct), maybe update that too?
+> diff --git a/include/linux/slub_def.h b/include/linux/slub_def.h
+> deleted file mode 100644
+> index a0229ea42977..000000000000
+> --- a/include/linux/slub_def.h
+> +++ /dev/null
+> @@ -1,150 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0 */
+> -#ifndef _LINUX_SLUB_DEF_H
+> -#define _LINUX_SLUB_DEF_H
+> -
+> -/*
+> - * SLUB : A Slab allocator without object queues.
+> - *
+> - * (C) 2007 SGI, Christoph Lameter
+> - */
+> -#include <linux/kfence.h>
+> -#include <linux/kobject.h>
+> -#include <linux/reciprocal_div.h>
+> -#include <linux/local_lock.h>
+> -
+> -#ifdef CONFIG_SLUB_CPU_PARTIAL
+> -#define slub_percpu_partial(c)		((c)->partial)
+> -
+> -#define slub_set_percpu_partial(c, p)		\
+> -({						\
+> -	slub_percpu_partial(c) = (p)->next;	\
+> -})
+> -
+> -#define slub_percpu_partial_read_once(c)     READ_ONCE(slub_percpu_partial(c))
+> -#else
+> -#define slub_percpu_partial(c)			NULL
+> -
+> -#define slub_set_percpu_partial(c, p)
+> -
+> -#define slub_percpu_partial_read_once(c)	NULL
+> -#endif // CONFIG_SLUB_CPU_PARTIAL
+> -
+> -/*
+> - * Word size structure that can be atomically updated or read and that
+> - * contains both the order and the number of objects that a slab of the
+> - * given order would contain.
+> - */
+> -struct kmem_cache_order_objects {
+> -	unsigned int x;
+> -};
+> -
+> -/*
+> - * Slab cache management.
+> - */
+> -struct kmem_cache {
+> -#ifndef CONFIG_SLUB_TINY
+> -	struct kmem_cache_cpu __percpu *cpu_slab;
+> -#endif
+> -	/* Used for retrieving partial slabs, etc. */
+> -	slab_flags_t flags;
+> -	unsigned long min_partial;
+> -	unsigned int size;	/* The size of an object including metadata */
+> -	unsigned int object_size;/* The size of an object without metadata */
+> -	struct reciprocal_value reciprocal_size;
+> -	unsigned int offset;	/* Free pointer offset */
+> -#ifdef CONFIG_SLUB_CPU_PARTIAL
+> -	/* Number of per cpu partial objects to keep around */
+> -	unsigned int cpu_partial;
+> -	/* Number of per cpu partial slabs to keep around */
+> -	unsigned int cpu_partial_slabs;
+> -#endif
+> -	struct kmem_cache_order_objects oo;
+> -
+> -	/* Allocation and freeing of slabs */
+> -	struct kmem_cache_order_objects min;
+> -	gfp_t allocflags;	/* gfp flags to use on each alloc */
+> -	int refcount;		/* Refcount for slab cache destroy */
+> -	void (*ctor)(void *);
+> -	unsigned int inuse;		/* Offset to metadata */
+> -	unsigned int align;		/* Alignment */
+> -	unsigned int red_left_pad;	/* Left redzone padding size */
+> -	const char *name;	/* Name (only for display!) */
+> -	struct list_head list;	/* List of slab caches */
+> -#ifdef CONFIG_SYSFS
+> -	struct kobject kobj;	/* For sysfs */
+> -#endif
+> -#ifdef CONFIG_SLAB_FREELIST_HARDENED
+> -	unsigned long random;
+> -#endif
+> -
+> -#ifdef CONFIG_NUMA
+> -	/*
+> -	 * Defragmentation by allocating from a remote node.
+> -	 */
+> -	unsigned int remote_node_defrag_ratio;
+> -#endif
+> -
+> -#ifdef CONFIG_SLAB_FREELIST_RANDOM
+> -	unsigned int *random_seq;
+> -#endif
+> -
+> -#ifdef CONFIG_KASAN_GENERIC
+> -	struct kasan_cache kasan_info;
+> -#endif
+> -
+> -#ifdef CONFIG_HARDENED_USERCOPY
+> -	unsigned int useroffset;	/* Usercopy region offset */
+> -	unsigned int usersize;		/* Usercopy region size */
+> -#endif
+> -
+> -	struct kmem_cache_node *node[MAX_NUMNODES];
+> -};
+> -
+> -#if defined(CONFIG_SYSFS) && !defined(CONFIG_SLUB_TINY)
+> -#define SLAB_SUPPORTS_SYSFS
+> -void sysfs_slab_unlink(struct kmem_cache *);
+> -void sysfs_slab_release(struct kmem_cache *);
+> -#else
+> -static inline void sysfs_slab_unlink(struct kmem_cache *s)
+> -{
+> -}
+> -static inline void sysfs_slab_release(struct kmem_cache *s)
+> -{
+> -}
+> -#endif
+> -
+> -void *fixup_red_left(struct kmem_cache *s, void *p);
+> -
+> -static inline void *nearest_obj(struct kmem_cache *cache, const struct slab *slab,
+> -				void *x) {
+> -	void *object = x - (x - slab_address(slab)) % cache->size;
+> -	void *last_object = slab_address(slab) +
+> -		(slab->objects - 1) * cache->size;
+> -	void *result = (unlikely(object > last_object)) ? last_object : object;
+> -
+> -	result = fixup_red_left(cache, result);
+> -	return result;
+> -}
+> -
+> -/* Determine object index from a given position */
+> -static inline unsigned int __obj_to_index(const struct kmem_cache *cache,
+> -					  void *addr, void *obj)
+> -{
+> -	return reciprocal_divide(kasan_reset_tag(obj) - addr,
+> -				 cache->reciprocal_size);
+> -}
+> -
+> -static inline unsigned int obj_to_index(const struct kmem_cache *cache,
+> -					const struct slab *slab, void *obj)
+> -{
+> -	if (is_kfence_address(obj))
+> -		return 0;
+> -	return __obj_to_index(cache, slab_address(slab), obj);
+> -}
+> -
+> -static inline int objs_per_slab(const struct kmem_cache *cache,
+> -				     const struct slab *slab)
+> -{
+> -	return slab->objects;
+> -}
+> -#endif /* _LINUX_SLUB_DEF_H */
+> diff --git a/mm/slab.h b/mm/slab.h
+> index 014c36ea51fa..3a8d13c099fa 100644
+> --- a/mm/slab.h
+> +++ b/mm/slab.h
+> @@ -209,7 +209,143 @@ static inline size_t slab_size(const struct slab *slab)
+>  	return PAGE_SIZE << slab_order(slab);
+>  }
+>  
+> -#include <linux/slub_def.h>
+> +#include <linux/kfence.h>
+> +#include <linux/kobject.h>
+> +#include <linux/reciprocal_div.h>
+> +#include <linux/local_lock.h>
+> +
+> +#ifdef CONFIG_SLUB_CPU_PARTIAL
+> +#define slub_percpu_partial(c)			((c)->partial)
+> +
+> +#define slub_set_percpu_partial(c, p)		\
+> +({						\
+> +	slub_percpu_partial(c) = (p)->next;	\
+> +})
+> +
+> +#define slub_percpu_partial_read_once(c)	READ_ONCE(slub_percpu_partial(c))
+> +#else
+> +#define slub_percpu_partial(c)			NULL
+> +
+> +#define slub_set_percpu_partial(c, p)
+> +
+> +#define slub_percpu_partial_read_once(c)	NULL
+> +#endif // CONFIG_SLUB_CPU_PARTIAL
+> +
+> +/*
+> + * Word size structure that can be atomically updated or read and that
+> + * contains both the order and the number of objects that a slab of the
+> + * given order would contain.
+> + */
+> +struct kmem_cache_order_objects {
+> +	unsigned int x;
+> +};
+> +
+> +/*
+> + * Slab cache management.
+> + */
+> +struct kmem_cache {
+> +#ifndef CONFIG_SLUB_TINY
+> +	struct kmem_cache_cpu __percpu *cpu_slab;
+> +#endif
+> +	/* Used for retrieving partial slabs, etc. */
+> +	slab_flags_t flags;
+> +	unsigned long min_partial;
+> +	unsigned int size;		/* Object size including metadata */
+> +	unsigned int object_size;	/* Object size without metadata */
+> +	struct reciprocal_value reciprocal_size;
+> +	unsigned int offset;		/* Free pointer offset */
+> +#ifdef CONFIG_SLUB_CPU_PARTIAL
+> +	/* Number of per cpu partial objects to keep around */
+> +	unsigned int cpu_partial;
+> +	/* Number of per cpu partial slabs to keep around */
+> +	unsigned int cpu_partial_slabs;
+> +#endif
+> +	struct kmem_cache_order_objects oo;
+> +
+> +	/* Allocation and freeing of slabs */
+> +	struct kmem_cache_order_objects min;
+> +	gfp_t allocflags;		/* gfp flags to use on each alloc */
+> +	int refcount;			/* Refcount for slab cache destroy */
+> +	void (*ctor)(void *object);	/* Object constructor */
+> +	unsigned int inuse;		/* Offset to metadata */
+> +	unsigned int align;		/* Alignment */
+> +	unsigned int red_left_pad;	/* Left redzone padding size */
+> +	const char *name;		/* Name (only for display!) */
+> +	struct list_head list;		/* List of slab caches */
+> +#ifdef CONFIG_SYSFS
+> +	struct kobject kobj;		/* For sysfs */
+> +#endif
+> +#ifdef CONFIG_SLAB_FREELIST_HARDENED
+> +	unsigned long random;
+> +#endif
+> +
+> +#ifdef CONFIG_NUMA
+> +	/*
+> +	 * Defragmentation by allocating from a remote node.
+> +	 */
+> +	unsigned int remote_node_defrag_ratio;
+> +#endif
+> +
+> +#ifdef CONFIG_SLAB_FREELIST_RANDOM
+> +	unsigned int *random_seq;
+> +#endif
+> +
+> +#ifdef CONFIG_KASAN_GENERIC
+> +	struct kasan_cache kasan_info;
+> +#endif
+> +
+> +#ifdef CONFIG_HARDENED_USERCOPY
+> +	unsigned int useroffset;	/* Usercopy region offset */
+> +	unsigned int usersize;		/* Usercopy region size */
+> +#endif
+> +
+> +	struct kmem_cache_node *node[MAX_NUMNODES];
+> +};
+> +
+> +#if defined(CONFIG_SYSFS) && !defined(CONFIG_SLUB_TINY)
+> +#define SLAB_SUPPORTS_SYSFS
+> +void sysfs_slab_unlink(struct kmem_cache *s);
+> +void sysfs_slab_release(struct kmem_cache *s);
+> +#else
+> +static inline void sysfs_slab_unlink(struct kmem_cache *s) { }
+> +static inline void sysfs_slab_release(struct kmem_cache *s) { }
+> +#endif
+> +
+> +void *fixup_red_left(struct kmem_cache *s, void *p);
+> +
+> +static inline void *nearest_obj(struct kmem_cache *cache,
+> +				const struct slab *slab, void *x)
+> +{
+> +	void *object = x - (x - slab_address(slab)) % cache->size;
+> +	void *last_object = slab_address(slab) +
+> +		(slab->objects - 1) * cache->size;
+> +	void *result = (unlikely(object > last_object)) ? last_object : object;
+> +
+> +	result = fixup_red_left(cache, result);
+> +	return result;
+> +}
+> +
+> +/* Determine object index from a given position */
+> +static inline unsigned int __obj_to_index(const struct kmem_cache *cache,
+> +					  void *addr, void *obj)
+> +{
+> +	return reciprocal_divide(kasan_reset_tag(obj) - addr,
+> +				 cache->reciprocal_size);
+> +}
+> +
+> +static inline unsigned int obj_to_index(const struct kmem_cache *cache,
+> +					const struct slab *slab, void *obj)
+> +{
+> +	if (is_kfence_address(obj))
+> +		return 0;
+> +	return __obj_to_index(cache, slab_address(slab), obj);
+> +}
+> +
+> +static inline int objs_per_slab(const struct kmem_cache *cache,
+> +				const struct slab *slab)
+> +{
+> +	return slab->objects;
+> +}
+>  
+>  #include <linux/memcontrol.h>
+>  #include <linux/fault-inject.h>
 
-Right, thanks a lot for noticing, will fix.
+Looks good to me,
+Reviewed-by: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+
+> 
+> -- 
+> 2.42.1
+> 
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/15e22e38-6eee-3a55-df27-51b7bc0c5976%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZXBCr2n9m/jfXxFw%40localhost.localdomain.
