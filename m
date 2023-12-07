@@ -1,76 +1,150 @@
-Return-Path: <kasan-dev+bncBD4I33XR64BRBW5JYWVQMGQE7M2EMFA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCILLLGERUHBBJGRY6VQMGQEJ25VHHQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x39.google.com (mail-oa1-x39.google.com [IPv6:2001:4860:4864:20::39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 427F480800B
-	for <lists+kasan-dev@lfdr.de>; Thu,  7 Dec 2023 06:15:09 +0100 (CET)
-Received: by mail-oa1-x39.google.com with SMTP id 586e51a60fabf-1fb0a385ab8sf1463625fac.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 06 Dec 2023 21:15:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1701926108; x=1702530908; darn=lfdr.de;
+Received: from mail-pl1-x63e.google.com (mail-pl1-x63e.google.com [IPv6:2607:f8b0:4864:20::63e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A494808C20
+	for <lists+kasan-dev@lfdr.de>; Thu,  7 Dec 2023 16:45:42 +0100 (CET)
+Received: by mail-pl1-x63e.google.com with SMTP id d9443c01a7336-1d0af632728sf1180705ad.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 07 Dec 2023 07:45:42 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1701963941; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=FIMQkJj3lyHq9tdo34S3AJcBv62lNIMrNQWvjLCPGqd+xjGKkZ8B2opC4Yy8nb9BT3
+         i1q7mEmDrqT8iCnjgw2m2sQvHo5LLeezsFO92nTdr7tzR42OubSqvCBV4l4gejKXpfA8
+         jTJ1f76jCptlMMtqyDw9kKqHi7hfaZlBbtXo4hJgbzfm+t8UZpHGML3aYdHbUXBCNrzw
+         b1FdhiJRzm/SrorQmmm8uXXgtEDR0os0WRKiCv7nt1txmJTl6JOato8Rd9t1w3Uz+5hq
+         fggFOSwYV30Lp3dRvuRo352qsjwT2oPz/Cbb7VunTADnOgqcit+6igBE0SWA0OIUKem8
+         30Xw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:message-id:to:from:date:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9huRaO2CVk44owkKKRmhSboPdIe5hYA8LC/xTM95leg=;
-        b=pmgU33IWaIe6DCAC5Zm0zxtQt6r1wBh5zGIlU1as1Dpk8bT0QICZWLWIsirEfbZCjN
-         r11iQGoFVL2R77nV+gingNbIiwXABQun8hP4Tsk+LogIEq2z3RWkx9Kb8stYT3+33v9g
-         HojN5gipraQyQjiY8KXgu/6paxsx4gXRqGnlImfdkc1NlZnHZfyEnhNrAkCK5G/+KzuV
-         zFNA5cYp4ly524fsFv1PJQko0xnlfyf0NEPsnsEM41cyRsIZAiH66WAfDx///CyKDzPs
-         b+zS1gGVX77fbKk0dXL0ZWS+7+yga4dT9/6xvwfeI5rZVSrt5VfTheNGYolIlLja2iue
-         fmgw==
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=n3iWm38I4YO1yVJEy3uA9NizKXXgZWrJQchxobiYJsY=;
+        fh=116og8lalqa6MU202T7/3P4Ee7fswQ+6jT5BOccLZNk=;
+        b=MLXM2J8iN81EUmCNrKAaCaYuAXJaLo/pNrhJEBuf3b5DkDBjtdrKW2Xei7rBSQAIAQ
+         rA6V40EmtZ4+PE4o7I8n1iYmUywdhN0T5VssJCI4NuCkAo0vklcOBNQVV5YHmnSfDUGk
+         nzpj6SCELAfQ1tUSaCxPSuxGLlUWXfMCT73aGWR5UgPnhNDLgNA8xYM4pvJ3FpqUnVL5
+         z7fgQ7pCDuAk0OUULI/EgbaGkxA9wTscvschCugADOMcs2SF+hKe3LcEyZBU7h0/HyQS
+         /o8SxnochrL30L8ydUxuwfPh2GAZfWPGqdVvwU3ROz+3uSTLxj9LNA/Vxht7ZPJh1lGo
+         Ekwg==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       spf=pass (google.com: domain of dennisszhou@gmail.com designates 209.85.214.170 as permitted sender) smtp.mailfrom=dennisszhou@gmail.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701926108; x=1702530908; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1701963941; x=1702568741; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9huRaO2CVk44owkKKRmhSboPdIe5hYA8LC/xTM95leg=;
-        b=JApWowyFkLgMN3c5XEh6rdGvojWhE5XtWaKR2fsx4tvDuLshCSRmw9Lx86X+yKux8x
-         MtqLeiTKAecJMceVqz5iGQbEq287TDggcQZk2JWgFIoNDdEDUbPnLTy12eVwTBYyEksu
-         Sx0LIFGj38ELugitRCHAYEEdzj1Pz2FT+6CtEPgXARyj3m6niSawPlSH/dNWoHh+DX3m
-         jTwaevLWptRJX5GeUcgUZO5fA9n3tcOxce1Zbnxpq7bTrnFVx086APINVlp7OQVp6mT1
-         BKH8GcPFVITviJPYNo6gdPuO+iimg9V1VEBtXKriC2QrJXacZS3wMz4Zg149uOHY7alz
-         DizA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n3iWm38I4YO1yVJEy3uA9NizKXXgZWrJQchxobiYJsY=;
+        b=V0bCtARi9RBogwbNQk8+4qEdI9+iV9Km2bniY9KIzbbvZU22HVDDriihjRCSrrEIRl
+         Z8tZepleA7GJzMdy0/usFjhvXLBP71b4ZTk+sHpNojxvmvu/N5JmnT6bKqX2wkA9hqbv
+         4FPcAJeWy28aRx0HGlCSqOZ7d95h5dJUFKzxmH3AIh17+9BEN0NXhEWmbktxiRWG38qM
+         PBGBLR0f/eYvgI3ayd1mp8spF3tJ21IN5si8RlSpBcC62cF/6FpjxCTO5+AhJyfJaJ9H
+         37/Q+s4YI9TZ9dAN/6fFemhaOan5kYkLy2Oo7zkGnkhqFxZxxMhJn+hohr6Zsk8oQg0R
+         kgyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701926108; x=1702530908;
+        d=1e100.net; s=20230601; t=1701963941; x=1702568741;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-sender:mime-version:subject:message-id:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9huRaO2CVk44owkKKRmhSboPdIe5hYA8LC/xTM95leg=;
-        b=Vn8q6qck4/omtJKCWJMKsTRE4WkNCAOz9GCE/+tvvwzNNdcXDSyIAwpnuH+apygVuj
-         ys4pbdoqmMp3CsBnHBLKZsXjcxCzEvsxx+k3vvo1gdiFKY6vWFPWcsjgsoyyoSPrKc9R
-         64O5zCovSjUe6qjN73/nXeWYs3+Y5XNf1xtbVY3A9wzf4Sep6nZ+pfCHWEsmVsjTq+vp
-         /ZHoLlEYir0YTPTwJJlJzrrYFdatsgAOkG+Yr9RQtl0mZQdl2+SZ69+MpdRenLAzAfiu
-         68dagn0aLakY+npDoaGa6JE4N1V+W7Ym/Wqj052s+mTJb+7fNxZkvQBb/Ep5hMfyp5zm
-         Q2Fg==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=n3iWm38I4YO1yVJEy3uA9NizKXXgZWrJQchxobiYJsY=;
+        b=d8UXUmbynVQHpyHXOin13FpKHGQIwi0quDIllgZzQkxg9FWotiG1uFFA4Vi0en0TEP
+         gxaWx6ZtH7kLrNKNs5pYitbqIWJ4vu0sKQKjiemACatIQCckuw+RAayym4LG5qwu/vDU
+         r/HI1dTP3geqK0/lEJnm3mI/o/NiGjETxB1isKZEhjDXAD/TUBulwDMAA38uKEo/YzWV
+         T6O+DK93g2MWou/xJSqAfPuLPSXLiP8oYhMr4Owacq//YdYZOf4OIn6kec9SjG4qWFIA
+         ZSThGSJHaxLyHj5LnHPRzZsX1RihFaT/nzqIrX8+E2sLLDbHODkCZzq4KjxW7GAorE19
+         mG9g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YzXLySCmn8rUIvxZgqrsQOSvH8DFGtiksNSa/Pya8hmMbFEwpXp
-	Pc7GO2G6f0vcJo2C2ZvAI3A=
-X-Google-Smtp-Source: AGHT+IE4Ts1GWEU32ZqJn3v7oNN5GTFWi+N8GzFgQHfiBFnE7rYrVRvzbCwGHcVpumMfsU8eBCePlw==
-X-Received: by 2002:a05:6870:9d96:b0:1f5:cd12:260f with SMTP id pv22-20020a0568709d9600b001f5cd12260fmr2669067oab.26.1701926108005;
-        Wed, 06 Dec 2023 21:15:08 -0800 (PST)
+X-Gm-Message-State: AOJu0YyS98uJ8hccLtW8dRIK/rLh9AYYRy2V0g9IcjoGBJylDl6XgGNG
+	Aky0Fp6ii4+el4M2VBIucDk=
+X-Google-Smtp-Source: AGHT+IGt8nt6XUaFjlHerB5A2Dwr/UDL+qiq5+q39P5BoYKTnXGRdlbVR+LmiY3PBYIZDjg4k9K0mw==
+X-Received: by 2002:a17:903:2641:b0:1cf:ccc3:c9ed with SMTP id je1-20020a170903264100b001cfccc3c9edmr497828plb.7.1701963940755;
+        Thu, 07 Dec 2023 07:45:40 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6871:e706:b0:1fb:4d90:ab90 with SMTP id
- qa6-20020a056871e70600b001fb4d90ab90ls552170oac.2.-pod-prod-00-us; Wed, 06
- Dec 2023 21:15:07 -0800 (PST)
-X-Received: by 2002:a05:6871:741d:b0:1fb:336d:e34d with SMTP id nw29-20020a056871741d00b001fb336de34dmr4799669oac.0.1701926107090;
-        Wed, 06 Dec 2023 21:15:07 -0800 (PST)
-Date: Wed, 6 Dec 2023 21:15:06 -0800 (PST)
-From: Nienke Sturn <sturnnienke@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <3d529b00-cbcc-48f7-8227-95f158cb2b39n@googlegroups.com>
-Subject: Firefox For Mac Os X 10.84
+Received: by 2002:a05:6820:602:b0:58a:758e:d0b5 with SMTP id
+ e2-20020a056820060200b0058a758ed0b5ls1506444oow.0.-pod-prod-06-us; Thu, 07
+ Dec 2023 07:45:40 -0800 (PST)
+X-Received: by 2002:aca:1011:0:b0:3b9:e48f:d642 with SMTP id 17-20020aca1011000000b003b9e48fd642mr375247oiq.4.1701963940353;
+        Thu, 07 Dec 2023 07:45:40 -0800 (PST)
+Received: by 2002:a05:6808:1784:b0:3b3:ed04:dbd0 with SMTP id 5614622812f47-3b9c65809d7msb6e;
+        Wed, 6 Dec 2023 21:46:53 -0800 (PST)
+X-Received: by 2002:a05:6871:2b1b:b0:1fb:75a:7797 with SMTP id dr27-20020a0568712b1b00b001fb075a7797mr2283209oac.72.1701928013396;
+        Wed, 06 Dec 2023 21:46:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1701928013; cv=none;
+        d=google.com; s=arc-20160816;
+        b=n/sEHuOHqSoWiV89Tpds0msZDHk+tzVozZwdRYcgFPnTnZQ+xBiLhI0ftfEkP6kO5l
+         7VYOGLaOJViS4L2fZx5aBn9hTMdx7v+9CicmbmLyiJ1l65l9RDJLpiCnbv2N04hhsQT1
+         fMnNTpHzPAGzk7UeSxDHUkpwy/+83h2KMbI5W8AJRt0GqSIjrRI6r/E1oC8CoJO2hxaJ
+         2l5No5YldGMHr3Zo5qKBixMiom73I3a5c0jYIfu5neqQdI2jCM15ZIapg+0tTjFgxkNV
+         TH7Sj2JysRALT+ui27SgLTH+B7WekyhC9+6FQwP8SdYJdMj+vH/OH7DbDxSgcjHtnaXP
+         VABg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date;
+        bh=egxxoHFyDqeCA/LxlDg8JyWMVYkStRh8cbZHikRDbS0=;
+        fh=116og8lalqa6MU202T7/3P4Ee7fswQ+6jT5BOccLZNk=;
+        b=OfzPR29tuzw9r/qj+uiNJ+Qd5I/N+YiOV3YtTRLvTZ+fRJzO+keHJ+gJSW/wuBegpA
+         sqHpX+m6hXqyq82MPmH8mBcSs72jsBQ2iVjzgGg/NqmarUD9ta1wvoOtv3gQcZVthTMc
+         gPPb4d00AikNWdgFDyCSVbzSTmE5uR+h7d5ITAtcTg/E4yvclqRD/UyD9dKTsaOigeKQ
+         ma2RnjtS5aL6m56uRxnVL+08cyyo3s22/Q91jgXmgS/YmfWNVPCzDneuz2uNqECl+Guz
+         pp2kgRSpUHZ4FyZBvK6CjKhzAdQRAIElfl70VGDzCzXDBHkUWsF98Nh/pabDTpceIe/r
+         wsPw==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       spf=pass (google.com: domain of dennisszhou@gmail.com designates 209.85.214.170 as permitted sender) smtp.mailfrom=dennisszhou@gmail.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com. [209.85.214.170])
+        by gmr-mx.google.com with ESMTPS id gb25-20020a056870671900b001fb4d96efc3si98083oab.5.2023.12.06.21.46.53
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 Dec 2023 21:46:53 -0800 (PST)
+Received-SPF: pass (google.com: domain of dennisszhou@gmail.com designates 209.85.214.170 as permitted sender) client-ip=209.85.214.170;
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-1d05212a7c5so3905625ad.0
+        for <kasan-dev@googlegroups.com>; Wed, 06 Dec 2023 21:46:53 -0800 (PST)
+X-Received: by 2002:a17:902:c101:b0:1d0:8afd:b28c with SMTP id 1-20020a170902c10100b001d08afdb28cmr1453916pli.92.1701928012478;
+        Wed, 06 Dec 2023 21:46:52 -0800 (PST)
+Received: from snowbird ([136.25.84.107])
+        by smtp.gmail.com with ESMTPSA id x5-20020a170902ea8500b001d08e080042sm431944plb.43.2023.12.06.21.46.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Dec 2023 21:46:51 -0800 (PST)
+Date: Wed, 6 Dec 2023 21:46:48 -0800
+From: Dennis Zhou <dennis@kernel.org>
+To: Tejun Heo <tj@kernel.org>, Alexandre Ghiti <alex@ghiti.fr>
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Arnd Bergmann <arnd@arndb.de>, Christoph Lameter <cl@linux.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH 0/2] riscv: Enable percpu page first chunk allocator
+Message-ID: <ZXFcSEzalzl790bO@snowbird>
+References: <20231110140721.114235-1-alexghiti@rivosinc.com>
+ <f259088f-a590-454e-b322-397e63071155@ghiti.fr>
+ <ZXDEyzVcBOPUCCpg@slm.duckdns.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_1530_459169988.1701926106557"
-X-Original-Sender: sturnnienke@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <ZXDEyzVcBOPUCCpg@slm.duckdns.org>
+X-Original-Sender: DennisSZhou@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of dennisszhou@gmail.com designates 209.85.214.170 as
+ permitted sender) smtp.mailfrom=dennisszhou@gmail.com;       dmarc=fail
+ (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
-X-Spam-Checked-In-Group: kasan-dev@googlegroups.com
 X-Google-Group-Id: 358814495539
 List-Post: <https://groups.google.com/group/kasan-dev/post>, <mailto:kasan-dev@googlegroups.com>
 List-Help: <https://groups.google.com/support/>, <mailto:kasan-dev+help@googlegroups.com>
@@ -79,188 +153,61 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_1530_459169988.1701926106557
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_1531_1570687019.1701926106557"
+Hello,
 
-------=_Part_1531_1570687019.1701926106557
-Content-Type: text/plain; charset="UTF-8"
+On Wed, Dec 06, 2023 at 09:00:27AM -1000, Tejun Heo wrote:
+> On Wed, Dec 06, 2023 at 11:08:20AM +0100, Alexandre Ghiti wrote:
+> > Hi Tejun,
+> > 
+> > On 10/11/2023 15:07, Alexandre Ghiti wrote:
+> > > While working with pcpu variables, I noticed that riscv did not support
+> > > first chunk allocation in the vmalloc area which may be needed as a fallback
+> > > in case of a sparse NUMA configuration.
+> > > 
+> > > patch 1 starts by introducing a new function flush_cache_vmap_early() which
+> > > is needed since a new vmalloc mapping is established and directly accessed:
+> > > on riscv, this would likely fail in case of a reordered access or if the
+> > > uarch caches invalid entries in TLB.
+> > > 
+> > > patch 2 simply enables the page percpu first chunk allocator in riscv.
+> > > 
+> > > Alexandre Ghiti (2):
+> > >    mm: Introduce flush_cache_vmap_early() and its riscv implementation
+> > >    riscv: Enable pcpu page first chunk allocator
+> > > 
+> > >   arch/riscv/Kconfig                  | 2 ++
+> > >   arch/riscv/include/asm/cacheflush.h | 3 ++-
+> > >   arch/riscv/include/asm/tlbflush.h   | 2 ++
+> > >   arch/riscv/mm/kasan_init.c          | 8 ++++++++
+> > >   arch/riscv/mm/tlbflush.c            | 5 +++++
+> > >   include/asm-generic/cacheflush.h    | 6 ++++++
+> > >   mm/percpu.c                         | 8 +-------
+> > >   7 files changed, 26 insertions(+), 8 deletions(-)
+> > > 
+> > 
+> > Any feedback regarding this?
+> 
+> On cursory look, it looked fine to me but Dennis is maintaining the percpu
+> tree now. Dennis?
+> 
 
+Ah I wasn't sure at the time if we needed this to go through percpu vs
+risc v. I need to poke tglx and potentially pull some more stuff so I
+can take it.
 
+I regrettably got both the covid and flu vaccines today and feel like a
+truck hit me. I'll review this tomorrow and make sure it's taken care
+of for the next merge window.
 
-If you use the Internet, your home most likely has a router. You have 
-plugged that router in and have a basic Wi-Fi network up and running. What 
-you might not realize is that your preset network is less than ideal. You 
-might not have any password set, or your *Wi-Fi network* is not optimized 
-for your use. To make any changes to your Wi-Fi network, you need to login 
-to your router using 192.168.10.84. Even if your router was set up by a 
-professional, perhaps by the ISP, and you are happy with how things are, 
-you might still need to use *192.168.10.84* when something goes wrong. It 
-is always handy knowing how to access your routers admin page in case you 
-need to change something, and getting to that admin page is not as hard as 
-you might think.
-Firefox For Mac Os X 10.84
+Thanks,
+Dennis
 
-*DOWNLOAD* https://t.co/6L3sLUnfP9
-
-
-*With your computer device connected to your router*, open your web browser 
-of choice. Google Chrome, Mozilla Firefox, Microsoft Edge, or Safari are 
-some examples of popular browsers. With your browser open, enter your IP 
-address, 192.168.10.84, into the search bar. 
-- *Searching for 192.168.10.84* will take you to the login section of your 
-router admin page. You will need to input the username and password 
-associated with your router. The correct details will take you to the menu 
-of your router admin page.
-
-Another popular setting people change on their router is the actual local *IP 
-address* of your router. Your router has two IP addresses, with more on 
-that below. If you opt to change your IP address away from *192.168.10.84*, 
-you should take note of your new address as you will need it to access your 
-router admin page.
-
-The *192.168.10.84* *IP address* is a local, private, or gateway *IP 
-address*. 192.168.10.84 is your router's address that computer devices 
-connected to the network will use to send data requests over the internet. 
-Your router also has a *public IP addre**ss*. The *public IP address* gets 
-used by the ISP and any website you visit, to get the information of the 
-website you visit, to your router, with your router the sending that data, 
-back to your computer screen, via the *private IP address*.
-
-*192.168.10.84* is a common *private **IP address*, though it might not be 
-yours. If 192.168.10.84 is not your *IP address*, you can search for your 
-router model online, which should reveal the default IP address of your 
-router. The IP address may also be listed in the manual of your router. If 
-those methods don't work, you can use your computer to find your *IP 
-address*.
-
-The only way your *private IP address* will change is if you change it. If 
-your routers IP address does not match *192.168.10.84* or one of the other 
-default IP addresses, then someone may have changed it before. If that is 
-the case and you wish to reset it back to default, then you can perform a 
-factory reset on your router, though that will reset everything else on the 
-router.
-
-As touched on above, *192.168.10.84 is a private IP address* that your 
-router uses to distinguish itself on the network, and a delivery point for 
-data requests from computer devices using the Wi-Fi network. *192.168.10.84 
-is not unique to your router* as most router manufacturers use a selection 
-of *private IP addresses* across their ranges of routers. With that said, a *private 
-IP address* is not even unique to a certain brand. It is done this way, as 
-the only person who needs to know the *private IP address* is the owner of 
-the router.
-
-But how does your router know which computer device is sending it data 
-requests? Well, your router is not the only device on your network, with 
-each computer connected to your *Wi-Fi network*, also having a *private IP 
-address such as 192.168.10.84*. The string of numbers that is your *IP 
-address helps each device communicate* with the other. And it is not just 
-internet-capable devices that have an IP address. Printers and storage 
-devices also have an IP address, so your router and computer devices using 
-the network can connect with them and use them. Usually, the IP addresses 
-of other devices on the *Wi-Fi network* are deviations of the router *IP 
-address*, with the last number being different.
-
-*192.168.10.84* is a *private IP address* and directly related to your *Wi-Fi 
-network*. It is the chain of numbers you use to access the router admin 
-page. However, as briefly mentioned, your router also has another *public 
-IP address*.
-eebf2c3492
+> Thanks.
+> 
+> -- 
+> tejun
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/3d529b00-cbcc-48f7-8227-95f158cb2b39n%40googlegroups.com.
-
-------=_Part_1531_1570687019.1701926106557
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><p>If you use the Internet, your home most likely has a router. You ha=
-ve plugged that router in and have a basic Wi-Fi network up and running. Wh=
-at you might not realize is that your preset network is less than ideal. Yo=
-u might not have any password set, or your <strong>Wi-Fi network</strong> i=
-s not optimized for your use. To make any changes to your Wi-Fi network, yo=
-u need to login to your router using 192.168.10.84. Even if your router was=
- set up by a professional, perhaps by the ISP, and you are happy with how t=
-hings are, you might still need to use <strong>192.168.10.84</strong> when =
-something goes wrong. It is always handy knowing how to access your routers=
- admin page in case you need to change something, and getting to that admin=
- page is not as hard as you might think.</p></div><div></div><div><h2>Firef=
-ox For Mac Os X 10.84</h2><br /><p><b>DOWNLOAD</b> https://t.co/6L3sLUnfP9<=
-/p><br /><br /></div><div><p><strong>With your computer device connected to=
- your router</strong>, open your web browser of choice. Google Chrome, Mozi=
-lla Firefox, Microsoft Edge, or Safari are some examples of popular browser=
-s. With your browser open, enter your IP address, 192.168.10.84, into the s=
-earch bar.</b> </li> <li> <strong>Searching for 192.168.10.84</strong> will=
- take you to the login section of your router admin page. You will need to =
-input the username and password associated with your router. The correct de=
-tails will take you to the menu of your router admin page.</p></div><div><p=
->Another popular setting people change on their router is the actual local =
-<strong>IP address</strong> of your router. Your router has two IP addresse=
-s, with more on that below. If you opt to change your IP address away from =
-<strong>192.168.10.84</strong>, you should take note of your new address as=
- you will need it to access your router admin page.</p></div><div><p>The <s=
-trong>192.168.10.84</strong> <strong>IP address</strong> is a local, privat=
-e, or gateway <strong>IP address</strong>. 192.168.10.84 is your router's a=
-ddress that computer devices connected to the network will use to send data=
- requests over the internet. Your router also has a <strong>public IP addre=
-</strong><strong>ss</strong>. The <strong>public IP address</strong> gets u=
-sed by the ISP and any website you visit, to get the information of the web=
-site you visit, to your router, with your router the sending that data, bac=
-k to your computer screen, via the <strong>private IP address</strong>.</p>=
-</div><div><p><strong>192.168.10.84</strong> is a common <strong>private </=
-strong><strong>IP address</strong>, though it might not be yours. If 192.16=
-8.10.84 is not your <strong>IP address</strong>, you can search for your ro=
-uter model online, which should reveal the default IP address of your route=
-r. The IP address may also be listed in the manual of your router. If those=
- methods don't work, you can use your computer to find your <strong>IP addr=
-ess</strong>.</p></div><div><p>The only way your <strong>private IP address=
-</strong> will change is if you change it. If your routers IP address does =
-not match <strong>192.168.10.84</strong> or one of the other default IP add=
-resses, then someone may have changed it before. If that is the case and yo=
-u wish to reset it back to default, then you can perform a factory reset on=
- your router, though that will reset everything else on the router.</p></di=
-v><div><p>As touched on above, <strong>192.168.10.84 is a private IP addres=
-s</strong> that your router uses to distinguish itself on the network, and =
-a delivery point for data requests from computer devices using the Wi-Fi ne=
-twork. <strong>192.168.10.84 is not unique to your router</strong> as most =
-router manufacturers use a selection of <strong>private IP addresses</stron=
-g> across their ranges of routers. With that said, a <strong>private IP add=
-ress</strong> is not even unique to a certain brand. It is done this way, a=
-s the only person who needs to know the <strong>private IP address</strong>=
- is the owner of the router.</p></div><div></div><div><p></p></div><div><p>=
-But how does your router know which computer device is sending it data requ=
-ests? Well, your router is not the only device on your network, with each c=
-omputer connected to your <strong>Wi-Fi network</strong>, also having a <st=
-rong>private IP address such as 192.168.10.84</strong>. The string of numbe=
-rs that is your <strong>IP address helps each device communicate</strong> w=
-ith the other. And it is not just internet-capable devices that have an IP =
-address. Printers and storage devices also have an IP address, so your rout=
-er and computer devices using the network can connect with them and use the=
-m. Usually, the IP addresses of other devices on the <strong>Wi-Fi network<=
-/strong> are deviations of the router <strong>IP address</strong>, with the=
- last number being different.</p></div><div><p><strong>192.168.10.84</stron=
-g> is a <strong>private IP address</strong> and directly related to your <s=
-trong>Wi-Fi network</strong>. It is the chain of numbers you use to access =
-the router admin page. However, as briefly mentioned, your router also has =
-another <strong>public IP address</strong>.</p> eebf2c3492</div><div></div>=
-<div></div><div></div><div></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/3d529b00-cbcc-48f7-8227-95f158cb2b39n%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/3d529b00-cbcc-48f7-8227-95f158cb2b39n%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_1531_1570687019.1701926106557--
-
-------=_Part_1530_459169988.1701926106557--
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZXFcSEzalzl790bO%40snowbird.
