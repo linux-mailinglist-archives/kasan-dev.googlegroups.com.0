@@ -1,119 +1,117 @@
-Return-Path: <kasan-dev+bncBCCMH5WKTMGRB5WOZSVQMGQEPX5EXUA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCCMH5WKTMGRBH7LZSVQMGQEXBB5GUY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3a.google.com (mail-oo1-xc3a.google.com [IPv6:2607:f8b0:4864:20::c3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C9C80A560
-	for <lists+kasan-dev@lfdr.de>; Fri,  8 Dec 2023 15:26:00 +0100 (CET)
-Received: by mail-oo1-xc3a.google.com with SMTP id 006d021491bc7-59085a47037sf1154217eaf.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 08 Dec 2023 06:26:00 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1702045559; cv=pass;
+Received: from mail-qk1-x739.google.com (mail-qk1-x739.google.com [IPv6:2607:f8b0:4864:20::739])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD86180A74B
+	for <lists+kasan-dev@lfdr.de>; Fri,  8 Dec 2023 16:26:24 +0100 (CET)
+Received: by mail-qk1-x739.google.com with SMTP id af79cd13be357-77f46b7ef40sf156099585a.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 08 Dec 2023 07:26:24 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1702049183; cv=pass;
         d=google.com; s=arc-20160816;
-        b=AaG6asqNlJ7pXuLNiRDgc4drFxsxj1PjTlZk8hyqXccVPEXRm5fhvDcjSMlcqd0w2c
-         7Xl7vfVMj0QmE7+KFGQimQckL50hQ1Ax8rw5/YigjOsTQ0Uhz9OtH8IzrQS+ujlYakrM
-         W3VUstgQ2V+3f4UAWYeDrd+jik7ubFGB8ZK3sDVHJThjAHek4RyvCFaSPh3tXugHHdfa
-         sb33nXTe7y/8No/lPpj8P71iqYY9T+yVrYqH4jkO6+VlmAEH+7v7kBAHmdUCEiG2kdkS
-         9ekHocDnNAsNKyNpktBnir64wdSw/fIukqs+/IuXOWGZmzL4aEpVP1fmE0GocULe5Mb0
-         qjTQ==
+        b=SOUJ4MseJqfbNmXGMj7QNqkwHenuDf9Q+PlwWTwY0eQU/RGXfhKttLpZp3vIyeW8/W
+         gG/vYxIj2s2zc1zYJNVMEaiE1MZMAG0WasSm8eJXMrZ6/pq+viUwR95eojXFrYxpK8GK
+         RHr4I9gDxFDUN5WBCZr2tSEI01qTMGr1Sq0Me8dITABqAtWI0ynNgSErh5q2WE1gTwAE
+         vX+sIgqmBkZm5O440MxoM+LPp7BvKqhtwpRfoKHPU18OOSxLvX90hA0xbN6CxjpgmkSY
+         kl0Rwpe7VQe0iitdqIppzYApHga9/EfgOVZhmnFakIxU/qn/kFXfXdyalWKEuerT233W
+         XzdQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=AWY9ABjWueOsAjR9NQSuACT7HbQCIel93Es/HzUVZeA=;
-        fh=4F7/7GXXxyuo8X/UbjieRU7LMIhIis3FKkbV38g4Hg0=;
-        b=oZq37haisDvfzzzB0rhXk0KQI+JQnsUlkl5TGI7ELKT6fX3l7Euk4IUICCbDqmq9xT
-         8Jcw4d/CoRhZWKeFxECz8lsvUbgUcy2tCwzYlBI37oAhU1IPe0ItUtdGZwOFv9b4/15u
-         5L7J0OIiijJx9DiBkYYE+B2be8VOI67QKKlYb468F6Y/h36u5+vh6HbiT07xvfvdReZ1
-         LVv5vsCdDKkTT/EDmWaFFuYVM9FP9ayxVO2JY1S94VuiFCNd5UrnXfX85tngfnmWmmg1
-         tLlVQm1HBxQMPnpJiMVqIG4LdX+7S7+mK91L9yXqGEHD9Wi1VWToZ3I+y2twHtImyufN
-         uZ9A==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=dzDTh/TgH3pd4Q7PYI26FQKrEcdYRVoj5lbm5BqWO9U=;
+        fh=kmKVJfn1Y9YZhlVPpqCDHuVVZsVgm/oqvGOUm8JK+fE=;
+        b=MSSSSPgmnFPF2pByRHnUXsIxQ2n6AQ1m3T1p8c95c7rIzzXNwbncfHePFCVubtArI2
+         /CR8I4Cl9XNf7WTATjgKExIgt1Pjinu84AphHE77pXWZxv9lQIMRNn0BidUFa9HIQjqN
+         zhBw2gXWV+PR/AQ0iJ6gbOR6ajZMxjH4EHvkQXpRjhR7lIc1v18N3hcE+fNxHvtym3ZE
+         eJr7tLa9oobC+SG+/e2DwPaTaY3LNGFVdRCYm8aHQ99c4FLxSqd6++rc77/hH8/I7isg
+         tzJdsG5exo+pvDs4SGZRy38XLDwVPoPV+3OiZ4zIjzKpAolhPlwVPufC+bLMc1O81XOI
+         qx2w==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=QMcqBwqx;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::c29 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=bBnNAVJ4;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f36 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1702045559; x=1702650359; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1702049183; x=1702653983; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AWY9ABjWueOsAjR9NQSuACT7HbQCIel93Es/HzUVZeA=;
-        b=dpe/QFqZtVcWnGZjlx34KEHNwoTtmfyBn1kFmWF17kW1+vUkE1uMeAtQWSRVCe3LVK
-         xnng4ehRvpDk8aiBoA73RCfDtDY6hc9RuW45rqmPLZDKmCVkK1E2gGrpkZEJjf0nlhTN
-         NdEWDb/CHrOrjrKZtMs5YenHHvg8soiqtFqLJdmAZL7n8Ie4MNApybpAmRHs3fjNtmOV
-         n3xDbqYx3++Xe8D64c/Xr3Vva5SIqZ6KZ3vKTF8h/UeFIvRE+RQXAb850KT5bP16KoNH
-         A7izk+bLHYQsr7t2BhnjeI8KZszUf2oW39AdX5UCQZp3t+SdB276PW5M1qElIndncMAr
-         uYGA==
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dzDTh/TgH3pd4Q7PYI26FQKrEcdYRVoj5lbm5BqWO9U=;
+        b=MVtdprM+yF+/lVa51XLgRkqtkcsqcKAcAdN4bXo+nXHcHd2pHIeM6lYP8C9/pcAE6J
+         7bMZjWQZxhNq6EETqfbckl0Z3W486Ok23SFn/41s9NQlkTVFiCgV+fUhcudBRzwtSa0z
+         jUyOq91FG/pCfAtnGi+9tkZvhSTM84q5bq3pDYYtEpO4WXeoC/9+DFiyNc0fEuEkj28X
+         4H5jKvis+FAlIvKYBUMcW2wfBAl7sDQS8ASUj8k4Fks2lMbeBcCunvtPKpnVdqUnG/ol
+         iHODukDZaKoSShJo9EkzisJOPmxt3RHs9hQ2Dl/BrpXpgN86utPgcNzkYc+W7LbmTtOG
+         P2xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702045559; x=1702650359;
+        d=1e100.net; s=20230601; t=1702049183; x=1702653983;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AWY9ABjWueOsAjR9NQSuACT7HbQCIel93Es/HzUVZeA=;
-        b=g/ZSwIzrTxE/z8Llr+gSMqfSI+t60iIAfj50PaOt/BR470bnonNHBdCrNn55EE1I+B
-         4Me/O70WKzSh4mXcj5pd5Ov8eaYuZGECMslJyHi64UZ8Gf75m7Tf6iL+FkA1i0n7ubG2
-         Aj5HBBnxTJc+CsEOergndIZRBi7Ih1dH6ylpOjH2+XMJJQbSS8QcK3VDoybvJxfRKsVS
-         H23Jp7WEw70qDznmhQ/IQkXmfyEqf5tDtISKT4mf9Kxc7qd+4gOGiBSVkDXbnR17hyyr
-         wKhMVKHfsdczb0zYbqi1/VN7r+dB7MFfLD6TaasOMXSnSVeKGcI86tszRqTpFjsSHk/m
-         Im7g==
-X-Gm-Message-State: AOJu0Yx815hF1UgrLZ+oTweK21psrLfVm1/SdR/TL7gofWzaDHdwymmF
-	N+vutm6GeMUTK1rsF82/HVo=
-X-Google-Smtp-Source: AGHT+IEqOZU7NjOzwil5GK1hgc5scrRXrt0inbvacdwOhnZ4l+XtQ8blUeDSzTTu2yLNua0pzW6K7A==
-X-Received: by 2002:a4a:d28f:0:b0:590:e85:199c with SMTP id h15-20020a4ad28f000000b005900e85199cmr149859oos.6.1702045558932;
-        Fri, 08 Dec 2023 06:25:58 -0800 (PST)
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dzDTh/TgH3pd4Q7PYI26FQKrEcdYRVoj5lbm5BqWO9U=;
+        b=ezU54CLsPvh4IKLzDi+hvOVqSFTWLi8jYWYGWMiqQUkMapI9xAskzugWYMCPenz0PJ
+         oSeyom8hehaJCNY41FX662NJRSRU1OpDlEtIu+YLhJsqgqEimgjdQimEY6SC9iRDsdUG
+         DzF0YPHOy58lqDMDlUcXC7v7pZBeBoZrOZw7j2ISzYS0Gfc9eQhc2syoOWQOjjNY151g
+         bKOp437Q3CW4FvWR75UC9dwTBdYrZmPjaoEjBJ1RXmlcZzvkymX5zIhGKM3Lp+QEMIax
+         LZoyTXG3AOCYd2PCv/Ka9BN6dj6JbaUaGJVy/LYNkEl6kchmzHdH4PhG32+JWvf7uehl
+         0sew==
+X-Gm-Message-State: AOJu0YzxoLtRWwXqEo+Mk+pWYQjKHmRzvzxBK0qnVCMulDdaR4wneM5g
+	N7OTN64NnUefHNI4MasZS+w=
+X-Google-Smtp-Source: AGHT+IHUiU4vyWUWHoS7S3wekNlcm14ONiQNhFrayXTx47+bPBQtSyy8YpiDFCfBsJky7q99+sXQ4Q==
+X-Received: by 2002:ac8:5bce:0:b0:425:4043:1d8b with SMTP id b14-20020ac85bce000000b0042540431d8bmr274872qtb.94.1702049183327;
+        Fri, 08 Dec 2023 07:26:23 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6820:161e:b0:58d:be41:d2a3 with SMTP id
- bb30-20020a056820161e00b0058dbe41d2a3ls664605oob.2.-pod-prod-01-us; Fri, 08
- Dec 2023 06:25:58 -0800 (PST)
-X-Received: by 2002:a05:6820:2218:b0:58e:2e05:d99e with SMTP id cj24-20020a056820221800b0058e2e05d99emr191490oob.9.1702045558166;
-        Fri, 08 Dec 2023 06:25:58 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1702045558; cv=none;
+Received: by 2002:a05:622a:1aa4:b0:41b:5e46:aa61 with SMTP id
+ s36-20020a05622a1aa400b0041b5e46aa61ls1601713qtc.1.-pod-prod-02-us; Fri, 08
+ Dec 2023 07:26:22 -0800 (PST)
+X-Received: by 2002:a05:620a:a1c:b0:77e:fba3:58e0 with SMTP id i28-20020a05620a0a1c00b0077efba358e0mr215006qka.113.1702049182584;
+        Fri, 08 Dec 2023 07:26:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1702049182; cv=none;
         d=google.com; s=arc-20160816;
-        b=SEdo1ufdBRUOQz3+FMTDq9yUKYg+T81kmJGIMgCStPcdtBVlwVyuN69XYnaEJDgUn5
-         hj9s79jvjmLi/PcOF4E/9Md2JYyl/WMw5dLvJ/bksFdLH+f2gVkHSoAMl5KpDElubNDU
-         gkL+owH/qU98yphHzYKYct1Rkq412POiVA2y4Ne+o2L0LH+Cvx5X6NFULazAlUL0gZhr
-         5nPRigB40A5ENsJMC1ARDSCnfUjytpOjjn2ndRVfH1zZA5BcP3g0mFUaus0VANmHwOYL
-         4VzdoJ6oMsIjzic2PQWHU70rDvfp6xQFexu2CoAhpVf9KPR50S6WN7Ih1GTitcbXegr4
-         P+fQ==
+        b=NjP4FBewKNhm2uxBpGMXxiViXSfe6GIwrQ2Rsoo3KsdFAPUp9fnoLL/kt1IcTUvLV7
+         xhKFyPovLvP0aY1eD1ILHFqVJYYZhwSQPt4GGLKn/xkx33swEeGPmV89gFvdUCQSnevL
+         imaB0PRUQGM63izsj8zg0FHJgzLRFImmNdH87oq58m4zXCGvie9AJ5yaH085BT9z8zy8
+         HapzhfSdRj7Pa+kSpmCXiI++PBs9j7pQHhRp2uU1RadOzLR3SyoJWcJSsMEai8UYNSIr
+         dJLRdYGc8uiLKLFCIom2IH9mftrMw2rlKK33Jd7qovT5lXRJGLLCSUNi+mPz2RXI3b/E
+         Gevw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=gMzKOjsadOdlzFzBDSAqUHFYwgT1E5TMaJuAbqx/ofA=;
-        fh=4F7/7GXXxyuo8X/UbjieRU7LMIhIis3FKkbV38g4Hg0=;
-        b=vLjMO/O1fZLOwueJEPLtReXu5HCcOpjATTOb7svjs2VNu7HoqAtyUJq+8MQvTElIko
-         GKmG774zu0rX6dZMvvDHpJBQdTB3ZU4pijae/F1fv6KeChUTzyB/+Avi4VfM4qquuHQ6
-         DP4BioBHcVAKTlyJ7lqHxuPtv6Zl8Ebu3T9YvPrSDlyNv/HORBHs50TU5D9Tngzes3Z9
-         z6ugLHzvQgMwE0vUvdptthdvHUn71pztegnu0OLl6slBjLHcZdDCIBkK9wBmTntMUkaK
-         q67kMu2PrxLz4UIDjMhw2rlIkqO3fnOu1Jo0UnX61p7Fm84G5L47+9qsoZqQKrV5tP5a
-         ZQZw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=fmveRht4WTP9VCfRGY2TlBDNiNt4nqiRyGovDc1Drhw=;
+        fh=kmKVJfn1Y9YZhlVPpqCDHuVVZsVgm/oqvGOUm8JK+fE=;
+        b=zCCo45KnUYWHr0kyx5G5L3334KnVtN8ThoSJsKsUaS+fvFx7QRBf2s5UghikpgmZts
+         xe+XU6Xtw0K1o4+QQqO8rdE+BN1Wb8m/JPhkBGIugDGaC5LuP7MOriQfpSyom8uyE5XD
+         hebym2ywWKNik0qn+lFPZC7YOpjR0eeCSg3+lme5b6sZvryiGUwsrKIij8fuvj059BJY
+         SxpbJjs0rI7hSEQSNEmYlgrwelRiAeHe4mLuNNKgCU4klmHc+ohnkUmsPYKaWwhhG4J4
+         5lRFSAHAvoBAzVNSQdxqKIB8AlX9bS0tEDlEeICQ/eockkiBFgasg3a8twji/IgXdPq0
+         bW/Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=QMcqBwqx;
-       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::c29 as permitted sender) smtp.mailfrom=glider@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=bBnNAVJ4;
+       spf=pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f36 as permitted sender) smtp.mailfrom=glider@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-oo1-xc29.google.com (mail-oo1-xc29.google.com. [2607:f8b0:4864:20::c29])
-        by gmr-mx.google.com with ESMTPS id e84-20020a4a5557000000b0058ddf7336a4si319237oob.2.2023.12.08.06.25.58
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com. [2607:f8b0:4864:20::f36])
+        by gmr-mx.google.com with ESMTPS id ea24-20020a05620a489800b0077f09d5186bsi203588qkb.4.2023.12.08.07.26.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 Dec 2023 06:25:58 -0800 (PST)
-Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::c29 as permitted sender) client-ip=2607:f8b0:4864:20::c29;
-Received: by mail-oo1-xc29.google.com with SMTP id 006d021491bc7-58d956c8c38so1048814eaf.2
-        for <kasan-dev@googlegroups.com>; Fri, 08 Dec 2023 06:25:58 -0800 (PST)
-X-Received: by 2002:a05:6358:10c:b0:170:4403:83a6 with SMTP id
- f12-20020a056358010c00b00170440383a6mr3947511rwa.52.1702045557641; Fri, 08
- Dec 2023 06:25:57 -0800 (PST)
+        Fri, 08 Dec 2023 07:26:22 -0800 (PST)
+Received-SPF: pass (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f36 as permitted sender) client-ip=2607:f8b0:4864:20::f36;
+Received: by mail-qv1-xf36.google.com with SMTP id 6a1803df08f44-67a91a373edso12402336d6.1
+        for <kasan-dev@googlegroups.com>; Fri, 08 Dec 2023 07:26:22 -0800 (PST)
+X-Received: by 2002:ad4:52eb:0:b0:67a:a721:82f8 with SMTP id
+ p11-20020ad452eb000000b0067aa72182f8mr105489qvu.82.1702049182002; Fri, 08 Dec
+ 2023 07:26:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20231121220155.1217090-1-iii@linux.ibm.com> <20231121220155.1217090-20-iii@linux.ibm.com>
- <CAG_fn=WiT7C2QMCwq_nBg9FXZrJ2-mSyJuM1uVz_3Mag8xBHJg@mail.gmail.com> <4f0eb4b4d4f6830f39555dc8a35f6ff88d6f8e63.camel@linux.ibm.com>
-In-Reply-To: <4f0eb4b4d4f6830f39555dc8a35f6ff88d6f8e63.camel@linux.ibm.com>
+References: <20231121220155.1217090-1-iii@linux.ibm.com> <20231121220155.1217090-14-iii@linux.ibm.com>
+ <CAG_fn=Vaj3hTRAMxUwofpSMPhFBOizDOWR_An-V9qLNQv-suYw@mail.gmail.com> <69e7bc8e8c8a38c429a793e991e0509cb97a53e1.camel@linux.ibm.com>
+In-Reply-To: <69e7bc8e8c8a38c429a793e991e0509cb97a53e1.camel@linux.ibm.com>
 From: "'Alexander Potapenko' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 8 Dec 2023 15:25:21 +0100
-Message-ID: <CAG_fn=XUSfppyVMZO5K2kaii+OSLxV_UbHcn3cuH3zBt9J3g1g@mail.gmail.com>
-Subject: Re: [PATCH v2 19/33] lib/zlib: Unpoison DFLTCC output buffers
+Date: Fri, 8 Dec 2023 16:25:41 +0100
+Message-ID: <CAG_fn=UbJ+z8Gmfjodu-jBQz75HApXADw8Abj38BCLHmY_ZW9w@mail.gmail.com>
+Subject: Re: [PATCH v2 13/33] kmsan: Introduce memset_no_sanitize_memory()
 To: Ilya Leoshkevich <iii@linux.ibm.com>
 Cc: Alexander Gordeev <agordeev@linux.ibm.com>, Andrew Morton <akpm@linux-foundation.org>, 
 	Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>, Heiko Carstens <hca@linux.ibm.com>, 
@@ -124,14 +122,12 @@ Cc: Alexander Gordeev <agordeev@linux.ibm.com>, Andrew Morton <akpm@linux-founda
 	Dmitry Vyukov <dvyukov@google.com>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, kasan-dev@googlegroups.com, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-s390@vger.kernel.org, 
 	linux-trace-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Sven Schnelle <svens@linux.ibm.com>, 
-	Mikhail Zaslonko <zaslonko@linux.ibm.com>
+	Roman Gushchin <roman.gushchin@linux.dev>, Sven Schnelle <svens@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: glider@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=QMcqBwqx;       spf=pass
- (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::c29 as
+ header.i=@google.com header.s=20230601 header.b=bBnNAVJ4;       spf=pass
+ (google.com: domain of glider@google.com designates 2607:f8b0:4864:20::f36 as
  permitted sender) smtp.mailfrom=glider@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Alexander Potapenko <glider@google.com>
@@ -148,44 +144,95 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Dec 8, 2023 at 3:14=E2=80=AFPM Ilya Leoshkevich <iii@linux.ibm.com>=
- wrote:
->
-> On Fri, 2023-12-08 at 14:32 +0100, Alexander Potapenko wrote:
-> > On Tue, Nov 21, 2023 at 11:07=E2=80=AFPM Ilya Leoshkevich <iii@linux.ib=
-m.com>
-> > wrote:
-> > >
-> > > The constraints of the DFLTCC inline assembly are not precise: they
-> > > do not communicate the size of the output buffers to the compiler,
-> > > so
-> > > it cannot automatically instrument it.
+> A problem with __memset() is that, at least for me, it always ends
+> up being a call. There is a use case where we need to write only 1
+> byte, so I thought that introducing a call there (when compiling
+> without KMSAN) would be unacceptable.
+
+Wonder what happens with that use case if we e.g. build with fortify-source.
+Calling memset() for a single byte might be indicating the code is not hot.
+
+> > ...
 > >
-> > KMSAN usually does a poor job instrumenting inline assembly.
-> > Wouldn't be it better to switch to pure C ZLIB implementation, making
-> > ZLIB_DFLTCC depend on !KMSAN?
+> > > +__no_sanitize_memory
+> > > +static inline void *memset_no_sanitize_memory(void *s, int c,
+> > > size_t n)
+> > > +{
+> > > +       return memset(s, c, n);
+> > > +}
+> >
+> > I think depending on the compiler optimizations this might end up
+> > being a call to normal memset, that would still change the shadow
+> > bytes.
 >
-> Normally I would agree, but the kernel DFLTCC code base is synced with
-> the zlib-ng code base to the extent that it uses the zlib-ng code style
-> instead of the kernel code style, and MSAN annotations are already a
-> part of the zlib-ng code base. So I would prefer to keep them for
-> consistency.
+> Interesting, do you have some specific scenario in mind? I vaguely
+> remember that in the past there were cases when sanitizer annotations
+> were lost after inlining, but I thought they were sorted out?
 
-Hm, I didn't realize this code is being taken from elsewhere.
-If so, maybe we should come up with an annotation that can be
-contributed to zlib-ng, so that it doesn't cause merge conflicts every
-time Mikhail is doing an update?
-(leaving this up to you to decide).
+Sanitizer annotations are indeed lost after inlining, and we cannot do
+much about that.
+They are implemented using function attributes, and if a function
+dissolves after inlining, we cannot possibly know which instructions
+belonged to it.
 
-If you decide to go with the current solution, please consider adding
-an #include for kmsan-checks.h, which introduces
-kmsan_unpoison_memory().
+Consider the following example (also available at
+https://godbolt.org/z/5r7817G8e):
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG_fn%3DXUSfppyVMZO5K2kaii%2BOSLxV_UbHcn3cuH3zBt9J3g1g%40mail.gm=
-ail.com.
+==================================
+void *kmalloc(int size);
+
+__attribute__((no_sanitize("kernel-memory")))
+__attribute__((always_inline))
+static void *memset_nosanitize(void *s, int c, int n) {
+  return __builtin_memset(s, c, n);
+}
+
+void *do_something_nosanitize(int size) {
+  void *ptr = kmalloc(size);
+  memset_nosanitize(ptr, 0, size);
+  return ptr;
+}
+
+void *do_something_sanitize(int size) {
+  void *ptr = kmalloc(size);
+  __builtin_memset(ptr, 0, size);
+  return ptr;
+}
+==================================
+
+If memset_nosanitize() has __attribute__((always_inline)), the
+compiler generates the same LLVM IR calling __msan_memset() for both
+do_something_nosanitize() and do_something_sanitize().
+If we comment out this attribute, do_something_nosanitize() calls
+memset_nosanitize(), which doesn't have the sanitize_memory attribute.
+
+But even now __builtin_memset() is still calling __msan_memset(),
+because __attribute__((no_sanitize("kernel-memory"))) somewhat
+counterintuitively still preserves some instrumentation (see
+include/linux/compiler-clang.h for details).
+Replacing __attribute__((no_sanitize("kernel-memory"))) with
+__attribute__((disable_sanitizer_instrumentation)) fixes this
+situation:
+
+define internal fastcc noundef ptr @memset_nosanitize(void*, int,
+int)(ptr noundef returned writeonly %s, i32 noundef %n) unnamed_addr
+#2 {
+entry:
+%conv = sext i32 %n to i64
+tail call void @llvm.memset.p0.i64(ptr align 1 %s, i8 0, i64 %conv, i1 false)
+ret ptr %s
+}
+
+>
+> And, in any case, if this were to happen, would not it be considered a
+> compiler bug that needs fixing there, and not in the kernel?
+
+As stated above, I don't think this is more or less working as intended.
+If we really want the ability to inline __memset(), we could transform
+it into memset() in non-sanitizer builds, but perhaps having a call is
+also acceptable?
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAG_fn%3DUbJ%2Bz8Gmfjodu-jBQz75HApXADw8Abj38BCLHmY_ZW9w%40mail.gmail.com.
