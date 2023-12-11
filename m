@@ -1,150 +1,174 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBMUS32VQMGQEKQUDKRA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBJVD32VQMGQE5BWDAUQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x837.google.com (mail-qt1-x837.google.com [IPv6:2607:f8b0:4864:20::837])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E00980DE09
-	for <lists+kasan-dev@lfdr.de>; Mon, 11 Dec 2023 23:12:04 +0100 (CET)
-Received: by mail-qt1-x837.google.com with SMTP id d75a77b69052e-425b4c1b67csf39738881cf.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 11 Dec 2023 14:12:04 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1702332723; cv=pass;
+Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
+	by mail.lfdr.de (Postfix) with ESMTPS id D035E80DE8C
+	for <lists+kasan-dev@lfdr.de>; Mon, 11 Dec 2023 23:48:08 +0100 (CET)
+Received: by mail-lj1-x23c.google.com with SMTP id 38308e7fff4ca-2ca005e8de4sf41142341fa.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 11 Dec 2023 14:48:08 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1702334888; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GDDYuhHSzDprSzRRLOp+TYG2uE0DhqAYfcu6pMHIusW/8HbRLDpNuJz6ewzlxmqSh5
-         vg6vApFUcva9IQK4I0AzK6ktjEb8P7st8GOJ155WyhFHDvWVW3yQxTVOR3OgtpG5PHs6
-         TuhNgMJEvU5wQjY/MBiWGfyrjF5CtEXFXwVtEt0p46ZYFZvxMbdogZnbLupbMGoCG5YP
-         FmtvgtWFTQVvg2TwbrIj3W2LjlT+gfwS0GKhM52r9UPyvWtjvWkl6BUhmZ/6jPNkl0Y9
-         /NBk339Jo1B9Tuzgdsq8gP203XCXfijfXf227b3+b1DIVXxdzk7NhXeoLisDQf2571k1
-         Dttw==
+        b=ok7SfLW6fRZXeE3BPYJRUPrtkf5Yj2X8QlN6SBF7iccXpx8XV9TJpYCuumNezzEa8w
+         RWmGyjQ2+ojswqkCtmXltLN6zS++O8/IFDB9ckI0HOnnp/UZnJG+Ck2SrRlwsA3V7+f/
+         vx18rNXbiWbeo3YrPDJPWehRCz0qhgX60GZqWCgZjFzB1kZB+o09L8WN0d3SUYZy0btw
+         5gxWp6buKKLonpkvQrsAawNy8kShN7cBJZzdmnpg07MelPvwoiSgU058eAQbVOiRjh4K
+         UjBTy6ok1KCqtlm2Yn1a6r5xcbDcEHG0JoBe258ipIuFZ5Pg/h5L1vQdv6QGToOZC6dB
+         Ov2g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=SY5O42fPE6YyOfUBbpsDvxwMdR7wWoiQE7yhXdaMpFY=;
-        fh=ADibHOfys6xCMvdJRYGsAbL9u3TxDPeun2r5P3g1MR0=;
-        b=IXKmKpq8KnnIOIjMRlP+3t4Eoo3WoB94zzWyjsvMwIgho6NPhyt/KgHSVlZP8qfqA9
-         s+dOpHr7dbkNWyAdDsO119wbCXZMboVgOtMg/sf6TnhPE0pNIoK6dO7RcniSPe6zkAIC
-         fTxLFBQ3f94bmIWJPgMDPlKzBRRgv20qyxSSKCBalPibfP8GkUSlnBNweLZrDMbgdUmL
-         D1pyMpzQP4jsUW2GVBvXY02MTCd2B1pZKrvqDulFNrwh/TFc/R00TaqlznIFY6HLGFR/
-         jux/CAYb6z/Ns+LRzg0ORUPaqD7rL31RPdDCTc5uGMwlJ2vNR8z2Wbk2O0tECOvCxoCs
-         qoug==
+         :list-id:mailing-list:precedence:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=XzR1EjNC2Mz03qnjq7da2ygPTqCl0g4eI2eeRfynCxM=;
+        fh=DaPmRuawHnAU18yOIjRFb3bKY82uB1AyEdAq5zDOlGw=;
+        b=ahJOE5c7KjGTzYA3BokC5Ux+78fx6zZglQMkN3M2SE4+AqId1RIlqKON4PavR9SN6E
+         qV6Ox5HXz6bEOAQD4BY9LgQIeaMxxBZD3xhzpaimMhnw0jo2uFIRKGrNc/zval4bduZh
+         zpUQ2MwuvIqewRsaZMEzY+Z3B7vTZQ/YSmxNzMQQe9JH2lcuvgkEdupt0Jz/FTH4Ak69
+         H69RZabmNTo3xyL+Px4bqiKStj3JASoaJ49ZCfxY2RY5b6ea3hqI+9aG1Rrsg6H13H6S
+         9su9hKOGdOuFOnWIJDrSrhX8yueRXVTDN9+WHlXntrQ6hxXzxKWVoGtBsRhJYUMUqTri
+         OuuA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Bp3t3i7n;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52a as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@tum.de header.s=tu-postout21 header.b=MZQYpE9q;
+       spf=pass (google.com: domain of paul.heidekrueger@tum.de designates 129.187.255.138 as permitted sender) smtp.mailfrom=paul.heidekrueger@tum.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tum.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1702332723; x=1702937523; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1702334888; x=1702939688; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SY5O42fPE6YyOfUBbpsDvxwMdR7wWoiQE7yhXdaMpFY=;
-        b=aks/7gErcy7fGeJuhmVvARBhlyJh8cVEDF1IkyuTjrNHcwVhLI5Qk4wPfNRJhjGekA
-         k85gspBblIRxRAKjd3GNb1dHlx33s7s+sCw77lulDDtHUtNScR8G9frpE0YBJx+DMXh1
-         xvtM2iFfuYQQO9kFFLIXFKKLWdIYZaelVNeNs1Ug4IIpOifwWGOxZGmuTtQ7x85wFw2U
-         tcaMLvoTUET4smv+txiix0ZR+/Y90GOEjC+DlV5+VxgS93EqDn+/25d7p6ybpkqUBAkp
-         L5F3hWyWbaCDuo1brvvSnTbxy5x/Mal7BTO0O2PFs7x6Pmz0JBMLwyLYFS4hG82GJV6f
-         CXow==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702332723; x=1702937523; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SY5O42fPE6YyOfUBbpsDvxwMdR7wWoiQE7yhXdaMpFY=;
-        b=e3QZJrncVbD+YyDSknaBLOqXoDOBpICp1gc77KlFbHe0+tpcJOn8RWbU3pUXNqyJM3
-         E5L5RCOw7qgIhT45lJXH9wZXITq7RZI5npz4yGiFtgv5aYxWx8ki89Co9gRSTEtDLeGr
-         6lgRN6wHrTXvPXqOqE0lVJQtJLhs2kAoxFd/OAcUFrN0GyvlFE93oAWLG4mGka56dIRo
-         TIl1WAG8TPiVrGghYWnjyMxfcLV3CN1x6uGvnK3aDvXCsBGBSCaw998o3QvcWWsBX1tZ
-         2euAkyC9Ty/odxp1TOakFpJZSIgzjkrbPa4TGjlRlp9imh4TBmj8+G04u2K7JmtaasPU
-         dQHg==
+         :x-original-sender:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=XzR1EjNC2Mz03qnjq7da2ygPTqCl0g4eI2eeRfynCxM=;
+        b=RUQBXAMTz8qv83+kECUNxnD1c984pv9c27a+iG7NWYjvGBOpLJP3ni106d+zRgzJZl
+         WW7RejoDAvoNx23rRzEj/JRknBpPxrIgqoZFxKz+AXC8qho86Q03sI9LC6E3WPFO9P3y
+         8cu5j+Mbx6I3bo/sk8PdVhVtwEn/4UXDHQ8xPi/8wa8Fvm3MnGcAYyF1jxn04ss5mQNo
+         6MBdNA3qDwwW0CreBvCOn6uPxtXA/z4pQNp/QzE3z87CkUzNIEvDz82UruuudjPTavXu
+         4Q3tn+jFOFxp3KdndQEPBP4fwh3XDHi3rs9Jqt7R1yBN1M9D4jGbtU3/DUg7ZG5RHEr6
+         Zskw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702332723; x=1702937523;
+        d=1e100.net; s=20230601; t=1702334888; x=1702939688;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=SY5O42fPE6YyOfUBbpsDvxwMdR7wWoiQE7yhXdaMpFY=;
-        b=Mjv040TK9U6nQOVKB49S/OVZkDSBpHPt0ZthKyRmuE1Ky84f6x8yAinR90OTc/Hdx1
-         hsMn8O+MjF7Knk/KIl2kQIyNKzFnivoUjROMLfUvjIzCpKkvGJKY5u7BssNxAuRhlynH
-         IHJv0omo+D5866R1NUrVnEzoR4o9jwdoxgGjW/tu2+w2MKEDNhmrdfxG0e8+ceJ87V8R
-         ff5sZX9FfOpvaBvPcmnhwISlVE/9iMaRWU4X2Jaa3DXMcT9PAxcvNKDknle0Jei2AhYI
-         pQLOXiBnuJNDtr+7huCN+KhThAjg3fJRM0NsZONsXCvs0dpPHvJt18uI+in9BDVDy4+m
-         oJww==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XzR1EjNC2Mz03qnjq7da2ygPTqCl0g4eI2eeRfynCxM=;
+        b=XSFHQszfbS8CvWHobEj0p1+OPp4KR4J2zOJ7vBnRErVA52GjsbAdzR01+UuHtZdNtt
+         LmTvs9hqJyj5wfzwOiPXz9OfeJcIHz6cLw477A+hnKACNYeUBjQDKErE41bbLJIMmGpk
+         RzA3b2PJJA2CYH9VQTqs9dqlzDjbCNWw0uThrpnSeYFBbpqj4RJXUqL6RmJQCtRCimhj
+         5a7zairgnZhb1ApVE3LL8mCEbE64crFcjdcgTrKBCoTxvvd2BoVsrXFbabnSQBWpAPud
+         M0KVzLtcG7Tt1ksAkRjQA7SrKxwX7fT8AVIGcxsvESWmXwcKp3qyUxYtIUjbokOYU2K3
+         BU0Q==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YwQ00j66QghZVxN4UFzTdD2MS6RMx2FiH/Azvr2mQA29xduUULB
-	dISJ+SusEJ/tvaALywout7o=
-X-Google-Smtp-Source: AGHT+IGKHcW1sT7WORZH28Ocn1bvaJ1vOHcEgrwNHIVlFi8OSBRYuzqCxIH3dWjKmxcWmGK353bdJw==
-X-Received: by 2002:a05:622a:1103:b0:423:a073:8938 with SMTP id e3-20020a05622a110300b00423a0738938mr7949493qty.7.1702332722829;
-        Mon, 11 Dec 2023 14:12:02 -0800 (PST)
+X-Gm-Message-State: AOJu0Ywumm9di8LdQar9OY0Z8ivTkfPGM1I1EcIQns2w5KpbR2wccL0Z
+	uhoxVBSncucAxiE9ipusjHc=
+X-Google-Smtp-Source: AGHT+IG1Q7LP2BV89hg4XhyPOpdZLEusgvYm0lO8D225a37YtSeP+QdSDNYfTcdxey6CrD+ZJd7EyQ==
+X-Received: by 2002:a05:6512:39c7:b0:50d:1b8e:b97 with SMTP id k7-20020a05651239c700b0050d1b8e0b97mr2587906lfu.139.1702334886649;
+        Mon, 11 Dec 2023 14:48:06 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:102:b0:423:8108:893b with SMTP id
- u2-20020a05622a010200b004238108893bls4359349qtw.1.-pod-prod-04-us; Mon, 11
- Dec 2023 14:12:02 -0800 (PST)
-X-Received: by 2002:a05:622a:506:b0:41c:baf5:b500 with SMTP id l6-20020a05622a050600b0041cbaf5b500mr7223041qtx.47.1702332722013;
-        Mon, 11 Dec 2023 14:12:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1702332722; cv=none;
+Received: by 2002:a05:6512:3d1f:b0:50c:aa5:1218 with SMTP id
+ d31-20020a0565123d1f00b0050c0aa51218ls2054209lfv.0.-pod-prod-06-eu; Mon, 11
+ Dec 2023 14:48:05 -0800 (PST)
+X-Received: by 2002:a05:6512:3e25:b0:50e:4e7:35dc with SMTP id i37-20020a0565123e2500b0050e04e735dcmr359159lfv.26.1702334884840;
+        Mon, 11 Dec 2023 14:48:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1702334884; cv=none;
         d=google.com; s=arc-20160816;
-        b=WSk6YATslSRm2n6XhxovyfxSfPQvdma8fIbAEUDT/WyGYxsfB7nzKJZ6UWbnSunM6g
-         wusBLZzwewgEnsOm7t0Ml/TbLcLSVib5VkR2eMpHLFgATsLPBM5zvda8T7Ytwvg5NnvK
-         mYLWCztwbsCYjCzbabe5u4uuSfQ73p9ortK19PwpF8yLuLvaYIiZJxP8LvXXaWGF9CUA
-         Cda+jFFU+KU4/upTZr6/bJwfiuRevTzkHEvYFG4ZjMP6qSs74QB4fX+JlDvdOdF7uZXu
-         PM5edkhUgYOj2Q6M+IhL14NigCqooGaDgU0fQbyPxponMksj/YmCTNtJxIsYDrzt1rTH
-         aHBQ==
+        b=QBXWR3hGLunv60s7LmS/ImQvR7TbVFF4k9a2o0x7RzO3yaOarzWYZBqZwFRUUGgjNQ
+         nWRIZwtilimefY8nZ8ISFFDCp1rResqZMwgOhwILNiC7gvvQMb+abZkax+DLYYC0b+28
+         f643yoaMiJAgcWntr0k1q4uLmik9UCC8JndKOfB/Ut8huGhWy/mrGc0pImqqqMnsIO1Q
+         ucTZ7mFZuYwlteaAiFQf3nZ7cXLAAXUXAPTWpGnj+DEv7PsXDEcEXDG8IepgHRCbup8C
+         VXcPu5Kbtf15eBwff8HcuvqGlVGEGpFLcc01cOUcXqip+WIghcnrFYQL5j6De2mchBg6
+         c8JQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DBxEKBNamMvlGFbzwl1mFmti5qczGRc6ilz0oKWYU1E=;
-        fh=ADibHOfys6xCMvdJRYGsAbL9u3TxDPeun2r5P3g1MR0=;
-        b=mLVQhNrXK8wy5VZNcz0UeebyUbJUbIlW4Er6hnRHeJ/43MTm2hKHRaj7XEzaDcyQgz
-         /fGstidWJgJlcH3Zie0wSlPrG7cRJJ1mGQ7RCNKrKVtQ/4Iuk+AfI1KhxODDmBzZYXYJ
-         v5SbpL5om2Y0vJHLVktV9vQJ5OmwLi35yyvX51lWwQe2qx7IVOYbjT9dcCt8ocDoNrRZ
-         RrLnV8s7nziAHIM4o/YY+R2Fcm85OCnw35hKEZCB75ZpV/fMmWixrBxmQXPoo9U7ai51
-         20cTboiLBge4GFo61mmDuunoCC5TxktNNf/iMYUOxP0LQlCkSUG4CxOvVKx4SQh0ux+K
-         Qf3g==
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=D31BDla4PBMR0dv+0ByYX5fPYZZCLsOgW6S2YQOK1H4=;
+        fh=DaPmRuawHnAU18yOIjRFb3bKY82uB1AyEdAq5zDOlGw=;
+        b=tFhmXn7osz4sDyPk5Djh9xofKOP34cmSphRlou91+J40Cy8C/f/wLb6Jll7iEOXS66
+         wPkDUJc5KRbtpFQ+YfZoTskgqA9du3EtxY+5cj2owi6Q5VixEHK2WCpVIeNj+SVEYkMk
+         AmxDjc7AzfXSp5dGphAapsa4hAWa8MAtYwnnT2nQ7RyM7omkBIQoXJmmRuige09zaznK
+         /59I7dj7Lf52n4V2sS8BZKZFvr9yAAMbGCw6wtFJE2hlu1hCSfBRL1aN8DzgG3Dtd78D
+         oVMO2K8ImmmdsrG/sOxRFdSdbJV4CQUVsi+Hg+9H5zCyWqkb3KdS7mSzhmhVuCufih9s
+         RJEA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Bp3t3i7n;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52a as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com. [2607:f8b0:4864:20::52a])
-        by gmr-mx.google.com with ESMTPS id fz5-20020a05622a5a8500b00423e5a4fb24si1556738qtb.0.2023.12.11.14.12.01
+       dkim=pass header.i=@tum.de header.s=tu-postout21 header.b=MZQYpE9q;
+       spf=pass (google.com: domain of paul.heidekrueger@tum.de designates 129.187.255.138 as permitted sender) smtp.mailfrom=paul.heidekrueger@tum.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tum.de
+Received: from postout2.mail.lrz.de (postout2.mail.lrz.de. [129.187.255.138])
+        by gmr-mx.google.com with ESMTPS id s20-20020a056512203400b0050bc7296c7csi335358lfs.2.2023.12.11.14.48.04
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Dec 2023 14:12:01 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52a as permitted sender) client-ip=2607:f8b0:4864:20::52a;
-Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-5c6bd3100fcso2581940a12.3
-        for <kasan-dev@googlegroups.com>; Mon, 11 Dec 2023 14:12:01 -0800 (PST)
-X-Received: by 2002:a17:90b:2204:b0:286:6cc1:28a with SMTP id
- kw4-20020a17090b220400b002866cc1028amr2291102pjb.85.1702332721019; Mon, 11
- Dec 2023 14:12:01 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 14:48:04 -0800 (PST)
+Received-SPF: pass (google.com: domain of paul.heidekrueger@tum.de designates 129.187.255.138 as permitted sender) client-ip=129.187.255.138;
+Received: from lxmhs52.srv.lrz.de (localhost [127.0.0.1])
+	by postout2.mail.lrz.de (Postfix) with ESMTP id 4SpxjG5tDvzyTl;
+	Mon, 11 Dec 2023 23:48:02 +0100 (CET)
+X-Virus-Scanned: by amavisd-new at lrz.de in lxmhs52.srv.lrz.de
+X-Spam-Flag: NO
+X-Spam-Score: -2.881
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.881 tagged_above=-999 required=5
+	tests=[ALL_TRUSTED=-1, BAYES_00=-1.9, DMARC_ADKIM_RELAXED=0.001,
+	DMARC_ASPF_RELAXED=0.001, DMARC_POLICY_NONE=0.001,
+	LRZ_CT_PLAIN_UTF8=0.001, LRZ_DMARC_FAIL=0.001,
+	LRZ_DMARC_FAIL_NONE=0.001, LRZ_DMARC_POLICY=0.001,
+	LRZ_DMARC_TUM_FAIL=0.001, LRZ_DMARC_TUM_REJECT=3.5,
+	LRZ_DMARC_TUM_REJECT_PO=-3.5, LRZ_ENVFROM_FROM_MATCH=0.001,
+	LRZ_ENVFROM_TUM_S=0.001, LRZ_FROM_ENVFROM_ALIGNED_STRICT=0.001,
+	LRZ_FROM_HAS_A=0.001, LRZ_FROM_HAS_AAAA=0.001,
+	LRZ_FROM_HAS_MDOM=0.001, LRZ_FROM_HAS_MX=0.001,
+	LRZ_FROM_HOSTED_DOMAIN=0.001, LRZ_FROM_NAME_IN_ADDR=0.001,
+	LRZ_FROM_PHRASE=0.001, LRZ_FROM_TUM_S=0.001, LRZ_HAS_CT=0.001,
+	LRZ_HAS_IN_REPLY_TO=0.001, LRZ_HAS_MIME_VERSION=0.001,
+	LRZ_HAS_SPF=0.001, LRZ_MSGID_LONG_50=0.001, LRZ_MSGID_NO_FQDN=0.001,
+	LRZ_NO_UA_HEADER=0.001, LRZ_SUBJ_FW_RE=0.001,
+	LRZ_URL_PLAIN_SINGLE=0.001, LRZ_URL_SINGLE_UTF8=0.001,
+	T_SCC_BODY_TEXT_LINE=-0.01] autolearn=no autolearn_force=no
+Received: from postout2.mail.lrz.de ([127.0.0.1])
+	by lxmhs52.srv.lrz.de (lxmhs52.srv.lrz.de [127.0.0.1]) (amavisd-new, port 20024)
+	with LMTP id RXtrqxiiQ05L; Mon, 11 Dec 2023 23:48:02 +0100 (CET)
+Received: from cerulean.fritz.box (unknown [IPv6:2001:a61:245c:a01:443b:cc34:8ae7:6ede])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by postout2.mail.lrz.de (Postfix) with ESMTPSA id 4SpxjF04PnzyTZ;
+	Mon, 11 Dec 2023 23:48:00 +0100 (CET)
+Date: Mon, 11 Dec 2023 23:47:57 +0100
+From: Paul =?utf-8?Q?Heidekr=C3=BCger?= <paul.heidekrueger@tum.de>
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, 
+	Peter Collingbourne <pcc@google.com>, Marco Elver <elver@google.com>, andrey.konovalov@linux.dev, 
+	Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Andrey Konovalov <andreyknvl@google.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	linux-trace-kernel@vger.kernel.org, Nick Desaulniers <ndesaulniers@google.com>
+Subject: Re: [PATCH v3 1/3] kasan: switch kunit tests to console tracepoints
+Message-ID: <osqmp2j6gsmgbkle6mwhoaf65mjn4a4w3e5hsfbyob6f44wcg6@7rihb5otzl2z>
+References: <CAMn1gO6reT+MTmogLOrOVoNqzLH+fKmQ2JRAGy-tDOTLx-fpyw@mail.gmail.com>
+ <CANpmjNN7Gf_aeX+Y6g0UBL-cmTGEF9zgE7hQ1VK8F+0Yeg5Rvg@mail.gmail.com>
+ <20230215143306.2d563215@rorschach.local.home>
+ <CAMn1gO4_+-0x4ibpcASy4bLeZ+7rsmjx=0AYKGVDUApUbanSrQ@mail.gmail.com>
+ <CAMn1gO6heXaovFy6jvpWS8TFLBhTomqNuxJmt_chrd5sYtskvw@mail.gmail.com>
+ <20230505095805.759153de@gandalf.local.home>
+ <n37j6cbsogluma25crzruaiq7qcslnjeoroyybsy3vw2cokpcm@mh7r3ocp24cb>
+ <CA+fCnZebmy-fZdNonrgLofepTPL5hU6P8R37==sygTLBSRoa+w@mail.gmail.com>
+ <fv7fn3jivqcgw7mum6zadfcy2fbn73lygtxyy5p3zqpelfiken@5bmhbdufxgez>
+ <CA+fCnZfQEueCifc-8d5NVWEUtAiOG1eRW-LFKbOhab_Y7jqU0Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <20231204-slub-cleanup-hooks-v1-0-88b65f7cd9d5@suse.cz>
- <20231204-slub-cleanup-hooks-v1-4-88b65f7cd9d5@suse.cz> <44421a37-4343-46d0-9e5c-17c2cd038cf2@linux.dev>
- <79e29576-12a2-a423-92f3-d8a7bcd2f0ce@suse.cz> <fdd11528-b0f8-48af-8141-15c4b1b01c65@linux.dev>
- <CANpmjNO1_LxE9w4m_Wa5xxc1R87LhnJSZ3DV59ia3-SdQUmtpw@mail.gmail.com>
-In-Reply-To: <CANpmjNO1_LxE9w4m_Wa5xxc1R87LhnJSZ3DV59ia3-SdQUmtpw@mail.gmail.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Mon, 11 Dec 2023 23:11:50 +0100
-Message-ID: <CA+fCnZfhqQ+n0SsZU0RKEov3CkwTNJXM7JTMxtkrODmbJPskDQ@mail.gmail.com>
-Subject: Re: [PATCH 4/4] mm/slub: free KFENCE objects in slab_free_hook()
-To: Marco Elver <elver@google.com>
-Cc: Chengming Zhou <chengming.zhou@linux.dev>, Vlastimil Babka <vbabka@suse.cz>, 
-	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: andreyknvl@gmail.com
+In-Reply-To: <CA+fCnZfQEueCifc-8d5NVWEUtAiOG1eRW-LFKbOhab_Y7jqU0Q@mail.gmail.com>
+X-Original-Sender: paul.heidekrueger@tum.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=Bp3t3i7n;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2607:f8b0:4864:20::52a
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@tum.de header.s=tu-postout21 header.b=MZQYpE9q;       spf=pass
+ (google.com: domain of paul.heidekrueger@tum.de designates 129.187.255.138 as
+ permitted sender) smtp.mailfrom=paul.heidekrueger@tum.de;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=tum.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,30 +181,65 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Dec 6, 2023 at 3:45=E2=80=AFPM Marco Elver <elver@google.com> wrote=
-:
->
-> The is_kfence_address() implementation tolerates tagged addresses,
-> i.e. if it receives a tagged non-kfence address, it will never return
-> true.
->
-> The KASAN_HW_TAGS patches and KFENCE patches were in development
-> concurrently, and at the time there was some conflict resolution that
-> happened when both were merged. The
-> is_kfence_address(kasan_reset_tag(..)) initially came from [1] but was
-> squashed into 2b8305260fb.
->
-> [1] https://lore.kernel.org/all/9dc196006921b191d25d10f6e611316db7da2efc.=
-1611946152.git.andreyknvl@google.com/
->
-> Andrey, do you recall what issue you encountered that needed kasan_reset_=
-tag()?
+On 11.12.2023 21:51, Andrey Konovalov wrote:
+> On Mon, Dec 11, 2023 at 7:59=E2=80=AFPM Paul Heidekr=C3=BCger
+> <paul.heidekrueger@tum.de> wrote:
+> >
+> > > Hi Paul,
+> > >
+> > > I've been successfully running KASAN tests with CONFIG_TRACEPOINTS
+> > > enabled on arm64 since this patch landed.
+> >
+> > Interesting ...
+> >
+> > > What happens when you try running the tests with .kunitconfig? Does
+> > > CONFIG_TRACEPOINTS or CONFIG_KASAN_KUNIT_TEST get disabled during
+> > > kernel building?
+> >
+> > Yes, exactly, that's what's happening.
+> >
+> > Here's the output kunit.py is giving me. I replaced CONFIG_DEBUG_KERNEL=
+ with
+> > CONFIG_TRACEPOINTS in my .kunitconfig. Otherwise, it's identical with t=
+he one I
+> > posted above.
+> >
+> >         =E2=9E=9C   ./tools/testing/kunit/kunit.py run --kunitconfig=3D=
+mm/kasan/.kunitconfig --arch=3Darm64
+> >         Configuring KUnit Kernel ...
+> >         Regenerating .config ...
+> >         Populating config with:
+> >         $ make ARCH=3Darm64 O=3D.kunit olddefconfig
+> >         ERROR:root:Not all Kconfig options selected in kunitconfig were=
+ in the generated .config.
+> >         This is probably due to unsatisfied dependencies.
+> >         Missing: CONFIG_KASAN_KUNIT_TEST=3Dy, CONFIG_TRACEPOINTS=3Dy
+> >
+> > Does CONFIG_TRACEPOINTS have some dependency I'm not seeing? I couldn't=
+ find a
+> > reason why it would get disabled, but I could definitely be wrong.
+>=20
+> Does your .kunitconfig include CONFIG_TRACEPOINTS=3Dy? I don't see it in
+> the listing that you sent earlier.
 
-I don't remember at this point, but this could have been just a safety meas=
-ure.
+Yes. For the kunit.py output from my previous email, I replaced=20
+CONFIG_DEBUG_KERNEL=3Dy with CONFIG_TRACEPOINTS=3Dy. So, the .kunitconfig I=
+ used to=20
+produce the output above was:
+=09
+	CONFIG_KUNIT=3Dy
+	CONFIG_KUNIT_ALL_TESTS=3Dn
+	CONFIG_TRACEPOINTS=3Dy
+	CONFIG_KASAN=3Dy
+	CONFIG_KASAN_GENERIC=3Dy
+	CONFIG_KASAN_KUNIT_TEST=3Dy
 
-If is_kfence_address tolerates tagged addresses, we should be able to
-drop these kasan_reset_tag calls.
+This more or less mirrors what mm/kfence/.kunitconfig is doing, which also =
+isn't=20
+working on my side; kunit.py reports the same error.
+
+Many thanks,
+Paul
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -188,5 +247,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CA%2BfCnZfhqQ%2Bn0SsZU0RKEov3CkwTNJXM7JTMxtkrODmbJPskDQ%40mail.gm=
-ail.com.
+kasan-dev/osqmp2j6gsmgbkle6mwhoaf65mjn4a4w3e5hsfbyob6f44wcg6%407rihb5otzl2z=
+.
