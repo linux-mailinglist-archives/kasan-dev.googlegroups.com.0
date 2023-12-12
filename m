@@ -1,110 +1,110 @@
-Return-Path: <kasan-dev+bncBDXY7I6V6AMRBQVE4OVQMGQEJC4U2TA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXY7I6V6AMRB75E4OVQMGQE2MRQCUA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id B999780F97E
-	for <lists+kasan-dev@lfdr.de>; Tue, 12 Dec 2023 22:36:04 +0100 (CET)
-Received: by mail-wm1-x33d.google.com with SMTP id 5b1f17b1804b1-40c295f59cesf28535875e9.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 12 Dec 2023 13:36:04 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1702416964; cv=pass;
+Received: from mail-wm1-x33f.google.com (mail-wm1-x33f.google.com [IPv6:2a00:1450:4864:20::33f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4E380F986
+	for <lists+kasan-dev@lfdr.de>; Tue, 12 Dec 2023 22:37:05 +0100 (CET)
+Received: by mail-wm1-x33f.google.com with SMTP id 5b1f17b1804b1-40c421f2686sf21204145e9.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 12 Dec 2023 13:37:05 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1702417024; cv=pass;
         d=google.com; s=arc-20160816;
-        b=a42r12ELe4Vcl7ipGHrrstpht+nDHwpFFr33OsPPOET6gEUkivCWPXnBob2XMhtPeo
-         YtB1wdqbW1Pacdm2XQW/sQsmNPbd4Z9XqPyUWVTKL6Dvld9U8+Q7HM6GDKGDCN8krdhq
-         Ofjqh0y7wBqPJchpZhSfxBBQ3vALpaud+fj65dL0Ry8q7RMvOyjdwZEaZZg0n827PaOL
-         ZKz9BSGGJiZvXV7vNE8mQ3wXxKfMoBPW7y5d9AQvsFBs6cy0O+SmHH4vlIaIS6AK4eJZ
-         h5QaiumhIzL9RVpXTNMxsLjAw16ppXvc13qsZYJGICJZwTE28K5IqJAAhJlq4S9eUsfC
-         mcaw==
+        b=0wkBVEOULkDaef668kqDrz7akcY+uJ/fi+cE10ALfyG+mbHEGC2xJrGeASyP9EqTPf
+         6RVdOgTanzp5rNoTeAl4rkUpGjMAjw0yne3raP0jAUVbKZaNFZHPNWH2jia0a+gQR8/9
+         PONIWHVjgxXG5L1XNumI2iNoEdVxcluvTOC3I0QVphwkLDthJF4zMGubmXkesEElqVxH
+         j3DeeMq5OsweFWmMGF4QPwOzQHkt63Rzbk7si5fuVr0zTUnl6jkWeh3ZP6oaoWWjtAiH
+         8D66ocPDGyTG2pQdggB3BHMXbebEu8kUaD0ACWetHXO+cTzkZ187WyOzCdyhRNSflpZA
+         OSFw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=M3FHP+7Aq/f+SOtBzDVyRnTXG1cuiFxPy5ilVa0/UvM=;
+        bh=mAdV1BQb4jhbvtHmHvbxEHGJj4AgNGdOKmM8YKDYjJY=;
         fh=tnIMy8HqtPpQFlCLOsGpMCarUq1yCQA12ipWGdFOY/s=;
-        b=F3tiU5dp/b/nyKVb4I5ytlwC0jf3LcnXUYZkYSJI6KvPjuHrJJ4K9LEtrQFcrvCD2j
-         mum7LPfhztNCWqNWLRV7+mH2pMCDTFfWpdq+7+0oTLM6i8ALAVF0g5yXJHb5ojenLcDw
-         UBY0gRVao0Jda/Biaql2cqrgfOnVvEY8hMLAnTnYxuN0XD/SxJ3fiJ5BKQ6IrWskvx/c
-         89qKc0Sj3KxxUBCQ0m/hraYtnsJQrg0yOHBPT+pP6s0hV6XrdddV2xX/UaqdyWgZA0WE
-         99CqPruytuAUH0eGD/IIfBHPhx6wunUYYxrCmQe0Eu7BUBj/SuSSpJsnhSv7qb8B6XqD
-         2zvw==
+        b=jTdGGESbfySrwd7NdGDMRMYXeXYfRq30O3wgdGe6+JKDjMjj1+J3CRWAUSTcqqwl95
+         9OrUl4EOfMrLfOApoGEL9nOpClmkk1fyR0vIpugpsUVtnI5Bv4TIeKyH0INtCNXrnIWc
+         G0ugYCLW7ZSzuFKRFZe2Up84PXRFsaEef+vTT3iNAJcdrgLouNj+nDMPsxwNZHsCvAXZ
+         NiS15jiE6XNwutkYuyIwoUU1cdvpzzs8d0ymj0RxlGFLdeQcM/9jvtUa9oznTBxQaX7w
+         DFl7B8ByNpRv30sNwld4RgZ+AjlM14nOEmnpow8+rykfoBtZ4n6khjqrVzo8Iup5m3UU
+         0Ypg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=TjyuJvz8;
-       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::335 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=gydjR292;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::334 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1702416964; x=1703021764; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1702417024; x=1703021824; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=M3FHP+7Aq/f+SOtBzDVyRnTXG1cuiFxPy5ilVa0/UvM=;
-        b=jrkp0RemiLzta8R23hkP8AIi0qXAwLfwqS12KKfOJ/ZquqrjmwNyeNMISR6VhsarfX
-         DyBqmcvirgbR+22SsvLLQz0+Hez0sq+iZveaAlNZ4GsCc4HmwfILZxsUvpeO20nqz5tt
-         hL/gsQA+C8bVmA3uqUBmy0SZWICiDOKAGSsIOjmMSEKsvR9vZZ102zP1Wp6JhuaTtd6K
-         8gpg5Zgz2Opl3q4N0EfL/bml50PhgSjz7SeSD1LvgbtV4L3ctEYoR0JpzrHPzHwRqT63
-         VbFMWwD3OmNE/9zb0To2QvZYPqCdsft090hv9XYr3r7U5QYzn+6wtiIYo4nfb5mHqd3F
-         cw5Q==
+        bh=mAdV1BQb4jhbvtHmHvbxEHGJj4AgNGdOKmM8YKDYjJY=;
+        b=BeirXfMPAbLhUPruLISG3E+q68wA66XldN7xQ7RGK5R/SpfabCH6JpQs5tH8L0PxhS
+         c+kXj72FHBGsMgxVFlvUxWUX1u2liuPZcF7oAP543l94ze/l9GB7y1YSWn0eZK06O0lO
+         W4QlerpoLp3/AXt1MNTSnMx4nmdVHm1HdvcfU3oyFkInR8pswddjn6cVoz4E7IkLnliO
+         OaJagP8peTFAAIRB/CZvfCJNssj67rJI/0RkUg950v4xredxjFaozGAnOMoPB4azDbg5
+         H/nvNRqopdjFrPcQSudwvxudO7PGLM7XnC5g1MVH5PeCE3VkHc51QhZGV29fHKewD0mc
+         9NhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702416964; x=1703021764;
+        d=1e100.net; s=20230601; t=1702417024; x=1703021824;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M3FHP+7Aq/f+SOtBzDVyRnTXG1cuiFxPy5ilVa0/UvM=;
-        b=GTDMHsBKx1T1xjwNGj+u6K5ZRv5tNKD9tIu3fv9EByQZu9lPrBLE7KDV/oWKYVa29m
-         YfpQzJHVST82Lmx508HhKjOmVxSWetH2kGHQBQ2CujDZVKI7QusMlwUjy9K53JKydo8t
-         cTx5l7bs2ge3wLqLfOF+2NcmOw0WzHMmzQE2bh4KjhGhYxQRAhEJI7ja0SuubYyJ0pKr
-         5wGSwh14m9+d7zbitEI8uzCU38tLyM1rMrdRZZkrnmavRhwjxwB3ssWmSEa7xpPGIxvA
-         mfBUtGELtsS7Bt6hbVwq19B0VAHFyrIFRPQHUffK0TnpYQ54Kj87tSZsbbnm3o3haskv
-         IqBA==
+        bh=mAdV1BQb4jhbvtHmHvbxEHGJj4AgNGdOKmM8YKDYjJY=;
+        b=Gc3zUxuBgl0y5yeKuIVNZxqb+6KrXn5Sh8acMmTHSpposliHS3qJ0IDpIddDstgQ4H
+         7GF39EeI1mqfrOI6+SLwQqtEA3r44V+kJQd2zWwVhXAe8ceqKN3KmRqCsRYOhjpdegBL
+         yLEtcZilUJqoXH9FPYHp1XYoz0ZF8UpyVCbpbDZynpqrxhom11HIiyOnplNwISNp5K/J
+         FSOHe7Wl7BDpw6Q15bfor1MvDK14+KbF1T7f5HhMoyB9hsx7BNm02+bsJsGSfUd2WcPi
+         besZyR8adoN9RupU1eB+hcZt1A98uxYLhUO1j5tVOvIQvwI+jBgyy57Stbsxw/fGtM8G
+         DV4A==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YwAtdeUJggY7qy58SyNw8n8jCk6wfixMoVuKuI45kBaFcdqODLK
-	zFyovPfX7Ox6ZG8kONPukDY=
-X-Google-Smtp-Source: AGHT+IFlRxCWSa3kOV+TgFcAM0srjrTlEu38KP5AYPU5qkduMlnA7i5WKZ2twJeY3urtrCWqTvmMdQ==
-X-Received: by 2002:a05:600c:4f11:b0:40c:3172:acae with SMTP id l17-20020a05600c4f1100b0040c3172acaemr3621689wmq.37.1702416963116;
-        Tue, 12 Dec 2023 13:36:03 -0800 (PST)
+X-Gm-Message-State: AOJu0YyNBYVPBAmxv2pht3xHD+qijUosPneYp/cOd9+Y7T5KPeBkPn6g
+	p9AMtCQQJv/EmgOov1/tQBQ=
+X-Google-Smtp-Source: AGHT+IGzha03GHqKq3E0FoYWTAXSEt0IQxL8/uM9UQ8ULRplOHr8LlfOF1iGWIw2JnzjA4p9xVhzNQ==
+X-Received: by 2002:a05:600c:2e87:b0:40b:5f03:b3d3 with SMTP id p7-20020a05600c2e8700b0040b5f03b3d3mr1648418wmn.245.1702417024016;
+        Tue, 12 Dec 2023 13:37:04 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a7b:ca54:0:b0:409:5426:9d6a with SMTP id m20-20020a7bca54000000b0040954269d6als2042789wml.1.-pod-prod-00-eu;
- Tue, 12 Dec 2023 13:36:01 -0800 (PST)
-X-Received: by 2002:a05:600c:4897:b0:40c:1de7:41d5 with SMTP id j23-20020a05600c489700b0040c1de741d5mr3695576wmp.87.1702416961215;
-        Tue, 12 Dec 2023 13:36:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1702416961; cv=none;
+Received: by 2002:a1c:6a18:0:b0:40c:26cc:3705 with SMTP id f24-20020a1c6a18000000b0040c26cc3705ls461197wmc.2.-pod-prod-08-eu;
+ Tue, 12 Dec 2023 13:37:02 -0800 (PST)
+X-Received: by 2002:a05:600c:a692:b0:40c:3820:efee with SMTP id ip18-20020a05600ca69200b0040c3820efeemr1817012wmb.275.1702417022143;
+        Tue, 12 Dec 2023 13:37:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1702417022; cv=none;
         d=google.com; s=arc-20160816;
-        b=YpOoutkmt9ePkYAkr0nrbcxdIBI0F8gTa4z65u/7+xegsJJZwHgepy9GM3ZPZOVpRF
-         NAGzH5TGdzDJnaOWXLBF795EORVlRgZHy3zChDCC1Oxu++rDx+gCKGIXNJGIpFEBH65p
-         5NE+80TmdlbJ9g11PXVcW1voW23RauHJj58eyUtb0AvqkxA1fboZHoRQdmGGZ4pGosyv
-         hCR7dbTjfY0t4Nx7PHW4pldHV5J6/9LpwqIWOe5Uba+Iohr4228BgBonGPd2ecwN4b3L
-         x3GBbbpxleQgDtINGvgN29re2BKKpQ/PxrDOHr+SFGrQeegVyKxrDEFnjAHBmtHYpXFH
-         bfiw==
+        b=W7PkSCoBRsi5QyGfYx7XV1DN/yP5JxZvCoaAj2Aw6NtLhcV+QgUjthOVq3FqmB8o0A
+         ccagnGvvHqkHJCsphjZNOpFyMKGSguYF24aS+TizWYgdso843c5OLkmLn1TgbOjjLKSR
+         w5FOlgNUEUoKH4aPrFW3PqrA6AXmbi+3KAG8JdwDng4wEhm0j78yd2UqG7Wf7pMDtwoT
+         dZ51TUk1Aj3ojM/5+GaBHm8IN0jXvIL0eGt3Vp+nq/8AKAzv6juFMAw1CaDm6EXcX07t
+         mZqFgK1mDIQgnLvR4llT+aE+KEsgePe9EWBd9T4YoC5H6ByRq29ap3jgJ5gzXbhj2TS9
+         L28Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=BLS75Mo77acz6k4jx++nul4Z+bTVnVv2nm8SBcxb6zo=;
+        bh=qCOh69caXbVfDD+nz3SkSSNJ4LOnzQLxIG6SJxHDatw=;
         fh=tnIMy8HqtPpQFlCLOsGpMCarUq1yCQA12ipWGdFOY/s=;
-        b=o6inmoFqjVVKWXvvUBr4fqx/EYVz8yai+7i5bZXcGX0fJG9HzNntb9tSQ3w/1clBUG
-         exOF0MYWK+PyWneU1KyJx8q6nIvCfVyK08yB26roX1uasrxDSFmvqvWqTEcmb8Z65uLZ
-         ThZdF5FWdtPdCxPT5xYR6t2rgXqr6ro4nFhMJnSJYsvvQYh64TeQ/XaT1MfbS4P/bvVs
-         rEE6Fuv/lmbIUE3MWTyXOE4dhcBpCA7CRtWCR6OlujafC+DBxvFbnwkhEhX5gvSNJZil
-         XGocaTgI6Wn/j7T1t8g398xzN6NJ2/ObaOpVOdyAZ81eRrhnYJnTBbYaB3qkR2B96a6Q
-         gswQ==
+        b=M4jU/whhBDhptozFrJVgou+Q44t/cVTf1acf7wj0+VtBkvHYkGZtPdht5fYL0Ug/FB
+         6uqY00HeELUBfEwVM0wg293/j2Bg6rlNJiGlwTg4DNhoX3qQEh+Roy4WAQEAU8SIAL7Q
+         JUtlcrqpZfK8Xk46NHr+/y4MZCWm+O7EPifkVBkwcavaPa/LJ+5pLhRMVWPEtg9h8KTh
+         8d6w7vqhBMUWQB/0D5yky36E8mcZdYT/LrvireOdQdG6n9+eLRngrpKKC9/SW8oiDO11
+         KIazWObv8RHYjLdhEDGKlRs1HeyYUVGlNRUnomseC3thVOvZVz8WaFIatPIUriRKQ1kA
+         sbSg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=TjyuJvz8;
-       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::335 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com. [2a00:1450:4864:20::335])
-        by gmr-mx.google.com with ESMTPS id m30-20020a05600c3b1e00b0040a25ec1cfesi86173wms.0.2023.12.12.13.36.01
+       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=gydjR292;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::334 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com. [2a00:1450:4864:20::334])
+        by gmr-mx.google.com with ESMTPS id m7-20020a05600c3b0700b0040b54466ee8si399947wms.2.2023.12.12.13.37.02
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 Dec 2023 13:36:01 -0800 (PST)
-Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::335 as permitted sender) client-ip=2a00:1450:4864:20::335;
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-40c55872d80so5120615e9.1
-        for <kasan-dev@googlegroups.com>; Tue, 12 Dec 2023 13:36:01 -0800 (PST)
-X-Received: by 2002:a7b:c456:0:b0:40b:5e4a:2365 with SMTP id l22-20020a7bc456000000b0040b5e4a2365mr3632834wmi.103.1702416960633;
-        Tue, 12 Dec 2023 13:36:00 -0800 (PST)
+        Tue, 12 Dec 2023 13:37:02 -0800 (PST)
+Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::334 as permitted sender) client-ip=2a00:1450:4864:20::334;
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-40c2a444311so60158405e9.2
+        for <kasan-dev@googlegroups.com>; Tue, 12 Dec 2023 13:37:02 -0800 (PST)
+X-Received: by 2002:a05:600c:2814:b0:40b:5f03:b43f with SMTP id m20-20020a05600c281400b0040b5f03b43fmr1885174wmb.353.1702417021655;
+        Tue, 12 Dec 2023 13:37:01 -0800 (PST)
 Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id u21-20020a05600c139500b00405d9a950a2sm19994483wmf.28.2023.12.12.13.35.59
+        by smtp.gmail.com with ESMTPSA id ay35-20020a05600c1e2300b0040b2b38a1fasm17954734wmb.4.2023.12.12.13.37.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 13:36:00 -0800 (PST)
+        Tue, 12 Dec 2023 13:37:01 -0800 (PST)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
@@ -125,9 +125,9 @@ To: Paul Walmsley <paul.walmsley@sifive.com>,
 	linux-arch@vger.kernel.org,
 	linux-mm@kvack.org
 Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v2 1/2] mm: Introduce flush_cache_vmap_early()
-Date: Tue, 12 Dec 2023 22:34:56 +0100
-Message-Id: <20231212213457.132605-2-alexghiti@rivosinc.com>
+Subject: [PATCH v2 2/2] riscv: Enable pcpu page first chunk allocator
+Date: Tue, 12 Dec 2023 22:34:57 +0100
+Message-Id: <20231212213457.132605-3-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231212213457.132605-1-alexghiti@rivosinc.com>
 References: <20231212213457.132605-1-alexghiti@rivosinc.com>
@@ -135,8 +135,8 @@ MIME-Version: 1.0
 X-Original-Sender: alexghiti@rivosinc.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
  header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601
- header.b=TjyuJvz8;       spf=pass (google.com: domain of alexghiti@rivosinc.com
- designates 2a00:1450:4864:20::335 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+ header.b=gydjR292;       spf=pass (google.com: domain of alexghiti@rivosinc.com
+ designates 2a00:1450:4864:20::334 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -150,282 +150,63 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The pcpu setup when using the page allocator sets up a new vmalloc
-mapping very early in the boot process, so early that it cannot use the
-flush_cache_vmap() function which may depend on structures not yet
-initialized (for example in riscv, we currently send an IPI to flush
-other cpus TLB).
+As explained in commit 6ea529a2037c ("percpu: make embedding first chunk
+allocator check vmalloc space size"), the embedding first chunk allocator
+needs the vmalloc space to be larger than the maximum distance between
+units which are grouped into NUMA nodes.
 
-But on some architectures, we must call flush_cache_vmap(): for example,
-in riscv, some uarchs can cache invalid TLB entries so we need to flush
-the new established mapping to avoid taking an exception.
+On a very sparse NUMA configurations and a small vmalloc area (for example,
+it is 64GB in sv39), the allocation of dynamic percpu data in the vmalloc
+area could fail.
 
-So fix this by introducing a new function flush_cache_vmap_early() which
-is called right after setting the new page table entry and before
-accessing this new mapping. This new function implements a local flush
-tlb on riscv and is no-op for other architectures (same as today).
+So provide the pcpu page allocator as a fallback in case we fall into
+such a sparse configuration (which happened in arm64 as shown by
+commit 09cea6195073 ("arm64: support page mapping percpu first chunk
+allocator")).
 
 Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 ---
- arch/arc/include/asm/cacheflush.h      | 1 +
- arch/arm/include/asm/cacheflush.h      | 2 ++
- arch/csky/abiv1/inc/abi/cacheflush.h   | 1 +
- arch/csky/abiv2/inc/abi/cacheflush.h   | 1 +
- arch/m68k/include/asm/cacheflush_mm.h  | 1 +
- arch/mips/include/asm/cacheflush.h     | 2 ++
- arch/nios2/include/asm/cacheflush.h    | 1 +
- arch/parisc/include/asm/cacheflush.h   | 1 +
- arch/riscv/include/asm/cacheflush.h    | 3 ++-
- arch/riscv/include/asm/tlbflush.h      | 1 +
- arch/riscv/mm/tlbflush.c               | 5 +++++
- arch/sh/include/asm/cacheflush.h       | 1 +
- arch/sparc/include/asm/cacheflush_32.h | 1 +
- arch/sparc/include/asm/cacheflush_64.h | 1 +
- arch/xtensa/include/asm/cacheflush.h   | 6 ++++--
- include/asm-generic/cacheflush.h       | 6 ++++++
- mm/percpu.c                            | 8 +-------
- 17 files changed, 32 insertions(+), 10 deletions(-)
+ arch/riscv/Kconfig         | 2 ++
+ arch/riscv/mm/kasan_init.c | 8 ++++++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/arch/arc/include/asm/cacheflush.h b/arch/arc/include/asm/cacheflush.h
-index bd5b1a9a0544..6fc74500a9f5 100644
---- a/arch/arc/include/asm/cacheflush.h
-+++ b/arch/arc/include/asm/cacheflush.h
-@@ -40,6 +40,7 @@ void dma_cache_wback(phys_addr_t start, unsigned long sz);
- 
- /* TBD: optimize this */
- #define flush_cache_vmap(start, end)		flush_cache_all()
-+#define flush_cache_vmap_early(start, end)	do { } while (0)
- #define flush_cache_vunmap(start, end)		flush_cache_all()
- 
- #define flush_cache_dup_mm(mm)			/* called on fork (VIVT only) */
-diff --git a/arch/arm/include/asm/cacheflush.h b/arch/arm/include/asm/cacheflush.h
-index f6181f69577f..1075534b0a2e 100644
---- a/arch/arm/include/asm/cacheflush.h
-+++ b/arch/arm/include/asm/cacheflush.h
-@@ -340,6 +340,8 @@ static inline void flush_cache_vmap(unsigned long start, unsigned long end)
- 		dsb(ishst);
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index 7603bd8ab333..8ba4a63e0ae5 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -415,7 +415,9 @@ config NUMA
+ 	depends on SMP && MMU
+ 	select ARCH_SUPPORTS_NUMA_BALANCING
+ 	select GENERIC_ARCH_NUMA
++	select HAVE_SETUP_PER_CPU_AREA
+ 	select NEED_PER_CPU_EMBED_FIRST_CHUNK
++	select NEED_PER_CPU_PAGE_FIRST_CHUNK
+ 	select OF_NUMA
+ 	select USE_PERCPU_NUMA_NODE_ID
+ 	help
+diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+index 5e39dcf23fdb..4c9a2c527f08 100644
+--- a/arch/riscv/mm/kasan_init.c
++++ b/arch/riscv/mm/kasan_init.c
+@@ -438,6 +438,14 @@ static void __init kasan_shallow_populate(void *start, void *end)
+ 	kasan_shallow_populate_pgd(vaddr, vend);
  }
  
-+#define flush_cache_vmap_early(start, end)	do { } while (0)
-+
- static inline void flush_cache_vunmap(unsigned long start, unsigned long end)
- {
- 	if (!cache_is_vipt_nonaliasing())
-diff --git a/arch/csky/abiv1/inc/abi/cacheflush.h b/arch/csky/abiv1/inc/abi/cacheflush.h
-index 908d8b0bc4fd..d011a81575d2 100644
---- a/arch/csky/abiv1/inc/abi/cacheflush.h
-+++ b/arch/csky/abiv1/inc/abi/cacheflush.h
-@@ -43,6 +43,7 @@ static inline void flush_anon_page(struct vm_area_struct *vma,
-  */
- extern void flush_cache_range(struct vm_area_struct *vma, unsigned long start, unsigned long end);
- #define flush_cache_vmap(start, end)		cache_wbinv_all()
-+#define flush_cache_vmap_early(start, end)	do { } while (0)
- #define flush_cache_vunmap(start, end)		cache_wbinv_all()
- 
- #define flush_icache_range(start, end)		cache_wbinv_range(start, end)
-diff --git a/arch/csky/abiv2/inc/abi/cacheflush.h b/arch/csky/abiv2/inc/abi/cacheflush.h
-index 40be16907267..6513ac5d2578 100644
---- a/arch/csky/abiv2/inc/abi/cacheflush.h
-+++ b/arch/csky/abiv2/inc/abi/cacheflush.h
-@@ -41,6 +41,7 @@ void flush_icache_mm_range(struct mm_struct *mm,
- void flush_icache_deferred(struct mm_struct *mm);
- 
- #define flush_cache_vmap(start, end)		do { } while (0)
-+#define flush_cache_vmap_early(start, end)	do { } while (0)
- #define flush_cache_vunmap(start, end)		do { } while (0)
- 
- #define copy_to_user_page(vma, page, vaddr, dst, src, len) \
-diff --git a/arch/m68k/include/asm/cacheflush_mm.h b/arch/m68k/include/asm/cacheflush_mm.h
-index ed12358c4783..9a71b0148461 100644
---- a/arch/m68k/include/asm/cacheflush_mm.h
-+++ b/arch/m68k/include/asm/cacheflush_mm.h
-@@ -191,6 +191,7 @@ extern void cache_push_v(unsigned long vaddr, int len);
- #define flush_cache_all() __flush_cache_all()
- 
- #define flush_cache_vmap(start, end)		flush_cache_all()
-+#define flush_cache_vmap_early(start, end)	do { } while (0)
- #define flush_cache_vunmap(start, end)		flush_cache_all()
- 
- static inline void flush_cache_mm(struct mm_struct *mm)
-diff --git a/arch/mips/include/asm/cacheflush.h b/arch/mips/include/asm/cacheflush.h
-index f36c2519ed97..1f14132b3fc9 100644
---- a/arch/mips/include/asm/cacheflush.h
-+++ b/arch/mips/include/asm/cacheflush.h
-@@ -97,6 +97,8 @@ static inline void flush_cache_vmap(unsigned long start, unsigned long end)
- 		__flush_cache_vmap();
- }
- 
-+#define flush_cache_vmap_early(start, end)     do { } while (0)
-+
- extern void (*__flush_cache_vunmap)(void);
- 
- static inline void flush_cache_vunmap(unsigned long start, unsigned long end)
-diff --git a/arch/nios2/include/asm/cacheflush.h b/arch/nios2/include/asm/cacheflush.h
-index 348cea097792..81484a776b33 100644
---- a/arch/nios2/include/asm/cacheflush.h
-+++ b/arch/nios2/include/asm/cacheflush.h
-@@ -38,6 +38,7 @@ void flush_icache_pages(struct vm_area_struct *vma, struct page *page,
- #define flush_icache_pages flush_icache_pages
- 
- #define flush_cache_vmap(start, end)		flush_dcache_range(start, end)
-+#define flush_cache_vmap_early(start, end)	do { } while (0)
- #define flush_cache_vunmap(start, end)		flush_dcache_range(start, end)
- 
- extern void copy_to_user_page(struct vm_area_struct *vma, struct page *page,
-diff --git a/arch/parisc/include/asm/cacheflush.h b/arch/parisc/include/asm/cacheflush.h
-index b4006f2a9705..ba4c05bc24d6 100644
---- a/arch/parisc/include/asm/cacheflush.h
-+++ b/arch/parisc/include/asm/cacheflush.h
-@@ -41,6 +41,7 @@ void flush_kernel_vmap_range(void *vaddr, int size);
- void invalidate_kernel_vmap_range(void *vaddr, int size);
- 
- #define flush_cache_vmap(start, end)		flush_cache_all()
-+#define flush_cache_vmap_early(start, end)	do { } while (0)
- #define flush_cache_vunmap(start, end)		flush_cache_all()
- 
- void flush_dcache_folio(struct folio *folio);
-diff --git a/arch/riscv/include/asm/cacheflush.h b/arch/riscv/include/asm/cacheflush.h
-index 3cb53c4df27c..a129dac4521d 100644
---- a/arch/riscv/include/asm/cacheflush.h
-+++ b/arch/riscv/include/asm/cacheflush.h
-@@ -37,7 +37,8 @@ static inline void flush_dcache_page(struct page *page)
- 	flush_icache_mm(vma->vm_mm, 0)
- 
- #ifdef CONFIG_64BIT
--#define flush_cache_vmap(start, end)	flush_tlb_kernel_range(start, end)
-+#define flush_cache_vmap(start, end)		flush_tlb_kernel_range(start, end)
-+#define flush_cache_vmap_early(start, end)	local_flush_tlb_kernel_range(start, end)
- #endif
- 
- #ifndef CONFIG_SMP
-diff --git a/arch/riscv/include/asm/tlbflush.h b/arch/riscv/include/asm/tlbflush.h
-index 8f3418c5f172..a60416bbe190 100644
---- a/arch/riscv/include/asm/tlbflush.h
-+++ b/arch/riscv/include/asm/tlbflush.h
-@@ -41,6 +41,7 @@ void flush_tlb_page(struct vm_area_struct *vma, unsigned long addr);
- void flush_tlb_range(struct vm_area_struct *vma, unsigned long start,
- 		     unsigned long end);
- void flush_tlb_kernel_range(unsigned long start, unsigned long end);
-+void local_flush_tlb_kernel_range(unsigned long start, unsigned long end);
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
- #define __HAVE_ARCH_FLUSH_PMD_TLB_RANGE
- void flush_pmd_tlb_range(struct vm_area_struct *vma, unsigned long start,
-diff --git a/arch/riscv/mm/tlbflush.c b/arch/riscv/mm/tlbflush.c
-index e6659d7368b3..8aadc5f71c93 100644
---- a/arch/riscv/mm/tlbflush.c
-+++ b/arch/riscv/mm/tlbflush.c
-@@ -66,6 +66,11 @@ static inline void local_flush_tlb_range_asid(unsigned long start,
- 		local_flush_tlb_range_threshold_asid(start, size, stride, asid);
- }
- 
-+void local_flush_tlb_kernel_range(unsigned long start, unsigned long end)
++#ifdef CONFIG_KASAN_VMALLOC
++void __init kasan_populate_early_vm_area_shadow(void *start, unsigned long size)
 +{
-+	local_flush_tlb_range_asid(start, end, PAGE_SIZE, FLUSH_TLB_NO_ASID);
-+}
-+
- static void __ipi_flush_tlb_all(void *info)
- {
- 	local_flush_tlb_all();
-diff --git a/arch/sh/include/asm/cacheflush.h b/arch/sh/include/asm/cacheflush.h
-index 878b6b551bd2..51112f54552b 100644
---- a/arch/sh/include/asm/cacheflush.h
-+++ b/arch/sh/include/asm/cacheflush.h
-@@ -90,6 +90,7 @@ extern void copy_from_user_page(struct vm_area_struct *vma,
- 	unsigned long len);
- 
- #define flush_cache_vmap(start, end)		local_flush_cache_all(NULL)
-+#define flush_cache_vmap_early(start, end)	do { } while (0)
- #define flush_cache_vunmap(start, end)		local_flush_cache_all(NULL)
- 
- #define flush_dcache_mmap_lock(mapping)		do { } while (0)
-diff --git a/arch/sparc/include/asm/cacheflush_32.h b/arch/sparc/include/asm/cacheflush_32.h
-index f3b7270bf71b..9fee0ccfccb8 100644
---- a/arch/sparc/include/asm/cacheflush_32.h
-+++ b/arch/sparc/include/asm/cacheflush_32.h
-@@ -48,6 +48,7 @@ static inline void flush_dcache_page(struct page *page)
- #define flush_dcache_mmap_unlock(mapping)	do { } while (0)
- 
- #define flush_cache_vmap(start, end)		flush_cache_all()
-+#define flush_cache_vmap_early(start, end)	do { } while (0)
- #define flush_cache_vunmap(start, end)		flush_cache_all()
- 
- /* When a context switch happens we must flush all user windows so that
-diff --git a/arch/sparc/include/asm/cacheflush_64.h b/arch/sparc/include/asm/cacheflush_64.h
-index 0e879004efff..2b1261b77ecd 100644
---- a/arch/sparc/include/asm/cacheflush_64.h
-+++ b/arch/sparc/include/asm/cacheflush_64.h
-@@ -75,6 +75,7 @@ void flush_ptrace_access(struct vm_area_struct *, struct page *,
- #define flush_dcache_mmap_unlock(mapping)	do { } while (0)
- 
- #define flush_cache_vmap(start, end)		do { } while (0)
-+#define flush_cache_vmap_early(start, end)	do { } while (0)
- #define flush_cache_vunmap(start, end)		do { } while (0)
- 
- #endif /* !__ASSEMBLY__ */
-diff --git a/arch/xtensa/include/asm/cacheflush.h b/arch/xtensa/include/asm/cacheflush.h
-index 785a00ce83c1..38bcecb0e457 100644
---- a/arch/xtensa/include/asm/cacheflush.h
-+++ b/arch/xtensa/include/asm/cacheflush.h
-@@ -116,8 +116,9 @@ void flush_cache_page(struct vm_area_struct*,
- #define flush_cache_mm(mm)		flush_cache_all()
- #define flush_cache_dup_mm(mm)		flush_cache_mm(mm)
- 
--#define flush_cache_vmap(start,end)	flush_cache_all()
--#define flush_cache_vunmap(start,end)	flush_cache_all()
-+#define flush_cache_vmap(start,end)		flush_cache_all()
-+#define flush_cache_vmap_early(start,end)	do { } while (0)
-+#define flush_cache_vunmap(start,end)		flush_cache_all()
- 
- void flush_dcache_folio(struct folio *folio);
- #define flush_dcache_folio flush_dcache_folio
-@@ -140,6 +141,7 @@ void local_flush_cache_page(struct vm_area_struct *vma,
- #define flush_cache_dup_mm(mm)				do { } while (0)
- 
- #define flush_cache_vmap(start,end)			do { } while (0)
-+#define flush_cache_vmap_early(start,end)		do { } while (0)
- #define flush_cache_vunmap(start,end)			do { } while (0)
- 
- #define ARCH_IMPLEMENTS_FLUSH_DCACHE_PAGE 0
-diff --git a/include/asm-generic/cacheflush.h b/include/asm-generic/cacheflush.h
-index 84ec53ccc450..7ee8a179d103 100644
---- a/include/asm-generic/cacheflush.h
-+++ b/include/asm-generic/cacheflush.h
-@@ -91,6 +91,12 @@ static inline void flush_cache_vmap(unsigned long start, unsigned long end)
- }
- #endif
- 
-+#ifndef flush_cache_vmap_early
-+static inline void flush_cache_vmap_early(unsigned long start, unsigned long end)
-+{
++	kasan_populate(kasan_mem_to_shadow(start),
++		       kasan_mem_to_shadow(start + size));
 +}
 +#endif
 +
- #ifndef flush_cache_vunmap
- static inline void flush_cache_vunmap(unsigned long start, unsigned long end)
+ static void __init create_tmp_mapping(void)
  {
-diff --git a/mm/percpu.c b/mm/percpu.c
-index 7b97d31df767..4e11fc1e6def 100644
---- a/mm/percpu.c
-+++ b/mm/percpu.c
-@@ -3333,13 +3333,7 @@ int __init pcpu_page_first_chunk(size_t reserved_size, pcpu_fc_cpu_to_node_fn_t
- 		if (rc < 0)
- 			panic("failed to map percpu area, err=%d\n", rc);
- 
--		/*
--		 * FIXME: Archs with virtual cache should flush local
--		 * cache for the linear mapping here - something
--		 * equivalent to flush_cache_vmap() on the local cpu.
--		 * flush_cache_vmap() can't be used as most supporting
--		 * data structures are not set up yet.
--		 */
-+		flush_cache_vmap_early(unit_addr, unit_addr + ai->unit_size);
- 
- 		/* copy static data */
- 		memcpy((void *)unit_addr, __per_cpu_load, ai->static_size);
+ 	void *ptr;
 -- 
 2.39.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231212213457.132605-2-alexghiti%40rivosinc.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231212213457.132605-3-alexghiti%40rivosinc.com.
