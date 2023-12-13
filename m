@@ -1,139 +1,139 @@
-Return-Path: <kasan-dev+bncBCM3H26GVIOBBM4B5GVQMGQENPBLIIA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCM3H26GVIOBB7X75CVQMGQE5TIE4SI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3e.google.com (mail-oa1-x3e.google.com [IPv6:2001:4860:4864:20::3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E465812347
-	for <lists+kasan-dev@lfdr.de>; Thu, 14 Dec 2023 00:39:32 +0100 (CET)
-Received: by mail-oa1-x3e.google.com with SMTP id 586e51a60fabf-1f4ddfe6fe1sf12408117fac.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 13 Dec 2023 15:39:32 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1702510771; cv=pass;
+Received: from mail-oo1-xc37.google.com (mail-oo1-xc37.google.com [IPv6:2607:f8b0:4864:20::c37])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0998E8122ED
+	for <lists+kasan-dev@lfdr.de>; Thu, 14 Dec 2023 00:36:32 +0100 (CET)
+Received: by mail-oo1-xc37.google.com with SMTP id 006d021491bc7-591129c72d6sf4442994eaf.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 13 Dec 2023 15:36:31 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1702510590; cv=pass;
         d=google.com; s=arc-20160816;
-        b=LxB3U+fVVPwcz1uMATt/T3PnKi/EdU53cWUUo5AdLWW/xDauikXYuMsCEwyduDrtJk
-         KAa+fA2O6O/5mkGQdk3d2OwC6fnx/VQRgmdvs0iWuB+W2Qi6eWX5uJK5K5TlYJuoXum2
-         /cZWAKahtLt2JrmAGDcxyvIJ2ahV4dLuMeLQHQhVQtViJCQwipp4dZ3sUQMyU3SLTvVe
-         DNT6I3N7jur2RRfq8AYsJfw9k1mDgsUXctO9/x4oSO2ToBLfmFiHVgJw1bLuzml/bq2a
-         WQnEKS0LLohaT+pPsEPGjlLiC7LBaNI7pc800PTiE5OVp0alyW1qHD7xc8r4zKfd6lKt
-         xL8A==
+        b=O+it6e34r8Zzu92DVbiiDNqAawhdKq5ZZ5DhaenE/ZVWV+b6vbUt/lK/qJ869+rSPS
+         Z5evL7ZLUu1IsKWHmTeYNadhqLIYHnS7ad0m+idaT9RjZO2/ej0qbTXzsVLTFdE+h5Z4
+         ZEP26x5dn0bKFiOJeCzRv2ajo7vhrR/nlTjZvn+Jv7A8pzjvr2aL1cXP7MZ5H5bzZrFl
+         qC2E/6hAqELoU7Qgp5LtOEUO5M89mJp4zftN2zEyisktQHMFpbijH1+ijxRpbHfyO/gq
+         JhU1YvGxDciPAt29/W31M4ZsPyx6msxUtecTanQ3aMTKmjwq2jy8rSYIORde+NVOpqnj
+         rRVA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=ferbJ4W3wyFad18KfV7SUo7oaOvfjOMkwsTcGvOpyMA=;
+        bh=j1GB2BSqLt9V867XG63rJ4yPwSqhI2BYMpaXwomfpoE=;
         fh=TQATEbdDZNcnk8L2eDP6eFL9HlexFaHIexhR1TH2IlY=;
-        b=WHahCkjbKoq+O8uimcge76coRZ5o7lLNysmctKGDj6ndjt2ZKSCfxH396jNlU6ae8D
-         gnjqq34CdQN5uqwcnFqR3U5NY6oPC/K6FtWTWpbMUoSF95WrCyOihO4/wvefN3KzLHTV
-         +7bLzC3G/eLO7l+pKMFjdTZrBh7/Z8wg3x0VOlebbXWMcEulE2msgMvlrZTDcuOqGFjp
-         MO/yZnh500K9F6p1j15a3AYfxqIBWawVsxswgxDvpLtrHhTrgU3xyMHs1/fYIi0HBFch
-         EH/zI9b108o0+R2Jv4qcKZkUdRWQE/yBYtisa5ChVL1jGrP5tHSfq6+OAfrcBWBbm4P8
-         OltQ==
+        b=e6W+WuBiSyD+NPpZrC1HiskhmbDCK31KZUsFt7QCVZxnbo5Awl3g/M0UBdo1gmTngj
+         NTO1yds/NOSm6iYE0w/EGUSr4gSKwX1C8c9Lxv4pb9E1AT1MU9FSO4CIruOqqZmk0Ot6
+         Vtp3vPM0WlOZfGwbiWkAjp6FcHaDem33uxSwOBv13f9lxlUt5quMmWL2gT68/EO7px9q
+         FD6cs4bsP9U2z1GUQuA38vZzxR04/+jvlGXGNfB/g6sYQcm03fpotv3KKbJ5J+/ucuh5
+         1f4LQFnP5ySRKDlVkTa8YuS50kfZl2+JlcyHHjXifa/+qJ+vfCLscosZLoV+4QhrWIw9
+         6pYw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=Rss4RCOr;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b="a/H46swg";
        spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
        dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1702510771; x=1703115571; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1702510590; x=1703115390; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ferbJ4W3wyFad18KfV7SUo7oaOvfjOMkwsTcGvOpyMA=;
-        b=ayMxhntdpDKihou7ZUOyfhA4eghG7/WECuGbMGqzYwmZT8DHKVIVVEhkMzbVDaYvot
-         3m7xCw5Dsi1ySXiypvzrHgBgH6DN+kG2K093jZKWLfEqWPYEuc0ZFhxzmYSsdjT/ND/t
-         J1c6goU7Si3eRwROmu47DxTMqJgtfrIDirH2h+PjBoHL15h+i+ZYMV1+rMKFkmifm//A
-         nWweB3fEU30wTSLeytaZRo73OzxaeWKog3hbITqf0KfJnRj0gnx/3V/dbKU6EFF6juVS
-         kfPoT0FFkP1GtFgVDyoqmHzBpnde0QVKPMWjTXVALX6RqEsBcXJQk2z9A2zUdi8RJPog
-         KtgA==
+        bh=j1GB2BSqLt9V867XG63rJ4yPwSqhI2BYMpaXwomfpoE=;
+        b=cMnT7XV+v4qlFigvu8ueri6hsgFstRTzn56HfBd1zIwnuqM24Nih1SsVQW3X1o2Cqf
+         Hch+TO58ypS2Cdf/RBYuHGhWc4Bk202tw/T5MiAjKOcP7Z7ai41hSpOcz0e4aILrMj05
+         isPaGmeXGpRG6bm7bpQzI45jFLjapzpZ4giViyZy+b8PxgaEfskbqbCVX4BnuQE1NDya
+         3yxFetzAApkmaRrAKLKj/OTEP8Cn4eTJtu3eXsyiGzqR3JOU5TGScnF57cUDYXX0N4q1
+         JTtxSFHSqmh4RMj0KcIne9vGw/1qNxPn2PwEEjwv8CaA8h8o/HIWuZKx7zKm8nCL5ZcL
+         tl0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702510771; x=1703115571;
+        d=1e100.net; s=20230601; t=1702510590; x=1703115390;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ferbJ4W3wyFad18KfV7SUo7oaOvfjOMkwsTcGvOpyMA=;
-        b=dI4nHD5rsIa0x/fwV3fWRX5ZGnsijJigTp1Pvl1YffMms3PypPpEoE4aV8SP4x3GVt
-         zSXqHUQ5ZHlHISwrVmMTXFM3LOc7bqywpOotWEf3LOiqx23N0vHg2u/moZZ+xeEg6RaR
-         6aRjvTZVGWaltRBprSrzVExDhvekFdqH3tH5W+xEK5mCQJBZesSpp8CODlGYkUcUy/QY
-         5QGcpUSXap1IkWFgzDdX4LXUXO47HFXu1YNtPIFkBEyvaTy0kIU9QvhG5pTUaxs8Bdjn
-         UHpf22bzbEmWXekq0zEVmIET9UZ4/7uLTk/BS49naUdYRfZ0ntVvSXgI3kiDy563Z5Vk
-         Z+MQ==
+        bh=j1GB2BSqLt9V867XG63rJ4yPwSqhI2BYMpaXwomfpoE=;
+        b=sQi15i00wt09BSnM8+F9UH3N+nR4C//Qa619lgVK4MoGfKIfaX2+hVseY1+Ff0OhnG
+         LPIJLWtmDFU3XQMqBZWw1wOeOgW74aKocYhcS19QFHS7ax70wWqhQ/oehePKEc7OyeQt
+         gp5GkCTHjClJm3TXGbSywhQkhUf1N3/sZYKc7DWeDT3OaTYrmkM9wnER6loFwurLsw26
+         c9hi7fUOgYvLr+OWTNy8A+7Fw4LY2yFXWow1r8qkYGb/RtuKpPcvF/Jg39zUt9PKEqwg
+         wQS9vYvpem9JGt7aQqPolG19G5xDOwwJNJwMAglkqaDBjieBjGleyxqAyPjLtCvJF1tU
+         A6JQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YyJ8LVwizk243feOewJRlmBtwckHtjo6rz03Ub1YkrVu+8qZhGf
-	95CAA7P8neKG0nKp31i4VOQ=
-X-Google-Smtp-Source: AGHT+IHJFOIuKZEvsPfMYXkw2JL6EaNHTqFdZbqSaY4Iemcg1RmXMkmzGcUb39bD+QDwcmdgTKWDeQ==
-X-Received: by 2002:a05:6871:64c7:b0:1fa:16c2:e8a0 with SMTP id rk7-20020a05687164c700b001fa16c2e8a0mr9786792oab.30.1702510771188;
-        Wed, 13 Dec 2023 15:39:31 -0800 (PST)
+X-Gm-Message-State: AOJu0YxIWDqtzy7izW1if1je36uZtbw6BPQ8EqgdmFKO+3sdJrlblhDK
+	oQmy5aT5xfK0q2h3IzO1lEo=
+X-Google-Smtp-Source: AGHT+IH9iU6bVQXPdhqDVWd5Cml90AC3DBC0Z1bcsFD6qp4UcgZkc+eIj2jZZPq3tUKzERKIN7KjcA==
+X-Received: by 2002:a4a:98ea:0:b0:590:f5fc:df58 with SMTP id b39-20020a4a98ea000000b00590f5fcdf58mr3879535ooj.17.1702510590421;
+        Wed, 13 Dec 2023 15:36:30 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6871:49c9:b0:203:1826:df23 with SMTP id
- ty9-20020a05687149c900b002031826df23ls1205970oab.2.-pod-prod-08-us; Wed, 13
- Dec 2023 15:39:30 -0800 (PST)
-X-Received: by 2002:a05:6870:b69c:b0:203:383d:38ab with SMTP id cy28-20020a056870b69c00b00203383d38abmr993568oab.39.1702510770614;
-        Wed, 13 Dec 2023 15:39:30 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1702510770; cv=none;
+Received: by 2002:a05:6820:1b95:b0:590:e812:c208 with SMTP id
+ cb21-20020a0568201b9500b00590e812c208ls1588868oob.1.-pod-prod-07-us; Wed, 13
+ Dec 2023 15:36:29 -0800 (PST)
+X-Received: by 2002:a05:6808:4486:b0:3b8:b063:9b76 with SMTP id eq6-20020a056808448600b003b8b0639b76mr12679004oib.104.1702510589732;
+        Wed, 13 Dec 2023 15:36:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1702510589; cv=none;
         d=google.com; s=arc-20160816;
-        b=DHFxn4L++nRKX6fiF8Zdr8FrNmNSc8mRZSiNMR/5alRMBwYYne9vvVzakPeX9gxww7
-         H37k2b9qGWcGuce+oo4bl3n00C+YJAtQjjWqP87/3uGAbVi/Omy9veZOXU831IWwNhR6
-         bS3aUWNLVbY6lanGLBCliCT1pZjQQxqnW347bDKs46gA9CfA5dhGYLeuA6Bcb4blu7EI
-         VtioTqSCjjro3ydMJ6QhFIFxG/6MEzXYZh4r1FcolgmBc+F4iQbw0KzBaPC1q5hGdBgy
-         UIGuXWGtw2mlgg8jqqQxtFn5hQICOVszVLsft5V7udjsUTCiiXWfptetWPtQ6PX5JsGd
-         BOtA==
+        b=a22Ng/pdXXm06KGEPDqforTtZMq8CZHnImoYyCIyA8o42eiA2Gpbje+wEAKo9PPDMm
+         3PExySgZFSGDvERkIslPt5qZxaMscbBNcnmStejdP1IIoOUnxqct5F4BrpnYk4VVYDDk
+         zvW8J0h6XSyWplX1s7CL7Z5o2jH69Ou3MrjBMTiVjV1cnlcCQeo2lDjjJ0TwzMchZNeH
+         nUvs4JLG8hng131Bh8EPDg76iSpO4w+tTI3KHlHSiYYiQkE4R5ggi/0Rc52ZpVvvDh/x
+         40aD6hypm50YrWvquMCXaQSTZRaKfya6ue9T9/RHEKxJobQUjJOk1RbVrJyRHlhPJaXF
+         9Oug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=0tC4Q68qibnNxZ7EGQhqKNfW/oX4pAJGU/AeYW+RHN4=;
+        bh=+JRbg3kPizc/tKO6MSNyeUjOi3r5ENUit3Ra9toPyEk=;
         fh=TQATEbdDZNcnk8L2eDP6eFL9HlexFaHIexhR1TH2IlY=;
-        b=KCGaEScVU6TjpLfnd+jq9cfzuksEJSQRLkrSjG2gmUefG4jiWnWEIKMKpXXTCUB8Ko
-         vRwDfMNgFHBA5hmTQMxWxwSfYD8M4QKhpPZqQz2ODaXcKVdIPLTFwQo03n+gAE0+5mg2
-         Z7CgSzdVMhty4MJH3xH3fRe7Fz369KjWPA+M49XB/jNCoZODYhIP1yJP4CFhkXbDKQlD
-         J5o3tehNRZVXvu2kngcxahqBsrQ7WMso6B4EDK3JG85nWgyPBBoJYXIzCNrFMuA7+bXL
-         yTeEea+yrIh7QK1L5q9yT+VOLk79OUafg+7hahH1fA7TvPK5hVEG9Skx1/lFmtdOqs3B
-         sMrQ==
+        b=GhYs+POs3S4WvrrPa9rcXWoDimYsQiuMj2LOUqVgGjARCILvyJK0OIu4WHQvspD1+z
+         gmJsBgVPYzlVlbH7tWEfj8iMEOKbUzWy+6akA6Jbc77WEIobRzEaAe1hYR3Ukf/TrrU6
+         Difdrj3U2vImoti1DKF9aU3kGdTvvgknUbyUGhIY9hCZJ8rXYKY2BnR7JJ7SuimIDBFg
+         i6E5oS1FjUrIlV3Gp4Blx4d4VezA0bNiCHb3ferh5N86HUXDq2BGGYh2j2eRqgR6TsmA
+         BnI/7RoI1vc6mUp9zm+sfjj4G+9pVJCqZczCj6vzdOdeR6hYMXpbfa5BMW9uW5H5MndT
+         imow==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=Rss4RCOr;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b="a/H46swg";
        spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
        dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com. [148.163.156.1])
-        by gmr-mx.google.com with ESMTPS id rh20-20020a05620a8f1400b0077f2dd797bfsi950108qkn.2.2023.12.13.15.39.30
+        by gmr-mx.google.com with ESMTPS id u15-20020a05622a17cf00b0042584494cb5si2472360qtk.5.2023.12.13.15.36.29
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 13 Dec 2023 15:39:30 -0800 (PST)
+        Wed, 13 Dec 2023 15:36:29 -0800 (PST)
 Received-SPF: pass (google.com: domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender) client-ip=148.163.156.1;
-Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BDKglgr015451;
-	Wed, 13 Dec 2023 23:39:26 GMT
+Received: from pps.filterd (m0353728.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3BDKaLvr003754;
+	Wed, 13 Dec 2023 23:36:25 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3uykvmuvrj-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3uykek48y7-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Dec 2023 23:39:25 +0000
-Received: from m0360083.ppops.net (m0360083.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BDMfmvh022983;
-	Wed, 13 Dec 2023 23:39:24 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3uykvmuvg3-1
+	Wed, 13 Dec 2023 23:36:24 +0000
+Received: from m0353728.ppops.net (m0353728.ppops.net [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 3BDNQT09028957;
+	Wed, 13 Dec 2023 23:36:24 GMT
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3uykek48xm-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Dec 2023 23:39:24 +0000
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3BDM0FVa012620;
-	Wed, 13 Dec 2023 23:36:20 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3uw3jp4n7t-1
+	Wed, 13 Dec 2023 23:36:23 +0000
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3BDL4sCB028206;
+	Wed, 13 Dec 2023 23:36:22 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3uw2xyvrnv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Dec 2023 23:36:20 +0000
+	Wed, 13 Dec 2023 23:36:22 +0000
 Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3BDNaHKZ31916778
+	by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 3BDNaJNT16188036
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 13 Dec 2023 23:36:17 GMT
+	Wed, 13 Dec 2023 23:36:19 GMT
 Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B934120043;
+	by IMSVA (Postfix) with ESMTP id 46D0F20043;
+	Wed, 13 Dec 2023 23:36:19 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D4A3220040;
 	Wed, 13 Dec 2023 23:36:17 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 53B7F20040;
-	Wed, 13 Dec 2023 23:36:16 +0000 (GMT)
 Received: from heavy.boeblingen.de.ibm.com (unknown [9.171.70.156])
 	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 13 Dec 2023 23:36:16 +0000 (GMT)
+	Wed, 13 Dec 2023 23:36:17 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Alexander Gordeev <agordeev@linux.ibm.com>,
         Alexander Potapenko <glider@google.com>,
@@ -154,29 +154,30 @@ Cc: Christian Borntraeger <borntraeger@linux.ibm.com>,
         Roman Gushchin <roman.gushchin@linux.dev>,
         Sven Schnelle <svens@linux.ibm.com>,
         Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v3 05/34] kmsan: Fix is_bad_asm_addr() on arches with overlapping address spaces
-Date: Thu, 14 Dec 2023 00:24:25 +0100
-Message-ID: <20231213233605.661251-6-iii@linux.ibm.com>
+Subject: [PATCH v3 06/34] kmsan: Fix kmsan_copy_to_user() on arches with overlapping address spaces
+Date: Thu, 14 Dec 2023 00:24:26 +0100
+Message-ID: <20231213233605.661251-7-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231213233605.661251-1-iii@linux.ibm.com>
 References: <20231213233605.661251-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 8zwUI59DJyquKUco1wEpNP13PakX9rLY
-X-Proofpoint-ORIG-GUID: EAgeeP8DOV5nEsx3Wa0hsknLXVRnE7My
+X-Proofpoint-GUID: NvNFv9kzwaXyDaiNbiRkqnwnGpAGbYvC
+X-Proofpoint-ORIG-GUID: 36qScC5OQSchjdmhk5MojrGx989GqACk
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-12-13_14,2023-12-13_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- phishscore=0 mlxscore=0 adultscore=0 spamscore=0 mlxlogscore=891
- clxscore=1015 priorityscore=1501 suspectscore=0 impostorscore=0
- malwarescore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 phishscore=0
+ mlxscore=0 adultscore=0 bulkscore=0 mlxlogscore=748 suspectscore=0
+ clxscore=1015 spamscore=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2311290000 definitions=main-2312130167
 X-Original-Sender: iii@linux.ibm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=Rss4RCOr;       spf=pass (google.com:
- domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender)
- smtp.mailfrom=iii@linux.ibm.com;       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
+ header.i=@ibm.com header.s=pp1 header.b="a/H46swg";       spf=pass
+ (google.com: domain of iii@linux.ibm.com designates 148.163.156.1 as
+ permitted sender) smtp.mailfrom=iii@linux.ibm.com;       dmarc=pass (p=REJECT
+ sp=NONE dis=NONE) header.from=ibm.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -191,32 +192,34 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 Comparing pointers with TASK_SIZE does not make sense when kernel and
-userspace overlap. Skip the comparison when this is the case.
+userspace overlap. Assume that we are handling user memory access in
+this case.
 
+Reported-by: Alexander Gordeev <agordeev@linux.ibm.com>
 Reviewed-by: Alexander Potapenko <glider@google.com>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- mm/kmsan/instrumentation.c | 3 ++-
+ mm/kmsan/hooks.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/mm/kmsan/instrumentation.c b/mm/kmsan/instrumentation.c
-index 470b0b4afcc4..8a1bbbc723ab 100644
---- a/mm/kmsan/instrumentation.c
-+++ b/mm/kmsan/instrumentation.c
-@@ -20,7 +20,8 @@
+diff --git a/mm/kmsan/hooks.c b/mm/kmsan/hooks.c
+index 5d6e2dee5692..eafc45f937eb 100644
+--- a/mm/kmsan/hooks.c
++++ b/mm/kmsan/hooks.c
+@@ -267,7 +267,8 @@ void kmsan_copy_to_user(void __user *to, const void *from, size_t to_copy,
+ 		return;
  
- static inline bool is_bad_asm_addr(void *addr, uintptr_t size, bool is_store)
- {
--	if ((u64)addr < TASK_SIZE)
-+	if (IS_ENABLED(CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE) &&
-+	    (u64)addr < TASK_SIZE)
- 		return true;
- 	if (!kmsan_get_metadata(addr, KMSAN_META_SHADOW))
- 		return true;
+ 	ua_flags = user_access_save();
+-	if ((u64)to < TASK_SIZE) {
++	if (!IS_ENABLED(CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE) ||
++	    (u64)to < TASK_SIZE) {
+ 		/* This is a user memory access, check it. */
+ 		kmsan_internal_check_memory((void *)from, to_copy - left, to,
+ 					    REASON_COPY_TO_USER);
 -- 
 2.43.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231213233605.661251-6-iii%40linux.ibm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20231213233605.661251-7-iii%40linux.ibm.com.
