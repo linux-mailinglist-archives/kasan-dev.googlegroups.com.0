@@ -1,103 +1,105 @@
-Return-Path: <kasan-dev+bncBAABBONSRCWAMGQEAWX46KI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBOVSRCWAMGQENQQCPJY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6630F81937D
-	for <lists+kasan-dev@lfdr.de>; Tue, 19 Dec 2023 23:29:14 +0100 (CET)
-Received: by mail-wm1-x340.google.com with SMTP id 5b1f17b1804b1-40c4124a064sf332315e9.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 19 Dec 2023 14:29:14 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1703024954; cv=pass;
+Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E5A381937E
+	for <lists+kasan-dev@lfdr.de>; Tue, 19 Dec 2023 23:29:15 +0100 (CET)
+Received: by mail-wm1-x33a.google.com with SMTP id 5b1f17b1804b1-40d31116cffsf2079055e9.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 19 Dec 2023 14:29:15 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1703024955; cv=pass;
         d=google.com; s=arc-20160816;
-        b=cv1giqh9iih/WyeuEaOc16dK52XxjLOiusXuYrJ9Z9diZi/QfZJLtmzTiylcC+LBIz
-         ceSXvHmqpcleG+nxJGNw3rDDK8SAJTm3UJ6hhrJ0V6+uic+uIdtiP1VrbKb54SrsWLyu
-         woDLM5YFu0vNUrkU2dTiIU+lxnNx+0yms2/r/ctiUNKmKL2jjSJD0Yo75MNgFduIEfGe
-         +T/t19PGDLO0tJijmeyQpa/YHFgeZQKBbbrB6GYI5mt7RfHSACG73ivHy8yOvIBMHpBt
-         lZgbFaqujr+iRSMBORFhuuCC0wMC5bjDCvr2ckLVFsO2t02/qnCtnCH9rgA5ok+FyrNq
-         h0zw==
+        b=0Vr2gwqgt1tGY+Gad7RKnVDXRB1EwEdPna6ip8FFdEKFihvdHOio4uhtqRuj/7rRzV
+         Sq/Fanxd0az24sls8+KZFCje9QXCoC2gl8U5I3X8WikEz+rjXtpPt5wWVpmCu631++sb
+         ZXfKBtB/aw0KMBGpetWqgz0TeSDj8Lp7MDYgW8b4lvnfBLPv6XIQr7hjh50agxNr798U
+         7V90W1hGq/wTHhZ3Vht1mzcc7uQ6Oh++esbKIWtO4gouGig3qHUUHDnjmfSBdvnjEcED
+         A347wmC4oBlX8v2Wcda2wsK84rAconUGYc633WeyMPD4Wsl1bd2W9pMbZfH2bblSTj9B
+         ApgA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=K/Mm+RdC60r2UyX1ln2yH4TBfCf0oyaX36e4zq+4K4s=;
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=+seAK0MEy2GuQ/18uMK4RJZ2pk3Tmgw6F6L+HCAb8ak=;
         fh=AIzsiqkKUtrB7QnM+XRgAblgvDINIC5pDvD0mg8EzrU=;
-        b=EEeRaoOQxEXFSSLUGCNCvZAplugoAx4hnr9veUq9zFBTjTPPZOdnJsDq0O7YUi7fl8
-         WacCxei0I02pv3uKSZc3LqGlt1ONYkRrzIBvW2CQzTkoAfAl+KKQ0j3B5iXMaMIH6L1H
-         /c3DbZ8l/+/JLrohXZ7Pfu65e7kpOI/bqwdxf0/IaK0Oa0iyTeR53m07QkGNiabby89T
-         ydfQsCKq2ep1k9KiwTK/lVy7RrCaAq50oJe2zOdbj3lUQrajssqxvKFdYb9pEM7BhCv2
-         yn+T49JurwaVBmzQns0nZdBVd2lJ4DIuS6EjbL0tIiVL/osHH1kh8lZXzkMvyGZ/ZZzU
-         N0SA==
+        b=pT17923R3grglTjBeo2a5/gzgBHN8TnboU+kxm0YvK4iPukTiPnNeynW5aIsdsCNo6
+         fdnfxFo8NCA1vHcX90ATNV6FivHsoQAu4TpQyfMPelTug2VqnEnFmi1HpALce2Xn2pqH
+         Qv990+wDN01Yocco1b8ainFxo4PwZSYuyH94xQbOTUXOZsY4R3qJtiRKsNsZT5Wbegpv
+         rLohmECw/H1Fcpjd7fIPcwxHOQrQhZ8yj4o71G5R6b8+KU8F9JxTXd3hks4sWZtNSwau
+         XOVxWUmS0zQc1Fru5f5PvtpmGOsrnjGq/H2M24+7QJ2Ay1pf/7g4OlWz89PpEaa99gUh
+         gfEw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=cmqIC4mq;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.184 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=qtqOsejh;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.181 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1703024954; x=1703629754; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1703024955; x=1703629755; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=K/Mm+RdC60r2UyX1ln2yH4TBfCf0oyaX36e4zq+4K4s=;
-        b=fQZYGt1QueK9D3A3R64R5L8Hosbmizxc8LqVx8PHudEgKECUjjUp5Hd241rOXd2Tf8
-         2huH2Nzh0w950/hyaodyZHQdp9ga6KRYp5VlopLVvSotqls5h5G/pmtkSDak+RDFOkC8
-         I1eKq17VS+5OKSSSJR49j6jjkZMdA4qcLE8zLnz8Wa8ruTrJkCRa3wqrNEr11ahcURuh
-         Lb+vBuyuuv3lT2KdOCu+DOZ+7oenUg+S0DuE7C+6qoY6E9ML0RpSPFeDHN+jjNXsloHv
-         GtGPTDVLyEcRvm33+V/c/1I5Zrglq7cLAyvdtTYwc3R/0SY0d7Qug1gsWZaDHDM9ZZ59
-         ptVQ==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+seAK0MEy2GuQ/18uMK4RJZ2pk3Tmgw6F6L+HCAb8ak=;
+        b=jOgYdTdhz+SP5AkctNUWSWuSZBhlR3MqqYNLKYh3j3nmsTXnfmc2DBHxivZD+e7kI/
+         Rf7gq73itvMHIT4YLd0Xs+th0EI/Zui6uLSEo/hyLx5kURLlle3z6unwRxZxXPZ3z54N
+         TdsDK6J77xAETxn4gYOLaaEki+wu8MqGavA69zNEHRrlwCrXMAyoZod0hadh5mPB0pcy
+         WzTNedJ0FtefEdtGeSjWXA7t9KVn5ExBu8P64F/O2gBfCSYYsFcxFfivMqKSFiEO/UCb
+         8V1Hp0OfOaNyniWbMdD/KRlTjxoXXa9YBdy9ocyiOMbqNquw/LAT2Mdb2IEFqLuEOfHp
+         xGcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703024954; x=1703629754;
+        d=1e100.net; s=20230601; t=1703024955; x=1703629755;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=K/Mm+RdC60r2UyX1ln2yH4TBfCf0oyaX36e4zq+4K4s=;
-        b=GDk7ByZFim4nfCu5JTuclXRjLw5CLbo80rEhUx4WL398qPJN4h7CtcFyhqXEhI4uNz
-         PN71PMJLqAnY3IdQxOdh6nRx3rjxB4bfuUl1D2mdHcNfnON3sVfO2VMvxhGgetf5SLmP
-         /0NTQdQPQR8fH8TRkFYAg7xncyYEKL9kBOsUF0PjOkkZ+6jA7yoddtYqGPC9bGvWYmq0
-         wdg+L2jYNXEFaDzO53hkeS4DdX+1yKdfwpaPX5IDIKGDYpfBPGY4FwxB62/Um77UOrt6
-         jdW+RHX97rXrbOge/qXGir0Ff+CbPlWy2smI4ubOrmK2W6t7Q9UM2t9Q7Osg9rtsFeuo
-         cgJA==
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+seAK0MEy2GuQ/18uMK4RJZ2pk3Tmgw6F6L+HCAb8ak=;
+        b=jlEwD0tZMDQqacM85zmCgX+0t3BZMj9Bdu8JLtH6KcOJpKN97UQy5bz/elH4p1KUgj
+         76CiPmYp4BRfg9g6ji6q7qVB+SLrycyBwgMbrEqwedOyEz2L3I5WUiDKzAQEJv7m9tI3
+         BnAuKUXQ2bfpdR0yEp/3h3r2aRx9daYFc6vbjocO6VMaqiovnV4giUTs7Um7G+Hh9kYT
+         c6ZZGvE4lmymLwSRbPjCQxhaSwxovQA4aUtJxi+SfmW/h6CpZaf8OkARsoQdwVFW+NeK
+         xbLv+kdl/QN8MExH1rTNbzHYNeVsoRjUQskeBgKfXeT8ReaIYB+0/lGzbdZoh0V+1Xit
+         OTVA==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Ywn32GkdzA1NNCT1zUhIPl9spz2ZDaNlwZ8j3IHSvZ+Cx0m2GHA
-	50BoeDbO8MME0iVOFaoxTaM=
-X-Google-Smtp-Source: AGHT+IFVewNVacclaNv34NPi6TXNYWZ/to0FzBcVg7EDm08ImpHruzZT+/JrjpWQaTEWFTYeniTV6Q==
-X-Received: by 2002:a05:600c:1c9a:b0:40c:256f:756b with SMTP id k26-20020a05600c1c9a00b0040c256f756bmr61073wms.2.1703024953250;
-        Tue, 19 Dec 2023 14:29:13 -0800 (PST)
+X-Gm-Message-State: AOJu0YzX5SQvmowvnyPFMdov26/XFwhbXGReTR0Hwme2tMV6P49iZEqw
+	oycTAT4t7YYhxmfZbbOwvP4=
+X-Google-Smtp-Source: AGHT+IHT6V+0+3I4ZyQjJ0NSnTs298XVD8OiKsZAG4HEKL8oTmwDcOy38Sf2BeAStWcTaUlSPoMHbA==
+X-Received: by 2002:a05:600c:1da3:b0:40d:22d1:668a with SMTP id p35-20020a05600c1da300b0040d22d1668amr923816wms.37.1703024954249;
+        Tue, 19 Dec 2023 14:29:14 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:1c04:b0:40c:3e0b:5c6e with SMTP id
- j4-20020a05600c1c0400b0040c3e0b5c6els389073wms.1.-pod-prod-02-eu; Tue, 19 Dec
- 2023 14:29:12 -0800 (PST)
-X-Received: by 2002:a05:600c:4507:b0:40c:91f:506e with SMTP id t7-20020a05600c450700b0040c091f506emr7010372wmo.126.1703024951679;
-        Tue, 19 Dec 2023 14:29:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1703024951; cv=none;
+Received: by 2002:a05:600c:4f43:b0:40c:61a7:cf0a with SMTP id
+ m3-20020a05600c4f4300b0040c61a7cf0als1744941wmq.2.-pod-prod-09-eu; Tue, 19
+ Dec 2023 14:29:13 -0800 (PST)
+X-Received: by 2002:a05:600c:4e44:b0:40d:28ce:bb8a with SMTP id e4-20020a05600c4e4400b0040d28cebb8amr879117wmq.35.1703024952776;
+        Tue, 19 Dec 2023 14:29:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1703024952; cv=none;
         d=google.com; s=arc-20160816;
-        b=yDnEX7FttRGkW5EB3t/NyNa8e4yEvT2yDYveZwQVDjxA3IryYU39+GmrtCTECqpq2Z
-         2U8ix82j6Lg2RcfdMQ0C41QmqRGuOKBRCsCrw8HoKHYIXBQac3zXGcSHuEsTycqPzC0Z
-         /+/zvKUL5CHSrIIGNLDIavCDp686qsjZv03usiuobbTj0mUtxgaeLWgq+dbkHcW7QGhq
-         AuaDCOkpjWx5Me2mzSqdwLwG36tjpTHms5SaX+j5JUnwcBPXGajbggvPtcEGzm2sD3K3
-         6Wn1DFzQZG3DAiYN0qfJ1kBpFlJSjumSG9PNgmqkMFdv2MV6Jfk5AeIxa61nJq4A4Rzx
-         VVkg==
+        b=ZWCtHrg5CJPNd8QfxGEo3Tje0sLeVO9mjZ6UxtJ6VYwa/LZERXtjyf232+EsDwyWf+
+         z1GvbSqkuU8Hi0lXAycCRs9u8F3+XMf9NZnqdR9sz/aEzIZxJt7bSFWc8WXkCWwbOJAo
+         Gc+UoJc0vQwTUVLmOJYkLZ5RO+Nil3jnaa5v1bcYZbhA7puteYka3C9wL5uq5mNpF842
+         dececD0vy33ftf5fleuWOxaBVTHn4Se6J6JgY7bJ+VlfXu7gJeYF+QVYeCavquRAmLPI
+         ObR/suPaLjBi0W7WR+ncm4F4LLgCm2uJpKuN+xX7h1bBkJ4YWMxLQldLhUEkiIIOp4IQ
+         A+og==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=4hIWKlq3vwUHvNMJIcXvuTboO6P/RRCs5XS67UMRG18=;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=65Nj55va0LyidH/qJFPAhjUaSN3kZxL0lL8iCsNvyX4=;
         fh=AIzsiqkKUtrB7QnM+XRgAblgvDINIC5pDvD0mg8EzrU=;
-        b=jVuuT2Q5dlh5ERxtn+NdY/LhmCdd86+NFyD3wNirb/mDe1B8d00d+ckFeLRdCI2ZRB
-         BO73XTUGnQuTjJ/fWYSGkAv/yQzaTteqmpBEvXCocG+AINJNx+pozLwcm9MM8Qe2f7js
-         l6WxOVkonNlqJFfqVgW2EdHQXDFLDyy2jfxbUTp2I/UYLosHwFIIXk/YMNJciUFJIdhE
-         4HrkyiB1BtYZxaNrPnet3a73mbkazotZYyictDxHewpQioa7uuStCYG5zXew6kBLuZ1N
-         AQ7xJXAv1adUs2Y76plOEGMffkoNxXVv9SM4hDfaX2FZGon3qgQXYCZ9P0hVeRRdqmiD
-         JOnA==
+        b=lg5BazPgLnxbNNo55t9zC8MK94rNfmquzNXeUwqYHYya63ESMTy5ribp/xQqvdQTrp
+         AmgoPgXjKXdQ4EXTkTwPqCp2iO/5jN54dGLUvn/fNqKC72KykcKSP59AMdsABkJkgbBW
+         v1kxLb32P8m8Fpvs8hXvM7cZfVqe1s8Cu9LOIfdQm7HBGMVaMK0mRNrrS7Owi5OFN5Id
+         v7+fzCOaJH8W5R76OSKfsg6Xol/Tr3VWnuKcVmEWbqNvM4paQAJG23RC1ztlI8uC3tEW
+         uvdejxrb2Ptw9qqOmQPj3QF/G34d9dltc3mWUKaJED1JS0KDIg3+e/bYui0PfdFE2767
+         tJ/g==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=cmqIC4mq;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.184 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=qtqOsejh;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.181 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-184.mta1.migadu.com (out-184.mta1.migadu.com. [95.215.58.184])
-        by gmr-mx.google.com with ESMTPS id t18-20020a7bc3d2000000b0040d27e9fb0bsi101307wmj.0.2023.12.19.14.29.11
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com. [95.215.58.181])
+        by gmr-mx.google.com with ESMTPS id 17-20020a05600c021100b0040d2dbeb249si65610wmi.0.2023.12.19.14.29.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Dec 2023 14:29:11 -0800 (PST)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.184 as permitted sender) client-ip=95.215.58.184;
+        Tue, 19 Dec 2023 14:29:12 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.181 as permitted sender) client-ip=95.215.58.181;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
 To: Marco Elver <elver@google.com>,
@@ -113,15 +115,17 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH mm 00/21] kasan: save mempool stack traces
-Date: Tue, 19 Dec 2023 23:28:44 +0100
-Message-Id: <cover.1703024586.git.andreyknvl@google.com>
+Subject: [PATCH mm 01/21] kasan: rename kasan_slab_free_mempool to kasan_mempool_poison_object
+Date: Tue, 19 Dec 2023 23:28:45 +0100
+Message-Id: <c5618685abb7cdbf9fb4897f565e7759f601da84.1703024586.git.andreyknvl@google.com>
+In-Reply-To: <cover.1703024586.git.andreyknvl@google.com>
+References: <cover.1703024586.git.andreyknvl@google.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=cmqIC4mq;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.184 as
+ header.i=@linux.dev header.s=key1 header.b=qtqOsejh;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.181 as
  permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
@@ -139,75 +143,105 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-This series updates KASAN to save alloc and free stack traces for
-secondary-level allocators that cache and reuse allocations internally
-instead of giving them back to the underlying allocator (e.g. mempool).
+Rename kasan_slab_free_mempool to kasan_mempool_poison_object.
 
-As a part of this change, introduce and document a set of KASAN hooks:
+kasan_slab_free_mempool is a slightly confusing name: it is unclear
+whether this function poisons the object when it is freed into mempool
+or does something when the object is freed from mempool to the underlying
+allocator.
 
-bool kasan_mempool_poison_pages(struct page *page, unsigned int order);
-void kasan_mempool_unpoison_pages(struct page *page, unsigned int order);
-bool kasan_mempool_poison_object(void *ptr);
-void kasan_mempool_unpoison_object(void *ptr, size_t size);
+The new name also aligns with other mempool-related KASAN hooks added in
+the following patches in this series.
 
-and use them in the mempool code.
+Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+---
+ include/linux/kasan.h  | 8 ++++----
+ io_uring/alloc_cache.h | 3 +--
+ mm/kasan/common.c      | 4 ++--
+ mm/mempool.c           | 2 +-
+ 4 files changed, 8 insertions(+), 9 deletions(-)
 
-Besides mempool, skbuff and io_uring also cache allocations and already
-use KASAN hooks to poison those. Their code is updated to use the new
-mempool hooks.
-
-The new hooks save alloc and free stack traces (for normal kmalloc and
-slab objects; stack traces for large kmalloc objects and page_alloc are
-not supported by KASAN yet), improve the readability of the users' code,
-and also allow the users to prevent double-free and invalid-free bugs;
-see the patches for the details.
-
-There doesn't appear to be any conflicts with the KASAN patches that are
-currently in mm, but I rebased the patchset on top just in case.
-
-Changes RFC->v1:
-- New patch "mempool: skip slub_debug poisoning when KASAN is enabled".
-- Replace mempool_use_prealloc_only API with mempool_alloc_preallocated.
-- Avoid triggering slub_debug-detected corruptions in mempool tests.
-
-Andrey Konovalov (21):
-  kasan: rename kasan_slab_free_mempool to kasan_mempool_poison_object
-  kasan: move kasan_mempool_poison_object
-  kasan: document kasan_mempool_poison_object
-  kasan: add return value for kasan_mempool_poison_object
-  kasan: introduce kasan_mempool_unpoison_object
-  kasan: introduce kasan_mempool_poison_pages
-  kasan: introduce kasan_mempool_unpoison_pages
-  kasan: clean up __kasan_mempool_poison_object
-  kasan: save free stack traces for slab mempools
-  kasan: clean up and rename ____kasan_kmalloc
-  kasan: introduce poison_kmalloc_large_redzone
-  kasan: save alloc stack traces for mempool
-  mempool: skip slub_debug poisoning when KASAN is enabled
-  mempool: use new mempool KASAN hooks
-  mempool: introduce mempool_use_prealloc_only
-  kasan: add mempool tests
-  kasan: rename pagealloc tests
-  kasan: reorder tests
-  kasan: rename and document kasan_(un)poison_object_data
-  skbuff: use mempool KASAN hooks
-  io_uring: use mempool KASAN hook
-
- include/linux/kasan.h   | 161 +++++++-
- include/linux/mempool.h |   1 +
- io_uring/alloc_cache.h  |   5 +-
- mm/kasan/common.c       | 221 ++++++----
- mm/kasan/kasan_test.c   | 870 +++++++++++++++++++++++++++-------------
- mm/mempool.c            |  67 +++-
- mm/slab.c               |  10 +-
- mm/slub.c               |   4 +-
- net/core/skbuff.c       |  10 +-
- 9 files changed, 954 insertions(+), 395 deletions(-)
-
+diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+index 72cb693b075b..6310435f528b 100644
+--- a/include/linux/kasan.h
++++ b/include/linux/kasan.h
+@@ -172,11 +172,11 @@ static __always_inline void kasan_kfree_large(void *ptr)
+ 		__kasan_kfree_large(ptr, _RET_IP_);
+ }
+ 
+-void __kasan_slab_free_mempool(void *ptr, unsigned long ip);
+-static __always_inline void kasan_slab_free_mempool(void *ptr)
++void __kasan_mempool_poison_object(void *ptr, unsigned long ip);
++static __always_inline void kasan_mempool_poison_object(void *ptr)
+ {
+ 	if (kasan_enabled())
+-		__kasan_slab_free_mempool(ptr, _RET_IP_);
++		__kasan_mempool_poison_object(ptr, _RET_IP_);
+ }
+ 
+ void * __must_check __kasan_slab_alloc(struct kmem_cache *s,
+@@ -256,7 +256,7 @@ static inline bool kasan_slab_free(struct kmem_cache *s, void *object, bool init
+ 	return false;
+ }
+ static inline void kasan_kfree_large(void *ptr) {}
+-static inline void kasan_slab_free_mempool(void *ptr) {}
++static inline void kasan_mempool_poison_object(void *ptr) {}
+ static inline void *kasan_slab_alloc(struct kmem_cache *s, void *object,
+ 				   gfp_t flags, bool init)
+ {
+diff --git a/io_uring/alloc_cache.h b/io_uring/alloc_cache.h
+index 241245cb54a6..8de0414e8efe 100644
+--- a/io_uring/alloc_cache.h
++++ b/io_uring/alloc_cache.h
+@@ -16,8 +16,7 @@ static inline bool io_alloc_cache_put(struct io_alloc_cache *cache,
+ 	if (cache->nr_cached < cache->max_cached) {
+ 		cache->nr_cached++;
+ 		wq_stack_add_head(&entry->node, &cache->list);
+-		/* KASAN poisons object */
+-		kasan_slab_free_mempool(entry);
++		kasan_mempool_poison_object(entry);
+ 		return true;
+ 	}
+ 	return false;
+diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+index fe6c4b43ad9f..e0394d0ee7f1 100644
+--- a/mm/kasan/common.c
++++ b/mm/kasan/common.c
+@@ -271,7 +271,7 @@ static inline bool ____kasan_kfree_large(void *ptr, unsigned long ip)
+ 
+ 	/*
+ 	 * The object will be poisoned by kasan_poison_pages() or
+-	 * kasan_slab_free_mempool().
++	 * kasan_mempool_poison_object().
+ 	 */
+ 
+ 	return false;
+@@ -282,7 +282,7 @@ void __kasan_kfree_large(void *ptr, unsigned long ip)
+ 	____kasan_kfree_large(ptr, ip);
+ }
+ 
+-void __kasan_slab_free_mempool(void *ptr, unsigned long ip)
++void __kasan_mempool_poison_object(void *ptr, unsigned long ip)
+ {
+ 	struct folio *folio;
+ 
+diff --git a/mm/mempool.c b/mm/mempool.c
+index b3d2084fd989..7e1c729f292b 100644
+--- a/mm/mempool.c
++++ b/mm/mempool.c
+@@ -107,7 +107,7 @@ static inline void poison_element(mempool_t *pool, void *element)
+ static __always_inline void kasan_poison_element(mempool_t *pool, void *element)
+ {
+ 	if (pool->alloc == mempool_alloc_slab || pool->alloc == mempool_kmalloc)
+-		kasan_slab_free_mempool(element);
++		kasan_mempool_poison_object(element);
+ 	else if (pool->alloc == mempool_alloc_pages)
+ 		kasan_poison_pages(element, (unsigned long)pool->pool_data,
+ 				   false);
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/cover.1703024586.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/c5618685abb7cdbf9fb4897f565e7759f601da84.1703024586.git.andreyknvl%40google.com.
