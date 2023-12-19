@@ -1,34 +1,34 @@
 Return-Path: <kasan-dev+bncBAABBPNTRCWAMGQE7WDDBTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3253819393
+Received: from mail-ed1-x53c.google.com (mail-ed1-x53c.google.com [IPv6:2a00:1450:4864:20::53c])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB6A819394
 	for <lists+kasan-dev@lfdr.de>; Tue, 19 Dec 2023 23:31:26 +0100 (CET)
-Received: by mail-lj1-x240.google.com with SMTP id 38308e7fff4ca-2cc8060792bsf9349451fa.0
+Received: by mail-ed1-x53c.google.com with SMTP id 4fb4d7f45d1cf-54c882dcb76sf151713a12.0
         for <lists+kasan-dev@lfdr.de>; Tue, 19 Dec 2023 14:31:26 -0800 (PST)
 ARC-Seal: i=2; a=rsa-sha256; t=1703025086; cv=pass;
         d=google.com; s=arc-20160816;
-        b=PRrs5NgS4iWYiEefmB/FKeLzdGwcOqXUVhZJkqRYxWT9Una8Hl1KG5ytaOCLo9c8wh
-         VppZMLLoSZoRDePy2IoGmcW2OFKVIQjO0oiXkS0dTmfDABN+epiXsAxT7DM1yf40vv8F
-         qS0x8bLaNgpWMhNvp1aVOtyeo+bJHV9viEq6dJP9eLx7wi3TzM/JuRai48JnAOLNA0dY
-         epu4tUL3quIvdTWH1rtD40HXn78pvK498a9wnHmNGFrMpl9V8mQAzZLRFu4r/PclR+XG
-         RSicSJyjIVQJ3i0g5OsvP9r5ArLagOvnoey/JIBbNRqf4S30oscoZ/DBXFdycsMHQvtB
-         4KHA==
+        b=O3rdTdZlSZeczuT4rSSjCppcRewhK/cGA5Bd//z9rKGg6h/aeu/DHmoDNNCyQ2wb0S
+         Z4qtM0IlVNzs0366UH3uq4hDF1m0bLfvnoieAy0zYf/CTuoqObFC5UUzymdCfkn7z7cu
+         zMtmpM1T2qgk8Hb3qBT4Xeq+SAaxVMKqyur92D7EXXSgSHuVuOOWCIksRurIuyCsibpk
+         jY6D/YO0kjTTCuDLHCBRf5cJ6RkuKbdywkVO6HJvAWb3Gw6E290MpdNCDgNWR8dOwFsq
+         TlJEem+5fmSB+IDLKr0i+jo+XvGvmuHMtlMYPaNeWE9rHRCXVQXJnKZ8rd+P9wLBPksM
+         g0qw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=6rzdjWmWMZpTLe2+Hiac2GqpBr2LfiSG8XmyG5I5XuM=;
+        bh=K/ISToMl6mfm/9R8qQ4uYvzlsebQQMFBXfQoI5pk18Q=;
         fh=AIzsiqkKUtrB7QnM+XRgAblgvDINIC5pDvD0mg8EzrU=;
-        b=osgrATX0pon9UlSZDPrDe74VBnYOObJG6aaMi+L60SBZGQzWZYdAymXJfTFUtcTwVi
-         JJ6MBINrYau0pGnbfnRjVCVRCaQynvtbOCg7Yc9R7Bfh3DaTx7m8aSZ8zkSOXPlM0Iqj
-         kazulr98nvZ70XTye3mk5oCTAYROjg41LupQAwjk+7GsntDVIMeGibMlYLi3xjTXSTiu
-         Hg503jJ5E7mgDo8acphEMpHKWllLz2RXvv07FlMKczJpGOw2a7rqBrU1e1Gci4+2CWpA
-         yUoYifdpUVjY16ILXuEJlCBx3+62WEQAWrzQefynvte/m2CiFMIxUhUxu+NV6akTKzOk
-         xSfg==
+        b=hMkElaiKLRx+/fH4VCEe+pCuLKVWmUp4I3sHk3s1UJ1o8qjJH5JWH6w+5WSjFYkSSO
+         G3PpEEjM5kvmQTLyaIbIjPAkKnGZPyFojZgcocs+IhmWYjdCmgb9W//qIScz9fEm/vXl
+         PL3auVRy0QdPjj5XVy0X/RxJyWWagivWgHJFYrhZiNik5OaAGDOyqw2JFxvweJiFHl41
+         HHr5hqFPaVeUsd1m/WpDwCpeGcNK+rUGLEt7/hYhd/l7E51tSwF6Asgkp0H08xmlk0s+
+         I+ibmLBeFhmRAa2qctd+FndCa5ZGHoQkhFANnCFqfW8lFczjRbZGmMno6F5iYabTtj2M
+         L6NQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=r2ZaOIS6;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:1004:224b::af as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=Kt1rNfuv;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.185 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20230601; t=1703025086; x=1703629886; darn=lfdr.de;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6rzdjWmWMZpTLe2+Hiac2GqpBr2LfiSG8XmyG5I5XuM=;
-        b=o6JSF/cvRJY7gbNRLJtwpq5tef2Ml/kUGQRolmOH8vnvz6SFo9yEmboLwlgfmmLFrZ
-         zv+heN3ND7DtQp9nCJy9cBtYnl1lCzrTc8t8jL6ISWvWAP+aMYS/750PSU6Fu9Jo19AU
-         a+y7hSBNwLtrNU1rq/Rq7L4KQxr+S9BJC3W6ivfA9lOLgjD44NJfp3jUcrlA/5U8dE/Q
-         VXvzrjOMetvJN+tKl4bTcvf8nULf0HP4VVdCY5aOPxTc7Fi38jpDwgdU424fHoEDUFHu
-         3djuXkKMbOCHUZbhiOCyfzxBDHvNYTGVAIQBzPDDCir/b7GDSCGWWVc0shrQO7RI7Mvt
-         7qTA==
+        bh=K/ISToMl6mfm/9R8qQ4uYvzlsebQQMFBXfQoI5pk18Q=;
+        b=uafeKOO649aJe+d+MI/kh92htMd5SomUrssMFZz4QPd/aAnBKbpm7PuGkz3KyCi7tX
+         Hm1+2j/PMPaT1v5Ue7gBFPwyBaoKQHhfv+7F4/9cVThJ7ebiCyzaXKFOoI+Swqx9epDn
+         6zPDHJorGwJk96ptPfLv0w/6F0Q1PkhyT0VSejom67ZGhsBpuFAQG4VInCrCR+Q5ComR
+         +IhzJcSgXVsL4/Lkv/HbcPNfQaNip7O/0ixkW9ulXq9w6qRbD7CLzwixQ9yherQpchfD
+         cUlKMzryJfGKliqNW0C94Sb5sM842yWdFUl82/VbPCDInvG9dfZQKEWYdmqwBHUwM1gd
+         Q0aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1703025086; x=1703629886;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -52,53 +52,54 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6rzdjWmWMZpTLe2+Hiac2GqpBr2LfiSG8XmyG5I5XuM=;
-        b=tOoXSzhXJg7qoz6MIzHqFcfoq6aMZLvc7y+PsNi1CnOOhChxUiaordwogOrLPyrQNm
-         gHkJFfrwsYlZzEaRFZA17PcaymoyZ/J5aa4VkY4NI0nV66fvFeOL/VhtKDabTUZ0+zkS
-         +bwzlb4ZxSA+4z4JkGL5SDP8P3GIbJPhyiA+aU9V/YH54N23EcwIXYsTTLucb+XV1+tN
-         W2JOxKDaFJpOokSpAUtnV8pwKhS358/3t/S2b7gS8Q2zyrkjepBBrBCZ1oO8cQR618LO
-         +7fLgVA6OJcQY71XNIcjCwej+i644fTOUzofCU+6X60LSS6MLxH+W6Vt3ppurmKiSL6T
-         koMA==
+        bh=K/ISToMl6mfm/9R8qQ4uYvzlsebQQMFBXfQoI5pk18Q=;
+        b=ChX7xmSm/kE3Ijq6ofeJvjbu/TGOwmYe1VHD/0Ity50xhgCsu/LD4KTSOmuj5V650m
+         Y++DoKC3bSPkCDDAePLZQKW9vVzOKMS8zqoT8bcQMLk2nZwKk3VXXJKu+/Xpq719Jtwe
+         0lfsHKet2Vxp+vqYiCPqqGnXFjD0j8x0vMebzgm9JLlSct8hMslvBpe4HuGfyZrpFdWb
+         SWPr58/PveA5B3a2bBmSB9zLgvYHhjS5IV32SWLWg5fak10VYnQ/xYte6cimvQguFg+x
+         hxtUEcPY9LPIJbiM37jx8EeB2R/B3yNVqyDdVi+GYsuTmDdyD+Qe/Wa6ly4OTQNE1G6U
+         nPUw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YyOG/Gn/s2BsU+3tLD1rU/KmA07fXr59F03RnDC9nOWh/7zxhBd
-	0/sNruvWHZbv9X+UZS3Q86k=
-X-Google-Smtp-Source: AGHT+IGYryxjEr3QZb59gALEveofZkMIcRTGQBOMtqnMYwBKRZ3Xzb9rVqeRFD1by33VDVgJ/r83Lg==
-X-Received: by 2002:a05:6512:3e21:b0:50b:e005:88ab with SMTP id i33-20020a0565123e2100b0050be00588abmr10627834lfv.64.1703025085581;
+X-Gm-Message-State: AOJu0YwJwjD+oQU/WB/zFMarLdN5P24wPp0OFSbK85D3ivqQPGhoy83A
+	RgK1CGKbt1fzK+eUrfMjXfQ=
+X-Google-Smtp-Source: AGHT+IGIxIH0Q1/pNM5olhPOvvB4/DdBOviW68E4KGi32JPYbpDOQIMm8fNx/3v0MUsXIoVjO8EVyQ==
+X-Received: by 2002:a50:8ad2:0:b0:552:ada6:7485 with SMTP id k18-20020a508ad2000000b00552ada67485mr2045355edk.24.1703025085961;
         Tue, 19 Dec 2023 14:31:25 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:aa7:cfd9:0:b0:553:2a33:7d33 with SMTP id r25-20020aa7cfd9000000b005532a337d33ls1171753edy.0.-pod-prod-01-eu;
- Tue, 19 Dec 2023 14:31:24 -0800 (PST)
-X-Received: by 2002:a05:6402:2805:b0:54c:4837:75a1 with SMTP id h5-20020a056402280500b0054c483775a1mr11628528ede.77.1703025083856;
-        Tue, 19 Dec 2023 14:31:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1703025083; cv=none;
+Received: by 2002:a05:6402:1ca6:b0:553:62f4:d7 with SMTP id
+ cz6-20020a0564021ca600b0055362f400d7ls1498615edb.2.-pod-prod-00-eu; Tue, 19
+ Dec 2023 14:31:24 -0800 (PST)
+X-Received: by 2002:a17:906:c411:b0:a1f:4d21:301a with SMTP id u17-20020a170906c41100b00a1f4d21301amr1646851ejz.13.1703025084420;
+        Tue, 19 Dec 2023 14:31:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1703025084; cv=none;
         d=google.com; s=arc-20160816;
-        b=C0LB1UAKOlD3palbnrWxC1HC6YchdqN+24FKj80umaRA6x0XxnA/NOZduoAlbnaylx
-         G+Ec16BToyujF0ERhzKm9I/+HsJPFoTOL4TQLC2Val9BGQBB6OUmhSPVqGij3gozo4In
-         nk7Q6oVp1vngZYteSX0sL8Z2n8bxRJwash93ZYvfnAhPmw55eGSvfmUOIh5/skAdIhtz
-         dWL3t7d938EGnk6fuJTmPwiXWAQCowzUoTNVwYRQl+yd1vEHzfwYe6k5ETcWtoy3rNTV
-         LYiYfaF4IJDwbRhtKpSt330TOB0R54w804q/Y5gWijNJSx/EiJBCeu1R4AeFvUcmY6JN
-         JOTg==
+        b=eGZ2G1kXNIc/+QDEc585ez05prEStS57982MDEEWPNa4m8mNlwYp0OR4OvTTb+R0VQ
+         TGyJGXWzip2wJ7Z/QwYp+JXBrWjWRjQSnrys5/DWgtsXyatv+0e8FIfvyyX2xSU9Q9vV
+         3RsbRtRW6AGDFpgpquL0+RLdsbsBLBbrSnpcQ5LvoMIg6OA/VRSxOhC2HTAlXIl40R2D
+         8DOQ63ZalkbNM2b9ihNuqRJgr35FLFEPEkhs69htmCsyijeOsJivpNW1J2u/CLZarNWO
+         r+bk/1RitsKuCfFZDCy2SHQHh1yjYL1r1YjvqWQ4vkXF6cYlBAXJk6hfgGJgsYUvW9oo
+         ikEA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=g+O4MJvijsH/fxNfhEtO0ZT1bhv1NQvjMHnoD8zQplM=;
+        bh=KVsX1wYh/u3bsgXc0v6541Y+g0kgoewEBIuD2sVrVOE=;
         fh=AIzsiqkKUtrB7QnM+XRgAblgvDINIC5pDvD0mg8EzrU=;
-        b=eoRf7zxgVa6C/rZTeHDvY6U9htVLcoa5d5wMB00NJwl3q/Cr1yOlLJsUmQ8DbWLJwO
-         WBl/h+z72qekTV0NNL7rT23yWs+dwZCdgS7amNHqAy3b2+TbRYfh7UjAG141131dgKRt
-         3eI15emykY2tEj+KfSZQvgSgqAJVDnXljwmyPAAgLk2OFStwt/L2FQRUXH+y4w4LvD/P
-         lkapIueMuS3KwzwrokrWqhT3dE1Y2lDYSW8eDQUVWZ/MQ7TkO7UoEkoEviIHyWwrYOWU
-         pyApok7AU4qhVPdsB9DfS2Q3ta3T2s+zwtU+IIYphcKVXgLscYEa2PRHD0xVEXMjpqBb
-         z6aQ==
+        b=zZKKvlz/tL1gyKDmHxDtBr/99X5kxh7Kbm/JS20HrKIbbfaiTTonMmSOXVhL2ldi/t
+         ugto9jYrFZMqhe1LhBSJUEPbKwOWw4/TJkuL9oOPxNBtgwzZxKf68HM7q3TaGxHSGmqY
+         +fLVo3+7bzdMzbr7RyECsgTBJe5PvNp++wL+lyBGOtsqi+rs/HugA5FOIDDW5EFYDLN5
+         ypLddhSMNgS+ESwM2L21ZDJPKR7sdJ3ju6/mr/9Ox/fCzB6tdEQ7aZixx9tdk5vpMuht
+         nK+kq9D/OdFV4oFWeF7Mh8rGDvh3ErJdWO37KqqUpYwIU+kSIRpag7weJmixx/M7nSoN
+         Zoww==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=r2ZaOIS6;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:1004:224b::af as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=Kt1rNfuv;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.185 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-175.mta0.migadu.com (out-175.mta0.migadu.com. [2001:41d0:1004:224b::af])
-        by gmr-mx.google.com with ESMTPS id y1-20020a50e601000000b00552180ac40fsi444609edm.0.2023.12.19.14.31.23
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com. [91.218.175.185])
+        by gmr-mx.google.com with ESMTPS id u4-20020a50eac4000000b0054cb5798047si1072153edp.3.2023.12.19.14.31.24
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Dec 2023 14:31:23 -0800 (PST)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:1004:224b::af as permitted sender) client-ip=2001:41d0:1004:224b::af;
+        Tue, 19 Dec 2023 14:31:24 -0800 (PST)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.185 as permitted sender) client-ip=91.218.175.185;
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: andrey.konovalov@linux.dev
 To: Marco Elver <elver@google.com>,
@@ -114,18 +115,18 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>,
 	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: [PATCH mm 12/21] kasan: save alloc stack traces for mempool
-Date: Tue, 19 Dec 2023 23:28:56 +0100
-Message-Id: <05ad235da8347cfe14d496d01b2aaf074b4f607c.1703024586.git.andreyknvl@google.com>
+Subject: [PATCH mm 13/21] mempool: skip slub_debug poisoning when KASAN is enabled
+Date: Tue, 19 Dec 2023 23:28:57 +0100
+Message-Id: <98a4b1617e8ceeb266ef9a46f5e8c7f67a563ad2.1703024586.git.andreyknvl@google.com>
 In-Reply-To: <cover.1703024586.git.andreyknvl@google.com>
 References: <cover.1703024586.git.andreyknvl@google.com>
 MIME-Version: 1.0
 X-Migadu-Flow: FLOW_OUT
 X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=r2ZaOIS6;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates
- 2001:41d0:1004:224b::af as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+ header.i=@linux.dev header.s=key1 header.b=Kt1rNfuv;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates 91.218.175.185
+ as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -142,115 +143,53 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Andrey Konovalov <andreyknvl@google.com>
 
-Update kasan_mempool_unpoison_object to properly poison the redzone and
-save alloc strack traces for kmalloc and slab pools.
+With the changes in the following patch, KASAN starts saving its metadata
+within freed mempool elements.
 
-As a part of this change, split out and use a unpoison_slab_object helper
-function from __kasan_slab_alloc.
+Thus, skip slub_debug poisoning and checking of mempool elements when
+KASAN is enabled. Corruptions of freed mempool elements will be detected
+by KASAN anyway.
 
 Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
----
- include/linux/kasan.h |  7 +++---
- mm/kasan/common.c     | 50 ++++++++++++++++++++++++++++++++++---------
- 2 files changed, 44 insertions(+), 13 deletions(-)
 
-diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-index e636a00e26ba..7392c5d89b92 100644
---- a/include/linux/kasan.h
-+++ b/include/linux/kasan.h
-@@ -303,9 +303,10 @@ void __kasan_mempool_unpoison_object(void *ptr, size_t size, unsigned long ip);
-  * mempool).
-  *
-  * This function unpoisons a slab allocation that was previously poisoned via
-- * kasan_mempool_poison_object() without initializing its memory. For the
-- * tag-based modes, this function does not assign a new tag to the allocation
-- * and instead restores the original tags based on the pointer value.
-+ * kasan_mempool_poison_object() and saves an alloc stack trace for it without
-+ * initializing the allocation's memory. For the tag-based modes, this function
-+ * does not assign a new tag to the allocation and instead restores the
-+ * original tags based on the pointer value.
-  *
-  * This function operates on all slab allocations including large kmalloc
-  * allocations (the ones returned by kmalloc_large() or by kmalloc() with the
-diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-index 962805bf5f62..b8e7416f83af 100644
---- a/mm/kasan/common.c
-+++ b/mm/kasan/common.c
-@@ -277,6 +277,20 @@ void __kasan_kfree_large(void *ptr, unsigned long ip)
- 	/* The object will be poisoned by kasan_poison_pages(). */
- }
+---
+
+Changes RFC->v1:
+- This is a new patch.
+---
+ mm/mempool.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/mm/mempool.c b/mm/mempool.c
+index 7e1c729f292b..1fd39478c85e 100644
+--- a/mm/mempool.c
++++ b/mm/mempool.c
+@@ -56,6 +56,10 @@ static void __check_element(mempool_t *pool, void *element, size_t size)
  
-+void unpoison_slab_object(struct kmem_cache *cache, void *object, gfp_t flags,
-+			  bool init)
-+{
-+	/*
-+	 * Unpoison the whole object. For kmalloc() allocations,
-+	 * poison_kmalloc_redzone() will do precise poisoning.
-+	 */
-+	kasan_unpoison(object, cache->object_size, init);
-+
-+	/* Save alloc info (if possible) for non-kmalloc() allocations. */
-+	if (kasan_stack_collection_enabled() && !is_kmalloc_cache(cache))
-+		kasan_save_alloc_info(cache, object, flags);
-+}
-+
- void * __must_check __kasan_slab_alloc(struct kmem_cache *cache,
- 					void *object, gfp_t flags, bool init)
+ static void check_element(mempool_t *pool, void *element)
  {
-@@ -299,15 +313,8 @@ void * __must_check __kasan_slab_alloc(struct kmem_cache *cache,
- 	tag = assign_tag(cache, object, false);
- 	tagged_object = set_tag(object, tag);
- 
--	/*
--	 * Unpoison the whole object.
--	 * For kmalloc() allocations, kasan_kmalloc() will do precise poisoning.
--	 */
--	kasan_unpoison(tagged_object, cache->object_size, init);
--
--	/* Save alloc info (if possible) for non-kmalloc() allocations. */
--	if (kasan_stack_collection_enabled() && !is_kmalloc_cache(cache))
--		kasan_save_alloc_info(cache, tagged_object, flags);
-+	/* Unpoison the object and save alloc info for non-kmalloc() allocations. */
-+	unpoison_slab_object(cache, tagged_object, flags, init);
- 
- 	return tagged_object;
- }
-@@ -482,7 +489,30 @@ bool __kasan_mempool_poison_object(void *ptr, unsigned long ip)
- 
- void __kasan_mempool_unpoison_object(void *ptr, size_t size, unsigned long ip)
- {
--	kasan_unpoison(ptr, size, false);
-+	struct slab *slab;
-+	gfp_t flags = 0; /* Might be executing under a lock. */
-+
-+	if (is_kfence_address(kasan_reset_tag(ptr)))
++	/* Skip checking: KASAN might save its metadata in the element. */
++	if (kasan_enabled())
 +		return;
 +
-+	slab = virt_to_slab(ptr);
-+
-+	/*
-+	 * This function can be called for large kmalloc allocation that get
-+	 * their memory from page_alloc.
-+	 */
-+	if (unlikely(!slab)) {
-+		kasan_unpoison(ptr, size, false);
-+		poison_kmalloc_large_redzone(ptr, size, flags);
-+		return;
-+	}
-+
-+	/* Unpoison the object and save alloc info for non-kmalloc() allocations. */
-+	unpoison_slab_object(slab->slab_cache, ptr, size, flags);
-+
-+	/* Poison the redzone and save alloc info for kmalloc() allocations. */
-+	if (is_kmalloc_cache(slab->slab_cache))
-+		poison_kmalloc_redzone(slab->slab_cache, ptr, size, flags);
- }
+ 	/* Mempools backed by slab allocator */
+ 	if (pool->free == mempool_kfree) {
+ 		__check_element(pool, element, (size_t)pool->pool_data);
+@@ -81,6 +85,10 @@ static void __poison_element(void *element, size_t size)
  
- bool __kasan_check_byte(const void *address, unsigned long ip)
+ static void poison_element(mempool_t *pool, void *element)
+ {
++	/* Skip poisoning: KASAN might save its metadata in the element. */
++	if (kasan_enabled())
++		return;
++
+ 	/* Mempools backed by slab allocator */
+ 	if (pool->alloc == mempool_kmalloc) {
+ 		__poison_element(element, (size_t)pool->pool_data);
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/05ad235da8347cfe14d496d01b2aaf074b4f607c.1703024586.git.andreyknvl%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/98a4b1617e8ceeb266ef9a46f5e8c7f67a563ad2.1703024586.git.andreyknvl%40google.com.
