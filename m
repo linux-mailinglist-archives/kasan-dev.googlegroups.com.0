@@ -1,127 +1,126 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBHVWSKWAMGQE7ATLSXI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBUFWSKWAMGQEYC4YILI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x39.google.com (mail-oa1-x39.google.com [IPv6:2001:4860:4864:20::39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F1881BF6C
-	for <lists+kasan-dev@lfdr.de>; Thu, 21 Dec 2023 21:08:00 +0100 (CET)
-Received: by mail-oa1-x39.google.com with SMTP id 586e51a60fabf-203014900a9sf1388054fac.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 21 Dec 2023 12:08:00 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1703189279; cv=pass;
+Received: from mail-wr1-x43d.google.com (mail-wr1-x43d.google.com [IPv6:2a00:1450:4864:20::43d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5036A81BF6E
+	for <lists+kasan-dev@lfdr.de>; Thu, 21 Dec 2023 21:08:49 +0100 (CET)
+Received: by mail-wr1-x43d.google.com with SMTP id ffacd0b85a97d-33689c90957sf611988f8f.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 21 Dec 2023 12:08:49 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1703189329; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WlP09RCzu/C6BeDKsQNpPbD7+1GxmeVcfcFEkJWN5JoryaUb6tOUgQYLiPse1jWm1y
-         9O06+6A+XSkdx2rH3egl7ZnvBh4hJaa6dGaE+LpLbQmRpl523+/Esb7OlumA0IAVQhHG
-         8CHkH9rlis5wEeUkXjOXGcb7/uB8rpqHXIoxTsk51eQcg8uECmFvX3UefXyLlfTEs5DU
-         UecCyQ/9FnqOqpj/a/oE6UD3pVq1diOsqYWkbhd0YtXEoIFs21vtB/kEkjYkw/xlvwve
-         cpxXu9J2WFyPgq1CXXRHUx4fps82d5bvL+NpqMvuL2H1q7Em2MSFyd7vXFIMZXuhccbi
-         QoPA==
+        b=W16GrCqvCQIn4ZFDqnccEvJLgS0UAO1EEhUybDxdVolODd8CI57BoM0i8L1SZmiV9B
+         YFYkaYpdfbahFgr0xsgTCEh/+m6JUKkvEsApGQ17RmklaEfbvhUOpPPMokmzZn8dcocV
+         FTBGQQacMkClS/T+UmdqhGo6m9+q93argAtP33TNTpQX1W4jgF0XoPy2kjpmtodgM5I7
+         Ms0ZSjlPg2IfKgxtd6y8+K6bRJr4cOPGBvDQaqU2z+8Iao1DwqiVGPfhQ3O2BniTYkpE
+         c8ZkGf8G65/dLz9hmmpEKO21tRGFJ06tna+9zugU3Ab5ftoG0G57j/Se1NEfwxL2IBt2
+         vGdw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=JeoPsNz1hsa2YhEibjw+wp+42a17FThNYqxeGvqSTsU=;
-        fh=e5eZVnhbMlEPt4JP0wU6P3zVPlTs314xtHxa2009KGw=;
-        b=uq9lQZn9gpRoEknWtBj/D7lAHdAIk8wnfIkVtrqyXUlIzuL5KsdgSoRcfx37NYUS4q
-         mmBgC2nDssPJSU4cCPtHK750x5NtNoMzuEW/mtM7gjcpCZ4SYX9v0TI6Dx5svRKY8kkx
-         1wPH7Bxs0IupYB2uMMt4JnQmpzB/4fhg+3DVs327LSLX5uQpZMuZat7FjC07Tv2OnI/q
-         n+W1OOoqT8Y+vu3pSPR4mfasNwrfjDuPdTzvcmjiGoAhBIw5q05XpWtH+JtSjazMvSCE
-         JpZWClKZv3Q1h8AJGW4Ty+pHR4akWeMk2bNcTnXkz3hMnW2eDbam+SoU9FkwCMHG927f
-         a2tg==
+        bh=gsRz/MpJSA98QOz2AHde1oM13oYlFYaR8wMJmQ7MOBE=;
+        fh=Ahy40MSztyYZMnTonwM1XBgEig8egyoCalPOkrHuKkk=;
+        b=eHoTcxA7VwIzWtx3UTXuNiP5HVMy97rQ7DBuCgfmo7/EHXDrsVDmt7Y3NQGjZs1Nrx
+         vVeeDpWjic0QgaFcfsQbS8UukkWuJ6B/a0DSKyjs5WQSmxjqIv1OToTANltIt6Vjo66b
+         Ud4qlPguPhQw8YkhcKxnxvRhZtn1Q1GmFuepvA0iBf5wsNAsNFct5R91e35Zb7gu7RAO
+         xhVbPdIroax20VaH5Q4P2Zie3v2Zx24e6Jc99SbAof0CzRWu/3HtJBjyG1izjfIwFfXB
+         pwOSdE97Gp2sLRjZTuQi+1n78xeoB1RdPdF3DOaqSZFwf6+cOijmh2D9qwzpUPrctr4A
+         0xrw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=D7RJgx5a;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::329 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=JfTnZ7z6;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::136 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1703189279; x=1703794079; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1703189329; x=1703794129; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JeoPsNz1hsa2YhEibjw+wp+42a17FThNYqxeGvqSTsU=;
-        b=h9oIOCJAFP7bd0/YghqE+MqOcQeZTsfSkahfCKx5bWQi6WdRPm6oPaU5YX3wSgGO30
-         ZuFMjlXeyy3RL/8kI4hT1QlGbx0jpvoltSOm/5xurEE15fchUr+ej2KcFGh6a1BkvsHq
-         7AtCkjiGjsRCOvGCZd6fMnKl+3c/HUSOYKoenIyyvggw6YbNBJrmCWu3I0q6ObdjYDb7
-         A4S1V3V2MBt6QpUTYEDh46PAsU+qFxebGJMnD4Ee/+E5IwB5I8pciKOfn0MA4G49o4c0
-         /Nbp1xnVgKydXxXbKT9JsNpXrZZ14kvW3COZL78j1ycEHbRb3FHY5z0rErlu6r+G3hwg
-         jQeg==
+        bh=gsRz/MpJSA98QOz2AHde1oM13oYlFYaR8wMJmQ7MOBE=;
+        b=buIBzW5iqnzQlBT0anh88CeTd3sbeTXojiW9X08EdE67gYD2Yxg5TMe9j78pwtqU1n
+         NS83KBimiXJLsmXec3MIBDpyckndJ6tIQtiu34HzTbMiSjJo2YXrYE8CyPvXwnK7NcuA
+         4XMS7Pfb/KEdPavFabHENbnUuHSSkJXuLs2jjefD6NqQ+B07NSeXA0fFtRAdot+LQ91q
+         +EqMMeNCIPwy5KI2U+411Cp/Q36Y9cIwHfxlUmX542hr7Sc5xonFTP4D5hqPeDMlRMJ3
+         ShkfVhAeduLYCXPI7oE6iyqqFtVe1yY5o0HQ/M/TecZ99OWn4EvUWWI3OlB4gx5ul4UJ
+         AfHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703189279; x=1703794079;
+        d=1e100.net; s=20230601; t=1703189329; x=1703794129;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=JeoPsNz1hsa2YhEibjw+wp+42a17FThNYqxeGvqSTsU=;
-        b=b37omfVkTeu+J4eOgYTWRsKqzkHbLuRZY7ESPxI9sLsDSi2PIRBnlg7b4hEGhLmM4u
-         QrYj+yl+ejYO3F5orMMTrNEb62SJ0r4alYQS3lrbyS4nV8wBNLC4ykmbuCUoUEQsHV9M
-         e3bv3qReqBX/Cl/XKzsJUMdQBA8PsAlD11EX1MP26w49ogRzhIPsTyhdDXECIraUCKwD
-         quYO6tDIJsvSvOEJOn+jNSGPHfoQQ9QbltL1IXdVOPuZofyETj70gOlcwFQOkJBCW+15
-         SNH4qyebgJCZKqI04OZcY/ah8wSp3ahSqdizWtjt6A2fe0PaEzHzCX2P1f/K+9msWOXx
-         htfQ==
-X-Gm-Message-State: AOJu0YyVG16g2r6WW4D0ybJ3zJQYBERXfQwKlLzvZLKtO0zt27GVRsDW
-	LeWfEqF4ItiSIkdBWcMcM4w=
-X-Google-Smtp-Source: AGHT+IGU2jqiVxrBeweFLo6GZ7WAdrWVdK7WY109cmPxtf5KVY7cznUumJpYfItxCTXJlpMKgczNmw==
-X-Received: by 2002:a05:6871:4084:b0:203:afb:ceeb with SMTP id kz4-20020a056871408400b002030afbceebmr384344oab.40.1703189278794;
-        Thu, 21 Dec 2023 12:07:58 -0800 (PST)
+        bh=gsRz/MpJSA98QOz2AHde1oM13oYlFYaR8wMJmQ7MOBE=;
+        b=d7EEvJGtx1jtERjvDhyxjrPhPkskUqnotZg0UwntJs0+KSCLm/hX/+2U8TbBPD/s73
+         PgLL9HFFAmCjNjZEOCCc67aipSg9punVhf0D0WHcaJtVpEMe29wVDK01y7s7b4cGR/7+
+         znA1YbHzbbPFBhLGJyBSAzgYgma/jxtnPDlxPm74bPdGTKMyJfMWa3SqAo9lom7mYBiy
+         APfwRnwgwmjLyX1q7W7uLfrbPEURwhJ2Phb2yW+dnxiFxA/mztPxyZbvza1FwqB53QTA
+         wYUiENd53dINC6AQSynzUzfB46h7ZCYDhxCUN6OBKbnrQQUtW2HiPFLiehNeqM1dLMWw
+         6xAA==
+X-Gm-Message-State: AOJu0YxARozrlAIEGnvgDetBab9lWqIxI6nLCx9XLD1ZKk+MitvHf3Xp
+	Zusfq8Y9BrW6fHq/hjp5fWw=
+X-Google-Smtp-Source: AGHT+IH/CIcf+eyfSEPuontLaOCB32oextLaUUaRZNoiDDAVQTvOou+BXH5OkcOxzVXVtK++slIwSw==
+X-Received: by 2002:adf:e4d1:0:b0:331:72f5:8ce7 with SMTP id v17-20020adfe4d1000000b0033172f58ce7mr204976wrm.24.1703189328482;
+        Thu, 21 Dec 2023 12:08:48 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:b154:b0:204:3470:1cb with SMTP id
- a20-20020a056870b15400b00204347001cbls868906oal.2.-pod-prod-02-us; Thu, 21
- Dec 2023 12:07:57 -0800 (PST)
-X-Received: by 2002:a05:6871:60e:b0:204:3c51:b09e with SMTP id w14-20020a056871060e00b002043c51b09emr358923oan.118.1703189277432;
-        Thu, 21 Dec 2023 12:07:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1703189277; cv=none;
+Received: by 2002:a5d:5185:0:b0:336:7659:12d4 with SMTP id k5-20020a5d5185000000b00336765912d4ls521465wrv.2.-pod-prod-07-eu;
+ Thu, 21 Dec 2023 12:08:46 -0800 (PST)
+X-Received: by 2002:a05:600c:5389:b0:40c:66bf:c6a2 with SMTP id hg9-20020a05600c538900b0040c66bfc6a2mr144151wmb.92.1703189326516;
+        Thu, 21 Dec 2023 12:08:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1703189326; cv=none;
         d=google.com; s=arc-20160816;
-        b=LQut0s6bXXMSbE2Kcp9KVr46MbXlrGjIzjXb9+o+aLDo83eRmDx/tPdj+2QpG8UKI+
-         mKNpmo/FwQyhXDCtzbQEcf8Eezk+bI/9/usfD3PnlzGym5HrHBCNMrkVz+rks0R3wsMF
-         OPNB79BaR5/JuhRN9qNtyxlXXhcUdTzSp/SWs50/7VpcQcK99lKy27rE/j6Hya3VeBl1
-         F9h2UZclkjSQBBVXIztU3wkd2DX2NMvxnfEwl5n27dphjeuPKvsVrl0AuOfman6usU0O
-         n2AGlAxSebDZdlbjTa2aHgU+kYgw3jou6Gprz+334ZMFLRXLonZsFWqnXWmTZmPviPxP
-         dQpg==
+        b=rJ1tK/IfO+ihKCIUHWG4betP5qP+GPmCvc5mw8t29D9XDOxiY6NAG/VZhLDMutjJBD
+         nfKngElvWRmh8EyA4CVOG4B1SipM5EOo82WISMKStl6M0snUcX3zpNchn8DgmQXm6nmb
+         FceaR0YuyAX1YxJgWNAI20pDoJmV0Ya9PnqjtmdXy7sPYpm6tmHlvstP4NHSrgQfBfot
+         SjZsLOWPsXJKvUk4Gtjr4vEy04pols7+kP1MbGOxxxDh1IXXgS2dJFo4hyUtFN3wrKhP
+         6CNYnCOof902JKhNmNsMmNKG8oFWkyltKQl1HUR7u1ZiGYyIkUwf/epk95TkqPOpLwJT
+         Zcfw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=utqNK2Z5ebr5Ah9is9CZfM+/3gvjCU4Z0H/FEO7/fZM=;
-        fh=e5eZVnhbMlEPt4JP0wU6P3zVPlTs314xtHxa2009KGw=;
-        b=w8O2D87WZXFavY8DYqAphd73yty31VIotwJCKbZmrQvFRJlQn8xT3eAHP52VIh3LXH
-         r3IDYZHoACio3cnfgRQuEZJ4XJiyqlVg4WRldwZoBt7VdnaBebkjSdy9QCHmzwJE9N6K
-         40WkDP7Tc5jra8YABjLeIpBGcJaLlj4Lj1NjFPLyb2mUHRLB5NwqMLAeZ1yFlUIN8Xls
-         LEP4Jj35xT9inP2ZB0VAzRjWmMVCyoKPGweQSlK/OUVOEP9JwYMOdpSCxBa5a2aJuVfl
-         qhEduzsI7ub+hJnKPtFLIczXbvxsqAKjxl3yz2kYF9cdi5QjuhyrhsMqCkaoB/O62DEX
-         ++gQ==
+        bh=CI7GB6u39MLbqZUFzJg2hzBKBi/8Q4CxwH4rHsWQ8yc=;
+        fh=Ahy40MSztyYZMnTonwM1XBgEig8egyoCalPOkrHuKkk=;
+        b=ZNG9HlfcV7ZUw0tzmoSIPD5ai/32dOcgvK++UU6h8w/ZaqmxiB3eKseMe0ccqHEva0
+         1A430Ulzj0wXyeR/cMEAvD9+1F21+Uitac3UGD+iVN5+idiTjhxtQlPiTK1aFe9Qhece
+         5xGxBELP5zXeGJykDB7nTMZwSIaSjgepCa7NLIRoFFRz8CG9sBHh9jbaqoz2c/RR+PnN
+         SAUQGdfaiLh2q+BxT32/PsZJpE9FpoaS3yb1uryLb9OLhxAIdF6Q3UXIuEzl/McZUq56
+         72swZP2KxoZ+lkrSlrhrwnmkdi9B4tJPU6ycAELsK78yDzgJjV2TiL3PL1RfXsu/ARAV
+         YPHw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=D7RJgx5a;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::329 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=JfTnZ7z6;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::136 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com. [2607:f8b0:4864:20::329])
-        by gmr-mx.google.com with ESMTPS id lv23-20020a056871439700b002043bb5e02asi83706oab.1.2023.12.21.12.07.57
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com. [2a00:1450:4864:20::136])
+        by gmr-mx.google.com with ESMTPS id l42-20020a05600c1d2a00b0040d2cb644ddsi76768wms.1.2023.12.21.12.08.46
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Dec 2023 12:07:57 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::329 as permitted sender) client-ip=2607:f8b0:4864:20::329;
-Received: by mail-ot1-x329.google.com with SMTP id 46e09a7af769-6dba3438499so803685a34.3
-        for <kasan-dev@googlegroups.com>; Thu, 21 Dec 2023 12:07:57 -0800 (PST)
-X-Received: by 2002:a05:6870:a192:b0:203:7cb2:35 with SMTP id
- a18-20020a056870a19200b002037cb20035mr406025oaf.60.1703189276982; Thu, 21 Dec
- 2023 12:07:56 -0800 (PST)
+        Thu, 21 Dec 2023 12:08:46 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::136 as permitted sender) client-ip=2a00:1450:4864:20::136;
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50e62c1245eso943208e87.1
+        for <kasan-dev@googlegroups.com>; Thu, 21 Dec 2023 12:08:46 -0800 (PST)
+X-Received: by 2002:a05:6512:23a2:b0:50e:3777:f779 with SMTP id
+ c34-20020a05651223a200b0050e3777f779mr116972lfv.31.1703189325320; Thu, 21 Dec
+ 2023 12:08:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20231221180042.104694-1-andrey.konovalov@linux.dev>
-In-Reply-To: <20231221180042.104694-1-andrey.konovalov@linux.dev>
+References: <20231221183540.168428-1-andrey.konovalov@linux.dev>
+In-Reply-To: <20231221183540.168428-1-andrey.konovalov@linux.dev>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 21 Dec 2023 21:07:20 +0100
-Message-ID: <CANpmjNPkZQEp-jCVvbmcPBh2x=Q9jvBNtr0fPMoR+--_Oo4MCA@mail.gmail.com>
-Subject: Re: [PATCH mm] kasan: Mark unpoison_slab_object() as static
+Date: Thu, 21 Dec 2023 21:08:04 +0100
+Message-ID: <CANpmjNMezNWBoH8m38XO2=dP9KQk+_Vb8bo41F7ytQVdbEe-3g@mail.gmail.com>
+Subject: Re: [PATCH mm 1/4] kasan: clean up kasan_cache_create
 To: andrey.konovalov@linux.dev
-Cc: Andrew Morton <akpm@linux-foundation.org>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	kasan-dev@googlegroups.com, Nathan Chancellor <nathan@kernel.org>, 
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, Andrey Konovalov <andreyknvl@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Juntong Deng <juntong.deng@outlook.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, kasan-dev@googlegroups.com, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Andrey Konovalov <andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=D7RJgx5a;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::329 as
+ header.i=@google.com header.s=20230601 header.b=JfTnZ7z6;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::136 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -138,51 +137,131 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 21 Dec 2023 at 19:00, <andrey.konovalov@linux.dev> wrote:
+On Thu, 21 Dec 2023 at 19:35, <andrey.konovalov@linux.dev> wrote:
 >
-> From: Nathan Chancellor <nathan@kernel.org>
+> From: Andrey Konovalov <andreyknvl@google.com>
 >
-> With -Wmissing-prototypes enabled, there is a warning that
-> unpoison_slab_object() has no prototype, breaking the build with
-> CONFIG_WERROR=y:
+> Reorganize the code to avoid nested if/else checks to improve the
+> readability.
 >
->   mm/kasan/common.c:271:6: error: no previous prototype for 'unpoison_slab_object' [-Werror=missing-prototypes]
->     271 | void unpoison_slab_object(struct kmem_cache *cache, void *object, gfp_t flags,
->         |      ^~~~~~~~~~~~~~~~~~~~
->   cc1: all warnings being treated as errors
+> Also drop the confusing comments about KMALLOC_MAX_SIZE checks: they
+> are relevant for both SLUB and SLAB (originally, the comments likely
+> confused KMALLOC_MAX_SIZE with KMALLOC_MAX_CACHE_SIZE).
 >
-> Mark the function as static, as it is not used outside of this
-> translation unit, clearing up the warning.
->
-> Fixes: 3f38c3c5bc40 ("kasan: save alloc stack traces for mempool")
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> Fixes: a5989d4ed40c ("kasan: improve free meta storage in Generic KASAN")
 > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
 Reviewed-by: Marco Elver <elver@google.com>
 
 > ---
+>  mm/kasan/generic.c | 67 +++++++++++++++++++++++++++-------------------
+>  1 file changed, 39 insertions(+), 28 deletions(-)
 >
-> Changes v1->v2:
-> - Mark as "static inline" instead of just "static".
-> ---
->  mm/kasan/common.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
+> index 54e20b2bc3e1..769e43e05d0b 100644
+> --- a/mm/kasan/generic.c
+> +++ b/mm/kasan/generic.c
+> @@ -381,16 +381,11 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
 >
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index ebb1b23d6480..f4255e807b74 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -277,8 +277,8 @@ void __kasan_kfree_large(void *ptr, unsigned long ip)
->         /* The object will be poisoned by kasan_poison_pages(). */
->  }
+>         ok_size = *size;
 >
-> -void unpoison_slab_object(struct kmem_cache *cache, void *object, gfp_t flags,
-> -                         bool init)
-> +static inline void unpoison_slab_object(struct kmem_cache *cache, void *object,
-> +                                       gfp_t flags, bool init)
->  {
+> -       /* Add alloc meta into redzone. */
+> +       /* Add alloc meta into the redzone. */
+>         cache->kasan_info.alloc_meta_offset = *size;
+>         *size += sizeof(struct kasan_alloc_meta);
+>
+> -       /*
+> -        * If alloc meta doesn't fit, don't add it.
+> -        * This can only happen with SLAB, as it has KMALLOC_MAX_SIZE equal
+> -        * to KMALLOC_MAX_CACHE_SIZE and doesn't fall back to page_alloc for
+> -        * larger sizes.
+> -        */
+> +       /* If alloc meta doesn't fit, don't add it. */
+>         if (*size > KMALLOC_MAX_SIZE) {
+>                 cache->kasan_info.alloc_meta_offset = 0;
+>                 *size = ok_size;
+> @@ -401,36 +396,52 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+>         orig_alloc_meta_offset = cache->kasan_info.alloc_meta_offset;
+>
 >         /*
->          * Unpoison the whole object. For kmalloc() allocations,
+> -        * Add free meta into redzone when it's not possible to store
+> +        * Store free meta in the redzone when it's not possible to store
+>          * it in the object. This is the case when:
+>          * 1. Object is SLAB_TYPESAFE_BY_RCU, which means that it can
+>          *    be touched after it was freed, or
+>          * 2. Object has a constructor, which means it's expected to
+> -        *    retain its content until the next allocation, or
+> -        * 3. Object is too small and SLUB DEBUG is enabled. Avoid
+> -        *    free meta that exceeds the object size corrupts the
+> -        *    SLUB DEBUG metadata.
+> -        * Otherwise cache->kasan_info.free_meta_offset = 0 is implied.
+> -        * If the object is smaller than the free meta and SLUB DEBUG
+> -        * is not enabled, it is still possible to store part of the
+> -        * free meta in the object.
+> +        *    retain its content until the next allocation.
+>          */
+>         if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor) {
+>                 cache->kasan_info.free_meta_offset = *size;
+>                 *size += sizeof(struct kasan_free_meta);
+> -       } else if (cache->object_size < sizeof(struct kasan_free_meta)) {
+> -               if (__slub_debug_enabled()) {
+> -                       cache->kasan_info.free_meta_offset = *size;
+> -                       *size += sizeof(struct kasan_free_meta);
+> -               } else {
+> -                       rem_free_meta_size = sizeof(struct kasan_free_meta) -
+> -                                                                       cache->object_size;
+> -                       *size += rem_free_meta_size;
+> -                       if (cache->kasan_info.alloc_meta_offset != 0)
+> -                               cache->kasan_info.alloc_meta_offset += rem_free_meta_size;
+> -               }
+> +               goto free_meta_added;
+> +       }
+> +
+> +       /*
+> +        * Otherwise, if the object is large enough to contain free meta,
+> +        * store it within the object.
+> +        */
+> +       if (sizeof(struct kasan_free_meta) <= cache->object_size) {
+> +               /* cache->kasan_info.free_meta_offset = 0 is implied. */
+> +               goto free_meta_added;
+>         }
+>
+> +       /*
+> +        * For smaller objects, store the beginning of free meta within the
+> +        * object and the end in the redzone. And thus shift the location of
+> +        * alloc meta to free up space for free meta.
+> +        * This is only possible when slub_debug is disabled, as otherwise
+> +        * the end of free meta will overlap with slub_debug metadata.
+> +        */
+> +       if (!__slub_debug_enabled()) {
+> +               rem_free_meta_size = sizeof(struct kasan_free_meta) -
+> +                                                       cache->object_size;
+> +               *size += rem_free_meta_size;
+> +               if (cache->kasan_info.alloc_meta_offset != 0)
+> +                       cache->kasan_info.alloc_meta_offset += rem_free_meta_size;
+> +               goto free_meta_added;
+> +       }
+> +
+> +       /*
+> +        * If the object is small and slub_debug is enabled, store free meta
+> +        * in the redzone after alloc meta.
+> +        */
+> +       cache->kasan_info.free_meta_offset = *size;
+> +       *size += sizeof(struct kasan_free_meta);
+> +
+> +free_meta_added:
+>         /* If free meta doesn't fit, don't add it. */
+>         if (*size > KMALLOC_MAX_SIZE) {
+>                 cache->kasan_info.free_meta_offset = KASAN_NO_FREE_META;
+> @@ -440,7 +451,7 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+>
+>         /* Calculate size with optimal redzone. */
+>         optimal_size = cache->object_size + optimal_redzone(cache->object_size);
+> -       /* Limit it with KMALLOC_MAX_SIZE (relevant for SLAB only). */
+> +       /* Limit it with KMALLOC_MAX_SIZE. */
+>         if (optimal_size > KMALLOC_MAX_SIZE)
+>                 optimal_size = KMALLOC_MAX_SIZE;
+>         /* Use optimal size if the size with added metas is not large enough. */
 > --
 > 2.25.1
 >
@@ -190,4 +269,4 @@ Reviewed-by: Marco Elver <elver@google.com>
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPkZQEp-jCVvbmcPBh2x%3DQ9jvBNtr0fPMoR%2B--_Oo4MCA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMezNWBoH8m38XO2%3DdP9KQk%2B_Vb8bo41F7ytQVdbEe-3g%40mail.gmail.com.
