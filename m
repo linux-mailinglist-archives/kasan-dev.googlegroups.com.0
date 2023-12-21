@@ -1,115 +1,115 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBUFWSKWAMGQEYC4YILI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB4NXSKWAMGQEY7ANJHI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43d.google.com (mail-wr1-x43d.google.com [IPv6:2a00:1450:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5036A81BF6E
-	for <lists+kasan-dev@lfdr.de>; Thu, 21 Dec 2023 21:08:49 +0100 (CET)
-Received: by mail-wr1-x43d.google.com with SMTP id ffacd0b85a97d-33689c90957sf611988f8f.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 21 Dec 2023 12:08:49 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1703189329; cv=pass;
+Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id D394481BF76
+	for <lists+kasan-dev@lfdr.de>; Thu, 21 Dec 2023 21:11:30 +0100 (CET)
+Received: by mail-lj1-x23d.google.com with SMTP id 38308e7fff4ca-2cc77fdf765sf8504671fa.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 21 Dec 2023 12:11:30 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1703189490; cv=pass;
         d=google.com; s=arc-20160816;
-        b=W16GrCqvCQIn4ZFDqnccEvJLgS0UAO1EEhUybDxdVolODd8CI57BoM0i8L1SZmiV9B
-         YFYkaYpdfbahFgr0xsgTCEh/+m6JUKkvEsApGQ17RmklaEfbvhUOpPPMokmzZn8dcocV
-         FTBGQQacMkClS/T+UmdqhGo6m9+q93argAtP33TNTpQX1W4jgF0XoPy2kjpmtodgM5I7
-         Ms0ZSjlPg2IfKgxtd6y8+K6bRJr4cOPGBvDQaqU2z+8Iao1DwqiVGPfhQ3O2BniTYkpE
-         c8ZkGf8G65/dLz9hmmpEKO21tRGFJ06tna+9zugU3Ab5ftoG0G57j/Se1NEfwxL2IBt2
-         vGdw==
+        b=Ai0W7EcsZ3Pw5M2Ok6FdB5xl/HG62D7rVQG1hCe9LczrKXATiywcF5Z/DMM0x1tJxV
+         ut1RmxH2LxLkFu5VA4jkoJIeEuOF4CvF0NB/GzDCRxVFRSjZL4FsK6Bkc/OPGg99whJW
+         LzvcVQYBVx3oErSkrg7LOWnHmUgNu1I3Rqih9YB5vFR0BAtDOR9OfbRrn1iLcfK3Qvzq
+         64VsukCxnTU1Jhzjt5vZKcdg6fMt25PQNAnGWUfLnwrZNOvz7UC6UrFN24TFhCCzIccx
+         WtqNpSTTmISObhgIzrzPOQ/rwez0SFYOmnuCQFbR+uccxh+MMmipgm0EpEUIQq++E473
+         GX2w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=gsRz/MpJSA98QOz2AHde1oM13oYlFYaR8wMJmQ7MOBE=;
+        bh=9sqI96Q00qpNWEnzi23qMLP/Zw++6O4Zo0wH182dvTg=;
         fh=Ahy40MSztyYZMnTonwM1XBgEig8egyoCalPOkrHuKkk=;
-        b=eHoTcxA7VwIzWtx3UTXuNiP5HVMy97rQ7DBuCgfmo7/EHXDrsVDmt7Y3NQGjZs1Nrx
-         vVeeDpWjic0QgaFcfsQbS8UukkWuJ6B/a0DSKyjs5WQSmxjqIv1OToTANltIt6Vjo66b
-         Ud4qlPguPhQw8YkhcKxnxvRhZtn1Q1GmFuepvA0iBf5wsNAsNFct5R91e35Zb7gu7RAO
-         xhVbPdIroax20VaH5Q4P2Zie3v2Zx24e6Jc99SbAof0CzRWu/3HtJBjyG1izjfIwFfXB
-         pwOSdE97Gp2sLRjZTuQi+1n78xeoB1RdPdF3DOaqSZFwf6+cOijmh2D9qwzpUPrctr4A
-         0xrw==
+        b=xCUQ4cifCb/OuWMG37CADg1fb0VQ9H+cSxrp/CtNWaUHAYP0nEmnjYcozzDi70Ld2o
+         QPBQ7niaow9DuqP9qETy4Z/rNDir4JJSrOa+7PfC9PC9PGReFXeLG4GWWKz8O4QbCMf8
+         1p8lUYXj3vuv+0DSmTNGrPD7bTVzpsEaLKcmFoBfubhvzpuuRTZjdj3q9+I5AtPOHXM5
+         Unnrb32ahfbFD4dv65WsP7OvPWbSbKD3U/uUm6/zUxarTKoh04t+D5LBr3ePqcriBjKL
+         T4t6I3V+YisbZ77xJtGUogCHivlyQ0ykPoPQQvJUb2ov8q3LMVjgCysmU/zbsplixPYd
+         5gHA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=JfTnZ7z6;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::136 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=v+Z9dGYg;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::236 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1703189329; x=1703794129; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1703189490; x=1703794290; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gsRz/MpJSA98QOz2AHde1oM13oYlFYaR8wMJmQ7MOBE=;
-        b=buIBzW5iqnzQlBT0anh88CeTd3sbeTXojiW9X08EdE67gYD2Yxg5TMe9j78pwtqU1n
-         NS83KBimiXJLsmXec3MIBDpyckndJ6tIQtiu34HzTbMiSjJo2YXrYE8CyPvXwnK7NcuA
-         4XMS7Pfb/KEdPavFabHENbnUuHSSkJXuLs2jjefD6NqQ+B07NSeXA0fFtRAdot+LQ91q
-         +EqMMeNCIPwy5KI2U+411Cp/Q36Y9cIwHfxlUmX542hr7Sc5xonFTP4D5hqPeDMlRMJ3
-         ShkfVhAeduLYCXPI7oE6iyqqFtVe1yY5o0HQ/M/TecZ99OWn4EvUWWI3OlB4gx5ul4UJ
-         AfHQ==
+        bh=9sqI96Q00qpNWEnzi23qMLP/Zw++6O4Zo0wH182dvTg=;
+        b=CS9oJ4TVHN/xQF7Tu+j3MvaF33hbv5ArH4hezmBgDJwLTqzPqoP4dNUmoKPnRT8pwP
+         jYNnZFmpvAwIGubCDk62BCTmnPYoVEsTXHTJTv6Gql4Lx60mCm6TDeQAbiGtQytKadbe
+         UKULpug4i8q/scAU0ZN0yRdqGxOYs1IAhm8TWAPMyI+e8uS49hggpK9gYFeiik7O9uHw
+         jEGr6+SuyDktjkxSHVcUNihiTiYUK+3niJc2VrLbqd9WkLskVVQu5qqblTmtRGJHoLjb
+         fjlQ69YucxZuNFrHs3fDaBfo3is1W/IqzdRdL2Q/Nc23KIDmGCVS7E8b4zAQPe5p2JFz
+         ENQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703189329; x=1703794129;
+        d=1e100.net; s=20230601; t=1703189490; x=1703794290;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gsRz/MpJSA98QOz2AHde1oM13oYlFYaR8wMJmQ7MOBE=;
-        b=d7EEvJGtx1jtERjvDhyxjrPhPkskUqnotZg0UwntJs0+KSCLm/hX/+2U8TbBPD/s73
-         PgLL9HFFAmCjNjZEOCCc67aipSg9punVhf0D0WHcaJtVpEMe29wVDK01y7s7b4cGR/7+
-         znA1YbHzbbPFBhLGJyBSAzgYgma/jxtnPDlxPm74bPdGTKMyJfMWa3SqAo9lom7mYBiy
-         APfwRnwgwmjLyX1q7W7uLfrbPEURwhJ2Phb2yW+dnxiFxA/mztPxyZbvza1FwqB53QTA
-         wYUiENd53dINC6AQSynzUzfB46h7ZCYDhxCUN6OBKbnrQQUtW2HiPFLiehNeqM1dLMWw
-         6xAA==
-X-Gm-Message-State: AOJu0YxARozrlAIEGnvgDetBab9lWqIxI6nLCx9XLD1ZKk+MitvHf3Xp
-	Zusfq8Y9BrW6fHq/hjp5fWw=
-X-Google-Smtp-Source: AGHT+IH/CIcf+eyfSEPuontLaOCB32oextLaUUaRZNoiDDAVQTvOou+BXH5OkcOxzVXVtK++slIwSw==
-X-Received: by 2002:adf:e4d1:0:b0:331:72f5:8ce7 with SMTP id v17-20020adfe4d1000000b0033172f58ce7mr204976wrm.24.1703189328482;
-        Thu, 21 Dec 2023 12:08:48 -0800 (PST)
+        bh=9sqI96Q00qpNWEnzi23qMLP/Zw++6O4Zo0wH182dvTg=;
+        b=P42utPYnQzHVqtiRDSYakPMUm8/E8wwKrH/nc4Yg3y5xysiM7fpCItJlXi0bBS0ozI
+         +7xRIOYF1dlwUc5kRD/qIOWe5Q+YSQbECQrlD8VJxsCvhtikmmzL/kVUyXOiMYRF94NS
+         9lD2aHfWBdtaa8d1m14lI65j6n7lp4ZsEdhLA9rivHzyaG3Nva1CaZr5k9RiS4FkPgaV
+         q/rDP2QY20wZ91fCh7z2uUzeTdJnyZLny6RtUDLDJEmogeLhe5wWn1eQCjQ1wffiKxoF
+         CIzJd5xcdUkAPUfMmm6+lYKKlZV4VJDZx39vK6BNOUmqqB4H2D/86NmkaTglZVclDcdD
+         L7aw==
+X-Gm-Message-State: AOJu0YwDyKM0KGRGLu9554Sjnh+A7Vv7mSJOm9+C5iKUphmRwCyeXE/l
+	wmYorWOB6fOiEjvBtmMNLW4=
+X-Google-Smtp-Source: AGHT+IGVpm2bbGlNmJY/BPUlV+Atq6orJ0rJfajQlvrTB4E8rVMXT5eSiupdcUO8CH2dQ4M2wgPszw==
+X-Received: by 2002:a2e:a592:0:b0:2cc:a7fa:fc15 with SMTP id m18-20020a2ea592000000b002cca7fafc15mr69874ljp.50.1703189489948;
+        Thu, 21 Dec 2023 12:11:29 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:5185:0:b0:336:7659:12d4 with SMTP id k5-20020a5d5185000000b00336765912d4ls521465wrv.2.-pod-prod-07-eu;
- Thu, 21 Dec 2023 12:08:46 -0800 (PST)
-X-Received: by 2002:a05:600c:5389:b0:40c:66bf:c6a2 with SMTP id hg9-20020a05600c538900b0040c66bfc6a2mr144151wmb.92.1703189326516;
-        Thu, 21 Dec 2023 12:08:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1703189326; cv=none;
+Received: by 2002:a2e:b0dc:0:b0:2cc:78ed:7c40 with SMTP id g28-20020a2eb0dc000000b002cc78ed7c40ls58200ljl.0.-pod-prod-06-eu;
+ Thu, 21 Dec 2023 12:11:28 -0800 (PST)
+X-Received: by 2002:a2e:9806:0:b0:2cb:2576:85f6 with SMTP id a6-20020a2e9806000000b002cb257685f6mr66242ljj.86.1703189487643;
+        Thu, 21 Dec 2023 12:11:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1703189487; cv=none;
         d=google.com; s=arc-20160816;
-        b=rJ1tK/IfO+ihKCIUHWG4betP5qP+GPmCvc5mw8t29D9XDOxiY6NAG/VZhLDMutjJBD
-         nfKngElvWRmh8EyA4CVOG4B1SipM5EOo82WISMKStl6M0snUcX3zpNchn8DgmQXm6nmb
-         FceaR0YuyAX1YxJgWNAI20pDoJmV0Ya9PnqjtmdXy7sPYpm6tmHlvstP4NHSrgQfBfot
-         SjZsLOWPsXJKvUk4Gtjr4vEy04pols7+kP1MbGOxxxDh1IXXgS2dJFo4hyUtFN3wrKhP
-         6CNYnCOof902JKhNmNsMmNKG8oFWkyltKQl1HUR7u1ZiGYyIkUwf/epk95TkqPOpLwJT
-         Zcfw==
+        b=B/f7E9Ny//in67YPFQNC6L4VEhjKvK1N0VJ5vqhhVbziZT2gRQ1EEobgu3V2o95jjj
+         6wpHokQNvHd95RBAgRxfkhD4xrl6fL4HcHgzEGDz5XPHUdcWr39Z1HUj/xE4+5mLTM85
+         8uOEHU5+Vbsw71zijYnn04hRjlIPH/j/fRN9rgUt8vlbYRuMewhWNENq1C1HHELqD50s
+         OWheol78hChtlF4tbWqsPVuKzj2EKEfM6RpvXqJgfDuyl3sHVziOpAWX/aJ2IW/8zZS9
+         /a1tE2kIwUIl1lTt/xLesNz1d9NBmH5ESdkT4cqWO+Sitd4Ts+rvbsKHBMPrZH5sFktE
+         4eFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=CI7GB6u39MLbqZUFzJg2hzBKBi/8Q4CxwH4rHsWQ8yc=;
+        bh=n71TmRIpLCKyJ+zhDPnh2JHDUhteUqmqWNotznqdT9E=;
         fh=Ahy40MSztyYZMnTonwM1XBgEig8egyoCalPOkrHuKkk=;
-        b=ZNG9HlfcV7ZUw0tzmoSIPD5ai/32dOcgvK++UU6h8w/ZaqmxiB3eKseMe0ccqHEva0
-         1A430Ulzj0wXyeR/cMEAvD9+1F21+Uitac3UGD+iVN5+idiTjhxtQlPiTK1aFe9Qhece
-         5xGxBELP5zXeGJykDB7nTMZwSIaSjgepCa7NLIRoFFRz8CG9sBHh9jbaqoz2c/RR+PnN
-         SAUQGdfaiLh2q+BxT32/PsZJpE9FpoaS3yb1uryLb9OLhxAIdF6Q3UXIuEzl/McZUq56
-         72swZP2KxoZ+lkrSlrhrwnmkdi9B4tJPU6ycAELsK78yDzgJjV2TiL3PL1RfXsu/ARAV
-         YPHw==
+        b=IHKUzpgzH4Cl4VoOEO8h6JZdVznYn/f9O4uUF5JAgEFnAzs0tzjo5gaajaeOlUmldK
+         lojxC0IW3Q24V7MN0qEqkFWMIq3jmMPjVDvOenZl+Py0B4G8DBkugg5K3WG+slXW04Zc
+         Wwgf4x30ngIp+S4dE0j+vtFlSqg3wSoz1bj7h2cF2gso0R8wKoomg2Z2Zqx9gwfaHflf
+         fsQCgrUc5OBZBYzWVq4Ql1OhgiITiGToImwM/NAUiXWpMeGZ+I5+BULPHFWfBp/iGZjs
+         FDZ04ga2UHcmH6GgGDsYTdWPxwwbciMheUZYrW67Ea/jcMRy5/wQaNMTnGyOE1uq//vJ
+         Zy5Q==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=JfTnZ7z6;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::136 as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=v+Z9dGYg;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::236 as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com. [2a00:1450:4864:20::136])
-        by gmr-mx.google.com with ESMTPS id l42-20020a05600c1d2a00b0040d2cb644ddsi76768wms.1.2023.12.21.12.08.46
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com. [2a00:1450:4864:20::236])
+        by gmr-mx.google.com with ESMTPS id l5-20020a2ea305000000b002cca660d558si26847lje.7.2023.12.21.12.11.27
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Dec 2023 12:08:46 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::136 as permitted sender) client-ip=2a00:1450:4864:20::136;
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50e62c1245eso943208e87.1
-        for <kasan-dev@googlegroups.com>; Thu, 21 Dec 2023 12:08:46 -0800 (PST)
-X-Received: by 2002:a05:6512:23a2:b0:50e:3777:f779 with SMTP id
- c34-20020a05651223a200b0050e3777f779mr116972lfv.31.1703189325320; Thu, 21 Dec
- 2023 12:08:45 -0800 (PST)
+        Thu, 21 Dec 2023 12:11:27 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::236 as permitted sender) client-ip=2a00:1450:4864:20::236;
+Received: by mail-lj1-x236.google.com with SMTP id 38308e7fff4ca-2cc5a0130faso14098971fa.1
+        for <kasan-dev@googlegroups.com>; Thu, 21 Dec 2023 12:11:27 -0800 (PST)
+X-Received: by 2002:a2e:b616:0:b0:2cc:8472:c97c with SMTP id
+ r22-20020a2eb616000000b002cc8472c97cmr72870ljn.26.1703189487134; Thu, 21 Dec
+ 2023 12:11:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20231221183540.168428-1-andrey.konovalov@linux.dev>
-In-Reply-To: <20231221183540.168428-1-andrey.konovalov@linux.dev>
+References: <20231221183540.168428-1-andrey.konovalov@linux.dev> <20231221183540.168428-2-andrey.konovalov@linux.dev>
+In-Reply-To: <20231221183540.168428-2-andrey.konovalov@linux.dev>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 21 Dec 2023 21:08:04 +0100
-Message-ID: <CANpmjNMezNWBoH8m38XO2=dP9KQk+_Vb8bo41F7ytQVdbEe-3g@mail.gmail.com>
-Subject: Re: [PATCH mm 1/4] kasan: clean up kasan_cache_create
+Date: Thu, 21 Dec 2023 21:10:49 +0100
+Message-ID: <CANpmjNPGBMD6XsPpdL-ix8VTuWAwV-jmBjLpC66Z5y543j0DuA@mail.gmail.com>
+Subject: Re: [PATCH mm 2/4] kasan: reuse kasan_track in kasan_stack_ring_entry
 To: andrey.konovalov@linux.dev
 Cc: Andrew Morton <akpm@linux-foundation.org>, Juntong Deng <juntong.deng@outlook.com>, 
 	Andrey Konovalov <andreyknvl@gmail.com>, Alexander Potapenko <glider@google.com>, 
@@ -119,8 +119,8 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, Juntong Deng <juntong.deng@outloo
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=JfTnZ7z6;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::136 as
+ header.i=@google.com header.s=20230601 header.b=v+Z9dGYg;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::236 as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -141,127 +141,113 @@ On Thu, 21 Dec 2023 at 19:35, <andrey.konovalov@linux.dev> wrote:
 >
 > From: Andrey Konovalov <andreyknvl@google.com>
 >
-> Reorganize the code to avoid nested if/else checks to improve the
-> readability.
->
-> Also drop the confusing comments about KMALLOC_MAX_SIZE checks: they
-> are relevant for both SLUB and SLAB (originally, the comments likely
-> confused KMALLOC_MAX_SIZE with KMALLOC_MAX_CACHE_SIZE).
->
-> Fixes: a5989d4ed40c ("kasan: improve free meta storage in Generic KASAN")
+> Avoid duplicating fields of kasan_track in kasan_stack_ring_entry:
+> reuse the structure.
+
+No functional change?
+
+> Fixes: 5d4c6ac94694 ("kasan: record and report more information")
 > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
 
 Reviewed-by: Marco Elver <elver@google.com>
 
 > ---
->  mm/kasan/generic.c | 67 +++++++++++++++++++++++++++-------------------
->  1 file changed, 39 insertions(+), 28 deletions(-)
+>  mm/kasan/kasan.h       |  7 +------
+>  mm/kasan/report_tags.c | 12 ++++++------
+>  mm/kasan/tags.c        | 12 ++++++------
+>  3 files changed, 13 insertions(+), 18 deletions(-)
 >
-> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-> index 54e20b2bc3e1..769e43e05d0b 100644
-> --- a/mm/kasan/generic.c
-> +++ b/mm/kasan/generic.c
-> @@ -381,16 +381,11 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+> index 5e298e3ac909..9072ce4c1263 100644
+> --- a/mm/kasan/kasan.h
+> +++ b/mm/kasan/kasan.h
+> @@ -279,13 +279,8 @@ struct kasan_free_meta {
+>  struct kasan_stack_ring_entry {
+>         void *ptr;
+>         size_t size;
+> -       u32 pid;
+> -       depot_stack_handle_t stack;
+> +       struct kasan_track track;
+>         bool is_free;
+> -#ifdef CONFIG_KASAN_EXTRA_INFO
+> -       u64 cpu:20;
+> -       u64 timestamp:44;
+> -#endif /* CONFIG_KASAN_EXTRA_INFO */
+>  };
 >
->         ok_size = *size;
+>  struct kasan_stack_ring {
+> diff --git a/mm/kasan/report_tags.c b/mm/kasan/report_tags.c
+> index 979f284c2497..688b9d70b04a 100644
+> --- a/mm/kasan/report_tags.c
+> +++ b/mm/kasan/report_tags.c
+> @@ -31,8 +31,8 @@ static const char *get_common_bug_type(struct kasan_report_info *info)
+>  static void kasan_complete_extra_report_info(struct kasan_track *track,
+>                                          struct kasan_stack_ring_entry *entry)
+>  {
+> -       track->cpu = entry->cpu;
+> -       track->timestamp = entry->timestamp;
+> +       track->cpu = entry->track.cpu;
+> +       track->timestamp = entry->track.timestamp;
+>  }
+>  #endif /* CONFIG_KASAN_EXTRA_INFO */
 >
-> -       /* Add alloc meta into redzone. */
-> +       /* Add alloc meta into the redzone. */
->         cache->kasan_info.alloc_meta_offset = *size;
->         *size += sizeof(struct kasan_alloc_meta);
+> @@ -80,8 +80,8 @@ void kasan_complete_mode_report_info(struct kasan_report_info *info)
+>                         if (free_found)
+>                                 break;
 >
-> -       /*
-> -        * If alloc meta doesn't fit, don't add it.
-> -        * This can only happen with SLAB, as it has KMALLOC_MAX_SIZE equal
-> -        * to KMALLOC_MAX_CACHE_SIZE and doesn't fall back to page_alloc for
-> -        * larger sizes.
-> -        */
-> +       /* If alloc meta doesn't fit, don't add it. */
->         if (*size > KMALLOC_MAX_SIZE) {
->                 cache->kasan_info.alloc_meta_offset = 0;
->                 *size = ok_size;
-> @@ -401,36 +396,52 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
->         orig_alloc_meta_offset = cache->kasan_info.alloc_meta_offset;
+> -                       info->free_track.pid = entry->pid;
+> -                       info->free_track.stack = entry->stack;
+> +                       info->free_track.pid = entry->track.pid;
+> +                       info->free_track.stack = entry->track.stack;
+>  #ifdef CONFIG_KASAN_EXTRA_INFO
+>                         kasan_complete_extra_report_info(&info->free_track, entry);
+>  #endif /* CONFIG_KASAN_EXTRA_INFO */
+> @@ -98,8 +98,8 @@ void kasan_complete_mode_report_info(struct kasan_report_info *info)
+>                         if (alloc_found)
+>                                 break;
 >
->         /*
-> -        * Add free meta into redzone when it's not possible to store
-> +        * Store free meta in the redzone when it's not possible to store
->          * it in the object. This is the case when:
->          * 1. Object is SLAB_TYPESAFE_BY_RCU, which means that it can
->          *    be touched after it was freed, or
->          * 2. Object has a constructor, which means it's expected to
-> -        *    retain its content until the next allocation, or
-> -        * 3. Object is too small and SLUB DEBUG is enabled. Avoid
-> -        *    free meta that exceeds the object size corrupts the
-> -        *    SLUB DEBUG metadata.
-> -        * Otherwise cache->kasan_info.free_meta_offset = 0 is implied.
-> -        * If the object is smaller than the free meta and SLUB DEBUG
-> -        * is not enabled, it is still possible to store part of the
-> -        * free meta in the object.
-> +        *    retain its content until the next allocation.
->          */
->         if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor) {
->                 cache->kasan_info.free_meta_offset = *size;
->                 *size += sizeof(struct kasan_free_meta);
-> -       } else if (cache->object_size < sizeof(struct kasan_free_meta)) {
-> -               if (__slub_debug_enabled()) {
-> -                       cache->kasan_info.free_meta_offset = *size;
-> -                       *size += sizeof(struct kasan_free_meta);
-> -               } else {
-> -                       rem_free_meta_size = sizeof(struct kasan_free_meta) -
-> -                                                                       cache->object_size;
-> -                       *size += rem_free_meta_size;
-> -                       if (cache->kasan_info.alloc_meta_offset != 0)
-> -                               cache->kasan_info.alloc_meta_offset += rem_free_meta_size;
-> -               }
-> +               goto free_meta_added;
-> +       }
-> +
-> +       /*
-> +        * Otherwise, if the object is large enough to contain free meta,
-> +        * store it within the object.
-> +        */
-> +       if (sizeof(struct kasan_free_meta) <= cache->object_size) {
-> +               /* cache->kasan_info.free_meta_offset = 0 is implied. */
-> +               goto free_meta_added;
->         }
+> -                       info->alloc_track.pid = entry->pid;
+> -                       info->alloc_track.stack = entry->stack;
+> +                       info->alloc_track.pid = entry->track.pid;
+> +                       info->alloc_track.stack = entry->track.stack;
+>  #ifdef CONFIG_KASAN_EXTRA_INFO
+>                         kasan_complete_extra_report_info(&info->alloc_track, entry);
+>  #endif /* CONFIG_KASAN_EXTRA_INFO */
+> diff --git a/mm/kasan/tags.c b/mm/kasan/tags.c
+> index c13b198b8302..c4d14dbf27c0 100644
+> --- a/mm/kasan/tags.c
+> +++ b/mm/kasan/tags.c
+> @@ -100,8 +100,8 @@ static void save_extra_info(struct kasan_stack_ring_entry *entry)
+>         u32 cpu = raw_smp_processor_id();
+>         u64 ts_nsec = local_clock();
 >
-> +       /*
-> +        * For smaller objects, store the beginning of free meta within the
-> +        * object and the end in the redzone. And thus shift the location of
-> +        * alloc meta to free up space for free meta.
-> +        * This is only possible when slub_debug is disabled, as otherwise
-> +        * the end of free meta will overlap with slub_debug metadata.
-> +        */
-> +       if (!__slub_debug_enabled()) {
-> +               rem_free_meta_size = sizeof(struct kasan_free_meta) -
-> +                                                       cache->object_size;
-> +               *size += rem_free_meta_size;
-> +               if (cache->kasan_info.alloc_meta_offset != 0)
-> +                       cache->kasan_info.alloc_meta_offset += rem_free_meta_size;
-> +               goto free_meta_added;
-> +       }
-> +
-> +       /*
-> +        * If the object is small and slub_debug is enabled, store free meta
-> +        * in the redzone after alloc meta.
-> +        */
-> +       cache->kasan_info.free_meta_offset = *size;
-> +       *size += sizeof(struct kasan_free_meta);
-> +
-> +free_meta_added:
->         /* If free meta doesn't fit, don't add it. */
->         if (*size > KMALLOC_MAX_SIZE) {
->                 cache->kasan_info.free_meta_offset = KASAN_NO_FREE_META;
-> @@ -440,7 +451,7 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+> -       entry->cpu = cpu;
+> -       entry->timestamp = ts_nsec >> 3;
+> +       entry->track.cpu = cpu;
+> +       entry->track.timestamp = ts_nsec >> 3;
+>  }
+>  #endif /* CONFIG_KASAN_EXTRA_INFO */
 >
->         /* Calculate size with optimal redzone. */
->         optimal_size = cache->object_size + optimal_redzone(cache->object_size);
-> -       /* Limit it with KMALLOC_MAX_SIZE (relevant for SLAB only). */
-> +       /* Limit it with KMALLOC_MAX_SIZE. */
->         if (optimal_size > KMALLOC_MAX_SIZE)
->                 optimal_size = KMALLOC_MAX_SIZE;
->         /* Use optimal size if the size with added metas is not large enough. */
+> @@ -134,15 +134,15 @@ static void save_stack_info(struct kmem_cache *cache, void *object,
+>         if (!try_cmpxchg(&entry->ptr, &old_ptr, STACK_RING_BUSY_PTR))
+>                 goto next; /* Busy slot. */
+>
+> -       old_stack = entry->stack;
+> +       old_stack = entry->track.stack;
+>
+>         entry->size = cache->object_size;
+> -       entry->pid = current->pid;
+> -       entry->stack = stack;
+> -       entry->is_free = is_free;
+> +       entry->track.pid = current->pid;
+> +       entry->track.stack = stack;
+>  #ifdef CONFIG_KASAN_EXTRA_INFO
+>         save_extra_info(entry);
+>  #endif /* CONFIG_KASAN_EXTRA_INFO */
+> +       entry->is_free = is_free;
+>
+>         entry->ptr = object;
+>
 > --
 > 2.25.1
 >
@@ -269,4 +255,4 @@ Reviewed-by: Marco Elver <elver@google.com>
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMezNWBoH8m38XO2%3DdP9KQk%2B_Vb8bo41F7ytQVdbEe-3g%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPGBMD6XsPpdL-ix8VTuWAwV-jmBjLpC66Z5y543j0DuA%40mail.gmail.com.
