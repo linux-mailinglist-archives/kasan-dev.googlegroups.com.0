@@ -1,145 +1,131 @@
-Return-Path: <kasan-dev+bncBC4LXIPCY4NRBKOKWKWAMGQEPT564KA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBF4P2CWAMGQEC67POLI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43e.google.com (mail-pf1-x43e.google.com [IPv6:2607:f8b0:4864:20::43e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8058C81F275
-	for <lists+kasan-dev@lfdr.de>; Wed, 27 Dec 2023 23:28:59 +0100 (CET)
-Received: by mail-pf1-x43e.google.com with SMTP id d2e1a72fcca58-6d9b6701404sf2858167b3a.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 27 Dec 2023 14:28:59 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1703716138; cv=pass;
+Received: from mail-oi1-x23f.google.com (mail-oi1-x23f.google.com [IPv6:2607:f8b0:4864:20::23f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 396A9821C14
+	for <lists+kasan-dev@lfdr.de>; Tue,  2 Jan 2024 13:54:49 +0100 (CET)
+Received: by mail-oi1-x23f.google.com with SMTP id 5614622812f47-3bb936e6ee9sf6145942b6e.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 02 Jan 2024 04:54:49 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1704200088; cv=pass;
         d=google.com; s=arc-20160816;
-        b=wcSzD0HnX2Wefii+Fd/B/hxKsoBNeDIaPwWEP2pKzEfWMBGjxFsGPs4BCr+k4IO0H8
-         vsCJTl4lu3LwMnqK/BdVfpNmF9jrr/mI4tdMA+LsIzqXPLzVLEgbhDSAOAw6kYaPgIFy
-         itV1vYWM7vGtrzxXgfsUmum5ICisbaf1p19vDWnjkTuu8dUYYYi+q1VBHYXWPsJ0B4Yr
-         lveQYGklBS5bCbiwkHBGAwq0fZKBBRoVCFmu5tRFvz9lYcGPkPrZYzO3yjR/av/9nsvH
-         PrUd2PzaDVHj3ESQlrBZuvDojcY9rg9eLGDm9HwEiTrKSb7A7bl4IUzexZmlvO2J5H9u
-         qhiw==
+        b=0OUuKjB2VnZ8pSze/CmN1SVOLkV94+rAD4HeIByPND1RwwKi1LVeNg2unE36He1f6g
+         kZkfQw6w7bFl8MGPlbpf1gt/wXI7PtxABveWFPmX5BqxJJ68rgggpsTK8J/tukU/HcNH
+         aJeCLAKV4iY+1wR0XOQDYbjxBVtnvduBOtpgjObJo8jDf9rgJJK6i5L6WMQypRRZWfqo
+         4t3XLCBlNWceeV+lBWyh4V7MXPiSeX3lNI1qfaVp8G1W0E9yaxoItQoUkj9AxewYRjCF
+         JTbPkUxK3/x0KtOpTDstQfXoYWKWYHn4i9GSMmJUWxHuaO5/QC4zOwJgbzoJ14HWCxkg
+         Kxqg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=RvsKC8v9L2Jwckq3Nk6SdO9mfxgAoQj6yCztOHsC+98=;
-        fh=s+ToP9nh56v32dLSCB/BqCwGI8MlAADG+gaIAoTWN1c=;
-        b=H1kotsdvzlAiSrg0VUxCgl+pZFRn6Fl8D2y5oxIzlEBvL2rNsibcVBKqeBOOEHaA/O
-         WcT7B9eMfSBb5WY5as/pmX1/xcFXfJzb+f3nR9AICeRqDovU+NsYD76x8sWAMicNDt1H
-         RT7rKytNZXo4Dq4DCEghlBOReoW8O37Cw2kcfpwI6CHKGxi8SxCu3SrM8hypu37UF2Ra
-         AhDc/hP6d2h3cuVfEHBpXw7i9rCGNQcwit5EAQ0WLkuxx/DPIlHuFuV/t9XRmgkPM2oC
-         t7H122dR/TXlxuT2sIGDCtPTUqDOetGMpvZ4esdgDxYyUo8f4O7UGwJr/jjEZrsNjbNp
-         B+jw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=8Vx55e4TyJETGkaU3RhCcQPaTdVgms94HhjwTrHH5mw=;
+        fh=FyCHTDws/5IrfNgPWVFTAAhk8MeJh+BMbJgBeQ8Nmrg=;
+        b=h+zSCh0/8Y7j7BfbMpWjTckB0d8OdLn0repszT2LE7I3D04/AkMpokMet+d4xlfYGZ
+         LGqM2GlTm/VG5bS+2l9b0IzE6yFMkINjrTixk0hAhrLMutNSZtlSjUFO1pc1Eqo7gY4y
+         KDRF9X+vW0EHN6liNmrl7SKub2QE/PbH3B5H6jZp4+E3DgJ+bmG0yjKPEd1lfer/Cxgv
+         1qdLPUY8e/K3BV/vObcqiImuP0vvCr8WBN3qPEJYCCfG1s4rZUpuOc8KFz/dtmCAKjIt
+         qMK4HdGO6jibUZjmBJl4qREMAdj6XfZjdHKE1mUm0HC0URYPdM4nn3oaACBpFdO/BwEE
+         QZKQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=QSAjSRnA;
-       spf=pass (google.com: domain of lkp@intel.com designates 192.198.163.11 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       dkim=pass header.i=@google.com header.s=20230601 header.b=vWMQuLGm;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a30 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1703716138; x=1704320938; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1704200088; x=1704804888; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RvsKC8v9L2Jwckq3Nk6SdO9mfxgAoQj6yCztOHsC+98=;
-        b=a9dNGG6KAtjR8LyFoY5dAhGKUcowjgIefJhdao8f8f/0T1rRjWWcWAT3wWJpQrQR/q
-         P0EFN0ZxE+BjphAul0ZEEjixD8EDE4HmCDnoLkSrGHFmwumCOm6jo2DcaGFM4nU46hGT
-         Vz54Z5BZekTab/bzLrdiJ7lwvXNMq4QNrP0YaoK7guf5P+VhmzTaJF3uWA+n6+YmF1rB
-         df2QAYbg2avQDEIPY06AUK9JBlaw+DbwEnNZ0E6PXEjkI6Q77TrzF2XWoHv/tdgUhTET
-         Y5bwItgrvBvbiDookl5ZICtdZYsaZrvVb8nGjzPULTlpBd7FeFuLlZvURjz7EroFn/MZ
-         EVWg==
+        bh=8Vx55e4TyJETGkaU3RhCcQPaTdVgms94HhjwTrHH5mw=;
+        b=N5pCQAKAHfsnNQ4D26xs2w+cgZ4rbRp0tVSdMUYojV89jjgOiylmskpO6QAe0XR84b
+         urgasOrqfNU/K29mB8tLDrvQC/jHrWRCrFIYA01/3aNLLiUJWaitggn0LcDuXCLLLMAQ
+         eONers6RbM5jyGdeF1pzv63RQ1lV8b82b5RDw8rGwEzuvmto4HACbS2bwmdICCcKw1JG
+         oLWYaUaxZJSn1S0T0VEZPsSQrYWZ6ypO5NN2csncEny67ffNkPZTlnMdAZYH+3ZAQjwN
+         ydJx3PITQx/clR6WhnKb7ZCAnsyyNvkkasla77xrXxAKkUYPbD+bXoafZFSy2M6HD/TZ
+         mAPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703716138; x=1704320938;
+        d=1e100.net; s=20230601; t=1704200088; x=1704804888;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RvsKC8v9L2Jwckq3Nk6SdO9mfxgAoQj6yCztOHsC+98=;
-        b=chEs+fmTbRvnPJ3sl8EAk4QeQkOXUyCuVGymnr6rS5NcZibdnKBnt1cRUGDkCnYths
-         2pQ1qqPCytE22QyVXMwFwouPvWWTY4SbvHVwXbfMHR7E6bDG5cKLygDvoUWuelVEQf2a
-         CYIAD7iGLx5xJiFAA1OYcmA3da8b1mfry7S/7gfGgm7o4sFKfbhgCFFVYdNA4ZJH4Hxy
-         KEYePILTHFnnCocuF063cBQJ5iMTcYT8/SW1nFiQ5lom1sTJpn/Csu6KM9ZJgCcjIVxd
-         5C8wPBW/ygkzicKU2n6gS3TibvITInxjvQbAjc1xPuYo8kpJXeG0NOLHKVKzGaHjaSgQ
-         gWgw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YwU1xf0PGlMRrYzbgxNP2hyGew6o6YoC7cujMEIb2BRCTzxn+m6
-	LUmcbG5SuR7MNjsO1C8XLJw=
-X-Google-Smtp-Source: AGHT+IFVlNwQwPk6iORFeV68zSP5fQX7SVYsQGEVXM7PuYAaVdbxZKs/brJz7jPvZqu+uYtw4E1iMw==
-X-Received: by 2002:a05:6a00:90a0:b0:6d9:d249:84dc with SMTP id jo32-20020a056a0090a000b006d9d24984dcmr4462436pfb.28.1703716137905;
-        Wed, 27 Dec 2023 14:28:57 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8Vx55e4TyJETGkaU3RhCcQPaTdVgms94HhjwTrHH5mw=;
+        b=FBP988efQvPiRS49dyPHR+Ls+KYtNao6LfGb9VmbRk17mGcRsmN8Iqh8/T0kBhQRzK
+         k4MfQ6L/KMG0+JWFWvBiIuBxrxsbRT/WdKIYm8VCQM15Xsrz+42q4L8ps4XG8slOsYxl
+         qDmyhUAEBpSKtJxlHI6lxW/3nU2ZpgRCofJT5J2hPeNy6RRNk/fW/8i/HNNMB4OoPSmD
+         13kFr7Ybq43LZbp9Z7pJ9VP0a6DbRJaReVg0gQLA7FEDmDcDOSol+IStbA1Lc5QUKyLn
+         FV1F/C+O7mA3uPwPlhIQ+cvI3mMmBFAqOPE/uQlkbFMjNRHEOi9eTJACBbxf4dDtn6II
+         Ybeg==
+X-Gm-Message-State: AOJu0YyriHXzU/3hH/O2QJQCNLKx36IPsONn4O7BtRCi3kjVN276k+Iu
+	MESZO0mZsVb5XEIjXT/+Xy8=
+X-Google-Smtp-Source: AGHT+IHhJP7ZmBv5rUbLzFhA0RpRA2rOTGrCSQ/h7+UydL/l4zonEm8juQWGby6wpbNegT07fymHXA==
+X-Received: by 2002:a05:6808:208d:b0:3bc:2095:c054 with SMTP id s13-20020a056808208d00b003bc2095c054mr55983oiw.7.1704200087707;
+        Tue, 02 Jan 2024 04:54:47 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:179a:b0:6d9:9783:3c99 with SMTP id
- s26-20020a056a00179a00b006d997833c99ls1289731pfg.2.-pod-prod-03-us; Wed, 27
- Dec 2023 14:28:57 -0800 (PST)
-X-Received: by 2002:a05:6a20:8825:b0:195:bda4:4b2d with SMTP id c37-20020a056a20882500b00195bda44b2dmr4048621pzf.102.1703716136495;
-        Wed, 27 Dec 2023 14:28:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1703716136; cv=none;
+Received: by 2002:a05:6870:a111:b0:203:c4c1:bc5e with SMTP id
+ m17-20020a056870a11100b00203c4c1bc5els3854128oae.0.-pod-prod-00-us; Tue, 02
+ Jan 2024 04:54:47 -0800 (PST)
+X-Received: by 2002:a05:6870:fbac:b0:204:219d:7db5 with SMTP id kv44-20020a056870fbac00b00204219d7db5mr7252273oab.33.1704200086968;
+        Tue, 02 Jan 2024 04:54:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1704200086; cv=none;
         d=google.com; s=arc-20160816;
-        b=Tb/m5oHl0kzvVvUK0FAYF7rC5pEDXTDY8Zh7ojNwdSJpYL7FJTK1D+mb3+CYd467DG
-         7Jpxm3AWhtb8n4biWMCcve9OiFXe/IRkgvCZiHmM5DaehCRWKNXw3xDk9NjG2IEIau27
-         ixpElriEWwRPIRa/pAW5+1TOlDjGTV+/tpxSEcQWA3y8OQrBi9EzWbNao7k4exxmrsNg
-         DhWq/KXgKrj3PgKotHVHl08hIfjVKxU6pJ1n4jLAur8uTBHlIGKROjBqI2Mm2Z6z/CXk
-         Dv4oPWlyKsaCPO6+WszDgD25tgnqSTfhr91hhiDOXYVElcdfwPZYLKtcXiiiSigNn49d
-         /W7w==
+        b=EkzOpsYtkZARrhfcVNnW2pNJYMuOSb1PZKs8hOPVy9IZZ9qWr47BtDnMTZE69PFWFY
+         KSwbkHHt+4ygkVE0vlb5nuIxJLc4nup9B1s8FDjaKIzat+fcCgxPmoNXC6Pod2UBsHF4
+         BCvtz1YR2tIDaRwO6l0jHjZTnKsZKvAoDycXDXdB+O38nrKLXHopyw4lAu9lp+u9XZPY
+         jhjVmSF/9WH6q9Wn+VXW1j1wW/sGk1U1ZEK4nX/nHPXyJaqr6VSHf6sypho6AuvkqoiN
+         QlL/jBJXRFxAPSJ7hFF5QHTKfRrlRd0VqlsKgM798/dR9bb4UJpxFZELZruwTSSW26Vw
+         lHKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=4Da+Fmb1Vvcxbep30ZUBOmDDGIjSH58Psmv2LEZR3p4=;
-        fh=s+ToP9nh56v32dLSCB/BqCwGI8MlAADG+gaIAoTWN1c=;
-        b=ep2Nvdqbdq2ZdaP6f3OfcsXUTUkiqFJeh4BRsoGFaWTqzmg0wqE9f2nZGmRZjH4hzT
-         MK1QDZLyoRGSaaFA1IB2Bs3DzIeG0s/n+25cb9IcwikbkjMqxQt99lUwNUp52QY6y6zY
-         z2Ksc2H2bXcC0I6xH/IqikzVGC+PSiia5DoS+tgvqR0t36iK8T9JKOXH+lZ6+sEkyh9t
-         EDu270Bp1ntjF4xbC4ME3J6O9CV5AUTe+n8zcovXp/BRrw1J7yNc9hkH5I6H11b2crwm
-         E2/QRhUOg1wu5O1YHkU+5zZD8VPBnJXGW/hrWQb6P2Hymr8UOvvTD3b+3YSSZbSD9JpY
-         W5ZQ==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=rzpHQecmeH/R/ZNceK/OpsKzmGzn/z2pMokFTKQkVW8=;
+        fh=FyCHTDws/5IrfNgPWVFTAAhk8MeJh+BMbJgBeQ8Nmrg=;
+        b=tZszdyIB9B21ZUFMccq4d4JpYOZjO7489FjvcCHDYU/slVNl/bNkgBjNojvL6p7Zm7
+         4ZUJnNQQYdqRVWxa9Ryg3GhtfzA1EbVvK4S/1NRF8JHEIi4fHiFQbzNF2YBkugE7MDhY
+         +m5tNkgW86Nk1YZWeFJ2MAqjSPIGW4XhxkU/jQCpGIbUgdf0YBHJEUk/fkIwbYa3Qjss
+         7/GVbRXOL7hV0Dh58Qzbh8fQVE7HQlq2UCiXcy4fToATDCi2YoGglBDi3B1zlP/G6/IK
+         +1Wa8rTDVC7zJt3aECGmqlVehgBE0hIDUSX05dodmesm0uei1Nqkl8bQBkLCpRkWnaC2
+         d0OA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=QSAjSRnA;
-       spf=pass (google.com: domain of lkp@intel.com designates 192.198.163.11 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.11])
-        by gmr-mx.google.com with ESMTPS id bx9-20020a17090af48900b0028bcdd1725fsi1139009pjb.1.2023.12.27.14.28.55
+       dkim=pass header.i=@google.com header.s=20230601 header.b=vWMQuLGm;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a30 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-vk1-xa30.google.com (mail-vk1-xa30.google.com. [2607:f8b0:4864:20::a30])
+        by gmr-mx.google.com with ESMTPS id hl8-20020a0568701b0800b00204853d91eesi1537849oab.4.2024.01.02.04.54.46
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 27 Dec 2023 14:28:56 -0800 (PST)
-Received-SPF: pass (google.com: domain of lkp@intel.com designates 192.198.163.11 as permitted sender) client-ip=192.198.163.11;
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="3335456"
-X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="3335456"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2023 14:28:54 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10936"; a="778340767"
-X-IronPort-AV: E=Sophos;i="6.04,310,1695711600"; 
-   d="scan'208";a="778340767"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 27 Dec 2023 14:28:50 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rIcOO-000FnF-1P;
-	Wed, 27 Dec 2023 22:28:48 +0000
-Date: Thu, 28 Dec 2023 06:28:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: andrey.konovalov@linux.dev, Marco Elver <elver@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH mm] kasan: stop leaking stack trace handles
-Message-ID: <202312280603.WqS3sWfa-lkp@intel.com>
-References: <20231226225121.235865-1-andrey.konovalov@linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 02 Jan 2024 04:54:46 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a30 as permitted sender) client-ip=2607:f8b0:4864:20::a30;
+Received: by mail-vk1-xa30.google.com with SMTP id 71dfb90a1353d-4b739b29686so3511490e0c.0
+        for <kasan-dev@googlegroups.com>; Tue, 02 Jan 2024 04:54:46 -0800 (PST)
+X-Received: by 2002:a05:6122:9a0:b0:4b6:c780:ac90 with SMTP id
+ g32-20020a05612209a000b004b6c780ac90mr10538276vkd.0.1704200086271; Tue, 02
+ Jan 2024 04:54:46 -0800 (PST)
 MIME-Version: 1.0
+References: <cover.1703024586.git.andreyknvl@google.com>
+In-Reply-To: <cover.1703024586.git.andreyknvl@google.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 2 Jan 2024 13:54:08 +0100
+Message-ID: <CANpmjNOaeKRZKtJusQu9Ag2=ifwPS+L9-ZGL77dRzDFPGu_DOQ@mail.gmail.com>
+Subject: Re: [PATCH mm 00/21] kasan: save mempool stack traces
+To: andrey.konovalov@linux.dev
+Cc: Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, kasan-dev@googlegroups.com, 
+	Evgenii Stepanov <eugenis@google.com>, Breno Leitao <leitao@debian.org>, 
+	Alexander Lobakin <alobakin@pm.me>, Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Andrey Konovalov <andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20231226225121.235865-1-andrey.konovalov@linux.dev>
-X-Original-Sender: lkp@intel.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=QSAjSRnA;       spf=pass
- (google.com: domain of lkp@intel.com designates 192.198.163.11 as permitted
- sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=intel.com
+ header.i=@google.com header.s=20230601 header.b=vWMQuLGm;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a30 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,81 +138,78 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi,
+On Tue, 19 Dec 2023 at 23:29, <andrey.konovalov@linux.dev> wrote:
+>
+> From: Andrey Konovalov <andreyknvl@google.com>
+>
+> This series updates KASAN to save alloc and free stack traces for
+> secondary-level allocators that cache and reuse allocations internally
+> instead of giving them back to the underlying allocator (e.g. mempool).
+>
+> As a part of this change, introduce and document a set of KASAN hooks:
+>
+> bool kasan_mempool_poison_pages(struct page *page, unsigned int order);
+> void kasan_mempool_unpoison_pages(struct page *page, unsigned int order);
+> bool kasan_mempool_poison_object(void *ptr);
+> void kasan_mempool_unpoison_object(void *ptr, size_t size);
+>
+> and use them in the mempool code.
+>
+> Besides mempool, skbuff and io_uring also cache allocations and already
+> use KASAN hooks to poison those. Their code is updated to use the new
+> mempool hooks.
+>
+> The new hooks save alloc and free stack traces (for normal kmalloc and
+> slab objects; stack traces for large kmalloc objects and page_alloc are
+> not supported by KASAN yet), improve the readability of the users' code,
+> and also allow the users to prevent double-free and invalid-free bugs;
+> see the patches for the details.
+>
+> There doesn't appear to be any conflicts with the KASAN patches that are
+> currently in mm, but I rebased the patchset on top just in case.
+>
+> Changes RFC->v1:
+> - New patch "mempool: skip slub_debug poisoning when KASAN is enabled".
+> - Replace mempool_use_prealloc_only API with mempool_alloc_preallocated.
+> - Avoid triggering slub_debug-detected corruptions in mempool tests.
+>
+> Andrey Konovalov (21):
+>   kasan: rename kasan_slab_free_mempool to kasan_mempool_poison_object
+>   kasan: move kasan_mempool_poison_object
+>   kasan: document kasan_mempool_poison_object
+>   kasan: add return value for kasan_mempool_poison_object
+>   kasan: introduce kasan_mempool_unpoison_object
+>   kasan: introduce kasan_mempool_poison_pages
+>   kasan: introduce kasan_mempool_unpoison_pages
+>   kasan: clean up __kasan_mempool_poison_object
+>   kasan: save free stack traces for slab mempools
+>   kasan: clean up and rename ____kasan_kmalloc
+>   kasan: introduce poison_kmalloc_large_redzone
+>   kasan: save alloc stack traces for mempool
+>   mempool: skip slub_debug poisoning when KASAN is enabled
+>   mempool: use new mempool KASAN hooks
+>   mempool: introduce mempool_use_prealloc_only
+>   kasan: add mempool tests
+>   kasan: rename pagealloc tests
+>   kasan: reorder tests
+>   kasan: rename and document kasan_(un)poison_object_data
+>   skbuff: use mempool KASAN hooks
+>   io_uring: use mempool KASAN hook
+>
+>  include/linux/kasan.h   | 161 +++++++-
+>  include/linux/mempool.h |   1 +
+>  io_uring/alloc_cache.h  |   5 +-
+>  mm/kasan/common.c       | 221 ++++++----
+>  mm/kasan/kasan_test.c   | 870 +++++++++++++++++++++++++++-------------
+>  mm/mempool.c            |  67 +++-
+>  mm/slab.c               |  10 +-
+>  mm/slub.c               |   4 +-
+>  net/core/skbuff.c       |  10 +-
+>  9 files changed, 954 insertions(+), 395 deletions(-)
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on akpm-mm/mm-everything]
-[cannot apply to linus/master v6.7-rc7 next-20231222]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/andrey-konovalov-linux-dev/kasan-stop-leaking-stack-trace-handles/20231227-065314
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20231226225121.235865-1-andrey.konovalov%40linux.dev
-patch subject: [PATCH mm] kasan: stop leaking stack trace handles
-config: arm-randconfig-002-20231227 (https://download.01.org/0day-ci/archive/20231228/202312280603.WqS3sWfa-lkp@intel.com/config)
-compiler: ClangBuiltLinux clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231228/202312280603.WqS3sWfa-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312280603.WqS3sWfa-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> mm/kasan/generic.c:506:6: warning: no previous prototype for function 'release_alloc_meta' [-Wmissing-prototypes]
-     506 | void release_alloc_meta(struct kasan_alloc_meta *meta)
-         |      ^
-   mm/kasan/generic.c:506:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     506 | void release_alloc_meta(struct kasan_alloc_meta *meta)
-         | ^
-         | static 
->> mm/kasan/generic.c:517:6: warning: no previous prototype for function 'release_free_meta' [-Wmissing-prototypes]
-     517 | void release_free_meta(const void *object, struct kasan_free_meta *meta)
-         |      ^
-   mm/kasan/generic.c:517:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     517 | void release_free_meta(const void *object, struct kasan_free_meta *meta)
-         | ^
-         | static 
-   2 warnings generated.
-
-
-vim +/release_alloc_meta +506 mm/kasan/generic.c
-
-   505	
- > 506	void release_alloc_meta(struct kasan_alloc_meta *meta)
-   507	{
-   508		/* Evict the stack traces from stack depot. */
-   509		stack_depot_put(meta->alloc_track.stack);
-   510		stack_depot_put(meta->aux_stack[0]);
-   511		stack_depot_put(meta->aux_stack[1]);
-   512	
-   513		/* Zero out alloc meta to mark it as invalid. */
-   514		__memset(meta, 0, sizeof(*meta));
-   515	}
-   516	
- > 517	void release_free_meta(const void *object, struct kasan_free_meta *meta)
-   518	{
-   519		/* Check if free meta is valid. */
-   520		if (*(u8 *)kasan_mem_to_shadow(object) != KASAN_SLAB_FREE_META)
-   521			return;
-   522	
-   523		/* Evict the stack trace from the stack depot. */
-   524		stack_depot_put(meta->free_track.stack);
-   525	
-   526		/* Mark free meta as invalid. */
-   527		*(u8 *)kasan_mem_to_shadow(object) = KASAN_SLAB_FREE;
-   528	}
-   529	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Acked-by: Marco Elver <elver@google.com>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202312280603.WqS3sWfa-lkp%40intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOaeKRZKtJusQu9Ag2%3DifwPS%2BL9-ZGL77dRzDFPGu_DOQ%40mail.gmail.com.
