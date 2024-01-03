@@ -1,130 +1,129 @@
-Return-Path: <kasan-dev+bncBCO3JTUR7UBRBFFW2SWAMGQE6LZFE6A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCO3JTUR7UBRBNV32SWAMGQEJMPWS3Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B424822979
-	for <lists+kasan-dev@lfdr.de>; Wed,  3 Jan 2024 09:30:14 +0100 (CET)
-Received: by mail-wm1-x33a.google.com with SMTP id 5b1f17b1804b1-40d31116cffsf75709475e9.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 03 Jan 2024 00:30:14 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1704270614; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2D3822991
+	for <lists+kasan-dev@lfdr.de>; Wed,  3 Jan 2024 09:41:28 +0100 (CET)
+Received: by mail-lj1-x238.google.com with SMTP id 38308e7fff4ca-2cc83b19edesf80983771fa.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 03 Jan 2024 00:41:28 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1704271288; cv=pass;
         d=google.com; s=arc-20160816;
-        b=W7NDpHiBZbRC+WlFwIb91ioU1ZMU69LXGqFF3evdu89UYYsKWYvPv0XAFKaYQlAqUi
-         3vPxF6itWZXQhT6nF4CvEo+4LJZ1pgw/bp/AVkcn5IDDaR49f0q+tOwX4McaVxyct+uA
-         hIzL4D3tVy73PbKtdHrDsQ2ha2I3ywuZXNwcUOJy9UQQv0xttXYLIcQOCtk98xpM4+FT
-         jZKc30ARD8rRlfg5V4pfv38NfjhnN0pYMYMFOhAZ/dgeSwx0J+EkAj1Jh2Oe8zKTVOHy
-         t82DQURXge6D3BiH7qK3Ad9DE8yoSBnsxgFzcYoJjKINSP48SW2JPKgvqPqD5vNMXztW
-         2UDA==
+        b=yrb80zUIr/VtNMxw2jc1gczLbVxb5dIeaPGwvf2DcZPa/OXFNs8z5001+6crAw1Qj1
+         Ab0Im0ZY7yHBm486FfosfeVLpx4A1/wutyxrr0PNuF7bkk8GpcwAs51inKe27hxVZcNe
+         0AOR9iP8eO0bZKfyw2g1y2dL1kJBeQ7gvnX9K1vo+ruoGxMdAL3e0zLC8P2mSP98Ta2o
+         oAXjJUWnQ5jfWQ6ouTD/4Ym6vP13Tea1AKn3BEXERXMVyllaRk0owlRoUMAyxWjpb1fB
+         Y4ijXx5jd/t4mjyJ+1YyPbqeH866x1lduyE4Gk3w4jQTVGkJfg3IcQ6LiEtyTx3LDwKR
+         1IyQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=zaMflwtN+i7kDRoTGEyXy9F1TTInjtG61pOAkfGBWpg=;
+        bh=/abQcnlsa7s8LS3iKiYX/MoK/3bFXQ2dVu8iav03Btc=;
         fh=uYnjiVNxbW5kI0u75v8U/Y/ao7NQ4m8EfWg99NPaynw=;
-        b=l3uhCNu++uuskGI3yDfqeLwB6ejsDCrWLt32oTOE6/kQTkDbDYjW/IP/tdSP0zfQBu
-         u1X+HmoM4XD/O0HPmGWYAGB0LFZot5pBtKqWj7IFDC5U//FLNjaq+ePg18zrc80iZliO
-         zsh4ec1kA4z9s/HFoEba6Ev6zN4E30ra/CK0PfqGMNhhhjz0RlBOMqdvGgBadfa48eTT
-         D8u+HoqeH8RZXTNMpS7LN7sYThnZRkl+D8X9QnvA4y9gAhnqvdOmy0yupzogC09asW7f
-         Cur0diupb7Cfcy6JoL7HVlFkB69xwf2LoT0ChIY0o80nTMjq5aY69zNSciyToq14am0t
-         zwrQ==
+        b=oV/fSfPqlu6mRrYQl4ctQT2DIFeXxily/binnZvobAP66liUQo69W56X1JcR7HFdhS
+         0PkeNWhCwlsnKLbIesPD4oiG+RUyiyMgYMMeUwGmHkl65JRZOTiGI5PymNyMRTcaQIBt
+         RIuFXY8kRSr7JqSHRYeBXPhD4rEUfIWRw0GI2pczX56H4iY7/6rXP+hPgkFJ1/SDcPIK
+         IraezkgYy8mhmrOMzQdgh/V145BIhL7FPGnDdAZzTSx77TM4dqik/LICMtC6V0fN0voJ
+         c+ZYKWq754TpcfHmeNiwFW2W9hliki6UxDj7aVuS645cUVnECuH/IOuGssgJ5gd3Dt6w
+         qIaw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b="Q2/SuwAm";
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=ucZdsDp3;
+       dkim=neutral (no key) header.i=@suse.de;
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b="Ma2sj/R5";
        dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b="Q2/SuwAm";
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       spf=pass (google.com: domain of osalvador@suse.de designates 195.135.223.131 as permitted sender) smtp.mailfrom=osalvador@suse.de;
+       spf=pass (google.com: domain of osalvador@suse.de designates 195.135.223.130 as permitted sender) smtp.mailfrom=osalvador@suse.de;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1704270614; x=1704875414; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1704271288; x=1704876088; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zaMflwtN+i7kDRoTGEyXy9F1TTInjtG61pOAkfGBWpg=;
-        b=dNGiGhG8jGO45MPQMkuZKJedvIdjmTqy1Ik7yj9+RPCw1LWWHfnOvXlte0jqGx8H3S
-         +dv40p6QsTKtP65Uj0NEfoZUV2cQoMkUX8UoqqhO0Jch91Rl1Ea827QcmjEx2qCheJM1
-         KcdcKu4RhFBpo6EdZproTp9aIV0vKEr8rBFl8A7KRvUWTFaSe54fjnUNmXC0ksfdVwGy
-         ZSIjkK7M7odHTdk+oUmktuEwsNKlU4Zzd2Kyi2g9Bfk1FK8oGyIEFuImhI1XPOEjGsMo
-         0F/NFwy1nG6hzTd79i4T7Hl1NDEQ5CJqdUjn7xmCxVyBgI8dFoeRZFUz/VKnDe9ndqPz
-         y4Cg==
+        bh=/abQcnlsa7s8LS3iKiYX/MoK/3bFXQ2dVu8iav03Btc=;
+        b=DHD6NbyToUbQpigE581JRcCYrcOt4BfciShve9KqOJDbUPhfULs2DUrd0cDY1Y885z
+         bYZb+F0gEAtBBOiVLDC7CLCbCEXccTdMFr9qcvaRDYzWTfWIls83f8Lo3c7IUn0/G9GZ
+         QbBhaNXiPhFa+4d/lRvCrRkTg5C0aZd5Ddl8ftXuFojg/mb3nslts6hco1CqW/2BGRmF
+         i1WMqYto0RMLdjUNJeVnWBtwIVPZIqfGVHSsktbD1Gby8zfbXA31P29prLhfYisCWn3M
+         4Yh82Etkfclv2w6SH2S3QEyD0Vn8vXFbOWOyg18rONArDWT3Xn1Leu/aGiVnUcCaETaa
+         fKwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704270614; x=1704875414;
+        d=1e100.net; s=20230601; t=1704271288; x=1704876088;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zaMflwtN+i7kDRoTGEyXy9F1TTInjtG61pOAkfGBWpg=;
-        b=wjyX1IZIcRx/QIyHdbIHG42/8Kp2sNjlFIvNJO1btltGbB7WhQ107JSMsefxDL/jEJ
-         aX5LrUsW0EWBnCm3hNorBM5bDScoSGu2hYp3hzZmmIOSufvQGe3AsHrpjePm+E1L4TWV
-         uqJSJOzrsMu0YCyxt/yEBylAiKOToUtZRRKMZHGqJdYqxjHUbjfxO5d08Uw3EHSDgxzW
-         YI5j5gzNIg+lIzmMBc73z11tc8n7ddmj8Go6MdkMl1BflrjlwCIEPYUnBwrrJuG5tudi
-         lI3Gu8B1BcRH1BYGhyD0gA5ymqGGkZQXHAMfHAxiRDGk1Oc/GPm/UdyBhVJAtafV5E+m
-         ACgg==
+        bh=/abQcnlsa7s8LS3iKiYX/MoK/3bFXQ2dVu8iav03Btc=;
+        b=Ie1RiT9CtZ6JwUF9GL6GHuCYEfmCapQ/kMxMXHvE38QcLsxf1uMaYgp7DNan0hamUw
+         80YzV+syEsW17SkrpM+XMnQ7PN2s2pVNteSck66WKvrStc3X3JGerkDde3gglsX58YY4
+         /bmoXNAoONgRFbpoQ5FVkSbfzGOH/vXdgbYW/U6wA6fp9cmt3ALk3TE0o4XpVdmlA/Jy
+         lUjn7/DaI5r6SRaBI7JlGG7tmLcSCCXFqKt46osQLPYUYi8qz1qZBK1lU6A8r4eqEcD5
+         d+XNozJb1k0B/M8lqI5dvFrn9w5pU63afzui5uGmxk2hnjA4OPA65kLp10LA0emH1EYf
+         eXWw==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yz6v7A7xSSCLqFyeAuF+yCc6G+EUS9+Cnt5LHkvbCg70p1JSrxo
-	xiZ23NsDDtkip9vGsj4nm1c=
-X-Google-Smtp-Source: AGHT+IGFvvE05jCwxpfnVRraDmQMqVSV6RDPwwU5BZM6kkA9WxerEzKIB0aam1N/gzahPxb0TLcL5w==
-X-Received: by 2002:a05:600c:4755:b0:40d:763d:c7fe with SMTP id w21-20020a05600c475500b0040d763dc7femr4576989wmo.121.1704270613032;
-        Wed, 03 Jan 2024 00:30:13 -0800 (PST)
+X-Gm-Message-State: AOJu0Yy1eWjCKqfoWQYM1VOaPKGSdCDa8fd0KA19lNcrdZ0JDZzW4ZiS
+	9inSatOJkqsIGa4A8qO/sCs=
+X-Google-Smtp-Source: AGHT+IHu2ATCulnqjSD0iQ788Js4zx0UjAR4uIz7ClC7EeY5sl7x5DYEricGO0pcTX7BwQPaZTzd/Q==
+X-Received: by 2002:a2e:9787:0:b0:2cc:b51b:239d with SMTP id y7-20020a2e9787000000b002ccb51b239dmr7966301lji.66.1704271286742;
+        Wed, 03 Jan 2024 00:41:26 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:1808:b0:40d:5e53:d787 with SMTP id
- n8-20020a05600c180800b0040d5e53d787ls3107697wmp.0.-pod-prod-09-eu; Wed, 03
- Jan 2024 00:30:11 -0800 (PST)
-X-Received: by 2002:a05:600c:524c:b0:40d:2522:1164 with SMTP id fc12-20020a05600c524c00b0040d25221164mr11743685wmb.82.1704270611190;
-        Wed, 03 Jan 2024 00:30:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1704270611; cv=none;
+Received: by 2002:a2e:bc04:0:b0:2cd:d0c:af0e with SMTP id b4-20020a2ebc04000000b002cd0d0caf0els582077ljf.2.-pod-prod-09-eu;
+ Wed, 03 Jan 2024 00:41:25 -0800 (PST)
+X-Received: by 2002:a05:6512:3096:b0:50e:9d70:b7aa with SMTP id z22-20020a056512309600b0050e9d70b7aamr1803126lfd.1.1704271284828;
+        Wed, 03 Jan 2024 00:41:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1704271284; cv=none;
         d=google.com; s=arc-20160816;
-        b=W2YInIIi+o2QyyAes0KezJEetxps6IYHoAD27etAwpUuqqjIEXXol11xs4tSHgKIsc
-         GddmY/tC4FO5hiI4VB0ihV6A6BQ7/JpWMjteM5lCq02ZnKXTKV4ace5MlLR8A0tF8tPv
-         h3MWTRz4xk1MiaCWzvvmZb/2J/ODQwcpjUt+gahqeRIfgzFRN1hrfuJaM2DhyPRrSAvM
-         poB3jrCm3U4NBV96G2Q9+yfgwjg51aelpPGt1EsG6EygPfxrbKQyvxdBDKgvfHsQFI1u
-         kbCjyh9HAjaK/T8Dwba+m5s224a0tza+OrpgxBMR5R83tpw7eb8wF2HyBFkNOTPVKWd+
-         rPew==
+        b=cIEaNsKcilvE0xPo8Dx9nTVnTWICQ6WHu2E5mqJNAyyxxtrnjxghtZXTQdbBpSHMEF
+         Xulw8sJeKWbFTdMKNRuq/zU0J+WrRuPM7nnc6DVyoh99afQHXrHcGFvbz3bS3Zqec+N6
+         HEtUqGrkXKqHKB1y+Yf+eFSFIUfAfphId8jajz2Mf46vRYjGt3BEUt88uOmTkyd8ZnRD
+         aXJqQ4onLpCNK/CeSFl38Lm2GuQicxMQh1EBIHMiQkwKqWykVRCnZiNeugBDga51NEG1
+         ynNCHUG5eZE1H/Ojh7l2A8d6iLD1nQ0FSl5c1aNvSonTNx8fUPc3QEFKnIaBsq98FZ+2
+         JpiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature:dkim-signature
          :dkim-signature:dkim-signature;
-        bh=XqOr95siHnywoD7/KUJ+ty+J9r6iy/sRySCRnI6kD0E=;
+        bh=KSXZ40//AYfGpTVhrABXJB2R3UQrzV4ODHYRuNkyzfE=;
         fh=uYnjiVNxbW5kI0u75v8U/Y/ao7NQ4m8EfWg99NPaynw=;
-        b=zlu9qND6QXGmnqv7tPaY4qCp15D2DB0VFFz8M2LmyD1xsBpZjdtMcCyK9B12VdQ7Ei
-         R1nTUvefAAuMRvqXfSdaq23kZhYj+fwvH3Q9vJql7pZlc9CtlLZRUElcWq0Il0lUVBRZ
-         pL92NCqzeBrKxM8DbcyndQuInppigFD6qEc4Q2tLsjC9+IeNAdQiUxuk//jgWOaK8dwC
-         hKZb4b3V6UCPTtIDQT2mtEVqnUFS5NHB/D5BSG8wulSOIdPhjGGFQBIOT66jmpBI9SDo
-         rDk/n6Iak7WUc4ph8FrBnBLE77gfeYBz24mOLD4Zjsg0VCvPBzQsOv2zkacW6w9FfaVD
-         53qw==
+        b=Ff/p9Bg/gwJJAaAnJkxqajWfBR9IxtFj7iRITPwfxyza+HuHvv6zR5jcXXHRbhhYHn
+         B/eL7yiUXLQOPpGubi8no7vBAAzEjGXdu13hUomh3CEald5He3V9NGsZ56aHGVILKdV4
+         wT9M8XFamM+eJGyGMMfN7a5tRYHB9bYPgvqEdvhykJFt3WyJ2cyNddOUIv2ByN8FZfRq
+         K5SM5kXOX/BqzShliSw+eac0nz3Wge4MsbMtzCUv2QQUTSUc3AUWmr+Hv3XOCuLRQihl
+         tIF+MVVq/ilLr9gagBEtbfqkz8SxWU4CGMBuarR+6XPEB3SJjp7hl04MyLygbxH9Ax7Z
+         PYHA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b="Q2/SuwAm";
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=ucZdsDp3;
+       dkim=neutral (no key) header.i=@suse.de;
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b="Ma2sj/R5";
        dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b="Q2/SuwAm";
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       spf=pass (google.com: domain of osalvador@suse.de designates 195.135.223.131 as permitted sender) smtp.mailfrom=osalvador@suse.de;
+       spf=pass (google.com: domain of osalvador@suse.de designates 195.135.223.130 as permitted sender) smtp.mailfrom=osalvador@suse.de;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.223.131])
-        by gmr-mx.google.com with ESMTPS id p30-20020a05600c1d9e00b0040d6d74d343si108467wms.0.2024.01.03.00.30.11
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.223.130])
+        by gmr-mx.google.com with ESMTPS id t3-20020a195f03000000b0050e6b19b855si1249333lfb.11.2024.01.03.00.41.24
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jan 2024 00:30:11 -0800 (PST)
-Received-SPF: pass (google.com: domain of osalvador@suse.de designates 195.135.223.131 as permitted sender) client-ip=195.135.223.131;
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+        Wed, 03 Jan 2024 00:41:24 -0800 (PST)
+Received-SPF: pass (google.com: domain of osalvador@suse.de designates 195.135.223.130 as permitted sender) client-ip=195.135.223.130;
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 9CE3B1FD0B;
-	Wed,  3 Jan 2024 08:30:10 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 2005621EE8;
+	Wed,  3 Jan 2024 08:41:22 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E614D1340C;
-	Wed,  3 Jan 2024 08:30:09 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 674AC1340C;
+	Wed,  3 Jan 2024 08:41:21 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fP9iNREblWX4XgAAD6G6ig
-	(envelope-from <osalvador@suse.de>); Wed, 03 Jan 2024 08:30:09 +0000
-Date: Wed, 3 Jan 2024 09:30:56 +0100
+	id 8W8DFrEdlWXVYQAAD6G6ig
+	(envelope-from <osalvador@suse.de>); Wed, 03 Jan 2024 08:41:21 +0000
+Date: Wed, 3 Jan 2024 09:42:12 +0100
 From: Oscar Salvador <osalvador@suse.de>
 To: andrey.konovalov@linux.dev
 Cc: Andrew Morton <akpm@linux-foundation.org>,
@@ -136,47 +135,51 @@ Cc: Andrew Morton <akpm@linux-foundation.org>,
 	Evgenii Stepanov <eugenis@google.com>, linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@google.com>
-Subject: Re: [PATCH v4 06/22] lib/stackdepot: use fixed-sized slots for stack
- records
-Message-ID: <ZZUbQOqDGUWmkFFx@localhost.localdomain>
+Subject: Re: [PATCH v4 08/22] lib/stackdepot: rework helpers for
+ depot_alloc_stack
+Message-ID: <ZZUd5HWJONcLKRzJ@localhost.localdomain>
 References: <cover.1700502145.git.andreyknvl@google.com>
- <dce7d030a99ff61022509665187fac45b0827298.1700502145.git.andreyknvl@google.com>
+ <71fb144d42b701fcb46708d7f4be6801a4a8270e.1700502145.git.andreyknvl@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <dce7d030a99ff61022509665187fac45b0827298.1700502145.git.andreyknvl@google.com>
+In-Reply-To: <71fb144d42b701fcb46708d7f4be6801a4a8270e.1700502145.git.andreyknvl@google.com>
 X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
 X-Spam-Level: 
-X-Spam-Score: -1.30
-X-Spamd-Result: default: False [-1.30 / 50.00];
+X-Spamd-Bar: /
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-0.31 / 50.00];
 	 ARC_NA(0.00)[];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	 FROM_HAS_DN(0.00)[];
 	 TO_DN_SOME(0.00)[];
 	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
 	 TO_MATCH_ENVRCPT_ALL(0.00)[];
 	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
 	 RCVD_COUNT_THREE(0.00)[3];
 	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 DKIM_TRACE(0.00)[suse.de:+];
+	 MX_GOOD(-0.01)[];
 	 RCPT_COUNT_TWELVE(0.00)[12];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,suse.de:email];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,suse.de:dkim,suse.de:email];
 	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
 	 FREEMAIL_CC(0.00)[linux-foundation.org,gmail.com,google.com,suse.cz,googlegroups.com,kvack.org,vger.kernel.org];
-	 RCVD_TLS_ALL(0.00)[]
-X-Spam-Flag: NO
+	 RCVD_TLS_ALL(0.00)[];
+	 RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from]
+X-Spam-Score: -0.31
+X-Rspamd-Queue-Id: 2005621EE8
 X-Original-Sender: osalvador@suse.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.de header.s=susede2_rsa header.b="Q2/SuwAm";
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b="Q2/SuwAm";
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       spf=pass (google.com: domain of osalvador@suse.de designates
- 195.135.223.131 as permitted sender) smtp.mailfrom=osalvador@suse.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
+ header.i=@suse.de header.s=susede2_rsa header.b=ucZdsDp3;       dkim=neutral
+ (no key) header.i=@suse.de;       dkim=pass header.i=@suse.de
+ header.s=susede2_rsa header.b="Ma2sj/R5";       dkim=neutral (no key)
+ header.i=@suse.de header.s=susede2_ed25519;       spf=pass (google.com:
+ domain of osalvador@suse.de designates 195.135.223.130 as permitted sender)
+ smtp.mailfrom=osalvador@suse.de;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -189,22 +192,29 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Nov 20, 2023 at 06:47:04PM +0100, andrey.konovalov@linux.dev wrote:
+On Mon, Nov 20, 2023 at 06:47:06PM +0100, andrey.konovalov@linux.dev wrote:
 > From: Andrey Konovalov <andreyknvl@google.com>
 > 
-> Instead of storing stack records in stack depot pools one right after
-> another, use fixed-sized slots.
+> Split code in depot_alloc_stack and depot_init_pool into 3 functions:
 > 
-> Add a new Kconfig option STACKDEPOT_MAX_FRAMES that allows to select
-> the size of the slot in frames. Use 64 as the default value, which is
-> the maximum stack trace size both KASAN and KMSAN use right now.
+> 1. depot_keep_next_pool that keeps preallocated memory for the next pool
+>    if required.
 > 
-> Also add descriptions for other stack depot Kconfig options.
+> 2. depot_update_pools that moves on to the next pool if there's no space
+>    left in the current pool, uses preallocated memory for the new current
+>    pool if required, and calls depot_keep_next_pool otherwise.
 > 
-> This is preparatory patch for implementing the eviction of stack records
-> from the stack depot.
+> 3. depot_alloc_stack that calls depot_update_pools and then allocates
+>    a stack record as before.
 > 
+> This makes it somewhat easier to follow the logic of depot_alloc_stack
+> and also serves as a preparation for implementing the eviction of stack
+> records from the stack depot.
+> 
+> Reviewed-by: Alexander Potapenko <glider@google.com>
 > Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+
+I have to say this simplifies the reading quite a lot.
 
 Reviewed-by: Oscar Salvador <osalvador@suse.de>
 
@@ -216,4 +226,4 @@ SUSE Labs
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZZUbQOqDGUWmkFFx%40localhost.localdomain.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZZUd5HWJONcLKRzJ%40localhost.localdomain.
