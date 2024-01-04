@@ -1,181 +1,132 @@
-Return-Path: <kasan-dev+bncBCO3JTUR7UBRB3ML3KWAMGQEZOBTTUQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBKUX3KWAMGQEOQRE23Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53b.google.com (mail-ed1-x53b.google.com [IPv6:2a00:1450:4864:20::53b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43D89823F5D
-	for <lists+kasan-dev@lfdr.de>; Thu,  4 Jan 2024 11:18:23 +0100 (CET)
-Received: by mail-ed1-x53b.google.com with SMTP id 4fb4d7f45d1cf-5560c5ff5f4sf215539a12.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 04 Jan 2024 02:18:23 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1704363503; cv=pass;
+Received: from mail-qt1-x83a.google.com (mail-qt1-x83a.google.com [IPv6:2607:f8b0:4864:20::83a])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8FC823F9A
+	for <lists+kasan-dev@lfdr.de>; Thu,  4 Jan 2024 11:42:52 +0100 (CET)
+Received: by mail-qt1-x83a.google.com with SMTP id d75a77b69052e-427b6c5d8fasf1062471cf.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 04 Jan 2024 02:42:52 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1704364971; cv=pass;
         d=google.com; s=arc-20160816;
-        b=iNNOXEWgVwD6DOXHPEk5HCWCI4a+zeHfI3c6QklkWRzBuI7QCHs/d7pWdDKX0zOtdT
-         HQte1D8aASB5LqlIupAZlpicI21U2mJ/KZYQZUcsvkHe3TzX9kr2ebL7Ir40zFk9Y6VT
-         bxwBG/3XKSlEga5BnIJjOGzrMhqES6N2BvSnNkt13wCrpXAyTINTwvo9vjJSkeCF23/a
-         kcV4H/yyEHQ6MJKH2xNtllm6vR/rZ4keu55OAtBLV42YUguZrZ41rnDOmfr8dCJN7Ru4
-         w0sBrRM+2d3lWQsTizTlTVCxtvu3fFOqrjybcUzyFeQXxFz0w5z6wbrqtzM0QnevcATy
-         9A6g==
+        b=xxs8gAhTqxvhjL0aRm6gRpTD3YIpQvEn1RtsLq2aYOnpDwT/Kv7UjqeSVLVvceojry
+         482pZB2qRvKcF/Vc3SBjl0GMimxg4com32FQPdcWuO5cqaqQBCaVy3fDr46qLVckBRaR
+         Oxc06Uaa5aSh61YFjJwWrLip09kEvC8ORFPuyCzaGx3AEQM37j0h/LHL92ZxwCLUaPTe
+         OkvpbOi1ka0/3+iSueS8XhavknJshvJxopsT+M7Eh/4+ZWraDXzw2/nDLW50ZGuD1FyC
+         4Mbc03QeuvCxSTL0gSSv9W3eI6+kHh6+f2+Pkq6Kda9oDKAPmDzC6eJqv1jdR/AD3d/O
+         Xl8g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=eETzWjVXPqN9H/FN9eXQu4xrFxAY8140bJ5HvJuZZ9c=;
-        fh=53DXi97tcefMoivpUvy7dXiy4v2aViPJRaUB+Wd+zTA=;
-        b=qOfYVJnB/t5XfnpxlXaJV3EPpMoStVkApztWZFr0L/t4l6/PaULhMNTN6dpE7Hhy7b
-         I3LpaRiCBJtYdXpA4fF00/wVSK+8ovJchFbzFyi7xnx3lLRenoz1xvsW7t6tJcxjQ1CI
-         04jhQCm6arfoszq2xNi956AEKjjLsDFR8NRXVbIugKox5qd9K769sgs07LHzkma/NPWq
-         D1mKZoWly/zxlU+Y822K1f/lF09VnHRGrXvyDZfb2CJSnHX2h2TWIUA2zKpuvBZ05tc+
-         T2OqO/yM/kXZ0WnwZT7d8q35Th4+MHzkM8zJTUBearmDCpZqSWbl6IbG8KkPtO4cAfPq
-         6crw==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=VPNhuEayzu+Gz3TyexWQmR4T/otV4S5v1pHtqD/iX7I=;
+        fh=AnoIy5yXpmYRAA/ZJLVC0D5vdVMFCXYVFmK8go1Xijw=;
+        b=joHlGzs2z15GnMhsymSgz5CJ45Ilt2RbX+NE2ylYciIUJO1SYaWfSzdvAti6fgh4Kh
+         lDRCyp9BL8T8cHSgXu4z5enhdZ95AvUiCaTD09lQu/LN1Y/N+R4c1jI5dXlbq8UjgSPY
+         K3YudFyNRU6wu2B0k7n3gU10Z2YZ5SQyGhNZlp75DfnoQ4JFMG3MSYwaRnpOiSUs5eAc
+         Z8XQTOja6njmpWpsoirvifenWXqyVYCtgoFyC4jmNhpqswk1dp9RmhhOqx1LbO3b/Uu/
+         vpMLaqDrmBtKg35x7e4TuIVIqDzWHUc31GpUgS7wcyrIhwYwWpT3jRIR2F7R4jQo7CGJ
+         YQzQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=EMvMPWHw;
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=EMvMPWHw;
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519 header.b=Jco3uzab;
-       spf=pass (google.com: domain of osalvador@suse.de designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=osalvador@suse.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
+       dkim=pass header.i=@google.com header.s=20230601 header.b=ZsRpdU7T;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a2b as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1704363503; x=1704968303; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1704364971; x=1704969771; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eETzWjVXPqN9H/FN9eXQu4xrFxAY8140bJ5HvJuZZ9c=;
-        b=clwEm/fOex5sEi4r53jIvge4U2/7913y5/XQoGb2F2/45tg4CkdU35Z0l8OH1Jgs0S
-         4MY++Ky25KgzoykR6Yc6XmRe2YA6JuyGnG4vkJf7tf/KBEeCKFus+ze8iECS6kBdiSwn
-         2weP+PL0uxBeIajVgfzyZ9WwMYV4FhFp+vYJRzCCl+/fFBE2A62cZxQ3ncyzuU+Olqa/
-         3+bb4Yjxo/WzQCckRQZug+6eUyfMTCtKWv0H75xDkFXBvkgDg3wFp+dOFZdQm1EbIVTh
-         O2NEpifkwRbhvksqujVJ6OyZB7U41SVgAD5eo+H9xJvovIM3ffkyRRYT9TJX0lji0ECV
-         pVpA==
+        bh=VPNhuEayzu+Gz3TyexWQmR4T/otV4S5v1pHtqD/iX7I=;
+        b=g4Pgir3nI+dBIHZDzg4/HijDPhSOwXYmIhtkTOFlrdKltXNi4UIb9TmsDXFfQs5oDu
+         6PN0cFPO6AycFfvkNnvaHks35f73hKo5isS19QNsQbxFeNrYGl5e2qR4acvw8h/kQCDV
+         1tsxekfy5hwNhEZJyd83hHitxbyEcS/P3vPcGupm5wuW556tG22jB880fJkS8bZEase9
+         cEISzyiMupj4I0GqaNneLhB75EDA3vWekOoaV1+lealEWknHcZEEdWX7yTZSz8gIFpv1
+         zbZnh7H8MJKFOEJ9uKnkgZRj9gniI6s7OkBvjQbTBNZzmrpNsyShWFD6Es4pOOYmHYKY
+         RA4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704363503; x=1704968303;
+        d=1e100.net; s=20230601; t=1704364971; x=1704969771;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eETzWjVXPqN9H/FN9eXQu4xrFxAY8140bJ5HvJuZZ9c=;
-        b=WW6/zIm4V6PqQilkRgVfNEMw9f/opx7ST0nmuv+ET8dwfLi9YtNK/mWDWeNjtuKDy9
-         VnUWOEIU0XkVf+RF7qJqfge0g05mc/873hO1dyCuN0bQFNND8MDsYv9qcRmkXILASz4H
-         6XDbDB3YrSrMl6h2DYWY7isMLQytgdpv3oQT+8MyvHVa9xHKRTGjR5EWC67vp139YYqQ
-         y2mox67GDFzSgABHsIUcE2A8n6pH3yB5PZwTs/Gs+g8o+QmEgugJaM2b2y9yHzHCsa/U
-         1FnAHYH04a9NnNgPLBehW5Q1PKxc7uIspooY/8V02aWlmE7r/bJEeTNrD/3grN9PCxV1
-         A9Ig==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YxE5qEZ+NCexM/ucucBx5EUQ0BOPVxImRuRfeJzVWlz1/R0T/d/
-	99Kodbr+cnTWTfVhhz68vqc=
-X-Google-Smtp-Source: AGHT+IHBHT9Wig3TQCGDwdO1RTJq5cT1r3ntuUAZKt6eSb/IWunygnvqr5HfP3zJTrhkPXsegnrU+A==
-X-Received: by 2002:a50:f690:0:b0:557:a3c:a952 with SMTP id d16-20020a50f690000000b005570a3ca952mr208660edn.82.1704363501582;
-        Thu, 04 Jan 2024 02:18:21 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VPNhuEayzu+Gz3TyexWQmR4T/otV4S5v1pHtqD/iX7I=;
+        b=kiDgC0k+ekBC5665ieSPLqk43YQ3nYvRDdlpZhgux1gc10S6k0UFdjdKlLSfrlygbR
+         zz0D/04yAxkNRIbwjMdXQQlwwKmTyzUrDCySoWyJgLoU/HuuHHtywRC6+aviZZgUBUmu
+         gMQx02/dho0GVntp1ygMAJnOZ8Uf9pvTvX+k9jBcgUf/V/CsjhQLygx2F7Coc8EKaxxl
+         o/i/DtpHbK99b0c4zEmOgsdDAfOQET3OqeiW+zdqgSDPpNX52r4rmvbkXKg+hWybtHQs
+         za2amvKVAQHdSlp8x2sYHMG3aW/pPViU9LXF7mNfnlkaEsMLo3RKj9rnEEBZPj1jbveg
+         wx8A==
+X-Gm-Message-State: AOJu0YzVjTEEMmwZM2QTyqR2O4XlqMkG0oXB+8Ic5X+0Hz8iuaEn1yF2
+	VtmAPOd7xUxHt/UTPdTYmyk=
+X-Google-Smtp-Source: AGHT+IHMdd9hTw/Syv1Vr0Out21ekVlpzVAJEqEyC0HgUrRKJHzHu8bIHkPtQ1OcyBm4qRsTX/b+3g==
+X-Received: by 2002:a05:6214:29ea:b0:680:d233:9cf with SMTP id jv10-20020a05621429ea00b00680d23309cfmr724187qvb.3.1704364971084;
+        Thu, 04 Jan 2024 02:42:51 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:210b:b0:554:e3f:5918 with SMTP id
- bl11-20020a056402210b00b005540e3f5918ls970963edb.0.-pod-prod-06-eu; Thu, 04
- Jan 2024 02:18:20 -0800 (PST)
-X-Received: by 2002:aa7:cf98:0:b0:557:77d:3b65 with SMTP id z24-20020aa7cf98000000b00557077d3b65mr222908edx.23.1704363499735;
-        Thu, 04 Jan 2024 02:18:19 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1704363499; cv=none;
+Received: by 2002:ad4:5c6a:0:b0:67f:da:bf48 with SMTP id i10-20020ad45c6a000000b0067f00dabf48ls4672865qvh.1.-pod-prod-08-us;
+ Thu, 04 Jan 2024 02:42:50 -0800 (PST)
+X-Received: by 2002:a05:6214:2345:b0:680:a46:3d55 with SMTP id hu5-20020a056214234500b006800a463d55mr356701qvb.111.1704364970198;
+        Thu, 04 Jan 2024 02:42:50 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1704364970; cv=none;
         d=google.com; s=arc-20160816;
-        b=iKE5DB/8zlydhO85rtMe3xR2YLDsIcM84t/SxqnK2vkkEkhMucgfCGcku3F4n4icsK
-         fFvbLqSOExya7xS3gpc7E/bnleWhADLkpEcLpB/s0mku3FF2R6/GSDYztCyRfgIR7W0r
-         m6V0DimLabMjZgzApaGOlIT4MR88VbVkgDwC4sW5OOI9K8JGSZDS8Kf7xC1a+na/GfAR
-         DtjiezsXc2WLd4lYpEDa006R50MiN77l3A64h0SUTzgI+neMrNKWE5VrlbgyMtRF9VT0
-         GufPy5+CKEhI78cERjAZ1d30wkTrH3yDNkJOm7bgFrp/BcC9nOCF9CNc7LEabtH8NRpR
-         XTdQ==
+        b=iZ078tfhyT7tSrwFJ/i76TWKh/vmt3Kz8RMdj6ZJkSzNHMIS0/ziljIEVUDXp/Vzha
+         ytzb+mc0DHYDlthDEh9rSJGNxFXDhx2wmCU+z9LpQIzySBkvuujonditN9ejsFRnzQ3a
+         JbcueM20ea3FYrZ5KmZc/8f4z1Rv6Dhi26gUMXVQZcI0as54FPvKllUMw6AbJWFDA6zd
+         KWHSKk3AqVW01Acd+NG3/bqifGUQS5oCQjZFU4IK7RL4OXlvdV3Ilo3DDpSLffy9cjCG
+         iKOcC0kzFCqZ+d7fLS7UPMcT1C/gF3FTNNyNQE1nTIP7rKPLW1/bRuSBEUFQF0TvGskM
+         Iaeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature:dkim-signature
-         :dkim-signature:dkim-signature;
-        bh=Glk8o7g6rLUF+Y5xoK5c97MnCA6oOnTmvlAIcCHTwSw=;
-        fh=53DXi97tcefMoivpUvy7dXiy4v2aViPJRaUB+Wd+zTA=;
-        b=D7vXTqWS2Xs2nGXy7C/UH55ztcSGfY2JSAR0PO0BprZ0ScKv7yCs38PP3KAYHSRKpJ
-         N2JRnr0+0SzCeuFRYPxK4WACLvsbIH+1a+7mDIUAaZossnsNvM4mSJs/gQPfQVRPaiZH
-         HKGPdvO3IoOv1A4zm028Yz9u6xKZB6QfcV1U/rcPKymNd4K9TU7jVd6HipVX7rumxJmw
-         xKr9if9yPxeest1nLWDkzDy/FWSZL80XALUem5LZcKNCJ+5+oF87Ht/F5pWIumBqDnQi
-         coU3uN3MuOhcxHFUWWCqjf1DKu6wlxPS1dMeogpuMobxQFeInU6P5HgDerWuNzAJIia9
-         9Yaw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=LolWQ4Jrb+Z7IGxXTLsLvRDIA9OucvvsNX3g5Br+h1s=;
+        fh=AnoIy5yXpmYRAA/ZJLVC0D5vdVMFCXYVFmK8go1Xijw=;
+        b=pHHLZb/dNU+Hls2+/uoiR7J1dKVTP5b+ebxHd1U9yybVhxpqYrouY3jmJdnPtX3NfO
+         xuTE7bltw2gsvKUTJSe+XN1dfO+12RlmlHMMdniJXnWnpvaP1WrxmCtuUbYs3TuCDlpL
+         EGioMR0l47fc+kpA1GDz/WkC1WPQh+k5m4Ot9VRNBr7OPQMAyvnpHGocHYLmGvC/XdAt
+         Me7YSTm2/YTufo7oHu2HxKiiI6YIPSLIrqES2wmdS9jmPVhmA5jsZ3Ct1B7JLTUUWAMp
+         rAo5srSC88c05pUTCDHCuFkC4DAFo4FND2HcuTJ0vvTS0Omhf30KhNxJ0+ZdH0i1dCWX
+         3pbg==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=EMvMPWHw;
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=EMvMPWHw;
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519 header.b=Jco3uzab;
-       spf=pass (google.com: domain of osalvador@suse.de designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=osalvador@suse.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2a07:de40:b251:101:10:150:64:2])
-        by gmr-mx.google.com with ESMTPS id f19-20020a0564021e9300b005533f8f54a2si667519edf.4.2024.01.04.02.18.19
+       dkim=pass header.i=@google.com header.s=20230601 header.b=ZsRpdU7T;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a2b as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-vk1-xa2b.google.com (mail-vk1-xa2b.google.com. [2607:f8b0:4864:20::a2b])
+        by gmr-mx.google.com with ESMTPS id v12-20020ad4528c000000b0067f7f198909si2256838qvr.7.2024.01.04.02.42.50
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jan 2024 02:18:19 -0800 (PST)
-Received-SPF: pass (google.com: domain of osalvador@suse.de designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:2;
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 200711F7E5;
-	Thu,  4 Jan 2024 10:18:19 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 413F5137E8;
-	Thu,  4 Jan 2024 10:18:18 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id /st8DOqFlmVUbwAAD6G6ig
-	(envelope-from <osalvador@suse.de>); Thu, 04 Jan 2024 10:18:18 +0000
-Date: Thu, 4 Jan 2024 11:19:09 +0100
-From: Oscar Salvador <osalvador@suse.de>
-To: Marco Elver <elver@google.com>
-Cc: andrey.konovalov@linux.dev, Andrew Morton <akpm@linux-foundation.org>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vlastimil Babka <vbabka@suse.cz>, kasan-dev@googlegroups.com,
-	Evgenii Stepanov <eugenis@google.com>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Andrey Konovalov <andreyknvl@google.com>
-Subject: Re: [PATCH v4 17/22] lib/stackdepot: allow users to evict stack
- traces
-Message-ID: <ZZaGHbaerKfli0Wu@localhost.localdomain>
-References: <cover.1700502145.git.andreyknvl@google.com>
- <1d1ad5692ee43d4fc2b3fd9d221331d30b36123f.1700502145.git.andreyknvl@google.com>
- <ZZZx5TpqioairIMP@localhost.localdomain>
- <CANpmjNMWyVOvni-w-2Lx6WyEUnP+G_cLVELJv_-B4W1fMrQpnw@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jan 2024 02:42:50 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a2b as permitted sender) client-ip=2607:f8b0:4864:20::a2b;
+Received: by mail-vk1-xa2b.google.com with SMTP id 71dfb90a1353d-4b7153b8d76so88632e0c.0
+        for <kasan-dev@googlegroups.com>; Thu, 04 Jan 2024 02:42:50 -0800 (PST)
+X-Received: by 2002:a05:6122:3181:b0:4b6:e60e:e080 with SMTP id
+ ch1-20020a056122318100b004b6e60ee080mr162069vkb.30.1704364969684; Thu, 04 Jan
+ 2024 02:42:49 -0800 (PST)
 MIME-Version: 1.0
+References: <cover.1700502145.git.andreyknvl@google.com> <1d1ad5692ee43d4fc2b3fd9d221331d30b36123f.1700502145.git.andreyknvl@google.com>
+ <ZZZx5TpqioairIMP@localhost.localdomain> <CANpmjNMWyVOvni-w-2Lx6WyEUnP+G_cLVELJv_-B4W1fMrQpnw@mail.gmail.com>
+ <ZZaGHbaerKfli0Wu@localhost.localdomain>
+In-Reply-To: <ZZaGHbaerKfli0Wu@localhost.localdomain>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 4 Jan 2024 11:42:11 +0100
+Message-ID: <CANpmjNMgpcpTCqepjQa=M7USYmCRYnRFRQdXfz0iZdPaBNK=6w@mail.gmail.com>
+Subject: Re: [PATCH v4 17/22] lib/stackdepot: allow users to evict stack traces
+To: Oscar Salvador <osalvador@suse.de>
+Cc: andrey.konovalov@linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vlastimil Babka <vbabka@suse.cz>, kasan-dev@googlegroups.com, 
+	Evgenii Stepanov <eugenis@google.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	Andrey Konovalov <andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNMWyVOvni-w-2Lx6WyEUnP+G_cLVELJv_-B4W1fMrQpnw@mail.gmail.com>
-X-Spam-Level: 
-X-Spam-Level: 
-X-Spamd-Result: default: False [-0.10 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 RCPT_COUNT_TWELVE(0.00)[12];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[linux.dev,linux-foundation.org,gmail.com,google.com,suse.cz,googlegroups.com,kvack.org,vger.kernel.org];
-	 RCVD_TLS_ALL(0.00)[];
-	 BAYES_HAM(-0.00)[40.79%]
-X-Spam-Score: -0.10
-X-Spam-Flag: NO
-X-Original-Sender: osalvador@suse.de
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.de header.s=susede2_rsa header.b=EMvMPWHw;       dkim=neutral
- (no key) header.i=@suse.de header.s=susede2_ed25519;       dkim=pass
- header.i=@suse.de header.s=susede2_rsa header.b=EMvMPWHw;       dkim=neutral
- (no key) header.i=@suse.de header.s=susede2_ed25519 header.b=Jco3uzab;
-       spf=pass (google.com: domain of osalvador@suse.de designates
- 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=osalvador@suse.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
+ header.i=@google.com header.s=20230601 header.b=ZsRpdU7T;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a2b as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -188,47 +139,62 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jan 04, 2024 at 10:25:40AM +0100, Marco Elver wrote:
-> I think a boolean makes the interface more confusing for everyone
-> else. At that point stack_depot_put merely decrements the refcount and
-> becomes a wrapper around refcount_dec, right?
+On Thu, 4 Jan 2024 at 11:18, Oscar Salvador <osalvador@suse.de> wrote:
+>
+> On Thu, Jan 04, 2024 at 10:25:40AM +0100, Marco Elver wrote:
+> > I think a boolean makes the interface more confusing for everyone
+> > else. At that point stack_depot_put merely decrements the refcount and
+> > becomes a wrapper around refcount_dec, right?
+>
+> Thanks Marco for the feedback.
+>
+> Fair enough.
+>
+> > I think you want to expose the stack_record struct anyway for your
+> > series, so why not simply avoid calling stack_depot_put and decrement
+> > the refcount with your own helper (there needs to be a new stackdepot
+> > function to return a stack_record under the pool_rwlock held as
+> > reader).
+>
+> Yeah, that was something I was experimenting with my last version.
+> See [0], I moved the "stack_record" struct into the header so page_owner
+> can make sense of it. I guess that's fine right?
 
-Thanks Marco for the feedback.
+Not exposing the internals would be better, but at this point I think
+your usecase looks like it's doing something that is somewhat out of
+the bounds of the stackdepot API. I also don't see that it makes sense
+to add more helpers to the stackdepot API to deal with such special
+cases.
 
-Fair enough.
+As such, I'd reason that it's ok to expose the struct for this special usecase.
 
-> I think you want to expose the stack_record struct anyway for your
-> series, so why not simply avoid calling stack_depot_put and decrement
-> the refcount with your own helper (there needs to be a new stackdepot
-> function to return a stack_record under the pool_rwlock held as
-> reader).
+> If so, I'd do as you mentioned, just decrementing it with my own helper
+> so no calls to stack_depot_put will be needed.
+>
+> Regarding the locking, I yet have to check the patch that implements
+> the read/write lock, but given that page_owner won't be evicting
+> anything, do I still have to fiddle with the locks?
 
-Yeah, that was something I was experimenting with my last version.
-See [0], I moved the "stack_record" struct into the header so page_owner
-can make sense of it. I guess that's fine right?
-If so, I'd do as you mentioned, just decrementing it with my own helper
-so no calls to stack_depot_put will be needed.
+You need to grab the lock as a reader to fetch the stack_record and
+return it. All that should be hidden behind whatever function you'll
+introduce to return the stack_record (stack_depot_find()?).
 
-Regarding the locking, I yet have to check the patch that implements
-the read/write lock, but given that page_owner won't be evicting
-anything, do I still have to fiddle with the locks?
-
-> Also, you need to ensure noone else calls stack_depot_put on the stack
-> traces you want to keep. If there is a risk someone else may call
-> stack_depot_put on them, it obviously won't work (I think the only
-> option then is to introduce a way to pin stacks).
-
-Well, since page_owner won't call stack_depot_put, I don't see
-how someone else would be able to interfere there, so I think
-I am safe there.
-
-[0] https://patchwork.kernel.org/project/linux-mm/patch/20231120084300.4368-3-osalvador@suse.de/
-
--- 
-Oscar Salvador
-SUSE Labs
+> > Also, you need to ensure noone else calls stack_depot_put on the stack
+> > traces you want to keep. If there is a risk someone else may call
+> > stack_depot_put on them, it obviously won't work (I think the only
+> > option then is to introduce a way to pin stacks).
+>
+> Well, since page_owner won't call stack_depot_put, I don't see
+> how someone else would be able to interfere there, so I think
+> I am safe there.
+>
+> [0] https://patchwork.kernel.org/project/linux-mm/patch/20231120084300.4368-3-osalvador@suse.de/
+>
+> --
+> Oscar Salvador
+> SUSE Labs
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZZaGHbaerKfli0Wu%40localhost.localdomain.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMgpcpTCqepjQa%3DM7USYmCRYnRFRQdXfz0iZdPaBNK%3D6w%40mail.gmail.com.
