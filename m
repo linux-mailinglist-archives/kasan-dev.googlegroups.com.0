@@ -1,162 +1,148 @@
-Return-Path: <kasan-dev+bncBCF5XGNWYQBRBX7Z6CWAMGQEHBGPXTA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBQX26KWAMGQEBKL5I5Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x53b.google.com (mail-pg1-x53b.google.com [IPv6:2607:f8b0:4864:20::53b])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE91282772E
-	for <lists+kasan-dev@lfdr.de>; Mon,  8 Jan 2024 19:20:17 +0100 (CET)
-Received: by mail-pg1-x53b.google.com with SMTP id 41be03b00d2f7-5c65e666609sf1709812a12.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 08 Jan 2024 10:20:17 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1704738016; cv=pass;
+Received: from mail-lj1-x23f.google.com (mail-lj1-x23f.google.com [IPv6:2a00:1450:4864:20::23f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32465827D56
+	for <lists+kasan-dev@lfdr.de>; Tue,  9 Jan 2024 04:28:05 +0100 (CET)
+Received: by mail-lj1-x23f.google.com with SMTP id 38308e7fff4ca-2cd03f1b24bsf21328721fa.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 08 Jan 2024 19:28:05 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1704770884; cv=pass;
         d=google.com; s=arc-20160816;
-        b=msKr2uzQsrcqd8NSaofZQe/A9W4tJhgSdJtPW8czSgQVJi4o4Dtp+kjzf2v5xuhu8y
-         2fYIhNaPuTnTPYaYwho+xxs8L4SeFL3iPiydTYD9lzB1LxBp+CAai+NJtwOG/wWZZGOM
-         C+qmEW7ZddTfwbLGdHUbGJwc1B3FEaXlgDuxIc/v6ewnD21MITCiRSqjWtAnTxu+uSOl
-         RB1aBukmorGhZmQkf1cOASXLKU8nlDsUdxd3JuGCG9HWmUv8xKsVTopEWAqLpRAKuEiZ
-         KilDzWOA8jLjqvCSv+0gpMrsx+Nz7GR/Cy0FyHidh2/uyYPoNMSJoz1B1NsOHJmDQSoY
-         pVsg==
+        b=E0P8OKyKsstEg8WkrGRDg0+8LX0VCtHezhXrI0Z5IvrThVy/1Nvgmspf6vO3vp0MDW
+         MKSfkp6kT2fxZxAm3XSpS/PjBOCvKCrTBU22EW6gucM4aB12k84KI1Rx2++TEN8NOvyw
+         QX20QYu1gTcwgPiJ7V/aUBnJcTrTa9FR9ZcPLqqFNy44/JObEyuNyCcrtz+Swj6PseRC
+         4rkhDf8RAwoO2JoBhr70w7ireXbP9/7k9g6pK/haqnqS0/jT2q0Oqb79Lc8XsbIwc2uS
+         nvkslovaNmqfznbGy2mdpP3rYqsqXTabhLAS3e81+ChIJs3VeeCosPfqHI0j0cAnaeRw
+         MW/w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=rEMGlySXX+B3aN2BoOl5JZ7pCNVsX7vQKY3+pKM0w2A=;
-        fh=+o/KLGNoSpsOIIaqLLZqMltx9JoIXUP6jzUXm0bRQSA=;
-        b=nPjMqr+/rRBHlvlK4R1eC+5RHOx7rH1MoKFqd2kOKXeE33jA5CFHKhTAgPU0WeHFGr
-         4yIOskC+HAOcuBCggGrqEjoZ2eyPQ85mEtwOoF2FPy/dpS7uXy6lYFtiFbm9ssIsRuYb
-         LpcaV6kev4K2diuAfubi+CHrreosR1uHhAlaep6TwRIL8Z42UOeXk8l2N9w+y+cWeqaa
-         emAtNOI8TteAO8p+CxOxO4EMBdgYWhr/qJDPcHtVmMpGkqwvFaKhzJhPOxhYYTTR6vqm
-         SMgzQx5WTXNXBfpvWts//VkSt4FXIQqtwypDl85c76KSThT+Wcj23beeS6Y6LYiMmtLd
-         2lKg==
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=pzEW4sSMUsIadMJ8hveoaEKOWZ621QGAJ59orRroA7I=;
+        fh=vhyMgzwtVf8Cd+Xluz+kIPeaZIksHpPCItLJmpWVnQM=;
+        b=FTc+L2N1MTvthlaH61DYOBc1t0SsFV5KIlBtl1XVoo9l+LDgUWWL/u8dbob2oRCpon
+         u9CE7hAmyuw2kbPUcxoVRH/H7zL/1wKGHlCJ5A6k+EsXL+Q/C1qB752l3hwlQJ+Y92TI
+         nAEpz/vnaXfMx0zl4ygHxT8/ctSvi7dwyE/z2u+rgytym412zhAXr1Utdz2mUcYpC8WE
+         RBSkUwvYpDjw20Mitwvbb+HxpGLm/3BwVlP3tae69tZYHCoFZwzwJxcEZt8/mS6hRaUp
+         KQAJcoZlRIzDSiAoiws6jC9TwXbn1XuIr6FNcmdrvomc0z6O2yeeyZwRf0E+2hBn8rr/
+         e9zw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=GveqTEvn;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::633 as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Mw29KSHg;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1704738016; x=1705342816; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1704770884; x=1705375684; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-disposition:mime-version:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rEMGlySXX+B3aN2BoOl5JZ7pCNVsX7vQKY3+pKM0w2A=;
-        b=muxlU/zuMlbE7buAgRoWXGEB63MIT89/7VvZRBKye8IDkhozNm0zPzLLIx+1jJNshh
-         P/x0FzkQAp3+CSOlbtt5Hfv2QVE6GC0Rluu0x2xGfXfTj1276N6evBtPfI3giL3yVRc6
-         E8nL66sf+TVN+ihk6iS6VYxJj57K9SKnYrhK133h2SWfim2L+mPCRsZev/uFC3ugb8Uc
-         PMavS1rY+Hz4zeuGCA/G8kkBNyH/1tVqadL+IwT4audAJ9pfiyzlEbRNRrmziZhNtf4q
-         y9b+ldKocL8E5nWkNWKks+ckIr9lWuyhmU1WqiB6Ce+b8VYNsy526UxjmnykuQ8GcKiU
-         H5lA==
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pzEW4sSMUsIadMJ8hveoaEKOWZ621QGAJ59orRroA7I=;
+        b=DliKgXLjPW6zlL+Lgkd9JPGi+x7N3ZCU8VY8Kn0qTlqvnTcVkOpOboDx97DZVedarM
+         p4rizc0Fs5rUeHopVj9AhxFmVlhUanWPpiyTzN/HF+yUxAq/lR141vhsWg7ARqFv1ZGg
+         AJlyZbrO/YzPiNjxlndiiH9W+MTWItS2efjQWlVLy9ZH8YIbEty7hm4yIiE40Fhq+yWV
+         M9ffM423Dlx0q6tGq0KxTwlihHDE6y9ui6kpw4rs6ojSLSdxx1VczFyJj1Z66JASxupy
+         2mnjmPoDNjAoeVvx179yBnENqT53biHZ/Xq0ted19NoNruYOq7nXsPgeLlOI7wKzar4U
+         zpig==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1704770884; x=1705375684; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pzEW4sSMUsIadMJ8hveoaEKOWZ621QGAJ59orRroA7I=;
+        b=ls1UapaFpUYBJk4xFHsubD7tpRGJDi3Mz3aASRJ+G3tNKeIp4lsf2l7zG8bVRpeAwg
+         lebjYlrHA5eGM8Yl6uUgb3TCrbWbdWmMC9K8RqN1QV34HKvPfeTDE3Br2xdVLGco77oZ
+         v2k/sHWi3Qxk8dE6eaEV9KKZgj8enbEh67Q9bRAFDQ+Zauxvao/VbWgYw3rHjjO3lI6v
+         74Qr/0CvVjvmlyZnaiY/8GqghC2p+p1Z1UealQGv6aAOFZwZY7RzQ+j+5C1Oyaqa+BdG
+         YQkRYadFUOFlRr8g6UaDB/mTRZP0/a66bKSRAH9M31JCOwExgwLZme5aTMrWWMvtFVmn
+         Jntw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704738016; x=1705342816;
+        d=1e100.net; s=20230601; t=1704770884; x=1705375684;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
-         :content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rEMGlySXX+B3aN2BoOl5JZ7pCNVsX7vQKY3+pKM0w2A=;
-        b=wqDwHagvd3mLeYYRwDfeS8PKJvI7UadcPEdQO/zR2Ng7s0EVJ/hLioHS72mLjyhcZ5
-         W0dVoPQzpA6ROahVzrMUmKx5+e6JOUgdy35Ujyu7UV76juoKDxRSM6i9ArUyHJ11one9
-         L4ua/DSMkukxgq/C77QHd/r1rHAHOSznVxGFT1z4kbDujvdVx4J4h0aWc3JstgNj0PfM
-         JYpoZGBQONUjqTH5NBhmMMhAZkKljTuJCYhtOQQQ9hH4rhFsEAq2HZSLZ7Xoa+gRDy2/
-         VELTmEO8ZvtqUpHYW9yVzz1HWxmcIbiApeyTfALmWcyfISbyZMgC+EZARZdgdiGihovA
-         +uUw==
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=pzEW4sSMUsIadMJ8hveoaEKOWZ621QGAJ59orRroA7I=;
+        b=coGaSxdXpl79+L/je25dv36VVgL6APN1uGPE+4Z8hFTDVSArCWWwG0ejFfrw8OCegR
+         dSFTx2udrMfZo9y2YAXuyFlIA2ZDDLthsXLyOqIRlzMRf7cZbpRkd0eNqQSAOtAAOd8Y
+         Grbp21jmdhYAW0zIBUkYfCjEBfEmAitpmxWJmt1WcoynH/A019ofDG/YXCVgMzUzLsg0
+         TN/NcaNto6KTWgI0BNlw3l9YwK5NrjbGY6sDuleln5sA7Om5D35bmXpMkjLv9Cbap+NC
+         ghhAE1K+wSTjGmfM5LqXUsvQWYVcNq9/pzy+z+9SW13T7BOcDpARj4lerGouTejnJisB
+         MZgQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yz2YeA/iILaCApfwFFZ23VinqbSpIsngOZRv/VKLaq1+pCgdkqK
-	O0EY8osOOWnOyL0kcPhJZgI=
-X-Google-Smtp-Source: AGHT+IEdhPvHTbLDWJbEgg/UaXTEQ1pJ8LZxjTCnI/H4moao5a2EyMysxSuBsZthXpEDj/IoexIyAw==
-X-Received: by 2002:a17:902:784c:b0:1d5:36a9:10db with SMTP id e12-20020a170902784c00b001d536a910dbmr1609387pln.130.1704738015870;
-        Mon, 08 Jan 2024 10:20:15 -0800 (PST)
+X-Gm-Message-State: AOJu0Yz7kAWqZnjUtkBQykn2UYsGHh1jtPQ7k7UBBofVvD2wVm7AI4jI
+	VUPTZWl37sU6pDnlW6Je1eo=
+X-Google-Smtp-Source: AGHT+IHYtKMOBYX3WV/3t4VlB/ECpiDPnl0l8TbHTRdXfAV99HhBHC1/qsPW2AFjNNeCJLTjg7jY4Q==
+X-Received: by 2002:a2e:8348:0:b0:2cc:e51c:4d11 with SMTP id l8-20020a2e8348000000b002cce51c4d11mr2221372ljh.30.1704770883230;
+        Mon, 08 Jan 2024 19:28:03 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:74c9:b0:1d4:b46d:8206 with SMTP id
- f9-20020a17090274c900b001d4b46d8206ls857848plt.0.-pod-prod-03-us; Mon, 08 Jan
- 2024 10:20:14 -0800 (PST)
-X-Received: by 2002:a17:903:32c8:b0:1d5:36b3:bd83 with SMTP id i8-20020a17090332c800b001d536b3bd83mr1896957plr.101.1704738014602;
-        Mon, 08 Jan 2024 10:20:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1704738014; cv=none;
+Received: by 2002:a05:651c:1a11:b0:2cc:f3c5:647f with SMTP id
+ by17-20020a05651c1a1100b002ccf3c5647fls583879ljb.1.-pod-prod-09-eu; Mon, 08
+ Jan 2024 19:28:01 -0800 (PST)
+X-Received: by 2002:a2e:8091:0:b0:2cc:f6b9:3bde with SMTP id i17-20020a2e8091000000b002ccf6b93bdemr2193575ljg.74.1704770880883;
+        Mon, 08 Jan 2024 19:28:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1704770880; cv=none;
         d=google.com; s=arc-20160816;
-        b=M0lgBc3UV0lc3K0P7h58Vj+xqBMQQh6WtnUoeNA9xH2OAReKMFTRIytBky3CxhQtDc
-         P+ycnKYGPctsBARUv3FUaa0WTjJE+8JfmfJayVHeRyuntvohS5Cun8oLJSt7CykO54YM
-         3+7InwuryBrkhFu5QPnpRQJnVb7EtE5FJov+WLv4lPPJRTWBWcdozdXZ9Y8gD9qUUoIu
-         7ig+R9jNK/QnLC6pldTIGGiYNn+VtnFsCWZNL6J3CUGkUuK9rnJrpDM7mNJQQdO8QJ5F
-         sqm8Vk2ut41P4VgFUPRsDO3MFNjpEQSIb4rMY2VLUHPH53nw1l43q5zG4m1/xX3goriA
-         uYJA==
+        b=AmclTEmTol/pJczi8VrZ4zysXltGs0uzFm7qqhPZqIrXHg5C9YtgMUMQ7l7XLMTWHP
+         lKjO3foAxM5vIQVs5Y8KviWO22UuD0EZULV7IA9sYnLUEQAaTkXuzs1vdrX9JosH9YUr
+         mLCJ8Y3bZh3/2JXZ7h7e7kljvNnJ/YUffqHdSp/wuY09xmLCFj2lwbdQD2SA75afjCpl
+         a8jbBN0AU1iCGZk7KoNPyH35VzOiE7EKOh+sJiaHpDoKlFBxb5ZKwG2QcsTjDaXkvftZ
+         KIqTltF3hEsZYoYOoIOdiqV6AgdgM2TsaeE9SD3bGfBCshXxAS9s2QeKEAEvSmPbGi2C
+         2t3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=MqDz4oNfh2B5BR/R2EPy7vlFbl/dDn7Jawuse3WFwvo=;
-        fh=+o/KLGNoSpsOIIaqLLZqMltx9JoIXUP6jzUXm0bRQSA=;
-        b=FGAazFsP4hzqlBi4FiwUtHksFh/6IyrVN4xCK9C/d/YKmFi7ztbadzkS24TetUmRGJ
-         L6nfviYRFo2zuqsSgJfCl5ePypm8I5piSRczUngLHd62VgeH0M1kE3SwlYm79Klrh7WM
-         wnxwamiclv1VcoptHT9+Op+6jxqJodRj63biV0Fp0V34NCd40pAj8MrKzDTDZRjetfXn
-         jSx6c4UYD9qaCq7dTlvSSfhXTbmEnm29w2z3SVtFyuu2PgJqcCd+jVxK3r2vJM+t5jnk
-         KuoK8KE5uFaJBwJwR+fSn4vkRwPqUn1xa7TF+Jrc3aClax18KiU6YTLhbRCWYl+RHcmB
-         H8nA==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=G5FTBQx6CxuffH+TulsrcO2jk2wY7catmAEyarNb8Sk=;
+        fh=vhyMgzwtVf8Cd+Xluz+kIPeaZIksHpPCItLJmpWVnQM=;
+        b=O7VHGSnc/SNV7qiuK5psfQcb3c6FvGB+avgVLJ5ZsA+yOXn0PaoEpxRJsLg3ZlKzfA
+         3FcQ7jF37XDXbEqHIX3KAjYF6/SnJUIhm4stzswC8Xss7RIPApSmGIWsnrznvEiK1Ad6
+         8C4BK27rZxOw2PLHXM7qCSYGMdC68ZVprLvsnlBI7cCUC1dW0MSbZTXzyJFJ1Hmy/9cL
+         +TZgszYrYURkZEHGqiKsTTpkgOYprBgGOzAQITss8E8sJWMMNPh2ZosVzma/KnHbq5fI
+         U+QQEVy/is5FcDPGMEUq/XuZYvw4VZqpISb809bH34I+C3JvSSftVXxiY9Y3pCXtJFi2
+         3CLA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=GveqTEvn;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::633 as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com. [2607:f8b0:4864:20::633])
-        by gmr-mx.google.com with ESMTPS id u12-20020a170903304c00b001d3cc53eaacsi23368pla.6.2024.01.08.10.20.14
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Mw29KSHg;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com. [2a00:1450:4864:20::32f])
+        by gmr-mx.google.com with ESMTPS id m1-20020a2e9101000000b002ccdcc1fd1csi33002ljg.6.2024.01.08.19.28.00
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jan 2024 10:20:14 -0800 (PST)
-Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::633 as permitted sender) client-ip=2607:f8b0:4864:20::633;
-Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1d480c6342dso16970925ad.2
-        for <kasan-dev@googlegroups.com>; Mon, 08 Jan 2024 10:20:14 -0800 (PST)
-X-Received: by 2002:a17:902:684f:b0:1d5:4dbf:6045 with SMTP id f15-20020a170902684f00b001d54dbf6045mr517599pln.86.1704738014214;
-        Mon, 08 Jan 2024 10:20:14 -0800 (PST)
-Received: from www.outflux.net (198-0-35-241-static.hfc.comcastbusiness.net. [198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id d23-20020a170902729700b001d54b86774dsm205146pll.67.2024.01.08.10.20.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jan 2024 10:20:13 -0800 (PST)
-Date: Mon, 8 Jan 2024 10:20:13 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>,
-	Anders Larsen <al@alarsen.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Anna Schumaker <anna@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Azeem Shaikh <azeemshaikh38@gmail.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Chuck Lever <chuck.lever@oracle.com>, Dai Ngo <Dai.Ngo@oracle.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Geliang Tang <geliang.tang@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Gurucharan G <gurucharanx.g@intel.com>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Jeff Layton <jlayton@kernel.org>,
-	Jesse Brandeburg <jesse.brandeburg@intel.com>,
-	Justin Stitt <justinstitt@google.com>, kasan-dev@googlegroups.com,
-	Kees Cook <keescook@chromium.org>, linux-hardening@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Marco Elver <elver@google.com>,
-	"Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Neil Brown <neilb@suse.de>, netdev@vger.kernel.org,
-	Olga Kornievskaia <kolga@netapp.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Ronald Monthero <debug.penguin32@gmail.com>,
-	Shiraz Saleem <shiraz.saleem@intel.com>,
-	Stephen Boyd <swboyd@chromium.org>,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>, Tom Talpey <tom@talpey.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Xu Panda <xu.panda@zte.com.cn>
-Subject: [GIT PULL] hardening updates for v6.8-rc1
-Message-ID: <202401081012.7571CBB@keescook>
+        Mon, 08 Jan 2024 19:28:00 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) client-ip=2a00:1450:4864:20::32f;
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40d8902da73so23521795e9.2
+        for <kasan-dev@googlegroups.com>; Mon, 08 Jan 2024 19:28:00 -0800 (PST)
+X-Received: by 2002:a5d:5406:0:b0:336:5b14:525f with SMTP id
+ g6-20020a5d5406000000b003365b14525fmr215214wrv.132.1704770880022; Mon, 08 Jan
+ 2024 19:28:00 -0800 (PST)
 MIME-Version: 1.0
+References: <cover.1693328501.git.andreyknvl@google.com> <6db160185d3bd9b3312da4ccc073adcdac58709e.1693328501.git.andreyknvl@google.com>
+ <ZO8IMysDIT7XnN9Z@elver.google.com> <CA+fCnZdLi3g999PeBWf36Z3RB1ObHyZDR_xS0kwJWm6fNUqSrA@mail.gmail.com>
+ <CANpmjNNtT1WUpJu_n5x_tA2sL4+utP0a6oGUzqrU5JuEu3mowg@mail.gmail.com>
+ <CA+fCnZdAUo1CKDK4kiUyR+Fxc_F++CFezanPDVujx3u7fBmw=A@mail.gmail.com> <CANpmjNNfyKV0Ky=GRiw9_6va3nJMtYejWZJL0tn5cjwXTY8e1Q@mail.gmail.com>
+In-Reply-To: <CANpmjNNfyKV0Ky=GRiw9_6va3nJMtYejWZJL0tn5cjwXTY8e1Q@mail.gmail.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Tue, 9 Jan 2024 04:27:48 +0100
+Message-ID: <CA+fCnZdjF=8bchUs1RNA2e+8HSZTkOw6Tkz0Ye6Znh=zdf8yrA@mail.gmail.com>
+Subject: Re: [PATCH 11/15] stackdepot: use read/write lock
+To: Marco Elver <elver@google.com>
+Cc: andrey.konovalov@linux.dev, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vlastimil Babka <vbabka@suse.cz>, kasan-dev@googlegroups.com, 
+	Evgenii Stepanov <eugenis@google.com>, Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, Andrey Konovalov <andreyknvl@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-X-Original-Sender: keescook@chromium.org
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: andreyknvl@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=GveqTEvn;       spf=pass
- (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::633
- as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+ header.i=@gmail.com header.s=20230601 header.b=Mw29KSHg;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32f
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,108 +155,31 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Linus,
+On Tue, Jan 2, 2024 at 1:59=E2=80=AFPM Marco Elver <elver@google.com> wrote=
+:
+>
+> > I started looking into using percpu-rwsem, but it appears that it
+> > doesn't have the irqsave/irqrestore API flavor. I suspect that it
+> > shouldn't be hard to add it, but I'd rather not pursue this as a part
+> > of this series.
+> >
+> > So I still propose to keep the rwlock for now, and switch to
+> > percpu-rwsem later together with the other perf changes.
+>
+> I may have gotten lost in the post-vacation email avalanche and missed
+> it: did you already send the percpu-rwsem optimization? I am a little
+> worried about the contention the plain rwlock introduces on big
+> machines.
 
-Please pull these hardening updates for v6.8-rc1. There will be a second
-pull request coming at the end of the rc1 window, as we can now finally
-remove the "strlcpy" API entirely from the kernel. However, that depends
-on other trees landing first. As always, my tree has been in -next the
-whole time, and anything touching other subsystems was either explicitly
-Acked by those maintainers or they were sufficiently trivial and went
-ignored so I picked them up.
+I didn't get to working on that part unfortunately :(
 
-Thanks!
+I filed https://bugzilla.kernel.org/show_bug.cgi?id=3D218312 for this.
 
--Kees
-
-The following changes since commit 98b1cc82c4affc16f5598d4fa14b1858671b2263:
-
-  Linux 6.7-rc2 (2023-11-19 15:02:14 -0800)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git tags/hardening-v6.8-rc1
-
-for you to fetch changes up to a75b3809dce2ad006ebf7fa641f49881fa0d79d7:
-
-  qnx4: Use get_directory_fname() in qnx4_match() (2023-12-13 11:19:18 -0800)
-
-----------------------------------------------------------------
-hardening updates for v6.8-rc1
-
-- Introduce the param_unknown_fn type and other clean ups (Andy Shevchenko)
-
-- Various __counted_by annotations (Christophe JAILLET, Gustavo A. R. Silva,
-  Kees Cook)
-
-- Add KFENCE test to LKDTM (Stephen Boyd)
-
-- Various strncpy() refactorings (Justin Stitt)
-
-- Fix qnx4 to avoid writing into the smaller of two overlapping buffers
-
-- Various strlcpy() refactorings
-
-----------------------------------------------------------------
-Andy Shevchenko (5):
-      params: Introduce the param_unknown_fn type
-      params: Do not go over the limit when getting the string length
-      params: Use size_add() for kmalloc()
-      params: Sort headers
-      params: Fix multi-line comment style
-
-Christophe JAILLET (1):
-      VMCI: Annotate struct vmci_handle_arr with __counted_by
-
-Gustavo A. R. Silva (2):
-      afs: Add __counted_by for struct afs_acl and use struct_size()
-      atags_proc: Add __counted_by for struct buffer and use struct_size()
-
-Justin Stitt (5):
-      HID: uhid: replace deprecated strncpy with strscpy
-      drm/modes: replace deprecated strncpy with strscpy_pad
-      nvme-fabrics: replace deprecated strncpy with strscpy
-      nvdimm/btt: replace deprecated strncpy with strscpy
-      nvme-fc: replace deprecated strncpy with strscpy
-
-Kees Cook (6):
-      SUNRPC: Replace strlcpy() with strscpy()
-      samples: Replace strlcpy() with strscpy()
-      i40e: Annotate struct i40e_qvlist_info with __counted_by
-      tracing/uprobe: Replace strlcpy() with strscpy()
-      qnx4: Extract dir entry filename processing into helper
-      qnx4: Use get_directory_fname() in qnx4_match()
-
-Stephen Boyd (1):
-      lkdtm: Add kfence read after free crash type
-
- arch/arm/kernel/atags_proc.c               |  4 +-
- drivers/gpu/drm/drm_modes.c                |  6 +--
- drivers/hid/uhid.c                         | 15 ++++----
- drivers/misc/lkdtm/heap.c                  | 60 ++++++++++++++++++++++++++++++
- drivers/misc/vmw_vmci/vmci_handle_array.h  |  2 +-
- drivers/nvdimm/btt.c                       |  2 +-
- drivers/nvme/host/fabrics.c                |  4 +-
- drivers/nvme/host/fc.c                     |  8 ++--
- fs/afs/internal.h                          |  2 +-
- fs/afs/xattr.c                             |  2 +-
- fs/qnx4/dir.c                              | 52 ++++----------------------
- fs/qnx4/namei.c                            | 29 ++++++---------
- fs/qnx4/qnx4.h                             | 60 ++++++++++++++++++++++++++++++
- include/linux/kfence.h                     |  2 +
- include/linux/moduleparam.h                |  6 +--
- include/linux/net/intel/i40e_client.h      |  2 +-
- kernel/params.c                            | 52 ++++++++++++++------------
- kernel/trace/trace_uprobe.c                |  2 +-
- net/sunrpc/clnt.c                          | 10 ++++-
- samples/trace_events/trace-events-sample.h |  2 +-
- samples/v4l/v4l2-pci-skeleton.c            | 10 ++---
- 21 files changed, 208 insertions(+), 124 deletions(-)
-
--- 
-Kees Cook
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202401081012.7571CBB%40keescook.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CA%2BfCnZdjF%3D8bchUs1RNA2e%2B8HSZTkOw6Tkz0Ye6Znh%3Dzdf8yrA%40mai=
+l.gmail.com.
