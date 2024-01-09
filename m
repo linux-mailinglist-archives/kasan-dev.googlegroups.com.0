@@ -1,34 +1,34 @@
 Return-Path: <kasan-dev+bncBD4NDKWHQYDRBV4L66WAMGQEOWMO7YQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52F4828F86
+Received: from mail-oo1-xc3b.google.com (mail-oo1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8EC2828F85
 	for <lists+kasan-dev@lfdr.de>; Tue,  9 Jan 2024 23:16:56 +0100 (CET)
-Received: by mail-il1-x13e.google.com with SMTP id e9e14a558f8ab-35f49926297sf44779935ab.3
+Received: by mail-oo1-xc3b.google.com with SMTP id 006d021491bc7-595cbe58e2dsf2403175eaf.0
         for <lists+kasan-dev@lfdr.de>; Tue, 09 Jan 2024 14:16:56 -0800 (PST)
 ARC-Seal: i=2; a=rsa-sha256; t=1704838615; cv=pass;
         d=google.com; s=arc-20160816;
-        b=pQo9e1WQKeulAntx6Ae8Oy3slMQTeLivz2/H1u1IIyxHSwCbydzapqXbjHgM2d+vO8
-         Xm7TWnYrZzIoT9YnmlokR/boj1IUoV8cfYJlezDlP7/YA1F0oDQq0oQgFfyhKvT1rT3E
-         bywkKElXERYCwKo3JWMQS+IPre1z6Fwr1HG1nRXl02NsZvNX5wRvieqhvhA0G72soe88
-         TUSCF6nJwgO6ZqUpFayX1TUA4rWBcjBnB+Si3Y2J8m/xsurYYi8cnm+aSLMpfjbUKUyw
-         B5cnF5r0h9vwnmP7GvHHA57o5xDr2cT04wsQUCZcgrzkDx5mcAjJPOqXewMjFzr+R+Vd
-         VoDQ==
+        b=oPEcz5t4i9htP4Jj/w0f9xBYCHznODW+urVcWbZUxio0xDb9LokNKZKEh7KXaw6GQC
+         djGiJSPY2LkyFo1z5NTp2T6zToQjgdn9plfh6RnsOhUctPD9Aj9Wiv2htZlaghmJ1I8e
+         VImRdhICZ/yX4qvfqI9GUALbt5bem3Y34lBa0uBtS/RPCGdK6QVUdX+qfYrQpPxzkpAA
+         jUxCOOF7QqZK2ZZQUce4cTSXhpU6g0k33lp4c9hhO2IEQXthNE1jGh+mly3FcxNdsHZY
+         Gv6gdBnfkW7i1BhDeBWoP5LXnCaVmSzX9/V7eMOjTrX9Chu1gkqPYSdtUCaC47NWZQ10
+         s/bQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:cc:to:in-reply-to:references
          :message-id:mime-version:subject:date:from:sender:dkim-signature;
-        bh=TEn01WZeKctdtrMDt4JRfe0fcmOOV4gceKF+zkMOgNc=;
-        fh=dTe6zL5Ivivq2KoKBIkxib/65Ipl1ye2APy+yz2cYE8=;
-        b=fcVEfEn8C8ikf8GsUoCAXKoew/P+f0kwR9n0aMpArBzdaWEWmqHyD9aZHq1wJ1xPM3
-         rEwXSECITfv2AZ+QPf90p0zbfsyAucTG2YTHCPq4F6scCiQ5gNTqX97m6rFHOajDTGZO
-         fiYt4ssOwnXL36co1B4zkqKZrkDLmqUJL+1WwBweCbyTMCLdpFoR91gAMBfj8FJPhhyq
-         +m7L54syLpKWFuyM2ZtJeCH6tVLPvYkTvvthEPGWz4QKHzhIix8x7IkdZlCQAUFYOHSQ
-         gwJyQAIRB1rg4iZgJS/94Qj7x+rvRMO3GMQW9smSms+uZcOw8Xhbiaw5pt9ZiG+TtWYQ
-         /HjQ==
+        bh=NomDBRp+LvPiZrLnYJilAkJp5E/AVkXUo0CFpWXaEc8=;
+        fh=U610rwpBWzjqqwzWB+qVKy6HwACT/aT32/o8U6KTT3E=;
+        b=f3xk/OnWCpU3/UTYp4FNLeP7R6e5czVMO/rPGeo124zKme9dor7H/Bk6hKyTMq5XuO
+         Mb0Nu8xyPv8X9ew4pSP5u5mzL6fpbezK6OirGdjET9jl+b78L13XAOLM9JUTztFnmmM9
+         SBPb7U9w4tP8NDtaSX4nePsJO2y1+Rir4ypisN/LXYI9+86J9/amXGQZEtQV+fMJQT1h
+         USaFTiX/l2Yk4m8e7zIXnSKmA2j4xGPaiGcSovO3WxV/4VE0WLAyPODlmMT8BEHHLGk+
+         b3HoI1InMSkvM3NByfA7O+ugjyDk1RsBrL6ANq/Yze01kuYim9NA9MYNccRP5R5P08eC
+         Qt7g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=nwd91x1d;
-       spf=pass (google.com: domain of nathan@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=nathan@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=DcHElP87;
+       spf=pass (google.com: domain of nathan@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=nathan@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20230601; t=1704838615; x=1705443415; darn=lfdr.de;
@@ -37,13 +37,13 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-sender:cc:to:in-reply-to:references:message-id
          :mime-version:subject:date:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TEn01WZeKctdtrMDt4JRfe0fcmOOV4gceKF+zkMOgNc=;
-        b=AKGfEvd4SEJa3/D+A+UwbZQCi9180pED1vUPZ3PY0+1h73JFDWz8AOQYpgJbejBmkp
-         Y+pfJc4oIJ5Q0CGflXbb9HRALrRyBAGjTETPZizS/nEODgYu5vK/ZUEV6MTMDMXOJVo0
-         +tuI4rj4X+14pwCKMDwP+z8a7n6f7ooGI1X3swU/qvQyz6npiqN1wCzGdkJJLHZBn3Bm
-         ucEO8A698qZ43dfyVpM4Hzzu24/tkCNK0iKNzaDfdbFgXuvErWk5WsJt1Xhv4eKIAoSX
-         gzvF30f3VosEgL3e+vOtjyJAALFNI7mMbNSpai4fEEIfR/RuXxMoRfD+/8syNDhSVgsg
-         R6Gg==
+        bh=NomDBRp+LvPiZrLnYJilAkJp5E/AVkXUo0CFpWXaEc8=;
+        b=rXDae6hEpNCQc43rgSdzdS92vO9u6iK6DB8/zZLWCaOL8yYeCHLH6aKvGI2MJVEjEV
+         xSaS+zWiD4+1a6wFvtzndSZ1iJoAuP6mK1szBJhzi7NAVxV0otQVhKrvRHI3XfZmJXOP
+         3GZlDOvPn+Ltpmgrpb3s+ZEtT5bRCmi7cZHtxctdulx0afsA9kGHg8WjR3eqgcqtzY9a
+         2baOE7YuNdE+ly9w8D7AED14qbTzEzTodxVV7EXEwHZaUQ73QF0x4LZXv67tHZ+6umU5
+         0GynvBOwjomnOXcZPN33hUCMdyDdDGR8Nzwh6/nygneswGYiCTeDk2SVI/Y6LnvqjIh2
+         c7dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1704838615; x=1705443415;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -52,65 +52,65 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :in-reply-to:references:message-id:mime-version:subject:date:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TEn01WZeKctdtrMDt4JRfe0fcmOOV4gceKF+zkMOgNc=;
-        b=uKfglAMhejMkjUjTDyww4FRwgxPS/Thi3Vs/ZME1ImPp6UuM2HQWsedD96a82SkEyk
-         YUlt4HxVdPN+Hy3HJhzyh1H/kB/6gcqWzoHACNzcE9ggZ6lABebz322w8RjmTLDs/zgT
-         EqGIuumh8XUoGpEK+RwTjvw/YTkjQYeD+wWK8CxyNGJ3CtjGwiJeup5l1zlGpAPMrNWa
-         wfjxjgXMirL4cB0MWTD4sPhene7nfGmzlyZjllJ3iBsFpqlZoatDngJcYTDeWT2vg8W2
-         l1HknuW0mkUKZQ5R0+1Y5jNtMDi7JT4HbT/HxWUpTqwzu17Ow/MPY6pnPH9bUyTYt+jr
-         Q+/g==
+        bh=NomDBRp+LvPiZrLnYJilAkJp5E/AVkXUo0CFpWXaEc8=;
+        b=X/y6L1LCd/EW2HKUstf6HA6kQ7dIcxhVtzIiGEYezWeTg/M/qdT4smh2YYIMRzYItD
+         oZayhFCGz04a9OEFJGT+Q/vOna025ugUVuzgXJEFodP4D/J1pP6D2C/RFrNrgF7ZLm9X
+         NmYkmQsudGwH1MJlbtlSm4ROxmS7G34dLLf28FSrrBWTCpT4E45I0LhohP+Ye207Z3ay
+         dCgqisz66ftyTqDH+fpuM7rhj3j/dB9BFBHbJG0pkAZFEgqoG723IW2GQbJr38lNTkjm
+         nx9HaY8EjaK87EMONZdpj5egh5l7GI6sj51IpdGWQURAsu2MUj/XItwp99ntzWuPQrE5
+         djUg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YxMuxqSwbdgRQTUEQjLouWw6dA2pxd8TJLQBgbI3jG/ugp4voTO
-	UV8SdW2ogSd2XcTVyr8bCAI=
-X-Google-Smtp-Source: AGHT+IGGRIVknVmsIW0Bss5tC3lQkORqP2HAcAtAX4seJkADcRp5q7AVvAV0EwuscYJK4ayU3eqTFA==
-X-Received: by 2002:a92:ca0f:0:b0:360:615d:5612 with SMTP id j15-20020a92ca0f000000b00360615d5612mr136843ils.57.1704838615410;
+X-Gm-Message-State: AOJu0YzLGbIbvSlU6AFG++A9TZJl/Ng5Gju85v8puwHVKF9aLHxmBNWA
+	Ul5e0uR4bmMXg1kFnMyJEO4=
+X-Google-Smtp-Source: AGHT+IFXS02cBgfAoYUojDR/aB4W93qNOWLCLIA2EIXzQIJbU1oV4aBKU5ik7hT3k6H0c+ATS8lINQ==
+X-Received: by 2002:a05:6820:2382:b0:596:1aaf:ef17 with SMTP id co2-20020a056820238200b005961aafef17mr105482oob.17.1704838615487;
         Tue, 09 Jan 2024 14:16:55 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:50d:b0:360:16bb:ff94 with SMTP id
- d13-20020a056e02050d00b0036016bbff94ls753553ils.0.-pod-prod-02-us; Tue, 09
+Received: by 2002:a05:6820:2214:b0:598:3899:43dc with SMTP id
+ cj20-20020a056820221400b00598389943dcls1920005oob.1.-pod-prod-06-us; Tue, 09
  Jan 2024 14:16:54 -0800 (PST)
-X-Received: by 2002:a6b:e60f:0:b0:7bb:dd2f:477a with SMTP id g15-20020a6be60f000000b007bbdd2f477amr142297ioh.13.1704838613726;
-        Tue, 09 Jan 2024 14:16:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1704838613; cv=none;
+X-Received: by 2002:a05:6830:718e:b0:6dc:776:2eb2 with SMTP id el14-20020a056830718e00b006dc07762eb2mr35510otb.62.1704838614159;
+        Tue, 09 Jan 2024 14:16:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1704838614; cv=none;
         d=google.com; s=arc-20160816;
-        b=gKW1hBBu120OxY2Ir+KQorJX365+CBiPNkQ4q47PnF2QPvB7+jRMY/7cLFMjIzCsl8
-         o7D6T7khxBsphduZRmtjS65FEuedWK0vnAMZWTfp8W+51WsQ7pY7A7ZQT1fpntNWjka6
-         txEPiyBAOJVmO05uDy/obp7LgKx5NXgVVK2w2UKsyMDXDFnybpXr09ETrlMt/czH1/Jl
-         GtG4dsgzyOL+0D05Ke61L71enaNbbiqc3/Gy8/2UbiLe0ME4u8e68QAa8Cj55GlqEMh9
-         zGWdp1SHp38Qk4HKXgOYhtDzmVlKoBhwNn3AGw7PeIsyG0JG9XIX9hgFZ53S2O6kf+1m
-         4JjA==
+        b=v5BYKrhSiYW7kOEGxBWxdFUHXGdIX8vE//wtJrl1kad/DIULO4Uxq2DYWbKOt/xuLl
+         +VDwFQzi9263bAhUm45C96R3AjOt/K0riXD4eQgMSB9Fof4jC14tEun8NzYTqRo1GJW+
+         HBlVy/H4yI+Dt1z+X3L2bEcc0PjWh09m+ujhvzFv5IRZtOgeTvPwDLD+uXCC8HhzNsBy
+         Vh+znKX/Dj7KJCeUkNIkcGxuV4PCdwuy3BPk93O90YpLfArwVCm2GRrGRe8lvltkrr9J
+         fpe3PxUUdds/J98ZmTdhS/Pb/DDC/NgIsycWPkVoSoOBlgK0NBHl4SMZm8hqCrBFgt+W
+         1ssg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:dkim-signature;
-        bh=A/YH3B9yUYFhZKC27yo0w0Zww0sg09I4AJ3N1zIXhqc=;
-        fh=dTe6zL5Ivivq2KoKBIkxib/65Ipl1ye2APy+yz2cYE8=;
-        b=lJWu9qFNJEkg+uhBSd44H7J3lAx07MvsAhGfsvgB0to92wKlJUhr1sT6u8rXnbmKzh
-         2qBuWwBs5Qo4pYLh9zT2Nk41k1EyT/auLVrQ0aaWWBwqgD0LgWkc9DK54xP6OGj2sE9J
-         crI4pgy7MsSsqHBOZkt4twUn/CBGhwIrJN6s7+jFUoaSzaf0m7b9jVgPuwl8mBOQU8Jw
-         ibVliTcrqY7FV9WMtaK0cIftHFTciCQ7m+kxc3ViI3gcnxnfEm5p+4Vl1FkXu6mJFy2G
-         lpTVC2hXIFM3PSAE6WWsdYw9YAEUB54Dkj1pu7rHetkB6tpZolxjUDS7ZeEw1eoNmzp3
-         K9+w==
+        bh=VtZ/OaS/oLDZxnbof29aK3bK4DqiEKpmYUBNnfxrZHg=;
+        fh=U610rwpBWzjqqwzWB+qVKy6HwACT/aT32/o8U6KTT3E=;
+        b=Y8oQ4gWrbKqCTd+KNwdJqig5Yq4RDfbNw47GZfbFAHLOQYt+bYrr4aMY7oeX657b07
+         UiGDI20lzPI0TAh8RqV+hkrzG3wfHeTX3kGQWhmKOVCsf323b3ylcHauO+7E/R2HTlFL
+         8BhA1muGPRtVbqhJwx9kjtI+PhkhWcObrOJG5rTz0MMfkU8kSaFX5niKp3WBgVfZ0EYX
+         Hr9x4m2Vtf0Pwwp4RtrecHgbrWITXmMk8vRoUPOB0AzMTEp/tD1/0G9ZS5D5BAnPzrpB
+         tWx6j4QE7UV60FLi8aWHRFjoeGwkXUdvy1p6fKtWQsmPdUMINlrbYeDOjR2JAy4PDa7G
+         wm0A==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=nwd91x1d;
-       spf=pass (google.com: domain of nathan@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=nathan@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=DcHElP87;
+       spf=pass (google.com: domain of nathan@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=nathan@kernel.org;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id v26-20020a6b611a000000b007bef30e05ebsi45033iob.4.2024.01.09.14.16.53
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id di12-20020a0568303a0c00b006dbfec84c32si260030otb.5.2024.01.09.14.16.54
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jan 2024 14:16:53 -0800 (PST)
-Received-SPF: pass (google.com: domain of nathan@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+        Tue, 09 Jan 2024 14:16:54 -0800 (PST)
+Received-SPF: pass (google.com: domain of nathan@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 3FC2461595;
+	by dfw.source.kernel.org (Postfix) with ESMTP id DDA6C6153B;
 	Tue,  9 Jan 2024 22:16:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65911C43390;
-	Tue,  9 Jan 2024 22:16:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 123A1C3277D;
+	Tue,  9 Jan 2024 22:16:52 +0000 (UTC)
 From: Nathan Chancellor <nathan@kernel.org>
-Date: Tue, 09 Jan 2024 15:16:29 -0700
-Subject: [PATCH 1/3] selftests/bpf: Update LLVM Phabricator links
+Date: Tue, 09 Jan 2024 15:16:30 -0700
+Subject: [PATCH 2/3] arch and include: Update LLVM Phabricator links
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Message-Id: <20240109-update-llvm-links-v1-1-eb09b59db071@kernel.org>
+Message-Id: <20240109-update-llvm-links-v1-2-eb09b59db071@kernel.org>
 References: <20240109-update-llvm-links-v1-0-eb09b59db071@kernel.org>
 In-Reply-To: <20240109-update-llvm-links-v1-0-eb09b59db071@kernel.org>
 To: akpm@linux-foundation.org
@@ -124,22 +124,20 @@ Cc: llvm@lists.linux.dev, patches@lists.linux.dev,
  linux-media@vger.kernel.org, linux-arch@vger.kernel.org, 
  kasan-dev@googlegroups.com, linux-mm@kvack.org, bridge@lists.linux.dev, 
  netdev@vger.kernel.org, linux-security-module@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
- ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, mykolal@fb.com, 
- bpf@vger.kernel.org
+ linux-kselftest@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>
 X-Mailer: b4 0.13-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7587; i=nathan@kernel.org;
- h=from:subject:message-id; bh=eFscEoCIAi+UJQp3abWYRAO4Lvaf4O8cRgQlKNDdBDE=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDKlzj15IUNPmFinNmNO40TyB+eHTwFMf6kVvPC5Rrjn6Z
- JdC/PJtHaUsDGJcDLJiiizVj1WPGxrOOct449QkmDmsTCBDGLg4BWAiwu8YGVbUeWkdrFi1UUdq
- 4sron76zUsq4BZg2/XauNjb4rF67R4iR4W11UIPnynvJDpfc96myPrzLNvclj2HuZymRz+4ctQ5
- n2AA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3768; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=FqUV9XbJobSbmU63Vc9OUMUQcPG9O3IVnKnVxKihgqg=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDKlzj14wLXz9bOkxsYsrTGYdLPdQyNrnvz59Sf7hWSzS5
+ avzyrO5O0pZGMS4GGTFFFmqH6seNzScc5bxxqlJMHNYmUCGMHBxCsBEuHQYGY67OxucPlmQ4Skk
+ bzsxKZ793GXTxU+kr3sE7umaHJ1xyIeR4V+622l/ZUP3AsYOg2ahGcz/dlh+redryHGc4DIv7X4
+ mHwA=
 X-Developer-Key: i=nathan@kernel.org; a=openpgp;
  fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 X-Original-Sender: nathan@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=nwd91x1d;       spf=pass
- (google.com: domain of nathan@kernel.org designates 139.178.84.217 as
+ header.i=@kernel.org header.s=k20201202 header.b=DcHElP87;       spf=pass
+ (google.com: domain of nathan@kernel.org designates 2604:1380:4641:c500::1 as
  permitted sender) smtp.mailfrom=nathan@kernel.org;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
@@ -165,154 +163,76 @@ Most of the commits have the corresponding differential review link in
 the commit message itself so there should not be any loss of fidelity in
 the relevant information.
 
-Additionally, fix a typo in the xdpwall.c print ("LLMV" -> "LLVM") while
-in the area.
-
 Link: https://discourse.llvm.org/t/update-on-github-pull-requests/71540/172
 Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 ---
-Cc: ast@kernel.org
-Cc: daniel@iogearbox.net
-Cc: andrii@kernel.org
-Cc: mykolal@fb.com
-Cc: bpf@vger.kernel.org
-Cc: linux-kselftest@vger.kernel.org
----
- tools/testing/selftests/bpf/README.rst             | 32 +++++++++++-----------
- tools/testing/selftests/bpf/prog_tests/xdpwall.c   |  2 +-
- .../selftests/bpf/progs/test_core_reloc_type_id.c  |  2 +-
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ arch/arm64/Kconfig              | 4 ++--
+ arch/riscv/Kconfig              | 2 +-
+ arch/riscv/include/asm/ftrace.h | 2 +-
+ include/linux/compiler-clang.h  | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/tools/testing/selftests/bpf/README.rst b/tools/testing/selftests/bpf/README.rst
-index cb9b95702ac6..b9a493f66557 100644
---- a/tools/testing/selftests/bpf/README.rst
-+++ b/tools/testing/selftests/bpf/README.rst
-@@ -115,7 +115,7 @@ the insn 20 undoes map_value addition. It is currently impossible for the
- verifier to understand such speculative pointer arithmetic.
- Hence `this patch`__ addresses it on the compiler side. It was committed on llvm 12.
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 7b071a00425d..3304ba7c6c2a 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -380,7 +380,7 @@ config BROKEN_GAS_INST
+ config BUILTIN_RETURN_ADDRESS_STRIPS_PAC
+ 	bool
+ 	# Clang's __builtin_return_adddress() strips the PAC since 12.0.0
+-	# https://reviews.llvm.org/D75044
++	# https://github.com/llvm/llvm-project/commit/2a96f47c5ffca84cd774ad402cacd137f4bf45e2
+ 	default y if CC_IS_CLANG && (CLANG_VERSION >= 120000)
+ 	# GCC's __builtin_return_address() strips the PAC since 11.1.0,
+ 	# and this was backported to 10.2.0, 9.4.0, 8.5.0, but not earlier
+@@ -2202,7 +2202,7 @@ config STACKPROTECTOR_PER_TASK
  
--__ https://reviews.llvm.org/D85570
-+__ https://github.com/llvm/llvm-project/commit/ddf1864ace484035e3cde5e83b3a31ac81e059c6
+ config UNWIND_PATCH_PAC_INTO_SCS
+ 	bool "Enable shadow call stack dynamically using code patching"
+-	# needs Clang with https://reviews.llvm.org/D111780 incorporated
++	# needs Clang with https://github.com/llvm/llvm-project/commit/de07cde67b5d205d58690be012106022aea6d2b3 incorporated
+ 	depends on CC_IS_CLANG && CLANG_VERSION >= 150000
+ 	depends on ARM64_PTR_AUTH_KERNEL && CC_HAS_BRANCH_PROT_PAC_RET
+ 	depends on SHADOW_CALL_STACK
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index cd4c9a204d08..f7453eba0b62 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -291,7 +291,7 @@ config AS_HAS_INSN
+ 	def_bool $(as-instr,.insn r 51$(comma) 0$(comma) 0$(comma) t0$(comma) t0$(comma) zero)
  
- The corresponding C code
+ config AS_HAS_OPTION_ARCH
+-	# https://reviews.llvm.org/D123515
++	# https://github.com/llvm/llvm-project/commit/9e8ed3403c191ab9c4903e8eeb8f732ff8a43cb4
+ 	def_bool y
+ 	depends on $(as-instr, .option arch$(comma) +m)
+ 	depends on !$(as-instr, .option arch$(comma) -i)
+diff --git a/arch/riscv/include/asm/ftrace.h b/arch/riscv/include/asm/ftrace.h
+index 2b2f5df7ef2c..3f526404a718 100644
+--- a/arch/riscv/include/asm/ftrace.h
++++ b/arch/riscv/include/asm/ftrace.h
+@@ -15,7 +15,7 @@
  
-@@ -165,7 +165,7 @@ This is due to a llvm BPF backend bug. `The fix`__
- has been pushed to llvm 10.x release branch and will be
- available in 10.0.1. The patch is available in llvm 11.0.0 trunk.
- 
--__  https://reviews.llvm.org/D78466
-+__  https://github.com/llvm/llvm-project/commit/3cb7e7bf959dcd3b8080986c62e10a75c7af43f0
- 
- bpf_verif_scale/loop6.bpf.o test failure with Clang 12
- ======================================================
-@@ -204,7 +204,7 @@ r5(w5) is eventually saved on stack at insn #24 for later use.
- This cause later verifier failure. The bug has been `fixed`__ in
- Clang 13.
- 
--__  https://reviews.llvm.org/D97479
-+__  https://github.com/llvm/llvm-project/commit/1959ead525b8830cc8a345f45e1c3ef9902d3229
- 
- BPF CO-RE-based tests and Clang version
- =======================================
-@@ -221,11 +221,11 @@ failures:
- - __builtin_btf_type_id() [0_, 1_, 2_];
- - __builtin_preserve_type_info(), __builtin_preserve_enum_value() [3_, 4_].
- 
--.. _0: https://reviews.llvm.org/D74572
--.. _1: https://reviews.llvm.org/D74668
--.. _2: https://reviews.llvm.org/D85174
--.. _3: https://reviews.llvm.org/D83878
--.. _4: https://reviews.llvm.org/D83242
-+.. _0: https://github.com/llvm/llvm-project/commit/6b01b465388b204d543da3cf49efd6080db094a9
-+.. _1: https://github.com/llvm/llvm-project/commit/072cde03aaa13a2c57acf62d79876bf79aa1919f
-+.. _2: https://github.com/llvm/llvm-project/commit/00602ee7ef0bf6c68d690a2bd729c12b95c95c99
-+.. _3: https://github.com/llvm/llvm-project/commit/6d218b4adb093ff2e9764febbbc89f429412006c
-+.. _4: https://github.com/llvm/llvm-project/commit/6d6750696400e7ce988d66a1a00e1d0cb32815f8
- 
- Floating-point tests and Clang version
- ======================================
-@@ -234,7 +234,7 @@ Certain selftests, e.g. core_reloc, require support for the floating-point
- types, which was introduced in `Clang 13`__. The older Clang versions will
- either crash when compiling these tests, or generate an incorrect BTF.
- 
--__  https://reviews.llvm.org/D83289
-+__  https://github.com/llvm/llvm-project/commit/a7137b238a07d9399d3ae96c0b461571bd5aa8b2
- 
- Kernel function call test and Clang version
- ===========================================
-@@ -248,7 +248,7 @@ Without it, the error from compiling bpf selftests looks like:
- 
-   libbpf: failed to find BTF for extern 'tcp_slow_start' [25] section: -2
- 
--__ https://reviews.llvm.org/D93563
-+__ https://github.com/llvm/llvm-project/commit/886f9ff53155075bd5f1e994f17b85d1e1b7470c
- 
- btf_tag test and Clang version
- ==============================
-@@ -264,8 +264,8 @@ Without them, the btf_tag selftest will be skipped and you will observe:
- 
-   #<test_num> btf_tag:SKIP
- 
--.. _0: https://reviews.llvm.org/D111588
--.. _1: https://reviews.llvm.org/D111199
-+.. _0: https://github.com/llvm/llvm-project/commit/a162b67c98066218d0d00aa13b99afb95d9bb5e6
-+.. _1: https://github.com/llvm/llvm-project/commit/3466e00716e12e32fdb100e3fcfca5c2b3e8d784
- 
- Clang dependencies for static linking tests
- ===========================================
-@@ -274,7 +274,7 @@ linked_vars, linked_maps, and linked_funcs tests depend on `Clang fix`__ to
- generate valid BTF information for weak variables. Please make sure you use
- Clang that contains the fix.
- 
--__ https://reviews.llvm.org/D100362
-+__ https://github.com/llvm/llvm-project/commit/968292cb93198442138128d850fd54dc7edc0035
- 
- Clang relocation changes
- ========================
-@@ -292,7 +292,7 @@ Here, ``type 2`` refers to new relocation type ``R_BPF_64_ABS64``.
- To fix this issue, user newer libbpf.
- 
- .. Links
--.. _clang reloc patch: https://reviews.llvm.org/D102712
-+.. _clang reloc patch: https://github.com/llvm/llvm-project/commit/6a2ea84600ba4bd3b2733bd8f08f5115eb32164b
- .. _kernel llvm reloc: /Documentation/bpf/llvm_reloc.rst
- 
- Clang dependencies for the u32 spill test (xdpwall)
-@@ -304,6 +304,6 @@ from running test_progs will look like:
- 
- .. code-block:: console
- 
--  test_xdpwall:FAIL:Does LLVM have https://reviews.llvm.org/D109073? unexpected error: -4007
-+  test_xdpwall:FAIL:Does LLVM have https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d5? unexpected error: -4007
- 
--__ https://reviews.llvm.org/D109073
-+__ https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d
-diff --git a/tools/testing/selftests/bpf/prog_tests/xdpwall.c b/tools/testing/selftests/bpf/prog_tests/xdpwall.c
-index f3927829a55a..4599154c8e9b 100644
---- a/tools/testing/selftests/bpf/prog_tests/xdpwall.c
-+++ b/tools/testing/selftests/bpf/prog_tests/xdpwall.c
-@@ -9,7 +9,7 @@ void test_xdpwall(void)
- 	struct xdpwall *skel;
- 
- 	skel = xdpwall__open_and_load();
--	ASSERT_OK_PTR(skel, "Does LLMV have https://reviews.llvm.org/D109073?");
-+	ASSERT_OK_PTR(skel, "Does LLVM have https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d5?");
- 
- 	xdpwall__destroy(skel);
- }
-diff --git a/tools/testing/selftests/bpf/progs/test_core_reloc_type_id.c b/tools/testing/selftests/bpf/progs/test_core_reloc_type_id.c
-index 22aba3f6e344..6fc8b9d66e34 100644
---- a/tools/testing/selftests/bpf/progs/test_core_reloc_type_id.c
-+++ b/tools/testing/selftests/bpf/progs/test_core_reloc_type_id.c
-@@ -80,7 +80,7 @@ int test_core_type_id(void *ctx)
- 	 * to detect whether this test has to be executed, however strange
- 	 * that might look like.
- 	 *
--	 *   [0] https://reviews.llvm.org/D85174
-+	 *   [0] https://github.com/llvm/llvm-project/commit/00602ee7ef0bf6c68d690a2bd729c12b95c95c99
- 	 */
- #if __has_builtin(__builtin_preserve_type_info)
- 	struct core_reloc_type_id_output *out = (void *)&data.out;
+ /*
+  * Clang prior to 13 had "mcount" instead of "_mcount":
+- * https://reviews.llvm.org/D98881
++ * https://github.com/llvm/llvm-project/commit/ef58ae86ba778ed7d01cd3f6bd6d08f943abab44
+  */
+ #if defined(CONFIG_CC_IS_GCC) || CONFIG_CLANG_VERSION >= 130000
+ #define MCOUNT_NAME _mcount
+diff --git a/include/linux/compiler-clang.h b/include/linux/compiler-clang.h
+index ddab1ef22bee..f0a47afef125 100644
+--- a/include/linux/compiler-clang.h
++++ b/include/linux/compiler-clang.h
+@@ -9,7 +9,7 @@
+  * Clang prior to 17 is being silly and considers many __cleanup() variables
+  * as unused (because they are, their sole purpose is to go out of scope).
+  *
+- * https://reviews.llvm.org/D152180
++ * https://github.com/llvm/llvm-project/commit/877210faa447f4cc7db87812f8ed80e398fedd61
+  */
+ #undef __cleanup
+ #define __cleanup(func) __maybe_unused __attribute__((__cleanup__(func)))
 
 -- 
 2.43.0
@@ -320,4 +240,4 @@ index 22aba3f6e344..6fc8b9d66e34 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240109-update-llvm-links-v1-1-eb09b59db071%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240109-update-llvm-links-v1-2-eb09b59db071%40kernel.org.
