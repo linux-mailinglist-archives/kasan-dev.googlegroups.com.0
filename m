@@ -1,143 +1,157 @@
-Return-Path: <kasan-dev+bncBD4NDKWHQYDRBFUIQGWQMGQEIOV2SOI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCUY5FXDWACRBAESQGWQMGQECYPBAQA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x639.google.com (mail-pl1-x639.google.com [IPv6:2607:f8b0:4864:20::639])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2227082B544
-	for <lists+kasan-dev@lfdr.de>; Thu, 11 Jan 2024 20:40:08 +0100 (CET)
-Received: by mail-pl1-x639.google.com with SMTP id d9443c01a7336-1d45ddf3f58sf51543795ad.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 11 Jan 2024 11:40:08 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1705002006; cv=pass;
+Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3793682B59A
+	for <lists+kasan-dev@lfdr.de>; Thu, 11 Jan 2024 21:01:06 +0100 (CET)
+Received: by mail-lj1-x23e.google.com with SMTP id 38308e7fff4ca-2cd853c15adsf11357461fa.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 11 Jan 2024 12:01:06 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1705003265; cv=pass;
         d=google.com; s=arc-20160816;
-        b=zJjW7r33QnKQ/FeBs9PpyMELgX8SJ5vDhHMI3nCyHklJDgTNvrt8HxrsQvKLhhVM6H
-         zm4KsbX6En/ERUtuqSX0mgkXLI49y2G2NnX72Q9GqqlldzU/LytaRuib87wcWdpzdoDL
-         KJgj7kovPrAhPbyMOdXCy9mb4QvUMfx3T9L31RgHLQ6uPC0IXo1t4xmGlSp/PNl5x/rm
-         v9e8faz4m58XLIdeSyIuKBZwviFaEPHh4+kjy0A0IIbEM6sFJ8mJ2n2stzxzlo+aiZXt
-         VBWdqcs1smUUebp7jAKl8m1Y/XUALa4sugpTk0+FPc2yn3eC5sviYrP/Prfseh8nLrgq
-         RUUQ==
+        b=ydSq+uzstzb30MVlCh8zkyxds8nlN4TIHDhF7mI+KpGr7vRvVGIvyG2MCDt/K42vzf
+         gPMZMtUnDve5+mYxSSqZz7S2NQGHCHnEewI0zqs7/uq+OHIetnyrtCSPLhOo/RwEdrok
+         LlOJ5FBbwTMCXR+MD7KpNgcCTZT2z9yAkv54mZX3MnXx89IfM5LJmCgU8pkoUgzaN+mq
+         qhz67FNZ5rSG1kq/1l1BlAyvvUlMST7zfCgJ50+VEp4kUApzKWt4hSC9jnxEkaDCSSZT
+         1BbwInO5T24Uf6NneQJE6AvyxFneWw0CobF8KMmUgcYFhL4ZokMDyZ85ZofjSOLmWMLR
+         R16g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=iHXcVl+jj6maXBRkFFLP0t9OA4W78evmwBufN11nnPw=;
-        fh=yZJprR9knx02hZVZC51uBBQnXo9wgyDZ8RtR+dxDSwI=;
-        b=emwO925gbxhNg18WqjBulZn7NxdJf86AIzFpDLBU2Yu4iGnNuuAdiCzV5n6zrKkCU5
-         QWKzMhzV3YN28gxAzDNVWuclYB65/GdUaUYT3sKzzn6gOSaWhTb8e3TMhK1PBuPq90K0
-         nkh0X7qIeH2D5GXYDiop64VEHn3rwPJRdti+BjvGCQFd0Bk5D+7KYKRHtMhcNJg1jyDJ
-         9cU8tqEoTDX86OEn6WnyMkdxIhoStzg+E6L9v5d04kwNOwzyRgt7lsoch7syqG+H6qlG
-         Yh8aNcFq5koyQ8rK1YsDta3rewjbOlR0l9OMTcn6W26tc7Xb6hXI0oWx+BYLMUG3j/aR
-         Ya5Q==
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=qZwuTlESyac9yecgf3KyA0+dUp4xzso26Ua9MnZGxHE=;
+        fh=ZJ0NZ8AQRkZSiH8KlDE2U8gDQTDcD4o+PXLVSJ3H2O0=;
+        b=EFbd9x8jVh8NNfSWz0oQOFZidDBRh5sO3i1QioOKCoYcgLWGqBkGSI92l6xL7/8vq+
+         8EfpRhnfAXcsLGhfjWKd7gACregjSGeF+IAwvpCkG99OocIRHp+AF4eN+WrAfm5dfePW
+         z340Q5FqPVBUCNS6DGK8qmMIfl+hLcO9wpns9aXAVatxfbQ0bkKoLKQ2yqFMEBRPOQ5z
+         e0ckg1e7Lj+gQgLkTzEK/JKKOAB1xOGTegFcORlBZkXBHdpPsfy6QUCypJxqjHhCSgDD
+         QkBAJMNSd7IrtR3Kzo1KpRUc53pQiNWaj4MVo2KYHR4Jy0s6MUNzMTYHNpDEWC1dhWd7
+         cDcg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=SPPtBjPT;
-       spf=pass (google.com: domain of nathan@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=nathan@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=deejydPh;
+       spf=pass (google.com: domain of alexei.starovoitov@gmail.com designates 2a00:1450:4864:20::329 as permitted sender) smtp.mailfrom=alexei.starovoitov@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1705002006; x=1705606806; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1705003265; x=1705608065; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qZwuTlESyac9yecgf3KyA0+dUp4xzso26Ua9MnZGxHE=;
+        b=Dj2776iMYILyGVfTKa/ZX5No3e/YYABr8n6maDdM5mce406B7WjYtc8GJCTcMKdfzB
+         WwYlG8KnOeMD2v8MfqPByi8YME6ogWuhIMxaNQT/VROFXbrk5e2S5PJwk/2JxRw8UfdD
+         5SilGAKW17LBp0G6cdXY2b+M8ik0HHNfSIpkrwNsHptnvgec/HFfUai8YBn3VImuozDs
+         c1SAVCj90IdKElSO5e7wyKZ6GZS+r6VnfFnbEc74SQlpTOcc/5KAis3mFbVWIattWfFQ
+         oeL4iQHzPDFKYkep7PPza6E8sNFAXPjEOxesEyRgnzxaEU0jTwf8T/bav3zBF5GpIJYV
+         5Utw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705003265; x=1705608065; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iHXcVl+jj6maXBRkFFLP0t9OA4W78evmwBufN11nnPw=;
-        b=lS4BVR8ZhQKmB6FGu2ketRWyOShYhwec9c3o2D7HsH022RoAJY6mXWmjRK1GDJFLJX
-         ufh8vRGaToQZu0OtcdyYOy0r6PRtbxd8dbQk0iQ0fXoqggUV+SImMcJoakzCSMLuAj6B
-         reJjY2NaiGFjoOgPJ2cbWXPZdjDZA+7B3Ae505LqzXGkShfT0JficziV/ZsamklSQinS
-         PW44jo/1zdg/lLuMCKLD/gzC/BuMUGE3I84YybIYUmYnp+KqZ/Q0pK1EEyFNOMqVUZDB
-         2axwc1a/YCeU36eJTTYwrGW0zY8E8meIrbAi55cLl/G3qIwLI3LMfNxx4MJVAx3KkBAP
-         lrHA==
+        bh=qZwuTlESyac9yecgf3KyA0+dUp4xzso26Ua9MnZGxHE=;
+        b=fqAyeba4f+x/4J8B1GFH+N4035Wgm6JiIQHihSyfEDvOReTX0VbKs5gWB7j8LWNH5s
+         eOzvJt0hm4MhdgPYzrTJ7t8Q0gT+qWIrEPNT+7DEEUN1o735VoxS192nVKsT224JnWB/
+         s1w8MXuDrzYY1L8C7kBj4+IXCD2xjKIjUf/j5tpRknfjqHbq2i2Al8Zwrp8lkfgM7IMa
+         i76a3Z07TCm3zqxxtkpS13TnMxJoMkPiNcZJssnz6TES57gr20g6l7q/RjRlewWf3vwC
+         pDeQ6Mz70IsDN4iA8i2jNeuc75RJsAJGfctTqOuW4u8TiX9zUvBAhsjsr3A1/WXE47pV
+         xDgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705002006; x=1705606806;
+        d=1e100.net; s=20230601; t=1705003265; x=1705608065;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iHXcVl+jj6maXBRkFFLP0t9OA4W78evmwBufN11nnPw=;
-        b=Pz3TnXefulY7PUR67/9AoObBPFbF8z4gfMcyLCiYdi703gSyJEbS7kjd+zhHqemlgx
-         lGMggrB0D9j8E4PhNa3Lwpwetx1V4myFegrBO1eaHRNSp62adulP2/3MPOR8hNHlRUEm
-         hft+zqFiWCEaSQdmbnalxAZtP16Ybmo+2uhql0U4pXZqPkWeSWbu+IWhRUtcp60k/2pW
-         Yzos3P+2D9K4FQGhmnqtcKKmcIq7gg8iDwFmV44fsufv54/kPV280/WZ3X9XQLm+elC7
-         eyv7cTST3ofktNt0IsQET8ZHJXIKq6iROc9BumokbjEXabefvOz4dzxNy3vO8HLLs7TW
-         Q14w==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=qZwuTlESyac9yecgf3KyA0+dUp4xzso26Ua9MnZGxHE=;
+        b=BMhKreifN0NyOgbtj2ZRU08hX7Ukr15uOS0nfLsaQM85qCV2w23+Q+rUWd+MXjRjQd
+         TdAHe01BR/wBeyOGYvOd1Z6r1DsFx8XCCa7CuwmF5PMZI3KovjDDKqe0ab+lS3KbpTGP
+         yAohLPuzZze3dq/uVr+5suxzJ5ZFbWCXYi4HYkoGHDPz8pzo2A6dG/+RpRKa7dWT59Re
+         0Ho1trXHsKF5Tiw5faIbBE5bwLsZuLiJm/XEqP+fq12YHqv7HD8WUXdOTaThIKzMQBkj
+         H73L2FmDdBL6nqDQAn3IdbD1SVi8iUvj4Spcqr0Ny5pO/cyZjxo6AFb8JKBOK9qRvXIK
+         OFxQ==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YwmvAbLuJrHFRC+ZR+hU0Lk8PlO/UDPjWyqwegawuAW4/urEmXi
-	e5LFaO+9SHV8WOpeszJx1rY=
-X-Google-Smtp-Source: AGHT+IGJunuf0b25os5lggghufwJ/eQF+bF5tBKgLp5NoEXnYry7JctNeZdu86au5BURKqUyy1S7GQ==
-X-Received: by 2002:a17:902:654e:b0:1d4:bb7a:4b6a with SMTP id d14-20020a170902654e00b001d4bb7a4b6amr209605pln.6.1705002006392;
-        Thu, 11 Jan 2024 11:40:06 -0800 (PST)
+X-Gm-Message-State: AOJu0YxhZVpY2jb2tSZNfTRcpmgOsL3Zo9fgrVwD2PeeNcAre5pEOnF5
+	gtDqOTPz55um/Zn/vkwgQkE=
+X-Google-Smtp-Source: AGHT+IF3Nzf3UAWs8aat/08jo3hYjpfDfjzZBZbSq2IZf7NK8D3WnAbkaPvqz1jeGtxYeW+7O6s6bw==
+X-Received: by 2002:a2e:9283:0:b0:2cc:77a3:62fa with SMTP id d3-20020a2e9283000000b002cc77a362famr161512ljh.16.1705003265127;
+        Thu, 11 Jan 2024 12:01:05 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:860b:b0:1d4:bee6:f8d5 with SMTP id
- f11-20020a170902860b00b001d4bee6f8d5ls3156577plo.2.-pod-prod-08-us; Thu, 11
- Jan 2024 11:40:05 -0800 (PST)
-X-Received: by 2002:a05:6a20:914c:b0:19a:5adf:9208 with SMTP id x12-20020a056a20914c00b0019a5adf9208mr417052pzc.104.1705002005340;
-        Thu, 11 Jan 2024 11:40:05 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1705002005; cv=none;
+Received: by 2002:a2e:be89:0:b0:2cd:7dee:aa33 with SMTP id a9-20020a2ebe89000000b002cd7deeaa33ls973049ljr.0.-pod-prod-09-eu;
+ Thu, 11 Jan 2024 12:01:03 -0800 (PST)
+X-Received: by 2002:a2e:98ca:0:b0:2cc:d8a0:46ce with SMTP id s10-20020a2e98ca000000b002ccd8a046cemr144027ljj.91.1705003262946;
+        Thu, 11 Jan 2024 12:01:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1705003262; cv=none;
         d=google.com; s=arc-20160816;
-        b=iAYEqWBCguhsmmJNcnGS83TTjb5S2CjpK7j26alz/D39TV/uojQ/5cb74h4vCO47Xx
-         NVwKEcgJlfe2HJNmJ9xqVHlhLS52QUbZVu6A6YOYS2KIQnNwLlTjXjukMldK+t9l+v8P
-         MaOMpmcxP23vTYf/IlSTmGH3lSmvlAzI5t5GYKjUMoYqxzDl+QJvCaef4vJmtq8sfGpz
-         U8M2nmvcnpzkkgmbYQ4IhWalQ1q6FjjoVyzxHYae+LBKYKsGi8U1iOht3vrbWuwXdshf
-         C+S/62bKxmrJRFOfN/2rcovQ95cNtbUTn5ohqBUJbKcdoq7tPvT1Saban4IgQDVE9A0l
-         sYhA==
+        b=c3Jmxolyv8vdTsYJO3KxR6we0dHxtDO78Kly2JeKyP/7z0O/DnUrTlDZ1pD3WJ/ll+
+         2Hm4/gkeShGOUojml94Up2o9g4tv3N9qSh28e7fMgx4Dq1y7s4s8qWcdkBt2zc9czuer
+         3cWUw9jO8XKdDRUI/wzWOivvNvEXqa45VMNYYTyQAwCjUNKqRFvrr/ZLssgyQkrea6Vb
+         Wzzq31us4uZGGvlqhwcs1o03QY7OXX3y9bZfgeWhcaA9SBZV4gvQe+OsvL1I9qVus18c
+         5aMJz65/eBsTrNdXqnUBEtlYdj9vp8SGw43H1MnfbdURj++FvDrrAK4bt2b6G6Mw7atz
+         rK9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=C3hlMFdn+OQb4M9O1Nzy0ZVGgF9XSI1qalBPvQ9f1+o=;
-        fh=yZJprR9knx02hZVZC51uBBQnXo9wgyDZ8RtR+dxDSwI=;
-        b=zeBTZm2wpwMssWmCA0KEe+Hszk1wXzuYKdm0M5q08TDMOF3C/5KT5+xuUpvOxkHLeg
-         cXdfVhMjD3KI4009FyfRVe24800v7ZbUyEq5t0jRqRS1Kc+UEJbMYHaigiPk++vBQoYS
-         QB2oLHzNAgrWPSYdTBZH/742IDDJtH7SUYn8BhHlvvUZqARzUFCjtlIqaZVRAi5ns3IO
-         kB7ZpfjZWaBXlvYkd+oMzzI8czfip08d6k5Lw3/Qx79zJOXrMO6Ik4jnt/yfI5v7nKyj
-         Lhany1Low+J6ifNyUbawH5de3jCeCTR2wnkLMkv5uNgoxtgo6I1oNVfxzBxYL1hANkYn
-         xyhw==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HAL60ZiXYTrQWwc6XvTjBF7mU0s/R7MUfIaHS38evWw=;
+        fh=ZJ0NZ8AQRkZSiH8KlDE2U8gDQTDcD4o+PXLVSJ3H2O0=;
+        b=P1PDjCQkFYBq6Smsj5KLa/gZ0mgnAUir/KnQ+FSAdQ1T5c5OampeRkfxPdAf5+0fMm
+         7Wp1uVPphtEkeOljrJ80e+kyFvEC38ZTkGjFIm1rkk32SqlTpRIet1d7WpYBCKxxU4Nz
+         oYeV/zQxK+u6Wf8uNc2cHv9IRCXvQzEyBdzPZV3X871vSTGDsVVlOf5pboQJqVm55tQR
+         XS+Y+1TdvZdv5nDRPBFYC7BfvoLlEfQclXvh/ZzdIXDEpnf2HPv2uZ32smbt6hDNYn2L
+         qMpF5U7J8+f2VmQ0pAaKDmmBSZwImkOO/MVhcyjgDvgNpMVlajrXI0WLAEojqZ7FJyTC
+         7yVA==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=SPPtBjPT;
-       spf=pass (google.com: domain of nathan@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=nathan@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id fc14-20020a056a002e0e00b006d9bb8e9de6si76997pfb.1.2024.01.11.11.40.05
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=deejydPh;
+       spf=pass (google.com: domain of alexei.starovoitov@gmail.com designates 2a00:1450:4864:20::329 as permitted sender) smtp.mailfrom=alexei.starovoitov@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com. [2a00:1450:4864:20::329])
+        by gmr-mx.google.com with ESMTPS id w25-20020a2e9999000000b002cd6347ba65si62004lji.5.2024.01.11.12.01.02
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jan 2024 11:40:05 -0800 (PST)
-Received-SPF: pass (google.com: domain of nathan@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id A7724617A3;
-	Thu, 11 Jan 2024 19:40:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFE49C433C7;
-	Thu, 11 Jan 2024 19:40:02 +0000 (UTC)
-Date: Thu, 11 Jan 2024 12:40:01 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Yonghong Song <yonghong.song@linux.dev>, akpm@linux-foundation.org
-Cc: llvm@lists.linux.dev, patches@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-efi@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linux-arch@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	bridge@lists.linux.dev, netdev@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, mykolal@fb.com,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH 1/3] selftests/bpf: Update LLVM Phabricator links
-Message-ID: <20240111194001.GA3805856@dev-arch.thelio-3990X>
-References: <20240109-update-llvm-links-v1-0-eb09b59db071@kernel.org>
- <20240109-update-llvm-links-v1-1-eb09b59db071@kernel.org>
- <6a655e9f-9878-4292-9d16-f988c4bdfc73@linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jan 2024 12:01:02 -0800 (PST)
+Received-SPF: pass (google.com: domain of alexei.starovoitov@gmail.com designates 2a00:1450:4864:20::329 as permitted sender) client-ip=2a00:1450:4864:20::329;
+Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-40e5f3b390fso9589155e9.2
+        for <kasan-dev@googlegroups.com>; Thu, 11 Jan 2024 12:01:02 -0800 (PST)
+X-Received: by 2002:a05:600c:6548:b0:40e:52a7:ac58 with SMTP id
+ dn8-20020a05600c654800b0040e52a7ac58mr243439wmb.65.1705003261872; Thu, 11 Jan
+ 2024 12:01:01 -0800 (PST)
 MIME-Version: 1.0
+References: <20240109-update-llvm-links-v1-0-eb09b59db071@kernel.org>
+ <20240109-update-llvm-links-v1-1-eb09b59db071@kernel.org> <6a655e9f-9878-4292-9d16-f988c4bdfc73@linux.dev>
+ <20240111194001.GA3805856@dev-arch.thelio-3990X>
+In-Reply-To: <20240111194001.GA3805856@dev-arch.thelio-3990X>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Thu, 11 Jan 2024 12:00:50 -0800
+Message-ID: <CAADnVQKFv2DKE=Um=+kcEzSWYCp9USQT_VpTawzNY6eRaUdu5g@mail.gmail.com>
+Subject: Re: [PATCH 1/3] selftests/bpf: Update LLVM Phabricator links
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Yonghong Song <yonghong.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	clang-built-linux <llvm@lists.linux.dev>, patches@lists.linux.dev, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>, 
+	ppc-dev <linuxppc-dev@lists.ozlabs.org>, kvm@vger.kernel.org, 
+	linux-riscv <linux-riscv@lists.infradead.org>, linux-trace-kernel@vger.kernel.org, 
+	linux-s390 <linux-s390@vger.kernel.org>, 
+	Linux Power Management <linux-pm@vger.kernel.org>, 
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, linux-efi <linux-efi@vger.kernel.org>, 
+	amd-gfx list <amd-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linux-arch <linux-arch@vger.kernel.org>, 
+	kasan-dev <kasan-dev@googlegroups.com>, linux-mm <linux-mm@kvack.org>, bridge@lists.linux.dev, 
+	Network Development <netdev@vger.kernel.org>, LSM List <linux-security-module@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+	Mykola Lysenko <mykolal@fb.com>, bpf <bpf@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <6a655e9f-9878-4292-9d16-f988c4bdfc73@linux.dev>
-X-Original-Sender: nathan@kernel.org
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: alexei.starovoitov@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=SPPtBjPT;       spf=pass
- (google.com: domain of nathan@kernel.org designates 2604:1380:4641:c500::1 as
- permitted sender) smtp.mailfrom=nathan@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@gmail.com header.s=20230601 header.b=deejydPh;       spf=pass
+ (google.com: domain of alexei.starovoitov@gmail.com designates
+ 2a00:1450:4864:20::329 as permitted sender) smtp.mailfrom=alexei.starovoitov@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,58 +164,69 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Yonghong,
+On Thu, Jan 11, 2024 at 11:40=E2=80=AFAM Nathan Chancellor <nathan@kernel.o=
+rg> wrote:
+>
+> Hi Yonghong,
+>
+> On Wed, Jan 10, 2024 at 08:05:36PM -0800, Yonghong Song wrote:
+> >
+> > On 1/9/24 2:16 PM, Nathan Chancellor wrote:
+> > > reviews.llvm.org was LLVM's Phabricator instances for code review. It
+> > > has been abandoned in favor of GitHub pull requests. While the majori=
+ty
+> > > of links in the kernel sources still work because of the work Fangrui
+> > > has done turning the dynamic Phabricator instance into a static archi=
+ve,
+> > > there are some issues with that work, so preemptively convert all the
+> > > links in the kernel sources to point to the commit on GitHub.
+> > >
+> > > Most of the commits have the corresponding differential review link i=
+n
+> > > the commit message itself so there should not be any loss of fidelity=
+ in
+> > > the relevant information.
+> > >
+> > > Additionally, fix a typo in the xdpwall.c print ("LLMV" -> "LLVM") wh=
+ile
+> > > in the area.
+> > >
+> > > Link: https://discourse.llvm.org/t/update-on-github-pull-requests/715=
+40/172
+> > > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> >
+> > Ack with one nit below.
+> >
+> > Acked-by: Yonghong Song <yonghong.song@linux.dev>
+>
+> <snip>
+>
+> > > @@ -304,6 +304,6 @@ from running test_progs will look like:
+> > >   .. code-block:: console
+> > > -  test_xdpwall:FAIL:Does LLVM have https://reviews.llvm.org/D109073?=
+ unexpected error: -4007
+> > > +  test_xdpwall:FAIL:Does LLVM have https://github.com/llvm/llvm-proj=
+ect/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d5? unexpected error: -400=
+7
+> > > -__ https://reviews.llvm.org/D109073
+> > > +__ https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf4=
+1d121afa5d031b319d
+> >
+> > To be consistent with other links, could you add the missing last alnum=
+ '5' to the above link?
+>
+> Thanks a lot for catching this and providing an ack. Andrew, could you
+> squash this update into selftests-bpf-update-llvm-phabricator-links.patch=
+?
 
-On Wed, Jan 10, 2024 at 08:05:36PM -0800, Yonghong Song wrote:
-> 
-> On 1/9/24 2:16 PM, Nathan Chancellor wrote:
-> > reviews.llvm.org was LLVM's Phabricator instances for code review. It
-> > has been abandoned in favor of GitHub pull requests. While the majority
-> > of links in the kernel sources still work because of the work Fangrui
-> > has done turning the dynamic Phabricator instance into a static archive,
-> > there are some issues with that work, so preemptively convert all the
-> > links in the kernel sources to point to the commit on GitHub.
-> > 
-> > Most of the commits have the corresponding differential review link in
-> > the commit message itself so there should not be any loss of fidelity in
-> > the relevant information.
-> > 
-> > Additionally, fix a typo in the xdpwall.c print ("LLMV" -> "LLVM") while
-> > in the area.
-> > 
-> > Link: https://discourse.llvm.org/t/update-on-github-pull-requests/71540/172
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> 
-> Ack with one nit below.
-> 
-> Acked-by: Yonghong Song <yonghong.song@linux.dev>
+Please send a new patch.
+We'd like to take all bpf patches through the bpf tree to avoid conflicts.
 
-<snip>
-
-> > @@ -304,6 +304,6 @@ from running test_progs will look like:
-> >   .. code-block:: console
-> > -  test_xdpwall:FAIL:Does LLVM have https://reviews.llvm.org/D109073? unexpected error: -4007
-> > +  test_xdpwall:FAIL:Does LLVM have https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d5? unexpected error: -4007
-> > -__ https://reviews.llvm.org/D109073
-> > +__ https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d
-> 
-> To be consistent with other links, could you add the missing last alnum '5' to the above link?
-
-Thanks a lot for catching this and providing an ack. Andrew, could you
-squash this update into selftests-bpf-update-llvm-phabricator-links.patch?
-
-diff --git a/tools/testing/selftests/bpf/README.rst b/tools/testing/selftests/bpf/README.rst
-index b9a493f66557..e56034abb3c2 100644
---- a/tools/testing/selftests/bpf/README.rst
-+++ b/tools/testing/selftests/bpf/README.rst
-@@ -306,4 +306,4 @@ from running test_progs will look like:
- 
-   test_xdpwall:FAIL:Does LLVM have https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d5? unexpected error: -4007
- 
--__ https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d
-+__ https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d5
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240111194001.GA3805856%40dev-arch.thelio-3990X.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAADnVQKFv2DKE%3DUm%3D%2BkcEzSWYCp9USQT_VpTawzNY6eRaUdu5g%40mail.=
+gmail.com.
