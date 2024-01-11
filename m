@@ -1,138 +1,176 @@
-Return-Path: <kasan-dev+bncBDWYV74TWAEBBIGS7WWAMGQET4MFAQA@googlegroups.com>
+Return-Path: <kasan-dev+bncBD2KV7O4UQOBBZVR72WAMGQEDSLUEHA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23f.google.com (mail-lj1-x23f.google.com [IPv6:2a00:1450:4864:20::23f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2530582A6B8
-	for <lists+kasan-dev@lfdr.de>; Thu, 11 Jan 2024 05:05:59 +0100 (CET)
-Received: by mail-lj1-x23f.google.com with SMTP id 38308e7fff4ca-2cd0804c5e6sf40875621fa.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 10 Jan 2024 20:05:59 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1704945953; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=wS6/Vn0gEa6spkxN8OCBrlX+hhOqoBnLfT90TQq2kWRn0ClVeVhsLskKlgGPnveRTw
-         EGBruflcxquvN2a3z6EyqAx7Yzo49HhwEvgLIot+84jYHAIhT+Be2dCK66WyAiW62Rtp
-         fOMhxkWj3wocc7YNP0Ip3K31UuMmxl8pFxrubmzueHYFj+TwYg4dKq0yahS5MTsLYXnX
-         0p7pe/wtG/i3eQ85j/R88XkyY5hE6PzbmkvQNw+p9i8jBvhP5jVoxGi7gecw5IJ0sQ7C
-         43zl7jHlWKmAxFJ4W9suU8F7SN22TnmkVGQDtjUNUfKn9UUviWqby3cndbLkAQfomT2F
-         5aHw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:mime-version:date:message-id:sender
-         :dkim-signature;
-        bh=vcxMWWLIjhkX1rwRrHcB/KAkiYkSF5LsI8urLHVO5xA=;
-        fh=VwW8+mhp6AdbToJNpN49j4VtbFvk0EJL+lV4swZIG/A=;
-        b=XDFxv1XNo9xwGtokn8fstHxg/nd9pwVv1Vydg+5V9mxn6AlxI7BLN1xw4XAxlehxpR
-         bIlRmD7g2riYmf3JH3r8H9/UKQ7P+GcaFhHWIenMn72UNVXYc3L9sdNhXJhvvTCLBSKC
-         kdwaa8w/dr05Nq1OKQnnISvzv54i8IuJByj3dPK5RDxaUwYsPB7ZYz+RWbE3+xm0QHkl
-         EYYW3iakIvpdYs1UytQIucmtZfuAP0FcooZUO0SOTzl52qLLTs2R0PrnxWYCvhrMdeh6
-         PKsFrabDz6Vya6eoXB61mk9gekMZ4AApfkm4PvSCm6nSKekiM48qnMdbG+0Rcm9VTWSq
-         Ohkw==
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=q90eKb7K;
-       spf=pass (google.com: domain of yonghong.song@linux.dev designates 2001:41d0:203:375::bc as permitted sender) smtp.mailfrom=yonghong.song@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from mail-yb1-xb40.google.com (mail-yb1-xb40.google.com [IPv6:2607:f8b0:4864:20::b40])
+	by mail.lfdr.de (Postfix) with ESMTPS id E266282A853
+	for <lists+kasan-dev@lfdr.de>; Thu, 11 Jan 2024 08:29:43 +0100 (CET)
+Received: by mail-yb1-xb40.google.com with SMTP id 3f1490d57ef6-dbdac466edcsf5894692276.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 10 Jan 2024 23:29:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1704945953; x=1705550753; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1704958182; x=1705562982; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:mime-version:date:message-id:sender:from
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-disposition:message-id:subject:cc:to:from:date:sender:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=vcxMWWLIjhkX1rwRrHcB/KAkiYkSF5LsI8urLHVO5xA=;
-        b=Gu4p2tcan5Q9U3oEVH+tgyPksRzvHKqsgpBA8a9PwZzGH75szoHwjK5zabhkc4F9Uf
-         UhzPS8INhMteZNNm1Go5GUxHEYt0MxHQfjoSxoV1eFgx7s97/h7FHTzHO9vRsysMdhDp
-         rZynG+2qsJfhGBXOTsh+54bfX6uUy7NyMP/omRmgJotmDfeXMO4gScCeAH6SXhxbA210
-         IkP+YtrNeHDR542IbIrToHebCsudKX8knanX/3jtG1+tPxEwJ4yroM+yAQ0PCYquH5Ne
-         KoiA3bLYp9nIZuzy32XjucH+KtiSg1IXBQkmff76gGUTVGQyndd0FEUJ41PYjSSQEKGk
-         j74w==
+        bh=jAQERvOHqCX2gwNKCgQkzYWR6eyovQXxu8D4VVYBQWU=;
+        b=Lr36RBTIslGihv5zu1Hb+3OkImlFVQkRewH4/TOnCeaIgeGnSMq7Xn8kMbYCfo06Y9
+         w5kGcMnzg0M3h/JguQq3RVUtTFL9EbXnOdyaRAXQdqRZMtkA/toczsNpeXGv7tO/fC6F
+         fwehiZHDsFoFm+i8ZBYQHWQavu0PNxyrjo4dnQOINjxy1Tf3v2YN9mloIdF9cZ4byujO
+         xjxcGeq0gzIYCuD5qQ6J395+0WMmwFxXmKPy24TiHKH8jRCYwMaHYd1Lt1XWN/VyzAhG
+         OAxqAlpROXcLr3S97WkjTPBc90ywayjOY/hv9yNHIFWH/11Kc16PaI0PaEEVwcZkrSnH
+         vfsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1704945953; x=1705550753;
+        d=1e100.net; s=20230601; t=1704958182; x=1705562982;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:mime-version:date
-         :message-id:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=vcxMWWLIjhkX1rwRrHcB/KAkiYkSF5LsI8urLHVO5xA=;
-        b=X31WGqkuFXMf9F5U10ukbC76NxI1HfsP3TdVq2twrduMVPhkcVT8pm3bJJPIpe+faJ
-         zfNf0LGWuWqRT+p66htn/vFAgCeJmVQCLkQ3OlMdYM/Bl8putwp4ntEH02mGCCSIXoH2
-         a0m6ZXK8uSPGw0Av8rcWqMvo8c225V3BsAj/hlM18FRzzeyo5ymviDSwZXXujjhkpDnj
-         WS5/ADUdwOBvKIap1ECvhRYICEhfa8epSV70851yTOQS7RCc8BDZoXj6BfzsvqAGrS6N
-         al0lGoeXUun6ONP1XLd2C6mGc3cYULskeU6Y2y3VOaF54CqQ+BZQruSFO49E9oRimVtG
-         4iUQ==
+         :content-transfer-encoding:x-original-authentication-results
+         :x-original-sender:mime-version:content-disposition:message-id
+         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jAQERvOHqCX2gwNKCgQkzYWR6eyovQXxu8D4VVYBQWU=;
+        b=ZLVTG8RM/miR7KTo3OhAQowE0ozqQnh6QyJKKx6GzqAr/WdIA9dPj9/iXjPm5fB4Fl
+         e6VJwCYlK03aLo/ImEqVC2uSkIKZKGlv5VfKROnrgOEggO2MY/yAW36NjOCCBCGDMijt
+         TVsG+YkbnDQUF85e91SGRGw6lqTYxVj2D4XiOOuIlGCBmNvVYbRNCY8YdCLML26+gehk
+         3PVFwbe9LCnM9AxY7t8JZECkx5qseca+oNpfAXZmNh62cGJlWKJSR/FUcaD+N4sHQrf6
+         TWKQfpmqBMH+tzLngBh8k5mX3lbzUp47Ntzaa1CMPYmCTEHoudwXxCEmrlin/Ouqk557
+         aP7g==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YympvaVtGPsBxhwwUU0rnfQBS3+SNUvNTopEvQ/4XrvNfDIpxS4
-	2TvjEYDRXIPfVLdbZhOYUrA=
-X-Google-Smtp-Source: AGHT+IGphddDrddgoJRYEok6BMj1C/Mf5Qhdb33kS9MuFpZUzQVar1zheMflmYJ0gUrww938MUU7Wg==
-X-Received: by 2002:a2e:81ca:0:b0:2cd:7039:e28b with SMTP id s10-20020a2e81ca000000b002cd7039e28bmr28441ljg.17.1704945952928;
-        Wed, 10 Jan 2024 20:05:52 -0800 (PST)
+X-Gm-Message-State: AOJu0Yx8mIU5Py6EA6T1lma55i5sactVb7KnQTngG5O/0lKUPcpJXbjx
+	u/gyZat7Krg5NrS+4lKOZJM=
+X-Google-Smtp-Source: AGHT+IEIRpmYzwJzT/d615CkeKPybZ7R+CCVXy5JPWUIY6TIGB/YTDThA3UcXvY775Ud73XFh5IRTw==
+X-Received: by 2002:a5b:58a:0:b0:dbe:d45a:85d5 with SMTP id l10-20020a5b058a000000b00dbed45a85d5mr695346ybp.28.1704958182638;
+        Wed, 10 Jan 2024 23:29:42 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:1a11:b0:2cc:ea42:1d66 with SMTP id
- by17-20020a05651c1a1100b002ccea421d66ls32605ljb.1.-pod-prod-05-eu; Wed, 10
- Jan 2024 20:05:51 -0800 (PST)
-X-Received: by 2002:a2e:b1d3:0:b0:2cc:eeea:9e8f with SMTP id e19-20020a2eb1d3000000b002cceeea9e8fmr30205lja.13.1704945950695;
-        Wed, 10 Jan 2024 20:05:50 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1704945950; cv=none;
-        d=google.com; s=arc-20160816;
-        b=o2hjsspMOpBMgghZ7wT/A0+pv3fINNA1gW2KyyylFzVZr4NUWNVYaTqz3Kt26xSkLg
-         RV9kYcb+hDil51Oo0OU8qILFjba4+UZrSl4E1YtqPgEIVxK87mMOlOmx+eCGkxVPH/NF
-         38NOStXtHtWlbCiggbiZfzL12tFg99W++hcyVdSl92mVn4X6iDdPxs+BNyhe8sTS2SuQ
-         w0OrC5IlaWeVCcjP4jzqwlRA7V10s9IiPXeEdeZzPrPFdgd2ksZ6Xv/IgxhfJWRWtWHX
-         UtHIfxzxC9VAGNJkx5gBKC1Yq4kNj3TLBg17niSwxMR6ZYxDmGxLCQ6PtyuSd0aCBYsA
-         8roA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:mime-version:date:dkim-signature
-         :message-id;
-        bh=oe8y6rx2nxJCVb5v6A3KEWIfmf39eOlQDxZDCZDQpSs=;
-        fh=VwW8+mhp6AdbToJNpN49j4VtbFvk0EJL+lV4swZIG/A=;
-        b=FCskWG5Yzk+7Hc0hXByYILAKspQweGmE0cFaUuRZqh/sla0Y27Vk1oUYnyHh5XGnYh
-         aM4/K5udxidvwHsVn3k+6hJypNg1zJ2VsRMFS64rO+x2ffW8/tdWYARleedr3B4+3OEl
-         oRsJDUmhK0pWxwXcNCNRODsxtzsfcG8Nn7yJUfIgQsy19CaWaigu5YHzj3O/c9B9pbZT
-         Sl7wrw5nELjYuAvnce2QfVEDikVJBI/LY7Eub+3BFLPLA17+qs/OvSVrwN+kJhPVB+m+
-         O+6WMagCrAGSOFwBl9LfA+UkkHnyNbCF3dTyG6DRwCZD3yOzO3aNkWCwOz6bC7j8BySR
-         NNfQ==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=q90eKb7K;
-       spf=pass (google.com: domain of yonghong.song@linux.dev designates 2001:41d0:203:375::bc as permitted sender) smtp.mailfrom=yonghong.song@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com. [2001:41d0:203:375::bc])
-        by gmr-mx.google.com with ESMTPS id f25-20020a2e9199000000b002ccc27fab8csi8077ljg.7.2024.01.10.20.05.50
+Received: by 2002:a25:df02:0:b0:dbf:406c:22f8 with SMTP id w2-20020a25df02000000b00dbf406c22f8ls319428ybg.1.-pod-prod-01-us;
+ Wed, 10 Jan 2024 23:29:42 -0800 (PST)
+X-Received: by 2002:a81:570d:0:b0:5f6:bef3:1a49 with SMTP id l13-20020a81570d000000b005f6bef31a49mr166699ywb.36.1704958181773;
+        Wed, 10 Jan 2024 23:29:41 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com. [134.134.136.20])
+        by gmr-mx.google.com with ESMTPS id t205-20020a8183d6000000b005e7ac086dddsi42152ywf.3.2024.01.10.23.29.31
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jan 2024 20:05:50 -0800 (PST)
-Received-SPF: pass (google.com: domain of yonghong.song@linux.dev designates 2001:41d0:203:375::bc as permitted sender) client-ip=2001:41d0:203:375::bc;
-Message-ID: <6a655e9f-9878-4292-9d16-f988c4bdfc73@linux.dev>
-Date: Wed, 10 Jan 2024 20:05:36 -0800
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 10 Jan 2024 23:29:41 -0800 (PST)
+Received-SPF: pass (google.com: domain of oliver.sang@intel.com designates 134.134.136.20 as permitted sender) client-ip=134.134.136.20;
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="389203259"
+X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
+   d="scan'208";a="389203259"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2024 23:29:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10949"; a="816629171"
+X-IronPort-AV: E=Sophos;i="6.04,185,1695711600"; 
+   d="scan'208";a="816629171"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by orsmga001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Jan 2024 23:29:27 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 10 Jan 2024 23:29:26 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 10 Jan 2024 23:29:26 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35 via Frontend Transport; Wed, 10 Jan 2024 23:29:26 -0800
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.40) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 10 Jan 2024 23:29:26 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ex1HprTcTotzW/jxMxQToGedH8UrGx7e4QCfFfr0J3LWIa7RqIib7QnW8caQ3W8fIL0yrRBsAyA97jgRqG19MayLjV71NfuPP5HF6mSW+n4zFxvjSGZmoPQWyYCht/nrOqGDEV8UMnxonqyZkr1AgNdldm/uJzqdiR8aXjs/XNAkbq+jaUum9lnGE7jA+7XGTx2T+3AW3C2USuKwZd/W1vAs2Um1cv1kV7+t7GR/VjNB/2JHu3icwRE3F+P/BmaLLVo618R14XZCZ0ESuBAvlv1MM4SjsjpCepmufKoM+yUb7+9iysE9IS4v4rQMW4BiagSImeooTqvA7wzA6I6p6g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IIWpoz2MDQW7p6hH1sp2omvn66kfNuF8+ilLZ1E4zOM=;
+ b=CgDqV84XdgxTk0In2ibq+ZJiB+/HjQ+QDTrt4ylufHA5Blhx9pvYxrhRkKv9gZnEIHJ6uOSbxnePRl+R7OkdIevn2SSUeU3apYHUf3TZSKyEF06GSFJOf8LEtoU3s3+oSw+lENe0LiNo+DJplRnipPMuKxaAy7qLHGDOjzDWbKSlNKFN3XFuSHNvUBLjMs4ZLVkqzVgMJKY6ECe7P4CkTcFpj1cKsSYCjcgWibo9N0Xds0BuYJE7mgIwqAT03z/4VDSdnAx0C5yU/uKLUe6pgW7jowF1TJ4m4vZoowXebQiyWQ6Df/JGA8tZJYI4bSV2G7KOfaXqI9bFR5lcgFJahQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by PH7PR11MB5984.namprd11.prod.outlook.com (2603:10b6:510:1e3::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7181.19; Thu, 11 Jan
+ 2024 07:29:23 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::1236:9a2e:5acd:a7f]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::1236:9a2e:5acd:a7f%3]) with mapi id 15.20.7159.020; Thu, 11 Jan 2024
+ 07:29:23 +0000
+Date: Thu, 11 Jan 2024 15:29:13 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Andrey Konovalov <andreyknvl@google.com>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <linux-kernel@vger.kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, Tetsuo Handa
+	<penguin-kernel@i-love.sakura.ne.jp>, Marco Elver <elver@google.com>,
+	Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Evgenii Stepanov <eugenis@google.com>, Vlastimil Babka <vbabka@suse.cz>,
+	<kasan-dev@googlegroups.com>, <oliver.sang@intel.com>
+Subject: [linus:master] [kasan]  a414d4286f:
+ INFO:trying_to_register_non-static_key
+Message-ID: <202401111558.1374ae6f-oliver.sang@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+X-ClientProxiedBy: SI2PR04CA0001.apcprd04.prod.outlook.com
+ (2603:1096:4:197::12) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] selftests/bpf: Update LLVM Phabricator links
-Content-Language: en-GB
-To: Nathan Chancellor <nathan@kernel.org>, akpm@linux-foundation.org
-Cc: llvm@lists.linux.dev, patches@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-trace-kernel@vger.kernel.org,
- linux-s390@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-efi@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-arch@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-mm@kvack.org, bridge@lists.linux.dev,
- netdev@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-kselftest@vger.kernel.org, ast@kernel.org, daniel@iogearbox.net,
- andrii@kernel.org, mykolal@fb.com, bpf@vger.kernel.org
-References: <20240109-update-llvm-links-v1-0-eb09b59db071@kernel.org>
- <20240109-update-llvm-links-v1-1-eb09b59db071@kernel.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yonghong Song <yonghong.song@linux.dev>
-In-Reply-To: <20240109-update-llvm-links-v1-1-eb09b59db071@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Migadu-Flow: FLOW_OUT
-X-Original-Sender: yonghong.song@linux.dev
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|PH7PR11MB5984:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9e75a2fa-f19e-4098-2d72-08dc127708a4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BlelKMJsrkqQu6jYE1GtgSivdxVikFN4MhPN+8GSEb+vzYIAKJXlYKECKza371zX5yFaERPsiKopqgKOY0NG7+jSh0WDPHmZj/nEhB34dJK6Ou116ssKkznCQILwS0M/A0TL/xdqQmMzI2q0q1/JaCTmeq+J5yJgi5No9JZJsHPQgYf1rIWKPVlQUOCm70+V/oB3TYs+Ax6oDHg8oZFWRhBJDg0Jng4N7R2cYMaZkBh6T09gqNFmxdl3XIysCWCfWmmM4X+WFp5tf7gft7mj3hi4mYRV3fhxDCwwBlMsyIBo1QKqeaG8KLVRFaZnXxO6woKbnIG20OvEDs1Tx/Q19xms94md4/mT+Q9sEe0TQ/+yT7o43J3Vud/jpp86zyTLUIVCz5zUf1WsfHOHJx2hsgxe7yjpdEtwBGmu/np8u+Smy7/MN0YzViq8pmxqdJrBixuPdg173NI/QjQSaCy+E2FbqPsSPZKhcg30KAG3y5Vrbh4/9WjMrjEqPB5z+nqHAFA2lRmsOidHJxCxVjQYNaoEExzZ6F+FrFrxD6KxV5p/XDmXz+gyUsqeXNmopsQFuJYDf2JZS3zHx/GVAFsMhw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(346002)(39860400002)(376002)(396003)(136003)(230922051799003)(1800799012)(186009)(64100799003)(451199024)(38100700002)(2906002)(7416002)(107886003)(6486002)(6506007)(1076003)(26005)(2616005)(36756003)(86362001)(6512007)(82960400001)(41300700001)(316002)(54906003)(5660300002)(6916009)(4326008)(66946007)(66556008)(66476007)(6666004)(966005)(478600001)(83380400001)(8936002)(8676002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zxYCPnoyPPx4EIA9dW3E9a7G7hoj+karaDtfapqkmLc/Zfoz0WZPB4+T14nw?=
+ =?us-ascii?Q?TLaE6K4M2oqP3NXweaJMFqsU+WhbSKhnGM6ws1R1c6HQy97w+VVb+MUw/fCp?=
+ =?us-ascii?Q?otMmhKEPqbWzXwqVtZK9kP1Ao0+7x9rszJ7qZaTsznjhBOUVvUK2cAWdvcWj?=
+ =?us-ascii?Q?9bAMdEnYSRmTKj4sobnqYyQ7tF0W/DrqWPZXbWXcrh82t8jqvYZhIX4yTLNM?=
+ =?us-ascii?Q?6PH1FuTnmQNeZ0ng2d55p+5bnCAKFptuyfWUP3sfL/j4lW39EDi3SxQdTzho?=
+ =?us-ascii?Q?sDXjrIXtjEt7slboDkKqjsN/ndZdBAsM+FkQxr+2S8TWjQ/eA0gmepxKTcHk?=
+ =?us-ascii?Q?ql3dJHoXfrmPfQzilCqsnbd5bX4mtkthREqjGwBAiug2GrLNzaFYSvqpUIfy?=
+ =?us-ascii?Q?GaJmv7vHHpHe1za+VThruVjaCebqelUOFKH6vP2M67C3HR0GMastGOSVGZjx?=
+ =?us-ascii?Q?I0etkNxrJ1qxsZlE0ODLN8ZsvpkjKtKDlmN4ojBo4bnb1+C3aoriJM0PxLnB?=
+ =?us-ascii?Q?pKdRFTmG8ZCNCuvuw6SXyke4VtSZEKETwYuORDT3vmvuLkLAU9F2AEb+Mjih?=
+ =?us-ascii?Q?D5wHhf6MVyAnPVMmzHDHTiKpKdtPgI5Qdbyj2BF+n7FUmBmXIFADNZAHST70?=
+ =?us-ascii?Q?8XECryjDgX8F+AU3rTb/hdrDxS3VJMgpfTcTmWNhB1MnPkjOj466QC6pgVKA?=
+ =?us-ascii?Q?vFzbDxq7cb9k5+yRBAJRDPZ2STiu+EJGj8OOGNDE4uMfvkXlRi2XyPqfCVXA?=
+ =?us-ascii?Q?hxX02BftTsyhh4GAkgcwP2xNS1wdNQRZsI++xba2BuJ12ovH9oszrc/JKHfW?=
+ =?us-ascii?Q?7jJyO9k4KnmGkMCvCQtgfdb0yIhpLnuBHvFiDmdDTP20mRZ0yrukwyhf88yZ?=
+ =?us-ascii?Q?ipbZlcXmdLeHcSb6WN01ssscrxaBGaFA8EnVnd5wlCBfn4ZZ+/0t9rd1KBQ4?=
+ =?us-ascii?Q?zv9fnvMR7FhSwBNYBWtDfrpC9J3lIi3wnpy5FPhqLO13wqiVUZKQ30eMczm7?=
+ =?us-ascii?Q?vQNPkncElk0IUKLSLiEq172n4Tzsu53NMGnoBJ1baZMhYiJJ2g2UFCkmyJ12?=
+ =?us-ascii?Q?fx0+pEGfO/ipTcJPDVESgZd0JjsziejvJldDQvTjZK2W0YcyOT9WfjpK5oiD?=
+ =?us-ascii?Q?cSn1SjtF5VBGwX9PdE8vuFdpfM2w9CEf0sTR1drXDBw4c1m9eFbGlFjhPOE9?=
+ =?us-ascii?Q?Fx/Ujdx1Vqd96eKOi0rikDkBv2KHAy4V/6AzC2/Tg2b9vJyQxj5yvEAai7gm?=
+ =?us-ascii?Q?ZF7cWldb107uA0axdhNAe6I6kd77tN1qKT5LxDUSAdQ111mu9qW5DiX49EQf?=
+ =?us-ascii?Q?eV4iNhdWMWXSrMl+0cqIBAbLCDT3JnwarK0w+LP1pZN+z+YTeDulVxEpzb3L?=
+ =?us-ascii?Q?u9foy3fp+90b5CZ5/Qvmt4yJOwUKiwch9IRLHaXbSq6SzQsvVlkF+VO1o6Ht?=
+ =?us-ascii?Q?IeU7W8t44qa3Puh7XRoT18l9qDCMpGne3su7PJyzYxGpzLfInZbN+G1zYbho?=
+ =?us-ascii?Q?lyauRVubCi3rm5z1mjUlK6AkMS/sTM9BKIPTwfG5mOraB1jJH5I2Hkg9raPZ?=
+ =?us-ascii?Q?TqfmOMir8204AgQpl2v8x9HYsH9bHSYGBXajHJw9Cy/0x1QA/OrMG54gJV15?=
+ =?us-ascii?Q?gw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e75a2fa-f19e-4098-2d72-08dc127708a4
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jan 2024 07:29:23.7001
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KCqkDB940vX6wMP50I3Lj/9w2vu5W4YOJH4coU1Mj2PvoAQzaFUY5CYnU2QVSgn8aljz1Mjr9XKJKkuhwKSw/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5984
+X-OriginatorOrg: intel.com
+X-Original-Sender: oliver.sang@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=q90eKb7K;       spf=pass
- (google.com: domain of yonghong.song@linux.dev designates 2001:41d0:203:375::bc
- as permitted sender) smtp.mailfrom=yonghong.song@linux.dev;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+ header.i=@intel.com header.s=Intel header.b="RFI2bE/Y";       arc=fail
+ (signature failed);       spf=pass (google.com: domain of oliver.sang@intel.com
+ designates 134.134.136.20 as permitted sender) smtp.mailfrom=oliver.sang@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Content-Transfer-Encoding: quoted-printable
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,177 +184,119 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 
-On 1/9/24 2:16 PM, Nathan Chancellor wrote:
-> reviews.llvm.org was LLVM's Phabricator instances for code review. It
-> has been abandoned in favor of GitHub pull requests. While the majority
-> of links in the kernel sources still work because of the work Fangrui
-> has done turning the dynamic Phabricator instance into a static archive,
-> there are some issues with that work, so preemptively convert all the
-> links in the kernel sources to point to the commit on GitHub.
->
-> Most of the commits have the corresponding differential review link in
-> the commit message itself so there should not be any loss of fidelity in
-> the relevant information.
->
-> Additionally, fix a typo in the xdpwall.c print ("LLMV" -> "LLVM") while
-> in the area.
->
-> Link: https://discourse.llvm.org/t/update-on-github-pull-requests/71540/172
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
 
-Ack with one nit below.
+Hello,
 
-Acked-by: Yonghong Song <yonghong.song@linux.dev>
+kernel test robot noticed "INFO:trying_to_register_non-static_key" on:
 
-> ---
-> Cc: ast@kernel.org
-> Cc: daniel@iogearbox.net
-> Cc: andrii@kernel.org
-> Cc: mykolal@fb.com
-> Cc: bpf@vger.kernel.org
-> Cc: linux-kselftest@vger.kernel.org
-> ---
->   tools/testing/selftests/bpf/README.rst             | 32 +++++++++++-----------
->   tools/testing/selftests/bpf/prog_tests/xdpwall.c   |  2 +-
->   .../selftests/bpf/progs/test_core_reloc_type_id.c  |  2 +-
->   3 files changed, 18 insertions(+), 18 deletions(-)
->
-> diff --git a/tools/testing/selftests/bpf/README.rst b/tools/testing/selftests/bpf/README.rst
-> index cb9b95702ac6..b9a493f66557 100644
-> --- a/tools/testing/selftests/bpf/README.rst
-> +++ b/tools/testing/selftests/bpf/README.rst
-> @@ -115,7 +115,7 @@ the insn 20 undoes map_value addition. It is currently impossible for the
->   verifier to understand such speculative pointer arithmetic.
->   Hence `this patch`__ addresses it on the compiler side. It was committed on llvm 12.
->   
-> -__ https://reviews.llvm.org/D85570
-> +__ https://github.com/llvm/llvm-project/commit/ddf1864ace484035e3cde5e83b3a31ac81e059c6
->   
->   The corresponding C code
->   
-> @@ -165,7 +165,7 @@ This is due to a llvm BPF backend bug. `The fix`__
->   has been pushed to llvm 10.x release branch and will be
->   available in 10.0.1. The patch is available in llvm 11.0.0 trunk.
->   
-> -__  https://reviews.llvm.org/D78466
-> +__  https://github.com/llvm/llvm-project/commit/3cb7e7bf959dcd3b8080986c62e10a75c7af43f0
->   
->   bpf_verif_scale/loop6.bpf.o test failure with Clang 12
->   ======================================================
-> @@ -204,7 +204,7 @@ r5(w5) is eventually saved on stack at insn #24 for later use.
->   This cause later verifier failure. The bug has been `fixed`__ in
->   Clang 13.
->   
-> -__  https://reviews.llvm.org/D97479
-> +__  https://github.com/llvm/llvm-project/commit/1959ead525b8830cc8a345f45e1c3ef9902d3229
->   
->   BPF CO-RE-based tests and Clang version
->   =======================================
-> @@ -221,11 +221,11 @@ failures:
->   - __builtin_btf_type_id() [0_, 1_, 2_];
->   - __builtin_preserve_type_info(), __builtin_preserve_enum_value() [3_, 4_].
->   
-> -.. _0: https://reviews.llvm.org/D74572
-> -.. _1: https://reviews.llvm.org/D74668
-> -.. _2: https://reviews.llvm.org/D85174
-> -.. _3: https://reviews.llvm.org/D83878
-> -.. _4: https://reviews.llvm.org/D83242
-> +.. _0: https://github.com/llvm/llvm-project/commit/6b01b465388b204d543da3cf49efd6080db094a9
-> +.. _1: https://github.com/llvm/llvm-project/commit/072cde03aaa13a2c57acf62d79876bf79aa1919f
-> +.. _2: https://github.com/llvm/llvm-project/commit/00602ee7ef0bf6c68d690a2bd729c12b95c95c99
-> +.. _3: https://github.com/llvm/llvm-project/commit/6d218b4adb093ff2e9764febbbc89f429412006c
-> +.. _4: https://github.com/llvm/llvm-project/commit/6d6750696400e7ce988d66a1a00e1d0cb32815f8
->   
->   Floating-point tests and Clang version
->   ======================================
-> @@ -234,7 +234,7 @@ Certain selftests, e.g. core_reloc, require support for the floating-point
->   types, which was introduced in `Clang 13`__. The older Clang versions will
->   either crash when compiling these tests, or generate an incorrect BTF.
->   
-> -__  https://reviews.llvm.org/D83289
-> +__  https://github.com/llvm/llvm-project/commit/a7137b238a07d9399d3ae96c0b461571bd5aa8b2
->   
->   Kernel function call test and Clang version
->   ===========================================
-> @@ -248,7 +248,7 @@ Without it, the error from compiling bpf selftests looks like:
->   
->     libbpf: failed to find BTF for extern 'tcp_slow_start' [25] section: -2
->   
-> -__ https://reviews.llvm.org/D93563
-> +__ https://github.com/llvm/llvm-project/commit/886f9ff53155075bd5f1e994f17b85d1e1b7470c
->   
->   btf_tag test and Clang version
->   ==============================
-> @@ -264,8 +264,8 @@ Without them, the btf_tag selftest will be skipped and you will observe:
->   
->     #<test_num> btf_tag:SKIP
->   
-> -.. _0: https://reviews.llvm.org/D111588
-> -.. _1: https://reviews.llvm.org/D111199
-> +.. _0: https://github.com/llvm/llvm-project/commit/a162b67c98066218d0d00aa13b99afb95d9bb5e6
-> +.. _1: https://github.com/llvm/llvm-project/commit/3466e00716e12e32fdb100e3fcfca5c2b3e8d784
->   
->   Clang dependencies for static linking tests
->   ===========================================
-> @@ -274,7 +274,7 @@ linked_vars, linked_maps, and linked_funcs tests depend on `Clang fix`__ to
->   generate valid BTF information for weak variables. Please make sure you use
->   Clang that contains the fix.
->   
-> -__ https://reviews.llvm.org/D100362
-> +__ https://github.com/llvm/llvm-project/commit/968292cb93198442138128d850fd54dc7edc0035
->   
->   Clang relocation changes
->   ========================
-> @@ -292,7 +292,7 @@ Here, ``type 2`` refers to new relocation type ``R_BPF_64_ABS64``.
->   To fix this issue, user newer libbpf.
->   
->   .. Links
-> -.. _clang reloc patch: https://reviews.llvm.org/D102712
-> +.. _clang reloc patch: https://github.com/llvm/llvm-project/commit/6a2ea84600ba4bd3b2733bd8f08f5115eb32164b
->   .. _kernel llvm reloc: /Documentation/bpf/llvm_reloc.rst
->   
->   Clang dependencies for the u32 spill test (xdpwall)
-> @@ -304,6 +304,6 @@ from running test_progs will look like:
->   
->   .. code-block:: console
->   
-> -  test_xdpwall:FAIL:Does LLVM have https://reviews.llvm.org/D109073? unexpected error: -4007
-> +  test_xdpwall:FAIL:Does LLVM have https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d5? unexpected error: -4007
->   
-> -__ https://reviews.llvm.org/D109073
-> +__ https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d
+commit: a414d4286f3400aa05631c4931eb3feba83e29e8 ("kasan: handle concurrent=
+ kasan_record_aux_stack calls")
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
 
-To be consistent with other links, could you add the missing last alnum '5' to the above link?
+[test failed on linux-next/master 8cb47d7cd090a690c1785385b2f3d407d4a53ad0]
 
-> diff --git a/tools/testing/selftests/bpf/prog_tests/xdpwall.c b/tools/testing/selftests/bpf/prog_tests/xdpwall.c
-> index f3927829a55a..4599154c8e9b 100644
-> --- a/tools/testing/selftests/bpf/prog_tests/xdpwall.c
-> +++ b/tools/testing/selftests/bpf/prog_tests/xdpwall.c
-> @@ -9,7 +9,7 @@ void test_xdpwall(void)
->   	struct xdpwall *skel;
->   
->   	skel = xdpwall__open_and_load();
-> -	ASSERT_OK_PTR(skel, "Does LLMV have https://reviews.llvm.org/D109073?");
-> +	ASSERT_OK_PTR(skel, "Does LLVM have https://github.com/llvm/llvm-project/commit/ea72b0319d7b0f0c2fcf41d121afa5d031b319d5?");
->   
->   	xdpwall__destroy(skel);
->   }
-> diff --git a/tools/testing/selftests/bpf/progs/test_core_reloc_type_id.c b/tools/testing/selftests/bpf/progs/test_core_reloc_type_id.c
-> index 22aba3f6e344..6fc8b9d66e34 100644
-> --- a/tools/testing/selftests/bpf/progs/test_core_reloc_type_id.c
-> +++ b/tools/testing/selftests/bpf/progs/test_core_reloc_type_id.c
-> @@ -80,7 +80,7 @@ int test_core_type_id(void *ctx)
->   	 * to detect whether this test has to be executed, however strange
->   	 * that might look like.
->   	 *
-> -	 *   [0] https://reviews.llvm.org/D85174
-> +	 *   [0] https://github.com/llvm/llvm-project/commit/00602ee7ef0bf6c68d690a2bd729c12b95c95c99
->   	 */
->   #if __has_builtin(__builtin_preserve_type_info)
->   	struct core_reloc_type_id_output *out = (void *)&data.out;
->
+in testcase: boot
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/6a655e9f-9878-4292-9d16-f988c4bdfc73%40linux.dev.
+compiler: gcc-12
+test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
+
+(please refer to attached dmesg/kmsg for entire log/backtrace)
+
+
++----------------------------------------------------+------------+--------=
+----+
+|                                                    | a914d8d6cf | a414d42=
+86f |
++----------------------------------------------------+------------+--------=
+----+
+| INFO:trying_to_register_non-static_key             | 0          | 22     =
+    |
++----------------------------------------------------+------------+--------=
+----+
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202401111558.1374ae6f-oliver.sang@=
+intel.com
+
+
+[    1.582812][    T0] INFO: trying to register non-static key.
+[    1.583305][    T0] The code is fine but needs lockdep annotation, or ma=
+ybe
+[    1.583887][    T0] you didn't initialize this object before use?
+[    1.584409][    T0] turning off the locking correctness validator.
+[    1.584930][    T0] CPU: 0 PID: 0 Comm: swapper/0 Not tainted 6.7.0-rc4-=
+00331-ga414d4286f34 #1
+[    1.585652][    T0] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996=
+), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+[    1.586518][    T0] Call Trace:
+[    1.586782][    T0]  <TASK>
+[ 1.587071][ T0] dump_stack_lvl (lib/dump_stack.c:107)=20
+[ 1.587449][ T0] register_lock_class (kernel/locking/lockdep.c:977 kernel/l=
+ocking/lockdep.c:1289)=20
+[ 1.587885][ T0] ? is_dynamic_key (kernel/locking/lockdep.c:1276)=20
+[ 1.588290][ T0] __lock_acquire (kernel/locking/lockdep.c:5015)=20
+[ 1.588671][ T0] ? x86_64_start_reservations (arch/x86/kernel/head64.c:543)=
+=20
+[ 1.589135][ T0] ? x86_64_start_kernel (arch/x86/kernel/head64.c:485 (discr=
+iminator 17))=20
+[ 1.589562][ T0] ? secondary_startup_64_no_verify (arch/x86/kernel/head_64.=
+S:432)=20
+[ 1.590077][ T0] lock_acquire (kernel/locking/lockdep.c:467 kernel/locking/=
+lockdep.c:5756)=20
+[ 1.590449][ T0] ? __kasan_record_aux_stack (mm/kasan/generic.c:539)=20
+[ 1.590907][ T0] ? lock_sync (kernel/locking/lockdep.c:5722)=20
+[ 1.591269][ T0] _raw_spin_lock_irqsave (include/linux/spinlock_api_smp.h:1=
+11 kernel/locking/spinlock.c:162)=20
+[ 1.591698][ T0] ? __kasan_record_aux_stack (mm/kasan/generic.c:539)=20
+[ 1.592158][ T0] __kasan_record_aux_stack (mm/kasan/generic.c:539)=20
+[ 1.592598][ T0] ? mem_pool_free (mm/kmemleak.c:508)=20
+[ 1.592988][ T0] __call_rcu_common+0x6b/0x710=20
+[ 1.593475][ T0] slab_free_freelist_hook (mm/slub.c:1783 mm/slub.c:1837)=20
+[ 1.593923][ T0] ? apply_wqattrs_cleanup (kernel/workqueue.c:4329)=20
+[ 1.594370][ T0] __kmem_cache_free (mm/slub.c:3820 mm/slub.c:3833)=20
+[ 1.594770][ T0] ? do_raw_spin_unlock (arch/x86/include/asm/atomic.h:23 inc=
+lude/linux/atomic/atomic-arch-fallback.h:457 include/linux/atomic/atomic-in=
+strumented.h:33 include/asm-generic/qspinlock.h:57 kernel/locking/spinlock_=
+debug.c:100 kernel/locking/spinlock_debug.c:140)=20
+[ 1.595193][ T0] apply_wqattrs_cleanup (kernel/workqueue.c:4329)=20
+[ 1.595627][ T0] apply_workqueue_attrs_locked (kernel/workqueue.c:4452)=20
+[ 1.596103][ T0] alloc_and_link_pwqs (kernel/workqueue.c:4481 kernel/workqu=
+eue.c:4599)=20
+[ 1.596523][ T0] alloc_workqueue (kernel/workqueue.c:4724)=20
+[ 1.596910][ T0] ? workqueue_sysfs_register (kernel/workqueue.c:4675)=20
+[ 1.597380][ T0] workqueue_init_early (kernel/workqueue.c:6605 (discriminat=
+or 2))=20
+[ 1.597809][ T0] ? workqueue_init_topology (kernel/workqueue.c:6531)=20
+[ 1.598273][ T0] ? kmem_cache_create_usercopy (mm/slab_common.c:363)=20
+[ 1.598752][ T0] start_kernel (init/main.c:965 (discriminator 3))=20
+[ 1.599116][ T0] x86_64_start_reservations (arch/x86/kernel/head64.c:543)=
+=20
+[ 1.599564][ T0] x86_64_start_kernel (arch/x86/kernel/head64.c:485 (discrim=
+inator 17))=20
+[ 1.599981][ T0] secondary_startup_64_no_verify (arch/x86/kernel/head_64.S:=
+432)=20
+[    1.600482][    T0]  </TASK>
+
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20240111/202401111558.1374ae6f-oliv=
+er.sang@intel.com
+
+
+
+--=20
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/202401111558.1374ae6f-oliver.sang%40intel.com.
