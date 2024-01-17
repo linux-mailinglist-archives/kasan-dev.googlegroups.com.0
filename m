@@ -1,128 +1,137 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBAVOS2WQMGQEEA77NLI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBBWQUCWQMGQEDV2XWFA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3b.google.com (mail-oa1-x3b.google.com [IPv6:2001:4860:4864:20::3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71F382E1D6
-	for <lists+kasan-dev@lfdr.de>; Mon, 15 Jan 2024 21:35:15 +0100 (CET)
-Received: by mail-oa1-x3b.google.com with SMTP id 586e51a60fabf-204e4adcf72sf14590690fac.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 15 Jan 2024 12:35:15 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1705350914; cv=pass;
+Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F66A830D38
+	for <lists+kasan-dev@lfdr.de>; Wed, 17 Jan 2024 20:18:32 +0100 (CET)
+Received: by mail-lj1-x23d.google.com with SMTP id 38308e7fff4ca-2ccc360edc4sf103000361fa.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 17 Jan 2024 11:18:32 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1705519111; cv=pass;
         d=google.com; s=arc-20160816;
-        b=olgPicU+t2KgmLre1CGBw9JKq+Jw7xBIx1F+WkE4r6Pg5cRyc+UcnLI3oSZMaKaPgw
-         M7F16qV5h5GPSHTeHNJShWconuwHZnrlnOo9hFLvk8289H4RMjD8QQmozqcveNSabm3C
-         IeKQTZ2zQEd0w8AHkWdLGiQEmIbxQ/6XbaoHXJAxKEXAeMeBD7GkOItxYEpxH3dI+SPx
-         pLIMOkObHKuTDUeDbfawahq8cpULxiwqeAlvv2s39fOqdB1KiKKrKiyfRW5a/5WA5Q2M
-         2lPgG/mj+pjZOuJ3//69IvmnGSPhW/LNWIgQ9pAFhaZ72mGWz0j6buQmXqlk2bmFEwyn
-         5JqQ==
+        b=K/wTH1slARqPZs6OpRVmrqOYykwNtF25dhL6oLvAosHAVUnKz1HEOF7hz2fujHMRmN
+         85Fh5HpR7wgn5oMzdBMSPqJwScT2VKSoybMeGNS5YS3F61NdrytedKgr7pfRA/L1jMnb
+         uC+rpPDp83dZQx/1R8IQBOsdBDQN6fY6qQXp13WD4Zy4ZZlBK9Sy+HKlBuBiRFu34Kca
+         KjP5r2y0hjnLALdMtIFvvKJ58w+qlIIKpW40cBkAA+hv21Ez/jYTuy1AOF7z4zfQJo+V
+         gwKimAvGlfcjVnUh0RBF/Rdfiv2iXSu0FKR0exxXUyUkBWovMBBQ2PwE7U6BvqyNHOmq
+         J9Zw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=wuAHZzXl3nMAb7o17O6BPUJGrpEllsuXO32FtrH+9Y4=;
-        fh=V/YoFzKlSwVzG1uyqPUWUAENm7zViGv6IjT7j68hIPU=;
-        b=V0ICHX6+9ok6XvitqlGSk30zfWhtacrZMwXV6YAa6+e7jdeM2LB12DOUW3OG0z09Ph
-         Adsd2oJ1lXhqtHcRq3i10hBdCsoNmX22v32Xu1H79neLVMbZg0IQ6hJbcnRjkpH+Y7Rk
-         X7bAMGWDTGBwyTQBh16ZTRtRphD5bKUHFm12n8sZmTh31WzVvg7I2iHaRtWelQGP/oxh
-         aBRiWDvg+HeEFNiiPFV4nj2OUZb5cCAAeFhLt9LHNUYMcEwcHXC+ZPhR39qWFv+qdf63
-         Bilg6ajKJwP373OpMSrXKq0AOubXd2f6CzlAe8krUndl2sh4iJkm6ZpkjXQPZkUx6qa5
-         lnWQ==
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=Llwv9KDeb9hBDU5iGiID+4tkuHW98rLDNQZDMZfyrJc=;
+        fh=SaMKD/qpL3nGMJUrmiYLa5wMkbVnPqsoNrm4W3W8Cyc=;
+        b=0X/1s7NkvFl0x0oVSROFgJpQPgmlYqub+tLtFUHFL+Te8XlqZKJtYKFIBBTzTB2itu
+         NiHKFcPmdd2ICt+d7gFQR0MXneGUlprWzfUKwvKNbP+MCzh7D9u+dxDrgtr76EfQdGL1
+         FyzD9DM5YnRkdhFN/WW7qE/Zb6l5rUH+SG+hkeXljwpbetWTdLyhSfLiVnZuFyO+D9Mf
+         rxtVDSiHlbgYnbpJdODNUJ9xVqMyZBxGHw2Zn1+NB9HLKbXChTLhISZBwDRHiNz42OKe
+         w5FQwlETeYvDDPYBwMNWfTaPDiddTqwBoyAYDg/yaevbzBnt5DwE88DtYmpmW4CPsqMa
+         UwcQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=4N2CvjQm;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2a as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=K7nzuLcd;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1705350914; x=1705955714; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1705519111; x=1706123911; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wuAHZzXl3nMAb7o17O6BPUJGrpEllsuXO32FtrH+9Y4=;
-        b=b+1ihrfI+VOXAdArInM2DSt6U5Ih/ECe39h1X+AOmahT6okfrc2xHiEihxxMw8MW6K
-         MlEcA5GjsG6cyJXYlQrVk0lVbwnya0j0w5JtYMNzB44snBI6M9vPH+aJEKK1MSpxJUfZ
-         uWDQg2mCI2m/Z2IYC/vYO8RO/UCuPNxBSTtsm43b03KxqeOrkgCCg6vNFIEq6ZeEjtVQ
-         sWlipwCSlyX35laW6k3K6VEEPdan2VC2wukrcvw6k9BaW8+fhxUU/7K6YKbd5R46xnqw
-         ZjhMmQewxYhOpiajHMp0YvcfZId+mvJiQqXNd9iVo10ptK3mgwqyv8gAO5gEcI+SuLBK
-         O3yg==
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Llwv9KDeb9hBDU5iGiID+4tkuHW98rLDNQZDMZfyrJc=;
+        b=bHosAVy0aq77Yk9DV0aB0LugB8jmoaQBJz3xPs+bL9O+WU33v+tMMFh7oy32hqkFHs
+         +dp8WrvoPfWFphI705OfOs3wGxWqFwLWiGuC4Emh65BsiciA/joDgH3qUvoCn/zzxGPv
+         g18x3G2nXcUUTc3utc3zGc+9fl/FdzkLCSYDr+p3XdgU6FfqHMYcuZTHHbpgRfByU/yR
+         mWUG33tDLlscwYb+YdhqTlpFMz7sSs2Ss9Cv2pvjwFVimh44ererGHOwQlE/a9/6EbRL
+         b5BuesoH2P+ijj2sMNE/UeWP3qqPvIGrXqNW24g5XB9BW7/lMmt0ShbF27PAC/v7m+ro
+         V8/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705350914; x=1705955714;
+        d=1e100.net; s=20230601; t=1705519111; x=1706123911;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wuAHZzXl3nMAb7o17O6BPUJGrpEllsuXO32FtrH+9Y4=;
-        b=ih+efTJ3MViza7dH6KlsegeXenx8+OMXPk8YEFR6g8mue3z5mHHJRBVmbUCJl+Mv/2
-         Ffm6lk78hDXG+9R17oNOV9QqEycqWG0TKAM/we24hBaMIujIzU+IShG7mfDDNIN/qj7/
-         y0jn9JqybZE1fir6K2jESvkzGYIxyExYU2Tr8YkrOZPik9KvIhvqDnmD+n6sLA8oe2Lq
-         i02UTkGBk6dHOeEmyn6mtSls3Rc919l1lqyYGBtwvh0zKDZGYDMH6eDwMEbZG4JDmrni
-         bmSbQu4SAkrwBwG374op06hSlM+5GoxbA+RNWOmEvjZQ09GIya00zSAwyr3PpkRd79bP
-         laFQ==
-X-Gm-Message-State: AOJu0Yz8lC+SYd3nwGmYzwkOIxGs6jA++pZNrKHa4NMUeBJ0THGYlCL1
-	mo0UyilRv3FUSQf80fS5HqA=
-X-Google-Smtp-Source: AGHT+IGPe3rWo2BdRqmgiF/+J0YXqxNBsGnYZzy/PbIarx7p6nE1rwaORUkjbFFINlf3RsNTWdGgag==
-X-Received: by 2002:a05:6871:4308:b0:204:308f:cecc with SMTP id lu8-20020a056871430800b00204308fceccmr9741692oab.116.1705350914173;
-        Mon, 15 Jan 2024 12:35:14 -0800 (PST)
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Llwv9KDeb9hBDU5iGiID+4tkuHW98rLDNQZDMZfyrJc=;
+        b=g0oBXuij2553xL5nt4eYXt0SvGHsTIlNuJhkmm+hQyN8+PGrkg92HQC4yx47DvNBUc
+         fy6MjdgOtJfom5DfXv5m2hvqeVk7YolSbwOPmCH45H8y9VLVZ0C0LGfsSbXfFymbEJIk
+         eUQxCa4sBU9GcF+K3eTvenZWG/g20XJfF9uDuaFg1SxKFUic/3F7YlSak7n6xH+w7ZvM
+         44lh21qoYNQVq4jF1eHhB27hKNBFtWZdE2KpNXZLqt+lbe5KSWdtJ7+YnKw/56GDQWMB
+         NxhJFl+wi+Dbr0QND2bHE75l1vQs89zYgICCz4BxJljWfM15HvlKCdNFYJ/3S52agUXG
+         gyEg==
+X-Gm-Message-State: AOJu0Ywlq5P+WuF+KubMs8GdbWU9K9wIgKMwaztKa735ZaDYy+O3tUAg
+	fMUSUEZayYASsG4AruV11Ns=
+X-Google-Smtp-Source: AGHT+IHS2sidwtzlwMlNNfv5a2Y8kOdRzXeqsTqlzdqDMhnJCpenSQnDw0POV8nfpGsQV/DXrPv5FQ==
+X-Received: by 2002:a2e:9bd2:0:b0:2cd:2332:d4a1 with SMTP id w18-20020a2e9bd2000000b002cd2332d4a1mr4468145ljj.25.1705519111081;
+        Wed, 17 Jan 2024 11:18:31 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6871:e78c:b0:206:9c61:8284 with SMTP id
- qb12-20020a056871e78c00b002069c618284ls1043189oac.0.-pod-prod-09-us; Mon, 15
- Jan 2024 12:35:13 -0800 (PST)
-X-Received: by 2002:a05:6871:5207:b0:1fb:1904:bcdf with SMTP id ht7-20020a056871520700b001fb1904bcdfmr10307131oac.16.1705350913540;
-        Mon, 15 Jan 2024 12:35:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1705350913; cv=none;
+Received: by 2002:a2e:300a:0:b0:2cd:613a:8cc3 with SMTP id w10-20020a2e300a000000b002cd613a8cc3ls864054ljw.0.-pod-prod-04-eu;
+ Wed, 17 Jan 2024 11:18:29 -0800 (PST)
+X-Received: by 2002:a2e:8007:0:b0:2cd:63e4:75ff with SMTP id j7-20020a2e8007000000b002cd63e475ffmr4639852ljg.35.1705519108794;
+        Wed, 17 Jan 2024 11:18:28 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1705519108; cv=none;
         d=google.com; s=arc-20160816;
-        b=hLRDKl/b+JFYqobzZXNM7xhSm/8N05C0EYu+tGMVNse7MZtUgeQYWllRFxOrNuf/jC
-         63YSR6VMxdKQWgB9xHhsPZyrpVbJy5+hhLTk5yBZgUK8xy5P/cssJ5eDW/VRymiU7R/6
-         AlbFD/0aUOIVrrWOHQirOX9PkwR0wIbbuRTNTb7T1+jkpT3+T3xSk5gReHDj4l1LW8dJ
-         bTmG9daLvXbjXX7SUU3CmxLmiw6U11Juy55kdQO0mDdqNbKiKozEe0OuQ0KVKIlxnOqA
-         bmgI4i3BkGss6dJ81AjPj5wd2RwUqP/JoKuGSyHNNn43h3DPetdbmmEA3XsmpvgKaN6K
-         aY9A==
+        b=hYKGu9y206Wf11afY8cW1w+qWZ2mtvy0iz6Vz5xajYEjpWZUgkWECT4N/2jJEJaZ34
+         9fx7aHjiciSLc55+musNLFVPMR7criIYLjXXqKuF9FoK/zojs/z/892EdoTyZ8IOZ0bG
+         r4hXwX5z+O0m7gOXifxX6bGuXTQe5uU+NltEyUKkoOWRlY8BL34gMzVaRGM0dPEm22eY
+         +17ODu4x4vAFT2Iy2ZonvieE3mgOJppaUoEIe06o4Ic197GW/U54bbihygb5FpnCrmPq
+         TGK03LAqtF3qpY6wMc+KTi1pf6aZB+1urXLI9wobHINdFtwQj8EB8Leh3snUiCwmZdvU
+         G8Sg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vMS0J/7CyXgLKOAf0V+IWQO6ynhdDfGM83qwFs2ZDn0=;
-        fh=V/YoFzKlSwVzG1uyqPUWUAENm7zViGv6IjT7j68hIPU=;
-        b=jLD2iIzcbZj6aQcmM+xuEK2+A+8CPYLwqnEZFJNntvy9xpl3/2oTgcZf8j/0ocooOA
-         XDKelvy8epNSoHbgpJole+3Jx0mVK8f014aq5JolV5QvGFrytjdFiDONhrtr8Ovbjp0j
-         jcQ5MZu15ZIltuRGJoXmPigHVkK33ovGbEz+giQC+9POugwhfL0Px2Uk/aK16Nf9JLdg
-         SsK/XSkseCaId4w/g9wtrsM7WRZM8XWLBRRRSfHxABQZYBxDbGRFSgd1zNqgyAHjROU7
-         QAvEUcjZ4DVeKpfaP3XidjtJ8AvF/cl4FHPlzc4OKw1ao9VIsGoC1sqIPIbIUJ3tRb+t
-         O75A==
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=RY9ElmoBN1yaIqWHYG7QtdZi3QcPx+E4bgcakiLYwTI=;
+        fh=SaMKD/qpL3nGMJUrmiYLa5wMkbVnPqsoNrm4W3W8Cyc=;
+        b=RvHJ2KpFFANXXzqAgLg/rxf7aRBvqYv8LEbhb9m+djRn95PMR6F9nGq5OSpypqv7Ec
+         Ia6uPzj/Pn9OJh+AjpXZAdh3cOpHEjOQNHD4axwlabfPc4AkGD0Smf9urOJIaZMu/UIC
+         sbozVE+z+FeOWhpTVsgXga1ObF0GSOkwm1JNCUoq+YmNoYthFsdtadtP6183VwKhnrYr
+         qzsITwN/y14RrHCvB7bzK5LIc3VjX3g+rwUBSzoIgYUrM5LBCmOzAFnF4HOUyFjVtow7
+         Wku8OsbR6WoNx18E1Qmwg0OdnZmIsPVBvTXoQ+Px72GM3Anic7U4smS1JVl7Bg+das7y
+         ewQQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=4N2CvjQm;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2a as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=K7nzuLcd;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com. [2607:f8b0:4864:20::e2a])
-        by gmr-mx.google.com with ESMTPS id d186-20020a6336c3000000b005c622d1ef04si587572pga.2.2024.01.15.12.35.13
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com. [2a00:1450:4864:20::32f])
+        by gmr-mx.google.com with ESMTPS id q26-20020a2e915a000000b002ccdcc1fd1csi514720ljg.6.2024.01.17.11.18.28
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 15 Jan 2024 12:35:13 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2a as permitted sender) client-ip=2607:f8b0:4864:20::e2a;
-Received: by mail-vs1-xe2a.google.com with SMTP id ada2fe7eead31-469531dd926so330818137.2
-        for <kasan-dev@googlegroups.com>; Mon, 15 Jan 2024 12:35:13 -0800 (PST)
-X-Received: by 2002:a05:6102:48c:b0:468:dca:dd58 with SMTP id
- n12-20020a056102048c00b004680dcadd58mr3124255vsa.17.1705350912977; Mon, 15
- Jan 2024 12:35:12 -0800 (PST)
-MIME-Version: 1.0
-References: <1697202267-23600-1-git-send-email-quic_charante@quicinc.com> <20240115184430.2710652-1-glider@google.com>
-In-Reply-To: <20240115184430.2710652-1-glider@google.com>
+        Wed, 17 Jan 2024 11:18:28 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) client-ip=2a00:1450:4864:20::32f;
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40e8cf57d63so6945515e9.1
+        for <kasan-dev@googlegroups.com>; Wed, 17 Jan 2024 11:18:28 -0800 (PST)
+X-Received: by 2002:a7b:ca59:0:b0:40e:76f6:9613 with SMTP id m25-20020a7bca59000000b0040e76f69613mr3246094wml.8.1705519107822;
+        Wed, 17 Jan 2024 11:18:27 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:9c:201:e545:8ceb:c441:7541])
+        by smtp.gmail.com with ESMTPSA id bi13-20020a05600c3d8d00b0040e8800fcf3sm3597189wmb.5.2024.01.17.11.18.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jan 2024 11:18:27 -0800 (PST)
+Date: Wed, 17 Jan 2024 20:18:21 +0100
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Mon, 15 Jan 2024 21:34:35 +0100
-Message-ID: <CANpmjNMP802yN0i6puHHKX5E1PZ_6_h1x9nkGHCXZ4DVabxy7A@mail.gmail.com>
-Subject: Re: [PATCH] mm/sparsemem: fix race in accessing memory_section->usage
 To: Alexander Potapenko <glider@google.com>
-Cc: quic_charante@quicinc.com, akpm@linux-foundation.org, 
-	aneesh.kumar@linux.ibm.com, dan.j.williams@intel.com, david@redhat.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, mgorman@techsingularity.net, 
-	osalvador@suse.de, vbabka@suse.cz, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
-	Ilya Leoshkevich <iii@linux.ibm.com>, Nicholas Miehlbradt <nicholas@linux.ibm.com>
+Cc: quic_charante@quicinc.com, akpm@linux-foundation.org,
+	aneesh.kumar@linux.ibm.com, dan.j.williams@intel.com,
+	david@redhat.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	mgorman@techsingularity.net, osalvador@suse.de, vbabka@suse.cz,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
+	Ilya Leoshkevich <iii@linux.ibm.com>,
+	Nicholas Miehlbradt <nicholas@linux.ibm.com>, rcu@vger.kernel.org
+Subject: Re: [PATCH] mm/sparsemem: fix race in accessing memory_section->usage
+Message-ID: <Zagn_T44RU94dZa7@elver.google.com>
+References: <1697202267-23600-1-git-send-email-quic_charante@quicinc.com>
+ <20240115184430.2710652-1-glider@google.com>
+ <CANpmjNMP802yN0i6puHHKX5E1PZ_6_h1x9nkGHCXZ4DVabxy7A@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <CANpmjNMP802yN0i6puHHKX5E1PZ_6_h1x9nkGHCXZ4DVabxy7A@mail.gmail.com>
+User-Agent: Mutt/2.2.12 (2023-09-09)
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=4N2CvjQm;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2a as
+ header.i=@google.com header.s=20230601 header.b=K7nzuLcd;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -139,69 +148,112 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 15 Jan 2024 at 19:44, Alexander Potapenko <glider@google.com> wrote:
->
-> Cc: "Paul E. McKenney" <paulmck@kernel.org>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: kasan-dev@googlegroups.com
-> Cc: Ilya Leoshkevich <iii@linux.ibm.com>
-> Cc: Nicholas Miehlbradt <nicholas@linux.ibm.com>
->
-> Hi folks,
->
-> (adding KMSAN reviewers and IBM people who are currently porting KMSAN to other
-> architectures, plus Paul for his opinion on refactoring RCU)
->
-> this patch broke x86 KMSAN in a subtle way.
->
-> For every memory access in the code instrumented by KMSAN we call
-> kmsan_get_metadata() to obtain the metadata for the memory being accessed. For
-> virtual memory the metadata pointers are stored in the corresponding `struct
-> page`, therefore we need to call virt_to_page() to get them.
->
-> According to the comment in arch/x86/include/asm/page.h, virt_to_page(kaddr)
-> returns a valid pointer iff virt_addr_valid(kaddr) is true, so KMSAN needs to
-> call virt_addr_valid() as well.
->
-> To avoid recursion, kmsan_get_metadata() must not call instrumented code,
-> therefore ./arch/x86/include/asm/kmsan.h forks parts of arch/x86/mm/physaddr.c
-> to check whether a virtual address is valid or not.
->
-> But the introduction of rcu_read_lock() to pfn_valid() added instrumented RCU
-> API calls to virt_to_page_or_null(), which is called by kmsan_get_metadata(),
-> so there is an infinite recursion now. I do not think it is correct to stop that
-> recursion by doing kmsan_enter_runtime()/kmsan_exit_runtime() in
-> kmsan_get_metadata(): that would prevent instrumented functions called from
-> within the runtime from tracking the shadow values, which might introduce false
-> positives.
->
-> I am currently looking into inlining __rcu_read_lock()/__rcu_read_unlock(), into
-> KMSAN code to prevent it from being instrumented, but that might require factoring
-> out parts of kernel/rcu/tree_plugin.h into a non-private header. Do you think this
-> is feasible?
+On Mon, Jan 15, 2024 at 09:34PM +0100, Marco Elver wrote:
+> On Mon, 15 Jan 2024 at 19:44, Alexander Potapenko <glider@google.com> wrote:
+> >
+> > Cc: "Paul E. McKenney" <paulmck@kernel.org>
+> > Cc: Marco Elver <elver@google.com>
+> > Cc: Dmitry Vyukov <dvyukov@google.com>
+> > Cc: kasan-dev@googlegroups.com
+> > Cc: Ilya Leoshkevich <iii@linux.ibm.com>
+> > Cc: Nicholas Miehlbradt <nicholas@linux.ibm.com>
+> >
+> > Hi folks,
+> >
+> > (adding KMSAN reviewers and IBM people who are currently porting KMSAN to other
+> > architectures, plus Paul for his opinion on refactoring RCU)
+> >
+> > this patch broke x86 KMSAN in a subtle way.
+> >
+> > For every memory access in the code instrumented by KMSAN we call
+> > kmsan_get_metadata() to obtain the metadata for the memory being accessed. For
+> > virtual memory the metadata pointers are stored in the corresponding `struct
+> > page`, therefore we need to call virt_to_page() to get them.
+> >
+> > According to the comment in arch/x86/include/asm/page.h, virt_to_page(kaddr)
+> > returns a valid pointer iff virt_addr_valid(kaddr) is true, so KMSAN needs to
+> > call virt_addr_valid() as well.
+> >
+> > To avoid recursion, kmsan_get_metadata() must not call instrumented code,
+> > therefore ./arch/x86/include/asm/kmsan.h forks parts of arch/x86/mm/physaddr.c
+> > to check whether a virtual address is valid or not.
+> >
+> > But the introduction of rcu_read_lock() to pfn_valid() added instrumented RCU
+> > API calls to virt_to_page_or_null(), which is called by kmsan_get_metadata(),
+> > so there is an infinite recursion now. I do not think it is correct to stop that
+> > recursion by doing kmsan_enter_runtime()/kmsan_exit_runtime() in
+> > kmsan_get_metadata(): that would prevent instrumented functions called from
+> > within the runtime from tracking the shadow values, which might introduce false
+> > positives.
+> >
+> > I am currently looking into inlining __rcu_read_lock()/__rcu_read_unlock(), into
+> > KMSAN code to prevent it from being instrumented, but that might require factoring
+> > out parts of kernel/rcu/tree_plugin.h into a non-private header. Do you think this
+> > is feasible?
+> 
+> __rcu_read_lock/unlock() is only outlined in PREEMPT_RCU. Not sure that helps.
+> 
+> Otherwise, there is rcu_read_lock_sched_notrace() which does the bare
+> minimum and is static inline.
+> 
+> Does that help?
 
-__rcu_read_lock/unlock() is only outlined in PREEMPT_RCU. Not sure that helps.
+Hrm, rcu_read_unlock_sched_notrace() can still call
+__preempt_schedule_notrace(), which is again instrumented by KMSAN.
 
-Otherwise, there is rcu_read_lock_sched_notrace() which does the bare
-minimum and is static inline.
+This patch gets me a working kernel:
 
-Does that help?
+diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
+index 4ed33b127821..2d62df462d88 100644
+--- a/include/linux/mmzone.h
++++ b/include/linux/mmzone.h
+@@ -2000,6 +2000,7 @@ static inline int pfn_valid(unsigned long pfn)
+ {
+ 	struct mem_section *ms;
+ 	int ret;
++	unsigned long flags;
+ 
+ 	/*
+ 	 * Ensure the upper PAGE_SHIFT bits are clear in the
+@@ -2013,9 +2014,9 @@ static inline int pfn_valid(unsigned long pfn)
+ 	if (pfn_to_section_nr(pfn) >= NR_MEM_SECTIONS)
+ 		return 0;
+ 	ms = __pfn_to_section(pfn);
+-	rcu_read_lock();
++	local_irq_save(flags);
+ 	if (!valid_section(ms)) {
+-		rcu_read_unlock();
++		local_irq_restore(flags);
+ 		return 0;
+ 	}
+ 	/*
+@@ -2023,7 +2024,7 @@ static inline int pfn_valid(unsigned long pfn)
+ 	 * the entire section-sized span.
+ 	 */
+ 	ret = early_section(ms) || pfn_section_valid(ms, pfn);
+-	rcu_read_unlock();
++	local_irq_restore(flags);
+ 
+ 	return ret;
+ }
 
-> Another option is to cut some edges in the code calling virt_to_page(). First,
-> my observation is that virt_addr_valid() is quite rare in the kernel code, i.e.
-> not all cases of calling virt_to_page() are covered with it. Second, every
-> memory access to KMSAN metadata residing in virt_to_page(kaddr)->shadow always
-> accompanies an access to `kaddr` itself, so if there is a race on a PFN then
-> the access to `kaddr` will probably also trigger a fault. Third, KMSAN metadata
-> accesses are inherently non-atomic, and even if we ensure pfn_valid() is
-> returning a consistent value for a single memory access, calling it twice may
-> already return different results.
->
-> Considering the above, how bad would it be to drop synchronization for KMSAN's
-> version of pfn_valid() called from kmsan_virt_addr_valid()?
+Disabling interrupts is a little heavy handed - it also assumes the
+current RCU implementation. There is
+preempt_enable_no_resched_notrace(), but that might be worse because it
+breaks scheduling guarantees.
+
+That being said, whatever we do here should be wrapped in some
+rcu_read_lock/unlock_<newvariant>() helper.
+
+Is there an existing helper we can use? If not, we need a variant that
+can be used from extremely constrained contexts that can't even call
+into the scheduler. And if we want pfn_valid() to switch to it, it also
+should be fast.
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMP802yN0i6puHHKX5E1PZ_6_h1x9nkGHCXZ4DVabxy7A%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Zagn_T44RU94dZa7%40elver.google.com.
