@@ -1,141 +1,143 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBBWQUCWQMGQEDV2XWFA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBGFZUGWQMGQEBYD5WTI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F66A830D38
-	for <lists+kasan-dev@lfdr.de>; Wed, 17 Jan 2024 20:18:32 +0100 (CET)
-Received: by mail-lj1-x23d.google.com with SMTP id 38308e7fff4ca-2ccc360edc4sf103000361fa.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 17 Jan 2024 11:18:32 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1705519111; cv=pass;
+Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0DA830FEA
+	for <lists+kasan-dev@lfdr.de>; Thu, 18 Jan 2024 00:02:49 +0100 (CET)
+Received: by mail-wm1-x33c.google.com with SMTP id 5b1f17b1804b1-40e417aa684sf84362025e9.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 17 Jan 2024 15:02:49 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1705532569; cv=pass;
         d=google.com; s=arc-20160816;
-        b=K/wTH1slARqPZs6OpRVmrqOYykwNtF25dhL6oLvAosHAVUnKz1HEOF7hz2fujHMRmN
-         85Fh5HpR7wgn5oMzdBMSPqJwScT2VKSoybMeGNS5YS3F61NdrytedKgr7pfRA/L1jMnb
-         uC+rpPDp83dZQx/1R8IQBOsdBDQN6fY6qQXp13WD4Zy4ZZlBK9Sy+HKlBuBiRFu34Kca
-         KjP5r2y0hjnLALdMtIFvvKJ58w+qlIIKpW40cBkAA+hv21Ez/jYTuy1AOF7z4zfQJo+V
-         gwKimAvGlfcjVnUh0RBF/Rdfiv2iXSu0FKR0exxXUyUkBWovMBBQ2PwE7U6BvqyNHOmq
-         J9Zw==
+        b=Ox2nXtJvT6d81M/KQ71/KWrmf/WcH6KxBUzegKThiT+4SRSQ18oi/ON03/2DQkEaT5
+         gTu8xwk2V8urKPFi8bowrtEldribwVeXhi4eybzzuTFTPQoD3INABRgtS5Y6MtIy99dr
+         GYrqDYZ7OwvHkPfThedGeg6fcLZLbm6tNEoNJVRv2JIT6fC8bowZo2pGHsQXSaBIy6z3
+         CFQw2W5P7MCRMNzNASeJKPQq9R6kJH3kV0OFgYNaPIRVOk1DNUXksVkUlWNtQZ2//SPe
+         7HpT8mZ8lnv3mDm1Y42/o9weHP/phMezfEIjD2bLA4PqJTRdznhQJDE1Pwd5hgsnhebJ
+         6X1Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:dkim-signature;
-        bh=Llwv9KDeb9hBDU5iGiID+4tkuHW98rLDNQZDMZfyrJc=;
-        fh=SaMKD/qpL3nGMJUrmiYLa5wMkbVnPqsoNrm4W3W8Cyc=;
-        b=0X/1s7NkvFl0x0oVSROFgJpQPgmlYqub+tLtFUHFL+Te8XlqZKJtYKFIBBTzTB2itu
-         NiHKFcPmdd2ICt+d7gFQR0MXneGUlprWzfUKwvKNbP+MCzh7D9u+dxDrgtr76EfQdGL1
-         FyzD9DM5YnRkdhFN/WW7qE/Zb6l5rUH+SG+hkeXljwpbetWTdLyhSfLiVnZuFyO+D9Mf
-         rxtVDSiHlbgYnbpJdODNUJ9xVqMyZBxGHw2Zn1+NB9HLKbXChTLhISZBwDRHiNz42OKe
-         w5FQwlETeYvDDPYBwMNWfTaPDiddTqwBoyAYDg/yaevbzBnt5DwE88DtYmpmW4CPsqMa
-         UwcQ==
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=xiXGnOufqgSzicx2PYhNC6skYbyd333TOT6faqeI1wM=;
+        fh=f4Ipbz2eCys6yF2ncPQnaMDCr5B3qrwsnm+lLy5ZEtA=;
+        b=jP+nMcZg00ceHMcXFQfuBGuvPdvmTSzJtackZeCunliorrPgzot9cguIo/5miHZwFx
+         gOWVl+mdwmINzkonCNqkdVhfXxp5NvmhxgKEeRM/m1cNOQtEYtIdfdytIPwvrkEf9c2K
+         ifiJq5r/5PBzvTc0xVANo9HFS54M+Ko90ejHdDXwMou4Y30SPVITCHrzmeg0QDI3sVaP
+         JBZLcfWSui701oc5Y14ICS6i4JUQDOi7OcjPHfRei6mWWwoummG7uhWJ769W6qixcgcz
+         rj7dWYOeohz5Zg/L5fQ3zOheEjR7WrUmJz2AfR9GKIYYS8U/cdD7LF6zkkAOh9+WkkAR
+         Tc6g==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=K7nzuLcd;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=jFneaIhr;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1705519111; x=1706123911; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1705532569; x=1706137369; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:user-agent
-         :in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Llwv9KDeb9hBDU5iGiID+4tkuHW98rLDNQZDMZfyrJc=;
-        b=bHosAVy0aq77Yk9DV0aB0LugB8jmoaQBJz3xPs+bL9O+WU33v+tMMFh7oy32hqkFHs
-         +dp8WrvoPfWFphI705OfOs3wGxWqFwLWiGuC4Emh65BsiciA/joDgH3qUvoCn/zzxGPv
-         g18x3G2nXcUUTc3utc3zGc+9fl/FdzkLCSYDr+p3XdgU6FfqHMYcuZTHHbpgRfByU/yR
-         mWUG33tDLlscwYb+YdhqTlpFMz7sSs2Ss9Cv2pvjwFVimh44ererGHOwQlE/a9/6EbRL
-         b5BuesoH2P+ijj2sMNE/UeWP3qqPvIGrXqNW24g5XB9BW7/lMmt0ShbF27PAC/v7m+ro
-         V8/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705519111; x=1706123911;
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xiXGnOufqgSzicx2PYhNC6skYbyd333TOT6faqeI1wM=;
+        b=EHuE6kRX+qpNDG4S4yQpHfU8vYZl+Q8LAonFZ7Kunxiz/Tujlyy/NkIOpdC6RNmFuW
+         s9jJN9nVBc7U+H7Ext34wKnMuTp9TND36SSPFRg+dOPrMB0eqNA5TX7hwvnph2vFsq7x
+         gK2FLO3QyY6H0t7GWB2sKpereHQvi+SC1Rja4opeH7QLHURcmpJqG6Zigh7D7slux/Kh
+         R8DNEekEk1REF2LxfQqK6V5SOUQlj/CmLnmjGAxsS1zQqPRZBWdmRI6o+1OsbTcFlIhe
+         f7asLQu36cxAoQBaP1qs8B5SXfisd6HUheG2gP6NNYgyuC8PdnDRxvA+/S1RV4S5aBcp
+         v+Qw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1705532569; x=1706137369; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:user-agent
-         :in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:from:to:cc
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Llwv9KDeb9hBDU5iGiID+4tkuHW98rLDNQZDMZfyrJc=;
-        b=g0oBXuij2553xL5nt4eYXt0SvGHsTIlNuJhkmm+hQyN8+PGrkg92HQC4yx47DvNBUc
-         fy6MjdgOtJfom5DfXv5m2hvqeVk7YolSbwOPmCH45H8y9VLVZ0C0LGfsSbXfFymbEJIk
-         eUQxCa4sBU9GcF+K3eTvenZWG/g20XJfF9uDuaFg1SxKFUic/3F7YlSak7n6xH+w7ZvM
-         44lh21qoYNQVq4jF1eHhB27hKNBFtWZdE2KpNXZLqt+lbe5KSWdtJ7+YnKw/56GDQWMB
-         NxhJFl+wi+Dbr0QND2bHE75l1vQs89zYgICCz4BxJljWfM15HvlKCdNFYJ/3S52agUXG
-         gyEg==
-X-Gm-Message-State: AOJu0Ywlq5P+WuF+KubMs8GdbWU9K9wIgKMwaztKa735ZaDYy+O3tUAg
-	fMUSUEZayYASsG4AruV11Ns=
-X-Google-Smtp-Source: AGHT+IHS2sidwtzlwMlNNfv5a2Y8kOdRzXeqsTqlzdqDMhnJCpenSQnDw0POV8nfpGsQV/DXrPv5FQ==
-X-Received: by 2002:a2e:9bd2:0:b0:2cd:2332:d4a1 with SMTP id w18-20020a2e9bd2000000b002cd2332d4a1mr4468145ljj.25.1705519111081;
-        Wed, 17 Jan 2024 11:18:31 -0800 (PST)
+        bh=xiXGnOufqgSzicx2PYhNC6skYbyd333TOT6faqeI1wM=;
+        b=Ibw/L54YzRFfPMDa+9UcIYsKcfBwyqzpdEQnOkfV8MXaOyAKcfyRgozLuW3DCRy1Jm
+         /a2Y0PaysWfyMXBRsci2O/i7AqzGhdYn5BbH6f3XWAYPwVW1WTWiX35RlIvVA9ZjwEAQ
+         xH6WixAhumV3SPyAgBFgSPiSO9rypWptfJaYC+PXivYGDuC8gDdPie3mkxF0fqjN0+LZ
+         cYf82c5hCzE+MuoCcaBIsjjBToHInjcly4Z9lpHWjuhKg6LHHoJmKo4cdCPIAycZ6gre
+         wC/HjibSmXz32GD8eUrPCbQq3C7zf9HPGkKUQkIVYvUnlWTjsJTjJEsP9YBUpySUBXmV
+         /ahA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1705532569; x=1706137369;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=xiXGnOufqgSzicx2PYhNC6skYbyd333TOT6faqeI1wM=;
+        b=Z5m+2CbWgMdy4zJlSYlPvjXVwctG/+reIzk3wUsDotPgstgmXCqfLab3dsjdG74EfG
+         fVTEkLT1NZs6Z3lyghwPJlATWmYnaqgODxA8UvtJirSUc/RbtpJ8X7dfiLeXsJsg9VMn
+         gNEPqrpOJavzsHt3h+SEk7TwPauJmpb0UoM4xn8rSrTZgqdfTA750gGp72+sc0yG5xSP
+         qGp7161D9sHJyGoMgWgeH/EY+rN87igR3N+8am46s/MHCWv/ppzO7kscvHYG5ZsUDZnO
+         Bv3sigkr0vu3Yq8e0ypk2uYpVqkyV7VCA5DIgtG05qY2cWY+sTYChhG+b1qBxyeBG7+M
+         YdWw==
+Sender: kasan-dev@googlegroups.com
+X-Gm-Message-State: AOJu0Yz15GUHJNEJwqmG3/sBpQFppphPZIrS9bYU1PqDT1FWnIzA7P4n
+	I+/JdKPgR+mO2+kX1Gv7LmQ=
+X-Google-Smtp-Source: AGHT+IGf2evqn6k91BC/W7W6KUBGnVSYLMudQ8uIoB5NqdWbjgCSoT0Oa2QXl/VvQPJrhvayDz5RuQ==
+X-Received: by 2002:a05:600c:4395:b0:40e:5333:2024 with SMTP id e21-20020a05600c439500b0040e53332024mr5596067wmn.53.1705532569098;
+        Wed, 17 Jan 2024 15:02:49 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:300a:0:b0:2cd:613a:8cc3 with SMTP id w10-20020a2e300a000000b002cd613a8cc3ls864054ljw.0.-pod-prod-04-eu;
- Wed, 17 Jan 2024 11:18:29 -0800 (PST)
-X-Received: by 2002:a2e:8007:0:b0:2cd:63e4:75ff with SMTP id j7-20020a2e8007000000b002cd63e475ffmr4639852ljg.35.1705519108794;
-        Wed, 17 Jan 2024 11:18:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1705519108; cv=none;
+Received: by 2002:a5d:6ace:0:b0:337:bd04:220c with SMTP id u14-20020a5d6ace000000b00337bd04220cls273519wrw.2.-pod-prod-07-eu;
+ Wed, 17 Jan 2024 15:02:47 -0800 (PST)
+X-Received: by 2002:adf:f152:0:b0:337:c504:912b with SMTP id y18-20020adff152000000b00337c504912bmr709296wro.82.1705532567462;
+        Wed, 17 Jan 2024 15:02:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1705532567; cv=none;
         d=google.com; s=arc-20160816;
-        b=hYKGu9y206Wf11afY8cW1w+qWZ2mtvy0iz6Vz5xajYEjpWZUgkWECT4N/2jJEJaZ34
-         9fx7aHjiciSLc55+musNLFVPMR7criIYLjXXqKuF9FoK/zojs/z/892EdoTyZ8IOZ0bG
-         r4hXwX5z+O0m7gOXifxX6bGuXTQe5uU+NltEyUKkoOWRlY8BL34gMzVaRGM0dPEm22eY
-         +17ODu4x4vAFT2Iy2ZonvieE3mgOJppaUoEIe06o4Ic197GW/U54bbihygb5FpnCrmPq
-         TGK03LAqtF3qpY6wMc+KTi1pf6aZB+1urXLI9wobHINdFtwQj8EB8Leh3snUiCwmZdvU
-         G8Sg==
+        b=Ibrs3AI1giXI9vIrfmgAks1stcssaDyI3NrlI8lCdrHcQyQxY3W9y7ZmlNsy2lRD7r
+         j6/agZRPAv8g+cUSgjBeYSZ8g3Bg+1Knu6V71MchqAhxfZgkAm4YZFgw2Zbh6XzXjxB1
+         9CxHndZa27kXnanuK0p7gD859wh2Xy6LLX/ogIDkaegC1Z15xj/8RTMVJjDXIQDw0zhm
+         1J2uSHz3oeiTjGubnxQlaSaUPsGLC7yzaslJq0Bddqb85DwXsvEppNjviWIu1FrNfxGk
+         loWhYV9N9yc+EKwKnH06hoCeJJs2vR9z4TJtZn8tr0Bu0F/+yGdbfKn8aY+ubvfqAU6l
+         /cjQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=RY9ElmoBN1yaIqWHYG7QtdZi3QcPx+E4bgcakiLYwTI=;
-        fh=SaMKD/qpL3nGMJUrmiYLa5wMkbVnPqsoNrm4W3W8Cyc=;
-        b=RvHJ2KpFFANXXzqAgLg/rxf7aRBvqYv8LEbhb9m+djRn95PMR6F9nGq5OSpypqv7Ec
-         Ia6uPzj/Pn9OJh+AjpXZAdh3cOpHEjOQNHD4axwlabfPc4AkGD0Smf9urOJIaZMu/UIC
-         sbozVE+z+FeOWhpTVsgXga1ObF0GSOkwm1JNCUoq+YmNoYthFsdtadtP6183VwKhnrYr
-         qzsITwN/y14RrHCvB7bzK5LIc3VjX3g+rwUBSzoIgYUrM5LBCmOzAFnF4HOUyFjVtow7
-         Wku8OsbR6WoNx18E1Qmwg0OdnZmIsPVBvTXoQ+Px72GM3Anic7U4smS1JVl7Bg+das7y
-         ewQQ==
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=XVVQzIfswVI0WmMOjZbZ5Dux+OT+J5EfPrfiCiPsc9s=;
+        fh=f4Ipbz2eCys6yF2ncPQnaMDCr5B3qrwsnm+lLy5ZEtA=;
+        b=aY9l1NCUesvxalU596p170tvV2DuNc5M9W3D6PGUaizTQFitlGk8JaCSq1brilwEGq
+         S17NqQe56zXcgvpfOO+d94aos6uFAah0Exe4Hh7uk3DP1hwQ22ACibjUGeH7Is3ZhgLp
+         5mCSiVRXkkR8FploGSFE4SC7ccZ/6Elm1mrsp9tGudenIrgEGB8rrgP+BsCFz10r3Ow0
+         xFFPYBn+FTyqb6wGUdeeSbxhk1wWbM6p8eARCGMjFdnK8grPEBSKxIYdG4iEsgOgxUes
+         ZHjHj011Adk7iFVDgUd/alApFGUy4/bFoSw6z3ZmtD3W9+uZSmHQH64KGfyj4TuQMjQ5
+         coYQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=K7nzuLcd;
-       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com. [2a00:1450:4864:20::32f])
-        by gmr-mx.google.com with ESMTPS id q26-20020a2e915a000000b002ccdcc1fd1csi514720ljg.6.2024.01.17.11.18.28
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=jFneaIhr;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42b as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com. [2a00:1450:4864:20::42b])
+        by gmr-mx.google.com with ESMTPS id v7-20020a5d43c7000000b00337bceeaf2asi83593wrr.4.2024.01.17.15.02.47
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Jan 2024 11:18:28 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as permitted sender) client-ip=2a00:1450:4864:20::32f;
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40e8cf57d63so6945515e9.1
-        for <kasan-dev@googlegroups.com>; Wed, 17 Jan 2024 11:18:28 -0800 (PST)
-X-Received: by 2002:a7b:ca59:0:b0:40e:76f6:9613 with SMTP id m25-20020a7bca59000000b0040e76f69613mr3246094wml.8.1705519107822;
-        Wed, 17 Jan 2024 11:18:27 -0800 (PST)
-Received: from elver.google.com ([2a00:79e0:9c:201:e545:8ceb:c441:7541])
-        by smtp.gmail.com with ESMTPSA id bi13-20020a05600c3d8d00b0040e8800fcf3sm3597189wmb.5.2024.01.17.11.18.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jan 2024 11:18:27 -0800 (PST)
-Date: Wed, 17 Jan 2024 20:18:21 +0100
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Alexander Potapenko <glider@google.com>
-Cc: quic_charante@quicinc.com, akpm@linux-foundation.org,
-	aneesh.kumar@linux.ibm.com, dan.j.williams@intel.com,
-	david@redhat.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	mgorman@techsingularity.net, osalvador@suse.de, vbabka@suse.cz,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
-	Ilya Leoshkevich <iii@linux.ibm.com>,
-	Nicholas Miehlbradt <nicholas@linux.ibm.com>, rcu@vger.kernel.org
-Subject: Re: [PATCH] mm/sparsemem: fix race in accessing memory_section->usage
-Message-ID: <Zagn_T44RU94dZa7@elver.google.com>
-References: <1697202267-23600-1-git-send-email-quic_charante@quicinc.com>
- <20240115184430.2710652-1-glider@google.com>
- <CANpmjNMP802yN0i6puHHKX5E1PZ_6_h1x9nkGHCXZ4DVabxy7A@mail.gmail.com>
+        Wed, 17 Jan 2024 15:02:47 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42b as permitted sender) client-ip=2a00:1450:4864:20::42b;
+Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-337cf4eabc9so6805f8f.3
+        for <kasan-dev@googlegroups.com>; Wed, 17 Jan 2024 15:02:47 -0800 (PST)
+X-Received: by 2002:a5d:6446:0:b0:337:bebc:3f4a with SMTP id
+ d6-20020a5d6446000000b00337bebc3f4amr1662482wrw.81.1705532566755; Wed, 17 Jan
+ 2024 15:02:46 -0800 (PST)
 MIME-Version: 1.0
+References: <20240115092727.888096-1-elver@google.com>
+In-Reply-To: <20240115092727.888096-1-elver@google.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Thu, 18 Jan 2024 00:02:35 +0100
+Message-ID: <CA+fCnZfUiB67N_csOQuUMoLQ97WChaBm+FHdntmD63sL8xueyA@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/2] stackdepot: add stats counters exported via debugfs
+To: Marco Elver <elver@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vlastimil Babka <vbabka@suse.cz>, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNMP802yN0i6puHHKX5E1PZ_6_h1x9nkGHCXZ4DVabxy7A@mail.gmail.com>
-User-Agent: Mutt/2.2.12 (2023-09-09)
-X-Original-Sender: elver@google.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: andreyknvl@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=K7nzuLcd;       spf=pass
- (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32f as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@gmail.com header.s=20230601 header.b=jFneaIhr;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42b
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,112 +150,154 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jan 15, 2024 at 09:34PM +0100, Marco Elver wrote:
-> On Mon, 15 Jan 2024 at 19:44, Alexander Potapenko <glider@google.com> wrote:
-> >
-> > Cc: "Paul E. McKenney" <paulmck@kernel.org>
-> > Cc: Marco Elver <elver@google.com>
-> > Cc: Dmitry Vyukov <dvyukov@google.com>
-> > Cc: kasan-dev@googlegroups.com
-> > Cc: Ilya Leoshkevich <iii@linux.ibm.com>
-> > Cc: Nicholas Miehlbradt <nicholas@linux.ibm.com>
-> >
-> > Hi folks,
-> >
-> > (adding KMSAN reviewers and IBM people who are currently porting KMSAN to other
-> > architectures, plus Paul for his opinion on refactoring RCU)
-> >
-> > this patch broke x86 KMSAN in a subtle way.
-> >
-> > For every memory access in the code instrumented by KMSAN we call
-> > kmsan_get_metadata() to obtain the metadata for the memory being accessed. For
-> > virtual memory the metadata pointers are stored in the corresponding `struct
-> > page`, therefore we need to call virt_to_page() to get them.
-> >
-> > According to the comment in arch/x86/include/asm/page.h, virt_to_page(kaddr)
-> > returns a valid pointer iff virt_addr_valid(kaddr) is true, so KMSAN needs to
-> > call virt_addr_valid() as well.
-> >
-> > To avoid recursion, kmsan_get_metadata() must not call instrumented code,
-> > therefore ./arch/x86/include/asm/kmsan.h forks parts of arch/x86/mm/physaddr.c
-> > to check whether a virtual address is valid or not.
-> >
-> > But the introduction of rcu_read_lock() to pfn_valid() added instrumented RCU
-> > API calls to virt_to_page_or_null(), which is called by kmsan_get_metadata(),
-> > so there is an infinite recursion now. I do not think it is correct to stop that
-> > recursion by doing kmsan_enter_runtime()/kmsan_exit_runtime() in
-> > kmsan_get_metadata(): that would prevent instrumented functions called from
-> > within the runtime from tracking the shadow values, which might introduce false
-> > positives.
-> >
-> > I am currently looking into inlining __rcu_read_lock()/__rcu_read_unlock(), into
-> > KMSAN code to prevent it from being instrumented, but that might require factoring
-> > out parts of kernel/rcu/tree_plugin.h into a non-private header. Do you think this
-> > is feasible?
-> 
-> __rcu_read_lock/unlock() is only outlined in PREEMPT_RCU. Not sure that helps.
-> 
-> Otherwise, there is rcu_read_lock_sched_notrace() which does the bare
-> minimum and is static inline.
-> 
-> Does that help?
+On Mon, Jan 15, 2024 at 10:27=E2=80=AFAM Marco Elver <elver@google.com> wro=
+te:
+>
+> Add a few basic stats counters for stack depot that can be used to derive=
+ if
+> stack depot is working as intended. This is a snapshot of the new stats a=
+fter
+> booting a system with a KASAN-enabled kernel:
+>
+>  $ cat /sys/kernel/debug/stackdepot/stats
+>  pools: 838
+>  allocations: 29861
+>  frees: 6561
+>  in_use: 23300
+>  freelist_size: 1840
+>
+> Generally, "pools" should be well below the max; once the system is boote=
+d,
+> "in_use" should remain relatively steady.
+>
+> Signed-off-by: Marco Elver <elver@google.com>
+> ---
+>  lib/stackdepot.c | 53 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 53 insertions(+)
+>
+> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+> index a0be5d05c7f0..80a8ca24ccc8 100644
+> --- a/lib/stackdepot.c
+> +++ b/lib/stackdepot.c
+> @@ -14,6 +14,7 @@
+>
+>  #define pr_fmt(fmt) "stackdepot: " fmt
+>
+> +#include <linux/debugfs.h>
+>  #include <linux/gfp.h>
+>  #include <linux/jhash.h>
+>  #include <linux/kernel.h>
+> @@ -115,6 +116,23 @@ static bool new_pool_required =3D true;
+>  /* Lock that protects the variables above. */
+>  static DEFINE_RWLOCK(pool_rwlock);
+>
+> +/* Statistics counters for debugfs. */
+> +enum depot_counter_id {
+> +       DEPOT_COUNTER_ALLOCS,
+> +       DEPOT_COUNTER_FREES,
+> +       DEPOT_COUNTER_INUSE,
+> +       DEPOT_COUNTER_FREELIST_SIZE,
+> +       DEPOT_COUNTER_COUNT,
+> +};
+> +static long counters[DEPOT_COUNTER_COUNT];
+> +static const char *const counter_names[] =3D {
+> +       [DEPOT_COUNTER_ALLOCS]          =3D "allocations",
+> +       [DEPOT_COUNTER_FREES]           =3D "frees",
+> +       [DEPOT_COUNTER_INUSE]           =3D "in_use",
+> +       [DEPOT_COUNTER_FREELIST_SIZE]   =3D "freelist_size",
+> +};
+> +static_assert(ARRAY_SIZE(counter_names) =3D=3D DEPOT_COUNTER_COUNT);
+> +
+>  static int __init disable_stack_depot(char *str)
+>  {
+>         return kstrtobool(str, &stack_depot_disabled);
+> @@ -277,6 +295,7 @@ static void depot_init_pool(void *pool)
+>                 stack->handle.extra =3D 0;
+>
+>                 list_add(&stack->list, &free_stacks);
+> +               counters[DEPOT_COUNTER_FREELIST_SIZE]++;
+>         }
+>
+>         /* Save reference to the pool to be used by depot_fetch_stack(). =
+*/
+> @@ -376,6 +395,7 @@ depot_alloc_stack(unsigned long *entries, int size, u=
+32 hash, void **prealloc)
+>         /* Get and unlink the first entry from the freelist. */
+>         stack =3D list_first_entry(&free_stacks, struct stack_record, lis=
+t);
+>         list_del(&stack->list);
+> +       counters[DEPOT_COUNTER_FREELIST_SIZE]--;
+>
+>         /* Limit number of saved frames to CONFIG_STACKDEPOT_MAX_FRAMES. =
+*/
+>         if (size > CONFIG_STACKDEPOT_MAX_FRAMES)
+> @@ -394,6 +414,8 @@ depot_alloc_stack(unsigned long *entries, int size, u=
+32 hash, void **prealloc)
+>          */
+>         kmsan_unpoison_memory(stack, DEPOT_STACK_RECORD_SIZE);
+>
+> +       counters[DEPOT_COUNTER_ALLOCS]++;
+> +       counters[DEPOT_COUNTER_INUSE]++;
+>         return stack;
+>  }
+>
+> @@ -426,6 +448,10 @@ static void depot_free_stack(struct stack_record *st=
+ack)
+>         lockdep_assert_held_write(&pool_rwlock);
+>
+>         list_add(&stack->list, &free_stacks);
+> +
+> +       counters[DEPOT_COUNTER_FREELIST_SIZE]++;
+> +       counters[DEPOT_COUNTER_FREES]++;
+> +       counters[DEPOT_COUNTER_INUSE]--;
+>  }
+>
+>  /* Calculates the hash for a stack. */
+> @@ -690,3 +716,30 @@ unsigned int stack_depot_get_extra_bits(depot_stack_=
+handle_t handle)
+>         return parts.extra;
+>  }
+>  EXPORT_SYMBOL(stack_depot_get_extra_bits);
+> +
+> +static int stats_show(struct seq_file *seq, void *v)
+> +{
+> +       /*
+> +        * data race ok: These are just statistics counters, and approxim=
+ate
+> +        * statistics are ok for debugging.
+> +        */
+> +       seq_printf(seq, "pools: %d\n", data_race(pools_num));
+> +       for (int i =3D 0; i < DEPOT_COUNTER_COUNT; i++)
+> +               seq_printf(seq, "%s: %ld\n", counter_names[i], data_race(=
+counters[i]));
+> +
+> +       return 0;
+> +}
+> +DEFINE_SHOW_ATTRIBUTE(stats);
+> +
+> +static int depot_debugfs_init(void)
+> +{
+> +       struct dentry *dir;
+> +
+> +       if (stack_depot_disabled)
+> +               return 0;
+> +
+> +       dir =3D debugfs_create_dir("stackdepot", NULL);
+> +       debugfs_create_file("stats", 0444, dir, NULL, &stats_fops);
+> +       return 0;
+> +}
+> +late_initcall(depot_debugfs_init);
+> --
+> 2.43.0.275.g3460e3d667-goog
+>
 
-Hrm, rcu_read_unlock_sched_notrace() can still call
-__preempt_schedule_notrace(), which is again instrumented by KMSAN.
+Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
 
-This patch gets me a working kernel:
-
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 4ed33b127821..2d62df462d88 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -2000,6 +2000,7 @@ static inline int pfn_valid(unsigned long pfn)
- {
- 	struct mem_section *ms;
- 	int ret;
-+	unsigned long flags;
- 
- 	/*
- 	 * Ensure the upper PAGE_SHIFT bits are clear in the
-@@ -2013,9 +2014,9 @@ static inline int pfn_valid(unsigned long pfn)
- 	if (pfn_to_section_nr(pfn) >= NR_MEM_SECTIONS)
- 		return 0;
- 	ms = __pfn_to_section(pfn);
--	rcu_read_lock();
-+	local_irq_save(flags);
- 	if (!valid_section(ms)) {
--		rcu_read_unlock();
-+		local_irq_restore(flags);
- 		return 0;
- 	}
- 	/*
-@@ -2023,7 +2024,7 @@ static inline int pfn_valid(unsigned long pfn)
- 	 * the entire section-sized span.
- 	 */
- 	ret = early_section(ms) || pfn_section_valid(ms, pfn);
--	rcu_read_unlock();
-+	local_irq_restore(flags);
- 
- 	return ret;
- }
-
-Disabling interrupts is a little heavy handed - it also assumes the
-current RCU implementation. There is
-preempt_enable_no_resched_notrace(), but that might be worse because it
-breaks scheduling guarantees.
-
-That being said, whatever we do here should be wrapped in some
-rcu_read_lock/unlock_<newvariant>() helper.
-
-Is there an existing helper we can use? If not, we need a variant that
-can be used from extremely constrained contexts that can't even call
-into the scheduler. And if we want pfn_valid() to switch to it, it also
-should be fast.
-
-Thanks,
--- Marco
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Zagn_T44RU94dZa7%40elver.google.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CA%2BfCnZfUiB67N_csOQuUMoLQ97WChaBm%2BFHdntmD63sL8xueyA%40mail.gm=
+ail.com.
