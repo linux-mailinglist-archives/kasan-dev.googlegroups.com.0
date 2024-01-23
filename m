@@ -1,154 +1,136 @@
-Return-Path: <kasan-dev+bncBCF5XGNWYQBRBW4QXSWQMGQES5QOWXY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC4LXIPCY4NRBF5QXSWQMGQEQIX6W4Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf37.google.com (mail-qv1-xf37.google.com [IPv6:2607:f8b0:4864:20::f37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2593483791F
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Jan 2024 01:29:17 +0100 (CET)
-Received: by mail-qv1-xf37.google.com with SMTP id 6a1803df08f44-681998847b0sf72586206d6.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 22 Jan 2024 16:29:17 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1705969756; cv=pass;
+Received: from mail-qt1-x838.google.com (mail-qt1-x838.google.com [IPv6:2607:f8b0:4864:20::838])
+	by mail.lfdr.de (Postfix) with ESMTPS id 676CC837E2B
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Jan 2024 02:36:24 +0100 (CET)
+Received: by mail-qt1-x838.google.com with SMTP id d75a77b69052e-429be5ecc87sf45459161cf.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 22 Jan 2024 17:36:24 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1705973783; cv=pass;
         d=google.com; s=arc-20160816;
-        b=am/4+rOrvUmJr5WhVVHg6Fc4pzdtSn2OuSatJcwsAvRiBYcVYVqCj59p4zvwHd8UQr
-         cjkaqF9iNeBMqeKhLmvERtsYr9FbQ+NA8RGShT+Bc1FPMfE1pT3LDoQ9wYHk5VCGxn4t
-         cML8V9glLSOU3Uaurn07zf/nmYl7yZIbRP7wC2iPxxibOIqKD5sUYy3u5ZmjOhz+IwEA
-         sRt4dsz7F2aKjoQsBc0O1/MrbV9xaPExW1dIW6QHx90Jyyss7phW/0egpRRS+eT+YkE1
-         8DlsVfdsPP0M8eszQS1t5esFlZb6N2c80HwS0A9VJCWGBaa2hOG75+E8Too+MlwAEoaX
-         kdBA==
+        b=qn1FGREMZ1Q28aEnHhV3S4KcQOuGdqDkY4BhmRAcU8h0ApNOIHkocc1NufdP36X7g4
+         s9hePy6NYTdPjPva5fYkgQMxIe4q3B6B36El+T99OPiW5z5EGtsTz4sv6gzD4EN0bube
+         R3o3INmUCjHRXV0+6jRSb0OTVEF+2CDRe0wN8wJq2C0Qid5Hwl1CHP4LRdzpgMINvfeK
+         FYEtTicGxBZ2zBNxDU3sYvIAd8C59XxWacr674RU/AOlpMUg6PxV2LyM2T4CyDloKMa6
+         kNkxjkEhPB+Ho8HcudGSHwDSjwGW+E5nOKd3Nmlj1b2g3yS2+JDb3OA5I/p/IygMbKAw
+         /CnQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=xa7IF5kqVMB+ahLp+eRInOTPHUF78YamWB+alLrQlO0=;
-        fh=exLHg1h0eYU2MHAZaFzjrfWqp+NFsmL6zpHEechfWyI=;
-        b=mab85awjUSzIQPb6cmzjju9Guz1fC/d8GCLnBIIl40ItMaC+7GjSxnPiB+9SofjCFY
-         YUUWL6BeEnWpjqZjkxVThqikTBrhHQMkosCl6DdV1w5TyWxsev0w5SAt+6s/tHRINbOW
-         scYlO5GfzJSQs06uSjLKUiMZG8k8QEg8lyNTYONy0Qkig1zlSkbIdRSJrRAVQELuujIN
-         RfW6GUQBH1EI0+/gBaf/7ONl2CVRB8zfTuHoFfma0Wyiu48eIvlOV2NakYsU2qwAj24B
-         Z+MRUVZrAQks07SdolAh3uBernqIibKfrkWh00cZhe104KWMpByuxYTVt5qrLXI2ux8w
-         Wg0Q==
+         :list-id:mailing-list:precedence:user-agent:message-id:subject:cc:to
+         :from:date:mime-version:sender:dkim-signature;
+        bh=w5/bpMte2+VKLnKXYEcHlgbPdWopaN7nSR5dm8BjBSM=;
+        fh=H3gNuLWK5uC5LdW/EOvoaH6Ljs0gqAayG5dG0IHihHM=;
+        b=pLTBvozhAGbUuuAQpZbzbIap5QTiqVsAf76V6ymwwr+80rxHrAnVHdMse9w+rynPpk
+         ML1udYrkam5qYbrfjAX0rOSPuOVHHPdKLpM6RD7i0oUThsrgJcy7UTnaCNXykCTM+smR
+         fMBLsWPOxfqZqQSOtxWP5oWkW+BlzikNm4RdWDDiN5jVQJMmXNvqvhrkeNrk1590TiJe
+         anxr/A+wZm79vKdWSATgt/4/9FBDLjsBAxkKGKl8NM4Cku5eZo2vgwvi6QgZShJSLcfg
+         1HCpL0sMZ3HruawnqfoPnsF4Pr1xGLD85CSf6w+IZVLUfqN6RR6glWe9ukPtTymDT4Zn
+         7Ntw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=eJ+fKxfh;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62b as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+       dkim=pass header.i=@intel.com header.s=Intel header.b=IgVyfqd4;
+       spf=pass (google.com: domain of lkp@intel.com designates 192.55.52.93 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1705969756; x=1706574556; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1705973783; x=1706578583; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xa7IF5kqVMB+ahLp+eRInOTPHUF78YamWB+alLrQlO0=;
-        b=s6XUdKJLWuHi3Bu9oVGemjXCNCGBEm5pFIkV4ooH/Rzoq2ugk9MhjMw10uiMrAFBVQ
-         wr7ICrcXutzkGlJ1M1IJ2lvoS+enMy8p5XJijL+DDFbI9yubmLlcLcTA0rB8JdrZSAQ+
-         eyMlAun3YrBjZC1A+NtNvjQtITlEe7SHeN1c/whv9aaR0L6eoRlN7n0RXenbkT6z7AwM
-         0QnhzhXamyKzhmt5i3SN5qgs3jWtWyXcNmBWYbmWoDSPIAUajGV4Ky4da9tz3Q9MnP4k
-         jtN2ihGH8lNJdIDbQGj7H0aJC+zZci7sCKK6UptVxlQf0w3YXGVHWIk5r/ANShL3Kk2t
-         5cgw==
+         :x-original-sender:user-agent:message-id:subject:cc:to:from:date
+         :mime-version:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=w5/bpMte2+VKLnKXYEcHlgbPdWopaN7nSR5dm8BjBSM=;
+        b=NB33N+zHIItN4Bun3aPJVHB44YUKZUEzxw7dgEwtFxfJwv6hK75oAUUw+xDjMu2XtW
+         T6yv+/39rROnk36Kc0kmnGNARrwfiUNnc9zKL00z1Q7ANh3NZOEEciDfOcoICTN9kR6k
+         ql0x/IQHzHvWnLqiStY0RBF88cnFo8x2vna08OHa0qY28E5FurZDptpk2uBGxzdaq08j
+         0aKOH2ykjLT6+JlPzQg1CJLhv1PqWsnteiGWvPbZsqWY7X6D8CP5WF3eVjXIxf7v/1f7
+         dyH6klN7xYUD5HVUXj/PBt2ZUKhbsB6/6nxpkuTQ1xB8O8KX//Z8VuFpMpAi0156gi7O
+         eTtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705969756; x=1706574556;
+        d=1e100.net; s=20230601; t=1705973783; x=1706578583;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xa7IF5kqVMB+ahLp+eRInOTPHUF78YamWB+alLrQlO0=;
-        b=YBSt6VYst9Fo+oSsIidhVVhfu7nwqrnXB14HpXNLX4YOGpWDSjS8D19Ztbsw/MDQ+S
-         GOXGWxl7clvU7PmRDfVE9L5n7vxx/CE8t7qpFdiMcexeMPvDn/pmx/oesr0Tm3tV9QwM
-         HAJYGDU9i3fffR2BjwsaWylNAdvjh2aKzMDKNQQaIsMzZSx924D9+EX48/t/pzFqL8R2
-         iEtUSt1OtSyySSFMxH7GMyKM/GC30NiySpqPsupOwIiIOkdHB/F2izwVr37/I1qCQB1/
-         CM55AEOuHS+MKj9PFNO+2qntZdwofkZljr09rfpC8NToePFj+hlQxHie23Rsg16I65hm
-         2zRQ==
+         :x-original-authentication-results:x-original-sender:user-agent
+         :message-id:subject:cc:to:from:date:x-beenthere:mime-version
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w5/bpMte2+VKLnKXYEcHlgbPdWopaN7nSR5dm8BjBSM=;
+        b=J4Mdxws+gcfFoQPY6zOwzMd+A4FNPoYZhVfj1nbvyucszy19BYPIkmtlHWrJfxwO7p
+         kHF2/Wsct4Yx3f9uUmmMOnmZ7hIJDJ7Uw89ugN/tVK1nm6xwFBYQNBOWyB5g/JPDO7Z/
+         ytTEddVhHv1aQQMqpNn61vxPZRkCspxipNg77z1T5VVeeKoUHslJ4LcS35U4uXBKsdGj
+         ADPbNf8Aka3mm4AXmKyVg11WZ/8kZ9ESOnb2KOIANuwiT6jg4820G6cmWPJZACNyGfm/
+         crLCFbd9xD6OTYIs+P42AJ2uAaJyCaCAAhI4dt0h8AaRTt1e/XvVkE9Tp02TYsyYvxUr
+         Mgrg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YzZLAwGEda7x5NJJgADFD8yHqINNGXLGxcdQyrvVES3iEuSFIuX
-	IDa+xBfoWnWGbOCA6ASoAlURUjJC71+tQXqMctR0rTcjzxMvW2qe
-X-Google-Smtp-Source: AGHT+IFZV2Q2Lxww3ejGJMtPJyJXg0B4XwkA44US5JIDAI1Nl6/bDFx6FR6o9fvL+xlCB9H1AMzShg==
-X-Received: by 2002:ad4:5748:0:b0:684:d2a1:990f with SMTP id q8-20020ad45748000000b00684d2a1990fmr99744qvx.40.1705969755820;
-        Mon, 22 Jan 2024 16:29:15 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:b3ce:0:b0:681:972e:6948 with SMTP id b14-20020a0cb3ce000000b00681972e6948ls1576081qvf.1.-pod-prod-00-us;
- Mon, 22 Jan 2024 16:29:15 -0800 (PST)
-X-Received: by 2002:a05:6122:1d47:b0:4b2:c554:ccfe with SMTP id gd7-20020a0561221d4700b004b2c554ccfemr3554921vkb.10.1705969755247;
-        Mon, 22 Jan 2024 16:29:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1705969755; cv=none;
-        d=google.com; s=arc-20160816;
-        b=u0FPKNREhTfQG9xxTmm/x+o+PUAptV5TD9IpGXCqsE+GAX5Q7nkJj0gyo7F1Pc/WGW
-         hIaY8P4AM26QI05N1BkxiIWXcQunxYzS1pPnVjD4RliSJfrHawQ0m2buZimqzv9TS0ud
-         FlUcBt1BLGIEmvVPB7ydVdGHEfmKeUBzFU4h2DD7Ikq9IaBaNJ/Texhac/3svXEC1irg
-         TWv+nkgw8rEoQz0MBWOmgPwKkMkpROy6ADzcIFI/ei7/RpSVUjOV9nphcaGZF3BT+Qgg
-         iFGwGBQmA5GqjybVhnmcGxK//T/ivYhz0Bczi0sI9ON8htSgl93882+lsg2Cwqr+TGoV
-         uoTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=tNWz3k2XvGRlF46qJEs9zgm+bcxMnCT9t6UFjEF9Av0=;
-        fh=exLHg1h0eYU2MHAZaFzjrfWqp+NFsmL6zpHEechfWyI=;
-        b=HC7UY2KAIv98EA2IEqlYKQk/LDY8wEzTvANtJOxy1/ha4mE3YmHnsnXi+u2JhF85/k
-         RXVHX7yThWzsKSOhZUC9+UGPf6iaFqOQRovRgWi9JW4vySUHWhjBCy0jzWJrwvD4JjmD
-         nHLUvgHui0yw9kESrVdWwfze67r6x5F/XR/1cVDDNYMto7HCu9y8roV+8KYMcDJ7CLz4
-         G/NVJnzi/d93Ub+0H7wvXNSVyMjMLacv6fRptmlhwtThxJB113eZ7OjcE98l3wp2LN08
-         L3qdC3QiKYZTrRAIbBVdd/MJN8Dx5M/WNEFd1AE9q+RFP5ruhExMsLxjukP4aOVMoXP0
-         PNXQ==
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=eJ+fKxfh;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62b as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com. [2607:f8b0:4864:20::62b])
-        by gmr-mx.google.com with ESMTPS id n64-20020a1fd643000000b004b2e6e4330asi2899618vkg.1.2024.01.22.16.29.15
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jan 2024 16:29:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62b as permitted sender) client-ip=2607:f8b0:4864:20::62b;
-Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1d75c97ea6aso8724375ad.1
-        for <kasan-dev@googlegroups.com>; Mon, 22 Jan 2024 16:29:15 -0800 (PST)
-X-Received: by 2002:a17:902:76c8:b0:1d4:52f6:e046 with SMTP id j8-20020a17090276c800b001d452f6e046mr4743580plt.58.1705969754414;
-        Mon, 22 Jan 2024 16:29:14 -0800 (PST)
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id m20-20020a170902f21400b001d74ca3a89asm2622159plc.293.2024.01.22.16.28.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jan 2024 16:29:08 -0800 (PST)
-From: Kees Cook <keescook@chromium.org>
-To: linux-hardening@vger.kernel.org
-Cc: Kees Cook <keescook@chromium.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 55/82] kasan: Refactor intentional wrap-around test
-Date: Mon, 22 Jan 2024 16:27:30 -0800
-Message-Id: <20240123002814.1396804-55-keescook@chromium.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240122235208.work.748-kees@kernel.org>
-References: <20240122235208.work.748-kees@kernel.org>
+X-Gm-Message-State: AOJu0YwOejCzZNK4una11S5uWlTRPr/QHP8XJ3QJaadm0/RCiWGOq83n
+	tCropco9z1xiHZwUN7YdRwTpInm0t4Gj6IIMN11FnKW9GA+1AxWL
+X-Google-Smtp-Source: AGHT+IGUmeZCpfvunXxw6AW//UcNED404IGKh6u530CG61aTZmtw/plq/GmXRC5U79mOJ0znmFaZUw==
+X-Received: by 2002:a05:622a:1a15:b0:42a:4de9:4a94 with SMTP id f21-20020a05622a1a1500b0042a4de94a94mr116341qtb.52.1705973783183;
+        Mon, 22 Jan 2024 17:36:23 -0800 (PST)
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2504; i=keescook@chromium.org;
- h=from:subject; bh=6qOMhh3G8d7Y+vBH+FchTOnAwDno8ofs9WTRkK8e+v0=;
- b=owEBbQKS/ZANAwAKAYly9N/cbcAmAcsmYgBlrwgJb7T0nkCbfHMK37KL55oiDeDfmOiEx7q5q
- XThjlEKQk+JAjMEAAEKAB0WIQSlw/aPIp3WD3I+bhOJcvTf3G3AJgUCZa8ICQAKCRCJcvTf3G3A
- JoqqEACE/4PoGFKLHpVkenKHgiwQeIuxCim9QWJGC+MdId7RYwearFTzkOQl8zglCUIZNl7fW9d
- KYyBu2j590qTJ3ins8G5kTpojs3DwiSG7NIjlDCuYemtfGOEDj4muFXpG5DpNNB/SXKfge3xXDy
- 5WYmb/fU/J7+bo64TYtiSNKLR2K8Gp8i7ImUFx3yHYAWZufYCVg181wkAjQdVE9QDYyvZ7sGJoD
- mZvg2FSl8NJ5gNh6/n8lFHjoebiowaqz9rHfRIb9H0ruQMkeqFkKXhx4aTH16qMPf0eWME+Y+7J
- ogiYkcB141OqPEDQ2iR46G4NeG4lrsoMCZKzlBhmUT7RxPtYuZcvsCqZSAzAa3UF1RWmwdNOHWT
- QKCM3+s+mU5c7hXehiPzTXpwMMhUbnuW9WVWuFQzVH5K8RvofBCN7bnZZCKdDAoEN9Cc/sKYxEr
- q/BRzB2azJPyZ7AETk4B2xCLsuXEYrgz4hMVtO0QV6idTMpfIjNn4IgVm1nNoQUli5kyJqdcnf8
- gpz7+LeZbIwoIm4heS/k35pUDdcJOIRgPHC9zHqEIgxOE5/Jcu/+iMwplKoCiC7xP29btiDDmns
- OugXywD0SNhQjOaJt1krhL+j3HJZvwk7kx1o6FV+/GJoBK7sRO3WFjkmaJ8winj+Z4BPzvkMYuJ +inWzkA20S9t7Pg==
-X-Developer-Key: i=keescook@chromium.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-X-Original-Sender: keescook@chromium.org
+X-BeenThere: kasan-dev@googlegroups.com
+Received: by 2002:ac8:7c41:0:b0:42a:4b71:9efc with SMTP id o1-20020ac87c41000000b0042a4b719efcls430237qtv.2.-pod-prod-08-us;
+ Mon, 22 Jan 2024 17:36:22 -0800 (PST)
+X-Received: by 2002:a05:620a:564c:b0:783:6ab2:4421 with SMTP id vw12-20020a05620a564c00b007836ab24421mr5080388qkn.11.1705973782306;
+        Mon, 22 Jan 2024 17:36:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1705973782; cv=none;
+        d=google.com; s=arc-20160816;
+        b=y514iWuoIRP5NZvRZVH9VpMq7piuspJNzBKAVLUf3DYrafz5zKqqEcNQFOmwtgapj2
+         /7h3fUd+F6lR6gtklzWd4AB6R1mki3A/ucgph1Sy+2h+4rRj7cT0djxQobQJEdbQTqLq
+         bSU+AukmY7Ev+KJ8wDdJyU09iNtj+BHnC6LTP+ReOr8cgr94ZK9Anp5803xu5FN2dEeh
+         qfnoXB7fDlUN7mI2R7PqZSBSBQmtdbWya1RyCAVTmRoK254diIfdRBQu8lHtQeZzKfGB
+         ALQqeKPZ14cUlo+dyOKXuOMgAXEieVU4tioH59SZo+1BgegrNLSCRdGI6HSOB0CIMcn6
+         qhXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=user-agent:message-id:subject:cc:to:from:date:dkim-signature;
+        bh=1ayR4Uri6jmUl4FQ65of0XeUiY2nOhxNb6x4E6WfqX4=;
+        fh=H3gNuLWK5uC5LdW/EOvoaH6Ljs0gqAayG5dG0IHihHM=;
+        b=XL0qA5IldVybBKUlyNHmShEgalHaqN9ZxveHkfWTnxHn+n9V4p6X1b7+hmOi0NMzJ1
+         WShyF2JHuIQ8Fm1czRPOmxnOtm5kQ05KZA3sYyp72xXauSm7Zm1uA7HrLVKtTmv4wSMw
+         C3qJFAZpyKvVZgq0oNrQ+emcMhooQNvN1kLJ3bwL1KQEHxU52Lj5y2eao1cLxYt1VpFg
+         vSKgDwlJBZB9stRlPSJSAAsN99Gef9xTOaygvZMQUp1MWyylT6YvFzH073khOxz+aLYY
+         LEcV2CIT+wX38VNL6nBiU7ng8QkNECp4i2D2W1/AIsxU77a263l4E+F9gNM2KAnvSRQs
+         HPcQ==
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=IgVyfqd4;
+       spf=pass (google.com: domain of lkp@intel.com designates 192.55.52.93 as permitted sender) smtp.mailfrom=lkp@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mgamail.intel.com (mgamail.intel.com. [192.55.52.93])
+        by gmr-mx.google.com with ESMTPS id tn12-20020a05620a3c0c00b0078329d079ffsi414747qkn.5.2024.01.22.17.36.21
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 22 Jan 2024 17:36:22 -0800 (PST)
+Received-SPF: pass (google.com: domain of lkp@intel.com designates 192.55.52.93 as permitted sender) client-ip=192.55.52.93;
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="398531564"
+X-IronPort-AV: E=Sophos;i="6.05,212,1701158400"; 
+   d="scan'208";a="398531564"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 17:36:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="856145765"
+X-IronPort-AV: E=Sophos;i="6.05,212,1701158400"; 
+   d="scan'208";a="856145765"
+Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 22 Jan 2024 17:36:17 -0800
+Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rS5i3-00074a-2k;
+	Tue, 23 Jan 2024 01:36:15 +0000
+Date: Tue, 23 Jan 2024 09:36:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Linux Memory Management List <linux-mm@kvack.org>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ etnaviv@lists.freedesktop.org, kasan-dev@googlegroups.com,
+ linux-bcachefs@vger.kernel.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org
+Subject: [linux-next:master] BUILD REGRESSION
+ 319fbd8fc6d339e0a1c7b067eed870c518a13a02
+Message-ID: <202401230901.Q0DlNgAU-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Original-Sender: lkp@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=eJ+fKxfh;       spf=pass
- (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62b
- as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+ header.i=@intel.com header.s=Intel header.b=IgVyfqd4;       spf=pass
+ (google.com: domain of lkp@intel.com designates 192.55.52.93 as permitted
+ sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=intel.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -162,71 +144,306 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-In an effort to separate intentional arithmetic wrap-around from
-unexpected wrap-around, we need to refactor places that depend on this
-kind of math. One of the most common code patterns of this is:
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+branch HEAD: 319fbd8fc6d339e0a1c7b067eed870c518a13a02  Add linux-next specific files for 20240122
 
-	VAR + value < VAR
+Unverified Error/Warning (likely false positive, please contact us if interested):
 
-Notably, this is considered "undefined behavior" for signed and pointer
-types, which the kernel works around by using the -fno-strict-overflow
-option in the build[1] (which used to just be -fwrapv). Regardless, we
-want to get the kernel source to the position where we can meaningfully
-instrument arithmetic wrap-around conditions and catch them when they
-are unexpected, regardless of whether they are signed[2], unsigned[3],
-or pointer[4] types.
+drivers/gpu/drm/etnaviv/etnaviv_drv.c:614:3-14: ERROR: probable double put.
 
-Refactor open-coded wrap-around addition test to use add_would_overflow().
-This paves the way to enabling the wrap-around sanitizers in the future.
+Error/Warning ids grouped by kconfigs:
 
-Link: https://git.kernel.org/linus/68df3755e383e6fecf2354a67b08f92f18536594 [1]
-Link: https://github.com/KSPP/linux/issues/26 [2]
-Link: https://github.com/KSPP/linux/issues/27 [3]
-Link: https://github.com/KSPP/linux/issues/344 [4]
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-Cc: Alexander Potapenko <glider@google.com>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: kasan-dev@googlegroups.com
-Cc: linux-mm@kvack.org
-Signed-off-by: Kees Cook <keescook@chromium.org>
----
- mm/kasan/generic.c | 2 +-
- mm/kasan/sw_tags.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+gcc_recent_errors
+|-- alpha-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- arc-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- arc-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- arm-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- arm-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- csky-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- csky-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- csky-randconfig-002-20240122
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- loongarch-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- loongarch-defconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- loongarch-randconfig-r122-20240122
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- microblaze-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- microblaze-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- mips-allyesconfig
+|   |-- (.ref.text):relocation-truncated-to-fit:R_MIPS_26-against-start_secondary
+|   |-- (.text):relocation-truncated-to-fit:R_MIPS_26-against-kernel_entry
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- openrisc-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- parisc-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- parisc-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- riscv-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- riscv-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- s390-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- s390-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- sh-randconfig-r131-20240122
+|   |-- drivers-usb-gadget-function-f_ncm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-short-usertype-max_segment_size-got-restricted-__le16-usertype
+|   `-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-sum-got-unsigned-int-assigned-csum
+|-- sparc-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- sparc64-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- sparc64-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- sparc64-randconfig-r123-20240122
+|   `-- drivers-usb-gadget-function-f_ncm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-short-usertype-max_segment_size-got-restricted-__le16-usertype
+|-- um-randconfig-r111-20240122
+|   `-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-sum-got-unsigned-int-assigned-csum
+|-- x86_64-randconfig-121-20240122
+|   `-- drivers-usb-gadget-function-f_ncm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-short-usertype-max_segment_size-got-restricted-__le16-usertype
+`-- x86_64-randconfig-r133-20240122
+    `-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-csum-got-unsigned-int-assigned-csum
+clang_recent_errors
+|-- arm64-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- arm64-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- arm64-randconfig-002-20240122
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- arm64-randconfig-004-20240122
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- i386-randconfig-053-20240122
+|   `-- drivers-net-ethernet-broadcom-bnxt-bnxt.c:WARNING:atomic_dec_and_test-variation-before-object-free-at-line-.
+|-- i386-randconfig-061-20240122
+|   `-- drivers-usb-gadget-function-f_ncm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-short-usertype-max_segment_size-got-restricted-__le16-usertype
+|-- i386-randconfig-062-20240122
+|   `-- drivers-usb-gadget-function-f_ncm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-short-usertype-max_segment_size-got-restricted-__le16-usertype
+|-- i386-randconfig-141-20240122
+|   |-- fs-bcachefs-btree_locking.c-bch2_trans_relock()-warn:passing-zero-to-PTR_ERR
+|   |-- fs-bcachefs-buckets.c-bch2_trans_account_disk_usage_change()-error:we-previously-assumed-trans-disk_res-could-be-null-(see-line-)
+|   `-- mm-huge_memory.c-thpsize_create()-warn:Calling-kobject_put-get-with-state-initialized-unset-from-line:
+|-- powerpc-randconfig-r113-20240122
+|   |-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-sum-got-unsigned-int-assigned-csum
+|   `-- mm-kasan-common.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-gfp_t-usertype-flags-got-unsigned-int-usertype-size
+|-- riscv-randconfig-001-20240122
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- x86_64-allmodconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- x86_64-allyesconfig
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- x86_64-buildonly-randconfig-001-20240122
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- x86_64-randconfig-014-20240122
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- x86_64-randconfig-074-20240122
+|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
+|-- x86_64-randconfig-102-20240122
+|   `-- drivers-gpu-drm-etnaviv-etnaviv_drv.c:ERROR:probable-double-put.
+`-- x86_64-randconfig-161-20240122
+    |-- mm-kasan-kasan_test.c-mempool_double_free_helper()-error:double-free-of-elem
+    `-- mm-kasan-kasan_test.c-mempool_uaf_helper()-warn:passing-freed-memory-elem
 
-diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-index df6627f62402..f9bc29ae09bd 100644
---- a/mm/kasan/generic.c
-+++ b/mm/kasan/generic.c
-@@ -171,7 +171,7 @@ static __always_inline bool check_region_inline(const void *addr,
- 	if (unlikely(size == 0))
- 		return true;
- 
--	if (unlikely(addr + size < addr))
-+	if (unlikely(add_would_overflow(addr, size)))
- 		return !kasan_report(addr, size, write, ret_ip);
- 
- 	if (unlikely(!addr_has_metadata(addr)))
-diff --git a/mm/kasan/sw_tags.c b/mm/kasan/sw_tags.c
-index 220b5d4c6876..79a3bbd66c32 100644
---- a/mm/kasan/sw_tags.c
-+++ b/mm/kasan/sw_tags.c
-@@ -80,7 +80,7 @@ bool kasan_check_range(const void *addr, size_t size, bool write,
- 	if (unlikely(size == 0))
- 		return true;
- 
--	if (unlikely(addr + size < addr))
-+	if (unlikely(add_would_overflow(addr, size)))
- 		return !kasan_report(addr, size, write, ret_ip);
- 
- 	tag = get_tag((const void *)addr);
+elapsed time: 1454m
+
+configs tested: 177
+configs skipped: 3
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20240122   gcc  
+arc                   randconfig-002-20240122   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                           h3600_defconfig   gcc  
+arm                        neponset_defconfig   clang
+arm                   randconfig-001-20240122   clang
+arm                   randconfig-002-20240122   clang
+arm                   randconfig-003-20240122   clang
+arm                   randconfig-004-20240122   clang
+arm                           stm32_defconfig   gcc  
+arm                         vf610m4_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20240122   clang
+arm64                 randconfig-002-20240122   clang
+arm64                 randconfig-003-20240122   clang
+arm64                 randconfig-004-20240122   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20240122   gcc  
+csky                  randconfig-002-20240122   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20240122   clang
+hexagon               randconfig-002-20240122   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20240122   clang
+i386         buildonly-randconfig-002-20240122   clang
+i386         buildonly-randconfig-003-20240122   clang
+i386         buildonly-randconfig-004-20240122   clang
+i386         buildonly-randconfig-005-20240122   clang
+i386         buildonly-randconfig-006-20240122   clang
+i386                                defconfig   gcc  
+i386                  randconfig-001-20240122   clang
+i386                  randconfig-002-20240122   clang
+i386                  randconfig-003-20240122   clang
+i386                  randconfig-004-20240122   clang
+i386                  randconfig-005-20240122   clang
+i386                  randconfig-006-20240122   clang
+i386                  randconfig-011-20240122   gcc  
+i386                  randconfig-012-20240122   gcc  
+i386                  randconfig-013-20240122   gcc  
+i386                  randconfig-014-20240122   gcc  
+i386                  randconfig-015-20240122   gcc  
+i386                  randconfig-016-20240122   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20240122   gcc  
+loongarch             randconfig-002-20240122   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                            mac_defconfig   gcc  
+m68k                           virt_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                        bcm63xx_defconfig   clang
+mips                  decstation_64_defconfig   gcc  
+mips                     decstation_defconfig   gcc  
+mips                         rt305x_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20240122   gcc  
+nios2                 randconfig-002-20240122   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20240122   gcc  
+parisc                randconfig-002-20240122   gcc  
+parisc64                            defconfig   gcc  
+powerpc                     akebono_defconfig   clang
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                      ppc64e_defconfig   clang
+powerpc               randconfig-001-20240122   clang
+powerpc               randconfig-002-20240122   clang
+powerpc               randconfig-003-20240122   clang
+powerpc64             randconfig-001-20240122   clang
+powerpc64             randconfig-002-20240122   clang
+powerpc64             randconfig-003-20240122   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv             nommu_k210_sdcard_defconfig   gcc  
+riscv                 randconfig-001-20240122   clang
+riscv                 randconfig-002-20240122   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20240122   gcc  
+s390                  randconfig-002-20240122   gcc  
+sh                               alldefconfig   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20240122   gcc  
+sh                    randconfig-002-20240122   gcc  
+sh                           se7343_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20240122   gcc  
+sparc64               randconfig-002-20240122   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20240122   clang
+um                    randconfig-002-20240122   clang
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20240122   clang
+x86_64       buildonly-randconfig-002-20240122   clang
+x86_64       buildonly-randconfig-003-20240122   clang
+x86_64       buildonly-randconfig-004-20240122   clang
+x86_64       buildonly-randconfig-005-20240122   clang
+x86_64       buildonly-randconfig-006-20240122   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20240122   gcc  
+x86_64                randconfig-002-20240122   gcc  
+x86_64                randconfig-003-20240122   gcc  
+x86_64                randconfig-004-20240122   gcc  
+x86_64                randconfig-005-20240122   gcc  
+x86_64                randconfig-006-20240122   gcc  
+x86_64                randconfig-011-20240122   clang
+x86_64                randconfig-012-20240122   clang
+x86_64                randconfig-013-20240122   clang
+x86_64                randconfig-014-20240122   clang
+x86_64                randconfig-015-20240122   clang
+x86_64                randconfig-016-20240122   clang
+x86_64                randconfig-071-20240122   clang
+x86_64                randconfig-072-20240122   clang
+x86_64                randconfig-073-20240122   clang
+x86_64                randconfig-074-20240122   clang
+x86_64                randconfig-075-20240122   clang
+x86_64                randconfig-076-20240122   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20240122   gcc  
+xtensa                randconfig-002-20240122   gcc  
+xtensa                    xip_kc705_defconfig   gcc  
+
 -- 
-2.34.1
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240123002814.1396804-55-keescook%40chromium.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202401230901.Q0DlNgAU-lkp%40intel.com.
