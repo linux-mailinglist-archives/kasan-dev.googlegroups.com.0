@@ -1,136 +1,137 @@
-Return-Path: <kasan-dev+bncBC4LXIPCY4NRBF5QXSWQMGQEQIX6W4Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBD55D5XYUAJBB5NYXWWQMGQEXZAZKNA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x838.google.com (mail-qt1-x838.google.com [IPv6:2607:f8b0:4864:20::838])
-	by mail.lfdr.de (Postfix) with ESMTPS id 676CC837E2B
-	for <lists+kasan-dev@lfdr.de>; Tue, 23 Jan 2024 02:36:24 +0100 (CET)
-Received: by mail-qt1-x838.google.com with SMTP id d75a77b69052e-429be5ecc87sf45459161cf.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 22 Jan 2024 17:36:24 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1705973783; cv=pass;
+Received: from mail-oo1-xc39.google.com (mail-oo1-xc39.google.com [IPv6:2607:f8b0:4864:20::c39])
+	by mail.lfdr.de (Postfix) with ESMTPS id C702783874D
+	for <lists+kasan-dev@lfdr.de>; Tue, 23 Jan 2024 07:28:06 +0100 (CET)
+Received: by mail-oo1-xc39.google.com with SMTP id 006d021491bc7-598b8e2b2bfsf5527334eaf.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 22 Jan 2024 22:28:06 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1705991285; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qn1FGREMZ1Q28aEnHhV3S4KcQOuGdqDkY4BhmRAcU8h0ApNOIHkocc1NufdP36X7g4
-         s9hePy6NYTdPjPva5fYkgQMxIe4q3B6B36El+T99OPiW5z5EGtsTz4sv6gzD4EN0bube
-         R3o3INmUCjHRXV0+6jRSb0OTVEF+2CDRe0wN8wJq2C0Qid5Hwl1CHP4LRdzpgMINvfeK
-         FYEtTicGxBZ2zBNxDU3sYvIAd8C59XxWacr674RU/AOlpMUg6PxV2LyM2T4CyDloKMa6
-         kNkxjkEhPB+Ho8HcudGSHwDSjwGW+E5nOKd3Nmlj1b2g3yS2+JDb3OA5I/p/IygMbKAw
-         /CnQ==
+        b=hjVNww41GJ+F3K10Rcn9YFZJpvqyQl77mG7w63h+On8awrz356/4uxquZcb50/mPR8
+         aaTv4BdtE2FA7PjOewKhC5zDi7CUfcuI9Wx9+P+Dvy7qxW/HMMvlD8HCMt4okPrYDPxM
+         Zf1Vg2zuyeAUxG3FNrcekD3l5bH1zmcgh0SZfulx4b+rsoSKH7mQ90Nm1sJp9gzSIr1P
+         6Br4stwUzuijQNdDgVaCuGdWWPcHeIMvQJng3dNQEn6hV5bDSfSxrNH2okNPhH84upnP
+         +yRhwbvwVia3Cw6VNSuE1n/OQlkg/SD6LOoSKTCvrQGimEipuWyZtNSV0E1YJvPjOKS9
+         Kk7w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:user-agent:message-id:subject:cc:to
-         :from:date:mime-version:sender:dkim-signature;
-        bh=w5/bpMte2+VKLnKXYEcHlgbPdWopaN7nSR5dm8BjBSM=;
-        fh=H3gNuLWK5uC5LdW/EOvoaH6Ljs0gqAayG5dG0IHihHM=;
-        b=pLTBvozhAGbUuuAQpZbzbIap5QTiqVsAf76V6ymwwr+80rxHrAnVHdMse9w+rynPpk
-         ML1udYrkam5qYbrfjAX0rOSPuOVHHPdKLpM6RD7i0oUThsrgJcy7UTnaCNXykCTM+smR
-         fMBLsWPOxfqZqQSOtxWP5oWkW+BlzikNm4RdWDDiN5jVQJMmXNvqvhrkeNrk1590TiJe
-         anxr/A+wZm79vKdWSATgt/4/9FBDLjsBAxkKGKl8NM4Cku5eZo2vgwvi6QgZShJSLcfg
-         1HCpL0sMZ3HruawnqfoPnsF4Pr1xGLD85CSf6w+IZVLUfqN6RR6glWe9ukPtTymDT4Zn
-         7Ntw==
+         :list-id:mailing-list:precedence:reply-to:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=Jqq4JdjQAgDUI7Ve3a0t3sxjH4W8e+dqwyLGxyz18zI=;
+        fh=SEusk3VrpAPEL476d74p9TaaJo2Qv4hbhNeH8r876T0=;
+        b=fpdUWiW7cyaELnVFaVMTLaRSqeHWT6YoEYWuI1fWTSA3jYetUjOjBXldLVZEZJDsze
+         GZGFoRs9vBYiDbLbZyFRBRK/SCDPII1CyqAteR2erkNb4nS0McQfOqNOJaB+xPd3auLJ
+         vE7Yf55d/4Tlbk3qRzvatN3fprCZ+BE6z9z85cW9lBupPhfumvc6ylw4+Id9GmZJai/b
+         ra9/jTTkkDh1k/S06UuC7AgnEFO6C2NFk+O6sjSfqRHFgnl85HkLMqsVE1MQzK4CBTgX
+         9Uqp+M/PQADiADmeHrjzi8Yb8/Klvc1PEtTOsIX2Stu/swYC6YnVAtRGDr+gyszDgMFV
+         9tHg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=IgVyfqd4;
-       spf=pass (google.com: domain of lkp@intel.com designates 192.55.52.93 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       dkim=pass header.i=@bytedance.com header.s=google header.b=VVekPsvm;
+       spf=pass (google.com: domain of lizhe.67@bytedance.com designates 2607:f8b0:4864:20::1036 as permitted sender) smtp.mailfrom=lizhe.67@bytedance.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1705973783; x=1706578583; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1705991285; x=1706596085; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:user-agent:message-id:subject:cc:to:from:date
-         :mime-version:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=w5/bpMte2+VKLnKXYEcHlgbPdWopaN7nSR5dm8BjBSM=;
-        b=NB33N+zHIItN4Bun3aPJVHB44YUKZUEzxw7dgEwtFxfJwv6hK75oAUUw+xDjMu2XtW
-         T6yv+/39rROnk36Kc0kmnGNARrwfiUNnc9zKL00z1Q7ANh3NZOEEciDfOcoICTN9kR6k
-         ql0x/IQHzHvWnLqiStY0RBF88cnFo8x2vna08OHa0qY28E5FurZDptpk2uBGxzdaq08j
-         0aKOH2ykjLT6+JlPzQg1CJLhv1PqWsnteiGWvPbZsqWY7X6D8CP5WF3eVjXIxf7v/1f7
-         dyH6klN7xYUD5HVUXj/PBt2ZUKhbsB6/6nxpkuTQ1xB8O8KX//Z8VuFpMpAi0156gi7O
-         eTtg==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Jqq4JdjQAgDUI7Ve3a0t3sxjH4W8e+dqwyLGxyz18zI=;
+        b=OG2hZNPhtL70XsNh5f8WXlMs6NyRM15M32L792LDmHVJv905W7c0wWlStsdwQWEdRy
+         jFfQAQkQHcLITVPRVuQC7+CGnRjL61hJHagXV1y9Rqi4Mf3RptL1WT0eJ+n1FBkJS3IW
+         KURRWLMhXUMyFsbRSABLTw4IyI/LrjDJCk6t4Uc355xFmqMqP9a/Dfi56t43zv+D2+7j
+         v23dS9A0ZGaVuOUKFSPk+yMmPrZApEVYbCrqRSdGVkxEBjEkQgT87u+A/FHpvXklZ/69
+         HJZllM+ENYUpd2bmYE3vuKG9Ic3MhDyPZfllETOFvJjxk0bzbJijgKvnwJLQGLstsbo5
+         SDlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1705973783; x=1706578583;
+        d=1e100.net; s=20230601; t=1705991285; x=1706596085;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:user-agent
-         :message-id:subject:cc:to:from:date:x-beenthere:mime-version
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=w5/bpMte2+VKLnKXYEcHlgbPdWopaN7nSR5dm8BjBSM=;
-        b=J4Mdxws+gcfFoQPY6zOwzMd+A4FNPoYZhVfj1nbvyucszy19BYPIkmtlHWrJfxwO7p
-         kHF2/Wsct4Yx3f9uUmmMOnmZ7hIJDJ7Uw89ugN/tVK1nm6xwFBYQNBOWyB5g/JPDO7Z/
-         ytTEddVhHv1aQQMqpNn61vxPZRkCspxipNg77z1T5VVeeKoUHslJ4LcS35U4uXBKsdGj
-         ADPbNf8Aka3mm4AXmKyVg11WZ/8kZ9ESOnb2KOIANuwiT6jg4820G6cmWPJZACNyGfm/
-         crLCFbd9xD6OTYIs+P42AJ2uAaJyCaCAAhI4dt0h8AaRTt1e/XvVkE9Tp02TYsyYvxUr
-         Mgrg==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YwOejCzZNK4una11S5uWlTRPr/QHP8XJ3QJaadm0/RCiWGOq83n
-	tCropco9z1xiHZwUN7YdRwTpInm0t4Gj6IIMN11FnKW9GA+1AxWL
-X-Google-Smtp-Source: AGHT+IGUmeZCpfvunXxw6AW//UcNED404IGKh6u530CG61aTZmtw/plq/GmXRC5U79mOJ0znmFaZUw==
-X-Received: by 2002:a05:622a:1a15:b0:42a:4de9:4a94 with SMTP id f21-20020a05622a1a1500b0042a4de94a94mr116341qtb.52.1705973783183;
-        Mon, 22 Jan 2024 17:36:23 -0800 (PST)
-MIME-Version: 1.0
+        bh=Jqq4JdjQAgDUI7Ve3a0t3sxjH4W8e+dqwyLGxyz18zI=;
+        b=iqcDDBXsCCyOVJTtsG7MWN31YEiHFwaVxPuyffVo27KxdWJquxUI17RERqfWl7qfWj
+         gSt4OdcSBoQyvRUoX26ufn3ft0YS8cfhZrY7fI46AmqEeXYsCZGYBSXWuMzhigUkfzzP
+         3Za4OVPJdnWQ0ydfuwdSnqaXKWY0t+uNT+jJTWmSAhV4XDozeBuku9g0SlHD0M/Vlsuh
+         6lfsqyLpJkrLcZMxpD/4O85VgsW6F84qbSRO6xd++VBia3io60tv4+IrbdUHU2APC4kN
+         IPXDGMJfSnif9deCnVlmXO2UxUxG5fmMH8rrABp1Tocc2h9/UuCnhPCnJJwFV2xJQNAB
+         nH4g==
+X-Gm-Message-State: AOJu0YzpCa819M6NQ4vvbArVlzQZK6bOb+Bvt+KDgmJwun/zkT3lET/i
+	yojSNpjNC3Gx2824gtkvXyzWVU5aQ6M8s8+U0GkRdvEf6hz0D8a0
+X-Google-Smtp-Source: AGHT+IGPtwwZ+3lClOQ3u9uu5psuhLDtF5p3qLfhc1naUb7rmFl9z/DImHJDrJ5paAzgeWF05WkARA==
+X-Received: by 2002:a4a:b142:0:b0:598:ab21:17be with SMTP id e2-20020a4ab142000000b00598ab2117bemr2972251ooo.6.1705991285340;
+        Mon, 22 Jan 2024 22:28:05 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:7c41:0:b0:42a:4b71:9efc with SMTP id o1-20020ac87c41000000b0042a4b719efcls430237qtv.2.-pod-prod-08-us;
- Mon, 22 Jan 2024 17:36:22 -0800 (PST)
-X-Received: by 2002:a05:620a:564c:b0:783:6ab2:4421 with SMTP id vw12-20020a05620a564c00b007836ab24421mr5080388qkn.11.1705973782306;
-        Mon, 22 Jan 2024 17:36:22 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1705973782; cv=none;
+Received: by 2002:a4a:55d7:0:b0:599:668b:99ce with SMTP id e206-20020a4a55d7000000b00599668b99cels2813446oob.1.-pod-prod-07-us;
+ Mon, 22 Jan 2024 22:28:04 -0800 (PST)
+X-Received: by 2002:a9d:6f16:0:b0:6dd:fcbe:3cf with SMTP id n22-20020a9d6f16000000b006ddfcbe03cfmr6653672otq.8.1705991284615;
+        Mon, 22 Jan 2024 22:28:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1705991284; cv=none;
         d=google.com; s=arc-20160816;
-        b=y514iWuoIRP5NZvRZVH9VpMq7piuspJNzBKAVLUf3DYrafz5zKqqEcNQFOmwtgapj2
-         /7h3fUd+F6lR6gtklzWd4AB6R1mki3A/ucgph1Sy+2h+4rRj7cT0djxQobQJEdbQTqLq
-         bSU+AukmY7Ev+KJ8wDdJyU09iNtj+BHnC6LTP+ReOr8cgr94ZK9Anp5803xu5FN2dEeh
-         qfnoXB7fDlUN7mI2R7PqZSBSBQmtdbWya1RyCAVTmRoK254diIfdRBQu8lHtQeZzKfGB
-         ALQqeKPZ14cUlo+dyOKXuOMgAXEieVU4tioH59SZo+1BgegrNLSCRdGI6HSOB0CIMcn6
-         qhXA==
+        b=cZ1VMSG8h1zrVIf2BVze8LVwwIN/Q5HUr2Gp4CIUsdlNtHTAwO7KdIqJx8gcfy/FhM
+         ifFi+thLnLRDiTiocveSmjdsiTdnujlmJilGkvdL4vOX+EnmOLPvl8BLikEFIPz5syB0
+         9MxT8nEuvj2He8d4qjqhb4E6SE7aAsZfYnhOAK1v/R+Ruu7bOduXmyWVGBeBHHep4uvc
+         zXKp7Uwrcx2CtzjMySKIjfB65jL0kplP2rWuvrR9C4/Ia5sOUal5l7FRsnUxNoDtTJpf
+         W+Uk9a3JkVGva7VClfPL7GIRJesZ6i39zOB4WlJQwr5gHgpIgRTM/kbgotrTpwlhYiDb
+         Uf+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=user-agent:message-id:subject:cc:to:from:date:dkim-signature;
-        bh=1ayR4Uri6jmUl4FQ65of0XeUiY2nOhxNb6x4E6WfqX4=;
-        fh=H3gNuLWK5uC5LdW/EOvoaH6Ljs0gqAayG5dG0IHihHM=;
-        b=XL0qA5IldVybBKUlyNHmShEgalHaqN9ZxveHkfWTnxHn+n9V4p6X1b7+hmOi0NMzJ1
-         WShyF2JHuIQ8Fm1czRPOmxnOtm5kQ05KZA3sYyp72xXauSm7Zm1uA7HrLVKtTmv4wSMw
-         C3qJFAZpyKvVZgq0oNrQ+emcMhooQNvN1kLJ3bwL1KQEHxU52Lj5y2eao1cLxYt1VpFg
-         vSKgDwlJBZB9stRlPSJSAAsN99Gef9xTOaygvZMQUp1MWyylT6YvFzH073khOxz+aLYY
-         LEcV2CIT+wX38VNL6nBiU7ng8QkNECp4i2D2W1/AIsxU77a263l4E+F9gNM2KAnvSRQs
-         HPcQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=wiLvfLf4OGeDGMn4ocLXudOpmwX+r0wZE0fc2HKgdsY=;
+        fh=SEusk3VrpAPEL476d74p9TaaJo2Qv4hbhNeH8r876T0=;
+        b=sBZzwhhq3flZvvY70h4J5T/68Qb5ouZbUXw5IXiyZOXUE4YjYkAu6qXd+Fu1JypD/Y
+         n5OWwSLshRfpECz2dFQdkML/eYHHIra4daegoXty7g00bzHQwR40Wimq9WVuAEUNF2ul
+         cfepjZLh9iEPdFlJ6wekdm22R43zYN1WbF0VmUcJdRRzd40YJTs+ZToSQYnPDAJKkZk8
+         3PXkYewYpawNhD4krr3cBwtdiFDl59DyVMJuYqphsF7f/vbFjPgbkIhn/GqgF8mwxPx1
+         94vrXCIySdvOb5oJC7lqnzzsUEUJ21YLJ+SxJ1DcOKCsqAoWzTmEQqbTm2iFbCxt5+d8
+         498w==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=IgVyfqd4;
-       spf=pass (google.com: domain of lkp@intel.com designates 192.55.52.93 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [192.55.52.93])
-        by gmr-mx.google.com with ESMTPS id tn12-20020a05620a3c0c00b0078329d079ffsi414747qkn.5.2024.01.22.17.36.21
+       dkim=pass header.i=@bytedance.com header.s=google header.b=VVekPsvm;
+       spf=pass (google.com: domain of lizhe.67@bytedance.com designates 2607:f8b0:4864:20::1036 as permitted sender) smtp.mailfrom=lizhe.67@bytedance.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com. [2607:f8b0:4864:20::1036])
+        by gmr-mx.google.com with ESMTPS id w16-20020a9d70d0000000b006e0e2259787si415041otj.5.2024.01.22.22.28.04
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 22 Jan 2024 17:36:22 -0800 (PST)
-Received-SPF: pass (google.com: domain of lkp@intel.com designates 192.55.52.93 as permitted sender) client-ip=192.55.52.93;
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="398531564"
-X-IronPort-AV: E=Sophos;i="6.05,212,1701158400"; 
-   d="scan'208";a="398531564"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jan 2024 17:36:20 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10961"; a="856145765"
-X-IronPort-AV: E=Sophos;i="6.05,212,1701158400"; 
-   d="scan'208";a="856145765"
-Received: from lkp-server01.sh.intel.com (HELO 961aaaa5b03c) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 22 Jan 2024 17:36:17 -0800
-Received: from kbuild by 961aaaa5b03c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rS5i3-00074a-2k;
-	Tue, 23 Jan 2024 01:36:15 +0000
-Date: Tue, 23 Jan 2024 09:36:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Linux Memory Management List <linux-mm@kvack.org>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, kasan-dev@googlegroups.com,
- linux-bcachefs@vger.kernel.org, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org
-Subject: [linux-next:master] BUILD REGRESSION
- 319fbd8fc6d339e0a1c7b067eed870c518a13a02
-Message-ID: <202401230901.Q0DlNgAU-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Original-Sender: lkp@intel.com
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Jan 2024 22:28:04 -0800 (PST)
+Received-SPF: pass (google.com: domain of lizhe.67@bytedance.com designates 2607:f8b0:4864:20::1036 as permitted sender) client-ip=2607:f8b0:4864:20::1036;
+Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-2909a632e40so991259a91.0
+        for <kasan-dev@googlegroups.com>; Mon, 22 Jan 2024 22:28:04 -0800 (PST)
+X-Received: by 2002:a17:90a:86:b0:290:cef3:822a with SMTP id a6-20020a17090a008600b00290cef3822amr350946pja.90.1705991283601;
+        Mon, 22 Jan 2024 22:28:03 -0800 (PST)
+Received: from GQ6QX3JCW2.bytedance.net ([203.208.189.7])
+        by smtp.gmail.com with ESMTPSA id pl3-20020a17090b268300b002909eb075dasm3502608pjb.8.2024.01.22.22.27.59
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 22 Jan 2024 22:28:03 -0800 (PST)
+From: "lizhe.67 via kasan-dev" <kasan-dev@googlegroups.com>
+To: dvyukov@google.com
+Cc: akpm@linux-foundation.org,
+	andreyknvl@gmail.com,
+	glider@google.com,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	lizefan.x@bytedance.com,
+	lizhe.67@bytedance.com,
+	ryabinin.a.a@gmail.com,
+	vincenzo.frascino@arm.com
+Subject: Re: [RFC 0/2] kasan: introduce mem track feature
+Date: Tue, 23 Jan 2024 14:27:56 +0800
+Message-ID: <20240123062756.87505-1-lizhe.67@bytedance.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <CACT4Y+Z=djX7aHcsj48_FGAOTyCEe31RbS=SNzxYa27kvyNXKw@mail.gmail.com>
+References: <CACT4Y+Z=djX7aHcsj48_FGAOTyCEe31RbS=SNzxYa27kvyNXKw@mail.gmail.com>
+MIME-Version: 1.0
+X-Original-Sender: lizhe.67@bytedance.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=IgVyfqd4;       spf=pass
- (google.com: domain of lkp@intel.com designates 192.55.52.93 as permitted
- sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=intel.com
+ header.i=@bytedance.com header.s=google header.b=VVekPsvm;       spf=pass
+ (google.com: domain of lizhe.67@bytedance.com designates 2607:f8b0:4864:20::1036
+ as permitted sender) smtp.mailfrom=lizhe.67@bytedance.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=bytedance.com
+X-Original-From: lizhe.67@bytedance.com
+Reply-To: lizhe.67@bytedance.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -144,306 +145,87 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-branch HEAD: 319fbd8fc6d339e0a1c7b067eed870c518a13a02  Add linux-next specific files for 20240122
+On Mon, 22 Jan 2024 08:03:17, dvyukov@google.com wrote:
+>> >> From: Li Zhe <lizhe.67@bytedance.com>
+>> >>
+>> >> 1. Problem
+>> >> ==========
+>> >> KASAN is a tools for detecting memory bugs like out-of-bounds and
+>> >> use-after-free. In Generic KASAN mode, it use shadow memory to record
+>> >> the accessible information of the memory. After we allocate a memory
+>> >> from kernel, the shadow memory corresponding to this memory will be
+>> >> marked as accessible.
+>> >> In our daily development, memory problems often occur. If a task
+>> >> accidentally modifies memory that does not belong to itself but has
+>> >> been allocated, some strange phenomena may occur. This kind of problem
+>> >> brings a lot of trouble to our development, and unluckily, this kind of
+>> >> problem cannot be captured by KASAN. This is because as long as the
+>> >> accessible information in shadow memory shows that the corresponding
+>> >> memory can be accessed, KASAN considers the memory access to be legal.
+>> >>
+>> >> 2. Solution
+>> >> ===========
+>> >> We solve this problem by introducing mem track feature base on KASAN
+>> >> with Generic KASAN mode. In the current kernel implementation, we use
+>> >> bits 0-2 of each shadow memory byte to store how many bytes in the 8
+>> >> byte memory corresponding to the shadow memory byte can be accessed.
+>> >> When a 8-byte-memory is inaccessible, the highest bit of its
+>> >> corresponding shadow memory value is 1. Therefore, the key idea is that
+>> >> we can use the currently unused four bits 3-6 in the shadow memory to
+>> >> record relevant track information. Which means, we can use one bit to
+>> >> track 2 bytes of memory. If the track bit of the shadow mem corresponding
+>> >> to a certain memory is 1, it means that the corresponding 2-byte memory
+>> >> is tracked. By adding this check logic to KASAN's callback function, we
+>> >> can use KASAN's ability to capture allocated memory corruption.
+>> >>
+>> >> 3. Simple usage
+>> >> ===========
+>> >> The first step is to mark the memory as tracked after the allocation is
+>> >> completed.
+>> >> The second step is to remove the tracked mark of the memory before the
+>> >> legal access process and re-mark the memory as tracked after finishing
+>> >> the legal access process.
+>> >
+>> >KASAN already has a notion of memory poisoning/unpoisoning.
+>> >See kasan_unpoison_range function. We don't export kasan_poison_range,
+>> >but if you do local debuggng, you can export it locally.
+>>
+>> Thank you for your review!
+>>
+>> For example, for a 100-byte variable, I may only want to monitor certain
+>> two bytes (byte 3 and 4) in it. According to my understanding,
+>> kasan_poison/unpoison() can not detect the middle bytes individually. So I
+>> don't think function kasan_poison_range() can do what I want.
+>
+>That's something to note in the description/comments.
+>
+>How many ranges do you intend to protect this way?
+>If that's not too many, then a better option would be to poison these
+>ranges normally and store ranges that a thread can access currently on
+>a side.
+>This will give both 1-byte precision, filtering for reads/writes
+>separately and better diagnostics.
 
-Unverified Error/Warning (likely false positive, please contact us if interested):
+OK I will find a better method to solve this problem.
 
-drivers/gpu/drm/etnaviv/etnaviv_drv.c:614:3-14: ERROR: probable double put.
-
-Error/Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-|-- alpha-allyesconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- arc-allmodconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- arc-allyesconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- arm-allmodconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- arm-allyesconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- csky-allmodconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- csky-allyesconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- csky-randconfig-002-20240122
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- loongarch-allmodconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- loongarch-defconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- loongarch-randconfig-r122-20240122
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- microblaze-allmodconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- microblaze-allyesconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- mips-allyesconfig
-|   |-- (.ref.text):relocation-truncated-to-fit:R_MIPS_26-against-start_secondary
-|   |-- (.text):relocation-truncated-to-fit:R_MIPS_26-against-kernel_entry
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- openrisc-allyesconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- parisc-allmodconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- parisc-allyesconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- riscv-allmodconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- riscv-allyesconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- s390-allmodconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- s390-allyesconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- sh-randconfig-r131-20240122
-|   |-- drivers-usb-gadget-function-f_ncm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-short-usertype-max_segment_size-got-restricted-__le16-usertype
-|   `-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-sum-got-unsigned-int-assigned-csum
-|-- sparc-allmodconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- sparc64-allmodconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- sparc64-allyesconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- sparc64-randconfig-r123-20240122
-|   `-- drivers-usb-gadget-function-f_ncm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-short-usertype-max_segment_size-got-restricted-__le16-usertype
-|-- um-randconfig-r111-20240122
-|   `-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-sum-got-unsigned-int-assigned-csum
-|-- x86_64-randconfig-121-20240122
-|   `-- drivers-usb-gadget-function-f_ncm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-short-usertype-max_segment_size-got-restricted-__le16-usertype
-`-- x86_64-randconfig-r133-20240122
-    `-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-csum-got-unsigned-int-assigned-csum
-clang_recent_errors
-|-- arm64-allmodconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- arm64-allyesconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- arm64-randconfig-002-20240122
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- arm64-randconfig-004-20240122
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- i386-randconfig-053-20240122
-|   `-- drivers-net-ethernet-broadcom-bnxt-bnxt.c:WARNING:atomic_dec_and_test-variation-before-object-free-at-line-.
-|-- i386-randconfig-061-20240122
-|   `-- drivers-usb-gadget-function-f_ncm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-short-usertype-max_segment_size-got-restricted-__le16-usertype
-|-- i386-randconfig-062-20240122
-|   `-- drivers-usb-gadget-function-f_ncm.c:sparse:sparse:incorrect-type-in-assignment-(different-base-types)-expected-unsigned-short-usertype-max_segment_size-got-restricted-__le16-usertype
-|-- i386-randconfig-141-20240122
-|   |-- fs-bcachefs-btree_locking.c-bch2_trans_relock()-warn:passing-zero-to-PTR_ERR
-|   |-- fs-bcachefs-buckets.c-bch2_trans_account_disk_usage_change()-error:we-previously-assumed-trans-disk_res-could-be-null-(see-line-)
-|   `-- mm-huge_memory.c-thpsize_create()-warn:Calling-kobject_put-get-with-state-initialized-unset-from-line:
-|-- powerpc-randconfig-r113-20240122
-|   |-- lib-checksum_kunit.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-__wsum-usertype-sum-got-unsigned-int-assigned-csum
-|   `-- mm-kasan-common.c:sparse:sparse:incorrect-type-in-argument-(different-base-types)-expected-restricted-gfp_t-usertype-flags-got-unsigned-int-usertype-size
-|-- riscv-randconfig-001-20240122
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- x86_64-allmodconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- x86_64-allyesconfig
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- x86_64-buildonly-randconfig-001-20240122
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- x86_64-randconfig-014-20240122
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- x86_64-randconfig-074-20240122
-|   `-- drivers-gpu-drm-amd-amdgpu-..-display-amdgpu_dm-amdgpu_dm_crtc.c:warning:This-comment-starts-with-but-isn-t-a-kernel-doc-comment.-Refer-Documentation-doc-guide-kernel-doc.rst
-|-- x86_64-randconfig-102-20240122
-|   `-- drivers-gpu-drm-etnaviv-etnaviv_drv.c:ERROR:probable-double-put.
-`-- x86_64-randconfig-161-20240122
-    |-- mm-kasan-kasan_test.c-mempool_double_free_helper()-error:double-free-of-elem
-    `-- mm-kasan-kasan_test.c-mempool_uaf_helper()-warn:passing-freed-memory-elem
-
-elapsed time: 1454m
-
-configs tested: 177
-configs skipped: 3
-
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20240122   gcc  
-arc                   randconfig-002-20240122   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                           h3600_defconfig   gcc  
-arm                        neponset_defconfig   clang
-arm                   randconfig-001-20240122   clang
-arm                   randconfig-002-20240122   clang
-arm                   randconfig-003-20240122   clang
-arm                   randconfig-004-20240122   clang
-arm                           stm32_defconfig   gcc  
-arm                         vf610m4_defconfig   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20240122   clang
-arm64                 randconfig-002-20240122   clang
-arm64                 randconfig-003-20240122   clang
-arm64                 randconfig-004-20240122   clang
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20240122   gcc  
-csky                  randconfig-002-20240122   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20240122   clang
-hexagon               randconfig-002-20240122   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20240122   clang
-i386         buildonly-randconfig-002-20240122   clang
-i386         buildonly-randconfig-003-20240122   clang
-i386         buildonly-randconfig-004-20240122   clang
-i386         buildonly-randconfig-005-20240122   clang
-i386         buildonly-randconfig-006-20240122   clang
-i386                                defconfig   gcc  
-i386                  randconfig-001-20240122   clang
-i386                  randconfig-002-20240122   clang
-i386                  randconfig-003-20240122   clang
-i386                  randconfig-004-20240122   clang
-i386                  randconfig-005-20240122   clang
-i386                  randconfig-006-20240122   clang
-i386                  randconfig-011-20240122   gcc  
-i386                  randconfig-012-20240122   gcc  
-i386                  randconfig-013-20240122   gcc  
-i386                  randconfig-014-20240122   gcc  
-i386                  randconfig-015-20240122   gcc  
-i386                  randconfig-016-20240122   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20240122   gcc  
-loongarch             randconfig-002-20240122   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                            mac_defconfig   gcc  
-m68k                           virt_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-mips                        bcm63xx_defconfig   clang
-mips                  decstation_64_defconfig   gcc  
-mips                     decstation_defconfig   gcc  
-mips                         rt305x_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20240122   gcc  
-nios2                 randconfig-002-20240122   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20240122   gcc  
-parisc                randconfig-002-20240122   gcc  
-parisc64                            defconfig   gcc  
-powerpc                     akebono_defconfig   clang
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                      ppc64e_defconfig   clang
-powerpc               randconfig-001-20240122   clang
-powerpc               randconfig-002-20240122   clang
-powerpc               randconfig-003-20240122   clang
-powerpc64             randconfig-001-20240122   clang
-powerpc64             randconfig-002-20240122   clang
-powerpc64             randconfig-003-20240122   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv             nommu_k210_sdcard_defconfig   gcc  
-riscv                 randconfig-001-20240122   clang
-riscv                 randconfig-002-20240122   clang
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20240122   gcc  
-s390                  randconfig-002-20240122   gcc  
-sh                               alldefconfig   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                    randconfig-001-20240122   gcc  
-sh                    randconfig-002-20240122   gcc  
-sh                           se7343_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20240122   gcc  
-sparc64               randconfig-002-20240122   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20240122   clang
-um                    randconfig-002-20240122   clang
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20240122   clang
-x86_64       buildonly-randconfig-002-20240122   clang
-x86_64       buildonly-randconfig-003-20240122   clang
-x86_64       buildonly-randconfig-004-20240122   clang
-x86_64       buildonly-randconfig-005-20240122   clang
-x86_64       buildonly-randconfig-006-20240122   clang
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20240122   gcc  
-x86_64                randconfig-002-20240122   gcc  
-x86_64                randconfig-003-20240122   gcc  
-x86_64                randconfig-004-20240122   gcc  
-x86_64                randconfig-005-20240122   gcc  
-x86_64                randconfig-006-20240122   gcc  
-x86_64                randconfig-011-20240122   clang
-x86_64                randconfig-012-20240122   clang
-x86_64                randconfig-013-20240122   clang
-x86_64                randconfig-014-20240122   clang
-x86_64                randconfig-015-20240122   clang
-x86_64                randconfig-016-20240122   clang
-x86_64                randconfig-071-20240122   clang
-x86_64                randconfig-072-20240122   clang
-x86_64                randconfig-073-20240122   clang
-x86_64                randconfig-074-20240122   clang
-x86_64                randconfig-075-20240122   clang
-x86_64                randconfig-076-20240122   clang
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                randconfig-001-20240122   gcc  
-xtensa                randconfig-002-20240122   gcc  
-xtensa                    xip_kc705_defconfig   gcc  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thank you!
+>
+>> >> The first patch completes the implementation of the mem track, and the
+>> >> second patch provides an interface for using this facility, as well as
+>> >> a testcase for the interface.
+>> >>
+>> >> Li Zhe (2):
+>> >>   kasan: introduce mem track feature base on kasan
+>> >>   kasan: add mem track interface and its test cases
+>> >>
+>> >>  include/linux/kasan.h        |   5 +
+>> >>  lib/Kconfig.kasan            |   9 +
+>> >>  mm/kasan/generic.c           | 437 +++++++++++++++++++++++++++++++++--
+>> >>  mm/kasan/kasan_test_module.c |  26 +++
+>> >>  mm/kasan/report_generic.c    |   6 +
+>> >>  5 files changed, 467 insertions(+), 16 deletions(-)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202401230901.Q0DlNgAU-lkp%40intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240123062756.87505-1-lizhe.67%40bytedance.com.
