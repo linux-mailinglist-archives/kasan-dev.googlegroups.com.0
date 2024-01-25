@@ -1,112 +1,117 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBZO4ZCWQMGQEJJYBU3I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB2O4ZCWQMGQEVMLRFLI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x113c.google.com (mail-yw1-x113c.google.com [IPv6:2607:f8b0:4864:20::113c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B0483BDCD
-	for <lists+kasan-dev@lfdr.de>; Thu, 25 Jan 2024 10:48:23 +0100 (CET)
-Received: by mail-yw1-x113c.google.com with SMTP id 00721157ae682-6029c85922dsf29395027b3.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 25 Jan 2024 01:48:22 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1706176102; cv=pass;
+Received: from mail-lf1-x139.google.com (mail-lf1-x139.google.com [IPv6:2a00:1450:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D0DE83BDCE
+	for <lists+kasan-dev@lfdr.de>; Thu, 25 Jan 2024 10:48:27 +0100 (CET)
+Received: by mail-lf1-x139.google.com with SMTP id 2adb3069b0e04-5101569ed09sf849442e87.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 25 Jan 2024 01:48:27 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1706176106; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qDQoBWHnEA/iRcwKqrbUKem38mPHRQ+UXYk+gAc6hS5XPLPGsv4MtNCWSFLyx+NdwV
-         zsTS25IsJurvJ+d5DVoUNw2gnJ6iBhczdeW2iQCjSyMxKsvxDuiI5Xk4EUx7xbnVVqH/
-         1K/Awwl7gFArAK+Y1E13R5Xted4ykQlJpRLmJZ9kq9GFYwXezTJvdS1HQydcuBvgMvPS
-         yI5HTZ+YkdLSyHuLLrjqCEP13VRdXkM9HgpLN3gxGAYo26JDdhhSR/RrOBnpJ1z4zeAg
-         RXyFpsWJ9HqZQRtFJ2GuLg2zfV8q6n0nLk6mJ3puhhuFP4vPebBq/gINz0ED1ANrMr9z
-         de+A==
+        b=lkNotUL5f2EF3FmCwNYLDMWrySRn0oaxbsZNl4oLNfqHq7TFuojHCgwGhPjAjP5+5k
+         GbBhWDUlo7nHDK586d23wFG+Icw24x6bpfxkQuEsfD/jcRuiGMAZIwW1r9Dpn3/lgZAJ
+         r3VGmBsvT6xcJ4pjYHN6UA2x1aADxO7WWqXmrlgY7cMx2I0kPxmnTrEPu+6AEXgM0iZJ
+         aXh9SamODfAbY7YSmUpFdElv+iZqsNMlkXw1Q/dmlk8S7MPds8IrDuS4uYPnuNniA9I9
+         pQtVU5T/+5HCdSw9Ug92+Pm5Dg6h+r3AqVqvWgtiHCA/wxy1OnxVnBAnutIkPe4BQVop
+         jLFw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:mime-version:date:dkim-signature;
-        bh=wLB2cvtW9D8ySLh6YBTVg4iVe3SWauVnwToiiSmJ/X0=;
+         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
+        bh=44VcUGon4fQNI/XeVjFWuRY8WFDQzOP5ed1xIGF7lRE=;
         fh=Q6WTJ5ZnjiuB6HF3Kna6PPHtjylj1os0kvM6d8ajbeE=;
-        b=MUgKgxkPlAxMUcdSbD49FPZA9C64EAue6wZ99zKGspdp+1RDXpP/asx0QjH7w5sPPN
-         /46NDMBR5MiKPrI0Avse6JjsvBAKTvVXLvkeRGMIORYAXong154lnhrHmAr26Gw7ufpo
-         kVMdmkWyecyKpkpfBjUwPkrGf+NlI00tAhwDx6ya6tswdjbSHXnJsYooT58Th5lfelhb
-         Zy3trLj7wAc+EwEvTIjYMYCONQ3VVGyefORtR72KYHl9n6udWvFaq4vFLnCZaj4nobLt
-         RLePwG99WCa4NtVuDcfyVDqLVZ4WHdZVVcs7tzJZyVKrQnqVpuWw8DD7s0KWjaJynUjJ
-         vKmQ==
+        b=s32/P9jmWCzArkhaHi3jZBYfkcterRQ22mtt7gcHBog0y6QgzwhGUb7fJCaVwtHV+X
+         2U3kR2/9g+rPcdVP87CvvLpa8545u21n2P22XvbBbaalyKN1Pw/rYhI6LWdCWMtDXUaP
+         llpu7bbS5Ykp+CiUd2xBCBwxy1uMCtDPLc+WvFB4XcErQ5Ma0C+wOjbLsoxC7gj8tXb4
+         LP98FN8KXmx+/5moVPM/3WSjWqIISW6RPKACMCU5vwjQzAYuaXgOCZvf0sEXwfeX1sCt
+         5JEP/9/YS9exNUZC6LdrQNebTkEa7Lt6XtRVnFYd4UQKjgE4PSLe2YyMhPrDKgufgh7A
+         qyrQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=zfv6CAh7;
-       spf=pass (google.com: domain of 3zc6yzqukcb0hoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3ZC6yZQUKCb0hoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=Zimw18nw;
+       spf=pass (google.com: domain of 3zy6yzqukccakr1kxmuumrk.iusqgygt-jk1muumrkmxu0vy.ius@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3Zy6yZQUKCcAkr1kxmuumrk.iusqgygt-jk1muumrkmxu0vy.ius@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1706176102; x=1706780902; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1706176106; x=1706780906; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wLB2cvtW9D8ySLh6YBTVg4iVe3SWauVnwToiiSmJ/X0=;
-        b=nW1OD+NohZalNA20JqWUEsLxpzCIIettzkIiUbtgnjTAXie4YSnIvobYuX8ATO81mH
-         NG/+AFlOupj/Udd5R13ZMj1Pkq0gniwimZH5rX3aIau3VgffNIAdeHwi1BaZ70le93K9
-         9m+Y7rV5n1spvJ6KaN4IPK3oDYR6HB+9Og9RoUPZ8XyxRvl/Hl/Iy3TIcjPE5EDb0Hpd
-         ndVvP9axs0a4ndAZ+vgz+XgVH/nPXTDQNPwbavciYngxz3BwflsQZU5uj8CMZwxU1Ivg
-         UUxjUtyGTCbg5xhtr3/JPEpkouiOpXngeebON87BtjgnqZJw+HoCYcQK2wA9PAe/3AJj
-         Ztbg==
+         :subject:message-id:references:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=44VcUGon4fQNI/XeVjFWuRY8WFDQzOP5ed1xIGF7lRE=;
+        b=cOiuIojrDBy8+xmeOHA6jOpPLouZt0kOS4o5AWkM+kypDHEY/+3wmh+ARkdM/6U9Z5
+         0oY5rrY8qiVJOqGiTQi4A5K3wMlSDO+tGdhqWqzJZpkhyECnCA6rv3Nb3QygpUrKUcOD
+         5Sxr1LcNLJlBcrPIqCWEWnowz2SgKdf5rR2qDeds/nmiTJ0LlNiuUCfZYMj0J+oTTE7B
+         yVUNdlUQml03FrpDWwMdVpjthhN38y5uHSGgTXKR1aWclJfBoWVY4ROm4boDYvbykXoU
+         ND3uPj3XxrnWQxYjHmbBJHKMxVr1Xm3/xZDQlS8IWBemu8hpEHx3zeQVczOWOWkji6R9
+         kWtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706176102; x=1706780902;
+        d=1e100.net; s=20230601; t=1706176106; x=1706780906;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wLB2cvtW9D8ySLh6YBTVg4iVe3SWauVnwToiiSmJ/X0=;
-        b=st+G8m3inqH3Zt8SUeV5riXbOHei2X9sNC42pKG/iPn5hXJqu+xw+RjEaYdzcfIPUU
-         glQzkDL9aYH4/QtWB1RyepvOU2Zkk2N2t5RVMsRQgjdTF53bC6TVyrKMGx7300ASve3a
-         50wAlF/PiyOWG2vmydoMkh4Akk5aWsD4eGIay7uAADSgVs0mbOecYxKg3olBeZIDcSpk
-         OrbSZHcYhPi9TiudYGUR51LHVrp37M3MA1OLDOTkTFCKn7M5V4pYM740hoxKJAkfVLCk
-         K20pQZiFDs2Z9YpDxW5H94F8pCBJITZ7OEG9WVV3HnRvAW967yvNmO/9Yq9khy1xC94X
-         lZug==
-X-Gm-Message-State: AOJu0YwqhyQQDHkH1ezx7C2Zo1XnwMuhCCcP3JH1O7GztRZPAD2F7FQw
-	3C4yAQpj7KLSOZqWtCtZmApb2fC6awFCIGV7nqzmeLtTGdthkGCR
-X-Google-Smtp-Source: AGHT+IFtGcDn0ID0N7elAEQP2wrVoy7XJA5MqhW39xphDW9hEALq28fJIuefxeqaEAQtFynld9wojQ==
-X-Received: by 2002:a81:a157:0:b0:5ff:8a97:d59 with SMTP id y84-20020a81a157000000b005ff8a970d59mr405914ywg.57.1706176101780;
-        Thu, 25 Jan 2024 01:48:21 -0800 (PST)
+         :subject:message-id:references:mime-version:in-reply-to:date
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=44VcUGon4fQNI/XeVjFWuRY8WFDQzOP5ed1xIGF7lRE=;
+        b=F31Sr0FISZNg90es80o/3YGJRv/4qOmAk+y8sStzz0+f4iqtpKj+N3wjGrWPBI0bho
+         8nEUnu+Fiqplts9wZILlMXlBecZdpdjNL6/IJCjIPDNzdw1h/eOClxmIY82yeTiL8X4v
+         1oOopzDNOCk4MCHU++vIjIFBN8eJidqoYkgc5ln0J7BiXOZ743LuTR4G48chYFKiYahX
+         xlzRx/ysu+4w2/vKiU483+QUEG5I/OyBKCEcC0xhhPCc2MYcTGZobrdxMSbrsm3z3/1X
+         R1MnDrcCZWj+PRewejrcrOaFLIaVe5cD9PfLrOG5HSzkh9voOl65xj8ITvPZ2YDsN0My
+         dqWA==
+X-Gm-Message-State: AOJu0YxTObwF0Utjp4pvfGHDybMMZrJWjNH2sbnL2bCubdg/gsJqhTon
+	hRnRpBYGtAMmTo8cwaUPu0VzK4nfpbvWxQIoyslBwtkZdiS5zH9B
+X-Google-Smtp-Source: AGHT+IFApq8uqlnQrSvDKYVYK6kTUx9Gy9+3VFlpN41TmOGWtj82LXnzp+M8Ow4DgTptFZNVfbISjQ==
+X-Received: by 2002:ac2:5611:0:b0:510:c7d:8cdf with SMTP id v17-20020ac25611000000b005100c7d8cdfmr345703lfd.101.1706176105998;
+        Thu, 25 Jan 2024 01:48:25 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:b345:0:b0:681:551c:1348 with SMTP id a5-20020a0cb345000000b00681551c1348ls4051493qvf.2.-pod-prod-08-us;
- Thu, 25 Jan 2024 01:48:20 -0800 (PST)
-X-Received: by 2002:a05:6214:224d:b0:681:95a5:4ece with SMTP id c13-20020a056214224d00b0068195a54ecemr701239qvc.105.1706176100652;
-        Thu, 25 Jan 2024 01:48:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1706176100; cv=none;
+Received: by 2002:a05:6512:20d0:b0:510:20d3:5d7f with SMTP id
+ u16-20020a05651220d000b0051020d35d7fls51463lfr.1.-pod-prod-01-eu; Thu, 25 Jan
+ 2024 01:48:24 -0800 (PST)
+X-Received: by 2002:a05:6512:3190:b0:50e:b25e:94d8 with SMTP id i16-20020a056512319000b0050eb25e94d8mr413201lfe.41.1706176103770;
+        Thu, 25 Jan 2024 01:48:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1706176103; cv=none;
         d=google.com; s=arc-20160816;
-        b=s5W8rJWSDvCYQKgqQYixgIAsZW4ydJidF/eg2Gl5AohMa61hY3bygpn6+faugUpVTs
-         BzWNrWp2HwzYixXyy0S+HQ9avcz6UjaFZ6KzZ7HPxn4v4JhSEE9/dtBziuo2kufAWri2
-         rSi2UeLXstCV0s6Ji3kfhtHa4tgbvTriIp/1wbfJ0zGcW/jWKkRF8dA4AW6tDu6q4nxM
-         gMUgWgfo3L99bljab0y8H017VgNeKnBblppcifkQgSAV/2NFyERisg4cGZyZOj59qoeA
-         Kc0VloKFNNHftzZdNsnwbRoBwKZKalxeO64Npx5bq6wp1ZwpK4cA3OYXP0arzgwfEe3Q
-         rndw==
+        b=IxgBphiH7AX8JwSGikRVq1897aYsdnZyhFnxo/QPzooOOlMBnxRcTs5vB+8cssgBPE
+         X9kDLcJfFmR0IpF63U5/MLav9/90xWJLp3PDqh1bKAPSqwto3P02jtjEzUzKudeG6//L
+         YCS0Xug1tnXhT1pNe6Wb3264wmVYUuFBBuzPUgQc8EdHXsGjgQovgKJAtYzJgJ9U+FIw
+         7//b4nd7kYiOfm4OE1ZOEvdl5SzSy/vKXsHnroU5ugSA9i3wrzFI4SHQ21u+XzyZ6Qfw
+         NuzTkkzElYKnkfT3cQo/cxlcqlZ6KqwfTUuhIdcMqx4PVj2MMWBGzAsA5O6voQRBfKg0
+         gHbQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
-        bh=LcyZJBErh32WdhxOYCRWNuYkcavusvnIBLghtfalcmI=;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:dkim-signature;
+        bh=R76x7/0RnR583W2gtQWaNlBYwLgRcgwa4b5YYEtfgyM=;
         fh=Q6WTJ5ZnjiuB6HF3Kna6PPHtjylj1os0kvM6d8ajbeE=;
-        b=LvK3WKUkzUAUVGElQlWeeT5sy3/a/uBIyA+a+iKN01HHbsgBHxAJkRbIngCBkwadAz
-         iyDx+tQQU1ICPCxS5+2V+L6OEZjBkNtAkO0ildXTac12Ippie/h85IPjZO2lcpZZL5P9
-         siiNyyRq1rAOS7Y85NxrFvRrcOrmDwG7O7tq59eLtEglL6zE9B3AJLXL027NpyH1L9AX
-         wSAoWK8kUqqiJ0UgPg9jqC/mYse/bvy2FY+eIfJOtN9/koSx6t4VwhMm+UKCn4LuM11a
-         ngrQxyAmoH+Jju40TiCE7s9zxRqqidZMh8+XkrPcD7lfmA4UuZyj5m8JJFk3iObuHTZp
-         R1jQ==
+        b=oFxJdxF7h0KqIwdcUlS248o4MjL21/3h8Z01y9faOjT2D0Q40lZvVbI/zCgi0qhV67
+         MFhpsYOUtgvhVwyFS35QltZbWDhKhokAUarY3Rf3yetCeueX2sKfeJr0wYZ+Z2haIpBJ
+         pAQB4NswsH9F6HChgBh9eCPVZ9F0AfJ+SE2l/gSg6esQyvPBb+9TWxO1Dzs3fltQy3Bp
+         ww8dmfsXI6iUB0QarFk7zjgWLKNKMHOCenU8/XF/tEB2sDnlF78Ywgwf8lvIjkKbn/Su
+         TIWBlJpxjJJA7l6tyk0ocf9GFzEl3hhkVXdSGXo8zSPqPyUqu8jyJLaIwddgCWnpYuqh
+         Neiw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=zfv6CAh7;
-       spf=pass (google.com: domain of 3zc6yzqukcb0hoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3ZC6yZQUKCb0hoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=Zimw18nw;
+       spf=pass (google.com: domain of 3zy6yzqukccakr1kxmuumrk.iusqgygt-jk1muumrkmxu0vy.ius@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3Zy6yZQUKCcAkr1kxmuumrk.iusqgygt-jk1muumrkmxu0vy.ius@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com. [2607:f8b0:4864:20::114a])
-        by gmr-mx.google.com with ESMTPS id n6-20020a0cfbc6000000b006817d101957si858178qvp.3.2024.01.25.01.48.20
+Received: from mail-ej1-x649.google.com (mail-ej1-x649.google.com. [2a00:1450:4864:20::649])
+        by gmr-mx.google.com with ESMTPS id k19-20020ac24f13000000b005100ff746absi135105lfr.10.2024.01.25.01.48.23
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jan 2024 01:48:20 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3zc6yzqukcb0hoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) client-ip=2607:f8b0:4864:20::114a;
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-602aa6d987cso19563767b3.2
-        for <kasan-dev@googlegroups.com>; Thu, 25 Jan 2024 01:48:20 -0800 (PST)
+        Thu, 25 Jan 2024 01:48:23 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3zy6yzqukccakr1kxmuumrk.iusqgygt-jk1muumrkmxu0vy.ius@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) client-ip=2a00:1450:4864:20::649;
+Received: by mail-ej1-x649.google.com with SMTP id a640c23a62f3a-a2c4e9cb449so371058966b.1
+        for <kasan-dev@googlegroups.com>; Thu, 25 Jan 2024 01:48:23 -0800 (PST)
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:57d7:c308:70aa:3dee])
- (user=elver job=sendgmr) by 2002:a81:7905:0:b0:5ff:a62d:e2a with SMTP id
- u5-20020a817905000000b005ffa62d0e2amr229769ywc.4.1706176100355; Thu, 25 Jan
- 2024 01:48:20 -0800 (PST)
-Date: Thu, 25 Jan 2024 10:47:42 +0100
+ (user=elver job=sendgmr) by 2002:a17:907:c24d:b0:a31:747c:b3c7 with SMTP id
+ tj13-20020a170907c24d00b00a31747cb3c7mr4623ejc.3.1706176103117; Thu, 25 Jan
+ 2024 01:48:23 -0800 (PST)
+Date: Thu, 25 Jan 2024 10:47:43 +0100
+In-Reply-To: <20240125094815.2041933-1-elver@google.com>
 Mime-Version: 1.0
+References: <20240125094815.2041933-1-elver@google.com>
 X-Mailer: git-send-email 2.43.0.429.g432eaa2c6b-goog
-Message-ID: <20240125094815.2041933-1-elver@google.com>
-Subject: [PATCH 1/2] stackdepot: use variable size records for non-evictable entries
+Message-ID: <20240125094815.2041933-2-elver@google.com>
+Subject: [PATCH 2/2] kasan: revert eviction of stack traces in generic mode
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, Andrew Morton <akpm@linux-foundation.org>
 Cc: Andrey Konovalov <andreyknvl@gmail.com>, Alexander Potapenko <glider@google.com>, 
@@ -116,9 +121,9 @@ Cc: Andrey Konovalov <andreyknvl@gmail.com>, Alexander Potapenko <glider@google.
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=zfv6CAh7;       spf=pass
- (google.com: domain of 3zc6yzqukcb0hoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com
- designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3ZC6yZQUKCb0hoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=Zimw18nw;       spf=pass
+ (google.com: domain of 3zy6yzqukccakr1kxmuumrk.iusqgygt-jk1muumrkmxu0vy.ius@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3Zy6yZQUKCcAkr1kxmuumrk.iusqgygt-jk1muumrkmxu0vy.ius@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Marco Elver <elver@google.com>
 Reply-To: Marco Elver <elver@google.com>
@@ -134,30 +139,21 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-With the introduction of stack depot evictions, each stack record is now
-fixed size, so that future reuse after an eviction can safely store
-differently sized stack traces. In all cases that do not make use of
-evictions, this wastes lots of space.
+This partially reverts commits cc478e0b6bdf, 63b85ac56a64, 08d7c94d9635,
+a414d4286f34, and 773688a6cb24 to make use of variable-sized stack depot
+records, since eviction of stack entries from stack depot forces fixed-
+sized stack records. Care was taken to retain the code cleanups by the
+above commits.
 
-Fix it by re-introducing variable size stack records (up to the max
-allowed size) for entries that will never be evicted. We know if an
-entry will never be evicted if the flag STACK_DEPOT_FLAG_GET is not
-provided, since a later stack_depot_put() attempt is undefined behavior.
+Eviction was added to generic KASAN as a response to alleviating the
+additional memory usage from fixed-sized stack records, but this still
+uses more memory than previously.
 
-With my current kernel config that enables KASAN and also SLUB owner tracking,
-I observe (after a kernel boot) a whopping reduction of 296 stack depot pools,
-which translates into 4736 KiB saved. The savings here are from SLUB owner
-tracking only, because KASAN generic mode still uses refcounting.
+With the re-introduction of variable-sized records for stack depot, we
+can just switch back to non-evictable stack records again, and return
+back to the previous performance and memory usage baseline.
 
-Before:
-
-  pools: 893
-  allocations: 29841
-  frees: 6524
-  in_use: 23317
-  freelist_size: 3454
-
-After:
+Before (observed after a KASAN kernel boot):
 
   pools: 597
   allocations: 29657
@@ -165,364 +161,194 @@ After:
   in_use: 23232
   freelist_size: 3493
 
-Fixes: 108be8def46e ("lib/stackdepot: allow users to evict stack traces")
+After:
+
+  pools: 315
+  allocations: 28964
+  frees: 0
+  in_use: 28964
+  freelist_size: 0
+
+As can be seen from the number of "frees", with a generic KASAN config,
+evictions are no longer used but due to using variable-sized records, I
+observe a reduction of 282 stack depot pools (saving 4512 KiB) with my
+test setup.
+
+Fixes: cc478e0b6bdf ("kasan: avoid resetting aux_lock")
+Fixes: 63b85ac56a64 ("kasan: stop leaking stack trace handles")
+Fixes: 08d7c94d9635 ("kasan: memset free track in qlink_free")
+Fixes: a414d4286f34 ("kasan: handle concurrent kasan_record_aux_stack calls")
+Fixes: 773688a6cb24 ("kasan: use stack_depot_put for Generic mode")
 Signed-off-by: Marco Elver <elver@google.com>
 Cc: Alexander Potapenko <glider@google.com>
 Cc: Andrey Konovalov <andreyknvl@gmail.com>
 Cc: Dmitry Vyukov <dvyukov@google.com>
 ---
-v1 (since RFC):
-* Get rid of new_pool_required to simplify the code.
-* Warn on attempts to switch a non-refcounted entry to refcounting.
-* Typos.
----
- include/linux/poison.h |   3 +
- lib/stackdepot.c       | 212 +++++++++++++++++++++--------------------
- 2 files changed, 113 insertions(+), 102 deletions(-)
+ mm/kasan/common.c  |  3 +--
+ mm/kasan/generic.c | 54 ++++++----------------------------------------
+ mm/kasan/kasan.h   |  8 -------
+ 3 files changed, 8 insertions(+), 57 deletions(-)
 
-diff --git a/include/linux/poison.h b/include/linux/poison.h
-index 27a7dad17eef..1f0ee2459f2a 100644
---- a/include/linux/poison.h
-+++ b/include/linux/poison.h
-@@ -92,4 +92,7 @@
- /********** VFS **********/
- #define VFS_PTR_POISON ((void *)(0xF5 + POISON_POINTER_DELTA))
- 
-+/********** lib/stackdepot.c **********/
-+#define STACK_DEPOT_POISON ((void *)(0xD390 + POISON_POINTER_DELTA))
-+
- #endif
-diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-index 5caa1f566553..1b0d948a053c 100644
---- a/lib/stackdepot.c
-+++ b/lib/stackdepot.c
-@@ -22,6 +22,7 @@
- #include <linux/list.h>
- #include <linux/mm.h>
- #include <linux/mutex.h>
-+#include <linux/poison.h>
- #include <linux/printk.h>
- #include <linux/rculist.h>
- #include <linux/rcupdate.h>
-@@ -93,9 +94,6 @@ struct stack_record {
- 	};
- };
- 
--#define DEPOT_STACK_RECORD_SIZE \
--	ALIGN(sizeof(struct stack_record), 1 << DEPOT_STACK_ALIGN)
--
- static bool stack_depot_disabled;
- static bool __stack_depot_early_init_requested __initdata = IS_ENABLED(CONFIG_STACKDEPOT_ALWAYS_INIT);
- static bool __stack_depot_early_init_passed __initdata;
-@@ -121,15 +119,10 @@ static void *stack_pools[DEPOT_MAX_POOLS];
- static void *new_pool;
- /* Number of pools in stack_pools. */
- static int pools_num;
-+/* Offset to the unused space in the currently used pool. */
-+static size_t pool_offset = DEPOT_POOL_SIZE;
- /* Freelist of stack records within stack_pools. */
- static LIST_HEAD(free_stacks);
--/*
-- * Stack depot tries to keep an extra pool allocated even before it runs out
-- * of space in the currently used pool. This flag marks whether this extra pool
-- * needs to be allocated. It has the value 0 when either an extra pool is not
-- * yet allocated or if the limit on the number of pools is reached.
-- */
--static bool new_pool_required = true;
- /* The lock must be held when performing pool or freelist modifications. */
- static DEFINE_RAW_SPINLOCK(pool_lock);
- 
-@@ -294,48 +287,52 @@ int stack_depot_init(void)
- EXPORT_SYMBOL_GPL(stack_depot_init);
- 
- /*
-- * Initializes new stack depot @pool, release all its entries to the freelist,
-- * and update the list of pools.
-+ * Initializes new stack pool, and updates the list of pools.
-  */
--static void depot_init_pool(void *pool)
-+static bool depot_init_pool(void **prealloc)
+diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+index 610efae91220..ad32803e34e9 100644
+--- a/mm/kasan/common.c
++++ b/mm/kasan/common.c
+@@ -65,8 +65,7 @@ void kasan_save_track(struct kasan_track *track, gfp_t flags)
  {
--	int offset;
--
- 	lockdep_assert_held(&pool_lock);
+ 	depot_stack_handle_t stack;
  
--	/* Initialize handles and link stack records into the freelist. */
--	for (offset = 0; offset <= DEPOT_POOL_SIZE - DEPOT_STACK_RECORD_SIZE;
--	     offset += DEPOT_STACK_RECORD_SIZE) {
--		struct stack_record *stack = pool + offset;
--
--		stack->handle.pool_index = pools_num;
--		stack->handle.offset = offset >> DEPOT_STACK_ALIGN;
--		stack->handle.extra = 0;
+-	stack = kasan_save_stack(flags,
+-			STACK_DEPOT_FLAG_CAN_ALLOC | STACK_DEPOT_FLAG_GET);
++	stack = kasan_save_stack(flags, STACK_DEPOT_FLAG_CAN_ALLOC);
+ 	kasan_set_track(track, stack);
+ }
+ 
+diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
+index df6627f62402..8bfb52b28c22 100644
+--- a/mm/kasan/generic.c
++++ b/mm/kasan/generic.c
+@@ -485,16 +485,6 @@ void kasan_init_object_meta(struct kmem_cache *cache, const void *object)
+ 	if (alloc_meta) {
+ 		/* Zero out alloc meta to mark it as invalid. */
+ 		__memset(alloc_meta, 0, sizeof(*alloc_meta));
 -
 -		/*
--		 * Stack traces of size 0 are never saved, and we can simply use
--		 * the size field as an indicator if this is a new unused stack
--		 * record in the freelist.
+-		 * Prepare the lock for saving auxiliary stack traces.
+-		 * Temporarily disable KASAN bug reporting to allow instrumented
+-		 * raw_spin_lock_init to access aux_lock, which resides inside
+-		 * of a redzone.
 -		 */
--		stack->size = 0;
-+	if (unlikely(pools_num >= DEPOT_MAX_POOLS)) {
-+		/* Bail out if we reached the pool limit. */
-+		WARN_ON_ONCE(pools_num > DEPOT_MAX_POOLS); /* should never happen */
-+		WARN_ON_ONCE(!new_pool); /* to avoid unnecessary pre-allocation */
-+		WARN_ONCE(1, "Stack depot reached limit capacity");
-+		return false;
-+	}
- 
--		INIT_LIST_HEAD(&stack->hash_list);
--		/*
--		 * Add to the freelist front to prioritize never-used entries:
--		 * required in case there are entries in the freelist, but their
--		 * RCU cookie still belongs to the current RCU grace period
--		 * (there can still be concurrent readers).
--		 */
--		list_add(&stack->free_list, &free_stacks);
--		counters[DEPOT_COUNTER_FREELIST_SIZE]++;
-+	if (!new_pool && *prealloc) {
-+		/* We have preallocated memory, use it. */
-+		WRITE_ONCE(new_pool, *prealloc);
-+		*prealloc = NULL;
+-		kasan_disable_current();
+-		raw_spin_lock_init(&alloc_meta->aux_lock);
+-		kasan_enable_current();
  	}
- 
-+	if (!new_pool)
-+		return false; /* new_pool and *prealloc are NULL */
-+
- 	/* Save reference to the pool to be used by depot_fetch_stack(). */
--	stack_pools[pools_num] = pool;
-+	stack_pools[pools_num] = new_pool;
-+
-+	/*
-+	 * Stack depot tries to keep an extra pool allocated even before it runs
-+	 * out of space in the currently used pool.
-+	 *
-+	 * To indicate that a new preallocation is needed new_pool is reset to
-+	 * NULL; do not reset to NULL if we have reached the maximum number of
-+	 * pools.
-+	 */
-+	if (pools_num < DEPOT_MAX_POOLS)
-+		WRITE_ONCE(new_pool, NULL);
-+	else
-+		WRITE_ONCE(new_pool, STACK_DEPOT_POISON);
- 
- 	/* Pairs with concurrent READ_ONCE() in depot_fetch_stack(). */
- 	WRITE_ONCE(pools_num, pools_num + 1);
- 	ASSERT_EXCLUSIVE_WRITER(pools_num);
-+
-+	pool_offset = 0;
-+
-+	return true;
- }
- 
- /* Keeps the preallocated memory to be used for a new stack depot pool. */
-@@ -347,60 +344,48 @@ static void depot_keep_new_pool(void **prealloc)
- 	 * If a new pool is already saved or the maximum number of
- 	 * pools is reached, do not use the preallocated memory.
- 	 */
--	if (!new_pool_required)
-+	if (new_pool)
- 		return;
- 
--	/*
--	 * Use the preallocated memory for the new pool
--	 * as long as we do not exceed the maximum number of pools.
--	 */
--	if (pools_num < DEPOT_MAX_POOLS) {
--		new_pool = *prealloc;
--		*prealloc = NULL;
--	}
--
--	/*
--	 * At this point, either a new pool is kept or the maximum
--	 * number of pools is reached. In either case, take note that
--	 * keeping another pool is not required.
--	 */
--	WRITE_ONCE(new_pool_required, false);
-+	WRITE_ONCE(new_pool, *prealloc);
-+	*prealloc = NULL;
- }
- 
- /*
-- * Try to initialize a new stack depot pool from either a previous or the
-- * current pre-allocation, and release all its entries to the freelist.
-+ * Try to initialize a new stack record from the current pool, a cached pool, or
-+ * the current pre-allocation.
-  */
--static bool depot_try_init_pool(void **prealloc)
-+static struct stack_record *depot_pop_free_pool(void **prealloc, size_t size)
- {
-+	struct stack_record *stack;
-+	void *current_pool;
-+	u32 pool_index;
-+
- 	lockdep_assert_held(&pool_lock);
- 
--	/* Check if we have a new pool saved and use it. */
--	if (new_pool) {
--		depot_init_pool(new_pool);
--		new_pool = NULL;
-+	if (pool_offset + size > DEPOT_POOL_SIZE) {
-+		if (!depot_init_pool(prealloc))
-+			return NULL;
-+	}
- 
--		/* Take note that we might need a new new_pool. */
--		if (pools_num < DEPOT_MAX_POOLS)
--			WRITE_ONCE(new_pool_required, true);
-+	if (WARN_ON_ONCE(pools_num < 1))
-+		return NULL;
-+	pool_index = pools_num - 1;
-+	current_pool = stack_pools[pool_index];
-+	if (WARN_ON_ONCE(!current_pool))
-+		return NULL;
- 
--		return true;
--	}
-+	stack = current_pool + pool_offset;
- 
--	/* Bail out if we reached the pool limit. */
--	if (unlikely(pools_num >= DEPOT_MAX_POOLS)) {
--		WARN_ONCE(1, "Stack depot reached limit capacity");
--		return false;
--	}
-+	/* Pre-initialize handle once. */
-+	stack->handle.pool_index = pool_index;
-+	stack->handle.offset = pool_offset >> DEPOT_STACK_ALIGN;
-+	stack->handle.extra = 0;
-+	INIT_LIST_HEAD(&stack->hash_list);
- 
--	/* Check if we have preallocated memory and use it. */
--	if (*prealloc) {
--		depot_init_pool(*prealloc);
--		*prealloc = NULL;
--		return true;
--	}
-+	pool_offset += size;
- 
--	return false;
-+	return stack;
- }
- 
- /* Try to find next free usable entry. */
-@@ -420,7 +405,7 @@ static struct stack_record *depot_pop_free(void)
- 	 * check the first entry.
- 	 */
- 	stack = list_first_entry(&free_stacks, struct stack_record, free_list);
--	if (stack->size && !poll_state_synchronize_rcu(stack->rcu_state))
-+	if (!poll_state_synchronize_rcu(stack->rcu_state))
- 		return NULL;
- 
- 	list_del(&stack->free_list);
-@@ -429,45 +414,68 @@ static struct stack_record *depot_pop_free(void)
- 	return stack;
- }
- 
-+static inline size_t depot_stack_record_size(struct stack_record *s, unsigned int nr_entries)
-+{
-+	const size_t used = flex_array_size(s, entries, nr_entries);
-+	const size_t unused = sizeof(s->entries) - used;
-+
-+	WARN_ON_ONCE(sizeof(s->entries) < used);
-+
-+	return ALIGN(sizeof(struct stack_record) - unused, 1 << DEPOT_STACK_ALIGN);
-+}
-+
- /* Allocates a new stack in a stack depot pool. */
- static struct stack_record *
--depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
-+depot_alloc_stack(unsigned long *entries, int nr_entries, u32 hash, depot_flags_t flags, void **prealloc)
- {
--	struct stack_record *stack;
-+	struct stack_record *stack = NULL;
-+	size_t record_size;
- 
- 	lockdep_assert_held(&pool_lock);
- 
- 	/* This should already be checked by public API entry points. */
--	if (WARN_ON_ONCE(!size))
-+	if (WARN_ON_ONCE(!nr_entries))
- 		return NULL;
- 
--	/* Check if we have a stack record to save the stack trace. */
--	stack = depot_pop_free();
--	if (!stack) {
--		/* No usable entries on the freelist - try to refill the freelist. */
--		if (!depot_try_init_pool(prealloc))
--			return NULL;
-+	/* Limit number of saved frames to CONFIG_STACKDEPOT_MAX_FRAMES. */
-+	if (nr_entries > CONFIG_STACKDEPOT_MAX_FRAMES)
-+		nr_entries = CONFIG_STACKDEPOT_MAX_FRAMES;
-+
-+	if (flags & STACK_DEPOT_FLAG_GET) {
-+		/*
-+		 * Evictable entries have to allocate the max. size so they may
-+		 * safely be re-used by differently sized allocations.
-+		 */
-+		record_size = depot_stack_record_size(stack, CONFIG_STACKDEPOT_MAX_FRAMES);
- 		stack = depot_pop_free();
--		if (WARN_ON(!stack))
--			return NULL;
-+	} else {
-+		record_size = depot_stack_record_size(stack, nr_entries);
- 	}
- 
--	/* Limit number of saved frames to CONFIG_STACKDEPOT_MAX_FRAMES. */
--	if (size > CONFIG_STACKDEPOT_MAX_FRAMES)
--		size = CONFIG_STACKDEPOT_MAX_FRAMES;
-+	if (!stack) {
-+		stack = depot_pop_free_pool(prealloc, record_size);
-+		if (!stack)
-+			return NULL;
-+	}
- 
- 	/* Save the stack trace. */
- 	stack->hash = hash;
--	stack->size = size;
--	/* stack->handle is already filled in by depot_init_pool(). */
--	refcount_set(&stack->count, 1);
--	memcpy(stack->entries, entries, flex_array_size(stack, entries, size));
-+	stack->size = nr_entries;
-+	/* stack->handle is already filled in by depot_pop_free_pool(). */
-+	memcpy(stack->entries, entries, flex_array_size(stack, entries, nr_entries));
-+
-+	if (flags & STACK_DEPOT_FLAG_GET) {
-+		refcount_set(&stack->count, 1);
-+	} else {
-+		/* Warn on attempts to switch to refcounting this entry. */
-+		refcount_set(&stack->count, REFCOUNT_SATURATED);
-+	}
  
  	/*
- 	 * Let KMSAN know the stored stack record is initialized. This shall
- 	 * prevent false positive reports if instrumented code accesses it.
- 	 */
--	kmsan_unpoison_memory(stack, DEPOT_STACK_RECORD_SIZE);
-+	kmsan_unpoison_memory(stack, record_size);
+@@ -506,18 +496,8 @@ void kasan_init_object_meta(struct kmem_cache *cache, const void *object)
  
- 	counters[DEPOT_COUNTER_ALLOCS]++;
- 	counters[DEPOT_COUNTER_INUSE]++;
-@@ -660,7 +668,7 @@ depot_stack_handle_t stack_depot_save_flags(unsigned long *entries,
- 	 * Allocate memory for a new pool if required now:
- 	 * we won't be able to do that under the lock.
- 	 */
--	if (unlikely(can_alloc && READ_ONCE(new_pool_required))) {
-+	if (unlikely(can_alloc && !READ_ONCE(new_pool))) {
- 		/*
- 		 * Zero out zone modifiers, as we don't have specific zone
- 		 * requirements. Keep the flags related to allocation in atomic
-@@ -681,7 +689,7 @@ depot_stack_handle_t stack_depot_save_flags(unsigned long *entries,
- 	found = find_stack(bucket, entries, nr_entries, hash, depot_flags);
- 	if (!found) {
- 		struct stack_record *new =
--			depot_alloc_stack(entries, nr_entries, hash, &prealloc);
-+			depot_alloc_stack(entries, nr_entries, hash, depot_flags, &prealloc);
+ static void release_alloc_meta(struct kasan_alloc_meta *meta)
+ {
+-	/* Evict the stack traces from stack depot. */
+-	stack_depot_put(meta->alloc_track.stack);
+-	stack_depot_put(meta->aux_stack[0]);
+-	stack_depot_put(meta->aux_stack[1]);
+-
+-	/*
+-	 * Zero out alloc meta to mark it as invalid but keep aux_lock
+-	 * initialized to avoid having to reinitialize it when another object
+-	 * is allocated in the same slot.
+-	 */
+-	__memset(&meta->alloc_track, 0, sizeof(meta->alloc_track));
+-	__memset(meta->aux_stack, 0, sizeof(meta->aux_stack));
++	/* Zero out alloc meta to mark it as invalid. */
++	__memset(meta, 0, sizeof(*meta));
+ }
  
- 		if (new) {
- 			/*
+ static void release_free_meta(const void *object, struct kasan_free_meta *meta)
+@@ -526,9 +506,6 @@ static void release_free_meta(const void *object, struct kasan_free_meta *meta)
+ 	if (*(u8 *)kasan_mem_to_shadow(object) != KASAN_SLAB_FREE_META)
+ 		return;
+ 
+-	/* Evict the stack trace from the stack depot. */
+-	stack_depot_put(meta->free_track.stack);
+-
+ 	/* Mark free meta as invalid. */
+ 	*(u8 *)kasan_mem_to_shadow(object) = KASAN_SLAB_FREE;
+ }
+@@ -571,8 +548,6 @@ static void __kasan_record_aux_stack(void *addr, depot_flags_t depot_flags)
+ 	struct kmem_cache *cache;
+ 	struct kasan_alloc_meta *alloc_meta;
+ 	void *object;
+-	depot_stack_handle_t new_handle, old_handle;
+-	unsigned long flags;
+ 
+ 	if (is_kfence_address(addr) || !slab)
+ 		return;
+@@ -583,33 +558,18 @@ static void __kasan_record_aux_stack(void *addr, depot_flags_t depot_flags)
+ 	if (!alloc_meta)
+ 		return;
+ 
+-	new_handle = kasan_save_stack(0, depot_flags);
+-
+-	/*
+-	 * Temporarily disable KASAN bug reporting to allow instrumented
+-	 * spinlock functions to access aux_lock, which resides inside of a
+-	 * redzone.
+-	 */
+-	kasan_disable_current();
+-	raw_spin_lock_irqsave(&alloc_meta->aux_lock, flags);
+-	old_handle = alloc_meta->aux_stack[1];
+ 	alloc_meta->aux_stack[1] = alloc_meta->aux_stack[0];
+-	alloc_meta->aux_stack[0] = new_handle;
+-	raw_spin_unlock_irqrestore(&alloc_meta->aux_lock, flags);
+-	kasan_enable_current();
+-
+-	stack_depot_put(old_handle);
++	alloc_meta->aux_stack[0] = kasan_save_stack(0, depot_flags);
+ }
+ 
+ void kasan_record_aux_stack(void *addr)
+ {
+-	return __kasan_record_aux_stack(addr,
+-			STACK_DEPOT_FLAG_CAN_ALLOC | STACK_DEPOT_FLAG_GET);
++	return __kasan_record_aux_stack(addr, STACK_DEPOT_FLAG_CAN_ALLOC);
+ }
+ 
+ void kasan_record_aux_stack_noalloc(void *addr)
+ {
+-	return __kasan_record_aux_stack(addr, STACK_DEPOT_FLAG_GET);
++	return __kasan_record_aux_stack(addr, 0);
+ }
+ 
+ void kasan_save_alloc_info(struct kmem_cache *cache, void *object, gfp_t flags)
+@@ -620,7 +580,7 @@ void kasan_save_alloc_info(struct kmem_cache *cache, void *object, gfp_t flags)
+ 	if (!alloc_meta)
+ 		return;
+ 
+-	/* Evict previous stack traces (might exist for krealloc or mempool). */
++	/* Invalidate previous stack traces (might exist for krealloc or mempool). */
+ 	release_alloc_meta(alloc_meta);
+ 
+ 	kasan_save_track(&alloc_meta->alloc_track, flags);
+@@ -634,7 +594,7 @@ void kasan_save_free_info(struct kmem_cache *cache, void *object)
+ 	if (!free_meta)
+ 		return;
+ 
+-	/* Evict previous stack trace (might exist for mempool). */
++	/* Invalidate previous stack trace (might exist for mempool). */
+ 	release_free_meta(object, free_meta);
+ 
+ 	kasan_save_track(&free_meta->free_track, 0);
+diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
+index d0f172f2b978..216ae0ef1e4b 100644
+--- a/mm/kasan/kasan.h
++++ b/mm/kasan/kasan.h
+@@ -6,7 +6,6 @@
+ #include <linux/kasan.h>
+ #include <linux/kasan-tags.h>
+ #include <linux/kfence.h>
+-#include <linux/spinlock.h>
+ #include <linux/stackdepot.h>
+ 
+ #if defined(CONFIG_KASAN_SW_TAGS) || defined(CONFIG_KASAN_HW_TAGS)
+@@ -265,13 +264,6 @@ struct kasan_global {
+ struct kasan_alloc_meta {
+ 	struct kasan_track alloc_track;
+ 	/* Free track is stored in kasan_free_meta. */
+-	/*
+-	 * aux_lock protects aux_stack from accesses from concurrent
+-	 * kasan_record_aux_stack calls. It is a raw spinlock to avoid sleeping
+-	 * on RT kernels, as kasan_record_aux_stack_noalloc can be called from
+-	 * non-sleepable contexts.
+-	 */
+-	raw_spinlock_t aux_lock;
+ 	depot_stack_handle_t aux_stack[2];
+ };
+ 
 -- 
 2.43.0.429.g432eaa2c6b-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240125094815.2041933-1-elver%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240125094815.2041933-2-elver%40google.com.
