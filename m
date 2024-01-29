@@ -1,114 +1,113 @@
-Return-Path: <kasan-dev+bncBAABBV6Y32WQMGQEQAUOMQQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBWOY32WQMGQEXCACSLA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9F3840751
-	for <lists+kasan-dev@lfdr.de>; Mon, 29 Jan 2024 14:47:04 +0100 (CET)
-Received: by mail-il1-x140.google.com with SMTP id e9e14a558f8ab-3637aa8a40dsf5448065ab.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 29 Jan 2024 05:47:04 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1706536023; cv=pass;
+Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C373840752
+	for <lists+kasan-dev@lfdr.de>; Mon, 29 Jan 2024 14:47:06 +0100 (CET)
+Received: by mail-qv1-xf3a.google.com with SMTP id 6a1803df08f44-68c45d1a07dsf18167606d6.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Jan 2024 05:47:06 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1706536025; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gj2qhNv2m1yodgcUQ3WV3k7tT4JSGOLajd2i/rhECz4BdP24Ed4vaS2e4qzQI4jyzl
-         uCk1EpfJDquzLVsNniRvuQxR9H8XwWr4PAMfkuPPy8Qk5XZs0thbx2IEv+aMVW2cqndA
-         6/B58Rw8WNqFJsjo36v1eAlOax8//RQCddaoYbVcX4OwY4LG2i4Vmp8VJOfWVh5nkuWn
-         EdtGxU0oBH7//4VLry3HjycWSs+c9BFkV9yMlLkr4H2KPy9QznCLPcYjqa2d4+UX2O9L
-         ZGzDMNrHMtbCkDBp05gpKOCSpB3Lk6dnk2H/fe5o3QsQxirTerIJo35AYBlxGQKO8osE
-         5fpQ==
+        b=WGHTgH+VpUNbnNu2rBFh9wsUe4X2IKIYnhNRVlF44k45S90VXjenSmXG9Pe50fmt1t
+         ZLRtGJd9wAdPLhSPqIabl8+7hF3mxbTYj4yh/2x/0FIM0OibeGs6eSl474vw5v7Z0gO1
+         Kt/6ktkL5jV08KxyPuCOddlr3Aubb3By8VJRm2AocDxbxwfkqQQFCYN4fjIABJZHeRwt
+         3in2w0m0LX+vG31a4ePMtNTlljhj//JKOI2psPXTkKl3oVm4aGn2i48iuXnVHE7nhKpe
+         UerqQPokNHBaLx9aIkPQLflHJcSp9UfP8rvjSwUq7yHwsXrNr3yLVpkt+cp3bWMlLBzu
+         ifIg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=cqeCogovK7gD8z4Y5UGodXe4JDX8Mf2e6ToqNOVyoP4=;
-        fh=aljRTGteZBhLwyP87MXio5g7ySkxaOapQhKDab3QWEA=;
-        b=JPtMJkYz2saRJSFtHJ9VrRydINVWsertKJm0Cf8LpiELtNL0AmBsoHCf+PFMluNKzd
-         jLcaeteqshxK05K56owai7oCMz3mDpTOV2QekLrbOvnjQ/pBmF3xgYafX/w2Dgvdo8Bu
-         PvV4Jyv1axv5nsP4lpAvNpINXXzkrLC33mKqUhr72nFpMyrOPmnJ/10EGnF57gHcYH2Z
-         2vUr9KtP6RwIxh1TKjg3B+ccNdxX5jRd2TPajP99Ve0arAsxwO7pfiLVhs0Pc5rJ12Qp
-         cd3TbSRQtY0yYlsl+mjn1jYOyiBi8pZsPSZQOsFCEFMu8I1Q4fmox1AXo3tykU/q9Nc4
-         BGgw==
+        bh=dv0KzbxjZE/PRNdexoGj2NuwasLqoE9S16o1W8+sppA=;
+        fh=6OXHs16txR+i/PqfGaaUK9AEaVt6DIoNRW1RjR+8WuM=;
+        b=x9BvVRqmQaDF29LXi9APmwbaYG6RUWJXKQdbX1JxwVkQZ7L/qOBF549828PmjY4DTt
+         oWkUNDJEUvfXWW1KQTqvhxXMg27AlkKuF5zGce9lgXtF7TqtzqsdgjwjIY/HR1BCRf6M
+         KkfF+l6MDU/Zg8Afk3HheuxNnJW19osrmS5+yMb33yQM44daszoUanv42B6kB7Mu7v+8
+         6IwZ+A0SZ9pgMHrO4HGVN/QDSWbAIRcXBpdiXXSHPDxWy46OxGMTzzLuhSpQEl4xP8Rf
+         vr5BjKQMGsX56hPE5Lek2dX64rxXxwPr3gpacLBAIqtLzTH3ghorg6ADEJjU3QFmgXip
+         eiIA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
+       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.32 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1706536023; x=1707140823; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1706536025; x=1707140825; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=cqeCogovK7gD8z4Y5UGodXe4JDX8Mf2e6ToqNOVyoP4=;
-        b=ArS4slvLj6hsqlSiV04c3TWpZQQLHjopMroVNd1m8V9tMsLJoWboDYh2D3LksaS0/0
-         z8OvJ7UDyUqKB81NwsWGdXjjJ2owP9p2tnT5jyNiOFjL8fDw3c/7RWmj3B4Q1PXMgwWt
-         CwzGKucDdsnDOMafpH0RuH2y72uPuDEJd17tk9EiwvPLdHKgNKLPkwQJ5VLGFpfAz6RI
-         riZtSZafoePvQNpl8NLxVK3ZeDUwe8CUYVqNTuVdwev9M7mqYRaU65GPAYpn8M/MLmf1
-         NVoV1l8C1U9gvUEu64goXTaFU+1/6Tnf37BbavHyxYw68qiPYVf8oi+r+qt7JSmVdGd8
-         C1qQ==
+        bh=dv0KzbxjZE/PRNdexoGj2NuwasLqoE9S16o1W8+sppA=;
+        b=hcbxrKXxlQTo+97hmaHpWo7INF6jp8ozHQhW47Mn6z/6tXT6pFezvz+5vdovyLTn2v
+         emp5waTe7aFZUiomSosGTfh1vt8281u+hTTFnj9E367ZAMl2JtNf4SuKAf0tljef7V2Y
+         EW+k8SlyInwGlvKQOB2GQv66EFkciTNBGRW+1HXI1FYKt7JHTyUjLxCS+QqmyvGJ3Tp4
+         XswFwUFKev51nXZSPl8U3ES++6fr7ySaVGDAG43XcSRuD4arZ/kVrNpHg+ZioKVa6pZu
+         dS4XYYwHnQxRoorW+VpYE9UdNzNIc3uN4ie5aKmkv7EcE/b2swZPThc6Xecc0MZsYy2b
+         viPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706536023; x=1707140823;
+        d=1e100.net; s=20230601; t=1706536025; x=1707140825;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cqeCogovK7gD8z4Y5UGodXe4JDX8Mf2e6ToqNOVyoP4=;
-        b=hM/UWSLC1FRZ32pn5Bxj/HJ3w25l51o5oyyYOVMWjmZPU1UUrrawseCSFlHrcv+ffr
-         AJpvvKIUgx3K3JB5L48wlQbP7VrpwXETzteQbLA1L4YG3ly5eLz8gilNan0LX8VX4vfD
-         iQdDDfouMxSPesf2yth6XpDk69j7Eo86ntBfF2/UuVrVAT1Wr7j4dnthW5MJM/RLun7w
-         OBuE99R1sTPw3FtNdHn1W5Ma+NOaE62Ew+Wag+rzdp1phf3pD5i//frv+Uv+T9FvbgPb
-         r80WBb/u2XLwEKdATJoQxgV2gPgsI5c/5iIwFyAexdYnHb3iAqHk50J2aY0fRmvU/VoP
-         ii8w==
-X-Gm-Message-State: AOJu0Yx6e2o48HtCe9gTHCmqzSWlTsWhkMTI0Ds/CWnUA/VqzIcqm2IU
-	5+iYqt0auk2Vo5R3pLGe3iLXJwovqOAwJgvGkrlu+ZRzaH/RA/SZyB8=
-X-Google-Smtp-Source: AGHT+IG3NJp77tww20JM8o5UZw/aG88jfU6Y9B7HL3DBtTu6SalYSNPKfOE/r7Xjrq2VVFdaXiD/qw==
-X-Received: by 2002:a05:6e02:1845:b0:362:cfd7:37a2 with SMTP id b5-20020a056e02184500b00362cfd737a2mr6316517ilv.31.1706536023519;
-        Mon, 29 Jan 2024 05:47:03 -0800 (PST)
+        bh=dv0KzbxjZE/PRNdexoGj2NuwasLqoE9S16o1W8+sppA=;
+        b=PHGQvcpIx4lc6EgpFhafQh/fykCszojXLIjwhYXHZMftmJGgzAsUylgk3tJD1VxofX
+         D9JSBWE/IeC8pFzogYna82afa9WZ5zdk3XNbQR3TPLXs4L2VlhF3LPSntQECcVkyvKr8
+         bTg+mAKdEreUHWFf0DXTDXY8jhllR+PQor8S9nNCDBf/A1fpNuLEY9TU8CxhtBukNMTR
+         vSx1aQRSvUA2t2XoavstVm98mO+Ejj6knw3+Wwg3MOesCb3ADZwOotLcMgxuHaAhOWq9
+         Ffx+BA9ZjuAgXp8QbpVZpB5qTfP8l8u6MrDgU5koEz307XSEKWv5yWav1HMMOj5y6GMv
+         JHiw==
+X-Gm-Message-State: AOJu0YwgIXmGP2Kwd/5wiYz8AObDnkG5v+6jDRVX8xiNdSEOs+z+mcMe
+	T15E1lrT8UTtp3zOGFFLL/K1CNHTo1Zw80T8fBkGvVDfd1tNU4oa
+X-Google-Smtp-Source: AGHT+IFTJma3mzREtzvoFz4SLai7lO9aUfuQCg+weYkFEBa7lmRYLZpFv35eEFdAUPfXBgE7x+Vhmg==
+X-Received: by 2002:ad4:5b8f:0:b0:68c:447c:b1c with SMTP id 15-20020ad45b8f000000b0068c447c0b1cmr3461898qvp.26.1706536025263;
+        Mon, 29 Jan 2024 05:47:05 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:3520:b0:363:846b:1129 with SMTP id
- bu32-20020a056e02352000b00363846b1129ls179451ilb.0.-pod-prod-04-us; Mon, 29
- Jan 2024 05:47:02 -0800 (PST)
-X-Received: by 2002:a92:ce52:0:b0:363:7777:658f with SMTP id a18-20020a92ce52000000b003637777658fmr4433631ilr.11.1706536022742;
-        Mon, 29 Jan 2024 05:47:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1706536022; cv=none;
+Received: by 2002:a0c:f547:0:b0:68c:5094:f91b with SMTP id p7-20020a0cf547000000b0068c5094f91bls385022qvm.1.-pod-prod-00-us;
+ Mon, 29 Jan 2024 05:47:04 -0800 (PST)
+X-Received: by 2002:a05:6214:260b:b0:685:52c7:1c0d with SMTP id gu11-20020a056214260b00b0068552c71c0dmr6645809qvb.58.1706536024724;
+        Mon, 29 Jan 2024 05:47:04 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1706536024; cv=none;
         d=google.com; s=arc-20160816;
-        b=vIe7E6jLX1drojuuP14WPGE3i/DEhunrEuw0mltPQEx3BYqXlyv2O9ilIgY/fi+m4q
-         zHWaA6ak67nGlQXfmWd7kTPbgrkRmsmPrTjIyavCbtL6t4iSdEdODn7bTyyQ8/yN6871
-         HiIdD+zCSGin+3GkuuP6JxSjdvYLC7yz9WLGhh3pA5N2ZHZTxsNqIL0N43ugHuBi72NR
-         RNHrTSfDFG+lbzFboW/Vff7Dq5IFTgCCttpQwlfTpLPNA/6M+v7WgyD2bF/zyDfrVqLH
-         RgWHF/NXhSSGgMw/vkqkEi9hv7VC8sYwm5S9WmQOnWqGSCJnhgA5MkDK59lsVitCtZib
-         6pEw==
+        b=RgTXA2rdiXr4LL5dSd857EBLdJPwUM0uv4aYM3tGuofIsQpQScwnAUHADpUtkxq7oM
+         JpF+PpazSQFkCDjN41hOZAYFBGt21N5J3Xn1tJ6+Dl1gR+7RIbh+XocMU4Z0MSGZfy8y
+         PsOnJvcs4a6cTp5TR1j/c4EP0Yx2cnsjEdWgXOE4CE4bl5zAoB6vhFclZDjCkMyLU9D9
+         ShkeVTvhJTzZirXS8+U6VkmsEN8UCR1lt46584cfslkD2zSjCqV8CmrFZ5Y9YDGdOc34
+         /3yFPGkUVjk9y9cNOBZOTViIXlHqJfmTDdBacDBL+NDNdYX83bxNFmqx1KIcit4mgiF9
+         G75w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=Sze+W7/VXzN9lUi+wiYHH7plMoEL8Mu63vaCr1k3jh4=;
-        fh=aljRTGteZBhLwyP87MXio5g7ySkxaOapQhKDab3QWEA=;
-        b=vYHt4DU4601zF+5y3zvNuSDhD7mCc8OhwSA2VJICYWLdHnqq7KlWzwrDDjONSDBh5P
-         szQx8rbwYVh8X3Tcu9/pq+jUTzYU6eLu4QELISs0P/WxgCOYuqPIYldzWJ+c/o5+Wq7k
-         YTv++iLwtXgA84Y+iOPFEjtWVg31gyxC3K/NdOAIrjx9GpITZaUoEXkxb0jRfBZCUSl2
-         rWWP5DEDYiT7scvB0NREfno3weGyyKpC0/axrQL++Yhvxum7EtwekAO4fzXjkq3Z+rgm
-         PppSPdUzva4ja9ls1pScx2oIjcM4J/Yiqs3+9ncVk6JGpomh+5f6n4JZfkZkdTdSrSBZ
-         bvag==;
+        bh=inDfPJ8KPUyQcnteDpkHTQ4f2V6PM28Z1hOutgycIus=;
+        fh=6OXHs16txR+i/PqfGaaUK9AEaVt6DIoNRW1RjR+8WuM=;
+        b=D0OUxu9sbqGFc5h4/40Af9qwYA+CD+mqnp1/oPq3A4xI3mGufm7HHS8lLNrD13zIYZ
+         iinW2miWfdQ+6czwQ+xJ0Ili/DPxG+/2LE84we5nAOEvcYmj2PDEYoVKzgKtLU4dO5c5
+         9M1ebrWkeWeWXdOoXWx/3JcLN8IoipzFy6P4ugXQ07wDhqNDqG3K8mmoIqrwOzXz/tXH
+         6037S/vx2tGPbsjT4hNFzln6puoLEuA15fSbp/ywBe75EthkQXwCoYJ5BGvvI1fedKWj
+         VmRnQdl6QZv34VQaWfzwFYNN70rf3zXsF88tgeKBCg9yncimoFw6iv6mLlQ7r6Sd4bZ1
+         nEIw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.189 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
+       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.32 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Forwarded-Encrypted: i=0; AJvYcCUvrmKabKPOD/z52Su3XWB53yQ9gRkaO/469Sz6htLWUM0uS6fsX6lw5HY3jTwolLcC0h/JpdVzJs2gR8LdwjyY1SLCE5YbLUUMTQ==
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com. [45.249.212.189])
-        by gmr-mx.google.com with ESMTPS id h9-20020a926c09000000b00361a8692358si532536ilc.2.2024.01.29.05.47.02
+X-Forwarded-Encrypted: i=0; AJvYcCWrX8D08ZYgDg701oXEIBQVoeHjJ2y77IPNzY8W6b0RSPIgp/sQz5f1Q5wHlw07G/WclACwrWashcXb0Q9gAifByXpDj5NPLcqEpQ==
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com. [45.249.212.32])
+        by gmr-mx.google.com with ESMTPS id r3-20020ad44043000000b0068c46f075a1si241746qvp.3.2024.01.29.05.47.04
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Jan 2024 05:47:02 -0800 (PST)
-Received-SPF: pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.189 as permitted sender) client-ip=45.249.212.189;
-Received: from mail.maildlp.com (unknown [172.19.163.48])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4TNqMF3pN7zNkcY;
-	Mon, 29 Jan 2024 21:46:01 +0800 (CST)
+        Mon, 29 Jan 2024 05:47:04 -0800 (PST)
+Received-SPF: pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.32 as permitted sender) client-ip=45.249.212.32;
+Received: from mail.maildlp.com (unknown [172.19.88.214])
+	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4TNqMx3SYCz1vsVw;
+	Mon, 29 Jan 2024 21:46:37 +0800 (CST)
 Received: from kwepemm600017.china.huawei.com (unknown [7.193.23.234])
-	by mail.maildlp.com (Postfix) with ESMTPS id DA46B18005E;
-	Mon, 29 Jan 2024 21:46:59 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id B94991A016B;
+	Mon, 29 Jan 2024 21:47:01 +0800 (CST)
 Received: from localhost.localdomain (10.175.112.125) by
  kwepemm600017.china.huawei.com (7.193.23.234) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 29 Jan 2024 21:46:57 +0800
+ 15.1.2507.35; Mon, 29 Jan 2024 21:46:59 +0800
 From: "'Tong Tiangen' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
 	Mark Rutland <mark.rutland@arm.com>, James Morse <james.morse@arm.com>, Robin
@@ -127,9 +126,9 @@ CC: <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>,
 	<linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
 	<kasan-dev@googlegroups.com>, Tong Tiangen <tongtiangen@huawei.com>,
 	<wangkefeng.wang@huawei.com>, Guohanjun <guohanjun@huawei.com>
-Subject: [PATCH v10 2/6] arm64: add support for machine check error safe
-Date: Mon, 29 Jan 2024 21:46:48 +0800
-Message-ID: <20240129134652.4004931-3-tongtiangen@huawei.com>
+Subject: [PATCH v10 3/6] arm64: add uaccess to machine check safe
+Date: Mon, 29 Jan 2024 21:46:49 +0800
+Message-ID: <20240129134652.4004931-4-tongtiangen@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240129134652.4004931-1-tongtiangen@huawei.com>
 References: <20240129134652.4004931-1-tongtiangen@huawei.com>
@@ -140,7 +139,7 @@ X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
  kwepemm600017.china.huawei.com (7.193.23.234)
 X-Original-Sender: tongtiangen@huawei.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of tongtiangen@huawei.com designates 45.249.212.189 as
+ (google.com: domain of tongtiangen@huawei.com designates 45.249.212.32 as
  permitted sender) smtp.mailfrom=tongtiangen@huawei.com;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 X-Original-From: Tong Tiangen <tongtiangen@huawei.com>
@@ -157,117 +156,133 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-For the arm64 kernel, when it processes hardware memory errors for
-synchronize notifications(do_sea()), if the errors is consumed within the
-kernel, the current processing is panic. However, it is not optimal.
-
-Take uaccess for example, if the uaccess operation fails due to memory
-error, only the user process will be affected. Killing the user process and
-isolating the corrupt page is a better choice.
-
-This patch only enable machine error check framework and adds an exception
-fixup before the kernel panic in do_sea().
+If user process access memory fails due to hardware memory error, only the
+relevant processes are affected, so it is more reasonable to kill the user
+process and isolate the corrupt page than to panic the kernel.
 
 Signed-off-by: Tong Tiangen <tongtiangen@huawei.com>
 ---
- arch/arm64/Kconfig               |  1 +
- arch/arm64/include/asm/extable.h |  1 +
- arch/arm64/mm/extable.c          | 16 ++++++++++++++++
- arch/arm64/mm/fault.c            | 29 ++++++++++++++++++++++++++++-
- 4 files changed, 46 insertions(+), 1 deletion(-)
+ arch/arm64/lib/copy_from_user.S | 10 +++++-----
+ arch/arm64/lib/copy_to_user.S   | 10 +++++-----
+ arch/arm64/mm/extable.c         |  8 ++++----
+ 3 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index aa7c1d435139..2cc34b5e7abb 100644
---- a/arch/arm64/Kconfig
-+++ b/arch/arm64/Kconfig
-@@ -20,6 +20,7 @@ config ARM64
- 	select ARCH_ENABLE_SPLIT_PMD_PTLOCK if PGTABLE_LEVELS > 2
- 	select ARCH_ENABLE_THP_MIGRATION if TRANSPARENT_HUGEPAGE
- 	select ARCH_HAS_CACHE_LINE_SIZE
-+	select ARCH_HAS_COPY_MC if ACPI_APEI_GHES
- 	select ARCH_HAS_CURRENT_STACK_POINTER
- 	select ARCH_HAS_DEBUG_VIRTUAL
- 	select ARCH_HAS_DEBUG_VM_PGTABLE
-diff --git a/arch/arm64/include/asm/extable.h b/arch/arm64/include/asm/extable.h
-index 72b0e71cc3de..f80ebd0addfd 100644
---- a/arch/arm64/include/asm/extable.h
-+++ b/arch/arm64/include/asm/extable.h
-@@ -46,4 +46,5 @@ bool ex_handler_bpf(const struct exception_table_entry *ex,
- #endif /* !CONFIG_BPF_JIT */
+diff --git a/arch/arm64/lib/copy_from_user.S b/arch/arm64/lib/copy_from_user.S
+index 34e317907524..1bf676e9201d 100644
+--- a/arch/arm64/lib/copy_from_user.S
++++ b/arch/arm64/lib/copy_from_user.S
+@@ -25,7 +25,7 @@
+ 	.endm
  
- bool fixup_exception(struct pt_regs *regs);
-+bool fixup_exception_mc(struct pt_regs *regs);
- #endif
+ 	.macro strb1 reg, ptr, val
+-	strb \reg, [\ptr], \val
++	USER(9998f, strb \reg, [\ptr], \val)
+ 	.endm
+ 
+ 	.macro ldrh1 reg, ptr, val
+@@ -33,7 +33,7 @@
+ 	.endm
+ 
+ 	.macro strh1 reg, ptr, val
+-	strh \reg, [\ptr], \val
++	USER(9998f, strh \reg, [\ptr], \val)
+ 	.endm
+ 
+ 	.macro ldr1 reg, ptr, val
+@@ -41,7 +41,7 @@
+ 	.endm
+ 
+ 	.macro str1 reg, ptr, val
+-	str \reg, [\ptr], \val
++	USER(9998f, str \reg, [\ptr], \val)
+ 	.endm
+ 
+ 	.macro ldp1 reg1, reg2, ptr, val
+@@ -49,7 +49,7 @@
+ 	.endm
+ 
+ 	.macro stp1 reg1, reg2, ptr, val
+-	stp \reg1, \reg2, [\ptr], \val
++	USER(9998f, stp \reg1, \reg2, [\ptr], \val)
+ 	.endm
+ 
+ end	.req	x5
+@@ -66,7 +66,7 @@ SYM_FUNC_START(__arch_copy_from_user)
+ 	b.ne	9998f
+ 	// Before being absolutely sure we couldn't copy anything, try harder
+ USER(9998f, ldtrb tmp1w, [srcin])
+-	strb	tmp1w, [dst], #1
++USER(9998f, strb	tmp1w, [dst], #1)
+ 9998:	sub	x0, end, dst			// bytes not copied
+ 	ret
+ SYM_FUNC_END(__arch_copy_from_user)
+diff --git a/arch/arm64/lib/copy_to_user.S b/arch/arm64/lib/copy_to_user.S
+index 802231772608..cc031bd87455 100644
+--- a/arch/arm64/lib/copy_to_user.S
++++ b/arch/arm64/lib/copy_to_user.S
+@@ -20,7 +20,7 @@
+  *	x0 - bytes not copied
+  */
+ 	.macro ldrb1 reg, ptr, val
+-	ldrb  \reg, [\ptr], \val
++	USER(9998f, ldrb  \reg, [\ptr], \val)
+ 	.endm
+ 
+ 	.macro strb1 reg, ptr, val
+@@ -28,7 +28,7 @@
+ 	.endm
+ 
+ 	.macro ldrh1 reg, ptr, val
+-	ldrh  \reg, [\ptr], \val
++	USER(9998f, ldrh  \reg, [\ptr], \val)
+ 	.endm
+ 
+ 	.macro strh1 reg, ptr, val
+@@ -36,7 +36,7 @@
+ 	.endm
+ 
+ 	.macro ldr1 reg, ptr, val
+-	ldr \reg, [\ptr], \val
++	USER(9998f, ldr \reg, [\ptr], \val)
+ 	.endm
+ 
+ 	.macro str1 reg, ptr, val
+@@ -44,7 +44,7 @@
+ 	.endm
+ 
+ 	.macro ldp1 reg1, reg2, ptr, val
+-	ldp \reg1, \reg2, [\ptr], \val
++	USER(9998f, ldp \reg1, \reg2, [\ptr], \val)
+ 	.endm
+ 
+ 	.macro stp1 reg1, reg2, ptr, val
+@@ -64,7 +64,7 @@ SYM_FUNC_START(__arch_copy_to_user)
+ 9997:	cmp	dst, dstin
+ 	b.ne	9998f
+ 	// Before being absolutely sure we couldn't copy anything, try harder
+-	ldrb	tmp1w, [srcin]
++USER(9998f, ldrb	tmp1w, [srcin])
+ USER(9998f, sttrb tmp1w, [dst])
+ 	add	dst, dst, #1
+ 9998:	sub	x0, end, dst			// bytes not copied
 diff --git a/arch/arm64/mm/extable.c b/arch/arm64/mm/extable.c
-index 228d681a8715..478e639f8680 100644
+index 478e639f8680..28ec35e3d210 100644
 --- a/arch/arm64/mm/extable.c
 +++ b/arch/arm64/mm/extable.c
-@@ -76,3 +76,19 @@ bool fixup_exception(struct pt_regs *regs)
+@@ -85,10 +85,10 @@ bool fixup_exception_mc(struct pt_regs *regs)
+ 	if (!ex)
+ 		return false;
  
- 	BUG();
- }
-+
-+bool fixup_exception_mc(struct pt_regs *regs)
-+{
-+	const struct exception_table_entry *ex;
-+
-+	ex = search_exception_tables(instruction_pointer(regs));
-+	if (!ex)
-+		return false;
-+
-+	/*
-+	 * This is not complete, More Machine check safe extable type can
-+	 * be processed here.
-+	 */
-+
-+	return false;
-+}
-diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-index 55f6455a8284..312932dc100b 100644
---- a/arch/arm64/mm/fault.c
-+++ b/arch/arm64/mm/fault.c
-@@ -730,6 +730,31 @@ static int do_bad(unsigned long far, unsigned long esr, struct pt_regs *regs)
- 	return 1; /* "fault" */
- }
+-	/*
+-	 * This is not complete, More Machine check safe extable type can
+-	 * be processed here.
+-	 */
++	switch (ex->type) {
++	case EX_TYPE_UACCESS_ERR_ZERO:
++		return ex_handler_uaccess_err_zero(ex, regs);
++	}
  
-+static bool arm64_do_kernel_sea(unsigned long addr, unsigned int esr,
-+				     struct pt_regs *regs, int sig, int code)
-+{
-+	if (!IS_ENABLED(CONFIG_ARCH_HAS_COPY_MC))
-+		return false;
-+
-+	if (user_mode(regs))
-+		return false;
-+
-+	if (apei_claim_sea(regs) < 0)
-+		return false;
-+
-+	if (!fixup_exception_mc(regs))
-+		return false;
-+
-+	if (current->flags & PF_KTHREAD)
-+		return true;
-+
-+	set_thread_esr(0, esr);
-+	arm64_force_sig_fault(sig, code, addr,
-+		"Uncorrected memory error on access to user memory\n");
-+
-+	return true;
-+}
-+
- static int do_sea(unsigned long far, unsigned long esr, struct pt_regs *regs)
- {
- 	const struct fault_info *inf;
-@@ -755,7 +780,9 @@ static int do_sea(unsigned long far, unsigned long esr, struct pt_regs *regs)
- 		 */
- 		siaddr  = untagged_addr(far);
- 	}
--	arm64_notify_die(inf->name, regs, inf->sig, inf->code, siaddr, esr);
-+
-+	if (!arm64_do_kernel_sea(siaddr, esr, regs, inf->sig, inf->code))
-+		arm64_notify_die(inf->name, regs, inf->sig, inf->code, siaddr, esr);
- 
- 	return 0;
+ 	return false;
  }
 -- 
 2.25.1
@@ -275,4 +290,4 @@ index 55f6455a8284..312932dc100b 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240129134652.4004931-3-tongtiangen%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240129134652.4004931-4-tongtiangen%40huawei.com.
