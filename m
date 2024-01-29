@@ -1,113 +1,114 @@
-Return-Path: <kasan-dev+bncBAABBWOY32WQMGQEXCACSLA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBW6Y32WQMGQEDUIKSKY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C373840752
-	for <lists+kasan-dev@lfdr.de>; Mon, 29 Jan 2024 14:47:06 +0100 (CET)
-Received: by mail-qv1-xf3a.google.com with SMTP id 6a1803df08f44-68c45d1a07dsf18167606d6.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 29 Jan 2024 05:47:06 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1706536025; cv=pass;
+Received: from mail-oo1-xc38.google.com (mail-oo1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECAC0840753
+	for <lists+kasan-dev@lfdr.de>; Mon, 29 Jan 2024 14:47:08 +0100 (CET)
+Received: by mail-oo1-xc38.google.com with SMTP id 006d021491bc7-59a3956d3d8sf1447221eaf.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Jan 2024 05:47:08 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1706536027; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WGHTgH+VpUNbnNu2rBFh9wsUe4X2IKIYnhNRVlF44k45S90VXjenSmXG9Pe50fmt1t
-         ZLRtGJd9wAdPLhSPqIabl8+7hF3mxbTYj4yh/2x/0FIM0OibeGs6eSl474vw5v7Z0gO1
-         Kt/6ktkL5jV08KxyPuCOddlr3Aubb3By8VJRm2AocDxbxwfkqQQFCYN4fjIABJZHeRwt
-         3in2w0m0LX+vG31a4ePMtNTlljhj//JKOI2psPXTkKl3oVm4aGn2i48iuXnVHE7nhKpe
-         UerqQPokNHBaLx9aIkPQLflHJcSp9UfP8rvjSwUq7yHwsXrNr3yLVpkt+cp3bWMlLBzu
-         ifIg==
+        b=J8STXenDo6dow4nwRRABJ10G14AaLtlDCYQbjjJic7Q3PhdSxbs3ciR10L68uTZg1x
+         at1j9Mi/PetcOxS/84l1z8EpjYFFZq4ZZH2AvnUKgtU/iLsLqsish/OmWz3FnQqmSyGz
+         7vziAwDHvmKcS+MgXiD7/43ktogknM0Dcbmo0eE2acoYWPezEViF1IiXT6Z0zlkIyhSI
+         pBjmaGt8lEH6Q4sgGzjzUkhtXNV/VBAg4wuc3j4IpI5Al0wEnqX4Ousjs6XlXpc5rrAa
+         3A+Kr9lu7yxYwKBrHKxalLyzfxarMU3I+voklQZip8so7axyRmKUnrEjAvJMsIYkLYAH
+         V+uw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=dv0KzbxjZE/PRNdexoGj2NuwasLqoE9S16o1W8+sppA=;
-        fh=6OXHs16txR+i/PqfGaaUK9AEaVt6DIoNRW1RjR+8WuM=;
-        b=x9BvVRqmQaDF29LXi9APmwbaYG6RUWJXKQdbX1JxwVkQZ7L/qOBF549828PmjY4DTt
-         oWkUNDJEUvfXWW1KQTqvhxXMg27AlkKuF5zGce9lgXtF7TqtzqsdgjwjIY/HR1BCRf6M
-         KkfF+l6MDU/Zg8Afk3HheuxNnJW19osrmS5+yMb33yQM44daszoUanv42B6kB7Mu7v+8
-         6IwZ+A0SZ9pgMHrO4HGVN/QDSWbAIRcXBpdiXXSHPDxWy46OxGMTzzLuhSpQEl4xP8Rf
-         vr5BjKQMGsX56hPE5Lek2dX64rxXxwPr3gpacLBAIqtLzTH3ghorg6ADEJjU3QFmgXip
-         eiIA==
+        bh=/jFpR6NbT46i+KL8VvPLd9xwSX/tfxTVsPEl+hJfePo=;
+        fh=0KMPFt7jtRdckJo0yvorV2XSrGq3FTQAG9A0j2f9daM=;
+        b=GdajIF3xAGmh6IPxxYrwuPEpR285PFSVX2eJCows3OiyM8nqodQGXJy7+ZMrDw6pY2
+         Ou85AgRYCtxQGGsA5KFUx5zOaJ+gLedKHpnm+WCiUfgIR05IeQJHSA/5meosX37hcJQR
+         lfntSa2FBq8Pxp/do0c2MZ+Hv+JXQhPGHLgrIE4v+32k/+wlIJTSvzZN64247+ac3Twp
+         3+QghqVVYutiLgv/fxmC/9WgL52BZyB3jn2P8ejybvQ+YXWpfo6DwmI7g8TxcsSWOFnn
+         w4INyZnNU0zOctAEHctWOt/4v65H61fhVESnLl2BSNARiPFUWsO5OE33g2ELjih/oiu3
+         5fTA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.32 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1706536025; x=1707140825; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1706536027; x=1707140827; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=dv0KzbxjZE/PRNdexoGj2NuwasLqoE9S16o1W8+sppA=;
-        b=hcbxrKXxlQTo+97hmaHpWo7INF6jp8ozHQhW47Mn6z/6tXT6pFezvz+5vdovyLTn2v
-         emp5waTe7aFZUiomSosGTfh1vt8281u+hTTFnj9E367ZAMl2JtNf4SuKAf0tljef7V2Y
-         EW+k8SlyInwGlvKQOB2GQv66EFkciTNBGRW+1HXI1FYKt7JHTyUjLxCS+QqmyvGJ3Tp4
-         XswFwUFKev51nXZSPl8U3ES++6fr7ySaVGDAG43XcSRuD4arZ/kVrNpHg+ZioKVa6pZu
-         dS4XYYwHnQxRoorW+VpYE9UdNzNIc3uN4ie5aKmkv7EcE/b2swZPThc6Xecc0MZsYy2b
-         viPw==
+        bh=/jFpR6NbT46i+KL8VvPLd9xwSX/tfxTVsPEl+hJfePo=;
+        b=ngyVleC2OYHVTfJqCaJXN1sniJIPq9P7lgqAzxprVPf1x1+9zgTtbwmxp4YQzJyIOm
+         dWN9ADv5mK7LR0/HuACn8n4Zc4bMcWsPMMdaNP87nO+alNwuhZnwCcULHtq7g4Zz9iXw
+         ZGBZBPVbt+ehwCn5TvPX8Olw5L6Q9V52VultnAb2xn6apXmHlVoc9OyKRXgGmsWHKPPa
+         /wvvKi4BVuMNPeT58Oygw0L+7neKszSq2v+lx8QMRBbJvD8Q8Q4gSLumbywGG1S9yp0O
+         KJJGHXXb1ax2jL1wcItyNOlg99AszGQiW3st/LfPnF2jx3gHKTNjNekpHSekTqi36fyt
+         aYMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706536025; x=1707140825;
+        d=1e100.net; s=20230601; t=1706536027; x=1707140827;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dv0KzbxjZE/PRNdexoGj2NuwasLqoE9S16o1W8+sppA=;
-        b=PHGQvcpIx4lc6EgpFhafQh/fykCszojXLIjwhYXHZMftmJGgzAsUylgk3tJD1VxofX
-         D9JSBWE/IeC8pFzogYna82afa9WZ5zdk3XNbQR3TPLXs4L2VlhF3LPSntQECcVkyvKr8
-         bTg+mAKdEreUHWFf0DXTDXY8jhllR+PQor8S9nNCDBf/A1fpNuLEY9TU8CxhtBukNMTR
-         vSx1aQRSvUA2t2XoavstVm98mO+Ejj6knw3+Wwg3MOesCb3ADZwOotLcMgxuHaAhOWq9
-         Ffx+BA9ZjuAgXp8QbpVZpB5qTfP8l8u6MrDgU5koEz307XSEKWv5yWav1HMMOj5y6GMv
-         JHiw==
-X-Gm-Message-State: AOJu0YwgIXmGP2Kwd/5wiYz8AObDnkG5v+6jDRVX8xiNdSEOs+z+mcMe
-	T15E1lrT8UTtp3zOGFFLL/K1CNHTo1Zw80T8fBkGvVDfd1tNU4oa
-X-Google-Smtp-Source: AGHT+IFTJma3mzREtzvoFz4SLai7lO9aUfuQCg+weYkFEBa7lmRYLZpFv35eEFdAUPfXBgE7x+Vhmg==
-X-Received: by 2002:ad4:5b8f:0:b0:68c:447c:b1c with SMTP id 15-20020ad45b8f000000b0068c447c0b1cmr3461898qvp.26.1706536025263;
-        Mon, 29 Jan 2024 05:47:05 -0800 (PST)
+        bh=/jFpR6NbT46i+KL8VvPLd9xwSX/tfxTVsPEl+hJfePo=;
+        b=J+OC2IEyWDOnUXIYf1dikn2+WqwqULqkDDWv8luGrsCgreFFK/1RIcR/iCGQ/d8Jck
+         7okO0KNo/4enCNb43PBMwVmEQSGpOJUJt/CIjGeg/GQeTOiYdPNySj59M3aTXTUiwr53
+         OW1GbgeAbdVa0JkjCcdbG0m6R8xabI1nwmtqG77KBjAPmshk3+YeqhxggJ26nsVFuhTJ
+         L9upLkEVm8tmcNfcTJfLZitSVjrEbwVT4B6gtovZAxyx9z82YQa6W0D6r2nw+hszkaIU
+         mWSDevLljhAUpwiEqoZa1TnSLHdxU4+75mhHOcl7PEM74Qeo169+Xew+X4cG0OiRQ3G7
+         t05A==
+X-Gm-Message-State: AOJu0YxbIik/9CP5NjgjkV0sNPteGDSuS4xZF75eX5JLevbuSVwa2MPk
+	oS/ytesnH1PZ9JG7fOWR4rzAvogNUni5KqoZH6kGQ1zPDgfhdnNV
+X-Google-Smtp-Source: AGHT+IHLuYL+os8mC/N7STjliKyGhBEYAkzFyvODIPT1RWUd2lzygLWSHiaiZ2RjCYd76GfBlR33xw==
+X-Received: by 2002:a4a:de07:0:b0:59a:2817:153d with SMTP id y7-20020a4ade07000000b0059a2817153dmr2912298oot.8.1706536027402;
+        Mon, 29 Jan 2024 05:47:07 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:f547:0:b0:68c:5094:f91b with SMTP id p7-20020a0cf547000000b0068c5094f91bls385022qvm.1.-pod-prod-00-us;
- Mon, 29 Jan 2024 05:47:04 -0800 (PST)
-X-Received: by 2002:a05:6214:260b:b0:685:52c7:1c0d with SMTP id gu11-20020a056214260b00b0068552c71c0dmr6645809qvb.58.1706536024724;
-        Mon, 29 Jan 2024 05:47:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1706536024; cv=none;
+Received: by 2002:a05:6820:1622:b0:59a:6f3:5b56 with SMTP id
+ bb34-20020a056820162200b0059a06f35b56ls2922273oob.1.-pod-prod-05-us; Mon, 29
+ Jan 2024 05:47:06 -0800 (PST)
+X-Received: by 2002:a05:6808:309b:b0:3be:7a42:f806 with SMTP id bl27-20020a056808309b00b003be7a42f806mr659146oib.1.1706536026794;
+        Mon, 29 Jan 2024 05:47:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1706536026; cv=none;
         d=google.com; s=arc-20160816;
-        b=RgTXA2rdiXr4LL5dSd857EBLdJPwUM0uv4aYM3tGuofIsQpQScwnAUHADpUtkxq7oM
-         JpF+PpazSQFkCDjN41hOZAYFBGt21N5J3Xn1tJ6+Dl1gR+7RIbh+XocMU4Z0MSGZfy8y
-         PsOnJvcs4a6cTp5TR1j/c4EP0Yx2cnsjEdWgXOE4CE4bl5zAoB6vhFclZDjCkMyLU9D9
-         ShkeVTvhJTzZirXS8+U6VkmsEN8UCR1lt46584cfslkD2zSjCqV8CmrFZ5Y9YDGdOc34
-         /3yFPGkUVjk9y9cNOBZOTViIXlHqJfmTDdBacDBL+NDNdYX83bxNFmqx1KIcit4mgiF9
-         G75w==
+        b=MWAJAHDd2NLX8CUrdXs4M5p+JL88nLb1PSPSGocJXwP0BZCH7PKcoW8zxRVYNUMLDs
+         SsvTSwJLVmydAiTreYY1T+fIVf3T5wweqgwsC5tnoP+VtsFLIt5CipdiiijhB2s9YQIe
+         EW/O7+xtXwBqqBqWmPF09mo1kH2ev+E1DiWpBhT3mIa5XQlm1t1XDuyh0fCvi2Aa7TRI
+         CeCNDOFSxObIEv7F2zHbKDm8QJ4E2Jxe0yTYrQ4I4i2n/uH27/Mz9+l9Lw3YXrqDUa+O
+         cvTL8ulfqGtzl1HhArPSjXon0cWLc2kbaWUV7IDuaDGQFWCPuOIBpF7GqFX16iRG1qPp
+         KHwg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=inDfPJ8KPUyQcnteDpkHTQ4f2V6PM28Z1hOutgycIus=;
-        fh=6OXHs16txR+i/PqfGaaUK9AEaVt6DIoNRW1RjR+8WuM=;
-        b=D0OUxu9sbqGFc5h4/40Af9qwYA+CD+mqnp1/oPq3A4xI3mGufm7HHS8lLNrD13zIYZ
-         iinW2miWfdQ+6czwQ+xJ0Ili/DPxG+/2LE84we5nAOEvcYmj2PDEYoVKzgKtLU4dO5c5
-         9M1ebrWkeWeWXdOoXWx/3JcLN8IoipzFy6P4ugXQ07wDhqNDqG3K8mmoIqrwOzXz/tXH
-         6037S/vx2tGPbsjT4hNFzln6puoLEuA15fSbp/ywBe75EthkQXwCoYJ5BGvvI1fedKWj
-         VmRnQdl6QZv34VQaWfzwFYNN70rf3zXsF88tgeKBCg9yncimoFw6iv6mLlQ7r6Sd4bZ1
-         nEIw==;
+        bh=4oS5QI8PowY+Zs3TQNKojee8XDIVZivI95uIZM8SiOM=;
+        fh=0KMPFt7jtRdckJo0yvorV2XSrGq3FTQAG9A0j2f9daM=;
+        b=l6m/AZNK8CDmi8gfFmYZcDleGKoEySx1Akdc5D+0R2u70YQ/vnJFUzJHcPiyF1y7nR
+         VRnW1092KGuYbUzaChTxJJ4qcNyhFBqN/bRuvvKaB1bp+1AQEGQ+ryC8LCCRP79okxyb
+         hiHhTpxY0Mp1AKcQFS7Y5eZSWE3yFs4MmX58RUBe7VlGcAZEM4AbXgWhg1sjJRiIvZpn
+         MbFsz/TuugY++8Vy6cUEU2hK/jEhHUunugqZtgssDKobpr8FnOmc0FAZy4ZjJow9bjV8
+         NfpDvV1axGfRt79BLFnSSGl7i0G3IFSTXyGfW6nX5+c4fJxTxKVPjzpKSU01/P8Jp5rW
+         gdew==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.32 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Forwarded-Encrypted: i=0; AJvYcCWrX8D08ZYgDg701oXEIBQVoeHjJ2y77IPNzY8W6b0RSPIgp/sQz5f1Q5wHlw07G/WclACwrWashcXb0Q9gAifByXpDj5NPLcqEpQ==
+X-Forwarded-Encrypted: i=0; AJvYcCV8ad2tT8hvDwOr4i6dIqGE0vwnKYSCDhcAVb8lrMyaDL2prYYCg3u9eCYbsvpzU3EEl/4E6zjQL67dyPt1wM4arPMlmaLDhPit1A==
 Received: from szxga06-in.huawei.com (szxga06-in.huawei.com. [45.249.212.32])
-        by gmr-mx.google.com with ESMTPS id r3-20020ad44043000000b0068c46f075a1si241746qvp.3.2024.01.29.05.47.04
+        by gmr-mx.google.com with ESMTPS id 13-20020a54418d000000b003be04bcac59si482092oiy.3.2024.01.29.05.47.06
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 29 Jan 2024 05:47:04 -0800 (PST)
+        Mon, 29 Jan 2024 05:47:06 -0800 (PST)
 Received-SPF: pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.32 as permitted sender) client-ip=45.249.212.32;
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4TNqMx3SYCz1vsVw;
-	Mon, 29 Jan 2024 21:46:37 +0800 (CST)
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4TNqMz4Dbvz1vsj8;
+	Mon, 29 Jan 2024 21:46:39 +0800 (CST)
 Received: from kwepemm600017.china.huawei.com (unknown [7.193.23.234])
-	by mail.maildlp.com (Postfix) with ESMTPS id B94991A016B;
-	Mon, 29 Jan 2024 21:47:01 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id D25391404DB;
+	Mon, 29 Jan 2024 21:47:03 +0800 (CST)
 Received: from localhost.localdomain (10.175.112.125) by
  kwepemm600017.china.huawei.com (7.193.23.234) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 29 Jan 2024 21:46:59 +0800
+ 15.1.2507.35; Mon, 29 Jan 2024 21:47:01 +0800
 From: "'Tong Tiangen' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
 	Mark Rutland <mark.rutland@arm.com>, James Morse <james.morse@arm.com>, Robin
@@ -126,9 +127,9 @@ CC: <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>,
 	<linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
 	<kasan-dev@googlegroups.com>, Tong Tiangen <tongtiangen@huawei.com>,
 	<wangkefeng.wang@huawei.com>, Guohanjun <guohanjun@huawei.com>
-Subject: [PATCH v10 3/6] arm64: add uaccess to machine check safe
-Date: Mon, 29 Jan 2024 21:46:49 +0800
-Message-ID: <20240129134652.4004931-4-tongtiangen@huawei.com>
+Subject: [PATCH v10 4/6] mm/hwpoison: return -EFAULT when copy fail in copy_mc_[user]_highpage()
+Date: Mon, 29 Jan 2024 21:46:50 +0800
+Message-ID: <20240129134652.4004931-5-tongtiangen@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240129134652.4004931-1-tongtiangen@huawei.com>
 References: <20240129134652.4004931-1-tongtiangen@huawei.com>
@@ -156,138 +157,76 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-If user process access memory fails due to hardware memory error, only the
-relevant processes are affected, so it is more reasonable to kill the user
-process and isolate the corrupt page than to panic the kernel.
+If hardware errors are encountered during page copying, returning the bytes
+not copied is not meaningful, and the caller cannot do any processing on
+the remaining data. Returning -EFAULT is more reasonable, which represents
+a hardware error encountered during the copying.
 
 Signed-off-by: Tong Tiangen <tongtiangen@huawei.com>
 ---
- arch/arm64/lib/copy_from_user.S | 10 +++++-----
- arch/arm64/lib/copy_to_user.S   | 10 +++++-----
- arch/arm64/mm/extable.c         |  8 ++++----
- 3 files changed, 14 insertions(+), 14 deletions(-)
+ include/linux/highmem.h | 8 ++++----
+ mm/khugepaged.c         | 4 ++--
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/arch/arm64/lib/copy_from_user.S b/arch/arm64/lib/copy_from_user.S
-index 34e317907524..1bf676e9201d 100644
---- a/arch/arm64/lib/copy_from_user.S
-+++ b/arch/arm64/lib/copy_from_user.S
-@@ -25,7 +25,7 @@
- 	.endm
- 
- 	.macro strb1 reg, ptr, val
--	strb \reg, [\ptr], \val
-+	USER(9998f, strb \reg, [\ptr], \val)
- 	.endm
- 
- 	.macro ldrh1 reg, ptr, val
-@@ -33,7 +33,7 @@
- 	.endm
- 
- 	.macro strh1 reg, ptr, val
--	strh \reg, [\ptr], \val
-+	USER(9998f, strh \reg, [\ptr], \val)
- 	.endm
- 
- 	.macro ldr1 reg, ptr, val
-@@ -41,7 +41,7 @@
- 	.endm
- 
- 	.macro str1 reg, ptr, val
--	str \reg, [\ptr], \val
-+	USER(9998f, str \reg, [\ptr], \val)
- 	.endm
- 
- 	.macro ldp1 reg1, reg2, ptr, val
-@@ -49,7 +49,7 @@
- 	.endm
- 
- 	.macro stp1 reg1, reg2, ptr, val
--	stp \reg1, \reg2, [\ptr], \val
-+	USER(9998f, stp \reg1, \reg2, [\ptr], \val)
- 	.endm
- 
- end	.req	x5
-@@ -66,7 +66,7 @@ SYM_FUNC_START(__arch_copy_from_user)
- 	b.ne	9998f
- 	// Before being absolutely sure we couldn't copy anything, try harder
- USER(9998f, ldtrb tmp1w, [srcin])
--	strb	tmp1w, [dst], #1
-+USER(9998f, strb	tmp1w, [dst], #1)
- 9998:	sub	x0, end, dst			// bytes not copied
- 	ret
- SYM_FUNC_END(__arch_copy_from_user)
-diff --git a/arch/arm64/lib/copy_to_user.S b/arch/arm64/lib/copy_to_user.S
-index 802231772608..cc031bd87455 100644
---- a/arch/arm64/lib/copy_to_user.S
-+++ b/arch/arm64/lib/copy_to_user.S
-@@ -20,7 +20,7 @@
-  *	x0 - bytes not copied
+diff --git a/include/linux/highmem.h b/include/linux/highmem.h
+index 451c1dff0e87..c5ca1a1fc4f5 100644
+--- a/include/linux/highmem.h
++++ b/include/linux/highmem.h
+@@ -335,8 +335,8 @@ static inline void copy_highpage(struct page *to, struct page *from)
+ /*
+  * If architecture supports machine check exception handling, define the
+  * #MC versions of copy_user_highpage and copy_highpage. They copy a memory
+- * page with #MC in source page (@from) handled, and return the number
+- * of bytes not copied if there was a #MC, otherwise 0 for success.
++ * page with #MC in source page (@from) handled, and return -EFAULT if there
++ * was a #MC, otherwise 0 for success.
   */
- 	.macro ldrb1 reg, ptr, val
--	ldrb  \reg, [\ptr], \val
-+	USER(9998f, ldrb  \reg, [\ptr], \val)
- 	.endm
+ static inline int copy_mc_user_highpage(struct page *to, struct page *from,
+ 					unsigned long vaddr, struct vm_area_struct *vma)
+@@ -352,7 +352,7 @@ static inline int copy_mc_user_highpage(struct page *to, struct page *from,
+ 	kunmap_local(vto);
+ 	kunmap_local(vfrom);
  
- 	.macro strb1 reg, ptr, val
-@@ -28,7 +28,7 @@
- 	.endm
- 
- 	.macro ldrh1 reg, ptr, val
--	ldrh  \reg, [\ptr], \val
-+	USER(9998f, ldrh  \reg, [\ptr], \val)
- 	.endm
- 
- 	.macro strh1 reg, ptr, val
-@@ -36,7 +36,7 @@
- 	.endm
- 
- 	.macro ldr1 reg, ptr, val
--	ldr \reg, [\ptr], \val
-+	USER(9998f, ldr \reg, [\ptr], \val)
- 	.endm
- 
- 	.macro str1 reg, ptr, val
-@@ -44,7 +44,7 @@
- 	.endm
- 
- 	.macro ldp1 reg1, reg2, ptr, val
--	ldp \reg1, \reg2, [\ptr], \val
-+	USER(9998f, ldp \reg1, \reg2, [\ptr], \val)
- 	.endm
- 
- 	.macro stp1 reg1, reg2, ptr, val
-@@ -64,7 +64,7 @@ SYM_FUNC_START(__arch_copy_to_user)
- 9997:	cmp	dst, dstin
- 	b.ne	9998f
- 	// Before being absolutely sure we couldn't copy anything, try harder
--	ldrb	tmp1w, [srcin]
-+USER(9998f, ldrb	tmp1w, [srcin])
- USER(9998f, sttrb tmp1w, [dst])
- 	add	dst, dst, #1
- 9998:	sub	x0, end, dst			// bytes not copied
-diff --git a/arch/arm64/mm/extable.c b/arch/arm64/mm/extable.c
-index 478e639f8680..28ec35e3d210 100644
---- a/arch/arm64/mm/extable.c
-+++ b/arch/arm64/mm/extable.c
-@@ -85,10 +85,10 @@ bool fixup_exception_mc(struct pt_regs *regs)
- 	if (!ex)
- 		return false;
- 
--	/*
--	 * This is not complete, More Machine check safe extable type can
--	 * be processed here.
--	 */
-+	switch (ex->type) {
-+	case EX_TYPE_UACCESS_ERR_ZERO:
-+		return ex_handler_uaccess_err_zero(ex, regs);
-+	}
- 
- 	return false;
+-	return ret;
++	return ret ? -EFAULT : 0;
  }
+ 
+ static inline int copy_mc_highpage(struct page *to, struct page *from)
+@@ -368,7 +368,7 @@ static inline int copy_mc_highpage(struct page *to, struct page *from)
+ 	kunmap_local(vto);
+ 	kunmap_local(vfrom);
+ 
+-	return ret;
++	return ret ? -EFAULT : 0;
+ }
+ #else
+ static inline int copy_mc_user_highpage(struct page *to, struct page *from,
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index 2b219acb528e..ba6743a54c86 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -797,7 +797,7 @@ static int __collapse_huge_page_copy(pte_t *pte,
+ 			continue;
+ 		}
+ 		src_page = pte_page(pteval);
+-		if (copy_mc_user_highpage(page, src_page, _address, vma) > 0) {
++		if (copy_mc_user_highpage(page, src_page, _address, vma)) {
+ 			result = SCAN_COPY_MC;
+ 			break;
+ 		}
+@@ -2053,7 +2053,7 @@ static int collapse_file(struct mm_struct *mm, unsigned long addr,
+ 			clear_highpage(hpage + (index % HPAGE_PMD_NR));
+ 			index++;
+ 		}
+-		if (copy_mc_highpage(hpage + (page->index % HPAGE_PMD_NR), page) > 0) {
++		if (copy_mc_highpage(hpage + (page->index % HPAGE_PMD_NR), page)) {
+ 			result = SCAN_COPY_MC;
+ 			goto rollback;
+ 		}
 -- 
 2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240129134652.4004931-4-tongtiangen%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240129134652.4004931-5-tongtiangen%40huawei.com.
