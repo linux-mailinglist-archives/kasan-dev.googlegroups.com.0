@@ -1,145 +1,129 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBIGE2GWQMGQE5LUE5WI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBUPR3WWQMGQEWMSWNJI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43f.google.com (mail-wr1-x43f.google.com [IPv6:2a00:1450:4864:20::43f])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60E883E924
-	for <lists+kasan-dev@lfdr.de>; Sat, 27 Jan 2024 02:53:37 +0100 (CET)
-Received: by mail-wr1-x43f.google.com with SMTP id ffacd0b85a97d-337d70f889csf701020f8f.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 26 Jan 2024 17:53:37 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1706320417; cv=pass;
+Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC5F84025F
+	for <lists+kasan-dev@lfdr.de>; Mon, 29 Jan 2024 11:07:15 +0100 (CET)
+Received: by mail-il1-x13b.google.com with SMTP id e9e14a558f8ab-36387e7abccsf280955ab.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Jan 2024 02:07:15 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1706522834; cv=pass;
         d=google.com; s=arc-20160816;
-        b=u5OLqu4UvyeLPN5/RNf1zPUgKSgQ0n/APqyimmrQ0xD/bCCKX4CEaBjJ47geutHElx
-         qU2y23FeMrYrQpdpFQ21TKlbZJpu1tYYfEeJzd0WUbjrn066lSl3PssFgxzPbeA7QJsN
-         fPa+uGDOyJqZDnf5UzlAxy9mZQTjvHa8UoafCSnFGLHxWIV8qS9POI0SK7fFXaL1rRM7
-         CgqNjMtAJWwWruyPOojSP2uURGhrk34c8d2MdXkXNT3YXuBzFiuQaGUzZRDtvAkar/nr
-         MP6R/Eq7w0+Lj9kNhMtMvEwYQ8SINy4d8GlJ6mzjUTNsIORpvSxQH7pkkefRq3YQ3dAv
-         BdRQ==
+        b=bulmoYUK0O1lXZm35HMX+gXlfaEyuhPC3/KeHMzNbpaOVFnz/clHrKyb3StnO7cDOw
+         BcXwCBSITwFE+2VAadYv6qmnfotV+HOtupc1LeUhIjDHGZDAoQcAHo6RiD7s4Fde8lrn
+         gstackwwEVj9AEgqXbiNnyPxoMeYB9qbO/Br+1hPgcIC1Gred/1OY48Lbu1CFqsYvcWQ
+         PPUFQvHZSR+sXXidUCjfnS1B/9+a/ayt53YAWA140xOdWjhCyjy/KWde1xXreB6xQlCN
+         uqgbFV2o64oFhxd808IsSAO6Zo+m9yPd+bPFC0WZFOdApWSCTWKkFujERSqW0yQScKFL
+         q+7w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=z9d61HShnE8Fe/il1W3qgIhH3PTB3NgHgALKhxAR18k=;
-        fh=1LkwsyefFK4QXJxf+UaR9FwDzUqg8mdFhAXARJLExsY=;
-        b=SJhDqy5w8rX7lS092AH8EKS8BqKGzcf7LdSstWQi53rQXelMBjC2KwgGALVxPXFVlF
-         fU6DI/sPduEKoZqCkjQuShpcVWoDXJYiXRdd/SxKAPOlWbHOzSN9MQMbj2jgPdIaUo69
-         cGNSaw/YMDMehGaSmeB6vNnkuksdi1/6UxlJzAyJKWKA685843OgBLqmvAOmAt3QGrr4
-         rpME3JYJLLQknD6XmUaDc6z0Qkp6o10/hBWyYeZk02i/2H0m3mHQwW3aXq54793xS3Zf
-         kzAXnM14eGfkVb3lQ2z5GMVa1P3+3MDafdibOFnamV3mvTbrqc2gforMOwe8pmROjkES
-         aFWQ==
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :message-id:mime-version:date:dkim-signature;
+        bh=R8aPLkbi05uQA+HZjI9gmPcOLncJE3cG+cjVTuqbRdc=;
+        fh=Q6WTJ5ZnjiuB6HF3Kna6PPHtjylj1os0kvM6d8ajbeE=;
+        b=nMxhh4ORHePG76gPXlO9mEGAWsHzxR2IlYmUCNqaJK34smc/DeFhcLtOgOV+rrOlWI
+         VHnci4Mr02pyhcmYAWHD6bmn1fcQXf5448527HDbOcIhQOtBkkPI8wWlLA932/1td2Z4
+         Jb/nPjLo/gTJH7M5d8v9YQaArCfxCEcY1d0p2aV9WzGIq1g5AxGoiDCAh3EhrSXeOHhL
+         ttdJC9gNq6tiXAj5D2ivlmEcu0st+dboUGzMY4c3ObndsC+fR54WZe6r9kMjC82cOljF
+         2YkCqDCqt4n2EpqmMHLvxFc2L6pJ81Jo8J/xdDN3pedN4boDfRn6aREHE1ljXm0E0R/I
+         7Zyw==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=NnyuW9UU;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42e as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20230601 header.b=hDtzFhP0;
+       spf=pass (google.com: domain of 30hi3zqukcdm3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=30Hi3ZQUKCdM3AK3G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1706320417; x=1706925217; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1706522834; x=1707127634; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=z9d61HShnE8Fe/il1W3qgIhH3PTB3NgHgALKhxAR18k=;
-        b=XVP+pYQevBim8pTLmcdRt8qI7C1+goIN05AB1ggndpFBil81LiB0L+H5CjcMQh2nFg
-         SnsiOLM/7DgCuMWZgxlCxMubhtAF0MFBC6EdU6XeTDiCgdl1C1zdi+a+z5HyZqKNUhVY
-         F32oqi8eO3KX5SNDkMYuethwTvt7A36DOjBf95Xf26C8H/LsRqbHS0o+VXXXT4NYKwV7
-         nFgXsd7AsfPAEeJ2jlE6LjFfM1WU4jL7u9z//B5nAFMNy7ukfEMEZLxlDJtCLFsZlM73
-         fOgmzKZQIM6PXQSr5VPkgIih4KsjsjzmfmYr5il1xCFbCp4KjF2X77jSoBW6CyfTIDSo
-         Nd7A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1706320417; x=1706925217; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=z9d61HShnE8Fe/il1W3qgIhH3PTB3NgHgALKhxAR18k=;
-        b=mPC/ew787IzVEgZih83036V3cd2gmxlkdD/gq+zIB/PX4AafZduVBJlFwJfP7VmpV1
-         NmiaIA42oFpd6GScvLa270GKqp37Fsxbigx3tlhQBfJTWjySAzqFzWAQG4s3IrkISyrx
-         HUyuheXkMR/OcKxIemJpE5qobJdFnzBxYwa+v4VJSRWhQ7D8QXBLk9+76rnThrHPlCC/
-         jJrKqa1eEx6fHcJHzA4C5wWstahMysn2YVA6EYCxrSvSA/yGVFKcS0cBViPzg9mkOSdj
-         LyuNukO7sawZEeYa+WfRmTCVDHcdL+LniqbopsYNbiqMFPYNUMyphCwVfmDcqLPJg4j0
-         nGKw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R8aPLkbi05uQA+HZjI9gmPcOLncJE3cG+cjVTuqbRdc=;
+        b=fgzfZxaVXLyz7PgYw0j6uZD8AP8ES5qbSDjgCiv9NWQTqj6L2l/sedlPF9j0RWODxV
+         N1eaNFFBAT5lqNCxCF4EqoKjQQhfY3QLbi2a6gBz3r28LZ6hq1XquLf1w5x7PuXFNEPU
+         dSvU+if0z+G+pQKtTHGL7fR8Viu61ghFqgTyRb1/ZNbJ4fcjRuA//LSGsi6HVzNUUjQJ
+         dFz4EOBG0NzgYvt4xCL193HXmaxgyyh8VP2aC2sARhIYt02S7wntqREcFHXT4vSnf3sD
+         lyiTaVcfpnDMQ7foxm+/qV9XOh+jsfkRxGrjw4a395ZaDs+3thsUbqrLfF/WQBWDc2fc
+         bPrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706320417; x=1706925217;
+        d=1e100.net; s=20230601; t=1706522834; x=1707127634;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=z9d61HShnE8Fe/il1W3qgIhH3PTB3NgHgALKhxAR18k=;
-        b=vukeZ6BIWT7TiSIBJ9hKIdw+3hHymtV3gxrB0rzT7At0K7SqqdCZtObu5o/BtEBOCb
-         A5nexqmYi3rJadSAXVRlm7Qd/3ROJLymSPgr8v2sjB5o+gsWV+tEU2qjpk5qWanRoP8l
-         O473MxZZ3gx4BvGrUIxIbK4Wnh1mUBpeTGTcGd9FfM1nbhqyDVnkMgTPwnJPvueZaEa7
-         5/kdlIpfXM2fqJ0fQFw/MVfo8Q5XCAKRmq3VW79dWPxmTmNuMFBChWdkH3w0ixvqYaxF
-         NNVwTcwLaJjklehHxRr+aRJjQZPKl4oKw0nsDr8c9295DhuJ3IQFKbqUtsmIfNPzfk13
-         dqsw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YxiwBke1iRYdp3nbX5py5eCNKtohkmyBGdmKxxTMnYuWvYbLtUO
-	lJclLHwFiXVQEd7J3iibvWAuZUg12Zq7Ie0WwsqPKkO3EBw3v9kp
-X-Google-Smtp-Source: AGHT+IFm8dNRDSL5f4bSOc6kctZmX5mNZJbrTGryCG91Q9E3uWSpABo2JUZk9uuRRTjb4PCyMcMmHw==
-X-Received: by 2002:a5d:4247:0:b0:337:c99f:f34a with SMTP id s7-20020a5d4247000000b00337c99ff34amr313022wrr.3.1706320416887;
-        Fri, 26 Jan 2024 17:53:36 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:mime-version:date:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=R8aPLkbi05uQA+HZjI9gmPcOLncJE3cG+cjVTuqbRdc=;
+        b=jH/OfxbPeT48ttDgqthsKKxnO3KiOBp9GR4un1QLQEOIB3rR86nfrrIqHnlQYrkj5W
+         YIkIqQbCVUmKU99gEQ8m9oquykmZo4Ui6u7es0Er83FjORdjpd4a8tciSN/lyHJHArMh
+         k3Vq0PhedebtCNRACmeF13JMgP9+zHEmbi6QGsTaRhnnEwF6GGiXjvFcnYkWuIKXWTE0
+         ZEHYPVE3YI/fA1qBEm+HWsVZG4BBy2qmjleSEMZ99hFbay+X0uyh37NYxZadk7djklhz
+         PYisxyb1PoXLFwEbp+0hDJuKlVla1Mn2r3zTxZHUNW675q5+JQedZVCDGaGlvzQkvx8b
+         KCOg==
+X-Gm-Message-State: AOJu0Yz85jxdD+kUObPQblNuagm/NUV+Qz3GDSmb+fjZw8hGJBOw5nk0
+	ciD0AY9QRF2PVQnY8nh4mnsLVp+X9q2u/Azimt+YbnK5+JqDlSKJ
+X-Google-Smtp-Source: AGHT+IETprmdkY3ng1gY7+XHePf1DCybUZYc5qVjH9hqHqclt1Bu9nvlT4wco8zCu1oe1WdopNBPmA==
+X-Received: by 2002:a05:6e02:17ca:b0:363:76b5:9a8b with SMTP id z10-20020a056e0217ca00b0036376b59a8bmr7004960ilu.32.1706522833872;
+        Mon, 29 Jan 2024 02:07:13 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:6a48:0:b0:339:48fa:cc09 with SMTP id t8-20020a5d6a48000000b0033948facc09ls673909wrw.2.-pod-prod-01-eu;
- Fri, 26 Jan 2024 17:53:35 -0800 (PST)
-X-Received: by 2002:a05:600c:3106:b0:40e:52d8:c0c8 with SMTP id g6-20020a05600c310600b0040e52d8c0c8mr472579wmo.129.1706320414985;
-        Fri, 26 Jan 2024 17:53:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1706320414; cv=none;
+Received: by 2002:a05:6e02:f46:b0:363:7d3f:13e4 with SMTP id
+ y6-20020a056e020f4600b003637d3f13e4ls313531ilj.1.-pod-prod-02-us; Mon, 29 Jan
+ 2024 02:07:13 -0800 (PST)
+X-Received: by 2002:a05:6e02:12a7:b0:363:8299:3479 with SMTP id f7-20020a056e0212a700b0036382993479mr1512048ilr.21.1706522832974;
+        Mon, 29 Jan 2024 02:07:12 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1706522832; cv=none;
         d=google.com; s=arc-20160816;
-        b=RHjL3Xe/XSk1mwsVsdWdQqQ+zcumdZjVEjSKgfB1V7Ng7jdPvkcreaRHGowxynbixj
-         SMVNsPiGTdceGXgBzI/EjR67a58hQyIYM2U7RlaiFjUmZ8hTsoj/pEgRx00wYjKx6TQH
-         ZW0xOgm+HRB1s09r0bP/r4130tmmLKtU8c02nQel8QVAs177C3hJk9NcYOa8/DRDSIVf
-         xsRs7NIFYSccO601MCk2aMRgP/ejLh9ZQ1CO6xcWi/geZC68D46zQOw3i7qUF4LcdvKp
-         gN0R/gP3S7Kq4YEXQz/RPH63BbPCDdpZFO4k1ufM5oYqkr1Tm3RmsJD7q2BWbV/bOoLr
-         KTKQ==
+        b=zstyrEx4OhAMqgn/5m9ohdIPcC/jYEbxYNHt3f9yBweFKPmIJladI6h01DhGQtlCmA
+         dXms6JzIBeNhUALgBWDnFpASQTq4ecTAyvbpN4xRDm5B3kQuWhpIidN3K+wL0gYZKzIW
+         C10my0MbYquvC3O9Rh7aBxsqK/Dgwr+KaH3aEwZPXtqLM/KalX1zMWnOMDhhM5m7clYj
+         XQxhBdFkz3aaQrKKHakxA+gtYGDbltl3MCt/X9ZSU/T01168oHFuiPlPrd2XAR5WwEMg
+         caEfgN7F5qDQCMFm3YDoulHG1bWmoLzE5VP4DPkA+5cUKw7x/D1bu+9l24tasv3MjYv/
+         EGnw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=WXrbWEt/1qQdJy8DYI2a1Mv/37w6xBSoBjlES19/LuY=;
-        fh=1LkwsyefFK4QXJxf+UaR9FwDzUqg8mdFhAXARJLExsY=;
-        b=ryMm1n4r/z90WM2FPn0dEy9I4FLEVjPODMTQWdoFdbM0E5pC7BUq7CxgUiZLBBlKxN
-         wYA4X/OFPQMzhJofdIBFoW+Xas3gOoySFW6A1pElHKcUBncaszdI0+9UYunMjYL4qwbC
-         N18n1lDWe1BRyrNIwuC7efX5BWAFVUDrg1xFcGVNzx/LNpD3CMwN/lRG6xLKxH+ttJK5
-         lU1VdlGaWVr8RBf7b5bxvGARfD8tzGzzeAI7geDprqvUFRTTq2ore7IiRY97FB0V5HTR
-         Sdbvkp7oqygmB4gI39MbaXZFXIXlfnX9Z3ZUFQWRAjsiuVIkBe33Pqyrds7T4plULAy9
-         EzNw==
+        h=cc:to:from:subject:message-id:mime-version:date:dkim-signature;
+        bh=LogR/Zah+zrx3k9gi8s3U+HMAC7cqgfXE5NI/I6QwMw=;
+        fh=Q6WTJ5ZnjiuB6HF3Kna6PPHtjylj1os0kvM6d8ajbeE=;
+        b=UKktvW2pwBDFRrvIudwsTnN95p3w6yNNOtUGvvSVzL1khKl8SL8QUe6uohJBidT6oU
+         8Plgiz6wZzNm/zzwjaV8Jh3gbGlTNuKa0NidZpg7bKjU9GEKw+Y/776PIACixlTrwUhn
+         91eStWo7w6qvnJ5A3YAwmGHcXWv9Fu4z7ZMz3kEIwqjD3iSUYQwPqzUmgcur2UVKrItq
+         t/hIc+8MbznCugY05CfCzdi2ZZ5jjjDi0X3IuNuTTOOsym5sq/D0ET9p1SLxmjIUwHFC
+         HpUtV9wVugmWuFrzTH3IkJ0FBoxOzRDBLHD1cKY+0JAudy3mDyuyhumfswQy76BEUyYq
+         8FMw==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=NnyuW9UU;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42e as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com. [2a00:1450:4864:20::42e])
-        by gmr-mx.google.com with ESMTPS id n39-20020a05600c3ba700b0040e9f730cd0si168868wms.1.2024.01.26.17.53.34
+       dkim=pass header.i=@google.com header.s=20230601 header.b=hDtzFhP0;
+       spf=pass (google.com: domain of 30hi3zqukcdm3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=30Hi3ZQUKCdM3AK3G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com. [2607:f8b0:4864:20::1149])
+        by gmr-mx.google.com with ESMTPS id u7-20020a056e021a4700b0036284e36b21si481463ilv.4.2024.01.29.02.07.12
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jan 2024 17:53:34 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42e as permitted sender) client-ip=2a00:1450:4864:20::42e;
-Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-33ae3cc8a70so110481f8f.0
-        for <kasan-dev@googlegroups.com>; Fri, 26 Jan 2024 17:53:34 -0800 (PST)
-X-Received: by 2002:a05:600c:3515:b0:40d:5b0c:736c with SMTP id
- h21-20020a05600c351500b0040d5b0c736cmr447423wmq.127.1706320414219; Fri, 26
- Jan 2024 17:53:34 -0800 (PST)
-MIME-Version: 1.0
-References: <20240125094815.2041933-1-elver@google.com> <20240125094815.2041933-2-elver@google.com>
- <CA+fCnZc6L3t3AdQS1rjFCT0s6RpT+q4Z4GmctOveeaDJW0tBow@mail.gmail.com> <ZbPFUXNeENyuwync@elver.google.com>
-In-Reply-To: <ZbPFUXNeENyuwync@elver.google.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Sat, 27 Jan 2024 02:53:23 +0100
-Message-ID: <CA+fCnZeOmHf-zjMnorXJQCyy3em9sMVS_uKaRUwZkbhVRVbRmg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] kasan: revert eviction of stack traces in generic mode
-To: Marco Elver <elver@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
+        Mon, 29 Jan 2024 02:07:12 -0800 (PST)
+Received-SPF: pass (google.com: domain of 30hi3zqukcdm3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) client-ip=2607:f8b0:4864:20::1149;
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5eba564eb3fso49521337b3.1
+        for <kasan-dev@googlegroups.com>; Mon, 29 Jan 2024 02:07:12 -0800 (PST)
+X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:cb16:eb72:6e81:bff1])
+ (user=elver job=sendgmr) by 2002:a05:690c:dd6:b0:5fc:43cb:cb1e with SMTP id
+ db22-20020a05690c0dd600b005fc43cbcb1emr1772952ywb.10.1706522832529; Mon, 29
+ Jan 2024 02:07:12 -0800 (PST)
+Date: Mon, 29 Jan 2024 11:07:01 +0100
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.43.0.429.g432eaa2c6b-goog
+Message-ID: <20240129100708.39460-1-elver@google.com>
+Subject: [PATCH v2 1/2] stackdepot: use variable size records for
+ non-evictable entries
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: elver@google.com, Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>, Alexander Potapenko <glider@google.com>, 
 	Dmitry Vyukov <dvyukov@google.com>, Vlastimil Babka <vbabka@suse.cz>, 
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
 	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: andreyknvl@gmail.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=NnyuW9UU;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42e
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@google.com header.s=20230601 header.b=hDtzFhP0;       spf=pass
+ (google.com: domain of 30hi3zqukcdm3ak3g5dd5a3.1db9zhzc-23k5dd5a35gdjeh.1db@flex--elver.bounces.google.com
+ designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=30Hi3ZQUKCdM3AK3G5DD5A3.1DB9zHzC-23K5DD5A35GDJEH.1DB@flex--elver.bounces.google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,135 +136,469 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jan 26, 2024 at 3:44=E2=80=AFPM Marco Elver <elver@google.com> wrot=
-e:
->
-> On Thu, Jan 25, 2024 at 11:36PM +0100, Andrey Konovalov wrote:
-> [...]
-> >
-> > Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
-> >
-> > But I'm wondering if we should also stop resetting metadata when the
-> > object is fully freed (from quarantine or bypassing quarantine).
-> >
-> > With stack_depot_put, I had to put the stack handles on free, as
-> > otherwise we would leak the stack depot references. And I also chose
-> > to memset meta at that point, as its gets invalid anyway. But without
-> > stack_depot_put, this is not required.
-> >
-> > Before the stack depot-related changes, the code was inconsistent in
-> > this regard AFAICS: for quarantine, free meta was marked as invalid
-> > via KASAN_SLAB_FREE but alloc meta was kept; for no quarantine, both
-> > alloc and free meta were kept.
-> >
-> > So perhaps we can just keep both metas on full free. I.e. drop both
-> > kasan_release_object_meta calls. This will go back to the old behavior
-> > + keeping free meta for the quarantine case (I think there's no harm
-> > in that). This will give better reporting for uaf-before-realloc bugs.
-> >
-> > WDYT?
->
-> Yes, that makes sense.
->
-> You mean this on top?
->
-> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index ad32803e34e9..0577db1d2c62 100644
-> --- a/mm/kasan/common.c
-> +++ b/mm/kasan/common.c
-> @@ -264,12 +264,6 @@ bool __kasan_slab_free(struct kmem_cache *cache, voi=
-d *object,
->         if (kasan_quarantine_put(cache, object))
->                 return true;
->
-> -       /*
-> -        * If the object is not put into quarantine, it will likely be qu=
-ickly
-> -        * reallocated. Thus, release its metadata now.
-> -        */
-> -       kasan_release_object_meta(cache, object);
-> -
->         /* Let slab put the object onto the freelist. */
->         return false;
->  }
-> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-> index 8bfb52b28c22..fc9cf1860efb 100644
-> --- a/mm/kasan/generic.c
-> +++ b/mm/kasan/generic.c
-> @@ -510,20 +510,6 @@ static void release_free_meta(const void *object, st=
-ruct kasan_free_meta *meta)
->         *(u8 *)kasan_mem_to_shadow(object) =3D KASAN_SLAB_FREE;
->  }
->
-> -void kasan_release_object_meta(struct kmem_cache *cache, const void *obj=
-ect)
-> -{
-> -       struct kasan_alloc_meta *alloc_meta;
-> -       struct kasan_free_meta *free_meta;
-> -
-> -       alloc_meta =3D kasan_get_alloc_meta(cache, object);
-> -       if (alloc_meta)
-> -               release_alloc_meta(alloc_meta);
-> -
-> -       free_meta =3D kasan_get_free_meta(cache, object);
-> -       if (free_meta)
-> -               release_free_meta(object, free_meta);
-> -}
-> -
->  size_t kasan_metadata_size(struct kmem_cache *cache, bool in_object)
->  {
->         struct kasan_cache *info =3D &cache->kasan_info;
-> diff --git a/mm/kasan/kasan.h b/mm/kasan/kasan.h
-> index 216ae0ef1e4b..fb2b9ac0659a 100644
-> --- a/mm/kasan/kasan.h
-> +++ b/mm/kasan/kasan.h
-> @@ -390,10 +390,8 @@ struct kasan_alloc_meta *kasan_get_alloc_meta(struct=
- kmem_cache *cache,
->  struct kasan_free_meta *kasan_get_free_meta(struct kmem_cache *cache,
->                                                 const void *object);
->  void kasan_init_object_meta(struct kmem_cache *cache, const void *object=
-);
-> -void kasan_release_object_meta(struct kmem_cache *cache, const void *obj=
-ect);
->  #else
->  static inline void kasan_init_object_meta(struct kmem_cache *cache, cons=
-t void *object) { }
-> -static inline void kasan_release_object_meta(struct kmem_cache *cache, c=
-onst void *object) { }
->  #endif
->
->  depot_stack_handle_t kasan_save_stack(gfp_t flags, depot_flags_t depot_f=
-lags);
-> diff --git a/mm/kasan/quarantine.c b/mm/kasan/quarantine.c
-> index 3ba02efb952a..a758c2e10703 100644
-> --- a/mm/kasan/quarantine.c
-> +++ b/mm/kasan/quarantine.c
-> @@ -145,8 +145,6 @@ static void qlink_free(struct qlist_node *qlink, stru=
-ct kmem_cache *cache)
->         void *object =3D qlink_to_object(qlink, cache);
->         struct kasan_free_meta *free_meta =3D kasan_get_free_meta(cache, =
-object);
->
-> -       kasan_release_object_meta(cache, object);
-> -
->         /*
->          * If init_on_free is enabled and KASAN's free metadata is stored=
- in
->          * the object, zero the metadata. Otherwise, the object's memory =
-will
+With the introduction of stack depot evictions, each stack record is now
+fixed size, so that future reuse after an eviction can safely store
+differently sized stack traces. In all cases that do not make use of
+evictions, this wastes lots of space.
 
-Please also add a comment saying something like "Keep per-object
-metadata to allow KASAN print stack traces for
-use-after-free-before-realloc bugs." to the places where you removed
-kasan_release_object_meta.
+Fix it by re-introducing variable size stack records (up to the max
+allowed size) for entries that will never be evicted. We know if an
+entry will never be evicted if the flag STACK_DEPOT_FLAG_GET is not
+provided, since a later stack_depot_put() attempt is undefined behavior.
 
-Otherwise, looks good to me.
+With my current kernel config that enables KASAN and also SLUB owner tracking,
+I observe (after a kernel boot) a whopping reduction of 296 stack depot pools,
+which translates into 4736 KiB saved. The savings here are from SLUB owner
+tracking only, because KASAN generic mode still uses refcounting.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CA%2BfCnZeOmHf-zjMnorXJQCyy3em9sMVS_uKaRUwZkbhVRVbRmg%40mail.gmai=
-l.com.
+Before:
+
+  pools: 893
+  allocations: 29841
+  frees: 6524
+  in_use: 23317
+  freelist_size: 3454
+
+After:
+
+  pools: 597
+  refcounted_allocations: 17547
+  refcounted_frees: 6477
+  refcounted_in_use: 11070
+  freelist_size: 3497
+  persistent_count: 12163
+  persistent_bytes: 1717008
+
+Fixes: 108be8def46e ("lib/stackdepot: allow users to evict stack traces")
+Signed-off-by: Marco Elver <elver@google.com>
+Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+---
+v2:
+* Also remove KMSAN-specific DEPOT_POOLS_CAP (revert bd9d9624b7136).
+* Let counters distinguish refcounted and non-refcounted entries.
+* Comments.
+
+v1 (since RFC):
+* Get rid of new_pool_required to simplify the code.
+* Warn on attempts to switch a non-refcounted entry to refcounting.
+* Typos.
+---
+ include/linux/poison.h |   3 +
+ lib/stackdepot.c       | 250 +++++++++++++++++++++--------------------
+ 2 files changed, 130 insertions(+), 123 deletions(-)
+
+diff --git a/include/linux/poison.h b/include/linux/poison.h
+index 27a7dad17eef..1f0ee2459f2a 100644
+--- a/include/linux/poison.h
++++ b/include/linux/poison.h
+@@ -92,4 +92,7 @@
+ /********** VFS **********/
+ #define VFS_PTR_POISON ((void *)(0xF5 + POISON_POINTER_DELTA))
+ 
++/********** lib/stackdepot.c **********/
++#define STACK_DEPOT_POISON ((void *)(0xD390 + POISON_POINTER_DELTA))
++
+ #endif
+diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+index 5caa1f566553..8f3b2c84ec2d 100644
+--- a/lib/stackdepot.c
++++ b/lib/stackdepot.c
+@@ -22,6 +22,7 @@
+ #include <linux/list.h>
+ #include <linux/mm.h>
+ #include <linux/mutex.h>
++#include <linux/poison.h>
+ #include <linux/printk.h>
+ #include <linux/rculist.h>
+ #include <linux/rcupdate.h>
+@@ -43,17 +44,7 @@
+ #define DEPOT_OFFSET_BITS (DEPOT_POOL_ORDER + PAGE_SHIFT - DEPOT_STACK_ALIGN)
+ #define DEPOT_POOL_INDEX_BITS (DEPOT_HANDLE_BITS - DEPOT_OFFSET_BITS - \
+ 			       STACK_DEPOT_EXTRA_BITS)
+-#if IS_ENABLED(CONFIG_KMSAN) && CONFIG_STACKDEPOT_MAX_FRAMES >= 32
+-/*
+- * KMSAN is frequently used in fuzzing scenarios and thus saves a lot of stack
+- * traces. As KMSAN does not support evicting stack traces from the stack
+- * depot, the stack depot capacity might be reached quickly with large stack
+- * records. Adjust the maximum number of stack depot pools for this case.
+- */
+-#define DEPOT_POOLS_CAP (8192 * (CONFIG_STACKDEPOT_MAX_FRAMES / 16))
+-#else
+ #define DEPOT_POOLS_CAP 8192
+-#endif
+ #define DEPOT_MAX_POOLS \
+ 	(((1LL << (DEPOT_POOL_INDEX_BITS)) < DEPOT_POOLS_CAP) ? \
+ 	 (1LL << (DEPOT_POOL_INDEX_BITS)) : DEPOT_POOLS_CAP)
+@@ -93,9 +84,6 @@ struct stack_record {
+ 	};
+ };
+ 
+-#define DEPOT_STACK_RECORD_SIZE \
+-	ALIGN(sizeof(struct stack_record), 1 << DEPOT_STACK_ALIGN)
+-
+ static bool stack_depot_disabled;
+ static bool __stack_depot_early_init_requested __initdata = IS_ENABLED(CONFIG_STACKDEPOT_ALWAYS_INIT);
+ static bool __stack_depot_early_init_passed __initdata;
+@@ -121,32 +109,31 @@ static void *stack_pools[DEPOT_MAX_POOLS];
+ static void *new_pool;
+ /* Number of pools in stack_pools. */
+ static int pools_num;
++/* Offset to the unused space in the currently used pool. */
++static size_t pool_offset = DEPOT_POOL_SIZE;
+ /* Freelist of stack records within stack_pools. */
+ static LIST_HEAD(free_stacks);
+-/*
+- * Stack depot tries to keep an extra pool allocated even before it runs out
+- * of space in the currently used pool. This flag marks whether this extra pool
+- * needs to be allocated. It has the value 0 when either an extra pool is not
+- * yet allocated or if the limit on the number of pools is reached.
+- */
+-static bool new_pool_required = true;
+ /* The lock must be held when performing pool or freelist modifications. */
+ static DEFINE_RAW_SPINLOCK(pool_lock);
+ 
+ /* Statistics counters for debugfs. */
+ enum depot_counter_id {
+-	DEPOT_COUNTER_ALLOCS,
+-	DEPOT_COUNTER_FREES,
+-	DEPOT_COUNTER_INUSE,
++	DEPOT_COUNTER_REFD_ALLOCS,
++	DEPOT_COUNTER_REFD_FREES,
++	DEPOT_COUNTER_REFD_INUSE,
+ 	DEPOT_COUNTER_FREELIST_SIZE,
++	DEPOT_COUNTER_PERSIST_COUNT,
++	DEPOT_COUNTER_PERSIST_BYTES,
+ 	DEPOT_COUNTER_COUNT,
+ };
+ static long counters[DEPOT_COUNTER_COUNT];
+ static const char *const counter_names[] = {
+-	[DEPOT_COUNTER_ALLOCS]		= "allocations",
+-	[DEPOT_COUNTER_FREES]		= "frees",
+-	[DEPOT_COUNTER_INUSE]		= "in_use",
++	[DEPOT_COUNTER_REFD_ALLOCS]	= "refcounted_allocations",
++	[DEPOT_COUNTER_REFD_FREES]	= "refcounted_frees",
++	[DEPOT_COUNTER_REFD_INUSE]	= "refcounted_in_use",
+ 	[DEPOT_COUNTER_FREELIST_SIZE]	= "freelist_size",
++	[DEPOT_COUNTER_PERSIST_COUNT]	= "persistent_count",
++	[DEPOT_COUNTER_PERSIST_BYTES]	= "persistent_bytes",
+ };
+ static_assert(ARRAY_SIZE(counter_names) == DEPOT_COUNTER_COUNT);
+ 
+@@ -294,48 +281,52 @@ int stack_depot_init(void)
+ EXPORT_SYMBOL_GPL(stack_depot_init);
+ 
+ /*
+- * Initializes new stack depot @pool, release all its entries to the freelist,
+- * and update the list of pools.
++ * Initializes new stack pool, and updates the list of pools.
+  */
+-static void depot_init_pool(void *pool)
++static bool depot_init_pool(void **prealloc)
+ {
+-	int offset;
+-
+ 	lockdep_assert_held(&pool_lock);
+ 
+-	/* Initialize handles and link stack records into the freelist. */
+-	for (offset = 0; offset <= DEPOT_POOL_SIZE - DEPOT_STACK_RECORD_SIZE;
+-	     offset += DEPOT_STACK_RECORD_SIZE) {
+-		struct stack_record *stack = pool + offset;
+-
+-		stack->handle.pool_index = pools_num;
+-		stack->handle.offset = offset >> DEPOT_STACK_ALIGN;
+-		stack->handle.extra = 0;
+-
+-		/*
+-		 * Stack traces of size 0 are never saved, and we can simply use
+-		 * the size field as an indicator if this is a new unused stack
+-		 * record in the freelist.
+-		 */
+-		stack->size = 0;
++	if (unlikely(pools_num >= DEPOT_MAX_POOLS)) {
++		/* Bail out if we reached the pool limit. */
++		WARN_ON_ONCE(pools_num > DEPOT_MAX_POOLS); /* should never happen */
++		WARN_ON_ONCE(!new_pool); /* to avoid unnecessary pre-allocation */
++		WARN_ONCE(1, "Stack depot reached limit capacity");
++		return false;
++	}
+ 
+-		INIT_LIST_HEAD(&stack->hash_list);
+-		/*
+-		 * Add to the freelist front to prioritize never-used entries:
+-		 * required in case there are entries in the freelist, but their
+-		 * RCU cookie still belongs to the current RCU grace period
+-		 * (there can still be concurrent readers).
+-		 */
+-		list_add(&stack->free_list, &free_stacks);
+-		counters[DEPOT_COUNTER_FREELIST_SIZE]++;
++	if (!new_pool && *prealloc) {
++		/* We have preallocated memory, use it. */
++		WRITE_ONCE(new_pool, *prealloc);
++		*prealloc = NULL;
+ 	}
+ 
++	if (!new_pool)
++		return false; /* new_pool and *prealloc are NULL */
++
+ 	/* Save reference to the pool to be used by depot_fetch_stack(). */
+-	stack_pools[pools_num] = pool;
++	stack_pools[pools_num] = new_pool;
++
++	/*
++	 * Stack depot tries to keep an extra pool allocated even before it runs
++	 * out of space in the currently used pool.
++	 *
++	 * To indicate that a new preallocation is needed new_pool is reset to
++	 * NULL; do not reset to NULL if we have reached the maximum number of
++	 * pools.
++	 */
++	if (pools_num < DEPOT_MAX_POOLS)
++		WRITE_ONCE(new_pool, NULL);
++	else
++		WRITE_ONCE(new_pool, STACK_DEPOT_POISON);
+ 
+ 	/* Pairs with concurrent READ_ONCE() in depot_fetch_stack(). */
+ 	WRITE_ONCE(pools_num, pools_num + 1);
+ 	ASSERT_EXCLUSIVE_WRITER(pools_num);
++
++	pool_offset = 0;
++
++	return true;
+ }
+ 
+ /* Keeps the preallocated memory to be used for a new stack depot pool. */
+@@ -347,63 +338,51 @@ static void depot_keep_new_pool(void **prealloc)
+ 	 * If a new pool is already saved or the maximum number of
+ 	 * pools is reached, do not use the preallocated memory.
+ 	 */
+-	if (!new_pool_required)
++	if (new_pool)
+ 		return;
+ 
+-	/*
+-	 * Use the preallocated memory for the new pool
+-	 * as long as we do not exceed the maximum number of pools.
+-	 */
+-	if (pools_num < DEPOT_MAX_POOLS) {
+-		new_pool = *prealloc;
+-		*prealloc = NULL;
+-	}
+-
+-	/*
+-	 * At this point, either a new pool is kept or the maximum
+-	 * number of pools is reached. In either case, take note that
+-	 * keeping another pool is not required.
+-	 */
+-	WRITE_ONCE(new_pool_required, false);
++	WRITE_ONCE(new_pool, *prealloc);
++	*prealloc = NULL;
+ }
+ 
+ /*
+- * Try to initialize a new stack depot pool from either a previous or the
+- * current pre-allocation, and release all its entries to the freelist.
++ * Try to initialize a new stack record from the current pool, a cached pool, or
++ * the current pre-allocation.
+  */
+-static bool depot_try_init_pool(void **prealloc)
++static struct stack_record *depot_pop_free_pool(void **prealloc, size_t size)
+ {
++	struct stack_record *stack;
++	void *current_pool;
++	u32 pool_index;
++
+ 	lockdep_assert_held(&pool_lock);
+ 
+-	/* Check if we have a new pool saved and use it. */
+-	if (new_pool) {
+-		depot_init_pool(new_pool);
+-		new_pool = NULL;
++	if (pool_offset + size > DEPOT_POOL_SIZE) {
++		if (!depot_init_pool(prealloc))
++			return NULL;
++	}
+ 
+-		/* Take note that we might need a new new_pool. */
+-		if (pools_num < DEPOT_MAX_POOLS)
+-			WRITE_ONCE(new_pool_required, true);
++	if (WARN_ON_ONCE(pools_num < 1))
++		return NULL;
++	pool_index = pools_num - 1;
++	current_pool = stack_pools[pool_index];
++	if (WARN_ON_ONCE(!current_pool))
++		return NULL;
+ 
+-		return true;
+-	}
++	stack = current_pool + pool_offset;
+ 
+-	/* Bail out if we reached the pool limit. */
+-	if (unlikely(pools_num >= DEPOT_MAX_POOLS)) {
+-		WARN_ONCE(1, "Stack depot reached limit capacity");
+-		return false;
+-	}
++	/* Pre-initialize handle once. */
++	stack->handle.pool_index = pool_index;
++	stack->handle.offset = pool_offset >> DEPOT_STACK_ALIGN;
++	stack->handle.extra = 0;
++	INIT_LIST_HEAD(&stack->hash_list);
+ 
+-	/* Check if we have preallocated memory and use it. */
+-	if (*prealloc) {
+-		depot_init_pool(*prealloc);
+-		*prealloc = NULL;
+-		return true;
+-	}
++	pool_offset += size;
+ 
+-	return false;
++	return stack;
+ }
+ 
+-/* Try to find next free usable entry. */
++/* Try to find next free usable entry from the freelist. */
+ static struct stack_record *depot_pop_free(void)
+ {
+ 	struct stack_record *stack;
+@@ -420,7 +399,7 @@ static struct stack_record *depot_pop_free(void)
+ 	 * check the first entry.
+ 	 */
+ 	stack = list_first_entry(&free_stacks, struct stack_record, free_list);
+-	if (stack->size && !poll_state_synchronize_rcu(stack->rcu_state))
++	if (!poll_state_synchronize_rcu(stack->rcu_state))
+ 		return NULL;
+ 
+ 	list_del(&stack->free_list);
+@@ -429,48 +408,73 @@ static struct stack_record *depot_pop_free(void)
+ 	return stack;
+ }
+ 
++static inline size_t depot_stack_record_size(struct stack_record *s, unsigned int nr_entries)
++{
++	const size_t used = flex_array_size(s, entries, nr_entries);
++	const size_t unused = sizeof(s->entries) - used;
++
++	WARN_ON_ONCE(sizeof(s->entries) < used);
++
++	return ALIGN(sizeof(struct stack_record) - unused, 1 << DEPOT_STACK_ALIGN);
++}
++
+ /* Allocates a new stack in a stack depot pool. */
+ static struct stack_record *
+-depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
++depot_alloc_stack(unsigned long *entries, int nr_entries, u32 hash, depot_flags_t flags, void **prealloc)
+ {
+-	struct stack_record *stack;
++	struct stack_record *stack = NULL;
++	size_t record_size;
+ 
+ 	lockdep_assert_held(&pool_lock);
+ 
+ 	/* This should already be checked by public API entry points. */
+-	if (WARN_ON_ONCE(!size))
++	if (WARN_ON_ONCE(!nr_entries))
+ 		return NULL;
+ 
+-	/* Check if we have a stack record to save the stack trace. */
+-	stack = depot_pop_free();
+-	if (!stack) {
+-		/* No usable entries on the freelist - try to refill the freelist. */
+-		if (!depot_try_init_pool(prealloc))
+-			return NULL;
++	/* Limit number of saved frames to CONFIG_STACKDEPOT_MAX_FRAMES. */
++	if (nr_entries > CONFIG_STACKDEPOT_MAX_FRAMES)
++		nr_entries = CONFIG_STACKDEPOT_MAX_FRAMES;
++
++	if (flags & STACK_DEPOT_FLAG_GET) {
++		/*
++		 * Evictable entries have to allocate the max. size so they may
++		 * safely be re-used by differently sized allocations.
++		 */
++		record_size = depot_stack_record_size(stack, CONFIG_STACKDEPOT_MAX_FRAMES);
+ 		stack = depot_pop_free();
+-		if (WARN_ON(!stack))
+-			return NULL;
++	} else {
++		record_size = depot_stack_record_size(stack, nr_entries);
+ 	}
+ 
+-	/* Limit number of saved frames to CONFIG_STACKDEPOT_MAX_FRAMES. */
+-	if (size > CONFIG_STACKDEPOT_MAX_FRAMES)
+-		size = CONFIG_STACKDEPOT_MAX_FRAMES;
++	if (!stack) {
++		stack = depot_pop_free_pool(prealloc, record_size);
++		if (!stack)
++			return NULL;
++	}
+ 
+ 	/* Save the stack trace. */
+ 	stack->hash = hash;
+-	stack->size = size;
+-	/* stack->handle is already filled in by depot_init_pool(). */
+-	refcount_set(&stack->count, 1);
+-	memcpy(stack->entries, entries, flex_array_size(stack, entries, size));
++	stack->size = nr_entries;
++	/* stack->handle is already filled in by depot_pop_free_pool(). */
++	memcpy(stack->entries, entries, flex_array_size(stack, entries, nr_entries));
++
++	if (flags & STACK_DEPOT_FLAG_GET) {
++		refcount_set(&stack->count, 1);
++		counters[DEPOT_COUNTER_REFD_ALLOCS]++;
++		counters[DEPOT_COUNTER_REFD_INUSE]++;
++	} else {
++		/* Warn on attempts to switch to refcounting this entry. */
++		refcount_set(&stack->count, REFCOUNT_SATURATED);
++		counters[DEPOT_COUNTER_PERSIST_COUNT]++;
++		counters[DEPOT_COUNTER_PERSIST_BYTES] += record_size;
++	}
+ 
+ 	/*
+ 	 * Let KMSAN know the stored stack record is initialized. This shall
+ 	 * prevent false positive reports if instrumented code accesses it.
+ 	 */
+-	kmsan_unpoison_memory(stack, DEPOT_STACK_RECORD_SIZE);
++	kmsan_unpoison_memory(stack, record_size);
+ 
+-	counters[DEPOT_COUNTER_ALLOCS]++;
+-	counters[DEPOT_COUNTER_INUSE]++;
+ 	return stack;
+ }
+ 
+@@ -538,8 +542,8 @@ static void depot_free_stack(struct stack_record *stack)
+ 	list_add_tail(&stack->free_list, &free_stacks);
+ 
+ 	counters[DEPOT_COUNTER_FREELIST_SIZE]++;
+-	counters[DEPOT_COUNTER_FREES]++;
+-	counters[DEPOT_COUNTER_INUSE]--;
++	counters[DEPOT_COUNTER_REFD_FREES]++;
++	counters[DEPOT_COUNTER_REFD_INUSE]--;
+ 
+ 	printk_deferred_exit();
+ 	raw_spin_unlock_irqrestore(&pool_lock, flags);
+@@ -660,7 +664,7 @@ depot_stack_handle_t stack_depot_save_flags(unsigned long *entries,
+ 	 * Allocate memory for a new pool if required now:
+ 	 * we won't be able to do that under the lock.
+ 	 */
+-	if (unlikely(can_alloc && READ_ONCE(new_pool_required))) {
++	if (unlikely(can_alloc && !READ_ONCE(new_pool))) {
+ 		/*
+ 		 * Zero out zone modifiers, as we don't have specific zone
+ 		 * requirements. Keep the flags related to allocation in atomic
+@@ -681,7 +685,7 @@ depot_stack_handle_t stack_depot_save_flags(unsigned long *entries,
+ 	found = find_stack(bucket, entries, nr_entries, hash, depot_flags);
+ 	if (!found) {
+ 		struct stack_record *new =
+-			depot_alloc_stack(entries, nr_entries, hash, &prealloc);
++			depot_alloc_stack(entries, nr_entries, hash, depot_flags, &prealloc);
+ 
+ 		if (new) {
+ 			/*
+-- 
+2.43.0.429.g432eaa2c6b-goog
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240129100708.39460-1-elver%40google.com.
