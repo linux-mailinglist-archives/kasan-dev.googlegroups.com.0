@@ -1,110 +1,110 @@
-Return-Path: <kasan-dev+bncBDV37XP3XYDRBWWH36WQMGQEUCUU7FY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV37XP3XYDRBLWL36WQMGQEIRFY6BI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x438.google.com (mail-pf1-x438.google.com [IPv6:2607:f8b0:4864:20::438])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E8D841105
-	for <lists+kasan-dev@lfdr.de>; Mon, 29 Jan 2024 18:43:56 +0100 (CET)
-Received: by mail-pf1-x438.google.com with SMTP id d2e1a72fcca58-6de0fc90a93sf983500b3a.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 29 Jan 2024 09:43:56 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1706550235; cv=pass;
+Received: from mail-oo1-xc38.google.com (mail-oo1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8600F84114D
+	for <lists+kasan-dev@lfdr.de>; Mon, 29 Jan 2024 18:51:43 +0100 (CET)
+Received: by mail-oo1-xc38.google.com with SMTP id 006d021491bc7-59a10a15904sf994957eaf.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Jan 2024 09:51:43 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1706550702; cv=pass;
         d=google.com; s=arc-20160816;
-        b=EpzIryzsIH1VVvEJ2J1FxESFtyN+IBk2Ti9W561oALmHDiFoB7Q9Ymnh10pik75dDY
-         L+2iv5wZXBzLzmq64vbiB5jeyqre8q1pteDkWV+W82gs6EkMpqZypsZ1BOHBN1qgA9oH
-         7KUVNgsu4+9NB6gzdRToLd9a59pSx3S0GScFullKyk+cMaLCy/rlEf62b7BvIxM8D2qr
-         xkzQyvJ2Ujcg1Qt73MGZ+I4SQEiPTK4ETIit6iDuYNUzr3t3/s9ko9p5orh05AO14ZbH
-         Ls9V4Xfh8Z/W6cjMvhCJKt/vg+l9MK5EHtNDmpYzPEnCBEo8y/VstuUyzaHuEamqceLf
-         KrGw==
+        b=LWzp1/ymKq8PJJRsFM4RjzNYkjsATnMGs898fji9Lw+cWqeUaz42MXwTN98Wt/ZXPX
+         /VNVCYMbYYg52nSSRQPi0tqhT5e6hqROC2zAZw4gwXCCOlNHHx2tG2dxDHmU7L9dfKrg
+         sH5DZuYKvGVhj12dfJ7kQ+q/NaKJXFLPIZ+/mSUo+j8LSxvnanVrc06fJQ+PrCrmHvLT
+         ntFbEyJm61Ezy6IxTkvwsAz5+joWJgypBBVYU6l2eyfmfKYJ4LArwEMRLUvdsyLmmV3f
+         3aIHV5RxuH2f4BCFzxQWrpXarB89mLDByf9bYH1zvDB6smoZekjLiszMhVNhzD6JuERm
+         yvTA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=b1O/WK3dO3AoYyg0JQNsYcX7Acm7iUuhrh6UA1b9eLU=;
+        bh=dVk9WoFRxvCnobqQPRpFy+OPQGAS7ikL3zi4lZMjlp0=;
         fh=xeCn5p7qRGCkWwGqNIxKhkXzb8rbqE1yupV31i+mXW8=;
-        b=GewUgm97FSOavnMMnV/sUjGDvrjB8fOVb2Fa6HRM2ug4TPLHgNJmW7dl+CnFm2CFBu
-         qjNizzmNtvzQXWY8KCkj3KHJ9Dh1epz6ygSUyJwIRytL2CBewSXmbl6o7KbfgFzd4PsP
-         3csLzFUrt29OP+mM6MxIZJMT3QTCYy/d60cvnY7n1d85xlcHVZh5nIpiEvj88I/gQFxx
-         xEYf9hP94OLO94Hzuv3Qm7inX8BY26AuNDADw+CQvRIj2izg2J5P9jeiNQhG8/ognytU
-         E8sDRQWW3CK6zy7vuoJKG4k1cFDWJoUbgGU6kg/Lh2+97jfOo7G0mdGO0Fk9gXD7P24G
-         oLXA==
+        b=jP7auTZ1VLckiKWQHloW86RbRuDsQuHIhC1CsppPOk6LFZgzws/zPyfI/ip7aywyCm
+         Q+N8zf+jCLOJ7Y+q+qoqn3jPi1fOfcSnqxLuu1T2IheFurSI2lgbiw2zEChCZ7EAmlnk
+         Bc+YvLnX+vVZnm/9ros59fJ9ArWYagv0fktzZMWk6nZlj4Fy+5lEnPxCJVBeB3+yMSiz
+         gh6oPqIol/uyGHnDQ9GV3kZrDKlv2NcoVwRfXrLqIbWJGtxpqNR3cPByft+cTqJAjgSn
+         nBRrLc3xTJ/BVpVPUJygrQ5/3rJtmlo7AgcZStAK3NhmOIwugBsUhvkL+2B6abMHvuS2
+         Z1Lg==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1706550235; x=1707155035; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1706550702; x=1707155502; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=b1O/WK3dO3AoYyg0JQNsYcX7Acm7iUuhrh6UA1b9eLU=;
-        b=iFFYvyRrYoMZan5yOLChajX2nOZ4qLncvBpHll/HygSRddINaVR+sJjoj2JnzmhXqs
-         1yx1hGAWG+i2EJa1ZVHvTMcs8+Ayh1p8U0QWhAsRb9zxJNdBJW0zzKktXaoPsSHKLS0W
-         LQP2UWzQhklpXFdmC1eg4Ybt4ZM/C3MTNxIFSVLVzybAQScACtlARrY+6HIjLosxb0ua
-         0vC/kXSsjDNMZSK7C3UfO89AoQMsuT5ioXCJu6v83dp4nIlS4n/zY7OG0i4K42xOfxJd
-         2bUEZNhwhjKt/miQOD3FwloKDHuvU9RvMLDk5aTfHyX/geyLX2DsxlbVZWIuH0Luaqqq
-         mkmA==
+        bh=dVk9WoFRxvCnobqQPRpFy+OPQGAS7ikL3zi4lZMjlp0=;
+        b=H/QqqgY2/9gAhP59sIocuXcYvIcdu0ZZbucr6NGi4hV2G7tDMOgR1uhuhsaDw/MPHT
+         Fr0sR+hJul6R2EB+Ovimcu3q6bVYwozv5Qaiw/oa0fvffsSzklxAk1i/+vL9rclByIpM
+         yTgtz9mH6ob64BdRm786ymY7Mjjuc2D6f9wVTBKkq/hOFpZoZd9M5/uPJjWpMK8wbYGS
+         eXWq+OzqqoSELolp/8YmXUUDgXmJET4r1xflsxMqTY8lLkeVGYmEdr9TWoxjfXUeVKt6
+         5Bl2cJYwrrQM4meAi1fmFLgIwB/8tYLWHkZga25smdr0CO2xwHc2k67E9V2xDwKaQYKb
+         Tp/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706550235; x=1707155035;
+        d=1e100.net; s=20230601; t=1706550702; x=1707155502;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=b1O/WK3dO3AoYyg0JQNsYcX7Acm7iUuhrh6UA1b9eLU=;
-        b=RVBGZzAuMuFYo17xqavgZ2ehSgd+rLyhIyi6x69TrmlFjrWZ/Hb4dN+0snMMBtzp3S
-         j64abFucXLu2AcBkggoWgpuIuY4ZXsPMx584xBuVJyDcR6zV1lAgHdBg1unD3Fc2vu0F
-         st+HZNC3c4SHyMSHHN21uQkqc3toddhWgkvIS2S6mcKop2fQ+g5yiqU/jse+kUY2EPKm
-         n6xEmh71xGTgAnMIb3ooVscvDKHy2nZNoJ8u7Exz96maZlJKc3bAHtZFtypxMGuc2apR
-         WCumPWeDc33Aw8JS/F7JlmWOLRg4xWx26KBRsSGSjAGBKfbM1OkBFIcDmcof/PG5XZiU
-         RJQA==
+        bh=dVk9WoFRxvCnobqQPRpFy+OPQGAS7ikL3zi4lZMjlp0=;
+        b=CELel5rSY04Zv+ypjfKMJmZHEMBDkNcb3POQYpa8AMr4lSXcHRYLuJyemRzoBl92u1
+         hnvM+xGhLQY8riUZeH9WNc8RiXqJrwuUz25DhSPfhQT/uPIQDhys9XkirWP+OvlY62a4
+         GvcNJd1uQaUL0WhE0+uN0j9YzYsNn/88cFX1vSGkBRPiCqYpOHv4cy1jjQxUW/qtzqMm
+         mcn3uT09JS+Ht7WlXSZvMt/ImloKUk6xtA2ASYct3prbhlv5mbMIY8s/0iLM08AnSmfH
+         0OrjiJONxokAFshRQlwx4BejBRgjYef/b0uC8fPkBEJs9kZ9qB1GSgxqSNJhFZMdQnoD
+         pECg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YzhLAxfmgrrJO+w/DkY92Rndoa1iOtiYdgvYRzgaI6VSoVgfMXX
-	GSvYrJC1SCNjzhr3BTBf5WZGfXTxizbI/Rwd/kF3c2K5E3MNPmrC
-X-Google-Smtp-Source: AGHT+IEsOXpWwu6PQoxCCTHBO676CDOij4Dhzvjz67XrPWto3LDri73Wc/mNO8/AYQ8YRpXmqschiQ==
-X-Received: by 2002:a05:6a00:22cb:b0:6dd:6caa:aecc with SMTP id f11-20020a056a0022cb00b006dd6caaaeccmr3061121pfj.31.1706550234940;
-        Mon, 29 Jan 2024 09:43:54 -0800 (PST)
+X-Gm-Message-State: AOJu0YxVFn3yw81DL4M3DBrm+JEKPPfWXDLqmc1bfpnsBi4dwJ3QXELV
+	I02JW8f6z65gIQPrDLUce5RRspqXDWA2hX5ueztWn09h3mZiKm+f
+X-Google-Smtp-Source: AGHT+IEKxlfRoAiQRurT/YDWLJlGsl73WlFoKrYq/sHxQyApt29CasZNPMycU7xfkSnvrhCM2wn7gw==
+X-Received: by 2002:a05:6870:a2c9:b0:210:d66c:7c27 with SMTP id w9-20020a056870a2c900b00210d66c7c27mr7478756oak.2.1706550702259;
+        Mon, 29 Jan 2024 09:51:42 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:92aa:b0:6dd:739f:ec26 with SMTP id
- jw42-20020a056a0092aa00b006dd739fec26ls1246457pfb.0.-pod-prod-04-us; Mon, 29
- Jan 2024 09:43:53 -0800 (PST)
-X-Received: by 2002:a05:6a20:c407:b0:19c:23f6:861b with SMTP id en7-20020a056a20c40700b0019c23f6861bmr2430393pzb.57.1706550233663;
-        Mon, 29 Jan 2024 09:43:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1706550233; cv=none;
+Received: by 2002:a05:6870:aa0a:b0:210:e69e:e8b9 with SMTP id
+ gv10-20020a056870aa0a00b00210e69ee8b9ls2854902oab.0.-pod-prod-06-us; Mon, 29
+ Jan 2024 09:51:41 -0800 (PST)
+X-Received: by 2002:a05:6870:1f12:b0:218:4bea:dcf2 with SMTP id pd18-20020a0568701f1200b002184beadcf2mr2661366oab.55.1706550701352;
+        Mon, 29 Jan 2024 09:51:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1706550701; cv=none;
         d=google.com; s=arc-20160816;
-        b=DTcdt/q+BoPylrIOm2q7ThlbFzt/uSEfb5C/z1qE5Iu0aEP7XZ9aiociHwXGTAPEQK
-         nhqqa7PzWu1Rch0b42OpWaHK9KLYdPID2GiCg5mZR5zqeM7cmrnsy8tdzB91eXO7DD/n
-         repFo8kE6+ZNpXyoE4/C8lpT422USmoPEBp3+zEQOiTjb2d/rxqfAQzhh3NoEzJGKuIU
-         HvWZrlKY7WEurI4HiPTG99gmzc0p898/0jg7zOqzEEDcJbAzzQVe0jXBkDmTrLD1wqE2
-         qGB/MI6FpUuFWrc7Lu4344moezsPOupSiOcz2Ya31LwYAbEwH1QX/BQS6SXF32hjoVii
-         Stlw==
+        b=oPQ+vPfXNivy3IY3mI49d3Ij+aPQyQhMaus3tK1Oj8lLqjNEGEN/4Sd9oIpJD9tl1b
+         +HSH9laj+Ix2VXdU/NgoU7E5yw4bTD6eeW3LHUjVYUm/5l8zHo/PyUTt2zPMAyoyIzl9
+         afC4X7x/Gz9kJCJpx1HL+lU5wWD7YELOt/d0tpEWpgEX4c6pN7qAuF5A0Ji0fGwqxkS4
+         +pvHbNQqaHrURRjT4evsdyfhsu5ft/F4vJKxl11Tb8+QWII2eqvXyF/UGAtP19edLFsO
+         a9KZWG8K6jVyMUSedErVrHv9CXavwo7bli5mtox/AQcnIDcpzc109Jt4shC4b4VWeBMK
+         s8JQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date;
-        bh=SWYBLvZfUt2cLhO8iTZgbrxGUftGYF8K8yBDbQbJxm4=;
+        bh=I0VIBDd6DfErdAISdojY5I2FhLvS5SkKrjLxLsHHdNU=;
         fh=xeCn5p7qRGCkWwGqNIxKhkXzb8rbqE1yupV31i+mXW8=;
-        b=u5lLPlNw008vUzyLuZsutp76DxXcJqhg0LF6/AeWR938wLO1VFMVZ0eBPOy6JLv1FE
-         7KdFlQQDMrTisNycuSgQ29IluMvplio7Jg0gyLfAlkuJcgJl7k7zWxbqJU83/zg0A4Y8
-         fVdWj9NTQ5DVuwFYspQDKb/0rId01zIW2uG4CKDB73II8rPdvOK9QqSiCyQMXqI7ClV8
-         ozAlxKzMLLt+JG+hkydyk9psfJR+Wq461sZwwwg3f/xKuJNc/XqfaAROgazbpuFbHHmU
-         Kc4LAxGYwy6pnzBDOG18i7NRYQhRu41tm5cflzUCVsJLVhN783HOXkWsGp4OkP+9s0gl
-         hUww==
+        b=y9BWR5mC3tL2jy0ECUnbErgOKhQZ9OMAZARC+wKLeLcIgIpBlVJ6HtTEiGgtUAFKxa
+         voITgB8hXUVesgGQYB0DFvmxT3dvNzFNSdo93lG2jJPVaNd6romePtu6S73ZjS4EEqy2
+         bmsBaP+nbuHU8lLHK1qp+vAbg9Et9/iOHDpTDFNdMIWhUeUVlStuF1caMujhElhDfh0U
+         Dcdac0weDDXAWv/0l1a/UBNyexpcTchhb/LnshikG8PxXXmyf3XUNrMDMo4K3GrauTgc
+         fsg1MysqSiSXLlNEz1TcapUzj+s70wN7Lc8K0Ba9dA4glLxkx2BN8l351j+Vz0ruMI0p
+         ulXQ==
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id jc13-20020a17090325cd00b001d8d1a697bdsi216261plb.9.2024.01.29.09.43.53
+        by gmr-mx.google.com with ESMTP id fu20-20020a0568705d9400b00215d04848eesi1037034oab.1.2024.01.29.09.51.41
         for <kasan-dev@googlegroups.com>;
-        Mon, 29 Jan 2024 09:43:53 -0800 (PST)
+        Mon, 29 Jan 2024 09:51:41 -0800 (PST)
 Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 719E5DA7;
-	Mon, 29 Jan 2024 09:44:36 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 58831139F;
+	Mon, 29 Jan 2024 09:52:24 -0800 (PST)
 Received: from FVFF77S0Q05N (unknown [10.57.48.128])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A2B13F738;
-	Mon, 29 Jan 2024 09:43:48 -0800 (PST)
-Date: Mon, 29 Jan 2024 17:43:24 +0000
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 529603F738;
+	Mon, 29 Jan 2024 09:51:36 -0800 (PST)
+Date: Mon, 29 Jan 2024 17:51:33 +0000
 From: Mark Rutland <mark.rutland@arm.com>
 To: Tong Tiangen <tongtiangen@huawei.com>
 Cc: Catalin Marinas <catalin.marinas@arm.com>,
@@ -130,14 +130,14 @@ Cc: Catalin Marinas <catalin.marinas@arm.com>,
 	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com, wangkefeng.wang@huawei.com,
 	Guohanjun <guohanjun@huawei.com>
-Subject: Re: [PATCH v10 3/6] arm64: add uaccess to machine check safe
-Message-ID: <ZbfjvD1_yKK6IVVY@FVFF77S0Q05N>
+Subject: Re: [PATCH v10 2/6] arm64: add support for machine check error safe
+Message-ID: <ZbflpQV7aVry0qPz@FVFF77S0Q05N>
 References: <20240129134652.4004931-1-tongtiangen@huawei.com>
- <20240129134652.4004931-4-tongtiangen@huawei.com>
+ <20240129134652.4004931-3-tongtiangen@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20240129134652.4004931-4-tongtiangen@huawei.com>
+In-Reply-To: <20240129134652.4004931-3-tongtiangen@huawei.com>
 X-Original-Sender: mark.rutland@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
  (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
@@ -155,81 +155,148 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jan 29, 2024 at 09:46:49PM +0800, Tong Tiangen wrote:
-> If user process access memory fails due to hardware memory error, only the
-> relevant processes are affected, so it is more reasonable to kill the user
-> process and isolate the corrupt page than to panic the kernel.
+On Mon, Jan 29, 2024 at 09:46:48PM +0800, Tong Tiangen wrote:
+> For the arm64 kernel, when it processes hardware memory errors for
+> synchronize notifications(do_sea()), if the errors is consumed within the
+> kernel, the current processing is panic. However, it is not optimal.
+> 
+> Take uaccess for example, if the uaccess operation fails due to memory
+> error, only the user process will be affected. Killing the user process and
+> isolating the corrupt page is a better choice.
+> 
+> This patch only enable machine error check framework and adds an exception
+> fixup before the kernel panic in do_sea().
 > 
 > Signed-off-by: Tong Tiangen <tongtiangen@huawei.com>
 > ---
->  arch/arm64/lib/copy_from_user.S | 10 +++++-----
->  arch/arm64/lib/copy_to_user.S   | 10 +++++-----
->  arch/arm64/mm/extable.c         |  8 ++++----
->  3 files changed, 14 insertions(+), 14 deletions(-)
+>  arch/arm64/Kconfig               |  1 +
+>  arch/arm64/include/asm/extable.h |  1 +
+>  arch/arm64/mm/extable.c          | 16 ++++++++++++++++
+>  arch/arm64/mm/fault.c            | 29 ++++++++++++++++++++++++++++-
+>  4 files changed, 46 insertions(+), 1 deletion(-)
 > 
-> diff --git a/arch/arm64/lib/copy_from_user.S b/arch/arm64/lib/copy_from_user.S
-> index 34e317907524..1bf676e9201d 100644
-> --- a/arch/arm64/lib/copy_from_user.S
-> +++ b/arch/arm64/lib/copy_from_user.S
-> @@ -25,7 +25,7 @@
->  	.endm
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index aa7c1d435139..2cc34b5e7abb 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -20,6 +20,7 @@ config ARM64
+>  	select ARCH_ENABLE_SPLIT_PMD_PTLOCK if PGTABLE_LEVELS > 2
+>  	select ARCH_ENABLE_THP_MIGRATION if TRANSPARENT_HUGEPAGE
+>  	select ARCH_HAS_CACHE_LINE_SIZE
+> +	select ARCH_HAS_COPY_MC if ACPI_APEI_GHES
+>  	select ARCH_HAS_CURRENT_STACK_POINTER
+>  	select ARCH_HAS_DEBUG_VIRTUAL
+>  	select ARCH_HAS_DEBUG_VM_PGTABLE
+> diff --git a/arch/arm64/include/asm/extable.h b/arch/arm64/include/asm/extable.h
+> index 72b0e71cc3de..f80ebd0addfd 100644
+> --- a/arch/arm64/include/asm/extable.h
+> +++ b/arch/arm64/include/asm/extable.h
+> @@ -46,4 +46,5 @@ bool ex_handler_bpf(const struct exception_table_entry *ex,
+>  #endif /* !CONFIG_BPF_JIT */
 >  
->  	.macro strb1 reg, ptr, val
-> -	strb \reg, [\ptr], \val
-> +	USER(9998f, strb \reg, [\ptr], \val)
->  	.endm
-
-This is a store to *kernel* memory, not user memory. It should not be marked
-with USER().
-
-I understand that you *might* want to handle memory errors on these stores, but
-the commit message doesn't describe that and the associated trade-off. For
-example, consider that when a copy_form_user fails we'll try to zero the
-remaining buffer via memset(); so if a STR* instruction in copy_to_user
-faulted, upon handling the fault we'll immediately try to fix that up with some
-more stores which will also fault, but won't get fixed up, leading to a panic()
-anyway...
-
-Further, this change will also silently fixup unexpected kernel faults if we
-pass bad kernel pointers to copy_{to,from}_user, which will hide real bugs.
-
-So NAK to this change as-is; likewise for the addition of USER() to other ldr*
-macros in copy_from_user.S and the addition of USER() str* macros in
-copy_to_user.S.
-
-If we want to handle memory errors on some kaccesses, we need a new EX_TYPE_*
-separate from the usual EX_TYPE_KACESS_ERR_ZERO that means "handle memory
-errors, but treat other faults as fatal". That should come with a rationale and
-explanation of why it's actually useful.
-
-[...]
-
+>  bool fixup_exception(struct pt_regs *regs);
+> +bool fixup_exception_mc(struct pt_regs *regs);
+>  #endif
 > diff --git a/arch/arm64/mm/extable.c b/arch/arm64/mm/extable.c
-> index 478e639f8680..28ec35e3d210 100644
+> index 228d681a8715..478e639f8680 100644
 > --- a/arch/arm64/mm/extable.c
 > +++ b/arch/arm64/mm/extable.c
-> @@ -85,10 +85,10 @@ bool fixup_exception_mc(struct pt_regs *regs)
->  	if (!ex)
->  		return false;
+> @@ -76,3 +76,19 @@ bool fixup_exception(struct pt_regs *regs)
 >  
-> -	/*
-> -	 * This is not complete, More Machine check safe extable type can
-> -	 * be processed here.
-> -	 */
-> +	switch (ex->type) {
-> +	case EX_TYPE_UACCESS_ERR_ZERO:
-> +		return ex_handler_uaccess_err_zero(ex, regs);
-> +	}
+>  	BUG();
+>  }
+> +
+> +bool fixup_exception_mc(struct pt_regs *regs)
 
-Please fold this part into the prior patch, and start ogf with *only* handling
-errors on accesses already marked with EX_TYPE_UACCESS_ERR_ZERO. I think that
-change would be relatively uncontroversial, and it would be much easier to
-build atop that.
+Can we please replace 'mc' with something like 'memory_error' ?
 
-Thanks,
+There's no "machine check" on arm64, and 'mc' is opaque regardless.
+
+> +{
+> +	const struct exception_table_entry *ex;
+> +
+> +	ex = search_exception_tables(instruction_pointer(regs));
+> +	if (!ex)
+> +		return false;
+> +
+> +	/*
+> +	 * This is not complete, More Machine check safe extable type can
+> +	 * be processed here.
+> +	 */
+> +
+> +	return false;
+> +}
+
+As with my comment on the subsequenty patch, I'd much prefer that we handle
+EX_TYPE_UACCESS_ERR_ZERO from the outset.
+
+
+
+> diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+> index 55f6455a8284..312932dc100b 100644
+> --- a/arch/arm64/mm/fault.c
+> +++ b/arch/arm64/mm/fault.c
+> @@ -730,6 +730,31 @@ static int do_bad(unsigned long far, unsigned long esr, struct pt_regs *regs)
+>  	return 1; /* "fault" */
+>  }
+>  
+> +static bool arm64_do_kernel_sea(unsigned long addr, unsigned int esr,
+> +				     struct pt_regs *regs, int sig, int code)
+> +{
+> +	if (!IS_ENABLED(CONFIG_ARCH_HAS_COPY_MC))
+> +		return false;
+> +
+> +	if (user_mode(regs))
+> +		return false;
+
+This function is called "arm64_do_kernel_sea"; surely the caller should *never*
+call this for a SEA taken from user mode?
+
+> +
+> +	if (apei_claim_sea(regs) < 0)
+> +		return false;
+> +
+> +	if (!fixup_exception_mc(regs))
+> +		return false;
+> +
+> +	if (current->flags & PF_KTHREAD)
+> +		return true;
+
+I think this needs a comment; why do we allow kthreads to go on, yet kill user
+threads? What about helper threads (e.g. for io_uring)?
+
+> +
+> +	set_thread_esr(0, esr);
+
+Why do we set the ESR to 0?
+
 Mark.
+
+> +	arm64_force_sig_fault(sig, code, addr,
+> +		"Uncorrected memory error on access to user memory\n");
+> +
+> +	return true;
+> +}
+> +
+>  static int do_sea(unsigned long far, unsigned long esr, struct pt_regs *regs)
+>  {
+>  	const struct fault_info *inf;
+> @@ -755,7 +780,9 @@ static int do_sea(unsigned long far, unsigned long esr, struct pt_regs *regs)
+>  		 */
+>  		siaddr  = untagged_addr(far);
+>  	}
+> -	arm64_notify_die(inf->name, regs, inf->sig, inf->code, siaddr, esr);
+> +
+> +	if (!arm64_do_kernel_sea(siaddr, esr, regs, inf->sig, inf->code))
+> +		arm64_notify_die(inf->name, regs, inf->sig, inf->code, siaddr, esr);
+>  
+>  	return 0;
+>  }
+> -- 
+> 2.25.1
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZbfjvD1_yKK6IVVY%40FVFF77S0Q05N.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZbflpQV7aVry0qPz%40FVFF77S0Q05N.
