@@ -1,152 +1,140 @@
-Return-Path: <kasan-dev+bncBCF5XGNWYQBRBQF26OWQMGQEZH2OBHY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBYXD6OWQMGQEMGWQRNI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd40.google.com (mail-io1-xd40.google.com [IPv6:2607:f8b0:4864:20::d40])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB5F7846FFA
-	for <lists+kasan-dev@lfdr.de>; Fri,  2 Feb 2024 13:17:06 +0100 (CET)
-Received: by mail-io1-xd40.google.com with SMTP id ca18e2360f4ac-7c0257e507csf192618039f.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 02 Feb 2024 04:17:06 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1706876225; cv=pass;
+Received: from mail-pj1-x103f.google.com (mail-pj1-x103f.google.com [IPv6:2607:f8b0:4864:20::103f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D6D9847153
+	for <lists+kasan-dev@lfdr.de>; Fri,  2 Feb 2024 14:45:08 +0100 (CET)
+Received: by mail-pj1-x103f.google.com with SMTP id 98e67ed59e1d1-29658a95990sf48259a91.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 02 Feb 2024 05:45:08 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1706881506; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ewiUYrrE46zSV76lJ1x4pIYckjjcVaU4ell71kBlCmWH4oYLc92mpnn+CKrmLeip8T
-         JtnwtIeulwSn1WodPVdtGAjWJKpX/168moStcJLI7YuTYSezB0NvMj/6p+g4kyCrWK8Z
-         r87Z0iT+UQBDFaPPtKCgV7pRhJRkpxKd9jypCLJP8Hxir1Pxc1O6Qb21h1KcHEwzmpVe
-         OJkFw5o22blAhn2ijuT7Zs9Myu0c82RdJ9J+MHFptFV65kXGvl6QFW0IUXOs3UqewTGN
-         DwPJ6qknmmZhOitIDnrlJzELOZgdKCIvpN/suQr7iXbOsrqjgCxFOy/jbS072BUGkkXy
-         1mXw==
+        b=dZ41uPGWIyxP0BcRTpNTDl9S6Y/FiZt3ejw5d/mtv2qB+szcAAs/Cu/UL914Ck+JjV
+         t/mDG+TRwKI0NhyJI4nQXPA5OI3BsiLvWFNOX7QFrgaDowPY7drqhtXQ6scif5WI69yh
+         RgUtYSc0vmZC/cw2o4twaNqvtrQPTFWmvOi9damHYGwDgQVBxtGOPPHWxf+9d5cfgTw4
+         P59fSJlcvTFn1en5aXR/IAPymbNdZlPg1E1SxXuNBVZFoysYV6rCNNZRCBUgcARsw0vy
+         hgJrJ/KhvOPKTJcfmrPvXR/aV3rHd+AguHsM5fiu7IAGpKDdBtd7W3FFsMJT+wZoJtdM
+         7BAw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=iAYnBAPe39C5gxM2fBMiLMr4gqCR9wvek+7b2zpkPlo=;
-        fh=zKQayMdCixtLHJeg8bPv9yYSRyhQElKNXmrUhd9iMaQ=;
-        b=D5Sl5BinxiI3K8ZYcFSoqkdhssdHDOlAIEe7x28BCRXjmFdou/QSJLoET7P/cxsZUS
-         JoECRL96E7rolai1zFD8FJEhVyizyVJXC30D8EHpMNS3LDb+bUDbuQsys2zZ+C80x6U9
-         LncP/UXJ/tS9RPg+JQwTDzF7D69/SpBmIn+anrzkD1cEM5va+WHeRWObla/zVbM8nBq/
-         Nv5+k4H3cOazAEzNQzhlbDAdhOm01CXFoWNtWjPNsbcPUxeFLTCtzEOUJJ4z1keEwzyi
-         IyNtK9/gNhZigkX9+qMxN5RWQ+36IXFRXbuNrIsZAcbqF1h9R1n87u6TTckRIaj2k5We
-         DaRA==
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=KaElX8upTCirRBH0B7gix0xGjaNCQ4nS0imZuAOo0jU=;
+        fh=teldc+bpxP7O3XnRTlpeRXFswt3H9sDDMbTtBIeRXbM=;
+        b=Ub19onCglwj0gSb/QOQlwgVCn64ThCQDIGpnGN7xouZXhc4hFvgAcLL9tp0hCHFDmv
+         6R8k3nchV1OV5BqyXPSz09NgIYI3WITyqxdBpNFwBKCH8XUGFQogMh4fmr9D3wfwV/+y
+         HdgGradQ1Y37jCDyM7qmcc4DVtRoNoRLY/4kTfMSI6Q2P+iQqJC59ZIQV1ldkHKaIXsD
+         IQlzksUWOvxwoio31gI++4a7JyhQXeP8UUxHJh/Enstm/XaHhkUz4sgEbMCnE+TEgvBw
+         X1FiHh5OXdSPJDodK3esqyHEZeT3EtVC8UPSEV63DKS30/Qtk2XDYmwszRLTsAG+8yFD
+         3c8A==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=JyUu3OkG;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::1035 as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+       dkim=pass header.i=@google.com header.s=20230601 header.b=1YGWGrFt;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a2c as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1706876225; x=1707481025; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1706881506; x=1707486306; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iAYnBAPe39C5gxM2fBMiLMr4gqCR9wvek+7b2zpkPlo=;
-        b=T/JNl+9Nw0G7mro+LbN2p1liASkZphLNaHMuwscaSFrNHXKMIlfFlM3ZgB5xpS/txe
-         sIpMDKQz7OGasMfbyTvzG8Gs6vhS8emm/p7s47BsM1Wi8+3oDgIwf9eTavZxInSnuxQr
-         3UpE4aah3IL7KDeuYSKAlNpXdAA8Hk5V71pI3xxececClLgpjVKqS+wObA3Wf9OqfuID
-         MrCzbrK2BdrNu+ycBN8xgMnPLwDhf3f6XjeLhl1zaFh1SU0Mk/wIdVhBVvRBnkvAx414
-         SV3892/AGsOqh124NwJCzUiL5e09hignGcVeH6nu5sGE1ZdZFKLtGn/uuveMOB7a3s87
-         cn3g==
+        bh=KaElX8upTCirRBH0B7gix0xGjaNCQ4nS0imZuAOo0jU=;
+        b=I8vSDqnsCwQ6UYFupptaJG35Il1PyS679CCBS3tH6KsjF0WNE0LzItEtw0nth8D68k
+         m90Uu03O2jJv7vYkisaAgxNo/QT0gJIXfK9zSryY+n2qyvyKxfAqziwg3808zEaphvEM
+         OwWreW4P9XdQFeyFvQjCpxLWnoUiS8x29aXYgzLAbl4RJr2ipY60AfqHHtJbMNoUbCb/
+         OtTdDfaqkxZNQj1K6nmWIrkgo9HnHWRmS9hEBkUhpvj5561MF4i/lEbOH6ocNTrX/LL9
+         9HYTLcOFlLdzzD3XddafxPHWv+LEG6QTK3tsmiYZmUmgIbUOO/IC2A3KUOwCgpONGJQn
+         YMkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1706876225; x=1707481025;
+        d=1e100.net; s=20230601; t=1706881506; x=1707486306;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iAYnBAPe39C5gxM2fBMiLMr4gqCR9wvek+7b2zpkPlo=;
-        b=GDlGvOVK714cuoDuZjeCelSfaT3LP9Zyz3mo6FX5Of8yTjT5nuazQ5/VrPITCFGoB+
-         Xu4yjiiSXfzMFdZKXKMUIPfnIRVwdPNDayhQ46h7YH5TUEtZDPA4UiYy9c0iamh6ry9Z
-         GIczb4Miqv1Ad84SjM/ye1bkqFIuYUwiqU7aI94eZsSidUuUmm2fpyXdYPUHRGxFuxHE
-         O2wE/JXJCLZ/5xg0xbLDAmK0NW4Yvn2tUoTvWAIudlt649PXFZaTKuzO4tdF0x6eo8EG
-         YpIsWUTzM5fd5lQ7o9vPmvOa+zz97tB6/gnPuWlyuWMrztD4GNVkiA9QpaWhZ9udhUkC
-         06fQ==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0YzhxLR96sOLsgwsaa5wJgAKX70n0tNduWbkA66Kazn2+SHfuH/8
-	fy2D+APudapj/b7nDbl3wcC/WEjGb4vWdlSBxanGGG7y5QA0/Itx
-X-Google-Smtp-Source: AGHT+IGrQEL2omWoUBGf7cua14YtgpzGEZ/sMUKPdN2HpqpF/9Gxu7fKNjoDY6U8gh9LefTj3zG/Jg==
-X-Received: by 2002:a92:c213:0:b0:363:7e0a:644f with SMTP id j19-20020a92c213000000b003637e0a644fmr1862595ilo.32.1706876225091;
-        Fri, 02 Feb 2024 04:17:05 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KaElX8upTCirRBH0B7gix0xGjaNCQ4nS0imZuAOo0jU=;
+        b=TM/nGGF3bcbWLuT5Z6kafKk3Kff61xYyvw0i5jwjVWvmUB217aPQpy+ecemSXQjSpK
+         8SBfPdd+jsd0Alcr38lc7REFCzYOcjq37RS+rjlWOsQlaXKVdg4s+zHEqXCJX63sQlDB
+         grCJUksljRAEMl0LsXIYFO07eFPpnS/um4CarSbFkT29oZG6uCeNoJD+XAFQdpXTKWR1
+         jThs2tEmTXuFPnDoY3mvwZvdqnQieTyHfCK7Z450zjJxMsNpLFhD1GiDZ1Mq/oeupL7F
+         Tkb/UiTxkqobVES3NgZQ+v7u4tRp9EShkKWu7Hr9b97PNyMR1JMXf9/MAQiipqURgEUN
+         QvGg==
+X-Gm-Message-State: AOJu0YzvlBqkkGPF5oIaLx6AQJe5q1HpUIopQPo1lcfVrnHZSi5AOXqy
+	VkUoHWy4L6VVZvgU8zNiDzQ6rGra6rT56+IU5T84HMZEF6dvc/TJ
+X-Google-Smtp-Source: AGHT+IFaDwbqNbLhEJ9WlGQ1cIYlEd4jzo4DObXkpNXDfbUNBNFXdSfKZSN+C3Sn/+rNGaKjCnq2Ww==
+X-Received: by 2002:a17:90b:911:b0:296:286c:4dd6 with SMTP id bo17-20020a17090b091100b00296286c4dd6mr2186132pjb.46.1706881506294;
+        Fri, 02 Feb 2024 05:45:06 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:2411:b0:363:93da:bf4c with SMTP id
- bs17-20020a056e02241100b0036393dabf4cls427714ilb.0.-pod-prod-05-us; Fri, 02
- Feb 2024 04:17:04 -0800 (PST)
-X-Received: by 2002:a6b:ea01:0:b0:7bf:ffad:8e3a with SMTP id m1-20020a6bea01000000b007bfffad8e3amr1869278ioc.17.1706876224393;
-        Fri, 02 Feb 2024 04:17:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1706876224; cv=none;
+Received: by 2002:a17:90b:1c11:b0:296:3e18:669f with SMTP id
+ oc17-20020a17090b1c1100b002963e18669fls544742pjb.1.-pod-prod-05-us; Fri, 02
+ Feb 2024 05:45:05 -0800 (PST)
+X-Received: by 2002:a17:902:e84c:b0:1d8:f21b:809c with SMTP id t12-20020a170902e84c00b001d8f21b809cmr2479649plg.60.1706881505076;
+        Fri, 02 Feb 2024 05:45:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1706881505; cv=none;
         d=google.com; s=arc-20160816;
-        b=VrPHG/dKNyTNYn6PclexEu8IqQn3mOLoRk6ZCZhlrGit6vviAGz0IFALqBtwr7pHar
-         zJC4KRglLTwOPZm41pCmZaizMipXyseV+/5FID5MCM7qi1iXXMdATfPRpPGuUJIHGl4n
-         gXZG2G9ZyHN/IaiEpabesi9E/QtHwN/GD+OHjKKFKn+SudXBfyDJNLT//diixe96SGnv
-         AQe0hctohvNWoDC4NCMKtF0Skqct0WGBiQVeylYUdhKYiaia+yNu8Yu6pWDI8mxamJAB
-         jyhS9Jd8P222r2dnDRZiVZrI1Oa2APeS0SY4QLyH/qC02lhMIWzpQpauR5B0IINH6CAL
-         FD3g==
+        b=GKvdYABMjjhZvJsT5Fqv++jI6tMFogxrMKaHw/XhHxAZ2EGMh2dFkEdJvB7w2RYuoX
+         0xhweWLql2gAPI0NhlY5Ss2Inpdu2DknvrEdDh2PR3PHkJY1jg0JJROA1Y1sk212rRUR
+         qOEkAJAw5bDCONnEN9SavT/dcLZ45pgkXwpxF9ZwUwGpaAKuYgDMR1YIN3tb2r8fDtbe
+         GgPCbe/pJOmeS7oJhr152awqB/MJlaSiXcprEt2OSnmBlCdA6ThxRXHII6s0thXkpgsX
+         umUneMZZYVGybdZtRgG/C2IOJyfX4ltlH9pcGmpgK2JpIfrTrZDGYWscE5QzeIwh1dPG
+         5ViQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=UQ0esveh//cg9XCkiI/7xWePudzmiIjItwxrOruHVwk=;
-        fh=zKQayMdCixtLHJeg8bPv9yYSRyhQElKNXmrUhd9iMaQ=;
-        b=KACoXCg1V1WbtgRjsit+mJFfGc8mFFV6mOl9Cx6cs25W6NVvIhn3G7h4wDq9s54XPx
-         ghKArXfng4bQ5vZ6Lr7wbl33Kpuh1gqaGKkyXrlR1G2o8O4aen3I7If+Wizlwe8Oy2Gj
-         zLpZMMw/Z6mSv2+NDCH9rNWGiIsJ2NZ5VBysCfjZcBSK6eMfTEM8CowxjsDB0ZvhA/5y
-         F8kkWZT3Qdfx2o7DDAz6VQFI1LiethWtAkKTIiUAEjIKZR3lSeZhUKMUKa8E58BMTXkf
-         zX+9uxNJIoEZWT848oyoFKGDEyZXTujalMn7U+bSCRXzHEXl+zo5pxLRhDlNyh37SOig
-         uGgA==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=IIzUaTAWY721VAmsfjicI7pRblrKzWu2/3eiQAJEETw=;
+        fh=teldc+bpxP7O3XnRTlpeRXFswt3H9sDDMbTtBIeRXbM=;
+        b=FW+fALffSyO2VlT2+VtB4XXY0MjXFoS7EJ1Rvve3bqWNZ8SnodUpVwtACer7tTDbj5
+         4wRlKjvHUZOe6n42t5phwAs0UyEAEq4NcjzZg2Lx+JsqOR/gxallQXlFeDojA+SrACGS
+         ANFkBHbYUBiXy587z2EFTFXgcBorU5z+PozcxZLPXkZ6KIjhk0ZV6Tddh+TtTNQ59bmZ
+         vpyivPZ4lgH4qBnJ399cxf5KPdlyj+8STYqPrNXMIW256YMThTZOFw/H31rCrnfW8l+t
+         NvYv5dky5NHLuQ8Sbh7FsW8m+RZagDe44wB53bwp/egu2+Bb28Bd11oi9JuCKXurvWgB
+         k2BA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@chromium.org header.s=google header.b=JyUu3OkG;
-       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::1035 as permitted sender) smtp.mailfrom=keescook@chromium.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
-X-Forwarded-Encrypted: i=0; AJvYcCXsiVyUQ04h7x2zxwmLrtCRxZdA52VXsjoePtWiHxGulvKgvM5ekjizjvdIjy0NlriRhVklJWypHTQn8p5JtkDpMMZrxBpgIC7o+Q==
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com. [2607:f8b0:4864:20::1035])
-        by gmr-mx.google.com with ESMTPS id z195-20020a6bc9cc000000b007c03a9138a2si181215iof.1.2024.02.02.04.17.04
+       dkim=pass header.i=@google.com header.s=20230601 header.b=1YGWGrFt;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a2c as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Forwarded-Encrypted: i=0; AJvYcCUsMeJU34xNVTVCnd0+EqQTJD63ZGjOW1/4TDBTNTCWrbsahIkNBhaEKM0tV/pwnuBs/v7XlHJV5Wur2shrcNtGoR2XqZjq3B5oXQ==
+Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com. [2607:f8b0:4864:20::a2c])
+        by gmr-mx.google.com with ESMTPS id q23-20020a170902bd9700b001d8e76e7179si110482pls.3.2024.02.02.05.45.05
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Feb 2024 04:17:04 -0800 (PST)
-Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::1035 as permitted sender) client-ip=2607:f8b0:4864:20::1035;
-Received: by mail-pj1-x1035.google.com with SMTP id 98e67ed59e1d1-295d22bd625so1500919a91.1
-        for <kasan-dev@googlegroups.com>; Fri, 02 Feb 2024 04:17:04 -0800 (PST)
-X-Received: by 2002:a17:90b:1298:b0:296:1dcf:c296 with SMTP id fw24-20020a17090b129800b002961dcfc296mr1876188pjb.18.1706876223734;
-        Fri, 02 Feb 2024 04:17:03 -0800 (PST)
-X-Forwarded-Encrypted: i=0; AJvYcCUGVn+0c2h4HxapCQwK+CBO5gK3KOvlzIatkL3Eg+0hshg2pC4xRmXdAPGwrPO866Nj9YF+U6s6nJkm+zEO0B/JBsHbpfqLIrHUgGxhmDm7PR7dJOIlSKekZQeCfpS4kk6gdUCRy8AKy1koQcYXJUoBqPtoXthgUI8I+/eaEfrPbo4kflZwbchOOzcwU5swL0S6WdMTIJa+mw55to+6uV3nDPQwGmi8fzDIZ1/ceDsJxByCfPOeO0l/S81b9BgnbLDHSPgD7FlGPHvtp8Z/FomG1NkHrVilLrlukHP1pAw9wYKJnI22iJxJmSjYHmQniMGlZYsc/cdM58fBdkhFMawZoGvAvkTYiXvNll9VJlnJ8j/FX+IAuDXHo43itnq+OGQQdsBiGyQPYcczK3z4vcpWYVXqya3O7moVN8gWmQjkhvZgr8SZOqWDhbrhJgPiVmYM7CkU25sPa9I0PqKXD5aa7cvoHKmNkLXZ4/epetFyeC0sd5jBRU3IEcz8/3lo1E3SteGrn+6+Y/KEkJjGEjE/TlV+t7ZzrhslvL+T17oohFYN0g54YBk1TJzsBIkJwnqakFKkOfMS15bofbWnqaCKkx+rJlTObTtkF5AePTEEUWmqLLwa3jLiNLz4lnivpuzOGcGhWnPJl5a421rYycnirgqxJHh/cGTKPA8EmcYWycgZa67VxpoBN5oGlmkdby+KZtTF2BuWlV1VWF5HfxIzOVdG8qZz4Q257WM=
-Received: from www.outflux.net ([198.0.35.241])
-        by smtp.gmail.com with ESMTPSA id su13-20020a17090b534d00b002927a36b7a0sm1671429pjb.23.2024.02.02.04.17.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Feb 2024 04:17:03 -0800 (PST)
-Date: Fri, 2 Feb 2024 04:17:02 -0800
-From: Kees Cook <keescook@chromium.org>
-To: Marco Elver <elver@google.com>
-Cc: linux-hardening@vger.kernel.org, Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Peter Zijlstra <peterz@infradead.org>, Hao Luo <haoluo@google.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Fangrui Song <maskray@google.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Bill Wendling <morbo@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, x86@kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	llvm@lists.linux.dev, linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org, linux-crypto@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v2 2/6] ubsan: Reintroduce signed and unsigned overflow
- sanitizers
-Message-ID: <202402020405.7E0B5B3784@keescook>
-References: <20240202101311.it.893-kees@kernel.org>
- <20240202101642.156588-2-keescook@chromium.org>
- <CANpmjNPPbTNPJfM5MNE6tW-jCse+u_RB8bqGLT3cTxgCsL+x-A@mail.gmail.com>
+        Fri, 02 Feb 2024 05:45:05 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a2c as permitted sender) client-ip=2607:f8b0:4864:20::a2c;
+Received: by mail-vk1-xa2c.google.com with SMTP id 71dfb90a1353d-4b739b49349so780593e0c.1
+        for <kasan-dev@googlegroups.com>; Fri, 02 Feb 2024 05:45:05 -0800 (PST)
+X-Received: by 2002:a1f:f4c9:0:b0:4b6:bdba:8460 with SMTP id
+ s192-20020a1ff4c9000000b004b6bdba8460mr1847799vkh.9.1706881503872; Fri, 02
+ Feb 2024 05:45:03 -0800 (PST)
 MIME-Version: 1.0
+References: <20240202101311.it.893-kees@kernel.org> <20240202101642.156588-2-keescook@chromium.org>
+ <CANpmjNPPbTNPJfM5MNE6tW-jCse+u_RB8bqGLT3cTxgCsL+x-A@mail.gmail.com> <202402020405.7E0B5B3784@keescook>
+In-Reply-To: <202402020405.7E0B5B3784@keescook>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 2 Feb 2024 14:44:25 +0100
+Message-ID: <CANpmjNO-4A4LMK8kbWiiODB-vOZqc5gZndWtnYDc5RCGDBcoSQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] ubsan: Reintroduce signed and unsigned overflow sanitizers
+To: Kees Cook <keescook@chromium.org>
+Cc: linux-hardening@vger.kernel.org, Justin Stitt <justinstitt@google.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Hao Luo <haoluo@google.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Fangrui Song <maskray@google.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Bill Wendling <morbo@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Jonathan Corbet <corbet@lwn.net>, x86@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	llvm@lists.linux.dev, linux-doc@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, kasan-dev@googlegroups.com, 
+	linux-acpi@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNPPbTNPJfM5MNE6tW-jCse+u_RB8bqGLT3cTxgCsL+x-A@mail.gmail.com>
-X-Original-Sender: keescook@chromium.org
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@chromium.org header.s=google header.b=JyUu3OkG;       spf=pass
- (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::1035
- as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+ header.i=@google.com header.s=20230601 header.b=1YGWGrFt;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a2c as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -159,85 +147,109 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Feb 02, 2024 at 12:01:55PM +0100, Marco Elver wrote:
-> On Fri, 2 Feb 2024 at 11:16, Kees Cook <keescook@chromium.org> wrote:
-> > [...]
-> > +config UBSAN_UNSIGNED_WRAP
-> > +       bool "Perform checking for unsigned arithmetic wrap-around"
-> > +       depends on $(cc-option,-fsanitize=unsigned-integer-overflow)
-> > +       depends on !X86_32 # avoid excessive stack usage on x86-32/clang
-> > +       depends on !COMPILE_TEST
-> > +       help
-> > +         This option enables -fsanitize=unsigned-integer-overflow which checks
-> > +         for wrap-around of any arithmetic operations with unsigned integers. This
-> > +         currently causes x86 to fail to boot.
-> 
-> My hypothesis is that these options will quickly be enabled by various
-> test and fuzzing setups, to the detriment of kernel developers. While
-> the commit message states that these are for experimentation, I do not
-> think it is at all clear from the Kconfig options.
+On Fri, 2 Feb 2024 at 13:17, Kees Cook <keescook@chromium.org> wrote:
+>
+> On Fri, Feb 02, 2024 at 12:01:55PM +0100, Marco Elver wrote:
+> > On Fri, 2 Feb 2024 at 11:16, Kees Cook <keescook@chromium.org> wrote:
+> > > [...]
+> > > +config UBSAN_UNSIGNED_WRAP
+> > > +       bool "Perform checking for unsigned arithmetic wrap-around"
+> > > +       depends on $(cc-option,-fsanitize=unsigned-integer-overflow)
+> > > +       depends on !X86_32 # avoid excessive stack usage on x86-32/clang
+> > > +       depends on !COMPILE_TEST
+> > > +       help
+> > > +         This option enables -fsanitize=unsigned-integer-overflow which checks
+> > > +         for wrap-around of any arithmetic operations with unsigned integers. This
+> > > +         currently causes x86 to fail to boot.
+> >
+> > My hypothesis is that these options will quickly be enabled by various
+> > test and fuzzing setups, to the detriment of kernel developers. While
+> > the commit message states that these are for experimentation, I do not
+> > think it is at all clear from the Kconfig options.
+>
+> I can certainly rephrase it more strongly. I would hope that anyone
+> enabling the unsigned sanitizer would quickly realize how extremely
+> noisy it is.
+>
+> > Unsigned integer wrap-around is relatively common (it is _not_ UB
+> > after all). While I can appreciate that in some cases wrap around is a
+> > genuine semantic bug, and that's what we want to find with these
+> > changes, ultimately marking all semantically valid wrap arounds to
+> > catch the unmarked ones. Given these patterns are so common, and C
+> > programmers are used to them, it will take a lot of effort to mark all
+> > the intentional cases. But I fear that even if we get to that place,
+> > _unmarked_  but semantically valid unsigned wrap around will keep
+> > popping up again and again.
+>
+> I agree -- it's going to be quite a challenge. My short-term goal is to
+> see how far the sanitizer itself can get with identifying intentional
+> uses. For example, I found two more extremely common code patterns that
+> trip it now:
+>
+>         unsigned int i = ...;
+>         ...
+>         while (i--) { ... }
+>
+> This trips the sanitizer at loop exit. :P It seems like churn to
+> refactor all of these into "for (; i; i--)". The compiler should be able
+> to identify this by looking for later uses of "i", etc.
+>
+> The other is negative constants: -1UL, -3ULL, etc. These are all over
+> the place and very very obviously intentional and should be ignored by
+> the compiler.
 
-I can certainly rephrase it more strongly. I would hope that anyone
-enabling the unsigned sanitizer would quickly realize how extremely
-noisy it is.
+Yeah, banning technically valid code like this is going to be a very hard sell.
 
-> Unsigned integer wrap-around is relatively common (it is _not_ UB
-> after all). While I can appreciate that in some cases wrap around is a
-> genuine semantic bug, and that's what we want to find with these
-> changes, ultimately marking all semantically valid wrap arounds to
-> catch the unmarked ones. Given these patterns are so common, and C
-> programmers are used to them, it will take a lot of effort to mark all
-> the intentional cases. But I fear that even if we get to that place,
-> _unmarked_  but semantically valid unsigned wrap around will keep
-> popping up again and again.
+> > What is the long-term vision to minimize the additional churn this may
+> > introduce?
+>
+> My hope is that we can evolve the coverage over time. Solving it all at
+> once won't be possible, but I think we can get pretty far with the
+> signed overflow sanitizer, which runs relatively cleanly already.
+>
+> If we can't make meaningful progress in unsigned annotations, I think
+> we'll have to work on gaining type-based operator overloading so we can
+> grow type-aware arithmetic. That will serve as a much cleaner
+> annotation. E.g. introduce jiffie_t, which wraps.
+>
+> > I think the problem reminds me a little of the data race problem,
+> > although I suspect unsigned integer wraparound is much more common
+> > than data races (which unlike unsigned wrap around is actually UB) -
+> > so chasing all intentional unsigned integer wrap arounds and marking
+> > will take even more effort than marking all intentional data races
+> > (which we're still slowly, but steadily, making progress towards).
+> >
+> > At the very least, these options should 'depends on EXPERT' or even
+> > 'depends on BROKEN' while the story is still being worked out.
+>
+> Perhaps I should hold off on bringing the unsigned sanitizer back? I was
+> hoping to work in parallel with the signed sanitizer, but maybe this
+> isn't the right approach?
 
-I agree -- it's going to be quite a challenge. My short-term goal is to
-see how far the sanitizer itself can get with identifying intentional
-uses. For example, I found two more extremely common code patterns that
-trip it now:
+I leave that to you - to me any of these options would be ok:
 
-	unsigned int i = ...;
-	...
-	while (i--) { ... }
+1. Remove completely for now.
 
-This trips the sanitizer at loop exit. :P It seems like churn to
-refactor all of these into "for (; i; i--)". The compiler should be able
-to identify this by looking for later uses of "i", etc.
+2. Make it 'depends on BROKEN' (because I think even 'depends on
+EXPERT' won't help avoid the inevitable spam from test robots).
 
-The other is negative constants: -1UL, -3ULL, etc. These are all over
-the place and very very obviously intentional and should be ignored by
-the compiler.
+3. Make it a purely opt-in sanitizer: rather than having subsystems
+opt out with UBSAN_WRAP_UNSIGNED:=n, do the opposite and say that for
+subsystems that want to opt in, they have to specify
+UBSAN_WRAP_UNSIGNED:=y to explicitly opt in.
 
-> What is the long-term vision to minimize the additional churn this may
-> introduce?
+I can see there being value in explicitly marking semantically
+intended unsigned integer wrap, and catch unintended cases, so option
+#3 seems appealing. At least that way, if a maintainer chooses to opt
+in, they are committed to sorting out their code. Hypothetically, if I
+was the maintainer of some smaller subsystem and have had wrap around
+bugs in the past, I would certainly consider opting in. It feels a lot
+nicer than having it forced upon me.
 
-My hope is that we can evolve the coverage over time. Solving it all at
-once won't be possible, but I think we can get pretty far with the
-signed overflow sanitizer, which runs relatively cleanly already.
-
-If we can't make meaningful progress in unsigned annotations, I think
-we'll have to work on gaining type-based operator overloading so we can
-grow type-aware arithmetic. That will serve as a much cleaner
-annotation. E.g. introduce jiffie_t, which wraps.
-
-> I think the problem reminds me a little of the data race problem,
-> although I suspect unsigned integer wraparound is much more common
-> than data races (which unlike unsigned wrap around is actually UB) -
-> so chasing all intentional unsigned integer wrap arounds and marking
-> will take even more effort than marking all intentional data races
-> (which we're still slowly, but steadily, making progress towards).
-> 
-> At the very least, these options should 'depends on EXPERT' or even
-> 'depends on BROKEN' while the story is still being worked out.
-
-Perhaps I should hold off on bringing the unsigned sanitizer back? I was
-hoping to work in parallel with the signed sanitizer, but maybe this
-isn't the right approach?
-
--- 
-Kees Cook
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202402020405.7E0B5B3784%40keescook.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNO-4A4LMK8kbWiiODB-vOZqc5gZndWtnYDc5RCGDBcoSQ%40mail.gmail.com.
