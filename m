@@ -1,130 +1,148 @@
-Return-Path: <kasan-dev+bncBDV37XP3XYDRBZUMQSXAMGQEGUGQX4Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBE4ZQWXAMGQEAJ5KYXQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc40.google.com (mail-oo1-xc40.google.com [IPv6:2607:f8b0:4864:20::c40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6891E849F20
-	for <lists+kasan-dev@lfdr.de>; Mon,  5 Feb 2024 17:01:50 +0100 (CET)
-Received: by mail-oo1-xc40.google.com with SMTP id 006d021491bc7-5997417c351sf5268095eaf.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 05 Feb 2024 08:01:50 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1707148909; cv=pass;
+Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 626AB84A681
+	for <lists+kasan-dev@lfdr.de>; Mon,  5 Feb 2024 22:01:08 +0100 (CET)
+Received: by mail-wm1-x33c.google.com with SMTP id 5b1f17b1804b1-40ef88ff82asf11384685e9.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 05 Feb 2024 13:01:08 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1707166868; cv=pass;
         d=google.com; s=arc-20160816;
-        b=RXhW3hlb5Bnx2cybw66q8IvhOhhCtk8Gfv6IlcK94ZZrIXHDv47vXBC3ZmBmdtvzSt
-         ehDHQJa/SQHapoNDhZlYVC9aeJSeWj3DajVvMZDCzcEh31PQKTtXXhMmi1Aju+G2ehGc
-         YaOR2Z9kkNd0JKRRCHnxtn7T4QEhCu/cHs3H7p6gvlEjU/QNpTyUVdplpyT6p+byId/F
-         QmcXAbsww6NbtjCBJg4ab0FYtF4/vI4TTzZQz6jMRPpVyrTtvehWFIrczHdPQhhcgY1v
-         uJEOV+Cwx+IuT8lg2D28kfsYBFY9Wpm8lBkefjeV8n08QLYzgEBxR38L6djlKMr8XPXw
-         13Kw==
+        b=eOkrzPtLywPR/4U9hhTSn+Iun9kGFFVo+wBQkefbvEzz4xfPgYlnylbiZ5h2cW/3AY
+         vO/nxN+DxdyEhDQ3eQXp1MINNBIXpywif5Z7fCagrWsiE9qYHHfVe4vzcsYIKDF9dRXj
+         yTzIF51uDsT2xyoDmPIGjXuBGGcE4RSBYThWXqBC4yeERMoMHSdF5eCX9XE9zbaXlduV
+         mmwXVrgdPTrFBWoIipCtVXnwyl9Te5mpcmCkaDhbFmjH0eUt94KFrWZWw/Bq1xmmzbyZ
+         FQaReVZsg8XkpwkLZdIuISj9eN7N7K+HfDlDslS1Nt9qKkv2tFCdnbFSc0waiXEj6Jds
+         l2eg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=wf11/BJcK+CZazRzTX1YsZ4YMhYXDOB2huTdRCHiZGk=;
-        fh=wN0K+CEJ7WUvhZ5/i3PLE5r8tIHssSKcXKIKbLNr6UU=;
-        b=GmBUFPEsjNWMAYkhgBZW91qzWq7/9viSs9HhnWsjsjm9hnwv972Qa8GecoZfgjZt04
-         179GmaAsAEdTxM4KOCz6qkcNVnwExWBHe0p8+lKMFLbTXdIbbPBfYkN8sdHqjIy0g4pk
-         mp2IMcyA5QHpuF1iXmfoD7d4uY828jrC6jFuWRF3JUzycnoEW3LVMfCYWnKOZsFoprZs
-         8KIte1gPUGmTaUnnv0o0y0qIXdbgIuPdyk5iiFlRFX81SsA0YWQ9Ek/WiEX/UcoFD/84
-         5v9T7KBMuEQI/YezHLON/Fo5kpY+dUCQ/BMMMayeHc9SuTxQsc+A1oTdO1UAXGBeIIpj
-         18hw==
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=G9LgNAGH0T2CiRuiYuqnwLPzShS1A8SeZMk4ozrBrBI=;
+        fh=ghNVcSXI8KI7/nKr6VFmBw4oGvNzvZoozkujPOXW0B4=;
+        b=CoPULV9tbasR9zN3lrcs8clhxM+5pkl5b2G4C/rf39nGz8oVneh11s4iDZjKvfh+iV
+         veIClYynt1jvL22l5LjwL8M5d1jQLnQBqvHC20hAssIgE5Sil6COKcLu1zYxXKXNinXQ
+         ENTYcHyqBC5zjeX53HsezmXx/h/35EIALWGeLJSVkdHivFxTy0rUv0mFkjLGkU9KH4DB
+         eSiGaOMJRAgWsGFxpdH8iEtxJ/BXZF4PRk6//jfsPQFBYUC5MModoVUHMDjTujl5GXbd
+         5XrJL495KXx8qfAOwTgI7tWJSQUKjlhJ3nKK4meVHnUt8dkf0sJbW9EUM9/Q/aUCXEfV
+         d1QA==;
+        darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=EdZBAiig;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1707148909; x=1707753709; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1707166868; x=1707771668; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=G9LgNAGH0T2CiRuiYuqnwLPzShS1A8SeZMk4ozrBrBI=;
+        b=XNlSlydIC2jrSJpDcmekH2ZsLKvIZoqw7/9D7V2iLHfpKAv4Z0BKIxXPtaCL0yjUEV
+         jrRt9XojdCB6VlUEJImbd6RAKtN2wiPzr3wB2T/FMLq7knFGc4DUoXIqwwfpRya7Xbmm
+         fmuKijJyLZWvSm+3sfIeC/R3K35BfCYcMPhcQl3eEE3+usW81YBloGuLB/q9RYvNYbHo
+         jpBiogYTBfFYhwxZ5hiVMhfwcKkHsFUc6BlFHiVrUau3O54pJBbeb0u1fCg42n/JxLd+
+         UDzVxNyZXD2G62WYHUm2NqMxokh47gtg0MovPN6dqu6+xDHGOnJ/Lk8OEIwn1sDEE9IA
+         FJVg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707166868; x=1707771668; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wf11/BJcK+CZazRzTX1YsZ4YMhYXDOB2huTdRCHiZGk=;
-        b=H1iN3pxRM8YQQiYvuGuTWHLQWFh/5me3kIo4AYLQHE1IvPU02r9CAff/QRZZMSb+Bt
-         VqbJqDJwoI4bIhz2IdFVFdSmpsB2/QE2AsRZTOf+L9djqMNTG5WYXQiuzj2HqCxVdM4F
-         DMgLy2Egbi6UuzOg0QxzqYavQMN4YbNqZaCL1pJbmvfEwPukOajskgrXOJfW4jQzyT4E
-         qArKhG0mZeo2egMgi6jYFivBctwrGNQwNCtycP/KTdFuISNHt5uc9cyYrX0r1000yPO8
-         3VoXVRE3GDVAoe71DAtOOnAIwOSGBVQqNlDuRnTAl83rpeBvFz3cP75Vc/KNG8/upG4T
-         LmZg==
+        bh=G9LgNAGH0T2CiRuiYuqnwLPzShS1A8SeZMk4ozrBrBI=;
+        b=llBQj/6bo2jlwDZ0P3G9TF+CCKjtOQIj51wNtZlv0V4Wq/1QWAJ8qb28imT5rbMYg3
+         A11nprLQb+jW5MT8eh0q8QRsnJKj0HkOGMlknokowb8JLzBnyCI08zcGWrxYZ26iK23D
+         ETJzu+cT+cRFx36+jEJ9IoZR5NofOC8lJ6WcCm/3vlifhqWqZYUAIJlVk31BFGZMcaa4
+         /uzGoRoPtTcagSCFG4sRVJFsLFudeCEcviYYE+QYUQfYbHrEgUPL2/LCfhfak//r5btr
+         ek6N5h0s6BFcFbzqiEtGDvcRU5mW+FjNS9bLUlZHPGYe6ma+7EWZwwQRwG8Wc6qcNnRq
+         kJMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707148909; x=1707753709;
+        d=1e100.net; s=20230601; t=1707166868; x=1707771668;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wf11/BJcK+CZazRzTX1YsZ4YMhYXDOB2huTdRCHiZGk=;
-        b=LE25hzJ0s57kbIoLEscggy4ABrv9bJj0SVt8udG3VC8juQUeZShV+0XmmDkd7QELbF
-         3KTKvY9GUwa5WkFaBHuD4l3dALaD95NuO4nu8C4hUwcdyoi1tSro65BFfpLiO/Mf0OMb
-         EmLiMvde7DiBtss7T5D14ri3iyvvRQnQu61bv6w5SG0FPKKPArjlgaKUScu6UgR6iCNR
-         RJ5gVHKhTsZdK34Yqlt7nJpXW+imDd7vw0AwyDDgV11iICf+88CPdV7U6hj9aEt4yXmU
-         3qBDvdNwE/gQL8w0WgSUrA78E9ZgMHAro87PUmCFa97xjISfDBgFrEU/fzSOeq3fpLtq
-         q3Aw==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=G9LgNAGH0T2CiRuiYuqnwLPzShS1A8SeZMk4ozrBrBI=;
+        b=DLyYxNH3RT49mrGRw8ZP/OQEArc3pIVvEvcgXmFQPKANh4tYpsHDicyBv5QVYsA2FT
+         mIsX6M52VEEom2i+r8G0mKse/ld7GB1mCFaFhLwgzSgeigi2Q3eX2w3Vc7iPg3M8CSU/
+         0PwcbwuLLNmZG4yaCHV+w3JJp7TPfKgqk8JpUtrEc1YbCADtA7Pid7zqC/9gzg+wkpGW
+         nLzzcJu3IFWzbSQJK3goSCHAfJyr426cLVS2GPcOXMFFtzj/9gmu7mD1imboB0rczhN9
+         bdxdeTp7EK8uK0QMCsIsSk3u07SZX49XAQDeBruKxqoINhOjhpdhS7w72ZRnovETE+Zd
+         0+rg==
 Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yz85PLL4zi/hh4JU70QFPsNxVJPZHBtjX9P7LIG5yVgbh2WsIGA
-	p8/7PmRRmIS1xSzga9rpb+/mV20l0h8n9a8pUkmSHM1MHPgUf8uy0Pc=
-X-Google-Smtp-Source: AGHT+IFt2rcNJnJkNMzeDmBTDgkZA0D669SdVS6S5yGWeE620Sni6o9N5hPS0AM+SR/+hykkm9tr8Q==
-X-Received: by 2002:a4a:2416:0:b0:59a:6461:cc85 with SMTP id m22-20020a4a2416000000b0059a6461cc85mr127931oof.3.1707148902472;
-        Mon, 05 Feb 2024 08:01:42 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCV1cGuW3J0zyfL76vaiWm/FAD5+q8WXgKS1m1RMtBMqFOwpGrW997ZuvfhKoL2DM+8zp2TWJUMbeBspP0UK5HETF/gVUzWaFQ==
+X-Gm-Message-State: AOJu0Yw6FKRrqnHBmSfEgxkVMWjfwZ0PVrmCrJLTiU88BYfmHujGtgfd
+	GepAM0DIg52+Zyz+6go+J0dDF7wl1pQxI2GmpfCTP6Yba+pAgwbJ
+X-Google-Smtp-Source: AGHT+IEsbXFueP7n6EFQN+2SRiRAF9nsXg2f7Rq8TQ3iqKnRkwVyAgtaqnjMe68OXVJXxl7b71I0Gg==
+X-Received: by 2002:a5d:5642:0:b0:337:9a1e:1d03 with SMTP id j2-20020a5d5642000000b003379a1e1d03mr463911wrw.5.1707166867564;
+        Mon, 05 Feb 2024 13:01:07 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:55d2:0:b0:598:db3f:b1ae with SMTP id e201-20020a4a55d2000000b00598db3fb1aels1545802oob.0.-pod-prod-04-us;
- Mon, 05 Feb 2024 08:01:40 -0800 (PST)
-X-Received: by 2002:a05:6830:1b65:b0:6e1:786:87d with SMTP id d5-20020a0568301b6500b006e10786087dmr29646ote.8.1707148900159;
-        Mon, 05 Feb 2024 08:01:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1707148900; cv=none;
+Received: by 2002:a5d:460a:0:b0:33a:e4f3:830c with SMTP id t10-20020a5d460a000000b0033ae4f3830cls155937wrq.2.-pod-prod-06-eu;
+ Mon, 05 Feb 2024 13:01:06 -0800 (PST)
+X-Received: by 2002:a5d:5f4d:0:b0:337:b315:5643 with SMTP id cm13-20020a5d5f4d000000b00337b3155643mr612799wrb.6.1707166865630;
+        Mon, 05 Feb 2024 13:01:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1707166865; cv=none;
         d=google.com; s=arc-20160816;
-        b=huw/Ci4pZ2h47Qr/Vdd0GK96HVXl+3PN+FvhMDIzVc4nSHDpX2xyqg99aT/d8jJ7gt
-         7/SjlUnUPTR7LNc8xgmh/cl6K6FPuOr+bqs91NoclKVi1j9Buwha7Q8MKhUk1b8aelo/
-         SwRhVArV0jzGieGOshprWmFAj2RpkFzuO9/7O8gpACn011KB43q3t98GIGyxygXQkNhh
-         y9E8jYmfABN7MWnViy6xozeWArESJ2cTf1cvnJcopHnTqUXvNxZmhW/BQm3G26oL+Jp9
-         UFqpY7/UX6k/wZ/TlIOoMiZehPuXThCsVkameMzlLUy8ElTKwpDoJpjURd5uSv3wzMuR
-         oLcQ==
+        b=Lev9GBglzdAXRs4pUh4MVIveERzeWRh0BWM92wWYnARHff4raV0fQI5PDJ7kby6UYj
+         Mf2s4mrQm7BZ4bDUFVd/aCdB2Am3SRDxV6XXC90/V8NEYyBUvMGNm8T7r5tAFasGH0dN
+         ndFayaGCb4kr9rn213D85dUTRS9r6nzLwzpcRhUj61pxNZZHvmVYsS3A420jekZVN21K
+         RDQxMSvuXq+T9x8/T7csozBu+V2bLGNbG4xsA789U7Q7GhPawyX6jhGGrDJXWuCBnBUr
+         TRjqTg8R0jTF2o1N0i9tKngv/Tpo+I2iUXs7EKuyL9U5rob9Mg8V8/f67qJcVrHtkO9c
+         bcAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=9PmwAXZzlI/3tKHIRlCPcUPoUA3xllDT3/1Q0y+jEXI=;
-        fh=wN0K+CEJ7WUvhZ5/i3PLE5r8tIHssSKcXKIKbLNr6UU=;
-        b=VBbkavBl7LdVpRj2R3/7/AwpSDtNrFhFwQq1vy4SZXdNiL8/2q7woRpTMkbMSRj+ku
-         TZJ5psPhlxd5jbpLdazzDIIId+BLkDM1YGsU/+krAmtpO0tzKhdS16JzIHdEYUIVbHOO
-         qdThLDhOLDKXpgmF055qcHgxT6MKji7AxT63gq/E+97HFZv1gyhft3iMfDB8FP61sc0H
-         +ew8VeE/2P0ImXWZ/3QMv1xPKKf7ulCQhNwZtoWgcvc5IMBHakTED4o+Efd/+U2/AzgN
-         UrKhJFfKfu1LiDwW3gqqIUUY+Mnq1Q4Y8ZYSxrxDjo9aITGxJ7HwcfGcjCdX75H7OzY4
-         M91Q==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=X2K15Hg3yhqnl2UBe8X+/YSPQqkoXC0ybPHCaX0Zh/g=;
+        fh=tTvP8edHSXUWtbIhEeFs7o4adVlCdZKrAoowsttWHW0=;
+        b=qjyLtT/NEqSITs85FiSDQdacUBffAdHq8OdVQ+8u7ZHB4Hht9OcIe9yg0FNApTVS65
+         nD77QnGuL2oD5+Qy4BF53nmsQILfTvK9x+oKxor8YQM/ioG+1FCAurJzqqhNqBc7bWkA
+         SyJHFnaD7s8DE87q9YzYb0fCYQu/52q5LrRK1FQOpvT61gxbWMu0ZQ4sQgeytir49lQn
+         HvKLBKgCGV4DUJGazkT4Hl2/tmc/40pvbLjw47UjkN9jS7wR+CyOJoM2NSqCadrb3I62
+         4NHL8ONTIxRrMVNPOgHBz87cP/KZdnhCPLiayxGPIxuIxP+mqCsBloL1KgBdTjFlJ4Ix
+         /yXg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-X-Forwarded-Encrypted: i=0; AJvYcCVekke9ptmblYmkP+vaoU54p5cX73IyYZkVP6sTWMaeRhNfiNyj+ESfMLd7I68aqzoDIiG50ds+OeEPgq9h/diFIkP9PgJY8o6udw==
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id i20-20020a056830451400b006e13fae7870si16979otv.3.2024.02.05.08.01.38
-        for <kasan-dev@googlegroups.com>;
-        Mon, 05 Feb 2024 08:01:38 -0800 (PST)
-Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CFE801FB;
-	Mon,  5 Feb 2024 08:02:20 -0800 (PST)
-Received: from FVFF77S0Q05N (unknown [10.57.66.84])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 777FE3F5A1;
-	Mon,  5 Feb 2024 08:01:36 -0800 (PST)
-Date: Mon, 5 Feb 2024 16:01:30 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: "Paul Heidekr\"uger" <paul.heidekrueger@tum.de>
-Cc: elver@google.com, akpm@linux-foundation.org, andreyknvl@gmail.com,
-	dvyukov@google.com, glider@google.com, kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	ryabinin.a.a@gmail.com, vincenzo.frascino@arm.com
-Subject: Re: [PATCH] kasan: add atomic tests
-Message-ID: <ZcEGWm30LsslEpMH@FVFF77S0Q05N>
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=EdZBAiig;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+X-Forwarded-Encrypted: i=0; AJvYcCW5b+IJ44vkcMT6/zi5cQMf3X63v9BOGXokSz3JIhm2X9s9gTLGBg49a2vYILm16z7+7dxBw4k8Wjo9Jb/fTL1xxf+VQ3NqgpdVCw==
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com. [2a00:1450:4864:20::42a])
+        by gmr-mx.google.com with ESMTPS id n11-20020a5d67cb000000b0033ade294ea7si29547wrw.3.2024.02.05.13.01.05
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Feb 2024 13:01:05 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) client-ip=2a00:1450:4864:20::42a;
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-33b409fc4aeso775461f8f.1
+        for <kasan-dev@googlegroups.com>; Mon, 05 Feb 2024 13:01:05 -0800 (PST)
+X-Received: by 2002:a5d:4b4e:0:b0:33b:1a43:578 with SMTP id
+ w14-20020a5d4b4e000000b0033b1a430578mr484273wrs.25.1707166864881; Mon, 05 Feb
+ 2024 13:01:04 -0800 (PST)
+MIME-Version: 1.0
 References: <CANpmjNP033FCJUb_nzTMJZnvXQj8esFBv_tg5-rtNtVUsGLB_A@mail.gmail.com>
  <20240202113259.3045705-1-paul.heidekrueger@tum.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
 In-Reply-To: <20240202113259.3045705-1-paul.heidekrueger@tum.de>
-X-Original-Sender: mark.rutland@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=arm.com
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Mon, 5 Feb 2024 22:00:53 +0100
+Message-ID: <CA+fCnZdDxot_wms3XmZonBCo7=qkCSj72inhSX+zHNF9gkMv2A@mail.gmail.com>
+Subject: Re: [PATCH] kasan: add atomic tests
+To: =?UTF-8?Q?Paul_Heidekr=C3=BCger?= <paul.heidekrueger@tum.de>
+Cc: elver@google.com, akpm@linux-foundation.org, dvyukov@google.com, 
+	glider@google.com, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, ryabinin.a.a@gmail.com, vincenzo.frascino@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: andreyknvl@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20230601 header.b=EdZBAiig;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42a
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -137,146 +155,167 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Feb 02, 2024 at 11:32:59AM +0000, Paul Heidekr"uger wrote:
+On Fri, Feb 2, 2024 at 12:33=E2=80=AFPM Paul Heidekr=C3=BCger
+<paul.heidekrueger@tum.de> wrote:
+>
 > Test that KASan can detect some unsafe atomic accesses.
-> 
+>
 > As discussed in the linked thread below, these tests attempt to cover
 > the most common uses of atomics and, therefore, aren't exhaustive.
-> 
+>
 > CC: Marco Elver <elver@google.com>
 > CC: Andrey Konovalov <andreyknvl@gmail.com>
-> Link: https://lore.kernel.org/all/20240131210041.686657-1-paul.heidekrueger@tum.de/T/#u
-> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=214055
-> Signed-off-by: Paul Heidekr"uger <paul.heidekrueger@tum.de>
+> Link: https://lore.kernel.org/all/20240131210041.686657-1-paul.heidekrueg=
+er@tum.de/T/#u
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D214055
+> Signed-off-by: Paul Heidekr=C3=BCger <paul.heidekrueger@tum.de>
 > ---
 > Changes PATCH RFC v2 -> PATCH v1:
 > * Remove casts to void*
 > * Remove i_safe variable
 > * Add atomic_long_* test cases
 > * Carry over comment from kasan_bitops_tags()
-> 
+>
 > Changes PATCH RFC v1 -> PATCH RFC v2:
-> * Adjust size of allocations to make kasan_atomics() work with all KASan modes
+> * Adjust size of allocations to make kasan_atomics() work with all KASan =
+modes
 > * Remove comments and move tests closer to the bitops tests
-> * For functions taking two addresses as an input, test each address in a separate function call.
+> * For functions taking two addresses as an input, test each address in a =
+separate function call.
 > * Rename variables for clarity
-> * Add tests for READ_ONCE(), WRITE_ONCE(), smp_load_acquire() and smp_store_release()
-> 
+> * Add tests for READ_ONCE(), WRITE_ONCE(), smp_load_acquire() and smp_sto=
+re_release()
+>
 >  mm/kasan/kasan_test.c | 79 +++++++++++++++++++++++++++++++++++++++++++
 >  1 file changed, 79 insertions(+)
-> 
+>
 > diff --git a/mm/kasan/kasan_test.c b/mm/kasan/kasan_test.c
 > index 8281eb42464b..4ef2280c322c 100644
 > --- a/mm/kasan/kasan_test.c
 > +++ b/mm/kasan/kasan_test.c
 > @@ -1150,6 +1150,84 @@ static void kasan_bitops_tags(struct kunit *test)
->  	kfree(bits);
+>         kfree(bits);
 >  }
->  
-> +static void kasan_atomics_helper(struct kunit *test, void *unsafe, void *safe)
+>
+> +static void kasan_atomics_helper(struct kunit *test, void *unsafe, void =
+*safe)
 > +{
-> +	int *i_unsafe = (int *)unsafe;
-
-Minor nit: you don't need the cast here either.
-
-Regardless:
-
-Acked-by: Mark Rutland <mark.rutland@arm.com>
-
-Mark.
-
+> +       int *i_unsafe =3D (int *)unsafe;
 > +
-> +	KUNIT_EXPECT_KASAN_FAIL(test, READ_ONCE(*i_unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, WRITE_ONCE(*i_unsafe, 42));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, smp_load_acquire(i_unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, smp_store_release(i_unsafe, 42));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, READ_ONCE(*i_unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, WRITE_ONCE(*i_unsafe, 42));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, smp_load_acquire(i_unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, smp_store_release(i_unsafe, 42));
 > +
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_read(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_set(unsafe, 42));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_add(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_sub(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_and(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_andnot(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_or(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_xor(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_xchg(unsafe, 42));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_cmpxchg(unsafe, 21, 42));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_try_cmpxchg(unsafe, safe, 42));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_try_cmpxchg(safe, unsafe, 42));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_sub_and_test(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec_and_test(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc_and_test(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_add_negative(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_add_unless(unsafe, 21, 42));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc_not_zero(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc_unless_negative(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec_unless_positive(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec_if_positive(unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_read(unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_set(unsafe, 42));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_add(42, unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_sub(42, unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc(unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec(unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_and(42, unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_andnot(42, unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_or(42, unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_xor(42, unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_xchg(unsafe, 42));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_cmpxchg(unsafe, 21, 42));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_try_cmpxchg(unsafe, safe, 42=
+));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_try_cmpxchg(safe, unsafe, 42=
+));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_sub_and_test(42, unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec_and_test(unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc_and_test(unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_add_negative(42, unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_add_unless(unsafe, 21, 42));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc_not_zero(unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc_unless_negative(unsafe))=
+;
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec_unless_positive(unsafe))=
+;
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec_if_positive(unsafe));
 > +
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_read(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_set(unsafe, 42));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_add(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_sub(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_and(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_andnot(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_or(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_xor(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_xchg(unsafe, 42));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_cmpxchg(unsafe, 21, 42));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_try_cmpxchg(unsafe, safe, 42));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_try_cmpxchg(safe, unsafe, 42));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_sub_and_test(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec_and_test(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc_and_test(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_add_negative(42, unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_add_unless(unsafe, 21, 42));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc_not_zero(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc_unless_negative(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec_unless_positive(unsafe));
-> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec_if_positive(unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_read(unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_set(unsafe, 42));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_add(42, unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_sub(42, unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc(unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec(unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_and(42, unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_andnot(42, unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_or(42, unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_xor(42, unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_xchg(unsafe, 42));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_cmpxchg(unsafe, 21, 42)=
+);
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_try_cmpxchg(unsafe, saf=
+e, 42));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_try_cmpxchg(safe, unsaf=
+e, 42));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_sub_and_test(42, unsafe=
+));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec_and_test(unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc_and_test(unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_add_negative(42, unsafe=
+));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_add_unless(unsafe, 21, =
+42));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc_not_zero(unsafe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc_unless_negative(uns=
+afe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec_unless_positive(uns=
+afe));
+> +       KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec_if_positive(unsafe)=
+);
 > +}
 > +
 > +static void kasan_atomics(struct kunit *test)
 > +{
-> +	void *a1, *a2;
+> +       void *a1, *a2;
 > +
-> +	/*
-> +	 * Just as with kasan_bitops_tags(), we allocate 48 bytes of memory such
-> +	 * that the following 16 bytes will make up the redzone.
-> +	 */
-> +	a1 = kzalloc(48, GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, a1);
-> +	a2 = kzalloc(sizeof(int), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, a1);
+> +       /*
+> +        * Just as with kasan_bitops_tags(), we allocate 48 bytes of memo=
+ry such
+> +        * that the following 16 bytes will make up the redzone.
+> +        */
+> +       a1 =3D kzalloc(48, GFP_KERNEL);
+> +       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, a1);
+> +       a2 =3D kzalloc(sizeof(int), GFP_KERNEL);
+
+I think this should be sizeof(atomic_long_t) or sizeof(long),
+otherwise a2 will not work as the safe argument for
+atomic_long_try_cmpxchg on 64-bit architectures.
+
+> +       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, a1);
 > +
-> +	/* Use atomics to access the redzone. */
-> +	kasan_atomics_helper(test, a1 + 48, a2);
+> +       /* Use atomics to access the redzone. */
+> +       kasan_atomics_helper(test, a1 + 48, a2);
 > +
-> +	kfree(a1);
-> +	kfree(a2);
+> +       kfree(a1);
+> +       kfree(a2);
 > +}
 > +
 >  static void kmalloc_double_kzfree(struct kunit *test)
 >  {
->  	char *ptr;
-> @@ -1553,6 +1631,7 @@ static struct kunit_case kasan_kunit_test_cases[] = {
->  	KUNIT_CASE(kasan_strings),
->  	KUNIT_CASE(kasan_bitops_generic),
->  	KUNIT_CASE(kasan_bitops_tags),
-> +	KUNIT_CASE(kasan_atomics),
->  	KUNIT_CASE(kmalloc_double_kzfree),
->  	KUNIT_CASE(rcu_uaf),
->  	KUNIT_CASE(workqueue_uaf),
-> -- 
+>         char *ptr;
+> @@ -1553,6 +1631,7 @@ static struct kunit_case kasan_kunit_test_cases[] =
+=3D {
+>         KUNIT_CASE(kasan_strings),
+>         KUNIT_CASE(kasan_bitops_generic),
+>         KUNIT_CASE(kasan_bitops_tags),
+> +       KUNIT_CASE(kasan_atomics),
+>         KUNIT_CASE(kmalloc_double_kzfree),
+>         KUNIT_CASE(rcu_uaf),
+>         KUNIT_CASE(workqueue_uaf),
+> --
 > 2.40.1
-> 
-> 
+>
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZcEGWm30LsslEpMH%40FVFF77S0Q05N.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CA%2BfCnZdDxot_wms3XmZonBCo7%3DqkCSj72inhSX%2BzHNF9gkMv2A%40mail.=
+gmail.com.
