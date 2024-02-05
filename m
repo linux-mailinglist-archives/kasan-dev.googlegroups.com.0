@@ -1,176 +1,135 @@
-Return-Path: <kasan-dev+bncBAABBRUPQOXAMGQEXSLPMYY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB2NLQOXAMGQEPL5WFBI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12B648498EE
-	for <lists+kasan-dev@lfdr.de>; Mon,  5 Feb 2024 12:34:32 +0100 (CET)
-Received: by mail-lf1-x140.google.com with SMTP id 2adb3069b0e04-51151eccdd5sf524776e87.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 05 Feb 2024 03:34:32 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1707132871; cv=pass;
+Received: from mail-oa1-x3e.google.com (mail-oa1-x3e.google.com [IPv6:2001:4860:4864:20::3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08E31849A61
+	for <lists+kasan-dev@lfdr.de>; Mon,  5 Feb 2024 13:34:51 +0100 (CET)
+Received: by mail-oa1-x3e.google.com with SMTP id 586e51a60fabf-205c90a36a3sf5256179fac.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 05 Feb 2024 04:34:50 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1707136489; cv=pass;
         d=google.com; s=arc-20160816;
-        b=RsKI7YQfkMSafdlTvLgMeCw3VBxE4kx05npRmKkFE+IZRb0DkmQd5hLt8pBspFyWsj
-         YImvmDXmx0fvc+vk7l+dEpkSERecoL3fKPOVWCvLx7ryi8QgW5I9Klg0m+f5JoJscFUE
-         S3rvS4Q/u++A43RsowP0rp9UBCC/lCYunE2tpZmT8wWpHZDuH/EAhv+xZpRqixoPUPX6
-         RIxyFUE9xQ/zl7NLxafvPfHcjnbVMp8FO30wVwfzNWhbR9zN0kyIBFy8u7QkEhQLI+3D
-         b0Nkixa8bDdOrtqstEQxfL9ufWp/d4jirk4IIuFRbHx5ZKhfhFm4PKop92Mz4hPE4c8Q
-         7www==
+        b=ml0KmN7AVsw0DhGa4vb90yNyWNxMM5sUeo2NEQwMJc1/98lRRBOFU8ZnjY9dOMo6BM
+         NR3VscAWdzkOy++q4cydov5HRRCWXKE8F2SJOk8KbdCfU6DPYme/0Zcc1MlzsYRGJ9Xr
+         rXGBXQGuIya3zhmqW3xFfqdHvYaY1mly/apXypZzimGCkDXJC2kGRLu4DgodJtlN15Xl
+         Z7sqhU1JwGd5t+Brgr/C1w+RlceJMCQq2XXa2VXUb9Z0bFqBaUFVPIrQlRVghJg/9n78
+         t1Do0/WLhbpXggAVpryy9xqC3a3X6yfhjbBoMPA8A+VbAywLzJOwLr1VCZtFUBehOrwD
+         OQ6Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=c3xLVj3EXPuuS+KLm/8Wi24wU+9+awklgJgvGSnX+sk=;
-        fh=SfYqChfjNSR8pOfe7v4S8cQsRsYk1tnAJpwj5EpqGV0=;
-        b=olKrMOh0hQiaT7HekEAmawZHAxnU290J5UeN/Z/eJ9ws3rFjLQhk/Ne8cPccwVChSy
-         +qBLW+jfyhrkWtsI0Un03bxd8XpnaokPnD6Hm+OY7sBx/0Z/j0TP/iZWYn9hREqEa5F1
-         EB+4H3DS1f9wP43g9tqf/pzwqBBrckNkOgoPk3cwqaAj2sQytz1w2YGCsw7+xpEHSbri
-         kPitNibQlL7zh8n7DJzB1h/Fq4loM2WOofa7j82wIvQT5InjU1K9zhCEaA0+VoRzoVbd
-         y3dGylxo39Eu6F6hoVSySxcGP8m9rdSS47Lgm6W7SQNblrNZr7W4P0xBfrJX75qrSaFU
-         pxPw==
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=uv/F7/nhFDu/7udV/aJ7/aEeKX2q1afemjbBHqoGMOc=;
+        fh=UsNSmIaPYxnv65ynQ72cdtmNX+ool2BLH0oZUEKHVBQ=;
+        b=A1PL5CR2+KpeL8X8gq3mS0QK/yEm4nP5ZXDA9bMOegSgsZs2nbDTRakF+DiobuiOe7
+         XTU/gXaLhd5EuRdnzDmTkahex6z4SUULWJbESfMmuZ+rndDFj9jn6CMQF3F1bEfXWsGm
+         5nqRO8NgSv+RrifhXH9jKHIx6DNv+zmkCCc/KX7R+l1WHJY45RYwYdCOsmEESEa5xIe7
+         YOCuLzbCs2v0cFrRvu6D7MnrU8oCtyK3M+g4IwI0PWN9kC+Rvv1EUDdBJoZaRts++6/2
+         TtEGEWxJ9+9rE+EYG+kRpMjimCAc/bl9GhR0sWp/T7CSG8zEF/CkURXRN8w+zQ1AA8HX
+         05Ew==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@tum.de header.s=tu-postout21 header.b=AgzJMd+i;
-       spf=pass (google.com: domain of paul.heidekrueger@tum.de designates 129.187.255.138 as permitted sender) smtp.mailfrom=paul.heidekrueger@tum.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tum.de
+       dkim=pass header.i=@google.com header.s=20230601 header.b=Hh2KdtTr;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::92b as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1707132871; x=1707737671; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1707136489; x=1707741289; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=c3xLVj3EXPuuS+KLm/8Wi24wU+9+awklgJgvGSnX+sk=;
-        b=xtNTKrI6f7EYbbwCBHQGJRKkVUPkbv+8IuhkrjmiQNuu56YGJK7QJC59jN7UPONp4r
-         k1+XciFtCyNkOJ94ZA+TAeEAV74wXNhXlOlNA0W9ZdgXyJZzNm4pmdxHzWNb1YvQCnV7
-         T0Hr40NirCOZ3WBmTMGGNoaeicAgrVWrj+l6rYowxyEFIBeHI6SpQF8RBr9XWdu746I9
-         pFCMG3T1uvGV82gkhpLuWPyQVogjqZcqy2IzdSzH67cljrfjrl7WUPeSk1rMujpJSWgq
-         QbaT1jydnM5sfT0X+pZ4Wlv6hAqukpBDPIn6pdITS00CbR6SyKnOjEJSiEEC/qs/XFfW
-         O48g==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uv/F7/nhFDu/7udV/aJ7/aEeKX2q1afemjbBHqoGMOc=;
+        b=BOQ7sBbwzmsiVusx1/2OGEUOkp9xQdOdY9mImvvG23Yy5fTJcQzKKjT51MCxrb7XJf
+         ftXwlywiz6xLNTkPt7Y6hH0a7/LPJNT+jf3g7T7aekKOOnj8WGAMDJGRopbK2DgpGjqQ
+         1T9zjY5hV3WOLNkUiqab4+AMvlHfqNolHWBHBMmGgqeaMy2cCOfeNjCmmuFyOjF9NgnF
+         KXiufa+2/SOAbHjVWvoiEEI9wIcABtDB9yo1fRns5E5fiNw8YVUDfxzWICaRqzFT/vY7
+         CbFPgZQVGGr6YJUONNFDTlOb03FjeLk2KSDr2DtwD1qQ/GvAoQjsCDLmQFywJWHTFlp9
+         Eauw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707132871; x=1707737671;
+        d=1e100.net; s=20230601; t=1707136489; x=1707741289;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c3xLVj3EXPuuS+KLm/8Wi24wU+9+awklgJgvGSnX+sk=;
-        b=Z1byU0aF76L5m/iIiovgGY55P6Idb3Th4r+kDVPHcQEHSTwjgWSbl8QBoCTpUP8TQY
-         HUAGnxHP22dsqA1Jp+5sQdjKVvHHbKDO3tYo0QoePkXqtn/dYIATxjvKGkSOMOYZyM+l
-         YKXkUrOxlc9AKUd4eDgodSinRuu4whvl4zBf0x2MGvgA8zqLyN8KtRBUbVjEEDcNmObB
-         C6XRjHdpS7ErW1c/epejG21EHZd4BwL1TrdYAXLduOSh6TiOVdcoCEgYegy/WgUxf2Sw
-         yhRNrcMgDJ8GeX53LYiwRJBsmRsNUJvw3vPyy0OZ1IoPxK+ShQRz054xBWhe1fOjICh1
-         uPjw==
-Sender: kasan-dev@googlegroups.com
-X-Gm-Message-State: AOJu0Yxj91/QJtVBLd+xFtx1YAduVOZIdeotBjVFuuRCRQBYn1QUUC0x
-	quxnQ6vBwvKfw2x/LN1r0ruMjj3iRTotskugUi7AboFKeKuFWQ/V
-X-Google-Smtp-Source: AGHT+IHECQc8RSCHp2MCXgbCpUexrFsS/pUXSeJ72ft5Q/nnU5vCXX61BVFxkh1YDZhyqfBdmaI7Lw==
-X-Received: by 2002:ac2:4ec4:0:b0:511:4ebc:5100 with SMTP id p4-20020ac24ec4000000b005114ebc5100mr1614150lfr.68.1707132870813;
-        Mon, 05 Feb 2024 03:34:30 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uv/F7/nhFDu/7udV/aJ7/aEeKX2q1afemjbBHqoGMOc=;
+        b=BhyKYrtsDuJUx1sWmE+6k2kOkCW1y4WshzMaVKdyMEgc270HBYX13p/yAQXvYsugwd
+         XTJWdmANGgQcRlvvgtUJXV6Xuea4bt08YPBsCQqPPFI1vEvwXbhgMouMAWN0MxBbrLN2
+         CfmaIrCaZdWNZeFcZQ8/lK8J2fo8WbMhJgtN524YID/o4hpAH5173VljNZJUjcr3t6tB
+         oSAR7FCbHLOalwZeT0T+OS9jECzBKLO10kyBIPyZyeuyBPOxJnhKa7jIra6rHPEWXgP+
+         +Mkt7ywYzYTqhXu/wUz3nyLAPMiYzGBiiYi7wJZmAyfz84fEVUeimrv0XMewci+eOeoy
+         qR3w==
+X-Gm-Message-State: AOJu0Ywq9PZbJLManGSNAU8kAoK8vrGU/67DtJfsdbzvbnf8EMC8QTyy
+	9u0jjNIJikXAHXZ89aDq9CoUMPQekMh4kd6Yn5E1HpEJ5jAg81mE
+X-Google-Smtp-Source: AGHT+IHSPJJ6+mL3m2vGpfEkbpA0Hk+r5i1E5bNWQISCdcBUYJalxbNB6YgcpKYMb2/1epiZa7TMuA==
+X-Received: by 2002:a05:6870:886:b0:219:426f:d921 with SMTP id fx6-20020a056870088600b00219426fd921mr8205275oab.0.1707136489455;
+        Mon, 05 Feb 2024 04:34:49 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:e91:b0:511:527e:5f6f with SMTP id
- bi17-20020a0565120e9100b00511527e5f6fls343381lfb.2.-pod-prod-04-eu; Mon, 05
- Feb 2024 03:34:29 -0800 (PST)
-X-Received: by 2002:ac2:4a63:0:b0:511:486d:454b with SMTP id q3-20020ac24a63000000b00511486d454bmr3063222lfp.38.1707132869063;
-        Mon, 05 Feb 2024 03:34:29 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1707132869; cv=none;
+Received: by 2002:a05:6870:718f:b0:219:a14d:86d0 with SMTP id
+ d15-20020a056870718f00b00219a14d86d0ls124354oah.0.-pod-prod-03-us; Mon, 05
+ Feb 2024 04:34:48 -0800 (PST)
+X-Received: by 2002:a05:6870:96a7:b0:219:3ca6:3b43 with SMTP id o39-20020a05687096a700b002193ca63b43mr6759912oaq.16.1707136488442;
+        Mon, 05 Feb 2024 04:34:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1707136488; cv=none;
         d=google.com; s=arc-20160816;
-        b=T1j/aLcD7yr7ehqwD2SSikH3Y4OM60UFzT+FBwV7FCRTS/ZggdI5KQ0JERpiF+eepR
-         QLDDfEgNpBTHO0jTl++tBHl0D0i9RONdyPPonfPmqf0lu8a0pVvLGWvhQrzOhJzED4Jl
-         ndp4By/YpFLVmuRIe2uLR4IpDFYl3irnVzhFP3SrAScw964C+8YAhgHXrxg6LraXQ8QZ
-         3ZV2HypW7YKK50TX3a7Keatz+lhmRMb79LFedpJ5OQDLCTz3BUFZT9gJ4aHLYd8EexNe
-         dzmSmujGQOZk8Kq4HkdH1jjQNREMJhPUtFC++6TG8KPg/i82MRU6ZA7r5khsMPxw70Ro
-         tIoA==
+        b=ojWxjoUh/SCiebGydZhwmO5GzVLtU7+tUx3e7BjXXs4EFQdK3ezHLh6j57KRTlhkUJ
+         PiDNaToE53IuQDC6vcFpWIz88bExx+dCv8aL1fmx4is7BM+4kyirg3BGvIJ79UshA6pi
+         onPMf1lLrGckOTR9dIhqbhQb+edx6o8h2lT5qs8lAhIwcITFT2r/52EE48gNCS3QSLke
+         QLpghwR82M/wR/gIjvZx9IhhC6o+AgsE9/c6foJxGVnsMlMnRf88lbfpHkRmueGx6wvb
+         owd07o2iT1DkuUm8hLflCTEL4PYH3bwPs82J391FFYgoUxNz4TH19baWc24/GnXjy56/
+         46Qw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=4yfYSPWejnIMrq1elbAqFQGfVJkEKKXLWsqoOGicgfs=;
-        fh=SfYqChfjNSR8pOfe7v4S8cQsRsYk1tnAJpwj5EpqGV0=;
-        b=ghYUN96FhW+H07p9tEb6xu/9tgzmX7jHLhAwrIhzJFxI/9xbxS2jHxQTgo0+60Cp1E
-         8VOVxhldPgjWfO7vtvdKDYWW87VA0e3/y+uI4q3Cerr9KPVXxRvTBXEaPDUjHB4UJIEG
-         yJlLd0ckXz5yn1TP4ochk2edCvB+FDMVt+X2IyZf7W731kg5CzCJrIIGvjcF54LdGAyj
-         t1VHKIeeo1Iw0pnTCsftacwlxRMQ1F/06l+9Lu40LxZF34B+YijQIYlUXFCJl6KfVwvL
-         ledYRR6VtwJYS+tkeNSsfo7ZuxzYG14WSFuEvFfU3zPVrYOkCSAPuRg50p/Z9kWKXajk
-         60ZQ==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=l8CVvdF5Aiu8bbnGwIPzuUGttJIlOEds+fQB4E+B8Xc=;
+        fh=UsNSmIaPYxnv65ynQ72cdtmNX+ool2BLH0oZUEKHVBQ=;
+        b=ju9PG0/RmTX7PjOKt+VtLX9Pg/BWF4xQZwP0JnA8KivSDP/oCPQYTMTTKgzslbY9J0
+         dI0CfwWuGjpKHiJgm/IHwW7Qy/tOTYU6z7LVN7C5bffaynrqrDLaUTRoI22KvOYBKm60
+         2ewrWTz48jzS+0neRkjWw8Iku+DmTsiukJdclq9LbT1zUDpD4WkqB2I2nSZCEITAONJR
+         GgUf3lCIxGz9/8CEWskXeF1OGT2Jq1SnLKq3d5Ttpb0Ovrr5U6WUePm35TPo1xbqq1en
+         CzK3UY0nI3A2uU2gbfeVN/GmV+hvRJl+c67SQQh3+fNtdLt+L68bsIhegY0n+q2Nnmua
+         VgWA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@tum.de header.s=tu-postout21 header.b=AgzJMd+i;
-       spf=pass (google.com: domain of paul.heidekrueger@tum.de designates 129.187.255.138 as permitted sender) smtp.mailfrom=paul.heidekrueger@tum.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tum.de
-X-Forwarded-Encrypted: i=0; AJvYcCX3B+MITw9oqsudqy0d0qNOXlhwLMoXJh4mUPcAGW0d4fcYVPwIlylTcWnxNG2LaKzoKnCsR2THzgShem2GysIOR4nlSeKA/uobeg==
-Received: from postout2.mail.lrz.de (postout2.mail.lrz.de. [129.187.255.138])
-        by gmr-mx.google.com with ESMTPS id o25-20020a05600c511900b0040fd31815f3si152302wms.0.2024.02.05.03.34.28
+       dkim=pass header.i=@google.com header.s=20230601 header.b=Hh2KdtTr;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::92b as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Forwarded-Encrypted: i=0; AJvYcCVdtlnnwiR/mA4+uPJiR8ZBncqPIvP0qzXoubnqey2q1Um/UN7P8fie3mSbFVeuFwLpBI9nHxued/zHMjwlIZ4HKmkRinSp15k7Zw==
+Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com. [2607:f8b0:4864:20::92b])
+        by gmr-mx.google.com with ESMTPS id nx20-20020a056870be9400b0021992e50b22si105272oab.2.2024.02.05.04.34.48
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Feb 2024 03:34:28 -0800 (PST)
-Received-SPF: pass (google.com: domain of paul.heidekrueger@tum.de designates 129.187.255.138 as permitted sender) client-ip=129.187.255.138;
-Received: from lxmhs52.srv.lrz.de (localhost [127.0.0.1])
-	by postout2.mail.lrz.de (Postfix) with ESMTP id 4TT46C4ZldzyTH;
-	Mon,  5 Feb 2024 12:34:27 +0100 (CET)
-X-Virus-Scanned: by amavisd-new at lrz.de in lxmhs52.srv.lrz.de
-X-Spam-Flag: NO
-X-Spam-Score: -2.884
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.884 tagged_above=-999 required=5
-	tests=[ALL_TRUSTED=-1, BAYES_00=-1.9, DMARC_ADKIM_RELAXED=0.001,
-	DMARC_ASPF_RELAXED=0.001, DMARC_POLICY_NONE=0.001,
-	LRZ_CT_PLAIN_UTF8=0.001, LRZ_DMARC_FAIL=0.001,
-	LRZ_DMARC_FAIL_NONE=0.001, LRZ_DMARC_POLICY=0.001,
-	LRZ_DMARC_TUM_FAIL=0.001, LRZ_DMARC_TUM_REJECT=3.5,
-	LRZ_DMARC_TUM_REJECT_PO=-3.5, LRZ_ENVFROM_FROM_MATCH=0.001,
-	LRZ_ENVFROM_TUM_S=0.001, LRZ_FROM_ENVFROM_ALIGNED_STRICT=0.001,
-	LRZ_FROM_HAS_A=0.001, LRZ_FROM_HAS_AAAA=0.001,
-	LRZ_FROM_HAS_MDOM=0.001, LRZ_FROM_HAS_MX=0.001,
-	LRZ_FROM_HOSTED_DOMAIN=0.001, LRZ_FROM_NAME_IN_ADDR=0.001,
-	LRZ_FROM_PHRASE=0.001, LRZ_FROM_TUM_S=0.001, LRZ_HAS_CT=0.001,
-	LRZ_HAS_IN_REPLY_TO=0.001, LRZ_HAS_MIME_VERSION=0.001,
-	LRZ_HAS_SPF=0.001, LRZ_SUBJ_FW_RE=0.001, LRZ_URL_PLAIN_SINGLE=0.001,
-	LRZ_URL_SINGLE_UTF8=0.001, T_SCC_BODY_TEXT_LINE=-0.01]
-	autolearn=no autolearn_force=no
-Received: from postout2.mail.lrz.de ([127.0.0.1])
-	by lxmhs52.srv.lrz.de (lxmhs52.srv.lrz.de [127.0.0.1]) (amavisd-new, port 20024)
-	with LMTP id hTsJ2oxF2cFS; Mon,  5 Feb 2024 12:34:25 +0100 (CET)
-Received: from pine.fritz.box (unknown [IPv6:2001:a61:2560:7f01:69dc:22b:b206:7a57])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by postout2.mail.lrz.de (Postfix) with ESMTPSA id 4TT4681dSGzyTL;
-	Mon,  5 Feb 2024 12:34:24 +0100 (CET)
-Date: Mon, 5 Feb 2024 12:34:20 +0100
-From: Paul =?utf-8?Q?Heidekr=C3=BCger?= <paul.heidekrueger@tum.de>
-To: Marco Elver <elver@google.com>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Peter Collingbourne <pcc@google.com>, andrey.konovalov@linux.dev, 
-	Andrew Morton <akpm@linux-foundation.org>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	Andrey Konovalov <andreyknvl@google.com>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	linux-trace-kernel@vger.kernel.org, Nick Desaulniers <ndesaulniers@google.com>
-Subject: Re: [PATCH v3 1/3] kasan: switch kunit tests to console tracepoints
-Message-ID: <8D76B3E2-91CD-46BC-B990-59D6D60AC9BA@tum.de>
-X-Mailer: MailMate (1.14r5937)
-References: <CA+fCnZebmy-fZdNonrgLofepTPL5hU6P8R37==sygTLBSRoa+w@mail.gmail.com>
- <fv7fn3jivqcgw7mum6zadfcy2fbn73lygtxyy5p3zqpelfiken@5bmhbdufxgez>
- <CA+fCnZfQEueCifc-8d5NVWEUtAiOG1eRW-LFKbOhab_Y7jqU0Q@mail.gmail.com>
- <osqmp2j6gsmgbkle6mwhoaf65mjn4a4w3e5hsfbyob6f44wcg6@7rihb5otzl2z>
- <CANpmjNMw3N09x06Q+0mFCEeTKfUsDdXwXM2hdgAQ+wwbZGpB9w@mail.gmail.com>
- <rbcdbilhh67fvjdgnstu25v4jnfeesthoxstnzzglynbngu5bk@5ozwgzaulbsx>
- <CA+fCnZf5kxWUWCzK8EKgUuq_E2rYv5aw=SqZMDb93+=7vSUp+w@mail.gmail.com>
- <rgndtm3sawyzdh76oofoqp22jyqdb25sd4326k2heevjmxum7f@wfgwvdf4iuyi>
- <CANpmjNN5Q+byA3sWv1uB_R=QYQxKg5YsLKayqv7WNWokkL5H4Q@mail.gmail.com>
- <h7qw4rhqovyq5trm5kyvabshqmxcpwlrdr55xadhtv5iifxjem@gz4wjtng7b42>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 Feb 2024 04:34:48 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::92b as permitted sender) client-ip=2607:f8b0:4864:20::92b;
+Received: by mail-ua1-x92b.google.com with SMTP id a1e0cc1a2514c-7d5bbbe57bbso1697521241.1
+        for <kasan-dev@googlegroups.com>; Mon, 05 Feb 2024 04:34:48 -0800 (PST)
+X-Received: by 2002:a05:6122:16a6:b0:4c0:328d:c4f9 with SMTP id
+ 38-20020a05612216a600b004c0328dc4f9mr1108119vkl.0.1707136487476; Mon, 05 Feb
+ 2024 04:34:47 -0800 (PST)
 MIME-Version: 1.0
+References: <20240205060925.15594-1-yangtiezhu@loongson.cn> <20240205060925.15594-2-yangtiezhu@loongson.cn>
+In-Reply-To: <20240205060925.15594-2-yangtiezhu@loongson.cn>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 5 Feb 2024 13:34:10 +0100
+Message-ID: <CANpmjNM+aX6v3uiaZ8OxjUBb5ax=HcGKz6dG+6xcEV4oWODwhg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kasan: docs: Update descriptions about test file and module
+To: Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <h7qw4rhqovyq5trm5kyvabshqmxcpwlrdr55xadhtv5iifxjem@gz4wjtng7b42>
-X-Original-Sender: paul.heidekrueger@tum.de
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@tum.de header.s=tu-postout21 header.b=AgzJMd+i;       spf=pass
- (google.com: domain of paul.heidekrueger@tum.de designates 129.187.255.138 as
- permitted sender) smtp.mailfrom=paul.heidekrueger@tum.de;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=tum.de
+ header.i=@google.com header.s=20230601 header.b=Hh2KdtTr;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::92b as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -183,227 +142,298 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Mon, 5 Feb 2024 at 07:09, Tiezhu Yang <yangtiezhu@loongson.cn> wrote:
+>
+> After commit f7e01ab828fd ("kasan: move tests to mm/kasan/"), the test
+> file is renamed to mm/kasan/kasan_test.c and the test module is renamed
+> to kasan_test.ko, so update the descriptions in the document.
+>
+> While at it, update the line number and testcase number when the tests
+> kmalloc_large_oob_right and kmalloc_double_kzfree failed to sync with
+> the current code in mm/kasan/kasan_test.c.
+>
+> Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
 
+Acked-by: Marco Elver <elver@google.com>
 
-On 7 Jan 2024, at 19:22, Paul Heidekr=C3=BCger wrote:
+Thanks for cleaning this up.
 
-> On 12.12.2023 10:32, Marco Elver wrote:
->> On Tue, 12 Dec 2023 at 10:19, Paul Heidekr=C3=BCger <paul.heidekrueger@t=
-um.de> wrote:
->>>
->>> On 12.12.2023 00:37, Andrey Konovalov wrote:
->>>> On Tue, Dec 12, 2023 at 12:35=E2=80=AFAM Paul Heidekr=C3=BCger
->>>> <paul.heidekrueger@tum.de> wrote:
->>>>>
->>>>> Using CONFIG_FTRACE=3Dy instead of CONFIG_TRACEPOINTS=3Dy produces th=
-e same error
->>>>> for me.
->>>>>
->>>>> So
->>>>>
->>>>>         CONFIG_KUNIT=3Dy
->>>>>         CONFIG_KUNIT_ALL_TESTS=3Dn
->>>>>         CONFIG_FTRACE=3Dy
->>>>>         CONFIG_KASAN=3Dy
->>>>>         CONFIG_KASAN_GENERIC=3Dy
->>>>>         CONFIG_KASAN_KUNIT_TEST=3Dy
->>>>>
->>>>> produces
->>>>>
->>>>>         =E2=9E=9C   ./tools/testing/kunit/kunit.py run --kunitconfig=
-=3Dmm/kasan/.kunitconfig --arch=3Darm64
->>>>>         Configuring KUnit Kernel ...
->>>>>         Regenerating .config ...
->>>>>         Populating config with:
->>>>>         $ make ARCH=3Darm64 O=3D.kunit olddefconfig CC=3Dclang
->>>>>         ERROR:root:Not all Kconfig options selected in kunitconfig we=
-re in the generated .config.
->>>>>         This is probably due to unsatisfied dependencies.
->>>>>         Missing: CONFIG_KASAN_KUNIT_TEST=3Dy
->>>>>
->>>>> By that error message, CONFIG_FTRACE appears to be present in the gen=
-erated
->>>>> config, but CONFIG_KASAN_KUNIT_TEST still isn't. Presumably,
->>>>> CONFIG_KASAN_KUNIT_TEST is missing because of an unsatisfied dependen=
-cy, which
->>>>> must be CONFIG_TRACEPOINTS, unless I'm missing something ...
->>>>>
->>>>> If I just generate an arm64 defconfig and select CONFIG_FTRACE=3Dy,
->>>>> CONFIG_TRACEPOINTS=3Dy shows up in my .config. So, maybe this is kuni=
-t.py-related
->>>>> then?
->>>>>
->>>>> Andrey, you said that the tests have been working for you; are you ru=
-nning them
->>>>> with kunit.py?
->>>>
->>>> No, I just run the kernel built with a config file that I put together
->>>> based on defconfig.
->>>
->>> Ah. I believe I've figured it out.
->>>
->>> When I add CONFIG_STACK_TRACER=3Dy in addition to CONFIG_FTRACE=3Dy, it=
- works.
->>
->> CONFIG_FTRACE should be enough - maybe also check x86 vs. arm64 to debug=
- more.
+> ---
+>  Documentation/dev-tools/kasan.rst             | 20 +++++++++----------
+>  .../translations/zh_CN/dev-tools/kasan.rst    | 20 +++++++++----------
+>  .../translations/zh_TW/dev-tools/kasan.rst    | 20 +++++++++----------
+>  3 files changed, 30 insertions(+), 30 deletions(-)
 >
-> See below.
+> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/=
+kasan.rst
+> index 858c77fe7dc4..a5a6dbe9029f 100644
+> --- a/Documentation/dev-tools/kasan.rst
+> +++ b/Documentation/dev-tools/kasan.rst
+> @@ -169,7 +169,7 @@ Error reports
+>  A typical KASAN report looks like this::
 >
->>> CONFIG_STACK_TRACER selects CONFIG_FUNCTION_TRACER, CONFIG_FUNCTION_TRA=
-CER
->>> selects CONFIG_GENERIC_TRACER, CONFIG_GENERIC_TRACER selects CONFIG_TRA=
-CING, and
->>> CONFIG_TRACING selects CONFIG_TRACEPOINTS.
->>>
->>> CONFIG_BLK_DEV_IO_TRACE=3Dy also works instead of CONFIG_STACK_TRACER=
-=3Dy, as it
->>> directly selects CONFIG_TRACEPOINTS.
->>>
->>> CONFIG_FTRACE=3Dy on its own does not appear suffice for kunit.py on ar=
-m64.
->>
->> When you build manually with just CONFIG_FTRACE, is CONFIG_TRACEPOINTS e=
-nabled?
+>      =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> -    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [test_=
+kasan]
+> +    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [kasan=
+_test]
+>      Write of size 1 at addr ffff8801f44ec37b by task insmod/2760
 >
-> When I add CONFIG_FTRACE and enter-key my way through the FTRACE prompts =
-- I
-> believe because CONFIG_FTRACE is a menuconfig? - at the beginning of a bu=
-ild,
-> CONFIG_TRACEPOINTS does get set on arm64, yes.
+>      CPU: 1 PID: 2760 Comm: insmod Not tainted 4.19.0-rc3+ #698
+> @@ -179,8 +179,8 @@ A typical KASAN report looks like this::
+>       print_address_description+0x73/0x280
+>       kasan_report+0x144/0x187
+>       __asan_report_store1_noabort+0x17/0x20
+> -     kmalloc_oob_right+0xa8/0xbc [test_kasan]
+> -     kmalloc_tests_init+0x16/0x700 [test_kasan]
+> +     kmalloc_oob_right+0xa8/0xbc [kasan_test]
+> +     kmalloc_tests_init+0x16/0x700 [kasan_test]
+>       do_one_initcall+0xa5/0x3ae
+>       do_init_module+0x1b6/0x547
+>       load_module+0x75df/0x8070
+> @@ -200,8 +200,8 @@ A typical KASAN report looks like this::
+>       save_stack+0x43/0xd0
+>       kasan_kmalloc+0xa7/0xd0
+>       kmem_cache_alloc_trace+0xe1/0x1b0
+> -     kmalloc_oob_right+0x56/0xbc [test_kasan]
+> -     kmalloc_tests_init+0x16/0x700 [test_kasan]
+> +     kmalloc_oob_right+0x56/0xbc [kasan_test]
+> +     kmalloc_tests_init+0x16/0x700 [kasan_test]
+>       do_one_initcall+0xa5/0x3ae
+>       do_init_module+0x1b6/0x547
+>       load_module+0x75df/0x8070
+> @@ -510,15 +510,15 @@ When a test passes::
 >
-> On X86, the defconfig already includes CONIFG_TRACEPOINTS.
+>  When a test fails due to a failed ``kmalloc``::
 >
-> I also had a closer look at how kunit.py builds its configs.
-> I believe it does something along the following lines:
+> -        # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:=
+163
+> +        # kmalloc_large_oob_right: ASSERTION FAILED at mm/kasan/kasan_te=
+st.c:245
+>          Expected ptr is not null, but is
+> -        not ok 4 - kmalloc_large_oob_right
+> +        not ok 5 - kmalloc_large_oob_right
 >
->     cp <path_to_kunitconfig> .kunit/.config
->     make ARCH=3Darm64 O=3D.kunit olddefconfig
+>  When a test fails due to a missing KASAN report::
 >
-> On arm64, that isn't enough to set CONFIG_TRACEPOINTS; same behaviour whe=
-n run
-> outside of kunit.py.
+> -        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:=
+974
+> +        # kmalloc_double_kzfree: EXPECTATION FAILED at mm/kasan/kasan_te=
+st.c:709
+>          KASAN failure expected in "kfree_sensitive(ptr)", but none occur=
+red
+> -        not ok 44 - kmalloc_double_kzfree
+> +        not ok 28 - kmalloc_double_kzfree
 >
-> For CONFIG_TRACEPOINTS, `make ARCH=3Darm64 menuconfig` shows:
 >
->     Symbol: TRACEPOINTS [=3Dn]
->     Type  : bool
->     Defined at init/Kconfig:1920
->     Selected by [n]:
->     	- TRACING [=3Dn]
->     	- BLK_DEV_IO_TRACE [=3Dn] && FTRACE [=3Dy] && SYSFS [=3Dy] && BLOCK =
-[=3Dy]
+>  At the end the cumulative status of all KASAN tests is printed. On succe=
+ss::
+> @@ -534,7 +534,7 @@ There are a few ways to run KUnit-compatible KASAN te=
+sts.
+>  1. Loadable module
 >
-> So, CONFIG_TRACING or CONFIG_BLK_DEV_IO_TRACE are the two options that pr=
-event
-> CONFIG_TRACEPOINTS from being set on arm64.
+>     With ``CONFIG_KUNIT`` enabled, KASAN-KUnit tests can be built as a lo=
+adable
+> -   module and run by loading ``test_kasan.ko`` with ``insmod`` or ``modp=
+robe``.
+> +   module and run by loading ``kasan_test.ko`` with ``insmod`` or ``modp=
+robe``.
 >
-> For CONFIG_TRACING we have:
+>  2. Built-In
 >
->     Symbol: TRACING [=3Dn]
->     Type  : bool
->     Defined at kernel/trace/Kconfig:157
->     Selects: RING_BUFFER [=3Dn] && STACKTRACE [=3Dy] && TRACEPOINTS [=3Dn=
-] && NOP_TRACER [=3Dn] && BINARY_PRINTF [=3Dn] && EVENT_TRACING [=3Dn] && T=
-RACE_CLOCK [=3Dy] && TASKS_RCU [=3Dn]
->     Selected by [n]:
->     	- DRM_I915_TRACE_GEM [=3Dn] && HAS_IOMEM [=3Dy] && DRM_I915 [=3Dn] &=
-& EXPERT [=3Dn] && DRM_I915_DEBUG_GEM [=3Dn]
->     	- DRM_I915_TRACE_GTT [=3Dn] && HAS_IOMEM [=3Dy] && DRM_I915 [=3Dn] &=
-& EXPERT [=3Dn] && DRM_I915_DEBUG_GEM [=3Dn]
->     	- PREEMPTIRQ_TRACEPOINTS [=3Dn] && (TRACE_PREEMPT_TOGGLE [=3Dn] || T=
-RACE_IRQFLAGS [=3Dn])
->     	- GENERIC_TRACER [=3Dn]
->     	- ENABLE_DEFAULT_TRACERS [=3Dn] && FTRACE [=3Dy] && !GENERIC_TRACER =
-[=3Dn]
->     	- FPROBE_EVENTS [=3Dn] && FTRACE [=3Dy] && FPROBE [=3Dn] && HAVE_REG=
-S_AND_STACK_ACCESS_API [=3Dy]
->     	- KPROBE_EVENTS [=3Dn] && FTRACE [=3Dy] && KPROBES [=3Dn] && HAVE_RE=
-GS_AND_STACK_ACCESS_API [=3Dy]
->     	- UPROBE_EVENTS [=3Dn] && FTRACE [=3Dy] && ARCH_SUPPORTS_UPROBES [=
-=3Dy] && MMU [=3Dy] && PERF_EVENTS [=3Dn]
->     	- SYNTH_EVENTS [=3Dn] && FTRACE [=3Dy]
->     	- USER_EVENTS [=3Dn] && FTRACE [=3Dy]
->     	- HIST_TRIGGERS [=3Dn] && FTRACE [=3Dy] && ARCH_HAVE_NMI_SAFE_CMPXCH=
-G [=3Dy]
+> diff --git a/Documentation/translations/zh_CN/dev-tools/kasan.rst b/Docum=
+entation/translations/zh_CN/dev-tools/kasan.rst
+> index 8fdb20c9665b..2b1e8f74904b 100644
+> --- a/Documentation/translations/zh_CN/dev-tools/kasan.rst
+> +++ b/Documentation/translations/zh_CN/dev-tools/kasan.rst
+> @@ -137,7 +137,7 @@ KASAN=E5=8F=97=E5=88=B0=E9=80=9A=E7=94=A8 ``panic_on_=
+warn`` =E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=82=E6=95=B0=E7=9A=84=E5=BD=B1=E5=
+=93=8D=E3=80=82=E5=BD=93=E5=AE=83=E8=A2=AB=E5=90=AF=E7=94=A8
+>  =E5=85=B8=E5=9E=8B=E7=9A=84KASAN=E6=8A=A5=E5=91=8A=E5=A6=82=E4=B8=8B=E6=
+=89=80=E7=A4=BA::
 >
->>> I believe the reason my .kunitconfig as well as the existing
->>> mm/kfence/.kunitconfig work on X86 is because CONFIG_TRACEPOINTS=3Dy is=
- present in
->>> an X86 defconfig.
->>>
->>> Does this make sense?
->>>
->>> Would you welcome a patch addressing this for the existing
->>> mm/kfence/.kunitconfig?
->>>
->>> I would also like to submit a patch for an mm/kasan/.kunitconfig. Do yo=
-u think
->>> that would be helpful too?
->>>
->>> FWICT, kernel/kcsan/.kunitconfig might also be affected since
->>> CONFIG_KCSAN_KUNIT_TEST also depends on CONFIG_TRACEPOITNS, but I would=
- have to
->>> test that. That could be a third patch.
->>
->> I'd support figuring out the minimal config (CONFIG_FTRACE or
->> something else?) that satisfies the TRACEPOINTS dependency. I always
->> thought CONFIG_FTRACE ought to be the one config option, but maybe
->> something changed.
+>      =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> -    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [test_=
+kasan]
+> +    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [kasan=
+_test]
+>      Write of size 1 at addr ffff8801f44ec37b by task insmod/2760
 >
-> If we want a minimal config, setting CONFIG_BLK_DEV_IO_TRACE,
-> CONFIG_SYNTH_EVENTS or CONFIG_USER_EVENTS seem like viable options, for
-> instance. But AFAICT, setting them in the context of KASan doesn't really=
- make
-> sense, and I might be missing an obvious choice here too.
+>      CPU: 1 PID: 2760 Comm: insmod Not tainted 4.19.0-rc3+ #698
+> @@ -147,8 +147,8 @@ KASAN=E5=8F=97=E5=88=B0=E9=80=9A=E7=94=A8 ``panic_on_=
+warn`` =E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=82=E6=95=B0=E7=9A=84=E5=BD=B1=E5=
+=93=8D=E3=80=82=E5=BD=93=E5=AE=83=E8=A2=AB=E5=90=AF=E7=94=A8
+>       print_address_description+0x73/0x280
+>       kasan_report+0x144/0x187
+>       __asan_report_store1_noabort+0x17/0x20
+> -     kmalloc_oob_right+0xa8/0xbc [test_kasan]
+> -     kmalloc_tests_init+0x16/0x700 [test_kasan]
+> +     kmalloc_oob_right+0xa8/0xbc [kasan_test]
+> +     kmalloc_tests_init+0x16/0x700 [kasan_test]
+>       do_one_initcall+0xa5/0x3ae
+>       do_init_module+0x1b6/0x547
+>       load_module+0x75df/0x8070
+> @@ -168,8 +168,8 @@ KASAN=E5=8F=97=E5=88=B0=E9=80=9A=E7=94=A8 ``panic_on_=
+warn`` =E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=82=E6=95=B0=E7=9A=84=E5=BD=B1=E5=
+=93=8D=E3=80=82=E5=BD=93=E5=AE=83=E8=A2=AB=E5=90=AF=E7=94=A8
+>       save_stack+0x43/0xd0
+>       kasan_kmalloc+0xa7/0xd0
+>       kmem_cache_alloc_trace+0xe1/0x1b0
+> -     kmalloc_oob_right+0x56/0xbc [test_kasan]
+> -     kmalloc_tests_init+0x16/0x700 [test_kasan]
+> +     kmalloc_oob_right+0x56/0xbc [kasan_test]
+> +     kmalloc_tests_init+0x16/0x700 [kasan_test]
+>       do_one_initcall+0xa5/0x3ae
+>       do_init_module+0x1b6/0x547
+>       load_module+0x75df/0x8070
+> @@ -421,15 +421,15 @@ KASAN=E8=BF=9E=E6=8E=A5=E5=88=B0vmap=E5=9F=BA=E7=A1=
+=80=E6=9E=B6=E6=9E=84=E4=BB=A5=E6=87=92=E6=B8=85=E7=90=86=E6=9C=AA=E4=BD=BF=
+=E7=94=A8=E7=9A=84=E5=BD=B1=E5=AD=90=E5=86=85=E5=AD=98=E3=80=82
 >
-> What do you think?
+>  =E5=BD=93=E7=94=B1=E4=BA=8E ``kmalloc`` =E5=A4=B1=E8=B4=A5=E8=80=8C=E5=
+=AF=BC=E8=87=B4=E6=B5=8B=E8=AF=95=E5=A4=B1=E8=B4=A5=E6=97=B6::
 >
->> Also maybe one of the tracing maintainers can help untangle what's
->> going on here.
->>
->> Thanks,
->> -- Marco
+> -        # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:=
+163
+> +        # kmalloc_large_oob_right: ASSERTION FAILED at mm/kasan/kasan_te=
+st.c:245
+>          Expected ptr is not null, but is
+> -        not ok 4 - kmalloc_large_oob_right
+> +        not ok 5 - kmalloc_large_oob_right
 >
-> Many thanks,
-> Paul
-
-Hi all,
-
-Just giving this thread a polite bump, hoping that someone has some pointer=
-s.
-
-The TL;DR is the following: I=E2=80=99m trying to run KASan KUnit tests wit=
-h the=20
-following local .kunitconfig:
-
-	CONFIG_KUNIT=3Dy
-	CONFIG_KUNIT_ALL_TESTS=3Dn
-	CONFIG_FTRACE=3Dy
-	CONFIG_KASAN=3Dy
-	CONFIG_KASAN_GENERIC=3Dy
-	CONFIG_KASAN_KUNIT_TEST=3Dy
-
-The problem is that on arm64, this does not appear to be enough to set all =
-of=20
-CONFIG_KASAN_KUNIT_TEST=E2=80=99s dependencies, namely CONFIG_TRACEPOINTS.
-
-An additional option is needed to enable CONFIG_TRACEPOINTS. As per `make=
-=20
-menuconfig`, this is either CONFIG_BLK_DEV_IO_TRACE or any (combination of)=
-=20
-option(s) that enable(s) CONFIG_TRACING. See the `make menuconfig` output i=
-n my=20
-previous email for details.
-
-Which option do you think is appropriate here? Or am I missing something?
-
-For anyone wanting to reproduce, use:
-./tools/testing/kunit/kunit.py run =E2=80=94kunitconfig=3D<path_to_above_ku=
-nitconfig> --arch=3Darm64
-
-Many thanks,
-Paul
+>  =E5=BD=93=E7=94=B1=E4=BA=8E=E7=BC=BA=E5=B0=91KASAN=E6=8A=A5=E5=91=8A=E8=
+=80=8C=E5=AF=BC=E8=87=B4=E6=B5=8B=E8=AF=95=E5=A4=B1=E8=B4=A5=E6=97=B6::
+>
+> -        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:=
+974
+> +        # kmalloc_double_kzfree: EXPECTATION FAILED at mm/kasan/kasan_te=
+st.c:709
+>          KASAN failure expected in "kfree_sensitive(ptr)", but none occur=
+red
+> -        not ok 44 - kmalloc_double_kzfree
+> +        not ok 28 - kmalloc_double_kzfree
+>
+>
+>  =E6=9C=80=E5=90=8E=E6=89=93=E5=8D=B0=E6=89=80=E6=9C=89KASAN=E6=B5=8B=E8=
+=AF=95=E7=9A=84=E7=B4=AF=E7=A7=AF=E7=8A=B6=E6=80=81=E3=80=82=E6=88=90=E5=8A=
+=9F::
+> @@ -445,7 +445,7 @@ KASAN=E8=BF=9E=E6=8E=A5=E5=88=B0vmap=E5=9F=BA=E7=A1=
+=80=E6=9E=B6=E6=9E=84=E4=BB=A5=E6=87=92=E6=B8=85=E7=90=86=E6=9C=AA=E4=BD=BF=
+=E7=94=A8=E7=9A=84=E5=BD=B1=E5=AD=90=E5=86=85=E5=AD=98=E3=80=82
+>  1. =E5=8F=AF=E5=8A=A0=E8=BD=BD=E6=A8=A1=E5=9D=97
+>
+>     =E5=90=AF=E7=94=A8 ``CONFIG_KUNIT`` =E5=90=8E=EF=BC=8CKASAN-KUnit=E6=
+=B5=8B=E8=AF=95=E5=8F=AF=E4=BB=A5=E6=9E=84=E5=BB=BA=E4=B8=BA=E5=8F=AF=E5=8A=
+=A0=E8=BD=BD=E6=A8=A1=E5=9D=97=EF=BC=8C=E5=B9=B6=E9=80=9A=E8=BF=87=E4=BD=BF=
+=E7=94=A8
+> -   ``insmod`` =E6=88=96 ``modprobe`` =E5=8A=A0=E8=BD=BD ``test_kasan.ko`=
+` =E6=9D=A5=E8=BF=90=E8=A1=8C=E3=80=82
+> +   ``insmod`` =E6=88=96 ``modprobe`` =E5=8A=A0=E8=BD=BD ``kasan_test.ko`=
+` =E6=9D=A5=E8=BF=90=E8=A1=8C=E3=80=82
+>
+>  2. =E5=86=85=E7=BD=AE
+>
+> diff --git a/Documentation/translations/zh_TW/dev-tools/kasan.rst b/Docum=
+entation/translations/zh_TW/dev-tools/kasan.rst
+> index 979eb84bc58f..ed342e67d8ed 100644
+> --- a/Documentation/translations/zh_TW/dev-tools/kasan.rst
+> +++ b/Documentation/translations/zh_TW/dev-tools/kasan.rst
+> @@ -137,7 +137,7 @@ KASAN=E5=8F=97=E5=88=B0=E9=80=9A=E7=94=A8 ``panic_on_=
+warn`` =E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=83=E6=95=B8=E7=9A=84=E5=BD=B1=E9=
+=9F=BF=E3=80=82=E7=95=B6=E5=AE=83=E8=A2=AB=E5=95=93=E7=94=A8
+>  =E5=85=B8=E5=9E=8B=E7=9A=84KASAN=E5=A0=B1=E5=91=8A=E5=A6=82=E4=B8=8B=E6=
+=89=80=E7=A4=BA::
+>
+>      =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> -    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [test_=
+kasan]
+> +    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [kasan=
+_test]
+>      Write of size 1 at addr ffff8801f44ec37b by task insmod/2760
+>
+>      CPU: 1 PID: 2760 Comm: insmod Not tainted 4.19.0-rc3+ #698
+> @@ -147,8 +147,8 @@ KASAN=E5=8F=97=E5=88=B0=E9=80=9A=E7=94=A8 ``panic_on_=
+warn`` =E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=83=E6=95=B8=E7=9A=84=E5=BD=B1=E9=
+=9F=BF=E3=80=82=E7=95=B6=E5=AE=83=E8=A2=AB=E5=95=93=E7=94=A8
+>       print_address_description+0x73/0x280
+>       kasan_report+0x144/0x187
+>       __asan_report_store1_noabort+0x17/0x20
+> -     kmalloc_oob_right+0xa8/0xbc [test_kasan]
+> -     kmalloc_tests_init+0x16/0x700 [test_kasan]
+> +     kmalloc_oob_right+0xa8/0xbc [kasan_test]
+> +     kmalloc_tests_init+0x16/0x700 [kasan_test]
+>       do_one_initcall+0xa5/0x3ae
+>       do_init_module+0x1b6/0x547
+>       load_module+0x75df/0x8070
+> @@ -168,8 +168,8 @@ KASAN=E5=8F=97=E5=88=B0=E9=80=9A=E7=94=A8 ``panic_on_=
+warn`` =E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=83=E6=95=B8=E7=9A=84=E5=BD=B1=E9=
+=9F=BF=E3=80=82=E7=95=B6=E5=AE=83=E8=A2=AB=E5=95=93=E7=94=A8
+>       save_stack+0x43/0xd0
+>       kasan_kmalloc+0xa7/0xd0
+>       kmem_cache_alloc_trace+0xe1/0x1b0
+> -     kmalloc_oob_right+0x56/0xbc [test_kasan]
+> -     kmalloc_tests_init+0x16/0x700 [test_kasan]
+> +     kmalloc_oob_right+0x56/0xbc [kasan_test]
+> +     kmalloc_tests_init+0x16/0x700 [kasan_test]
+>       do_one_initcall+0xa5/0x3ae
+>       do_init_module+0x1b6/0x547
+>       load_module+0x75df/0x8070
+> @@ -421,15 +421,15 @@ KASAN=E9=80=A3=E6=8E=A5=E5=88=B0vmap=E5=9F=BA=E7=A4=
+=8E=E6=9E=B6=E6=A7=8B=E4=BB=A5=E6=87=B6=E6=B8=85=E7=90=86=E6=9C=AA=E4=BD=BF=
+=E7=94=A8=E7=9A=84=E5=BD=B1=E5=AD=90=E5=85=A7=E5=AD=98=E3=80=82
+>
+>  =E7=95=B6=E7=94=B1=E6=96=BC ``kmalloc`` =E5=A4=B1=E6=95=97=E8=80=8C=E5=
+=B0=8E=E8=87=B4=E6=B8=AC=E8=A9=A6=E5=A4=B1=E6=95=97=E6=99=82::
+>
+> -        # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:=
+163
+> +        # kmalloc_large_oob_right: ASSERTION FAILED at mm/kasan/kasan_te=
+st.c:245
+>          Expected ptr is not null, but is
+> -        not ok 4 - kmalloc_large_oob_right
+> +        not ok 5 - kmalloc_large_oob_right
+>
+>  =E7=95=B6=E7=94=B1=E6=96=BC=E7=BC=BA=E5=B0=91KASAN=E5=A0=B1=E5=91=8A=E8=
+=80=8C=E5=B0=8E=E8=87=B4=E6=B8=AC=E8=A9=A6=E5=A4=B1=E6=95=97=E6=99=82::
+>
+> -        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:=
+974
+> +        # kmalloc_double_kzfree: EXPECTATION FAILED at mm/kasan/kasan_te=
+st.c:709
+>          KASAN failure expected in "kfree_sensitive(ptr)", but none occur=
+red
+> -        not ok 44 - kmalloc_double_kzfree
+> +        not ok 28 - kmalloc_double_kzfree
+>
+>
+>  =E6=9C=80=E5=BE=8C=E6=89=93=E5=8D=B0=E6=89=80=E6=9C=89KASAN=E6=B8=AC=E8=
+=A9=A6=E7=9A=84=E7=B4=AF=E7=A9=8D=E7=8B=80=E6=85=8B=E3=80=82=E6=88=90=E5=8A=
+=9F::
+> @@ -445,7 +445,7 @@ KASAN=E9=80=A3=E6=8E=A5=E5=88=B0vmap=E5=9F=BA=E7=A4=
+=8E=E6=9E=B6=E6=A7=8B=E4=BB=A5=E6=87=B6=E6=B8=85=E7=90=86=E6=9C=AA=E4=BD=BF=
+=E7=94=A8=E7=9A=84=E5=BD=B1=E5=AD=90=E5=85=A7=E5=AD=98=E3=80=82
+>  1. =E5=8F=AF=E5=8A=A0=E8=BC=89=E6=A8=A1=E5=A1=8A
+>
+>     =E5=95=93=E7=94=A8 ``CONFIG_KUNIT`` =E5=BE=8C=EF=BC=8CKASAN-KUnit=E6=
+=B8=AC=E8=A9=A6=E5=8F=AF=E4=BB=A5=E6=A7=8B=E5=BB=BA=E7=88=B2=E5=8F=AF=E5=8A=
+=A0=E8=BC=89=E6=A8=A1=E5=A1=8A=EF=BC=8C=E4=B8=A6=E9=80=9A=E9=81=8E=E4=BD=BF=
+=E7=94=A8
+> -   ``insmod`` =E6=88=96 ``modprobe`` =E5=8A=A0=E8=BC=89 ``test_kasan.ko`=
+` =E4=BE=86=E9=81=8B=E8=A1=8C=E3=80=82
+> +   ``insmod`` =E6=88=96 ``modprobe`` =E5=8A=A0=E8=BC=89 ``kasan_test.ko`=
+` =E4=BE=86=E9=81=8B=E8=A1=8C=E3=80=82
+>
+>  2. =E5=85=A7=E7=BD=AE
+>
+> --
+> 2.42.0
+>
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -411,4 +441,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/8D76B3E2-91CD-46BC-B990-59D6D60AC9BA%40tum.de.
+kasan-dev/CANpmjNM%2BaX6v3uiaZ8OxjUBb5ax%3DHcGKz6dG%2B6xcEV4oWODwhg%40mail.=
+gmail.com.
