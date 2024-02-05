@@ -1,136 +1,134 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORB2U2QWXAMGQE7Y7543Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBRM3QWXAMGQEZOHTY6I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id 122F684A693
-	for <lists+kasan-dev@lfdr.de>; Mon,  5 Feb 2024 22:04:44 +0100 (CET)
-Received: by mail-lf1-x137.google.com with SMTP id 2adb3069b0e04-51143206e25sf348611e87.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 05 Feb 2024 13:04:44 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1707167083; cv=pass;
+Received: from mail-lj1-x23f.google.com (mail-lj1-x23f.google.com [IPv6:2a00:1450:4864:20::23f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 508BD84A69B
+	for <lists+kasan-dev@lfdr.de>; Mon,  5 Feb 2024 22:06:15 +0100 (CET)
+Received: by mail-lj1-x23f.google.com with SMTP id 38308e7fff4ca-2d0ab3c5eecsf14547311fa.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 05 Feb 2024 13:06:15 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1707167174; cv=pass;
         d=google.com; s=arc-20160816;
-        b=EDlzUTR3eLm7EiRW2efXJAAj4k1ebIsixIlC+zZVQKyoQCnnRblwXX6UbYagGITvOd
-         0fhv5xhdGFU6fSaWA98O8GKLMEEwjWpafuST+Y5jH2P3gpKiSWqK2/CRwLtm6duOe+mO
-         yHezvf/jrWMWpO5HVlTVkfJiAUZiR0aIAtjDeygyiJVGk9CAmLXRIymHhb0GDtJc/9u8
-         sSxKSIWg6NLCpDmYo4yBOx+hZmhdDfN3u1gqOCQkST8TChczXWwLJzIVpVTWFaIHyx53
-         OdkgW+YxbZHt4fe45cmY0O9zYE8GGz25XCMRiiSBWkbo8ky/hSAShZ7ZqwxRyNfKkcXQ
-         y4Kw==
+        b=N9tSogZNlDLo+0gkQEFWfnaD84HDqB1qTrgC5j3/+5xPqEeqWx0J514JXRpduMVtar
+         SNQWYaPpsujpz0yoGHdd482IUZgThhFeMNH9Ftly/wo2645UsOvHQ6SFVn/WcLAgXTYK
+         kk0xygCCX5zquuRt5o6drOPYlneMAObBU1vQGTug4fBNWi1bT/MAUwR7dYhjVeuB5x/9
+         CYKt2qUc5QF47Ihy3/KphXv/roG7OXMXHQuxZKl9L1peJ6DBxMvJ3Ot1CAu9wTsS9W+S
+         I9t6ljwgRehFCBOmJea/fPt6ZXhEk7bJcyYNTt3d2Cn3MUOOUQ4s2aZ5+OkdVtoDe9ZC
+         +l0g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
          :subject:message-id:date:from:in-reply-to:references:mime-version
          :sender:dkim-signature:dkim-signature;
-        bh=D+ejY9silWdkepsA6G+zECEv0l2S8GiPUlZPAlIDpeg=;
-        fh=5CcCnTZDIJBn4LajitajVDy8Zl3VxsmG4CQ2U5/gemk=;
-        b=tsmxGvLWxOaJEvtWIM7nPuoEWJVnfjwp+WdKTmdxaYPM1rykxl1EOSkfYuJplI6vDP
-         Ii8bSZTm9igp0xWxCc4boNR7x9tUbrj73ZDCWGxI9SYQU4ruhkcDNUDrH6fIQ2IA/HOm
-         u6fJMI2sT5mxUBYQTMgraau6MdAKtIJpQuhh/kGS1o9SAKpwyT7R9VAdKrCaeg3w0mfS
-         /1oZhczi/t+zmfgiQ9qQ+5gp51x/5Eb5dFH0n6QqqHxTDwBGaloQRiRsHHiPzlxAM21D
-         fhL2FhalmgSkbYQIWWB+IOEvtAdqD3xGh3eL4IuFjj1Gavj99423ZlriitSuKB5ohvtk
-         SAhw==;
-        darn=lfdr.de
+        bh=L7f3UD6YzHfYAdSIQNV6GaDvzYJnc/2Awm1WI3fw+20=;
+        fh=lwhxkJI+9AxWHHMCNqDPurBZ1nR2ooCzpu1Piu7bAkU=;
+        b=FwQ4VSxkTB9ilKkdetgx50+GCnds+45JPZdrBYXwS5o9xoB/zUYe53lzReKbOE1bNH
+         I5AKoRkxtBCcnwqOJgvX/sqEw3Ad3dlIs4eLKdsFbjZSgGNPkFGnrTIwWcPMly1bsZW0
+         z12LvBcXilx0UFF4opSqAjWjumkq3cwhjMO+xFCA/0c1LWCpb++XOQDSV1tQk4riTIqS
+         +0NbowJSwmbsItT99VkaTGaT89TQM1XAzxiJTSXikre28Q7MnDjkxo1ReqgdXEHfWbJ3
+         cFYm85S7KI1DUm1B+7SF7QSPdApvEnC4zaTkCxNPRK9ybkY7K5vBtbJruJ15tKs0dtK1
+         C8AA==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=UsjzVWSy;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=B5dY71MS;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1707167083; x=1707771883; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1707167174; x=1707771974; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=D+ejY9silWdkepsA6G+zECEv0l2S8GiPUlZPAlIDpeg=;
-        b=YGvxf3r+Axuaq0ucsr62QnI2d1De5h6Lsonou1tfAOgkq2hPCB/WwBy3Ec0VHysF0C
-         aaf/getmtMj35KwpVCl5NkFOBnoZa4Ef5EZMxG9IRvlpNcN2LW3gJ3Yug4v7mJf9gUCL
-         FipVtShk8xDjedYNX1e23z1iuidtKRPxZlBHjPGcJ7Epj9gYkGhhPPWKjc0aC17c7F/f
-         f5tg/NBaX/nm974qHx0+vDobfS7fKcS3H/Tkg7mXhFpA/ZpKeL6xAk2E4OtoYiXwaVbx
-         W9lp2lLd21YS8xF2CSwxxu4WwbwFyHEfIEZ1HIkZL2ZOOd6RPhA2S4y+Y1EF2Z9VNTY6
-         A/mg==
+        bh=L7f3UD6YzHfYAdSIQNV6GaDvzYJnc/2Awm1WI3fw+20=;
+        b=hMlEuvqrQcdzZ3EypmK9Va0uqZszHvX6hZY1LMlG9nUYsdzAkBjOQNEbGJvgqYwDjs
+         p4CjBKLiXweGUibTo5elguybAbGt58S9s5QxB7ekkNOJjMu95fMd6D+Qf0vjrEbULGPD
+         XT7XAmcH+K86oisZOj48l6DFvZjT6B8GyMvzb878swCElHgvZQ4huTiW/cgRhsJmHbfF
+         x9AD/ntih6qeai0bt1L2YHtv4BQv2noxzCEJhIaXOgXjQJjjrft4kEI2XSretb6oKKqW
+         1hXdY+BNswhX301csVs5ByREAOHF2r/j779st9sdNEOlknJy6IsWzRyhQZsRzTic+ksc
+         yHSA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707167083; x=1707771883; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1707167174; x=1707771974; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=D+ejY9silWdkepsA6G+zECEv0l2S8GiPUlZPAlIDpeg=;
-        b=Eh/QD0D8HvPU+SL1K+5lS95VDB5B1ZjPdpU20MhICwNc9YpCZIBQ30niDWlKwHSM5R
-         YeTKyrtdQVFrtYi3sH9cTOEhyf0Bf2vl8aAD5zyUvcSsmyE3sVzn4UPf3Fh7XLI3YWKw
-         qzHArN2S/aKBhq4WpKpLPGZA6YNSelRrueXXZsuL0gqDQALTRhnZk9ONL0ekP6tURlWD
-         fWQRgO0Fg5rYjmcmw+t8UfJ5jBJPWSyzeLT4dZIwilXB8CVTDfcwz5KcMU9I27hXDbu/
-         lLPjUJtjPPupSjWXVPSDJRFoaS1T3m2/E+6WSMBdPVnNiFqeIR0JWBHXWVOG+OIXuwuL
-         VeTQ==
+        bh=L7f3UD6YzHfYAdSIQNV6GaDvzYJnc/2Awm1WI3fw+20=;
+        b=nbdTUOtByW8Vg34X/i4s6RO+747o12ubXg0iS4RR4j4I+ID9CQGJW/c6Q26IhYr/ig
+         Re1eDHxJoHzdpIWopcXotMWFHMx1Nd1ZBY7rfbFfdmUwFd3WsWrKWs7m9E71q0vCwvII
+         xRNmTpFlaiMMHsl+yco8/5vofAiV6NTMGDcXjArFZxi2v3uIy+cyEO0W/jllbLll46FL
+         LD2Sl9zDDqyNTE5vWPr0IvX+wVtPkXqxsSwGue83tN873PB8fHFDaUDXEQgsA33xBEYU
+         z6h3tlecQOxQWLmxTMoZSaIFRZ7xSihn42xo95RlbPWTwBqkCUqc6JJ9jt7h0bpwr2ZD
+         +FMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707167083; x=1707771883;
+        d=1e100.net; s=20230601; t=1707167174; x=1707771974;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=D+ejY9silWdkepsA6G+zECEv0l2S8GiPUlZPAlIDpeg=;
-        b=Gy/kwFaOTCQvfmOoJBkH6KuogbRlTC1Yt3/yMxlDUjhoxTy67IT6O9BllRCxA+b785
-         fXi4EZP5/rHufR7VzAJYs1rAzjxLdBBxTpU76ollV4eTP7Bdebseqm+GNJE98z0JKcNj
-         DZQyQHbe+aQoKUdqXF58yz5Av4eXy8mTlnv0Vvvtb7Zs/vvmK0GsRRZG5ZQg3NDrL+df
-         Bzz7wNUBbMwGfjcYozqu0TNQUtZjIaBpYC8YvT3pZcxqVTag8/kKHxwZFGX1in+zTJ7H
-         sod6Tnbqm87D+wiJc6VK2z7T+Pf/eKP3jmmCbd2/bBJUaknvMRxP/zj+zospuwE6o2vH
-         J/JA==
+        bh=L7f3UD6YzHfYAdSIQNV6GaDvzYJnc/2Awm1WI3fw+20=;
+        b=mQVkEvmvuTiIAF3qE9OtyBGevPtOL/JCfdynRZM8qbiAIEIA/kleS/0pJtdUrX+jGO
+         bsyojxc0nijh7qw9TxUGBvUfeiHZ8w1bxnHcWLGHxy52/TfuQeeUkesEUKxYJ7O5Vtoe
+         c9dl4RaAFFxdmvQ6e5J9yBSBOwrqkZyEzAcYStuXKypfbzyegQOPWHQbqI8Q2xbfYILW
+         6b0imqoJbFZpJvbE/8l2tnGp+LA4okcW8wVnlduEI9h8qsGctDwpuYNW56dkua4QKJMr
+         TJi3pnuJscDWPmY8bg/FHcUpjJOvc61Y7C4XuQNb8zVAbV2T+rwNmcyuUZr76S+qgiN/
+         LHkg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXopF0sMnwSkChDt2SO4WYYUz1JnqPSShOXpAOovkVoAN2jFHcAAzKQGzUsDRNcuNUb0LQe6vg2Sp2zefjQI1kgXqr2HMWfzQ==
-X-Gm-Message-State: AOJu0YyXIZWrIEjPQgXryZp9HN14QihXY7r6NlS2i1BpLSvtSV6C6f43
-	c/c/UEUt5lpDId0TgQ8O1ydzZ0yc82MUEHnsEi66x3PWPoJxC/15
-X-Google-Smtp-Source: AGHT+IGqEibw6Z1pjVKIoplFhFMfabF1fakQQy89zDvgAnFegxidTkC+br/mc72EJU67z+dyvZl7VA==
-X-Received: by 2002:a05:6512:511:b0:511:5b35:d118 with SMTP id o17-20020a056512051100b005115b35d118mr167162lfb.2.1707167082717;
-        Mon, 05 Feb 2024 13:04:42 -0800 (PST)
+X-Gm-Message-State: AOJu0Yxh/VhcDB2NGGX07kgI8tfdMU7A3KI0ODMp4Azn3O04tB+jO4jY
+	o13OP9K1pjKUfP7a0z5kDkTa1MP9MC35rLJp9A1svH5UIYbbnHEg
+X-Google-Smtp-Source: AGHT+IHDaZi616DcaqK0yNK9Bcln0PboVYxbqsvXQ6VlxSlbX0GyfOwEoIEAr8GvVkuc3mAViOYLSw==
+X-Received: by 2002:a2e:9255:0:b0:2d0:87a8:bda4 with SMTP id v21-20020a2e9255000000b002d087a8bda4mr250074ljg.25.1707167174020;
+        Mon, 05 Feb 2024 13:06:14 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3a92:b0:511:3561:bca2 with SMTP id
- q18-20020a0565123a9200b005113561bca2ls629381lfu.1.-pod-prod-04-eu; Mon, 05
- Feb 2024 13:04:41 -0800 (PST)
-X-Received: by 2002:ac2:4db2:0:b0:511:454e:6032 with SMTP id h18-20020ac24db2000000b00511454e6032mr498960lfe.63.1707167080764;
-        Mon, 05 Feb 2024 13:04:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1707167080; cv=none;
+Received: by 2002:a05:651c:1a0f:b0:2cc:e70b:1d80 with SMTP id
+ by15-20020a05651c1a0f00b002cce70b1d80ls537943ljb.1.-pod-prod-08-eu; Mon, 05
+ Feb 2024 13:06:12 -0800 (PST)
+X-Received: by 2002:a2e:99d5:0:b0:2d0:b1a9:dfba with SMTP id l21-20020a2e99d5000000b002d0b1a9dfbamr233680ljj.29.1707167171919;
+        Mon, 05 Feb 2024 13:06:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1707167171; cv=none;
         d=google.com; s=arc-20160816;
-        b=m6oXgxFF+B8PNAdOWc+l5hQcfwRJw+yNkVgENsxWy/jsQwuSuQp9wCgM99iEz477Bm
-         3nClSuTOCN5IxpPt5DxlBec5KOE5qdECx3uEP7QJEn93/JPVc7eWnmQzhlsZ4iDfc/7M
-         kiS+eOPUIkGOzMfnwzPny1uFnCaUqyDAN4vpDpHCWFNJqGhTAbRGXYEJQkQowy24QuAZ
-         bOp3E7r4+zKDlKvhkPQiJaXXKUJT9orfRTV1dRkFJHjdU8eNe6dKIDMHQJazNGpEISX/
-         My6hL5u3scVKMgeYgsRG77aLMjYMNwfLoCPB/RsArFSxKTIIH6QqFzejhAOc4gK3g5/g
-         DRVQ==
+        b=TTV+PusbDcNMSz/soK3G5hwoBevymjKv7i5JQG+NnvCeRu4YEYjLZqT6lvZMYVQTqq
+         5jqxExdFb8IRgcu+hBmHUF+XseJkoyUuyZS60SmwSAYE7zrepwjauQC2I4tq1yHH7VKi
+         EgadoG6Pfkeo9Zmim2Bp57gcIxdD7vDyZzJmUekp7r4ri66YOCGM/kqjAG0L4TZ/nFze
+         ExaIwxKIY5NgUAmX9T/gLmHwoHnhOD4EwoWyozWY8/R5jrork+MsuXcbewf9gHTsnheG
+         UKuqoshx8/tKIthind/z1NcQKnEFzV3tH6ZW+GEOyxx6zWW+FLutEVeeM7iQ5O/DRT36
+         y3qQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=nqJL7TqpfRwuD6pFCu0aeAbehlV+SJSjj9oqhH2/TvU=;
-        fh=ow3RB5mo6IF3/efgli2eCWKvynbWkrgCNQC9t1C4dzc=;
-        b=0VdKgDkpJm6KbsV3AUdDoN8r4oq4/OrRD8nGqyXkypVe1gJM+lZFvLd9BdFik8mTAz
-         qcjYNO4o3JbH80ci7Qf1YOhNMo2dkpRZyyzuUhaXCvUcH5oZB0IR7ZFgQo4NJtBNuTOk
-         uQQN+j9dhXmhouXgAqNltWeF6QMcF7/Ix0K8kYcnRnbDSVNB3730d8Q5XZ3mglowaoZq
-         gRvD8WPDglfs14POnu3OCygmfyHj3QEchaahBXWeinlJw0OyH7QciK/T5ISCARnS4uVh
-         ndggaygd3yeTObIUwHocE2SKQocCJR6kCCJ48+fonvMdYzcQeqxN96gWEKXy6fLocovh
-         qChA==;
+        bh=oYuB7rX3JOcdu5mrg7aKnBeo6EiHj+iA643HXTXEZt0=;
+        fh=lwhxkJI+9AxWHHMCNqDPurBZ1nR2ooCzpu1Piu7bAkU=;
+        b=VTeyKA5L4/c1i+hx29HkGRmRDVUqNUSxAcq3TxnrmdgH6gXpyGAozyFLXRXGAP3yzD
+         1PVNL1MbZ/2ACDkhD6zy9WNetUusCYJScKNlgQhqHkGjCYXImAypR522LfzI20+/GFj8
+         nzofw+h8ru/BVk/L79cir1jv8cDqQvXWWBrX2xyPNte7BbjE/dxE566fMGfBCJ1qLtc3
+         r7/a0pIkZ9i9x3dSysMfRu8o8YoIjGagEJbcPV8a4li5XuHqRAeWKI7LWFkZcEgb8zQ8
+         11+idRzIa7nNn2oetPiF/1Km3NlSO5d40I0TVdDm6eGNBesHlelTAd8L1gSFcDDZzwoi
+         JvPw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=UsjzVWSy;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=B5dY71MS;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-X-Forwarded-Encrypted: i=0; AJvYcCUj//2tPtDGVf6/6eWHDkQXpkjt3O5fIv3A+T4BCyPtMgi3yiig5Ycix6umFDmR6QFv27K8fBjOxMNFIB1gbyF5UJqGquMUI+Wc0w==
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com. [2a00:1450:4864:20::433])
-        by gmr-mx.google.com with ESMTPS id g29-20020a0565123b9d00b00511495618fdsi35951lfv.7.2024.02.05.13.04.40
+X-Forwarded-Encrypted: i=0; AJvYcCXf4zQfJ3R3rYupOpoMao5Ui1B9O7Bh5K8bqFoocI/3gDw+7WjY4nCyEiZugM7+rRwvql4JwrFka2R2eE9vgaBFvKNJH8SqYgiFyw==
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com. [2a00:1450:4864:20::32f])
+        by gmr-mx.google.com with ESMTPS id y27-20020a05651c021b00b002d0afeedd11si39912ljn.8.2024.02.05.13.06.11
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 Feb 2024 13:04:40 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) client-ip=2a00:1450:4864:20::433;
-Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-33b130f605eso3188919f8f.1
-        for <kasan-dev@googlegroups.com>; Mon, 05 Feb 2024 13:04:40 -0800 (PST)
-X-Received: by 2002:a5d:67d0:0:b0:33b:4164:5fbe with SMTP id
- n16-20020a5d67d0000000b0033b41645fbemr464734wrw.20.1707167079640; Mon, 05 Feb
- 2024 13:04:39 -0800 (PST)
+        Mon, 05 Feb 2024 13:06:11 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) client-ip=2a00:1450:4864:20::32f;
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40fc6343bd2so31391695e9.1
+        for <kasan-dev@googlegroups.com>; Mon, 05 Feb 2024 13:06:11 -0800 (PST)
+X-Received: by 2002:a05:600c:3ba8:b0:40f:b630:a9e2 with SMTP id
+ n40-20020a05600c3ba800b0040fb630a9e2mr181152wms.14.1707167171018; Mon, 05 Feb
+ 2024 13:06:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20240205060925.15594-1-yangtiezhu@loongson.cn> <20240205060925.15594-2-yangtiezhu@loongson.cn>
-In-Reply-To: <20240205060925.15594-2-yangtiezhu@loongson.cn>
+References: <20240205060925.15594-1-yangtiezhu@loongson.cn> <20240205060925.15594-3-yangtiezhu@loongson.cn>
+In-Reply-To: <20240205060925.15594-3-yangtiezhu@loongson.cn>
 From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Mon, 5 Feb 2024 22:04:28 +0100
-Message-ID: <CA+fCnZfDZvcFHG0anZQQKD_GVOfmcKhCmY82U9X2ZKBJp4oRZQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kasan: docs: Update descriptions about test file and module
+Date: Mon, 5 Feb 2024 22:06:00 +0100
+Message-ID: <CA+fCnZdvQmA7S6cnFS5niSm3zERyaLpb_wp5Y6=na-yeNNX9=A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] kasan: Rename test_kasan_module_init to kasan_test_module_init
 To: Tiezhu Yang <yangtiezhu@loongson.cn>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Marco Elver <elver@google.com>, kasan-dev@googlegroups.com, 
@@ -139,8 +137,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: andreyknvl@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=UsjzVWSy;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::433
+ header.i=@gmail.com header.s=20230601 header.b=B5dY71MS;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32f
  as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
  (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
@@ -158,292 +156,44 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 On Mon, Feb 5, 2024 at 7:09=E2=80=AFAM Tiezhu Yang <yangtiezhu@loongson.cn>=
  wrote:
 >
-> After commit f7e01ab828fd ("kasan: move tests to mm/kasan/"), the test
-> file is renamed to mm/kasan/kasan_test.c and the test module is renamed
-> to kasan_test.ko, so update the descriptions in the document.
->
-> While at it, update the line number and testcase number when the tests
-> kmalloc_large_oob_right and kmalloc_double_kzfree failed to sync with
-> the current code in mm/kasan/kasan_test.c.
+> After commit f7e01ab828fd ("kasan: move tests to mm/kasan/"),
+> the test module file is renamed from lib/test_kasan_module.c
+> to mm/kasan/kasan_test_module.c, in order to keep consistent,
+> rename test_kasan_module_init to kasan_test_module_init.
 >
 > Signed-off-by: Tiezhu Yang <yangtiezhu@loongson.cn>
 > ---
->  Documentation/dev-tools/kasan.rst             | 20 +++++++++----------
->  .../translations/zh_CN/dev-tools/kasan.rst    | 20 +++++++++----------
->  .../translations/zh_TW/dev-tools/kasan.rst    | 20 +++++++++----------
->  3 files changed, 30 insertions(+), 30 deletions(-)
+>  mm/kasan/kasan_test_module.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/=
-kasan.rst
-> index 858c77fe7dc4..a5a6dbe9029f 100644
-> --- a/Documentation/dev-tools/kasan.rst
-> +++ b/Documentation/dev-tools/kasan.rst
-> @@ -169,7 +169,7 @@ Error reports
->  A typical KASAN report looks like this::
+> diff --git a/mm/kasan/kasan_test_module.c b/mm/kasan/kasan_test_module.c
+> index 8b7b3ea2c74e..27ec22767e42 100644
+> --- a/mm/kasan/kasan_test_module.c
+> +++ b/mm/kasan/kasan_test_module.c
+> @@ -62,7 +62,7 @@ static noinline void __init copy_user_test(void)
+>         kfree(kmem);
+>  }
 >
->      =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [test_=
-kasan]
-> +    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [kasan=
-_test]
->      Write of size 1 at addr ffff8801f44ec37b by task insmod/2760
+> -static int __init test_kasan_module_init(void)
+> +static int __init kasan_test_module_init(void)
+>  {
+>         /*
+>          * Temporarily enable multi-shot mode. Otherwise, KASAN would onl=
+y
+> @@ -77,5 +77,5 @@ static int __init test_kasan_module_init(void)
+>         return -EAGAIN;
+>  }
 >
->      CPU: 1 PID: 2760 Comm: insmod Not tainted 4.19.0-rc3+ #698
-> @@ -179,8 +179,8 @@ A typical KASAN report looks like this::
->       print_address_description+0x73/0x280
->       kasan_report+0x144/0x187
->       __asan_report_store1_noabort+0x17/0x20
-> -     kmalloc_oob_right+0xa8/0xbc [test_kasan]
-> -     kmalloc_tests_init+0x16/0x700 [test_kasan]
-> +     kmalloc_oob_right+0xa8/0xbc [kasan_test]
-> +     kmalloc_tests_init+0x16/0x700 [kasan_test]
->       do_one_initcall+0xa5/0x3ae
->       do_init_module+0x1b6/0x547
->       load_module+0x75df/0x8070
-> @@ -200,8 +200,8 @@ A typical KASAN report looks like this::
->       save_stack+0x43/0xd0
->       kasan_kmalloc+0xa7/0xd0
->       kmem_cache_alloc_trace+0xe1/0x1b0
-> -     kmalloc_oob_right+0x56/0xbc [test_kasan]
-> -     kmalloc_tests_init+0x16/0x700 [test_kasan]
-> +     kmalloc_oob_right+0x56/0xbc [kasan_test]
-> +     kmalloc_tests_init+0x16/0x700 [kasan_test]
->       do_one_initcall+0xa5/0x3ae
->       do_init_module+0x1b6/0x547
->       load_module+0x75df/0x8070
-> @@ -510,15 +510,15 @@ When a test passes::
->
->  When a test fails due to a failed ``kmalloc``::
->
-> -        # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:=
-163
-> +        # kmalloc_large_oob_right: ASSERTION FAILED at mm/kasan/kasan_te=
-st.c:245
->          Expected ptr is not null, but is
-> -        not ok 4 - kmalloc_large_oob_right
-> +        not ok 5 - kmalloc_large_oob_right
->
->  When a test fails due to a missing KASAN report::
->
-> -        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:=
-974
-> +        # kmalloc_double_kzfree: EXPECTATION FAILED at mm/kasan/kasan_te=
-st.c:709
->          KASAN failure expected in "kfree_sensitive(ptr)", but none occur=
-red
-> -        not ok 44 - kmalloc_double_kzfree
-> +        not ok 28 - kmalloc_double_kzfree
->
->
->  At the end the cumulative status of all KASAN tests is printed. On succe=
-ss::
-> @@ -534,7 +534,7 @@ There are a few ways to run KUnit-compatible KASAN te=
-sts.
->  1. Loadable module
->
->     With ``CONFIG_KUNIT`` enabled, KASAN-KUnit tests can be built as a lo=
-adable
-> -   module and run by loading ``test_kasan.ko`` with ``insmod`` or ``modp=
-robe``.
-> +   module and run by loading ``kasan_test.ko`` with ``insmod`` or ``modp=
-robe``.
->
->  2. Built-In
->
-> diff --git a/Documentation/translations/zh_CN/dev-tools/kasan.rst b/Docum=
-entation/translations/zh_CN/dev-tools/kasan.rst
-> index 8fdb20c9665b..2b1e8f74904b 100644
-> --- a/Documentation/translations/zh_CN/dev-tools/kasan.rst
-> +++ b/Documentation/translations/zh_CN/dev-tools/kasan.rst
-> @@ -137,7 +137,7 @@ KASAN=E5=8F=97=E5=88=B0=E9=80=9A=E7=94=A8 ``panic_on_=
-warn`` =E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=82=E6=95=B0=E7=9A=84=E5=BD=B1=E5=
-=93=8D=E3=80=82=E5=BD=93=E5=AE=83=E8=A2=AB=E5=90=AF=E7=94=A8
->  =E5=85=B8=E5=9E=8B=E7=9A=84KASAN=E6=8A=A5=E5=91=8A=E5=A6=82=E4=B8=8B=E6=
-=89=80=E7=A4=BA::
->
->      =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [test_=
-kasan]
-> +    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [kasan=
-_test]
->      Write of size 1 at addr ffff8801f44ec37b by task insmod/2760
->
->      CPU: 1 PID: 2760 Comm: insmod Not tainted 4.19.0-rc3+ #698
-> @@ -147,8 +147,8 @@ KASAN=E5=8F=97=E5=88=B0=E9=80=9A=E7=94=A8 ``panic_on_=
-warn`` =E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=82=E6=95=B0=E7=9A=84=E5=BD=B1=E5=
-=93=8D=E3=80=82=E5=BD=93=E5=AE=83=E8=A2=AB=E5=90=AF=E7=94=A8
->       print_address_description+0x73/0x280
->       kasan_report+0x144/0x187
->       __asan_report_store1_noabort+0x17/0x20
-> -     kmalloc_oob_right+0xa8/0xbc [test_kasan]
-> -     kmalloc_tests_init+0x16/0x700 [test_kasan]
-> +     kmalloc_oob_right+0xa8/0xbc [kasan_test]
-> +     kmalloc_tests_init+0x16/0x700 [kasan_test]
->       do_one_initcall+0xa5/0x3ae
->       do_init_module+0x1b6/0x547
->       load_module+0x75df/0x8070
-> @@ -168,8 +168,8 @@ KASAN=E5=8F=97=E5=88=B0=E9=80=9A=E7=94=A8 ``panic_on_=
-warn`` =E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=82=E6=95=B0=E7=9A=84=E5=BD=B1=E5=
-=93=8D=E3=80=82=E5=BD=93=E5=AE=83=E8=A2=AB=E5=90=AF=E7=94=A8
->       save_stack+0x43/0xd0
->       kasan_kmalloc+0xa7/0xd0
->       kmem_cache_alloc_trace+0xe1/0x1b0
-> -     kmalloc_oob_right+0x56/0xbc [test_kasan]
-> -     kmalloc_tests_init+0x16/0x700 [test_kasan]
-> +     kmalloc_oob_right+0x56/0xbc [kasan_test]
-> +     kmalloc_tests_init+0x16/0x700 [kasan_test]
->       do_one_initcall+0xa5/0x3ae
->       do_init_module+0x1b6/0x547
->       load_module+0x75df/0x8070
-> @@ -421,15 +421,15 @@ KASAN=E8=BF=9E=E6=8E=A5=E5=88=B0vmap=E5=9F=BA=E7=A1=
-=80=E6=9E=B6=E6=9E=84=E4=BB=A5=E6=87=92=E6=B8=85=E7=90=86=E6=9C=AA=E4=BD=BF=
-=E7=94=A8=E7=9A=84=E5=BD=B1=E5=AD=90=E5=86=85=E5=AD=98=E3=80=82
->
->  =E5=BD=93=E7=94=B1=E4=BA=8E ``kmalloc`` =E5=A4=B1=E8=B4=A5=E8=80=8C=E5=
-=AF=BC=E8=87=B4=E6=B5=8B=E8=AF=95=E5=A4=B1=E8=B4=A5=E6=97=B6::
->
-> -        # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:=
-163
-> +        # kmalloc_large_oob_right: ASSERTION FAILED at mm/kasan/kasan_te=
-st.c:245
->          Expected ptr is not null, but is
-> -        not ok 4 - kmalloc_large_oob_right
-> +        not ok 5 - kmalloc_large_oob_right
->
->  =E5=BD=93=E7=94=B1=E4=BA=8E=E7=BC=BA=E5=B0=91KASAN=E6=8A=A5=E5=91=8A=E8=
-=80=8C=E5=AF=BC=E8=87=B4=E6=B5=8B=E8=AF=95=E5=A4=B1=E8=B4=A5=E6=97=B6::
->
-> -        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:=
-974
-> +        # kmalloc_double_kzfree: EXPECTATION FAILED at mm/kasan/kasan_te=
-st.c:709
->          KASAN failure expected in "kfree_sensitive(ptr)", but none occur=
-red
-> -        not ok 44 - kmalloc_double_kzfree
-> +        not ok 28 - kmalloc_double_kzfree
->
->
->  =E6=9C=80=E5=90=8E=E6=89=93=E5=8D=B0=E6=89=80=E6=9C=89KASAN=E6=B5=8B=E8=
-=AF=95=E7=9A=84=E7=B4=AF=E7=A7=AF=E7=8A=B6=E6=80=81=E3=80=82=E6=88=90=E5=8A=
-=9F::
-> @@ -445,7 +445,7 @@ KASAN=E8=BF=9E=E6=8E=A5=E5=88=B0vmap=E5=9F=BA=E7=A1=
-=80=E6=9E=B6=E6=9E=84=E4=BB=A5=E6=87=92=E6=B8=85=E7=90=86=E6=9C=AA=E4=BD=BF=
-=E7=94=A8=E7=9A=84=E5=BD=B1=E5=AD=90=E5=86=85=E5=AD=98=E3=80=82
->  1. =E5=8F=AF=E5=8A=A0=E8=BD=BD=E6=A8=A1=E5=9D=97
->
->     =E5=90=AF=E7=94=A8 ``CONFIG_KUNIT`` =E5=90=8E=EF=BC=8CKASAN-KUnit=E6=
-=B5=8B=E8=AF=95=E5=8F=AF=E4=BB=A5=E6=9E=84=E5=BB=BA=E4=B8=BA=E5=8F=AF=E5=8A=
-=A0=E8=BD=BD=E6=A8=A1=E5=9D=97=EF=BC=8C=E5=B9=B6=E9=80=9A=E8=BF=87=E4=BD=BF=
-=E7=94=A8
-> -   ``insmod`` =E6=88=96 ``modprobe`` =E5=8A=A0=E8=BD=BD ``test_kasan.ko`=
-` =E6=9D=A5=E8=BF=90=E8=A1=8C=E3=80=82
-> +   ``insmod`` =E6=88=96 ``modprobe`` =E5=8A=A0=E8=BD=BD ``kasan_test.ko`=
-` =E6=9D=A5=E8=BF=90=E8=A1=8C=E3=80=82
->
->  2. =E5=86=85=E7=BD=AE
->
-> diff --git a/Documentation/translations/zh_TW/dev-tools/kasan.rst b/Docum=
-entation/translations/zh_TW/dev-tools/kasan.rst
-> index 979eb84bc58f..ed342e67d8ed 100644
-> --- a/Documentation/translations/zh_TW/dev-tools/kasan.rst
-> +++ b/Documentation/translations/zh_TW/dev-tools/kasan.rst
-> @@ -137,7 +137,7 @@ KASAN=E5=8F=97=E5=88=B0=E9=80=9A=E7=94=A8 ``panic_on_=
-warn`` =E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=83=E6=95=B8=E7=9A=84=E5=BD=B1=E9=
-=9F=BF=E3=80=82=E7=95=B6=E5=AE=83=E8=A2=AB=E5=95=93=E7=94=A8
->  =E5=85=B8=E5=9E=8B=E7=9A=84KASAN=E5=A0=B1=E5=91=8A=E5=A6=82=E4=B8=8B=E6=
-=89=80=E7=A4=BA::
->
->      =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> -    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [test_=
-kasan]
-> +    BUG: KASAN: slab-out-of-bounds in kmalloc_oob_right+0xa8/0xbc [kasan=
-_test]
->      Write of size 1 at addr ffff8801f44ec37b by task insmod/2760
->
->      CPU: 1 PID: 2760 Comm: insmod Not tainted 4.19.0-rc3+ #698
-> @@ -147,8 +147,8 @@ KASAN=E5=8F=97=E5=88=B0=E9=80=9A=E7=94=A8 ``panic_on_=
-warn`` =E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=83=E6=95=B8=E7=9A=84=E5=BD=B1=E9=
-=9F=BF=E3=80=82=E7=95=B6=E5=AE=83=E8=A2=AB=E5=95=93=E7=94=A8
->       print_address_description+0x73/0x280
->       kasan_report+0x144/0x187
->       __asan_report_store1_noabort+0x17/0x20
-> -     kmalloc_oob_right+0xa8/0xbc [test_kasan]
-> -     kmalloc_tests_init+0x16/0x700 [test_kasan]
-> +     kmalloc_oob_right+0xa8/0xbc [kasan_test]
-> +     kmalloc_tests_init+0x16/0x700 [kasan_test]
->       do_one_initcall+0xa5/0x3ae
->       do_init_module+0x1b6/0x547
->       load_module+0x75df/0x8070
-> @@ -168,8 +168,8 @@ KASAN=E5=8F=97=E5=88=B0=E9=80=9A=E7=94=A8 ``panic_on_=
-warn`` =E5=91=BD=E4=BB=A4=E8=A1=8C=E5=8F=83=E6=95=B8=E7=9A=84=E5=BD=B1=E9=
-=9F=BF=E3=80=82=E7=95=B6=E5=AE=83=E8=A2=AB=E5=95=93=E7=94=A8
->       save_stack+0x43/0xd0
->       kasan_kmalloc+0xa7/0xd0
->       kmem_cache_alloc_trace+0xe1/0x1b0
-> -     kmalloc_oob_right+0x56/0xbc [test_kasan]
-> -     kmalloc_tests_init+0x16/0x700 [test_kasan]
-> +     kmalloc_oob_right+0x56/0xbc [kasan_test]
-> +     kmalloc_tests_init+0x16/0x700 [kasan_test]
->       do_one_initcall+0xa5/0x3ae
->       do_init_module+0x1b6/0x547
->       load_module+0x75df/0x8070
-> @@ -421,15 +421,15 @@ KASAN=E9=80=A3=E6=8E=A5=E5=88=B0vmap=E5=9F=BA=E7=A4=
-=8E=E6=9E=B6=E6=A7=8B=E4=BB=A5=E6=87=B6=E6=B8=85=E7=90=86=E6=9C=AA=E4=BD=BF=
-=E7=94=A8=E7=9A=84=E5=BD=B1=E5=AD=90=E5=85=A7=E5=AD=98=E3=80=82
->
->  =E7=95=B6=E7=94=B1=E6=96=BC ``kmalloc`` =E5=A4=B1=E6=95=97=E8=80=8C=E5=
-=B0=8E=E8=87=B4=E6=B8=AC=E8=A9=A6=E5=A4=B1=E6=95=97=E6=99=82::
->
-> -        # kmalloc_large_oob_right: ASSERTION FAILED at lib/test_kasan.c:=
-163
-> +        # kmalloc_large_oob_right: ASSERTION FAILED at mm/kasan/kasan_te=
-st.c:245
->          Expected ptr is not null, but is
-> -        not ok 4 - kmalloc_large_oob_right
-> +        not ok 5 - kmalloc_large_oob_right
->
->  =E7=95=B6=E7=94=B1=E6=96=BC=E7=BC=BA=E5=B0=91KASAN=E5=A0=B1=E5=91=8A=E8=
-=80=8C=E5=B0=8E=E8=87=B4=E6=B8=AC=E8=A9=A6=E5=A4=B1=E6=95=97=E6=99=82::
->
-> -        # kmalloc_double_kzfree: EXPECTATION FAILED at lib/test_kasan.c:=
-974
-> +        # kmalloc_double_kzfree: EXPECTATION FAILED at mm/kasan/kasan_te=
-st.c:709
->          KASAN failure expected in "kfree_sensitive(ptr)", but none occur=
-red
-> -        not ok 44 - kmalloc_double_kzfree
-> +        not ok 28 - kmalloc_double_kzfree
->
->
->  =E6=9C=80=E5=BE=8C=E6=89=93=E5=8D=B0=E6=89=80=E6=9C=89KASAN=E6=B8=AC=E8=
-=A9=A6=E7=9A=84=E7=B4=AF=E7=A9=8D=E7=8B=80=E6=85=8B=E3=80=82=E6=88=90=E5=8A=
-=9F::
-> @@ -445,7 +445,7 @@ KASAN=E9=80=A3=E6=8E=A5=E5=88=B0vmap=E5=9F=BA=E7=A4=
-=8E=E6=9E=B6=E6=A7=8B=E4=BB=A5=E6=87=B6=E6=B8=85=E7=90=86=E6=9C=AA=E4=BD=BF=
-=E7=94=A8=E7=9A=84=E5=BD=B1=E5=AD=90=E5=85=A7=E5=AD=98=E3=80=82
->  1. =E5=8F=AF=E5=8A=A0=E8=BC=89=E6=A8=A1=E5=A1=8A
->
->     =E5=95=93=E7=94=A8 ``CONFIG_KUNIT`` =E5=BE=8C=EF=BC=8CKASAN-KUnit=E6=
-=B8=AC=E8=A9=A6=E5=8F=AF=E4=BB=A5=E6=A7=8B=E5=BB=BA=E7=88=B2=E5=8F=AF=E5=8A=
-=A0=E8=BC=89=E6=A8=A1=E5=A1=8A=EF=BC=8C=E4=B8=A6=E9=80=9A=E9=81=8E=E4=BD=BF=
-=E7=94=A8
-> -   ``insmod`` =E6=88=96 ``modprobe`` =E5=8A=A0=E8=BC=89 ``test_kasan.ko`=
-` =E4=BE=86=E9=81=8B=E8=A1=8C=E3=80=82
-> +   ``insmod`` =E6=88=96 ``modprobe`` =E5=8A=A0=E8=BC=89 ``kasan_test.ko`=
-` =E4=BE=86=E9=81=8B=E8=A1=8C=E3=80=82
->
->  2. =E5=85=A7=E7=BD=AE
->
+> -module_init(test_kasan_module_init);
+> +module_init(kasan_test_module_init);
+>  MODULE_LICENSE("GPL");
 > --
 > 2.42.0
+>
 
 Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+
+Thanks!
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -451,5 +201,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CA%2BfCnZfDZvcFHG0anZQQKD_GVOfmcKhCmY82U9X2ZKBJp4oRZQ%40mail.gmai=
-l.com.
+kasan-dev/CA%2BfCnZdvQmA7S6cnFS5niSm3zERyaLpb_wp5Y6%3Dna-yeNNX9%3DA%40mail.=
+gmail.com.
