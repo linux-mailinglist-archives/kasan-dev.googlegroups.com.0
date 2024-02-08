@@ -1,153 +1,144 @@
-Return-Path: <kasan-dev+bncBCP4ZTXNRIFBBLHGSKXAMGQE2QRJYEQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC3ZPIWN3EFBBCXOSKXAMGQEHFHCHJA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ej1-x63a.google.com (mail-ej1-x63a.google.com [IPv6:2a00:1450:4864:20::63a])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA51284DECF
-	for <lists+kasan-dev@lfdr.de>; Thu,  8 Feb 2024 11:55:41 +0100 (CET)
-Received: by mail-ej1-x63a.google.com with SMTP id a640c23a62f3a-a3571b434bfsf27199766b.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 08 Feb 2024 02:55:41 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1707389741; cv=pass;
+Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 055AA84DF7A
+	for <lists+kasan-dev@lfdr.de>; Thu,  8 Feb 2024 12:12:12 +0100 (CET)
+Received: by mail-lf1-x13f.google.com with SMTP id 2adb3069b0e04-51151b8de86sf1738956e87.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 08 Feb 2024 03:12:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1707390731; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TPEbKMmex+rZAyiEnUQVhuxji2jqgfYVrpXr6itpgnQ9N7c3fZAV3Y/bPm6FxCmTWt
-         GqVR2dz/c3tRjo0o6x3Gwr3/0+IjFYgWyDVsZpGXsjQqtvRrA+f7BKLKd/VMaKb3h1R3
-         oRL9bPgnjEWo9t+xBubo0i4RBOx2h4qx00uwKzssYWiCFqP00uaeKyTK3ioOnGo5xmAs
-         LJQw9wljU6s7k6OxKEOLzSdJfLQxKtIe/CR3Se4KxXGwx9S4jskxs5u2eFHW4ST6Sz34
-         hBVdgk0ghE5m4wcXWhQTPdn1VSCg2PkaET3NlHCmREaCe9e8tSyDcWJz3zQV+f0oNsg5
-         3OaQ==
+        b=hiEqfbjPpgQZJIsVMbsDPzhjMEktiJd0zxL+y8j8NBwTnghSdsuhd46Nr+NQ+gQca2
+         90PqUOG9Op5P4rVD0Tw2AhIrqd6WysJt30dBC2YoOLCkJeRViMS+Zkp3wdU4GFqwZvlF
+         qwjV25/1l9fbu3Tn+N/4V6hBO8eHn+AKZdldwBPE/MIe65nt3LDXZsAPV4WUQ4Y8NAhJ
+         keB1H7Yk2fq2urXQP3+aJtdct63o49FihF0GEYGktSBwI5XxpmQS9nI3tkfefTxUXLjp
+         qemDQETKf4OmWgo+ypecsmASemgOF/q4BwHRZ3NGPeoUV0n8LO5VUEQWIFPlUDZUe7ux
+         dgtQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=vqNSKN/yew108nEdxKC5eiEOldJPjZWX/8RcePUNB9k=;
-        fh=odm+mx4lfWTKarGx4W3mcm8OvlzL4hrRaqtT+S7fij8=;
-        b=k2gGmkoWQF6pCtDr7ifMXvvMeTKO5EfXKSu48cDDwtmjGDRXOlEsJMgpGe57qdFCF+
-         wwPO/NCwcX/UvDcG4L8KvdD3xNGQlHQB4cLLNJaTlQeph6yaRaGjdp3xQnMidM+WO3VG
-         UUKakA+Rr+ujrjd99xSkA/GxyhodMNoEtcbLolEPMMroF+w7wEsfFkWo/BbT0UzqpHAH
-         dA25LWDpV3wwozyduYC+2iQt51B2WUFVxaMruit8KUQtb6vqTYH5I9g1InA1XnF+DRzi
-         Ro6olGw/bINVSknbbXZnI56l1NYBVJ2HM5fDQEer6CEeJYqRKDk5R3Q/4YP7nhc1bmTt
-         qPig==;
-        darn=lfdr.de
+         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:sender:dkim-signature;
+        bh=HwmS7trLYdTLivrRloXxmWH1ESh8NXP8eA2r5HmJB/I=;
+        fh=E6KhEa2+pShZ10R5tyt8h38B6HXDL0lCs9QvmizEKsc=;
+        b=qGTYclBR66v+RTEcnV4xElKv2wlNRzIPsqtNpURxVo8A1CSFeC2q1dMA2KgYj/olS6
+         hA/oiowYbVzj4MH/KACK0R3w+XO2TTd0//OfsWvi9PyciG8c+/qiVTdjjKESIOurKJwP
+         ZCZ1WqJhQ0Orp5pn8jDVAyUd8wxZZosXtSvfhMAF5l+nVMTRL4sbVGzjQK9hwMD6mqaE
+         P+VZFI7hVgSopW+h2V0IqRgGodm55kFqCfkUnJcjNlvd8S2iB8A4FuaTkEHc95pDYjW6
+         wZ2c2h0Axj/wTkY9mZ4Ikn3amXHEvhyttObluB+6ooCJTPNwqHwsP5kYY4P/uGOGKZ+k
+         2EdQ==
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@alien8.de header.s=alien8 header.b=ghGKhaLf;
-       spf=pass (google.com: domain of bp@alien8.de designates 2a01:4f9:3051:3f93::2 as permitted sender) smtp.mailfrom=bp@alien8.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
+       dkim=pass header.i=@linux-foundation.org header.s=google header.b=Mo5id2g8;
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::62f as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1707389741; x=1707994541; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1707390731; x=1707995531; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vqNSKN/yew108nEdxKC5eiEOldJPjZWX/8RcePUNB9k=;
-        b=A+JEXz+YIIKxEDCW+TZ4kV5ezRdqVJbGrmTPmuEe/jtIgHynjCuHjTgdNDpvPwIOoT
-         nKNRe32QjWoPeU429JhtVsTX5tF34+jY2CV+SZc1IC/AzUmrZ+WxY8MxYufpCpFvpmtP
-         NbLGeBR2LuRLqrVPTkxwbmxL7I66fAmPbz1dVnNMeVo+iO+uIIohE7bP998j6oIV09r2
-         f2ftFzBU/SsiAJrFfY3df+RQYBbFtAd2mqtj7VGWiUntXzQJFOIqoBG89z51kVS4DhIg
-         DkM63FVOrD7+dBzUc6tc9Jt8AgCfDwiBVHRKMG815DxHyOiht7Yd5lToPmEs7bTUSFg1
-         R0Pw==
+         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HwmS7trLYdTLivrRloXxmWH1ESh8NXP8eA2r5HmJB/I=;
+        b=GSua5sLbrOc4n4N5X0KzZgxK+m53rCkOERM71HTyit1Z6pv7+OAOGLGACJQI8lb5zX
+         xMoHvFB+aVBe9/igTJcYTlShNX1k+ZvlRBvuKBhvPResdhrgj+oD99ZAW/uUyBhpx9YM
+         WmkDZp4UevvdWY2uGn56ckNi79U7MgWLQdAFYicvHqp0o/Unpk5BiXaDBKh1m6ToylnV
+         GPYAs7cuK8Be4DLfPFjatrMVGYqhvBz1BkOqgOE/UaBVSTzf//9EkOy3M4O0iHeEhVw/
+         sgrbTDTqiOHXCrAdiJ2Jfl3AIHXaDpur8PIDbgKLOX90N07ssxLRzmQuPaFUjrtTRUM9
+         vmaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707389741; x=1707994541;
+        d=1e100.net; s=20230601; t=1707390731; x=1707995531;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vqNSKN/yew108nEdxKC5eiEOldJPjZWX/8RcePUNB9k=;
-        b=M9yh9m0KJbFFcv6cRVZfvOj7BnBccvGp+xoa27TbE6JhTwrzTiCx5E1gCuce8QBROM
-         7+GQfvf+iCk90a2YSg9K6N1mloBB5h4t9XwAVZZZdmWHSct2oe2xSmsQDBAjeza1tzjz
-         eq3iV2Gh5FBW6AZzBsmsPGbcqC7n8XucXuaqO78CmJOc5Geqn7vXLT/iAg1aM1Dlosqq
-         5xXYGPrOTeh9ShYryLGj9pAJQfScKtqmR7nkdy4E7HAruL/u4M72zBBdxFqt8dbTtUSq
-         rKrNeJr9fJh8hUJsOURt1fEBg0UsVfrYR6KPqz3t+jNHNDxS3zQH+VXoFziM3pf3rfd9
-         Gt/w==
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HwmS7trLYdTLivrRloXxmWH1ESh8NXP8eA2r5HmJB/I=;
+        b=ebRVszCuBwAa3PjW+chAnfKc/lVMa1vEFFUgBysiCIvqH+MNMF3LrLMHVSdmleoOmn
+         O9zFXSFjWRkgG3EuvQW7Qcd6a5frglN/RHrHJS0Y48Gq6N3VSUYXtDj8UGJ34q5+49QY
+         wvPeqiyJfmMLIaFzbHa9H0Kjs23IOFrACqX3iXLbVRPKjFuurd3V1sJfjdSNa0GbiI0r
+         uU8I2PBWRnnmgz+eN0YNpfQHQZug3ZDwwQWPCWHhetXPxv5SXC0LJ4CYYzoAFHI7VdKL
+         lRvGnnThlDJf+kM24SucxHWqthA3LdHEuU+haK37E3UdmzLGoSTMH3YcetJNiPlXefyG
+         TTvw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXdiPtVTB88pO49tnliN0lA/hIAWQdHh1ffXxBrrbNqGar+JCqaLAABarZjMxxbMAjx8VIWtFJXBLRRYfl++w6IvUtgqNUX+g==
-X-Gm-Message-State: AOJu0Yxk96SZndVB5OwBfHFFCRDmQpDy1plI8A883Ppb1iEgzishKanR
-	7yxrqB37zGBb8Jn5nyWQtYnz/WYDOgnTjLb7htvLqPH3I/hlNRCm
-X-Google-Smtp-Source: AGHT+IGKhAPmVbk/SQPBFE+trlHntvbjRYZMKnVvrOi5m9s8x/ck7TaVlafMGJNCGkWn2j6+RWbAXw==
-X-Received: by 2002:a50:d6c6:0:b0:560:26f2:f8a7 with SMTP id l6-20020a50d6c6000000b0056026f2f8a7mr6463442edj.0.1707389740618;
-        Thu, 08 Feb 2024 02:55:40 -0800 (PST)
+X-Gm-Message-State: AOJu0YxDD4I0/gRJBScyWlH0mbqEscLAHUn2htWXbb064N4+fLZ7zmrQ
+	TlDL1AwE8vKmA5wYTioHWtYQWHfBEMQwvAg5OV9HjIVyLYgKBMCP
+X-Google-Smtp-Source: AGHT+IFLKK90epGHtp2G8fqXwcgxlmBfBVMqLdYu9VEIrthNJuA7ydeiNGxln8nUh9tiQ7RUHq2qxQ==
+X-Received: by 2002:ac2:5b02:0:b0:511:51af:7548 with SMTP id v2-20020ac25b02000000b0051151af7548mr6022333lfn.9.1707390730596;
+        Thu, 08 Feb 2024 03:12:10 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:401e:b0:560:bb98:b04b with SMTP id
- d30-20020a056402401e00b00560bb98b04bls771245eda.2.-pod-prod-06-eu; Thu, 08
- Feb 2024 02:55:39 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCU88AQBnekHsbAc6Bks/ENXdbuZrQErLq9DrkvdqYALeSuTqtuHXC5Jj8nwerXmqMtlXuFIV1Lqwqi6AGYONiANSW6/H9Mjn6SGgA==
-X-Received: by 2002:a05:6402:1651:b0:560:81c3:cadf with SMTP id s17-20020a056402165100b0056081c3cadfmr5807988edx.38.1707389738623;
-        Thu, 08 Feb 2024 02:55:38 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1707389738; cv=none;
+Received: by 2002:a05:6512:3d06:b0:511:46e0:83c8 with SMTP id
+ d6-20020a0565123d0600b0051146e083c8ls737503lfv.2.-pod-prod-07-eu; Thu, 08 Feb
+ 2024 03:12:08 -0800 (PST)
+X-Received: by 2002:a2e:720b:0:b0:2d0:bc02:145f with SMTP id n11-20020a2e720b000000b002d0bc02145fmr5192039ljc.15.1707390728137;
+        Thu, 08 Feb 2024 03:12:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1707390728; cv=none;
         d=google.com; s=arc-20160816;
-        b=yu71nKZFaTqnIEwDfUr9R995VjEcsPD7hOkcXHhyjXOKxyQsaCzKrM0PBopB0suWm7
-         t5WcD8MaInBJUOg1hNIFFKEFrIpeNh9VzZsbGyM44qPv2faRmgQTvhpr/Onr3G1Dqnt+
-         LQOaGzGF/52Gk/xvwWsEtvrGU/8pw+ZPGQ0AFEjmWh63cDS1xtnTwayjmhipbKvPHOfy
-         H0iX8wtlHRXqdoOhQ6yiS/ENWoE8061UXwF/IxK9l3WnNby+/yhO+JhXRYEhYYtTyviL
-         wRuRzUbb7SeskIdScswZp4z5gkGU6iwWvVL5KAeQj6zJb4JWKrKRUvZkpvR9vd0b8IAo
-         7k8w==
+        b=EUSPhIh+RTM8mirLmpcpkSyd8GPtrAnVeBbUfhBszo+gLLj0tZ9Q3JYoFV9tZSE3Ri
+         c3nDOl+IuBhNfkIQvD0BJOJf6MgBk9F0J5IxnVuDAEGpsDgH9IAtBvSkfPcysw8zc9w6
+         juF62UEqV0G5oRorOfDYu9y+P2WuidjgaVFtYRXaaiiPUcrhZbX6JQ7cQ6O5i00QjHau
+         qpGMDhAdbcql7GeIueoXmvRYmwsnFiC+2hnwgOAftABJ6fCnT/6YTQdPNGrgE4pXQTVW
+         BWFQ5NoQGi2HS+jPXxd2TzLQcw6Uw0pUq9LnWuT69kP/74td+TKPgG1VV3mwrLveYYe/
+         /lvw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=4dqcHEtm0V+r2N9kdvvX85ax2ZPQFWE0+wTfUSVpdEE=;
-        fh=C1FS0mbjfUkMPa8pI0QRYa/iMmuMEnitBMUIHMUX/cE=;
-        b=kVfwCWMvmQcEzsmFmOUVTYAAyMoGQqd3LCKaGno5biy5/SQ9O7vMP4MHySShOKOKfP
-         Qj8IY7PoAsvd0z3Npf0hG81SKfnh1ZxEVhwv7c9eHHgaYxmlyibYoBOdT56aAZ0Iufsh
-         H8JfJbrDXjWhApBHR/+JdgYDU9A81MQhwtk2rYqlM8fJ56aoPPKdYFvIzEJFqc+lEH5m
-         NOUCUmSJ8r7WEkzZgkGvLqjlpGooqCsuOReaxGLyqYCj5/5RgyVmT1rQz2FbtQx2fHR+
-         zYakjU4Kiry1qWeUGehWndmkxSKbT+k3BxB0YazQJSLArzuotyw+wl+1AsXbdTe19ulz
-         HeeA==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=LaTp4U1LWb5pJxk+3p4oypsyvdSNZ1j6KLCLyUB+gDY=;
+        fh=E6KhEa2+pShZ10R5tyt8h38B6HXDL0lCs9QvmizEKsc=;
+        b=lKglm27L3FIJHT0rAbMVXK/GxGWrGMeWYuXmtYw582O85gim4/858tqNwIYgP7qPMx
+         +MRjUsFU2fXK99FFSqhJ36c9NVYdnHd2a8XlsBw3SlRwEg7xuTB4IBV0+emeFR+Dmc/A
+         +AyAkiHPYDpY2Ff1y4YJQklZ3JaDyiUXxTzDc435MeUwsADVLANK2DOZGHu2/Fr50zMv
+         4J1xuiI5rdeZ1ksRJN2t0hq+8MW03hAC+MCbxlwBV00cxAdJBfq6GibwqQe6/67V07+f
+         VXzB2G8q4YgUiSDoYWclMxhDHqBP1Rt5Uh72kZkBImQsidVycbde4towz7GN0seK4lhb
+         NL3Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@alien8.de header.s=alien8 header.b=ghGKhaLf;
-       spf=pass (google.com: domain of bp@alien8.de designates 2a01:4f9:3051:3f93::2 as permitted sender) smtp.mailfrom=bp@alien8.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
-X-Forwarded-Encrypted: i=1; AJvYcCWwlmt1e3x43niyGVFdTB0rZG5KBehdFW0z1xjPcitqwUcXAydseAFN1KFpAamV11OnV9+jIMuOYRmr6UWX9bl+o+9QgBTeRUpe+Q==
-Received: from mail.alien8.de (mail.alien8.de. [2a01:4f9:3051:3f93::2])
-        by gmr-mx.google.com with ESMTPS id y6-20020a056402270600b0055f361dd78csi36183edd.4.2024.02.08.02.55.38
+       dkim=pass header.i=@linux-foundation.org header.s=google header.b=Mo5id2g8;
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::62f as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
+X-Forwarded-Encrypted: i=1; AJvYcCUWT9gimuJ3XDQdq6MAlYyLmo/91I9CWN53OgvRs+CS8mEQ8bA+/2CxYS9BFKDkg3hWizcXPsjhZ7CD/rmf0rkYZsX0Y0qyIR3ccw==
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com. [2a00:1450:4864:20::62f])
+        by gmr-mx.google.com with ESMTPS id s9-20020a2e81c9000000b002d0a7814671si246111ljg.7.2024.02.08.03.12.07
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 02:55:38 -0800 (PST)
-Received-SPF: pass (google.com: domain of bp@alien8.de designates 2a01:4f9:3051:3f93::2 as permitted sender) client-ip=2a01:4f9:3051:3f93::2;
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 568B740E0196;
-	Thu,  8 Feb 2024 10:55:37 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id w9Aw71IIhNTF; Thu,  8 Feb 2024 10:55:35 +0000 (UTC)
-Received: from zn.tnic (pd953021b.dip0.t-ipconnect.de [217.83.2.27])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 912BC40E0192;
-	Thu,  8 Feb 2024 10:55:22 +0000 (UTC)
-Date: Thu, 8 Feb 2024 11:55:17 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Marco Elver <elver@google.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Matthieu Baerts <matttbe@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
-	Netdev <netdev@vger.kernel.org>, linux-hardening@vger.kernel.org,
-	Kees Cook <keescook@chromium.org>,
-	the arch/x86 maintainers <x86@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: KFENCE: included in x86 defconfig?
-Message-ID: <20240208105517.GAZcSzFTgsIdH574r4@fat_crate.local>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Feb 2024 03:12:07 -0800 (PST)
+Received-SPF: pass (google.com: domain of torvalds@linuxfoundation.org designates 2a00:1450:4864:20::62f as permitted sender) client-ip=2a00:1450:4864:20::62f;
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-a38291dbe65so198896766b.3
+        for <kasan-dev@googlegroups.com>; Thu, 08 Feb 2024 03:12:07 -0800 (PST)
+X-Received: by 2002:a17:906:3087:b0:a37:726f:86b5 with SMTP id 7-20020a170906308700b00a37726f86b5mr5078717ejv.65.1707390726900;
+        Thu, 08 Feb 2024 03:12:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXPANIcADAnwuUidYhTH8qIvR2oO3w9zWMEc/wod9D3vlMeXNTH9cfsc3EMHdjG2qhhfxPTqtMMo7qumpoghsas6jKFYvvTWZYrrA==
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com. [209.85.208.42])
+        by smtp.gmail.com with ESMTPSA id tl8-20020a170907c30800b00a387d9d6dc5sm1659048ejc.174.2024.02.08.03.12.05
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Feb 2024 03:12:05 -0800 (PST)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-55fcceb5f34so1801863a12.3
+        for <kasan-dev@googlegroups.com>; Thu, 08 Feb 2024 03:12:05 -0800 (PST)
+X-Received: by 2002:aa7:de11:0:b0:560:5f1e:f416 with SMTP id
+ h17-20020aa7de11000000b005605f1ef416mr5940766edv.32.1707390725562; Thu, 08
+ Feb 2024 03:12:05 -0800 (PST)
+MIME-Version: 1.0
 References: <e2871686-ea25-4cdb-b29d-ddeb33338a21@kernel.org>
  <CANpmjNP==CANQi4_qFV_VVFDMsj1wHROxt3RKzwJBqo8_McCTg@mail.gmail.com>
- <20240207181619.GDZcPI87_Bq0Z3ozUn@fat_crate.local>
- <d301faa8-548e-4e8f-b8a6-c32d6a56f45b@kernel.org>
- <20240207190444.GFZcPUTAnZb_aSlSjV@fat_crate.local>
- <20240207153327.22b5c848@kernel.org>
- <CANpmjNOgimQMV8Os-3qcTcZkDe4i1Mu9SEFfTfsoZxCchqke5A@mail.gmail.com>
-MIME-Version: 1.0
+ <20240207181619.GDZcPI87_Bq0Z3ozUn@fat_crate.local> <d301faa8-548e-4e8f-b8a6-c32d6a56f45b@kernel.org>
+ <20240207190444.GFZcPUTAnZb_aSlSjV@fat_crate.local> <20240207153327.22b5c848@kernel.org>
+ <CANpmjNOgimQMV8Os-3qcTcZkDe4i1Mu9SEFfTfsoZxCchqke5A@mail.gmail.com> <20240208105517.GAZcSzFTgsIdH574r4@fat_crate.local>
+In-Reply-To: <20240208105517.GAZcSzFTgsIdH574r4@fat_crate.local>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Thu, 8 Feb 2024 11:11:48 +0000
+X-Gmail-Original-Message-ID: <CAHk-=wiJj0AuV930QSxdBPz1RFSdLPdcxbY5KjqevKMAkJdBrg@mail.gmail.com>
+Message-ID: <CAHk-=wiJj0AuV930QSxdBPz1RFSdLPdcxbY5KjqevKMAkJdBrg@mail.gmail.com>
+Subject: Re: KFENCE: included in x86 defconfig?
+To: Borislav Petkov <bp@alien8.de>
+Cc: Marco Elver <elver@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Matthieu Baerts <matttbe@kernel.org>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
+	Netdev <netdev@vger.kernel.org>, linux-hardening@vger.kernel.org, 
+	Kees Cook <keescook@chromium.org>, "the arch/x86 maintainers" <x86@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNOgimQMV8Os-3qcTcZkDe4i1Mu9SEFfTfsoZxCchqke5A@mail.gmail.com>
-X-Original-Sender: bp@alien8.de
+X-Original-Sender: torvalds@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@alien8.de header.s=alien8 header.b=ghGKhaLf;       spf=pass
- (google.com: domain of bp@alien8.de designates 2a01:4f9:3051:3f93::2 as
- permitted sender) smtp.mailfrom=bp@alien8.de;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=alien8.de
+ header.i=@linux-foundation.org header.s=google header.b=Mo5id2g8;
+       spf=pass (google.com: domain of torvalds@linuxfoundation.org designates
+ 2a00:1450:4864:20::62f as permitted sender) smtp.mailfrom=torvalds@linuxfoundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,50 +151,29 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Feb 08, 2024 at 08:47:37AM +0100, Marco Elver wrote:
-> That's a good question, and I don't have the answer to that - maybe we
-> need to ask Linus then.
+On Thu, 8 Feb 2024 at 10:55, Borislav Petkov <bp@alien8.de> wrote:
+>
+> What about its benefit?
+>
+> I haven't seen a bug fix saying "found by KFENCE" or so but that doesn't
+> mean a whole lot.
 
-Right, before that, lemme put my user hat on.
+It does find some things. You can search for "BUG: KFENCE" on lore,
+and there are real bug reports.
 
-> We could argue that to improve memory safety of the Linux kernel more
-> rapidly, enablement of KFENCE by default (on the "big" architectures
-> like x86) might actually be a net benefit at ~zero performance
-> overhead and the cost of 2 MiB of RAM (default config).
+That said, there are real downsides too. Yes, you potentially find
+bugs, but the act of finding the bugs might also cause issues. And
+that means that anybody who enables KFENCE then needs to be willing to
+deal with said issues and have the infrastructure to debug and report
+them upstream.
 
-What about its benefit?
+I think that's the *real* cost there - KFENCE is likely a good idea,
+but I'm not convinced it should be a defconfig thing, it should be a
+conscious decision.
 
-I haven't seen a bug fix saying "found by KFENCE" or so but that doesn't
-mean a whole lot.
-
-The more important question is would I, as a user, have a way of
-reporting such issues, would those issues be taken seriously and so on.
-
-We have a whole manual about it:
-
-Documentation/admin-guide/reporting-issues.rst
-
-maybe the kfence splat would have a pointer to that? Perhaps...
-
-Personally, I don't mind running it if it really is a ~zero overhead
-KASAN replacement. Maybe as a preliminary step we should enable it on
-devs machines who know how to report such things.
-
-/me goes and enables it in a guest...
-
-[    0.074294] kfence: initialized - using 2097152 bytes for 255 objects at 0xffff88807d600000-0xffff88807d800000
-
-Guest looks ok to me, no reports.
-
-What now? :-)
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+           Linus
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240208105517.GAZcSzFTgsIdH574r4%40fat_crate.local.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CAHk-%3DwiJj0AuV930QSxdBPz1RFSdLPdcxbY5KjqevKMAkJdBrg%40mail.gmail.com.
