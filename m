@@ -1,123 +1,75 @@
-Return-Path: <kasan-dev+bncBDTMJ55N44FBBVVSSSXAMGQEFQEU4XY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDF2TGPLZMEBBN7CTGXAMGQEBLX6A3I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13c.google.com (mail-lf1-x13c.google.com [IPv6:2a00:1450:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F3584E770
-	for <lists+kasan-dev@lfdr.de>; Thu,  8 Feb 2024 19:11:36 +0100 (CET)
-Received: by mail-lf1-x13c.google.com with SMTP id 2adb3069b0e04-5114f2a1e81sf60407e87.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 08 Feb 2024 10:11:36 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1707415895; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=M7ntE2r55K4tUri64bpfC1HDBQWZHMz42LbC8TqsSFH3zYJ0oIJ1uH/+uIwpgApBXe
-         py1NnWHbfixcuaCcqIxgB/C27D/Sqm4fsaVTzhMVtfF4iEv7afsYeDne8vl5e2mmEiWw
-         AGCfynzPV30OXlohz9pXUouYiVzVTRUSs2lWRJNaw+6CHSKtimMi0LLzEZDgyZe0Hd5f
-         2CGGn9uXA+GG6BtaKFwaBJlwFaWBuY8c9eoo7SqXDIE4ccbWMHNSmvOBsP33H/2ANu9W
-         Y9aXJwNaoyRt3DNlBBNsAkSv8ACvyEOYGbluMRBW/ZegXumMyPpWwuclY8ZstHiH/r07
-         Zcmg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-disposition:mime-version
-         :message-id:subject:to:from:date:sender:dkim-signature;
-        bh=F3ISVOYAViADpQdr8hnWuubFlMTUF6xMxqc9G7Cdv7o=;
-        fh=luc9NBebwFYceMZe0JzdRr40+KnW6LqBCilV2Y/aq3c=;
-        b=BviiuM54fUl7pw1XmE8Ghbzy+YoZ1YgmnjSuOLanSVFVtO1uvEHKyTOar0YAt7v56J
-         tk2xSqfW0ITlDxyW1HUfLIJBqBE0fT7BUqDSx6AK+irvqf1B+hpC27TXy1yH5jDycWzk
-         TJ9DhErkiM/EBcPV9b4d+YJbl1Ei96n8Bvkd6lurxwtnoATFhTH+acFVELfHizeyxH5l
-         mkE7l7M6vPGnF343/QXlkfnML98mGLVtxlMssbMf1MzVhyJ3kNTeLe8XsFzJLV5r8etl
-         1uP/wLsZDLPuZsVJ80OVN+Vk0PDswjONNUsDX7q16sID68TNs8aZBRdakjOHvnEp48Us
-         ft1Q==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.208.51 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
+Received: from mail-oo1-xc40.google.com (mail-oo1-xc40.google.com [IPv6:2607:f8b0:4864:20::c40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DDCC84FC0B
+	for <lists+kasan-dev@lfdr.de>; Fri,  9 Feb 2024 19:38:49 +0100 (CET)
+Received: by mail-oo1-xc40.google.com with SMTP id 006d021491bc7-59874c4b5cesf1257644eaf.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 09 Feb 2024 10:38:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1707415895; x=1708020695; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1707503928; x=1708108728; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-disposition:mime-version:message-id
-         :subject:to:from:date:sender:from:to:cc:subject:date:message-id
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:message-id:to:from:date:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=28S5dJVAQKZNuSCP3iet9JzCdSpvptFk21xzi3Y83i8=;
+        b=jnJ1zmWiWlXm/HpLbMT9afynBdES6yOcqLhECShSTsuCiXyJF+usheMSoHJmAJ6u6S
+         yvwABT0U+DDJnw+W/nEGU3/Ha8K+gGOFP+6OypRbjawnWijpCrPFr/E06lMxNAdP7Sfh
+         fLv3w3RKloBUgXSwdBceC8NxuQgjFbuEUQADtebk+QpiXuIossH4PNZp1ODxy+HRQApL
+         jXUovN0LhkQ6i1+KxsSUuCQm9YOTqNmPmxW4m3nNOqFdVMkBAzdOm5y+uooSVO9qEnhd
+         CSSDtSnTQn8WGMxXyGKIAC0nis5kqDiD1MSxkko1R3KC0i4gyTKRIk4esMD3UcHoCZyj
+         e9SA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1707503928; x=1708108728; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=F3ISVOYAViADpQdr8hnWuubFlMTUF6xMxqc9G7Cdv7o=;
-        b=aK4scxa5T8u4tiy6oTJ5Gh94o6sg2UDU7pNdAqkzqpx7au6xt3eyTNFDyuQAvylJBD
-         9rw7y9CyTwJi2ivSwPhQt03WUvzFI+X1PlAcd2N7q1wOPKsSAVP3UkxC4D/Pm6Pjtd9l
-         2eSR4zdW03uCO4XGojvGRVA3u9aHgZ/Pv6LikNwM8TPkjB4eL4eNaNu9vNo6c05hBOwv
-         +ZJuW+CN/kPXi0FKFcsmyvq2HFCS69Y2eDl6jdUjWx1WzB4WQfX01/rISoSFog5hPKZ9
-         nQpM2KlnviVnXGMgw5F+b33Q8VPhNpfycRIDf0e1t+AKONhLQskDuYhSffqVGOOX8Mn5
-         T9RA==
+        bh=28S5dJVAQKZNuSCP3iet9JzCdSpvptFk21xzi3Y83i8=;
+        b=B+4088Zu7ihnDX53aEfG9TBqCkoZU7+z4om4eJsBHVexqWb1YVyaedK36ym1vQmBTU
+         2FEzX64u5JWw3oqf6xqx78V9BpEFmZRD4vBQdjjg8q1s9JlpssbaqEFNIu0ZKSvwJ42b
+         wLbuE5yJS/oDHJ7HrIZCrMFWPLX28tPMcsiAFYc3Ur7KJiKvtsxx1DcbkyVsHxRSrykA
+         Yb4a/sUJMunaHbiG1PIhUQDBKT+SoyZrCQyiVExr4Pjv8MaeGFZZNm08cAWTBhjpAUuF
+         PnpWxmste2VLRudHy1s1MVPfjQSDMrZPHz1QEPATkTQ6UGApihLwWIBD9pl+jOk2gDzS
+         nd/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707415895; x=1708020695;
+        d=1e100.net; s=20230601; t=1707503928; x=1708108728;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-disposition:mime-version:message-id:subject:to:from:date
+         :x-original-sender:mime-version:subject:message-id:to:from:date
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=F3ISVOYAViADpQdr8hnWuubFlMTUF6xMxqc9G7Cdv7o=;
-        b=ZRBzZXj23IhUDhQSAOovgWOY4N5EVwx0g8lwS6ucScu7s1gxkV6dqRzYzIDfxtw/Og
-         f/Z0vVxNinmpaVRFyHBCwJSHyGP9FHYFv5LGSw8IUEOQuYhcUdjuTZGif+gq1SLjHscY
-         cB3vUi5pATtUtKdLEd31G/zb5fDRM994kumP7idqvg2XiefKMDIX5LoCEMOOmi6HIHie
-         /0Vpsohc6YN9xYq7ecCyFUWlPnOkxU8GWwltTBNO66vsnMkGWAWWnB0kYc5gJa+a/8tD
-         vFOU2pjyoYi6+ccC4KVcv+hmCOf1SFhfJNMju/qmA6xmVM923XNlzAkytqEp5tWZOQRR
-         0Psg==
+        bh=28S5dJVAQKZNuSCP3iet9JzCdSpvptFk21xzi3Y83i8=;
+        b=ntlTYqNBWcZztUxSFPRjR6s3Kp0EAeU0Qt8HoyFVnrMmivTQa7/PHeZU1XBZufaxiG
+         TfUWf/z4KBcav68WQ3xslh40+eca2CrbP7U8eNVS5r+NNvxLJ7Jj3k5XuWgr9TU+90eB
+         MGpNZiQk+3FK74NVMUUQm4/890BQTORJnHplTvaKFsfZONnDOMthnu1cKSevSPdeIgkN
+         wnOy0ExVNdw9SRJ1VkSuIPb24vXdxO/WVrTjOBRPSQTD7DIC1cs9fkcN9bCmBuis7+yM
+         4ICptsYx0nzjwhgi5CKyoZgkVYYIfUJ8vUBdZL5RwdG+VXzLXJq22xQOcj0wCEhmu3KS
+         NiMQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCV50eRlI/lVqGxgcFUpkmHtXIGQHmRResMNo3+Ia29+JlQvPGd+xMrr7Cx+vCgiKcXWNPZZU9GK/08agPjqyLwowlOfaw/gNg==
-X-Gm-Message-State: AOJu0YyNJXnAnGJCiUVdR1SnkPa9MsuFgeCs742MhVAabdbtJNeDyS0c
-	FIU53ZVewKW6LVT9U6CnvYD98aAEiph9GEvqpEiOxWgrJvgJ92FB
-X-Google-Smtp-Source: AGHT+IF+KlmyKSRctP1Ub+BPQWJ3LNfgqdH29KkRiG1rzbFSX0sOTpPqZ83QnoJI+gQyu2Zk7PTBBA==
-X-Received: by 2002:ac2:4d01:0:b0:511:3446:f6bf with SMTP id r1-20020ac24d01000000b005113446f6bfmr17318lfi.55.1707415894505;
-        Thu, 08 Feb 2024 10:11:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVANTsvzTXgqmBSIz5ROYUcBuHmwcXxhfQTATt0f+twXMqoHSM281bop8AQw0pwkn//rgZ9Zb2Wrw97W7iZr1Lb69KWVxZBRg==
+X-Gm-Message-State: AOJu0YxAVv5FwogoukcWW7Z+T6BExM1mblre1mPoZC0ttZT2bLwoRHcJ
+	J0NnC8U0u2GVsnBy8LagdwFZsq9YdvE6/0xi11E6VEzAoaPcl3qz
+X-Google-Smtp-Source: AGHT+IHdMFeXMVvC2bpt3QgWmrgHRzgWff+DCg3fOmFYPqavOo3PVrhtVm+3jYIZ2RNYZdH9Q7rJRw==
+X-Received: by 2002:a4a:ea17:0:b0:59d:28ca:365a with SMTP id x23-20020a4aea17000000b0059d28ca365amr210184ood.1.1707503928066;
+        Fri, 09 Feb 2024 10:38:48 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:42c8:0:b0:33b:5b10:ace3 with SMTP id t8-20020a5d42c8000000b0033b5b10ace3ls14172wrr.1.-pod-prod-02-eu;
- Thu, 08 Feb 2024 10:11:32 -0800 (PST)
-X-Received: by 2002:a05:6000:10d2:b0:33b:5590:c0d8 with SMTP id b18-20020a05600010d200b0033b5590c0d8mr205233wrx.8.1707415892474;
-        Thu, 08 Feb 2024 10:11:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1707415892; cv=none;
-        d=google.com; s=arc-20160816;
-        b=ol4Drhjm3vI7BAVb4TaGrLorV/1R+ZUrbI2g6blQjV6uWkPKQRlds7OvSw544Mru+7
-         QiZBE7j2lCjrFNvKzkKWsNUxSIdwoB55AQFZrL/UltrqMlvXO1vKLeKU791VJbLsn8EX
-         IdGY9getS/ql4T+T+jf2E12h3S+YrFEG+UgTPX5J80SyKJFmLN/H0c70yeFPsfwkIWiz
-         ARzUQfnrckqemEfmwRnMfOF/a2D+aWygrHAXvFqdtFnxjzCQ0ZuBTijAwc7P8O9hS8oz
-         mRh81lIDy13A/EJDOJFnhm/+HbusA8tJOrk8+lOc/W6IkeMET1OJ3VrjA/iJFheJ3Cm7
-         HiPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-disposition:mime-version:message-id:subject:to:from:date;
-        bh=CIN9TPXY1tGaFZdSGYZNVOfYN+oochGBiUqEQIDpAdM=;
-        fh=uQCsmYQr+KJEcG63Y45gsyDulzJl/B4EdEfpx8XrGGo=;
-        b=dPF7zzoM7R2v4rT6kdvI4cx89oV14LyLYPgBX+ZSz0pJVd/5Cn/sHJP2cwByimVryv
-         mX4RPRi+XQyqCfX6N7f7I2egSdALZLB8nIWTst5luikylXesiZ3tla6xfhmcZhzxslaw
-         QHbFaz3I0bs+FroWY3Bix+x1v5JfAjVyY+BfUoUXLWpztUuQdA+U+CSV3IYoea+K6sgp
-         L7LXAaNl5aAiDHN7bBqXNHySqW2xGcJ0ansxEFzVzW95Z6ymBmEflEHo/nMADcvJ+4Ut
-         HzCDze4r6Q42kZorNw7SH7HsTX4EeWCoMtTAE5xker8JOhHYK2V9qUIi915aEhVu+gqc
-         H82g==;
-        dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of breno.debian@gmail.com designates 209.85.208.51 as permitted sender) smtp.mailfrom=breno.debian@gmail.com
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com. [209.85.208.51])
-        by gmr-mx.google.com with ESMTPS id a16-20020a056000101000b0033b1589d9c3si259368wrx.0.2024.02.08.10.11.32
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Feb 2024 10:11:32 -0800 (PST)
-Received-SPF: pass (google.com: domain of breno.debian@gmail.com designates 209.85.208.51 as permitted sender) client-ip=209.85.208.51;
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-556c3f0d6c5so193679a12.2
-        for <kasan-dev@googlegroups.com>; Thu, 08 Feb 2024 10:11:32 -0800 (PST)
-X-Received: by 2002:a05:6402:1b03:b0:55f:c995:6d69 with SMTP id by3-20020a0564021b0300b0055fc9956d69mr29749edb.10.1707415891150;
-        Thu, 08 Feb 2024 10:11:31 -0800 (PST)
-Received: from gmail.com (fwdproxy-lla-117.fbsv.net. [2a03:2880:30ff:75::face:b00c])
-        by smtp.gmail.com with ESMTPSA id a15-20020aa7cf0f000000b0055fed0e2017sm1062564edy.16.2024.02.08.10.11.30
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Feb 2024 10:11:30 -0800 (PST)
-Date: Thu, 8 Feb 2024 10:11:28 -0800
-From: Breno Leitao <leitao@debian.org>
-To: kasan-dev@googlegroups.com
-Subject: KASAN: MemTotal 1/8 memory hide question
-Message-ID: <ZcUZUIlJUsag8qMt@gmail.com>
+Received: by 2002:a4a:5547:0:b0:59a:73f9:7f01 with SMTP id e68-20020a4a5547000000b0059a73f97f01ls1075010oob.1.-pod-prod-05-us;
+ Fri, 09 Feb 2024 10:38:47 -0800 (PST)
+X-Received: by 2002:a4a:a6cd:0:b0:599:8e7f:cddf with SMTP id i13-20020a4aa6cd000000b005998e7fcddfmr4824oom.1.1707503926759;
+        Fri, 09 Feb 2024 10:38:46 -0800 (PST)
+Date: Fri, 9 Feb 2024 10:38:46 -0800 (PST)
+From: SARA <bas004ran@gmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <8dd6594a-c568-4505-9ab9-0f2c72fb556cn@googlegroups.com>
+Subject: =?UTF-8?B?2K3YqNmI2Kgg2KfZhNin2KzZh9in2LYg2YHZig==?=
+ =?UTF-8?B?INin2YTYp9mF2KfYsdin2KogLSDYrdio2Yg=?=
+ =?UTF-8?B?2Kgg2LPYp9mK2KrZiNiq2YMg2YHZiiDYp9mE?=
+ =?UTF-8?B?2KfZhdin2LHYp9iqIHwg2KfYudmE2KfZhiA=?=
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-X-Original-Sender: leitao@debian.org
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of breno.debian@gmail.com designates 209.85.208.51 as
- permitted sender) smtp.mailfrom=breno.debian@gmail.com
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_14266_717464963.1707503926132"
+X-Original-Sender: bas004ran@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -130,43 +82,185 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello,
+------=_Part_14266_717464963.1707503926132
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_14267_1437873302.1707503926132"
 
-I am extensively using Kasan to test the kernel, and it works great.
-Thanks for all the work.
+------=_Part_14267_1437873302.1707503926132
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Problem
-=======
+2LPYp9mK2KrZiNiq2YMg2KfZhNil2YXYp9ix2KfYqiB8IEdTT1RSRQrZhtit2YYg2YXZiNiy2LnZ
+itmGINmF2KrYrti12LXZitmGINmB2Yog2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMgKNin2YTZhdmK
+2LLZiNio2LHZiNiz2KrZiNmEKSDZhdi5IDEwINiz2YbZiNin2Kog2YXZhiDYp9mE2K7YqNix2Kkg
+2YHZiiAK2YfYsNinINin2YTZhdis2KfZhCDYp9mE2LfYqNmKLiDZhtmC2YjZhSDYqNiq2YLYr9mK
+2YUg2K7Yr9mF2KfYqiDZgdix2YrYr9ipINmF2YYg2YbZiNi52YfYp+KApgowMDk2NjU5NzIzODY3
+NArYs9in2YrYqtmI2KrZitmDLTIwMArYrdio2YjYqCDYp9mE2KXYrNmH2KfYtiDYs9in2YrYqtmI
+2KrZitmDCtmF2LnZhNmI2YXYp9iqINi52KfZhdipCtmG2LXYp9im2K0g2K3ZhdmECtmD2YUg2LPY
+udixINit2KjZiNioINin2YTYp9is2YfYp9i2Ctiz2KfZitiq2YjYqtmDIOKAj9mE2YTYqNmK2LkK
+2K3YqNmI2Kgg2KfZhNil2KzZh9in2LYg2LPYp9mK2KrZiNiq2YrZgyAyMDAg2KfZhNij2LXZhNmK
+INmB2Yog2K/YqNmKCtit2KjZiNioINiz2KfZitiq2YjYqtmK2YMgMjAwINmB2Yog2K/YqNmKCtit
+2KjZiNioINiz2KfZitiq2YjYqtmDIDIwMCDYp9mE2KPYtdmE2Yog2YHZiiDYr9io2Yog2K3YqNmI
+2Kgg2LPYp9mK2KrZiNiq2YrZgyAyMDAg2YTZhNil2KzZh9in2LYg2KfZhNij2LXZhNmKINmG2YjZ
+gdix2Ycg2YTZgyDZgdmKIArYr9io2Yog4oCTINin2YTYtNin2LHZgtipIOKAkyDYudis2YXYp9mG
+IOKAkyDYo9io2YjYuNio2Yog4oCTINin2YTYudmK2YYg2YbYs9mE2YXZgyDYqNi02YPZhCDZgdmI
+2LHZiiDZiNiv2LnZhSDYt9io2Yog2YTYrdi42Kkg2KjZhNit2LjYqSAK2KfYq9mG2KfYoSDYudmF
+2YTZitipINin2YTYqtmG2LLZitmEINmE2LfZhNioINit2KjZiNioINiz2KfZitiq2YjYqtmK2YMg
+2YHZiiDYr9io2Yog2Ygg2KfZhNil2YXYp9ix2KfYqiDYp9mE2LnYsdio2YrYqSDYp9mE2YXYqtit
+2K/YqSAK2YrZhdmD2YbZgyDYp9mE2LfZhNioINi52YYg2LfYsdmK2YIg2KfZhNmI2KfYqtiz2KfY
+qCAwMDk2NjU5MDYzOTE4NNit2KjZiNioINiz2KfZitiq2YjYqtmDINit2KjZiNioINiz2KfZitiq
+2YjYqtmDIArYp9mE2KfYrNmH2KfYtiDYp9mE2KfYtdmE2Yog2YHZiiAwMDk2NjU5NzIzODY3NArY
+qtmFINin2YTZhti02LEg2YHZiiAxMCDYo9io2LHZitmE2IwgMjAyMgrZhdi12YbZgSDZg9mAINit
+2KjZiNioINin2YTYpdis2YfYp9i2INiz2KfZitiq2YjYqtmK2YPYjCDYs9in2YrYqtmI2KrZitmD
+LTIwMNiMINmF2LnZhNmI2YXYp9iqINi52KfZhdip2Iwg2YbYtdin2KbYrSDYrdmF2YQK2YXZiNiz
+2YjZhSDZg9mAIHdoZXJlIGNhbiBpIGdldCBjeXRvdGVjIGluIGR1YmFp2Iwg2KPYs9mF2KfYoSDY
+rdio2YjYqCDYp9mE2KXYrNmH2KfYttiMINin2K3Ys9io2Yog2K3ZhdmE2YPYjCAK2KfYs9mFINit
+2KjZiNioINin2YTYpdis2YfYp9i22Iwg2KfYs9mF2KfYoSDYrdio2YjYqCDYp9mE2KfYrNmH2KfY
+ttiMINin2YHYttmEINit2KjZiNioINmE2KrZhti42YrZgSDYp9mE2LHYrdmFINio2LnYryDYp9mE
+2KfYrNmH2KfYttiMIArYp9mB2LbZhCDYudmK2KfYr9mHINmE2YTYp9is2YfYp9i2INmB2Yog2KfZ
+hNin2YXYp9ix2KfYqtiMINin2YrZhiDYqtio2KfYuSDYrdio2YjYqCDYp9mE2KfYrNmH2KfYtiDZ
+gdmKINin2YTYp9mF2KfYsdin2KrYjCDYqNiv2YrZhCAK2K3YqNmI2Kgg2KfZhNin2KzZh9in2LYK
+2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YrZgyDZgdmKINiv2KjZiiDYs9in2YrYqtmI2KrZgyAyMDAg
+2KfZhNij2LXZhNmKINmE2KXYrNmH2KfYtiDYp9mE2K3ZhdmEINmF2YbYstmE2YrYp9mLCtmF2LHY
+rdio2KfZiyDZh9mEINmF2YTZhNiq2Yog2KfZhNio2K3YqyDYudmGINi12YrYr9mE2YrYqSDYqtmC
+2YjZhSDYqNio2YrYuSDYr9mI2KfYoSDYs9in2YrYqtmI2KrZitmDIDIwMCDZhNil2KzZh9in2LYg
+2KfZhNit2YXZhCAK2YXZhtiy2YTZitinINmB2Yog2K/YqNmK2J8g2YrYs9i52K/ZhtinINil2K7Y
+qNin2LHZgyDYqNij2YbZhyDZitiq2YjZgdixINmE2K/ZitmG2Kcg2K3YqNmI2Kgg2LPYp9mK2KrZ
+iNiq2YrZgyAyMDAg2KfZhNio2LHZiti32KfZhtmKIArYp9mE2KPYtdmE2Yog2YTZhNio2YrYuSDZ
+gdmKINiv2KjZiiDZiCDZg9in2YHYqSDYpdmF2KfYsdin2Kog2KfZhNil2YXYp9ix2KfYqiDYp9mE
+2LnYsdio2YrYqSDYp9mE2YXYqtit2K/YqS4g2KfZhNiq2LPZhNmK2YUg2YrYryDYqNmK2K8gCtmI
+INio2LPYsdmK2Kkg2KrYp9mF2Kkg2KjYpdmF2YPYp9mG2YMg2LfZhNioINin2YTYr9mI2KfYoSDZ
+hdmGINiu2YTYp9mEINmF2LHYp9iz2YTYqtmG2Kcg2LnYqNixINin2YTZiNin2KrYs9in2Kgg2Ygg
+2LPZhtmC2YjZhSAK2KjYqtmI2LXZitmEINin2YTYr9mI2KfYoSDZhNmD2ZAg2KPZitmG4oCm4oCm
+CtmF2YjYs9mI2YUg2YPZgCDYp9it2LPYqNmKINit2YXZhNmD2Iwg2KfYs9mFINit2KjZiNioINin
+2YTYpdis2YfYp9i22Iwg2KfYs9mF2KfYoSDYrdio2YjYqCDYp9mE2KfYrNmH2KfYttiMINin2YHY
+ttmEINi52YrYp9iv2YcgCtmE2YTYp9is2YfYp9i2INmB2Yog2KfZhNin2YXYp9ix2KfYqtiMINin
+2YrZhiDYqtio2KfYuSDYrdio2YjYqCDYp9mE2KfYrNmH2KfYtiDZgdmKINin2YTYp9mF2KfYsdin
+2KrYjCDYqNiv2YrZhCDYrdio2YjYqCDYp9mE2KfYrNmH2KfYttiMIArYrdio2YjYqCDYs9in2YrY
+qtmI2KrZitmD2Iwg2K3Ys9in2Kgg2KPYs9in2KjZiti5INin2YTYrdmF2YQg2KjYs9mH2YjZhNip
+2Iwg2K3Ys9in2Kgg2KfYs9in2KjZiti5INin2YTYrdmF2YTYjCDYrdiz2KfYqCDYudiv2K8gCtin
+2YTYp9iz2KfYqNmK2LnYjCDYrdiz2KfYqCDYudmF2LEg2KfZhNit2YXZhNiMINiv2KjZitiMINiz
+2KfYjCDYs9in2YrYqtmI2KrZgyDigI/ZhNmE2KjZiti52Iwg2LfYsdmK2YLYqSDYp9iz2KrYrtiv
+2KfZhSDYs9in2YrYqtmI2KrZitmD2IwgCti52YrYp9iv2KfYqiDYqNin2YTYqNit2LHZitmGINmE
+2YTYp9is2YfYp9i22Iwg2YXYs9iq2LTZgdmJINmE2YTYp9is2YfYp9i2INmB2Yog2KfZhNin2YXY
+p9ix2KfYqtiMINmF2LnZhNmI2YXYp9iqINi52KfZhdip2Iwg2YfZhCDYqtio2KfYuSAK2K3YqNmI
+2Kgg2KfZhNil2KzZh9in2LYg2YHZiiDYp9mE2LXZitiv2YTZitin2KoK2YXYpyDZh9mIINij2YHY
+ttmEINit2Kgg2YTYpdis2YfYp9i2INin2YTYrdmF2YQg2YXZiNis2YjYryDZgdmKINin2YTYp9mF
+2KfYsdin2KoK2YXZitiy2YjYqNix2YjYs9iq2YjZhCDigI8g2YfZiCDYr9mI2KfYoSDZitiz2KrY
+rtiv2YUg2YTYqtit2YHZitiyINio2K/YoSDYp9mE2YXYrtin2LYg2KPZiCDYp9mE2KXYrNmH2KfY
+tiDZiNmE2YXYudin2YTYrNipINmG2LLZitmBINmF2KcgCtio2LnYryDYp9mE2YjYtti5INmB2Yog
+2KjYudi2INit2KfZhNin2Kog2KfZhNin2YbZgtio2KfYttin2Kog2LrZitixINin2YTZg9in2YHZ
+itipINmI2KPZiti22KfZiyDZhNmF2LnYp9mE2KzYqSDYqtmC2LHYrdin2Kog2KfZhNmF2LnYr9ip
+IArZgdmKINit2KfZhNin2Kog2K7Yp9i12KkuINmB2Yog2K3Yp9mE2KfYqiDYp9mE2KXYrNmH2KfY
+tiDZitiq2YUg2KfYs9iq2K7Yr9in2YXZhyDZhdi5INmF2YrZgdmK2KjYsdiz2KrZiNmGINij2Ygg
+2YXZitir2YjYqtix2YrZg9iz2KfYqtiMIArZiNmH2Ygg2YrYudivINmF2YYg2YHYptipINin2YTY
+qNix2YjYs9iq2KfYutmE2KfZhtiv2YrZhiDYp9mKINin2YTYtdmG2KfYudmK2KkuCgrYp9mK2YYg
+2KjYpdmF2YPYp9mG2Yog2KfZhNit2LXZiNmEINi52YTZiSDYs9in2YrYqtmI2KrZitmDIDIwMCDZ
+gdmKINin2YTYpdmF2KfYsdin2Kog2KfZhNi52LHYqNmK2Kkg2KfZhNmF2KrYrdiv2KnYnwoK2YrY
+qtmI2YHYsSDZhNiv2YrZhtinINit2KjZiNioINin2YTYpdis2YfYp9i2INin2YTZhdmG2LLZhNmK
+INiz2KfZitiq2YjYqtmDIDIwMCDZgdmKINin2YTYpdmF2KfYsdin2Kog2KfZhNi52LHYqNmK2Kkg
+2KfZhNmF2KrYrdiv2KkgCtin2YTYqtiz2YTZitmFINmK2K8g2KjZitivINmIINin2YTYr9mB2Lkg
+2KjYudivINin2YTYpdiz2KrZhNin2YUKCtmD2YQg2YXYpyDYudmE2YrZgyDZh9mIINin2YTYqtmI
+2KfYtdmEINmF2LnZhtinINi52KjYsSDYp9mE2YjYp9iq2LPYp9ioINi52YTZiSDYp9mE2LHZgtmF
+INin2YTZiNin2LbYrSDYp9iv2YbYp9mHINmIINiz2YbZgtmI2YUgCtio2KrZiNi12YrZhCDYp9mE
+2K/ZiNin2KEg2YTZgwoKLS0gCllvdSByZWNlaXZlZCB0aGlzIG1lc3NhZ2UgYmVjYXVzZSB5b3Ug
+YXJlIHN1YnNjcmliZWQgdG8gdGhlIEdvb2dsZSBHcm91cHMgImthc2FuLWRldiIgZ3JvdXAuClRv
+IHVuc3Vic2NyaWJlIGZyb20gdGhpcyBncm91cCBhbmQgc3RvcCByZWNlaXZpbmcgZW1haWxzIGZy
+b20gaXQsIHNlbmQgYW4gZW1haWwgdG8ga2FzYW4tZGV2K3Vuc3Vic2NyaWJlQGdvb2dsZWdyb3Vw
+cy5jb20uClRvIHZpZXcgdGhpcyBkaXNjdXNzaW9uIG9uIHRoZSB3ZWIgdmlzaXQgaHR0cHM6Ly9n
+cm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi84ZGQ2NTk0YS1jNTY4LTQ1MDUtOWFi
+OS0wZjJjNzJmYjU1NmNuJTQwZ29vZ2xlZ3JvdXBzLmNvbS4K
+------=_Part_14267_1437873302.1707503926132
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-In a hyperscale environment, one downside of running kernel with KASAN
-configured in random production machines is the fact that it hides 1/8th
-of the memory from `/proc/meminfo` MemTotal.
+2LPYp9mK2KrZiNiq2YMg2KfZhNil2YXYp9ix2KfYqiB8IEdTT1RSRTxiciAvPtmG2K3ZhiDZhdmI
+2LLYudmK2YYg2YXYqtiu2LXYtdmK2YYg2YHZiiDYrdio2YjYqCDYs9in2YrYqtmI2KrZgyAo2KfZ
+hNmF2YrYstmI2KjYsdmI2LPYqtmI2YQpINmF2LkgMTAg2LPZhtmI2KfYqiDZhdmGINin2YTYrtio
+2LHYqSDZgdmKINmH2LDYpyDYp9mE2YXYrNin2YQg2KfZhNi32KjZii4g2YbZgtmI2YUg2KjYqtmC
+2K/ZitmFINiu2K/Zhdin2Kog2YHYsdmK2K/YqSDZhdmGINmG2YjYudmH2KfigKY8YnIgLz4wMDk2
+NjU5NzIzODY3NDxiciAvPtiz2KfZitiq2YjYqtmK2YMtMjAwPGJyIC8+2K3YqNmI2Kgg2KfZhNil
+2KzZh9in2LYg2LPYp9mK2KrZiNiq2YrZgzxiciAvPtmF2LnZhNmI2YXYp9iqINi52KfZhdipPGJy
+IC8+2YbYtdin2KbYrSDYrdmF2YQ8YnIgLz7Zg9mFINiz2LnYsSDYrdio2YjYqCDYp9mE2KfYrNmH
+2KfYtjxiciAvPtiz2KfZitiq2YjYqtmDIOKAj9mE2YTYqNmK2Lk8YnIgLz7Yrdio2YjYqCDYp9mE
+2KXYrNmH2KfYtiDYs9in2YrYqtmI2KrZitmDIDIwMCDYp9mE2KPYtdmE2Yog2YHZiiDYr9io2Yo8
+YnIgLz7Yrdio2YjYqCDYs9in2YrYqtmI2KrZitmDIDIwMCDZgdmKINiv2KjZijxiciAvPtit2KjZ
+iNioINiz2KfZitiq2YjYqtmDIDIwMCDYp9mE2KPYtdmE2Yog2YHZiiDYr9io2Yog2K3YqNmI2Kgg
+2LPYp9mK2KrZiNiq2YrZgyAyMDAg2YTZhNil2KzZh9in2LYg2KfZhNij2LXZhNmKINmG2YjZgdix
+2Ycg2YTZgyDZgdmKINiv2KjZiiDigJMg2KfZhNi02KfYsdmC2Kkg4oCTINi52KzZhdin2YYg4oCT
+INij2KjZiNi42KjZiiDigJMg2KfZhNi52YrZhiDZhtiz2YTZhdmDINio2LTZg9mEINmB2YjYsdmK
+INmI2K/YudmFINi32KjZiiDZhNit2LjYqSDYqNmE2K3YuNipINin2KvZhtin2KEg2LnZhdmE2YrY
+qSDYp9mE2KrZhtiy2YrZhCDZhNi32YTYqCDYrdio2YjYqCDYs9in2YrYqtmI2KrZitmDINmB2Yog
+2K/YqNmKINmIINin2YTYpdmF2KfYsdin2Kog2KfZhNi52LHYqNmK2Kkg2KfZhNmF2KrYrdiv2Kkg
+2YrZhdmD2YbZgyDYp9mE2LfZhNioINi52YYg2LfYsdmK2YIg2KfZhNmI2KfYqtiz2KfYqCAwMDk2
+NjU5MDYzOTE4NNit2KjZiNioINiz2KfZitiq2YjYqtmDINit2KjZiNioINiz2KfZitiq2YjYqtmD
+INin2YTYp9is2YfYp9i2INin2YTYp9i12YTZiiDZgdmKIDAwOTY2NTk3MjM4Njc0PGJyIC8+2KrZ
+hSDYp9mE2YbYtNixINmB2YogMTAg2KPYqNix2YrZhNiMIDIwMjI8YnIgLz7Zhdi12YbZgSDZg9mA
+INit2KjZiNioINin2YTYpdis2YfYp9i2INiz2KfZitiq2YjYqtmK2YPYjCDYs9in2YrYqtmI2KrZ
+itmDLTIwMNiMINmF2LnZhNmI2YXYp9iqINi52KfZhdip2Iwg2YbYtdin2KbYrSDYrdmF2YQ8YnIg
+Lz7ZhdmI2LPZiNmFINmD2YAgd2hlcmUgY2FuIGkgZ2V0IGN5dG90ZWMgaW4gZHViYWnYjCDYo9iz
+2YXYp9ihINit2KjZiNioINin2YTYpdis2YfYp9i22Iwg2KfYrdiz2KjZiiDYrdmF2YTZg9iMINin
+2LPZhSDYrdio2YjYqCDYp9mE2KXYrNmH2KfYttiMINin2LPZhdin2KEg2K3YqNmI2Kgg2KfZhNin
+2KzZh9in2LbYjCDYp9mB2LbZhCDYrdio2YjYqCDZhNiq2YbYuNmK2YEg2KfZhNix2K3ZhSDYqNi5
+2K8g2KfZhNin2KzZh9in2LbYjCDYp9mB2LbZhCDYudmK2KfYr9mHINmE2YTYp9is2YfYp9i2INmB
+2Yog2KfZhNin2YXYp9ix2KfYqtiMINin2YrZhiDYqtio2KfYuSDYrdio2YjYqCDYp9mE2KfYrNmH
+2KfYtiDZgdmKINin2YTYp9mF2KfYsdin2KrYjCDYqNiv2YrZhCDYrdio2YjYqCDYp9mE2KfYrNmH
+2KfYtjxiciAvPtit2KjZiNioINiz2KfZitiq2YjYqtmK2YMg2YHZiiDYr9io2Yog2LPYp9mK2KrZ
+iNiq2YMgMjAwINin2YTYo9i12YTZiiDZhNil2KzZh9in2LYg2KfZhNit2YXZhCDZhdmG2LLZhNmK
+2KfZizxiciAvPtmF2LHYrdio2KfZiyDZh9mEINmF2YTZhNiq2Yog2KfZhNio2K3YqyDYudmGINi1
+2YrYr9mE2YrYqSDYqtmC2YjZhSDYqNio2YrYuSDYr9mI2KfYoSDYs9in2YrYqtmI2KrZitmDIDIw
+MCDZhNil2KzZh9in2LYg2KfZhNit2YXZhCDZhdmG2LLZhNmK2Kcg2YHZiiDYr9io2YrYnyDZitiz
+2LnYr9mG2Kcg2KXYrtio2KfYsdmDINio2KPZhtmHINmK2KrZiNmB2LEg2YTYr9mK2YbYpyDYrdio
+2YjYqCDYs9in2YrYqtmI2KrZitmDIDIwMCDYp9mE2KjYsdmK2LfYp9mG2Yog2KfZhNij2LXZhNmK
+INmE2YTYqNmK2Lkg2YHZiiDYr9io2Yog2Ygg2YPYp9mB2Kkg2KXZhdin2LHYp9iqINin2YTYpdmF
+2KfYsdin2Kog2KfZhNi52LHYqNmK2Kkg2KfZhNmF2KrYrdiv2KkuINin2YTYqtiz2YTZitmFINmK
+2K8g2KjZitivINmIINio2LPYsdmK2Kkg2KrYp9mF2Kkg2KjYpdmF2YPYp9mG2YMg2LfZhNioINin
+2YTYr9mI2KfYoSDZhdmGINiu2YTYp9mEINmF2LHYp9iz2YTYqtmG2Kcg2LnYqNixINin2YTZiNin
+2KrYs9in2Kgg2Ygg2LPZhtmC2YjZhSDYqNiq2YjYtdmK2YQg2KfZhNiv2YjYp9ihINmE2YPZkCDY
+o9mK2YbigKbigKY8YnIgLz7ZhdmI2LPZiNmFINmD2YAg2KfYrdiz2KjZiiDYrdmF2YTZg9iMINin
+2LPZhSDYrdio2YjYqCDYp9mE2KXYrNmH2KfYttiMINin2LPZhdin2KEg2K3YqNmI2Kgg2KfZhNin
+2KzZh9in2LbYjCDYp9mB2LbZhCDYudmK2KfYr9mHINmE2YTYp9is2YfYp9i2INmB2Yog2KfZhNin
+2YXYp9ix2KfYqtiMINin2YrZhiDYqtio2KfYuSDYrdio2YjYqCDYp9mE2KfYrNmH2KfYtiDZgdmK
+INin2YTYp9mF2KfYsdin2KrYjCDYqNiv2YrZhCDYrdio2YjYqCDYp9mE2KfYrNmH2KfYttiMINit
+2KjZiNioINiz2KfZitiq2YjYqtmK2YPYjCDYrdiz2KfYqCDYo9iz2KfYqNmK2Lkg2KfZhNit2YXZ
+hCDYqNiz2YfZiNmE2KnYjCDYrdiz2KfYqCDYp9iz2KfYqNmK2Lkg2KfZhNit2YXZhNiMINit2LPY
+p9ioINi52K/YryDYp9mE2KfYs9in2KjZiti52Iwg2K3Ys9in2Kgg2LnZhdixINin2YTYrdmF2YTY
+jCDYr9io2YrYjCDYs9in2Iwg2LPYp9mK2KrZiNiq2YMg4oCP2YTZhNio2YrYudiMINi32LHZitmC
+2Kkg2KfYs9iq2K7Yr9in2YUg2LPYp9mK2KrZiNiq2YrZg9iMINi52YrYp9iv2KfYqiDYqNin2YTY
+qNit2LHZitmGINmE2YTYp9is2YfYp9i22Iwg2YXYs9iq2LTZgdmJINmE2YTYp9is2YfYp9i2INmB
+2Yog2KfZhNin2YXYp9ix2KfYqtiMINmF2LnZhNmI2YXYp9iqINi52KfZhdip2Iwg2YfZhCDYqtio
+2KfYuSDYrdio2YjYqCDYp9mE2KXYrNmH2KfYtiDZgdmKINin2YTYtdmK2K/ZhNmK2KfYqjxiciAv
+PtmF2Kcg2YfZiCDYo9mB2LbZhCDYrdioINmE2KXYrNmH2KfYtiDYp9mE2K3ZhdmEINmF2YjYrNmI
+2K8g2YHZiiDYp9mE2KfZhdin2LHYp9iqPGJyIC8+2YXZitiy2YjYqNix2YjYs9iq2YjZhCDigI8g
+2YfZiCDYr9mI2KfYoSDZitiz2KrYrtiv2YUg2YTYqtit2YHZitiyINio2K/YoSDYp9mE2YXYrtin
+2LYg2KPZiCDYp9mE2KXYrNmH2KfYtiDZiNmE2YXYudin2YTYrNipINmG2LLZitmBINmF2Kcg2KjY
+udivINin2YTZiNi22Lkg2YHZiiDYqNi52LYg2K3Yp9mE2KfYqiDYp9mE2KfZhtmC2KjYp9i22KfY
+qiDYutmK2LEg2KfZhNmD2KfZgdmK2Kkg2YjYo9mK2LbYp9mLINmE2YXYudin2YTYrNipINiq2YLY
+sdit2KfYqiDYp9mE2YXYudiv2Kkg2YHZiiDYrdin2YTYp9iqINiu2KfYtdipLiDZgdmKINit2KfZ
+hNin2Kog2KfZhNil2KzZh9in2LYg2YrYqtmFINin2LPYqtiu2K/Yp9mF2Ycg2YXYuSDZhdmK2YHZ
+itio2LHYs9iq2YjZhiDYo9mIINmF2YrYq9mI2KrYsdmK2YPYs9in2KrYjCDZiNmH2Ygg2YrYudiv
+INmF2YYg2YHYptipINin2YTYqNix2YjYs9iq2KfYutmE2KfZhtiv2YrZhiDYp9mKINin2YTYtdmG
+2KfYudmK2KkuPGJyIC8+PGJyIC8+2KfZitmGINio2KXZhdmD2KfZhtmKINin2YTYrdi12YjZhCDY
+udmE2Ykg2LPYp9mK2KrZiNiq2YrZgyAyMDAg2YHZiiDYp9mE2KXZhdin2LHYp9iqINin2YTYudix
+2KjZitipINin2YTZhdiq2K3Yr9ip2J88YnIgLz48YnIgLz7Zitiq2YjZgdixINmE2K/ZitmG2Kcg
+2K3YqNmI2Kgg2KfZhNil2KzZh9in2LYg2KfZhNmF2YbYstmE2Yog2LPYp9mK2KrZiNiq2YMgMjAw
+INmB2Yog2KfZhNil2YXYp9ix2KfYqiDYp9mE2LnYsdio2YrYqSDYp9mE2YXYqtit2K/YqSDYp9mE
+2KrYs9mE2YrZhSDZitivINio2YrYryDZiCDYp9mE2K/Zgdi5INio2LnYryDYp9mE2KXYs9iq2YTY
+p9mFPGJyIC8+PGJyIC8+2YPZhCDZhdinINi52YTZitmDINmH2Ygg2KfZhNiq2YjYp9i12YQg2YXY
+udmG2Kcg2LnYqNixINin2YTZiNin2KrYs9in2Kgg2LnZhNmJINin2YTYsdmC2YUg2KfZhNmI2KfY
+ttitINin2K/Zhtin2Ycg2Ygg2LPZhtmC2YjZhSDYqNiq2YjYtdmK2YQg2KfZhNiv2YjYp9ihINmE
+2YM8YnIgLz48YnIgLz4NCg0KPHA+PC9wPgoKLS0gPGJyIC8+CllvdSByZWNlaXZlZCB0aGlzIG1l
+c3NhZ2UgYmVjYXVzZSB5b3UgYXJlIHN1YnNjcmliZWQgdG8gdGhlIEdvb2dsZSBHcm91cHMgJnF1
+b3Q7a2FzYW4tZGV2JnF1b3Q7IGdyb3VwLjxiciAvPgpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMg
+Z3JvdXAgYW5kIHN0b3AgcmVjZWl2aW5nIGVtYWlscyBmcm9tIGl0LCBzZW5kIGFuIGVtYWlsIHRv
+IDxhIGhyZWY9Im1haWx0bzprYXNhbi1kZXYrdW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbSI+
+a2FzYW4tZGV2K3Vuc3Vic2NyaWJlQGdvb2dsZWdyb3Vwcy5jb208L2E+LjxiciAvPgpUbyB2aWV3
+IHRoaXMgZGlzY3Vzc2lvbiBvbiB0aGUgd2ViIHZpc2l0IDxhIGhyZWY9Imh0dHBzOi8vZ3JvdXBz
+Lmdvb2dsZS5jb20vZC9tc2dpZC9rYXNhbi1kZXYvOGRkNjU5NGEtYzU2OC00NTA1LTlhYjktMGYy
+YzcyZmI1NTZjbiU0MGdvb2dsZWdyb3Vwcy5jb20/dXRtX21lZGl1bT1lbWFpbCZ1dG1fc291cmNl
+PWZvb3RlciI+aHR0cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi84ZGQ2
+NTk0YS1jNTY4LTQ1MDUtOWFiOS0wZjJjNzJmYjU1NmNuJTQwZ29vZ2xlZ3JvdXBzLmNvbTwvYT4u
+PGJyIC8+Cg==
+------=_Part_14267_1437873302.1707503926132--
 
-This is a problem because a different scripts trust procinfo's MemTotal
-for several reasons. 
-
-One classical example is "machine checker" scripts, which are some random
-scripts that run in production machines and assures that the machine
-has the expect amount of RAM available, otherwise send the machine to
-repair because some memory is missing. These scripts are looking for RAM
-sticks that are unplugged, or, bad RAM sticks, etc.
-
-Teaching these scripts to look for kernel configuration (KASAN
-enabled/disabled) before reporting such problems seems hard given the
-amount of scripts that trusts /proc/meminfo MemTotal.
-
-Question
-========
-
-To make the usability easier to deploy Kasan, I am wondering if it is OK
-if I add a build configuration (Kconfig) that tells KASAN to *not* hide
-the available memory from MemTotal, so, whoever blindly trusts MemTotal
-continue to work fine, and make the KASAN experience a bit smoother.
-
-Thank you
-Breno
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZcUZUIlJUsag8qMt%40gmail.com.
+------=_Part_14266_717464963.1707503926132--
