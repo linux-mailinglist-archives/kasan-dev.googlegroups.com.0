@@ -1,75 +1,133 @@
-Return-Path: <kasan-dev+bncBDF2TGPLZMEBBN7CTGXAMGQEBLX6A3I@googlegroups.com>
+Return-Path: <kasan-dev+bncBDCPL7WX3MKBBTNNTSXAMGQE2TYDTTY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc40.google.com (mail-oo1-xc40.google.com [IPv6:2607:f8b0:4864:20::c40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDCC84FC0B
-	for <lists+kasan-dev@lfdr.de>; Fri,  9 Feb 2024 19:38:49 +0100 (CET)
-Received: by mail-oo1-xc40.google.com with SMTP id 006d021491bc7-59874c4b5cesf1257644eaf.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 09 Feb 2024 10:38:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1707503928; x=1708108728; darn=lfdr.de;
+Received: from mail-oa1-x3a.google.com (mail-oa1-x3a.google.com [IPv6:2001:4860:4864:20::3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4958502BC
+	for <lists+kasan-dev@lfdr.de>; Sat, 10 Feb 2024 07:25:19 +0100 (CET)
+Received: by mail-oa1-x3a.google.com with SMTP id 586e51a60fabf-2196a478acbsf1327174fac.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 09 Feb 2024 22:25:19 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1707546318; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=RiuQhaJthRYWLS0sDkg/CAb66YsvVA9Oc81ZJKDlCASQi7+NjXQA5i8T0/PRDmJhnB
+         48v7dTbTUgW5dr0PrEQ1Ve3s87Gi9X+Y2Jy9AsLXeF9G7iyfae+6PDWgUrIyvpRlbGMU
+         G/KSdhRo0v54crfy3pSKtkAgU0nlKNyFXYAfn5IaTo2sfQ3PVYg7prxATTRD+5EU2xvu
+         3yB3xPOozLVU8I8ztWDteHeQ1ARhO+2IqqUX9CK7d3xwJg4VI7ognZTNJj+KfaOH0gOj
+         OB/1fkGcFZsNSWjrDw31eisM6tVNQQUCHxZl8dx/gZYQDhtbNvSlXtJgMs97ZjjxE+A1
+         go0A==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:message-id:to:from:date:sender:from:to:cc:subject:date
+         :list-id:mailing-list:precedence:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=xVcOGOMR0dQBdDinOh8DlohFhlLF/yNqc34Llk6uTng=;
+        fh=mEj4BvY0ExS8qAHloJDfWEJ92TC0gC665Pm7+1d9gMM=;
+        b=aK5OXqaHbrdEdtSts6GdKJpFvoWLr4QmSSBHhhxkcfsFhqOdSiKznM/kew0+SBZ2Qd
+         cBjh34xnjqGKt9QY7Oynlk2QQzGMGvKoz2fH1d1LGmtaOKeSrYdndWkGm5+0mDFWdoa+
+         /F4A9oM9jZHktjgf39f97rfwqFLQ/eHnb/xPZoBlXaliVnptCoq9QXuQMLtDwl8bSFf9
+         X4+J50wk4QC0tSgOFxxqjgoRCIuf696e/r/Bq9sn1c0j5kctDNn4S1nNaEx57yGZdIf8
+         gYnJqaZeYLvjcYNtnI85jBNOkenikmHB2J6Sak3wXDOBeQZvGEyygtcsUUX2l20qQ+nE
+         Tp2A==
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="ER/SL6vi";
+       spf=pass (google.com: domain of kees@kernel.org designates 145.40.73.55 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20230601; t=1707546318; x=1708151118; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:references:in-reply-to
+         :user-agent:subject:cc:to:from:date:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=28S5dJVAQKZNuSCP3iet9JzCdSpvptFk21xzi3Y83i8=;
-        b=jnJ1zmWiWlXm/HpLbMT9afynBdES6yOcqLhECShSTsuCiXyJF+usheMSoHJmAJ6u6S
-         yvwABT0U+DDJnw+W/nEGU3/Ha8K+gGOFP+6OypRbjawnWijpCrPFr/E06lMxNAdP7Sfh
-         fLv3w3RKloBUgXSwdBceC8NxuQgjFbuEUQADtebk+QpiXuIossH4PNZp1ODxy+HRQApL
-         jXUovN0LhkQ6i1+KxsSUuCQm9YOTqNmPmxW4m3nNOqFdVMkBAzdOm5y+uooSVO9qEnhd
-         CSSDtSnTQn8WGMxXyGKIAC0nis5kqDiD1MSxkko1R3KC0i4gyTKRIk4esMD3UcHoCZyj
-         e9SA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707503928; x=1708108728; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=28S5dJVAQKZNuSCP3iet9JzCdSpvptFk21xzi3Y83i8=;
-        b=B+4088Zu7ihnDX53aEfG9TBqCkoZU7+z4om4eJsBHVexqWb1YVyaedK36ym1vQmBTU
-         2FEzX64u5JWw3oqf6xqx78V9BpEFmZRD4vBQdjjg8q1s9JlpssbaqEFNIu0ZKSvwJ42b
-         wLbuE5yJS/oDHJ7HrIZCrMFWPLX28tPMcsiAFYc3Ur7KJiKvtsxx1DcbkyVsHxRSrykA
-         Yb4a/sUJMunaHbiG1PIhUQDBKT+SoyZrCQyiVExr4Pjv8MaeGFZZNm08cAWTBhjpAUuF
-         PnpWxmste2VLRudHy1s1MVPfjQSDMrZPHz1QEPATkTQ6UGApihLwWIBD9pl+jOk2gDzS
-         nd/Q==
+        bh=xVcOGOMR0dQBdDinOh8DlohFhlLF/yNqc34Llk6uTng=;
+        b=tYGYoVv8Qv2IcRgFsiKqVG8tWRAzRboUsV1uR+YiiKQktfpMogCQCu5JTm0yInO0Ag
+         /tr74ilGBcDRVOFcKJT2KHU50oxU5vqW4GfenUFl6n+c6CD4er9098Xv2Rmopr+AIhNY
+         F/GRD3TeyEL7FN9pZwT2es1b5QLKGWeGsftTXLWHuQ+o0356+6jj4fn+WNJadZCWhMQf
+         dAo7Cr/SugFj2tZ1xMa/1Z/W6OMYr7kmq4SWCkkggi8tnaa+qP5dCBGn7IWl8NIhJn4D
+         IyxYn2xkKYxwe8sWbyjQtQKHXLcC4736Cq3EQxY47O+D3a3JV9DurbgQP7E995Lh99hT
+         7/fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707503928; x=1708108728;
+        d=1e100.net; s=20230601; t=1707546318; x=1708151118;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-sender:mime-version:subject:message-id:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:references:in-reply-to:user-agent:subject:cc:to:from
+         :date:x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=28S5dJVAQKZNuSCP3iet9JzCdSpvptFk21xzi3Y83i8=;
-        b=ntlTYqNBWcZztUxSFPRjR6s3Kp0EAeU0Qt8HoyFVnrMmivTQa7/PHeZU1XBZufaxiG
-         TfUWf/z4KBcav68WQ3xslh40+eca2CrbP7U8eNVS5r+NNvxLJ7Jj3k5XuWgr9TU+90eB
-         MGpNZiQk+3FK74NVMUUQm4/890BQTORJnHplTvaKFsfZONnDOMthnu1cKSevSPdeIgkN
-         wnOy0ExVNdw9SRJ1VkSuIPb24vXdxO/WVrTjOBRPSQTD7DIC1cs9fkcN9bCmBuis7+yM
-         4ICptsYx0nzjwhgi5CKyoZgkVYYIfUJ8vUBdZL5RwdG+VXzLXJq22xQOcj0wCEhmu3KS
-         NiMQ==
+        bh=xVcOGOMR0dQBdDinOh8DlohFhlLF/yNqc34Llk6uTng=;
+        b=Ccd6z8WJTRu/bfuixJ6tLDRKRnxQvbSq2l2V8rqudlzpwUb7JFOrtOEw3DJo2E13mb
+         pnx3j/c5ucygadZ0cfJFrEdMluPeIBLcTKLCGI7y/10gqxe+9YBfNmeJYroyaKq3ACu+
+         kQ+wkJOyh7oaeDsp4IsS4C5Ra7c3UZEnA1v3YDx8f/AbElZhbsTmxcRmdxX3X8LSY+uN
+         CtIcbJkcGOaqy9NpuP2v6JeHyqRrOR2DuD4r59dvmtn/9vsSGeIcr/T81esQYA9TnWkB
+         5cPq47vXzYuXoIR6CUj+Ype+T/q4bqajc04VI1nG1lphekWOX47ZZ3kIYWfbPU9uF1up
+         HsGw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=1; AJvYcCVANTsvzTXgqmBSIz5ROYUcBuHmwcXxhfQTATt0f+twXMqoHSM281bop8AQw0pwkn//rgZ9Zb2Wrw97W7iZr1Lb69KWVxZBRg==
-X-Gm-Message-State: AOJu0YxAVv5FwogoukcWW7Z+T6BExM1mblre1mPoZC0ttZT2bLwoRHcJ
-	J0NnC8U0u2GVsnBy8LagdwFZsq9YdvE6/0xi11E6VEzAoaPcl3qz
-X-Google-Smtp-Source: AGHT+IHdMFeXMVvC2bpt3QgWmrgHRzgWff+DCg3fOmFYPqavOo3PVrhtVm+3jYIZ2RNYZdH9Q7rJRw==
-X-Received: by 2002:a4a:ea17:0:b0:59d:28ca:365a with SMTP id x23-20020a4aea17000000b0059d28ca365amr210184ood.1.1707503928066;
-        Fri, 09 Feb 2024 10:38:48 -0800 (PST)
+X-Gm-Message-State: AOJu0Yx8sXbHhkV3LeeIuyitH47M6mzgKlmS2mUO1mYIP0NJXp3jCUlj
+	QI+hOmxqYpDDH6YRQXSg9Pt1IIkUi6bzClMZCVHrlm60xT2u9XME
+X-Google-Smtp-Source: AGHT+IFKea4gGWkTHL94Mar2sBTHjpEzYMC0ji5g9n+n0pu1T+8z8UTwJ6a0Ekttf1jVazhQueJN5w==
+X-Received: by 2002:a05:6870:1f16:b0:218:51de:95e8 with SMTP id pd22-20020a0568701f1600b0021851de95e8mr1654092oab.14.1707546317945;
+        Fri, 09 Feb 2024 22:25:17 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:5547:0:b0:59a:73f9:7f01 with SMTP id e68-20020a4a5547000000b0059a73f97f01ls1075010oob.1.-pod-prod-05-us;
- Fri, 09 Feb 2024 10:38:47 -0800 (PST)
-X-Received: by 2002:a4a:a6cd:0:b0:599:8e7f:cddf with SMTP id i13-20020a4aa6cd000000b005998e7fcddfmr4824oom.1.1707503926759;
-        Fri, 09 Feb 2024 10:38:46 -0800 (PST)
-Date: Fri, 9 Feb 2024 10:38:46 -0800 (PST)
-From: SARA <bas004ran@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <8dd6594a-c568-4505-9ab9-0f2c72fb556cn@googlegroups.com>
-Subject: =?UTF-8?B?2K3YqNmI2Kgg2KfZhNin2KzZh9in2LYg2YHZig==?=
- =?UTF-8?B?INin2YTYp9mF2KfYsdin2KogLSDYrdio2Yg=?=
- =?UTF-8?B?2Kgg2LPYp9mK2KrZiNiq2YMg2YHZiiDYp9mE?=
- =?UTF-8?B?2KfZhdin2LHYp9iqIHwg2KfYudmE2KfZhiA=?=
+Received: by 2002:a05:6870:718d:b0:218:44b5:2d8 with SMTP id
+ d13-20020a056870718d00b0021844b502d8ls1952992oah.0.-pod-prod-01-us; Fri, 09
+ Feb 2024 22:25:17 -0800 (PST)
+X-Received: by 2002:aca:f07:0:b0:3be:984e:c7fd with SMTP id 7-20020aca0f07000000b003be984ec7fdmr1156902oip.51.1707546316932;
+        Fri, 09 Feb 2024 22:25:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1707546316; cv=none;
+        d=google.com; s=arc-20160816;
+        b=WApGf8xLzRAuvZ3/mPiuVPfetuodfMfqQGkYH+Xz417rG7kCi0hUYw68l93soHuwg9
+         k10gTn0J/bgeSaBdeJYIP5CUoqSsE7z6eATqJpuICc0jIXGL195WtH4aU2jVpZlD/ZXO
+         pdKLKQJEpt4yZpYPa1KPXuyOOCc8QTXCmU6NHKInNxKpPqeZmBurONgOAJfc0uHjd3Xu
+         SssSkjscsvshtZl05aXlxDZAp9fVkYDIWtO9WC1ZZrOKsp01nadmhie2Pyi+SBtAhQOv
+         ue9pVSk+3ZjDINWYG5Zp38JYH3UvcoM3O6ZUGvuWBT6Or0knWT5++W5K0PPpelrlS7Xx
+         QTdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:message-id:references
+         :in-reply-to:user-agent:subject:cc:to:from:date:dkim-signature;
+        bh=Nzu/ZgyMawcFEr8BAtgEG1bRxe5yibFVGSLa+kOFCB8=;
+        fh=mEj4BvY0ExS8qAHloJDfWEJ92TC0gC665Pm7+1d9gMM=;
+        b=PiiXUvFU3AGbUpzg2ph2QQ+CvYYZhAjNPiIB9N2ORUZkSnfHdN+kb2sgYot9PuHlEV
+         pVI7MKRkpUDK+6NUrCnH1lAQJ5JE+AgNoB88DRStATlIGj3poUYVMila774yePPZQKmg
+         4IBIl4TXTx77Tiri4NDkMsgj3GTMRgFqykvwkhnLtsXarCmeyZUKrh3Q/I53LQXcbhtb
+         ff9AcXPqDF1s0U4rq/y0lsb555fdmVjeeneom+LNc+Mow/3FRcG90lYJWtORteqjRUNI
+         ML+jpIGI3ORlVFHgIPdEeqwmZ4GXhmD5mw2H67jumuyO0GPori363642knuaNKB6Y3k2
+         o0nA==;
+        dara=google.com
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="ER/SL6vi";
+       spf=pass (google.com: domain of kees@kernel.org designates 145.40.73.55 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+X-Forwarded-Encrypted: i=1; AJvYcCUYHnIeP7eLhiKjjXmKFg1Fg1w8p28Wi10OWCHTfsjAeiQOAPVDmSqCHnRmIxS3rZqtQvgqZXeoEiCkenm1yyITUlH7FuhMg79DpQ==
+Received: from sin.source.kernel.org (sin.source.kernel.org. [145.40.73.55])
+        by gmr-mx.google.com with ESMTPS id eh8-20020a056808274800b003bff43c21dbsi309085oib.2.2024.02.09.22.25.16
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Feb 2024 22:25:16 -0800 (PST)
+Received-SPF: pass (google.com: domain of kees@kernel.org designates 145.40.73.55 as permitted sender) client-ip=145.40.73.55;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 45498CE1A91;
+	Sat, 10 Feb 2024 06:25:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D4FEC433F1;
+	Sat, 10 Feb 2024 06:25:12 +0000 (UTC)
+Date: Fri, 09 Feb 2024 22:25:11 -0800
+From: Kees Cook <kees@kernel.org>
+To: Marco Elver <elver@google.com>, Matthieu Baerts <matttbe@kernel.org>
+CC: Alexander Potapenko <glider@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ kasan-dev@googlegroups.com, Netdev <netdev@vger.kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, linux-hardening@vger.kernel.org,
+ Kees Cook <keescook@chromium.org>, the arch/x86 maintainers <x86@kernel.org>
+Subject: Re: KFENCE: included in x86 defconfig?
+User-Agent: K-9 Mail for Android
+In-Reply-To: <CANpmjNP==CANQi4_qFV_VVFDMsj1wHROxt3RKzwJBqo8_McCTg@mail.gmail.com>
+References: <e2871686-ea25-4cdb-b29d-ddeb33338a21@kernel.org> <CANpmjNP==CANQi4_qFV_VVFDMsj1wHROxt3RKzwJBqo8_McCTg@mail.gmail.com>
+Message-ID: <79B9A832-B3DE-4229-9D87-748B2CFB7D12@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_14266_717464963.1707503926132"
-X-Original-Sender: bas004ran@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: kees@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=k20201202 header.b="ER/SL6vi";       spf=pass
+ (google.com: domain of kees@kernel.org designates 145.40.73.55 as permitted
+ sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -82,185 +140,29 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_14266_717464963.1707503926132
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_14267_1437873302.1707503926132"
 
-------=_Part_14267_1437873302.1707503926132
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
 
-2LPYp9mK2KrZiNiq2YMg2KfZhNil2YXYp9ix2KfYqiB8IEdTT1RSRQrZhtit2YYg2YXZiNiy2LnZ
-itmGINmF2KrYrti12LXZitmGINmB2Yog2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMgKNin2YTZhdmK
-2LLZiNio2LHZiNiz2KrZiNmEKSDZhdi5IDEwINiz2YbZiNin2Kog2YXZhiDYp9mE2K7YqNix2Kkg
-2YHZiiAK2YfYsNinINin2YTZhdis2KfZhCDYp9mE2LfYqNmKLiDZhtmC2YjZhSDYqNiq2YLYr9mK
-2YUg2K7Yr9mF2KfYqiDZgdix2YrYr9ipINmF2YYg2YbZiNi52YfYp+KApgowMDk2NjU5NzIzODY3
-NArYs9in2YrYqtmI2KrZitmDLTIwMArYrdio2YjYqCDYp9mE2KXYrNmH2KfYtiDYs9in2YrYqtmI
-2KrZitmDCtmF2LnZhNmI2YXYp9iqINi52KfZhdipCtmG2LXYp9im2K0g2K3ZhdmECtmD2YUg2LPY
-udixINit2KjZiNioINin2YTYp9is2YfYp9i2Ctiz2KfZitiq2YjYqtmDIOKAj9mE2YTYqNmK2LkK
-2K3YqNmI2Kgg2KfZhNil2KzZh9in2LYg2LPYp9mK2KrZiNiq2YrZgyAyMDAg2KfZhNij2LXZhNmK
-INmB2Yog2K/YqNmKCtit2KjZiNioINiz2KfZitiq2YjYqtmK2YMgMjAwINmB2Yog2K/YqNmKCtit
-2KjZiNioINiz2KfZitiq2YjYqtmDIDIwMCDYp9mE2KPYtdmE2Yog2YHZiiDYr9io2Yog2K3YqNmI
-2Kgg2LPYp9mK2KrZiNiq2YrZgyAyMDAg2YTZhNil2KzZh9in2LYg2KfZhNij2LXZhNmKINmG2YjZ
-gdix2Ycg2YTZgyDZgdmKIArYr9io2Yog4oCTINin2YTYtNin2LHZgtipIOKAkyDYudis2YXYp9mG
-IOKAkyDYo9io2YjYuNio2Yog4oCTINin2YTYudmK2YYg2YbYs9mE2YXZgyDYqNi02YPZhCDZgdmI
-2LHZiiDZiNiv2LnZhSDYt9io2Yog2YTYrdi42Kkg2KjZhNit2LjYqSAK2KfYq9mG2KfYoSDYudmF
-2YTZitipINin2YTYqtmG2LLZitmEINmE2LfZhNioINit2KjZiNioINiz2KfZitiq2YjYqtmK2YMg
-2YHZiiDYr9io2Yog2Ygg2KfZhNil2YXYp9ix2KfYqiDYp9mE2LnYsdio2YrYqSDYp9mE2YXYqtit
-2K/YqSAK2YrZhdmD2YbZgyDYp9mE2LfZhNioINi52YYg2LfYsdmK2YIg2KfZhNmI2KfYqtiz2KfY
-qCAwMDk2NjU5MDYzOTE4NNit2KjZiNioINiz2KfZitiq2YjYqtmDINit2KjZiNioINiz2KfZitiq
-2YjYqtmDIArYp9mE2KfYrNmH2KfYtiDYp9mE2KfYtdmE2Yog2YHZiiAwMDk2NjU5NzIzODY3NArY
-qtmFINin2YTZhti02LEg2YHZiiAxMCDYo9io2LHZitmE2IwgMjAyMgrZhdi12YbZgSDZg9mAINit
-2KjZiNioINin2YTYpdis2YfYp9i2INiz2KfZitiq2YjYqtmK2YPYjCDYs9in2YrYqtmI2KrZitmD
-LTIwMNiMINmF2LnZhNmI2YXYp9iqINi52KfZhdip2Iwg2YbYtdin2KbYrSDYrdmF2YQK2YXZiNiz
-2YjZhSDZg9mAIHdoZXJlIGNhbiBpIGdldCBjeXRvdGVjIGluIGR1YmFp2Iwg2KPYs9mF2KfYoSDY
-rdio2YjYqCDYp9mE2KXYrNmH2KfYttiMINin2K3Ys9io2Yog2K3ZhdmE2YPYjCAK2KfYs9mFINit
-2KjZiNioINin2YTYpdis2YfYp9i22Iwg2KfYs9mF2KfYoSDYrdio2YjYqCDYp9mE2KfYrNmH2KfY
-ttiMINin2YHYttmEINit2KjZiNioINmE2KrZhti42YrZgSDYp9mE2LHYrdmFINio2LnYryDYp9mE
-2KfYrNmH2KfYttiMIArYp9mB2LbZhCDYudmK2KfYr9mHINmE2YTYp9is2YfYp9i2INmB2Yog2KfZ
-hNin2YXYp9ix2KfYqtiMINin2YrZhiDYqtio2KfYuSDYrdio2YjYqCDYp9mE2KfYrNmH2KfYtiDZ
-gdmKINin2YTYp9mF2KfYsdin2KrYjCDYqNiv2YrZhCAK2K3YqNmI2Kgg2KfZhNin2KzZh9in2LYK
-2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YrZgyDZgdmKINiv2KjZiiDYs9in2YrYqtmI2KrZgyAyMDAg
-2KfZhNij2LXZhNmKINmE2KXYrNmH2KfYtiDYp9mE2K3ZhdmEINmF2YbYstmE2YrYp9mLCtmF2LHY
-rdio2KfZiyDZh9mEINmF2YTZhNiq2Yog2KfZhNio2K3YqyDYudmGINi12YrYr9mE2YrYqSDYqtmC
-2YjZhSDYqNio2YrYuSDYr9mI2KfYoSDYs9in2YrYqtmI2KrZitmDIDIwMCDZhNil2KzZh9in2LYg
-2KfZhNit2YXZhCAK2YXZhtiy2YTZitinINmB2Yog2K/YqNmK2J8g2YrYs9i52K/ZhtinINil2K7Y
-qNin2LHZgyDYqNij2YbZhyDZitiq2YjZgdixINmE2K/ZitmG2Kcg2K3YqNmI2Kgg2LPYp9mK2KrZ
-iNiq2YrZgyAyMDAg2KfZhNio2LHZiti32KfZhtmKIArYp9mE2KPYtdmE2Yog2YTZhNio2YrYuSDZ
-gdmKINiv2KjZiiDZiCDZg9in2YHYqSDYpdmF2KfYsdin2Kog2KfZhNil2YXYp9ix2KfYqiDYp9mE
-2LnYsdio2YrYqSDYp9mE2YXYqtit2K/YqS4g2KfZhNiq2LPZhNmK2YUg2YrYryDYqNmK2K8gCtmI
-INio2LPYsdmK2Kkg2KrYp9mF2Kkg2KjYpdmF2YPYp9mG2YMg2LfZhNioINin2YTYr9mI2KfYoSDZ
-hdmGINiu2YTYp9mEINmF2LHYp9iz2YTYqtmG2Kcg2LnYqNixINin2YTZiNin2KrYs9in2Kgg2Ygg
-2LPZhtmC2YjZhSAK2KjYqtmI2LXZitmEINin2YTYr9mI2KfYoSDZhNmD2ZAg2KPZitmG4oCm4oCm
-CtmF2YjYs9mI2YUg2YPZgCDYp9it2LPYqNmKINit2YXZhNmD2Iwg2KfYs9mFINit2KjZiNioINin
-2YTYpdis2YfYp9i22Iwg2KfYs9mF2KfYoSDYrdio2YjYqCDYp9mE2KfYrNmH2KfYttiMINin2YHY
-ttmEINi52YrYp9iv2YcgCtmE2YTYp9is2YfYp9i2INmB2Yog2KfZhNin2YXYp9ix2KfYqtiMINin
-2YrZhiDYqtio2KfYuSDYrdio2YjYqCDYp9mE2KfYrNmH2KfYtiDZgdmKINin2YTYp9mF2KfYsdin
-2KrYjCDYqNiv2YrZhCDYrdio2YjYqCDYp9mE2KfYrNmH2KfYttiMIArYrdio2YjYqCDYs9in2YrY
-qtmI2KrZitmD2Iwg2K3Ys9in2Kgg2KPYs9in2KjZiti5INin2YTYrdmF2YQg2KjYs9mH2YjZhNip
-2Iwg2K3Ys9in2Kgg2KfYs9in2KjZiti5INin2YTYrdmF2YTYjCDYrdiz2KfYqCDYudiv2K8gCtin
-2YTYp9iz2KfYqNmK2LnYjCDYrdiz2KfYqCDYudmF2LEg2KfZhNit2YXZhNiMINiv2KjZitiMINiz
-2KfYjCDYs9in2YrYqtmI2KrZgyDigI/ZhNmE2KjZiti52Iwg2LfYsdmK2YLYqSDYp9iz2KrYrtiv
-2KfZhSDYs9in2YrYqtmI2KrZitmD2IwgCti52YrYp9iv2KfYqiDYqNin2YTYqNit2LHZitmGINmE
-2YTYp9is2YfYp9i22Iwg2YXYs9iq2LTZgdmJINmE2YTYp9is2YfYp9i2INmB2Yog2KfZhNin2YXY
-p9ix2KfYqtiMINmF2LnZhNmI2YXYp9iqINi52KfZhdip2Iwg2YfZhCDYqtio2KfYuSAK2K3YqNmI
-2Kgg2KfZhNil2KzZh9in2LYg2YHZiiDYp9mE2LXZitiv2YTZitin2KoK2YXYpyDZh9mIINij2YHY
-ttmEINit2Kgg2YTYpdis2YfYp9i2INin2YTYrdmF2YQg2YXZiNis2YjYryDZgdmKINin2YTYp9mF
-2KfYsdin2KoK2YXZitiy2YjYqNix2YjYs9iq2YjZhCDigI8g2YfZiCDYr9mI2KfYoSDZitiz2KrY
-rtiv2YUg2YTYqtit2YHZitiyINio2K/YoSDYp9mE2YXYrtin2LYg2KPZiCDYp9mE2KXYrNmH2KfY
-tiDZiNmE2YXYudin2YTYrNipINmG2LLZitmBINmF2KcgCtio2LnYryDYp9mE2YjYtti5INmB2Yog
-2KjYudi2INit2KfZhNin2Kog2KfZhNin2YbZgtio2KfYttin2Kog2LrZitixINin2YTZg9in2YHZ
-itipINmI2KPZiti22KfZiyDZhNmF2LnYp9mE2KzYqSDYqtmC2LHYrdin2Kog2KfZhNmF2LnYr9ip
-IArZgdmKINit2KfZhNin2Kog2K7Yp9i12KkuINmB2Yog2K3Yp9mE2KfYqiDYp9mE2KXYrNmH2KfY
-tiDZitiq2YUg2KfYs9iq2K7Yr9in2YXZhyDZhdi5INmF2YrZgdmK2KjYsdiz2KrZiNmGINij2Ygg
-2YXZitir2YjYqtix2YrZg9iz2KfYqtiMIArZiNmH2Ygg2YrYudivINmF2YYg2YHYptipINin2YTY
-qNix2YjYs9iq2KfYutmE2KfZhtiv2YrZhiDYp9mKINin2YTYtdmG2KfYudmK2KkuCgrYp9mK2YYg
-2KjYpdmF2YPYp9mG2Yog2KfZhNit2LXZiNmEINi52YTZiSDYs9in2YrYqtmI2KrZitmDIDIwMCDZ
-gdmKINin2YTYpdmF2KfYsdin2Kog2KfZhNi52LHYqNmK2Kkg2KfZhNmF2KrYrdiv2KnYnwoK2YrY
-qtmI2YHYsSDZhNiv2YrZhtinINit2KjZiNioINin2YTYpdis2YfYp9i2INin2YTZhdmG2LLZhNmK
-INiz2KfZitiq2YjYqtmDIDIwMCDZgdmKINin2YTYpdmF2KfYsdin2Kog2KfZhNi52LHYqNmK2Kkg
-2KfZhNmF2KrYrdiv2KkgCtin2YTYqtiz2YTZitmFINmK2K8g2KjZitivINmIINin2YTYr9mB2Lkg
-2KjYudivINin2YTYpdiz2KrZhNin2YUKCtmD2YQg2YXYpyDYudmE2YrZgyDZh9mIINin2YTYqtmI
-2KfYtdmEINmF2LnZhtinINi52KjYsSDYp9mE2YjYp9iq2LPYp9ioINi52YTZiSDYp9mE2LHZgtmF
-INin2YTZiNin2LbYrSDYp9iv2YbYp9mHINmIINiz2YbZgtmI2YUgCtio2KrZiNi12YrZhCDYp9mE
-2K/ZiNin2KEg2YTZgwoKLS0gCllvdSByZWNlaXZlZCB0aGlzIG1lc3NhZ2UgYmVjYXVzZSB5b3Ug
-YXJlIHN1YnNjcmliZWQgdG8gdGhlIEdvb2dsZSBHcm91cHMgImthc2FuLWRldiIgZ3JvdXAuClRv
-IHVuc3Vic2NyaWJlIGZyb20gdGhpcyBncm91cCBhbmQgc3RvcCByZWNlaXZpbmcgZW1haWxzIGZy
-b20gaXQsIHNlbmQgYW4gZW1haWwgdG8ga2FzYW4tZGV2K3Vuc3Vic2NyaWJlQGdvb2dsZWdyb3Vw
-cy5jb20uClRvIHZpZXcgdGhpcyBkaXNjdXNzaW9uIG9uIHRoZSB3ZWIgdmlzaXQgaHR0cHM6Ly9n
-cm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi84ZGQ2NTk0YS1jNTY4LTQ1MDUtOWFi
-OS0wZjJjNzJmYjU1NmNuJTQwZ29vZ2xlZ3JvdXBzLmNvbS4K
-------=_Part_14267_1437873302.1707503926132
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+On February 7, 2024 10:05:31 AM PST, Marco Elver <elver@google.com> wrote:
+>On Wed, 7 Feb 2024 at 17:16, Matthieu Baerts <matttbe@kernel.org> wrote:
+>[...]
+>> When talking to Jakub about the kernel config used by the new CI for the
+>> net tree [1], Jakub suggested [2] to check if KFENCE could not be
+>> enabled by default for x86 architecture.
+>
+>I think this would belong into some "hardening" config - while KFENCE
+>is not a mitigation (due to sampling) it has the performance
+>characteristics of unintrusive hardening techniques, so I think it
+>would be a good fit. I think that'd be
+>"kernel/configs/hardening.config".
 
-2LPYp9mK2KrZiNiq2YMg2KfZhNil2YXYp9ix2KfYqiB8IEdTT1RSRTxiciAvPtmG2K3ZhiDZhdmI
-2LLYudmK2YYg2YXYqtiu2LXYtdmK2YYg2YHZiiDYrdio2YjYqCDYs9in2YrYqtmI2KrZgyAo2KfZ
-hNmF2YrYstmI2KjYsdmI2LPYqtmI2YQpINmF2LkgMTAg2LPZhtmI2KfYqiDZhdmGINin2YTYrtio
-2LHYqSDZgdmKINmH2LDYpyDYp9mE2YXYrNin2YQg2KfZhNi32KjZii4g2YbZgtmI2YUg2KjYqtmC
-2K/ZitmFINiu2K/Zhdin2Kog2YHYsdmK2K/YqSDZhdmGINmG2YjYudmH2KfigKY8YnIgLz4wMDk2
-NjU5NzIzODY3NDxiciAvPtiz2KfZitiq2YjYqtmK2YMtMjAwPGJyIC8+2K3YqNmI2Kgg2KfZhNil
-2KzZh9in2LYg2LPYp9mK2KrZiNiq2YrZgzxiciAvPtmF2LnZhNmI2YXYp9iqINi52KfZhdipPGJy
-IC8+2YbYtdin2KbYrSDYrdmF2YQ8YnIgLz7Zg9mFINiz2LnYsSDYrdio2YjYqCDYp9mE2KfYrNmH
-2KfYtjxiciAvPtiz2KfZitiq2YjYqtmDIOKAj9mE2YTYqNmK2Lk8YnIgLz7Yrdio2YjYqCDYp9mE
-2KXYrNmH2KfYtiDYs9in2YrYqtmI2KrZitmDIDIwMCDYp9mE2KPYtdmE2Yog2YHZiiDYr9io2Yo8
-YnIgLz7Yrdio2YjYqCDYs9in2YrYqtmI2KrZitmDIDIwMCDZgdmKINiv2KjZijxiciAvPtit2KjZ
-iNioINiz2KfZitiq2YjYqtmDIDIwMCDYp9mE2KPYtdmE2Yog2YHZiiDYr9io2Yog2K3YqNmI2Kgg
-2LPYp9mK2KrZiNiq2YrZgyAyMDAg2YTZhNil2KzZh9in2LYg2KfZhNij2LXZhNmKINmG2YjZgdix
-2Ycg2YTZgyDZgdmKINiv2KjZiiDigJMg2KfZhNi02KfYsdmC2Kkg4oCTINi52KzZhdin2YYg4oCT
-INij2KjZiNi42KjZiiDigJMg2KfZhNi52YrZhiDZhtiz2YTZhdmDINio2LTZg9mEINmB2YjYsdmK
-INmI2K/YudmFINi32KjZiiDZhNit2LjYqSDYqNmE2K3YuNipINin2KvZhtin2KEg2LnZhdmE2YrY
-qSDYp9mE2KrZhtiy2YrZhCDZhNi32YTYqCDYrdio2YjYqCDYs9in2YrYqtmI2KrZitmDINmB2Yog
-2K/YqNmKINmIINin2YTYpdmF2KfYsdin2Kog2KfZhNi52LHYqNmK2Kkg2KfZhNmF2KrYrdiv2Kkg
-2YrZhdmD2YbZgyDYp9mE2LfZhNioINi52YYg2LfYsdmK2YIg2KfZhNmI2KfYqtiz2KfYqCAwMDk2
-NjU5MDYzOTE4NNit2KjZiNioINiz2KfZitiq2YjYqtmDINit2KjZiNioINiz2KfZitiq2YjYqtmD
-INin2YTYp9is2YfYp9i2INin2YTYp9i12YTZiiDZgdmKIDAwOTY2NTk3MjM4Njc0PGJyIC8+2KrZ
-hSDYp9mE2YbYtNixINmB2YogMTAg2KPYqNix2YrZhNiMIDIwMjI8YnIgLz7Zhdi12YbZgSDZg9mA
-INit2KjZiNioINin2YTYpdis2YfYp9i2INiz2KfZitiq2YjYqtmK2YPYjCDYs9in2YrYqtmI2KrZ
-itmDLTIwMNiMINmF2LnZhNmI2YXYp9iqINi52KfZhdip2Iwg2YbYtdin2KbYrSDYrdmF2YQ8YnIg
-Lz7ZhdmI2LPZiNmFINmD2YAgd2hlcmUgY2FuIGkgZ2V0IGN5dG90ZWMgaW4gZHViYWnYjCDYo9iz
-2YXYp9ihINit2KjZiNioINin2YTYpdis2YfYp9i22Iwg2KfYrdiz2KjZiiDYrdmF2YTZg9iMINin
-2LPZhSDYrdio2YjYqCDYp9mE2KXYrNmH2KfYttiMINin2LPZhdin2KEg2K3YqNmI2Kgg2KfZhNin
-2KzZh9in2LbYjCDYp9mB2LbZhCDYrdio2YjYqCDZhNiq2YbYuNmK2YEg2KfZhNix2K3ZhSDYqNi5
-2K8g2KfZhNin2KzZh9in2LbYjCDYp9mB2LbZhCDYudmK2KfYr9mHINmE2YTYp9is2YfYp9i2INmB
-2Yog2KfZhNin2YXYp9ix2KfYqtiMINin2YrZhiDYqtio2KfYuSDYrdio2YjYqCDYp9mE2KfYrNmH
-2KfYtiDZgdmKINin2YTYp9mF2KfYsdin2KrYjCDYqNiv2YrZhCDYrdio2YjYqCDYp9mE2KfYrNmH
-2KfYtjxiciAvPtit2KjZiNioINiz2KfZitiq2YjYqtmK2YMg2YHZiiDYr9io2Yog2LPYp9mK2KrZ
-iNiq2YMgMjAwINin2YTYo9i12YTZiiDZhNil2KzZh9in2LYg2KfZhNit2YXZhCDZhdmG2LLZhNmK
-2KfZizxiciAvPtmF2LHYrdio2KfZiyDZh9mEINmF2YTZhNiq2Yog2KfZhNio2K3YqyDYudmGINi1
-2YrYr9mE2YrYqSDYqtmC2YjZhSDYqNio2YrYuSDYr9mI2KfYoSDYs9in2YrYqtmI2KrZitmDIDIw
-MCDZhNil2KzZh9in2LYg2KfZhNit2YXZhCDZhdmG2LLZhNmK2Kcg2YHZiiDYr9io2YrYnyDZitiz
-2LnYr9mG2Kcg2KXYrtio2KfYsdmDINio2KPZhtmHINmK2KrZiNmB2LEg2YTYr9mK2YbYpyDYrdio
-2YjYqCDYs9in2YrYqtmI2KrZitmDIDIwMCDYp9mE2KjYsdmK2LfYp9mG2Yog2KfZhNij2LXZhNmK
-INmE2YTYqNmK2Lkg2YHZiiDYr9io2Yog2Ygg2YPYp9mB2Kkg2KXZhdin2LHYp9iqINin2YTYpdmF
-2KfYsdin2Kog2KfZhNi52LHYqNmK2Kkg2KfZhNmF2KrYrdiv2KkuINin2YTYqtiz2YTZitmFINmK
-2K8g2KjZitivINmIINio2LPYsdmK2Kkg2KrYp9mF2Kkg2KjYpdmF2YPYp9mG2YMg2LfZhNioINin
-2YTYr9mI2KfYoSDZhdmGINiu2YTYp9mEINmF2LHYp9iz2YTYqtmG2Kcg2LnYqNixINin2YTZiNin
-2KrYs9in2Kgg2Ygg2LPZhtmC2YjZhSDYqNiq2YjYtdmK2YQg2KfZhNiv2YjYp9ihINmE2YPZkCDY
-o9mK2YbigKbigKY8YnIgLz7ZhdmI2LPZiNmFINmD2YAg2KfYrdiz2KjZiiDYrdmF2YTZg9iMINin
-2LPZhSDYrdio2YjYqCDYp9mE2KXYrNmH2KfYttiMINin2LPZhdin2KEg2K3YqNmI2Kgg2KfZhNin
-2KzZh9in2LbYjCDYp9mB2LbZhCDYudmK2KfYr9mHINmE2YTYp9is2YfYp9i2INmB2Yog2KfZhNin
-2YXYp9ix2KfYqtiMINin2YrZhiDYqtio2KfYuSDYrdio2YjYqCDYp9mE2KfYrNmH2KfYtiDZgdmK
-INin2YTYp9mF2KfYsdin2KrYjCDYqNiv2YrZhCDYrdio2YjYqCDYp9mE2KfYrNmH2KfYttiMINit
-2KjZiNioINiz2KfZitiq2YjYqtmK2YPYjCDYrdiz2KfYqCDYo9iz2KfYqNmK2Lkg2KfZhNit2YXZ
-hCDYqNiz2YfZiNmE2KnYjCDYrdiz2KfYqCDYp9iz2KfYqNmK2Lkg2KfZhNit2YXZhNiMINit2LPY
-p9ioINi52K/YryDYp9mE2KfYs9in2KjZiti52Iwg2K3Ys9in2Kgg2LnZhdixINin2YTYrdmF2YTY
-jCDYr9io2YrYjCDYs9in2Iwg2LPYp9mK2KrZiNiq2YMg4oCP2YTZhNio2YrYudiMINi32LHZitmC
-2Kkg2KfYs9iq2K7Yr9in2YUg2LPYp9mK2KrZiNiq2YrZg9iMINi52YrYp9iv2KfYqiDYqNin2YTY
-qNit2LHZitmGINmE2YTYp9is2YfYp9i22Iwg2YXYs9iq2LTZgdmJINmE2YTYp9is2YfYp9i2INmB
-2Yog2KfZhNin2YXYp9ix2KfYqtiMINmF2LnZhNmI2YXYp9iqINi52KfZhdip2Iwg2YfZhCDYqtio
-2KfYuSDYrdio2YjYqCDYp9mE2KXYrNmH2KfYtiDZgdmKINin2YTYtdmK2K/ZhNmK2KfYqjxiciAv
-PtmF2Kcg2YfZiCDYo9mB2LbZhCDYrdioINmE2KXYrNmH2KfYtiDYp9mE2K3ZhdmEINmF2YjYrNmI
-2K8g2YHZiiDYp9mE2KfZhdin2LHYp9iqPGJyIC8+2YXZitiy2YjYqNix2YjYs9iq2YjZhCDigI8g
-2YfZiCDYr9mI2KfYoSDZitiz2KrYrtiv2YUg2YTYqtit2YHZitiyINio2K/YoSDYp9mE2YXYrtin
-2LYg2KPZiCDYp9mE2KXYrNmH2KfYtiDZiNmE2YXYudin2YTYrNipINmG2LLZitmBINmF2Kcg2KjY
-udivINin2YTZiNi22Lkg2YHZiiDYqNi52LYg2K3Yp9mE2KfYqiDYp9mE2KfZhtmC2KjYp9i22KfY
-qiDYutmK2LEg2KfZhNmD2KfZgdmK2Kkg2YjYo9mK2LbYp9mLINmE2YXYudin2YTYrNipINiq2YLY
-sdit2KfYqiDYp9mE2YXYudiv2Kkg2YHZiiDYrdin2YTYp9iqINiu2KfYtdipLiDZgdmKINit2KfZ
-hNin2Kog2KfZhNil2KzZh9in2LYg2YrYqtmFINin2LPYqtiu2K/Yp9mF2Ycg2YXYuSDZhdmK2YHZ
-itio2LHYs9iq2YjZhiDYo9mIINmF2YrYq9mI2KrYsdmK2YPYs9in2KrYjCDZiNmH2Ygg2YrYudiv
-INmF2YYg2YHYptipINin2YTYqNix2YjYs9iq2KfYutmE2KfZhtiv2YrZhiDYp9mKINin2YTYtdmG
-2KfYudmK2KkuPGJyIC8+PGJyIC8+2KfZitmGINio2KXZhdmD2KfZhtmKINin2YTYrdi12YjZhCDY
-udmE2Ykg2LPYp9mK2KrZiNiq2YrZgyAyMDAg2YHZiiDYp9mE2KXZhdin2LHYp9iqINin2YTYudix
-2KjZitipINin2YTZhdiq2K3Yr9ip2J88YnIgLz48YnIgLz7Zitiq2YjZgdixINmE2K/ZitmG2Kcg
-2K3YqNmI2Kgg2KfZhNil2KzZh9in2LYg2KfZhNmF2YbYstmE2Yog2LPYp9mK2KrZiNiq2YMgMjAw
-INmB2Yog2KfZhNil2YXYp9ix2KfYqiDYp9mE2LnYsdio2YrYqSDYp9mE2YXYqtit2K/YqSDYp9mE
-2KrYs9mE2YrZhSDZitivINio2YrYryDZiCDYp9mE2K/Zgdi5INio2LnYryDYp9mE2KXYs9iq2YTY
-p9mFPGJyIC8+PGJyIC8+2YPZhCDZhdinINi52YTZitmDINmH2Ygg2KfZhNiq2YjYp9i12YQg2YXY
-udmG2Kcg2LnYqNixINin2YTZiNin2KrYs9in2Kgg2LnZhNmJINin2YTYsdmC2YUg2KfZhNmI2KfY
-ttitINin2K/Zhtin2Ycg2Ygg2LPZhtmC2YjZhSDYqNiq2YjYtdmK2YQg2KfZhNiv2YjYp9ihINmE
-2YM8YnIgLz48YnIgLz4NCg0KPHA+PC9wPgoKLS0gPGJyIC8+CllvdSByZWNlaXZlZCB0aGlzIG1l
-c3NhZ2UgYmVjYXVzZSB5b3UgYXJlIHN1YnNjcmliZWQgdG8gdGhlIEdvb2dsZSBHcm91cHMgJnF1
-b3Q7a2FzYW4tZGV2JnF1b3Q7IGdyb3VwLjxiciAvPgpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMg
-Z3JvdXAgYW5kIHN0b3AgcmVjZWl2aW5nIGVtYWlscyBmcm9tIGl0LCBzZW5kIGFuIGVtYWlsIHRv
-IDxhIGhyZWY9Im1haWx0bzprYXNhbi1kZXYrdW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbSI+
-a2FzYW4tZGV2K3Vuc3Vic2NyaWJlQGdvb2dsZWdyb3Vwcy5jb208L2E+LjxiciAvPgpUbyB2aWV3
-IHRoaXMgZGlzY3Vzc2lvbiBvbiB0aGUgd2ViIHZpc2l0IDxhIGhyZWY9Imh0dHBzOi8vZ3JvdXBz
-Lmdvb2dsZS5jb20vZC9tc2dpZC9rYXNhbi1kZXYvOGRkNjU5NGEtYzU2OC00NTA1LTlhYjktMGYy
-YzcyZmI1NTZjbiU0MGdvb2dsZWdyb3Vwcy5jb20/dXRtX21lZGl1bT1lbWFpbCZ1dG1fc291cmNl
-PWZvb3RlciI+aHR0cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi84ZGQ2
-NTk0YS1jNTY4LTQ1MDUtOWFiOS0wZjJjNzJmYjU1NmNuJTQwZ29vZ2xlZ3JvdXBzLmNvbTwvYT4u
-PGJyIC8+Cg==
-------=_Part_14267_1437873302.1707503926132--
+I would be happy to see it added to the hardening fragment! Send me a patch and I'll put it in my tree. :)
 
-------=_Part_14266_717464963.1707503926132--
+-Kees
+
+-- 
+Kees Cook
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/79B9A832-B3DE-4229-9D87-748B2CFB7D12%40kernel.org.
