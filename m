@@ -1,122 +1,123 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBOFAVKXAMGQEQYYNF2I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBOVAVKXAMGQE5P55KWY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x1138.google.com (mail-yw1-x1138.google.com [IPv6:2607:f8b0:4864:20::1138])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B66851FD8
-	for <lists+kasan-dev@lfdr.de>; Mon, 12 Feb 2024 22:40:09 +0100 (CET)
-Received: by mail-yw1-x1138.google.com with SMTP id 00721157ae682-5ee22efe5eesf62578677b3.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 12 Feb 2024 13:40:09 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1707774009; cv=pass;
+Received: from mail-qk1-x739.google.com (mail-qk1-x739.google.com [IPv6:2607:f8b0:4864:20::739])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECB9D851FD9
+	for <lists+kasan-dev@lfdr.de>; Mon, 12 Feb 2024 22:40:11 +0100 (CET)
+Received: by mail-qk1-x739.google.com with SMTP id af79cd13be357-781720619f9sf491727385a.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 12 Feb 2024 13:40:11 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1707774011; cv=pass;
         d=google.com; s=arc-20160816;
-        b=J94H5RR12PsRnTJEC4PrATu7zyMDB5YPENXhNgzBYZWh78yQlX1Id608UU5nWP/PUr
-         X1j5SB8N53znj1qJiuXXdCykhNEfjTMZ0KJ2RWEfpHZZsBemy5GpCN+wONqPnWouPLbX
-         uURktrVcM3L+SWeC6Fdu3znt+kO2wgP3pEBRWBvsZ/l6q27znLlJPXELKWZDK/sPgM7r
-         Lvd/mTbUfKE7l0BzxIOKZ867t5JtKjK7F9Bdbn78qQ6MbGDZt9gL3oNtYmHZf4szs0oU
-         u+pkHCWyz+LfEld/iNFIDvuhRjDYEhdzpgr/lIbaxL/g0mPV4TxXNIRrkN8oL+EXaeVi
-         1qpA==
+        b=JwryMkpKj/S8XoPG894PIabow5JVFRFizpmkSj9unDzN1odSbPKYh8OtvS5uaQBDzp
+         RqWgIxvqC9ET8ke+FVhAqPwc//NkSYkqGn3glLFaOfVdYx/p7JMHWDoCkJJDnIPt4WSG
+         BkSIe/I5pbXRwaaegI8JTki9EGPmH9fOza/rtYDlZgTGPoFe9FOLuodbwXIyEATOsWfF
+         aUPqGOapAJzZE2RqYS69eZtewiWUSKNEiJ+W/fgYgraldl0qmnUFsMX7E7AKa86loTZr
+         YuuZ0powYpXKoAS3zRnTupp/r/xuySq7FZlFVDvAH60yxeMfEsoJBd3ruE/A5QLt66Tg
+         U3vg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=fAyqKTd8/tWwNMRw13rKQmGS0n1VEBQG9JAhQE5QHHM=;
-        fh=o1zyUIKbTwp3KvaNvpZGXCwOZ5DKyQ34rw/3x6TTbmI=;
-        b=VhAnv6Vm+aLSpZtdyibyKNr2xi34TsjtlGHKMwoVG95ycVK+glxyEgXrGD/IhpIOkb
-         1RoHJzYlqf9TOBnZd7AAYAlq0qOIXJ0KaSqIYs30o0CV3QQ0xGmzN1+d4naKmDz0dhWx
-         lismG7Vb+0o5AXNfnTU5Im83zKj7/nN6KsufxNBT1G1VNfrJsuJ5YnF5ln8G5moezR6c
-         6t2z76WQTbfTzG5WPUQZ7PCaZYSOVwJqPE1JH00m/KYCzLhQ4VKWmKDGUt5EFT4lrXMI
-         TDL9+zICfwky2Ez+t9S5XaUXyFf+rxFJhmmtwF9zUjbUOgSWkXKKKYYoEwA68zcR46b9
-         5M2g==;
+        bh=CCH75ctfwzm2s6JnIu+7ET56WCJRhCCUIfkLu62B0lM=;
+        fh=0GClnzkuVHpT5OlAQMhbGqIWzA04ioQ5hG/MK5KAPW0=;
+        b=xatEyYVMMu74Ixi9EXykfelBPwNAdUh8M1UPITUN5cpnYWjGlrhP3ph3VYchcZ18TB
+         Y41UZ2yu8MVf8dcBPr60cGiWC+0Khju3XAAAI5XwURL2loAYy3BjlhqEMYIvHBO9iVwx
+         QSfKcJIV7N86dGyqEIftM2mBVRvvFYWtf74gAn1kHA6NImnE1Gb0TE45u1XC3USsMQuu
+         Sotle1zJtk9pJIOuV8Ej0oMEP+FFpkm6DUHedzMLYYGjkBx1jRomSwL0Yn4y6h1tGERt
+         LsDURSY9c0Y60twFrDtyKIvHidB0PTp7+8jSBQvw0Hmitcj/Jqv3xOAoBMTKljlEeTbV
+         4ciw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=EAQjCW9N;
-       spf=pass (google.com: domain of 3n5dkzqykcbyoqnajxckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3N5DKZQYKCbYoqnajXckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b="PI/rLhnc";
+       spf=pass (google.com: domain of 3ozdkzqykcbgqspclzemmejc.amkiyqyl-bctemmejcepmsnq.amk@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3OZDKZQYKCbgqspclZemmejc.amkiYqYl-bctemmejcepmsnq.amk@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1707774008; x=1708378808; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1707774011; x=1708378811; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=fAyqKTd8/tWwNMRw13rKQmGS0n1VEBQG9JAhQE5QHHM=;
-        b=fvGQrabmoYrQ4/VVL7rSv26Q+k7QhzS7V5DagsnliKKXGuZs9P8xdmfZSVPacqXel7
-         6/N1DSmSjVY7hr/QrDUZIRRGJDuPQpgib/6xnruWngIy14BSSv/Xj2zHWnSGc12v1inw
-         tZpSGho96/Aju6hNIM2qcYWHClVnHyIrRJuahXcu5z3VFsxqR8Ypmh3hAUX4tnuSOTIu
-         96Yfqirk+Lhl7Rf9Xr1fZ06S2EB67GEdwiiEz/Wbh95i/aOd0dz/AmTABVz8Es9JPBUd
-         WLXN20eluwpvJwcGMzx9EFhk0NGqYORsuJ7oSfU6TW/O3TLhcIx/BWMMuXv05B068L0N
-         whzg==
+        bh=CCH75ctfwzm2s6JnIu+7ET56WCJRhCCUIfkLu62B0lM=;
+        b=F5lL1nPuGode389JwBbAt5F2JBA3S7JExnBLzHmSQtA8hf0kT8HM/5vRPOWo52Jr6s
+         Qw9swt3FTyvg/l5r16q++NvFTSqZDtp//4x1FylCM2H50Opq4vmqoxKtqxIcDOunAHA4
+         RzFK6RrufXur6tTodX4E1qtMq57SFtgu12mOCESQ0v1P5GmpKOHZYLaOeXm1Z7jSaSVv
+         SqYxDajkXgtlUyp2KYS1df0yzIaGFjYHlnePPdwK4WlGbnLsMKhuTyloHvVerL+Mb6ZA
+         i1kaQAbJeCcixYFHKTpU/hsP089lCVU489DSBUv8JJYsIy19ugxtB4V3fRpAN8YEwSVr
+         5qnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707774008; x=1708378808;
+        d=1e100.net; s=20230601; t=1707774011; x=1708378811;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fAyqKTd8/tWwNMRw13rKQmGS0n1VEBQG9JAhQE5QHHM=;
-        b=DNH8r8eGG6hXb01ZDqbrNETFf06DabqPNO85xXhFEYECE/lpxcwiMnZplX2Kfnpy/1
-         JBIlEd7YCplrOs+9BgZudhn0fGDrWM2TL1tn1GaFpa21EhwhTUh/ZlrEHjPxtcTOpz6L
-         2T121fHHkpOM6kZTD/LmLGCT1Lz/UDl1QI88SrIfzaF8FWBL53rGA8S10wSVETugVgLt
-         CNyn0CKhGeTgLrlvE//kVg/m/ze1Ea9RQlbfTMbJ8uuYvN5tc/xlPaRCB3xqL2hBu3Dc
-         X0VmO/GFVVwm+tsWqj7srkIQBapRhNoHfTYyvjZ38O44ymrC/h6AceL8jr2OzF54zTBa
-         oO4A==
-X-Forwarded-Encrypted: i=2; AJvYcCWHEV82cxI8xPFwLh1RO1WTIvMubN7uL5qPpdGW7Js58TXlpkTzJr50bqSQ5hZfkJqT+kQGsXELmugt4qMEjnmaQsQfsEMuBQ==
-X-Gm-Message-State: AOJu0YwzlRpK5u212R/IyOAXV+/GQrWt+mqVZyyDDuHoaBKrPs0sQAyf
-	BuiiZUAd8Xs3NGqtvlulPZzn2MnuW5WlqsU7Xr0OSFxlQ+lGj8ij
-X-Google-Smtp-Source: AGHT+IHLz88cRSDoS08w1FT8r88QwSHnJ0k3WEVXn48C6pnjJ8yRCL3obbNirAPhDLAnR/bzrtYgeg==
-X-Received: by 2002:a25:8183:0:b0:dc2:1f48:ca14 with SMTP id p3-20020a258183000000b00dc21f48ca14mr4750114ybk.12.1707774008803;
-        Mon, 12 Feb 2024 13:40:08 -0800 (PST)
+        bh=CCH75ctfwzm2s6JnIu+7ET56WCJRhCCUIfkLu62B0lM=;
+        b=kiQoKUcI4YM1t+lVlWwY+qeSmLp8T+3/M5pzqFUxEWJ0WinnMsO53LIjNizRTc8gn5
+         x9m68xywN/l2okHlRIjWSjgn87n9HQlrJv4PlChFvOrNUbizioJHAIK+7M53VBrgqQYs
+         73SFYvagEDR0qrqZrkTz2lYI2OAPXxISkcCFiRBSMM2YtMI/foEJ/CKhvRWPvfZ23mjV
+         7mTDZ0+2tlNX3gJGi7e3GQwObFIv9rLtQAHE7NFO2l8KvBtGZF4RYXuvt9DvIbc35iAj
+         h8/+tY4r7ZUfAueTd/zUC1C33Oja7SNRKcl/1BKn8dB9whlblL2jLUjdCO1fs2WM1/LR
+         yFOA==
+X-Forwarded-Encrypted: i=2; AJvYcCWtnOwT9ndJC4407rgNYCJy3RoKLi6cUk46qrbmM5KEUHtd6ak0C33We0S5yjHnEOdxLwss3fknSFayH60hCuFStwlf0dIFXg==
+X-Gm-Message-State: AOJu0Yxw5Hqgc/15MeDvwSkvaFgb5FUG7h/3mE3+/Mfa4PewwgtW15LA
+	QtSbDDaEOs7xV3pn6uL5l4TaXHCjTh+0s5ylV4/57Valc8DyZCHZ
+X-Google-Smtp-Source: AGHT+IH4Y2Aw59lx8mtPgFZL6WiLOVLrZkM82kBWtIuLqiJ9NSGFJAljZvHCWMlfTZWBn3UhasV/zA==
+X-Received: by 2002:a05:6214:2527:b0:68c:c6e0:e51a with SMTP id gg7-20020a056214252700b0068cc6e0e51amr11004895qvb.18.1707774010744;
+        Mon, 12 Feb 2024 13:40:10 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:aa90:0:b0:dcc:4b24:c0df with SMTP id t16-20020a25aa90000000b00dcc4b24c0dfls184168ybi.0.-pod-prod-03-us;
- Mon, 12 Feb 2024 13:40:08 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWbczacMNhbLEoHF6J0KVa24V6fViOWwtdZ3NhtJRvm8etFluvzZ36Hkcs8e8WzqhZ0gwx2qWOdZ1OaRTLx/YpoPSxiNG4ZIH5TCA==
-X-Received: by 2002:a05:690c:f91:b0:607:839d:b8e6 with SMTP id df17-20020a05690c0f9100b00607839db8e6mr65956ywb.7.1707774007990;
-        Mon, 12 Feb 2024 13:40:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1707774007; cv=none;
+Received: by 2002:a05:6214:1902:b0:68c:d848:72ac with SMTP id
+ er2-20020a056214190200b0068cd84872acls66831qvb.2.-pod-prod-04-us; Mon, 12 Feb
+ 2024 13:40:10 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWfoQpYxC/gugHCvAQlsgB+81j8UGipDEO+YzGmYkU5jgMFnXbWCpLSJpvLhxFStJimDeGzhMfDYSutv+oWhWAYnFNK2KjBo5pjzQ==
+X-Received: by 2002:a1f:ea04:0:b0:4c0:26cb:2e72 with SMTP id i4-20020a1fea04000000b004c026cb2e72mr4233154vkh.3.1707774010048;
+        Mon, 12 Feb 2024 13:40:10 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1707774010; cv=none;
         d=google.com; s=arc-20160816;
-        b=HLkwUvJ76AyzMws2ah/jTCU3AXy6i+H75rz8Ya/RVjtz/VqWI1aNE2VPUhcwftQg16
-         b43x6yIf0JLcqV6kVpHO7u46kv5rGucUO3v7xS0Hz9ReOLooAdorMop/8jdtz0dPVfTZ
-         QVwz2+kQjfE9WiF5Vc5b/5UFJswB0O+nnONQhCtVsAYRzdJ0xqSwJ4ucbVWBTAF314L1
-         gIKFWTv9qZnn1CDXy/KBachyTSHfn2iKXVDgJ9sea1wtBQpmwOnI7yonY9ZYtCw5EOAu
-         fuyfRUZ0Vma0FW3GBClvX0+cwsjSXWi/uZKpgrvCR2CMWqwtovoKitoL3hB68xdswH4C
-         dzSA==
+        b=iH4E6GVKoqZ6YjQQWTHjXnNVqvrqR8sl7FBCDkbjeyhUU/nuA6JS+RyX8TNQGxQmNq
+         4qMfgjzZJsIaEgWrSBw4YJeAWdOUxPaFdamBnc7RVPtmk2iBpmuz1aqOx4nqrof/KXkI
+         DE8jXRGHnSfkt00vgb9CLuYSe/k2Ol4pOBpb7RytJ9+bMicSkC6d1e5BP/iOyHBniLFU
+         retdT6txHA+fMx/E8Vm13JVgyYEwF9JpNyDsg87ziEs0C6yWs+uqzLOu9f8UUT/VejTd
+         0ve1lhvyLqUOUBeXiUVb2ZFw1f6w5bk31LNn+6dNj8F+TqqxVhFqXK7iCdCrZq69m1V3
+         wd7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=gyt+GmM2eMHRRKEe8/8uFf8EZSlg2sZI9NA/PbSxBWI=;
-        fh=gcmK+CfxWv+5TJZyMST7xpMmQBGUTfLO/Ma5fH7c7Q8=;
-        b=KHXBfny7DsCrz7acIfjw64SyKJoyK2Xb1IfMUXHh/ExkmQprcsVfjOBVhysMzuSXoE
-         nitFDK6FBkpKVTyMRtEMV4OFwRohmzVX0Tfd1P9tn98JKuStYLbzZ2DoQ+SuDlwbhnU/
-         1yEkZWLhF6zKoMuLj1uX+T07YQCFnWgMIfUNLV0NKjGvHmVcDyb5PK6o0MJLhZDFNhtk
-         jz7HJ/uDmlT5/yUzlmrGLpE6cfi8E1Ptyw2V4OTuBkn5ThOzbs4OgkwVQQIerBl5oY7e
-         x9b6JdUmFcq5uLOtzYZGlf5xG5nCZDO370KBhcQ/W8POsd4XXRQS9g7qzMLiEzDdR7Ws
-         l37w==;
+        bh=GrGwB9qfJZ8baAR6T6ipxUZf1yCQtYwXa3nH2rh59j0=;
+        fh=hz3WH2UWkGTWKX/We/P1V42h2sQVefvmyN8XkQQhnS8=;
+        b=CcDrIYHdN2n1ttjRIedO6aEcAtiYHyuCBHzWYhB+udj+gU1jPq1GK1d5c/slZbp3xm
+         hhZ1A3wwkD/zFNfhBt44Lv9hgsrkWhd7KLknl97srwVD1yh3i+ABKIe0xy1ldzeUUh1P
+         Q9sXFgFGPNf9mCM0zBcuKwwnVzVeqaUIwzpOQyFPp/Im4N/vdwrjxA5jMjehW05/mKxH
+         LB7affkSUN9vQvbWfSKp8E1kduDZlvFbby1gIQp+oXRZBUiS48y3l/BANhy6z2QcZUbo
+         sXr1QLwhMymrcgvgLrReRcNZ7l3ZzN2PLRl1FspwsJzTYwUojDS5HqtqXhu7y1pT1uXg
+         RYeQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=EAQjCW9N;
-       spf=pass (google.com: domain of 3n5dkzqykcbyoqnajxckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3N5DKZQYKCbYoqnajXckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b="PI/rLhnc";
+       spf=pass (google.com: domain of 3ozdkzqykcbgqspclzemmejc.amkiyqyl-bctemmejcepmsnq.amk@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3OZDKZQYKCbgqspclZemmejc.amkiYqYl-bctemmejcepmsnq.amk@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Forwarded-Encrypted: i=1; AJvYcCW6+jtp7Bh/egKJkd8AdYesLQziS9MxsNrxrAyVZAslO9Yv95pwf8b+Ub3lowunk88dYCxDYqzFROFKpk05MMcWjtL2mGl13hYobw==
+X-Forwarded-Encrypted: i=1; AJvYcCWTIyPiYzZiDB48hGMTXCd9o5jQfIKcC6o1DWjnY8XLZkRFFKJosnllILHUFNrcUFdgldFTevnuSSZZpW6XjSe+gwJmjwJKolYHsg==
 Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com. [2607:f8b0:4864:20::1149])
-        by gmr-mx.google.com with ESMTPS id d6-20020a0ddb06000000b006040f84d90bsi717420ywe.4.2024.02.12.13.40.07
+        by gmr-mx.google.com with ESMTPS id w27-20020a05612205bb00b004c06c3ffcd9si731688vko.4.2024.02.12.13.40.10
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Feb 2024 13:40:07 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3n5dkzqykcbyoqnajxckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) client-ip=2607:f8b0:4864:20::1149;
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-604ab15463aso4576647b3.3
-        for <kasan-dev@googlegroups.com>; Mon, 12 Feb 2024 13:40:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCW4hEzI2rJGZXiYrfK3B5bTH/TtTJHwL5tSGjLrIxBP7ucI1e8qqPZzWs4SDJEhOPAMv5dI5seYVc3YUBGxUp+UZVfxRovRGnE1yA==
+        Mon, 12 Feb 2024 13:40:10 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3ozdkzqykcbgqspclzemmejc.amkiyqyl-bctemmejcepmsnq.amk@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) client-ip=2607:f8b0:4864:20::1149;
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-5ecfd153ccfso73582897b3.2
+        for <kasan-dev@googlegroups.com>; Mon, 12 Feb 2024 13:40:10 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUve3Of9eTJll9NpNtAtigTeRFQqdqVJ02ERFtLRGJlSj1rUQCnu7hSl6S5tKFmWYgcBNSibR0xGmaTY59vD87OA3mVh3idxXI8og==
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:b848:2b3f:be49:9cbc])
- (user=surenb job=sendgmr) by 2002:a81:848a:0:b0:604:49a1:8da0 with SMTP id
- u132-20020a81848a000000b0060449a18da0mr1393758ywf.8.1707774007616; Mon, 12
- Feb 2024 13:40:07 -0800 (PST)
-Date: Mon, 12 Feb 2024 13:39:02 -0800
+ (user=surenb job=sendgmr) by 2002:a05:690c:3505:b0:604:9b11:ff2 with SMTP id
+ fq5-20020a05690c350500b006049b110ff2mr2208602ywb.6.1707774009704; Mon, 12 Feb
+ 2024 13:40:09 -0800 (PST)
+Date: Mon, 12 Feb 2024 13:39:03 -0800
 In-Reply-To: <20240212213922.783301-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20240212213922.783301-1-surenb@google.com>
 X-Mailer: git-send-email 2.43.0.687.g38aa6559b0-goog
-Message-ID: <20240212213922.783301-17-surenb@google.com>
-Subject: [PATCH v3 16/35] change alloc_pages name in dma_map_ops to avoid name conflicts
+Message-ID: <20240212213922.783301-18-surenb@google.com>
+Subject: [PATCH v3 17/35] mm: enable page allocation tagging
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -147,9 +148,9 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=EAQjCW9N;       spf=pass
- (google.com: domain of 3n5dkzqykcbyoqnajxckkcha.ykigwowj-zarckkchacnkqlo.yki@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3N5DKZQYKCbYoqnajXckkcha.YkigWoWj-Zarckkchacnkqlo.Yki@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b="PI/rLhnc";       spf=pass
+ (google.com: domain of 3ozdkzqykcbgqspclzemmejc.amkiyqyl-bctemmejcepmsnq.amk@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3OZDKZQYKCbgqspclZemmejc.amkiYqYl-bctemmejcepmsnq.amk@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -165,211 +166,716 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-After redefining alloc_pages, all uses of that name are being replaced.
-Change the conflicting names to prevent preprocessor from replacing them
-when it's not intended.
+Redefine page allocators to record allocation tags upon their invocation.
+Instrument post_alloc_hook and free_pages_prepare to modify current
+allocation tag.
 
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
+Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 ---
- arch/alpha/kernel/pci_iommu.c           | 2 +-
- arch/mips/jazz/jazzdma.c                | 2 +-
- arch/powerpc/kernel/dma-iommu.c         | 2 +-
- arch/powerpc/platforms/ps3/system-bus.c | 4 ++--
- arch/powerpc/platforms/pseries/vio.c    | 2 +-
- arch/x86/kernel/amd_gart_64.c           | 2 +-
- drivers/iommu/dma-iommu.c               | 2 +-
- drivers/parisc/ccio-dma.c               | 2 +-
- drivers/parisc/sba_iommu.c              | 2 +-
- drivers/xen/grant-dma-ops.c             | 2 +-
- drivers/xen/swiotlb-xen.c               | 2 +-
- include/linux/dma-map-ops.h             | 2 +-
- kernel/dma/mapping.c                    | 4 ++--
- 13 files changed, 15 insertions(+), 15 deletions(-)
+ include/linux/alloc_tag.h |  10 +++
+ include/linux/gfp.h       | 126 ++++++++++++++++++++++++--------------
+ include/linux/pagemap.h   |   9 ++-
+ mm/compaction.c           |   7 ++-
+ mm/filemap.c              |   6 +-
+ mm/mempolicy.c            |  52 ++++++++--------
+ mm/page_alloc.c           |  60 +++++++++---------
+ 7 files changed, 160 insertions(+), 110 deletions(-)
 
-diff --git a/arch/alpha/kernel/pci_iommu.c b/arch/alpha/kernel/pci_iommu.c
-index c81183935e97..7fcf3e9b7103 100644
---- a/arch/alpha/kernel/pci_iommu.c
-+++ b/arch/alpha/kernel/pci_iommu.c
-@@ -929,7 +929,7 @@ const struct dma_map_ops alpha_pci_ops = {
- 	.dma_supported		= alpha_pci_supported,
- 	.mmap			= dma_common_mmap,
- 	.get_sgtable		= dma_common_get_sgtable,
--	.alloc_pages		= dma_common_alloc_pages,
-+	.alloc_pages_op		= dma_common_alloc_pages,
- 	.free_pages		= dma_common_free_pages,
- };
- EXPORT_SYMBOL(alpha_pci_ops);
-diff --git a/arch/mips/jazz/jazzdma.c b/arch/mips/jazz/jazzdma.c
-index eabddb89d221..c97b089b9902 100644
---- a/arch/mips/jazz/jazzdma.c
-+++ b/arch/mips/jazz/jazzdma.c
-@@ -617,7 +617,7 @@ const struct dma_map_ops jazz_dma_ops = {
- 	.sync_sg_for_device	= jazz_dma_sync_sg_for_device,
- 	.mmap			= dma_common_mmap,
- 	.get_sgtable		= dma_common_get_sgtable,
--	.alloc_pages		= dma_common_alloc_pages,
-+	.alloc_pages_op		= dma_common_alloc_pages,
- 	.free_pages		= dma_common_free_pages,
- };
- EXPORT_SYMBOL(jazz_dma_ops);
-diff --git a/arch/powerpc/kernel/dma-iommu.c b/arch/powerpc/kernel/dma-iommu.c
-index 8920862ffd79..f0ae39e77e37 100644
---- a/arch/powerpc/kernel/dma-iommu.c
-+++ b/arch/powerpc/kernel/dma-iommu.c
-@@ -216,6 +216,6 @@ const struct dma_map_ops dma_iommu_ops = {
- 	.get_required_mask	= dma_iommu_get_required_mask,
- 	.mmap			= dma_common_mmap,
- 	.get_sgtable		= dma_common_get_sgtable,
--	.alloc_pages		= dma_common_alloc_pages,
-+	.alloc_pages_op		= dma_common_alloc_pages,
- 	.free_pages		= dma_common_free_pages,
- };
-diff --git a/arch/powerpc/platforms/ps3/system-bus.c b/arch/powerpc/platforms/ps3/system-bus.c
-index d6b5f5ecd515..56dc6b29a3e7 100644
---- a/arch/powerpc/platforms/ps3/system-bus.c
-+++ b/arch/powerpc/platforms/ps3/system-bus.c
-@@ -695,7 +695,7 @@ static const struct dma_map_ops ps3_sb_dma_ops = {
- 	.unmap_page = ps3_unmap_page,
- 	.mmap = dma_common_mmap,
- 	.get_sgtable = dma_common_get_sgtable,
--	.alloc_pages = dma_common_alloc_pages,
-+	.alloc_pages_op = dma_common_alloc_pages,
- 	.free_pages = dma_common_free_pages,
- };
+diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
+index cf55a149fa84..6fa8a94d8bc1 100644
+--- a/include/linux/alloc_tag.h
++++ b/include/linux/alloc_tag.h
+@@ -130,4 +130,14 @@ static inline void alloc_tag_add(union codetag_ref *ref, struct alloc_tag *tag,
  
-@@ -709,7 +709,7 @@ static const struct dma_map_ops ps3_ioc0_dma_ops = {
- 	.unmap_page = ps3_unmap_page,
- 	.mmap = dma_common_mmap,
- 	.get_sgtable = dma_common_get_sgtable,
--	.alloc_pages = dma_common_alloc_pages,
-+	.alloc_pages_op = dma_common_alloc_pages,
- 	.free_pages = dma_common_free_pages,
- };
+ #endif
  
-diff --git a/arch/powerpc/platforms/pseries/vio.c b/arch/powerpc/platforms/pseries/vio.c
-index 2dc9cbc4bcd8..0c90fc4c3796 100644
---- a/arch/powerpc/platforms/pseries/vio.c
-+++ b/arch/powerpc/platforms/pseries/vio.c
-@@ -611,7 +611,7 @@ static const struct dma_map_ops vio_dma_mapping_ops = {
- 	.get_required_mask = dma_iommu_get_required_mask,
- 	.mmap		   = dma_common_mmap,
- 	.get_sgtable	   = dma_common_get_sgtable,
--	.alloc_pages	   = dma_common_alloc_pages,
-+	.alloc_pages_op	   = dma_common_alloc_pages,
- 	.free_pages	   = dma_common_free_pages,
- };
++#define alloc_hooks(_do_alloc)						\
++({									\
++	typeof(_do_alloc) _res;						\
++	DEFINE_ALLOC_TAG(_alloc_tag, _old);				\
++									\
++	_res = _do_alloc;						\
++	alloc_tag_restore(&_alloc_tag, _old);				\
++	_res;								\
++})
++
+ #endif /* _LINUX_ALLOC_TAG_H */
+diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+index de292a007138..bc0fd5259b0b 100644
+--- a/include/linux/gfp.h
++++ b/include/linux/gfp.h
+@@ -6,6 +6,8 @@
  
-diff --git a/arch/x86/kernel/amd_gart_64.c b/arch/x86/kernel/amd_gart_64.c
-index 2ae98f754e59..c884deca839b 100644
---- a/arch/x86/kernel/amd_gart_64.c
-+++ b/arch/x86/kernel/amd_gart_64.c
-@@ -676,7 +676,7 @@ static const struct dma_map_ops gart_dma_ops = {
- 	.get_sgtable			= dma_common_get_sgtable,
- 	.dma_supported			= dma_direct_supported,
- 	.get_required_mask		= dma_direct_get_required_mask,
--	.alloc_pages			= dma_direct_alloc_pages,
-+	.alloc_pages_op			= dma_direct_alloc_pages,
- 	.free_pages			= dma_direct_free_pages,
- };
+ #include <linux/mmzone.h>
+ #include <linux/topology.h>
++#include <linux/alloc_tag.h>
++#include <linux/sched.h>
  
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 50ccc4f1ef81..8a1f7f5d1bca 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -1710,7 +1710,7 @@ static const struct dma_map_ops iommu_dma_ops = {
- 	.flags			= DMA_F_PCI_P2PDMA_SUPPORTED,
- 	.alloc			= iommu_dma_alloc,
- 	.free			= iommu_dma_free,
--	.alloc_pages		= dma_common_alloc_pages,
-+	.alloc_pages_op		= dma_common_alloc_pages,
- 	.free_pages		= dma_common_free_pages,
- 	.alloc_noncontiguous	= iommu_dma_alloc_noncontiguous,
- 	.free_noncontiguous	= iommu_dma_free_noncontiguous,
-diff --git a/drivers/parisc/ccio-dma.c b/drivers/parisc/ccio-dma.c
-index 9ce0d20a6c58..feef537257d0 100644
---- a/drivers/parisc/ccio-dma.c
-+++ b/drivers/parisc/ccio-dma.c
-@@ -1022,7 +1022,7 @@ static const struct dma_map_ops ccio_ops = {
- 	.map_sg =		ccio_map_sg,
- 	.unmap_sg =		ccio_unmap_sg,
- 	.get_sgtable =		dma_common_get_sgtable,
--	.alloc_pages =		dma_common_alloc_pages,
-+	.alloc_pages_op =	dma_common_alloc_pages,
- 	.free_pages =		dma_common_free_pages,
- };
+ struct vm_area_struct;
+ struct mempolicy;
+@@ -175,42 +177,46 @@ static inline void arch_free_page(struct page *page, int order) { }
+ static inline void arch_alloc_page(struct page *page, int order) { }
+ #endif
  
-diff --git a/drivers/parisc/sba_iommu.c b/drivers/parisc/sba_iommu.c
-index 784037837f65..fc3863c09f83 100644
---- a/drivers/parisc/sba_iommu.c
-+++ b/drivers/parisc/sba_iommu.c
-@@ -1090,7 +1090,7 @@ static const struct dma_map_ops sba_ops = {
- 	.map_sg =		sba_map_sg,
- 	.unmap_sg =		sba_unmap_sg,
- 	.get_sgtable =		dma_common_get_sgtable,
--	.alloc_pages =		dma_common_alloc_pages,
-+	.alloc_pages_op =	dma_common_alloc_pages,
- 	.free_pages =		dma_common_free_pages,
- };
+-struct page *__alloc_pages(gfp_t gfp, unsigned int order, int preferred_nid,
++struct page *__alloc_pages_noprof(gfp_t gfp, unsigned int order, int preferred_nid,
+ 		nodemask_t *nodemask);
+-struct folio *__folio_alloc(gfp_t gfp, unsigned int order, int preferred_nid,
++#define __alloc_pages(...)			alloc_hooks(__alloc_pages_noprof(__VA_ARGS__))
++
++struct folio *__folio_alloc_noprof(gfp_t gfp, unsigned int order, int preferred_nid,
+ 		nodemask_t *nodemask);
++#define __folio_alloc(...)			alloc_hooks(__folio_alloc_noprof(__VA_ARGS__))
  
-diff --git a/drivers/xen/grant-dma-ops.c b/drivers/xen/grant-dma-ops.c
-index 76f6f26265a3..29257d2639db 100644
---- a/drivers/xen/grant-dma-ops.c
-+++ b/drivers/xen/grant-dma-ops.c
-@@ -282,7 +282,7 @@ static int xen_grant_dma_supported(struct device *dev, u64 mask)
- static const struct dma_map_ops xen_grant_dma_ops = {
- 	.alloc = xen_grant_dma_alloc,
- 	.free = xen_grant_dma_free,
--	.alloc_pages = xen_grant_dma_alloc_pages,
-+	.alloc_pages_op = xen_grant_dma_alloc_pages,
- 	.free_pages = xen_grant_dma_free_pages,
- 	.mmap = dma_common_mmap,
- 	.get_sgtable = dma_common_get_sgtable,
-diff --git a/drivers/xen/swiotlb-xen.c b/drivers/xen/swiotlb-xen.c
-index 0e6c6c25d154..1c4ef5111651 100644
---- a/drivers/xen/swiotlb-xen.c
-+++ b/drivers/xen/swiotlb-xen.c
-@@ -403,7 +403,7 @@ const struct dma_map_ops xen_swiotlb_dma_ops = {
- 	.dma_supported = xen_swiotlb_dma_supported,
- 	.mmap = dma_common_mmap,
- 	.get_sgtable = dma_common_get_sgtable,
--	.alloc_pages = dma_common_alloc_pages,
-+	.alloc_pages_op = dma_common_alloc_pages,
- 	.free_pages = dma_common_free_pages,
- 	.max_mapping_size = swiotlb_max_mapping_size,
- };
-diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
-index 4abc60f04209..9ee319851b5f 100644
---- a/include/linux/dma-map-ops.h
-+++ b/include/linux/dma-map-ops.h
-@@ -29,7 +29,7 @@ struct dma_map_ops {
- 			unsigned long attrs);
- 	void (*free)(struct device *dev, size_t size, void *vaddr,
- 			dma_addr_t dma_handle, unsigned long attrs);
--	struct page *(*alloc_pages)(struct device *dev, size_t size,
-+	struct page *(*alloc_pages_op)(struct device *dev, size_t size,
- 			dma_addr_t *dma_handle, enum dma_data_direction dir,
- 			gfp_t gfp);
- 	void (*free_pages)(struct device *dev, size_t size, struct page *vaddr,
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 58db8fd70471..5e2d51e1cdf6 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -570,9 +570,9 @@ static struct page *__dma_alloc_pages(struct device *dev, size_t size,
- 	size = PAGE_ALIGN(size);
- 	if (dma_alloc_direct(dev, ops))
- 		return dma_direct_alloc_pages(dev, size, dma_handle, dir, gfp);
--	if (!ops->alloc_pages)
-+	if (!ops->alloc_pages_op)
- 		return NULL;
--	return ops->alloc_pages(dev, size, dma_handle, dir, gfp);
-+	return ops->alloc_pages_op(dev, size, dma_handle, dir, gfp);
+-unsigned long __alloc_pages_bulk(gfp_t gfp, int preferred_nid,
++unsigned long alloc_pages_bulk_noprof(gfp_t gfp, int preferred_nid,
+ 				nodemask_t *nodemask, int nr_pages,
+ 				struct list_head *page_list,
+ 				struct page **page_array);
++#define __alloc_pages_bulk(...)			alloc_hooks(alloc_pages_bulk_noprof(__VA_ARGS__))
+ 
+-unsigned long alloc_pages_bulk_array_mempolicy(gfp_t gfp,
++unsigned long alloc_pages_bulk_array_mempolicy_noprof(gfp_t gfp,
+ 				unsigned long nr_pages,
+ 				struct page **page_array);
++#define  alloc_pages_bulk_array_mempolicy(...)				\
++	alloc_hooks(alloc_pages_bulk_array_mempolicy_noprof(__VA_ARGS__))
+ 
+ /* Bulk allocate order-0 pages */
+-static inline unsigned long
+-alloc_pages_bulk_list(gfp_t gfp, unsigned long nr_pages, struct list_head *list)
+-{
+-	return __alloc_pages_bulk(gfp, numa_mem_id(), NULL, nr_pages, list, NULL);
+-}
++#define alloc_pages_bulk_list(_gfp, _nr_pages, _list)			\
++	__alloc_pages_bulk(_gfp, numa_mem_id(), NULL, _nr_pages, _list, NULL)
+ 
+-static inline unsigned long
+-alloc_pages_bulk_array(gfp_t gfp, unsigned long nr_pages, struct page **page_array)
+-{
+-	return __alloc_pages_bulk(gfp, numa_mem_id(), NULL, nr_pages, NULL, page_array);
+-}
++#define alloc_pages_bulk_array(_gfp, _nr_pages, _page_array)		\
++	__alloc_pages_bulk(_gfp, numa_mem_id(), NULL, _nr_pages, NULL, _page_array)
+ 
+ static inline unsigned long
+-alloc_pages_bulk_array_node(gfp_t gfp, int nid, unsigned long nr_pages, struct page **page_array)
++alloc_pages_bulk_array_node_noprof(gfp_t gfp, int nid, unsigned long nr_pages,
++				   struct page **page_array)
+ {
+ 	if (nid == NUMA_NO_NODE)
+ 		nid = numa_mem_id();
+ 
+-	return __alloc_pages_bulk(gfp, nid, NULL, nr_pages, NULL, page_array);
++	return alloc_pages_bulk_noprof(gfp, nid, NULL, nr_pages, NULL, page_array);
  }
  
- struct page *dma_alloc_pages(struct device *dev, size_t size,
++#define alloc_pages_bulk_array_node(...)				\
++	alloc_hooks(alloc_pages_bulk_array_node_noprof(__VA_ARGS__))
++
+ static inline void warn_if_node_offline(int this_node, gfp_t gfp_mask)
+ {
+ 	gfp_t warn_gfp = gfp_mask & (__GFP_THISNODE|__GFP_NOWARN);
+@@ -230,82 +236,104 @@ static inline void warn_if_node_offline(int this_node, gfp_t gfp_mask)
+  * online. For more general interface, see alloc_pages_node().
+  */
+ static inline struct page *
+-__alloc_pages_node(int nid, gfp_t gfp_mask, unsigned int order)
++__alloc_pages_node_noprof(int nid, gfp_t gfp_mask, unsigned int order)
+ {
+ 	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
+ 	warn_if_node_offline(nid, gfp_mask);
+ 
+-	return __alloc_pages(gfp_mask, order, nid, NULL);
++	return __alloc_pages_noprof(gfp_mask, order, nid, NULL);
+ }
+ 
++#define  __alloc_pages_node(...)		alloc_hooks(__alloc_pages_node_noprof(__VA_ARGS__))
++
+ static inline
+-struct folio *__folio_alloc_node(gfp_t gfp, unsigned int order, int nid)
++struct folio *__folio_alloc_node_noprof(gfp_t gfp, unsigned int order, int nid)
+ {
+ 	VM_BUG_ON(nid < 0 || nid >= MAX_NUMNODES);
+ 	warn_if_node_offline(nid, gfp);
+ 
+-	return __folio_alloc(gfp, order, nid, NULL);
++	return __folio_alloc_noprof(gfp, order, nid, NULL);
+ }
+ 
++#define  __folio_alloc_node(...)		alloc_hooks(__folio_alloc_node_noprof(__VA_ARGS__))
++
+ /*
+  * Allocate pages, preferring the node given as nid. When nid == NUMA_NO_NODE,
+  * prefer the current CPU's closest node. Otherwise node must be valid and
+  * online.
+  */
+-static inline struct page *alloc_pages_node(int nid, gfp_t gfp_mask,
+-						unsigned int order)
++static inline struct page *alloc_pages_node_noprof(int nid, gfp_t gfp_mask,
++						   unsigned int order)
+ {
+ 	if (nid == NUMA_NO_NODE)
+ 		nid = numa_mem_id();
+ 
+-	return __alloc_pages_node(nid, gfp_mask, order);
++	return __alloc_pages_node_noprof(nid, gfp_mask, order);
+ }
+ 
++#define  alloc_pages_node(...)			alloc_hooks(alloc_pages_node_noprof(__VA_ARGS__))
++
+ #ifdef CONFIG_NUMA
+-struct page *alloc_pages(gfp_t gfp, unsigned int order);
+-struct page *alloc_pages_mpol(gfp_t gfp, unsigned int order,
++struct page *alloc_pages_noprof(gfp_t gfp, unsigned int order);
++struct page *alloc_pages_mpol_noprof(gfp_t gfp, unsigned int order,
+ 		struct mempolicy *mpol, pgoff_t ilx, int nid);
+-struct folio *folio_alloc(gfp_t gfp, unsigned int order);
+-struct folio *vma_alloc_folio(gfp_t gfp, int order, struct vm_area_struct *vma,
++struct folio *folio_alloc_noprof(gfp_t gfp, unsigned int order);
++struct folio *vma_alloc_folio_noprof(gfp_t gfp, int order, struct vm_area_struct *vma,
+ 		unsigned long addr, bool hugepage);
+ #else
+-static inline struct page *alloc_pages(gfp_t gfp_mask, unsigned int order)
++static inline struct page *alloc_pages_noprof(gfp_t gfp_mask, unsigned int order)
+ {
+-	return alloc_pages_node(numa_node_id(), gfp_mask, order);
++	return alloc_pages_node_noprof(numa_node_id(), gfp_mask, order);
+ }
+-static inline struct page *alloc_pages_mpol(gfp_t gfp, unsigned int order,
++static inline struct page *alloc_pages_mpol_noprof(gfp_t gfp, unsigned int order,
+ 		struct mempolicy *mpol, pgoff_t ilx, int nid)
+ {
+-	return alloc_pages(gfp, order);
++	return alloc_pages_noprof(gfp, order);
+ }
+-static inline struct folio *folio_alloc(gfp_t gfp, unsigned int order)
++static inline struct folio *folio_alloc_noprof(gfp_t gfp, unsigned int order)
+ {
+ 	return __folio_alloc_node(gfp, order, numa_node_id());
+ }
+-#define vma_alloc_folio(gfp, order, vma, addr, hugepage)		\
+-	folio_alloc(gfp, order)
++#define vma_alloc_folio_noprof(gfp, order, vma, addr, hugepage)		\
++	folio_alloc_noprof(gfp, order)
+ #endif
++
++#define alloc_pages(...)			alloc_hooks(alloc_pages_noprof(__VA_ARGS__))
++#define alloc_pages_mpol(...)			alloc_hooks(alloc_pages_mpol_noprof(__VA_ARGS__))
++#define folio_alloc(...)			alloc_hooks(folio_alloc_noprof(__VA_ARGS__))
++#define vma_alloc_folio(...)			alloc_hooks(vma_alloc_folio_noprof(__VA_ARGS__))
++
+ #define alloc_page(gfp_mask) alloc_pages(gfp_mask, 0)
+-static inline struct page *alloc_page_vma(gfp_t gfp,
++
++static inline struct page *alloc_page_vma_noprof(gfp_t gfp,
+ 		struct vm_area_struct *vma, unsigned long addr)
+ {
+-	struct folio *folio = vma_alloc_folio(gfp, 0, vma, addr, false);
++	struct folio *folio = vma_alloc_folio_noprof(gfp, 0, vma, addr, false);
+ 
+ 	return &folio->page;
+ }
++#define alloc_page_vma(...)			alloc_hooks(alloc_page_vma_noprof(__VA_ARGS__))
++
++extern unsigned long get_free_pages_noprof(gfp_t gfp_mask, unsigned int order);
++#define __get_free_pages(...)			alloc_hooks(get_free_pages_noprof(__VA_ARGS__))
+ 
+-extern unsigned long __get_free_pages(gfp_t gfp_mask, unsigned int order);
+-extern unsigned long get_zeroed_page(gfp_t gfp_mask);
++extern unsigned long get_zeroed_page_noprof(gfp_t gfp_mask);
++#define get_zeroed_page(...)			alloc_hooks(get_zeroed_page_noprof(__VA_ARGS__))
++
++void *alloc_pages_exact_noprof(size_t size, gfp_t gfp_mask) __alloc_size(1);
++#define alloc_pages_exact(...)			alloc_hooks(alloc_pages_exact_noprof(__VA_ARGS__))
+ 
+-void *alloc_pages_exact(size_t size, gfp_t gfp_mask) __alloc_size(1);
+ void free_pages_exact(void *virt, size_t size);
+-__meminit void *alloc_pages_exact_nid(int nid, size_t size, gfp_t gfp_mask) __alloc_size(2);
+ 
+-#define __get_free_page(gfp_mask) \
+-		__get_free_pages((gfp_mask), 0)
++__meminit void *alloc_pages_exact_nid_noprof(int nid, size_t size, gfp_t gfp_mask) __alloc_size(2);
++#define alloc_pages_exact_nid(...)					\
++	alloc_hooks(alloc_pages_exact_nid_noprof(__VA_ARGS__))
++
++#define __get_free_page(gfp_mask)					\
++	__get_free_pages((gfp_mask), 0)
+ 
+-#define __get_dma_pages(gfp_mask, order) \
+-		__get_free_pages((gfp_mask) | GFP_DMA, (order))
++#define __get_dma_pages(gfp_mask, order)				\
++	__get_free_pages((gfp_mask) | GFP_DMA, (order))
+ 
+ extern void __free_pages(struct page *page, unsigned int order);
+ extern void free_pages(unsigned long addr, unsigned int order);
+@@ -357,10 +385,14 @@ extern gfp_t vma_thp_gfp_mask(struct vm_area_struct *vma);
+ 
+ #ifdef CONFIG_CONTIG_ALLOC
+ /* The below functions must be run on a range from a single zone. */
+-extern int alloc_contig_range(unsigned long start, unsigned long end,
++extern int alloc_contig_range_noprof(unsigned long start, unsigned long end,
+ 			      unsigned migratetype, gfp_t gfp_mask);
+-extern struct page *alloc_contig_pages(unsigned long nr_pages, gfp_t gfp_mask,
+-				       int nid, nodemask_t *nodemask);
++#define alloc_contig_range(...)			alloc_hooks(alloc_contig_range_noprof(__VA_ARGS__))
++
++extern struct page *alloc_contig_pages_noprof(unsigned long nr_pages, gfp_t gfp_mask,
++					      int nid, nodemask_t *nodemask);
++#define alloc_contig_pages(...)			alloc_hooks(alloc_contig_pages_noprof(__VA_ARGS__))
++
+ #endif
+ void free_contig_range(unsigned long pfn, unsigned long nr_pages);
+ 
+diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
+index 2df35e65557d..35636e67e2e1 100644
+--- a/include/linux/pagemap.h
++++ b/include/linux/pagemap.h
+@@ -542,14 +542,17 @@ static inline void *detach_page_private(struct page *page)
+ #endif
+ 
+ #ifdef CONFIG_NUMA
+-struct folio *filemap_alloc_folio(gfp_t gfp, unsigned int order);
++struct folio *filemap_alloc_folio_noprof(gfp_t gfp, unsigned int order);
+ #else
+-static inline struct folio *filemap_alloc_folio(gfp_t gfp, unsigned int order)
++static inline struct folio *filemap_alloc_folio_noprof(gfp_t gfp, unsigned int order)
+ {
+-	return folio_alloc(gfp, order);
++	return folio_alloc_noprof(gfp, order);
+ }
+ #endif
+ 
++#define filemap_alloc_folio(...)				\
++	alloc_hooks(filemap_alloc_folio_noprof(__VA_ARGS__))
++
+ static inline struct page *__page_cache_alloc(gfp_t gfp)
+ {
+ 	return &filemap_alloc_folio(gfp, 0)->page;
+diff --git a/mm/compaction.c b/mm/compaction.c
+index 4add68d40e8d..f4c0e682c979 100644
+--- a/mm/compaction.c
++++ b/mm/compaction.c
+@@ -1781,7 +1781,7 @@ static void isolate_freepages(struct compact_control *cc)
+  * This is a migrate-callback that "allocates" freepages by taking pages
+  * from the isolated freelists in the block we are migrating to.
+  */
+-static struct folio *compaction_alloc(struct folio *src, unsigned long data)
++static struct folio *compaction_alloc_noprof(struct folio *src, unsigned long data)
+ {
+ 	struct compact_control *cc = (struct compact_control *)data;
+ 	struct folio *dst;
+@@ -1800,6 +1800,11 @@ static struct folio *compaction_alloc(struct folio *src, unsigned long data)
+ 	return dst;
+ }
+ 
++static struct folio *compaction_alloc(struct folio *src, unsigned long data)
++{
++	return alloc_hooks(compaction_alloc_noprof(src, data));
++}
++
+ /*
+  * This is a migrate-callback that "frees" freepages back to the isolated
+  * freelist.  All pages on the freelist are from the same zone, so there is no
+diff --git a/mm/filemap.c b/mm/filemap.c
+index 750e779c23db..e51e474545ad 100644
+--- a/mm/filemap.c
++++ b/mm/filemap.c
+@@ -957,7 +957,7 @@ int filemap_add_folio(struct address_space *mapping, struct folio *folio,
+ EXPORT_SYMBOL_GPL(filemap_add_folio);
+ 
+ #ifdef CONFIG_NUMA
+-struct folio *filemap_alloc_folio(gfp_t gfp, unsigned int order)
++struct folio *filemap_alloc_folio_noprof(gfp_t gfp, unsigned int order)
+ {
+ 	int n;
+ 	struct folio *folio;
+@@ -972,9 +972,9 @@ struct folio *filemap_alloc_folio(gfp_t gfp, unsigned int order)
+ 
+ 		return folio;
+ 	}
+-	return folio_alloc(gfp, order);
++	return folio_alloc_noprof(gfp, order);
+ }
+-EXPORT_SYMBOL(filemap_alloc_folio);
++EXPORT_SYMBOL(filemap_alloc_folio_noprof);
+ #endif
+ 
+ /*
+diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+index 10a590ee1c89..c329d00b975f 100644
+--- a/mm/mempolicy.c
++++ b/mm/mempolicy.c
+@@ -2070,15 +2070,15 @@ static struct page *alloc_pages_preferred_many(gfp_t gfp, unsigned int order,
+ 	 */
+ 	preferred_gfp = gfp | __GFP_NOWARN;
+ 	preferred_gfp &= ~(__GFP_DIRECT_RECLAIM | __GFP_NOFAIL);
+-	page = __alloc_pages(preferred_gfp, order, nid, nodemask);
++	page = __alloc_pages_noprof(preferred_gfp, order, nid, nodemask);
+ 	if (!page)
+-		page = __alloc_pages(gfp, order, nid, NULL);
++		page = __alloc_pages_noprof(gfp, order, nid, NULL);
+ 
+ 	return page;
+ }
+ 
+ /**
+- * alloc_pages_mpol - Allocate pages according to NUMA mempolicy.
++ * alloc_pages_mpol_noprof - Allocate pages according to NUMA mempolicy.
+  * @gfp: GFP flags.
+  * @order: Order of the page allocation.
+  * @pol: Pointer to the NUMA mempolicy.
+@@ -2087,7 +2087,7 @@ static struct page *alloc_pages_preferred_many(gfp_t gfp, unsigned int order,
+  *
+  * Return: The page on success or NULL if allocation fails.
+  */
+-struct page *alloc_pages_mpol(gfp_t gfp, unsigned int order,
++struct page *alloc_pages_mpol_noprof(gfp_t gfp, unsigned int order,
+ 		struct mempolicy *pol, pgoff_t ilx, int nid)
+ {
+ 	nodemask_t *nodemask;
+@@ -2117,7 +2117,7 @@ struct page *alloc_pages_mpol(gfp_t gfp, unsigned int order,
+ 			 * First, try to allocate THP only on local node, but
+ 			 * don't reclaim unnecessarily, just compact.
+ 			 */
+-			page = __alloc_pages_node(nid,
++			page = __alloc_pages_node_noprof(nid,
+ 				gfp | __GFP_THISNODE | __GFP_NORETRY, order);
+ 			if (page || !(gfp & __GFP_DIRECT_RECLAIM))
+ 				return page;
+@@ -2130,7 +2130,7 @@ struct page *alloc_pages_mpol(gfp_t gfp, unsigned int order,
+ 		}
+ 	}
+ 
+-	page = __alloc_pages(gfp, order, nid, nodemask);
++	page = __alloc_pages_noprof(gfp, order, nid, nodemask);
+ 
+ 	if (unlikely(pol->mode == MPOL_INTERLEAVE) && page) {
+ 		/* skip NUMA_INTERLEAVE_HIT update if numa stats is disabled */
+@@ -2146,7 +2146,7 @@ struct page *alloc_pages_mpol(gfp_t gfp, unsigned int order,
+ }
+ 
+ /**
+- * vma_alloc_folio - Allocate a folio for a VMA.
++ * vma_alloc_folio_noprof - Allocate a folio for a VMA.
+  * @gfp: GFP flags.
+  * @order: Order of the folio.
+  * @vma: Pointer to VMA.
+@@ -2161,7 +2161,7 @@ struct page *alloc_pages_mpol(gfp_t gfp, unsigned int order,
+  *
+  * Return: The folio on success or NULL if allocation fails.
+  */
+-struct folio *vma_alloc_folio(gfp_t gfp, int order, struct vm_area_struct *vma,
++struct folio *vma_alloc_folio_noprof(gfp_t gfp, int order, struct vm_area_struct *vma,
+ 		unsigned long addr, bool hugepage)
+ {
+ 	struct mempolicy *pol;
+@@ -2169,15 +2169,15 @@ struct folio *vma_alloc_folio(gfp_t gfp, int order, struct vm_area_struct *vma,
+ 	struct page *page;
+ 
+ 	pol = get_vma_policy(vma, addr, order, &ilx);
+-	page = alloc_pages_mpol(gfp | __GFP_COMP, order,
+-				pol, ilx, numa_node_id());
++	page = alloc_pages_mpol_noprof(gfp | __GFP_COMP, order,
++				       pol, ilx, numa_node_id());
+ 	mpol_cond_put(pol);
+ 	return page_rmappable_folio(page);
+ }
+-EXPORT_SYMBOL(vma_alloc_folio);
++EXPORT_SYMBOL(vma_alloc_folio_noprof);
+ 
+ /**
+- * alloc_pages - Allocate pages.
++ * alloc_pages_noprof - Allocate pages.
+  * @gfp: GFP flags.
+  * @order: Power of two of number of pages to allocate.
+  *
+@@ -2190,7 +2190,7 @@ EXPORT_SYMBOL(vma_alloc_folio);
+  * flags are used.
+  * Return: The page on success or NULL if allocation fails.
+  */
+-struct page *alloc_pages(gfp_t gfp, unsigned int order)
++struct page *alloc_pages_noprof(gfp_t gfp, unsigned int order)
+ {
+ 	struct mempolicy *pol = &default_policy;
+ 
+@@ -2201,16 +2201,16 @@ struct page *alloc_pages(gfp_t gfp, unsigned int order)
+ 	if (!in_interrupt() && !(gfp & __GFP_THISNODE))
+ 		pol = get_task_policy(current);
+ 
+-	return alloc_pages_mpol(gfp, order,
+-				pol, NO_INTERLEAVE_INDEX, numa_node_id());
++	return alloc_pages_mpol_noprof(gfp, order, pol, NO_INTERLEAVE_INDEX,
++				       numa_node_id());
+ }
+-EXPORT_SYMBOL(alloc_pages);
++EXPORT_SYMBOL(alloc_pages_noprof);
+ 
+-struct folio *folio_alloc(gfp_t gfp, unsigned int order)
++struct folio *folio_alloc_noprof(gfp_t gfp, unsigned int order)
+ {
+-	return page_rmappable_folio(alloc_pages(gfp | __GFP_COMP, order));
++	return page_rmappable_folio(alloc_pages_noprof(gfp | __GFP_COMP, order));
+ }
+-EXPORT_SYMBOL(folio_alloc);
++EXPORT_SYMBOL(folio_alloc_noprof);
+ 
+ static unsigned long alloc_pages_bulk_array_interleave(gfp_t gfp,
+ 		struct mempolicy *pol, unsigned long nr_pages,
+@@ -2229,13 +2229,13 @@ static unsigned long alloc_pages_bulk_array_interleave(gfp_t gfp,
+ 
+ 	for (i = 0; i < nodes; i++) {
+ 		if (delta) {
+-			nr_allocated = __alloc_pages_bulk(gfp,
++			nr_allocated = alloc_pages_bulk_noprof(gfp,
+ 					interleave_nodes(pol), NULL,
+ 					nr_pages_per_node + 1, NULL,
+ 					page_array);
+ 			delta--;
+ 		} else {
+-			nr_allocated = __alloc_pages_bulk(gfp,
++			nr_allocated = alloc_pages_bulk_noprof(gfp,
+ 					interleave_nodes(pol), NULL,
+ 					nr_pages_per_node, NULL, page_array);
+ 		}
+@@ -2257,11 +2257,11 @@ static unsigned long alloc_pages_bulk_array_preferred_many(gfp_t gfp, int nid,
+ 	preferred_gfp = gfp | __GFP_NOWARN;
+ 	preferred_gfp &= ~(__GFP_DIRECT_RECLAIM | __GFP_NOFAIL);
+ 
+-	nr_allocated  = __alloc_pages_bulk(preferred_gfp, nid, &pol->nodes,
++	nr_allocated  = alloc_pages_bulk_noprof(preferred_gfp, nid, &pol->nodes,
+ 					   nr_pages, NULL, page_array);
+ 
+ 	if (nr_allocated < nr_pages)
+-		nr_allocated += __alloc_pages_bulk(gfp, numa_node_id(), NULL,
++		nr_allocated += alloc_pages_bulk_noprof(gfp, numa_node_id(), NULL,
+ 				nr_pages - nr_allocated, NULL,
+ 				page_array + nr_allocated);
+ 	return nr_allocated;
+@@ -2273,7 +2273,7 @@ static unsigned long alloc_pages_bulk_array_preferred_many(gfp_t gfp, int nid,
+  * It can accelerate memory allocation especially interleaving
+  * allocate memory.
+  */
+-unsigned long alloc_pages_bulk_array_mempolicy(gfp_t gfp,
++unsigned long alloc_pages_bulk_array_mempolicy_noprof(gfp_t gfp,
+ 		unsigned long nr_pages, struct page **page_array)
+ {
+ 	struct mempolicy *pol = &default_policy;
+@@ -2293,8 +2293,8 @@ unsigned long alloc_pages_bulk_array_mempolicy(gfp_t gfp,
+ 
+ 	nid = numa_node_id();
+ 	nodemask = policy_nodemask(gfp, pol, NO_INTERLEAVE_INDEX, &nid);
+-	return __alloc_pages_bulk(gfp, nid, nodemask,
+-				  nr_pages, NULL, page_array);
++	return alloc_pages_bulk_noprof(gfp, nid, nodemask,
++				       nr_pages, NULL, page_array);
+ }
+ 
+ int vma_dup_policy(struct vm_area_struct *src, struct vm_area_struct *dst)
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index edb79a55a252..58c0e8b948a4 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -4380,7 +4380,7 @@ static inline bool prepare_alloc_pages(gfp_t gfp_mask, unsigned int order,
+  *
+  * Returns the number of pages on the list or array.
+  */
+-unsigned long __alloc_pages_bulk(gfp_t gfp, int preferred_nid,
++unsigned long alloc_pages_bulk_noprof(gfp_t gfp, int preferred_nid,
+ 			nodemask_t *nodemask, int nr_pages,
+ 			struct list_head *page_list,
+ 			struct page **page_array)
+@@ -4516,7 +4516,7 @@ unsigned long __alloc_pages_bulk(gfp_t gfp, int preferred_nid,
+ 	pcp_trylock_finish(UP_flags);
+ 
+ failed:
+-	page = __alloc_pages(gfp, 0, preferred_nid, nodemask);
++	page = __alloc_pages_noprof(gfp, 0, preferred_nid, nodemask);
+ 	if (page) {
+ 		if (page_list)
+ 			list_add(&page->lru, page_list);
+@@ -4527,13 +4527,13 @@ unsigned long __alloc_pages_bulk(gfp_t gfp, int preferred_nid,
+ 
+ 	goto out;
+ }
+-EXPORT_SYMBOL_GPL(__alloc_pages_bulk);
++EXPORT_SYMBOL_GPL(alloc_pages_bulk_noprof);
+ 
+ /*
+  * This is the 'heart' of the zoned buddy allocator.
+  */
+-struct page *__alloc_pages(gfp_t gfp, unsigned int order, int preferred_nid,
+-							nodemask_t *nodemask)
++struct page *__alloc_pages_noprof(gfp_t gfp, unsigned int order,
++				      int preferred_nid, nodemask_t *nodemask)
+ {
+ 	struct page *page;
+ 	unsigned int alloc_flags = ALLOC_WMARK_LOW;
+@@ -4595,38 +4595,38 @@ struct page *__alloc_pages(gfp_t gfp, unsigned int order, int preferred_nid,
+ 
+ 	return page;
+ }
+-EXPORT_SYMBOL(__alloc_pages);
++EXPORT_SYMBOL(__alloc_pages_noprof);
+ 
+-struct folio *__folio_alloc(gfp_t gfp, unsigned int order, int preferred_nid,
++struct folio *__folio_alloc_noprof(gfp_t gfp, unsigned int order, int preferred_nid,
+ 		nodemask_t *nodemask)
+ {
+-	struct page *page = __alloc_pages(gfp | __GFP_COMP, order,
++	struct page *page = __alloc_pages_noprof(gfp | __GFP_COMP, order,
+ 					preferred_nid, nodemask);
+ 	return page_rmappable_folio(page);
+ }
+-EXPORT_SYMBOL(__folio_alloc);
++EXPORT_SYMBOL(__folio_alloc_noprof);
+ 
+ /*
+  * Common helper functions. Never use with __GFP_HIGHMEM because the returned
+  * address cannot represent highmem pages. Use alloc_pages and then kmap if
+  * you need to access high mem.
+  */
+-unsigned long __get_free_pages(gfp_t gfp_mask, unsigned int order)
++unsigned long get_free_pages_noprof(gfp_t gfp_mask, unsigned int order)
+ {
+ 	struct page *page;
+ 
+-	page = alloc_pages(gfp_mask & ~__GFP_HIGHMEM, order);
++	page = alloc_pages_noprof(gfp_mask & ~__GFP_HIGHMEM, order);
+ 	if (!page)
+ 		return 0;
+ 	return (unsigned long) page_address(page);
+ }
+-EXPORT_SYMBOL(__get_free_pages);
++EXPORT_SYMBOL(get_free_pages_noprof);
+ 
+-unsigned long get_zeroed_page(gfp_t gfp_mask)
++unsigned long get_zeroed_page_noprof(gfp_t gfp_mask)
+ {
+-	return __get_free_page(gfp_mask | __GFP_ZERO);
++	return get_free_pages_noprof(gfp_mask | __GFP_ZERO, 0);
+ }
+-EXPORT_SYMBOL(get_zeroed_page);
++EXPORT_SYMBOL(get_zeroed_page_noprof);
+ 
+ /**
+  * __free_pages - Free pages allocated with alloc_pages().
+@@ -4818,7 +4818,7 @@ static void *make_alloc_exact(unsigned long addr, unsigned int order,
+ }
+ 
+ /**
+- * alloc_pages_exact - allocate an exact number physically-contiguous pages.
++ * alloc_pages_exact_noprof - allocate an exact number physically-contiguous pages.
+  * @size: the number of bytes to allocate
+  * @gfp_mask: GFP flags for the allocation, must not contain __GFP_COMP
+  *
+@@ -4832,7 +4832,7 @@ static void *make_alloc_exact(unsigned long addr, unsigned int order,
+  *
+  * Return: pointer to the allocated area or %NULL in case of error.
+  */
+-void *alloc_pages_exact(size_t size, gfp_t gfp_mask)
++void *alloc_pages_exact_noprof(size_t size, gfp_t gfp_mask)
+ {
+ 	unsigned int order = get_order(size);
+ 	unsigned long addr;
+@@ -4840,13 +4840,13 @@ void *alloc_pages_exact(size_t size, gfp_t gfp_mask)
+ 	if (WARN_ON_ONCE(gfp_mask & (__GFP_COMP | __GFP_HIGHMEM)))
+ 		gfp_mask &= ~(__GFP_COMP | __GFP_HIGHMEM);
+ 
+-	addr = __get_free_pages(gfp_mask, order);
++	addr = get_free_pages_noprof(gfp_mask, order);
+ 	return make_alloc_exact(addr, order, size);
+ }
+-EXPORT_SYMBOL(alloc_pages_exact);
++EXPORT_SYMBOL(alloc_pages_exact_noprof);
+ 
+ /**
+- * alloc_pages_exact_nid - allocate an exact number of physically-contiguous
++ * alloc_pages_exact_nid_noprof - allocate an exact number of physically-contiguous
+  *			   pages on a node.
+  * @nid: the preferred node ID where memory should be allocated
+  * @size: the number of bytes to allocate
+@@ -4857,7 +4857,7 @@ EXPORT_SYMBOL(alloc_pages_exact);
+  *
+  * Return: pointer to the allocated area or %NULL in case of error.
+  */
+-void * __meminit alloc_pages_exact_nid(int nid, size_t size, gfp_t gfp_mask)
++void * __meminit alloc_pages_exact_nid_noprof(int nid, size_t size, gfp_t gfp_mask)
+ {
+ 	unsigned int order = get_order(size);
+ 	struct page *p;
+@@ -4865,7 +4865,7 @@ void * __meminit alloc_pages_exact_nid(int nid, size_t size, gfp_t gfp_mask)
+ 	if (WARN_ON_ONCE(gfp_mask & (__GFP_COMP | __GFP_HIGHMEM)))
+ 		gfp_mask &= ~(__GFP_COMP | __GFP_HIGHMEM);
+ 
+-	p = alloc_pages_node(nid, gfp_mask, order);
++	p = alloc_pages_node_noprof(nid, gfp_mask, order);
+ 	if (!p)
+ 		return NULL;
+ 	return make_alloc_exact((unsigned long)page_address(p), order, size);
+@@ -6283,7 +6283,7 @@ int __alloc_contig_migrate_range(struct compact_control *cc,
+ }
+ 
+ /**
+- * alloc_contig_range() -- tries to allocate given range of pages
++ * alloc_contig_range_noprof() -- tries to allocate given range of pages
+  * @start:	start PFN to allocate
+  * @end:	one-past-the-last PFN to allocate
+  * @migratetype:	migratetype of the underlying pageblocks (either
+@@ -6303,7 +6303,7 @@ int __alloc_contig_migrate_range(struct compact_control *cc,
+  * pages which PFN is in [start, end) are allocated for the caller and
+  * need to be freed with free_contig_range().
+  */
+-int alloc_contig_range(unsigned long start, unsigned long end,
++int alloc_contig_range_noprof(unsigned long start, unsigned long end,
+ 		       unsigned migratetype, gfp_t gfp_mask)
+ {
+ 	unsigned long outer_start, outer_end;
+@@ -6427,15 +6427,15 @@ int alloc_contig_range(unsigned long start, unsigned long end,
+ 	undo_isolate_page_range(start, end, migratetype);
+ 	return ret;
+ }
+-EXPORT_SYMBOL(alloc_contig_range);
++EXPORT_SYMBOL(alloc_contig_range_noprof);
+ 
+ static int __alloc_contig_pages(unsigned long start_pfn,
+ 				unsigned long nr_pages, gfp_t gfp_mask)
+ {
+ 	unsigned long end_pfn = start_pfn + nr_pages;
+ 
+-	return alloc_contig_range(start_pfn, end_pfn, MIGRATE_MOVABLE,
+-				  gfp_mask);
++	return alloc_contig_range_noprof(start_pfn, end_pfn, MIGRATE_MOVABLE,
++				   gfp_mask);
+ }
+ 
+ static bool pfn_range_valid_contig(struct zone *z, unsigned long start_pfn,
+@@ -6470,7 +6470,7 @@ static bool zone_spans_last_pfn(const struct zone *zone,
+ }
+ 
+ /**
+- * alloc_contig_pages() -- tries to find and allocate contiguous range of pages
++ * alloc_contig_pages_noprof() -- tries to find and allocate contiguous range of pages
+  * @nr_pages:	Number of contiguous pages to allocate
+  * @gfp_mask:	GFP mask to limit search and used during compaction
+  * @nid:	Target node
+@@ -6490,8 +6490,8 @@ static bool zone_spans_last_pfn(const struct zone *zone,
+  *
+  * Return: pointer to contiguous pages on success, or NULL if not successful.
+  */
+-struct page *alloc_contig_pages(unsigned long nr_pages, gfp_t gfp_mask,
+-				int nid, nodemask_t *nodemask)
++struct page *alloc_contig_pages_noprof(unsigned long nr_pages, gfp_t gfp_mask,
++				 int nid, nodemask_t *nodemask)
+ {
+ 	unsigned long ret, pfn, flags;
+ 	struct zonelist *zonelist;
 -- 
 2.43.0.687.g38aa6559b0-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240212213922.783301-17-surenb%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240212213922.783301-18-surenb%40google.com.
