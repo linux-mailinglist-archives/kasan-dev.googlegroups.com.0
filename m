@@ -1,136 +1,138 @@
-Return-Path: <kasan-dev+bncBCT4VV5O2QKBB4GPVSXAMGQEXDMQQYQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT4VV5O2QKBBFWRVSXAMGQE5TROCXI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677D4852B17
-	for <lists+kasan-dev@lfdr.de>; Tue, 13 Feb 2024 09:27:29 +0100 (CET)
-Received: by mail-lj1-x240.google.com with SMTP id 38308e7fff4ca-2d0a4fbc9e4sf37519051fa.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 13 Feb 2024 00:27:29 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1707812848; cv=pass;
+Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A19C852B34
+	for <lists+kasan-dev@lfdr.de>; Tue, 13 Feb 2024 09:30:15 +0100 (CET)
+Received: by mail-lf1-x13e.google.com with SMTP id 2adb3069b0e04-5113b77ff80sf3533698e87.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 13 Feb 2024 00:30:15 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1707813015; cv=pass;
         d=google.com; s=arc-20160816;
-        b=R9hkbA8G8JoUVdi7Ze474P98iqYffKLdIMV9GziLm5LOQi52U1GHJ07YhBNF7CN452
-         PsJlQRJCuEBmXTkswBlU2H2EUpxfD20qwnHWIceLLltXM0tRwap1blmWItn+CVSFkbTw
-         vUCB2dn/3PO2eC3KSvCzFCG625Zgc8RZkl08x+lpjDfYDTJRJ3+kehIT1bQA7b2sRBK7
-         +q4/qLz3BkpYGzshs4TqjiDI0iTW9lgisesZl3KHsYHEgXkLTLIZqQ5xEmvn7g5HviT+
-         I73tYJ4opR5arGFQMrQwNS6HSQqUvF3ytjL58K+qGsk+gzbuIf8VBF1Rgd2L7ephiT3o
-         z54w==
+        b=zw+wpVzX18GRXaoMVcNZ6HKHsP8NKvpIiO0bS2HVTqJ/BVnPVkBIRO6pUw74Y+get3
+         G99cEQ6dhI/qJQ97orVkuluO3vEQ/m//dIyaFDHHDDE6fsSh8Gd8ekBHFdIsIqHLXpVj
+         qreNRV8Q8/OjyWfljTCsoVcEUixmoBWfy+ggnnsQRRa1fd/pDekLIXUDxwmB1Lm0Z3nq
+         KrJLnUIUCtQW9zqx4XaAGmUhfRoCxKk7ZkkJDWa4MIUHFmlJaDrYrDJSgKPr/21jGPeC
+         rqRcblYTqe8++0lg/Bgp998TFeSrbhRdkA1F9aZWD1dbel/wYPfbKxBWeC2LL5icwn8t
+         U7SQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
          :subject:message-id:date:from:in-reply-to:references:mime-version
          :sender:dkim-signature:dkim-signature;
-        bh=CEQFsmP7C/g9nPl44pICTDOCXYawTMu5L9I/uq3x2DY=;
-        fh=VVpJU8WZsA0BOgNa6Q3Fw3RX+fMc/dWWmUddCyn/Tl0=;
-        b=eWQx/CkNT7xHjOv060eHccrfziVsrYkVSY3iYKNqLjczG0/sTgeUSIz7uu8fjnMTbB
-         G+sQL9cM18BkzHDJvTzw1KbYcWmPNuVs7dONQnEJYyjsbnrNGX3JjAV3x7YlciRr82xL
-         qR/ZLFb4M85+eklQA2Y04Ebkq/8HD1JnJiZbOIDlFNwFnRq1vnGLaZfqOA+6JwiGzNSc
-         nj1NyQlDhBMqcBf5I2KIsJi7LGjxo7FoOavG/iNw+j6nMSNP2Orsdm8mjYfyBC4J4J+w
-         kxpBUCYizNf+F8X3VVxE8BGS+Bk1prwI2Hhmn0//XtoKtvTpQXWMQX+tTGO/MWUtqf9R
-         Gt+A==;
+        bh=04GxZr6vGhEqoeSvEhy7j582CWXreYNKU15mPXeaTxI=;
+        fh=Yn/ZJBpNJTqXQdXv8cKoq3/1bBgixlvSpBLz7ULhpKQ=;
+        b=SO3mBJtney0q/oLSwaTeFR2rwqf/G9AUGbz66o/cSJ57JgakyB8f6DoKh/gE+5nLbt
+         esTD4IzOkXwfXIRvveEVQ8ocW3AZtqorPXoMc2ljxdNNYKsn/p4h5XgP5JbafAMNK8r5
+         zH2l+dFYlz8wiaF2FA0An3WRR7MrWn1ap0BJd74p8cw2iqYiUjAXoDgTApHmvvXOE1bD
+         ub+khwZw913b6YpFFSskcgD7ktoQ6SCwhN/PUwpAAxrkpXaJkdqbUEKWd2Fw7lOpf32e
+         PNDobR4CJ9PJPZX9z0cE4X/jCBcE/5bLHN+55ZqB5rLIMYechCZZfnX+i/CAQ43+5Yva
+         yd+Q==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b="FG/++D3d";
-       spf=pass (google.com: domain of andy.shevchenko@gmail.com designates 2a00:1450:4864:20::630 as permitted sender) smtp.mailfrom=andy.shevchenko@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q+Z4BEN7;
+       spf=pass (google.com: domain of andy.shevchenko@gmail.com designates 2a00:1450:4864:20::62b as permitted sender) smtp.mailfrom=andy.shevchenko@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1707812848; x=1708417648; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1707813015; x=1708417815; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=CEQFsmP7C/g9nPl44pICTDOCXYawTMu5L9I/uq3x2DY=;
-        b=SWl82HMlJ6BgjdTxqkp1tfBFVWoc1Lvr42C+gzaouaXH7egLm+uRI2bYHbVVypf7WV
-         INuGlHoQVg8c5oZYgDnBG8u9lEV5At1ytObVWzFf4FrLlDWvvREvbLYM4Ufzu6nvpiVK
-         sVTrBNvPmfJRtAnDgBd9xsdA6wCPMr7Pp8PIo1yPGyyJNPLRJk9QU5oKvnuzjRFw6ppl
-         i/i4u8Ew6jl0+hMJNYZdt/SWg4iLUaL9UV9A2M8ONMi8zyzTYRildYsr1rKfQpixVTxz
-         bit0GTMN+OcSCJj60FGTr7g7hGLKpUINDOVVIQcgfz5g0NwUhmsfFogGbP2oWmiYLCgZ
-         eMyQ==
+        bh=04GxZr6vGhEqoeSvEhy7j582CWXreYNKU15mPXeaTxI=;
+        b=HCjeNSlGCAWt5F5OwIWWdFb5lC47Wr9DaMgw9ZMid7VeNObhcdXUIbnc3o1ZOeymS2
+         FKARv7BidMAPSCA5mTbe8VCD+0sYcpaNRqgH9PaCOkD2dmi+T9elH8AYrKiVdHCLPZmi
+         xlB4400aXRomGrTjkiZcQ5f6Z1X+yWCuMZxEyFotLm0kdHaMiUtBBDuJjz7JeCLMgG9l
+         a8LZ2csCSKkQfWIz7ZT/vygMFs25EJnCUpzhidnBwG2m/HVlCUp9pUESpy6NJwBLuu7/
+         TWpxf57YdBhfn9ktdTxug4dtKkVLWjyhF09qsxuv62FJOZJySCR0UC2i95jLuGg7lHI2
+         4RUA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1707812848; x=1708417648; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1707813015; x=1708417815; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CEQFsmP7C/g9nPl44pICTDOCXYawTMu5L9I/uq3x2DY=;
-        b=kuPmhDuPhomvsGrM/s0bvOOGSjAap3NRlKXDvDwB6gJqiTYXgivoe1gqJhpW/h+jRA
-         0Qx6pizuIZag/53yYjp3PaRyGFRbwxUtiTBxeviOUx3c3PdJ505AdTk41+eicLs96+Jb
-         mZ4a8L8sJ1c/JKIHHpuoLtn8tqRm162fbR1MCJwL2Mb23oMeejOsqPJS3jHJDyxPD+cR
-         Dp711qy8OyhYmNrUOEWPokgODyc/tH6QsmMuQJtD/T3ijebTRgZwQhewjhXT/rpGSrn5
-         2dRZwuiGVYTPQgA20OBaBQuBSiHVUP5vzciNM2oPhyFKa7Ydi4rWtRSk3KoFrBdrgKnj
-         X1Gw==
+        bh=04GxZr6vGhEqoeSvEhy7j582CWXreYNKU15mPXeaTxI=;
+        b=j2oMZK73UtiDHZBQQkW55cvGpK8fXZ1/vealHKf66jUgvXygJQpFDjQLFzGRSrNvZX
+         evGr1jbEaHXpL/SYExNMB8wfK7Oc4U2U5s9QvYrMtgvaErMY5HM7BppLUMC4QffehSzF
+         /U/UWee5Z9aflUH20/HpsRHZ+ul3k7ayHMcZLsLagQ+mR+OkPNeuFex4HbD+wWHXW28k
+         wSDu+sR7FqKKLqcyKen91izL8S74skUP5Flg1g4uYNUecw6oTEizs7eEsOii2CU4nYxd
+         TyJdW8b613TwwNntXX5qRQxzINZ9S51m5QkWi60dZBiZMTXkYot9wtCI9M2Tg0P25276
+         zNIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1707812848; x=1708417648;
+        d=1e100.net; s=20230601; t=1707813015; x=1708417815;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=CEQFsmP7C/g9nPl44pICTDOCXYawTMu5L9I/uq3x2DY=;
-        b=ooiN0zAhMRJQPcm54ikO6PJHeRm9QhEvrRpQ+TmVduaaO08w9DOmLJhd9Cb1ZYbask
-         JfCjs+ppXuLe/NftlSJczIU9Rt9P9u52LQD7SRFcXzfIzyHPv9dzqPRXZU5JvsW/tdKn
-         1wv7ZPIUuXdyz91iY2Xgp41APrg4UQ4AOHAeOtP8jaMf6b5lO7At3CiZnn9GuLhPM2iv
-         NKJh4y5JzyEisdE9fDG4+Z16k8XL+O6MIFow3pTcW00tvg83MqGR4o8YI8zl6Rs/jykE
-         GB5BEDwakuvdQj3icM6KRkNaKfg19ju2pJy46ZUkaOuDBC23yHPRLFBfUwYWilX82NgK
-         1pew==
+        bh=04GxZr6vGhEqoeSvEhy7j582CWXreYNKU15mPXeaTxI=;
+        b=ACru5pWnw8tGGg+kuFccwfUFwsAdMwJvSl1t8IVrOGwhwFJfuRJUPbUTwE/+9Iiiyj
+         sFbKlIqdUc7pQHvnCWgnljRqGbI0Bds7T/jncQPKA+f4WvcUOMsaOYcV2pWviMw8K2lg
+         xKqIIanourXPXE5gMHe03VVpVRTHTIbkjaYXJiyhCq6AiJ16a41mAGDCu0FGeZ+Do0rI
+         IcUyYxmAuKr7gMqZHsV65tJSZOpHWjYS60JW15p+W8wHXei19S5YcCpGd6KWd3w4lnRI
+         xhtGRg86BjdCkcm2bkQX3nSIwGX900xG/FiA+rUfrZQlULetj1wYRUJ2kXuopGqnBA3H
+         pQ4A==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCW2dBpioWUKnq12DufYSarqFq79O26OjIFIg8x5B+4aBu7rSt4lpVMxH3HciEa+qv/3rNjOJsA3X7ENgsJ37glhHvmmJmlSQg==
-X-Gm-Message-State: AOJu0Yw+ouVtUgQBHwD0H9O5ADchJM96h6s1HtY85NxdS2Par7iv2u0e
-	Q8fm47Dg2bJ1qPYnztsc3zVaIid44ujOnWwnnmFCMXJs6YxeW7z5
-X-Google-Smtp-Source: AGHT+IE+CyufQZwkOofgIlKiuxaIsI9XLaxqvwOfvLVAk99L5T4mbn+7sLk+Zs6ff1D+8NPAO5rJBg==
-X-Received: by 2002:a2e:9090:0:b0:2d0:9a29:f849 with SMTP id l16-20020a2e9090000000b002d09a29f849mr5561589ljg.29.1707812848318;
-        Tue, 13 Feb 2024 00:27:28 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXFWJzwHF4apERRqKDnJ9v6rXjD+sEUG18Y5dlYj+WIFFOCgX3AWJAsWfWlUqO5Xv3cxaYhqiLfOM18jdoEJedhsBlgp3lGig==
+X-Gm-Message-State: AOJu0Yz50lZh+tTvr6nuYP+5mzoGTRPuV4x9E/Ov/K8CeeH9XjfOjKRJ
+	H8fNCKHQxhhYHwGJG4tMg/MOS9VvUEOzC3vNo125lmc07rmOBqkh
+X-Google-Smtp-Source: AGHT+IFfDmdhmZT2mBruih3rTjak+C8MDBLHU9EbR6PRarCI2gU9Bc2WDfL2mwRcnQHyQCEzXqRdLg==
+X-Received: by 2002:a2e:9998:0:b0:2d0:b6fc:addf with SMTP id w24-20020a2e9998000000b002d0b6fcaddfmr5533744lji.3.1707813014340;
+        Tue, 13 Feb 2024 00:30:14 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:a497:0:b0:2d0:a7cd:36ff with SMTP id h23-20020a2ea497000000b002d0a7cd36ffls835111lji.2.-pod-prod-06-eu;
- Tue, 13 Feb 2024 00:27:26 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWS+i/iTRsWPBmIRQ6hCMMZWZLuk9ktxTW4IPyoJQC4/UByagcn41zsAPFnwrCDPcQ3GUrgwmoYc2DnPt7EXET7Jj8IjOe5cfrdtw==
-X-Received: by 2002:a2e:804f:0:b0:2d0:99e5:84b with SMTP id p15-20020a2e804f000000b002d099e5084bmr5537585ljg.9.1707812846218;
-        Tue, 13 Feb 2024 00:27:26 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1707812846; cv=none;
+Received: by 2002:a05:651c:128d:b0:2d0:9fd0:8d89 with SMTP id
+ 13-20020a05651c128d00b002d09fd08d89ls664491ljc.0.-pod-prod-03-eu; Tue, 13 Feb
+ 2024 00:30:12 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCU+IH8K4Y9lLndco/e9iijtsH3aRfsEkJncNX8lTKcuBxe23dJ85EWE1g5MjhNxrBPHF4WtzU4TTRiZGpInKpWBnwFS0SvBVEqFnQ==
+X-Received: by 2002:a2e:8014:0:b0:2d0:a47c:d544 with SMTP id j20-20020a2e8014000000b002d0a47cd544mr5732957ljg.53.1707813011897;
+        Tue, 13 Feb 2024 00:30:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1707813011; cv=none;
         d=google.com; s=arc-20160816;
-        b=LK55dKeDgaWtnAVCvuvbc5G7v7JL+MqMfcQf7r3+BVlIbLL02uyy6A66gDtp6pdVKY
-         T7UQbrIOgaSo4WB9eZIZPv+DpsJwnS/adsMSKgrxrJfw1sj303SkVnq9oK6i2EuhoE/s
-         fYKw9+jjMNdwvTLPHaFbms3s0fROlWTD6KLjK95TDYi2vSJNFJD7x10hWhQG3Dn+HEnx
-         KB8Z3KiT8C2vxlz/n+dh4+Z+Jxxv81ob1fjfT/Ozg8tCsVrQTpKk39lg6Sn429uEqZ1B
-         2mDKWReveXC30D+9hzpJZ6YLMwG+KezeN4bquLqwPTQa/4+5snSt61FlbQiiV1/Jd2TI
-         ViEA==
+        b=lL3oLpWVGkOCzBDbq7HBGLI5qcU8yYXmhCF5mZpieqtT/0dM1JbK5FFShfRjZ6Bqno
+         ynlvX5XuHj7Az9t7gNIe5Bzk5jmmg6j2U+LtJ4+MYEJ2KaE/xozhFjVLfSlkB5qPJlOe
+         dxIoJEbD/+gO4Eg+mg9Gw1q3UZPogspwg1MuH/OAy1O3TGcBC5zry2nFk5/EwOoAcoJk
+         XN3dlW7lU448U2JMzmwnpYvo4F9R2zBj72p8dbFkfyUGOzpOkvD9Dh+XBnm+AhtEcV6f
+         LprVaqpk2ee/mQGfS130HjfA+Uy/Jh8JopSxZRfnvRFMJ2IBcMiwep4CZKb8OYhgCJNq
+         89eg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=iNGA8ZHGAdrm/kUeu0sTwlf3VcWW6Pp9gwsOjSJOS+s=;
-        fh=tW/S6EFtaf3CQOcmDZ4an0+RWJOVHncXZhdK0e8wub0=;
-        b=kTxBvXNIsnKHP55vfDafWRqNUuqaP2nHK1M3IHOPWLUI5IL4MQCxsld9XsnDCta06l
-         +1Z7SAk5aozjnmop4VVLgLzLRb6oVdmcnsc4Qm0N2rkBTvzzE1lnoM/uc9v+yfERNFRH
-         qDbZpXUeuYJmTTfp92mkizflwx4zZAR3P3bL+o9D91nnOdF2xbIGqwmp3l1GV//R/liU
-         e2RwNCJgpezVAraMXUocIOxq4yUKtawiufFcYc9YM/yc2EXsJFFbz0p1B5jsn4P+6nOX
-         LTbA+2dg/fz1praXPup0vOs6FtkCIPJ5YY1SJQx/aTYeV7BqOJbPqqP0lfyxpgPneauM
-         lZAg==;
+        bh=UVoibj/kriuj68qpqrmYwyDO76NZZTUK51M4zJowuXg=;
+        fh=TRAFUH6XGNHwhPhwZB4Q3kZKU9yWvOhpav27SD/ZEt0=;
+        b=nWxx/2MwZyQIIJ1wTrDcQiJ84dWgw/Xf1trlgZMzPiSVj661oDIz7m4Ic5I2+3mAux
+         3e21FIBrh9mIHn51K0YAMzh+GyuEKM0wVh/+9gJ5qfJTZdP3lLZl0g2Rfu+v/AeN8Fyg
+         toIBVWEuZDrKs6lJES00G0hOphzgOa6gflXVPEgmcPsicID7Y1i2ry88VYdw4tOWdgMV
+         HUhWFly6yTp2nCcYmvdoWSW2UruDMvJU8pOdCsqLwe1a4Zb8AnoQXjyFZK7F5I+50/8P
+         FlQ/jWnIYgaC1By48C9evfqO8IL5K50Gju9hlhOTAuNU+BDCnKkFZhYYUHA0f3qcj3CY
+         8PyA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b="FG/++D3d";
-       spf=pass (google.com: domain of andy.shevchenko@gmail.com designates 2a00:1450:4864:20::630 as permitted sender) smtp.mailfrom=andy.shevchenko@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q+Z4BEN7;
+       spf=pass (google.com: domain of andy.shevchenko@gmail.com designates 2a00:1450:4864:20::62b as permitted sender) smtp.mailfrom=andy.shevchenko@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-X-Forwarded-Encrypted: i=1; AJvYcCX0qc79NJmndBTTXBjDjiTH20TP2o7/eVtRFoKS7Zczvm7nyvWNT/YQtCRlVHeOBnBchenIABwt3PBBrGBQKJhlV0bHSjZ4UivVhw==
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com. [2a00:1450:4864:20::630])
-        by gmr-mx.google.com with ESMTPS id r18-20020a2e9952000000b002d0cff10145si156040ljj.6.2024.02.13.00.27.26
+X-Forwarded-Encrypted: i=1; AJvYcCX7r9tF8AgdDOudUtpn2X/lQhjLEdJWrA5hNXrsY9aQI7kZWuz+6NTw/TRnAGGMUb/2WIJXakbYOoR2i73+UT3y1ZdUbipmdwvV4Q==
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com. [2a00:1450:4864:20::62b])
+        by gmr-mx.google.com with ESMTPS id i13-20020a2e864d000000b002d0a7814671si192084ljj.7.2024.02.13.00.30.11
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Feb 2024 00:27:26 -0800 (PST)
-Received-SPF: pass (google.com: domain of andy.shevchenko@gmail.com designates 2a00:1450:4864:20::630 as permitted sender) client-ip=2a00:1450:4864:20::630;
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-a3c309236c1so340115066b.2
-        for <kasan-dev@googlegroups.com>; Tue, 13 Feb 2024 00:27:26 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVtsTfwSHDt2c6DsLZ3ivVbfcbFJu8mogo02Cs9W+JmFcETTddn/uMyyV9usfFD7PNfK0+63Yji8vhKsIXoJMDdMeaGOtkbdaVX2Q==
-X-Received: by 2002:a17:906:ceca:b0:a38:3db5:a846 with SMTP id
- si10-20020a170906ceca00b00a383db5a846mr5777021ejb.67.1707812845309; Tue, 13
- Feb 2024 00:27:25 -0800 (PST)
+        Tue, 13 Feb 2024 00:30:11 -0800 (PST)
+Received-SPF: pass (google.com: domain of andy.shevchenko@gmail.com designates 2a00:1450:4864:20::62b as permitted sender) client-ip=2a00:1450:4864:20::62b;
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-a26f73732c5so560763366b.3
+        for <kasan-dev@googlegroups.com>; Tue, 13 Feb 2024 00:30:11 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUBGoSvylEUxZdOaPdKIXKlTUiEACU7sezPM/hDes5prqPxHILjsT6SG0s7dYInzhjvysJN8bY55Dvr1vVFfZr99GlWD36vNOateQ==
+X-Received: by 2002:a17:907:7896:b0:a3d:704:d688 with SMTP id
+ ku22-20020a170907789600b00a3d0704d688mr613690ejc.47.1707813011047; Tue, 13
+ Feb 2024 00:30:11 -0800 (PST)
 MIME-Version: 1.0
 References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-2-surenb@google.com>
-In-Reply-To: <20240212213922.783301-2-surenb@google.com>
+ <CAHp75Vek3DEYLHnpUDBo_bYSd-ksN_66=LQ5s0Z+EhnNvhybpw@mail.gmail.com>
+In-Reply-To: <CAHp75Vek3DEYLHnpUDBo_bYSd-ksN_66=LQ5s0Z+EhnNvhybpw@mail.gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 13 Feb 2024 10:26:48 +0200
-Message-ID: <CAHp75Vek3DEYLHnpUDBo_bYSd-ksN_66=LQ5s0Z+EhnNvhybpw@mail.gmail.com>
+Date: Tue, 13 Feb 2024 10:29:34 +0200
+Message-ID: <CAHp75VcftSPtAjOH-96wdyVhAYWAbOzZtfgm6J2Vwt1=-QTb=Q@mail.gmail.com>
 Subject: Re: [PATCH v3 01/35] lib/string_helpers: Add flags param to string_get_size()
 To: Suren Baghdasaryan <surenb@google.com>
 Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
@@ -165,9 +167,9 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: andy.shevchenko@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b="FG/++D3d";       spf=pass
+ header.i=@gmail.com header.s=20230601 header.b=Q+Z4BEN7;       spf=pass
  (google.com: domain of andy.shevchenko@gmail.com designates
- 2a00:1450:4864:20::630 as permitted sender) smtp.mailfrom=andy.shevchenko@gmail.com;
+ 2a00:1450:4864:20::62b as permitted sender) smtp.mailfrom=andy.shevchenko@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -181,84 +183,92 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Feb 12, 2024 at 11:39=E2=80=AFPM Suren Baghdasaryan <surenb@google.=
-com> wrote:
+On Tue, Feb 13, 2024 at 10:26=E2=80=AFAM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
 >
-> From: Kent Overstreet <kent.overstreet@linux.dev>
+> On Mon, Feb 12, 2024 at 11:39=E2=80=AFPM Suren Baghdasaryan <surenb@googl=
+e.com> wrote:
+> >
+> > From: Kent Overstreet <kent.overstreet@linux.dev>
+> >
+> > The new flags parameter allows controlling
+> >  - Whether or not the units suffix is separated by a space, for
+> >    compatibility with sort -h
+> >  - Whether or not to append a B suffix - we're not always printing
+> >    bytes.
+
+And you effectively missed to _add_ the test cases for the modified code.
+Formal NAK for this, the rest is discussable, the absence of tests is not.
+
+> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 >
-> The new flags parameter allows controlling
->  - Whether or not the units suffix is separated by a space, for
->    compatibility with sort -h
->  - Whether or not to append a B suffix - we're not always printing
->    bytes.
+> It seems most of my points from the previous review were refused...
 >
-> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-
-It seems most of my points from the previous review were refused...
-
-...
-
-You can move the below under --- cutter, so it won't pollute the git histor=
-y.
-
-> Cc: Andy Shevchenko <andy@kernel.org>
-> Cc: Michael Ellerman <mpe@ellerman.id.au>
-> Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-> Cc: Paul Mackerras <paulus@samba.org>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Jason Wang <jasowang@redhat.com>
-> Cc: "Noralf Tr=C3=B8nnes" <noralf@tronnes.org>
-> Cc: Jens Axboe <axboe@kernel.dk>
-> ---
-
-...
-
-> --- a/include/linux/string_helpers.h
-> +++ b/include/linux/string_helpers.h
-> @@ -17,14 +17,13 @@ static inline bool string_is_terminated(const char *s=
-, int len)
-
-...
-
-> -/* Descriptions of the types of units to
-> - * print in */
-> -enum string_size_units {
-> -       STRING_UNITS_10,        /* use powers of 10^3 (standard SI) */
-> -       STRING_UNITS_2,         /* use binary powers of 2^10 */
-> +enum string_size_flags {
-> +       STRING_SIZE_BASE2       =3D (1 << 0),
-> +       STRING_SIZE_NOSPACE     =3D (1 << 1),
-> +       STRING_SIZE_NOBYTES     =3D (1 << 2),
->  };
-
-Do not kill documentation, I already said that. Or i.o.w. document this.
-Also the _SIZE is ambigous (if you don't want UNITS, use SIZE_FORMAT.
-
-Also why did you kill BASE10 here? (see below as well)
-
-...
-
-> --- a/lib/string_helpers.c
-> +++ b/lib/string_helpers.c
-> @@ -19,11 +19,17 @@
->  #include <linux/string.h>
->  #include <linux/string_helpers.h>
+> ...
 >
-> +enum string_size_units {
-> +       STRING_UNITS_10,        /* use powers of 10^3 (standard SI) */
-> +       STRING_UNITS_2,         /* use binary powers of 2^10 */
-> +};
+> You can move the below under --- cutter, so it won't pollute the git hist=
+ory.
+>
+> > Cc: Andy Shevchenko <andy@kernel.org>
+> > Cc: Michael Ellerman <mpe@ellerman.id.au>
+> > Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+> > Cc: Paul Mackerras <paulus@samba.org>
+> > Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> > Cc: Jason Wang <jasowang@redhat.com>
+> > Cc: "Noralf Tr=C3=B8nnes" <noralf@tronnes.org>
+> > Cc: Jens Axboe <axboe@kernel.dk>
+> > ---
+>
+> ...
+>
+> > --- a/include/linux/string_helpers.h
+> > +++ b/include/linux/string_helpers.h
+> > @@ -17,14 +17,13 @@ static inline bool string_is_terminated(const char =
+*s, int len)
+>
+> ...
+>
+> > -/* Descriptions of the types of units to
+> > - * print in */
+> > -enum string_size_units {
+> > -       STRING_UNITS_10,        /* use powers of 10^3 (standard SI) */
+> > -       STRING_UNITS_2,         /* use binary powers of 2^10 */
+> > +enum string_size_flags {
+> > +       STRING_SIZE_BASE2       =3D (1 << 0),
+> > +       STRING_SIZE_NOSPACE     =3D (1 << 1),
+> > +       STRING_SIZE_NOBYTES     =3D (1 << 2),
+> >  };
+>
+> Do not kill documentation, I already said that. Or i.o.w. document this.
+> Also the _SIZE is ambigous (if you don't want UNITS, use SIZE_FORMAT.
+>
+> Also why did you kill BASE10 here? (see below as well)
+>
+> ...
+>
+> > --- a/lib/string_helpers.c
+> > +++ b/lib/string_helpers.c
+> > @@ -19,11 +19,17 @@
+> >  #include <linux/string.h>
+> >  #include <linux/string_helpers.h>
+> >
+> > +enum string_size_units {
+> > +       STRING_UNITS_10,        /* use powers of 10^3 (standard SI) */
+> > +       STRING_UNITS_2,         /* use binary powers of 2^10 */
+> > +};
+>
+> Why do we need this duplication?
+>
+> ...
+>
+> > +       enum string_size_units units =3D flags & flags & STRING_SIZE_BA=
+SE2
+> > +               ? STRING_UNITS_2 : STRING_UNITS_10;
+>
+> Double flags check is redundant.
 
-Why do we need this duplication?
 
-...
-
-> +       enum string_size_units units =3D flags & flags & STRING_SIZE_BASE=
-2
-> +               ? STRING_UNITS_2 : STRING_UNITS_10;
-
-Double flags check is redundant.
 
 --=20
 With Best Regards,
@@ -270,5 +280,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAHp75Vek3DEYLHnpUDBo_bYSd-ksN_66%3DLQ5s0Z%2BEhnNvhybpw%40mail.gm=
+kasan-dev/CAHp75VcftSPtAjOH-96wdyVhAYWAbOzZtfgm6J2Vwt1%3D-QTb%3DQ%40mail.gm=
 ail.com.
