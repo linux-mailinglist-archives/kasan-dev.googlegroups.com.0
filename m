@@ -1,161 +1,131 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBZVZXGXAMGQELD3VUTA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDV2D5O34IDRBYV7XGXAMGQERQGWARY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x639.google.com (mail-pl1-x639.google.com [IPv6:2607:f8b0:4864:20::639])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379F2856D19
-	for <lists+kasan-dev@lfdr.de>; Thu, 15 Feb 2024 19:50:16 +0100 (CET)
-Received: by mail-pl1-x639.google.com with SMTP id d9443c01a7336-1d932efabe2sf206005ad.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 15 Feb 2024 10:50:16 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1708023014; cv=pass;
+Received: from mail-ot1-x340.google.com (mail-ot1-x340.google.com [IPv6:2607:f8b0:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67CE9856D41
+	for <lists+kasan-dev@lfdr.de>; Thu, 15 Feb 2024 20:03:00 +0100 (CET)
+Received: by mail-ot1-x340.google.com with SMTP id 46e09a7af769-6e2f6c90d6fsf1253167a34.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 15 Feb 2024 11:03:00 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708023779; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jpJiUETwOsiLYnHPaLHYD7nhInkJzRFnANQfgnB2IC+QnXsCbvbe8NBXguoGZ55E+W
-         vAXbGRx7PQ58fsi6zjXcr0O6ZGOvP0fHXNYsiYbiJiaudsy/3WM8lkL2C7zR4pTZ2dVa
-         xLASem+qomC536sPvPnTe2yFodLFCphzKUShjpZO72rbENziW3la39+0VBuX+vh83GT+
-         ciOSlPj/OYH7lkHSSi8WrwGNIktbwCos8yTYPyCp0ACkJCzAWi/KcZY7ptaDDRCIBalG
-         g9KRh/4GYR+jqSmnbiyq7BqMHKh+yZ49MwUvatBbHEKAOfdyLUUVAxlDGW/QCZwvQGIL
-         iyfA==
+        b=Qvro94+11QM1kPLu8CDpuuvroW3K7eSSNMftJqFKmAugrnZG5xW4GL4fUwgwV2lZ+3
+         tupS8OQp40hU87V0hBn4NwKujBzSmZ3ykU5SQc0G1xGSvhRqSVjIwNqqnVGvaYhZw3K+
+         mO+jKnCh/fPfIGAWpO4nqjtoyPbs+qBffTYhMbeW8xhm8BE4K+/SuVU+z9fKjBOx3mXK
+         1W8YKAH+qd+/h4keWapSv7cd1VdSNbc3oasNcB/aoxQgmb8QJNZNy7MSDPYEOIYzP6zq
+         8K/TYNgdjv/j40v6eoCTsBAp0D9qlbaqWT14hbi1Dokl3BOEVIy8GRsj7k2ob3Mvvw37
+         RFhA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=N11cOcAoirOetqfW2tjKL75GDTBHr6gCE5w54Gn6yOI=;
-        fh=XsZe2jjZyTbHir486YxgXmzu0mRtdXHowjzNTmmgW6U=;
-        b=DljGp/zsWQjxOzewC01cqO8STW6Pjrg8LVwh3Vc8q4DkwjcOg4brFgmkgpWltFKxry
-         gsOmBBpnQZ/PyRWLI+uKB0X4C09oRCgNEQfZYHTG1unafnmVBsB+nV8SX1h/3Maj3KPh
-         FHKATeaFG+DtVqqUWCvO5d9ATt2j55kwXWePprgbjCOHb7+wHGpToWkx/SIk10Zlb1/b
-         Rnng/1lVVaH67pzMAknuyEf75OHMpVv3YjAWJH6LYirgzvZY1B4tM5CQYrXEAj3AHuMd
-         Z3ovvbb/irNenmSKKTkVEHipJyAk+G83sk6rYhte8Erv4+RZ9M5oLBrqmOthkFPVWdXm
-         hU+A==;
+         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=xKvF6aM76UhKOy4PKRtrRjnHkSkxoJMjN3hw+3wguRM=;
+        fh=sqdtKIoV5nraT675nMcmEkTLB0LANmFG16SYoUzGIYg=;
+        b=0x6tPyWL/3zdd0x/T87xuTSsRV7AQjzTiwnkLE8tkUrm9vxFCMLlnKYp+OfXzCV0Yp
+         Tux+wsbceTRGk0WdxbVrJRQhB83b55/oHq1m9Az0fRlN8rIYZwML18Hel/p1LzprtmdW
+         Ynonoj2xBfrBZ2xrMCbL/NrxGOlCz8sRZBDjPzunwmgxQfR3Bdc/VK41ZBwh8jJ3yWld
+         HIO6DcwgdC2JTh4lFx3MumhTEKm3ns3AyUa+4ZY8p2xjvDphrKOMj3fJaxMURw/6+H/w
+         9N0IvClOzDwyhmvYPo0q4AqXbRZlZ8HJhYT7t6ZKrJBvbCXWj4gq/H3c5btm8OmWwCBn
+         XGvA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=YrseHBMI;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b="wJF/rbQj";
+       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=rdunlap@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708023014; x=1708627814; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708023779; x=1708628579; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N11cOcAoirOetqfW2tjKL75GDTBHr6gCE5w54Gn6yOI=;
-        b=WzJqOBwxFVzCxekwb0mmCY71HfjqD8prgl8kihkKOKrkSd1lp+EL+5aS4HXatH6GRy
-         THf7SK/PevoTA9knQKE6YRYw53A3vyk3nT3tPQWNhVXmDtpxcRvrV/af1+a+5ikV0eDk
-         Zb3QsmFKWflQxicmVrra/+hcuB3z4M09qq+LII6EZG0ijb5oEBbT+b4Tk2uGQ8hEERfG
-         S6vg8GgHFz51jDtJtqP6PHrmD9aQdFjhOzMj7fTfdJNkr2/aum3ZyLS6C2HzcsZnmGvj
-         AFTsRVDi5NV6Ooy4ELtWNSn78IFnD2zTmfWhxVM+3iQIfvZ528pjK/V9JYsbmNNSGW8S
-         zu+A==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=xKvF6aM76UhKOy4PKRtrRjnHkSkxoJMjN3hw+3wguRM=;
+        b=jnicuBlNJQks2ifcR105ZCNUmmTupelOHgM+o8WxeAnDIGQ6+yHagGLi+o7vf+WeZ7
+         N9CgM6X1xqm95TIaVu4I4POcjrtGWKkaPFZQ0DlNlEOOokRz2kqmhf55zfMAfhQ8xTQC
+         yexGUlrAuLgQDitQoIY7v4Rdg2E1zoWNn8WOkdq77dQB5m5+Copfne5PeqA3JnLjFb/k
+         2X9M8gbsVI9tQPjU2do5a8ZJkYp54gftZitaFMAeSAbgm+ahHZUdMqrpe9uQyzl50fzD
+         RuCLqKl6xuZzTO5kTLBeHNJ6iNuvT/v00k5OlwNSPafc0jnchETHLnEfQT+ktkb+thme
+         8TCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708023014; x=1708627814;
+        d=1e100.net; s=20230601; t=1708023779; x=1708628579;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=N11cOcAoirOetqfW2tjKL75GDTBHr6gCE5w54Gn6yOI=;
-        b=miorSFMUVi80F5OAcc4ooTbmPiYGErJNSSwWO28vs5rBokxGT6Gfijpo/t65o6z/SO
-         sQIgwhNd3aDavrBBWoMpPranHoiy8GpgLy8rh1YmBj1gnoRAQAx4p2JyIwQ0XJlJdEEd
-         pbUnrDeoWsMA10YCTMYsldEGqSeHNOLMt6XFQAXosY0KjK0uhznbiC292UfLRcTJ/Asy
-         BjK3Oonmv0/+qrAPV1dRKOTpr+8icujEW3hAEM88hEVxhaHyROI2DrDGRxObKJ/DnAr1
-         wbbPmre0iRTYQrP9UQHThq2QW0BEmtrRsGqRUy5/xiNKiA0EzTqOUX/XZ6dKqHLQKWzh
-         JY2w==
-X-Forwarded-Encrypted: i=2; AJvYcCVvB+WWYZPLEAJ681Ug8Sd+2WXF+zyGlwfjlz69eBNsE2QEH1MCv3LGO67NAr4JDvkG0lyX8sMo8O+xK7Vs1GsQHLBalTg5rw==
-X-Gm-Message-State: AOJu0YyEcqbAES9emwBlQSOXwKynTe7KUxhuIasKrdj+o55U/CnP23AH
-	dXxZrj6vQdx87LTy/TpT5pqtAH9l/XWGJNbx+q87B5XEjhLnai+W
-X-Google-Smtp-Source: AGHT+IHORnpPlKGJmOPIuLGMvG2U8IA2tgUcUFyJqPVxfFuUrAxhnwr4EL88X1fI9p/NyI2P+fGQpQ==
-X-Received: by 2002:a17:903:88e:b0:1db:9a8d:a598 with SMTP id kt14-20020a170903088e00b001db9a8da598mr29650plb.27.1708023014417;
-        Thu, 15 Feb 2024 10:50:14 -0800 (PST)
+        bh=xKvF6aM76UhKOy4PKRtrRjnHkSkxoJMjN3hw+3wguRM=;
+        b=uirWodQPG/Vs9h5OcYtb6z8K3xMCHTlEfpscduLOxCpNhTKQHuTpihQWyydhM2iDK4
+         PPp9yFoOukS5VQK41tIXf4X58wRaxhXys3bbXCNGaiizWyOjJMpp2sdMP73eU5i6Foad
+         p3kkAt37qmRr/0eZVpi0PAb3mJXghhOBM+lzauZq3O+1uTwALvWO6fhGboUgbebOvudg
+         SMVj0K5H6Dh01AtohLTXVGD7W42f0E/SIC7q6InsmCvhqpZRZlxowWUAmrCrHPvCK5Uh
+         VO6u24KbjkWHwSo0LST9s5/qNCBCH1v/8FtRbSWRHoZR+kldolaka5P2lgTBnLPgbKbY
+         iecQ==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCWAAVd9/UV0uU5kZOFmmlCPwQX714kKuzJzJgCLhJ6Xiqov4Z7XqQNngTrIinuTZqVBiZyYDc61DaiyZdHbaog6GHtYDTjEsQ==
+X-Gm-Message-State: AOJu0YzQp5Ao2rap7Z8noB89S6WWlOSZHx2QischaHkkGyW5i7ndy20/
+	Ai8oC2/nvuVnlKshhYurpYw9ovyHwCkTsLc1fNbslQc4XgKwWqOY
+X-Google-Smtp-Source: AGHT+IHZ724RkXL2m6kSUckYRalTzqs7U9h4I47xw1YwTnyyeziRP/dC9OuK9OMiq+7X0wcIoO+Btg==
+X-Received: by 2002:a9d:6a02:0:b0:6e2:ebfd:4b26 with SMTP id g2-20020a9d6a02000000b006e2ebfd4b26mr2926904otn.20.1708023778928;
+        Thu, 15 Feb 2024 11:02:58 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:5742:0:b0:598:fb75:89d6 with SMTP id u63-20020a4a5742000000b00598fb7589d6ls19323ooa.0.-pod-prod-00-us;
- Thu, 15 Feb 2024 10:50:13 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVJ4QXFbF7JWNcF7KvLDSbKSsMsRgbBLN/2/B6t+gr9Pv24gxowC2AkbPTCNAMOBU8GUYEP9vQN+NaMwyqPM2vE6Qhz/FoDtN0mnA==
-X-Received: by 2002:a05:6870:9710:b0:21e:5c6b:af5c with SMTP id n16-20020a056870971000b0021e5c6baf5cmr95018oaq.10.1708023013463;
-        Thu, 15 Feb 2024 10:50:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1708023013; cv=none;
+Received: by 2002:a4a:58d0:0:b0:59a:12bd:cc06 with SMTP id f199-20020a4a58d0000000b0059a12bdcc06ls56070oob.2.-pod-prod-09-us;
+ Thu, 15 Feb 2024 11:02:58 -0800 (PST)
+X-Received: by 2002:a05:6830:18d1:b0:6e2:dbaf:11c7 with SMTP id v17-20020a05683018d100b006e2dbaf11c7mr2853772ote.8.1708023777988;
+        Thu, 15 Feb 2024 11:02:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1708023777; cv=none;
         d=google.com; s=arc-20160816;
-        b=p0RuIYCujPFxHRlMM+GmNgrTMWOnNlkiW1cVjLgE7M2crrkSy0ArJFUmB6aKVUVsn/
-         S+CuKOE18F6srjaG5lAVupCYs520LD4X5EaUWUV4uOCftMHHzmG2iGp+7qmJVooRYc/t
-         WLbgi2/V5yxRPDuIky1WRKbMis4yYQ4X2Bw05MY8gupbXZ0Rob6PDbtNKaYwuqi7fLuI
-         pbHVekwcQhaIX79bPUBHOnzYcvjAodcFHGEwHQntIXWgYit97PHX+NkDuRLXpQkBxCTA
-         Q2wr4/HwbXR1sQ4jK7xnxOl0qusWX7E+naz0T+4YBBl8BGkD3zhPLyWdmYWDEdTI8LAe
-         eXTw==
+        b=L2EqD6S9WzMSVy/ERLkmPu6Mc71xzh1dLoAv72i7GkPJFMMmEPCwYPPJIzWfCJVQup
+         M6UkdpYIpdJowTn5CM4CXtqqMTqcTRTRyNSOQWeVOa/nD4EzQG7OnRnAM5n5gSEjjwx9
+         JcTIrasmNHbBsYnyEBnSY23fqKcEZ5xP5VUZ9+ADhYj+zRwX2q9AIhPk4R9w4fDHMY0+
+         6ZvS9T//YhAY/gfoJ7coBVeL7Qe+dqscfvVYDlIyV3NRys8uhRwAfoKNSEbOOrHd3LNw
+         TqZpcuJtdpX7UUlBX+y5nI3iHnVLEMZkKtX3lufDZmYP6lvmZmQ2tPmGOiB34JM34gt+
+         sQOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=WUlsSeO8LefyO4xLZYNJ9jNHAOJrLbOdsT9pDfMZXA8=;
-        fh=7KfM0HcUReYYpfN36kcP7RKD0kDMXM/9UreuMWixIgo=;
-        b=g+2aa4lW9dgPNNpjMNRXsIQKdCFkLJ/1JbvCC3/1ehr0769Ru3Dzu/Lyy+5TL/fZqA
-         VegEcGpfKRQyNgyVp+vKVeRP6A4T5C+1l5y93cSPHUJG4HPEPgcztDgbSJEq9mduWHVz
-         dO/StAu+3l2b283ctwM75wfSGfpb1DP19lVuB3slzbqavhWeCOEoqzHJMKe61KEfPsoa
-         Ms+PMCXAjAri98H2mj6T5AIKoJ1EkRzByFudsdMWmQQTUiASJeCDB60vDZbGeDBk6uRM
-         OLR4QF+JBmizkA1KMfM2DRsWo++MzJfYGnaI5XaBoPptrgVYelqvISZmXac56+/RLfcM
-         3yFw==;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=gdINLcaBB47zjBU/4s1ytJ3Urnla7jYI4l5DT0ooHEU=;
+        fh=wfS3jg8SXFy2pbqUAYLh1a2apKmv2yehWEW/l6O0BXI=;
+        b=r0oWplB2TLKyP7WY8NuwgiJCYBNAHVXSxD1ph0ZZ9n6Q07+jwCXuwYmOhzoKctxxGo
+         b9uG9I8SW3WVX6oz4PorPliZTWjGbOkTMOelpSuzIrl1AT3AAK7Z3uHAEpMJDnvWWr9A
+         AZAK+IaMHPS0P4rUHEJ8aXhLGwwzc5JdAtcEcxuckpXU3fwaKWXdiJ2kBEG/DcD9GYft
+         GSfW6QL+ivOcvv8FumAMenTg78OT4CQb+3KEm4VpW1+oqUPexKpMquI1dg+ufKnxMHRr
+         Gr27xBl8oFYRvHdHTKno2gvz4FVjiVNJRqZM+wPhc9rm0gUhzXQ/HgyvN8ahUJO7n+7c
+         t8+w==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=YrseHBMI;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com. [2607:f8b0:4864:20::b33])
-        by gmr-mx.google.com with ESMTPS id i14-20020a056871028e00b0021a216d3a62si142696oae.5.2024.02.15.10.50.13
+       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b="wJF/rbQj";
+       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=rdunlap@infradead.org
+Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:3::133])
+        by gmr-mx.google.com with ESMTPS id f5-20020a056830204500b006e2e0db4a09si151077otp.3.2024.02.15.11.02.57
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Feb 2024 10:50:13 -0800 (PST)
-Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b33 as permitted sender) client-ip=2607:f8b0:4864:20::b33;
-Received: by mail-yb1-xb33.google.com with SMTP id 3f1490d57ef6-dc6cbe1ac75so956528276.1
-        for <kasan-dev@googlegroups.com>; Thu, 15 Feb 2024 10:50:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUtJZMicI3dgr9clcxE4kAgMEafWTvWnmRiPuzpZWE4i0XQxC46pTINsqZcP+XxKXi1g4dsam8LUiApvkjpWsB1LOiThpDaSOT7rA==
-X-Received: by 2002:a25:ae28:0:b0:dc2:4fff:75ee with SMTP id
- a40-20020a25ae28000000b00dc24fff75eemr1999749ybj.3.1708023012635; Thu, 15 Feb
- 2024 10:50:12 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Feb 2024 11:02:57 -0800 (PST)
+Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2607:7c80:54:3::133;
+Received: from [50.53.50.0] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1rah0W-0000000HRTc-0sMR;
+	Thu, 15 Feb 2024 19:02:52 +0000
+Message-ID: <8030a0b6-0816-4313-bf70-aa602fc1a871@infradead.org>
+Date: Thu, 15 Feb 2024 11:02:51 -0800
 MIME-Version: 1.0
-References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-32-surenb@google.com>
- <Zc3X8XlnrZmh2mgN@tiehlicka> <CAJuCfpHc2ee_V6SGAc_31O_ikjGGNivhdSG+2XNcc9vVmzO-9g@mail.gmail.com>
- <Zc4_i_ED6qjGDmhR@tiehlicka> <CAJuCfpHq3N0h6dGieHxD6Au+qs=iKAifFrHAMxTsHTcDrOwSQA@mail.gmail.com>
- <ruxvgrm3scv7zfjzbq22on7tj2fjouydzk33k7m2kukm2n6uuw@meusbsciwuut> <Zc5a8MsJyt27jeJC@tiehlicka>
-In-Reply-To: <Zc5a8MsJyt27jeJC@tiehlicka>
-From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 15 Feb 2024 10:49:59 -0800
-Message-ID: <CAJuCfpH2EF8DZhBp_7324ka7mnMkUdWyqTs+ZiMhwjm_nmcwZQ@mail.gmail.com>
-Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in show_mem()
-To: Michal Hocko <mhocko@suse.com>
-Cc: Kent Overstreet <kent.overstreet@linux.dev>, akpm@linux-foundation.org, vbabka@suse.cz, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	corbet@lwn.net, void@manifault.com, peterz@infradead.org, 
-	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] kasan: Add documentation for CONFIG_KASAN_EXTRA_INFO
+Content-Language: en-US
+To: Juntong Deng <juntong.deng@outlook.com>, ryabinin.a.a@gmail.com,
+ glider@google.com, andreyknvl@gmail.com, dvyukov@google.com,
+ vincenzo.frascino@arm.com, corbet@lwn.net
+Cc: kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <AM6PR03MB58480786BBA03365CE454CDB994D2@AM6PR03MB5848.eurprd03.prod.outlook.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <AM6PR03MB58480786BBA03365CE454CDB994D2@AM6PR03MB5848.eurprd03.prod.outlook.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: surenb@google.com
+X-Original-Sender: rdunlap@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=YrseHBMI;       spf=pass
- (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b33 as
- permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Suren Baghdasaryan <surenb@google.com>
-Reply-To: Suren Baghdasaryan <surenb@google.com>
+ header.i=@infradead.org header.s=bombadil.20210309 header.b="wJF/rbQj";
+       spf=none (google.com: infradead.org does not designate permitted sender
+ hosts) smtp.mailfrom=rdunlap@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -168,83 +138,61 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Feb 15, 2024 at 10:41=E2=80=AFAM Michal Hocko <mhocko@suse.com> wro=
-te:
->
-> On Thu 15-02-24 13:29:40, Kent Overstreet wrote:
-> > On Thu, Feb 15, 2024 at 08:47:59AM -0800, Suren Baghdasaryan wrote:
-> > > On Thu, Feb 15, 2024 at 8:45=E2=80=AFAM Michal Hocko <mhocko@suse.com=
-> wrote:
-> > > >
-> > > > On Thu 15-02-24 06:58:42, Suren Baghdasaryan wrote:
-> > > > > On Thu, Feb 15, 2024 at 1:22=E2=80=AFAM Michal Hocko <mhocko@suse=
-.com> wrote:
-> > > > > >
-> > > > > > On Mon 12-02-24 13:39:17, Suren Baghdasaryan wrote:
-> > > > > > [...]
-> > > > > > > @@ -423,4 +424,18 @@ void __show_mem(unsigned int filter, nod=
-emask_t *nodemask, int max_zone_idx)
-> > > > > > >  #ifdef CONFIG_MEMORY_FAILURE
-> > > > > > >       printk("%lu pages hwpoisoned\n", atomic_long_read(&num_=
-poisoned_pages));
-> > > > > > >  #endif
-> > > > > > > +#ifdef CONFIG_MEM_ALLOC_PROFILING
-> > > > > > > +     {
-> > > > > > > +             struct seq_buf s;
-> > > > > > > +             char *buf =3D kmalloc(4096, GFP_ATOMIC);
-> > > > > > > +
-> > > > > > > +             if (buf) {
-> > > > > > > +                     printk("Memory allocations:\n");
-> > > > > > > +                     seq_buf_init(&s, buf, 4096);
-> > > > > > > +                     alloc_tags_show_mem_report(&s);
-> > > > > > > +                     printk("%s", buf);
-> > > > > > > +                     kfree(buf);
-> > > > > > > +             }
-> > > > > > > +     }
-> > > > > > > +#endif
-> > > > > >
-> > > > > > I am pretty sure I have already objected to this. Memory alloca=
-tions in
-> > > > > > the oom path are simply no go unless there is absolutely no oth=
-er way
-> > > > > > around that. In this case the buffer could be preallocated.
-> > > > >
-> > > > > Good point. We will change this to a smaller buffer allocated on =
-the
-> > > > > stack and will print records one-by-one. Thanks!
-> > > >
-> > > > __show_mem could be called with a very deep call chains. A single
-> > > > pre-allocated buffer should just do ok.
-> > >
-> > > Ack. Will do.
-> >
-> > No, we're not going to permanently burn 4k here.
-> >
-> > It's completely fine if the allocation fails, there's nothing "unsafe"
-> > about doing a GFP_ATOMIC allocation here.
->
-> Nobody is talking about safety. This is just a wrong thing to do when
-> you are likely under OOM situation. This is a situation when you
-> GFP_ATOMIC allocation is _likely_ to fail. Yes, yes you will get some
-> additional memory reservers head room, but you shouldn't rely on that
-> because that will make the output unreliable. Not something you want in
-> situation when you really want to know that information.
->
-> More over you do not need to preallocate a full page.
+Hi--
 
-Folks, please stop arguing about it. We have more important things to
-do. I'll fix it to use a small preallocated buffer.
+On 2/15/24 10:43, Juntong Deng wrote:
+> This patch adds CONFIG_KASAN_EXTRA_INFO introduction information to
+> KASAN documentation.
+> 
+> Signed-off-by: Juntong Deng <juntong.deng@outlook.com>
+> ---
+>  Documentation/dev-tools/kasan.rst | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+> 
+> diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/kasan.rst
+> index a5a6dbe9029f..3dc48b08cf71 100644
+> --- a/Documentation/dev-tools/kasan.rst
+> +++ b/Documentation/dev-tools/kasan.rst
+> @@ -277,6 +277,27 @@ traces point to places in code that interacted with the object but that are not
+>  directly present in the bad access stack trace. Currently, this includes
+>  call_rcu() and workqueue queuing.
+>  
+> +CONFIG_KASAN_EXTRA_INFO
+> +~~~~~~~~~~~~~~~~~~~~~~~
+> +
 
->
-> --
-> Michal Hocko
-> SUSE Labs
+Fix punctuation (run-on sentence):
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAJuCfpH2EF8DZhBp_7324ka7mnMkUdWyqTs%2BZiMhwjm_nmcwZQ%40mail.gmai=
-l.com.
+> +Enabling CONFIG_KASAN_EXTRA_INFO allows KASAN to record and report more
+> +information, the extra information currently supported is the CPU number and
+
+   information. The
+
+> +timestamp at allocation and free. More information can help find the cause of
+> +the bug and correlate the error with other system events, at the cost of using
+> +extra memory to record more information (more cost details in the help text of
+> +CONFIG_KASAN_EXTRA_INFO).
+> +
+> +Here is the report with CONFIG_KASAN_EXTRA_INFO enabled (only the
+> +different parts are shown)::
+> +
+> +    ==================================================================
+> +    ...
+> +    Allocated by task 134 on cpu 5 at 229.133855s:
+> +    ...
+> +    Freed by task 136 on cpu 3 at 230.199335s:
+> +    ...
+> +    ==================================================================
+> +
+>  Implementation details
+>  ----------------------
+>  
+
+thanks.
+-- 
+#Randy
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8030a0b6-0816-4313-bf70-aa602fc1a871%40infradead.org.
