@@ -1,162 +1,164 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBZ6JXSXAMGQEJ6ZLRBI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCS5BWNH3ENRBC6MXSXAMGQEO3KBM7Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3e.google.com (mail-oo1-xc3e.google.com [IPv6:2607:f8b0:4864:20::c3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379E185785B
-	for <lists+kasan-dev@lfdr.de>; Fri, 16 Feb 2024 10:03:37 +0100 (CET)
-Received: by mail-oo1-xc3e.google.com with SMTP id 006d021491bc7-5952618dad5sf1952205eaf.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 16 Feb 2024 01:03:37 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1708074216; cv=pass;
+Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4EA857889
+	for <lists+kasan-dev@lfdr.de>; Fri, 16 Feb 2024 10:08:28 +0100 (CET)
+Received: by mail-il1-x138.google.com with SMTP id e9e14a558f8ab-362cfc117ecsf96335ab.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 16 Feb 2024 01:08:28 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708074507; cv=pass;
         d=google.com; s=arc-20160816;
-        b=zHsjeJd8XluLC9y99RMBZ2AprDmACUYFqI0ejcuejeUPymMpbp8MQkL2DZkZOWw85c
-         JZrnua7yFTlXzkCAxszlbSQzMxXJIBV7SnJw0Syr7u+XBLRjV5pYWDnMXApJRzeiYfj4
-         GlOnC18SsidrMEIg1HIBI/6I54jgAPCcL7MReFT/OotraGvVylfQGwiy1N7lJRkAX7YU
-         jjj3Zs7lb2hDotb6NEpqMxzRgFGjeJkhICiHxUkex5sj9QpO7gwV0MzduCRmpkUayMvk
-         HRiBYcsbqIECRBwj1dX+fHvvAskQ4cewZMPmpqoHlFoBL9JygXyt21Dt7E7JiVQtn667
-         w9DA==
+        b=N3ZFdLmjgEo4T+3pbnqpg7J8pVspsXL5msaoqL+pJ0PFY+Uo0ZJ17fkSoKQxCAbCDf
+         1DV/PEmwB9TyjGsPlU+ki+u/CfNlxhpiq+0BpDmCJ3y08Wi5x6OYXWJ62WCI5Dk9vQka
+         c5TWw9DqSDzrq7Ap6i768KjcPcWjm0mkFcJBf9T4oSE2Wp+8wx3WP8PuL6TOciMar+0a
+         EqOYnorbh6bAOPJZ1gpbGbbMd7iJkjIxiNRbnWZXsxJPJIbbE5c/YgNIMsO9xq83uo3B
+         inLBJZxCVdpUmM/55x1BHXzZFy3GUrzLyonww7R5yr8oc2asnSQrW4kCfcMIfTpOO2i8
+         e2xg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=1W+4a6WuBzhYFgNDPtOGGxWAIFWocnbnyg3/xfrNGRg=;
-        fh=5fIMGJQ3A7k9J/fjb6YP97XOwSjzjSBZcivz/EPNMys=;
-        b=ql2E9v2tC3v1esvjAToH3LyxmZGePIuB5sRTJeA1q2uJTBHtv5xDenfjMSsyMhalWe
-         87jPyI0d+/1ago66nwBFAfPp78Rii9rstFaRUeTZ2BnaLEWFnpam8GVNr6JQsp0QyE1Z
-         CPyRSGpihnhYWTzWOhaQDbL8rEwNWIHe79VeaorKueByPXTJ7xBFFfBEWlqkgShl2Qd2
-         MK4YN9E2IdABFg5XcEGzv6aiE/LyOawL4SDEKThlXEhN2wR5JLXZAlWNGozDO1b6dwGD
-         F1nkeImDNWlf1oYwUzUYZ69h+2Jebmsuj0iY+lRGevTtooV3nh7c0Q9mL93/Uy4MOR12
-         oacg==;
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:organization:in-reply-to:subject:cc:to:from:sender
+         :dkim-signature;
+        bh=ciVnFjztnNfTasUsUAPKMTuDhaYLI0Q+QuXtiOpTROc=;
+        fh=UoZYWn0dAbpCUQXdFnd5RO10b4io9WgZ9qSZsNXvco0=;
+        b=h+JVA+twT3UJiu6O0E8rwkSnhUq7SXHbtSDtWcQ65bajr1pP8ifN3MJluaj1KhwW+w
+         LZlVeMOWVo8L5KqqxDb6cEvJ6TMT+vhge9L3g4lKfUH1Ofx99giU5JwX7OyljV9UYJUH
+         zdfyOQ/LyzNuLqUs04YF0ty8tOBTwhMzMS7GNbJxHs+ree78RgeA0srTNXhukQHCNV6z
+         5ePsArGNwpJPG8EQ2VKLq1V6VwKzQZX7gtNbvgBKQlOcDpz+xYdu38jNqcRTiMqlJ9NP
+         prfs2oQJV7gWozMJy+Mm0ydYKVLymsRFxVVIJtc31Nv5nzemKZhd4UqHrppDgMxPYvp3
+         0wHw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=wO9ZUtrG;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2c as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@intel.com header.s=Intel header.b="XMx6/EQZ";
+       spf=pass (google.com: domain of jani.nikula@intel.com designates 192.198.163.7 as permitted sender) smtp.mailfrom=jani.nikula@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708074216; x=1708679016; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708074507; x=1708679307; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1W+4a6WuBzhYFgNDPtOGGxWAIFWocnbnyg3/xfrNGRg=;
-        b=OPYYO8p7OYSTR5+P4U4J6ShbwIlltdpojhz54VKQhDL6kLZOt9RfyOsUj/GXfKFOPU
-         D7EDOqwZ96IzXg4iy6/oDuCMeoQ6Qgw5eEN5hHe1rON8POLOawiR1TyX4abR3tRuG1VY
-         f0yrgykE+GNvX5iYdxr1LWK1+/pK8G37Pe32l0drISkJq1auBExz2VKRWIWj+14oADZs
-         eE+/ktH5AJ/I4UodS1X/3VqnT2JjMTdaY3TW6Ebv0Gl1Y9M7trU63D5MnYMcg8Daso5I
-         UH1YOhpIVxmDRM41uNtqEanXQu16CRG3KnBTlvW37oNzJcFWmDG1HbW50Zh/IREb+lq4
-         UbHw==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:references
+         :organization:in-reply-to:subject:cc:to:from:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ciVnFjztnNfTasUsUAPKMTuDhaYLI0Q+QuXtiOpTROc=;
+        b=my/Jzsn/hpgwtBG/E27WDDElGtnztLmO/9IgS92jAyGny+JzRIvdPgGv+40SCBkJmM
+         AoYorvVCzOfsQv1Xvpf3qDMQ7vA7pCZWw6jXRXqf+LEOxGTJnsEYAJ2UgD0l461TLFj5
+         vmYEvS+y1kaGfsHosIBYazdGtMzUIv9Ju1T+fjh1hxE9oQpgRKjzuD7x7OA+IKR3J0fH
+         w78GibPn9PyL6qf4bsN4rCKhoLwTMF2wn5LtYvYvDfiE0WFT8M+YDrKHv9jsvtnxEy6X
+         hiCnSYnTX/lKN0qrZzHdI4IBeoFK+0xzXMik+o//JPPo1pEcY3BEhhZtyZORFnozSLjG
+         pwnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708074216; x=1708679016;
+        d=1e100.net; s=20230601; t=1708074507; x=1708679307;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1W+4a6WuBzhYFgNDPtOGGxWAIFWocnbnyg3/xfrNGRg=;
-        b=uKNswv21pVJG7GyuLabvn2KvvPz3xjbh3yUdUQflq0WSxBWOZLFKasUwAjEMHBnaMC
-         CGNRDxs2BAFHc4hzDpLI3XW3VlYgzbzebQ66nm8qJ2arY9k4iTA6gls3Ck/LnFI67nz4
-         FEal6N3HYRCu1It5gqrVuAdVtOUNaCcgc8p4PCghEVgW0HnULbjcw55JXnXvrFiKd+x4
-         4oZmcqRfWORfKnezdRxIMllPeiS2jUB4lT46DfFEycOV1tC5KNN94P7JPEydbzJyr44/
-         7owzylq2Za/WMvQoBRwNQ/K6V6+2+nXcAf/e7hMD/vvPpav+hpdtagx+SGyevsoQvUaU
-         z/yw==
-X-Forwarded-Encrypted: i=2; AJvYcCVvz+YArnHyks0befTaWr+RMDVIntC520sl3mwitbHzqDK2IbNWD/o70zSwDA2QumjhIRhGZnXDJFOeLG+9QfQL6X4h/1Pu7g==
-X-Gm-Message-State: AOJu0YzaUjKepVL0chzGVW87THmh9Rd6DrAMjTvUzCfvMpmstGD+ou/M
-	ReB6wkHr6U4c9U0o05aXZMbuUNCz88y+6KiBbFgbGTwfY+VAHIFpuvc=
-X-Google-Smtp-Source: AGHT+IHCF3RfB65DBaDNlgS8WRiRWiGVdTdTSeca9p+8qZeuYzWU/LDVhvcub9rQ/GI8Dud+FF624w==
-X-Received: by 2002:a4a:b78b:0:b0:59f:8466:5748 with SMTP id a11-20020a4ab78b000000b0059f84665748mr3864311oop.0.1708074215910;
-        Fri, 16 Feb 2024 01:03:35 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:references:organization:in-reply-to:subject:cc:to
+         :from:x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ciVnFjztnNfTasUsUAPKMTuDhaYLI0Q+QuXtiOpTROc=;
+        b=OZkoX+e1HtxIAhBEx/P/EvNPQZAUzyCoYqS7F9NRX80KUWlUVd1cjdcPi74VY/lqtg
+         P6ynCAUJXmDVaD1b5m1WE/Q/ha34MdWyP6nj75IO/9hkZR8Gdv84aMJAXOQ7yrKQyP5T
+         J5eMg3Z+c6uUmllQgAucE+jjnqzFcE2I9nSWrj0I+vOTV1fHtw3Ti+1tbL13zOtZrFHg
+         CD6ibqDhdG7g4jUoYx51x4MWs/oXHydPQbC5v3OpH209tkthrncF1O+Dqv8CMubtWLGM
+         B3awpPzBuTfvpB5I/BL3vQEuKihFcM3FDCduFdR7wrStrDPz7Qx22oTv81vXvQqnsjDy
+         1d9A==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCXXC/0yUcnMyDir6Dy4OOHWwDygXQL0Fx6Fcyw6+9foHOEj19Ydhjcqh5l7w67zmKvVyJFfYzDSSGKL1BXv8YtzuFd/YFL3Gg==
+X-Gm-Message-State: AOJu0YzhywGIx10ZKhHNXfz9iEVsQh58fFdLoEr2IUPdEI40mj/3/dbW
+	PYjpn60yb2IWFH8z0NfPNukQ7wMUSGwum3aoKJLORCdohXMpVIFJ
+X-Google-Smtp-Source: AGHT+IEiWa8fdSP0QSwv41LPMTyl8PMWC1fo/z2vUpWQAKX0m6bckrjrmu9wrDMsa2e5NWlEiRMlcw==
+X-Received: by 2002:a05:6e02:3a83:b0:363:ca7e:908 with SMTP id cr3-20020a056e023a8300b00363ca7e0908mr191156ilb.16.1708074507217;
+        Fri, 16 Feb 2024 01:08:27 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:55d7:0:b0:59c:8811:7841 with SMTP id e206-20020a4a55d7000000b0059c88117841ls592388oob.2.-pod-prod-05-us;
- Fri, 16 Feb 2024 01:03:35 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWqo+gGuXuCeuiCuENYp5k3Wu1ZQbtaEj9LIZasrswXwPEbgkh8xKNC9UnZI8ZQwnbrFJqJHK/gflJlYW2hvNE71M8lxvtYT6JnOA==
-X-Received: by 2002:a05:6808:23cb:b0:3bf:dfa8:5190 with SMTP id bq11-20020a05680823cb00b003bfdfa85190mr4580671oib.10.1708074215186;
-        Fri, 16 Feb 2024 01:03:35 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1708074215; cv=none;
+Received: by 2002:a05:6e02:68c:b0:364:f2cd:ef95 with SMTP id
+ o12-20020a056e02068c00b00364f2cdef95ls381184ils.1.-pod-prod-05-us; Fri, 16
+ Feb 2024 01:08:26 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCW4gWSIyghNGjoS0OGOnSp+UlHamvD3t819wznPyisQYLctn4uXgUoPRnvRFKyu9XfYsSGC8CiwGfysGsNYj4axqir23AVjvTwG+A==
+X-Received: by 2002:a5e:da08:0:b0:7c7:2400:8e67 with SMTP id x8-20020a5eda08000000b007c724008e67mr360771ioj.10.1708074506170;
+        Fri, 16 Feb 2024 01:08:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1708074506; cv=none;
         d=google.com; s=arc-20160816;
-        b=gGIcA2Zd02CZPdmi6Hy4Dl66CHqbEXKx6QMHhfedHBT/2RX//hknwSnIJB6a0tCHIF
-         QaBgxPThWkUae4Xxyhu5GRIy4PHCUOB4WEwQMSIT68L28UAODRkFgeTPTvBuPAgZJyMq
-         BAKL8pBm86V7Edt82vx8UY+rH8dxOiaPqP4UrG0i3V/bfa8nQTvLRw7IwYx0WDMpeac1
-         Dm/Fxmy+9c+PtIAAk462nu/4a6538qoFf1bSCK3mwOgH0ekn2gxWJz6y68K8CBK0vH2b
-         Va2Ug//SuF+uYMTFL34YtcyiEepa6RdC4q0a+s2WcaAGGhsD/oK0qpNNsizWaALiUv4n
-         dFEQ==
+        b=qEtJ/n/Eybw5HAEfojnEHTZjFzGGmt6xClmpb22SFKk1PnNYtCNL+Rl8YBB/knlOQJ
+         wG8yRrMVi6VJVGKae+EhOdCLtJJJ/RcDXqE9dhc2byVh70NJD4LwYimNNYua12yk37yq
+         TVs0in2yrmcc7Q4NYd+uTT8qCoVEXawLI+iFE0m2muTMYaeSrQtpjkaEFqFkCDxedepA
+         0DdX2p3rGQmnymIhpUa4hZrk5ub8X5KMFAWCtUh96y5Zi8QO+WatM7nypBZgdPWuSKR7
+         x5E0/E7QmGWBMTJA1U1NqSd7GqRWaK552LPpUWkXvRwQ2lcJgVnyZlp/aCs+cgxK1+6K
+         sDkQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=GIsEikU4izdqkDoN+ZKv97zMNiSEQemJahB5wDm74LU=;
-        fh=+46uxO8WnjsfQ3e3XyNdytO4co0fKk7bzIAAh/hzjlE=;
-        b=JI1L5wuilznpvmxOsCur0q9XAg7Y4y5wPMKHZW781JSsN4Lj+5y5K56Cnn4CgEE2Uw
-         ObY5Dge7SABKa6I1Fu7bpvlDEyZQJOyCJJjFSmvCoiXixxK+RpSYSM/FSJYICSQZ1g/z
-         jc2yy39YnhW5iqQITwisqtVjIPEisFOL/yxvRF7Ithd6XbCTG8reENXnpeoKqvrLCKhA
-         cVO+jQZKZUD06bc7KefJtjrkuyxMc1toK1bvs88WrTb/5zUE14bocNOEz90gVm5sVROW
-         jOPIEOFaHiNXZs90vynRQ5LT8zIVSGfwYJssC9RNo4jEM7rTVqMhiwpQ3CvWb6KVpQwi
-         eQsg==;
+        h=mime-version:message-id:date:references:organization:in-reply-to
+         :subject:cc:to:from:dkim-signature;
+        bh=T/cmnehpCc4aAlkuHwsyq2PgupB8HJnesuUvtm3GClY=;
+        fh=1qtMbsoHBXeurxioIkUPEnwxSt3xgrZ00XqZJDQFXxc=;
+        b=j3KXpN7dM2Bdb4Blf1cIpGwFIJuCc6kmkacLcVvpKfYP8gvgwFVsyrtEsZ2ObGpPVJ
+         8oN1TKb49dvNU0V86dCmfTsPcDAGFpBOz5H+dxvcUJcPX8yLtSJWPPl08+oBwfFWNvz+
+         NhzB2FyXyeyFdY7ZcCr+YYQ30RGdcQfH2xDmyhZGFGwtVdwznuG8Uz0aRlzYA+pHX4z0
+         E2bpxdUHT2W6K/qx/dZ+tv7/fQgV2n7zywOUs9HIrWbrQ0A2jA/hQgX92wb5qtwoddcj
+         w5PMQyLbIsiiNFcpEKkhd2U3/uRDAthgcrtaD6MAoS86NqLtTKAyCg1i6bEWXg0yUvEv
+         c0FA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=wO9ZUtrG;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2c as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com. [2607:f8b0:4864:20::b2c])
-        by gmr-mx.google.com with ESMTPS id g16-20020a0cf090000000b0068f10446451si148117qvk.7.2024.02.16.01.03.35
+       dkim=pass header.i=@intel.com header.s=Intel header.b="XMx6/EQZ";
+       spf=pass (google.com: domain of jani.nikula@intel.com designates 192.198.163.7 as permitted sender) smtp.mailfrom=jani.nikula@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.7])
+        by gmr-mx.google.com with ESMTPS id w1-20020a056638030100b00473d7d16a89si255126jap.0.2024.02.16.01.08.25
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Feb 2024 01:03:35 -0800 (PST)
-Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2c as permitted sender) client-ip=2607:f8b0:4864:20::b2c;
-Received: by mail-yb1-xb2c.google.com with SMTP id 3f1490d57ef6-dc238cb1b17so1697442276.0
-        for <kasan-dev@googlegroups.com>; Fri, 16 Feb 2024 01:03:35 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUFpDxgYyKJwUe2TLG2nWtsI7kA/uMgXFkDSiW8cqQMEQ6yiU3Y7RsDZ24YDPilVDSeKjS8S68K5X+a2rpt3bsaijphDCf081TQOA==
-X-Received: by 2002:a05:6902:200b:b0:dcb:be59:25e1 with SMTP id
- dh11-20020a056902200b00b00dcbbe5925e1mr5215694ybb.30.1708074214367; Fri, 16
- Feb 2024 01:03:34 -0800 (PST)
-MIME-Version: 1.0
-References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-14-surenb@google.com>
- <20240215165438.cd4f849b291c9689a19ba505@linux-foundation.org>
- <wdj72247rptlp4g7dzpvgrt3aupbvinskx3abxnhrxh32bmxvt@pm3d3k6rn7pm>
- <CA+CK2bBod-1FtrWQH89OUhf0QMvTar1btTsE0wfROwiCumA8tg@mail.gmail.com>
- <iqynyf7tiei5xgpxiifzsnj4z6gpazujrisdsrjagt2c6agdfd@th3rlagul4nn> <CAJuCfpHxaCQ_sy0u88EcdkgsV-GX3AbhCaiaRW-DWYFvZK1=Ew@mail.gmail.com>
-In-Reply-To: <CAJuCfpHxaCQ_sy0u88EcdkgsV-GX3AbhCaiaRW-DWYFvZK1=Ew@mail.gmail.com>
-From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 16 Feb 2024 01:03:22 -0800
-Message-ID: <CAJuCfpGbZtUEb+Ay_abmOc=Tc4tuTtLVSK4ANpwvwG_VTAD9-Q@mail.gmail.com>
-Subject: Re: [PATCH v3 13/35] lib: add allocation tagging support for memory
- allocation profiling
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 16 Feb 2024 01:08:25 -0800 (PST)
+Received-SPF: pass (google.com: domain of jani.nikula@intel.com designates 192.198.163.7 as permitted sender) client-ip=192.198.163.7;
+X-IronPort-AV: E=McAfee;i="6600,9927,10985"; a="27650616"
+X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
+   d="scan'208";a="27650616"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 01:08:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.06,164,1705392000"; 
+   d="scan'208";a="8431336"
+Received: from pshishpo-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.48.79])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2024 01:08:02 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
-	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, 
-	liam.howlett@oracle.com, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
-	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, yosryahmed@google.com, yuzhao@google.com, 
-	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
-	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
-	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
-	glider@google.com, elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
+Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
+ mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
+ roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
+ willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net,
+ void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com,
+ catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de,
+ tglx@linutronix.de, mingo@redhat.com, dave.hansen@linux.intel.com,
+ x86@kernel.org, peterx@redhat.com, david@redhat.com, axboe@kernel.dk,
+ mcgrof@kernel.org, masahiroy@kernel.org, nathan@kernel.org,
+ dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+ paulmck@kernel.org, pasha.tatashin@soleen.com, yosryahmed@google.com,
+ yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
+ andreyknvl@gmail.com, keescook@chromium.org, ndesaulniers@google.com,
+ vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com,
+ ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+ rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
+ vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+ iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+ elver@google.com, dvyukov@google.com, shakeelb@google.com,
+ songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
+ minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+ cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 00/35] Memory allocation profiling
+In-Reply-To: <plijmr6acz2cvrfokgc46bt5budre5d5ed3alpapu4gvhkqkmn@55yhfdhigjp3>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20240212213922.783301-1-surenb@google.com>
+ <87sf1s4xef.fsf@intel.com>
+ <plijmr6acz2cvrfokgc46bt5budre5d5ed3alpapu4gvhkqkmn@55yhfdhigjp3>
+Date: Fri, 16 Feb 2024 11:07:59 +0200
+Message-ID: <87jzn44w0g.fsf@intel.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: surenb@google.com
+X-Original-Sender: jani.nikula@linux.intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=wO9ZUtrG;       spf=pass
- (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2c as
- permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Suren Baghdasaryan <surenb@google.com>
-Reply-To: Suren Baghdasaryan <surenb@google.com>
+ header.i=@intel.com header.s=Intel header.b="XMx6/EQZ";       spf=pass
+ (google.com: domain of jani.nikula@intel.com designates 192.198.163.7 as
+ permitted sender) smtp.mailfrom=jani.nikula@intel.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,103 +171,35 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Feb 16, 2024 at 1:02=E2=80=AFAM Suren Baghdasaryan <surenb@google.c=
-om> wrote:
+On Fri, 16 Feb 2024, Kent Overstreet <kent.overstreet@linux.dev> wrote:
+> On Fri, Feb 16, 2024 at 10:38:00AM +0200, Jani Nikula wrote:
+>> I wonder if it wouldn't be too much trouble to write at least a brief
+>> overview document under Documentation/ describing what this is all
+>> about? Even as follow-up. People seeing the patch series have the
+>> benefit of the cover letter and the commit messages, but that's hardly
+>> documentation.
+>> 
+>> We have all these great frameworks and tools but their discoverability
+>> to kernel developers isn't always all that great.
 >
-> On Thu, Feb 15, 2024 at 5:27=E2=80=AFPM Kent Overstreet
-> <kent.overstreet@linux.dev> wrote:
-> >
-> > On Thu, Feb 15, 2024 at 08:22:44PM -0500, Pasha Tatashin wrote:
-> > > On Thu, Feb 15, 2024 at 8:00=E2=80=AFPM Kent Overstreet
-> > > <kent.overstreet@linux.dev> wrote:
-> > > >
-> > > > On Thu, Feb 15, 2024 at 04:54:38PM -0800, Andrew Morton wrote:
-> > > > > On Mon, 12 Feb 2024 13:38:59 -0800 Suren Baghdasaryan <surenb@goo=
-gle.com> wrote:
-> > > > >
-> > > > > > +Example output.
-> > > > > > +
-> > > > > > +::
-> > > > > > +
-> > > > > > +    > cat /proc/allocinfo
-> > > > > > +
-> > > > > > +      153MiB     mm/slub.c:1826 module:slub func:alloc_slab_pa=
-ge
-> > > > > > +     6.08MiB     mm/slab_common.c:950 module:slab_common func:=
-_kmalloc_order
-> > > > > > +     5.09MiB     mm/memcontrol.c:2814 module:memcontrol func:a=
-lloc_slab_obj_exts
-> > > > > > +     4.54MiB     mm/page_alloc.c:5777 module:page_alloc func:a=
-lloc_pages_exact
-> > > > > > +     1.32MiB     include/asm-generic/pgalloc.h:63 module:pgtab=
-le func:__pte_alloc_one
-> > > > >
-> > > > > I don't really like the fancy MiB stuff.  Wouldn't it be better t=
-o just
-> > > > > present the amount of memory in plain old bytes, so people can us=
-e sort
-> > > > > -n on it?
-> > > >
-> > > > They can use sort -h on it; the string_get_size() patch was specifi=
-cally
-> > > > so that we could make the output compatible with sort -h
-> > > >
-> > > > > And it's easier to tell big-from-small at a glance because
-> > > > > big has more digits.
-> > > > >
-> > > > > Also, the first thing any sort of downstream processing of this d=
-ata is
-> > > > > going to have to do is to convert the fancified output back into
-> > > > > plain-old-bytes.  So why not just emit plain-old-bytes?
-> > > > >
-> > > > > If someone wants the fancy output (and nobody does) then that can=
- be
-> > > > > done in userspace.
-> > > >
-> > > > I like simpler, more discoverable tools; e.g. we've got a bunch of
-> > > > interesting stuff in scripts/ but it doesn't get used nearly as muc=
-h -
-> > > > not as accessible as cat'ing a file, definitely not going to be
-> > > > installed by default.
-> > >
-> > > I also prefer plain bytes instead of MiB. A driver developer that
-> > > wants to verify up-to the byte allocations for a new data structure
-> > > that they added is going to be disappointed by the rounded MiB
-> > > numbers.
-> >
-> > That's a fair point.
-> >
-> > > The data contained in this file is not consumable without at least
-> > > "sort -h -r", so why not just output bytes instead?
-> > >
-> > > There is /proc/slabinfo  and there is a slabtop tool.
-> > > For raw /proc/allocinfo we can create an alloctop tool that would
-> > > parse, sort and show data in human readable format based on various
-> > > criteria.
-> > >
-> > > We should also add at the top of this file "allocinfo - version: 1.0"=
-,
-> > > to allow future extensions (i.e. column for proc name).
-> >
-> > How would we feel about exposing two different versions in /proc? It
-> > should be a pretty minimal addition to .text.
-> >
-> > Personally, I hate trying to count long strings digits by eyeball...
+> commit f589b48789de4b8f77bfc70b9f3ab2013c01eaf2
+> Author: Kent Overstreet <kent.overstreet@linux.dev>
+> Date:   Wed Feb 14 01:13:04 2024 -0500
 >
-> Maybe something like this work for everyone then?:
+>     memprofiling: Documentation
+>     
+>     Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 
-s/work/would work
+Thanks! Wasn't part of this series and I wasn't aware it existed.
 
-making too many mistakes. time for bed...
+BR,
+Jani.
 
->
-> 160432128 (153MiB)     mm/slub.c:1826 module:slub func:alloc_slab_page
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAJuCfpGbZtUEb%2BAy_abmOc%3DTc4tuTtLVSK4ANpwvwG_VTAD9-Q%40mail.gm=
-ail.com.
+-- 
+Jani Nikula, Intel
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87jzn44w0g.fsf%40intel.com.
