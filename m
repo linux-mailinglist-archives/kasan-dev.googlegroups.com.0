@@ -1,124 +1,125 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBLOTYWXAMGQES7BD3SY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBROSZKXAMGQESIG6QKI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A8D859402
-	for <lists+kasan-dev@lfdr.de>; Sun, 18 Feb 2024 03:21:35 +0100 (CET)
-Received: by mail-qv1-xf3a.google.com with SMTP id 6a1803df08f44-68c4e69e121sf42504086d6.2
-        for <lists+kasan-dev@lfdr.de>; Sat, 17 Feb 2024 18:21:35 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1708222894; cv=pass;
+Received: from mail-qt1-x83e.google.com (mail-qt1-x83e.google.com [IPv6:2607:f8b0:4864:20::83e])
+	by mail.lfdr.de (Postfix) with ESMTPS id B79F8859A4D
+	for <lists+kasan-dev@lfdr.de>; Mon, 19 Feb 2024 02:05:10 +0100 (CET)
+Received: by mail-qt1-x83e.google.com with SMTP id d75a77b69052e-42db934c1f8sf43888771cf.3
+        for <lists+kasan-dev@lfdr.de>; Sun, 18 Feb 2024 17:05:10 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708304709; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gqDwRHm7gYldlJ2k31J8z4w10C46y2wJ5kbgfXMTI4uzQ3G8pD5ekym5nSoYw7vZb1
-         BvWeF11tkNB3B2DrCgm3kIQ1D/kFENION8iQX7XE9+e/7rDiKfRL5JeJfnW/4851zbE7
-         OZeEIbnNVNQAP/iO0wGUMjNJn+FoQQmU3cMwyy9S/OuS6HqnPZ7oXsx7iiqzaCG8dR+f
-         aS1d/XAalVw9bUh3cj8I0XHeKkZpqmzx9wap9DHKHra+dpALc38i9EngP3m+5Gf/Oucw
-         Ke8m/tzmnQX+gti+otnLg52nYmEewwPADl8CRhQk2Yr7dGiJQ/dAi0AszZxxzU8WNRNk
-         TlGg==
+        b=x8idG51aXVnjvczt6mgc4rdZFoVkfi2QpnSui6Diw3c5wu5M/9g7BbxxxHAvkatejj
+         tBpsnMjRUuIE3pYDjKyOEQ418oPSHH1sIKv+PIugJNUuoR047x/Jr72X+bq7hUstyVeU
+         kK4xdmRWm1GnosBEQPKqfYJdAVbW9ge9IduTkknm8cw4pu7BP35Qn+PfrgiNW9u3j2ED
+         lV/CZNo9siUZnvgdn4F3/wgeW0N2NTf+tC8RAONRme/wCBhDT+2os2ZwV4gzyf8vWTgC
+         ypHO30NtQF+KguX26lLchSNQnY1E4eMQPmX+31k/npqUmpNan9/IYfRW5zw9XUUh2xtx
+         hj4A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=YnutHMD2skd60nnyDAGHBJYaRERvdPWnarcKt6I+zmo=;
-        fh=C+RJm4zhVPiiJO04zLxEuD04nHzWvLnljrt50pkLKrE=;
-        b=inyODI2dDEg+0rVtiSwYKGL1xLJj77C8FwuE+i6484nIF+m0FCD+r6IfmYWHddO8VS
-         FtxEdumculKAx2IPpUJ4Erd4nPAsoJvsWzM0GCUXom+fUQhMsg3EJO7QiEoQnP73tlXR
-         dMZehv5f7PqYxg5VBGyx9l/9H6ackLqpqGUyK4lptdRS1jfiHICVgKugMM2STkSigvSG
-         cKzNZlkakPJQ/MQ9AnRUyaKLWTpnlMc1NVvhecYiCW3wu+IeX8Bvo+1QTpWgu7iKL8no
-         hjSAW7QmdAWtK3exfGc5AGLZSYFWGtr2bzRwkbgs8KTTSbkvrCqUH8QMRqol7vwpnn12
-         /GEw==;
+        bh=wjajXtag0TFnk846wTxT1zcVfYQMaQESsAWUEFgrNgE=;
+        fh=Zhq/tvEGUlA2p0WbLFxAvs+FhA6JjqFqM/Ad6rkS3GI=;
+        b=dzz9Xgej/wpTMeEIyu4gNuhQs+0QJQiJsadNOt7mzbnxy9dQxy5dRxClhXdy6Z07AD
+         cAiuNYS0cFi8cv12AFTbuR+Sq3HvTc7XgfEF+er36EXzgv/5KaG0TVZ0JWZ4+CHYq0fb
+         z2ljnS6/N/Qz3WAXgOUuSjCVnMWeKlEOrTPQRX1xihK7Wxi/KC9TnzJW/pEQ6HGqo0tV
+         cx9IdzsSZjdghFg+eDYy1JpD4ea1lSnnxDxLTOzBT/leHxfGxQgtPKMdhjTS9ataKna7
+         qHGP+BsZP/TkMyYYhqZdwErwD9K3CyXaDUXwnOjhqKO6qBbENjW1JX8fgiQukQx9V1Yr
+         F4fg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=wSyYWYER;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2a as permitted sender) smtp.mailfrom=surenb@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=XRpxe4nZ;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b30 as permitted sender) smtp.mailfrom=surenb@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708222894; x=1708827694; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708304709; x=1708909509; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YnutHMD2skd60nnyDAGHBJYaRERvdPWnarcKt6I+zmo=;
-        b=GxssHUhDXHUZ3Z/L97qCZI3y4g+7FOmX4O/vN5eelvoegRobSisFzJKAAtyJAsGhox
-         kEQflPzDThTr/Iz+9tvF0HSskAGIEKxoyhIJUkCZkqtLzTVvMIbSATpSKPC+n1g67bF+
-         GBJ/LS/IrnLHU2gwfgaTjKhVMIfaQcE3w8Jfk7zDM/zUI+rguhV+VXXg+WYTAzXuMHVh
-         /dcLbXiKzL/i9GwCrqo12r5/FNmairkqMppYgJl8lHO42ho7R8AXwSCc047a6ztsW84g
-         zPQulE9endlB5kTMmbY7vsz8KJq624C/KxyE5UnGrqpbM3gfDNMK/XlHb09sX2toh+gW
-         x4tA==
+        bh=wjajXtag0TFnk846wTxT1zcVfYQMaQESsAWUEFgrNgE=;
+        b=HqrjGy3G2185MYyh5xgi4RMctv39+VQQ7xsPZnN9knJsMy0jWmnBfjZnLDgdLEOzWb
+         brCm6aQGn6SysHb02fbZc7SgovBYQh20LWXSUY78eo/hsay8UwqrbfLMl9Jb3kwdIcD7
+         WMySkgfFNaPoPRM545Bd8cW/o/78BoBzkyulYqo91+EeDM17LGVdRowpUsG7NEzW0bgu
+         IBZRIRgkT1PoLNJa0Eb6N2hdZJE/QeMYRT16x98hpgz6P//srbdGISApIiFYLvVdCsy0
+         WSGAHnwt7rTQdl0Kl/zaEqrF0G6k/HQIKroNx+XdhQn+4F29CD5Ggp7By5M8N0u5f971
+         cUJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708222894; x=1708827694;
+        d=1e100.net; s=20230601; t=1708304709; x=1708909509;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=YnutHMD2skd60nnyDAGHBJYaRERvdPWnarcKt6I+zmo=;
-        b=lD8r8DzWnTd4Me9usWK+EdEfHV8WG/H7mmIDgqM0jinJLiLCpA/nMfmGO/weAidniD
-         z+O8QTnHg2FwI1n7fJVptkwy7QnmQTfUUKMk9rJE1Dx4O64YkXDS4YRIAjlITZZilv50
-         Fg7EzRZbqH3iYOWfVt+1anWKlUsjqBizlJRVFx8v+1dub4xP+uSKtk/GCdK0Bwg3kdGf
-         LZbqkmBdrH92yX6oADwWo82+7W1gGbGB4sEQmfwfy8IEKrts528NFo+jGoHfnczbJ8iT
-         lIeE3S+/tVniF7QdWvIkQkHxinbWxAG+AVHIsKuiokCFLdaFfkW/y9t5so/DgA2loxn6
-         KO0w==
-X-Forwarded-Encrypted: i=2; AJvYcCVxOQOgpsj4dEqoqy47rt8tCVcJJB3vj7kac7XBMlaPmdYZ8XIuSgzH05gYZwY1tfE6NB2Ay0p9E/kSHl8Mh5nqzp4pXCIUaw==
-X-Gm-Message-State: AOJu0YwU7fYhIxU1SpKIWEI3JYSqYM/wu2FaZMaAWq7yNpvhuSOCw1Z7
-	6pE3BvbQU0oqr5zuo+3pD27L4abg5lJVM6lJrz8+9WG8ZAtbbK6p
-X-Google-Smtp-Source: AGHT+IGkMujq8izjZjI6ZAyGDCm6bzWtCfPkF2K3h8LKp69yEWyvwAgqdLXdoiPnO6eTjmkqoZ3/7Q==
-X-Received: by 2002:ac8:58d3:0:b0:42d:f2a1:4e14 with SMTP id u19-20020ac858d3000000b0042df2a14e14mr4625895qta.55.1708222893875;
-        Sat, 17 Feb 2024 18:21:33 -0800 (PST)
+        bh=wjajXtag0TFnk846wTxT1zcVfYQMaQESsAWUEFgrNgE=;
+        b=jxDi7/GTUmuKhYuTZesa86FNjg+N/qM7/+qUvIHj2ySj2kdGcrmbKRWmegwJG6Ga2s
+         TqSFXiNgM5Z++vWyADWw6pKEk4oaXK3Ike0kb4JP4aNQIWWIyAQ9CwBO28LdDSbtsrUE
+         ifEbv8f0+eKGzawIItO1lR1HtIJGVRPUWb784TiZD8aoDYB8VBHZzf83bSh+AhISwXht
+         694qutbrZTBv3L7oRkYFhdZ/AOS9vuXjmE7BRiux1IZCoLXKfLbtpCcwbs143zmuPAzM
+         Z6APNzwtSlGqtVEGI2eLguKP7b02DdS5L1J1d6vW4bPw8uJyXtqSM8B5Zg80SwG0eifd
+         geTw==
+X-Forwarded-Encrypted: i=2; AJvYcCWyr2H5ctRvwmeJsfqUzXRk+0W7T+4aTSt9ivC6iAT2jo+RgBB/5n1F1OThFPNzhaxVD/O3TtfnLEQqC+UQR/weMJgYjT/kTA==
+X-Gm-Message-State: AOJu0Yz8OLbkFHZ32uOA2go5v56S3L2xo0COhsOnunTO+KgxRwvMDubF
+	DBg4KNddBPyCnjDfe6NZXO2lOPYisxv1yxy90Z5933s0na1TU7BK
+X-Google-Smtp-Source: AGHT+IEpKj+dKINQLeLXcF/nhB9zJY3tSmowdLkU6W8KiKsyzIurMNSelcLoy+TbvWiM7fLSPGqJRg==
+X-Received: by 2002:a05:622a:4cc:b0:42c:66c9:ed76 with SMTP id q12-20020a05622a04cc00b0042c66c9ed76mr12765824qtx.59.1708304709336;
+        Sun, 18 Feb 2024 17:05:09 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:7d06:0:b0:42e:382:7cd9 with SMTP id g6-20020ac87d06000000b0042e03827cd9ls291225qtb.2.-pod-prod-02-us;
- Sat, 17 Feb 2024 18:21:33 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUiGiAEiraEQnHOhYBeX5uz/funCOf6IN/Ge/8wCA2KR4XCdkU2//nLG2IrUaejyKmVNH/cXUr9clyPiFG0Li0EfUbArORojOdzQQ==
-X-Received: by 2002:ac8:5a15:0:b0:42d:adce:fcea with SMTP id n21-20020ac85a15000000b0042dadcefceamr11187671qta.36.1708222892962;
-        Sat, 17 Feb 2024 18:21:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1708222892; cv=none;
+Received: by 2002:a05:622a:193:b0:42d:dd40:847d with SMTP id
+ s19-20020a05622a019300b0042ddd40847dls3294372qtw.0.-pod-prod-05-us; Sun, 18
+ Feb 2024 17:05:08 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWzDcLjReiQL9xqE+llI4yv52bRxSaR/MrFzdXYJHmkwYxOJ1M9nlWUQ9V64wLicZyVfHIqqhFBb76zX0ZnJav5pTIrD/zZJkRgkA==
+X-Received: by 2002:a05:6102:240b:b0:470:510d:742f with SMTP id j11-20020a056102240b00b00470510d742fmr1963886vsi.35.1708304708461;
+        Sun, 18 Feb 2024 17:05:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1708304708; cv=none;
         d=google.com; s=arc-20160816;
-        b=CdH0mfUCOjV4/qg7lcoqD3qYOS8HbvtwNoLf8aBR65bRi3oGKjwuChQU0TzqyYFPWX
-         svPkmOxY0nJQj42Y209M/WLScIdgl7JZgif2nbSuUYQEGIea4J9mBFhWAG+oi8CGv6TC
-         GD0EX/8oRgDIPAuSJeY5fyhjeZzv8o3qa0zduGEMMIa2dMqnzVGqWKR3vcvrpwmjkWVD
-         whTitbF3tD3V2LdfliIky3mkf+yt97PNmEOgPh6c6RVCUKJPXIpMUxXqzr3v4ccDzNh6
-         wmBb4YrDxmJ3rd++unUrkM1QDCkTDt+2e81Bkm2wOhUaqDwInVMGQg7SQzOQcvdP7ZOq
-         zwow==
+        b=eVrXjeCvfS+1wRiRCX/86tVI8KQDG8lp2/qKLyaB2ez72Varg0K9zFT2ykAJen4894
+         DS/0Gvq8C0i9fAx8DLS21znHf6+jbCQhcJxapycY8+J4BjbBAS4BvQFqlXwsT5QVIikS
+         qU5NoALL2e38XafkjDxM3RdPw63PCD+/4Th/M0/Q9u2W1zsj9q/BVK8x4KuCvLcaRjA7
+         7/bteUQ3W+zUDRjTytYcHdx0bq8yqVyK8Sxek1sSMfsgIkgIRHtLbpLQJvTx+Q/f+grz
+         a9XPdu6kLUC3TzyHkxnkPmOXncoAg6OMjRiAYLgLPvtF0mQRJTjCuUk8K2VYP9piEyDa
+         sViw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=aGwMPlFmMn7i+PsCRsmYPKBrgHwqE0wRHG6PNy5zjw0=;
-        fh=sSHrb2PrcTqE2C4kR2S4DjnzCxz3TYxwcBtcY20J0Ac=;
-        b=JsS9kwUusRvIlG1/1z9npdJn4cEFBVf1dETzp+QPxBVYlVoQ/1URptFDGZFsqP7V3I
-         zy4ewJp4iNHk6ff3Lz3BiUtLMqI97H95l8NJfsNNiwQtOe7KssMSI2UAznIyWh/d30AP
-         Afz/0+pleU3RECssO43hrCjL2Xg8TFubVr5SI9YT7dC3f1TTLWnt3UpO3Go+EmfGmdz9
-         2vU4VyJOq0EdsQMq06PSYCsGtfFOEpv5sig+5ZmOZqxO2fpQBkAwzMf+MoGcV5BkO4cd
-         L4nB8TR/Xrt0iDghdSwE9jkhH97ANoAHyOs7BqB9HF/MR2oO6z70TUWLIO0cHPLBLKHH
-         X1Tw==;
+        bh=mIDaOHUmOnFQVc3Wwg+6+LPaeJ2ta81+Eqz5TMzPBys=;
+        fh=lziVcT86+68XbviwWcNW7YOX9AiQpeQaJBGqJcRDheA=;
+        b=XkJ86/wUIG4RH4t+uQ28i28n42dKjAjb7iIOG1qsMmdaaUdwasMDhf9dzqwCO/Dhwh
+         rBhY0wpCgH5NgbUS55/5P0IfZ0D7OF/4C9VhAxTff6WSEnAyZlY5wOavJZqQhjESOTKn
+         rFV7e08I+rOKJ08czH+9U96jqw1mO9+FR3u4rbosc0TgU/wvx6wrEfUDIVgsMCIyFqhZ
+         WtsWPnDoDKufOuwgfxL6/Df2gc/AHfNDpvXDZspI4+K9STXQ5KpDZtMKKoJ7K3qDB205
+         gFM8dC/uT4g2uEF0Z6kqCTSJK1DxUCDJxngwFGpCgyipG0lwSxHevOh61aAeES/a7+bE
+         o5Dw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=wSyYWYER;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2a as permitted sender) smtp.mailfrom=surenb@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=XRpxe4nZ;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b30 as permitted sender) smtp.mailfrom=surenb@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com. [2607:f8b0:4864:20::b2a])
-        by gmr-mx.google.com with ESMTPS id g1-20020ac85d41000000b0042e082ee1f5si5929qtx.0.2024.02.17.18.21.32
+Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com. [2607:f8b0:4864:20::b30])
+        by gmr-mx.google.com with ESMTPS id z20-20020a67ec54000000b0046d3d08309esi357724vso.1.2024.02.18.17.05.08
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 17 Feb 2024 18:21:32 -0800 (PST)
-Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2a as permitted sender) client-ip=2607:f8b0:4864:20::b2a;
-Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-dc236729a2bso3041740276.0
-        for <kasan-dev@googlegroups.com>; Sat, 17 Feb 2024 18:21:32 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUPR8AJdCuMv4AovUBSb9z6d8yk880Rpd5wROr8sYOGSMUHEubbxpPZjFZ+dojexANThVQkMsSFx0hZcysOH3REnE7hvBD2VMJw2w==
-X-Received: by 2002:a05:6902:268a:b0:dcd:4e54:9420 with SMTP id
- dx10-20020a056902268a00b00dcd4e549420mr9768527ybb.5.1708222891980; Sat, 17
- Feb 2024 18:21:31 -0800 (PST)
+        Sun, 18 Feb 2024 17:05:08 -0800 (PST)
+Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b30 as permitted sender) client-ip=2607:f8b0:4864:20::b30;
+Received: by mail-yb1-xb30.google.com with SMTP id 3f1490d57ef6-dc238cb1b17so3543795276.0
+        for <kasan-dev@googlegroups.com>; Sun, 18 Feb 2024 17:05:08 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVmHDXOfpQwOudyr/6cMt7xBc335N+Saj+zX+QEsGn4w745TgMWRnJMjvMdsvSpvQgRpx8yEoPqfSllDRPHGiQyFROoGhLweJqwtw==
+X-Received: by 2002:a5b:b43:0:b0:dcc:eb38:199c with SMTP id
+ b3-20020a5b0b43000000b00dcceb38199cmr10258615ybr.56.1708304707680; Sun, 18
+ Feb 2024 17:05:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-14-surenb@google.com>
- <f92ad1e3-2dde-4db2-9b76-96c6bbc6a208@suse.cz>
-In-Reply-To: <f92ad1e3-2dde-4db2-9b76-96c6bbc6a208@suse.cz>
+References: <20240212213922.783301-1-surenb@google.com> <20240212213922.783301-33-surenb@google.com>
+ <f0a56027-472d-44a6-aba5-912bd50ee3ae@suse.cz>
+In-Reply-To: <f0a56027-472d-44a6-aba5-912bd50ee3ae@suse.cz>
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Sun, 18 Feb 2024 02:21:18 +0000
-Message-ID: <CAJuCfpGemg-aXyiK1fHavdKuW+-9+DM5_4krLAdg+DQh=24Dvg@mail.gmail.com>
-Subject: Re: [PATCH v3 13/35] lib: add allocation tagging support for memory
- allocation profiling
+Date: Mon, 19 Feb 2024 01:04:54 +0000
+Message-ID: <CAJuCfpGUTu7uhcR-23=0d3Wnn8ZbDtNwTaFnukd9qYYVHS9aSA@mail.gmail.com>
+Subject: Re: [PATCH v3 32/35] codetag: debug: skip objext checking when it's
+ for objext itself
 To: Vlastimil Babka <vbabka@suse.cz>
 Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
 	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
@@ -149,8 +150,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=wSyYWYER;       spf=pass
- (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b2a as
+ header.i=@google.com header.s=20230601 header.b=XRpxe4nZ;       spf=pass
+ (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b30 as
  permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
@@ -167,198 +168,117 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Feb 16, 2024 at 8:57=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
+On Fri, Feb 16, 2024 at 6:39=E2=80=AFPM Vlastimil Babka <vbabka@suse.cz> wr=
 ote:
 >
-> On 2/12/24 22:38, Suren Baghdasaryan wrote:
-> > Introduce CONFIG_MEM_ALLOC_PROFILING which provides definitions to easi=
-ly
-> > instrument memory allocators. It registers an "alloc_tags" codetag type
-> > with /proc/allocinfo interface to output allocation tag information whe=
-n
-> > the feature is enabled.
-> > CONFIG_MEM_ALLOC_PROFILING_DEBUG is provided for debugging the memory
-> > allocation profiling instrumentation.
-> > Memory allocation profiling can be enabled or disabled at runtime using
-> > /proc/sys/vm/mem_profiling sysctl when CONFIG_MEM_ALLOC_PROFILING_DEBUG=
-=3Dn.
-> > CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT enables memory allocation
-> > profiling by default.
+> On 2/12/24 22:39, Suren Baghdasaryan wrote:
+> > objext objects are created with __GFP_NO_OBJ_EXT flag and therefore hav=
+e
+> > no corresponding objext themselves (otherwise we would get an infinite
+> > recursion). When freeing these objects their codetag will be empty and
+> > when CONFIG_MEM_ALLOC_PROFILING_DEBUG is enabled this will lead to fals=
+e
+> > warnings. Introduce CODETAG_EMPTY special codetag value to mark
+> > allocations which intentionally lack codetag to avoid these warnings.
+> > Set objext codetags to CODETAG_EMPTY before freeing to indicate that
+> > the codetag is expected to be empty.
 > >
 > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
-> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 > > ---
-> >  Documentation/admin-guide/sysctl/vm.rst |  16 +++
-> >  Documentation/filesystems/proc.rst      |  28 +++++
-> >  include/asm-generic/codetag.lds.h       |  14 +++
-> >  include/asm-generic/vmlinux.lds.h       |   3 +
-> >  include/linux/alloc_tag.h               | 133 ++++++++++++++++++++
-> >  include/linux/sched.h                   |  24 ++++
-> >  lib/Kconfig.debug                       |  25 ++++
-> >  lib/Makefile                            |   2 +
-> >  lib/alloc_tag.c                         | 158 ++++++++++++++++++++++++
-> >  scripts/module.lds.S                    |   7 ++
-> >  10 files changed, 410 insertions(+)
-> >  create mode 100644 include/asm-generic/codetag.lds.h
-> >  create mode 100644 include/linux/alloc_tag.h
-> >  create mode 100644 lib/alloc_tag.c
+> >  include/linux/alloc_tag.h | 26 ++++++++++++++++++++++++++
+> >  mm/slab.h                 | 25 +++++++++++++++++++++++++
+> >  mm/slab_common.c          |  1 +
+> >  mm/slub.c                 |  8 ++++++++
+> >  4 files changed, 60 insertions(+)
 > >
-> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/ad=
-min-guide/sysctl/vm.rst
-> > index c59889de122b..a214719492ea 100644
-> > --- a/Documentation/admin-guide/sysctl/vm.rst
-> > +++ b/Documentation/admin-guide/sysctl/vm.rst
-> > @@ -43,6 +43,7 @@ Currently, these files are in /proc/sys/vm:
-> >  - legacy_va_layout
-> >  - lowmem_reserve_ratio
-> >  - max_map_count
-> > +- mem_profiling         (only if CONFIG_MEM_ALLOC_PROFILING=3Dy)
-> >  - memory_failure_early_kill
-> >  - memory_failure_recovery
-> >  - min_free_kbytes
-> > @@ -425,6 +426,21 @@ e.g., up to one or two maps per allocation.
-> >  The default value is 65530.
-> >
-> >
-> > +mem_profiling
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +Enable memory profiling (when CONFIG_MEM_ALLOC_PROFILING=3Dy)
-> > +
-> > +1: Enable memory profiling.
-> > +
-> > +0: Disabld memory profiling.
->
->       Disable
-
-Ack.
-
+> > diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
+> > index 0a5973c4ad77..1f3207097b03 100644
 >
 > ...
 >
-> > +allocinfo
-> > +~~~~~~~
-> > +
-> > +Provides information about memory allocations at all locations in the =
-code
-> > +base. Each allocation in the code is identified by its source file, li=
-ne
-> > +number, module and the function calling the allocation. The number of =
-bytes
-> > +allocated at each location is reported.
->
-> See, it even says "number of bytes" :)
-
-Yes, we are changing the output to bytes.
-
->
-> > +
-> > +Example output.
-> > +
-> > +::
-> > +
-> > +    > cat /proc/allocinfo
-> > +
-> > +      153MiB     mm/slub.c:1826 module:slub func:alloc_slab_page
->
-> Is "module" meant in the usual kernel module sense? In that case IIRC is
-> more common to annotate things e.g. [xfs] in case it's really a module, a=
-nd
-> nothing if it's built it, such as slub. Is that "slub" simply derived fro=
-m
-> "mm/slub.c"? Then it's just redundant?
-
-Sounds good. The new example would look like this:
-
-    > sort -rn /proc/allocinfo
-   127664128    31168 mm/page_ext.c:270 func:alloc_page_ext
-    56373248     4737 mm/slub.c:2259 func:alloc_slab_page
-    14880768     3633 mm/readahead.c:247 func:page_cache_ra_unbounded
-    14417920     3520 mm/mm_init.c:2530 func:alloc_large_system_hash
-    13377536      234 block/blk-mq.c:3421 func:blk_mq_alloc_rqs
-    11718656     2861 mm/filemap.c:1919 func:__filemap_get_folio
-     9192960     2800 kernel/fork.c:307 func:alloc_thread_stack_node
-     4206592        4 net/netfilter/nf_conntrack_core.c:2567
-func:nf_ct_alloc_hashtable
-     4136960     1010 drivers/staging/ctagmod/ctagmod.c:20 [ctagmod]
-func:ctagmod_start
-     3940352      962 mm/memory.c:4214 func:alloc_anon_folio
-     2894464    22613 fs/kernfs/dir.c:615 func:__kernfs_new_node
-     ...
-
-Note that [ctagmod] is the only allocation from a module in this example.
-
->
-> > +     6.08MiB     mm/slab_common.c:950 module:slab_common func:_kmalloc=
-_order
-> > +     5.09MiB     mm/memcontrol.c:2814 module:memcontrol func:alloc_sla=
-b_obj_exts
-> > +     4.54MiB     mm/page_alloc.c:5777 module:page_alloc func:alloc_pag=
-es_exact
-> > +     1.32MiB     include/asm-generic/pgalloc.h:63 module:pgtable func:=
-__pte_alloc_one
-> > +     1.16MiB     fs/xfs/xfs_log_priv.h:700 module:xfs func:xlog_kvmall=
-oc
-> > +     1.00MiB     mm/swap_cgroup.c:48 module:swap_cgroup func:swap_cgro=
-up_prepare
-> > +      734KiB     fs/xfs/kmem.c:20 module:xfs func:kmem_alloc
-> > +      640KiB     kernel/rcu/tree.c:3184 module:tree func:fill_page_cac=
-he_func
-> > +      640KiB     drivers/char/virtio_console.c:452 module:virtio_conso=
-le func:alloc_buf
-> > +      ...
-> > +
-> > +
-> >  meminfo
->
-> ...
->
-> > diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> > index 0be2d00c3696..78d258ca508f 100644
-> > --- a/lib/Kconfig.debug
-> > +++ b/lib/Kconfig.debug
-> > @@ -972,6 +972,31 @@ config CODE_TAGGING
-> >       bool
-> >       select KALLSYMS
+> > index c4bd0d5348cb..cf332a839bf4 100644
+> > --- a/mm/slab.h
+> > +++ b/mm/slab.h
+> > @@ -567,6 +567,31 @@ static inline struct slabobj_ext *slab_obj_exts(st=
+ruct slab *slab)
+> >  int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
+> >                       gfp_t gfp, bool new_slab);
 > >
-> > +config MEM_ALLOC_PROFILING
-> > +     bool "Enable memory allocation profiling"
-> > +     default n
-> > +     depends on PROC_FS
-> > +     depends on !DEBUG_FORCE_WEAK_PER_CPU
-> > +     select CODE_TAGGING
-> > +     help
-> > +       Track allocation source code and record total allocation size
-> > +       initiated at that code location. The mechanism can be used to t=
-rack
-> > +       memory leaks with a low performance and memory impact.
 > > +
-> > +config MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
-> > +     bool "Enable memory allocation profiling by default"
-> > +     default y
+> > +#ifdef CONFIG_MEM_ALLOC_PROFILING_DEBUG
+> > +
+> > +static inline void mark_objexts_empty(struct slabobj_ext *obj_exts)
+> > +{
+> > +     struct slabobj_ext *slab_exts;
+> > +     struct slab *obj_exts_slab;
+> > +
+> > +     obj_exts_slab =3D virt_to_slab(obj_exts);
+> > +     slab_exts =3D slab_obj_exts(obj_exts_slab);
+> > +     if (slab_exts) {
+> > +             unsigned int offs =3D obj_to_index(obj_exts_slab->slab_ca=
+che,
+> > +                                              obj_exts_slab, obj_exts)=
+;
+> > +             /* codetag should be NULL */
+> > +             WARN_ON(slab_exts[offs].ref.ct);
+> > +             set_codetag_empty(&slab_exts[offs].ref);
+> > +     }
+> > +}
+> > +
+> > +#else /* CONFIG_MEM_ALLOC_PROFILING_DEBUG */
+> > +
+> > +static inline void mark_objexts_empty(struct slabobj_ext *obj_exts) {}
+> > +
+> > +#endif /* CONFIG_MEM_ALLOC_PROFILING_DEBUG */
+> > +
 >
-> I'd go with default n as that I'd select for a general distro.
+> I assume with alloc_slab_obj_exts() moved to slub.c, mark_objexts_empty()
+> could move there too.
 
-Well, we have MEM_ALLOC_PROFILING=3Dn by default, so if it was switched
-on manually, that is a strong sign that the user wants it enabled IMO.
-So, enabling this switch by default seems logical to me. If a distro
-wants to have the feature compiled in but disabled by default then
-this is perfectly doable, just need to set both options appropriately.
-Does my logic make sense?
+No, I think mark_objexts_empty() belongs here. This patch introduced
+the function and uses it. Makes sense to me to keep it all together.
 
 >
-> > +     depends on MEM_ALLOC_PROFILING
-> > +
-> > +config MEM_ALLOC_PROFILING_DEBUG
-> > +     bool "Memory allocation profiler debugging"
-> > +     default n
-> > +     depends on MEM_ALLOC_PROFILING
-> > +     select MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
-> > +     help
-> > +       Adds warnings with helpful error messages for memory allocation
-> > +       profiling.
-> > +
+> >  static inline bool need_slab_obj_ext(void)
+> >  {
+> >  #ifdef CONFIG_MEM_ALLOC_PROFILING
+> > diff --git a/mm/slab_common.c b/mm/slab_common.c
+> > index 21b0b9e9cd9e..d5f75d04ced2 100644
+> > --- a/mm/slab_common.c
+> > +++ b/mm/slab_common.c
+> > @@ -242,6 +242,7 @@ int alloc_slab_obj_exts(struct slab *slab, struct k=
+mem_cache *s,
+> >                * assign slabobj_exts in parallel. In this case the exis=
+ting
+> >                * objcg vector should be reused.
+> >                */
+> > +             mark_objexts_empty(vec);
+> >               kfree(vec);
+> >               return 0;
+> >       }
+> > diff --git a/mm/slub.c b/mm/slub.c
+> > index 4d480784942e..1136ff18b4fe 100644
+> > --- a/mm/slub.c
+> > +++ b/mm/slub.c
+> > @@ -1890,6 +1890,14 @@ static inline void free_slab_obj_exts(struct sla=
+b *slab)
+> >       if (!obj_exts)
+> >               return;
+> >
+> > +     /*
+> > +      * obj_exts was created with __GFP_NO_OBJ_EXT flag, therefore its
+> > +      * corresponding extension will be NULL. alloc_tag_sub() will thr=
+ow a
+> > +      * warning if slab has extensions but the extension of an object =
+is
+> > +      * NULL, therefore replace NULL with CODETAG_EMPTY to indicate th=
+at
+> > +      * the extension for obj_exts is expected to be NULL.
+> > +      */
+> > +     mark_objexts_empty(obj_exts);
+> >       kfree(obj_exts);
+> >       slab->obj_exts =3D 0;
+> >  }
 >
 
 --=20
@@ -367,5 +287,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAJuCfpGemg-aXyiK1fHavdKuW%2B-9%2BDM5_4krLAdg%2BDQh%3D24Dvg%40mai=
-l.gmail.com.
+kasan-dev/CAJuCfpGUTu7uhcR-23%3D0d3Wnn8ZbDtNwTaFnukd9qYYVHS9aSA%40mail.gmai=
+l.com.
