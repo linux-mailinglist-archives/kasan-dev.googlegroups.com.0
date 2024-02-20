@@ -1,170 +1,138 @@
-Return-Path: <kasan-dev+bncBD2KV7O4UQOBBLNM2GXAMGQEVSVZ6GI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBPFZ2GXAMGQENNJPGYI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3e.google.com (mail-yb1-xb3e.google.com [IPv6:2607:f8b0:4864:20::b3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1EA885B410
-	for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 08:35:10 +0100 (CET)
-Received: by mail-yb1-xb3e.google.com with SMTP id 3f1490d57ef6-dc6b26783b4sf4131919276.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 19 Feb 2024 23:35:10 -0800 (PST)
+Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 370A685B458
+	for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 09:03:10 +0100 (CET)
+Received: by mail-ot1-x33d.google.com with SMTP id 46e09a7af769-6e427f6974dsf3714827a34.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 00:03:10 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708416189; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=0vm+TwV9blXKRRSX2zAQWFNcXE3ySTOrwtlf8yYVMZuD7P4U7nZ4w9Kn6rOmlZCEbT
+         jZ3/DYq9UMbSck+cN8bX/xn8PHXeRsS2p7Fwb9UYzsOe0F7O/P95dOoWj2IlqK3HGA6N
+         UE0udJp3Ic7i04RREdY0dAMKJm0V+1LFqhcOGANu9vT+rf53nUOMe6wat+rafmmEb31j
+         MI4P0ntGcY2ShxQnhFEKr1JhS0JKuq2LMoTbxfHxu8HLB+hUXvpHobBD+Xc69FnWX7Fy
+         zaGJYabKSSefBxXTU97yspHleXXoKOseH1W57NIZPZtq1TEO55RAusVPyi8JLSPwvT9t
+         tGqw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=Ijui4Dbgf8TzlbnEpbRg7bk09+BeO0jcgKn/JRf8Pl4=;
+        fh=SvlDA8e2DER5v4ywGBciljycgOx0aU4aREaHtyj1t2w=;
+        b=h2gnw8ieXKcefosZfOn7skucLhIRZXdYhejBzQtDE6VmZ+Gla+A4vsfHo24wbc1AUh
+         l9PnhbuaV6VUj1Ux5oK+unStfG7WTQ5npOZqqNoh7qWvk+si/x/VIZJjqaG9AGb83/fP
+         OPRi0EJrCuZtvLPPUDKdh/ICWnlaHHxfmNrSzqUGuS7MWB4pSxdVA8i2gQiJVwL0X3ae
+         SAq94QLfbQxVR5kJABR9AEI/Zq7xCD/Y5khAsG2Xc8AsRPHdBTq71O1b0C5gDbbfZSh0
+         cwKHNleiK1UMjbc7xubKUYCrgAafjcM+i+nMGpujiSufG0LReyEfDKrHE126DsmFOdZe
+         wYbg==;
+        darn=lfdr.de
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=PQybSkW7;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2e as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708414509; x=1709019309; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708416189; x=1709020989; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:content-disposition:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BfrKLM4MR6uU8+LvJpMKWv9oQNff3S4KfN1DbIartnI=;
-        b=gS90+wpWDPRxD9TVKKrbf9dRdlP8kvaW0I+rUoMWv8c+K8xh/OCrTV4cPn01Zm/EbL
-         J8jjiLkciNPZQE2RqyDtDkJBhGKRrvBRVXx/bUMGoKAaaJ0WCtlZl2Bxz323lLIgrmYM
-         Lo2POU4XsB7JoiMqozJHKm9AIxDR/qXkerSGH3MIO0Nwg1wNznuGFuikEu72sheb4snv
-         1CpyowABgoGe3USW5mr+QutvTbNetuwcOOGMnAVc9WMob4xtbR21aGo7gjQ9VWWeQ+qG
-         /LdWHc93sLp8T3VA3XFr62CA+WGxQPotKQJN82AppQqWyjJHhT7FIvCmHFCkdoBHYcUw
-         Vglw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ijui4Dbgf8TzlbnEpbRg7bk09+BeO0jcgKn/JRf8Pl4=;
+        b=EJzRl8Dok2FDltoCboRD3rugZ3urt44JdT0s4Ppm7oKw2f0d5/SSX/BOpgXxjkMPCT
+         Fc3AuMuB8/XWdWs6Q1aWPn5nJHkcgwHWS4jCtd6EGhaK3pcYkCimFGhzJrgE7TMuUczG
+         6E0pa+E1qRcn0neGUBD1MR6hXG+cNXaTyQ/fjWrtadua6dxPI+GpXbyIAQJUl4yBvqs5
+         9Vw0gr/Qjg+eTevmSy36Du8eIdo7XwexoOWg+rEJ5O+uMmdCTrJ4mLIuG9Hd3iUvojp7
+         z4JR6GcK8loZ3MfM6Oi42aD888UULm9w9hN3iKvypeLhXpmLwbKDeIio1HQBw7XPyDes
+         lgcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708414509; x=1709019309;
+        d=1e100.net; s=20230601; t=1708416189; x=1709020989;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :content-disposition:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BfrKLM4MR6uU8+LvJpMKWv9oQNff3S4KfN1DbIartnI=;
-        b=hIzD4i7RTHzjsvD3RXi1OPRVBA5rnd6uZhs9SbIQKs0GDhIMacuGEbKuzPDwN5iLBB
-         Tnu+x5sknfX1pEJ6eA1lT0ys+y0rssi8cpFNYgAOiB6XS2gh74FP9c86oFetqDMfwQlt
-         DIbkiQX4o6USe9iykbEImLZKeVVsbtCTz+EySMnIfIMSi0P8jGHe/efTJ6rmz4L6W8zp
-         8YPrIsti/3ykGHJ5rvrhTGAJt+j7Cc8I4Vu7g8mmmxbc1pwWbs7u13s00OwTldZLYHaa
-         zKPqPBigcqEJUZee2qgTgphcs2jieHS14CD0OGplOWCCjx3UDyJDJOSGNmmMz4VyL+Uf
-         s/Rw==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCX9Z8wyGBCZ7/I5S9rhZZs9JDB8zTVEVUktApK+RHNf8xhyHXRV3bswu5xz5Onm4GZusHRFLGUyfhwvgMD1ZuoK2lyoVf3+bQ==
-X-Gm-Message-State: AOJu0YyBoKqxljY9U9Pc4pUY0/eRddmnsLoo3QZrbOhujFSDRlH7W2xV
-	WAdkjPJdfZS8Xlua7eEUsS504pY+11VBVAHUcD9yFG1OOAXiRqfs
-X-Google-Smtp-Source: AGHT+IFp6qEJWvEVCVDbIiaN5348GUuVlcgmFnz3rEeHNvORkEDNogEUbLJXEJfyPBl0cYolzNYM0A==
-X-Received: by 2002:a25:ad4e:0:b0:dcc:f8e5:c8d4 with SMTP id l14-20020a25ad4e000000b00dccf8e5c8d4mr12526222ybe.32.1708414509240;
-        Mon, 19 Feb 2024 23:35:09 -0800 (PST)
+        bh=Ijui4Dbgf8TzlbnEpbRg7bk09+BeO0jcgKn/JRf8Pl4=;
+        b=ThMxmnqRuNwrFPdyqw+MxUiGGcEGpECPM9uu9Zxx3gS+URgoSoiG6ugYBSIDamMw9A
+         nD4GXPdVGx7y2QeuVXwn5CrfoeUv+yfu6yHoAuMsNrkk4/kjueClEaCq5JXK1utQnk6Y
+         K53KjOJfr3dQsiglM8OlAEL4NXcn7xQ5Zbfyomypv9nBMy10xqPXiJeDRoQkSWt1WQHF
+         i79/L1evjeXdrcgaC3f5hp32YZwi0H6Yd8zKHVzSQP81gVSAzII8b9ZgSRued2pY1G1S
+         8mYPadmT5b+DruRNPPwdpVcGA9pgvdPkgmZWOFx4mZo58pVQi9sM9YyMeqlvlMUhWh90
+         XN6g==
+X-Forwarded-Encrypted: i=2; AJvYcCXYPahTSEHSPTVUutcfq8ZzRj5dPRyqCS/OWjCHGI/qWcK6xw8ccqP4SyubeWPngnTewHJLv/heGmkjsPAC38xlYh3n385fkw==
+X-Gm-Message-State: AOJu0YzhqAbQhkNvN8um2EXJdIJo9Z99OkTuC50Zhcv5NJLiPlcOwDqA
+	lL9gZum3fVtcl7fgpkqBnzy9WkmBiDG6ngTAiQxMxx4cWwDDTcKL
+X-Google-Smtp-Source: AGHT+IEIRHrI6GNbN2Dp2d09seBebfL+zPrsI490wpZUQtNpYqs59eNgXYXXiEmpU+SqWUKx8OQ2xg==
+X-Received: by 2002:a05:6830:1409:b0:6e2:b5fd:440d with SMTP id v9-20020a056830140900b006e2b5fd440dmr15547229otp.6.1708416188725;
+        Tue, 20 Feb 2024 00:03:08 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:d097:0:b0:dcc:f46b:129d with SMTP id h145-20020a25d097000000b00dccf46b129dls920682ybg.2.-pod-prod-03-us;
- Mon, 19 Feb 2024 23:35:08 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWMwmF4AGgBRSp8YaNmNtQx28YY4MyYcwJPRBLM6GI8EvXyXVri+kGGLA6tsQfq1vCCgxqwPnaxRd1CcO6UwS/NWkr9MsLt7CoGkw==
-X-Received: by 2002:a05:6902:2702:b0:dcc:5e60:6fc7 with SMTP id dz2-20020a056902270200b00dcc5e606fc7mr13110193ybb.55.1708414508188;
-        Mon, 19 Feb 2024 23:35:08 -0800 (PST)
-Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.14])
-        by gmr-mx.google.com with ESMTPS id o85-20020a254158000000b00dcc3d9efcb7si960335yba.3.2024.02.19.23.35.07
+Received: by 2002:a4a:1ac1:0:b0:598:db3f:b1ae with SMTP id 184-20020a4a1ac1000000b00598db3fb1aels3973939oof.0.-pod-prod-04-us;
+ Tue, 20 Feb 2024 00:03:08 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUAxia+mFm8bgKTCPL9KoHbT9jVrDXhBiPGy/PnPN4QEmgSisdzEQF2xyvH9gmchCvkLa6oI3EUwY/zZFMclJy5GZTOhoMSNX/3sg==
+X-Received: by 2002:a05:6808:2e87:b0:3c1:41fc:d012 with SMTP id gt7-20020a0568082e8700b003c141fcd012mr15059176oib.34.1708416187889;
+        Tue, 20 Feb 2024 00:03:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1708416187; cv=none;
+        d=google.com; s=arc-20160816;
+        b=SOfOaAi/ehRkYjxim4VRdGnmw2hFObCD5t7TSqLDIZnmiGYkFOpOycRNrzND4H/K6L
+         TJlF7pIbheoFrPbA27o6UvGJyoxIxv6csiBb9dGQvP3euNolnsqI5/73UILqYGLL47Ya
+         XGfSa9BljtP9j6pd7REdx8xZUT8wVrs4OSwhvr7hTMFHpP8wQpuaAWj+UrCQDmh+L1GY
+         Lh9bwG7or6MvD77ALwnR8eth+9ExOHf43Y/ziflpOX8HZB//eQQLmHegP0c9kN6sisRu
+         cTjtena6/oS8QpfGYAD73HmVhBEb74OQlMLMAy3xidSTWJ3GFZi5Zg1pr/dYTm11EnVW
+         MuHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Q8cERgU0ZSCW6FWHFRH3BebgYcwtul5dolkTErrkCLA=;
+        fh=GeYWgORh4ViR0eW7lth9A95PzmLEmaMD9dJen+ReoWg=;
+        b=MpI7jPum1dZUwFzmzBNKiWSr54+4rfnl8SkvIJgR/SnDl1zTn/HkYck7HrzbVmYjtC
+         e0qX4D8+ZLlpx1Vn8uqmv/5biB4EiH/JO0f/gwGYc0RwMj2SL1RN9/kCty/DEV6NeZ/t
+         gKtESk/M3CD5hepFrAg2Mz7eZRMCd38phXAlwpWl9hLlcZhi7UdNC01HuLGuGE+lonHI
+         QXjr4d4E5QllGRKMw2BaVAi7TA3kIWPquI+EXznlMEvcDLoPashFWsgD8s/wS2W8CxYH
+         yNhgG+M8Q4znXr4Btm4Fdaod1f8BdT2fMobn6d/5Xmsn7sdEgyAUGoqvEycQ5qzXkJiR
+         2Urg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=PQybSkW7;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2e as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com. [2607:f8b0:4864:20::e2e])
+        by gmr-mx.google.com with ESMTPS id t17-20020a92c911000000b00364371a54ffsi614360ilp.0.2024.02.20.00.03.07
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Feb 2024 23:35:07 -0800 (PST)
-Received-SPF: pass (google.com: domain of oliver.sang@intel.com designates 198.175.65.14 as permitted sender) client-ip=198.175.65.14;
-X-IronPort-AV: E=McAfee;i="6600,9927,10989"; a="6319707"
-X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="6319707"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2024 23:35:06 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.06,172,1705392000"; 
-   d="scan'208";a="4944425"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 19 Feb 2024 23:35:05 -0800
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 19 Feb 2024 23:35:05 -0800
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35 via Frontend Transport; Mon, 19 Feb 2024 23:35:05 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.35; Mon, 19 Feb 2024 23:35:05 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I1gpcKl3cxsfFK2KCbEnPQHrqIaI7qxI7QfUiUxNMnPrgHfjVmNWK2NW0nvwN+jBzBrZHyTQA88dU58J0PffV2CUI6bzZw1hByZ2EFcdG0A/8VtflnyVDIuV9dAqoA1o/G7Gx39aFv0n4HHkO8jdb4fBfvbEHZETfZwf0q7a0VnbAJxhb0BY9lj4PwqMaIsZDCFw8oa091NUhCF6/5zAzl+MaMw65stO6EsOih+vuiAEYbbI+yMXg4PwRFodYfEGrj8gNH+raPjntrl46DsY+y7ySPgQp4Pdse5rGzz2X721JDL1Bw4qEQ4+3dWmE5ZdB8vTh7gkjRLmJ2ghgUm6GA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2V/RwFGMXGDml02CnksDWIwD0Bh6CDszBTXESAwwFjM=;
- b=oaHik8inDgf/GIySpFvwlX5zFRWtuQg/TZ0BSDRlFFIXu83n/w78nvmgq6Omr5rRXXAGctD4NKxz4yhADGliDGzjKrSBmLZOICb3AIBu5EHInViMykB/G11Fp32w7l49RC25aeENCgWMe+XATRwGRkOhJPFJhfNgtPexx9JPoYXBQG1IsKJiWKRfaXxKnlOlY5SaT9TXdzHDzL16Ehf+tObXyKVgu3NJIr50tWZinT9OvZeHo5ay/bRVti7IkJoXfuM4QNMJdsSGYYaGfRftbS4FPUyzEvDcoe/Um25vMHtpcZdPGhVm8EU0R98CMZ2L8drrs7qOrFkpALsklUCpfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
- by DS0PR11MB7735.namprd11.prod.outlook.com (2603:10b6:8:dd::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.7292.32; Tue, 20 Feb 2024 07:35:03 +0000
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::a026:574d:dab0:dc8e]) by LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::a026:574d:dab0:dc8e%3]) with mapi id 15.20.7292.036; Tue, 20 Feb 2024
- 07:35:03 +0000
-Date: Tue, 20 Feb 2024 15:34:53 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Marco Elver <elver@google.com>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, Linux Memory Management List
-	<linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, "Andrey
- Konovalov" <andreyknvl@gmail.com>, Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Vlastimil Babka
-	<vbabka@suse.cz>, <kasan-dev@googlegroups.com>, <oliver.sang@intel.com>
-Subject: [linux-next:master] [kasan]  187292be96: WARNING:suspicious_RCU_usage
-Message-ID: <202402201506.b7e4b9b6-oliver.sang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-X-ClientProxiedBy: SI2PR01CA0051.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::6) To LV3PR11MB8603.namprd11.prod.outlook.com
- (2603:10b6:408:1b6::9)
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Feb 2024 00:03:07 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2e as permitted sender) client-ip=2607:f8b0:4864:20::e2e;
+Received: by mail-vs1-xe2e.google.com with SMTP id ada2fe7eead31-4704e6dd739so325475137.0
+        for <kasan-dev@googlegroups.com>; Tue, 20 Feb 2024 00:03:07 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVH4bEojUJdpjGjSt3XblJSxHSybb/bXe4ogKTMEIQzWkprLxm18ZyeC83SmMNZZ+IpnX0QPBiWLu9PccCZ9vBX0Rmpqc9EAD1jsQ==
+X-Received: by 2002:a67:eb94:0:b0:46e:c865:6b4a with SMTP id
+ e20-20020a67eb94000000b0046ec8656b4amr11196789vso.34.1708416186959; Tue, 20
+ Feb 2024 00:03:06 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|DS0PR11MB7735:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6ed7b96-5bdf-4a6f-106d-08dc31e673a6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PYlpeVm4zG1rHaCivzNIg7pHMmELQqQOMGmG1p47NztYVd7GMypX+4V5Tes7d77wvFBicHPVMSwq7zWC9kwe2xj7EvSs9Ja+9WGzO0IcTlTaBNyLeubprhBUoGk4gg3HYXtxDCpK4KtCekQdv01+kSrOnd6GEJ4kp8kd0XWeFY+uEL9WQV8XLjUuZOJcpk64YDqjc/Y7UmP35iy+Y15WkNh4k2DoX7jywm1pk80Z0l6Fn+NHkDizCKleT+rKsNVD2PG8lrL9JUX4IsK1XpaLX+6Wvw/3H/ENd2MqKrj03PfN+ZG6ivufL64uZJYww2XAnQnA76iNbKQaCSKn/6KI+TfVgYPpGLf6wlGTV3iKfyNTZ5YAT6fLEEcApyfv6TJInG+u9oXSc7LlfotXYSRR/EYKwmhScSpJAogJ5hBO6Svi0JPwfZ64IRrjjy11UFNQLguLhkPt3QIO+d43M5AyQIc9s7OYMvSzCdJOoXIjZ1rAuFR598Re02xtqVJhTdWL6Qn1hIXoce3TtgWPJmNIO6APsfhfgwmU63YNBT44LsJ+aY9p6Xc5nIj1AgWu1p0m
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(230273577357003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?eRlfO6I9cyX6AEl7a8tCTwcVd4rZyBeG6zbkAVwosdQPZlIuXc9zKh0SrnPA?=
- =?us-ascii?Q?GcTNljD/KCJYIcpkrYQ3L98waswPWDconnc7I1eFKjLYKMAmiCnW/toQtFBz?=
- =?us-ascii?Q?u9QwceLfaU5gfeZB/gL2cG8BiBqkOAJ30oKxftguaSDmV5onS53zeNEn9i5R?=
- =?us-ascii?Q?VoZgO4uwULlQnQ/H3yuzFK9GnvQQ265l6FjEnq/JPk9/fcLTykOM9tG2mCM7?=
- =?us-ascii?Q?BnNi/3uvCxmsV0466jMCsn4AzerCykb3bnPWGSb0bMy9qsk73kvgGv+8Iau0?=
- =?us-ascii?Q?oBPgaYYnYP72ZkcSrEZIEu40LPbWXnCdf6zfZGtwSyxZk0OJGJbp0joNYxYf?=
- =?us-ascii?Q?5a4ZKM5G0DmTW3F8y+XbIKbMZ8ykT3jQLmpTqdUdfXK53AO4ghQLQK8623tC?=
- =?us-ascii?Q?D8ac0ljVFzMzAjIxe7JAxo0OFcPr/nUbEJ6e3WRpQIfGGLbtKVK2sd/pwO+y?=
- =?us-ascii?Q?+62lb/22s8DIDZMBloKxhaQH41AyE99QQPfyTr0D0OXo7i0AbYvhy8zWJz3c?=
- =?us-ascii?Q?N52+Oea6tEYhMrF0ACMfehM5fMjkyNkoBZoUBJRTDcYcwlOG8vLOPcc/z/qi?=
- =?us-ascii?Q?oy3IdIZzb7XY8Q31YXUpallk/f0W0QIG4T0qUxF1JHeCKR8jweTiiLpzEGpQ?=
- =?us-ascii?Q?b/5cxCcfbap5f2sblGJ5B1JweYC6fDGxqXvXcBOzqYw8mFg3kILjSB+omIU5?=
- =?us-ascii?Q?6VFrKEG/u0HPz2OsQ6BUfLsuNf6XXvM1oiwEsc0awm3GhKEOQCOuWb0dUx8z?=
- =?us-ascii?Q?oH1ez0otch0OyJ4YHNorSTqegmG1ra4vX2QUbEs1XaYvEg8g7z/oLvLfPQYZ?=
- =?us-ascii?Q?m4g0nS+1s/KtDciYYEbQ5Ngy5tO59gubfPKNyiNi1A0i9HdzA4RxAu3nWwE6?=
- =?us-ascii?Q?D4ywRd/nSKtomHm8cVb5+JywlMLMj4ID7zrzrBLO4LB4VtREckH3WoUo2d7S?=
- =?us-ascii?Q?rGmkSoYJ0awPM98+fKUkoMfl07B2bgsdk/4l3h6nYBXdKNVoNtvHBKGJoUBR?=
- =?us-ascii?Q?cbwID3fayb+RBjEBakaU/1/A4HrRPGogzU+HTJd0a9pXzk2v0ctaf3SrziGz?=
- =?us-ascii?Q?Wy61uNEmJirUt/zJcliLPsHVWD9A1zqUeP3cjys4EQFSK7uIAB/DRwMk40lc?=
- =?us-ascii?Q?EFcseMcXTXQzXpx7RCQSTi2jCze9aHl/U8Nn6KDcT0MhTuLP+GNFK23fCXSd?=
- =?us-ascii?Q?c5bozMAeH/zxvcKRzK0NIZbk7RatMYdcKI14+jfQ5TC+w9JzaJuaRwHA5MlJ?=
- =?us-ascii?Q?DH9z4ZSAfr2LaRTmOyRnDuN3Q3TqZGSIVVhsx2eRSwqfVcp0NqNjiQOKvZeW?=
- =?us-ascii?Q?rzVv+GvHlM2B5UQ6rfNbHkHoh7hTu33wrFwZUYORoC5OoNk5lXBQAvB7J2OG?=
- =?us-ascii?Q?cAwx+IplHr2MLeIpddU/3B7Ya+AT73UIxzBHZyMSueWZg/Zaq40685CJbz74?=
- =?us-ascii?Q?1mKqQqmpQorddR8y0IpUYf5KEVelLHkCGKGsDH3FjrMQKfvsQcwje0KMl6fA?=
- =?us-ascii?Q?PwOOugYyIgpz++72SYpEdO5FTgYcU5O0FRR0zEm+gVkuRwAXnKLGUbVNOOY+?=
- =?us-ascii?Q?CxviV1Hlk4aXAM3mn4sNHwqg5ydYa1/A8Xm1xKF+Jap83psdokNTYbOkuYR8?=
- =?us-ascii?Q?IQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6ed7b96-5bdf-4a6f-106d-08dc31e673a6
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Feb 2024 07:35:03.3097
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ugaFBSvR5qPntbHxUay3rfGhzO8akDNwnJbbP0sWrKgVybNUEslKFkz2j5vyRZpgp2EPL8hqCRHqq25fu+RPEQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7735
-X-OriginatorOrg: intel.com
-X-Original-Sender: oliver.sang@intel.com
+References: <202402201506.b7e4b9b6-oliver.sang@intel.com>
+In-Reply-To: <202402201506.b7e4b9b6-oliver.sang@intel.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 20 Feb 2024 09:02:28 +0100
+Message-ID: <CANpmjNNGCkfFBNiSsc+DOm1EDzXZoNLQy_jnEZjt9WuxP5aayw@mail.gmail.com>
+Subject: Re: [linux-next:master] [kasan] 187292be96: WARNING:suspicious_RCU_usage
+To: kernel test robot <oliver.sang@intel.com>, "Paul E. McKenney" <paulmck@kernel.org>, RCU <rcu@vger.kernel.org>, 
+	Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay <quic_neeraju@quicinc.com>, 
+	Joel Fernandes <joel@joelfernandes.org>, Josh Triplett <josh@joshtriplett.org>, 
+	Boqun Feng <boqun.feng@gmail.com>
+Cc: oe-lkp@lists.linux.dev, lkp@intel.com, 
+	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Vlastimil Babka <vbabka@suse.cz>, kasan-dev@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=R4KMVdyU;       arc=fail
- (signature failed);       spf=pass (google.com: domain of oliver.sang@intel.com
- designates 198.175.65.14 as permitted sender) smtp.mailfrom=oliver.sang@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ header.i=@google.com header.s=20230601 header.b=PQybSkW7;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2e as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -177,98 +145,114 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Tue, 20 Feb 2024 at 08:35, kernel test robot <oliver.sang@intel.com> wrote:
+>
+>
+>
+> Hello,
+>
+> we noticed this is a revert commit, below report is for an issue we observed
+> on this commit but not on its parent. just FYI.
+>
+> 113edefd366346b3 187292be96ae2be247807fac1c3
+> ---------------- ---------------------------
+>        fail:runs  %reproduction    fail:runs
+>            |             |             |
+>            :6          100%           6:6     dmesg.WARNING:suspicious_RCU_usage
+>
+>
+> kernel test robot noticed "WARNING:suspicious_RCU_usage" on:
+>
+> commit: 187292be96ae2be247807fac1c3a6d89a7cc2a84 ("kasan: revert eviction of stack traces in generic mode")
+> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
 
+This commit didn't touch rcutorture or the rcu subsystem in any way,
+so I currently don't understand how rcutorture would be affected.
+While stackdepot has started to use RCU, this already happened in a
+previous commit, and this particular commit actually reduced RCU usage
+(no more evictions and re-allocations of stacktraces).
 
-Hello,
+The only explanation I have is that it improved performance of a
+KASAN-enabled kernel (which the config here has enabled) so much that
+previously undiscovered issues have now become much more likely to
+occur.
 
-we noticed this is a revert commit, below report is for an issue we observed
-on this commit but not on its parent. just FYI.
+[+Cc rcu folks]
 
-113edefd366346b3 187292be96ae2be247807fac1c3
----------------- ---------------------------
-       fail:runs  %reproduction    fail:runs
-           |             |             |
-           :6          100%           6:6     dmesg.WARNING:suspicious_RCU_usage
-
-
-kernel test robot noticed "WARNING:suspicious_RCU_usage" on:
-
-commit: 187292be96ae2be247807fac1c3a6d89a7cc2a84 ("kasan: revert eviction of stack traces in generic mode")
-https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
-
-in testcase: rcutorture
-version: 
-with following parameters:
-
-	runtime: 300s
-	test: cpuhotplug
-	torture_type: busted_srcud
-
-
-
-compiler: clang-17
-test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
-
-(please refer to attached dmesg/kmsg for entire log/backtrace)
-
-
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <oliver.sang@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202402201506.b7e4b9b6-oliver.sang@intel.com
-
-
-[  292.513535][  T653] WARNING: suspicious RCU usage
-[  292.514923][  T653] 6.8.0-rc4-00126-g187292be96ae #1 Not tainted
-[  292.516369][  T653] -----------------------------
-[  292.517743][  T653] kernel/rcu/rcutorture.c:1983 suspicious rcu_dereference_check() usage!
-[  292.519310][  T653]
-[  292.519310][  T653] other info that might help us debug this:
-[  292.519310][  T653]
-[  292.523130][  T653]
-[  292.523130][  T653] rcu_scheduler_active = 2, debug_locks = 1
-[  292.525644][  T653] no locks held by rcu_torture_rea/653.
-[  292.526974][  T653]
-[  292.526974][  T653] stack backtrace:
-[  292.529271][  T653] CPU: 0 PID: 653 Comm: rcu_torture_rea Not tainted 6.8.0-rc4-00126-g187292be96ae #1
-[  292.530780][  T653] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-[  292.532329][  T653] Call Trace:
-[  292.533524][  T653]  <TASK>
-[ 292.534696][ T653] dump_stack_lvl (lib/dump_stack.c:?) 
-[ 292.535941][ T653] ? __cfi_dump_stack_lvl (lib/dump_stack.c:98) 
-[ 292.537221][ T653] ? lockdep_rcu_suspicious (kernel/locking/lockdep.c:6712) 
-[ 292.538523][ T653] rcu_torture_one_read (kernel/rcu/rcutorture.c:?) rcutorture
-[ 292.539887][ T653] ? __cfi_lockdep_hardirqs_on_prepare (kernel/locking/lockdep.c:4312) 
-[ 292.541226][ T653] ? rcu_torture_timer (kernel/rcu/rcutorture.c:1955) rcutorture
-[ 292.542621][ T653] ? __cfi_rcu_torture_timer (kernel/rcu/rcutorture.c:2055) rcutorture
-[ 292.544012][ T653] ? init_timer_key (include/linux/lockdep.h:135 include/linux/lockdep.h:142 include/linux/lockdep.h:148 kernel/time/timer.c:847 kernel/time/timer.c:867) 
-[ 292.545262][ T653] rcu_torture_reader (kernel/rcu/rcutorture.c:2093) rcutorture
-[ 292.546579][ T653] ? __cfi_rcu_torture_reader (kernel/rcu/rcutorture.c:2076) rcutorture
-[ 292.547872][ T653] ? __cfi__raw_spin_unlock_irqrestore (kernel/locking/spinlock.c:193) 
-[ 292.549108][ T653] ? __cfi_rcu_torture_timer (kernel/rcu/rcutorture.c:2055) rcutorture
-[ 292.550341][ T653] ? __kthread_parkme (kernel/kthread.c:?) 
-[ 292.551425][ T653] ? __kthread_parkme (include/linux/instrumented.h:? include/asm-generic/bitops/instrumented-non-atomic.h:141 kernel/kthread.c:280) 
-[ 292.552489][ T653] kthread (kernel/kthread.c:390) 
-[ 292.553504][ T653] ? __cfi_rcu_torture_reader (kernel/rcu/rcutorture.c:2076) rcutorture
-[ 292.554689][ T653] ? __cfi_kthread (kernel/kthread.c:341) 
-[ 292.555749][ T653] ret_from_fork (arch/x86/kernel/process.c:153) 
-[ 292.556792][ T653] ? __cfi_kthread (kernel/kthread.c:341) 
-[ 292.557852][ T653] ret_from_fork_asm (arch/x86/entry/entry_64.S:250) 
-[  292.558920][  T653]  </TASK>
-
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20240220/202402201506.b7e4b9b6-oliver.sang@intel.com
-
-
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> in testcase: rcutorture
+> version:
+> with following parameters:
+>
+>         runtime: 300s
+>         test: cpuhotplug
+>         torture_type: busted_srcud
+>
+>
+>
+> compiler: clang-17
+> test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
+>
+> (please refer to attached dmesg/kmsg for entire log/backtrace)
+>
+>
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <oliver.sang@intel.com>
+> | Closes: https://lore.kernel.org/oe-lkp/202402201506.b7e4b9b6-oliver.sang@intel.com
+>
+>
+> [  292.513535][  T653] WARNING: suspicious RCU usage
+> [  292.514923][  T653] 6.8.0-rc4-00126-g187292be96ae #1 Not tainted
+> [  292.516369][  T653] -----------------------------
+> [  292.517743][  T653] kernel/rcu/rcutorture.c:1983 suspicious rcu_dereference_check() usage!
+> [  292.519310][  T653]
+> [  292.519310][  T653] other info that might help us debug this:
+> [  292.519310][  T653]
+> [  292.523130][  T653]
+> [  292.523130][  T653] rcu_scheduler_active = 2, debug_locks = 1
+> [  292.525644][  T653] no locks held by rcu_torture_rea/653.
+> [  292.526974][  T653]
+> [  292.526974][  T653] stack backtrace:
+> [  292.529271][  T653] CPU: 0 PID: 653 Comm: rcu_torture_rea Not tainted 6.8.0-rc4-00126-g187292be96ae #1
+> [  292.530780][  T653] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+> [  292.532329][  T653] Call Trace:
+> [  292.533524][  T653]  <TASK>
+> [ 292.534696][ T653] dump_stack_lvl (lib/dump_stack.c:?)
+> [ 292.535941][ T653] ? __cfi_dump_stack_lvl (lib/dump_stack.c:98)
+> [ 292.537221][ T653] ? lockdep_rcu_suspicious (kernel/locking/lockdep.c:6712)
+> [ 292.538523][ T653] rcu_torture_one_read (kernel/rcu/rcutorture.c:?) rcutorture
+> [ 292.539887][ T653] ? __cfi_lockdep_hardirqs_on_prepare (kernel/locking/lockdep.c:4312)
+> [ 292.541226][ T653] ? rcu_torture_timer (kernel/rcu/rcutorture.c:1955) rcutorture
+> [ 292.542621][ T653] ? __cfi_rcu_torture_timer (kernel/rcu/rcutorture.c:2055) rcutorture
+> [ 292.544012][ T653] ? init_timer_key (include/linux/lockdep.h:135 include/linux/lockdep.h:142 include/linux/lockdep.h:148 kernel/time/timer.c:847 kernel/time/timer.c:867)
+> [ 292.545262][ T653] rcu_torture_reader (kernel/rcu/rcutorture.c:2093) rcutorture
+> [ 292.546579][ T653] ? __cfi_rcu_torture_reader (kernel/rcu/rcutorture.c:2076) rcutorture
+> [ 292.547872][ T653] ? __cfi__raw_spin_unlock_irqrestore (kernel/locking/spinlock.c:193)
+> [ 292.549108][ T653] ? __cfi_rcu_torture_timer (kernel/rcu/rcutorture.c:2055) rcutorture
+> [ 292.550341][ T653] ? __kthread_parkme (kernel/kthread.c:?)
+> [ 292.551425][ T653] ? __kthread_parkme (include/linux/instrumented.h:? include/asm-generic/bitops/instrumented-non-atomic.h:141 kernel/kthread.c:280)
+> [ 292.552489][ T653] kthread (kernel/kthread.c:390)
+> [ 292.553504][ T653] ? __cfi_rcu_torture_reader (kernel/rcu/rcutorture.c:2076) rcutorture
+> [ 292.554689][ T653] ? __cfi_kthread (kernel/kthread.c:341)
+> [ 292.555749][ T653] ret_from_fork (arch/x86/kernel/process.c:153)
+> [ 292.556792][ T653] ? __cfi_kthread (kernel/kthread.c:341)
+> [ 292.557852][ T653] ret_from_fork_asm (arch/x86/entry/entry_64.S:250)
+> [  292.558920][  T653]  </TASK>
+>
+>
+>
+> The kernel config and materials to reproduce are available at:
+> https://download.01.org/0day-ci/archive/20240220/202402201506.b7e4b9b6-oliver.sang@intel.com
+>
+>
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202402201506.b7e4b9b6-oliver.sang%40intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNGCkfFBNiSsc%2BDOm1EDzXZoNLQy_jnEZjt9WuxP5aayw%40mail.gmail.com.
