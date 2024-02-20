@@ -1,181 +1,164 @@
-Return-Path: <kasan-dev+bncBDOJT7EVXMDBBLEZ2SXAMGQELXANBZI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBOVF2SXAMGQEX7XLXJY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63a.google.com (mail-pl1-x63a.google.com [IPv6:2607:f8b0:4864:20::63a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7614C85C5D5
-	for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 21:33:50 +0100 (CET)
-Received: by mail-pl1-x63a.google.com with SMTP id d9443c01a7336-1dc0e27ea7dsf235695ad.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 12:33:50 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1708461229; cv=pass;
+Received: from mail-qt1-x83c.google.com (mail-qt1-x83c.google.com [IPv6:2607:f8b0:4864:20::83c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EBC185C644
+	for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 21:59:40 +0100 (CET)
+Received: by mail-qt1-x83c.google.com with SMTP id d75a77b69052e-42c739603b0sf9051cf.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 12:59:40 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708462778; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YPQo4itQOzhVBiPe13EF+GjXm8kS3fPcvwZ3rNJMQt/nRUXIyzdsn9E3/VheqGoOQY
-         HHh/EoITfs4F1WqBpV2XDMyDVFu6UKzTnzGLXYr/abG8BVH0IZri4Ww2JmNvAS8WPhG9
-         aYi2WcJN5yu/MlYS3vZlpIzIIPpt7YTNARKlWI9raP6Yfe5SVY0ZnvdHM9IiNfw8k2Gh
-         t0nINqg//YM7Fg1XI7BmEmNCTMyKbWVSXq/U90Le7DT0aflA6pXQ7MTwsB9eVTPMTK5m
-         LoMt8YQT13XkaLaK8xlIovDuwYlNjSY6ebvzOEYPJgv4gf7adVlQalLhavBPzxkX1LDr
-         LGjw==
+        b=Tab9qUnV3Iyragx2u738ub0iK46J7mdYRqTduO8HMXhqNJcqzXUxIabE43AyIjDf8t
+         rJnDEfgk/GknNFRH0WrI3er1qQ8pvtE2c1ZmlcXGslbiBQcMJjpZMG9oOX03lgGd/QwA
+         VTW4mMoApZOYzHcLyZGGH23a4ZqrtRYr7+DeQ+XxBTuDEjQHeip1F/AmW2d56cdrMRc4
+         CycGp1IwISfTgd2ipiykdJbGh5Sohh402oJ/k+Tea99SNeBMGfO7vPJsaVS0YRz2vt/o
+         qSapSx2q3l+rYtBYTWRioU7T8cuNfPIi4PeJtnpyeTNB0D2xeD2nMzcha8MYYww0u1g4
+         iLkw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:references:in-reply-to:message-id
-         :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=mXgNXsDVYq06U7q0JLvLXftGCe3W8/+uUEzTVwv0QN0=;
-        fh=Q846Zg3gWwmomdOp1G+XXARGXDX+9qJ7FJkCt/DEyBA=;
-        b=JO/k5ssblK5zNuuXTEY1mDMNLpvweOndW3jRgS9lrqfW+UOU0it2OaL8M901JkeBqt
-         AhMH+Qi/s6MEybFVxiuHp4SLL+kRpMqNJ7O2QtiwXp7hsF3aX/QFuLA1Zs0OAKsoECmu
-         1EsYIGOLPky0vvByq6BOQV3TJt4BHh51vdupqiCHBkQuU7F7Re/SaofGomzFiezWEtrN
-         KWpOGis1GwgaGr+UbsI3QJphKv/7dAhREG4SwfSfLdRlnkC/CsQP7lucm+EPUJ1XNlNm
-         971JPHWFl1FdAr08BfdJM9VyEDLvV6X3S+Cs04fe8yI7kgXR/QeVlFlm9d0lHkwzVd2m
-         B0aA==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=NKdX1bzPawNcOpFKzq2RyNrK4AQ2nYEPjWRiCGzzQmw=;
+        fh=Xn+Ljg0wi9+EcSLFuq7KMFeyUKR2XO0xGB5p2nqV964=;
+        b=dfl0fNNDJtLYXNrovTqFy5TikJfGTbTirYur8HhkZhTAtkxzNId/O4Xd68vzHAjQHh
+         TbgrInLDmVAjD4vIWHz4TXyvxyRgGyXPvBX4ZG5il6SFTJrc555odJRZS6MgWnPeC6D+
+         BOFGCdTmCVA/JOVF+5kgjPIHScwkGk2lCih7aQd3A5MuZiIbzV7ffrVXGV2b24oYxnLs
+         Z8YEarnAZP9WqgUdjPIgmY9L1Z1y7tJHZhi9TNbjqvgsHZpwJfYZYteDydG4U+nrAIdF
+         jnwHzaGI9Kjx6sKZ5z5P2iT8ff9dbhZjh/nu667X/6qtSApH8lFx+5WhnIZ68wUBkXn8
+         L13A==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@motorola.com header.s=DKIM202306 header.b=3DviofDb;
-       spf=pass (google.com: domain of mbland@motorola.com designates 148.163.148.104 as permitted sender) smtp.mailfrom=mbland@motorola.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=motorola.com
+       dkim=pass header.i=@google.com header.s=20230601 header.b=JMbwKhxi;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::1136 as permitted sender) smtp.mailfrom=surenb@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708461229; x=1709066029; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708462778; x=1709067578; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:references:in-reply-to:message-id:date:subject:cc
-         :to:from:mime-version:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mXgNXsDVYq06U7q0JLvLXftGCe3W8/+uUEzTVwv0QN0=;
-        b=B/XCpbYuedEw331swUAxpBOWHypPv5qL+wh0pciKOhlC+fE3+313w5WCYh4Rrdp3iq
-         Chdn3oLQTeAvD3DVgYv2ePh5ATsdChAWMOA0WXBdfvNBfxoOX7OMqJDXBR2rbgqdyV4v
-         fwOlII1gJace42hn5JABGpMes5grZf4YklCa4d6gvqhT9kDcQFAFk5JMItKckJrhyFsD
-         iNAOCuP84DiQU41RSCYxpr07iWYfMcOP3sjKkZpfaCdGpBLDd4EqJLc86qTQDiZpiWpj
-         Amx3uNjFC7y9HD5lvUA9Plu/YCna0b0J4ZnQxqLJzGsMBfJdERxCxHI5v5TinyHvPL+d
-         H/vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708461229; x=1709066029;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-beenthere
-         :mime-version:x-gm-message-state:sender:from:to:cc:subject:date
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mXgNXsDVYq06U7q0JLvLXftGCe3W8/+uUEzTVwv0QN0=;
-        b=nkXx0+BhKeF5Co2CC7weV/6LQioiEjuPvO5Em+UM91LYWJFyULKv738JKt5PJJtIPF
-         8rLSlt7VLhwoJbNNeVtAruWG1WMvsNPTxXgMqOzPigDnWi0B4BsYCYvSUl5FhfWwGPwB
-         pzURTE/STBVnAC3JRSpt03FuiLJ+V3S8uwG53+yXPgJYj6sGWQck9bBtyPoNMG7U79lI
-         KZw4auPOr8EUzIpMsvA6X155BLnWfqrRMzPZsHY4rJV1D5OMSF0kW/xBrxGUVynh3Tfu
-         mAx+US/V04/6I6weutdG+ucPPVf0AQv4ALYDSHlOxHIk8u8q/34lw6PKdFHCn0e87I4k
-         JdwQ==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXZ68eVsWXzPZHgXb1pimX9ra2HLdYz0wlV+ILnAXoAQ+Fyj5KRE5RL3Lvo8EnLkKCCWzgMfduLc/oEnparrzesf8bbnCreRw==
-X-Gm-Message-State: AOJu0YyJ7OCpabgTj3Etku08ejIhT4bIcT8MYu5q80VQwtxTpza2O1qu
-	WDcuHLLFbmEOnUEa+HmLX8EXb0vQ7gWt9GxSXKvY26HCm9FVblMf
-X-Google-Smtp-Source: AGHT+IHdX9CL9hO4BYdZZK9obp0t3WHkrQ0i43Ozi7K/uOyk3MKF0sL0ZHBr6lGsqCdC7mSrtx8glA==
-X-Received: by 2002:a17:903:18d:b0:1db:a6be:ddc6 with SMTP id z13-20020a170903018d00b001dba6beddc6mr28925plg.27.1708461228919;
-        Tue, 20 Feb 2024 12:33:48 -0800 (PST)
-MIME-Version: 1.0
+        bh=NKdX1bzPawNcOpFKzq2RyNrK4AQ2nYEPjWRiCGzzQmw=;
+        b=WhudPmJey3xMLDX2vLX6blKD3HCpGkn/ZWvSmIFqIXn1JusDq44qCa0NeBlUql3B1F
+         lnFG9YKvhq1yeASL6DAOfLam8TK7UqKN8Z/TdBwRe+mI1tindkaYCKKWbcpCU6z8WdPW
+         u/2lnzwiQVQirx7+NG+6OAzeu+MZcIbq1LWjjAR6olsnmIdH1ap6CkioCEfRdZjcGrZO
+         ozpe7wKO9GB5uqBz/CO0IkumIrGHWLDdWX31NamW41qrJZ1PR+uDB8gXyspUgusg2vYt
+         RBn4ZCQm5eO8yp43rnL4RVmmcrWlrS9upbq6h3hEDOEO4XWVO+edlmMrZndL38oGByJy
+         Asmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1708462778; x=1709067578;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NKdX1bzPawNcOpFKzq2RyNrK4AQ2nYEPjWRiCGzzQmw=;
+        b=q5Ylt8IeeK3JXEhvsSqCxp90pbk59F6SWVYoNjMFvwWjPauKG7vfPzKTg0PDhYHpAC
+         8CYPoie56xZg1llxNiglvRIUdWcuhHOvEr750HrE9mc6ksFOCSYF6e5FIs0TYWOvKOLn
+         eS84mMadP/tsWve7hqbSqyKjy+KBDwdVW4eyooOLdFEnjSaQ0Ay6thQJ7aovVm+Yrgt5
+         Oe18WDJyTo/kC4bu2BewuNsh1xZzwVeBsaNF2N6eAi+1UFFq3JC31I832OgLBh3paCbd
+         NIjhmWi9qGNk1g9kqPWBG4iEFtPcvLb1hEQD9Wg/6JNPKL2YrecZHLCSjFauARDHiVJk
+         nxww==
+X-Forwarded-Encrypted: i=2; AJvYcCWs34dSacfvu9BC6N+QhOuqaK5ZQgguo4O/oANyfoF/CV/DhmmWH9ucGQVswwWq/X/mmadaYFaEWQethgTGZPwRYKmkrEIrOg==
+X-Gm-Message-State: AOJu0YwT/SFP2cD9gM5YuU9JW8IqApl29pfAzTbdtz6KJ+yFBxa84k/x
+	inI45mV3jlae1b1LOybQfdd4DSY0zCsMkeZOzzQVOw/x8ZTkZU+u
+X-Google-Smtp-Source: AGHT+IHv7inIKzxDNBDAH7QRH4qJAr1Gfyxllbp+DFDKmLcf6/2AdSagVVt0g9BLsqduiDej/+07qg==
+X-Received: by 2002:a05:622a:1054:b0:42e:1288:2900 with SMTP id f20-20020a05622a105400b0042e12882900mr7302qte.18.1708462778571;
+        Tue, 20 Feb 2024 12:59:38 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:324d:b0:1db:4c75:a290 with SMTP id
- ji13-20020a170903324d00b001db4c75a290ls945606plb.0.-pod-prod-04-us; Tue, 20
- Feb 2024 12:33:48 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCW33eMoAeEUJtCgRnUiEPDu2pNo/P5noroe3APcw+LdJdnjVoQH1H0s+DouPdskF8pb/c47QXIE+gunwKk3DUThMl4H+WGUnRN2tA==
-X-Received: by 2002:a17:902:c1c1:b0:1db:b43b:e9 with SMTP id c1-20020a170902c1c100b001dbb43b00e9mr8698893plc.7.1708461227740;
-        Tue, 20 Feb 2024 12:33:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1708461227; cv=none;
+Received: by 2002:a25:d082:0:b0:dc7:4417:ec4e with SMTP id h124-20020a25d082000000b00dc74417ec4els1119042ybg.1.-pod-prod-04-us;
+ Tue, 20 Feb 2024 12:59:37 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCU9jrlgDJ0kcsZ4aCoRwGZAu48dJ9D0gxrzOrql3fNiOXzLRn9cF5RzqrAOK4i2nxvxE3siQNsnR8pOKkCnzRHBr7SKOv6Act50fg==
+X-Received: by 2002:a25:910e:0:b0:dcd:ef35:91d5 with SMTP id v14-20020a25910e000000b00dcdef3591d5mr12572150ybl.2.1708462777670;
+        Tue, 20 Feb 2024 12:59:37 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1708462777; cv=none;
         d=google.com; s=arc-20160816;
-        b=RPz3MZclPPalypIKXOA1661xtAOaxvQUhCRUqaAs2ZtDLLFs9GZGj4xfqevQ0tjGpb
-         Ed1TFnlWa0WW8rf0tNwV0ugsTcYLDlej/lDhB7DWsjzwfcLdjmgiXMzb7ZWVqB9reB07
-         2ZXnYqfeNfguZ1IwZkaCaeuoT0ZpYt0FmGe06pbppJd28+ZboiSrRRZsfhNVmXss0Q1v
-         XWhEsYT8vgOiTe4iX6ZABf6a1nezD7JNufANMb9Bc4fUKY+yEFtvaAbCPecYE7zG4MaP
-         tS3G1kXhS9cwKEqpsgu64WI2CoE/cpkhneu9iUEnvZpuTwlgOwA5rnQKS08CYHs973dv
-         lNUg==
+        b=udpv8MyCaiseIDZYAraR/YKzZYFGdpGjczoJcguZ262P5hwzmV1eYSKzOedbka73bp
+         EA5UeTs3wj9QSA9d0YNySBnvpf5fslzIhrPBVEzQCcY98sMujCeczzUacFPh0zPHm4jX
+         8gcwllF3eV6fngbWjY4VLhHuW6wfFMdD7AxENlTFUjQVIhCVvSEFV6ftSMJswYXfWf2l
+         LdUxDCuSgMTl2I1474Jt8H3YsncSA03Bc5jD8xz5jLyflzgpCl240K9iJiolqqzJKA1N
+         oemLR4+UrJYdKwCwA3bgho9NZ8qjcfEz0R5Pp1II0Byh1VLTyHkz3MlX9umErNw33Bui
+         VFDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=references:in-reply-to:message-id:date:subject:cc:to:from
-         :dkim-signature;
-        bh=yYaZ6KkZCfPgvE7ldRLRah8LlOxOAhyoW4Oo9vMYLI4=;
-        fh=FkeYy9VFhDbdZf7Wr1j+kC7C7CaCFd0E6M33TF/KxqU=;
-        b=vAsM+L+VxYIlH/G129XSSs1bwUn7EdLmD6gQYFFqCD50QULYjqybHA0Er3iLj6ohnQ
-         D335bnbB7f5lhphD+2xybkB0rzVlCv5fefrFL5LHY5Lhazh5zkBPj4sTOlAO/vnxlkQD
-         CmFY189f5cC0vazpIx70UeXGbPBqm0BOKilDSLf3LqqIvCnld7jvG4IYvUsUILUljbjW
-         pFW4UYcai9HK63+9lkqKV0vvVmhIiOAr6ODykusAdebvwuZIYMWK8bnn9T62hnkvemcz
-         zV80Luw/1WoXzvQjHhPT5dB5B16a3iPVHl/z8a4hrziJUhj9Fy8O6JfB2VEc1TFg4NoG
-         1fZg==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lAWvibZYCLZJ18pHlosxEIJ4ZpAXKtZDbRFFnu5UjNY=;
+        fh=KNSqFKjn2QKk1h2mHFTR6/RHRfi8njuP/Iy5USxabXU=;
+        b=bp7lAmFpFAHpLzaogAnY6qKFNBSEYkMnyA+aHa7ETA5/BQjYQcnM+Jfp/xBIjr5B/A
+         CzoHvidPPXPyC5MyOpN6qb+03otFBlBDPWxSPiJE6QbKdQJrbAVZAnTVmel1Lw8sWfyF
+         82/LY4jxQhXTQ8Zo1Mas17JHM8iwGxowGbqZk2UiBaDpMlVf2MaUlPCiMBtu8jbkDc4f
+         MWAH4da60c/YF1JuGDVfRWW8IECSCv1lmVcxyBd/ibkbAhOBv8L9jopRk/Xo8WRJXae2
+         TMxAyRU6QJ1c4aLLTOug0OTqqFkx3Ss38SiDfc6P0eSBBSCGZzLhyti+bOu6K/2fxkXf
+         0MeQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@motorola.com header.s=DKIM202306 header.b=3DviofDb;
-       spf=pass (google.com: domain of mbland@motorola.com designates 148.163.148.104 as permitted sender) smtp.mailfrom=mbland@motorola.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=motorola.com
-Received: from mx0a-00823401.pphosted.com (mx0a-00823401.pphosted.com. [148.163.148.104])
-        by gmr-mx.google.com with ESMTPS id t20-20020a170902d29400b001d8e76e7179si429108plc.3.2024.02.20.12.33.47
+       dkim=pass header.i=@google.com header.s=20230601 header.b=JMbwKhxi;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::1136 as permitted sender) smtp.mailfrom=surenb@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com. [2607:f8b0:4864:20::1136])
+        by gmr-mx.google.com with ESMTPS id 197-20020a250bce000000b00dcd162eec7esi1069659ybl.2.2024.02.20.12.59.37
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 20 Feb 2024 12:33:47 -0800 (PST)
-Received-SPF: pass (google.com: domain of mbland@motorola.com designates 148.163.148.104 as permitted sender) client-ip=148.163.148.104;
-Received: from pps.filterd (m0355085.ppops.net [127.0.0.1])
-	by mx0a-00823401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41KJDULs001368;
-	Tue, 20 Feb 2024 20:33:24 GMT
-Received: from ilclpfpp01.lenovo.com ([144.188.128.67])
-	by mx0a-00823401.pphosted.com (PPS) with ESMTPS id 3wd21yr5eq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 Feb 2024 20:33:24 +0000 (GMT)
-Received: from ilclmmrp01.lenovo.com (ilclmmrp01.mot.com [100.65.83.165])
-	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by ilclpfpp01.lenovo.com (Postfix) with ESMTPS id 4TfWM66Jq3zfBZq;
-	Tue, 20 Feb 2024 20:33:22 +0000 (UTC)
-Received: from ilclasset01.mot.com (ilclasset01.mot.com [100.64.7.105])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mbland)
-	by ilclmmrp01.lenovo.com (Postfix) with ESMTPSA id 4TfWM65bfHz3n3fr;
-	Tue, 20 Feb 2024 20:33:22 +0000 (UTC)
-From: Maxwell Bland <mbland@motorola.com>
-To: linux-arm-kernel@lists.infradead.org
-Cc: gregkh@linuxfoundation.org, agordeev@linux.ibm.com,
-        akpm@linux-foundation.org, andreyknvl@gmail.com, andrii@kernel.org,
-        aneesh.kumar@kernel.org, aou@eecs.berkeley.edu, ardb@kernel.org,
-        arnd@arndb.de, ast@kernel.org, borntraeger@linux.ibm.com,
-        bpf@vger.kernel.org, brauner@kernel.org, catalin.marinas@arm.com,
-        christophe.leroy@csgroup.eu, cl@linux.com, daniel@iogearbox.net,
-        dave.hansen@linux.intel.com, david@redhat.com, dennis@kernel.org,
-        dvyukov@google.com, glider@google.com, gor@linux.ibm.com,
-        guoren@kernel.org, haoluo@google.com, hca@linux.ibm.com,
-        hch@infradead.org, john.fastabend@gmail.com, jolsa@kernel.org,
-        kasan-dev@googlegroups.com, kpsingh@kernel.org,
-        linux-arch@vger.kernel.org, linux@armlinux.org.uk,
-        linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        lstoakes@gmail.com, mark.rutland@arm.com, martin.lau@linux.dev,
-        meted@linux.ibm.com, michael.christie@oracle.com, mjguzik@gmail.com,
-        mpe@ellerman.id.au, mst@redhat.com, muchun.song@linux.dev,
-        naveen.n.rao@linux.ibm.com, npiggin@gmail.com, palmer@dabbelt.com,
-        paul.walmsley@sifive.com, quic_nprakash@quicinc.com,
-        quic_pkondeti@quicinc.com, rick.p.edgecombe@intel.com,
-        ryabinin.a.a@gmail.com, ryan.roberts@arm.com, samitolvanen@google.com,
-        sdf@google.com, song@kernel.org, surenb@google.com,
-        svens@linux.ibm.com, tj@kernel.org, urezki@gmail.com,
-        vincenzo.frascino@arm.com, will@kernel.org, wuqiang.matt@bytedance.com,
-        yonghong.song@linux.dev, zlim.lnx@gmail.com, mbland@motorola.com,
-        awheeler@motorola.com
-Subject: [PATCH 4/4] arm64: dynamic enforcement of pmd-level PXNTable
-Date: Tue, 20 Feb 2024 14:32:56 -0600
-Message-Id: <20240220203256.31153-5-mbland@motorola.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20240220203256.31153-1-mbland@motorola.com>
-References: <20240220203256.31153-1-mbland@motorola.com>
-X-Proofpoint-GUID: s5Nwo3HF9NZCc_4JrRDKG2zd9RkRjbkK
-X-Proofpoint-ORIG-GUID: s5Nwo3HF9NZCc_4JrRDKG2zd9RkRjbkK
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-20_06,2024-02-20_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- impostorscore=0 lowpriorityscore=0 phishscore=0 spamscore=0 mlxscore=0
- malwarescore=0 bulkscore=0 mlxlogscore=807 clxscore=1015 adultscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2402200146
-X-Original-Sender: mbland@motorola.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@motorola.com header.s=DKIM202306 header.b=3DviofDb;       spf=pass
- (google.com: domain of mbland@motorola.com designates 148.163.148.104 as
- permitted sender) smtp.mailfrom=mbland@motorola.com;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=motorola.com
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Feb 2024 12:59:37 -0800 (PST)
+Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::1136 as permitted sender) client-ip=2607:f8b0:4864:20::1136;
+Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-6083befe2a7so25508877b3.0
+        for <kasan-dev@googlegroups.com>; Tue, 20 Feb 2024 12:59:37 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWyKoNZBueTnGAp8WjSfosaSk1uJ+xVpxiiCFHkXRW4dhsecUqk080nOHSs69pIx96cog2KRhq1XS01QZZ7VP/0v6/DggJdR4WSGA==
+X-Received: by 2002:a81:7c55:0:b0:607:910c:9cb3 with SMTP id
+ x82-20020a817c55000000b00607910c9cb3mr16089286ywc.36.1708462776952; Tue, 20
+ Feb 2024 12:59:36 -0800 (PST)
+MIME-Version: 1.0
+References: <Zc3X8XlnrZmh2mgN@tiehlicka> <CAJuCfpHc2ee_V6SGAc_31O_ikjGGNivhdSG+2XNcc9vVmzO-9g@mail.gmail.com>
+ <Zc4_i_ED6qjGDmhR@tiehlicka> <CAJuCfpHq3N0h6dGieHxD6Au+qs=iKAifFrHAMxTsHTcDrOwSQA@mail.gmail.com>
+ <ruxvgrm3scv7zfjzbq22on7tj2fjouydzk33k7m2kukm2n6uuw@meusbsciwuut>
+ <320cd134-b767-4f29-869b-d219793ba8a1@suse.cz> <efxe67vo32epvmyzplmpd344nw2wf37azicpfhvkt3zz4aujm3@n27pl5j5zahj>
+ <20240215180742.34470209@gandalf.local.home> <20240215181648.67170ed5@gandalf.local.home>
+ <20240215182729.659f3f1c@gandalf.local.home> <mi5zw42r6c2yfg7fr2pfhfff6hudwizybwydosmdiwsml7vqna@a5iu6ksb2ltk>
+ <CAJuCfpEARb8t8pc8WVZYB=yPk6G_kYGmJTMOdgiMHaYYKW3fUA@mail.gmail.com> <e017b7bc-d747-46e6-a89d-4ce558ed79b0@suse.cz>
+In-Reply-To: <e017b7bc-d747-46e6-a89d-4ce558ed79b0@suse.cz>
+From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 20 Feb 2024 12:59:23 -0800
+Message-ID: <CAJuCfpFYAnDcyBtnPK_fc6PmFMJ6B4OqS=F7-QTidZ+QtJQx1A@mail.gmail.com>
+Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in show_mem()
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>, Steven Rostedt <rostedt@goodmis.org>, 
+	Michal Hocko <mhocko@suse.com>, akpm@linux-foundation.org, hannes@cmpxchg.org, 
+	roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net, 
+	willy@infradead.org, liam.howlett@oracle.com, corbet@lwn.net, 
+	void@manifault.com, peterz@infradead.org, juri.lelli@redhat.com, 
+	catalin.marinas@arm.com, will@kernel.org, arnd@arndb.de, tglx@linutronix.de, 
+	mingo@redhat.com, dave.hansen@linux.intel.com, x86@kernel.org, 
+	peterx@redhat.com, david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, 
+	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org, tj@kernel.org, 
+	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
+	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, 
+	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
+	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com, 
+	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
+	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
+	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
+	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
+	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
+	cgroups@vger.kernel.org, Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: surenb@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20230601 header.b=JMbwKhxi;       spf=pass
+ (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::1136
+ as permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Suren Baghdasaryan <surenb@google.com>
+Reply-To: Suren Baghdasaryan <surenb@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -188,94 +171,84 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-In an attempt to protect against write-then-execute attacks wherein an
-adversary stages malicious code into a data page and then later uses a
-write gadget to mark the data page executable, arm64 enforces PXNTable
-when allocating pmd descriptors during the init process. However, these
-protections are not maintained for dynamic memory allocations, creating
-an extensive threat surface to write-then-execute attacks targeting
-pages allocated through the vmalloc interface.
+On Tue, Feb 20, 2024 at 10:27=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> w=
+rote:
+>
+> On 2/19/24 18:17, Suren Baghdasaryan wrote:
+> > On Thu, Feb 15, 2024 at 3:56=E2=80=AFPM Kent Overstreet
+> > <kent.overstreet@linux.dev> wrote:
+> >>
+> >> On Thu, Feb 15, 2024 at 06:27:29PM -0500, Steven Rostedt wrote:
+> >> > All this, and we are still worried about 4k for useful debugging :-/
+> >
+> > I was planning to refactor this function to print one record at a time
+> > with a smaller buffer but after discussing with Kent, he has plans to
+> > reuse this function and having the report in one buffer is needed for
+> > that.
+>
+> We are printing to console, AFAICS all the code involved uses plain print=
+k()
+> I think it would be way easier to have a function using printk() for this
+> use case than the seq_buf which is more suitable for /proc and friends. T=
+hen
+> all concerns about buffers would be gone. It wouldn't be that much of a c=
+ode
+> duplication?
 
-Straightforward modifications to the pgalloc interface allow for the
-dynamic enforcement of PXNTable, restricting writable and
-privileged-executable code pages to known kernel text, bpf-allocated
-programs, and kprobe-allocated pages, all of which have more extensive
-verification interfaces than the generic vmalloc region.
+Ok, after discussing this with Kent, I'll change this patch to provide
+a function returning N top consumers (the array and N will be provided
+by the caller) and then we can print one record at a time with much
+less memory needed. That should address reusability concerns, will use
+memory more efficiently and will allow for more flexibility (more/less
+than 10 records if needed).
+Thanks for the feedback, everyone!
 
-This patch adds a preprocessor define to check whether a pmd is
-allocated by vmalloc and exists outside of a known code region, and if
-so, marks the pmd as PXNTable, protecting over 100 last-level page
-tables from manipulation in the process.
+>
+> >> Every additional 4k still needs justification. And whether we burn a
+> >> reserve on this will have no observable effect on user output in
+> >> remotely normal situations; if this allocation ever fails, we've alrea=
+dy
+> >> been in an OOM situation for awhile and we've already printed out this
+> >> report many times, with less memory pressure where the allocation woul=
+d
+> >> have succeeded.
+> >
+> > I'm not sure this claim will always be true, specifically in the case
+> > of low-end devices with relatively low amounts of reserves and in the
+>
+> That's right, GFP_ATOMIC failures can easily happen without prior OOMs.
+> Consider a system where userspace allocations fill the memory as they
+> usually do, up to high watermark. Then a burst of packets is received and
+> handled by GFP_ATOMIC allocations that deplete the reserves and can't cau=
+se
+> OOMs (OOM is when we fail to reclaim anything, but we are allocating from=
+ a
+> context that can't reclaim), so the very first report would be an GFP_ATO=
+MIC
+> failure and now it can't allocate that buffer for printing.
+>
+> I'm sure more such scenarios exist, Cc: Tetsuo who I recall was an expert=
+ on
+> this topic.
+>
+> > presence of a possible quick memory usage spike. We should also
+> > consider a case when panic_on_oom is set. All we get is one OOM
+> > report, so we get only one chance to capture this report. In any case,
+> > I don't yet have data to prove or disprove this claim but it will be
+> > interesting to test it with data from the field once the feature is
+> > deployed.
+> >
+> > For now I think with Vlastimil's __GFP_NOWARN suggestion the code
+> > becomes safe and the only risk is to lose this report. If we get cases
+> > with reports missing this data, we can easily change to reserved
+> > memory.
+>
 
-Signed-off-by: Maxwell Bland <mbland@motorola.com>
----
- arch/arm64/include/asm/pgalloc.h | 11 +++++++++--
- arch/arm64/include/asm/vmalloc.h |  5 +++++
- arch/arm64/mm/trans_pgd.c        |  2 +-
- 3 files changed, 15 insertions(+), 3 deletions(-)
-
-diff --git a/arch/arm64/include/asm/pgalloc.h b/arch/arm64/include/asm/pgalloc.h
-index 237224484d0f..5e9262241e8b 100644
---- a/arch/arm64/include/asm/pgalloc.h
-+++ b/arch/arm64/include/asm/pgalloc.h
-@@ -13,6 +13,7 @@
- #include <asm/cacheflush.h>
- #include <asm/tlbflush.h>
- 
-+#define __HAVE_ARCH_ADDR_COND_PMD
- #define __HAVE_ARCH_PGD_FREE
- #include <asm-generic/pgalloc.h>
- 
-@@ -74,10 +75,16 @@ static inline void __pmd_populate(pmd_t *pmdp, phys_addr_t ptep,
-  * of the mm address space.
-  */
- static inline void
--pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmdp, pte_t *ptep)
-+pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmdp, pte_t *ptep,
-+			unsigned long address)
- {
-+	pmdval_t pmd = PMD_TYPE_TABLE | PMD_TABLE_UXN;
- 	VM_BUG_ON(mm && mm != &init_mm);
--	__pmd_populate(pmdp, __pa(ptep), PMD_TYPE_TABLE | PMD_TABLE_UXN);
-+	if (IS_DATA_VMALLOC_ADDR(address) &&
-+		IS_DATA_VMALLOC_ADDR(address + PMD_SIZE)) {
-+		pmd |= PMD_TABLE_PXN;
-+	}
-+	__pmd_populate(pmdp, __pa(ptep), pmd);
- }
- 
- static inline void
-diff --git a/arch/arm64/include/asm/vmalloc.h b/arch/arm64/include/asm/vmalloc.h
-index dbcf8ad20265..6f254ab83f4a 100644
---- a/arch/arm64/include/asm/vmalloc.h
-+++ b/arch/arm64/include/asm/vmalloc.h
-@@ -34,4 +34,9 @@ static inline pgprot_t arch_vmap_pgprot_tagged(pgprot_t prot)
- extern unsigned long code_region_start __ro_after_init;
- extern unsigned long code_region_end __ro_after_init;
- 
-+#define IS_DATA_VMALLOC_ADDR(vaddr) (((vaddr) < code_region_start || \
-+				      (vaddr) > code_region_end) && \
-+				      ((vaddr) >= VMALLOC_START && \
-+				       (vaddr) < VMALLOC_END))
-+
- #endif /* _ASM_ARM64_VMALLOC_H */
-diff --git a/arch/arm64/mm/trans_pgd.c b/arch/arm64/mm/trans_pgd.c
-index 7b14df3c6477..7f903c51e1eb 100644
---- a/arch/arm64/mm/trans_pgd.c
-+++ b/arch/arm64/mm/trans_pgd.c
-@@ -69,7 +69,7 @@ static int copy_pte(struct trans_pgd_info *info, pmd_t *dst_pmdp,
- 	dst_ptep = trans_alloc(info);
- 	if (!dst_ptep)
- 		return -ENOMEM;
--	pmd_populate_kernel(NULL, dst_pmdp, dst_ptep);
-+	pmd_populate_kernel_at(NULL, dst_pmdp, dst_ptep, addr);
- 	dst_ptep = pte_offset_kernel(dst_pmdp, start);
- 
- 	src_ptep = pte_offset_kernel(src_pmdp, start);
--- 
-2.39.2
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240220203256.31153-5-mbland%40motorola.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAJuCfpFYAnDcyBtnPK_fc6PmFMJ6B4OqS%3DF7-QTidZ%2BQtJQx1A%40mail.gm=
+ail.com.
