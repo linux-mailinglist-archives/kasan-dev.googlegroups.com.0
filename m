@@ -1,126 +1,129 @@
 Return-Path: <kasan-dev+bncBDOJT7EVXMDBBJEZ2SXAMGQERSMV5UY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C2285C5D4
+Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id A997085C5D3
 	for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 21:33:42 +0100 (CET)
-Received: by mail-pj1-x103d.google.com with SMTP id 98e67ed59e1d1-29976f92420sf2675202a91.0
+Received: by mail-pl1-x637.google.com with SMTP id d9443c01a7336-1dbcf647a9dsf28738855ad.1
         for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 12:33:42 -0800 (PST)
 ARC-Seal: i=2; a=rsa-sha256; t=1708461221; cv=pass;
         d=google.com; s=arc-20160816;
-        b=V1ttXlpwBXm+bEjs5/REJ6AFxWgncVuZWmMmAuaG72OXft7LRvCdFnEbCQIIRioJYn
-         Ea9LwpRr1eMadW3FGyFXIWNAOiF57B7pA4fO4Qcf2uAcpiaOFqIrVeZLyMiMz6rl9bkw
-         zlxp4T1hYzSE5n9lfiNb5NXtmHSMTwgWnbbEHuTbJw9RJ6Ymzd+SG0UMpJ2n6ThmQIgu
-         Dudl5Q6PVycqYNz/dgqzQxcxQ0IQyHw2dmVA0GBy8R0GrKqlychiiDUFa+cDkYNb2p8L
-         RPAw245tbR0UA3vNMU/ZZYsmAkya8ieGbipjMxMxUCE9ZEHvNnVJdVgR5ttXG3vivN9M
-         ebDQ==
+        b=ECbcghQwg0fTYN89qYEnGrzZz7K9uzbScYemWWTatnILLJPO6k3jmc32i+qbo6g9Yh
+         xy8qCzflh3wtG4xdXRzvm4HZOO5QMayDkfhhMXKtMqytB6dGzilxWuO+NmVLSHhFCueh
+         7l7sia1GJMR/lxGv/a78+rcUb4TGdfSrGyRq8onBLMKhtrWsrjGJAuZnsyIMZw68Eyv9
+         VuJ2Sqh6IniIgBHzKmOu6SbU6ShZmOPY8C7jFq3Wa8NCMhmud6RKLVvEdXuSIqKUT9WA
+         Mbi1Q1/aiSlxumV5TZK6ufD85gBNiBv7GO9bm9/PjnH2yc7eXGmT8Rm6YraBRVgAPeH9
+         df1w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:message-id:date:subject:cc:to:from
-         :mime-version:sender:dkim-signature;
-        bh=8xxa2d6hURfmTzwixEzHalOb99PHtJm+ExV75njgz1U=;
-        fh=riBf+aWaS+c0nWeymqL+BMQ3o1RdpvTyk+p8n/SSy8c=;
-        b=ZEjH0AGFmQCF/DOhgk9zhpldfK89o9dEEvEqO1c3eIT18Se7cDKdu3kVWGP4f8SON6
-         4sxx0qTv1VXikMQUX0CmfdczHYfQmCFgMEaQXV2WuCAdlvMBTjafhdWlQGopN1tvMhgY
-         QIoFEfQb5D3YgwRu4Hlanah1zMdaSoFxL80UNbxhTEwX5XYJrGTOQiUnZZu1oaSfpzNc
-         JlGdUnuxqrXWKAGkbM7U2ZL40Ieb71Apu8RHUG0fsNeqm5RLLknzd+tmgkIAuMwKvZFG
-         +RYxUd55t7ijtJx8ghT/jLTIuxiCtJbF4gR7wBt8X5+YXPUoUD3h0lrWEgiySPMjS275
-         fzHg==;
+         :list-id:mailing-list:precedence:references:in-reply-to:message-id
+         :date:subject:cc:to:from:mime-version:sender:dkim-signature;
+        bh=yRkPGxJPiQqbqE55NRy/zYK0YABnyFljLDUOpdOK3eI=;
+        fh=28x8Fsal6Xm+HA2Pz9mIU5qBD4HRt+WT/xkLhbLbN6s=;
+        b=jWdP8Lz3/BVBN0zx4Ra8solvpBydH2OkGh00MqsGZd3uJILpEiA/lJhIxT8okEFaI4
+         dhULRtE+/kLO0j2M7vOVmzwCLKjw8O9XqymTZEzhRIlBoEyueGIZQ3jM5gypKzqZXosH
+         d3gRXk1RJ4XmzLKS0kbDWBJsHR4xyMtxXw4wiQgcJVLp2/zm6iwrYBH5baPSYK1Qu5Ic
+         CAFEdPmLlA6YvsUbW+joobGnD57bTVNvAQM5C6CWfG9esKnXT6XdVrkml3sgBVOsRp81
+         qzxeMB4V8EmaInVClV2HQs90hlI9aoCP38HTMbtte9S/4Dbj7nMdZLEN7Rzy9yzIjwcM
+         4eag==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@motorola.com header.s=DKIM202306 header.b=TCM9V8XE;
+       dkim=pass header.i=@motorola.com header.s=DKIM202306 header.b=UXr8sKPP;
        spf=pass (google.com: domain of mbland@motorola.com designates 148.163.152.46 as permitted sender) smtp.mailfrom=mbland@motorola.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=motorola.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20230601; t=1708461221; x=1709066021; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:message-id:date:subject:cc:to:from:mime-version
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=8xxa2d6hURfmTzwixEzHalOb99PHtJm+ExV75njgz1U=;
-        b=BDb1obfKj/zLvSQIPbvjaZFBDxeEIuzEf5quJVnPW0VIlOqH8kqKsgWCou4JvzQljZ
-         A8C963ph5UhVPbBHQgSgxmEbvpaKmDdXsZ4YyFNlZYo3xzafN5RtoJ4UlH3YC6QYMq89
-         dS6avUdV6rQurECqXF7duvW6nx62m1lp/jz2ozrKXV6GADHw/HHDrKGeewf6sKYiy/eN
-         hX6BAYlIKGxS+D7kyeQPmWfKA2vYvSwpqzYPTxV7JIo+LyIaKNRnKFm8cbebPApGXhHj
-         +IYic4vzhlz8O0uX9LuJmiVEbBrOhZH1t7CMcFmCWPoAoZRhbZbJxvQxVF6wM0YTsQdO
-         DB+Q==
+         :x-original-sender:references:in-reply-to:message-id:date:subject:cc
+         :to:from:mime-version:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yRkPGxJPiQqbqE55NRy/zYK0YABnyFljLDUOpdOK3eI=;
+        b=j+3t3l4ITzBVCVP5KNMqlM2EXPYbqu7LkSXQ3+A/XksdDuKk3GzX1N1JiTnqc+O6sx
+         Um44h/c+glmcC3vNYmQ3U2O60SdGZvYfh5T3n2bgsq46Glvxrs2HdIiR6V8Ne2gUV02d
+         bVRaTUfYEdKvQrbGYM73lPHibCtw79J0cmHHerz6gqJhl6lbXKAFSK35k+pUYja+ML90
+         o8bB+TS9o/ixPaj33KJL4ojLCQLbfMGP3GZ5cQ6u/xnv+ib5gxCL7R5TUWUrECzaW8v5
+         60EEZItxeOG+t5zDeZjr1X4WvEoIacsV+1W8OKgcrVxbfV+39Xa+fXtXKPVzrJpIMLy0
+         5G4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1708461221; x=1709066021;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:message-id:date
-         :subject:cc:to:from:x-beenthere:mime-version:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=8xxa2d6hURfmTzwixEzHalOb99PHtJm+ExV75njgz1U=;
-        b=fzR51EsroMg+2HtyJjZkP/iIjgtkzvAJZXvqudKZnblxkLq/JA1KQtEV1R8A5RZKxX
-         KnvCdc5vrac5KW9CD6axAmbalWvdJu/Mv24Pz2G52dXSoQixTvEIu0JhQtdvJ9cn8a1V
-         Kyvbo5fuon2f/vLWaQZTW6IR6qNedNK+UMMszWAeq91tC+ZArE1SUGUvHwXAIj3pktD8
-         FJjhYi9xEo2eUlYy4qHCYo8Uu7nli/dXZCa5Ena9vJ4qB6tl98mbrv+wG0wIsiSk/9u9
-         JOVPRFcWbDeeX935amfDObcraVigyZOuDcNZOUgghzRJoSsXiZw4wr4f9spwO0bjkDje
-         5QFQ==
+         :x-original-authentication-results:x-original-sender:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-beenthere
+         :mime-version:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yRkPGxJPiQqbqE55NRy/zYK0YABnyFljLDUOpdOK3eI=;
+        b=bazfH/ky1MjN9TbtOXVs0r8xVqBbLLKdmnNG7idIoBh17aQ3z1NpPQ2ow/RAFGMKB4
+         Kmqtlv/51SETWnh6RIijVohX8jMVeg3/SC+tAT+q8vspbQl2zWmjibch1kkAUEB01YPz
+         EopSZyPQ2yWLK/Zrige01k2TqwAtN0k0z238AD1+rdNWMLoeDHd4ANvbSKqtbb+8YSn9
+         f9rO8VClqkfH6wDt7m2BO5mQ0RNqI5qzkaSbDhwJniP+Cez2jAuHFGHbCU2+Yn+SD3A9
+         608ZFMTmFLjB3fj42+TpImWGtfDheeOsvt7sTNuEjFFkDER85kR46DYB+4G0Z/5c1+sV
+         TADg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXqGNMNpqNoSuxTGaik3WjZO2Sp5WJor/96mzv4DTNNa7HNcJ/ys4FIiO9wsFsmsobrLdLCu82jjH9KFOQSFgzMg5oewI9ApA==
-X-Gm-Message-State: AOJu0YwIjcGyakRJU9xbuwvzVg631ja8INEmrwaRr5JbUcrt7SN0Q0lM
-	6tMrCP97bS5ELj4WeCv4m2a4FR8zllL2aTIcw2SKKqojQykNTR/n
-X-Google-Smtp-Source: AGHT+IHNFmM/tX7q7zyRe31Bv6YGnTTr33JwxahDDrNPDByWOvbt8x8jjozT2AcAyj++7GjHBzLjuA==
-X-Received: by 2002:a17:90a:ac01:b0:296:530:996e with SMTP id o1-20020a17090aac0100b002960530996emr21371023pjq.20.1708461221126;
-        Tue, 20 Feb 2024 12:33:41 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUIfm09gTbsL6yR/vL9M/YG7TK2nGulgDZMkzhENHzz6KRIz/uuaBUuCDDEAY0pHcZv8YM+fzi9wgLv7dhiU8kd+92ZJaOh/w==
+X-Gm-Message-State: AOJu0YwyS/Jb/SuaYITcRLMFMK4zjUlPg2pz4qQOnN4/1OMuGWjbisJm
+	MUhskiYUMAbvM8pp2M2hzZ+cgFOlHWQD97mowocnfxofuxnG+k6+
+X-Google-Smtp-Source: AGHT+IEI4ONjk9ET3bgB6UJuZRL9HHyLAZxR5IpTNfHa3AzlfsBRfgvtGb1Zo6UEsLhAtELJZ/AKcA==
+X-Received: by 2002:a17:903:483:b0:1db:b96f:4a50 with SMTP id jj3-20020a170903048300b001dbb96f4a50mr12717929plb.14.1708461220805;
+        Tue, 20 Feb 2024 12:33:40 -0800 (PST)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:dc0a:b0:299:54a4:4a31 with SMTP id
- i10-20020a17090adc0a00b0029954a44a31ls530755pjv.2.-pod-prod-00-us; Tue, 20
+Received: by 2002:a17:902:c20b:b0:1d9:10f0:ac29 with SMTP id
+ 11-20020a170902c20b00b001d910f0ac29ls2489155pll.2.-pod-prod-00-us; Tue, 20
  Feb 2024 12:33:39 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVX9TX1/h3R1/C+VMQQ/p3FL+M1a8NFfaHGKD9kGqtaGzsSZGL5abgKCeahPiGDBrOmoLyBt3IQnAo4aVyKVBHcA7r4px8F6WefwQ==
-X-Received: by 2002:a17:90a:df93:b0:299:3bff:4e55 with SMTP id p19-20020a17090adf9300b002993bff4e55mr16067505pjv.20.1708461219288;
+X-Forwarded-Encrypted: i=2; AJvYcCVWlmoYuajqJJgtqWXLiL6B8r8iuSJku450HXEWpq6CiE0oRG6aaf9JXuhxO/3fFlhVr8WJFNsQoPesmdCEUvtDhL/ALw+C5GazQA==
+X-Received: by 2002:a17:902:e746:b0:1d9:a15:615d with SMTP id p6-20020a170902e74600b001d90a15615dmr24187044plf.1.1708461219475;
         Tue, 20 Feb 2024 12:33:39 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; t=1708461219; cv=none;
         d=google.com; s=arc-20160816;
-        b=Aos7pGUPrNiWNhMPZ4kXnBSGcDz7J5RQR02Il+BnzMsoIv0ANmGg8K7yosmFqJrXRK
-         gd7sVn/G4KZuz/is5+njdo83r4rTJdjfwPLlvEh5kkkJEV08cr6pmL57fiX7VR+CNszX
-         dmfyNkR55CPOqDKku3vERJ2yRQOH8szRa3IcCMAO5HWflMi/aEcn3D5ryA/ZZtx5kg+H
-         UIjbf2n0lVT1dQcyhRjH/OAYevOtDflCK0GrD7ucXGVmumAxMcxe50ctJU+EnI4GvD+j
-         h3v7SaL2QrUNZ2R/qqLPhiHf22OWGiHPolS2jMukxSiOK2UiU2OXz12kfo5vHe8aTtqM
-         ArgA==
+        b=ASLIkEm7cSrsWoLX7rF9phheTMvhSNoZea6hWTrLaN6Mx2H4tcIztv3tGS//PYfGq9
+         4p4Rw6ykaifTRWvyecS956lFg9YMTvY/tAZyYY1Uqg5KCLvstFM+6OiJpE+2GbmfkiIw
+         9AqZOQCokTySqLqfkimZqVuJJfvJsqScW0R3juGHAGUwk4r+vuRu8RSeUqUaE474Dfyz
+         VodZCHo2e7yzso/Ow7L2fBCqm7oTjoQzknDXn0muAB4Qc/hKk98t4iTnfdbwyIIixZpv
+         Qi+x0woBFpbJcSVZGZg52RCJ1JP/sQkLA0cRBk87eFjnR+woLiPRrNSnJ2dMo8l56xTv
+         lA5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=message-id:date:subject:cc:to:from:dkim-signature;
-        bh=apTduRvBWpkBsoALNYmwCiUzyclrqb5Qqfle8axRCBQ=;
+        h=references:in-reply-to:message-id:date:subject:cc:to:from
+         :dkim-signature;
+        bh=73sw9qCcfHZDBF19mVjUh6QeXe6a4xhn7+e2L7eQ6wM=;
         fh=FkeYy9VFhDbdZf7Wr1j+kC7C7CaCFd0E6M33TF/KxqU=;
-        b=wsOFg6ZH/SYEORL1EOQFMVFype1UUpR+Rn92tsxt6qdseKomKYk0GceazNvLSNI/91
-         F4qPiaroTt990saJNGdNABPYMKthivbhi8Yg9KruPW5rLyUd/Sb/k9pC8kMvhTLTzv6j
-         un0B5V4prJc5CjVHO+aV3hypWIBmg/LgkbTtoDmsrKqawPBHF7at1n+jWhghd7OmD18t
-         QtIharbPfYaltMmYQMHHuD/GI1yutC+Ris117OoacGrwp09OZeCcsc36SrauJQ9GIA5K
-         vNUdBLd/0hksYJNbmsUdLqLOmf67P8s4N+T68YaQiXH4G05U5pf8iJzLIumqKOXQmWhX
-         TfqQ==;
+        b=0EzxW/vwDznFUV5GLy7XKbI0yjagO0ReawGR1/M4zhtE0jD3U6L2w1NTUJhJTSZko5
+         ljWE3+rGKZZ0OrIniiZlcsbLVqoY2y4HvvDJlMp2WQMmr8iPu6JprA+5Rlg1LsPf1wRS
+         oxDbB28Thtt1QfWHM2O8n/+CCMDf034iQLfO29MoeFbn5SYjjNqukNOLQ/L/kKMs10S5
+         aZ/hGNnglEB5/mK4NVNOeXOSs5wZp0AwlshjlG2RZzi5ldQZnUJGft5TSfWA3h+6p0rq
+         xqAv5D6GAmaW6s/o2j+i19grJIYEwxwYqL2GKjlYpi4tGKRa8Kt8i3rdAiGM1V/A+BS9
+         RucQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@motorola.com header.s=DKIM202306 header.b=TCM9V8XE;
+       dkim=pass header.i=@motorola.com header.s=DKIM202306 header.b=UXr8sKPP;
        spf=pass (google.com: domain of mbland@motorola.com designates 148.163.152.46 as permitted sender) smtp.mailfrom=mbland@motorola.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=motorola.com
 Received: from mx0b-00823401.pphosted.com (mx0b-00823401.pphosted.com. [148.163.152.46])
-        by gmr-mx.google.com with ESMTPS id o20-20020a17090ad25400b0029986d3c1e7si2305pjw.1.2024.02.20.12.33.39
+        by gmr-mx.google.com with ESMTPS id kv5-20020a17090328c500b001db63388676si515386plb.8.2024.02.20.12.33.39
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
         Tue, 20 Feb 2024 12:33:39 -0800 (PST)
 Received-SPF: pass (google.com: domain of mbland@motorola.com designates 148.163.152.46 as permitted sender) client-ip=148.163.152.46;
 Received: from pps.filterd (m0355092.ppops.net [127.0.0.1])
-	by mx0b-00823401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41KJHdhj012449;
-	Tue, 20 Feb 2024 20:33:15 GMT
-Received: from va32lpfpp02.lenovo.com ([104.232.228.22])
-	by mx0b-00823401.pphosted.com (PPS) with ESMTPS id 3wd243r5x8-1
+	by mx0b-00823401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41KJHi73012543;
+	Tue, 20 Feb 2024 20:33:18 GMT
+Received: from va32lpfpp01.lenovo.com ([104.232.228.21])
+	by mx0b-00823401.pphosted.com (PPS) with ESMTPS id 3wd243r5xa-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 Feb 2024 20:33:15 +0000 (GMT)
+	Tue, 20 Feb 2024 20:33:18 +0000 (GMT)
 Received: from ilclmmrp01.lenovo.com (ilclmmrp01.mot.com [100.65.83.165])
 	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by va32lpfpp02.lenovo.com (Postfix) with ESMTPS id 4TfWLy335pz50TkT;
-	Tue, 20 Feb 2024 20:33:14 +0000 (UTC)
+	by va32lpfpp01.lenovo.com (Postfix) with ESMTPS id 4TfWM156fyzldQm;
+	Tue, 20 Feb 2024 20:33:17 +0000 (UTC)
 Received: from ilclasset01.mot.com (ilclasset01.mot.com [100.64.7.105])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: mbland)
-	by ilclmmrp01.lenovo.com (Postfix) with ESMTPSA id 4TfWLy0zLHz3n3fr;
-	Tue, 20 Feb 2024 20:33:14 +0000 (UTC)
+	by ilclmmrp01.lenovo.com (Postfix) with ESMTPSA id 4TfWM13X59z3n3fr;
+	Tue, 20 Feb 2024 20:33:17 +0000 (UTC)
 From: Maxwell Bland <mbland@motorola.com>
 To: linux-arm-kernel@lists.infradead.org
 Cc: gregkh@linuxfoundation.org, agordeev@linux.ibm.com,
@@ -150,23 +153,25 @@ Cc: gregkh@linuxfoundation.org, agordeev@linux.ibm.com,
         vincenzo.frascino@arm.com, will@kernel.org, wuqiang.matt@bytedance.com,
         yonghong.song@linux.dev, zlim.lnx@gmail.com, mbland@motorola.com,
         awheeler@motorola.com
-Subject: [PATCH 0/4] arm64: mm: support dynamic vmalloc/pmd configuration
-Date: Tue, 20 Feb 2024 14:32:52 -0600
-Message-Id: <20240220203256.31153-1-mbland@motorola.com>
+Subject: [PATCH 1/4] mm/vmalloc: allow arch-specific vmalloc_node overrides
+Date: Tue, 20 Feb 2024 14:32:53 -0600
+Message-Id: <20240220203256.31153-2-mbland@motorola.com>
 X-Mailer: git-send-email 2.17.1
-X-Proofpoint-ORIG-GUID: Dixf0RDdq0FDklrUtANPOUW76nLLA88z
-X-Proofpoint-GUID: Dixf0RDdq0FDklrUtANPOUW76nLLA88z
+In-Reply-To: <20240220203256.31153-1-mbland@motorola.com>
+References: <20240220203256.31153-1-mbland@motorola.com>
+X-Proofpoint-ORIG-GUID: 1BOL4_DErfcL9zeY20ilUxwJWM2r8GsL
+X-Proofpoint-GUID: 1BOL4_DErfcL9zeY20ilUxwJWM2r8GsL
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-20_06,2024-02-20_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=550 mlxscore=0
- bulkscore=0 phishscore=0 adultscore=0 clxscore=1011 priorityscore=1501
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 mlxscore=0
+ bulkscore=0 phishscore=0 adultscore=0 clxscore=1015 priorityscore=1501
  lowpriorityscore=0 malwarescore=0 suspectscore=0 spamscore=0
  impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2402120000 definitions=main-2402200146
 X-Original-Sender: mbland@motorola.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@motorola.com header.s=DKIM202306 header.b=TCM9V8XE;       spf=pass
+ header.i=@motorola.com header.s=DKIM202306 header.b=UXr8sKPP;       spf=pass
  (google.com: domain of mbland@motorola.com designates 148.163.152.46 as
  permitted sender) smtp.mailfrom=mbland@motorola.com;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=motorola.com
@@ -183,146 +188,435 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Reworks ARM's virtual memory allocation infrastructure to support
-dynamic enforcement of page middle directory PXNTable restrictions
-rather than only during the initial memory mapping. Runtime enforcement
-of this bit prevents write-then-execute attacks, where malicious code is
-staged in vmalloc'd data regions, and later the page table is changed to
-make this code executable.
+Present non-uniform use of __vmalloc_node and __vmalloc_node_range makes
+enforcing appropriate code and data seperation untenable on certain
+microarchitectures, as VMALLOC_START and VMALLOC_END are monolithic
+while the use of the vmalloc interface is non-monolithic: in particular,
+appropriate randomness in ASLR makes it such that code regions must fall
+in some region between VMALLOC_START and VMALLOC_end, but this
+necessitates that code pages are intermingled with data pages, meaning
+code-specific protections, such as arm64's PXNTable, cannot be
+performantly runtime enforced.
 
-Previously the entire region from VMALLOC_START to VMALLOC_END was
-vulnerable, but now the vulnerable region is restricted to the 2GB
-reserved by module_alloc, a region which is generally read-only and more
-difficult to inject staging code into, e.g., data must pass the BPF
-verifier. These changes also set the stage for other systems, such as
-KVM-level (EL2) changes to mark page tables immutable and code page
-verification changes, forging a path toward complete mitigation of
-kernel exploits on ARM.
+The solution to this problem allows architectures to override the
+vmalloc wrapper functions by enforcing that the rest of the kernel does
+not reimplement __vmalloc_node by using __vmalloc_node_range with the
+same parameters as __vmalloc_node or provides a __weak tag to those
+functions using __vmalloc_node_range with parameters repeating those of
+__vmalloc_node.
 
-Implementing this required minimal changes to the generic vmalloc
-interface in the kernel to allow architecture overrides of some vmalloc
-wrapper functions, refactoring vmalloc calls to use a standard interface
-in the generic kernel, and passing the address parameter already passed
-into PTE allocation to the pte_allocate child function call.
-
-The new arm64 vmalloc wrapper functions ensure vmalloc data is not
-allocated into the region reserved for module_alloc. arm64 BPF and
-kprobe code also see a two-line-change ensuring their allocations abide
-by the segmentation of code from data. Finally, arm64's pmd_populate
-function is modified to set the PXNTable bit appropriately.
+Two benefits of this approach are (1) greater flexibility to each
+architecture for handling of virtual memory while not compromising the
+kernel's vmalloc logic and (2) more uniform use of the __vmalloc_node
+interface, reserving the more specialized __vmalloc_node_range for more
+specialized cases, such as kasan's shadow memory.
 
 Signed-off-by: Maxwell Bland <mbland@motorola.com>
-
 ---
-
-After Mark Rutland's feedback last week on my more minimal patch, see
-
-<CAP5Mv+ydhk=Ob4b40ZahGMgT-5+-VEHxtmA=-LkJiEOOU+K6hw@mail.gmail.com>
-
-I adopted a more sweeping and more correct overhaul of ARM's virtual
-memory allocation infrastructure to support these changes. This patch
-guarantees our ability to write future systems with a strong and
-accessible distinction between code and data at the page allocation
-layer, bolstering the guarantees of complementary contributions, i.e.
-W^X and kCFI.
-
-The current patch minimally reduces available vmalloc space, removing
-the 2GB that should be reserved for code allocations regardless, and I
-feel really benefits the kernel by making several memory allocation
-interfaces more uniform, and providing hooks for non-ARM architectures
-to follow suit.
-
-I have done some minimal runtime testing using Torvald's test-tlb script
-on a QEMU VM, but maybe more extensive benchmarking is needed?
-
-Size: Before Patch -> After Patch
-4k: 4.09ns  4.15ns  4.41ns  4.43ns -> 3.68ns  3.73ns  3.67ns  3.73ns 
-8k: 4.22ns  4.19ns  4.30ns  4.15ns -> 3.99ns  3.89ns  4.12ns  4.04ns 
-16k: 3.97ns  4.31ns  4.30ns  4.28ns -> 4.03ns  3.98ns  4.06ns  4.06ns 
-32k: 3.82ns  4.51ns  4.25ns  4.31ns -> 3.99ns  4.09ns  4.07ns  5.17ns 
-64k: 4.50ns  5.59ns  6.13ns  6.14ns -> 4.23ns  4.26ns  5.91ns  5.93ns 
-128k: 5.06ns  4.47ns  6.75ns  6.69ns -> 4.47ns  4.71ns  6.54ns  6.44ns 
-256k: 4.83ns  4.43ns  6.62ns  6.21ns -> 4.39ns  4.62ns  6.71ns  6.65ns 
-512k: 4.45ns  4.75ns  6.19ns  6.65ns -> 4.86ns  5.26ns  7.77ns  6.68ns 
-1M: 4.72ns  4.73ns  6.74ns  6.47ns -> 4.29ns  4.45ns  6.87ns  6.59ns 
-2M: 4.66ns  4.86ns  14.49ns  15.00ns -> 4.53ns  4.57ns  15.91ns  15.90ns 
-4M: 4.85ns  4.95ns  15.90ns  15.98ns -> 4.48ns  4.74ns  17.27ns  17.36ns 
-6M: 4.94ns  5.03ns  17.19ns  17.31ns -> 4.70ns  4.93ns  18.02ns  18.23ns 
-8M: 5.05ns  5.18ns  17.49ns  17.64ns -> 4.96ns  5.07ns  18.84ns  18.72ns 
-16M: 5.55ns  5.79ns  20.99ns  23.70ns -> 5.46ns  5.72ns  22.76ns  26.51ns
-32M: 8.54ns  9.06ns  124.61ns 125.07ns -> 8.43ns  8.59ns  116.83ns 138.83ns
-64M: 8.42ns  8.63ns  196.17ns 204.52ns -> 8.26ns  8.43ns  193.49ns 203.85ns
-128M: 8.31ns  8.58ns  230.46ns 242.63ns -> 8.22ns  8.39ns  227.99ns 240.29ns
-256M: 8.80ns  8.80ns  248.24ns 261.68ns -> 8.35ns  8.55ns  250.18ns 262.20ns
-
-Note I also chose to enforce PXNTable at the PMD layer only (for now),
-since the 194 descriptors which are affected by this change on my
-testing setup are not sufficient to warrant enforcement at a coarser
-granularity.
-
-The architecture-independent changes (I term "generic") can be
-classified only as refactoring, but I feel are also major improvements
-in that they standardize most uses of the vmalloc interface across the
-kernel.
-
-Note this patch reduces the arm64 allocated region for BPF and kprobes,
-but only to match with the existing allocation choices made by the
-generic kernel. I will admit I do not understand why BPF JIT allocation
-code was duplicated into arm64, but I also feel that this was either an
-artifact or that these overrides for generic allocation should require a
-specific KConfig as they trade off between security and space. That
-said, I have chosen not to wrap this patch in a KConfig interface, as I
-feel the changes provide significant benefit to the arm64 kernel's
-baseline security, though a KConfig could certainly be added if the
-maintainers see the need.
-
-Maxwell Bland (4):
-  mm/vmalloc: allow arch-specific vmalloc_node overrides
-  mm: pgalloc: support address-conditional pmd allocation
-  arm64: separate code and data virtual memory allocation
-  arm64: dynamic enforcement of pmd-level PXNTable
-
  arch/arm/kernel/irq.c               |  2 +-
- arch/arm64/include/asm/pgalloc.h    | 11 +++++-
- arch/arm64/include/asm/vmalloc.h    |  8 ++++
  arch/arm64/include/asm/vmap_stack.h |  2 +-
  arch/arm64/kernel/efi.c             |  2 +-
- arch/arm64/kernel/module.c          |  7 ++++
- arch/arm64/kernel/probes/kprobes.c  |  2 +-
- arch/arm64/mm/Makefile              |  3 +-
- arch/arm64/mm/trans_pgd.c           |  2 +-
- arch/arm64/mm/vmalloc.c             | 57 +++++++++++++++++++++++++++++
- arch/arm64/net/bpf_jit_comp.c       |  5 ++-
  arch/powerpc/kernel/irq.c           |  2 +-
  arch/riscv/include/asm/irq_stack.h  |  2 +-
  arch/s390/hypfs/hypfs_diag.c        |  2 +-
- arch/s390/kernel/setup.c            |  6 +--
+ arch/s390/kernel/setup.c            |  6 ++---
  arch/s390/kernel/sthyi.c            |  2 +-
- include/asm-generic/pgalloc.h       | 18 +++++++++
- include/linux/mm.h                  |  4 +-
- include/linux/vmalloc.h             | 15 +++++++-
- kernel/bpf/syscall.c                |  4 +-
- kernel/fork.c                       |  4 +-
- kernel/scs.c                        |  3 +-
+ include/linux/vmalloc.h             | 15 ++++++++++-
+ kernel/bpf/syscall.c                |  4 +--
+ kernel/fork.c                       |  4 +--
+ kernel/scs.c                        |  3 +--
  lib/objpool.c                       |  2 +-
- lib/test_vmalloc.c                  |  6 +--
- mm/hugetlb_vmemmap.c                |  4 +-
- mm/kasan/init.c                     | 22 ++++++-----
- mm/memory.c                         |  4 +-
- mm/percpu.c                         |  2 +-
- mm/pgalloc-track.h                  |  3 +-
- mm/sparse-vmemmap.c                 |  2 +-
- mm/util.c                           |  3 +-
- mm/vmalloc.c                        | 39 +++++++-------------
- 32 files changed, 176 insertions(+), 74 deletions(-)
- create mode 100644 arch/arm64/mm/vmalloc.c
+ lib/test_vmalloc.c                  |  6 ++---
+ mm/util.c                           |  3 +--
+ mm/vmalloc.c                        | 39 +++++++++++------------------
+ 16 files changed, 47 insertions(+), 49 deletions(-)
 
-
-base-commit: b401b621758e46812da61fa58a67c3fd8d91de0d
+diff --git a/arch/arm/kernel/irq.c b/arch/arm/kernel/irq.c
+index fe28fc1f759d..109f4f363621 100644
+--- a/arch/arm/kernel/irq.c
++++ b/arch/arm/kernel/irq.c
+@@ -61,7 +61,7 @@ static void __init init_irq_stacks(void)
+ 						       THREAD_SIZE_ORDER);
+ 		else
+ 			stack = __vmalloc_node(THREAD_SIZE, THREAD_ALIGN,
+-					       THREADINFO_GFP, NUMA_NO_NODE,
++					       THREADINFO_GFP, 0, NUMA_NO_NODE,
+ 					       __builtin_return_address(0));
+ 
+ 		if (WARN_ON(!stack))
+diff --git a/arch/arm64/include/asm/vmap_stack.h b/arch/arm64/include/asm/vmap_stack.h
+index 20873099c035..57a7eaa720d5 100644
+--- a/arch/arm64/include/asm/vmap_stack.h
++++ b/arch/arm64/include/asm/vmap_stack.h
+@@ -21,7 +21,7 @@ static inline unsigned long *arch_alloc_vmap_stack(size_t stack_size, int node)
+ 
+ 	BUILD_BUG_ON(!IS_ENABLED(CONFIG_VMAP_STACK));
+ 
+-	p = __vmalloc_node(stack_size, THREAD_ALIGN, THREADINFO_GFP, node,
++	p = __vmalloc_node(stack_size, THREAD_ALIGN, THREADINFO_GFP, 0, node,
+ 			__builtin_return_address(0));
+ 	return kasan_reset_tag(p);
+ }
+diff --git a/arch/arm64/kernel/efi.c b/arch/arm64/kernel/efi.c
+index 0228001347be..48efa31a9161 100644
+--- a/arch/arm64/kernel/efi.c
++++ b/arch/arm64/kernel/efi.c
+@@ -205,7 +205,7 @@ static int __init arm64_efi_rt_init(void)
+ 		return 0;
+ 
+ 	p = __vmalloc_node(THREAD_SIZE, THREAD_ALIGN, GFP_KERNEL,
+-			   NUMA_NO_NODE, &&l);
++			   0, NUMA_NO_NODE, &&l);
+ l:	if (!p) {
+ 		pr_warn("Failed to allocate EFI runtime stack\n");
+ 		clear_bit(EFI_RUNTIME_SERVICES, &efi.flags);
+diff --git a/arch/powerpc/kernel/irq.c b/arch/powerpc/kernel/irq.c
+index 6f7d4edaa0bc..ceb7ea07ca28 100644
+--- a/arch/powerpc/kernel/irq.c
++++ b/arch/powerpc/kernel/irq.c
+@@ -308,7 +308,7 @@ DEFINE_INTERRUPT_HANDLER_ASYNC(do_IRQ)
+ static void *__init alloc_vm_stack(void)
+ {
+ 	return __vmalloc_node(THREAD_SIZE, THREAD_ALIGN, THREADINFO_GFP,
+-			      NUMA_NO_NODE, (void *)_RET_IP_);
++			      0, NUMA_NO_NODE, (void *)_RET_IP_);
+ }
+ 
+ static void __init vmap_irqstack_init(void)
+diff --git a/arch/riscv/include/asm/irq_stack.h b/arch/riscv/include/asm/irq_stack.h
+index 6441ded3b0cf..d2410735bde0 100644
+--- a/arch/riscv/include/asm/irq_stack.h
++++ b/arch/riscv/include/asm/irq_stack.h
+@@ -24,7 +24,7 @@ static inline unsigned long *arch_alloc_vmap_stack(size_t stack_size, int node)
+ {
+ 	void *p;
+ 
+-	p = __vmalloc_node(stack_size, THREAD_ALIGN, THREADINFO_GFP, node,
++	p = __vmalloc_node(stack_size, THREAD_ALIGN, THREADINFO_GFP, 0, node,
+ 			__builtin_return_address(0));
+ 	return kasan_reset_tag(p);
+ }
+diff --git a/arch/s390/hypfs/hypfs_diag.c b/arch/s390/hypfs/hypfs_diag.c
+index 279b7bba4d43..16359d854288 100644
+--- a/arch/s390/hypfs/hypfs_diag.c
++++ b/arch/s390/hypfs/hypfs_diag.c
+@@ -70,7 +70,7 @@ void *diag204_get_buffer(enum diag204_format fmt, int *pages)
+ 			return ERR_PTR(-EOPNOTSUPP);
+ 	}
+ 	diag204_buf = __vmalloc_node(array_size(*pages, PAGE_SIZE),
+-				     PAGE_SIZE, GFP_KERNEL, NUMA_NO_NODE,
++				     PAGE_SIZE, GFP_KERNEL, 0, NUMA_NO_NODE,
+ 				     __builtin_return_address(0));
+ 	if (!diag204_buf)
+ 		return ERR_PTR(-ENOMEM);
+diff --git a/arch/s390/kernel/setup.c b/arch/s390/kernel/setup.c
+index d1f3b56e7afc..2c25b4e9f20a 100644
+--- a/arch/s390/kernel/setup.c
++++ b/arch/s390/kernel/setup.c
+@@ -254,7 +254,7 @@ static void __init conmode_default(void)
+ 		cpcmd("QUERY TERM", query_buffer, 1024, NULL);
+ 		ptr = strstr(query_buffer, "CONMODE");
+ 		/*
+-		 * Set the conmode to 3215 so that the device recognition 
++		 * Set the conmode to 3215 so that the device recognition
+ 		 * will set the cu_type of the console to 3215. If the
+ 		 * conmode is 3270 and we don't set it back then both
+ 		 * 3215 and the 3270 driver will try to access the console
+@@ -314,7 +314,7 @@ static inline void setup_zfcpdump(void) {}
+ 
+  /*
+  * Reboot, halt and power_off stubs. They just call _machine_restart,
+- * _machine_halt or _machine_power_off. 
++ * _machine_halt or _machine_power_off.
+  */
+ 
+ void machine_restart(char *command)
+@@ -364,7 +364,7 @@ unsigned long stack_alloc(void)
+ 	void *ret;
+ 
+ 	ret = __vmalloc_node(THREAD_SIZE, THREAD_SIZE, THREADINFO_GFP,
+-			     NUMA_NO_NODE, __builtin_return_address(0));
++			     0, NUMA_NO_NODE, __builtin_return_address(0));
+ 	kmemleak_not_leak(ret);
+ 	return (unsigned long)ret;
+ #else
+diff --git a/arch/s390/kernel/sthyi.c b/arch/s390/kernel/sthyi.c
+index 30bb20461db4..5bf239bcdae9 100644
+--- a/arch/s390/kernel/sthyi.c
++++ b/arch/s390/kernel/sthyi.c
+@@ -318,7 +318,7 @@ static void fill_diag(struct sthyi_sctns *sctns)
+ 		return;
+ 
+ 	diag204_buf = __vmalloc_node(array_size(pages, PAGE_SIZE),
+-				     PAGE_SIZE, GFP_KERNEL, NUMA_NO_NODE,
++				     PAGE_SIZE, GFP_KERNEL, 0, NUMA_NO_NODE,
+ 				     __builtin_return_address(0));
+ 	if (!diag204_buf)
+ 		return;
+diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
+index c720be70c8dd..f13bd711ad7d 100644
+--- a/include/linux/vmalloc.h
++++ b/include/linux/vmalloc.h
+@@ -150,7 +150,8 @@ extern void *__vmalloc_node_range(unsigned long size, unsigned long align,
+ 			pgprot_t prot, unsigned long vm_flags, int node,
+ 			const void *caller) __alloc_size(1);
+ void *__vmalloc_node(unsigned long size, unsigned long align, gfp_t gfp_mask,
+-		int node, const void *caller) __alloc_size(1);
++		unsigned long vm_flags, int node, const void *caller)
++		__alloc_size(1);
+ void *vmalloc_huge(unsigned long size, gfp_t gfp_mask) __alloc_size(1);
+ 
+ extern void *__vmalloc_array(size_t n, size_t size, gfp_t flags) __alloc_size(1, 2);
+@@ -295,4 +296,16 @@ bool vmalloc_dump_obj(void *object);
+ static inline bool vmalloc_dump_obj(void *object) { return false; }
+ #endif
+ 
++#if defined(CONFIG_64BIT) && defined(CONFIG_ZONE_DMA32)
++#define GFP_VMALLOC32 (GFP_DMA32 | GFP_KERNEL)
++#elif defined(CONFIG_64BIT) && defined(CONFIG_ZONE_DMA)
++#define GFP_VMALLOC32 (GFP_DMA | GFP_KERNEL)
++#else
++/*
++ * 64b systems should always have either DMA or DMA32 zones. For others
++ * GFP_DMA32 should do the right thing and use the normal zone.
++ */
++#define GFP_VMALLOC32 (GFP_DMA32 | GFP_KERNEL)
++#endif
++
+ #endif /* _LINUX_VMALLOC_H */
+diff --git a/kernel/bpf/syscall.c b/kernel/bpf/syscall.c
+index a1f18681721c..79c11307ff40 100644
+--- a/kernel/bpf/syscall.c
++++ b/kernel/bpf/syscall.c
+@@ -303,8 +303,8 @@ static void *__bpf_map_area_alloc(u64 size, int numa_node, bool mmapable)
+ 			return area;
+ 	}
+ 
+-	return __vmalloc_node_range(size, align, VMALLOC_START, VMALLOC_END,
+-			gfp | GFP_KERNEL | __GFP_RETRY_MAYFAIL, PAGE_KERNEL,
++	return __vmalloc_node(size, align,
++			gfp | GFP_KERNEL | __GFP_RETRY_MAYFAIL,
+ 			flags, numa_node, __builtin_return_address(0));
+ }
+ 
+diff --git a/kernel/fork.c b/kernel/fork.c
+index 0d944e92a43f..800bb1c76000 100644
+--- a/kernel/fork.c
++++ b/kernel/fork.c
+@@ -304,10 +304,8 @@ static int alloc_thread_stack_node(struct task_struct *tsk, int node)
+ 	 * so memcg accounting is performed manually on assigning/releasing
+ 	 * stacks to tasks. Drop __GFP_ACCOUNT.
+ 	 */
+-	stack = __vmalloc_node_range(THREAD_SIZE, THREAD_ALIGN,
+-				     VMALLOC_START, VMALLOC_END,
++	stack = __vmalloc_node(THREAD_SIZE, THREAD_ALIGN,
+ 				     THREADINFO_GFP & ~__GFP_ACCOUNT,
+-				     PAGE_KERNEL,
+ 				     0, node, __builtin_return_address(0));
+ 	if (!stack)
+ 		return -ENOMEM;
+diff --git a/kernel/scs.c b/kernel/scs.c
+index d7809affe740..5b89fb08a392 100644
+--- a/kernel/scs.c
++++ b/kernel/scs.c
+@@ -43,8 +43,7 @@ static void *__scs_alloc(int node)
+ 		}
+ 	}
+ 
+-	s = __vmalloc_node_range(SCS_SIZE, 1, VMALLOC_START, VMALLOC_END,
+-				    GFP_SCS, PAGE_KERNEL, 0, node,
++	s = __vmalloc_node(SCS_SIZE, 1, GFP_SCS, 0, node,
+ 				    __builtin_return_address(0));
+ 
+ out:
+diff --git a/lib/objpool.c b/lib/objpool.c
+index cfdc02420884..f0acd421a652 100644
+--- a/lib/objpool.c
++++ b/lib/objpool.c
+@@ -80,7 +80,7 @@ objpool_init_percpu_slots(struct objpool_head *pool, int nr_objs,
+ 			slot = kmalloc_node(size, pool->gfp, cpu_to_node(i));
+ 		else
+ 			slot = __vmalloc_node(size, sizeof(void *), pool->gfp,
+-				cpu_to_node(i), __builtin_return_address(0));
++				0, cpu_to_node(i), __builtin_return_address(0));
+ 		if (!slot)
+ 			return -ENOMEM;
+ 		memset(slot, 0, size);
+diff --git a/lib/test_vmalloc.c b/lib/test_vmalloc.c
+index 3718d9886407..6bde73f892f9 100644
+--- a/lib/test_vmalloc.c
++++ b/lib/test_vmalloc.c
+@@ -97,7 +97,7 @@ static int random_size_align_alloc_test(void)
+ 		size = ((rnd % 10) + 1) * PAGE_SIZE;
+ 
+ 		ptr = __vmalloc_node(size, align, GFP_KERNEL | __GFP_ZERO, 0,
+-				__builtin_return_address(0));
++				0, __builtin_return_address(0));
+ 		if (!ptr)
+ 			return -1;
+ 
+@@ -120,7 +120,7 @@ static int align_shift_alloc_test(void)
+ 		align = ((unsigned long) 1) << i;
+ 
+ 		ptr = __vmalloc_node(PAGE_SIZE, align, GFP_KERNEL|__GFP_ZERO, 0,
+-				__builtin_return_address(0));
++				0, __builtin_return_address(0));
+ 		if (!ptr)
+ 			return -1;
+ 
+@@ -138,7 +138,7 @@ static int fix_align_alloc_test(void)
+ 	for (i = 0; i < test_loop_count; i++) {
+ 		ptr = __vmalloc_node(5 * PAGE_SIZE, THREAD_ALIGN << 1,
+ 				GFP_KERNEL | __GFP_ZERO, 0,
+-				__builtin_return_address(0));
++				0, __builtin_return_address(0));
+ 		if (!ptr)
+ 			return -1;
+ 
+diff --git a/mm/util.c b/mm/util.c
+index 5a6a9802583b..c6b7111215e2 100644
+--- a/mm/util.c
++++ b/mm/util.c
+@@ -639,8 +639,7 @@ void *kvmalloc_node(size_t size, gfp_t flags, int node)
+ 	 * about the resulting pointer, and cannot play
+ 	 * protection games.
+ 	 */
+-	return __vmalloc_node_range(size, 1, VMALLOC_START, VMALLOC_END,
+-			flags, PAGE_KERNEL, VM_ALLOW_HUGE_VMAP,
++	return __vmalloc_node(size, 1, flags, VM_ALLOW_HUGE_VMAP,
+ 			node, __builtin_return_address(0));
+ }
+ EXPORT_SYMBOL(kvmalloc_node);
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index d12a17fc0c17..18ece28e79d3 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -3119,7 +3119,7 @@ static void *__vmalloc_area_node(struct vm_struct *area, gfp_t gfp_mask,
+ 
+ 	/* Please note that the recursion is strictly bounded. */
+ 	if (array_size > PAGE_SIZE) {
+-		area->pages = __vmalloc_node(array_size, 1, nested_gfp, node,
++		area->pages = __vmalloc_node(array_size, 1, nested_gfp, 0, node,
+ 					area->caller);
+ 	} else {
+ 		area->pages = kmalloc_node(array_size, nested_gfp, node);
+@@ -3379,11 +3379,12 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
+  *
+  * Return: pointer to the allocated memory or %NULL on error
+  */
+-void *__vmalloc_node(unsigned long size, unsigned long align,
+-			    gfp_t gfp_mask, int node, const void *caller)
++__weak void *__vmalloc_node(unsigned long size, unsigned long align,
++			    gfp_t gfp_mask, unsigned long vm_flags, int node,
++			    const void *caller)
+ {
+ 	return __vmalloc_node_range(size, align, VMALLOC_START, VMALLOC_END,
+-				gfp_mask, PAGE_KERNEL, 0, node, caller);
++				gfp_mask, PAGE_KERNEL, vm_flags, node, caller);
+ }
+ /*
+  * This is only for performance analysis of vmalloc and stress purpose.
+@@ -3396,7 +3397,7 @@ EXPORT_SYMBOL_GPL(__vmalloc_node);
+ 
+ void *__vmalloc(unsigned long size, gfp_t gfp_mask)
+ {
+-	return __vmalloc_node(size, 1, gfp_mask, NUMA_NO_NODE,
++	return __vmalloc_node(size, 1, gfp_mask, 0, NUMA_NO_NODE,
+ 				__builtin_return_address(0));
+ }
+ EXPORT_SYMBOL(__vmalloc);
+@@ -3415,7 +3416,7 @@ EXPORT_SYMBOL(__vmalloc);
+  */
+ void *vmalloc(unsigned long size)
+ {
+-	return __vmalloc_node(size, 1, GFP_KERNEL, NUMA_NO_NODE,
++	return __vmalloc_node(size, 1, GFP_KERNEL, 0, NUMA_NO_NODE,
+ 				__builtin_return_address(0));
+ }
+ EXPORT_SYMBOL(vmalloc);
+@@ -3432,7 +3433,7 @@ EXPORT_SYMBOL(vmalloc);
+  *
+  * Return: pointer to the allocated memory or %NULL on error
+  */
+-void *vmalloc_huge(unsigned long size, gfp_t gfp_mask)
++__weak void *vmalloc_huge(unsigned long size, gfp_t gfp_mask)
+ {
+ 	return __vmalloc_node_range(size, 1, VMALLOC_START, VMALLOC_END,
+ 				    gfp_mask, PAGE_KERNEL, VM_ALLOW_HUGE_VMAP,
+@@ -3455,7 +3456,7 @@ EXPORT_SYMBOL_GPL(vmalloc_huge);
+  */
+ void *vzalloc(unsigned long size)
+ {
+-	return __vmalloc_node(size, 1, GFP_KERNEL | __GFP_ZERO, NUMA_NO_NODE,
++	return __vmalloc_node(size, 1, GFP_KERNEL | __GFP_ZERO, 0, NUMA_NO_NODE,
+ 				__builtin_return_address(0));
+ }
+ EXPORT_SYMBOL(vzalloc);
+@@ -3469,7 +3470,7 @@ EXPORT_SYMBOL(vzalloc);
+  *
+  * Return: pointer to the allocated memory or %NULL on error
+  */
+-void *vmalloc_user(unsigned long size)
++__weak void *vmalloc_user(unsigned long size)
+ {
+ 	return __vmalloc_node_range(size, SHMLBA,  VMALLOC_START, VMALLOC_END,
+ 				    GFP_KERNEL | __GFP_ZERO, PAGE_KERNEL,
+@@ -3493,7 +3494,7 @@ EXPORT_SYMBOL(vmalloc_user);
+  */
+ void *vmalloc_node(unsigned long size, int node)
+ {
+-	return __vmalloc_node(size, 1, GFP_KERNEL, node,
++	return __vmalloc_node(size, 1, GFP_KERNEL, 0, node,
+ 			__builtin_return_address(0));
+ }
+ EXPORT_SYMBOL(vmalloc_node);
+@@ -3511,23 +3512,11 @@ EXPORT_SYMBOL(vmalloc_node);
+  */
+ void *vzalloc_node(unsigned long size, int node)
+ {
+-	return __vmalloc_node(size, 1, GFP_KERNEL | __GFP_ZERO, node,
++	return __vmalloc_node(size, 1, GFP_KERNEL | __GFP_ZERO, 0, node,
+ 				__builtin_return_address(0));
+ }
+ EXPORT_SYMBOL(vzalloc_node);
+ 
+-#if defined(CONFIG_64BIT) && defined(CONFIG_ZONE_DMA32)
+-#define GFP_VMALLOC32 (GFP_DMA32 | GFP_KERNEL)
+-#elif defined(CONFIG_64BIT) && defined(CONFIG_ZONE_DMA)
+-#define GFP_VMALLOC32 (GFP_DMA | GFP_KERNEL)
+-#else
+-/*
+- * 64b systems should always have either DMA or DMA32 zones. For others
+- * GFP_DMA32 should do the right thing and use the normal zone.
+- */
+-#define GFP_VMALLOC32 (GFP_DMA32 | GFP_KERNEL)
+-#endif
+-
+ /**
+  * vmalloc_32 - allocate virtually contiguous memory (32bit addressable)
+  * @size:	allocation size
+@@ -3539,7 +3528,7 @@ EXPORT_SYMBOL(vzalloc_node);
+  */
+ void *vmalloc_32(unsigned long size)
+ {
+-	return __vmalloc_node(size, 1, GFP_VMALLOC32, NUMA_NO_NODE,
++	return __vmalloc_node(size, 1, GFP_VMALLOC32, 0, NUMA_NO_NODE,
+ 			__builtin_return_address(0));
+ }
+ EXPORT_SYMBOL(vmalloc_32);
+@@ -3553,7 +3542,7 @@ EXPORT_SYMBOL(vmalloc_32);
+  *
+  * Return: pointer to the allocated memory or %NULL on error
+  */
+-void *vmalloc_32_user(unsigned long size)
++__weak void *vmalloc_32_user(unsigned long size)
+ {
+ 	return __vmalloc_node_range(size, SHMLBA,  VMALLOC_START, VMALLOC_END,
+ 				    GFP_VMALLOC32 | __GFP_ZERO, PAGE_KERNEL,
 -- 
 2.39.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240220203256.31153-1-mbland%40motorola.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240220203256.31153-2-mbland%40motorola.com.
