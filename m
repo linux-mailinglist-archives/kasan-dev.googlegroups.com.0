@@ -1,138 +1,210 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBPFZ2GXAMGQENNJPGYI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKMR55PYIGBBCNE2OXAMGQETNEYZMY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370A685B458
-	for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 09:03:10 +0100 (CET)
-Received: by mail-ot1-x33d.google.com with SMTP id 46e09a7af769-6e427f6974dsf3714827a34.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 00:03:10 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1708416189; cv=pass;
+Received: from mail-wm1-x337.google.com (mail-wm1-x337.google.com [IPv6:2a00:1450:4864:20::337])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F68C85C125
+	for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 17:23:38 +0100 (CET)
+Received: by mail-wm1-x337.google.com with SMTP id 5b1f17b1804b1-410422e8cd1sf22616485e9.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 08:23:38 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708446218; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0vm+TwV9blXKRRSX2zAQWFNcXE3ySTOrwtlf8yYVMZuD7P4U7nZ4w9Kn6rOmlZCEbT
-         jZ3/DYq9UMbSck+cN8bX/xn8PHXeRsS2p7Fwb9UYzsOe0F7O/P95dOoWj2IlqK3HGA6N
-         UE0udJp3Ic7i04RREdY0dAMKJm0V+1LFqhcOGANu9vT+rf53nUOMe6wat+rafmmEb31j
-         MI4P0ntGcY2ShxQnhFEKr1JhS0JKuq2LMoTbxfHxu8HLB+hUXvpHobBD+Xc69FnWX7Fy
-         zaGJYabKSSefBxXTU97yspHleXXoKOseH1W57NIZPZtq1TEO55RAusVPyi8JLSPwvT9t
-         tGqw==
+        b=aMp2lzVMZMhDlK1P/9dni81HjPM3xyYq7Vrj8jYNOFzz0HdxQcHAqutc3PZD3153+D
+         NQb09RhcqxqJDA+GIT/q7vxOdhqRtBFjgM9/EbBNmR8nGBzHfEi8QTFjOUnAFawJwh+o
+         9CMmbuGiSrtjnQD/ceNl6Noa2SHKa92vJYA5oBvXLV9d4CChMUZHuHKKCzx2QWurxsjx
+         LIEQV9Io/MJKpQt9OUNX7MMOH6vhHnEJwLa0NO4YFTMuMHLyWD7+k0SHc+iWon4CPfTq
+         RZZnrk/t1nUHAj9W1GruuPY6h8ivkLEP/6F9Xnova0yaBFMCbLZ40ouZeAJImwOmbsVi
+         fdtQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=Ijui4Dbgf8TzlbnEpbRg7bk09+BeO0jcgKn/JRf8Pl4=;
-        fh=SvlDA8e2DER5v4ywGBciljycgOx0aU4aREaHtyj1t2w=;
-        b=h2gnw8ieXKcefosZfOn7skucLhIRZXdYhejBzQtDE6VmZ+Gla+A4vsfHo24wbc1AUh
-         l9PnhbuaV6VUj1Ux5oK+unStfG7WTQ5npOZqqNoh7qWvk+si/x/VIZJjqaG9AGb83/fP
-         OPRi0EJrCuZtvLPPUDKdh/ICWnlaHHxfmNrSzqUGuS7MWB4pSxdVA8i2gQiJVwL0X3ae
-         SAq94QLfbQxVR5kJABR9AEI/Zq7xCD/Y5khAsG2Xc8AsRPHdBTq71O1b0C5gDbbfZSh0
-         cwKHNleiK1UMjbc7xubKUYCrgAafjcM+i+nMGpujiSufG0LReyEfDKrHE126DsmFOdZe
-         wYbg==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=KmikM4jdYOA0UbKJtp3sZ+fIfojvGCYiCqo4tSCx4ig=;
+        fh=7ZeqZF4AP8hf4xVtz7cuDmaKCmlX4d7aKJDKV94HfGU=;
+        b=kZ9l3v9YqgzltaDw9uVCG+akRMuVnMzqSLWIwtjonkvP+Z9Y22fJQpfxzV0c3284tC
+         iQjRT6vkvlLc5DktXmS2x/F3Kmgxq0sMFKqzL8qGSCVvgI9gB/Db6vkM4VXVT/O93LAQ
+         a/3QBwhkpnn2jaELI77bMQ3TxEbAaR68dO59Y59L0OlTtfrqiBA2NdES4HS+MB7eoZam
+         Btsc3sS0U9UUDq+c/xpxXZf5ePGO7ZGE2DV9hYj3uvKPqYZwsIoCrHhogrQjhIGaz4GO
+         3P3j3hrlZfwLTt61nCfF9fMEfrjfI+zu2AN6deGQ8/S2SgZMajRb8b7wUPzeL0994d9/
+         Ivbw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=PQybSkW7;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2e as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=ZFzfIWnc;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=ZFzfIWnc;
+       spf=pass (google.com: domain of mhocko@suse.com designates 195.135.223.131 as permitted sender) smtp.mailfrom=mhocko@suse.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708416189; x=1709020989; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708446217; x=1709051017; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ijui4Dbgf8TzlbnEpbRg7bk09+BeO0jcgKn/JRf8Pl4=;
-        b=EJzRl8Dok2FDltoCboRD3rugZ3urt44JdT0s4Ppm7oKw2f0d5/SSX/BOpgXxjkMPCT
-         Fc3AuMuB8/XWdWs6Q1aWPn5nJHkcgwHWS4jCtd6EGhaK3pcYkCimFGhzJrgE7TMuUczG
-         6E0pa+E1qRcn0neGUBD1MR6hXG+cNXaTyQ/fjWrtadua6dxPI+GpXbyIAQJUl4yBvqs5
-         9Vw0gr/Qjg+eTevmSy36Du8eIdo7XwexoOWg+rEJ5O+uMmdCTrJ4mLIuG9Hd3iUvojp7
-         z4JR6GcK8loZ3MfM6Oi42aD888UULm9w9hN3iKvypeLhXpmLwbKDeIio1HQBw7XPyDes
-         lgcQ==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KmikM4jdYOA0UbKJtp3sZ+fIfojvGCYiCqo4tSCx4ig=;
+        b=ld6atoOVeI+QIh42PuLM1SsDZYZ0mEDv9W79Vmy2wWE0CoXbJdm9uA3Xy3AS79jTel
+         3cvmwmsQtFXQNBzGamvM0652BVAQRttaTAr0ouyuOLSsy13G0yQ1cTknOZg0ultbBF0O
+         3FGV2jrO1Og/IznC3WfcDoN20AX4vi5CgSkkylyjgpDUVjscCCfND0peF7Qz3horD85x
+         D0j9fMdGQ1ODeZ3WAyFrphieEzozrZfaa6BP+SC+XBrU58/EC7Gj2D82K2wfX0FAEKkK
+         EvO+z9QRm/KARAT/gWtKMckPbN0n+8Q7PIJOQO4/wbAnkSvXLlBmIoSKYZNx+cno98zs
+         yKpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708416189; x=1709020989;
+        d=1e100.net; s=20230601; t=1708446218; x=1709051018;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ijui4Dbgf8TzlbnEpbRg7bk09+BeO0jcgKn/JRf8Pl4=;
-        b=ThMxmnqRuNwrFPdyqw+MxUiGGcEGpECPM9uu9Zxx3gS+URgoSoiG6ugYBSIDamMw9A
-         nD4GXPdVGx7y2QeuVXwn5CrfoeUv+yfu6yHoAuMsNrkk4/kjueClEaCq5JXK1utQnk6Y
-         K53KjOJfr3dQsiglM8OlAEL4NXcn7xQ5Zbfyomypv9nBMy10xqPXiJeDRoQkSWt1WQHF
-         i79/L1evjeXdrcgaC3f5hp32YZwi0H6Yd8zKHVzSQP81gVSAzII8b9ZgSRued2pY1G1S
-         8mYPadmT5b+DruRNPPwdpVcGA9pgvdPkgmZWOFx4mZo58pVQi9sM9YyMeqlvlMUhWh90
-         XN6g==
-X-Forwarded-Encrypted: i=2; AJvYcCXYPahTSEHSPTVUutcfq8ZzRj5dPRyqCS/OWjCHGI/qWcK6xw8ccqP4SyubeWPngnTewHJLv/heGmkjsPAC38xlYh3n385fkw==
-X-Gm-Message-State: AOJu0YzhqAbQhkNvN8um2EXJdIJo9Z99OkTuC50Zhcv5NJLiPlcOwDqA
-	lL9gZum3fVtcl7fgpkqBnzy9WkmBiDG6ngTAiQxMxx4cWwDDTcKL
-X-Google-Smtp-Source: AGHT+IEIRHrI6GNbN2Dp2d09seBebfL+zPrsI490wpZUQtNpYqs59eNgXYXXiEmpU+SqWUKx8OQ2xg==
-X-Received: by 2002:a05:6830:1409:b0:6e2:b5fd:440d with SMTP id v9-20020a056830140900b006e2b5fd440dmr15547229otp.6.1708416188725;
-        Tue, 20 Feb 2024 00:03:08 -0800 (PST)
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KmikM4jdYOA0UbKJtp3sZ+fIfojvGCYiCqo4tSCx4ig=;
+        b=rBxeNsCLjizJRVZ/2r0GIdi6eNF2LjIxDkD+/mqJpuw4zO4RqufWYiREjqlCJJLkLa
+         ie+rnR9YxofVS199bpoY32BVqGROnBGEet19QkBjBM9kCAM02NQH27OIwHBh3Mp8lIL7
+         mMq+U/ikFyAZddUM3fKylaXMU/gcP8QGVtjRWs7p+35G8/n4/Nc1lHlsTGy278+1eNHM
+         Fe9nMLwqFp4Owt+P0aMWUBbTs+Dwt2cP4boKqd7QDnu123mDh8g7e0CUk6xndBt/Oaty
+         JHwVLch8bTDeJNwo8DyvyDY4VPVcRisoao4cNMzKMxwca5MpdFemiQ49qwBgPu9sNpJe
+         c5Zg==
+X-Forwarded-Encrypted: i=2; AJvYcCWqrfRwb4rnlWKJ+h8k6UH8Y9b+NCEX3W8apA0vqxEJQWWJhOtqe8KekovCJ1ahpTNf/WFwTcadvb1Tr3Aw9jDhcN9viJmr7A==
+X-Gm-Message-State: AOJu0YzX1VjD7qtl/sXb082EJ+UDYCF+fdbplUJC20VTUVbbiWIU7VDq
+	C900zuQIZRbe45HQvalJCDYibH2Hipe8wMUroVbcPdB9SbY1duEm
+X-Google-Smtp-Source: AGHT+IEVGtq3j9pbRvoaHb0Eq2VFCmR8Aeaxu02/75C4DYG7YjevZiJ4SyAsoDrJozY4N1hsuYcXHg==
+X-Received: by 2002:a7b:c407:0:b0:410:7e1c:e384 with SMTP id k7-20020a7bc407000000b004107e1ce384mr11969536wmi.41.1708446217201;
+        Tue, 20 Feb 2024 08:23:37 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:1ac1:0:b0:598:db3f:b1ae with SMTP id 184-20020a4a1ac1000000b00598db3fb1aels3973939oof.0.-pod-prod-04-us;
- Tue, 20 Feb 2024 00:03:08 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUAxia+mFm8bgKTCPL9KoHbT9jVrDXhBiPGy/PnPN4QEmgSisdzEQF2xyvH9gmchCvkLa6oI3EUwY/zZFMclJy5GZTOhoMSNX/3sg==
-X-Received: by 2002:a05:6808:2e87:b0:3c1:41fc:d012 with SMTP id gt7-20020a0568082e8700b003c141fcd012mr15059176oib.34.1708416187889;
-        Tue, 20 Feb 2024 00:03:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1708416187; cv=none;
+Received: by 2002:a05:600c:3d8b:b0:412:6aa4:2131 with SMTP id
+ bi11-20020a05600c3d8b00b004126aa42131ls771503wmb.0.-pod-prod-04-eu; Tue, 20
+ Feb 2024 08:23:35 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUC5Qha/slpMbcnKWStyf/6vDQGYTAA8C0iZuZnVIhpcrxcdU5c0NG9Z6DZwQhMMpCKV+wBBpjkiKJNMIq0tBnz5shHZ32ZyaLnlg==
+X-Received: by 2002:a05:600c:a386:b0:411:ee70:ed5c with SMTP id hn6-20020a05600ca38600b00411ee70ed5cmr12130168wmb.12.1708446215083;
+        Tue, 20 Feb 2024 08:23:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1708446215; cv=none;
         d=google.com; s=arc-20160816;
-        b=SOfOaAi/ehRkYjxim4VRdGnmw2hFObCD5t7TSqLDIZnmiGYkFOpOycRNrzND4H/K6L
-         TJlF7pIbheoFrPbA27o6UvGJyoxIxv6csiBb9dGQvP3euNolnsqI5/73UILqYGLL47Ya
-         XGfSa9BljtP9j6pd7REdx8xZUT8wVrs4OSwhvr7hTMFHpP8wQpuaAWj+UrCQDmh+L1GY
-         Lh9bwG7or6MvD77ALwnR8eth+9ExOHf43Y/ziflpOX8HZB//eQQLmHegP0c9kN6sisRu
-         cTjtena6/oS8QpfGYAD73HmVhBEb74OQlMLMAy3xidSTWJ3GFZi5Zg1pr/dYTm11EnVW
-         MuHg==
+        b=DEHQqfGZN7Os5OVqAN+9Qn6Nd7E2ngKHclTjEu6GEFK7Orfs9kVzZdTeVriJ8XA3ht
+         d3PqEY/TnD0Oegxafh3MiL9t630t2pS4EvwP0c9Yk/zvBwj3cdqBAVWLCD7kK/dv4Xr4
+         HPey7e2pAebutuBxFucDYicJ7WqbW/MrvhuxIXeyCNPw/Ds/OkV1gAHshNTMLyDxnPla
+         wU1iMNCjt54dljh7bVuGO2e2izUdITkTHZCL0qCNr+DN34nQKVGRNSD0/o1S/H71/g9B
+         sURQryZsgJBe0yS1TPF5mkwD2UQVoBJ0jpQcmhw11L04ofbQjo2PQ3zoHG2mSyIcW8wk
+         MuDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Q8cERgU0ZSCW6FWHFRH3BebgYcwtul5dolkTErrkCLA=;
-        fh=GeYWgORh4ViR0eW7lth9A95PzmLEmaMD9dJen+ReoWg=;
-        b=MpI7jPum1dZUwFzmzBNKiWSr54+4rfnl8SkvIJgR/SnDl1zTn/HkYck7HrzbVmYjtC
-         e0qX4D8+ZLlpx1Vn8uqmv/5biB4EiH/JO0f/gwGYc0RwMj2SL1RN9/kCty/DEV6NeZ/t
-         gKtESk/M3CD5hepFrAg2Mz7eZRMCd38phXAlwpWl9hLlcZhi7UdNC01HuLGuGE+lonHI
-         QXjr4d4E5QllGRKMw2BaVAi7TA3kIWPquI+EXznlMEvcDLoPashFWsgD8s/wS2W8CxYH
-         yNhgG+M8Q4znXr4Btm4Fdaod1f8BdT2fMobn6d/5Xmsn7sdEgyAUGoqvEycQ5qzXkJiR
-         2Urg==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature:dkim-signature;
+        bh=h8kDAAJVm9DuuVWWpgF8KUfDBqc/AfjUKVkybEu9ZjA=;
+        fh=Irc8DyVFXUpBi1TsipuPTtujWedji5g0RAzplo/y83g=;
+        b=SnK+GckJsG8GLM60JN1r/SH/Hnyr13anEZp1hO0kyNceQd1KOBqPHplrdxLZIMAotH
+         pa55oWUg2vYe2TNSBbfQ+lCcopInvedlk8HoROLj+ZRJ9u7lXY1F/lirIbl8gKhYbJbH
+         777/+aB6rcZvZGpgIOhRur38eRZWaTh3umjsJoup7ChqGPgYc3RaQ5cYaXvDG2uZGbhU
+         /MDccSLp9deeKnLPwSf1UT6oCfe1pp5CbERH82b9YMFy3MpNL3DXa4DW6852sUlAd179
+         p9oNc50iz+vqYUt6YT/ZOqg2qVoitfoXs8pfLStkqI2mNfhSUmWhVBxagcWADsCLO8JE
+         q5pQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=PQybSkW7;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2e as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com. [2607:f8b0:4864:20::e2e])
-        by gmr-mx.google.com with ESMTPS id t17-20020a92c911000000b00364371a54ffsi614360ilp.0.2024.02.20.00.03.07
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=ZFzfIWnc;
+       dkim=pass header.i=@suse.com header.s=susede1 header.b=ZFzfIWnc;
+       spf=pass (google.com: domain of mhocko@suse.com designates 195.135.223.131 as permitted sender) smtp.mailfrom=mhocko@suse.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.223.131])
+        by gmr-mx.google.com with ESMTPS id y9-20020a05600c364900b00411fc619abfsi484690wmq.1.2024.02.20.08.23.35
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 Feb 2024 00:03:07 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2e as permitted sender) client-ip=2607:f8b0:4864:20::e2e;
-Received: by mail-vs1-xe2e.google.com with SMTP id ada2fe7eead31-4704e6dd739so325475137.0
-        for <kasan-dev@googlegroups.com>; Tue, 20 Feb 2024 00:03:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVH4bEojUJdpjGjSt3XblJSxHSybb/bXe4ogKTMEIQzWkprLxm18ZyeC83SmMNZZ+IpnX0QPBiWLu9PccCZ9vBX0Rmpqc9EAD1jsQ==
-X-Received: by 2002:a67:eb94:0:b0:46e:c865:6b4a with SMTP id
- e20-20020a67eb94000000b0046ec8656b4amr11196789vso.34.1708416186959; Tue, 20
- Feb 2024 00:03:06 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Feb 2024 08:23:35 -0800 (PST)
+Received-SPF: pass (google.com: domain of mhocko@suse.com designates 195.135.223.131 as permitted sender) client-ip=195.135.223.131;
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9D00D1F8B3;
+	Tue, 20 Feb 2024 16:23:34 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 77DA3139D0;
+	Tue, 20 Feb 2024 16:23:34 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Dr6rHAbS1GVrVAAAD6G6ig
+	(envelope-from <mhocko@suse.com>); Tue, 20 Feb 2024 16:23:34 +0000
+Date: Tue, 20 Feb 2024 17:23:29 +0100
+From: "'Michal Hocko' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Kent Overstreet <kent.overstreet@linux.dev>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Vlastimil Babka <vbabka@suse.cz>, akpm@linux-foundation.org,
+	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de,
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com,
+	corbet@lwn.net, void@manifault.com, peterz@infradead.org,
+	juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org,
+	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org,
+	masahiroy@kernel.org, nathan@kernel.org, dennis@kernel.org,
+	tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
+	paulmck@kernel.org, pasha.tatashin@soleen.com,
+	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+	ndesaulniers@google.com, vvvvvv@google.com,
+	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com,
+	cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com,
+	42.hyeyoo@gmail.com, glider@google.com, elver@google.com,
+	dvyukov@google.com, shakeelb@google.com, songmuchun@bytedance.com,
+	jbaron@akamai.com, rientjes@google.com, minchan@google.com,
+	kaleshsingh@google.com, kernel-team@android.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+	cgroups@vger.kernel.org
+Subject: Re: [PATCH v3 31/35] lib: add memory allocations report in show_mem()
+Message-ID: <ZdTSAWwNng9rmKtg@tiehlicka>
+References: <Zc4_i_ED6qjGDmhR@tiehlicka>
+ <CAJuCfpHq3N0h6dGieHxD6Au+qs=iKAifFrHAMxTsHTcDrOwSQA@mail.gmail.com>
+ <ruxvgrm3scv7zfjzbq22on7tj2fjouydzk33k7m2kukm2n6uuw@meusbsciwuut>
+ <320cd134-b767-4f29-869b-d219793ba8a1@suse.cz>
+ <efxe67vo32epvmyzplmpd344nw2wf37azicpfhvkt3zz4aujm3@n27pl5j5zahj>
+ <20240215180742.34470209@gandalf.local.home>
+ <20240215181648.67170ed5@gandalf.local.home>
+ <20240215182729.659f3f1c@gandalf.local.home>
+ <mi5zw42r6c2yfg7fr2pfhfff6hudwizybwydosmdiwsml7vqna@a5iu6ksb2ltk>
+ <CAJuCfpEARb8t8pc8WVZYB=yPk6G_kYGmJTMOdgiMHaYYKW3fUA@mail.gmail.com>
 MIME-Version: 1.0
-References: <202402201506.b7e4b9b6-oliver.sang@intel.com>
-In-Reply-To: <202402201506.b7e4b9b6-oliver.sang@intel.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 20 Feb 2024 09:02:28 +0100
-Message-ID: <CANpmjNNGCkfFBNiSsc+DOm1EDzXZoNLQy_jnEZjt9WuxP5aayw@mail.gmail.com>
-Subject: Re: [linux-next:master] [kasan] 187292be96: WARNING:suspicious_RCU_usage
-To: kernel test robot <oliver.sang@intel.com>, "Paul E. McKenney" <paulmck@kernel.org>, RCU <rcu@vger.kernel.org>, 
-	Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay <quic_neeraju@quicinc.com>, 
-	Joel Fernandes <joel@joelfernandes.org>, Josh Triplett <josh@joshtriplett.org>, 
-	Boqun Feng <boqun.feng@gmail.com>
-Cc: oe-lkp@lists.linux.dev, lkp@intel.com, 
-	Linux Memory Management List <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Vlastimil Babka <vbabka@suse.cz>, kasan-dev@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <CAJuCfpEARb8t8pc8WVZYB=yPk6G_kYGmJTMOdgiMHaYYKW3fUA@mail.gmail.com>
+X-Spam-Level: 
+X-Spam-Score: 0.70
+X-Spamd-Result: default: False [0.70 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 BAYES_HAM(-0.00)[16.99%];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 R_RATELIMIT(0.00)[to_ip_from(RLibijwhxa4crtso4io181jfzy)];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.com:s=susede1];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 TO_MATCH_ENVRCPT_SOME(0.00)[];
+	 RCPT_COUNT_GT_50(0.00)[73];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_NOT_FQDN(0.50)[];
+	 FREEMAIL_CC(0.00)[linux.dev,goodmis.org,suse.cz,linux-foundation.org,cmpxchg.org,suse.de,stgolabs.net,infradead.org,oracle.com,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,google.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Flag: NO
+X-Original-Sender: mhocko@suse.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=PQybSkW7;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e2e as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@suse.com header.s=susede1 header.b=ZFzfIWnc;       dkim=pass
+ header.i=@suse.com header.s=susede1 header.b=ZFzfIWnc;       spf=pass
+ (google.com: domain of mhocko@suse.com designates 195.135.223.131 as
+ permitted sender) smtp.mailfrom=mhocko@suse.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=suse.com
+X-Original-From: Michal Hocko <mhocko@suse.com>
+Reply-To: Michal Hocko <mhocko@suse.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,114 +217,29 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 20 Feb 2024 at 08:35, kernel test robot <oliver.sang@intel.com> wrote:
->
->
->
-> Hello,
->
-> we noticed this is a revert commit, below report is for an issue we observed
-> on this commit but not on its parent. just FYI.
->
-> 113edefd366346b3 187292be96ae2be247807fac1c3
-> ---------------- ---------------------------
->        fail:runs  %reproduction    fail:runs
->            |             |             |
->            :6          100%           6:6     dmesg.WARNING:suspicious_RCU_usage
->
->
-> kernel test robot noticed "WARNING:suspicious_RCU_usage" on:
->
-> commit: 187292be96ae2be247807fac1c3a6d89a7cc2a84 ("kasan: revert eviction of stack traces in generic mode")
-> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
+On Mon 19-02-24 09:17:36, Suren Baghdasaryan wrote:
+[...]
+> For now I think with Vlastimil's __GFP_NOWARN suggestion the code
+> becomes safe and the only risk is to lose this report. If we get cases
+> with reports missing this data, we can easily change to reserved
+> memory.
 
-This commit didn't touch rcutorture or the rcu subsystem in any way,
-so I currently don't understand how rcutorture would be affected.
-While stackdepot has started to use RCU, this already happened in a
-previous commit, and this particular commit actually reduced RCU usage
-(no more evictions and re-allocations of stacktraces).
+This is not just about missing part of the oom report. This is annoying
+but not earth shattering. Eating into very small reserves (that might be
+the only usable memory while the system is struggling in OOM situation)
+could cause functional problems that would be non trivial to test for.
+All that for debugging purposes is just lame. If you want to reuse the code
+for a different purpose then abstract it and allocate the buffer when you
+can afford that and use preallocated on when in OOM situation.
 
-The only explanation I have is that it improved performance of a
-KASAN-enabled kernel (which the config here has enabled) so much that
-previously undiscovered issues have now become much more likely to
-occur.
-
-[+Cc rcu folks]
-
-> in testcase: rcutorture
-> version:
-> with following parameters:
->
->         runtime: 300s
->         test: cpuhotplug
->         torture_type: busted_srcud
->
->
->
-> compiler: clang-17
-> test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
->
-> (please refer to attached dmesg/kmsg for entire log/backtrace)
->
->
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <oliver.sang@intel.com>
-> | Closes: https://lore.kernel.org/oe-lkp/202402201506.b7e4b9b6-oliver.sang@intel.com
->
->
-> [  292.513535][  T653] WARNING: suspicious RCU usage
-> [  292.514923][  T653] 6.8.0-rc4-00126-g187292be96ae #1 Not tainted
-> [  292.516369][  T653] -----------------------------
-> [  292.517743][  T653] kernel/rcu/rcutorture.c:1983 suspicious rcu_dereference_check() usage!
-> [  292.519310][  T653]
-> [  292.519310][  T653] other info that might help us debug this:
-> [  292.519310][  T653]
-> [  292.523130][  T653]
-> [  292.523130][  T653] rcu_scheduler_active = 2, debug_locks = 1
-> [  292.525644][  T653] no locks held by rcu_torture_rea/653.
-> [  292.526974][  T653]
-> [  292.526974][  T653] stack backtrace:
-> [  292.529271][  T653] CPU: 0 PID: 653 Comm: rcu_torture_rea Not tainted 6.8.0-rc4-00126-g187292be96ae #1
-> [  292.530780][  T653] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-> [  292.532329][  T653] Call Trace:
-> [  292.533524][  T653]  <TASK>
-> [ 292.534696][ T653] dump_stack_lvl (lib/dump_stack.c:?)
-> [ 292.535941][ T653] ? __cfi_dump_stack_lvl (lib/dump_stack.c:98)
-> [ 292.537221][ T653] ? lockdep_rcu_suspicious (kernel/locking/lockdep.c:6712)
-> [ 292.538523][ T653] rcu_torture_one_read (kernel/rcu/rcutorture.c:?) rcutorture
-> [ 292.539887][ T653] ? __cfi_lockdep_hardirqs_on_prepare (kernel/locking/lockdep.c:4312)
-> [ 292.541226][ T653] ? rcu_torture_timer (kernel/rcu/rcutorture.c:1955) rcutorture
-> [ 292.542621][ T653] ? __cfi_rcu_torture_timer (kernel/rcu/rcutorture.c:2055) rcutorture
-> [ 292.544012][ T653] ? init_timer_key (include/linux/lockdep.h:135 include/linux/lockdep.h:142 include/linux/lockdep.h:148 kernel/time/timer.c:847 kernel/time/timer.c:867)
-> [ 292.545262][ T653] rcu_torture_reader (kernel/rcu/rcutorture.c:2093) rcutorture
-> [ 292.546579][ T653] ? __cfi_rcu_torture_reader (kernel/rcu/rcutorture.c:2076) rcutorture
-> [ 292.547872][ T653] ? __cfi__raw_spin_unlock_irqrestore (kernel/locking/spinlock.c:193)
-> [ 292.549108][ T653] ? __cfi_rcu_torture_timer (kernel/rcu/rcutorture.c:2055) rcutorture
-> [ 292.550341][ T653] ? __kthread_parkme (kernel/kthread.c:?)
-> [ 292.551425][ T653] ? __kthread_parkme (include/linux/instrumented.h:? include/asm-generic/bitops/instrumented-non-atomic.h:141 kernel/kthread.c:280)
-> [ 292.552489][ T653] kthread (kernel/kthread.c:390)
-> [ 292.553504][ T653] ? __cfi_rcu_torture_reader (kernel/rcu/rcutorture.c:2076) rcutorture
-> [ 292.554689][ T653] ? __cfi_kthread (kernel/kthread.c:341)
-> [ 292.555749][ T653] ret_from_fork (arch/x86/kernel/process.c:153)
-> [ 292.556792][ T653] ? __cfi_kthread (kernel/kthread.c:341)
-> [ 292.557852][ T653] ret_from_fork_asm (arch/x86/entry/entry_64.S:250)
-> [  292.558920][  T653]  </TASK>
->
->
->
-> The kernel config and materials to reproduce are available at:
-> https://download.01.org/0day-ci/archive/20240220/202402201506.b7e4b9b6-oliver.sang@intel.com
->
->
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+We have always went extra mile to avoid potentially disruptive
+operations from the oom handling code and I do not see any good reason
+to diverge from that principle.
+-- 
+Michal Hocko
+SUSE Labs
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNGCkfFBNiSsc%2BDOm1EDzXZoNLQy_jnEZjt9WuxP5aayw%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZdTSAWwNng9rmKtg%40tiehlicka.
