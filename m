@@ -1,129 +1,129 @@
-Return-Path: <kasan-dev+bncBDOJT7EVXMDBBLMZ2SXAMGQEFKGPVLQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDOJT7EVXMDBBJEZ2SXAMGQERSMV5UY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63d.google.com (mail-pl1-x63d.google.com [IPv6:2607:f8b0:4864:20::63d])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4BDF85C5D7
-	for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 21:33:50 +0100 (CET)
-Received: by mail-pl1-x63d.google.com with SMTP id d9443c01a7336-1d542680c9csf78827655ad.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 12:33:50 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1708461229; cv=pass;
+Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED6A085C5D2
+	for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 21:33:41 +0100 (CET)
+Received: by mail-il1-x140.google.com with SMTP id e9e14a558f8ab-3652275e581sf25462445ab.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 12:33:41 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708461220; cv=pass;
         d=google.com; s=arc-20160816;
-        b=sG9NlYD57I510CNF9CKDNcTQO4QnJG/ZH9bcVZy7OWCslWS4VBLy2YMrY4ujxSq+RF
-         zXKIDqAOgNO7YiV+r2YGrDNW/m31PznKriI7Jum71pX6CEToBBhfXa0CXSlzsO5TMg9y
-         O+0+ZeD44HuPpZ4ZtsvtaQKpHXwKPKAZaNbVSzag2tPwzqmp5gSJ/x+Ql0xlNRqqw8/H
-         ePCM12ngnbTbXMS+QJPHNL7Z/sTwPCiaswM6Ylkffm+aENQvQBHcAQ9BzIb+ttoiq1g2
-         MJcmB4E4FeZy3xxL5zYMNllGz6R3hwInp+D4GQK/O9XXzS5oebBvobP3Zuai24bJ2M02
-         jp3Q==
+        b=LZvFCI5AGRn3l6chWJwGODzbNWq7GsDE91AwCEndB30D8AizbD1ygz+U1KaVXN3DVe
+         QJHJ3/VRycIokRnpQgu8fuEQHSEOhqyXi/xAFF/VPtY0zeDkYUelLswVn2OBLtDFWRGQ
+         k589coT/sHZhjmWG3+CK+iqhRdVSkwdmBZj2T1eRcWvWcLEx16MbFgb235MhT+hyV3+d
+         CTyS9j5KswflR1TeYHsOl2kcDmEwCdE7/xUNBqjhVV+HaYH+zSu976GvnHLOf2CuxK8R
+         S16r4oToUUu4tP2cpC57bB+TjdTLnYU/Ao4K20awrw5BVRLi3sP5948aLeqq8rAgc87V
+         k0ow==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:references:in-reply-to:message-id
          :date:subject:cc:to:from:mime-version:sender:dkim-signature;
-        bh=AYHB6wWKOfIe2kyveBSc2RlWOfXNLVLfFXvsyXHWpRo=;
-        fh=ajnXzg50vRwCcoBKMO9sx2gAl3uasponY/N/seA/sJc=;
-        b=RlhALJBEhejL4M1Y2nRdhlzj6ToJFm9N5k+KJXfeBoHkqAndJIoftOiVcTkjR1gsBE
-         NNLL9qY4lAY2oL7wBYy4FXaRVVitn4IyCOR4RNZ052U3JK2SPcg2fBRb4tVuGFPsCgue
-         wI8VHoNbparl+CP6oqyXYqdglfSovGWxdQfa1NKwySdBZOVb8qXODRZ5K7JNVik/3i91
-         x2aeYD1yXNZlEFCCX93k2GYaYsN8ZaL1ugOHarVzDRdT+UMuKOxJ6E1WtX6s1/rgC8Zh
-         aG8CyvbuPPySmXTCW1p2H5nDfMPoiD38/5RNT8b1eaCNs6uBwEB6tOMTbfgOpq4DXV9N
-         c8VQ==;
+        bh=j6fQvRJWG3lYtQ6N+HqpzEUq5S1xWO2qNvanLnktmp0=;
+        fh=CkE0nMQj+XuZNcsBFzWGfPRADB2yxsX0roeEpa2Sjh0=;
+        b=M43l3MfL2Q5xtExvTXKAjG+kbweiPPBhT9VW3Gdfr8SY5ZghFWTDKu0m1ifHZtlztb
+         yFWOPYto6BzTlnAxh8TlsDJ/+lu8dnGd2vxa1qofZi3N48aGF+OWTogXrPLJCs6q9eLB
+         wcB7RmzsHSuEiiqRmXbWd5XUG+qmS1cG36+PRERyT3S6C9C8ratrd7ZpMJyvafACcAn+
+         4Or0XaRiIYlES0DiQcmaAVF99Pg/GplyJ9QdZTUQUcFNK74INoKkK7kF3AOK5+mU1w+P
+         S0l1MYABNSyFC6Z/LGfhIBfP2zM6Owa4GOy8KKd7ZfMumJqIuoPi/HQvZKVHls/Bzlxa
+         q8nw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@motorola.com header.s=DKIM202306 header.b=ElSgGv+K;
-       spf=pass (google.com: domain of mbland@motorola.com designates 148.163.148.104 as permitted sender) smtp.mailfrom=mbland@motorola.com;
+       dkim=pass header.i=@motorola.com header.s=DKIM202306 header.b=G8c3FTHW;
+       spf=pass (google.com: domain of mbland@motorola.com designates 148.163.152.46 as permitted sender) smtp.mailfrom=mbland@motorola.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=motorola.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708461229; x=1709066029; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708461220; x=1709066020; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:references:in-reply-to:message-id:date:subject:cc
          :to:from:mime-version:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AYHB6wWKOfIe2kyveBSc2RlWOfXNLVLfFXvsyXHWpRo=;
-        b=rjjtoT0Zv736fIKINeiGViIs0BXB3HGOSrK9IeheCPh9gUatjVSt1MYOR9clQAEUSg
-         FvNNoRvAl/l/orOxY7/cY0ubkV0r/9dOZ1bKHi4y/49gF7YKGOwRnzYnaFGERuFdPFuC
-         PLKlsoXnuj/vWp8wKbVj99dly33cy8fXLDyiB0Z7mcCOXahzDzwGcyiYOwyHge3h2F2M
-         HQOwRsgH1uzpp6LQDUGUxINXVhElUTCinSin+r6AfW+OD0Spn8hbeqt8tbfmeXV9cJxH
-         QJMFr4Z0voT9eUNjOfGnIzyu1fwab2c6YB6pUYT0dkaYCwytbIJ3TaJh9gE50N7zLGlg
-         Pd9w==
+        bh=j6fQvRJWG3lYtQ6N+HqpzEUq5S1xWO2qNvanLnktmp0=;
+        b=jOiwmjtW29MIEKUhtX5iat3UCPxXOngU9gB1zXfvnJ7A8z56BR3jedKFDZIwF59WKG
+         nCwuIFiTcC27iCi5YpmHy19mDC0ptaOXco/p+hWBQaJr9SOOkhsRRSfmPj1R2K9imeKs
+         23F1UfAZmWGqwO49/tGA4L/ecxPaJauGvZUBBsiX9JrDTqeAVyi2XZd8z0+KZ2wVox5M
+         RGYcu1N/92MwvGO/cc13HrNPFijo35bj+8G4VGNtJV9DnctVbLPuzc/yQWyvaKadhG4n
+         W4v+NR42mCaqC1gZUW6De0Gyf11BBQ3hcQwehUKqWzcvcwbe6eUiagW/9ILKY5bPoHLW
+         83KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708461229; x=1709066029;
+        d=1e100.net; s=20230601; t=1708461220; x=1709066020;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-beenthere
          :mime-version:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AYHB6wWKOfIe2kyveBSc2RlWOfXNLVLfFXvsyXHWpRo=;
-        b=CpdL30j9j7sEJ1hjsxs0vCFCh2668OP9FmyCv8qRhd7jd50E9QPj+abxTZlHZlJxN2
-         PK0qLs0HBbHXACuDK864B5plY0N1nM8DCzaCEF5c87VkMoh6FHpIfkYbyVniukQ+MJhf
-         h9PHsRsjmk1wxfdeWYU1ipZ4G/w91EmHqFegftuEmlDKMUY0eJekYubTW/2Ed9avrQ7x
-         mXeHVveqHxhydSKsmgpXakO5SAHtI1nKC/wC6r7mdJ5Ej5N3yxWDuap4bGXs4Go0Fr3J
-         zoMknpE8Tf/3AtNjTV9S8k+ATvpR0zI/wCesq6+UKNuiTtVsbSaG8ZGex83ugwpI8bba
-         dFng==
+        bh=j6fQvRJWG3lYtQ6N+HqpzEUq5S1xWO2qNvanLnktmp0=;
+        b=T0fTP7BZe6xpaxYvhlE7SBIZcb+atBA9Wx8kodXPkM/grdBSr4t4tKyT4+zhznzxmk
+         yVs0HGCObTJOdsKtSsmS4XJT9Pu6Va3cePT3V+KBYlw14Cx12vUPQkF1wyOeqzc5opa8
+         v+bBYr881/weL3fzdh4AxpVvUgPeJR2X+q2wnWARAuSGhVAlu9GdALenRvLPe5v6JNB0
+         slOT7m69OlpC1CDVejPekIzXWSseUGjBrlK+bl6sUdTzuWDzE6f5bWA6JhIA4pjC8t2g
+         bq1zsfrG2Fky2qTLK+G+bN1xp3F/XdHfs84e5/O4D5VA6R5qcjY+xuCdsyToAtDUqwzd
+         phKA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCW6R9ED0fhg4IgRdFlTDq7MHbJqizMtHeWOVP4GjqpfWta4fiIjCDh7FHf26+9Tzb5VVcBsSMbIGSO+D2KgIfjY9aWqJeRnnQ==
-X-Gm-Message-State: AOJu0Yzh/HTlyWp3ouL+mIbJKMP984JSHBvI7d0jr6SajXoADv8/3AWu
-	G7Km8/7VNzbuEdpoLJ2BIN7K72bRx5KtH+MizTs9ZxfVYnZ9b6xF
-X-Google-Smtp-Source: AGHT+IEbEwhu9HNW9eM/R6QP74tQKGqpLwDyCeOrKdYWZ7pN1I5OMMSAsiYbfLlfpNpg3dczaCVPhQ==
-X-Received: by 2002:a17:903:2289:b0:1dc:177b:1d71 with SMTP id b9-20020a170903228900b001dc177b1d71mr3087018plh.57.1708461229303;
-        Tue, 20 Feb 2024 12:33:49 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVrE+GTEi/K8o6Jt87hwvonM3gHEWKXSrxHnmzoi3tPxWZcca5OCzMkK6EYk2dW3GQiydhMTfS8+H2Utiuf0bKBcmdyBH2bdA==
+X-Gm-Message-State: AOJu0YxiIDPSXJ9eSVzQ3dvzZe8NyspX1AdTHC1NzfOCgInvnBxxhkiT
+	7UljGnkljbQor43NPZqm+6vczAQiPx0xHTdD85a9s0Wp4UBVFdTP
+X-Google-Smtp-Source: AGHT+IFrlQjLin0+WBaIuiDruw43zgtdZFpnJHYRIb/yZQIERouwR1NiculQ4Omo8cUYGfnm6oWyJg==
+X-Received: by 2002:a05:6e02:1d8f:b0:365:858:d6d1 with SMTP id h15-20020a056e021d8f00b003650858d6d1mr20133311ila.1.1708461220641;
+        Tue, 20 Feb 2024 12:33:40 -0800 (PST)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:dac2:b0:1db:3ede:8aa7 with SMTP id
- q2-20020a170902dac200b001db3ede8aa7ls3030386plx.1.-pod-prod-01-us; Tue, 20
- Feb 2024 12:33:47 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXq5XLkkdUKusuikXFbj8A7SB7YDmqgZfLYLzxnZvz6wwAS4VwUDQI2+K0mqx6lj1ulRuV/cJYSwm7r5fTM+BaQNKORNjsYLa38rA==
-X-Received: by 2002:a17:902:e548:b0:1db:f11d:feda with SMTP id n8-20020a170902e54800b001dbf11dfedamr8010690plf.10.1708461227602;
-        Tue, 20 Feb 2024 12:33:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1708461227; cv=none;
+Received: by 2002:a05:6e02:e51:b0:363:8ef4:5a93 with SMTP id
+ l17-20020a056e020e5100b003638ef45a93ls2626943ilk.2.-pod-prod-05-us; Tue, 20
+ Feb 2024 12:33:39 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUwxyR+q1UYt615HJYkdGDP2wosd5lMkRQsrZAcMZsbmgaVa8qfTnXP0FDEEvNI5IxY75eds9sULUHrXjtQxL9gvO9lIOxKRFrU+Q==
+X-Received: by 2002:a05:6e02:12e3:b0:364:279c:4a08 with SMTP id l3-20020a056e0212e300b00364279c4a08mr23665881iln.23.1708461219607;
+        Tue, 20 Feb 2024 12:33:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1708461219; cv=none;
         d=google.com; s=arc-20160816;
-        b=qchK1jKlt88rIaVKu1Q2cy+hE5U2jAbdSIJosU3tV269LeRgKe8jhnSAeFsk0yKyCy
-         47IMhrSBWXkOutEATfcc5SbmBVE3li/4CBYHHuPFDc9GeJbvqItaUH4qggUge/C70PT/
-         SbUaVlAfg/yG0gKjntbCMvXFYHci7dZEsh+hgtHb/vGn+f8leQ7r8Hv9GOxJEhTOH/JX
-         kKReGI14NOxLWePB+6qBaMJca6LYdZ0mr85RJvjmAoZWLozlDrAcHqPdDD6trCFdn3JK
-         WRm0VGU88eyj/RTdNdl+HPpd+5v6s16mSvN6hrQIRjlrUw4PyM2x99UGJg5gmGAkgDAJ
-         ZZoQ==
+        b=H1qCTVDpEOsPM/psG/MzvIKWxq1ZE3JTR1h7N771nLrNsgibkrIm9QoBC8K3X3pZQM
+         cRusZT+h80rVCVH1bGsjxoW2KHkh6yFonaIt3Vl8XUbqgzt30PFOE5/y6cqwcS7cSwjo
+         50Um4Qz/3vYmuFwMxFyhEKMijrHZDR8B+uW8YPLYzoTkt9H63NG+W2RzNReiB0vXyZ4y
+         wdta2sTkQusnJm74+oYJ7KA+4lMPGTUG/e21jwQa/u4w1n3fWS0dWAxQxnyWrDkd9HX8
+         byshHWwB9ocwhbaPBH1QK2urh8db+SrRx5DGUku3//2eEfXQS03gpJ1ybhTO1bN68Ecz
+         GKJw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=references:in-reply-to:message-id:date:subject:cc:to:from
          :dkim-signature;
-        bh=lwi3HRNY78hVZA0tkjf7HxRAkL6o9c683flfMjEmlDw=;
+        bh=bbMfJLfH6G5a4s+Z0cFe2wOzrCFA0lQFMo+SQbxfAvI=;
         fh=FkeYy9VFhDbdZf7Wr1j+kC7C7CaCFd0E6M33TF/KxqU=;
-        b=uuSFTNsHvz8NHNSIfD1KCbQGwvnkLUxNvBhwxp6ytfsxZA2NMQfvp0BrG8t9KqD9ge
-         9fsyJ/2GX6FDYptFq2PvslP12Qw3fDzGvC8pG+nyBJkZ72rHiKSUBs3aDNtAYPhSuf5N
-         dJhOvbPHL9Yz3jSXqAl+8ubOlKvb9JvqCt5RFYMeTLIz2ndz62jcoT7aFa0yPj8rrwtz
-         mhGD1O9qE+HJXtMgq7CpuLpQ49EYk4pK7H+eL1smYxelRlKOl8DbJjrfglwjj0YKyCFO
-         3Hbap+ySD303GE0WKsRjY1XZKjzDdmsr2TDzhv3VJBU3/Hy/kFD7mLy4XovqkakIP1VF
-         mudA==;
+        b=xzkY4ha24TyrmVr+OqoztFIktXQxmig+OkoUeJ+YzzmeOmCka4des7Kr5lesWgIqqh
+         Ak10jv9byztVYSHFouEtMoHJvYClzqbk/3kMd26aOhIP5SCimAtE+CVBQrrMheJJPOtz
+         owQSQaeZSgsbsGXwCRyL/p86NIlrtY+geRI8IZci7sohurLbZ477s9l4vQgbRGEfzC5m
+         Cnk/zcAdj7miRzHFlJ8QtKxqPP/bRya4EosdrHGRHL+YwFa/+MB7vsi0p/rqK9BMbX/M
+         mPsd/x9T6Bld+jCm61wdFYjfVpTPHVsRvyIZUHBqPeK+vPZrriWUFD38jKEWqfPSTqqM
+         UVLg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@motorola.com header.s=DKIM202306 header.b=ElSgGv+K;
-       spf=pass (google.com: domain of mbland@motorola.com designates 148.163.148.104 as permitted sender) smtp.mailfrom=mbland@motorola.com;
+       dkim=pass header.i=@motorola.com header.s=DKIM202306 header.b=G8c3FTHW;
+       spf=pass (google.com: domain of mbland@motorola.com designates 148.163.152.46 as permitted sender) smtp.mailfrom=mbland@motorola.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=motorola.com
-Received: from mx0a-00823401.pphosted.com (mx0a-00823401.pphosted.com. [148.163.148.104])
-        by gmr-mx.google.com with ESMTPS id mi13-20020a170902fccd00b001d8cea8344bsi491304plb.7.2024.02.20.12.33.47
+Received: from mx0b-00823401.pphosted.com (mx0b-00823401.pphosted.com. [148.163.152.46])
+        by gmr-mx.google.com with ESMTPS id b9-20020a056e02048900b0036458258671si737527ils.3.2024.02.20.12.33.39
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 20 Feb 2024 12:33:47 -0800 (PST)
-Received-SPF: pass (google.com: domain of mbland@motorola.com designates 148.163.148.104 as permitted sender) client-ip=148.163.148.104;
-Received: from pps.filterd (m0355086.ppops.net [127.0.0.1])
-	by mx0a-00823401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41KJCtfd003147;
-	Tue, 20 Feb 2024 20:33:21 GMT
-Received: from va32lpfpp04.lenovo.com ([104.232.228.24])
-	by mx0a-00823401.pphosted.com (PPS) with ESMTPS id 3wd21w05eb-1
+        Tue, 20 Feb 2024 12:33:39 -0800 (PST)
+Received-SPF: pass (google.com: domain of mbland@motorola.com designates 148.163.152.46 as permitted sender) client-ip=148.163.152.46;
+Received: from pps.filterd (m0355092.ppops.net [127.0.0.1])
+	by mx0b-00823401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41KJHnit012600;
+	Tue, 20 Feb 2024 20:33:22 GMT
+Received: from va32lpfpp02.lenovo.com ([104.232.228.22])
+	by mx0b-00823401.pphosted.com (PPS) with ESMTPS id 3wd243r5xe-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 20 Feb 2024 20:33:20 +0000 (GMT)
+	Tue, 20 Feb 2024 20:33:22 +0000 (GMT)
 Received: from ilclmmrp01.lenovo.com (ilclmmrp01.mot.com [100.65.83.165])
 	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by va32lpfpp04.lenovo.com (Postfix) with ESMTPS id 4TfWM353nvzgQyg;
-	Tue, 20 Feb 2024 20:33:19 +0000 (UTC)
+	by va32lpfpp02.lenovo.com (Postfix) with ESMTPS id 4TfWM54JXDz50TkT;
+	Tue, 20 Feb 2024 20:33:21 +0000 (UTC)
 Received: from ilclasset01.mot.com (ilclasset01.mot.com [100.64.7.105])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: mbland)
-	by ilclmmrp01.lenovo.com (Postfix) with ESMTPSA id 4TfWM33V0nz3n3fr;
-	Tue, 20 Feb 2024 20:33:19 +0000 (UTC)
+	by ilclmmrp01.lenovo.com (Postfix) with ESMTPSA id 4TfWM52tFkz3n3fr;
+	Tue, 20 Feb 2024 20:33:21 +0000 (UTC)
 From: Maxwell Bland <mbland@motorola.com>
 To: linux-arm-kernel@lists.infradead.org
 Cc: gregkh@linuxfoundation.org, agordeev@linux.ibm.com,
@@ -153,26 +153,26 @@ Cc: gregkh@linuxfoundation.org, agordeev@linux.ibm.com,
         vincenzo.frascino@arm.com, will@kernel.org, wuqiang.matt@bytedance.com,
         yonghong.song@linux.dev, zlim.lnx@gmail.com, mbland@motorola.com,
         awheeler@motorola.com
-Subject: [PATCH 2/4] mm: pgalloc: support address-conditional pmd allocation
-Date: Tue, 20 Feb 2024 14:32:54 -0600
-Message-Id: <20240220203256.31153-3-mbland@motorola.com>
+Subject: [PATCH 3/4] arm64: separate code and data virtual memory allocation
+Date: Tue, 20 Feb 2024 14:32:55 -0600
+Message-Id: <20240220203256.31153-4-mbland@motorola.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20240220203256.31153-1-mbland@motorola.com>
 References: <20240220203256.31153-1-mbland@motorola.com>
-X-Proofpoint-GUID: 9_RvRYASrp8BDFERRubxVO2fOgWP-iSC
-X-Proofpoint-ORIG-GUID: 9_RvRYASrp8BDFERRubxVO2fOgWP-iSC
+X-Proofpoint-ORIG-GUID: b8j4dy_LLal3K6w9ma10ijvTf2cYSkmA
+X-Proofpoint-GUID: b8j4dy_LLal3K6w9ma10ijvTf2cYSkmA
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-20_06,2024-02-20_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 clxscore=1015
- spamscore=0 mlxscore=0 priorityscore=1501 mlxlogscore=822 phishscore=0
- bulkscore=0 malwarescore=0 lowpriorityscore=0 impostorscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2402120000
- definitions=main-2402200146
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 mlxscore=0
+ bulkscore=0 phishscore=0 adultscore=0 clxscore=1015 priorityscore=1501
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2402120000 definitions=main-2402200146
 X-Original-Sender: mbland@motorola.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@motorola.com header.s=DKIM202306 header.b=ElSgGv+K;       spf=pass
- (google.com: domain of mbland@motorola.com designates 148.163.148.104 as
+ header.i=@motorola.com header.s=DKIM202306 header.b=G8c3FTHW;       spf=pass
+ (google.com: domain of mbland@motorola.com designates 148.163.152.46 as
  permitted sender) smtp.mailfrom=mbland@motorola.com;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=motorola.com
 Content-Type: text/plain; charset="UTF-8"
@@ -188,237 +188,192 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-While other descriptors (e.g. pud) allow allocations conditional on
-which virtual address is allocated, pmd descriptor allocations do not.
-However, adding support for this is straightforward and is beneficial to
-future kernel development targeting the PMD memory granularity.
+Current BPF and kprobe instruction allocation interfaces do not match
+the base kernel and intermingle code and data pages within the same
+sections. In the case of BPF, this appears to be a result of code
+duplication between the kernel's JIT compiler and arm64's JIT.  However,
+This is no longer necessary given the possibility of overriding vmalloc
+wrapper functions.
 
-As many architectures already implement pmd_populate_kernel in an
-address-generic manner, it is necessary to roll out support
-incrementally. For this purpose a preprocessor flag,
-__HAVE_ARCH_ADDR_COND_PMD is introduced to capture whether the
-architecture supports some feature requiring PMD allocation conditional
-on virtual address. Some microarchitectures (e.g. arm64) support
-configurations for table descriptors, for example to enforce Privilege
-eXecute Never, which benefit from knowing the virtual memory addresses
-referenced by PMDs.
+arm64's vmalloc_node routines now include a layer of indirection which
+splits the vmalloc region into two segments surrounding the middle
+module_alloc region determined by ASLR. To support this,
+code_region_start and code_region_end are defined to match the 2GB
+boundary chosen by the kernel module ASLR initialization routine.
 
-Thus two major arguments in favor of this change are (1) unformity of
-allocation between PMD and other table descriptor types and (2) the
-capability of address-specific PMD allocation.
+The result is a large benefits to overall kernel security, as code pages
+now remain protected by this ASLR routine and protections can be defined
+linearly for code regions rather than through PTE-level tracking.
 
 Signed-off-by: Maxwell Bland <mbland@motorola.com>
 ---
- include/asm-generic/pgalloc.h | 18 ++++++++++++++++++
- include/linux/mm.h            |  4 ++--
- mm/hugetlb_vmemmap.c          |  4 ++--
- mm/kasan/init.c               | 22 +++++++++++++---------
- mm/memory.c                   |  4 ++--
- mm/percpu.c                   |  2 +-
- mm/pgalloc-track.h            |  3 ++-
- mm/sparse-vmemmap.c           |  2 +-
- 8 files changed, 41 insertions(+), 18 deletions(-)
+ arch/arm64/include/asm/vmalloc.h   |  3 ++
+ arch/arm64/kernel/module.c         |  7 ++++
+ arch/arm64/kernel/probes/kprobes.c |  2 +-
+ arch/arm64/mm/Makefile             |  3 +-
+ arch/arm64/mm/vmalloc.c            | 57 ++++++++++++++++++++++++++++++
+ arch/arm64/net/bpf_jit_comp.c      |  5 +--
+ 6 files changed, 73 insertions(+), 4 deletions(-)
+ create mode 100644 arch/arm64/mm/vmalloc.c
 
-diff --git a/include/asm-generic/pgalloc.h b/include/asm-generic/pgalloc.h
-index 879e5f8aa5e9..e5cdce77c6e4 100644
---- a/include/asm-generic/pgalloc.h
-+++ b/include/asm-generic/pgalloc.h
-@@ -142,6 +142,24 @@ static inline pmd_t *pmd_alloc_one(struct mm_struct *mm, unsigned long addr)
+diff --git a/arch/arm64/include/asm/vmalloc.h b/arch/arm64/include/asm/vmalloc.h
+index 38fafffe699f..dbcf8ad20265 100644
+--- a/arch/arm64/include/asm/vmalloc.h
++++ b/arch/arm64/include/asm/vmalloc.h
+@@ -31,4 +31,7 @@ static inline pgprot_t arch_vmap_pgprot_tagged(pgprot_t prot)
+ 	return pgprot_tagged(prot);
  }
- #endif
  
-+#ifdef __HAVE_ARCH_ADDR_COND_PMD
-+static inline void pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmdp,
-+			pte_t *ptep, unsigned long address);
-+#else
-+static inline void pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmdp,
-+			pte_t *ptep);
-+#endif
++extern unsigned long code_region_start __ro_after_init;
++extern unsigned long code_region_end __ro_after_init;
 +
-+static inline void pmd_populate_kernel_at(struct mm_struct *mm, pmd_t *pmdp,
-+			pte_t *ptep, unsigned long address)
+ #endif /* _ASM_ARM64_VMALLOC_H */
+diff --git a/arch/arm64/kernel/module.c b/arch/arm64/kernel/module.c
+index dd851297596e..c4fe753a71a9 100644
+--- a/arch/arm64/kernel/module.c
++++ b/arch/arm64/kernel/module.c
+@@ -29,6 +29,10 @@
+ static u64 module_direct_base __ro_after_init = 0;
+ static u64 module_plt_base __ro_after_init = 0;
+ 
++/* For pre-init vmalloc, assume the worst-case code range */
++unsigned long code_region_start __ro_after_init = (u64) (_end - SZ_2G);
++unsigned long code_region_end __ro_after_init = (u64) (_text + SZ_2G);
++
+ /*
+  * Choose a random page-aligned base address for a window of 'size' bytes which
+  * entirely contains the interval [start, end - 1].
+@@ -101,6 +105,9 @@ static int __init module_init_limits(void)
+ 		module_plt_base = random_bounding_box(SZ_2G, min, max);
+ 	}
+ 
++	code_region_start = module_plt_base;
++	code_region_end = module_plt_base + SZ_2G;
++
+ 	pr_info("%llu pages in range for non-PLT usage",
+ 		module_direct_base ? (SZ_128M - kernel_size) / PAGE_SIZE : 0);
+ 	pr_info("%llu pages in range for PLT usage",
+diff --git a/arch/arm64/kernel/probes/kprobes.c b/arch/arm64/kernel/probes/kprobes.c
+index 70b91a8c6bb3..c9e109d6c8bc 100644
+--- a/arch/arm64/kernel/probes/kprobes.c
++++ b/arch/arm64/kernel/probes/kprobes.c
+@@ -131,7 +131,7 @@ int __kprobes arch_prepare_kprobe(struct kprobe *p)
+ 
+ void *alloc_insn_page(void)
+ {
+-	return __vmalloc_node_range(PAGE_SIZE, 1, VMALLOC_START, VMALLOC_END,
++	return __vmalloc_node_range(PAGE_SIZE, 1, code_region_start, code_region_end,
+ 			GFP_KERNEL, PAGE_KERNEL_ROX, VM_FLUSH_RESET_PERMS,
+ 			NUMA_NO_NODE, __builtin_return_address(0));
+ }
+diff --git a/arch/arm64/mm/Makefile b/arch/arm64/mm/Makefile
+index dbd1bc95967d..730b805d8388 100644
+--- a/arch/arm64/mm/Makefile
++++ b/arch/arm64/mm/Makefile
+@@ -2,7 +2,8 @@
+ obj-y				:= dma-mapping.o extable.o fault.o init.o \
+ 				   cache.o copypage.o flush.o \
+ 				   ioremap.o mmap.o pgd.o mmu.o \
+-				   context.o proc.o pageattr.o fixmap.o
++				   context.o proc.o pageattr.o fixmap.o \
++				   vmalloc.o
+ obj-$(CONFIG_HUGETLB_PAGE)	+= hugetlbpage.o
+ obj-$(CONFIG_PTDUMP_CORE)	+= ptdump.o
+ obj-$(CONFIG_PTDUMP_DEBUGFS)	+= ptdump_debugfs.o
+diff --git a/arch/arm64/mm/vmalloc.c b/arch/arm64/mm/vmalloc.c
+new file mode 100644
+index 000000000000..b6d2fa841f90
+--- /dev/null
++++ b/arch/arm64/mm/vmalloc.c
+@@ -0,0 +1,57 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <linux/vmalloc.h>
++#include <linux/mm.h>
++
++static void *__vmalloc_node_range_split(unsigned long size, unsigned long align,
++			unsigned long start, unsigned long end,
++			unsigned long exclusion_start, unsigned long exclusion_end, gfp_t gfp_mask,
++			pgprot_t prot, unsigned long vm_flags, int node,
++			const void *caller)
 +{
-+#ifdef __HAVE_ARCH_ADDR_COND_PMD
-+	pmd_populate_kernel(mm, pmdp, ptep, address);
-+#else
-+	pmd_populate_kernel(mm, pmdp, ptep);
-+#endif
++	void *res = NULL;
++
++	res = __vmalloc_node_range(size, align, start, exclusion_start,
++				gfp_mask, prot, vm_flags, node, caller);
++	if (!res)
++		res = __vmalloc_node_range(size, align, exclusion_end, end,
++				gfp_mask, prot, vm_flags, node, caller);
++
++	return res;
 +}
 +
- #ifndef __HAVE_ARCH_PMD_FREE
- static inline void pmd_free(struct mm_struct *mm, pmd_t *pmd)
++void *__vmalloc_node(unsigned long size, unsigned long align,
++			    gfp_t gfp_mask, unsigned long vm_flags, int node,
++			    const void *caller)
++{
++	return __vmalloc_node_range_split(size, align, VMALLOC_START,
++				VMALLOC_END, code_region_start, code_region_end,
++				gfp_mask, PAGE_KERNEL, vm_flags, node, caller);
++}
++
++void *vmalloc_huge(unsigned long size, gfp_t gfp_mask)
++{
++	return __vmalloc_node_range_split(size, 1, VMALLOC_START, VMALLOC_END,
++				code_region_start, code_region_end,
++				gfp_mask, PAGE_KERNEL, VM_ALLOW_HUGE_VMAP,
++				NUMA_NO_NODE, __builtin_return_address(0));
++}
++
++void *vmalloc_user(unsigned long size)
++{
++	return __vmalloc_node_range_split(size, SHMLBA,  VMALLOC_START, VMALLOC_END,
++				code_region_start, code_region_end,
++				GFP_KERNEL | __GFP_ZERO, PAGE_KERNEL,
++				VM_USERMAP, NUMA_NO_NODE,
++				__builtin_return_address(0));
++}
++
++void *vmalloc_32_user(unsigned long size)
++{
++	return __vmalloc_node_range_split(size, SHMLBA,  VMALLOC_START, VMALLOC_END,
++				code_region_start, code_region_end,
++				GFP_VMALLOC32 | __GFP_ZERO, PAGE_KERNEL,
++				VM_USERMAP, NUMA_NO_NODE,
++				__builtin_return_address(0));
++}
++
+diff --git a/arch/arm64/net/bpf_jit_comp.c b/arch/arm64/net/bpf_jit_comp.c
+index 8955da5c47cf..40426f3a9bdf 100644
+--- a/arch/arm64/net/bpf_jit_comp.c
++++ b/arch/arm64/net/bpf_jit_comp.c
+@@ -13,6 +13,7 @@
+ #include <linux/memory.h>
+ #include <linux/printk.h>
+ #include <linux/slab.h>
++#include <linux/moduleloader.h>
+ 
+ #include <asm/asm-extable.h>
+ #include <asm/byteorder.h>
+@@ -1690,12 +1691,12 @@ u64 bpf_jit_alloc_exec_limit(void)
+ void *bpf_jit_alloc_exec(unsigned long size)
  {
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index f5a97dec5169..6a9d5ded428d 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2782,7 +2782,7 @@ static inline void mm_dec_nr_ptes(struct mm_struct *mm) {}
- #endif
- 
- int __pte_alloc(struct mm_struct *mm, pmd_t *pmd);
--int __pte_alloc_kernel(pmd_t *pmd);
-+int __pte_alloc_kernel(pmd_t *pmd, unsigned long address);
- 
- #if defined(CONFIG_MMU)
- 
-@@ -2977,7 +2977,7 @@ pte_t *pte_offset_map_nolock(struct mm_struct *mm, pmd_t *pmd,
- 		 NULL : pte_offset_map_lock(mm, pmd, address, ptlp))
- 
- #define pte_alloc_kernel(pmd, address)			\
--	((unlikely(pmd_none(*(pmd))) && __pte_alloc_kernel(pmd))? \
-+	((unlikely(pmd_none(*(pmd))) && __pte_alloc_kernel(pmd, address)) ? \
- 		NULL: pte_offset_kernel(pmd, address))
- 
- #if USE_SPLIT_PMD_PTLOCKS
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index da177e49d956..1f5664b656f1 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -58,7 +58,7 @@ static int vmemmap_split_pmd(pmd_t *pmd, struct page *head, unsigned long start,
- 	if (!pgtable)
- 		return -ENOMEM;
- 
--	pmd_populate_kernel(&init_mm, &__pmd, pgtable);
-+	pmd_populate_kernel_at(&init_mm, &__pmd, pgtable, addr);
- 
- 	for (i = 0; i < PTRS_PER_PTE; i++, addr += PAGE_SIZE) {
- 		pte_t entry, *pte;
-@@ -81,7 +81,7 @@ static int vmemmap_split_pmd(pmd_t *pmd, struct page *head, unsigned long start,
- 
- 		/* Make pte visible before pmd. See comment in pmd_install(). */
- 		smp_wmb();
--		pmd_populate_kernel(&init_mm, pmd, pgtable);
-+		pmd_populate_kernel_at(&init_mm, pmd, pgtable, addr);
- 		if (!(walk->flags & VMEMMAP_SPLIT_NO_TLB_FLUSH))
- 			flush_tlb_kernel_range(start, start + PMD_SIZE);
- 	} else {
-diff --git a/mm/kasan/init.c b/mm/kasan/init.c
-index 89895f38f722..1e31d965a14e 100644
---- a/mm/kasan/init.c
-+++ b/mm/kasan/init.c
-@@ -116,8 +116,9 @@ static int __ref zero_pmd_populate(pud_t *pud, unsigned long addr,
- 		next = pmd_addr_end(addr, end);
- 
- 		if (IS_ALIGNED(addr, PMD_SIZE) && end - addr >= PMD_SIZE) {
--			pmd_populate_kernel(&init_mm, pmd,
--					lm_alias(kasan_early_shadow_pte));
-+			pmd_populate_kernel_at(&init_mm, pmd,
-+					lm_alias(kasan_early_shadow_pte),
-+					addr);
- 			continue;
- 		}
- 
-@@ -131,7 +132,7 @@ static int __ref zero_pmd_populate(pud_t *pud, unsigned long addr,
- 			if (!p)
- 				return -ENOMEM;
- 
--			pmd_populate_kernel(&init_mm, pmd, p);
-+			pmd_populate_kernel_at(&init_mm, pmd, p, addr);
- 		}
- 		zero_pte_populate(pmd, addr, next);
- 	} while (pmd++, addr = next, addr != end);
-@@ -157,8 +158,9 @@ static int __ref zero_pud_populate(p4d_t *p4d, unsigned long addr,
- 			pud_populate(&init_mm, pud,
- 					lm_alias(kasan_early_shadow_pmd));
- 			pmd = pmd_offset(pud, addr);
--			pmd_populate_kernel(&init_mm, pmd,
--					lm_alias(kasan_early_shadow_pte));
-+			pmd_populate_kernel_at(&init_mm, pmd,
-+					lm_alias(kasan_early_shadow_pte),
-+					addr);
- 			continue;
- 		}
- 
-@@ -203,8 +205,9 @@ static int __ref zero_p4d_populate(pgd_t *pgd, unsigned long addr,
- 			pud_populate(&init_mm, pud,
- 					lm_alias(kasan_early_shadow_pmd));
- 			pmd = pmd_offset(pud, addr);
--			pmd_populate_kernel(&init_mm, pmd,
--					lm_alias(kasan_early_shadow_pte));
-+			pmd_populate_kernel_at(&init_mm, pmd,
-+					lm_alias(kasan_early_shadow_pte),
-+					addr);
- 			continue;
- 		}
- 
-@@ -266,8 +269,9 @@ int __ref kasan_populate_early_shadow(const void *shadow_start,
- 			pud_populate(&init_mm, pud,
- 					lm_alias(kasan_early_shadow_pmd));
- 			pmd = pmd_offset(pud, addr);
--			pmd_populate_kernel(&init_mm, pmd,
--					lm_alias(kasan_early_shadow_pte));
-+			pmd_populate_kernel_at(&init_mm, pmd,
-+					lm_alias(kasan_early_shadow_pte),
-+					addr);
- 			continue;
- 		}
- 
-diff --git a/mm/memory.c b/mm/memory.c
-index 15f8b10ea17c..15702822d904 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -447,7 +447,7 @@ int __pte_alloc(struct mm_struct *mm, pmd_t *pmd)
- 	return 0;
+ 	/* Memory is intended to be executable, reset the pointer tag. */
+-	return kasan_reset_tag(vmalloc(size));
++	return kasan_reset_tag(module_alloc(size));
  }
  
--int __pte_alloc_kernel(pmd_t *pmd)
-+int __pte_alloc_kernel(pmd_t *pmd, unsigned long address)
+ void bpf_jit_free_exec(void *addr)
  {
- 	pte_t *new = pte_alloc_one_kernel(&init_mm);
- 	if (!new)
-@@ -456,7 +456,7 @@ int __pte_alloc_kernel(pmd_t *pmd)
- 	spin_lock(&init_mm.page_table_lock);
- 	if (likely(pmd_none(*pmd))) {	/* Has another populated it ? */
- 		smp_wmb(); /* See comment in pmd_install() */
--		pmd_populate_kernel(&init_mm, pmd, new);
-+		pmd_populate_kernel_at(&init_mm, pmd, new, address);
- 		new = NULL;
- 	}
- 	spin_unlock(&init_mm.page_table_lock);
-diff --git a/mm/percpu.c b/mm/percpu.c
-index 4e11fc1e6def..7312e584c1b5 100644
---- a/mm/percpu.c
-+++ b/mm/percpu.c
-@@ -3238,7 +3238,7 @@ void __init __weak pcpu_populate_pte(unsigned long addr)
- 		new = memblock_alloc(PTE_TABLE_SIZE, PTE_TABLE_SIZE);
- 		if (!new)
- 			goto err_alloc;
--		pmd_populate_kernel(&init_mm, pmd, new);
-+		pmd_populate_kernel_at(&init_mm, pmd, new, addr);
- 	}
- 
- 	return;
-diff --git a/mm/pgalloc-track.h b/mm/pgalloc-track.h
-index e9e879de8649..0984681c03d4 100644
---- a/mm/pgalloc-track.h
-+++ b/mm/pgalloc-track.h
-@@ -45,7 +45,8 @@ static inline pmd_t *pmd_alloc_track(struct mm_struct *mm, pud_t *pud,
- 
- #define pte_alloc_kernel_track(pmd, address, mask)			\
- 	((unlikely(pmd_none(*(pmd))) &&					\
--	  (__pte_alloc_kernel(pmd) || ({*(mask)|=PGTBL_PMD_MODIFIED;0;})))?\
-+	  (__pte_alloc_kernel(pmd, address) ||				\
-+		({*(mask) |= PGTBL_PMD_MODIFIED; 0; }))) ?		\
- 		NULL: pte_offset_kernel(pmd, address))
- 
- #endif /* _LINUX_PGALLOC_TRACK_H */
-diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-index a2cbe44c48e1..d876cc4dc700 100644
---- a/mm/sparse-vmemmap.c
-+++ b/mm/sparse-vmemmap.c
-@@ -191,7 +191,7 @@ pmd_t * __meminit vmemmap_pmd_populate(pud_t *pud, unsigned long addr, int node)
- 		void *p = vmemmap_alloc_block_zero(PAGE_SIZE, node);
- 		if (!p)
- 			return NULL;
--		pmd_populate_kernel(&init_mm, pmd, p);
-+		pmd_populate_kernel_at(&init_mm, pmd, p, addr);
- 	}
- 	return pmd;
+-	return vfree(addr);
++	return module_memfree(addr);
  }
+ 
+ /* Indicate the JIT backend supports mixing bpf2bpf and tailcalls. */
 -- 
 2.39.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240220203256.31153-3-mbland%40motorola.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240220203256.31153-4-mbland%40motorola.com.
