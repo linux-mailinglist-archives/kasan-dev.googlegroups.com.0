@@ -1,170 +1,168 @@
-Return-Path: <kasan-dev+bncBDOJT7EVXMDBBCNU3CXAMGQEDZRFLUY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDOJT7EVXMDBBW5Z3CXAMGQE77A3CAI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE9985E19E
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 16:43:07 +0100 (CET)
-Received: by mail-pj1-x1040.google.com with SMTP id 98e67ed59e1d1-2990e2d497fsf6102020a91.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 07:43:07 -0800 (PST)
-ARC-Seal: i=3; a=rsa-sha256; t=1708530186; cv=pass;
+Received: from mail-pj1-x1039.google.com (mail-pj1-x1039.google.com [IPv6:2607:f8b0:4864:20::1039])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D62185E207
+	for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 16:55:09 +0100 (CET)
+Received: by mail-pj1-x1039.google.com with SMTP id 98e67ed59e1d1-29988382913sf2235517a91.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 07:55:08 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1708530907; cv=pass;
         d=google.com; s=arc-20160816;
-        b=sfw2reE2S6ed8U+NKDj0ZVcAyp96FuIZSqbLl7vf41CJTxoMf/Q+PU695n8nN0L5AT
-         T1mVAu0WtxVgk7JJt7HVVXpxcXBeae7o6AcQMyK7fL/dnycqWq1X19KCVWJpW2CHczgQ
-         wiNbokAZeNuxsT1/a4tCU6TsYV3DfKfqCWIUHo3EXdYyQDrHFEYI5CG+0kwpCWfCchYF
-         5vYZbiv7U56STvCd5O2ener3gbhS2zpEq6iJB83l+cF0H/B1TBGymPa9PMFOBRVPBwzN
-         sLVENSNSPGJAzgF4SvcxllNy3Izkjzw7PhSRTxU1LnPaQ6n7dfeixWAbkwctQRZkySIi
-         XVsw==
+        b=ZDSDRg+me61fb+PLlLhpG+2rzzT+9ZUUdSWZ7rj7r7xL+EWp5U1qpZe6TOHLuUV/YP
+         9oFdPs06ffXJnNYMVBD8l6DbWzYOTbaKmSj52ezUX2T4Ve6ZRivHqNy8PMabYpBTtsHM
+         koNeh88S6uSmNPlgrZjRl4WRv+DxGTslt2wTc1N0rdvGNI0a6Z7KkjOIon9KN88H2vPR
+         Z2y/+ELG3sfYEoKjzIGK1Df4+JnXuUKt5WZDJK7DghBTY+fl5A3hrGLHuHZdh25gdpmO
+         hKJfMm4Fco6UPhJcbpsh1C+Wolw5snMlLurPoHZg0GtdRcW/0VuAx0iPuyHWW/ecB3nf
+         r3+A==
 ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:content-language
-         :accept-language:in-reply-to:references:message-id:date:thread-index
-         :thread-topic:subject:cc:to:from:sender:dkim-signature;
-        bh=7X7SsuNfqp2GI/YrBL4R8MzP4Jpby7W/R8v+GKd9CUI=;
-        fh=vRTYDVI/mNI9AEeyv/1jcJRkp36R3UsrM8QcDOGHw4o=;
-        b=Li3NtG7oAFfVkYbflRasRFNFv6dCW0JZlqIFqkL/FxFJ/OfuJ2bu73O4zPspHboDhj
-         htDC2qW1H8gii4sW3s1LrXubAHX0smeM5MXOZveqpLUnv5CUGao/sNIv98tEfrcjPxnz
-         mIC+NxzA2ulQDrtcjcK73yLtxvV1UMwbqgXUt0eyj6JEAitIXYkj/T6PQdlX2jvYiZVA
-         gQ5AFkWh3+/xfiF6m80285dg3nKP7hH/j8lO4bo71PcTpwFZDETPlkzBkjCnOe4GypE2
-         fNrTeP+++Vh4v99l9hV7bIAlkOGWE/Sc3IwZDlKZ/8j6VK4wBajtQmV7twR217NoulfG
-         N4mg==;
+         :list-id:mailing-list:precedence:mime-version
+         :content-transfer-encoding:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=tHOXCFZ4Vz4Y5eKpgsFBOemWkQemuBRn/E1QvP+9+Ww=;
+        fh=1HJqejrubSsP5yy41Z2Z03dMagTm8au4FmoATshlQPw=;
+        b=Q36qnUpbTP15s6/m+qT+mhGc+vbbG3wURm4uGc03zSWurF4tFvc4BBYHljYsHquzU2
+         Ac5C6FBySV7KeBD+P8Tzdo//hTHL89hrITUn1f81kStc/KjB1kC9chkdxpYD41/P5KQJ
+         Wbg+ecM1v82sgZSMQcuKudgGV/bfLOGadcCYePFvva3LPhfjaUdCVyNfPF15tzA0oLwB
+         0qcNuo/oKfBjDMzWZEBS5WM+WIjNXZfwEkiap1BvefiYXtnmSE4feZqM3HV37RqELdrS
+         ZVWM64Mcl0Z0Nk0gziLJ30m+FiFeOotj883i4HOz2vX9FjAtjZbnufOLkjb/ONrL+6ih
+         p7uQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@motorola.com header.s=DKIM202306 header.b=hKq+HNNu;
+       dkim=pass header.i=@motorola.com header.s=DKIM202306 header.b="V4Vmcbb/";
        arc=pass (i=1 spf=pass spfdomain=motorola.com dkim=pass dkdomain=motorola.com dmarc=pass fromdomain=motorola.com);
        spf=pass (google.com: domain of mbland@motorola.com designates 148.163.148.104 as permitted sender) smtp.mailfrom=mbland@motorola.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=motorola.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708530186; x=1709134986; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708530907; x=1709135707; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:content-language:accept-language
-         :in-reply-to:references:message-id:date:thread-index:thread-topic
-         :subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7X7SsuNfqp2GI/YrBL4R8MzP4Jpby7W/R8v+GKd9CUI=;
-        b=qjDK7j7eaXrwlcYYj0fXJnfWc8dUhF/SF3ylX3NKaIinDMhNMKBF89yNajKeSeieA5
-         P6DvMwzqsGXFhMC4BgnzBRpD+eauZ4v1z/p6iO04d4LdhLT4HDnFOKU/948bYgTrKQ5j
-         Rndp9vxdutLLBo85byKKmdKi/UcpIGZrUjaX0anqufDL0HXSwYflKlZqRcK7SGuOAIAR
-         MqrpB5Ai/Y5QpOT3S2TrgYxKBixYWlvjA58FGs1xGIALD7hIxLYULDJ+w6VlTVr9sOGZ
-         wloIdLAWA1mpxtappSr/Yvh5npwItCZymSssMrwxvlVE0CphowA/LoS7WFip1m2djWIx
-         sKfQ==
+         :x-original-sender:mime-version:content-transfer-encoding
+         :content-language:accept-language:in-reply-to:references:message-id
+         :date:thread-index:thread-topic:subject:cc:to:from:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tHOXCFZ4Vz4Y5eKpgsFBOemWkQemuBRn/E1QvP+9+Ww=;
+        b=ZBwSYmo4TM6u2+fzmXOoS8pCNOtxCB/5g9Iwlt01M7j4sp/l+WSy3ae/a3d4+7JJRT
+         EijH0YDOLgXecEiSjr1IkoLrD2cdmDf5hdDxIiQjVisa8UMRZvAc5FyIPK6vhMcxuJya
+         iBTKn2UNJ+SfNhTyXdlBU5ylDdosAHHo69gf9yg/EwmDNR8LkMsTu1R/wCB+fzuCf/hn
+         XSccA7cK/KU0Eh9FCvSMQqUvpYe+DdNwYKCptL2v6nBPYtGzXJh+nGXGJQJDMu+496Vh
+         oGDePv2IGODFS38vQCBHrpvLutj+bQojUfbIj5rk6wiz2hK8Hnosf9RuXovH+RaN6nJg
+         CMfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708530186; x=1709134986;
+        d=1e100.net; s=20230601; t=1708530907; x=1709135707;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :content-language:accept-language:in-reply-to:references:message-id
-         :date:thread-index:thread-topic:subject:cc:to:from:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7X7SsuNfqp2GI/YrBL4R8MzP4Jpby7W/R8v+GKd9CUI=;
-        b=jbuilM+7h7+h/hyq4Qxcqby/+unEIpm915YBI88MoWRnA50a3BzjWNSuOki2gGEjnY
-         ndaeS8f589XPA3bFJmMmUQ7hPd1vM5p0B925JTeUScG3ZpNKZoqM4egvrklwN8pZuSTP
-         FqZccmPiRkijGlwYUNSwOXDbgS0NPXWOj5toTUk/epShiIyO5akJ3S7FKD2r8Ymc8RJE
-         /F/29cc6kYpiGQU5dMqviXt9UNGbUKgFQpcvQpxiNHDkLaA81JYzYxKAsiaHaOYrfoD7
-         B40uunS7n4ojVyMwhnHIns/qTUtBS2Yj9kkcDnfu0UmaX+w8xfbjOPJyq4goeXhCcgB1
-         TA9Q==
+         :content-transfer-encoding:content-language:accept-language
+         :in-reply-to:references:message-id:date:thread-index:thread-topic
+         :subject:cc:to:from:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tHOXCFZ4Vz4Y5eKpgsFBOemWkQemuBRn/E1QvP+9+Ww=;
+        b=e27AmPwv+E/hAMDro/iKpQRTEzkTXPO8O29bW69LWQPRAC1n2xoC8GhtdDuD5loIqZ
+         YWAm2QmB+y8qDnNxNZ2PyYmB6tyJSQkgnauPDTE4q5m0l3nkyKHBX8DOkGjr6Gu4VlCE
+         EdXooHsZ2h1wYpGGQRT1UMjca96R+BxADW7/G9D/O7FzFbxg39d/YGlk0mG3XYh5lVwM
+         ajMHo2gfFD76jWI46CSdPMNi6bhwxCXxkUKx/neU5fEhvoivrKJ9Y9MtjXXBqjpP++y9
+         ItImHRWb0jQ5sdLMf7S+Atqdbaq2ILtJkoO0wMXXxGm3Se71mTupDvmShqrN+8sS3hyb
+         FL5w==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=3; AJvYcCVyG6bX+1EbrdXaiibboK7GwYKuoeDNB3lpmfogVR3xxI3+yMRo9siLQWDv1urJJOI1oNthHJD7NKAr3Lh1x6uTBgh/2H1QXw==
-X-Gm-Message-State: AOJu0YxVRKA7cBRE1OqOhR1NkwXr8uJBxEKqnHNE3hxK/u+NRfsnWU5B
-	CG4ovEItlufzzgyOfFLp43J6A1SdCjnfWUSmyjUKD5Ap3PPEY3Fg
-X-Google-Smtp-Source: AGHT+IGFHh/5dmfatf7cKlPafwWbvLVAP61hMOG20bVdf5DlNA+2fOftKw9TGVXX6iIroL9PbAIX5w==
-X-Received: by 2002:a17:90a:7e11:b0:299:bf10:b559 with SMTP id i17-20020a17090a7e1100b00299bf10b559mr6168681pjl.30.1708530185719;
-        Wed, 21 Feb 2024 07:43:05 -0800 (PST)
+X-Forwarded-Encrypted: i=3; AJvYcCXtP1fZv8c+kO1xy2qvY7dLadu/Pe3iqLDdqLxlzIOzya31xCqmNRZ8flkF/7Oq4ea4/a32ZdMCIKu8ezttbWerRRuVbxBRzA==
+X-Gm-Message-State: AOJu0YxxAKuTKt0VJB7qhMiii5uPqfNHQ1Yx0V0qtQbtBoLg7aG+alHO
+	1ecgCaOlDHdTNauFEaxWiq+Jw1SaEhXmAZYKZxDXSTpbngmU/qch
+X-Google-Smtp-Source: AGHT+IFPMhVgo/hqj+sCALN3a8ey3ez+e5uzuhRykmBG8UzGPgGdyJh3D0ey1XR3m5hW4EYyH8TFXA==
+X-Received: by 2002:a17:90b:90:b0:299:5ebb:1ee0 with SMTP id bb16-20020a17090b009000b002995ebb1ee0mr7781256pjb.28.1708530907525;
+        Wed, 21 Feb 2024 07:55:07 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:8a:b0:299:6e5f:3d49 with SMTP id bb10-20020a17090b008a00b002996e5f3d49ls2796570pjb.2.-pod-prod-08-us;
- Wed, 21 Feb 2024 07:43:04 -0800 (PST)
-X-Forwarded-Encrypted: i=3; AJvYcCWjpB+ddfhPps3vg/GTyv4HVBuTc3tkdh5kp8+y4rag/B04W4DbyVtq7FEhqtrNkATP7sq7+evHWT9+GVOrcbG9xuQ9G8BeZiQoMg==
-X-Received: by 2002:a17:90a:c50:b0:299:906b:488e with SMTP id u16-20020a17090a0c5000b00299906b488emr8409588pje.18.1708530184663;
-        Wed, 21 Feb 2024 07:43:04 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1708530184; cv=pass;
+Received: by 2002:a17:90b:5111:b0:299:7c4f:efe8 with SMTP id
+ sc17-20020a17090b511100b002997c4fefe8ls2113494pjb.2.-pod-prod-01-us; Wed, 21
+ Feb 2024 07:55:06 -0800 (PST)
+X-Forwarded-Encrypted: i=3; AJvYcCUay5gKxUqdoIQ0Qj/7nVYw9FMrHKJT9O2isHcYmLkAWyJM+iwSkIH+vgZWZ0N2uFr7xponLoG08sQVJoF0u3vRf/m7tr3myKhWdg==
+X-Received: by 2002:a05:6a20:d806:b0:1a0:94a8:400f with SMTP id iv6-20020a056a20d80600b001a094a8400fmr12059787pzb.18.1708530906443;
+        Wed, 21 Feb 2024 07:55:06 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708530906; cv=pass;
         d=google.com; s=arc-20160816;
-        b=K99ascD0aQcSdAcxcKKx8xozE3SjIAikFINdveH0VTBhijl2SfsZt+Xd57LhkT6dzz
-         N5TdX8Z7bOzzRd0GG7XGdsa4mDsSzrkgegnjElQil+CXKiBP8T5HgZ1YoWhtDQJfLXgS
-         PcJ7wDc5lrWSYSN1+/glTzSLkA5+XZ2RnMT6PhKBwxBU/dXPsEUA6fueQzlpjcnGM83j
-         lRzHfe1L/oLAUj1bwrSHjNurgUDwI2983mbaS1II11eQepnLVaSLIBhmT3Ivx9Ty7XVV
-         fl0gxnsAQg0mK43HTTQ65gO+fB4hzkT/+u7XeaXmPF1wQt3RirMYIsxgRnRvS8txc7EL
-         +6Jg==
+        b=yS6A0/j/kfkOwpPAP9oQkGD5QcW784K9Dpo3bTjTP3Rgfr5HnkiETUhUmWNrWybCJ4
+         026wJQ0qlRtkfm+PomYulLGvky6IGCfunJL4LVUl6JJ5EkQDMc8gRoPTppmSkYCrmWDJ
+         KHC5HPO6PC3jNvfIpEJnpnS/YNw5ar6L21n8GxxEKs+PP/cQmLG8lOaEI6PQsPjlXuvd
+         xthBde55Ln1vdRJIn9M4MHYiRvcyamDEQffsR1V1hU59qR7slAHPV9PF5xYIBxN60kml
+         el2eLvQh3iwOuZlNURSy1OBoDiEcom9+NJs7eyg28A4qzRB8Z5PMzpBqFz5nz03pidw8
+         fFIQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:content-transfer-encoding:content-language
          :accept-language:in-reply-to:references:message-id:date:thread-index
          :thread-topic:subject:cc:to:from:dkim-signature;
-        bh=001nv3w1nCax1VFqAppcvmEoIQEaObOZ6q27qzGokMU=;
-        fh=cVX3+QH4GL+zTKeOAoHRs7cEA//ih1w83qRPk9bfNWs=;
-        b=02SWwrwxUlgbXcXN8kWkU31vLVVcm6vcM5MqiwEtSBqM2VpVV/iuBIK6i3pQu++5ea
-         6G+zO+0N2638JTpnUJBe1fnlmrgbM/U4gWHGRNAuuiTw91ld4j3Utn+WJ111j/JtO3hn
-         mFLECsBc4JWzGaH3u7gm+sTjdNd5MnLmoSO3xPju8y6MQD0XUyoHk1NtVDknZXe6V5Jo
-         SV8T7uePaAOfllZ9uzHiByTCSWDfcXCKwoX6pSHc2uGmorkp+Y7uZglpzeQU5w/9RkkU
-         QhEqT7GLGNV6TaFiL/Io6cZXx8G3+TnvpiKprPTHsV4ZFuILjTX04DrNrcunEVn2Ml/f
-         vV5g==;
+        bh=Ndv5CT0ope3GRC9NxF40lrKqbTEAg7f/d+wP18JLdi4=;
+        fh=dghTBoit9Kn+3xePKPvSdvKekQ2OQyVIxKnX/hj8XDA=;
+        b=tRlBxczpOKUaPjmcjX2hp1bCvJQSr25L55M/vlF+4T819SnsQH9cpP0qMX41nHEsvW
+         QY3YolORSXwMZZac+sqtVLhw4rcBX4DlJ72D8f4v9WIIfDE5f5E7B41koxeZkwhcsVM4
+         kLxmWYdafkpEIFiFdu/MAJIiF9WlZrxlv9TBpY/+LxDnTI7vXWJ55NF712l/59cEf50C
+         fjgobhtzLJkZT+TA865wIG18UUKI6thaN3J0Kd/TRyD8CU8nCeFktVyLHnUuK5RDMEDF
+         amU3K3yRseQ7hS6MouPWVpoF590KLBIS34Txsix3qRuK6uKcIesA3POsGBjs7RLhqFSG
+         g6/Q==;
         dara=google.com
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@motorola.com header.s=DKIM202306 header.b=hKq+HNNu;
+       dkim=pass header.i=@motorola.com header.s=DKIM202306 header.b="V4Vmcbb/";
        arc=pass (i=1 spf=pass spfdomain=motorola.com dkim=pass dkdomain=motorola.com dmarc=pass fromdomain=motorola.com);
        spf=pass (google.com: domain of mbland@motorola.com designates 148.163.148.104 as permitted sender) smtp.mailfrom=mbland@motorola.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=motorola.com
 Received: from mx0a-00823401.pphosted.com (mx0a-00823401.pphosted.com. [148.163.148.104])
-        by gmr-mx.google.com with ESMTPS id y3-20020a17090a86c300b002998ff3a008si138311pjv.1.2024.02.21.07.43.04
+        by gmr-mx.google.com with ESMTPS id hw10-20020a056a00890a00b006e460350a5esi579265pfb.4.2024.02.21.07.55.06
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 21 Feb 2024 07:43:04 -0800 (PST)
+        Wed, 21 Feb 2024 07:55:06 -0800 (PST)
 Received-SPF: pass (google.com: domain of mbland@motorola.com designates 148.163.148.104 as permitted sender) client-ip=148.163.148.104;
-Received: from pps.filterd (m0355088.ppops.net [127.0.0.1])
-	by m0355088.ppops.net (8.17.1.24/8.17.1.24) with ESMTP id 41LCfC8i003869;
-	Wed, 21 Feb 2024 15:42:35 GMT
-Received: from apc01-sg2-obe.outbound.protection.outlook.com (mail-sgaapc01lp2104.outbound.protection.outlook.com [104.47.26.104])
-	by m0355088.ppops.net (PPS) with ESMTPS id 3wd21x2sy2-1
+Received: from pps.filterd (m0355087.ppops.net [127.0.0.1])
+	by mx0a-00823401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41LBv8ea005111;
+	Wed, 21 Feb 2024 15:54:42 GMT
+Received: from apc01-psa-obe.outbound.protection.outlook.com (mail-psaapc01lp2041.outbound.protection.outlook.com [104.47.26.41])
+	by mx0a-00823401.pphosted.com (PPS) with ESMTPS id 3wd764t05s-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 Feb 2024 15:42:35 +0000 (GMT)
+	Wed, 21 Feb 2024 15:54:41 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y6OWsc1itzUuLyeWVeTIB8Rf92jJtaEN7tq3WOEm3cmySd9/qFPZivY7H9jG/aTB2iuJ+GoSTyOR7r2YXsO1/AbnG5LyB99mZW59KlOmT+3uIiMJBPGsIaKrZ+v4zVffWPi8FdZvNfnKcMl9yFhSDbfuApYRQjkEk45hhVxJMWV7t+1LOCBQg9/qSFCq3Qw6qa3+nksLpTecXNz1q5ox/48q7euyXg+QchUYB46/k2P3zq3+Tx+r42mXcjLaFjfW8W6gzD0rFkUH1rFfR+wzGAxPpSVFnXNJ1bqR20bOSzjpVbDwUaQ7OybAHumLLZPp6YdAfDwhwyxV+u6wse9nyg==
+ b=UII3ZAwmlHdDEq3K7JkHbO7U70o4b74Z3VGFinEac9Po1gaXITmBbL/B3AtVuT/z5nh2YKF/3XmK9T9z+diiqmuYHMbF1qN/UDtHcnqPGQfegTnv4ZP3YJEmHDP1z1wD/VwkzXj+9iu3mlXIB4baVvU/C1cs918NYd8QJgbMdXBkGb5jg0EGy3zxMbk94mt5WS9X3kH672irrV3FMtO+vmSEthEKV/AqL2rYEnPbQwMk8rYCoKjS4EySo1nlZ951UKQut1l9TCZJ/upp0MRiI6bP5vYkJUtnKMo7MJ3rREFZwgHzyPSv858HGBGt06gAlPNzneHIsXr/3q2WZDjwTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=001nv3w1nCax1VFqAppcvmEoIQEaObOZ6q27qzGokMU=;
- b=LXxfoNZqwRHRhBxiz1Gs1+KpTp56b+Nt+rPK0rdrNKycCd8EjntUchj89UnmhHHtlmLz81971TBiUOO//L7bxOXSeFn4kaP1O/EV/oTsu6f50FDiZ705WrgCx8mvDWW9tvNmQ5+bexPm0Vu6xCcdpslSlyNsGuGTHlmduwY5+Qtdl8lwbuR9UJP1qkSy3XiZODGuMwTq3UROLteCpkqXrNlQ0qL3MHNjTwrXoDvXc9zp1F1UbrajlGqXUBlkOx6/cNX2td/HoTdYsBA3IQw7ESa29qMRAnJ/jjqp5PluWS1DqbSeX7Oylgnnps6kYyjyJP+gQFyN5BriG8Z+P2LkHg==
+ bh=Ndv5CT0ope3GRC9NxF40lrKqbTEAg7f/d+wP18JLdi4=;
+ b=RtrPGxwHnG5Z2VBqJ0M+tmTRlvTp0CozH7cke2N1jijHQ+SL0GfYIuXu7xxpI58S3tRCNB8EojTeWKiTwOQ7PVNV8ITL+t2m5/C6scxhBFAn02KvV/fpWnS6rDwoGU4XjYtw9bVpbWyNvXSzR0HxN7nr03gxAhmTXWbiWU42XLBHQH0gnziYNU365fTDAN2apj11tZK6NQwDdp/z/77kb3pdQcS2lQPXrwswZ/n5Bq3jWCl5sGvXS7YVA3voDi+Y2+EQITt4ovwst50C8L/tZCW2mGQP19YWQFr1KQRlTMPY6zXxfTvJPcDvHzMSpV7Dppuq4x2686q+101poD/EDg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=motorola.com; dmarc=pass action=none header.from=motorola.com;
  dkim=pass header.d=motorola.com; arc=none
 Received: from SEZPR03MB6786.apcprd03.prod.outlook.com (2603:1096:101:66::5)
- by KL1PR03MB7106.apcprd03.prod.outlook.com (2603:1096:820:d0::6) with
+ by PSAPR03MB5558.apcprd03.prod.outlook.com (2603:1096:301:74::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.32; Wed, 21 Feb
- 2024 15:42:31 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Wed, 21 Feb
+ 2024 15:54:38 +0000
 Received: from SEZPR03MB6786.apcprd03.prod.outlook.com
  ([fe80::dbc8:b80e:efaf:2d74]) by SEZPR03MB6786.apcprd03.prod.outlook.com
  ([fe80::dbc8:b80e:efaf:2d74%6]) with mapi id 15.20.7292.036; Wed, 21 Feb 2024
- 15:42:31 +0000
+ 15:54:38 +0000
 From: Maxwell Bland <mbland@motorola.com>
-To: Conor Dooley <conor@kernel.org>
-CC: "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>,
-        "gregkh@linuxfoundation.org"
-	<gregkh@linuxfoundation.org>,
-        "agordeev@linux.ibm.com"
-	<agordeev@linux.ibm.com>,
-        "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>,
-        "andreyknvl@gmail.com" <andreyknvl@gmail.com>,
-        "andrii@kernel.org" <andrii@kernel.org>,
-        "aneesh.kumar@kernel.org"
-	<aneesh.kumar@kernel.org>,
-        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
-        "ardb@kernel.org" <ardb@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
-        "ast@kernel.org" <ast@kernel.org>,
-        "borntraeger@linux.ibm.com"
-	<borntraeger@linux.ibm.com>,
-        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-        "brauner@kernel.org" <brauner@kernel.org>,
-        "catalin.marinas@arm.com"
-	<catalin.marinas@arm.com>,
-        "christophe.leroy@csgroup.eu"
+To: David Hildenbrand <david@redhat.com>,
+        Christophe Leroy
 	<christophe.leroy@csgroup.eu>,
+        "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>
+CC: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "andreyknvl@gmail.com" <andreyknvl@gmail.com>,
+        "andrii@kernel.org"
+	<andrii@kernel.org>,
+        "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
+        "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
+        "ardb@kernel.org"
+	<ardb@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
+        "ast@kernel.org"
+	<ast@kernel.org>,
+        "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
+        "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+        "brauner@kernel.org"
+	<brauner@kernel.org>,
+        "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
         "cl@linux.com" <cl@linux.com>,
         "daniel@iogearbox.net" <daniel@iogearbox.net>,
-        "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>,
-        "david@redhat.com" <david@redhat.com>,
+        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
         "dennis@kernel.org" <dennis@kernel.org>,
         "dvyukov@google.com"
 	<dvyukov@google.com>,
@@ -233,95 +231,99 @@ CC: "linux-arm-kernel@lists.infradead.org"
         "zlim.lnx@gmail.com"
 	<zlim.lnx@gmail.com>,
         Andrew Wheeler <awheeler@motorola.com>
-Subject: RE: [External] Re: [PATCH 0/4] arm64: mm: support dynamic vmalloc/pmd
- configuration
-Thread-Topic: [External] Re: [PATCH 0/4] arm64: mm: support dynamic
- vmalloc/pmd configuration
-Thread-Index: AQHaZDwWYaEUphdXfk6h1XMsSOUd1LEU4kGAgAAM4XA=
-Date: Wed, 21 Feb 2024 15:42:31 +0000
-Message-ID: <SEZPR03MB6786CCB9C8071EAA143C246EB4572@SEZPR03MB6786.apcprd03.prod.outlook.com>
+Subject: RE: [External] Re: [PATCH 2/4] mm: pgalloc: support
+ address-conditional pmd allocation
+Thread-Topic: [External] Re: [PATCH 2/4] mm: pgalloc: support
+ address-conditional pmd allocation
+Thread-Index: AQHaZDwOaIoKplpm30WfPRJTeTXuwrEUYmKAgAAlawCAAGuRkA==
+Date: Wed, 21 Feb 2024 15:54:38 +0000
+Message-ID: <SEZPR03MB6786F9F84DBC9B5DD952C70AB4572@SEZPR03MB6786.apcprd03.prod.outlook.com>
 References: <20240220203256.31153-1-mbland@motorola.com>
- <20240221-ipod-uneaten-4da8b229f4a4@spud>
-In-Reply-To: <20240221-ipod-uneaten-4da8b229f4a4@spud>
+ <20240220203256.31153-3-mbland@motorola.com>
+ <838a05f0-568d-481d-b826-d2bb61908ace@csgroup.eu>
+ <cf5409c3-254a-459b-8969-429db2ec6439@redhat.com>
+In-Reply-To: <cf5409c3-254a-459b-8969-429db2ec6439@redhat.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEZPR03MB6786:EE_|KL1PR03MB7106:EE_
-x-ms-office365-filtering-correlation-id: af590ce6-111e-4bd4-9e7d-08dc32f3b776
+x-ms-traffictypediagnostic: SEZPR03MB6786:EE_|PSAPR03MB5558:EE_
+x-ms-office365-filtering-correlation-id: 50a5abcd-fbf8-499f-ebf3-08dc32f56897
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /Yv06vKHWKs7wI49yiVin9RGAI1xBkhgNCULBiL+rIQxhVgPi1k2b6jvXOUqwJpl1oNt8zr2whqYj6bUGlhhXy+6cEAhTaAYrlcyUsCatlLk99z/n7D0oFO666gHQ7KakIjmA4qUhy1/Edx5t65WjgmzbBgsdbUd/mBTrQFdJoowjGKHkP+fWscznT0dOBD2zmbMHG/+hTop4Wphhtq6n4Wpi9nvjEQN7dxLYF5x8mQdx/HO4hznXFiObdepwvhtqlAX/Se0gHVFQi4zem5Rzf8gFJ3xf9f4m3nao6eYZdrTj35tOSjQ+xfki7f7apHdBwpqbu1IX2EiDIjNE6dHVhmhimjzSguwX6XHMZPEoTl8fYb88OsmbCT8G0RNZ2Z08GE30ApkgUQ8uhfgVuUQzePGym4FFA2azvsBnCRV+cZKhbBmtw7r5b0nIvdingSWqsX07O8GpYWC40wDgITdXfQaeRXIIvI5HvLUdS4HETJWdCVImpNlzUVjglwzMwbZRkLczJtXZE1vs56/fwAXFqgsf8wt+0MXCAkkkAFYgGhD+37WrnWdr6aby1WojTUPaJXwWxAX/LSw4Ykix9aZLIoF83WONvWXukDL2kachHFHpeSfI8TOtW3BWCuIo7lS
+x-microsoft-antispam-message-info: RB/tgIT3MafxK91gE1//hiiBG4JGFcf1CIoZ/s6O2aHLrM8qKGc6UU3BvOSst8ITwn5bGwqda4HlbjMjIbaRL9aTotmUqdqsiZpiyFTeqTKB/mpDDbvrHCGhNId5MixUfds1wtMvqFiPNdy0Cu1rI6zL6Sl3A5YGYxXzXdom1rRIcFLkTkoR24PeyIXLkj581meJelJiap5WNzet52ocGw+J+n+bvqtySH+lisEySJLSzwLHViyRcJijsY9XkLCCg6VJv1qw7eqoUtY8uLPxhY3fhQ6Vkvut6pQU0eJbkh0WpV309UYu0UtxWKmSx9VlKs2cBcbfWAregoIFnP9JnNvFdoTBM52pWvmeI8wAJWOrK6Z24uS9Hcb+GjRBi4uxwsL0qRT2wMtk+oWWehdLZt2qMF1He697ZOehdCryMKLc3OMhMs2owRZr3jhabS421HHRuMmKFt/s0WzOw5FoiUz4i84UVIfidpT90NCwmvTYkHyJba2nbW+R1777E6nkLFBNeRYlQI6NyupPt8T1Zqgr2CUvp3x4sExFKOF8WMXKcXp+tasHpvo3vgTjySQ0zl3ro59YaCPkXKlf84UfjZAbSVRsh+UFfpoIWijEUJ45pe5fkucXVBnFXfOVeSjU
 x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR03MB6786.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(38070700009);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Qm01eTRFOVNxQUZiQWQ1UGV0WnVsWlZKcnpqdUJJSXhuR1RONWJKeVNDcVFX?=
- =?utf-8?B?dXFHMnVoeENTQms5RS9nSUZlZ3cxa3VPbmxYYWRvc1FtaEh4R1MrWHVNVk5V?=
- =?utf-8?B?dzhESkg1RGxuMWlqWFkxaDY1RjNTSFVkemhmblZaT0dxWjA2YXdmMWJWWnlE?=
- =?utf-8?B?Q1kxYTFzbmdMeUExRGdlWGdySjZOM2tHWFhhYklGbmNnMFdQTGdsRldTY3Q3?=
- =?utf-8?B?eE5haTZwK1NJVDdZSnpTaEdaMVVVNXN0MlNvUUxBdUZiWTQ2Q2VJbndjdnBj?=
- =?utf-8?B?STM3ZnoyWkk2cldmczB5bXRhS1M0TW1UcjVRTTZudExYUlpxckxyL1cwQ3JW?=
- =?utf-8?B?L0N1MWluZzVKQ3NmM2phYmRoNVFGUVphOWRlb2lRNUxkMGZoYXYyb0c1bjVY?=
- =?utf-8?B?bUFQQyt1RHhsNXAwUnJtVy9IenJVUmtBSHBsYXZoQmpycXN3QUFmQU03K3Ev?=
- =?utf-8?B?a0sxUWE3QUE5YXdqQWJRT1N3NmZWR3FJbXFSQTZVMElGUTVwUnA3Y0t0eFV3?=
- =?utf-8?B?NHQ2VFd3a3VERTZrM3hVZkJzMTZWT25JQUFFU05tYU5NUXFFUkgwKzFPZUlM?=
- =?utf-8?B?WUo3TXVTdEs0YWtrNVNvVlhTcWVaQUxmc0N1aTZmU1hLT0lBNWR5YXlNRlU4?=
- =?utf-8?B?aGdKK0l0RUJmQjB1dTh6VDlHR0VNV0c3VlRLbFJLTWNIN1lTemtvNTM5dWNx?=
- =?utf-8?B?bGZjUVljWXdsaDgxamdTWDRUL3ZrbEdSTDAyTlJpQS9wTHRqd21TYlBwOE1O?=
- =?utf-8?B?OS9Dd1c2a1Q1OUNBWEltSmd5dU13Zm1WdU51QzhMaVhtOGpUKzIyT09JMlp4?=
- =?utf-8?B?am9WRStUR2I0Snc3TFlqRUloR2duTzhKc2RrOHBldm1EMmsyVWJJUW9aWE80?=
- =?utf-8?B?eUZoWHpKbVRGZTFDQmI1aThGaktsRUpNMVVZa0J5QWxXTUhQVGZMSkJtLzBK?=
- =?utf-8?B?UkE0QVFqR1VwWTdGNnBDM0MvUnFNRHhNZGNRak8vazRET2QvUjVMVUc0ODdB?=
- =?utf-8?B?aEZiZlNsaFdieEQ2NnA4UjFjSWFuZFZWOUNnYjlMMFdxVlU5OWVrcXBxYUV3?=
- =?utf-8?B?aHpqWlNGZThzclRnTkE1RjB4UUFCd1NTYnNDSGJIb3hwQ3FnTnRYeTczbTRL?=
- =?utf-8?B?WW4wcXNQY0hVVWRIbUx1Szh1UjBQOTBLbEo2QmV6UXVzNTVJcWxLQ2d3QThp?=
- =?utf-8?B?QTF4eUlESUVtendLZXEwdkpMZDlEQ0pIcEcyamsvazVCV3Q5YlRqekxBdE5X?=
- =?utf-8?B?RlpPWkl6OGQ3bHUrbDNXQXl4SXZweEl1SmsyYkJLM2g2R0JCWDVBVkwyaW0z?=
- =?utf-8?B?WStHQlBxekJrcERUcFQ2TkhlbHNPSFhBeUdFVnJidmI5RUVabUE0M0gzSE1x?=
- =?utf-8?B?NFpZdlA5VitTMGQ5cTBzQjNRRHdnR29NNzFTNzNDT3cydk1RNjVSOGQ0d0FH?=
- =?utf-8?B?ajhHZG9RdHYyQi9zYkpsZHBadjBmTFRLb2RvUy9TbHplOFJnNFhYY3ArbWNv?=
- =?utf-8?B?d2U4WXZnQ2Z2ZnVwUkh2aE9LQ0hFWGE0SkNjNTUrNjR0MVhVemRsNitTYkxD?=
- =?utf-8?B?eXAxL012ejREaXBpT3Z3dnVUNDBOeCtWaVhwYXBEemlkeStCQjY0a1lBU1c1?=
- =?utf-8?B?MnhiQzBHRHZFTkJYeitPOHFLR2F3WjZYOGdVcXJBY2RSZms2dmJvcG9wMGpH?=
- =?utf-8?B?dVlVeEJKendFaGJpeS9KbjFyKytjNmxTejV5N1lac1RsYlpTdnZ3NWtSeldk?=
- =?utf-8?B?K29FNUExUmsyMFRodTBtMFpJTGJGank0NXMyRFV5THZBeXFJNitzUC9kSG1I?=
- =?utf-8?B?WjN5a3pGYXpaeDJBazR1b0xIbjBDV1Q5b0dhcjJxcXIzbCtJNUljMUxFMGFB?=
- =?utf-8?B?NDJLcTlkaS9IelNDbVdzbFJNZE52RThqT1RNYXhOVnY3R01VYnZUeFJTSjVs?=
- =?utf-8?B?LzMzNnZzUHloL08xZlp2V1dwSDMrdHZ0WGFjaHRSeVFpNlR1Q1N4QXYzSk1z?=
- =?utf-8?B?SEFjYitWOENCS2JtNDdRQUNtT1dHS0NJTlhoRnRMbHFMYlYxWFg2VFVPello?=
- =?utf-8?B?cjBBNEh6U2VnZWRuQWs0UXQwdWlPaHcxRVpKNmhUMlVYcVV4TWZVM1JmVEhU?=
- =?utf-8?Q?/mZQ=3D?=
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?d1FHK3hBZXdzM1RXbVlON01iSDRLdzV4ZkFoUnpVcy93NnF5QTE4YnY2Uzc0?=
+ =?utf-8?B?bm56cUNZTUxpekFqN0tWT1hicU1QaGpxcUVKMGFQeURkN04zNVRUQkxCbmFr?=
+ =?utf-8?B?ZjZpQ1lmYndURjVWMnRHRTl6VWErT1BnQ0taYUZkSkxmYk9NMExBWDc2OGdo?=
+ =?utf-8?B?WFU4UHBEdXVVcUFpa2hnYmFGeUErcEgxdXhPUGRKQVFBczBld05GWWpwTEQ3?=
+ =?utf-8?B?NDZhS3lYT0EyZGpETmdCUnNObitVV1pZdjk0MFIyOVNwaDlEZ2VlcXRydE1T?=
+ =?utf-8?B?OFcrQ3FqNllKNjdsZ3ZDK0N1NVlmdVR2NFY3Vi8wYUM1ZCttRGd6bDVRNk14?=
+ =?utf-8?B?c3MxcVM5V3haUXhKMTIwN1B4WndsYlo3WmpFL2s1dVhDSHZ4cTRPemdtWWlq?=
+ =?utf-8?B?bjJOcW1IaUtGWnh5QS81dUkyZjllVDVvanlDRUhCZTJ0WGpwOVppSFVZZ0la?=
+ =?utf-8?B?cGZsVFdLU01ab3FZUm9MaFlDa1crMXlReTRBLzlDbjV1VTZqKzUyUStMMDIv?=
+ =?utf-8?B?bVoxODRKNmxJVkFEcTRNcGxqd04veFAwZ0xGWUFMZm1WRXd6Z3ZvMit0UExv?=
+ =?utf-8?B?ZXprbkRKUzNWTVRtU3V4TVEyME1KaDl2WE5wMndkWFlINXlxUVZZU1JCYkFm?=
+ =?utf-8?B?SVQ2VE9zWTRtSTBsY0RLa2RrNjZ1a29rd1Jld2dnRUdEejdyMUdzdHNmZGV5?=
+ =?utf-8?B?aFFxSmFJY01zRzRuYUE2STNVeDRBRExMZlEreFN1ajRvV0dGWlFrRGpuUlJp?=
+ =?utf-8?B?Y3RzRUdqdUJLdGw1WHdPNUZtT1Y1Q3lsekliWmVScmdzeDRVQ3YveFdBNTN5?=
+ =?utf-8?B?WWhMc2xjdmFlYnpzTi9lMGxESll0am05aU1DVzZzUGxsbE1UL0lSSEtyTjlo?=
+ =?utf-8?B?aG4rN1MxSm9hOGk0THVuV0k3RmxNY054MDhlNkdaWmxUOE4xTkxUU21WTnF5?=
+ =?utf-8?B?N3V4TTBTOHZyR3MxOEo3cTZkQkYwWXQrdHNMWm8zbStOcjg5Q0ZrQWFxZTRD?=
+ =?utf-8?B?OGI0U3FDcm83NXovTFdaQ0FXVzhnRHhhekowUmU0S3NNVkVXWWxtMWMwTSs2?=
+ =?utf-8?B?cXUwb3JzZEVXUk0rR2JsT0ZMbU5qMlRZMHgrSWdkakNBQ241d3phTjQ0dUxt?=
+ =?utf-8?B?UmY2OUhPOFZOY2V3Y2Zibk9BQStlUGQ1VGJRd2JVZG9wOTBsRWIrNk1KYW9u?=
+ =?utf-8?B?Y2NMU0tFeUMxeVVFMFo1ZjZtaXo0R0JiQkJzemZkOE0xdDZQRUxIUC9ZMTlN?=
+ =?utf-8?B?aVltMjVmd0p5ajh1UVF5MTBHT20yR1BKcDV4UDd5SWN4NWdkYjdOOFdvMjUz?=
+ =?utf-8?B?ZmJNVElLSXlEVWx0ZktTemhIU1Fld1lieXlVREJ4dmhrc2ZSUEFXQ2laWU15?=
+ =?utf-8?B?UlUzNEdEYmt5RWZNWUJEUnlUbW83eXJuZFZBdmNpcGdXZlkrbDdUNWhndnVF?=
+ =?utf-8?B?VS9hN2VESW81N3IrNklsZEhBUkVKQnJiMk1qTUJYeDh4YXE1Q0k5M3FuQzRT?=
+ =?utf-8?B?N2NRbiswczdSTnU0NUpSQVoxVFN6MElTSzBzQ01SQWZnYUlpb09lZERpZDBq?=
+ =?utf-8?B?cW95RnAvVWFpNDd0SVNtVnRPZkRHVXk2VlJYbGFjNGhPWUlhcTc3Q1N1L3hJ?=
+ =?utf-8?B?QW5pb0VLclpKZzU1VkNoS0VqRHBXSXIwR2hud0Fxa2lJR09PUVpISzFEdEhY?=
+ =?utf-8?B?K3lqcVQ2aE5WNTJsVjV6K1hhSnJHVjNBN3E2ckpEcDRDanhMSTdhOTNxZUNp?=
+ =?utf-8?B?VTFGbE5jcXNlVmhSRTQ4VEJFZFBINFJmaXRMNjdKMXpBb0NudWJHY3R4bGZY?=
+ =?utf-8?B?amIya0cwYUhxZ2lseXNlaG5xUmJEYVBXajdVcXBwMjF2MW8xTnJZcWRSMmh6?=
+ =?utf-8?B?YWVCdWd6amJwWHl1dDhCSjkyd0RVVE5hNUtYMDRiS3hTMXRaNjdEaHNYVVF4?=
+ =?utf-8?B?bXNaM3AxSEk1VHhra3dDY1RJQ1VwWXZveFA5bWVHKy9mZlNvOGxkOEUrclF1?=
+ =?utf-8?B?QkVmS2E0YlhpSFhMeC9EWlFoOUhvQkpJU3pSemNCK1dDbjV2N0pVbmg2MlNI?=
+ =?utf-8?B?dnNiMXFPSjhNSGtxMndFc1pXWTg4SURib0QyY2c3SUJveGpOVFY1SDlDRjc5?=
+ =?utf-8?Q?SMmk=3D?=
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: motorola.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SEZPR03MB6786.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: af590ce6-111e-4bd4-9e7d-08dc32f3b776
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2024 15:42:31.5953
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50a5abcd-fbf8-499f-ebf3-08dc32f56897
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2024 15:54:38.2323
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 5c7d0b28-bdf8-410c-aa93-4df372b16203
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: I02FLoE/179LVLp7WiDF/PAC1nWUqGpbW6SrnF6b19HYGX+T7Qv+ZCNNLeRMR9rJHtpzjIS7ceaSbXo6dp3mzw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR03MB7106
-X-Proofpoint-ORIG-GUID: 8e7kxaKy7R84tzDdYam3XybMEgvXrbl2
-X-Proofpoint-GUID: 8e7kxaKy7R84tzDdYam3XybMEgvXrbl2
+X-MS-Exchange-CrossTenant-userprincipalname: 6ZO63d4wdasEh+ilKMHhwVd+IuhRMTs+U8pfg1HPGCYEIeSkWmfrZafrs3mJoPzT/yOxhTCGJsa6Q7FaMrgkcA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PSAPR03MB5558
+X-Proofpoint-GUID: 4noMEdWesuHzJEjFJ2n8AjKVuCDcOQaC
+X-Proofpoint-ORIG-GUID: 4noMEdWesuHzJEjFJ2n8AjKVuCDcOQaC
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-02-21_02,2024-02-21_02,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- mlxlogscore=751 clxscore=1011 suspectscore=0 phishscore=0 mlxscore=0
- malwarescore=0 adultscore=0 bulkscore=0 impostorscore=0 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2402210120
+ definitions=2024-02-21_03,2024-02-21_02,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015 adultscore=0
+ mlxlogscore=849 spamscore=0 lowpriorityscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.19.0-2402120000
+ definitions=main-2402210122
 X-Original-Sender: mbland@motorola.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@motorola.com header.s=DKIM202306 header.b=hKq+HNNu;       arc=pass
- (i=1 spf=pass spfdomain=motorola.com dkim=pass dkdomain=motorola.com
- dmarc=pass fromdomain=motorola.com);       spf=pass (google.com: domain of
- mbland@motorola.com designates 148.163.148.104 as permitted sender)
- smtp.mailfrom=mbland@motorola.com;       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=motorola.com
+ header.i=@motorola.com header.s=DKIM202306 header.b="V4Vmcbb/";
+       arc=pass (i=1 spf=pass spfdomain=motorola.com dkim=pass
+ dkdomain=motorola.com dmarc=pass fromdomain=motorola.com);       spf=pass
+ (google.com: domain of mbland@motorola.com designates 148.163.148.104 as
+ permitted sender) smtp.mailfrom=mbland@motorola.com;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=motorola.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -334,28 +336,35 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-> From: Conor Dooley <conor@kernel.org>
-> FYI:
-> 
-> >   mm/vmalloc: allow arch-specific vmalloc_node overrides
-> >   mm: pgalloc: support address-conditional pmd allocation
-> 
-> With these two arch/riscv/configs/* are broken with calls to undeclared
-> functions.
+> On February 21, 2024 3:27 AM David Hildenbrand wrote
+> On 21.02.24 08:13, Christophe Leroy wrote:
+> > Le 20/02/2024 =C3=A0 21:32, Maxwell Bland a =C3=A9crit=C2=A0:
+> >>
+> >> While other descriptors (e.g. pud) allow allocations conditional on
+> >> which virtual address is allocated, pmd descriptor allocations do not.
+> >> However, adding support for this is straightforward and is beneficial =
+to
+> >> future kernel development targeting the PMD memory granularity.
+> >>
+> >> As many architectures already implement pmd_populate_kernel in an
+> >> address-generic manner, it is necessary to roll out support
+> >> incrementally. For this purpose a preprocessor flag,
+> >
+> > Is it really worth it ? It is only 48 call sites that need to be
+> > updated. It would avoid that processor flag and avoid introducing that
+> > pmd_populate_kernel_at() in kernel core.
+>=20
+> +1, let's avoid that if possible.
 
-Will fix, thanks! I will also figure out how to make sure this doesn't happen again for some other architecture.
+Will fix, thank you!
 
-> >   arm64: separate code and data virtual memory allocation
-> >   arm64: dynamic enforcement of pmd-level PXNTable
-> 
-> And with these two the 32-bit and nommu builds are broken.
-
-Was not aware there was a dependency here. I will see what I can do.
-
-Thank you,
 Maxwell
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/SEZPR03MB6786CCB9C8071EAA143C246EB4572%40SEZPR03MB6786.apcprd03.prod.outlook.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/SEZPR03MB6786F9F84DBC9B5DD952C70AB4572%40SEZPR03MB6786.apcprd03.p=
+rod.outlook.com.
