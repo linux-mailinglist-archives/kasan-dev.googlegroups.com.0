@@ -1,122 +1,121 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBCVE3GXAMGQEWBBNMWI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBC5E3GXAMGQEA6XW6II@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63d.google.com (mail-pl1-x63d.google.com [IPv6:2607:f8b0:4864:20::63d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24CBC85E797
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 20:42:04 +0100 (CET)
-Received: by mail-pl1-x63d.google.com with SMTP id d9443c01a7336-1dba34950c2sf201665ad.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 11:42:04 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1708544522; cv=pass;
+Received: from mail-yb1-xb3f.google.com (mail-yb1-xb3f.google.com [IPv6:2607:f8b0:4864:20::b3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12F8B85E798
+	for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 20:42:05 +0100 (CET)
+Received: by mail-yb1-xb3f.google.com with SMTP id 3f1490d57ef6-dc74ac7d015sf8974543276.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 11:42:05 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708544524; cv=pass;
         d=google.com; s=arc-20160816;
-        b=YPYkz9UpeCWoRpGlJIiduM0FBtO6IdxL7UTHJaGG1yBVJfQapvTZ4xLRko/ry5skU8
-         b9TdQmh3/BeWSKeNAM+77GAzupEzpY03S4Qv1skdndxpAqVtC50PxyyMBwruOEbjGxJS
-         pDmncpDqOcAGIfdVGByZLFxRRksn1xOQGsuH9L+krd6HfOBxM/FpS9NEZ1bGinFuMEOb
-         +yZKPSuXz3R8OtzKTJUCN8y6ASSfe4GgPHLhzPv6l7/EvaXd7DzbgiM1D2PAXrm4ACzb
-         SvFb0Cm133Gyrc7QzwaKeG0Pmt4U27LFcvipFtKXcOKST3PxDGkAocDGA6XAbin1mh/h
-         jvGQ==
+        b=zUmz4YotDmNBmVfU3NiH7ZFP30uP51g0DWt+/iCtaaKHodZGaumw9Sv9wminfZNy7B
+         jtYYmoX6Hw64DfacJE51/ZcLuQhIQHmr3gDPulJtZhH8Q+idUA1bsC1Zr5CDsnHHQkk3
+         lxyPUKPOY1u5lSPb7Pt2Wv1Wmb1zha4EttzE+lVC++cjWAxgKoEQf6cE0L+kFxqG0K9x
+         bSPbjKsGM7d0A176mTA1ER064g2WzNam5gOYMOgRX+wIB/Ru7noY8zeHEdhQJh2YhMYR
+         d8e5L6MfPDoRmmCyu+DNq+Un6wWP3Z7NocPsnrxj48XVyQMW/cX5+m6V/mt3NFAjqiXm
+         C01A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=/f1rgkSELeprm7t3TI7IF9OUkze/eCV+lclWUQmosC4=;
-        fh=tpJinUKpzGKXEDhBPvZ3cCNZonmFbPAKRaHGCSyV0Fk=;
-        b=S4DRW3mEzFgmKcnt14r+AJ0qJ/pHeFqgQb1W2zz5JAucfcoC8/fCGtV18b4MSq3vFH
-         lu2p6PJf9O/Aiqv/jAlHi22CrLXFDTiJq8rCNwF/mh9MOyXGnNmJofvq5obN5vQkeUm3
-         hZSAmV5NB2L/jrQRrfl6Ykmh3U7xRp0OQUBB3RJWNAlYbz+rWdLgojUpvcS+gJUphnGy
-         HtDZpoDpB/xov8f5aYvzGUkaekq3JwTjRs0ged8+4T2mQ5BzOXr0Wlz+I5E4DJPSTXcv
-         IF0DG917JwcVkP68hOY6Lht11zzSLW1M/UqbAnEmNPMhiKybXJjrpwGy80IoOAL7X36u
-         3LzA==;
+        bh=vf9ossNV0R6BUmrLwpIG1w7AQKcwZNdgFEyxqQnHuz4=;
+        fh=DJ4Xc5x1STqpDgJCJF0p3XeoTSLBjrNj8RGxa9UOt+E=;
+        b=GFWOIy3LxmUx38jdbL7yhIwBNGKHJ2rSS1WyKF2Ik8tcZv0Rtg6xrwLYFE1KTFt8BO
+         nE2qaMJ3r2PHzbOf0t34bURGv8D5nrHu1xX4BIbQOJDV08B+vd9Yqs0TVN+LXehmMOWi
+         IJmXECXVLaiVvj20B+KGAfKIy7K935up7awhujE9Mu3gKHy1aJeo2VHwyDxFCjz0EEhJ
+         /yt5UHR7Dd6IOCBGF5vYZEpD4VYwX2mzzWmqoFYzi9waRa7CwlpxmmFGxqHCiFRHjW1T
+         m6blpvbTsZ3xfrp7uXz9ZgPtZ1TGyZYqSedsAOoeFp3L2vUAjM9X3c7/RDd1B3Nrl0XQ
+         kDkA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=LYrS8Dxl;
-       spf=pass (google.com: domain of 3cflwzqykctsprobkydlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3CFLWZQYKCTsprobkYdlldib.ZljhXpXk-absdlldibdolrmp.Zlj@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=kQ6av+CD;
+       spf=pass (google.com: domain of 3cllwzqykct0rtqdmafnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3ClLWZQYKCT0rtqdmafnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708544522; x=1709149322; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708544524; x=1709149324; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=/f1rgkSELeprm7t3TI7IF9OUkze/eCV+lclWUQmosC4=;
-        b=OLxYhHgJwCHt7x3LUaZQtUI15emr/lMH7MTic2g2YkCqxONg2hQEkO4mrdn4KXmaxt
-         GQMZC13eIY+kDw9hWZrDWBB44cSh/45AOsqLuGhDVgIOriBjCNWRtXn3xD2Kcs+Y7qtz
-         QOO2uGCh7NheGYwqa0aROlRQUrXWXpWJp/3fC2fVel19F4IO+6RoBstZ/uAxuog5xyFh
-         OtZ3eDWUdM/cRie3C0SA3yjF05hEpqmt6xhQ7goHqrIOr+qps6iGKZT1UD4wGZ0re1QU
-         HOQWT7qBzszi7d9JYBZjyWuChNGp/EzF4zLVazs7mugMgsamv5FxgJz1Aw9qEbv9I+6J
-         AHkA==
+        bh=vf9ossNV0R6BUmrLwpIG1w7AQKcwZNdgFEyxqQnHuz4=;
+        b=SPSxrY46cNavzlApPnwHa67WZ76gXJDGG3fglJ+vvj0HQBRblzEXtq/wMnJm5U/0c/
+         93MZM8R+5sxUFwWFAK3LDRvBkAquvtVFgQQnqYKvnZPf/Iurb4Srl3YMwUDAUxTsCg8Y
+         Z1qlNtWNrNUoRMCFtby8pWnGXDDrcmHqCMn2mCJKHq4LLvSd1AVIxSiuYtkfr0RnG5bt
+         4ipnytmCNyVd8sBsyZQ3l68zodB1NOovsq5tm8Nu2zl3v761uHCwh/kAGid/F5cdgZXm
+         TA7LzRhjMYv3/v4dHYNuZ75DJqIH65PI1bS4GS5h2/o5g5CMExE2OF2HetIvdE6rTrC1
+         EA+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708544522; x=1709149322;
+        d=1e100.net; s=20230601; t=1708544524; x=1709149324;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/f1rgkSELeprm7t3TI7IF9OUkze/eCV+lclWUQmosC4=;
-        b=wN+y70vx5CYUmoKCU6Ol/hmetpIYiW6ueTSzgQSGP2MZ1MGGhmHgm6X48Kot8QCRV4
-         y1hLvGubmmBGndDlNOK6HtqPm329kdzPjDsY5cXKiy81qf6Siq/C7E+bqOo/ZpIQW6gn
-         ahsjRtpSAWaD/zb6IjFOYJbaG5SIYmbOs81ZZdcQxMjqQCt5FWL8pwq21cN8ulPE/Ccf
-         6WFVfz1E19xoFc+56HoDQrkDLcp8BX6AdGWigXhM6HWtnHeuNBzFIBIPWn4viFbRqENb
-         2GRCG8EFw1un+Fe6JRgFaiuxPZoyn1QSL37inZ5Xy5zFij2lVZa0/eEJjOD2f5U4EY4n
-         T3gw==
-X-Forwarded-Encrypted: i=2; AJvYcCWQzz0FJDaWYFoK8X0VJgaCByE+5bezXH35Dr0ZjLi2Gsv/PrfV9CgoyXobUHUMjEUpqovyLbsJCWr2kxGorYoVM/sDKAm+Cg==
-X-Gm-Message-State: AOJu0YzhXPq2MeztkvLR51w4rezmnzhHH19yJa1brwOhpXOsb4Zzfbid
-	c0DfY8i95z0v32sAwDZQvG0lkjVjqo5xOud5bNl8o6/I/IOkKi1T
-X-Google-Smtp-Source: AGHT+IGyWl8q7UEXofNBBPJagyxLKpgOvNWSGESS4e9tz0fCa7z51in5BFghS2qEKUDQ+ys/mTFzrw==
-X-Received: by 2002:a17:902:d0c9:b0:1db:8119:7ce3 with SMTP id n9-20020a170902d0c900b001db81197ce3mr310968pln.20.1708544522659;
-        Wed, 21 Feb 2024 11:42:02 -0800 (PST)
+        bh=vf9ossNV0R6BUmrLwpIG1w7AQKcwZNdgFEyxqQnHuz4=;
+        b=ZPkAh8hvRFMLf4lWL9WC60Oxrkb5i6dG2s7tk6RbPSYHtVZkj1LhV/7uLKoSTS7RqP
+         0PklfqUZmfZcp3GcPWTblOx1RZxjhEtPCBYVP/zIwjtdqZ95HCAjkCEPDRashyR7Yrjh
+         8bJsrjUbAfFSZF5kdgrwF1K2mCzOhQkKvJ/fs12wRl9LUhjXc/izkn+GVgMTRF3D45IJ
+         ayQLDx5JolYGjjucG0MXUDyw1tdiFTf4PiIi2y4IHMLV6ZeeI73httn+cMVq8qi8F3ig
+         4LvCsb8Jy6Vn4IaTbCUaj6F/C88p35xVr4ckUiGj5M3ffoE5k1o73B1SadzcM6xuAzbn
+         ocAQ==
+X-Forwarded-Encrypted: i=2; AJvYcCX4VsS94m2FFxwAgAUXujikFwcfubkEUNi93Y75tCUWFY1o673dKFL+zBIJbRrmkSQfGU7wkU7Gy1gYsWRtzs3pqZ1DsxLSyw==
+X-Gm-Message-State: AOJu0YxFz7jlpui3/wQP4//1OuH9nnOEZToakw6Kj28B9hwaUHzRrWQG
+	W0w51uhkpiOHl7ypHXSj8V+kqUGS4r5Le1kna4nB13CoB1QDY3ax
+X-Google-Smtp-Source: AGHT+IEcmiCwgf2J86PHjD94QoVA07kKEKX//p7RNyvNnf0AIzPMC1Z2yNNkNMXecylbjTpZYyiFXw==
+X-Received: by 2002:a25:ae5d:0:b0:dcb:ccf3:b69 with SMTP id g29-20020a25ae5d000000b00dcbccf30b69mr314795ybe.35.1708544524044;
+        Wed, 21 Feb 2024 11:42:04 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:eb06:b0:299:6e5f:3d45 with SMTP id
- j6-20020a17090aeb0600b002996e5f3d45ls378630pjz.2.-pod-prod-03-us; Wed, 21 Feb
- 2024 11:42:01 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUyC5rPDQf+EuI373BTycVGDIrobkcC9KU3OG/MxC9oUJAwMKiO+IeXaXNhA3EmTHDhjJQOEfxma4UHHcDXjBFw44yTR0vqPWuX8Q==
-X-Received: by 2002:a17:90a:c697:b0:299:41fd:90d1 with SMTP id n23-20020a17090ac69700b0029941fd90d1mr12369972pjt.32.1708544521607;
-        Wed, 21 Feb 2024 11:42:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1708544521; cv=none;
+Received: by 2002:a25:e092:0:b0:dcc:279c:e5c9 with SMTP id x140-20020a25e092000000b00dcc279ce5c9ls1258125ybg.1.-pod-prod-01-us;
+ Wed, 21 Feb 2024 11:42:03 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCURKmcS18PFY814F5XxlXTqISW8SoQnvswpuAYTIs8otfNYt0wCAf3ZQZiEFEMHMSqZV0MWsUYGvEHWBa8fyjgjnSjPIVzWfJK1WQ==
+X-Received: by 2002:a25:d846:0:b0:dc7:594b:f72b with SMTP id p67-20020a25d846000000b00dc7594bf72bmr281040ybg.39.1708544523320;
+        Wed, 21 Feb 2024 11:42:03 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1708544523; cv=none;
         d=google.com; s=arc-20160816;
-        b=z6VaXhNesoa04LTJEHwNVz1LqnkO2Wd67zLLh7TkZzcTYyXp3gEGkzSMjBtSj5mAuD
-         gp26wwGlYt4W0CG4h2l9oI5RDrjNvBg0WkpUb0WfElklFLx1sg93TXkqG1jLQR9Y9NIB
-         U3Nt95z6DxOAscJIhWyEAdmh2NsW50KFcZeRSN662R35tsQQHMMW6P8T7fogiF3CkKeO
-         AdSK6S5H/b9kE5RUJUuYpfAv3HY9jEpPvWhWBayt0jghsF6gwi7ecIdbe7TbLuAPUkYI
-         j81toFBo1UgUKFW/yOOYCDDRdYTrsAcuTwSZaRYrLWTHynmaT9KGUFqid+KgL8gDwylE
-         ULNw==
+        b=wKr850jKaUI8wSdylCFFZwGggQJW/oCaD83gylk7WzpYiJJc4oevlzdroyCxHPNAtK
+         xdOA7ID7KYwq6lNSzOrgwP9INLBLVVmESMKdRvkIUYnGx/RQL+6yZsJuVCscK83sy7ov
+         uwsRJA/+dFtLb05TedR04XzSGKSobj+YzD85d7yc54cEdKEk+eT7rE0NdvKnR+IXH028
+         UK+kJvfGTlQ/wMsRx23Ld589oiXp6D10D3TlMRKIU9PWWKnGEDZlja5fcC4v+PFvVn90
+         YRArQg8fI2pE94fBysuYnwH2I/YumtHImdS6v1co5el8RBKuGAq4bW7ec0zWmOI1Vsi6
+         yq4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=NoRXBaM3T4KBY/6WQ4BLlRy2g0mzIwYzZZ7lc9Gsip0=;
-        fh=2mT/RMK/gvha0p8cb71upaipzd0huqO74kfI9timME0=;
-        b=GyElbGfKXyqij3Vo7uzoL91U/LyLC1qmHSMXojKWyQSlA3o8IuUiAw/hyYqdWJiUN5
-         QIJBZCX3kI89N5eyjlN1ltewpYMV/aM5kIN9QNY6IFTeRx0Kvqk1lEDigFV7h+jIo0NX
-         jdnCddOsYEejufQzMUlQqwdTvw8uTUn1NRBj4DBelaW30+TLxHy+Yxj0NcUvqK/DqWNy
-         +mQQhcU1HxXbDjsf0k7/+IOtbT78DRDifmBKx3Whoq2wmZohRP4X1yydW+nxa3kL/D1A
-         IOKRAiNvb1EzweLgNf7FU2UsnHX08m9CO/fh5R0V2r449DLIZpWxkWBX0Lj2p2HGnTn5
-         PnCw==;
+        bh=4ca2CRMzgUqo30S53DRYHeCmPf8DAT9MnFsYZ/BDy7I=;
+        fh=4J745A3famUR378MAQmmn+htm3DeSFoSgDr2u8Igsx8=;
+        b=g38GGTGsp/mbl9bU/h9+XP9pgk3Lf6eq8SQx60+9F+BBQlE3Q/qFUZt7roHHC3mxac
+         s5EdY22B/SB/8osmemCk61qoi1xWzjderfEpY6BulWUEnnegnHbUoFv3KgA4HXGmmrzu
+         l1ko/cP4K7uCDNhmCMOT+8nqlANmbp/TPqus/Dlt0AKBUfdLe11vTCq48wHtpb3VPszy
+         djXJ9THGjeUf5HpLyksvOQp1y6WhgnPqSqQiCem4jDAfYbkVnhJIA+IOAlNr+SH0rKtr
+         fCweGgBdr0LaTAwQjjS3nhQlEvudnKj3+VOMK75uo3CO6aYzWKcAcM+EVDnG1gznpQrt
+         kHLQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=LYrS8Dxl;
-       spf=pass (google.com: domain of 3cflwzqykctsprobkydlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3CFLWZQYKCTsprobkYdlldib.ZljhXpXk-absdlldibdolrmp.Zlj@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=kQ6av+CD;
+       spf=pass (google.com: domain of 3cllwzqykct0rtqdmafnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3ClLWZQYKCT0rtqdmafnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com. [2607:f8b0:4864:20::114a])
-        by gmr-mx.google.com with ESMTPS id q4-20020a17090ad38400b002993c104736si30402pju.0.2024.02.21.11.42.01
+        by gmr-mx.google.com with ESMTPS id j7-20020a05620a0a4700b0078758a6738csi438854qka.6.2024.02.21.11.42.03
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Feb 2024 11:42:01 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3cflwzqykctsprobkydlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) client-ip=2607:f8b0:4864:20::114a;
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-6083fbe9923so20056197b3.1
-        for <kasan-dev@googlegroups.com>; Wed, 21 Feb 2024 11:42:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUAFPUJz2sXJ1uz2Oyo8x7n9/F1BVn8CiDrf/if7KsDYsfq+Ibe8pPeztfUHJ468D7MX3MwRahP4GCI/QjPFBWJs9hFkPz0hoYl7A==
+        Wed, 21 Feb 2024 11:42:03 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3cllwzqykct0rtqdmafnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) client-ip=2607:f8b0:4864:20::114a;
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-60895686ddbso3475017b3.2
+        for <kasan-dev@googlegroups.com>; Wed, 21 Feb 2024 11:42:03 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVesOMpGj69gziOAr3+nMVzNcGjyJQVsPFUGMXRUzstbizKuMxr8YK9j4pM72ZVBa8pbcxcQUCvOJgiI74HJWr+4GTol5mlstmf5A==
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:953b:9a4e:1e10:3f07])
- (user=surenb job=sendgmr) by 2002:a0d:df4b:0:b0:608:5e12:ba68 with SMTP id
- i72-20020a0ddf4b000000b006085e12ba68mr1532961ywe.4.1708544520523; Wed, 21 Feb
- 2024 11:42:00 -0800 (PST)
-Date: Wed, 21 Feb 2024 11:40:42 -0800
+ (user=surenb job=sendgmr) by 2002:a81:fe07:0:b0:608:22c7:1269 with SMTP id
+ j7-20020a81fe07000000b0060822c71269mr2041757ywn.0.1708544522852; Wed, 21 Feb
+ 2024 11:42:02 -0800 (PST)
+Date: Wed, 21 Feb 2024 11:40:43 -0800
 In-Reply-To: <20240221194052.927623-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20240221194052.927623-1-surenb@google.com>
 X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
-Message-ID: <20240221194052.927623-30-surenb@google.com>
-Subject: [PATCH v4 29/36] mm: vmalloc: Enable memory allocation profiling
+Message-ID: <20240221194052.927623-31-surenb@google.com>
+Subject: [PATCH v4 30/36] rhashtable: Plumb through alloc tag
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -147,9 +146,9 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=LYrS8Dxl;       spf=pass
- (google.com: domain of 3cflwzqykctsprobkydlldib.zljhxpxk-absdlldibdolrmp.zlj@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3CFLWZQYKCTsprobkYdlldib.ZljhXpXk-absdlldibdolrmp.Zlj@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=kQ6av+CD;       spf=pass
+ (google.com: domain of 3cllwzqykct0rtqdmafnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3ClLWZQYKCT0rtqdmafnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -167,641 +166,175 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Kent Overstreet <kent.overstreet@linux.dev>
 
-This wrapps all external vmalloc allocation functions with the
-alloc_hooks() wrapper, and switches internal allocations to _noprof
-variants where appropriate, for the new memory allocation profiling
-feature.
+This gives better memory allocation profiling results; rhashtable
+allocations will be accounted to the code that initialized the
+rhashtable.
 
 Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- drivers/staging/media/atomisp/pci/hmm/hmm.c |  2 +-
- include/linux/vmalloc.h                     | 60 ++++++++++----
- kernel/kallsyms_selftest.c                  |  2 +-
- mm/nommu.c                                  | 64 +++++++--------
- mm/util.c                                   | 24 +++---
- mm/vmalloc.c                                | 88 ++++++++++-----------
- 6 files changed, 135 insertions(+), 105 deletions(-)
+ include/linux/alloc_tag.h        |  3 +++
+ include/linux/rhashtable-types.h | 11 +++++++++--
+ lib/rhashtable.c                 | 28 +++++++++++++++++-----------
+ 3 files changed, 29 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index bb12644fd033..3e2899ad8517 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -205,7 +205,7 @@ static ia_css_ptr __hmm_alloc(size_t bytes, enum hmm_bo_type type,
- 	}
+diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
+index 86ed5d24a030..29636719b276 100644
+--- a/include/linux/alloc_tag.h
++++ b/include/linux/alloc_tag.h
+@@ -130,6 +130,8 @@ static inline void alloc_tag_add(union codetag_ref *ref, struct alloc_tag *tag,
+ 	this_cpu_add(tag->counters->bytes, bytes);
+ }
  
- 	dev_dbg(atomisp_dev, "pages: 0x%08x (%zu bytes), type: %d, vmalloc %p\n",
--		bo->start, bytes, type, vmalloc);
-+		bo->start, bytes, type, vmalloc_noprof);
++#define alloc_tag_record(p)	((p) = current->alloc_tag)
++
+ #else /* CONFIG_MEM_ALLOC_PROFILING */
  
- 	return bo->start;
+ #define DEFINE_ALLOC_TAG(_alloc_tag)
+@@ -138,6 +140,7 @@ static inline void alloc_tag_sub(union codetag_ref *ref, size_t bytes) {}
+ static inline void alloc_tag_sub_noalloc(union codetag_ref *ref, size_t bytes) {}
+ static inline void alloc_tag_add(union codetag_ref *ref, struct alloc_tag *tag,
+ 				 size_t bytes) {}
++#define alloc_tag_record(p)	do {} while (0)
  
-diff --git a/include/linux/vmalloc.h b/include/linux/vmalloc.h
-index c720be70c8dd..106d78e75606 100644
---- a/include/linux/vmalloc.h
-+++ b/include/linux/vmalloc.h
-@@ -2,6 +2,8 @@
- #ifndef _LINUX_VMALLOC_H
- #define _LINUX_VMALLOC_H
+ #endif /* CONFIG_MEM_ALLOC_PROFILING */
+ 
+diff --git a/include/linux/rhashtable-types.h b/include/linux/rhashtable-types.h
+index b6f3797277ff..015c8298bebc 100644
+--- a/include/linux/rhashtable-types.h
++++ b/include/linux/rhashtable-types.h
+@@ -9,6 +9,7 @@
+ #ifndef _LINUX_RHASHTABLE_TYPES_H
+ #define _LINUX_RHASHTABLE_TYPES_H
  
 +#include <linux/alloc_tag.h>
-+#include <linux/sched.h>
- #include <linux/spinlock.h>
- #include <linux/init.h>
- #include <linux/list.h>
-@@ -137,26 +139,54 @@ extern unsigned long vmalloc_nr_pages(void);
- static inline unsigned long vmalloc_nr_pages(void) { return 0; }
- #endif
- 
--extern void *vmalloc(unsigned long size) __alloc_size(1);
--extern void *vzalloc(unsigned long size) __alloc_size(1);
--extern void *vmalloc_user(unsigned long size) __alloc_size(1);
--extern void *vmalloc_node(unsigned long size, int node) __alloc_size(1);
--extern void *vzalloc_node(unsigned long size, int node) __alloc_size(1);
--extern void *vmalloc_32(unsigned long size) __alloc_size(1);
--extern void *vmalloc_32_user(unsigned long size) __alloc_size(1);
--extern void *__vmalloc(unsigned long size, gfp_t gfp_mask) __alloc_size(1);
--extern void *__vmalloc_node_range(unsigned long size, unsigned long align,
-+extern void *vmalloc_noprof(unsigned long size) __alloc_size(1);
-+#define vmalloc(...)		alloc_hooks(vmalloc_noprof(__VA_ARGS__))
-+
-+extern void *vzalloc_noprof(unsigned long size) __alloc_size(1);
-+#define vzalloc(...)		alloc_hooks(vzalloc_noprof(__VA_ARGS__))
-+
-+extern void *vmalloc_user_noprof(unsigned long size) __alloc_size(1);
-+#define vmalloc_user(...)	alloc_hooks(vmalloc_user_noprof(__VA_ARGS__))
-+
-+extern void *vmalloc_node_noprof(unsigned long size, int node) __alloc_size(1);
-+#define vmalloc_node(...)	alloc_hooks(vmalloc_node_noprof(__VA_ARGS__))
-+
-+extern void *vzalloc_node_noprof(unsigned long size, int node) __alloc_size(1);
-+#define vzalloc_node(...)	alloc_hooks(vzalloc_node_noprof(__VA_ARGS__))
-+
-+extern void *vmalloc_32_noprof(unsigned long size) __alloc_size(1);
-+#define vmalloc_32(...)		alloc_hooks(vmalloc_32_noprof(__VA_ARGS__))
-+
-+extern void *vmalloc_32_user_noprof(unsigned long size) __alloc_size(1);
-+#define vmalloc_32_user(...)	alloc_hooks(vmalloc_32_user_noprof(__VA_ARGS__))
-+
-+extern void *__vmalloc_noprof(unsigned long size, gfp_t gfp_mask) __alloc_size(1);
-+#define __vmalloc(...)		alloc_hooks(__vmalloc_noprof(__VA_ARGS__))
-+
-+extern void *__vmalloc_node_range_noprof(unsigned long size, unsigned long align,
- 			unsigned long start, unsigned long end, gfp_t gfp_mask,
- 			pgprot_t prot, unsigned long vm_flags, int node,
- 			const void *caller) __alloc_size(1);
--void *__vmalloc_node(unsigned long size, unsigned long align, gfp_t gfp_mask,
-+#define __vmalloc_node_range(...)	alloc_hooks(__vmalloc_node_range_noprof(__VA_ARGS__))
-+
-+void *__vmalloc_node_noprof(unsigned long size, unsigned long align, gfp_t gfp_mask,
- 		int node, const void *caller) __alloc_size(1);
--void *vmalloc_huge(unsigned long size, gfp_t gfp_mask) __alloc_size(1);
-+#define __vmalloc_node(...)	alloc_hooks(__vmalloc_node_noprof(__VA_ARGS__))
-+
-+void *vmalloc_huge_noprof(unsigned long size, gfp_t gfp_mask) __alloc_size(1);
-+#define vmalloc_huge(...)	alloc_hooks(vmalloc_huge_noprof(__VA_ARGS__))
-+
-+extern void *__vmalloc_array_noprof(size_t n, size_t size, gfp_t flags) __alloc_size(1, 2);
-+#define __vmalloc_array(...)	alloc_hooks(__vmalloc_array_noprof(__VA_ARGS__))
-+
-+extern void *vmalloc_array_noprof(size_t n, size_t size) __alloc_size(1, 2);
-+#define vmalloc_array(...)	alloc_hooks(vmalloc_array_noprof(__VA_ARGS__))
-+
-+extern void *__vcalloc_noprof(size_t n, size_t size, gfp_t flags) __alloc_size(1, 2);
-+#define __vcalloc(...)		alloc_hooks(__vcalloc_noprof(__VA_ARGS__))
- 
--extern void *__vmalloc_array(size_t n, size_t size, gfp_t flags) __alloc_size(1, 2);
--extern void *vmalloc_array(size_t n, size_t size) __alloc_size(1, 2);
--extern void *__vcalloc(size_t n, size_t size, gfp_t flags) __alloc_size(1, 2);
--extern void *vcalloc(size_t n, size_t size) __alloc_size(1, 2);
-+extern void *vcalloc_noprof(size_t n, size_t size) __alloc_size(1, 2);
-+#define vcalloc(...)		alloc_hooks(vcalloc_noprof(__VA_ARGS__))
- 
- extern void vfree(const void *addr);
- extern void vfree_atomic(const void *addr);
-diff --git a/kernel/kallsyms_selftest.c b/kernel/kallsyms_selftest.c
-index b4cac76ea5e9..3ea9be364e32 100644
---- a/kernel/kallsyms_selftest.c
-+++ b/kernel/kallsyms_selftest.c
-@@ -82,7 +82,7 @@ static struct test_item test_items[] = {
- 	ITEM_FUNC(kallsyms_test_func_static),
- 	ITEM_FUNC(kallsyms_test_func),
- 	ITEM_FUNC(kallsyms_test_func_weak),
--	ITEM_FUNC(vmalloc),
-+	ITEM_FUNC(vmalloc_noprof),
- 	ITEM_FUNC(vfree),
- #ifdef CONFIG_KALLSYMS_ALL
- 	ITEM_DATA(kallsyms_test_var_bss_static),
-diff --git a/mm/nommu.c b/mm/nommu.c
-index b6dc558d3144..face0938e9e3 100644
---- a/mm/nommu.c
-+++ b/mm/nommu.c
-@@ -139,28 +139,28 @@ void vfree(const void *addr)
- }
- EXPORT_SYMBOL(vfree);
- 
--void *__vmalloc(unsigned long size, gfp_t gfp_mask)
-+void *__vmalloc_noprof(unsigned long size, gfp_t gfp_mask)
- {
- 	/*
- 	 *  You can't specify __GFP_HIGHMEM with kmalloc() since kmalloc()
- 	 * returns only a logical address.
- 	 */
--	return kmalloc(size, (gfp_mask | __GFP_COMP) & ~__GFP_HIGHMEM);
-+	return kmalloc_noprof(size, (gfp_mask | __GFP_COMP) & ~__GFP_HIGHMEM);
- }
--EXPORT_SYMBOL(__vmalloc);
-+EXPORT_SYMBOL(__vmalloc_noprof);
- 
--void *__vmalloc_node_range(unsigned long size, unsigned long align,
-+void *__vmalloc_node_range_noprof(unsigned long size, unsigned long align,
- 		unsigned long start, unsigned long end, gfp_t gfp_mask,
- 		pgprot_t prot, unsigned long vm_flags, int node,
- 		const void *caller)
- {
--	return __vmalloc(size, gfp_mask);
-+	return __vmalloc_noprof(size, gfp_mask);
- }
- 
--void *__vmalloc_node(unsigned long size, unsigned long align, gfp_t gfp_mask,
-+void *__vmalloc_node_noprof(unsigned long size, unsigned long align, gfp_t gfp_mask,
- 		int node, const void *caller)
- {
--	return __vmalloc(size, gfp_mask);
-+	return __vmalloc_noprof(size, gfp_mask);
- }
- 
- static void *__vmalloc_user_flags(unsigned long size, gfp_t flags)
-@@ -181,11 +181,11 @@ static void *__vmalloc_user_flags(unsigned long size, gfp_t flags)
- 	return ret;
- }
- 
--void *vmalloc_user(unsigned long size)
-+void *vmalloc_user_noprof(unsigned long size)
- {
- 	return __vmalloc_user_flags(size, GFP_KERNEL | __GFP_ZERO);
- }
--EXPORT_SYMBOL(vmalloc_user);
-+EXPORT_SYMBOL(vmalloc_user_noprof);
- 
- struct page *vmalloc_to_page(const void *addr)
- {
-@@ -219,13 +219,13 @@ long vread_iter(struct iov_iter *iter, const char *addr, size_t count)
-  *	For tight control over page level allocator and protection flags
-  *	use __vmalloc() instead.
-  */
--void *vmalloc(unsigned long size)
-+void *vmalloc_noprof(unsigned long size)
- {
--	return __vmalloc(size, GFP_KERNEL);
-+	return __vmalloc_noprof(size, GFP_KERNEL);
- }
--EXPORT_SYMBOL(vmalloc);
-+EXPORT_SYMBOL(vmalloc_noprof);
- 
--void *vmalloc_huge(unsigned long size, gfp_t gfp_mask) __weak __alias(__vmalloc);
-+void *vmalloc_huge_noprof(unsigned long size, gfp_t gfp_mask) __weak __alias(__vmalloc_noprof);
- 
- /*
-  *	vzalloc - allocate virtually contiguous memory with zero fill
-@@ -239,14 +239,14 @@ void *vmalloc_huge(unsigned long size, gfp_t gfp_mask) __weak __alias(__vmalloc)
-  *	For tight control over page level allocator and protection flags
-  *	use __vmalloc() instead.
-  */
--void *vzalloc(unsigned long size)
-+void *vzalloc_noprof(unsigned long size)
- {
--	return __vmalloc(size, GFP_KERNEL | __GFP_ZERO);
-+	return __vmalloc_noprof(size, GFP_KERNEL | __GFP_ZERO);
- }
--EXPORT_SYMBOL(vzalloc);
-+EXPORT_SYMBOL(vzalloc_noprof);
+ #include <linux/atomic.h>
+ #include <linux/compiler.h>
+ #include <linux/mutex.h>
+@@ -88,6 +89,9 @@ struct rhashtable {
+ 	struct mutex                    mutex;
+ 	spinlock_t			lock;
+ 	atomic_t			nelems;
++#ifdef CONFIG_MEM_ALLOC_PROFILING
++	struct alloc_tag		*alloc_tag;
++#endif
+ };
  
  /**
-- * vmalloc_node - allocate memory on a specific node
-+ * vmalloc_node_noprof - allocate memory on a specific node
-  * @size:	allocation size
-  * @node:	numa node
-  *
-@@ -256,14 +256,14 @@ EXPORT_SYMBOL(vzalloc);
-  * For tight control over page level allocator and protection flags
-  * use __vmalloc() instead.
-  */
--void *vmalloc_node(unsigned long size, int node)
-+void *vmalloc_node_noprof(unsigned long size, int node)
- {
--	return vmalloc(size);
-+	return vmalloc_noprof(size);
- }
--EXPORT_SYMBOL(vmalloc_node);
-+EXPORT_SYMBOL(vmalloc_node_noprof);
+@@ -127,9 +131,12 @@ struct rhashtable_iter {
+ 	bool end_of_table;
+ };
  
- /**
-- * vzalloc_node - allocate memory on a specific node with zero fill
-+ * vzalloc_node_noprof - allocate memory on a specific node with zero fill
-  * @size:	allocation size
-  * @node:	numa node
-  *
-@@ -274,27 +274,27 @@ EXPORT_SYMBOL(vmalloc_node);
-  * For tight control over page level allocator and protection flags
-  * use __vmalloc() instead.
-  */
--void *vzalloc_node(unsigned long size, int node)
-+void *vzalloc_node_noprof(unsigned long size, int node)
- {
--	return vzalloc(size);
-+	return vzalloc_noprof(size);
- }
--EXPORT_SYMBOL(vzalloc_node);
-+EXPORT_SYMBOL(vzalloc_node_noprof);
+-int rhashtable_init(struct rhashtable *ht,
++int rhashtable_init_noprof(struct rhashtable *ht,
+ 		    const struct rhashtable_params *params);
+-int rhltable_init(struct rhltable *hlt,
++#define rhashtable_init(...)	alloc_hooks(rhashtable_init_noprof(__VA_ARGS__))
++
++int rhltable_init_noprof(struct rhltable *hlt,
+ 		  const struct rhashtable_params *params);
++#define rhltable_init(...)	alloc_hooks(rhltable_init_noprof(__VA_ARGS__))
  
- /**
-- * vmalloc_32  -  allocate virtually contiguous memory (32bit addressable)
-+ * vmalloc_32_noprof  -  allocate virtually contiguous memory (32bit addressable)
-  *	@size:		allocation size
-  *
-  *	Allocate enough 32bit PA addressable pages to cover @size from the
-  *	page level allocator and map them into contiguous kernel virtual space.
-  */
--void *vmalloc_32(unsigned long size)
-+void *vmalloc_32_noprof(unsigned long size)
- {
--	return __vmalloc(size, GFP_KERNEL);
-+	return __vmalloc_noprof(size, GFP_KERNEL);
- }
--EXPORT_SYMBOL(vmalloc_32);
-+EXPORT_SYMBOL(vmalloc_32_noprof);
+ #endif /* _LINUX_RHASHTABLE_TYPES_H */
+diff --git a/lib/rhashtable.c b/lib/rhashtable.c
+index 6ae2ba8e06a2..35d841cf2b43 100644
+--- a/lib/rhashtable.c
++++ b/lib/rhashtable.c
+@@ -130,7 +130,8 @@ static union nested_table *nested_table_alloc(struct rhashtable *ht,
+ 	if (ntbl)
+ 		return ntbl;
  
- /**
-- * vmalloc_32_user - allocate zeroed virtually contiguous 32bit memory
-+ * vmalloc_32_user_noprof - allocate zeroed virtually contiguous 32bit memory
-  *	@size:		allocation size
-  *
-  * The resulting memory area is 32bit addressable and zeroed so it can be
-@@ -303,15 +303,15 @@ EXPORT_SYMBOL(vmalloc_32);
-  * VM_USERMAP is set on the corresponding VMA so that subsequent calls to
-  * remap_vmalloc_range() are permissible.
-  */
--void *vmalloc_32_user(unsigned long size)
-+void *vmalloc_32_user_noprof(unsigned long size)
- {
- 	/*
- 	 * We'll have to sort out the ZONE_DMA bits for 64-bit,
- 	 * but for now this can simply use vmalloc_user() directly.
- 	 */
--	return vmalloc_user(size);
-+	return vmalloc_user_noprof(size);
- }
--EXPORT_SYMBOL(vmalloc_32_user);
-+EXPORT_SYMBOL(vmalloc_32_user_noprof);
+-	ntbl = kzalloc(PAGE_SIZE, GFP_ATOMIC);
++	ntbl = alloc_hooks_tag(ht->alloc_tag,
++			kmalloc_noprof(PAGE_SIZE, GFP_ATOMIC|__GFP_ZERO));
  
- void *vmap(struct page **pages, unsigned int count, unsigned long flags, pgprot_t prot)
- {
-diff --git a/mm/util.c b/mm/util.c
-index 291f7945190f..19c90036d3cc 100644
---- a/mm/util.c
-+++ b/mm/util.c
-@@ -639,7 +639,7 @@ void *kvmalloc_node_noprof(size_t size, gfp_t flags, int node)
- 	 * about the resulting pointer, and cannot play
- 	 * protection games.
- 	 */
--	return __vmalloc_node_range(size, 1, VMALLOC_START, VMALLOC_END,
-+	return __vmalloc_node_range_noprof(size, 1, VMALLOC_START, VMALLOC_END,
- 			flags, PAGE_KERNEL, VM_ALLOW_HUGE_VMAP,
- 			node, __builtin_return_address(0));
- }
-@@ -698,12 +698,12 @@ void *kvrealloc_noprof(const void *p, size_t oldsize, size_t newsize, gfp_t flag
- EXPORT_SYMBOL(kvrealloc_noprof);
+ 	if (ntbl && leaf) {
+ 		for (i = 0; i < PAGE_SIZE / sizeof(ntbl[0]); i++)
+@@ -157,7 +158,8 @@ static struct bucket_table *nested_bucket_table_alloc(struct rhashtable *ht,
  
- /**
-- * __vmalloc_array - allocate memory for a virtually contiguous array.
-+ * __vmalloc_array_noprof - allocate memory for a virtually contiguous array.
-  * @n: number of elements.
-  * @size: element size.
-  * @flags: the type of memory to allocate (see kmalloc).
-  */
--void *__vmalloc_array(size_t n, size_t size, gfp_t flags)
-+void *__vmalloc_array_noprof(size_t n, size_t size, gfp_t flags)
- {
- 	size_t bytes;
+ 	size = sizeof(*tbl) + sizeof(tbl->buckets[0]);
  
-@@ -711,18 +711,18 @@ void *__vmalloc_array(size_t n, size_t size, gfp_t flags)
+-	tbl = kzalloc(size, gfp);
++	tbl = alloc_hooks_tag(ht->alloc_tag,
++			kmalloc_noprof(size, gfp|__GFP_ZERO));
+ 	if (!tbl)
  		return NULL;
- 	return __vmalloc(bytes, flags);
- }
--EXPORT_SYMBOL(__vmalloc_array);
-+EXPORT_SYMBOL(__vmalloc_array_noprof);
  
- /**
-- * vmalloc_array - allocate memory for a virtually contiguous array.
-+ * vmalloc_array_noprof - allocate memory for a virtually contiguous array.
-  * @n: number of elements.
-  * @size: element size.
-  */
--void *vmalloc_array(size_t n, size_t size)
-+void *vmalloc_array_noprof(size_t n, size_t size)
- {
- 	return __vmalloc_array(n, size, GFP_KERNEL);
- }
--EXPORT_SYMBOL(vmalloc_array);
-+EXPORT_SYMBOL(vmalloc_array_noprof);
+@@ -181,7 +183,9 @@ static struct bucket_table *bucket_table_alloc(struct rhashtable *ht,
+ 	int i;
+ 	static struct lock_class_key __key;
  
- /**
-  * __vcalloc - allocate and zero memory for a virtually contiguous array.
-@@ -730,22 +730,22 @@ EXPORT_SYMBOL(vmalloc_array);
-  * @size: element size.
-  * @flags: the type of memory to allocate (see kmalloc).
-  */
--void *__vcalloc(size_t n, size_t size, gfp_t flags)
-+void *__vcalloc_noprof(size_t n, size_t size, gfp_t flags)
- {
- 	return __vmalloc_array(n, size, flags | __GFP_ZERO);
- }
--EXPORT_SYMBOL(__vcalloc);
-+EXPORT_SYMBOL(__vcalloc_noprof);
+-	tbl = kvzalloc(struct_size(tbl, buckets, nbuckets), gfp);
++	tbl = alloc_hooks_tag(ht->alloc_tag,
++			kvmalloc_node_noprof(struct_size(tbl, buckets, nbuckets),
++					     gfp|__GFP_ZERO, NUMA_NO_NODE));
  
- /**
-- * vcalloc - allocate and zero memory for a virtually contiguous array.
-+ * vcalloc_noprof - allocate and zero memory for a virtually contiguous array.
-  * @n: number of elements.
-  * @size: element size.
-  */
--void *vcalloc(size_t n, size_t size)
-+void *vcalloc_noprof(size_t n, size_t size)
- {
- 	return __vmalloc_array(n, size, GFP_KERNEL | __GFP_ZERO);
- }
--EXPORT_SYMBOL(vcalloc);
-+EXPORT_SYMBOL(vcalloc_noprof);
+ 	size = nbuckets;
  
- struct anon_vma *folio_anon_vma(struct folio *folio)
- {
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index d12a17fc0c17..5239f2c9ecae 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -3025,12 +3025,12 @@ vm_area_alloc_pages(gfp_t gfp, int nid,
- 			 * but mempolicy wants to alloc memory by interleaving.
- 			 */
- 			if (IS_ENABLED(CONFIG_NUMA) && nid == NUMA_NO_NODE)
--				nr = alloc_pages_bulk_array_mempolicy(bulk_gfp,
-+				nr = alloc_pages_bulk_array_mempolicy_noprof(bulk_gfp,
- 							nr_pages_request,
- 							pages + nr_allocated);
- 
- 			else
--				nr = alloc_pages_bulk_array_node(bulk_gfp, nid,
-+				nr = alloc_pages_bulk_array_node_noprof(bulk_gfp, nid,
- 							nr_pages_request,
- 							pages + nr_allocated);
- 
-@@ -3060,9 +3060,9 @@ vm_area_alloc_pages(gfp_t gfp, int nid,
- 			break;
- 
- 		if (nid == NUMA_NO_NODE)
--			page = alloc_pages(alloc_gfp, order);
-+			page = alloc_pages_noprof(alloc_gfp, order);
- 		else
--			page = alloc_pages_node(nid, alloc_gfp, order);
-+			page = alloc_pages_node_noprof(nid, alloc_gfp, order);
- 		if (unlikely(!page)) {
- 			if (!nofail)
- 				break;
-@@ -3119,10 +3119,10 @@ static void *__vmalloc_area_node(struct vm_struct *area, gfp_t gfp_mask,
- 
- 	/* Please note that the recursion is strictly bounded. */
- 	if (array_size > PAGE_SIZE) {
--		area->pages = __vmalloc_node(array_size, 1, nested_gfp, node,
-+		area->pages = __vmalloc_node_noprof(array_size, 1, nested_gfp, node,
- 					area->caller);
- 	} else {
--		area->pages = kmalloc_node(array_size, nested_gfp, node);
-+		area->pages = kmalloc_node_noprof(array_size, nested_gfp, node);
- 	}
- 
- 	if (!area->pages) {
-@@ -3205,7 +3205,7 @@ static void *__vmalloc_area_node(struct vm_struct *area, gfp_t gfp_mask,
+@@ -975,7 +979,7 @@ static u32 rhashtable_jhash2(const void *key, u32 length, u32 seed)
  }
  
  /**
-- * __vmalloc_node_range - allocate virtually contiguous memory
-+ * __vmalloc_node_range_noprof - allocate virtually contiguous memory
-  * @size:		  allocation size
-  * @align:		  desired alignment
-  * @start:		  vm area range start
-@@ -3232,7 +3232,7 @@ static void *__vmalloc_area_node(struct vm_struct *area, gfp_t gfp_mask,
+- * rhashtable_init - initialize a new hash table
++ * rhashtable_init_noprof - initialize a new hash table
+  * @ht:		hash table to be initialized
+  * @params:	configuration parameters
   *
-  * Return: the address of the area or %NULL on failure
+@@ -1016,7 +1020,7 @@ static u32 rhashtable_jhash2(const void *key, u32 length, u32 seed)
+  *	.obj_hashfn = my_hash_fn,
+  * };
   */
--void *__vmalloc_node_range(unsigned long size, unsigned long align,
-+void *__vmalloc_node_range_noprof(unsigned long size, unsigned long align,
- 			unsigned long start, unsigned long end, gfp_t gfp_mask,
- 			pgprot_t prot, unsigned long vm_flags, int node,
- 			const void *caller)
-@@ -3361,7 +3361,7 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
+-int rhashtable_init(struct rhashtable *ht,
++int rhashtable_init_noprof(struct rhashtable *ht,
+ 		    const struct rhashtable_params *params)
+ {
+ 	struct bucket_table *tbl;
+@@ -1031,6 +1035,8 @@ int rhashtable_init(struct rhashtable *ht,
+ 	spin_lock_init(&ht->lock);
+ 	memcpy(&ht->p, params, sizeof(*params));
+ 
++	alloc_tag_record(ht->alloc_tag);
++
+ 	if (params->min_size)
+ 		ht->p.min_size = roundup_pow_of_two(params->min_size);
+ 
+@@ -1076,26 +1082,26 @@ int rhashtable_init(struct rhashtable *ht,
+ 
+ 	return 0;
  }
+-EXPORT_SYMBOL_GPL(rhashtable_init);
++EXPORT_SYMBOL_GPL(rhashtable_init_noprof);
  
  /**
-- * __vmalloc_node - allocate virtually contiguous memory
-+ * __vmalloc_node_noprof - allocate virtually contiguous memory
-  * @size:	    allocation size
-  * @align:	    desired alignment
-  * @gfp_mask:	    flags for the page level allocator
-@@ -3379,10 +3379,10 @@ void *__vmalloc_node_range(unsigned long size, unsigned long align,
+- * rhltable_init - initialize a new hash list table
++ * rhltable_init_noprof - initialize a new hash list table
+  * @hlt:	hash list table to be initialized
+  * @params:	configuration parameters
   *
-  * Return: pointer to the allocated memory or %NULL on error
+  * Initializes a new hash list table.
+  *
+- * See documentation for rhashtable_init.
++ * See documentation for rhashtable_init_noprof.
   */
--void *__vmalloc_node(unsigned long size, unsigned long align,
-+void *__vmalloc_node_noprof(unsigned long size, unsigned long align,
- 			    gfp_t gfp_mask, int node, const void *caller)
+-int rhltable_init(struct rhltable *hlt, const struct rhashtable_params *params)
++int rhltable_init_noprof(struct rhltable *hlt, const struct rhashtable_params *params)
  {
--	return __vmalloc_node_range(size, align, VMALLOC_START, VMALLOC_END,
-+	return __vmalloc_node_range_noprof(size, align, VMALLOC_START, VMALLOC_END,
- 				gfp_mask, PAGE_KERNEL, 0, node, caller);
+ 	int err;
+ 
+-	err = rhashtable_init(&hlt->ht, params);
++	err = rhashtable_init_noprof(&hlt->ht, params);
+ 	hlt->ht.rhlist = true;
+ 	return err;
  }
- /*
-@@ -3391,15 +3391,15 @@ void *__vmalloc_node(unsigned long size, unsigned long align,
-  * than that.
-  */
- #ifdef CONFIG_TEST_VMALLOC_MODULE
--EXPORT_SYMBOL_GPL(__vmalloc_node);
-+EXPORT_SYMBOL_GPL(__vmalloc_node_noprof);
- #endif
+-EXPORT_SYMBOL_GPL(rhltable_init);
++EXPORT_SYMBOL_GPL(rhltable_init_noprof);
  
--void *__vmalloc(unsigned long size, gfp_t gfp_mask)
-+void *__vmalloc_noprof(unsigned long size, gfp_t gfp_mask)
- {
--	return __vmalloc_node(size, 1, gfp_mask, NUMA_NO_NODE,
-+	return __vmalloc_node_noprof(size, 1, gfp_mask, NUMA_NO_NODE,
- 				__builtin_return_address(0));
- }
--EXPORT_SYMBOL(__vmalloc);
-+EXPORT_SYMBOL(__vmalloc_noprof);
- 
- /**
-  * vmalloc - allocate virtually contiguous memory
-@@ -3413,12 +3413,12 @@ EXPORT_SYMBOL(__vmalloc);
-  *
-  * Return: pointer to the allocated memory or %NULL on error
-  */
--void *vmalloc(unsigned long size)
-+void *vmalloc_noprof(unsigned long size)
- {
--	return __vmalloc_node(size, 1, GFP_KERNEL, NUMA_NO_NODE,
-+	return __vmalloc_node_noprof(size, 1, GFP_KERNEL, NUMA_NO_NODE,
- 				__builtin_return_address(0));
- }
--EXPORT_SYMBOL(vmalloc);
-+EXPORT_SYMBOL(vmalloc_noprof);
- 
- /**
-  * vmalloc_huge - allocate virtually contiguous memory, allow huge pages
-@@ -3432,16 +3432,16 @@ EXPORT_SYMBOL(vmalloc);
-  *
-  * Return: pointer to the allocated memory or %NULL on error
-  */
--void *vmalloc_huge(unsigned long size, gfp_t gfp_mask)
-+void *vmalloc_huge_noprof(unsigned long size, gfp_t gfp_mask)
- {
--	return __vmalloc_node_range(size, 1, VMALLOC_START, VMALLOC_END,
-+	return __vmalloc_node_range_noprof(size, 1, VMALLOC_START, VMALLOC_END,
- 				    gfp_mask, PAGE_KERNEL, VM_ALLOW_HUGE_VMAP,
- 				    NUMA_NO_NODE, __builtin_return_address(0));
- }
--EXPORT_SYMBOL_GPL(vmalloc_huge);
-+EXPORT_SYMBOL_GPL(vmalloc_huge_noprof);
- 
- /**
-- * vzalloc - allocate virtually contiguous memory with zero fill
-+ * vzalloc_noprof - allocate virtually contiguous memory with zero fill
-  * @size:    allocation size
-  *
-  * Allocate enough pages to cover @size from the page level
-@@ -3453,12 +3453,12 @@ EXPORT_SYMBOL_GPL(vmalloc_huge);
-  *
-  * Return: pointer to the allocated memory or %NULL on error
-  */
--void *vzalloc(unsigned long size)
-+void *vzalloc_noprof(unsigned long size)
- {
--	return __vmalloc_node(size, 1, GFP_KERNEL | __GFP_ZERO, NUMA_NO_NODE,
-+	return __vmalloc_node_noprof(size, 1, GFP_KERNEL | __GFP_ZERO, NUMA_NO_NODE,
- 				__builtin_return_address(0));
- }
--EXPORT_SYMBOL(vzalloc);
-+EXPORT_SYMBOL(vzalloc_noprof);
- 
- /**
-  * vmalloc_user - allocate zeroed virtually contiguous memory for userspace
-@@ -3469,17 +3469,17 @@ EXPORT_SYMBOL(vzalloc);
-  *
-  * Return: pointer to the allocated memory or %NULL on error
-  */
--void *vmalloc_user(unsigned long size)
-+void *vmalloc_user_noprof(unsigned long size)
- {
--	return __vmalloc_node_range(size, SHMLBA,  VMALLOC_START, VMALLOC_END,
-+	return __vmalloc_node_range_noprof(size, SHMLBA,  VMALLOC_START, VMALLOC_END,
- 				    GFP_KERNEL | __GFP_ZERO, PAGE_KERNEL,
- 				    VM_USERMAP, NUMA_NO_NODE,
- 				    __builtin_return_address(0));
- }
--EXPORT_SYMBOL(vmalloc_user);
-+EXPORT_SYMBOL(vmalloc_user_noprof);
- 
- /**
-- * vmalloc_node - allocate memory on a specific node
-+ * vmalloc_node_noprof - allocate memory on a specific node
-  * @size:	  allocation size
-  * @node:	  numa node
-  *
-@@ -3491,15 +3491,15 @@ EXPORT_SYMBOL(vmalloc_user);
-  *
-  * Return: pointer to the allocated memory or %NULL on error
-  */
--void *vmalloc_node(unsigned long size, int node)
-+void *vmalloc_node_noprof(unsigned long size, int node)
- {
--	return __vmalloc_node(size, 1, GFP_KERNEL, node,
-+	return __vmalloc_node_noprof(size, 1, GFP_KERNEL, node,
- 			__builtin_return_address(0));
- }
--EXPORT_SYMBOL(vmalloc_node);
-+EXPORT_SYMBOL(vmalloc_node_noprof);
- 
- /**
-- * vzalloc_node - allocate memory on a specific node with zero fill
-+ * vzalloc_node_noprof - allocate memory on a specific node with zero fill
-  * @size:	allocation size
-  * @node:	numa node
-  *
-@@ -3509,12 +3509,12 @@ EXPORT_SYMBOL(vmalloc_node);
-  *
-  * Return: pointer to the allocated memory or %NULL on error
-  */
--void *vzalloc_node(unsigned long size, int node)
-+void *vzalloc_node_noprof(unsigned long size, int node)
- {
--	return __vmalloc_node(size, 1, GFP_KERNEL | __GFP_ZERO, node,
-+	return __vmalloc_node_noprof(size, 1, GFP_KERNEL | __GFP_ZERO, node,
- 				__builtin_return_address(0));
- }
--EXPORT_SYMBOL(vzalloc_node);
-+EXPORT_SYMBOL(vzalloc_node_noprof);
- 
- #if defined(CONFIG_64BIT) && defined(CONFIG_ZONE_DMA32)
- #define GFP_VMALLOC32 (GFP_DMA32 | GFP_KERNEL)
-@@ -3529,7 +3529,7 @@ EXPORT_SYMBOL(vzalloc_node);
- #endif
- 
- /**
-- * vmalloc_32 - allocate virtually contiguous memory (32bit addressable)
-+ * vmalloc_32_noprof - allocate virtually contiguous memory (32bit addressable)
-  * @size:	allocation size
-  *
-  * Allocate enough 32bit PA addressable pages to cover @size from the
-@@ -3537,15 +3537,15 @@ EXPORT_SYMBOL(vzalloc_node);
-  *
-  * Return: pointer to the allocated memory or %NULL on error
-  */
--void *vmalloc_32(unsigned long size)
-+void *vmalloc_32_noprof(unsigned long size)
- {
--	return __vmalloc_node(size, 1, GFP_VMALLOC32, NUMA_NO_NODE,
-+	return __vmalloc_node_noprof(size, 1, GFP_VMALLOC32, NUMA_NO_NODE,
- 			__builtin_return_address(0));
- }
--EXPORT_SYMBOL(vmalloc_32);
-+EXPORT_SYMBOL(vmalloc_32_noprof);
- 
- /**
-- * vmalloc_32_user - allocate zeroed virtually contiguous 32bit memory
-+ * vmalloc_32_user_noprof - allocate zeroed virtually contiguous 32bit memory
-  * @size:	     allocation size
-  *
-  * The resulting memory area is 32bit addressable and zeroed so it can be
-@@ -3553,14 +3553,14 @@ EXPORT_SYMBOL(vmalloc_32);
-  *
-  * Return: pointer to the allocated memory or %NULL on error
-  */
--void *vmalloc_32_user(unsigned long size)
-+void *vmalloc_32_user_noprof(unsigned long size)
- {
--	return __vmalloc_node_range(size, SHMLBA,  VMALLOC_START, VMALLOC_END,
-+	return __vmalloc_node_range_noprof(size, SHMLBA,  VMALLOC_START, VMALLOC_END,
- 				    GFP_VMALLOC32 | __GFP_ZERO, PAGE_KERNEL,
- 				    VM_USERMAP, NUMA_NO_NODE,
- 				    __builtin_return_address(0));
- }
--EXPORT_SYMBOL(vmalloc_32_user);
-+EXPORT_SYMBOL(vmalloc_32_user_noprof);
- 
- /*
-  * Atomically zero bytes in the iterator.
+ static void rhashtable_free_one(struct rhashtable *ht, struct rhash_head *obj,
+ 				void (*free_fn)(void *ptr, void *arg),
 -- 
 2.44.0.rc0.258.g7320e95886-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240221194052.927623-30-surenb%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240221194052.927623-31-surenb%40google.com.
