@@ -1,121 +1,122 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBC5E3GXAMGQEA6XW6II@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBDVE3GXAMGQEWZ3R7ZY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3f.google.com (mail-yb1-xb3f.google.com [IPv6:2607:f8b0:4864:20::b3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F8B85E798
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 20:42:05 +0100 (CET)
-Received: by mail-yb1-xb3f.google.com with SMTP id 3f1490d57ef6-dc74ac7d015sf8974543276.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 11:42:05 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1708544524; cv=pass;
+Received: from mail-oa1-x3b.google.com (mail-oa1-x3b.google.com [IPv6:2001:4860:4864:20::3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED01085E79B
+	for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 20:42:07 +0100 (CET)
+Received: by mail-oa1-x3b.google.com with SMTP id 586e51a60fabf-205c90a36a3sf7799769fac.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 11:42:07 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708544526; cv=pass;
         d=google.com; s=arc-20160816;
-        b=zUmz4YotDmNBmVfU3NiH7ZFP30uP51g0DWt+/iCtaaKHodZGaumw9Sv9wminfZNy7B
-         jtYYmoX6Hw64DfacJE51/ZcLuQhIQHmr3gDPulJtZhH8Q+idUA1bsC1Zr5CDsnHHQkk3
-         lxyPUKPOY1u5lSPb7Pt2Wv1Wmb1zha4EttzE+lVC++cjWAxgKoEQf6cE0L+kFxqG0K9x
-         bSPbjKsGM7d0A176mTA1ER064g2WzNam5gOYMOgRX+wIB/Ru7noY8zeHEdhQJh2YhMYR
-         d8e5L6MfPDoRmmCyu+DNq+Un6wWP3Z7NocPsnrxj48XVyQMW/cX5+m6V/mt3NFAjqiXm
-         C01A==
+        b=dxpgfYzQNOwO/o6iWf83cWZfexu/G7FkRVzZgbcF9AND+LwBtxIM/Ne+rIw7StP8Ha
+         16aQFDJyGB7sYaXIfnbJjP114jA+3gSHPGYDor2tbRoIGZoyPakPSksu08mys+0eBBaT
+         Y2Ymc/Yrkv8P7Xr+UvFrfniZgxcXoFWFLpqg8yFU6vsvYve0l3naXcCauI7KFdAfh33i
+         mHhIFm3L3XWj6/a5Fx5iVtWSf/bXrNzLikbA8tsowyjlW8q5j1hR4jjDO4im2Wbq5SdL
+         hz5SEOGlP9wMtVufZe42Kj7FTCDfRV2uM3SDpMkmEMDj5NPOkcyitp0uR4Q9lqbCHHOU
+         XwLw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=vf9ossNV0R6BUmrLwpIG1w7AQKcwZNdgFEyxqQnHuz4=;
-        fh=DJ4Xc5x1STqpDgJCJF0p3XeoTSLBjrNj8RGxa9UOt+E=;
-        b=GFWOIy3LxmUx38jdbL7yhIwBNGKHJ2rSS1WyKF2Ik8tcZv0Rtg6xrwLYFE1KTFt8BO
-         nE2qaMJ3r2PHzbOf0t34bURGv8D5nrHu1xX4BIbQOJDV08B+vd9Yqs0TVN+LXehmMOWi
-         IJmXECXVLaiVvj20B+KGAfKIy7K935up7awhujE9Mu3gKHy1aJeo2VHwyDxFCjz0EEhJ
-         /yt5UHR7Dd6IOCBGF5vYZEpD4VYwX2mzzWmqoFYzi9waRa7CwlpxmmFGxqHCiFRHjW1T
-         m6blpvbTsZ3xfrp7uXz9ZgPtZ1TGyZYqSedsAOoeFp3L2vUAjM9X3c7/RDd1B3Nrl0XQ
-         kDkA==;
+        bh=zVJd5kiKLZjs+RMne78BTvDCgnpqcrqLZGscYBAkF5Y=;
+        fh=vh5LBDPel7sKa3+l4LXefKIzLh+QZJXDBZFOdYKCoYw=;
+        b=FMOISrY0oyjHC7j7vlW9O282ENDgy7g+42iljARQ8F5tdXy99Nqbc4eSQzGYwnDjQe
+         m8uBaSjETmUFlKn2HbckqWNWMmQoLV4eSIhRF0zeyJ9S0qKSzuJIdS1/ILv6f89reck1
+         s02ev0lFWw7/NhiA6Vp9zr0zCAE+J4fIo8p62w0DYPthgTs+ON+ae5CQqJL2edclofB5
+         sG81CWZApF3yLAaVphnolVyozuv0MUaLiG8Lfmbesne6dV8Mo637FmkJG3AJbuA6meuc
+         78Q6uHRCYYuAfv1xYd4FFnzIM/ped3aqjfk+5K7uQu8Uf86ykmzjKt3bVej+es6SO25e
+         XHzA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=kQ6av+CD;
-       spf=pass (google.com: domain of 3cllwzqykct0rtqdmafnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3ClLWZQYKCT0rtqdmafnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=u1jq0yJe;
+       spf=pass (google.com: domain of 3dvlwzqykcuauwtgpdiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3DVLWZQYKCUAuwtgpdiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708544524; x=1709149324; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708544526; x=1709149326; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=vf9ossNV0R6BUmrLwpIG1w7AQKcwZNdgFEyxqQnHuz4=;
-        b=SPSxrY46cNavzlApPnwHa67WZ76gXJDGG3fglJ+vvj0HQBRblzEXtq/wMnJm5U/0c/
-         93MZM8R+5sxUFwWFAK3LDRvBkAquvtVFgQQnqYKvnZPf/Iurb4Srl3YMwUDAUxTsCg8Y
-         Z1qlNtWNrNUoRMCFtby8pWnGXDDrcmHqCMn2mCJKHq4LLvSd1AVIxSiuYtkfr0RnG5bt
-         4ipnytmCNyVd8sBsyZQ3l68zodB1NOovsq5tm8Nu2zl3v761uHCwh/kAGid/F5cdgZXm
-         TA7LzRhjMYv3/v4dHYNuZ75DJqIH65PI1bS4GS5h2/o5g5CMExE2OF2HetIvdE6rTrC1
-         EA+A==
+        bh=zVJd5kiKLZjs+RMne78BTvDCgnpqcrqLZGscYBAkF5Y=;
+        b=sAhv0JUSH4H/v9rovqIdQniaW99w0SPb+6eHGP6GuQhzZXgAoFrzmgKCkIChqkCZ8q
+         FAPxvj2M4LgiGt3X7ZSPOnVR5FFA6yk4nfSwtNs/NZZjg5Jjl/JNfcIT1mmzFKeq8ARh
+         Itqm/blMSTQMw+ZJXsd23BUa8TQR5LRVYfGLsIX01DxWVXJAe5dn6URFjjSbQJYPZbzj
+         JPRHa73LH/CPZ3iZbiGQs3OqH8d4D8rkQkHPj1aZs7RhbmmFUBGmyra3Y4THNfF6QD+j
+         FSF/e0SJKLD4YT/3oYxrnRjC0kFZGOsOysCBKWGteSJqv5Ih2jH0aOdeYhLtseGKKREI
+         tOqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708544524; x=1709149324;
+        d=1e100.net; s=20230601; t=1708544526; x=1709149326;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vf9ossNV0R6BUmrLwpIG1w7AQKcwZNdgFEyxqQnHuz4=;
-        b=ZPkAh8hvRFMLf4lWL9WC60Oxrkb5i6dG2s7tk6RbPSYHtVZkj1LhV/7uLKoSTS7RqP
-         0PklfqUZmfZcp3GcPWTblOx1RZxjhEtPCBYVP/zIwjtdqZ95HCAjkCEPDRashyR7Yrjh
-         8bJsrjUbAfFSZF5kdgrwF1K2mCzOhQkKvJ/fs12wRl9LUhjXc/izkn+GVgMTRF3D45IJ
-         ayQLDx5JolYGjjucG0MXUDyw1tdiFTf4PiIi2y4IHMLV6ZeeI73httn+cMVq8qi8F3ig
-         4LvCsb8Jy6Vn4IaTbCUaj6F/C88p35xVr4ckUiGj5M3ffoE5k1o73B1SadzcM6xuAzbn
-         ocAQ==
-X-Forwarded-Encrypted: i=2; AJvYcCX4VsS94m2FFxwAgAUXujikFwcfubkEUNi93Y75tCUWFY1o673dKFL+zBIJbRrmkSQfGU7wkU7Gy1gYsWRtzs3pqZ1DsxLSyw==
-X-Gm-Message-State: AOJu0YxFz7jlpui3/wQP4//1OuH9nnOEZToakw6Kj28B9hwaUHzRrWQG
-	W0w51uhkpiOHl7ypHXSj8V+kqUGS4r5Le1kna4nB13CoB1QDY3ax
-X-Google-Smtp-Source: AGHT+IEcmiCwgf2J86PHjD94QoVA07kKEKX//p7RNyvNnf0AIzPMC1Z2yNNkNMXecylbjTpZYyiFXw==
-X-Received: by 2002:a25:ae5d:0:b0:dcb:ccf3:b69 with SMTP id g29-20020a25ae5d000000b00dcbccf30b69mr314795ybe.35.1708544524044;
-        Wed, 21 Feb 2024 11:42:04 -0800 (PST)
+        bh=zVJd5kiKLZjs+RMne78BTvDCgnpqcrqLZGscYBAkF5Y=;
+        b=rr5kZgR/YLsHaf+IFjevbQE5Ew+h/foQOZEYCuIKrw7wWwBhfgzZGFZs4toWaJvuaz
+         07mSO58J+fL+LCxypW/fSmA9ZjkPZvKNxqAzYUpP8FFLk7UfEMrXlQu27u/eaoTqXDUl
+         rMlxKv0mgZRLVO70v72cd7UJ8/yQwoFTMGKIxUNz0itX6lM63A6oETc3jGYuvTt/EICZ
+         aGiKuSmZQnu+o1EKnBqlVUhKkRYPRGxulAzOnQK5uDfi7ZkKH69YD6xzIyepNAEH+IRW
+         x9c+Ewd32Lq/I3uKvFJ9pEeNcOsW3UV0kqV2J3b7M0hSVDCgVAbZ4f+WLYPKgASyu4LC
+         U2pA==
+X-Forwarded-Encrypted: i=2; AJvYcCU9G+CJibvFJBxf5uwqxvePSyvBgCv1X9X8wW50/pO8WgMkXV+VrGs4cPuU2Vk7REPspxqRC2cKFGRXBGIhZi95CHeizYTbmA==
+X-Gm-Message-State: AOJu0Yw5FGbW+4puMQVgqmdCdV/tgy7d/Y4fefHrGKsUBSdoLZ1BJoQq
+	Fty4YxKs1gCtTsC/cUNvv2z1Fy+7PYv5xSgSFoMk6qATtelXsRri
+X-Google-Smtp-Source: AGHT+IHJayo+l7pQxaZ5XViQVBEQyg2dviHWKjY+fUbxfa6r3YPzxd8AOUWY/ZeemQoMkleJBNCuYA==
+X-Received: by 2002:a05:6870:23a8:b0:21e:9e8e:66e7 with SMTP id e40-20020a05687023a800b0021e9e8e66e7mr11488950oap.0.1708544526749;
+        Wed, 21 Feb 2024 11:42:06 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:e092:0:b0:dcc:279c:e5c9 with SMTP id x140-20020a25e092000000b00dcc279ce5c9ls1258125ybg.1.-pod-prod-01-us;
- Wed, 21 Feb 2024 11:42:03 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCURKmcS18PFY814F5XxlXTqISW8SoQnvswpuAYTIs8otfNYt0wCAf3ZQZiEFEMHMSqZV0MWsUYGvEHWBa8fyjgjnSjPIVzWfJK1WQ==
-X-Received: by 2002:a25:d846:0:b0:dc7:594b:f72b with SMTP id p67-20020a25d846000000b00dc7594bf72bmr281040ybg.39.1708544523320;
-        Wed, 21 Feb 2024 11:42:03 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1708544523; cv=none;
+Received: by 2002:a05:6870:ec8f:b0:21e:3b64:cda4 with SMTP id
+ eo15-20020a056870ec8f00b0021e3b64cda4ls5789412oab.0.-pod-prod-03-us; Wed, 21
+ Feb 2024 11:42:06 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUTn9twPL3a4jSXVb/zApOVSvDW167RkAeT2bk0f5FI1T/T59laJ6AB7uayXsjKK0ABfJkPi6inTdRAghkXx5GNDuprxM6Z6L8b6A==
+X-Received: by 2002:a05:6871:7509:b0:21e:93d0:7b18 with SMTP id ny9-20020a056871750900b0021e93d07b18mr13355638oac.50.1708544525914;
+        Wed, 21 Feb 2024 11:42:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1708544525; cv=none;
         d=google.com; s=arc-20160816;
-        b=wKr850jKaUI8wSdylCFFZwGggQJW/oCaD83gylk7WzpYiJJc4oevlzdroyCxHPNAtK
-         xdOA7ID7KYwq6lNSzOrgwP9INLBLVVmESMKdRvkIUYnGx/RQL+6yZsJuVCscK83sy7ov
-         uwsRJA/+dFtLb05TedR04XzSGKSobj+YzD85d7yc54cEdKEk+eT7rE0NdvKnR+IXH028
-         UK+kJvfGTlQ/wMsRx23Ld589oiXp6D10D3TlMRKIU9PWWKnGEDZlja5fcC4v+PFvVn90
-         YRArQg8fI2pE94fBysuYnwH2I/YumtHImdS6v1co5el8RBKuGAq4bW7ec0zWmOI1Vsi6
-         yq4g==
+        b=B0QASbVq5/TIR4pXtxBZC0AAv/Qrkiu88/kPJl3w+upAxm4RFF4XXwZgMRhsHvGH4e
+         vA//tv/glFo+6BAYMoWIZP2XwIdmzrF6Bo6QsIf+G/pUr1jtYMiCGH7LlY5Vy0TT7SHI
+         VjBuoaCH/DX4V/J0zZkWTSnC+PNC5gYQ7Mdrdqw7amAzJxwS8Zs81sraORaErXJyupEg
+         shEFxNqZagZdRentP9HT73lkeCkA/+C2szIQDlrZmxJZX1X6Oc1Lm2q5g62fEQf7CgyW
+         VkqqvvLjZqOWwufSi0SmmzvZMYW3eJTDP7efmiwsEAGbnmTFi0ZKFpYD2mlCufjhaWbc
+         kFuw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=4ca2CRMzgUqo30S53DRYHeCmPf8DAT9MnFsYZ/BDy7I=;
-        fh=4J745A3famUR378MAQmmn+htm3DeSFoSgDr2u8Igsx8=;
-        b=g38GGTGsp/mbl9bU/h9+XP9pgk3Lf6eq8SQx60+9F+BBQlE3Q/qFUZt7roHHC3mxac
-         s5EdY22B/SB/8osmemCk61qoi1xWzjderfEpY6BulWUEnnegnHbUoFv3KgA4HXGmmrzu
-         l1ko/cP4K7uCDNhmCMOT+8nqlANmbp/TPqus/Dlt0AKBUfdLe11vTCq48wHtpb3VPszy
-         djXJ9THGjeUf5HpLyksvOQp1y6WhgnPqSqQiCem4jDAfYbkVnhJIA+IOAlNr+SH0rKtr
-         fCweGgBdr0LaTAwQjjS3nhQlEvudnKj3+VOMK75uo3CO6aYzWKcAcM+EVDnG1gznpQrt
-         kHLQ==;
+        bh=LC7kagHHnwmHwKr3BMy6MtJI28X2XJIX7s9nejqSpcw=;
+        fh=2PETA+dMMjTNZvtNLp+ZHISDX6b5HqOTlfcEugB6qrg=;
+        b=GbJYHYsIP393UxiWFpUzEw+WFd7rN3KEPo8d/zGESGFeFC8uPOSF9CysJL8kUUBKUb
+         praXTZSVB6JWWzvnM9gsH+j1z9eelw2rQVTv5o9nmMjUCwKxKiwQmTizbfrZLqqnaO3R
+         QGO+YWJoByGspc9kWNd2cbHxNQK5WxtekHLO9PgY52+SReM+MIjSyloCz4cgiQP6W/Oc
+         Q0AX5IPLQPhJiFZ1wfFWfmerYipRCzn2qNAHjSQQohrVRwGDgGSAJ8nhW/PxnjManLF5
+         k0sMajC0vBKyRGM0F6VUfYx+PgJqooq3WCArJNxHw/fGV79zxP0py0iTlZNVYlABsb+7
+         TqZQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=kQ6av+CD;
-       spf=pass (google.com: domain of 3cllwzqykct0rtqdmafnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3ClLWZQYKCT0rtqdmafnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=u1jq0yJe;
+       spf=pass (google.com: domain of 3dvlwzqykcuauwtgpdiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3DVLWZQYKCUAuwtgpdiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com. [2607:f8b0:4864:20::114a])
-        by gmr-mx.google.com with ESMTPS id j7-20020a05620a0a4700b0078758a6738csi438854qka.6.2024.02.21.11.42.03
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com. [2607:f8b0:4864:20::1149])
+        by gmr-mx.google.com with ESMTPS id pf8-20020a0568717b0800b0021f2da568b3si340275oac.5.2024.02.21.11.42.05
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Feb 2024 11:42:03 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3cllwzqykct0rtqdmafnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) client-ip=2607:f8b0:4864:20::114a;
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-60895686ddbso3475017b3.2
-        for <kasan-dev@googlegroups.com>; Wed, 21 Feb 2024 11:42:03 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVesOMpGj69gziOAr3+nMVzNcGjyJQVsPFUGMXRUzstbizKuMxr8YK9j4pM72ZVBa8pbcxcQUCvOJgiI74HJWr+4GTol5mlstmf5A==
+        Wed, 21 Feb 2024 11:42:05 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3dvlwzqykcuauwtgpdiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) client-ip=2607:f8b0:4864:20::1149;
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-607a628209eso127410677b3.3
+        for <kasan-dev@googlegroups.com>; Wed, 21 Feb 2024 11:42:05 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVNa7BUR1b5tD3LP5NFf0V6rG1oZS1kXiEw4v/pgZnbG2uV6CV8J5rp/R7ONHiOo0MPq1NNMYrSbyTvaX17mefU586FsiF1BaEb7g==
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:953b:9a4e:1e10:3f07])
- (user=surenb job=sendgmr) by 2002:a81:fe07:0:b0:608:22c7:1269 with SMTP id
- j7-20020a81fe07000000b0060822c71269mr2041757ywn.0.1708544522852; Wed, 21 Feb
- 2024 11:42:02 -0800 (PST)
-Date: Wed, 21 Feb 2024 11:40:43 -0800
+ (user=surenb job=sendgmr) by 2002:a0d:e611:0:b0:607:9268:6665 with SMTP id
+ p17-20020a0de611000000b0060792686665mr4677189ywe.10.1708544525062; Wed, 21
+ Feb 2024 11:42:05 -0800 (PST)
+Date: Wed, 21 Feb 2024 11:40:44 -0800
 In-Reply-To: <20240221194052.927623-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20240221194052.927623-1-surenb@google.com>
 X-Mailer: git-send-email 2.44.0.rc0.258.g7320e95886-goog
-Message-ID: <20240221194052.927623-31-surenb@google.com>
-Subject: [PATCH v4 30/36] rhashtable: Plumb through alloc tag
+Message-ID: <20240221194052.927623-32-surenb@google.com>
+Subject: [PATCH v4 31/36] lib: add memory allocations report in show_mem()
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -146,9 +147,9 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=kQ6av+CD;       spf=pass
- (google.com: domain of 3cllwzqykct0rtqdmafnnfkd.bnljzrzm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3ClLWZQYKCT0rtqdmafnnfkd.bnljZrZm-cdufnnfkdfqntor.bnl@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=u1jq0yJe;       spf=pass
+ (google.com: domain of 3dvlwzqykcuauwtgpdiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3DVLWZQYKCUAuwtgpdiqqing.eqomcucp-fgxiqqingitqwru.eqo@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -164,177 +165,152 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Kent Overstreet <kent.overstreet@linux.dev>
-
-This gives better memory allocation profiling results; rhashtable
-allocations will be accounted to the code that initialized the
-rhashtable.
+Include allocations in show_mem reports.
 
 Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
 ---
- include/linux/alloc_tag.h        |  3 +++
- include/linux/rhashtable-types.h | 11 +++++++++--
- lib/rhashtable.c                 | 28 +++++++++++++++++-----------
- 3 files changed, 29 insertions(+), 13 deletions(-)
+ include/linux/alloc_tag.h |  7 +++++++
+ include/linux/codetag.h   |  1 +
+ lib/alloc_tag.c           | 38 ++++++++++++++++++++++++++++++++++++++
+ lib/codetag.c             |  5 +++++
+ mm/show_mem.c             | 26 ++++++++++++++++++++++++++
+ 5 files changed, 77 insertions(+)
 
 diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
-index 86ed5d24a030..29636719b276 100644
+index 29636719b276..85a24a027403 100644
 --- a/include/linux/alloc_tag.h
 +++ b/include/linux/alloc_tag.h
-@@ -130,6 +130,8 @@ static inline void alloc_tag_add(union codetag_ref *ref, struct alloc_tag *tag,
- 	this_cpu_add(tag->counters->bytes, bytes);
+@@ -30,6 +30,13 @@ struct alloc_tag {
+ 
+ #ifdef CONFIG_MEM_ALLOC_PROFILING
+ 
++struct codetag_bytes {
++	struct codetag *ct;
++	s64 bytes;
++};
++
++size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, bool can_sleep);
++
+ static inline struct alloc_tag *ct_to_alloc_tag(struct codetag *ct)
+ {
+ 	return container_of(ct, struct alloc_tag, ct);
+diff --git a/include/linux/codetag.h b/include/linux/codetag.h
+index bfd0ba5c4185..c2a579ccd455 100644
+--- a/include/linux/codetag.h
++++ b/include/linux/codetag.h
+@@ -61,6 +61,7 @@ struct codetag_iterator {
  }
  
-+#define alloc_tag_record(p)	((p) = current->alloc_tag)
+ void codetag_lock_module_list(struct codetag_type *cttype, bool lock);
++bool codetag_trylock_module_list(struct codetag_type *cttype);
+ struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype);
+ struct codetag *codetag_next_ct(struct codetag_iterator *iter);
+ 
+diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
+index cb5adec4b2e2..ec54f29482dc 100644
+--- a/lib/alloc_tag.c
++++ b/lib/alloc_tag.c
+@@ -86,6 +86,44 @@ static const struct seq_operations allocinfo_seq_op = {
+ 	.show	= allocinfo_show,
+ };
+ 
++size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, bool can_sleep)
++{
++	struct codetag_iterator iter;
++	struct codetag *ct;
++	struct codetag_bytes n;
++	unsigned int i, nr = 0;
 +
- #else /* CONFIG_MEM_ALLOC_PROFILING */
++	if (can_sleep)
++		codetag_lock_module_list(alloc_tag_cttype, true);
++	else if (!codetag_trylock_module_list(alloc_tag_cttype))
++		return 0;
++
++	iter = codetag_get_ct_iter(alloc_tag_cttype);
++	while ((ct = codetag_next_ct(&iter))) {
++		struct alloc_tag_counters counter = alloc_tag_read(ct_to_alloc_tag(ct));
++
++		n.ct	= ct;
++		n.bytes = counter.bytes;
++
++		for (i = 0; i < nr; i++)
++			if (n.bytes > tags[i].bytes)
++				break;
++
++		if (i < count) {
++			nr -= nr == count;
++			memmove(&tags[i + 1],
++				&tags[i],
++				sizeof(tags[0]) * (nr - i));
++			nr++;
++			tags[i] = n;
++		}
++	}
++
++	codetag_lock_module_list(alloc_tag_cttype, false);
++
++	return nr;
++}
++
+ static void __init procfs_init(void)
+ {
+ 	proc_create_seq("allocinfo", 0444, NULL, &allocinfo_seq_op);
+diff --git a/lib/codetag.c b/lib/codetag.c
+index b13412ca57cc..7b39cec9648a 100644
+--- a/lib/codetag.c
++++ b/lib/codetag.c
+@@ -36,6 +36,11 @@ void codetag_lock_module_list(struct codetag_type *cttype, bool lock)
+ 		up_read(&cttype->mod_lock);
+ }
  
- #define DEFINE_ALLOC_TAG(_alloc_tag)
-@@ -138,6 +140,7 @@ static inline void alloc_tag_sub(union codetag_ref *ref, size_t bytes) {}
- static inline void alloc_tag_sub_noalloc(union codetag_ref *ref, size_t bytes) {}
- static inline void alloc_tag_add(union codetag_ref *ref, struct alloc_tag *tag,
- 				 size_t bytes) {}
-+#define alloc_tag_record(p)	do {} while (0)
- 
- #endif /* CONFIG_MEM_ALLOC_PROFILING */
- 
-diff --git a/include/linux/rhashtable-types.h b/include/linux/rhashtable-types.h
-index b6f3797277ff..015c8298bebc 100644
---- a/include/linux/rhashtable-types.h
-+++ b/include/linux/rhashtable-types.h
-@@ -9,6 +9,7 @@
- #ifndef _LINUX_RHASHTABLE_TYPES_H
- #define _LINUX_RHASHTABLE_TYPES_H
- 
-+#include <linux/alloc_tag.h>
- #include <linux/atomic.h>
- #include <linux/compiler.h>
- #include <linux/mutex.h>
-@@ -88,6 +89,9 @@ struct rhashtable {
- 	struct mutex                    mutex;
- 	spinlock_t			lock;
- 	atomic_t			nelems;
++bool codetag_trylock_module_list(struct codetag_type *cttype)
++{
++	return down_read_trylock(&cttype->mod_lock) != 0;
++}
++
+ struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype)
+ {
+ 	struct codetag_iterator iter = {
+diff --git a/mm/show_mem.c b/mm/show_mem.c
+index 8dcfafbd283c..1e41f8d6e297 100644
+--- a/mm/show_mem.c
++++ b/mm/show_mem.c
+@@ -423,4 +423,30 @@ void __show_mem(unsigned int filter, nodemask_t *nodemask, int max_zone_idx)
+ #ifdef CONFIG_MEMORY_FAILURE
+ 	printk("%lu pages hwpoisoned\n", atomic_long_read(&num_poisoned_pages));
+ #endif
 +#ifdef CONFIG_MEM_ALLOC_PROFILING
-+	struct alloc_tag		*alloc_tag;
++	{
++		struct codetag_bytes tags[10];
++		size_t i, nr;
++
++		nr = alloc_tag_top_users(tags, ARRAY_SIZE(tags), false);
++		if (nr) {
++			printk(KERN_NOTICE "Memory allocations:\n");
++			for (i = 0; i < nr; i++) {
++				struct codetag *ct = tags[i].ct;
++				struct alloc_tag *tag = ct_to_alloc_tag(ct);
++				struct alloc_tag_counters counter = alloc_tag_read(tag);
++
++				/* Same as alloc_tag_to_text() but w/o intermediate buffer */
++				if (ct->modname)
++					printk(KERN_NOTICE "%12lli %8llu %s:%u [%s] func:%s\n",
++					       counter.bytes, counter.calls, ct->filename,
++					       ct->lineno, ct->modname, ct->function);
++				else
++					printk(KERN_NOTICE "%12lli %8llu %s:%u func:%s\n",
++					       counter.bytes, counter.calls, ct->filename,
++					       ct->lineno, ct->function);
++			}
++		}
++	}
 +#endif
- };
- 
- /**
-@@ -127,9 +131,12 @@ struct rhashtable_iter {
- 	bool end_of_table;
- };
- 
--int rhashtable_init(struct rhashtable *ht,
-+int rhashtable_init_noprof(struct rhashtable *ht,
- 		    const struct rhashtable_params *params);
--int rhltable_init(struct rhltable *hlt,
-+#define rhashtable_init(...)	alloc_hooks(rhashtable_init_noprof(__VA_ARGS__))
-+
-+int rhltable_init_noprof(struct rhltable *hlt,
- 		  const struct rhashtable_params *params);
-+#define rhltable_init(...)	alloc_hooks(rhltable_init_noprof(__VA_ARGS__))
- 
- #endif /* _LINUX_RHASHTABLE_TYPES_H */
-diff --git a/lib/rhashtable.c b/lib/rhashtable.c
-index 6ae2ba8e06a2..35d841cf2b43 100644
---- a/lib/rhashtable.c
-+++ b/lib/rhashtable.c
-@@ -130,7 +130,8 @@ static union nested_table *nested_table_alloc(struct rhashtable *ht,
- 	if (ntbl)
- 		return ntbl;
- 
--	ntbl = kzalloc(PAGE_SIZE, GFP_ATOMIC);
-+	ntbl = alloc_hooks_tag(ht->alloc_tag,
-+			kmalloc_noprof(PAGE_SIZE, GFP_ATOMIC|__GFP_ZERO));
- 
- 	if (ntbl && leaf) {
- 		for (i = 0; i < PAGE_SIZE / sizeof(ntbl[0]); i++)
-@@ -157,7 +158,8 @@ static struct bucket_table *nested_bucket_table_alloc(struct rhashtable *ht,
- 
- 	size = sizeof(*tbl) + sizeof(tbl->buckets[0]);
- 
--	tbl = kzalloc(size, gfp);
-+	tbl = alloc_hooks_tag(ht->alloc_tag,
-+			kmalloc_noprof(size, gfp|__GFP_ZERO));
- 	if (!tbl)
- 		return NULL;
- 
-@@ -181,7 +183,9 @@ static struct bucket_table *bucket_table_alloc(struct rhashtable *ht,
- 	int i;
- 	static struct lock_class_key __key;
- 
--	tbl = kvzalloc(struct_size(tbl, buckets, nbuckets), gfp);
-+	tbl = alloc_hooks_tag(ht->alloc_tag,
-+			kvmalloc_node_noprof(struct_size(tbl, buckets, nbuckets),
-+					     gfp|__GFP_ZERO, NUMA_NO_NODE));
- 
- 	size = nbuckets;
- 
-@@ -975,7 +979,7 @@ static u32 rhashtable_jhash2(const void *key, u32 length, u32 seed)
  }
- 
- /**
-- * rhashtable_init - initialize a new hash table
-+ * rhashtable_init_noprof - initialize a new hash table
-  * @ht:		hash table to be initialized
-  * @params:	configuration parameters
-  *
-@@ -1016,7 +1020,7 @@ static u32 rhashtable_jhash2(const void *key, u32 length, u32 seed)
-  *	.obj_hashfn = my_hash_fn,
-  * };
-  */
--int rhashtable_init(struct rhashtable *ht,
-+int rhashtable_init_noprof(struct rhashtable *ht,
- 		    const struct rhashtable_params *params)
- {
- 	struct bucket_table *tbl;
-@@ -1031,6 +1035,8 @@ int rhashtable_init(struct rhashtable *ht,
- 	spin_lock_init(&ht->lock);
- 	memcpy(&ht->p, params, sizeof(*params));
- 
-+	alloc_tag_record(ht->alloc_tag);
-+
- 	if (params->min_size)
- 		ht->p.min_size = roundup_pow_of_two(params->min_size);
- 
-@@ -1076,26 +1082,26 @@ int rhashtable_init(struct rhashtable *ht,
- 
- 	return 0;
- }
--EXPORT_SYMBOL_GPL(rhashtable_init);
-+EXPORT_SYMBOL_GPL(rhashtable_init_noprof);
- 
- /**
-- * rhltable_init - initialize a new hash list table
-+ * rhltable_init_noprof - initialize a new hash list table
-  * @hlt:	hash list table to be initialized
-  * @params:	configuration parameters
-  *
-  * Initializes a new hash list table.
-  *
-- * See documentation for rhashtable_init.
-+ * See documentation for rhashtable_init_noprof.
-  */
--int rhltable_init(struct rhltable *hlt, const struct rhashtable_params *params)
-+int rhltable_init_noprof(struct rhltable *hlt, const struct rhashtable_params *params)
- {
- 	int err;
- 
--	err = rhashtable_init(&hlt->ht, params);
-+	err = rhashtable_init_noprof(&hlt->ht, params);
- 	hlt->ht.rhlist = true;
- 	return err;
- }
--EXPORT_SYMBOL_GPL(rhltable_init);
-+EXPORT_SYMBOL_GPL(rhltable_init_noprof);
- 
- static void rhashtable_free_one(struct rhashtable *ht, struct rhash_head *obj,
- 				void (*free_fn)(void *ptr, void *arg),
 -- 
 2.44.0.rc0.258.g7320e95886-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240221194052.927623-31-surenb%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240221194052.927623-32-surenb%40google.com.
