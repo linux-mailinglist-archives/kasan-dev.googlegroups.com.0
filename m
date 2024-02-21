@@ -1,264 +1,138 @@
-Return-Path: <kasan-dev+bncBC32535MUICBB5ED26XAMGQEDJSNCQY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCAP7WGUVIKBBLVR26XAMGQEOBOP7VQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3f.google.com (mail-io1-xd3f.google.com [IPv6:2607:f8b0:4864:20::d3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C7FB85D36C
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 10:27:18 +0100 (CET)
-Received: by mail-io1-xd3f.google.com with SMTP id ca18e2360f4ac-7c4a0dc9f57sf624281839f.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 01:27:18 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1708507636; cv=pass;
+Received: from mail-qv1-xf3f.google.com (mail-qv1-xf3f.google.com [IPv6:2607:f8b0:4864:20::f3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 840B685D66C
+	for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 12:04:16 +0100 (CET)
+Received: by mail-qv1-xf3f.google.com with SMTP id 6a1803df08f44-68c53f2816dsf70742526d6.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 03:04:16 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708513455; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Lu38BRnCWnr4ujo0/i07ljMK7k7Efel4xp9JylNtEF/3r73yVKLa5+XBBcrpq6WEY+
-         xtHJwaICv3I2zGvFQXzTsD1cvp9ekcZHOAQKICG/UBHTc2g3i0Y0KUTlOzR/SbLOGetm
-         yW6Qy2UWXISM8KnPAKIg+Ycn0520A2zZK5ahXrBGQiAU68k5qoe8vJlPimobcv7SlgJ4
-         iuhgtpGwUSoijhtzYutwZJmJ+mmy+YN2Tz9KULgZWoH/beL52RKxIqLDcGZXoUUuorRp
-         bsjpgwJR9Ur+45DpHXB353bIpFHJFHH6w8S+Brv96nvoPlbqxkEuiSdCpw8SguF3flJS
-         Yo4w==
+        b=sx00RINfEQ7E6OJf+lOu/dMZaZkIIUVpnFmIRNDWogaDHVS6fx637HBIRus8FTUYrd
+         MlbIr7Ell+T5lyPWBHJ3N1eH2NewThOt7Z3okdyeEG7LEmP+h/OX4sP7YT97WPdm02sm
+         toTKFsHl1XVZOKCcXZ1bgazLyzXBY3/En9L5ooShfErlgWDucM6mztTjJfTVXgGGMzEi
+         5zQ0ZBfxgzDPQdp+/BMjTYHgYm4U600mqpudKqMpXqSxEbqBwm+VwlnZSccoxvBUkACy
+         SLKCe8NkjFUORdoacHiu6f9DJe8mMwsoSqIddwUOuUUhRDRAYMYT0GtyHq6sG4TbAVsy
+         IuLg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:organization:autocrypt:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:sender
-         :dkim-signature;
-        bh=E8Eg0C36FlayXgmPoIUKSqRYYU/puT/LGGEKUp096UE=;
-        fh=JWX3vcn73bfM7lvU/LPp1migHxyAAMsmZ5Uxm2IzGl4=;
-        b=XD7AfhMER1i3OZ9yWyToiNFun37HTOKbOnCR3DssHbHl73Xzh0ddXL2nFU7tH8yEDC
-         hT6jS3qkcaLs8DFTPlILsIY9DO1sngmiC2kPIyAFrGVI9ZHGOR2B6khMFD8V0UffdSsi
-         oDJiAi1jTNrqzzV9MPDsCeo48nCerX3i1KJ74pkA5w0sbGKh+Xny6pA/INfyqxr6WC/T
-         a6Ujjs4ZPUe2xnJ/cj0piO9rjRkaWyV9eqCJgHQlydCC7baxCh01lzZtbbu8xIYwEVMh
-         G2sPxwERnfgoA6mmumvapj8CkBIrdb7MNv4VktSMURYzBjlICiOPyCuGNtspbKc23p82
-         aK3Q==;
+         :list-id:mailing-list:precedence:in-reply-to:cc:references:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=uOj617T4NMg314AKFe2p4k3kdc/1SU5Lnq2LdR31e7c=;
+        fh=pgIyPNwO0/zlG2JlrUzdw5GZ3zY0KjFM82K7B2+vN+g=;
+        b=iWvEXfiqskNYwAguSZvJJ1YFFlijdEyulU18hRhg7vL21//K0hbzbGMSPNCXJylmk1
+         v0V4ETmG6zaFzadxxjrIndRaCHoveIWHias0oTK83Y++q0huSTrofgfW44d9c9Pat1HT
+         4ZFbJHqm0WbzYBw6ycQHFr57i1a7byGwlZSHucSW9slpl1B8LU/GnS/lQZfUH5OZjVPl
+         7+EN2uhNodlBqV14SCdwzww6ZjGqPVqktrKZ9Ewh3HSa1woZ6+FP2dehEYEJPWpTkLlE
+         kEnhev4CClTJvb0gqdnB+AQaK5YnhcHfbzWdhf6VFZ0PI7gYRnzpU818Ij/vW+/3RgDV
+         /c5w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=WkASMW3h;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       spf=pass (google.com: domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708507636; x=1709112436; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708513455; x=1709118255; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:content-language
-         :in-reply-to:organization:autocrypt:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:sender:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=E8Eg0C36FlayXgmPoIUKSqRYYU/puT/LGGEKUp096UE=;
-        b=VBi0Io/S7Xf7oxPnuRauY85C2HVhHQC3n6q2Y3VzXu2r3uNXAwJ2TlDO3at8IQQ5An
-         F1jiAIwmeDc6df64S6c838xF3tAILyrt86ru6XzOu7iEDKshkfAzNqua02OSH/shYuHl
-         iY2n56J6SKBMObbvYbbWo/Vu3o5FALttiouf9jnLLJZ3lhMeqaQqXhpROghSGAwY3ivQ
-         ZuHREXtFzOv34aM8Ze6CpeT27U0XhH8Run+XgjaaTlvlOHJpJVxcDLeIYFfOeOI8i7aK
-         w4RR/cG7S0zZ5wMe6Dk5itaFAG9Sd/BvRJDp9SxRvjzDbmjtYqVywZV4k+hFy34NHZr4
-         WRyw==
+         :x-original-sender:in-reply-to:cc:references:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=uOj617T4NMg314AKFe2p4k3kdc/1SU5Lnq2LdR31e7c=;
+        b=h6BfCmaFK9Pu+Pau7R+2zYbc6Dicai+MXXEbXXaNGwRKboKImCOed6GvH9n2V4GP7T
+         fmMxZnqvU8jZumyEJuIzr+qD95hCmPPUYwMhwjuZcLcnZrW1LKcK7rpY+4GTqXTcSj7b
+         zxUyTwTnLr1mONr9QTOp4rVkYvScyBPKhdJEfLgAA+chm5Afqr8uqKBeFlMU4cJ4eNpP
+         skOqZk0T7O803B9dXAmCUZy+nEA8GiDkQKmlQj7JefHix0ti0icpCidFNw9DD4p126Wg
+         RU7aLc3JiUqsOnTHXjupy3gEvtJ8mnYIH/NM+IL7lzg5P5CEEZIP7wg9D3qpjaWCfNNU
+         7whw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708507636; x=1709112436;
+        d=1e100.net; s=20230601; t=1708513455; x=1709118255;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:content-language:in-reply-to:organization
-         :autocrypt:from:references:cc:to:subject:user-agent:mime-version
+         :x-original-authentication-results:x-original-sender:in-reply-to:cc
+         :references:to:from:content-language:subject:user-agent:mime-version
          :date:message-id:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=E8Eg0C36FlayXgmPoIUKSqRYYU/puT/LGGEKUp096UE=;
-        b=UxMrql0yvk/PlSNCf3Db4mzQTNSqkG3dl2+R3IxZ2U3jFWZ0EJMq9lwgpomAQYFLrB
-         xaKl0diSK1zYGjagIjv3Ho4yRVDEUBjbsLSsZIvtLyzryuHzbi9lF2YtbbF9eGVK9/lB
-         YkVHn2AETDCquc3UUd9JszxTTJYSU9u27SKvtMJLPcFlssvBNBlCiWXKfdp2r6bgdcwv
-         RfsHc9CoOETXQYZfRSVR7dlz/B3LteJGDZKQXxx56rlSTc59CCwEkE+x4W2hjM9zVtXB
-         iGpAsOkKjDxGlTX0zcGEdcB01PpEUdUxcQpdNWLo3mRSNGLQkcy7msfXsZKjfEf4mAFW
-         c1fA==
+        bh=uOj617T4NMg314AKFe2p4k3kdc/1SU5Lnq2LdR31e7c=;
+        b=l7PxZmlEEzL2NEPKFs8UHR9tvXZkWImCkb105rv9ewLmYUSJ31WKJgoS/TrQARrMjZ
+         pJQ3GjDQK2ja9fF7xFtGvP05uQLKKvCshGMcv/FSG/6dALvnN+jxkba4//kj0ivjTA4h
+         xjkj/LXGgfEMHooJ1H1XxmvNy0CEsGBtt1irvx47B27bq2Tj5xY3kd1Geo14WzBqZEUP
+         iUymXxvYQH5S3y4DKyKDjuBC80XZDM0R4czICbfLbNfN6+3+6pWXrUwM0ir/86WclfE2
+         +NGFopuoGrZfwjTTXZMBkTttRtqIgETXtDYGvPtWpStJyGkGMi1NHC7/F/W5TYexnSQ4
+         lbzQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXcwBCjOwr0p6uMjt73SQRvVpNZt/WZ8fkrtYnhW+iGPcFJdcsTk7+jDWl8AMvlmlj3BGuVWunyrXtHmf4EdEzBN/+vQJVyig==
-X-Gm-Message-State: AOJu0Yw6Kw32D24DthVgULtGskgqmHzqL8j3DioZLa8ZzwmTO5ujgmT4
-	OL1U7lqRuTxzqdBv2OjlK9kfnPZEvgRqi4U5g975X9O77gFUtbBC
-X-Google-Smtp-Source: AGHT+IE/usW15RmIS5t5qN8NAb2iiNVebZldx2fjyk3c/0SBLSbwxAced+rGLd8+E6ioUly0lTFpYg==
-X-Received: by 2002:a05:6e02:1206:b0:365:1d36:91d7 with SMTP id a6-20020a056e02120600b003651d3691d7mr9468703ilq.27.1708507636439;
-        Wed, 21 Feb 2024 01:27:16 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWO+ptjUpNlog3IPYjvzEfZrQsP1ZIHZWTMLJHxuMR2KiSLveAkIuSf94jicLWEkv4mLgqr+g14gw+MIOAdlm3bsD5kLsdK9Q==
+X-Gm-Message-State: AOJu0YwzPl+SzXPlWqxEq6pkLlk1yN9aLxg6os0fdmpW22oxkvS17Kcq
+	9ev2LpDQZQBbqqcMvZikNjNXP08b5K9JTKoQxBUavxKJfXnYu/mB
+X-Google-Smtp-Source: AGHT+IFP5eIA46vksYbnSQWHw4mxGsYWoWc7PNY/Vy+6s41a9MFt615F6iLdXQ8hAhmpSoNtFeh0/w==
+X-Received: by 2002:a05:6214:c44:b0:68f:6f65:3518 with SMTP id r4-20020a0562140c4400b0068f6f653518mr8007707qvj.62.1708513455318;
+        Wed, 21 Feb 2024 03:04:15 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:ca7:b0:364:f464:c52b with SMTP id
- 7-20020a056e020ca700b00364f464c52bls1585720ilg.0.-pod-prod-01-us; Wed, 21 Feb
- 2024 01:27:15 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWDTb2ECtLCQRiutXF2EJOe9RZqkzwCzqadUE4IUviD9cp2iGVH6M3HR9tzJuzWB1Rm6zpkF0GRFaNTzXsvhS0tjsSqPtmQpTyn/A==
-X-Received: by 2002:a92:d0ce:0:b0:365:44:1ed6 with SMTP id y14-20020a92d0ce000000b0036500441ed6mr15771580ila.5.1708507635487;
-        Wed, 21 Feb 2024 01:27:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1708507635; cv=none;
+Received: by 2002:ad4:5b8b:0:b0:68c:a87d:febd with SMTP id 11-20020ad45b8b000000b0068ca87dfebdls988406qvp.1.-pod-prod-04-us;
+ Wed, 21 Feb 2024 03:04:14 -0800 (PST)
+X-Received: by 2002:a05:6122:2516:b0:4ce:7663:af1f with SMTP id cl22-20020a056122251600b004ce7663af1fmr6730992vkb.7.1708513454228;
+        Wed, 21 Feb 2024 03:04:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1708513454; cv=none;
         d=google.com; s=arc-20160816;
-        b=reWsjDL4d/RrxU05BdC6ioKJVGSkaKyhTDX5tzxe0miMVyjWiWB2dAryd9lF0SqTQ8
-         VE8SGTXL/toUB78rK6RHW0Cfpr+ZnIGYrA4r+a5qIt0mC4iyfrwEd+PU/2AdqL7lLhEN
-         L7r51Tgc6iKOJwlz8itCnd4fRjcewBVQYntzJBbvlbfTWIbgscjbDl4v9ptf0j94LrjI
-         v0v7mVBhIwrvdkFwf/hWEYrjF/6mlR6OX56pIekqllF636LZ7dhz01LCLrKUD8dmtf+J
-         Fudyy2M1bfLwxcdobo+II6xOuIt1vxsed4jvVViacy8sQnUBiF2sFwFcIqvp4JtDJ8jl
-         60Kg==
+        b=ccyV9cFlHq44lysW/FgM8Ef9TDofTe98cRI2Gi5Ehgz0cjUUKS2X7kX+8U1MkVRtdB
+         Grw81Nj6ks2oDoC/wDR0ndthrXKLy7ZeIWcX3Ao5uPzjfzVkkyK1wjY62t54+M1Bz2yn
+         Dnlp4n6/XyqPpd7Icfa2yfbRl0ToKs/5S4dtrmG6Lx22lsD/4mN7PS5Pv/L5n0DI9qy9
+         6un8B2/HpTdn6kMEqZmVHAHTfiWfGCpQi1yS5CPxnGXXbmr35H4Z9xGO1INg0URQlX56
+         DFYT65o2bAdYzzNDreqW9YITDbAURy+sF0YlkQClSikMQZjcWuyP0KzWwbHV9+o5yIyh
+         IdDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:organization
-         :autocrypt:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:dkim-signature;
-        bh=JqDQzqQUNVGgLXFQ47h2MyrP+vNxqZ2Sfg76FoOL2Z4=;
-        fh=qhopI0RY5UK9XkeLTihybEumPL0PHd183E5BtgBik4I=;
-        b=WgeS8/ScgxYlYbYnaw60V4yEzJsfI69vue4DKaS7tpj6evHWp34M09wFSiTmyN3ULz
-         GQC43Bm8f31BntreUMG1SLEvXYCvnSWeJvTS8guv0C34eu27APHdoo06OADoq4XVlGmx
-         aQvQGeAzST/JJmNgD1jL8kkZCvW51Wm1LaJl+jtdQA/RGqQUoWYRlmwQzhEWgODF+Toe
-         w5V4QA2hfQoqilZdjjTJKaMDT4eKSU/BgcNaJIgJTErP4F657l3K//99Kwo2URt1fKoW
-         H5bxqNzV8WB8e0SylDVKYqWOlOcwZYmE16jfOPNVwo5CtKqu18Je7bTkVRmJoQqyePFH
-         4AVg==;
+        h=content-transfer-encoding:in-reply-to:cc:references:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id;
+        bh=ratA5LNCWQWvfAJ3Wum/9oSAuJbYWl/VGQcJUeuqFoQ=;
+        fh=oaV0t2uohpbcc3NrOlVg7dWntstWQBrW+kyqL+XAXTg=;
+        b=k6YrMPKF7Ey1zmstBI7N71epwmrPKbeEL3dnr7XrJ4aFShUX6aLJ3Zo0qfDdEuiPDi
+         L0HaU/MiVGKLi0AzNLCvdOmOfgRULzaBghYaSTsFU5MmqlP3Vyr+0EsLzB4Nzb/Ej9ls
+         Us7egAzwLGNsColKK7YduPJDQpvg4HO112fTcp0bgdIHNZTWlDDS5npjOvJIC197m2E8
+         vab2vXkKTs5tfoPlDAKvos6YL7xg9B+zXBYQ4jCRlXvhKuC2OVRMOrjgshd2QXhRn7/Z
+         OmxzjnnuzUFayRSSiSYYvQcT+EwRFMSw6M4M5CqACuUoCVHMGmmzuGvvLPzb9TSOs0ZH
+         cdFg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=WkASMW3h;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id t17-20020a92c911000000b00364371a54ffsi803124ilp.0.2024.02.21.01.27.15
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Feb 2024 01:27:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-22-JrGJhiVPNG-IClqBJKk9NQ-1; Wed, 21 Feb 2024 04:27:13 -0500
-X-MC-Unique: JrGJhiVPNG-IClqBJKk9NQ-1
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-410d0660929so31518055e9.0
-        for <kasan-dev@googlegroups.com>; Wed, 21 Feb 2024 01:27:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUgh/1/fK//4mhlJpZO2iEUC0rnpgaC4W89jSyLoOA2KF+jokDVEd8ojjPXZhACd2J7KOEq4iae8F+aYOgj0VyazGKsZXmOfvTPWg==
-X-Received: by 2002:a05:600c:19c7:b0:412:5296:9737 with SMTP id u7-20020a05600c19c700b0041252969737mr13136552wmq.12.1708507631848;
-        Wed, 21 Feb 2024 01:27:11 -0800 (PST)
-X-Received: by 2002:a05:600c:19c7:b0:412:5296:9737 with SMTP id u7-20020a05600c19c700b0041252969737mr13136504wmq.12.1708507631270;
-        Wed, 21 Feb 2024 01:27:11 -0800 (PST)
-Received: from [10.32.64.237] (nat-pool-muc-t.redhat.com. [149.14.88.26])
-        by smtp.gmail.com with ESMTPSA id jj2-20020a05600c6a0200b004126732390asm1837805wmb.37.2024.02.21.01.27.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Feb 2024 01:27:10 -0800 (PST)
-Message-ID: <cf5409c3-254a-459b-8969-429db2ec6439@redhat.com>
-Date: Wed, 21 Feb 2024 10:27:06 +0100
+       spf=pass (google.com: domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp. [202.181.97.72])
+        by gmr-mx.google.com with ESMTPS id fi13-20020a0561224d0d00b004c027d19fd3si398389vkb.5.2024.02.21.03.04.13
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 21 Feb 2024 03:04:13 -0800 (PST)
+Received-SPF: pass (google.com: domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) client-ip=202.181.97.72;
+Received: from fsav111.sakura.ne.jp (fsav111.sakura.ne.jp [27.133.134.238])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 41LB46XG029869;
+	Wed, 21 Feb 2024 20:04:06 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from www262.sakura.ne.jp (202.181.97.72)
+ by fsav111.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav111.sakura.ne.jp);
+ Wed, 21 Feb 2024 20:04:06 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav111.sakura.ne.jp)
+Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 41LB452M029854
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 21 Feb 2024 20:04:05 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <c577ec03-3d83-4000-986a-cb9561224fe1@I-love.SAKURA.ne.jp>
+Date: Wed, 21 Feb 2024 20:04:06 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] mm: pgalloc: support address-conditional pmd
- allocation
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
- Maxwell Bland <mbland@motorola.com>,
- "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "andreyknvl@gmail.com" <andreyknvl@gmail.com>,
- "andrii@kernel.org" <andrii@kernel.org>,
- "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
- "aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>,
- "ardb@kernel.org" <ardb@kernel.org>, "arnd@arndb.de" <arnd@arndb.de>,
- "ast@kernel.org" <ast@kernel.org>,
- "borntraeger@linux.ibm.com" <borntraeger@linux.ibm.com>,
- "bpf@vger.kernel.org" <bpf@vger.kernel.org>,
- "brauner@kernel.org" <brauner@kernel.org>,
- "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
- "cl@linux.com" <cl@linux.com>, "daniel@iogearbox.net"
- <daniel@iogearbox.net>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
- "dennis@kernel.org" <dennis@kernel.org>,
- "dvyukov@google.com" <dvyukov@google.com>,
- "glider@google.com" <glider@google.com>,
- "gor@linux.ibm.com" <gor@linux.ibm.com>,
- "guoren@kernel.org" <guoren@kernel.org>,
- "haoluo@google.com" <haoluo@google.com>,
- "hca@linux.ibm.com" <hca@linux.ibm.com>,
- "hch@infradead.org" <hch@infradead.org>,
- "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
- "jolsa@kernel.org" <jolsa@kernel.org>,
- "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>,
- "kpsingh@kernel.org" <kpsingh@kernel.org>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
- "linux-efi@vger.kernel.org" <linux-efi@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
- "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "lstoakes@gmail.com" <lstoakes@gmail.com>,
- "mark.rutland@arm.com" <mark.rutland@arm.com>,
- "martin.lau@linux.dev" <martin.lau@linux.dev>,
- "meted@linux.ibm.com" <meted@linux.ibm.com>,
- "michael.christie@oracle.com" <michael.christie@oracle.com>,
- "mjguzik@gmail.com" <mjguzik@gmail.com>,
- "mpe@ellerman.id.au" <mpe@ellerman.id.au>, "mst@redhat.com"
- <mst@redhat.com>, "muchun.song@linux.dev" <muchun.song@linux.dev>,
- "naveen.n.rao@linux.ibm.com" <naveen.n.rao@linux.ibm.com>,
- "npiggin@gmail.com" <npiggin@gmail.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>,
- "paul.walmsley@sifive.com" <paul.walmsley@sifive.com>,
- "quic_nprakash@quicinc.com" <quic_nprakash@quicinc.com>,
- "quic_pkondeti@quicinc.com" <quic_pkondeti@quicinc.com>,
- "rick.p.edgecombe@intel.com" <rick.p.edgecombe@intel.com>,
- "ryabinin.a.a@gmail.com" <ryabinin.a.a@gmail.com>,
- "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
- "samitolvanen@google.com" <samitolvanen@google.com>,
- "sdf@google.com" <sdf@google.com>, "song@kernel.org" <song@kernel.org>,
- "surenb@google.com" <surenb@google.com>,
- "svens@linux.ibm.com" <svens@linux.ibm.com>, "tj@kernel.org"
- <tj@kernel.org>, "urezki@gmail.com" <urezki@gmail.com>,
- "vincenzo.frascino@arm.com" <vincenzo.frascino@arm.com>,
- "will@kernel.org" <will@kernel.org>,
- "wuqiang.matt@bytedance.com" <wuqiang.matt@bytedance.com>,
- "yonghong.song@linux.dev" <yonghong.song@linux.dev>,
- "zlim.lnx@gmail.com" <zlim.lnx@gmail.com>,
- "awheeler@motorola.com" <awheeler@motorola.com>
-References: <20240220203256.31153-1-mbland@motorola.com>
- <20240220203256.31153-3-mbland@motorola.com>
- <838a05f0-568d-481d-b826-d2bb61908ace@csgroup.eu>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <838a05f0-568d-481d-b826-d2bb61908ace@csgroup.eu>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [syzbot] [virtualization?] KMSAN: uninit-value in virtqueue_add
+ (4)
 Content-Language: en-US
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: david@redhat.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=WkASMW3h;
-       spf=pass (google.com: domain of david@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+To: kasan-dev <kasan-dev@googlegroups.com>,
+        syzbot <syzbot+d7521c1e3841ed075a42@syzkaller.appspotmail.com>,
+        syzkaller-bugs@googlegroups.com,
+        Alexander Potapenko <glider@google.com>
+References: <000000000000fd588e060de27ef4@google.com>
+ <2c1dad81-9b22-47fb-b0e9-6e4a2a2c67be@I-love.SAKURA.ne.jp>
+Cc: linux-mm <linux-mm@kvack.org>
+In-Reply-To: <2c1dad81-9b22-47fb-b0e9-6e4a2a2c67be@I-love.SAKURA.ne.jp>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: penguin-kernel@i-love.sakura.ne.jp
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of penguin-kernel@i-love.sakura.ne.jp designates
+ 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -271,38 +145,221 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 21.02.24 08:13, Christophe Leroy wrote:
->=20
->=20
-> Le 20/02/2024 =C3=A0 21:32, Maxwell Bland a =C3=A9crit=C2=A0:
->> [Vous ne recevez pas souvent de courriers de mbland@motorola.com. D=C3=
-=A9couvrez pourquoi ceci est important =C3=A0 https://aka.ms/LearnAboutSend=
-erIdentification ]
->>
->> While other descriptors (e.g. pud) allow allocations conditional on
->> which virtual address is allocated, pmd descriptor allocations do not.
->> However, adding support for this is straightforward and is beneficial to
->> future kernel development targeting the PMD memory granularity.
->>
->> As many architectures already implement pmd_populate_kernel in an
->> address-generic manner, it is necessary to roll out support
->> incrementally. For this purpose a preprocessor flag,
->=20
-> Is it really worth it ? It is only 48 call sites that need to be
-> updated. It would avoid that processor flag and avoid introducing that
-> pmd_populate_kernel_at() in kernel core.
+I tried to reproduce this problem in my environment, and I found that
+just consuming almost all memory trivially generates below one.
+This might be the same cause?
 
-+1, let's avoid that if possible.
+$ ./scripts/faddr2line vmlinux free_unref_page_prepare+0x130/0xfc0
+free_unref_page_prepare+0x130/0xfc0:
+arch_static_branch_jump at arch/x86/include/asm/jump_label.h:55
+(inlined by) memcg_kmem_online at include/linux/memcontrol.h:1840
+(inlined by) free_pages_prepare at mm/page_alloc.c:1096
+(inlined by) free_unref_page_prepare at mm/page_alloc.c:2346
 
---=20
-Cheers,
+----------------------------------------
+[    0.000000][    T0] Linux version 6.8.0-rc5 (root@ubuntu) (Ubuntu clang version 14.0.0-1ubuntu1.1, Ubuntu LLD 14.0.0) #1089 SMP PREEMPT_DYNAMIC Tue Feb 20 22:50:10 UTC 2024
+[   76.193709][ T2962] =====================================================
+[   76.221751][ T2962] BUG: KMSAN: use-after-free in obj_malloc+0x6cc/0x7b0
+[   76.229392][ T2962]  obj_malloc+0x6cc/0x7b0
+[   76.234874][ T2962]  zs_malloc+0xdbd/0x1400
+[   76.239897][ T2962]  zs_zpool_malloc+0xa5/0x1b0
+[   76.248589][ T2962]  zpool_malloc+0x110/0x150
+[   76.261388][ T2962]  zswap_store+0x2bbb/0x3d30
+[   76.286128][ T2962]  swap_writepage+0x15b/0x4f0
+[   76.305337][ T2962]  pageout+0x41d/0xef0
+[   76.329597][ T2962]  shrink_folio_list+0x4d7a/0x7480
+[   76.352303][ T2962]  evict_folios+0x30f1/0x5170
+[   76.375539][ T2962]  try_to_shrink_lruvec+0x983/0xd20
+[   76.397057][ T2962]  shrink_one+0x72d/0xeb0
+[   76.405789][ T2962]  shrink_many+0x70d/0x10b0
+[   76.413973][ T2962]  lru_gen_shrink_node+0x577/0x850
+[   76.424001][ T2962]  shrink_node+0x13d/0x1de0
+[   76.432440][ T2962]  shrink_zones+0x878/0x14a0
+[   76.441432][ T2962]  do_try_to_free_pages+0x2ac/0x16a0
+[   76.453092][ T2962]  try_to_free_pages+0xd9e/0x1910
+[   76.469480][ T2962]  __alloc_pages_slowpath+0x147a/0x2bd0
+[   76.494976][ T2962]  __alloc_pages+0xb8c/0x1050
+[   76.521081][ T2962]  alloc_pages_mpol+0x8e0/0xc80
+[   76.544806][ T2962]  alloc_pages+0x224/0x240
+[   76.558044][ T2962]  pipe_write+0xabe/0x2ba0
+[   76.582897][ T2962]  vfs_write+0xfb0/0x1b80
+[   76.604669][ T2962]  ksys_write+0x275/0x500
+[   76.613269][ T2962]  __x64_sys_write+0xdf/0x120
+[   76.622218][ T2962]  do_syscall_64+0xd1/0x1b0
+[   76.629765][ T2962]  entry_SYSCALL_64_after_hwframe+0x63/0x6b
+[   76.638984][ T2962] 
+[   76.645171][ T2962] Uninit was stored to memory at:
+[   76.653234][ T2962]  obj_malloc+0x70a/0x7b0
+[   76.660989][ T2962]  zs_malloc+0xdbd/0x1400
+[   76.667451][ T2962]  zs_zpool_malloc+0xa5/0x1b0
+[   76.674667][ T2962]  zpool_malloc+0x110/0x150
+[   76.682273][ T2962]  zswap_store+0x2bbb/0x3d30
+[   76.688772][ T2962]  swap_writepage+0x15b/0x4f0
+[   76.695427][ T2962]  pageout+0x41d/0xef0
+[   76.701864][ T2962]  shrink_folio_list+0x4d7a/0x7480
+[   76.708623][ T2962]  evict_folios+0x30f1/0x5170
+[   76.715962][ T2962]  try_to_shrink_lruvec+0x983/0xd20
+[   76.723092][ T2962]  shrink_one+0x72d/0xeb0
+[   76.730491][ T2962]  shrink_many+0x70d/0x10b0
+[   76.736930][ T2962]  lru_gen_shrink_node+0x577/0x850
+[   76.743338][ T2962]  shrink_node+0x13d/0x1de0
+[   76.749527][ T2962]  shrink_zones+0x878/0x14a0
+[   76.757753][ T2962]  do_try_to_free_pages+0x2ac/0x16a0
+[   76.784738][ T2962]  try_to_free_pages+0xd9e/0x1910
+[   76.794060][ T2962]  __alloc_pages_slowpath+0x147a/0x2bd0
+[   76.809193][ T2962]  __alloc_pages+0xb8c/0x1050
+[   76.819106][ T2962]  alloc_pages_mpol+0x8e0/0xc80
+[   76.825845][ T2962]  alloc_pages+0x224/0x240
+[   76.833084][ T2962]  pipe_write+0xabe/0x2ba0
+[   76.839441][ T2962]  vfs_write+0xfb0/0x1b80
+[   76.846688][ T2962]  ksys_write+0x275/0x500
+[   76.861721][ T2962]  __x64_sys_write+0xdf/0x120
+[   76.887481][ T2962]  do_syscall_64+0xd1/0x1b0
+[   76.912683][ T2962]  entry_SYSCALL_64_after_hwframe+0x63/0x6b
+[   76.941992][ T2962] 
+[   76.960534][ T2962] Uninit was created at:
+[   76.967351][ T2962]  free_unref_page_prepare+0x130/0xfc0
+[   76.974685][ T2962]  free_unref_page_list+0x139/0x1050
+[   76.980910][ T2962]  shrink_folio_list+0x7139/0x7480
+[   76.987899][ T2962]  evict_folios+0x30f1/0x5170
+[   76.994206][ T2962]  try_to_shrink_lruvec+0x983/0xd20
+[   77.000665][ T2962]  shrink_one+0x72d/0xeb0
+[   77.007039][ T2962]  shrink_many+0x70d/0x10b0
+[   77.013652][ T2962]  lru_gen_shrink_node+0x577/0x850
+[   77.024303][ T2962]  shrink_node+0x13d/0x1de0
+[   77.050110][ T2962]  shrink_zones+0x878/0x14a0
+[   77.075727][ T2962]  do_try_to_free_pages+0x2ac/0x16a0
+[   77.100888][ T2962]  try_to_free_pages+0xd9e/0x1910
+[   77.106076][ T2962]  __alloc_pages_slowpath+0x147a/0x2bd0
+[   77.111944][ T2962]  __alloc_pages+0xb8c/0x1050
+[   77.117585][ T2962]  alloc_pages_mpol+0x8e0/0xc80
+[   77.124268][ T2962]  alloc_pages+0x224/0x240
+[   77.130464][ T2962]  pipe_write+0xabe/0x2ba0
+[   77.136968][ T2962]  vfs_write+0xfb0/0x1b80
+[   77.143088][ T2962]  ksys_write+0x275/0x500
+[   77.168816][ T2962]  __x64_sys_write+0xdf/0x120
+[   77.193213][ T2962]  do_syscall_64+0xd1/0x1b0
+[   77.217003][ T2962]  entry_SYSCALL_64_after_hwframe+0x63/0x6b
+[   77.245384][ T2962] 
+[   77.271236][ T2962] CPU: 2 PID: 2962 Comm: a.out Not tainted 6.8.0-rc5 #1089
+[   77.287165][ T2962] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
+[   77.300986][ T2962] =====================================================
+[   77.309323][ T2962] Disabling lock debugging due to kernel taint
+[   77.317501][ T2962] Kernel panic - not syncing: kmsan.panic set ...
+[   77.328533][ T2962] CPU: 2 PID: 2962 Comm: a.out Tainted: G    B              6.8.0-rc5 #1089
+[   77.384024][ T2962] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
+[   77.432726][ T2962] Call Trace:
+[   77.454709][ T2962]  <TASK>
+[   77.480712][ T2962]  dump_stack_lvl+0x1f6/0x280
+[   77.510291][ T2962]  dump_stack+0x29/0x30
+[   77.538912][ T2962]  panic+0x4ed/0xc90
+[   77.565356][ T2962]  kmsan_report+0x2d1/0x2e0
+[   77.593241][ T2962]  ? kmsan_internal_poison_memory+0x49/0x90
+[   77.625512][ T2962]  ? kmsan_internal_poison_memory+0x7d/0x90
+[   77.653002][ T2962]  ? __msan_warning+0x98/0x120
+[   77.662635][ T2962]  ? obj_malloc+0x6cc/0x7b0
+[   77.669636][ T2962]  ? zs_malloc+0xdbd/0x1400
+[   77.677036][ T2962]  ? zs_zpool_malloc+0xa5/0x1b0
+[   77.693619][ T2962]  ? zpool_malloc+0x110/0x150
+[   77.724160][ T2962]  ? zswap_store+0x2bbb/0x3d30
+[   77.736985][ T2962]  ? swap_writepage+0x15b/0x4f0
+[   77.744190][ T2962]  ? pageout+0x41d/0xef0
+[   77.750941][ T2962]  ? shrink_folio_list+0x4d7a/0x7480
+[   77.758465][ T2962]  ? evict_folios+0x30f1/0x5170
+[   77.768334][ T2962]  ? try_to_shrink_lruvec+0x983/0xd20
+[   77.789768][ T2962]  ? shrink_one+0x72d/0xeb0
+[   77.803770][ T2962]  ? shrink_many+0x70d/0x10b0
+[   77.823518][ T2962]  ? lru_gen_shrink_node+0x577/0x850
+[   77.831064][ T2962]  ? shrink_node+0x13d/0x1de0
+[   77.838508][ T2962]  ? shrink_zones+0x878/0x14a0
+[   77.853087][ T2962]  ? do_try_to_free_pages+0x2ac/0x16a0
+[   77.870947][ T2962]  ? try_to_free_pages+0xd9e/0x1910
+[   77.898331][ T2962]  ? __alloc_pages_slowpath+0x147a/0x2bd0
+[   77.927623][ T2962]  ? __alloc_pages+0xb8c/0x1050
+[   77.954001][ T2962]  ? alloc_pages_mpol+0x8e0/0xc80
+[   77.977357][ T2962]  ? alloc_pages+0x224/0x240
+[   77.999681][ T2962]  ? pipe_write+0xabe/0x2ba0
+[   78.014454][ T2962]  ? vfs_write+0xfb0/0x1b80
+[   78.023741][ T2962]  ? ksys_write+0x275/0x500
+[   78.031807][ T2962]  ? __x64_sys_write+0xdf/0x120
+[   78.040331][ T2962]  ? do_syscall_64+0xd1/0x1b0
+[   78.047608][ T2962]  ? entry_SYSCALL_64_after_hwframe+0x63/0x6b
+[   78.055721][ T2962]  ? entry_SYSCALL_64_after_hwframe+0x63/0x6b
+[   78.072687][ T2962]  ? __msan_metadata_ptr_for_load_8+0x24/0x40
+[   78.081809][ T2962]  ? filter_irq_stacks+0xb9/0x230
+[   78.087869][ T2962]  ? filter_irq_stacks+0xb9/0x230
+[   78.095051][ T2962]  ? should_fail_ex+0x91/0xa20
+[   78.101839][ T2962]  ? kmsan_get_metadata+0x146/0x1c0
+[   78.107538][ T2962]  ? kmsan_get_metadata+0x146/0x1c0
+[   78.114253][ T2962]  ? kmsan_get_shadow_origin_ptr+0x4d/0xb0
+[   78.122152][ T2962]  ? __should_failslab+0x24f/0x2e0
+[   78.129024][ T2962]  ? __msan_metadata_ptr_for_load_8+0x24/0x40
+[   78.136577][ T2962]  ? __should_failslab+0x24f/0x2e0
+[   78.156694][ T2962]  ? kmsan_get_metadata+0x146/0x1c0
+[   78.162925][ T2962]  ? kmsan_get_metadata+0x146/0x1c0
+[   78.169811][ T2962]  ? kmsan_get_shadow_origin_ptr+0x4d/0xb0
+[   78.177276][ T2962]  __msan_warning+0x98/0x120
+[   78.183309][ T2962]  obj_malloc+0x6cc/0x7b0
+[   78.188246][ T2962]  ? kmsan_get_metadata+0x146/0x1c0
+[   78.193961][ T2962]  zs_malloc+0xdbd/0x1400
+[   78.198774][ T2962]  ? kmsan_get_shadow_origin_ptr+0x4d/0xb0
+[   78.204373][ T2962]  zs_zpool_malloc+0xa5/0x1b0
+[   78.209487][ T2962]  ? zs_zpool_destroy+0x50/0x50
+[   78.215875][ T2962]  zpool_malloc+0x110/0x150
+[   78.221423][ T2962]  zswap_store+0x2bbb/0x3d30
+[   78.226784][ T2962]  swap_writepage+0x15b/0x4f0
+[   78.232645][ T2962]  ? generic_swapfile_activate+0xee0/0xee0
+[   78.238777][ T2962]  pageout+0x41d/0xef0
+[   78.244187][ T2962]  shrink_folio_list+0x4d7a/0x7480
+[   78.250349][ T2962]  evict_folios+0x30f1/0x5170
+[   78.256857][ T2962]  try_to_shrink_lruvec+0x983/0xd20
+[   78.263215][ T2962]  shrink_one+0x72d/0xeb0
+[   78.268410][ T2962]  shrink_many+0x70d/0x10b0
+[   78.274632][ T2962]  lru_gen_shrink_node+0x577/0x850
+[   78.281485][ T2962]  shrink_node+0x13d/0x1de0
+[   78.287756][ T2962]  ? mem_cgroup_soft_limit_reclaim+0x34/0x17a0
+[   78.295195][ T2962]  ? filter_irq_stacks+0xb9/0x230
+[   78.301832][ T2962]  ? stack_depot_save_flags+0x2c/0x810
+[   78.308677][ T2962]  ? kmsan_internal_set_shadow_origin+0x66/0xe0
+[   78.315638][ T2962]  ? kmsan_get_metadata+0x146/0x1c0
+[   78.321575][ T2962]  ? kmsan_get_shadow_origin_ptr+0x4d/0xb0
+[   78.328726][ T2962]  shrink_zones+0x878/0x14a0
+[   78.335109][ T2962]  ? __module_address+0x114/0x890
+[   78.341766][ T2962]  do_try_to_free_pages+0x2ac/0x16a0
+[   78.348484][ T2962]  ? kmsan_get_metadata+0x146/0x1c0
+[   78.357673][ T2962]  try_to_free_pages+0xd9e/0x1910
+[   78.382022][ T2962]  ? kmsan_get_shadow_origin_ptr+0x4d/0xb0
+[   78.409072][ T2962]  __alloc_pages_slowpath+0x147a/0x2bd0
+[   78.435039][ T2962]  ? get_page_from_freelist+0x11ed/0x1b00
+[   78.461720][ T2962]  __alloc_pages+0xb8c/0x1050
+[   78.474860][ T2962]  alloc_pages_mpol+0x8e0/0xc80
+[   78.481368][ T2962]  alloc_pages+0x224/0x240
+[   78.487579][ T2962]  pipe_write+0xabe/0x2ba0
+[   78.494006][ T2962]  ? kmsan_get_shadow_origin_ptr+0x4d/0xb0
+[   78.501316][ T2962]  ? filter_irq_stacks+0x1d8/0x230
+[   78.508179][ T2962]  ? kmsan_get_metadata+0x146/0x1c0
+[   78.515408][ T2962]  ? pipe_read+0x2220/0x2220
+[   78.530652][ T2962]  vfs_write+0xfb0/0x1b80
+[   78.553685][ T2962]  ksys_write+0x275/0x500
+[   78.576529][ T2962]  __x64_sys_write+0xdf/0x120
+[   78.599958][ T2962]  do_syscall_64+0xd1/0x1b0
+[   78.623046][ T2962]  ? irqentry_exit+0x16/0x50
+[   78.646375][ T2962]  ? exc_page_fault+0x7c/0x180
+[   78.667298][ T2962]  entry_SYSCALL_64_after_hwframe+0x63/0x6b
+[   78.693772][ T2962] RIP: 0033:0x7f24b1f14887
+[   78.712875][ T2962] Code: 10 00 f7 d8 64 89 02 48 c7 c0 ff ff ff ff eb b7 0f 1f 00 f3 0f 1e fa 64 8b 04 25 18 00 00 00 85 c0 75 10 b8 01 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 51 c3 48 83 ec 28 48 89 54 24 18 48 89 74 24
+[   78.769621][ T2962] RSP: 002b:00007ffd348e7138 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+[   78.779659][ T2962] RAX: ffffffffffffffda RBX: 0000000000000089 RCX: 00007f24b1f14887
+[   78.788322][ T2962] RDX: 0000000000001000 RSI: 000055fd4849e040 RDI: 00000000000000ea
+[   78.799066][ T2962] RBP: 000055fd4849e040 R08: 0000000000000000 R09: 00007f24b2094740
+[   78.808645][ T2962] R10: 00007f24b20de0c8 R11: 0000000000000246 R12: 00007ffd348e7140
+[   78.819277][ T2962] R13: 000055fd4849b160 R14: 000055fd4849dd80 R15: 00007f24b20dd040
+[   78.828758][ T2962]  </TASK>
+[   78.856768][ T2962] Kernel Offset: disabled
+[   78.861472][ T2962] Rebooting in 10 seconds..
+----------------------------------------
 
-David / dhildenb
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/cf5409c3-254a-459b-8969-429db2ec6439%40redhat.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/c577ec03-3d83-4000-986a-cb9561224fe1%40I-love.SAKURA.ne.jp.
