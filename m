@@ -1,126 +1,127 @@
-Return-Path: <kasan-dev+bncBAABBK552WXAMGQEEZKYNMY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBQF62WXAMGQE2GU775I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83e.google.com (mail-qt1-x83e.google.com [IPv6:2607:f8b0:4864:20::83e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5FB85CDEA
-	for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 03:23:41 +0100 (CET)
-Received: by mail-qt1-x83e.google.com with SMTP id d75a77b69052e-42e12a1fd69sf90461cf.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 18:23:41 -0800 (PST)
-ARC-Seal: i=3; a=rsa-sha256; t=1708482220; cv=pass;
+Received: from mail-pl1-x63b.google.com (mail-pl1-x63b.google.com [IPv6:2607:f8b0:4864:20::63b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C95A85CDF8
+	for <lists+kasan-dev@lfdr.de>; Wed, 21 Feb 2024 03:26:10 +0100 (CET)
+Received: by mail-pl1-x63b.google.com with SMTP id d9443c01a7336-1d3d9d2d97bsf596645ad.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 20 Feb 2024 18:26:10 -0800 (PST)
+ARC-Seal: i=3; a=rsa-sha256; t=1708482369; cv=pass;
         d=google.com; s=arc-20160816;
-        b=c+y8mOtWtkkJd/yCzlW4SQXLgSWn4u5EBuDwK0AW50Qf/UmaOSc3+zc+I92YmcBjLu
-         1Jl2bg8J2St98U5AfdMTRTrCbysN6xRlu3VD0MU4BqMyN9wi9RuYno2uqoSy4tmenicg
-         AKpEgRrRYQD74F3AsLFlOFS2UaKtah2YG//jmE5v5AvbYUmxCi8bzgGPnAEj3Hnpfwp7
-         NrA0y1Y+je4jQLnC83EspBwnCDu5BhEIYt7pnqlpKGgNB6bSolTzP6YfbDpGoa7wcb8r
-         kp8ROmpkCWhlYXdGsLjqPDQxLbo7qP85mXTNLBAz+CueJEx0XudRfJngCU1c93oJYser
-         72TQ==
+        b=sWSnJqAb6xoAHJWnRZmK6evf14aYYrJzoyHci9THFvQC9xs1RoLOEH5H/qjIo3nFDX
+         bx9ocTLW1cISCjd+CpG3DDLpiMyQbX4h1JvfEt5JbCw92mmYhnpA0ihsnrMMOT8R8w3v
+         3dsceWeR9Cefnjagd7iIfSCPcgsxPj6Q/BLrMD5YPr1SKC7tcGb0q+dJwdWZRHe6XBAM
+         WIsfA7OtbReWVeZUQyi/2WG1DD0tpzZfanXSIvy/GNyALGm+B8r4Kl94AlJbr0hD8/G6
+         29r5yM6j9sKOqk8RYjpbZP5mt8xZ7ojcW5vdpKR7foKDPYFbrsmxwaluwzxTv0YFtoRC
+         15uQ==
 ARC-Message-Signature: i=3; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version
          :content-language:accept-language:in-reply-to:references:message-id
          :date:thread-index:thread-topic:subject:cc:to:from:dkim-signature;
-        bh=OSrK/nRyuGb4XMxspiZ+lujVOmlnJjHIviMMj1Er/hU=;
-        fh=/ydOXMgKs4TFTvOozs64sQx+NTzoTQe39D9vWo7xqYs=;
-        b=lrHKU0KgUy3w6YaOlBUqEiGL0kPEjQnjSJed0/ij4pnQtTSxl2qnAHg0wzerkSofqA
-         RSoZjGcq5nXGi4UuLFnmW2FuaTvjq6bmxoGyd+nhbxtMcEaIsbO/i6YP02seGf/FSCbO
-         N2550CsoZnCBu1lnJ1xUPdsVwvE/6nAjqAB8bIGab6oa89SyeIEnABvWBbCOsaeOzLFE
-         DUVdOoaCd/fEQ/uWA7xzpegF6mQ3BvsdjWUURLYP/q5OL2f7cVo9+ybO0+kQ57owPOlN
-         oXn6uU0fvQSeaU33ZdVBbDqtT0eQR91a2svNr/yxiuf3LR7kPf2qHQGkgY7EHVXEO8Wi
-         /SqA==;
+        bh=OkByfFAc+itD7ouLN0nGh5Nf4aQQSJQR2yfaVCK7vAo=;
+        fh=/YU0bLMXavyhNQN/wI4vfcrKpGrbw7n2E7o+uPZxGYs=;
+        b=HAoDIVxV4zklKx0/lcWjFqGxmJMPUORKqlW94jNETJFsn41PyramRtNWIxSYtS7UCt
+         6lZEtof35CueDybdySxVloJBDS8W6dddtfkn4ztiOzKJtSwid/6ASiF+YCS1WOvzR1bs
+         rfAs9pULEDrYo1kfLjxZHCPzt9R93dtHxUEsJJUTb6HN3Ub2HSsUAgeqLkclYIa3wrGF
+         shqpyMtx1TYdjTVAYxUCTuJspbecWTAGNPXgSNnQZUvBVfVEqdnjMmeeb/updoCO8xJ+
+         hNEr6atY/qm6B/5/uQVCFCVx1rRz/hzZfgg893B2MNa4dxIKu8RAUj60n0wIQfjE7A5D
+         YrcA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=3; gmr-mx.google.com;
-       dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b="gitt4S/C";
+       dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=IZKtgutL;
        arc=pass (i=1 spf=pass spfdomain=windriver.com dkim=pass dkdomain=windriver.com dmarc=pass fromdomain=windriver.com);
        spf=pass (google.com: domain of prvs=27813ddd7c=xiongwei.song@windriver.com designates 205.220.178.238 as permitted sender) smtp.mailfrom="prvs=27813ddd7c=xiongwei.song@windriver.com";
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=windriver.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708482220; x=1709087020; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708482369; x=1709087169; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :content-language:accept-language:in-reply-to:references:message-id
          :date:thread-index:thread-topic:subject:cc:to:from:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OSrK/nRyuGb4XMxspiZ+lujVOmlnJjHIviMMj1Er/hU=;
-        b=i386q9HKMACvlOJER0Ng5UI6iWI+uOh6qcR3gHn1mm7h2GPBQjBrpDGGwFioo7Fs/2
-         KZ8nR/zIcm3uS05aR1us3OkiNUbQwazvmJTAewe4Bn9M4AJc6J9k2tQkTBxF98SYFWl3
-         xfrX0EQ13NDWe0hR5Gkd8F9hl9lBc6e+XEPlbpIle2QTpAIfaPJCjyHPoEs3JPrr2gCc
-         xU84Wx3emC8+UTGFUYD/2WYkqElEMOO26yX1KuY0Ys4Ao7DtK6HHq374kqEOFz42zxrU
-         63BB+hCKil20gnzp6SeXkz7LMvpyW3H1JVzRtV/loedxaYmk+7/OwBy/8ovSXpC6LSxU
-         eGug==
+        bh=OkByfFAc+itD7ouLN0nGh5Nf4aQQSJQR2yfaVCK7vAo=;
+        b=b6gWQSOhBD+1d/mHOez8aXrIuAabnFBcZ9CPFv79ZbTunpF9LCX5NDrDa/K2tI6Wwm
+         3DO2mCPeelqCJHp2PPwi4ROWjq3JQ2VvHdHh7jBeYPlZLM88oyvlTAwwQlrRPS3IF7Eq
+         D86JAhtN6LMbXtuypvqZZeJ+GnsbH7Ihux9TJDaMjwLAfUBYXG6vm/U/acwP0aKWvYsV
+         epeqSWCgGFFycpYknjTg3z7wxcfwiNH09vBT/lgA/Kv2KYyP3HYOsT/QOC4O22ZLMjTe
+         C6eXoyqyAGdfpwG4yHIQ9e5m8HYh42EpDNO41gmtIwSFzPQi82z/rT09lLr+FLYX+ua/
+         H8BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708482220; x=1709087020;
+        d=1e100.net; s=20230601; t=1708482369; x=1709087169;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :content-language:accept-language:in-reply-to:references:message-id
          :date:thread-index:thread-topic:subject:cc:to:from:x-beenthere
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OSrK/nRyuGb4XMxspiZ+lujVOmlnJjHIviMMj1Er/hU=;
-        b=eQ8rRcYRdYttUqLVrMwSGM3CorCInbIx/aNdIjE1/Fl0DfWVqIqJqbT3sIXS3fjjuC
-         TK6d28E6zCYjt/cQmClMQ/gYLfPbupQeRLyQUW3abLeLZYpVlf2OI6vFfZZYEGM4gLlv
-         PoLKhHGmqexG8KIBrHm4tooWZCF6xP1wFxdj2zIwTsy1snkKX2bD4yFTsRVp/dwDQ+04
-         G62e76BrI2gdt1H8b6jL9FXFhbDjcSt1TQR5Qhd8sP/CYKNpHYqD81ECIUxP4xq7m+bc
-         Fp14u/z3Q4X9oacB7/4BzH8kCbnMAc3KxpQbhB334TMhtG7TpeqHLkHoxuCH5JOvEzF1
-         4bjA==
-X-Forwarded-Encrypted: i=3; AJvYcCVCkqOr5JcorYtB6WXKNIAUWvPuuYJp8L3Crp9GdvHKZfQXtMpetR5/0qZCh1Jh4u3NGwVyRobX3YLrnfvdcCqOOKWDtH6tXg==
-X-Gm-Message-State: AOJu0YzUcZqZhrMNeIlzApXVuYNjGCvye+L/D6Y+tlloD8rW+NxcHpd6
-	k+lEiDCIlcdzXLoo/Mi/uioXUTmbW/s/xIw1KGYEXbbpfg0aHD8q
-X-Google-Smtp-Source: AGHT+IHxIA8uRmuern2sP1B55MCe9Y6WAdliKmwz6RBj/EuAjy6SpZ20HFsjXmivCg/3ODetBLQlZQ==
-X-Received: by 2002:ac8:648:0:b0:42e:2b90:a632 with SMTP id e8-20020ac80648000000b0042e2b90a632mr67244qth.19.1708482219978;
-        Tue, 20 Feb 2024 18:23:39 -0800 (PST)
+        bh=OkByfFAc+itD7ouLN0nGh5Nf4aQQSJQR2yfaVCK7vAo=;
+        b=T2nLI14NmX08/i+5KzxWBqIs1DNbiwfyRW6rPCzPLh80BL5RJCynZwlNBzLbbHJx/D
+         F4xlX3QfaprPRDETTyuelaXUbO/kw3wVbCoeDzh5T9eEbnXFQX4UA4HfYn081CeBmpTn
+         WirLm3pyHl/e2ZGU/wMNOeMil1c39I7Rp3+qNQZFrTzwNpUCLegcDMpg7uU1iEikn42/
+         PkiErrOiITbbWJTw6UyRCrwz/pbaH7Vw1mygD2NfjqWzCPjCSnsMuIZ0pl69TUKhXvM6
+         F+RVXpCF7tAB5BSzs1PRcb/EDr7deKZJ6t6h/OOts75G0vmK9wbhRkrNOwUuFvwAZtiP
+         s4Ww==
+X-Forwarded-Encrypted: i=3; AJvYcCV2d+CpzJmeVfF+up0kvbescCznb8fuU8wIAo+BTtpGfvUDS6xCceWE6+LyU43Ik34gJbdE5RtCtQeK4APNNHWp1eDc+yTrog==
+X-Gm-Message-State: AOJu0Yw07/bbdTacyiXeE5Gi6d5CV2nMLy6F7j1Vn1NreStohNVa8WDJ
+	rNEwRqaxWpsaGmSeelZOKHUtQ1V00iZkpT+UiO40GKWY9kq/6nBN
+X-Google-Smtp-Source: AGHT+IHICcwkYhiznzcYhlBmSDdAdiom37LOiVpEV8vauRg+/pQwd6ASpuotHySVTDQz53zof3a6Qw==
+X-Received: by 2002:a17:902:e184:b0:1dc:7b9:196d with SMTP id y4-20020a170902e18400b001dc07b9196dmr120610pla.18.1708482368929;
+        Tue, 20 Feb 2024 18:26:08 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:7d96:0:b0:42e:2493:b104 with SMTP id c22-20020ac87d96000000b0042e2493b104ls1475437qtd.0.-pod-prod-00-us;
- Tue, 20 Feb 2024 18:23:39 -0800 (PST)
-X-Forwarded-Encrypted: i=3; AJvYcCVOFi54J34sT+ye8Hp5sEQpizYUs7Fr4XS2nrw8IFZviM+gYF6OLxg1E52MiK7sBXxgk7x2mbfoRUxzqWef92ayNAQSc182QmFa5Q==
-X-Received: by 2002:a67:c48a:0:b0:470:3db6:430b with SMTP id d10-20020a67c48a000000b004703db6430bmr8890370vsk.11.1708482219329;
-        Tue, 20 Feb 2024 18:23:39 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1708482219; cv=pass;
+Received: by 2002:a17:90b:2e8f:b0:298:e10d:b61a with SMTP id
+ sn15-20020a17090b2e8f00b00298e10db61als3407561pjb.1.-pod-prod-03-us; Tue, 20
+ Feb 2024 18:26:08 -0800 (PST)
+X-Forwarded-Encrypted: i=3; AJvYcCU6iG3ORjzkrDBTmrB5kTcabayifhy6gJV9JycoYq1YKrSP0LdDaKyjPACTM9uCzko4GegG6j0zuTKwnPFrLqpmNlFVbR+MTIXKTg==
+X-Received: by 2002:a17:90a:7e18:b0:299:e9ca:c497 with SMTP id i24-20020a17090a7e1800b00299e9cac497mr2660971pjl.4.1708482367766;
+        Tue, 20 Feb 2024 18:26:07 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708482367; cv=pass;
         d=google.com; s=arc-20160816;
-        b=neCK20gOQvsokU7ety14UsDhdKzZL1JfPbRvNyS+UpSfu79vQvwOZus2yqXI2ckN0U
-         MImUkqilbzDJE7kw2iLr9BpgjNaocs6flH91I4QmuOOZpR2ih9fxJpfo+nImyzfwRQcc
-         2UPMmZlvHMF2s3UMvTs3z85bAlhyiTyFV5roOR6984d7LQPtlUZtX75xPrrxVb0gKFIJ
-         kuektnyllgdIV0eZiQwOeuU/S9y/CeycDXzhq+LUTEzlldwKqIYSQKEIj6pg3aYOmjX0
-         pIunKRPOw9+YGWV8MVPDALle1UCp7zPlBDoxMwPdAnnElquYPKW/cl4gJMhqZTTVNjto
-         X3nA==
+        b=Kz1a80ZNCTkm/QzE7xqvikjw2KJnnVR0GUsHia1q/cMkBUDNe2wag2UqgQsOpSYmQI
+         U3D1pKVRxlW9DynTn0lXifgvYonoM6MDxFoFKLm3LhUZrNLQrJklbmDIuiSP+gJzDAlO
+         MyEgX6mPgz8ijR69zcuDC4xnKOJkzuX+E0Cz7PJ2Z0thyUqOIafy+b1fOLranwCBrXoP
+         bJjR9f2mAtR7E9xik4yU6x/MS6Z6+Vnn61iBqp6kvOXvpv8drqEdBz+ZGrmy3omFoYgP
+         lIJu76xSqYdfOpw9hGD3Og549niGQpnEswFBZ7VNgkycLwVHMyFpohjXr/W+SPuNE+FH
+         SB9A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=mime-version:content-transfer-encoding:content-language
          :accept-language:in-reply-to:references:message-id:date:thread-index
          :thread-topic:subject:cc:to:from:dkim-signature;
-        bh=0wZ01ZxEJQUKXVgIscLIuzag/LcN+HEsW3HBCvRHbko=;
+        bh=4fU47u97qBavmDdSa8bhVb0l0GHt9YAkuld4S8s+2TI=;
         fh=Ah6r3UfbxXHVSN69qhRhgXePou4OMOfcO152A0MToiA=;
-        b=JlD5FjMB0MgAaGlqDx466VTwLuZXeqHA5ywe/cY+xSfYxiONmweVKafdgXJFcSHja/
-         4iaHcEgaOTi0NWsgd0YN9H3HU9AHtupx5VjpdzV8FVVQErll14GEAbMYC0MPesrLLOTq
-         WPgVBuSrizLJnExJbCpRs9ruq+C//G3kYMtNlSDKl5U6y/vgXRIsGc+1ozKRs1IjL6t3
-         Luxrh/Gq5CrTfyhvsEJhJAzq1J1w+dhGGNTdEJPdU2l/aAshozw9Z+oBWv0671CECmb9
-         To/keCW4N8saE+3cTPoxB6PUrcChVdBfeRtFlo6xxbVyygWBz62bjsB9apb+XGbcdAvE
-         9Luw==;
+        b=rdxk7uRMMc7RCS0UZi9joG/EXJkUPKTWBcCP4m5g64p2HCH7mRzwx0eM7vMXZPUh0k
+         MH5DApjyskwfu0j9t0Pwuuw3YGX8cmICMPLV7+UTOJS5t0ujdRHklXRXNFZ1jShRyDrC
+         Zd2zep3Bi+42CRW9ImzkrMeDZEswKmYvACynID6L/j4jmGYoPYAfBKwNoB70uN+yZoaB
+         K9N1IjbE0OfC2lazcx5z7/ub1IqZoSrBR8hzFgxLD6txZ+LDCMvYAuQj/5MWBL+MPfeo
+         H/F2pvnFhobcPtc+iKnakmZ5DTMpa02bggzkY6sMsNI82hAe5sePtO/UD5l2Lvv5nihO
+         Q3rw==;
         dara=google.com
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b="gitt4S/C";
+       dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=IZKtgutL;
        arc=pass (i=1 spf=pass spfdomain=windriver.com dkim=pass dkdomain=windriver.com dmarc=pass fromdomain=windriver.com);
        spf=pass (google.com: domain of prvs=27813ddd7c=xiongwei.song@windriver.com designates 205.220.178.238 as permitted sender) smtp.mailfrom="prvs=27813ddd7c=xiongwei.song@windriver.com";
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=windriver.com
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com. [205.220.178.238])
-        by gmr-mx.google.com with ESMTPS id z20-20020a67ec54000000b0046d3d08309esi770167vso.1.2024.02.20.18.23.38
+        by gmr-mx.google.com with ESMTPS id ob9-20020a17090b390900b00299277feec9si38081pjb.1.2024.02.20.18.26.07
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 20 Feb 2024 18:23:39 -0800 (PST)
+        Tue, 20 Feb 2024 18:26:07 -0800 (PST)
 Received-SPF: pass (google.com: domain of prvs=27813ddd7c=xiongwei.song@windriver.com designates 205.220.178.238 as permitted sender) client-ip=205.220.178.238;
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41L1qm5d006859;
-	Wed, 21 Feb 2024 02:23:33 GMT
-Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2168.outbound.protection.outlook.com [104.47.73.168])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wd2178ag0-1
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 41L0alrR022271;
+	Wed, 21 Feb 2024 02:26:00 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3wd218gagd-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 21 Feb 2024 02:23:32 +0000 (GMT)
+	Wed, 21 Feb 2024 02:26:00 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TPBahXN7RX37s1gumNsxsNIJ1cJ/uHfMzhzqKZviIRk0+fvI3dZkQT+NKczhH9XUwZcKhkUIHJE3gKMJ4ASmojTcgWsHs3O7uGzdvLlChUTEOtUQyP+I7Rvqy0jTcQcLFsqj57IqN17pnZKZcU5ChzYUbagLnMZTOgQG4vnTsqIkVR06D5Ug7CP0ohSAoVm/myUT6XOXeYoLtIa4IT+bfqQbEh4sxGRWF9rFbhYRdZ5SIh7BAzqp03agDx9iNTiwU7qMu99YV7BPTW13ZyAJGiJ/Z+4X/OmOfwNQc5hSRMuHMs2K/FiSOWIm7n5Rn3JnbaCF2irr86aXi3DHvpvN7w==
+ b=LR9T4aCxJoPe79K5X8cOb9vI5uK3FDpb6fZcXZr62PnrfIQmR6IzNp1PPb9wVGWoxNG8JSjp+MGaXECMlpAaFQU0a263t2WqWjTmZHqP+S9QnyWdaHInBGDlbmapx6VncVMZy2hGwRq2y9q6NcfECioccV25r8tyNuA4OEHKkLc/bMyhB2MWa6nec0U4QYJSArmUNrCQXBJO/Ma/o9X66jbRTnBBBUjb1bA1q9W1CZQHSHUT6TH52WlBdLabcG4zyPaCKXUTkYjh3VSqscYCA9ZCdVH24IXUpoZx+TXnZbUTZtZv7p8ADHJgOGbs0SQaOkEGvWVyojoKfTFFIif8kw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0wZ01ZxEJQUKXVgIscLIuzag/LcN+HEsW3HBCvRHbko=;
- b=PWZg2dwUw4K1oUU6L31sIdRgNs7cL0wavMObSrosx6DUtDvJuGfC6HDvFKLjAp2P8YPdoPtMjJYXjkXu7W8Py3UP5naAonFJ6phy8mWGhB7v8x/l47Wbt4pUY0YHTaO3vvI3AbDCtKALtJPRQmXd6sBxCqph+kbqk1rOrsDZkBOEA7BSVI6fDGtRJGQIyo2apeqzZLTrnT4749aLpnVu2ZG1hdXbU9sEnBL4fgMEsGmJC1Un+9OEfo0jAVnTLOKpR1pq1wtKuJVrTMx3CvbOnegJ6eySlDkMMH/zKk5rzaTBFjaBotbknEbKG8xDWu1gXWZqx/x/BMil5OTKj1GPqg==
+ bh=4fU47u97qBavmDdSa8bhVb0l0GHt9YAkuld4S8s+2TI=;
+ b=JAdL1ypUBbsmoKAjujIpUXidjXAngSSK9fSiGBvRjAxcxPMY+zAEsSgbszoqD9TJiJ5FIJ+CAUPWYJu56SRjoyMveldqbBVbev3/AaH82t0UOp1Jw47sSZDIuBFo1yqP3wEJ5qrWugy1F67SPHbx3/OAQSiWNroJegr3bxSTdWaURWNec4B8airKsbG0EXzR+6Me7KAL1WagJmQqfw3hH9WWnwVJspevsicGJYidZDhJc2j9HywAROvWkLlC2xNb3vmDoKLChvGGmoezVigQzDwXE3OXeKIRT3kVCCaC/9DnW+ocL1tiFg7xjz6mDPpVkgIgqLVuz827eXOYaGjOIA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -128,11 +129,11 @@ Received: from PH0PR11MB5192.namprd11.prod.outlook.com (2603:10b6:510:3b::9)
  by SJ2PR11MB8538.namprd11.prod.outlook.com (2603:10b6:a03:578::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7292.39; Wed, 21 Feb
- 2024 02:23:30 +0000
+ 2024 02:25:58 +0000
 Received: from PH0PR11MB5192.namprd11.prod.outlook.com
  ([fe80::230c:58c0:c3f9:b5f3]) by PH0PR11MB5192.namprd11.prod.outlook.com
  ([fe80::230c:58c0:c3f9:b5f3%3]) with mapi id 15.20.7292.036; Wed, 21 Feb 2024
- 02:23:30 +0000
+ 02:25:58 +0000
 From: "'Song, Xiongwei' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Vlastimil Babka <vbabka@suse.cz>, Christoph Lameter <cl@linux.com>,
         Pekka
@@ -157,92 +158,92 @@ CC: Zheng Yejian <zhengyejian1@huawei.com>,
         "linux-mm@kvack.org" <linux-mm@kvack.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "kasan-dev@googlegroups.com" <kasan-dev@googlegroups.com>
-Subject: RE: [PATCH 2/3] mm, slab: use an enum to define SLAB_ cache creation
- flags
-Thread-Topic: [PATCH 2/3] mm, slab: use an enum to define SLAB_ cache creation
- flags
-Thread-Index: AQHaZB4Vv6+1rZm7vkyKrrwrlEStt7EUEDaw
-Date: Wed, 21 Feb 2024 02:23:30 +0000
-Message-ID: <PH0PR11MB51929679F8256CDE50F46F87EC572@PH0PR11MB5192.namprd11.prod.outlook.com>
+Subject: RE: [PATCH 3/3] mm, slab, kasan: replace kasan_never_merge() with
+ SLAB_NO_MERGE
+Thread-Topic: [PATCH 3/3] mm, slab, kasan: replace kasan_never_merge() with
+ SLAB_NO_MERGE
+Thread-Index: AQHaZB4W8cdfqy83J0yGhys5aQz/a7EUEbtQ
+Date: Wed, 21 Feb 2024 02:25:58 +0000
+Message-ID: <PH0PR11MB51929A162277950399731E35EC572@PH0PR11MB5192.namprd11.prod.outlook.com>
 References: <20240220-slab-cleanup-flags-v1-0-e657e373944a@suse.cz>
- <20240220-slab-cleanup-flags-v1-2-e657e373944a@suse.cz>
-In-Reply-To: <20240220-slab-cleanup-flags-v1-2-e657e373944a@suse.cz>
+ <20240220-slab-cleanup-flags-v1-3-e657e373944a@suse.cz>
+In-Reply-To: <20240220-slab-cleanup-flags-v1-3-e657e373944a@suse.cz>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: PH0PR11MB5192:EE_|SJ2PR11MB8538:EE_
-x-ms-office365-filtering-correlation-id: ebc42f19-be8e-4ce6-b9a1-08dc3284185a
+x-ms-office365-filtering-correlation-id: 1157e4e4-bc73-4f7e-59db-08dc32847099
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 6goCws9gV2w92aV3QNH8pu6i11gPyfzUpPO+1EztW0rPXuNrqDw0YaY3vPJYxbToR90+oU/G4GFFDGKfnGAkNlVFGQ4pYEruoEJ9t9jYAX+8ileUR51vpYBW0KSfKKF8H2NyhEnOZcrKmpJ4TcFRbLGNzzE8LeF3NFDE9wMv48Gs5NeE80oVdC6f2YJvKXTAKNGvcD7dXBeivnlaDf4d3VCpm1gsDoCwOE3EdEo4U8+xXXBX25ufxv3jZ1swk8RXa4eMF53hOmHtP/aKJaj7Gja+CUr7zMDJobqdx+U/+RLIpOKIMOkOeGTLT8UA3btOr/IPcVDRTCmIR7oY+NC7m6EjjWpVk1u65ACR3PUPQkzwwg5wiY/LnWO3Yu7FfEapADTSQ4KY9//ZxAJMuIBZ19gZM7LN8p6pAAggzA8vA4hAN3/lpqblKqcp/XarNhhmpGuhxWkKGC0htEcugkGq7bQP7dnWJz7QJ6sWXp0fPKfDcJx2baATGXxcOXg8E4zBXxLQr2Eg5riOMExpX3ZrbT/GCXw+S2HYahxS5uy8UeWin8+VMiry862mPLSIogCixIVFHlVh4YBsba8sD+h73gXUwd3z8knmDGLagVCKyEEJqyMEu7VOAgZ/as4c8WBgrHFRpSqJURW030bReuJi6Q==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5192.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(230273577357003)(921011)(38070700009);DIR:OUT;SFP:1102;
+x-microsoft-antispam-message-info: aRE0AidQDAM/DubXWQxw7jyln8XiEx8p/XA/OCiz6i/9oi5YDV1LTswBo4TSRU0WyuPSIYvtDGPg9ab+V4fYfLqo6QjXM0S8qLHeor8EGkHNT+mjp7Ij4lH3x0C1CigjGgl/kT89l4UE8c3XMrkuyqkiKlpe+kAt0PVh7r3qVOD2Libe7jY93VIO6B5r1pAB64TjNLn/QKf6ki1GWAy2Ba47XKDMwHjEmfTyEOUqWMErXJfJQ0blEjK8oNd5x93AvqRWk/qGc9SX1QBYsPh/KHm8rtEBzK8+Scj+ibRL0gUFQ9GtEoYS8jje6OjQ58KpQegjG/xcM86+Q6WADO+R1fuNKrAipwsZ6NtoIGkPHxpwmp3DoQXw/LLh3DLlZtTGBkMQybAeOw7FJDdlT83cEH9ceYzkNJIHNoXsoCaHd5qo2Tbf5vL3P+FswML5TXRIOXG9nlm0ggHuhGyx8vVkXsv/yw13b0vWjxKZW/HvlY1YaRSWuNu0S5i/CTQORev1jjhuQSj5uuy3HX4D4PtFu3Is9teRE41JqSjUzHscpziAzJ21pxLlOM2hFdStqjnZE7CQag1ixfsFfEUqu8FaZuSYJ5K+URTbocXvhWdVqw81psNSfvqcGF04RsfuK6sB
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5192.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(921011)(38070700009);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cEpodTJEd09zYkkxZ25Cc0I3SE9ZNEpSOXViQzhXYWFSY2hHaHNsZjhzUGhL?=
- =?utf-8?B?OXpRS09TeXJYZ2R3dFp5cVZ1M1FGcUc2dUlIRlJneXB6S1dEUm1ySnBlWG9p?=
- =?utf-8?B?NjR1WDhwOTYwM3F5dEhGcVBZVCt6SlR5M1lWWXpEV0NSV3hMMm5WVERpdEdX?=
- =?utf-8?B?UmMvTkJoVnBPc2Y4cGJ4UjFzendjUjhnQm5tUitFRFh5aG8welFVdm9zekFU?=
- =?utf-8?B?VHpvZW1oa2Rja3FuWGdjcEgvQkNQSkoyNC9lL3dzcUtVTUZsR0Y3dWNrVU8v?=
- =?utf-8?B?aFJud0pRSUcrK3EyQWJOcUJhY0hhcUVra0kxUnNUaG5UMkxtWnNTdkJqajR0?=
- =?utf-8?B?U01vRk0wWW84WkRjMkVXU2xXeDlvdUN2UE5DcTd3N1FUcnBYazIza1BtMWZH?=
- =?utf-8?B?ZWRqekJlVGZkZVA3UzlIZVpJWnJPY1BST3hmTkdzNTRXQzA2Y3RQM0l2Mlg1?=
- =?utf-8?B?VkUvMDZnckJsRXpVT25ubHpyQldjOHcrYzVua01jd2piVUlrS21FVm5GOGRV?=
- =?utf-8?B?amluWnN3NzMrVkpGOTlHMTdMQ3pmQm5mRGorL1NCQ25BZWhRUk1OWEM0b1I0?=
- =?utf-8?B?RzhlRk5NSU02Zzk1UzFpQnJ3anhJa0x3czdXbHpFS0g1eDJrU3l1Ty9lT1Ns?=
- =?utf-8?B?eUtFZDNkUTJWOUw5Q08vN2tObjcwMEptZXVQK09WaXpmQ2d0NEN6SmZ3QUlC?=
- =?utf-8?B?L0F6bFBVY0p5aStLTmM5ZlhrQXN1MmJUbXRyOCtJd3V2L0phNEF6eldTNzUy?=
- =?utf-8?B?QmlrOWxoYWpqalVBNDZNbndRYTI3eTlwa25IbWJSYitDZDlOcXV3YlR2L2tn?=
- =?utf-8?B?UlpXQVpKaXdBL0dTUFRJNUd0bk9hL3hDZWpxTFZQdWhkV284TitLSEhDRVU2?=
- =?utf-8?B?SG84NzNycFd4RGJGbGNxMGZKdzFibVcrRDlkenpOU0l5NjdrSVp5OXh1ekR2?=
- =?utf-8?B?MTh2NlFpS1RqVkJOb1VmRG9jTlJsaHpQYXh0ZHlzRjZuL1pSendBQ2s2ZmRH?=
- =?utf-8?B?ZU16YkV2ZnJ0ZmNYcmxPb3NGZUlUSEdUVGNjT3UzdDVFUlZISjJsTC9TcnRC?=
- =?utf-8?B?Z0srUWV5S3JNRjA4d2owYm1lajB6QXpXalFJTDJCRWRkbHRvNzRBUEl0L2M0?=
- =?utf-8?B?NWhkSHh4ZnFGTUoyL1krQTdyRE1yR1d0K3E3bHc1eGVTVFg5Qy9VUkgvMzNn?=
- =?utf-8?B?MTV4YkdZcHlpVmQ2V1JYYUtkZ05sTE82b1J0UkFLNGxPNWVBTm95QTc3QjVa?=
- =?utf-8?B?TWtYYkdxeEtUNk5uMjNXTW5ROVprRXVoeXBHVFJXaXVXbVBHQXJyMWdmeXQy?=
- =?utf-8?B?TkNFQzFxdCtyUFlkbnVKUS82ZDB2Z2hPSFlsckxleGFjUWZxeHYvU2I1cnJ1?=
- =?utf-8?B?cHF1MGQva0pWbHRGYk5mUWhSWFBjU1lKLzBSenhnWlh1RFlRNUFBcGttVHUz?=
- =?utf-8?B?N3ZmV1JwNVBTTjNNVXoyUDIwN3dFd3RBK3pBM0NsY1VEZE1GK1hVSmY2RmRV?=
- =?utf-8?B?eFBZQjJZSlQ1bGZjZVVVSzF5TVdqbTNYWHBWcG5kYi9DYjBxQ1pBM2hCS1Rj?=
- =?utf-8?B?VEhkd0E3b3JpdkdEODZiZ1FjemNmS2s0Q1M3R1BOZU50NW5mUWp0Ym51clRP?=
- =?utf-8?B?Ri92WUxWb2lNQjlEWEgyUFI4dDR5blg3UFNnV0lkY3BVaURReXpIYVFVNzBm?=
- =?utf-8?B?Ym9DM1VhVVNaVlJ2N2duaG0zUHRad0pHeWhKMktOem1iZ1djTW5xQ2lGY083?=
- =?utf-8?B?WkFiajhQdGk5S1NvOGI1RDQ0VXFRTEd5NC90b2lQTjJZOXp5SWNaV0RKamho?=
- =?utf-8?B?S0NJSWtuS2k2M0tkcTNmWlFWb2VESDVVTUMvOGlhd0RmRzhEOVQ5N0pqVEpj?=
- =?utf-8?B?RkVxcGVyODBQTlN5bmtQL2wvYjNDUnkrQkhBeUtoekhFRVdLeGpwY2hib2M0?=
- =?utf-8?B?WHJsM0hzNWJ5Z043UThrbFZFWUdYVHE2TGwwUVlmb25JRjRhN0hiaWlpUHVU?=
- =?utf-8?B?c0FsSHRmMHlvM0cxVDFOY1lNOVhvQ3RWL2doalpZMFRZT2dQRmxEdGVKb25P?=
- =?utf-8?B?OHRGenN5emdyOUQ4MFkvMjErTjVIVE1wdVlVZks2RWc4Qk1ZZWg4cDgyWjY0?=
- =?utf-8?B?ZWxqZEhLRTJPWFMwd3IrckJkTm5JMVhXYWphMVIvR08wMWdSQnhjTFVIU0Jp?=
- =?utf-8?B?L0E9PQ==?=
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?K3VKNUw2KzIvSExFaVF0S3FqN1FjK05TNHNHUzZod0JiT2JMeC9WWmVselY4?=
+ =?utf-8?B?dkFVKzFnMGNYVzkxK2NqdWJtMDRrYWlwcUZyRGJCQm1jOEtOWC9aNFFQaDMx?=
+ =?utf-8?B?NlJ6UHlFcEtNRWZ0YzBQekEzV3hVUk9IUnlBcGxUa1pRY2ZJdzNNR3dlc3JJ?=
+ =?utf-8?B?UTFGemRHUGlLSjRSblNSN093WEM2SmNSRlpGRlhrRGJJQ0xwaFFRMlBnUStC?=
+ =?utf-8?B?QWZQSVQwTlRnZTRvMnpqT2kyK0FBSVlnWThzNkxSMEJadDFJOFZzUno0Q21w?=
+ =?utf-8?B?MGhKODY4K3BWZ2I1N21HOW0vaGIzRDhuWVljNVhBcGxNWStXcmo0MktoZDY3?=
+ =?utf-8?B?Z3RHdGdNNnVHczVQL1NmVlBMZjRxOCtSb0ljZTc2d2hJaktrOXVjYm9sZlhB?=
+ =?utf-8?B?NGpkYW40Q20rOUw5TEc4ZWRDVzhyMjVtaWpqVWREa2hQSnN1eGFENEt0emww?=
+ =?utf-8?B?TExxanlOSGZsWDBka1ZVVXlkckJyTE84Zkx6RUozbFN2Ly8rYjRoTFYycG9n?=
+ =?utf-8?B?UmJEK2EzaWFHaVlvdUdXVm9Ba3JXSDFlTHlHdnZ2Z1ZVVFdBYURLeHN6VkRU?=
+ =?utf-8?B?Ykc2clh0QTNKSVdqODB0WTB5TnZXdTFDZFZUWDRzd0dKN0lEKy9KZis5TmtS?=
+ =?utf-8?B?YkdNbjFRenRTMllhM2taN3RJVjVLV0oyV016aXorekR5eTFWa3lxTEx3cXVN?=
+ =?utf-8?B?YUNYTlJEWnRkZExETlp0cWI5dldJSStWeEU1bTdQWXlXcHU2Ukk5UCs3T0NR?=
+ =?utf-8?B?Qitoa01KcGpXM2FZdVpjQzdwRGNsZnFJOWd5NzBNWllod3B5bUUxYnBEblpu?=
+ =?utf-8?B?ZzBtVmp6Sm5NQXd4VFFGa254WHh1M0hzZWJraW4xRDFNYmpvOGsvbU9NZkJk?=
+ =?utf-8?B?Wm0vWlEvYjZDWVZNcnFpOGhCM0JLaEtYbzlmUXlkZVFFdlg0N3RnUzIvaTQx?=
+ =?utf-8?B?QU9SMTZPdWZkQjFVWUhodWlGd045bXUrQnVGN1F2YmJ1ODNNdjNIT29iTy8x?=
+ =?utf-8?B?NVBlc3N6bmgwK1VjeDFFT3N1cExYdk1LR0JlMUtmTzhZb01UL280VTRySHE1?=
+ =?utf-8?B?WEVRRDdWdU1GdUMxTGpwcWRuSklWaDNhM0dXa3VLZWQzREIveWFPS2IyQnZP?=
+ =?utf-8?B?M2JSdGszMFNxUzJMUFFXcTQxVHZtbThNeDlBSWlxRVhOOWJuTTNyOENRTGNl?=
+ =?utf-8?B?V0xmMVBNTW4vbmZuWXgvNSttT3hOU29OM3lXSVhQdjN3ZWVodlFoMGFJZXBT?=
+ =?utf-8?B?WEk4Y3V1NEhIMkdSZXhTb3hrOGdvK0ZIb0JxNWZqUWF1L0NWWlBoSmJWU3E2?=
+ =?utf-8?B?SjB1RFk2OHhqQVhEM0VTT3U3UXo0eXJ1NHAydFJtUlQxK3dIWlZ4K0MyZW8r?=
+ =?utf-8?B?dEdKUnBhN20yMmp3THZ6dzlnZit2bE1XOGE5VkxrL1EzcGNnWThJclhzdnVK?=
+ =?utf-8?B?TTlZOVhqd1ZFT1Qxajk5WnplR29wYnd6a084QnB2WTIvcjNRcElEMFY3S0RW?=
+ =?utf-8?B?N0VDTGdBM0djRkVVUm81cmFUU3FmWGRYUmRuUUhSNkxpeWJNaFJJdVU2cjEv?=
+ =?utf-8?B?Rmd1dXZMSndQMHRqekdKZU5ZMEh0TTlvRlVWOWJyRGVkYnQ0dHJHdEJmWlFJ?=
+ =?utf-8?B?bDRVOG1ITVlqMGdhbW9GTXdwVG1FaHBPQ0N2OUFNeXltMEJReTdubEh6bGht?=
+ =?utf-8?B?VEdWVTB1OGF4Yi9RK3luanJyb0lveTNTVDJGVGdsVlI5UjIrcGg0K0JGUVRw?=
+ =?utf-8?B?U2xUV1llb2FJUy9NNlptam1lbm04d2FaaTVIUlN2YUZ1NmxOaWxiKzRQUy96?=
+ =?utf-8?B?OUMrNHpCUDZLY0JmTlpESXpwVi80WThrQ0JlSVR0V3BaTXRsT001SG5udTNF?=
+ =?utf-8?B?WkE3RHJzQ2ZPZHVYb3VpYjhwNllBQkVOU1NhWTB0NDlldzhwNERtVGxSZjhO?=
+ =?utf-8?B?NEtUUGtmSFIyRDJGcGgwVTl3Yis1VnZjSENxMWE4R0Z5eUY2clVObUFKRzNm?=
+ =?utf-8?B?K2xuWDZBK0Rnc1cvb2RNUUl4UUd5d2pGRmVRRHVsVnYzaUE3MjJiRFNsd3g5?=
+ =?utf-8?B?L1hmVmtaUy9HdnlhVFFYa3BiMnY0MFJlMWtvRjlJWWIrZVNsMlNNMEdVcEZP?=
+ =?utf-8?B?ZHhhMlNsdDRvYlRvZlk2Y0oxUUZSTGhDL1JKTWVvbk5pL0FtM2tLZVJwVUhL?=
+ =?utf-8?B?Z1E9PQ==?=
 Content-Type: text/plain; charset="UTF-8"
 MIME-Version: 1.0
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5192.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ebc42f19-be8e-4ce6-b9a1-08dc3284185a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2024 02:23:30.5378
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1157e4e4-bc73-4f7e-59db-08dc32847099
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2024 02:25:58.5503
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3mRYSuu4oyzLtkZbgWcWLwkCq2dyrAR5ZpcmJGiof2E2UmlArOq28YGpV/Y65Du58p3VHPzuER5saNTp8p++poQbmSPwQ8+09ti/KMfWwb8=
+X-MS-Exchange-CrossTenant-userprincipalname: niaNkxNUiEcHvmGrB5h9YLUmAIwvBNc8ecBAW2bt+5hH0055joOUmvligXZVEuyDSDAE54wz6PJEVZnCCjAqQicQ5KEFk1FMSqCyEV58vNA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB8538
-X-Proofpoint-GUID: 9sp9G0-TpCfdVYeyMRdhtZ2quAgPrmS5
-X-Proofpoint-ORIG-GUID: 9sp9G0-TpCfdVYeyMRdhtZ2quAgPrmS5
+X-Proofpoint-GUID: ZzzndM9eSNgGo8ksyQQwqEBmRwqAIHDU
+X-Proofpoint-ORIG-GUID: ZzzndM9eSNgGo8ksyQQwqEBmRwqAIHDU
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2024-02-20_06,2024-02-20_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 suspectscore=0 malwarescore=0 spamscore=0 bulkscore=0
- clxscore=1015 adultscore=0 mlxlogscore=548 lowpriorityscore=0 mlxscore=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=859 mlxscore=0
+ priorityscore=1501 suspectscore=0 impostorscore=0 clxscore=1015
+ bulkscore=0 malwarescore=0 adultscore=0 spamscore=0 lowpriorityscore=0
  phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2402120000 definitions=main-2402210014
+ engine=8.19.0-2402120000 definitions=main-2402210015
 X-Original-Sender: xiongwei.song@windriver.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@windriver.com header.s=PPS06212021 header.b="gitt4S/C";
+ header.i=@windriver.com header.s=PPS06212021 header.b=IZKtgutL;
        arc=pass (i=1 spf=pass spfdomain=windriver.com dkim=pass
  dkdomain=windriver.com dmarc=pass fromdomain=windriver.com);       spf=pass
  (google.com: domain of prvs=27813ddd7c=xiongwei.song@windriver.com designates
@@ -263,212 +264,104 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
  <https://groups.google.com/group/kasan-dev/subscribe>
 
 
-> The values of SLAB_ cache creation flagsare defined by hand, which is
-
-A blank space missed between flags and are.
-
-> tedious and error-prone. Use an enum to assign the bit number and a
-> __SF_BIT() macro to #define the final flags.
-> 
-> This renumbers the flag values, which is OK as they are only used
-> internally.
+> The SLAB_KASAN flag prevents merging of caches in some configurations,
+> which is handled in a rather complicated way via kasan_never_merge().
+> Since we now have a generic SLAB_NO_MERGE flag, we can instead use it
+> for KASAN caches in addition to SLAB_KASAN in those configurations,
+> and simplify the SLAB_NEVER_MERGE handling.
 > 
 > Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 
-Ran a rough test with build and bootup with the related debug configs enabled,
+Ran a rough test with build and bootup with CONFIG_KASAN_GENERIC enabled,
 feel free to add
 
 Tested-by: Xiongwei Song <xiongwei.song@windriver.com>
-Reviewed-by: Xiongwei Song <xiongwei.song@windriver.com>
 
 Thanks,
-Xiognwei
+Xiongwei
+
 > ---
->  include/linux/slab.h | 81 ++++++++++++++++++++++++++++++++++++++--------------
->  mm/slub.c            |  6 ++--
->  2 files changed, 63 insertions(+), 24 deletions(-)
+>  include/linux/kasan.h |  6 ------
+>  mm/kasan/generic.c    | 16 ++++------------
+>  mm/slab_common.c      |  2 +-
+>  3 files changed, 5 insertions(+), 19 deletions(-)
 > 
-> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> index 6252f44115c2..f893a132dd5a 100644
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -21,29 +21,68 @@
->  #include <linux/cleanup.h>
->  #include <linux/hash.h>
+> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> index dbb06d789e74..70d6a8f6e25d 100644
+> --- a/include/linux/kasan.h
+> +++ b/include/linux/kasan.h
+> @@ -429,7 +429,6 @@ struct kasan_cache {
+>  };
 > 
-> +enum _slab_flag_bits {
-> +       _SLAB_CONSISTENCY_CHECKS,
-> +       _SLAB_RED_ZONE,
-> +       _SLAB_POISON,
-> +       _SLAB_KMALLOC,
-> +       _SLAB_HWCACHE_ALIGN,
-> +       _SLAB_CACHE_DMA,
-> +       _SLAB_CACHE_DMA32,
-> +       _SLAB_STORE_USER,
-> +       _SLAB_PANIC,
-> +       _SLAB_TYPESAFE_BY_RCU,
-> +       _SLAB_TRACE,
-> +#ifdef CONFIG_DEBUG_OBJECTS
-> +       _SLAB_DEBUG_OBJECTS,
-> +#endif
-> +       _SLAB_NOLEAKTRACE,
-> +       _SLAB_NO_MERGE,
-> +#ifdef CONFIG_FAILSLAB
-> +       _SLAB_FAILSLAB,
-> +#endif
-> +#ifdef CONFIG_MEMCG_KMEM
-> +       _SLAB_ACCOUNT,
-> +#endif
-> +#ifdef CONFIG_KASAN_GENERIC
-> +       _SLAB_KASAN,
-> +#endif
-> +       _SLAB_NO_USER_FLAGS,
-> +#ifdef CONFIG_KFENCE
-> +       _SLAB_SKIP_KFENCE,
-> +#endif
-> +#ifndef CONFIG_SLUB_TINY
-> +       _SLAB_RECLAIM_ACCOUNT,
-> +#endif
-> +       _SLAB_OBJECT_POISON,
-> +       _SLAB_CMPXCHG_DOUBLE,
-> +       _SLAB_FLAGS_LAST_BIT
-> +};
-> +
-> +#define __SF_BIT(nr)   ((slab_flags_t __force)(1U << (nr)))
+>  size_t kasan_metadata_size(struct kmem_cache *cache, bool in_object);
+> -slab_flags_t kasan_never_merge(void);
+>  void kasan_cache_create(struct kmem_cache *cache, unsigned int *size,
+>                         slab_flags_t *flags);
 > 
+> @@ -446,11 +445,6 @@ static inline size_t kasan_metadata_size(struct kmem_cache
+> *cache,
+>  {
+>         return 0;
+>  }
+> -/* And thus nothing prevents cache merging. */
+> -static inline slab_flags_t kasan_never_merge(void)
+> -{
+> -       return 0;
+> -}
+>  /* And no cache-related metadata initialization is required. */
+>  static inline void kasan_cache_create(struct kmem_cache *cache,
+>                                       unsigned int *size,
+> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
+> index df6627f62402..d8b78d273b9f 100644
+> --- a/mm/kasan/generic.c
+> +++ b/mm/kasan/generic.c
+> @@ -334,14 +334,6 @@ DEFINE_ASAN_SET_SHADOW(f3);
+>  DEFINE_ASAN_SET_SHADOW(f5);
+>  DEFINE_ASAN_SET_SHADOW(f8);
+> 
+> -/* Only allow cache merging when no per-object metadata is present. */
+> -slab_flags_t kasan_never_merge(void)
+> -{
+> -       if (!kasan_requires_meta())
+> -               return 0;
+> -       return SLAB_KASAN;
+> -}
+> -
 >  /*
->   * Flags to pass to kmem_cache_create().
->   * The ones marked DEBUG need CONFIG_SLUB_DEBUG enabled, otherwise are no-op
+>   * Adaptive redzone policy taken from the userspace AddressSanitizer runtime.
+>   * For larger allocations larger redzones are used.
+> @@ -372,13 +364,13 @@ void kasan_cache_create(struct kmem_cache *cache, unsigned
+> int *size,
+>         /*
+>          * SLAB_KASAN is used to mark caches that are sanitized by KASAN
+>          * and that thus have per-object metadata.
+> -        * Currently this flag is used in two places:
+> +        * Currently this flag is used in one place:
+>          * 1. In slab_ksize() to account for per-object metadata when
+>          *    calculating the size of the accessible memory within the object.
+> -        * 2. In slab_common.c via kasan_never_merge() to prevent merging of
+> -        *    caches with per-object metadata.
+> +        * Additionally, we use SLAB_NO_MERGE to prevent merging of caches
+> +        * with per-object metadata.
+>          */
+> -       *flags |= SLAB_KASAN;
+> +       *flags |= SLAB_KASAN | SLAB_NO_MERGE;
+> 
+>         ok_size = *size;
+> 
+> diff --git a/mm/slab_common.c b/mm/slab_common.c
+> index 238293b1dbe1..7cfa2f1ce655 100644
+> --- a/mm/slab_common.c
+> +++ b/mm/slab_common.c
+> @@ -50,7 +50,7 @@ static DECLARE_WORK(slab_caches_to_rcu_destroy_work,
 >   */
->  /* DEBUG: Perform (expensive) checks on alloc/free */
-> -#define SLAB_CONSISTENCY_CHECKS        ((slab_flags_t __force)0x00000100U)
-> +#define SLAB_CONSISTENCY_CHECKS        __SF_BIT(_SLAB_CONSISTENCY_CHECKS)
->  /* DEBUG: Red zone objs in a cache */
-> -#define SLAB_RED_ZONE          ((slab_flags_t __force)0x00000400U)
-> +#define SLAB_RED_ZONE          __SF_BIT(_SLAB_RED_ZONE)
->  /* DEBUG: Poison objects */
-> -#define SLAB_POISON            ((slab_flags_t __force)0x00000800U)
-> +#define SLAB_POISON            __SF_BIT(_SLAB_POISON)
->  /* Indicate a kmalloc slab */
-> -#define SLAB_KMALLOC           ((slab_flags_t __force)0x00001000U)
-> +#define SLAB_KMALLOC           __SF_BIT(_SLAB_KMALLOC)
->  /* Align objs on cache lines */
-> -#define SLAB_HWCACHE_ALIGN     ((slab_flags_t __force)0x00002000U)
-> +#define SLAB_HWCACHE_ALIGN     __SF_BIT(_SLAB_HWCACHE_ALIGN)
->  /* Use GFP_DMA memory */
-> -#define SLAB_CACHE_DMA         ((slab_flags_t __force)0x00004000U)
-> +#define SLAB_CACHE_DMA         __SF_BIT(_SLAB_CACHE_DMA)
->  /* Use GFP_DMA32 memory */
-> -#define SLAB_CACHE_DMA32       ((slab_flags_t __force)0x00008000U)
-> +#define SLAB_CACHE_DMA32       __SF_BIT(_SLAB_CACHE_DMA32)
->  /* DEBUG: Store the last owner for bug hunting */
-> -#define SLAB_STORE_USER                ((slab_flags_t __force)0x00010000U)
-> +#define SLAB_STORE_USER                __SF_BIT(_SLAB_STORE_USER)
->  /* Panic if kmem_cache_create() fails */
-> -#define SLAB_PANIC             ((slab_flags_t __force)0x00040000U)
-> +#define SLAB_PANIC             __SF_BIT(_SLAB_PANIC)
->  /*
->   * SLAB_TYPESAFE_BY_RCU - **WARNING** READ THIS!
->   *
-> @@ -95,19 +134,19 @@
->   * Note that SLAB_TYPESAFE_BY_RCU was originally named SLAB_DESTROY_BY_RCU.
->   */
->  /* Defer freeing slabs to RCU */
-> -#define SLAB_TYPESAFE_BY_RCU   ((slab_flags_t __force)0x00080000U)
-> +#define SLAB_TYPESAFE_BY_RCU   __SF_BIT(_SLAB_TYPESAFE_BY_RCU)
->  /* Trace allocations and frees */
-> -#define SLAB_TRACE             ((slab_flags_t __force)0x00200000U)
-> +#define SLAB_TRACE             __SF_BIT(_SLAB_TRACE)
+>  #define SLAB_NEVER_MERGE (SLAB_RED_ZONE | SLAB_POISON | SLAB_STORE_USER | \
+>                 SLAB_TRACE | SLAB_TYPESAFE_BY_RCU | SLAB_NOLEAKTRACE | \
+> -               SLAB_FAILSLAB | SLAB_NO_MERGE | kasan_never_merge())
+> +               SLAB_FAILSLAB | SLAB_NO_MERGE)
 > 
->  /* Flag to prevent checks on free */
->  #ifdef CONFIG_DEBUG_OBJECTS
-> -# define SLAB_DEBUG_OBJECTS    ((slab_flags_t __force)0x00400000U)
-> +# define SLAB_DEBUG_OBJECTS    __SF_BIT(_SLAB_DEBUG_OBJECTS)
->  #else
->  # define SLAB_DEBUG_OBJECTS    0
->  #endif
-> 
->  /* Avoid kmemleak tracing */
-> -#define SLAB_NOLEAKTRACE       ((slab_flags_t __force)0x00800000U)
-> +#define SLAB_NOLEAKTRACE       __SF_BIT(_SLAB_NOLEAKTRACE)
-> 
->  /*
->   * Prevent merging with compatible kmem caches. This flag should be used
-> @@ -119,23 +158,23 @@
->   * - performance critical caches, should be very rare and consulted with slab
->   *   maintainers, and not used together with CONFIG_SLUB_TINY
->   */
-> -#define SLAB_NO_MERGE          ((slab_flags_t __force)0x01000000U)
-> +#define SLAB_NO_MERGE          __SF_BIT(_SLAB_NO_MERGE)
-> 
->  /* Fault injection mark */
->  #ifdef CONFIG_FAILSLAB
-> -# define SLAB_FAILSLAB         ((slab_flags_t __force)0x02000000U)
-> +# define SLAB_FAILSLAB         __SF_BIT(_SLAB_FAILSLAB)
->  #else
->  # define SLAB_FAILSLAB         0
->  #endif
->  /* Account to memcg */
->  #ifdef CONFIG_MEMCG_KMEM
-> -# define SLAB_ACCOUNT          ((slab_flags_t __force)0x04000000U)
-> +# define SLAB_ACCOUNT          __SF_BIT(_SLAB_ACCOUNT)
->  #else
->  # define SLAB_ACCOUNT          0
->  #endif
-> 
->  #ifdef CONFIG_KASAN_GENERIC
-> -#define SLAB_KASAN             ((slab_flags_t __force)0x08000000U)
-> +#define SLAB_KASAN             __SF_BIT(_SLAB_KASAN)
->  #else
->  #define SLAB_KASAN             0
->  #endif
-> @@ -145,10 +184,10 @@
->   * Intended for caches created for self-tests so they have only flags
->   * specified in the code and other flags are ignored.
->   */
-> -#define SLAB_NO_USER_FLAGS     ((slab_flags_t __force)0x10000000U)
-> +#define SLAB_NO_USER_FLAGS     __SF_BIT(_SLAB_NO_USER_FLAGS)
-> 
->  #ifdef CONFIG_KFENCE
-> -#define SLAB_SKIP_KFENCE       ((slab_flags_t __force)0x20000000U)
-> +#define SLAB_SKIP_KFENCE       __SF_BIT(_SLAB_SKIP_KFENCE)
->  #else
->  #define SLAB_SKIP_KFENCE       0
->  #endif
-> @@ -156,9 +195,9 @@
->  /* The following flags affect the page allocator grouping pages by mobility */
->  /* Objects are reclaimable */
->  #ifndef CONFIG_SLUB_TINY
-> -#define SLAB_RECLAIM_ACCOUNT   ((slab_flags_t __force)0x00020000U)
-> +#define SLAB_RECLAIM_ACCOUNT   __SF_BIT(_SLAB_RECLAIM_ACCOUNT)
->  #else
-> -#define SLAB_RECLAIM_ACCOUNT   ((slab_flags_t __force)0)
-> +#define SLAB_RECLAIM_ACCOUNT   0
->  #endif
->  #define SLAB_TEMPORARY         SLAB_RECLAIM_ACCOUNT    /* Objects are short-lived */
-> 
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 2ef88bbf56a3..a93c5a17cbbb 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -306,13 +306,13 @@ static inline bool kmem_cache_has_cpu_partial(struct
-> kmem_cache *s)
-> 
->  /* Internal SLUB flags */
->  /* Poison object */
-> -#define __OBJECT_POISON                ((slab_flags_t __force)0x80000000U)
-> +#define __OBJECT_POISON                __SF_BIT(_SLAB_OBJECT_POISON)
->  /* Use cmpxchg_double */
-> 
->  #ifdef system_has_freelist_aba
-> -#define __CMPXCHG_DOUBLE       ((slab_flags_t __force)0x40000000U)
-> +#define __CMPXCHG_DOUBLE       __SF_BIT(_SLAB_CMPXCHG_DOUBLE)
->  #else
-> -#define __CMPXCHG_DOUBLE       ((slab_flags_t __force)0U)
-> +#define __CMPXCHG_DOUBLE       0
->  #endif
-> 
->  /*
+>  #define SLAB_MERGE_SAME (SLAB_RECLAIM_ACCOUNT | SLAB_CACHE_DMA | \
+>                          SLAB_CACHE_DMA32 | SLAB_ACCOUNT)
 > 
 > --
 > 2.43.1
@@ -476,4 +369,4 @@ Xiognwei
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/PH0PR11MB51929679F8256CDE50F46F87EC572%40PH0PR11MB5192.namprd11.prod.outlook.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/PH0PR11MB51929A162277950399731E35EC572%40PH0PR11MB5192.namprd11.prod.outlook.com.
