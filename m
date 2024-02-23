@@ -1,160 +1,163 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERB7XC4OXAMGQEKKS35SQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBKH64OXAMGQE75HCJKY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x43d.google.com (mail-pf1-x43d.google.com [IPv6:2607:f8b0:4864:20::43d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A03861C6C
-	for <lists+kasan-dev@lfdr.de>; Fri, 23 Feb 2024 20:26:56 +0100 (CET)
-Received: by mail-pf1-x43d.google.com with SMTP id d2e1a72fcca58-6e4c85a1437sf750438b3a.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 23 Feb 2024 11:26:56 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1708716415; cv=pass;
+Received: from mail-ed1-x539.google.com (mail-ed1-x539.google.com [IPv6:2a00:1450:4864:20::539])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBFE7861D8C
+	for <lists+kasan-dev@lfdr.de>; Fri, 23 Feb 2024 21:25:13 +0100 (CET)
+Received: by mail-ed1-x539.google.com with SMTP id 4fb4d7f45d1cf-5648a1a85aasf2975a12.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 23 Feb 2024 12:25:13 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708719913; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xHy2tsHrH/cQxKcD8zZorF/EIE+QcgDipHrs/UoLVFlq8EH2JYdtj1Ve3O4arRd11y
-         XNhT2YQmOsy06OYl9M/nKquLKXM+amOF6dBW/q6VJ/Tq+55HjoFyT1HGjKim8X0fbr1P
-         hO67LZBgF2/V6FnYHn7j/1rJXFF9gh70CJMuyYW/VQYg7cugcPijqTnllsJLRrP2SZDv
-         OxhAek79+pUBtDLrlCcVMkxdxWhcgP1Fxbsj0lTuK+OejF4lVgXLREh/+JpBPvuECRDt
-         OvAa/K9N3Zj/iOPB5GUkvhr4YEyEJPmFLcnZ3l1jZwTOkw/uFIGCUmvW+yr1aTULT9zU
-         k9Tw==
+        b=Yxe1JbuZUIuLMj7YDPVPXkzAkbpjF9FmQM3P9tqlBDy6/ZiLHMfI0zzgEBeW6I6i0H
+         2S1cihbcrudUnMs+0ShgJJwHLD17XvhnoCfiMHe6Kpgp9BXEII1cWm4y1doPLNV6cmwF
+         eJnAJz9NocYmGHszMew+hwDlqMuGm9GjnHLXdeXzn3GJTqg1NSuLiAPxRLwvCfsnJskT
+         qFNvpbl089YYjyx7DcfEIQPCq+k5SmPI8iIXqdMrumNdD15h2fcmdwHvD/4pPGUxPUh7
+         mLAFtn7QIunn5A5avjYyUhoEF4VagJCKRosCtzsE0xeQIRbgK4ACj5mpedmZJHzvasy1
+         4nWQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=URjm9DB0jkkAun2gg1Z6npSMbg/91ggRryhJToo7lLw=;
-        fh=UzmWSyFS/MV0vwM2iuZEjeqZWWsEG4ry7QEq9nBX4c4=;
-        b=TRQFPVgtj6XihrlgHS7IraGFFDuUPr+P5SN+k/f2ULChOjSYarx5p4vEtjUTrfhXFW
-         C2ZahNsSw+U/ZzC3rTJSpaa/vJ/Yl+ojJDVT4r8j1xm8kfQuVVs3ly2ZuQeyUv+WNoY3
-         P9xSRYL38N+912Yxw7aFUn4woiVM6QlsLFMc15lQP6uOt2t8h+4MZLQZhL27Fncd0psV
-         uNDf8OtGNxHLqksMTA9gM4YWsTfB7BESavVT/qJK4629wiWRCePjZFLfMy3dah5oqDs8
-         fWwt+Dsg1Uh2E/3nLn34FHJJGIxIj5giDWnVtT9kwYrhPOdvFo89oO/Wcz8Vrl1XQZZZ
-         PL3g==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=oAhP8RJBstgJZ/QsuDbrg1yr4AfROOKo4PsUbZnIJaY=;
+        fh=EGpVEeBD5AlOm5cXpsrGNo92waubMlQN/9SNx1sioxg=;
+        b=UMQW7leo43Fjz8mlbby4W5Lw736I2ikE3hnFDYBwZGtBzuMMQC7lh4wJvSkMJbArCW
+         52RLtJyuaIbJ38DlWOrs2iMdqo2syzM7g7yZNekgzadq5d0i/H/zHOKlXJXB5IxIKvyu
+         TpMbC+6Rxp28srugyWPE/yBgOJ1FlfZvaFY9eTlQm02sn65jQSz4ds9Hz58uVIot/LNJ
+         U8YPZvIuOafMMHylb4Mzwf3jKNV2ZhlUu+JcwTIE1H+sQgALbT/nYN7udiWCVi5ThhO+
+         7KbN/XlJKjjypzdPVUx81E64opPxUTainu7ADJaA9VvkMTE73wRyYLmmJa8yVUn2Kf9L
+         wkxQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=FIPZyoht;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b32 as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@tum.de header.s=tu-postout21 header.b=QdGni1Nl;
+       spf=pass (google.com: domain of paul.heidekrueger@tum.de designates 129.187.255.137 as permitted sender) smtp.mailfrom=paul.heidekrueger@tum.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tum.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708716415; x=1709321215; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708719913; x=1709324713; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=URjm9DB0jkkAun2gg1Z6npSMbg/91ggRryhJToo7lLw=;
-        b=OIf+lHWf4EOaX61JUOhO7Dh20M61QaqEG61Re56f7dLVWfaF5/WK1w8RUo/wFofz7Y
-         LI0u9kBlsRZAZFJwUxfr1L32kvBWKz0uQelFvpvVqsmN0LWfDy5pzt4OncxBSdT8cZjn
-         B8M9HIbV9g7ywgXlPebnAqOOzWMcHq57Q2k2pNJ2pkifO+bLkQ388gRiEBPQfHTQxzfG
-         /Dl9RAY7rf0+dAxU0JIiJhWbMJ0vEJ+P+CN7bA9S3G5JDKkZeprjeD/tIoYHdPyqZaKS
-         2t6qT7YxSc7Jk6pJsrYN6nSXX/1HnkohPNezcvfw2Zi5ci5+1aNu45T3/3U1Ti1hHabt
-         u3AA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oAhP8RJBstgJZ/QsuDbrg1yr4AfROOKo4PsUbZnIJaY=;
+        b=MjrnsxTbZfaSud6KnnJkuHtGkBoBdHTUrW9UpxeD06p151xeVHilx4wJSg4acTegzl
+         K73weBhjjK35GdfyTrEWrdARz+ocTRGSCxhjQaKDfqy8tnkSRyJDlVYHlxq09hFiJypR
+         mpiSBs8DqDfBHsuZq7WQRG4NtDw+Oxk3Dqcab0ktcOTrOrvqIhkgtv3SbgNLC5UBboZ0
+         RWoN589oYm7YCzWl7XKkBYy0SokDlYKZ5YkUydPhXfCHC+l0LdCt3uQww3eC/14LlWTL
+         KUrCUFLOm8N/dmDYs3EYdt/SRYZ37pMoYtCUtS6E52QLS5325ATyIMGpVkjMk7GuFOQ4
+         45bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708716415; x=1709321215;
+        d=1e100.net; s=20230601; t=1708719913; x=1709324713;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=URjm9DB0jkkAun2gg1Z6npSMbg/91ggRryhJToo7lLw=;
-        b=ck35n1abIsDh9usJOMZtNJoav3G3xxZKUIbYCpFmGMax4fRKnKb22Lr5FosP/xs6G1
-         l9pig+nN+l0QrCHUgIAQbFrLlUpHW5iTcZo7oNlS+pP6oWCduJThOKLzWvw8i/emKBEs
-         EDIkA//jPqWULMz9TQyxrQtNNE9bzGwClnXWD+dI+d2JNsQhIK0uaapNwKrAeUTnLOxi
-         +SqsBm8uS3r1PaRo8bPfbXXm/VCvC9oHv9dR2cnHFsUWclERummbtMOcxoxG+jbeiGp0
-         Q8ffJnICYzBuORZVv8/4Zz44bWTtjhB4yiuPoAyRNR2nVV5xIs3ieJZ6CsD0FXxltB6E
-         gN9w==
-X-Forwarded-Encrypted: i=2; AJvYcCWsoWMgiiVjMRi0AcxWh0KDYwMQsTIIjFiQWKi/6/p6W6caigCktVm/SxtTEVDDpO65PMY22paeT3tO7g42qJZNTnUWbKzdWQ==
-X-Gm-Message-State: AOJu0Yxc4Xw84NWxRCHVNvDbGXl78MHHjxjnGg1pkEKdTnY49fqNUjOo
-	y6Ws8pchT/ntwuKxhI7f48O47jgLNG6hJHGNz5X1D6MnQFDqDp7N
-X-Google-Smtp-Source: AGHT+IFyeA7f//1gYU6XaVeTCUvmB/IabBffftCw4bHuyuomfCLjmdKhobJyvL4MWOuy3WVnJdRheA==
-X-Received: by 2002:a05:6a00:1ac7:b0:6e4:d198:6d66 with SMTP id f7-20020a056a001ac700b006e4d1986d66mr947578pfv.7.1708716414708;
-        Fri, 23 Feb 2024 11:26:54 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oAhP8RJBstgJZ/QsuDbrg1yr4AfROOKo4PsUbZnIJaY=;
+        b=KM8ebwRqnxO1vxQuLref38UxetwJRE2GuGhpJDCnD47wFqAVFv6gcLavGhiY24RCL4
+         ZYJoxE9jFfAxk4AA9zJUgM/0uhXWvt9qS/7Hhx8OvCFRNE7yEunh8VYaGdc9U3OYGT93
+         +7S/1/noF7cjp9G56hP8P4yMP5+Z3yGXPRG/Kf04ZEE8BlsPpUVrRHm0pILxGtBUKj7m
+         rKV7mAJtFIKhFrYqbjUymJdTZgxiLNWdQZbgR2nuCntemNLJyrIwf2pw9dBUjhTObUl3
+         6q9jmBolaAboSwjdNcPLHmwMCTl1bsnJZO+zzVS9uj8hFNit9YkLxEBgc2L2Sfi63cgB
+         IDtQ==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCW1LPPkRw2ELWHx2kSvW7Z6m917g2VBAyBheHW401tGDV5K8zPqpio/4KRI/toSPqhe4Le0OoY9K8ugOZr1g30QPzpehfQBlg==
+X-Gm-Message-State: AOJu0Yytzk9gVu9JbjuV4wrDzGkZtWhSDUU2v6es1wvCaCbCufs3aFbE
+	cDs7n1dR6dlQvfwYs3mshSWC9Y6oAjKfmB6jOAhWv149opetwSkT
+X-Google-Smtp-Source: AGHT+IFlY25XGgvoNsZ2LN26vKXX5nmkqjakYlwHd89G4pS/UuWOV+6SpHLIcZP3SlP5jDeeCl4I+w==
+X-Received: by 2002:a50:9549:0:b0:565:4c2a:c9b6 with SMTP id v9-20020a509549000000b005654c2ac9b6mr54936eda.0.1708719912554;
+        Fri, 23 Feb 2024 12:25:12 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:1d23:b0:6e0:f00b:3ffe with SMTP id
- a35-20020a056a001d2300b006e0f00b3ffels761154pfx.0.-pod-prod-01-us; Fri, 23
- Feb 2024 11:26:53 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVyAlfmO5+ddkgFMEe2/Wykrp9pRGurBA+JCkgB1FO8wrsJ9suq2Jj4vMbufJ6jUMlJ1rsKBMajQ1VJJU7boPVVHmQ2kcU22qc0pw==
-X-Received: by 2002:a62:5ec7:0:b0:6e4:aca:ce0d with SMTP id s190-20020a625ec7000000b006e40acace0dmr790430pfb.31.1708716412948;
-        Fri, 23 Feb 2024 11:26:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1708716412; cv=none;
+Received: by 2002:a05:6402:3217:b0:563:94d1:8216 with SMTP id
+ g23-20020a056402321700b0056394d18216ls463247eda.1.-pod-prod-07-eu; Fri, 23
+ Feb 2024 12:25:11 -0800 (PST)
+X-Received: by 2002:a17:906:3193:b0:a3f:5628:e364 with SMTP id 19-20020a170906319300b00a3f5628e364mr609049ejy.24.1708719911084;
+        Fri, 23 Feb 2024 12:25:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1708719911; cv=none;
         d=google.com; s=arc-20160816;
-        b=sRECwtrZqQI3IS3DEVeJ8M4D8XL0HK0akEMvQ9GB6qMQAFYaLd2F79KNfszrkJYgY7
-         tN1RDO89KQkxZRkw22P5CiDg4+RQKAl6+l/lvfDUdGgka33ES7EcgS8hUCAJIllPdCxI
-         WlVC3jz8WDAW7pqxbUNlfCjBmgXihgxQbVLaQaJ6nr3mQj8VoiI87tFDas083ZEZWK6G
-         F8szZBNAXVsPgm2xb4uaaA0fY261xJsRdCLLMoJpGuJHHNJZXhNfgjFvnQnGEHpG8zCw
-         CuHEYK6Mbdsgt+CQ1g3hOIzomNqSRdurzxA1Nz85Pbnkuy5rxoc7Lgd6u2I/dRUcNM3V
-         FK4Q==
+        b=uxd7xa6QURA9T3SasZKoMwN40wVoDjwiuLiKLceWDAL1ZrIOOgweVb4TVAWI4xh1gl
+         e7tbXBDVUxS2Edy2iGJVNnkGDjR83iHLQEtRYnc6a4vaQkmo2GHbxkDw05PyEUuZE8x1
+         qLBNzdHuaRpA8btAKIbkVQWHOEHXeVp2s6xkXpiwgtYsHPb3zTe60C/l8u/Iqqqo7F4h
+         +TYYfJhBOY365TfmnguZkb2RKIcErcbDXiC8L8P7iBPUCxaAHqDkmdJH8NX4MXXM66r2
+         caGWej0M5wNPbqrFHXkDSv+D7VSmu7FRWENil3eJULtdiDKbocVtUqvaekIxyEAKn7lx
+         nuCw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=R6zUV9LQ644WPBwU2nAdaKkCRupl6ITF2pP4ziWZMV0=;
-        fh=wqg9droly7KTTnoG2gqx2P630YXZjlqJtekcCz2sGvw=;
-        b=vJEz/Tdvt5FplrQzqULqU3tquYgdpHTXyb+9GzvBjeFGM4FIcMZeAQ5rOW80+py+x4
-         1rpeeOO5fbfKmg1eZqxEVvICE0ahspvfNQ6NYGKiLvJmdW8mxbfXz10czmKunQ/APne9
-         ZnBgJdhh3zhHSSaWT3ZNYf01yfGM4b7/7aRbZf5tFFjvd3aX2dlyiJUcJ06hGVLntQdR
-         MLsNLyBDYh3YtuZI3gjxBK4jTLVWyFVYbG1/q7MuBv0bA0CbLfsBe2LLj+JvFU8QTpyV
-         SRifnTbduHJDD67R5gQfys+M++Vho+feuGEinfRp9GAZbDJ/DyZn9HeEfW+c5h4J65Db
-         YrKA==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=XogPvV4ziidUn001lArst0K7vLGykcShOSoSCX7zFXA=;
+        fh=DsMEC6pwqxvqQRauiD/TJuj6zI3N54VfC8LiA1awRpg=;
+        b=LApty9+bY0UUn7qN8hak2hW7y51gKX6ejYDIpfdfQFKQKTvKWC0hAkdGMbt2Ji/ocy
+         lINp5aVKT+jsoB3hnefwxBvFHViJL2PWoouH0398niDm5M8O1kFjVN2cS/h3cZJW1zt9
+         D/UlTQZSoHUSIWPQ4SqV/NQ4ERLFhzQ2CVH7bBDQ3g6h2HfmxsryJRQ1z/3hczGCUSkz
+         wgeLwKDbqw9OfuyThnPYxxP1kiorOYqZd73FKgLHa/hko+UlcbeLaNDeNeR/myYEVdxG
+         7IP2DV51lOoudpLf4G8fX+YXGZ8Jyj+yzJvl91C9/v7WWVProFHM9xD4mwTZ7qEoL1BJ
+         YrXg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=FIPZyoht;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b32 as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com. [2607:f8b0:4864:20::b32])
-        by gmr-mx.google.com with ESMTPS id f12-20020a056a0022cc00b006e4eef1a4e8si84459pfj.1.2024.02.23.11.26.52
+       dkim=pass header.i=@tum.de header.s=tu-postout21 header.b=QdGni1Nl;
+       spf=pass (google.com: domain of paul.heidekrueger@tum.de designates 129.187.255.137 as permitted sender) smtp.mailfrom=paul.heidekrueger@tum.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=tum.de
+Received: from postout1.mail.lrz.de (postout1.mail.lrz.de. [129.187.255.137])
+        by gmr-mx.google.com with ESMTPS id sh32-20020a1709076ea000b00a3f4f819503si186114ejc.1.2024.02.23.12.25.11
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 23 Feb 2024 11:26:52 -0800 (PST)
-Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b32 as permitted sender) client-ip=2607:f8b0:4864:20::b32;
-Received: by mail-yb1-xb32.google.com with SMTP id 3f1490d57ef6-dcdb210cb6aso1353631276.2
-        for <kasan-dev@googlegroups.com>; Fri, 23 Feb 2024 11:26:52 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUZ9qlpar2UCuFpSalRxUDhX6Dk6mjcDd+mRyPN44HY+J6fAnEI51EeyUM6a0sJBoO9J/Y0ln5QJXd3zWw1bBfstTOX5FhNHJheZg==
-X-Received: by 2002:a25:2653:0:b0:dc6:b088:e742 with SMTP id
- m80-20020a252653000000b00dc6b088e742mr843579ybm.8.1708716411749; Fri, 23 Feb
- 2024 11:26:51 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Feb 2024 12:25:11 -0800 (PST)
+Received-SPF: pass (google.com: domain of paul.heidekrueger@tum.de designates 129.187.255.137 as permitted sender) client-ip=129.187.255.137;
+Received: from lxmhs51.srv.lrz.de (localhost [127.0.0.1])
+	by postout1.mail.lrz.de (Postfix) with ESMTP id 4ThM2G0WTdzyRZ;
+	Fri, 23 Feb 2024 21:25:10 +0100 (CET)
+X-Virus-Scanned: by amavisd-new at lrz.de in lxmhs51.srv.lrz.de
+X-Spam-Flag: NO
+X-Spam-Score: -2.882
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.882 tagged_above=-999 required=5
+	tests=[ALL_TRUSTED=-1, BAYES_00=-1.9, DMARC_ADKIM_RELAXED=0.001,
+	DMARC_ASPF_RELAXED=0.001, DMARC_POLICY_NONE=0.001,
+	LRZ_DMARC_FAIL=0.001, LRZ_DMARC_FAIL_NONE=0.001,
+	LRZ_DMARC_POLICY=0.001, LRZ_DMARC_TUM_FAIL=0.001,
+	LRZ_DMARC_TUM_REJECT=3.5, LRZ_DMARC_TUM_REJECT_PO=-3.5,
+	LRZ_ENVFROM_FROM_MATCH=0.001, LRZ_ENVFROM_TUM_S=0.001,
+	LRZ_FROM_ENVFROM_ALIGNED_STRICT=0.001, LRZ_FROM_HAS_A=0.001,
+	LRZ_FROM_HAS_AAAA=0.001, LRZ_FROM_HAS_MDOM=0.001,
+	LRZ_FROM_HAS_MX=0.001, LRZ_FROM_HOSTED_DOMAIN=0.001,
+	LRZ_FROM_NAME_IN_ADDR=0.001, LRZ_FROM_PHRASE=0.001,
+	LRZ_FROM_TUM_S=0.001, LRZ_HAS_CT=0.001, LRZ_HAS_IN_REPLY_TO=0.001,
+	LRZ_HAS_MIME_VERSION=0.001, LRZ_HAS_SPF=0.001, LRZ_HAS_URL_HTTP=0.001,
+	LRZ_MSGID_LONG_50=0.001, LRZ_MSGID_NO_FQDN=0.001,
+	LRZ_NO_UA_HEADER=0.001, LRZ_SUBJ_FW_RE=0.001,
+	LRZ_URL_PLAIN_SINGLE=0.001, T_SCC_BODY_TEXT_LINE=-0.01]
+	autolearn=no autolearn_force=no
+Received: from postout1.mail.lrz.de ([127.0.0.1])
+	by lxmhs51.srv.lrz.de (lxmhs51.srv.lrz.de [127.0.0.1]) (amavisd-new, port 20024)
+	with LMTP id nRFE3cd62g-f; Fri, 23 Feb 2024 21:25:09 +0100 (CET)
+Received: from pine (unknown [IPv6:2001:a61:2510:5501:544b:4b32:4119:3827])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by postout1.mail.lrz.de (Postfix) with ESMTPSA id 4ThM2D07zKzych;
+	Fri, 23 Feb 2024 21:25:07 +0100 (CET)
+Date: Fri, 23 Feb 2024 21:25:04 +0100
+From: Paul =?utf-8?Q?Heidekr=C3=BCger?= <paul.heidekrueger@tum.de>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, vincenzo.frascino@arm.com, ryabinin.a.a@gmail.com, 
+	mark.rutland@arm.com, glider@google.com, elver@google.com, dvyukov@google.com, 
+	andreyknvl@gmail.com
+Subject: Re: [merged mm-stable] kasan-add-atomic-tests.patch removed from -mm
+ tree
+Message-ID: <xk3hvszpeg3ttyexcm5s7ztj64nx5gxfwp6ivmobvfzogqjwn4@wicwiqm4bw7z>
+References: <20240222000304.8FA56C43390@smtp.kernel.org>
 MIME-Version: 1.0
-References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-7-surenb@google.com>
- <Zdc6LUWnPOBRmtZH@tiehlicka> <20240222132410.6e1a2599@meshulam.tesarici.cz>
-In-Reply-To: <20240222132410.6e1a2599@meshulam.tesarici.cz>
-From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 23 Feb 2024 11:26:40 -0800
-Message-ID: <CAJuCfpGNoMa4G3o_us+Pn2wvAKxA2L=7WEif2xHT7tR76Mbw5g@mail.gmail.com>
-Subject: Re: [PATCH v4 06/36] mm: enumerate all gfp flags
-To: =?UTF-8?B?UGV0ciBUZXNhxZnDrWs=?= <petr@tesarici.cz>
-Cc: Michal Hocko <mhocko@suse.com>, akpm@linux-foundation.org, kent.overstreet@linux.dev, 
-	vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
-	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev, 
-	rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, 
-	bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org, 
-	iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com, 
-	elver@google.com, dvyukov@google.com, shakeelb@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: surenb@google.com
+Content-Disposition: inline
+In-Reply-To: <20240222000304.8FA56C43390@smtp.kernel.org>
+X-Original-Sender: paul.heidekrueger@tum.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=FIPZyoht;       spf=pass
- (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b32 as
- permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Suren Baghdasaryan <surenb@google.com>
-Reply-To: Suren Baghdasaryan <surenb@google.com>
+ header.i=@tum.de header.s=tu-postout21 header.b=QdGni1Nl;       spf=pass
+ (google.com: domain of paul.heidekrueger@tum.de designates 129.187.255.137 as
+ permitted sender) smtp.mailfrom=paul.heidekrueger@tum.de;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=tum.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -167,49 +170,162 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Feb 22, 2024 at 4:24=E2=80=AFAM 'Petr Tesa=C5=99=C3=ADk' via kernel=
--team
-<kernel-team@android.com> wrote:
->
-> On Thu, 22 Feb 2024 13:12:29 +0100
-> Michal Hocko <mhocko@suse.com> wrote:
->
-> > On Wed 21-02-24 11:40:19, Suren Baghdasaryan wrote:
-> > > Introduce GFP bits enumeration to let compiler track the number of us=
-ed
-> > > bits (which depends on the config options) instead of hardcoding them=
-.
-> > > That simplifies __GFP_BITS_SHIFT calculation.
-> > >
-> > > Suggested-by: Petr Tesa=C5=99=C3=ADk <petr@tesarici.cz>
-> > > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > > Reviewed-by: Kees Cook <keescook@chromium.org>
-> >
-> > I thought I have responded to this patch but obviously not the case.
-> > I like this change. Makes sense even without the rest of the series.
-> > Acked-by: Michal Hocko <mhocko@suse.com>
->
-> Thank you, Michal. I also hope it can be merged without waiting for the
-> rest of the series.
+On 21.02.2024 16:03, Andrew Morton wrote:
+> 
+> The quilt patch titled
+>      Subject: kasan: add atomic tests
+> has been removed from the -mm tree.  Its filename was
+>      kasan-add-atomic-tests.patch
+> 
+> This patch was dropped because it was merged into the mm-stable branch
+> of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
+> 
+> ------------------------------------------------------
+> From: Paul Heidekr??ger <paul.heidekrueger@tum.de>
+> Subject: kasan: add atomic tests
+> Date: Fri, 2 Feb 2024 11:32:59 +0000
+> 
+> Test that KASan can detect some unsafe atomic accesses.
+> 
+> As discussed in the linked thread below, these tests attempt to cover
+> the most common uses of atomics and, therefore, aren't exhaustive.
+> 
+> Link: https://lkml.kernel.org/r/20240202113259.3045705-1-paul.heidekrueger@tum.de
+> Link: https://lore.kernel.org/all/20240131210041.686657-1-paul.heidekrueger@tum.de/T/#u
+> Signed-off-by: Paul Heidekr??ger <paul.heidekrueger@tum.de>
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=214055
+> Acked-by: Mark Rutland <mark.rutland@arm.com>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Andrey Konovalov <andreyknvl@gmail.com>
+> Cc: Alexander Potapenko <glider@google.com>
+> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+> ---
+> 
+>  mm/kasan/kasan_test.c |   79 ++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 79 insertions(+)
+> 
+> --- a/mm/kasan/kasan_test.c~kasan-add-atomic-tests
+> +++ a/mm/kasan/kasan_test.c
+> @@ -697,6 +697,84 @@ static void kmalloc_uaf3(struct kunit *t
+>  	KUNIT_EXPECT_KASAN_FAIL(test, ((volatile char *)ptr1)[8]);
+>  }
+>  
+> +static void kasan_atomics_helper(struct kunit *test, void *unsafe, void *safe)
+> +{
+> +	int *i_unsafe = (int *)unsafe;
+> +
+> +	KUNIT_EXPECT_KASAN_FAIL(test, READ_ONCE(*i_unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, WRITE_ONCE(*i_unsafe, 42));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, smp_load_acquire(i_unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, smp_store_release(i_unsafe, 42));
+> +
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_read(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_set(unsafe, 42));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_add(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_sub(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_and(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_andnot(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_or(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_xor(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_xchg(unsafe, 42));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_cmpxchg(unsafe, 21, 42));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_try_cmpxchg(unsafe, safe, 42));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_try_cmpxchg(safe, unsafe, 42));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_sub_and_test(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec_and_test(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc_and_test(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_add_negative(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_add_unless(unsafe, 21, 42));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc_not_zero(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_inc_unless_negative(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec_unless_positive(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_dec_if_positive(unsafe));
+> +
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_read(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_set(unsafe, 42));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_add(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_sub(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_and(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_andnot(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_or(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_xor(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_xchg(unsafe, 42));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_cmpxchg(unsafe, 21, 42));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_try_cmpxchg(unsafe, safe, 42));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_try_cmpxchg(safe, unsafe, 42));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_sub_and_test(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec_and_test(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc_and_test(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_add_negative(42, unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_add_unless(unsafe, 21, 42));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc_not_zero(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_inc_unless_negative(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec_unless_positive(unsafe));
+> +	KUNIT_EXPECT_KASAN_FAIL(test, atomic_long_dec_if_positive(unsafe));
+> +}
+> +
+> +static void kasan_atomics(struct kunit *test)
+> +{
+> +	void *a1, *a2;
+> +
+> +	/*
+> +	 * Just as with kasan_bitops_tags(), we allocate 48 bytes of memory such
+> +	 * that the following 16 bytes will make up the redzone.
+> +	 */
+> +	a1 = kzalloc(48, GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, a1);
+> +	a2 = kzalloc(sizeof(int), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, a1);
+> +
+> +	/* Use atomics to access the redzone. */
+> +	kasan_atomics_helper(test, a1 + 48, a2);
+> +
+> +	kfree(a1);
+> +	kfree(a2);
+> +}
+> +
+>  static void kmalloc_double_kzfree(struct kunit *test)
+>  {
+>  	char *ptr;
+> @@ -1883,6 +1961,7 @@ static struct kunit_case kasan_kunit_tes
+>  	KUNIT_CASE(kasan_strings),
+>  	KUNIT_CASE(kasan_bitops_generic),
+>  	KUNIT_CASE(kasan_bitops_tags),
+> +	KUNIT_CASE(kasan_atomics),
+>  	KUNIT_CASE(vmalloc_helpers_tags),
+>  	KUNIT_CASE(vmalloc_oob),
+>  	KUNIT_CASE(vmap_tags),
+> _
+> 
+> Patches currently in -mm which might be from paul.heidekrueger@tum.de are
+> 
+> 
 
-Thanks Michal! I can post it separately. With the Ack I don't think it
-will delay the rest of the series.
-Thanks,
-Suren.
+Hi Andrew!
 
->
-> Petr T
->
-> --
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to kernel-team+unsubscribe@android.com.
->
+There was further discussion around this patch [1], which led to a v3 of the 
+above patch but might have gotten lost in the wave of emails.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAJuCfpGNoMa4G3o_us%2BPn2wvAKxA2L%3D7WEif2xHT7tR76Mbw5g%40mail.gm=
-ail.com.
+I'm unsure what the protocol is now; do I send you a new patch for the diff 
+between the above patch and the v3 patch, or can you just use v3 instead of the 
+above patch?
+
+I hope this doesn't cause too much trouble.
+
+Many thanks,
+Paul
+
+[1]: 
+https://lore.kernel.org/all/20240212083342.3075850-1-paul.heidekrueger@tum.de/
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/xk3hvszpeg3ttyexcm5s7ztj64nx5gxfwp6ivmobvfzogqjwn4%40wicwiqm4bw7z.
