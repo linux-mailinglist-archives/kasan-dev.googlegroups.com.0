@@ -1,187 +1,146 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBTNL6GXAMGQEQFV4K3I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBZVQ6GXAMGQEYKZHFNA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23a.google.com (mail-lj1-x23a.google.com [IPv6:2a00:1450:4864:20::23a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DFCC866DC4
-	for <lists+kasan-dev@lfdr.de>; Mon, 26 Feb 2024 10:11:43 +0100 (CET)
-Received: by mail-lj1-x23a.google.com with SMTP id 38308e7fff4ca-2d24324b7f1sf24564011fa.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 26 Feb 2024 01:11:43 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1708938702; cv=pass;
+Received: from mail-ed1-x53b.google.com (mail-ed1-x53b.google.com [IPv6:2a00:1450:4864:20::53b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11280866E37
+	for <lists+kasan-dev@lfdr.de>; Mon, 26 Feb 2024 10:22:48 +0100 (CET)
+Received: by mail-ed1-x53b.google.com with SMTP id 4fb4d7f45d1cf-565862d2fdfsf98998a12.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 26 Feb 2024 01:22:48 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708939367; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xVor9wP5vThRPedXmXhEncW1twnZ1P1zxvibHrS1HayrQAyRHlfBARn8eZM41GQI4T
-         6mmBa4mJ45XMRQIiAhFIc+WWiZqZTd8EDd8VU+wpSySRmb+fP8PJNWVWP+U7oUaG+v84
-         FC9zLpX0s0zKF/aFzIHu+4K07dgzh8vTbB5fCWAZA5ZQm+FaxA5lSDXtK9LzwZA3MT0D
-         1o9C6nCfSj4Om78qAYhb2EqhoMp48exAzjsmCHeR/JdgwAYN0aVoHe9UsE8eVso8YXyc
-         S6cdB669JkQCGK7Cyhl6CZufzZvKh/h4/6vPCR7Vhn1weW4u4AIAbQ7WCD7NRE+9mxol
-         f3mw==
+        b=ELiWeraXfsrBpLxjMfej7ZeXKjTfr/FvXR9sa4qvwkN6gAbX5cKqg5dAZNq9VhA2N3
+         RW5NSmOB9RXYHmczsSSPtS61ZENl/0O/R4tbFnKwV3ZikxMdEGNSWEnCylq+V1kvWTuC
+         uUT0zeZARo0DU+NWzu9bwCmsJun7dH4/VZrF1KkSZTXE+GQURYYrORwlgoS3R2pIaVxF
+         b25H3RXAVB5P4h610KT7vGSqkA/KfUuatyFlw3K9nL9yRtbBmYKjkdEDp/2Ek+GfDmnB
+         Xjq1mVVo4v672uFeTZgyIhJnUlKl9GtbbHN1JAnjSpwMmWGCt36yKkfWTlVFeTExE0az
+         yzlw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=731bJF9Bm2uWsHfjpwaOjG4Z6hIOl/gkwR3KBmZDmlg=;
-        fh=Ch4TUzQBJ67VhSy8PWdZFLAnjxq5AfYGcIGjnmPxixE=;
-        b=t1iYGyLh97JaHcJ5nd54+1mFZBsKbC598d6qgJV50CML/U6yR9yEa/Nt+ssTYdS5Dx
-         NL/rLYjTsktVr+Tv/0v3UPK9SKXS6wtDV0SqNfhj+M/s3lcFgY9PXoHvEsD0fV/n4wnF
-         RgpqmL0P+uTuVEM9FlhC3Je3Lz9T3fMryNK8VCARuujQye+3Y4JfAWKrIoEOI+DR//Rd
-         v/U+cA0xnCfvHFrlL8c1807051IbpeI1sMSgiyO6/fW1rALoPBG2jsyTZqD1hamz/MaM
-         FOp3P98qvuwHcCnah2O2AHdCiDGjNvB5Sd6SwkonDtVrL5FnsXktNDjxe+51WlNQaGCb
-         ixFQ==;
+         :list-id:mailing-list:precedence:reply-to:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=4qkmY0yMb2ppyHhZFoX0yB1msbWPZ9nziHFUHHzEhSs=;
+        fh=HlDQVenr0JE2m+M+lLULYNtXhsoQJKm+pzdDy9Gr1ZM=;
+        b=If2/PXDIYBRv0v/qnD6hmEG49ijCPeIS1TOJtSpwpSkPR4BgMQJOG9hvCjyMsxXoiG
+         EE2zGuzge+LsenHQq0DWvUr+c3yCgphqDXXonwsclaj7CzGGeHnoIMOgRKuob6+x50KV
+         8iMRiGGp4YZ5Lxsv8xWMYoSaia9bqOSCUnQ/Yk6pjLB35eixkERpV8HUXQSsGA8X63ga
+         GxZGyj7Rm5AB5XMxsSghNfIwjtFnO+mPTaGnAS9+9WgggGVHchPI42m9LfU0DhG/6RFt
+         BMOTopNru0urdLttIjTb8ioK42dQROhYhCSb/Yxpx8UVDOGC2TdTmeEc7/vlRJHxTWaq
+         79uw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="k2/5MnNm";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="k2/5MnNm";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@google.com header.s=20230601 header.b=MKaP2hzG;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32b as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708938702; x=1709543502; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708939367; x=1709544167; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=731bJF9Bm2uWsHfjpwaOjG4Z6hIOl/gkwR3KBmZDmlg=;
-        b=k0biXZJERC/QvTzHlUjot/h86s7d0ICyL/p+zaEUhqOaJhswa+G+pecr2StBBtbGWE
-         hBIcX0BmDsL1XndypGdVwVi5oEI+IHD2RWawctCm0Q0k7LAer1QPrhcRa+DgRct4zCFy
-         9FLd+RDGJW+UhlNhlbxLn4b1JYck3OoUMZ0qQjXCYR24i+94YB0+3wPUJzTW0GJuX0Ba
-         vZLNmpdtfQ0AP3pX+AE9iTsgGlNtGKDyJUQs/4Yw0Em8j2hhppwVreCIT/QIbhK5i2cU
-         BH5eiiKpmJx29c4HJLsvk7MAoL1XUK4+5gSHesTr21uj4xONpHehTRoUZwlKvJqGUjm6
-         RVaw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4qkmY0yMb2ppyHhZFoX0yB1msbWPZ9nziHFUHHzEhSs=;
+        b=TxoiTxsbNXUXfEcDGGFOKk7C0iX1M8gU2irHrzVdgdCKCpCpG3R62sHeIl4x4vJH+e
+         PMStTUEGuxLBTlZJaOgLTRCgVewvwsAHaDKnsY8mPj/oeFg7Wwako68M/el8yEEtaAfs
+         Ed7xpv76KhYsVx9I3HzUL5gnktUIKRheaWK6V+FA2Scsem90zQUHKWStmaHItvw8LpOp
+         EtI+7RghDsflh30GinHspfh3tIm1qQe7suRdM8IqVcQTNw/dyONKE4Ag3APCfeqQxgN4
+         i6kLQpruCfvewKQ49durN9FBFf6Zfa37yeb1ffSPh5PMzS/XxrEMXGlCyatfZsvBiQlW
+         WJ3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708938702; x=1709543502;
+        d=1e100.net; s=20230601; t=1708939367; x=1709544167;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=731bJF9Bm2uWsHfjpwaOjG4Z6hIOl/gkwR3KBmZDmlg=;
-        b=ZgpS2wKDCsR8G3o6cZ4R0wNPCSa1gLd0azeaaIApAq/mCzINXHQ77H5sQZz9lZgWqN
-         Ig2OKv8hjaCqE/hQehQTaExfn1B6WfUhZw2/VRMHIGRwj7gbLS9o+ylH1v+hRuQunNMI
-         krWeyBGULSojDdRviOYAnbaOpzb+VhEKYgXLRGamVI4a2/kiJQAn0fxmjvjzbsp0u+y1
-         BtDhNiL/HGZnwboW3Ep/nRAfummZbDZS1QzsVt7FEJWeLro093Z9Js/J9t0AHECjfiks
-         Hk1swAjiRAgLiYupYm1B0uwSXoq4TXpZpwBx7NRG87wOWjp68rZFFStmY6SVALr/7N+j
-         U6Pg==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWTuYsKxdyIHWat+D9bSlApdyVcmlbfTgpOEjsMeP4uZCYtkm1XthAuWog7pa1UOp0LsT/tp2vfc71JvdYQr+WvU6OFOEiaNw==
-X-Gm-Message-State: AOJu0YyhDe5IbZuwe8BGgapTN22FmHF5OEMyE2lJxSYFXfTplnoGNHPI
-	aj3YmpgrDDUsTNU+8QydmLtvWpEVMj9PMTDRToDGXPrLPhAQeueB
-X-Google-Smtp-Source: AGHT+IEKUoaFYdMmXLxtp3Ha9yA37onMa3lnQdyHYice4+dHhjMRpB0lf4j1hbgSBth0KvlRxdkorg==
-X-Received: by 2002:a2e:bc1b:0:b0:2d2:2948:afb with SMTP id b27-20020a2ebc1b000000b002d229480afbmr4537171ljf.24.1708938701341;
-        Mon, 26 Feb 2024 01:11:41 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4qkmY0yMb2ppyHhZFoX0yB1msbWPZ9nziHFUHHzEhSs=;
+        b=lghMMAZy8CtJRVHboFZdNA2Nt+0eWcJSNN+bQjggVeQ6nwPjSrZdI2gE+wcdnTHjqN
+         F/eG0mq89t4Ld1O11uVLc3jrPXDWNnUkCiG+oO1LGRymUBFtx5Bey+B/TWQnqCTAqSfI
+         EGf9AOtNDppi1sB/V01hQK88+i0zRIkiXVle0NicGMP43rKmPc2H5+26AYxpuTmCj7rU
+         S33aJvsE2jK7ym2Y7cll9ZS3WtfOkj6qQfuYbXOBkf1Lm31ra1Y96Mw4XwnXoe3wvuC5
+         Ld4rXXqfi71/JHnnEqypxzbvnPi0GGWgUuzmP1gHXRBGf7uAh30iyGGwQJD/0PNH+plM
+         7DaA==
+X-Forwarded-Encrypted: i=2; AJvYcCUyWOwnbu2FWh7Oc/o8oChRSQWKD5QhmDfZhsi3J1WrgMZzlHoap1m50cwj0Iowk9x5zQkK2EiJ98xcSQta80Tq0kHnD9eyBA==
+X-Gm-Message-State: AOJu0YxVhJlEwzQ+vovP2M7UX/+zhV0ndf2dcf/AhmfyIULFBSRMKe2g
+	w8Oyz3eJJPxAZYIBDoWorI+1zBH636bcuK+VcWd1zb7nOyYdI6p8
+X-Google-Smtp-Source: AGHT+IFSBt+E4BmOWOioPGM0Qe0yqraumzPDnAyZUzfe//xnsvn7LRUgndwING5pmsZRqExFLBJy+g==
+X-Received: by 2002:a50:c05a:0:b0:561:a93:49af with SMTP id u26-20020a50c05a000000b005610a9349afmr239177edd.7.1708939366911;
+        Mon, 26 Feb 2024 01:22:46 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:2004:b0:2d2:509e:a90e with SMTP id
- s4-20020a05651c200400b002d2509ea90els1328225ljo.0.-pod-prod-02-eu; Mon, 26
- Feb 2024 01:11:39 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVnloL0nT/dCCyq6uVobICurwZJxxCw3zy3SLwtUXoGeH+HiNt943Zp8Ddfl2sf+5BCGswL6TuCc18BTgFf9J3IvmUJ4q/kGAqboA==
-X-Received: by 2002:a05:6512:242:b0:512:b935:c542 with SMTP id b2-20020a056512024200b00512b935c542mr3864227lfo.59.1708938699376;
-        Mon, 26 Feb 2024 01:11:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1708938699; cv=none;
+Received: by 2002:a05:6402:3896:b0:564:84d0:f1cb with SMTP id
+ fd22-20020a056402389600b0056484d0f1cbls110498edb.0.-pod-prod-06-eu; Mon, 26
+ Feb 2024 01:22:45 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXptGsCqqsmTlNigZjk/ddnqFb2kpww8uj9z+IrYNTMDcoGTe1KJVZrvgFQnH9fC/n55ftmgpXO6HggaUEsZkKkPzJt46VYOCKl9Q==
+X-Received: by 2002:a17:906:16cd:b0:a3e:a951:4087 with SMTP id t13-20020a17090616cd00b00a3ea9514087mr4300043ejd.76.1708939364720;
+        Mon, 26 Feb 2024 01:22:44 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1708939364; cv=none;
         d=google.com; s=arc-20160816;
-        b=BOIbQGd6iy51/Q9I8t7wcTIO5uRAILUYqqTW+6C3rmKk8DaJ9wtJUoVtZ33DHneB1O
-         RZRlQnmUIXEqgSf9xyJLOEybkaJc3KLFOXKNlqIn1Hnn7qleEiscs5E0TsCnWynL0uLV
-         dtgCJ1+Ss2xWhyuD6gENaE/hoArKb0F8pK49ueFu7pcK+JkOVjOsgf1gCP3GMBLzCDp5
-         LQaM4m6ZEbIZgr3Mz7ZeIXJViawmbvI6NMjCkopileQTR92YFZKXoaOFgYt2ULZctXvT
-         swvUPCNGge8AZyl8Pjf4gwg2aboJ/KRySSyTr/gWyNMHvJzhWuVTwDmdYnnAogYlP/uj
-         6T2g==
+        b=iZpX6krv1euuKqDCsaCFAUx3BKvPnSeZQ6CaR2ONcMiqjAhPpQVJoDItaYSkO4Np30
+         fzFGev/CZbdpDmvWWzTfkzhm43/F2saGO4u+k/zZlpHE3Ds6YSMCTEyd8ub3GSiyb80t
+         JBCLSBpzVGQGN7/YeSOzJX3u9NwHXYpr65XfhQCpfanKctqvZwIox6ByerdBDxvMx9GK
+         DP6xFZaCAB/1YZibeMerviasVTmt6YN6AzlbN0hLxri6y7Dkfy42rMNyg0ZZ/ZmQSbzc
+         oVrinlAQzsM4RE4JQPq1QqYIvn48DKNomWpyQpcfFprykK6uZjql8PtF23g5aAmwz6to
+         12Pw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature:dkim-signature:dkim-signature;
-        bh=89yAF6qEhgvcbbVCO+3NfAAxt3pVNwScA2PuWa4QdPY=;
-        fh=jyw0yuciT2F0KPBQbCVGud4nsBa8/USV3Sjeu+QyfRQ=;
-        b=Td5Fh8/sPNPDv9Y9LPZsagV+yJRTItOEbJEIEo9YfpIkLsBSxfioRnXtnJZrFOc2He
-         0GGwJIU05S3vi0FpSZi2odVwVyEeONNtqdQ5w1sMfRoJ/z7DX+yqnKq9e8czt+XUFoP/
-         b9lEhFk0fBGHjVmoaa5SchetP+FAERgIKq4o72kPv+Hpk/vMiM0xIfZBIw6V5hRYHqLi
-         brvkdHYnnwx9rc50fQ8NJQcWsgxtj/UZGqu1AEUxXH87dYZMeOhd935YW0q97b9NHuuP
-         bxagVHTx/+WEK8Ro8viNuDMWXj+fJtd23/z2bVVTXUqjAPZiRN2zVR5hH53c+OwM05hH
-         tLHw==;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=8QfBmNQlREY1mFL6Qy4q05yfZGbpdHZnd4065oOqFl0=;
+        fh=lNuuQex4Nfvu1o67ocjPJw7weNIwz306GVvChRLLWNY=;
+        b=MyITVIiCdIiTkIeUsk/WP+WxSyqrGPayQsVvXts9iH/X4sRzfxj/bezBTC7xvTa0W6
+         r8lFyeK8FfrV/zexwvRBRZB6R3hw1TDNNfy6wccyXNYmz1U7UDC5XxUf24JOig9Kp7y1
+         +hyHLijcaqeqEiUWdp3yd7lgbnlL+kQPRtSgtBXjir6CpD88hgnOHEKRVBw0uSwQJHjq
+         ZzWkd6ZSuCHQgk+3+SB1xp33XveQJyKRuaUoQhQVBC2uWFsMDH6RA1KtnWqgrZlXuGCm
+         ilyjtTsfMjMjXRjiPO/LxYVD4xSzcOo6H2+0DAdDI3670vRc9Cz/QHDkzTm+0gy7e9fR
+         q1GA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="k2/5MnNm";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="k2/5MnNm";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2a07:de40:b251:101:10:150:64:2])
-        by gmr-mx.google.com with ESMTPS id f44-20020a0565123b2c00b0051301760f3fsi26779lfv.5.2024.02.26.01.11.39
+       dkim=pass header.i=@google.com header.s=20230601 header.b=MKaP2hzG;
+       spf=pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32b as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com. [2a00:1450:4864:20::32b])
+        by gmr-mx.google.com with ESMTPS id y19-20020a170906559300b00a3e643fea3fsi386023ejp.0.2024.02.26.01.22.44
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Feb 2024 01:22:44 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32b as permitted sender) client-ip=2a00:1450:4864:20::32b;
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-41296dce264so18530645e9.3
+        for <kasan-dev@googlegroups.com>; Mon, 26 Feb 2024 01:22:44 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWt7mmJx0xx5qMP5Sq9JJWJVNtuz9oda5NfHzKCLQroU9SGHEzcumqp062QB7F7VB2b59IQ5US419NZux5lcOVXcLrhvnNgozWaJA==
+X-Received: by 2002:a05:600c:4f95:b0:412:954c:801d with SMTP id n21-20020a05600c4f9500b00412954c801dmr5459772wmq.12.1708939364176;
+        Mon, 26 Feb 2024 01:22:44 -0800 (PST)
+Received: from elver.google.com ([2a00:79e0:9c:201:2bc0:f3a5:93e2:b2c2])
+        by smtp.gmail.com with ESMTPSA id az8-20020adfe188000000b0033d7dd27d97sm7607221wrb.45.2024.02.26.01.22.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Feb 2024 01:11:39 -0800 (PST)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:2;
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 7C4361F896;
-	Mon, 26 Feb 2024 09:11:38 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 53DAC13A58;
-	Mon, 26 Feb 2024 09:11:38 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zqYiFMpV3GV7HAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Mon, 26 Feb 2024 09:11:38 +0000
-Message-ID: <38f7952a-bee7-4a21-a89f-facff1803c41@suse.cz>
-Date: Mon, 26 Feb 2024 10:11:38 +0100
+        Mon, 26 Feb 2024 01:22:43 -0800 (PST)
+Date: Mon, 26 Feb 2024 10:22:37 +0100
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vlastimil Babka <vbabka@suse.cz>, linux-mm@kvack.org,
+	kasan-dev@googlegroups.com, Andi Kleen <ak@linux.intel.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH 2/2] stackdepot: make fast paths lock-less again
+Message-ID: <ZdxYXQdZDuuhcqiv@elver.google.com>
+References: <20240118110216.2539519-1-elver@google.com>
+ <20240118110216.2539519-2-elver@google.com>
+ <a1f0ebe6-5199-4c6c-97cb-938327856efe@I-love.SAKURA.ne.jp>
+ <CANpmjNMY8_Qbh+QS3jR8JBG6QM6mc2rhNUhBtt2ssHNBLT1ttg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] cleanup of SLAB_ flags
-Content-Language: en-US
-To: Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
- David Rientjes <rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>, Andrey Ryabinin
- <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>
-Cc: Zheng Yejian <zhengyejian1@huawei.com>,
- Xiongwei Song <xiongwei.song@windriver.com>,
- Chengming Zhou <chengming.zhou@linux.dev>, linux-mm@kvack.org,
- linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
- Steven Rostedt <rostedt@goodmis.org>
-References: <20240223-slab-cleanup-flags-v2-0-02f1753e8303@suse.cz>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20240223-slab-cleanup-flags-v2-0-02f1753e8303@suse.cz>
 Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [1.41 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 R_RATELIMIT(0.00)[to_ip_from(RLqdadssyy1w6u3twx3pq4jyny)];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 BAYES_HAM(-0.00)[19.95%];
-	 RCPT_COUNT_TWELVE(0.00)[19];
-	 FREEMAIL_TO(0.00)[linux.com,kernel.org,google.com,lge.com,linux-foundation.org,linux.dev,gmail.com,arm.com];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Level: *
-X-Spam-Score: 1.41
-X-Spam-Flag: NO
-X-Original-Sender: vbabka@suse.cz
+Content-Disposition: inline
+In-Reply-To: <CANpmjNMY8_Qbh+QS3jR8JBG6QM6mc2rhNUhBtt2ssHNBLT1ttg@mail.gmail.com>
+User-Agent: Mutt/2.2.12 (2023-09-09)
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b="k2/5MnNm";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="k2/5MnNm";
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       spf=pass (google.com: domain of vbabka@suse.cz designates
- 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@google.com header.s=20230601 header.b=MKaP2hzG;       spf=pass
+ (google.com: domain of elver@google.com designates 2a00:1450:4864:20::32b as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -194,54 +153,75 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2/23/24 19:27, Vlastimil Babka wrote:
-> This started by the report that SLAB_MEM_SPREAD flag is dead (Patch 1).
-> Then in the alloc profiling series we realized it's too easy to reuse an
-> existing SLAB_ flag's value when defining a new one, by mistake.
-> Thus let the compiler do that for us via a new helper enum (Patch 2).
-> When checking if more flags are dead or could be removed, didn't spot
-> any, but found out the SLAB_KASAN handling of preventing cache merging
-> can be simplified since we now have an explicit SLAB_NO_MERGE (Patch 3).
+On Sat, Feb 24, 2024 at 07:03PM +0100, Marco Elver wrote:
+[...]
 > 
-> The SLAB_MEM_SPREAD flag is now marked as unused and for removal, and
-> has a value of 0 so it's a no-op. Patches to remove its usage can/will
-> be submitted to respective subsystems independently of this series - the
-> flag is already dead as of v6.8-rc1 with SLAB removed. The removal of
-> dead cpuset_do_slab_mem_spread() code can also be submitted
-> independently.
+> stackdepot users who do not use STACK_DEPOT_FLAG_GET must never call
+> stack_depot_put() on such entries.
 > 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> Violation of this contract will lead to UAF errors.
+> 
+> From the report I see this is a KMSAN error. There is a high chance
+> this is a false positive. Have you tried it with this patch:
+> https://lore.kernel.org/all/20240124173134.1165747-1-glider@google.com/T/#u
+	^ [2]
 
-Pushed to slab/for-next
+I see what's going on now. The series [1] (+ the kmsan fix above [2])
+that's in -next that brings back variable-sized records fixes it.
 
-> ---
-> Changes in v2:
-> - Collect R-b, T-b (thanks!)
-> - Unify all disabled flags's value to a sparse-happy zero with a new macro (lkp/sparse).
-> - Rename __SF_BIT to __SLAB_FLAG_BIT (Roman Gushchin)
-> - Rewrod kasan_cache_create() comment (Andrey Konovalov)
-> - Link to v1: https://lore.kernel.org/r/20240220-slab-cleanup-flags-v1-0-e657e373944a@suse.cz
-> 
-> ---
-> Vlastimil Babka (3):
->       mm, slab: deprecate SLAB_MEM_SPREAD flag
->       mm, slab: use an enum to define SLAB_ cache creation flags
->       mm, slab, kasan: replace kasan_never_merge() with SLAB_NO_MERGE
-> 
->  include/linux/kasan.h |  6 ----
->  include/linux/slab.h  | 97 ++++++++++++++++++++++++++++++++++++---------------
->  mm/kasan/generic.c    | 22 ++++--------
->  mm/slab.h             |  1 -
->  mm/slab_common.c      |  2 +-
->  mm/slub.c             |  6 ++--
->  6 files changed, 79 insertions(+), 55 deletions(-)
-> ---
-> base-commit: 6613476e225e090cc9aad49be7fa504e290dd33d
-> change-id: 20240219-slab-cleanup-flags-c864415ecc8e
-> 
-> Best regards,
+[1] https://lore.kernel.org/all/20240129100708.39460-1-elver@google.com/
+
+The reason [2] alone on top of mainline doesn't fix it is because
+stackdepot in mainline still pre-populates the freelist, and then does
+depot_pop_free(), which in turn calls list_del() to remove from the
+freelist. However, the stackdepot "pool" is never unpoisoned by KMSAN
+before depot_pop_free() (remember that KMSAN uses stackdepot itself, so
+we have to be careful when to unpoison stackdepot memory), and we see
+the KMSAN false positive report.
+
+Only after the entry has already been removed from the freelist is
+kmsan_unpoison_memory(stack, ...) called to unpoison the entry (which is
+too late).
+
+Therefore, the bug you've observed is a KMSAN false positive. This diff
+confirms the issue:
+
+diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+index 5caa1f566553..3c18aad3f833 100644
+--- a/lib/stackdepot.c
++++ b/lib/stackdepot.c
+@@ -423,6 +423,7 @@ static struct stack_record *depot_pop_free(void)
+ 	if (stack->size && !poll_state_synchronize_rcu(stack->rcu_state))
+ 		return NULL;
+ 
++	kmsan_unpoison_memory(stack, DEPOT_STACK_RECORD_SIZE);
+ 	list_del(&stack->free_list);
+ 	counters[DEPOT_COUNTER_FREELIST_SIZE]--;
+ 
+@@ -467,7 +468,7 @@ depot_alloc_stack(unsigned long *entries, int size, u32 hash, void **prealloc)
+ 	 * Let KMSAN know the stored stack record is initialized. This shall
+ 	 * prevent false positive reports if instrumented code accesses it.
+ 	 */
+-	kmsan_unpoison_memory(stack, DEPOT_STACK_RECORD_SIZE);
++	//kmsan_unpoison_memory(stack, DEPOT_STACK_RECORD_SIZE);
+ 
+ 	counters[DEPOT_COUNTER_ALLOCS]++;
+ 	counters[DEPOT_COUNTER_INUSE]++;
+
+But that's not a good fix. Besides reducing KMSAN memory usage back to
+v6.7 levels, the series [1] completely removes pre-populating the
+freelist and entries are only ever inserted into the freelist when they
+are actually "evicted", i.e. after kmsan_unpoison_memory() has been
+called in depot_alloc_stack, and any subsequent list_del() actually
+operates on unpoisoned memory.
+
+If we want this fixed in mainline, I propose that [1] + [2] are sent for
+6.8-rc inclusion.
+
+Thanks,
+-- Marco
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/38f7952a-bee7-4a21-a89f-facff1803c41%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZdxYXQdZDuuhcqiv%40elver.google.com.
