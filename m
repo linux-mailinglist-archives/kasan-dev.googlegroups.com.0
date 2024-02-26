@@ -1,161 +1,207 @@
-Return-Path: <kasan-dev+bncBCC2HSMW4ECBBGGZ6KXAMGQEGXZUYIQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXYDPH3S4OBB57D6KXAMGQENHTBP7Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x137.google.com (mail-il1-x137.google.com [IPv6:2607:f8b0:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id B99C0867A0C
-	for <lists+kasan-dev@lfdr.de>; Mon, 26 Feb 2024 16:22:01 +0100 (CET)
-Received: by mail-il1-x137.google.com with SMTP id e9e14a558f8ab-3652d6907a1sf30272905ab.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 26 Feb 2024 07:22:01 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1708960920; cv=pass;
+Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3112C867A94
+	for <lists+kasan-dev@lfdr.de>; Mon, 26 Feb 2024 16:44:57 +0100 (CET)
+Received: by mail-lj1-x23d.google.com with SMTP id 38308e7fff4ca-2d291f09baasf2970291fa.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 26 Feb 2024 07:44:57 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1708962296; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Lm53ZPVspJjGpgYiQW1OJ96ldAV++CczriDC91xar5hXKvGcfNEGnXessgB5tTfO8E
-         +L33xMWIFUTVL3zJkIjEm1lsbtblK2Ek6EeHVFyHdCI27/1VC0sqC+QTCoJaf0UTURue
-         lwbV1OQ9F5EcV7ZaS+rXsuOkScFEX9Nk+QQIyrxNlHYD2XVXl30wilZ1DmrNFsU2RVd0
-         ZuK7Td9phdnINikKzxJY7q63wI+kLK0TCUyW5hmO9S9KcJt5OrKJrgcZomzbvPwSkr5T
-         qaKxVB/dcc1SyVhnCQsnVnJD82tTRCwVc59ZBDVFjCjUCqkRvPleD+oXX3YQoPs+RcWu
-         rg6w==
+        b=GayoeoTSZ8p8KeVOeYOZnTZUZN19hqERSEXSyj6Vmogt+IB8m9D6oxJ21kPSpvnV2A
+         qXcWNMsJ142/G/IBxXsNvUwfdAfvXqhjKBw2EDyvgtw9ZKPhMBaSG72o7AwXltctMXyh
+         Zzk7+5MYGSXDf025G787KyEJAU37YVY+vGSxJ+huhx0VexyR89vjphNgYXH6uLbV70Ay
+         3G/bxQQVjFJfuzgXaidVxXAsKpYPHAAdZz43rQapJJ8m9VhyO3u440kJZ918z52oXE8f
+         sra0agMVFm+pfn8nocBjP+9aNe1NdNtz2+FYgrz94Cih0AMi2mPQVamVEI06CtXI1T+4
+         R38A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature;
-        bh=tXUTw+8K/wkeL5JjagnbMvkv4lq/BCiIEmHPMUaI3Xo=;
-        fh=7UaBboWGPmdoYs6eq0OGJcEWOBMfRYpDR4mdlxvjRrs=;
-        b=SYyCXR6b7+vrm1GY5nnSUjiYq4XkQ6oNW4bN++rJQ9TQd7UkFv/ifaY7eABcCjjwNy
-         DbfIEDhaFc+QMMCmE2NPMr1C0ZWzdhk9I6HGVG8ubEEilfjn9UKmXHYdgfWUlxTCF+KS
-         o4KZlrz7+IPOrY1y8rHg4EgFNrDv0TeQtXP+cl4wV57EgzGomXejNNgt4bClZ2UsyE+G
-         /Y6CWrTun7mDFZf5qmOZYsIt+dqpum/jx9UY3ZTyQ+RcsGsy8PODqRDEPhFUaCGVpIue
-         SXBgIMAKTwTzTVtkOZqXWbgALRMK7Zx81vO2ZRQbAJgmC9uUAP7eVWy6BOmAi7WmzBV0
-         p4mw==;
+         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=c3Y7EuxpP6p2inTUJkuKBlzAHtCi1pNGCBXHnY2HUhY=;
+        fh=Ew3KwspSwyyg0//NvbCmJ8nrWvlmiYYF9T8cooNAluY=;
+        b=rC7jesO6u+8Wptt+NBwriC0x+d0C/+j1+1LfyhXuvRomILGag3aM5Vh4k2Lxd2LDnx
+         rNb/d9Wjo0EiE4YRJ7o1qEeYhg/ada4fUWnPcskugl4vduhbObDgj9mVmQHnfsm26Zfo
+         ATB6SfzBJMzOgMmN2EXtqn5Q9HkodERw2kBnL+T7kfdUdMc4b81alDXvcR2ZeuyVd9cw
+         B4SS3HdOD+VRsUzjk+/heqC37HlnX4Jlc1LkhP3FXl3oUksBaGVVhEnK3wazAiEO2wIc
+         nA6O64L0QjlcUf6wS0A+ZYl/46if/k+g4vJ8Y/fbid12wkV8wJkHlbVimA4bkQpLdy+n
+         xEZA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@soleen-com.20230601.gappssmtp.com header.s=20230601 header.b="ll/pdzRo";
-       spf=pass (google.com: domain of pasha.tatashin@soleen.com designates 2607:f8b0:4864:20::833 as permitted sender) smtp.mailfrom=pasha.tatashin@soleen.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=soleen.com
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="NOETsR1/";
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=Q25SrPtC;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1708960920; x=1709565720; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1708962296; x=1709567096; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tXUTw+8K/wkeL5JjagnbMvkv4lq/BCiIEmHPMUaI3Xo=;
-        b=Mj0OU4njgW9xxvl9rXm5vq8L8YpSjrlRi8mKTwFFLc4NlpGWAclH1Ii8c8hF9ZHmUc
-         Ora5MLrAcyyGh24HTBQe48Ua6p9KZ6gLDsTLPvklFWJjGrtTO7jdBFh5aU7y3GEeYIzr
-         aSdImCZ+wuDC+kTa2NIwCHA2LfiHgRC0JnP1midndK0LUeqsaoHackp5wqhTT/7qQCPE
-         eMAwIqeJI8vduEJhSotefNnL7R/VVsaWU729HmZuz4QKQEg1pUwCb1y6UgQC1jy4tfAc
-         uU5xmlVeVB8wsG9JGE+RJ0IbR7cCe0TorZx9TBRBlYOPWj4ChhMmeO/nMCClffLtvkra
-         XeeA==
+         :x-original-sender:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=c3Y7EuxpP6p2inTUJkuKBlzAHtCi1pNGCBXHnY2HUhY=;
+        b=QyfeC92Or7V7DrhL1Rj8cdoivbTa68TDLuYsjX3MgXmha3hAlNhD4dPfzJfpmOFdgr
+         kukcfcYyYsMP0aowmCKlL85h8CZCZ+og+Gs5ql2ZpK74CzlOhAdrS8/Owsquch4Z+OCu
+         l5DSVVW31w7/9oOUHayQJhI5Tx/G3rdl4dPY6e3ai+Pd4g6yvKrTK9dEaWV7qpYBmqQ3
+         ZC/SyiUjt5y+2ocePHcMLo+D7/eB8HLwxTqWvVIG34fpMjlh2Bcdeb3B7lELpJl0qWcG
+         P2fePu7eaNbjH/+VWG/5fniCcxO3YI54ofdhPLjDP9fUwjKhOATpMQU7QQWhTlWAcI9V
+         qXZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1708960920; x=1709565720;
+        d=1e100.net; s=20230601; t=1708962296; x=1709567096;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tXUTw+8K/wkeL5JjagnbMvkv4lq/BCiIEmHPMUaI3Xo=;
-        b=v49SSMNk8Di3eNj2TuKLr8xGaRxDeLFVluvCeMLEwNnsjzCVqOYtPbGgySp2JPAU87
-         C+nRsljawCifPbXlRwkxyV9iESGjBIKo1WaMmQBhhkU42z9PVWDp8fz5B5BU3h0CNFNG
-         nf+zJhL9/S0rggE+AN0mEWUXgH5qEJc7dU0ldrAT9wjfvWdwgfzJahj0xF4PSadpANJv
-         Y8Mx/XF25IkuuS8OfvuPL0QYXgd3rlhnwwhhaGZdl9xo/BqMwxFEQpYlA8/ZeDIDPDpB
-         XBuIIipN1vrmZbcb0Xi76VKAzGVrKx3PUan8cFkwyG68/0MTukrlOEB7WYanFOWm1ing
-         WQQA==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=c3Y7EuxpP6p2inTUJkuKBlzAHtCi1pNGCBXHnY2HUhY=;
+        b=BVmp/LuTzbin8ukPCRaK7zmUyEzAMoCbw7/vRpM+fR5vmCwghBcWpgcphEm6DpTcwx
+         fQbzpOxvp6xX5TJ4llVfx6DkSJKWOFq0xDdGTUG0gz5JACBd2KJKovGlX8cvPwTvTi1o
+         QpOHB8B5Wh50NYIir+72FPj7q+M8kyB6dW89KpH6oUp29SMvgbYTLIdbf7BprjKN6rhq
+         tdqvrlJQw6JUKsCk+Ggn7hvhoGwIuDtJwcx07ZqQ1X99VasOBtwlyk5ZSORpUMDgPBAO
+         d37zUOe6YAOAD+uwczMj/jeuSdkzSavkLGspuoory/DALabRMrf0fgWHo0rCjWE0eO/B
+         IJJg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUmg2RMhN4fN3bYnHlipVyq6Ph/2mMDSTYQRJoafQ/d2pE8Ewqo7erVR6sPNtO07OxaRqXq+yTrctJkYgZetftWiqvXwaM4aA==
-X-Gm-Message-State: AOJu0YzfNcZhQfd+AfPFwwC6YQgzhYvyYuo2hI//S4LjCJ95jZatSmUc
-	zeyieRUvtBMrGapnE9MIl/eBCiW0rkXt/optNiJp4NdNZR8g3Isb
-X-Google-Smtp-Source: AGHT+IESe3XLRjU7QlijTsd/KN15NAbx6QJaAQDP4xZjdtTZXM2g/8tNAcAZekEMealJU6nAUxDyug==
-X-Received: by 2002:a05:6e02:b28:b0:365:55fb:9944 with SMTP id e8-20020a056e020b2800b0036555fb9944mr8244111ilu.4.1708960920361;
-        Mon, 26 Feb 2024 07:22:00 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWCdpIbf+xS7JL2hQL3h1tnciuEOppKzfUF0F3Z67xWNhL6cb4n5fxulr4BepD/Zj6968DmpeFhQZj6Vmp8/6gn9Gol5s0LqQ==
+X-Gm-Message-State: AOJu0Yz827Clxqd888dE3V6V/lG5EPX+B8KTeQ4sF1kX7yPFrrg0hlw0
+	Axxnae1NlmToBHlk0b5nHVSvvgdsHpVfeTmbKFtYiqmVh2DrINpY
+X-Google-Smtp-Source: AGHT+IHY0qNjWoo191a9fcwbcON1r+Z7saVFgOkF9irjGu2drJ+l3we/7qOVP1pSF5Sc5YYjyON7fQ==
+X-Received: by 2002:a2e:9881:0:b0:2d2:85d5:80c5 with SMTP id b1-20020a2e9881000000b002d285d580c5mr2847500ljj.40.1708962296000;
+        Mon, 26 Feb 2024 07:44:56 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:d192:0:b0:363:d865:fa3 with SMTP id z18-20020a92d192000000b00363d8650fa3ls1980283ilz.2.-pod-prod-01-us;
- Mon, 26 Feb 2024 07:21:59 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWXpyUZTYghtwZzmYk/E2Zx58gcXv5/48MSlA+Op76LuvdJ896WSyfw2WLYr72pPfuGaIs4I/j8emUxhElAoKkqm6Cl8ucJVJ6PRw==
-X-Received: by 2002:a5e:aa10:0:b0:7c7:97e5:463d with SMTP id s16-20020a5eaa10000000b007c797e5463dmr8983258ioe.18.1708960919337;
-        Mon, 26 Feb 2024 07:21:59 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1708960919; cv=none;
+Received: by 2002:a2e:bc1e:0:b0:2d2:7527:604d with SMTP id b30-20020a2ebc1e000000b002d27527604dls167411ljf.0.-pod-prod-03-eu;
+ Mon, 26 Feb 2024 07:44:54 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXx1pBVwU8yGOdeYAnxrr9ZGmnoETaQ6QUIsX8IuHSbNAFSXRW4vAEm1lZiKQ3oBj6GwKTRUNWMbJUDN89XSc2aj46hdYrzHKWzLg==
+X-Received: by 2002:a2e:a549:0:b0:2d2:6227:d30a with SMTP id e9-20020a2ea549000000b002d26227d30amr5412713ljn.2.1708962294037;
+        Mon, 26 Feb 2024 07:44:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1708962294; cv=none;
         d=google.com; s=arc-20160816;
-        b=AB1rD9eFVaUFaA2L2diji3gqXCg5KvuOBMA460eqysfiyCerKi8D5pm1UtmISbA4QU
-         mgfm5zcV6nh/euUBsvTRhc4OnOlds885b4VxDFcdShaVV6bwxK8RUPCIL5xSYVHqxVXv
-         Xf5QKz4W7Y+h6L/zesIdkOM5lBwFwlSbAZo9ZywKz9MlYlwl4yMxcBQ9ZOvzSAbG6LcO
-         I1Cqus71mQbA76Z+/VoHVobb4eL4SV+Mb1+1Q6OKfrS5JogKTtrj+/LEiLOLripdmKoh
-         5gWMzy88pp8TGx/WqcdkFql1bOl5MIIddl3jFjaDQvZPzuybSSdQGLnbFK95do0pn2JU
-         tq9A==
+        b=a/jsxHw8pDJeUh1Ahn5KzopXn8X8yOzQNgaYVu2xIm85TwlTThPiDs1Ja4DjNMsmsP
+         yEE95OfKSCGd/Zi2zbViSmZjWiPEyvbMXGQ6EeNeI1H4mGhn/ld8BSBRaeIlPfD/4VqE
+         ctT2gWEdCpk0DzjSrjHvqArAoE70r3zSXiihF1Gf7DwbBw6fWp4QVOt3QXKFNhQzVPdD
+         ueCTjo2eJWBbQEI6FIe1SZLHMRQJbyCyqsqi7dD7OpajQMHklI8TChvZqAoygOv4zk1n
+         OOENXc0ZdkEePSPU++qNNlhvTg+M6+Kzu+0JN8iy3Jdhe2yfJMOl1OiMcXbt5h1gMJT0
+         3cVA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=+YAsFvK90oUcyunlKypP0cgUIeYQWof3rSlBEnKwPsU=;
-        fh=wu6H0Ly3lPD2woTYW7UYn7fFrSomIlCXqLn0uXZw2qU=;
-        b=b6LlDOwmUBlR9JmuxqnAQD3YXGwLJOA+L7UyYUCVOxFrs867kWZDAXfZ0xvBD/GTDF
-         KEgAd0U3KypjUI5P58Ibk0BZL6h+Xq8KtosnCx0DJgJS9+dS4UNDcVDiB8c5hYVY58sw
-         G92I8SpFiRtBQcfoO62KO27r283s/tBOOJqsRjlFMTqih/uU/t2+mJ+pHPLvsf3JpLhO
-         2t8JLf3sK5FtasEpj+MZrKfjK+udnh3w/dM2yFgYzQZna1FIt8v9BWMwQuDIerFZzS5X
-         D5sJnqzUX6uOAYFlqKNAIc+ii6r+P5WF0U6A1A0tQdXiHWYHnuz65Wpz4USBHpZ8vni0
-         PwFw==;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :dkim-signature:dkim-signature:dkim-signature:dkim-signature;
+        bh=uO6nFRXFkR5BenyCu2zdHy6TynY7FaB2n2EEfF5vWuc=;
+        fh=uHNWMypfvJIgzLUNJ/f7XBglIO7UNXG6xoMdd8q3Mvc=;
+        b=jQ/RZcLiBAhzoQFEOFvnAoJajsg4k5JgzhMHkW6wJKTpxiF/4i9KZAq2fSneDft6M2
+         LD1Tp0WfUgu1lJqB16SJpTmP6ewfJrLIJbvW19+Hr6CtEVMtzPNI7cd7y+uo0IXY3olH
+         ykNVcUQDST1PZfzDnq5X4X8Wh0g2PV9O/X3KDdKk7hrRRq16uUKhce2S9I0LK4yCT0ss
+         Llr+K8Vx1Ax7TCg8EIKaRzYcCRDv/rKUkE9TSQrH6hJJ942tJebLfm0UPwKZRV4a7Yp8
+         I5xHlKN3aGIqFN6MPwc120k7GTa5uXVyzvklGq3UdNyXcWdGkcq1EBfIUUBWaSWkTI8K
+         sFwQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@soleen-com.20230601.gappssmtp.com header.s=20230601 header.b="ll/pdzRo";
-       spf=pass (google.com: domain of pasha.tatashin@soleen.com designates 2607:f8b0:4864:20::833 as permitted sender) smtp.mailfrom=pasha.tatashin@soleen.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=soleen.com
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com. [2607:f8b0:4864:20::833])
-        by gmr-mx.google.com with ESMTPS id y138-20020a6bc890000000b007c7588a9f61si633102iof.4.2024.02.26.07.21.59
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="NOETsR1/";
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=Q25SrPtC;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.223.131])
+        by gmr-mx.google.com with ESMTPS id d20-20020a2e96d4000000b002d25688f527si235960ljj.1.2024.02.26.07.44.53
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Feb 2024 07:21:59 -0800 (PST)
-Received-SPF: pass (google.com: domain of pasha.tatashin@soleen.com designates 2607:f8b0:4864:20::833 as permitted sender) client-ip=2607:f8b0:4864:20::833;
-Received: by mail-qt1-x833.google.com with SMTP id d75a77b69052e-42a029c8e76so25377791cf.2
-        for <kasan-dev@googlegroups.com>; Mon, 26 Feb 2024 07:21:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVFQI94PoQZJ7xvOwM9OGE4dsVjsCZxHDbD3NPj/mFnMklu0fV2ySEDOvqz+31Y6gO9Ot2tH60tsNNgTDdonz7w0FzW/0EVqVzFsA==
-X-Received: by 2002:a05:622a:1354:b0:42e:8b5c:fd01 with SMTP id
- w20-20020a05622a135400b0042e8b5cfd01mr1779068qtk.54.1708960918671; Mon, 26
- Feb 2024 07:21:58 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Feb 2024 07:44:53 -0800 (PST)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) client-ip=195.135.223.131;
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id D87201FB62;
+	Mon, 26 Feb 2024 15:44:52 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 3E9C213A3A;
+	Mon, 26 Feb 2024 15:44:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Da2gDvSx3GU+BAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Mon, 26 Feb 2024 15:44:52 +0000
+Message-ID: <f68e7f17-c288-4dc9-9ae9-78015983f99c@suse.cz>
+Date: Mon, 26 Feb 2024 16:44:51 +0100
 MIME-Version: 1.0
-References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-4-surenb@google.com>
- <CA+CK2bD8Cr1V2=PWAsf6CwDnakZ54Qaf_q5t4aVYV-jXQPtPbg@mail.gmail.com>
- <CAJuCfpHBgZeJN_O1ZQg_oLbAXc-Y+jmUpB02jznkEySpd4rzvw@mail.gmail.com> <d8a7ed49-f7d1-44bf-b0e5-64969e816057@suse.cz>
-In-Reply-To: <d8a7ed49-f7d1-44bf-b0e5-64969e816057@suse.cz>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 26 Feb 2024 10:21:47 -0500
-Message-ID: <CA+CK2bBggtq6M96Pu49BmG_j01Sv6p_84Go++9APuvVPXHMwvQ@mail.gmail.com>
-Subject: Re: [PATCH v4 03/36] mm/slub: Mark slab_free_freelist_hook() __always_inline
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Suren Baghdasaryan <surenb@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Kent Overstreet <kent.overstreet@linux.dev>, Michal Hocko <mhocko@suse.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Mel Gorman <mgorman@suse.de>, dave@stgolabs.net, Matthew Wilcox <willy@infradead.org>, 
-	"Liam R. Howlett" <liam.howlett@oracle.com>, Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>, 
-	Jonathan Corbet <corbet@lwn.net>, void@manifault.com, Peter Zijlstra <peterz@infradead.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>, Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>, 
-	Jens Axboe <axboe@kernel.dk>, mcgrof@kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, dennis@kernel.org, Tejun Heo <tj@kernel.org>, 
-	Muchun Song <muchun.song@linux.dev>, Mike Rapoport <rppt@kernel.org>, paulmck@kernel.org, 
-	Yosry Ahmed <yosryahmed@google.com>, Yu Zhao <yuzhao@google.com>, dhowells@redhat.com, 
-	Hugh Dickins <hughd@google.com>, andreyknvl@gmail.com, Kees Cook <keescook@chromium.org>, 
-	ndesaulniers@google.com, vvvvvv@google.com, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, ebiggers@google.com, ytcoode@gmail.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, 
-	Steven Rostedt <rostedt@goodmis.org>, bsegall@google.com, bristot@redhat.com, 
-	vschneid@redhat.com, Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, 
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, elver@google.com, dvyukov@google.com, 
-	Shakeel Butt <shakeelb@google.com>, Muchun Song <songmuchun@bytedance.com>, jbaron@akamai.com, 
-	David Rientjes <rientjes@google.com>, minchan@google.com, kaleshsingh@google.com, 
-	kernel-team@android.com, Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, iommu@lists.linux.dev, 
-	"open list:GENERIC INCLUDE/ASM HEADER FILES" <linux-arch@vger.kernel.org>, linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	linux-mm <linux-mm@kvack.org>, linux-modules@vger.kernel.org, 
-	kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Content-Type: multipart/alternative; boundary="0000000000007e237a06124a7861"
-X-Original-Sender: pasha.tatashin@soleen.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 05/36] fs: Convert alloc_inode_sb() to a macro
+Content-Language: en-US
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: kent.overstreet@linux.dev, mhocko@suse.com, hannes@cmpxchg.org,
+ roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
+ willy@infradead.org, liam.howlett@oracle.com,
+ penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com,
+ peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com,
+ will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+ dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+ david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
+ nathan@kernel.org, dennis@kernel.org, tj@kernel.org, muchun.song@linux.dev,
+ rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com,
+ yosryahmed@google.com, yuzhao@google.com, dhowells@redhat.com,
+ hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org,
+ ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org,
+ ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org,
+ dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+ bristot@redhat.com, vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
+ iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
+ elver@google.com, dvyukov@google.com, shakeelb@google.com,
+ songmuchun@bytedance.com, jbaron@akamai.com, rientjes@google.com,
+ minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
+ cgroups@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>
+References: <20240221194052.927623-1-surenb@google.com>
+ <20240221194052.927623-6-surenb@google.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20240221194052.927623-6-surenb@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [1.20 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 BAYES_HAM(-0.00)[36.17%];
+	 R_RATELIMIT(0.00)[to_ip_from(RLcb476ir6xfzaroaj5pc7azzw)];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 DKIM_TRACE(0.00)[suse.cz:+];
+	 TO_MATCH_ENVRCPT_SOME(0.00)[];
+	 RCPT_COUNT_GT_50(0.00)[75];
+	 MX_GOOD(-0.01)[];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,linux.dev:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[linux.dev,suse.com,cmpxchg.org,suse.de,stgolabs.net,infradead.org,oracle.com,i-love.sakura.ne.jp,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,google.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,goodmis.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com,zeniv.linux.org.uk];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Score: 1.20
+X-Rspamd-Queue-Id: D87201FB62
+X-Spam-Level: *
+X-Spam-Flag: NO
+X-Spamd-Bar: +
+X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@soleen-com.20230601.gappssmtp.com header.s=20230601
- header.b="ll/pdzRo";       spf=pass (google.com: domain of
- pasha.tatashin@soleen.com designates 2607:f8b0:4864:20::833 as permitted
- sender) smtp.mailfrom=pasha.tatashin@soleen.com;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=soleen.com
+ header.i=@suse.cz header.s=susede2_rsa header.b="NOETsR1/";
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=Q25SrPtC;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       spf=pass (google.com: domain of vbabka@suse.cz designates
+ 195.135.223.131 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -168,187 +214,43 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
---0000000000007e237a06124a7861
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2/21/24 20:40, Suren Baghdasaryan wrote:
+> From: Kent Overstreet <kent.overstreet@linux.dev>
+> 
+> We're introducing alloc tagging, which tracks memory allocations by
+> callsite. Converting alloc_inode_sb() to a macro means allocations will
+> be tracked by its caller, which is a bit more useful.
+> 
+> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> ---
+>  include/linux/fs.h | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+> 
+> diff --git a/include/linux/fs.h b/include/linux/fs.h
+> index 023f37c60709..08d8246399c3 100644
+> --- a/include/linux/fs.h
+> +++ b/include/linux/fs.h
+> @@ -3010,11 +3010,7 @@ int setattr_should_drop_sgid(struct mnt_idmap *idmap,
+>   * This must be used for allocating filesystems specific inodes to set
+>   * up the inode reclaim context correctly.
+>   */
+> -static inline void *
+> -alloc_inode_sb(struct super_block *sb, struct kmem_cache *cache, gfp_t gfp)
 
-On Mon, Feb 26, 2024, 9:31=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wrot=
-e:
+A __always_inline wouldn't have the same effect? Just wondering.
 
-> On 2/24/24 03:02, Suren Baghdasaryan wrote:
-> > On Wed, Feb 21, 2024 at 1:16=E2=80=AFPM Pasha Tatashin
-> > <pasha.tatashin@soleen.com> wrote:
-> >>
-> >> On Wed, Feb 21, 2024 at 2:41=E2=80=AFPM Suren Baghdasaryan <surenb@goo=
-gle.com>
-> wrote:
-> >> >
-> >> > From: Kent Overstreet <kent.overstreet@linux.dev>
-> >> >
-> >> > It seems we need to be more forceful with the compiler on this one.
-> >> > This is done for performance reasons only.
-> >> >
-> >> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-> >> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> >> > Reviewed-by: Kees Cook <keescook@chromium.org>
-> >> > ---
-> >> >  mm/slub.c | 2 +-
-> >> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >> >
-> >> > diff --git a/mm/slub.c b/mm/slub.c
-> >> > index 2ef88bbf56a3..d31b03a8d9d5 100644
-> >> > --- a/mm/slub.c
-> >> > +++ b/mm/slub.c
-> >> > @@ -2121,7 +2121,7 @@ bool slab_free_hook(struct kmem_cache *s, void
-> *x, bool init)
-> >> >         return !kasan_slab_free(s, x, init);
-> >> >  }
-> >> >
-> >> > -static inline bool slab_free_freelist_hook(struct kmem_cache *s,
-> >> > +static __always_inline bool slab_free_freelist_hook(struct
-> kmem_cache *s,
-> >>
-> >> __fastpath_inline seems to me more appropriate here. It prioritizes
-> >> memory vs performance.
-> >
-> > Hmm. AFAIKT this function is used only in one place and we do not add
-> > any additional users, so I don't think changing to __fastpath_inline
-> > here would gain us anything.
->
+> -{
+> -	return kmem_cache_alloc_lru(cache, &sb->s_inode_lru, gfp);
+> -}
+> +#define alloc_inode_sb(_sb, _cache, _gfp) kmem_cache_alloc_lru(_cache, &_sb->s_inode_lru, _gfp)
+>  
+>  extern void __insert_inode_hash(struct inode *, unsigned long hashval);
+>  static inline void insert_inode_hash(struct inode *inode)
 
-For consistency __fastpath_inline makes more sense, but I am ok with or
-without this change.
-
-Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-
-
-> It would have been more future-proof and self-documenting. But I don't
-> insist.
->
-> Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
->
-> >>
-> >> >                                            void **head, void **tail,
-> >> >                                            int *cnt)
-> >> >  {
-> >> > --
-> >> > 2.44.0.rc0.258.g7320e95886-goog
-> >> >
->
->
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CA%2BCK2bBggtq6M96Pu49BmG_j01Sv6p_84Go%2B%2B9APuvVPXHMwvQ%40mail.=
-gmail.com.
-
---0000000000007e237a06124a7861
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Mon, Feb 26, 2024, 9:31=E2=80=AFAM Vlastimil Babka =
-&lt;<a href=3D"mailto:vbabka@suse.cz">vbabka@suse.cz</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
-1px #ccc solid;padding-left:1ex">On 2/24/24 03:02, Suren Baghdasaryan wrote=
-:<br>
-&gt; On Wed, Feb 21, 2024 at 1:16=E2=80=AFPM Pasha Tatashin<br>
-&gt; &lt;<a href=3D"mailto:pasha.tatashin@soleen.com" target=3D"_blank" rel=
-=3D"noreferrer">pasha.tatashin@soleen.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On Wed, Feb 21, 2024 at 2:41=E2=80=AFPM Suren Baghdasaryan &lt;<a =
-href=3D"mailto:surenb@google.com" target=3D"_blank" rel=3D"noreferrer">sure=
-nb@google.com</a>&gt; wrote:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; From: Kent Overstreet &lt;<a href=3D"mailto:kent.overstreet@l=
-inux.dev" target=3D"_blank" rel=3D"noreferrer">kent.overstreet@linux.dev</a=
->&gt;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; It seems we need to be more forceful with the compiler on thi=
-s one.<br>
-&gt;&gt; &gt; This is done for performance reasons only.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Signed-off-by: Kent Overstreet &lt;<a href=3D"mailto:kent.ove=
-rstreet@linux.dev" target=3D"_blank" rel=3D"noreferrer">kent.overstreet@lin=
-ux.dev</a>&gt;<br>
-&gt;&gt; &gt; Signed-off-by: Suren Baghdasaryan &lt;<a href=3D"mailto:suren=
-b@google.com" target=3D"_blank" rel=3D"noreferrer">surenb@google.com</a>&gt=
-;<br>
-&gt;&gt; &gt; Reviewed-by: Kees Cook &lt;<a href=3D"mailto:keescook@chromiu=
-m.org" target=3D"_blank" rel=3D"noreferrer">keescook@chromium.org</a>&gt;<b=
-r>
-&gt;&gt; &gt; ---<br>
-&gt;&gt; &gt;=C2=A0 mm/slub.c | 2 +-<br>
-&gt;&gt; &gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; diff --git a/mm/slub.c b/mm/slub.c<br>
-&gt;&gt; &gt; index 2ef88bbf56a3..d31b03a8d9d5 100644<br>
-&gt;&gt; &gt; --- a/mm/slub.c<br>
-&gt;&gt; &gt; +++ b/mm/slub.c<br>
-&gt;&gt; &gt; @@ -2121,7 +2121,7 @@ bool slab_free_hook(struct kmem_cache *=
-s, void *x, bool init)<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return !kasan_slab_free(s, x=
-, init);<br>
-&gt;&gt; &gt;=C2=A0 }<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; -static inline bool slab_free_freelist_hook(struct kmem_cache=
- *s,<br>
-&gt;&gt; &gt; +static __always_inline bool slab_free_freelist_hook(struct k=
-mem_cache *s,<br>
-&gt;&gt;<br>
-&gt;&gt; __fastpath_inline seems to me more appropriate here. It prioritize=
-s<br>
-&gt;&gt; memory vs performance.<br>
-&gt; <br>
-&gt; Hmm. AFAIKT this function is used only in one place and we do not add<=
-br>
-&gt; any additional users, so I don&#39;t think changing to __fastpath_inli=
-ne<br>
-&gt; here would gain us anything.<br></blockquote></div></div><div dir=3D"a=
-uto"><br></div><div dir=3D"auto">For consistency __fastpath_inline makes mo=
-re sense, but I am ok with or without this change.</div><div dir=3D"auto"><=
-br></div><div dir=3D"auto">Reviewed-by: Pasha Tatashin &lt;<a href=3D"mailt=
-o:pasha.tatashin@soleen.com">pasha.tatashin@soleen.com</a>&gt;<br></div><di=
-v dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">
-<br>
-It would have been more future-proof and self-documenting. But I don&#39;t =
-insist.<br>
-<br>
-Reviewed-by: Vlastimil Babka &lt;<a href=3D"mailto:vbabka@suse.cz" target=
-=3D"_blank" rel=3D"noreferrer">vbabka@suse.cz</a>&gt;<br>
-<br>
-&gt;&gt;<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 void **head, void **tail,<br>
-&gt;&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 int *cnt)<br>
-&gt;&gt; &gt;=C2=A0 {<br>
-&gt;&gt; &gt; --<br>
-&gt;&gt; &gt; 2.44.0.rc0.258.g7320e95886-goog<br>
-&gt;&gt; &gt;<br>
-<br>
-</blockquote></div></div></div>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/CA%2BCK2bBggtq6M96Pu49BmG_j01Sv6p_84Go%2B%2B9APuvVPXHM=
-wvQ%40mail.gmail.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups=
-.google.com/d/msgid/kasan-dev/CA%2BCK2bBggtq6M96Pu49BmG_j01Sv6p_84Go%2B%2B9=
-APuvVPXHMwvQ%40mail.gmail.com</a>.<br />
-
---0000000000007e237a06124a7861--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/f68e7f17-c288-4dc9-9ae9-78015983f99c%40suse.cz.
