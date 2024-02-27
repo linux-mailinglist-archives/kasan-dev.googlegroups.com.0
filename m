@@ -1,137 +1,136 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBAF566XAMGQEBRZCVFA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXYDPH3S4OBBLGC66XAMGQEJO3BOXA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43c.google.com (mail-wr1-x43c.google.com [IPv6:2a00:1450:4864:20::43c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DBBB86915A
-	for <lists+kasan-dev@lfdr.de>; Tue, 27 Feb 2024 14:07:14 +0100 (CET)
-Received: by mail-wr1-x43c.google.com with SMTP id ffacd0b85a97d-33d1d766f83sf1751997f8f.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 27 Feb 2024 05:07:14 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1709039234; cv=pass;
+Received: from mail-lj1-x23e.google.com (mail-lj1-x23e.google.com [IPv6:2a00:1450:4864:20::23e])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0215869191
+	for <lists+kasan-dev@lfdr.de>; Tue, 27 Feb 2024 14:18:37 +0100 (CET)
+Received: by mail-lj1-x23e.google.com with SMTP id 38308e7fff4ca-2d264c84b99sf33500131fa.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 27 Feb 2024 05:18:37 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1709039917; cv=pass;
         d=google.com; s=arc-20160816;
-        b=oAeG4rMZruO1C9b6haoUrdjTO3va55TvNwPdSFWMU+X2SGH03MQ7HHGU6kAzKMKB9d
-         UwtVBGFbwNR6inA9x+NOMq6k1mndqt8lH3e+Z/T6HCzoKiHGSgcphm4kb1z8y1coaiOT
-         E3r7KLcARYuENEyJ03NVtEP2lDW00COgaRCJ3wVLBJwQhJe8EfGXRoaSIkxmfR/js8Ur
-         Kuhwk8Dz1TJUPmPvrFLo4M/+onZHDUT8EYn74zDlhJy0dyO5D0kirYMIpay5RjBF/ikD
-         wP862LnYfJ/gL1k3L+ITqiO5RtpW/7/YNevkZwBAANJPV2iCm+eptRmfCP/9EG6YHDfn
-         s1xg==
+        b=WyIclcW0OiyXeZrj/R5o4A+oDTZFp1Yn+/5+3uCnNm+QzJVHYgNkt2yKRAp6vvFbEC
+         AKPDnp6LcbOvXIzdgviXvcGw5gsbbBWrd8C1UmKN0h6UYY+viyL8rmg0rhQcOxQ7/lqR
+         CyDzVPgdZgbFRC9JhtWPCZVB0WCc7F+J5qGseoeD+8a2UOJmlLL/9LQP0E0mb0M41MOU
+         /iCddOu/pDF2od+rSh5UOdOhVSrS0eDvJ6+5+UweKX0YWPbXD89Qz/5Hq8A1riWda/On
+         XQTzDUS6UC2BPtfRJhnUwWLyf1vJAlbvdH1pa1nOvMkk/eqADuhJZAfZqZaAD4lL0cm/
+         lOEg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :sender:dkim-signature;
-        bh=M7RZtFwStFs7pB0/OUXCgEehTY8jSZKRJKWusyHLve8=;
-        fh=hKcxivpNQBzNFqQBvOUbivB3keU5smgr6kIPe9hHhi8=;
-        b=hWKsXyyvyoSBKtECJeKj0RKomsWSzYMRSkQsH0wYDOCcssFSh+nrzX7dtZaSnH//gi
-         HdD8ux28MhM3LU+ndnARaSbMK1vtdGwmV/z1ya4fVAcl/R0X04UdQMvDWpF1DtBn898K
-         6yZxxQ+EII5hYBX68IuqTH+HIsLiO4e4ID0y1OM+RELGcBEmxSkn/7FvDtQbr1WBBYyW
-         v6DmHn0/Nqa2DtvdPTIT3QN4xoO26bNJXLjEbxm1lPUl8JAUFsC0yZUXmHGoqCGEiqMV
-         rwbDDGoOBNQ/SHGqh6kKblSfBbQ7jzSCEl86jtWsTsFtI4M3OzUtZIwuQpqoSZpKS/NM
-         uxzQ==;
+        bh=SLbghSWRNxFqvDGTRKyEC6jeCR4aDB2TmKPq5YC4gd4=;
+        fh=XtpWjMaUl0sJhpvUcz5WvidxN1Uo3jqXAycrYThUmrs=;
+        b=XYO8afvoavps51sVFHaDzfJc0vS6+dd5A/fzY/8oQCse08uZNZnlGVLIjjSPe1IlIe
+         SZVNwh/ByzwY/98175kW0lrBAqTkkjoGL7MxKdrwinAeDPj6FwLFDY6rzFUDXrfjQqfs
+         sF4KmyCfN1edLrWsWZyRY/FOQDgIuW4JbUoQrE6qMy8xpb5i6+r0H08EaIwLQ4MpIm5s
+         ZqRHtBYWKfDagzHSuApMzMYgN2LHUuQyqdidfpn7lYsbhh+W2/1AAN2HV08IKeNNZS3I
+         BtAVuxbz8HEH46m4fyS8HMFEJi0PS03sJ44YSbhQ89AKGbIxL0bC3qBRTZiAbgVE5Cyf
+         2/KA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=lLjXBkwS;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=t+9keHML;
        dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=TDeXG6qf;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=F9IZKXKZ;
        dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1709039234; x=1709644034; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1709039917; x=1709644717; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=M7RZtFwStFs7pB0/OUXCgEehTY8jSZKRJKWusyHLve8=;
-        b=Cr6mBx6XFTCyou688QNqITaesxK508UoJdYlWaxqZqsIHA9FSU/fY6/GiQdtxlnCsS
-         ysiFhevuyWyA+ON8piNY7aVok8rM8hle1ihwzHC9Y8I13//Lg0/3LJ/LHr18F33zIGHX
-         Ovm2tURj2c1/8q5jcJCZWhMEbPZfqODhba31y8vyG0F302TN+y1Z8Ir5V0XkPQtmcnRp
-         QmlbxQCeKgYBP2l3AMA03qiMCc9rsBJA1zLPIdcj18qeepEXJxu/1RmF/MTywxepx7Qt
-         NVNtVyQqVfxd7UafDUt6FZXYhfJFZGD9nY+vp5HPMq/GB6Y9FUgM6tROI2VemiVpzacP
-         l1hw==
+        bh=SLbghSWRNxFqvDGTRKyEC6jeCR4aDB2TmKPq5YC4gd4=;
+        b=Tpet8XhJ7w7j89NFAaqH7DiDDacSbIDQZPg4YWBiqWtCqW3mgDg29a1rBNasvd2/5B
+         1PtqSW7D3uuZa1ifLWS7gN+Qv1ez/rBuy7aLQijS7ls4Z5hYWbb5N2/deHQfLAPde4KX
+         3EMRUyjUf7bWmvqwkm/xXfIGNcMD0I3wt20nOBDPhVXUzgtV6V2TJc6T6IoQ4B/fEUmm
+         UR6YmabRh8fH7k/hcdhEQYUXA2WwKja5FxKKHeTlxp1SqV1k7/kkBnyY9JTWcPBA+lmy
+         TFQ/+zqV42/CgfC7n4W3MfXuUBH2ZdS8ZJSGLozPmhim8IrHHq1Whcw7kyzYbRxJuVCV
+         j8FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709039234; x=1709644034;
+        d=1e100.net; s=20230601; t=1709039917; x=1709644717;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :from:references:cc:to:content-language:subject:user-agent
          :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=M7RZtFwStFs7pB0/OUXCgEehTY8jSZKRJKWusyHLve8=;
-        b=FG46A1SCg6E3CqWUXF8UvR/h6QwtX6IkaWgkIK7+LUWWA/oOYNTwqxRfQMeoQoFf+9
-         b+zjPIGHqQpC9mybeRg5mjaFBcxovn/lKOBbGKcQMPWC0D4f0ppJjEIkT4naa9XfwrGy
-         fSiug9/t+NFuuRUWKDZTH46Wmpn4Jwlu2oIXLltWX6kCQAMv3NfuRQxYJv60oQY155/E
-         X6KDK/nZW1oNrrfAXHs2LwrBU2YWV6rM7szRqrzJuvLY5TXSHwXRTHcmrFfaBoaF3brF
-         sBW25sp9uGQRuMMBmKGgteqCIDiOFW+CybOPJShXKGd8qRXYIXnKygc9ytj2h2JZ+qto
-         tIEw==
+        bh=SLbghSWRNxFqvDGTRKyEC6jeCR4aDB2TmKPq5YC4gd4=;
+        b=IrpZEfcOC27GJbHNspUIVL6RQo1X2WaYfrtdfZKEJ3irITf39XIxSWjmbxza8PmDpA
+         RJttkOxbL217ilsw2Gfk1ysdhpMk3brMktV/yX9oaXeHsT/xdyr9UvrePlqy8+nyQP72
+         T4CreurpB0Zm6uv52qVbNBtCMhFskQOrm7HXTYxb3VS2VKI+YWOnq737/LnDrdgqnXa1
+         hDcetU6bEAYaGc7C8T8ZRL2NnUr7Gkkvh+3+BbEXCShLdPd/mrfAd9IRL4S0I4OJRQr3
+         czG9YT/X73pozz/Wiixb9e/e9QICQgPvXxordd0dWfY88b27ilsQAzIX80SID3bWxM/X
+         iZ5A==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVR2aR8ayaOTln5iolJlq0efpq3RHtQ8dow/OiILuyiJSWFIocGVSAqRrJTzPWHpmDIvRpMqSWFU4KZh1PyTgYMzFkunps+9w==
-X-Gm-Message-State: AOJu0YxyZdFa7haGc8IhBeLfogHVqaKc8eqUikwmTON1QrDHcxK9wPEk
-	OUm4cR6bj6finUti+BqL0WtB7JFEUaCxkM1gFCmzaVikRj/ZF2Pg
-X-Google-Smtp-Source: AGHT+IG6Pt9ChdHJhoqkxj+XlbqLPD57iTGSmm5VEKxY/Fzq0Lx5b76FYG9+jBnbgBydIuZFrvRpRA==
-X-Received: by 2002:adf:db4b:0:b0:33d:76a9:89ae with SMTP id f11-20020adfdb4b000000b0033d76a989aemr6677572wrj.12.1709039233058;
-        Tue, 27 Feb 2024 05:07:13 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWszzJtcUtgTbVxAqWR5V4WX8eA868A1xufKVWkecNg+MtOjjxz/A3VRtMbLIBrPQZ9z8+ZQTQpWSHSvm9J5LEDUJ87Hvu6oQ==
+X-Gm-Message-State: AOJu0Yy3tbQhn+JSpaVQhOsQlYVI7sMaTidPIsFJsSuWU6pbsV3v2NWZ
+	u+LwK4yAVn219tXMJJlp4v5J5MChlJUQRZZHYZzROe8Epl5fsM4v
+X-Google-Smtp-Source: AGHT+IFIkt+ppBTqDm8BasMgXxbJUlQ58q6o9zs3i3CVDDZ0mXIRKW4E1lRgVH0JGDif1yRwANDTQA==
+X-Received: by 2002:a05:651c:78a:b0:2d2:3757:c6a with SMTP id g10-20020a05651c078a00b002d237570c6amr4951728lje.42.1709039916846;
+        Tue, 27 Feb 2024 05:18:36 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:3ac8:b0:412:ad33:62b1 with SMTP id
- d8-20020a05600c3ac800b00412ad3362b1ls279528wms.0.-pod-prod-05-eu; Tue, 27 Feb
- 2024 05:07:11 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUE7x4Qr4BaZxByKxIpZMTQ4RPHVLkxCGw1bZ4VSenRCZaA4aDfQKYMmapl34IPyf3JAZFN/xyuMM3IYNsZr5Txi6h/cHCmzVRp+w==
-X-Received: by 2002:a05:600c:4752:b0:410:c69f:4db7 with SMTP id w18-20020a05600c475200b00410c69f4db7mr7531844wmo.20.1709039231208;
-        Tue, 27 Feb 2024 05:07:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1709039231; cv=none;
+Received: by 2002:a05:651c:10a7:b0:2d2:a59e:dcd with SMTP id
+ k7-20020a05651c10a700b002d2a59e0dcdls134996ljn.0.-pod-prod-08-eu; Tue, 27 Feb
+ 2024 05:18:35 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWKQLzEXIrKyMnXzVo8TwKyE5RYXgMXKZTn5Rlzii/Fron5Ri6seigKHWKd6ds6aDy1fqsyWcI+ICsl0jQB2s9N/AFvEPJWk0N9YQ==
+X-Received: by 2002:a05:651c:94:b0:2d2:3d31:220f with SMTP id 20-20020a05651c009400b002d23d31220fmr5401658ljq.25.1709039914895;
+        Tue, 27 Feb 2024 05:18:34 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1709039914; cv=none;
         d=google.com; s=arc-20160816;
-        b=e1HkWPVOueHo7qJHoTT3pgwxSX+h9OszcrPd70gYpHlvxRWl+gTu+SfpeV6K51+cM3
-         bzAIwN/djvyDgSknWMIvMJP53NIJmGtQ3ogh6EAY7HQbFTqDcTB9uWrcd7WHAMyxUiQJ
-         QGJiEFeJzc6GpI44C9mGhC/7sDGSrZ39IVmTqPNqZWCd4LwNtFdzF6hyXyyqwLCRhERa
-         JelIGCnHMm3MQTPoNuQwktYWVtecHpAejwQFbwr+vUPhYUD/DfnGVAnRT6pfbmopxU/6
-         5/V8RxLylMJF3gWtomgbCMaNCLxuRmPH7lxdtM01uhkp4FMCw3OosCu5yZemRbmIc4BA
-         goKA==
+        b=NgJKeuEj3Fh9ZTBzeaz5+gJQAfEYVz6nK9Uxvpux3hgO7k4FtIIjiFFflxDTeQtcWM
+         c6FRXnPMf8xeimyYUQPXoDAutUj7mPsCxYsmd1VNSGc8rv3Rr+F79tOVfZ7Q+GgUHR2X
+         H7hwcWcS9Qmwu8f8IGbMZZULcvIQ4/CCeQC4qJMcDOn3NKN4kQBTf6j4jaHpsCHB7iHW
+         rtrnzb0uFZehRXs7TYCtyX76Ztp7lvB8j7yNdQymidpULSiIIQkmMZhjoM05IepfOIwG
+         hoB5yR4N0ZdXpXMIUcGwVG8cUynXD07JjOSArHV9zrj9qNuHTVNc0ucKrogP6jXJymia
+         UdDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :dkim-signature:dkim-signature:dkim-signature:dkim-signature;
-        bh=cW70zYu78ce27du6nFlEM9h9LcRqy3qIdoJOEMgxHrU=;
+        bh=b5fxnH3MZSXNsSIAXZNKwmzfwaEYfCce0iXFeFygkQg=;
         fh=AROQU2KCH7NyZd+GSF5Ja6si3COSfc75C77I0os5n1k=;
-        b=ut7vu5+Hni0l1lQ5a39BTULofMpeH+UKjpig5jqLJjq4T5eH66O5AIwxtshtqQeQ5p
-         WhK0yEazKCvcgKKsmZJPFcW3grmX7ZExXw6DxBB/sblY+kO/skJDtPc4rUQxwKgyr/qi
-         V5lWhBBs91CLf2Iml4cTXChXuhEF1CIzzxj/Ca1prpTwH2uRQFhDmyWG232xwbgvog2j
-         +Mrz3oI1kBG5paAy3eDiV2A0wHE8Ri72Jd5omLM3WVCNhExBpcP0XLZAABBnij05iFgI
-         iceUDcTcybWBNcCNaTLVcQn2T+Jm1QFVCC2+Wibcuw9MMlYhQLaVqczuox6C/Om5DDlq
-         g/uQ==;
+        b=XvEcBySLjTCFIfLPjOUYgChI0OHYpWwyhBdzgp+JtyJ/cAEuhPvWmec2qwg45k/kCh
+         HncS3iNS6vqzqt9lP+lE9hIC8AFEfxJtctSgLN/ziUB1AmvQKDlBvrGi2O+EsYZG06Eq
+         nAZ24w3MRj23oyLtUBurs5+dURvOWBn23Li94ghn77e3hiXBQeOdgGJxCiAbBIXAA1T+
+         XlXUHDJLVZUUisTuPQEoX0/EYUcXH69wCDSXF9sNcQfa4r5QlIdEf0q8AfJgDYsn6aIM
+         bNXl7Vl3WVr1poskuD0GI2DfjSewAIkpGfo2bD/6Rsy/qJMxxaLI0g0ptfQlb6gOwTL2
+         oNRQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=lLjXBkwS;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=t+9keHML;
        dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=TDeXG6qf;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=F9IZKXKZ;
        dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2a07:de40:b251:101:10:150:64:2])
-        by gmr-mx.google.com with ESMTPS id n15-20020a05600c3b8f00b0041211adb88dsi459710wms.1.2024.02.27.05.07.11
+       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2a07:de40:b251:101:10:150:64:1])
+        by gmr-mx.google.com with ESMTPS id d10-20020a2e96ca000000b002d2a3d0d3ecsi55346ljj.1.2024.02.27.05.18.34
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Feb 2024 05:07:11 -0800 (PST)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:2;
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+        Tue, 27 Feb 2024 05:18:34 -0800 (PST)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:1;
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id A36851F7B9;
-	Tue, 27 Feb 2024 13:07:08 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C6DE22229B;
+	Tue, 27 Feb 2024 13:18:33 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F129813A58;
-	Tue, 27 Feb 2024 13:07:06 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 31E4C13A58;
+	Tue, 27 Feb 2024 13:18:32 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([10.150.64.162])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id XexAOnre3WWJKQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Tue, 27 Feb 2024 13:07:06 +0000
-Message-ID: <4a0e40e5-3542-4d47-bb2b-c0666f6a904d@suse.cz>
-Date: Tue, 27 Feb 2024 14:07:38 +0100
+	id Pt1+Cyjh3WWwLAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Tue, 27 Feb 2024 13:18:32 +0000
+Message-ID: <ae4f9958-813a-42c8-8e54-4ef19fd36d6c@suse.cz>
+Date: Tue, 27 Feb 2024 14:19:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 22/36] mm/slab: add allocation accounting into slab
- allocation and free paths
+Subject: Re: [PATCH v4 31/36] lib: add memory allocations report in show_mem()
 Content-Language: en-US
 To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, hannes@cmpxchg.org,
@@ -160,43 +159,52 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, hannes@cmpxchg.org,
  linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
  cgroups@vger.kernel.org
 References: <20240221194052.927623-1-surenb@google.com>
- <20240221194052.927623-23-surenb@google.com>
+ <20240221194052.927623-32-surenb@google.com>
 From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20240221194052.927623-23-surenb@google.com>
+In-Reply-To: <20240221194052.927623-32-surenb@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-1.59 / 50.00];
-	 ARC_NA(0.00)[];
+X-Spam-Level: 
+X-Spamd-Bar: /
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [0.00 / 50.00];
 	 RCVD_VIA_SMTP_AUTH(0.00)[];
 	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
+	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
 	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 BAYES_HAM(-3.00)[100.00%];
-	 R_RATELIMIT(0.00)[to_ip_from(RL7fbg3f7cqn65nt4rpgoexbzo)];
+	 R_RATELIMIT(0.00)[to_ip_from(RLcb476ir6xfzaroaj5pc7azzw)];
 	 RCVD_COUNT_THREE(0.00)[3];
-	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	 TO_MATCH_ENVRCPT_SOME(0.00)[];
+	 DKIM_TRACE(0.00)[suse.cz:+];
+	 MX_GOOD(-0.01)[];
 	 RCPT_COUNT_GT_50(0.00)[74];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[chromium.org:email,linux.dev:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
 	 FROM_EQ_ENVFROM(0.00)[];
 	 MIME_TRACE(0.00)[0:+];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 BAYES_HAM(-0.00)[11.76%];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 TO_MATCH_ENVRCPT_SOME(0.00)[];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,linux.dev:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
 	 FREEMAIL_CC(0.00)[linux.dev,suse.com,cmpxchg.org,suse.de,stgolabs.net,infradead.org,oracle.com,i-love.sakura.ne.jp,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,soleen.com,google.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,goodmis.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
 	 RCVD_TLS_ALL(0.00)[];
 	 SUSPICIOUS_RECIPS(1.50)[]
-X-Spam-Level: 
+X-Spam-Score: 0.00
+X-Rspamd-Queue-Id: C6DE22229B
 X-Spam-Flag: NO
-X-Spam-Score: -1.59
 X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=lLjXBkwS;       dkim=neutral
+ header.i=@suse.cz header.s=susede2_rsa header.b=t+9keHML;       dkim=neutral
  (no key) header.i=@suse.cz header.s=susede2_ed25519;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=TDeXG6qf;       dkim=neutral
+ header.i=@suse.cz header.s=susede2_rsa header.b=F9IZKXKZ;       dkim=neutral
  (no key) header.i=@suse.cz header.s=susede2_ed25519;       spf=pass
- (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2
+ (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1
  as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -210,160 +218,156 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-
 On 2/21/24 20:40, Suren Baghdasaryan wrote:
-> Account slab allocations using codetag reference embedded into slabobj_ext.
+> Include allocations in show_mem reports.
 > 
-> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
 > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+
+Nit: there's pr_notice() that's shorter than printk(KERN_NOTICE
+
 > ---
->  mm/slab.h | 66 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  mm/slub.c |  9 ++++++++
->  2 files changed, 75 insertions(+)
+>  include/linux/alloc_tag.h |  7 +++++++
+>  include/linux/codetag.h   |  1 +
+>  lib/alloc_tag.c           | 38 ++++++++++++++++++++++++++++++++++++++
+>  lib/codetag.c             |  5 +++++
+>  mm/show_mem.c             | 26 ++++++++++++++++++++++++++
+>  5 files changed, 77 insertions(+)
 > 
-> diff --git a/mm/slab.h b/mm/slab.h
-> index 13b6ba2abd74..c4bd0d5348cb 100644
-> --- a/mm/slab.h
-> +++ b/mm/slab.h
-> @@ -567,6 +567,46 @@ static inline struct slabobj_ext *slab_obj_exts(struct slab *slab)
->  int alloc_slab_obj_exts(struct slab *slab, struct kmem_cache *s,
->  			gfp_t gfp, bool new_slab);
+> diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
+> index 29636719b276..85a24a027403 100644
+> --- a/include/linux/alloc_tag.h
+> +++ b/include/linux/alloc_tag.h
+> @@ -30,6 +30,13 @@ struct alloc_tag {
 >  
-> +static inline bool need_slab_obj_ext(void)
+>  #ifdef CONFIG_MEM_ALLOC_PROFILING
+>  
+> +struct codetag_bytes {
+> +	struct codetag *ct;
+> +	s64 bytes;
+> +};
+> +
+> +size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, bool can_sleep);
+> +
+>  static inline struct alloc_tag *ct_to_alloc_tag(struct codetag *ct)
+>  {
+>  	return container_of(ct, struct alloc_tag, ct);
+> diff --git a/include/linux/codetag.h b/include/linux/codetag.h
+> index bfd0ba5c4185..c2a579ccd455 100644
+> --- a/include/linux/codetag.h
+> +++ b/include/linux/codetag.h
+> @@ -61,6 +61,7 @@ struct codetag_iterator {
+>  }
+>  
+>  void codetag_lock_module_list(struct codetag_type *cttype, bool lock);
+> +bool codetag_trylock_module_list(struct codetag_type *cttype);
+>  struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype);
+>  struct codetag *codetag_next_ct(struct codetag_iterator *iter);
+>  
+> diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
+> index cb5adec4b2e2..ec54f29482dc 100644
+> --- a/lib/alloc_tag.c
+> +++ b/lib/alloc_tag.c
+> @@ -86,6 +86,44 @@ static const struct seq_operations allocinfo_seq_op = {
+>  	.show	= allocinfo_show,
+>  };
+>  
+> +size_t alloc_tag_top_users(struct codetag_bytes *tags, size_t count, bool can_sleep)
 > +{
-> +#ifdef CONFIG_MEM_ALLOC_PROFILING
-> +	if (mem_alloc_profiling_enabled())
-> +		return true;
-> +#endif
-> +	/*
-> +	 * CONFIG_MEMCG_KMEM creates vector of obj_cgroup objects conditionally
-> +	 * inside memcg_slab_post_alloc_hook. No other users for now.
-> +	 */
-> +	return false;
-> +}
+> +	struct codetag_iterator iter;
+> +	struct codetag *ct;
+> +	struct codetag_bytes n;
+> +	unsigned int i, nr = 0;
 > +
-> +static inline struct slabobj_ext *
-> +prepare_slab_obj_exts_hook(struct kmem_cache *s, gfp_t flags, void *p)
-> +{
-> +	struct slab *slab;
+> +	if (can_sleep)
+> +		codetag_lock_module_list(alloc_tag_cttype, true);
+> +	else if (!codetag_trylock_module_list(alloc_tag_cttype))
+> +		return 0;
 > +
-> +	if (!p)
-> +		return NULL;
+> +	iter = codetag_get_ct_iter(alloc_tag_cttype);
+> +	while ((ct = codetag_next_ct(&iter))) {
+> +		struct alloc_tag_counters counter = alloc_tag_read(ct_to_alloc_tag(ct));
 > +
-> +	if (!need_slab_obj_ext())
-> +		return NULL;
+> +		n.ct	= ct;
+> +		n.bytes = counter.bytes;
 > +
-> +	if (s->flags & SLAB_NO_OBJ_EXT)
-> +		return NULL;
+> +		for (i = 0; i < nr; i++)
+> +			if (n.bytes > tags[i].bytes)
+> +				break;
 > +
-> +	if (flags & __GFP_NO_OBJ_EXT)
-> +		return NULL;
-> +
-> +	slab = virt_to_slab(p);
-> +	if (!slab_obj_exts(slab) &&
-> +	    WARN(alloc_slab_obj_exts(slab, s, flags, false),
-> +		 "%s, %s: Failed to create slab extension vector!\n",
-> +		 __func__, s->name))
-> +		return NULL;
-> +
-> +	return slab_obj_exts(slab) + obj_to_index(s, slab, p);
-> +}
-> +
->  #else /* CONFIG_SLAB_OBJ_EXT */
->  
->  static inline struct slabobj_ext *slab_obj_exts(struct slab *slab)
-> @@ -589,6 +629,32 @@ prepare_slab_obj_exts_hook(struct kmem_cache *s, gfp_t flags, void *p)
->  
->  #endif /* CONFIG_SLAB_OBJ_EXT */
->  
-> +#ifdef CONFIG_MEM_ALLOC_PROFILING
-> +
-> +static inline void alloc_tagging_slab_free_hook(struct kmem_cache *s, struct slab *slab,
-> +					void **p, int objects)
-
-Only used from mm/slub.c so could move?
-
-> +{
-> +	struct slabobj_ext *obj_exts;
-> +	int i;
-> +
-> +	obj_exts = slab_obj_exts(slab);
-> +	if (!obj_exts)
-> +		return;
-> +
-> +	for (i = 0; i < objects; i++) {
-> +		unsigned int off = obj_to_index(s, slab, p[i]);
-> +
-> +		alloc_tag_sub(&obj_exts[off].ref, s->size);
+> +		if (i < count) {
+> +			nr -= nr == count;
+> +			memmove(&tags[i + 1],
+> +				&tags[i],
+> +				sizeof(tags[0]) * (nr - i));
+> +			nr++;
+> +			tags[i] = n;
+> +		}
 > +	}
+> +
+> +	codetag_lock_module_list(alloc_tag_cttype, false);
+> +
+> +	return nr;
 > +}
 > +
-> +#else
-> +
-> +static inline void alloc_tagging_slab_free_hook(struct kmem_cache *s, struct slab *slab,
-> +					void **p, int objects) {}
-> +
-> +#endif /* CONFIG_MEM_ALLOC_PROFILING */
-> +
->  #ifdef CONFIG_MEMCG_KMEM
->  void mod_objcg_state(struct obj_cgroup *objcg, struct pglist_data *pgdat,
->  		     enum node_stat_item idx, int nr);
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 5dc7beda6c0d..a69b6b4c8df6 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -3826,6 +3826,7 @@ void slab_post_alloc_hook(struct kmem_cache *s,	struct obj_cgroup *objcg,
->  			  unsigned int orig_size)
+>  static void __init procfs_init(void)
 >  {
->  	unsigned int zero_size = s->object_size;
-> +	struct slabobj_ext *obj_exts;
->  	bool kasan_init = init;
->  	size_t i;
->  	gfp_t init_flags = flags & gfp_allowed_mask;
-> @@ -3868,6 +3869,12 @@ void slab_post_alloc_hook(struct kmem_cache *s,	struct obj_cgroup *objcg,
->  		kmemleak_alloc_recursive(p[i], s->object_size, 1,
->  					 s->flags, init_flags);
->  		kmsan_slab_alloc(s, p[i], init_flags);
-> +		obj_exts = prepare_slab_obj_exts_hook(s, flags, p[i]);
+>  	proc_create_seq("allocinfo", 0444, NULL, &allocinfo_seq_op);
+> diff --git a/lib/codetag.c b/lib/codetag.c
+> index b13412ca57cc..7b39cec9648a 100644
+> --- a/lib/codetag.c
+> +++ b/lib/codetag.c
+> @@ -36,6 +36,11 @@ void codetag_lock_module_list(struct codetag_type *cttype, bool lock)
+>  		up_read(&cttype->mod_lock);
+>  }
+>  
+> +bool codetag_trylock_module_list(struct codetag_type *cttype)
+> +{
+> +	return down_read_trylock(&cttype->mod_lock) != 0;
+> +}
+> +
+>  struct codetag_iterator codetag_get_ct_iter(struct codetag_type *cttype)
+>  {
+>  	struct codetag_iterator iter = {
+> diff --git a/mm/show_mem.c b/mm/show_mem.c
+> index 8dcfafbd283c..1e41f8d6e297 100644
+> --- a/mm/show_mem.c
+> +++ b/mm/show_mem.c
+> @@ -423,4 +423,30 @@ void __show_mem(unsigned int filter, nodemask_t *nodemask, int max_zone_idx)
+>  #ifdef CONFIG_MEMORY_FAILURE
+>  	printk("%lu pages hwpoisoned\n", atomic_long_read(&num_poisoned_pages));
+>  #endif
 > +#ifdef CONFIG_MEM_ALLOC_PROFILING
-> +		/* obj_exts can be allocated for other reasons */
-> +		if (likely(obj_exts) && mem_alloc_profiling_enabled())
-> +			alloc_tag_add(&obj_exts->ref, current->alloc_tag, s->size);
+> +	{
+> +		struct codetag_bytes tags[10];
+> +		size_t i, nr;
+> +
+> +		nr = alloc_tag_top_users(tags, ARRAY_SIZE(tags), false);
+> +		if (nr) {
+> +			printk(KERN_NOTICE "Memory allocations:\n");
+> +			for (i = 0; i < nr; i++) {
+> +				struct codetag *ct = tags[i].ct;
+> +				struct alloc_tag *tag = ct_to_alloc_tag(ct);
+> +				struct alloc_tag_counters counter = alloc_tag_read(tag);
+> +
+> +				/* Same as alloc_tag_to_text() but w/o intermediate buffer */
+> +				if (ct->modname)
+> +					printk(KERN_NOTICE "%12lli %8llu %s:%u [%s] func:%s\n",
+> +					       counter.bytes, counter.calls, ct->filename,
+> +					       ct->lineno, ct->modname, ct->function);
+> +				else
+> +					printk(KERN_NOTICE "%12lli %8llu %s:%u func:%s\n",
+> +					       counter.bytes, counter.calls, ct->filename,
+> +					       ct->lineno, ct->function);
+> +			}
+> +		}
+> +	}
 > +#endif
-
-I think that like in the page allocator, this could be better guarded by
-mem_alloc_profiling_enabled() as the outermost thing.
-
->  	}
->  
->  	memcg_slab_post_alloc_hook(s, objcg, flags, size, p);
-> @@ -4346,6 +4353,7 @@ void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
->  	       unsigned long addr)
->  {
->  	memcg_slab_free_hook(s, slab, &object, 1);
-> +	alloc_tagging_slab_free_hook(s, slab, &object, 1);
-
-Same here, the static key is not even inside of this?
-
->  
->  	if (likely(slab_free_hook(s, object, slab_want_init_on_free(s))))
->  		do_slab_free(s, slab, object, object, 1, addr);
-> @@ -4356,6 +4364,7 @@ void slab_free_bulk(struct kmem_cache *s, struct slab *slab, void *head,
->  		    void *tail, void **p, int cnt, unsigned long addr)
->  {
->  	memcg_slab_free_hook(s, slab, p, cnt);
-> +	alloc_tagging_slab_free_hook(s, slab, p, cnt);
-
-Ditto.
-
->  	/*
->  	 * With KASAN enabled slab_free_freelist_hook modifies the freelist
->  	 * to remove objects, whose reuse must be delayed.
+>  }
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/4a0e40e5-3542-4d47-bb2b-c0666f6a904d%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ae4f9958-813a-42c8-8e54-4ef19fd36d6c%40suse.cz.
