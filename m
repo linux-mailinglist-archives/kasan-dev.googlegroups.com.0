@@ -1,125 +1,125 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBB7F7WXAMGQELE64TRA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBYPL7WXAMGQED3HL6YQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1382086B666
-	for <lists+kasan-dev@lfdr.de>; Wed, 28 Feb 2024 18:51:05 +0100 (CET)
-Received: by mail-il1-x138.google.com with SMTP id e9e14a558f8ab-3651fbce799sf1785ab.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 28 Feb 2024 09:51:05 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1709142664; cv=pass;
+Received: from mail-qt1-x83f.google.com (mail-qt1-x83f.google.com [IPv6:2607:f8b0:4864:20::83f])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEBFA86B6B3
+	for <lists+kasan-dev@lfdr.de>; Wed, 28 Feb 2024 19:05:22 +0100 (CET)
+Received: by mail-qt1-x83f.google.com with SMTP id d75a77b69052e-42e93a2d979sf32714241cf.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 28 Feb 2024 10:05:22 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1709143522; cv=pass;
         d=google.com; s=arc-20160816;
-        b=R2Ru0d1U8/nOLA/cMyqWvVQfDRMbtCrU816Ymj4bBbCsqcwa3pL1R+L4CfExz92Kwg
-         FBytWVNs7ErLFOIUjUGQQOKstFp7OQNvIWQAD9zM8J3T4Bd5ys/waDSMN61R+E/GxESZ
-         suPBIF6q4epXT/g9hSWLWjk21tv0QF3xs/VwftqTakAwQBOq5JXFtQTlDyaBXzsyWVZz
-         3YRME8QJqtnLL/4k3UQOqPkQFPBzpaIde+DvEoVP57WpyQvxmIRs7cUGlmlQ7l/v8znL
-         qHAabz74RU4x061D8blalzI66bbgjZeSJBrnfAQ4+Oah5PUgzzI9q/8H+y2JcjJzSIrI
-         +cnw==
+        b=XaxayLsGKC1bTUinykfS6N3VB09ngesyPO4fFmhwN7ymZ6csTGmqyM9I7pFaEBz0nu
+         CCf9N3iHKfmuR13xtjPbgaRXKy2AJ+zXDiZtWlT07b/zIz9FDHY+kpwVZScnyXq5u43S
+         xlGFkk0pQSMsIYXQki9oNdytLDKLWEU2BafP0bzU+NfMiWkET9+8Bmis1X57LF8FztWh
+         8EQ/1aQ3wAK56ywLH98JnYmQpPl+lKFuSeTWooHLxufGgUbIfXGd7ThcweouBJFCJYg5
+         dxQTxyIDM0X2s8mEi5eNA7JOA4ciaOF6XPd3IXq+LTnu5p+UYPVb5zvSFrP8u2h/KGPj
+         M6kg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=Tp5vGPRuWkL90qzk2kYFvOjSMq0okErwwCwOuSA5p74=;
-        fh=Ri9jiylbEalsx2T3Ff0DTmi/zoAhUmBeW5JFk6UXaQs=;
-        b=s0WEIRXnTqVxmY6gPAam12+Blry5sPmYOWPAw05KyzPPS4graRub3w/7hqZnBpmFu7
-         9+BdEHog8kwfwkL4f3PliFxUhe6AztNwlZh6lPlxt9UJlqHjWUQUY/gmIBJKhFyIV+gA
-         cFy/GVVLp2I1JwWo9wrtwNf30sjxhF6f7iBTCHEorReo7+Yw/vB+ojFVf11q5vJzS/Qh
-         tSOtv1xRPpx3wSZIOnmovyQBp9AjkMmsj+dh4COFC58LJYqhvKAx6JJ4GBN2j6df2Z6F
-         ghIExTqoYLDfRTqJRC6BY3Fu7Tax+5qW1Jq2JagJSdHLHufDjPFMctV76Z8JbVpN5eKL
-         rYsQ==;
+        bh=St7bEMJUjTpjFwxQdc6+XwHxHo3IudeT+/pJRSPC8G0=;
+        fh=vJWET6dyU+nl8A5X0vM7Fg2UwmBCA1+LQKUQECHoYKA=;
+        b=BRobwzQMbmd1+3qQPOX3sgYuq920GgsggZVFXdvVtcd+8BD15ctIUTvOUEr9ORa3ZD
+         6pXmozbmo4akuplVPveNmu42TjmFsPn+69qSK5zrLTmSsy+TszUEI/vDOA2SWJgDPAfH
+         zES74sMtHogARPStua4FT5WYK3NuLxzsxjpYLNU+tA6XS5Ij2ixoufkIp4esIR5cQU/b
+         D4fqlD3P+1X6uPVzBfurri1/M1hdMejiwKLY3NRC8YpxW7yBsYr6oZiH3wNzxLXWCmmk
+         4qQmzcR4f5KpNnyK6Fn8D5aVWt6OhNGRe3C989y5ib+liPX8cARk1wh5314xN+E0xGEC
+         6rXw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=J4j1zjoj;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b31 as permitted sender) smtp.mailfrom=surenb@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=BDQCbXza;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::1133 as permitted sender) smtp.mailfrom=surenb@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1709142664; x=1709747464; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1709143521; x=1709748321; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Tp5vGPRuWkL90qzk2kYFvOjSMq0okErwwCwOuSA5p74=;
-        b=Id94f4mAoG8z/jJnOHd73ONjGEmvZa3iTcIaly6dUQI3tjUZ4rexLlmGahA1FTRpro
-         P6UM5dZXuL7+z2wco8QU2srEZvfQBTEi4kROlifZx6cU8jUljz8eGPjJJlVyZRu/BYAo
-         IvrGImoZSNzvS3RQ3QIeHRjJCS/RnuuGQj6UlPIx3LI7lH3Ykpwy2tu8niYLuX8vrZYn
-         gXBuYU9JfYP+2IVCyAhPqlOtMcTFfjxwSN7hwayVsjAm1uzfwrkzRmE+aGenn60wDppg
-         EDQwLRi0YPpPMU4Y1VJ2UkmAtSPmgKybIYKk1hVas7nnTPiaJh/1QxqGZVFdig5Uf4Z2
-         oGUA==
+        bh=St7bEMJUjTpjFwxQdc6+XwHxHo3IudeT+/pJRSPC8G0=;
+        b=S5u7K+L08HifD6wN1YkDcX0NpqR3waAF1vuPFlddBpC/uBhTdkOdUYvBWzC+0b9Gzv
+         VJOVMdp+8Wx1dRMtyCvN6nqQoUQNy8Sy0BDfl2+Cr9KaVX1dBfcEY9EfcNYJl0lhL6mi
+         nXVDC6JirHqSQ+TiWuBjuuqHROY+RR9zFrAbXUHSgYc+gcoLdjmwnqrM707FMcLruGM0
+         W5ebhALeKwY5Gtz4ArG8gwHrfLZcqpbYXHa9kZBTQEFaOkNcJCwaJJ7HdQeDEH5xxFU8
+         0vtxkgBaRkJ0SLdYWSVz7oCbAxagAZ5FGsU/lBvxrTK/HxCkLImkbv7gRGkm66ZQwAlM
+         iJgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709142664; x=1709747464;
+        d=1e100.net; s=20230601; t=1709143521; x=1709748321;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Tp5vGPRuWkL90qzk2kYFvOjSMq0okErwwCwOuSA5p74=;
-        b=vzRmOgzI7FkC+j1570hBRqDXFGuXTOy+ovfot3cK4l1hkm/SJ89YyfhnGc05CTe8KY
-         avoHqv7Yq0y+GkexKqSr0WVdim0CrL4rt+vOKbr+RqpI3cXrV6DLhKmqe3oNpDSpCIzW
-         2v3G7ajzHrMLQa/opTnWdVoX0mrPd7cn5X/aokh1q/CyJ+aSHPJhjqUuTdzM28mC0lEH
-         5E2yszq8AU9cpTsFRpG4pBOjQ53JBNIc18j1WZojYeykkBtWuavXNHtDxudMI6k6B+c9
-         OZbIz5nmPwQFTwg4DdH97rE/UI/t1rdtdjYun1n5CCysKSdHbLY2bRPhmttF+u3wLsJp
-         iGKA==
-X-Forwarded-Encrypted: i=2; AJvYcCURO7saePdpuFFb0gFM4NPZkp/zv7mY/4/wIoMjp7e7i0/ksIrH9O5ZpZa0oC+XYXTFeFr1h5l5J0AJZbelTZI+gqasqtT+Fg==
-X-Gm-Message-State: AOJu0Yzs5StHLUM/ztXSw+p5x4RUYCR1VhT+9yPlIbxgyEQCS66Q/ezH
-	v7DuQtk9e0tr4NsO+i4sKt+cPnY4abDL7aiaxQYCsfUMGcTOT9zw
-X-Google-Smtp-Source: AGHT+IFdyv3d9oHGzUHK3tskvKsqJphKPzqXLxQxKHfBqSd4+u8Z0gGJc7Hfe4f62RSsUr4kO1QQOg==
-X-Received: by 2002:a05:6e02:370e:b0:363:d154:ca92 with SMTP id ck14-20020a056e02370e00b00363d154ca92mr92243ilb.14.1709142663807;
-        Wed, 28 Feb 2024 09:51:03 -0800 (PST)
+        bh=St7bEMJUjTpjFwxQdc6+XwHxHo3IudeT+/pJRSPC8G0=;
+        b=G402a1RDB7XcQk5PJD5x7OnxIq8zUyB0+rt4ob/a/e6jwKYs/6i2k5KYRv0WG6FcEA
+         1gK8ensmSCbcSAYxmqN3MiXG8niGnRyzaA4EfdfNSpYZ4gRAF5nQ6JAM5SUOjzVQDPx9
+         oeSgKnTTYHDXIVt0yXcsZh2FHhlGQ5JFZvtcyzsNLDhjEejHOjPKcpRTCe2BCMar73EX
+         Eyrp/VJ8dP8xyOgTGHNAajh973I6yA20qE63vJnFFaAp/QRszzXgNCCuKWUvo2Gze/o3
+         wtrSReRj8q8asUSGZDvxUxv0dAI7/SfLlroeuWi94RsZAPVGIUxuzVCJ87b3MUi0/Eac
+         gXxQ==
+X-Forwarded-Encrypted: i=2; AJvYcCVwrTk/xivc/mbZydqfr4tJIVs8gig+BZ+/Yvhv4rxYnIw+qrYilWlME5qMTfWBPNrDeb2hoPq74fjBNnedyxTCwOgEIdPWpw==
+X-Gm-Message-State: AOJu0YxxnFykv/LY1X6mycDABgvnyajIAO9RZMqNLGBogQ3USKnUJ2F7
+	WulFWMext9nTqYnTU2O6q2By6izJ0Q5BrDHDD7o6a5KescO87VD2
+X-Google-Smtp-Source: AGHT+IGNPCtQIq5+IQlY/A1wwcZccLW5xKsGH4oCtpyhtJEfh/hB7AvcwgfdqEz4Zlqjh2IhX+tazA==
+X-Received: by 2002:a05:622a:1b9f:b0:42e:6341:a830 with SMTP id bp31-20020a05622a1b9f00b0042e6341a830mr17477836qtb.4.1709143521622;
+        Wed, 28 Feb 2024 10:05:21 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:364c:b0:21e:5c6b:af5e with SMTP id
- v12-20020a056870364c00b0021e5c6baf5els81315oak.2.-pod-prod-03-us; Wed, 28 Feb
- 2024 09:51:03 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXqO//Br82u1l4xR1l55wRzMiT1VVPReWkocYRfbB+AUG4y1LYOGnDBnyxfGj8jO5cbDYMlkEJSK/F5vtV37JEzHxDgxni7BRil+w==
-X-Received: by 2002:a05:6870:420f:b0:21f:397c:bf52 with SMTP id u15-20020a056870420f00b0021f397cbf52mr443052oac.45.1709142663014;
-        Wed, 28 Feb 2024 09:51:03 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1709142663; cv=none;
+Received: by 2002:a05:622a:20c:b0:42e:808c:fe9a with SMTP id
+ b12-20020a05622a020c00b0042e808cfe9als81073qtx.1.-pod-prod-05-us; Wed, 28 Feb
+ 2024 10:05:21 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVBsF5pa4rWVz9JiSCdNbJgMT/RWkZQOAyJULqu4XGsaEDYGgFz8sIABUR21HUn60kZCzEvSDCmkaCLPUZzkvLe8upAq6xhLlfuLQ==
+X-Received: by 2002:a67:e313:0:b0:471:c058:8a94 with SMTP id j19-20020a67e313000000b00471c0588a94mr290252vsf.16.1709143520853;
+        Wed, 28 Feb 2024 10:05:20 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1709143520; cv=none;
         d=google.com; s=arc-20160816;
-        b=z6N0+UO21s4pYvfAMpVjnuC+lNB/ciszhnjYVo1t5liBvhcCka6YN+RT7BUlxzXyHS
-         aHS9/e+D7ApgJWAa/ubJXLTu5y/yjH7S28QhMfNCoZ/7qFVDxmvtlYFTDVeoX//mYCfE
-         E7pV/4gXiH8Yk5AlXICcspolMpXnjONOc26Q9g1oOT2A0QY1OEMWN3t+ult1SutPPPEC
-         sl7ncL2wkx1fuUFoJz7TXAvbTATaYYCXvgiMrTsRyz/cIxdsR1pHwW1b+7TXk5wHEM5O
-         bQPBgXj2CgGQ3vM7L0b1pUhCSLNLlmswxLNpW4DdD4p84RsyGUJtsGt/6SAJED1cW6iK
-         EcLA==
+        b=peo/5ALEXafpPuwHqOlSk/KjY1SjgN+muKs1BHFz/S7JvCHItwIKz/EZjeOp9PSn1y
+         zHOh0JJtQJqwlT6wHlqgMRDL3mCLXA/VVMm2v69NC8EMMk2FCFwJkIiWc9dwfIwnT4XD
+         WUXgBedzbA9MPf1SKeFqmAytYp6uVi9AD6fry5TN6vn3yuKCTkYgenAWj98zfy5liJto
+         OaN0dIYLS2rS8+k0nKTt/Zc+NN8zkQPKDJKO34CAfTjhY54rTj7fFCmrNhdaVY/xISk9
+         qRGbNooX52ZKFOajnegshaZloAnShUXpq6Db2a1G95YHp77xD0s42oxPos9+IRDkdolP
+         CHMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=VnQ/ab/JPnAloJ9klQyh8nICmNuzmA4WCeR9lmsJM4M=;
-        fh=8aZFkftuU7K/G5Cko9AaYG9OOIV//hP4WJJHf5+OKwk=;
-        b=lsJDlWWr5tQGzq5Su/5HaJjTrjqjR/n/KR9asHVnUl1tKphlN0Lq1ZPoUbEpbysFao
-         MwCvSV7SV3AG87+WkL/ztQhJZvXXhSs/Go2IjB48vU7BZXRpVgNh6Hcc2vglosze6mIU
-         q+v4Q7qMBpQm14keHPk+FdIABp1iEXIlwEqOHkp8t+NFbF753pcGlcJKzZ4jbDvgBhHx
-         f9stJ0IcQUYQYANg39eq4VjVyYPTTmEpEZagECFYGLama01AjQbfaQ4Y8ST0Lz8PXKvq
-         sHbwpgmttP5gmU5nr+VPk08XVmWIEvDk/mFPhoD81AQChRu4ea44MEXj95ob4spTa95W
-         DNXw==;
+        bh=M5RWLefMMZcrjC6ohvg7ZMSlCbzmM6eu4zL9kM45cas=;
+        fh=Qzerta+LKtapP4532EphI9abKDgYtcCFAIqQNqpeV8s=;
+        b=F8oMSAIADAOZPUSRFeJYPl9cSqq5PWgTyc2kQhsEu3tUmMHY2GWU38tuDEsgM0UhDZ
+         iiFN6Fh2B3ViVkiqj37z8cnHpeWpm+PhGxFXoMODOlrVepkuSb1XC0cl5g1UTtfMb6kF
+         sx2XqMItbGYJM1ryL0KXtg71adyvO7Kd/Aef1AzoSiU9p1CTAWSJSEMTlKVqmzVgxDsv
+         RXR/z5fJ0GypmPJYowOawGWD7FBgpMoajusVoaf7b+kpQdNKiY5MNPKXoZ/BsJHAD1nd
+         +6Up4fsv5+9hepAZlkPSaBdFFQzQKId+NCZXfGWaiHs1jnd+aZMbrxrUBGhItuKxscuj
+         mkXA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=J4j1zjoj;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b31 as permitted sender) smtp.mailfrom=surenb@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=BDQCbXza;
+       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::1133 as permitted sender) smtp.mailfrom=surenb@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com. [2607:f8b0:4864:20::b31])
-        by gmr-mx.google.com with ESMTPS id fw16-20020a056870081000b0021fd1e6d920si1156021oab.2.2024.02.28.09.51.02
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com. [2607:f8b0:4864:20::1133])
+        by gmr-mx.google.com with ESMTPS id e4-20020a67c504000000b0046d3986403esi7321vsk.0.2024.02.28.10.05.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Feb 2024 09:51:03 -0800 (PST)
-Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b31 as permitted sender) client-ip=2607:f8b0:4864:20::b31;
-Received: by mail-yb1-xb31.google.com with SMTP id 3f1490d57ef6-dcbcea9c261so46392276.3
-        for <kasan-dev@googlegroups.com>; Wed, 28 Feb 2024 09:51:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWCNMXLP5RPyo0WYoOL4ys6LfeNUoAL/gc+fttlGcg/3ePEtraBSlOeg+/f6GvWrSHb8YhGQ6wD4rb/rf9IsOAwgww8KeGhwmV3Ew==
-X-Received: by 2002:a25:9c08:0:b0:dcb:bff0:72b with SMTP id
- c8-20020a259c08000000b00dcbbff0072bmr3550ybo.31.1709142661963; Wed, 28 Feb
- 2024 09:51:01 -0800 (PST)
+        Wed, 28 Feb 2024 10:05:20 -0800 (PST)
+Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::1133 as permitted sender) client-ip=2607:f8b0:4864:20::1133;
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-6087d1355fcso335457b3.0
+        for <kasan-dev@googlegroups.com>; Wed, 28 Feb 2024 10:05:20 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVez0p0KEJVzP5zD42E3FasWJK8BAGP2a9pwoy6gBEEBMaIq15v76oHGenLxcRqqOoeNl2SJ0G8roNnru/1BiSNhNxqDzOzlOB/rA==
+X-Received: by 2002:a25:4687:0:b0:dc2:398b:fa08 with SMTP id
+ t129-20020a254687000000b00dc2398bfa08mr21101yba.31.1709143520037; Wed, 28 Feb
+ 2024 10:05:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-20-surenb@google.com>
- <2daf5f5a-401a-4ef7-8193-6dca4c064ea0@suse.cz> <CAJuCfpGt+zfFzfLSXEjeTo79gw2Be-UWBcJq=eL1qAnPf9PaiA@mail.gmail.com>
- <6db0f0c8-81cb-4d04-9560-ba73d63db4b8@suse.cz>
-In-Reply-To: <6db0f0c8-81cb-4d04-9560-ba73d63db4b8@suse.cz>
+References: <20240221194052.927623-1-surenb@google.com> <20240221194052.927623-15-surenb@google.com>
+ <1287d17e-9f9e-49a4-8db7-cf3bbbb15d02@suse.cz>
+In-Reply-To: <1287d17e-9f9e-49a4-8db7-cf3bbbb15d02@suse.cz>
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 28 Feb 2024 17:50:50 +0000
-Message-ID: <CAJuCfpEgh1OiYNE_uKG-BqW2x97sOL9+AaTX4Jct3=WHzAv+kg@mail.gmail.com>
-Subject: Re: [PATCH v4 19/36] mm: create new codetag references during page splitting
+Date: Wed, 28 Feb 2024 18:05:08 +0000
+Message-ID: <CAJuCfpGSNut2st7vKYJE7NXb6BPjd=DFW_VEUKfw=hGyzUpqJw@mail.gmail.com>
+Subject: Re: [PATCH v4 14/36] lib: add allocation tagging support for memory
+ allocation profiling
 To: Vlastimil Babka <vbabka@suse.cz>
 Cc: akpm@linux-foundation.org, kent.overstreet@linux.dev, mhocko@suse.com, 
 	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
@@ -150,10 +150,10 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=J4j1zjoj;       spf=pass
- (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::b31 as
- permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
+ header.i=@google.com header.s=20230601 header.b=BDQCbXza;       spf=pass
+ (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::1133
+ as permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
 Precedence: list
@@ -168,107 +168,33 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Feb 28, 2024 at 12:47=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> w=
-rote:
+On Wed, Feb 28, 2024 at 8:29=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz> wr=
+ote:
 >
-> On 2/27/24 17:38, Suren Baghdasaryan wrote:
-> > On Tue, Feb 27, 2024 at 2:10=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz=
-> wrote:
-> >>
-> >> On 2/21/24 20:40, Suren Baghdasaryan wrote:
-> >> > When a high-order page is split into smaller ones, each newly split
-> >> > page should get its codetag. The original codetag is reused for thes=
-e
-> >> > pages but it's recorded as 0-byte allocation because original codeta=
-g
-> >> > already accounts for the original high-order allocated page.
-> >>
-> >> This was v3 but then you refactored (for the better) so the commit log
-> >> could reflect it?
+> On 2/21/24 20:40, Suren Baghdasaryan wrote:
 > >
-> > Yes, technically mechnism didn't change but I should word it better.
-> > Smth like this:
-> >
-> > When a high-order page is split into smaller ones, each newly split
-> > page should get its codetag. After the split each split page will be
-> > referencing the original codetag. The codetag's "bytes" counter
-> > remains the same because the amount of allocated memory has not
-> > changed, however the "calls" counter gets increased to keep the
-> > counter correct when these individual pages get freed.
+> > +static inline void alloc_tag_sub(union codetag_ref *ref, size_t bytes)
+> > +{
+> > + __alloc_tag_sub(ref, bytes);
+> > +}
+> > +
+> > +static inline void alloc_tag_sub_noalloc(union codetag_ref *ref, size_=
+t bytes)
+> > +{
+> > + __alloc_tag_sub(ref, bytes);
+> > +}
+> > +
 >
-> Great, thanks.
-> The concern with __free_pages() is not really related to splitting, so fo=
-r
-> this patch:
->
-> Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
->
-> >
-> >>
-> >> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> >>
-> >> I was going to R-b, but now I recalled the trickiness of
-> >> __free_pages() for non-compound pages if it loses the race to a
-> >> speculative reference. Will the codetag handling work fine there?
-> >
-> > I think so. Each non-compoud page has its individual reference to its
-> > codetag and will decrement it whenever the page is freed. IIUC the
-> > logic in  __free_pages(), when it loses race to a speculative
-> > reference it will free all pages except for the first one and the
->
-> The "tail" pages of this non-compound high-order page will AFAICS not hav=
-e
-> code tags assigned, so alloc_tag_sub() will be a no-op (or a warning with
-> _DEBUG).
+> Nit: just notice these are now the same and maybe you could just drop bot=
+h
+> wrappers and rename __alloc_tag_sub to alloc_tag_sub?
 
-Yes, that is correct.
+Ack.
 
 >
-> > first one will be freed when the last put_page() happens. If prior to
-> > this all these pages were split from one page then all of them will
-> > have their own reference which points to the same codetag.
->
-> Yeah I'm assuming there's no split before the freeing. This patch about
-> splitting just reminded me of that tricky freeing scenario.
-
-Ah, I see. I thought you were talking about a page that was previously spli=
-t.
-
->
-> So IIUC the "else if (!head)" path of __free_pages() will do nothing abou=
-t
-> the "tail" pages wrt code tags as there are no code tags.
-> Then whoever took the speculative "head" page reference will put_page() a=
-nd
-> free it, which will end up in alloc_tag_sub(). This will decrement calls
-> properly, but bytes will become imbalanced, because that put_page() will
-> pass order-0 worth of bytes - the original order is lost.
-
-Yeah, that's true. put_page() will end up calling
-free_unref_page(&folio->page, 0) even if the original order was more
-than 0.
-
->
-> Now this might be rare enough that it's not worth fixing if that would be
-> too complicated, just FYI.
-
-Yeah. We can fix this by subtracting the "bytes" counter of the "head"
-page for all free_the_page(page + (1 << order), order) calls we do
-inside __free_pages(). But we can't simply use pgalloc_tag_sub()
-because the "calls" counter will get over-decremented (we allocated
-all of these pages with one call). I'll need to introduce a new
-pgalloc_tag_sub_bytes() API and use it here. I feel it's too targeted
-of a solution but OTOH this is a special situation, so maybe it's
-acceptable. WDYT?
-
->
->
-> > Every time
-> > one of these pages are freed that codetag's "bytes" and "calls"
-> > counters will be decremented. I think accounting will work correctly
-> > irrespective of where these pages are freed, in __free_pages() or by
-> > put_page().
-> >
+> --
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to kernel-team+unsubscribe@android.com.
 >
 
 --=20
@@ -277,5 +203,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAJuCfpEgh1OiYNE_uKG-BqW2x97sOL9%2BAaTX4Jct3%3DWHzAv%2Bkg%40mail.=
-gmail.com.
+kasan-dev/CAJuCfpGSNut2st7vKYJE7NXb6BPjd%3DDFW_VEUKfw%3DhGyzUpqJw%40mail.gm=
+ail.com.
