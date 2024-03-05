@@ -1,73 +1,155 @@
-Return-Path: <kasan-dev+bncBCQ7L3NR5EMBBDOMS2XQMGQEWNAJL2Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBD7YZQWS6IOBBXWDTKXQMGQEVO6AARQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33d.google.com (mail-ot1-x33d.google.com [IPv6:2607:f8b0:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C0C86FF55
-	for <lists+kasan-dev@lfdr.de>; Mon,  4 Mar 2024 11:44:31 +0100 (CET)
-Received: by mail-ot1-x33d.google.com with SMTP id 46e09a7af769-6e4de3461b2sf1378412a34.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 04 Mar 2024 02:44:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1709549070; x=1710153870; darn=lfdr.de;
+Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C5A8714D8
+	for <lists+kasan-dev@lfdr.de>; Tue,  5 Mar 2024 05:38:57 +0100 (CET)
+Received: by mail-pj1-x103d.google.com with SMTP id 98e67ed59e1d1-29b1fa64666sf215288a91.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 04 Mar 2024 20:38:57 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1709613535; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=OxF6Ohou4lmMkoM3IFwumNg0UVS4U76/IWM0UP6sNvtWF6P2WzmKSrCXYYJLxXHzgW
+         suS7CQc3nOaHmfowmsRKO7GQRlOIXuaQLTRERaV9N9VLrbCFfO03W4zvbkt88b0cYc++
+         JNrq4JzWt4rIQA5aUC7ZF0TtOihz6aZIPp2F/wwxXcoS4cweYqgexMUSV8FgTlUNFarc
+         etgEwASlUqhJzP3GS2feO68pZOmHW5vLCHRufYQhz5H7W1gQ2ImgEt5SiiG/ZL6R/94n
+         Ax/5+hV+kDJtikvSJNb35pylKax+bg1FKXiFy2fCTxCbbF6Nw9cMC+iHJFyzEys1IRb3
+         6+8w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:message-id:to:from:date:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YyHyRJMyH+QBvTWXTEcQPx2iUdn/HDLuZsbWl6XXn24=;
-        b=BsUYav+skwkOx4W2eWcQ/X/1u5Q7n36JXC2gqDbZDr8s4puU0tXFDZJX79wNG1cd6u
-         JNjBxMQPke8OoQqCJGF6xsoDJN0XTLFXAKbm64oyMBLYbbPks4bheDP2XkRnjMt6FUfG
-         iBhW7r+vpQJ25ruPI9/M20C5/wwiTvmJJN3ioRIbzt6IDEr92KJ5VsRKc7ZSDnvyKpLV
-         k6xSzYtyIuAzZqOmjT6/HScwI0dz6CE4u2d9Y5BRasv9AQVOK+mPIX1NK3w8TtH96Kh6
-         PNIEa9WIW0CgR1KwbDXHHotaxoHU4gqWkJWg3VoiFFudWWb/CfnhOzNzpYEztlD3Iti2
-         Ok0w==
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=YXH5tth71IzzId4cTLD4xUv8LKMuZ4XhiQ0g1dnAuoU=;
+        fh=uXZo28ZPlmGkfi0CWzMLByFwzQDkzUgOhmGDxH/cT9o=;
+        b=ePg1l05hOtc/b9VKyDaaI3jQhh7JjaPzgCt5IOSbchagdP+fndjeWcVDiyyTbWSHZc
+         bzqVqFZe8jyTZ7jh2ApffN2wlzgOlrZ8F7NGHhZyldDcjxViiC7GkPC/MvXXKWhWIckF
+         jTfqGtbij7BgkK5trfWzRDQQWLi2uZAqBASMxLRl9cC77qpV8InBfQLk7WPwaupRSTkm
+         biQp68GJP9AlnO5rOmGPEIYpiz0iicTsxwER3N78lGEN2JGIYjftkp8SBiizuIb733rZ
+         JIA9KZ4/TqdGNDAChqRUL0+kSGbp2Eg47HMgDxiUUT5AoF9um7kBinB+zyoLN9TrxDGg
+         WlCw==;
+        darn=lfdr.de
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=g7pbBgeM;
+       spf=pass (google.com: domain of peterx@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=peterx@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1709549070; x=1710153870; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1709613535; x=1710218335; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YyHyRJMyH+QBvTWXTEcQPx2iUdn/HDLuZsbWl6XXn24=;
-        b=Qj9y/aCKG//QyY5BL6xWWZQ+mA3Fsc8B5yDA1lsHR85RhwODkkGNiId3PA2fPQsgTS
-         Ar3jJlcFSNoNmeMMPEYEHbtAasQDZSOmFcoq4G1f5GltKlU3swKRn1nHf/3iFCRVajaU
-         g/5JA5pQqCXUHMuNaVxGAc2lS95zD2udNMo1jQAcUlrfjPaEO4S6ix3jwTQvR+Y9Ug57
-         a4fnr1qWuEI/p0WUw20iXr9dfLZcZBWw9VBQ3HKvUkmo5FXCwIaeDFurrHpMkSOTGF41
-         EAz6kenzYAzDaUw1zVPcVMsI/bimVJTjTPChSbgp9eW+PNj3bSgyLEEv5aQuiA6VNhdc
-         JERA==
+        bh=YXH5tth71IzzId4cTLD4xUv8LKMuZ4XhiQ0g1dnAuoU=;
+        b=NZsEtXWLhffVAxzFMBDp8pElcVJwTb0zZ6bBATbbFtSJgQBJChFWiWwET1n8xUYZNy
+         MxmgLGS8qCek94fgdPJozuszlL/TwGTv8y9ewVYK5oaTYXbMCvBHWoOIMGQBl27EKQ28
+         12VsQD00bZQfw0lfgAMiD63KiG43rYv/jOyVuQgW3+gSjfyzDK0tF38kIfIaRIEz1WFM
+         v8OTz2b0gTarzta96z43YyuuSbEZg/QMp1WD5MBqj7SbH3vcwz1Q74L7VC5GwRlH7kdQ
+         JCcL0S9xcliVbud3pZON9SOvh8C1VLSjsk5w/00VsRzxnDeF2sg6jt21ApNbjpvF3PqF
+         imsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709549070; x=1710153870;
+        d=1e100.net; s=20230601; t=1709613535; x=1710218335;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-sender:mime-version:subject:message-id:to:from:date
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YyHyRJMyH+QBvTWXTEcQPx2iUdn/HDLuZsbWl6XXn24=;
-        b=OFSg3wnKd1BxKICrLnfpZz1Mg0Zz9Eov6HbU9uD1tFl5pB57O7ZnBYU9kJg9EF6rRK
-         X9w4yEkiLfutV91s4+0Df7+NVY5Cw+k7kjK9nYMItczKqknaMn+9nJFJvpOj5TP3nnBW
-         XTBbPNguYb1rdYWx5Pj7VHCclZwzTVoQ0U0DYLdp/eMt2jpWN5aPP8iFTrlSAHRlCVB3
-         i1cEpHqCibWfVJ+8W0Za+hul0mB5bKrLRxegJXUDTJyvN/7+uKGt8XxslwXYZqJrPO0M
-         UEZK0J/enyeFVcl3Ls/eJGyj3nHmA/L4F9JdYXNj9gQKZ67dfVJHuWFaabTNwiEjwdtY
-         nDHQ==
+        bh=YXH5tth71IzzId4cTLD4xUv8LKMuZ4XhiQ0g1dnAuoU=;
+        b=tyeMQ0CcqaY8yZQDOvYQn8TTK4KxjN7Bdq89b5ekzBxlp5VX6NsPWngZsVEd+8DLhF
+         jI6t3UBdAVBgi29JTsgNxqV7qXXa17R6yX/tQY96hA/YW1Jkn/KLqoyYrHWUQnqY9Uhd
+         ZYybRZ5mTUkFOGG/SjSHzEFYy4ufEgtmQI1rSZ2z8wDR2Z5vht4xnBqaQyMKXzA+jvJL
+         yEBKQsW6zjSlyXUZ8GPBRvzxK9/0hdcdp/rxto4mWFPs5qj6l1OIvBZ+sj69uhD4pTyb
+         Qv/hlWCDTumL+kmsO+yyNjLP9jmsjJMz8N9KyYElslOWFHTSaCWVCzlNvyzQ99vELzug
+         QcIQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=1; AJvYcCXqAuqJByPCYWLKiNpbNHM5yoXaOjlFHaSkSE2mzdekuicNzd++qHDHveww/5Qb2viA36bStUD5jMIIj+rSF0Xued43AzaitQ==
-X-Gm-Message-State: AOJu0YyFNXrkUE9atR1Brt+y57au4pUxWw5OVKqwGw3QJGYVzwi7mxOU
-	Zjf0Lty4sMiN1XdfIcwMso8Sv+4TBhiSxvAB2Wdj8l42EA4KOMFU
-X-Google-Smtp-Source: AGHT+IFqMmL1V7APcL6wnGuhfhrgi4GwN9Ib6WdwJRh5GbTJEMLOhTxOgC3QWCEw5H1Qzb+74A5r3g==
-X-Received: by 2002:a05:6830:1bd1:b0:6e2:f9a1:9627 with SMTP id v17-20020a0568301bd100b006e2f9a19627mr7913899ota.33.1709549069928;
-        Mon, 04 Mar 2024 02:44:29 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCW0WolaQe000/B+xZVF/pWurL7OkoE5HQwaE4w2WbLuZKI7E/7Hx/rQJRRtONsCjRLH1Py7yndGcQ8KFAqc/7c0lA3Fwv4pwg==
+X-Gm-Message-State: AOJu0Yyqf1mr1jeM/R+Wex3O+3zvzEpHfocd7Ui15bxgZeR9P6ZIJe/U
+	t+HWNHfq20iRPspBfX3x+8h9RwaGciJL+nSwxQwLOF/QPZXQstn5
+X-Google-Smtp-Source: AGHT+IGP89Ztg8jw+cCa5xHBQEQIbVIOd6Na3BJCrv8qlH/EUpZ9t9j7G2YHG9U2zg4XalePDqgefw==
+X-Received: by 2002:a17:90a:a416:b0:29b:2779:6cea with SMTP id y22-20020a17090aa41600b0029b27796ceamr7486047pjp.30.1709613534968;
+        Mon, 04 Mar 2024 20:38:54 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:e8dd:0:b0:59a:622:89d8 with SMTP id h29-20020a4ae8dd000000b0059a062289d8ls2182422ooe.0.-pod-prod-09-us;
- Mon, 04 Mar 2024 02:44:29 -0800 (PST)
-X-Received: by 2002:a05:6820:814:b0:5a1:2a6e:b259 with SMTP id bg20-20020a056820081400b005a12a6eb259mr340118oob.1.1709549068678;
-        Mon, 04 Mar 2024 02:44:28 -0800 (PST)
-Date: Mon, 4 Mar 2024 02:44:28 -0800 (PST)
-From: obat aborsi cytotec <cytotecobataborsi9@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <838b86a5-21a4-4acf-9871-62a72cde9b87n@googlegroups.com>
-Subject: Jual Cytotec Asli Di Jember WA 0812-3232-2644 Alamat Tempat Klinik
- Obat Aborsi Cod Jember
+Received: by 2002:a17:90b:4c8c:b0:29b:ff6:f4fc with SMTP id
+ my12-20020a17090b4c8c00b0029b0ff6f4fcls223403pjb.2.-pod-prod-09-us; Mon, 04
+ Mar 2024 20:38:54 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVI9k498sA6sX7d0dlN5YMwJhHW0QSlrtikgDoyMQS13RyJxzaDPgWR931ShNl/o44AErVxXm4GAa/aixctEdo/26fVd42frWqQiw==
+X-Received: by 2002:a17:90a:b005:b0:29a:60bc:ae07 with SMTP id x5-20020a17090ab00500b0029a60bcae07mr8149675pjq.35.1709613533828;
+        Mon, 04 Mar 2024 20:38:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1709613533; cv=none;
+        d=google.com; s=arc-20160816;
+        b=buqD31FZ2Zu/vFGyBJP3SoUKepWXZ7PtgLICZeHLkkw1a6m4J6bJ3W1wewUh/uwCOM
+         ahRKQOk9uipe/3/Ax6MeQRZxLFKbYNF/sg44boIqVpaFnzliZ4SvkEHKd36+nsGGTi7E
+         IIudYXCTZxbttL49xCKr1El6zKbiScecOo6/fZ8dN1vKHbwdls/ByUMoqtWrdPqZF9Ta
+         XoMeW6fA1SHJaxcCMhXaaxOaPE9juGtE3OqsFqMHJwtqXwIf/CYCgCpUBh/WTfp41k/1
+         gXN4omIuqtHUFf46A02roDkx3waTG95lJrNniXMLdb5J1LrVDkovYAl97vv5gdieQjEw
+         5GHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=+OBCTz9lvlJv+Cv6bxuJooI+JmxCAuhU7weo02f7lPE=;
+        fh=SCGEM0a3u+MIkXyfovVoHc3mfh7eSVA+HwVgff131QY=;
+        b=zPUobW4RF7q5B0FDf028TXBEafroUQTIwW75Otw+LLihoMNwm+N/0R912kxoUtANjm
+         LPVL1E009lydO+RZILkHa95ET7YPBhiUHBSg2OIzxH1PGszFBsrFvCSGLyd7c090mftq
+         9zJONofkWkg/rhDkw6hDrDhoXJudH+zBsgOeFQPmDOgbd294PqBYHciC4oa8YTKh2xBF
+         zHIMiKk5qqTzLKCBOLX6aqZZlO41NuDfLfNSHjojH6njZBO+1cfrs4lzB2L65nBxMk6u
+         vRfORldlSs1yaPbAjRTEiSaJ6t8CesbdCircAMLcch6aLH+9VIDO0s1r6/1J8/4J+As1
+         Rl7g==;
+        dara=google.com
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=g7pbBgeM;
+       spf=pass (google.com: domain of peterx@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=peterx@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id a11-20020a17090ad80b00b0029ac89a78d7si1077570pjv.1.2024.03.04.20.38.53
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Mar 2024 20:38:53 -0800 (PST)
+Received-SPF: pass (google.com: domain of peterx@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-688-mm-VBS-RM56uWvAAq4EvGA-1; Mon, 04 Mar 2024 23:38:48 -0500
+X-MC-Unique: mm-VBS-RM56uWvAAq4EvGA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com [10.11.54.8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 31F86101A5BB;
+	Tue,  5 Mar 2024 04:38:47 +0000 (UTC)
+Received: from x1n.redhat.com (unknown [10.72.116.31])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 52DABC1F086;
+	Tue,  5 Mar 2024 04:38:39 +0000 (UTC)
+From: peterx@redhat.com
+To: linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	x86@kernel.org,
+	"Kirill A . Shutemov" <kirill@shutemov.name>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Yang Shi <shy828301@gmail.com>,
+	peterx@redhat.com,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linuxppc-dev@lists.ozlabs.org,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	kasan-dev@googlegroups.com
+Subject: [PATCH v3 06/10] mm/kasan: Use pXd_leaf() in shadow_mapped()
+Date: Tue,  5 Mar 2024 12:37:46 +0800
+Message-ID: <20240305043750.93762-7-peterx@redhat.com>
+In-Reply-To: <20240305043750.93762-1-peterx@redhat.com>
+References: <20240305043750.93762-1-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_2408_141643438.1709549068018"
-X-Original-Sender: cytotecobataborsi9@gmail.com
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.8
+X-Original-Sender: peterx@redhat.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@redhat.com header.s=mimecast20190719 header.b=g7pbBgeM;
+       spf=pass (google.com: domain of peterx@redhat.com designates
+ 170.10.133.124 as permitted sender) smtp.mailfrom=peterx@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -80,484 +162,53 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_2408_141643438.1709549068018
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_2409_136008264.1709549068018"
+From: Peter Xu <peterx@redhat.com>
 
-------=_Part_2409_136008264.1709549068018
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+There is an old trick in shadow_mapped() to use pXd_bad() to detect huge
+pages.  After commit 93fab1b22ef7 ("mm: add generic p?d_leaf() macros") we
+have a global API for huge mappings.  Use that to replace the trick.
 
-Jual Cytotec Asli Di Jember WA 0812-3232-2644 Alamat Tempat Klinik Obat=20
-Aborsi Cod Jember
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: kasan-dev@googlegroups.com
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ mm/kasan/shadow.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-Jual Cytotec Asli Di Jember WA 0812-3232-2644 Alamat Tempat Klinik Obat=20
-Aborsi Cod Jember
+diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+index 9ef84f31833f..d6210ca48dda 100644
+--- a/mm/kasan/shadow.c
++++ b/mm/kasan/shadow.c
+@@ -199,19 +199,12 @@ static bool shadow_mapped(unsigned long addr)
+ 	pud = pud_offset(p4d, addr);
+ 	if (pud_none(*pud))
+ 		return false;
+-
+-	/*
+-	 * We can't use pud_large() or pud_huge(), the first one is
+-	 * arch-specific, the last one depends on HUGETLB_PAGE.  So let's abuse
+-	 * pud_bad(), if pud is bad then it's bad because it's huge.
+-	 */
+-	if (pud_bad(*pud))
++	if (pud_leaf(*pud))
+ 		return true;
+ 	pmd = pmd_offset(pud, addr);
+ 	if (pmd_none(*pmd))
+ 		return false;
+-
+-	if (pmd_bad(*pmd))
++	if (pmd_leaf(*pmd))
+ 		return true;
+ 	pte = pte_offset_kernel(pmd, addr);
+ 	return !pte_none(ptep_get(pte));
+-- 
+2.44.0
 
-https://data.gov.kg/user/jual-cytotec-jember
-
-Jual Obat Aborsi Cytotec Jember, Agen Penjual Obat Aborsi Cytotec Jember,=
-=20
-Alamat Jual Obat Cytotec Cod Jember, Jual Obat Penggugur Kandungan, Alamat=
-=20
-Penjual Obat Aborsi , Apotek Yang menjual Cytotec Jember, Apotik Jual Obat=
-=20
-Cytotec Jember
-
-Apotik Yang Jual Obat Aborsi, Beli Obat Cytotec Aborsi, Harga Obat Cytotec,=
-=20
-Tempat Jual Obat Aborsi, Alamat Jual Obat Cytotec, Klinik Aborsi Di Kota,=
-=20
-Obat Untuk Aborsi, Obat Penggugur Kandungan, Jamu Aborsi, Beli Pil Aborsi
-Jual Obat Aborsi Di Jember WA 0812-3232-2644 Alamat Klinik Aborsi Di Jember
-
-Jual Obat Aborsi Cytotec Jember, Agen Penjual Obat Aborsi Cytotec Jember,=
-=20
-Alamat Jual Obat Cytotec Cod Jember, Alamat Penjual Obat Aborsi Jember,=20
-Apotek Yang menjual Cytotec Jember, Apotik Jual Obat Cytotec Jember, Apotik=
-=20
-Yang Jual Obat Aborsi Jember, Beli Obat Cytotec Aborsi Jember, Harga Obat=
-=20
-Cytotec Jember, Tempat Jual Obat Aborsi Jember, Alamat Jual Obat Cytotec=20
-Jember <https://data.gov.kg/user/jual-cytotec-jember>, Klinik Aborsi Di=20
-Kota Jember, Obat Untuk Aborsi Jember, Jual Obat Penggugur Kandungan Jember=
-=20
-<https://data.gov.kg/user/jual-cytotec-jember>, Jamu Aborsi Jember, Beli=20
-Pil Aborsi Jember
-Jual Obat Cytotec Cod Jember 0812-3232-2644 Obat Aborsi Jember
-
-APOTIK: Kami Jual Obat Aborsi Jember=20
-<https://data.gov.kg/user/jual-cytotec-jember> Wa: 0812-3232-2644 Obat=20
-Aborsi Cod Jember, Obat Menggugurkan Kandungan, Cara Menggugurkan Kandungan=
-=20
-| Obat Aborsi Ampuh | Obat Penggugur Kandungan | Obat Telat Bulan, Obat=20
-Pelancar Haid. Dengan harga yang bisa anda pilih sesuai usia kandungan=20
-anda. Obat yang kami jual sangat ampuh dan tuntas untuk menunda kehamilan=
-=20
-atau proses aborsi untuk usia kandungan 1,2,3,4,5,6,7 bulan.
-
-Obat Aborsi Cod Jember dikota indonesia, disini kami ingin memberikan tips=
-=20
-serta cara menggugurkan kandungan secara alami dan aman tanpa efek samping=
-=20
-saat mengkonsumsinya, Bila anda saat ini membutuhkan Obat Aborsi untuk=20
-Menggugurkan kandungan anda, Silahkan untuk menyimak ulasan berikut ini=20
-agar anda memahami bagai mana cara pakai dan kerja dari Obat Aborsi Ampuh=
-=20
-yang kami jual di Web Shop kami.
-Apa itu Cytotec Obat Aborsi?
-
-Obat aborsi Cod Jember Adalah dengan membendung hormon yang di perlukan=20
-untuk mempertahankan kehamilan yaitu hormon progesterone, karena hormon ini=
-=20
-di bendung, maka jalur kehamilan mulai membuka dan leher rahim menjadi=20
-melunak, sehingga mulai mengeluarkan darah yang merupakan tanda bahwa obat=
-=20
-telah bekerja (maksimal 1 jam sejak obat diminum) darah inilah yang=20
-kemudian menjadi pertanda bahwa pasien telah mengalami menstruasinya,=20
-sehingga secara otomatis kandungan di dalamnya telah hilang dengan=20
-sendirinya berhasil.
-
-KAMI MEMBERI GARANSI Jangan terima obat aborsi Jember yang sudah ke buka=20
-tabletnya, karena yang asli masih bertablet utuh seperti foto di atas.
-
-Baca Juga Artikel Tentang Obat Cytotec dan Penjual Obat Aborsi Yang=20
-Terpercaya
-
-Obat Cytotec Asli 0812-3232-2644 Paket Harga Obat Aborsi Paling Murah Jual=
-=20
-Cytotec Asli  Pesan Obat Aborsi Cod Dengan Aman Obat Aborsi 400 mcg:=20
-0812-3232-2644 Harga Cytotec dan Obat Penggugur Kandungan Terbaru Obat=20
-Penggugur Kandungan Merek Dagang Cytotec 400 mg Asli Melancarkan Haid Apa=
-=20
-Itu Cytotec 400 mcg: Fungsi Obat Aborsi, Cara Pakai, dan Efek Penggugur=20
-Kandungan Cara Menggugurkan Kandungan Dengan Bahan Alami Tanpa Obat-Obatan=
-=20
-Apa Itu Gastrul 200 mcg: Aturan Pakai, Manfaat, dan Efek Samping Jangka=20
-Panjangnya Obat Penggugur Kandungan Merek Dagang Cytotec 400 mg Untuk=20
-Aborsi Secara Aman Jual Obat Cytotec Cod Jember 0812-3232-2644 Obat Aborsi=
-=20
-Jember
-
-Cara Melakukan Aborsi Yang Aman? Obat Aborsi Cytotec Cod Jember sangat aman=
-=20
-dan efektif, dan anda dapat membeli obat cytotec misoprostol yang di=20
-rekomendasikan oleh FDA sebagai obat yang aman bagi kaum wanita yang ingin=
-=20
-mengakhiri kehamilanya.
-
-Disini anda menemukan jawaban untuk pertanyaan Obat Aborsi Cytotec=20
-Misoprostol dengan cara aturan pakai obat cytotec, dosis obat cytotec, cara=
-=20
-kerja obat cytotec, dimana membeli obat aborsi, harga obat cytotec.
-
-Sebenarnya Obat Aborsi Cytotec Itu Apa? Cytotec Misoprostol Adalah obat=20
-aborsi yang di produksi asli oleh Pfizer USA yang telah di setujui FDA=20
-america, dan penjualan obat cytotec tidak diizinkan di beberapa negara=20
-dengan hukum ketat, dan di Indonesia di perlukan resep untuk mendapatkan=20
-obat cytotec misoprostol 200Mcg. ( meskipun bagi kita tidak di perlukan=20
-resep untuk membeli obat aborsi cytotec misopprostol 200Mcg. Hubungi saja=
-=20
-hotline kami (0812-3232-2644).
-
-Cara Aborsi Dengan Obat Cytotec Obat Aborsi Jember Cytotec Misoprostol=20
-Adalah Obat telat bulan dengan bahan aktif Cytotec Misoprostol asli di=20
-produksi oleh Pfizer USA, di jual dengan nama dagang Cytotec, Cyprostol=20
-Gymiso, mibitec, misotrol, Gastrul.
-
-Semua obat obatan ini adalah nama merek atau analog farmasi yang mengandung=
-=20
-MISOPROSTOL 200 Mcg yang lebih berkhasiat di bandingkan obat telat bulan=20
-tradisional, obat pelancar haid, obat peluntur kandungan, obat penggugur=20
-kandungan, dan obat tradisional telat bulan lainya dan MISOPROSTOL lain.
-
-Contoh obat yang mengandung misoprostol seperti: Gastrul, Cytrosol,=20
-Noprostol, dan MISOPROSTOL CYTOTEC yang generik. Obat cytotec lebih efektif=
-=20
-di banding produk lain dalam mengatasi masalah kehamilan.
-
-PENJELASAN OBAT ABORSI USIA 1 BULAN Obat Aborsi memberitahukan pada usia=20
-kandungan ini, pasien tidak akan merasakan sakit, dikarenakan janin Jemberm=
-=20
-terbentuk.
-
-Cara kerja obat aborsi: Cara kerjanya Adalah dengan membendung hormon=20
-diperlukan untuk mempertahankan kehamilan yaitu hormon progesterone. Maka=
-=20
-jalur kehamilan ini mulai membuka dan leher rahim menjadi melunak sehingga=
-=20
-mulai mengeluarkan darah merupakan tanda bahwa obat telah bekerja (maksimal=
-=20
-3 jam sejak obat diminum). Darah inilah kemudian menjadi pertanda bahwa=20
-pasien telah mengalami menstruasinya, sehingga secara otomatis kandungan=20
-didalamnya telah hilang dengan sendirinya. berhasil Tanpa efek samping.
-
-PENJELASAN OBAT ABORSI USIA 2 BULAN Obat Aborsi memberitahukan pada usia=20
-kandungan ini, pasien akan adanya rasa sedikit nyeri pada saat darah keluar=
-=20
-itu merupakan pertanda menstruasi. Hal ini dikarenakan pada usia kandungan=
-=20
-2 bulan, janin sudah mulai terbentuk walaupun hanya sebesar bola tenis.
-
-Cara kerja obat aborsi: Secara umum sama dengan cara kerja =E2=80=9COBAT AB=
-ORSI=20
-dosis 1 bulan=E2=80=9D, hanya bedanya selain membendung hormon progesterone=
-, juga=20
-mengisolasi janin sehingga akan terbelah menjadi kecil-kecil sehingga=20
-nantinya akan mudah untuk dikeluarkan. Selain itu, =E2=80=9D OBAT ABORSI do=
-sis 2=20
-bulan =E2=80=9D juga akan membersihkan rahim dari sisa-sisa janin mungkin a=
-da=20
-sehingga rahim akan menjadi bersih kemJember seperti semula,artinya tetap=
-=20
-dapat mengandung dan melahirkan secara normal untuk selanjutnya. Menstruasi=
-=20
-akan terjadi maksimal 24 jam sejak OBAT ABORSI diminum.
-
-PENJELASAN OBAT ABORSI USIA 3 BULAN Obat Aborsi memberitahukan pada usia=20
-kandungan ini, pasien akan merasakan sakit yang sedikit tidak=20
-berlebihan(sekitar 1 jam), namun hanya akan terjadi pada saat darah keluar=
-=20
-merupakan pertanda menstruasi. Hal ini dikarenakan pada usia kandungan 3=20
-bulan, janin sudah terbentuk sebesar kepalan tangan orang dewasa.
-
-Cara kerja obat aborsi: OBAT ABORSI dosis 3 bulan secara umum sama dengan=
-=20
-cara kerja =E2=80=9CDOSIS OBAT ABORSI 2 bulan=E2=80=9D, hanya bedanya selai=
-n mengisolasi=20
-janin juga menghancurkan janin dengan formula methotrexate dikandung=20
-didalamnya. Formula methotrexate ini sangat ampuh untuk menghancurkan janin=
-=20
-menjadi serpihan-serpihan kecil akan sangat berguna pada saat dikeluarkan=
-=20
-nanti. =E2=80=9D OBAT ABORSI dosis 3 bulan=E2=80=9D juga membersihkan rahim=
- dari sisa-sisa=20
-janin mungkin ada / tersisa sehingga nantinya tetap dapat mengandung dan=20
-melahirkan secara normal. Menstruasi akan terjadi maksimal 24 jam sejak=20
-OBAT ABORSI diminum.
-
-ALASAN WANITA MELAKUKAN CARA ABORSI DI Jember aborsi di lakukan wanita=20
-hamil baik yang sudah menikah maupun Jemberm menikah dengan berbagai alasan=
-=20
-, akan tetapi alasan yang utama adalah alasan-alasan non medis (termasuk=20
-aborsi sendiri / di sengaja / buatan) obat aborsi di Jember alasan-alasan=
-=20
-aborsi adalah :
-
-Tidak ingin memiliki anak karna khuwatir menggangu karir (23) Tidak ingin=
-=20
-memiliki anak tanpa ayah (31) Hamil karna perselingkuhan (17) Hamil di luar=
-=20
-nikah (85) Kondisi anak masih kecil-kecil (19) Kondisi Kehamilan yang=20
-membahayakan bagi sang ibu (10) Pengguguran yang dilakukan terhadap janin=
-=20
-yang cacat (14) Pengguguran yang di lakukan untuk alasan-alasan lain.=20
-Jangan Terpengaruh Harga Murah..! Kami jual obat aborsi ampuh yang=20
-benar-benar efektif dan telah dipakai di banyak negara karna kualitas dan=
-=20
-keamanannya terjamin sehingga disetujui pemakaiannya oleh FDA di Amerika.
-
-Ingat..! Obat yang asli tidak ada warna lain selain warna putih & bentuknya=
-=20
-cuma segi enam bukan yang lain dan isi paket sama yang beda dosis obatnya=
-=20
-saja, dalam isi paket ada Tiga jenis obat yaitu: Cytotec misoprostol=20
-200mcg, Mifeprex / mifepristone 200mcg dan pembersih.
-
-UNTUK HARGA OBAT ABORSI Jember BISA TELFON / SMS / WA DI BAWAH NO INI:=20
-0812-3232-2644
-
-AWAS: OBAT PALSU PASTI BERKEMASAN PLASTIK BIASA, KARNA OBAT YANG ASLI MASIH=
-=20
-BERKEMASAN TABLET UTUH, BENTUKNYA TABLETS PUTIH SEGI ENAM BUKAN BULAT=20
-POLOS..!
-
-TERIMAKASIH ATAS KEPERCAYAAN ANDA MENJADI PELANGGAN OBAT ABORSI Jember YANG=
-=20
-TERPECAYA
-
-Hubungi Kami Untuk Info Lebih Lanjut: WhatsApp/Telfon: 0812-3232-2644
-
-Kategori: Jual Obat Aborsi Cod Jember, Agen Obat Aborsi Cytotec Cod Jember,=
-=20
-Alamat Obat Cytotec Cod Di Jember, Paket Obat Penggugur Kandungan Jember,=
-=20
-Toko Obat Telat Bulan Cod Jember, Apotik Penjual Obat Gastrul Di Jember,=20
-Tempat Menggugurkan Kandungan Di Jember.
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/838b86a5-21a4-4acf-9871-62a72cde9b87n%40googlegroups.com.
-
-------=_Part_2409_136008264.1709549068018
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<span style=3D"box-sizing: border-box; font-size: 18px; margin: 0px 0px 5px=
-; font-family: Roboto, Helvetica, Arial, sans-serif; font-weight: 700; line=
--height: 1.3; color: rgb(38, 42, 53); word-break: break-word; hyphens: auto=
-;">Jual Cytotec Asli Di Jember WA 0812-3232-2644 Alamat Tempat Klinik Obat =
-Aborsi Cod Jember</span><p style=3D"box-sizing: border-box; margin: 0px 0px=
- 10px; overflow: auto; color: rgb(38, 42, 53); font-family: Roboto, Helveti=
-ca, Arial, sans-serif;">Jual Cytotec Asli Di Jember WA 0812-3232-2644 Alama=
-t Tempat Klinik Obat Aborsi Cod Jember</p><p style=3D"box-sizing: border-bo=
-x; margin: 0px 0px 10px; overflow: auto; color: rgb(38, 42, 53); font-famil=
-y: Roboto, Helvetica, Arial, sans-serif;">https://data.gov.kg/user/jual-cyt=
-otec-jember<br /></p><p style=3D"box-sizing: border-box; margin: 0px 0px 10=
-px; overflow: auto; color: rgb(38, 42, 53); font-family: Roboto, Helvetica,=
- Arial, sans-serif;">Jual Obat Aborsi Cytotec Jember, Agen Penjual Obat Abo=
-rsi Cytotec Jember, Alamat Jual Obat Cytotec Cod Jember, Jual Obat Penggugu=
-r Kandungan, Alamat Penjual Obat Aborsi , Apotek Yang menjual Cytotec Jembe=
-r, Apotik Jual Obat Cytotec Jember</p><p style=3D"box-sizing: border-box; m=
-argin: 0px 0px 10px; overflow: auto; color: rgb(38, 42, 53); font-family: R=
-oboto, Helvetica, Arial, sans-serif;">Apotik Yang Jual Obat Aborsi, Beli Ob=
-at Cytotec Aborsi, Harga Obat Cytotec, Tempat Jual Obat Aborsi, Alamat Jual=
- Obat Cytotec, Klinik Aborsi Di Kota, Obat Untuk Aborsi, Obat Penggugur Kan=
-dungan, Jamu Aborsi, Beli Pil Aborsi</p><span style=3D"box-sizing: border-b=
-ox; font-family: Roboto, Helvetica, Arial, sans-serif; font-weight: 700; li=
-ne-height: 1.5; color: rgb(38, 42, 53); margin-top: 20px; margin-bottom: 10=
-px; font-size: 21px;">Jual Obat Aborsi Di Jember WA 0812-3232-2644 Alamat K=
-linik Aborsi Di Jember</span><p style=3D"box-sizing: border-box; margin: 0p=
-x 0px 10px; overflow: auto; color: rgb(38, 42, 53); font-family: Roboto, He=
-lvetica, Arial, sans-serif;">Jual Obat Aborsi Cytotec Jember, Agen Penjual =
-Obat Aborsi Cytotec Jember, Alamat Jual Obat Cytotec Cod Jember, Alamat Pen=
-jual Obat Aborsi Jember, Apotek Yang menjual Cytotec Jember, Apotik Jual Ob=
-at Cytotec Jember, Apotik Yang Jual Obat Aborsi Jember, Beli Obat Cytotec A=
-borsi Jember, Harga Obat Cytotec Jember, Tempat Jual Obat Aborsi Jember, Al=
-amat <a href=3D"https://data.gov.kg/user/jual-cytotec-jember">Jual Obat Cyt=
-otec Jember</a>, Klinik Aborsi Di Kota Jember, Obat Untuk Aborsi Jember, <a=
- href=3D"https://data.gov.kg/user/jual-cytotec-jember">Jual Obat Penggugur =
-Kandungan Jember</a>, Jamu Aborsi Jember, Beli Pil Aborsi Jember</p><span s=
-tyle=3D"box-sizing: border-box; font-family: Roboto, Helvetica, Arial, sans=
--serif; font-weight: 700; line-height: 1.5; color: rgb(38, 42, 53); margin-=
-top: 20px; margin-bottom: 10px; font-size: 21px;">Jual Obat Cytotec Cod Jem=
-ber 0812-3232-2644 Obat Aborsi Jember</span><p style=3D"box-sizing: border-=
-box; margin: 0px 0px 10px; overflow: auto; color: rgb(38, 42, 53); font-fam=
-ily: Roboto, Helvetica, Arial, sans-serif;">APOTIK: Kami <a href=3D"https:/=
-/data.gov.kg/user/jual-cytotec-jember">Jual Obat Aborsi Jember</a> Wa: 0812=
--3232-2644 Obat Aborsi Cod Jember, Obat Menggugurkan Kandungan, Cara Menggu=
-gurkan Kandungan | Obat Aborsi Ampuh | Obat Penggugur Kandungan | Obat Tela=
-t Bulan, Obat Pelancar Haid. Dengan harga yang bisa anda pilih sesuai usia =
-kandungan anda. Obat yang kami jual sangat ampuh dan tuntas untuk menunda k=
-ehamilan atau proses aborsi untuk usia kandungan 1,2,3,4,5,6,7 bulan.</p><p=
- style=3D"box-sizing: border-box; margin: 0px 0px 10px; overflow: auto; col=
-or: rgb(38, 42, 53); font-family: Roboto, Helvetica, Arial, sans-serif;">Ob=
-at Aborsi Cod Jember dikota indonesia, disini kami ingin memberikan tips se=
-rta cara menggugurkan kandungan secara alami dan aman tanpa efek samping sa=
-at mengkonsumsinya, Bila anda saat ini membutuhkan Obat Aborsi untuk Menggu=
-gurkan kandungan anda, Silahkan untuk menyimak ulasan berikut ini agar anda=
- memahami bagai mana cara pakai dan kerja dari Obat Aborsi Ampuh yang kami =
-jual di Web Shop kami.</p><span style=3D"box-sizing: border-box; font-famil=
-y: Roboto, Helvetica, Arial, sans-serif; font-weight: 700; line-height: 1.5=
-; color: rgb(38, 42, 53); margin-top: 20px; margin-bottom: 10px; font-size:=
- 21px;">Apa itu Cytotec Obat Aborsi?</span><p style=3D"box-sizing: border-b=
-ox; margin: 0px 0px 10px; overflow: auto; color: rgb(38, 42, 53); font-fami=
-ly: Roboto, Helvetica, Arial, sans-serif;">Obat aborsi Cod Jember Adalah de=
-ngan membendung hormon yang di perlukan untuk mempertahankan kehamilan yait=
-u hormon progesterone, karena hormon ini di bendung, maka jalur kehamilan m=
-ulai membuka dan leher rahim menjadi melunak, sehingga mulai mengeluarkan d=
-arah yang merupakan tanda bahwa obat telah bekerja (maksimal 1 jam sejak ob=
-at diminum) darah inilah yang kemudian menjadi pertanda bahwa pasien telah =
-mengalami menstruasinya, sehingga secara otomatis kandungan di dalamnya tel=
-ah hilang dengan sendirinya berhasil.</p><p style=3D"box-sizing: border-box=
-; margin: 0px 0px 10px; overflow: auto; color: rgb(38, 42, 53); font-family=
-: Roboto, Helvetica, Arial, sans-serif;">KAMI MEMBERI GARANSI Jangan terima=
- obat aborsi Jember yang sudah ke buka tabletnya, karena yang asli masih be=
-rtablet utuh seperti foto di atas.</p><p style=3D"box-sizing: border-box; m=
-argin: 0px 0px 10px; overflow: auto; color: rgb(38, 42, 53); font-family: R=
-oboto, Helvetica, Arial, sans-serif;">Baca Juga Artikel Tentang Obat Cytote=
-c dan Penjual Obat Aborsi Yang Terpercaya</p><p style=3D"box-sizing: border=
--box; margin: 0px 0px 10px; overflow: auto; color: rgb(38, 42, 53); font-fa=
-mily: Roboto, Helvetica, Arial, sans-serif;">Obat Cytotec Asli 0812-3232-26=
-44 Paket Harga Obat Aborsi Paling Murah Jual Cytotec Asli =C2=A0Pesan Obat =
-Aborsi Cod Dengan Aman Obat Aborsi 400 mcg: 0812-3232-2644 Harga Cytotec da=
-n Obat Penggugur Kandungan Terbaru Obat Penggugur Kandungan Merek Dagang Cy=
-totec 400 mg Asli Melancarkan Haid Apa Itu Cytotec 400 mcg: Fungsi Obat Abo=
-rsi, Cara Pakai, dan Efek Penggugur Kandungan Cara Menggugurkan Kandungan D=
-engan Bahan Alami Tanpa Obat-Obatan Apa Itu Gastrul 200 mcg: Aturan Pakai, =
-Manfaat, dan Efek Samping Jangka Panjangnya Obat Penggugur Kandungan Merek =
-Dagang Cytotec 400 mg Untuk Aborsi Secara Aman Jual Obat Cytotec Cod Jember=
- 0812-3232-2644 Obat Aborsi Jember</p><p style=3D"box-sizing: border-box; m=
-argin: 0px 0px 10px; overflow: auto; color: rgb(38, 42, 53); font-family: R=
-oboto, Helvetica, Arial, sans-serif;">Cara Melakukan Aborsi Yang Aman? Obat=
- Aborsi Cytotec Cod Jember sangat aman dan efektif, dan anda dapat membeli =
-obat cytotec misoprostol yang di rekomendasikan oleh FDA sebagai obat yang =
-aman bagi kaum wanita yang ingin mengakhiri kehamilanya.</p><p style=3D"box=
--sizing: border-box; margin: 0px 0px 10px; overflow: auto; color: rgb(38, 4=
-2, 53); font-family: Roboto, Helvetica, Arial, sans-serif;">Disini anda men=
-emukan jawaban untuk pertanyaan Obat Aborsi Cytotec Misoprostol dengan cara=
- aturan pakai obat cytotec, dosis obat cytotec, cara kerja obat cytotec, di=
-mana membeli obat aborsi, harga obat cytotec.</p><p style=3D"box-sizing: bo=
-rder-box; margin: 0px 0px 10px; overflow: auto; color: rgb(38, 42, 53); fon=
-t-family: Roboto, Helvetica, Arial, sans-serif;">Sebenarnya Obat Aborsi Cyt=
-otec Itu Apa? Cytotec Misoprostol Adalah obat aborsi yang di produksi asli =
-oleh Pfizer USA yang telah di setujui FDA america, dan penjualan obat cytot=
-ec tidak diizinkan di beberapa negara dengan hukum ketat, dan di Indonesia =
-di perlukan resep untuk mendapatkan obat cytotec misoprostol 200Mcg. ( mesk=
-ipun bagi kita tidak di perlukan resep untuk membeli obat aborsi cytotec mi=
-sopprostol 200Mcg. Hubungi saja hotline kami (0812-3232-2644).</p><p style=
-=3D"box-sizing: border-box; margin: 0px 0px 10px; overflow: auto; color: rg=
-b(38, 42, 53); font-family: Roboto, Helvetica, Arial, sans-serif;">Cara Abo=
-rsi Dengan Obat Cytotec Obat Aborsi Jember Cytotec Misoprostol Adalah Obat =
-telat bulan dengan bahan aktif Cytotec Misoprostol asli di produksi oleh Pf=
-izer USA, di jual dengan nama dagang Cytotec, Cyprostol Gymiso, mibitec, mi=
-sotrol, Gastrul.</p><p style=3D"box-sizing: border-box; margin: 0px 0px 10p=
-x; overflow: auto; color: rgb(38, 42, 53); font-family: Roboto, Helvetica, =
-Arial, sans-serif;">Semua obat obatan ini adalah nama merek atau analog far=
-masi yang mengandung MISOPROSTOL 200 Mcg yang lebih berkhasiat di bandingka=
-n obat telat bulan tradisional, obat pelancar haid, obat peluntur kandungan=
-, obat penggugur kandungan, dan obat tradisional telat bulan lainya dan MIS=
-OPROSTOL lain.</p><p style=3D"box-sizing: border-box; margin: 0px 0px 10px;=
- overflow: auto; color: rgb(38, 42, 53); font-family: Roboto, Helvetica, Ar=
-ial, sans-serif;">Contoh obat yang mengandung misoprostol seperti: Gastrul,=
- Cytrosol, Noprostol, dan MISOPROSTOL CYTOTEC yang generik. Obat cytotec le=
-bih efektif di banding produk lain dalam mengatasi masalah kehamilan.</p><p=
- style=3D"box-sizing: border-box; margin: 0px 0px 10px; overflow: auto; col=
-or: rgb(38, 42, 53); font-family: Roboto, Helvetica, Arial, sans-serif;">PE=
-NJELASAN OBAT ABORSI USIA 1 BULAN Obat Aborsi memberitahukan pada usia kand=
-ungan ini, pasien tidak akan merasakan sakit, dikarenakan janin Jemberm ter=
-bentuk.</p><p style=3D"box-sizing: border-box; margin: 0px 0px 10px; overfl=
-ow: auto; color: rgb(38, 42, 53); font-family: Roboto, Helvetica, Arial, sa=
-ns-serif;">Cara kerja obat aborsi: Cara kerjanya Adalah dengan membendung h=
-ormon diperlukan untuk mempertahankan kehamilan yaitu hormon progesterone. =
-Maka jalur kehamilan ini mulai membuka dan leher rahim menjadi melunak sehi=
-ngga mulai mengeluarkan darah merupakan tanda bahwa obat telah bekerja (mak=
-simal 3 jam sejak obat diminum). Darah inilah kemudian menjadi pertanda bah=
-wa pasien telah mengalami menstruasinya, sehingga secara otomatis kandungan=
- didalamnya telah hilang dengan sendirinya. berhasil Tanpa efek samping.</p=
-><p style=3D"box-sizing: border-box; margin: 0px 0px 10px; overflow: auto; =
-color: rgb(38, 42, 53); font-family: Roboto, Helvetica, Arial, sans-serif;"=
->PENJELASAN OBAT ABORSI USIA 2 BULAN Obat Aborsi memberitahukan pada usia k=
-andungan ini, pasien akan adanya rasa sedikit nyeri pada saat darah keluar =
-itu merupakan pertanda menstruasi. Hal ini dikarenakan pada usia kandungan =
-2 bulan, janin sudah mulai terbentuk walaupun hanya sebesar bola tenis.</p>=
-<p style=3D"box-sizing: border-box; margin: 0px 0px 10px; overflow: auto; c=
-olor: rgb(38, 42, 53); font-family: Roboto, Helvetica, Arial, sans-serif;">=
-Cara kerja obat aborsi: Secara umum sama dengan cara kerja =E2=80=9COBAT AB=
-ORSI dosis 1 bulan=E2=80=9D, hanya bedanya selain membendung hormon progest=
-erone, juga mengisolasi janin sehingga akan terbelah menjadi kecil-kecil se=
-hingga nantinya akan mudah untuk dikeluarkan. Selain itu, =E2=80=9D OBAT AB=
-ORSI dosis 2 bulan =E2=80=9D juga akan membersihkan rahim dari sisa-sisa ja=
-nin mungkin ada sehingga rahim akan menjadi bersih kemJember seperti semula=
-,artinya tetap dapat mengandung dan melahirkan secara normal untuk selanjut=
-nya. Menstruasi akan terjadi maksimal 24 jam sejak OBAT ABORSI diminum.</p>=
-<p style=3D"box-sizing: border-box; margin: 0px 0px 10px; overflow: auto; c=
-olor: rgb(38, 42, 53); font-family: Roboto, Helvetica, Arial, sans-serif;">=
-PENJELASAN OBAT ABORSI USIA 3 BULAN Obat Aborsi memberitahukan pada usia ka=
-ndungan ini, pasien akan merasakan sakit yang sedikit tidak berlebihan(seki=
-tar 1 jam), namun hanya akan terjadi pada saat darah keluar merupakan perta=
-nda menstruasi. Hal ini dikarenakan pada usia kandungan 3 bulan, janin suda=
-h terbentuk sebesar kepalan tangan orang dewasa.</p><p style=3D"box-sizing:=
- border-box; margin: 0px 0px 10px; overflow: auto; color: rgb(38, 42, 53); =
-font-family: Roboto, Helvetica, Arial, sans-serif;">Cara kerja obat aborsi:=
- OBAT ABORSI dosis 3 bulan secara umum sama dengan cara kerja =E2=80=9CDOSI=
-S OBAT ABORSI 2 bulan=E2=80=9D, hanya bedanya selain mengisolasi janin juga=
- menghancurkan janin dengan formula methotrexate dikandung didalamnya. Form=
-ula methotrexate ini sangat ampuh untuk menghancurkan janin menjadi serpiha=
-n-serpihan kecil akan sangat berguna pada saat dikeluarkan nanti. =E2=80=9D=
- OBAT ABORSI dosis 3 bulan=E2=80=9D juga membersihkan rahim dari sisa-sisa =
-janin mungkin ada / tersisa sehingga nantinya tetap dapat mengandung dan me=
-lahirkan secara normal. Menstruasi akan terjadi maksimal 24 jam sejak OBAT =
-ABORSI diminum.</p><p style=3D"box-sizing: border-box; margin: 0px 0px 10px=
-; overflow: auto; color: rgb(38, 42, 53); font-family: Roboto, Helvetica, A=
-rial, sans-serif;">ALASAN WANITA MELAKUKAN CARA ABORSI DI Jember aborsi di =
-lakukan wanita hamil baik yang sudah menikah maupun Jemberm menikah dengan =
-berbagai alasan , akan tetapi alasan yang utama adalah alasan-alasan non me=
-dis (termasuk aborsi sendiri / di sengaja / buatan) obat aborsi di Jember a=
-lasan-alasan aborsi adalah :</p><p style=3D"box-sizing: border-box; margin:=
- 0px 0px 10px; overflow: auto; color: rgb(38, 42, 53); font-family: Roboto,=
- Helvetica, Arial, sans-serif;">Tidak ingin memiliki anak karna khuwatir me=
-nggangu karir (23) Tidak ingin memiliki anak tanpa ayah (31) Hamil karna pe=
-rselingkuhan (17) Hamil di luar nikah (85) Kondisi anak masih kecil-kecil (=
-19) Kondisi Kehamilan yang membahayakan bagi sang ibu (10) Pengguguran yang=
- dilakukan terhadap janin yang cacat (14) Pengguguran yang di lakukan untuk=
- alasan-alasan lain. Jangan Terpengaruh Harga Murah..! Kami jual obat abors=
-i ampuh yang benar-benar efektif dan telah dipakai di banyak negara karna k=
-ualitas dan keamanannya terjamin sehingga disetujui pemakaiannya oleh FDA d=
-i Amerika.</p><p style=3D"box-sizing: border-box; margin: 0px 0px 10px; ove=
-rflow: auto; color: rgb(38, 42, 53); font-family: Roboto, Helvetica, Arial,=
- sans-serif;">Ingat..! Obat yang asli tidak ada warna lain selain warna put=
-ih &amp; bentuknya cuma segi enam bukan yang lain dan isi paket sama yang b=
-eda dosis obatnya saja, dalam isi paket ada Tiga jenis obat yaitu: Cytotec =
-misoprostol 200mcg, Mifeprex / mifepristone 200mcg dan pembersih.</p><p sty=
-le=3D"box-sizing: border-box; margin: 0px 0px 10px; overflow: auto; color: =
-rgb(38, 42, 53); font-family: Roboto, Helvetica, Arial, sans-serif;">UNTUK =
-HARGA OBAT ABORSI Jember BISA TELFON / SMS / WA DI BAWAH NO INI: 0812-3232-=
-2644</p><p style=3D"box-sizing: border-box; margin: 0px 0px 10px; overflow:=
- auto; color: rgb(38, 42, 53); font-family: Roboto, Helvetica, Arial, sans-=
-serif;">AWAS: OBAT PALSU PASTI BERKEMASAN PLASTIK BIASA, KARNA OBAT YANG AS=
-LI MASIH BERKEMASAN TABLET UTUH, BENTUKNYA TABLETS PUTIH SEGI ENAM BUKAN BU=
-LAT POLOS..!</p><p style=3D"box-sizing: border-box; margin: 0px 0px 10px; o=
-verflow: auto; color: rgb(38, 42, 53); font-family: Roboto, Helvetica, Aria=
-l, sans-serif;">TERIMAKASIH ATAS KEPERCAYAAN ANDA MENJADI PELANGGAN OBAT AB=
-ORSI Jember YANG TERPECAYA</p><p style=3D"box-sizing: border-box; margin: 0=
-px 0px 10px; overflow: auto; color: rgb(38, 42, 53); font-family: Roboto, H=
-elvetica, Arial, sans-serif;">Hubungi Kami Untuk Info Lebih Lanjut: WhatsAp=
-p/Telfon: 0812-3232-2644</p><p style=3D"box-sizing: border-box; margin: 0px=
- 0px 10px; overflow: auto; color: rgb(38, 42, 53); font-family: Roboto, Hel=
-vetica, Arial, sans-serif;">Kategori: Jual Obat Aborsi Cod Jember, Agen Oba=
-t Aborsi Cytotec Cod Jember, Alamat Obat Cytotec Cod Di Jember, Paket Obat =
-Penggugur Kandungan Jember, Toko Obat Telat Bulan Cod Jember, Apotik Penjua=
-l Obat Gastrul Di Jember, Tempat Menggugurkan Kandungan Di Jember.</p>
-
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion on the web visit <a href=3D"https://groups.google.c=
-om/d/msgid/kasan-dev/838b86a5-21a4-4acf-9871-62a72cde9b87n%40googlegroups.c=
-om?utm_medium=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgi=
-d/kasan-dev/838b86a5-21a4-4acf-9871-62a72cde9b87n%40googlegroups.com</a>.<b=
-r />
-
-------=_Part_2409_136008264.1709549068018--
-
-------=_Part_2408_141643438.1709549068018--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240305043750.93762-7-peterx%40redhat.com.
