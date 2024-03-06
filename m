@@ -1,122 +1,122 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBJXKUKXQMGQE7A7D5JA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBKHKUKXQMGQEHTAPY3A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ua1-x940.google.com (mail-ua1-x940.google.com [IPv6:2607:f8b0:4864:20::940])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB190873E99
-	for <lists+kasan-dev@lfdr.de>; Wed,  6 Mar 2024 19:25:43 +0100 (CET)
-Received: by mail-ua1-x940.google.com with SMTP id a1e0cc1a2514c-7cede81ecf8sf1235771241.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 06 Mar 2024 10:25:43 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1709749542; cv=pass;
+Received: from mail-oo1-xc3d.google.com (mail-oo1-xc3d.google.com [IPv6:2607:f8b0:4864:20::c3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81270873E9B
+	for <lists+kasan-dev@lfdr.de>; Wed,  6 Mar 2024 19:25:45 +0100 (CET)
+Received: by mail-oo1-xc3d.google.com with SMTP id 006d021491bc7-5a1202521easf4177672eaf.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 06 Mar 2024 10:25:45 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1709749544; cv=pass;
         d=google.com; s=arc-20160816;
-        b=gAbwiEVDEfipVeJnuJpH4FOjnE1BpTz3RfCLZrCYhwsBx+s313+Tjd3Sy5J7wcoM7D
-         rM4YCq/gLNTJnA/2Fy3TlGq3CHrzCmaCM5jzD3AyWvdR5xMoMJUdvPIBG1TmsdqrkIyk
-         qqR/NYeYxyHBXDiFdtGzRXq2Pvp02relRSoCVv58EfRVsanDg+/+JbQNkMijRp+NWaLv
-         rTTv31gosVSt7XW4dTv1hoI2XHTz56+EzvcWMY4IYyIhbNW2NWcYutyLIGMzvjszlaZV
-         fo85EzESYvtN3gXAUCsivAocNCJnUycwLbmI7N16jO0+Yd0BXWV7oyXbpIrJf2vgpmcl
-         iOWQ==
+        b=0s45eaVXNTO6kjn+ZzhPme/N7HBa+WrqiNQzBL/tCGREXQrrPFMc1+DgS98uOEikVG
+         XniJBYisuX2KsxvjVJD9Ie3tuttYg5TTou75ZmkUUFmXvvuqM+QHaENrIVF3LnQQDtyp
+         LKYoVTM3QHTZsnWUOJwSmWCV/3B4zWZXNiO+T+r5+2HceiV0Qnm5YQvAqI3rgcuwKsCO
+         6rr9TmPTpzh8Xrv1E4UQjA9JFRcbrwFsrqqdCqZDrIB5oLo0dvJrQVagqrzp9LsVLoBD
+         BsNzvzK9VK9LPOr5VP3lJCPxYEWLOWkh2NvtpGwE1rGTsiQWVUlJ0RIG37BxdwsNTez8
+         mjnw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=dlpuz0vJA12f4KhK46Nguj+2kmPrFSXsPIXuMUTMbqo=;
-        fh=tYS2wOQ6FQKAm8XmjVrmWTIl2pobaTE7eh0e9SiNWLg=;
-        b=twBKk+h9HNZUe9ERvDibNyiwE8M3/EcklkC03+3f7P0WgQRGp9yD4Q2/NBHceBSbf/
-         FZMFN67ukksTN7FVCHJSqrLohJTtXcv2TDTon2jlvlAV63PdD9Ts3SG6CSDvul4MDurr
-         1o+D51sUMMjsXC2v3+tfupxlxx5edvKEoJFexKRqgOMY+j5F2N7fBlimWnSPuG9gNK3b
-         ak3M85J81SJxwo9LC2jzHm4JUc3C3+6I40GDAiiVr7TieffILOBO3yYJ6HnpkteMS8Ky
-         USx2yUveP3bO75L9COcguLdT4f0JQwS6VGPBxIJtHMtOfy+TSKjDvPqRjSDARoAU8pMd
-         bnXg==;
+        bh=CBA2SXnvyWRMyI0aQbgk4LdgN2yGZJQIVYvmj0D23ms=;
+        fh=VNAbR/HUQnY9UAeudxtqkv7suv1O3OyWAm6/ZDcFJIY=;
+        b=aG6fMnwPpBSMr8qwVO8tVIzQGoHmB/WFd/EJca6VYsA5SKqWNQ7dIWcVZFBV8nbWgQ
+         hipGgvvESUhLWuxXr7EfhBmkUqMyUjch5U4QVmy/QJVx2ofN3T5fkFMHuWC/Db++evoV
+         8XjYgTMcSHea2U+6rjja7A8IRZSrfiJOuU5kSO+A0hZ9ggAUN1hXSse8gYScnKPH6BET
+         pA4T5JnyGGYsuSTGVemj4hr7v1ISTD0UGIW80nczl8Xw+L2/SgnpiUk5pnYRf3cSvNoy
+         lJA+iLHEgKQXqES30/Au8iIwQSjcXra+hjmMxvNVK83I9jqwLt76mKU8L1KhVezVMrCQ
+         teMg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=AfUmsDO5;
-       spf=pass (google.com: domain of 3jbxozqykcwgyaxkthmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3JbXoZQYKCWgYaXKTHMUUMRK.IUSQGYGT-JKbMUUMRKMXUaVY.IUS@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=4qqVHzba;
+       spf=pass (google.com: domain of 3j7xozqykcwoaczmvjowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3J7XoZQYKCWoacZMVJOWWOTM.KWUSIaIV-LMdOWWOTMOZWcXa.KWU@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1709749542; x=1710354342; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1709749544; x=1710354344; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=dlpuz0vJA12f4KhK46Nguj+2kmPrFSXsPIXuMUTMbqo=;
-        b=P/Z/S3JnrIYHu3dIc+p80yKKRn8fLhP8BAhrfOIZ1sj+yw8Km5eqKAqysViMqJzEVu
-         oLuT3uo09RqrDoNPzoPrRwAGUZLpSznTFuvn0vrOnj0OtyuFTq09Um3mdhdlFegRmeyM
-         DqaI+eZPSc1Fgi8z60lV06y6ydzPCKaxRm9E4r/WSCKISzU+bb70+iXS9KJB54t4/1ik
-         fTMEubGTDhg8Illjm/xyuFzmXAty1N56DLegJOg0okd4fWIdi1uCBi0rTCDs9sAjC2vC
-         fUyrTWZi/WYe0otwdbbs0Gm5sfJa0sepHRqFzl1hpaz09Z2axqm9V9BZLm08KEsZxM6p
-         i9JQ==
+        bh=CBA2SXnvyWRMyI0aQbgk4LdgN2yGZJQIVYvmj0D23ms=;
+        b=VYIoal+42RzY21OGUzwCsj397/6iI0CG0nl0Z12/7NMT2cYulA7rMO3DKasrGDLAfz
+         nEoblMQ6JRfYHyI4BmUStiqASv21CwjTXweHj1Q5kAGc5R4E+2Us/KbcSFezuKOGjwlS
+         qMsTZPs/yT4SVc2sS7JBx6EtwdjIijC54uyu1JsQrQaA6qM+ydCSNTol4Mu9MmkOA8FX
+         hO+WxXNlD3k011ibhCqK2dNZPuKWBioww4FD30AaCaKLqoEMtsGuLiryD6K43Rarfc8M
+         HqK3zPQWtft0tf3wxgxeHpNWT2BMQWZddI4hTPXGwY8RqkVvqZgoByO1hZUUK5g9p/RP
+         mNiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709749542; x=1710354342;
+        d=1e100.net; s=20230601; t=1709749544; x=1710354344;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dlpuz0vJA12f4KhK46Nguj+2kmPrFSXsPIXuMUTMbqo=;
-        b=gvRxdF21aUZ+vYtOa9tvwWOBah8/ok+usLbG2cafgGUq5cB5UZDcgb2bFCZcwBgSll
-         36XEkh3uuNwo5Pq6fF+Hp5EukAPhUTk+Rogc0rV6442su1mdkGlJ5I0TtroSANopI3jU
-         bVf4i+NPGJNB8n5NeP6LXmlw2nDbDXBYcZmCsK74m1wyL6dtjfdqzJ3hg3QMzPig1Lgw
-         /8RCIF0hdLbgyZUZ3feIbMqiFCkFM+NpLpA1lWmfnBBhP/RI7bk8mf6VfjoYQBf6lGai
-         meVyy3mF8tVyajfzojHawtljp5/ivnhBa3cBKNwPKAOKvVfdiRikgYQLfB7myiHz9tlF
-         sXBA==
-X-Forwarded-Encrypted: i=2; AJvYcCUvhwe/TNTkME91OyK0rGcdcMBa8D/s45qufYIgYZ3TXrXMade0JLrlNVGSJ0FwV57s5SXALWRFcmla2uVomhC+VmPndoD5WQ==
-X-Gm-Message-State: AOJu0YwcLMXLj1rlKx4kTy5IXAd9fO4Lue8uMlr/Hmi0ooyBA0G+Sn6G
-	BFEZXpCgiRWj+lSWSu/mXlLafL3Pxs/8LzbSKqecrkHiJJM5OLVY
-X-Google-Smtp-Source: AGHT+IF+TtzDlM6n7v7NlP2xh4vbRlgWxjK5qz2FBRL79GVCb0OnMLI4MEMemMkSDUjpCGa8LtnBFA==
-X-Received: by 2002:a67:f918:0:b0:472:6e7f:888b with SMTP id t24-20020a67f918000000b004726e7f888bmr5566869vsq.32.1709749542526;
-        Wed, 06 Mar 2024 10:25:42 -0800 (PST)
+        bh=CBA2SXnvyWRMyI0aQbgk4LdgN2yGZJQIVYvmj0D23ms=;
+        b=m5Kjh3PoBohmEWjtzQUZw6fQhYOmnHMrmCr2kf/Dn1UFW8apqd61oejH5VFIfVdc43
+         T6z+Y+9NBAG7q2kQ1xcKvdIKGQEyMrrSZroqiH/4sTN9wyi/r4X9R37Y23d/w6j3U5OU
+         HKcsG1MDaNEhA6r2iQyS7XjM1OZcXv/ZhaWSTAaYSz+UP1IfWkHRGtVX9ScHiqi3mEQK
+         K8GoysdL3WfGAbfTjkifI9VQ6+ni41cBtwmAl/NluYZ8WSbvz/SoL3nLjFawvZDFUQQP
+         8a2w5MT9bV2lVZqQHrUmaunbVapPizM9nqqk6yA1j3HwqzmvhRtUt+Of9UEPUnhkywEk
+         SGoA==
+X-Forwarded-Encrypted: i=2; AJvYcCVw53Gtxch/nDji5URTSMcJciCIFd432wtQBLOkWjjP3LqKBYyhxVGPi1v+/Xg4dSa0kNvSWpKTh5agnwKQes4oeQId5TWlmw==
+X-Gm-Message-State: AOJu0Yz3E7QUbYj020ZEH5mEMtay0Jg0Ze/uqvO1nKKEem7VaTHjS4BR
+	YDkYrbm9e0+jRiLjHDAiroAlKbk79gy3erq+Gkt9w7yjKTuHzmb3
+X-Google-Smtp-Source: AGHT+IEUG43YIOBsom7F6Gj/xaZy+XITLOUYkNPij7w+9rUie5m553TEKknOcvnpWXyjzraMddDVmw==
+X-Received: by 2002:a4a:6553:0:b0:5a1:20aa:d201 with SMTP id z19-20020a4a6553000000b005a120aad201mr5018049oog.7.1709749544417;
+        Wed, 06 Mar 2024 10:25:44 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:40e:b0:68f:58a7:be1b with SMTP id
- z14-20020a056214040e00b0068f58a7be1bls62846qvx.1.-pod-prod-09-us; Wed, 06 Mar
- 2024 10:25:41 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUY0OG44nOs/Upgk+IA+YlNbe66BYHJnJHAwahyYkXoYpYAzMThJhpDci6OT9rHNoWcQpn8J6xIIMXspjPC/va1JTSMBsfpGVws7g==
-X-Received: by 2002:a05:620a:3de:b0:787:9863:eb7b with SMTP id r30-20020a05620a03de00b007879863eb7bmr5674364qkm.74.1709749541678;
-        Wed, 06 Mar 2024 10:25:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1709749541; cv=none;
+Received: by 2002:a05:6820:1055:b0:5a0:58ca:3fc with SMTP id
+ x21-20020a056820105500b005a058ca03fcls86955oot.0.-pod-prod-03-us; Wed, 06 Mar
+ 2024 10:25:43 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVybvWRf19pX0dZbFebpbo7+dcwtJtTm9DvfTxdSEYBzaxApWPc18YMfhmJch2RGppFOTwm+LgSL1P1s44q3khlOe9C2pK0fW+0Jw==
+X-Received: by 2002:a05:6808:8cf:b0:3c1:eac4:7395 with SMTP id k15-20020a05680808cf00b003c1eac47395mr5504155oij.51.1709749543652;
+        Wed, 06 Mar 2024 10:25:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1709749543; cv=none;
         d=google.com; s=arc-20160816;
-        b=IA0I8N5RTrlfqVnzWuw5pOkZdoXxmS2mpl5+v/IrrQNv4ANccBggy5HaBDi+GkpB1h
-         wW/q7LpnlTIBvZUsG07PKsg0eFW1kjNcQOhTSGmrr8qVl7aktjV8op8diIdx0GuD1Y/L
-         +CtbpCQGZt9i2ING9yCoAbsHcCU7il/IXIvceSTWUn9Ns25u6yCzkg8P20NhBGQZGiUL
-         5olUBSYbeZ9v5yCrMbky1qMQiViS1oipFuDPNuhoEbQE/nnU7XKEOb5CzQIc9YmEhKHu
-         0/3YraBzXe/5pr2ch79ey2FaZeAAXoQ5NLv9xoq9g2msG9nGYJd5znLZ6T/yz8+05W2F
-         Kk7Q==
+        b=gA7LhosQv3HInsEfTZghTX13sLAvzs1fiKgFJITN5SN3TJVOPzqzlvV/DizvCEnyAA
+         z3QRe4XkSkPRxASezybRppHPX06J14eiSHy4rY6ibAoVS1oe0Hy5CjWPFGkENWnQQsig
+         zbrOqZCtlGYg2tYpRinvLooVMhykoh/AV8Et2i5WCq+Fl89+muUMOeNddCv5gaC0Fpyg
+         i7cOY0GZyzLYE9aa7M4Vz8WhMgSy4unziXcugJliHvC6h/Za0WrEt+pAvzuIE8thBooH
+         pcTzCfC0VXTUnGbgiypqS3NqhIZcLfwGrdoV1tpdGUOWy4wu5Zz+nchht+i2kx80Kt+U
+         JbsQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=iFNwLDi8a6FCybl7tYSum2P7lYcwvuLcMH/fhzJCtO0=;
-        fh=AzeCi46r2G59bQLMFtXZoKDWTjzdhHIbuFy22L+LKGQ=;
-        b=q96gkxsXgAad1ipbz9YM5a48Sf0r6CR75JYnXCCNXo3+JWbRz30xhmRbkDgTkXv8Jh
-         et5az8XkD7BJ2mL57dLsj3AzWSui7kAXaPzG1CPTgalYfR259DfqxoQah8oEW9Kd2XB4
-         FxTj5ohN4zjhTw4e4+i6YZOIAsyo0IysBdGRlv5aUXdD1VYn9jwT4HIuFfR+XosaPcvg
-         K8CDM/oXvZSV9Xt7R81ZTXRm0bYwhCaN2pV6Iih3DMhKbQvYDUMfzC1iCaeOz13f9O4f
-         Nc1ZfvTePNx4RtBXdOvGflocozR8PZi3ezIAsd1D2dYZB5Atgi/25eXAiyEH6bUbHx1n
-         nHIg==;
+        bh=vneHWg8klAgpjQ629hDbHaGhEsZ8DTv1BUkMhsSVPcA=;
+        fh=dJMp0Fq5bwgTPO/Dp9n7LjBP7zjEOg3ETK2MXFdP88k=;
+        b=nxfO0fgVLUfEiLOK8b4uks4ZnE9q56Vlecby7FEeeCcOKel2W1yxxPbzVPGGEkOf+Y
+         kaQ8qCjnU//qDTC0YHkhnH2Qob2+QgfC26T0Leo3VUvJOO2WF1vx70UkwoTBeCmiL9ax
+         tQtvZC01SE/l3dGGSeQd+cQLKhKT5gwCrPbBjXXWxBZmdAhytMYTF4Z+8o8ncKENPnBr
+         ZdbLEOcN8+zYES1VLgoD0+3gg7UZ4/5YlXZtkcOF2HtPCKKkhhiuqcyKpUkqFQ76Ccp9
+         k8+BO98GbAaJ24y7cc0cuLbaCOxRG7FheWLHi58GAS4ZibX8sYWfx7Ftb6BHky2bCwSr
+         FTwg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=AfUmsDO5;
-       spf=pass (google.com: domain of 3jbxozqykcwgyaxkthmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3JbXoZQYKCWgYaXKTHMUUMRK.IUSQGYGT-JKbMUUMRKMXUaVY.IUS@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=4qqVHzba;
+       spf=pass (google.com: domain of 3j7xozqykcwoaczmvjowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3J7XoZQYKCWoacZMVJOWWOTM.KWUSIaIV-LMdOWWOTMOZWcXa.KWU@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com. [2607:f8b0:4864:20::114a])
-        by gmr-mx.google.com with ESMTPS id br12-20020a05620a460c00b00788451a2852si3823qkb.5.2024.03.06.10.25.41
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com. [2607:f8b0:4864:20::b4a])
+        by gmr-mx.google.com with ESMTPS id t18-20020a056808159200b003c1ec43807bsi515291oiw.0.2024.03.06.10.25.43
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Mar 2024 10:25:41 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3jbxozqykcwgyaxkthmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) client-ip=2607:f8b0:4864:20::114a;
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-60904453110so165907b3.2
-        for <kasan-dev@googlegroups.com>; Wed, 06 Mar 2024 10:25:41 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXrV7e/X9W8IHElpc8GpgmX0mL9MVGBrgQ70TeiebhZzoiZv1aSZpWkOooN6w3Fg3wsL6L6Ju7crKuHNlvOiLzjRs5acyNIoSJgtQ==
+        Wed, 06 Mar 2024 10:25:43 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3j7xozqykcwoaczmvjowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) client-ip=2607:f8b0:4864:20::b4a;
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-dc6b26845cdso10940450276.3
+        for <kasan-dev@googlegroups.com>; Wed, 06 Mar 2024 10:25:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUF9k5BXrPnBRn7IV0W82R5EuGq+XotpBl599Oxc70cwfhUxnqx8W8t0JrfOvIEb8XT0l8lc/XE8FPY69AKwW7iyOUMGKZJ86x+kg==
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:85f0:e3db:db05:85e2])
- (user=surenb job=sendgmr) by 2002:a05:690c:3504:b0:608:769c:d72a with SMTP id
- fq4-20020a05690c350400b00608769cd72amr4800532ywb.5.1709749541184; Wed, 06 Mar
- 2024 10:25:41 -0800 (PST)
-Date: Wed,  6 Mar 2024 10:24:24 -0800
+ (user=surenb job=sendgmr) by 2002:a05:6902:b1c:b0:dcc:e1a6:aca9 with SMTP id
+ ch28-20020a0569020b1c00b00dcce1a6aca9mr3819417ybb.9.1709749543321; Wed, 06
+ Mar 2024 10:25:43 -0800 (PST)
+Date: Wed,  6 Mar 2024 10:24:25 -0800
 In-Reply-To: <20240306182440.2003814-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20240306182440.2003814-1-surenb@google.com>
 X-Mailer: git-send-email 2.44.0.278.ge034bb2e1d-goog
-Message-ID: <20240306182440.2003814-27-surenb@google.com>
-Subject: [PATCH v5 26/37] mempool: Hook up to memory allocation profiling
+Message-ID: <20240306182440.2003814-28-surenb@google.com>
+Subject: [PATCH v5 27/37] mm: percpu: Introduce pcpuobj_ext
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -147,9 +147,9 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=AfUmsDO5;       spf=pass
- (google.com: domain of 3jbxozqykcwgyaxkthmuumrk.iusqgygt-jkbmuumrkmxuavy.ius@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3JbXoZQYKCWgYaXKTHMUUMRK.IUSQGYGT-JKbMUUMRKMXUaVY.IUS@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=4qqVHzba;       spf=pass
+ (google.com: domain of 3j7xozqykcwoaczmvjowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3J7XoZQYKCWoacZMVJOWWOTM.KWUSIaIV-LMdOWWOTMOZWcXa.KWU@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -167,249 +167,152 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Kent Overstreet <kent.overstreet@linux.dev>
 
-This adds hooks to mempools for correctly annotating mempool-backed
-allocations at the correct source line, so they show up correctly in
-/sys/kernel/debug/allocations.
+Upcoming alloc tagging patches require a place to stash per-allocation
+metadata.
 
-Various inline functions are converted to wrappers so that we can invoke
-alloc_hooks() in fewer places.
+We already do this when memcg is enabled, so this patch generalizes the
+obj_cgroup * vector in struct pcpu_chunk by creating a pcpu_obj_ext
+type, which we will be adding to in an upcoming patch - similarly to the
+previous slabobj_ext patch.
 
 Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Dennis Zhou <dennis@kernel.org>
+Cc: Tejun Heo <tj@kernel.org>
+Cc: Christoph Lameter <cl@linux.com>
+Cc: linux-mm@kvack.org
 ---
- include/linux/mempool.h | 73 ++++++++++++++++++++---------------------
- mm/mempool.c            | 36 ++++++++------------
- 2 files changed, 49 insertions(+), 60 deletions(-)
+ mm/percpu-internal.h | 19 +++++++++++++++++--
+ mm/percpu.c          | 30 +++++++++++++++---------------
+ 2 files changed, 32 insertions(+), 17 deletions(-)
 
-diff --git a/include/linux/mempool.h b/include/linux/mempool.h
-index 7be1e32e6d42..69e65ca515ee 100644
---- a/include/linux/mempool.h
-+++ b/include/linux/mempool.h
-@@ -5,6 +5,8 @@
- #ifndef _LINUX_MEMPOOL_H
- #define _LINUX_MEMPOOL_H
+diff --git a/mm/percpu-internal.h b/mm/percpu-internal.h
+index cdd0aa597a81..e62d582f4bf3 100644
+--- a/mm/percpu-internal.h
++++ b/mm/percpu-internal.h
+@@ -32,6 +32,16 @@ struct pcpu_block_md {
+ 	int			nr_bits;	/* total bits responsible for */
+ };
  
-+#include <linux/sched.h>
-+#include <linux/alloc_tag.h>
- #include <linux/wait.h>
- #include <linux/compiler.h>
- 
-@@ -39,18 +41,32 @@ void mempool_exit(mempool_t *pool);
- int mempool_init_node(mempool_t *pool, int min_nr, mempool_alloc_t *alloc_fn,
- 		      mempool_free_t *free_fn, void *pool_data,
- 		      gfp_t gfp_mask, int node_id);
--int mempool_init(mempool_t *pool, int min_nr, mempool_alloc_t *alloc_fn,
++struct pcpuobj_ext {
++#ifdef CONFIG_MEMCG_KMEM
++	struct obj_cgroup	*cgroup;
++#endif
++};
 +
-+int mempool_init_noprof(mempool_t *pool, int min_nr, mempool_alloc_t *alloc_fn,
- 		 mempool_free_t *free_fn, void *pool_data);
-+#define mempool_init(...)						\
-+	alloc_hooks(mempool_init_noprof(__VA_ARGS__))
- 
- extern mempool_t *mempool_create(int min_nr, mempool_alloc_t *alloc_fn,
- 			mempool_free_t *free_fn, void *pool_data);
--extern mempool_t *mempool_create_node(int min_nr, mempool_alloc_t *alloc_fn,
++#ifdef CONFIG_MEMCG_KMEM
++#define NEED_PCPUOBJ_EXT
++#endif
 +
-+extern mempool_t *mempool_create_node_noprof(int min_nr, mempool_alloc_t *alloc_fn,
- 			mempool_free_t *free_fn, void *pool_data,
- 			gfp_t gfp_mask, int nid);
-+#define mempool_create_node(...)					\
-+	alloc_hooks(mempool_create_node_noprof(__VA_ARGS__))
+ struct pcpu_chunk {
+ #ifdef CONFIG_PERCPU_STATS
+ 	int			nr_alloc;	/* # of allocations */
+@@ -64,8 +74,8 @@ struct pcpu_chunk {
+ 	int			end_offset;	/* additional area required to
+ 						   have the region end page
+ 						   aligned */
+-#ifdef CONFIG_MEMCG_KMEM
+-	struct obj_cgroup	**obj_cgroups;	/* vector of object cgroups */
++#ifdef NEED_PCPUOBJ_EXT
++	struct pcpuobj_ext	*obj_exts;	/* vector of object cgroups */
+ #endif
+ 
+ 	int			nr_pages;	/* # of pages served by this chunk */
+@@ -74,6 +84,11 @@ struct pcpu_chunk {
+ 	unsigned long		populated[];	/* populated bitmap */
+ };
+ 
++static inline bool need_pcpuobj_ext(void)
++{
++	return !mem_cgroup_kmem_disabled();
++}
 +
-+#define mempool_create(_min_nr, _alloc_fn, _free_fn, _pool_data)	\
-+	mempool_create_node(_min_nr, _alloc_fn, _free_fn, _pool_data,	\
-+			    GFP_KERNEL, NUMA_NO_NODE)
+ extern spinlock_t pcpu_lock;
  
- extern int mempool_resize(mempool_t *pool, int new_min_nr);
- extern void mempool_destroy(mempool_t *pool);
--extern void *mempool_alloc(mempool_t *pool, gfp_t gfp_mask) __malloc;
-+
-+extern void *mempool_alloc_noprof(mempool_t *pool, gfp_t gfp_mask) __malloc;
-+#define mempool_alloc(...)						\
-+	alloc_hooks(mempool_alloc_noprof(__VA_ARGS__))
-+
- extern void *mempool_alloc_preallocated(mempool_t *pool) __malloc;
- extern void mempool_free(void *element, mempool_t *pool);
+ extern struct list_head *pcpu_chunk_lists;
+diff --git a/mm/percpu.c b/mm/percpu.c
+index 4e11fc1e6def..2e5edaad9cc3 100644
+--- a/mm/percpu.c
++++ b/mm/percpu.c
+@@ -1392,9 +1392,9 @@ static struct pcpu_chunk * __init pcpu_alloc_first_chunk(unsigned long tmp_addr,
+ 		panic("%s: Failed to allocate %zu bytes\n", __func__,
+ 		      alloc_size);
  
-@@ -62,19 +78,10 @@ extern void mempool_free(void *element, mempool_t *pool);
- void *mempool_alloc_slab(gfp_t gfp_mask, void *pool_data);
- void mempool_free_slab(void *element, void *pool_data);
+-#ifdef CONFIG_MEMCG_KMEM
++#ifdef NEED_PCPUOBJ_EXT
+ 	/* first chunk is free to use */
+-	chunk->obj_cgroups = NULL;
++	chunk->obj_exts = NULL;
+ #endif
+ 	pcpu_init_md_blocks(chunk);
  
--static inline int
--mempool_init_slab_pool(mempool_t *pool, int min_nr, struct kmem_cache *kc)
--{
--	return mempool_init(pool, min_nr, mempool_alloc_slab,
--			    mempool_free_slab, (void *) kc);
--}
--
--static inline mempool_t *
--mempool_create_slab_pool(int min_nr, struct kmem_cache *kc)
--{
--	return mempool_create(min_nr, mempool_alloc_slab, mempool_free_slab,
--			      (void *) kc);
--}
-+#define mempool_init_slab_pool(_pool, _min_nr, _kc)			\
-+	mempool_init(_pool, (_min_nr), mempool_alloc_slab, mempool_free_slab, (void *)(_kc))
-+#define mempool_create_slab_pool(_min_nr, _kc)			\
-+	mempool_create((_min_nr), mempool_alloc_slab, mempool_free_slab, (void *)(_kc))
+@@ -1463,12 +1463,12 @@ static struct pcpu_chunk *pcpu_alloc_chunk(gfp_t gfp)
+ 	if (!chunk->md_blocks)
+ 		goto md_blocks_fail;
  
- /*
-  * a mempool_alloc_t and a mempool_free_t to kmalloc and kfree the
-@@ -83,17 +90,12 @@ mempool_create_slab_pool(int min_nr, struct kmem_cache *kc)
- void *mempool_kmalloc(gfp_t gfp_mask, void *pool_data);
- void mempool_kfree(void *element, void *pool_data);
+-#ifdef CONFIG_MEMCG_KMEM
+-	if (!mem_cgroup_kmem_disabled()) {
+-		chunk->obj_cgroups =
++#ifdef NEED_PCPUOBJ_EXT
++	if (need_pcpuobj_ext()) {
++		chunk->obj_exts =
+ 			pcpu_mem_zalloc(pcpu_chunk_map_bits(chunk) *
+-					sizeof(struct obj_cgroup *), gfp);
+-		if (!chunk->obj_cgroups)
++					sizeof(struct pcpuobj_ext), gfp);
++		if (!chunk->obj_exts)
+ 			goto objcg_fail;
+ 	}
+ #endif
+@@ -1480,7 +1480,7 @@ static struct pcpu_chunk *pcpu_alloc_chunk(gfp_t gfp)
  
--static inline int mempool_init_kmalloc_pool(mempool_t *pool, int min_nr, size_t size)
--{
--	return mempool_init(pool, min_nr, mempool_kmalloc,
--			    mempool_kfree, (void *) size);
--}
--
--static inline mempool_t *mempool_create_kmalloc_pool(int min_nr, size_t size)
--{
--	return mempool_create(min_nr, mempool_kmalloc, mempool_kfree,
--			      (void *) size);
--}
-+#define mempool_init_kmalloc_pool(_pool, _min_nr, _size)		\
-+	mempool_init(_pool, (_min_nr), mempool_kmalloc, mempool_kfree,	\
-+		     (void *)(unsigned long)(_size))
-+#define mempool_create_kmalloc_pool(_min_nr, _size)			\
-+	mempool_create((_min_nr), mempool_kmalloc, mempool_kfree,	\
-+		       (void *)(unsigned long)(_size))
+ 	return chunk;
  
- /*
-  * A mempool_alloc_t and mempool_free_t for a simple page allocator that
-@@ -102,16 +104,11 @@ static inline mempool_t *mempool_create_kmalloc_pool(int min_nr, size_t size)
- void *mempool_alloc_pages(gfp_t gfp_mask, void *pool_data);
- void mempool_free_pages(void *element, void *pool_data);
- 
--static inline int mempool_init_page_pool(mempool_t *pool, int min_nr, int order)
--{
--	return mempool_init(pool, min_nr, mempool_alloc_pages,
--			    mempool_free_pages, (void *)(long)order);
--}
--
--static inline mempool_t *mempool_create_page_pool(int min_nr, int order)
--{
--	return mempool_create(min_nr, mempool_alloc_pages, mempool_free_pages,
--			      (void *)(long)order);
--}
-+#define mempool_init_page_pool(_pool, _min_nr, _order)			\
-+	mempool_init(_pool, (_min_nr), mempool_alloc_pages,		\
-+		     mempool_free_pages, (void *)(long)(_order))
-+#define mempool_create_page_pool(_min_nr, _order)			\
-+	mempool_create((_min_nr), mempool_alloc_pages,			\
-+		       mempool_free_pages, (void *)(long)(_order))
- 
- #endif /* _LINUX_MEMPOOL_H */
-diff --git a/mm/mempool.c b/mm/mempool.c
-index dbbf0e9fb424..c47ff883cf36 100644
---- a/mm/mempool.c
-+++ b/mm/mempool.c
-@@ -240,17 +240,17 @@ EXPORT_SYMBOL(mempool_init_node);
-  *
-  * Return: %0 on success, negative error code otherwise.
-  */
--int mempool_init(mempool_t *pool, int min_nr, mempool_alloc_t *alloc_fn,
--		 mempool_free_t *free_fn, void *pool_data)
-+int mempool_init_noprof(mempool_t *pool, int min_nr, mempool_alloc_t *alloc_fn,
-+			mempool_free_t *free_fn, void *pool_data)
+-#ifdef CONFIG_MEMCG_KMEM
++#ifdef NEED_PCPUOBJ_EXT
+ objcg_fail:
+ 	pcpu_mem_free(chunk->md_blocks);
+ #endif
+@@ -1498,8 +1498,8 @@ static void pcpu_free_chunk(struct pcpu_chunk *chunk)
  {
- 	return mempool_init_node(pool, min_nr, alloc_fn, free_fn,
- 				 pool_data, GFP_KERNEL, NUMA_NO_NODE);
+ 	if (!chunk)
+ 		return;
+-#ifdef CONFIG_MEMCG_KMEM
+-	pcpu_mem_free(chunk->obj_cgroups);
++#ifdef NEED_PCPUOBJ_EXT
++	pcpu_mem_free(chunk->obj_exts);
+ #endif
+ 	pcpu_mem_free(chunk->md_blocks);
+ 	pcpu_mem_free(chunk->bound_map);
+@@ -1646,9 +1646,9 @@ static void pcpu_memcg_post_alloc_hook(struct obj_cgroup *objcg,
+ 	if (!objcg)
+ 		return;
  
- }
--EXPORT_SYMBOL(mempool_init);
-+EXPORT_SYMBOL(mempool_init_noprof);
+-	if (likely(chunk && chunk->obj_cgroups)) {
++	if (likely(chunk && chunk->obj_exts)) {
+ 		obj_cgroup_get(objcg);
+-		chunk->obj_cgroups[off >> PCPU_MIN_ALLOC_SHIFT] = objcg;
++		chunk->obj_exts[off >> PCPU_MIN_ALLOC_SHIFT].cgroup = objcg;
  
- /**
-- * mempool_create - create a memory pool
-+ * mempool_create_node - create a memory pool
-  * @min_nr:    the minimum number of elements guaranteed to be
-  *             allocated for this pool.
-  * @alloc_fn:  user-defined element-allocation function.
-@@ -265,17 +265,9 @@ EXPORT_SYMBOL(mempool_init);
-  *
-  * Return: pointer to the created memory pool object or %NULL on error.
-  */
--mempool_t *mempool_create(int min_nr, mempool_alloc_t *alloc_fn,
--				mempool_free_t *free_fn, void *pool_data)
--{
--	return mempool_create_node(min_nr, alloc_fn, free_fn, pool_data,
--				   GFP_KERNEL, NUMA_NO_NODE);
--}
--EXPORT_SYMBOL(mempool_create);
--
--mempool_t *mempool_create_node(int min_nr, mempool_alloc_t *alloc_fn,
--			       mempool_free_t *free_fn, void *pool_data,
--			       gfp_t gfp_mask, int node_id)
-+mempool_t *mempool_create_node_noprof(int min_nr, mempool_alloc_t *alloc_fn,
-+				      mempool_free_t *free_fn, void *pool_data,
-+				      gfp_t gfp_mask, int node_id)
+ 		rcu_read_lock();
+ 		mod_memcg_state(obj_cgroup_memcg(objcg), MEMCG_PERCPU_B,
+@@ -1663,13 +1663,13 @@ static void pcpu_memcg_free_hook(struct pcpu_chunk *chunk, int off, size_t size)
  {
- 	mempool_t *pool;
+ 	struct obj_cgroup *objcg;
  
-@@ -291,7 +283,7 @@ mempool_t *mempool_create_node(int min_nr, mempool_alloc_t *alloc_fn,
+-	if (unlikely(!chunk->obj_cgroups))
++	if (unlikely(!chunk->obj_exts))
+ 		return;
  
- 	return pool;
- }
--EXPORT_SYMBOL(mempool_create_node);
-+EXPORT_SYMBOL(mempool_create_node_noprof);
+-	objcg = chunk->obj_cgroups[off >> PCPU_MIN_ALLOC_SHIFT];
++	objcg = chunk->obj_exts[off >> PCPU_MIN_ALLOC_SHIFT].cgroup;
+ 	if (!objcg)
+ 		return;
+-	chunk->obj_cgroups[off >> PCPU_MIN_ALLOC_SHIFT] = NULL;
++	chunk->obj_exts[off >> PCPU_MIN_ALLOC_SHIFT].cgroup = NULL;
  
- /**
-  * mempool_resize - resize an existing memory pool
-@@ -374,7 +366,7 @@ int mempool_resize(mempool_t *pool, int new_min_nr)
- EXPORT_SYMBOL(mempool_resize);
- 
- /**
-- * mempool_alloc - allocate an element from a specific memory pool
-+ * mempool_alloc_noprof - allocate an element from a specific memory pool
-  * @pool:      pointer to the memory pool which was allocated via
-  *             mempool_create().
-  * @gfp_mask:  the usual allocation bitmask.
-@@ -387,7 +379,7 @@ EXPORT_SYMBOL(mempool_resize);
-  *
-  * Return: pointer to the allocated element or %NULL on error.
-  */
--void *mempool_alloc(mempool_t *pool, gfp_t gfp_mask)
-+void *mempool_alloc_noprof(mempool_t *pool, gfp_t gfp_mask)
- {
- 	void *element;
- 	unsigned long flags;
-@@ -454,7 +446,7 @@ void *mempool_alloc(mempool_t *pool, gfp_t gfp_mask)
- 	finish_wait(&pool->wait, &wait);
- 	goto repeat_alloc;
- }
--EXPORT_SYMBOL(mempool_alloc);
-+EXPORT_SYMBOL(mempool_alloc_noprof);
- 
- /**
-  * mempool_alloc_preallocated - allocate an element from preallocated elements
-@@ -562,7 +554,7 @@ void *mempool_alloc_slab(gfp_t gfp_mask, void *pool_data)
- {
- 	struct kmem_cache *mem = pool_data;
- 	VM_BUG_ON(mem->ctor);
--	return kmem_cache_alloc(mem, gfp_mask);
-+	return kmem_cache_alloc_noprof(mem, gfp_mask);
- }
- EXPORT_SYMBOL(mempool_alloc_slab);
- 
-@@ -580,7 +572,7 @@ EXPORT_SYMBOL(mempool_free_slab);
- void *mempool_kmalloc(gfp_t gfp_mask, void *pool_data)
- {
- 	size_t size = (size_t)pool_data;
--	return kmalloc(size, gfp_mask);
-+	return kmalloc_noprof(size, gfp_mask);
- }
- EXPORT_SYMBOL(mempool_kmalloc);
- 
-@@ -597,7 +589,7 @@ EXPORT_SYMBOL(mempool_kfree);
- void *mempool_alloc_pages(gfp_t gfp_mask, void *pool_data)
- {
- 	int order = (int)(long)pool_data;
--	return alloc_pages(gfp_mask, order);
-+	return alloc_pages_noprof(gfp_mask, order);
- }
- EXPORT_SYMBOL(mempool_alloc_pages);
+ 	obj_cgroup_uncharge(objcg, pcpu_obj_full_size(size));
  
 -- 
 2.44.0.278.ge034bb2e1d-goog
@@ -417,4 +320,4 @@ index dbbf0e9fb424..c47ff883cf36 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240306182440.2003814-27-surenb%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240306182440.2003814-28-surenb%40google.com.
