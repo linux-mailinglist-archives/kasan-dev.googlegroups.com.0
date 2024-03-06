@@ -1,123 +1,123 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBIXKUKXQMGQEPBZLIJA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBJHKUKXQMGQECVQRZCY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc39.google.com (mail-oo1-xc39.google.com [IPv6:2607:f8b0:4864:20::c39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82D35873E96
-	for <lists+kasan-dev@lfdr.de>; Wed,  6 Mar 2024 19:25:39 +0100 (CET)
-Received: by mail-oo1-xc39.google.com with SMTP id 006d021491bc7-5a05537c0b3sf7220730eaf.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 06 Mar 2024 10:25:39 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1709749538; cv=pass;
+Received: from mail-oi1-x23d.google.com (mail-oi1-x23d.google.com [IPv6:2607:f8b0:4864:20::23d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84892873E98
+	for <lists+kasan-dev@lfdr.de>; Wed,  6 Mar 2024 19:25:41 +0100 (CET)
+Received: by mail-oi1-x23d.google.com with SMTP id 5614622812f47-3c1b8b34512sf6934742b6e.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 06 Mar 2024 10:25:41 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1709749540; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0FAt/BEk/5WindUQrpCtLQ0mOS5BZQQ0gDuzwvMlKcnwltlimM5cBUN55dvB8aTvsg
-         8GGbFnorPGiJf7PIKq69raq8G5J9HDT8sd21J62nqJU8ssgfL+w7oUDUNb6GD9wi5Zyi
-         Jd+rDHtXL3jz13vUDZTFZNcGxFvmyd5NPAErrNl2naM4RPPwwiSjBXKPfc0bAgEmP5i9
-         ah8S0xqBS3RuUPFOzR/3KVUmVrfM2UEUhTpnih/dxpbNVAdhPQhK8mzTUELxhFlMieEu
-         mz2EfSNt3ISQ9QKYdKEnRXHQGKrJB4Ul6IFwQn/w0jUdEzD+XCXgaMTwlHuA9C2EOmz/
-         C4Ag==
+        b=dNyNA5I9/m2QrjvPYH2uwob+C3t1QqYKKIx9uLlZ5yp2GElpzys3Q3IZGywMMxPOkB
+         BaypEqrmS1guwzFdRhe27EtNWRIOBxvO2soW1NX5sJmE3E1aFKOLkyJFS80fHQMaT25Q
+         QslbCUbGBC5OpEWtziAJBgAoNGe7D39/9mAu3T5iYaTdGFq+KMsgJIs0eU3UWDNWK5EP
+         FMcBIqNQ0O+lwHLQNdGHuRFhu5b6G+0i93q9WNioFkhR27NRNjaEpZ/hi7TqqC8MPt//
+         Y0kDp5v3ULeEIaQW3NlCtm/DJ/q+SnBrzzJ0UJB04U8ds/Tmi2HvKLbgqianb3lvS6kA
+         Rw9w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:dkim-signature;
-        bh=z08KONY0rPTiSFAoSFbHEfhgT2QE5GQwAkmhr3/j1tk=;
-        fh=LvUR2C6Y5MWBJetYPASwYWUHN91ji1ri7ynhB/ngwxA=;
-        b=lpm6jy/E7AJuk5c/jc49usT8lH17qSkh2qKJqJTdo2Obr6Q/TPZcBuWilFCM2CS36M
-         q4U9Bm8AZWMnDEQoaqH10tPxY/XTDgmFQ2k9kRK7CRIH2qXxjd/01xQknwg3dfcofrFQ
-         OaFYzQdtAmwMcAJvXM0lOncRnwW2sAeJWbnGZlnCOUIPM2ca2AgfvamQu8FX2I4ftMtM
-         28oya5Ueg2bNo287u4CINAWx3EyoigpQIoTdoLTsvLHMJ/UXOboKpwojqXNwM9lfhi4N
-         wN+OCn/5L+D2AGwpqJReMvgLU03qFmff9BEOtgYm8bfFhqilQDM5In3vxPvwm5s7yAD4
-         Nyng==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
+        bh=L/7ff/6C3ZPiyDMFJ6ChaX0xATPKeE9u8TQzGJEF5eA=;
+        fh=GqWknxZcjveLvqVOLiFT7VQpCWyJ30rPaKGB/IU+SCA=;
+        b=AMHr5yYjfgvfrdTWm391gctNgyvAqPfFimjpAeL82fbieXj46P//jkwvBcFeep30Ks
+         Ls/sSvPf/pL2hi1TQWgG3Cg15MUZ1rYEC0rltMVoOX6bwSIUoatt+s6obCAjPMf1M8i4
+         6J8Dj189xHUfl1ll2QY/NNv0ptePlZRJRMuSdoeWeH/9Hl4J/+Qm2JKU4+GpFzYQEwSe
+         aAmakzBVznKgyJkBlpE3sBGpjbkHWQ4cOYPLSAxW6ag3v7MR3m7yUh2do6A1LI7+J5oJ
+         3GTccE0N/TtZu4xDJSPKHECWvUGrYdrvqjISvEQ6RqJ1tt3KC4QGqoYk8oBQi7Pc5uwn
+         s7Mw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=2k90qMAK;
-       spf=pass (google.com: domain of 3ilxozqykcwmtvsfochpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3ILXoZQYKCWMTVSFOCHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=vD7xP+M0;
+       spf=pass (google.com: domain of 3irxozqykcwuvxuhqejrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3IrXoZQYKCWUVXUHQEJRRJOH.FRPNDVDQ-GHYJRRJOHJURXSV.FRP@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1709749538; x=1710354338; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1709749540; x=1710354340; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z08KONY0rPTiSFAoSFbHEfhgT2QE5GQwAkmhr3/j1tk=;
-        b=L744lfaDhm8PmTlrHj/cMaMq72zKds0WMjpn3PVR1bdpxTBB0n75lCQD8FlMRCLwCF
-         oKoWluf0BVQM+QvtMp8N+t5HiarIJgUibJBvEKaav0xcgJAXUxLVWpUeA7obz2aPp+Yd
-         0z2tZPW6abKXTu+hDrR1osq5YzKdKoGppe0v6U7nUAS8XyzlpKvyDVT6TCAGFsx1oHuE
-         2cviHqncEyEdV9jvA8LVGGsHeOQPuKxgu4AnVY/nYlTYIK+fGnaq4snDEonYTTeVINH6
-         4KFK5T9g9kXXF5i5tl5JAvK6w6IFFIC83BYVC/4NlcLB6nXAGk+qWqb+sDb9vF6pdpkE
-         0eTA==
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:references:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=L/7ff/6C3ZPiyDMFJ6ChaX0xATPKeE9u8TQzGJEF5eA=;
+        b=k0LVhtZec1HEBHpKtKls4Fu5V0LT+0Nn61q9j8Xxh01oxKEW4IEOBwJjINrq7yJtzV
+         mYB/qq83QUKg9fvp02eq55VPTkTcrlEgCAbjgn6Wrww7hAAxDEs2+uGGpwGLfkTtvm6z
+         D1uePHA5yHZcxNQbTLNjeESpgWGT/FzmZGk1XLA8GDlGsi8FcWcUt/QghYuFknNDQNnq
+         DCBdU/JhN7uyHPj3M2JUDl18BJqRbNpwREITJL7XnOAEqFRWXcbc/eU1VSBnW4HdYW+S
+         HYwznf0FWnQI7V7YQMGf62wBnEZZ2IQpw0Dnlm+epKfMNUliZX3/yKIzDKNXYL2vVeYT
+         3SqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709749538; x=1710354338;
+        d=1e100.net; s=20230601; t=1709749540; x=1710354340;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-beenthere:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=z08KONY0rPTiSFAoSFbHEfhgT2QE5GQwAkmhr3/j1tk=;
-        b=qsrLICCbdUnDRN9TrgHpnZqCLt+1jW74Hxis+lKFm7ACOdO0O8Szk3WGaRLQYCSnsk
-         gD7d7LhxorGpc91p99AlUaghzaqm3yGjtao8ysYnYZ0e3CnXA49RN6PAdhxBFUhaXQuw
-         5PHyyCsza0II/0Xpra0oVMFOkWMFcy0bQr7YJ+1aacDWSz45ofpO4iijpre8uY6BtgOj
-         n9exE06zzf2v3w8F47odXW+nOp0xrHZluGP/uGFG4Yeyc6sQc0vr2qEEZNnizUvv0mR4
-         HgKtEMUkeizh1XPa5pgDCiG1mgWdqUvF80UVjewOc9cUJkhL4o3NVEQZF9xy3oVkW8N3
-         WZhQ==
-X-Forwarded-Encrypted: i=2; AJvYcCV9e1jSXFOBUJHygzPhPF4dUtge8T90VWdB3TEeuGeQk9myoUw8kwYWzLohKqYkm48yH+iv2WAGHK5kGbpSJXXwInbJ5BF5RQ==
-X-Gm-Message-State: AOJu0YxDeuCr7uVBvLCwg6U0jPU5uladkguVOlN3xLMnPb3d7oMo4zz6
-	h4hZKHsuWk8EeIn+qtbIz0Fvl5+bLsEL6dpGqQ0FueNs146yzv9/
-X-Google-Smtp-Source: AGHT+IFmXlDtAZScnVwPGHeSpkJLpp6ijnvjUpOQ50ZuNeWpeX7Sl2+cwRe/vXdg94LuYWejBkLWTA==
-X-Received: by 2002:a4a:3856:0:b0:5a1:a595:cb08 with SMTP id o22-20020a4a3856000000b005a1a595cb08mr927284oof.9.1709749538203;
-        Wed, 06 Mar 2024 10:25:38 -0800 (PST)
+         :x-original-authentication-results:x-original-sender:cc:to:from
+         :subject:message-id:references:mime-version:in-reply-to:date
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L/7ff/6C3ZPiyDMFJ6ChaX0xATPKeE9u8TQzGJEF5eA=;
+        b=TCb5sHLMQvFmWmXt5H81KvE/BrVcUnglC5qY7xZhBkA//34TK+40e/0+aknVUIE1+A
+         vAw8Q6QIm38UQwz1mObe1xreghOkquiGfK0eyoT1VfXQh0PKfIm+KqEHrk5kNRbasOen
+         yYRy1sxiRBtPQCd211Xrj2bBHQGQKwF80nuDnqMbbA7ZQtPQrrGJZaPDnVF6/YCPZ6sG
+         +2f7XgJ/Oe+pUSIzUymMYxkvTl53GXe63XUCWVUweh4j2EplBR7xjHHNYzSWK9kP5F2X
+         ZI3OCxx9yNRnpryMluYi13Yr8cLTSovxR+KYmdkYGjfFRViYS5ISyll7y8nx8mO58dER
+         Aw1Q==
+X-Forwarded-Encrypted: i=2; AJvYcCW28QalD1d4HsEOqhhUfBQY5MuQ57QwhO6NrQAs7N9vADNbHpVNfJA5tOWyG5KWS2hrD0qSnRKlSvi48Mlyxr9W0LT/qNqecQ==
+X-Gm-Message-State: AOJu0YyQt/CsHt/LO3TO12KFr7iN40tQHoWFEtoE4VwrBAtfpxzCqaxC
+	dvM9Cnj6NSGFFgU5e/GbA6HMAjD5kYiR8qDN3aEyqmkh+7SpLFr+
+X-Google-Smtp-Source: AGHT+IHTr3YHADCp+d5+KCn7zdFapoAjwRIq20mRa5382x9FW7Ajvpycf4GEa8C0bhOhHuELalsUUQ==
+X-Received: by 2002:a05:6870:f14a:b0:21e:7751:312c with SMTP id l10-20020a056870f14a00b0021e7751312cmr6105102oac.30.1709749540348;
+        Wed, 06 Mar 2024 10:25:40 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:7647:0:b0:5a0:3387:2adb with SMTP id w7-20020a4a7647000000b005a033872adbls83231ooe.2.-pod-prod-05-us;
- Wed, 06 Mar 2024 10:25:37 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXAXfrGuuAfptOvpjjdNK+YYzS//kEvj+8qokxDdM8vl2Aao1wRMarOM8s0aZIMX+KHp9n1JaItwwuTfbLhafzIdq63MlLNLOSxWA==
-X-Received: by 2002:a4a:3856:0:b0:5a1:a595:cb08 with SMTP id o22-20020a4a3856000000b005a1a595cb08mr927220oof.9.1709749537167;
-        Wed, 06 Mar 2024 10:25:37 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1709749537; cv=none;
+Received: by 2002:a05:6871:e414:b0:220:894d:3e80 with SMTP id
+ py20-20020a056871e41400b00220894d3e80ls61731oac.1.-pod-prod-05-us; Wed, 06
+ Mar 2024 10:25:39 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWTTA7xTHf6J/6tbTCo1mPJexDErMEw5w6j7IT4+6/qjWkE6yxxZp+X515TyNtcYqqWFxaQHXKkZfWd2slWUmy/mlzoNDXR70fV6Q==
+X-Received: by 2002:a05:6808:23d5:b0:3c2:122d:17a with SMTP id bq21-20020a05680823d500b003c2122d017amr6474603oib.0.1709749539487;
+        Wed, 06 Mar 2024 10:25:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1709749539; cv=none;
         d=google.com; s=arc-20160816;
-        b=ZFSCzW+LO6VwNX3dNWlb01gmlN4arLHD5mxCWQKnYAZIyKKN1ZxQ6UldXH4aQeUMZ2
-         /sRytXzTJO5p9+RENTjLmYekDsLU7jxYZ8eRkYGduIUS0MFDEwKmQa7bfgO0nu7p/XPZ
-         vI596KsNyHUrsVf2T8WgqfGgvvHNRZykTWOcz/+I75EHZ//5/R5bF9G9oAiwlAvBjYd3
-         FAu83GCzqJTRmbO7YGCZ3PUOc7Fe79tUO0CA3rSh34sk1+t3Rfrx1qVkJ8T+rfI64BLJ
-         OM+//xpfOtsoaeT1lDPsGrVlRmWKYLQBGsncyQWpzGcPpNC+X7EAL/vz2HgPywGMLMTo
-         /ZEA==
+        b=gYUq3DEka3mTPdBlpfvkcITORlydcvMdLCh+1e8iSutmN8Mj60FNjmieTLRU9qdZSr
+         DAQLDDsZiau6hD48rkJp2dBCRgJla03I2oE3/XpZ3Ko4Tco1tG/a+/aJhiHsZn7LlE34
+         PHXjIc9qa+q6V754s2Ugeo6uYvT/3XXLV5tvPiOTUH5gP1qb97hnM4oXCsTO3d0yJv9w
+         0yHUs0Icd//wJqqj+HCTci7asu6Zz+hHBeUOJgkcVt2W8BjIRaUgEdcmr1FI9s0Wndq1
+         GraPsQK09FMvCIbGSofigg/SSHCjjErLTTQUiHeMr9ZC5F/xOwReLEqGCfF+GOxRKANv
+         jV8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:dkim-signature;
-        bh=K6AcyGgSKYmz5a5MAIaPTUUBsabHZwFmfRjLl2PG8hA=;
-        fh=8fL6wAhceM4DggJw22wXqinUV4Z/+UyP+DAtYDADJPM=;
-        b=0fsaJ2YVd7nYyu6WrB7AWctFDxODeyDF1UAI2VxAM8fhEGVym43BzQhG9HxwGrVzn6
-         hws2lWR2GV3KVcITtPp9cmEOWmbwNXFH9eyS6T4LsP1FLjBzb8gRfz5zMopXsaqxDGBD
-         3v1pwMfWcLwbpjURDgLD5painlUJ8Ll75zeYedGgfI7dDsl+SUAnsBX80TMTgNWQFKSe
-         BNRsirG7Zp//e0KfH9YqkWSLTmjC+xMljLn/uc5p2CNlZ+nrZ8hcE8ZPgnd2g2M0UfjP
-         6iGZ4WV6391H43MWhfC6GMXV9S1iPmkCC+7YaVlqWKsUgyu6k73N0h6Vjv03Pj/Guq3K
-         aLZQ==;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:dkim-signature;
+        bh=n5/OuSdWvIQFOpMCE75pS/uA6aDuAy2uY0scKcuOlxY=;
+        fh=AmxJyJWYaqwU0AJUlpO7ERHLNBQIM6PNQji86qXJCIQ=;
+        b=YjBO2YQOF6dRk/2i8/RXP5eDiecQGuEY32ROk1fnHjRvoaOjfFMKRWrJKceI5RFYnF
+         cHU/sj/JJRIIzsWdiqmcMlm7mLnfVKF62x+uP300ytFwONgIXsNW/enw50cFf9F0qlWR
+         Sws4SpwrgG0pLDkxG9I9/ikoYL9UE/gjz+kqpCAdk5u19NFJtK2bLu1aIs2eOaTiwN1Z
+         tW8urmPV4cYw2isnRMqQW1ccqMHW+PK0cPSgzPxPkwosworWM2GPhqVdG5D0sk74jW3T
+         hLRYmeG8AfURF1Q01Y5AtQRxndz3wN9ZJNkX+IDFdeoqT8aLK5wZPynusJ/yKhqB7fCu
+         AZ7g==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=2k90qMAK;
-       spf=pass (google.com: domain of 3ilxozqykcwmtvsfochpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3ILXoZQYKCWMTVSFOCHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=vD7xP+M0;
+       spf=pass (google.com: domain of 3irxozqykcwuvxuhqejrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3IrXoZQYKCWUVXUHQEJRRJOH.FRPNDVDQ-GHYJRRJOHJURXSV.FRP@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com. [2607:f8b0:4864:20::114a])
-        by gmr-mx.google.com with ESMTPS id z16-20020a0568301db000b006e4b3e2c386si841368oti.2.2024.03.06.10.25.37
+Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com. [2607:f8b0:4864:20::b4a])
+        by gmr-mx.google.com with ESMTPS id t18-20020a056808159200b003c1ec43807bsi515291oiw.0.2024.03.06.10.25.39
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Mar 2024 10:25:37 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3ilxozqykcwmtvsfochpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::114a as permitted sender) client-ip=2607:f8b0:4864:20::114a;
-Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-607e8e8c2f1so115467b3.3
-        for <kasan-dev@googlegroups.com>; Wed, 06 Mar 2024 10:25:37 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX5M12q0B733sCnxYdk2834uISWVQclBMPrJ3x+LFEFneajBt50FB1z538t0UKZGACxDlO+JaEAnVKVYV4z4TqvVmvSrkZQny2TrA==
+        Wed, 06 Mar 2024 10:25:39 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3irxozqykcwuvxuhqejrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) client-ip=2607:f8b0:4864:20::b4a;
+Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-dc6b26845cdso10940362276.3
+        for <kasan-dev@googlegroups.com>; Wed, 06 Mar 2024 10:25:39 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWOJ8xgfg1FEtuumPovX17YjZ90br5zj5WMW+zRb6S24dNKOvbjjEzC5witfq0yzVBxXZMz6O4UlWI7/QRIIptkgoPgySs7N9/K/A==
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:85f0:e3db:db05:85e2])
- (user=surenb job=sendgmr) by 2002:a05:6902:18d3:b0:dc7:865b:22c6 with SMTP id
- ck19-20020a05690218d300b00dc7865b22c6mr633022ybb.8.1709749536658; Wed, 06 Mar
- 2024 10:25:36 -0800 (PST)
-Date: Wed,  6 Mar 2024 10:24:22 -0800
+ (user=surenb job=sendgmr) by 2002:a05:6902:1004:b0:dc2:3441:897f with SMTP id
+ w4-20020a056902100400b00dc23441897fmr3843294ybt.6.1709749538789; Wed, 06 Mar
+ 2024 10:25:38 -0800 (PST)
+Date: Wed,  6 Mar 2024 10:24:23 -0800
 In-Reply-To: <20240306182440.2003814-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20240306182440.2003814-1-surenb@google.com>
 X-Mailer: git-send-email 2.44.0.278.ge034bb2e1d-goog
-Message-ID: <20240306182440.2003814-25-surenb@google.com>
-Subject: [PATCH v5 24/37] rust: Add a rust helper for krealloc()
+Message-ID: <20240306182440.2003814-26-surenb@google.com>
+Subject: [PATCH v5 25/37] mm/slab: enable slab allocation tagging for kmalloc
+ and friends
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -144,18 +144,13 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
 	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
 	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
-	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	"=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?=" <bjorn3_gh@protonmail.com>, Benno Lossin <benno.lossin@proton.me>, 
-	Andreas Hindborg <a.hindborg@samsung.com>, rust-for-linux@vger.kernel.org
+	cgroups@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=2k90qMAK;       spf=pass
- (google.com: domain of 3ilxozqykcwmtvsfochpphmf.dpnlbtbo-efwhpphmfhspvqt.dpn@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::114a as permitted sender) smtp.mailfrom=3ILXoZQYKCWMTVSFOCHPPHMF.DPNLBTBO-EFWHPPHMFHSPVQT.DPN@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=vD7xP+M0;       spf=pass
+ (google.com: domain of 3irxozqykcwuvxuhqejrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3IrXoZQYKCWUVXUHQEJRRJOH.FRPNDVDQ-GHYJRRJOHJURXSV.FRP@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -171,68 +166,678 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Kent Overstreet <kent.overstreet@linux.dev>
+Redefine kmalloc, krealloc, kzalloc, kcalloc, etc. to record allocations
+and deallocations done by these functions.
 
-Memory allocation profiling is turning krealloc() into a nontrivial
-macro - so for now, we need a helper for it.
-
-Until we have proper support on the rust side for memory allocation
-profiling this does mean that all Rust allocations will be accounted to
-the helper.
-
-Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Miguel Ojeda <ojeda@kernel.org>
-Cc: Alex Gaynor <alex.gaynor@gmail.com>
-Cc: Wedson Almeida Filho <wedsonaf@gmail.com>
-Cc: Boqun Feng <boqun.feng@gmail.com>
-Cc: Gary Guo <gary@garyguo.net>
-Cc: "Bj=C3=B6rn Roy Baron" <bjorn3_gh@protonmail.com>
-Cc: Benno Lossin <benno.lossin@proton.me>
-Cc: Andreas Hindborg <a.hindborg@samsung.com>
-Cc: Alice Ryhl <aliceryhl@google.com>
-Cc: rust-for-linux@vger.kernel.org
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
+Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- rust/helpers.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ include/linux/fortify-string.h |   5 +-
+ include/linux/slab.h           | 169 +++++++++++++++++----------------
+ include/linux/string.h         |   4 +-
+ mm/slab_common.c               |   6 +-
+ mm/slub.c                      |  52 +++++-----
+ mm/util.c                      |  20 ++--
+ 6 files changed, 130 insertions(+), 126 deletions(-)
 
-diff --git a/rust/helpers.c b/rust/helpers.c
-index 70e59efd92bc..ad62eaf604b3 100644
---- a/rust/helpers.c
-+++ b/rust/helpers.c
-@@ -28,6 +28,7 @@
- #include <linux/mutex.h>
- #include <linux/refcount.h>
- #include <linux/sched/signal.h>
-+#include <linux/slab.h>
- #include <linux/spinlock.h>
- #include <linux/wait.h>
- #include <linux/workqueue.h>
-@@ -157,6 +158,13 @@ void rust_helper_init_work_with_key(struct work_struct=
- *work, work_func_t func,
+diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
+index 89a6888f2f9e..55f66bd8a366 100644
+--- a/include/linux/fortify-string.h
++++ b/include/linux/fortify-string.h
+@@ -697,9 +697,9 @@ __FORTIFY_INLINE void *memchr_inv(const void * const POS0 p, int c, size_t size)
+ 	return __real_memchr_inv(p, c, size);
  }
- EXPORT_SYMBOL_GPL(rust_helper_init_work_with_key);
-=20
-+void * __must_check rust_helper_krealloc(const void *objp, size_t new_size=
-,
-+					 gfp_t flags) __realloc_size(2)
-+{
-+	return krealloc(objp, new_size, flags);
-+}
-+EXPORT_SYMBOL_GPL(rust_helper_krealloc);
-+
+ 
+-extern void *__real_kmemdup(const void *src, size_t len, gfp_t gfp) __RENAME(kmemdup)
++extern void *__real_kmemdup(const void *src, size_t len, gfp_t gfp) __RENAME(kmemdup_noprof)
+ 								    __realloc_size(2);
+-__FORTIFY_INLINE void *kmemdup(const void * const POS0 p, size_t size, gfp_t gfp)
++__FORTIFY_INLINE void *kmemdup_noprof(const void * const POS0 p, size_t size, gfp_t gfp)
+ {
+ 	const size_t p_size = __struct_size(p);
+ 
+@@ -709,6 +709,7 @@ __FORTIFY_INLINE void *kmemdup(const void * const POS0 p, size_t size, gfp_t gfp
+ 		fortify_panic(__func__);
+ 	return __real_kmemdup(p, size, gfp);
+ }
++#define kmemdup(...)	alloc_hooks(kmemdup_noprof(__VA_ARGS__))
+ 
+ /**
+  * strcpy - Copy a string into another string buffer
+diff --git a/include/linux/slab.h b/include/linux/slab.h
+index 58794043ab5b..61e2a486d529 100644
+--- a/include/linux/slab.h
++++ b/include/linux/slab.h
+@@ -229,7 +229,10 @@ int kmem_cache_shrink(struct kmem_cache *s);
  /*
-  * `bindgen` binds the C `size_t` type as the Rust `usize` type, so we can
-  * use it in contexts where Rust expects a `usize` like slice (array) indi=
-ces.
---=20
+  * Common kmalloc functions provided by all allocators
+  */
+-void * __must_check krealloc(const void *objp, size_t new_size, gfp_t flags) __realloc_size(2);
++void * __must_check krealloc_noprof(const void *objp, size_t new_size,
++				    gfp_t flags) __realloc_size(2);
++#define krealloc(...)				alloc_hooks(krealloc_noprof(__VA_ARGS__))
++
+ void kfree(const void *objp);
+ void kfree_sensitive(const void *objp);
+ size_t __ksize(const void *objp);
+@@ -481,7 +484,10 @@ static __always_inline unsigned int __kmalloc_index(size_t size,
+ static_assert(PAGE_SHIFT <= 20);
+ #define kmalloc_index(s) __kmalloc_index(s, true)
+ 
+-void *__kmalloc(size_t size, gfp_t flags) __assume_kmalloc_alignment __alloc_size(1);
++#include <linux/alloc_tag.h>
++
++void *__kmalloc_noprof(size_t size, gfp_t flags) __assume_kmalloc_alignment __alloc_size(1);
++#define __kmalloc(...)				alloc_hooks(__kmalloc_noprof(__VA_ARGS__))
+ 
+ /**
+  * kmem_cache_alloc - Allocate an object
+@@ -493,9 +499,14 @@ void *__kmalloc(size_t size, gfp_t flags) __assume_kmalloc_alignment __alloc_siz
+  *
+  * Return: pointer to the new object or %NULL in case of error
+  */
+-void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags) __assume_slab_alignment __malloc;
+-void *kmem_cache_alloc_lru(struct kmem_cache *s, struct list_lru *lru,
+-			   gfp_t gfpflags) __assume_slab_alignment __malloc;
++void *kmem_cache_alloc_noprof(struct kmem_cache *cachep,
++			      gfp_t flags) __assume_slab_alignment __malloc;
++#define kmem_cache_alloc(...)			alloc_hooks(kmem_cache_alloc_noprof(__VA_ARGS__))
++
++void *kmem_cache_alloc_lru_noprof(struct kmem_cache *s, struct list_lru *lru,
++			    gfp_t gfpflags) __assume_slab_alignment __malloc;
++#define kmem_cache_alloc_lru(...)	alloc_hooks(kmem_cache_alloc_lru_noprof(__VA_ARGS__))
++
+ void kmem_cache_free(struct kmem_cache *s, void *objp);
+ 
+ /*
+@@ -506,29 +517,40 @@ void kmem_cache_free(struct kmem_cache *s, void *objp);
+  * Note that interrupts must be enabled when calling these functions.
+  */
+ void kmem_cache_free_bulk(struct kmem_cache *s, size_t size, void **p);
+-int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size, void **p);
++
++int kmem_cache_alloc_bulk_noprof(struct kmem_cache *s, gfp_t flags, size_t size, void **p);
++#define kmem_cache_alloc_bulk(...)	alloc_hooks(kmem_cache_alloc_bulk_noprof(__VA_ARGS__))
+ 
+ static __always_inline void kfree_bulk(size_t size, void **p)
+ {
+ 	kmem_cache_free_bulk(NULL, size, p);
+ }
+ 
+-void *__kmalloc_node(size_t size, gfp_t flags, int node) __assume_kmalloc_alignment
++void *__kmalloc_node_noprof(size_t size, gfp_t flags, int node) __assume_kmalloc_alignment
+ 							 __alloc_size(1);
+-void *kmem_cache_alloc_node(struct kmem_cache *s, gfp_t flags, int node) __assume_slab_alignment
+-									 __malloc;
++#define __kmalloc_node(...)			alloc_hooks(__kmalloc_node_noprof(__VA_ARGS__))
++
++void *kmem_cache_alloc_node_noprof(struct kmem_cache *s, gfp_t flags,
++				   int node) __assume_slab_alignment __malloc;
++#define kmem_cache_alloc_node(...)	alloc_hooks(kmem_cache_alloc_node_noprof(__VA_ARGS__))
+ 
+-void *kmalloc_trace(struct kmem_cache *s, gfp_t flags, size_t size)
++void *kmalloc_trace_noprof(struct kmem_cache *s, gfp_t flags, size_t size)
+ 		    __assume_kmalloc_alignment __alloc_size(3);
+ 
+-void *kmalloc_node_trace(struct kmem_cache *s, gfp_t gfpflags,
+-			 int node, size_t size) __assume_kmalloc_alignment
++void *kmalloc_node_trace_noprof(struct kmem_cache *s, gfp_t gfpflags,
++		int node, size_t size) __assume_kmalloc_alignment
+ 						__alloc_size(4);
+-void *kmalloc_large(size_t size, gfp_t flags) __assume_page_alignment
++#define kmalloc_trace(...)			alloc_hooks(kmalloc_trace_noprof(__VA_ARGS__))
++
++#define kmalloc_node_trace(...)			alloc_hooks(kmalloc_node_trace_noprof(__VA_ARGS__))
++
++void *kmalloc_large_noprof(size_t size, gfp_t flags) __assume_page_alignment
+ 					      __alloc_size(1);
++#define kmalloc_large(...)			alloc_hooks(kmalloc_large_noprof(__VA_ARGS__))
+ 
+-void *kmalloc_large_node(size_t size, gfp_t flags, int node) __assume_page_alignment
++void *kmalloc_large_node_noprof(size_t size, gfp_t flags, int node) __assume_page_alignment
+ 							     __alloc_size(1);
++#define kmalloc_large_node(...)			alloc_hooks(kmalloc_large_node_noprof(__VA_ARGS__))
+ 
+ /**
+  * kmalloc - allocate kernel memory
+@@ -584,37 +606,39 @@ void *kmalloc_large_node(size_t size, gfp_t flags, int node) __assume_page_align
+  *	Try really hard to succeed the allocation but fail
+  *	eventually.
+  */
+-static __always_inline __alloc_size(1) void *kmalloc(size_t size, gfp_t flags)
++static __always_inline __alloc_size(1) void *kmalloc_noprof(size_t size, gfp_t flags)
+ {
+ 	if (__builtin_constant_p(size) && size) {
+ 		unsigned int index;
+ 
+ 		if (size > KMALLOC_MAX_CACHE_SIZE)
+-			return kmalloc_large(size, flags);
++			return kmalloc_large_noprof(size, flags);
+ 
+ 		index = kmalloc_index(size);
+-		return kmalloc_trace(
++		return kmalloc_trace_noprof(
+ 				kmalloc_caches[kmalloc_type(flags, _RET_IP_)][index],
+ 				flags, size);
+ 	}
+-	return __kmalloc(size, flags);
++	return __kmalloc_noprof(size, flags);
+ }
++#define kmalloc(...)				alloc_hooks(kmalloc_noprof(__VA_ARGS__))
+ 
+-static __always_inline __alloc_size(1) void *kmalloc_node(size_t size, gfp_t flags, int node)
++static __always_inline __alloc_size(1) void *kmalloc_node_noprof(size_t size, gfp_t flags, int node)
+ {
+ 	if (__builtin_constant_p(size) && size) {
+ 		unsigned int index;
+ 
+ 		if (size > KMALLOC_MAX_CACHE_SIZE)
+-			return kmalloc_large_node(size, flags, node);
++			return kmalloc_large_node_noprof(size, flags, node);
+ 
+ 		index = kmalloc_index(size);
+-		return kmalloc_node_trace(
++		return kmalloc_node_trace_noprof(
+ 				kmalloc_caches[kmalloc_type(flags, _RET_IP_)][index],
+ 				flags, node, size);
+ 	}
+-	return __kmalloc_node(size, flags, node);
++	return __kmalloc_node_noprof(size, flags, node);
+ }
++#define kmalloc_node(...)			alloc_hooks(kmalloc_node_noprof(__VA_ARGS__))
+ 
+ /**
+  * kmalloc_array - allocate memory for an array.
+@@ -622,16 +646,17 @@ static __always_inline __alloc_size(1) void *kmalloc_node(size_t size, gfp_t fla
+  * @size: element size.
+  * @flags: the type of memory to allocate (see kmalloc).
+  */
+-static inline __alloc_size(1, 2) void *kmalloc_array(size_t n, size_t size, gfp_t flags)
++static inline __alloc_size(1, 2) void *kmalloc_array_noprof(size_t n, size_t size, gfp_t flags)
+ {
+ 	size_t bytes;
+ 
+ 	if (unlikely(check_mul_overflow(n, size, &bytes)))
+ 		return NULL;
+ 	if (__builtin_constant_p(n) && __builtin_constant_p(size))
+-		return kmalloc(bytes, flags);
+-	return __kmalloc(bytes, flags);
++		return kmalloc_noprof(bytes, flags);
++	return kmalloc_noprof(bytes, flags);
+ }
++#define kmalloc_array(...)			alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+ 
+ /**
+  * krealloc_array - reallocate memory for an array.
+@@ -640,18 +665,19 @@ static inline __alloc_size(1, 2) void *kmalloc_array(size_t n, size_t size, gfp_
+  * @new_size: new size of a single member of the array
+  * @flags: the type of memory to allocate (see kmalloc)
+  */
+-static inline __realloc_size(2, 3) void * __must_check krealloc_array(void *p,
+-								      size_t new_n,
+-								      size_t new_size,
+-								      gfp_t flags)
++static inline __realloc_size(2, 3) void * __must_check krealloc_array_noprof(void *p,
++								       size_t new_n,
++								       size_t new_size,
++								       gfp_t flags)
+ {
+ 	size_t bytes;
+ 
+ 	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
+ 		return NULL;
+ 
+-	return krealloc(p, bytes, flags);
++	return krealloc_noprof(p, bytes, flags);
+ }
++#define krealloc_array(...)			alloc_hooks(krealloc_array_noprof(__VA_ARGS__))
+ 
+ /**
+  * kcalloc - allocate memory for an array. The memory is set to zero.
+@@ -659,16 +685,12 @@ static inline __realloc_size(2, 3) void * __must_check krealloc_array(void *p,
+  * @size: element size.
+  * @flags: the type of memory to allocate (see kmalloc).
+  */
+-static inline __alloc_size(1, 2) void *kcalloc(size_t n, size_t size, gfp_t flags)
+-{
+-	return kmalloc_array(n, size, flags | __GFP_ZERO);
+-}
++#define kcalloc(_n, _size, _flags)		kmalloc_array(_n, _size, (_flags) | __GFP_ZERO)
+ 
+-void *__kmalloc_node_track_caller(size_t size, gfp_t flags, int node,
++void *kmalloc_node_track_caller_noprof(size_t size, gfp_t flags, int node,
+ 				  unsigned long caller) __alloc_size(1);
+-#define kmalloc_node_track_caller(size, flags, node) \
+-	__kmalloc_node_track_caller(size, flags, node, \
+-				    _RET_IP_)
++#define kmalloc_node_track_caller(...)		\
++	alloc_hooks(kmalloc_node_track_caller_noprof(__VA_ARGS__, _RET_IP_))
+ 
+ /*
+  * kmalloc_track_caller is a special version of kmalloc that records the
+@@ -678,11 +700,9 @@ void *__kmalloc_node_track_caller(size_t size, gfp_t flags, int node,
+  * allocator where we care about the real place the memory allocation
+  * request comes from.
+  */
+-#define kmalloc_track_caller(size, flags) \
+-	__kmalloc_node_track_caller(size, flags, \
+-				    NUMA_NO_NODE, _RET_IP_)
++#define kmalloc_track_caller(...)		kmalloc_node_track_caller(__VA_ARGS__, NUMA_NO_NODE)
+ 
+-static inline __alloc_size(1, 2) void *kmalloc_array_node(size_t n, size_t size, gfp_t flags,
++static inline __alloc_size(1, 2) void *kmalloc_array_node_noprof(size_t n, size_t size, gfp_t flags,
+ 							  int node)
+ {
+ 	size_t bytes;
+@@ -690,75 +710,56 @@ static inline __alloc_size(1, 2) void *kmalloc_array_node(size_t n, size_t size,
+ 	if (unlikely(check_mul_overflow(n, size, &bytes)))
+ 		return NULL;
+ 	if (__builtin_constant_p(n) && __builtin_constant_p(size))
+-		return kmalloc_node(bytes, flags, node);
+-	return __kmalloc_node(bytes, flags, node);
++		return kmalloc_node_noprof(bytes, flags, node);
++	return __kmalloc_node_noprof(bytes, flags, node);
+ }
++#define kmalloc_array_node(...)			alloc_hooks(kmalloc_array_node_noprof(__VA_ARGS__))
+ 
+-static inline __alloc_size(1, 2) void *kcalloc_node(size_t n, size_t size, gfp_t flags, int node)
+-{
+-	return kmalloc_array_node(n, size, flags | __GFP_ZERO, node);
+-}
++#define kcalloc_node(_n, _size, _flags, _node)	\
++	kmalloc_array_node(_n, _size, (_flags) | __GFP_ZERO, _node)
+ 
+ /*
+  * Shortcuts
+  */
+-static inline void *kmem_cache_zalloc(struct kmem_cache *k, gfp_t flags)
+-{
+-	return kmem_cache_alloc(k, flags | __GFP_ZERO);
+-}
++#define kmem_cache_zalloc(_k, _flags)		kmem_cache_alloc(_k, (_flags)|__GFP_ZERO)
+ 
+ /**
+  * kzalloc - allocate memory. The memory is set to zero.
+  * @size: how many bytes of memory are required.
+  * @flags: the type of memory to allocate (see kmalloc).
+  */
+-static inline __alloc_size(1) void *kzalloc(size_t size, gfp_t flags)
++static inline __alloc_size(1) void *kzalloc_noprof(size_t size, gfp_t flags)
+ {
+-	return kmalloc(size, flags | __GFP_ZERO);
++	return kmalloc_noprof(size, flags | __GFP_ZERO);
+ }
++#define kzalloc(...)				alloc_hooks(kzalloc_noprof(__VA_ARGS__))
++#define kzalloc_node(_size, _flags, _node)	kmalloc_node(_size, (_flags)|__GFP_ZERO, _node)
+ 
+-/**
+- * kzalloc_node - allocate zeroed memory from a particular memory node.
+- * @size: how many bytes of memory are required.
+- * @flags: the type of memory to allocate (see kmalloc).
+- * @node: memory node from which to allocate
+- */
+-static inline __alloc_size(1) void *kzalloc_node(size_t size, gfp_t flags, int node)
+-{
+-	return kmalloc_node(size, flags | __GFP_ZERO, node);
+-}
++extern void *kvmalloc_node_noprof(size_t size, gfp_t flags, int node) __alloc_size(1);
++#define kvmalloc_node(...)			alloc_hooks(kvmalloc_node_noprof(__VA_ARGS__))
+ 
+-extern void *kvmalloc_node(size_t size, gfp_t flags, int node) __alloc_size(1);
+-static inline __alloc_size(1) void *kvmalloc(size_t size, gfp_t flags)
+-{
+-	return kvmalloc_node(size, flags, NUMA_NO_NODE);
+-}
+-static inline __alloc_size(1) void *kvzalloc_node(size_t size, gfp_t flags, int node)
+-{
+-	return kvmalloc_node(size, flags | __GFP_ZERO, node);
+-}
+-static inline __alloc_size(1) void *kvzalloc(size_t size, gfp_t flags)
+-{
+-	return kvmalloc(size, flags | __GFP_ZERO);
+-}
++#define kvmalloc(_size, _flags)			kvmalloc_node(_size, _flags, NUMA_NO_NODE)
++#define kvzalloc(_size, _flags)			kvmalloc(_size, _flags|__GFP_ZERO)
++
++#define kvzalloc_node(_size, _flags, _node)	kvmalloc_node(_size, _flags|__GFP_ZERO, _node)
+ 
+-static inline __alloc_size(1, 2) void *kvmalloc_array(size_t n, size_t size, gfp_t flags)
++static inline __alloc_size(1, 2) void *kvmalloc_array_noprof(size_t n, size_t size, gfp_t flags)
+ {
+ 	size_t bytes;
+ 
+ 	if (unlikely(check_mul_overflow(n, size, &bytes)))
+ 		return NULL;
+ 
+-	return kvmalloc(bytes, flags);
++	return kvmalloc_node_noprof(bytes, flags, NUMA_NO_NODE);
+ }
+ 
+-static inline __alloc_size(1, 2) void *kvcalloc(size_t n, size_t size, gfp_t flags)
+-{
+-	return kvmalloc_array(n, size, flags | __GFP_ZERO);
+-}
++#define kvmalloc_array(...)			alloc_hooks(kvmalloc_array_noprof(__VA_ARGS__))
++#define kvcalloc(_n, _size, _flags)		kvmalloc_array(_n, _size, _flags|__GFP_ZERO)
+ 
+-extern void *kvrealloc(const void *p, size_t oldsize, size_t newsize, gfp_t flags)
++extern void *kvrealloc_noprof(const void *p, size_t oldsize, size_t newsize, gfp_t flags)
+ 		      __realloc_size(3);
++#define kvrealloc(...)				alloc_hooks(kvrealloc_noprof(__VA_ARGS__))
++
+ extern void kvfree(const void *addr);
+ DEFINE_FREE(kvfree, void *, if (_T) kvfree(_T))
+ 
+diff --git a/include/linux/string.h b/include/linux/string.h
+index ab148d8dbfc1..14e4fb4340f4 100644
+--- a/include/linux/string.h
++++ b/include/linux/string.h
+@@ -214,7 +214,9 @@ extern void kfree_const(const void *x);
+ extern char *kstrdup(const char *s, gfp_t gfp) __malloc;
+ extern const char *kstrdup_const(const char *s, gfp_t gfp);
+ extern char *kstrndup(const char *s, size_t len, gfp_t gfp);
+-extern void *kmemdup(const void *src, size_t len, gfp_t gfp) __realloc_size(2);
++extern void *kmemdup_noprof(const void *src, size_t len, gfp_t gfp) __realloc_size(2);
++#define kmemdup(...)	alloc_hooks(kmemdup_noprof(__VA_ARGS__))
++
+ extern void *kvmemdup(const void *src, size_t len, gfp_t gfp) __realloc_size(2);
+ extern char *kmemdup_nul(const char *s, size_t len, gfp_t gfp);
+ 
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 238293b1dbe1..5f9e25626dc7 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -1184,7 +1184,7 @@ __do_krealloc(const void *p, size_t new_size, gfp_t flags)
+ 		return (void *)p;
+ 	}
+ 
+-	ret = kmalloc_track_caller(new_size, flags);
++	ret = kmalloc_node_track_caller_noprof(new_size, flags, NUMA_NO_NODE, _RET_IP_);
+ 	if (ret && p) {
+ 		/* Disable KASAN checks as the object's redzone is accessed. */
+ 		kasan_disable_current();
+@@ -1208,7 +1208,7 @@ __do_krealloc(const void *p, size_t new_size, gfp_t flags)
+  *
+  * Return: pointer to the allocated memory or %NULL in case of error
+  */
+-void *krealloc(const void *p, size_t new_size, gfp_t flags)
++void *krealloc_noprof(const void *p, size_t new_size, gfp_t flags)
+ {
+ 	void *ret;
+ 
+@@ -1223,7 +1223,7 @@ void *krealloc(const void *p, size_t new_size, gfp_t flags)
+ 
+ 	return ret;
+ }
+-EXPORT_SYMBOL(krealloc);
++EXPORT_SYMBOL(krealloc_noprof);
+ 
+ /**
+  * kfree_sensitive - Clear sensitive information in memory before freeing
+diff --git a/mm/slub.c b/mm/slub.c
+index ea122aeb89fc..5e6d68d05740 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -4007,7 +4007,7 @@ static __fastpath_inline void *slab_alloc_node(struct kmem_cache *s, struct list
+ 	return object;
+ }
+ 
+-void *kmem_cache_alloc(struct kmem_cache *s, gfp_t gfpflags)
++void *kmem_cache_alloc_noprof(struct kmem_cache *s, gfp_t gfpflags)
+ {
+ 	void *ret = slab_alloc_node(s, NULL, gfpflags, NUMA_NO_NODE, _RET_IP_,
+ 				    s->object_size);
+@@ -4016,9 +4016,9 @@ void *kmem_cache_alloc(struct kmem_cache *s, gfp_t gfpflags)
+ 
+ 	return ret;
+ }
+-EXPORT_SYMBOL(kmem_cache_alloc);
++EXPORT_SYMBOL(kmem_cache_alloc_noprof);
+ 
+-void *kmem_cache_alloc_lru(struct kmem_cache *s, struct list_lru *lru,
++void *kmem_cache_alloc_lru_noprof(struct kmem_cache *s, struct list_lru *lru,
+ 			   gfp_t gfpflags)
+ {
+ 	void *ret = slab_alloc_node(s, lru, gfpflags, NUMA_NO_NODE, _RET_IP_,
+@@ -4028,10 +4028,10 @@ void *kmem_cache_alloc_lru(struct kmem_cache *s, struct list_lru *lru,
+ 
+ 	return ret;
+ }
+-EXPORT_SYMBOL(kmem_cache_alloc_lru);
++EXPORT_SYMBOL(kmem_cache_alloc_lru_noprof);
+ 
+ /**
+- * kmem_cache_alloc_node - Allocate an object on the specified node
++ * kmem_cache_alloc_node_noprof - Allocate an object on the specified node
+  * @s: The cache to allocate from.
+  * @gfpflags: See kmalloc().
+  * @node: node number of the target node.
+@@ -4043,7 +4043,7 @@ EXPORT_SYMBOL(kmem_cache_alloc_lru);
+  *
+  * Return: pointer to the new object or %NULL in case of error
+  */
+-void *kmem_cache_alloc_node(struct kmem_cache *s, gfp_t gfpflags, int node)
++void *kmem_cache_alloc_node_noprof(struct kmem_cache *s, gfp_t gfpflags, int node)
+ {
+ 	void *ret = slab_alloc_node(s, NULL, gfpflags, node, _RET_IP_, s->object_size);
+ 
+@@ -4051,7 +4051,7 @@ void *kmem_cache_alloc_node(struct kmem_cache *s, gfp_t gfpflags, int node)
+ 
+ 	return ret;
+ }
+-EXPORT_SYMBOL(kmem_cache_alloc_node);
++EXPORT_SYMBOL(kmem_cache_alloc_node_noprof);
+ 
+ /*
+  * To avoid unnecessary overhead, we pass through large allocation requests
+@@ -4068,7 +4068,7 @@ static void *__kmalloc_large_node(size_t size, gfp_t flags, int node)
+ 		flags = kmalloc_fix_flags(flags);
+ 
+ 	flags |= __GFP_COMP;
+-	folio = (struct folio *)alloc_pages_node(node, flags, order);
++	folio = (struct folio *)alloc_pages_node_noprof(node, flags, order);
+ 	if (folio) {
+ 		ptr = folio_address(folio);
+ 		lruvec_stat_mod_folio(folio, NR_SLAB_UNRECLAIMABLE_B,
+@@ -4083,7 +4083,7 @@ static void *__kmalloc_large_node(size_t size, gfp_t flags, int node)
+ 	return ptr;
+ }
+ 
+-void *kmalloc_large(size_t size, gfp_t flags)
++void *kmalloc_large_noprof(size_t size, gfp_t flags)
+ {
+ 	void *ret = __kmalloc_large_node(size, flags, NUMA_NO_NODE);
+ 
+@@ -4091,9 +4091,9 @@ void *kmalloc_large(size_t size, gfp_t flags)
+ 		      flags, NUMA_NO_NODE);
+ 	return ret;
+ }
+-EXPORT_SYMBOL(kmalloc_large);
++EXPORT_SYMBOL(kmalloc_large_noprof);
+ 
+-void *kmalloc_large_node(size_t size, gfp_t flags, int node)
++void *kmalloc_large_node_noprof(size_t size, gfp_t flags, int node)
+ {
+ 	void *ret = __kmalloc_large_node(size, flags, node);
+ 
+@@ -4101,7 +4101,7 @@ void *kmalloc_large_node(size_t size, gfp_t flags, int node)
+ 		      flags, node);
+ 	return ret;
+ }
+-EXPORT_SYMBOL(kmalloc_large_node);
++EXPORT_SYMBOL(kmalloc_large_node_noprof);
+ 
+ static __always_inline
+ void *__do_kmalloc_node(size_t size, gfp_t flags, int node,
+@@ -4128,26 +4128,26 @@ void *__do_kmalloc_node(size_t size, gfp_t flags, int node,
+ 	return ret;
+ }
+ 
+-void *__kmalloc_node(size_t size, gfp_t flags, int node)
++void *__kmalloc_node_noprof(size_t size, gfp_t flags, int node)
+ {
+ 	return __do_kmalloc_node(size, flags, node, _RET_IP_);
+ }
+-EXPORT_SYMBOL(__kmalloc_node);
++EXPORT_SYMBOL(__kmalloc_node_noprof);
+ 
+-void *__kmalloc(size_t size, gfp_t flags)
++void *__kmalloc_noprof(size_t size, gfp_t flags)
+ {
+ 	return __do_kmalloc_node(size, flags, NUMA_NO_NODE, _RET_IP_);
+ }
+-EXPORT_SYMBOL(__kmalloc);
++EXPORT_SYMBOL(__kmalloc_noprof);
+ 
+-void *__kmalloc_node_track_caller(size_t size, gfp_t flags,
+-				  int node, unsigned long caller)
++void *kmalloc_node_track_caller_noprof(size_t size, gfp_t flags,
++				       int node, unsigned long caller)
+ {
+ 	return __do_kmalloc_node(size, flags, node, caller);
+ }
+-EXPORT_SYMBOL(__kmalloc_node_track_caller);
++EXPORT_SYMBOL(kmalloc_node_track_caller_noprof);
+ 
+-void *kmalloc_trace(struct kmem_cache *s, gfp_t gfpflags, size_t size)
++void *kmalloc_trace_noprof(struct kmem_cache *s, gfp_t gfpflags, size_t size)
+ {
+ 	void *ret = slab_alloc_node(s, NULL, gfpflags, NUMA_NO_NODE,
+ 					    _RET_IP_, size);
+@@ -4157,9 +4157,9 @@ void *kmalloc_trace(struct kmem_cache *s, gfp_t gfpflags, size_t size)
+ 	ret = kasan_kmalloc(s, ret, size, gfpflags);
+ 	return ret;
+ }
+-EXPORT_SYMBOL(kmalloc_trace);
++EXPORT_SYMBOL(kmalloc_trace_noprof);
+ 
+-void *kmalloc_node_trace(struct kmem_cache *s, gfp_t gfpflags,
++void *kmalloc_node_trace_noprof(struct kmem_cache *s, gfp_t gfpflags,
+ 			 int node, size_t size)
+ {
+ 	void *ret = slab_alloc_node(s, NULL, gfpflags, node, _RET_IP_, size);
+@@ -4169,7 +4169,7 @@ void *kmalloc_node_trace(struct kmem_cache *s, gfp_t gfpflags,
+ 	ret = kasan_kmalloc(s, ret, size, gfpflags);
+ 	return ret;
+ }
+-EXPORT_SYMBOL(kmalloc_node_trace);
++EXPORT_SYMBOL(kmalloc_node_trace_noprof);
+ 
+ static noinline void free_to_partial_list(
+ 	struct kmem_cache *s, struct slab *slab,
+@@ -4778,8 +4778,8 @@ static int __kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags,
+ #endif /* CONFIG_SLUB_TINY */
+ 
+ /* Note that interrupts must be enabled when calling this function. */
+-int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+-			  void **p)
++int kmem_cache_alloc_bulk_noprof(struct kmem_cache *s, gfp_t flags, size_t size,
++				 void **p)
+ {
+ 	int i;
+ 	struct obj_cgroup *objcg = NULL;
+@@ -4807,7 +4807,7 @@ int kmem_cache_alloc_bulk(struct kmem_cache *s, gfp_t flags, size_t size,
+ 
+ 	return i;
+ }
+-EXPORT_SYMBOL(kmem_cache_alloc_bulk);
++EXPORT_SYMBOL(kmem_cache_alloc_bulk_noprof);
+ 
+ 
+ /*
+diff --git a/mm/util.c b/mm/util.c
+index 6710efaf1802..9b8774d8dabb 100644
+--- a/mm/util.c
++++ b/mm/util.c
+@@ -115,7 +115,7 @@ char *kstrndup(const char *s, size_t max, gfp_t gfp)
+ EXPORT_SYMBOL(kstrndup);
+ 
+ /**
+- * kmemdup - duplicate region of memory
++ * kmemdup_noprof - duplicate region of memory
+  *
+  * @src: memory region to duplicate
+  * @len: memory region length
+@@ -124,16 +124,16 @@ EXPORT_SYMBOL(kstrndup);
+  * Return: newly allocated copy of @src or %NULL in case of error,
+  * result is physically contiguous. Use kfree() to free.
+  */
+-void *kmemdup(const void *src, size_t len, gfp_t gfp)
++void *kmemdup_noprof(const void *src, size_t len, gfp_t gfp)
+ {
+ 	void *p;
+ 
+-	p = kmalloc_track_caller(len, gfp);
++	p = kmalloc_node_track_caller_noprof(len, gfp, NUMA_NO_NODE, _RET_IP_);
+ 	if (p)
+ 		memcpy(p, src, len);
+ 	return p;
+ }
+-EXPORT_SYMBOL(kmemdup);
++EXPORT_SYMBOL(kmemdup_noprof);
+ 
+ /**
+  * kvmemdup - duplicate region of memory
+@@ -577,7 +577,7 @@ unsigned long vm_mmap(struct file *file, unsigned long addr,
+ EXPORT_SYMBOL(vm_mmap);
+ 
+ /**
+- * kvmalloc_node - attempt to allocate physically contiguous memory, but upon
++ * kvmalloc_node_noprof - attempt to allocate physically contiguous memory, but upon
+  * failure, fall back to non-contiguous (vmalloc) allocation.
+  * @size: size of the request.
+  * @flags: gfp mask for the allocation - must be compatible (superset) with GFP_KERNEL.
+@@ -592,7 +592,7 @@ EXPORT_SYMBOL(vm_mmap);
+  *
+  * Return: pointer to the allocated memory of %NULL in case of failure
+  */
+-void *kvmalloc_node(size_t size, gfp_t flags, int node)
++void *kvmalloc_node_noprof(size_t size, gfp_t flags, int node)
+ {
+ 	gfp_t kmalloc_flags = flags;
+ 	void *ret;
+@@ -614,7 +614,7 @@ void *kvmalloc_node(size_t size, gfp_t flags, int node)
+ 		kmalloc_flags &= ~__GFP_NOFAIL;
+ 	}
+ 
+-	ret = kmalloc_node(size, kmalloc_flags, node);
++	ret = kmalloc_node_noprof(size, kmalloc_flags, node);
+ 
+ 	/*
+ 	 * It doesn't really make sense to fallback to vmalloc for sub page
+@@ -643,7 +643,7 @@ void *kvmalloc_node(size_t size, gfp_t flags, int node)
+ 			flags, PAGE_KERNEL, VM_ALLOW_HUGE_VMAP,
+ 			node, __builtin_return_address(0));
+ }
+-EXPORT_SYMBOL(kvmalloc_node);
++EXPORT_SYMBOL(kvmalloc_node_noprof);
+ 
+ /**
+  * kvfree() - Free memory.
+@@ -682,7 +682,7 @@ void kvfree_sensitive(const void *addr, size_t len)
+ }
+ EXPORT_SYMBOL(kvfree_sensitive);
+ 
+-void *kvrealloc(const void *p, size_t oldsize, size_t newsize, gfp_t flags)
++void *kvrealloc_noprof(const void *p, size_t oldsize, size_t newsize, gfp_t flags)
+ {
+ 	void *newp;
+ 
+@@ -695,7 +695,7 @@ void *kvrealloc(const void *p, size_t oldsize, size_t newsize, gfp_t flags)
+ 	kvfree(p);
+ 	return newp;
+ }
+-EXPORT_SYMBOL(kvrealloc);
++EXPORT_SYMBOL(kvrealloc_noprof);
+ 
+ /**
+  * __vmalloc_array - allocate memory for a virtually contiguous array.
+-- 
 2.44.0.278.ge034bb2e1d-goog
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20240306182440.2003814-25-surenb%40google.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240306182440.2003814-26-surenb%40google.com.
