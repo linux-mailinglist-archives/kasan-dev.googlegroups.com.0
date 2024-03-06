@@ -1,122 +1,121 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBKHKUKXQMGQEHTAPY3A@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBKXKUKXQMGQEH6KBUFY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3d.google.com (mail-oo1-xc3d.google.com [IPv6:2607:f8b0:4864:20::c3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81270873E9B
-	for <lists+kasan-dev@lfdr.de>; Wed,  6 Mar 2024 19:25:45 +0100 (CET)
-Received: by mail-oo1-xc3d.google.com with SMTP id 006d021491bc7-5a1202521easf4177672eaf.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 06 Mar 2024 10:25:45 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1709749544; cv=pass;
+Received: from mail-yb1-xb3d.google.com (mail-yb1-xb3d.google.com [IPv6:2607:f8b0:4864:20::b3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91049873E9D
+	for <lists+kasan-dev@lfdr.de>; Wed,  6 Mar 2024 19:25:47 +0100 (CET)
+Received: by mail-yb1-xb3d.google.com with SMTP id 3f1490d57ef6-dced704f17csf12187180276.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 06 Mar 2024 10:25:47 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1709749546; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0s45eaVXNTO6kjn+ZzhPme/N7HBa+WrqiNQzBL/tCGREXQrrPFMc1+DgS98uOEikVG
-         XniJBYisuX2KsxvjVJD9Ie3tuttYg5TTou75ZmkUUFmXvvuqM+QHaENrIVF3LnQQDtyp
-         LKYoVTM3QHTZsnWUOJwSmWCV/3B4zWZXNiO+T+r5+2HceiV0Qnm5YQvAqI3rgcuwKsCO
-         6rr9TmPTpzh8Xrv1E4UQjA9JFRcbrwFsrqqdCqZDrIB5oLo0dvJrQVagqrzp9LsVLoBD
-         BsNzvzK9VK9LPOr5VP3lJCPxYEWLOWkh2NvtpGwE1rGTsiQWVUlJ0RIG37BxdwsNTez8
-         mjnw==
+        b=yHsfjJxGk3XHbhI6CPebwhxhIsk9niMkceu898dbnFzdJEAtEAoLILqv8JmaXCluMs
+         8ybcl1nPxAe2WcMiLIYE/FCMX6/D6YN4RASFl+5AUSamfXZtkc0OGOMnxXJKdYIJuc7e
+         U7UYQZUauc3SoU59Vjo74pklznj8hrZTnOdmWqqcaq7GZDOoMtK/KxHwPh6OrsKtUto5
+         oaSBpA6u3ALqJUSRIx2oantAi0c2Uwz6KsfbxQ/QdiHPO2QL57obDb61qypGhmXWRP4e
+         DpPOAgXgoRALFhpPIDQQxMOx8h/nVC9QzFMS8jklvOpwFDYWQlAtgnyHordXfOlvU5jL
+         6nyQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=CBA2SXnvyWRMyI0aQbgk4LdgN2yGZJQIVYvmj0D23ms=;
-        fh=VNAbR/HUQnY9UAeudxtqkv7suv1O3OyWAm6/ZDcFJIY=;
-        b=aG6fMnwPpBSMr8qwVO8tVIzQGoHmB/WFd/EJca6VYsA5SKqWNQ7dIWcVZFBV8nbWgQ
-         hipGgvvESUhLWuxXr7EfhBmkUqMyUjch5U4QVmy/QJVx2ofN3T5fkFMHuWC/Db++evoV
-         8XjYgTMcSHea2U+6rjja7A8IRZSrfiJOuU5kSO+A0hZ9ggAUN1hXSse8gYScnKPH6BET
-         pA4T5JnyGGYsuSTGVemj4hr7v1ISTD0UGIW80nczl8Xw+L2/SgnpiUk5pnYRf3cSvNoy
-         lJA+iLHEgKQXqES30/Au8iIwQSjcXra+hjmMxvNVK83I9jqwLt76mKU8L1KhVezVMrCQ
-         teMg==;
+        bh=AdR5Y91pbAgqViWeimGVQRiY0pEQDusFDkim5yoYK54=;
+        fh=R6D2u63eQjpc9SojQW+VL/DkDDzhClGLMujkpYMyQ/k=;
+        b=zZ9qHq8taoGwYVX1wtb2jaHjsfzUPOQ1q7DMr8kh9B6gz5vMSLqYmVmV9lPu9n0cc8
+         cSFXrbVh0C8HF6IXSAxhl76wZJ1y61keMMMHVacrzaT9adKcoJ2+WPpgS5S6dmbPskft
+         p2NGv2FgKNSppbYy+K9NT0dAKMW8letoYWaQbLk0AnRL5Hw6PFGlcx5OeiMeRDG8Arjy
+         +bZu4BYBGQyAwyzq2VG75U2hnGy5pzCzpzqseSCydcgLqXoFi5c4yL44f2Fu2+1kHk8n
+         IeUg/TgFIVA/n7Q06aHjDR2VOPO+Z7iv8fUGS/lr0hnnH3MkiX8wv1DuDgYYqtYzE19H
+         o+Rg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=4qqVHzba;
-       spf=pass (google.com: domain of 3j7xozqykcwoaczmvjowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3J7XoZQYKCWoacZMVJOWWOTM.KWUSIaIV-LMdOWWOTMOZWcXa.KWU@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=gZvAt4RW;
+       spf=pass (google.com: domain of 3kbxozqykcwwceboxlqyyqvo.mywukckx-nofqyyqvoqbyezc.myw@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3KbXoZQYKCWwcebOXLQYYQVO.MYWUKcKX-NOfQYYQVOQbYeZc.MYW@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1709749544; x=1710354344; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1709749546; x=1710354346; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=CBA2SXnvyWRMyI0aQbgk4LdgN2yGZJQIVYvmj0D23ms=;
-        b=VYIoal+42RzY21OGUzwCsj397/6iI0CG0nl0Z12/7NMT2cYulA7rMO3DKasrGDLAfz
-         nEoblMQ6JRfYHyI4BmUStiqASv21CwjTXweHj1Q5kAGc5R4E+2Us/KbcSFezuKOGjwlS
-         qMsTZPs/yT4SVc2sS7JBx6EtwdjIijC54uyu1JsQrQaA6qM+ydCSNTol4Mu9MmkOA8FX
-         hO+WxXNlD3k011ibhCqK2dNZPuKWBioww4FD30AaCaKLqoEMtsGuLiryD6K43Rarfc8M
-         HqK3zPQWtft0tf3wxgxeHpNWT2BMQWZddI4hTPXGwY8RqkVvqZgoByO1hZUUK5g9p/RP
-         mNiw==
+        bh=AdR5Y91pbAgqViWeimGVQRiY0pEQDusFDkim5yoYK54=;
+        b=LoWvj3CO0mBZe6O3ntEPhtpkPOPUZ7sX0GrfzwIoFi9beiHUYxMSzp6MJKt/s6kzBF
+         jiwM9XivEFq/AuOTStbQMtapcabP3ZJlQ3jqqkAT8GdQNkpMOKLiPKJhI+uDl/ZvfryL
+         4/6enKiT4ZN7xuDjQHSC/r6OMI+Q5j3GyQFQwIUJFXYX92YMq0Ig14KwTWUJqjd8LMid
+         Qm78fgcTmBWvGXVfvVMRv3vSjUJ1AbJE6IVewjv/QGtY859oJzDD/Qo5EUBszMVMck/O
+         vj9VU+t1ODEbUIGlm5X6ZoCC+U3HcotAKttZDYpc+cglNUc2G2JDZYi0jq6Gg2b8MWy7
+         sAYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709749544; x=1710354344;
+        d=1e100.net; s=20230601; t=1709749546; x=1710354346;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CBA2SXnvyWRMyI0aQbgk4LdgN2yGZJQIVYvmj0D23ms=;
-        b=m5Kjh3PoBohmEWjtzQUZw6fQhYOmnHMrmCr2kf/Dn1UFW8apqd61oejH5VFIfVdc43
-         T6z+Y+9NBAG7q2kQ1xcKvdIKGQEyMrrSZroqiH/4sTN9wyi/r4X9R37Y23d/w6j3U5OU
-         HKcsG1MDaNEhA6r2iQyS7XjM1OZcXv/ZhaWSTAaYSz+UP1IfWkHRGtVX9ScHiqi3mEQK
-         K8GoysdL3WfGAbfTjkifI9VQ6+ni41cBtwmAl/NluYZ8WSbvz/SoL3nLjFawvZDFUQQP
-         8a2w5MT9bV2lVZqQHrUmaunbVapPizM9nqqk6yA1j3HwqzmvhRtUt+Of9UEPUnhkywEk
-         SGoA==
-X-Forwarded-Encrypted: i=2; AJvYcCVw53Gtxch/nDji5URTSMcJciCIFd432wtQBLOkWjjP3LqKBYyhxVGPi1v+/Xg4dSa0kNvSWpKTh5agnwKQes4oeQId5TWlmw==
-X-Gm-Message-State: AOJu0Yz3E7QUbYj020ZEH5mEMtay0Jg0Ze/uqvO1nKKEem7VaTHjS4BR
-	YDkYrbm9e0+jRiLjHDAiroAlKbk79gy3erq+Gkt9w7yjKTuHzmb3
-X-Google-Smtp-Source: AGHT+IEUG43YIOBsom7F6Gj/xaZy+XITLOUYkNPij7w+9rUie5m553TEKknOcvnpWXyjzraMddDVmw==
-X-Received: by 2002:a4a:6553:0:b0:5a1:20aa:d201 with SMTP id z19-20020a4a6553000000b005a120aad201mr5018049oog.7.1709749544417;
-        Wed, 06 Mar 2024 10:25:44 -0800 (PST)
+        bh=AdR5Y91pbAgqViWeimGVQRiY0pEQDusFDkim5yoYK54=;
+        b=GUq0wX3Fqpl0es41Px7ZthcNYPhl0rn6jGMJzsquhj40viH/5WlDI4J+dGJYU6xWME
+         pF9PVhmYHBvmBDIovRnZ6p+Vs0vVpv9FKdV5ielmPHI+iQ7Rkt7y2kcUsjtaNIHIQmLt
+         GjjP/3jhgvPd/TfIbp9XfWo0UEFULzsiVJNBNqTTEqVowAro28Br0yS+91/5vHBDI0sM
+         J3u8FRg6vnL53fUQjSzTlUPsfNpu/I0UlXHv6Z7C2ZidMacBFgNaRFu3tSKxloR56l85
+         MXu6rSRNqBmNTXDViRPg3cvlyhvB99GP1qR3aCHUElEiZUHEPwNhaxI2qW4nQrxLimAG
+         3LDQ==
+X-Forwarded-Encrypted: i=2; AJvYcCV+rTX4yhjZrVPOeLjXZtxqBzpP3Z55KvmORpxrNUawPWY1/okg8mD8Wj56t46ITvaR9pQDqnP+CVsJiuauGFevtUEV0Ig7PQ==
+X-Gm-Message-State: AOJu0YwrWXXQR6wVV7J1sVqUocHKwU7ep3m1j/RmOJALewwmSielEgNV
+	PIitza5YvTwLDZQjjARkRbJ8Lb1LD1R3H4PDhGjYAID16RyJ1GD4
+X-Google-Smtp-Source: AGHT+IEvf8Wue+kf2ftKPeYt1l+MH9Q+HQTddhn75aGUcZQ7NPB92KookA1CslNu69bItv5BD1O5FA==
+X-Received: by 2002:a25:e20a:0:b0:dc7:443d:d9da with SMTP id h10-20020a25e20a000000b00dc7443dd9damr14180983ybe.4.1709749546309;
+        Wed, 06 Mar 2024 10:25:46 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6820:1055:b0:5a0:58ca:3fc with SMTP id
- x21-20020a056820105500b005a058ca03fcls86955oot.0.-pod-prod-03-us; Wed, 06 Mar
- 2024 10:25:43 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVybvWRf19pX0dZbFebpbo7+dcwtJtTm9DvfTxdSEYBzaxApWPc18YMfhmJch2RGppFOTwm+LgSL1P1s44q3khlOe9C2pK0fW+0Jw==
-X-Received: by 2002:a05:6808:8cf:b0:3c1:eac4:7395 with SMTP id k15-20020a05680808cf00b003c1eac47395mr5504155oij.51.1709749543652;
-        Wed, 06 Mar 2024 10:25:43 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1709749543; cv=none;
+Received: by 2002:a25:ae8d:0:b0:dcb:b370:7d0c with SMTP id b13-20020a25ae8d000000b00dcbb3707d0cls83655ybj.1.-pod-prod-02-us;
+ Wed, 06 Mar 2024 10:25:45 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWmrexz5RSVoAUo720WN9TJkIkrDUtYzI7i4pHTD8RoJ5S7XeK8wUjJH/YEsJUL8QFhUC8D99Hv1+IPRNkxAXhe22zUHQo5EeOxKQ==
+X-Received: by 2002:a0d:e904:0:b0:609:8649:f4e7 with SMTP id s4-20020a0de904000000b006098649f4e7mr16193766ywe.3.1709749545654;
+        Wed, 06 Mar 2024 10:25:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1709749545; cv=none;
         d=google.com; s=arc-20160816;
-        b=gA7LhosQv3HInsEfTZghTX13sLAvzs1fiKgFJITN5SN3TJVOPzqzlvV/DizvCEnyAA
-         z3QRe4XkSkPRxASezybRppHPX06J14eiSHy4rY6ibAoVS1oe0Hy5CjWPFGkENWnQQsig
-         zbrOqZCtlGYg2tYpRinvLooVMhykoh/AV8Et2i5WCq+Fl89+muUMOeNddCv5gaC0Fpyg
-         i7cOY0GZyzLYE9aa7M4Vz8WhMgSy4unziXcugJliHvC6h/Za0WrEt+pAvzuIE8thBooH
-         pcTzCfC0VXTUnGbgiypqS3NqhIZcLfwGrdoV1tpdGUOWy4wu5Zz+nchht+i2kx80Kt+U
-         JbsQ==
+        b=CgVXC9G5I5dHt2UvCZ6ZWS7N62WB30XRKERwB7tgefK6FKgPULvFgn3LCH5cvuj++O
+         6BtwNyL9buUH5swVV9htu+EsPuMM3WL8Z3O1mVbITE1OnJyzDzn4XnIEM7fOVO27E1E8
+         pdkaTNbMvqLxSAy0/+OENK+9B14U5z8It9Gs37buCVyhjio1hyA5o440JT8QRB9jSKfP
+         uI1yUFnooKB+wCyrzuqkSFG/fG6GFYkzEndUa/SiIieXGxBDn0lgr2CbDiDVQc3PQGf0
+         k1NBsV6t0BHl0Igz7vBI7QH55gGyXYT/AtsxCjOcW7a+vgywUwalVb+4ymlEIz2ra4LK
+         gfYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=vneHWg8klAgpjQ629hDbHaGhEsZ8DTv1BUkMhsSVPcA=;
-        fh=dJMp0Fq5bwgTPO/Dp9n7LjBP7zjEOg3ETK2MXFdP88k=;
-        b=nxfO0fgVLUfEiLOK8b4uks4ZnE9q56Vlecby7FEeeCcOKel2W1yxxPbzVPGGEkOf+Y
-         kaQ8qCjnU//qDTC0YHkhnH2Qob2+QgfC26T0Leo3VUvJOO2WF1vx70UkwoTBeCmiL9ax
-         tQtvZC01SE/l3dGGSeQd+cQLKhKT5gwCrPbBjXXWxBZmdAhytMYTF4Z+8o8ncKENPnBr
-         ZdbLEOcN8+zYES1VLgoD0+3gg7UZ4/5YlXZtkcOF2HtPCKKkhhiuqcyKpUkqFQ76Ccp9
-         k8+BO98GbAaJ24y7cc0cuLbaCOxRG7FheWLHi58GAS4ZibX8sYWfx7Ftb6BHky2bCwSr
-         FTwg==;
+        bh=uTM4daMpjhNnHNsVheTGd2gBho3MSeHG2jrz4iVybwI=;
+        fh=5O8085vjNb4owySdDKrD3eWXR3E8htOvGF9j8hbiS5w=;
+        b=f3oiu8pkkHdkw8VTNsuEHuukaIYS7pjp3V+pdQRrIMlqz4Wi2A1I9u5+OZH4ltmy6O
+         FmxBustoz6qLfC/PPFr0nr84/eFB2gOWfduID0a6ktMmISa/2eFYQa3pZe5e8zXfLWc2
+         WGXvcr4IwRcbyPgh/CMgiyjYSlT6H577fC2XCJjtujMG1V2XU64HeuXt/dThZ3hj64t2
+         5LynH5RzNdjaC+Garo40CXJQqyoe/+s2Dsa0d9+14uHZh92X7pUXbLseqJUq/Fv0Tw+6
+         6bhrYtVbm+Q74vTVk6raS/I+Zlb32qrf9rgtKSyKiU7OmksD+mjBqJQSRHFvLVuUpFjl
+         8Fng==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=4qqVHzba;
-       spf=pass (google.com: domain of 3j7xozqykcwoaczmvjowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3J7XoZQYKCWoacZMVJOWWOTM.KWUSIaIV-LMdOWWOTMOZWcXa.KWU@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=gZvAt4RW;
+       spf=pass (google.com: domain of 3kbxozqykcwwceboxlqyyqvo.mywukckx-nofqyyqvoqbyezc.myw@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3KbXoZQYKCWwcebOXLQYYQVO.MYWUKcKX-NOfQYYQVOQbYeZc.MYW@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yb1-xb4a.google.com (mail-yb1-xb4a.google.com. [2607:f8b0:4864:20::b4a])
-        by gmr-mx.google.com with ESMTPS id t18-20020a056808159200b003c1ec43807bsi515291oiw.0.2024.03.06.10.25.43
+Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com. [2607:f8b0:4864:20::1149])
+        by gmr-mx.google.com with ESMTPS id y200-20020a0dd6d1000000b00609da8cc7ebsi176121ywd.3.2024.03.06.10.25.45
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Mar 2024 10:25:43 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3j7xozqykcwoaczmvjowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b4a as permitted sender) client-ip=2607:f8b0:4864:20::b4a;
-Received: by mail-yb1-xb4a.google.com with SMTP id 3f1490d57ef6-dc6b26845cdso10940450276.3
-        for <kasan-dev@googlegroups.com>; Wed, 06 Mar 2024 10:25:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUF9k5BXrPnBRn7IV0W82R5EuGq+XotpBl599Oxc70cwfhUxnqx8W8t0JrfOvIEb8XT0l8lc/XE8FPY69AKwW7iyOUMGKZJ86x+kg==
+        Wed, 06 Mar 2024 10:25:45 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3kbxozqykcwwceboxlqyyqvo.mywukckx-nofqyyqvoqbyezc.myw@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) client-ip=2607:f8b0:4864:20::1149;
+Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-609db871b90so321197b3.1
+        for <kasan-dev@googlegroups.com>; Wed, 06 Mar 2024 10:25:45 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVsgQUoltxrepSYpj0Uq6qtVQ6cQDgz+3MJq9qXyCMjlpf+apygK2DQ6JRbMAA8IeFydihifx3bO9uwwa24IqsmWpMoGn9ZHKwUaw==
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:85f0:e3db:db05:85e2])
- (user=surenb job=sendgmr) by 2002:a05:6902:b1c:b0:dcc:e1a6:aca9 with SMTP id
- ch28-20020a0569020b1c00b00dcce1a6aca9mr3819417ybb.9.1709749543321; Wed, 06
- Mar 2024 10:25:43 -0800 (PST)
-Date: Wed,  6 Mar 2024 10:24:25 -0800
+ (user=surenb job=sendgmr) by 2002:a05:690c:e18:b0:609:247a:bdc5 with SMTP id
+ cp24-20020a05690c0e1800b00609247abdc5mr4410842ywb.4.1709749545152; Wed, 06
+ Mar 2024 10:25:45 -0800 (PST)
+Date: Wed,  6 Mar 2024 10:24:26 -0800
 In-Reply-To: <20240306182440.2003814-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20240306182440.2003814-1-surenb@google.com>
 X-Mailer: git-send-email 2.44.0.278.ge034bb2e1d-goog
-Message-ID: <20240306182440.2003814-28-surenb@google.com>
-Subject: [PATCH v5 27/37] mm: percpu: Introduce pcpuobj_ext
+Message-ID: <20240306182440.2003814-29-surenb@google.com>
+Subject: [PATCH v5 28/37] mm: percpu: Add codetag reference into pcpuobj_ext
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -147,9 +146,9 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=4qqVHzba;       spf=pass
- (google.com: domain of 3j7xozqykcwoaczmvjowwotm.kwusiaiv-lmdowwotmozwcxa.kwu@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::b4a as permitted sender) smtp.mailfrom=3J7XoZQYKCWoacZMVJOWWOTM.KWUSIaIV-LMdOWWOTMOZWcXa.KWU@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=gZvAt4RW;       spf=pass
+ (google.com: domain of 3kbxozqykcwwceboxlqyyqvo.mywukckx-nofqyyqvoqbyezc.myw@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3KbXoZQYKCWwcebOXLQYYQVO.MYWUKcKX-NOfQYYQVOQbYeZc.MYW@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -167,157 +166,89 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Kent Overstreet <kent.overstreet@linux.dev>
 
-Upcoming alloc tagging patches require a place to stash per-allocation
-metadata.
-
-We already do this when memcg is enabled, so this patch generalizes the
-obj_cgroup * vector in struct pcpu_chunk by creating a pcpu_obj_ext
-type, which we will be adding to in an upcoming patch - similarly to the
-previous slabobj_ext patch.
+To store codetag for every per-cpu allocation, a codetag reference is
+embedded into pcpuobj_ext when CONFIG_MEM_ALLOC_PROFILING=y. Hooks to
+use the newly introduced codetag are added.
 
 Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Dennis Zhou <dennis@kernel.org>
-Cc: Tejun Heo <tj@kernel.org>
-Cc: Christoph Lameter <cl@linux.com>
-Cc: linux-mm@kvack.org
 ---
- mm/percpu-internal.h | 19 +++++++++++++++++--
- mm/percpu.c          | 30 +++++++++++++++---------------
- 2 files changed, 32 insertions(+), 17 deletions(-)
+ mm/percpu-internal.h | 11 +++++++++--
+ mm/percpu.c          | 26 ++++++++++++++++++++++++++
+ 2 files changed, 35 insertions(+), 2 deletions(-)
 
 diff --git a/mm/percpu-internal.h b/mm/percpu-internal.h
-index cdd0aa597a81..e62d582f4bf3 100644
+index e62d582f4bf3..7e42f0ca3b7b 100644
 --- a/mm/percpu-internal.h
 +++ b/mm/percpu-internal.h
-@@ -32,6 +32,16 @@ struct pcpu_block_md {
- 	int			nr_bits;	/* total bits responsible for */
+@@ -36,9 +36,12 @@ struct pcpuobj_ext {
+ #ifdef CONFIG_MEMCG_KMEM
+ 	struct obj_cgroup	*cgroup;
+ #endif
++#ifdef CONFIG_MEM_ALLOC_PROFILING
++	union codetag_ref	tag;
++#endif
  };
  
-+struct pcpuobj_ext {
-+#ifdef CONFIG_MEMCG_KMEM
-+	struct obj_cgroup	*cgroup;
-+#endif
-+};
-+
-+#ifdef CONFIG_MEMCG_KMEM
-+#define NEED_PCPUOBJ_EXT
-+#endif
-+
- struct pcpu_chunk {
- #ifdef CONFIG_PERCPU_STATS
- 	int			nr_alloc;	/* # of allocations */
-@@ -64,8 +74,8 @@ struct pcpu_chunk {
- 	int			end_offset;	/* additional area required to
- 						   have the region end page
- 						   aligned */
 -#ifdef CONFIG_MEMCG_KMEM
--	struct obj_cgroup	**obj_cgroups;	/* vector of object cgroups */
-+#ifdef NEED_PCPUOBJ_EXT
-+	struct pcpuobj_ext	*obj_exts;	/* vector of object cgroups */
++#if defined(CONFIG_MEMCG_KMEM) || defined(CONFIG_MEM_ALLOC_PROFILING)
+ #define NEED_PCPUOBJ_EXT
  #endif
  
- 	int			nr_pages;	/* # of pages served by this chunk */
-@@ -74,6 +84,11 @@ struct pcpu_chunk {
- 	unsigned long		populated[];	/* populated bitmap */
- };
+@@ -86,7 +89,11 @@ struct pcpu_chunk {
  
-+static inline bool need_pcpuobj_ext(void)
-+{
-+	return !mem_cgroup_kmem_disabled();
-+}
-+
+ static inline bool need_pcpuobj_ext(void)
+ {
+-	return !mem_cgroup_kmem_disabled();
++	if (IS_ENABLED(CONFIG_MEM_ALLOC_PROFILING))
++		return true;
++	if (!mem_cgroup_kmem_disabled())
++		return true;
++	return false;
+ }
+ 
  extern spinlock_t pcpu_lock;
- 
- extern struct list_head *pcpu_chunk_lists;
 diff --git a/mm/percpu.c b/mm/percpu.c
-index 4e11fc1e6def..2e5edaad9cc3 100644
+index 2e5edaad9cc3..90e9e4004ac9 100644
 --- a/mm/percpu.c
 +++ b/mm/percpu.c
-@@ -1392,9 +1392,9 @@ static struct pcpu_chunk * __init pcpu_alloc_first_chunk(unsigned long tmp_addr,
- 		panic("%s: Failed to allocate %zu bytes\n", __func__,
- 		      alloc_size);
+@@ -1699,6 +1699,32 @@ static void pcpu_memcg_free_hook(struct pcpu_chunk *chunk, int off, size_t size)
+ }
+ #endif /* CONFIG_MEMCG_KMEM */
  
--#ifdef CONFIG_MEMCG_KMEM
-+#ifdef NEED_PCPUOBJ_EXT
- 	/* first chunk is free to use */
--	chunk->obj_cgroups = NULL;
-+	chunk->obj_exts = NULL;
- #endif
- 	pcpu_init_md_blocks(chunk);
- 
-@@ -1463,12 +1463,12 @@ static struct pcpu_chunk *pcpu_alloc_chunk(gfp_t gfp)
- 	if (!chunk->md_blocks)
- 		goto md_blocks_fail;
- 
--#ifdef CONFIG_MEMCG_KMEM
--	if (!mem_cgroup_kmem_disabled()) {
--		chunk->obj_cgroups =
-+#ifdef NEED_PCPUOBJ_EXT
-+	if (need_pcpuobj_ext()) {
-+		chunk->obj_exts =
- 			pcpu_mem_zalloc(pcpu_chunk_map_bits(chunk) *
--					sizeof(struct obj_cgroup *), gfp);
--		if (!chunk->obj_cgroups)
-+					sizeof(struct pcpuobj_ext), gfp);
-+		if (!chunk->obj_exts)
- 			goto objcg_fail;
- 	}
- #endif
-@@ -1480,7 +1480,7 @@ static struct pcpu_chunk *pcpu_alloc_chunk(gfp_t gfp)
- 
- 	return chunk;
- 
--#ifdef CONFIG_MEMCG_KMEM
-+#ifdef NEED_PCPUOBJ_EXT
- objcg_fail:
- 	pcpu_mem_free(chunk->md_blocks);
- #endif
-@@ -1498,8 +1498,8 @@ static void pcpu_free_chunk(struct pcpu_chunk *chunk)
- {
- 	if (!chunk)
- 		return;
--#ifdef CONFIG_MEMCG_KMEM
--	pcpu_mem_free(chunk->obj_cgroups);
-+#ifdef NEED_PCPUOBJ_EXT
-+	pcpu_mem_free(chunk->obj_exts);
- #endif
- 	pcpu_mem_free(chunk->md_blocks);
- 	pcpu_mem_free(chunk->bound_map);
-@@ -1646,9 +1646,9 @@ static void pcpu_memcg_post_alloc_hook(struct obj_cgroup *objcg,
- 	if (!objcg)
- 		return;
- 
--	if (likely(chunk && chunk->obj_cgroups)) {
-+	if (likely(chunk && chunk->obj_exts)) {
- 		obj_cgroup_get(objcg);
--		chunk->obj_cgroups[off >> PCPU_MIN_ALLOC_SHIFT] = objcg;
-+		chunk->obj_exts[off >> PCPU_MIN_ALLOC_SHIFT].cgroup = objcg;
- 
- 		rcu_read_lock();
- 		mod_memcg_state(obj_cgroup_memcg(objcg), MEMCG_PERCPU_B,
-@@ -1663,13 +1663,13 @@ static void pcpu_memcg_free_hook(struct pcpu_chunk *chunk, int off, size_t size)
- {
- 	struct obj_cgroup *objcg;
- 
--	if (unlikely(!chunk->obj_cgroups))
-+	if (unlikely(!chunk->obj_exts))
- 		return;
- 
--	objcg = chunk->obj_cgroups[off >> PCPU_MIN_ALLOC_SHIFT];
-+	objcg = chunk->obj_exts[off >> PCPU_MIN_ALLOC_SHIFT].cgroup;
- 	if (!objcg)
- 		return;
--	chunk->obj_cgroups[off >> PCPU_MIN_ALLOC_SHIFT] = NULL;
-+	chunk->obj_exts[off >> PCPU_MIN_ALLOC_SHIFT].cgroup = NULL;
- 
- 	obj_cgroup_uncharge(objcg, pcpu_obj_full_size(size));
- 
++#ifdef CONFIG_MEM_ALLOC_PROFILING
++static void pcpu_alloc_tag_alloc_hook(struct pcpu_chunk *chunk, int off,
++				      size_t size)
++{
++	if (mem_alloc_profiling_enabled() && likely(chunk->obj_exts)) {
++		alloc_tag_add(&chunk->obj_exts[off >> PCPU_MIN_ALLOC_SHIFT].tag,
++			      current->alloc_tag, size);
++	}
++}
++
++static void pcpu_alloc_tag_free_hook(struct pcpu_chunk *chunk, int off, size_t size)
++{
++	if (mem_alloc_profiling_enabled() && likely(chunk->obj_exts))
++		alloc_tag_sub(&chunk->obj_exts[off >> PCPU_MIN_ALLOC_SHIFT].tag, size);
++}
++#else
++static void pcpu_alloc_tag_alloc_hook(struct pcpu_chunk *chunk, int off,
++				      size_t size)
++{
++}
++
++static void pcpu_alloc_tag_free_hook(struct pcpu_chunk *chunk, int off, size_t size)
++{
++}
++#endif
++
+ /**
+  * pcpu_alloc - the percpu allocator
+  * @size: size of area to allocate in bytes
 -- 
 2.44.0.278.ge034bb2e1d-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240306182440.2003814-28-surenb%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240306182440.2003814-29-surenb%40google.com.
