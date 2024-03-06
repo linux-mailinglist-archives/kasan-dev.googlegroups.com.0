@@ -1,121 +1,123 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBDHKUKXQMGQEEJCXGPI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OD3FKWUERBDXKUKXQMGQEIQFEVRA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x1139.google.com (mail-yw1-x1139.google.com [IPv6:2607:f8b0:4864:20::1139])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F4AF873E83
-	for <lists+kasan-dev@lfdr.de>; Wed,  6 Mar 2024 19:25:17 +0100 (CET)
-Received: by mail-yw1-x1139.google.com with SMTP id 00721157ae682-609df41adddsf368437b3.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 06 Mar 2024 10:25:17 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1709749516; cv=pass;
+Received: from mail-pl1-x63f.google.com (mail-pl1-x63f.google.com [IPv6:2607:f8b0:4864:20::63f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6721B873E85
+	for <lists+kasan-dev@lfdr.de>; Wed,  6 Mar 2024 19:25:20 +0100 (CET)
+Received: by mail-pl1-x63f.google.com with SMTP id d9443c01a7336-1d3d9d2d97bsf122295ad.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 06 Mar 2024 10:25:20 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1709749519; cv=pass;
         d=google.com; s=arc-20160816;
-        b=GVOrag4MHj2kkD29bg8bICPz6ZSDJBcwrYwR/fir7Ir8Xt1OwmIJ8pStNBATNjq0Ft
-         71A7Ok/c9wHea3OgiSct1ZQlj7Mq/2JeElzKVXNDOcBz6sxPnGYdgBKzpMBtKR5Powjw
-         d3CAYOgDvvmo4IFX5rPH0Dk+CRz/Npg660vjjqbxlfY7VD33Utki15EFYJl0fG1oelrg
-         J56FUhDe2oMuPyT1f271fEwA4ybluD7VKaNTX5Si7cPxsMKOykWTzDYZ9C0Y1NEgZK3+
-         aWrxiPXiKxa89SBpsx2JEoxzyT+w+efD4kSYZKw6GoKXVSQkmTO/s3fyw6oZJXDAPfIL
-         lsdg==
+        b=udalbY6IVUv7AqjVCdaDOEh+dmv29BCSZTYhAM5nIQ6OJcd+tv7NLipDhwKEFbC46O
+         ztS+vuVU/iaoGwUMZPH8OtrI121/9ELnN5+qzvCtMO6MPjA877R36di4MPreYUjjHeFQ
+         IeEwnGKnQ6Nv/OsEzcGH45GdmmpxIa0txotQh24x8q/L7O96FrsRQ7xOYZGvLbwETA0H
+         hQ+NtxCzbeczUdtxFcGdWHb5UGTRuztUVaFvEKoI0ge5qG8bNXFJ3bMrZel2VyHRWoPJ
+         D+ugSITLYMpcwuwKNDf793pPmSbvx9BIPK6LgExSPgyaHsP7AjM3Hm0c9ZjhNA7cY/q0
+         ZtAQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=d+VnD/UcwggtqV9zJMLlqO1pUD1Z2EAcTAXkhlk/8Ns=;
-        fh=54P3Bg72OzWLQwsmnE7G68CrtythhpZ/buDpjS6ppSI=;
-        b=hhLTmIWqIyxuNxNUkn5PwhepQv87q83Y/yEQKRBcRTGlOci0++cfDEu/H50Xv0Ng1x
-         yz/mEliEoB9Y4ONCQtUjqRHZMMLtGvsVU1bs4Ds6LmkEiTKWKz745Ay4oP2R3H7Tq2A5
-         Rcc3v4wOBQ26mdV4qzUkTH7zs2fvB4nLXMz5qT0Q/W3fKhIZ5Jkh/xpPDMaUHgxpx+PK
-         jF4/Fvr0sQfGAVjeiOtdiezGyyKMIXo7fijoGKQKe7j9+wblTKiL5vXireiF/qkzOS0L
-         ZHY6IvF2jhC8IVTrpPLJiT02EWJkr7qsTAKhtGbXw6KctLq2zUV9zSEaGhIKY4YCqgxN
-         vaEA==;
+        bh=nYDhUl0x3vy+nMxpBwEGnCl5Kj9HVE3wW1BnfBHv8hs=;
+        fh=6yiApfzGrbwcfKDMDZh6WlpnJOjgjN+p6QN5Ps2nkPI=;
+        b=Kj+GxUs/y9DhFsyic+g/PXZ2CLziqvrY/P+02EkDvQ2AyH0iALY7XICqb2cF9fRnj5
+         fa9q4A0GP1k0GQF2GcSMjlD0jicXe6byNcCzdk6u3KTtxt9Ty4BqdzwQzLPP/vSWr4e2
+         Y0kgW2vHh1ecaHIOqV73qvGks6PAjYWiz5sKLGObwcUihc3bhpTobRzb0cGGDECBPRWy
+         KfFiHUFq2XIZWLulsCEb4CoA+BRnZDdjdBNPbgteuhgYFiwW1VPin3xFNrB844FyVHAd
+         yR5HmMFl1G7DtqiuX4ajzAQq/chJaYvBNORqPxOT5uDWiJ4/kfyuxkzQXdwMkGQApuBM
+         pZuw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=BtLf0baf;
-       spf=pass (google.com: domain of 3crxozqykcu0796t2qv33v0t.r31zp7p2-stav33v0tv63947.r31@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3CrXoZQYKCU0796t2qv33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=xeSoUiJF;
+       spf=pass (google.com: domain of 3dlxozqykcu89b8v4sx55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3DLXoZQYKCU89B8v4sx55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1709749516; x=1710354316; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1709749519; x=1710354319; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=d+VnD/UcwggtqV9zJMLlqO1pUD1Z2EAcTAXkhlk/8Ns=;
-        b=VGCEFo5QY8J550O0YaGlrweV9rCDFV+9A0HE/1Vyasxtps1kTrp4vkl0/xPGZ6PQvP
-         S5C01aAVtJJkBS1QphdAGQ5NSnHR3u9fDsROiV473ekNUwiuk/it/t+NftRLKZniw9gT
-         Xx82WqHc2vexrA2YzXflehUWyCsqLQ690xVa9Xmv2ChK73N3SKyuAZT9GRMId0QFWzhH
-         70+zAAa3OCPOJ4IcQf2lJ2EkF1lmgDb2nFDltVMG2EqY/wY+LzOrvUskxhwRrBs2oHE1
-         Gb0NE5nAWbAFTuEDVlsxATalkj0SK6Ipy5PV8Hw5y+A1BdJR/XVKXvMiNw7cGCOmsbmu
-         u3Sg==
+        bh=nYDhUl0x3vy+nMxpBwEGnCl5Kj9HVE3wW1BnfBHv8hs=;
+        b=Q1TbSTLyB+A0+Yx5UmF7xjhNOQaOloOKtHhO/g4FHFBU9XQpEoD3U+DTVhijTDIYkZ
+         xPYIO+shLf+s4az7iT/iJaqCyeqoZyKM7WX1DS5tD9MrjbIfHJImhF0cBLBRtIdXJEpa
+         WYKuxw0uTD8Vn8oQzbk8aU0ZTLcBMs0mKPLJC0n1km+2g8UaHqSCnfzwar9/QDpEserN
+         TuXNSoL4p9Dg5dsTGcgOegv/RJQTULeiD6pk23HN2zfmH0fdqjsZ8j/HeJKhJ14ATgX1
+         jgccCsdozjnKCAkxj5lDNRigFM+Y2kiemqLmFXvOW9fp5pHAL9popRKCzk381bgiGk/E
+         t9rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709749516; x=1710354316;
+        d=1e100.net; s=20230601; t=1709749519; x=1710354319;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=d+VnD/UcwggtqV9zJMLlqO1pUD1Z2EAcTAXkhlk/8Ns=;
-        b=lFlq2J5WALP/MFPqtXNwy9CysmAqf9oeYlrieYZYaK09m1AN/X15JJXxzYWH06iMzR
-         /hRoVOyuRKYn1ZWgn+T4SZicRVcwZMNGA4TBnJzlnC+MW9Xw9Ogai9h5FxYO+/bcLU4I
-         BMLq01D5G91gDLpAr87ld4lXBMSpztT/Jkr0ZvPLykNjTDNoJQywAPi6xeS8pGZ2CAgN
-         zMXgObk1/7vI9g2s9WSj0ps6+30DaWBKiH1n6kYrFmEODVsPrABsb90dmFNrgWLncVjL
-         591gADg4Q6UXQFXtwB50ksSjb/qO4BozAED/OHQzQzShXtvUs21Z+jhwBALy8S6BWPH3
-         nErg==
-X-Forwarded-Encrypted: i=2; AJvYcCURIK9XSlRMRQAY8ipW5D+dI+454sfQlXSd0m+38SJF6SqN35VAAu8U6c0QQGdDPJkYlgEkLRUGMunUqp7/39sKPyohi/tsFA==
-X-Gm-Message-State: AOJu0YyZsTmpjPnrZ2Y7KwTpXv4PsXxKkFrpAPguEMEcH/4mQVAFRK1X
-	sRX71egOfKWWTTlpQ6fs/BKKWlRDMrPkX3dLlLma+jDH9DoPjnK2
-X-Google-Smtp-Source: AGHT+IHokPH1fOMdteoT+IPyEgE2DIqa9MMLAXftQzGClocHfGcVq2ld7Bv4Wb0zQYHn8ZlhZPV01Q==
-X-Received: by 2002:a5b:70e:0:b0:dcd:36c1:ecb7 with SMTP id g14-20020a5b070e000000b00dcd36c1ecb7mr8377662ybq.54.1709749516135;
-        Wed, 06 Mar 2024 10:25:16 -0800 (PST)
+        bh=nYDhUl0x3vy+nMxpBwEGnCl5Kj9HVE3wW1BnfBHv8hs=;
+        b=N0H/ZRGUU2P0IZqSKCCDIKXu375LZI398vRmKo3E8jVg9x22RLp0OzOJXOrLZ3hk1j
+         y+++eTs5IoBWNT8KYQvBkpDKIPE7yf55bQrbyYY46xRrCOgJsajDLLdOoaxzlubf7zMJ
+         QMCJUdq6OnApXpy2NI6DNbKyrym+OihtGU7IZR4qmBxM+sMpbrBUukSaf68fmzRG1eM9
+         ICmvhfvWK3Go3MOrriOcTUu5B1QOkcU2etXgeI1rxdA6EaT/VKIGo2P5nxEoC7Oc0qHO
+         GIJflp5ZioWaag9CcG2A6Co6UdORMNuBkSnCXOdGeS3RHsGchuvuSNqFcKCVtBMB0T9V
+         aNEg==
+X-Forwarded-Encrypted: i=2; AJvYcCV4wCPGW0LJTGMO8D+rxNhxhuHkLWS4ovPy6QZwooIx2kgPzx20UoZMyf3q5AKGbIKjYAoVusXm+r8ficewywUF9KQt9cIAzQ==
+X-Gm-Message-State: AOJu0YytJPgrIZVHmaaDIgh4FTdy2NhsVAX4uQdWwyuJJVGtH1ARdC9w
+	KCr63I5BYS1cdm+2i4iiSI+yGeOqiOg+rT+thnyYnWfFJVo0vzh5
+X-Google-Smtp-Source: AGHT+IFjq6Fhgj3ovrLouxns6FEUsilvXLcqydjC/5Y3h/LHopt5NVzHuYKN2qI9wH8TQdDnAJggUQ==
+X-Received: by 2002:a17:902:e744:b0:1dc:dfd0:f3da with SMTP id p4-20020a170902e74400b001dcdfd0f3damr46452plf.28.1709749519036;
+        Wed, 06 Mar 2024 10:25:19 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:69d2:0:b0:dcc:717f:41b7 with SMTP id e201-20020a2569d2000000b00dcc717f41b7ls111570ybc.0.-pod-prod-07-us;
- Wed, 06 Mar 2024 10:25:15 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWR4VlZaeiIKJnqMkwSdCD8YtuwtFVnfinDy7WFXi9x9XZ8jv91D9EU/hMwRqvx9PqO3bkCKMQKTsHSOVU8EfY2sryLfuqZPd/a8Q==
-X-Received: by 2002:a05:690c:fcb:b0:607:8c3e:1605 with SMTP id dg11-20020a05690c0fcb00b006078c3e1605mr17686096ywb.10.1709749515367;
-        Wed, 06 Mar 2024 10:25:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1709749515; cv=none;
+Received: by 2002:a17:903:22d1:b0:1db:2ca9:b5b8 with SMTP id
+ y17-20020a17090322d100b001db2ca9b5b8ls80963plg.1.-pod-prod-07-us; Wed, 06 Mar
+ 2024 10:25:18 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUmNyD0491NyglVhvRe6VLYeYdZ9QPyHZ8lL2SP9P9JnofTFLJhGLiFQWrbXrpSw41NkXilTiDj++JtsF109OOpk+OnKSQaspiMjA==
+X-Received: by 2002:a17:902:e5d0:b0:1dc:fc86:2e7a with SMTP id u16-20020a170902e5d000b001dcfc862e7amr7146521plf.59.1709749517974;
+        Wed, 06 Mar 2024 10:25:17 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1709749517; cv=none;
         d=google.com; s=arc-20160816;
-        b=eclvfqJKS7IgKoL7cflU/7MaqqGo9dNSR5UHtk1mPecCNEDnVI71ExMAUqPKv125Gy
-         Hk8Cquo/7SYFTIPvwVyqDMANcOjPOXKtl7cdWVw6ZeJgtSCluG1tV6UzX/iOn28lWBiz
-         M+0HVkyGVRmNHIP9pAFjQd0zD16xv2k+8PVJDgVCUxkwOzelTLGJcZGP82Mfd7IbSUku
-         ZpdkZFknettmGCdV1OVJUsrtxlSEINlUvVBneuQSU6dKCt8ivogDGJgpLJBSON6GK0Um
-         l0G0iE7fOpLcRZRW63cU1CX4xzdYfQ3CtFCFMQXR79jIU1N0wFHhgWz1VfNOlP7bUS1z
-         rSxw==
+        b=AYrstbKDP/VcIq02xE12VxatvEJ4sjaBhCPEw6hFPe2WwgJhNqj/XvVffDZ6LSUiTg
+         zF8wauk2XtVL/gtnlchvueTx7/hqFtTaEEPH5dKKQJ5EMyII2fGv+dohVWT8sqLXBABI
+         I+/mg8gOIvrlSpPx7GgitBOgeC+5/R2jIxS2UQ9T1ushK49InvdX57FwmOWFCwQTw29G
+         cu5d+ISq5LyoASLJQiPwDvxHIH+z6zw14ti2z7G1YjNULo0Ah/+gH2y4jQgRwgMVHd5U
+         1nf7+qo5ynGZfH7CbACPwwN0i76VrWV6Dw4VE3T3NiDB/mEqhmmVKcI86MW9IunikP70
+         49eA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=nqAwBcStn3+iWVa0bV8AV7qbDJDX846MDYUJTJVUXBw=;
-        fh=RDhG3GCNSctMClek18v5NhWrgk7rKggyc+2u02BPeZw=;
-        b=B7xURGCAeju6zCv0wvPjeJaW+ljR+ug8mWmUukyjxG9Kt5D6kSxJ3OUT9WYCBwFP31
-         U+NoBFpxTanpRDodtaoLDtQD4+vTSejJ+n5hqXjPfr0LCSLu8K85rz1Rt4pIo004FT24
-         2siQdcgrcHFMXzLkLByrG9GiwSbY/+lpOws4175TWIGgtpgaN3hihA6mUpmMGdL8Ywtf
-         NX2edQiEbHmktHYtKs7PSXzwlzlEoMubq67yCnoCK8IJvvn/ykbT6ZtD3nkVS5cda8EU
-         KUeLoAQtQNp2pY9HQTIQi1cT4dcpN9TMCjLvYz13A5/1VsYKgkJwuxQRwWRYUwWlMIVD
-         uEuQ==;
+        bh=bHZwja06se4PI5NvmXw6g0w6FqOSRgAaf+Zh29a7Axs=;
+        fh=CzsyDPLNpE0KZKu8kJ5JP0coh8W7fWn4G7/mFw12QQ0=;
+        b=OrY9d1cnaJLzo6Ih1+tHB8P9lDcbZAnQviDfREacfiKbn7jy3EuZ+m57l3CNZLNrs4
+         zxq84vmCALxp8gmRaWbENB5Yq/mldwBZz8qZ6HL7G/vE91Cp+lufUMpV6HNinB5KAgog
+         BKW7Ozq8Dqcfs5QjeUnokX8/afEy1ME7MkuJMYAvF0xcTdMMK88fMcrQltiqZ+xQRPV8
+         xLQhD3qL9+ULTDpdUICngpYjKW/hXbpNjo8a7x73gHKIv99qja7HHUN+mIBAvdF14oVi
+         s9sVoiMJF6YVvLGn7wAdNzmsIccbCaMeRTSv1vAAqpuHgy1TPgCq3mGKBIWSiM520Sbj
+         eBPw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=BtLf0baf;
-       spf=pass (google.com: domain of 3crxozqykcu0796t2qv33v0t.r31zp7p2-stav33v0tv63947.r31@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3CrXoZQYKCU0796t2qv33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--surenb.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=xeSoUiJF;
+       spf=pass (google.com: domain of 3dlxozqykcu89b8v4sx55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3DLXoZQYKCU89B8v4sx55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x1149.google.com (mail-yw1-x1149.google.com. [2607:f8b0:4864:20::1149])
-        by gmr-mx.google.com with ESMTPS id y200-20020a0dd6d1000000b00609da8cc7ebsi176121ywd.3.2024.03.06.10.25.15
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com. [2607:f8b0:4864:20::b49])
+        by gmr-mx.google.com with ESMTPS id s3-20020a170903200300b001dd46c6d2d9si38483pla.3.2024.03.06.10.25.17
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Mar 2024 10:25:15 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3crxozqykcu0796t2qv33v0t.r31zp7p2-stav33v0tv63947.r31@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::1149 as permitted sender) client-ip=2607:f8b0:4864:20::1149;
-Received: by mail-yw1-x1149.google.com with SMTP id 00721157ae682-609db871b90so313857b3.1
-        for <kasan-dev@googlegroups.com>; Wed, 06 Mar 2024 10:25:15 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVlFqWGj1wqc1TTAl1b11U99qj79P2E/5Pyn/VOADX2+qYEby0Eo52PjpXnhYU4LpcLR1Q8Quw5C3TpSu5KecffNDaLJbGqc2Kw3A==
+        Wed, 06 Mar 2024 10:25:17 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3dlxozqykcu89b8v4sx55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--surenb.bounces.google.com designates 2607:f8b0:4864:20::b49 as permitted sender) client-ip=2607:f8b0:4864:20::b49;
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-dc6b2682870so11715696276.0
+        for <kasan-dev@googlegroups.com>; Wed, 06 Mar 2024 10:25:17 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWFnmpgSoG6kEcTgudQWXDxB3fyHUuhgh7VIHmirM6SzhAel6ijoPYWAzu/ut1sh8ZGEsHkg0Ki26RBHQThvaX8ceRR/FMBUbmbQg==
 X-Received: from surenb-desktop.mtv.corp.google.com ([2620:15c:211:201:85f0:e3db:db05:85e2])
- (user=surenb job=sendgmr) by 2002:a05:6902:1744:b0:dcf:6b50:9bd7 with SMTP id
- bz4-20020a056902174400b00dcf6b509bd7mr3993743ybb.7.1709749514977; Wed, 06 Mar
- 2024 10:25:14 -0800 (PST)
-Date: Wed,  6 Mar 2024 10:24:12 -0800
+ (user=surenb job=sendgmr) by 2002:a05:6902:18c9:b0:dcd:5e5d:458b with SMTP id
+ ck9-20020a05690218c900b00dcd5e5d458bmr4001383ybb.3.1709749516858; Wed, 06 Mar
+ 2024 10:25:16 -0800 (PST)
+Date: Wed,  6 Mar 2024 10:24:13 -0800
 In-Reply-To: <20240306182440.2003814-1-surenb@google.com>
 Mime-Version: 1.0
 References: <20240306182440.2003814-1-surenb@google.com>
 X-Mailer: git-send-email 2.44.0.278.ge034bb2e1d-goog
-Message-ID: <20240306182440.2003814-15-surenb@google.com>
-Subject: [PATCH v5 14/37] lib: introduce support for page allocation tagging
+Message-ID: <20240306182440.2003814-16-surenb@google.com>
+Subject: [PATCH v5 15/37] lib: introduce early boot parameter to avoid
+ page_ext memory overhead
 From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
 To: akpm@linux-foundation.org
 Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz, 
@@ -146,9 +148,9 @@ Cc: kent.overstreet@linux.dev, mhocko@suse.com, vbabka@suse.cz,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: surenb@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=BtLf0baf;       spf=pass
- (google.com: domain of 3crxozqykcu0796t2qv33v0t.r31zp7p2-stav33v0tv63947.r31@flex--surenb.bounces.google.com
- designates 2607:f8b0:4864:20::1149 as permitted sender) smtp.mailfrom=3CrXoZQYKCU0796t2qv33v0t.r31zp7p2-stAv33v0tv63947.r31@flex--surenb.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=xeSoUiJF;       spf=pass
+ (google.com: domain of 3dlxozqykcu89b8v4sx55x2v.t531r9r4-uvcx55x2vx85b69.t53@flex--surenb.bounces.google.com
+ designates 2607:f8b0:4864:20::b49 as permitted sender) smtp.mailfrom=3DLXoZQYKCU89B8v4sx55x2v.t531r9r4-uvCx55x2vx85B69.t53@flex--surenb.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 X-Original-From: Suren Baghdasaryan <surenb@google.com>
 Reply-To: Suren Baghdasaryan <surenb@google.com>
@@ -164,242 +166,98 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Introduce helper functions to easily instrument page allocators by
-storing a pointer to the allocation tag associated with the code that
-allocated the page in a page_ext field.
+The highest memory overhead from memory allocation profiling comes from
+page_ext objects. This overhead exists even if the feature is disabled
+but compiled-in. To avoid it, introduce an early boot parameter that
+prevents page_ext object creation. The new boot parameter is a tri-state
+with possible values of 0|1|never. When it is set to "never" the
+memory allocation profiling support is disabled, and overhead is minimized
+(currently no page_ext objects are allocated, in the future more overhead
+might be eliminated). As a result we also lose ability to enable memory
+allocation profiling at runtime (because there is no space to store
+alloctag references). Runtime sysctrl becomes read-only if the early boot
+parameter was set to "never". Note that the default value of this boot
+parameter depends on the CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
+configuration. When CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=n
+the boot parameter is set to "never", therefore eliminating any overhead.
+CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=y results in boot parameter
+being set to 1 (enabled). This allows distributions to avoid any overhead
+by setting CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=n config and
+with no changes to the kernel command line.
+We reuse sysctl.vm.mem_profiling boot parameter name in order to avoid
+introducing yet another control. This change turns it into a tri-state
+early boot parameter.
 
 Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
-Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
-Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
 ---
- include/linux/page_ext.h    |  1 -
- include/linux/pgalloc_tag.h | 78 +++++++++++++++++++++++++++++++++++++
- lib/Kconfig.debug           |  1 +
- lib/alloc_tag.c             | 17 ++++++++
- mm/mm_init.c                |  1 +
- mm/page_alloc.c             |  4 ++
- mm/page_ext.c               |  4 ++
- 7 files changed, 105 insertions(+), 1 deletion(-)
- create mode 100644 include/linux/pgalloc_tag.h
+ lib/alloc_tag.c | 41 ++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 40 insertions(+), 1 deletion(-)
 
-diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
-index be98564191e6..07e0656898f9 100644
---- a/include/linux/page_ext.h
-+++ b/include/linux/page_ext.h
-@@ -4,7 +4,6 @@
- 
- #include <linux/types.h>
- #include <linux/stacktrace.h>
--#include <linux/stackdepot.h>
- 
- struct pglist_data;
- 
-diff --git a/include/linux/pgalloc_tag.h b/include/linux/pgalloc_tag.h
-new file mode 100644
-index 000000000000..b49ab955300f
---- /dev/null
-+++ b/include/linux/pgalloc_tag.h
-@@ -0,0 +1,78 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * page allocation tagging
-+ */
-+#ifndef _LINUX_PGALLOC_TAG_H
-+#define _LINUX_PGALLOC_TAG_H
-+
-+#include <linux/alloc_tag.h>
-+
-+#ifdef CONFIG_MEM_ALLOC_PROFILING
-+
-+#include <linux/page_ext.h>
-+
-+extern struct page_ext_operations page_alloc_tagging_ops;
-+extern struct page_ext *page_ext_get(struct page *page);
-+extern void page_ext_put(struct page_ext *page_ext);
-+
-+static inline union codetag_ref *codetag_ref_from_page_ext(struct page_ext *page_ext)
-+{
-+	return (void *)page_ext + page_alloc_tagging_ops.offset;
-+}
-+
-+static inline struct page_ext *page_ext_from_codetag_ref(union codetag_ref *ref)
-+{
-+	return (void *)ref - page_alloc_tagging_ops.offset;
-+}
-+
-+/* Should be called only if mem_alloc_profiling_enabled() */
-+static inline union codetag_ref *get_page_tag_ref(struct page *page)
-+{
-+	if (page) {
-+		struct page_ext *page_ext = page_ext_get(page);
-+
-+		if (page_ext)
-+			return codetag_ref_from_page_ext(page_ext);
-+	}
-+	return NULL;
-+}
-+
-+static inline void put_page_tag_ref(union codetag_ref *ref)
-+{
-+	page_ext_put(page_ext_from_codetag_ref(ref));
-+}
-+
-+static inline void pgalloc_tag_add(struct page *page, struct task_struct *task,
-+				   unsigned int order)
-+{
-+	if (mem_alloc_profiling_enabled()) {
-+		union codetag_ref *ref = get_page_tag_ref(page);
-+
-+		if (ref) {
-+			alloc_tag_add(ref, task->alloc_tag, PAGE_SIZE << order);
-+			put_page_tag_ref(ref);
-+		}
-+	}
-+}
-+
-+static inline void pgalloc_tag_sub(struct page *page, unsigned int order)
-+{
-+	if (mem_alloc_profiling_enabled()) {
-+		union codetag_ref *ref = get_page_tag_ref(page);
-+
-+		if (ref) {
-+			alloc_tag_sub(ref, PAGE_SIZE << order);
-+			put_page_tag_ref(ref);
-+		}
-+	}
-+}
-+
-+#else /* CONFIG_MEM_ALLOC_PROFILING */
-+
-+static inline void pgalloc_tag_add(struct page *page, struct task_struct *task,
-+				   unsigned int order) {}
-+static inline void pgalloc_tag_sub(struct page *page, unsigned int order) {}
-+
-+#endif /* CONFIG_MEM_ALLOC_PROFILING */
-+
-+#endif /* _LINUX_PGALLOC_TAG_H */
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 0dd6ab986246..3e06320474d4 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -978,6 +978,7 @@ config MEM_ALLOC_PROFILING
- 	depends on PROC_FS
- 	depends on !DEBUG_FORCE_WEAK_PER_CPU
- 	select CODE_TAGGING
-+	select PAGE_EXTENSION
- 	help
- 	  Track allocation source code and record total allocation size
- 	  initiated at that code location. The mechanism can be used to track
 diff --git a/lib/alloc_tag.c b/lib/alloc_tag.c
-index f09c8a422bc2..cb5adec4b2e2 100644
+index cb5adec4b2e2..617c2fbb6673 100644
 --- a/lib/alloc_tag.c
 +++ b/lib/alloc_tag.c
-@@ -3,6 +3,7 @@
- #include <linux/fs.h>
- #include <linux/gfp.h>
- #include <linux/module.h>
-+#include <linux/page_ext.h>
- #include <linux/proc_fs.h>
- #include <linux/seq_buf.h>
- #include <linux/seq_file.h>
-@@ -115,6 +116,22 @@ static bool alloc_tag_module_unload(struct codetag_type *cttype,
+@@ -116,9 +116,46 @@ static bool alloc_tag_module_unload(struct codetag_type *cttype,
  	return module_unused;
  }
  
-+static __init bool need_page_alloc_tagging(void)
++#ifdef CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT
++static bool mem_profiling_support __meminitdata = true;
++#else
++static bool mem_profiling_support __meminitdata;
++#endif
++
++static int __init setup_early_mem_profiling(char *str)
 +{
-+	return true;
++	bool enable;
++
++	if (!str || !str[0])
++		return -EINVAL;
++
++	if (!strncmp(str, "never", 5)) {
++		enable = false;
++		mem_profiling_support = false;
++	} else {
++		int res;
++
++		res = kstrtobool(str, &enable);
++		if (res)
++			return res;
++
++		mem_profiling_support = true;
++	}
++
++	if (enable != static_key_enabled(&mem_alloc_profiling_key)) {
++		if (enable)
++			static_branch_enable(&mem_alloc_profiling_key);
++		else
++			static_branch_disable(&mem_alloc_profiling_key);
++	}
++
++	return 0;
 +}
++early_param("sysctl.vm.mem_profiling", setup_early_mem_profiling);
 +
-+static __init void init_page_alloc_tagging(void)
-+{
-+}
-+
-+struct page_ext_operations page_alloc_tagging_ops = {
-+	.size = sizeof(union codetag_ref),
-+	.need = need_page_alloc_tagging,
-+	.init = init_page_alloc_tagging,
-+};
-+EXPORT_SYMBOL(page_alloc_tagging_ops);
-+
- static struct ctl_table memory_allocation_profiling_sysctls[] = {
- 	{
- 		.procname	= "mem_profiling",
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index 549e76af8f82..2fd9bf044a79 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -24,6 +24,7 @@
- #include <linux/page_ext.h>
- #include <linux/pti.h>
- #include <linux/pgtable.h>
-+#include <linux/stackdepot.h>
- #include <linux/swap.h>
- #include <linux/cma.h>
- #include <linux/crash_dump.h>
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 16241906a368..9a91c8074556 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -54,6 +54,7 @@
- #include <linux/khugepaged.h>
- #include <linux/delayacct.h>
- #include <linux/cacheinfo.h>
-+#include <linux/pgalloc_tag.h>
- #include <asm/div64.h>
- #include "internal.h"
- #include "shuffle.h"
-@@ -1101,6 +1102,7 @@ __always_inline bool free_pages_prepare(struct page *page,
- 		/* Do not let hwpoison pages hit pcplists/buddy */
- 		reset_page_owner(page, order);
- 		page_table_check_free(page, order);
-+		pgalloc_tag_sub(page, order);
- 		return false;
- 	}
- 
-@@ -1140,6 +1142,7 @@ __always_inline bool free_pages_prepare(struct page *page,
- 	page->flags &= ~PAGE_FLAGS_CHECK_AT_PREP;
- 	reset_page_owner(page, order);
- 	page_table_check_free(page, order);
-+	pgalloc_tag_sub(page, order);
- 
- 	if (!PageHighMem(page)) {
- 		debug_check_no_locks_freed(page_address(page),
-@@ -1533,6 +1536,7 @@ inline void post_alloc_hook(struct page *page, unsigned int order,
- 
- 	set_page_owner(page, order, gfp_flags);
- 	page_table_check_alloc(page, order);
-+	pgalloc_tag_add(page, current, order);
+ static __init bool need_page_alloc_tagging(void)
+ {
+-	return true;
++	return mem_profiling_support;
  }
  
- static void prep_new_page(struct page *page, unsigned int order, gfp_t gfp_flags,
-diff --git a/mm/page_ext.c b/mm/page_ext.c
-index 4548fcc66d74..3c58fe8a24df 100644
---- a/mm/page_ext.c
-+++ b/mm/page_ext.c
-@@ -10,6 +10,7 @@
- #include <linux/page_idle.h>
- #include <linux/page_table_check.h>
- #include <linux/rcupdate.h>
-+#include <linux/pgalloc_tag.h>
+ static __init void init_page_alloc_tagging(void)
+@@ -158,6 +195,8 @@ static int __init alloc_tag_init(void)
+ 	if (IS_ERR_OR_NULL(alloc_tag_cttype))
+ 		return PTR_ERR(alloc_tag_cttype);
  
- /*
-  * struct page extension
-@@ -82,6 +83,9 @@ static struct page_ext_operations *page_ext_ops[] __initdata = {
- #if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
- 	&page_idle_ops,
- #endif
-+#ifdef CONFIG_MEM_ALLOC_PROFILING
-+	&page_alloc_tagging_ops,
-+#endif
- #ifdef CONFIG_PAGE_TABLE_CHECK
- 	&page_table_check_ops,
- #endif
++	if (!mem_profiling_support)
++		memory_allocation_profiling_sysctls[0].mode = 0444;
+ 	register_sysctl_init("vm", memory_allocation_profiling_sysctls);
+ 	procfs_init();
+ 
 -- 
 2.44.0.278.ge034bb2e1d-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240306182440.2003814-15-surenb%40google.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240306182440.2003814-16-surenb%40google.com.
