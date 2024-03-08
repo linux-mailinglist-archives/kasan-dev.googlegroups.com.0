@@ -1,143 +1,147 @@
-Return-Path: <kasan-dev+bncBAABBW5PVKXQMGQEFO4TYZI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCP4ZTXNRIFBBFWMVKXQMGQE7II5J3A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4CFB875D3C
-	for <lists+kasan-dev@lfdr.de>; Fri,  8 Mar 2024 05:45:16 +0100 (CET)
-Received: by mail-il1-x138.google.com with SMTP id e9e14a558f8ab-365067c1349sf14734975ab.3
-        for <lists+kasan-dev@lfdr.de>; Thu, 07 Mar 2024 20:45:16 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1709873115; cv=pass;
+Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
+	by mail.lfdr.de (Postfix) with ESMTPS id A699D875DD2
+	for <lists+kasan-dev@lfdr.de>; Fri,  8 Mar 2024 06:46:00 +0100 (CET)
+Received: by mail-lf1-x13e.google.com with SMTP id 2adb3069b0e04-51314c5a05asf1186866e87.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 07 Mar 2024 21:46:00 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1709876760; cv=pass;
         d=google.com; s=arc-20160816;
-        b=TArxRFqNKat+qu5DIkqKlx0R+VWzp2/xSDQSTdkS0hOgYeitfoRkvE0IfW7W/X+Hme
-         RcjBVZydhNrv7dIpgD665tE/tUt7NfbNubAwi5QEafkqG0I/f32cf0CZTHG5ZgL6fNmO
-         vmcdeNZCGklUpV4jiZbWwGCUfqaYXGY9fZ4/nBjlDHRst22IMY8KL0mQzjUBT2pxTusw
-         WTZNn97tNbAsJoe+ccE9onC+Io32VvbYehIEo3d3IDO3mR/KtWD+CXlwSrQCGX5LXQSQ
-         5OB1ejJLA+Mymu47hUV4U+h8ccRZXYorkGtUZmrGQ6MxYquT1HJsuLYclN7PQTaGsL4o
-         qZ3w==
+        b=k3E6liETejIGIJ5QojPiAdB8Am8y54MbQzQHnicCkSaLfvw9XFGioEBfuibYtcsqv/
+         VsA6OC8AJznAwRjOg3sWfDcAOB0HFJF3ZZbtfa+2rVuAPDeo217f/1hmyJRGosliAnvE
+         bRts8FZJM2R5aM5MdoNfmrj1TJ6ijKEb4wkrUjfDMrECZN+/EAX0XLOedqhHVPtIW+JE
+         nH2xOZQL6pXr9qDYE1n0fjEXIQnUbNsID+nRqi5xeyXKmXBiVTp17J/qW/dgw/qxkf3M
+         1TwJxgVsUhm3x1sMat1yNOwO+dji7fY9YdeyRQHz6qdfLKf9xTlHjlo91aijMk3h6WPT
+         HcXg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=qkdbtYJ1UbhcXhuOUkaSbsQbZ0eXagmG7U8R0k0QVpU=;
-        fh=i39iw91+i8Kxr1fiGlXArS+fh2FiB+1RUuy5wgtD81U=;
-        b=h+1g67F0/5TRF/5k3Pgy11/6dT0vUClKkxEuWrwQ3njrckCqhr++6vjr70FwFwAz3D
-         2w6r2kfjSqD7CGbyblaNsHHviq+i1BvIgKonc1U/+FQAlILNoLRrCBqFI1mdgxScQuJT
-         4ieU/aRpyl4NL0GEPPjnWf0x0gwP1wKu3TMi5L9qw0xfwzYkpvyM4gNkQGD2rnuLizen
-         4NltKee9jfhcasaqfMkqNz7DCbXonlO6/VElOEFarxbrrbk2t4nnhwNdJu5bU9eVrhju
-         B3pjmvuS6TddSW2OGoT1tjiGvxmb1ZBfTz8sddFerXL18z6D40gjws56yK/eXpk1/eV0
-         x1Tg==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=2Rwbstsb1eJSBPQHHrrmSlOFyUGWAeDuJITqN9HEu0w=;
+        fh=ywnzqSNJVFem9iw+iFm6x4fzuwkCw5csu+9VOBfjd6g=;
+        b=Ektcz0KIOx7+BPdkcOVoDlaOwUtXag1RizyH8tBDPV4ua9e0hCFPE3qMqIfI8JGW1b
+         dZ7gl4hocuJTz3CRJ3Ih8hKvuYZl6SeUXnja4wtA9P8y3aCew1ztYhKC3ffF2GW3i/DI
+         GLSw4+mYx9Gx+EUuNzhN38rqV8rJUj/TPvOVmQWr12RVrp/y7VIbpMpmX7mGu6KsjEWH
+         OolGaw8Cnjs51O6NBqIaUCcIhYGFNGvq6lNDcK3B3BFnzZ7TmhpVq0FQ0A1hIb4SF3q0
+         NcabQlFRieNtoKIfH6eNOVCvyKXCaxNpx3fKP1S3xtGWDI68ZjRknBwnx7frqgtTM034
+         RpvA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of changbin.du@huawei.com designates 45.249.212.190 as permitted sender) smtp.mailfrom=changbin.du@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@alien8.de header.s=alien8 header.b=BBOXMGXy;
+       spf=pass (google.com: domain of bp@alien8.de designates 65.109.113.108 as permitted sender) smtp.mailfrom=bp@alien8.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1709873115; x=1710477915; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1709876760; x=1710481560; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qkdbtYJ1UbhcXhuOUkaSbsQbZ0eXagmG7U8R0k0QVpU=;
-        b=QM/EZhg4tHtjjkvXXZ51Za0z+9en4KVGeBOAFi+oSJ7/JdprQZdrZz8HOtb145TvFK
-         McmZRc7c1uEFH1baTnhxBqJCh2mO1LVuzdvIJsBOgHC/geza0YtSOOuaqD11ZtybTl3u
-         kSVLgdwPyvhExFk/1VoVHuRXZATrqlgK2i/WqeZSeZ2xy0KEdSNEX7wi1VZudcsR7AyA
-         KzVziGLp5Ec4ZWiZM3fBEyo3QBT9xOULob/WUarfdAebyl0zN7NlUSRpDiQeRJ+YOXsr
-         EE7KR8Ncw8Vqqn6Ebr+9p8UusONLnSCEXwY7+s6IBuf0u3sZukpMPjbwszUbsN8bKc35
-         rAbg==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2Rwbstsb1eJSBPQHHrrmSlOFyUGWAeDuJITqN9HEu0w=;
+        b=wj1VemA7ztA68RXTmD135GJOuhYEetGtz5ByjINPDqOBVT+GgGD0qaYL6TeW/84jLw
+         TUT58sgwRodQe7q4tmvT9mkawwXLg5/1/YJv8nghQ65h8MiE+BT/Pq+nOApP/dZuqsfl
+         ioinyqsdFNpnOTw1N753UnP8PuPHWj8pHicUThFdHhgx6cTy16aYv6I33TrMiSwhp3GH
+         ln2ga4k82J9hGIXoeZ7hrvl0/CsVpC7YWBT3EBXBky/k8mNCa1w5r6n01n1LRinjVFwV
+         FNJBAepzwED6WoxbHhFIGkCV6ViyBk2TbXncUX6gNdlI9peE1XUPCUjeY6ZhID2MjAAD
+         mihg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709873115; x=1710477915;
+        d=1e100.net; s=20230601; t=1709876760; x=1710481560;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qkdbtYJ1UbhcXhuOUkaSbsQbZ0eXagmG7U8R0k0QVpU=;
-        b=iQ8xKvXZl4ZCxJrJY5Uyix1OjfU+5m553hNfBux3Z0N9NapZZCL4DIrZgZ7jPpTL4v
-         UlEVLCq7Bj2fCeJSgC5AM/KuIR7/I3EpITeXPsW+nO2Qqxbh4fd4YsPvaKK4XY39E5YO
-         HxrAXIiirM2dWYFmD+xkWr9ZOpkKyPjgqSUasXureoNvwxUCO1vC0aDntTUUpm8wwViW
-         9OYeTUKb7jfw6N+PJq1m4SSTE9NqM2+iQO7CZXKWprHML1Scyi1yEQ2W3erxuz+C4dDy
-         jFWLz46yr9UxepHCszI5Y6ae3/Y/LDr1k7emL9yFEmPRftKXZXZ4r/OHmWugbIZyXPqr
-         otcg==
-X-Forwarded-Encrypted: i=2; AJvYcCXDPz780MC6wzcr0f2FPGTAVzsVXTKkPCoP9tmbI7etCsPqaNqU/m6Sw9FH8IbQtx8zU3371X5uxpiubDUr2Oj4ebPnyPzSBQ==
-X-Gm-Message-State: AOJu0YwWvicp9pl7u1VGmhhaBVlxArQYHM9j6LhoBtSIPegLgu1weSF9
-	t0UsB18cKYcIteiovCT4pgbiAnGq2OZWgA4sU1xsjivfm8DpIxTO
-X-Google-Smtp-Source: AGHT+IFfjUlUmpm1PjVvJZos0TeRBqTIBBdT24DCMpGtr98DjCvsuv/H9fFmnofScmTwnuErQHBkZw==
-X-Received: by 2002:a05:6e02:b22:b0:365:a941:1b7d with SMTP id e2-20020a056e020b2200b00365a9411b7dmr22581377ilu.18.1709873115317;
-        Thu, 07 Mar 2024 20:45:15 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2Rwbstsb1eJSBPQHHrrmSlOFyUGWAeDuJITqN9HEu0w=;
+        b=kzJrYqkQSptaaHnQVzcssnfTq2oX0EKqXpNwTx8YUbjlcOIgm/1Sm5gCY7sPtY2//5
+         I5UuBS1aBcPrIJd5vQxoWz9mrQi2H9AvwoY0ruZ+cgB+4a+dkLFOodvpsrbsp3gomIL2
+         MLqvDXuIvFFEQJeA1VChjyw4c42+E7+4UOKXh0h/ti3f2QDmiOncmBtG0zzGKqJU69lm
+         JBnC6nQjh6lxA9rTFHlyGiN9Lao7xcKhhkZQ/NuNqnUuZz8CEEDPh3WQLzw4QCe8hHoD
+         M1yCvPXJRg77lOQz0GK7LZ4uPVDfTBj+/cQRnHuVnbpo0Ye01ecKCM4rr143ujq5svYg
+         wzIA==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCUCnwWjNbWSIsXZqMrIgjVx8fLnmafMhvrN7HMGwbAGLxO6uMJjYB06KQbnG/aYLago9CNWJoWvKwoqd3BJhD1nlF949jXiVA==
+X-Gm-Message-State: AOJu0YzfWJa7z0CO10qegqLqacdT/qzdjjD7q05rofeBHbCJ36OEISPa
+	h+zbATeCoa7JYGJ5ZOnLZBZcEwdO1owGAyiPbJH0uS353X+uztHv
+X-Google-Smtp-Source: AGHT+IHKu6x/xD3sFxlM7NS3/G0Ek1p1SOjamKEOIBy1vKT5o/0OlU8bmCHsKaNkHRUdZA9WkUEovQ==
+X-Received: by 2002:a19:ca03:0:b0:513:2114:b70c with SMTP id a3-20020a19ca03000000b005132114b70cmr2325052lfg.69.1709876759147;
+        Thu, 07 Mar 2024 21:45:59 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:1d8d:b0:361:9298:e7d9 with SMTP id
- h13-20020a056e021d8d00b003619298e7d9ls385718ila.2.-pod-prod-08-us; Thu, 07
- Mar 2024 20:45:14 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCU0ZIuCISLVShCCzlOy2KIPNTI6guqIHqVoXT1zF4J64B1+3VFKSnkXeSfvAg5Ykngs1uAu562ntcUUqUISMjzPcJ51unotzCUltQ==
-X-Received: by 2002:a5d:9349:0:b0:7c7:4061:1323 with SMTP id i9-20020a5d9349000000b007c740611323mr19220145ioo.12.1709873114598;
-        Thu, 07 Mar 2024 20:45:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1709873114; cv=none;
+Received: by 2002:a05:6512:3b98:b0:513:4766:2724 with SMTP id
+ g24-20020a0565123b9800b0051347662724ls352954lfv.1.-pod-prod-07-eu; Thu, 07
+ Mar 2024 21:45:57 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXE3YI7o39PN6GaPIQgQfMKLaUA9xMWf3crg6olDURJ39ZAvP6LZuYafW8130I0uGgEBOehrKc79EmbH4oMA/PK6HwkNJ+ziTL9tw==
+X-Received: by 2002:ac2:55a6:0:b0:513:3f81:224f with SMTP id y6-20020ac255a6000000b005133f81224fmr2816949lfg.37.1709876757134;
+        Thu, 07 Mar 2024 21:45:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1709876757; cv=none;
         d=google.com; s=arc-20160816;
-        b=ecjtez9Bh0rMOQD6Eh+JIVLu8+0BO30tw4Z46U12mW1k/fhSgB4Vz17YhpwPMCe6nA
-         b6Q3t/seiS9s9kAiUaMvm0b9xiFJpKt+uB8StElCx4RdVyQL4Sq8hdtGEm2Dkv9BYkDC
-         CR53AL7r8DtsxVRG5QADdNCo6JAXSEy3+MOwAmoCrEBrXh5vkFZdKO/PBQf+ZeIh+Gw5
-         OItxR8WV4lSQ7NlU2EQX1I5SMs2Z7WJ7Pm5+CK4QdAI5ssSY7WTvtTRKNh3REqRAfV3H
-         C4PEBFrilCO6M/lMlKUid87mrYIE1z54/VVrvArr41M/jMfhyF0bZbXbcloj0JzYTdzu
-         gdhg==
+        b=xCvQsHYHsD0aJhqODAmHfqpHv4tNBGc/kNz3/GP3lCc7eFvk4T7V+MEL3dNZeBmI1C
+         pVNdl4ofWfwJ6DEgpj5jfcAVq6hhaExAxCGELFDhls8dBixcVvT78MJaH0wOFJr4GwlH
+         xnCPq8/k+CLvgeVVbTPHezAnH+9ocNJxIDGwltQjJj8FEHP+95n9rNlwtWf2l6ZyZIMe
+         9mI5mXf8Cno1sYnU2FtOdzwlS0CzgEmzA5ZYxE0qyNu98ClHVQuvzqtpLJnnLwjSympr
+         LA1BSlr7HNzX8yESuo9lyhV7pdMh9xd82LrbQRNmd+aPIzWwoicGs6tSf4iIwz01i/NQ
+         s1TQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=u3+78WKm7Wv9LLMDEXD75GoMLVH3JHN+j8OLuM2yzmE=;
-        fh=qXJK40/4I3pB8zWNaQc0dCR6bgUMOHrvivcKNMkJ2yk=;
-        b=k+aXxb7pTbkXADlYHtk/MWQ4wmoEeA5TmxuE/z0mrmpldTCwR0O0k7TS9ICr7La4xA
-         JcCFgOF1JEhHBiNGHGHqrg9i8pgiPfwtfleavx99rXyWisXcxjG2vnJ1SM8P192ag7k1
-         4L9jIQbMuhEcVcW3NOJF27yuwpnPo5KMw2G2sJs96/CjZlahk1TsyFtJVaFWNy1MWP1z
-         bvQoWmIGLG9sfH24d1eVsw5G8JknuaGxrfYjkMS7TDDdCt6mb11DxyoyGUYW/IA3HEvm
-         53Z4Cs1tq4XJdvDeCWMCuGgjDJYkhU5JEU+FUNw4qcfsp41HLtW6Of4gz95w+FnvCf9g
-         7zkA==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=FKsdy0bUX5Q/9NG8GdgiRx0riUw7WOmPGga/MBUabv4=;
+        fh=5cWROVSDVwlBaAlq/8EZKga8LJsbHzvdbp7itep/MGI=;
+        b=tks5LYO5pzFuvViEc34yEB3HPkLq4ncqdxaRXJeEybXxUuil8wTaF1hQ5d8YodG6cB
+         AvbVX0HxcHXkEhqBxWogTqU0GDDnKsK2vtaIFDsc+3bzNYJpSojwrDHCeXKdBB30P4bN
+         GMcoqRHcUGv/AhHau7lnlZdbOKhlW7/Epx9Fu9QQrMU8mYKDO9e2DSJUIYEmnPJ1bLDu
+         /h/rZ/2DCkUxY+YwjinVULChetAwLmh5t1cYJshHxNoWeOg6kXTakjR/xGxbez3tBuoz
+         5k0YPr5khZazRf9ngkCv+IX3ADQJh35+mKNzQScNqfS3dYDzq/hXYdAEk33KoLUAWsUA
+         m0ow==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of changbin.du@huawei.com designates 45.249.212.190 as permitted sender) smtp.mailfrom=changbin.du@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga04-in.huawei.com (szxga04-in.huawei.com. [45.249.212.190])
-        by gmr-mx.google.com with ESMTPS id ce19-20020a05660242d300b007c85fec43b1si494005iob.4.2024.03.07.20.45.14
+       dkim=pass header.i=@alien8.de header.s=alien8 header.b=BBOXMGXy;
+       spf=pass (google.com: domain of bp@alien8.de designates 65.109.113.108 as permitted sender) smtp.mailfrom=bp@alien8.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
+Received: from mail.alien8.de (mail.alien8.de. [65.109.113.108])
+        by gmr-mx.google.com with ESMTPS id o19-20020a05600c4fd300b00412e5895f17si149934wmq.0.2024.03.07.21.45.56
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 07 Mar 2024 20:45:14 -0800 (PST)
-Received-SPF: pass (google.com: domain of changbin.du@huawei.com designates 45.249.212.190 as permitted sender) client-ip=45.249.212.190;
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4TrYSS3T7zz2BfcD;
-	Fri,  8 Mar 2024 12:42:48 +0800 (CST)
-Received: from kwepemd500003.china.huawei.com (unknown [7.221.188.36])
-	by mail.maildlp.com (Postfix) with ESMTPS id 28E4014040F;
-	Fri,  8 Mar 2024 12:45:11 +0800 (CST)
-Received: from kwepemd100011.china.huawei.com (7.221.188.204) by
- kwepemd500003.china.huawei.com (7.221.188.36) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Fri, 8 Mar 2024 12:45:10 +0800
-Received: from M910t.huawei.com (10.110.54.157) by
- kwepemd100011.china.huawei.com (7.221.188.204) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Fri, 8 Mar 2024 12:45:09 +0800
-From: "'Changbin Du' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra
-	<peterz@infradead.org>
-CC: "H. Peter Anvin" <hpa@zytor.com>, Alexander Potapenko <glider@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>, <linux-kernel@vger.kernel.org>,
-	<kasan-dev@googlegroups.com>, Changbin Du <changbin.du@huawei.com>
-Subject: [PATCH] x86: kmsan: fix boot failure due to instrumentation
-Date: Fri, 8 Mar 2024 12:44:01 +0800
-Message-ID: <20240308044401.1120395-1-changbin.du@huawei.com>
-X-Mailer: git-send-email 2.25.1
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Mar 2024 21:45:56 -0800 (PST)
+Received-SPF: pass (google.com: domain of bp@alien8.de designates 65.109.113.108 as permitted sender) client-ip=65.109.113.108;
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 8B95340E0185;
+	Fri,  8 Mar 2024 05:45:54 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 2ctcx-lkY7Jc; Fri,  8 Mar 2024 05:45:52 +0000 (UTC)
+Received: from zn.tnic (pd953021b.dip0.t-ipconnect.de [217.83.2.27])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 0155740E016C;
+	Fri,  8 Mar 2024 05:45:38 +0000 (UTC)
+Date: Fri, 8 Mar 2024 06:45:32 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Changbin Du <changbin.du@huawei.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: Re: [PATCH] x86: kmsan: fix boot failure due to instrumentation
+Message-ID: <20240308054532.GAZeql_HPGb5lAU-jx@fat_crate.local>
+References: <20240308044401.1120395-1-changbin.du@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.110.54.157]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemd100011.china.huawei.com (7.221.188.204)
-X-Original-Sender: changbin.du@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of changbin.du@huawei.com designates 45.249.212.190 as
- permitted sender) smtp.mailfrom=changbin.du@huawei.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: Changbin Du <changbin.du@huawei.com>
-Reply-To: Changbin Du <changbin.du@huawei.com>
+Content-Disposition: inline
+In-Reply-To: <20240308044401.1120395-1-changbin.du@huawei.com>
+X-Original-Sender: bp@alien8.de
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@alien8.de header.s=alien8 header.b=BBOXMGXy;       spf=pass
+ (google.com: domain of bp@alien8.de designates 65.109.113.108 as permitted
+ sender) smtp.mailfrom=bp@alien8.de;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=alien8.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,47 +154,20 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Instrumenting sev.c and mem_encrypt_identity.c with KMSAN will result in
-kernel being unable to boot. Some of the code are invoked too early in
-boot stage that before kmsan is ready.
+On Fri, Mar 08, 2024 at 12:44:01PM +0800, Changbin Du wrote:
+> Instrumenting sev.c and mem_encrypt_identity.c with KMSAN will result in
+> kernel being unable to boot. Some of the code are invoked too early in
+> boot stage that before kmsan is ready.
 
-This change disable kmsan instrumentation for above two files to fix the
-boot failure.
+How do you trigger this?
 
-Signed-off-by: Changbin Du <changbin.du@huawei.com>
----
- arch/x86/kernel/Makefile | 1 +
- arch/x86/mm/Makefile     | 1 +
- 2 files changed, 2 insertions(+)
-
-diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
-index 0000325ab98f..04591d0145e0 100644
---- a/arch/x86/kernel/Makefile
-+++ b/arch/x86/kernel/Makefile
-@@ -33,6 +33,7 @@ KASAN_SANITIZE_sev.o					:= n
- KCSAN_SANITIZE := n
- KMSAN_SANITIZE_head$(BITS).o				:= n
- KMSAN_SANITIZE_nmi.o					:= n
-+KMSAN_SANITIZE_sev.o					:= n
- 
- # If instrumentation of the following files is enabled, boot hangs during
- # first second.
-diff --git a/arch/x86/mm/Makefile b/arch/x86/mm/Makefile
-index c80febc44cd2..6ec103bedcf1 100644
---- a/arch/x86/mm/Makefile
-+++ b/arch/x86/mm/Makefile
-@@ -16,6 +16,7 @@ KASAN_SANITIZE_pgprot.o		:= n
- KCSAN_SANITIZE := n
- # Avoid recursion by not calling KMSAN hooks for CEA code.
- KMSAN_SANITIZE_cpu_entry_area.o := n
-+KMSAN_SANITIZE_mem_encrypt_identity.o := n
- 
- ifdef CONFIG_FUNCTION_TRACER
- CFLAGS_REMOVE_mem_encrypt.o		= -pg
 -- 
-2.25.1
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240308044401.1120395-1-changbin.du%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240308054532.GAZeql_HPGb5lAU-jx%40fat_crate.local.
