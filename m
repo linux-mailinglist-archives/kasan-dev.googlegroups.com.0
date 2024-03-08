@@ -1,134 +1,132 @@
-Return-Path: <kasan-dev+bncBCS4VDMYRUNBBJUMV2XQMGQEZGQYMGA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBHMWV2XQMGQEATX7T4Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pg1-x539.google.com (mail-pg1-x539.google.com [IPv6:2607:f8b0:4864:20::539])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0654876C79
-	for <lists+kasan-dev@lfdr.de>; Fri,  8 Mar 2024 22:42:00 +0100 (CET)
-Received: by mail-pg1-x539.google.com with SMTP id 41be03b00d2f7-5d8bcf739e5sf2102446a12.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 08 Mar 2024 13:42:00 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1709934119; cv=pass;
+Received: from mail-pl1-x63e.google.com (mail-pl1-x63e.google.com [IPv6:2607:f8b0:4864:20::63e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C1F876CA4
+	for <lists+kasan-dev@lfdr.de>; Fri,  8 Mar 2024 23:03:11 +0100 (CET)
+Received: by mail-pl1-x63e.google.com with SMTP id d9443c01a7336-1dd62ea9be4sf64175ad.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 08 Mar 2024 14:03:10 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1709935389; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CbMLKn4if4Cp5eY6JqqJynor9KgPuwNjgXZ2KIIfT1P3G9Njgk1tPdQL4/CoGZvrFI
-         Dv5uoSR7ODdkZoBmWM5JGZl76e+JbO3iHsMrzhrT9BejFd8PAl02PR7YbNC93sskmHnV
-         eHl/Dz/QyE8Dykj3WOE6YQcCg1E07Hom76yflns/l7vfnmyS/R022u11OIUUD0UWpLAs
-         iCeL+Mh4b/dqo6eVALoAzl0BYdkTupZ/WPep2iy+oKQnk9rMchLlcIu2ka5LJvjPkTmh
-         4zFSFqJtWZKBnxb0Q6wd7lV9LcW/6s0fi/FBvxIjq4RtzOniIJKXv0bN5ocoqq6R1aQZ
-         4q3w==
+        b=WQ0xfgBma3xUwKfWL6C1FFeAog7Uoqiec22neXxxtSM+ystlHMKDpC3wombcLEnQpT
+         UNWgeDAQ8W0Szu0vZi74cbbcYVd+zld8SWcXIuhR7bRfTwI6RMqNDqe2G0E652DyW6wS
+         z4FK6VssdIfEf2ZQ/LmthpQ6KzXZ+8081lOQfs0jefpTp53Mlyr+STZ93HSXwVksMd2m
+         RFXIVcNWQPs97HjHznyhFNJjrwK9CbvOiUrEc2c5gWjHWXCDJHNxNT1XB/ZhMQgyfN7z
+         R64SOqraeHuelvnjPiyzG7rcx1u0+yLHr5VZkDIY/FD6R3YHXzFWdKnv14Hy6B7J/P7t
+         0HYw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-disposition:mime-version
-         :reply-to:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=qtBkTxRyFhT7OwQpyywLO77I61h+U2+6leS3ICOtKfs=;
-        fh=TmxGhth/DISpdUKrJQ5wF1ZVVSvH3IVrO4y6Ywjd3Uw=;
-        b=SWW1RezE6JnGdrtEfXYAvhJAjyOa3RUpgyuNJnUx+ZnRfWgE8vbaQlf6KAhb+25JdU
-         PVTozbApdr38yNBWtXMF/9lQMmi7mwZt0VecmGngcCXtr9e4+JU1K9XCTXFGRMb2eGYI
-         LbTe54btohIRNITqQjIn2h2jh2Z4IaBZA+eliLnq4dLWSDoQYq+fqn5TSDdplX9lz5Sp
-         5ustweQByioy5jaQNOi0/K6XItsHH9W+ozpgM1/twxjSHmshqcLL4ZNP0YpdQRtwL2lK
-         2yZ3dm02CruEBprpq3NREabRBYxEhg15gOz4OnXtU51pczNvry0BptkoV2fUErw8hTEh
-         r7YQ==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=GG10uVfrxxhkT0zeNzC2jkcOo+aOgfVZquqGbOZ5l04=;
+        fh=f43+UgyHdVrkZ1Am/0M0QFP4xGv5pWUIwTIZmd3A54s=;
+        b=wvitF4QC3SLE/K/nBzcap8iTBf1yeq6L65iZP3Z9HXJCyyZsNHKnHieq4G1x5lbvl5
+         BRk66EcDyxdPRnHmT9LySC1tiUYtszOoXvI5XDoxbw1kfVEPSzNd2LNZUs1hN5dWsgYY
+         TnpiWvzqMPDLKS/oEBuheCgfnz2qzsUWXTDn6nHf1c6FGqgPnNL7Iaz1kfbL1EeFQEqt
+         Q1yTiKfomtTAtu5GIFlnlmLpLrGqvayaklc4ktTmw5xB2WrZASmITUjL0Xv6YyOjukXp
+         gA9YB+qN8zbv+N3hKlcfuysjztgf1EPcWj+rKyCY1BjZeL35uhoacnrs72EGsR5oQ6Wz
+         9laQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=gnlLM7nz;
-       spf=pass (google.com: domain of srs0=r9yk=ko=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom="SRS0=r9yK=KO=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@google.com header.s=20230601 header.b="Iu/zdOS+";
+       spf=pass (google.com: domain of elver@google.com designates 2001:4860:4864:20::35 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1709934119; x=1710538919; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1709935389; x=1710540189; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-disposition:mime-version:reply-to
-         :message-id:subject:cc:to:from:date:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qtBkTxRyFhT7OwQpyywLO77I61h+U2+6leS3ICOtKfs=;
-        b=L3qKXgWp59w3rI4w/b8HVn5OIJOnGez5QmYyGEyRFq1McNKZMY3DJqso6LmJyoVksf
-         uruQ0ezHaVxyRc3OHj+XDCA2RZKn9da+Iq0GqTGbUuZMP+yUqOsIib+vQCxFUApMgNts
-         JyE4JKJ7z/C454SC6KyucQq9aUIPtcE1m8g2W6GfTbgOh3g1Fli8GCc943E3I8gikVvL
-         9k6C4pllQlN48fP+h/74cX2SZrm3vyiiHJMfUQ+webO4lPHpBT3N3WD0Y5ICjHOX0rrT
-         Hah8+7UJ2X/SV1+kOlue9vDRylxjeEmk3QtYmB8xH5xq/Ug/d/o021LJ8cIKR+z9Ti3+
-         RCcg==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GG10uVfrxxhkT0zeNzC2jkcOo+aOgfVZquqGbOZ5l04=;
+        b=g22SLgwEDTnux2kv1pcIlmQC61XMJnhjEypDSa1pN8WR+r0LOG3nCi+V5b3MC6S18h
+         p2rUvpEiZPPYnArkXfE7YyAqQjAQPyJyZZtJEUXfhCi4O5cxVWExBlGta1dmjGpESkzf
+         Y9eMrRxU3EOHQaARdUSpCfcUJUc+pbfmEP5D/l8rU46UQZce0qn7hMqu/KSlkemuOCDz
+         Gzaln2yXyf9nWePaARmBTDHoSLBeu79ci3zAkqpAUzaVM0o6VTdSJHYt18fvUDWH3y6A
+         aqMyDR9Q3bpFgLy+dcK/Bk0d/e+wCMwAnxxT8fyea267rGklw/mbdv2iiMQL5plTmdZn
+         Xt7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1709934119; x=1710538919;
+        d=1e100.net; s=20230601; t=1709935389; x=1710540189;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-disposition:mime-version:reply-to:message-id:subject:cc:to
-         :from:date:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=qtBkTxRyFhT7OwQpyywLO77I61h+U2+6leS3ICOtKfs=;
-        b=axaazEDI48Zgqa8Gh+xtVNlX31PfuuGUirH8qbwQmsyfqPXXKggyToqndvbL52dt26
-         mCbhGUDVLcGRyRKbbyngs2kiw+zED8cjYUN94WAkJcLrDnw1s7mSJuP2XChqZxixORrq
-         dsgjtPVi+DmP+X99+68JOKZ7XQHaLatrVJg/d/VRv567/BcfTXfFXuw8FvX/ztF5GQZd
-         l8798PuxrAzK5G3n8RzJ3elDNDv1D/RfITm2n6eKbWEJsfQQLxh1UR1MpgKOn+06Onkb
-         JW2hURxoQNZqNuXpyusxqjle/TEqICOVQUKlfvKV2tZ0HipfThZdphovjtE0QYfBIvDx
-         ZZeQ==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWABWmfMlviH0tZ9f/s8AdpOKKpiJ2SjhcetSS2fJ3m9ydbiig4Ke3K0mZdyOiFR6wwT9jB25vTw/PjdFXB61/b17MKp3M5Ww==
-X-Gm-Message-State: AOJu0YxWMYcL5MIoIj9+fFuCwQ395InUjeK/lRJYuHintGV/e7gPHspT
-	wI/P+EKY75VaX3RLKjEMPIXXj/+LjPnaLmwBOZKIYLimLm4yyEci
-X-Google-Smtp-Source: AGHT+IEen329Y4Bx8W/U1ckSq7RpwyP1+1I4UFv8gjrBQscYuxk0nqyLqgDUGufMFlFL4nK9eSG+ww==
-X-Received: by 2002:a17:90a:ff0d:b0:299:8ff:40c0 with SMTP id ce13-20020a17090aff0d00b0029908ff40c0mr412576pjb.28.1709934118800;
-        Fri, 08 Mar 2024 13:41:58 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GG10uVfrxxhkT0zeNzC2jkcOo+aOgfVZquqGbOZ5l04=;
+        b=cxzRYF9JEPgOyyXTl1tO2697tPU8T4zE6fZfZqHZ9oDKLcn3PB2BeT5+IAC5o5KibJ
+         xbWiBdTklxYXO89iAnkdiVcRI/LxwtOel/znqnW29CCQi0KOIvQdp1Nd3pDD8KKrh/T2
+         d8JoDySdI6uL7ByOGLYKD5G7SB4At0/3T75IpnH02F78KeaduyjVounebecqgw8y5utH
+         ApL3XtkpsW/0nkuRPzYaUoFnoNgdeCZyy45QPuQrItX1ifewZwDlbTdCgU2UOYfBYO1u
+         gVud4Z8w5o0nwU8prsbuQB3y1DQ8VNqNcgUGLcL7kq8Q8sGofCj2nLQC494a6FyhHdHt
+         ns+g==
+X-Forwarded-Encrypted: i=2; AJvYcCXMHHvuuaJEu2RJ4BfIjDpQHt/A5vwTwOnDOi+tTdDvdl/7demgBdKD9kp3bTQ2csMkZhHxiU4tl38+B4DQ5Js2NSR1IJ9Jdg==
+X-Gm-Message-State: AOJu0Ywbm3GWHwrEY/zNF1OJTa/eKyKIQPu1A7WzaZLqsGnS5RwSuAy8
+	YZr5RoZWfn8dEz5YreYJYS+3QvkfWzLm5iLdalHq8PgVKDxb0R+y
+X-Google-Smtp-Source: AGHT+IElZ88Za9870FWJfYbcCRAEsqstFDAcOhW9IdGpq6PDh86hhze2Q8Ze0ptpVII48zikC1NB/Q==
+X-Received: by 2002:a17:903:230a:b0:1dd:67c1:b4f0 with SMTP id d10-20020a170903230a00b001dd67c1b4f0mr288894plh.12.1709935389172;
+        Fri, 08 Mar 2024 14:03:09 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:164d:b0:29b:a97e:255f with SMTP id
- il13-20020a17090b164d00b0029ba97e255fls786169pjb.0.-pod-prod-09-us; Fri, 08
- Mar 2024 13:41:57 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUa7rZh2KFJE4xeUQJN2pGwKJfIiqEwDmOZVdsirnmDZwjqtonfsjHwGGxmC+qykfSHvYSOLykV2ZjLqw7R3FHOHq0cv+uf5qaYLA==
-X-Received: by 2002:a17:90a:460c:b0:29a:7125:11a1 with SMTP id w12-20020a17090a460c00b0029a712511a1mr400673pjg.41.1709934117392;
-        Fri, 08 Mar 2024 13:41:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1709934117; cv=none;
+Received: by 2002:a4a:5514:0:b0:5a1:79e4:2080 with SMTP id e20-20020a4a5514000000b005a179e42080ls2131147oob.0.-pod-prod-09-us;
+ Fri, 08 Mar 2024 14:03:07 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXdKVMPfeKjzR/mwUaVQahCCCQe8ZFLm9ry8a2Zu3r6LzEwAQlgWQneurZhIpMdEASi5eNfU/x1WI9uuXbfZ32NTzIsKbBY9CEFeQ==
+X-Received: by 2002:a05:6808:3989:b0:3c2:3bba:c9ec with SMTP id gq9-20020a056808398900b003c23bbac9ecmr140844oib.59.1709935387682;
+        Fri, 08 Mar 2024 14:03:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1709935387; cv=none;
         d=google.com; s=arc-20160816;
-        b=KnBK3RDbCF1k/HqT8WIWn0vWVeaS5dq4FPQPs5O9GrlE4LXExQnnN3/mKUS+QcON0e
-         YJ2DpMfHQjfK9z/kI5BfL5g3XGUmudzjdS0km+38uFnrk2y/TZJTgp0SaDltjcBYcmlt
-         yS1z0Ug2Nirc5zZPL3M3cduESrACiFZ9hgldoI/2TTurxZErl+eMAbcz06w5Qyo9U259
-         XT9RCifX4jiP0hAxnBTGcYxLMimoDkE5sjZ7YWXAs+vDzVxRS1ZQ5oaiVMYpajgjNzGo
-         vUnvdRBXKMuG1ZD8tAf7L7lHidgNtcsmmBFFLJChoapKZU/o8r09RF6iqxz8MTk5Xd+g
-         mBUA==
+        b=eh4Bukm3qnUu+XGpzRS5w0Ot+y7zbGHZES7ZZ20cK/m0wJ3hU03K/FmYlo94v9iqPW
+         y8qEr9cNUEIHzLwKX2L2Cp62uDgxraBjFnTTO271STTVbkZ6EVm/q2+dqPJqIsFYDnsn
+         ZhiOmCjoum8nV1ilJVri+oiT8xg5M78itg37en0O0o0uMoJ2bYSHo3AH+ukZIfA7KFM/
+         uzTdsWCztov9dhTu2suoMKYV6ueqFmZJIQKj3m1NGFRqwKHb3boh9Iwrsf3ySMQRtsfh
+         7MvStcLIzKXl3YDJDZpkJ9lBzAZcEiz2VAWb/agQrlEiCF5FIBAkI+6E6MplM64ZVfUx
+         bqrw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-disposition:mime-version:reply-to:message-id:subject:cc:to
-         :from:date:dkim-signature;
-        bh=SwQ/6fVTq+Z4GKPA/MwWk4g8oTjVYzos6YRI2HZfdr4=;
-        fh=U7bngLKXwjC96+8wLhDziHbfLLhg9lj94uYgnEc2mZw=;
-        b=W3D+eTRr/M84q90HZku9Qo6F8nl2N7nt+kXx6UFN8PKRALW6d7vS8FaMSInubEPrnm
-         GJ0ahjeKP/CIEWr0a+KJfSGg8SSGxvA9S+TD/BxtnGCwRE+Fq3y45p+jVuiRN1swcA7d
-         n45D/oSUqp4O5vzAbdA/fnOw1w11NC0gwpNdXYdSRWPl18PjIWgNrwMRcAuuiTKdPGhX
-         q8zng1zlzOFZ5XLTaddbTumlLtgg2Bd3Xhh8eeYHPs7gvmZmno8m9MOIJRB5SgilMtfz
-         1TP2wiraOGMDEY9DMK6+6lMke0ufVA9lfp3mQdHKdhqXpGxEuNM2MSHkYySx4v+GR5SZ
-         wnBg==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=aCHYD7g5w02qkYJ98Gf28OBGdeZeHkIZNRO5BYbEl3o=;
+        fh=ntomV8iYpfAyXHtPw2HZna1E6drzRjxYRQ5MOzAVLzE=;
+        b=rkD+B6w6t77ntnbbd3uTm8ommImTxBK5P3tE0ZjqUw0ABjaptZ+7WCC3EO4um96wIw
+         YbAo2f8wNNAfMjRS8g58EMoBmb2M3DaY1dsSGqgvA3WsLUquRApWjvXnESO1obQwSQtD
+         rEXICoHxdMcAjNPdulnr4xYaHOKT0o/E0vW7K8Qh/WPmZr1KB/Mu5ocd7/9IVS/J2vi3
+         iI4N78sv8/xbgdUG1IuqUHcFynkiQdig7CXeLSZQLF5BPLRG3CnOMJ1o+9Vwlx5Dmlkc
+         2+u1p/pw+UkIll+n3AFETf59Fu6ADmBkRNOhsMueT1Wl+R9cG08CMK3kYVfbc2vVL5i1
+         nqyg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=gnlLM7nz;
-       spf=pass (google.com: domain of srs0=r9yk=ko=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom="SRS0=r9yK=KO=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from sin.source.kernel.org (sin.source.kernel.org. [2604:1380:40e1:4800::1])
-        by gmr-mx.google.com with ESMTPS id ay14-20020a17090b030e00b0029b9a141bbesi371109pjb.3.2024.03.08.13.41.57
+       dkim=pass header.i=@google.com header.s=20230601 header.b="Iu/zdOS+";
+       spf=pass (google.com: domain of elver@google.com designates 2001:4860:4864:20::35 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-oa1-x35.google.com (mail-oa1-x35.google.com. [2001:4860:4864:20::35])
+        by gmr-mx.google.com with ESMTPS id bf1-20020a056808190100b003c1e7ccb8f2si57061oib.1.2024.03.08.14.03.07
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Mar 2024 13:41:57 -0800 (PST)
-Received-SPF: pass (google.com: domain of srs0=r9yk=ko=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) client-ip=2604:1380:40e1:4800::1;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 3CFEDCE1D97;
-	Fri,  8 Mar 2024 21:41:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D1FEC433F1;
-	Fri,  8 Mar 2024 21:41:54 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 24B91CE0548; Fri,  8 Mar 2024 13:41:54 -0800 (PST)
-Date: Fri, 8 Mar 2024 13:41:54 -0800
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: elver@google.com
-Cc: rcu@vger.kernel.org, kasan-dev@googlegroups.com, dvyukov@google.com,
-	glider@google.com
-Subject: [PATCH RFC rcu] Inform KCSAN of one-byte cmpxchg() in
- rcu_trc_cmpxchg_need_qs()
-Message-ID: <0733eb10-5e7a-4450-9b8a-527b97c842ff@paulmck-laptop>
-Reply-To: paulmck@kernel.org
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Mar 2024 14:03:07 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2001:4860:4864:20::35 as permitted sender) client-ip=2001:4860:4864:20::35;
+Received: by mail-oa1-x35.google.com with SMTP id 586e51a60fabf-221830f6643so1043409fac.2
+        for <kasan-dev@googlegroups.com>; Fri, 08 Mar 2024 14:03:07 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWWpnEXFMPgjcgysL2AnJxdFZBygYda7ZQ+JHuvBG0I2uafPSbSsQm/hcm1a7gAE3ZAEc4qRpgGbkZZPZQRa7Rq2rNzKQi10xp5vg==
+X-Received: by 2002:a05:6871:826:b0:221:864f:8c6b with SMTP id
+ q38-20020a056871082600b00221864f8c6bmr414011oap.44.1709935387127; Fri, 08 Mar
+ 2024 14:03:07 -0800 (PST)
 MIME-Version: 1.0
+References: <0733eb10-5e7a-4450-9b8a-527b97c842ff@paulmck-laptop>
+In-Reply-To: <0733eb10-5e7a-4450-9b8a-527b97c842ff@paulmck-laptop>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 8 Mar 2024 23:02:28 +0100
+Message-ID: <CANpmjNO+0d82rPCQ22xrEEqW_3sk7T28Dv95k1jnB7YmG3amjA@mail.gmail.com>
+Subject: Re: [PATCH RFC rcu] Inform KCSAN of one-byte cmpxchg() in rcu_trc_cmpxchg_need_qs()
+To: paulmck@kernel.org
+Cc: rcu@vger.kernel.org, kasan-dev@googlegroups.com, dvyukov@google.com, 
+	glider@google.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-X-Original-Sender: paulmck@kernel.org
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=gnlLM7nz;       spf=pass
- (google.com: domain of srs0=r9yk=ko=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom="SRS0=r9yK=KO=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@google.com header.s=20230601 header.b="Iu/zdOS+";       spf=pass
+ (google.com: domain of elver@google.com designates 2001:4860:4864:20::35 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,53 +139,67 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Tasks Trace RCU needs a single-byte cmpxchg(), but no such thing exists.
-Therefore, rcu_trc_cmpxchg_need_qs() emulates one using field substitution
-and a four-byte cmpxchg(), such that the other three bytes are always
-atomically updated to their old values.  This works, but results in
-false-positive KCSAN failures because as far as KCSAN knows, this
-cmpxchg() operation is updating all four bytes.
+On Fri, 8 Mar 2024 at 22:41, Paul E. McKenney <paulmck@kernel.org> wrote:
+>
+> Tasks Trace RCU needs a single-byte cmpxchg(), but no such thing exists.
 
-This commit therefore encloses the cmpxchg() in a data_race() and adds
-a single-byte instrument_atomic_read_write(), thus telling KCSAN exactly
-what is going on so as to avoid the false positives.
+Because not all architectures support 1-byte cmpxchg?
+What prevents us from implementing it?
 
-Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Cc: Marco Elver <elver@google.com>
+> Therefore, rcu_trc_cmpxchg_need_qs() emulates one using field substitution
+> and a four-byte cmpxchg(), such that the other three bytes are always
+> atomically updated to their old values.  This works, but results in
+> false-positive KCSAN failures because as far as KCSAN knows, this
+> cmpxchg() operation is updating all four bytes.
+>
+> This commit therefore encloses the cmpxchg() in a data_race() and adds
+> a single-byte instrument_atomic_read_write(), thus telling KCSAN exactly
+> what is going on so as to avoid the false positives.
+>
+> Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> Cc: Marco Elver <elver@google.com>
+>
+> ---
+>
+> Is this really the right way to do this?
 
----
+This code has a real data race per definition of data race, right?
+KCSAN instruments the primitive precisely per its real semantics, but
+the desired semantics does not match the real semantics. As such, to
+me the right way would be implementing cmpxchgb().
 
-Is this really the right way to do this?
+Otherwise, the workaround below is perfectly adequate.
 
-diff --git a/kernel/rcu/tasks.h b/kernel/rcu/tasks.h
-index d5319bbe8c982..e83adcdb49b5f 100644
---- a/kernel/rcu/tasks.h
-+++ b/kernel/rcu/tasks.h
-@@ -1460,6 +1460,7 @@ static void rcu_st_need_qs(struct task_struct *t, u8 v)
- /*
-  * Do a cmpxchg() on ->trc_reader_special.b.need_qs, allowing for
-  * the four-byte operand-size restriction of some platforms.
-+ *
-  * Returns the old value, which is often ignored.
-  */
- u8 rcu_trc_cmpxchg_need_qs(struct task_struct *t, u8 old, u8 new)
-@@ -1471,7 +1472,13 @@ u8 rcu_trc_cmpxchg_need_qs(struct task_struct *t, u8 old, u8 new)
- 	if (trs_old.b.need_qs != old)
- 		return trs_old.b.need_qs;
- 	trs_new.b.need_qs = new;
--	ret.s = cmpxchg(&t->trc_reader_special.s, trs_old.s, trs_new.s);
-+
-+	// Although cmpxchg() appears to KCSAN to update all four bytes,
-+	// only the .b.need_qs byte actually changes.
-+	instrument_atomic_read_write(&t->trc_reader_special.b.need_qs,
-+				     sizeof(t->trc_reader_special.b.need_qs));
-+	ret.s = data_race(cmpxchg(&t->trc_reader_special.s, trs_old.s, trs_new.s));
-+
- 	return ret.b.need_qs;
- }
- EXPORT_SYMBOL_GPL(rcu_trc_cmpxchg_need_qs);
+> diff --git a/kernel/rcu/tasks.h b/kernel/rcu/tasks.h
+> index d5319bbe8c982..e83adcdb49b5f 100644
+> --- a/kernel/rcu/tasks.h
+> +++ b/kernel/rcu/tasks.h
+> @@ -1460,6 +1460,7 @@ static void rcu_st_need_qs(struct task_struct *t, u8 v)
+>  /*
+>   * Do a cmpxchg() on ->trc_reader_special.b.need_qs, allowing for
+>   * the four-byte operand-size restriction of some platforms.
+> + *
+>   * Returns the old value, which is often ignored.
+>   */
+>  u8 rcu_trc_cmpxchg_need_qs(struct task_struct *t, u8 old, u8 new)
+> @@ -1471,7 +1472,13 @@ u8 rcu_trc_cmpxchg_need_qs(struct task_struct *t, u8 old, u8 new)
+>         if (trs_old.b.need_qs != old)
+>                 return trs_old.b.need_qs;
+>         trs_new.b.need_qs = new;
+> -       ret.s = cmpxchg(&t->trc_reader_special.s, trs_old.s, trs_new.s);
+> +
+> +       // Although cmpxchg() appears to KCSAN to update all four bytes,
+> +       // only the .b.need_qs byte actually changes.
+> +       instrument_atomic_read_write(&t->trc_reader_special.b.need_qs,
+> +                                    sizeof(t->trc_reader_special.b.need_qs));
+> +       ret.s = data_race(cmpxchg(&t->trc_reader_special.s, trs_old.s, trs_new.s));
+> +
+>         return ret.b.need_qs;
+>  }
+>  EXPORT_SYMBOL_GPL(rcu_trc_cmpxchg_need_qs);
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/0733eb10-5e7a-4450-9b8a-527b97c842ff%40paulmck-laptop.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNO%2B0d82rPCQ22xrEEqW_3sk7T28Dv95k1jnB7YmG3amjA%40mail.gmail.com.
