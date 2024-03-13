@@ -1,178 +1,205 @@
-Return-Path: <kasan-dev+bncBCM3H26GVIOBBXMLYSXQMGQEZMILPXA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXYDPH3S4OBBHW7Y2XQMGQEF7ILPNI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13f.google.com (mail-il1-x13f.google.com [IPv6:2607:f8b0:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F60B87A0EF
-	for <lists+kasan-dev@lfdr.de>; Wed, 13 Mar 2024 02:48:15 +0100 (CET)
-Received: by mail-il1-x13f.google.com with SMTP id e9e14a558f8ab-3666d914ce3sf13089125ab.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 12 Mar 2024 18:48:15 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1710294494; cv=pass;
+Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5002487A8BB
+	for <lists+kasan-dev@lfdr.de>; Wed, 13 Mar 2024 14:52:32 +0100 (CET)
+Received: by mail-lf1-x13e.google.com with SMTP id 2adb3069b0e04-512e5939c7csf10078e87.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 13 Mar 2024 06:52:32 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1710337951; cv=pass;
         d=google.com; s=arc-20160816;
-        b=z9gVYHG3vHE+KI1Tcqfjn5tXDL/BzB1yUEyFDX4rTl0Cg+ttInLL2biulzCaWrzvFm
-         YCMX3sHX2Dtnz7P/pSMFCWFUukalTPaZz6pJlUw40ApFUB+gy1eoNz9K/UiwGSHgoOMR
-         d3J8vomlySM42BMstwi05QhMPrygrsa+gCxVzF4+JTuAti25rZ2KMJmCvQsWgNaD1ngY
-         ljZXO1Y30bTmAJaJk2jMtxvIhixo8kiIozYUfDz/aBkPpmJ7zoQSGgRsMURTEePX6Mp3
-         CC9Xw568dNSydPV/BUEs4DL/ecnS1gZr4cOTp7/s9/W3wR5RY3I1IDfjycYG/MLwZHi1
-         r36g==
+        b=RKmSFk3Eum9PuiovAr6SL8TTUkdxZjeyXOo4PVU3uFcwbqq3q20oxSuW7fnEsKbBTn
+         Xpr40nATLX/tQjrS6y6s0uGU+MFLVYA+n+/rCe5Dax3vNHqislJ9l1m2UsYU/kO4PRBP
+         DmYydKDQsoX3ar+oyvLr9K78GPxTNpWfSHD0ylxL2phT+dchKuXbzO8A3A3t0S6U+CQ1
+         Ou7/fnbbnbCgQUria+xBxIKBBj0nQ7mpmaqEhxa5TT6Z+Qm9wU/Yry62JJzwoyTV16d4
+         xu45NjZ4tOtcOLaRWRSDbodMfFvIZm+ypTLUQgKgtyBu8q6m6FHqQGLE5XF+uZLe1jj0
+         NCrg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:in-reply-to
-         :content-disposition:references:message-id:subject:cc:to:from:date
+         :list-id:mailing-list:precedence:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :sender:dkim-signature;
-        bh=+sTX2768JFZwa/nheYBex/yCzZCIlWdwfHF4Fstvuhs=;
-        fh=v3LF1F/WFtn+N8NuhxtD35IOKyzIsP1s+fCRBKbrLUU=;
-        b=QL2u2TJBWNySOpw7sDwFArL/hOauGdZNDr5ERtWiDWaWArPzgDq8aEjVW0F4rCzzZm
-         ugbb2WxDf4G1YxsJsjME/U1RL/cJTfANczzsy0zWIrN+eC7Lov/hy33rr9RCc8dj5LjR
-         kW3airA52kBHCvYS2h7Wx/4OZ356nazX9hEPMmTBAyDqq3Pro+u4xAm3ouDrUOEx//Ux
-         AMCmFX1ceJufCYZTnTwXy6wj4Nj8T9dkJ/mtVfjeuWthaK4zTDVRSWITxSwRn/0Gp8V5
-         2fSKRT+bFr1yhJqE5VUF2ZfDvcstsq2JffuT2cvu96kh7T0uO3R2jruI0tncxfU4Au82
-         isMg==;
+        bh=H7tz7uhLPa23ua4DoPzTx8LtZQxeSFXpFJhq0BUdFcA=;
+        fh=cUCcOh9H7zq+tJQ0cP746M+ZmrPXk0Bnk55KDk00Qfo=;
+        b=vP6xisMGyZCRH8tmHoL9/LnGDPYPcPWmtWfLCmKhCSRiYRav41Jrpm/nSlF3FFKcXL
+         158G1Tv9UtwTf/WU5G9z8fg0oUhamnki7SAt2W4N/hoGnUyeo4zQoABvLj0+PlxgofDI
+         DV0m69JgXGCE3E0uL+CUfhdpr8+5Q1QVrNptlNRMb4cadLFd/Tv84tdVAzUSPV/9i0sb
+         /YeZJIzlLsQYtGE9zjIYRbFKVSxATrTAMgmdU63n5C8agr5zmzjbBOiWH1Z5DVoVb6QN
+         r7o0Hn0VXGZ3GGiWPK0/kOengHpIh9PpMqY+iVnoIxI7DQv0YcpA2iDaAceY3WBV7amF
+         +MVQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=YOBNuMQW;
-       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
-       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=Maisu8p+;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=Maisu8p+;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1710294494; x=1710899294; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1710337951; x=1710942751; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:in-reply-to:content-disposition
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+sTX2768JFZwa/nheYBex/yCzZCIlWdwfHF4Fstvuhs=;
-        b=TATH6xEfNPcJH6MqZ5mOCkDE6gl+RrzEqNT4syInV5JxpS5/7nW9//WGLrg60P4tGw
-         2b3VZs2beetowLn6IF1rV7ooE0lw3ts54+NMaWbuVZJN7la4b3xqMB0i2rq4Yvc1P+gO
-         OSR0dxieeqHpPbknvtzgw6H4Z1vKj9AJnXsxcVDm+/juztfb328HfQdjH2QmrN5UviYn
-         Ff8W8x5NXafqAAe8FLFW8N///KoTxlHK1VCOv/kjJJDqmNQhe/gFRP9CnznCczg5JtNQ
-         1d32D1vTpnWg+XJ22ystxEQp6YBVAFwBnfKR1ZIQn2D9VpsAXKzTZ/Whp7uJ7VzMoKA1
-         JHMQ==
+         :x-original-sender:in-reply-to:from:content-language:references:cc
+         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=H7tz7uhLPa23ua4DoPzTx8LtZQxeSFXpFJhq0BUdFcA=;
+        b=ukf7rXWzHauXiDUAjBGwf4bmfEEvTa2nQrHePe3bQeVkTVVHkKm7UmIzG7GXKDeu2q
+         RJzIyHnu7I3mN9xt42eJIIx6h552YT7A2x/DXRDjBYXCdP/uxULAX6GBLjvORmn3E2HS
+         5icIACD9OJxKF/qbeAw63J+HitURhRC7QkCADEmsVbNCB/7wEObty9hmWfwCZ/CufxKP
+         58GJOMFPaC1ixqdaqPyoCTNOSTivcxZa5pmkfGbNPHNKsKL1c3tlEC6j/U3Jmof2qH18
+         RDCqdjVScP5LuS3dwzqLeoAytCTfgFEXQFiq0pQyi2pysFYOKTOhBpyWtLMJyCrsN9Ss
+         W/yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710294494; x=1710899294;
+        d=1e100.net; s=20230601; t=1710337951; x=1710942751;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-disposition:references:message-id:subject:cc:to
-         :from:date:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=+sTX2768JFZwa/nheYBex/yCzZCIlWdwfHF4Fstvuhs=;
-        b=m69ISsCwSTA/typ+M7id5TV1EZw6oA8DarJdVBsPFWWSwOYaDv2mDJ6f3iCZnIG8c9
-         Yoel1KleIm0YXFuqZkbg1Oa67cNJ0XJA+E/W4RNGu29KAKEl+AyOBx7wRkBNM7Ej4O/7
-         jaDTtsELveWMK2DevQF/kMMQXGqSq63+0K+jiMSkePQyVClpJkYVtTgzkERhwNnWXPNi
-         AzeIcYLo6/OAgiT+cCt7M4GR9msd0JMin73/u1ZqF/6xd2Ye90mwkrWIc/ofMVYLyFh7
-         IR57SJHVrLtv/Jr6jrewIZpyDiaGOIg+z6pBpkXbftUYJYwudb8Q/IAyH2J1O0C/1NBj
-         DM7g==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:content-language:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=H7tz7uhLPa23ua4DoPzTx8LtZQxeSFXpFJhq0BUdFcA=;
+        b=XxqS4XqBFMkMIPlCvv9SA0XPuKN6KwZJPYWhUubqhxR8ThZzwd3L8XN69ECOH4QJwF
+         RM1jn5fuuiVLtRPJ8QaKZ/Qaq4iNTqU+HC9CUPuGsFO7l/lBlOyGUFjItI0xi1bdYhX3
+         0J03pmxsfsNTPjyhdzjs4OQS2Gi4QeMhFaX+wukNGnwaBFBiV6xYL/e0B3EhlYWPS6wR
+         2j8f9MnTgcVXfTsuUBmP1cheuKIIPUDg8+NKbCahP9IgO8iYXRPGiqXvKnJ0C/1DbjX7
+         RG8UQkgkeQ6IPRKgMnyqf+2yPSnqbDjCoRZELRS4LzeyP4xXLixgj7r2Y541v1R9ZNrI
+         TENQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXspaIKJBrlaJ95UkMk0/5+Y5rrRLjUO6A6/SORmqP1IN3gJktXNxiheW/BFJGK8Mr7r7y6e7Hm/byAkYtGwovoHJfXE+PnjQ==
-X-Gm-Message-State: AOJu0YyGKMlYbff399VcsHGpF0ktVEwe3a0Ea3x407KH1i3etxm7ZObH
-	rb7XKaxOBBAPV60SWnoQAW90bckaAHArEZFZPETrB+aMroZfUMaW
-X-Google-Smtp-Source: AGHT+IHcVFiZWxK9+fo6/gRc8+DDQ6jScPF55MgQDe94BE8ORAtdOS9w5aRdlkb2+4PxMgY2xs3IgA==
-X-Received: by 2002:a05:6e02:216b:b0:366:2e34:a3f5 with SMTP id s11-20020a056e02216b00b003662e34a3f5mr13972659ilv.15.1710294493666;
-        Tue, 12 Mar 2024 18:48:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVhaRpDkzq8YqavQ9710qM2oa6x2CMJQ370tuNYF33WThzQCQkHVrsBmKoAwpsjKUapzrTYVus6D6ndz9ZlGUBUMHCOh8dJnw==
+X-Gm-Message-State: AOJu0YyigE73/anv4kKHJecUcr008rt9wusapOCekZ3cAck/qSYxNLGW
+	DHvjwJ/v+HslFYoOK3SCBz63/MknjTqh3x/YLBAWJYLiON8fTUy9
+X-Google-Smtp-Source: AGHT+IEpvI+rxwwDsiUaLPnPSWk7pxfSsZSv4f9Y/WWDr0rsrxXSGtxU7wGsZglZpIkUBSwtlxcP+A==
+X-Received: by 2002:a05:6512:398c:b0:513:cce1:89ea with SMTP id j12-20020a056512398c00b00513cce189eamr9395lfu.3.1710337951076;
+        Wed, 13 Mar 2024 06:52:31 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:dcd:b0:366:592a:fb2f with SMTP id
- l13-20020a056e020dcd00b00366592afb2fls1386757ilj.1.-pod-prod-08-us; Tue, 12
- Mar 2024 18:48:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCU9k0bKnzdQjgsFt1Q8It/JTh9zf/wvH4ZfooG6sKMP44SpYYKnjsoWAhpkgqOKPuEqt8Nuia6LHamR8auOeSHOhCC1Zo+Bpkz+yw==
-X-Received: by 2002:a5d:9ac5:0:b0:7c8:ae3b:acc9 with SMTP id x5-20020a5d9ac5000000b007c8ae3bacc9mr9726955ion.6.1710294492641;
-        Tue, 12 Mar 2024 18:48:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1710294492; cv=none;
+Received: by 2002:a05:6512:4016:b0:513:1cf6:5526 with SMTP id
+ br22-20020a056512401600b005131cf65526ls687159lfb.0.-pod-prod-03-eu; Wed, 13
+ Mar 2024 06:52:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCX2M0dYiA3PgBNQ7l8bk1BsCy1VYop/cmQFo7Zx9b1h8t9/5IfRcSx5cgQpWB0HnIVw2e6OqimEYEwgatLvrCRsrXshz6VFbWih1Q==
+X-Received: by 2002:a19:740c:0:b0:513:36f7:98cc with SMTP id v12-20020a19740c000000b0051336f798ccmr2211463lfe.55.1710337949124;
+        Wed, 13 Mar 2024 06:52:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1710337949; cv=none;
         d=google.com; s=arc-20160816;
-        b=B5o9gVAHMhuHcbNeIpj7Pstk385XkdGeaURP5oBWUVqwBGZWLFB2pmKhJ7IxcS9cJs
-         5mccW0zU+QPpK/xCbn+Jiz+J9VvvqrZjKm/wmeF/x8kkh51skX4RnntoIaShsenZqhHS
-         Q0saSA7MSctNu5faW5T2JgcLOjzy8plOGAeKx2AxLdwlG0m2ejWiGX9iHBt4mVvHE1S7
-         +tdxnbSckWzb8/MEhhI4MP4SW1ZR9BquCVlhVXDVRFu3RrUA0X97Y40pfpFIFWHJYLx1
-         6PQ15Ar1ORe7B0pmpnW9E3WrUmaGcmooz4C+NZuUVA8E4IbGvyxMuLk9fEBNwrNMlbbr
-         K7yg==
+        b=Hvwld47P5krwQ0PcQPw03MZOWJGjwNJ8OZSIs5w1EVINBUdgKyIxwkP1O1hCcwe0Tb
+         ZTOekaaOh3WGIC362/I4zzMUVB5zHMg4OiAx9u0dyZdeZcvoC+4d0+PsR+c7pXXGZQ1J
+         Y09EprL4dV8E9/ypG70UG9IczyJeaeT/Ccp89ROq/qd6a23pKbx5+8zpFM+6lXxjVETN
+         n7LZU2dxaqyTxlwzMnRlh8LWvbeJxSTndrV+zUT06RBSuOoCoMzbGgdphZ6iZwL5Nd+t
+         +QV/EtwanVfkuqCbbLPbSNAViqd8Aol5d3IBQOSEj4syZrqVjRpiTt7oS65TO6ENJpTN
+         ttOQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:in-reply-to:content-disposition:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=lvDevJgXzZHK+XAuqd2R8EtdQOr26ZP2QO5Xtddz0KA=;
-        fh=fWljgm9+YqbXExLhhjJaMZHjcBG6kfUvxRsg8DaaN3o=;
-        b=wi+NVy7g6sGGS0T0iCo4i5mdSxN8c6yMjbjJJC4FPKgO9jviOiPqT6Hyy3/9eAenuo
-         kofLSf5zEf9FjdVdTbGYcvSUMxfSf6PQAOelzoTrZV+eockbGUEcW8Dtno//sxsn23XE
-         uVjfLIOEuxUPsj8w6Kgo6LflukDKyq6sGaX3yewpej8yOuSYJJvYIbhwK2rsgslvQw34
-         sz03M0qxDaNFAFh5nRSVLCEX0gIZeZAj7RQUNmjPFNOuZt4FqrvPnLIWD7aI7GwHcnZs
-         xfrKOvVbs4gDQpKBWnd1BUKMuHQvtNxGKqFwQLWEf2WS8kP0d3ZOjszkN8KcNtMNVMNE
-         eFOw==;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :dkim-signature:dkim-signature:dkim-signature:dkim-signature;
+        bh=XFhbbMRYCJAgLqELLxWLqfsH3hbHEF1BH4hx+bhAMaM=;
+        fh=Q5QK3mEHpiSw50+k3en+vN00KR+pxr1dxz1JLzJfHmQ=;
+        b=R/MGM0c1J0d2FR+7L1oRGDDpBycs4onMDnhSYHbTB79y2ZJA4qmHeZo8lAePFGclmo
+         4I8HX7HJvj+QPvDDqGwb6ZhsjtW6Vxr4HtgpTZdjDyipsH82Qz10aAv20y43V0T8za4k
+         O/YOfFQcuSjxNDkkBxtikHE8bD1BCgnWHM9a5T20queofDFCiHBu6CHNJAxa0r4BOWL8
+         xQUfsF/oe+fk/jhDVZ5O33jv49r5xZbT1VRFyX204YN10PQutP1zU4H4xKdSj6+MWKNp
+         cyLeQdxrr036VRSShePuDONknRFKBNdPZqAA5YqmqMRyex4AaByCfpGbDpHeUVARwBai
+         YU4Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=YOBNuMQW;
-       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
-       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
-        by gmr-mx.google.com with ESMTPS id o22-20020a056638269600b004770c2e6beesi146580jat.5.2024.03.12.18.48.12
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=Maisu8p+;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=Maisu8p+;
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [195.135.223.131])
+        by gmr-mx.google.com with ESMTPS id b24-20020a056512061800b005132cbccbb3si569285lfe.7.2024.03.13.06.52.28
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 12 Mar 2024 18:48:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 42D16FLe009969;
-	Wed, 13 Mar 2024 01:48:11 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wu1au127q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Mar 2024 01:48:11 +0000
-Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 42D1j7Tw030279;
-	Wed, 13 Mar 2024 01:48:11 GMT
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3wu1au1267-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Mar 2024 01:48:10 +0000
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 42CN67Yx018134;
-	Wed, 13 Mar 2024 01:41:27 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 3ws23tb3uj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 13 Mar 2024 01:41:27 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 42D1fN1O30867824
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 13 Mar 2024 01:41:25 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7395520043;
-	Wed, 13 Mar 2024 01:41:23 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E069920040;
-	Wed, 13 Mar 2024 01:41:22 +0000 (GMT)
-Received: from heavy (unknown [9.171.20.188])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Wed, 13 Mar 2024 01:41:22 +0000 (GMT)
-Date: Wed, 13 Mar 2024 02:41:21 +0100
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Changbin Du <changbin.du@huawei.com>, elver@google.com
-Cc: Alexander Potapenko <glider@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com,
-        linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [BUG] kmsan: instrumentation recursion problems
-Message-ID: <czcb6tjpfu3ry5j6blzkhw5hg2thfkir7xkxholzqqpnv5pj4f@jtdhzoif5m2q>
-References: <20240308043448.masllzeqwht45d4j@M910t>
- <CANpmjNOc4Z6Qy_L3pjuW84BOxoiqXgLC1tWbJuZwRUZqs2ioMA@mail.gmail.com>
- <20240311093036.44txy57hvhevybsu@M910t>
- <20240311110223.nzsplk6a6lzxmzqi@M910t>
- <ndf5znadjpm4mcscns66bhcgvvykmcou3kjkqy54fcvgtvu7th@vpaomrytk4af>
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <ndf5znadjpm4mcscns66bhcgvvykmcou3kjkqy54fcvgtvu7th@vpaomrytk4af>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Rn6Ph5G0Y3Tx4t5XLA2Vl-9bR-jX3YyW
-X-Proofpoint-GUID: iF5gmBX_HbtGdM5hh3iUteh4JaUI99NA
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Mar 2024 06:52:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted sender) client-ip=195.135.223.131;
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 20C701F7CD;
+	Wed, 13 Mar 2024 13:52:28 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AAB161397F;
+	Wed, 13 Mar 2024 13:52:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([10.150.64.162])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id E5Z1KZuv8WWIVAAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 13 Mar 2024 13:52:27 +0000
+Message-ID: <b4e5a48f-9a43-4f80-a3e7-75c04dba9a0f@suse.cz>
+Date: Wed, 13 Mar 2024 14:53:08 +0100
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.1011,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2024-03-12_14,2024-03-12_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- spamscore=0 lowpriorityscore=0 malwarescore=0 adultscore=0 clxscore=1015
- bulkscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 phishscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311290000 definitions=main-2403130012
-X-Original-Sender: iii@linux.ibm.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 03/37] mm/slub: Mark slab_free_freelist_hook()
+ __always_inline
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: kent.overstreet@linux.dev, mhocko@suse.com, hannes@cmpxchg.org,
+ roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
+ willy@infradead.org, liam.howlett@oracle.com,
+ penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com,
+ peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com,
+ will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
+ dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
+ david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org,
+ nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com, tj@kernel.org,
+ muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org,
+ pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com,
+ dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com,
+ keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com,
+ gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com,
+ vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org,
+ bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com,
+ penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com,
+ glider@google.com, elver@google.com, dvyukov@google.com,
+ shakeelb@google.com, songmuchun@bytedance.com, jbaron@akamai.com,
+ aliceryhl@google.com, rientjes@google.com, minchan@google.com,
+ kaleshsingh@google.com, kernel-team@android.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+ linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-modules@vger.kernel.org,
+ kasan-dev@googlegroups.com, cgroups@vger.kernel.org
+References: <20240306182440.2003814-1-surenb@google.com>
+ <20240306182440.2003814-4-surenb@google.com>
+Content-Language: en-US
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <20240306182440.2003814-4-surenb@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Level: 
+X-Spam-Score: -2.78
+X-Spamd-Result: default: False [-2.78 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 BAYES_HAM(-2.99)[99.94%];
+	 R_RATELIMIT(0.00)[to_ip_from(RL7fbg3f7cqn65nt4rpgoexbzo)];
+	 RCVD_COUNT_THREE(0.00)[3];
+	 DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 TO_MATCH_ENVRCPT_SOME(0.00)[];
+	 RCPT_COUNT_GT_50(0.00)[76];
+	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 FREEMAIL_CC(0.00)[linux.dev,suse.com,cmpxchg.org,suse.de,stgolabs.net,infradead.org,oracle.com,i-love.sakura.ne.jp,lwn.net,manifault.com,redhat.com,arm.com,kernel.org,arndb.de,linutronix.de,linux.intel.com,kernel.dk,nvidia.com,soleen.com,google.com,gmail.com,chromium.org,linuxfoundation.org,linaro.org,goodmis.org,linux.com,lge.com,bytedance.com,akamai.com,android.com,vger.kernel.org,lists.linux.dev,kvack.org,googlegroups.com];
+	 RCVD_TLS_ALL(0.00)[];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Spam-Flag: NO
+X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=YOBNuMQW;       spf=pass (google.com:
- domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender)
- smtp.mailfrom=iii@linux.ibm.com;       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
+ header.i=@suse.cz header.s=susede2_rsa header.b=Maisu8p+;       dkim=neutral
+ (no key) header.i=@suse.cz header.s=susede2_ed25519;       dkim=pass
+ header.i=@suse.cz header.s=susede2_rsa header.b=Maisu8p+;       dkim=neutral
+ (no key) header.i=@suse.cz header.s=susede2_ed25519;       spf=pass
+ (google.com: domain of vbabka@suse.cz designates 195.135.223.131 as permitted
+ sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -185,295 +212,42 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Mar 13, 2024 at 12:52:33AM +0100, Ilya Leoshkevich wrote:
-> On Mon, Mar 11, 2024 at 07:02:23PM +0800, Changbin Du wrote:
-> > On Mon, Mar 11, 2024 at 05:30:36PM +0800, Changbin Du wrote:
-> > > On Fri, Mar 08, 2024 at 10:39:15AM +0100, Marco Elver wrote:
-> > > > On Fri, 8 Mar 2024 at 05:36, 'Changbin Du' via kasan-dev
-> > > > <kasan-dev@googlegroups.com> wrote:
-> > > > >
-> > > > > Hey, folks,
-> > > > > I found two instrumentation recursion issues on mainline kernel.
-> > > > >
-> > > > > 1. recur on preempt count.
-> > > > > __msan_metadata_ptr_for_load_4() -> kmsan_virt_addr_valid() -> preempt_disable() -> __msan_metadata_ptr_for_load_4()
-> > > > >
-> > > > > 2. recur in lockdep and rcu
-> > > > > __msan_metadata_ptr_for_load_4() -> kmsan_virt_addr_valid() -> pfn_valid() -> rcu_read_lock_sched() -> lock_acquire() -> rcu_is_watching() -> __msan_metadata_ptr_for_load_8()
-> > > > >
-> > > > >
-> > > > > Here is an unofficial fix, I don't know if it will generate false reports.
-> > > > >
-> > > > > $ git show
-> > > > > commit 7f0120b621c1cbb667822b0f7eb89f3c25868509 (HEAD -> master)
-> > > > > Author: Changbin Du <changbin.du@huawei.com>
-> > > > > Date:   Fri Mar 8 20:21:48 2024 +0800
-> > > > >
-> > > > >     kmsan: fix instrumentation recursions
-> > > > >
-> > > > >     Signed-off-by: Changbin Du <changbin.du@huawei.com>
-> > > > >
-> > > > > diff --git a/kernel/locking/Makefile b/kernel/locking/Makefile
-> > > > > index 0db4093d17b8..ea925731fa40 100644
-> > > > > --- a/kernel/locking/Makefile
-> > > > > +++ b/kernel/locking/Makefile
-> > > > > @@ -7,6 +7,7 @@ obj-y += mutex.o semaphore.o rwsem.o percpu-rwsem.o
-> > > > >
-> > > > >  # Avoid recursion lockdep -> sanitizer -> ... -> lockdep.
-> > > > >  KCSAN_SANITIZE_lockdep.o := n
-> > > > > +KMSAN_SANITIZE_lockdep.o := n
-> > > > 
-> > > > This does not result in false positives?
-> > > >
-> > This does result lots of false positives.
-> > 
-> > > I saw a lot of reports but seems not related to this.
-> > > 
-> > > [    2.742743][    T0] BUG: KMSAN: uninit-value in unwind_next_frame+0x3729/0x48a0
-> > > [    2.744404][    T0]  unwind_next_frame+0x3729/0x48a0
-> > > [    2.745623][    T0]  arch_stack_walk+0x1d9/0x2a0
-> > > [    2.746838][    T0]  stack_trace_save+0xb8/0x100
-> > > [    2.747928][    T0]  set_track_prepare+0x88/0x120
-> > > [    2.749095][    T0]  __alloc_object+0x602/0xbe0
-> > > [    2.750200][    T0]  __create_object+0x3f/0x4e0
-> > > [    2.751332][    T0]  pcpu_alloc+0x1e18/0x2b00
-> > > [    2.752401][    T0]  mm_init+0x688/0xb20
-> > > [    2.753436][    T0]  mm_alloc+0xf4/0x180
-> > > [    2.754510][    T0]  poking_init+0x50/0x500
-> > > [    2.755594][    T0]  start_kernel+0x3b0/0xbf0
-> > > [    2.756724][    T0]  __pfx_reserve_bios_regions+0x0/0x10
-> > > [    2.758073][    T0]  x86_64_start_kernel+0x92/0xa0
-> > > [    2.759320][    T0]  secondary_startup_64_no_verify+0x176/0x17b
-> > > 
-> > Above reports are triggered by KMEMLEAK and KFENCE.
-> > 
-> > Now with below fix, I was able to run kmsan kernel with:
-> >   CONFIG_DEBUG_KMEMLEAK=n
-> >   CONFIG_KFENCE=n
-> >   CONFIG_LOCKDEP=n
-> > 
-> > KMEMLEAK and KFENCE generate too many false positives in unwinding code.
-> > LOCKDEP still introduces instrumenting recursions.
+On 3/6/24 19:24, Suren Baghdasaryan wrote:
+> From: Kent Overstreet <kent.overstreet@linux.dev>
 > 
-> FWIW I see the same issue on s390, and the best I could come up with so
-> far was also disabling lockdep.
+> It seems we need to be more forceful with the compiler on this one.
+> This is done for performance reasons only.
 > 
-> For KFENCE I have the following [1] though, maybe this will be helpful
-> to you as well?
+> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
+> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+
+Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+
+> ---
+>  mm/slub.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> [1] https://patchwork.kernel.org/project/linux-mm/patch/20231213233605.661251-17-iii@linux.ibm.com/
-> 
-> [...]
-
-So, I tried to brute force the issue and came up with the following.
-The goal was to minimize the usage of __no_sanitize_memory in order to
-avoid false positives. I don't propose to commit this, I'm posting this
-to highlight the intermediate problems that need to be solved.
-
-
-
-From e3834f4e4ebe2596542a7464f8cc487e2c8e37c9 Mon Sep 17 00:00:00 2001
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-Date: Wed, 13 Mar 2024 01:18:22 +0100
-Subject: [PATCH] s390/kmsan: Fix lockdep recursion
-
-After commit 5ec8e8ea8b77 ("mm/sparsemem: fix race in accessing
-memory_section->usage"), an infinite mutual recursion between
-kmsan_get_metadata() and lock_acquire() arose.
-
-Teach lockdep recursion detection to handle it. The goal is to make
-lock_acquire() survive until lockdep_recursion_inc(). This requires
-solving a number of intermediate problems:
-
-0. Disable KMSAN checks in lock_acquire().
-
-1. lock_acquire() calls instrumented trace_lock_acquire().
-   Force inlining.
-
-2. trace_lock_acquire() calls instrumented cpu_online().
-   Force inlining.
-
-3: trace_lock_acquire() calls instrumented rcu_is_watching(), which in
-   turn calls instrumented __preempt_count_add().
-   Disable instrumentation in rcu_is_watching().
-   Disabling checks is not enough, because __preempt_count_add() would
-   call __msan_instrument_asm_store().
-   Force inlinining of __preempt_count_add().
-
-4: lock_acquire() inlines lockdep_enabled(), which inlines
-   __preempt_count_add(), which calls __msan_instrument_asm_store().
-   Don't inline lockdep_enabled() and disable KMSAN instrumentation in it.
-
-5: lock_acquire() calls check_flags(), which calls the instrumented
-   preempt_count().
-   Always inline preempt_count().
-
-6: lock_acquire() inlines lockdep_recursion_inc(), which needs to
-   update KMSAN metadata.
-   Do not inline lockdep_recursion_inc(), disable KMSAN instrumentation
-   in it.
-
-7: lock_acquire() calls instrumented lockdep_nmi().
-   Force inlining.
-
-With that, the KMSAN+lockdep kernel boots again, but unfortunately it
-is very slow.
-
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- arch/s390/include/asm/preempt.h | 12 ++++++------
- include/linux/cpumask.h         |  2 +-
- include/linux/tracepoint.h      |  2 +-
- kernel/locking/lockdep.c        | 10 +++++++---
- kernel/rcu/tree.c               |  1 +
- 5 files changed, 16 insertions(+), 11 deletions(-)
-
-diff --git a/arch/s390/include/asm/preempt.h b/arch/s390/include/asm/preempt.h
-index bf15da0fedbc..225ce14bb0d6 100644
---- a/arch/s390/include/asm/preempt.h
-+++ b/arch/s390/include/asm/preempt.h
-@@ -12,7 +12,7 @@
- #define PREEMPT_NEED_RESCHED	0x80000000
- #define PREEMPT_ENABLED	(0 + PREEMPT_NEED_RESCHED)
- 
--static inline int preempt_count(void)
-+static __always_inline int preempt_count(void)
- {
- 	return READ_ONCE(S390_lowcore.preempt_count) & ~PREEMPT_NEED_RESCHED;
- }
-@@ -44,7 +44,7 @@ static inline bool test_preempt_need_resched(void)
- 	return !(READ_ONCE(S390_lowcore.preempt_count) & PREEMPT_NEED_RESCHED);
- }
- 
--static inline void __preempt_count_add(int val)
-+static __always_inline void __preempt_count_add(int val)
- {
- 	/*
- 	 * With some obscure config options and CONFIG_PROFILE_ALL_BRANCHES
-@@ -59,7 +59,7 @@ static inline void __preempt_count_add(int val)
- 	__atomic_add(val, &S390_lowcore.preempt_count);
- }
- 
--static inline void __preempt_count_sub(int val)
-+static __always_inline void __preempt_count_sub(int val)
- {
- 	__preempt_count_add(-val);
- }
-@@ -79,7 +79,7 @@ static inline bool should_resched(int preempt_offset)
- 
- #define PREEMPT_ENABLED	(0)
- 
--static inline int preempt_count(void)
-+static __always_inline int preempt_count(void)
- {
- 	return READ_ONCE(S390_lowcore.preempt_count);
- }
-@@ -102,12 +102,12 @@ static inline bool test_preempt_need_resched(void)
- 	return false;
- }
- 
--static inline void __preempt_count_add(int val)
-+static __always_inline void __preempt_count_add(int val)
- {
- 	S390_lowcore.preempt_count += val;
- }
- 
--static inline void __preempt_count_sub(int val)
-+static __always_inline void __preempt_count_sub(int val)
- {
- 	S390_lowcore.preempt_count -= val;
- }
-diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-index cfb545841a2c..af6515e5def8 100644
---- a/include/linux/cpumask.h
-+++ b/include/linux/cpumask.h
-@@ -1099,7 +1099,7 @@ static __always_inline unsigned int num_online_cpus(void)
- #define num_present_cpus()	cpumask_weight(cpu_present_mask)
- #define num_active_cpus()	cpumask_weight(cpu_active_mask)
- 
--static inline bool cpu_online(unsigned int cpu)
-+static __always_inline bool cpu_online(unsigned int cpu)
- {
- 	return cpumask_test_cpu(cpu, cpu_online_mask);
- }
-diff --git a/include/linux/tracepoint.h b/include/linux/tracepoint.h
-index 88c0ba623ee6..34bc35aa2f4b 100644
---- a/include/linux/tracepoint.h
-+++ b/include/linux/tracepoint.h
-@@ -252,7 +252,7 @@ static inline struct tracepoint *tracepoint_ptr_deref(tracepoint_ptr_t *p)
- 	extern int __traceiter_##name(data_proto);			\
- 	DECLARE_STATIC_CALL(tp_func_##name, __traceiter_##name);	\
- 	extern struct tracepoint __tracepoint_##name;			\
--	static inline void trace_##name(proto)				\
-+	static __always_inline void trace_##name(proto)			\
- 	{								\
- 		if (static_key_false(&__tracepoint_##name.key))		\
- 			__DO_TRACE(name,				\
-diff --git a/kernel/locking/lockdep.c b/kernel/locking/lockdep.c
-index 151bd3de5936..86244a7e8533 100644
---- a/kernel/locking/lockdep.c
-+++ b/kernel/locking/lockdep.c
-@@ -111,7 +111,8 @@ late_initcall(kernel_lockdep_sysctls_init);
- DEFINE_PER_CPU(unsigned int, lockdep_recursion);
- EXPORT_PER_CPU_SYMBOL_GPL(lockdep_recursion);
- 
--static __always_inline bool lockdep_enabled(void)
-+__no_sanitize_memory
-+static noinline bool lockdep_enabled(void)
- {
- 	if (!debug_locks)
- 		return false;
-@@ -457,7 +458,8 @@ void lockdep_init_task(struct task_struct *task)
- 	task->lockdep_recursion = 0;
- }
- 
--static __always_inline void lockdep_recursion_inc(void)
-+__no_sanitize_memory
-+static noinline void lockdep_recursion_inc(void)
- {
- 	__this_cpu_inc(lockdep_recursion);
- }
-@@ -5687,7 +5689,7 @@ static void verify_lock_unused(struct lockdep_map *lock, struct held_lock *hlock
- #endif
- }
- 
--static bool lockdep_nmi(void)
-+static __always_inline bool lockdep_nmi(void)
- {
- 	if (raw_cpu_read(lockdep_recursion))
- 		return false;
-@@ -5716,6 +5718,7 @@ EXPORT_SYMBOL_GPL(read_lock_is_recursive);
-  * We are not always called with irqs disabled - do that here,
-  * and also avoid lockdep recursion:
-  */
-+__no_kmsan_checks
- void lock_acquire(struct lockdep_map *lock, unsigned int subclass,
- 			  int trylock, int read, int check,
- 			  struct lockdep_map *nest_lock, unsigned long ip)
-@@ -5758,6 +5761,7 @@ void lock_acquire(struct lockdep_map *lock, unsigned int subclass,
- }
- EXPORT_SYMBOL_GPL(lock_acquire);
- 
-+__no_kmsan_checks
- void lock_release(struct lockdep_map *lock, unsigned long ip)
- {
- 	unsigned long flags;
-diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-index d9642dd06c25..8c587627618e 100644
---- a/kernel/rcu/tree.c
-+++ b/kernel/rcu/tree.c
-@@ -692,6 +692,7 @@ static void rcu_disable_urgency_upon_qs(struct rcu_data *rdp)
-  * Make notrace because it can be called by the internal functions of
-  * ftrace, and making this notrace removes unnecessary recursion calls.
-  */
-+__no_sanitize_memory
- notrace bool rcu_is_watching(void)
- {
- 	bool ret;
--- 
-2.44.0
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 2ef88bbf56a3..0f3369f6188b 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -2121,9 +2121,9 @@ bool slab_free_hook(struct kmem_cache *s, void *x, bool init)
+>  	return !kasan_slab_free(s, x, init);
+>  }
+>  
+> -static inline bool slab_free_freelist_hook(struct kmem_cache *s,
+> -					   void **head, void **tail,
+> -					   int *cnt)
+> +static __fastpath_inline
+> +bool slab_free_freelist_hook(struct kmem_cache *s, void **head, void **tail,
+> +			     int *cnt)
+>  {
+>  
+>  	void *object;
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/czcb6tjpfu3ry5j6blzkhw5hg2thfkir7xkxholzqqpnv5pj4f%40jtdhzoif5m2q.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/b4e5a48f-9a43-4f80-a3e7-75c04dba9a0f%40suse.cz.
