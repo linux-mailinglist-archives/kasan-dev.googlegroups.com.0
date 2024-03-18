@@ -1,138 +1,136 @@
-Return-Path: <kasan-dev+bncBDV37XP3XYDRBWER4GXQMGQEPNWGVXA@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBUOC4GXQMGQEE4MDCWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3b.google.com (mail-qv1-xf3b.google.com [IPv6:2607:f8b0:4864:20::f3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32FD387EA7E
-	for <lists+kasan-dev@lfdr.de>; Mon, 18 Mar 2024 14:59:54 +0100 (CET)
-Received: by mail-qv1-xf3b.google.com with SMTP id 6a1803df08f44-69629cf067fsf4410846d6.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 18 Mar 2024 06:59:54 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1710770393; cv=pass;
+Received: from mail-oo1-xc3e.google.com (mail-oo1-xc3e.google.com [IPv6:2607:f8b0:4864:20::c3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60FA787EC62
+	for <lists+kasan-dev@lfdr.de>; Mon, 18 Mar 2024 16:44:19 +0100 (CET)
+Received: by mail-oo1-xc3e.google.com with SMTP id 006d021491bc7-5a4b8bad9aesf845806eaf.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 18 Mar 2024 08:44:19 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1710776658; cv=pass;
         d=google.com; s=arc-20160816;
-        b=X0WA1utjmfdqplEhVK3pMWnIgoI4c7iHivPkoqzclF/QctMysfjye8L3R/SCkb56YU
-         vUvHMFVmOr9dgkgF4DDaFGAFDzL/m0bNJWpza7jUOSN/Pl04yh3qY6FPRhy3zgOniaTS
-         oD/QtV21XbvQ2lZ2kcmj261fnhMxGmAJ1Zmd2xb3F8G+SZtooB5eoJNrXeTpxYY2xe7j
-         j6UH2b20IoO7wuGa03aJSN1tNv9GDwIWttYqshL7HcjU4RX4Xvtx5Soshuop1JAVvCT6
-         QKdZ0gTOVj1rFzSNPCfDW8XuA5wGq14QoyZq2FEx7F5Tbv/XMEbiitCqG0JUvhAYfnWE
-         5uGQ==
+        b=EdlDXW6MCRjPhRp2VRWFEDM32ifMxclhPXC/rWyGWJ2clpoZWXZs61buQh3E2OcCnP
+         dnV+Gx3v+txgva/nrE9o1T086OM8MjszVLABXpxhWMDFjxmITc/2l1cjyuoAEjm5yLNU
+         nZIQiFnEVsSQasQuLn2ZDOEm43S4FWndSRnkaWoJGuS+xlF+NDcgH67LgpYlsvP+9VLk
+         glCb4o7Z/VAJ+Eyt6goomTuAHQvxzC6HRxd7BcbzsfbejdGzPJrqs9PsJTafWdabRFrN
+         38Oaq6GVyfh1bT6qOfrrE6X+rBfk3DszJhm2vaWTraqxwzh1kiJOk4Bzh1tq+2iI4fUl
+         kcYA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=U1oB/y2HwduEW1NJSe6OgBn3Oz8mlhXXlnoX1jU4gn0=;
-        fh=bcWKG538OSZgyx/4Kl9mvLo/hpkkjwF9om1mE575Wps=;
-        b=Q0lIjxWCk95U/t6XR1O/kciEJAar1MyXSBRpVsxmAgtGxzZXJxNSNtfcvy6ox1gX9C
-         TIPOrj/+CqFK4zNRu5sa+bXc5nUgQHeuT6+Cyuo384JQjgaiK1y5nslCrCZaN8k/CcEo
-         sfyuBMz6aajJTZDt8dsOZ02ttFasrxtxuEUJ3FIkcv/nFwTITak4UJCCEv1HhejfwBuX
-         mTnD4iW5fQf6+9VKtRVGHVJGRjBK1mR/5y5xqrwLe/yQrZlllObRwGcwIIiWyE/Ivyfr
-         uWRQax5CrIzOyXuOEf1BPCcdS9almZUU9JRrl1JaPYX/RhMGoLvAR0rKkDCybxil0T+c
-         imuA==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=m53NEjyPisNiEwKh+hFrpS3Qr47wC7Q5Ji9Qyx9cz5c=;
+        fh=iw9HhyPBJ4bWe1veT6nqCdGAuv5PE6ShuonkMroPz2g=;
+        b=wSOvlXK7Vt7VUR1Tv+g/WTo5+bIyQReN3UFCflBQ1GD3tEIM89ZQZr4BYWWUuSH/St
+         Er66I6pa7jNbrv75zeW6MPviI969XzCxf/DyHD5LADHUR+2ULJpFTnELs5EshVYyRpkR
+         V8UWnEmlrHVQG5Ubi3sabLXzfXgx+nJCBhND7sqWHT0CVPWXFlbyMYUjjGSl/7UkU6M1
+         Pg0r3K2AF64MWuibOipUeXGZQ2bRtNW4I4nK6DKahXKL1ospdl+I/ymKn0zRuulSplmd
+         5LmEgZUzpaEZIoaLPKr79QYCa0/ghMftrz8UAqpJM8HHzxGnTWpBt2Rm2oopfH25qoHJ
+         qXMw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@google.com header.s=20230601 header.b=aJgp+orK;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a34 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1710770393; x=1711375193; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1710776658; x=1711381458; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=U1oB/y2HwduEW1NJSe6OgBn3Oz8mlhXXlnoX1jU4gn0=;
-        b=GvPG3fSrKCl6vOb9MjDncEFJ8JZMOLJtxzlle/B6i3gZTEPN2W+QAfN6V2CSO0Mo3x
-         QgkPmDfJA9RHw/CheVOVde/8UlbPcWZmwHdgEK92Fw50gostyS7XFJ+7zFWnpFnRqlpu
-         ypjmDKWkkn7+mQThAJrdTwjTmTAX617njR2m5MUUblHmUe8TB2b0L6cOr5qMmak5ZAUj
-         9ACyPnMume9khJkzbEqFqSMTrcmZQT6lJ12vAkrhoxtcN9OEq1ZoDFgmNeUKdevpCz/x
-         9EO+W5XA3UP9hZl221zAOXF7qBjYSLocLdDA6DDslVQuj4r+DmmY7EcTSmaidr8eYy51
-         6DwQ==
+        bh=m53NEjyPisNiEwKh+hFrpS3Qr47wC7Q5Ji9Qyx9cz5c=;
+        b=E7DwAGnjwy8MVCXxgcRpkLNXJfCZzoH2GYLYwc5Qp9LMU/abJMjt7ZW4otYXAklW88
+         FG/PGEaGOz/vLC23ePgkBQDf01uBopGltUjsPEQl2DU36Z8uM6sH011EUGnEfJGsEr0K
+         99Q2h/xDizUqaPgffpEalsAxlJuendyz2ssrZRR3hQ42cSM2b3AaDKuBjGq9on3yJXxH
+         8fj9fsGqCcob/oc/dSmy5AtOZYcN3QlvujdD3awYvfsCQdvzCB6V9Yb7S/7vdh8ZE7GP
+         qXtMj7kSsug7b/JIQ4p7ey5Z9R1PrVBQMR+R36e4m/FvsshRHlyoZGYsvL+3+Yp+1NXT
+         n8bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710770393; x=1711375193;
+        d=1e100.net; s=20230601; t=1710776658; x=1711381458;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=U1oB/y2HwduEW1NJSe6OgBn3Oz8mlhXXlnoX1jU4gn0=;
-        b=OkZdiVrbgS/8YhIYwhFyDqXfF3h5oohTr/UznL142p2joIJC0tmIPLnxVhJKSy+Uuu
-         7g+H5WAXbgOQg0m/TD0vKsuzMatzRysRj4G857Y7t55jSzFY3vZoKsg2hjvrZH4U6H/V
-         mBzB8nxwjJTVULY2vNJkYXlSADf0eSazWXlPGf/vbygFae4ZH/fmPtJZHy1AODr5vK/0
-         I28DZnTISYc4vzstLWwbop7aJZaF9P0dTctgdCgCHIkdRmvRy5guRlyC9A7VS/cbF0Qo
-         3FwPtmt87yUC1jA+RczkCgVU3OIopTkCrzIzGlHDqkkCUWs+CiBCjRQMvNI1qBz2UHfM
-         fxtA==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWzAprlzlLggPQ/RUMX0y+PBXOb4evXx4md9fHnLbyratHQq2StJPzs9oKtiltdiKUcctFjr08Es+GQM61MsfRbuwK5SiNA8w==
-X-Gm-Message-State: AOJu0YxKS/JZdjah/CqJK26Ee9LnYX1wrXNIe0/A3ytqBw8FGJVVjohj
-	SzmaczC5uvdT/lY/xb3aZduX7l4eVhnPjaNPedR+Et/WARAZfETV
-X-Google-Smtp-Source: AGHT+IGhAE5MeKYOulk58Eo1Nxktkif8dBsCFs8OzREL/wVwlzc1CnnJcXdbk+9XWnUuF3FXlY+MwA==
-X-Received: by 2002:a0c:cd11:0:b0:690:c0d2:6fab with SMTP id b17-20020a0ccd11000000b00690c0d26fabmr11981831qvm.16.1710770392973;
-        Mon, 18 Mar 2024 06:59:52 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m53NEjyPisNiEwKh+hFrpS3Qr47wC7Q5Ji9Qyx9cz5c=;
+        b=BZQMUTGR2l3k8v1n0m88g4nuh9U7TM0MKOlKMSpO7yMeDNiXqCGLTcLUxPjsqb6Zc/
+         Q/oED7TAQarmRhsgaZGSPmi37wPL4O00LJCMMXfgyBdqb35kwTl7nzU9S7Tl/fTJvmez
+         VjCYTUIbgo7wMNVU69ZdNnn6qdpJuQ18P+t+g4sdvCG6htI8pqTWpekrFnOQSPFR4iMm
+         yJBFfjzUYi58sTnMkb9dKlc4//D4CHPFmy6ui3ES3U6RdrqDtxwCrghZh3JIBRWgflUC
+         51IUqSKquM6F5OwJeMCoL+wUCwIBS5HjtCZTMrsX79dF3A3tW2qXfCfo69BHiCAU3f0b
+         q4oA==
+X-Forwarded-Encrypted: i=2; AJvYcCU4Ly6PA69xN3jBk97Qovh7eHMVC1otKdTp2QFd0n6NDciaCwr040izQF8x51VnZQr0QHfNJZsra2iCUW+xQ0zh5/V7oo8HCg==
+X-Gm-Message-State: AOJu0Yxx0HqjHNha1GRq1V6e5/JDzTBwevkvhZZ+ApWk40NwZBmWS0qN
+	pbbsmLKq+n9ulxJbreBou2j27R4duIOHh/nHBvllvnj1VxSM0ZrV
+X-Google-Smtp-Source: AGHT+IGRKvkbJp6MQj71LFXYwRsE0utIbLkDd7zwCOySpqo3LrymgIcGfJGj9KeAMqXxrmzG0/uhYQ==
+X-Received: by 2002:a05:6820:2714:b0:5a4:91c1:967b with SMTP id db20-20020a056820271400b005a491c1967bmr5109120oob.1.1710776657907;
+        Mon, 18 Mar 2024 08:44:17 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:224d:b0:68c:d848:72ac with SMTP id
- c13-20020a056214224d00b0068cd84872acls6458500qvc.2.-pod-prod-04-us; Mon, 18
- Mar 2024 06:59:52 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWBKjV5b2l/wWVESV3ZL6SGztlwyOSpRJu/yhJsVXGRNDx6ux+aYdaKr8sfHkjFqvZGfu+eQJJRSYZ605YEmy0FyDB5BhM992qgjg==
-X-Received: by 2002:a05:6122:169a:b0:4d4:1cca:1a72 with SMTP id 26-20020a056122169a00b004d41cca1a72mr8346439vkl.6.1710770391893;
-        Mon, 18 Mar 2024 06:59:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1710770391; cv=none;
+Received: by 2002:a05:6820:2299:b0:5a4:905d:743f with SMTP id
+ ck25-20020a056820229900b005a4905d743fls832150oob.1.-pod-prod-05-us; Mon, 18
+ Mar 2024 08:44:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWnV6sW6FDfbBGEB2QnyhfoAaLO2tBX0pacxuWHog8rFuRp54Wh1Mi6N3at+ij8s7KqohQ1mM2RUc4YYqc253BY89jMK54tVCn7lw==
+X-Received: by 2002:a05:6808:bc9:b0:3c2:5eff:3d08 with SMTP id o9-20020a0568080bc900b003c25eff3d08mr14007057oik.3.1710776657059;
+        Mon, 18 Mar 2024 08:44:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1710776657; cv=none;
         d=google.com; s=arc-20160816;
-        b=XBHYuvlpJYj/hPLn5sbrV6u/sAh37RcgexVcz3b/YH+6OGJBHOozkkM2OyuxST4Q3u
-         uHdE/+D/GiFKxbRRzf/ShXL8V1bv03VK1fqQDPFBBbBgQp+9sLSGLaw087A7Xgz4x95s
-         1O9JekKSQW7XmIxSyAugoDIvPT/0iWegV4ziv1sO+QzQWf5jsepago4GoB8ZVXakOcsT
-         d+78sXg0Bg6azaNGaiyd70IvT4+Ahya7rFsito18HXHJkwgy+naNrc0jtU/Sj0+CVRU2
-         C9y6Ge+SOusqSY3L0rpVHeGIhIv+9nZDBrQVmF3+JPvL2zNYBvKF1QroKgFCaykRQswy
-         C/WQ==
+        b=sq8iLWRvKdBY4RCw8IMrZDSU45J419MmRmYi05AHWGXZxAZVGqlu3XRD7LJ4hPso13
+         lqIqD3dNkD8EnxcoflvW80sEetRjPsc3BugJNwcGqz8959maPCxHkclP8M11ctGLB1bj
+         FlYMe3cpNeBYA4O5cT+xA0YtNtl2bn/uWAnzum7Nxznb50im4KUajIpqLem0poNNPGbx
+         pOozuh7vW7FYLt6C8eDsArVo0o38mUPIZvc/vCotRlcRJhFFB9hS+CeVwdoOMbuIGpob
+         9FnVM8Wi+hffmoBahP/THbADZb/UMkxAqBYMGXkoXALe/UTv5lUBtuSKjwqoVVOQd01Y
+         ZBng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date;
-        bh=n9Rp8YeTnXnw58dGkqmYBgPBqpenecVOB0D1D2bXhtA=;
-        fh=ohUeQDCQsKg+X75nyjQIpG0C5bpqy/mUWP6Cpnn28GY=;
-        b=oZLrDC/pCTUVo0rsnqRvgQPi286lhhcLuVi2eOR9ZBCBFu1FMwM2x8ZW3kvRxGZrNZ
-         4I1AibKWq4jqX+8sZxv5oGSr+UXfNbVon8NdNgMN9rTcHE1zMllb44sffAzdnLqDCznA
-         61J1Zvtqih/7Y/BF9hUDP9wU3GltumKhSExeu2td5QS4hP8NhfYbxBjNd76GyzZ4nvtv
-         K/177+Cyl9buWm6fx+WcGFOYWk6qLJiRPipp8eq1WtxXDe6c4F+UHsfuZwFOYWyDknCw
-         NFnr+5j6+GDdV0+RItDBZcHzfDryWn9O4dXnbcovOf12XQeNOitIs4AlMBUoU1Zyy9B9
-         cGmg==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=jzbjB+Gs1Kwvcbil1vU+BLYNe1OnSHfExrWee+0iEgg=;
+        fh=z5j7CxAvFcU7uvT8xRWx/gOT7YP47BCFlOnQcjWmcy0=;
+        b=YojmGMbbwB8dCbPYY36yevLQFDwP35Siwzeh1GJzzja8+5bAos+gCwgHwUPXHzSc6p
+         AGby1GFImmcw2Sevb5PlMgBBCJOPUYWQ6zhCT4Md6TiCtXsDQ/XPTlzAaNWusp1LVUO4
+         NVTdOk0gS4gTiTguN1gwDlrXQvh8G5Eifyh0LsF6TtmnJ06NTsOfqUB6p/h1ssAgyatM
+         kOy3x8QDBK/DjqQoH4EYiZy5unbT2my/hYFSJbjhU/I4AhO1RWgmDuP2o+LcMtftMFZE
+         3hNv0v8u+0K40vWlIjB5YpQuBX6un7GFrpVY9wdJSy4VJXmMdMskU/ScSO9UH6a0N0ca
+         Hipw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=mark.rutland@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id et2-20020a0561221c0200b004d41fe2c37csi825644vkb.5.2024.03.18.06.59.51
-        for <kasan-dev@googlegroups.com>;
-        Mon, 18 Mar 2024 06:59:51 -0700 (PDT)
-Received-SPF: pass (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4A10CDA7;
-	Mon, 18 Mar 2024 07:00:26 -0700 (PDT)
-Received: from FVFF77S0Q05N (unknown [10.57.71.172])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D01B03F67D;
-	Mon, 18 Mar 2024 06:59:49 -0700 (PDT)
-Date: Mon, 18 Mar 2024 13:59:44 +0000
-From: Mark Rutland <mark.rutland@arm.com>
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: Changbin Du <changbin.du@huawei.com>, elver@google.com,
-	Alexander Potapenko <glider@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [BUG] kmsan: instrumentation recursion problems
-Message-ID: <ZfhI0F-vXMMw1GzC@FVFF77S0Q05N>
-References: <20240308043448.masllzeqwht45d4j@M910t>
- <CANpmjNOc4Z6Qy_L3pjuW84BOxoiqXgLC1tWbJuZwRUZqs2ioMA@mail.gmail.com>
- <20240311093036.44txy57hvhevybsu@M910t>
- <20240311110223.nzsplk6a6lzxmzqi@M910t>
- <ndf5znadjpm4mcscns66bhcgvvykmcou3kjkqy54fcvgtvu7th@vpaomrytk4af>
- <czcb6tjpfu3ry5j6blzkhw5hg2thfkir7xkxholzqqpnv5pj4f@jtdhzoif5m2q>
+       dkim=pass header.i=@google.com header.s=20230601 header.b=aJgp+orK;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a34 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-vk1-xa34.google.com (mail-vk1-xa34.google.com. [2607:f8b0:4864:20::a34])
+        by gmr-mx.google.com with ESMTPS id bd1-20020a056808220100b003c1ca7945f4si959764oib.4.2024.03.18.08.44.17
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Mar 2024 08:44:17 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a34 as permitted sender) client-ip=2607:f8b0:4864:20::a34;
+Received: by mail-vk1-xa34.google.com with SMTP id 71dfb90a1353d-4d4552911ceso304905e0c.2
+        for <kasan-dev@googlegroups.com>; Mon, 18 Mar 2024 08:44:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUhLiMz31KpWktup86FIP666jbX4xaHFjEfm7DRaGdxx6KEVo2sKSdf1NLzpggkWoS/8rlLgM6i8tm/1rKqWR4a3bYzsrtVZ/mH/g==
+X-Received: by 2002:a05:6122:36a6:b0:4d3:362f:f9c1 with SMTP id
+ ec38-20020a05612236a600b004d3362ff9c1mr8716909vkb.13.1710776656296; Mon, 18
+ Mar 2024 08:44:16 -0700 (PDT)
 MIME-Version: 1.0
+References: <0733eb10-5e7a-4450-9b8a-527b97c842ff@paulmck-laptop>
+ <CANpmjNO+0d82rPCQ22xrEEqW_3sk7T28Dv95k1jnB7YmG3amjA@mail.gmail.com>
+ <53a68e29-cd33-451e-8cf0-f6576da40ced@paulmck-laptop> <67baae71-da4f-4eda-ace7-e4f61d2ced0c@paulmck-laptop>
+ <CANpmjNOmpOCfaFyMUnMtc3TT=VuTpWC4c85FW_u4dobmtikHtQ@mail.gmail.com>
+In-Reply-To: <CANpmjNOmpOCfaFyMUnMtc3TT=VuTpWC4c85FW_u4dobmtikHtQ@mail.gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Mon, 18 Mar 2024 16:43:38 +0100
+Message-ID: <CANpmjNNLXR1kC8XAqFjEO3N0P3scRott8Z1OcW2yoKu5BEDaYQ@mail.gmail.com>
+Subject: Re: [PATCH RFC rcu] Inform KCSAN of one-byte cmpxchg() in rcu_trc_cmpxchg_need_qs()
+To: paulmck@kernel.org
+Cc: rcu@vger.kernel.org, kasan-dev@googlegroups.com, dvyukov@google.com, 
+	glider@google.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <czcb6tjpfu3ry5j6blzkhw5hg2thfkir7xkxholzqqpnv5pj4f@jtdhzoif5m2q>
-X-Original-Sender: mark.rutland@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of mark.rutland@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=mark.rutland@arm.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=arm.com
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20230601 header.b=aJgp+orK;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a34 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,322 +143,212 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Ilya,
-
-On Wed, Mar 13, 2024 at 02:41:21AM +0100, Ilya Leoshkevich wrote:
-> On Wed, Mar 13, 2024 at 12:52:33AM +0100, Ilya Leoshkevich wrote:
-> > On Mon, Mar 11, 2024 at 07:02:23PM +0800, Changbin Du wrote:
-> > > On Mon, Mar 11, 2024 at 05:30:36PM +0800, Changbin Du wrote:
-> > > > On Fri, Mar 08, 2024 at 10:39:15AM +0100, Marco Elver wrote:
-> > > > > On Fri, 8 Mar 2024 at 05:36, 'Changbin Du' via kasan-dev
-> > > > > <kasan-dev@googlegroups.com> wrote:
-> > > > > >
-> > > > > > Hey, folks,
-> > > > > > I found two instrumentation recursion issues on mainline kernel.
-> > > > > >
-> > > > > > 1. recur on preempt count.
-> > > > > > __msan_metadata_ptr_for_load_4() -> kmsan_virt_addr_valid() -> preempt_disable() -> __msan_metadata_ptr_for_load_4()
-> > > > > >
-> > > > > > 2. recur in lockdep and rcu
-> > > > > > __msan_metadata_ptr_for_load_4() -> kmsan_virt_addr_valid() -> pfn_valid() -> rcu_read_lock_sched() -> lock_acquire() -> rcu_is_watching() -> __msan_metadata_ptr_for_load_8()
-> > > > > >
-> > > > > >
-> > > > > > Here is an unofficial fix, I don't know if it will generate false reports.
-> > > > > >
-> > > > > > $ git show
-> > > > > > commit 7f0120b621c1cbb667822b0f7eb89f3c25868509 (HEAD -> master)
-> > > > > > Author: Changbin Du <changbin.du@huawei.com>
-> > > > > > Date:   Fri Mar 8 20:21:48 2024 +0800
-> > > > > >
-> > > > > >     kmsan: fix instrumentation recursions
-> > > > > >
-> > > > > >     Signed-off-by: Changbin Du <changbin.du@huawei.com>
-> > > > > >
-> > > > > > diff --git a/kernel/locking/Makefile b/kernel/locking/Makefile
-> > > > > > index 0db4093d17b8..ea925731fa40 100644
-> > > > > > --- a/kernel/locking/Makefile
-> > > > > > +++ b/kernel/locking/Makefile
-> > > > > > @@ -7,6 +7,7 @@ obj-y += mutex.o semaphore.o rwsem.o percpu-rwsem.o
-> > > > > >
-> > > > > >  # Avoid recursion lockdep -> sanitizer -> ... -> lockdep.
-> > > > > >  KCSAN_SANITIZE_lockdep.o := n
-> > > > > > +KMSAN_SANITIZE_lockdep.o := n
-> > > > > 
-> > > > > This does not result in false positives?
+On Mon, 18 Mar 2024 at 11:01, Marco Elver <elver@google.com> wrote:
+>
+> On Sun, 17 Mar 2024 at 22:55, Paul E. McKenney <paulmck@kernel.org> wrote:
+> >
+> > On Fri, Mar 08, 2024 at 02:31:53PM -0800, Paul E. McKenney wrote:
+> > > On Fri, Mar 08, 2024 at 11:02:28PM +0100, Marco Elver wrote:
+> > > > On Fri, 8 Mar 2024 at 22:41, Paul E. McKenney <paulmck@kernel.org> wrote:
 > > > > >
-> > > This does result lots of false positives.
-> > > 
-> > > > I saw a lot of reports but seems not related to this.
-> > > > 
-> > > > [    2.742743][    T0] BUG: KMSAN: uninit-value in unwind_next_frame+0x3729/0x48a0
-> > > > [    2.744404][    T0]  unwind_next_frame+0x3729/0x48a0
-> > > > [    2.745623][    T0]  arch_stack_walk+0x1d9/0x2a0
-> > > > [    2.746838][    T0]  stack_trace_save+0xb8/0x100
-> > > > [    2.747928][    T0]  set_track_prepare+0x88/0x120
-> > > > [    2.749095][    T0]  __alloc_object+0x602/0xbe0
-> > > > [    2.750200][    T0]  __create_object+0x3f/0x4e0
-> > > > [    2.751332][    T0]  pcpu_alloc+0x1e18/0x2b00
-> > > > [    2.752401][    T0]  mm_init+0x688/0xb20
-> > > > [    2.753436][    T0]  mm_alloc+0xf4/0x180
-> > > > [    2.754510][    T0]  poking_init+0x50/0x500
-> > > > [    2.755594][    T0]  start_kernel+0x3b0/0xbf0
-> > > > [    2.756724][    T0]  __pfx_reserve_bios_regions+0x0/0x10
-> > > > [    2.758073][    T0]  x86_64_start_kernel+0x92/0xa0
-> > > > [    2.759320][    T0]  secondary_startup_64_no_verify+0x176/0x17b
-> > > > 
-> > > Above reports are triggered by KMEMLEAK and KFENCE.
-> > > 
-> > > Now with below fix, I was able to run kmsan kernel with:
-> > >   CONFIG_DEBUG_KMEMLEAK=n
-> > >   CONFIG_KFENCE=n
-> > >   CONFIG_LOCKDEP=n
-> > > 
-> > > KMEMLEAK and KFENCE generate too many false positives in unwinding code.
-> > > LOCKDEP still introduces instrumenting recursions.
-> > 
-> > FWIW I see the same issue on s390, and the best I could come up with so
-> > far was also disabling lockdep.
-> > 
-> > For KFENCE I have the following [1] though, maybe this will be helpful
-> > to you as well?
-> > 
-> > [1] https://patchwork.kernel.org/project/linux-mm/patch/20231213233605.661251-17-iii@linux.ibm.com/
-> > 
-> > [...]
-> 
-> So, I tried to brute force the issue and came up with the following.
-> The goal was to minimize the usage of __no_sanitize_memory in order to
-> avoid false positives. I don't propose to commit this, I'm posting this
-> to highlight the intermediate problems that need to be solved.
+> > > > > Tasks Trace RCU needs a single-byte cmpxchg(), but no such thing exists.
+> > > >
+> > > > Because not all architectures support 1-byte cmpxchg?
+> > > > What prevents us from implementing it?
+> > >
+> > > Nothing that I know of, but I didn't want to put up with the KCSAN report
+> > > in the interim.
+> >
+> > And here is a lightly tested patch to emulate one-byte and two-byte
+> > cmpxchg() for architectures that do not support it.  This is just the
+> > emulation, and would be followed up with patches to make the relevant
+> > architectures make use of it.
+> >
+> > The one-byte emulation has been lightly tested on x86.
+> >
+> > Thoughts?
+> >
+> >                                                         Thanx, Paul
+> >
+> > ------------------------------------------------------------------------
+> >
+> > commit d72e54166b56d8b373676e1e92a426a07d53899a
+> > Author: Paul E. McKenney <paulmck@kernel.org>
+> > Date:   Sun Mar 17 14:44:38 2024 -0700
+> >
+> >     lib: Add one-byte and two-byte cmpxchg() emulation functions
+> >
+> >     Architectures are required to provide four-byte cmpxchg() and 64-bit
+> >     architectures are additionally required to provide eight-byte cmpxchg().
+> >     However, there are cases where one-byte and two-byte cmpxchg()
+> >     would be extremely useful.  Therefore, provide cmpxchg_emu_u8() and
+> >     cmpxchg_emu_u16() that emulated one-byte and two-byte cmpxchg() in terms
+> >     of four-byte cmpxchg().
+> >
+> >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> >     Cc: Marco Elver <elver@google.com>
+> >     Cc: Andrew Morton <akpm@linux-foundation.org>
+> >     Cc: Thomas Gleixner <tglx@linutronix.de>
+> >     Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+> >     Cc: Douglas Anderson <dianders@chromium.org>
+> >     Cc: Petr Mladek <pmladek@suse.com>
+> >     Cc: <linux-arch@vger.kernel.org>
+> >
+> > diff --git a/arch/Kconfig b/arch/Kconfig
+> > index 154f994547632..eef11e9918ec7 100644
+> > --- a/arch/Kconfig
+> > +++ b/arch/Kconfig
+> > @@ -1506,4 +1506,7 @@ config FUNCTION_ALIGNMENT
+> >         default 4 if FUNCTION_ALIGNMENT_4B
+> >         default 0
+> >
+> > +config ARCH_NEED_CMPXCHG_1_2_EMU
+> > +       bool
+> > +
+> >  endmenu
+> > diff --git a/include/linux/cmpxchg-emu.h b/include/linux/cmpxchg-emu.h
+> > new file mode 100644
+> > index 0000000000000..fee8171fa05eb
+> > --- /dev/null
+> > +++ b/include/linux/cmpxchg-emu.h
+> > @@ -0,0 +1,16 @@
+> > +/* SPDX-License-Identifier: GPL-2.0+ */
+> > +/*
+> > + * Emulated 1-byte and 2-byte cmpxchg operations for architectures
+> > + * lacking direct support for these sizes.  These are implemented in terms
+> > + * of 4-byte cmpxchg operations.
+> > + *
+> > + * Copyright (C) 2024 Paul E. McKenney.
+> > + */
+> > +
+> > +#ifndef __LINUX_CMPXCHG_EMU_H
+> > +#define __LINUX_CMPXCHG_EMU_H
+> > +
+> > +uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new);
+> > +uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new);
+> > +
+> > +#endif /* __LINUX_CMPXCHG_EMU_H */
+> > diff --git a/lib/Makefile b/lib/Makefile
+> > index 6b09731d8e619..fecd7b8c09cbd 100644
+> > --- a/lib/Makefile
+> > +++ b/lib/Makefile
+> > @@ -238,6 +238,7 @@ obj-$(CONFIG_FUNCTION_ERROR_INJECTION) += error-inject.o
+> >  lib-$(CONFIG_GENERIC_BUG) += bug.o
+> >
+> >  obj-$(CONFIG_HAVE_ARCH_TRACEHOOK) += syscall.o
+> > +obj-$(CONFIG_ARCH_NEED_CMPXCHG_1_2_EMU) += cmpxchg-emu.o
+>
+> Since you add instrumentation explicitly, we need to suppress
+> instrumentation somehow. For the whole file this can be done with:
+>
+> KCSAN_SANITIZE_cmpxchg-emu.o := n
 
-Just for the record, as-is the patch below would cause new noinstr-safety
-issues, which I've commented on below. So there are likely some larger changes
-necessary there.
+Hrm, I recall this doesn't actually work as-is because it also
+disables instrument_read_write() instrumentation.
 
-I reckon the arch/s390/include/asm/preempt.h changes are good as-is; I've been
-meaning to do the same for arm64's asm/preempt.h with some other noinstr
-cleanups.
+So I think the most reliable would be to use data_race() after all.
+It'll be a bit slower because of double-instrumenting, but I think
+that's not a major concern with an instrumented build anyway.
 
-> From e3834f4e4ebe2596542a7464f8cc487e2c8e37c9 Mon Sep 17 00:00:00 2001
-> From: Ilya Leoshkevich <iii@linux.ibm.com>
-> Date: Wed, 13 Mar 2024 01:18:22 +0100
-> Subject: [PATCH] s390/kmsan: Fix lockdep recursion
-> 
-> After commit 5ec8e8ea8b77 ("mm/sparsemem: fix race in accessing
-> memory_section->usage"), an infinite mutual recursion between
-> kmsan_get_metadata() and lock_acquire() arose.
-> 
-> Teach lockdep recursion detection to handle it. The goal is to make
-> lock_acquire() survive until lockdep_recursion_inc(). This requires
-> solving a number of intermediate problems:
-> 
-> 0. Disable KMSAN checks in lock_acquire().
-> 
-> 1. lock_acquire() calls instrumented trace_lock_acquire().
->    Force inlining.
-> 
-> 2. trace_lock_acquire() calls instrumented cpu_online().
->    Force inlining.
-> 
-> 3: trace_lock_acquire() calls instrumented rcu_is_watching(), which in
->    turn calls instrumented __preempt_count_add().
->    Disable instrumentation in rcu_is_watching().
->    Disabling checks is not enough, because __preempt_count_add() would
->    call __msan_instrument_asm_store().
->    Force inlinining of __preempt_count_add().
-> 
-> 4: lock_acquire() inlines lockdep_enabled(), which inlines
->    __preempt_count_add(), which calls __msan_instrument_asm_store().
->    Don't inline lockdep_enabled() and disable KMSAN instrumentation in it.
-> 
-> 5: lock_acquire() calls check_flags(), which calls the instrumented
->    preempt_count().
->    Always inline preempt_count().
-> 
-> 6: lock_acquire() inlines lockdep_recursion_inc(), which needs to
->    update KMSAN metadata.
->    Do not inline lockdep_recursion_inc(), disable KMSAN instrumentation
->    in it.
-> 
-> 7: lock_acquire() calls instrumented lockdep_nmi().
->    Force inlining.
-> 
-> With that, the KMSAN+lockdep kernel boots again, but unfortunately it
-> is very slow.
-> 
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->  arch/s390/include/asm/preempt.h | 12 ++++++------
->  include/linux/cpumask.h         |  2 +-
->  include/linux/tracepoint.h      |  2 +-
->  kernel/locking/lockdep.c        | 10 +++++++---
->  kernel/rcu/tree.c               |  1 +
->  5 files changed, 16 insertions(+), 11 deletions(-)
-> 
-> diff --git a/arch/s390/include/asm/preempt.h b/arch/s390/include/asm/preempt.h
-> index bf15da0fedbc..225ce14bb0d6 100644
-> --- a/arch/s390/include/asm/preempt.h
-> +++ b/arch/s390/include/asm/preempt.h
-> @@ -12,7 +12,7 @@
->  #define PREEMPT_NEED_RESCHED	0x80000000
->  #define PREEMPT_ENABLED	(0 + PREEMPT_NEED_RESCHED)
->  
-> -static inline int preempt_count(void)
-> +static __always_inline int preempt_count(void)
->  {
->  	return READ_ONCE(S390_lowcore.preempt_count) & ~PREEMPT_NEED_RESCHED;
->  }
-> @@ -44,7 +44,7 @@ static inline bool test_preempt_need_resched(void)
->  	return !(READ_ONCE(S390_lowcore.preempt_count) & PREEMPT_NEED_RESCHED);
->  }
->  
-> -static inline void __preempt_count_add(int val)
-> +static __always_inline void __preempt_count_add(int val)
->  {
->  	/*
->  	 * With some obscure config options and CONFIG_PROFILE_ALL_BRANCHES
-> @@ -59,7 +59,7 @@ static inline void __preempt_count_add(int val)
->  	__atomic_add(val, &S390_lowcore.preempt_count);
->  }
->  
-> -static inline void __preempt_count_sub(int val)
-> +static __always_inline void __preempt_count_sub(int val)
->  {
->  	__preempt_count_add(-val);
->  }
-> @@ -79,7 +79,7 @@ static inline bool should_resched(int preempt_offset)
->  
->  #define PREEMPT_ENABLED	(0)
->  
-> -static inline int preempt_count(void)
-> +static __always_inline int preempt_count(void)
->  {
->  	return READ_ONCE(S390_lowcore.preempt_count);
->  }
-> @@ -102,12 +102,12 @@ static inline bool test_preempt_need_resched(void)
->  	return false;
->  }
->  
-> -static inline void __preempt_count_add(int val)
-> +static __always_inline void __preempt_count_add(int val)
->  {
->  	S390_lowcore.preempt_count += val;
->  }
->  
-> -static inline void __preempt_count_sub(int val)
-> +static __always_inline void __preempt_count_sub(int val)
->  {
->  	S390_lowcore.preempt_count -= val;
->  }
-
-FWIW, I think it's worthwhile to make these preempt functions __always_inline
-now; they're already used by noinstr code, and *not* being __always_inline
-could permit unwanted instrumentation today.
-
-So it's probably worth splitting that out into its own patch.
-
-> diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-> index cfb545841a2c..af6515e5def8 100644
-> --- a/include/linux/cpumask.h
-> +++ b/include/linux/cpumask.h
-> @@ -1099,7 +1099,7 @@ static __always_inline unsigned int num_online_cpus(void)
->  #define num_present_cpus()	cpumask_weight(cpu_present_mask)
->  #define num_active_cpus()	cpumask_weight(cpu_active_mask)
->  
-> -static inline bool cpu_online(unsigned int cpu)
-> +static __always_inline bool cpu_online(unsigned int cpu)
->  {
->  	return cpumask_test_cpu(cpu, cpu_online_mask);
->  }
-> diff --git a/include/linux/tracepoint.h b/include/linux/tracepoint.h
-> index 88c0ba623ee6..34bc35aa2f4b 100644
-> --- a/include/linux/tracepoint.h
-> +++ b/include/linux/tracepoint.h
-> @@ -252,7 +252,7 @@ static inline struct tracepoint *tracepoint_ptr_deref(tracepoint_ptr_t *p)
->  	extern int __traceiter_##name(data_proto);			\
->  	DECLARE_STATIC_CALL(tp_func_##name, __traceiter_##name);	\
->  	extern struct tracepoint __tracepoint_##name;			\
-> -	static inline void trace_##name(proto)				\
-> +	static __always_inline void trace_##name(proto)			\
->  	{								\
->  		if (static_key_false(&__tracepoint_##name.key))		\
->  			__DO_TRACE(name,				\
-> diff --git a/kernel/locking/lockdep.c b/kernel/locking/lockdep.c
-> index 151bd3de5936..86244a7e8533 100644
-> --- a/kernel/locking/lockdep.c
-> +++ b/kernel/locking/lockdep.c
-> @@ -111,7 +111,8 @@ late_initcall(kernel_lockdep_sysctls_init);
->  DEFINE_PER_CPU(unsigned int, lockdep_recursion);
->  EXPORT_PER_CPU_SYMBOL_GPL(lockdep_recursion);
->  
-> -static __always_inline bool lockdep_enabled(void)
-> +__no_sanitize_memory
-> +static noinline bool lockdep_enabled(void)
->  {
->  	if (!debug_locks)
->  		return false;
-> @@ -457,7 +458,8 @@ void lockdep_init_task(struct task_struct *task)
->  	task->lockdep_recursion = 0;
->  }
-
-This needs to be __always_inline or noinstr, as it is used by noninstr code
-(e.g. lock_is_held_type()).
-
->  
-> -static __always_inline void lockdep_recursion_inc(void)
-> +__no_sanitize_memory
-> +static noinline void lockdep_recursion_inc(void)
->  {
->  	__this_cpu_inc(lockdep_recursion);
->  }
-
-Likewise.
-
-Mark.
-
-> @@ -5687,7 +5689,7 @@ static void verify_lock_unused(struct lockdep_map *lock, struct held_lock *hlock
->  #endif
->  }
->  
-> -static bool lockdep_nmi(void)
-> +static __always_inline bool lockdep_nmi(void)
->  {
->  	if (raw_cpu_read(lockdep_recursion))
->  		return false;
-> @@ -5716,6 +5718,7 @@ EXPORT_SYMBOL_GPL(read_lock_is_recursive);
->   * We are not always called with irqs disabled - do that here,
->   * and also avoid lockdep recursion:
->   */
-> +__no_kmsan_checks
->  void lock_acquire(struct lockdep_map *lock, unsigned int subclass,
->  			  int trylock, int read, int check,
->  			  struct lockdep_map *nest_lock, unsigned long ip)
-> @@ -5758,6 +5761,7 @@ void lock_acquire(struct lockdep_map *lock, unsigned int subclass,
->  }
->  EXPORT_SYMBOL_GPL(lock_acquire);
->  
-> +__no_kmsan_checks
->  void lock_release(struct lockdep_map *lock, unsigned long ip)
->  {
->  	unsigned long flags;
-> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> index d9642dd06c25..8c587627618e 100644
-> --- a/kernel/rcu/tree.c
-> +++ b/kernel/rcu/tree.c
-> @@ -692,6 +692,7 @@ static void rcu_disable_urgency_upon_qs(struct rcu_data *rdp)
->   * Make notrace because it can be called by the internal functions of
->   * ftrace, and making this notrace removes unnecessary recursion calls.
->   */
-> +__no_sanitize_memory
->  notrace bool rcu_is_watching(void)
->  {
->  	bool ret;
-> -- 
-> 2.44.0
-> 
-> 
+> Note, since you use cmpxchg, which pulls in its own
+> instrument_read_write(), we can't use a function attribute (like
+> __no_kcsan) if the whole-file no-instrumentation seems like overkill.
+> Alternatively the cmpxchg could be wrapped into a data_race() (like
+> your original RCU use case was doing).
+>
+> But I think "KCSAN_SANITIZE_cmpxchg-emu.o := n" would be my preferred way.
+>
+> With the explicit "instrument_read_write()" also note that this would
+> do double-instrumentation with other sanitizers (KASAN, KMSAN). But I
+> think we actually want to instrument the whole real access with those
+> tools - would it be bad if we accessed some memory out-of-bounds, but
+> that memory isn't actually used? I don't have a clear answer to that.
+>
+> Also, it might be useful to have an alignment check somewhere, because
+> otherwise we end up with split atomic accesses (or whatever other bad
+> thing the given arch does if that happens).
+>
+> Thanks,
+> -- Marco
+>
+> >  obj-$(CONFIG_DYNAMIC_DEBUG_CORE) += dynamic_debug.o
+> >  #ensure exported functions have prototypes
+> > diff --git a/lib/cmpxchg-emu.c b/lib/cmpxchg-emu.c
+> > new file mode 100644
+> > index 0000000000000..508b55484c2b6
+> > --- /dev/null
+> > +++ b/lib/cmpxchg-emu.c
+> > @@ -0,0 +1,68 @@
+> > +/* SPDX-License-Identifier: GPL-2.0+ */
+> > +/*
+> > + * Emulated 1-byte and 2-byte cmpxchg operations for architectures
+> > + * lacking direct support for these sizes.  These are implemented in terms
+> > + * of 4-byte cmpxchg operations.
+> > + *
+> > + * Copyright (C) 2024 Paul E. McKenney.
+> > + */
+> > +
+> > +#include <linux/types.h>
+> > +#include <linux/export.h>
+> > +#include <linux/instrumented.h>
+> > +#include <linux/atomic.h>
+> > +#include <asm-generic/rwonce.h>
+> > +
+> > +union u8_32 {
+> > +       u8 b[4];
+> > +       u32 w;
+> > +};
+> > +
+> > +/* Emulate one-byte cmpxchg() in terms of 4-byte cmpxchg. */
+> > +uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new)
+> > +{
+> > +       u32 *p32 = (u32 *)(((uintptr_t)p) & ~0x3);
+> > +       int i = ((uintptr_t)p) & 0x3;
+> > +       union u8_32 old32;
+> > +       union u8_32 new32;
+> > +       u32 ret;
+> > +
+> > +       old32.w = READ_ONCE(*p32);
+> > +       do {
+> > +               if (old32.b[i] != old)
+> > +                       return old32.b[i];
+> > +               new32.w = old32.w;
+> > +               new32.b[i] = new;
+> > +               instrument_atomic_read_write(p, 1);
+> > +               ret = cmpxchg(p32, old32.w, new32.w);
+> > +       } while (ret != old32.w);
+> > +       return old;
+> > +}
+> > +EXPORT_SYMBOL_GPL(cmpxchg_emu_u8);
+> > +
+> > +union u16_32 {
+> > +       u16 h[2];
+> > +       u32 w;
+> > +};
+> > +
+> > +/* Emulate two-byte cmpxchg() in terms of 4-byte cmpxchg. */
+> > +uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new)
+> > +{
+> > +       u32 *p32 = (u32 *)(((uintptr_t)p) & ~0x1);
+> > +       int i = ((uintptr_t)p) & 0x1;
+> > +       union u16_32 old32;
+> > +       union u16_32 new32;
+> > +       u32 ret;
+> > +
+> > +       old32.w = READ_ONCE(*p32);
+> > +       do {
+> > +               if (old32.h[i] != old)
+> > +                       return old32.h[i];
+> > +               new32.w = old32.w;
+> > +               new32.h[i] = new;
+> > +               instrument_atomic_read_write(p, 2);
+> > +               ret = cmpxchg(p32, old32.w, new32.w);
+> > +       } while (ret != old32.w);
+> > +       return old;
+> > +}
+> > +EXPORT_SYMBOL_GPL(cmpxchg_emu_u16);
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZfhI0F-vXMMw1GzC%40FVFF77S0Q05N.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNLXR1kC8XAqFjEO3N0P3scRott8Z1OcW2yoKu5BEDaYQ%40mail.gmail.com.
