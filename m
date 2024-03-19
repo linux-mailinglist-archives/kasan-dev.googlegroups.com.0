@@ -1,141 +1,134 @@
-Return-Path: <kasan-dev+bncBCS4VDMYRUNBBE7D4OXQMGQEPOHKBOI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQPF57GUQHBB3WT4WXQMGQEWTWE4WY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3b.google.com (mail-yb1-xb3b.google.com [IPv6:2607:f8b0:4864:20::b3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FB487F533
-	for <lists+kasan-dev@lfdr.de>; Tue, 19 Mar 2024 02:59:49 +0100 (CET)
-Received: by mail-yb1-xb3b.google.com with SMTP id 3f1490d57ef6-dcbee93a3e1sf7694133276.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 18 Mar 2024 18:59:48 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1710813587; cv=pass;
+Received: from mail-il1-x13c.google.com (mail-il1-x13c.google.com [IPv6:2607:f8b0:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA9587FBD5
+	for <lists+kasan-dev@lfdr.de>; Tue, 19 Mar 2024 11:33:20 +0100 (CET)
+Received: by mail-il1-x13c.google.com with SMTP id e9e14a558f8ab-366999e233asf26494885ab.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 19 Mar 2024 03:33:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1710844399; cv=pass;
         d=google.com; s=arc-20160816;
-        b=QJMzJsn2Xk6KHlrEx+QkH0caepzsOhloICN0IIE7LUdX/KpLQjNf/k0+Ci30TWId1u
-         aUnQVhVgO44gHkhwkaSnAyCk+rXeM2pY6I/jGV00nTOE7Ky1wAjQWjzrfS2r8/lQK8rY
-         nBCPyIQTzhQjBhhWyu3u9PGLYd6iVXyas8QOjPCkk3f39VZO8DEtoSFncQ5AtYw6TG2A
-         DodjEIohBSl7Bw4r+GsmihgGOQO8mDAcyx6Hx7arOqy2bmzblK73QjOL7zheMKX7gcwD
-         ENahI0ZOBYJ6d9iBwdaM2vFImloGm00YdQuhGgTnf64AcaXLnUJDVMPKf8q6pSr7j2NM
-         HtCg==
+        b=ml+JCcx5IRGmnFUflK0SY/eGyKtuvkCKCjDOZvVOLOPNJ/WV60et1ayZrqSJCL7VBG
+         gDvoJ6OePnEjjzqqra3UlotD/FNN0gQSB35GeMIUKYJLPSo3b1XIc4yd+ExsTGAHZ79C
+         rlUN8pY0hN8TXd2EX5ebue1cdm5YL/jArGmQOJxWPeSwOc7DoU5wZXHl4k3smuGT1u4a
+         HtSBwKiIUCLVM/yHK+iPqI9B5ELY+1wfz0oJkfSG5p46nABia/uyQ2gAGacBygnet5PY
+         IL4cdQNWCmQN+INEBux7TmW4omY5gSK6VdrqKkPDRPpFqSOst1I6ahFBddHER9gk2T/9
+         Rmnw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:dkim-signature;
-        bh=fXZtJUqJAmMbXfiP/LZTbGmHL3+gxp6xYePzC+ejITE=;
-        fh=M8j8k0vesW80SIFu1r30/Qo9CgS2Nrh4Tg/RR6XTXhE=;
-        b=KAY6dC2UdD18nXU1EsRHXUjLWkr0b2dhhSPRiOg0ORwIFRh8aRhChEAFSwWKmFea03
-         /C1LO0QXxtH3INX91y5E89wKU4ZiIYOUx9Bz19OXPK8wV7U2ZKwacXPWZcdAD1K/gNJB
-         uquErHUEFj5NFKOUCZcgYV9Og3SUrPX0Hi8gPT+3Uql/ZchuFz0ZAUiyjRjzb2CacQK7
-         ykUx9hvOkeTHTXPDSPO8EHnfwAEFQHql04WsomvgEifWSj7vY/Nc7VgegjtdJifqeXyc
-         CtVoQYgeeojAFIqGK0yAxsX4yVdh/wDdicjWYKZNHKcbI2b3ZxF8tB1LXN7P51bLBfUO
-         aZGw==;
+         :list-id:mailing-list:precedence:to:from:subject:message-id
+         :in-reply-to:date:mime-version:sender:dkim-signature;
+        bh=9g5/J2rDV1XlP1V590/DTnIeVJ0jtkmkdf2DZo91s4s=;
+        fh=8DoUZOzNZo46/rWoK6FX9h1zIb1QKTXUxvUUWgcfpW8=;
+        b=tC4fDzp4a1xa759XdhyUo+Z5vx0/bSJBTLytZ0Y5dSZepBbyNQhNmBtYl65wG7+jxH
+         9oBrIaeaMXjeUCI5+9x860wBmijDjVBxUlYY3ZK9Wmf6gjDG75BcE7RPGjXiW3mFEf/X
+         0Cvac0ZWv7XS+tj0oJKhXOKg2y6tWwzPSbs9r602VLUOFq0t0jE7e80dyaSgmMpzW4ad
+         7VZcxkhCZn/u70nmepV+XZTgetTOA/uilzOMUXZg5loHFbfsKft0ewu088LggllNURYP
+         B7BSEAVpKp5xiNYl44hOIlWHwoosJnmq0AP2Ke8LWI2+PTJwAe69JB3ud5bdeNG4l2HY
+         rj8w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=pAp7+5Xn;
-       spf=pass (google.com: domain of srs0=kwpk=kz=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom="SRS0=kwPk=KZ=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of 37wn5zqkbanwqwxi8jjcp8nngb.emmejcsqcpamlrclr.amk@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.71 as permitted sender) smtp.mailfrom=37Wn5ZQkbANwQWXI8JJCP8NNGB.EMMEJCSQCPAMLRCLR.AMK@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1710813587; x=1711418387; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1710844399; x=1711449199; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:reply-to:message-id:subject:cc:to:from:date:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fXZtJUqJAmMbXfiP/LZTbGmHL3+gxp6xYePzC+ejITE=;
-        b=sTkD1tid/1GxzEK9swoyPsetZ2G6CdBOctIiaE40CpI0SQsMCGL637jBUPVg0jZ2XB
-         VrDJ89H+pSaF/PA9Z/VojzcgrYw4U9beLvn2sclC33u6vt0bMIymc5DII3II1bUSqcXA
-         nlY7D0lA7/9eJhzbmrM5EvdE/M2kN9Wut1p9yOxa+f2D8ACMapdNm7L4T00tCyCAmVs4
-         OoaFhDABVnkSnPfFvRGfaUzm00Omx8zxoZTQ5DWcm5vcS8jznL0WOfc2KZG11jx/crTA
-         wwcTgKCzTltqWfhkx6O/+Tmrb6h34dcNskH4hdxTnbjP26btd48bX/ZSPPHlW3NKIs1d
-         Bn8A==
+         :x-original-sender:to:from:subject:message-id:in-reply-to:date
+         :mime-version:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=9g5/J2rDV1XlP1V590/DTnIeVJ0jtkmkdf2DZo91s4s=;
+        b=lpyqv7h9ymSmcqlMf0XQNGtSJlt+AyyFLbTLZNZCZtr7oh+oQf7z2w5COcA9Q0E3fF
+         +zJGvk/FcVo/kpd2C1kDou+tNSoYs5lIEjOqwS/oziPYYnrzzlwAqlRqTVvae2coEBEt
+         ic1UHjAhTbiyWGqOuS7hH0bHNga57manS3B0Jex00n9/00olrGN+aL2EvHba3TZmjoKg
+         /7zeB8Aio9dDmr96oM/tKM9azY82ueEOB82Am/S6x/1Mt5WH7dZGRmvErFAVel24t9Vh
+         7bugfk4AE9q002RmyAzcKBQmohUmlKW3S0DY4VEljAPvp/kr9b1yLTGECOMQ72GQ0LTG
+         W4/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710813587; x=1711418387;
+        d=1e100.net; s=20230601; t=1710844399; x=1711449199;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=fXZtJUqJAmMbXfiP/LZTbGmHL3+gxp6xYePzC+ejITE=;
-        b=sDlAcvI+8wHAwn3xxTzoYUxgIKUs5wV6b0SmgVP7bBFEa8Y2w3Ky6EO7oKQ3VcKkWl
-         34m8sFu0YahxsMArve4W6YqK5DMH07yvdKaHpy2UwHrEnczPOwDv7RTJiv31JhbUDdZo
-         okOB/HQTJHk/i9CWiNN3xPJuBKnqB2EqI4rmxhyEkFSfPRI5+BMMah8+BhxyUL3wnClS
-         y8IOqZhofPxrAmlTtb+0JVNcF7BBcXBPmOOdpSpA/a/T1PjguMtumEfjmAiaKGtGZWFL
-         0gR6QITglNlN8rv4lC5TlF69rcCDWfs2kXldbQspH8Yykkv7IM4OhExLV0Lr9qkBlorj
-         oQEw==
+         :x-original-authentication-results:x-original-sender:to:from:subject
+         :message-id:in-reply-to:date:mime-version:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9g5/J2rDV1XlP1V590/DTnIeVJ0jtkmkdf2DZo91s4s=;
+        b=go3BNd2pKiqCIg/c530i/Jzew/BtcspiEW8bmf7HKmwyPCuM9uB8vEWHBcWbMY/LuL
+         pJ/IdWdgUbygcPBxa53TdWFEXBnoyYVGnEDwrPZMqlcA81MectDbKpJjF0xrm9H/fH+k
+         fmUHnNcnQCIDNmKZI41p535i428LsQKNG38GawXN0WCWfk2TK98Nmp254e/RSXVOwD69
+         pJfzO4ePtkPZeyd2gRXumr8Wag/PEwfsxZQruQ8L3I7DsAo0EAZ2hWaOBEg1wQWHT7MQ
+         efdIMxUKXZDdGaW+hTL0tvDHmSdKyQtz5II1+gFOJzhzOevoicbdJkGJHHCe07d1hURU
+         fKTg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWLaYnrHhkM01uXcA1hWFVW9h/xPcaJDWRNj3Vl9l/s1VMU1F1PkEvKM/9Id//6ZsSptnMoAwvj6AX8lRmzyaI4+wN4vll4TA==
-X-Gm-Message-State: AOJu0YyW8DWRWPRbRJ2lAl9P4DAEq/gojSESVODoQ7JNLtHmZ3p32Iz5
-	J28Zev9yKZeezkytcVV1r8r6zrGUskY9J7kL6tcYhFZu2/2NKVO2
-X-Google-Smtp-Source: AGHT+IGMs8tGglm9Ux3ryScHA+v0/puWff2wYQx/7U0RF+bgWzS7yEtI8FVHex5stu84bZqYDyH5yA==
-X-Received: by 2002:a25:3308:0:b0:dcf:56c1:5a12 with SMTP id z8-20020a253308000000b00dcf56c15a12mr8679853ybz.38.1710813587454;
-        Mon, 18 Mar 2024 18:59:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWffuiYvOjXEc8EJf+jPTdOJkD8nMmu/oIoVU8KRCdxRHfiqEu0CVPJ4p4th34BePxYccHWDzb1ZO+5cy3edEyMZ36MlLEYOg==
+X-Gm-Message-State: AOJu0Ywqc4rKDA7z9wBnTT798cQcd2ryw5VpRRJiVUogaS+JZ1wiVDLc
+	T61N0YzHPDYSfZJ9e/96HdMqVHezmw77f6GNM4vVZV7HPJM+Aeeb
+X-Google-Smtp-Source: AGHT+IE5MNxKi8F2Qggoa7JL8Y2gwRpdi3L8tlrIsOX0DN/XESoLq25alI6BY0ThZoJrlVCH7ZJlZw==
+X-Received: by 2002:a05:6e02:2148:b0:366:b3e4:a0e3 with SMTP id d8-20020a056e02214800b00366b3e4a0e3mr3816736ilv.3.1710844398693;
+        Tue, 19 Mar 2024 03:33:18 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:dc07:0:b0:dc7:4417:ec4e with SMTP id y7-20020a25dc07000000b00dc74417ec4els1987035ybe.1.-pod-prod-04-us;
- Mon, 18 Mar 2024 18:59:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUOvzf6k+gjMmu+CxlT0PoOaKR8LSjqQXvJQ3N7qeUBNhQa+qQkT7k/4I06MBe5FZqmrS32hIKm85lXRjhXlYme0ZR1/Q+cs2gWxA==
-X-Received: by 2002:a0d:eb91:0:b0:60d:6034:2da2 with SMTP id u139-20020a0deb91000000b0060d60342da2mr11639259ywe.4.1710813586428;
-        Mon, 18 Mar 2024 18:59:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1710813586; cv=none;
+Received: by 2002:a05:6e02:17ca:b0:366:a73a:603 with SMTP id
+ z10-20020a056e0217ca00b00366a73a0603ls602910ilu.0.-pod-prod-00-us; Tue, 19
+ Mar 2024 03:33:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUb2vBxBSuItz4Vj4piNZMziFgeIyNaVOjr7qpxMY1e9ORK+9fopckgqAKmhM4KFxtcfTaq7DbcLN4NbKErSiCw2vmAzPC+TpBYUA==
+X-Received: by 2002:a6b:4e11:0:b0:7ce:fb36:1c33 with SMTP id c17-20020a6b4e11000000b007cefb361c33mr1507762iob.9.1710844397573;
+        Tue, 19 Mar 2024 03:33:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1710844397; cv=none;
         d=google.com; s=arc-20160816;
-        b=zGhrm4ofkxTN57BsSaRQrZ+95xfUNVrILaVI7+wy4Y6bcbz3Lp32+9nJak0CmPTCEz
-         sqbWGzfTeVCyfRPEQzevHVJF1CEWoJ33rgmZw+ZX1PV/PjccpBPJQUAPt02fidd1FE6o
-         JrajlYq8+s9N4oz2738I6wnsoVLq7ruM4J9vfU+mfnTjlrGTaW07TLhAhk6jWZmO2cN9
-         WUKZIs0y3z5c/m7tcM5tA0BnLXrLHgScvurY8DdjLlGPTXwOFRauM7xrhQZFmTMihsLk
-         heYdxW22scBz1jDgxLJzBLwyGQiQTFGCQn2bSG5SZGdjmmIB64ZkvGFTliA9mTE/+pc3
-         c4kw==
+        b=R3M+oe/O64vkx8GRTnfb3QW4eVs76VeRp9jQK5WSSS7USnJC/Ms2woPo0rzXLwGn+m
+         KDcu5Qpto8/J5ajQmF/hVjYAurUCY+biisduxQhLCinBw0en2nkSAZ3c/VHaWA5M3G37
+         KS22RIWJM0xN/x3vvdoug58FTqtwai5HF/cl7+3hGOQZYHrzKx+e4z9SpGwffuoolEyR
+         MuUGlxhmt2+CyzY7Z/1/582sLxH0WpcdtaN2vZ5yOpOIzYrN/YTit1k680TJFnAwnOQ5
+         n/mFw7MMmR8oXY6N3ZDIXxAZNc18Jx0yCrhCVS0tQ0DAy1Ug0PbjQhOl/456sS6YLymK
+         0JmA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=r+1+yKllf4ieD2jkwJ/h2m0IyAmgE/guPw5e49DLKD4=;
-        fh=rQPPKocvcSdU/KZDT5a1aA+odI3+PtCpik6mL0wgMXY=;
-        b=FcTmcRD06Yced2WVCfyzY3OzECyAaEA6i7B7p4DumYA+cXQaGqa4TDEA1P9DWpheZS
-         nvHUgGZcyvr2DCAad8QzqGA9csMdqtaCxPoE7nvH06xKSBpOy7c7edFJ1OS2JYQTpJE9
-         rIG25DE7ljvv+lHsZMATAhX1ahN6ZT/i1MP9NlkYwbLRwBGV8wfmbFIQS1yFDbJBvtBU
-         fjZ4tuMXWg98oMHqvks1Suw6Llfh1mrrKrxGZAtGmbWshFOc+9M0F0GO3cEmop9r980g
-         I19TgVyu1pzgKNG6EFRPmvjqoBqYkwMu8NOH2jr1F2b12LoDu6Uc1lcQUq/Swq8RqGh2
-         s/uA==;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version;
+        bh=AfH616evJHoxgc9RlKueSdsKtzrhRnXKCq+xBkHhWYc=;
+        fh=t92zFwe5IvVaI//iqRbgaNfIhkMKckg1IuvBeS2F4BY=;
+        b=Iay628A1uBxPMDSiv7BPlRFEknD/uAg4Dz7o0JNzv2Tm0T1EuzpMnDOsuGrCEuHi5K
+         CjTSey0rXcFfkPjJTb9Nlqo+BTTSKdBfnV51IKkXtVRzXqkKz6+puW2ckYidJGHfOhZP
+         4zkNFYbvxVOt/V13T5F7IkcYU96AYYvnR+nlpPAK70SMx2IkOjtD251TXL1IHfopkKyG
+         VkicszTT7Cdtad0hWsLrBfRLtyG5k96fuZ2GIm2TnFhPrcw+BpcXt/DRGN4ms5l8zfSE
+         DaS8R+TlSWOEyihvvG7lOCMrF+MSxMJrJ2gKeKeFGKIox3V1Ip/0cNDKkxcZATuuFnSq
+         eGIQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=pAp7+5Xn;
-       spf=pass (google.com: domain of srs0=kwpk=kz=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom="SRS0=kwPk=KZ=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from sin.source.kernel.org (sin.source.kernel.org. [2604:1380:40e1:4800::1])
-        by gmr-mx.google.com with ESMTPS id fl3-20020a05663863c300b00476fbaaca2dsi969289jab.4.2024.03.18.18.59.46
+       spf=pass (google.com: domain of 37wn5zqkbanwqwxi8jjcp8nngb.emmejcsqcpamlrclr.amk@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.71 as permitted sender) smtp.mailfrom=37Wn5ZQkbANwQWXI8JJCP8NNGB.EMMEJCSQCPAMLRCLR.AMK@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com. [209.85.166.71])
+        by gmr-mx.google.com with ESMTPS id z9-20020a6bc909000000b007cc589ab5c9si705288iof.0.2024.03.19.03.33.17
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Mar 2024 18:59:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=kwpk=kz=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) client-ip=2604:1380:40e1:4800::1;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id E2729CE0B4C;
-	Tue, 19 Mar 2024 01:59:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3631C433C7;
-	Tue, 19 Mar 2024 01:59:42 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 688EACE0D20; Mon, 18 Mar 2024 18:59:41 -0700 (PDT)
-Date: Mon, 18 Mar 2024 18:59:41 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: rcu@vger.kernel.org, kasan-dev@googlegroups.com, dvyukov@google.com,
-	glider@google.com
-Subject: Re: [PATCH RFC rcu] Inform KCSAN of one-byte cmpxchg() in
- rcu_trc_cmpxchg_need_qs()
-Message-ID: <5e6fdf1d-e84c-463c-b47b-f42500930b28@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <0733eb10-5e7a-4450-9b8a-527b97c842ff@paulmck-laptop>
- <CANpmjNO+0d82rPCQ22xrEEqW_3sk7T28Dv95k1jnB7YmG3amjA@mail.gmail.com>
- <53a68e29-cd33-451e-8cf0-f6576da40ced@paulmck-laptop>
- <67baae71-da4f-4eda-ace7-e4f61d2ced0c@paulmck-laptop>
- <CANpmjNOmpOCfaFyMUnMtc3TT=VuTpWC4c85FW_u4dobmtikHtQ@mail.gmail.com>
- <CANpmjNNLXR1kC8XAqFjEO3N0P3scRott8Z1OcW2yoKu5BEDaYQ@mail.gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Mar 2024 03:33:17 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 37wn5zqkbanwqwxi8jjcp8nngb.emmejcsqcpamlrclr.amk@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.71 as permitted sender) client-ip=209.85.166.71;
+Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-7cc74ea9c20so188307039f.1
+        for <kasan-dev@googlegroups.com>; Tue, 19 Mar 2024 03:33:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUmq5g7oqD0/t6/gkwEr3EVBktQmxnGELmuGBmza66rqy1o35VD6wkoaRn0TmepFhrRAw9Po22poRaMeuaCUETT1DdqHovZgPl3+g==
 MIME-Version: 1.0
+X-Received: by 2002:a05:6602:641f:b0:7cc:4c0:65c5 with SMTP id
+ gn31-20020a056602641f00b007cc04c065c5mr175800iob.1.1710844397224; Tue, 19 Mar
+ 2024 03:33:17 -0700 (PDT)
+Date: Tue, 19 Mar 2024 03:33:17 -0700
+In-Reply-To: <000000000000c0645805b7f982e4@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+Message-ID: <000000000000901b1c0614010091@google.com>
+Subject: Re: [syzbot] [batman?] [bpf?] possible deadlock in lock_timer_base
+From: syzbot <syzbot+8983d6d4f7df556be565@syzkaller.appspotmail.com>
+To: a@unstable.cc, akpm@linux-foundation.org, andrii@kernel.org, 
+	ast@kernel.org, b.a.t.m.a.n@lists.open-mesh.org, bpf@vger.kernel.org, 
+	christian@brauner.io, daniel@iogearbox.net, davem@davemloft.net, 
+	dvyukov@google.com, edumazet@google.com, elver@google.com, glider@google.com, 
+	hdanton@sina.com, jakub@cloudflare.com, jannh@google.com, 
+	john.fastabend@gmail.com, kasan-dev@googlegroups.com, kuba@kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, mareklindner@neomailbox.ch, 
+	mark.rutland@arm.com, netdev@vger.kernel.org, pabeni@redhat.com, 
+	shakeelb@google.com, sven@narfation.org, sw@simonwunderlich.de, 
+	syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNNLXR1kC8XAqFjEO3N0P3scRott8Z1OcW2yoKu5BEDaYQ@mail.gmail.com>
-X-Original-Sender: paulmck@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=pAp7+5Xn;       spf=pass
- (google.com: domain of srs0=kwpk=kz=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom="SRS0=kwPk=KZ=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+X-Original-Sender: syzbot@syzkaller.appspotmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of 37wn5zqkbanwqwxi8jjcp8nngb.emmejcsqcpamlrclr.amk@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com
+ designates 209.85.166.71 as permitted sender) smtp.mailfrom=37Wn5ZQkbANwQWXI8JJCP8NNGB.EMMEJCSQCPAMLRCLR.AMK@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,272 +141,284 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Mar 18, 2024 at 04:43:38PM +0100, Marco Elver wrote:
-> On Mon, 18 Mar 2024 at 11:01, Marco Elver <elver@google.com> wrote:
-> >
-> > On Sun, 17 Mar 2024 at 22:55, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > >
-> > > On Fri, Mar 08, 2024 at 02:31:53PM -0800, Paul E. McKenney wrote:
-> > > > On Fri, Mar 08, 2024 at 11:02:28PM +0100, Marco Elver wrote:
-> > > > > On Fri, 8 Mar 2024 at 22:41, Paul E. McKenney <paulmck@kernel.org> wrote:
-> > > > > >
-> > > > > > Tasks Trace RCU needs a single-byte cmpxchg(), but no such thing exists.
-> > > > >
-> > > > > Because not all architectures support 1-byte cmpxchg?
-> > > > > What prevents us from implementing it?
-> > > >
-> > > > Nothing that I know of, but I didn't want to put up with the KCSAN report
-> > > > in the interim.
-> > >
-> > > And here is a lightly tested patch to emulate one-byte and two-byte
-> > > cmpxchg() for architectures that do not support it.  This is just the
-> > > emulation, and would be followed up with patches to make the relevant
-> > > architectures make use of it.
-> > >
-> > > The one-byte emulation has been lightly tested on x86.
-> > >
-> > > Thoughts?
-> > >
-> > >                                                         Thanx, Paul
-> > >
-> > > ------------------------------------------------------------------------
-> > >
-> > > commit d72e54166b56d8b373676e1e92a426a07d53899a
-> > > Author: Paul E. McKenney <paulmck@kernel.org>
-> > > Date:   Sun Mar 17 14:44:38 2024 -0700
-> > >
-> > >     lib: Add one-byte and two-byte cmpxchg() emulation functions
-> > >
-> > >     Architectures are required to provide four-byte cmpxchg() and 64-bit
-> > >     architectures are additionally required to provide eight-byte cmpxchg().
-> > >     However, there are cases where one-byte and two-byte cmpxchg()
-> > >     would be extremely useful.  Therefore, provide cmpxchg_emu_u8() and
-> > >     cmpxchg_emu_u16() that emulated one-byte and two-byte cmpxchg() in terms
-> > >     of four-byte cmpxchg().
-> > >
-> > >     Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-> > >     Cc: Marco Elver <elver@google.com>
-> > >     Cc: Andrew Morton <akpm@linux-foundation.org>
-> > >     Cc: Thomas Gleixner <tglx@linutronix.de>
-> > >     Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-> > >     Cc: Douglas Anderson <dianders@chromium.org>
-> > >     Cc: Petr Mladek <pmladek@suse.com>
-> > >     Cc: <linux-arch@vger.kernel.org>
-> > >
-> > > diff --git a/arch/Kconfig b/arch/Kconfig
-> > > index 154f994547632..eef11e9918ec7 100644
-> > > --- a/arch/Kconfig
-> > > +++ b/arch/Kconfig
-> > > @@ -1506,4 +1506,7 @@ config FUNCTION_ALIGNMENT
-> > >         default 4 if FUNCTION_ALIGNMENT_4B
-> > >         default 0
-> > >
-> > > +config ARCH_NEED_CMPXCHG_1_2_EMU
-> > > +       bool
-> > > +
-> > >  endmenu
-> > > diff --git a/include/linux/cmpxchg-emu.h b/include/linux/cmpxchg-emu.h
-> > > new file mode 100644
-> > > index 0000000000000..fee8171fa05eb
-> > > --- /dev/null
-> > > +++ b/include/linux/cmpxchg-emu.h
-> > > @@ -0,0 +1,16 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > > +/*
-> > > + * Emulated 1-byte and 2-byte cmpxchg operations for architectures
-> > > + * lacking direct support for these sizes.  These are implemented in terms
-> > > + * of 4-byte cmpxchg operations.
-> > > + *
-> > > + * Copyright (C) 2024 Paul E. McKenney.
-> > > + */
-> > > +
-> > > +#ifndef __LINUX_CMPXCHG_EMU_H
-> > > +#define __LINUX_CMPXCHG_EMU_H
-> > > +
-> > > +uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new);
-> > > +uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new);
-> > > +
-> > > +#endif /* __LINUX_CMPXCHG_EMU_H */
-> > > diff --git a/lib/Makefile b/lib/Makefile
-> > > index 6b09731d8e619..fecd7b8c09cbd 100644
-> > > --- a/lib/Makefile
-> > > +++ b/lib/Makefile
-> > > @@ -238,6 +238,7 @@ obj-$(CONFIG_FUNCTION_ERROR_INJECTION) += error-inject.o
-> > >  lib-$(CONFIG_GENERIC_BUG) += bug.o
-> > >
-> > >  obj-$(CONFIG_HAVE_ARCH_TRACEHOOK) += syscall.o
-> > > +obj-$(CONFIG_ARCH_NEED_CMPXCHG_1_2_EMU) += cmpxchg-emu.o
-> >
-> > Since you add instrumentation explicitly, we need to suppress
-> > instrumentation somehow. For the whole file this can be done with:
-> >
-> > KCSAN_SANITIZE_cmpxchg-emu.o := n
-> 
-> Hrm, I recall this doesn't actually work as-is because it also
-> disables instrument_read_write() instrumentation.
-> 
-> So I think the most reliable would be to use data_race() after all.
-> It'll be a bit slower because of double-instrumenting, but I think
-> that's not a major concern with an instrumented build anyway.
+syzbot has found a reproducer for the following issue on:
 
-And I have added data_race(), thank you!
+HEAD commit:    35c3e2791756 Revert "net: Re-use and set mono_delivery_tim..
+git tree:       net
+console output: https://syzkaller.appspot.com/x/log.txt?x=10569181180000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6fb1be60a193d440
+dashboard link: https://syzkaller.appspot.com/bug?extid=8983d6d4f7df556be565
+compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13d9fa4e180000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=137afac9180000
 
-> > Note, since you use cmpxchg, which pulls in its own
-> > instrument_read_write(), we can't use a function attribute (like
-> > __no_kcsan) if the whole-file no-instrumentation seems like overkill.
-> > Alternatively the cmpxchg could be wrapped into a data_race() (like
-> > your original RCU use case was doing).
-> >
-> > But I think "KCSAN_SANITIZE_cmpxchg-emu.o := n" would be my preferred way.
-> >
-> > With the explicit "instrument_read_write()" also note that this would
-> > do double-instrumentation with other sanitizers (KASAN, KMSAN). But I
-> > think we actually want to instrument the whole real access with those
-> > tools - would it be bad if we accessed some memory out-of-bounds, but
-> > that memory isn't actually used? I don't have a clear answer to that.
-> >
-> > Also, it might be useful to have an alignment check somewhere, because
-> > otherwise we end up with split atomic accesses (or whatever other bad
-> > thing the given arch does if that happens).
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/26b55a26fc12/disk-35c3e279.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/6f39fa55c828/vmlinux-35c3e279.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/e1e0501539e6/bzImage-35c3e279.xz
 
-Excellent point, added.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+8983d6d4f7df556be565@syzkaller.appspotmail.com
 
-I also fixed an embarrassing pointer-arithmetic bug which the act of
-coding the alignment check uncovered, so two for one!  ;-)
+=====================================================
+WARNING: HARDIRQ-safe -> HARDIRQ-unsafe lock order detected
+6.8.0-syzkaller-05228-g35c3e2791756 #0 Not tainted
+-----------------------------------------------------
+rcu_preempt/16 [HC0[0]:SC0[2]:HE0:SE0] is trying to acquire:
+ffff888021c65020 (&htab->buckets[i].lock){+...}-{2:2}, at: spin_lock_bh include/linux/spinlock.h:356 [inline]
+ffff888021c65020 (&htab->buckets[i].lock){+...}-{2:2}, at: sock_hash_delete_elem+0xb0/0x300 net/core/sock_map.c:939
 
-Please see below for a patch to the patched code.
+and this task is already holding:
+ffff8880b952a758
+ (&base->lock){-.-.}-{2:2}, at: lock_timer_base+0x112/0x240 kernel/time/timer.c:1051
+which would create a new lock dependency:
+ (&base->lock){-.-.}-{2:2} -> (
+&htab->buckets[i].lock){+...}-{2:2}
 
-							Thanx, Paul
+but this new dependency connects a HARDIRQ-irq-safe lock:
+ (&base->lock){-.-.}-{2:2}
 
-> > Thanks,
-> > -- Marco
-> >
-> > >  obj-$(CONFIG_DYNAMIC_DEBUG_CORE) += dynamic_debug.o
-> > >  #ensure exported functions have prototypes
-> > > diff --git a/lib/cmpxchg-emu.c b/lib/cmpxchg-emu.c
-> > > new file mode 100644
-> > > index 0000000000000..508b55484c2b6
-> > > --- /dev/null
-> > > +++ b/lib/cmpxchg-emu.c
-> > > @@ -0,0 +1,68 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > > +/*
-> > > + * Emulated 1-byte and 2-byte cmpxchg operations for architectures
-> > > + * lacking direct support for these sizes.  These are implemented in terms
-> > > + * of 4-byte cmpxchg operations.
-> > > + *
-> > > + * Copyright (C) 2024 Paul E. McKenney.
-> > > + */
-> > > +
-> > > +#include <linux/types.h>
-> > > +#include <linux/export.h>
-> > > +#include <linux/instrumented.h>
-> > > +#include <linux/atomic.h>
-> > > +#include <asm-generic/rwonce.h>
-> > > +
-> > > +union u8_32 {
-> > > +       u8 b[4];
-> > > +       u32 w;
-> > > +};
-> > > +
-> > > +/* Emulate one-byte cmpxchg() in terms of 4-byte cmpxchg. */
-> > > +uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new)
-> > > +{
-> > > +       u32 *p32 = (u32 *)(((uintptr_t)p) & ~0x3);
-> > > +       int i = ((uintptr_t)p) & 0x3;
-> > > +       union u8_32 old32;
-> > > +       union u8_32 new32;
-> > > +       u32 ret;
-> > > +
-> > > +       old32.w = READ_ONCE(*p32);
-> > > +       do {
-> > > +               if (old32.b[i] != old)
-> > > +                       return old32.b[i];
-> > > +               new32.w = old32.w;
-> > > +               new32.b[i] = new;
-> > > +               instrument_atomic_read_write(p, 1);
-> > > +               ret = cmpxchg(p32, old32.w, new32.w);
-> > > +       } while (ret != old32.w);
-> > > +       return old;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(cmpxchg_emu_u8);
-> > > +
-> > > +union u16_32 {
-> > > +       u16 h[2];
-> > > +       u32 w;
-> > > +};
-> > > +
-> > > +/* Emulate two-byte cmpxchg() in terms of 4-byte cmpxchg. */
-> > > +uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new)
-> > > +{
-> > > +       u32 *p32 = (u32 *)(((uintptr_t)p) & ~0x1);
-> > > +       int i = ((uintptr_t)p) & 0x1;
-> > > +       union u16_32 old32;
-> > > +       union u16_32 new32;
-> > > +       u32 ret;
-> > > +
-> > > +       old32.w = READ_ONCE(*p32);
-> > > +       do {
-> > > +               if (old32.h[i] != old)
-> > > +                       return old32.h[i];
-> > > +               new32.w = old32.w;
-> > > +               new32.h[i] = new;
-> > > +               instrument_atomic_read_write(p, 2);
-> > > +               ret = cmpxchg(p32, old32.w, new32.w);
-> > > +       } while (ret != old32.w);
-> > > +       return old;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(cmpxchg_emu_u16);
+... which became HARDIRQ-irq-safe at:
+  lock_acquire+0x1e4/0x530 kernel/locking/lockdep.c:5754
+  __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+  _raw_spin_lock_irqsave+0xd5/0x120 kernel/locking/spinlock.c:162
+  lock_timer_base+0x112/0x240 kernel/time/timer.c:1051
+  add_timer_on+0x1e5/0x5c0 kernel/time/timer.c:1366
+  handle_irq_event_percpu kernel/irq/handle.c:195 [inline]
+  handle_irq_event+0xad/0x1f0 kernel/irq/handle.c:210
+  handle_level_irq+0x3c5/0x6e0 kernel/irq/chip.c:648
+  generic_handle_irq_desc include/linux/irqdesc.h:161 [inline]
+  handle_irq arch/x86/kernel/irq.c:238 [inline]
+  __common_interrupt+0x13a/0x230 arch/x86/kernel/irq.c:257
+  common_interrupt+0xa5/0xd0 arch/x86/kernel/irq.c:247
+  asm_common_interrupt+0x26/0x40 arch/x86/include/asm/idtentry.h:693
+  __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:152 [inline]
+  _raw_spin_unlock_irqrestore+0xd8/0x140 kernel/locking/spinlock.c:194
+  __setup_irq+0x1277/0x1cf0 kernel/irq/manage.c:1818
+  request_threaded_irq+0x2ab/0x380 kernel/irq/manage.c:2202
+  request_irq include/linux/interrupt.h:168 [inline]
+  setup_default_timer_irq+0x25/0x60 arch/x86/kernel/time.c:70
+  x86_late_time_init+0x66/0xc0 arch/x86/kernel/time.c:94
+  start_kernel+0x3f3/0x500 init/main.c:1039
+  x86_64_start_reservations+0x2a/0x30 arch/x86/kernel/head64.c:509
+  x86_64_start_kernel+0x99/0xa0 arch/x86/kernel/head64.c:490
+  common_startup_64+0x13e/0x147
 
-diff --git a/lib/cmpxchg-emu.c b/lib/cmpxchg-emu.c
-index 508b55484c2b6..b904f954dd4fc 100644
---- a/lib/cmpxchg-emu.c
-+++ b/lib/cmpxchg-emu.c
-@@ -11,6 +11,8 @@
- #include <linux/export.h>
- #include <linux/instrumented.h>
- #include <linux/atomic.h>
-+#include <linux/panic.h>
-+#include <linux/bug.h>
- #include <asm-generic/rwonce.h>
- 
- union u8_32 {
-@@ -34,7 +36,7 @@ uintptr_t cmpxchg_emu_u8(volatile u8 *p, uintptr_t old, uintptr_t new)
- 		new32.w = old32.w;
- 		new32.b[i] = new;
- 		instrument_atomic_read_write(p, 1);
--		ret = cmpxchg(p32, old32.w, new32.w);
-+		ret = data_race(cmpxchg(p32, old32.w, new32.w));
- 	} while (ret != old32.w);
- 	return old;
+to a HARDIRQ-irq-unsafe lock:
+ (&htab->buckets[i].lock){+...}-{2:2}
+
+... which became HARDIRQ-irq-unsafe at:
+...
+  lock_acquire+0x1e4/0x530 kernel/locking/lockdep.c:5754
+  __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
+  _raw_spin_lock_bh+0x35/0x50 kernel/locking/spinlock.c:178
+  spin_lock_bh include/linux/spinlock.h:356 [inline]
+  sock_hash_free+0x164/0x820 net/core/sock_map.c:1154
+  bpf_map_free_deferred+0xe6/0x110 kernel/bpf/syscall.c:734
+  process_one_work kernel/workqueue.c:3254 [inline]
+  process_scheduled_works+0xa00/0x1770 kernel/workqueue.c:3335
+  worker_thread+0x86d/0xd70 kernel/workqueue.c:3416
+  kthread+0x2f0/0x390 kernel/kthread.c:388
+  ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+  ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:243
+
+other info that might help us debug this:
+
+ Possible interrupt unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&htab->buckets[i].lock
+);
+                               local_irq_disable();
+                               lock(&base->lock);
+                               lock(&htab->buckets[i].lock
+);
+  <Interrupt>
+    lock(&base->lock);
+
+ *** DEADLOCK ***
+
+2 locks held by rcu_preempt/16:
+ #0: 
+ffff8880b952a758
+ (&base->lock){-.-.}-{2:2}, at: lock_timer_base+0x112/0x240 kernel/time/timer.c:1051
+ #1: ffffffff8e131920
+ (rcu_read_lock
+){....}-{1:2}, at: rcu_lock_acquire include/linux/rcupdate.h:298 [inline]
+){....}-{1:2}, at: rcu_read_lock include/linux/rcupdate.h:750 [inline]
+){....}-{1:2}, at: __bpf_trace_run kernel/trace/bpf_trace.c:2380 [inline]
+){....}-{1:2}, at: bpf_trace_run2+0x114/0x420 kernel/trace/bpf_trace.c:2420
+
+the dependencies between HARDIRQ-irq-safe lock and the holding lock:
+-> (&base->lock){-.-.}-{2:2} {
+   IN-HARDIRQ-W at:
+                    lock_acquire+0x1e4/0x530 kernel/locking/lockdep.c:5754
+                    __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+                    _raw_spin_lock_irqsave+0xd5/0x120 kernel/locking/spinlock.c:162
+                    lock_timer_base+0x112/0x240 kernel/time/timer.c:1051
+                    add_timer_on+0x1e5/0x5c0 kernel/time/timer.c:1366
+                    handle_irq_event_percpu kernel/irq/handle.c:195 [inline]
+                    handle_irq_event+0xad/0x1f0 kernel/irq/handle.c:210
+                    handle_level_irq+0x3c5/0x6e0 kernel/irq/chip.c:648
+                    generic_handle_irq_desc include/linux/irqdesc.h:161 [inline]
+                    handle_irq arch/x86/kernel/irq.c:238 [inline]
+                    __common_interrupt+0x13a/0x230 arch/x86/kernel/irq.c:257
+                    common_interrupt+0xa5/0xd0 arch/x86/kernel/irq.c:247
+                    asm_common_interrupt+0x26/0x40 arch/x86/include/asm/idtentry.h:693
+                    __raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:152 [inline]
+                    _raw_spin_unlock_irqrestore+0xd8/0x140 kernel/locking/spinlock.c:194
+                    __setup_irq+0x1277/0x1cf0 kernel/irq/manage.c:1818
+                    request_threaded_irq+0x2ab/0x380 kernel/irq/manage.c:2202
+                    request_irq include/linux/interrupt.h:168 [inline]
+                    setup_default_timer_irq+0x25/0x60 arch/x86/kernel/time.c:70
+                    x86_late_time_init+0x66/0xc0 arch/x86/kernel/time.c:94
+                    start_kernel+0x3f3/0x500 init/main.c:1039
+                    x86_64_start_reservations+0x2a/0x30 arch/x86/kernel/head64.c:509
+                    x86_64_start_kernel+0x99/0xa0 arch/x86/kernel/head64.c:490
+                    common_startup_64+0x13e/0x147
+   IN-SOFTIRQ-W at:
+                    lock_acquire+0x1e4/0x530 kernel/locking/lockdep.c:5754
+                    __raw_spin_lock_irq include/linux/spinlock_api_smp.h:119 [inline]
+                    _raw_spin_lock_irq+0xd3/0x120 kernel/locking/spinlock.c:170
+                    __run_timer_base+0x103/0x8e0 kernel/time/timer.c:2418
+                    run_timer_base kernel/time/timer.c:2428 [inline]
+                    run_timer_softirq+0x67/0x170 kernel/time/timer.c:2436
+                    __do_softirq+0x2be/0x943 kernel/softirq.c:554
+                    invoke_softirq kernel/softirq.c:428 [inline]
+                    __irq_exit_rcu+0xf2/0x1c0 kernel/softirq.c:633
+                    irq_exit_rcu+0x9/0x30 kernel/softirq.c:645
+                    common_interrupt+0xaa/0xd0 arch/x86/kernel/irq.c:247
+                    asm_common_interrupt+0x26/0x40 arch/x86/include/asm/idtentry.h:693
+                    console_flush_all+0x9cd/0xec0
+                    console_unlock+0x13b/0x4d0 kernel/printk/printk.c:3025
+                    vprintk_emit+0x509/0x720 kernel/printk/printk.c:2292
+                    _printk+0xd5/0x120 kernel/printk/printk.c:2317
+                    cpu_select_mitigations+0x3c/0xa0 arch/x86/kernel/cpu/bugs.c:148
+                    arch_cpu_finalize_init+0x20/0xa0 arch/x86/kernel/cpu/common.c:2325
+                    start_kernel+0x402/0x500 init/main.c:1043
+                    x86_64_start_reservations+0x2a/0x30 arch/x86/kernel/head64.c:509
+                    x86_64_start_kernel+0x99/0xa0 arch/x86/kernel/head64.c:490
+                    common_startup_64+0x13e/0x147
+   INITIAL USE
+ at:
+                   lock_acquire+0x1e4/0x530 kernel/locking/lockdep.c:5754
+                   __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
+                   _raw_spin_lock_irqsave+0xd5/0x120 kernel/locking/spinlock.c:162
+                   lock_timer_base+0x112/0x240 kernel/time/timer.c:1051
+                   __mod_timer+0x1ca/0xeb0 kernel/time/timer.c:1132
+                   queue_delayed_work_on+0x15a/0x260 kernel/workqueue.c:2595
+                   queue_delayed_work include/linux/workqueue.h:620 [inline]
+                   crng_reseed+0xe7/0x220 drivers/char/random.c:258
+                   random_init+0x1a9/0x300 drivers/char/random.c:901
+                   start_kernel+0x253/0x500 init/main.c:991
+                   x86_64_start_reservations+0x2a/0x30 arch/x86/kernel/head64.c:509
+                   x86_64_start_kernel+0x99/0xa0 arch/x86/kernel/head64.c:490
+                   common_startup_64+0x13e/0x147
  }
-@@ -48,12 +50,13 @@ union u16_32 {
- /* Emulate two-byte cmpxchg() in terms of 4-byte cmpxchg. */
- uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new)
- {
--	u32 *p32 = (u32 *)(((uintptr_t)p) & ~0x1);
--	int i = ((uintptr_t)p) & 0x1;
-+	u32 *p32 = (u32 *)(((uintptr_t)p) & ~0x3);
-+	int i = (((uintptr_t)p) & 0x2) / 2;
- 	union u16_32 old32;
- 	union u16_32 new32;
- 	u32 ret;
- 
-+	WARN_ON_ONCE(((uintptr_t)p) & 0x1);
- 	old32.w = READ_ONCE(*p32);
- 	do {
- 		if (old32.h[i] != old)
-@@ -61,7 +64,7 @@ uintptr_t cmpxchg_emu_u16(volatile u16 *p, uintptr_t old, uintptr_t new)
- 		new32.w = old32.w;
- 		new32.h[i] = new;
- 		instrument_atomic_read_write(p, 2);
--		ret = cmpxchg(p32, old32.w, new32.w);
-+		ret = data_race(cmpxchg(p32, old32.w, new32.w));
- 	} while (ret != old32.w);
- 	return old;
+ ... key      at: [<ffffffff945023c0>] init_timer_cpu.__key+0x0/0x20
+
+the dependencies between the lock to be acquired
+ and HARDIRQ-irq-unsafe lock:
+->
+ (&htab->buckets[i].lock
+){+...}-{2:2} {
+   HARDIRQ-ON-W at:
+                    lock_acquire+0x1e4/0x530 kernel/locking/lockdep.c:5754
+                    __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
+                    _raw_spin_lock_bh+0x35/0x50 kernel/locking/spinlock.c:178
+                    spin_lock_bh include/linux/spinlock.h:356 [inline]
+                    sock_hash_free+0x164/0x820 net/core/sock_map.c:1154
+                    bpf_map_free_deferred+0xe6/0x110 kernel/bpf/syscall.c:734
+                    process_one_work kernel/workqueue.c:3254 [inline]
+                    process_scheduled_works+0xa00/0x1770 kernel/workqueue.c:3335
+                    worker_thread+0x86d/0xd70 kernel/workqueue.c:3416
+                    kthread+0x2f0/0x390 kernel/kthread.c:388
+                    ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+                    ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:243
+   INITIAL USE
+ at:
+                   lock_acquire+0x1e4/0x530 kernel/locking/lockdep.c:5754
+                   __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
+                   _raw_spin_lock_bh+0x35/0x50 kernel/locking/spinlock.c:178
+                   spin_lock_bh include/linux/spinlock.h:356 [inline]
+                   sock_hash_free+0x164/0x820 net/core/sock_map.c:1154
+                   bpf_map_free_deferred+0xe6/0x110 kernel/bpf/syscall.c:734
+                   process_one_work kernel/workqueue.c:3254 [inline]
+                   process_scheduled_works+0xa00/0x1770 kernel/workqueue.c:3335
+                   worker_thread+0x86d/0xd70 kernel/workqueue.c:3416
+                   kthread+0x2f0/0x390 kernel/kthread.c:388
+                   ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+                   ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:243
  }
+ ... key      at: [<ffffffff94882300>] sock_hash_alloc.__key+0x0/0x20
+ ... acquired at:
+   lock_acquire+0x1e4/0x530 kernel/locking/lockdep.c:5754
+   __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
+   _raw_spin_lock_bh+0x35/0x50 kernel/locking/spinlock.c:178
+   spin_lock_bh include/linux/spinlock.h:356 [inline]
+   sock_hash_delete_elem+0xb0/0x300 net/core/sock_map.c:939
+   bpf_prog_2c29ac5cdc6b1842+0x42/0x46
+   bpf_dispatcher_nop_func include/linux/bpf.h:1234 [inline]
+   __bpf_prog_run include/linux/filter.h:657 [inline]
+   bpf_prog_run include/linux/filter.h:664 [inline]
+   __bpf_trace_run kernel/trace/bpf_trace.c:2381 [inline]
+   bpf_trace_run2+0x204/0x420 kernel/trace/bpf_trace.c:2420
+   trace_timer_start include/trace/events/timer.h:52 [inline]
+   enqueue_timer+0x396/0x550 kernel/time/timer.c:663
+   internal_add_timer kernel/time/timer.c:688 [inline]
+   __mod_timer+0xa0e/0xeb0 kernel/time/timer.c:1183
+   schedule_timeout+0x1b9/0x310 kernel/time/timer.c:2571
+   rcu_gp_fqs_loop+0x2df/0x1370 kernel/rcu/tree.c:1663
+   rcu_gp_kthread+0xa7/0x3b0 kernel/rcu/tree.c:1862
+   kthread+0x2f0/0x390 kernel/kthread.c:388
+   ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+   ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:243
+
+
+stack backtrace:
+CPU: 1 PID: 16 Comm: rcu_preempt Not tainted 6.8.0-syzkaller-05228-g35c3e2791756 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/29/2024
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0x1e7/0x2e0 lib/dump_stack.c:106
+ print_bad_irq_dependency kernel/locking/lockdep.c:2626 [inline]
+ check_irq_usage kernel/locking/lockdep.c:2865 [inline]
+ check_prev_add kernel/locking/lockdep.c:3138 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3253 [inline]
+ validate_chain+0x4dc7/0x58e0 kernel/locking/lockdep.c:3869
+ __lock_acquire+0x1346/0x1fd0 kernel/locking/lockdep.c:5137
+ lock_acquire+0x1e4/0x530 kernel/locking/lockdep.c:5754
+ __raw_spin_lock_bh include/linux/spinlock_api_smp.h:126 [inline]
+ _raw_spin_lock_bh+0x35/0x50 kernel/locking/spinlock.c:178
+ spin_lock_bh include/linux/spinlock.h:356 [inline]
+ sock_hash_delete_elem+0xb0/0x300 net/core/sock_map.c:939
+ bpf_prog_2c29ac5cdc6b1842+0x42/0x46
+ bpf_dispatcher_nop_func include/linux/bpf.h:1234 [inline]
+ __bpf_prog_run include/linux/filter.h:657 [inline]
+ bpf_prog_run include/linux/filter.h:664 [inline]
+ __bpf_trace_run kernel/trace/bpf_trace.c:2381 [inline]
+ bpf_trace_run2+0x204/0x420 kernel/trace/bpf_trace.c:2420
+ trace_timer_start include/trace/events/timer.h:52 [inline]
+ enqueue_timer+0x396/0x550 kernel/time/timer.c:663
+ internal_add_timer kernel/time/timer.c:688 [inline]
+ __mod_timer+0xa0e/0xeb0 kernel/time/timer.c:1183
+ schedule_timeout+0x1b9/0x310 kernel/time/timer.c:2571
+ rcu_gp_fqs_loop+0x2df/0x1370 kernel/rcu/tree.c:1663
+ rcu_gp_kthread+0xa7/0x3b0 kernel/rcu/tree.c:1862
+ kthread+0x2f0/0x390 kernel/kthread.c:388
+ ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:147
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:243
+ </TASK>
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/5e6fdf1d-e84c-463c-b47b-f42500930b28%40paulmck-laptop.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/000000000000901b1c0614010091%40google.com.
