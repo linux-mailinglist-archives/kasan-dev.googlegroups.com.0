@@ -1,115 +1,117 @@
-Return-Path: <kasan-dev+bncBCMIFTP47IJBBNUV5CXQMGQE5ZFACSQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIFTP47IJBBN4V5CXQMGQEMDQGMJQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb37.google.com (mail-yb1-xb37.google.com [IPv6:2607:f8b0:4864:20::b37])
-	by mail.lfdr.de (Postfix) with ESMTPS id D703F8806F9
-	for <lists+kasan-dev@lfdr.de>; Tue, 19 Mar 2024 22:59:19 +0100 (CET)
-Received: by mail-yb1-xb37.google.com with SMTP id 3f1490d57ef6-dcc58cddb50sf9727566276.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 19 Mar 2024 14:59:19 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1710885558; cv=pass;
+Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC16C8806FA
+	for <lists+kasan-dev@lfdr.de>; Tue, 19 Mar 2024 22:59:21 +0100 (CET)
+Received: by mail-pf1-x440.google.com with SMTP id d2e1a72fcca58-6e356790f94sf4120639b3a.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 19 Mar 2024 14:59:21 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1710885560; cv=pass;
         d=google.com; s=arc-20160816;
-        b=R1GVWFyGvPxKNrYlB7EThILWYtuChK3w9bzNysvLDMsMFPSpHeZUJXb9X7R4b1trtN
-         y4ldnBey8GSuBZ3pFRvMtEcXOL2D5sX2H6XELgKvvk1PRo6pHdL94pWhZYdo8I8Q0k2b
-         fHCd5ili25ovttEvK/64vWcu2iQOYZFvuINM2nqOCA3AxP4z9mB/lTLO84JRjSDVPtQ8
-         DdGPQb2nG13v8EGJMwOcEV/ZeZEArLot4pS61WBDmIyp0ttGjXTpwHZ5JLgKuRMN8Gmo
-         stIzj4Q1hYAu2dWD0idJCv6GoO/pBQ4vQtKFICDUJdOwxH6+RlUM9mU9ZhmEFbU2vGf3
-         iorw==
+        b=oRJARW1WlI5Cmgn8d4kb3Ewe6bAa4dkJLs3gMGlZVxrkv5tTjRGPfzTIBL2gmVuXSz
+         lYSULcliq/cea36Ysh88nLExmwShvCIMEjB6+bmzeWOuTHgRydZk3BZvxn8iXw2ikCMt
+         GIEAeRGPv+IFDI+aU1U3ZBBAdxj9yjrf60QbgBhie0AY8w+Q5EvZVxXNIuoKMdgDsI26
+         o0Pp6TIv/gjyTlU4ugwPL+Rl/kiNt5jwR5kPAkUxzsucit6/j72qSxI0ImDFSYbxvV0q
+         x5iu6rITk4XQ3GOBVhPPbG5xANsIx/FBxl0BJVGnQFFVcI5VbX26K1LZn4yPbUPrtZRc
+         +eUQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=eP+epYpzUPKyqyST6rXc4nbiMclHhWJ/bO7ofEuOpHw=;
-        fh=eA20SBaNR1H0VG9NYdY9e7id4TGKg3L+9jDVFwjwnVg=;
-        b=ccUJ+vXR/BsOYaaTmZwvtQMmETr1n/WI8ah1E4KVXV0MvlE1gDQ+Px/ueiMBcA6fVL
-         PtZ0uSE575RlU/7g0S0u88ex5kDDr7XOgRb9qnN9H05r8SbPsjwpSBXLQgfCb7q++Xw9
-         8IetHeW7MY4c8I4Xk6s1GhcQiZC0Ycn38gO8lKMTlOkKE6fx7JFEUXu4DfVTLyBBrBCJ
-         17rIL9SU16NU5tNVzh0LHn4GuoOTi9ZBSSHhS6ZmGnhncrs29giAIkY7a7V/nUgVcLJ4
-         R6jdJAg8x75N+cQ8v1xuVzNmYUgl/cMLIKHa1+ZuoGtwFFjdytqM0jP5Lzsp67JggVKA
-         Scww==;
+         :list-id:mailing-list:precedence:reply-to:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=ZZR3YvWQ6l91h67ic2a8G5jg/it915+rarr2yyM/SEs=;
+        fh=vdSpaG9w2R5CCDlajSICW7Gmq1Kp20W4V+ISp3OIPYE=;
+        b=J58JQgli/cC/F/aCJyS6N48jGoq8KSF1/ThoPz0DpOHrq8WdvfJ0osgGFuzpOgxzug
+         WbaOId29zTh7j+OWrm32/49/KC/FH+rrU7lLSA+9vx7iGhN1fZm8TJBHrrWZ7EZW7hI/
+         sXKFFfUNqZonYQG8W9Jf/h8ONNz7HPBzPe9CgSZeCVSkh8z2qf+aFBXduLMe2lQi+7MR
+         6XFN3AFsNo8RWfU7Xi94Jx2fCbloF4nQeyJz99osv2MYzEAUnvg2WkgMAgjuJeSkswcM
+         43PfXNp7nlFE8oe7eSIJCmVmZ1KgGLDcJeyeYWe7rXPhf/8YodvnRmUhlbxcm3BYHJhU
+         l6uw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@sifive.com header.s=google header.b=aODDGSiX;
-       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dkim=pass header.i=@sifive.com header.s=google header.b=hzO1ahTH;
+       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::433 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1710885558; x=1711490358; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1710885560; x=1711490360; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eP+epYpzUPKyqyST6rXc4nbiMclHhWJ/bO7ofEuOpHw=;
-        b=wvhQMShQnKsVVO0+oKek8SzpBZVJoCZB85MWl3TkAEBC9b9VmBp4t2VVHIm1NakHBw
-         7v2ocNHzWfTFSNEAR8iqnrSy9aqyrnkDR0FaWmQYcFa/6tdV0g38l3dHJAPQDb5Uv4Vr
-         sGEDT+lES5+y68yGUhNbyARbsBQxXJ33N9MfMNmU3pWNvcQcPg/DqfBukN7solWQcGKq
-         yDQryQmZtO/I+N6Vdv90whB81GiNpPxYxl2YUAUn8i21Z3X5LEeaQvX1g4l8H+ehQOj1
-         FimC9QkCsLDBI8CfEFIqK0V4rcLawjdPFlmdowUg2pa2V85G+D8c1rgx9F7rOz3axnFd
-         dJhw==
+         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ZZR3YvWQ6l91h67ic2a8G5jg/it915+rarr2yyM/SEs=;
+        b=vf9azFTHGaduCXO0BwfOQQzb9u+tZ91dF8KKmTR1hKGWcFjdloNK5GRJ+6hZ48yrFO
+         j+7BJ55thuU9acdaNunKHAeQRrWHW89iXk/389Ga2aYtdD9OKAwPxMoRBipJKKceL9E4
+         MbvGwWd1cClvi899JkiBs0AWrjSapoG2PVRVNY3+xVgdD4u1ooAl0U+bcmONwbq6LF+q
+         ubuc9pXSioZOr/0OPzeFYzMBGqis2WM1LkVt0sd5n7adCz18n0Ey+omxMvtw033B5a0Y
+         Azx7/HJAyAhLtJQbmjY26yAl1c3IZserfor5usoSKUK6dyorZEnJpDk9wmrq1SwcUY5v
+         GXmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710885558; x=1711490358;
+        d=1e100.net; s=20230601; t=1710885560; x=1711490360;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=eP+epYpzUPKyqyST6rXc4nbiMclHhWJ/bO7ofEuOpHw=;
-        b=e16c2NbT9pwsMOhCdKq7yKA60giHaCXHHU+aiFT0deipg+BtQI4CYjy20C+46kpZR6
-         RJRn5qgxxf9Q7wZa3QsEzkEXSscu1vVEJxfFD26JS04nE6kk5SGno9gqwBitV5v6sQW6
-         C1HhcwL2bI0GIu9a+86f4W7K59BIeaDHq4ax5Ks/PQayAMbRRilP5ggN7B4r4bMi7uYA
-         GXJIoNFlmUb04Ztf8+fjv66LN11Plndao5pVEuLXz1ySZcP+VyhLZlksIKAnVFU9R25j
-         IDbswPLM/mRbN7FlWoWHSWrMifYrlx1fyzjJHnRVfgUinl/FghFfAjUUWT8U3xPrSyjI
-         Il5A==
-X-Forwarded-Encrypted: i=2; AJvYcCWfsH3skHT14ZzGrI623pXGWjrdhXl9yolttcR8b9LhRN2yjwgPaaMLHCuAgtKNw0iseO0i0zuo820ZYlGQKhSp7XRGdgQC6g==
-X-Gm-Message-State: AOJu0Yz/M0V4Kqq4zGdIij/FBn8vEj/jJWiQERyzmCtjelD6iZvym76N
-	esX6pc2/wGGbZLnYDqbqAM+YwLP+bL4jDMt1WKLc+o6kOAATiPzW
-X-Google-Smtp-Source: AGHT+IHt+RBypVDPHpQcXlqmS3lTaMzmHHSjMY/1dTJPkK/ZHhJgc6hWvbFrHw9W56I31DNYWUBnQA==
-X-Received: by 2002:a5b:24f:0:b0:dcf:2b44:f38d with SMTP id g15-20020a5b024f000000b00dcf2b44f38dmr218969ybp.49.1710885558393;
-        Tue, 19 Mar 2024 14:59:18 -0700 (PDT)
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZZR3YvWQ6l91h67ic2a8G5jg/it915+rarr2yyM/SEs=;
+        b=PgVVtajND+fIGaFK+24dvMFESlxcwBmw2dqKsFtuODCWFZ0D35OduHjQaQtOY4k+Ya
+         YvLH0t9rDFlxK/CiSinvVWaI0+mdY0bSW+Gu+wSC8uPSaV5oLO5nLI0hw50skqOWruoz
+         ZqtYwxgk3Exe7yw5dIabfMTti0sapCXdtb+/qahGNX1U3MEjhvYkep6CJLsPEdyrmBTZ
+         t+QaQYVQu7S/uiLmYZz/3d1QKtfoTUpf5/813aAk1tpUeyxMnBpUzeL65D7PiUIjbPtL
+         /QRE3U9bcLX90scr5tdG1RZ6yPq2wp+vdRdISmxLN9mvnFNBxftSARpJtdbIG/LpcpyS
+         SA/g==
+X-Forwarded-Encrypted: i=2; AJvYcCUVa+WIW8srlDZDopmzB0GOxMVkI/vDE9VZdTm6RqJmC5vkvqWXnjXCSCf57+Ng0HiWqX0mVkBOP7evIEdEZils6T8NrV9Tnw==
+X-Gm-Message-State: AOJu0YytwJ9bZC945hUaEOZYTg1vAO+S4qpbOaZN9Mv7KHqL5nwxzIxX
+	Y+i63ax9as8YS7WqftyCsm+LMXVWCZv5MB+oU8NPljj5slRK0x18
+X-Google-Smtp-Source: AGHT+IExWmCrHdgnHarPF0i4ax/J3y7udbb7SYhCVJV9s+r3d2EHGmoh1ccphbjfsIDnAO/3J+Fe4w==
+X-Received: by 2002:a05:6a20:914a:b0:1a3:6954:77d2 with SMTP id x10-20020a056a20914a00b001a3695477d2mr423056pzc.31.1710885559674;
+        Tue, 19 Mar 2024 14:59:19 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:aa4b:0:b0:dc7:4363:dc02 with SMTP id s69-20020a25aa4b000000b00dc74363dc02ls2636085ybi.1.-pod-prod-06-us;
- Tue, 19 Mar 2024 14:59:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXnvaGxqS5n9dpC5snucgBCqGIE1rjfVBITPjZVgDJh+vsrpBuxHRlwIav5QtWJq8Y8ji3hLz6XXjSsRXSU6unqB+AsVIUsqeqwDg==
-X-Received: by 2002:a0d:e28c:0:b0:609:9a17:e937 with SMTP id l134-20020a0de28c000000b006099a17e937mr265435ywe.48.1710885557386;
-        Tue, 19 Mar 2024 14:59:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1710885557; cv=none;
+Received: by 2002:a17:90a:1610:b0:29c:5a19:1c32 with SMTP id
+ n16-20020a17090a161000b0029c5a191c32ls3871276pja.1.-pod-prod-06-us; Tue, 19
+ Mar 2024 14:59:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWTo8UKj9YuYn9Zw1WajnMTNFxoQ2gMrRb2LfdpocWSipnQaci5FDAUQZdF7otdosjs6MveMl2RngrjLuTEjCdVWseRiNGUxzk2rA==
+X-Received: by 2002:a17:902:ed4c:b0:1db:7181:c5ba with SMTP id y12-20020a170902ed4c00b001db7181c5bamr431963plb.62.1710885558577;
+        Tue, 19 Mar 2024 14:59:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1710885558; cv=none;
         d=google.com; s=arc-20160816;
-        b=WRDrTRQ/SE6F6ALV5YCdHXqfk5ofQGC8oLLOSFAcwtujpGfK9vzFEb1jAtiKulfmY5
-         Kxn6zUQyg86uAKtq9tN/o6l3CJ/Xj1ECLnKT+70EyHC6jDPkCn5A+QbTlQn2yZff/ZSt
-         ZjK36qyE3kP4u43ITp9nymQAEnrJT8v2JJtdayyinRdnBRf2W1EchkyOjCJj0w0wjpXD
-         9NTxXEJTgZwDWZrjuhT5r8opILIcdMLXfDnvlkUjkNoUsnrDnd2aYBFm/UnvgfWv7ByS
-         orilKJPyYSTC/tTt3urE6SvHf2fcp7KU+prQPGFrUVfcXGK3/wuf2I90zgARcQTQcJh8
-         bN5Q==
+        b=zTMQ1VqXFtS+ZeIPPy5sFWjTRKw5m3FCw7T3Gt0oYBLtXkquxKpcgmEJZzsP8PDBJG
+         LS0tISJkAHytMxqj+hCs3qYkk1A/A/3XY2SnHMlmQS3JHHgqIl7Cpk8meg1fq3RVZH84
+         3ByP6TfumPImaWowMoeEXqQpXGVo6b12alUwlJvY1NV5h0xV2WWvF0Zg9ayacn+XVboW
+         j/wteqitwjqVf4phYamHFIEb1nt9B7RLyt4dJvkPkf5Kim01lkvjC+c7ZA+CXpn4fWhL
+         Mb1MnRRD8X01grWNpUZJN/+tCYv1nJYhQYyKvXLC8dg2Qa3UTSL5fICHMAyIpprsntnN
+         6fDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=Rmlb8dkFyYxdz94/c3CDo0QI5YbaWEmRF37tY2/vORM=;
-        fh=EN/UEapNsJXrW6HGPHinkBKpebvigLfgXeLmj1B+x8g=;
-        b=i0+uOys8NxqYGMqj5+fAma3fTMJd6pNhLYgjsliu/OQRk0TwnOUj7GniujES2DivVV
-         Xa4RGTTSjYHe/XuXXM/PtRND0o0CLqmMn2GVmVJ0oYkFsBZnnkYp4QA6Vc5I1Cr5n0P/
-         WhKWRLxUKkOQYIhnJgpMRAqXnXG1TDnIKx0WgxrkW6xk0K5jBmyHMSwb7Zx228V2Mwi5
-         avCI8FXYM3+9iCM+Q8vRSoryDbDc0QrgK3A+nMNb9uRBhN0KnnNeH93lxY/wHMwrRU2f
-         EuXKFuaeh+DIk0PB2romKZ611hG1PMZmDSi15QbJeAErg3W8ZXUvCkmJjmaprMGG4llP
-         22Jw==;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=mf8TbChjgkUHpdp7I/ykwc/bJc9eIQRGH4wGpVTxw4U=;
+        fh=R7yw5W9B3WvyDYIPJT1JJ4vaR13ZHcv23NhKx05i2y8=;
+        b=VG4+cqUsxAtGK8Jhvp4uvT9JNGMUcATsUts3jr9CjR64Njo4I8hhPPwvfJZWP34k7f
+         UZmdu8qKqJ5weWjkZ0Zgzh9nAn5p6tOG41s66f0fr/f/jSo3aVpMdm3/xW0R4MN1LTQG
+         pzsI0dcJVOko5wrTPD7TV2LxV8wxnh2ANW+q/pakGkY7VVHqNx8fFuqEbNfFpF/RcuY3
+         Cnxx/+x6g5RYUQzlNxcrKATXVUcRwjTL3SGdNSk7GR47JGwyBeOjXPFyjQlmukiQGxC0
+         soJFkUNkoA6MVS61yIkElYe3lEzRP+Kg1dBqb8tHdAPAeCWmmVosJRTC4KQID4plZf8m
+         IeAQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@sifive.com header.s=google header.b=aODDGSiX;
-       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dkim=pass header.i=@sifive.com header.s=google header.b=hzO1ahTH;
+       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::433 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com. [2607:f8b0:4864:20::42f])
-        by gmr-mx.google.com with ESMTPS id t18-20020a0dea12000000b00609fe86a0a6si1433677ywe.2.2024.03.19.14.59.17
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com. [2607:f8b0:4864:20::433])
+        by gmr-mx.google.com with ESMTPS id e9-20020a170902f10900b001dddaace148si997567plb.7.2024.03.19.14.59.18
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Mar 2024 14:59:17 -0700 (PDT)
-Received-SPF: pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::42f as permitted sender) client-ip=2607:f8b0:4864:20::42f;
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-6da202aa138so3271745b3a.2
-        for <kasan-dev@googlegroups.com>; Tue, 19 Mar 2024 14:59:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUCBfrSz/ZQ7QK2z37WXMBwLUVM5tn+oXaib0+8e3Jwo3BAqPrCnKMM4fDaTccCHtDSls9gQglFkpWKrLhuHFkEOM2LkPJ/DjzFUw==
-X-Received: by 2002:a05:6a00:a22:b0:6e7:4abe:85a0 with SMTP id p34-20020a056a000a2200b006e74abe85a0mr457780pfh.14.1710885556934;
-        Tue, 19 Mar 2024 14:59:16 -0700 (PDT)
+        Tue, 19 Mar 2024 14:59:18 -0700 (PDT)
+Received-SPF: pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::433 as permitted sender) client-ip=2607:f8b0:4864:20::433;
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6e6bee809b8so5628189b3a.1
+        for <kasan-dev@googlegroups.com>; Tue, 19 Mar 2024 14:59:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWz4Sf86fmv9zxmDARk0o16gKjea9Gtr36cb8jLIbZyOuyoPXynCExYMJ+BfPo2s+YSS54El9qdDLvXKxPRb8jL0e9hb+wR5+NA/g==
+X-Received: by 2002:a05:6a00:cd5:b0:6e6:9ac4:d501 with SMTP id b21-20020a056a000cd500b006e69ac4d501mr443835pfv.25.1710885558184;
+        Tue, 19 Mar 2024 14:59:18 -0700 (PDT)
 Received: from sw06.internal.sifive.com ([4.53.31.132])
-        by smtp.gmail.com with ESMTPSA id z25-20020aa785d9000000b006e6c61b264bsm10273892pfn.32.2024.03.19.14.59.16
+        by smtp.gmail.com with ESMTPSA id z25-20020aa785d9000000b006e6c61b264bsm10273892pfn.32.2024.03.19.14.59.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Mar 2024 14:59:16 -0700 (PDT)
+        Tue, 19 Mar 2024 14:59:17 -0700 (PDT)
 From: "'Samuel Holland' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Palmer Dabbelt <palmer@dabbelt.com>,
 	linux-riscv@lists.infradead.org
@@ -124,17 +126,19 @@ Cc: devicetree@vger.kernel.org,
 	Rob Herring <robh+dt@kernel.org>,
 	Samuel Holland <samuel.holland@sifive.com>,
 	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrew Jones <ajones@ventanamicro.com>
-Subject: [RFC PATCH 0/9] riscv: Userspace pointer masking and tagged address ABI
-Date: Tue, 19 Mar 2024 14:58:26 -0700
-Message-ID: <20240319215915.832127-1-samuel.holland@sifive.com>
+	Paul Walmsley <paul.walmsley@sifive.com>
+Subject: [RFC PATCH 1/9] dt-bindings: riscv: Add pointer masking ISA extensions
+Date: Tue, 19 Mar 2024 14:58:27 -0700
+Message-ID: <20240319215915.832127-2-samuel.holland@sifive.com>
 X-Mailer: git-send-email 2.43.1
+In-Reply-To: <20240319215915.832127-1-samuel.holland@sifive.com>
+References: <20240319215915.832127-1-samuel.holland@sifive.com>
 MIME-Version: 1.0
 X-Original-Sender: samuel.holland@sifive.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@sifive.com header.s=google header.b=aODDGSiX;       spf=pass
+ header.i=@sifive.com header.s=google header.b=hzO1ahTH;       spf=pass
  (google.com: domain of samuel.holland@sifive.com designates
- 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+ 2607:f8b0:4864:20::433 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com
 X-Original-From: Samuel Holland <samuel.holland@sifive.com>
 Reply-To: Samuel Holland <samuel.holland@sifive.com>
@@ -151,69 +155,56 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-RISC-V defines three extensions for pointer masking[1]:
- - Smmpm: configured in M-mode, affects M-mode
- - Smnpm: configured in M-mode, affects the next lower mode (S or U-mode)
- - Ssnpm: configured in S-mode, affects the next lower mode (U-mode)
+The RISC-V Pointer Masking specification defines three extensions:
+Smmpm, Smnpm, and Ssnpm. Document the behavior as of the current draft
+of the specification, which is version 0.8.4.
 
-This series adds support for configuring Smnpm or Ssnpm (depending on
-which mode the kernel is running in) to allow pointer masking in
-userspace by extending the existing PR_SET_TAGGED_ADDR_CTRL API from
-arm64. Unlike arm64 TBI, userspace pointer masking is not enabled by
-default on RISC-V. Additionally, the tag width (referred to as PMLEN) is
-variable, so userspace needs to ask the kernel for a specific tag width
-(which is interpreted as a minimum number of tag bits).
+Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
+---
 
-This series also adds support for a tagged address ABI similar to arm64.
-Since accesses from the kernel to user memory use the kernel's pointer
-masking configuration, not the user's, the kernel must untag user
-pointers in software before dereferencing them.
+ .../devicetree/bindings/riscv/extensions.yaml  | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-This series can be tested in QEMU by applying a patch set[2].
-
-KASAN support is not included here because there is not yet any standard
-way for the kernel to ask firmware to enable pointer masking in S-mode.
-
-[1]: https://github.com/riscv/riscv-j-extension/raw/a1e68469c60/zjpm-spec.pdf
-[2]: https://patchwork.kernel.org/project/qemu-devel/list/?series=822467&archive=both
-
-
-Samuel Holland (9):
-  dt-bindings: riscv: Add pointer masking ISA extensions
-  riscv: Add ISA extension parsing for pointer masking
-  riscv: Add CSR definitions for pointer masking
-  riscv: Define is_compat_thread()
-  riscv: Split per-CPU and per-thread envcfg bits
-  riscv: Add support for userspace pointer masking
-  riscv: Add support for the tagged address ABI
-  riscv: Allow ptrace control of the tagged address ABI
-  selftests: riscv: Add a pointer masking test
-
- .../devicetree/bindings/riscv/extensions.yaml |  18 +
- arch/riscv/Kconfig                            |   8 +
- arch/riscv/include/asm/compat.h               |  16 +
- arch/riscv/include/asm/cpufeature.h           |   2 +
- arch/riscv/include/asm/csr.h                  |  16 +
- arch/riscv/include/asm/hwcap.h                |   5 +
- arch/riscv/include/asm/processor.h            |  10 +
- arch/riscv/include/asm/switch_to.h            |  12 +
- arch/riscv/include/asm/uaccess.h              |  40 ++-
- arch/riscv/kernel/cpufeature.c                |   7 +-
- arch/riscv/kernel/process.c                   | 154 +++++++++
- arch/riscv/kernel/ptrace.c                    |  42 +++
- include/uapi/linux/elf.h                      |   1 +
- include/uapi/linux/prctl.h                    |   3 +
- tools/testing/selftests/riscv/Makefile        |   2 +-
- tools/testing/selftests/riscv/tags/Makefile   |  10 +
- .../selftests/riscv/tags/pointer_masking.c    | 307 ++++++++++++++++++
- 17 files changed, 646 insertions(+), 7 deletions(-)
- create mode 100644 tools/testing/selftests/riscv/tags/Makefile
- create mode 100644 tools/testing/selftests/riscv/tags/pointer_masking.c
-
+diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
+index 63d81dc895e5..bb7d5d84f31f 100644
+--- a/Documentation/devicetree/bindings/riscv/extensions.yaml
++++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
+@@ -128,6 +128,18 @@ properties:
+             changes to interrupts as frozen at commit ccbddab ("Merge pull
+             request #42 from riscv/jhauser-2023-RC4") of riscv-aia.
+ 
++        - const: smmpm
++          description: |
++            The standard Smmpm extension for M-mode pointer masking as defined
++            at commit a1e68469c60 ("Minor correction to pointer masking spec.")
++            of riscv-j-extension.
++
++        - const: smnpm
++          description: |
++            The standard Smnpm extension for next-mode pointer masking as defined
++            at commit a1e68469c60 ("Minor correction to pointer masking spec.")
++            of riscv-j-extension.
++
+         - const: smstateen
+           description: |
+             The standard Smstateen extension for controlling access to CSRs
+@@ -147,6 +159,12 @@ properties:
+             and mode-based filtering as ratified at commit 01d1df0 ("Add ability
+             to manually trigger workflow. (#2)") of riscv-count-overflow.
+ 
++        - const: ssnpm
++          description: |
++            The standard Ssnpm extension for next-mode pointer masking as defined
++            at commit a1e68469c60 ("Minor correction to pointer masking spec.")
++            of riscv-j-extension.
++
+         - const: sstc
+           description: |
+             The standard Sstc supervisor-level extension for time compare as
 -- 
 2.43.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240319215915.832127-1-samuel.holland%40sifive.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240319215915.832127-2-samuel.holland%40sifive.com.
