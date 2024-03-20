@@ -1,140 +1,156 @@
-Return-Path: <kasan-dev+bncBC76RJVVRQPRBJGR5GXQMGQEFIKOHQI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDM6JJGWWMLRBRNS5KXQMGQEJ2JIY4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3e.google.com (mail-qv1-xf3e.google.com [IPv6:2607:f8b0:4864:20::f3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7F0880A66
-	for <lists+kasan-dev@lfdr.de>; Wed, 20 Mar 2024 05:40:06 +0100 (CET)
-Received: by mail-qv1-xf3e.google.com with SMTP id 6a1803df08f44-69181af8ceasf80655236d6.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 19 Mar 2024 21:40:06 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1710909605; cv=pass;
+Received: from mail-oa1-x38.google.com (mail-oa1-x38.google.com [IPv6:2001:4860:4864:20::38])
+	by mail.lfdr.de (Postfix) with ESMTPS id C81CC880CB3
+	for <lists+kasan-dev@lfdr.de>; Wed, 20 Mar 2024 09:07:34 +0100 (CET)
+Received: by mail-oa1-x38.google.com with SMTP id 586e51a60fabf-221a9c0d2e0sf8526776fac.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 20 Mar 2024 01:07:34 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1710922053; cv=pass;
         d=google.com; s=arc-20160816;
-        b=xysvY1gPqCJCi8n4VR46f9x2aSB7B/kqM5WP1j82q0mTDE//5wmeEQY/J7TXS5e4yQ
-         cyJ2mC+bAlW0+dU+ttg0vacGhj9lDcjJNk6ChFuVNne9acwQhLkOqO7D6XNb4jZDnHSr
-         KRzVNU42TMh1obZNIG4I+OcWJ0sjGAZuFzUdizee9+Cw+5FoY+XE3n5nqIYJbxzeaDjX
-         UvwOmQmnsiyisuqb6poEV50d27aPLLPu2QCsZHx0x5FysjQSLtVRRF0PfLnau6zbghYf
-         lNqjndsOy/8f99VxVWVIgReKxb1tUwDDcuwlFQr46wi1HJGDdppL2FimqNsKEye4/qcx
-         3efQ==
+        b=sPTgMbGYBS8e+UYk8bBkfyimkMGfqLEiMvT1bGN62AdiASlibM3sIYSQGriI8ERJIv
+         Wrrqq9e9YnAjJiOUTd8qBh4FYlQLXmkb43RY0VEh0PPRXcyIqTy1Jmxynzfy/4GUt2PX
+         MRPthY8xElF+Dq/+W/XXm9z2LxB2Kxq1tGEB9/veGLLLW2FubiMH0681k9q9mNtBnUK5
+         X2nz+UO5h2XAws9bx7BRzW2prcgNCOExPU9+nkIvzmU4pMn+pNTCEXPAy9nOH65GEdo9
+         IR0gHHEU9SfTgckPRQBL2yuYpRuYwnl3eiPs/DR8esj9AZA5gLkGHR9lCWPl1luUj0C8
+         oRyQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature;
-        bh=fCNtfJ5topHDekXuHR+JH5/wEjupzv1PyRMN16QDvn4=;
-        fh=iy/JY/EHkmhSQXoT4UoXHaNU0Mly6IvY6jNgWnmU8ns=;
-        b=mAudJN7w9lZBC6Y6KKvhadOUJMhXttxN5kk1KyQtmv2Fy4bO3W0xd9TKkdXJNIIlO2
-         bO6anOHJnJA4ywleMmgy9B12rucBUaxaJksiYUZrRokhmT8a6Jy+JSJBwprzTzsMEg3y
-         pEr6HKtg77+tKg3k5m9RVcGC68VpnHwrC4TpIidN5P10Yw3Fvz8u8MEuABpaNfY3tfX3
-         P46S9jFF0QYAOXr1SzbU1/SSllIuAAerLNR67VBL1TzPbnYPGgtQ/Gmjh1EbOKaTpMe4
-         I/sCb9AsXpGCjmbGk+mZPsTZrPzFuuYDSZJxFNFAOr6p67YYuP0frrYcVXiond9cwnSc
-         aabw==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:dkim-signature;
+        bh=bPZfV1fhEScPNnl5svJHjIsoeN8AqTAx3f0/0RHUfQ8=;
+        fh=bSZ7SeZH5nE7x8dhtFv3SQlwkXjitFd0Vm3zishsZ1Y=;
+        b=KMcjZo/DGRx4bsxlPg506rTqDCJ4oUg0emenGTPC/KKtedyFr/BGKt5sk9bNhNoZ/x
+         SfeHO9YZe/OajU8+dJjA2A1wqNwO3GNqKq6AoN2H0akRa2X5ienTqm5VHE0ucpNyHQdP
+         Z1iimjM+4y1VzUvOW55CObfRDoll+Z8rn4aDVlGAF9lajaRsfu8bMdsEguA4CgVc6ZdO
+         WeFRhnW4B8xnKbxpe1AYkrrTQH8Pohkz8UGQ5CTNB47dW22EFHpYwf1hu26sAXD1lyMX
+         BuEeEAHo/GKocM+G9pjERL/WqQskT+OgUs7DFbinwT1z9V/dgoYB+5eAJuBXzI+HU7Za
+         bZKQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=vOHvuwKt;
-       spf=pass (google.com: domain of debug@rivosinc.com designates 2607:f8b0:4864:20::b31 as permitted sender) smtp.mailfrom=debug@rivosinc.com
+       dkim=pass header.i=@microchip.com header.s=mchp header.b=YvJ4fXBO;
+       spf=pass (google.com: domain of conor.dooley@microchip.com designates 68.232.153.233 as permitted sender) smtp.mailfrom=Conor.Dooley@microchip.com;
+       dmarc=pass (p=QUARANTINE sp=REJECT dis=NONE) header.from=microchip.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1710909605; x=1711514405; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1710922053; x=1711526853; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fCNtfJ5topHDekXuHR+JH5/wEjupzv1PyRMN16QDvn4=;
-        b=fHkjAr2/sQPSAc7mqRD08IOwCi4sF8RpYItmxrSIeJJvX4BHXOMM7/326kdIhCqzbp
-         LHDr72woNBSx3lQN7Yjgdl0W6p5bPzYOeQP76cYLBGC+JZqnWxCUEyeDTYKaLUnGN+ka
-         09OkL/vbmToBw8uGsXaW40EEvLd4wCAEgvRyG9icea8kUJ3QdPctvfcdpFBG6ZUP7u87
-         pI7OBaBvN5Nneh8h9uS5oGy2M99ZlJ9lnwbZhkhnqiIYznonvfr6GedaUvd5QnY6GQA6
-         MeHJdQg2/4Mumeo5SSj4jBeY8rzCfyZ13ipocDeqBrZ15WSYxBP1Rqx/0RK1rm8WOXzO
-         AITQ==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bPZfV1fhEScPNnl5svJHjIsoeN8AqTAx3f0/0RHUfQ8=;
+        b=LLXsJxgocEfLcOltuB9S8tcGZBF1M337Wl93KP0OkLaUavcM+XpeFKwNRAtgX5pVbI
+         Hx78m/hjMe+t+A0VDxgu4zHXTR4FGEkwzHUPi7yLuAeI849vqD8HjSdHd2Fo+S5YpEBq
+         Myhy8z6aaGbC9Oopn/khxucfJOljB6j1toQYtjjgpOfbTTEASVNgA/KJMqYdpd4+H5Fn
+         2jH592vCKWTdipH1WopEZmAz6LRAC4SbRinFAY/pJ2V9OY9rZZwRBNabe00Ro6ng8PaO
+         35D5zoEjRnag0P8tSWScLPMVDU3f97YZ/HVsrDQ+puSbvDhKAa+EI5RwE2oSBqs1B4X3
+         7mKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1710909605; x=1711514405;
+        d=1e100.net; s=20230601; t=1710922053; x=1711526853;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=fCNtfJ5topHDekXuHR+JH5/wEjupzv1PyRMN16QDvn4=;
-        b=VjHjTaOpJNB3IorXqGXvWbLJnb8n0UwPDD2dkV7KI7bc4iEJFo5rf4UuqqrEs0qCBX
-         z/W2mn8Tl/jYGekXxhlAq1CB3SAYLd69+03KWPErJSmVVhnrSjtMGh7KqRl6g1i4zhkG
-         28kBh9CH78W0YSUJNn/qtOziTCFmfcWChQbWzW/4iEdu/C+203UJAK71nYKvwXnBy84B
-         ASvUiGSjCpgK/eP7CIudaAk5AK2BYW4AyuG//CFdx1dcFnSA1/cZ1AFY1AACfsrYZ0XW
-         4UbqRc+i1l7MG0liLNklG+QuLV2a+9fwgAeg6Oo0IVQJDdqJC9urEXNqJd71wZS9Xnml
-         vOJQ==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWBhEztO0WrSE/tvsiPu6FJnIczuEm9TlsL98ldbTDUSJD8GXFVjU72ixlVv5r93Xw7NCbWzGbthRbLM2hf7PPT10Oj80U3Kg==
-X-Gm-Message-State: AOJu0YylAEXYwx8c+AGMc5MxQjbPCBhe8KF9LGJJYpD7XwtKhNvAH00g
-	FbgGqifZt53mq0Bm6wiA6vd+R6YnuGkpun62u7eoCoBZDk4GZ0YL
-X-Google-Smtp-Source: AGHT+IH6fzWLAueAflaj9qKjmReHJNVpwp29WhlHMYOwzJQlim/U5fNSIsvAKqJxE8CA2GZNjfJPvA==
-X-Received: by 2002:a0c:da85:0:b0:690:b563:879 with SMTP id z5-20020a0cda85000000b00690b5630879mr15524484qvj.58.1710909605061;
-        Tue, 19 Mar 2024 21:40:05 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bPZfV1fhEScPNnl5svJHjIsoeN8AqTAx3f0/0RHUfQ8=;
+        b=E9CjH6RIklZzRFdRt8cUOEwkDzMeTyLu/WMZEvuMW0HSkZuVxhto8wHh8t3NO2XmAC
+         iZ9Bv2yqNpa6+wascq0G4wxzgSCU3Z9H+w8/Npk4Nzfuv7CMXkMxgqRYCgFc1IujKz2c
+         WT0ow36H7lAotU7fTRt3sYBPluS+ysMrSILETymVbokaXUwdrWtIPHKBcAr8dizqIKJo
+         VS/hzDQ2n9juiFUAJWTQ9hTqgnwOrfTVv64WPzJfbonlSs/xMp7dnIHGQdqr5CqoD3ER
+         8Un5qudFT4MB8yFA+BOLV6Dx1geMnU0Wwi8K/NlTlP5KDLFt/pd0dSCzh+ojnEFd+oo3
+         F23Q==
+X-Forwarded-Encrypted: i=2; AJvYcCUrkRvv+u+VosJqwHfzKCr8NMd4Fe0c9JIh0s/jx2M+7JxJypA3ws6Eb4ggHPxdxGG/aCHPQ+G511HiECj82nJgCRyCNKRKdw==
+X-Gm-Message-State: AOJu0Yyn6S293L+uZdkkOz+QADjD/CnljZsasJKmzrzqOKVNHiKygcHh
+	Uy/6sfNyh5Gb2VZ9MGhKsQoEo8fEqe5kxK1O4l/k3eQoBB5NHCPF
+X-Google-Smtp-Source: AGHT+IEs+pozzA7YSG2x4uhwbyYYfizIdOErlEETYRcCHDPKr0PXxxbM0ED6H2lr73zqU9QxZXbS0Q==
+X-Received: by 2002:a05:6870:3511:b0:220:8d30:8e8e with SMTP id k17-20020a056870351100b002208d308e8emr1309791oah.51.1710922053376;
+        Wed, 20 Mar 2024 01:07:33 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:ac2:b0:690:ee1f:cfe3 with SMTP id
- g2-20020a0562140ac200b00690ee1fcfe3ls10070536qvi.0.-pod-prod-01-us; Tue, 19
- Mar 2024 21:40:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXNf9JfcQt//TFzzqrf0S3TerpHKiSq7QH0S94lKmPKaQQ9WAk/T70uA3kAENbzyoRa7gR83yvlid7Js7jBiO647Ng4QRRqBpSvZg==
-X-Received: by 2002:ac5:cdf3:0:b0:4d3:3f2b:dc63 with SMTP id v19-20020ac5cdf3000000b004d33f2bdc63mr10943660vkn.5.1710909604151;
-        Tue, 19 Mar 2024 21:40:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1710909604; cv=none;
+Received: by 2002:a05:6870:858c:b0:221:9187:9438 with SMTP id
+ f12-20020a056870858c00b0022191879438ls293572oal.2.-pod-prod-07-us; Wed, 20
+ Mar 2024 01:07:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUq/6VTInKcIIXM63jpOuaMhtRHBMiiLjrBYpf8aEGiLSmRKW5gqC6a48L3RluRcGO8tnBYo5k9EPx6k/2pywOMA87lYggP/Eq24Q==
+X-Received: by 2002:a05:6871:740f:b0:229:9d05:c521 with SMTP id nw15-20020a056871740f00b002299d05c521mr1412534oac.0.1710922052213;
+        Wed, 20 Mar 2024 01:07:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1710922052; cv=none;
         d=google.com; s=arc-20160816;
-        b=smPGzggupI4GOGwO6tMtdWpwN86agFbs5wqvu3Zov4MQ/0lUxe/f3PifuANxgzCc8I
-         h9bIyhgyygDyM7cA3+7Xpxl1iP6WAJDA2PGK3pTHu4SDItNqFVg5/82rQIoLFrtOKEO6
-         Gb6Xr0uAk6RqfdgYEfqp2BJRwvaYN92ec5TaEqrU0L+FHJ3TJhBO5crIFkjvaGJOdvQv
-         eBJQI5i+bbGKA+bh4gMJEmbdqlGPfxtgzuBTWYlkEJGPQJB9i6lzkEtcRVzCd3HKcxXj
-         Rm98kFRt2dc7gyi8l8fx+TTBj6SQbzINbttrqbF1PBhH3BjVvW8LyOpLSadtIoTLnrO5
-         n5SA==
+        b=WIgXteYQcT/2FLobB40x18LShNneccNDzLbdzt94O5UaIxp4naGbj/TXOhLiLXFdfw
+         NbN1svg5mCHm3fY7bMOk0EzsaSatFR+LoA2jkCpwUcjSpMizzMVrBbrqijofqPv0GuJO
+         ROqvY4ZhsSagvwF9MEh/Fv59qHCjoozXoa5eXmg+27KnFpJPvf99XKVl2pCO2X10rlpj
+         j/sTq0RTeRu6GFgZUiaWQouN4/Oxq4ezlhtqQ02yn6HXMi1cE7CBZZRGD5cXGOw7qw8B
+         bIlPQ1Cdt66fTm5XcXjK37hYpNY0vdQ8Dthb6UHxHf7+HqgYQO4/hQwbittNtUhYdYxh
+         hFtw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=HOcEqvOqLiRgD+vxwVroLkV65fGdVjagF231/Ug6vZ0=;
-        fh=tH6D3BRRT8Bht/e1Km+4OEf7NiNVC2UdnMMdmKLJ7kg=;
-        b=aVgiwDyrSGLtfDGCRpC0EwV/OooZIRaO4tIgAIOGtyCzKn+fUOXmQwVIImQdH9LLPW
-         w2vxzezFXSKM8v36yw180afaF/blk16NIbqN6SgQ/iEG9p5slofdNcTpsA8U6PuMyX2x
-         NV5WkmYxmL+0fC8s1lhJKWcXrET+1H5h/jchaMkbp/KioE5fzXhoNcF8ppcTLDGjxowK
-         Oe7dJKHDukC8paYxmi9+HWozonzK39qc5jwkJapb5BRSsmZbDbMCUOp3iJCMg9YYr6uT
-         8i20dzKqcZMygedd9sBeDbSIPCJ6t3zpQMVX3kKfJvHI4eGXnGhgWSmmSmjYCQgxLKW8
-         Ay0w==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=qo2WFvFI+ooaSXfDj307OMcV56cuiGsV5SDZpCU1v40=;
+        fh=JL/0fyzVWMrNfKjXDitWaeIkziClIwkZcvEfh8HTePw=;
+        b=wsXkTtIzCcr39HVDyLvJyvyLah1AfDpcSi/HITkKhA7rdsKphF50UtUVxFMtj+oIya
+         794lVOX7hVNoNuXmPy6XqVKgbwM21DeUBJbw71Bhax7JpJsPvwJPAwD3FE7MUVq6KYX1
+         EAAC/KrtBJMoS/vp9olB7ziSL4+kIdZQXnB/R4qRjflx3HR0aPvtgHgY+FHb0oaafK1n
+         TDwlR/KbY9MhE9OUO5llX7m3n8ib7+fa8QCiKSKEGQFwsXlO42czD4ZVniObpNHb4r45
+         nfgtRfAwrGXMRHa9GoGPBNZHD9T3tqp2c9R5P2NUUfvbsr2wfmuBk34WwHi6ip8O7FC2
+         Dydw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=vOHvuwKt;
-       spf=pass (google.com: domain of debug@rivosinc.com designates 2607:f8b0:4864:20::b31 as permitted sender) smtp.mailfrom=debug@rivosinc.com
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com. [2607:f8b0:4864:20::b31])
-        by gmr-mx.google.com with ESMTPS id de29-20020a056122459d00b004d42270619dsi1143691vkb.1.2024.03.19.21.40.04
+       dkim=pass header.i=@microchip.com header.s=mchp header.b=YvJ4fXBO;
+       spf=pass (google.com: domain of conor.dooley@microchip.com designates 68.232.153.233 as permitted sender) smtp.mailfrom=Conor.Dooley@microchip.com;
+       dmarc=pass (p=QUARANTINE sp=REJECT dis=NONE) header.from=microchip.com
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com. [68.232.153.233])
+        by gmr-mx.google.com with ESMTPS id y19-20020a0568301d9300b006e6a4c1c931si180168oti.4.2024.03.20.01.07.31
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Mar 2024 21:40:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of debug@rivosinc.com designates 2607:f8b0:4864:20::b31 as permitted sender) client-ip=2607:f8b0:4864:20::b31;
-Received: by mail-yb1-xb31.google.com with SMTP id 3f1490d57ef6-dd14d8e7026so5182341276.2
-        for <kasan-dev@googlegroups.com>; Tue, 19 Mar 2024 21:40:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV+lQ8Po/SMFlN7/icLX8bgweaNOJcbiamKhiRzeDGsTdqyHyI8LE96hfYViPyAkjA2Ve/Kj++blN58bZ6vJwt5T5oOu5vIBLlozQ==
-X-Received: by 2002:a25:ad46:0:b0:dc2:2f4f:757 with SMTP id
- l6-20020a25ad46000000b00dc22f4f0757mr14257691ybe.7.1710909603558; Tue, 19 Mar
- 2024 21:40:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240319215915.832127-1-samuel.holland@sifive.com>
- <20240319215915.832127-6-samuel.holland@sifive.com> <CAKC1njSg9-hJo6hibcM9a-=FUmMWyR39QUYqQ1uwiWhpBZQb9A@mail.gmail.com>
- <40ab1ce5-8700-4a63-b182-1e864f6c9225@sifive.com>
-In-Reply-To: <40ab1ce5-8700-4a63-b182-1e864f6c9225@sifive.com>
-From: Deepak Gupta <debug@rivosinc.com>
-Date: Tue, 19 Mar 2024 21:39:52 -0700
-Message-ID: <CAKC1njQYZHbQJ71mapeG1DEw=A+aGx77xsuQGecsNFpoJ=tzGQ@mail.gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 20 Mar 2024 01:07:31 -0700 (PDT)
+Received-SPF: pass (google.com: domain of conor.dooley@microchip.com designates 68.232.153.233 as permitted sender) client-ip=68.232.153.233;
+X-CSE-ConnectionGUID: +2PKfpLTQGq2m0SEBNMVqQ==
+X-CSE-MsgGUID: eSxs2JbuTmyaJCQMbacMkA==
+X-IronPort-AV: E=Sophos;i="6.07,139,1708412400"; 
+   d="asc'?scan'208";a="248659095"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 20 Mar 2024 01:07:30 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Wed, 20 Mar 2024 01:07:10 -0700
+Received: from wendy (10.10.85.11) by chn-vm-ex04.mchp-main.com (10.10.85.152)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35 via Frontend
+ Transport; Wed, 20 Mar 2024 01:07:07 -0700
+Date: Wed, 20 Mar 2024 08:06:20 +0000
+From: "'Conor Dooley' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Samuel Holland <samuel.holland@sifive.com>
+CC: Deepak Gupta <debug@rivosinc.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+	<linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>, Catalin
+ Marinas <catalin.marinas@arm.com>, <linux-kernel@vger.kernel.org>, Conor
+ Dooley <conor@kernel.org>, <kasan-dev@googlegroups.com>, Evgenii Stepanov
+	<eugenis@google.com>, Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, Andrew
+ Jones <ajones@ventanamicro.com>, Guo Ren <guoren@kernel.org>, Heiko Stuebner
+	<heiko@sntech.de>, Paul Walmsley <paul.walmsley@sifive.com>
 Subject: Re: [RISC-V] [tech-j-ext] [RFC PATCH 5/9] riscv: Split per-CPU and
  per-thread envcfg bits
-To: Samuel Holland <samuel.holland@sifive.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, 
-	devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
-	linux-kernel@vger.kernel.org, tech-j-ext@lists.risc-v.org, 
-	Conor Dooley <conor@kernel.org>, kasan-dev@googlegroups.com, 
-	Evgenii Stepanov <eugenis@google.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
-	Andrew Jones <ajones@ventanamicro.com>, Guo Ren <guoren@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Paul Walmsley <paul.walmsley@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: debug@rivosinc.com
+Message-ID: <20240320-fanfare-flick-3b38dde081d8@wendy>
+References: <20240319215915.832127-1-samuel.holland@sifive.com>
+ <20240319215915.832127-6-samuel.holland@sifive.com>
+ <CAKC1njSg9-hJo6hibcM9a-=FUmMWyR39QUYqQ1uwiWhpBZQb9A@mail.gmail.com>
+ <40ab1ce5-8700-4a63-b182-1e864f6c9225@sifive.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ZQuW/bL/DNtzlQCx"
+Content-Disposition: inline
+In-Reply-To: <40ab1ce5-8700-4a63-b182-1e864f6c9225@sifive.com>
+X-Original-Sender: conor.dooley@microchip.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601
- header.b=vOHvuwKt;       spf=pass (google.com: domain of debug@rivosinc.com
- designates 2607:f8b0:4864:20::b31 as permitted sender) smtp.mailfrom=debug@rivosinc.com
+ header.i=@microchip.com header.s=mchp header.b=YvJ4fXBO;       spf=pass
+ (google.com: domain of conor.dooley@microchip.com designates 68.232.153.233
+ as permitted sender) smtp.mailfrom=Conor.Dooley@microchip.com;
+       dmarc=pass (p=QUARANTINE sp=REJECT dis=NONE) header.from=microchip.com
+X-Original-From: Conor Dooley <conor.dooley@microchip.com>
+Reply-To: Conor Dooley <conor.dooley@microchip.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,15 +163,12 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Samuel,
+--ZQuW/bL/DNtzlQCx
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your response.
-
-On Tue, Mar 19, 2024 at 7:21=E2=80=AFPM Samuel Holland
-<samuel.holland@sifive.com> wrote:
->
-> Hi Deepak,
->
+On Tue, Mar 19, 2024 at 09:20:59PM -0500, Samuel Holland wrote:
 > On 2024-03-19 6:55 PM, Deepak Gupta wrote:
 > > On Tue, Mar 19, 2024 at 2:59=E2=80=AFPM Samuel Holland via lists.riscv.=
 org
@@ -169,9 +182,9 @@ be
 ed
 > >> to combine the per-CPU and per-thread bits whenever we switch threads.
 > >>
-> >
+> >=20
 > > Why not do something like this
-> >
+> >=20
 > > diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.=
 h
 > > index b3400517b0a9..01ba87954da2 100644
@@ -183,214 +196,32 @@ h
 > >  #define ENVCFG_FIOM                    _AC(0x1, UL)
 > > +/* by default all threads should be able to zero cache */
 > > +#define ENVCFG_BASE                    ENVCFG_CBZE
->
+>=20
 > Linux does not assume Sstrict, so without Zicboz being present in DT/ACPI=
 , we
 > have no idea what the CBZE bit does--there's no guarantee it has the stan=
 dard
 > meaning--so it's not safe to set the bit unconditionally. If that policy
 > changes, we could definitely simplify the code.
->
 
-Yeah, it makes sense.
+The wording for that "extension", if two lines in the profiles doc makes
+something an extension is:
+"No non-conforming extensions are present. Attempts to execute unimplemente=
+d
+opcodes or access unimplemented CSRs in the standard or reserved encoding
+spaces raises an illegal instruction exception that results in a contained
+trap to the supervisor-mode trap handler."
 
-> >  /* Smstateen bits */
-> >  #define SMSTATEEN0_AIA_IMSIC_SHIFT     58
-> > diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
-> > index 4f21d970a129..2420123444c4 100644
-> > --- a/arch/riscv/kernel/process.c
-> > +++ b/arch/riscv/kernel/process.c
-> > @@ -152,6 +152,7 @@ void start_thread(struct pt_regs *regs, unsigned lo=
-ng pc,
-> >         else
-> >                 regs->status |=3D SR_UXL_64;
-> >  #endif
-> > +       current->thread_info.envcfg =3D ENVCFG_BASE;
-> >  }
-> >
-> > And instead of context switching in `_switch_to`,
-> > In `entry.S` pick up `envcfg` from `thread_info` and write it into CSR.
->
-> The immediate reason is that writing envcfg in ret_from_exception() adds =
-cycles
-> to every IRQ and system call exit, even though most of them will not chan=
-ge the
-> envcfg value. This is especially the case when returning from an IRQ/exce=
-ption
-> back to S-mode, since envcfg has zero effect there.
->
-> The CSRs that are read/written in entry.S are generally those where the v=
-alue
-> can be updated by hardware, as part of taking an exception. But envcfg ne=
-ver
-> changes on its own. The kernel knows exactly when its value will change, =
-and
-> those places are:
->
->  1) Task switch, i.e. switch_to()
->  2) execve(), i.e. start_thread() or flush_thread()
->  3) A system call that specifically affects a feature controlled by envcf=
-g
+I know we have had new extensions come along and mark previously fair
+game interrupts for vendors as out of bounds. I wonder if there's a risk
+of that happening with CSRs or opcodes too (or maybe it has happened and
+I cannot recall).
 
-Yeah I was optimizing for a single place to write instead of
-sprinkling at multiple places.
-But I see your argument. That's fine.
-
->
-> So that's where this series writes it. There are a couple of minor tradeo=
-ffs
-> about when exactly to do the write:
->
-> - We could drop the sync_envcfg() calls outside of switch_to() by reading=
- the
->   current CSR value when scheduling out a thread, but again that adds ove=
-rhead
->   to the fast path to remove a tiny bit of code in the prctl() handlers.
-> - We don't need to write envcfg when switching to a kernel thread, only w=
-hen
->   switching to a user thread, because kernel threads never leave S-mode, =
-so
->   envcfg doesn't affect them. But checking the thread type takes many mor=
-e
->   instructions than just writing the CSR.
->
-> Overall, the optimal implementation will approximate the rule of only wri=
-ting
-> envcfg when its value changes.
->
-> > This construction avoids
-> > - declaring per cpu riscv_cpu_envcfg
->
-> This is really a separate concern than when we write envcfg. The per-CPU
-> variable is only necessary to support hardware where a subset of harts su=
-pport
-> Zicboz. Since the riscv_cpu_has_extension_[un]likely() helpers were added
-> specifically for Zicboz, I assume this is an important use case, and drop=
-ping
-> support for this hardware would be a regression. After all, hwprobe() all=
-ows
-> userspace to see that Zicboz is implemented at a per-CPU level. Maybe And=
-rew can
-> weigh in on that.
-
-I am not sure of the practicality of this heterogeneity for Zicboz and
-for that matter any of the upcoming
-features that'll be enabled via senvcfg (control flow integrity,
-pointer masking, etc).
-
-As an example if cache zeroing instructions are used by app binary, I
-expect it to be used in following
-manner
-
- - Explicitly inserting cbo.zero by application developer
- - Some compiler flag which ensures that structures larger than cache
-line gets zeroed by cbo.zero
-
-In either of the cases, the developer is not expecting to target it to
-a specific hart on SoC and instead expect it to work.
-There might be libraries (installed via sudo apt get) with cache zero
-support in them which may run in different address spaces.
-Should the library be aware of the CPU on which it's running. Now
-whoever is running these binaries should be aware which CPUs
-they get assigned to in order to avoid faults?
-
-That seems excessive, doesn't it?
-
->
-> If we decide to enable Zicboz only when all harts support it, or we decid=
-e it's
-> safe to attempt to set the envcfg.CBZE bit on harts that do not declare s=
-upport
-> for Zicboz, then we could drop the percpu variable.
->
-> > - syncing up
-> > - collection of *envcfg bits.
-> >
-> >
-> >> Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
-> >> ---
-> >>
-> >>  arch/riscv/include/asm/cpufeature.h |  2 ++
-> >>  arch/riscv/include/asm/processor.h  |  1 +
-> >>  arch/riscv/include/asm/switch_to.h  | 12 ++++++++++++
-> >>  arch/riscv/kernel/cpufeature.c      |  4 +++-
-> >>  4 files changed, 18 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/=
-asm/cpufeature.h
-> >> index 0bd11862b760..b1ad8d0b4599 100644
-> >> --- a/arch/riscv/include/asm/cpufeature.h
-> >> +++ b/arch/riscv/include/asm/cpufeature.h
-> >> @@ -33,6 +33,8 @@ DECLARE_PER_CPU(long, misaligned_access_speed);
-> >>  /* Per-cpu ISA extensions. */
-> >>  extern struct riscv_isainfo hart_isa[NR_CPUS];
-> >>
-> >> +DECLARE_PER_CPU(unsigned long, riscv_cpu_envcfg);
-> >> +
-> >>  void riscv_user_isa_enable(void);
-> >>
-> >>  #ifdef CONFIG_RISCV_MISALIGNED
-> >> diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/a=
-sm/processor.h
-> >> index a8509cc31ab2..06b87402a4d8 100644
-> >> --- a/arch/riscv/include/asm/processor.h
-> >> +++ b/arch/riscv/include/asm/processor.h
-> >> @@ -118,6 +118,7 @@ struct thread_struct {
-> >>         unsigned long s[12];    /* s[0]: frame pointer */
-> >>         struct __riscv_d_ext_state fstate;
-> >>         unsigned long bad_cause;
-> >> +       unsigned long envcfg;
-> >>         u32 riscv_v_flags;
-> >>         u32 vstate_ctrl;
-> >>         struct __riscv_v_ext_state vstate;
-> >> diff --git a/arch/riscv/include/asm/switch_to.h b/arch/riscv/include/a=
-sm/switch_to.h
-> >> index 7efdb0584d47..256a354a5c4a 100644
-> >> --- a/arch/riscv/include/asm/switch_to.h
-> >> +++ b/arch/riscv/include/asm/switch_to.h
-> >> @@ -69,6 +69,17 @@ static __always_inline bool has_fpu(void) { return =
-false; }
-> >>  #define __switch_to_fpu(__prev, __next) do { } while (0)
-> >>  #endif
-> >>
-> >> +static inline void sync_envcfg(struct task_struct *task)
-> >> +{
-> >> +       csr_write(CSR_ENVCFG, this_cpu_read(riscv_cpu_envcfg) | task->=
-thread.envcfg);
-> >> +}
-> >> +
-> >> +static inline void __switch_to_envcfg(struct task_struct *next)
-> >> +{
-> >> +       if (riscv_cpu_has_extension_unlikely(smp_processor_id(), RISCV=
-_ISA_EXT_XLINUXENVCFG))
-> >
-> > I've seen `riscv_cpu_has_extension_unlikely` generating branchy code
-> > even if ALTERNATIVES was turned on.
-> > Can you check disasm on your end as well.  IMHO, `entry.S` is a better
-> > place to pick up *envcfg.
->
-> The branchiness is sort of expected, since that function is implemented b=
-y
-> switching on/off a branch instruction, so the alternate code is necessari=
-ly a
-> separate basic block. It's a tradeoff so we don't have to write assembly =
-code
-> for every bit of code that depends on an extension. However, the cost sho=
-uld be
-> somewhat lowered since the branch is unconditional and so entirely predic=
-table.
->
-> If the branch turns out to be problematic for performance, then we could =
-use
-> ALTERNATIVE directly in sync_envcfg() to NOP out the CSR write.
-
-Yeah I lean towards using alternatives directly.
-
->
-> >> +               sync_envcfg(next);
-> >> +}
-
->
+Going back to the interrupts - is the Andes PMU non-conforming because
+it uses an interrupt that was declared as vendor usable but is now part
+of the standard space because of AIA? If it is, then the meaning of
+Sstrict could vary wildly based on the set of extensions (and their
+versions for specs). That sounds like a lot of fun.
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -398,5 +229,17 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAKC1njQYZHbQJ71mapeG1DEw%3DA%2BaGx77xsuQGecsNFpoJ%3DtzGQ%40mail.=
-gmail.com.
+kasan-dev/20240320-fanfare-flick-3b38dde081d8%40wendy.
+
+--ZQuW/bL/DNtzlQCx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZfqY/AAKCRB4tDGHoIJi
+0m4/AP0UYPz9RdNLmW6g7L1tf8w83wsWZfBkuwZqh3A3w0Jq9wEA7t8mWVQ1YVm2
+D9FdG5Y2+4p6MzgZJDv6xF67VncJZAU=
+=unOr
+-----END PGP SIGNATURE-----
+
+--ZQuW/bL/DNtzlQCx--
