@@ -1,162 +1,153 @@
-Return-Path: <kasan-dev+bncBC7OD3FKWUERBIHS6KXQMGQEDFB36UA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIFTP47IJBBQ426OXQMGQERHE4WHY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3a.google.com (mail-oa1-x3a.google.com [IPv6:2001:4860:4864:20::3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DC8D886370
-	for <lists+kasan-dev@lfdr.de>; Thu, 21 Mar 2024 23:48:02 +0100 (CET)
-Received: by mail-oa1-x3a.google.com with SMTP id 586e51a60fabf-229b412e738sf1774014fac.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 21 Mar 2024 15:48:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1711061280; cv=pass;
+Received: from mail-qt1-x83c.google.com (mail-qt1-x83c.google.com [IPv6:2607:f8b0:4864:20::83c])
+	by mail.lfdr.de (Postfix) with ESMTPS id B946D886445
+	for <lists+kasan-dev@lfdr.de>; Fri, 22 Mar 2024 01:13:56 +0100 (CET)
+Received: by mail-qt1-x83c.google.com with SMTP id d75a77b69052e-42ee24bf0d9sf71941cf.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 21 Mar 2024 17:13:56 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1711066435; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SsSHIdn5ft6XCWld/9jnR19oGvD65n6rN9CKXnLI6o2CFpQmc4Yk2sg8lqrH1qxhOw
-         Sjh+/ZlqufD7gmcCuKrP3sZIcIQG7lURwNgyW+ju2Ut4PYu5jjFPPF+4H11P9kHC+gIJ
-         Y2BXjzB1JLeElMW5xkL7wQgJzuEVCTfhS6XByQQr/s9zbKKYjkeczwyQB2ADLTzKH6/6
-         4u/ORxvTF/E08fDbMJ4wT+nOfDYPC+Ijet6H8uav5C7WDQH7veddLWjyOXnVxeDfgTPN
-         8cw3pktWkOHsCLb2KHqMPiyq/YMhmYRjNYcJOjsq8Ve/U9bqQHqXOW7bbu+uxB9cuUO2
-         GrpQ==
+        b=s0lof1BuNDVmevYcgjbQiRd4RdB9iN+8fsuFfUHxfOPktwvXveaeMU7g/Czf+4WgvP
+         KFUuSSy40lzZ7wqZYVRWfUboGbWzzjDPd/8A4LpoiUTWMV91qEt0nruexjpNRLhG62ak
+         bJedrdkGzWscsdObboBCGM8niizU1v0GogXqsoNfCf5d94DiQKTdjXi+9JDduCShPg7e
+         G7iLZaa1m69+psArzlD/0l/B6Jwxw+YYnVMU5k8zt3Bt/cXjXcxaJNF0DihIbSEOhWXg
+         1Mz/uvawOkWdQEfwh/PE9/r2QVgWymCBVJLMsafhAR/WAGR3sLu557kN0eFXHUIzU3qu
+         YBRw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=OL11OfVotVl9x4vJCrjErySDZQFBKKZPrd+IW6LbKu0=;
-        fh=fP6ZoXUZHn4oHknC5AqgOM2r62N1H5qA3C93RqLxyxc=;
-        b=HGC/86n3JYvScaVax+IVaQUi190nWTBmYHpBAnR18Xgx6co5/kKMnWs/Gc3QvMK1vL
-         9E1Pxgit12lTxcD59NXNHC3kMsr4CLVCS+bAHvGOrj+TcVHN5DMbI7ZBvvzeC6GqW2wc
-         BVwbK3P9f1SbcvJliEGNW2S+RnOJDZ5aZ4tDcgX//8WIbJSQplLXbsWsDXHqEs8RdjMf
-         4RYq9Ay9k/OF6+6lkwchlH/NLUOUcwnY1SGWRL7iJh+blountVNsfvjfpJSyPppFfhhZ
-         kIi1bm8TmTbwsFQRO+cSiELsRsSE9MkALVRdT6mlmSHfJYKg5zUcWv3naAapeKGuDuzE
-         Jd9A==;
+         :list-id:mailing-list:precedence:reply-to:in-reply-to:from
+         :references:cc:to:content-language:subject:user-agent:mime-version
+         :date:message-id:dkim-signature;
+        bh=VmNIKQ0bpkiBOVKggg3SD/ieMQWK2ylfrgL8m9AEslI=;
+        fh=31Os06gUDRTvfGim6PxktUhPYHN4yrrLYoXBGDlJU8E=;
+        b=W9TE6dQbSgd2nVh4+tsHK6i9N/jN790wA8QyzwRt59VnSSO6Y10ddkZnTjnohN3hrh
+         yspmE9x5IoB7pujUUP0CpYrzS5q5LS6pnBfJWKt2lBpiuq0B6iPeK6OpCHd2nI2PVNua
+         cWdcwimvT9yK7Zdl7snuMO5TUZTjUgO16l16qQTZAAoP8X9nF+X9e2tswBtmSnyg0jAO
+         mybSbj/eZVLsdheaAQzRBU7nvJKvPl0k+TUQZcs2QueGCr3mG8lqNe1q1W1PUqj+TZUW
+         ya8VtBOzXtB+oUUct4CrcUFQlKTGE25ZFOab8F+JXTXSC+GTuiL3AWdpSxdzFxHnfFW6
+         F4CA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=w8rRI56b;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::112c as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@sifive.com header.s=google header.b=NByKtgIq;
+       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::12e as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1711061280; x=1711666080; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1711066435; x=1711671235; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OL11OfVotVl9x4vJCrjErySDZQFBKKZPrd+IW6LbKu0=;
-        b=Oy9z050WjUvXNsMN2BcnEYweU+HaURqwcNssk0zxbvK3R95mByHogk0PBm9pJoLEuT
-         xQzq+KpA4U3aBtDmSkQpeJ5su6odDFyTtwbIGFPtGL9Dku+/eKPBHU95hIy5Gv6iDduX
-         xEm5zIILjfJ8z15hYTDcOUWCrqtqVU0U+pdt6gLTRXVhbruNHXn3a5oAx2kciOKRMwQO
-         Z7tragss9GWSBnMoAoJRV01tDzl3J81DfCOuAUf+WCJQLEfO0U74E6oc7nF0yIzIGBTh
-         +mvvn2mV+gmywlCC09QG6OR6zBC0V9iTnaSa1nE00vWqtPMrO8eYdYUr9d0oSi1ogkTd
-         cFAw==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VmNIKQ0bpkiBOVKggg3SD/ieMQWK2ylfrgL8m9AEslI=;
+        b=t+EBBmRI2d22LzGas+Uk262N7AU6oE2uDHqhBkgUgZtslhkfL7lt+5qx7ul0XfKqMv
+         /V2wDSbB90ctQ+kW/HwsD5an9fN+5/m0PxYa04LLoajAjCtd2nFowxSJDDMLPV2YxrcW
+         KUo4mQrYsHeSPDegtysuT26NMqQaQtLXywZpCLyZu/GgJGv/JqhQRnK6b6COnSrLGmRT
+         HgGiYzYkFChbzc8+VZ+LSdu9zqcFP2nZp8EiARG4UZD5g6zX4/iHp3PylCijvBbdUVIK
+         5kBQQwZtMqcoSFjOypu1YS4TkkHE6zuyEw36qQUhbC8P0o0Ir0gueQQ59EXHm+1aolig
+         o5JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711061280; x=1711666080;
+        d=1e100.net; s=20230601; t=1711066435; x=1711671235;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OL11OfVotVl9x4vJCrjErySDZQFBKKZPrd+IW6LbKu0=;
-        b=N7xvmsn2DRKVYGQGqG5qfDq1OHwn0mEuvrUK5GP2/dJn9pPqbxhGOp+xFP8l2pfhTF
-         K3ZwUkLxfCk43F2vQf4bpvOcjvmT3w+eFfpDsIPHa4fJFQN46rfLId4ffzqiAlonqaX0
-         k5kjyKlWRd4JG02JXa94kCYbUTaUPsE0ZD0GuiVNFjRXnXDNC0AFbOuEFS3kGTwgEC8q
-         ecI741UaL8GgPwLcnfOA2RiZSHf6/cIpFOlUNAuTsh2H6NrNoYISOhgCMjtYQdKzBo9V
-         A2dclEYqTgBrXg5iU9xkz/+TV/6JaSn+YFqEGsqjUQo7h+jO/WrnY1QHtSlQXcQtLlsN
-         C27A==
-X-Forwarded-Encrypted: i=2; AJvYcCViwRAMItoORauTIGt+4ZJLDouWBmMpd4shDlStasE8M3NM5CVtu/3kV9lGGOS+iUffHQxvGSBZRmOQSztkPZAND7rbUVKOPg==
-X-Gm-Message-State: AOJu0Yx67NQ+EAqiBBcccDMzUIzS3TbNf4IjUYl2m2vBccASlpzYqMNE
-	Kcyrv5gtfHf7ndfT4wanZ0017QPh0iGu3uJcduHCAN/XBnb5nDKB
-X-Google-Smtp-Source: AGHT+IENg6qXevbshjqxXFeZizzsFG8Y6xs5iqYSB540RAGFXYBuRyOFT3v0riWnwCPSyIcumXkA3Q==
-X-Received: by 2002:a05:6870:470f:b0:221:bca9:3b81 with SMTP id b15-20020a056870470f00b00221bca93b81mr712336oaq.22.1711061280606;
-        Thu, 21 Mar 2024 15:48:00 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=VmNIKQ0bpkiBOVKggg3SD/ieMQWK2ylfrgL8m9AEslI=;
+        b=uRZKz8agXqCGvgDixcKt8vI8EtPjrSD3hxUmF7/C8xUeS0G/xqozcp6JOoM/QlIrs0
+         aaxldqNYOl4hFpx0/nJVKZl53ePczPc3Ejdh0e1OIwvyzfiADTUkv8e1AW7PIhP9DYjY
+         edYX1vLXQxOXog9mFmQeTFumETRyBokLctRphSkRqREpIolG24dz1E+sK3HmpW4vqeM8
+         0TqXv06zg39VcVQUt2MrCBP3HBYpRvf/0VmZcm21jR8rFqEKJqo1N+PAZ7RMcoAr3svt
+         vppgajWVHm6K4DDWsiBZLofln3Zue+tBwOF5RymOT/yRV/oGSJ2eJKargKTGEgV/htDK
+         rp5w==
+X-Forwarded-Encrypted: i=2; AJvYcCUGfJ7ID5A30Xg2jqAJjBCHQUA0SqDNb4a0OSliV/4iq+7lmKtqTiVZZNGKEDla/nyQQoiYiMx4EdsNj4jzU1T07Quw2dgHig==
+X-Gm-Message-State: AOJu0YwCYNdHfHWLaJR+gJ9S1ub1wA4Pd5qVrhIIrXyvX9svbAs8LzE6
+	itwVHa7HVdwX4JLpbnqTgtD2QSuZp3rlcC7BOSAZZxijCeAOlChz
+X-Google-Smtp-Source: AGHT+IGGATPu7tmz1xbnSwM6PZIcIbqzrWiShhh4522x1HrP28cdG4Yk1HoZBCVgQtXDaCB/hNlK4Q==
+X-Received: by 2002:ac8:5f83:0:b0:430:ebd2:20b4 with SMTP id j3-20020ac85f83000000b00430ebd220b4mr499890qta.12.1711066435363;
+        Thu, 21 Mar 2024 17:13:55 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:93aa:b0:6e6:f6ed:5daf with SMTP id
- ka42-20020a056a0093aa00b006e6f6ed5dafls1058543pfb.1.-pod-prod-07-us; Thu, 21
- Mar 2024 15:47:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVheGf3exQKB6T+JvLcKSf5EfS/V0B57BXvxmubk+472gO6JwUMhs00xrK6qQAos9ik5cWgHhKfmThxs4N8YqgAtfcHYqacaSTPnA==
-X-Received: by 2002:a05:6a00:1a91:b0:6e6:7b17:7f21 with SMTP id e17-20020a056a001a9100b006e67b177f21mr841986pfv.19.1711061279335;
-        Thu, 21 Mar 2024 15:47:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1711061279; cv=none;
+Received: by 2002:a05:6214:5010:b0:681:3006:a423 with SMTP id
+ jo16-20020a056214501000b006813006a423ls2209742qvb.2.-pod-prod-01-us; Thu, 21
+ Mar 2024 17:13:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUZJEi0sViguYZ0hr9XtrfE8sj2ZxHu5pv818YY/sFEm6hGLOQEb4vXJPlqXVsygApioIGLXOmft0pCCaDTZYNlzlPLakwVirsXvQ==
+X-Received: by 2002:a05:6214:410d:b0:696:57b1:1582 with SMTP id kc13-20020a056214410d00b0069657b11582mr730084qvb.5.1711066434739;
+        Thu, 21 Mar 2024 17:13:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1711066434; cv=none;
         d=google.com; s=arc-20160816;
-        b=fRXLULX7WRSQISxSPD8vhTFQA4PNbIh5RTOKXS9Pd+Zft6TECJAO6mRF/RVqH19DDX
-         eNyPCOelzKnHEtIUVphqx2lk++L47kDhdHAWP8vGe8LaBpNBE3kfdhzbswMBa9HkFFAl
-         DYO36hTG6Qz9w/nEkflopd3lAuGmCS25UMuc8TXtVzGNhYTs3mZQuEi7h4KEmv8ypCC2
-         YpLp7Qpickd1sKYDxcYvjK7g3sX8jU5fVnz8/umJKXJretegynxfP4WEWZNzk1HHlEgn
-         DzHxbuTim6i1mC5SZ8VcDazuY2bm8ydgpQm51d0cTFjmW3O7B06wL5cI/FDRKDiLBhWs
-         bdIg==
+        b=IKRGR2IYPLSGHutrW+jAV89UV/jVX14+2NK7jJUrz3mHH4b2ksJPuJjYcwKmDTwMOx
+         J4Gp4vuuIkvuhiY/Z7lJVD2KnUd5Prcguy9xY7DS0pQWW39BwhpmUXuqy8tY+YUzpoYo
+         wneNjIUIooGXSMTDdHi4Au+J84dYvuHTM9ZZmwKqmuxkkAacIwa1sG/1pfSZHb9CQIxV
+         9fNj1gmb1GwkT8xCQfgtHUwGP+VMyBKy4H6v7AdiPrPWxBlo8cAtQlqRPFzmQEX/gLs3
+         XtIHZ6MJlZbX5eVAXjWHf1Z/S4GjAkBt+2+wwZVSsHCT1BjWMJkmXJxEqMac0L2nV3YS
+         fUnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=pZUn+CabKddPK7NEf/S7R2Utterh/ASXmWz24mderPg=;
-        fh=L1aA7HS4FM813RMBsBXlqb/BC8h53/xTSqBxrczqbPI=;
-        b=ltRdQuRsWBzOBGLmfjt+hy+NHTPA1zuvSv+/41jR9HdAAX6KJMo4WCXiZAHf4AsoRU
-         wlXH4ljTTxpYJXJungxby7s6IRR6tF84wYhGQmUEpedqHq9wHZcGKQK9P8HEKqSWOTww
-         h7xek6xSmBqLAs+O9r6L3u20YRTNW+O9jSMBMNrMFJg/3KqTUJxaMOhu2snxz1LuLRPj
-         Exab7q+dhLkU26mBvENP9t7s96cI8fsuDhGDCjaJholm+3jmw6xGXNmthdI+DItns1ec
-         04h6U+jReOE/6enBRn0h3XS2YVoQBp4iajhiROCdDHt0gFsfjkwdmG8Vh5AOcr0nMb1x
-         +z0g==;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=oVj0RTqijXF6fGHo7lvyifktNSlsSBmRQcPYhg8uW8Y=;
+        fh=yYufAI/6dss9Guflz0jAp/3nZwj9gU/8odhfoow472Q=;
+        b=UglQLOcYvNMnx32osgL8XEtFC4WLPZn3Ohh/lipZN0KzTWZoVeA8AdMIo0ak42+AfO
+         37fUUwATQo+ebjohe1B6F7RnEYvgSIV/IsKbOSHGiaCUg13ukQY3vbOqIdr4+3HcSgA/
+         YuGTaILdy9iYKNMvep+988pOHw0KfFiqVpEjPIDZfaW/xC5XoMdAnCJpJqtVHel4nP0s
+         7QYBnnLtZABPsJHOGHRKlS8N4TgdWY2rTSAmXnEWAIEtRCXcS7LylLZV75+Wg+E9W1Vc
+         SaZ67qLAYWBzxelup+IKlFlEU+OedGHoHTIZVXpJVlv40UyVqmOLk5/2ftVLXGapRzPO
+         yQ+A==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=w8rRI56b;
-       spf=pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::112c as permitted sender) smtp.mailfrom=surenb@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com. [2607:f8b0:4864:20::112c])
-        by gmr-mx.google.com with ESMTPS id gl3-20020a056a0084c300b006ea7b30555bsi44247pfb.5.2024.03.21.15.47.59
+       dkim=pass header.i=@sifive.com header.s=google header.b=NByKtgIq;
+       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::12e as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com
+Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com. [2607:f8b0:4864:20::12e])
+        by gmr-mx.google.com with ESMTPS id w10-20020a0562140b2a00b00696419ee0desi70882qvj.4.2024.03.21.17.13.54
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Mar 2024 15:47:59 -0700 (PDT)
-Received-SPF: pass (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::112c as permitted sender) client-ip=2607:f8b0:4864:20::112c;
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-60a3c48e70fso15899027b3.1
-        for <kasan-dev@googlegroups.com>; Thu, 21 Mar 2024 15:47:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVFpjxRO0eT1d7S9KSU+7KKRvyO3a77+F8iJO5BHpetMPTFX4DkOtO/uS/LRqZ1ogBeMjNlG/aJU07jgDr5pa8cq72FY+vARiIPBA==
-X-Received: by 2002:a25:8047:0:b0:dda:aace:9665 with SMTP id
- a7-20020a258047000000b00ddaaace9665mr551844ybn.60.1711061278005; Thu, 21 Mar
- 2024 15:47:58 -0700 (PDT)
+        Thu, 21 Mar 2024 17:13:54 -0700 (PDT)
+Received-SPF: pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::12e as permitted sender) client-ip=2607:f8b0:4864:20::12e;
+Received: by mail-il1-x12e.google.com with SMTP id e9e14a558f8ab-36864f7c5cdso4602295ab.1
+        for <kasan-dev@googlegroups.com>; Thu, 21 Mar 2024 17:13:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXnCzFjhw4OR3d/nlD0y51RWCB4Kux/IGgwtvhRGMkwGTzYGED3t996xx9LRf4alUOJ9jNtYVFlTJ7SC3jguOlCPRix1FfEhiU3oQ==
+X-Received: by 2002:a92:dc83:0:b0:365:29e4:d95d with SMTP id c3-20020a92dc83000000b0036529e4d95dmr966458iln.30.1711066434179;
+        Thu, 21 Mar 2024 17:13:54 -0700 (PDT)
+Received: from [100.64.0.1] ([136.226.86.189])
+        by smtp.gmail.com with ESMTPSA id y18-20020a056638015200b00476f1daad44sm206727jao.54.2024.03.21.17.13.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Mar 2024 17:13:53 -0700 (PDT)
+Message-ID: <d9452ab4-a783-4bcf-ac25-40baa4f31fac@sifive.com>
+Date: Thu, 21 Mar 2024 19:13:52 -0500
 MIME-Version: 1.0
-References: <20240321163705.3067592-1-surenb@google.com> <20240321163705.3067592-6-surenb@google.com>
- <20240321133147.6d05af5744f9d4da88234fb4@linux-foundation.org>
- <gnqztvimdnvz2hcepdh3o3dpg4cmvlkug4sl7ns5vd4lm7hmao@dpstjnacdubq>
- <20240321150908.48283ba55a6c786dee273ec3@linux-foundation.org> <bliyhrwtskv5xhg3rxxszouxntrhnm3nxhcmrmdwwk4iyx5wdo@vodd22dbtn75>
-In-Reply-To: <bliyhrwtskv5xhg3rxxszouxntrhnm3nxhcmrmdwwk4iyx5wdo@vodd22dbtn75>
-From: "'Suren Baghdasaryan' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 21 Mar 2024 15:47:44 -0700
-Message-ID: <CAJuCfpEO4NjYysJ7X8ME_GjHc41u-_dK4AhrhmaSMh_9mxaHSA@mail.gmail.com>
-Subject: Re: [PATCH v6 05/37] fs: Convert alloc_inode_sb() to a macro
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, mhocko@suse.com, vbabka@suse.cz, 
-	hannes@cmpxchg.org, roman.gushchin@linux.dev, mgorman@suse.de, 
-	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
-	peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com, 
-	will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, 
-	david@redhat.com, axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	nathan@kernel.org, dennis@kernel.org, jhubbard@nvidia.com, tj@kernel.org, 
-	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, 
-	pasha.tatashin@soleen.com, yosryahmed@google.com, yuzhao@google.com, 
-	dhowells@redhat.com, hughd@google.com, andreyknvl@gmail.com, 
-	keescook@chromium.org, ndesaulniers@google.com, vvvvvv@google.com, 
-	gregkh@linuxfoundation.org, ebiggers@google.com, ytcoode@gmail.com, 
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com, rostedt@goodmis.org, 
-	bsegall@google.com, bristot@redhat.com, vschneid@redhat.com, cl@linux.com, 
-	penberg@kernel.org, iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, 
-	glider@google.com, elver@google.com, dvyukov@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, aliceryhl@google.com, 
-	rientjes@google.com, minchan@google.com, kaleshsingh@google.com, 
-	kernel-team@android.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, 
-	cgroups@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RISC-V] [tech-j-ext] [RFC PATCH 5/9] riscv: Split per-CPU and
+ per-thread envcfg bits
+Content-Language: en-US
+To: Deepak Gupta <debug@rivosinc.com>, Conor Dooley <conor@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>
+Cc: linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+ Catalin Marinas <catalin.marinas@arm.com>, linux-kernel@vger.kernel.org,
+ tech-j-ext@lists.risc-v.org, kasan-dev@googlegroups.com,
+ Evgenii Stepanov <eugenis@google.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>, Andrew Jones <ajones@ventanamicro.com>,
+ Guo Ren <guoren@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Paul Walmsley <paul.walmsley@sifive.com>
+References: <20240319215915.832127-1-samuel.holland@sifive.com>
+ <20240319215915.832127-6-samuel.holland@sifive.com>
+ <CAKC1njSg9-hJo6hibcM9a-=FUmMWyR39QUYqQ1uwiWhpBZQb9A@mail.gmail.com>
+ <40ab1ce5-8700-4a63-b182-1e864f6c9225@sifive.com>
+ <CAKC1njQYZHbQJ71mapeG1DEw=A+aGx77xsuQGecsNFpoJ=tzGQ@mail.gmail.com>
+From: "'Samuel Holland' via kasan-dev" <kasan-dev@googlegroups.com>
+In-Reply-To: <CAKC1njQYZHbQJ71mapeG1DEw=A+aGx77xsuQGecsNFpoJ=tzGQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: surenb@google.com
+X-Original-Sender: samuel.holland@sifive.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=w8rRI56b;       spf=pass
- (google.com: domain of surenb@google.com designates 2607:f8b0:4864:20::112c
- as permitted sender) smtp.mailfrom=surenb@google.com;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Suren Baghdasaryan <surenb@google.com>
-Reply-To: Suren Baghdasaryan <surenb@google.com>
+ header.i=@sifive.com header.s=google header.b=NByKtgIq;       spf=pass
+ (google.com: domain of samuel.holland@sifive.com designates
+ 2607:f8b0:4864:20::12e as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com
+X-Original-From: Samuel Holland <samuel.holland@sifive.com>
+Reply-To: Samuel Holland <samuel.holland@sifive.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,251 +160,47 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Mar 21, 2024 at 3:17=E2=80=AFPM Kent Overstreet
-<kent.overstreet@linux.dev> wrote:
->
-> On Thu, Mar 21, 2024 at 03:09:08PM -0700, Andrew Morton wrote:
-> > On Thu, 21 Mar 2024 17:15:39 -0400 Kent Overstreet <kent.overstreet@lin=
-ux.dev> wrote:
-> >
-> > > On Thu, Mar 21, 2024 at 01:31:47PM -0700, Andrew Morton wrote:
-> > > > On Thu, 21 Mar 2024 09:36:27 -0700 Suren Baghdasaryan <surenb@googl=
-e.com> wrote:
-> > > >
-> > > > > From: Kent Overstreet <kent.overstreet@linux.dev>
-> > > > >
-> > > > > We're introducing alloc tagging, which tracks memory allocations =
-by
-> > > > > callsite. Converting alloc_inode_sb() to a macro means allocation=
-s will
-> > > > > be tracked by its caller, which is a bit more useful.
-> > > >
-> > > > I'd have thought that there would be many similar
-> > > > inlines-which-allocate-memory.  Such as, I dunno, jbd2_alloc_inode(=
-).
-> > > > Do we have to go converting things to macros as people report
-> > > > misleading or less useful results, or is there some more general
-> > > > solution to this?
-> > >
-> > > No, this is just what we have to do.
-> >
-> > Well, this is something we strike in other contexts - kallsyms gives us
-> > an inlined function and it's rarely what we wanted.
-> >
-> > I think kallsyms has all the data which is needed to fix this - how
-> > hard can it be to figure out that a particular function address lies
-> > within an outer function?  I haven't looked...
->
-> This is different, though - even if a function is inlined in multiple
-> places there's only going to be one instance of a static var defined
-> within that function.
+On 2024-03-19 11:39 PM, Deepak Gupta wrote:
+>>>> --- a/arch/riscv/include/asm/switch_to.h
+>>>> +++ b/arch/riscv/include/asm/switch_to.h
+>>>> @@ -69,6 +69,17 @@ static __always_inline bool has_fpu(void) { return false; }
+>>>>  #define __switch_to_fpu(__prev, __next) do { } while (0)
+>>>>  #endif
+>>>>
+>>>> +static inline void sync_envcfg(struct task_struct *task)
+>>>> +{
+>>>> +       csr_write(CSR_ENVCFG, this_cpu_read(riscv_cpu_envcfg) | task->thread.envcfg);
+>>>> +}
+>>>> +
+>>>> +static inline void __switch_to_envcfg(struct task_struct *next)
+>>>> +{
+>>>> +       if (riscv_cpu_has_extension_unlikely(smp_processor_id(), RISCV_ISA_EXT_XLINUXENVCFG))
+>>>
+>>> I've seen `riscv_cpu_has_extension_unlikely` generating branchy code
+>>> even if ALTERNATIVES was turned on.
+>>> Can you check disasm on your end as well.  IMHO, `entry.S` is a better
+>>> place to pick up *envcfg.
+>>
+>> The branchiness is sort of expected, since that function is implemented by
+>> switching on/off a branch instruction, so the alternate code is necessarily a
+>> separate basic block. It's a tradeoff so we don't have to write assembly code
+>> for every bit of code that depends on an extension. However, the cost should be
+>> somewhat lowered since the branch is unconditional and so entirely predictable.
+>>
+>> If the branch turns out to be problematic for performance, then we could use
+>> ALTERNATIVE directly in sync_envcfg() to NOP out the CSR write.
+> 
+> Yeah I lean towards using alternatives directly.
 
-I guess one simple way to detect the majority of these helpers would
-be to filter all entries from /proc/allocinfo which originate from
-header files.
+One thing to note here: we can't use alternatives directly if the behavior needs
+to be different on different harts (i.e. a subset of harts implement the envcfg
+CSR). I think we need some policy about which ISA extensions are allowed to be
+asymmetric across harts, or else we add too much complexity.
 
-~# grep ".*\.h:." /proc/allocinfo
-      933888      228 include/linux/mm.h:2863 func:pagetable_alloc
-         848       53 include/linux/mm_types.h:1175 func:mm_alloc_cid
-           0        0 include/linux/bpfptr.h:70 func:kvmemdup_bpfptr
-           0        0 include/linux/bpf.h:2237 func:bpf_map_kmalloc_node
-           0        0 include/linux/bpf.h:2256 func:bpf_map_alloc_percpu
-           0        0 include/linux/bpf.h:2256 func:bpf_map_alloc_percpu
-           0        0 include/linux/bpf.h:2237 func:bpf_map_kmalloc_node
-           0        0 include/linux/bpf.h:2249 func:bpf_map_kvcalloc
-           0        0 include/linux/bpf.h:2243 func:bpf_map_kzalloc
-           0        0 include/linux/bpf.h:2237 func:bpf_map_kmalloc_node
-           0        0 include/linux/ptr_ring.h:471
-func:__ptr_ring_init_queue_alloc
-           0        0 include/linux/bpf.h:2256 func:bpf_map_alloc_percpu
-           0        0 include/linux/bpf.h:2237 func:bpf_map_kmalloc_node
-           0        0 include/net/tcx.h:80 func:tcx_entry_create
-           0        0 arch/x86/include/asm/pgalloc.h:156 func:p4d_alloc_one
-      487424      119 include/linux/mm.h:2863 func:pagetable_alloc
-           0        0 include/linux/mm.h:2863 func:pagetable_alloc
-         832       13 include/linux/jbd2.h:1607 func:jbd2_alloc_inode
-           0        0 include/linux/jbd2.h:1591 func:jbd2_alloc_handle
-           0        0 fs/nfs/iostat.h:51 func:nfs_alloc_iostats
-           0        0 include/net/netlabel.h:281 func:netlbl_secattr_cache_=
-alloc
-           0        0 include/net/netlabel.h:381 func:netlbl_secattr_alloc
-           0        0 include/crypto/internal/acompress.h:76
-func:__acomp_request_alloc
-        8064       84 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-        1016       74 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-         384        4 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-         704        3 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-          32        1 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-          64        1 include/acpi/platform/aclinuxex.h:52 func:acpi_os_all=
-ocate
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-          40        2 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_all=
-ocate
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_all=
-ocate
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_all=
-ocate
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_all=
-ocate
-          32        1 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_all=
-ocate
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_all=
-ocate
-       30000      625 include/acpi/platform/aclinuxex.h:67
-func:acpi_os_acquire_object
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_all=
-ocate
-           0        0 include/acpi/platform/aclinuxex.h:67
-func:acpi_os_acquire_object
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-         512        1 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_all=
-ocate
-         192        6 include/acpi/platform/aclinuxex.h:52 func:acpi_os_all=
-ocate
-           0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_all=
-ocate
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:52 func:acpi_os_all=
-ocate
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-         192        3 include/acpi/platform/aclinuxex.h:52 func:acpi_os_all=
-ocate
-       61992      861 include/acpi/platform/aclinuxex.h:67
-func:acpi_os_acquire_object
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 include/acpi/platform/aclinuxex.h:67
-func:acpi_os_acquire_object
-           0        0 include/acpi/platform/aclinuxex.h:57
-func:acpi_os_allocate_zeroed
-           0        0 drivers/iommu/amd/amd_iommu.h:141 func:alloc_pgtable_=
-page
-           0        0 drivers/iommu/amd/amd_iommu.h:141 func:alloc_pgtable_=
-page
-           0        0 drivers/iommu/amd/amd_iommu.h:141 func:alloc_pgtable_=
-page
-           0        0 include/linux/dma-fence-chain.h:91
-func:dma_fence_chain_alloc
-           0        0 include/linux/dma-fence-chain.h:91
-func:dma_fence_chain_alloc
-           0        0 include/linux/dma-fence-chain.h:91
-func:dma_fence_chain_alloc
-           0        0 include/linux/dma-fence-chain.h:91
-func:dma_fence_chain_alloc
-           0        0 include/linux/dma-fence-chain.h:91
-func:dma_fence_chain_alloc
-           0        0 include/linux/hid_bpf.h:154 func:call_hid_bpf_rdesc_f=
-ixup
-           0        0 include/linux/skbuff.h:3392 func:__dev_alloc_pages
-      114688       56 include/linux/ptr_ring.h:471
-func:__ptr_ring_init_queue_alloc
-           0        0 include/linux/skmsg.h:415 func:sk_psock_init_link
-           0        0 include/linux/bpf.h:2237 func:bpf_map_kmalloc_node
-           0        0 include/linux/ptr_ring.h:628 func:ptr_ring_resize_mul=
-tiple
-       24576        3 include/linux/ptr_ring.h:471
-func:__ptr_ring_init_queue_alloc
-           0        0 include/net/netlink.h:1896 func:nla_memdup
-           0        0 include/linux/sockptr.h:97 func:memdup_sockptr
-           0        0 include/net/request_sock.h:131 func:reqsk_alloc
-           0        0 include/net/tcp.h:2456 func:tcp_v4_save_options
-           0        0 include/net/tcp.h:2456 func:tcp_v4_save_options
-           0        0 include/crypto/hash.h:586 func:ahash_request_alloc
-           0        0 include/linux/sockptr.h:97 func:memdup_sockptr
-           0        0 include/linux/sockptr.h:97 func:memdup_sockptr
-           0        0 net/sunrpc/auth_gss/auth_gss_internal.h:38
-func:simple_get_netobj
-           0        0 include/crypto/hash.h:586 func:ahash_request_alloc
-           0        0 include/net/netlink.h:1896 func:nla_memdup
-           0        0 include/crypto/skcipher.h:869 func:skcipher_request_a=
-lloc
-           0        0 include/net/fq_impl.h:361 func:fq_init
-           0        0 include/net/netlabel.h:316 func:netlbl_catmap_alloc
+Regards,
+Samuel
 
-and it finds our example:
-
-         832       13 include/linux/jbd2.h:1607 func:jbd2_alloc_inode
-
-Interestingly the inlined functions which are called from multiple
-places will have multiple entries with the same file+line:
-
-           0        0 include/linux/dma-fence-chain.h:91
-func:dma_fence_chain_alloc
-           0        0 include/linux/dma-fence-chain.h:91
-func:dma_fence_chain_alloc
-           0        0 include/linux/dma-fence-chain.h:91
-func:dma_fence_chain_alloc
-           0        0 include/linux/dma-fence-chain.h:91
-func:dma_fence_chain_alloc
-           0        0 include/linux/dma-fence-chain.h:91
-func:dma_fence_chain_alloc
-
-So, duplicate entries can be also used as an indication of an inlined alloc=
-ator.
-I'll go chase these down and will post a separate patch converting them.
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAJuCfpEO4NjYysJ7X8ME_GjHc41u-_dK4AhrhmaSMh_9mxaHSA%40mail.gmail.=
-com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/d9452ab4-a783-4bcf-ac25-40baa4f31fac%40sifive.com.
