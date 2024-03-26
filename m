@@ -1,138 +1,156 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBMWGRSYAMGQENFCI5XI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCP4ZTXNRIFBB2W6RSYAMGQEPHV7OLA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-vs1-xe40.google.com (mail-vs1-xe40.google.com [IPv6:2607:f8b0:4864:20::e40])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDF888CD4B
-	for <lists+kasan-dev@lfdr.de>; Tue, 26 Mar 2024 20:34:11 +0100 (CET)
-Received: by mail-vs1-xe40.google.com with SMTP id ada2fe7eead31-478325274a4sf65974137.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 26 Mar 2024 12:34:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1711481650; cv=pass;
+Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F32788CE77
+	for <lists+kasan-dev@lfdr.de>; Tue, 26 Mar 2024 21:26:20 +0100 (CET)
+Received: by mail-wm1-x33b.google.com with SMTP id 5b1f17b1804b1-41489c04f8csf10668895e9.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 26 Mar 2024 13:26:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1711484779; cv=pass;
         d=google.com; s=arc-20160816;
-        b=fiKchAvUXd4aIuusKCav4kz0f/tZiYkNJY3abg5qmy5320IytX3ilrbTrmmksrR+65
-         LL9rv2IqJaialJ+FQHjb5VaMAftN2nGvek5tyzpaR1pP77RYILzLsDuzdQuOYCpx/gXg
-         XiLJeLeHTgfE2nj1xk78+HXB8O7NcxEm0Yx3vphzZcErJXUB9w69dUh7PPCZpI4YkYgD
-         hPYMqbx6KMTCNlc8xXJ4tNH7rytjcNYV1WPEF4yCkSedQEpAXUOa+hZ5zBxphuJRatVW
-         zh+dbu3e1qxGT5EMKiE+hBUFmxP6rrjNAj9BrDAsQEYQpocBTcRyZx4q0+Q0QTENUowG
-         TCvg==
+        b=tCSNzNbeYlsQsd/0wonXQGfWHqxzdqj7LiB8xKV+bSXHpfFaBV3rSoF5val7E9FNE6
+         5sJzBFYPluFFKHUDIZE1lov6ANNsAuf8Odaj9/Cz+KV3n+0guavAvSDDroEWkU0eHoqt
+         CWr++kyp/CdDFU+bXf1RgFyr3w6LD7jwY2xR9HotddDY5hN0esTjcSF7fX2o1MsHudNM
+         ACLp6o3Xv9rUXUWsyJrL/hkdPLYXtzpcHWFZg9J0YfFlIbGOnW7J7ylD/8Vk0leVCebZ
+         wByVxY7s+sTVAUBJt5jIkVyDhMkVcBfJFum1gQ1ukLVbhNPAefLwl1ASzFI+72WHgUci
+         PB9g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=I5b8ix7cBH7YVPimiVw/AYjEB//d56F72Fa4usqMdvQ=;
-        fh=qwyoUw7aJtG88JdbmKtIFiNJvbGkeglEi1RUwHqu7lc=;
-        b=WgH85bPET9ANw5k1rwk/W94g/TDTBVTxYdeJI2dT0LAs9lAir49wiQhiFa65Xc0ouu
-         bCi7GEMZaqIg+FrJqois7IzuBSVEeCwQj5lTcMrRjtEuzo6QUPQsZOCN03RvrseONZoE
-         eCRr6jlZWWTMHhI187iphqtTuBRzts/kkqBjIdovfc1YKH+ty0fKrFHFOr5/f/0Zvsoy
-         DGuTy5apJ6bgMseceog+7JLOYv13aZJ0Ljla62ndTFXF9y2MWKv4OilcJlYIkpaYCEup
-         sVk2Y1LVZ6ytrTOesMNVWQxWXZ26NAYaT9QPF0ZQMcNOShw6ISQH/WQaUhbOeXUlhKqC
-         l9+A==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=7sT/H3Wy+W4mgoJdO2hZ3WXVWtxDIcU/qBVvEkP9khA=;
+        fh=JnzWmkp8UfY8lZjwjJ6L2oCWq+3uxaJlX14ru1Hh4nQ=;
+        b=bGzFy2m2YUIHztiE4gB1Sb7fyJD6XiNgITpg/hhlXWH4ToPmRio6PlkcjRwnqlZCMY
+         RB3JDEtU/rj2MpfOFRupgY4dwJ6e7CewZinO5YoltVrC7zys+ePzDRg07HiFGz8H9Cyn
+         oQvkXSg0caR8mRNEw9BYP++O+P/lAgf9oay9B0S3fNiw6niZuk70z01M8QVxsxuPx3ph
+         Pokhs6g4K5x+WjPH65LdcWTosNzKjMWF/Da90h7zDIBa2RDFCKA6PzyVer478S4ciXyP
+         SrwLqcRfIvgDmc1fVGQy8RnbXH8BGEyAhXfvV7qx+O4anXo4DomDmoxUavlF/Jkmfc8m
+         sxgw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=EjDSXVsu;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e32 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+       dkim=pass header.i=@alien8.de header.s=alien8 header.b=k++KNz+4;
+       spf=pass (google.com: domain of bp@alien8.de designates 65.109.113.108 as permitted sender) smtp.mailfrom=bp@alien8.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1711481650; x=1712086450; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1711484779; x=1712089579; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=I5b8ix7cBH7YVPimiVw/AYjEB//d56F72Fa4usqMdvQ=;
-        b=sKQnN4c3WTf3rMUpgRiza+4lap1Mefx0YfUN/go2uggAcHABS1tpOzYA08aL/7lEwk
-         rhmcuDFzUFOqqV6MqSoffr4Mkujma90H5Q5l1EqauKkJSiVWWY3F4ersQCG/bz4AMG/h
-         QmjTeaD2l/zrC/5UAEasIiPeMrHkT+A3yL/+gQPwmBFuRSMCJaWF1iU3kl0r08yehDb9
-         EMFjyi6EdptH0Nm7bZtWyHId7X3R9wL/lonfiqual9cL5cQ80Im/Xaa5f/kPNCHS+JE5
-         cc4K3tl/9swf14dHk7Q5tnDi1wxCER23ljwtiArkZfQIoMaJazRq0W31/2nLdix2+6I2
-         rrSw==
+        bh=7sT/H3Wy+W4mgoJdO2hZ3WXVWtxDIcU/qBVvEkP9khA=;
+        b=sQFfaF0KFwMmWUipdprbxQcn/Bqd5JgKy+KkCs/14gjwBfHqwWQ74wsdcmvoRBAQDG
+         JQMi9jYF8gxPfT128MaYitoZwbqbfx7PebzU09WxXTfUYQd1K7gmFolUBxqTqCRc4AWB
+         aV9H1EVz1nt0enLjAzKky5E826SMUS7/Avbh0Zy3HcK3Vrl981P9euGMnuSqompTbA8E
+         AI/89F+w+idhR2+W5EUl81y6gJPd4yMbkOV9KYO+lVpgN/pyrbT69Y3koIoOemiFyEdW
+         B8wQGvc5WtVqf6f9BIunr0sRrNfuqXlS+iMQL7DM1gHORj+RPX9d3HfoZxlXEy5A0yNo
+         /CSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1711481650; x=1712086450;
+        d=1e100.net; s=20230601; t=1711484779; x=1712089579;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I5b8ix7cBH7YVPimiVw/AYjEB//d56F72Fa4usqMdvQ=;
-        b=OXpE2yZEpz3HwZv6iVfkBhlSLCcbAcIj9GLhuEJz9Dgw9X4Eb3CEvXdKIO5MRyLJrA
-         D/xCYDo2NOFLqbCfmqD0lEO8cUvPp93eq0Cg6khd6W+gLwqV1bNYSci7MRBY9bF5zV39
-         vGhiYB44n19Rq6EvusLa82YtKlRooETPOTKprpNRQ4HOmM0nlYxws43N0gwvlTDoEMw7
-         AavkGUhlNX/diHxzYy5Z4oLdfJYPIRaD2laWKzJisBodfP99cbbrV+2Zhet6+jq38r4d
-         umVISEqUxh+YFPIyXJjcXIQ3kqHYUSGuquKETFf0z62B6GFvbywPiSxVQrE+nmpGRC2S
-         uCkQ==
-X-Forwarded-Encrypted: i=2; AJvYcCX1cceHvuYf3Xcu2rJTsEeNA5QXVaW9r1Wa+ytKmW5o9grHYj1X2L4TvnJZOtwfC6yrimo4YCkpxHmMqKD4pp3cux/z9M684g==
-X-Gm-Message-State: AOJu0YygTStgB1szC2tbrhB8QBOO/z9w6L+EeggKn2Ppq8DRNnhqTgvf
-	Vt8SVpD5Xwdz8UILQ2ydTzUIy2odlFgZ11B8vU1FWUpuyirs0yaV
-X-Google-Smtp-Source: AGHT+IGJVTmpq9y1xv0B66cNmYgjcA3qhT5Egx4mfk0cO9NR/JmWgHne0zJcKUSoTxHv1x6SNXjlFg==
-X-Received: by 2002:a05:6102:151a:b0:476:e7bb:8783 with SMTP id f26-20020a056102151a00b00476e7bb8783mr9733836vsv.25.1711481650132;
-        Tue, 26 Mar 2024 12:34:10 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7sT/H3Wy+W4mgoJdO2hZ3WXVWtxDIcU/qBVvEkP9khA=;
+        b=qwmYEkzNFZAzMjpnMnaQkVbSGIWJdLMkelDDmQgHZfo55ycJVMXsmxKmNNGlucT5NR
+         opb+639BAIzZS0fzL93QkAfmOAR0mufV6WtZYnmCdgL+0Stz7uKF0yr1SwE42e4O5OXN
+         5QXLkv6PjO4KP2voytBweD41CVfzp+R3ktM1d9e3hkiAJqPlxJwF2F2ZhckqOh5oojUD
+         Uat6xl4qBCuOxkfMRUDMRoU+5/Jf8oBaljQlaTkULOuy4Jn+FtE9NCpwEpOPybH+FYzb
+         4/UvA7dSPX3bLRLgyW6MixwAXP/xcc3A1aQ8FgYEG+JYcEYLYCCWf9R+qruDSvnDfsbv
+         xp/g==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCUZAVfJLzjwDUnL0o/nxGBU9X3kjO2eV4ZBMA+AtwlHUbuuitRejOpXNJHioQ4VpIE4cJVaKvtHzbY2hPqblJflDuPX8WRS3w==
+X-Gm-Message-State: AOJu0Yw3beGBWO9LnxYxL1I+kwhEo+e9qnBo8JC4CqfOP2kUr6Bzgz6B
+	9tCwu1usd1099ANNX91Qh+rT73T4SzNIdrAhn9CgGD36vjEjqK77
+X-Google-Smtp-Source: AGHT+IGCEVYCOZM6sC6wtlXXX/ExvjmNvgBzasRnVW38YFCdjXR44RHHNrzgMp0w0NnwLBWOyUTYIg==
+X-Received: by 2002:a05:600c:3582:b0:414:8889:5a65 with SMTP id p2-20020a05600c358200b0041488895a65mr6691909wmq.30.1711484778966;
+        Tue, 26 Mar 2024 13:26:18 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ad4:5ceb:0:b0:690:c950:c414 with SMTP id iv11-20020ad45ceb000000b00690c950c414ls8569940qvb.2.-pod-prod-09-us;
- Tue, 26 Mar 2024 12:34:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXvueqOuj7Xdv63lNfpBlvrSA3LpHHlHlbonvIr8fEfXnNKHyFXAt4EMKa/82//1Hg68p6wA4jjrSVwxpU/KxZaIil+cDbnCsev5Q==
-X-Received: by 2002:a05:6122:449b:b0:4d4:20cb:8c0 with SMTP id cz27-20020a056122449b00b004d420cb08c0mr8592128vkb.8.1711481649041;
-        Tue, 26 Mar 2024 12:34:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1711481649; cv=none;
+Received: by 2002:a05:600c:3b1b:b0:414:81f3:2d6f with SMTP id
+ m27-20020a05600c3b1b00b0041481f32d6fls1702997wms.0.-pod-prod-07-eu; Tue, 26
+ Mar 2024 13:26:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXNvkdUonFp8A7ZukA/YTbWwB5wp181YUj1Mbpn+XVWOVh5hEhqlrU1Lm7Zi9aCupB0wAFT2p+GfBWdVTPskrO8HrDlQK0O+EklJw==
+X-Received: by 2002:a05:600c:2293:b0:414:835:6ed2 with SMTP id 19-20020a05600c229300b0041408356ed2mr7858885wmf.35.1711484777020;
+        Tue, 26 Mar 2024 13:26:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1711484777; cv=none;
         d=google.com; s=arc-20160816;
-        b=pO5CQ9T1c3uxOYEmEWDuybe/V0y/ooj/XsY3O8P5ICxcjMB5YiEqJHvfQ93w3OtCJu
-         2iC1cmkVlIq8N4JIpaeO75VK7UO7+dimD7VdmHpkJ9DGhYSmzGDessFy94OAMW30p0JT
-         Xls3ZaYM9CTZHfGIw+GmztZC7OGigCEb21pjn26jRV6R2sD0lFfstgIVA2w/7E7L8C1v
-         XTT3Ep93L5R53LVoD2+D3Oha+FghAvviNQNONOD8CMqOWxjrMS4v5UCR0UdLougXO0+z
-         wjdU9ncFBT7Kls4kSCQDdGBvPLeRYJgH1+ucMZoM8cyaUQHqHMVNZE/sfwsqQ9tN9fml
-         Cv3Q==
+        b=hx0GLCby65KQt0OX+ufm1jKU6zZPeOPSbBg2cQkc4Nb/4MN9v0DerbTfBS84fJrkdP
+         dui0yRzKuRjm/N5qIdWaooubXu+NOh9S9tzBmsNNhfbF9tvrDmcpN7W0HIT2KT6hkUd7
+         CAkAykqZpYT1muARCZ6cWcvuAVCPKyLiFO165X99kyfmvmtW2O6GKIj5Rvs+wi0eozMY
+         GjtBw/6Spb+VKrBaGu7JpRHsgXwF78Ih+whwCj4x/uq8J9DNP1VISfyj6oxvmE35Temd
+         oBQNbJeI1quJ3/s9mk4ag1gUDF7zP0jhJJmXVd8loniEWpuD5h23JTprkO+wxlYxNp0I
+         s7oQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=B6sTqJ0aPnz4xq/ZZGbsUBdM/hjOugrKakCuozLiqI4=;
-        fh=Vv4giNqh/zpRoXP3CA2XVlqhc+C2FSrSCF80IcETM7I=;
-        b=N3mpKsqDuSOjVI0FZi/YKl2/4q6lMd9MUVx9sH8DvihLPW619YNxEH/rpbtoXXmj6Y
-         yejmvVqYQFzlBRydwUIqRqWe1KanKUF9gSl9SKtXITbErZQsqzYBdkcDlMOcmehjV0zq
-         DRw+3YODG1AC0pzBxPVSUGyW3IHE7r/o2dr+V5qYHLD4qANiDdv6dsN8trDhtiHnltOW
-         p8MUkUy4MycVWRwqSIjSxHgrBQI9cKD4A3AMKXpeeGr2ZvxN8zqP2+9tjc62EwdMY4Xd
-         P7XvpnNF0eQ/PgrKGZJiltkS0zPucc7iGQXzbk4gq2SOv2YAN2xTA8gL5NHLdKKwA6Bj
-         Pdwg==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=3SbmZZlB5wb5VIeyhkLEZvwoIUAa+ndZFBbsOshMQUA=;
+        fh=bDUrqq6yadg5U57byae1AjMk9CnRQsrx5vh7pnEbV4M=;
+        b=wcQmGWD5vHE5lFBcd31pVu2flfCoe1ApRAvpM4Gos9iQ+TXv1FxA2zavL+bV2/ciA7
+         g3Qb4YZ6rFief6C72HAjpxuAI5FocttIalMJlfwmDfBhlcR63/hJYyqowLB2qnlKSOry
+         3njaH+WLdyu/GFxMsfZKNO2w7P370rmZ+cLYsOewDZ0OS2X76jN6gJu08vDh/NJqAftj
+         sGJ9LYMo0z70R1izmGzYsIW4o0YhR5kp8l/QVDN4aYZDD7Xw/d5QzAe4BpDEubuHwB0r
+         eToVCeQwm8FtgMMCfft61qro93TMA+HCNYiql5WFfQcaNc6FOqvwhzAR6QZOP3oMzQk+
+         VG9w==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=EjDSXVsu;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e32 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
-Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com. [2607:f8b0:4864:20::e32])
-        by gmr-mx.google.com with ESMTPS id i7-20020ac5cbe7000000b004d88e05895asi189327vkn.1.2024.03.26.12.34.08
+       dkim=pass header.i=@alien8.de header.s=alien8 header.b=k++KNz+4;
+       spf=pass (google.com: domain of bp@alien8.de designates 65.109.113.108 as permitted sender) smtp.mailfrom=bp@alien8.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
+Received: from mail.alien8.de (mail.alien8.de. [65.109.113.108])
+        by gmr-mx.google.com with ESMTPS id m14-20020a05600c3b0e00b004134299eca3si142164wms.0.2024.03.26.13.26.16
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 26 Mar 2024 12:34:09 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e32 as permitted sender) client-ip=2607:f8b0:4864:20::e32;
-Received: by mail-vs1-xe32.google.com with SMTP id ada2fe7eead31-4765792fc76so1209380137.3
-        for <kasan-dev@googlegroups.com>; Tue, 26 Mar 2024 12:34:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX5TGayPS/WMRoNoB2DMocoM+HHqOi1ukbuQDgJFKNG/Rf0imCkn5GD8QOOIkMcmSarwfQSvSGo2kmuc48ZkId2e9FhvZ4TOd973Q==
-X-Received: by 2002:a05:6102:24b8:b0:476:9ac0:e8c4 with SMTP id
- s24-20020a05610224b800b004769ac0e8c4mr10157730vse.34.1711481648508; Tue, 26
- Mar 2024 12:34:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <0851a207-7143-417e-be31-8bf2b3afb57d@molgen.mpg.de>
- <47e032a0-c9a0-4639-867b-cb3d67076eaf@suse.com> <20240326155247.GJZgLvT_AZi3XPPpBM@fat_crate.local>
- <80582244-8c1c-4eb4-8881-db68a1428817@suse.com> <20240326191211.GKZgMeC21uxi7H16o_@fat_crate.local>
-In-Reply-To: <20240326191211.GKZgMeC21uxi7H16o_@fat_crate.local>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 26 Mar 2024 20:33:31 +0100
-Message-ID: <CANpmjNOcKzEvLHoGGeL-boWDHJobwfwyVxUqMq2kWeka3N4tXA@mail.gmail.com>
-Subject: Re: Unpatched return thunk in use. This should not happen!
-To: Borislav Petkov <bp@alien8.de>
-Cc: Nikolay Borisov <nik.borisov@suse.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Paul Menzel <pmenzel@molgen.mpg.de>, Thomas Gleixner <tglx@linutronix.de>, 
-	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>, kasan-dev@googlegroups.com, 
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Mar 2024 13:26:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bp@alien8.de designates 65.109.113.108 as permitted sender) client-ip=65.109.113.108;
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id D606540E02A2;
+	Tue, 26 Mar 2024 20:26:15 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ipJStxiHWz6w; Tue, 26 Mar 2024 20:26:12 +0000 (UTC)
+Received: from zn.tnic (p5de8ecf7.dip0.t-ipconnect.de [93.232.236.247])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 9C07A40E024C;
+	Tue, 26 Mar 2024 20:25:53 +0000 (UTC)
+Date: Tue, 26 Mar 2024 21:25:48 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, linux-kbuild@vger.kernel.org
+Cc: Marco Elver <elver@google.com>, Nikolay Borisov <nik.borisov@suse.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Paul Menzel <pmenzel@molgen.mpg.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	LKML <linux-kernel@vger.kernel.org>, kasan-dev@googlegroups.com,
 	David Kaplan <David.Kaplan@amd.com>
+Subject: [PATCH] kbuild: Disable KCSAN for autogenerated *.mod.c
+ intermediaries
+Message-ID: <20240326202548.GLZgMvTGpPfQcs2cQ_@fat_crate.local>
+References: <0851a207-7143-417e-be31-8bf2b3afb57d@molgen.mpg.de>
+ <47e032a0-c9a0-4639-867b-cb3d67076eaf@suse.com>
+ <20240326155247.GJZgLvT_AZi3XPPpBM@fat_crate.local>
+ <80582244-8c1c-4eb4-8881-db68a1428817@suse.com>
+ <20240326191211.GKZgMeC21uxi7H16o_@fat_crate.local>
+ <CANpmjNOcKzEvLHoGGeL-boWDHJobwfwyVxUqMq2kWeka3N4tXA@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+In-Reply-To: <CANpmjNOcKzEvLHoGGeL-boWDHJobwfwyVxUqMq2kWeka3N4tXA@mail.gmail.com>
+X-Original-Sender: bp@alien8.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=EjDSXVsu;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::e32 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@alien8.de header.s=alien8 header.b=k++KNz+4;       spf=pass
+ (google.com: domain of bp@alien8.de designates 65.109.113.108 as permitted
+ sender) smtp.mailfrom=bp@alien8.de;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=alien8.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,112 +163,116 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 26 Mar 2024 at 20:12, Borislav Petkov <bp@alien8.de> wrote:
->
-> On Tue, Mar 26, 2024 at 06:04:26PM +0200, Nikolay Borisov wrote:
-> > So this       _sub_I_00099_0 is the compiler generated ctors that is likely
-> > not patched. What's strange is that when adding debugging code I see that 2
-> > ctors are being executed and only the 2nd one fires:
-> >
-> > [    7.635418] in do_mod_ctors
-> > [    7.635425] calling 0 ctor 00000000aa7a443a
-> > [    7.635430] called 0 ctor
-> > [    7.635433] calling 1 ctor 00000000fe9d0d54
-> > [    7.635437] ------------[ cut here ]------------
-> > [    7.635441] Unpatched return thunk in use. This should not happen!
->
-> ... and this is just the beginning of the rabbit hole. David and I went
-> all the way down.
->
-> Turns out that objtool runs on the .o files and creates the
-> .return_sites just fine but then the module building dance creates an
-> intermediary *.mod.c file and when that thing is built, KCSAN would
-> cause the addition of *another* constructor to .text.startup in the
-> module.
->
-> The .o file has one:
->
-> -------------------
-> Disassembly of section .text.startup:
->
-> ...
->
-> 0000000000000010 <_sub_I_00099_0>:
->   10:   f3 0f 1e fa             endbr64
->   14:   e8 00 00 00 00          call   19 <_sub_I_00099_0+0x9>
->                         15: R_X86_64_PLT32      __tsan_init-0x4
->   19:   e9 00 00 00 00          jmp    1e <__UNIQUE_ID___addressable_cryptd_alloc_aead349+0x6>
->                         1a: R_X86_64_PLT32      __x86_return_thunk-0x4
-> -------------------
->
->
-> while the .ko file has two:
->
-> -------------------
-> Disassembly of section .text.startup:
->
-> 0000000000000010 <_sub_I_00099_0>:
->   10:   f3 0f 1e fa             endbr64
->   14:   e8 00 00 00 00          call   19 <_sub_I_00099_0+0x9>
->                         15: R_X86_64_PLT32      __tsan_init-0x4
->   19:   e9 00 00 00 00          jmp    1e <_sub_I_00099_0+0xe>
->                         1a: R_X86_64_PLT32      __x86_return_thunk-0x4
->
-> ...
->
-> 0000000000000030 <_sub_I_00099_0>:
->   30:   f3 0f 1e fa             endbr64
->   34:   e8 00 00 00 00          call   39 <_sub_I_00099_0+0x9>
->                         35: R_X86_64_PLT32      __tsan_init-0x4
->   39:   e9 00 00 00 00          jmp    3e <__ksymtab_cryptd_alloc_ahash+0x2>
->                         3a: R_X86_64_PLT32      __x86_return_thunk-0x4
-> -------------------
->
-> Once we've figured that out, finding a fix is easy:
+On Tue, Mar 26, 2024 at 08:33:31PM +0100, Marco Elver wrote:
+> I think just removing instrumentation from the mod.c files is very reasonable.
 
-Thanks for figuring this one out!
+Thanks!
 
-> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
-> index 8568d256d6fb..79fcf2731686 100644
-> --- a/scripts/Makefile.modfinal
-> +++ b/scripts/Makefile.modfinal
-> @@ -23,7 +23,7 @@ modname = $(notdir $(@:.mod.o=))
->  part-of-module = y
->
->  quiet_cmd_cc_o_c = CC [M]  $@
-> -      cmd_cc_o_c = $(CC) $(filter-out $(CC_FLAGS_CFI) $(CFLAGS_GCOV), $(c_flags)) -c -o $@ $<
-> +      cmd_cc_o_c = $(CC) $(filter-out $(CC_FLAGS_CFI) $(CFLAGS_GCOV) $(CFLAGS_KCSAN), $(c_flags)) -c -o $@ $<
+@Masahiro: pls send this to Linus now as the commit which adds the
+warning is in 6.9 so we should make sure we release it with all issues
+fixed.
 
-This looks reasonable.
+Thx.
 
->  %.mod.o: %.mod.c FORCE
->         $(call if_changed_dep,cc_o_c)
->
-> However, I'm not sure.
->
-> I wanna say that since those are constructors then we don't care about
-> dynamic races there so we could exclude them from KCSAN.
+---
+From: "Borislav Petkov (AMD)" <bp@alien8.de>
+Date: Tue, 26 Mar 2024 21:11:01 +0100
 
-Yeah, we can just exclude all the code from the auto-generated mod.c
-files from KCSAN instrumentation. It looks like they just contain
-global metadata for the module, and no other code. The auto-generated
-constructors don't contain much interesting code (unlikely they'd
-contain data races we'd ever care about).
+When KCSAN and CONSTRUCTORS are enabled, one can trigger the
 
-> If not, I could disable the warning on KCSAN. I'm thinking no one would
-> run KCSAN in production...
->
-> A third option would be to make objtool run on .ko files. Yeah, that
-> would be fun for Josh. :-P
->
-> I'd look into the direction of melver for suggestions here.
+  "Unpatched return thunk in use. This should not happen!"
 
-I think just removing instrumentation from the mod.c files is very reasonable.
+catch-all warning.
 
-Thanks,
--- Marco
+Usually, when objtool runs on the .o objects, it does generate a section
+.return_sites which contains all offsets in the objects to the return
+thunks of the functions present there. Those return thunks then get
+patched at runtime by the alternatives.
+
+KCSAN and CONSTRUCTORS add this to the the object file's .text.startup
+section:
+
+  -------------------
+  Disassembly of section .text.startup:
+
+  ...
+
+  0000000000000010 <_sub_I_00099_0>:
+    10:   f3 0f 1e fa             endbr64
+    14:   e8 00 00 00 00          call   19 <_sub_I_00099_0+0x9>
+                          15: R_X86_64_PLT32      __tsan_init-0x4
+    19:   e9 00 00 00 00          jmp    1e <__UNIQUE_ID___addressable_cryptd_alloc_aead349+0x6>
+                          1a: R_X86_64_PLT32      __x86_return_thunk-0x4
+  -------------------
+
+which, if it is built as a module goes through the intermediary stage of
+creating a <module>.mod.c file which, when translated, receives a second
+constructor:
+
+  -------------------
+  Disassembly of section .text.startup:
+
+  0000000000000010 <_sub_I_00099_0>:
+    10:   f3 0f 1e fa             endbr64
+    14:   e8 00 00 00 00          call   19 <_sub_I_00099_0+0x9>
+                          15: R_X86_64_PLT32      __tsan_init-0x4
+    19:   e9 00 00 00 00          jmp    1e <_sub_I_00099_0+0xe>
+                          1a: R_X86_64_PLT32      __x86_return_thunk-0x4
+
+  ...
+
+  0000000000000030 <_sub_I_00099_0>:
+    30:   f3 0f 1e fa             endbr64
+    34:   e8 00 00 00 00          call   39 <_sub_I_00099_0+0x9>
+                          35: R_X86_64_PLT32      __tsan_init-0x4
+    39:   e9 00 00 00 00          jmp    3e <__ksymtab_cryptd_alloc_ahash+0x2>
+                          3a: R_X86_64_PLT32      __x86_return_thunk-0x4
+  -------------------
+
+in the .ko file.
+
+Objtool has run already so that second constructor's return thunk cannot
+be added to the .return_sites section and thus the return thunk remains
+unpatched and the warning rightfully fires.
+
+Drop KCSAN flags from the mod.c generation stage as those constructors
+do not contain data races one would be interested about.
+
+Debugged together with David Kaplan <David.Kaplan@amd.com> and Nikolay
+Borisov <nik.borisov@suse.com>.
+
+Reported-by: Paul Menzel <pmenzel@molgen.mpg.de>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Link: https://lore.kernel.org/r/0851a207-7143-417e-be31-8bf2b3afb57d@molgen.mpg.de
+---
+ scripts/Makefile.modfinal | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+index 8568d256d6fb..79fcf2731686 100644
+--- a/scripts/Makefile.modfinal
++++ b/scripts/Makefile.modfinal
+@@ -23,7 +23,7 @@ modname = $(notdir $(@:.mod.o=))
+ part-of-module = y
+ 
+ quiet_cmd_cc_o_c = CC [M]  $@
+-      cmd_cc_o_c = $(CC) $(filter-out $(CC_FLAGS_CFI) $(CFLAGS_GCOV), $(c_flags)) -c -o $@ $<
++      cmd_cc_o_c = $(CC) $(filter-out $(CC_FLAGS_CFI) $(CFLAGS_GCOV) $(CFLAGS_KCSAN), $(c_flags)) -c -o $@ $<
+ 
+ %.mod.o: %.mod.c FORCE
+ 	$(call if_changed_dep,cc_o_c)
+-- 
+2.43.0
+
+
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNOcKzEvLHoGGeL-boWDHJobwfwyVxUqMq2kWeka3N4tXA%40mail.gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240326202548.GLZgMvTGpPfQcs2cQ_%40fat_crate.local.
