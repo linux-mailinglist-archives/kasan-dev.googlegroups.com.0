@@ -1,162 +1,140 @@
-Return-Path: <kasan-dev+bncBDV2D5O34IDRBQ5NXCYAMGQEPSRZTFQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIZB7QWENRBAOWXGYAMGQESAPQJVY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4806F897DE8
-	for <lists+kasan-dev@lfdr.de>; Thu,  4 Apr 2024 04:56:05 +0200 (CEST)
-Received: by mail-il1-x138.google.com with SMTP id e9e14a558f8ab-369fcc92abdsf4632995ab.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 03 Apr 2024 19:56:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1712199364; cv=pass;
+Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFFB89838C
+	for <lists+kasan-dev@lfdr.de>; Thu,  4 Apr 2024 10:55:31 +0200 (CEST)
+Received: by mail-lf1-x13e.google.com with SMTP id 2adb3069b0e04-515c91a7ffdsf516453e87.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 04 Apr 2024 01:55:31 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1712220931; cv=pass;
         d=google.com; s=arc-20160816;
-        b=oTgfg84QpsUUUjLbgZEjFancKuqksleyKM0nVCAbBpGXx65YZX/MyPZRFJvkqcs8/x
-         kqIpWuVol1g2apIfO2ELr4nnu4avwfIS0/bQbM5T7xeHqCYq6VbKxAYmrluk2pHpNEtq
-         pX2098TcCIU/Ezflf/yFoqleULQ5fJ85hS29fsG0tztZ0GcwV+5oxz7lqHDBs2MY0fQD
-         JqtBTxbELGT1SOqSyFjw3Q188aiM8LbXBt5ezEj46uf0Vh+bU1CS0IRRs+P3+BcDpOTS
-         H3DOk3cWdkMNZhykFAObTsv0MisoLnPquH4vX3qi5s0jLC33eyoxoHRed6Mh3ACoAg1V
-         LEhQ==
+        b=nkM2ezwOsKxvXSsA4ItjmWEcL7tIkeYQkW/B/aQFQ7Dg8N70fCitVxaqNdbx9tWLSR
+         XSG4i3mwgwpMy1/dJvI0bbQTDwR71rRH0PDTrPMrydDlz+//+8efNotHiPDe3WFYOAVr
+         hfsVlnn6joQwlW0jWoQytN1fIYHsXGLp+O3z5vBiw8yU6ySPAMgZeoiYp0TtbQpgu0W+
+         Pa6nYUztgyDJ/BDSGVnb/T8Lc/k8ZSylljbKr7xZtEXrn3Jhl/xE8htMonlzIymQ+Sfl
+         TjsjcPX+1FcmtHa5S5hpE6kQozNbEWwxpwweiemb9CAjyYA9V4m4aBNctZQPWcuPkXOQ
+         ZUGQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=7FljA/ACLrLvEEjUg2rr5zHGT8ulqIASfAuzJFtbOx0=;
-        fh=LvF7D9VzPB21GcKJOGVFey95gm2QE4xstcI8kevM/ng=;
-        b=AtNqey7WsnKG9qTEjI/GoDMeaeXB6Uhe1WKrnF5K2mZ6bsPPaXCXtAPHzBH/ou1nLN
-         6e0YFSi7XRWDcwaGH1sSR19hmGb5zfWpVsSkxx1W4U8BN6o6uNBDY9Ff2DZWt10GsD8p
-         5EYBpQlH8/oA8nXE6P3YbnXfWRGaI0PP+dku1RFKNz5DMVkG2k0RQDbnP7FSlWuxRT/B
-         kGZF2ik4+VFPleLBsFHklnCFb3+uX2REK4cJdKjxmY1FAh3JS8SBrGNprCVSiwIkUzDE
-         u8aKE9iOSvIXphXBWGJvWqugzF26b9d+wYAX6yUrKhGGBmkXhntSJUxeKQNEHFhFnCFh
-         VLCA==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=IVQb9GIRNU2QvmnuQ4G49P1BueebUQr6YbQ4ddozlKA=;
+        fh=/kqXgH3GsejQ7LVlEoJTzRJ39WFHY80bVjb3ui24MoM=;
+        b=K3Q7bE5AH6fhBaEzj3i4ZZaNczNDsfyM1q2b1BvboA5L0YM2lybH7eZWn4tYb/gvWo
+         z3zPDUhCkHehcJojI2wIr218yRULNEEr+u3zWa1wakv6uwXtItW9BU+iqOpq44ZmKT1W
+         J9L/jgZWFPC7BctMY1sL9ZhVl0foH3e4eYVGGcCsokAlM2ivVa+gm55OzjypeTW8Kkeo
+         Je9JPzTBNGo9ySXMEPqhOaUqF06990RuZf5IAX8xWfwrmqpEFDJhbNMxoJsWb3FGDs5j
+         sUfClAQL749NI/oRm0Tqd8CTHJZzC+4InZQTdRgj191Men1/3oa5AGi93939rxQ4NGY1
+         lxUw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=DOYOq1kt;
-       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=rdunlap@infradead.org
+       dkim=pass header.i=@google.com header.s=20230601 header.b=mQen+zDg;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::12a as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1712199364; x=1712804164; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1712220931; x=1712825731; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:content-language:references:cc
-         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7FljA/ACLrLvEEjUg2rr5zHGT8ulqIASfAuzJFtbOx0=;
-        b=Zv6qm+lTE6ipWgxgHPe8a0J8DwQHSVTAhlCn1QeSu5aaQnY5ygFqBWWGKjeN+dkjlF
-         1u4NImcyJzCYRgAmu6x5or3LC9uix36aD1WopS7j4DGa402qjKmElK93C2HLEgmaypXe
-         zd90yw2XJeNjmqbv2K387ySbzrlK5rcTig/zyL9oMMl5a1QuhEsIiSd2RWYzbXu/fOo1
-         BOmZY3gx88EoOUMgGpqHKTEyy/D5e8UNa7aiYT53Tgv8AEg3i6Lc2R4VPpy9HgCS1NMY
-         XzxEU7RneobWGWQ9nlFmAqMBHIgU2upXJDcAC31bw8NPhQvi+D6ual6fyWX0Czu9pTDN
-         MvQA==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IVQb9GIRNU2QvmnuQ4G49P1BueebUQr6YbQ4ddozlKA=;
+        b=LUzhFMQDYbgCzBSmVusMc6m/bVSVExJElTa6Dn7mNo5OapUiY7Ej0XpqCPiOxPoI32
+         iI+wpVuHeIJXR6NUeYox2/wd7Wcyl/q2i8evn+eCby7ryxDFaRkrDdAbv+/Ii3o6fBE3
+         fIf9w1d2UUG2ckcHTUteOahgow2TnvE56jjXCert/Zp068Q5a159GLfcbgmwcoXRIM7B
+         3Awp2H1ILBIo3LeiRKmPIN6nKp3BrUPnAulSZXUVR9KGxIiaJZkJRdU9V+2wP1QE+uNm
+         2NXiVgBzwpHf2ig8VzaxS1tmazdPj0Z3PEyfPFA15ELGTV2RZ9byamtdIXVRd/7qhhgM
+         xr0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712199364; x=1712804164;
+        d=1e100.net; s=20230601; t=1712220931; x=1712825731;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7FljA/ACLrLvEEjUg2rr5zHGT8ulqIASfAuzJFtbOx0=;
-        b=InGL4/gBjl96U/YsdFyrH6Cyu4adZ5fxm/eALGD0dJrOnAdX3jmMK38vh2bPxYbCHw
-         F3CZJxaF+YUS8tdw/O9LS+THke0FFw/QbLKx54n/UxGrqkXFbo2nJBMcrsTUGrj+27ce
-         EXgmSCLa4PRa17w5tkob7hpBCGH6jLhlJgazq+kjQzIGX2AmGZo5Rzg8TEmfdCcP9YOx
-         KamjIwH9GsqoT/6sL7XbMLvqhGqz/LssufaS3dmtxhLuOHEvyLj3y0sDBayBTNfPkR3a
-         5zOaIkp7XpwdnSPNmmdpe7bjGVW21YBpmjug9ySkK+uTNl3u/WD/cMfHZl4IqzELzoo/
-         URag==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVjNOxMVg8dLRrcvQyAi8uJKaK+II/XjUAmf44StCJ9pSGbZC9Tdrh0FNQMMfXAqest44EIDm9zbHHBFEOFXGJQI13MKCVDIg==
-X-Gm-Message-State: AOJu0Yx6YCy2AtTdhhhbutpoS1eQHiYZrGm+59aK69Ws5T7v7l3yx5B+
-	lOUQLQQ/rlThA8z0RmnQds/R2Wnkw6a3hKpb+/JP3P57wKqL8mm2M64=
-X-Google-Smtp-Source: AGHT+IFal/NbrzEoGbKt4vZnh7FmKG2onIz4Py2385I+W5rciUBywWhR/KPiTK1+IA2SDPWiYCdC3A==
-X-Received: by 2002:a92:c56c:0:b0:368:6eac:3520 with SMTP id b12-20020a92c56c000000b003686eac3520mr1514684ilj.17.1712199363906;
-        Wed, 03 Apr 2024 19:56:03 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IVQb9GIRNU2QvmnuQ4G49P1BueebUQr6YbQ4ddozlKA=;
+        b=DAHq20LmxDXf21c0lJLsGChD6YRIGvYfTzx96UEXpWNZmz68PKDrpplG/4W8fUbWIj
+         oBwUe9n1VsRm9jpn/RokpsAcsPveGPv83YBMMqfFb4CeHYNiNOOnh172ZbGyLu2KYPG9
+         18T7L1a0SqaQEvVlutQMF0ivmvuxyYzn+pZba/fdFj0Zlp22wD8pdGIW5rDUHintPRHT
+         /K6vg7zITsE9Oqj/lFq4PRAx8oJlmxb6yEU5DPVndGGuLlHAYwPKMIuBsuPQSqTb8UzQ
+         iXfRVlx6PrvHL3FAnK6piOyfWSmQC9121DOUluRjABvzamfP2IpxfuVU4EiIee2HauYY
+         ChEw==
+X-Forwarded-Encrypted: i=2; AJvYcCVFWAZElG7NkZGfYDyY9QXfPoxrllt77Kd7xeVfQ2lLgsIuSsmGhqzpfj3kmtvDJA/aJybpvZEgwRhFH9uRzptIU7D887GvHg==
+X-Gm-Message-State: AOJu0Ywu628zj/sP5foERe3M4wKrc9T5SpW4HgCkDRvOicaLywmRejej
+	nyc39wD1gz2iZ485jdVTnOSTUQWOv1HkvalH7uBtnwlU1Ynq2bjb
+X-Google-Smtp-Source: AGHT+IEpEvpLLgxV8PUfmrSuw3T86ymLqEK4W8hDyxJQ18HnTYWEg8BFdEJC6MH/EzwpIVEcx35AsQ==
+X-Received: by 2002:ac2:5ec6:0:b0:516:d0c2:3ff9 with SMTP id d6-20020ac25ec6000000b00516d0c23ff9mr186800lfq.67.1712220930305;
+        Thu, 04 Apr 2024 01:55:30 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:178c:b0:368:9d0a:4c26 with SMTP id
- y12-20020a056e02178c00b003689d0a4c26ls348674ilu.1.-pod-prod-06-us; Wed, 03
- Apr 2024 19:56:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUGMUrk3bJBaLo9k5nphdEuflOVhet9bgD7r+kQbAqwaelN2LGt8V0Xs8Hfa1xfwNRgtvNunPmIY0vl8GAuhW6yeqhLe7KE72Q5Uw==
-X-Received: by 2002:a6b:e202:0:b0:7d3:54c7:2438 with SMTP id z2-20020a6be202000000b007d354c72438mr138081ioc.14.1712199363034;
-        Wed, 03 Apr 2024 19:56:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1712199363; cv=none;
+Received: by 2002:a05:6512:615:b0:516:be4a:286c with SMTP id
+ b21-20020a056512061500b00516be4a286cls108478lfe.1.-pod-prod-05-eu; Thu, 04
+ Apr 2024 01:55:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCW5veuDehQNRxEO6wvoktUWJEhPLONPqFxZY7t5f4wDy6gSXGKpj3iLi5HzeVmu725B7Z72ZChrR351hjmUEuwoNfHNQCV5uDlRUw==
+X-Received: by 2002:ac2:4c39:0:b0:515:c141:2a32 with SMTP id u25-20020ac24c39000000b00515c1412a32mr1657830lfq.35.1712220927665;
+        Thu, 04 Apr 2024 01:55:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1712220927; cv=none;
         d=google.com; s=arc-20160816;
-        b=Rlu1L2kLQMdDUENeOvOnna8am0ErxFHdoN6JJaww6j/9li/t7r1NJOPP9dHvkakl1o
-         l96N7o6BlUd/xRvHtfCPQVasOWnRuBCvkd2ysTnTz2S7gdooZmAPKj7JsgqClmfoVfWz
-         P7IKLTREuSNMPbomaH/lEIZuvqYUI8P3kuxqKJTc9CP734D/J5MOFs+v5TgTyfWxfgzl
-         ZYe/u65+cJ2+XjIcgrl5vg33sNFIN46uqfbUJIoKSv0Uk0pi7MS0cwmd8M2J99nkhNSl
-         IzsBFUYnIN/EVM64mE5rHFoftzTCGGqReXBcq2CGAp7bu2RK85sRyz1a4TEMLqXBPdYT
-         xJHw==
+        b=N1VJPi8HWJG/kgi7hFP4XxCZG/rYSdUo/ut/3mKOfu15R6QzaktyXowFE4unEvO+aD
+         5NooU/yF41MH+6x07TLTTzRcFnW0mFSeDvsqh5BjhPXkuhpl5rLL9tG7iKn+G4kv8tHC
+         Xx42x0fLyxyCrXL/KOqNEfhK9S0udJu9A58CwjNOWOcGxcYFpNV4qVX9kTPqyOd9R7en
+         40IWYMpFLsos5du9ycWkOWEhLOcouZeQMKAOBqHLMcobWeMEdNVgM0l/Oz+5dhP8sx2s
+         ThLg65u7guupv8wZlHDMYq5KOVhaCcHLyy4VBEL8jr8jPooWSdnhvxcqe2Zx6jRlqf+f
+         FYuw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=b2H16tqCkJ6i90mQLPDpV1ZsYZDW4KEWWz9R9e+0Oig=;
-        fh=0++Z8iPaToeXsiYPhMz2g02LF1kl+WvaMBku9FSLiKI=;
-        b=jmZZkA7h4tRLtGkI528i85eAzDcuijuMetKJRKlZnrDSfbA8srKwZ+JpaEYVXFM5ag
-         E6MmglANrmdk/8lKBeYrZxJXYzdOrgXiCTtim7hd4fS29HYYdPCsDXZmIagZX9PZP30d
-         tTJLFJIU6Pgz+8qGKbMOUlauqvH3O9ki4gfLJ8CLsCx7UnDTLmEGJrm0CHeHHq+TbiFp
-         nrV/aMXZKAVYR0BqUM/UhCMQvAkAuEjYeWV9tCjdKTtRUwhaCSpnxv5PCNmgLE5Rs0Ph
-         qVkjoBq7WvTX+nVllSbbeBUvi4p8dNoLYM21vNOGwFegkv/oqxwKHpirSNgvkkEucMVp
-         b07Q==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=t3+/tCR4hiyQCc/kSu8Ua48ZwM/P/iLQrVfSfzYNWog=;
+        fh=xwG+lsh3/5U+xdm4Kmy60baNNn0J0s+Jr/dz5YPB9rw=;
+        b=iRBLpje49lTjJV2y5QKICQg2CJqse3aeVVhtumRllVbdQzyYg3DaVe5WmDBTRZhT3Z
+         TD/tAB1aWaAmLWnffXUXIgRUNq9T5icWSw59LZg+u4uLjQVPOk30zYI+dzScxBKjPFnr
+         jXbSmdizL9pJarGuE1CkARrCVfaBi17wpWMlndZD/RoZN7KLyze0KcFeRDdsORSiwbxa
+         338MbklcFFvaGSHyoCkc0Ewc7lHKybsUtgBI6jbBc7BQ8lf87ZhZEOrfhkSTpQVMPD8U
+         Gc7t7LGlF2D9Sadk5kfYLj3OFVp1MwtM2+BFynJeL+9mmBSQ4PfPOCOIBe0s/F3V9wnz
+         qvUw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=bombadil.20210309 header.b=DOYOq1kt;
-       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=rdunlap@infradead.org
-Received: from bombadil.infradead.org (bombadil.infradead.org. [2607:7c80:54:3::133])
-        by gmr-mx.google.com with ESMTPS id s12-20020a056638258c00b0047f1e1a075esi160943jat.2.2024.04.03.19.56.03
+       dkim=pass header.i=@google.com header.s=20230601 header.b=mQen+zDg;
+       spf=pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::12a as permitted sender) smtp.mailfrom=dvyukov@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com. [2a00:1450:4864:20::12a])
+        by gmr-mx.google.com with ESMTPS id r22-20020ac24d16000000b00515cb72e437si506440lfi.6.2024.04.04.01.55.27
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Apr 2024 19:56:03 -0700 (PDT)
-Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2607:7c80:54:3::133;
-Received: from [50.53.2.121] (helo=[192.168.254.15])
-	by bombadil.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1rsDGA-000000012Up-3OOS;
-	Thu, 04 Apr 2024 02:55:27 +0000
-Message-ID: <5a349108-afd9-4290-acb6-8ec176a80a84@infradead.org>
-Date: Wed, 3 Apr 2024 19:55:22 -0700
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Apr 2024 01:55:27 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::12a as permitted sender) client-ip=2a00:1450:4864:20::12a;
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-516d0dc0cf7so127e87.0
+        for <kasan-dev@googlegroups.com>; Thu, 04 Apr 2024 01:55:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXNjk3Qa8EhvQyP148+oqJVePLaXP+7LHcQVNdCgCon2v78sOUbsw4vkSLQ/hk7WueFXi3qWC1jQ8uEYZBzK5s0EdkOpORaSUyPYw==
+X-Received: by 2002:a19:4342:0:b0:515:b9de:e444 with SMTP id
+ m2-20020a194342000000b00515b9dee444mr25478lfj.6.1712220927041; Thu, 04 Apr
+ 2024 01:55:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 01/37] fix missing vmalloc.h includes
-To: Kent Overstreet <kent.overstreet@linux.dev>,
- David Hildenbrand <david@redhat.com>
-Cc: Nathan Chancellor <nathan@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
- mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org,
- roman.gushchin@linux.dev, mgorman@suse.de, dave@stgolabs.net,
- willy@infradead.org, liam.howlett@oracle.com,
- penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com,
- peterz@infradead.org, juri.lelli@redhat.com, catalin.marinas@arm.com,
- will@kernel.org, arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com,
- dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com,
- axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, dennis@kernel.org,
- jhubbard@nvidia.com, tj@kernel.org, muchun.song@linux.dev, rppt@kernel.org,
- paulmck@kernel.org, pasha.tatashin@soleen.com, yosryahmed@google.com,
- yuzhao@google.com, dhowells@redhat.com, hughd@google.com,
- andreyknvl@gmail.com, keescook@chromium.org, ndesaulniers@google.com,
- vvvvvv@google.com, gregkh@linuxfoundation.org, ebiggers@google.com,
- ytcoode@gmail.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
- rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com,
- vschneid@redhat.com, cl@linux.com, penberg@kernel.org,
- iamjoonsoo.kim@lge.com, 42.hyeyoo@gmail.com, glider@google.com,
- elver@google.com, dvyukov@google.com, songmuchun@bytedance.com,
- jbaron@akamai.com, aliceryhl@google.com, rientjes@google.com,
- minchan@google.com, kaleshsingh@google.com, kernel-team@android.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-modules@vger.kernel.org, kasan-dev@googlegroups.com,
- cgroups@vger.kernel.org
-References: <20240321163705.3067592-1-surenb@google.com>
- <20240321163705.3067592-2-surenb@google.com>
- <20240403211240.GA307137@dev-arch.thelio-3990X>
- <4qk7f3ra5lrqhtvmipmacgzo5qwnugrfxn5dd3j4wubzwqvmv4@vzdhpalbmob3>
- <9e2d09f8-2234-42f3-8481-87bbd9ad4def@redhat.com>
- <qyyo6mjctqm734utdjen4ozhoo3t4ikswzjfjnemp7olwdgyt4@qifwishdzul4>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <qyyo6mjctqm734utdjen4ozhoo3t4ikswzjfjnemp7olwdgyt4@qifwishdzul4>
+References: <20230316123028.2890338-1-elver@google.com> <CANDhNCqBGnAr_MSBhQxWo+-8YnPPggxoVL32zVrDB+NcoKXVPQ@mail.gmail.com>
+ <87frw3dd7d.ffs@tglx> <CANDhNCqbJHTNcnBj=twHQqtLjXiGNeGJ8tsbPrhGFq4Qz53c5w@mail.gmail.com>
+ <874jcid3f6.ffs@tglx> <20240403150343.GC31764@redhat.com> <87sf02bgez.ffs@tglx>
+In-Reply-To: <87sf02bgez.ffs@tglx>
+From: "'Dmitry Vyukov' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 4 Apr 2024 10:55:13 +0200
+Message-ID: <CACT4Y+a-kdkAjmACJuDzrhmUPmv9uMpYOg6LLVviMQn=+9JRgA@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] posix-timers: Prefer delivery of signals to the
+ current thread
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Oleg Nesterov <oleg@redhat.com>, John Stultz <jstultz@google.com>, Marco Elver <elver@google.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, 
+	"Eric W. Biederman" <ebiederm@xmission.com>, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kasan-dev@googlegroups.com, 
+	Edward Liaw <edliaw@google.com>, Carlos Llamas <cmllamas@google.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: rdunlap@infradead.org
+X-Original-Sender: dvyukov@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=bombadil.20210309 header.b=DOYOq1kt;
-       spf=none (google.com: infradead.org does not designate permitted sender
- hosts) smtp.mailfrom=rdunlap@infradead.org
+ header.i=@google.com header.s=20230601 header.b=mQen+zDg;       spf=pass
+ (google.com: domain of dvyukov@google.com designates 2a00:1450:4864:20::12a
+ as permitted sender) smtp.mailfrom=dvyukov@google.com;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Dmitry Vyukov <dvyukov@google.com>
+Reply-To: Dmitry Vyukov <dvyukov@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,54 +147,47 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Wed, 3 Apr 2024 at 17:43, Thomas Gleixner <tglx@linutronix.de> wrote:
+>
+> On Wed, Apr 03 2024 at 17:03, Oleg Nesterov wrote:
+> > On 04/03, Thomas Gleixner wrote:
+> >> The test if fragile as hell as there is absolutely no guarantee that the
+> >> signal target distribution is as expected. The expectation is based on a
+> >> statistical assumption which does not really hold.
+> >
+> > Agreed. I too never liked this test-case.
+> >
+> > I forgot everything about this patch and test-case, I can't really read
+> > your patch right now (sorry), so I am sure I missed something, but
+> >
+> >>  static void *distribution_thread(void *arg)
+> >>  {
+> >> -    while (__atomic_load_n(&remain, __ATOMIC_RELAXED));
+> >> -    return NULL;
+> >> +    while (__atomic_load_n(&remain, __ATOMIC_RELAXED) && !done) {
+> >> +            if (got_signal)
+> >> +                    usleep(10);
+> >> +    }
+> >> +
+> >> +    return (void *)got_signal;
+> >>  }
+> >
+> > Why distribution_thread() can't simply exit if got_signal != 0 ?
+> >
+> > See https://lore.kernel.org/all/20230128195641.GA14906@redhat.com/
+>
+> Indeed. It's too obvious :)
 
+This test models the intended use-case that was the motivation for the change:
+We want to sample execution of a running multi-threaded program, it
+has multiple active threads (that don't exit), since all threads are
+running and consuming CPU, they all should get a signal eventually.
 
-On 4/3/24 3:57 PM, Kent Overstreet wrote:
-> On Wed, Apr 03, 2024 at 11:48:12PM +0200, David Hildenbrand wrote:
->> On 03.04.24 23:41, Kent Overstreet wrote:
->>> On Wed, Apr 03, 2024 at 02:12:40PM -0700, Nathan Chancellor wrote:
->>>> On Thu, Mar 21, 2024 at 09:36:23AM -0700, Suren Baghdasaryan wrote:
->>>>> From: Kent Overstreet <kent.overstreet@linux.dev>
->>>>>
->>>>> The next patch drops vmalloc.h from a system header in order to fix
->>>>> a circular dependency; this adds it to all the files that were pulling
->>>>> it in implicitly.
->>>>>
->>>>> Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
->>>>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
->>>>> Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
->>>>
->>>> I bisected an error that I see when building ARCH=loongarch allmodconfig
->>>> to commit 302519d9e80a ("asm-generic/io.h: kill vmalloc.h dependency")
->>>> in -next, which tells me that this patch likely needs to contain
->>>> something along the following lines, as LoongArch was getting
->>>> include/linux/sizes.h transitively through the vmalloc.h include in
->>>> include/asm-generic/io.h.
->>>
->>> gcc doesn't appear to be packaged for loongarch for debian (most other
->>> cross compilers are), so that's going to make it hard for me to test
->>> anything...
->>
->> The latest cross-compilers from Arnd [1] include a 13.2.0 one for
->> loongarch64 that works for me. Just in case you haven't heard of Arnds work
->> before and want to give it a shot.
->>
->> [1] https://mirrors.edge.kernel.org/pub/tools/crosstool/
-> 
-> Thanks for the pointer - but something seems to be busted with the
-> loongarch build, if I'm not mistaken; one of the included headers
-> references loongarch-def.h, but that's not included.
-> 
-
-That file is part of gcc plugins. If you disable CONFIG_GCC_PLUGINS,
-it should build without having that issue. Of course, there may be other
-unrelated issues....
-
-
--- 
-#Randy
+If threads will exit once they get a signal, then the test will pass
+even if signal delivery is biased towards a single running thread all
+the time (the previous kernel impl).
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/5a349108-afd9-4290-acb6-8ec176a80a84%40infradead.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CACT4Y%2Ba-kdkAjmACJuDzrhmUPmv9uMpYOg6LLVviMQn%3D%2B9JRgA%40mail.gmail.com.
