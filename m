@@ -1,124 +1,126 @@
-Return-Path: <kasan-dev+bncBD66N3MZ6ALRBMOMYWYAMGQEMDTATYI@googlegroups.com>
+Return-Path: <kasan-dev+bncBD66N3MZ6ALRB6GMYWYAMGQETHW4NTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61CC989AB8C
-	for <lists+kasan-dev@lfdr.de>; Sat,  6 Apr 2024 17:11:47 +0200 (CEST)
-Received: by mail-qt1-x839.google.com with SMTP id d75a77b69052e-4343f23080fsf34706521cf.0
-        for <lists+kasan-dev@lfdr.de>; Sat, 06 Apr 2024 08:11:47 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1712416306; cv=pass;
+Received: from mail-qk1-x740.google.com (mail-qk1-x740.google.com [IPv6:2607:f8b0:4864:20::740])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40CD189AB8F
+	for <lists+kasan-dev@lfdr.de>; Sat,  6 Apr 2024 17:12:58 +0200 (CEST)
+Received: by mail-qk1-x740.google.com with SMTP id af79cd13be357-78d346eeb02sf113406085a.1
+        for <lists+kasan-dev@lfdr.de>; Sat, 06 Apr 2024 08:12:58 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1712416377; cv=pass;
         d=google.com; s=arc-20160816;
-        b=MgI1NuxZJ45U8MC53xm1yHSc2JHD5lphQLn2jsVXr8xQl5/MvSCL6TAlzyBl7k7dCm
-         KyQyR1J4i9tt/z6xHfDlsJ6AcQZMXPFdiHfwUHhvsgd75hF4Z6yN6HLG6AVDvj9RqKf7
-         EQpI1UsrqQU0Wmrlh4ywylsoBQwH0Hy/m7wBKS1AOFPv83fsGw8lsoNbZuFvfgL10r3I
-         I87afKp3q8EAz9GO2TQhwjb3xVUwkfN9mRZpPcUE75giFqtmXHd1jOqu4ZRXxYLE4jar
-         0I4e+ELnrIsnfglkTVEzooEQqMvvsiKF8YCtebKOPrxlXjFBRo6x/DmpTVZwb3SG8Tct
-         O6sg==
+        b=mrStKk660JfXrrh27KRHWq9gC2zBO1Ui4jVFkdo1dg/+YJrdIb+cYTZErOVptu6sKC
+         dHe5tjsknGpX8iIluTFzxd2p89d0YwgVgHH0HFJWoEz1tj+od45C73hUK4dB9vo3JbLJ
+         xaScYfI+INIYwvvPDbZ2P6kmYMsyPomDNXgS5h0Ve1MMYlPXRRBkoHR9Alg0v8TF7AJj
+         zodc2UlDkqSJt3UT9ANFfB8eE9LJRoHPi/2sh5ZXkeFnykVzQhgYl47x0poFD2hPY/SR
+         4MV2m+kVfSSOuG22LRqGVfO2T6nwg/gp4EtBUxRhJSNjoOYtozELfgkO0XwTcilfjm57
+         bcOw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:user-agent:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:sender:dkim-signature;
-        bh=sk8MOGLYY1uS6MMhih2pExTCfbfy9H1UcuB5+xrDPE4=;
-        fh=CbxpHSxoLeEIqrJldc2vZ7MU4aTqrtJCaRoqX8ydFiw=;
-        b=T5iWkiQvWlaVJYA+dMOh139CxoYtOejGIvt3NTaYZdA8//6REc7FZcbnaJIPMguiQh
-         qimqtEAJHAoXkMvAIWgoUtAx3EKXcsvUolpkLQWkDDYwtjdZ+UPPuwVKrd7yWcciP0Ak
-         vtOFbckYK45vnDc2v6apRb8kLlO47I13D1ScRVLJHOBV88lLzobgBWgw+WQ02rB94Wgi
-         nWFp+/KMapQEJ49SE15B7wIhLLT0sGzl/l4nMR0SOVodZwTJb/iYNPtYmx6n8L8cqW5q
-         ovbqlJu4ciOUVFm07dtYxt3QnwD55rwwqhYA9YbKj0o8vSL0b2J753LPEibF9iQjszw3
-         z7EA==;
+        bh=XDjYPwe3jJOnY3bDz8Z/8aMjLDa+2fqkBy6USzwMnRc=;
+        fh=C8Uplsb1WTdZqJXlwmiE8bOAqtu5yWNMCETJU5w92CQ=;
+        b=f0GAygcdm22V8WHX3Qj6V5czvesoZftNIaV2qpGKHjXZq/dm6yrf2YKHB3WY75nI7l
+         OkZaYeVpLsLmpz1QUkeSy8v5SJhfSsPd9LiH+dihAn+8/v1JNGgeiKVm1orMovRLmdb6
+         V6uKgBIYLdsybmOgVdM9Wlyiki/z9PkrCcIV/PFtg060/PTpS2abbvlWPHpDbNamsdIW
+         Oib2ii1y7SsVhdpFLjBUl/V/0JaOHBrsOcnGBy4V8OUY2IDj7uwGLzzEXxGVbdwWKM24
+         m2bUis1tlROb+x36/eQaJfb8cLPBbQkLMocRNsQCAv2C3j35/QCTIvMc6qYcsj7L/Tx9
+         BqdQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of oleg@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=oleg@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=N9u4d8jW;
+       spf=pass (google.com: domain of oleg@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=oleg@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1712416306; x=1713021106; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1712416377; x=1713021177; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:user-agent:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=sk8MOGLYY1uS6MMhih2pExTCfbfy9H1UcuB5+xrDPE4=;
-        b=CrsoxViQcY9FM9Ao5zZME84ae6tpwhPqBVyYwWjOaEgJ2/FvNGiiDNLUwA09GbD8i/
-         ImCyUY3mAfscRSFa82GBnPdDR8pXwK+WNbsr86l4W1Z7QntjUFlN5T250XO+fEAt0TPH
-         pYCBavdh4FggDgSBbsldCYtOt3UaHzlD0odkgJIsL+b99V5x7d6rZi7rNvVvB7CPc/dw
-         cc/TE7eBjSs66k6CvVyOi58z9TQuwvn9Tbn/z3De/4qr0G7VPwVOD5w5Fm078otOCk8E
-         FmxK8LACf7kZLxgkQhab7ZjL9bgtHFDWkboTUDDohJbxNFbxhi30agyQeQc0OoGOziz9
-         HNiQ==
+        bh=XDjYPwe3jJOnY3bDz8Z/8aMjLDa+2fqkBy6USzwMnRc=;
+        b=uBSsdzq4i0WFQUMBgDMnaovP+vom2uNUzlsldnrlD7IaROVUFMOGqZ6jyH0u0321S2
+         y5rdhNMFeuFjpq+EMAGSGZLbAx02MAhuJ4Wn6FSfkrHWQBqGAL21RZuIXVjovuppBoa8
+         QuopQBLvJ0+p0CRqKdAGG5U/acwtYvxwv9ilSfCsBP8I2EojpWPSG9M5OdQMqmU5ljEX
+         xnG6HevN36Op7puqslVxrPADFZcfTQNw8yMYsRpl5ZMIdZzWh3PMVafQPo5/yqyJ5B4a
+         K63Pr7DlZU4ZuJpxEnzW6UfcjogkAR9Ao6bmIZAqUaDOOfa1CwtCuq0QUph/NjgexVcD
+         HWNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712416306; x=1713021106;
+        d=1e100.net; s=20230601; t=1712416377; x=1713021177;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:user-agent
          :in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-beenthere:x-gm-message-state:sender:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=sk8MOGLYY1uS6MMhih2pExTCfbfy9H1UcuB5+xrDPE4=;
-        b=gjOEfyHzfbnROLmXcTg4MOBxbhSInUIAIvKAZgMxMk/Icb8NUr4K6Gd1cs2d50/9b9
-         o4yawt30OZu616LZb+dEP7ET5jwpO5AvWLeyIEixZP0d0gOV31TcMKWGdKfabXQIUuD1
-         NOsvzdXwBFLpfRVIF7DjuqnmJHOK2YvRVkvnyrHLagDepIjqAEbwf7zcBi9/AEd2IWw1
-         jTIRPFXfXnVk47Zmsq6s1pB22vMh2Ck6BRq4JMPxdH3NXW+EjdUYzwGghzZTvDX0l2gE
-         6Ta2IxJspjNPvy1jZyNe3F9sbGbgEVtffrDAES05nz1iE+iF/H05qAMFJT9fPR0cvPWt
-         RUhQ==
+        bh=XDjYPwe3jJOnY3bDz8Z/8aMjLDa+2fqkBy6USzwMnRc=;
+        b=tlJD85qjVIteto97ubPYcCly3PcbtymArf7KoE7uz5L2rQhaNp1kxG1Df/UUkKEz7Y
+         IklWpkUvEmkXG6ASYBuBPhb6vj0vINDR7iWEyxndAzNXBYu3katdxZ/8sfj5Z+66i+30
+         Eg+hIIFeTOVhlFixD4Igb+uNcsD60rrb5DoPcxpxt9yrjP/cQ0gm2nS+s6eO0BoWIKve
+         2c4rM8ymMAIadMC/qvbkEpDotAA2HXO+hwuMsFivonMeqldt8DvTNFpD1bHS/ZOvunxN
+         w+GWtVF5ladwKygnYluEVFeS9Tr65m91VMFkAlRxHK+BeUg58sHwRAKR1adQpTYhS02F
+         wfkw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUGqPGXECI2zXY1+Fl9825aoeirbd/XtHu0WG8JItqYpK4tqnVD6V48qLte3v8jSubTaMzqRDCeVtQPPL8CDBQps8JeWVKCHw==
-X-Gm-Message-State: AOJu0YxIHJs6uRswNWSYZH0ikk30Iu+3xFJuA2vFLet7hxJQS82wAo5L
-	W5q+Bl3R7VAchOiMPtF5QTW1b3KGSJZnjDv7vJygCttUHeqOSMUL
-X-Google-Smtp-Source: AGHT+IHrmclW1iaVr9WFnGG4LpqY+IivuG3Izm01VWJp84EU9WeDzIW3ndy7cSps2E7i2Ro2oxFNTg==
-X-Received: by 2002:ac8:5992:0:b0:434:7b16:96bb with SMTP id e18-20020ac85992000000b004347b1696bbmr1119492qte.62.1712416305885;
-        Sat, 06 Apr 2024 08:11:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUiNjD1Rp6UTUbaI52GxLIWf2Z6DV9JCpO0ZBVIglD8iPwkyy024RIVQpertvnihl/qfBq5cilezUFzVGP93tZJpKHE4wnyrQ==
+X-Gm-Message-State: AOJu0YxmSKeMFMTJzfcwFSZG5Q7c+ZIfr3h70jl0/pyJY7SYJznOijLh
+	Pld2OUDdry5nAKJ5QMqMmFdqyatxqK1B1bv72lGmA+sE04RwryVB
+X-Google-Smtp-Source: AGHT+IHWe4w8igj/Ev/bdtXmOKufU+2f1qxyXSIpI8k1EnS/GwIxSutvJWGsgFEKnWPQ3m9isT6g/Q==
+X-Received: by 2002:ac8:57d5:0:b0:434:797d:b55d with SMTP id w21-20020ac857d5000000b00434797db55dmr1365588qta.2.1712416376780;
+        Sat, 06 Apr 2024 08:12:56 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:5ac1:0:b0:431:7c7c:abae with SMTP id d1-20020ac85ac1000000b004317c7cabaels4139287qtd.0.-pod-prod-03-us;
- Sat, 06 Apr 2024 08:11:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVxY3jCyrNIybRxgc/+NPeYDhH5agEg5NYI05K/hITu+oK6FwKiDCqDufg0IFL9ONHtfO7BPJtAosH1as0DHXH+0QTJ28nKN0Vu2g==
-X-Received: by 2002:a05:620a:a9b:b0:78d:39e9:2f65 with SMTP id v27-20020a05620a0a9b00b0078d39e92f65mr5010018qkg.0.1712416304944;
-        Sat, 06 Apr 2024 08:11:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1712416304; cv=none;
+Received: by 2002:ac8:7d91:0:b0:432:c29f:106e with SMTP id c17-20020ac87d91000000b00432c29f106els3924802qtd.1.-pod-prod-05-us;
+ Sat, 06 Apr 2024 08:12:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU0aZX+hBItPY2wzGeDUc4SeaITpfCCDaiviS4IL1Xgts/c76/bBXn2iSFCy1wSD7vrEitOhrSylvAU9yzeiOakWQWn3TdO0nisiA==
+X-Received: by 2002:a05:622a:1a12:b0:432:b6a1:e52d with SMTP id f18-20020a05622a1a1200b00432b6a1e52dmr5859015qtb.11.1712416373584;
+        Sat, 06 Apr 2024 08:12:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1712416373; cv=none;
         d=google.com; s=arc-20160816;
-        b=mquarVhRujRqUI7m2DpJe2ORexClZei1pQPbXVtabG9ewlBfQUdIRIuLcySAGM0Zm2
-         eARWWtwGWJpA5GxDtqj4sGxdtJ6NvcmmUuI1z/e6fjrxD+O7KM0f7qDf9y74P7L5oNhi
-         eywTgfdbS8sQCn6ayqlWvQWD+QqVWCL8H6Mgdmyr0RnGL0Y5INnK8MsdNts6bHHkgLCO
-         QFLTo5n2fP4T5EXHt6MWQZ4k06a5vJ0hqeAFuZXwZyC0hroG+14iH+qYkyo0gflD+/C8
-         0m36PHaM5mFP8b2PeSj+RCQ9QUG/rqE8B1eZ17v8IvlFsZ0gGl5H3LROHYY2PyZKXkSA
-         HMRQ==
+        b=fk41gT/48HPlqs2jYqXWZb+KlvoehfMc8GJLEON6FJiluGiLsWs5JG35Vc28DEgFX2
+         6aO8cD/SNbNlbYawjwQjuIXL52YN+sq5ib08SC9so3rcto17u2MybRxnbH1oZs35+M0k
+         Uy/nXQdtpKenYBKNTOv9Ol2MU695eHJBNsl2Ri+ISBq5n8i+AkJJ8GTyjuufKQneyx8r
+         zwLY4K3352dda9axVCjOZqgx0PYTlDNHSWrmUu1V9fNgM5FcaV3LDLtwGam9WvgonS7A
+         i3HGVB404QSivzXfIWl1eXEp5BBnvKeDEqD2cNHWJyhA8+AVd0C9chkmvDIUrtJlVyBk
+         cO8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date;
-        bh=ig0EmkPspn25ineI/4jKY6oNuD+KZIpANNpTNpRld0A=;
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=BGna14aQz4iT3c7nYzBJYPjJNR/JUSUa0PJutHav/fU=;
         fh=QM13yX5cyx0gKVLH9qgXc292C0jk7N6nZCeRL8zZxhQ=;
-        b=Cu4YXq4X90mbDD7e70bsoDzzbDjP+nLainYqhSJGT8Ug7z46zDgStRIbpNCutCcmgc
-         kx4Yzt92D7upLYUb60BYiEjJ2PUnmun0K/Fi2Bx0GxQu92UpmDf64slR1HMD8WQ2sc/0
-         DAUXOye5zTFqdSNn3U8EY7bGHNRIHNOe3tD6IgY3iVxV6XMlhJsfG/1ASP8H8f7WvT5Z
-         LPgbx+NoTprskBU760X76i4gOSqiDHbF9K1Lhs5UiF7EDvImcX7mMNa1vQP/+mzyCYtL
-         Sar78JPPM481qF6piOgEdiRIPvjan4sKfrIW35/OGfA5oe6tWP92MEaXFlB3Tz69Rzft
-         44bg==;
+        b=ssRgjDGoSjWzcL6icmm4BkSvtKkVoxXK0KkCSWsmiHQvIjjapmPXpIs3YmMO1EkCXS
+         tVkZ35MCRlauDTMl6FQSyWAxtgXFCjSIQSsCKoLeoMHgkdLVLJPznDcW06TDro1bJX4S
+         3zyJJnF3vDbvdWd3hPBo2RXxvtXWicqs52TEB/dkdt4RO4rMxn2K8ud4b0TdIPnjn4au
+         z1k1ZuY3AAOna7F6oooXcWSlNfoAQ6SI8fR2HOoIMOSDaquep2avWiPmBmOz3xPtSoR9
+         FVztQCpNnXKWKfdFZyt8BhxdmpFlYg/FLm3mtBoV0XPSBBR2iox8rBbPK4ijVLiXyp85
+         MqwA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of oleg@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=oleg@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=N9u4d8jW;
+       spf=pass (google.com: domain of oleg@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=oleg@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
-        by gmr-mx.google.com with ESMTPS id qy7-20020a05620a8bc700b0078d60d5611csi2779qkn.4.2024.04.06.08.11.44
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id r3-20020ac84243000000b004347bf979cfsi28001qtm.2.2024.04.06.08.12.53
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Apr 2024 08:11:44 -0700 (PDT)
-Received-SPF: pass (google.com: domain of oleg@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
+        Sat, 06 Apr 2024 08:12:53 -0700 (PDT)
+Received-SPF: pass (google.com: domain of oleg@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
 Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
  by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-505-8qpYagkzMxSV1T4VL2nekg-1; Sat,
- 06 Apr 2024 11:11:40 -0400
-X-MC-Unique: 8qpYagkzMxSV1T4VL2nekg-1
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-130-aioIAyOMMAu4xX5FZxTryw-1; Sat,
+ 06 Apr 2024 11:12:47 -0400
+X-MC-Unique: aioIAyOMMAu4xX5FZxTryw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F348128AC1E7;
-	Sat,  6 Apr 2024 15:11:39 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B957A3806061;
+	Sat,  6 Apr 2024 15:12:46 +0000 (UTC)
 Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.136])
-	by smtp.corp.redhat.com (Postfix) with SMTP id 0E9593C20;
-	Sat,  6 Apr 2024 15:11:36 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with SMTP id A39DD3C20;
+	Sat,  6 Apr 2024 15:12:43 +0000 (UTC)
 Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
-	oleg@redhat.com; Sat,  6 Apr 2024 17:10:15 +0200 (CEST)
-Date: Sat, 6 Apr 2024 17:09:51 +0200
+	oleg@redhat.com; Sat,  6 Apr 2024 17:11:21 +0200 (CEST)
+Date: Sat, 6 Apr 2024 17:10:58 +0200
 From: Oleg Nesterov <oleg@redhat.com>
 To: Thomas Gleixner <tglx@linutronix.de>
 Cc: John Stultz <jstultz@google.com>, Marco Elver <elver@google.com>,
@@ -130,9 +132,9 @@ Cc: John Stultz <jstultz@google.com>, Marco Elver <elver@google.com>,
 	Edward Liaw <edliaw@google.com>,
 	Carlos Llamas <cmllamas@google.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] selftests/timers/posix_timers: reimplement
+Subject: Re: [PATCH] selftests/timers/posix_timers: reimplement
  check_timer_distribution()
-Message-ID: <20240406150950.GA3060@redhat.com>
+Message-ID: <20240406151057.GB3060@redhat.com>
 References: <87sf02bgez.ffs@tglx>
  <87r0fmbe65.ffs@tglx>
  <CANDhNCoGRnXLYRzQWpy2ZzsuAXeraqT4R13tHXmiUtGzZRD3gA@mail.gmail.com>
@@ -141,17 +143,19 @@ References: <87sf02bgez.ffs@tglx>
  <87frw2axv0.ffs@tglx>
  <20240404145408.GD7153@redhat.com>
  <87le5t9f14.ffs@tglx>
+ <20240406150950.GA3060@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <87le5t9f14.ffs@tglx>
+In-Reply-To: <20240406150950.GA3060@redhat.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
 X-Original-Sender: oleg@redhat.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of oleg@redhat.com designates 170.10.129.124 as permitted
- sender) smtp.mailfrom=oleg@redhat.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=redhat.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@redhat.com header.s=mimecast20190719 header.b=N9u4d8jW;
+       spf=pass (google.com: domain of oleg@redhat.com designates
+ 170.10.133.124 as permitted sender) smtp.mailfrom=oleg@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -164,169 +168,91 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Thomas says:
+Dmitry, Thomas,
 
-	The signal distribution test has a tendency to hang for a long
-	time as the signal delivery is not really evenly distributed. In
-	fact it might never be distributed across all threads ever in
-	the way it is written.
+To simplify the review I've attached the code with this patch applied below.
 
-To me even the
+Yes, this changes the "semantics" of check_timer_distribution(), perhaps it
+should be renamed.
 
-	This primarily tests that the kernel does not favour any one.
+But I do not see a better approach, and in fact I think that
 
-comment doesn't look right. The kernel does favour a thread which hits
-the timer interrupt when CLOCK_PROCESS_CPUTIME_ID expires.
+	Test that all running threads _eventually_ receive CLOCK_PROCESS_CPUTIME_ID
 
-The new version simply checks that the group leader sleeping in join()
-never receives SIGALRM, cpu_timer_fire() should always send the signal
-to the thread which burns cpu.
+is the wrong goal.
 
-Without the commit bcb7ee79029d ("posix-timers: Prefer delivery of signals
-to the current thread") the test-case fails immediately, the very 1st tick
-wakes the leader up. Otherwise it quickly succeeds after 100 ticks.
+Do you agree?
 
-Signed-off-by: Oleg Nesterov <oleg@redhat.com>
----
- tools/testing/selftests/timers/posix_timers.c | 102 ++++++++----------
- 1 file changed, 46 insertions(+), 56 deletions(-)
+Oleg.
+-------------------------------------------------------------------------------
 
-diff --git a/tools/testing/selftests/timers/posix_timers.c b/tools/testing/selftests/timers/posix_timers.c
-index d49dd3ffd0d9..2586a6552737 100644
---- a/tools/testing/selftests/timers/posix_timers.c
-+++ b/tools/testing/selftests/timers/posix_timers.c
-@@ -184,80 +184,70 @@ static int check_timer_create(int which)
- 	return 0;
- }
- 
--int remain;
--__thread int got_signal;
-+static pthread_t ctd_thread;
-+static volatile int ctd_count, ctd_failed;
- 
--static void *distribution_thread(void *arg)
-+static void ctd_sighandler(int sig)
- {
--	while (__atomic_load_n(&remain, __ATOMIC_RELAXED));
--	return NULL;
-+	if (pthread_self() != ctd_thread)
-+		ctd_failed = 1;
-+	ctd_count--;
- }
- 
--static void distribution_handler(int nr)
-+static void *ctd_thread_func(void *arg)
- {
--	if (!__atomic_exchange_n(&got_signal, 1, __ATOMIC_RELAXED))
--		__atomic_fetch_sub(&remain, 1, __ATOMIC_RELAXED);
--}
--
--/*
-- * Test that all running threads _eventually_ receive CLOCK_PROCESS_CPUTIME_ID
-- * timer signals. This primarily tests that the kernel does not favour any one.
-- */
--static int check_timer_distribution(void)
--{
--	int err, i;
--	timer_t id;
--	const int nthreads = 10;
--	pthread_t threads[nthreads];
- 	struct itimerspec val = {
- 		.it_value.tv_sec = 0,
- 		.it_value.tv_nsec = 1000 * 1000,
- 		.it_interval.tv_sec = 0,
- 		.it_interval.tv_nsec = 1000 * 1000,
- 	};
-+	timer_t id;
- 
--	remain = nthreads + 1;  /* worker threads + this thread */
--	signal(SIGALRM, distribution_handler);
--	err = timer_create(CLOCK_PROCESS_CPUTIME_ID, NULL, &id);
--	if (err < 0) {
--		ksft_perror("Can't create timer");
--		return -1;
--	}
--	err = timer_settime(id, 0, &val, NULL);
--	if (err < 0) {
--		ksft_perror("Can't set timer");
--		return -1;
--	}
-+	/* 1/10 seconds to ensure the leader sleeps */
-+	usleep(10000);
- 
--	for (i = 0; i < nthreads; i++) {
--		err = pthread_create(&threads[i], NULL, distribution_thread,
--				     NULL);
--		if (err) {
--			ksft_print_msg("Can't create thread: %s (%d)\n",
--				       strerror(errno), errno);
--			return -1;
--		}
--	}
-+	ctd_count = 100;
-+	if (timer_create(CLOCK_PROCESS_CPUTIME_ID, NULL, &id))
-+		return "Can't create timer";
-+	if (timer_settime(id, 0, &val, NULL))
-+		return "Can't set timer";
- 
--	/* Wait for all threads to receive the signal. */
--	while (__atomic_load_n(&remain, __ATOMIC_RELAXED));
-+	while (ctd_count > 0 && !ctd_failed)
-+		;
- 
--	for (i = 0; i < nthreads; i++) {
--		err = pthread_join(threads[i], NULL);
--		if (err) {
--			ksft_print_msg("Can't join thread: %s (%d)\n",
--				       strerror(errno), errno);
--			return -1;
--		}
--	}
-+	if (timer_delete(id))
-+		return "Can't delete timer";
- 
--	if (timer_delete(id)) {
--		ksft_perror("Can't delete timer");
--		return -1;
--	}
-+	return NULL;
-+}
-+
-+/*
-+ * Test that only the running thread receives the timer signal.
-+ */
-+static int check_timer_distribution(void)
-+{
-+	const char *errmsg;
-+
-+	signal(SIGALRM, ctd_sighandler);
-+
-+	errmsg = "Can't create thread";
-+	if (pthread_create(&ctd_thread, NULL, ctd_thread_func, NULL))
-+		goto err;
-+
-+	errmsg = "Can't join thread";
-+	if (pthread_join(ctd_thread, (void **)&errmsg) || errmsg)
-+		goto err;
-+
-+	if (ctd_failed)
-+		ksft_test_result_skip("No signal distribution. Assuming old kernel\n");
-+	else
-+		ksft_test_result_pass("check signal distribution\n");
- 
--	ksft_test_result_pass("check_timer_distribution\n");
- 	return 0;
-+err:
-+	ksft_print_msg(errmsg);
-+	return -1;
- }
- 
- int main(int argc, char **argv)
--- 
-2.25.1.362.g51ebf55
+static pthread_t ctd_thread;
+static volatile int ctd_count, ctd_failed;
 
+static void ctd_sighandler(int sig)
+{
+	if (pthread_self() != ctd_thread)
+		ctd_failed = 1;
+	ctd_count--;
+}
+
+static void *ctd_thread_func(void *arg)
+{
+	struct itimerspec val = {
+		.it_value.tv_sec = 0,
+		.it_value.tv_nsec = 1000 * 1000,
+		.it_interval.tv_sec = 0,
+		.it_interval.tv_nsec = 1000 * 1000,
+	};
+	timer_t id;
+
+	/* 1/10 seconds to ensure the leader sleeps */
+	usleep(10000);
+
+	ctd_count = 100;
+	if (timer_create(CLOCK_PROCESS_CPUTIME_ID, NULL, &id))
+		return "Can't create timer";
+	if (timer_settime(id, 0, &val, NULL))
+		return "Can't set timer";
+
+	while (ctd_count > 0 && !ctd_failed)
+		;
+
+	if (timer_delete(id))
+		return "Can't delete timer";
+
+	return NULL;
+}
+
+/*
+ * Test that only the running thread receives the timer signal.
+ */
+static int check_timer_distribution(void)
+{
+	const char *errmsg;
+
+	signal(SIGALRM, ctd_sighandler);
+
+	errmsg = "Can't create thread";
+	if (pthread_create(&ctd_thread, NULL, ctd_thread_func, NULL))
+		goto err;
+
+	errmsg = "Can't join thread";
+	if (pthread_join(ctd_thread, (void **)&errmsg) || errmsg)
+		goto err;
+
+	if (ctd_failed)
+		ksft_test_result_skip("No signal distribution. Assuming old kernel\n");
+	else
+		ksft_test_result_pass("check signal distribution\n");
+
+	return 0;
+err:
+	ksft_print_msg(errmsg);
+	return -1;
+}
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240406150950.GA3060%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240406151057.GB3060%40redhat.com.
