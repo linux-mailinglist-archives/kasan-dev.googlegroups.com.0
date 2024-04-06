@@ -1,153 +1,140 @@
-Return-Path: <kasan-dev+bncBCS2NBWRUIFBBGUGY6YAMGQEPYC6X5Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAMN6NI5EERBGUMY6YAMGQEZKJPSKY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9360389AD22
-	for <lists+kasan-dev@lfdr.de>; Sat,  6 Apr 2024 23:48:11 +0200 (CEST)
-Received: by mail-wr1-x439.google.com with SMTP id ffacd0b85a97d-34563e7ccc6sf251985f8f.2
-        for <lists+kasan-dev@lfdr.de>; Sat, 06 Apr 2024 14:48:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1712440091; cv=pass;
+Received: from mail-ed1-x539.google.com (mail-ed1-x539.google.com [IPv6:2a00:1450:4864:20::539])
+	by mail.lfdr.de (Postfix) with ESMTPS id F013C89AD73
+	for <lists+kasan-dev@lfdr.de>; Sun,  7 Apr 2024 00:01:42 +0200 (CEST)
+Received: by mail-ed1-x539.google.com with SMTP id 4fb4d7f45d1cf-56e566498a7sf857a12.1
+        for <lists+kasan-dev@lfdr.de>; Sat, 06 Apr 2024 15:01:42 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1712440859; cv=pass;
         d=google.com; s=arc-20160816;
-        b=HajxvkrWxO1DbTfOfNLVWIP7OsxVQhHiEXLu+MQICJk32DzQPbhkIcuZN7uMiDT744
-         i+Y4R8FQbzhP3jQG6Kqvcmg67f5e7LPjlQwNOBf7i0WzXqhUA+OhQW/EQcy9trK+z26Y
-         UtU0M35bnczoFWaoZugOl6WoGoWewhxB3+H/vrej4aXq18Qd60h+ehi/CeugElKZvHJC
-         LiRTVMLL8ET1/MFXElybOjX91+PL9dftvoEUapH9R3mgNXZtEW+sqNS0e3MuzNKKwd/5
-         GY1mJHaNunwc92XolytZO90eq+OHltWWWTQUKE21j8uNLJi+r11qeAg4G79tUQCZUcGC
-         oYmA==
+        b=l7MH3vsAeUYcEx27ew1BI/GSb/dSQZ3SVWCcE0/Dz6prrDe5rM259326EmewN7DS2c
+         F267m6BS72fp5IgHb9Pl9MEG6ahccld0r2/ykHojIklsl8NZzYWCDAGYXCOS1bERrf7F
+         PIP/2BPmwBlNpEg/3vipYVvN/GbjT8FjEDOennFf6wgTvw3W0pnGbLAwIPVKBNLm2W2u
+         V1rJJsb4hRRefEsZI2ylawgZ4/HDjrPWh9V1HGGqh2XUKDuEOxcQQRt9quTogZTV6zx1
+         TTrRM1SuYVLWhHKPecLHK2ogzwHtzM7uYAz6tjdf19oHcfZd38ju4lMC7Jmhl4nxkydd
+         zczQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=DFFC3YLXzO6TH/+SsANpluRXIt4kA1Jbonm8+XddMcw=;
-        fh=pWO7jw/AwPLKs4JlId0hYnZb9Mra99wj6EfNlMwXHxM=;
-        b=DgNEYepczw6oYLCOfWX3K7lDwLLidTfnczj+uzg8OsUW+6nPNtpN6uzbp4EeDozLPa
-         PiomNSBAho2axb/WwePh6cySPMNmzDX7gvd8gdVvgiZjZEIh9kTLtY+Y0gnT6aqzQhM7
-         rUE1NqFGy9SavvQFt9W7BC1ll18xFCTn6blJMuC/BnDAxZ+WCTk3aqpfNTUslThgOiBp
-         5Oo43dL1b+6hb2DRiwVZyGhmebv/ZOrrApcjaOEW7+h5SQuFzIfgrLVFEOg8vk+LCmpJ
-         R64guxDw0rrutbqisVAAeB1bkMAUKOMcgPvBGpPpbHwypdyrVscc4/gWQjcVx1kIwLYS
-         nArg==;
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=XaG0fn5xs4FnZYj8bbCJYW6QxXcjlGFW1Aj6rvCFQxM=;
+        fh=x1qaGIDL/SVEZkew2YIwE3zLMQbH7XB3Tj4yB0l/Im4=;
+        b=qO4vcERvvqODhk/gfX/j1FwypG8imC24U+ZAod8X2Bc2UUzsLNuhuV4RhG/nNkOIoJ
+         AwPNaHWoK6itqpzBHRzgqhmJbmwJfvFWw4Wr/+BpcF8n6Mw6LfC+wq0Y0gA/iS8lZUMB
+         CPQkDNiOozmFcs0JdO2IUfrzRR19g2v5T1TfMgPUsUrop65ObKMlJvs9yHzPXdA0n1Qq
+         c0WTNZHvQPTPaaKoio3U9G2KPuWo4+LgASfEz8OJwYpIuT5D57/DvabzBfrUmDSqE+P4
+         AU6Z+eVHjeBaVrpPEHEv51AUh6u5/p5U7vnyfQfKYKlPww/lM3q+2RhTCu+sxBzuwA+F
+         2DXA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b="N4KxHh/O";
-       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 91.218.175.170 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=SaGi5AFV;
+       dkim=neutral (no key) header.i=@linutronix.de header.s=2020e;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1712440091; x=1713044891; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1712440859; x=1713045659; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=DFFC3YLXzO6TH/+SsANpluRXIt4kA1Jbonm8+XddMcw=;
-        b=bjee7xiAXRaW3zhbbHYyaAopWhn9sqB0pn295h8adoXYZrs5ZRsu0bpjMu4X/gLWoc
-         M+iUrPLgjfZrA1R1gLoYBemf2XrfgQI3pzoEiFDl7i3gCh/ROK/2xyvfrEUD9XQccLDH
-         7qwC1oPmsdNQfiINisnAobp3tkLctnzvprsVTfdNrb+DNXgdn2h20mfSYE0xZyqieHAq
-         hPKpXx+bJtg1qQzfiFYKom6WBAN1AMnnYWwbxJrkFfzdeB/zOXxYnIHImfFhWTzveyAe
-         q7k4pwbL3DFJXl7/r1IvbAwEMca0wSUhevgE5iL0wuCA5gW4/78NANuqSMtsCRcRj7VV
-         t8uA==
+         :x-original-sender:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XaG0fn5xs4FnZYj8bbCJYW6QxXcjlGFW1Aj6rvCFQxM=;
+        b=TCzX+0lTJew5r2jetGRhwyCJwAY1nrKbGLwmg/5o9r9F7Uv7KEs54gkPcXSD9Qpz57
+         c5Rs9dU/PcjfbB6kaDZwVqFHEmpbCoaY9pr/ubDcpPRIviPuSvw4zVbF04OGVH+HwlLe
+         OUTW3i9dGhUGPPPjZKaFm9/vFy1VuE2RxPV+M1e30nhv+NgNCFoIcEvpwwzNvem6zQyz
+         aP7EF1Uqf/x+5VBMX02wlnMEyVm9FSajuwFWpiqxVcicusmLtEkZrs4bbUBRmIxBzLA7
+         GlWEBgHu5CYCy0XicCzulH+0iyTM7bUPeUkRSxiOwGL/T9CJ0TvpqkEEA74hxC8VSU3q
+         wo1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712440091; x=1713044891;
+        d=1e100.net; s=20230601; t=1712440859; x=1713045659;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DFFC3YLXzO6TH/+SsANpluRXIt4kA1Jbonm8+XddMcw=;
-        b=j+CgN9AS4n4aQo+hb8+a293yhx37H59D/T50P1uHjfdPbyDhvQ9I3nHzbG42fQQajx
-         Ecmz9MesK9pCtS/zkld24aq3dSiV+5sdLwlhJFE1P114SiLsBhHB7vZus4T5sb/gYwIO
-         7kPYrK/MyVyVU4XMP7mDzqhCinexhcKaJcAdXq9xGmDSuh4V9Drs3lsJ6WwTADZUGtWO
-         BWueP4r9xGq3SYcS3P7yPjG9Di6Ot5RocwJbFUFAOrRMwZp06JIAfDs/n3YDEIWO+SFl
-         WqzKgwQ/d+qDvGiHugbM1SGBGZjARdeTFXVmJDuW31MwJuqj9vJzROtb+rTOdsN8jN/D
-         X7Og==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:references:in-reply-to:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XaG0fn5xs4FnZYj8bbCJYW6QxXcjlGFW1Aj6rvCFQxM=;
+        b=FTG0BIb196v5SgSidivW1hvYbNlNutq5FSs8kL0mgwKRAfGOGoPuCpizL1Y8GSvvhs
+         E8y0Z563Fx9KZqij1QJPBiEfzPZBriKbwMcv1uxozu0bNwfOq44VkwRz3da9oko8yCue
+         zOPEs/iT6T0XvxOEkYv7R9jkr/s3XfQgfgeFV5uAsapkJLDUSAWD0C02PmW1y9KxbpwK
+         GLrzNvBNvMlQxdCwwWQD5ljJSlZ7Z9sQ0eKcX82lmGYiLKYY1bcxz8IVTtAnCaNJl7uP
+         Qkm3QHwfPyY/v/iXL0yhV62hZilebo86nHoA99iktcDgVoqiujY0Hf1/R//bpin3oOjT
+         F9xQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXggpX137XewbES4vGk+jbnUcZfWzqj5LEIrQw2cyql5pdr05jUtypNn8qY1IfMugyH5oO51IILN06LUaq3wanAeMhiuHYMFA==
-X-Gm-Message-State: AOJu0YwppagygsA+mju+WDdLm4NdbkDfsUbuevdMdvJDNOBs8y72PJpe
-	jCCh8AAD6N1hq+ldFLk5TXaipIg9dXz0237DoEcs+LqazXBGDRea
-X-Google-Smtp-Source: AGHT+IGPfeaUbSQuCIMGoY+6wQaw1PQvqMjdzroJqn8Xv53nQgb6K4IsafY/ahbWfHkbQc2OGD4k0g==
-X-Received: by 2002:a5d:43ca:0:b0:343:5e64:ea54 with SMTP id v10-20020a5d43ca000000b003435e64ea54mr3332442wrr.61.1712440090605;
-        Sat, 06 Apr 2024 14:48:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUzSrsUwGTycAcjpc9aKd+JsuZFH60U2IKqJsWmFC6U3xjCPoltCSJC1LEYy3An7BxCRZ13s57R4nO0FmAPio2vMz8pNilRjQ==
+X-Gm-Message-State: AOJu0YyiAH/HGLlWSQ8NbjWseACNESFiDyFIfBOHom87LMAF6uRYScn5
+	JMZed30qHkr3P+K/su/KaHmH+KUvevIlqpOKsj19YPvYb9jX3ZYL
+X-Google-Smtp-Source: AGHT+IGHjQvD34V1jFvcwudM/um0Okclv4w4Duf45hvd23VO77DYVyPm0x4wODhZ77IHJN4YybUI/w==
+X-Received: by 2002:a05:6402:14c2:b0:56e:2ba2:c32b with SMTP id f2-20020a05640214c200b0056e2ba2c32bmr129775edx.6.1712440859239;
+        Sat, 06 Apr 2024 15:00:59 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:4404:0:b0:343:a494:5dea with SMTP id z4-20020a5d4404000000b00343a4945deals1136569wrq.0.-pod-prod-06-eu;
- Sat, 06 Apr 2024 14:48:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXMIvQRAXRTylxIH8tNwiV+o9ew4x9fjBe1SB04y8orKlVfawgLpMWZ5ZBOJ2dvuNS3Vs9G1ajzB/1azNxDknyJw8IfUg63c9LC4A==
-X-Received: by 2002:a05:600c:4e0c:b0:416:3ff5:e369 with SMTP id b12-20020a05600c4e0c00b004163ff5e369mr1384900wmq.37.1712440088716;
-        Sat, 06 Apr 2024 14:48:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1712440088; cv=none;
+Received: by 2002:a05:6402:5297:b0:56e:50e7:4b39 with SMTP id
+ en23-20020a056402529700b0056e50e74b39ls181691edb.2.-pod-prod-03-eu; Sat, 06
+ Apr 2024 15:00:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUrRviQUwrFxeWebJH+sZw+6Jx6PZFBqxGQB3ecppnEZVypDg8GuV6elQbbHAI3lC0StoIKnA59oqXSu7tbJ88oxVs8IFnXyh0HjA==
+X-Received: by 2002:a50:d5d3:0:b0:56e:34e0:4699 with SMTP id g19-20020a50d5d3000000b0056e34e04699mr3475237edj.30.1712440857141;
+        Sat, 06 Apr 2024 15:00:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1712440857; cv=none;
         d=google.com; s=arc-20160816;
-        b=GPulTF80o3YyNg9zsb/JFQV8xfbqLyzCr52P3PsDsxebN/oyb+FVJqxer/UdVdG8ag
-         2dbiLhTEhyXnhRDMoBl9B6sOLKv0NPm9+23mcjmwNqbaeIrKUJZX6/ByuFuN4lsuCETU
-         3FKZMj3gT3eDgGn9Q1gH5sEDV0OkvX8oHh3y8xtDzegEa27GMpbt3cghO7xsFy3BuD0o
-         usEFrvwH8/ONlMa1RZ0oH5C3MO4B/S2K/W5FbBYbaDtHcGHkE7QMqXckulu/bOGzTn+X
-         oAtGwgh9f+Ce/xmpo0CjFvtMEAVgWU9Drf1ukaFMgsTpH+XuOVYxNDnxKnWNmCV+GcOY
-         NmmQ==
+        b=cecdsX6Wi1/G2Lxtd8cBPfqnGMyrxL+UJ5cWR+7SqhfE0ziC28clUw1MraFc9rG13U
+         xUI9EPV2MP3tiu9uYEAkKSAEBm7SC920x97Ttm7tU+u/uxWJXgLp0UqYQjq4cSneDL/j
+         LGXbTOX8jW4nyaynWlIVyaIDR8xfSZLFu5Q62uzBIoYhjQ8Hy4It7RNzzPaGF6kuvcFb
+         TrztAbnDb87h/48nH/9Lzi41HxXgfo6LJfg2sgk3fRhwAJN3TtJdT8Nz5/9iKuYtDTI/
+         UXSZvrzADgevASQi/9rrtaSvb13WQXwjizRfhTaGFY+gl1idKsoOVJGiQABeklO/Tr7Y
+         vNbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from
-         :dkim-signature:date;
-        bh=zidy/ZuQ9llHF4A0yXUONl+ELs1p92Ps6Z+2FVfH0JQ=;
-        fh=SdcM2SL5FYkejuJZDUi40z0skiNK/+AeQsv4HugHKJ4=;
-        b=YnZHE3HNHXKYWXV2rbuDx+BXuP6wguC6TnykS3BkM9d6ogeVsOBzT1IiDxevK/3izT
-         NqeW1jpqebPGNBZS3qYtqGGNbhtvGSJiN4TziFcKvPrGtX6irI4WHTV1fU9DsRvO40C0
-         zNBjhKbw6ZAsF5ZJRba19OseaLYw/n3TmWwPkrWrtQEP703BKh+EyQhPvm9dlkgJ/nkf
-         3uaL+0eu/dHlBuWVUhbahIW1E0Wo19m0b1fFS/F9dj6bLkhR0ETfbTOP0Uum5skHtCq1
-         PzOMiToVTLRzIdqtjxoTRoipI9U1OE8W7jmTnVK9/W3b52/y7Ln3k0bDknePk8NrJEIy
-         aXAA==;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :dkim-signature:dkim-signature:from;
+        bh=WALSA6ekTbORB+oMNmPW1aBENZ+fWec6I1EASj2qsLE=;
+        fh=OuAojZ9XtyzR6STIF2qTI9iuNn5xasdqzotJ7hmY3kQ=;
+        b=b9MeS162vmYJZCvqN38CoPHf2Oj/huylSLAEYrFnVKCLcU4heaviQHL9SvAlXaXW2v
+         nbjHTPpKmrXvZKGkxUio6mJPpoonrpDuv4PmMGlUV3d8NVN/FZgKS6jY2mgc1mM7Jue9
+         Z6WueN8RlOQKw/kmfzWGmfJ+Ky/1gQD0s/5ee91phTRRZTgLqGx+V9nouJWatiQKLNtj
+         boPGLNj5EafN/i3tCqh7pybZTUZLO/qf3gSCXOeLXdOZhbyiGtKU84yfuivGEwWyUYnO
+         /uZ7bgyFEwUuXTW2JnxBTGCHFm/nIZ+HM2W58SUNuUJ5sFjHOzwx5eUf7uNyjYj4A0wm
+         gPhg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b="N4KxHh/O";
-       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 91.218.175.170 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com. [91.218.175.170])
-        by gmr-mx.google.com with ESMTPS id ay37-20020a05600c1e2500b004162bb8804csi555711wmb.0.2024.04.06.14.48.08
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=SaGi5AFV;
+       dkim=neutral (no key) header.i=@linutronix.de header.s=2020e;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+Received: from galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
+        by gmr-mx.google.com with ESMTPS id cq20-20020a056402221400b0056c2ef3a441si109502edb.3.2024.04.06.15.00.56
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Apr 2024 14:48:08 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kent.overstreet@linux.dev designates 91.218.175.170 as permitted sender) client-ip=91.218.175.170;
-Date: Sat, 6 Apr 2024 17:47:57 -0400
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Klara Modin <klarasmodin@gmail.com>
-Cc: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org, 
-	mhocko@suse.com, vbabka@suse.cz, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
-	mgorman@suse.de, dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
-	penguin-kernel@i-love.sakura.ne.jp, corbet@lwn.net, void@manifault.com, 
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>, juri.lelli@redhat.com, catalin.marinas@arm.com, will@kernel.org, 
-	arnd@arndb.de, tglx@linutronix.de, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, peterx@redhat.com, david@redhat.com, 
-	axboe@kernel.dk, mcgrof@kernel.org, masahiroy@kernel.org, 
-	Nathan Chancellor <nathan@kernel.org>, dennis@kernel.org, jhubbard@nvidia.com, tj@kernel.org, 
-	muchun.song@linux.dev, rppt@kernel.org, paulmck@kernel.org, pasha.tatashin@soleen.com, 
-	yosryahmed@google.com, yuzhao@google.com, David Howells <dhowells@redhat.com>, 
-	hughd@google.com, andreyknvl@gmail.com, keescook@chromium.org, 
-	ndesaulniers@google.com, vvvvvv@google.com, gregkh@linuxfoundation.org, 
-	ebiggers@google.com, ytcoode@gmail.com, vincent.guittot@linaro.org, 
-	dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com, bristot@redhat.com, 
-	vschneid@redhat.com, cl@linux.com, penberg@kernel.org, iamjoonsoo.kim@lge.com, 
-	42.hyeyoo@gmail.com, glider@google.com, elver@google.com, dvyukov@google.com, 
-	songmuchun@bytedance.com, jbaron@akamai.com, aliceryhl@google.com, rientjes@google.com, 
-	minchan@google.com, kaleshsingh@google.com, kernel-team@android.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-modules@vger.kernel.org, kasan-dev@googlegroups.com, cgroups@vger.kernel.org
-Subject: Re: [PATCH v6 13/37] lib: add allocation tagging support for memory
- allocation profiling
-Message-ID: <76nf3dl4cqptqv5oh54njnp4rizot7bej32fufjjtreizzcw3w@rkbjbgujk6pk>
-References: <6b8149f3-80e6-413c-abcb-1925ecda9d8c@gmail.com>
+        Sat, 06 Apr 2024 15:00:57 -0700 (PDT)
+Received-SPF: pass (google.com: domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
+From: Thomas Gleixner <tglx@linutronix.de>
+To: Oleg Nesterov <oleg@redhat.com>
+Cc: John Stultz <jstultz@google.com>, Marco Elver <elver@google.com>, Peter
+ Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, "Eric W.
+ Biederman" <ebiederm@xmission.com>, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Dmitry Vyukov <dvyukov@google.com>,
+ kasan-dev@googlegroups.com, Edward Liaw <edliaw@google.com>, Carlos Llamas
+ <cmllamas@google.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] selftests/timers/posix_timers: reimplement
+ check_timer_distribution()
+In-Reply-To: <20240406151057.GB3060@redhat.com>
+References: <87sf02bgez.ffs@tglx> <87r0fmbe65.ffs@tglx>
+ <CANDhNCoGRnXLYRzQWpy2ZzsuAXeraqT4R13tHXmiUtGzZRD3gA@mail.gmail.com>
+ <87o7aqb6uw.ffs@tglx>
+ <CANDhNCreA6nJp4ZUhgcxNB5Zye1aySDoU99+_GDS57HAF4jZ_Q@mail.gmail.com>
+ <87frw2axv0.ffs@tglx> <20240404145408.GD7153@redhat.com>
+ <87le5t9f14.ffs@tglx> <20240406150950.GA3060@redhat.com>
+ <20240406151057.GB3060@redhat.com>
+Date: Sun, 07 Apr 2024 00:00:55 +0200
+Message-ID: <878r1q882w.ffs@tglx>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <6b8149f3-80e6-413c-abcb-1925ecda9d8c@gmail.com>
-X-Migadu-Flow: FLOW_OUT
-X-Original-Sender: kent.overstreet@linux.dev
+X-Original-Sender: tglx@linutronix.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b="N4KxHh/O";       spf=pass
- (google.com: domain of kent.overstreet@linux.dev designates 91.218.175.170 as
- permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+ header.i=@linutronix.de header.s=2020 header.b=SaGi5AFV;       dkim=neutral
+ (no key) header.i=@linutronix.de header.s=2020e;       spf=pass (google.com:
+ domain of tglx@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted
+ sender) smtp.mailfrom=tglx@linutronix.de;       dmarc=pass (p=NONE
+ sp=QUARANTINE dis=NONE) header.from=linutronix.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -160,349 +147,28 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Apr 05, 2024 at 03:54:45PM +0200, Klara Modin wrote:
-> Hi,
->=20
-> On 2024-03-21 17:36, Suren Baghdasaryan wrote:
-> > Introduce CONFIG_MEM_ALLOC_PROFILING which provides definitions to easi=
-ly
-> > instrument memory allocators. It registers an "alloc_tags" codetag type
-> > with /proc/allocinfo interface to output allocation tag information whe=
-n
-> > the feature is enabled.
-> > CONFIG_MEM_ALLOC_PROFILING_DEBUG is provided for debugging the memory
-> > allocation profiling instrumentation.
-> > Memory allocation profiling can be enabled or disabled at runtime using
-> > /proc/sys/vm/mem_profiling sysctl when CONFIG_MEM_ALLOC_PROFILING_DEBUG=
-=3Dn.
-> > CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT enables memory allocation
-> > profiling by default.
-> >=20
-> > Signed-off-by: Suren Baghdasaryan <surenb@google.com>
-> > Co-developed-by: Kent Overstreet <kent.overstreet@linux.dev>
-> > Signed-off-by: Kent Overstreet <kent.overstreet@linux.dev>
->=20
-> With this commit (9e2dcefa791e9d14006b360fba3455510fd3325d in
-> next-20240404), randconfig with KCONFIG_SEED=3D0xE6264236 fails to build
-> with the attached error. The following patch fixes the build error for me=
-,
-> but I don't know if it's correct.
+On Sat, Apr 06 2024 at 17:10, Oleg Nesterov wrote:
+> Yes, this changes the "semantics" of check_timer_distribution(), perhaps it
+> should be renamed.
 
-Looks good - if you sound out an official patch I'll ack it.
+Definitely.
 
->=20
-> Kind regards,
-> Klara Modin
->=20
-> diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
-> index 100ddf66eb8e..1c765d80298b 100644
-> --- a/include/linux/alloc_tag.h
-> +++ b/include/linux/alloc_tag.h
-> @@ -12,6 +12,7 @@
->  #include <asm/percpu.h>
->  #include <linux/cpumask.h>
->  #include <linux/static_key.h>
-> +#include <linux/irqflags.h>
->=20
->  struct alloc_tag_counters {
->         u64 bytes;
->=20
-> > diff --git a/include/linux/alloc_tag.h b/include/linux/alloc_tag.h
-> > new file mode 100644
-> > index 000000000000..b970ff1c80dc
-> > --- /dev/null
-> > +++ b/include/linux/alloc_tag.h
-> > @@ -0,0 +1,145 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * allocation tagging
-> > + */
-> > +#ifndef _LINUX_ALLOC_TAG_H
-> > +#define _LINUX_ALLOC_TAG_H
-> > +
-> > +#include <linux/bug.h>
-> > +#include <linux/codetag.h>
-> > +#include <linux/container_of.h>
-> > +#include <linux/preempt.h>
-> > +#include <asm/percpu.h>
-> > +#include <linux/cpumask.h>
-> > +#include <linux/static_key.h>
-> > +
-> > +struct alloc_tag_counters {
-> > +     u64 bytes;
-> > +     u64 calls;
-> > +};
-> > +
-> > +/*
-> > + * An instance of this structure is created in a special ELF section a=
-t every
-> > + * allocation callsite. At runtime, the special section is treated as
-> > + * an array of these. Embedded codetag utilizes codetag framework.
-> > + */
-> > +struct alloc_tag {
-> > +     struct codetag                  ct;
-> > +     struct alloc_tag_counters __percpu      *counters;
-> > +} __aligned(8);
-> > +
-> > +#ifdef CONFIG_MEM_ALLOC_PROFILING
-> > +
-> > +static inline struct alloc_tag *ct_to_alloc_tag(struct codetag *ct)
-> > +{
-> > +     return container_of(ct, struct alloc_tag, ct);
-> > +}
-> > +
-> > +#ifdef ARCH_NEEDS_WEAK_PER_CPU
-> > +/*
-> > + * When percpu variables are required to be defined as weak, static pe=
-rcpu
-> > + * variables can't be used inside a function (see comments for DECLARE=
-_PER_CPU_SECTION).
-> > + */
-> > +#error "Memory allocation profiling is incompatible with ARCH_NEEDS_WE=
-AK_PER_CPU"
-> > +#endif
-> > +
-> > +#define DEFINE_ALLOC_TAG(_alloc_tag)                                  =
-       \
-> > +     static DEFINE_PER_CPU(struct alloc_tag_counters, _alloc_tag_cntr)=
-;      \
-> > +     static struct alloc_tag _alloc_tag __used __aligned(8)           =
-       \
-> > +     __section("alloc_tags") =3D {                                    =
-         \
-> > +             .ct =3D CODE_TAG_INIT,                                   =
-         \
-> > +             .counters =3D &_alloc_tag_cntr };
-> > +
-> > +DECLARE_STATIC_KEY_MAYBE(CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_DEFAULT=
-,
-> > +                     mem_alloc_profiling_key);
-> > +
-> > +static inline bool mem_alloc_profiling_enabled(void)
-> > +{
-> > +     return static_branch_maybe(CONFIG_MEM_ALLOC_PROFILING_ENABLED_BY_=
-DEFAULT,
-> > +                                &mem_alloc_profiling_key);
-> > +}
-> > +
-> > +static inline struct alloc_tag_counters alloc_tag_read(struct alloc_ta=
-g *tag)
-> > +{
-> > +     struct alloc_tag_counters v =3D { 0, 0 };
-> > +     struct alloc_tag_counters *counter;
-> > +     int cpu;
-> > +
-> > +     for_each_possible_cpu(cpu) {
-> > +             counter =3D per_cpu_ptr(tag->counters, cpu);
-> > +             v.bytes +=3D counter->bytes;
-> > +             v.calls +=3D counter->calls;
-> > +     }
-> > +
-> > +     return v;
-> > +}
-> > +
-> > +#ifdef CONFIG_MEM_ALLOC_PROFILING_DEBUG
-> > +static inline void alloc_tag_add_check(union codetag_ref *ref, struct =
-alloc_tag *tag)
-> > +{
-> > +     WARN_ONCE(ref && ref->ct,
-> > +               "alloc_tag was not cleared (got tag for %s:%u)\n",
-> > +               ref->ct->filename, ref->ct->lineno);
-> > +
-> > +     WARN_ONCE(!tag, "current->alloc_tag not set");
-> > +}
-> > +
-> > +static inline void alloc_tag_sub_check(union codetag_ref *ref)
-> > +{
-> > +     WARN_ONCE(ref && !ref->ct, "alloc_tag was not set\n");
-> > +}
-> > +#else
-> > +static inline void alloc_tag_add_check(union codetag_ref *ref, struct =
-alloc_tag *tag) {}
-> > +static inline void alloc_tag_sub_check(union codetag_ref *ref) {}
-> > +#endif
-> > +
-> > +/* Caller should verify both ref and tag to be valid */
-> > +static inline void __alloc_tag_ref_set(union codetag_ref *ref, struct =
-alloc_tag *tag)
-> > +{
-> > +     ref->ct =3D &tag->ct;
-> > +     /*
-> > +      * We need in increment the call counter every time we have a new
-> > +      * allocation or when we split a large allocation into smaller on=
-es.
-> > +      * Each new reference for every sub-allocation needs to increment=
- call
-> > +      * counter because when we free each part the counter will be dec=
-remented.
-> > +      */
-> > +     this_cpu_inc(tag->counters->calls);
-> > +}
-> > +
-> > +static inline void alloc_tag_add(union codetag_ref *ref, struct alloc_=
-tag *tag, size_t bytes)
-> > +{
-> > +     alloc_tag_add_check(ref, tag);
-> > +     if (!ref || !tag)
-> > +             return;
-> > +
-> > +     __alloc_tag_ref_set(ref, tag);
-> > +     this_cpu_add(tag->counters->bytes, bytes);
-> > +}
-> > +
-> > +static inline void alloc_tag_sub(union codetag_ref *ref, size_t bytes)
-> > +{
-> > +     struct alloc_tag *tag;
-> > +
-> > +     alloc_tag_sub_check(ref);
-> > +     if (!ref || !ref->ct)
-> > +             return;
-> > +
-> > +     tag =3D ct_to_alloc_tag(ref->ct);
-> > +
-> > +     this_cpu_sub(tag->counters->bytes, bytes);
-> > +     this_cpu_dec(tag->counters->calls);
-> > +
-> > +     ref->ct =3D NULL;
-> > +}
-> > +
-> > +#else /* CONFIG_MEM_ALLOC_PROFILING */
-> > +
-> > +#define DEFINE_ALLOC_TAG(_alloc_tag)
-> > +static inline bool mem_alloc_profiling_enabled(void) { return false; }
-> > +static inline void alloc_tag_add(union codetag_ref *ref, struct alloc_=
-tag *tag,
-> > +                              size_t bytes) {}
-> > +static inline void alloc_tag_sub(union codetag_ref *ref, size_t bytes)=
- {}
-> > +
-> > +#endif /* CONFIG_MEM_ALLOC_PROFILING */
-> > +
-> > +#endif /* _LINUX_ALLOC_TAG_H */
+> But I do not see a better approach, and in fact I think that
+>
+> 	Test that all running threads _eventually_ receive CLOCK_PROCESS_CPUTIME_ID
+>
+> is the wrong goal.
+>
+> Do you agree?
 
-> In file included from ./arch/x86/include/asm/percpu.h:615,
->                  from ./arch/x86/include/asm/preempt.h:6,
->                  from ./include/linux/preempt.h:79,
->                  from ./include/linux/alloc_tag.h:11,
->                  from lib/alloc_tag.c:2:
-> ./include/linux/alloc_tag.h: In function =E2=80=98__alloc_tag_ref_set=E2=
-=80=99:
-> ./include/asm-generic/percpu.h:155:9: error: implicit declaration of func=
-tion =E2=80=98raw_local_irq_save=E2=80=99 [-Werror=3Dimplicit-function-decl=
-aration]
->   155 |         raw_local_irq_save(__flags);                             =
-       \
->       |         ^~~~~~~~~~~~~~~~~~
-> ./include/asm-generic/percpu.h:410:41: note: in expansion of macro =E2=80=
-=98this_cpu_generic_to_op=E2=80=99
->   410 | #define this_cpu_add_8(pcp, val)        this_cpu_generic_to_op(pc=
-p, val, +=3D)
->       |                                         ^~~~~~~~~~~~~~~~~~~~~~
-> ./include/linux/percpu-defs.h:368:25: note: in expansion of macro =E2=80=
-=98this_cpu_add_8=E2=80=99
->   368 |                 case 8: stem##8(variable, __VA_ARGS__);break;    =
-       \
->       |                         ^~~~
-> ./include/linux/percpu-defs.h:491:41: note: in expansion of macro =E2=80=
-=98__pcpu_size_call=E2=80=99
->   491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu=
-_add_, pcp, val)
->       |                                         ^~~~~~~~~~~~~~~~
-> ./include/linux/percpu-defs.h:501:41: note: in expansion of macro =E2=80=
-=98this_cpu_add=E2=80=99
->   501 | #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
->       |                                         ^~~~~~~~~~~~
-> ./include/linux/alloc_tag.h:106:9: note: in expansion of macro =E2=80=98t=
-his_cpu_inc=E2=80=99
->   106 |         this_cpu_inc(tag->counters->calls);
->       |         ^~~~~~~~~~~~
-> ./include/asm-generic/percpu.h:157:9: error: implicit declaration of func=
-tion =E2=80=98raw_local_irq_restore=E2=80=99 [-Werror=3Dimplicit-function-d=
-eclaration]
->   157 |         raw_local_irq_restore(__flags);                          =
-       \
->       |         ^~~~~~~~~~~~~~~~~~~~~
-> ./include/asm-generic/percpu.h:410:41: note: in expansion of macro =E2=80=
-=98this_cpu_generic_to_op=E2=80=99
->   410 | #define this_cpu_add_8(pcp, val)        this_cpu_generic_to_op(pc=
-p, val, +=3D)
->       |                                         ^~~~~~~~~~~~~~~~~~~~~~
-> ./include/linux/percpu-defs.h:368:25: note: in expansion of macro =E2=80=
-=98this_cpu_add_8=E2=80=99
->   368 |                 case 8: stem##8(variable, __VA_ARGS__);break;    =
-       \
->       |                         ^~~~
-> ./include/linux/percpu-defs.h:491:41: note: in expansion of macro =E2=80=
-=98__pcpu_size_call=E2=80=99
->   491 | #define this_cpu_add(pcp, val)          __pcpu_size_call(this_cpu=
-_add_, pcp, val)
->       |                                         ^~~~~~~~~~~~~~~~
-> ./include/linux/percpu-defs.h:501:41: note: in expansion of macro =E2=80=
-=98this_cpu_add=E2=80=99
->   501 | #define this_cpu_inc(pcp)               this_cpu_add(pcp, 1)
->       |                                         ^~~~~~~~~~~~
-> ./include/linux/alloc_tag.h:106:9: note: in expansion of macro =E2=80=98t=
-his_cpu_inc=E2=80=99
->   106 |         this_cpu_inc(tag->counters->calls);
->       |         ^~~~~~~~~~~~
-> cc1: some warnings being treated as errors
-> make[3]: *** [scripts/Makefile.build:244: lib/alloc_tag.o] Error 1
-> make[2]: *** [scripts/Makefile.build:485: lib] Error 2
-> make[1]: *** [/home/klara/git/linux/Makefile:1919: .] Error 2
-> make: *** [Makefile:240: __sub-make] Error 2
+No argument from my side. All we can test is that the leader is not
+woken up.
 
+Thanks,
 
-> # bad: [2b3d5988ae2cb5cd945ddbc653f0a71706231fdd] Add linux-next specific=
- files for 20240404
-> git bisect start 'next/master'
-> # status: waiting for good commit(s), bad commit known
-> # good: [39cd87c4eb2b893354f3b850f916353f2658ae6f] Linux 6.9-rc2
-> git bisect good 39cd87c4eb2b893354f3b850f916353f2658ae6f
-> # bad: [cc7b62666779616ff52d389a344ffe2c041e36e2] Merge branch 'master' o=
-f git://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.gi=
-t
-> git bisect bad cc7b62666779616ff52d389a344ffe2c041e36e2
-> # bad: [d6b7dd0f8d84f9fdf2af65fceb608e3206276e81] Merge branch 'for-next'=
- of git://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux.git
-> git bisect bad d6b7dd0f8d84f9fdf2af65fceb608e3206276e81
-> # bad: [ad6a31687713a8f12165e730e0eb6e0de3beae56] Merge branch 'mm-everyt=
-hing' of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
-> git bisect bad ad6a31687713a8f12165e730e0eb6e0de3beae56
-> # good: [59266d9886adb5c9e240129ccc606727fd3a881d] Merge branch 'fixes' o=
-f git://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git
-> git bisect good 59266d9886adb5c9e240129ccc606727fd3a881d
-> # bad: [085e5fe7388cf36ab5c02d91022229e5fade5b30] mm: merge folio_is_secr=
-etmem() and folio_fast_pin_allowed() into gup_fast_folio_allowed()
-> git bisect bad 085e5fe7388cf36ab5c02d91022229e5fade5b30
-> # bad: [f6a61baa9139d174170acdae8667b3246ce44db6] lib: add memory allocat=
-ions report in show_mem()
-> git bisect bad f6a61baa9139d174170acdae8667b3246ce44db6
-> # good: [302519d9e80a7fbf2cf8d0b8961d491af648759f] asm-generic/io.h: kill=
- vmalloc.h dependency
-> git bisect good 302519d9e80a7fbf2cf8d0b8961d491af648759f
-> # bad: [e6942003e682e3883847459c3d07e23c796a2782] mm: create new codetag =
-references during page splitting
-> git bisect bad e6942003e682e3883847459c3d07e23c796a2782
-> # good: [ed97151dec736c1541bfac2b801108d54ebee5bc] lib: code tagging modu=
-le support
-> git bisect good ed97151dec736c1541bfac2b801108d54ebee5bc
-> # bad: [95767bde5020afefef4205b60e71f4ebf96da74e] lib: introduce early bo=
-ot parameter to avoid page_ext memory overhead
-> git bisect bad 95767bde5020afefef4205b60e71f4ebf96da74e
-> # bad: [9e2dcefa791e9d14006b360fba3455510fd3325d] lib: add allocation tag=
-ging support for memory allocation profiling
-> git bisect bad 9e2dcefa791e9d14006b360fba3455510fd3325d
-> # good: [0eccd42fbf9d7c4ae0cbec48cce637da89813c2c] lib: prevent module un=
-loading if memory is not freed
-> git bisect good 0eccd42fbf9d7c4ae0cbec48cce637da89813c2c
-> # first bad commit: [9e2dcefa791e9d14006b360fba3455510fd3325d] lib: add a=
-llocation tagging support for memory allocation profiling
+        tglx
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/76nf3dl4cqptqv5oh54njnp4rizot7bej32fufjjtreizzcw3w%40rkbjbgujk6pk=
-.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/878r1q882w.ffs%40tglx.
