@@ -1,175 +1,157 @@
-Return-Path: <kasan-dev+bncBDH43ZGQR4ARBIFXYOYAMGQEM2FLMOI@googlegroups.com>
+Return-Path: <kasan-dev+bncBD66N3MZ6ALRBMOMYWYAMGQEMDTATYI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A0389A8FE
-	for <lists+kasan-dev@lfdr.de>; Sat,  6 Apr 2024 07:20:34 +0200 (CEST)
-Received: by mail-oo1-xc3c.google.com with SMTP id 006d021491bc7-5a486a8e1fdsf2980057eaf.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 05 Apr 2024 22:20:34 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1712380832; cv=pass;
+Received: from mail-qt1-x839.google.com (mail-qt1-x839.google.com [IPv6:2607:f8b0:4864:20::839])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61CC989AB8C
+	for <lists+kasan-dev@lfdr.de>; Sat,  6 Apr 2024 17:11:47 +0200 (CEST)
+Received: by mail-qt1-x839.google.com with SMTP id d75a77b69052e-4343f23080fsf34706521cf.0
+        for <lists+kasan-dev@lfdr.de>; Sat, 06 Apr 2024 08:11:47 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1712416306; cv=pass;
         d=google.com; s=arc-20160816;
-        b=e6kdAGDPDogQH+p8jp1HJzY27qCOSIBM3nPBHYjM2QA53iB24QAAH9/SlPMgpwLEbu
-         zxbggmX4/FS8RmTbp47TPULocx3m5IP+nX2FoUJraJ+KXXCyCEG0yPVW7AXxIq7Fq4ou
-         t3qVUSnB2Ig2eiwkOKAaTwpKBZ10uRkugZqmQqzGjObWjQ+LzY/3ZZx6msuEWYijgyFV
-         F6+ZteUTEnchNKlQayWRwrNSQvLdV2dveCI/Z6lXmFI4V5mBP1NZp517Eibf56B52drl
-         UV0IjwnkgBkUlak3Kf/RGxyFWxYRwEzWSqd1hmbAfcK2D13qve+e9tr4W/qTf/td5+fG
-         XIGw==
+        b=MgI1NuxZJ45U8MC53xm1yHSc2JHD5lphQLn2jsVXr8xQl5/MvSCL6TAlzyBl7k7dCm
+         KyQyR1J4i9tt/z6xHfDlsJ6AcQZMXPFdiHfwUHhvsgd75hF4Z6yN6HLG6AVDvj9RqKf7
+         EQpI1UsrqQU0Wmrlh4ywylsoBQwH0Hy/m7wBKS1AOFPv83fsGw8lsoNbZuFvfgL10r3I
+         I87afKp3q8EAz9GO2TQhwjb3xVUwkfN9mRZpPcUE75giFqtmXHd1jOqu4ZRXxYLE4jar
+         0I4e+ELnrIsnfglkTVEzooEQqMvvsiKF8YCtebKOPrxlXjFBRo6x/DmpTVZwb3SG8Tct
+         O6sg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:in-reply-to:references:date
-         :message-id:from:subject:mime-version:sender:dkim-signature;
-        bh=B6CY1v1zFN1ER0xNlZaLDILJ6FwDv1flLLbqT2KX608=;
-        fh=N2Adqf7YZ7EyQJv/xqtqoC9ZINNsXLGkc3cvxNQMcro=;
-        b=EhQuMm7gdkqFrfjCkhVLXmYMHdYfJDP9xPCSBV1FjHDBBdI8aPLJgl5FbNPWjArlrf
-         MFY4xbHiAejVWpFgSvcYjZOwF2SsFl2tVD/RsSYLA3E8+/mY8+9qeEXnMfpEGaUV8Ey1
-         hQchEV8ysMKEbnJZDbiEGKdRZSjD46M2khVEzl8IPfg7Aqiilf2eA3vuDGOo6ws5wFdJ
-         1dTh6sL4tsAq6UDx4+79jEe5HHyCpJd6memYpIcC3VaZwE1LF0EXJPOmVRX1g463s7ep
-         VJ2anNU8/PNStSf0Ty2HBNtiG0wwm6jR7J+tIjHCdPqMUFy6VexeMGrgMdiMBGAusZ7a
-         u7Cw==;
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=sk8MOGLYY1uS6MMhih2pExTCfbfy9H1UcuB5+xrDPE4=;
+        fh=CbxpHSxoLeEIqrJldc2vZ7MU4aTqrtJCaRoqX8ydFiw=;
+        b=T5iWkiQvWlaVJYA+dMOh139CxoYtOejGIvt3NTaYZdA8//6REc7FZcbnaJIPMguiQh
+         qimqtEAJHAoXkMvAIWgoUtAx3EKXcsvUolpkLQWkDDYwtjdZ+UPPuwVKrd7yWcciP0Ak
+         vtOFbckYK45vnDc2v6apRb8kLlO47I13D1ScRVLJHOBV88lLzobgBWgw+WQ02rB94Wgi
+         nWFp+/KMapQEJ49SE15B7wIhLLT0sGzl/l4nMR0SOVodZwTJb/iYNPtYmx6n8L8cqW5q
+         ovbqlJu4ciOUVFm07dtYxt3QnwD55rwwqhYA9YbKj0o8vSL0b2J753LPEibF9iQjszw3
+         z7EA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=HYazYNyp;
-       spf=pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       spf=pass (google.com: domain of oleg@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=oleg@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1712380832; x=1712985632; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1712416306; x=1713021106; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:in-reply-to:references:date:message-id:from
-         :subject:mime-version:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=B6CY1v1zFN1ER0xNlZaLDILJ6FwDv1flLLbqT2KX608=;
-        b=IJLX2YTjtr2vH5z0h4OxOk5Lw8EmjduL6dhtLKlWG2PW9waAqa/NDjXDecC95bmhyn
-         Vi95Exq0LuPk8dd9wazWvZ8F/yOEUCz4ikG3AbKSS6/VvSsAqURl5/K95kzsgZ7ayMHP
-         6d0PUnXcBJm4Ne1QHhwyRVksPLZ52tI6V1+pjbDWn1ZWY1sEA0TgIfC4/hUjxCrsKplP
-         xL0neCcafz8hCoFPQtqHtJ9+NLVw2QBNcJQdNV783mh0cXrMNDlMPNh8CJl/ETmY3Cmd
-         AuyCj9p+3OiD1euPPK3FXzzMBMbhNvV2sBTHvMaKn2Z9JRj/JzrphDoH/nhMURjyonxh
-         I1WA==
+         :x-original-sender:user-agent:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sk8MOGLYY1uS6MMhih2pExTCfbfy9H1UcuB5+xrDPE4=;
+        b=CrsoxViQcY9FM9Ao5zZME84ae6tpwhPqBVyYwWjOaEgJ2/FvNGiiDNLUwA09GbD8i/
+         ImCyUY3mAfscRSFa82GBnPdDR8pXwK+WNbsr86l4W1Z7QntjUFlN5T250XO+fEAt0TPH
+         pYCBavdh4FggDgSBbsldCYtOt3UaHzlD0odkgJIsL+b99V5x7d6rZi7rNvVvB7CPc/dw
+         cc/TE7eBjSs66k6CvVyOi58z9TQuwvn9Tbn/z3De/4qr0G7VPwVOD5w5Fm078otOCk8E
+         FmxK8LACf7kZLxgkQhab7ZjL9bgtHFDWkboTUDDohJbxNFbxhi30agyQeQc0OoGOziz9
+         HNiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712380832; x=1712985632;
+        d=1e100.net; s=20230601; t=1712416306; x=1713021106;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to
-         :in-reply-to:references:date:message-id:from:subject:mime-version
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=B6CY1v1zFN1ER0xNlZaLDILJ6FwDv1flLLbqT2KX608=;
-        b=tkD4+u8Rc9jW8PpWlABfAId8PKzbXI86WSQIUdoFZR7chKfM2H4tac7VsR7msSNe4g
-         WRmvZewUus0XdXCWsUIOgWp1lpw/nNBbPH4HI5KM6mSFmR0WyzdR+Nl/zms2TzdjiHxT
-         sZJQJD9gjeiBsyS7fSpIMFXfxHApDKPG/mwRa/B3xRhVaQJqkZ55sjWdmM7paC3n2ZYO
-         JXfKBKWwdacL5jMpGHzHEm9L7q1qunm90BZ+Gn2rQSJtudc/2VL8DlR60qojilR4L68t
-         vMHR1LUv76uCdNc5+wuzDKFlQ0dIPdPgujUa/dY0ahqlezckw5i9frLcUiGdfMHe27YT
-         egGg==
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sk8MOGLYY1uS6MMhih2pExTCfbfy9H1UcuB5+xrDPE4=;
+        b=gjOEfyHzfbnROLmXcTg4MOBxbhSInUIAIvKAZgMxMk/Icb8NUr4K6Gd1cs2d50/9b9
+         o4yawt30OZu616LZb+dEP7ET5jwpO5AvWLeyIEixZP0d0gOV31TcMKWGdKfabXQIUuD1
+         NOsvzdXwBFLpfRVIF7DjuqnmJHOK2YvRVkvnyrHLagDepIjqAEbwf7zcBi9/AEd2IWw1
+         jTIRPFXfXnVk47Zmsq6s1pB22vMh2Ck6BRq4JMPxdH3NXW+EjdUYzwGghzZTvDX0l2gE
+         6Ta2IxJspjNPvy1jZyNe3F9sbGbgEVtffrDAES05nz1iE+iF/H05qAMFJT9fPR0cvPWt
+         RUhQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXIYXo4OGtnVSkXOz7Y+gsZwTxhKACzbYeVZWMKeN70YzeA1ADupBQtZuQytLi+prB5bSE2VhRtIINp3kNrvYt7WbaSGRSpAg==
-X-Gm-Message-State: AOJu0YzIyAXwtCaa0fDvXHyfuTCPtaz1DgSFM8Ss80XcRRqs/VLGoBVN
-	jdfoaNvqb7B3QYFrznKSkFfK5NQJLFKEj9FgTrqwgJ86LF8pifBa
-X-Google-Smtp-Source: AGHT+IHwbsFjXAkjNH5cLT8k0xq6FZxMUot2L/98Cg1Sr6e+4/sQUjvf2R7G637Fe26C7iAzNq0sIA==
-X-Received: by 2002:a05:6820:308b:b0:5a5:16e1:beb3 with SMTP id eu11-20020a056820308b00b005a516e1beb3mr3640671oob.0.1712380832675;
-        Fri, 05 Apr 2024 22:20:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUGqPGXECI2zXY1+Fl9825aoeirbd/XtHu0WG8JItqYpK4tqnVD6V48qLte3v8jSubTaMzqRDCeVtQPPL8CDBQps8JeWVKCHw==
+X-Gm-Message-State: AOJu0YxIHJs6uRswNWSYZH0ikk30Iu+3xFJuA2vFLet7hxJQS82wAo5L
+	W5q+Bl3R7VAchOiMPtF5QTW1b3KGSJZnjDv7vJygCttUHeqOSMUL
+X-Google-Smtp-Source: AGHT+IHrmclW1iaVr9WFnGG4LpqY+IivuG3Izm01VWJp84EU9WeDzIW3ndy7cSps2E7i2Ro2oxFNTg==
+X-Received: by 2002:ac8:5992:0:b0:434:7b16:96bb with SMTP id e18-20020ac85992000000b004347b1696bbmr1119492qte.62.1712416305885;
+        Sat, 06 Apr 2024 08:11:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6820:1acc:b0:5a4:905d:743f with SMTP id
- bu12-20020a0568201acc00b005a4905d743fls1813195oob.1.-pod-prod-05-us; Fri, 05
- Apr 2024 22:20:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWyFnSPJOiobg0d4kJeeM7sXHOiolRqt10rYtdA5h9z0MtTmrgyczjT5444IjtcAgSvbUBVGekyHgNPnv5+IO1EJsZcmdjVBUd9YA==
-X-Received: by 2002:a05:6830:1012:b0:6ea:18d:a03b with SMTP id a18-20020a056830101200b006ea018da03bmr1339657otp.9.1712380831788;
-        Fri, 05 Apr 2024 22:20:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1712380831; cv=none;
+Received: by 2002:ac8:5ac1:0:b0:431:7c7c:abae with SMTP id d1-20020ac85ac1000000b004317c7cabaels4139287qtd.0.-pod-prod-03-us;
+ Sat, 06 Apr 2024 08:11:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVxY3jCyrNIybRxgc/+NPeYDhH5agEg5NYI05K/hITu+oK6FwKiDCqDufg0IFL9ONHtfO7BPJtAosH1as0DHXH+0QTJ28nKN0Vu2g==
+X-Received: by 2002:a05:620a:a9b:b0:78d:39e9:2f65 with SMTP id v27-20020a05620a0a9b00b0078d39e92f65mr5010018qkg.0.1712416304944;
+        Sat, 06 Apr 2024 08:11:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1712416304; cv=none;
         d=google.com; s=arc-20160816;
-        b=Fa+34nrJISlm8umx4RnQ/b96H8IM+zC0I7Ao16YpNCYAYJ6PbQSITJ5e7tnfFMid3z
-         PSST6aD7NKkL5dFAQyNnUtM+axmlPYShlfEy4IjMgW8fLpQ3i3RxYjOspBXDFU3aFyWO
-         CICrjXl0UF12eHgu2tvniBWIlXHGDPzZhHNGFDDoev/AQBkD69m6a5qk68jhS3n8VDNZ
-         nT29XgK2N/10eB7LHgHP7HYdqSShfnpBwj2+5MegJsGEe9ynwXJ9pYOuLu3d6zEETSv5
-         FxV1QANYncQhyMIuHsOxfslfGClrQuPO56JIqlffxHRruK9II6YvqbmpMAweK5VVkX3B
-         WXDA==
+        b=mquarVhRujRqUI7m2DpJe2ORexClZei1pQPbXVtabG9ewlBfQUdIRIuLcySAGM0Zm2
+         eARWWtwGWJpA5GxDtqj4sGxdtJ6NvcmmUuI1z/e6fjrxD+O7KM0f7qDf9y74P7L5oNhi
+         eywTgfdbS8sQCn6ayqlWvQWD+QqVWCL8H6Mgdmyr0RnGL0Y5INnK8MsdNts6bHHkgLCO
+         QFLTo5n2fP4T5EXHt6MWQZ4k06a5vJ0hqeAFuZXwZyC0hroG+14iH+qYkyo0gflD+/C8
+         0m36PHaM5mFP8b2PeSj+RCQ9QUG/rqE8B1eZ17v8IvlFsZ0gGl5H3LROHYY2PyZKXkSA
+         HMRQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:in-reply-to:references:date:message-id:from:subject
-         :content-transfer-encoding:mime-version:dkim-signature;
-        bh=nE2uRvTv/U2m0+ghgElBUjbItaNExt97aA+SSiNR/Ik=;
-        fh=EZvtioogHPoh0X0UC9/NtTLppamOUPzEVoU4LopwfHM=;
-        b=PrqCCrhJy9q1mB3JIBCRGMY+16zDU3vL/36r17hd5TGDBxi1vPPHeRMiLV+jakEGwt
-         oc8S/FtDHBl3IjFMxXFR7cWyO7xT08X7FT20Nnxa9MgK41+7/H5j8IpPtBCxuiCoAOPb
-         qB3ATPRDLQ7VdZNqJG+t1swFTRCVeZRQpLlMgU4JfZRoQ5bp8Q4gwexRWsFRoYfImwYd
-         l/ekwhb0pEkbK1JB7Ri1nt1YtqXtJfpjrw915DvD5izx/R2WOXePuKxjctPLJs37p184
-         PAjz2IOJWp4cfiTvkbDCFVSGUipawRaWD3nI/SIdco4eVTXuUxJKEnKYr7sh68q4ANME
-         tCrg==;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date;
+        bh=ig0EmkPspn25ineI/4jKY6oNuD+KZIpANNpTNpRld0A=;
+        fh=QM13yX5cyx0gKVLH9qgXc292C0jk7N6nZCeRL8zZxhQ=;
+        b=Cu4YXq4X90mbDD7e70bsoDzzbDjP+nLainYqhSJGT8Ug7z46zDgStRIbpNCutCcmgc
+         kx4Yzt92D7upLYUb60BYiEjJ2PUnmun0K/Fi2Bx0GxQu92UpmDf64slR1HMD8WQ2sc/0
+         DAUXOye5zTFqdSNn3U8EY7bGHNRIHNOe3tD6IgY3iVxV6XMlhJsfG/1ASP8H8f7WvT5Z
+         LPgbx+NoTprskBU760X76i4gOSqiDHbF9K1Lhs5UiF7EDvImcX7mMNa1vQP/+mzyCYtL
+         Sar78JPPM481qF6piOgEdiRIPvjan4sKfrIW35/OGfA5oe6tWP92MEaXFlB3Tz69Rzft
+         44bg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=HYazYNyp;
-       spf=pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from sin.source.kernel.org (sin.source.kernel.org. [2604:1380:40e1:4800::1])
-        by gmr-mx.google.com with ESMTPS id 80-20020a630153000000b005dc851134acsi224614pgb.1.2024.04.05.22.20.31
+       spf=pass (google.com: domain of oleg@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=oleg@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
+        by gmr-mx.google.com with ESMTPS id qy7-20020a05620a8bc700b0078d60d5611csi2779qkn.4.2024.04.06.08.11.44
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Apr 2024 22:20:31 -0700 (PDT)
-Received-SPF: pass (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) client-ip=2604:1380:40e1:4800::1;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 5995DCE2776;
-	Sat,  6 Apr 2024 05:20:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 33A2AC43390;
-	Sat,  6 Apr 2024 05:20:28 +0000 (UTC)
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 19C9BD84BAC;
-	Sat,  6 Apr 2024 05:20:28 +0000 (UTC)
-Content-Type: text/plain; charset="UTF-8"
+        Sat, 06 Apr 2024 08:11:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of oleg@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-505-8qpYagkzMxSV1T4VL2nekg-1; Sat,
+ 06 Apr 2024 11:11:40 -0400
+X-MC-Unique: 8qpYagkzMxSV1T4VL2nekg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F348128AC1E7;
+	Sat,  6 Apr 2024 15:11:39 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.226.136])
+	by smtp.corp.redhat.com (Postfix) with SMTP id 0E9593C20;
+	Sat,  6 Apr 2024 15:11:36 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Sat,  6 Apr 2024 17:10:15 +0200 (CEST)
+Date: Sat, 6 Apr 2024 17:09:51 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: John Stultz <jstultz@google.com>, Marco Elver <elver@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
+	Edward Liaw <edliaw@google.com>,
+	Carlos Llamas <cmllamas@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] selftests/timers/posix_timers: reimplement
+ check_timer_distribution()
+Message-ID: <20240406150950.GA3060@redhat.com>
+References: <87sf02bgez.ffs@tglx>
+ <87r0fmbe65.ffs@tglx>
+ <CANDhNCoGRnXLYRzQWpy2ZzsuAXeraqT4R13tHXmiUtGzZRD3gA@mail.gmail.com>
+ <87o7aqb6uw.ffs@tglx>
+ <CANDhNCreA6nJp4ZUhgcxNB5Zye1aySDoU99+_GDS57HAF4jZ_Q@mail.gmail.com>
+ <87frw2axv0.ffs@tglx>
+ <20240404145408.GD7153@redhat.com>
+ <87le5t9f14.ffs@tglx>
 MIME-Version: 1.0
-Subject: Re: [PATCH 00/34] address all -Wunused-const warnings
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: <171238082809.31617.17365732495689756509.git-patchwork-notify@kernel.org>
-Date: Sat, 06 Apr 2024 05:20:28 +0000
-References: <20240403080702.3509288-1-arnd@kernel.org>
-In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-kernel@vger.kernel.org, arnd@arndb.de, mpe@ellerman.id.au,
- christophe.leroy@csgroup.eu, dlemoal@kernel.org, jikos@kernel.org,
- gregkh@linuxfoundation.org, minyard@acm.org, peterhuewe@gmx.de,
- jarkko@kernel.org, kristo@kernel.org, sboyd@kernel.org, abbotti@mev.co.uk,
- hsweeten@visionengravers.com, srinivas.pandruvada@linux.intel.com,
- lenb@kernel.org, rafael@kernel.org, john.allen@amd.com,
- herbert@gondor.apana.org.au, vkoul@kernel.org, ardb@kernel.org,
- andersson@kernel.org, mdf@kernel.org, liviu.dudau@arm.com,
- benjamin.tissoires@redhat.com, andi.shyti@kernel.org,
- michael.hennerich@analog.com, peda@axentia.se, lars@metafoo.de,
- jic23@kernel.org, dmitry.torokhov@gmail.com, markuss.broks@gmail.com,
- alexandre.torgue@foss.st.com, lee@kernel.org, kuba@kernel.org,
- Shyam-sundar.S-k@amd.com, iyappan@os.amperecomputing.com,
- yisen.zhuang@huawei.com, stf_xl@wp.pl, kvalo@kernel.org, sre@kernel.org,
- tony@atomide.com, broonie@kernel.org, alexandre.belloni@bootlin.com,
- chenxiang66@hisilicon.com, martin.petersen@oracle.com,
- neil.armstrong@linaro.org, heiko@sntech.de, krzysztof.kozlowski@linaro.org,
- hvaibhav.linux@gmail.com, elder@kernel.org, jirislaby@kernel.org,
- ychuang3@nuvoton.com, deller@gmx.de, hch@lst.de, robin.murphy@arm.com,
- rostedt@goodmis.org, mhiramat@kernel.org, akpm@linux-foundation.org,
- keescook@chromium.org, trond.myklebust@hammerspace.com, anna@kernel.org,
- masahiroy@kernel.org, nathan@kernel.org, tiwai@suse.com,
- linuxppc-dev@lists.ozlabs.org, linux-ide@vger.kernel.org,
- openipmi-developer@lists.sourceforge.net, linux-integrity@vger.kernel.org,
- linux-omap@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-crypto@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-fpga@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-fbdev@vger.kernel.org, iommu@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
- linux-hardening@vger.kernel.org, linux-nfs@vger.kernel.org,
- linux-kbuild@vger.kernel.org, alsa-devel@alsa-project.org,
- linux-sound@vger.kernel.org
-X-Original-Sender: patchwork-bot+netdevbpf@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=HYazYNyp;       spf=pass
- (google.com: domain of patchwork-bot+netdevbpf@kernel.org designates
- 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=patchwork-bot+netdevbpf@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <87le5t9f14.ffs@tglx>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
+X-Original-Sender: oleg@redhat.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of oleg@redhat.com designates 170.10.129.124 as permitted
+ sender) smtp.mailfrom=oleg@redhat.com;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -182,40 +164,169 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello:
+Thomas says:
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+	The signal distribution test has a tendency to hang for a long
+	time as the signal delivery is not really evenly distributed. In
+	fact it might never be distributed across all threads ever in
+	the way it is written.
 
-On Wed,  3 Apr 2024 10:06:18 +0200 you wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Compilers traditionally warn for unused 'static' variables, but not
-> if they are constant. The reason here is a custom for C++ programmers
-> to define named constants as 'static const' variables in header files
-> instead of using macros or enums.
-> 
-> [...]
+To me even the
 
-Here is the summary with links:
-  - [05/34] 3c515: remove unused 'mtu' variable
-    https://git.kernel.org/netdev/net-next/c/17b35355c2c6
-  - [19/34] sunrpc: suppress warnings for unused procfs functions
-    (no matching commit)
-  - [26/34] isdn: kcapi: don't build unused procfs code
-    https://git.kernel.org/netdev/net-next/c/91188544af06
-  - [28/34] net: xgbe: remove extraneous #ifdef checks
-    https://git.kernel.org/netdev/net-next/c/0ef416e045ad
-  - [33/34] drivers: remove incorrect of_match_ptr/ACPI_PTR annotations
-    (no matching commit)
+	This primarily tests that the kernel does not favour any one.
 
-You are awesome, thank you!
+comment doesn't look right. The kernel does favour a thread which hits
+the timer interrupt when CLOCK_PROCESS_CPUTIME_ID expires.
+
+The new version simply checks that the group leader sleeping in join()
+never receives SIGALRM, cpu_timer_fire() should always send the signal
+to the thread which burns cpu.
+
+Without the commit bcb7ee79029d ("posix-timers: Prefer delivery of signals
+to the current thread") the test-case fails immediately, the very 1st tick
+wakes the leader up. Otherwise it quickly succeeds after 100 ticks.
+
+Signed-off-by: Oleg Nesterov <oleg@redhat.com>
+---
+ tools/testing/selftests/timers/posix_timers.c | 102 ++++++++----------
+ 1 file changed, 46 insertions(+), 56 deletions(-)
+
+diff --git a/tools/testing/selftests/timers/posix_timers.c b/tools/testing/selftests/timers/posix_timers.c
+index d49dd3ffd0d9..2586a6552737 100644
+--- a/tools/testing/selftests/timers/posix_timers.c
++++ b/tools/testing/selftests/timers/posix_timers.c
+@@ -184,80 +184,70 @@ static int check_timer_create(int which)
+ 	return 0;
+ }
+ 
+-int remain;
+-__thread int got_signal;
++static pthread_t ctd_thread;
++static volatile int ctd_count, ctd_failed;
+ 
+-static void *distribution_thread(void *arg)
++static void ctd_sighandler(int sig)
+ {
+-	while (__atomic_load_n(&remain, __ATOMIC_RELAXED));
+-	return NULL;
++	if (pthread_self() != ctd_thread)
++		ctd_failed = 1;
++	ctd_count--;
+ }
+ 
+-static void distribution_handler(int nr)
++static void *ctd_thread_func(void *arg)
+ {
+-	if (!__atomic_exchange_n(&got_signal, 1, __ATOMIC_RELAXED))
+-		__atomic_fetch_sub(&remain, 1, __ATOMIC_RELAXED);
+-}
+-
+-/*
+- * Test that all running threads _eventually_ receive CLOCK_PROCESS_CPUTIME_ID
+- * timer signals. This primarily tests that the kernel does not favour any one.
+- */
+-static int check_timer_distribution(void)
+-{
+-	int err, i;
+-	timer_t id;
+-	const int nthreads = 10;
+-	pthread_t threads[nthreads];
+ 	struct itimerspec val = {
+ 		.it_value.tv_sec = 0,
+ 		.it_value.tv_nsec = 1000 * 1000,
+ 		.it_interval.tv_sec = 0,
+ 		.it_interval.tv_nsec = 1000 * 1000,
+ 	};
++	timer_t id;
+ 
+-	remain = nthreads + 1;  /* worker threads + this thread */
+-	signal(SIGALRM, distribution_handler);
+-	err = timer_create(CLOCK_PROCESS_CPUTIME_ID, NULL, &id);
+-	if (err < 0) {
+-		ksft_perror("Can't create timer");
+-		return -1;
+-	}
+-	err = timer_settime(id, 0, &val, NULL);
+-	if (err < 0) {
+-		ksft_perror("Can't set timer");
+-		return -1;
+-	}
++	/* 1/10 seconds to ensure the leader sleeps */
++	usleep(10000);
+ 
+-	for (i = 0; i < nthreads; i++) {
+-		err = pthread_create(&threads[i], NULL, distribution_thread,
+-				     NULL);
+-		if (err) {
+-			ksft_print_msg("Can't create thread: %s (%d)\n",
+-				       strerror(errno), errno);
+-			return -1;
+-		}
+-	}
++	ctd_count = 100;
++	if (timer_create(CLOCK_PROCESS_CPUTIME_ID, NULL, &id))
++		return "Can't create timer";
++	if (timer_settime(id, 0, &val, NULL))
++		return "Can't set timer";
+ 
+-	/* Wait for all threads to receive the signal. */
+-	while (__atomic_load_n(&remain, __ATOMIC_RELAXED));
++	while (ctd_count > 0 && !ctd_failed)
++		;
+ 
+-	for (i = 0; i < nthreads; i++) {
+-		err = pthread_join(threads[i], NULL);
+-		if (err) {
+-			ksft_print_msg("Can't join thread: %s (%d)\n",
+-				       strerror(errno), errno);
+-			return -1;
+-		}
+-	}
++	if (timer_delete(id))
++		return "Can't delete timer";
+ 
+-	if (timer_delete(id)) {
+-		ksft_perror("Can't delete timer");
+-		return -1;
+-	}
++	return NULL;
++}
++
++/*
++ * Test that only the running thread receives the timer signal.
++ */
++static int check_timer_distribution(void)
++{
++	const char *errmsg;
++
++	signal(SIGALRM, ctd_sighandler);
++
++	errmsg = "Can't create thread";
++	if (pthread_create(&ctd_thread, NULL, ctd_thread_func, NULL))
++		goto err;
++
++	errmsg = "Can't join thread";
++	if (pthread_join(ctd_thread, (void **)&errmsg) || errmsg)
++		goto err;
++
++	if (ctd_failed)
++		ksft_test_result_skip("No signal distribution. Assuming old kernel\n");
++	else
++		ksft_test_result_pass("check signal distribution\n");
+ 
+-	ksft_test_result_pass("check_timer_distribution\n");
+ 	return 0;
++err:
++	ksft_print_msg(errmsg);
++	return -1;
+ }
+ 
+ int main(int argc, char **argv)
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+2.25.1.362.g51ebf55
 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/171238082809.31617.17365732495689756509.git-patchwork-notify%40kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240406150950.GA3060%40redhat.com.
