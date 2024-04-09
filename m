@@ -1,140 +1,163 @@
-Return-Path: <kasan-dev+bncBDAMN6NI5EERBY642SYAMGQEFOR72JI@googlegroups.com>
+Return-Path: <kasan-dev+bncBD66N3MZ6ALRBH4K2WYAMGQEYJ4WBOI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F5689D8BB
-	for <lists+kasan-dev@lfdr.de>; Tue,  9 Apr 2024 14:02:45 +0200 (CEST)
-Received: by mail-lf1-x137.google.com with SMTP id 2adb3069b0e04-5175737fe57sf1892e87.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 09 Apr 2024 05:02:45 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1712664165; cv=pass;
+Received: from mail-pg1-x540.google.com (mail-pg1-x540.google.com [IPv6:2607:f8b0:4864:20::540])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71ABB89DA80
+	for <lists+kasan-dev@lfdr.de>; Tue,  9 Apr 2024 15:39:45 +0200 (CEST)
+Received: by mail-pg1-x540.google.com with SMTP id 41be03b00d2f7-5f0382f688fsf3919603a12.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 09 Apr 2024 06:39:45 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1712669984; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Idi6CR6E5vOYbsPZOJpyF5SOEnIIJMAhLlpS2wtJh5FnhDksFO8bR6NcYvmPAN07+s
-         ruD/GILYU/tOSbQCDQv1GUTLodZfCx0KRCZtnGapjbfU0Yqy5pbU7758B9r4KAJqEKNf
-         AqMlInIveeMybJNQLEySnJs0clZwlTuUfO9Dz8LKVStup6Gy8buLTuflzQhuckgS38kZ
-         4SQNrJTa8QBmtqxI8J+I2E9oJq0eL/t/hhjISrinhCuM8XzRwnAuBE+y5U0bGjpeTLDp
-         pyoklp22q2pczyHVCHpwNbly83p68p9l7qvSruRy+TF1gvAyFJW8uaJsfo/fK/AsN2BV
-         CZoA==
+        b=MPkVlewZmiZtlTlp/yvbXQU2/bQvGDOKgv6fm+k+GjhmbIFmpBe8CmpvZ3ahJPtZgY
+         Hgpn3tOnHdobhY9jHPKrhK82CgVK1AnDjtMMRsF+MN6YL5PwauqX8HNm2SLam7DCQBFp
+         oH+HPDA1NUM+sOocQaLU47N6gQfyNeZB3+mSRoyPCpCvO1siSvxUjk2F02JuDhkNw4sW
+         HRrRDk5VZ3ZvKbTqi37+pHLAxEPtYRUqHs35Zz2XclX/FRSCwa8LqrXXiQDz9h8wvjxN
+         g/pQWSm2CahJCBLyNiFyfZJJBL1Ujlyiuj/izjlUqOtp//5ZME/X6DSPRWaT0XpibMzs
+         Q6vQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
-        bh=0YeGwD5QFBYca02cp2F3doXYPtDEvpJkNl81AdJ/G8g=;
-        fh=9IWtWftv1e/fVMtSxee+dycOtqA1SD0sfoWfcVe2jwI=;
-        b=qIqa5Vd+h4easfIUR9KsDe2/O6YXpqhFt6VBQTNYlmtd0LRU3Fb8CAczoATRSd3YLl
-         djWXBaenc4Vv23NNYViwXrMQ5Md8eI0q8hyE1CXkHLMcKosW8HTg48LVVG5gbfbt3Npq
-         L5JOOvxGQvktt/aEtylERH62kzCGjgKRBiotj7jwhFOHHIrXMU4lKTwSxhiqI0ogqPmU
-         nVdQ/5GdboLMBb7FMV2i0mZmzLKjix8wn+6pgUUa3E+UxLdQ5oKNqXvr7dGRx3h45V8p
-         dG9mrru6QxRjr19rIoRjRW1ZudwNzaXrvpyiYqRcp9ptW0XgRWm4zbfYjU+F55ElxsXR
-         +L1g==;
+         :list-id:mailing-list:precedence:user-agent:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:dkim-signature;
+        bh=l+d4kDVOPtUx7JMfZK2i/d9rUcjBPb92DayvDBXxTpQ=;
+        fh=YNjtM/MElG99g/XolRYnBSWgW+LriRnza/Du3zQdk80=;
+        b=KL8jUwU088YRoMexaNNHlPiZGf8URlUtwP6uxhCIUivnvyrTE9Q/1m/WsmCKfcNm02
+         qMFyOHJaydpu0rvl6mKGlLJWZw8yihXn53BQJW468+N08juiRY5uk6QDnyElRo+zHB4h
+         pSG687Y+tsqEDfQpqTYBvkumG/D/iNfnxy+OORQxXpzjrEtPzWnVUDp2GH9qoxxOap1i
+         d/VWyUEK5LBZ+5WRO1Ol6OwsD7K8cFAw5wrQYjbwTcFlyM2vyASIzCHgdujxGBiWk+gc
+         fFpWDc3wn4ydg9X2zrcc95WTI7wCrnU3mxohXzKC8rMULJq2OxNxq+TDWlaz92oTGtAT
+         n3Tw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=UNuLPP5S;
-       dkim=neutral (no key) header.i=@linutronix.de header.s=2020e;
-       spf=pass (google.com: domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=HO69Uw+u;
+       spf=pass (google.com: domain of oleg@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=oleg@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1712664165; x=1713268965; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1712669984; x=1713274784; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0YeGwD5QFBYca02cp2F3doXYPtDEvpJkNl81AdJ/G8g=;
-        b=ZAUyv+CaS7SIZQTM6UY/PkOI5AndLr91JBNAFDIKWqeMShmGgW4tsKFtZDAOVaMqdm
-         SMCSwBkPrkFWCR66+CA7P2GahBSMAKGqoPrvTsRCa3TGQ60NZpCeziidOpQLCquy5hT6
-         ybt+Hz/6ms9m9AifmTMId8Q/nkqlUXNyLqywpYF+kcgA1oWrMurWn4As2vpom+cRTgiA
-         QtYhDyUgrDw3D/rmTzhk+aJrVg8hHnn0zxR6YE7BUVf9hoyDeeZpivVMUL5/iwk0TbQi
-         /eRxBBHzdrWfV8HF7QVLRsCL2+SI4GT7uFVFdqzugDRdDWLp9Ox3oOagrUNDhsCVLg32
-         2Vug==
+         :x-original-sender:user-agent:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=l+d4kDVOPtUx7JMfZK2i/d9rUcjBPb92DayvDBXxTpQ=;
+        b=V+0BC3BPmA4yqQ1WTU4JzBMVTNcgGf6avvhOmuR18ghOgkdFOST/COmVQ57bdZ0LOU
+         mbB4V6XpPddZOtDK+kHO7bPSAMm7S2tY3w9VedIvfd2Pg9Nb1PXJ0KFzYu04QAe3RlsD
+         A3dP01TvcWSmWeFTsVU+K0V9m86N3TQX87nj1GCAwafWjOA2A712HgqElv9AzLh309bL
+         aIF7eOPrphaMHUkYGTM6DajmkMScTHaK6c9fsIgoDOoWEbSsCkaPZ5urzkWTxqMb9Csj
+         TBSGFHwSzHslEVCNR1agKE936WYry2hTugg5G5UeQv6iLbrkR6S1gxVcickfCJVdy2mn
+         d0TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1712664165; x=1713268965;
+        d=1e100.net; s=20230601; t=1712669984; x=1713274784;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:references:in-reply-to:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0YeGwD5QFBYca02cp2F3doXYPtDEvpJkNl81AdJ/G8g=;
-        b=rZTL/UAdwH+oWXLeiTjD58yPC7rhKt1idGA8MEkZwej+/pobeuHqx6Ieg1mGYj3bRB
-         GE5gnVS60xUI/nB8bzZKvjLfVvzJHzi4YhIiQZH+CR992xYnUqPzGX58Y+TyB7fBwH1M
-         6MP2u5K6I7A7IYztWBMaoxJWBUb+wLx05n1DV3JHIZMlO6zu/j4Wf/r78fQaQYgVYO2b
-         fUoVLnMsQZ3mwbo0IKI0xEii6bVj3O8y+y1WGEK7k1WhfXSe3C6epnreXU2a01d4nhEs
-         rxWjaGhk3ck41nYCvVLlH96BJg1G2dq4X7gUR41NyyMYyyAWPLOA8ImhiFnIIgTRZIvm
-         duvA==
+         :x-original-authentication-results:x-original-sender:user-agent
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=l+d4kDVOPtUx7JMfZK2i/d9rUcjBPb92DayvDBXxTpQ=;
+        b=HMWnkY92xtqBwVEACEDfA/3Q5gOqxNPYt9nCiG+FwEUUDVEiQfDzGuN1PEdrmuDp8Z
+         P0EIixU1Ims5X6pQbaBSDPZc8DYztyDMaELKDpSdSwoWOIcFRUHo3R7Dw8T7to6c4SHi
+         BNxDEatG9aO6lAGHlEyspDklQgIFkRMGuC4/lNC+Lk7CXeT97xwt7dvfacnvQaJKM7AZ
+         9oD5I9NYa+TLh+bzF5DWIzPlRtChJrD2CAc/6gzC56p2c04wu/jhwcSMghHM8i0FTF2/
+         CqRBqu4KsB4azKrONmp2g6LpTnnVWiO6Fqpygjgmuc/BqENptIxq6i8+TzKhypqBmcbq
+         9N0Q==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVrFasq7DW8UxKhvWEquOWLY44FpmhVcFvUgRGl/1f7+zhtdxeO8AYKk9N62JByRFN145txxWUe79PYgGjdjZYCJCEJYIK7nA==
-X-Gm-Message-State: AOJu0YxyAINiPZAtTR8gB0OcISgl8MKWDSuUblEaJ1R1tqfqZ/vAgsXE
-	03EClpjjKUihdTLsC5kAKdPfaPuSHTtBzGbQVnQ5lOE5KiBwK7y1
-X-Google-Smtp-Source: AGHT+IGBaIgO3yoB8hSfVgsoqubwmHy3eHDr+QIRdr4w64FfcXNz0t2D/ohKrVb30zeuGB+ufZTmlw==
-X-Received: by 2002:ac2:4c38:0:b0:516:d099:400a with SMTP id u24-20020ac24c38000000b00516d099400amr97771lfq.0.1712664164122;
-        Tue, 09 Apr 2024 05:02:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUtcjKsFR75MZGcjaVhNq9L+NeAzUBL9QUNJOAWdbW2mq3KZtdnX0EueOCZLEeTlDF0E/G8S4j7FSVKSCPp688WW2hO4gx8Yw==
+X-Gm-Message-State: AOJu0YwSMeu89T849VtIneP1Dg1ffFH2zGDbYVye8RhvrasFeoZmcbrK
+	Cj34LZt73cUkqtJbrFQ04T1PhuoYVpE0j/C7YQzcdaQ3SvhyaI3MBTg=
+X-Google-Smtp-Source: AGHT+IFx6Xk8sKSMr0fbCLYLLZp1v+Kp7Ypqf89/aISGNCm+U2pLL0i3C9dcTX8mDBAun1J0IbgUzA==
+X-Received: by 2002:a05:6a21:9999:b0:1a7:8127:c919 with SMTP id ve25-20020a056a21999900b001a78127c919mr4628427pzb.43.1712669983543;
+        Tue, 09 Apr 2024 06:39:43 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:3604:0:b0:2d4:369e:7edf with SMTP id d4-20020a2e3604000000b002d4369e7edfls124748lja.0.-pod-prod-01-eu;
- Tue, 09 Apr 2024 05:02:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXRSGqpEnwg10qBDNTi2dQd1hZak+briiLqDHt111TovWugH68+G5dnhsLnC6bvUtlDjdFymsllpis8Syyv9oPTuGJn23QMHr3X9w==
-X-Received: by 2002:a2e:bc1a:0:b0:2d8:901f:7f4b with SMTP id b26-20020a2ebc1a000000b002d8901f7f4bmr4701844ljf.5.1712664162068;
-        Tue, 09 Apr 2024 05:02:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1712664162; cv=none;
+Received: by 2002:a05:6a00:9285:b0:6ec:fe13:95c with SMTP id
+ jw5-20020a056a00928500b006ecfe13095cls2699092pfb.0.-pod-prod-01-us; Tue, 09
+ Apr 2024 06:39:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUnYE/kYQn97J3ot47VFXP9P6dR25YDEu9fuTDwUU3Cy5q8tW9BkGU4W7bxRr3M+J1FG53S9YsKB1wDRlVQ/yHJgfPV179YgQdGVg==
+X-Received: by 2002:a05:6a20:5b19:b0:1a7:336c:555c with SMTP id kl25-20020a056a205b1900b001a7336c555cmr8219110pzb.60.1712669982012;
+        Tue, 09 Apr 2024 06:39:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1712669981; cv=none;
         d=google.com; s=arc-20160816;
-        b=zbDhbg0JApeVq9SrpxunxjYCPdCUCvvt2VJyC8zPFVuJ3U5ICGzMLY9u6sq79nnWVF
-         p6UAcOfM/B64DayY2ykHjFrf94UstWFLxwrtpdhgTyRhIlQ3YQiQPlmi1ghLvKpOQSus
-         gyYRt5hqXTsYJHEUZ/nxQ+gi8MDK3jXwP+4fwxpF2amHgabvkDA5zceb1I6HuYJblTEH
-         vqemO93eyJBJw3uAD6ttSlxNvCY5NZYwfTXtGrBaHeSONSt7pYtOogvOkjMo4x0M2Fpd
-         ZiuPWUBTgSIw8gdmRhmvH5Okq4CdgvNKsv7juAqS7RbK6q5TYWDebGwUIgyUrOuUPTI4
-         FiCA==
+        b=jhFwR1YFKA8Y/dEwR8xo7+nHBLk75WReVAlkU5pD/hUG9dXLpqrYb4C6K16QB/RmPS
+         QPqKR9ZKDXwsEVLK4bHftUdABluuLTZi4vimEszvRtbznjrBxRNz4UeiJRkjqJGQ2KDn
+         Cd9cOaNCudxe0rERWeJOnMemmTlBQwalqN2UsRdOMFR/QREIGlBhDhWLmzXc1YJ52WSo
+         G4KV+N2XKRLC9OkPBjpRWXUPW514mN9Xz7nOrQlN0Lpa1Acskxw2shSeK7aN+2P78wCk
+         kNXpg+gRFYjHN732+awTppoFK1//C43y3lDhuorBqxUwlPcZXPGXEpVMZ0QTFKOkxmMd
+         HyZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :dkim-signature:dkim-signature:from;
-        bh=8NoF74+Dpoxqa48kWnxI0CEBaofoHHeQ96U8jZayGGY=;
-        fh=YMfigdof9h68/hROUTb3YhceEFrPPzqQv5CTEIAfxPI=;
-        b=x9KHGCMp6mi+Vfp/wFuxjW+l2j8ra0hc754cb9PWkjHrAuJOO9BiIl85RFLpWyGct/
-         yECwXzwZCXxuRv4014UMlu/l2FM+YV7qfXKvnI3Mib/Gng58l7QHtxJCvHPLRWZTMtQ3
-         h+uAGLZfbldpdeFomhgd9qtEXBQynSCUt0C+C0WDp9269NudntA6QV4MFxdqQV050DBC
-         Y1jxY6kExfb9K7YJGQ4jaLofpFF8hUySbsYteRXDFQvfRV6pG5o5Zny0kkLTns2ZF8wg
-         VPiiQyVadDJEQnCzigQItckHLC9u3YvT8BTOD7JB+bjU0UxD+n7aOAjZzqSL1oR43yDD
-         9hKA==;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=cHNENpIo5P3xNA2FT6uR/Fpf8icdmb0An+YCTlDYv/k=;
+        fh=ct+SAC++KuMnHEs0TDY7BoMNklHQXTXWPHBS4yDpdlg=;
+        b=thL5IdkXnYdX1fcgrAzYtlL2H7HWnq8oAmjMuIoXLGJ6Zye7YbhMzVQR2q3JcmMLZG
+         +N3YdX7QtEmjo3xo0+ytlHOavrxteRJH9IsicjAXcsnPqbbGry/ZIe1a2cQIM0FeRaat
+         lXHt5YHamIDIlO+DD2m6lTCJxyzCD33G/EnOdRPb8GanAyjBAPJW8koDF0LycrbUBp+Y
+         6iNjv+U1nMGNLSKJO/WCLNfha/BUUYoqgkJ46pip/0g+8zsnY/ZhVvevBrxpP3u/FxB/
+         QvXp3HZ+1ycFq136MU3bwwd+9z4qs2xPzAVaC8bYi8q8Bc/s+/8gkpnlCJyyU8FQ4JsK
+         6WQg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=UNuLPP5S;
-       dkim=neutral (no key) header.i=@linutronix.de header.s=2020e;
-       spf=pass (google.com: domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
-Received: from galois.linutronix.de (Galois.linutronix.de. [193.142.43.55])
-        by gmr-mx.google.com with ESMTPS id b3-20020a2e9883000000b002d85301f1dfsi247845ljj.2.2024.04.09.05.02.41
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=HO69Uw+u;
+       spf=pass (google.com: domain of oleg@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=oleg@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
+        by gmr-mx.google.com with ESMTPS id k35-20020a17090a4ca600b002a499886dcbsi200503pjh.1.2024.04.09.06.39.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Apr 2024 05:02:41 -0700 (PDT)
-Received-SPF: pass (google.com: domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender) client-ip=193.142.43.55;
-From: Thomas Gleixner <tglx@linutronix.de>
-To: Oleg Nesterov <oleg@redhat.com>
+        Tue, 09 Apr 2024 06:39:41 -0700 (PDT)
+Received-SPF: pass (google.com: domain of oleg@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-653-I0pd653lOZ2bOgxz-s13DQ-1; Tue, 09 Apr 2024 09:39:37 -0400
+X-MC-Unique: I0pd653lOZ2bOgxz-s13DQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CDDDF802A6F;
+	Tue,  9 Apr 2024 13:39:36 +0000 (UTC)
+Received: from dhcp-27-174.brq.redhat.com (unknown [10.45.225.56])
+	by smtp.corp.redhat.com (Postfix) with SMTP id DFF89444300;
+	Tue,  9 Apr 2024 13:39:33 +0000 (UTC)
+Received: by dhcp-27-174.brq.redhat.com (nbSMTP-1.00) for uid 1000
+	oleg@redhat.com; Tue,  9 Apr 2024 15:38:11 +0200 (CEST)
+Date: Tue, 9 Apr 2024 15:38:03 +0200
+From: Oleg Nesterov <oleg@redhat.com>
+To: Thomas Gleixner <tglx@linutronix.de>
 Cc: Dmitry Vyukov <dvyukov@google.com>, John Stultz <jstultz@google.com>,
- Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@kernel.org>, "Eric W. Biederman"
- <ebiederm@xmission.com>, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, kasan-dev@googlegroups.com, Edward Liaw
- <edliaw@google.com>, Carlos Llamas <cmllamas@google.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] selftests/timers/posix_timers: reimplement
+	Marco Elver <elver@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	"Eric W. Biederman" <ebiederm@xmission.com>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	kasan-dev@googlegroups.com, Edward Liaw <edliaw@google.com>,
+	Carlos Llamas <cmllamas@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v2] selftests/timers/posix_timers: reimplement
  check_timer_distribution()
-In-Reply-To: <20240409111051.GB29396@redhat.com>
-References: <CANDhNCreA6nJp4ZUhgcxNB5Zye1aySDoU99+_GDS57HAF4jZ_Q@mail.gmail.com>
- <87frw2axv0.ffs@tglx> <20240404145408.GD7153@redhat.com>
- <87le5t9f14.ffs@tglx> <20240406150950.GA3060@redhat.com>
+Message-ID: <20240409133802.GD29396@redhat.com>
+References: <20240404145408.GD7153@redhat.com>
+ <87le5t9f14.ffs@tglx>
+ <20240406150950.GA3060@redhat.com>
  <20240406151057.GB3060@redhat.com>
  <CACT4Y+Ych4+pdpcTk=yWYUOJcceL5RYoE_B9djX_pwrgOcGmFA@mail.gmail.com>
- <20240408102639.GA25058@redhat.com> <20240408184957.GD25058@redhat.com>
- <87il0r7b4k.ffs@tglx> <20240409111051.GB29396@redhat.com>
-Date: Tue, 09 Apr 2024 14:02:40 +0200
-Message-ID: <877ch67nhb.ffs@tglx>
+ <20240408102639.GA25058@redhat.com>
+ <20240408184957.GD25058@redhat.com>
+ <87il0r7b4k.ffs@tglx>
+ <20240409111051.GB29396@redhat.com>
+ <877ch67nhb.ffs@tglx>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: tglx@linutronix.de
+Content-Disposition: inline
+In-Reply-To: <877ch67nhb.ffs@tglx>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
+X-Original-Sender: oleg@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linutronix.de header.s=2020 header.b=UNuLPP5S;       dkim=neutral
- (no key) header.i=@linutronix.de header.s=2020e;       spf=pass (google.com:
- domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender)
- smtp.mailfrom=tglx@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
- dis=NONE) header.from=linutronix.de
+ header.i=@redhat.com header.s=mimecast20190719 header.b=HO69Uw+u;
+       spf=pass (google.com: domain of oleg@redhat.com designates
+ 170.10.129.124 as permitted sender) smtp.mailfrom=oleg@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,64 +170,207 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Apr 09 2024 at 13:10, Oleg Nesterov wrote:
-> On 04/09, Thomas Gleixner wrote:
-> It seems that this is because in your tree check_timer_distribution() does
->
-> 	if (timer_delete(id)) {
-> 		ksft_perror("Can't delete timer");
-> 		return 0;
-> 	}
->
-> while in Linus's tree it returns -1 if timer_delete()
-> fails. Nevermind.
+Thomas says:
 
-Ooops.
+	The signal distribution test has a tendency to hang for a long
+	time as the signal delivery is not really evenly distributed. In
+	fact it might never be distributed across all threads ever in
+	the way it is written.
 
->> +static bool check_kernel_version(unsigned int min_major, unsigned int min_minor)
->> +{
->> +	unsigned int major, minor;
->> +	struct utsname info;
->> +
->> +	uname(&info);
->> +	if (sscanf(info.release, "%u.%u.", &major, &minor) != 2)
->> +		ksft_exit_fail();
->> +	return major > min_major || (major == min_major && minor >= min_minor);
->> +}
->
-> this looks useful regardless. Perhaps it should be moved into
-> tools/testing/selftests/kselftest.h as ksft_ck_kernel_version() ?
+To me even the
 
-Makes sense.
+	This primarily tests that the kernel does not favour any one.
 
->> +static int check_timer_distribution(void)
->> +{
->> +	const char *errmsg;
->> +
->> +	if (!check_kernel_version(6, 3)) {
->> +		ksft_test_result_skip("check signal distribution (old kernel)\n");
->>  		return 0;
->
-> ..
->
->> +	ksft_test_result(!ctd_failed, "check signal distribution\n");
->
-> Perhaps
->
-> 	if (!ctd_failed)
-> 		ksft_test_result_pass("check signal distribution\n");
-> 	else if (check_kernel_version(6, 3))
-> 		ksft_test_result_fail("check signal distribution\n");
-> 	else
-> 		ksft_test_result_skip("check signal distribution (old kernel)\n");
->
-> makes more sense?
->
-> This way it can be used on the older kernels with bcb7ee79029d backported.
+comment doesn't look right. The kernel does favour a thread which hits
+the timer interrupt when CLOCK_PROCESS_CPUTIME_ID expires.
 
-Indeed.
+The new version simply checks that the group leader sleeping in join()
+never receives SIGALRM, cpu_timer_fire() should always send the signal
+to the thread which burns cpu.
+
+Without the commit bcb7ee79029d ("posix-timers: Prefer delivery of signals
+to the current thread") the test-case fails immediately, the very 1st tick
+wakes the leader up. Otherwise it quickly succeeds after 100 ticks.
+
+As Thomas suggested, the new version doesn't report the failure on the
+pre v6.3 kernels that do not have the commit bcb7ee79029d; this is a
+feature that obviously fails on the older kernels. So the patch adds the
+new simple ksft_ck_kernel_version() helper and uses ksft_test_result_skip()
+if check_timer_distribution() fails on the older kernel.
+
+Signed-off-by: Oleg Nesterov <oleg@redhat.com>
+---
+ tools/testing/selftests/kselftest.h           |  14 +++
+ tools/testing/selftests/timers/posix_timers.c | 103 ++++++++----------
+ 2 files changed, 61 insertions(+), 56 deletions(-)
+
+diff --git a/tools/testing/selftests/kselftest.h b/tools/testing/selftests/kselftest.h
+index 541bf192e30e..6aab3309c6a3 100644
+--- a/tools/testing/selftests/kselftest.h
++++ b/tools/testing/selftests/kselftest.h
+@@ -51,6 +51,7 @@
+ #include <stdarg.h>
+ #include <string.h>
+ #include <stdio.h>
++#include <sys/utsname.h>
+ #endif
+ 
+ #ifndef ARRAY_SIZE
+@@ -388,4 +389,17 @@ static inline __printf(1, 2) int ksft_exit_skip(const char *msg, ...)
+ 	exit(KSFT_SKIP);
+ }
+ 
++static inline int ksft_ck_kernel_version(unsigned int min_major,
++					 unsigned int min_minor)
++{
++	struct utsname info;
++	unsigned int major, minor;
++
++	uname(&info);
++	if (sscanf(info.release, "%u.%u.", &major, &minor) != 2)
++		ksft_exit_fail();
++
++	return major > min_major || (major == min_major && minor >= min_minor);
++}
++
+ #endif /* __KSELFTEST_H */
+diff --git a/tools/testing/selftests/timers/posix_timers.c b/tools/testing/selftests/timers/posix_timers.c
+index d49dd3ffd0d9..64c41463b704 100644
+--- a/tools/testing/selftests/timers/posix_timers.c
++++ b/tools/testing/selftests/timers/posix_timers.c
+@@ -184,80 +184,71 @@ static int check_timer_create(int which)
+ 	return 0;
+ }
+ 
+-int remain;
+-__thread int got_signal;
++static pthread_t ctd_thread;
++static volatile int ctd_count, ctd_failed;
+ 
+-static void *distribution_thread(void *arg)
++static void ctd_sighandler(int sig)
+ {
+-	while (__atomic_load_n(&remain, __ATOMIC_RELAXED));
+-	return NULL;
++	if (pthread_self() != ctd_thread)
++		ctd_failed = 1;
++	ctd_count--;
+ }
+ 
+-static void distribution_handler(int nr)
++static void *ctd_thread_func(void *arg)
+ {
+-	if (!__atomic_exchange_n(&got_signal, 1, __ATOMIC_RELAXED))
+-		__atomic_fetch_sub(&remain, 1, __ATOMIC_RELAXED);
+-}
+-
+-/*
+- * Test that all running threads _eventually_ receive CLOCK_PROCESS_CPUTIME_ID
+- * timer signals. This primarily tests that the kernel does not favour any one.
+- */
+-static int check_timer_distribution(void)
+-{
+-	int err, i;
+-	timer_t id;
+-	const int nthreads = 10;
+-	pthread_t threads[nthreads];
+ 	struct itimerspec val = {
+ 		.it_value.tv_sec = 0,
+ 		.it_value.tv_nsec = 1000 * 1000,
+ 		.it_interval.tv_sec = 0,
+ 		.it_interval.tv_nsec = 1000 * 1000,
+ 	};
++	timer_t id;
+ 
+-	remain = nthreads + 1;  /* worker threads + this thread */
+-	signal(SIGALRM, distribution_handler);
+-	err = timer_create(CLOCK_PROCESS_CPUTIME_ID, NULL, &id);
+-	if (err < 0) {
+-		ksft_perror("Can't create timer");
+-		return -1;
+-	}
+-	err = timer_settime(id, 0, &val, NULL);
+-	if (err < 0) {
+-		ksft_perror("Can't set timer");
+-		return -1;
+-	}
++	/* 1/10 seconds to ensure the leader sleeps */
++	usleep(10000);
+ 
+-	for (i = 0; i < nthreads; i++) {
+-		err = pthread_create(&threads[i], NULL, distribution_thread,
+-				     NULL);
+-		if (err) {
+-			ksft_print_msg("Can't create thread: %s (%d)\n",
+-				       strerror(errno), errno);
+-			return -1;
+-		}
+-	}
++	ctd_count = 100;
++	if (timer_create(CLOCK_PROCESS_CPUTIME_ID, NULL, &id))
++		return "Can't create timer";
++	if (timer_settime(id, 0, &val, NULL))
++		return "Can't set timer";
+ 
+-	/* Wait for all threads to receive the signal. */
+-	while (__atomic_load_n(&remain, __ATOMIC_RELAXED));
++	while (ctd_count > 0 && !ctd_failed)
++		;
+ 
+-	for (i = 0; i < nthreads; i++) {
+-		err = pthread_join(threads[i], NULL);
+-		if (err) {
+-			ksft_print_msg("Can't join thread: %s (%d)\n",
+-				       strerror(errno), errno);
+-			return -1;
+-		}
+-	}
++	if (timer_delete(id))
++		return "Can't delete timer";
+ 
+-	if (timer_delete(id)) {
+-		ksft_perror("Can't delete timer");
+-		return -1;
+-	}
++	return NULL;
++}
++
++/*
++ * Test that only the running thread receives the timer signal.
++ */
++static int check_timer_distribution(void)
++{
++	const char *errmsg;
+ 
+-	ksft_test_result_pass("check_timer_distribution\n");
++	signal(SIGALRM, ctd_sighandler);
++
++	errmsg = "Can't create thread";
++	if (pthread_create(&ctd_thread, NULL, ctd_thread_func, NULL))
++		goto err;
++
++	errmsg = "Can't join thread";
++	if (pthread_join(ctd_thread, (void **)&errmsg) || errmsg)
++		goto err;
++
++	if (!ctd_failed)
++		ksft_test_result_pass("check signal distribution\n");
++	else if (ksft_ck_kernel_version(6, 3))
++		ksft_test_result_fail("check signal distribution\n");
++	else
++		ksft_test_result_skip("check signal distribution (old kernel)\n");
+ 	return 0;
++err:
++	ksft_print_msg(errmsg);
++	return -1;
+ }
+ 
+ int main(int argc, char **argv)
+-- 
+2.25.1.362.g51ebf55
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/877ch67nhb.ffs%40tglx.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240409133802.GD29396%40redhat.com.
