@@ -1,118 +1,122 @@
-Return-Path: <kasan-dev+bncBD4NDKWHQYDRBUXG6WYAMGQE3LKB6UQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCF5XGNWYQBRBZUU66YAMGQEHZ43HFY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83b.google.com (mail-qt1-x83b.google.com [IPv6:2607:f8b0:4864:20::83b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC858A59F3
-	for <lists+kasan-dev@lfdr.de>; Mon, 15 Apr 2024 20:35:00 +0200 (CEST)
-Received: by mail-qt1-x83b.google.com with SMTP id d75a77b69052e-436d9e571c1sf15240181cf.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 15 Apr 2024 11:35:00 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1713206099; cv=pass;
+Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F7D8A5F70
+	for <lists+kasan-dev@lfdr.de>; Tue, 16 Apr 2024 02:46:31 +0200 (CEST)
+Received: by mail-il1-x140.google.com with SMTP id e9e14a558f8ab-36b29dda7b3sf2197015ab.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 15 Apr 2024 17:46:31 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1713228390; cv=pass;
         d=google.com; s=arc-20160816;
-        b=zen8bmaJ1mpWxLTDkVxKFqDXOjHPksgQWXi5xg4yVOIilqel8pLzcEoSQpTL3dyt3c
-         ni1liYvcL9eSnsCmynICOOoqvlvp90iZK7pqwBdUDZSXgreNXIm159UypRubnZdGaaDn
-         CD/7uyS0Qn0c8N/FC1RBmMcKQPVbu00eF3NMyMjN0RnfoZvRiv5NFeiZZq3z/DBCe1U1
-         00bAilz7VCHkD/JNR0rp/GDCaIOdJzIGatpZ4HcxQS5UzI/muYoJnFYQ3mIZ9cB5iHTd
-         zwnStfbMPL5u4irunM5xj6O/ejlKBAnVumCzYS9KTmXuDOdkIleO1JKPU7TcmnoDhQh5
-         VP+g==
+        b=a3Fjb8JmqJsYD1HKMhJkawQikkOxEQYFwRsPnp0qc5rgtpkR9My7UKZE9vRwvwLn11
+         FR0t7r2C/QNc53ykW1L3Rn0ObmjhuOOvt8XLHA8p9etXrin1mNrxXviPGombpD66FCFJ
+         g+XT+pTsKKXsjYdTmv51vf0VQSmxP+sARHZXM1Z2OfDLumNcs314d+f6nNWqhJkGYxXe
+         roY6BpINn7NkPyvANETiDmdAXkfy19rRiNeP0r2thIqMSVg8QBBh8B3BOifR90YJrRRO
+         7fMO/iDqni015WyQFyb6UUe2a4w/8KLwxDUfKwBlHewEbOJjPryjrif3xJGl9BelAaXp
+         k0og==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=NDvoan64fzRUeTBQINCqFVuzVVt8xPsiWyIWYeeBvfk=;
-        fh=ouTxBvR6q3m4J0gjOBP7tTVB3VTOOonY/Rb9RZ0ENFY=;
-        b=BtfO2dYymfahajK2tdyNWJXGQNRWZGHG0Mc6yfqC4lZ5k/svGDsj2iAhiCjnHCwTHh
-         QEDiI+gYcJbYxQuDGWiOvjR0dcETS/OTl1rFx8HRp2HMlqeuy8i/TLQDoaYqgamNzQfS
-         GVPpJIDbJCx5RYE/xhiPU92gEvlpLYLBmkLRJYe9e/bvFeSnhLWR5HjPubcSgziVMu1B
-         NF9fMIG+l6vXfZ03GgfxOsZHJs+lJzGT43M2f+2jbSKh+yHpJalHS1pHSl5IhWCBUrGO
-         BAwK4ANMTQNLEehguZzdBskVDIdRoMDyQ5vZ7TJOoEX/SL77F6+rFo4+JpFVdV7Yw+vr
-         9O/A==;
+        bh=tpHJdWhe/MjrjQsk/51G2B+a9IBfDP6DAph8SjhbOTo=;
+        fh=4ZSNi2q52NMH7D/5M4sgEPSrwQUf9UKwku+wq/4wIGI=;
+        b=dK+26Nk9AnmPY2znramgmgGbcZFlq3bzmJ5I6u8CGQ4YawF6/NuClGRGxdoGZIJvIQ
+         ew+D10wnRRe9o0t8FSk6MB4VbdryMbbPJnBvJw84jdNqP38URuevkd1jd0zV4HA3e68X
+         eFCXIzTzUpLWx529X6A5f8NS2MmAT31LltlXyJ0Dbv7lGjC72nMLNV3BPl3tHwLmcvxa
+         gwlQiKEifmFXhcl+CZVyzmMkGn8opnY18o5bHNH7BDLyiCqMzjgQ5LNRPZFrlTkCfVgL
+         DRBSjQLYodoch2QHvFnxC94fqA79WB+Ls3/rHnPfdD5vz9sL3jHoCqc3apPI+MxaOVRu
+         005g==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Kx9jaLbp;
-       spf=pass (google.com: domain of nathan@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=nathan@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@chromium.org header.s=google header.b="dhrD1/X/";
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62c as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1713206099; x=1713810899; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1713228390; x=1713833190; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NDvoan64fzRUeTBQINCqFVuzVVt8xPsiWyIWYeeBvfk=;
-        b=Jazyh6cldwoMx29tUV2pOs4VFv95F+gzqJVvSklkjUVjLiFAeLZOfiW6o8rO+mihtg
-         AWiQvJUdjBXEJsMvGlaT26AfuCkqdPogwFyFX5sLOm7SpNkVqoekKAASQX0YEOYNerpf
-         VXp+HDd4eU5TcwrcCMPMdrhfKFQ17z8UPI4r8tfQ2Bh7VtLoo4fClyHWTCDIccCnSeJy
-         2NA8IrFX/13Svmm7LbE2urUGhaSt5CmOfMbzZAKoljIalAhzE2VF/M/KIQLaTM+RdYmJ
-         yl0GuDvnpB1SYoQahY2I0uDHQWcF8JEG3952qu6D3g8J+473oe5QPIwU6VUT9e2xfpBL
-         mo0Q==
+        bh=tpHJdWhe/MjrjQsk/51G2B+a9IBfDP6DAph8SjhbOTo=;
+        b=VBxxFb8+SaOxas0qjR6xr6/V6SOCoiHI6hWI4/OYX/CcjSlIuZC/WJILfogbySeF31
+         /VwLEFKxyeOUUHbrfmuk0g9s1TYcsDIUEvtP4KP9hdAKr9Xq9cHjNLXrjRBkiKCq/8hT
+         7RoIJvxvnnCW6xmLDuhDwQVSL0vTJxosQqNgkzA8kjlrmQYLz+DyFJTgjc31F1AZbAfd
+         8z0vR5CkwAHyOqdUoUuAkfXUn4bONJQSCey5eKMacZ5CIWbdLj6e5kVJmCJdDkudAGdO
+         GbFRRb0aYxUKhnZ1CyJfBOPGIFSahyEgjvBFHv/xyQAjbZWWDFIG0sUqthK/gk+PQA8E
+         7vFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1713206099; x=1713810899;
+        d=1e100.net; s=20230601; t=1713228390; x=1713833190;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NDvoan64fzRUeTBQINCqFVuzVVt8xPsiWyIWYeeBvfk=;
-        b=crnkwYTlwx0L6iQ02I9jaZqaC04XJMBZOmlRBDb0VI7FxZLPIpixui/JUaekNJUyrD
-         TJIHwSiBdxVUDvxx5JNP1mx0QA1s9FPas6QW/btiMP/QttHIF7WSkXCRDS9BuptfPUYn
-         x8hOWwy/sLKT0QhnV4ADJAeSvs/q+VAxf50qkL4QrikGGJ1r2UebcyrB3uPr7z2W/pwn
-         6jjyP5KJubyxwPmWy1ABhQCr/5tAlVjTz3b1UqMvRtHshaj04sYbjr6xvsSdvQDVvxXp
-         wAqwe/cVXN3hhXkJzQ199o+WZYrZx5ACQ9NPeqYF0hkVBBovBJVj+TS0D6vLmzhOyfb7
-         0e2Q==
+        bh=tpHJdWhe/MjrjQsk/51G2B+a9IBfDP6DAph8SjhbOTo=;
+        b=bFrZ4Iin6J+xc2Y9mF7pitfMnXN4qGsRYOUkb3TOdfD2sTyrv3t3/nGcDZL0QVaOsV
+         z8VO5nol7mDlM9TSU4a4vZLZ9fj/YGek74ahzkcXNWdtaqVfgrV94TL5EFQYBsfSYnl8
+         fq1Z6uPvFKCfW3PmsT5baYlAgiX9oqRws+DiPv9G1ATBKNug004C65mUnEzsSH1rHKTc
+         GpLzFuljS7Mw5XwSwIA3FKV2TL0RiOa37RpKeKxIk1aGy/q1B0//RC/EY2Uc4ENH2I0Y
+         uMigBwERF1smOgj5bZJS4OBt4Kb8OCi8aqcw0+WH52d6KvIiAh4Ccsn1KwfA63/iY8Vy
+         3deA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUBQGYAzl6b34nNSSFHE8rI3yuE8BYBFtGJ23PD2gJ4R7xeTRtjTWn2TYYX7O+4IoVlZuMcPZz4OeidDJysHgAD1Yj09aQDZQ==
-X-Gm-Message-State: AOJu0YzuqOx6KfC0x4s940NMscdAKqKsKMje7d+c6xH/QMwrBEM1+DJ6
-	b5ucNl9ZsyvIkOvVy9zza4YRxTrjH/2pNloCnvlwLPUEYQCedhjR
-X-Google-Smtp-Source: AGHT+IFyjpF1lnEuZqzbW6/pE6XLPdr9tOhPJSVR0b9prg8GD9QgH3pgbTCQp80CUJpWTSYPfQj1Zw==
-X-Received: by 2002:a05:622a:28e:b0:434:586f:6fc7 with SMTP id z14-20020a05622a028e00b00434586f6fc7mr11750457qtw.6.1713206098687;
-        Mon, 15 Apr 2024 11:34:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXVQHVCnwN7b5kE5/ClJhUmIEjFOO4bPzek9+KIxAUXIU+h7HySbKn+Rts1HDXpQ2//mOQcHevlVlaboDbd1t1d1IlB+Jg57w==
+X-Gm-Message-State: AOJu0Ywt5ewUZY4fvIov8To11QdOlIJu/lOGjjlReAXXffpusAy4fYgW
+	9ehIQLawskJbDoW2KHsGLP+hDuypbh3EIiGYvL24idTD02QsHCp1
+X-Google-Smtp-Source: AGHT+IGsrfN/gNpQA1klFqhrloinbeYp9oYQVjzuKdtUvoIeZ6Z1P9S389BHwIV/+2O2hMlRdygjfw==
+X-Received: by 2002:a05:6e02:194f:b0:368:cde6:334 with SMTP id x15-20020a056e02194f00b00368cde60334mr14252582ilu.18.1713228390155;
+        Mon, 15 Apr 2024 17:46:30 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:24c:b0:437:2b27:29a1 with SMTP id
- c12-20020a05622a024c00b004372b2729a1ls711697qtx.1.-pod-prod-09-us; Mon, 15
- Apr 2024 11:34:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXhZyDAmSZ0MkaGaT9UzdCXDpzqHdTavZyQeQm7RZBmQoyiDS/fOJgofos8LSXD4ce4lncOp6cQ2LF2//ByxcYW3lzFqBJnIGHBog==
-X-Received: by 2002:a05:620a:21c3:b0:78d:6e6f:9004 with SMTP id h3-20020a05620a21c300b0078d6e6f9004mr12436532qka.59.1713206097962;
-        Mon, 15 Apr 2024 11:34:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1713206097; cv=none;
+Received: by 2002:a05:6e02:1d12:b0:36b:2227:d442 with SMTP id
+ i18-20020a056e021d1200b0036b2227d442ls849708ila.1.-pod-prod-08-us; Mon, 15
+ Apr 2024 17:46:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXJJaI05x70jsbJm6kIJmFwV2pihxqbRqABJJGdm5IgzeXSsC5RaPn6APtCJoazCsFqegsSzfSTUriDowd355XomF8vr3tQFOj1Bg==
+X-Received: by 2002:a05:6e02:17c9:b0:36b:147c:f7b0 with SMTP id z9-20020a056e0217c900b0036b147cf7b0mr10384155ilu.29.1713228389318;
+        Mon, 15 Apr 2024 17:46:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1713228389; cv=none;
         d=google.com; s=arc-20160816;
-        b=LRcDH0r8V1XPSy/SWVkgtO0HjgHrYaU6S/pVC/wC+oFFwIj3iz+vby/mQSDEsfYbLv
-         NivUgSazsx3acKyjoPSuPwo2/CYvzphZCfCXlvFjiDN+tTzyguWMDFhvLKnttt2swclB
-         eyPClfyF8Hk4P24mIHVesKxuXRAC3vE8fd5Uo8AtoK7JUVAKQCKGgTolg0c9Iz9VgJAX
-         Dj5ON3KAyMe9RB9eS+lPnhmT7yPQF3AoQBGIbtFn94hEgNkdiXIzu0IDa1X6AO7QSv8r
-         nfsyVX7Rv9WZ0Wu6zr3INlmcC5GIe/GZbHm3jq+pElmtLmV5AZPXpZ7crJYFN+qJVMTJ
-         /Kgg==
+        b=gPtj8xxZQFjvsspV2/cflfS80k/+ltY1fiMmw1GJPwVV3TSVF/53vp6LxvckTLPeMx
+         3p5yAlSbADo4rAtytaRLWNZbkwj97OCVbMk2F8viAFgiUA3oUHJKsy95IxfAiqyamNJl
+         x4DdcrEYaH5BAB5eaQgyRm38cjMFW3P5j5QdspW0q7Q0W1hrCdFNABN5lgdome00Gmua
+         JrZFQUZvUlsdrA2Nl8vptX+05bK2tl3g0IoLrwMyjeo8a5Z8Hn1WwFSgpn/z2viDr81t
+         MTJIh532X2enYZJ8/2jPzzVJonLL7VQ0YWFBieA/bdXod81aSf5T+UWN1yHxM6/Z7EmH
+         d0ww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=iFFYE3jra0j1b7MPgo9+PzO1BZLF4T+YLdNlf+DzL7A=;
-        fh=KGR0t+/1idhS3pYs9ubPexA3zD1bQ08Ds4YACWAA8DE=;
-        b=BDIlUAox+kQT82r9EQAG/h/k1uMIlIwR3+/Hl9S+SwS6XidFRzR1oTxTabTQ38iRpW
-         uKadf2FmjP5WBm75DmRT4hRNFRgmI8ncTIs0tidUHhheOEE8Ofq8ZuYIYpYlVl7LQHE0
-         MrkzN2YqrgsMNR6P/+DhDE2lPiFAABppx0818OkKVXbjmH32gQ5LMki1qMjUjWuy9CIo
-         Ve0YMQlT4V/X8rsqHGZnW7Gp68Mm/1Al9wFtO/JOFTmKSiPwvPyd6bpZHYSlSA9mJr/+
-         AFrjHsFFcGT2CMxbGwLdNqIzjrolgfuovLACqNDOafB9A76OgV8bw9zutj2pdHa2Mha6
-         oLZg==;
+        bh=SarbV9gzd7Ext5uREk+cO+VjFEa4L7Rs/CELnpCJsv8=;
+        fh=rRgfP6pmfKHSZiEGtK52YlnEjrGmnXgQv6E9r1bVk9M=;
+        b=EKXHDxeaNO7B6Bq78H+s+uTt2nVKpHmmqm9R1ZeZNIGTEW/1tkcyMZ7HRNg58f7uBX
+         /EM0lVXMcswKLMjUFx25TqqtmVdklWWLIYQhAZf20WAfUsEZUjd2qo3H5nnaRe8+mVHY
+         QrtYvP/No9x4zexCrmEgKI83Ff9iwSEVwpIpY3m/iu4SQUfD9MKzNiScvXYPSmZ0rcad
+         e6Cxp+y6mtqwqM2Gsgi8SkVFR3DEuD1G3hydmWX2Sg2N8cKxVeTmorEDS2/JI8cTmrzK
+         KRzP0zYw/yyF51z8cstcGQ6V8GIzaL46Oodmba+JOK1sK+F1wDDmIgixUDw8T3W699hP
+         IP8Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Kx9jaLbp;
-       spf=pass (google.com: domain of nathan@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=nathan@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id tc7-20020a05620a2cc700b0078edc0a4482si283927qkn.1.2024.04.15.11.34.57
+       dkim=pass header.i=@chromium.org header.s=google header.b="dhrD1/X/";
+       spf=pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62c as permitted sender) smtp.mailfrom=keescook@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com. [2607:f8b0:4864:20::62c])
+        by gmr-mx.google.com with ESMTPS id u22-20020a056638135600b004829305748esi751129jad.4.2024.04.15.17.46.29
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Apr 2024 17:46:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62c as permitted sender) client-ip=2607:f8b0:4864:20::62c;
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1e6723c606dso13429595ad.1
+        for <kasan-dev@googlegroups.com>; Mon, 15 Apr 2024 17:46:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVqa3J+GGrfydP/pFwNfCG8Q95n6Sfu3IMCGZj83KhjjFMT0H+QUuoY58bady2rqpdRatZONEAaBqMWAj+1KqVWLqoSEXVXqkmzrg==
+X-Received: by 2002:a17:902:82c4:b0:1e4:b4f5:5cfa with SMTP id u4-20020a17090282c400b001e4b4f55cfamr11411241plz.27.1713228388653;
+        Mon, 15 Apr 2024 17:46:28 -0700 (PDT)
+Received: from www.outflux.net ([198.0.35.241])
+        by smtp.gmail.com with ESMTPSA id im22-20020a170902bb1600b001e3d2314f4bsm8688355plb.132.2024.04.15.17.46.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Apr 2024 11:34:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of nathan@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 7801E60B8C;
-	Mon, 15 Apr 2024 18:34:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68BBEC113CC;
-	Mon, 15 Apr 2024 18:34:56 +0000 (UTC)
-Date: Mon, 15 Apr 2024 11:34:54 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Kees Cook <keescook@chromium.org>
+        Mon, 15 Apr 2024 17:46:28 -0700 (PDT)
+Date: Mon, 15 Apr 2024 17:46:27 -0700
+From: Kees Cook <keescook@chromium.org>
+To: Nathan Chancellor <nathan@kernel.org>
 Cc: Marco Elver <elver@google.com>, Justin Stitt <justinstitt@google.com>,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
@@ -122,18 +126,19 @@ Cc: Marco Elver <elver@google.com>, Justin Stitt <justinstitt@google.com>,
 	Bill Wendling <morbo@google.com>, linux-kernel@vger.kernel.org,
 	llvm@lists.linux.dev
 Subject: Re: [PATCH] ubsan: Add awareness of signed integer overflow traps
-Message-ID: <20240415183454.GB1011455@dev-arch.thelio-3990X>
+Message-ID: <202404151738.AC6F6C210@keescook>
 References: <20240415182832.work.932-kees@kernel.org>
+ <20240415183454.GB1011455@dev-arch.thelio-3990X>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20240415182832.work.932-kees@kernel.org>
-X-Original-Sender: nathan@kernel.org
+In-Reply-To: <20240415183454.GB1011455@dev-arch.thelio-3990X>
+X-Original-Sender: keescook@chromium.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=Kx9jaLbp;       spf=pass
- (google.com: domain of nathan@kernel.org designates 139.178.84.217 as
- permitted sender) smtp.mailfrom=nathan@kernel.org;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@chromium.org header.s=google header.b="dhrD1/X/";       spf=pass
+ (google.com: domain of keescook@chromium.org designates 2607:f8b0:4864:20::62c
+ as permitted sender) smtp.mailfrom=keescook@chromium.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=chromium.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,82 +151,40 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Apr 15, 2024 at 11:28:35AM -0700, Kees Cook wrote:
-> On arm64, UBSAN traps can be decoded from the trap instruction. Add the
-> add, sub, and mul overflow trap codes now that CONFIG_UBSAN_SIGNED_WRAP
-> exists. Seen under clang 19:
+On Mon, Apr 15, 2024 at 11:34:54AM -0700, Nathan Chancellor wrote:
+> On Mon, Apr 15, 2024 at 11:28:35AM -0700, Kees Cook wrote:
+> > On arm64, UBSAN traps can be decoded from the trap instruction. Add the
+> > add, sub, and mul overflow trap codes now that CONFIG_UBSAN_SIGNED_WRAP
+> > exists. Seen under clang 19:
+> > 
+> >   Internal error: UBSAN: unrecognized failure code: 00000000f2005515 [#1] PREEMPT SMP
+> > 
+> > Reported-by: Nathan Chancellor <nathan@kernel.org>
+> > Closes: https://lore.kernel.org/lkml/20240411-fix-ubsan-in-hardening-config-v1-0-e0177c80ffaa@kernel.org
+> > Fixes: 557f8c582a9b ("ubsan: Reintroduce signed overflow sanitizer")
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
 > 
->   Internal error: UBSAN: unrecognized failure code: 00000000f2005515 [#1] PREEMPT SMP
+> As I mentioned, CONFIG_UBSAN_SIGNED_INTEGER_WRAP needs to be
+> CONFIG_UBSAN_SIGNED_WRAP. I applied this change with that fix up and the
+
+Whoops; thanks!
+
+> warning now becomes:
 > 
-> Reported-by: Nathan Chancellor <nathan@kernel.org>
-> Closes: https://lore.kernel.org/lkml/20240411-fix-ubsan-in-hardening-config-v1-0-e0177c80ffaa@kernel.org
-> Fixes: 557f8c582a9b ("ubsan: Reintroduce signed overflow sanitizer")
-> Signed-off-by: Kees Cook <keescook@chromium.org>
+>   Internal error: UBSAN: integer subtraction overflow: 00000000f2005515 [#1] PREEMPT SMP
 
-As I mentioned, CONFIG_UBSAN_SIGNED_INTEGER_WRAP needs to be
-CONFIG_UBSAN_SIGNED_WRAP. I applied this change with that fix up and the
-warning now becomes:
+Perfecto. :)
 
-  Internal error: UBSAN: integer subtraction overflow: 00000000f2005515 [#1] PREEMPT SMP
-
-So:
-
-Tested-by: Nathan Chancellor <nathan@kernel.org>
-
-> ---
-> Cc: Marco Elver <elver@google.com>
-> Cc: Justin Stitt <justinstitt@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: kasan-dev@googlegroups.com
-> Cc: linux-hardening@vger.kernel.org
-> ---
->  lib/ubsan.c | 18 ++++++++++++++++--
->  1 file changed, 16 insertions(+), 2 deletions(-)
+> So:
 > 
-> diff --git a/lib/ubsan.c b/lib/ubsan.c
-> index 5fc107f61934..ad32beb8c058 100644
-> --- a/lib/ubsan.c
-> +++ b/lib/ubsan.c
-> @@ -44,9 +44,10 @@ const char *report_ubsan_failure(struct pt_regs *regs, u32 check_type)
->  	case ubsan_shift_out_of_bounds:
->  		return "UBSAN: shift out of bounds";
->  #endif
-> -#ifdef CONFIG_UBSAN_DIV_ZERO
-> +#if defined(CONFIG_UBSAN_DIV_ZERO) || defined(CONFIG_UBSAN_SIGNED_INTEGER_WRAP)
->  	/*
-> -	 * SanitizerKind::IntegerDivideByZero emits
-> +	 * SanitizerKind::IntegerDivideByZero and
-> +	 * SanitizerKind::SignedIntegerOverflow emit
->  	 * SanitizerHandler::DivremOverflow.
->  	 */
->  	case ubsan_divrem_overflow:
-> @@ -77,6 +78,19 @@ const char *report_ubsan_failure(struct pt_regs *regs, u32 check_type)
->  		return "UBSAN: alignment assumption";
->  	case ubsan_type_mismatch:
->  		return "UBSAN: type mismatch";
-> +#endif
-> +#ifdef CONFIG_UBSAN_SIGNED_INTEGER_WRAP
-> +	/*
-> +	 * SanitizerKind::SignedIntegerOverflow emits
-> +	 * SanitizerHandler::AddOverflow, SanitizerHandler::SubOverflow,
-> +	 * or SanitizerHandler::MulOverflow.
-> +	 */
-> +	case ubsan_add_overflow:
-> +		return "UBSAN: integer addition overflow";
-> +	case ubsan_sub_overflow:
-> +		return "UBSAN: integer subtraction overflow";
-> +	case ubsan_mul_overflow:
-> +		return "UBSAN: integer multiplication overflow";
->  #endif
->  	default:
->  		return "UBSAN: unrecognized failure code";
-> -- 
-> 2.34.1
-> 
+> Tested-by: Nathan Chancellor <nathan@kernel.org>
+
+Thanks!
+
+-- 
+Kees Cook
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240415183454.GB1011455%40dev-arch.thelio-3990X.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202404151738.AC6F6C210%40keescook.
