@@ -1,114 +1,115 @@
-Return-Path: <kasan-dev+bncBDXY7I6V6AMRBR5A56YQMGQEJSOK6PI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXY7I6V6AMRBBVB56YQMGQEQSZ536Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94918C04CB
-	for <lists+kasan-dev@lfdr.de>; Wed,  8 May 2024 21:19:36 +0200 (CEST)
-Received: by mail-wm1-x33d.google.com with SMTP id 5b1f17b1804b1-417c5cc7c96sf313585e9.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 08 May 2024 12:19:36 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1715195976; cv=pass;
+Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B0B8C04CF
+	for <lists+kasan-dev@lfdr.de>; Wed,  8 May 2024 21:20:39 +0200 (CEST)
+Received: by mail-lj1-x23c.google.com with SMTP id 38308e7fff4ca-2e32c301353sf537071fa.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 08 May 2024 12:20:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1715196039; cv=pass;
         d=google.com; s=arc-20160816;
-        b=tBDZ1SDkHme7/3twOVx0/3stO+gdIloA1e6Xha6gKGxr4H8v+Rv6MUPNUPzB10HnZH
-         mK3VSFw2HdwXuCCZo81UQHYIyvu+dBlWjPs/FTNbchPIdO8m3MnRoV/EIxLHklLW4OBS
-         ry8Yvs7ZgTkwajfxG4kGOmhtg9Q4yxtcboDlhKXgqD/qAaSjWMkR3eAvburVOeqYDhCt
-         gyIeZ0Xf/z4+A1c8hBF4lzj1pRyBTCZXpXzZ/7V07Qlw33pLsDzrl033BqEoK2SEZkMH
-         qVnzpDjaR64e1noDb6Pb7LbJ3aE6p/I0hhmS4jDSVfUGtHUqzT7sHTCeiePE1uL4gZXl
-         42uw==
+        b=EJBO7a9wis3i7AfG7uxpDe6/jTbsE7dwBAVZA/qJnV7A8iWpD7jaH+Rn0t6T6VN1MC
+         xHpdNJHDO2jcYYUxQ3tL49h1tJoUHT7eA9kreZXfhTAGMHb89Gv05Zfnq+g8Swfj9thl
+         zGLK6KjSLQ8y/FqyAshjdTgkFpAPovgAkhFzOKXU02dHS0CQMFy/N657mp0crsxMWygL
+         jZK4u5UmAx9/x1S++OtpzCMIqkWUd90yU3IcKL4HuiB5TSBuJPzGriTE6VhGiuHlUwbx
+         pDhH6E+UuT/Q1JDv1kdVe1sIFJQ7JhtcDkkVawrZceDhe9vMzyYJXwFqEulMimeH8Jiz
+         7RUg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=qzXVOloZJrqp7W1pJIUJsnSmEV+OxxALvEaMbYe9YbA=;
-        fh=iQkiecD0GviH0qnrTWElUtOoFjIffBSrDOPm/zqREMc=;
-        b=bLdDP2/Mr5brLk8u8eiLvQ3AW5UsdhzMX0O5f9GLam2hJP5S+dhqjgxqnuo9228WVH
-         9SvMEPFTjqGfpPifI3Acdk1LDJAInmyAtSNuxvKqzxyjYP3kFt+L4LU/AmUsG95uTdCQ
-         T6oNQRhvn+l5JrzgC7LiINFq+aGjwQvOxU0Ybr9WN7qZ8ue4hSTDOiKw7KLEzVcAMFlP
-         o+Qig2bz3RJtdLZh7b28FMOFXOJLRbfSUXW2kgW5pmOIWpY904+qrbGJJQsLQqpYtFuJ
-         9ksna/8tbUIyiKABjCADtn7ZjpspAMSAsPaEGaoJhSHmeyem+6YyX4WQ765msXpQ/HQH
-         mUhg==;
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=iRtXJjd2uUgSMkVqahcyCY2+q512gmLWiNQxZi0Z9MY=;
+        fh=Ust4dyvJnxdEN5WNs4QUoYxo48fDZE6fVB6T24RI9x8=;
+        b=0m2zY9UBGsKn2NDWyMQPZYlY+L/UHFT1T0YHwBAw4SLI6YP9bpN+5l1W1GEJUQOe5g
+         da3psOVElfwfWRX/qGtC31YwvpEbWqoOk0I0w93s6iywC0vMfEfZDQkpMOS7yUjKdkkL
+         bxgaCjojZDGZ/SVEWfBL0tRSOYRjt1qsd4fj6mQf7GgxhIAHgjXjf2MDLuhw5ZOWi49D
+         VX2ZWHQyGf/KFSaieQ0rUWbZsl9s6AkJzQBjua1SnwqLpkDNkcAdlsnUQgpx7kJQqUqE
+         4uEGd0BU1N5BW+678/FNPHsQDPJuA3Y5aw6lcrY9tTPk9kVCrLQ/GPTNOMem6m6LB9PF
+         EKcw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=YY8Fujar;
-       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::235 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=kQFfEcBk;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::631 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1715195976; x=1715800776; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1715196039; x=1715800839; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=qzXVOloZJrqp7W1pJIUJsnSmEV+OxxALvEaMbYe9YbA=;
-        b=WLf88+rdrxB6K4e5ECVjDgFHXmRk2tMtgWzJKYX86Gnx7AzhVt6PmnnHJdeylRSiUn
-         kC5J66uvHXmV8NKZdnUUHY968PFNzveTprvZ2lyqxaQ9Cd1eEP+q+SC8UMem3IGd8qfG
-         +Md0gH9+B15uv2A1c3LUkDIWpAQzvCWbDdyttbGdmcPv7IZ7TzTH0JGENR+CWoXGErLx
-         l8P2+Dq4miDD2FkWKA7HysKnzMEq+Rdqm6JtNdP0dZ8iMNRul2Uyuan2MTGZvtjhMctk
-         /sLnY/6TgATzlo19fH2fe3lTi/ZGj//RJ7YbTMbSg2b6a3OEiQX5ftQlI3w/z0RGl3tP
-         H0Vg==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iRtXJjd2uUgSMkVqahcyCY2+q512gmLWiNQxZi0Z9MY=;
+        b=ZB8gNis4Z88DFIw7DvDuNastyBR4rvFTj8n/wz7xEhh3waeiYlGCUYrntsX6QFXbdU
+         jtHxyvoN7nhfEG8St0o/4W8DPj+7XnMUpntQOYY9o0ofAwyTbWnMiw52OWKQvRKQNvyM
+         dvhovrwU16s2oNQEb94tXbm77MjaNQRVAqp2+E6aq/lrZ9avNUrtRupAfFG7CGd8bObR
+         jPu09pIaiGaDHeF3I0CTAlDoZoKkG09JeDCacsfMLAn0nHvS2kPth5iJXPcI46GKtbwx
+         DHaf/M9WpTyr25JuDze9CecpZQXrO1FVL7Bo7VaHd6RdVaAdYAgwBMpKyywKrH+9k+p7
+         Y/zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715195976; x=1715800776;
+        d=1e100.net; s=20230601; t=1715196039; x=1715800839;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=qzXVOloZJrqp7W1pJIUJsnSmEV+OxxALvEaMbYe9YbA=;
-        b=octW//NEQVXjfCHZ5aF7FpKiKxMe8AhjujSxPO0DyYd86RbxphxYjp0VwPp93lrVdh
-         RatAk8OZRpEn9zc1MiuJ30Y/cBS7z97UeIJqWFwP2SJn07WUiqp00WzGEGQKAYQvUSJJ
-         IxbJs5njBT3Yb83rosVe7qfyhA6yp8hf2+cZC5RurjIlvQgacFzRjIabaRxMNQrYnnx+
-         hY7GuJxnaJzbVfm+yiPgvs5m0M8GYn4quUvvrh6NQUn6g67bz/AQgTKOan5qWv6unbFj
-         BAEZd/29AOZBb9vwd96cNpVgNxNqxf+pWTyhrdFc8UwZ0j4RuNPxQcTEXKFOBryCTeRh
-         JfiQ==
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iRtXJjd2uUgSMkVqahcyCY2+q512gmLWiNQxZi0Z9MY=;
+        b=Rw1dOIBqVihQTRDr+pFdpTd+hKMFQgm5KX89khw03dQ1sObaYKsIrjPlJESegHQfEB
+         ryKlcO/VyGGwRB/YJvD7knIH8OjDSk8L5X41Zw7/AoR+fxXtESUZD3L8D3sci9jNLtz8
+         bfhZUeOc+fVWK/8q3bIJxKdCkW69cqYTdCVLpyZgvTFVYcKJFDIqAlTMJvPGaxN3Ul+j
+         N+YQF8cphpsQGFK5PkQMIjQZghJr6NluX7HLgoknkI3eUMtyTaeLLdxjTMtWBWL9F3pP
+         gpUeLFcY/mgEJxkL+QfH25u2KZOloMIlXEbRC26JsLx0o3PbJ/LVGvTO/K5/NYnsgKsC
+         DJfQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCViTtBlCxt4qxbAsJrx8Fb+MyGDVMrb87g7BOFtH2XAHp5SBcds5+/O9KRTsg2904FqxOrtsGZuXduuZAXEV75lsMKisjGcRQ==
-X-Gm-Message-State: AOJu0YwKhlsXcOI+Pry+zom4bskSUUEmBsb/4D117fvnO3H0ceWx33TT
-	XkoqwqONm5yqRqVsU0R/7d9h7QpA6P5dWWnQRqajZURrTI8ycONx
-X-Google-Smtp-Source: AGHT+IG439pkHaIfE1m/VBv0/cLqQcQ1bEG/0jKGMRpRs5wfFBCgitVxqAoYr/OKN2ovPcRlzUbt1g==
-X-Received: by 2002:a05:600c:1394:b0:41b:e4dd:e320 with SMTP id 5b1f17b1804b1-41f723a0c63mr28491945e9.26.1715195975656;
-        Wed, 08 May 2024 12:19:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWSawYIRq5KtzOjrwAuo7AzBhxwo7bCWHzLF4epCdb+gJLpYkodyFFcjaW4Yn/MecQlGwa7FwZfc6TzXeItw6Kv/vMHHCRsSQ==
+X-Gm-Message-State: AOJu0Yw4qf2iJRSGJvVMEEngootR2bw7ZTAkrMe/MVVSodllqEYtov4w
+	x66W4nAXYg0DQgPbS6bJplC9lMOuWbSAiuEqLPObTQ7Ev+oobVuw
+X-Google-Smtp-Source: AGHT+IFKn1Ik8Jpzi1Y9N1sGahrhC0EhCZbws7EDgQ6+4NWdl6dPea20eh7uI+xCiCcniPN9Djwy/w==
+X-Received: by 2002:a2e:8906:0:b0:2e3:4f79:4d25 with SMTP id 38308e7fff4ca-2e446d82bb0mr21932901fa.3.1715196038454;
+        Wed, 08 May 2024 12:20:38 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:4fcf:b0:41c:259:11e8 with SMTP id
- 5b1f17b1804b1-41fc20ecc5als448245e9.2.-pod-prod-03-eu; Wed, 08 May 2024
- 12:19:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUuqzEDLit24wmWHybd9MaUklLy2LvqAYbyJm4vDhpNkvdjbED5W6J0i1KFsJLPRRPM6pTTwJLTSZM1Y17psI0Sz2Puae4rNbMKnQ==
-X-Received: by 2002:a05:600c:46ce:b0:41b:e609:bc97 with SMTP id 5b1f17b1804b1-41f71cc1512mr27964695e9.2.1715195973732;
-        Wed, 08 May 2024 12:19:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1715195973; cv=none;
+Received: by 2002:a2e:9007:0:b0:2e1:a117:3c01 with SMTP id 38308e7fff4ca-2e4b57209a3ls426411fa.0.-pod-prod-06-eu;
+ Wed, 08 May 2024 12:20:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU3Hl0BXrQlzRUeX/npW3p4RKD+c2YCSj6mkd3MOdVzD/0cO7qc6Rp2I7A+uc8Og1RLmLcnmhY9GnWMCDDX+0PpA2wY3xywaapt1g==
+X-Received: by 2002:a2e:9f17:0:b0:2d8:da4c:5909 with SMTP id 38308e7fff4ca-2e4477b34demr20025751fa.51.1715196035268;
+        Wed, 08 May 2024 12:20:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1715196035; cv=none;
         d=google.com; s=arc-20160816;
-        b=DEh1D7FjgSHkEyMU5o/3KjW/Uf8XgR+HnbuH+yiyTkWhM3LVgZtC/3YQ6LhUUNUWar
-         hC0aNdgxoy3L8S/52V+Yq9LWdWvsTHWB/VPHVkfYkWOrkyf1B2xkShZYOhU0wGYoi+Q/
-         +WQTD73w9lWNo1CXo8oNrHI7Qt/Z2nOtuJM7R7V3TMVnEMs5uwEFB5DiJ3cmLi89lrme
-         xnJdZSH8dVanHTKzCPXz5l9oCs826VgRWj92BtudyPiI08D5mHSCUHnNCdRC9dENY9Rm
-         m1mv0RYZC8Px1a52dT6hVaLkxk6lU9R5Xs6RvPeEbArVfwdtY1kK02lNR+u+dUTV/5e5
-         /BAA==
+        b=O08t7B/CcgbSeCq41h8gh7XD3Ab3+J1phJrHPTGpIGNcehtf7K1I8vQIuwemdwtKfF
+         1Pixzm2ylRA6ZvjPd+iEC7l3b310vRbzoI2mxu6S2htxFaylPNtNNVx//W1LN+4IP55d
+         p3qvjqCuQk6KUuTWa52JnIzgQCNrWf6BDXP89ebRaQ8oVCQGcY00dluyHtJH6vkKdWAi
+         chN+w1dHCuulcV7FALoiT2np/KPdwKosWgAJkpTUd+fRJYvnyvJLVKaNbpvC4qwwAlWO
+         gDskp1TIrgnO20dGvUUqBKhdEjJU3voZqgvihENDZdne6HwhSIFTHLdOXYdVAcwMJReF
+         x/Vg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=K1uKlYjMTe4xfHBkLhM4fwrAS4H0Wd2FQ2UyNN+YPgM=;
-        fh=hm8pdxjzXHXfHdXUQsjvFEeekOyrHCq+f+OIYtk54s0=;
-        b=sRRkaMukJ137siYSYPuUwdmUa86hGPPCWQCx3Tuu6+4M0t1zFjpXzno3LnXIpcYKNB
-         caq9HtA9Y1HUDcfPIe/DIqATr8sY1CTdmKAkB2N3laBTseP+NinUMdtlewD7Um14hlTO
-         L1sNCG90bZY2IKuQjambHBPfQ6L/d6HMESJSGpIBrGAvM8EVuji1Ew6U084zbxQW4Luk
-         FgNWR0XTIunCQ37RTmoXpCVHdWnhoBk1SNMJgAWnErKZHlMfRQk8EhVQL366BVYcxZWr
-         ooDMaqYfyeCXVM58UgsCzSq3JDnADLw8Cur7raUro1hFgPmfpJLwNl6PBmn7fo2AuqI6
-         hm5w==;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=datyv3e5LLeWOM64wvZ1mfI1WId3P2rVazcirFn2Oxk=;
+        fh=t7SQ89y2tKLdXtCxXRbxbFaUehPrCnCxDOrziWIF3Yc=;
+        b=JXiP0Z9WlQ3mu1kpleedipT57V7jlt6GgZ8/Fz5iQ/8yksmbpwcSEg4NGhD0bRnysh
+         j1lqU+WjuUqqCPB2cuRBC3lx+FWEfCoknGuFAIpgYiLB30j2M8erROd0f5puAljXtV+k
+         sbxgwhLn2k3RTohjJcRjisOpYH7q0vXPPwnrnRg48QM2JnibgCz4htERpqj8lnnpmvbM
+         UVGMu5Na41itOoUTP1eTiHaaaise8JvauHKfkCqZkcfL7YRcgnBdjoGmYZedZ5O8r5Ph
+         +h1gkzHZX4O/6HM3hjnf9vsL9TpXL520aUtmXCY2d7CZl/w7AzjTgfAdv426oABhY9lv
+         Mkcg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=YY8Fujar;
-       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::235 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com. [2a00:1450:4864:20::235])
-        by gmr-mx.google.com with ESMTPS id ci1-20020a5d5d81000000b0034dc752cce2si509244wrb.0.2024.05.08.12.19.33
+       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=kQFfEcBk;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::631 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com. [2a00:1450:4864:20::631])
+        by gmr-mx.google.com with ESMTPS id q23-20020a05600c331700b00418fd26d618si68941wmp.1.2024.05.08.12.20.35
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 May 2024 12:19:33 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::235 as permitted sender) client-ip=2a00:1450:4864:20::235;
-Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2db17e8767cso1542091fa.3
-        for <kasan-dev@googlegroups.com>; Wed, 08 May 2024 12:19:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXJCVcU+MJd/Mm3T6Gp/gzmfxHNh8NQgcW8NCq4q7VFQjed2mY+QQfy6uI8tBYDe2ovQfFkSz+daN57aXx+NT2pTGxqHqdda35yCw==
-X-Received: by 2002:a2e:81a:0:b0:2e0:12f1:f827 with SMTP id 38308e7fff4ca-2e4479a2ca4mr23591601fa.43.1715195973157;
-        Wed, 08 May 2024 12:19:33 -0700 (PDT)
+        Wed, 08 May 2024 12:20:35 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::631 as permitted sender) client-ip=2a00:1450:4864:20::631;
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-a5a13921661so16680266b.2
+        for <kasan-dev@googlegroups.com>; Wed, 08 May 2024 12:20:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWDXCewcC4UZEj5/DE7z6oKwxr8H5q+6/QKQv4kqzqaRNANPVL2mMvZZJlQHcJK6mWl4hhm6jytbcFZjXr5B4B+AAZZ0In9H1i2Iw==
+X-Received: by 2002:a50:ab59:0:b0:570:3b8:a990 with SMTP id 4fb4d7f45d1cf-5731da6977emr2508293a12.39.1715196034646;
+        Wed, 08 May 2024 12:20:34 -0700 (PDT)
 Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41f88110f3esm32622515e9.29.2024.05.08.12.19.32
+        by smtp.gmail.com with ESMTPSA id g17-20020a056402091100b00571bbaa1c45sm7881992edz.1.2024.05.08.12.20.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 12:19:32 -0700 (PDT)
+        Wed, 08 May 2024 12:20:34 -0700 (PDT)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Ryan Roberts <ryan.roberts@arm.com>,
 	Catalin Marinas <catalin.marinas@arm.com>,
@@ -135,16 +136,18 @@ To: Ryan Roberts <ryan.roberts@arm.com>,
 	kvm-riscv@lists.infradead.org,
 	linux-mm@kvack.org
 Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH 00/12] Make riscv use THP contpte support for arm64
-Date: Wed,  8 May 2024 21:19:19 +0200
-Message-Id: <20240508191931.46060-1-alexghiti@rivosinc.com>
+Subject: [PATCH 01/12] mm, arm64: Rename ARM64_CONTPTE to THP_CONTPTE
+Date: Wed,  8 May 2024 21:19:20 +0200
+Message-Id: <20240508191931.46060-2-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20240508191931.46060-1-alexghiti@rivosinc.com>
+References: <20240508191931.46060-1-alexghiti@rivosinc.com>
 MIME-Version: 1.0
 X-Original-Sender: alexghiti@rivosinc.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
  header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601
- header.b=YY8Fujar;       spf=pass (google.com: domain of alexghiti@rivosinc.com
- designates 2a00:1450:4864:20::235 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+ header.b=kQFfEcBk;       spf=pass (google.com: domain of alexghiti@rivosinc.com
+ designates 2a00:1450:4864:20::631 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -158,66 +161,107 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This allows riscv to support napot (riscv equivalent to contpte) THPs by
-moving arm64 contpte support into mm, the previous series [1] only merging
-riscv and arm64 implementations of hugetlbfs contpte.
+The ARM64_CONTPTE config represents the capability to transparently use
+contpte mappings for THP userspace mappings, which will be implemented
+in the next commits for riscv, so make this config more generic and move
+it to mm.
 
-riscv contpte specification allows for different contpte sizes, although
-only 64KB is supported for now. So in this patchset is implemented the
-support of multiple contpte sizes, which introduces a few arch specific
-helpers to determine what sizes are supported. Even though only one size
-is supported on riscv, the implementation of the multi size support is to
-show what it will look like when we support other sizes, and make sure
-it does not regress arm64.
+Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+---
+ arch/arm64/Kconfig               | 9 ---------
+ arch/arm64/include/asm/pgtable.h | 6 +++---
+ arch/arm64/mm/Makefile           | 2 +-
+ mm/Kconfig                       | 9 +++++++++
+ 4 files changed, 13 insertions(+), 13 deletions(-)
 
-I tested arm64 using the cow kselftest and a kernel build with 4KB base
-page size and 64KB contpte. riscv was tested with the same tests on *all*
-contpte sizes that fit in the last page table level (support for PMD sizes
-is not present here). Both arch were only tested on qemu.
-
-Alexandre Ghiti (12):
-  mm, arm64: Rename ARM64_CONTPTE to THP_CONTPTE
-  mm, riscv, arm64: Use common ptep_get() function
-  mm, riscv, arm64: Use common set_ptes() function
-  mm, riscv, arm64: Use common ptep_get_lockless() function
-  mm, riscv, arm64: Use common set_pte() function
-  mm, riscv, arm64: Use common pte_clear() function
-  mm, riscv, arm64: Use common ptep_get_and_clear() function
-  mm, riscv, arm64: Use common ptep_test_and_clear_young() function
-  mm, riscv, arm64: Use common ptep_clear_flush_young() function
-  mm, riscv, arm64: Use common ptep_set_access_flags() function
-  mm, riscv, arm64: Use common ptep_set_wrprotect()/wrprotect_ptes()
-    functions
-  mm, riscv, arm64: Use common
-    get_and_clear_full_ptes()/clear_full_ptes() functions
-
- arch/arm64/Kconfig               |   9 -
- arch/arm64/include/asm/pgtable.h | 318 +++++---------
- arch/arm64/mm/Makefile           |   1 -
- arch/arm64/mm/contpte.c          | 408 ------------------
- arch/arm64/mm/hugetlbpage.c      |   6 +-
- arch/arm64/mm/mmu.c              |   2 +-
- arch/riscv/include/asm/kfence.h  |   4 +-
- arch/riscv/include/asm/pgtable.h | 206 +++++++++-
- arch/riscv/kernel/efi.c          |   4 +-
- arch/riscv/kernel/hibernate.c    |   2 +-
- arch/riscv/kvm/mmu.c             |  26 +-
- arch/riscv/mm/fault.c            |   2 +-
- arch/riscv/mm/init.c             |   4 +-
- arch/riscv/mm/kasan_init.c       |  16 +-
- arch/riscv/mm/pageattr.c         |   8 +-
- arch/riscv/mm/pgtable.c          |   6 +-
- include/linux/contpte.h          |  37 ++
- mm/Kconfig                       |   9 +
- mm/contpte.c                     | 685 ++++++++++++++++++++++++++++++-
- 19 files changed, 1056 insertions(+), 697 deletions(-)
- delete mode 100644 arch/arm64/mm/contpte.c
- create mode 100644 include/linux/contpte.h
-
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index ac2f6d906cc3..9d823015b4e5 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -2227,15 +2227,6 @@ config UNWIND_PATCH_PAC_INTO_SCS
+ 	select UNWIND_TABLES
+ 	select DYNAMIC_SCS
+ 
+-config ARM64_CONTPTE
+-	bool "Contiguous PTE mappings for user memory" if EXPERT
+-	depends on TRANSPARENT_HUGEPAGE
+-	default y
+-	help
+-	  When enabled, user mappings are configured using the PTE contiguous
+-	  bit, for any mappings that meet the size and alignment requirements.
+-	  This reduces TLB pressure and improves performance.
+-
+ endmenu # "Kernel Features"
+ 
+ menu "Boot options"
+diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
+index 7c2938cb70b9..1758ce71fae9 100644
+--- a/arch/arm64/include/asm/pgtable.h
++++ b/arch/arm64/include/asm/pgtable.h
+@@ -1369,7 +1369,7 @@ extern void ptep_modify_prot_commit(struct vm_area_struct *vma,
+ 				    unsigned long addr, pte_t *ptep,
+ 				    pte_t old_pte, pte_t new_pte);
+ 
+-#ifdef CONFIG_ARM64_CONTPTE
++#ifdef CONFIG_THP_CONTPTE
+ 
+ /*
+  * The contpte APIs are used to transparently manage the contiguous bit in ptes
+@@ -1622,7 +1622,7 @@ static inline int ptep_set_access_flags(struct vm_area_struct *vma,
+ 	return contpte_ptep_set_access_flags(vma, addr, ptep, entry, dirty);
+ }
+ 
+-#else /* CONFIG_ARM64_CONTPTE */
++#else /* CONFIG_THP_CONTPTE */
+ 
+ #define ptep_get				__ptep_get
+ #define set_pte					__set_pte
+@@ -1642,7 +1642,7 @@ static inline int ptep_set_access_flags(struct vm_area_struct *vma,
+ #define __HAVE_ARCH_PTEP_SET_ACCESS_FLAGS
+ #define ptep_set_access_flags			__ptep_set_access_flags
+ 
+-#endif /* CONFIG_ARM64_CONTPTE */
++#endif /* CONFIG_THP_CONTPTE */
+ 
+ int find_num_contig(struct mm_struct *mm, unsigned long addr,
+ 		    pte_t *ptep, size_t *pgsize);
+diff --git a/arch/arm64/mm/Makefile b/arch/arm64/mm/Makefile
+index 60454256945b..52a1b2082627 100644
+--- a/arch/arm64/mm/Makefile
++++ b/arch/arm64/mm/Makefile
+@@ -3,7 +3,7 @@ obj-y				:= dma-mapping.o extable.o fault.o init.o \
+ 				   cache.o copypage.o flush.o \
+ 				   ioremap.o mmap.o pgd.o mmu.o \
+ 				   context.o proc.o pageattr.o fixmap.o
+-obj-$(CONFIG_ARM64_CONTPTE)	+= contpte.o
++obj-$(CONFIG_THP_CONTPTE)	+= contpte.o
+ obj-$(CONFIG_HUGETLB_PAGE)	+= hugetlbpage.o
+ obj-$(CONFIG_PTDUMP_CORE)	+= ptdump.o
+ obj-$(CONFIG_PTDUMP_DEBUGFS)	+= ptdump_debugfs.o
+diff --git a/mm/Kconfig b/mm/Kconfig
+index c325003d6552..fd4de221a1c6 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -984,6 +984,15 @@ config ARCH_HAS_CACHE_LINE_SIZE
+ config ARCH_HAS_CONTPTE
+ 	bool
+ 
++config THP_CONTPTE
++	bool "Contiguous PTE mappings for user memory" if EXPERT
++	depends on ARCH_HAS_CONTPTE && TRANSPARENT_HUGEPAGE
++	default y
++	help
++	  When enabled, user mappings are configured using the PTE contiguous
++	  bit, for any mappings that meet the size and alignment requirements.
++	  This reduces TLB pressure and improves performance.
++
+ config ARCH_HAS_CURRENT_STACK_POINTER
+ 	bool
+ 	help
 -- 
 2.39.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240508191931.46060-1-alexghiti%40rivosinc.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240508191931.46060-2-alexghiti%40rivosinc.com.
