@@ -1,116 +1,116 @@
-Return-Path: <kasan-dev+bncBDXY7I6V6AMRBOFD56YQMGQE3YJS7UI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXY7I6V6AMRB5ND56YQMGQEXS5T67I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
-	by mail.lfdr.de (Postfix) with ESMTPS id 360688C04ED
-	for <lists+kasan-dev@lfdr.de>; Wed,  8 May 2024 21:25:46 +0200 (CEST)
-Received: by mail-lj1-x240.google.com with SMTP id 38308e7fff4ca-2e2288e5aebsf231331fa.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 08 May 2024 12:25:46 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1715196345; cv=pass;
+Received: from mail-ed1-x53b.google.com (mail-ed1-x53b.google.com [IPv6:2a00:1450:4864:20::53b])
+	by mail.lfdr.de (Postfix) with ESMTPS id C861E8C04F1
+	for <lists+kasan-dev@lfdr.de>; Wed,  8 May 2024 21:26:46 +0200 (CEST)
+Received: by mail-ed1-x53b.google.com with SMTP id 4fb4d7f45d1cf-572bf5dc2f4sf14051a12.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 08 May 2024 12:26:46 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1715196406; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CvzFIJN0af079/Q7r2yOJLjnPB8XLkAyvZZ3wQyvwaje93kdzBRq5/TsdjlGLaaSX4
-         EZzgSWh4h/7w1mRZqGDsvmNgJSTQCcQmreRoZmtFICa8xV/eEuBSAdbjHvV47rlm7yZx
-         gAu+OH5mmuFm9Uf2t8eqqtu/R6D7xsK4WiLyF9WaTrXlKEA5oYwkQJCfKFCsCVzcAYA4
-         ZOZ7iE3tq+/wmFcCvsyESLgc9pr4P+lr81UKE9TEgs42kpM5kd9GdJdZChKphas9snqR
-         dP2FvYBaSK1PJttDhi9iyMAmXr3mDgKykDV2ulJ7k+B3p3cObwkDhLjh+aiOT9bO1dw0
-         yPOg==
+        b=0uudelCkmplftTIMwfWvhNBLH40y0zfudGTcv0I2zoaBZj9KVIomQhI6Baae38GOcA
+         1aI/RBhFbrDshYm6YdCRw/nSLsoB7Ovh8p4+0Ijj3YCkuJHdAdUyDTeSktXjScRfZNbe
+         P+kTDWbL4NRpxj9ZLTpcc929tAQMI2cKdG0cQ+ZsIIeRpe2eDMrBGbfGyhCQdRSBcxfC
+         nPW6Y7DNElXLotQBSuSrFji+UZ1/M1yyyIO875YNlKqEgH+aQoHjejE9TaKK5jNV1N3b
+         jaGFM6Qa3fjwHdjCniGUsrM/g2PcwiG0JRJwhqF7w6hKrB8Yp/OvtQVrLP7DQKUxWTsQ
+         k1OQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=Jj12gDl0yIoPaJUVteNMvth2SrtRrYlRhlDdJVT/YPE=;
-        fh=51++E9+wQSx98DDhnZG4nmkXqk6TZTTG6glKnT/r0nE=;
-        b=QmV//xPT+jgXrUt1Jx/mguvSxKmXmtwY/au+0wOrteyKeoEXdXRRaasUcq4zzGAReN
-         2o+VOqf+O7H3pQlwUd9bQwjU23LECClKbpr7zabvdnkG18FPacmh8D9YT6otMse5FHF5
-         gdfrB1lN5ppYA+KW6GBMZbivRwPY14BPGGnBLvk1O3f+yAIGc1Bjf17e1daNsW26sfFn
-         hy4I3q54RsyCBjaVK3LxlvGPQXDenYzW27Bgub6+oQcDC0MjDW7ZZFKmolzPlnbwQQdX
-         7me64ul2Czurxw8Ut0oOPvtduc3SjaAM8WO3/Y7HLHYkZyeehk2LZjiQ4UoBqnSbkJWq
-         PROw==;
+        bh=gIuOAZ53CjcKvIWwibiS+C/V6mpMmdTSdgIm+KWiraU=;
+        fh=cn6hyS9PkoxtC7Bbvd044Xe/eZKMQI3y4YodoUiPw8Y=;
+        b=Fa2LIwmxIddyhyHjSO+ToMRpNI33fAExHozudex87sJRiyh5UQpjLc67YqxFZewCEP
+         Up64RNLFrrjt1whD7YAw36Fqu8jG23vWlSfUi1OIlI/ECyNbcC0eMTymHJRG7VlB0WZo
+         qRNs3k47HIAXdG+1GPlIB2s46JMjNe5gfBUu5CypOy54wAwX038HPtYeaM0CN7gTyRw/
+         +Sl/PiAoL9C/riYIhpbHm+LSwZoud9pNr41GdOsCdKBPwKd3E5F/GnrJybD8L6omsH/Q
+         IWIlVEeR0ffzZvNDTirKKiowGSC53R2hSTTEm98HHW8qOhGZ/QJNQ8fQF+kO6rA+H4K7
+         /9Ww==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=K+kX0Egk;
-       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::335 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=kreoA4HZ;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::32c as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1715196345; x=1715801145; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1715196406; x=1715801206; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Jj12gDl0yIoPaJUVteNMvth2SrtRrYlRhlDdJVT/YPE=;
-        b=SRDVkiINBMb6fwJ0IrcEozUiX6dUpptFHkp7uHwdJF4NTjhfrSl8hSjt3pTykCie3N
-         jt+dDJ/uJJjnamIf+Yxws1RswY5qN0/C1T0p6K17fwYRmg27gKacwQBLxPbQqpU/EEhT
-         IXEom7FKjoyLGBuHuur0X7XcdyRZeYjKB9yJEzGo3sCvZ8fcECIBNDQNLe9yMoiL/5RD
-         rCIsoCp2htQSncXyeKS+SljjG6S7zVardWjTrsz5GtpCM3MknntxqnkMl3OybI8NkIuf
-         a5Kx9VbLR6p19et2yCUmZGrwVRBaR1Vdv1+s3X0kcYr8EWzbwi3jLGBaorOZSgJeMWyA
-         fbGQ==
+        bh=gIuOAZ53CjcKvIWwibiS+C/V6mpMmdTSdgIm+KWiraU=;
+        b=WxdviXYPnk0Efpd95i+1/VrCx8R6VKYxynxa+Zqz+JE29tFPka5qRlSoMg0+DIInkD
+         uVPWW8wryjBxPAOfA/QDzqeFFMSjsyyTB9pcZTRqV2yfbkeLFocUZmgnmUjPwoLHyp+9
+         9/ZTPYc5aFAi2y81y4h37NHjfqE4LrqID/mZLEAFZIuoqTshHBXXC5aDrt5Sp3W1lzr1
+         Lpm5gBFDRYmQADham2Brg3Op2ZiGbpm6fsd9PJAPGsnWXsqbjJeGN3lNRjF0rA26P4n7
+         DZZ/+Aku0JcewkAy+GbApKdPqxYCN3vBn+Qo9wHjXO0PBE2s5K2n7A+k4681LwhwjyOB
+         1McQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715196345; x=1715801145;
+        d=1e100.net; s=20230601; t=1715196406; x=1715801206;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Jj12gDl0yIoPaJUVteNMvth2SrtRrYlRhlDdJVT/YPE=;
-        b=FHTMYNVW9Bi7NQ6FgGxvfE1xdUXPq8h7TA6hcb33d+fpaCTT5JTLN4g8XjaxdNJJS5
-         X/R4ClXzOLMwPNG9YKHAaPhK2ROBsAOkbtf4bUlC+nUBbwsWJwUNGRdcR1+fVp661THx
-         zAncD2Y8Z1AkPaMawklOJcRCqv3Jh9kq/ssrD0ELoYuUqP9qtvAgXjRhQyfa2Q8SPVEL
-         paeTmrLgnt4L91CVqy1+KvWndlOLBRKzJGIAzUZX/wkjXhv8DQ2SmHothJubo8vX58hS
-         VAAwdqBoXfLXHFL5iiJXm0+7MFpNIrWtvfeohbl0uJIdV3qnWvdKWPjzkeLzUR9mNWCY
-         C/AA==
+        bh=gIuOAZ53CjcKvIWwibiS+C/V6mpMmdTSdgIm+KWiraU=;
+        b=XblsqCTT9Za+ZZ2E8KQlkctLhv60jVd0L1SqhtJZWB5B7UquodDMIaPsvlcD3vQe0F
+         4x2TG3uN4/YdCM5fKSk0F469QVsQ6i8y+5433+u/egeprEfqfpT1/w0eEe7YMxLfJY7D
+         0vpBmpdHb7aM2RsehCQNkKVp1t15ju6opYnLS55Qr0yaCfn5uiUIaUMJ/Soat25z4v6h
+         FWFCQd7rtHDV96uj/58SjrFj4S8pXW3CWD7rRsuE8TyQn5ylqwC7u9HJrssMCXg8rTO9
+         hvHtY7JJzrbnAwc6qc0xuTJ7RLE8ErhCvkgbFu1PM1bduLX8ZUGWWgF1MRNQcgnHSLmV
+         4Qiw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXWk9Tmw6WBm56MGneMz8Pqc3rdpojNzclBXTT3hdz8B0/2PL0v7dkd0Xs//xNgcRj0f/tNnV724OP++3He+vSbEG4vcZiFJw==
-X-Gm-Message-State: AOJu0Yw1iEGl+8m0KfAbedRqf0WeBaTAxG/J6GfAcZ5yG5I/DPsgELT5
-	Tow2/RZewEzLjoom92QSpwSOncqwKYQ7sg1aCfPC7s5eJlur/4B4
-X-Google-Smtp-Source: AGHT+IHEXNyvUkBRpOU3Uifu5n2O7wGiY1Haub3Ys2t8X3d+GQovxX5oUXqvblHj23kicDz7c3uCLw==
-X-Received: by 2002:a2e:9610:0:b0:2df:4bad:cb7f with SMTP id 38308e7fff4ca-2e446e7fecamr21153401fa.2.1715196344996;
-        Wed, 08 May 2024 12:25:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXTtPaPTyJPMuYqf9AOyroyZ2p1MkNUzdb+Qk06ZlU17M8e/ga3m/MuyPLD4CZCEVah42XvmOfrtzzcYCIgzOrPkNPNQCOXdA==
+X-Gm-Message-State: AOJu0Yxwa/GYbF81Cjcew8d8w0SdOKO7Wc8Sltz0rKi/9PPnjuMmtg5B
+	DMlrAPqdEV4sfjdd4F6tqCsHYM6afCIksDoT71znV88nVtoEnQzs
+X-Google-Smtp-Source: AGHT+IGhXEN26zqdS0xta5EJCqdxC9AxUvuzOUT6vEa9HuLl+ogqyzRXIEboMPqdhHDu916uxPtbXg==
+X-Received: by 2002:a05:6402:401c:b0:572:6698:9247 with SMTP id 4fb4d7f45d1cf-5731d99603emr2614380a12.1.1715196406059;
+        Wed, 08 May 2024 12:26:46 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:3c8a:b0:418:1a07:de36 with SMTP id
- 5b1f17b1804b1-41fc20ed206ls460665e9.2.-pod-prod-07-eu; Wed, 08 May 2024
- 12:25:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWC+fL9xo0K0rUTV2MEPT5FAh/5imNZaldQ0nQw8V5CTqdgT2n3TL3rUds7tkzmpWo1FHcpfD/f2kMtyXBuIATZ2N9+s7WGRO2fyQ==
-X-Received: by 2002:a05:600c:5808:b0:41b:cc7d:1207 with SMTP id 5b1f17b1804b1-41f71ec26abmr28617665e9.19.1715196343238;
-        Wed, 08 May 2024 12:25:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1715196343; cv=none;
+Received: by 2002:a05:6402:320e:b0:572:6780:634f with SMTP id
+ 4fb4d7f45d1cf-57333321d8bls66940a12.1.-pod-prod-02-eu; Wed, 08 May 2024
+ 12:26:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWuDWypOU7gaHppQKCsmz45nfxsmWpoYXdNYShrvoRZyxMES/H/yRVjJ3rlIabDSYrbmQ+cydwZmsOUMbz8SqPFR716JoLuOO0+Wg==
+X-Received: by 2002:a50:8747:0:b0:570:38a:57ea with SMTP id 4fb4d7f45d1cf-5731da697e0mr2476066a12.33.1715196404343;
+        Wed, 08 May 2024 12:26:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1715196404; cv=none;
         d=google.com; s=arc-20160816;
-        b=JfUYFUNOlbafm7iW7sMv/TYD98jpdbfL2byDW3JaysQRMMXLsdzPs+bvTe8ZJi7a7Q
-         uZD11H2rPMJRCm7lP6mosGCAQSoq15K3Wf+vYg4CMcMCbEgeOto/KcwcLIo+qFIH0G6e
-         5IhLN4U3oF61W4CDyJXQCU8GmmsixKGuPjtaZ5p6RCaAkNkrMeolGbd1/AaGSYoJ0g4V
-         ak0lClCXifYLk/fxRCjMyAShNjsmy1dmyjCtiy72KlWkqmPXe9Y67edaxqsi36F5vGMp
-         xp/W9mNWKf3+V24kIZb1iSknB9u3BsU9TvDKlPa7kk8hO885VwgqoJlfa9ohLui2cwdd
-         RFyg==
+        b=D96cXS0IiQY3Md8Lk8MU9RYWfC+vShhdSTQyw7Qz6mqNaXMjniD6JFWH5hZreO0IEX
+         DfQNmxMeJXYHX+DO1x5h3AJMtPW3Rm7qU/vgohw96PoHzjn2jWm32jOkLPt4Fn8zBU72
+         uw6SWYNtTGuarJGmD1gFCboJlZlU/UoXdE6Y7qlcppfiZXFqFP7IOam9YOyCx2wSbltS
+         AtFm08ABZgxadmI95dkUTYnfYLESsYqNKu9bXK1Rr3sitHPcdkpxOrNAwy+Y68G75q/f
+         5RGG292bqimd0bKtKRtm3BhZa1umS2PRD/8w9c8TjMMURaQL7G0D1/Uxm2LoKiGBTa9K
+         xeqA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=Nb289X82Pwy2psbtYSkuOYlUdcLMn+kmFJiTkQU5Z+c=;
-        fh=zWkPbqksS01xIy7nkHgx7beN/oDeOMetrRh9OVWaa5I=;
-        b=s6VW+oqkuBFSPyMkGY4lux14ixg9Fjf7FPoWA+iiddiSKmN2thmXugaUnNYizuTNvd
-         uKuzkxQYBvU/8RNHJx040PGBlFJFV0mXjEP3KadLnp5j8ulvjodIPlnycrlVXN2n7INl
-         0oMiYZqFFzizePoCHq4Ly4TtC0TkFzl/9xcv5doA01Xtt8+MJj8epgPGjY4VsMZ2xknD
-         RVGDt3enO6bAkx+QJMtDWE+UBtCY/wvsdvLVINdnZ1hGbnTbqr7B+lqMTCd7zG+LA3PN
-         B5K7EBghkzjOJ2BY7fmhKxLdDqhF8+cZ2HbLo9soqBZCytQAnctMDoAlB1IFm1VvAtez
-         69Zw==;
+        bh=7NXxlYw1RM9+WdFNtDaqsh0kbg9AU8PQDaN/vzezo7A=;
+        fh=lUhGR0in7xBLNeM3qGEgn+QF3s7SKPd4jjiAxKiTOVA=;
+        b=H4VEXud2MPKeuewRTwG81Y36JqEJ6JZwMYTGTtTwGYWzCOHJNF7GHknzXXGSoPmqqk
+         ozPUySj85IsSDUXTebnQLkiCGQcSmUQJK67FsK/8o0elYvtyQ48ZyOLvpDWJxfhu1IT/
+         3Jgye7vakHIeTcc2TruvuAnL+9S/Gbkmi882w/TdnKlGEWMUxlUMpGTyrMYOM9GWOn4P
+         crju4d+wB4zcYdWmJaoJPY10EBLNTJ2E39CwEX4VXs7fmYGJMr3OkchZBJS3Prd6q3N1
+         Z7WcWoEO+ZvWR30vDWYlk9AZrx4kbO0JZaYWtVWckxR42v3/iovn9/SUSBNYWmPFxad7
+         TJIw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=K+kX0Egk;
-       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::335 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com. [2a00:1450:4864:20::335])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-41f4d07597csi1454255e9.1.2024.05.08.12.25.43
+       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=kreoA4HZ;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::32c as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com. [2a00:1450:4864:20::32c])
+        by gmr-mx.google.com with ESMTPS id f12-20020a0564021e8c00b005727dc54dfbsi398142edf.3.2024.05.08.12.26.44
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 May 2024 12:25:43 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::335 as permitted sender) client-ip=2a00:1450:4864:20::335;
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-41c1b75ca31so452425e9.2
-        for <kasan-dev@googlegroups.com>; Wed, 08 May 2024 12:25:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUAX32o2IlpdTZG2EUQvsqjDAJH0Zr9ov5c2q02OZQrlXCP9oHbR8SvLJIQRnBFgawSyp1xNfU1klJcCd6hKlH6ux9hyO87rtJPJw==
-X-Received: by 2002:adf:a492:0:b0:343:a368:f792 with SMTP id ffacd0b85a97d-34fca621315mr2849241f8f.52.1715196342717;
-        Wed, 08 May 2024 12:25:42 -0700 (PDT)
+        Wed, 08 May 2024 12:26:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::32c as permitted sender) client-ip=2a00:1450:4864:20::32c;
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-41ecffed96cso634835e9.1
+        for <kasan-dev@googlegroups.com>; Wed, 08 May 2024 12:26:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXvU0MUMuCcbopXk7GE6niLU3c8EOSIWbTLBlbdbvDYdpmjEQsHK1mwrCiff44rKTAWCC9epOLGJR4H/Itj6i2R3hGGCH2jeVSyWg==
+X-Received: by 2002:a5d:4522:0:b0:34c:bb79:452b with SMTP id ffacd0b85a97d-34fca62159dmr2733749f8f.52.1715196403826;
+        Wed, 08 May 2024 12:26:43 -0700 (PDT)
 Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id b12-20020a5d4d8c000000b0034e65b8b43fsm14038517wru.8.2024.05.08.12.25.41
+        by smtp.gmail.com with ESMTPSA id o16-20020adfcf10000000b0034b1bd76d30sm15921429wrj.28.2024.05.08.12.26.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 12:25:42 -0700 (PDT)
+        Wed, 08 May 2024 12:26:43 -0700 (PDT)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Ryan Roberts <ryan.roberts@arm.com>,
 	Catalin Marinas <catalin.marinas@arm.com>,
@@ -137,9 +137,9 @@ To: Ryan Roberts <ryan.roberts@arm.com>,
 	kvm-riscv@lists.infradead.org,
 	linux-mm@kvack.org
 Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH 06/12] mm, riscv, arm64: Use common pte_clear() function
-Date: Wed,  8 May 2024 21:19:25 +0200
-Message-Id: <20240508191931.46060-7-alexghiti@rivosinc.com>
+Subject: [PATCH 07/12] mm, riscv, arm64: Use common ptep_get_and_clear() function
+Date: Wed,  8 May 2024 21:19:26 +0200
+Message-Id: <20240508191931.46060-8-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240508191931.46060-1-alexghiti@rivosinc.com>
 References: <20240508191931.46060-1-alexghiti@rivosinc.com>
@@ -147,8 +147,8 @@ MIME-Version: 1.0
 X-Original-Sender: alexghiti@rivosinc.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
  header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601
- header.b=K+kX0Egk;       spf=pass (google.com: domain of alexghiti@rivosinc.com
- designates 2a00:1450:4864:20::335 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+ header.b=kreoA4HZ;       spf=pass (google.com: domain of alexghiti@rivosinc.com
+ designates 2a00:1450:4864:20::32c as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -162,95 +162,84 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Make riscv use the contpte aware pte_clear() function from arm64.
+Make riscv use the contpte aware ptep_get_and_clear() function from arm64.
 
 Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 ---
- arch/arm64/include/asm/pgtable.h | 9 +++------
- arch/riscv/include/asm/pgtable.h | 4 +++-
- arch/riscv/mm/init.c             | 2 +-
- mm/contpte.c                     | 6 ++++++
- 4 files changed, 13 insertions(+), 8 deletions(-)
+ arch/arm64/include/asm/pgtable.h | 8 ++------
+ arch/riscv/include/asm/pgtable.h | 7 +++++--
+ mm/contpte.c                     | 8 ++++++++
+ 3 files changed, 15 insertions(+), 8 deletions(-)
 
 diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-index bb6210fb72c8..74e582f2884f 100644
+index 74e582f2884f..ff7fe1d9cabe 100644
 --- a/arch/arm64/include/asm/pgtable.h
 +++ b/arch/arm64/include/asm/pgtable.h
-@@ -1439,12 +1439,9 @@ extern void set_ptes(struct mm_struct *mm, unsigned long addr,
- 		     pte_t *ptep, pte_t pte, unsigned int nr);
- #define set_ptes set_ptes
+@@ -1473,12 +1473,8 @@ static inline pte_t get_and_clear_full_ptes(struct mm_struct *mm,
+ }
  
--static inline void pte_clear(struct mm_struct *mm,
+ #define __HAVE_ARCH_PTEP_GET_AND_CLEAR
+-static inline pte_t ptep_get_and_clear(struct mm_struct *mm,
 -				unsigned long addr, pte_t *ptep)
 -{
 -	contpte_try_unfold(mm, addr, ptep, __ptep_get(ptep));
--	__pte_clear(mm, addr, ptep);
+-	return __ptep_get_and_clear(mm, addr, ptep);
 -}
-+extern void pte_clear(struct mm_struct *mm,
-+		      unsigned long addr, pte_t *ptep);
-+#define pte_clear pte_clear
++extern pte_t ptep_get_and_clear(struct mm_struct *mm,
++				unsigned long addr, pte_t *ptep);
  
- #define clear_full_ptes clear_full_ptes
- static inline void clear_full_ptes(struct mm_struct *mm, unsigned long addr,
+ #define __HAVE_ARCH_PTEP_TEST_AND_CLEAR_YOUNG
+ static inline int ptep_test_and_clear_young(struct vm_area_struct *vma,
 diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-index 4f8f673787e7..41534f4b8a6d 100644
+index 41534f4b8a6d..03cd640137ed 100644
 --- a/arch/riscv/include/asm/pgtable.h
 +++ b/arch/riscv/include/asm/pgtable.h
-@@ -792,18 +792,20 @@ extern void set_ptes(struct mm_struct *mm, unsigned long addr,
- #define set_ptes set_ptes
- extern void set_pte(pte_t *ptep, pte_t pte);
+@@ -794,6 +794,9 @@ extern void set_pte(pte_t *ptep, pte_t pte);
  #define set_pte set_pte
-+extern void pte_clear(struct mm_struct *mm, unsigned long addr, pte_t *ptep);
-+#define pte_clear pte_clear
+ extern void pte_clear(struct mm_struct *mm, unsigned long addr, pte_t *ptep);
+ #define pte_clear pte_clear
++#define __HAVE_ARCH_PTEP_GET_AND_CLEAR
++extern pte_t ptep_get_and_clear(struct mm_struct *mm,
++				unsigned long addr, pte_t *ptep);
  
  #else /* CONFIG_THP_CONTPTE */
  
- #define ptep_get		__ptep_get
+@@ -801,11 +804,11 @@ extern void pte_clear(struct mm_struct *mm, unsigned long addr, pte_t *ptep);
  #define set_ptes		__set_ptes
  #define set_pte			__set_pte
-+#define pte_clear		__pte_clear
+ #define pte_clear		__pte_clear
++#define __HAVE_ARCH_PTEP_GET_AND_CLEAR
++#define ptep_get_and_clear	__ptep_get_and_clear
  
  #endif /* CONFIG_THP_CONTPTE */
  
- #define __HAVE_ARCH_PTEP_GET_AND_CLEAR
- #define ptep_get_and_clear	__ptep_get_and_clear
--#define pte_clear		__pte_clear
+-#define __HAVE_ARCH_PTEP_GET_AND_CLEAR
+-#define ptep_get_and_clear	__ptep_get_and_clear
  #define __HAVE_ARCH_PTEP_SET_ACCESS_FLAGS
  #define ptep_set_access_flags	__ptep_set_access_flags
  #define __HAVE_ARCH_PTEP_SET_WRPROTECT
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index bb5c6578204c..c82f17b3060b 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -327,7 +327,7 @@ void __set_fixmap(enum fixed_addresses idx, phys_addr_t phys, pgprot_t prot)
- 	if (pgprot_val(prot))
- 		__set_pte(ptep, pfn_pte(phys >> PAGE_SHIFT, prot));
- 	else
--		pte_clear(&init_mm, addr, ptep);
-+		__pte_clear(&init_mm, addr, ptep);
- 	local_flush_tlb_page(addr);
- }
- 
 diff --git a/mm/contpte.c b/mm/contpte.c
-index 543ae5b5a863..c9eff6426ca0 100644
+index c9eff6426ca0..5bf939639233 100644
 --- a/mm/contpte.c
 +++ b/mm/contpte.c
-@@ -45,6 +45,7 @@
-  *   - set_ptes()
+@@ -46,6 +46,7 @@
   *   - ptep_get_lockless()
   *   - set_pte()
-+ *   - pte_clear()
+  *   - pte_clear()
++ *   - ptep_get_and_clear()
   */
  
  pte_t huge_ptep_get(pte_t *ptep)
-@@ -676,4 +677,9 @@ void set_pte(pte_t *ptep, pte_t pte)
- 	__set_pte(ptep, pte_mknoncont(pte));
+@@ -682,4 +683,11 @@ void pte_clear(struct mm_struct *mm, unsigned long addr, pte_t *ptep)
+ 	contpte_try_unfold(mm, addr, ptep, __ptep_get(ptep));
+ 	__pte_clear(mm, addr, ptep);
  }
- 
-+void pte_clear(struct mm_struct *mm, unsigned long addr, pte_t *ptep)
++
++pte_t ptep_get_and_clear(struct mm_struct *mm,
++			 unsigned long addr, pte_t *ptep)
 +{
 +	contpte_try_unfold(mm, addr, ptep, __ptep_get(ptep));
-+	__pte_clear(mm, addr, ptep);
++	return __ptep_get_and_clear(mm, addr, ptep);
 +}
  #endif /* CONFIG_THP_CONTPTE */
 -- 
@@ -259,4 +248,4 @@ index 543ae5b5a863..c9eff6426ca0 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240508191931.46060-7-alexghiti%40rivosinc.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240508191931.46060-8-alexghiti%40rivosinc.com.
