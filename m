@@ -1,116 +1,116 @@
-Return-Path: <kasan-dev+bncBDXY7I6V6AMRBPVC56YQMGQEIVAI5BI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXY7I6V6AMRB65C56YQMGQE6LBLILA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53a.google.com (mail-ed1-x53a.google.com [IPv6:2a00:1450:4864:20::53a])
-	by mail.lfdr.de (Postfix) with ESMTPS id D65898C04E0
-	for <lists+kasan-dev@lfdr.de>; Wed,  8 May 2024 21:23:42 +0200 (CEST)
-Received: by mail-ed1-x53a.google.com with SMTP id 4fb4d7f45d1cf-572af13b582sf4266a12.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 08 May 2024 12:23:42 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1715196222; cv=pass;
+Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E6D8C04E8
+	for <lists+kasan-dev@lfdr.de>; Wed,  8 May 2024 21:24:46 +0200 (CEST)
+Received: by mail-lf1-x140.google.com with SMTP id 2adb3069b0e04-521996339aasf29223e87.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 08 May 2024 12:24:46 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1715196285; cv=pass;
         d=google.com; s=arc-20160816;
-        b=KF4vP1zzlfPr2jVhsStZm9uJL/DU8woowrMZ+qI21SH/8fdU4ATNfWuJNS59yjfrt9
-         bUnAUdWiiXjUm0yrOwEC8SNsxVEt/nS6x56/V/+5skftyD/qmHKT6/8Bq8Mt1ty6uIJr
-         xX+X02VQUnYELzFrrkORkTRA0YUUplWjRgM8fIZFNXUGQpsWSduiPwYgqBHoBWwrNblF
-         k2tY5osXxNbq7h4AZhG6HBJn8chlKMp6eZd/Cvo7GiCJaHn07h0HAaL3gUl6E+4q7jqh
-         5YZZYGxLsMer8BJU4HHOcPgG4U4BCkwBoQ4NI8JgVH0h0RT6750mlVzQe6kAxENYXqjZ
-         utrQ==
+        b=pCr3C56OeZ4n19VE9v6BUBWnQCAAkn1Cp67ILWslXckudlXS45FIT0KQ9dTQcTW4ss
+         VvSiE0rr8AzTZl7YvQ7SF/cgsceSuHTXh7pQ6Xdgf16O82jknM3o/DnnVD2T2YCSigjp
+         4vPqWIhwknMhIeuWARzEkLx6pA2dOu/pA9ca9VZ6V0IwVGTL/rFY4ULbo5PYycTj411Y
+         cJNU5DuQEyJpbd3+T8gIJt42GuCWzhfig2LpJm1SZbmgPVBAGDa2Jlfy7iATt9BBJL2U
+         zy10G5LJNnLSHDg3TvQQGpoJDDQX34m4riBJX3CoJxHCSZPsGGWgEIA18zM7EiLd+8sx
+         4MTQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=C9Z6nrig2ybUda0qb72Knza7OV9+8J+ndYovL5vcRaQ=;
-        fh=eb5OtVU/3VogeaIorpALzGZwyDFiAOqyNAwy57KiqP0=;
-        b=EynWYFQlo00CM9v/JT4vkqA7FK3ge3FjDGhQUr8OgViuci0iOWJchMvnck7pnTMY3R
-         uuqBGVj0fCHrZd04u1VpHVWPhh7Xd5hsFPTQQ3njssTT6zW68BH570MQ09ycuY1fbMvc
-         07j54JoHRgjqvVy6bI7QupHiZpviymM8mAa8ODhfMApqOgrZxkwFaqROz8NsuZLI24kO
-         SuH6STwgDhUqwIEpMop1uiTlJj9wWi9lI2mieg39lDeuRZ0NtNsCeEWAa9DUAlIeRj+i
-         1pyJ4tjgRqIH1q/ezezOwIAS8PVg9Zu67NRWAU5jB/Cctd8CLptohWcmY9qhRR8wCQR/
-         gfGQ==;
+        bh=u86Er4Iwl8AmzSVjzmvaPNdOl58s09oWRAQDYLmfQ0M=;
+        fh=pBX5GQcMCgJIJYw7uFrAifIKTotiNOhw6mtUHfz2XxE=;
+        b=U/8hNWPSsMD3Eu03dihA+Fo6IIZjUgumvUZAsJrfXX2YzMy8+XwUleyGvxaeS/pthV
+         V6B8hzzD0PExrYUbJv6lzkAM39llVNJ9dB763Bl3ZZ74VRe8TlFSxl4JWiJxYysoUC8Y
+         hJ/jWwfF2KgoI3jyxpHGE5ZZB8DIhz/xb9hyPuNHidqT2uGGPwD3EBzII/3Yw27+HZMg
+         N+i9ums8FBUp5BQLdurD6VDcPDAP6R6/LPEO9VEZSjl7RCoUFva3tuy+hdzP+Kuk9cYP
+         3A1uyvQIMEJqZmn1sYoBrgpmyQ/wcnOozKh6XOehu6HiIJTgS6ADMIlCPstj0x4HwGNY
+         PdTg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b="Lv/cCeMk";
-       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::330 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=W55iQkOR;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::32e as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1715196222; x=1715801022; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1715196285; x=1715801085; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=C9Z6nrig2ybUda0qb72Knza7OV9+8J+ndYovL5vcRaQ=;
-        b=SArsolQ+vav4g6LKO79xjXxtJCGi9hQgjjGngYc/TsYjj436g36CUewZZ5smqIxi1F
-         a6IiwN78Qh/DBWgJHvodZswZPN/FTAUkWmMFlz7ioFdqC8u9J9tcPDD5hzYDBXUnAMOo
-         QnW1J5CL/qrxxn9U70/XC6r0/SW9HtXDmVbcysMQOu8HKpp2DuZZiE4n3hh7JDr3Vh9h
-         CoMOS9KyYstEOCifMnXjS3ZJ5IeNhBsEXFi93NIisJc1YQ9Sl8dbkKwBEGg+WE2zp4Ap
-         zmBiDYUdvsbYW3+yth2TRocivyvNgXC8MFmfK4m9sVH1JMT4Us5NgQm1gDqFrsMIiJxi
-         MEsw==
+        bh=u86Er4Iwl8AmzSVjzmvaPNdOl58s09oWRAQDYLmfQ0M=;
+        b=A8fmBKE+5s/rfquItWLlH5S55cxX+QovmCLd60pyfW/iIqPyHE0v+HvnhAyroBmmTn
+         Te8jLqngqNTRKoWIzWzKh29BEtpPL+XuqmRk7oLH2p9AO72AtXAPtfmEvSTAk9pxH0vJ
+         evYSJ80FXn9kMqOljdYn1IXmDjfr2GGTVINQR4qkt/4hYvZrC2Z0NOaYG3mHiy1FJa6f
+         QFrOcsquP+UtefhgnAb4wD2f/YWDKoh+np8YVn8du8J6woNzjQbvNo3lpR2ZwxbdR6PR
+         F8OP4kAZ99RPh42hWSJtbgWpL7bmDDWVs4UXGhWWEF8BfzqkzJrx7a1GgTNAldsksv6Z
+         Erqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715196222; x=1715801022;
+        d=1e100.net; s=20230601; t=1715196285; x=1715801085;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=C9Z6nrig2ybUda0qb72Knza7OV9+8J+ndYovL5vcRaQ=;
-        b=Hi4vraiNmUKaQFIwWqN+qnJB6BcxU/JfB+ISOvLuJa5hUth0dSaDr/djE3qb8SG5dB
-         plpOBEyNovV7LSdDj3MSWsuTT/0XZyAMb0qqb+dmkNzlXfhPUCoMAMKvd/7/a7VQFjRu
-         sqxuHxyRsTSsIUpGmrQJpXl26xlCeq4gGOZQFUybcLomMFspgp37tp5yB36iCntNKBbz
-         sLeTDyGouv8sPzQdIb6lwOvxjto2cJTWtDyeHPE+JW7noM1KYLyIcLgZUNYsowwjFZAi
-         LM8PlJQ88XgnzUCsZr8eAioXFi5+ofWGt4Q9ihEI4eEvTDj1PBdWu3ziTx7aM8cEPY5m
-         YZCg==
+        bh=u86Er4Iwl8AmzSVjzmvaPNdOl58s09oWRAQDYLmfQ0M=;
+        b=PapVwTsH6Q4bOTqhI3emJGi3+6efV2+C0NLu0nDKjP7kEBx2s0rm38Uyewd+Yc8CYY
+         tq5O51f8lnOi8niJRNN8EjWgyXB1vHQBvH1HJ7qhblpu7Ki6VZMxZ6NpOI9U8hnl9aVN
+         Ik2vmyBj2glDdcTumpBzu0fc+RdcYn8zQvxXD8Rpe72ILYV/KL81Sa2AJfBvEOvfJjzz
+         KgXB3GqycBbdZARsx3sPlE7ibw3cbYTekPm7SoukUavBTs960mgnz4DOceiSt+MSoCVz
+         9GGHgyvJNjEzTq83kkJp/atcfOg2SES5HlfR/2GdMUMqz0Ng+UVgm3acqLMbL08EtRkR
+         Vhtg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXVs6z8m91U/F89p42ZWM6OufX+POYeiAcBfT83sFlrwW437Mgjb7NjysuereGmSQ5JwIdY926XLrw05K+MLoDee+OzH3X9LQ==
-X-Gm-Message-State: AOJu0Yzu5zm/8gV8WBmFWvZGaY6Vzfzxl3B0HhO/pS36f+6N7Z5onDK9
-	7if0anLCdro6AKCZf80Pcp+g8qE0vTxz6o3IQgcT0up2FXQNadVC
-X-Google-Smtp-Source: AGHT+IErJGcIaqZO7tBB/0EuXxUz4b2DhMgTiAVonk3DJQtYQPIbOM6SK5jJq2mFQW0xg/IPKCv7PA==
-X-Received: by 2002:a05:6402:1763:b0:572:554b:ec66 with SMTP id 4fb4d7f45d1cf-57334b922acmr16899a12.3.1715196222350;
-        Wed, 08 May 2024 12:23:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWmj7ZhJzPT1Pl5vqBfxJ6HUyGzgDJ+VRp14YkFsoJzRroeOgmiFMJchlLnABEV3OLvoHhr+LcDFqczGsmhUrR26e/ySdSiuQ==
+X-Gm-Message-State: AOJu0YwmTAeGFXWhG1SVcyljBlEctNk5qGp/gVIfhcT20/qyyw9487Lc
+	wzEDPr0sIonD5MFkNLjhb1Ozo8EilMYD0mQ3TvKYKl8PMxwmzbE5
+X-Google-Smtp-Source: AGHT+IHeBbsVMbxRW7Sd8FdjJzWgihRCqqiijuHvf2Pt3EEo7VkYICJwwQnfHKOyeysBBaKgzGBJ1w==
+X-Received: by 2002:ac2:4a71:0:b0:519:e878:9385 with SMTP id 2adb3069b0e04-5217c5671a9mr2869756e87.18.1715196284013;
+        Wed, 08 May 2024 12:24:44 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:3222:b0:572:3ac4:56ed with SMTP id
- 4fb4d7f45d1cf-57332e95b57ls115118a12.0.-pod-prod-00-eu; Wed, 08 May 2024
- 12:23:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCURNiuWi7K65VcQ+JC3ch1CUZ4i+NWTkjNr4KZslEtrJyJHCpP1oYtM4hqPDfI9VSR1m2WOipd9Y2uXmybXmI7KxyaAJGl8PO2ToA==
-X-Received: by 2002:a17:906:7748:b0:a59:92b0:e0d3 with SMTP id a640c23a62f3a-a5a118c5393mr36463666b.34.1715196220583;
-        Wed, 08 May 2024 12:23:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1715196220; cv=none;
+Received: by 2002:a05:6512:3e17:b0:518:c467:55bd with SMTP id
+ 2adb3069b0e04-521e4629ccals105349e87.1.-pod-prod-05-eu; Wed, 08 May 2024
+ 12:24:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUra99/0NDpfLQ/tEoVsld/gwJm6f43MW37ctCNtBp5QZbEilBB65VYdrL1qKaMZ9bN0dhTl8BwVmW8HQtAnoUDh5F6Ypc1ktCmrg==
+X-Received: by 2002:a05:6512:34da:b0:51d:9291:6945 with SMTP id 2adb3069b0e04-5217cd495fbmr2855512e87.44.1715196281861;
+        Wed, 08 May 2024 12:24:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1715196281; cv=none;
         d=google.com; s=arc-20160816;
-        b=ZSBVi5jgUE7hbqmk/MDzUQhCQ6EfRJ7iCrSX+KWS4rRlcMTLVv+mPldULjVSneXTf/
-         n0vQfXtvg/90c+j+fC1ozOtDX1AagjXeyLOZ6vX47wWa1pWajoAKaWlLAaNHEi0++aLT
-         nVfqaSpqUtxwVp0tUN0T5PMBAOqqIvFcwyxyH+sU5fgqkGCkxPJ1uWKxcRxD0jZ3pR3V
-         Mq3C5XtjYOeSYkCgHdoZd+wLnmyG2SmHjdMQgPYZXr6CqrlHF7N2Yz7GRarsNnnN/enQ
-         M533ilRsNKPFGvq6MdwbPz6eTOT4mIblYOtfZdrLkuZ/8dVpNQ1HB8DfEhaoeX1jyXmg
-         FRTA==
+        b=kYQs+9pyl6FZRAhaDxEmhGHFiO+2vkuZq3BQBIR/2NKKmf5DYbQ2Q/Ycjq+1Xjx2gV
+         uxH64PSlDLgiDCJ0GDVIJvXSAPQJDCol89qIE5hxjoflO/E/NUOdKuVdg/3a653mAtsa
+         a6rq71AtY+ZFKMq5lwydCP50jGgiBtKqGV0JWC2+Ez4skR6VhSa/H5CQPf43gt1719dN
+         6lkmIrDv40aVRTl67V/cvp9IT6Ob7DNmfvz1zN+09IcbLHBmc1ug8Z8E69XRkmarL3ac
+         z6RFZvulq8SuOSbKfLrKej9AfIfmDsGl/c6iaNFhbAyf2L/bdbTiQ8zNdQxJszGiSMwe
+         YsNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=99tlcIPBJBGOnw31Oe30kKMBjt8TwvO6BCavKhZeDaw=;
-        fh=M0fYv4RD2ASzlmxZdo8C58CSJH1lOl1QMaWajH2dgKM=;
-        b=L/YbstM67WiniHK9g6mGUAHJzRooYc1EdSOwpwJ9uwBifn6M/0ezNnSqTRz5qrZbQZ
-         sb7oYLHu4JZF/kT9xuDiAsPgtluytYLzqYXCOq+zwzFbOZXW0fhn4PLz/JVxd/39+QAj
-         HhjHoa7MsK6E2qzUZMvNwKcUTrpN7GkisLF6RbnZxj2aCubPwrNrwnCBGBcF1IMm08UF
-         JYr31vwGQ3/Lme+9uxTZOL+X0GvBFgKO0Bapt8KAIObaXWUCdOwx/Xi/ARX++2Scz2DT
-         rRKAGILNHq+wSfslDAQlGWF4T7JoUXPrxxNxZtaTCwrrYAmDPYYS0s449MrrWndIhdgX
-         wygw==;
+        bh=bID6WfA+atBgi3UdotMTiBHvNsJiSSNtZP3FlzKWl8Q=;
+        fh=ULhkVpg8dj1p51hfMSmmMB/mLtE8G8lSkCYtF7MfWf0=;
+        b=TcToPSOzaDUS+r5OCJa4uwS7QmK/LvEuGUoNU//pvJrmZaVlNHVgisjbAqqe5RqdQf
+         C3aC6DKLVVq6VfFqbKutg1/Ii7UxddWpg8g4NrJDfJ2MjqqS3tNbXLvU3XUHVb3K1bXV
+         +/VRwbc0Tp2bMcQvnE4RI6w7JxAnrdtGKTUClCc27nW7fayzHep06BR9C6xhcG0wwS/v
+         5+MPbwJDQE+p0UjtQjeJdO0sZ1LuFlRgasvikwBalXeiqXTfkViq0vo8utQVYgBrnbY1
+         SANY74puU/17FeXnOOS/p7EJyHUI1TF4r5OIRCSvkH0vQk8jcwM1OYyLwx3AP2P+wew8
+         scBg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b="Lv/cCeMk";
-       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::330 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com. [2a00:1450:4864:20::330])
-        by gmr-mx.google.com with ESMTPS id f12-20020a0564021e8c00b005727dc54dfbsi397976edf.3.2024.05.08.12.23.40
+       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=W55iQkOR;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::32e as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com. [2a00:1450:4864:20::32e])
+        by gmr-mx.google.com with ESMTPS id dw9-20020a0565122c8900b0051cfcba5f46si417414lfb.13.2024.05.08.12.24.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 May 2024 12:23:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::330 as permitted sender) client-ip=2a00:1450:4864:20::330;
-Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-41ebcf01013so855145e9.0
-        for <kasan-dev@googlegroups.com>; Wed, 08 May 2024 12:23:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCURb+WNPL7CW/tBD3agYVxRBnqFF4FLGbPN3joUJvPLMHKOLTGJ8uI/mQPtN5sB9exZg6XlJsyIAV4z8lcZjtQv1GunSs9f0upTUw==
-X-Received: by 2002:a05:600c:3ca9:b0:41b:ed36:e055 with SMTP id 5b1f17b1804b1-41fbcb4b4fbmr4761445e9.7.1715196220131;
-        Wed, 08 May 2024 12:23:40 -0700 (PDT)
+        Wed, 08 May 2024 12:24:41 -0700 (PDT)
+Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::32e as permitted sender) client-ip=2a00:1450:4864:20::32e;
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-41bab13ca81so866085e9.1
+        for <kasan-dev@googlegroups.com>; Wed, 08 May 2024 12:24:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU6soLWz/DnqNgcHZG0XA0CaTzmFbWdCjXBXIzXatK57rq8E/rvGT2JxsoSYhf7LM+p0RxjUbFjvA3D8oQ8sKVIRloDD4fK040eDw==
+X-Received: by 2002:a05:600c:1991:b0:41d:803c:b945 with SMTP id 5b1f17b1804b1-41f71309fafmr39869075e9.10.1715196281225;
+        Wed, 08 May 2024 12:24:41 -0700 (PDT)
 Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41f42e74625sm47255965e9.0.2024.05.08.12.23.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-41f882089cbsm32567815e9.48.2024.05.08.12.24.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 12:23:39 -0700 (PDT)
+        Wed, 08 May 2024 12:24:40 -0700 (PDT)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Ryan Roberts <ryan.roberts@arm.com>,
 	Catalin Marinas <catalin.marinas@arm.com>,
@@ -137,9 +137,9 @@ To: Ryan Roberts <ryan.roberts@arm.com>,
 	kvm-riscv@lists.infradead.org,
 	linux-mm@kvack.org
 Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH 04/12] mm, riscv, arm64: Use common ptep_get_lockless() function
-Date: Wed,  8 May 2024 21:19:23 +0200
-Message-Id: <20240508191931.46060-5-alexghiti@rivosinc.com>
+Subject: [PATCH 05/12] mm, riscv, arm64: Use common set_pte() function
+Date: Wed,  8 May 2024 21:19:24 +0200
+Message-Id: <20240508191931.46060-6-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20240508191931.46060-1-alexghiti@rivosinc.com>
 References: <20240508191931.46060-1-alexghiti@rivosinc.com>
@@ -147,8 +147,8 @@ MIME-Version: 1.0
 X-Original-Sender: alexghiti@rivosinc.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
  header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601
- header.b="Lv/cCeMk";       spf=pass (google.com: domain of
- alexghiti@rivosinc.com designates 2a00:1450:4864:20::330 as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+ header.b=W55iQkOR;       spf=pass (google.com: domain of alexghiti@rivosinc.com
+ designates 2a00:1450:4864:20::32e as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -162,224 +162,285 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Make riscv use the contpte aware ptep_get_lockless() function from arm64.
+Make riscv use the contpte aware set_pte() function from arm64.
 
 Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 ---
- arch/arm64/include/asm/pgtable.h | 11 +----
- arch/arm64/mm/contpte.c          | 57 --------------------------
- arch/riscv/include/asm/pgtable.h |  2 +
- include/linux/contpte.h          |  1 +
- mm/contpte.c                     | 69 ++++++++++++++++++++++++++++++++
- 5 files changed, 73 insertions(+), 67 deletions(-)
+ arch/arm64/include/asm/pgtable.h | 16 ++--------------
+ arch/riscv/include/asm/kfence.h  |  4 ++--
+ arch/riscv/include/asm/pgtable.h |  7 +++++--
+ arch/riscv/kernel/efi.c          |  2 +-
+ arch/riscv/kernel/hibernate.c    |  2 +-
+ arch/riscv/kvm/mmu.c             | 10 +++++-----
+ arch/riscv/mm/init.c             |  2 +-
+ arch/riscv/mm/kasan_init.c       | 14 +++++++-------
+ arch/riscv/mm/pageattr.c         |  4 ++--
+ mm/contpte.c                     | 18 ++++++++++++++++++
+ 10 files changed, 44 insertions(+), 35 deletions(-)
 
 diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-index e85b3a052a02..8a0603257436 100644
+index 8a0603257436..bb6210fb72c8 100644
 --- a/arch/arm64/include/asm/pgtable.h
 +++ b/arch/arm64/include/asm/pgtable.h
-@@ -1384,7 +1384,6 @@ extern void ptep_modify_prot_commit(struct vm_area_struct *vma,
-  * where it is possible and makes sense to do so. The PTE_CONT bit is considered
-  * a private implementation detail of the public ptep API (see below).
-  */
--extern pte_t contpte_ptep_get_lockless(pte_t *orig_ptep);
- extern void contpte_clear_full_ptes(struct mm_struct *mm, unsigned long addr,
- 				pte_t *ptep, unsigned int nr, int full);
- extern pte_t contpte_get_and_clear_full_ptes(struct mm_struct *mm,
-@@ -1430,16 +1429,8 @@ static inline unsigned int pte_batch_hint(pte_t *ptep, pte_t pte)
- extern pte_t ptep_get(pte_t *ptep);
- #define ptep_get ptep_get
- 
-+extern pte_t ptep_get_lockless(pte_t *ptep);
+@@ -1432,20 +1432,8 @@ extern pte_t ptep_get(pte_t *ptep);
+ extern pte_t ptep_get_lockless(pte_t *ptep);
  #define ptep_get_lockless ptep_get_lockless
--static inline pte_t ptep_get_lockless(pte_t *ptep)
--{
--	pte_t pte = __ptep_get(ptep);
--
--	if (likely(!pte_valid_cont(pte)))
--		return pte;
--
--	return contpte_ptep_get_lockless(ptep);
--}
  
- static inline void set_pte(pte_t *ptep, pte_t pte)
- {
-diff --git a/arch/arm64/mm/contpte.c b/arch/arm64/mm/contpte.c
-index e225e458856e..5e9e40145085 100644
---- a/arch/arm64/mm/contpte.c
-+++ b/arch/arm64/mm/contpte.c
-@@ -28,63 +28,6 @@ static void contpte_try_unfold_partial(struct mm_struct *mm, unsigned long addr,
- 	}
- }
- 
--pte_t contpte_ptep_get_lockless(pte_t *orig_ptep)
+-static inline void set_pte(pte_t *ptep, pte_t pte)
 -{
 -	/*
--	 * The ptep_get_lockless() API requires us to read and return *orig_ptep
--	 * so that it is self-consistent, without the PTL held, so we may be
--	 * racing with other threads modifying the pte. Usually a READ_ONCE()
--	 * would suffice, but for the contpte case, we also need to gather the
--	 * access and dirty bits from across all ptes in the contiguous block,
--	 * and we can't read all of those neighbouring ptes atomically, so any
--	 * contiguous range may be unfolded/modified/refolded under our feet.
--	 * Therefore we ensure we read a _consistent_ contpte range by checking
--	 * that all ptes in the range are valid and have CONT_PTE set, that all
--	 * pfns are contiguous and that all pgprots are the same (ignoring
--	 * access/dirty). If we find a pte that is not consistent, then we must
--	 * be racing with an update so start again. If the target pte does not
--	 * have CONT_PTE set then that is considered consistent on its own
--	 * because it is not part of a contpte range.
+-	 * We don't have the mm or vaddr so cannot unfold contig entries (since
+-	 * it requires tlb maintenance). set_pte() is not used in core code, so
+-	 * this should never even be called. Regardless do our best to service
+-	 * any call and emit a warning if there is any attempt to set a pte on
+-	 * top of an existing contig range.
 -	 */
+-	pte_t orig_pte = __ptep_get(ptep);
 -
--	pgprot_t orig_prot;
--	unsigned long pfn;
--	pte_t orig_pte;
--	pgprot_t prot;
--	pte_t *ptep;
--	pte_t pte;
--	int i;
--
--retry:
--	orig_pte = __ptep_get(orig_ptep);
--
--	if (!pte_valid_cont(orig_pte))
--		return orig_pte;
--
--	orig_prot = pte_pgprot(pte_mkold(pte_mkclean(orig_pte)));
--	ptep = arch_contpte_align_down(orig_ptep);
--	pfn = pte_pfn(orig_pte) - (orig_ptep - ptep);
--
--	for (i = 0; i < CONT_PTES; i++, ptep++, pfn++) {
--		pte = __ptep_get(ptep);
--		prot = pte_pgprot(pte_mkold(pte_mkclean(pte)));
--
--		if (!pte_valid_cont(pte) ||
--		   pte_pfn(pte) != pfn ||
--		   pgprot_val(prot) != pgprot_val(orig_prot))
--			goto retry;
--
--		if (pte_dirty(pte))
--			orig_pte = pte_mkdirty(orig_pte);
--
--		if (pte_young(pte))
--			orig_pte = pte_mkyoung(orig_pte);
--	}
--
--	return orig_pte;
+-	WARN_ON_ONCE(pte_valid_cont(orig_pte));
+-	__set_pte(ptep, pte_mknoncont(pte));
 -}
--EXPORT_SYMBOL_GPL(contpte_ptep_get_lockless);
--
- void contpte_clear_full_ptes(struct mm_struct *mm, unsigned long addr,
- 				pte_t *ptep, unsigned int nr, int full)
- {
++extern void set_pte(pte_t *ptep, pte_t pte);
++#define set_pte set_pte
+ 
+ extern void set_ptes(struct mm_struct *mm, unsigned long addr,
+ 		     pte_t *ptep, pte_t pte, unsigned int nr);
+diff --git a/arch/riscv/include/asm/kfence.h b/arch/riscv/include/asm/kfence.h
+index f303fef8591c..36e9f638abf6 100644
+--- a/arch/riscv/include/asm/kfence.h
++++ b/arch/riscv/include/asm/kfence.h
+@@ -18,9 +18,9 @@ static inline bool kfence_protect_page(unsigned long addr, bool protect)
+ 	pte_t *pte = virt_to_kpte(addr);
+ 
+ 	if (protect)
+-		set_pte(pte, __pte(pte_val(__ptep_get(pte)) & ~_PAGE_PRESENT));
++		__set_pte(pte, __pte(pte_val(__ptep_get(pte)) & ~_PAGE_PRESENT));
+ 	else
+-		set_pte(pte, __pte(pte_val(__ptep_get(pte)) | _PAGE_PRESENT));
++		__set_pte(pte, __pte(pte_val(__ptep_get(pte)) | _PAGE_PRESENT));
+ 
+ 	flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
+ 
 diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-index ebfe6b16529e..62cad1b974f1 100644
+index 62cad1b974f1..4f8f673787e7 100644
 --- a/arch/riscv/include/asm/pgtable.h
 +++ b/arch/riscv/include/asm/pgtable.h
-@@ -785,6 +785,8 @@ static inline int ptep_clear_flush_young(struct vm_area_struct *vma,
+@@ -539,7 +539,7 @@ static inline int pte_same(pte_t pte_a, pte_t pte_b)
+  * a page table are directly modified.  Thus, the following hook is
+  * made available.
+  */
+-static inline void set_pte(pte_t *ptep, pte_t pteval)
++static inline void __set_pte(pte_t *ptep, pte_t pteval)
+ {
+ 	WRITE_ONCE(*ptep, pteval);
+ }
+@@ -551,7 +551,7 @@ static inline void __set_pte_at(struct mm_struct *mm, pte_t *ptep, pte_t pteval)
+ 	if (pte_present(pteval) && pte_exec(pteval))
+ 		flush_icache_pte(mm, pteval);
  
- extern pte_t ptep_get(pte_t *ptep);
- #define ptep_get ptep_get
-+extern pte_t ptep_get_lockless(pte_t *ptep);
-+#define ptep_get_lockless ptep_get_lockless
+-	set_pte(ptep, pteval);
++	__set_pte(ptep, pteval);
+ }
+ 
+ #define PFN_PTE_SHIFT		_PAGE_PFN_SHIFT
+@@ -790,11 +790,14 @@ extern pte_t ptep_get_lockless(pte_t *ptep);
  extern void set_ptes(struct mm_struct *mm, unsigned long addr,
  		     pte_t *ptep, pte_t pteval, unsigned int nr);
  #define set_ptes set_ptes
-diff --git a/include/linux/contpte.h b/include/linux/contpte.h
-index 54d10204e9af..01da4bfc3af6 100644
---- a/include/linux/contpte.h
-+++ b/include/linux/contpte.h
-@@ -8,6 +8,7 @@
-  * a private implementation detail of the public ptep API (see below).
-  */
- pte_t contpte_ptep_get(pte_t *ptep, pte_t orig_pte);
-+pte_t contpte_ptep_get_lockless(pte_t *orig_ptep);
- void __contpte_try_fold(struct mm_struct *mm, unsigned long addr,
- 			pte_t *ptep, pte_t pte);
- void contpte_try_fold(struct mm_struct *mm, unsigned long addr,
++extern void set_pte(pte_t *ptep, pte_t pte);
++#define set_pte set_pte
+ 
+ #else /* CONFIG_THP_CONTPTE */
+ 
+ #define ptep_get		__ptep_get
+ #define set_ptes		__set_ptes
++#define set_pte			__set_pte
+ 
+ #endif /* CONFIG_THP_CONTPTE */
+ 
+diff --git a/arch/riscv/kernel/efi.c b/arch/riscv/kernel/efi.c
+index 3d2a635c69ac..673eca7705ba 100644
+--- a/arch/riscv/kernel/efi.c
++++ b/arch/riscv/kernel/efi.c
+@@ -72,7 +72,7 @@ static int __init set_permissions(pte_t *ptep, unsigned long addr, void *data)
+ 		val = pte_val(pte) & ~_PAGE_EXEC;
+ 		pte = __pte(val);
+ 	}
+-	set_pte(ptep, pte);
++	__set_pte(ptep, pte);
+ 
+ 	return 0;
+ }
+diff --git a/arch/riscv/kernel/hibernate.c b/arch/riscv/kernel/hibernate.c
+index 671b686c0158..97ed3df7a308 100644
+--- a/arch/riscv/kernel/hibernate.c
++++ b/arch/riscv/kernel/hibernate.c
+@@ -186,7 +186,7 @@ static int temp_pgtable_map_pte(pmd_t *dst_pmdp, pmd_t *src_pmdp, unsigned long
+ 		pte_t pte = READ_ONCE(*src_ptep);
+ 
+ 		if (pte_present(pte))
+-			set_pte(dst_ptep, __pte(pte_val(pte) | pgprot_val(prot)));
++			__set_pte(dst_ptep, __pte(pte_val(pte) | pgprot_val(prot)));
+ 	} while (dst_ptep++, src_ptep++, start += PAGE_SIZE, start < end);
+ 
+ 	return 0;
+diff --git a/arch/riscv/kvm/mmu.c b/arch/riscv/kvm/mmu.c
+index 70c6cb3864d6..1ee6139d495f 100644
+--- a/arch/riscv/kvm/mmu.c
++++ b/arch/riscv/kvm/mmu.c
+@@ -155,7 +155,7 @@ static int gstage_set_pte(struct kvm *kvm, u32 level,
+ 			next_ptep = kvm_mmu_memory_cache_alloc(pcache);
+ 			if (!next_ptep)
+ 				return -ENOMEM;
+-			set_pte(ptep, pfn_pte(PFN_DOWN(__pa(next_ptep)),
++			__set_pte(ptep, pfn_pte(PFN_DOWN(__pa(next_ptep)),
+ 					      __pgprot(_PAGE_TABLE)));
+ 		} else {
+ 			if (gstage_pte_leaf(ptep))
+@@ -167,7 +167,7 @@ static int gstage_set_pte(struct kvm *kvm, u32 level,
+ 		ptep = &next_ptep[gstage_pte_index(addr, current_level)];
+ 	}
+ 
+-	set_pte(ptep, *new_pte);
++	__set_pte(ptep, *new_pte);
+ 	if (gstage_pte_leaf(ptep))
+ 		gstage_remote_tlb_flush(kvm, current_level, addr);
+ 
+@@ -251,7 +251,7 @@ static void gstage_op_pte(struct kvm *kvm, gpa_t addr,
+ 			return;
+ 
+ 		if (op == GSTAGE_OP_CLEAR)
+-			set_pte(ptep, __pte(0));
++			__set_pte(ptep, __pte(0));
+ 		for (i = 0; i < PTRS_PER_PTE; i++)
+ 			gstage_op_pte(kvm, addr + i * next_page_size,
+ 					&next_ptep[i], next_ptep_level, op);
+@@ -259,9 +259,9 @@ static void gstage_op_pte(struct kvm *kvm, gpa_t addr,
+ 			put_page(virt_to_page(next_ptep));
+ 	} else {
+ 		if (op == GSTAGE_OP_CLEAR)
+-			set_pte(ptep, __pte(0));
++			__set_pte(ptep, __pte(0));
+ 		else if (op == GSTAGE_OP_WP)
+-			set_pte(ptep, __pte(pte_val(__ptep_get(ptep)) & ~_PAGE_WRITE));
++			__set_pte(ptep, __pte(pte_val(__ptep_get(ptep)) & ~_PAGE_WRITE));
+ 		gstage_remote_tlb_flush(kvm, ptep_level, addr);
+ 	}
+ }
+diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
+index fe8e159394d8..bb5c6578204c 100644
+--- a/arch/riscv/mm/init.c
++++ b/arch/riscv/mm/init.c
+@@ -325,7 +325,7 @@ void __set_fixmap(enum fixed_addresses idx, phys_addr_t phys, pgprot_t prot)
+ 	ptep = &fixmap_pte[pte_index(addr)];
+ 
+ 	if (pgprot_val(prot))
+-		set_pte(ptep, pfn_pte(phys >> PAGE_SHIFT, prot));
++		__set_pte(ptep, pfn_pte(phys >> PAGE_SHIFT, prot));
+ 	else
+ 		pte_clear(&init_mm, addr, ptep);
+ 	local_flush_tlb_page(addr);
+diff --git a/arch/riscv/mm/kasan_init.c b/arch/riscv/mm/kasan_init.c
+index 381d61f42ab8..b5061cb3ce4d 100644
+--- a/arch/riscv/mm/kasan_init.c
++++ b/arch/riscv/mm/kasan_init.c
+@@ -41,7 +41,7 @@ static void __init kasan_populate_pte(pmd_t *pmd, unsigned long vaddr, unsigned
+ 	do {
+ 		if (pte_none(__ptep_get(ptep))) {
+ 			phys_addr = memblock_phys_alloc(PAGE_SIZE, PAGE_SIZE);
+-			set_pte(ptep, pfn_pte(PFN_DOWN(phys_addr), PAGE_KERNEL));
++			__set_pte(ptep, pfn_pte(PFN_DOWN(phys_addr), PAGE_KERNEL));
+ 			memset(__va(phys_addr), KASAN_SHADOW_INIT, PAGE_SIZE);
+ 		}
+ 	} while (ptep++, vaddr += PAGE_SIZE, vaddr != end);
+@@ -327,8 +327,8 @@ asmlinkage void __init kasan_early_init(void)
+ 		KASAN_SHADOW_END - (1UL << (64 - KASAN_SHADOW_SCALE_SHIFT)));
+ 
+ 	for (i = 0; i < PTRS_PER_PTE; ++i)
+-		set_pte(kasan_early_shadow_pte + i,
+-			pfn_pte(virt_to_pfn(kasan_early_shadow_page), PAGE_KERNEL));
++		__set_pte(kasan_early_shadow_pte + i,
++			  pfn_pte(virt_to_pfn(kasan_early_shadow_page), PAGE_KERNEL));
+ 
+ 	for (i = 0; i < PTRS_PER_PMD; ++i)
+ 		set_pmd(kasan_early_shadow_pmd + i,
+@@ -523,10 +523,10 @@ void __init kasan_init(void)
+ 		       kasan_mem_to_shadow((const void *)MODULES_VADDR + SZ_2G));
+ 
+ 	for (i = 0; i < PTRS_PER_PTE; i++)
+-		set_pte(&kasan_early_shadow_pte[i],
+-			mk_pte(virt_to_page(kasan_early_shadow_page),
+-			       __pgprot(_PAGE_PRESENT | _PAGE_READ |
+-					_PAGE_ACCESSED)));
++		__set_pte(&kasan_early_shadow_pte[i],
++			  mk_pte(virt_to_page(kasan_early_shadow_page),
++				 __pgprot(_PAGE_PRESENT | _PAGE_READ |
++					  _PAGE_ACCESSED)));
+ 
+ 	memset(kasan_early_shadow_page, KASAN_SHADOW_INIT, PAGE_SIZE);
+ 	init_task.kasan_depth = 0;
+diff --git a/arch/riscv/mm/pageattr.c b/arch/riscv/mm/pageattr.c
+index 98c9dc4b983c..d623e4fc11fc 100644
+--- a/arch/riscv/mm/pageattr.c
++++ b/arch/riscv/mm/pageattr.c
+@@ -71,7 +71,7 @@ static int pageattr_pte_entry(pte_t *pte, unsigned long addr,
+ 	pte_t val = __ptep_get(pte);
+ 
+ 	val = __pte(set_pageattr_masks(pte_val(val), walk));
+-	set_pte(pte, val);
++	__set_pte(pte, val);
+ 
+ 	return 0;
+ }
+@@ -121,7 +121,7 @@ static int __split_linear_mapping_pmd(pud_t *pudp,
+ 
+ 			ptep_new = (pte_t *)page_address(pte_page);
+ 			for (i = 0; i < PTRS_PER_PTE; ++i, ++ptep_new)
+-				set_pte(ptep_new, pfn_pte(pfn + i, prot));
++				__set_pte(ptep_new, pfn_pte(pfn + i, prot));
+ 
+ 			smp_wmb();
+ 
 diff --git a/mm/contpte.c b/mm/contpte.c
-index 566745d7842f..060e0bc1a2a3 100644
+index 060e0bc1a2a3..543ae5b5a863 100644
 --- a/mm/contpte.c
 +++ b/mm/contpte.c
-@@ -42,6 +42,7 @@
-  *   - huge_ptep_clear_flush()
+@@ -17,6 +17,7 @@
+  *   - __pte_clear()
+  *   - __ptep_set_access_flags()
+  *   - __ptep_set_wrprotect()
++ *   - __set_pte()
+  *   - pte_cont()
+  *   - arch_contpte_get_num_contig()
+  *   - pte_valid_cont()
+@@ -43,6 +44,7 @@
   *   - ptep_get()
   *   - set_ptes()
-+ *   - ptep_get_lockless()
+  *   - ptep_get_lockless()
++ *   - set_pte()
   */
  
  pte_t huge_ptep_get(pte_t *ptep)
-@@ -589,4 +590,72 @@ __always_inline void set_ptes(struct mm_struct *mm, unsigned long addr,
- 		contpte_set_ptes(mm, addr, ptep, pte, nr);
- 	}
+@@ -658,4 +660,20 @@ __always_inline pte_t ptep_get_lockless(pte_t *ptep)
+ 
+ 	return contpte_ptep_get_lockless(ptep);
  }
 +
-+pte_t contpte_ptep_get_lockless(pte_t *orig_ptep)
++void set_pte(pte_t *ptep, pte_t pte)
 +{
 +	/*
-+	 * The ptep_get_lockless() API requires us to read and return *orig_ptep
-+	 * so that it is self-consistent, without the PTL held, so we may be
-+	 * racing with other threads modifying the pte. Usually a READ_ONCE()
-+	 * would suffice, but for the contpte case, we also need to gather the
-+	 * access and dirty bits from across all ptes in the contiguous block,
-+	 * and we can't read all of those neighbouring ptes atomically, so any
-+	 * contiguous range may be unfolded/modified/refolded under our feet.
-+	 * Therefore we ensure we read a _consistent_ contpte range by checking
-+	 * that all ptes in the range are valid and have CONT_PTE set, that all
-+	 * pfns are contiguous and that all pgprots are the same (ignoring
-+	 * access/dirty). If we find a pte that is not consistent, then we must
-+	 * be racing with an update so start again. If the target pte does not
-+	 * have CONT_PTE set then that is considered consistent on its own
-+	 * because it is not part of a contpte range.
++	 * We don't have the mm or vaddr so cannot unfold contig entries (since
++	 * it requires tlb maintenance). set_pte() is not used in core code, so
++	 * this should never even be called. Regardless do our best to service
++	 * any call and emit a warning if there is any attempt to set a pte on
++	 * top of an existing contig range.
 +	 */
++	pte_t orig_pte = __ptep_get(ptep);
 +
-+	pgprot_t orig_prot;
-+	unsigned long pfn;
-+	pte_t orig_pte;
-+	pgprot_t prot;
-+	pte_t *ptep;
-+	pte_t pte;
-+	int i, ncontig;
-+
-+retry:
-+	orig_pte = __ptep_get(orig_ptep);
-+
-+	if (!pte_valid_cont(orig_pte))
-+		return orig_pte;
-+
-+	orig_prot = pte_pgprot(pte_mkold(pte_mkclean(orig_pte)));
-+	ptep = arch_contpte_align_down(orig_ptep);
-+	ncontig = arch_contpte_get_num_contig(NULL, 0, ptep, 0, NULL);
-+	pfn = pte_pfn(orig_pte) - (orig_ptep - ptep);
-+
-+	for (i = 0; i < ncontig; i++, ptep++, pfn++) {
-+		pte = __ptep_get(ptep);
-+		prot = pte_pgprot(pte_mkold(pte_mkclean(pte)));
-+
-+		if (!pte_valid_cont(pte) ||
-+				pte_pfn(pte) != pfn ||
-+				pgprot_val(prot) != pgprot_val(orig_prot))
-+			goto retry;
-+
-+		if (pte_dirty(pte))
-+			orig_pte = pte_mkdirty(orig_pte);
-+
-+		if (pte_young(pte))
-+			orig_pte = pte_mkyoung(orig_pte);
-+	}
-+
-+	return orig_pte;
++	WARN_ON_ONCE(pte_valid_cont(orig_pte));
++	__set_pte(ptep, pte_mknoncont(pte));
 +}
-+EXPORT_SYMBOL_GPL(contpte_ptep_get_lockless);
 +
-+__always_inline pte_t ptep_get_lockless(pte_t *ptep)
-+{
-+	pte_t pte = __ptep_get(ptep);
-+
-+	if (likely(!pte_valid_cont(pte)))
-+		return pte;
-+
-+	return contpte_ptep_get_lockless(ptep);
-+}
  #endif /* CONFIG_THP_CONTPTE */
 -- 
 2.39.2
@@ -387,4 +448,4 @@ index 566745d7842f..060e0bc1a2a3 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240508191931.46060-5-alexghiti%40rivosinc.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240508191931.46060-6-alexghiti%40rivosinc.com.
