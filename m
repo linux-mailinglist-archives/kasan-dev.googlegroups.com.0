@@ -1,155 +1,157 @@
-Return-Path: <kasan-dev+bncBDXY7I6V6AMRBJ5G56YQMGQE2JZYFVY@googlegroups.com>
+Return-Path: <kasan-dev+bncBD4IBNO3YAGRB6FZ6CYQMGQENSJBNBY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DFB48C0510
-	for <lists+kasan-dev@lfdr.de>; Wed,  8 May 2024 21:31:53 +0200 (CEST)
-Received: by mail-wm1-x33d.google.com with SMTP id 5b1f17b1804b1-41dc9c831acsf5978855e9.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 08 May 2024 12:31:53 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1715196713; cv=pass;
+Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 308AD8C08A0
+	for <lists+kasan-dev@lfdr.de>; Thu,  9 May 2024 02:46:50 +0200 (CEST)
+Received: by mail-qv1-xf3a.google.com with SMTP id 6a1803df08f44-6a0e381e63csf4089446d6.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 08 May 2024 17:46:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1715215609; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qE7PuthewQT38dIZTJLuISKmUYiy+AjwlJ3kCc4Yz4q5kA+0kD+esmAKDwS3ksuWlD
-         vr5ZiS6XXU5Jlf85BxBcPqas1jqWh7Ga9nXvPsE23YmKIBkad6z/lpYSm5/dScXabXNX
-         mMQtse5fMMayskNakwegTNEV0pF3OqisPSvRtlvpbX41pwriAGHrcdz1ztc/WtQVO+WS
-         46JtdQ3XY8PkRsOkbYwfNd+BtfS09qhp8Ypx2fUmnVQY1BPHejBJzGkEzZgqmJrcCFan
-         fnb0DhB1eJJL8x4qCPpmMm1V9JStuM8Y+QdHeIDHInYBNFXBBdYE1kGNxauR96rZRV12
-         Xo/Q==
+        b=vpbcTelEkFX/++B0zBOYKApq0v4lSWfeVHCqi2yFZ0wJbege/qPokjNWQXuCXlHOTS
+         0TIjzPyT8BCB4Vm4rtd9jz22dq4acCcW19DXGxW9Nrw+dlszLdkPfqMV5LC9RDA8rCsV
+         V30i3xVrSREfyIq0+o92UutLBwwmAwO0T1T+wuiRNT3B8WgXCEDf50rk7VlSEFGrkv/v
+         KRpIuiDs9P6hhi/Lu4oqVF4XzveTq4A2icrNQ/SL6TLgCcABZjsP6j23Juz6R5xqndsF
+         zK7xpyzqFLm9byGZMgifgxBPs+ndMosbhTVH9snMI77dL4sOPGu6uTOJzg+qBN9GQw1r
+         qJxQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=Xvp+VKYSYWsmDDtsez1QWSbb6aPEn1dtWozFIdswk/c=;
-        fh=Ala2gLuT41Tz0GdbkHPxoXh0re9DODy4gHc8uACNSI0=;
-        b=TE1C+qwccAjK50lAlgk96UcQKHoZg3GZBSCPdfKJUnvIl3AKQNB3lh4I89zUH8vHlQ
-         B1yDOhiW2UukCpnu1yiOwcFunNnZv9t1a264rttj9ku2CH+IlFbgoaHySVvM5RXBjDzS
-         LWebBMmMq04rbNDQzxUzSQ7Jy7lZObZvxmwTOKT5KJFccdgYImyIXYPSjfXHD5UYVTG+
-         bcgdEMyAGCq8ZUZ558ofynkN8wQpawg7MaF3nn/g2Sg3xorjXtA9l4Wlhq+Hkh/RMQ3m
-         QiBdMQYlu8Ye0GO9bRKTpZ4LYmfQBhGDDHgoK50nI+q/dQZ2m1WRIrHt/1GeeRVhiP+Q
-         6juw==;
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=WKipWfxOjU+ZDGL/RwVFBokl7Gj4071tODrkPy9qJp0=;
+        fh=AFHRe6w5L67VbUQIEGHvxYkQIRa5mZb7hnrqpUPr4v0=;
+        b=XXIYJHkn9KKmDYd9CKtCKCuNNK4bFEU1lwEEB0xWmW0hzKP5HLRTMDYWlQuv2BB9iX
+         2g25/YqWAx0RosQ9rluHh/idS1Z+fPovl47SzILhr1ojKk6BVIfckVnhSf+kc/0MIq3b
+         iJ6GCR6AiQV4zZmVKr5e4grAyUKPUwV/zwcvUVDBE9CbF0kRkyYJNWM1n7poYVTYWl0L
+         nF4N9uKL9+FTUXx+CYCqhpfmy3QHWgll+SUWa9c6kdka/e+l1ImHw5P4Y3e/6iBXAoiW
+         phCDEGstE0STipDnENjHvRhe9rufi3k7V/nsIdOXPGAaWeDAKOGijqLx/dz6/Xvhd9Gy
+         OyDA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=ifgShe5x;
-       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::42c as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=B2t+qzBu;
+       spf=pass (google.com: domain of 21cnbao@gmail.com designates 2607:f8b0:4864:20::a2d as permitted sender) smtp.mailfrom=21cnbao@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1715196713; x=1715801513; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1715215609; x=1715820409; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Xvp+VKYSYWsmDDtsez1QWSbb6aPEn1dtWozFIdswk/c=;
-        b=wGCEgWQsoniUdXGK9FdHdblxWWBMP1s5YT888pkj8eqqCdkJS1mPRRy+H2z2hdDVD6
-         micXn4H0GfaIVEdtN4XE0ZgOJiP83T/1Furos1fT8g0WIgaOO5wm2tJvNcdMiG0PQdZR
-         dI4jvbq9iuGSQDd1QLT8XB/pAMHjjH+g0plc4OatKh1PhS/CMiNiVm59CdmOvj4i0g08
-         E8+fpOX2V6os7X52PbTl3E2URVNrNIKYYjKlBgGa3uxMkZ+/TuZl+OhglA1cXtq73yXA
-         +ZXnabt/lUoLtIWWzwK/qU6/4u2S5cAPsQm3UFa82aGXPxStgvMOBVM12GZiPNceiUdQ
-         PS3A==
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WKipWfxOjU+ZDGL/RwVFBokl7Gj4071tODrkPy9qJp0=;
+        b=BLzimhGrYz8XZ54FpcfMScyMGBqQv4Q7QbeqT/zczc8yXbOaRG95YIZ+YfERfoKdLv
+         AXrmmA23ugT1UzQFLIsn5AyESrkiUabG1BLTAS9e3LU8pG140ezg/67ZLrpie2dDQDBJ
+         DDQp/s/HEyyHDUNJrzI82Q9852dVcGYUjcVKBUYGVp0WY4RFbmXkP8lSaxoewdfV4NzB
+         8pW+7ihDEelnEDr1RL4mjDVZVN7QhnUWALSGcqNLExBbA0Gh823Jx9PluQptzqT+WMzf
+         ZZ3mKS2UaoCI6K9yU52FKHEP9klT+4oOdvAPpuBCr/sdEPiAyxm1pffSAmebM6EeBqbE
+         VavQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1715215609; x=1715820409; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WKipWfxOjU+ZDGL/RwVFBokl7Gj4071tODrkPy9qJp0=;
+        b=FhBChEvjNZ0jtOd9dcBpM62rBd47ftciIWRwi5uzqqvtcFyDGVTjng/0S/QancQxAM
+         /+PLpy/FQehNaFO/pU66zfKI+6H5hv0+ItXJxDls6zCj/Y7Ad18QU6XQVk436dEJMRFB
+         wusGH3YjPRAzNS+NxgQKxZx6jUSwj4rxJshWNM4JnryIdMkyVNaaFmjgLC0GOxOAfxv9
+         FSWuGzpJ9nf36PMgqDjrjGOD0682ROtbDH+QfcQCBD3u6Fc7CVuwSY0WvCGdOVUmJN9I
+         w1U/6qSkp1qYJmL8/dx7n9eqUuGQZYLfKxjXKQ23lmz4BpD4GymTXGOI8l94kCqVmVcM
+         iHqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715196713; x=1715801513;
+        d=1e100.net; s=20230601; t=1715215609; x=1715820409;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xvp+VKYSYWsmDDtsez1QWSbb6aPEn1dtWozFIdswk/c=;
-        b=Yg8mAFj6Onta2v/N1jASaO9BZDIZg/vPQnmmfl5dBA/oxrOAAsksa/F4UD1OFuAV7g
-         MglUPJagVuvXYgcQgildLDYVN/zam8AqO+L7AyQxL2DLvRBwqLuQJXI0EAt1QRFNCxd1
-         SwiHKjw1DCyhVpVi+WxofBzZarIaRl8PWDDSmkY2S7VfBbTIjsHXF1EUSNpvnAF8BYeQ
-         C/cHrW5ERIYeKNZ1JAyj1Gbln3mZmUVWKjnwX5ijGd3s3z8zNrhVt6rPd+OjmcH1Llig
-         cMjjwgWjmbsnKQ/GxdJ9JmbXz6dQ77mF5G5jaNcFMWWwKxEnH23sWkBCGHaqw8lSHZty
-         8BeQ==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=WKipWfxOjU+ZDGL/RwVFBokl7Gj4071tODrkPy9qJp0=;
+        b=Dpc0atNV2rxXXngotguzaxcDTkfPoWyiH3Zkx76BZ2uQW2iZkffkvwEtpRciqyXOgz
+         BTyxcdnmoHOxhP8b0JFl9m503XjHhw1bX1rgS//jxIah0hYK/bDYvfRjAp9xa0OSoL/A
+         4Z9quQozOiKIpa+eqGSh0tanXOnebB/8L72FzYQ6OHrZ+mkU0dfGqseIyqyQMOqv5w7z
+         U0qJ6SiApyUaaqCeAiWUGvAJ6Yfo5ejnrOI392P7uDNCsdrDTJ6DgLn9STSNp23X9YbB
+         yCH4F8etoVsxkog3oQSKunZX+ZYwFdk6Y2m4NODj/2Gom8LF83CYcjwUF/EP5CTrf0AE
+         ly2A==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWnxiu7I7z/ag+BAIWjzfvso8EorArZea1Ek6nTFI0fX4ueJl8x/ttfe9LZnbPqqj1x9EK3g5hFkSxJ43aUVepHOeASdgoH9Q==
-X-Gm-Message-State: AOJu0YyfQkTL3W+6vnrhJAsfHxhp2jfD32qHnfy0u8lwO/xySFVkmER2
-	AQlduJtrWNSD29CXQs2383Q5bO7LdGR3OHwZBzzDZEKvDrDnnqs3
-X-Google-Smtp-Source: AGHT+IH+sOeNFFR9S8TX/5T2bNaO4gG6m7SHw1tskwSo8APo75Bke2yqJ/pSxL3VnBpfCYgUc6e+HQ==
-X-Received: by 2002:a05:600c:3b04:b0:418:f5a:580b with SMTP id 5b1f17b1804b1-41fbcfb8113mr4655035e9.18.1715196712174;
-        Wed, 08 May 2024 12:31:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVBqeXlM5FRyEGcM2GTY/ezy23IcEwUa3ap/GCL92mSq5T2lAJNrwwO7FbuacYnIJoGLLSt7GCSi82X7Ost1hAQuz+DT7MFMQ==
+X-Gm-Message-State: AOJu0YyCZfeu/172rzV0QvtmysuPeTu0t3lb6CWhVp15Tnz1ybqazfrT
+	T7yRSr2ih3fvoB/qlS4QSnf4VBKMB9yMgXfY7S28hmzc+Njt3Lb3
+X-Google-Smtp-Source: AGHT+IHpe8VgpHe4EXS43lmVP49eOBT57pCVGw0MoeqfxJY1TOJMIPliFztKM2fkd7Jy6gxKJ5tGTg==
+X-Received: by 2002:ad4:5be8:0:b0:6a0:48c3:52ac with SMTP id 6a1803df08f44-6a1514bdd33mr48364666d6.45.1715215608640;
+        Wed, 08 May 2024 17:46:48 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:1d25:b0:41a:4283:7397 with SMTP id
- 5b1f17b1804b1-41fc22dded5ls466175e9.0.-pod-prod-00-eu; Wed, 08 May 2024
- 12:31:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUVPIqLg0cb2PbsBhWZu2zz9odqH7h7363+OtMaPjT2r9koUB4q9JXqc+oHgZAbnEkIWgUQj2PzRfVuMh9Ixylkl3A6wvVLJBy4zA==
-X-Received: by 2002:a05:600c:3585:b0:418:2ab6:7123 with SMTP id 5b1f17b1804b1-41fbcc5f63bmr5156405e9.10.1715196710414;
-        Wed, 08 May 2024 12:31:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1715196710; cv=none;
+Received: by 2002:a05:6214:1cc4:b0:6a0:dbcb:706 with SMTP id
+ 6a1803df08f44-6a15d4471f3ls3608986d6.1.-pod-prod-02-us; Wed, 08 May 2024
+ 17:46:48 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCW5tFOghR7B0BeJSRKnRTpctEHzMJxtulinl+Xzx2CbQjGxlUzTwzBc24l1KV6NRxWYFgQxoyBxfQrYfrVDAY4IYUl9qjLoqeuvfg==
+X-Received: by 2002:ad4:5ca2:0:b0:6a0:d312:2ba5 with SMTP id 6a1803df08f44-6a1514eb132mr60290316d6.61.1715215608004;
+        Wed, 08 May 2024 17:46:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1715215607; cv=none;
         d=google.com; s=arc-20160816;
-        b=Tpnlr6kBNaoc3kd74ebiMnFv5JWnSZ65Jf20ZoPUU/BkJ+HmOZNw4oW/y5/ftT84oO
-         LTfV9BVsRgUFNjKXF8by/mmShc2LTxXNnPAGh11DOIkyT6kSfLm/676QKKXdYkLVQHe6
-         tlKvhTHmN8vQSu1W+ahEl8nW1vpHEBkf6l7A2aJHUHWYAAdDjyjPaats3HJ7LO8ZMhVk
-         6SSI/Hb1lHv7DbLRnq2HYC+ES27Guv4UCTVRtj86ueZoe+Zq+FhhCFwx8LLAdvp8t+0v
-         TMZZeBHU0o1/PshfyQi4JYJgiVJ5iWYPtxmTUORgYRhrIxi236XR3mgXWPfRFCY6eBxa
-         ajCw==
+        b=tPA9JyMSzHbl/WWYvBaF7XD1uhKE+G4FoZmnm7awJiEwIFpHhIqV9xn3tO+mgLDT8/
+         Ip6ntEBw8TTpt8Fx0EErRwLUYI/xaNuWeFZcVWqiZy5EHSDE9g/p9DLpLhKBYf+TdUQ0
+         0UWXGdVHTJk96GOjUfFKCy66UHH6YsiXJgDJsj1GQh0ml0xrRYzVC4oUxF1sgAMRSc6X
+         Fh4lkLSDko+PutrUCjVL985m8Loon/xjVUh+Fdz5vRt2o70RUPVTkhFia5k68OKShp/0
+         VwkhBCygC0ed75/vQPK6iFbn8dGg48uIRAmJmgmPUBpoVcYrJTc0M+RIhvfNIVRGykVA
+         I1ag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=3Mj4lZQ0sNzizek27x00kn2/PQ3ffbB6QFBBUZYNyzk=;
-        fh=ZU0+XgIFW//yNdxAV4KZvuPZAlKOYgc/SmiVhmPvEbQ=;
-        b=KX3f/9lnjMgvYbca8IrzkoBmeAasFxlsrKyFXh00SHalZhEJ6P9tBMr5CZ0wpY4LXx
-         43uQdZXWONqZJOwX1DLz4RGU/16xkuRH299Q2ZiDOu+8zwCqXV2uqLtG6lactHN74SBS
-         yHjLGE0SkkoZ2eYGYg4vOSuDGkHAyCfR4ruOnPD8XdB5Hl/bsOlFX3oa6X0Zo5jSBR5l
-         /Oqjxl4aIw/93zblBDwHQIgF3+TaSOY2zq/H/oFoYkLmERH/BtNRnKkv0zinXhA/4A9q
-         H3n0Zc4P1LBxk2K+i6hTEf0BbdyDLVoY3h4V23Rq+1oQ9WALM/wtv+hi4mPbdpCeYkSk
-         W5JA==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1HutaMr4YNAQdV0piVG8U9fxjw32ZuJHu11VAl/8knE=;
+        fh=/Ce5aD47EqAqaKiu9MtezlkhlqTwIsQy1YKcayUSkI8=;
+        b=O8Fp624WjSv+cqEMEaoeh9BmMMlTZSEV3l11W/i0svF4bOQ6IpTSAvZIUgTkmYZfRF
+         4549HE+FypVTf04w8k8mnklBx9B8lgfCjrslODhmK2p6mbU4UEN9Ku1rEVY1odsd5nJ/
+         sUEu7l1v9dr82oNbkwKRglqUhpu3qoomxzBJY6R+jrmOLk0q7zbDWfqDAikrm+Iqqyr8
+         W80iyL0J/lm5gaKLHcEMqFbbr0cbzhopgkP7TQ2iqpwda7F05xaG1tZsYimVQ/Us5frv
+         BRgUD3nKTOMRmu2gaD3oQsKeWb0pjAa5YqRipYUXnGzz8mG0hNqthhDjrg8O2SNsUlQc
+         Mmlw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=ifgShe5x;
-       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::42c as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com. [2a00:1450:4864:20::42c])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-41f4307e4cfsi2566115e9.0.2024.05.08.12.31.50
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=B2t+qzBu;
+       spf=pass (google.com: domain of 21cnbao@gmail.com designates 2607:f8b0:4864:20::a2d as permitted sender) smtp.mailfrom=21cnbao@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com. [2607:f8b0:4864:20::a2d])
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6a15f3540c8si195366d6.7.2024.05.08.17.46.47
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 May 2024 12:31:50 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::42c as permitted sender) client-ip=2a00:1450:4864:20::42c;
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-34e0d47bd98so692618f8f.0
-        for <kasan-dev@googlegroups.com>; Wed, 08 May 2024 12:31:50 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWYU5a9UyOCCX1ijgUXurqz8zA7cY05PEPou0RmUMtIjpJR5CIYx+goYg4gIiaB6At2HOoEbVDSn4sAKAkVJusRglfbKDKO5be+NQ==
-X-Received: by 2002:adf:fe8a:0:b0:34c:fd92:3359 with SMTP id ffacd0b85a97d-350185d57e7mr489056f8f.21.1715196709811;
-        Wed, 08 May 2024 12:31:49 -0700 (PDT)
-Received: from alex-rivos.ba.rivosinc.com (amontpellier-656-1-456-62.w92-145.abo.wanadoo.fr. [92.145.124.62])
-        by smtp.gmail.com with ESMTPSA id s2-20020a5d4242000000b003472489d26fsm15924162wrr.19.2024.05.08.12.31.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 May 2024 12:31:49 -0700 (PDT)
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-To: Ryan Roberts <ryan.roberts@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Anup Patel <anup@brainfault.org>,
-	Atish Patra <atishp@atishpatra.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-riscv@lists.infradead.org,
-	linux-efi@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-mm@kvack.org
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH 12/12] mm, riscv, arm64: Use common get_and_clear_full_ptes()/clear_full_ptes() functions
-Date: Wed,  8 May 2024 21:19:31 +0200
-Message-Id: <20240508191931.46060-13-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20240508191931.46060-1-alexghiti@rivosinc.com>
-References: <20240508191931.46060-1-alexghiti@rivosinc.com>
+        Wed, 08 May 2024 17:46:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of 21cnbao@gmail.com designates 2607:f8b0:4864:20::a2d as permitted sender) client-ip=2607:f8b0:4864:20::a2d;
+Received: by mail-vk1-xa2d.google.com with SMTP id 71dfb90a1353d-4df37a78069so138381e0c.1
+        for <kasan-dev@googlegroups.com>; Wed, 08 May 2024 17:46:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUhk4F1DReAZyKzu5SffpJjx4YLY9vxIo+8MvSM/gSkZqo9/U0zhnCVBhlNTnxj2JainotEvu3yIQ9AJOGxmcPlsR1yxf1T79AonA==
+X-Received: by 2002:a05:6122:7cb:b0:4d8:797b:94df with SMTP id
+ 71dfb90a1353d-4df6929c091mr4383063e0c.2.1715215607538; Wed, 08 May 2024
+ 17:46:47 -0700 (PDT)
 MIME-Version: 1.0
-X-Original-Sender: alexghiti@rivosinc.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601
- header.b=ifgShe5x;       spf=pass (google.com: domain of alexghiti@rivosinc.com
- designates 2a00:1450:4864:20::42c as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com
+References: <20240508191931.46060-1-alexghiti@rivosinc.com> <20240508191931.46060-2-alexghiti@rivosinc.com>
+In-Reply-To: <20240508191931.46060-2-alexghiti@rivosinc.com>
+From: Barry Song <21cnbao@gmail.com>
+Date: Thu, 9 May 2024 12:46:35 +1200
+Message-ID: <CAGsJ_4xayC4D4y0d7SPXxCvuW4-rJQUCa_-OUDSsOGm_HyPm1w@mail.gmail.com>
+Subject: Re: [PATCH 01/12] mm, arm64: Rename ARM64_CONTPTE to THP_CONTPTE
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Ryan Roberts <ryan.roberts@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Ard Biesheuvel <ardb@kernel.org>, Anup Patel <anup@brainfault.org>, 
+	Atish Patra <atishp@atishpatra.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	linux-riscv@lists.infradead.org, linux-efi@vger.kernel.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-mm@kvack.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: 21cnbao@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20230601 header.b=B2t+qzBu;       spf=pass
+ (google.com: domain of 21cnbao@gmail.com designates 2607:f8b0:4864:20::a2d as
+ permitted sender) smtp.mailfrom=21cnbao@gmail.com;       dmarc=pass (p=NONE
+ sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -162,292 +164,132 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Make riscv use the contpte aware get_and_clear_full_ptes()/clear_full_ptes()
-function from arm64.
+On Thu, May 9, 2024 at 7:20=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc.=
+com> wrote:
+>
+> The ARM64_CONTPTE config represents the capability to transparently use
+> contpte mappings for THP userspace mappings, which will be implemented
+> in the next commits for riscv, so make this config more generic and move
+> it to mm.
+>
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> ---
+>  arch/arm64/Kconfig               | 9 ---------
+>  arch/arm64/include/asm/pgtable.h | 6 +++---
+>  arch/arm64/mm/Makefile           | 2 +-
+>  mm/Kconfig                       | 9 +++++++++
+>  4 files changed, 13 insertions(+), 13 deletions(-)
+>
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index ac2f6d906cc3..9d823015b4e5 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -2227,15 +2227,6 @@ config UNWIND_PATCH_PAC_INTO_SCS
+>         select UNWIND_TABLES
+>         select DYNAMIC_SCS
+>
+> -config ARM64_CONTPTE
+> -       bool "Contiguous PTE mappings for user memory" if EXPERT
+> -       depends on TRANSPARENT_HUGEPAGE
+> -       default y
+> -       help
+> -         When enabled, user mappings are configured using the PTE contig=
+uous
+> -         bit, for any mappings that meet the size and alignment requirem=
+ents.
+> -         This reduces TLB pressure and improves performance.
+> -
+>  endmenu # "Kernel Features"
+>
+>  menu "Boot options"
+> diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pg=
+table.h
+> index 7c2938cb70b9..1758ce71fae9 100644
+> --- a/arch/arm64/include/asm/pgtable.h
+> +++ b/arch/arm64/include/asm/pgtable.h
+> @@ -1369,7 +1369,7 @@ extern void ptep_modify_prot_commit(struct vm_area_=
+struct *vma,
+>                                     unsigned long addr, pte_t *ptep,
+>                                     pte_t old_pte, pte_t new_pte);
+>
+> -#ifdef CONFIG_ARM64_CONTPTE
+> +#ifdef CONFIG_THP_CONTPTE
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
----
- arch/arm64/include/asm/pgtable.h | 41 ++++------------------------
- arch/arm64/mm/Makefile           |  1 -
- arch/arm64/mm/contpte.c          | 46 -------------------------------
- arch/riscv/include/asm/pgtable.h | 39 ++++++++++++++++++++++++++
- include/linux/contpte.h          |  5 ++++
- mm/contpte.c                     | 47 ++++++++++++++++++++++++++++++++
- 6 files changed, 96 insertions(+), 83 deletions(-)
- delete mode 100644 arch/arm64/mm/contpte.c
+Is it necessarily THP? can't be hugetlb or others? I feel THP_CONTPTE
+isn't a good name.
 
-diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/asm/pgtable.h
-index 162efd9647dd..f8a3159f9df0 100644
---- a/arch/arm64/include/asm/pgtable.h
-+++ b/arch/arm64/include/asm/pgtable.h
-@@ -1373,17 +1373,6 @@ extern void ptep_modify_prot_commit(struct vm_area_struct *vma,
- 
- #ifdef CONFIG_THP_CONTPTE
- 
--/*
-- * The contpte APIs are used to transparently manage the contiguous bit in ptes
-- * where it is possible and makes sense to do so. The PTE_CONT bit is considered
-- * a private implementation detail of the public ptep API (see below).
-- */
--extern void contpte_clear_full_ptes(struct mm_struct *mm, unsigned long addr,
--				pte_t *ptep, unsigned int nr, int full);
--extern pte_t contpte_get_and_clear_full_ptes(struct mm_struct *mm,
--				unsigned long addr, pte_t *ptep,
--				unsigned int nr, int full);
--
- #define pte_batch_hint pte_batch_hint
- static inline unsigned int pte_batch_hint(pte_t *ptep, pte_t pte)
- {
-@@ -1428,34 +1417,14 @@ extern void pte_clear(struct mm_struct *mm,
- 		      unsigned long addr, pte_t *ptep);
- #define pte_clear pte_clear
- 
-+extern void clear_full_ptes(struct mm_struct *mm, unsigned long addr,
-+			    pte_t *ptep, unsigned int nr, int full);
- #define clear_full_ptes clear_full_ptes
--static inline void clear_full_ptes(struct mm_struct *mm, unsigned long addr,
--				pte_t *ptep, unsigned int nr, int full)
--{
--	if (likely(nr == 1)) {
--		contpte_try_unfold(mm, addr, ptep, __ptep_get(ptep));
--		__clear_full_ptes(mm, addr, ptep, nr, full);
--	} else {
--		contpte_clear_full_ptes(mm, addr, ptep, nr, full);
--	}
--}
- 
-+extern pte_t get_and_clear_full_ptes(struct mm_struct *mm,
-+				     unsigned long addr, pte_t *ptep,
-+				     unsigned int nr, int full);
- #define get_and_clear_full_ptes get_and_clear_full_ptes
--static inline pte_t get_and_clear_full_ptes(struct mm_struct *mm,
--				unsigned long addr, pte_t *ptep,
--				unsigned int nr, int full)
--{
--	pte_t pte;
--
--	if (likely(nr == 1)) {
--		contpte_try_unfold(mm, addr, ptep, __ptep_get(ptep));
--		pte = __get_and_clear_full_ptes(mm, addr, ptep, nr, full);
--	} else {
--		pte = contpte_get_and_clear_full_ptes(mm, addr, ptep, nr, full);
--	}
--
--	return pte;
--}
- 
- #define __HAVE_ARCH_PTEP_GET_AND_CLEAR
- extern pte_t ptep_get_and_clear(struct mm_struct *mm,
-diff --git a/arch/arm64/mm/Makefile b/arch/arm64/mm/Makefile
-index 52a1b2082627..dbd1bc95967d 100644
---- a/arch/arm64/mm/Makefile
-+++ b/arch/arm64/mm/Makefile
-@@ -3,7 +3,6 @@ obj-y				:= dma-mapping.o extable.o fault.o init.o \
- 				   cache.o copypage.o flush.o \
- 				   ioremap.o mmap.o pgd.o mmu.o \
- 				   context.o proc.o pageattr.o fixmap.o
--obj-$(CONFIG_THP_CONTPTE)	+= contpte.o
- obj-$(CONFIG_HUGETLB_PAGE)	+= hugetlbpage.o
- obj-$(CONFIG_PTDUMP_CORE)	+= ptdump.o
- obj-$(CONFIG_PTDUMP_DEBUGFS)	+= ptdump_debugfs.o
-diff --git a/arch/arm64/mm/contpte.c b/arch/arm64/mm/contpte.c
-deleted file mode 100644
-index 1cef93b15d6e..000000000000
---- a/arch/arm64/mm/contpte.c
-+++ /dev/null
-@@ -1,46 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * Copyright (C) 2023 ARM Ltd.
-- */
--
--#include <linux/mm.h>
--#include <linux/efi.h>
--#include <linux/export.h>
--#include <asm/tlbflush.h>
--
--static void contpte_try_unfold_partial(struct mm_struct *mm, unsigned long addr,
--					pte_t *ptep, unsigned int nr)
--{
--	/*
--	 * Unfold any partially covered contpte block at the beginning and end
--	 * of the range.
--	 */
--
--	if (ptep != arch_contpte_align_down(ptep) || nr < CONT_PTES)
--		contpte_try_unfold(mm, addr, ptep, __ptep_get(ptep));
--
--	if (ptep + nr != arch_contpte_align_down(ptep + nr)) {
--		unsigned long last_addr = addr + PAGE_SIZE * (nr - 1);
--		pte_t *last_ptep = ptep + nr - 1;
--
--		contpte_try_unfold(mm, last_addr, last_ptep,
--				   __ptep_get(last_ptep));
--	}
--}
--
--void contpte_clear_full_ptes(struct mm_struct *mm, unsigned long addr,
--				pte_t *ptep, unsigned int nr, int full)
--{
--	contpte_try_unfold_partial(mm, addr, ptep, nr);
--	__clear_full_ptes(mm, addr, ptep, nr, full);
--}
--EXPORT_SYMBOL_GPL(contpte_clear_full_ptes);
--
--pte_t contpte_get_and_clear_full_ptes(struct mm_struct *mm,
--				unsigned long addr, pte_t *ptep,
--				unsigned int nr, int full)
--{
--	contpte_try_unfold_partial(mm, addr, ptep, nr);
--	return __get_and_clear_full_ptes(mm, addr, ptep, nr, full);
--}
--EXPORT_SYMBOL_GPL(contpte_get_and_clear_full_ptes);
-diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-index 728f31da5e6a..a4843bdfdb37 100644
---- a/arch/riscv/include/asm/pgtable.h
-+++ b/arch/riscv/include/asm/pgtable.h
-@@ -754,6 +754,37 @@ static inline pte_t __ptep_get_and_clear(struct mm_struct *mm,
- 	return pte;
- }
- 
-+static inline void __clear_full_ptes(struct mm_struct *mm, unsigned long addr,
-+				     pte_t *ptep, unsigned int nr, int full)
-+{
-+	for (;;) {
-+		__ptep_get_and_clear(mm, addr, ptep);
-+		if (--nr == 0)
-+			break;
-+		ptep++;
-+		addr += PAGE_SIZE;
-+	}
-+}
-+
-+static inline pte_t __get_and_clear_full_ptes(struct mm_struct *mm,
-+					      unsigned long addr, pte_t *ptep,
-+					      unsigned int nr, int full)
-+{
-+	pte_t pte, tmp_pte;
-+
-+	pte = __ptep_get_and_clear(mm, addr, ptep);
-+	while (--nr) {
-+		ptep++;
-+		addr += PAGE_SIZE;
-+		tmp_pte = __ptep_get_and_clear(mm, addr, ptep);
-+		if (pte_dirty(tmp_pte))
-+			pte = pte_mkdirty(pte);
-+		if (pte_young(tmp_pte))
-+			pte = pte_mkyoung(pte);
-+	}
-+	return pte;
-+}
-+
- static inline void __ptep_set_wrprotect(struct mm_struct *mm,
- 					unsigned long address, pte_t *ptep,
- 					pte_t pte)
-@@ -823,6 +854,13 @@ extern void ptep_set_wrprotect(struct mm_struct *mm,
- extern void wrprotect_ptes(struct mm_struct *mm, unsigned long addr,
- 			   pte_t *ptep, unsigned int nr);
- #define wrprotect_ptes	wrprotect_ptes
-+extern void clear_full_ptes(struct mm_struct *mm, unsigned long addr,
-+			    pte_t *ptep, unsigned int nr, int full);
-+#define clear_full_ptes	clear_full_ptes
-+extern pte_t get_and_clear_full_ptes(struct mm_struct *mm,
-+				     unsigned long addr, pte_t *ptep,
-+				     unsigned int nr, int full);
-+#define get_and_clear_full_ptes	get_and_clear_full_ptes
- 
- #else /* CONFIG_THP_CONTPTE */
- 
-@@ -842,6 +880,7 @@ extern void wrprotect_ptes(struct mm_struct *mm, unsigned long addr,
- #define ptep_set_wrprotect(mm, addr, ptep)					\
- 			__ptep_set_wrprotect(mm, addr, ptep, __ptep_get(ptep))
- #define wrprotect_ptes		__wrprotect_ptes
-+#define clear_full_ptes		__clear_full_ptes
- 
- #endif /* CONFIG_THP_CONTPTE */
- 
-diff --git a/include/linux/contpte.h b/include/linux/contpte.h
-index d1439db1706c..b24554ebca41 100644
---- a/include/linux/contpte.h
-+++ b/include/linux/contpte.h
-@@ -28,5 +28,10 @@ int contpte_ptep_set_access_flags(struct vm_area_struct *vma,
- 				  pte_t entry, int dirty);
- void contpte_wrprotect_ptes(struct mm_struct *mm, unsigned long addr,
- 			    pte_t *ptep, unsigned int nr);
-+void contpte_clear_full_ptes(struct mm_struct *mm, unsigned long addr,
-+			     pte_t *ptep, unsigned int nr, int full);
-+pte_t contpte_get_and_clear_full_ptes(struct mm_struct *mm,
-+				      unsigned long addr, pte_t *ptep,
-+				      unsigned int nr, int full);
- 
- #endif /* _LINUX_CONTPTE_H */
-diff --git a/mm/contpte.c b/mm/contpte.c
-index fe36b6b1d20a..677344e0e3c3 100644
---- a/mm/contpte.c
-+++ b/mm/contpte.c
-@@ -51,6 +51,8 @@
-  *   - ptep_clear_flush_young()
-  *   - wrprotect_ptes()
-  *   - ptep_set_wrprotect()
-+ *   - clear_full_ptes()
-+ *   - get_and_clear_full_ptes()
-  */
- 
- pte_t huge_ptep_get(pte_t *ptep)
-@@ -905,4 +907,49 @@ __always_inline void ptep_set_wrprotect(struct mm_struct *mm,
- {
- 	wrprotect_ptes(mm, addr, ptep, 1);
- }
-+
-+void contpte_clear_full_ptes(struct mm_struct *mm, unsigned long addr,
-+			     pte_t *ptep, unsigned int nr, int full)
-+{
-+	contpte_try_unfold_partial(mm, addr, ptep, nr);
-+	__clear_full_ptes(mm, addr, ptep, nr, full);
-+}
-+EXPORT_SYMBOL_GPL(contpte_clear_full_ptes);
-+
-+pte_t contpte_get_and_clear_full_ptes(struct mm_struct *mm,
-+				      unsigned long addr, pte_t *ptep,
-+				      unsigned int nr, int full)
-+{
-+	contpte_try_unfold_partial(mm, addr, ptep, nr);
-+	return __get_and_clear_full_ptes(mm, addr, ptep, nr, full);
-+}
-+EXPORT_SYMBOL_GPL(contpte_get_and_clear_full_ptes);
-+
-+__always_inline void clear_full_ptes(struct mm_struct *mm, unsigned long addr,
-+				     pte_t *ptep, unsigned int nr, int full)
-+{
-+	if (likely(nr == 1)) {
-+		contpte_try_unfold(mm, addr, ptep, __ptep_get(ptep));
-+		__clear_full_ptes(mm, addr, ptep, nr, full);
-+	} else {
-+		contpte_clear_full_ptes(mm, addr, ptep, nr, full);
-+	}
-+}
-+
-+__always_inline pte_t get_and_clear_full_ptes(struct mm_struct *mm,
-+					      unsigned long addr, pte_t *ptep,
-+					      unsigned int nr, int full)
-+{
-+	pte_t pte;
-+
-+	if (likely(nr == 1)) {
-+		contpte_try_unfold(mm, addr, ptep, __ptep_get(ptep));
-+		pte = __get_and_clear_full_ptes(mm, addr, ptep, nr, full);
-+	} else {
-+		pte = contpte_get_and_clear_full_ptes(mm, addr, ptep, nr, full);
-+	}
-+
-+	return pte;
-+}
-+
- #endif /* CONFIG_THP_CONTPTE */
--- 
-2.39.2
+>
+>  /*
+>   * The contpte APIs are used to transparently manage the contiguous bit =
+in ptes
+> @@ -1622,7 +1622,7 @@ static inline int ptep_set_access_flags(struct vm_a=
+rea_struct *vma,
+>         return contpte_ptep_set_access_flags(vma, addr, ptep, entry, dirt=
+y);
+>  }
+>
+> -#else /* CONFIG_ARM64_CONTPTE */
+> +#else /* CONFIG_THP_CONTPTE */
+>
+>  #define ptep_get                               __ptep_get
+>  #define set_pte                                        __set_pte
+> @@ -1642,7 +1642,7 @@ static inline int ptep_set_access_flags(struct vm_a=
+rea_struct *vma,
+>  #define __HAVE_ARCH_PTEP_SET_ACCESS_FLAGS
+>  #define ptep_set_access_flags                  __ptep_set_access_flags
+>
+> -#endif /* CONFIG_ARM64_CONTPTE */
+> +#endif /* CONFIG_THP_CONTPTE */
+>
+>  int find_num_contig(struct mm_struct *mm, unsigned long addr,
+>                     pte_t *ptep, size_t *pgsize);
+> diff --git a/arch/arm64/mm/Makefile b/arch/arm64/mm/Makefile
+> index 60454256945b..52a1b2082627 100644
+> --- a/arch/arm64/mm/Makefile
+> +++ b/arch/arm64/mm/Makefile
+> @@ -3,7 +3,7 @@ obj-y                           :=3D dma-mapping.o extabl=
+e.o fault.o init.o \
+>                                    cache.o copypage.o flush.o \
+>                                    ioremap.o mmap.o pgd.o mmu.o \
+>                                    context.o proc.o pageattr.o fixmap.o
+> -obj-$(CONFIG_ARM64_CONTPTE)    +=3D contpte.o
+> +obj-$(CONFIG_THP_CONTPTE)      +=3D contpte.o
+>  obj-$(CONFIG_HUGETLB_PAGE)     +=3D hugetlbpage.o
+>  obj-$(CONFIG_PTDUMP_CORE)      +=3D ptdump.o
+>  obj-$(CONFIG_PTDUMP_DEBUGFS)   +=3D ptdump_debugfs.o
+> diff --git a/mm/Kconfig b/mm/Kconfig
+> index c325003d6552..fd4de221a1c6 100644
+> --- a/mm/Kconfig
+> +++ b/mm/Kconfig
+> @@ -984,6 +984,15 @@ config ARCH_HAS_CACHE_LINE_SIZE
+>  config ARCH_HAS_CONTPTE
+>         bool
+>
+> +config THP_CONTPTE
+> +       bool "Contiguous PTE mappings for user memory" if EXPERT
+> +       depends on ARCH_HAS_CONTPTE && TRANSPARENT_HUGEPAGE
+> +       default y
+> +       help
+> +         When enabled, user mappings are configured using the PTE contig=
+uous
+> +         bit, for any mappings that meet the size and alignment requirem=
+ents.
+> +         This reduces TLB pressure and improves performance.
+> +
+>  config ARCH_HAS_CURRENT_STACK_POINTER
+>         bool
+>         help
+> --
+> 2.39.2
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240508191931.46060-13-alexghiti%40rivosinc.com.
+Thanks
+Barry
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CAGsJ_4xayC4D4y0d7SPXxCvuW4-rJQUCa_-OUDSsOGm_HyPm1w%40mail.gmail.=
+com.
