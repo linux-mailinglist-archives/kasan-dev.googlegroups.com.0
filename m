@@ -1,159 +1,133 @@
-Return-Path: <kasan-dev+bncBD4IBNO3YAGRBSO6RSZAMGQEHNQYTNY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDT2NE7U5UFRBZHJRSZAMGQEIKJFC7I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83d.google.com (mail-qt1-x83d.google.com [IPv6:2607:f8b0:4864:20::83d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78B1B8C4EA0
-	for <lists+kasan-dev@lfdr.de>; Tue, 14 May 2024 11:30:50 +0200 (CEST)
-Received: by mail-qt1-x83d.google.com with SMTP id d75a77b69052e-43e1a913c49sf1116951cf.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 14 May 2024 02:30:50 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1715679049; cv=pass;
+Received: from mail-il1-x139.google.com (mail-il1-x139.google.com [IPv6:2607:f8b0:4864:20::139])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32B218C4EB0
+	for <lists+kasan-dev@lfdr.de>; Tue, 14 May 2024 11:54:46 +0200 (CEST)
+Received: by mail-il1-x139.google.com with SMTP id e9e14a558f8ab-36c89052654sf68752395ab.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 14 May 2024 02:54:46 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1715680485; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ut36FgUn0orYsbjxp1rKN5020KOBBNlgZ2UAcIXQogWLozZqlZ2BwDBV6s8tBA3wJe
-         LiN0rqMjqFRyNuJtP3mprbIAZJ/8BSe0MCD/gvaraoyK8EabhXqT/M9cDcjnCJfSfWqV
-         hpQl0ohB+cvFb990pWj5ebqva+Ks4hfadxrbT1CKe1hpudYO7xPADcJFsbYgiVI+iuwe
-         7qGV7AdvDmgmNW8nc9GWl+d9FGkr9a6DHIetMsGf0OwqvB0exVmrjv2UWcCgUNf8f7Kg
-         G4aX3jX233k3m+wsu9b0YN8gQDrb92q6eC9PfGlz6QLdbgmtUV8ab9c0JJzTtqyHUVqe
-         jhxw==
+        b=PeXTc0FyC6XtWB8oQHao/ajjNMrpE/0mjnuTnnua8rFJU8BnGZYIbb7x0rYUEnXEzX
+         Za2x04qgxlOhKwW89pRchijVrGCXTfOGmKn7ye/N2X9x7nBHbMHEcNAm8fKkMpzMzpNp
+         410OgGjyusN8++P+33Sk/RhKtm3RUIdnw5GH0tLvm+VpEWi16jZC5kQ+8PU8xv7FtuSU
+         DMdjEExjEaVPa7S4mDkKOzT0O5IvMLEtwTNt0W/fwKxrg5EaGwOePj5DHUOht54eVwag
+         Hii9gwSju05FO+fuRLQ2bb7uCn0+9qA+M3305MsSrhnTDo0s4dsNXFxRBbHS/OKxxcRT
+         ig6Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=e+Y97qgDmekIR7hrGZQcYWmWxWjX2DA+Tear37bWqdc=;
-        fh=E9wUwXQ3zTqCYracGr5obhczlkNHihiBb+mWI+zgBa4=;
-        b=rWMVfo5YxPnc31uwFtmI3j7jDf7GlgIQVePKm/TUwjd303SSZTW1z77i115aMzjbbc
-         m+9KwMtlI5talrRRxYl0sayVTE6O/RgzJAEc2VDoyqBj88rgqcHs8NfMcBiLqc2cCjHa
-         cqWNh9QWJfM5yhqELk7m7GOTSlt48sgUox58G1ln0WsYg6LFMaNVoolPzVcFnll+JXgv
-         l9cMQoheGbe+NBUaNI9VLMe3uj4LCHhWXgV3CCWxwSbVpcOpW8s2wfIX5JcUGtXNaEki
-         wsbeM7osyqZdv+6JU+qykx/qpPsgOPzXQaHDDC/f2cSEAYtmP8dBwst0fZ07/hvjcqaU
-         3XXg==;
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=lNfCot2rs4S8BzuTO+cciUt02UdF2nN6cfKcHDPsNws=;
+        fh=khclkN6JGljeNMVGOaPTL+lq1alXuvjfIHtpDXRhRJI=;
+        b=dkYOC8yGcPj1D36TV/fZyGp6v44hcWoGq8cePf5fHcHWL0RU7cTcLdHqeFX9haKZRq
+         7uSdOdcyCt/AK9avXweimYUWketHxaK31QXUKqejD/ZPc4bF8HC/77H/9dVM061A//gb
+         dSBnmGtP8fYodtMpIPnkFFAyit2hESz/im1IlZCY8UsES1n3a8NYRd5fWg0RFcwCxwrl
+         P7F150jxHEoAQx+FYaIvM4go6vKw+E3sUvJanmZHk5S1QhIUfyqKJhfPs1xPhowz7X1G
+         BKEcu2fL1dJOgmgEd7BvG3+4JllwbRSCcBXPu35oC7aAn9pUo5P47rlLmzxlifOwnM09
+         5fRQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=lDKaSR7X;
-       spf=pass (google.com: domain of 21cnbao@gmail.com designates 2607:f8b0:4864:20::e2a as permitted sender) smtp.mailfrom=21cnbao@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=jTv9LLcT;
+       spf=pass (google.com: domain of masahiroy@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=masahiroy@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1715679049; x=1716283849; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1715680485; x=1716285285; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=e+Y97qgDmekIR7hrGZQcYWmWxWjX2DA+Tear37bWqdc=;
-        b=PNYubEQQyToAEm9stmx3N3jwBKOeFONX9SPnPqCmkLzdekT1laXXVJmF+Gp+fasupQ
-         SZk31Cz+ofvDF+M8PUhCetzBl/SXRiBbY1c0ce3feLYBA7jQls9gIznUKC0Q6QEE6kIl
-         z1V4UCJfAH+SqykjhUwqSWVY+UWfLKXfVcMIgr5H8jrSM0V26/tz69Bmsm0bwZlX26yC
-         fXI/05oEvGu787Tgujyaml0kgnmkpS5nGroCl3HE1eQr51n7vf5t+WT1ct3g0RBYSbQu
-         7MnP+IoRG0garB09mK1zQ8VCHad4quc9fuyVxEzitN9NFWRZ9ImrR+wqGnFCBvBjI9+L
-         cf9A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715679049; x=1716283849; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=e+Y97qgDmekIR7hrGZQcYWmWxWjX2DA+Tear37bWqdc=;
-        b=H1vZoCWDKIDQfs9cn/xKRfWMXhzqIXG+R+0c+Np7vXRCKxrkwt5Q+5nu7fe8oaVtB8
-         97I8B5IgOk7Vti8ucCoJOWtOrK0LldRrimgtBa8RhXQUllIP7K9IJN/YwsLlWciN/7Fk
-         Kty6+hbYlDvyUrIcwzOvrm5QW9ObXXgtvvlmrcroG8IFeToZNSbysYWfkp2y3MWurWEB
-         dZvB5ct/ufO14oIkgGlsfh10lhlkxFKWvpKkGaI+2GyFA7E8NIotb+wd7PUpRUZr7EnB
-         ddMB1bJILNxAtdZ4btdgwtU4ZZaqAyaYK1CH974BddwHj5+lsq9kWrsO0ysVDsB6Mvmz
-         /svA==
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=lNfCot2rs4S8BzuTO+cciUt02UdF2nN6cfKcHDPsNws=;
+        b=JrkZZOKBh9uiOUXQPJaZcMM+bD9JUNS8bZFj1AUP+iL5KmTVhHvGPyQxLsepHaO4vx
+         83rCZcIuc7xjdRnwEK6mbY73QOQN3mUaiIhRvabmoaRAhSK+9Me43JuK3aesfBZ0qCYE
+         Y0w/aa0uXY3xJUUwe3IoJn2YPiep3bvXbsY48+ZYTLhumNmg8dJzXtRsgakEZUqO7Se9
+         Nt9IxN3LBfVBSDrIp+t02gOLbdGope+OT3igF+PHeppk+YtHkBucVO43z5DmV+B+QJVu
+         VmfTk6Em7gAQvVeXFZ9r0WjMPmZt4wwQQjdWMI8Cilkp6wEIXDhvLJiPhNLYHgcGvt/D
+         F0qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715679049; x=1716283849;
+        d=1e100.net; s=20230601; t=1715680485; x=1716285285;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=e+Y97qgDmekIR7hrGZQcYWmWxWjX2DA+Tear37bWqdc=;
-        b=ou2OZYy71cNcXDMQmSqhGX/xt/fsue/g8Pyqz4Gu9c9wsML27kbKn/CzmzsZtICopF
-         OtP9B1yvIwYFYxTcNi3X38McvJqC7/nUBbfcHsmuntchPsg0O3KHlPvWeAkG+SV13Q1s
-         8idy3pFSPs5mprCmisBwylmRvXx8djtaF4yBeCt9IqKklj4UX+Q6iNRXUYzkDEJy50wb
-         OYzf+0jZqRS7fFn0KVul/leYQ0Kexw+U2mkA+bGkoDJPqtNN/FCfEuAJYIR3c+qRT8E9
-         7sSquBDzG6T34spvO3v8edVHQd8OhglTmnryKsR1TbtvWNJ802Svg0e0xG5tFpHXYX3Q
-         C9Sw==
+        bh=lNfCot2rs4S8BzuTO+cciUt02UdF2nN6cfKcHDPsNws=;
+        b=e7NYxJx0WRrj/QOSRHHkXFZhHHOWP4TKObquekW6QiMwF2JC/ow+rlsm8OCEITkt+0
+         i/xT85sqA+5/BJfY6GmcLrr1yP8Nw/keETHtKUHExJ8CNdDaKChLlX4KTd8lyfOV9DyY
+         29K1U0oxA5FiaVdQ6s4ypFcaDgYx15DbS4qOitGU3/3P+oTAwYypjdyjCW4+nWaRyZoI
+         OWLqOweM/htnBBGVU5oTNp+SpGMOg/o/ukPtc7bZuuZzSGRr0vMAjVGXdi4CauAABcej
+         ichWBrxoG37qU7NEpRRsL/pq+P6An6MZsIH48JNVxZz2AaVGr4QU1ZP2lGkdv2MdGw6O
+         Z2tw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXntHqOPeABZOISEdwc5ThIDwFNvdhhKRb5LkRjm63IcrBAqAR/Hqi/1XB3zkXdx2ksP3mIcAmPbC+LlDdUZT/coOusENpMzw==
-X-Gm-Message-State: AOJu0YyhCHqZgDfHkhsSEN5LklUAv35mFfPMktCDiNM64rf61FTNuPT1
-	qaMzPbjbRzj1uWzEq2tNTKX51Kiy/NkTSd95Re+U0IhbtPnoZkbp
-X-Google-Smtp-Source: AGHT+IHIlZCbXxmt0g5xjZdvIN1kjzXCRFJ/ePyAXQzAjR2fdCW+tUzsdsI6DvVfdJ07cqmpQAwA7Q==
-X-Received: by 2002:a05:622a:1dcb:b0:43d:dfa2:216f with SMTP id d75a77b69052e-43e094d0189mr7084191cf.6.1715679049222;
-        Tue, 14 May 2024 02:30:49 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWUPyof64g+fTP8VYd2B3b6a2taINSP2EMxiFgvqlZRhuqotZGVFIBhTjyE8upHodw6ZyUJjpvZpdxLhSl2ETOFUWnaEFV2NA==
+X-Gm-Message-State: AOJu0YwxFK9uhYl2QLKSkWgISCNyeKJyRDqJdskVyYnAbh9NRod12k4n
+	Kx5XhiHSBIM3dme5/KluKLZvBsfh4GEPuIP5D9bJj7arqSfdCXyv
+X-Google-Smtp-Source: AGHT+IF7CKRbAoDmMQut4hWqzGopw7iXMLHEUZNxqSg4YNrsGTh4BpGeIFLwK+A5XacC1LrdRid4tQ==
+X-Received: by 2002:a05:6e02:1a49:b0:36d:a962:b19d with SMTP id e9e14a558f8ab-36da962b3d6mr27786225ab.14.1715680484486;
+        Tue, 14 May 2024 02:54:44 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:253:b0:43a:c471:8fae with SMTP id
- d75a77b69052e-43ded91760cls81276021cf.1.-pod-prod-09-us; Tue, 14 May 2024
- 02:30:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUESS4S7tMXtk8+oIvGoUZ7+S9MB1wnzgGbQr+QR+CVWjdR3EPzBVz3yl+3c+M1A2tHe0+u9de9GbMrcUf7vWN8Hnk8nsNG8NgKAA==
-X-Received: by 2002:a05:620a:a1a:b0:792:c478:3201 with SMTP id af79cd13be357-792c75975c2mr1327282985a.26.1715679048392;
-        Tue, 14 May 2024 02:30:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1715679048; cv=none;
+Received: by 2002:a05:6e02:1d9d:b0:36d:a927:3593 with SMTP id
+ e9e14a558f8ab-36da9273754ls6217095ab.1.-pod-prod-09-us; Tue, 14 May 2024
+ 02:54:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUsghqzEzoxgMkQDO5VKOqY3yeD9FnA5oRx+KwBE8QGgZCLQbcm8s3r08KaV3+pt6D0sRrz9g9Nwl8GpqsXEDIVp8UdybhbEnr/uA==
+X-Received: by 2002:a92:ca08:0:b0:36c:11a0:9d62 with SMTP id e9e14a558f8ab-36cc1486327mr158165835ab.7.1715680483576;
+        Tue, 14 May 2024 02:54:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1715680483; cv=none;
         d=google.com; s=arc-20160816;
-        b=Q3KPnrxe3z+2xXz3qtO6JF4wLYRooxcfEHyx5w+qyybKt58HDyTkqUL5tBARJjx0la
-         lzG1Vp58VWbd4V54MGa3HhmRXAX5sxgov1BPSzjALp6Ne8Yl7UjP8h/7Q1iUzNQhHisw
-         FD823Y7H4MaFFYZKf/FGG/o9NMI/4umePlOFMZReTp3PyjmuCCGdXBnyxTF/CzqPtV5A
-         r8xdcDXCaF8dK/RRcQ2xwkgfqwEI2tIomRUkfEbW45oz6BE51yTt6JNBnkJsw3YPqJLr
-         yJ1nl476fTftetq26vgdJCH2Mi5OliG0xzYAil4ViO9VQ9Y/fluK6dMj6LuSxO+gSgt9
-         pBkg==
+        b=L1LwrSdYu6vU1AUu4xB9toElpYLnOC0f1L0VLkWAXQNtaUJjyMqFukYjPXntDDyk0+
+         OivcWHklnBE4puDPaIizzuQp6Auyksd3jKuJyjWcfkqVFj90/JLSybQGtO9zF5GaJ7l3
+         uI169jEn+fEsOOH69ikPiHXqC2Rvo7mzU9bCp3yNIj/+tWxl/y5FrJ33EVcDRFIiQZOD
+         nG+Xqmb4LxmaOJnH2glyrdi6dzeKiH9BcaQbMlktYtKsl9aU15TDMlV1Cat3u5DFxTnA
+         bzJlE7yTGpaIespmyeSjehtQi6cLPTZXgjKyTMgR7pJ9hN85XZ4ZLkttKxV33uTzxPEK
+         vWJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wdHFnHTcKzscSCgje4pLV0ENAixI1q19eindkQ9bbmI=;
-        fh=zMvZjL7bvJd20Ji6h5DYNbRd9vRDMvDs7ueUHPu82Ao=;
-        b=HCZUy8nUn6pJ8ECDQ2344smk6INfalWK2e91jx7glq5d5gKzszL3au7zNg8eZW+3iv
-         8SB3fAPxKkjJS7TIcp0FdQpeImPy533v+5AmcG/NZM6//5ws05eJ39FGMCf0q2zBqjrb
-         NJS/Qr+c3j8QhvuqTggioKxyeVP6H1wjjvo6mvYvyX0cbuJr3FluHGCsjguvQ2wCTwuG
-         +MdCmQQhy4N8vqfT8pwtS/sqYH0LkqV3qLcI1GjdduzCfti1ofGJZtuazS9Rwj0zUre2
-         CugTLxNL3yDHD1/Mpx5ajgBFWVSkIKTFnSieVLZk86f1LPenSVJCbuDE64gjXyy5gy1C
-         hVTA==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=r6wk4j6Y3ycl2nV4Dg4z8d02Nq2gzcm4qrwGHnkYfK8=;
+        fh=VzOVdMhw4X6Pop50qdtU4gcRr0vN/MFDvrk+U4uouKk=;
+        b=DKHr7GO+FNSnF2DZIKFyexcZhl0yWZjIMoV51KauCl+4kWTr1JOJ4KERRbRebPRTjd
+         6TaRy5A980j4q03Bnw4YSEqM437UUuvhtPixwOZ/imHNYcNdA4tIdKfEHwxlJIp1ykg7
+         EBaoDW/vOPVVlexsRV2bbKtwbMufYWTWZOnzNA1MUF8e3DGPSAV+tO32/FRiORYCLQ20
+         rS9jfKJkZgGhgK6aN/8XBwhLd2RZba2viRzNMMwaQ/pGUOjMSQ7OzGBYaRxaaDRAKqFe
+         g/jefRyV8kCVlgAiex4suJFKObhOOtkMogufCaEwkkpKoL4I9v/ibNWveBd9jdYIrCwK
+         r5jQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=lDKaSR7X;
-       spf=pass (google.com: domain of 21cnbao@gmail.com designates 2607:f8b0:4864:20::e2a as permitted sender) smtp.mailfrom=21cnbao@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com. [2607:f8b0:4864:20::e2a])
-        by gmr-mx.google.com with ESMTPS id af79cd13be357-792bf340147si66499985a.7.2024.05.14.02.30.48
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=jTv9LLcT;
+       spf=pass (google.com: domain of masahiroy@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=masahiroy@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id e9e14a558f8ab-36cc657b584si6498075ab.1.2024.05.14.02.54.43
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 May 2024 02:30:48 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 21cnbao@gmail.com designates 2607:f8b0:4864:20::e2a as permitted sender) client-ip=2607:f8b0:4864:20::e2a;
-Received: by mail-vs1-xe2a.google.com with SMTP id ada2fe7eead31-481ed99e0bfso378289137.2
-        for <kasan-dev@googlegroups.com>; Tue, 14 May 2024 02:30:48 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXYaE/Ii0sUiRpT08HyER8Sz8N10B25zXF1rIW1GoRv6gd3Z+VmT7/fvGJyeO1L/ZTLwfT4KCIGGQvGyAbXmcSNZv4EcWuxI2MWBw==
-X-Received: by 2002:a05:6102:2acc:b0:47e:f686:ccf with SMTP id
- ada2fe7eead31-48077e83663mr12661860137.23.1715679047234; Tue, 14 May 2024
- 02:30:47 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 May 2024 02:54:43 -0700 (PDT)
+Received-SPF: pass (google.com: domain of masahiroy@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 2AB04611DB;
+	Tue, 14 May 2024 09:54:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78A03C2BD10;
+	Tue, 14 May 2024 09:54:41 +0000 (UTC)
+From: Masahiro Yamada <masahiroy@kernel.org>
+To: Kees Cook <keescook@chromium.org>,
+	Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	kasan-dev@googlegroups.com,
+	linux-hardening@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] ubsan: remove meaningless CONFIG_ARCH_HAS_UBSAN
+Date: Tue, 14 May 2024 18:54:26 +0900
+Message-Id: <20240514095427.541201-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-References: <20240508191931.46060-1-alexghiti@rivosinc.com>
- <20240508191931.46060-2-alexghiti@rivosinc.com> <CAGsJ_4xayC4D4y0d7SPXxCvuW4-rJQUCa_-OUDSsOGm_HyPm1w@mail.gmail.com>
- <CAHVXubiOo3oe0=-qU2kBaFXebPJvmnc+-1UOPEHS2spcCeMzsw@mail.gmail.com>
-In-Reply-To: <CAHVXubiOo3oe0=-qU2kBaFXebPJvmnc+-1UOPEHS2spcCeMzsw@mail.gmail.com>
-From: Barry Song <21cnbao@gmail.com>
-Date: Tue, 14 May 2024 21:30:36 +1200
-Message-ID: <CAGsJ_4w_mOL5egHV9a3+0vcZV6ODvr=3KFXevedH19voSCHXwQ@mail.gmail.com>
-Subject: Re: [PATCH 01/12] mm, arm64: Rename ARM64_CONTPTE to THP_CONTPTE
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Ryan Roberts <ryan.roberts@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Ard Biesheuvel <ardb@kernel.org>, Anup Patel <anup@brainfault.org>, 
-	Atish Patra <atishp@atishpatra.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	linux-riscv@lists.infradead.org, linux-efi@vger.kernel.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: 21cnbao@gmail.com
+X-Original-Sender: masahiroy@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=lDKaSR7X;       spf=pass
- (google.com: domain of 21cnbao@gmail.com designates 2607:f8b0:4864:20::e2a as
- permitted sender) smtp.mailfrom=21cnbao@gmail.com;       dmarc=pass (p=NONE
- sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@kernel.org header.s=k20201202 header.b=jTv9LLcT;       spf=pass
+ (google.com: domain of masahiroy@kernel.org designates 139.178.84.217 as
+ permitted sender) smtp.mailfrom=masahiroy@kernel.org;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -166,202 +140,149 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, May 14, 2024 at 1:09=E2=80=AFAM Alexandre Ghiti <alexghiti@rivosinc=
-.com> wrote:
->
-> Hi Barry,
->
-> On Thu, May 9, 2024 at 2:46=E2=80=AFAM Barry Song <21cnbao@gmail.com> wro=
-te:
-> >
-> > On Thu, May 9, 2024 at 7:20=E2=80=AFAM Alexandre Ghiti <alexghiti@rivos=
-inc.com> wrote:
-> > >
-> > > The ARM64_CONTPTE config represents the capability to transparently u=
-se
-> > > contpte mappings for THP userspace mappings, which will be implemente=
-d
-> > > in the next commits for riscv, so make this config more generic and m=
-ove
-> > > it to mm.
-> > >
-> > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > > ---
-> > >  arch/arm64/Kconfig               | 9 ---------
-> > >  arch/arm64/include/asm/pgtable.h | 6 +++---
-> > >  arch/arm64/mm/Makefile           | 2 +-
-> > >  mm/Kconfig                       | 9 +++++++++
-> > >  4 files changed, 13 insertions(+), 13 deletions(-)
-> > >
-> > > diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-> > > index ac2f6d906cc3..9d823015b4e5 100644
-> > > --- a/arch/arm64/Kconfig
-> > > +++ b/arch/arm64/Kconfig
-> > > @@ -2227,15 +2227,6 @@ config UNWIND_PATCH_PAC_INTO_SCS
-> > >         select UNWIND_TABLES
-> > >         select DYNAMIC_SCS
-> > >
-> > > -config ARM64_CONTPTE
-> > > -       bool "Contiguous PTE mappings for user memory" if EXPERT
-> > > -       depends on TRANSPARENT_HUGEPAGE
-> > > -       default y
-> > > -       help
-> > > -         When enabled, user mappings are configured using the PTE co=
-ntiguous
-> > > -         bit, for any mappings that meet the size and alignment requ=
-irements.
-> > > -         This reduces TLB pressure and improves performance.
-> > > -
-> > >  endmenu # "Kernel Features"
-> > >
-> > >  menu "Boot options"
-> > > diff --git a/arch/arm64/include/asm/pgtable.h b/arch/arm64/include/as=
-m/pgtable.h
-> > > index 7c2938cb70b9..1758ce71fae9 100644
-> > > --- a/arch/arm64/include/asm/pgtable.h
-> > > +++ b/arch/arm64/include/asm/pgtable.h
-> > > @@ -1369,7 +1369,7 @@ extern void ptep_modify_prot_commit(struct vm_a=
-rea_struct *vma,
-> > >                                     unsigned long addr, pte_t *ptep,
-> > >                                     pte_t old_pte, pte_t new_pte);
-> > >
-> > > -#ifdef CONFIG_ARM64_CONTPTE
-> > > +#ifdef CONFIG_THP_CONTPTE
-> >
-> > Is it necessarily THP? can't be hugetlb or others? I feel THP_CONTPTE
-> > isn't a good name.
->
-> This does not target hugetlbfs (see my other patchset for that here
-> https://lore.kernel.org/linux-riscv/7504a525-8211-48b3-becb-a6e838c1b42e@=
-arm.com/T/#m57d273d680fc531b3aa1074e6f8558a52ba5badc).
->
-> What could be "others" here?
+All architectures can enable UBSAN regardless of ARCH_HAS_UBSAN
+because there is no "depends on ARCH_HAS_UBSAN" line.
 
+Fixes: 918327e9b7ff ("ubsan: Remove CONFIG_UBSAN_SANITIZE_ALL")
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-I acknowledge that the current focus is on Transparent Huge Pages. However,
-many aspects of CONT-PTE appear to be applicable to the mm-core in general.
-For example,
+ MAINTAINERS          | 1 -
+ arch/arm/Kconfig     | 1 -
+ arch/arm64/Kconfig   | 1 -
+ arch/mips/Kconfig    | 1 -
+ arch/parisc/Kconfig  | 1 -
+ arch/powerpc/Kconfig | 1 -
+ arch/riscv/Kconfig   | 1 -
+ arch/s390/Kconfig    | 1 -
+ arch/x86/Kconfig     | 1 -
+ lib/Kconfig.ubsan    | 3 ---
+ 10 files changed, 12 deletions(-)
 
-/*
- * The below functions constitute the public API that arm64 presents to the
- * core-mm to manipulate PTE entries within their page tables (or at least =
-this
- * is the subset of the API that arm64 needs to implement). These public
- * versions will automatically and transparently apply the contiguous bit w=
-here
- * it makes sense to do so. Therefore any users that are contig-aware (e.g.
- * hugetlb, kernel mapper) should NOT use these APIs, but instead use the
- * private versions, which are prefixed with double underscore. All of thes=
-e
- * APIs except for ptep_get_lockless() are expected to be called with the P=
-TL
- * held. Although the contiguous bit is considered private to the
- * implementation, it is deliberately allowed to leak through the getters (=
-e.g.
- * ptep_get()), back to core code. This is required so that pte_leaf_size()=
- can
- * provide an accurate size for perf_get_pgtable_size(). But this leakage m=
-eans
- * its possible a pte will be passed to a setter with the contiguous bit se=
-t, so
- * we explicitly clear the contiguous bit in those cases to prevent acciden=
-tally
- * setting it in the pgtable.
- */
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ebf03f5f0619..01124115a991 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -22650,7 +22650,6 @@ F:	lib/Kconfig.ubsan
+ F:	lib/test_ubsan.c
+ F:	lib/ubsan.c
+ F:	scripts/Makefile.ubsan
+-K:	\bARCH_HAS_UBSAN\b
+ 
+ UCLINUX (M68KNOMMU AND COLDFIRE)
+ M:	Greg Ungerer <gerg@linux-m68k.org>
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index b14aed3a17ab..284103a56fbb 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -30,7 +30,6 @@ config ARM
+ 	select ARCH_HAVE_NMI_SAFE_CMPXCHG if CPU_V7 || CPU_V7M || CPU_V6K
+ 	select ARCH_HAS_GCOV_PROFILE_ALL
+ 	select ARCH_KEEP_MEMBLOCK
+-	select ARCH_HAS_UBSAN
+ 	select ARCH_MIGHT_HAVE_PC_PARPORT
+ 	select ARCH_OPTIONAL_KERNEL_RWX if ARCH_HAS_STRICT_KERNEL_RWX
+ 	select ARCH_OPTIONAL_KERNEL_RWX_DEFAULT if CPU_V7
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 7b11c98b3e84..919f470338ed 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -107,7 +107,6 @@ config ARM64
+ 	select ARCH_WANT_LD_ORPHAN_WARN
+ 	select ARCH_WANTS_NO_INSTR
+ 	select ARCH_WANTS_THP_SWAP if ARM64_4K_PAGES
+-	select ARCH_HAS_UBSAN
+ 	select ARM_AMBA
+ 	select ARM_ARCH_TIMER
+ 	select ARM_GIC
+diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
+index 516dc7022bd7..dd974ab9b4e0 100644
+--- a/arch/mips/Kconfig
++++ b/arch/mips/Kconfig
+@@ -15,7 +15,6 @@ config MIPS
+ 	select ARCH_HAS_STRNCPY_FROM_USER
+ 	select ARCH_HAS_STRNLEN_USER
+ 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
+-	select ARCH_HAS_UBSAN
+ 	select ARCH_HAS_GCOV_PROFILE_ALL
+ 	select ARCH_KEEP_MEMBLOCK
+ 	select ARCH_USE_BUILTIN_BSWAP
+diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
+index daafeb20f993..afe348ed1202 100644
+--- a/arch/parisc/Kconfig
++++ b/arch/parisc/Kconfig
+@@ -13,7 +13,6 @@ config PARISC
+ 	select ARCH_HAS_ELF_RANDOMIZE
+ 	select ARCH_HAS_STRICT_KERNEL_RWX
+ 	select ARCH_HAS_STRICT_MODULE_RWX
+-	select ARCH_HAS_UBSAN
+ 	select ARCH_HAS_PTE_SPECIAL
+ 	select ARCH_NO_SG_CHAIN
+ 	select ARCH_SUPPORTS_HUGETLBFS if PA20
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index 1c4be3373686..185a24424f47 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -154,7 +154,6 @@ config PPC
+ 	select ARCH_HAS_SYSCALL_WRAPPER		if !SPU_BASE && !COMPAT
+ 	select ARCH_HAS_TICK_BROADCAST		if GENERIC_CLOCKEVENTS_BROADCAST
+ 	select ARCH_HAS_UACCESS_FLUSHCACHE
+-	select ARCH_HAS_UBSAN
+ 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
+ 	select ARCH_KEEP_MEMBLOCK
+ 	select ARCH_MHP_MEMMAP_ON_MEMORY_ENABLE	if PPC_RADIX_MMU
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index be09c8836d56..19ce88409c82 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -41,7 +41,6 @@ config RISCV
+ 	select ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
+ 	select ARCH_HAS_SYSCALL_WRAPPER
+ 	select ARCH_HAS_TICK_BROADCAST if GENERIC_CLOCKEVENTS_BROADCAST
+-	select ARCH_HAS_UBSAN
+ 	select ARCH_HAS_VDSO_DATA
+ 	select ARCH_KEEP_MEMBLOCK if ACPI
+ 	select ARCH_OPTIONAL_KERNEL_RWX if ARCH_HAS_STRICT_KERNEL_RWX
+diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
+index 8f01ada6845e..789a5128af9a 100644
+--- a/arch/s390/Kconfig
++++ b/arch/s390/Kconfig
+@@ -83,7 +83,6 @@ config S390
+ 	select ARCH_HAS_STRICT_KERNEL_RWX
+ 	select ARCH_HAS_STRICT_MODULE_RWX
+ 	select ARCH_HAS_SYSCALL_WRAPPER
+-	select ARCH_HAS_UBSAN
+ 	select ARCH_HAS_VDSO_DATA
+ 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
+ 	select ARCH_INLINE_READ_LOCK
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 4474bf32d0a4..2583d8beb3a2 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -100,7 +100,6 @@ config X86
+ 	select ARCH_HAS_STRICT_MODULE_RWX
+ 	select ARCH_HAS_SYNC_CORE_BEFORE_USERMODE
+ 	select ARCH_HAS_SYSCALL_WRAPPER
+-	select ARCH_HAS_UBSAN
+ 	select ARCH_HAS_DEBUG_WX
+ 	select ARCH_HAS_ZONE_DMA_SET if EXPERT
+ 	select ARCH_HAVE_NMI_SAFE_CMPXCHG
+diff --git a/lib/Kconfig.ubsan b/lib/Kconfig.ubsan
+index e81e1ac4a919..0d53e085d4f2 100644
+--- a/lib/Kconfig.ubsan
++++ b/lib/Kconfig.ubsan
+@@ -1,7 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-config ARCH_HAS_UBSAN
+-	bool
+-
+ menuconfig UBSAN
+ 	bool "Undefined behaviour sanity checker"
+ 	help
+-- 
+2.40.1
 
-#define ptep_get ptep_get
-static inline pte_t ptep_get(pte_t *ptep)
-{
-        pte_t pte =3D __ptep_get(ptep);
-
-        if (likely(!pte_valid_cont(pte)))
-                return pte;
-
-        return contpte_ptep_get(ptep, pte);
-}
-
-Could it possibly be given a more generic name such as "PGTABLE_CONTPTE"?
-
->
-> Thanks for your comment,
->
-> Alex
->
-> >
-> > >
-> > >  /*
-> > >   * The contpte APIs are used to transparently manage the contiguous =
-bit in ptes
-> > > @@ -1622,7 +1622,7 @@ static inline int ptep_set_access_flags(struct =
-vm_area_struct *vma,
-> > >         return contpte_ptep_set_access_flags(vma, addr, ptep, entry, =
-dirty);
-> > >  }
-> > >
-> > > -#else /* CONFIG_ARM64_CONTPTE */
-> > > +#else /* CONFIG_THP_CONTPTE */
-> > >
-> > >  #define ptep_get                               __ptep_get
-> > >  #define set_pte                                        __set_pte
-> > > @@ -1642,7 +1642,7 @@ static inline int ptep_set_access_flags(struct =
-vm_area_struct *vma,
-> > >  #define __HAVE_ARCH_PTEP_SET_ACCESS_FLAGS
-> > >  #define ptep_set_access_flags                  __ptep_set_access_fla=
-gs
-> > >
-> > > -#endif /* CONFIG_ARM64_CONTPTE */
-> > > +#endif /* CONFIG_THP_CONTPTE */
-> > >
-> > >  int find_num_contig(struct mm_struct *mm, unsigned long addr,
-> > >                     pte_t *ptep, size_t *pgsize);
-> > > diff --git a/arch/arm64/mm/Makefile b/arch/arm64/mm/Makefile
-> > > index 60454256945b..52a1b2082627 100644
-> > > --- a/arch/arm64/mm/Makefile
-> > > +++ b/arch/arm64/mm/Makefile
-> > > @@ -3,7 +3,7 @@ obj-y                           :=3D dma-mapping.o ex=
-table.o fault.o init.o \
-> > >                                    cache.o copypage.o flush.o \
-> > >                                    ioremap.o mmap.o pgd.o mmu.o \
-> > >                                    context.o proc.o pageattr.o fixmap=
-.o
-> > > -obj-$(CONFIG_ARM64_CONTPTE)    +=3D contpte.o
-> > > +obj-$(CONFIG_THP_CONTPTE)      +=3D contpte.o
-> > >  obj-$(CONFIG_HUGETLB_PAGE)     +=3D hugetlbpage.o
-> > >  obj-$(CONFIG_PTDUMP_CORE)      +=3D ptdump.o
-> > >  obj-$(CONFIG_PTDUMP_DEBUGFS)   +=3D ptdump_debugfs.o
-> > > diff --git a/mm/Kconfig b/mm/Kconfig
-> > > index c325003d6552..fd4de221a1c6 100644
-> > > --- a/mm/Kconfig
-> > > +++ b/mm/Kconfig
-> > > @@ -984,6 +984,15 @@ config ARCH_HAS_CACHE_LINE_SIZE
-> > >  config ARCH_HAS_CONTPTE
-> > >         bool
-> > >
-> > > +config THP_CONTPTE
-> > > +       bool "Contiguous PTE mappings for user memory" if EXPERT
-> > > +       depends on ARCH_HAS_CONTPTE && TRANSPARENT_HUGEPAGE
-> > > +       default y
-> > > +       help
-> > > +         When enabled, user mappings are configured using the PTE co=
-ntiguous
-> > > +         bit, for any mappings that meet the size and alignment requ=
-irements.
-> > > +         This reduces TLB pressure and improves performance.
-> > > +
-> > >  config ARCH_HAS_CURRENT_STACK_POINTER
-> > >         bool
-> > >         help
-> > > --
-> > > 2.39.2
-> >
-Thanks
-Barry
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAGsJ_4w_mOL5egHV9a3%2B0vcZV6ODvr%3D3KFXevedH19voSCHXwQ%40mail.gm=
-ail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240514095427.541201-1-masahiroy%40kernel.org.
