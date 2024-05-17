@@ -1,147 +1,135 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORB4VKTWZAMGQEOFWBB6I@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBQHMTWZAMGQEWLZM2XQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9698C86E8
-	for <lists+kasan-dev@lfdr.de>; Fri, 17 May 2024 15:02:43 +0200 (CEST)
-Received: by mail-lj1-x238.google.com with SMTP id 38308e7fff4ca-2e6f31e5909sf31296981fa.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 17 May 2024 06:02:43 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1715950963; cv=pass;
+Received: from mail-il1-x137.google.com (mail-il1-x137.google.com [IPv6:2607:f8b0:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0314C8C8941
+	for <lists+kasan-dev@lfdr.de>; Fri, 17 May 2024 17:22:42 +0200 (CEST)
+Received: by mail-il1-x137.google.com with SMTP id e9e14a558f8ab-36d92a840absf64021605ab.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 17 May 2024 08:22:41 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1715959360; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lPH7rRL+v7VvMmw/OQXW3i9V9n4h7+iP/fkZeCrgQKkoZJokdihejg5D+Eb5X0WUho
-         6pEwlozVZO6kHr2/gyD9MhqNgJP2s3ClRRzotJp5pp0XDehWN4y4Osw2VdaLDWxtxBqf
-         hklf/sGJfSnwmXuKeKVdcREhBInfAGFQS87hRHVj4Y+71wKzYjKElurnbC3itz0bIOI6
-         d8006qmFNqEzsOIda/MWiMGu7TFX12Rz8V+iVf9PiSEgBCWGdFWZrJYP6CfZTZr14C4O
-         dob5wiqTPEur1NVKoh1UVToxGMEBIUZFtGGS5gTl2MHc/au/T5I6aRQGV46z9cp0yEEF
-         0iJA==
+        b=xT0scBCQWhJVcQ2DTCelQJAWxLi6TNKsAeKWOFxDW9DSrbw1425M7RBnaPRw3Gf9HW
+         g+7zB3XDrVdO0KsuNAt8YX58fYMZoiGTHc02gjXOTtAXOiRNoDwyZ/IhCEwzutGXESX8
+         cu1TKFUCvoEW4Pcqcy3RVaIsP9cy1TX6BhzD5fy5GhKoniK3bBkdjT+BHulwU+3l/TZQ
+         IxbQwT20wJOj05C52P/he+WL3cRg5zz5zM2gE9VcyR5W0pKL8fAQCNXypMfjNuQ2teli
+         iGIuJbrSHu4gFi1f1TgNG5z7lbJoyzf5fRwMOekSuHOz2HN6bJ8P7uZq/Z3Ytp+u+/uF
+         Ki4Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=NoNdQQbQZPLuh79GlwR2KEAdJ4N1qErRUVYG6a5hrR0=;
-        fh=FWRodFGtdsJz64ylVv1Lo/SqqC772FLNbzknstoW17k=;
-        b=kSj/yIp5PDEL9KP9kUa2ctTIB7f7wtbC29a6wZDeIUCFYso6DIgAGrkej4c9rEBB+X
-         MAKUkFsmPDBEuwS13tL7Vs3RJjuT9OMEY9QhsMtv+0u2v6H9k2TQYoblhYupARmhLYrH
-         0yIQfhYp/x9IK3CCUvS0j1Ykazrn09AdsLih2x6Xx9zC1ZqV86InDhDze5Y0xvEhATiG
-         RU3Hk/0Zo6PneSrvXGshZ07K/Si0Cssfm5NQ+TpC3TaSm9LZczspcwwkf4vn075llpC5
-         CEn55c+4C+xOsf49g27oCghKL1s5JxF2b3gRp6agtFKBhm4XdO2qu7ZaYLhnCmwKWr2W
-         xqjw==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=kWucBpO9kFTS4xYa0X60n5F9nV5WMy3BwwaArLgHRGE=;
+        fh=gL1gLGgb3PmvvyI2ylby1ggPGX1NPEKne7Mpt8kSxbI=;
+        b=BbvfFpJw+tpxXWj+HSpqvcwOJwwmx0xGkno0do7Ya3tE9dlggvF0Nyp8PBALKnHLLq
+         FqCq5PmxXtItIUroonXngenypZUNztwmSD9luXqFWbNC1hOzAwdfJEjSG3hOdOayyyv/
+         2Nt0qj9HfbiuQo/CBWk2gqQGj/6GTgUm7jlwReC2owk/L2M8nBZSLpVz3275pTZ4jGtY
+         0Wkj2EIY8oVky4GLN1+z0ThMc8jB5HJnXHK8nlijVzevTNi6XpNA6BTypeYr4whIC9fk
+         dstagjQRpoNu0nm5UN0Jyt/HsbdeGkfiDmcEOMOTsUwQve0JqP1vEhAyULHKp7W3NYfJ
+         eLzw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b="TYaP8HW/";
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::329 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+       dkim=pass header.i=@google.com header.s=20230601 header.b="Zsg/cCFm";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a33 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1715950963; x=1716555763; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1715959360; x=1716564160; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NoNdQQbQZPLuh79GlwR2KEAdJ4N1qErRUVYG6a5hrR0=;
-        b=CGWlVPWHw/P1g5RAswILncSF1XGBpYu+L6skXgNVjD8O+0gbBDg9W2eypy0NtIxJZ0
-         t1nAynn2OFL/3YR3bT2KDuJZHZnrru1shv6xTipT72YZDudpq8X/bYrTXYwBE7FbJHai
-         TJ9h3dIRuI3R0gfur3rhzgvDAzc4hHHg2Z/+ka/0S9wT2a3bylq0NaTawS5osrodph9v
-         G2CcNR6BIRdRNFUgZUtqofe4GWrJxmQ81bF0Q2uaqpvNGpmJG/5Oyn3GxN/baigCnDZN
-         m2Krq06CFLl2Am5bqcpt+mZrfsCgHZp9HnH6jYUdSny5Y8KEj3idtlhjsrkTVPrxZd9U
-         oUeQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1715950963; x=1716555763; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NoNdQQbQZPLuh79GlwR2KEAdJ4N1qErRUVYG6a5hrR0=;
-        b=K3KVS48C02Vy/kWXxo1keYs/SQoG3dALqH0EzECBrSs/HqIBmRzpjeqTDva4KFXelz
-         u0T97gP1v7W1ZZOO5duiPxz1A6RHfDGXr35BerhI3r24sE05pg+fBdVUNkybCk2rvxgr
-         QzYCbCa+iiJ7I+kaRIgmwByq1QH+cMgWDu/trd7G4V8yKbHuhN6kGXnxYfjPBnbv3LlE
-         3s0Lf3HEgb9Xcy97wonIdQFdZhkaMff/p4RGNdjyNVARufirmIfDlZqiIsg6IV0HhOl5
-         eSPrWFQPbcKjETd4YGlwXDHx69jlGQnWBdK9MXbPohR03Ijce0Gm67tgxlm0cswtwuqZ
-         bJGw==
+        bh=kWucBpO9kFTS4xYa0X60n5F9nV5WMy3BwwaArLgHRGE=;
+        b=ux558bki2YpSB6PW9ABOU9NinmUe2C9D0JNs5T/yXIS7FaQLASWFicmM8rH2orN0XL
+         wBGy3Ea/vYpA2/wp3awduoCrqeoAdoW/gc3vrYkYCWUR7DbKOf7IpjbDZ0Je/avUe5U3
+         b80NTNFODKzRtnlONmohW8C+YOb+pGu37Wxydr8oNnxc4AqTeh2ubTB6yTAVxXvqUk5f
+         qJiO3Nhf8lqBmfpYTa13F6rhtb/V0dBppB4bDNarXpFzYUG6c1ifAvwxecebGsCpiqOg
+         q4FpUdBnvMYG+UIhVYwdmViVNpJVkdEDRGgj4rLoPC47Bpsu0OksE2R493s/pFtHRhZo
+         cKdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1715950963; x=1716555763;
+        d=1e100.net; s=20230601; t=1715959360; x=1716564160;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=NoNdQQbQZPLuh79GlwR2KEAdJ4N1qErRUVYG6a5hrR0=;
-        b=GaAszwWn7L9qwOUxA++PqGZauXDR1aInm9Wgw+R5qfrq0JmkPhCtXLTjU/84CRp5my
-         kthZDbC2xTMzvaDDEqFyGw7v0ez4xnHFNnv3nmkKC6/Ir7deKF+MJxRBOIUHS0gx5h5V
-         AY28GWGVU5yPV05ZJdHdWNXM8owIjs0F4pxWp4hbilCCwqrDQWaxmca9jhttp1pXz39V
-         mzSO/y/LLCRKBAX73SSYCLRGd5ycDrlN2kQsUetTjupFmOmrkJwLskmZy6oNdnhvTtFo
-         qz71eSneL1n1BlAEIveuTD6N3M8HOqqAYPPkTe6Mb6JJk/rKCtXRuGhAJM+J7VrMnyk/
-         xW9w==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXZFcCunPRK+N3AiBhuLWfzFE1dl1/MYkEJ1AAm0tSBZC0hjlsUNCajn6QHw+lzqxY9x3oghWdGVuvYmVKGlWX8oLGOd94/Qw==
-X-Gm-Message-State: AOJu0YwyDoYBPQ3niXg9LbMATQz49LlwE1Ex90QiN6asLc4p5QpW7R6m
-	yJPnjIRaw4lHdj6pmrF31I310uagTGFAEBGtrh2NUp47s6iemPgu
-X-Google-Smtp-Source: AGHT+IGDUfgYM8Cgghpiff755MhBV/4zaBdoBkCwQ/Skw9+kxHd7BcdQtUoDHpFSinTQWfQ7IrZ5nA==
-X-Received: by 2002:a2e:6101:0:b0:2e0:c689:f8cd with SMTP id 38308e7fff4ca-2e51ff6013emr156581311fa.29.1715950962713;
-        Fri, 17 May 2024 06:02:42 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kWucBpO9kFTS4xYa0X60n5F9nV5WMy3BwwaArLgHRGE=;
+        b=b2PUQK5+iV0yVv3CYcVj4ZkbpC9M71gVuPTZ4BsTrvsg6Osaf0GzYTzMSDTOUU/Y6R
+         v/QknJCPJ/XP/hMaN773jmBfjcBHzgRKYozs4ya1vfaTe11vBZiYB5OFQEN2GlCNSj/i
+         RWIzKvORR41a+fNcgTu62kpFwogd+olGRaEx5qogeHlUeiy9jTTHwNtHLkgIM8cnlTsF
+         xziFka88rmQoLCTdSe40e4UAO1LTxN3BNvUpiLMYmAkcPKckowp1k9zdewooy/o8Y+I7
+         sbu8iuKsG3WB/oBGdeyS5vojV/jW9CV0TdHy9bPwt/CTW/XNcLXZq6McRLGF3LuEytHP
+         4diw==
+X-Forwarded-Encrypted: i=2; AJvYcCVjlFbpSTNjkFxaeeAJDO1Ye9RzOH55SP5LttdwX94YrxVOaUB5RvWRXGbi+WPipA7TRt5Oi9NbtDjQAoR8faEyA9YLQwN0Sw==
+X-Gm-Message-State: AOJu0Yw5w1YtX2RIhNe+AdVk5uRYLJoHjWldFFl29CXkPU6WCcP9z2Dr
+	OCJ1FSstjRZBjrPaArULrhMlzKht/9arYKpnrWA2QOs9VxCofH7M
+X-Google-Smtp-Source: AGHT+IG//SsFZKlFgr9m4fb+C1++FXWODGTREPKtZEbewfWEpe4B7nqNKX+O4cI/vVsgLuaV6eAfqQ==
+X-Received: by 2002:a05:6e02:20ed:b0:36c:5022:af8e with SMTP id e9e14a558f8ab-36cc1465e3cmr238051325ab.19.1715959360695;
+        Fri, 17 May 2024 08:22:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:b16a:0:b0:2e6:fc88:7866 with SMTP id 38308e7fff4ca-2e6fc887c43ls9653121fa.0.-pod-prod-07-eu;
- Fri, 17 May 2024 06:02:41 -0700 (PDT)
-X-Received: by 2002:a2e:8788:0:b0:2d8:654e:7027 with SMTP id 38308e7fff4ca-2e51ff65bd3mr163873721fa.30.1715950960852;
-        Fri, 17 May 2024 06:02:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1715950960; cv=none;
+Received: by 2002:a92:7305:0:b0:36d:be88:1bfd with SMTP id e9e14a558f8ab-36dbe881cb1ls8481705ab.0.-pod-prod-05-us;
+ Fri, 17 May 2024 08:22:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCX8EFywUdxdGGYcoC6coG+TqNUbLpgEm4yO4o/JnVsLu5pcbgz1vPEB2TT8SSnq0NEpxW2r62d3Yt7D1pIGTaDh3KX1Ow+koaxZeA==
+X-Received: by 2002:a05:6e02:1a43:b0:36b:26df:ccde with SMTP id e9e14a558f8ab-36cc14e1caamr280506215ab.28.1715959359616;
+        Fri, 17 May 2024 08:22:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1715959359; cv=none;
         d=google.com; s=arc-20160816;
-        b=XaZb+X/un2SejPATh+F1KCvO/ANzqI/phvz3ksBQOhrG2JYrmrfTJZLcwg2aAfLVnN
-         GbQIm4ZBZlpeMQaBokJaXfLx+0rcZilStAv1eD/ug/3yMcZpFncCiUa3Kg7Y6Df8X+0w
-         F6mk+RSgWwxHPzilbpndU025QYEsFSjqltVIJRFutYM8Pl4XfJs/RLd3wbsJeERJLpgC
-         rerFm4G8W+gJdYGO+aiu1w0lnsmdz/HpZcsYnFL3SQL/bHIrh3j7eeTyjLkO9q0QsGh5
-         HvxaMb5H/YC9T64irJ3TN1g4hpQQjSTecdxKdqCsHmYcz9kUOyMHZVn5Qee5heFtrLcZ
-         3Xhw==
+        b=ETHUDImSgDpUPo9hP1Qh3NieHyYXd5yM1nSkWt+NdKGisGBK9KkFPE1Q4fI62cP6NB
+         wviXCLZuYv8HicV+CcXojDCudissiPryNuursiqciIwIeMWJn2lq5x0Uez+JjkligusO
+         Op5/TVQtvzMnJx9OzpiQdfQSZrugwKkrn3bczrGc2vWukCg+egbKnFa1U9u7HV7RX75M
+         iPOqiIFiVV3/py2ZTEIz94iEpfuxdTJYEyDBe+p09CPyGNwHiLMg4QrrVhVje5I4Db3b
+         MYUDbFcQg+hRRj9amjKG0nvUJyGHrjJNMCXJM1t3WxhyVBCPEsTJQz7bEwquMVEXGXDA
+         XeUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rrQk/zOuwoZ/gTNLgUZwce7uWfKFbQWp+MK1UVbA3u4=;
-        fh=hGdLAAmsqbUdr//3SoG+7JuQe2+1p2JRT2MVj5ojByc=;
-        b=TVlTUHlxZB67odTDnVwDSNWaCVwZpDeqvnUbCQ+XqB77La5Uv0wd7cW1ybJo2C24hg
-         CIGD5Xdn/Y9vvsjMrD0CS1jg3ZYqUbvgGjiSJyqLb99KNvRn/jkQWyTMIuh1bWLToKV2
-         I8Ps5jTOLm4kWNmnHw6E4RH9i+k/W/Lp3cPsnIUVuwMenpaFAf86Y4OVIPkwtaBsJLTL
-         mt3famZuwrUnw7/kRh3yLPJURY5kmF6Ac6/IsmW5fODVaXXWZu9n/Lr+3RONJ26kLzeY
-         tYZhBa7fe3voXD7d3RFgpWv4iShljjC12hpBmGtDduzMso1i+CAn5yOtxYapQz2Jgp44
-         Smfw==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=a0X1IdGrvgRbIDZDbKlklVPOFj9du4fG+oJBScJlx9I=;
+        fh=EP1M1UkeYPV7qoyXsC0h7F7y7+RLciVMDFS9f7ziddk=;
+        b=tND0/Ik/WbQa6sFoxrJXvulWFRHPOMVlqv+8ctNJaD8M03bPk1bltlFS/Epm7sp0gi
+         3qAGS+FIkQJ1shrONRQzUyWJYerFvfZF6QpdOgRsAlZ1oJDXMATFYD7XfHAhWvZsUoeO
+         5CmOoT02+cCoTaAvfyXVdYE690A3nHV3r0kDAwhNHMrWjv/LxhuqZV9QWXp8Cc3Mpf0u
+         XhHDA5JP5TP77Fk1BtBbCJC+45cnUmiuWptADB13+vW/9KG5FEJ0WNs2GfYhJb34knrl
+         xAh7hAvCg5AnPHEh9Jsqh6SQlTEGG2lUt+YkatenkPAC50B50wFrb/Vw6EDt0GzNRaP4
+         l6Sg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b="TYaP8HW/";
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::329 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com. [2a00:1450:4864:20::329])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-2e4d1836a6dsi4736271fa.7.2024.05.17.06.02.40
+       dkim=pass header.i=@google.com header.s=20230601 header.b="Zsg/cCFm";
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a33 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com
+Received: from mail-vk1-xa33.google.com (mail-vk1-xa33.google.com. [2607:f8b0:4864:20::a33])
+        by gmr-mx.google.com with ESMTPS id e9e14a558f8ab-36cc657b584si11860765ab.1.2024.05.17.08.22.39
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 May 2024 06:02:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::329 as permitted sender) client-ip=2a00:1450:4864:20::329;
-Received: by mail-wm1-x329.google.com with SMTP id 5b1f17b1804b1-4202ca70318so786345e9.1
-        for <kasan-dev@googlegroups.com>; Fri, 17 May 2024 06:02:40 -0700 (PDT)
-X-Received: by 2002:a7b:c40a:0:b0:41b:d4a3:ad6a with SMTP id
- 5b1f17b1804b1-41feaa42ce1mr205732115e9.17.1715950959914; Fri, 17 May 2024
- 06:02:39 -0700 (PDT)
+        Fri, 17 May 2024 08:22:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a33 as permitted sender) client-ip=2607:f8b0:4864:20::a33;
+Received: by mail-vk1-xa33.google.com with SMTP id 71dfb90a1353d-4df3e3c674fso253624e0c.2
+        for <kasan-dev@googlegroups.com>; Fri, 17 May 2024 08:22:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUnrqm3h7AKQgE7Jkw9NeGG9BW7wO+ir5eKCSBt9ml1jtCqvX03eU1vwr+HBjrbwF7CiWvhynZTdT3qXsJBZlC5DZniILSO9wSw8Q==
+X-Received: by 2002:a05:6122:98a:b0:4d3:362f:f9c1 with SMTP id
+ 71dfb90a1353d-4df88359107mr21578723e0c.13.1715959357364; Fri, 17 May 2024
+ 08:22:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240427205020.3ecf3895@yea> <20240501144156.17e65021@outsider.home>
-In-Reply-To: <20240501144156.17e65021@outsider.home>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Fri, 17 May 2024 15:02:28 +0200
-Message-ID: <CA+fCnZdNBEekgcfaGafJKmpb-A7R6rBuL5QojOhpqkHZvz1nKg@mail.gmail.com>
-Subject: Re: Machine freezes after running KASAN KUnit test 21 with a GCC 13.2
- built kernel but runs tests fine with a CLANG 18 build kernel (v6.9-rc5,
- 32bit ppc, PowerMac G4 DP)
-To: Erhard Furtner <erhard_f@mailbox.org>, Nico Pache <npache@redhat.com>
-Cc: kasan-dev@googlegroups.com, linuxppc-dev@lists.ozlabs.org, 
-	linux-mm@kvack.org
+References: <20240517130118.759301-1-andrey.konovalov@linux.dev>
+In-Reply-To: <20240517130118.759301-1-andrey.konovalov@linux.dev>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Fri, 17 May 2024 17:21:58 +0200
+Message-ID: <CANpmjNNNW-URJjyEpb9CYM2kvYdzNu-jbmk2V2fukbTU=PB29Q@mail.gmail.com>
+Subject: Re: [PATCH] kasan, fortify: properly rename memintrinsics
+To: andrey.konovalov@linux.dev
+Cc: Andrey Konovalov <andreyknvl@gmail.com>, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, kasan-dev@googlegroups.com, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+	Erhard Furtner <erhard_f@mailbox.org>, Nico Pache <npache@redhat.com>, Daniel Axtens <dja@axtens.net>, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: andreyknvl@gmail.com
+X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b="TYaP8HW/";       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::329
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+ header.i=@google.com header.s=20230601 header.b="Zsg/cCFm";       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::a33 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,67 +142,91 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, May 1, 2024 at 2:42=E2=80=AFPM 'Erhard Furtner' via kasan-dev
-<kasan-dev@googlegroups.com> wrote:
+On Fri, 17 May 2024 at 15:01, <andrey.konovalov@linux.dev> wrote:
 >
-> On Sat, 27 Apr 2024 20:50:20 +0200
-> Erhard Furtner <erhard_f@mailbox.org> wrote:
+> From: Andrey Konovalov <andreyknvl@gmail.com>
 >
-> > Greetings!
-> >
-> > Building kernel v6.9-rc5 with GCC 13.2 + binutils 2.42 and running KASA=
-N KUnit tests (CONFIG_KASAN_INLINE=3Dy, CONFIG_KASAN_KUNIT_TEST=3Dy) on my =
-Dual CPU PowerMac G4 DP always freezes the machine after test 21 (see attac=
-hed dmesg gcc_v02). Sometimes the G4 is able to reboot, most of the time it=
- just freezes:
+> After commit 69d4c0d32186 ("entry, kasan, x86: Disallow overriding mem*()
+> functions") and the follow-up fixes, with CONFIG_FORTIFY_SOURCE enabled,
+> even though the compiler instruments meminstrinsics by generating calls
+> to __asan/__hwasan_ prefixed functions, FORTIFY_SOURCE still uses
+> uninstrumented memset/memmove/memcpy as the underlying functions.
 >
-> Turns out this is not a ppc specific issue at all, happens also on my AMD=
- FX 8370, tested on kernel v6.9-rc6. clang18 built kernel runs and passes K=
-ASAN KUnit tests fine whereas a gcc13 built kernel freezes or reboots after=
- test 20 (ppc after test 21):
+> As a result, KASAN cannot detect bad accesses in memset/memmove/memcpy.
+> This also makes KASAN tests corrupt kernel memory and cause crashes.
 >
-> [...]
->     ok 16 kmalloc_uaf_16
->     # kmalloc_oob_in_memset: EXPECTATION FAILED at mm/kasan/kasan_test.c:=
-566
->     KASAN failure expected in "memset(ptr, 0, size + KASAN_GRANULE_SIZE)"=
-, but none occurred
->     not ok 17 kmalloc_oob_in_memset
->     # kmalloc_oob_memset_2: EXPECTATION FAILED at mm/kasan/kasan_test.c:4=
-96
->     KASAN failure expected in "memset(ptr + size - 1, 0, memset_size)", b=
-ut none occurred
->     not ok 18 kmalloc_oob_memset_2
->     # kmalloc_oob_memset_4: EXPECTATION FAILED at mm/kasan/kasan_test.c:5=
-14
->     KASAN failure expected in "memset(ptr + size - 3, 0, memset_size)", b=
-ut none occurred
->     not ok 19 kmalloc_oob_memset_4
->     # kmalloc_oob_memset_8: EXPECTATION FAILED at mm/kasan/kasan_test.c:5=
-32
->     KASAN failure expected in "memset(ptr + size - 7, 0, memset_size)", b=
-ut none occurred
->     not ok 20 kmalloc_oob_memset_8
->     # kmalloc_oob_memset_16: EXPECTATION FAILED at mm/kasan/kasan_test.c:=
-550
->     KASAN failure expected in "memset(ptr + size - 15, 0, memset_size)", =
-but none occurred
+> To fix this, use __asan_/__hwasan_memset/memmove/memcpy as the underlying
+> functions whenever appropriate. Do this only for the instrumented code
+> (as indicated by __SANITIZE_ADDRESS__).
+>
+> Reported-by: Erhard Furtner <erhard_f@mailbox.org>
+> Reported-by: Nico Pache <npache@redhat.com>
+> Closes: https://lore.kernel.org/all/20240501144156.17e65021@outsider.home/
+> Fixes: 69d4c0d32186 ("entry, kasan, x86: Disallow overriding mem*() functions")
+> Fixes: 51287dcb00cc ("kasan: emit different calls for instrumentable memintrinsics")
+> Fixes: 36be5cba99f6 ("kasan: treat meminstrinsic as builtins in uninstrumented files")
+> Signed-off-by: Andrey Konovalov <andreyknvl@gmail.com>
 
-+Nico, who also encountered this issue.
+Reviewed-by: Marco Elver <elver@google.com>
 
-Mailed a patch that should fix this:
-https://lore.kernel.org/linux-mm/20240517130118.759301-1-andrey.konovalov@l=
-inux.dev/T/#u
+This is getting rather complex, but I don't see a better way either.
 
-You can consider disabling CONFIG_FORTIFY_SOURCE for now as a workaround.
+> ---
+>  include/linux/fortify-string.h | 22 ++++++++++++++++++----
+>  1 file changed, 18 insertions(+), 4 deletions(-)
+>
+> diff --git a/include/linux/fortify-string.h b/include/linux/fortify-string.h
+> index 85fc0e6f0f7f..bac010cfc42f 100644
+> --- a/include/linux/fortify-string.h
+> +++ b/include/linux/fortify-string.h
+> @@ -75,17 +75,30 @@ void __write_overflow_field(size_t avail, size_t wanted) __compiletime_warning("
+>         __ret;                                                  \
+>  })
+>
+> -#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+> +#if defined(__SANITIZE_ADDRESS__)
+> +
+> +#if !defined(CONFIG_CC_HAS_KASAN_MEMINTRINSIC_PREFIX) && !defined(CONFIG_GENERIC_ENTRY)
+> +extern void *__underlying_memset(void *p, int c, __kernel_size_t size) __RENAME(memset);
+> +extern void *__underlying_memmove(void *p, const void *q, __kernel_size_t size) __RENAME(memmove);
+> +extern void *__underlying_memcpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
+> +#elif defined(CONFIG_KASAN_GENERIC)
+> +extern void *__underlying_memset(void *p, int c, __kernel_size_t size) __RENAME(__asan_memset);
+> +extern void *__underlying_memmove(void *p, const void *q, __kernel_size_t size) __RENAME(__asan_memmove);
+> +extern void *__underlying_memcpy(void *p, const void *q, __kernel_size_t size) __RENAME(__asan_memcpy);
+> +#else /* CONFIG_KASAN_SW_TAGS */
+> +extern void *__underlying_memset(void *p, int c, __kernel_size_t size) __RENAME(__hwasan_memset);
+> +extern void *__underlying_memmove(void *p, const void *q, __kernel_size_t size) __RENAME(__hwasan_memmove);
+> +extern void *__underlying_memcpy(void *p, const void *q, __kernel_size_t size) __RENAME(__hwasan_memcpy);
+> +#endif
+> +
+>  extern void *__underlying_memchr(const void *p, int c, __kernel_size_t size) __RENAME(memchr);
+>  extern int __underlying_memcmp(const void *p, const void *q, __kernel_size_t size) __RENAME(memcmp);
+> -extern void *__underlying_memcpy(void *p, const void *q, __kernel_size_t size) __RENAME(memcpy);
+> -extern void *__underlying_memmove(void *p, const void *q, __kernel_size_t size) __RENAME(memmove);
+> -extern void *__underlying_memset(void *p, int c, __kernel_size_t size) __RENAME(memset);
+>  extern char *__underlying_strcat(char *p, const char *q) __RENAME(strcat);
+>  extern char *__underlying_strcpy(char *p, const char *q) __RENAME(strcpy);
+>  extern __kernel_size_t __underlying_strlen(const char *p) __RENAME(strlen);
+>  extern char *__underlying_strncat(char *p, const char *q, __kernel_size_t count) __RENAME(strncat);
+>  extern char *__underlying_strncpy(char *p, const char *q, __kernel_size_t size) __RENAME(strncpy);
+> +
+>  #else
+>
+>  #if defined(__SANITIZE_MEMORY__)
+> @@ -110,6 +123,7 @@ extern char *__underlying_strncpy(char *p, const char *q, __kernel_size_t size)
+>  #define __underlying_strlen    __builtin_strlen
+>  #define __underlying_strncat   __builtin_strncat
+>  #define __underlying_strncpy   __builtin_strncpy
+> +
+>  #endif
+>
+>  /**
+> --
+> 2.25.1
+>
 
-Thank you!
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CA%2BfCnZdNBEekgcfaGafJKmpb-A7R6rBuL5QojOhpqkHZvz1nKg%40mail.gmai=
-l.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNNW-URJjyEpb9CYM2kvYdzNu-jbmk2V2fukbTU%3DPB29Q%40mail.gmail.com.
