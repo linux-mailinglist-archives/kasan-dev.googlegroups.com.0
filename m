@@ -1,143 +1,148 @@
-Return-Path: <kasan-dev+bncBAABBFXTV2ZAMGQEIXH47CI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBGH4V2ZAMGQEKDXYNCY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205288CA38C
-	for <lists+kasan-dev@lfdr.de>; Mon, 20 May 2024 22:59:04 +0200 (CEST)
-Received: by mail-lf1-x13a.google.com with SMTP id 2adb3069b0e04-523936877dbsf4834600e87.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 20 May 2024 13:59:04 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1716238743; cv=pass;
+Received: from mail-qv1-xf39.google.com (mail-qv1-xf39.google.com [IPv6:2607:f8b0:4864:20::f39])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFB0E8CA3C2
+	for <lists+kasan-dev@lfdr.de>; Mon, 20 May 2024 23:18:17 +0200 (CEST)
+Received: by mail-qv1-xf39.google.com with SMTP id 6a1803df08f44-6a8bf642dc1sf27100506d6.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 20 May 2024 14:18:17 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1716239896; cv=pass;
         d=google.com; s=arc-20160816;
-        b=ITwzyAANxhZUeGokyHaQUqblSYpjLDcNDB0GuZKRU9OjHD/CO62DZlPwxbh4bPs27M
-         VPzwcUEkZJW1k8e4egQymspjXymoARg5NFUAX6BUFL4piL5kYt7RdA2u2hNXhwPvUqWP
-         H070v4Qj14HcInMLnOo8X7kPaVx9klzjMsn2J2Bryy4pXxxibLMDwv7MHNBzGmrs0M6S
-         HP/R9yQw++MR3qPZ3iC/Ons2el2LYoLHnbjLQ/WDVtpjNZBGpaJJAf+yAWEmJ3Es2hPj
-         KzCXPdHxposrnepZCWkeenLMEYa3V8BCs0rF5scIZH6adTHl6W3EJFdEajZeSaM8ufB6
-         1klw==
+        b=IAVEkJuILaJ7vaF11jlZrtKZ9J2GNUzQLpJPrm5CXwvr5JxTQvufKnCgPZzVQn9JiA
+         oIJgnQcrU9/FyYB9dEdt9yhvJcbM5mh2H0g1Cw0cJyJb1czjpvk9CFI21mCo3FGzO4Zr
+         7AvK/nbIndkW2aArcF8h1iXsN70sNC2UjoUjzBQKT5mLTchmcc7yzzz0j2aCAqx0MZhs
+         2byM1M4n90Duvmce8dQEbQ24C91dMQqcqBQcG0Iw2lkz4H1oBMgffXoyKEIy2kdp0969
+         BwbX0rxOc2qs1Vjt1SkjVTBpu9Min9dmx2hIcPoTVKB94m1m9eDcC5XqVnQxMWBnv2Gg
+         iTQg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=fi2qpgS29BEDbcvb/1Sncfv4IBm59RknV0XqbArG9rs=;
-        fh=ko21g65+L9bKVKapXRTznpwJ1EAxkDMxozN6HaNOhTM=;
-        b=HbimwURr33d7u6597tS9rRrMzJfepAGd8JEgEXGeZTLhRjq26KKAVWTcIq2SLU4iyl
-         joXnDrQw2JjFI0lFw6zkt/nfUZs18P5r5RuMWVWOrVuYKp5bM0JmBjQqi9MQgzGYDaR4
-         y3tx5TZnk48MEZb/00Dh8P+dEhxHAZ5IxKZOQ6KRTWT/QTgzUaeEjWmNSIYaXsKMwR+W
-         SkhCMQUXJjhkKiRFUyWFArg59whklD+CEdZPUvNum8qaqYa61uBjVlYKQ1O7yNSswIh6
-         Pi1mOaZ9giWtgYeNJS5qZxj2tC7rRSTnaD2Vq/le0JM4Pk1mOGkaN7akcp4+eSVJA8gb
-         GRzQ==;
+         :list-id:mailing-list:precedence:mime-version:auto-submitted
+         :references:in-reply-to:message-id:date:subject:to:from:sender
+         :dkim-signature;
+        bh=LY3L+WbTncDxboHU0Lj6ufcT/8XMdZavp9I3aTxAvdE=;
+        fh=SteymhOw+mHKnI8UoAAkK+a8//MgmffPsS09EtucruY=;
+        b=xSBhRaMwFeLO9KTotRajj1Ia7NJCCtZgrDSsfeOZIICuJ3Ozem0rOcpJrmlRtgexXW
+         xXvsw2hhGW6FqitY5UuF33FTPDGzgfPBMgHpy04QlBfPZDrS0FPxUqTpAYEzSgXWcRN7
+         txGLqZVaiK2mht3DEeDl2fRPZS7whcnbL5E25j3AUgZXyC+CZ1Q1uFnDK2LQocX0fGee
+         KHAdtr6BBppUMFMrAZ2rnmHATdUnFESyw2vf7qF9unCpPQ/wZUn+FbzIT29RaV7/Fqsf
+         F+M9KimCTFE/vkMgfxfWCupJFGX1ummT+0tgBdIuUcW9MV0O37lHsKM+00qkhGT5XtuQ
+         Q6eA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=C1JjhjK3;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:1004:224b::b3 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=cofj6nuC;
+       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1716238743; x=1716843543; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1716239896; x=1716844696; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=fi2qpgS29BEDbcvb/1Sncfv4IBm59RknV0XqbArG9rs=;
-        b=JPQkwBCOSln9/ebuIIl8a6zXODufnNFGY0yqqKwJ76cNT3w6Ha/s5py+lhhiJyAam0
-         m2g9lAPZOhtuDflxrj3CxYIRWuPDNOY6WHkh4wK5j2U6BDDMxxF6UM/7iI5cJD2zSeKm
-         nh3t1e2BwmnTsMhUuKBlLHFLT+HncF5jhl01r3/tKiC/UlsVO5cSpCEPaghfbr9Kp8tt
-         KBS/1yG+X8bzgwVQE3bFpxrJYjnE1+MecsgdKOigHx/McD+sn+tZUHyLVhlpRA+Fzo/U
-         RJub0o79LvXsbvznA5dM8O0Z3cZFhrf2o5tTKkI/poriSyoyAOs+7pY99ezo55oXGhsY
-         tulg==
+         :x-original-sender:mime-version:auto-submitted:references
+         :in-reply-to:message-id:date:subject:to:from:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LY3L+WbTncDxboHU0Lj6ufcT/8XMdZavp9I3aTxAvdE=;
+        b=WHikw+ADbzGRAXsd8md/ojOEmwV51yVbn9uclW0QJhLlezt4YKMLrfKD32HgBcGq2Y
+         mV0ihbY3I/rVWKCDywhUWH1n5KM3h012UGoXFTHoHc3LvxvrPvSJ2F0UtaqLH6ex2brD
+         3n/+ckMDve2O8WdP9JnHSe82NORAgIwZoSKDcaJ3+dIjmlqTRkHkoD7kKWnD44QAcE1c
+         WzSg5xIPJVbQoFjDttIPn8R907YdRRLgWSw2XBhkJkB28viGm5ruPewPjZsdrGk7dFVn
+         YtcTWuypv5KdgIZwfvWeJU09OmEoa7JC/IpWT5/FGWkiAl6tYQAYr57R4GjjNsNezgnL
+         8j9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716238743; x=1716843543;
+        d=1e100.net; s=20230601; t=1716239896; x=1716844696;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=fi2qpgS29BEDbcvb/1Sncfv4IBm59RknV0XqbArG9rs=;
-        b=b9HLn/Mj8Rpbqo0KTBGqkFnzk3A46+sb4rOIXLhii7lUa84UaH5a7aTdT+WAryqPOc
-         qVaPVf9aGMVrzft0GVgNfTnugZxyaHjPqQ+CKnXqzm5EauJIKPsFIzoWb/Vn9RvOsrvg
-         XBbE4F4v/S11Kp334zn0N7TBtLnvlYuYrOyTv72sZk2hHVhT2j8TQIWpZTmyJdO1GiPv
-         s/anWEwCpIo86Axwl1nQQcpQ435eMZ9KJrl3BH5dE3JCnMyzzBqd62oBopiolmXHMC4a
-         VkMkdJV7Ix0GKSf3jAaK3QXukRVElAcCz90QUtzRcOQsGhmr5NLtI8ejLeZuStgNudD0
-         W80Q==
+         :auto-submitted:references:in-reply-to:message-id:date:subject:to
+         :from:x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LY3L+WbTncDxboHU0Lj6ufcT/8XMdZavp9I3aTxAvdE=;
+        b=C+Y5aHdSCOnfAF0LKhbh2IdWs9GRl0X3eLeDlv/CaVg635z23ZyviciT/OX/fket7y
+         e9pGQPSlpZb6qS4uEBiE6yKunAmZitCSfjomERRPhuNwr355LgtcDmPFEFL2j0aDlSpJ
+         jwMfc/Sy00GPSLO/7wYyLPfJm7JTQ1do33AU/eoG4hSTWQvQC4Zzek/+5voTQO0qmuRm
+         3jwf8Y4KEUctGG+F6bbiGvop81Ua/r6lmoEcPB6gkksZ5xmUtUmkMP7BrWrbE1NllrZA
+         /MSw/XxDTaxgfYL1fCiR8OAFJuuh5py3e2XdiYzmiqfFJRmQ75olT/gJOjl1O6LgbE2A
+         vqzQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVXrrlWIdbc15nD0bn1a3UGE/FskHWCGAJGAJZRP96UzkczeKQXM7k5Qm58BhUSg3GALqFTHPVLTE4xFF1dpQUznfEqoILZJQ==
-X-Gm-Message-State: AOJu0YzmINFT9Dzseq0OPNJRpo5uNRwm1pcQiwdOT7BXqUwT+1XFoRlZ
-	U5k2N/HKpzAdAyTC1Qjux7IRvagVtAClkGNJNO5DeXK7WJcmqjhJ
-X-Google-Smtp-Source: AGHT+IEWQsX4nHHOPolDMH8RHAQYMuz05njurzqufT54d212pXBeFCsCF87lXV/YDTpfjKA6JEvWwA==
-X-Received: by 2002:a05:6512:280b:b0:523:da2d:6b8a with SMTP id 2adb3069b0e04-523da2d6cccmr8273023e87.24.1716238743067;
-        Mon, 20 May 2024 13:59:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXIA9LLcKSRIcl8OHM2IPCkw73M0GfBLgAmm61WvTCTc4ceXnpTUGMi5Rufh2+rgCpG0vmuoY/WGoekJSdA+gBiuN0CjWvmoA==
+X-Gm-Message-State: AOJu0YysxueboqQZLjXdPLWUa8B92iW3P1ptLSfwvrjTbUTE2Cnm9U2D
+	J7tKgwN6gI6FFDgC2u4B+g58yWSg45MjHp2eila0hAu1L4K1fCis
+X-Google-Smtp-Source: AGHT+IEXJd1PHx89aursFi2N3Sof95qphy7TN+RAV56nkGiqm0iPIGIvxj6wwKGDkRUdnoYRwneG7g==
+X-Received: by 2002:a05:6214:5707:b0:6a0:c903:7226 with SMTP id 6a1803df08f44-6a1682411c4mr427445046d6.34.1716239896332;
+        Mon, 20 May 2024 14:18:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:2355:b0:519:6fe8:c02e with SMTP id
- 2adb3069b0e04-521e3033afbls1507377e87.0.-pod-prod-03-eu; Mon, 20 May 2024
- 13:59:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUc10v5NYp6hXtsMyuTx9RHh31rQg6i/Lhh2kyMzE8kPqQnTVoWZY92Q1Yx6AEcATj7Skb+G2XlzgviV6glKLHN2DfUKSRVB/3BOw==
-X-Received: by 2002:a05:6512:1152:b0:523:b3f6:8fb4 with SMTP id 2adb3069b0e04-523b3f69039mr9941785e87.46.1716238741384;
-        Mon, 20 May 2024 13:59:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1716238741; cv=none;
+Received: by 2002:a0c:f64b:0:b0:6aa:dfec:b873 with SMTP id 6a1803df08f44-6aadfecba16ls14976176d6.2.-pod-prod-04-us;
+ Mon, 20 May 2024 14:18:15 -0700 (PDT)
+X-Received: by 2002:a05:6214:54ca:b0:6a0:9e07:cb5a with SMTP id 6a1803df08f44-6a168240a39mr337491066d6.35.1716239895841;
+        Mon, 20 May 2024 14:18:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1716239895; cv=none;
         d=google.com; s=arc-20160816;
-        b=LkxT1dxg22Zipr7IkheI7HK6296yrYduCcONRNkJVoF1v43y2hpa/kbpBPqvs1tDcV
-         Eucp+8Nx+1xeg9BUkb8CtTs/HIiftd3pUhVDWqCxcETk2HSprOQ6gSgQ04h8Fa0FwZhS
-         wYqdjK1Wj5F+qhLS6fj+u5AnX8ZqYEgJLdjOhp4craejzL0VRgnnIR3lPTYJhwWa9zOO
-         cl/FHRABZhrDuvvC3pAZEhB//75EFnJMp20T+SXFcF3EPrCPaqVsYom5Uix3gigLTtdK
-         iHcnMB1kwjlKG3PUTQNYFZbX1FTZYivaO3oKDn6WqcUxddPRm4FFPdUbOoV020iLURJ8
-         1Zqw==
+        b=WWzK2bYXV1K3pVRJdLbbbT/Unvy0LEhkmcGHRgiUOoaYOJx6CjSkCn8BnJnwQmAAD4
+         s0gdUk74rwabmst+Kvr7x8MIff36FKoR4aL7lnGmh8pE3gp7De7/gR52aEBArWJ8rHBI
+         JgH76KWEOA6+BZ7l9WZC1OnfjxWngqPvV1V+rohp4C9fzih4Pa/0Cs51rMd7OWU7UFSG
+         +AEiYqIL5to1Ok0BylFmg1l1KkEY1RsGYZ79hqwgw7Cr5FHMONm/Vj5EOYnU5Vwldmhu
+         QgsA0lQazl8jldA06kMPGjmvkkJFIrP4C15hzJWa/5Fko5wDxyz3dgKj6/4foqLO95Kw
+         UZjg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=dVtkm6Cg+QhrfgIVN0pjJZdjkLBJfP8oJdEHuFJPJQU=;
-        fh=vzUw7PUiCZFQ+9TOy7Fqic/NTmihsgiz7wHWl8OdU2Q=;
-        b=FISt6uEwIydv3TtPLp1mENsJK5M9Q13oqC4RTJ2rwdJmx97sOHui0G6G+8QTRwLXZ6
-         OMeLM/mn+rEkQ3juBZGf3xbbhp6XB0Awp4wTmBhMeydz70QM/T2gVPeGN2xSQwx67sDd
-         eDJZdiKnqonwy/onl4Uu1hEg5w1tIhs8rdvY8EUFAtpwvxer/oK+cATSx3sEiuXAypVi
-         sWXi4CIvXEfYGGexeksPKt3bTxiIowAc845WVV4Io3Y3PCMX+UnJSflJKrO6gu7DQhK9
-         dPSNzINOWkGm4Zo9E764uqhVgI4S5PJp6TrVL1nV+R7C3CSzo6chOWzQQuwKkc0AH/Ro
-         pDxw==;
+        h=mime-version:auto-submitted:content-transfer-encoding:references
+         :in-reply-to:message-id:date:subject:to:from:dkim-signature;
+        bh=WgPzSjmUc7E1P9L4RP3ikW0ACXUFtD7ys1ehQK9bL7k=;
+        fh=uQCsmYQr+KJEcG63Y45gsyDulzJl/B4EdEfpx8XrGGo=;
+        b=WRBBmhxXj7qT4UseVx0fAWsPKn/El5qhTVfRGVzMWfMwJ7PaA/f07Y2hVF5b94q5mB
+         YVWc4p4g4NMEZQQsIXLzVd0msPLBK7sCMriopovflcejq8rbEEZn8//Uk1xxKYE7Zloc
+         VNH4F7MpTKU7lu/LdIe+3+cl6lud0oFNvbetIPeasnxvPjfuZovqaASG1GvCA7qa6fjf
+         ASupHvWJinl2sWiYmIkWMtw9+YI4VDuvHAeJ6XAxj1rQUwbbvluS2c1c/dxB7HcIITqt
+         INLFt+LoaBtzFwfReRPoOPjmku1rgtS+3guVq5A9M3mk7pOcZyj24J1QAWHeWEhTrsda
+         VCxg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=C1JjhjK3;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:1004:224b::b3 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com. [2001:41d0:1004:224b::b3])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-52231471aeesi548018e87.3.2024.05.20.13.59.01
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=cofj6nuC;
+       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from sin.source.kernel.org (sin.source.kernel.org. [2604:1380:40e1:4800::1])
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6a15f315ac7si16512646d6.3.2024.05.20.14.18.15
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 May 2024 13:59:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:1004:224b::b3 as permitted sender) client-ip=2001:41d0:1004:224b::b3;
-X-Envelope-To: stern@rowland.harvard.edu
-X-Envelope-To: gregkh@linuxfoundation.org
-X-Envelope-To: andreyknvl@gmail.com
-X-Envelope-To: dvyukov@google.com
-X-Envelope-To: elver@google.com
-X-Envelope-To: glider@google.com
-X-Envelope-To: kasan-dev@googlegroups.com
-X-Envelope-To: penguin-kernel@i-love.sakura.ne.jp
-X-Envelope-To: tj@kernel.org
-X-Envelope-To: linux-usb@vger.kernel.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: andrey.konovalov@linux.dev
-To: Alan Stern <stern@rowland.harvard.edu>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Marco Elver <elver@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	kasan-dev@googlegroups.com,
-	Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>,
-	Tejun Heo <tj@kernel.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] kcov, usb: disable interrupts in kcov_remote_start_usb_softirq
-Date: Mon, 20 May 2024 22:58:56 +0200
-Message-Id: <20240520205856.162910-1-andrey.konovalov@linux.dev>
-MIME-Version: 1.0
-X-Migadu-Flow: FLOW_OUT
-X-Original-Sender: andrey.konovalov@linux.dev
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=C1JjhjK3;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates
- 2001:41d0:1004:224b::b3 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+        Mon, 20 May 2024 14:18:15 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:40e1:4800::1 as permitted sender) client-ip=2604:1380:40e1:4800::1;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id 4A151CE0C51
+	for <kasan-dev@googlegroups.com>; Mon, 20 May 2024 21:18:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8568AC4AF07
+	for <kasan-dev@googlegroups.com>; Mon, 20 May 2024 21:18:12 +0000 (UTC)
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 7BEE9C53BB8; Mon, 20 May 2024 21:18:12 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: kasan-dev@googlegroups.com
+Subject: [Bug 210337] KCOV: allow nested remote coverage sections in task
+ context
+Date: Mon, 20 May 2024 21:18:12 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Memory Management
+X-Bugzilla-Component: Sanitizers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: andreyknvl@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-210337-199747-E2sbcRJQ69@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-210337-199747@https.bugzilla.kernel.org/>
+References: <bug-210337-199747@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
+X-Original-Sender: bugzilla-daemon@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=k20201202 header.b=cofj6nuC;       spf=pass
+ (google.com: domain of bugzilla-daemon@kernel.org designates
+ 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,141 +155,23 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Andrey Konovalov <andreyknvl@gmail.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=210337
 
-After commit 8fea0c8fda30 ("usb: core: hcd: Convert from tasklet to BH
-workqueue"), usb_giveback_urb_bh() runs in the BH workqueue with
-interrupts enabled.
+--- Comment #2 from Andrey Konovalov (andreyknvl@gmail.com) ---
+We also need to support nested remote coverage collection sections in the
+softirq context: while the BH workqueue handles a softirq, another softirq
+might arrive; see [1] for details.
 
-Thus, the remote coverage collection section in usb_giveback_urb_bh()->
-__usb_hcd_giveback_urb() might be interrupted, and the interrupt handler
-might invoke __usb_hcd_giveback_urb() again.
+[1]
+https://lore.kernel.org/linux-usb/20240520205856.162910-1-andrey.konovalov@linux.dev/T/#u
 
-This breaks KCOV, as it does not support nested remote coverage collection
-sections within the same context (neither in task nor in softirq).
-
-Update kcov_remote_start/stop_usb_softirq() to disable interrupts for the
-duration of the coverage collection section to avoid nested sections in
-the softirq context (in addition to such in the task context, which are
-already handled).
-
-Reported-by: Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Closes: https://lore.kernel.org/linux-usb/0f4d1964-7397-485b-bc48-11c01e2fcbca@I-love.SAKURA.ne.jp/
-Closes: https://syzkaller.appspot.com/bug?extid=0438378d6f157baae1a2
-Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-Fixes: 8fea0c8fda30 ("usb: core: hcd: Convert from tasklet to BH workqueue")
-Signed-off-by: Andrey Konovalov <andreyknvl@gmail.com>
----
- drivers/usb/core/hcd.c | 12 +++++++-----
- include/linux/kcov.h   | 44 +++++++++++++++++++++++++++++++++---------
- 2 files changed, 42 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-index c0e005670d67..fb1aa0d4fc28 100644
---- a/drivers/usb/core/hcd.c
-+++ b/drivers/usb/core/hcd.c
-@@ -1623,6 +1623,7 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
- 	struct usb_hcd *hcd = bus_to_hcd(urb->dev->bus);
- 	struct usb_anchor *anchor = urb->anchor;
- 	int status = urb->unlinked;
-+	unsigned long flags;
- 
- 	urb->hcpriv = NULL;
- 	if (unlikely((urb->transfer_flags & URB_SHORT_NOT_OK) &&
-@@ -1640,13 +1641,14 @@ static void __usb_hcd_giveback_urb(struct urb *urb)
- 	/* pass ownership to the completion handler */
- 	urb->status = status;
- 	/*
--	 * This function can be called in task context inside another remote
--	 * coverage collection section, but kcov doesn't support that kind of
--	 * recursion yet. Only collect coverage in softirq context for now.
-+	 * Only collect coverage in the softirq context and disable interrupts
-+	 * to avoid scenarios with nested remote coverage collection sections
-+	 * that KCOV does not support.
-+	 * See the comment next to kcov_remote_start_usb_softirq() for details.
- 	 */
--	kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum);
-+	flags = kcov_remote_start_usb_softirq((u64)urb->dev->bus->busnum);
- 	urb->complete(urb);
--	kcov_remote_stop_softirq();
-+	kcov_remote_stop_softirq(flags);
- 
- 	usb_anchor_resume_wakeups(anchor);
- 	atomic_dec(&urb->use_count);
-diff --git a/include/linux/kcov.h b/include/linux/kcov.h
-index b851ba415e03..ebcfc271aee3 100644
---- a/include/linux/kcov.h
-+++ b/include/linux/kcov.h
-@@ -55,21 +55,47 @@ static inline void kcov_remote_start_usb(u64 id)
- 
- /*
-  * The softirq flavor of kcov_remote_*() functions is introduced as a temporary
-- * work around for kcov's lack of nested remote coverage sections support in
-- * task context. Adding support for nested sections is tracked in:
-- * https://bugzilla.kernel.org/show_bug.cgi?id=210337
-+ * workaround for KCOV's lack of nested remote coverage sections support.
-+ *
-+ * Adding support is tracked in https://bugzilla.kernel.org/show_bug.cgi?id=210337.
-+ *
-+ * kcov_remote_start_usb_softirq():
-+ *
-+ * 1. Only collects coverage when called in the softirq context. This allows
-+ *    avoiding nested remote coverage collection sections in the task context.
-+ *    For example, USB/IP calls usb_hcd_giveback_urb() in the task context
-+ *    within an existing remote coverage collection section. Thus, KCOV should
-+ *    not attempt to start collecting coverage within the coverage collection
-+ *    section in __usb_hcd_giveback_urb() in this case.
-+ *
-+ * 2. Disables interrupts for the duration of the coverage collection section.
-+ *    This allows avoiding nested remote coverage collection sections in the
-+ *    softirq context (a softirq might occur during the execution of a work in
-+ *    the BH workqueue, which runs with in_serving_softirq() > 0).
-+ *    For example, usb_giveback_urb_bh() runs in the BH workqueue with
-+ *    interrupts enabled, so __usb_hcd_giveback_urb() might be interrupted in
-+ *    the middle of its remote coverage collection section, and the interrupt
-+ *    handler might invoke __usb_hcd_giveback_urb() again.
-  */
- 
--static inline void kcov_remote_start_usb_softirq(u64 id)
-+static inline unsigned long kcov_remote_start_usb_softirq(u64 id)
- {
--	if (in_serving_softirq())
-+	unsigned long flags = 0;
-+
-+	if (in_serving_softirq()) {
-+		local_irq_save(flags);
- 		kcov_remote_start_usb(id);
-+	}
-+
-+	return flags;
- }
- 
--static inline void kcov_remote_stop_softirq(void)
-+static inline void kcov_remote_stop_softirq(unsigned long flags)
- {
--	if (in_serving_softirq())
-+	if (in_serving_softirq()) {
- 		kcov_remote_stop();
-+		local_irq_restore(flags);
-+	}
- }
- 
- #ifdef CONFIG_64BIT
-@@ -103,8 +129,8 @@ static inline u64 kcov_common_handle(void)
- }
- static inline void kcov_remote_start_common(u64 id) {}
- static inline void kcov_remote_start_usb(u64 id) {}
--static inline void kcov_remote_start_usb_softirq(u64 id) {}
--static inline void kcov_remote_stop_softirq(void) {}
-+static inline unsigned long kcov_remote_start_usb_softirq(u64 id) {}
-+static inline void kcov_remote_stop_softirq(unsigned long flags) {}
- 
- #endif /* CONFIG_KCOV */
- #endif /* _LINUX_KCOV_H */
 -- 
-2.25.1
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are on the CC list for the bug.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240520205856.162910-1-andrey.konovalov%40linux.dev.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-210337-199747-E2sbcRJQ69%40https.bugzilla.kernel.org/.
