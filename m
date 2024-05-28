@@ -1,156 +1,154 @@
-Return-Path: <kasan-dev+bncBDKMZTOATIBRB6HD26ZAMGQEMYIV5NA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCDO7L6ERQDRBDHY26ZAMGQEDED3YUI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D798D1F7C
-	for <lists+kasan-dev@lfdr.de>; Tue, 28 May 2024 17:02:18 +0200 (CEST)
-Received: by mail-lf1-x13f.google.com with SMTP id 2adb3069b0e04-529ae9c88d8sf710027e87.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 28 May 2024 08:02:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1716908537; cv=pass;
+Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45F1D8D20AC
+	for <lists+kasan-dev@lfdr.de>; Tue, 28 May 2024 17:45:18 +0200 (CEST)
+Received: by mail-lf1-x13a.google.com with SMTP id 2adb3069b0e04-529b632f34esf20472e87.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 28 May 2024 08:45:18 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1716911117; cv=pass;
         d=google.com; s=arc-20160816;
-        b=fEBlHJ1yF8bacn+B4rbpmRWgxgOBN3zq9/Nmj6J47cwfNQkdONDYFikxD3E9xZlLPv
-         5arNylLQAynGz7QSSCSzeIRMgolm+fY3Y/xY8yO0vbbEVMQmvx3ss5z2UjXqDOIr0FGA
-         WdrUbJKmULfMIdHY2md/p2yaZPTF13s9JZjrHqZN6isPPYqJKaGYY0Cmkw/AgtkaK2Jx
-         WoTWK//qexlTzlJW2bD9OfPIeIALeVp+ZB5U+CRZr1J7ix1UoLt7SSCDfgkOkAYYFiAM
-         2SV3BZ93GqPBG0PsKTBNO4FGw1MVcaTYOrNTb6ltJgnnKVFoWwZdvduwBgHbpmkSboD+
-         y6TQ==
+        b=umFjwIwzmMiSuRJgG37/Kz3ycgUxcmJBMtmgwi3RMdfwvI0W4Y9u7jaDpKvMHe25GL
+         ql3ukj9XCMmt3v7dJ2/OAiViX6bGIfzZOLiuwWhTuYouxN4uTlY0qmex33r/KWciqv0c
+         nnOz+tpfTm+g0fUs60Llguum06S3sbLL/hquVSBjGWzDscYm+MNBkgNcSZ0f20Y3kAkf
+         +Wr65DMb4+ZAUc+RZ7NINGKJzuuHWA3eVqIFqkMGvOoz9JU0iAoZwrx3RmRcLVhMh49K
+         Lg6VqcoGBiDkaYtlhga5q8TUrrimlDmwvbZYQxYNNaOqMVNqfbeaxwu9JwpCU69cdHar
+         J1XA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=CcA8jmLHVmkwFgZE7Ouhj14ymQOjlzDqKSWHXNoW5/8=;
-        fh=RfJ8RdzpNQtxYULof3FAmhAMiOTl7AX4O1v6mnS0qAA=;
-        b=dEHuXd7Lv2nPlsDOwKe0DkmI6/v1cbVyMKRBaKRxCviJBcfqGSm7u5S8XX2kWIRcza
-         RBa2rVC3aVccDSU//X1vVj5SnDcZHweDNVMdeE28INqzamamdUQ63zhLzrGzwkTuHOkx
-         hE621COG+DwszOAejijDo/pQhZfBp2B8aoYltxl2OsrZZoZ6e7X5Z3qCzVjHWVq975RN
-         02W/o5Tc4Pwe0CQA7j6Qt64NO6hsz/B2T6OTtbIa/xabHVIkkNq8dl500BjTjnYbmpTh
-         oGq6uCcXnnM/jKe8vLU0NGAiQ7CMxklGCQ7ATr04lvOrbR94Vey4RAjIKbsoWbRN9CSv
-         Rz4g==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature:dkim-signature;
+        bh=vZKV3CzoGxEsXJEqDcuh4RTqV8uYm3L2y/uQbIDIgJM=;
+        fh=XnoV+wC2MrvxfpsT15NwLC9wdsL0i8O11Q3FzXLIttA=;
+        b=XqzmAwF8LzsLsXwoBRJCCVX67JBXHg/0QpEwFGuYEEiceNN3dtqgUjm+dJVXcXiy91
+         u+ZQ/Age/PzBVkh9ljiarq20Tl6DvU4WYQMh6UDWtkhEg4hI6pS4ctfF+wtkgK7zj3/7
+         5vdZaaN1gEHUMvq1SCIRZf+4UkxhZG+bjTZBbA36Dmt5ip6ppgQPCw/Zo455z9ig/5IJ
+         zk3+cvOTkyjUAA7gr4PufgheGYd+aiK9CzPArvU/It1hvXi8/qy2sqprM3ng8BfgTMqT
+         mp88rr2TDUlOS6cn2TkyTDwBkKkxadH4dkSG6OBi0f2bglanPimDDNJRqUaVoRdsT/Ow
+         eGhw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=opoXfCNq;
-       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 95.215.58.187 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=A2VdHbs8;
+       spf=pass (google.com: domain of bjohannesmeyer@gmail.com designates 2a00:1450:4864:20::531 as permitted sender) smtp.mailfrom=bjohannesmeyer@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1716908537; x=1717513337; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1716911117; x=1717515917; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-transfer-encoding
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=CcA8jmLHVmkwFgZE7Ouhj14ymQOjlzDqKSWHXNoW5/8=;
-        b=U7lKbXGdNi4nsB65mBSlxbRLXg31IgT0PWxaVf74bgULUoUxZx1JmYwkPkKcdHH3O5
-         XrX6VgWD3uyQFkyPHU0h5d9rhYr4kypem2fUV8Uk/40qQYOyf5KdfQkPl4sqZbDOMy8H
-         KQGxrWK6zwtog6l8x/TKi4G3x822ZNCTPTHKdBhzveZtwpzR+e8lLOLBVGYhKuRwG+Bp
-         NAb7uL8bjFdBqJreiDUXPk+sNr13V0Ll6TaFEwsdga46ZeJgFNIgYbvDaBE16CT0V6Fh
-         vAblxSibK4zINobGWh/lZ4k5ogdNljDid6Hc0blMPlw4u+ithTxTEliu2hqcVc7mG+yp
-         IJ0A==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vZKV3CzoGxEsXJEqDcuh4RTqV8uYm3L2y/uQbIDIgJM=;
+        b=O5deU+xAefg0/9xdk7YubAbqb/2RRBScXeNgiJ+SV4LMbjP36Q8Vgrqa6iGfqf5NMd
+         4vWe/Va9BSOl3IRvLUuIjhTfmLpWz5xzcC1Zw/GZYDVRckyHYPriYonSXLWZURSoiIDC
+         yluKfCYRYuwxTT+NyNR5Iru+hLdJnCJuyIlxHyPKTFYMaCqtA9r5yNydHG50cPhF67iR
+         c2n32kOHHEC4dAEWhxb6HFowtDrcOTK5hCPPZ/D4p2a6V91CElZNKsJYps3QYQNm2T/D
+         bwwE61iCa2AC35P5v6VKAPmJ41xRCbs68x+brozcZ/IIUMHYjEPjipt2MRadQ1Me4yhR
+         jZCg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1716911117; x=1717515917; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=vZKV3CzoGxEsXJEqDcuh4RTqV8uYm3L2y/uQbIDIgJM=;
+        b=UwOPrByZx/PLcC8D8uDs4KmRE+g7VB9AAdy6VV08RZQsaF/9dgMWtCdC8rzGM0WABZ
+         YxB7GjlnWFVv+MdT+ZvIOtDy/pIjbLo1HQSQ4g6wjI+u2RI/fojYXTNZ+Zp0S1dM2jCN
+         MluAzDO5B+7aF9sKVZ5aFUeXwckqvKZ35Raxcgo5jmfXzbopNrW8otmWfurVBjXhejNM
+         O1hyX5X5QR30eVUyUDOpFXGJzuDsVWbtByhrErCk+CgG3j0qSFezlVqDi1xEmW7+EC+6
+         JDonxmcvHjm+FZCKKyjTUgbU+WfL9RBo01yUVEf92Rx68XycMtUm9+kE01DINA71or5m
+         3U2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1716908537; x=1717513337;
+        d=1e100.net; s=20230601; t=1716911117; x=1717515917;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-transfer-encoding:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CcA8jmLHVmkwFgZE7Ouhj14ymQOjlzDqKSWHXNoW5/8=;
-        b=MHPK4Qeg6bgKoQytMac90TvrdyoDkBORNbbxqCRbEjZR/6v8SsThhexQ4voyj53QRm
-         pmmNouyEpvFb22J9L+G921Qyz9X+m0OxmcK/OxVMxajnhUbKUUqsBsVGXw6fWX/I6VG7
-         I7SzoEIZ061sOff++peBjW1Zj8FE6fFp8PlSLnqfa1S3bGR8MwuFX0hclKJGcUxk7bas
-         56QseMhRrz59pwU/C/owSBrLFjOtMkdF3z4zKMz7c5sd85tSJWn00t3GvG6TJhzkbPUh
-         ZBmLeOUd2QvsTwOXpxtV3lCfFNq//TSmSDsV5aDuPjYqK8ASdgAvDS2ErLgaiUqs8m5B
-         K1dQ==
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vZKV3CzoGxEsXJEqDcuh4RTqV8uYm3L2y/uQbIDIgJM=;
+        b=S/DViwlQWwIO/u7PJgAggIxv67Jj0zDx4Pux1v+T1bS+I6DnKpkTc6u0mGcFIRSLgE
+         PU1UTWioiYD8/HfkkdfpN0mq7d2q1kwMMb/waOgI6T/grtXuoSTcfyTrhHJxK8dv/YFj
+         38moYglXO9S7ggjQBT31P9LNLGhqIQSNQPK77GrHgFTNQXVe59OrZNQflD+ul3ndKO2i
+         QwW9Om4NiLeDDkZJGsia+KQ+5CP2rPsL6pSUH9pIU4GKZVVs3nuvSTo2WKy7Rl0ldR5y
+         R638QRsoilAhmk2tz2ampATMwLXlX3RpFq2NGk+BJAalM0VSxc9KbVdxQCHDehxAUgta
+         Ejtw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVNJHi9YdTR9REcKYt8jjLz7fiXa3zxpUapAwS5SNqOKSmkmwZsrUvgo7ony8a4yR3qGXdqVIAq28ggTEuDmTz03KO+RO87Iw==
-X-Gm-Message-State: AOJu0YwoF/iS8a8Ox92d7EL3anaB0hIPBTsacD5Nax8wwElicI5zjZfc
-	pby8Y6O0nOhJ6Tva2YvfKoLCiYUKHdf8+xiZdKAVR0BQxCQ8Hi6r
-X-Google-Smtp-Source: AGHT+IHmQ5J3GcDsLOyb92REKzMNC7gE16Ns7YIe6UBWWh2VCdl8n28f48zLyVoW1Co4Ws2t7wWQCA==
-X-Received: by 2002:a05:6512:10ca:b0:51c:b73f:950 with SMTP id 2adb3069b0e04-529661f315emr11359585e87.43.1716908536784;
-        Tue, 28 May 2024 08:02:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUv90/5CBiT2uYNPKW4qwM4rfU7YyiEzziqBPuilelFQ91Tu0zrgmSW8BVnF+LogDlRDObqylUfC9ex/6YkyuiCkEkTK5n2pQ==
+X-Gm-Message-State: AOJu0YzaciRda6CB4dROpf+lywv02r3Vb/JOx3+BiJHLUte8PjCJmWkt
+	XrbJnqE1c1lCuhCqx5g8rTJQTYnaiqDVADQBxBvvhHkcqNCe05yk
+X-Google-Smtp-Source: AGHT+IGHpGAubvIYT8HZUlHYwHKw5tGFbT58HrqGVRGekxM8cl6sQYL4PZFBZMaSLrY6Oxekp6hKnA==
+X-Received: by 2002:a05:6512:b20:b0:529:a37:cea5 with SMTP id 2adb3069b0e04-529a5c938a8mr346621e87.1.1716911116967;
+        Tue, 28 May 2024 08:45:16 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:2252:b0:529:5ff:29b2 with SMTP id
- 2adb3069b0e04-52936d9169fls879934e87.1.-pod-prod-09-eu; Tue, 28 May 2024
- 08:02:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXoLvQMm96HyNrdvU7AXU2jTd7MXX6oQZPPCIAbi6dMawhY8wrvsmT6QjYhEQn7H0DPX6pLX7kyw7ZOrpiYCLKf18i4Ysqe7sMGLQ==
-X-Received: by 2002:a2e:b003:0:b0:2e7:6d8:3aed with SMTP id 38308e7fff4ca-2e95b24debbmr82089951fa.32.1716908532975;
-        Tue, 28 May 2024 08:02:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1716908532; cv=none;
+Received: by 2002:a05:6512:3f10:b0:528:f700:bdd1 with SMTP id
+ 2adb3069b0e04-52937911d5als233899e87.1.-pod-prod-00-eu; Tue, 28 May 2024
+ 08:45:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXboe9VJuC5WL0vprnBcuYJ9GH7/qHjzBm7xDHtFJxyeA4ErvtSUYcRd/SHcqtWy9PtvWx2n17pRAPZNeFYYjTYiPLMe3K2ycSfVg==
+X-Received: by 2002:a05:6512:3e21:b0:51f:458e:1bb5 with SMTP id 2adb3069b0e04-5294657830emr5277496e87.24.1716911114963;
+        Tue, 28 May 2024 08:45:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1716911114; cv=none;
         d=google.com; s=arc-20160816;
-        b=jTgk177kD7564rUBiAX8ffQXqbDhib9V1xwN2nSMSOyTkSMQdPkXkrGnuWtLO3oQaC
-         ZMkcGYVCw/rWYfA5LK0/ezkuWWKOV242T2Wl2FTpQI20f7qRd+2iFC2tIg5vu3x8h+Iu
-         tnVmbs4pcWf+Nzldnje09AuToMNFNpt1EwH9chpV7t4/93t9XvRsWvKizsoTIThj6ExV
-         Er4Evk7j2RLZWCzprBJImp0/pX1jkYRrgMgMD1YBVq3vJtJa1SxX3JokzXJZ+cQPOKSV
-         2N+RSWufpacIbbAQ8pNkVxKZhAlPJ6ezQkILI0DjggWt+8a+7Aa9hoMfYTKaFx0KRqPN
-         TF6A==
+        b=u0htv6m/7Oo2fJsbW7zHtG+RyaDD0veSyU36XWL4YjJtbRx0zZxzDoza1Uo6gqL54k
+         UDHjEWO3ieRlpsk+cNrKEkkFvH+FJInedQCjCS/Hz9sGtgCd8fOhvFqXl0W7+O5jcSkY
+         gXAMGKCseoh/4YGUv9UuBYVv9c456AaXRd5Lay/TGrVoIaZK7F4UfE4zS+S7eyMI1wC8
+         5JSSS15aBPJZBS3m75yj9BwCdvIqduDe1zrQZx9NOk3llRK992kZgehUx8SSWQX3nF7E
+         ijrsJFf704GxJoEHHhsXE8dcvuG1jmKQIqJetQgfBZ40mwLlHpYkPfzU9z6lZbXEj0o8
+         RxwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=dKnPZ9OJHpypgolMUhUxX3o8dY3J/6CO95tM7cGqfv8=;
-        fh=Rm/p3wQo2LHEsxhNQ6JLNopP//jmuEAIIvq/FmUO/is=;
-        b=tt/fjyvZupI6bL3NoutqckxPnJv3Gx5jHCSHisI226Sfuo2IIaNB46RRNHWhhe77SI
-         t2y7oJz82YrKQ5rN9IfxrYN7zpiUBciCSmj9iVG9g2wS64als69dSV60x7Jt5nD3Nc95
-         iOpslsFfAV+nexKo9bUVG0W33PEFkafD8Ocz9UR7CHwi0mx2ADuprjlz76y4Uej4xOGl
-         3bRfsIs1i4WSEc3bT0qjDvfKVmXe5ymHFFb+zFMBiOkLgEgvktTdSqdW8lZusOxr+Tpd
-         d13UPs8LRSiP4HKhllGT4bgum4gHaZmJvB2ns6A3NuECyahZxsta7V/8TUmUG071QG4u
-         xT0g==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=BAqdiD54TVKMF2ArvdIVU/2qSdxUZTE4NpBmi7flC5k=;
+        fh=RtBuNfL7oLnaht/JncNiYH8T1sllIe8H24K/UH+TARE=;
+        b=R0fr49+CRFdCUqfGpx4w3FrhMpTMvpuctIg7F7MK8mOCV6RO6DQIuUNB+uwS+XV6S8
+         IFTDYt04Hw0XiBWmkJhpN1R3sEnmFPGiSEC8GsgwyuotGLeNnIWtHBx8blFbqwqWSOSG
+         PsPFv18KN6HtVeFQinBDtAFiLE878D0tKg6lBnpq27NkRh6n04qCZH0FrgWBuZB4B2OS
+         +KdlEol1DrC8A4w7VRJmUkZVmU+fcZ6C9Rftgz8JF3zJ1jXjbfMdRC1zR8NqJL5Y7scz
+         4k7wiqYJa+tqWVZPWVqc/hQDMDvXWo972K8Drz/9yueCa914k9bE/upLx25M5ebltRBh
+         pVTg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=opoXfCNq;
-       spf=pass (google.com: domain of kent.overstreet@linux.dev designates 95.215.58.187 as permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com. [95.215.58.187])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-2e977ec779dsi1225301fa.7.2024.05.28.08.02.12
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=A2VdHbs8;
+       spf=pass (google.com: domain of bjohannesmeyer@gmail.com designates 2a00:1450:4864:20::531 as permitted sender) smtp.mailfrom=bjohannesmeyer@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com. [2a00:1450:4864:20::531])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-529b0ae64e5si91558e87.6.2024.05.28.08.45.14
         for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 May 2024 08:45:14 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bjohannesmeyer@gmail.com designates 2a00:1450:4864:20::531 as permitted sender) client-ip=2a00:1450:4864:20::531;
+Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-579cd80450fso3981514a12.0
+        for <kasan-dev@googlegroups.com>; Tue, 28 May 2024 08:45:14 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUIPukcuGnOJj8jK/3Bb7kCcewQfhOXeFSzLhmfL7Vby+Z3R7K53YTwNMinud1j3OsmlrMLVun62gSHSgV/Hip+5aiBSiftRLAQfg==
+X-Received: by 2002:a17:906:b20a:b0:a59:c9f3:837d with SMTP id a640c23a62f3a-a623e9d5525mr1194850066b.30.1716911114010;
+        Tue, 28 May 2024 08:45:14 -0700 (PDT)
+Received: from rex (lab-4.lab.cs.vu.nl. [192.33.36.4])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a626cc8e585sm621718666b.184.2024.05.28.08.45.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 May 2024 08:02:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kent.overstreet@linux.dev designates 95.215.58.187 as permitted sender) client-ip=95.215.58.187;
-X-Envelope-To: glider@google.com
-X-Envelope-To: mathieu.desnoyers@efficios.com
-X-Envelope-To: bfoster@redhat.com
-X-Envelope-To: keescook@chromium.org
-X-Envelope-To: linux-kernel@vger.kernel.org
-X-Envelope-To: linux-bcachefs@vger.kernel.org
-X-Envelope-To: elver@google.com
-X-Envelope-To: dvyukov@google.com
-X-Envelope-To: kasan-dev@googlegroups.com
-X-Envelope-To: nathan@kernel.org
-X-Envelope-To: ndesaulniers@google.com
-X-Envelope-To: morbo@google.com
-X-Envelope-To: justinstitt@google.com
-X-Envelope-To: llvm@lists.linux.dev
-Date: Tue, 28 May 2024 11:02:05 -0400
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
+        Tue, 28 May 2024 08:45:13 -0700 (PDT)
+Date: Tue, 28 May 2024 17:45:12 +0200
+From: Brian Johannesmeyer <bjohannesmeyer@gmail.com>
 To: Alexander Potapenko <glider@google.com>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Brian Foster <bfoster@redhat.com>, Kees Cook <keescook@chromium.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, linux-bcachefs@vger.kernel.org, Marco Elver <elver@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, llvm@lists.linux.dev
-Subject: Re: Use of zero-length arrays in bcachefs structures inner fields
-Message-ID: <63zx2cnrf5u2slmabde2wptxvq6a3opvrj2zrkcolw3gdkjdpf@bttdonbctura>
-References: <986294ee-8bb1-4bf4-9f23-2bc25dbad561@efficios.com>
- <vu7w6if47tv3kwnbbbsdchu3wpsbkqlvlkvewtvjx5hkq57fya@rgl6bp33eizt>
- <944d79b5-177d-43ea-a130-25bd62fc787f@efficios.com>
- <7236a148-c513-4053-9778-0bce6657e358@efficios.com>
- <jqj6do7lodrrvpjmk6vlhasdigs23jkyvznniudhebcizstsn7@6cetkluh4ehl>
- <CAG_fn=Vp+WoxWw_aA9vr9yf_4qRvu1zqfLDWafR8J41Zd9tX5g@mail.gmail.com>
+Cc: Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	kasan-dev@googlegroups.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kmsan: introduce test_unpoison_memory()
+Message-ID: <ZlX8CLwwtv5ry7FZ@rex>
+References: <20240524232804.1984355-1-bjohannesmeyer@gmail.com>
+ <CAG_fn=U2U5j8VxrkKGHEOdbpheVXM08ExFwkqNhz4qv2EtTjWg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAG_fn=Vp+WoxWw_aA9vr9yf_4qRvu1zqfLDWafR8J41Zd9tX5g@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
-X-Original-Sender: kent.overstreet@linux.dev
+In-Reply-To: <CAG_fn=U2U5j8VxrkKGHEOdbpheVXM08ExFwkqNhz4qv2EtTjWg@mail.gmail.com>
+X-Original-Sender: bjohannesmeyer@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=opoXfCNq;       spf=pass
- (google.com: domain of kent.overstreet@linux.dev designates 95.215.58.187 as
- permitted sender) smtp.mailfrom=kent.overstreet@linux.dev;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+ header.i=@gmail.com header.s=20230601 header.b=A2VdHbs8;       spf=pass
+ (google.com: domain of bjohannesmeyer@gmail.com designates
+ 2a00:1450:4864:20::531 as permitted sender) smtp.mailfrom=bjohannesmeyer@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -163,86 +161,31 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, May 28, 2024 at 01:36:11PM +0200, Alexander Potapenko wrote:
-> On Fri, May 24, 2024 at 7:30=E2=80=AFPM Kent Overstreet
-> <kent.overstreet@linux.dev> wrote:
-> >
-> > On Fri, May 24, 2024 at 12:04:11PM -0400, Mathieu Desnoyers wrote:
-> > > On 2024-05-24 11:35, Mathieu Desnoyers wrote:
-> > > > [ Adding clang/llvm and KMSAN maintainers/reviewers in CC. ]
-> > > >
-> > > > On 2024-05-24 11:28, Kent Overstreet wrote:
-> > > > > On Thu, May 23, 2024 at 01:53:42PM -0400, Mathieu Desnoyers wrote=
-:
-> > > > > > Hi Kent,
-> > > > > >
-> > > > > > Looking around in the bcachefs code for possible causes of this=
- KMSAN
-> > > > > > bug report:
-> > > > > >
-> > > > > > https://lore.kernel.org/lkml/000000000000fd5e7006191f78dc@googl=
-e.com/
-> > > > > >
-> > > > > > I notice the following pattern in the bcachefs structures: zero=
--length
-> > > > > > arrays members are inserted in structures (not always at the en=
-d),
-> > > > > > seemingly to achieve a result similar to what could be done wit=
-h a
-> > > > > > union:
-> > > > > >
-> > > > > > fs/bcachefs/bcachefs_format.h:
-> > > > > >
-> > > > > > struct bkey_packed {
-> > > > > >          __u64           _data[0];
-> > > > > >
-> > > > > >          /* Size of combined key and value, in u64s */
-> > > > > >          __u8            u64s;
-> > > > > > [...]
-> > > > > > };
-> > > > > >
-> > > > > > likewise:
-> > > > > >
-> > > > > > struct bkey_i {
-> > > > > >          __u64                   _data[0];
-> > > > > >
-> > > > > >          struct bkey     k;
-> > > > > >          struct bch_val  v;
-> > > > > > };
->=20
-> I took a glance at the LLVM IR for fs/bcachefs/bset.c, and it defines
-> struct bkey_packed and bkey_i as:
->=20
->     %struct.bkey_packed =3D type { [0 x i64], i8, i8, i8, [0 x i8], [37 x=
- i8] }
->     %struct.bkey_i =3D type { [0 x i64], %struct.bkey, %struct.bch_val }
->=20
-> , which more or less looks as expected, so I don't think it could be
-> causing problems with KMSAN right now.
-> Moreover, there are cases in e.g. include/linux/skbuff.h where
-> zero-length arrays are used for the same purpose, and KMSAN handles
-> them just fine.
->=20
-> Yet I want to point out that even GCC discourages the use of
-> zero-length arrays in the middle of a struct:
-> https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html, so Clang is not
-> unique here.
->=20
-> Regarding the original KMSAN bug, as noted in
-> https://lore.kernel.org/all/0000000000009f9447061833d477@google.com/T/,
-> we might be missing the event of copying data from the disk to
-> bcachefs structs.
-> I'd appreciate help from someone knowledgeable about how disk I/O is
-> implemented in the kernel.
+On Tue, May 28, 2024 at 12:20:15PM +0200, Alexander Potapenko wrote:
+> You are right with your analysis.
+> KMSAN stores a single origin for every aligned four-byte granule of
+> memory, so we lose some information when more than one uninitialized
+> value is combined in that granule.
+> When writing an uninitialized value to memory, a viable strategy is to
+> always update the origin. But if we partially initialize the granule
+> with a store, it is better to preserve that granule's origin to
+> prevent false negatives, so we need to check the resulting shadow slot
+> before updating the origin.
+> This is what the compiler instrumentation does, so
+> kmsan_internal_set_shadow_origin() should behave in the same way.
+> I found a similar bug in kmsan_internal_memmove_metadata() last year,
+> but missed this one.
 
-If that was missing I'd expect everything to be breaking. What's the
-helper that marks memory as initialized?
+I appreciate the explanation. Makes sense.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/63zx2cnrf5u2slmabde2wptxvq6a3opvrj2zrkcolw3gdkjdpf%40bttdonbctura=
-.
+> I am going to send a patch fixing this along with your test (with an
+> updated description), if you don't object.
+
+Yes, that's fine. Thank you.
+
+-Brian
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZlX8CLwwtv5ry7FZ%40rex.
