@@ -1,124 +1,122 @@
-Return-Path: <kasan-dev+bncBC32535MUICBBYU4ROZQMGQE2RUDLOY@googlegroups.com>
+Return-Path: <kasan-dev+bncBC32535MUICBBZE4ROZQMGQEENGNO6I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB958FFEDD
-	for <lists+kasan-dev@lfdr.de>; Fri,  7 Jun 2024 11:09:56 +0200 (CEST)
-Received: by mail-il1-x140.google.com with SMTP id e9e14a558f8ab-37588e93375sf29385ab.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 07 Jun 2024 02:09:56 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1717751395; cv=pass;
+Received: from mail-yb1-xb40.google.com (mail-yb1-xb40.google.com [IPv6:2607:f8b0:4864:20::b40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E6A58FFEDE
+	for <lists+kasan-dev@lfdr.de>; Fri,  7 Jun 2024 11:09:59 +0200 (CEST)
+Received: by mail-yb1-xb40.google.com with SMTP id 3f1490d57ef6-dfa7843b501sf3198388276.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 07 Jun 2024 02:09:59 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1717751398; cv=pass;
         d=google.com; s=arc-20160816;
-        b=P4MrzWcQJfcIfej7CDT3aoA9pxNkSbeBQo7OPsHHG1A5gxKXBH1FN7PNNf0Wzpw/yc
-         CBJ23JbQPnB9sVMSCijjM4HWaRypx+TZ69Y6PxwyqNYzoGWdGPNcbOixXJZK7TrDobR9
-         ptfK6Ph1u/wwtFZS97QGb1wFMdqjBzv1u1y8gHuhRSr3YJBX1lX9TKayAasEJ8Au/blA
-         SCpJb9aZPwhaT6qwU5Pr56mIP4xGUb4RNMFCQJEy8qSYy56BrU9I/+Feb+uIMl+CTsP3
-         eTr8bR/Uzt8ui1UAf0svN1ZcrKPHOlmey4wevS31TsKuE8IHRoi4xcnpkCu8WnfEbjKA
-         jSUg==
+        b=GzItIzbvAzAIRkXo7et5298PxC3hPu3oFzc3O26J4hNMn2N+9/xluOHKTM4TaAecVb
+         zioTSXfqYMk65fHKgw7AQiAQue1/EBFikl6wKeen+2X8na8kkSRLYzzNk1T0GJbotH2z
+         uuzcw+gQiXce+EwBTQO08matoYrUdnMJS9ypoN/J9M84eis+PehOkAbQ3Rxbk/1mZJDp
+         quzBNyBEcyfz0fwc+oc3Clvz2PstgXIxdUFjSNdqvSMIT3mlerJOZ6N2OWvtq7mshrGX
+         IxswR+zHZMwrrRg2FziYRicAygzb1ChOwFhKH8HmUKTUzI3gjFIkUdvKKwwRS4SS5x0Y
+         EeUg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:message-id:date:subject:cc:to:from:sender
-         :dkim-signature;
-        bh=hjCP3yKeuGJuTrsbiAx16R6UHuI2YN68rZvCRnltHP0=;
-        fh=eQjow8/WzmlM3sQjm2DOl3EO9eutAvy+SKZjitDNkGg=;
-        b=fRMnEtDz8DB8nd1tb0KwX0k+FhT0YHx1CFZZn5aJcbDW8aea5qJXb8z1uVqvUYXnBX
-         +hhjjbpuwx7N5k8A7wySkT/xCS2oCu9zdOQ6lwQ0RsVd1Y7nPo96veics+rj1/KjSCuW
-         QQyjkORTroPxr8zhVK76Vg+5eMSh3tnqyZ9sle88uPHGnkIX8eW+DOEWl6R3qVi/lRhl
-         2hFcv0SHnPpRntZYDfBXzjN5N/JqJxXzkgkyWBapvRCiK/r2T/hUpWST3x/J/ta9lKsN
-         xNOl4hwoJupDqGSnKv/V5zBAh5W0TsbSkBqJz2Fp1CUnXDdOixlz79Kj+6dRH6TqvK16
-         157g==;
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=vkesLMaqTzgCDPLoZDBIP1hdFOYk4cRuxow+U41Ka10=;
+        fh=k4vu0X+eCsIqqXDBXIcA3ETW9al8DSV57L5CegJoUzQ=;
+        b=apilGhN1zEsXmWyEQ+xGLB8Dsmca5vvxxsDQ5PwnlGhHvi+5dnXVD6uoinxMkYoSvC
+         cpox5xaTbAEM2os6Y9WtYaJ2ScdHQcSlcTFNLMdAiVuEYj5hQf3AcyZ+BlOXhrF88SJN
+         nyN5YUm8GNFwDRhh8mu5H7oRCt/xzY5oUIJx8jMam4npBkmU2cD3oL/nCuO2PC92Z1jc
+         A/lLAic9Bt3NezpAPN7CQQvUXB9jMHajzhGQ4LjImeLmMwu0TAlul0OGP0qFK2V8oTiB
+         qHHLUzIOU46bCLMiwjJCwz1wIkVBGtculz3VbYUOoHJNKWQMt2L83QE7vxD9zunIQEwJ
+         PAJw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=apjgsSaV;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=QD+SPR3S;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1717751395; x=1718356195; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1717751398; x=1718356198; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:mime-version:message-id
+         :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hjCP3yKeuGJuTrsbiAx16R6UHuI2YN68rZvCRnltHP0=;
-        b=f1CwQn/+GF53AnWrLRpvClKb7dirLEiy+Ko6mySmpyvGFo338qs5bNdD/ysYeg/29P
-         sJMwQqzazD9+rL4f/yLYeiyNnnf8B2q6Yk/n1AbBixYBBNGPH+Nb+YlrUh3YpBt73+oi
-         SMnGxHobFLFqzoKYHBeVjQcDo7mEO4MTmHGR5VlpuXa7MtY7ulQyK5MI+MqX8BVySKgP
-         jAO1/xXCLpSqZB9q3syUzcqZqSCRz1rGCARqGK+dPr+h8+EruW1GkELa15kXgS5hmbWe
-         Ol4i+MGt7jmTw6/vE2b9qdamhKyiz8bCvXOfiGmkA4cqGCJ4zL0VhTZN4jkTsUCFi1yn
-         kmSQ==
+        bh=vkesLMaqTzgCDPLoZDBIP1hdFOYk4cRuxow+U41Ka10=;
+        b=ZnfiqlaEbSpdNcT4WZ5Xxgze4zdmQxFFjkjOS3PVMzYHsLXYb+nALlJ8P8XSFRnWHn
+         ZIL3290hk6q5iz56Y3ffue5YaEmdiTlBX1X0a3p+fVqcKPDnhIKT+9QvEgKW3q1RjlMp
+         OzrmbfEigw0Jg4PVpuk46GOA7HjgSI46R/01LHodvEwcfjyo03CMdVj2d9OVGy3af1oN
+         0c7Onl6t271mp91OdpPcUhacVUrYlC2bHMByje2LTU1HQVT1MdlTwM36dfVjxXMmdOfd
+         DG6pAW7zSwDLfweEWQhAPZmnhZr6aw/oMoOg87DKV2+yHXj53jVwbRyRzRXmB0zmbsiM
+         7s1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1717751395; x=1718356195;
+        d=1e100.net; s=20230601; t=1717751398; x=1718356198;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hjCP3yKeuGJuTrsbiAx16R6UHuI2YN68rZvCRnltHP0=;
-        b=eADMGFviCPZsbuHK5jSQMnWjQlsTb5K3k4rl/Sek8FTEkebYTgYp0wgqfnkDQREdsY
-         HElrkBbNc9TLIiUzPdaXcljqf28AOIXsQ4qq1gaWN7HGxJqcSUZBRpSLydC0scGIcmPa
-         WKE8cTHzdlTnIPWghU99cpggl1ESvVkjizkzgLtY9oTQdmfwAA9UGAkUXFXTsWAyp6rL
-         7CDlWC52HKRMe0zHFyYIFY+IeOGGeqZumsBOzE1/3NI4AetlkLb6pEfwaTMQHNld0ETh
-         6wCJ/XtgFK4rMhDbrv2v8DOaBUb7zgZOYdGYBfcwJKtN7TJWY61r9I22Bz2Vpi8j+1wY
-         SDog==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vkesLMaqTzgCDPLoZDBIP1hdFOYk4cRuxow+U41Ka10=;
+        b=F2xI53PjMA3F5e6gUfhmzzvk8A0Q6t/V3YNwGucFc59w+9J1nq4ihwyakOrObOGmp2
+         LVvKrpYAiVY79qAXQ9/GU9wYhfOH0KkwBOzLZRYzoFtpdHFuAFHxBSDyCrqIj6QlxVl/
+         c3+g4kBZeUR2c0UKPyG3KHVYrZSeMrinyqgi2R/ycawddv4l+ovZqPy3w4LWd352KjJ2
+         uGa+t3ff4skD5/5u+SJQFz67yKBFvW5/Sh6Jw632igU8y6lwzGBSHnwNRkB3OoeKUajX
+         /OkADEoz2ccBhQnkKval1BuazneijqzVdihVSh0AhgrbHZyU7E7yKejBJ1bqTQ+YDvyu
+         DN+Q==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUMBQyOK5YlHUnwDGAsVI3uhSa4g76qUs1uUaEgYHFZUw9gY7cE9Ssu8tplmKIV5Gy6VIEzOpeIGf/MeJU+BXQEd2TPhDpouA==
-X-Gm-Message-State: AOJu0YyolB19lgZjIT1OUWDgY7c3/aByLVc00MNx9o2ooEGdCzFdaLRR
-	dBiEx0tK5071k5qwEhYZRhbonDIRn9aONXcsCTCRjDmpSXMWbUfu
-X-Google-Smtp-Source: AGHT+IECKBC3zhvNUYwUe0uztERNMTy0B9pCmtRHXlK7TCdneX2dpBJgM8Gd/z2gxw0frPKbWRSrzA==
-X-Received: by 2002:a05:6e02:221e:b0:374:8a54:7622 with SMTP id e9e14a558f8ab-374bc0837c9mr6688685ab.19.1717751394864;
-        Fri, 07 Jun 2024 02:09:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUV8gsewcHjK/NTvHjTMPXZGL+rZw1ocaEQQ/quPo4SEBGlpzIN+NoMlVXNpyCjxYvS6Po6kg1tt3tfGfbUCpVKX9NeeOSO+g==
+X-Gm-Message-State: AOJu0YxoMRL7eI2McbPmA3PAw2ra0lXkFOkjTC1YTbW8Cmyny9GcMs5I
+	wcoxOoEKBjgqEq4CGkhebRaqbsZLgfRRHEickNAC83R/O6F11Nvc
+X-Google-Smtp-Source: AGHT+IF0S7lTBNQatuDo7QNxiZg6odhlqiBbQPNn8nq4oUjBpzL1EnSr8ml4u2s9WmOZWblQNnn0vQ==
+X-Received: by 2002:a25:ec0e:0:b0:de4:738b:c2e4 with SMTP id 3f1490d57ef6-dfaf660af90mr1887626276.28.1717751396418;
+        Fri, 07 Jun 2024 02:09:56 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:3886:b0:374:a665:e097 with SMTP id
- e9e14a558f8ab-375150f6ecdls7927055ab.0.-pod-prod-01-us; Fri, 07 Jun 2024
- 02:09:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWG3+F8UkBnFCdTsUJ/DoNzCPQCnlvPgBCu/kj/POeJ0CjpTP4TvqUdfrkWRA42jERZ4rZgyBjcBYEI0IM0hcK4vrd+A/jnxL+KHA==
-X-Received: by 2002:a05:6e02:1a69:b0:374:b1d5:ed67 with SMTP id e9e14a558f8ab-375803ac234mr23457165ab.24.1717751393912;
-        Fri, 07 Jun 2024 02:09:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1717751393; cv=none;
+Received: by 2002:a25:b214:0:b0:dfa:7b7c:c81 with SMTP id 3f1490d57ef6-dfaf162a978ls1585439276.2.-pod-prod-07-us;
+ Fri, 07 Jun 2024 02:09:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWH6H82eOANtdaLnYjmrrnNIDHfaxOgqN7ne8v6gOImDIVUqu69A43d4US+EWyH7LxTXbnrhQbdU5guOE6EC53tUJavZ4id682nOw==
+X-Received: by 2002:a05:690c:732:b0:624:4154:fcf0 with SMTP id 00721157ae682-62cd56614f6mr17509157b3.35.1717751395486;
+        Fri, 07 Jun 2024 02:09:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1717751395; cv=none;
         d=google.com; s=arc-20160816;
-        b=V2M2T4tjgprtkxR9gaRj2qpRjjg5Qk99cMHfPReHzAQ9ZhFcLR6yEeLYjf/oUut4cW
-         S+Y8KhDpEoqlpl0OXUvQOK86N7LUuavuZSuzfTUi2vZ9Hj4ID92G+g0EeVtLN22HqIsj
-         A+nfrI9+9pgltJ7oAnSo4EZqtF55KW4XjDf1IbaJJllv9cQvKu9yHn0+V4erodw0NdZD
-         axsH9WIGESQelzugC2w+DeVbj2GeqmavcGQ9cxSOY5NO1eQD/WoP8uTaasat9kP272MJ
-         b6WZUqnMCvI9Jfn+rHRO2AOJdp949t/aKoeo/hNESrHuZArpvWkU+4ZVXGRYHdj6h8un
-         VEFQ==
+        b=tbcnCCIVwG+RM4ZNGV2V9WfSxfZGhZ3vPy/hQwyQpiDsVGePPm9RNIyoAvEg8ZPUwR
+         if7dyUEr4jlxCZ2VyxtbV+VzRYEzy1c1vjpEQohe5Xez6IPlZC5WogKGv/surbrQdyRA
+         fL+f9z1qZgxNoEEvKuo6Truwb1az81PDUZMx3+DCkxcxOr5RTWs5mMuVYnar4awMiUr5
+         82mxgYmFZe1X8juLhcLpV8QtdZN58xDqiVxBob5Pjc3BnKUIzYXZVsjiBDN/hbcPVm6L
+         MhxLx7F4WV2JXNq4yrFPrXqhLgLfUBy/DaImkn2tp8kkdJ3k7PHSKB9hABCakKo8uumY
+         t9mA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=QzQrIOtS4DHvHPJ4+HHeRZGer7eituw1+x4QYHDabqc=;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:dkim-signature;
+        bh=kiFnKpy9jAQsfmTIBaaW+Ib0u1X/H+DkqsqDykpaDbc=;
         fh=8obm1S+EgOJGM37d32V0lIxEEqS6t/kRT3OFvw5SNhc=;
-        b=ZpnA9dW3+m2P1rSVvK5iyI4kEYDU8X3vnrTO8waUbsEdy2CcC217N+w29OWSArbvRp
-         7d4Ur/Ll9Q52LLFug9WptJTK2Rsg3mgbCGq1xeNdTLGtpxRC3lQOv8N8WUvaR4K4kvV2
-         wv0nQzEfciuceiP72cMRsG6UePUgC4uxIIE4h6O4B9RxWA45Y43Z4Df9ksdK1efMpPKO
-         GyvLzqyVs+Kn7AE9tBe1A56B9o1PZ5zpA2/x2RrumPPY4hv3vlrdkSPqX5cjSrgz5QGk
-         jT0X1hapYqpdYfrb2+p99yREE4aalUIOJDGFQ/UlQNcItu+jJr838DF9YYBUKxfWF6bF
-         Yu3Q==;
+        b=AMfc+7hibQh8NG/i7T36JJ/4VRPiuETuCsOraXco+CdvI9UmeyqOc/cCY1a83p3l2z
+         iPaX2zyGYwUL+oGlYW4iJyepQzjowsJ/Ndk7yOTxOUWvPimn79/6jiKOgxAErr+oCymN
+         yV4C77OMGuPMi8xGXlMBUF2rxpS+1l6zyUooB/dpu6nue3TxNG+YQycqHDKPxo3Dpmvy
+         XSMy+gS8G3CdhN7o/zT5GkPclHKY0eh+b/YF4lzWUF7g28YaHgjluqPMdIzkgzlYpJr5
+         yQYrNL/d9IBtMOLE1Tk3yLggDxSKnltHMUyyaW/VfqvMHQoRRPq5ixk0fdzMGgPwIXo7
+         3NOQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=apjgsSaV;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=QD+SPR3S;
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
-        by gmr-mx.google.com with ESMTPS id e9e14a558f8ab-374bc09ee5fsi1545605ab.0.2024.06.07.02.09.53
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id 00721157ae682-62ccaeb9496si2670267b3.3.2024.06.07.02.09.55
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jun 2024 02:09:53 -0700 (PDT)
-Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-629-FnEQzJIXPkGraVrUGETiZw-1; Fri, 07 Jun 2024 05:09:47 -0400
-X-MC-Unique: FnEQzJIXPkGraVrUGETiZw-1
+        Fri, 07 Jun 2024 02:09:55 -0700 (PDT)
+Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+Received: from mimecast-mx02.redhat.com (mx-ext.redhat.com [66.187.233.73])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-94-siZVc8J6MdebVKtoCSUwSQ-1; Fri,
+ 07 Jun 2024 05:09:51 -0400
+X-MC-Unique: siZVc8J6MdebVKtoCSUwSQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F2F3680B5C7;
-	Fri,  7 Jun 2024 09:09:45 +0000 (UTC)
+	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C59D31C05190;
+	Fri,  7 Jun 2024 09:09:50 +0000 (UTC)
 Received: from t14s.fritz.box (unknown [10.39.194.94])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 6D69F37E5;
-	Fri,  7 Jun 2024 09:09:40 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 44DB337E7;
+	Fri,  7 Jun 2024 09:09:46 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-mm@kvack.org,
@@ -144,19 +142,20 @@ Cc: linux-mm@kvack.org,
 	Alexander Potapenko <glider@google.com>,
 	Marco Elver <elver@google.com>,
 	Dmitry Vyukov <dvyukov@google.com>
-Subject: [PATCH v1 0/3] mm/memory_hotplug: use PageOffline() instead of PageReserved() for !ZONE_DEVICE
-Date: Fri,  7 Jun 2024 11:09:35 +0200
-Message-ID: <20240607090939.89524-1-david@redhat.com>
+Subject: [PATCH v1 1/3] mm: pass meminit_context to __free_pages_core()
+Date: Fri,  7 Jun 2024 11:09:36 +0200
+Message-ID: <20240607090939.89524-2-david@redhat.com>
+In-Reply-To: <20240607090939.89524-1-david@redhat.com>
+References: <20240607090939.89524-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.1
 X-Original-Sender: david@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=apjgsSaV;
+ header.i=@redhat.com header.s=mimecast20190719 header.b=QD+SPR3S;
        spf=pass (google.com: domain of david@redhat.com designates
- 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+ 170.10.133.124 as permitted sender) smtp.mailfrom=david@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,79 +168,131 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This can be a considered a long-overdue follow-up to some parts of [1].
-The patches are based on [2], but they are not strictly required -- just
-makes it clearer why we can use adjust_managed_page_count() for memory
-hotplug without going into details about highmem.
+In preparation for further changes, let's teach __free_pages_core()
+about the differences of memory hotplug handling.
 
-We stop initializing pages with PageReserved() in memory hotplug code --
-except when dealing with ZONE_DEVICE for now. Instead, we use
-PageOffline(): all pages are initialized to PageOffline() when onlining a
-memory section, and only the ones actually getting exposed to the
-system/page allocator will get PageOffline cleared.
+Move the memory hotplug specific handling from generic_online_page() to
+__free_pages_core(), use adjust_managed_page_count() on the memory
+hotplug path, and spell out why memory freed via memblock
+cannot currently use adjust_managed_page_count().
 
-This way, we enlighten memory hotplug more about PageOffline() pages and
-can cleanup some hacks we have in virtio-mem code.
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ mm/internal.h       |  3 ++-
+ mm/kmsan/init.c     |  2 +-
+ mm/memory_hotplug.c |  9 +--------
+ mm/mm_init.c        |  4 ++--
+ mm/page_alloc.c     | 17 +++++++++++++++--
+ 5 files changed, 21 insertions(+), 14 deletions(-)
 
-What about ZONE_DEVICE? PageOffline() is wrong, but we might just stop
-using PageReserved() for them later by simply checking for
-is_zone_device_page() at suitable places. That will be a separate patch
-set / proposal.
-
-This primarily affects virtio-mem, HV-balloon and XEN balloon. I only
-briefly tested with virtio-mem, which benefits most from these cleanups.
-
-[1] https://lore.kernel.org/all/20191024120938.11237-1-david@redhat.com/
-[2] https://lkml.kernel.org/r/20240607083711.62833-1-david@redhat.com
-
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Mike Rapoport <rppt@kernel.org>
-Cc: Oscar Salvador <osalvador@suse.de>
-Cc: "K. Y. Srinivasan" <kys@microsoft.com>
-Cc: Haiyang Zhang <haiyangz@microsoft.com>
-Cc: Wei Liu <wei.liu@kernel.org>
-Cc: Dexuan Cui <decui@microsoft.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: "Eugenio P=C3=A9rez" <eperezma@redhat.com>
-Cc: Juergen Gross <jgross@suse.com>
-Cc: Stefano Stabellini <sstabellini@kernel.org>
-Cc: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-Cc: Alexander Potapenko <glider@google.com>
-Cc: Marco Elver <elver@google.com>
-Cc: Dmitry Vyukov <dvyukov@google.com>
-
-David Hildenbrand (3):
-  mm: pass meminit_context to __free_pages_core()
-  mm/memory_hotplug: initialize memmap of !ZONE_DEVICE with
-    PageOffline() instead of PageReserved()
-  mm/memory_hotplug: skip adjust_managed_page_count() for PageOffline()
-    pages when offlining
-
- drivers/hv/hv_balloon.c        |  5 ++--
- drivers/virtio/virtio_mem.c    | 29 +++++++++---------
- drivers/xen/balloon.c          |  9 ++++--
- include/linux/memory_hotplug.h |  4 +--
- include/linux/page-flags.h     | 20 +++++++------
- mm/internal.h                  |  3 +-
- mm/kmsan/init.c                |  2 +-
- mm/memory_hotplug.c            | 31 +++++++++----------
- mm/mm_init.c                   | 14 ++++++---
- mm/page_alloc.c                | 55 +++++++++++++++++++++++++++-------
- 10 files changed, 108 insertions(+), 64 deletions(-)
-
-
-base-commit: 19b8422c5bd56fb5e7085995801c6543a98bda1f
-prerequisite-patch-id: ca280eafd2732d7912e0c5249dc0df9ecbef19ca
-prerequisite-patch-id: 8f43ebc81fdf7b9b665b57614e9e569535094758
---=20
+diff --git a/mm/internal.h b/mm/internal.h
+index 12e95fdf61e90..3fdee779205ab 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -604,7 +604,8 @@ extern void __putback_isolated_page(struct page *page, unsigned int order,
+ 				    int mt);
+ extern void memblock_free_pages(struct page *page, unsigned long pfn,
+ 					unsigned int order);
+-extern void __free_pages_core(struct page *page, unsigned int order);
++extern void __free_pages_core(struct page *page, unsigned int order,
++		enum meminit_context);
+ 
+ /*
+  * This will have no effect, other than possibly generating a warning, if the
+diff --git a/mm/kmsan/init.c b/mm/kmsan/init.c
+index 3ac3b8921d36f..ca79636f858e5 100644
+--- a/mm/kmsan/init.c
++++ b/mm/kmsan/init.c
+@@ -172,7 +172,7 @@ static void do_collection(void)
+ 		shadow = smallstack_pop(&collect);
+ 		origin = smallstack_pop(&collect);
+ 		kmsan_setup_meta(page, shadow, origin, collect.order);
+-		__free_pages_core(page, collect.order);
++		__free_pages_core(page, collect.order, MEMINIT_EARLY);
+ 	}
+ }
+ 
+diff --git a/mm/memory_hotplug.c b/mm/memory_hotplug.c
+index 171ad975c7cfd..27e3be75edcf7 100644
+--- a/mm/memory_hotplug.c
++++ b/mm/memory_hotplug.c
+@@ -630,14 +630,7 @@ EXPORT_SYMBOL_GPL(restore_online_page_callback);
+ 
+ void generic_online_page(struct page *page, unsigned int order)
+ {
+-	/*
+-	 * Freeing the page with debug_pagealloc enabled will try to unmap it,
+-	 * so we should map it first. This is better than introducing a special
+-	 * case in page freeing fast path.
+-	 */
+-	debug_pagealloc_map_pages(page, 1 << order);
+-	__free_pages_core(page, order);
+-	totalram_pages_add(1UL << order);
++	__free_pages_core(page, order, MEMINIT_HOTPLUG);
+ }
+ EXPORT_SYMBOL_GPL(generic_online_page);
+ 
+diff --git a/mm/mm_init.c b/mm/mm_init.c
+index 019193b0d8703..feb5b6e8c8875 100644
+--- a/mm/mm_init.c
++++ b/mm/mm_init.c
+@@ -1938,7 +1938,7 @@ static void __init deferred_free_range(unsigned long pfn,
+ 	for (i = 0; i < nr_pages; i++, page++, pfn++) {
+ 		if (pageblock_aligned(pfn))
+ 			set_pageblock_migratetype(page, MIGRATE_MOVABLE);
+-		__free_pages_core(page, 0);
++		__free_pages_core(page, 0, MEMINIT_EARLY);
+ 	}
+ }
+ 
+@@ -2513,7 +2513,7 @@ void __init memblock_free_pages(struct page *page, unsigned long pfn,
+ 		}
+ 	}
+ 
+-	__free_pages_core(page, order);
++	__free_pages_core(page, order, MEMINIT_EARLY);
+ }
+ 
+ DEFINE_STATIC_KEY_MAYBE(CONFIG_INIT_ON_ALLOC_DEFAULT_ON, init_on_alloc);
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index 2224965ada468..e0c8a8354be36 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -1214,7 +1214,8 @@ static void __free_pages_ok(struct page *page, unsigned int order,
+ 	__count_vm_events(PGFREE, 1 << order);
+ }
+ 
+-void __free_pages_core(struct page *page, unsigned int order)
++void __free_pages_core(struct page *page, unsigned int order,
++		enum meminit_context context)
+ {
+ 	unsigned int nr_pages = 1 << order;
+ 	struct page *p = page;
+@@ -1234,7 +1235,19 @@ void __free_pages_core(struct page *page, unsigned int order)
+ 	__ClearPageReserved(p);
+ 	set_page_count(p, 0);
+ 
+-	atomic_long_add(nr_pages, &page_zone(page)->managed_pages);
++	if (IS_ENABLED(CONFIG_MEMORY_HOTPLUG) &&
++	    unlikely(context == MEMINIT_HOTPLUG)) {
++		/*
++		 * Freeing the page with debug_pagealloc enabled will try to
++		 * unmap it; some archs don't like double-unmappings, so
++		 * map it first.
++		 */
++		debug_pagealloc_map_pages(page, nr_pages);
++		adjust_managed_page_count(page, nr_pages);
++	} else {
++		/* memblock adjusts totalram_pages() ahead of time. */
++		atomic_long_add(nr_pages, &page_zone(page)->managed_pages);
++	}
+ 
+ 	if (page_contains_unaccepted(page, order)) {
+ 		if (order == MAX_PAGE_ORDER && __free_unaccepted(page))
+-- 
 2.45.1
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20240607090939.89524-1-david%40redhat.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240607090939.89524-2-david%40redhat.com.
