@@ -1,207 +1,162 @@
-Return-Path: <kasan-dev+bncBC32535MUICBBI6VUKZQMGQEJHTC4BQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDZIZ2OL6IIRBZXFUKZQMGQEBICZOPQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb37.google.com (mail-yb1-xb37.google.com [IPv6:2607:f8b0:4864:20::b37])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE960904530
-	for <lists+kasan-dev@lfdr.de>; Tue, 11 Jun 2024 21:51:00 +0200 (CEST)
-Received: by mail-yb1-xb37.google.com with SMTP id 3f1490d57ef6-df7a6530373sf380899276.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 11 Jun 2024 12:51:00 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1718135459; cv=pass;
+Received: from mail-yw1-x113a.google.com (mail-yw1-x113a.google.com [IPv6:2607:f8b0:4864:20::113a])
+	by mail.lfdr.de (Postfix) with ESMTPS id D61C49045B5
+	for <lists+kasan-dev@lfdr.de>; Tue, 11 Jun 2024 22:26:15 +0200 (CEST)
+Received: by mail-yw1-x113a.google.com with SMTP id 00721157ae682-62a0827391asf112967987b3.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 11 Jun 2024 13:26:15 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1718137574; cv=pass;
         d=google.com; s=arc-20160816;
-        b=AiFj1ZUA55oqylZbxGMe03rVhcZEe3wTRQo7535Lsifl0/JwtAyCc+8wwZ7J8XwkKd
-         5DRmx1WCiqL5d1ENbt5F/gm1yxXcJoUatOnplFB0Fp9MTq4jmsddwtnuMVPZUrhYVkag
-         UiFaidP+6/DgDtvui3/eI+PT8Oa4r+3REWFl95NfpBaYYA5Br2q7LpTLlA5uL5QPhs5P
-         ktOAjOJ5soNkrW2Rax7/9TfC/U1mxhW6y0icaCpAH61QUPvV+g6BUHbDfcXpW9zzvPOd
-         mV/Remx04NUJY1DIel1aActlKlNnJZ41fsz650fqE2swRtsETodsh/G080X0xinP3Fxm
-         NOgQ==
+        b=dG+L6+QlaGKlS6U9368H7Epd5Md88vWhv6BNAGoQdwFFbfIOqrDu+umw/9eSNdEbb2
+         09DzdVzoIhu1b5a/ON9MxCR43LIN1EelCltcQLIy74FuFB9bEU3WGVWh7mPEB5ppdoJA
+         4QCt2yZGnD5S5q3gDEFfQukjjZJJTuzEzbS1rNuZ07cHiwEJ/S0k8qxAqL/XfOWSosr7
+         wMZDSeatbVtAfw6z3w2aFosbQ6R1iv/T/kVgq53IlO3JtW6lV+ZYdWCSpdepX4/ul/l5
+         8dtTu4AakMSsHHthXEZcltYnhs38Yn9tRCIk3l3FV0/pmBOHFSsNNxpYC02BmNtGGlQz
+         9B7w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-language:in-reply-to
-         :organization:autocrypt:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:sender:dkim-signature;
-        bh=jV3uTRB5PwGjryApAtIRPlRqblueX9pWcVYMk9J0SwU=;
-        fh=vbMLi9T/8KWZi5Pe2sYPqEuFLmLTuI9Swt//PciXWko=;
-        b=so3KEkPXxIVH97v5n9IUQ4lKGulKF/0G4b8GUuMfi96G+F5EaZ3kg1upzjHgrGFf+3
-         F39JEQM+gogj6fdx5kscL873GvzedW01ylr7Xb5FpRj1dm0tTSMcbgn1IRTTq0fStgwW
-         GhSN1cYXLWoBUd1E43np8ayD2OwX2JzU9mmSaHRtlOQIsF7Zq9Uox4MgoB+N40okTpEI
-         vxzZwYztuyiha+yREJxc2xvv7KUcPirVQsL3f0vvuwSipkPYKQcbeCRYw+A3KopXbNAc
-         78sXkWqB3MTY7o3nYSenaQoFGWlqPgUq05ZFen3VRD8kIde/NJaS7I0omOweZ9UCq+wp
-         LZ2g==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature:dkim-signature;
+        bh=27o2tlXEPQZCiT2MkmpUV0Msnb+ObwWvC6Bb6rJFKOA=;
+        fh=JOyqKINyZyk/cWInGnRkI0fQXW5taDcY7sykGGffnqk=;
+        b=mQ44XJ0hstDtHLxQEuYQYPnL0GYX2HIFZcvZVWAezcrjAU2VEXt8tXuhdNp4t6FTNf
+         KaMd7aqUtbDXjVxDv29TMmDvfFywztsKODJP6o9DEBuzsdWaARSeGJVKvQro+Tk+MydT
+         1xsyG4sjmzA1Q6/eJWpGpPLvQqJRXteV64f4h8s+O9irEjjw6gaeBbR3/3mZOVFdFPYb
+         qy2id8VMw4PedFD5PqK7Us9V0KpT+RtlaDtbyFm+xF5CGBdIkMok0mRuB4K3WHNxyHCZ
+         OTEq66xQQAJwOzrdmWgsoug3xGDQab15aYoca8OMBxD/eCrQZDdMpG2KBkn7FzAOxBdy
+         WKMw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=D2u31ezr;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=S+7c4XRi;
+       spf=pass (google.com: domain of gatlin.newhouse@gmail.com designates 2607:f8b0:4864:20::62c as permitted sender) smtp.mailfrom=gatlin.newhouse@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1718135459; x=1718740259; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1718137574; x=1718742374; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-language:in-reply-to:organization
-         :autocrypt:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=jV3uTRB5PwGjryApAtIRPlRqblueX9pWcVYMk9J0SwU=;
-        b=LbArqYlBsTb4UnS36QTozxzuOjxeacYx0tyAUD/XaK9+sIlSYj6jF7FPAMLi9OkEDe
-         xg/NvuCOQjw2rBqUjjcQ5HZ38rSOoVX5D0UZC+ye7197kAAnkPPjNSBYa1rI00VPlL+s
-         TS8r2JIpT6uHsDNcb4r31dtsL9K/X8CaOYJ1hEx2WNV/4y8q6x3xlClyd0zKeFtCc0p7
-         AxNhVeQRmRAMLNTDJKYkE+RgUjiMecIjqJIjlTp3slZeh3EsVnSmI5gU9B/wxOEh8JR+
-         h0g3cenU1Bkgm8JaM0inxvDSm4VV/+XDbLmv1XS7I4vFiNpNlcnbcOLM0qkA11vkuAej
-         8JLg==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=27o2tlXEPQZCiT2MkmpUV0Msnb+ObwWvC6Bb6rJFKOA=;
+        b=Rfhi10CpVLpMMQluZ3hl6tC1P67DbDlg6qHLcPjA49Z1pIdZKXi4MtBzPh8QJlD0r7
+         SXi0rSul2adE6rjLypno+I71Q4QWweosA4/NkDBnOwvuX4ZzAt+rG5AzVEC1mAsdJeEW
+         rH4KNeU8xsJnXFKLpp4H2fbIaJC2mUaKbAPGdD6CAW+0jwh0eUM2EZIdOhk0ghB+VH3k
+         zI8U5F19X1U/HWPr4n2cH0/xli8RwKebly4npUFG7QCipVZOdxaQIoz/UeZ1z+82Wiil
+         RnCUEqQwFv5kIwufPo+ZmokpMn9ysEwWNejD6pN0aMd93unRqG/ZuXo6Ma0ViHOr2w2M
+         Zk0g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1718137574; x=1718742374; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=27o2tlXEPQZCiT2MkmpUV0Msnb+ObwWvC6Bb6rJFKOA=;
+        b=TWapwny+648RsiU3X/YrxDyA2YNB+YF6UBczyHd73IJO3YYpnMQ08Zn20Hxrt9vwom
+         OTse0ELNmtCZhOvFhdJvDi6ufx6GoLEg0wn8FW92yjknfGaaqnXNyfTL/6iynp9W778H
+         hZlCs40pZNfFD1bPUxvVFtsX3YbU2oc07TiwXvEBYD2GRFqyxcP7ePkE3i/jUtXnQgrp
+         SKGBo/7KuIdsU4tqs2OAhutUujmvoBv4D/LzyXCUcnF1Jz0wLfd8H8/cDzpTTLzjniVw
+         DBYIiSxWVgGYrT3yJa2iFexjZudqryOSTEwU6OE0HRUq8A0Gnu/D699zbYyn8CJo73eB
+         XoIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718135459; x=1718740259;
+        d=1e100.net; s=20230601; t=1718137574; x=1718742374;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-language:in-reply-to:organization:autocrypt:from:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jV3uTRB5PwGjryApAtIRPlRqblueX9pWcVYMk9J0SwU=;
-        b=ZFZxCfURoD7eF9MMOPROR0axphomvcSUMD9YuCOgR6VgG+LuILrX8fVkS4MhMKM39f
-         xVe/a6s7vBvVMJUaky54ZlkiAvL9gyk4qyN58Z6/U/cQK7ObNr8lilYeUr/VWSyt7xtR
-         NduvN7ndMTXPn3dUBN42e2s4OEqM0SnropSDoDPXzftTRrxN2dIT6l+Q71GSbttYofse
-         GSE4V2C7Ak8nlSSrkWCV2FvMegccgmDcai3pKvHfPQKXk8Rs+t197ySJ5Fh2g+yfPd0g
-         87/TK4Occl5p1nULdNtS0AJtz4XfTSBO1DGdvKCInAjOF5HOwGLVlKCqyLp7S0veiQOd
-         +zuQ==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=27o2tlXEPQZCiT2MkmpUV0Msnb+ObwWvC6Bb6rJFKOA=;
+        b=hiIbth7kie0U155N8mqnwOFzHuAIL0IDBCPYKJeEuOGyXo3VnpM+LcTj2M5pt62vv9
+         gtMaot/032ku361zEVMM59aFmDWeBiBc6kiTzTYCmSEMdfCFygbqCXVQ8oAIdBZWvp3w
+         z8f5WIzVkAr4euYHdX4cifeQTZdsTClxPzw7uQZo4pz0zDbOlyEYRK62DMJdZ5jhc55+
+         EmWp11hiccRsIN6FTTxqQfaIOD9UZxYmVJFGEwiP8xSb22vIKpDZFEkp0506LLOL7s/c
+         MOpOcUx5sQkftm6d/juRLLGxh3dP3wqYzo8fJgIhzf+eaamamfi1glZ8eZtsWdJbqtXT
+         OrYw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUVfcg4njUz7cUikTRgPCvDaPk3Xol+2/0cKW/YrHAr9F9DHgsH+rUXqng/KGKNJ/O0EAcbCvTNM8JZvumym2Fp/J8tyaZSnw==
-X-Gm-Message-State: AOJu0Yz+bpViBTLYJXartRlK0ceBsJi96BEcvQk+Dxyb3aNO6jnY1Ttd
-	yNT+hT8d8Mz337mno3F9KdGEr9r4zWArwEuLDqg/cHeVRGDXQ6s1
-X-Google-Smtp-Source: AGHT+IGPvIKAtzuyE+kJDEpxp1+YOIVYyB7xK1JogSqiQmN/8Hr+qG+MaYQ497JTgPGg977PPfAAHA==
-X-Received: by 2002:a25:2b8a:0:b0:dc2:2f3f:2148 with SMTP id 3f1490d57ef6-dfd9fe91b33mr2103404276.29.1718135459480;
-        Tue, 11 Jun 2024 12:50:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWRy8yIlhOeYIu/Rs6NN8be2RD0ytmBZ34lAsW+4a97gcVda2aeZe53CK77W+2XGtx9RnhkzWttsG5X0tRl2JgEie74jlmvHA==
+X-Gm-Message-State: AOJu0YxsHYnC98ae6PFgNtPYzWWNHJAID+DdfBZcr9pfsEz7yW1ZuneY
+	5VtNgVsaPxAGRSajC94DZYPdX4jPSzukTfTJWoy4ZrXD7HMqpbaJ
+X-Google-Smtp-Source: AGHT+IFz/8hshEGSqBFc9A0GWLjAT1ECJ6BUvGSPGEmYkEkI7NELdOAS2B9kxcKyVcGw/l0TnxGzaw==
+X-Received: by 2002:a25:b204:0:b0:df4:dfee:3572 with SMTP id 3f1490d57ef6-dfaf663ca80mr12768755276.38.1718137574385;
+        Tue, 11 Jun 2024 13:26:14 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:6b48:0:b0:df7:71d2:bccb with SMTP id 3f1490d57ef6-dfaf1659c71ls4283783276.1.-pod-prod-00-us;
- Tue, 11 Jun 2024 12:50:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCV7bkhyRd11l75UzDll76RKpws8JHe9Z1nLK7hYz3bWjHMI4RM0AZ+CXPied/kfdCOiyCJ7Ox35uL1d3PDAPySP30DpbZLJWiY3+g==
-X-Received: by 2002:a81:be07:0:b0:62c:ffb9:bb87 with SMTP id 00721157ae682-62f1b5c98a7mr14435427b3.4.1718135458527;
-        Tue, 11 Jun 2024 12:50:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1718135458; cv=none;
+Received: by 2002:a25:6807:0:b0:dfb:14a0:3d5f with SMTP id 3f1490d57ef6-dfb14a03ee7ls1856472276.1.-pod-prod-05-us;
+ Tue, 11 Jun 2024 13:26:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCW8OUj6Dwqi4V9rzo6u92JL2FiNzNzmQVFAIDxzagIlW3kkKCTVNTu4tZutdtBOThYL7Bvts2ZJsPB0bAKOWwFlNWzfKmIYYhbl/Q==
+X-Received: by 2002:a25:6cc2:0:b0:dfa:6bfb:e19a with SMTP id 3f1490d57ef6-dfaf6649029mr12717586276.39.1718137571951;
+        Tue, 11 Jun 2024 13:26:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1718137571; cv=none;
         d=google.com; s=arc-20160816;
-        b=SytbXr78XmwwA8+aprqRmIKvVCxJKBPH9zBTLOVUptWFn+vrYTBIRSfPPzTqPH1Z9p
-         DnlnCWKdnOrQaR1AU2egcltTlUwZajRAddg+ahuJiCq6WrwBBW1l0FfEWek75R8EvCvJ
-         V7JMAk6fiDWyIvmaLfBH+uIIfEKVko73PoBn05PaxpfNEOaCBMBTeG66wgkfSaWZNl+8
-         Jv1PTdqLzDaAWbYtN5p7kvuRFAtb5NlyRmUT7cZCFtIPQFEsdw48aztnmzHqK60E2EjB
-         lt5QZkPWimj9/IDrJSQQf+QDax4AVdJbpnG+R/iMLnP27wAHwwJWE7K7K6/XjWIe9x9L
-         t9EA==
+        b=Fc0yDID81cMBz6xwGYJtjf7d/6b0n30qCiRg19Fxr5HblUy8K9AbKAauJfD0bg7KfM
+         h4Fk0wMxMpeWM2Qq6/luEn2K4mRO5irrrNL6+739Akfznp0ATOBljxtDPvv3YvWhHouC
+         Tqbke3tR77PYqEx3IjMUz03UtHnGIWqOlljNGBJoWXukNchmBhTls2nR1OIGGVGV5T1K
+         LuQir+G3uz7Ti32NyZFiKn0yLm1vM42g0D1gyTOJt7ZyuK1WwHyC/Cnm5RIwqRwCr4aK
+         OEvjwKCwGjqI8xGFryGiQ4ky6FxpcJUzxnfxLBYnf3HqgQbdAUONEnT+Pzss7Q3hCX4U
+         ZybA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:content-language:in-reply-to:organization
-         :autocrypt:from:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:dkim-signature;
-        bh=VC/FKQpyiv8QuT0prkiboQ+mv2U8+abllOC5cV7bqrg=;
-        fh=guVd3Qy42pSezhepvpUqxY/6nJAC10x4Y1G6Su4XM+k=;
-        b=qbUjsfV1MeewILasdJfMB+jdLC0kdZrc7zkmN9Sc64IggGXguhGk+Pj5MOLoGc0Qsu
-         7m97LnLhUpNDJoxI8OFm+L7p19/RpFM7sAu9hH909TNEpAsCerDXVtcucceuYOjmSB4z
-         i9wHwR6/wZfIMe7IunfyIIZcXPAn2SWW9GGWDKGUuNZizDgx2qEleRZF7Bzb6M2y6ZNO
-         wB54sB12A+wCADfcaKZVQWVXDHNoz1hSw9teFqJpHrh7dOhWZ3ArVrdfzSIgegDQpT70
-         zPEQTW0JrYG0wUsdIBc6TgFhKuxEYUlYQKdf6/W7u2CcIYy6q+Z37leIFVH1SC+mcQ+v
-         55pA==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=LiuNTA4whcExw8Dugs1FyNFiaWA9GU3jWb1r5NfBRAE=;
+        fh=HQt+4EXz+j96lo3tdQCz+3swZXUfLkk3CfbI5Kxkptk=;
+        b=v9EM4kEFsV7BI67L3bOsKC09A8lptGI0ndWoJtqT6zmqiDWSKLxuZLTfbW4nUfxa1y
+         yj9xFgd6bKJ1SRZYUfWXg4SeEPfmzGilg+7n3cC1eLsOWQzFeARc+JBcbLr7jZrpLyG5
+         Me8mn5O82nmc6ax710qkjO8yKrva+49aEE5R2op7MvO+raz1AbSbhwnYDT3jkTfHi3du
+         BGFxRX8MwHGlV3zo4E/Jn0A9mG/bqyUUJcbuU6ekwg1MkFLo1MMkfdkbNNNvzWBbQuuH
+         jyCDbjx1nmAI0Aj9JYMXNCzqNMYI0O/M0uVEnHiSJOeq+TBoro4Tz6Ut0DYUIC6A4kQv
+         mMWA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=D2u31ezr;
-       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
-        by gmr-mx.google.com with ESMTPS id 00721157ae682-62f1d9b6e3csi1147677b3.4.2024.06.11.12.50.58
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=S+7c4XRi;
+       spf=pass (google.com: domain of gatlin.newhouse@gmail.com designates 2607:f8b0:4864:20::62c as permitted sender) smtp.mailfrom=gatlin.newhouse@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com. [2607:f8b0:4864:20::62c])
+        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-dfdb4bf899asi90878276.2.2024.06.11.13.26.11
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 12:50:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-33-8gRTYUeyME-bYBqyOGSTvQ-1; Tue, 11 Jun 2024 15:50:56 -0400
-X-MC-Unique: 8gRTYUeyME-bYBqyOGSTvQ-1
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-421e17ae038so18629105e9.0
-        for <kasan-dev@googlegroups.com>; Tue, 11 Jun 2024 12:50:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVJ1mV8Y+saBt4im/yyKc4F68+gK9DKwaN7ony0iv+LwsMMdxzC2Se/SwoFy8bFGPVKU2Ec7byglVdC7zMJQFENuRpqaoXz5uaBtQ==
-X-Received: by 2002:a05:600c:1c91:b0:421:8028:a507 with SMTP id 5b1f17b1804b1-4218028a5f6mr70330535e9.18.1718135455374;
-        Tue, 11 Jun 2024 12:50:55 -0700 (PDT)
-X-Received: by 2002:a05:600c:1c91:b0:421:8028:a507 with SMTP id 5b1f17b1804b1-4218028a5f6mr70330165e9.18.1718135454911;
-        Tue, 11 Jun 2024 12:50:54 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c748:ba00:1c00:48ea:7b5a:c12b? (p200300cbc748ba001c0048ea7b5ac12b.dip0.t-ipconnect.de. [2003:cb:c748:ba00:1c00:48ea:7b5a:c12b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42274379b83sm16254225e9.28.2024.06.11.12.50.53
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jun 2024 12:50:54 -0700 (PDT)
-Message-ID: <fff6e4d3-4a11-4481-b28c-edfb072daf35@redhat.com>
-Date: Tue, 11 Jun 2024 21:50:52 +0200
+        Tue, 11 Jun 2024 13:26:11 -0700 (PDT)
+Received-SPF: pass (google.com: domain of gatlin.newhouse@gmail.com designates 2607:f8b0:4864:20::62c as permitted sender) client-ip=2607:f8b0:4864:20::62c;
+Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1f44b594deeso51305335ad.2
+        for <kasan-dev@googlegroups.com>; Tue, 11 Jun 2024 13:26:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXVLctFOdTy5+M0EOsf+aBNX7jpqf4+aY+VIYJpqFTvemODcVK+gRPUzbrGAGLDT7GIUeGgk9J54U5LU6/uy6SkL9ioUI7xukBJrw==
+X-Received: by 2002:a17:903:1212:b0:1f6:6dc9:615c with SMTP id d9443c01a7336-1f6d02f4e65mr152389785ad.35.1718137571295;
+        Tue, 11 Jun 2024 13:26:11 -0700 (PDT)
+Received: from Gatlins-MacBook-Pro.local ([131.252.49.243])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f72d450697sm20488005ad.168.2024.06.11.13.26.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jun 2024 13:26:10 -0700 (PDT)
+Date: Tue, 11 Jun 2024 13:26:09 -0700
+From: Gatlin Newhouse <gatlin.newhouse@gmail.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Kees Cook <keescook@chromium.org>, Marco Elver <elver@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
+	Baoquan He <bhe@redhat.com>, Changbin Du <changbin.du@huawei.com>, 
+	Pengfei Xu <pengfei.xu@intel.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Xin Li <xin3.li@intel.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Tina Zhang <tina.zhang@intel.com>, 
+	Uros Bizjak <ubizjak@gmail.com>, "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org, 
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v2] x86/traps: Enable UBSAN traps on x86
+Message-ID: <7bthvkp3kitmmxwdywyeyexajedlxxf6rqx4zxwco6bzuyx5eq@ihpax3jffuz6>
+References: <20240601031019.3708758-1-gatlin.newhouse@gmail.com>
+ <878qzm6m2m.ffs@tglx>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/3] mm: pass meminit_context to __free_pages_core()
-To: Tim Chen <tim.c.chen@linux.intel.com>, linux-kernel@vger.kernel.org
-Cc: linux-mm@kvack.org, linux-hyperv@vger.kernel.org,
- virtualization@lists.linux.dev, xen-devel@lists.xenproject.org,
- kasan-dev@googlegroups.com, Andrew Morton <akpm@linux-foundation.org>,
- Mike Rapoport <rppt@kernel.org>, Oscar Salvador <osalvador@suse.de>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Dmitry Vyukov <dvyukov@google.com>
-References: <20240607090939.89524-1-david@redhat.com>
- <20240607090939.89524-2-david@redhat.com>
- <80532f73e52e2c21fdc9aac7bce24aefb76d11b0.camel@linux.intel.com>
-From: David Hildenbrand <david@redhat.com>
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <80532f73e52e2c21fdc9aac7bce24aefb76d11b0.camel@linux.intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-Original-Sender: david@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <878qzm6m2m.ffs@tglx>
+X-Original-Sender: gatlin.newhouse@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=D2u31ezr;
-       spf=pass (google.com: domain of david@redhat.com designates
- 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+ header.i=@gmail.com header.s=20230601 header.b=S+7c4XRi;       spf=pass
+ (google.com: domain of gatlin.newhouse@gmail.com designates
+ 2607:f8b0:4864:20::62c as permitted sender) smtp.mailfrom=gatlin.newhouse@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -214,51 +169,206 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 11.06.24 21:41, Tim Chen wrote:
-> On Fri, 2024-06-07 at 11:09 +0200, David Hildenbrand wrote:
->> In preparation for further changes, let's teach __free_pages_core()
->> about the differences of memory hotplug handling.
->>
->> Move the memory hotplug specific handling from generic_online_page() to
->> __free_pages_core(), use adjust_managed_page_count() on the memory
->> hotplug path, and spell out why memory freed via memblock
->> cannot currently use adjust_managed_page_count().
->>
->> Signed-off-by: David Hildenbrand <david@redhat.com>
->> ---
->>   mm/internal.h       |  3 ++-
->>   mm/kmsan/init.c     |  2 +-
->>   mm/memory_hotplug.c |  9 +--------
->>   mm/mm_init.c        |  4 ++--
->>   mm/page_alloc.c     | 17 +++++++++++++++--
->>   5 files changed, 21 insertions(+), 14 deletions(-)
->>
->> diff --git a/mm/internal.h b/mm/internal.h
->> index 12e95fdf61e90..3fdee779205ab 100644
->> --- a/mm/internal.h
->> +++ b/mm/internal.h
->> @@ -604,7 +604,8 @@ extern void __putback_isolated_page(struct page *page, unsigned int order,
->>   				    int mt);
->>   extern void memblock_free_pages(struct page *page, unsigned long pfn,
->>   					unsigned int order);
->> -extern void __free_pages_core(struct page *page, unsigned int order);
->> +extern void __free_pages_core(struct page *page, unsigned int order,
->> +		enum meminit_context);
+On Mon, Jun 03, 2024 at 06:13:53PM UTC, Thomas Gleixner wrote:
+> On Sat, Jun 01 2024 at 03:10, Gatlin Newhouse wrote:
 > 
-> Shouldn't the above be
-> 		enum meminit_context context);
+> > Bring x86 to parity with arm64, similar to commit 25b84002afb9
+> > ("arm64: Support Clang UBSAN trap codes for better reporting").
+> > Enable the output of UBSAN type information on x86 architectures
+> > compiled with clang when CONFIG_UBSAN_TRAP=y. Currently ARM
+> > architectures output which specific sanitizer caused the trap,
+> > via the encoded data in the trap instruction. Clang on x86
+> > currently encodes the same data in ud1 instructions but the x86
+> > handle_bug() and is_valid_bugaddr() functions currently only look
+> > at ud2s.
+> 
+> Please structure your change log properly instead of one paragraph of
+> unstructured word salad. See:
+> 
+>   https://www.kernel.org/doc/html/latest/process/maintainer-tip.html#changelog
+>   
+> > +/*
+> > + * Check for UD1, UD2, with or without Address Size Override Prefixes instructions.
+> > + */
+> >  __always_inline int is_valid_bugaddr(unsigned long addr)
+> >  {
+> >  	if (addr < TASK_SIZE_MAX)
+> > @@ -88,7 +92,13 @@ __always_inline int is_valid_bugaddr(unsigned long addr)
+> >  	 * We got #UD, if the text isn't readable we'd have gotten
+> >  	 * a different exception.
+> >  	 */
+> > -	return *(unsigned short *)addr == INSN_UD2;
+> > +	if (*(u16 *)addr == INSN_UD2)
+> > +		return INSN_UD2;
+> > +	if (*(u16 *)addr == INSN_UD1)
+> > +		return INSN_UD1;
+> > +	if (*(u8 *)addr == INSN_ASOP && *(u16 *)(addr + 1) == INSN_UD1)
+> 
+> 	s/1/LEN_ASOP/ ?
+> 
+> > +		return INSN_ASOP;
+> > +	return 0;
+> 
+> I'm not really a fan of the reuse of the INSN defines here. Especially
+> not about INSN_ASOP. Also 0 is just lame.
+> 
+> Neither does the function name make sense anymore. is_valid_bugaddr() is
+> clearly telling that it's a boolean check (despite the return value
+> being int for hysterical raisins). But now you turn it into a
+> non-boolean integer which returns a instruction encoding. That's
+> hideous. Programming should result in obvious code and that should be
+> pretty obvious to people who create tools to validate code.
+> 
+> Also all UBSAN cares about is the actual failure type and not the
+> instruction itself:
+> 
+> #define INSN_UD_MASK		0xFFFF
+> #define INSN_ASOP_MASK		0x00FF
+> 
+> #define BUG_UD_NONE		0xFFFF
+> #define BUG_UD2			0xFFFE
+> 
+> __always_inline u16 get_ud_type(unsigned long addr)
+> {
+> 	u16 insn;
+> 
+> 	if (addr < TASK_SIZE_MAX)
+>         	return BUD_UD_NONE;
+> 
+>         insn = *(u16 *)addr;
+>         if ((insn & INSN_UD_MASK) == INSN_UD2)
+>         	return BUG_UD2;
+> 
+> 	if ((insn & INSN_ASOP_MASK) == INSN_ASOP)
+>         	insn = *(u16 *)(++addr);
+> 
+> 	// UBSAN encodes the failure type in the two bytes after UD1
+>         if ((insn & INSN_UD_MASK) == INSN_UD1)
+>         	return *(u16 *)(addr + LEN_UD1);
+> 
+> 	return BUG_UD_NONE;
+> }
+> 
+> No?
 
-Although C allows parameters without names in declarations, this was 
-unintended.
+Thanks for the feedback.
 
-Thanks!
+It seems that is_valid_bugaddr() needs to be implemented on all architectures
+and the function get_ud_type() replaces it here. So how should the patch handle
+is_valid_bugaddr()? Should the function remain as-is in traps.c despite no
+longer being used?
 
--- 
-Cheers,
-
-David / dhildenb
+> 
+> >  static nokprobe_inline int
+> > @@ -216,6 +226,7 @@ static inline void handle_invalid_op(struct pt_regs *regs)
+> >  static noinstr bool handle_bug(struct pt_regs *regs)
+> >  {
+> >  	bool handled = false;
+> > +	int insn;
+> >  
+> >  	/*
+> >  	 * Normally @regs are unpoisoned by irqentry_enter(), but handle_bug()
+> > @@ -223,7 +234,8 @@ static noinstr bool handle_bug(struct pt_regs *regs)
+> >  	 * irqentry_enter().
+> >  	 */
+> >  	kmsan_unpoison_entry_regs(regs);
+> > -	if (!is_valid_bugaddr(regs->ip))
+> > +	insn = is_valid_bugaddr(regs->ip);
+> > +	if (insn == 0)
+> 
+> Sigh.
+> 
+> But with the above sanitized (pun intended) this becomes obvious by
+> itself:
+> 
+>         ud_type = get_ud_type(regs->ip);
+>         if (ud_type == BUG_UD_NONE)
+>         	return false;
+> 
+> See?
+> 
+> >  		return handled;
+> >  
+> >  	/*
+> > @@ -236,10 +248,15 @@ static noinstr bool handle_bug(struct pt_regs *regs)
+> >  	 */
+> >  	if (regs->flags & X86_EFLAGS_IF)
+> >  		raw_local_irq_enable();
+> > -	if (report_bug(regs->ip, regs) == BUG_TRAP_TYPE_WARN ||
+> > -	    handle_cfi_failure(regs) == BUG_TRAP_TYPE_WARN) {
+> > -		regs->ip += LEN_UD2;
+> > -		handled = true;
+> > +
+> > +	if (insn == INSN_UD2) {
+> > +		if (report_bug(regs->ip, regs) == BUG_TRAP_TYPE_WARN ||
+> > +		handle_cfi_failure(regs) == BUG_TRAP_TYPE_WARN) {
+> 
+> Please indent the second condition properly:
+> 
+>        if (a ||
+>            b) {
+> 
+> I know you just added another tab, but when touching code, then please
+> do it right.
+> 
+> > +			regs->ip += LEN_UD2;
+> > +			handled = true;
+> 
+> > +/*
+> > + * Checks for the information embedded in the UD1 trap instruction
+> > + * for the UB Sanitizer in order to pass along debugging output.
+> > + */
+> > +void handle_ubsan_failure(struct pt_regs *regs, int insn)
+> > +{
+> > +	u32 type = 0;
+> 
+> Pointless initialization.
+> 
+> > +	if (insn == INSN_ASOP) {
+> > +		type = (*(u16 *)(regs->ip + LEN_ASOP + LEN_UD1));
+> > +		if ((type & 0xFF) == 0x40)
+> 
+> No magic constants please. What does 0x40 mean?
+> 
+> > +			type = (type >> 8) & 0xFF;
+> 
+> That mask is pointless as u16 is zero extended when assigned to u32, but
+> why not using u16 in the first place to make it clear?
+> 
+> > +	} else {
+> > +		type = (*(u16 *)(regs->ip + LEN_UD1));
+> > +		if ((type & 0xFF) == 0x40)
+> > +			type = (type >> 8) & 0xFF;
+> > +	}
+> 
+> Copy & pasta rules!
+> 
+> 	unsigned long addr = regs->ip + LEN_UD1;
+> 	u16 type;
+> 
+>         type = insn == INSN_UD1 ? *(u16 *)addr : *(u16 *)(addr + LEN_ASOP);
+> 
+> 	if ((type & 0xFF) == UBSAN_MAGICALLY_USE_2ND_BYTE)
+> 		type >>= 8;
+> 	pr_crit("%s\n", report_ubsan_failure(regs, type));
+> 
+> I don't see the point for printing regs->ip as this is followed by a
+> stack trace anyway, but I don't have a strong opinion about it either.
+> 
+> Though with the above get_ud_type() variant this becomes even simpler:
+> 
+> void handle_ubsan_failure(struct pt_regs *regs, u16 type)
+> {
+> 	if ((type & 0xFF) == UBSAN_MAGICALLY_USE_2ND_BYTE)
+> 		type >>= 8;
+> 	pr_crit("%s\n", report_ubsan_failure(regs, type));
+> }
+> 
+> Thanks,
+> 
+>         tglx
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/fff6e4d3-4a11-4481-b28c-edfb072daf35%40redhat.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/7bthvkp3kitmmxwdywyeyexajedlxxf6rqx4zxwco6bzuyx5eq%40ihpax3jffuz6.
