@@ -1,134 +1,134 @@
-Return-Path: <kasan-dev+bncBCO3JTUR7UBRBU6PTOZQMGQENH5WNNA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCO3JTUR7UBRBOEBUCZQMGQEXTTI3BA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33a.google.com (mail-wm1-x33a.google.com [IPv6:2a00:1450:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id D921B9020A5
-	for <lists+kasan-dev@lfdr.de>; Mon, 10 Jun 2024 13:47:32 +0200 (CEST)
-Received: by mail-wm1-x33a.google.com with SMTP id 5b1f17b1804b1-42181b5a099sf1684645e9.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 10 Jun 2024 04:47:32 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1718020052; cv=pass;
+Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A5E903422
+	for <lists+kasan-dev@lfdr.de>; Tue, 11 Jun 2024 09:46:01 +0200 (CEST)
+Received: by mail-wm1-x338.google.com with SMTP id 5b1f17b1804b1-42159c69a28sf7674585e9.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 11 Jun 2024 00:46:01 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1718091961; cv=pass;
         d=google.com; s=arc-20160816;
-        b=yE9SYm8Q6IuVRxCAF/gw2DNkKw6aTdNShfoIk0PNBEEt3MGwnm/Qe4iwleDpztOihG
-         IIfk3CndHA8Fiu0I3NDTRFcIS1eiyxNnD8RoTaBZ12SDiElkRxfXpy5ha8wRPyrZuC+U
-         g42dAXLSuEhnAKClYS+W7gH8b2B3UgCo7BJt9P/DIbYM5nezWvpSLNPxDl3a54Irwh9+
-         Z8aihzgY5oKexwIb7or0f87XUxVCSgIhJ2qKZAY9pnppl2d7G+YlhZ+1mlsUfFlW3+ab
-         Yb4zU+spgFZ73gemI89HAcdXI6NSYEZjVTJmFo5HxnjrVLsOzUVWo1FMQgHNtUZIHq25
-         cXEg==
+        b=fye0fBgIG6rPBb9WIocdEw6wlpQr+6wJpPkW4AYJ4oLxXko8WObaRQhJ92thvUEJz5
+         RVxBuBmGyRPQlObcNwcsFykcLE9908Uw+OK48yg67seSZsONqL5cQmd3TY0H0ma1OogA
+         hgheloslpju5ZVsLeq+tJ7OfZoWsgPf184QhPkFx/lAEl51pexqIUfffVQbDJXPCbAjZ
+         CDzGbK1kTo5fJ6S+2aUWBbXYOiGAfcMgtEs4K/u5NzKW39js1ktWKBhLuYOUrvtKlYtc
+         2TCSBxSm5vHg/3RT9EcWtSqY0N0rHfexFs5OIWKMOPwEo/S0C+cBnaIDbsOKDSE/2MbN
+         wj2Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=Stwao5JdE0II9hSv5TTH4sPDEMlxT6rwO92Vsyo/IMk=;
-        fh=RT99P5Rf5CLYrdBM6HQtLovHy5t+r8VAN++Q1VJTtEI=;
-        b=D5t/RhhulW8BHht6uCxSBnCQ+gLljJJrrkcs97dByTXHQP7S8nitKThU0evP04HVwB
-         0yHn4FYzOWQfw1l4kD15NhuXAf2cKZ+SARPzJ74DpBEkYej85EfnacyT3WLRAJ4oxJZU
-         FRIVrzEuPLYjuiUabTYZrpy8Kba+aidPXltYRMByBZKAqutJMLwMFqTsyPgGvzVjzZQa
-         QmYi7UIWMTwTYeoG6tZMYlqhnNksbiyFoYizTDDzs/+AsDoxkTlN9LTg5TVy7AblYvKi
-         dtsDGGzZAQe+0IUy3rbfBgzfzAFv1Y4IrWbSLDxluEaiw2XB7wN10GSmUj3cgiHsFyPy
-         AfCA==;
+        bh=/OnbXh+HGQZiBPzOHqaCtbEJNCqRzbeWl+lM/h0jbDg=;
+        fh=3cXhc72QfIAsZSo9JLBl8rTrVANApY65b3cuWEUsd5k=;
+        b=Q5TYSr/dZ4O2s5ls3iHbeEFxfELqTgK6yUxAu/Bf/EDHiCmhNgpEdtej9mePHM/T/r
+         g4UNmK+Wce+z0Y9J41u/+vjryPEdVK/hs+FIYGGaMcsOUrrPi+OxfBxTXai9kRl8/XV5
+         WIV39/3Aw7IjFMYFYLD0FCauRGzhoUaJPrd2Sna+db75IBs132WNH/7CRlMZMuXdoFBd
+         U4YlIGYL0SoYeGTRQ5ML85fp7M4P6U30hmoIRduk+Cu6L4zd6vBj9atj9eKSZWxwbkuH
+         Sx7AKNmHma59pAI+Ow1+0ivQAF7HqlP84+V1CaS4xiipII2tyqd8ObyIK3NTS7GM7bWz
+         l3Tg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b="jQO+Qx/4";
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b="jQO+Qx/4";
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=u5mEgWuS;
+       dkim=neutral (no key) header.i=@suse.de;
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=beS+LyS4;
+       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519 header.b="blQE/fLA";
        spf=pass (google.com: domain of osalvador@suse.de designates 195.135.223.130 as permitted sender) smtp.mailfrom=osalvador@suse.de;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1718020052; x=1718624852; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1718091961; x=1718696761; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Stwao5JdE0II9hSv5TTH4sPDEMlxT6rwO92Vsyo/IMk=;
-        b=SKl2zz7hKai+D15qGaqdPSZZzBqwaIR7NE2MJvqxXsXOG0cIDZb+/MizrCwvSHnJRC
-         ToE8MbCLs6cFfZSX8J3lw7ZSFbJbAj6iUVrissiGcLd0+25CFitOmd4Cqm4uITcvX1+o
-         wjbKVJBvS+05KTfaQgzrJeAUHXaZLB4rgYKLEeiDfcFl5xOyqatfWqw9FYiXvHo/0eU8
-         w37rtA3c7tB7sgTPEbtnDXnlaEsdye3MgIylqYG0zsxmxV4R+FXDl3dzckHUzhrxSOpQ
-         OjnwWJ29TYSddeogqLgm0au/g78hbf67zUinar3W8ql+M53fp9O/bZ5308kGwhbpdsCN
-         Q5hQ==
+        bh=/OnbXh+HGQZiBPzOHqaCtbEJNCqRzbeWl+lM/h0jbDg=;
+        b=RvUctOClif4PYQ1udonqORI1S50Kg7d4kljHkPdQsXhjPvtR5kcuCjQh9FeI+u0Pjr
+         Ll+fbYsgyoO01uvPGteQboFvJyLGpSkizR2KqrfF/s0STrejaTmkceYUtHW8ebrhRafb
+         Zn2CC94UfTOVBp4alytXxphuuo8hfdhPzoCnWvgo0gMBM+bn/CIo74j6DMTrAXrzfLRm
+         DeFmMwSl2O3qJ8jMiA1spiDC+GQM8+wJHXsD4nA0HoYbFc1aMaEBs1YIy/Bt3kLsPy1z
+         dpd3tN9SZFc3ryIqgca0u1JnvPuj07BkyqkbDRXtSTRH9Mgtklno/pMf0IFL7e5okozR
+         y16w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718020052; x=1718624852;
+        d=1e100.net; s=20230601; t=1718091961; x=1718696761;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Stwao5JdE0II9hSv5TTH4sPDEMlxT6rwO92Vsyo/IMk=;
-        b=v+RI0c+Dx/pLVZWbXDhpAqkFgMO+BCf+AVp6qQ/EPBivSm6y3wx2fJRTr2oRWTxh8S
-         E+DannkPSu3AYNDDPdmcOGE3jI9lj5HWCJ3eEhQNhrqJb7efPW6sVjVKiP4hcMOadGHS
-         C+kWeT7iV5pb+qPAFssnFcpV/lGRVOgSKf9i2ENj8EnGPK95Xwro50ONd5MhOBMSC/ZV
-         FKC9YFw/Kb3BSr27HW5XFo4MSz+8UAk3yLyAYf/Xb38nNlTSLpBNazzbP4sP6RuNJlKw
-         v7shrzqYgIvqR223Gm+Jkdga4e+ZGF9l401X/I1iCXAQLioLGf9SHtoK3QhaYvNqeiqU
-         XTQg==
+        bh=/OnbXh+HGQZiBPzOHqaCtbEJNCqRzbeWl+lM/h0jbDg=;
+        b=fwjbEVjYeyKZ2ukX+FrzjVZv/f8RababBH81CJ/QdPn6octjSwATvlNhXfEeUytInT
+         +s+5GQQqXx7UGfYGmSYqJrehgkiFAGbUHSac6twusBXYjlkkVGaaRURAe/T6Xpy9FgMb
+         GF4+Qw3SrBvxtPNtkscRfUxb1NjH1m7sL9LtfzlFJv4swHM7EZc0HKoCdsEcVBxrLsev
+         vYI+cW6X5fSVY01X4G9qAYPpirnk1irL5OCFFMr+LtbmBshXm7H7hFWJ3n0gKR0QV5KO
+         SWbBkPA5wne3fGSpHldkBfB7IWN0jPeWefe7rYD0M8XjXauOXeW56L7GQoSH18jutMJ9
+         hjHQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWXj2eEpoEK98pqTczc3n1OB9i21saJz/aJcS6rH2jBMNZYzzJcBYLqHVENgF95BctrVX7+XY8gBJUbbU4SHy3GVDEqdOOeWg==
-X-Gm-Message-State: AOJu0YyR/envBHPyAI5Nt224aMfKkgh2oCljuIMm0jT6GbFfBlRY0mv9
-	aCQ0gzZyQWFf94fL93I3qoQzHz/NUIS0aceceSo999GJNg3b2g0m
-X-Google-Smtp-Source: AGHT+IFTUbEqkRxOn6oP2Ip/rJyI3hGBzkvvkMSYG980nQ62a3QC1BVFWNqECebQkYOz3SX6H9EFIA==
-X-Received: by 2002:a05:600c:1d9b:b0:421:6c54:3a8 with SMTP id 5b1f17b1804b1-4217c482e63mr2622595e9.7.1718020051662;
-        Mon, 10 Jun 2024 04:47:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCV2xNEywPa9qceNCHv8GaCLPomzw8VKTRLUvoegpkIAIdZC78jyft7fM9umr17P8BFKpHsniHJc+DY4THyksXSXb7AgsuoJ0Q==
+X-Gm-Message-State: AOJu0Yxm2U3iIW2Zc8xT56Ono7gDjUBgsoIlCpfUpgIHDl+c5zqfUKMv
+	9Pl/MgPnyHcM+EzB34jmbYCo8wyTeSj49+necXg/mKVc45Ip4gRx
+X-Google-Smtp-Source: AGHT+IFM1qDWsHA+yW6VDCl/eHA0sGWzdwrrzToX35mgMWwAhL+G98qtNJJ7t/1bJlJDc8GD2itOXA==
+X-Received: by 2002:a05:600c:35c8:b0:421:81b8:139a with SMTP id 5b1f17b1804b1-42181b813a0mr50599195e9.12.1718091960576;
+        Tue, 11 Jun 2024 00:46:00 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:1d01:b0:422:1589:d81c with SMTP id
- 5b1f17b1804b1-4221589dbc1ls1085905e9.2.-pod-prod-03-eu; Mon, 10 Jun 2024
- 04:47:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWEKsbD+hFHUCqpIwW1/vVicTY6eF/d7ubEh1cF7UlO7XtJaYqQ3lfAzv30NhcPpvmxL6v0XlLcHPPYQBvqa5Gfr2keUwxPCxG0zA==
-X-Received: by 2002:a05:600c:198c:b0:421:819c:5d6b with SMTP id 5b1f17b1804b1-421819c5fdamr28013075e9.23.1718020049837;
-        Mon, 10 Jun 2024 04:47:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1718020049; cv=none;
+Received: by 2002:a05:600c:1d14:b0:421:7e41:1878 with SMTP id
+ 5b1f17b1804b1-4223457a769ls5080275e9.0.-pod-prod-07-eu; Tue, 11 Jun 2024
+ 00:45:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXA9+hVcF8SP/xFJ4KeunZ5n4m6PdC+jzACoJYCmGQ4NRizOdw35tC27u+wJoL1lWnn87XJL/tejYBeU1UUrL41xtWTQpt/ZDUN2w==
+X-Received: by 2002:a05:600c:5121:b0:421:8193:e2fa with SMTP id 5b1f17b1804b1-4218193e891mr51131505e9.19.1718091958756;
+        Tue, 11 Jun 2024 00:45:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1718091958; cv=none;
         d=google.com; s=arc-20160816;
-        b=tRBCXaNH8Z+tz7Idm33rLdJlrmSiqcgTLQUP4n+pAxNVHcH03arNggbNEL4GrPLB7v
-         fW8lSEBvMYSRWs9koZPfuyt0e6e7ate3Xzt9W4Qr3dgRzZqx9juL4PdNEqviA5BFSrc6
-         WRMTpPnawBk7+ZGZjQMpWW+RMa0LghICIXiEZQvokeLQB/k+ZODSLhfRIhKCRisp/tX9
-         TMnGrOLRGmEQlcR6UaA9F+lgjs5cM+TWNOj2OMwvLq3KagPX2zmeKt/UyGs6kyItJzxu
-         HrBP3pw2M49d3NJaF71cynEz6M5lUHnAVciRM2S0qIqrsbfu4Yk5vGnZD+kvEoc9gz3p
-         3/LQ==
+        b=tnMbsCjpDrCb61EetvFwgV24vuQrO+yYg5HupIXaEXTky4J2BmPXWOwj8BCxDWjRvP
+         yX2tWzedNIr4EWW17tDGEyucpmifVA/io2Mnzread5Z2QZxtGSg47b8DZUrgTjkQ8yI9
+         txKSz3C6qjBZ8MllOPVshRJm6IiSTj3YKHRcR+B7Ffa/XIsvnt0HurEKOM1JNdsqScUO
+         sw7xFsohA5XpFrP8dG0CKmV5UTbYojfljijOK2ezS3BS1JSuPJidUOOyDbTMiLG2dcCW
+         TST2AT0M6T9bE9capwmlqDSZCU4IHtsXIcaDLQfU/iwX2GdvSZOq2DE5ImK4/n45aFQI
+         TTjg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature:dkim-signature
          :dkim-signature:dkim-signature;
-        bh=WJbUj0Me5/uIhq7+KJarpD1i6Sf3idu2woFatetNcL0=;
+        bh=HVao4QsDP4Z+JAjo5dOzj5sxwVNV/Y4USEllUqua+SQ=;
         fh=opXV1WEp03kbeubOZloyb10FoNtntQdRllRWblbVMRI=;
-        b=gzGlJvQ45BReEqdxbDTbPsHogU2KlRcQCBc7rkNM3XgWcvdT2pchG1jODSznUJCLov
-         8KGgZkCseORFo7HHFvfT31WXO1odkd8AmshnrokReEYGqqTChmMOk6oHNzsvO4TVmg2S
-         v4r6t6HIXinOjTkRA74TEf8+owmJa1tCA+xXMq5Ab5IY2RuGB/69aZoTK757jnsSYmni
-         c/rCdykXkZw2DzK0zU5dyrNLnj1c6MKhqUVm28AQsvxeM/e+B+AgC9xNL2TIFjJMeo4a
-         qJ+ZK6VEhWluUuaHorL8a699ZX1YDz2BHtEmT/oidRCu4TKHcXTwYVV9CwGxZPZqiHp3
-         txgQ==;
+        b=krhPuteT+CKAmxiYj06iLalxPAAidBrlGG9BjALrH83bklUiv88VmiQbzwjlc9Lx3V
+         rn5MUMZCFZNf2s8uG7Uaicov5uIDZPj+ElZuDBX/NYfr5rf++eS+N0AuACTokrsqWC59
+         rUGfQdYdYDYQa5NTNLRA8dVV4kFJk23RP/ZPG0wybw1V5HuYpyEixakKAp09NrrbxXSe
+         VlPwkY46wRzuFxUf41ExZJ9kkuSmFhKHTzwIV8IRZUPUXN6YFB3VtBfZfWNagzfklpN0
+         ufx0+9WYN/GkIDaN2v0duAzBybZbFljBVIto/3W4H/OIWo+4LJVSEJVLD1Pk+9WxP5iy
+         rUAQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b="jQO+Qx/4";
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b="jQO+Qx/4";
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=u5mEgWuS;
+       dkim=neutral (no key) header.i=@suse.de;
+       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=beS+LyS4;
+       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519 header.b="blQE/fLA";
        spf=pass (google.com: domain of osalvador@suse.de designates 195.135.223.130 as permitted sender) smtp.mailfrom=osalvador@suse.de;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
 Received: from smtp-out1.suse.de (smtp-out1.suse.de. [195.135.223.130])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-421802c68bdsi2684775e9.1.2024.06.10.04.47.29
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-4224b8a158csi635025e9.0.2024.06.11.00.45.58
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Jun 2024 04:47:29 -0700 (PDT)
+        Tue, 11 Jun 2024 00:45:58 -0700 (PDT)
 Received-SPF: pass (google.com: domain of osalvador@suse.de designates 195.135.223.130 as permitted sender) client-ip=195.135.223.130;
 Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8172421A5B;
-	Mon, 10 Jun 2024 11:47:29 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0B24722CCD;
+	Tue, 11 Jun 2024 07:45:57 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 6843213A7F;
-	Mon, 10 Jun 2024 11:47:28 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D8AB213A55;
+	Tue, 11 Jun 2024 07:45:55 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 5brfFtDnZmbLFQAAD6G6ig
-	(envelope-from <osalvador@suse.de>); Mon, 10 Jun 2024 11:47:28 +0000
-Date: Mon, 10 Jun 2024 13:47:18 +0200
+	id 4MdfMrMAaGYMUQAAD6G6ig
+	(envelope-from <osalvador@suse.de>); Tue, 11 Jun 2024 07:45:55 +0000
+Date: Tue, 11 Jun 2024 09:45:54 +0200
 From: Oscar Salvador <osalvador@suse.de>
 To: David Hildenbrand <david@redhat.com>
 Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
@@ -148,43 +148,46 @@ Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
 	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
 	Alexander Potapenko <glider@google.com>,
 	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>
-Subject: Re: [PATCH v1 1/3] mm: pass meminit_context to __free_pages_core()
-Message-ID: <ZmbnxrOuoarMbC6X@localhost.localdomain>
+Subject: Re: [PATCH v1 2/3] mm/memory_hotplug: initialize memmap of
+ !ZONE_DEVICE with PageOffline() instead of PageReserved()
+Message-ID: <ZmgAsolx7SAHeDW7@localhost.localdomain>
 References: <20240607090939.89524-1-david@redhat.com>
- <20240607090939.89524-2-david@redhat.com>
- <ZmZ7GgwJw4ucPJaM@localhost.localdomain>
- <13070847-4129-490c-b228-2e52bd77566a@redhat.com>
+ <20240607090939.89524-3-david@redhat.com>
+ <ZmZ_3Xc7fdrL1R15@localhost.localdomain>
+ <5d9583e1-3374-437d-8eea-6ab1e1400a30@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <13070847-4129-490c-b228-2e52bd77566a@redhat.com>
+In-Reply-To: <5d9583e1-3374-437d-8eea-6ab1e1400a30@redhat.com>
 X-Spam-Level: 
 X-Spamd-Result: default: False [-4.30 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.993];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
 	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
 	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	SUBJECT_HAS_EXCLAIM(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[23];
-	FROM_EQ_ENVFROM(0.00)[];
 	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[]
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
 X-Spam-Score: -4.30
 X-Spam-Flag: NO
 X-Original-Sender: osalvador@suse.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.de header.s=susede2_rsa header.b="jQO+Qx/4";
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b="jQO+Qx/4";
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
+ header.i=@suse.de header.s=susede2_rsa header.b=u5mEgWuS;       dkim=neutral
+ (no key) header.i=@suse.de;       dkim=pass header.i=@suse.de
+ header.s=susede2_rsa header.b=beS+LyS4;       dkim=neutral (no key)
+ header.i=@suse.de header.s=susede2_ed25519 header.b="blQE/fLA";
        spf=pass (google.com: domain of osalvador@suse.de designates
  195.135.223.130 as permitted sender) smtp.mailfrom=osalvador@suse.de;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
@@ -200,46 +203,52 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jun 10, 2024 at 10:38:05AM +0200, David Hildenbrand wrote:
-> On 10.06.24 06:03, Oscar Salvador wrote:
-> > On Fri, Jun 07, 2024 at 11:09:36AM +0200, David Hildenbrand wrote:
-> > > In preparation for further changes, let's teach __free_pages_core()
-> > > about the differences of memory hotplug handling.
-> > > 
-> > > Move the memory hotplug specific handling from generic_online_page() to
-> > > __free_pages_core(), use adjust_managed_page_count() on the memory
-> > > hotplug path, and spell out why memory freed via memblock
-> > > cannot currently use adjust_managed_page_count().
-> > > 
-> > > Signed-off-by: David Hildenbrand <david@redhat.com>
-> > 
-> > All looks good but I am puzzled with something.
-> > 
-> > > +	} else {
-> > > +		/* memblock adjusts totalram_pages() ahead of time. */
-> > > +		atomic_long_add(nr_pages, &page_zone(page)->managed_pages);
-> > > +	}
-> > 
-> > You say that memblock adjusts totalram_pages ahead of time, and I guess
-> > you mean in memblock_free_all()
+On Mon, Jun 10, 2024 at 10:56:02AM +0200, David Hildenbrand wrote:
+> There are fortunately not that many left.
 > 
-> And memblock_free_late(), which uses atomic_long_inc().
+> I'd even say marking them (vmemmap) reserved is more wrong than right: note
+> that ordinary vmemmap pages after memory hotplug are not reserved! Only
+> bootmem should be reserved.
 
-Ah yes.
+Ok, that is a very good point that I missed.
+I thought that hotplugged-vmemmap pages (not selfhosted) were marked as
+Reserved, that is why I thought this would be inconsistent.
+But then, if that is the case, I think we are safe as kernel can already
+encounter vmemmap pages that are not reserved and it deals with them
+somehow.
 
- 
-> Right (it's suboptimal, but not really problematic so far. Hopefully Wei can
-> clean it up and move it in here as well)
-
-That would be great.
-
-> For the time being
+> Let's take at the relevant core-mm ones (arch stuff is mostly just for MMIO
+> remapping)
 > 
-> "/* memblock adjusts totalram_pages() manually. */"
+... 
+> Any PageReserved user that I am missing, or why we should handle these
+> vmemmap pages differently than the ones allocated during ordinary memory
+> hotplug?
 
-Yes, I think that is better ;-)
+No, I cannot think of a reason why normal vmemmap pages should behave
+different than self-hosted.
 
-Thanks!
+I was also confused because I thought that after this change
+pfn_to_online_page() would be different for self-hosted vmemmap pages,
+because I thought that somehow we relied on PageOffline(), but it is not
+the case.
+
+> In the future, we might want to consider using a dedicated page type for
+> them, so we can stop using a bit that doesn't allow to reliably identify
+> them. (we should mark all vmemmap with that type then)
+
+Yes, a all-vmemmap pages type would be a good thing, so we do not have
+to special case.
+
+Just one last thing.
+Now self-hosted vmemmap pages will have the PageOffline cleared, and that
+will still remain after the memory-block they belong to has gone
+offline, which is ok because those vmemmap pages lay around until the
+chunk of memory gets removed.
+
+Ok, just wanted to convince myself that there will no be surprises.
+
+Thanks David for claryfing.
  
 
 -- 
@@ -249,4 +258,4 @@ SUSE Labs
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZmbnxrOuoarMbC6X%40localhost.localdomain.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZmgAsolx7SAHeDW7%40localhost.localdomain.
