@@ -1,193 +1,210 @@
-Return-Path: <kasan-dev+bncBCO3JTUR7UBRBQ4IUCZQMGQEU33BIEQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC32535MUICBBD4KUCZQMGQEFRUXX4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C291903493
-	for <lists+kasan-dev@lfdr.de>; Tue, 11 Jun 2024 10:01:09 +0200 (CEST)
-Received: by mail-lj1-x238.google.com with SMTP id 38308e7fff4ca-2ebf0863242sf6243921fa.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 11 Jun 2024 01:01:09 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1718092869; cv=pass;
+Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
+	by mail.lfdr.de (Postfix) with ESMTPS id A35209034BB
+	for <lists+kasan-dev@lfdr.de>; Tue, 11 Jun 2024 10:04:33 +0200 (CEST)
+Received: by mail-pj1-x1040.google.com with SMTP id 98e67ed59e1d1-2c2dd8026dbsf2114914a91.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 11 Jun 2024 01:04:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1718093071; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lOPlbLKpVYorZriWfx7mS5zkNnxYfhoXPxHBInPbY2xKcvqpj/bMXDSswAqPOtfGKm
-         HcpFAQWPQJKO3gSR6HC6AwjfLb3dgRIjBlXBfqwJCMFSy1N90gcBOKk91gnV32s3hCaj
-         ySrxIhdt5Luudaua6WhYKnxqoHhPM/hzLMIyutP3EZ5S5br5ctj0gcMa5t8aBEPI5D+x
-         GiQULXCwsgFC0wpxgfW7RyI396THOU6yeLjPYYvFcjpBUss3LCmAdIzlKcBtNuWiU5i3
-         G3VFy+XN7nahkZlUK+J1/IDAmhBkbVOBWB+hC8FttPSX9AxlSzH2SaJeaKgNnHXxF3k+
-         GOag==
+        b=znKDgVu/3R42riFSZnZ1YNyBsgUxj/DvZxqSTIvOwwn6swYeqxNheS/pLzHq1HZWAJ
+         OPW1hwpbqhYOrIJIrVr5SEqLH9eurcwQnvefhw3gI87TqaYTSidnuG4jJbkK8oso1+Ti
+         pO6H0Z42Dsvm9PYfUxnuSRZ3l4GTr8j3zOkfSfMIsN5R6vj4uRlrvCud6BQ6ky9n+2jt
+         AHGIkYt0MWfcn2wjB3zTdLXFO1D8oPZIRFcJlZU86Wd3v0tZDaM/Bqp3bM+lrD6fOXaZ
+         xk9DaQm+onTbEAVsIK9e3oQQRw5jl8z6N0o5WiYmJggYkfUgtBHq2heTgU07XasO+qNB
+         JnpQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=8Hmmh6p8twKbjiq6zBtaAIDfcaPqb88hNhc4xcDV3vs=;
-        fh=ms2/fweSeWaosyWn0dQlYHH2N9K8QbMh+5Q1fHkdyS8=;
-        b=JuWkIOCvGATErFSapON8t3s1wpvld8r2lhj1+U3sdYsL1aq7uFQ0k5TAAvkN8AdnQm
-         KWZ1nHAEHbKmfmEOa5GtTvmXqj1Og3oddG11xGmosoLEDoPQAUec2Y1o7WeWEonvnu3B
-         vyA3FNT9LRhyQ3/F4J6qgnbyJw1HgR1YuDrc755fKl621t+h51jMqIFgvmQYN7zIg+ax
-         rpKKe68Hct5HdDLSyQ5u+jjaUc2l9UhFRwKXAm94UaKRKViodi/02VIPUEIs0M0ZN5OH
-         Czp9lJ3K61VLu3Y92EAQsAin/CmDVPXGmMZZzC2e74xljlitvyKtFmnN6ootYKxSxIak
-         r0mQ==;
+         :list-id:mailing-list:precedence:content-language:in-reply-to
+         :organization:autocrypt:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:sender:dkim-signature;
+        bh=c7SelaXVD7mh5g+mY5LJN36QsAvPamPZWyf+1L4kCPQ=;
+        fh=Wbvlpt4KjItq7igLc2zq5f5AisjhIzKPqN0K9GroCoQ=;
+        b=ySlzz6ibSgMVy1vmuPNx09ZhJX6KumGDWXG8ILd/Uybrf2QnZoj7Ul1TzWF2hdbEwX
+         +RwmmJMPviHjibboPb9sZAUcqVNGTeDk5EjOLnIVSXeCBiVnM7h+kZD3YwSaUTvbtnnr
+         uqsanC/ISKoA+UKHaThGeJyjnmbY4NaOah4EHIPaKT9OoL4t89rMa2XHZk0Sal9/2Zh2
+         +HULdzMnEXWJy8WMtDYOffl9PtXhq4znjSeNcU+Grt82pPUOUNjGHp4E6n2ZBCWOlzs9
+         7yKZEoG1NhvfjE2S8UTEMpaged5GFZpq+s7MPyVK5EiMopaoqzt9A1AQTheT59lGOROU
+         GahQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=eZBr7hv0;
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=eZBr7hv0;
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       spf=pass (google.com: domain of osalvador@suse.de designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=osalvador@suse.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b="V/iPQSba";
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1718092869; x=1718697669; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1718093071; x=1718697871; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8Hmmh6p8twKbjiq6zBtaAIDfcaPqb88hNhc4xcDV3vs=;
-        b=baXZQEFkdLV3fcmO+CZzgr70KQfHCk92UWif7NNKMpapKzmqNO50C4nxXQnQM40Ub9
-         lPtQrrXWpSOb0Wxbxj/+MVFIhcQGSgtp4iKEUBbPZa+HdJaqjl7O5g/tUlkQPBMwkJ2a
-         C6sjioBRZqczByiiZgb3D29SeobzL7LikrtJ1e/300F/BmLnxBsTPmpxwe0k+NAXnhNy
-         XXjQGb998PPlnbUqho4JZV7wbqtKqI+vj3mdwQCF1vpjkMKQy+P38Wy3MHyKcloyPnxB
-         cnWJrJQFRGC1BTIMWofLn2BcdwSHGQ/uQC22KTqfqRxB4O/rbpYju3I5KZHD5moRspC6
-         Gmvw==
+         :x-original-sender:content-language:in-reply-to:organization
+         :autocrypt:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=c7SelaXVD7mh5g+mY5LJN36QsAvPamPZWyf+1L4kCPQ=;
+        b=Yy8yzAWjMZCj05vwcXE6UzEV8vQUpPfuoYq5EOhsR08hNvxQiwruO1PGXWI+PmtlrF
+         RiunC+kGLWNlHsRm1oKPKX8RAlsci4QSwE3O7Af8rY5JfQ1f/g9V2CkymRDCdbolgz4Y
+         MsqlvjMisjIBiAzReYP8mTgjl3hF51hfqXdwr+Q9v7icRgNm669tfjY7NvypeeQev0vo
+         S4DWG00KvuKAVq6LgaK8e78cV/pBysnE3Sixwd8IvHtWEamyvUDuCyZMUvPlYZsc2wXR
+         uaAlInKUkhD8x1AaoSlvb0yfG7AOkrsrT7VGlGdTT4qLJBDPdZKze0vEjJs+8bXOh0wY
+         TmlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718092869; x=1718697669;
+        d=1e100.net; s=20230601; t=1718093071; x=1718697871;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8Hmmh6p8twKbjiq6zBtaAIDfcaPqb88hNhc4xcDV3vs=;
-        b=o3h48RBeYsqtwp/qat8MJhtx1TLud8H2obzcMlVpDirYvkT6kEuBhrNlrZThD0iE6t
-         yDOif9fYEvFXqH7Jgh9mgV1If9Rg2r9LNaEh72iRIFQ+1TmOUjNz3m3M51QVJT8TGyV3
-         xOq9WX/RaYD1fXC39ToOar1sfDvTuDzDacKvqYViri5qzqfw3mXr0pxb0R3tmKF5HgHV
-         9AS+aCv8doljrwi8WcHtTp6JamiG1bLbMZUNkqAHWzTAC7JSIYK6pbEOKFCUGLyt92y2
-         ZXpF/c/vGLuVddlC250ZJhE53xwPiP08vIaYHWvpzoAVPgZ/Q4IfvpnAQso4RlrCRX/E
-         rczg==
+         :x-original-authentication-results:x-original-sender
+         :content-language:in-reply-to:organization:autocrypt:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c7SelaXVD7mh5g+mY5LJN36QsAvPamPZWyf+1L4kCPQ=;
+        b=gccX8r7Ot38apPrIF8jfoMDJZ6UksbY+IG+Ed/z8kC8TPKUo8KjGAJGZ8bYIJCcjRh
+         MjjGL4hxpSCuyGkLK3wOt6Ihrl99gcVnKnO8It9bMuCjBrUR28FSs2Ysn0DSHXQjf0YD
+         6300srwCoC/LTwKazGs4RYIC9J9My7JXGIfc9FCqQ2mfefyBveDr//L9gkvMlmSvdM6/
+         wUZaDks3D50KDDQIKalEgqOk17xTcUe9WqNmS3ICfxteFwtRQAdByT2Aljj1JKoSEYrW
+         u7k1/OsTPf8oCWckiC4dUu4JryIUK8yp/Kp+2r1eOJpJaxlBjyCjUwmsWQ87pI2W8PdK
+         9OZA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXpvDY3kDGqfQFDJKtpmvlWy9mr1qX1qWzRXaqnklpBjZ7nqdJ76IkYKZzEWds2/16OiEF7s8j76obEY+YgfO2mgrUwvr1eYA==
-X-Gm-Message-State: AOJu0Yxg2uHd4l6ZNaYeM5urHdoDuTVf/1hejLS2jx4M6T9j/LC2cg/r
-	DegYK1RCGZqDzN+pj7d20nnovKuSMbM5UpTmJktA2pJDA4z9AULL
-X-Google-Smtp-Source: AGHT+IEFuLpyAtOt41zK2aECJbuOJX873cl4pgOjgQyt9826A9QIRhe+v4y4ZMEDvnF7ePRaTJesgg==
-X-Received: by 2002:a2e:7002:0:b0:2eb:f2cf:1e49 with SMTP id 38308e7fff4ca-2ebf2cf1ea9mr6603391fa.2.1718092868123;
-        Tue, 11 Jun 2024 01:01:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVuDqXmEb89vJihbc/+rKokC1DvRo0AdFxNSopiHaoZNXazSjVFbupYBtk7XN+d5Ng521ZfzX7i826Q0Umd8cer3oFLT6KElA==
+X-Gm-Message-State: AOJu0YxtHt6riyUERrR9kNdGUBFCdMsVcV+wODOztdAGnjmSx+xpxVq4
+	pPsVjWEdSs2/sfNxV0TVbVB3zBRmDOOMs5+0hKDCbVERo3vwtfRt
+X-Google-Smtp-Source: AGHT+IHk+muWLB9KiFV3+TTeiUWNf+gNU69GA2T2gUAPYcfwW+BV2iouhD5UMbeh6ML92k6vXNSQkg==
+X-Received: by 2002:a17:90a:17ac:b0:2bd:d6c6:f454 with SMTP id 98e67ed59e1d1-2c32b518e4dmr2708249a91.21.1718093071329;
+        Tue, 11 Jun 2024 01:04:31 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:b532:0:b0:2eb:da1f:86af with SMTP id 38308e7fff4ca-2ebf0aafb95ls3385041fa.2.-pod-prod-07-eu;
- Tue, 11 Jun 2024 01:01:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVzuT1LvSFra6DBG2JUaA4IKUbw26rI4bN4RSul3C8+Yh/HbjFEkAVqXM2eoXwOXoq2hVE+Kz/dl4Ty6IGvrn+aWwguUOd7PL+WJw==
-X-Received: by 2002:a2e:b888:0:b0:2eb:f422:7408 with SMTP id 38308e7fff4ca-2ebf42274camr6767661fa.36.1718092866119;
-        Tue, 11 Jun 2024 01:01:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1718092866; cv=none;
+Received: by 2002:a17:90b:1e08:b0:2c3:34b0:9f with SMTP id 98e67ed59e1d1-2c334b0026els256200a91.1.-pod-prod-00-us;
+ Tue, 11 Jun 2024 01:04:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWXLT5fJTzWKTlFYaGHzyTt3tRUuFEpu5caON8PUMVhETjx6Bw+/KQmdYDu51wjC5NQ3dOSSyXx077q1QCmaTTctTZGfQUjck+LPA==
+X-Received: by 2002:a17:90a:7181:b0:2c2:e0f1:bb1 with SMTP id 98e67ed59e1d1-2c32b51ce9dmr2552990a91.22.1718093069932;
+        Tue, 11 Jun 2024 01:04:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1718093069; cv=none;
         d=google.com; s=arc-20160816;
-        b=RyyXwZy+LTrGxBSW1+0m2+eGL0+34Rc9Dif28ktKBrShENdGCBX6F+6rvFsmYGe5NF
-         S6v6uzUYWFj4TbTx3c+EWQ/gKDTAabyksPEuBj0htmKhnFGP2Cf+o0ABZY7/gX4YtAzI
-         GIWu3HNr72a0ksoQtgtssVfN0M34OZbeCe8s5VYixV+K1fYjR7Ph0ZvgL8E0hLLcEvk7
-         O68WuwRBhKVCbXdCRlpMOm8llZnZMgr16SPqc/kY/F+h91D7zCE9/fLZgWPZ59PYU1ML
-         mxcNwRxKmKDVo3LksvJ9jE12bLXBb/Ka5+61JAS7s6BAVUFYOUnU+AmvWSSEIHGNzugV
-         QURA==
+        b=YXMw6RxPTCAKGlUe3vEg7SfRQHMVbUk+Q6jbuks64HFQLM59ebBIeeb1WDkAlFuUoL
+         s6/oNLWYjyoO9rnqHj6pHopTtutlA+4oopGSNguZGPdf8qwp+ktkCKzsbsBsSYShGuC5
+         33J1NzW1rVhlhpFiwoyIi5BAyWr9V1Ss2Za1IsvmMTUIWeV4SX9pjm97rxzHpD9xXL/f
+         DwvbiTKRYWNlttAN3VvIaVGFweptm6H8BtB1THTr6wDT9Jz3pOjgP7D0laLkWaON8Nhe
+         SdjMDjbAtU1NKWSSAfE2HwCqWkENZRzMMLusp++yeigMztN/xdE0WqBC9dExoMdPdThW
+         Jv/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature:dkim-signature
-         :dkim-signature:dkim-signature;
-        bh=qHTLyIX7jLzbH1ivzBIljZd8gbAzcrr4kki4IuM/w4s=;
-        fh=opXV1WEp03kbeubOZloyb10FoNtntQdRllRWblbVMRI=;
-        b=neoQplrgYFKwKPq8cRgEF2ZwifLmoYiMDFFwIQuuEuqOCaxVA+EnxojpUXtsR0xpl+
-         UeH5+klHkXnAm7gmtfkbuP+jsHT64gIYXlnCiZ53tzhAgbVf19YQ5P+XjlIsVnoTzpq6
-         aXQR/QyD6+KK2NHSh8Mq8MA+WLdmUWRg1J4HD5FZJFUHTULMmLKP+ibtbj0QGUBZtrHo
-         yiVpCMPz3pq3n8xvNJfxI+nhvk8AoqdNbX7s4sXUIQxXO8w13GcfdIxhNluXKoj/hC60
-         dHJIvg4LGSETveohBnqFGxDCEcdxp1ocRHDct0YPCXVMHoF1slNasJ7xsdjgd0KWCF8S
-         sPYA==;
+        h=content-transfer-encoding:content-language:in-reply-to:organization
+         :autocrypt:from:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:dkim-signature;
+        bh=hqXBYKFMfHuGo/oWXFTKDIQ0hmdU9g1oFp9QTADLe9k=;
+        fh=5Fuo9NISap6YzSPGOAkPGD5qOl23uXwWYgAsgt8fX0s=;
+        b=wGPbShM4awzXqwCqEQHaL8mk/1mWsvFXlvqWlnxTawlKryd/JQmEQYx9z7CgMOiClk
+         ZY7P52f1J+PD0Mg9Qjp6lPAVIePLQRkO71mN1LO65F+USYxrbr5CezX70rKvH1NH5ifE
+         uJQ1pTG/gTuH5qE39w5WkkrtOUHVaguoszVcNriystnz5S2wlbeJp18PIKtAhcXJyv9m
+         5F4186Ch8uIi/CZifIdM3eDjelYhYQxSiLifsrnHuH3BpRNkvKbLA5wMP2B7+EceBRMP
+         usZNJUuEEK6Aw1rmBNG5twevqwrkp+i4sUqMygeCb0JqZZ+BvbA3YsF7z0yUtpsHifHu
+         J0lg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=eZBr7hv0;
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.de header.s=susede2_rsa header.b=eZBr7hv0;
-       dkim=neutral (no key) header.i=@suse.de header.s=susede2_ed25519;
-       spf=pass (google.com: domain of osalvador@suse.de designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=osalvador@suse.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=suse.de
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2a07:de40:b251:101:10:150:64:2])
-        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-2eaebd92af8si1987141fa.1.2024.06.11.01.01.06
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b="V/iPQSba";
+       spf=pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-2c2df95ab5fsi415685a91.3.2024.06.11.01.04.29
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jun 2024 01:01:06 -0700 (PDT)
-Received-SPF: pass (google.com: domain of osalvador@suse.de designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:2;
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 3DCEE20560;
-	Tue, 11 Jun 2024 08:01:05 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2124F13A55;
-	Tue, 11 Jun 2024 08:01:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id cdtzBUAEaGY4VgAAD6G6ig
-	(envelope-from <osalvador@suse.de>); Tue, 11 Jun 2024 08:01:04 +0000
-Date: Tue, 11 Jun 2024 10:01:02 +0200
-From: Oscar Salvador <osalvador@suse.de>
-To: David Hildenbrand <david@redhat.com>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
-	xen-devel@lists.xenproject.org, kasan-dev@googlegroups.com,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>
+        Tue, 11 Jun 2024 01:04:29 -0700 (PDT)
+Received-SPF: pass (google.com: domain of david@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-609--UU8s4UmM5eByd98hbbibA-1; Tue, 11 Jun 2024 04:04:19 -0400
+X-MC-Unique: -UU8s4UmM5eByd98hbbibA-1
+Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2ebd6b87ff5so21428531fa.0
+        for <kasan-dev@googlegroups.com>; Tue, 11 Jun 2024 01:04:19 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV0VK6INlYB2z4Tb98Lt6NLV6+P1sp19ZFVHtRSjoy7kweVjP2oJBtSQ9gFQQe2nG9Gs5s5mQGVMiXNniXRC/v6rFWBiOiZX0wyxg==
+X-Received: by 2002:a2e:87cb:0:b0:2eb:f82a:d8d2 with SMTP id 38308e7fff4ca-2ebf82adfe7mr159511fa.41.1718093058328;
+        Tue, 11 Jun 2024 01:04:18 -0700 (PDT)
+X-Received: by 2002:a2e:87cb:0:b0:2eb:f82a:d8d2 with SMTP id 38308e7fff4ca-2ebf82adfe7mr159231fa.41.1718093057647;
+        Tue, 11 Jun 2024 01:04:17 -0700 (PDT)
+Received: from ?IPV6:2003:cb:c748:ba00:1c00:48ea:7b5a:c12b? (p200300cbc748ba001c0048ea7b5ac12b.dip0.t-ipconnect.de. [2003:cb:c748:ba00:1c00:48ea:7b5a:c12b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42182ed2b23sm75337235e9.18.2024.06.11.01.04.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jun 2024 01:04:17 -0700 (PDT)
+Message-ID: <30b5d493-b7c2-4e63-86c1-dcc73d21dc15@redhat.com>
+Date: Tue, 11 Jun 2024 10:04:15 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v1 2/3] mm/memory_hotplug: initialize memmap of
  !ZONE_DEVICE with PageOffline() instead of PageReserved()
-Message-ID: <ZmgEPgjyG4EfYkNM@localhost.localdomain>
+To: Oscar Salvador <osalvador@suse.de>
+Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-hyperv@vger.kernel.org, virtualization@lists.linux.dev,
+ xen-devel@lists.xenproject.org, kasan-dev@googlegroups.com,
+ Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>,
+ Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>
 References: <20240607090939.89524-1-david@redhat.com>
  <20240607090939.89524-3-david@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20240607090939.89524-3-david@redhat.com>
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.26 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.16)[-0.822];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	SUBJECT_HAS_EXCLAIM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email]
-X-Spam-Score: -4.26
-X-Spam-Flag: NO
-X-Original-Sender: osalvador@suse.de
+ <ZmZ_3Xc7fdrL1R15@localhost.localdomain>
+ <5d9583e1-3374-437d-8eea-6ab1e1400a30@redhat.com>
+ <ZmgAsolx7SAHeDW7@localhost.localdomain>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ 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
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <ZmgAsolx7SAHeDW7@localhost.localdomain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: david@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.de header.s=susede2_rsa header.b=eZBr7hv0;       dkim=neutral
- (no key) header.i=@suse.de header.s=susede2_ed25519;       dkim=pass
- header.i=@suse.de header.s=susede2_rsa header.b=eZBr7hv0;       dkim=neutral
- (no key) header.i=@suse.de header.s=susede2_ed25519;       spf=pass
- (google.com: domain of osalvador@suse.de designates 2a07:de40:b251:101:10:150:64:2
- as permitted sender) smtp.mailfrom=osalvador@suse.de;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=suse.de
+ header.i=@redhat.com header.s=mimecast20190719 header.b="V/iPQSba";
+       spf=pass (google.com: domain of david@redhat.com designates
+ 170.10.129.124 as permitted sender) smtp.mailfrom=david@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -200,52 +217,72 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jun 07, 2024 at 11:09:37AM +0200, David Hildenbrand wrote:
-> We currently initialize the memmap such that PG_reserved is set and the
-> refcount of the page is 1. In virtio-mem code, we have to manually clear
-> that PG_reserved flag to make memory offlining with partially hotplugged
-> memory blocks possible: has_unmovable_pages() would otherwise bail out on
-> such pages.
+On 11.06.24 09:45, Oscar Salvador wrote:
+> On Mon, Jun 10, 2024 at 10:56:02AM +0200, David Hildenbrand wrote:
+>> There are fortunately not that many left.
+>>
+>> I'd even say marking them (vmemmap) reserved is more wrong than right: note
+>> that ordinary vmemmap pages after memory hotplug are not reserved! Only
+>> bootmem should be reserved.
 > 
-> We want to avoid PG_reserved where possible and move to typed pages
-> instead. Further, we want to further enlighten memory offlining code about
-> PG_offline: offline pages in an online memory section. One example is
-> handling managed page count adjustments in a cleaner way during memory
-> offlining.
+> Ok, that is a very good point that I missed.
+> I thought that hotplugged-vmemmap pages (not selfhosted) were marked as
+> Reserved, that is why I thought this would be inconsistent.
+> But then, if that is the case, I think we are safe as kernel can already
+> encounter vmemmap pages that are not reserved and it deals with them
+> somehow.
 > 
-> So let's initialize the pages with PG_offline instead of PG_reserved.
-> generic_online_page()->__free_pages_core() will now clear that flag before
-> handing that memory to the buddy.
+>> Let's take at the relevant core-mm ones (arch stuff is mostly just for MMIO
+>> remapping)
+>>
+> ...
+>> Any PageReserved user that I am missing, or why we should handle these
+>> vmemmap pages differently than the ones allocated during ordinary memory
+>> hotplug?
 > 
-> Note that the page refcount is still 1 and would forbid offlining of such
-> memory except when special care is take during GOING_OFFLINE as
-> currently only implemented by virtio-mem.
+> No, I cannot think of a reason why normal vmemmap pages should behave
+> different than self-hosted.
 > 
-> With this change, we can now get non-PageReserved() pages in the XEN
-> balloon list. From what I can tell, that can already happen via
-> decrease_reservation(), so that should be fine.
-> 
-> HV-balloon should not really observe a change: partial online memory
-> blocks still cannot get surprise-offlined, because the refcount of these
-> PageOffline() pages is 1.
-> 
-> Update virtio-mem, HV-balloon and XEN-balloon code to be aware that
-> hotplugged pages are now PageOffline() instead of PageReserved() before
-> they are handed over to the buddy.
-> 
-> We'll leave the ZONE_DEVICE case alone for now.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+> I was also confused because I thought that after this change
+> pfn_to_online_page() would be different for self-hosted vmemmap pages,
+> because I thought that somehow we relied on PageOffline(), but it is not
+> the case.
 
-Acked-by: Oscar Salvador <osalvador@suse.de> # for the generic
-memory-hotplug bits
+Fortunately not :) PageFakeOffline() or PageLogicallyOffline()  might be 
+clearer, but I don't quite like these names. If you have a good idea, 
+please let me know.
 
+> 
+>> In the future, we might want to consider using a dedicated page type for
+>> them, so we can stop using a bit that doesn't allow to reliably identify
+>> them. (we should mark all vmemmap with that type then)
+> 
+> Yes, a all-vmemmap pages type would be a good thing, so we do not have
+> to special case.
+> 
+> Just one last thing.
+> Now self-hosted vmemmap pages will have the PageOffline cleared, and that
+> will still remain after the memory-block they belong to has gone
+> offline, which is ok because those vmemmap pages lay around until the
+> chunk of memory gets removed.
+
+Yes, and that memmap might even get poisoned in debug kernels to catch 
+any wrong access.
+
+> 
+> Ok, just wanted to convince myself that there will no be surprises.
+> 
+> Thanks David for claryfing.
+
+Thanks for the review and raising that. I'll add more details to the 
+patch description!
 
 -- 
-Oscar Salvador
-SUSE Labs
+Cheers,
+
+David / dhildenb
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZmgEPgjyG4EfYkNM%40localhost.localdomain.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/30b5d493-b7c2-4e63-86c1-dcc73d21dc15%40redhat.com.
