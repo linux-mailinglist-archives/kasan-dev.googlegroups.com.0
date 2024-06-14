@@ -1,114 +1,116 @@
-Return-Path: <kasan-dev+bncBCWPLY7W6EARB6X4V2ZQMGQE4GLLBQA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCWPLY7W6EARB7H4V2ZQMGQE7MERYJQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc38.google.com (mail-oo1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE47F9082B1
+Received: from mail-il1-x13d.google.com (mail-il1-x13d.google.com [IPv6:2607:f8b0:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF9B9082B0
 	for <lists+kasan-dev@lfdr.de>; Fri, 14 Jun 2024 05:52:29 +0200 (CEST)
-Received: by mail-oo1-xc38.google.com with SMTP id 006d021491bc7-5baebb314a1sf1639397eaf.1
+Received: by mail-il1-x13d.google.com with SMTP id e9e14a558f8ab-375a26a094dsf16342205ab.0
         for <lists+kasan-dev@lfdr.de>; Thu, 13 Jun 2024 20:52:29 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1718337148; cv=pass;
         d=google.com; s=arc-20160816;
-        b=AoYW/0FidSfjpniM2Jum45oUl4h/KSpsPjer23tZvJ8ki7wISnpTXQtTjwI7TTAQ9f
-         gzsoHw55kL+lvZ4dhnCCMrnxA8tWWdmW/ECiB/g7IcOHYeoNpiHbvHbd8uFHLR1hQm8o
-         7+CGglD+iWDPVleKB9E4LY5ZudAc0ZAXolUIEKWf/OEaRpRUU8t6bz+J2odXAI39KOQE
-         AEy3H8V42RYYyEuUaIsbVTdOuGm/Op/NPbLfRtkOiopo5KYpvs8oFyi/2cOgQcgQ/Xbm
-         RI9FlEsOhcJsa9DRsLRF7FwR03W9VrzZc61j/h77HrumXi3gb0AKHCU9m/skbVWfsUWQ
-         UR2g==
+        b=R8AcZs73+khs2sktcESbg7SKV79N1W0ZenQUrp5Kv1pGBVCOWGHzVS9x5ic4r9L4Kw
+         s+/G8z5CPgFJ12ydKfhSGrUKaA1zG2OfMK1MY1iJXYCITcOYUqW8lt8CCguW0V9gk9Gx
+         kZ9vxL+nR7cgeD9LIKkUdNoeQ4zc23R7zaO9D1/g01/8fWe1hhjWGHd+fdpQt4Tp1+8S
+         yRG+ZewnJrB/UaM0GyiKuyrqTB5FMl5DCbgr1n/twtiis2AALUBsWu4iI/ZghopIx6lK
+         LK0+vaJ7PS0RDCAAYB5egW13stjDmqz0jLKmmNuxnA608TrV+sBum4PZEEGf6YGErhg4
+         Ai/A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
-         :date:subject:cc:to:from:dkim-signature;
-        bh=PvfiyYVFGR2u4/i1lwaZtpIvz3gm3F3jjU/+i+NitAQ=;
-        fh=N32jraJ3jrpkyKFlhaz1XdqqKuVqJZ62w1udEY3Q6wE=;
-        b=oGSnG0iPyoTZ5PgRy5Z5BNth42JbGsdvs5OAjfmEFaaTxV5oetckSSSC4Sz6sHqGM3
-         je+xdxifYNz69iawec76yAfzzcTzvsCnRzDPVfrIlBRYamksQ1UOXAI+BkopcQkYwG1F
-         B9O6QnIbHEzumL3yDW/eT7GCtQ4g7mPl00vYCnEPIFIRsuAhQCXKdLM1T2yXy7JGclXa
-         7MfQWoYMN0E1eISnxw2yAqGxRGLJ0CXIbjkyolKRsRBJFBluZmnoidTGPJbyeLdKfcwR
-         piAY/z5hJ6U82TEh9cmXjqyuJPVmEK7dtrhIF/dQuuJ8eea4TarG3rYvMGQH2yIsR4Wm
-         N6ZQ==;
+         :list-id:mailing-list:precedence:reply-to:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=8EkzdN6F+hGJhrzvtFiPqeB/yDND3TKLY86obMANTVY=;
+        fh=eSZ7jApCiXq0KdJNdQ23yUZpuJDsAkWRZDXxeW0d05Y=;
+        b=NIsqHIWYaKhFPB3ShNDM8sPUbaKdlX9AjU1/NZeagqaI4imKBhXwfB3EP2lWTrpx/l
+         rBREKnhMo8eVfnaRSMlBW6d9TTPQuggnmdwxv/h0zyiDaVB1Rcwl+2G+3VwdC4dSPY/u
+         nprwglO/pUPqpw2CXRBb+SDuyuydkENbGnb5eAPqS0yCRmbFqIYbpb5x5tQCloa3nNAA
+         5SyWNjwlA5W48GEvr7TFPTXY7srqAe1ItL+VRNg6woHY+sKNiDMe4Ny/AJhE+JzaISHW
+         z0v2ROjazBH/s20vEp7SwhTrXZOsp1Kg7fkAIATb8i5dVlFrE7t32e3DA8balFRdtE4y
+         91Vw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of liaochang1@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=liaochang1@huawei.com;
+       spf=pass (google.com: domain of liaochang1@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=liaochang1@huawei.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20230601; t=1718337148; x=1718941948; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PvfiyYVFGR2u4/i1lwaZtpIvz3gm3F3jjU/+i+NitAQ=;
-        b=BOh1sHQOsX6ca2dUDUhMy6ZwBDHk7NE/xDS3iOlYM7clGfaKpOF4aI8kYJD7/fDZTq
-         CXA0udeGiwUqQEDayEfWX8AUl5mqKRA4xKBvjhUfPThH8KLOJfbtXp0kDFbaK5KdIMWr
-         L457JA2Rh1tDyy2gJh9qI19kYM3g2OzG2gBuatx08XYT/F8D7dOYsyHzbE1SGyeybddD
-         C7D8zT0JA1iY2vjN3zgbn7tEpa/nCFp6nZbXiLZaSEjf9HCfKZyDwBsa7lhw6JAm6DI8
-         EjQS1EzWM92zN5yCH3H4hRuSZkJd7dMh3d/Rq0UkgWGRHIAqJJPexasX7UdTkBvCb4xy
-         KJ7g==
+         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8EkzdN6F+hGJhrzvtFiPqeB/yDND3TKLY86obMANTVY=;
+        b=cyZ+ukvNdBcyjzgnjiQIL2HftsduU/Rg8Te8+E5aiFfYV5/+J0WvuAm/qLlPCRFdDD
+         CWPz0RcAukQnFwOo6igIPRppQS3zYPHE9ds8Bp3leZcnM/94dP02OJQLWHCPk6w0xoZk
+         OEK0wnvmWmHIwfjZFt1ftnYUMyzxDpH5GYrPkvDV4AUX3RImhNaik9Vut4lK1eXBkBxy
+         Km3sK9fKesEzzkYIYC2Skkx9cJ76bdeDSkFjPJL50Qw0LcI3C0o+3Yv1DyHolqwYqZ3Z
+         SayLQW7Citq/7mvhqcRnCAxvYxcczmo3BqOAf0hGxXGaxC6AavRKBVVJD1/YtZ/0uZyx
+         2/Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1718337148; x=1718941948;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PvfiyYVFGR2u4/i1lwaZtpIvz3gm3F3jjU/+i+NitAQ=;
-        b=EjbAytlP/HlKfjkn3NCAbzIiNgQGqxCPWeqB2kbdIJD1GRSBqFq1VXwM39SH9GKhfZ
-         ilA9DKAHhHHFe8yhQ4AhagIZlFkPZxKMil5NrG/SdnwkFCcNkruv5bFOxpUXon4OsR0+
-         VYn6NKTf6wlV0y5LxLOZS2Ev4Vhk0/t+Mmd/nnuu6AbiYMCHl2+sY43LEdgBx/UNRza9
-         ARA+dPXxcu2VBjgr4oUjSUKo50NwV3lABv6pYnbjUwwPMIjjeAb0DrsXjB6k2IucPCeB
-         kLsWy/KEmqjJw20/iDeE52yglziUvkOex2odt6z0rLaU/Gvey/4QgphI0jVRuYlFaAn8
-         vQuQ==
-X-Forwarded-Encrypted: i=2; AJvYcCVK2xfQv+BvtnGuJ4cNFMzcEnynv0jsS52YuZsRqMrp9OPm0dNv18OggWr1EKhauAR1bRRG3qnM3PDpeynHcKxdcWYk1ZcRwQ==
-X-Gm-Message-State: AOJu0YwizO4KNvGmitTNXydQpJ7LqMnNWHQnnhGwvgEju8oxsQNz1aUS
-	vcseLuGlihyLck8I7jz+PsEBcLUZKE+DJPHwf+UW8LftiZoynUZA
-X-Google-Smtp-Source: AGHT+IHmpfe3IEpxVe+q1Smug99KLKWMiZyNNKQzIjnqjFBReRtmnlFVS9E5+XuscUHbKNZhnsTS9g==
-X-Received: by 2002:a05:6820:509:b0:5bd:15fc:8fe5 with SMTP id 006d021491bc7-5bdadc5a924mr1430264eaf.7.1718337147140;
-        Thu, 13 Jun 2024 20:52:27 -0700 (PDT)
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8EkzdN6F+hGJhrzvtFiPqeB/yDND3TKLY86obMANTVY=;
+        b=PxEiMDczaUb3bU5t1S6tGeHZo43rf38rUeSo1UBJuHhk5CczhjoCd3Lmbtieq60/Us
+         hEGLQIYazjUEPvN8OL0i5uu6VIenhhmyRTamHWH7k3ZDZVYuA4s2WZ6n3jv+u1OKDlzv
+         fSKX6INHp1G01KHHW8nmzFoE/+K55zDEDQnfKdQ9Z6uZ7jlFJBBS10Ms8xclLWzglpUr
+         EdgNZ4lQbjw4lGaSVZI7uUruVlx6Xp9M/AtmmaD+O/zTKvtf9oWv4jVhMARxHIyDLK92
+         ai6mFjScoVhVyOKmUEWe2szwJhLly/4xJPKRXFt1Ll72KRWCpF9iyqRBW2PR3hRw8PNr
+         ipqA==
+X-Forwarded-Encrypted: i=2; AJvYcCXC3w4lK88RrlAxvQrs1ZxCH96fT2ixkla/G1nEUT9TvLH9173+oHVIUGz0UJP0ka7iHe1yQR3bVEZyzbiobgdvzdwB+bOoGA==
+X-Gm-Message-State: AOJu0YyN1xXtg3mZFApCHF+JeU6xZ36Nw4piCIqjRqpDkLybaIEsuTLV
+	uGY5VWhGQnIMBHZXGRGv2GzZ9s933MmFEPkChajRyOfmVm0SJ/TU
+X-Google-Smtp-Source: AGHT+IFmj93Sk+1rBCifUkk1rt/P9H6mR6uMACTuaBxCiNVWnZD2b7vWCx9jjWP9GXQL9+h6UhhpTw==
+X-Received: by 2002:a05:6e02:1846:b0:375:c56b:a0fe with SMTP id e9e14a558f8ab-375e0e2c8f1mr13474085ab.19.1718337148220;
+        Thu, 13 Jun 2024 20:52:28 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:1704:0:b0:5ba:a73a:6de7 with SMTP id 006d021491bc7-5bcc3e0189als1270340eaf.1.-pod-prod-08-us;
- Thu, 13 Jun 2024 20:52:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUkG6E4Yqb1N6ZV/IG767fz6RjC8S/3h+uSc9lGfhX4HQtSp1FAEuF5LJEIIxtFnCU+HD7NstxbPz1uPqoF2UB/QGFjrU4zY1P/TA==
-X-Received: by 2002:a05:6808:f05:b0:3d2:304c:982e with SMTP id 5614622812f47-3d24e983eaemr1864895b6e.42.1718337145838;
-        Thu, 13 Jun 2024 20:52:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1718337145; cv=none;
+Received: by 2002:a05:6e02:1c8d:b0:375:caa7:3b1a with SMTP id
+ e9e14a558f8ab-375da5368d9ls9357885ab.0.-pod-prod-09-us; Thu, 13 Jun 2024
+ 20:52:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXXnKla57mJYQEsTp2B3i/9lfg3vs1d0oKKat2MGZQxQyTcSNHnMYkHq6cX8NjeEQdrrn6O1rCEyk2EV3TvL5fLbwLmxDHrBEn1qw==
+X-Received: by 2002:a05:6602:2b92:b0:7e1:af90:44ee with SMTP id ca18e2360f4ac-7ebeb4c7167mr174082039f.8.1718337147310;
+        Thu, 13 Jun 2024 20:52:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1718337147; cv=none;
         d=google.com; s=arc-20160816;
-        b=pBkR23/C+GO9ej2h2XPmlfYsv0ev9KONV0zDFFV40zarBwQkaYy5zY24Yb1NTp3pDp
-         rCtUh/sGGiw1LWk91i1zgCJuECLqWtUGnm0y4TIpCQ4AxHy45KB4iU3gmZpB0BCtmybj
-         sHGPWCuYF3wyuxmdzvvADwMBkoKBH2UHpR5Un3VcURu/Cv/s96mjk3CM4hMtBGIstcbJ
-         +7Bx7++3s1L9ZrqliROuf5A40Qv2d+Vhrkz9En8JDQTXUr8JrepNG0K0R6XySkdn6/8f
-         sRYjzBRtFXFmt6mz6E2gUG5ncHbcdQ9+qBZhqRej3Sa3QGw1UBd142Fv2nm2+VkxuPoD
-         Yw2A==
+        b=LtKQkITjnvLpzkb+kubAkWNG8MkmVttAr3eO39HILwPuYn5aajq7+9GrfdXeIu3gNX
+         znEo+5z6+Vw6Tll44cyDXQSK8umLgg4W5BKi3rZ9biWvCmlZLANIiBD0IJAfn0SWQkfR
+         ycpXN4InbNKc9mR9I/X6Cq2lCIsTfuZDDHtMqeZMIx7y1c7itGCJnE/VRFYa0WFOFVGi
+         qpECOQ9J8gDGwPtrccNF+Tjc0JsmwO0FN/0C89qH/gh07Z6Pp33ieedU4w5WOnjhdNMV
+         uAiLo99QHTUlRNWn3QSPcG/O0V4JKpSC2PRkV7EaATHoOvreEliD0SQiNaBmr4QkyoFA
+         2dAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=DbBui2JqDDl6fIDcmlExHQt1FjC8XceesytnkhGF4wM=;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from;
+        bh=cujDRB+fhdTwTuL30qfufmZv6Szv4LBOpwx+PD01YKU=;
         fh=v8nlEsPtC8QOgAMy9+ceT2RXXasdZQBfytgK0uDUtEc=;
-        b=M657kBVsKmKD9mGwu2dnqRN54ERwtbtZYZjPI/M9jwUKu77zEzAAF9V5ZiJ8NRmgxq
-         8zI6itSMwpazZclkwozA9pBksNRP9yTJrJzRwe4QhIIl8gvNntB5eAweFgEm6fxdSb86
-         2/hzblBLlHncW16lAx7eDDhvwmJZZjiDur/XR8mcdgThevIfSImjBZZ7xonDnjkjVLJ1
-         gGqKU4hQRibaKoiqscoyBoMFlCKsOtyCqf5NS2jyZE6L4MsChMrvtQN58k1HDvQcJ02l
-         Fu2lUrhZjfS1Z2A9RcaAkbC5/1QLM30DZk2fmyYL1iP9f4lP+dZZCzEkZMy+xjRSoNsR
-         xhVA==;
+        b=qVesG7hI+2jgGFRUaJNWikPWNkvaMyG37mPNxhO7zVAalWEw5PEtCjkAgTlL+fLGCl
+         A1V6bcErDu/6xGKKC+LSGiLcRftBI+lP8w7Iq6nsdvzikDYcfVEr3er3PRnT81Nz7bwp
+         IAyCnysCDA7AsHqIXI6FYUBco/qI4ENR27bhxJNMBdhpxuvRlBxAcVUe/xKcVY2nunMe
+         e29a1oj85jfpVIHWEOGGjmq3Y9caPBmKlih7IdMucP0ixgYLyMy7TPOa1TWvsl/BymDb
+         nG1u59GpRKue7K74sP3gVbk3jTVaEPq6AUh0vOqP82jT3fJGd58ifH1XTi8eWUYM+CgJ
+         BZXg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of liaochang1@huawei.com designates 45.249.212.187 as permitted sender) smtp.mailfrom=liaochang1@huawei.com;
+       spf=pass (google.com: domain of liaochang1@huawei.com designates 45.249.212.188 as permitted sender) smtp.mailfrom=liaochang1@huawei.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com. [45.249.212.187])
-        by gmr-mx.google.com with ESMTPS id 5614622812f47-3d247740eb2si130956b6e.3.2024.06.13.20.52.25
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com. [45.249.212.188])
+        by gmr-mx.google.com with ESMTPS id ca18e2360f4ac-7ebdbba4777si12909139f.4.2024.06.13.20.52.26
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 13 Jun 2024 20:52:25 -0700 (PDT)
-Received-SPF: pass (google.com: domain of liaochang1@huawei.com designates 45.249.212.187 as permitted sender) client-ip=45.249.212.187;
-Received: from mail.maildlp.com (unknown [172.19.88.105])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4W0lcG3JDfzwSLw;
-	Fri, 14 Jun 2024 11:48:14 +0800 (CST)
+        Thu, 13 Jun 2024 20:52:27 -0700 (PDT)
+Received-SPF: pass (google.com: domain of liaochang1@huawei.com designates 45.249.212.188 as permitted sender) client-ip=45.249.212.188;
+Received: from mail.maildlp.com (unknown [172.19.88.194])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4W0lgN1k9Zzdb9L;
+	Fri, 14 Jun 2024 11:50:56 +0800 (CST)
 Received: from kwepemd200013.china.huawei.com (unknown [7.221.188.133])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8297B1402C8;
-	Fri, 14 Jun 2024 11:52:22 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 5F080140732;
+	Fri, 14 Jun 2024 11:52:24 +0800 (CST)
 Received: from huawei.com (10.67.174.28) by kwepemd200013.china.huawei.com
  (7.221.188.133) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.34; Fri, 14 Jun
- 2024 11:52:20 +0800
+ 2024 11:52:22 +0800
 From: "'Liao Chang' via kasan-dev" <kasan-dev@googlegroups.com>
 To: <catalin.marinas@arm.com>, <will@kernel.org>, <ryabinin.a.a@gmail.com>,
 	<glider@google.com>, <andreyknvl@gmail.com>, <dvyukov@google.com>,
@@ -131,10 +133,12 @@ To: <catalin.marinas@arm.com>, <will@kernel.org>, <ryabinin.a.a@gmail.com>,
 	<kristina.martsenko@arm.com>, <ruanjinjie@huawei.com>
 CC: <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
 	<kasan-dev@googlegroups.com>, <kvmarm@lists.linux.dev>
-Subject: [PATCH v4 00/10] Rework the DAIF mask, unmask and track API
-Date: Fri, 14 Jun 2024 03:44:23 +0000
-Message-ID: <20240614034433.602622-1-liaochang1@huawei.com>
+Subject: [PATCH v4 01/10] arm64/sysreg: Add definitions for immediate versions of MSR ALLINT
+Date: Fri, 14 Jun 2024 03:44:24 +0000
+Message-ID: <20240614034433.602622-2-liaochang1@huawei.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20240614034433.602622-1-liaochang1@huawei.com>
+References: <20240614034433.602622-1-liaochang1@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 X-Originating-IP: [10.67.174.28]
@@ -142,7 +146,7 @@ X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
  kwepemd200013.china.huawei.com (7.221.188.133)
 X-Original-Sender: liaochang1@huawei.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of liaochang1@huawei.com designates 45.249.212.187 as
+ (google.com: domain of liaochang1@huawei.com designates 45.249.212.188 as
  permitted sender) smtp.mailfrom=liaochang1@huawei.com;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 X-Original-From: Liao Chang <liaochang1@huawei.com>
@@ -159,136 +163,231 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This patch series reworks the DAIF mask, unmask, and track API for the
-upcoming FEAT_NMI extension added in Armv8.8.
+Use existing helper in sysregs.h to generate the variant for MSR
+instruction used to set the ALLINT field of PSTATE directly using
+immediate.
 
-As platform and virtualization[1] supports for FEAT_NMI is emerging, and
-Mark Brown's FEAT_NMI patch series[2] highlighted the need for clean up
-the existing hacking style approach about DAIF management code before
-adding NMI functionality, furthermore, we discover some subtle bugs
-during 'perf' and 'ipi_backtrace' transition from PSEUDO_NMI to
-FEAT_NMI, in summary, all of these emphasize the importance of rework.
+  MSR ALLINT, #Imm1 ;used to set the value of PSTATE.ALLINT
 
-This series of reworking patches follows the suggestion from Mark
-Rutland mentioned in Mark Brown's patchset. In summary, he think the
-better way for DAIF manangement look likes as following:
+As Mark suggested in [1], the series of PSTATE related helper names in
+sysregs.h are lack of self-explanatory nature, which make it difficult
+to understand their function and purpose. This patch also rename these
+helper from the sytle of SET_XXX to MSR_XXX to make them discoverable.
 
-(a) Adding entry-specific helpers to manipulate abstract exception masks
-    covering DAIF + PMR + ALLINT. Those need unmask-at-entry and
-    mask-at-exit behaviour, and today only need to manage DAIF + PMR.
+[1] https://lore.kernel.org/all/ZjpALOdSgu-qhshR@finisterre.sirena.org.uk/
 
-    It should be possible to do this ahead of ALLINT / NMI support.
+Signed-off-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Liao Chang <liaochang1@huawei.com>
+---
+ arch/arm64/include/asm/mte-kasan.h |  4 ++--
+ arch/arm64/include/asm/mte.h       |  2 +-
+ arch/arm64/include/asm/sysreg.h    | 27 +++++++++++++++------------
+ arch/arm64/include/asm/uaccess.h   |  4 ++--
+ arch/arm64/kernel/cpufeature.c     |  4 ++--
+ arch/arm64/kernel/entry-common.c   |  4 ++--
+ arch/arm64/kernel/entry.S          |  2 +-
+ arch/arm64/kernel/proton-pack.c    |  4 ++--
+ arch/arm64/kernel/suspend.c        |  2 +-
+ arch/arm64/kvm/hyp/entry.S         |  2 +-
+ 10 files changed, 29 insertions(+), 26 deletions(-)
 
-(b) Adding new "logical exception mask" helpers that treat DAIF + PMR +
-    ALLINT as separate elements. 
-
-This patches cherry-pick a part of Mark Brown' FEAT_NMI series, in order
-to pass compilation and basic testing, includes perf and ipi_backtrace.
-
-v4->v3:
-General Enhancements
---------------------
-Commit messages of [PATCH 04/05/06] have been enriched to outline the
-implementation details, motivations and potential effects. This might
-improve develper understanding and review efficiency.
-
-Specific Changes
-----------------
-1. [PATCH 01] new utilize the existing helper maco in sysregs.h to
-   generate the "MSR ALLLINT, #Imm1" instruction. Additionally, helper
-   names have been renamed to start with msr_pstate_ for better
-   discoverability (as suggested by Mark Brown).
-
-2. For [PATCH 04], due to the barrier side-effect of writing to PSTATE
-   fields, it is unnecessary to call pmr_sync() in
-   __pmr_local_allint_restore(). Add a table in comments to depict the
-   relationship between the type of interrupt masking and hardware
-   register configuration.
-
-3. For [PATCH 05/06], function names have been revised to better reflect
-   their purpose:
-
-   local_errint_enable()       -> local_irq_serror_enable()
-   local_errint_disable()      -> local_nmi_serror_disable()
-   local_allint_mark_enabled() -> local_irq_mark_enabled()
-   local_allint_disable()      -> local_nmi_disable()
-   local_errnmi_enable()       -> local_nmi_serror_enable()
-
-4. For [PATCH 07], A bug in local_nmi_enable() has been fixed. The v3
-   version is overly complex and included an unnecessary write operation
-   to PSTATE.DAIF.
-
-5. [PATCH 09] introduce a slight optimization for NMI handling. Since
-   the intermediate step of marking IRQ TO-BE enabled is no longer
-   required, dropping PMR before acknowledge PSEUDO_NMI is also
-   unnecessary.
-
-6. [PATCH 10] migrates CPU idle contex save/restore operation to the
-   newly introduced logical interrupt masking helper functions.
-
-v3->v2:
-1. Squash two commits that address two minor issues into Mark Brown's
-   origin patch for detecting FEAT_NMI.
-2. Add one patch resolves the kprobe reenter panic while testing
-   FEAT_NMI on QEMU.
-
-v2->v1:
-Add SoB tags following the origin author's SoBs.
-
-[1] https://lore.kernel.org/all/20240407081733.3231820-1-ruanjinjie@huawei.com/
-[2] https://lore.kernel.org/linux-arm-kernel/Y4sH5qX5bK9xfEBp@lpieralisi/
-
-Liao Chang (8):
-  arm64/sysreg: Add definitions for immediate versions of MSR ALLINT
-  arm64: daifflags: Introduce logical interrupt masking
-  arm64: Sipmlify exception masking during exception entry and exit
-  arm64: Deprecate old local_daif_{mask,save,restore} helper functions
-  irqchip/gic-v3: Improve the maintainability of NMI masking in GIC
-    driver
-  arm64: kprobe: Keep NMI maskabled while kprobe is stepping xol
-  arm64: irqchip/gic-v3: Simplify NMI handling in IRQs disabled context
-  arm64: Migrate idle context save/restore to logical interrupt masking
-
-Mark Brown (2):
-  arm64/cpufeature: Detect PE support for FEAT_NMI
-  arm64/nmi: Add Kconfig for NMI
-
- arch/arm64/Kconfig                   |  17 ++
- arch/arm64/include/asm/cpufeature.h  |   6 +
- arch/arm64/include/asm/cpuidle.h     |  24 +-
- arch/arm64/include/asm/daifflags.h   | 376 +++++++++++++++++++++------
- arch/arm64/include/asm/mte-kasan.h   |   4 +-
- arch/arm64/include/asm/mte.h         |   2 +-
- arch/arm64/include/asm/sysreg.h      |  27 +-
- arch/arm64/include/asm/uaccess.h     |   4 +-
- arch/arm64/include/uapi/asm/ptrace.h |   1 +
- arch/arm64/kernel/acpi.c             |  10 +-
- arch/arm64/kernel/cpufeature.c       |  61 ++++-
- arch/arm64/kernel/debug-monitors.c   |   6 +-
- arch/arm64/kernel/entry-common.c     |  94 +++----
- arch/arm64/kernel/entry.S            |   4 +-
- arch/arm64/kernel/hibernate.c        |   6 +-
- arch/arm64/kernel/idle.c             |   2 +-
- arch/arm64/kernel/irq.c              |   2 +-
- arch/arm64/kernel/machine_kexec.c    |   2 +-
- arch/arm64/kernel/probes/kprobes.c   |   4 +-
- arch/arm64/kernel/proton-pack.c      |   4 +-
- arch/arm64/kernel/setup.c            |   2 +-
- arch/arm64/kernel/smp.c              |   6 +-
- arch/arm64/kernel/suspend.c          |  10 +-
- arch/arm64/kvm/hyp/entry.S           |   2 +-
- arch/arm64/kvm/hyp/vgic-v3-sr.c      |   6 +-
- arch/arm64/kvm/hyp/vhe/switch.c      |   4 +-
- arch/arm64/mm/mmu.c                  |   6 +-
- arch/arm64/tools/cpucaps             |   2 +
- drivers/firmware/psci/psci.c         |   2 +-
- drivers/irqchip/irq-gic-v3.c         |  29 +--
- 30 files changed, 490 insertions(+), 235 deletions(-)
-
+diff --git a/arch/arm64/include/asm/mte-kasan.h b/arch/arm64/include/asm/mte-kasan.h
+index 2e98028c1965..78e022d462e8 100644
+--- a/arch/arm64/include/asm/mte-kasan.h
++++ b/arch/arm64/include/asm/mte-kasan.h
+@@ -53,13 +53,13 @@ static inline bool system_uses_mte_async_or_asymm_mode(void)
+  */
+ static inline void mte_disable_tco(void)
+ {
+-	asm volatile(ALTERNATIVE("nop", SET_PSTATE_TCO(0),
++	asm volatile(ALTERNATIVE("nop", MSR_PSTATE_TCO(0),
+ 				 ARM64_MTE, CONFIG_KASAN_HW_TAGS));
+ }
+ 
+ static inline void mte_enable_tco(void)
+ {
+-	asm volatile(ALTERNATIVE("nop", SET_PSTATE_TCO(1),
++	asm volatile(ALTERNATIVE("nop", MSR_PSTATE_TCO(1),
+ 				 ARM64_MTE, CONFIG_KASAN_HW_TAGS));
+ }
+ 
+diff --git a/arch/arm64/include/asm/mte.h b/arch/arm64/include/asm/mte.h
+index 91fbd5c8a391..e914ca1c90a0 100644
+--- a/arch/arm64/include/asm/mte.h
++++ b/arch/arm64/include/asm/mte.h
+@@ -174,7 +174,7 @@ static inline void mte_disable_tco_entry(struct task_struct *task)
+ 	 */
+ 	if (kasan_hw_tags_enabled() ||
+ 	    (task->thread.sctlr_user & (1UL << SCTLR_EL1_TCF0_SHIFT)))
+-		asm volatile(SET_PSTATE_TCO(0));
++		asm volatile(MSR_PSTATE_TCO(0));
+ }
+ 
+ #ifdef CONFIG_KASAN_HW_TAGS
+diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
+index af3b206fa423..4f514bdfb1bd 100644
+--- a/arch/arm64/include/asm/sysreg.h
++++ b/arch/arm64/include/asm/sysreg.h
+@@ -90,24 +90,27 @@
+  */
+ #define pstate_field(op1, op2)		((op1) << Op1_shift | (op2) << Op2_shift)
+ #define PSTATE_Imm_shift		CRm_shift
+-#define SET_PSTATE(x, r)		__emit_inst(0xd500401f | PSTATE_ ## r | ((!!x) << PSTATE_Imm_shift))
++#define MSR_PSTATE_ENCODE(x, r)		__emit_inst(0xd500401f | PSTATE_ ## r | ((!!x) << PSTATE_Imm_shift))
+ 
+ #define PSTATE_PAN			pstate_field(0, 4)
+ #define PSTATE_UAO			pstate_field(0, 3)
+ #define PSTATE_SSBS			pstate_field(3, 1)
+ #define PSTATE_DIT			pstate_field(3, 2)
+ #define PSTATE_TCO			pstate_field(3, 4)
+-
+-#define SET_PSTATE_PAN(x)		SET_PSTATE((x), PAN)
+-#define SET_PSTATE_UAO(x)		SET_PSTATE((x), UAO)
+-#define SET_PSTATE_SSBS(x)		SET_PSTATE((x), SSBS)
+-#define SET_PSTATE_DIT(x)		SET_PSTATE((x), DIT)
+-#define SET_PSTATE_TCO(x)		SET_PSTATE((x), TCO)
+-
+-#define set_pstate_pan(x)		asm volatile(SET_PSTATE_PAN(x))
+-#define set_pstate_uao(x)		asm volatile(SET_PSTATE_UAO(x))
+-#define set_pstate_ssbs(x)		asm volatile(SET_PSTATE_SSBS(x))
+-#define set_pstate_dit(x)		asm volatile(SET_PSTATE_DIT(x))
++#define PSTATE_ALLINT			pstate_field(1, 0)
++
++#define MSR_PSTATE_PAN(x)		MSR_PSTATE_ENCODE((x), PAN)
++#define MSR_PSTATE_UAO(x)		MSR_PSTATE_ENCODE((x), UAO)
++#define MSR_PSTATE_SSBS(x)		MSR_PSTATE_ENCODE((x), SSBS)
++#define MSR_PSTATE_DIT(x)		MSR_PSTATE_ENCODE((x), DIT)
++#define MSR_PSTATE_TCO(x)		MSR_PSTATE_ENCODE((x), TCO)
++#define MSR_PSTATE_ALLINT(x)		MSR_PSTATE_ENCODE((x), ALLINT)
++
++#define msr_pstate_pan(x)		asm volatile(MSR_PSTATE_PAN(x))
++#define msr_pstate_uao(x)		asm volatile(MSR_PSTATE_UAO(x))
++#define msr_pstate_ssbs(x)		asm volatile(MSR_PSTATE_SSBS(x))
++#define msr_pstate_dit(x)		asm volatile(MSR_PSTATE_DIT(x))
++#define msr_pstate_allint(x)		asm volatile(MSR_PSTATE_ALLINT(x))
+ 
+ #define __SYS_BARRIER_INSN(CRm, op2, Rt) \
+ 	__emit_inst(0xd5000000 | sys_insn(0, 3, 3, (CRm), (op2)) | ((Rt) & 0x1f))
+diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
+index 14be5000c5a0..34890df54e2e 100644
+--- a/arch/arm64/include/asm/uaccess.h
++++ b/arch/arm64/include/asm/uaccess.h
+@@ -124,13 +124,13 @@ static inline bool uaccess_ttbr0_enable(void)
+ 
+ static inline void __uaccess_disable_hw_pan(void)
+ {
+-	asm(ALTERNATIVE("nop", SET_PSTATE_PAN(0), ARM64_HAS_PAN,
++	asm(ALTERNATIVE("nop", MSR_PSTATE_PAN(0), ARM64_HAS_PAN,
+ 			CONFIG_ARM64_PAN));
+ }
+ 
+ static inline void __uaccess_enable_hw_pan(void)
+ {
+-	asm(ALTERNATIVE("nop", SET_PSTATE_PAN(1), ARM64_HAS_PAN,
++	asm(ALTERNATIVE("nop", MSR_PSTATE_PAN(1), ARM64_HAS_PAN,
+ 			CONFIG_ARM64_PAN));
+ }
+ 
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index 48e7029f1054..03a37a21fc99 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -2151,7 +2151,7 @@ static void cpu_enable_pan(const struct arm64_cpu_capabilities *__unused)
+ 	WARN_ON_ONCE(in_interrupt());
+ 
+ 	sysreg_clear_set(sctlr_el1, SCTLR_EL1_SPAN, 0);
+-	set_pstate_pan(1);
++	msr_pstate_pan(1);
+ }
+ #endif /* CONFIG_ARM64_PAN */
+ 
+@@ -2339,7 +2339,7 @@ static void cpu_trap_el0_impdef(const struct arm64_cpu_capabilities *__unused)
+ 
+ static void cpu_enable_dit(const struct arm64_cpu_capabilities *__unused)
+ {
+-	set_pstate_dit(1);
++	msr_pstate_dit(1);
+ }
+ 
+ static void cpu_enable_mops(const struct arm64_cpu_capabilities *__unused)
+diff --git a/arch/arm64/kernel/entry-common.c b/arch/arm64/kernel/entry-common.c
+index b77a15955f28..72c2c9d033a8 100644
+--- a/arch/arm64/kernel/entry-common.c
++++ b/arch/arm64/kernel/entry-common.c
+@@ -953,9 +953,9 @@ __sdei_handler(struct pt_regs *regs, struct sdei_registered_event *arg)
+ 	 * clearing it when the host isn't using it, in case a VM had it set.
+ 	 */
+ 	if (system_uses_hw_pan())
+-		set_pstate_pan(1);
++		msr_pstate_pan(1);
+ 	else if (cpu_has_pan())
+-		set_pstate_pan(0);
++		msr_pstate_pan(0);
+ 
+ 	arm64_enter_nmi(regs);
+ 	ret = do_sdei_event(regs, arg);
+diff --git a/arch/arm64/kernel/entry.S b/arch/arm64/kernel/entry.S
+index 7ef0e127b149..c568b4ff9e62 100644
+--- a/arch/arm64/kernel/entry.S
++++ b/arch/arm64/kernel/entry.S
+@@ -197,7 +197,7 @@ alternative_cb_end
+ 
+ 	.macro	kernel_entry, el, regsize = 64
+ 	.if	\el == 0
+-	alternative_insn nop, SET_PSTATE_DIT(1), ARM64_HAS_DIT
++	alternative_insn nop, MSR_PSTATE_DIT(1), ARM64_HAS_DIT
+ 	.endif
+ 	.if	\regsize == 32
+ 	mov	w0, w0				// zero upper 32 bits of x0
+diff --git a/arch/arm64/kernel/proton-pack.c b/arch/arm64/kernel/proton-pack.c
+index baca47bd443c..735db447695a 100644
+--- a/arch/arm64/kernel/proton-pack.c
++++ b/arch/arm64/kernel/proton-pack.c
+@@ -552,12 +552,12 @@ static enum mitigation_state spectre_v4_enable_hw_mitigation(void)
+ 
+ 	if (spectre_v4_mitigations_off()) {
+ 		sysreg_clear_set(sctlr_el1, 0, SCTLR_ELx_DSSBS);
+-		set_pstate_ssbs(1);
++		msr_pstate_ssbs(1);
+ 		return SPECTRE_VULNERABLE;
+ 	}
+ 
+ 	/* SCTLR_EL1.DSSBS was initialised to 0 during boot */
+-	set_pstate_ssbs(0);
++	msr_pstate_ssbs(0);
+ 
+ 	/*
+ 	 * SSBS is self-synchronizing and is intended to affect subsequent
+diff --git a/arch/arm64/kernel/suspend.c b/arch/arm64/kernel/suspend.c
+index eaaff94329cd..0e79af827540 100644
+--- a/arch/arm64/kernel/suspend.c
++++ b/arch/arm64/kernel/suspend.c
+@@ -63,7 +63,7 @@ void notrace __cpu_suspend_exit(void)
+ 	 * features that might not have been set correctly.
+ 	 */
+ 	if (alternative_has_cap_unlikely(ARM64_HAS_DIT))
+-		set_pstate_dit(1);
++		msr_pstate_dit(1);
+ 	__uaccess_enable_hw_pan();
+ 
+ 	/*
+diff --git a/arch/arm64/kvm/hyp/entry.S b/arch/arm64/kvm/hyp/entry.S
+index f3aa7738b477..e1cb3ea49140 100644
+--- a/arch/arm64/kvm/hyp/entry.S
++++ b/arch/arm64/kvm/hyp/entry.S
+@@ -113,7 +113,7 @@ SYM_INNER_LABEL(__guest_exit, SYM_L_GLOBAL)
+ 
+ 	add	x1, x1, #VCPU_CONTEXT
+ 
+-	ALTERNATIVE(nop, SET_PSTATE_PAN(1), ARM64_HAS_PAN, CONFIG_ARM64_PAN)
++	ALTERNATIVE(nop, MSR_PSTATE_PAN(1), ARM64_HAS_PAN, CONFIG_ARM64_PAN)
+ 
+ 	// Store the guest regs x2 and x3
+ 	stp	x2, x3,   [x1, #CPU_XREG_OFFSET(2)]
 -- 
 2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240614034433.602622-1-liaochang1%40huawei.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240614034433.602622-2-liaochang1%40huawei.com.
