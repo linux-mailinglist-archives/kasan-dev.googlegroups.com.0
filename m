@@ -1,207 +1,146 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBD6XYKZQMGQE7XZ4E3I@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAMN6NI5EERBD7KYKZQMGQEXQOLJ4Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23d.google.com (mail-lj1-x23d.google.com [IPv6:2a00:1450:4864:20::23d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CAD490BCF6
-	for <lists+kasan-dev@lfdr.de>; Mon, 17 Jun 2024 23:33:05 +0200 (CEST)
-Received: by mail-lj1-x23d.google.com with SMTP id 38308e7fff4ca-2ebe77b877esf35456861fa.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 17 Jun 2024 14:33:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1718659984; cv=pass;
+Received: from mail-yb1-xb39.google.com (mail-yb1-xb39.google.com [IPv6:2607:f8b0:4864:20::b39])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF0AB90BD61
+	for <lists+kasan-dev@lfdr.de>; Tue, 18 Jun 2024 00:13:36 +0200 (CEST)
+Received: by mail-yb1-xb39.google.com with SMTP id 3f1490d57ef6-dfef7ac17f8sf5682255276.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 17 Jun 2024 15:13:36 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1718662415; cv=pass;
         d=google.com; s=arc-20160816;
-        b=dln3Uw7xo5l4RLRqaWyAfWl630oiE6WNEmn7cfF9C+dZnaeNgWKHCIUD1I4RUZBcL3
-         lNdQQFYlhdfzNrgUT39rA177gO4CFg6y17SrSf5U7jnOcoU8Y9LB7zV2SZmbdfuY/ZU4
-         FHtNFRKro1ERoO4jmMrpAXfn+VfSG1Osz6H9pf0KqJ17X8rcG6rcCvy01nelRGzamOYX
-         PoBAG3n2H/bNKZhFZWftOw64mph3im3j+txYSMtoBuMcylu+fD5BEbagyuOeGb/mHqbn
-         uGHE5UAPzTL2Ibf4VW72yW/dp6bskXVMcb0XrqfaPZEPmAVL68myqwf0MRN7GlqlwB1F
-         hRgw==
+        b=hm1B6DADEz29lvdgIagyWZvvR6KVRnTy4An1NpIG0PVfb74yxO5OsgNLx8Sm+dPdD7
+         1WG/pSWJwZHgaQTZXvxwrKoRvt/DxntWvpgcUQYw22/CEC5xFlS8isb+6Gyk7HqBBewy
+         fmKHlNIVm8YQuoyFO5Ll7mrW6CqawogbzBv7YM+IsNC5NIn2QG5WE83HgQyIdyYAIAup
+         UrmAiWzfdtyC593ytCz/LGVyTZPbR7yqCF+E7skgjJvqFJB2uPGs3ZPJtTbErYmCSANS
+         gn1viMtkTMLDzCumo/GfJ4Q6z2S7NPceNqV8djbPrQWKzItUF9JgHMhhKjNUweOr/XBR
+         6y9A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=4yYCKJyip6Y2iQ2S43LA538yPCqhqoW1LINb8XB9gbQ=;
-        fh=dWor62f2BoPJ9LRFIzRBsrYcBoFrVTc5G7YSxKJFM9o=;
-        b=klsWjI0LyCFBFBx2ChlrGgU240OiCEFw0ysLOxUVCvDc9jxmzwVx5ySN15H6ZsVtm3
-         woTBeWLSYYkD3ym+3vZfTnM4djwt8y34yviV6CNOxkV3+WlsHDYH+7Kc/NjNO4qPfwY+
-         W8WDkMZeoVXF/yDtX6Zn1Yx3+Zcdb0Wb35h8g4/qVaBH696r8o711kgElXKK83qQ+JXr
-         jNVPOgksukknTVk3jlUCZ2HRL3QQyMEqYWMmt+y+EJpLgs1rBB5WhqP3DKFhw13lliAb
-         uqb4VFmi5ugVMYpi+k38pyPe6ubI1uVet9ZSHu6Ybq0T9VSs+7gXRpDeu1TuVxjsIhS4
-         Ml5g==;
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:dkim-signature;
+        bh=QLTwzZNW9Ka73JcvngeFVHyNiYPjrrEJcRyZRbfV6ng=;
+        fh=nDdVZBL5Ia0hPlYSEdJuwlpbO0IVC9OukYjmBz9kPic=;
+        b=m487gcLOtyoRk4IEVEks5LN6TdoAr+bqq0nugkVtFILaGyxdtAhxyWiFX4e16QNxUo
+         990y+vqXsC1uCMJZ2XXVHEA2sgkWcE04UcLQyNS9gDKBFme5QnMYRCpQM/AizUhGxeEj
+         aEl1AYmGPFOokb8qBkkmDdsxWvG/F+R9majley8QCkPbr2bW+F6NNFweTha52lxd+iCv
+         9xUBDp5qrzN+oJpZvLy74JjsXp3mYQw5X0ovfWh1cWwYzdN7d2laJrgtD+M5jItoonjB
+         wNXSGh+S9fqMf7mAV0a7B2OdvRaoym0xYVt1HGqTmgpLaH2Ew4fadVM2ffMp+mAqCsKv
+         mJ2w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=jXLkls7G;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=jXLkls7G;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=awc7LiFL;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=cBZMNq+r;
+       dkim=neutral (no key) header.i=@linutronix.de header.s=2020e;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1718659984; x=1719264784; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1718662415; x=1719267215; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-language:from:references:cc
-         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=4yYCKJyip6Y2iQ2S43LA538yPCqhqoW1LINb8XB9gbQ=;
-        b=KFEdPoJCDkSCS7njxu5vwA3EzX7FJ28vmF6bwTHpZU/8cnkO20Pin3oIVGIc04R7lp
-         Ni6G+VfYN8zyiszXjMPVvk9Liki25hXGeQktx9L7VXXw/JOmRl7vfH6VGTy4J1oQosFi
-         9mhZu1WyYUTv44Ift4WEyZ5Z6ISunU7Ry1hCIIdvqDcPUfi++Y5/57ybbMu9zdpejmIo
-         vGY6zZAieI1+4mwvATWQvCH3aHWV54eJXTAOWtQXt4PzBowaDBjdSbScivBQqk4+2lCp
-         H59eW0a+0nVpmdEuw3rpJZr5lR8yLUcXB6G0247h9PWLosGeg2QaatnfpgTNLF9jJgD1
-         Bszg==
+         :x-original-sender:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QLTwzZNW9Ka73JcvngeFVHyNiYPjrrEJcRyZRbfV6ng=;
+        b=AhCu5gilj669XTd3/hpKsWk2tFggl4aK6Ixc1PgQOMNZZ867aZ+5VCvbDS3rxQ2Y/9
+         B5RF4fuNVytVB8x7Mn6Mzf79sUkgLr4/IHvd92LUAPiVp1dLOLmBMbxXWkFWqUBbD5vw
+         MvxMW2qvrEkEqnUx7tmqBaVj8NQDS6iiTSABGPOy/ebdDc0wDdOVqBdASSAWkYSKjVz6
+         jYw72GCDVipOt8OcPAX5uQBBu1mGhvOtmz0kVY8RdoG10zZXDgw6itHIB5Zc87iO+Co8
+         z82iUwFyiOLZMewEePd75inaCwsqzTEMDaNpI5+u1yHA1i+2asiP3CVIYTpQ8gtQKpPx
+         3O3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718659984; x=1719264784;
+        d=1e100.net; s=20230601; t=1718662415; x=1719267215;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4yYCKJyip6Y2iQ2S43LA538yPCqhqoW1LINb8XB9gbQ=;
-        b=G1dmzCPNDTJbgPVUcml2FkxjV10gMhpY36BxIUfcRsBIBv3eyfUiN5NNelvipwig8z
-         VVt0H1FQdokCRQ8CgInEmjTb6Bg/MvRwqPa2+vevRUl3CLLz49PWFLO5zcyewtLbGAJs
-         Bgjd2+B1lMRXDJjYxuTGMISfPfJUMu9ZyFqWZSdSWhmtippMUUWSKCH9e4XecoiIt92X
-         Czv9ldAv5DGYUIIsWPsyC7a0O1ixKe6eAjdMiig2gLVM2l15d6DbZIL/2grgYGoCYGXJ
-         1eanYyIFnNWwJkfo/gJyGJPqVQ4C8ln0Lfn34GoO4jZngs7+qnfvbsEd4NSqgelxQpIq
-         4yVA==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:references:in-reply-to:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QLTwzZNW9Ka73JcvngeFVHyNiYPjrrEJcRyZRbfV6ng=;
+        b=M21xn60UQAtdlZjhGq5hU9r4uI3Ex3yonQDECIlBhp+KF1IIPU8WNe/1kvMd0slkWq
+         kADswsKxFDU46ic8DQ+UQCJdeQRE0eagMZyMabHNwBxCxulZBl9c85alRScmchM7QC0p
+         1SFWXCQxmKpV4U3BAT2EDNUKS8+JNiNQ+DvgVFn+/jGNPH0zEuPX0sEAbuVgYxFFU4uE
+         E+HcgnCLQ8PvkrT/cTe8ZD2xS90PUPb4BhH7OJT3BpEEPTnfWYzFc/1U276n3qo4FLoU
+         wKp+LTtcRXSJL/wYpSaKLWjf+86YyJcnLwiDO4/ldWzzNr5B/E3p1XkGofr9Rob8+i4t
+         pe4Q==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWJ72DH4DuuPbikQfktwRSnVGwIbNo6z/j5h2mbhRK1EyTNJ/wC6YMXQOMoaaA/fszRkAyPR8ijo7pvV4NImb3KnWkSG9VFyA==
-X-Gm-Message-State: AOJu0Yyi7mPeJzuOdCgcqb5tB7apkpvsBkDB0jPbl8/SogevQojCuDJZ
-	dxx6CKkw3V5/IAeryAbz55MnzKYm/ouY0PbdjDiAa8WpPH2W8u3s
-X-Google-Smtp-Source: AGHT+IEs6RGOXv2CArH8XzfVI1CVX4d4GHyaoYObB1ydTGCEqpJiAYSJME7LkTe4nwVdnck8tPObeQ==
-X-Received: by 2002:ac2:554e:0:b0:52c:8f01:c8a1 with SMTP id 2adb3069b0e04-52ca6e98fd6mr6082771e87.56.1718659983825;
-        Mon, 17 Jun 2024 14:33:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWEg4htjOHuta8dAnxM0Y8in3lmeZmRW2urG8xUIGPfkYeDvITcRYcDaA1LMA9VX56/ul7NWpnq7OQAiVgtvBeWwL8ZpIcNpg==
+X-Gm-Message-State: AOJu0YwWPE1MBJ+cth6p48Kg+WHlt1N9HlnkHiFlR+vCwRsSN0NmTCkn
+	l1FYxFDO5gJVwFsbIXRnd9teMvYuwBuanv4a+bQBIP144pWTQ11S
+X-Google-Smtp-Source: AGHT+IGzxUqnBAocavj59+oi/ELZwpxYP/MT1nBNVDJ2qxEaxM7cWJorlrKpOSymBpQ0ZAEg/fgKcA==
+X-Received: by 2002:a25:3dc7:0:b0:dff:31fa:4ab6 with SMTP id 3f1490d57ef6-e0221d94741mr712702276.7.1718662415477;
+        Mon, 17 Jun 2024 15:13:35 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:23a1:b0:52c:a26e:d9dd with SMTP id
- 2adb3069b0e04-52ca26edb35ls1977180e87.2.-pod-prod-02-eu; Mon, 17 Jun 2024
- 14:33:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCW5Y4g2CW+9VeB801MoibqpXuKrR+9yHrqgBxJt08Gi01BKqAD0gs5Wr+pxtyFkoaPMgQ/r5E6Zmod2iBKYaxec+4vQFXcHlD40eQ==
-X-Received: by 2002:a19:2d5c:0:b0:52b:b8c9:9cd7 with SMTP id 2adb3069b0e04-52ca6e658e1mr5859705e87.18.1718659981671;
-        Mon, 17 Jun 2024 14:33:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1718659981; cv=none;
+Received: by 2002:a05:6902:150d:b0:dff:2d92:d93a with SMTP id
+ 3f1490d57ef6-dff2d92e6eals1958048276.1.-pod-prod-00-us; Mon, 17 Jun 2024
+ 15:13:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUGzJxZRvqchAZRREy5pB0DqZSmCshDaS8/p1K86iIHmu23r2DlzrB16ph7TIaRjnYQHw4tJwowJMAHa52rBr7HRVkG2TlJ0A31Xg==
+X-Received: by 2002:a0d:ebc3:0:b0:61a:e557:6ce1 with SMTP id 00721157ae682-6394868fe97mr6868447b3.1.1718662414287;
+        Mon, 17 Jun 2024 15:13:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1718662414; cv=none;
         d=google.com; s=arc-20160816;
-        b=QNahBgq6vCedfxil1f3SzY8pX0wkPTt++AN/Z88yNiL/t4IWS6ZXVSYs4hPRyPubcp
-         FYGRR5B3BVpLi5NUB0SZKzWAOmz2C/RL5bLAnG2drgt6bjyGGocGGty9GDOTgFu9WSJ9
-         vuS1PAo5UcKU8iVq/i/OwMmVRxPBX+khl9Gkz7wmQDjRg4hJs79xyu1vVe4IMcYL3GFd
-         2umEH5hPLh9owMwi7iX594GbEhpgNZZd+ZopSgAGOFAspKNuwKO52d5q8ch2Zp/Rkgio
-         1fEF+s979clVeLRaVeahI+0521M2EeN8YXZjYUzAWOUi0MdwEDoaKyEqKEn69kEpQI4e
-         Qh4A==
+        b=hWRtge6PVIbl5WJqV9fEPZmRPWGlOlRrCVy0GKk1Eo4cY9OsZ9piPveB+9FcrgHzkO
+         6L7slhUElGZydmRGlPJIHxop3b86IXNVYsFtOtCNQwiApM1pA8OvNN5FbCw1b6USrs1S
+         HYs/a6d6TGI12NIhdpMtEhxaw9oniNKrPjTdH+CXze/a/9FLY71ZHo+bfZbg2rKMMk+R
+         GarIUw7CUS39dUjaPTsnw7EZV6drOcXYxKFInZImz3nvEjNqNHZXWiD+Er+LMiV5xeWv
+         Qf8NypxGwqVqZj5fF122NcAoCkyA6+C4/AV7gD+AUmgbxp7pej3zZGDqiOuSZKF/Qwq7
+         /8zg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature:dkim-signature:dkim-signature;
-        bh=6ZIkcM2Jg5cQeoR/5GuAI6KY2sxiEb8XUmVreSeq1Lk=;
-        fh=R8XD0RKu/QCBR7Y+AaF2BcU5zn6ubX9y/1VGk++cA0k=;
-        b=uI3RYOy9CB3eoM3LotMhMwjFtwh0nOXGthjaAQU4BzgTrIJlOsqDW+RimWv9IMsUrW
-         weiw2V8DDuYWwHPU1SpVGGbk+xJ8SMLXO9LibjHsQEToaUPmonkFs9EtUnGv52rG9H3o
-         WYphTrECZvE7OkeUZslWNPiqHR5W2td9H7WulSvM4IzM/xyIzt6KJVYgOH13QsJA2TIM
-         TwZuydwWvDhWTpdaqV9swkJgXjaXLTEuLQdYPicG28JKoncLIs+A1s+cKxw/5/mo69DD
-         OrxbaWjXfvgMQxG+MMfowkYdri01vj0enkFlW/kDFCUPz6BPUXT9fKdzEdg3v6YAqkRD
-         toZA==;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :dkim-signature:dkim-signature:from;
+        bh=CIRabLYRMR5NpCpWntKKTO4pVGlHUQzV4X+BxKrofPU=;
+        fh=nRBybcRn8aorR6YZ7WPuOU4KxJuSPvX235NAM+tg+0Y=;
+        b=ZC38DZ+LjIOWwdo45tliw406/NqLMtkSSALZPnTwQauvtw+eGHvxfTMXaoFNQ/R1ZL
+         gIpOTb2VkVBJlu5w9571xwMdqVt7nBUgJdfyPXoXMWHBsD2ioekvqx2DlDEUmpQV933n
+         2h6+7j8U5Rie1HhkDh4OgdmTeR/vNm2KaLTpGlRlFqAx2FQq4yefJmJ7Ug5fMeBlDBeY
+         QcuoqA7cuY6cGVFiowk1KTIZaaeilli9a4VGtA7w7xCbRfeuTZoaCuC18J12njhOkxBa
+         +3sdMejf3qfJKf2sHx/bhcX3VgNhXZJcE35GjN0ekSfY4X20jTJFmFQVys0BUQ3T45TF
+         FLTA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=jXLkls7G;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=jXLkls7G;
-       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=awc7LiFL;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2a07:de40:b251:101:10:150:64:2])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-52ca282f0f1si198370e87.5.2024.06.17.14.33.01
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=cBZMNq+r;
+       dkim=neutral (no key) header.i=@linutronix.de header.s=2020e;
+       spf=pass (google.com: domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=tglx@linutronix.de;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+Received: from galois.linutronix.de (Galois.linutronix.de. [193.142.43.55])
+        by gmr-mx.google.com with ESMTPS id 00721157ae682-6311b3fd52dsi5027757b3.4.2024.06.17.15.13.33
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Jun 2024 14:33:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:2;
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 8F3A11F747;
-	Mon, 17 Jun 2024 21:33:00 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 428F813AAA;
-	Mon, 17 Jun 2024 21:33:00 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id BpV7D4yrcGbuUQAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Mon, 17 Jun 2024 21:33:00 +0000
-Message-ID: <e7cbca4d-9b34-46f8-961a-9f8ddc92be21@suse.cz>
-Date: Mon, 17 Jun 2024 23:34:04 +0200
+        Mon, 17 Jun 2024 15:13:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender) client-ip=193.142.43.55;
+From: Thomas Gleixner <tglx@linutronix.de>
+To: Kees Cook <kees@kernel.org>
+Cc: Gatlin Newhouse <gatlin.newhouse@gmail.com>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, Marco Elver <elver@google.com>, Andrey Konovalov
+ <andreyknvl@gmail.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Nathan
+ Chancellor <nathan@kernel.org>, Nick Desaulniers
+ <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, Justin Stitt
+ <justinstitt@google.com>, Andrew Morton <akpm@linux-foundation.org>, Rick
+ Edgecombe <rick.p.edgecombe@intel.com>, Baoquan He <bhe@redhat.com>,
+ Changbin Du <changbin.du@huawei.com>, Pengfei Xu <pengfei.xu@intel.com>,
+ Josh Poimboeuf <jpoimboe@kernel.org>, Xin Li <xin3.li@intel.com>, Jason
+ Gunthorpe <jgg@ziepe.ca>, Tina Zhang <tina.zhang@intel.com>, Uros Bizjak
+ <ubizjak@gmail.com>, "Kirill A. Shutemov"
+ <kirill.shutemov@linux.intel.com>, linux-kernel@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org,
+ llvm@lists.linux.dev
+Subject: Re: [PATCH v2] x86/traps: Enable UBSAN traps on x86
+In-Reply-To: <202406121139.5E793B4F3E@keescook>
+References: <20240601031019.3708758-1-gatlin.newhouse@gmail.com>
+ <878qzm6m2m.ffs@tglx>
+ <7bthvkp3kitmmxwdywyeyexajedlxxf6rqx4zxwco6bzuyx5eq@ihpax3jffuz6>
+ <202406121139.5E793B4F3E@keescook>
+Date: Tue, 18 Jun 2024 00:13:27 +0200
+Message-ID: <875xu7rzeg.ffs@tglx>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/14] replace call_rcu by kfree_rcu for simple
- kmem_cache_free callback
-To: paulmck@kernel.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
- Jakub Kicinski <kuba@kernel.org>, Julia Lawall <Julia.Lawall@inria.fr>,
- linux-block@vger.kernel.org, kernel-janitors@vger.kernel.org,
- bridge@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, kvm@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Nicholas Piggin <npiggin@gmail.com>, netdev@vger.kernel.org,
- wireguard@lists.zx2c4.com, linux-kernel@vger.kernel.org,
- ecryptfs@vger.kernel.org, Neil Brown <neilb@suse.de>,
- Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>,
- Tom Talpey <tom@talpey.com>, linux-nfs@vger.kernel.org,
- linux-can@vger.kernel.org, Lai Jiangshan <jiangshanlai@gmail.com>,
- netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
- kasan-dev <kasan-dev@googlegroups.com>
-References: <20240609082726.32742-1-Julia.Lawall@inria.fr>
- <20240612143305.451abf58@kernel.org>
- <baee4d58-17b4-4918-8e45-4d8068a23e8c@paulmck-laptop>
- <Zmov7ZaL-54T9GiM@zx2c4.com> <Zmo9-YGraiCj5-MI@zx2c4.com>
- <08ee7eb2-8d08-4f1f-9c46-495a544b8c0e@paulmck-laptop>
- <Zmrkkel0Fo4_g75a@zx2c4.com> <e926e3c6-05ce-4ba6-9e2e-e5f3b37bcc23@suse.cz>
- <3b6fe525-626c-41fb-8625-3925ca820d8e@paulmck-laptop>
- <6711935d-20b5-41c1-8864-db3fc7d7823d@suse.cz>
- <1755282b-e3f5-4d18-9eab-fc6a29ca5886@paulmck-laptop>
-From: Vlastimil Babka <vbabka@suse.cz>
-Content-Language: en-US
-In-Reply-To: <1755282b-e3f5-4d18-9eab-fc6a29ca5886@paulmck-laptop>
 Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-4.50 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[zx2c4.com,gmail.com,kernel.org,inria.fr,vger.kernel.org,lists.linux.dev,efficios.com,lists.ozlabs.org,linux.ibm.com,csgroup.eu,lists.zx2c4.com,suse.de,netapp.com,oracle.com,talpey.com,netfilter.org,googlegroups.com];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 8F3A11F747
-X-Spam-Flag: NO
-X-Spam-Score: -4.50
-X-Spam-Level: 
-X-Original-Sender: vbabka@suse.cz
+X-Original-Sender: tglx@linutronix.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=jXLkls7G;       dkim=neutral
- (no key) header.i=@suse.cz header.s=susede2_ed25519;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=jXLkls7G;       dkim=neutral
- (no key) header.i=@suse.cz header.s=susede2_ed25519 header.b=awc7LiFL;
-       spf=pass (google.com: domain of vbabka@suse.cz designates
- 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@linutronix.de header.s=2020 header.b=cBZMNq+r;       dkim=neutral
+ (no key) header.i=@linutronix.de header.s=2020e;       spf=pass (google.com:
+ domain of tglx@linutronix.de designates 193.142.43.55 as permitted sender)
+ smtp.mailfrom=tglx@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
+ dis=NONE) header.from=linutronix.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -214,170 +153,52 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 6/17/24 8:54 PM, Paul E. McKenney wrote:
-> On Mon, Jun 17, 2024 at 07:23:36PM +0200, Vlastimil Babka wrote:
->> On 6/17/24 6:12 PM, Paul E. McKenney wrote:
->>> On Mon, Jun 17, 2024 at 05:10:50PM +0200, Vlastimil Babka wrote:
->>>> On 6/13/24 2:22 PM, Jason A. Donenfeld wrote:
->>>>> On Wed, Jun 12, 2024 at 08:38:02PM -0700, Paul E. McKenney wrote:
->>>>>> o	Make the current kmem_cache_destroy() asynchronously wait for
->>>>>> 	all memory to be returned, then complete the destruction.
->>>>>> 	(This gets rid of a valuable debugging technique because
->>>>>> 	in normal use, it is a bug to attempt to destroy a kmem_cache
->>>>>> 	that has objects still allocated.)
->>>>
->>>> This seems like the best option to me. As Jason already said, the debugging
->>>> technique is not affected significantly, if the warning just occurs
->>>> asynchronously later. The module can be already unloaded at that point, as
->>>> the leak is never checked programatically anyway to control further
->>>> execution, it's just a splat in dmesg.
->>>
->>> Works for me!
->>
->> Great. So this is how a prototype could look like, hopefully? The kunit test
->> does generate the splat for me, which should be because the rcu_barrier() in
->> the implementation (marked to be replaced with the real thing) is really
->> insufficient. Note the test itself passes as this kind of error isn't wired
->> up properly.
-> 
-> ;-) ;-) ;-)
+On Wed, Jun 12 2024 at 11:42, Kees Cook wrote:
+> On Tue, Jun 11, 2024 at 01:26:09PM -0700, Gatlin Newhouse wrote:
+>> It seems that is_valid_bugaddr() needs to be implemented on all architectures
+>> and the function get_ud_type() replaces it here. So how should the patch handle
+>> is_valid_bugaddr()? Should the function remain as-is in traps.c despite no
+>> longer being used?
+>
+> Yeah, this is why I'd suggested to Gatlin in early designs to reuse
+> is_valid_bugaddr()'s int value. It's a required function, so it seemed
+> sensible to just repurpose it from yes/no to no/type1/type2/type3/etc.
 
-Yeah yeah, I just used the kunit module as a convenient way add the code
-that should see if there's the splat :)
+It's not sensible, it's just tasteless.
 
-> Some might want confirmation that their cleanup efforts succeeded,
-> but if so, I will let them make that known.
+If is_valid_bugaddr() is globaly required in it's boolean form then it
+should just stay that way and not be abused just because it can be
+abused.
 
-It could be just the kunit test that could want that, but I don't see
-how it could wrap and inspect the result of the async handling and
-suppress the splats for intentionally triggered errors as many of the
-other tests do.
+What's wrong with doing:
 
->> Another thing to resolve is the marked comment about kasan_shutdown() with
->> potential kfree_rcu()'s in flight.
-> 
-> Could that simply move to the worker function?  (Hey, had to ask!)
+__always_inline u16 get_ud_type(unsigned long addr)
+{
+        ....
+}
 
-I think I had a reason why not, but I guess it could move. It would just
-mean that if any objects are quarantined, we'll go for the async freeing
-even though those could be flushed immediately. Guess that's not too bad.
+int is_valid_bugaddr(unsigned long addr)
+{
+	return get_ud_type() != BUG_UD_NONE;
+}
 
->> Also you need CONFIG_SLUB_DEBUG enabled otherwise node_nr_slabs() is a no-op
->> and it might fail to notice the pending slabs. This will need to change.
-> 
-> Agreed.
-> 
-> Looks generally good.  A few questions below, to be taken with a
-> grain of salt.
+Hmm?
 
-Thanks!
+In fact is_valid_bugaddr() should be globally fixed up to return bool to
+match what the function name suggests.
 
->> +static void kmem_cache_kfree_rcu_destroy_workfn(struct work_struct *work)
->> +{
->> +	struct kmem_cache *s;
->> +	int err = -EBUSY;
->> +	bool rcu_set;
->> +
->> +	s = container_of(work, struct kmem_cache, async_destroy_work);
->> +
->> +	// XXX use the real kmem_cache_free_barrier() or similar thing here
->> +	rcu_barrier();
+The UD type information is x86 specific and has zero business in a
+generic architecture agnostic function return value.
 
-Note here's the barrier.
+It's a sad state of affairs that I have to explain this to people who
+care about code correctness. Readability and consistency are substantial
+parts of correctness, really.
 
->> +	cpus_read_lock();
->> +	mutex_lock(&slab_mutex);
->> +
->> +	rcu_set = s->flags & SLAB_TYPESAFE_BY_RCU;
->> +
->> +	err = shutdown_cache(s, true);
-> 
-> This is currently the only call to shutdown_cache()?  So there is to be
-> a way for the caller to have some influence over the value of that bool?
+Thanks,
 
-Not the only caller, there's still the initial attempt in
-kmem_cache_destroy() itself below.
-
-> 
->> +	WARN(err, "kmem_cache_destroy %s: Slab cache still has objects",
->> +	     s->name);
-> 
-> Don't we want to have some sort of delay here?  Or is this the
-> 21-second delay and/or kfree_rcu_barrier() mentioned before?
-
-Yes this is after the barrier. The first immediate attempt to shutdown
-doesn't warn.
-
->> +	mutex_unlock(&slab_mutex);
->> +	cpus_read_unlock();
->> +	if (!err && !rcu_set)
->> +		kmem_cache_release(s);
->> +}
->> +
->>  void kmem_cache_destroy(struct kmem_cache *s)
->>  {
->>  	int err = -EBUSY;
->> @@ -494,9 +527,9 @@ void kmem_cache_destroy(struct kmem_cache *s)
->>  	if (s->refcount)
->>  		goto out_unlock;
->>  
->> -	err = shutdown_cache(s);
->> -	WARN(err, "%s %s: Slab cache still has objects when called from %pS",
->> -	     __func__, s->name, (void *)_RET_IP_);
->> +	err = shutdown_cache(s, false);
->> +	if (err)
->> +		schedule_work(&s->async_destroy_work);
-
-And here's the initial attempt that used to warn but now doesn't and
-instead schedules the async one.
-
->>  out_unlock:
->>  	mutex_unlock(&slab_mutex);
->>  	cpus_read_unlock();
->> diff --git a/mm/slub.c b/mm/slub.c
->> index 1617d8014ecd..4d435b3d2b5f 100644
->> --- a/mm/slub.c
->> +++ b/mm/slub.c
->> @@ -5342,7 +5342,8 @@ static void list_slab_objects(struct kmem_cache *s, struct slab *slab,
->>   * This is called from __kmem_cache_shutdown(). We must take list_lock
->>   * because sysfs file might still access partial list after the shutdowning.
->>   */
->> -static void free_partial(struct kmem_cache *s, struct kmem_cache_node *n)
->> +static void free_partial(struct kmem_cache *s, struct kmem_cache_node *n,
->> +			 bool warn_inuse)
->>  {
->>  	LIST_HEAD(discard);
->>  	struct slab *slab, *h;
->> @@ -5353,7 +5354,7 @@ static void free_partial(struct kmem_cache *s, struct kmem_cache_node *n)
->>  		if (!slab->inuse) {
->>  			remove_partial(n, slab);
->>  			list_add(&slab->slab_list, &discard);
->> -		} else {
->> +		} else if (warn_inuse) {
->>  			list_slab_objects(s, slab,
->>  			  "Objects remaining in %s on __kmem_cache_shutdown()");
->>  		}
->> @@ -5378,7 +5379,7 @@ bool __kmem_cache_empty(struct kmem_cache *s)
->>  /*
->>   * Release all resources used by a slab cache.
->>   */
->> -int __kmem_cache_shutdown(struct kmem_cache *s)
->> +int __kmem_cache_shutdown(struct kmem_cache *s, bool warn_inuse)
->>  {
->>  	int node;
->>  	struct kmem_cache_node *n;
->> @@ -5386,7 +5387,7 @@ int __kmem_cache_shutdown(struct kmem_cache *s)
->>  	flush_all_cpus_locked(s);
->>  	/* Attempt to free all objects */
->>  	for_each_kmem_cache_node(s, node, n) {
->> -		free_partial(s, n);
->> +		free_partial(s, n, warn_inuse);
->>  		if (n->nr_partial || node_nr_slabs(n))
->>  			return 1;
->>  	}
->>
+        tglx
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/e7cbca4d-9b34-46f8-961a-9f8ddc92be21%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/875xu7rzeg.ffs%40tglx.
