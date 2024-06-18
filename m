@@ -1,141 +1,137 @@
-Return-Path: <kasan-dev+bncBC5ZR244WYFRBJFAYSZQMGQEGONFMPA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBZOXYSZQMGQECXHMEIQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc37.google.com (mail-oo1-xc37.google.com [IPv6:2607:f8b0:4864:20::c37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AAD690C2E9
-	for <lists+kasan-dev@lfdr.de>; Tue, 18 Jun 2024 06:42:14 +0200 (CEST)
-Received: by mail-oo1-xc37.google.com with SMTP id 006d021491bc7-5babff5b1easf5111892eaf.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 17 Jun 2024 21:42:14 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1718685732; cv=pass;
+Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5960990C3C5
+	for <lists+kasan-dev@lfdr.de>; Tue, 18 Jun 2024 08:40:39 +0200 (CEST)
+Received: by mail-qv1-xf3a.google.com with SMTP id 6a1803df08f44-6b062eba328sf66446376d6.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 17 Jun 2024 23:40:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1718692838; cv=pass;
         d=google.com; s=arc-20160816;
-        b=fGVx2jgZ+OCdS+bmQxRAfO2N1E3jPHEKDcTAJzTy++vZXwB0wzfnMGCu+AodDBzjbE
-         Hzgl+c/gm8+0n3rvUIm9vhzQVog9KIsZd/8kMBm6KeqpXBQaAyzj8fCS/tlmqMRyWn/U
-         Aej8fkCsW298pk3YKjFlzU0ZSFICjNdjGANwlW13V7Q4toNmglwPoFx/QQQVhIBvAvbW
-         wu6embR3Aft+nwYWNO8oU6vXIs0+WEhwt+cucEyY36snkepFjlQQf8/FEClR4NV/ulEW
-         atLrIZBXZoTDn22t3s7rrBkCft3hysmrFYxc2pV5PWwgwZ70H9I4/DMaOlGouOBYMYyp
-         YeKA==
+        b=dduSyZ7pU0X3iQ76XcwNAYM3c9KqCS1rx926UYgTrOWXv5xxVUPD3eWL/mv7wMd7or
+         IeYQK7dBOFfywWHHJEyNRchS+dgU+YhllOMW0dxsdhQpTVA0zoEm4OQOE7DBGdI7XLfz
+         786Mb9tcRSWfRpbssxLaNXCGikPl0vvQJmGbF29IjQuJT3V1L0VQdciG27Rn1D48uEeg
+         S7lfP9cm2H07i4F7Vgmcz87vnjtylg93r2mDiZ0tUH+vkH0P5W4EkFF96TMffFyM0duq
+         xxjfvp3Nxm+fpDlQ2PWOZDFmXWm/QaSF4KpoEBCJi3jeGVVpfSvG6DoOqcxWUxc4FLeE
+         JbLQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=sPgJcLIoItA+jzIOmfHgCcw9RyuiMpAYxzIfuHgX1yk=;
-        fh=VpvP35it6gvsecOnwOwbwfFKQdnWAzFaLQ5bBdo+mDk=;
-        b=yZNIzQji3DtJlbbng+mZUFX5UcKn8BCK0/WVAMhylnvOHV4Y8EpxQ9XCBorff1Syib
-         nQf2BZsXWSpGzWdcAPCUqwTK17KhWDmE8g39aEIGWH4HV0BkdF3HNkMJL8tseZ5NuS8y
-         2eW44zxss9NIFAcpj/ASyUD5vMCuqAH9kQfS5FNuX4goxenBDr5UmdG9/N6LXaZV/1aw
-         AB4a4aF2VEejpTy4TDPP4Tl76xAxe38q5eC7OCNk3yzWhI8SZ04ysIvmKPDUywB3CBjs
-         k9DRS+IuLSEB2VQTedBMzgkmabmY2or5c9XppD4AZTlnEbC17V/NZm+PSTl3RMb3eVGL
-         we7Q==;
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=MJqHxDQzrel410FllXJi4CDWs1T0n+7rCCXmLGNfXWg=;
+        fh=m9usIosG3PmSMfblPMe9xxSZ379GZg3SvqQ38aoI2+M=;
+        b=Q5gyLbHqmVOBfXTaBk1OC/7+Syr4WKXYQJrpxu9KFBtRz0XcK/Ctw/Dra4ew6/M6V3
+         JBvljtYP2NpZEvAQ5th984VxY9sq4JXhzwGMfXqQuBnRQVn1zlu+VFEG4E657FoA6KEB
+         wCfHAuYqGU+Nu7v3NzYxQmau/KAbD9ZTYFDlUuhpKf1EN3CKRwegpbNfn4dohquVyGmj
+         Yp2nAykbTrVJIFaPxWj9fbaIG3VnKUPaLC8Z7oI1YIKZbvJ8Mbtpk/IPfqiCMy23T80C
+         aveMxkKgXbDtu25+Z5oabHUeunh0h/FYn3/uiW1wt2hULwKuTnLOJhOJGYN6QtaBFQqb
+         8qMw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=YLGFbLm4;
-       spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=kirill.shutemov@linux.intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       spf=pass (google.com: domain of mawupeng1@huawei.com designates 45.249.212.191 as permitted sender) smtp.mailfrom=mawupeng1@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1718685732; x=1719290532; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1718692838; x=1719297638; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-disposition:mime-version:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sPgJcLIoItA+jzIOmfHgCcw9RyuiMpAYxzIfuHgX1yk=;
-        b=rJE6zZo8TWXPC465x/Ji4sELel5btwLKB4OZCC+0Xgvv+aX79XMhDjU9PdH47YBmd8
-         XkzI5bMqcpG8NOSp4BoFts3yX9xjZyQL2/gJii1HgTSuAiKT48jFnxrNim2BEy/Klt33
-         naS64oc6HwH2EetHnfsph+PtdumzckasN1gDTTokmNSKbheoNdhaFMV/Z/SdOPXZKbBR
-         cMDnM5ZfrFlxmB7YKvR5V2gC30/8PZCkPuegeyBtq0eRfwp8CXw5CXRsZdQFORY5juxf
-         yy6xDfydnkMZreH9yjljf2vtH9dgR2MzODiAYg7sv0zkgZtEFVd9cTxZ4C8bZ17vAEC7
-         z0ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718685732; x=1719290532;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sPgJcLIoItA+jzIOmfHgCcw9RyuiMpAYxzIfuHgX1yk=;
-        b=BZHl8L0BU+4Yrh7Dcl20bazFgubIrZnrNwF76mci+enDd907UBsa8DbWKnv4GGpAAO
-         Dg2bKlFvdxn/yTGkYzvKlu49Xsgj6OZhB2XtMrzi8Y/4M2h6HqvkGL+ee/Ip/Dkx8p2+
-         mCTx5rgDZimGx4MjWFkh6vFr8V/hth48SJzmPq0F+39pF57pcs7TTuV2vyvPiwlHA9fS
-         FjJGhI6yN3jAbp5iX2PqcBC82qFlM9jRr4i9n2Bzoag//QDfbLo8XZF6Df1oVIfAy92o
-         6R7NTEf+pmLlyXald1wbDtg1Ru/CVxbOLF5x8tT/RWe66K81/dp8hAWer5k9BpKMbvzk
-         OEtA==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUpCPttixGy80VsmUDAFPvKvG557il0Kf80NPRONazLyoiqKHqLE2FsXIO35OOZBeUn92E72/20Q3kdnGdhCny6zRq08Wf34Q==
-X-Gm-Message-State: AOJu0YwrnO5vrUNHrNqnnayTAXqOzU28iZwmWr6GyOU1yToMsPmoCJhT
-	t8hCk1SBfdNq+s6y0BrGMQjNoAnGU1451W83YUJvp3iFJa4ZsqyW
-X-Google-Smtp-Source: AGHT+IFWpSDkOoR2F5bqgmbNtwsLXtwEoTA1XpF2+IOqeeiaU5NsRz6pzDRohf9VAWQ6Ug0WX1EyTw==
-X-Received: by 2002:a05:6870:304f:b0:254:ae7b:28ab with SMTP id 586e51a60fabf-25972ddc260mr792355fac.13.1718685732134;
-        Mon, 17 Jun 2024 21:42:12 -0700 (PDT)
+        bh=MJqHxDQzrel410FllXJi4CDWs1T0n+7rCCXmLGNfXWg=;
+        b=vYKUI7uclMz/3lpImvkU+y9V2jtgp8WqeJjysYdklakSOXGB6ROOnWOa1DqqvwHypr
+         PLiegz+BUrvjui2zUXqpE5Ax//6FaP6QOyEMPUgdZWhRx/pjW28SIG+XkefsF1hi4ShH
+         bre+93nBrZtlwAiZF0Pc7i3Jyld44VPlV1R6kIEENhEwk6JFQiZP2dtxLqHCpWJCoQQ1
+         iOn+YpDgrREWzj5UmecxhPDJvKzihxqMdKWMzTAenTrJsCGtYd2ypT/Gtffg8bE2moHP
+         2Wt/V7GS54me7XnfuqtFFDZQEf2S/Dq32YsTTxaxA6z+NrYZknt6WdDJscGFhxTYJVyd
+         B8gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1718692838; x=1719297638;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MJqHxDQzrel410FllXJi4CDWs1T0n+7rCCXmLGNfXWg=;
+        b=n6URaSK3sfACAwRJy7LYbmEv4zXTxe9PumEwwK/MaElJcdokZJ5O5sVnD2wbItpIAJ
+         EFUUCJ5DYppn7g0PchCV6qcauM0BVXQBPPjewj353xtxCk+59y+OQZzgIxkzch89j4fl
+         wLuEggBeeyM9MbAryZxh3qcy+GdqkRHziOj3yBi9ASUlIFHWCv0KT/1KqYOVytNc2czX
+         3xg2Wt1V1Ok/QH8A8D+rPIXWwbUKW5fhaID8Mka8Tcm6nJWuEs669322TU/mR/N7H5PO
+         RcRY2LDEnIuO82bPcpwSisHpmMitgST4hDgblyfBXtITT6qn5vczI1lSPXmYWRVUxV0U
+         QBXQ==
+X-Forwarded-Encrypted: i=2; AJvYcCVfQf3f8ZQTbyCybl6BfkUA1Is3Hxb+sj2vU8K7SgvXeIuWBFzcNHGDPedPTn8saL/DYowpCWZoSAHY9AjsrdZEQzcMTNmEjw==
+X-Gm-Message-State: AOJu0Yz+Nhvdt+bNBQ5ctuN6akQyIUtUakRIIEjNswJhUFXkLbxNlkUP
+	7xUo+m95OqwDqUsxIgdEHUL0/VClMhuBSkP9O8C2elqnHOD3kwwU
+X-Google-Smtp-Source: AGHT+IF4b6xH774CuCxxPERlCg2T9PAXPCg31VPT6wXnKGkQanB+XVLat7+GPvSxnlIFnScD7+vfEQ==
+X-Received: by 2002:a05:6214:8e4:b0:6b2:9819:754b with SMTP id 6a1803df08f44-6b2afc721c3mr112771016d6.10.1718692837937;
+        Mon, 17 Jun 2024 23:40:37 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:d286:b0:24f:f6d5:2d15 with SMTP id
- 586e51a60fabf-2552b686017ls1580337fac.0.-pod-prod-00-us; Mon, 17 Jun 2024
- 21:42:11 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXB5E42edScwOjSiJkuraYhqF4kzC6MSi7xvUuctqAT1K8rW+5JYqLdorYqaqk9tyqP824qnWBWO+l+JGRLt0Zuewb+QMt3hrlIsw==
-X-Received: by 2002:a05:6808:f91:b0:3d2:177d:aa95 with SMTP id 5614622812f47-3d50efd815dmr668139b6e.5.1718685730996;
-        Mon, 17 Jun 2024 21:42:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1718685730; cv=none;
+Received: by 2002:a05:6214:3108:b0:6b0:94b8:6230 with SMTP id
+ 6a1803df08f44-6b2a338575dls73206486d6.0.-pod-prod-05-us; Mon, 17 Jun 2024
+ 23:40:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVg5PIOXwD+xMKf2T/yzbPxhOpFW9y7YJCbvKVZ8/JHc/IrIOIZr4H+CryxRnKeoGWOgRFI16Q0o0Yu+FNobXYzKWRwHp2ZJlEUzQ==
+X-Received: by 2002:a0c:d6cc:0:b0:6b2:cef9:712c with SMTP id 6a1803df08f44-6b2cef971fbmr62575136d6.49.1718692837346;
+        Mon, 17 Jun 2024 23:40:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1718692837; cv=none;
         d=google.com; s=arc-20160816;
-        b=f2DzorMNMvAGefv1vNZHBR5uMeLgHbiuJO/GSusKstkSBnKCz0tIZUfl5qjR9nOnz+
-         OIPNAd39sJdvDTl6gl3ia8G2VO0GIZw5d+iRHzhBIVf9LdhkGmXjhgFv4JgA/7eFM7ie
-         KjpiFkSOrtALUCCUIwKDLOr3YTAah7yHSNRrbryQ7XLRKs2dWdO4K84QWfNxTNr8BxUu
-         TnGV+wb/IpztRbXlNnMZspgjJ1dC3fuy/6zQwPTCOuAYiVzTXka9wuzdD1+q8QHSFsvR
-         6P6ldB8AJYyGsqkjBPdrSuEwjqzIZqDlL1+/403oi89hEkC+mpy+SdVlJY2E0CORxvhh
-         9PMQ==
+        b=sj3474Xx6w8jJ29eDuTzGH1QQo9DRVGjcjBSBS80dvEHbx0KVDac7Nye2lhGHkvgdL
+         rCVVgVmFN/bAg69+V6cfpFrhhNnWwZb49aUeROKS8j1lnIxwDlCMO8pPTi9z2kyjm/6D
+         e5FV0BCnU+X2zskRakOyoetj60a3UmcBuzbYDH6FGltLxlOcRkEeaQqSkZepPFqvlRDb
+         7pkCQOFYCd5Pg2ScyVgGyTJ1TW9fiA+PPbg/fRdv9ApeOHNE4+zXeo9qkkf4FNB1AP6O
+         KpIcHX1b0W0HkWF9AMvxOGFM2+s8QzXrwD2QuQ/fhsjDP0/h3w5Yyra05kZ5Y+l5ObXd
+         GWtw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=RWAOakSa72hJIapiOfchoKwYYY0qvHSbnuDPWaKnCPk=;
-        fh=S74PoC20emYV2U7pgcMtuOUpclbPP5WbV7Aig2QVomE=;
-        b=aUbnQe8bnYVYMTqEvyAf7arUbmDCNBeb175BaOhyuW179MXUedDXW8ToOKY2/f4mEL
-         lZ9gBNGaJcAEFNcf+vFAyhKoCm6zzcJpsITnU6NH+ABXUSBHKoJqCQkQ0VdroBWBWR2j
-         2par9YPW4EFZZ9d6p7TMod7gkx13tabWL5PqJDDGkXePo6NjYq+aZ8rjJwYXl1Q7/YqG
-         bvhjAQH3XNzPxnpAc44Hoi3XaEVJdWSxfYKHqG2twQYUHswQzIHCh/ydWZb4wQ1CDbY+
-         8R8ZXj/+5ILuIe8frQQwfEEVKFi08EDgC2aSIqeqe2HG+StMgWBgav+9UUtk688Rj5B/
-         fL6A==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=5I8whTwiIFSJuGcU2vYQdIaMkNCL86sWL59+VsEuFrE=;
+        fh=skoUzj2hzBAD40caDelPnIpgeVjS2GJ+SWz+elMAo8E=;
+        b=ns6X4E8iPhRbPwgZCvL1jzXhQn9UAdjIvspcxjVbyKWVqH8j5vaO+nxOiipArQVKzU
+         bj8Pbh4c+SwlzB1MITQyZ7GGZYIIAt1C3dYaJ1A1khQwX/vQg418xvXLHAVfxjwD72T7
+         CqqDYBChCMA2gjACiIUl9FnLSG7/akysS7cqHzy2UGPJ0XyWzomMBAQa5uD7sZf/tj4e
+         7jqrrOddzviDiyN2eHmjsV4TyJeZ19CI0+TTW2fQn6CCFjTnXGTa51FU1klVON9pWkyW
+         r8IAfQgK0OD/4MsbWIEGlo6yBEUfpSj1cek739z27shMWhJMA6iH73HkZcIWSHmsFL9U
+         5hJQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=YLGFbLm4;
-       spf=none (google.com: linux.intel.com does not designate permitted sender hosts) smtp.mailfrom=kirill.shutemov@linux.intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.21])
-        by gmr-mx.google.com with ESMTPS id 5614622812f47-3d2479698b2si462341b6e.1.2024.06.17.21.42.10
+       spf=pass (google.com: domain of mawupeng1@huawei.com designates 45.249.212.191 as permitted sender) smtp.mailfrom=mawupeng1@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com. [45.249.212.191])
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6b2a5b2b6e5si7716376d6.3.2024.06.17.23.40.37
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 17 Jun 2024 21:42:10 -0700 (PDT)
-Received-SPF: none (google.com: linux.intel.com does not designate permitted sender hosts) client-ip=198.175.65.21;
-X-CSE-ConnectionGUID: xExSMJyITnWalg5rculZCg==
-X-CSE-MsgGUID: YgWFnp+wRWiSsl2iaqNgsg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11106"; a="15506258"
-X-IronPort-AV: E=Sophos;i="6.08,246,1712646000"; 
-   d="scan'208";a="15506258"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2024 21:42:09 -0700
-X-CSE-ConnectionGUID: bvILXEQXRZKrUsz9Qhjy/w==
-X-CSE-MsgGUID: nRr+Pw4RQzKpL6599FwWKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.08,246,1712646000"; 
-   d="scan'208";a="45954220"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Jun 2024 21:42:09 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1000)
-	id 862781CB; Tue, 18 Jun 2024 07:42:06 +0300 (EEST)
-Date: Tue, 18 Jun 2024 07:42:06 +0300
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-To: Alexander Potapenko <glider@google.com>, 
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com
-Cc: x86@kernel.org, Dave Hansen <dave.hansen@linux.intel.com>
-Subject: KMSAN stability
-Message-ID: <dgsgqssodokkzy6e7xreydep27ct2uldnc6eypmz3rwly6u6yq@3udi3sbubg7a>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 17 Jun 2024 23:40:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of mawupeng1@huawei.com designates 45.249.212.191 as permitted sender) client-ip=45.249.212.191;
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4W3HBw2GjPz1HDW6;
+	Tue, 18 Jun 2024 14:38:32 +0800 (CST)
+Received: from dggpemd200001.china.huawei.com (unknown [7.185.36.224])
+	by mail.maildlp.com (Postfix) with ESMTPS id BD7A2140123;
+	Tue, 18 Jun 2024 14:40:33 +0800 (CST)
+Received: from localhost.localdomain (10.175.112.125) by
+ dggpemd200001.china.huawei.com (7.185.36.224) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Tue, 18 Jun 2024 14:40:33 +0800
+From: "'Wupeng Ma' via kasan-dev" <kasan-dev@googlegroups.com>
+To: <akpm@linux-foundation.org>, <ryabinin.a.a@gmail.com>,
+	<glider@google.com>, <andreyknvl@gmail.com>, <dvyukov@google.com>,
+	<vincenzo.frascino@arm.com>
+CC: <mawupeng1@huawei.com>, <kasan-dev@googlegroups.com>,
+	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>
+Subject: [Question] race during kasan_populate_vmalloc_pte
+Date: Tue, 18 Jun 2024 14:40:22 +0800
+Message-ID: <20240618064022.1990814-1-mawupeng1@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-X-Original-Sender: kirill.shutemov@linux.intel.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=YLGFbLm4;       spf=none
- (google.com: linux.intel.com does not designate permitted sender hosts)
- smtp.mailfrom=kirill.shutemov@linux.intel.com;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=intel.com
+X-Originating-IP: [10.175.112.125]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemd200001.china.huawei.com (7.185.36.224)
+X-Original-Sender: mawupeng1@huawei.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of mawupeng1@huawei.com designates 45.249.212.191 as
+ permitted sender) smtp.mailfrom=mawupeng1@huawei.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+X-Original-From: Wupeng Ma <mawupeng1@huawei.com>
+Reply-To: Wupeng Ma <mawupeng1@huawei.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,35 +144,45 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi,
+Hi maintainers,
 
-I attempted to use KMSAN, but I had difficulty getting the system to boot
-with the feature enabled.
+During our testing, we discovered that kasan vmalloc may trigger a false
+vmalloc-out-of-bounds warning due to a race between kasan_populate_vmalloc_pte
+and kasan_depopulate_vmalloc_pte.
 
-The kernel boots successfully in my x86-64 VM if I enable KMSAN on top of
-defconfig. However, if I try to enable *any* of the following options, the
-boot stops:
+cpu0				cpu1				cpu2
+  kasan_populate_vmalloc_pte	kasan_populate_vmalloc_pte	kasan_depopulate_vmalloc_pte
+								spin_unlock(&init_mm.page_table_lock);
+  pte_none(ptep_get(ptep))
+  // pte is valid here, return here
+								pte_clear(&init_mm, addr, ptep);
+				pte_none(ptep_get(ptep))
+				// pte is none here try alloc new pages
+								spin_lock(&init_mm.page_table_lock);
+kasan_poison
+// memset kasan shadow region to 0
+				page = __get_free_page(GFP_KERNEL);
+				__memset((void *)page, KASAN_VMALLOC_INVALID, PAGE_SIZE);
+				pte = pfn_pte(PFN_DOWN(__pa(page)), PAGE_KERNEL);
+				spin_lock(&init_mm.page_table_lock);
+				set_pte_at(&init_mm, addr, ptep, pte);
+				spin_unlock(&init_mm.page_table_lock);
 
-- CONFIG_DEBUG_VIRTUAL
-- CONFIG_DEBUG_LOCK_ALLOC
-- CONFIG_DEFERRED_STRUCT_PAGE_INIT
 
-The kernel becomes stuck just after KMSAN is initialized. I do not
-understand the internals of KMSAN and I do not see an obvious reason for
-this failure.
+Since kasan shadow memory in cpu0 is set to 0xf0 which means it is not
+initialized after the race in cpu1. Consequently, a false vmalloc-out-of-bounds
+warning is triggered when a user attempts to access this memory region.
 
-I have a feeling that the list of problematic options is not exhaustive.
+The root cause of this problem is the pte valid check at the start of
+kasan_populate_vmalloc_pte should be removed since it is not protected by
+page_table_lock. However, this may result in severe performance degradation
+since pages will be frequently allocated and freed.
 
-Any ideas?
+Is there have any thoughts on how to solve this issue?
 
-I also noticed an instrumentation issue:
-
-vmlinux.o: warning: objtool: handle_bug+0x4: call to kmsan_unpoison_entry_regs() leaves .noinstr.text section
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Thank you.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/dgsgqssodokkzy6e7xreydep27ct2uldnc6eypmz3rwly6u6yq%403udi3sbubg7a.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240618064022.1990814-1-mawupeng1%40huawei.com.
