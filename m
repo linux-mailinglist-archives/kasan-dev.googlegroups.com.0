@@ -1,187 +1,162 @@
-Return-Path: <kasan-dev+bncBCM3H26GVIOBBN72ZOZQMGQEI4RFZTA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCS4VDMYRUNBB3MWZSZQMGQEUCUJJBY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3e.google.com (mail-oa1-x3e.google.com [IPv6:2001:4860:4864:20::3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9396390F2BC
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 17:46:00 +0200 (CEST)
-Received: by mail-oa1-x3e.google.com with SMTP id 586e51a60fabf-25ca2ebb7b6sf666608fac.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 08:46:00 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1718811959; cv=pass;
+Received: from mail-il1-x13d.google.com (mail-il1-x13d.google.com [IPv6:2607:f8b0:4864:20::13d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5975790F469
+	for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 18:46:39 +0200 (CEST)
+Received: by mail-il1-x13d.google.com with SMTP id e9e14a558f8ab-37623ddfa1fsf99805ab.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 09:46:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1718815598; cv=pass;
         d=google.com; s=arc-20160816;
-        b=qYDD0wX+siU4Qzi+MjO5Hztw9sz3QjBrIi3OONkA/svEtB9knOh2RNlDHNvmK2hWZk
-         prPAyWmsavmbLD1VkHgOkWPSS02YgtMV8aULg5+Yxk1KtP/gk+64pR0q7fEUANTUFvqb
-         LfZkHpyhDm/zM1Daw49mjep1CzhAJBSd18kQHXR+PyGY9PosAKQSImBsA66boLR2btnm
-         hUQ5NXn8nf2XO9V/bOhs/W/1JW/U1cp2WrttJ7v9wMZ3Pxk1+coRtfKkDmDDiaGhBihF
-         86Srio5RFP1Mz5sEcJeLVsZdBwb2N0u9Ves/CAJtOkUjeCxquOTcWV5k7Kc7e64xAaCf
-         l0gA==
+        b=WJw4QIejvtNEcKSsmeKBUNTo71XOdzg4AS/JCkwPqamNpdXJ6HDZ+5Ke3zD9mvq6fU
+         qY9Ng/mReG59jCYqY7Sz9xu9zD730S5Cc9DQgUY5jjtsGjYnD9Qe4062EYkSDjh6FLY2
+         +ulbk29SxIGOsuzhMAo4rSeSShMnf+9+6aoLAB63ghFW+RjQf+EaNiZDZ23Po4Tffijb
+         oacTGvTfdhc6odJ8frY837DZgEM3T/bkTMp2APf1Wl54hjrVGUDGs0snvCv/yIWEU5eh
+         rwxdI2XvpJfybhgl+/ppiSh8z3NiW4mjqMfJJO56thXIiZNLTqtFyL3KDczY5vgd3tqn
+         sgjg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=ClxtGgJO06zjTDdBkd26jVO7MVcukG3h+nB/ytnTs4w=;
-        fh=lLwy89VqZBHaz9B6YRBxC8mnGraYCg6+V8YtMil/IVU=;
-        b=C+c8wmnRzIxzpz47GsA0xpyOJwE72j/sEeVoegXaipun8umOAEbuvW1eXUvZn20H/K
-         c+3GqgNQoG6KljDv1ZRTv+ne49erbBTJekOKV28Dt7BIx27nDKU0/qxpauTe7A5bJgyI
-         tpedJZ3PSr5QvBa/UQhAhUQFOPFDOKMJaESNd2TG0kV8M0FYEnIVXjf5kKL7WUtIdM12
-         pqL3oC0Aj4vWC4t1CU+7qrOblTYtziItGIYmgalrBZH9AFDzGpd5sXH5MDr7dzW5yAru
-         tS5UGK+/Sy4tvPGIu219www5vR3CQEuM4OdE49589EUHcV+LvABXF9R8JGKZ0g71/WiR
-         msGw==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :sender:dkim-signature;
+        bh=IRc6v1rMziV3RauSIauEtewClGRjG5E1AuCIpce23k0=;
+        fh=CjiZwqTjeoOnahLgzM0kbMOVUX273Nw3Y75rJK5cBqM=;
+        b=0J/BmcDeZJqmWbvIuVX7er147uQPf5AqglyfAP/iPtvwocG77dUSEWEoIK0RNo2Klh
+         nGiubnG7DV1I6k/fS2Yc/zg6O0eMqEhoniYGvQ2ncrKGRQb1R0ccHfcbO0KTjBSX4HZQ
+         FqoFDnUD0yrv8RwX00GQRi1rcMCBZUzxrKDccBXy9u9aPRKFcXkmCRp/h6VFQHHuo2Ni
+         OXf4c1eXQIJlth0hAR2QEuw902TFm0zMQhjK6w5h60ArVuJwQqeoTCDHcUfwSM4Gb+Dx
+         9xrwnhTp68ozIh+nBtNKfK5I2li1Dq3ViyXolLmWuBbdtN8F3PJBimo7qwOWFaMHybYH
+         noHQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=U8GCVwLX;
-       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
-       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="U6v5z/sd";
+       spf=pass (google.com: domain of srs0=wedf=nv=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=wedF=NV=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1718811959; x=1719416759; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1718815598; x=1719420398; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ClxtGgJO06zjTDdBkd26jVO7MVcukG3h+nB/ytnTs4w=;
-        b=TTyIfznNr4xgUCdj1PkbMkM8AfY2fFxUnWQPddw9GjJyR3t3KaN6wbDxe7MN1fnvDD
-         7kiQZY6dC4ASdqFhR8XHliQzUozJSyWofydf6zHWBB9gh81lIC+4sYnzZpSV458+uETX
-         rl/dE0h4iJ82p2o5sNxlTGRRDHpNFlPr3/95cPQi5Q5xh60B7k+SCaZWIza4U7gProE7
-         QFpdIaBL79bA8ghRn2U9oWzYs8CtNrqZw2C1VPkfnbCEOo9Rr7FSYOB100T4oxghnUS1
-         vjcHaGNfmQzMuY+dsUcZs4zBtUspmdLxM4f+TTuuMl1TSooCBy/z3z9pMKcNYyDTIz/I
-         Eg1Q==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:reply-to:message-id:subject:cc:to:from:date:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IRc6v1rMziV3RauSIauEtewClGRjG5E1AuCIpce23k0=;
+        b=SSP3USXhXypLKF/OI2AwkDYkJUTognzBunAAfHQ6KV2sENvGj39SrfHuKSMvhqeKyY
+         uBAXav90yqqyOigihnOuT2PaNbMsYRO5oXx5rY5DTIewLVRvdRaDz552muhQGhAa0hG4
+         4VYNOKvVwj6lrQdpwMj+Or5M2THe57s9CZv77WYCS/GiWVzANmhWxp16KMxSqLouAy88
+         fcQPUbP+YUE6loq2UcJq/la0bslrZ7Em78p1FcMbGWrYldNmXZYz8Az+cRTHATKuolT/
+         F8AZVkL26cWJ5MJxM7Torjdbty021T1BzLO+ElbAQ0S2tPAwbTvmmme5Zy3gwYdnWwPX
+         tR9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718811959; x=1719416759;
+        d=1e100.net; s=20230601; t=1718815598; x=1719420398;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ClxtGgJO06zjTDdBkd26jVO7MVcukG3h+nB/ytnTs4w=;
-        b=INgNNn2xuim8/McklR3k1PgfJ471kACczCgEbxiMMNh3hzic+LViX1JE0HF6K+Yeob
-         Y/KGjVTYptYAUCaAfjglPuFpLjIb0qM18zwjYi5C5sUUAdgyS9XMGZeH2DVrUr8Ps4cz
-         Th3jU4At1h6S30Ow0NWGSq4MlfW8kUBVeAVqn2hP34DaS/qOSXGCiqIq/9YwCGNG4yGW
-         gmXdqUDHO8kOcYZPR6fVNGgA/E/YOLvM4JSQWaBgN4oizk4o35g3+okMUYgjNg2qGPXj
-         D9/s0fmaoD5y4+2lBLcAH8D7yC7QON4z9FCSgUSVE3XA8UCCmBdqhkQWoI0m595H+r/1
-         My8w==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IRc6v1rMziV3RauSIauEtewClGRjG5E1AuCIpce23k0=;
+        b=Hxp+dXPl/CXYUTN0Z11yoo7Q4XXk+ht28fIbco9Qxk9kjF+YqHzHtZMqgsAXMQCN93
+         LGdTGSO/+zVYH16/4sAcuV4nwyg4axsyFTNRdPEUot7IDozhYXHfkTvmRZeYDCm/a4UI
+         jmce02SlkR0CuZmCpvOsvCjjyaJaiIwP8I8sxfKVpKFMCuKMK26K/1OnK5XqFJ/oLAy4
+         08C6BqM+yu8Yhyi9WKWZirBOwvqoumvd0cAnme+9fTHUovcNf1Uta3OE79YUruZdFxMs
+         10zBifVpzlcJqvPsXDst9VwpCTf3bxXCc6PCv5HP4ovJ8G+tX91IdPIIBA2jvPqIzd05
+         bTKw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWQh2lzyYELVb/LRNC2q32vHD0sahsYJ1ZiF0tfHk1Yl9BX77Nsw53lsS/DYyp+P+kBqt7UU/UhEL6XURSMue7X1SwH8CjWlw==
-X-Gm-Message-State: AOJu0YwWWcX/dMCpPqt/JufOQAhRbY3IRO9quwQWuwr9VyEPq/0cumTN
-	gZceTQ5+atZySoXgEAynvj7RS1i4PO7tx2vxriJDqwYqU4YpkhWc
-X-Google-Smtp-Source: AGHT+IHfYeUHTz+WBKLLsCgE5RncmJ90JSU7nwFrlRJ9jL8AbfQlVDoI1p+pH0THA97PYHaBBswpWQ==
-X-Received: by 2002:a05:6870:d14c:b0:254:9570:e5aa with SMTP id 586e51a60fabf-25c94d74344mr3382634fac.57.1718811959489;
-        Wed, 19 Jun 2024 08:45:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWAi+Ji/0AGLwETZMa6sdGRpUSO4JQL3KN3Q/5z/SO4wNu55VgpybZcqOgFgyYrI8ctQXWKkOQhzAPgLy/ELH0OsvjB3X4GRA==
+X-Gm-Message-State: AOJu0YzGNYP1V0YLAFenPkygxW1DGTeyNaXkAQnCGh17SCe1PUXjuY2L
+	IpFhu7kgCMSnmF1eyflmImt5BlAczcYI7CSHh5+FFHQxG48PG5hC
+X-Google-Smtp-Source: AGHT+IHrRZswN6pD9jlegvmRF96DzZRa0p3g6OV5mgCqyf7fbO1BwA2taY9fZhEVAu6bSWZaszOpJQ==
+X-Received: by 2002:a05:6e02:12e6:b0:375:ee62:5917 with SMTP id e9e14a558f8ab-3761e7998dfmr4003515ab.6.1718815598092;
+        Wed, 19 Jun 2024 09:46:38 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:d10b:b0:259:8c55:f25a with SMTP id
- 586e51a60fabf-2598c55fb65ls576707fac.0.-pod-prod-05-us; Wed, 19 Jun 2024
- 08:45:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVbX/jJEfg5tWN2y2Clf3DsrWMNO6HWmbyt3GzmSzw2uNosOvhZi2MsmEQaua+GtfsRANzGAu+IQ0iUP2u5XvmYgNe8x45LlePAaQ==
-X-Received: by 2002:a05:6870:63a4:b0:255:c21d:a9db with SMTP id 586e51a60fabf-25c948f4129mr3343913fac.1.1718811958643;
-        Wed, 19 Jun 2024 08:45:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1718811958; cv=none;
+Received: by 2002:a05:6e02:1feb:b0:375:af6a:e6ec with SMTP id
+ e9e14a558f8ab-3762693b4f5ls508835ab.0.-pod-prod-05-us; Wed, 19 Jun 2024
+ 09:46:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWFAR4olZarWave6iS+St2umovlDjj4Q2p0cw6qgHMu3CNVk2iVWUzB3DWnikosxyNfPbb78wtvssCvpxYjRf1T0aXSgIUx5lXwAg==
+X-Received: by 2002:a05:6602:3fc9:b0:7de:c720:ab1f with SMTP id ca18e2360f4ac-7f13ee82ac8mr367555839f.20.1718815597129;
+        Wed, 19 Jun 2024 09:46:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1718815597; cv=none;
         d=google.com; s=arc-20160816;
-        b=pTDodJKaWVfkP8ck4p1Afs0v/ecOLTGuDNzw2WsoKuNJTG1exQjeRb/gIxNPwdUrLO
-         sNqz5//0mGUby/T59fH0OdnzzSWrHOrXRm29+Jc8lwBkBeq2cOHPv0U6SZxcIc8yaDmV
-         3SpEmCbxO2tI9/tl52q923NW1GN/Y/EuyugJwhFZNCwwv64rxR5y/wYe7e9INa7cxzw9
-         T24gAX1JReAabrXfu8K4Hj1ENp9Ov1qJ2q71ksxdaS8xhHYbZLtpKMzKsmegnBPp6W2y
-         yYJn7WV/WA0OOprUcCzEV6Swqzsu0pXdo45SkQuhQbxEWAIa4hRil+Uumynq3a92+8Fj
-         vTNQ==
+        b=KJEPUIKav28SBZG3TMSZeIRImxHLYYDkZtcPJZ6xmKC/mChKeZwcz/vU3kMcMbKX3J
+         0+c8sqcEzvSdEkjE115DzARdypdTPOM7YhPWwQmRCWDvvEge6Lac7ByFhbJ7FEN/bdxM
+         vhjQj7Xr9JW2Nf4AWI33l8c5Kv+pbA78NAU0u1wOmKEHR0OFimqaBIN2FCICXksQ5M76
+         zpToS5L8DZ+seKB8bxDZ9tr4oyWRnBPnYfX3jR5+XJZMsPYBMmfEeAGhVQm3Rcbq1V+F
+         3vCIIhKlECxM5LuVxzjbsMOKxxdSEQHygU95pPW9OvbuANK/lvyCX5FuAfcdJN6aFp96
+         PFiQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=IRZnfl5kegw9DdaMeWWbTwWzCErv31wkZ0fJjvxbgdM=;
-        fh=TQATEbdDZNcnk8L2eDP6eFL9HlexFaHIexhR1TH2IlY=;
-        b=e9ujTd+ZHBh2rtlO1ioOlucIDfUfzPIs6Eu6UI8L2TgjJUcKomhk9sFlzZYwnn8Scu
-         tve8HMs9zJClFt/GF7McfE4FnuxuiCLjW8gjc2UDinJmI/rClQxK+w70Lkbefxz/lsB3
-         PkQaMbsvJ5fdt6o2Plnq++34fjD/Oq5dC5XAgFypov31xK47Ylj88OQnABvZG6LzGatf
-         8SgHyPKnl/h4XQl7bzpRxPyr62Al+Egcy0IJaOzgLHBwXaILycUeF9jGGhbtnYRYo7BG
-         QIF3kOHYCFYED+uxn/0boAPJ9+iv2okNhe5Wdb0xzLU5Er9AK7y0eGodsxQLqRAedhG5
-         TeRA==;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=pw2BXTAQiJ3NTeflX4lSxzOg39efzfkAJJriAuCUE6w=;
+        fh=b4rUQKQOOXPMgq1nkRYM+atCQEIVYCiymtW6U8DhPd0=;
+        b=kA7ESkCvNr6LJG7COanTU9Hl4xJJTp5TyaYWydir8SamCx9+axGxJV6zzgdl5obIYU
+         qN+JU53On4S48FPEq40iIvWcvgx3a9wymtk0QkI6DomhTOLEKBNcSXe2jTZ+QQq+Jw9B
+         1ZLJke4qIZWz+fzmT/yjqT/BbDmardx/iU6qzzLPlUQlgeAS3mb5naYFzOajcha16VWK
+         I8N+edB1wJNky9IqgQWOiTJhiwjw6OoDBel19qRWSG8EEBNgLd9zdNDpNwuL1Fbp4/3m
+         m73O8DjwynT2Ap63Ta/hb6DfOQB9oKZnQtORkrZtqGgfPidEDkcasuJdxVPLYk0DY6l5
+         xpKQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=U8GCVwLX;
-       spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
-       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com. [148.163.158.5])
-        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-2567a98fae0si600341fac.2.2024.06.19.08.45.58
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="U6v5z/sd";
+       spf=pass (google.com: domain of srs0=wedf=nv=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=wedF=NV=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-4b9568bb7a7si632594173.2.2024.06.19.09.46.37
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 19 Jun 2024 08:45:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender) client-ip=148.163.158.5;
-Received: from pps.filterd (m0353724.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45JETHMj000657;
-	Wed, 19 Jun 2024 15:45:54 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yv14tg8cp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Jun 2024 15:45:54 +0000 (GMT)
-Received: from m0353724.ppops.net (m0353724.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 45JFjrsL027940;
-	Wed, 19 Jun 2024 15:45:53 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yv14tg8cg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Jun 2024 15:45:53 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 45JFWnRV019495;
-	Wed, 19 Jun 2024 15:45:52 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3ysnp1e4xk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 19 Jun 2024 15:45:52 +0000
-Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 45JFjkS217891730
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 19 Jun 2024 15:45:48 GMT
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BC86320065;
-	Wed, 19 Jun 2024 15:45:46 +0000 (GMT)
-Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6C3D92006A;
-	Wed, 19 Jun 2024 15:45:46 +0000 (GMT)
-Received: from black.boeblingen.de.ibm.com (unknown [9.155.200.166])
-	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 19 Jun 2024 15:45:46 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Alexander Gordeev <agordeev@linux.ibm.com>,
-        Alexander Potapenko <glider@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>, Marco Elver <elver@google.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Pekka Enberg <penberg@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Vasily Gorbik <gor@linux.ibm.com>, Vlastimil Babka <vbabka@suse.cz>
-Cc: Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Hyeonggon Yoo <42.hyeyoo@gmail.com>, kasan-dev@googlegroups.com,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-s390@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-        Mark Rutland <mark.rutland@arm.com>,
-        Roman Gushchin <roman.gushchin@linux.dev>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v5 37/37] kmsan: Enable on s390
-Date: Wed, 19 Jun 2024 17:44:12 +0200
-Message-ID: <20240619154530.163232-38-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.45.1
-In-Reply-To: <20240619154530.163232-1-iii@linux.ibm.com>
-References: <20240619154530.163232-1-iii@linux.ibm.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Jun 2024 09:46:37 -0700 (PDT)
+Received-SPF: pass (google.com: domain of srs0=wedf=nv=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id B54DE61E8E;
+	Wed, 19 Jun 2024 16:46:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E5A8C2BBFC;
+	Wed, 19 Jun 2024 16:46:36 +0000 (UTC)
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id EC3CDCE09D8; Wed, 19 Jun 2024 09:46:35 -0700 (PDT)
+Date: Wed, 19 Jun 2024 09:46:35 -0700
+From: "Paul E. McKenney" <paulmck@kernel.org>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Uladzislau Rezki <urezki@gmail.com>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Julia Lawall <Julia.Lawall@inria.fr>, linux-block@vger.kernel.org,
+	kernel-janitors@vger.kernel.org, bridge@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	kvm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Nicholas Piggin <npiggin@gmail.com>, netdev@vger.kernel.org,
+	wireguard@lists.zx2c4.com, linux-kernel@vger.kernel.org,
+	ecryptfs@vger.kernel.org, Neil Brown <neilb@suse.de>,
+	Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>,
+	Tom Talpey <tom@talpey.com>, linux-nfs@vger.kernel.org,
+	linux-can@vger.kernel.org, Lai Jiangshan <jiangshanlai@gmail.com>,
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+	kasan-dev <kasan-dev@googlegroups.com>
+Subject: Re: [PATCH 00/14] replace call_rcu by kfree_rcu for simple
+ kmem_cache_free callback
+Message-ID: <04567347-c138-48fb-a5ab-44cc6a318549@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <e926e3c6-05ce-4ba6-9e2e-e5f3b37bcc23@suse.cz>
+ <3b6fe525-626c-41fb-8625-3925ca820d8e@paulmck-laptop>
+ <6711935d-20b5-41c1-8864-db3fc7d7823d@suse.cz>
+ <ZnCDgdg1EH6V7w5d@pc636>
+ <36c60acd-543e-48c5-8bd2-6ed509972d28@suse.cz>
+ <ZnFT1Czb8oRb0SE7@pc636>
+ <5c8b2883-962f-431f-b2d3-3632755de3b0@paulmck-laptop>
+ <9967fdfa-e649-456d-a0cb-b4c4bf7f9d68@suse.cz>
+ <6dad6e9f-e0ca-4446-be9c-1be25b2536dd@paulmck-laptop>
+ <4cba4a48-902b-4fb6-895c-c8e6b64e0d5f@suse.cz>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: _aFS9VMZNHeI_0QG12mn39Qu-C8A8omj
-X-Proofpoint-ORIG-GUID: 2gC1WJMPx7ngoWvphwAauoxDM2L1Po19
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
- definitions=2024-06-19_02,2024-06-19_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 malwarescore=0 suspectscore=0 mlxscore=0 clxscore=1015
- spamscore=0 mlxlogscore=764 impostorscore=0 phishscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2405170001 definitions=main-2406190115
-X-Original-Sender: iii@linux.ibm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=U8GCVwLX;       spf=pass (google.com:
- domain of iii@linux.ibm.com designates 148.163.158.5 as permitted sender)
- smtp.mailfrom=iii@linux.ibm.com;       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <4cba4a48-902b-4fb6-895c-c8e6b64e0d5f@suse.cz>
+X-Original-Sender: paulmck@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=k20201202 header.b="U6v5z/sd";       spf=pass
+ (google.com: domain of srs0=wedf=nv=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
+ designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=wedF=NV=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -194,31 +169,145 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Now that everything else is in place, enable KMSAN in Kconfig.
+On Wed, Jun 19, 2024 at 11:28:13AM +0200, Vlastimil Babka wrote:
+> On 6/18/24 7:53 PM, Paul E. McKenney wrote:
+> > On Tue, Jun 18, 2024 at 07:21:42PM +0200, Vlastimil Babka wrote:
+> >> On 6/18/24 6:48 PM, Paul E. McKenney wrote:
+> >> > On Tue, Jun 18, 2024 at 11:31:00AM +0200, Uladzislau Rezki wrote:
+> >> >> > On 6/17/24 8:42 PM, Uladzislau Rezki wrote:
+> >> >> > >> +
+> >> >> > >> +	s = container_of(work, struct kmem_cache, async_destroy_work);
+> >> >> > >> +
+> >> >> > >> +	// XXX use the real kmem_cache_free_barrier() or similar thing here
+> >> >> > > It implies that we need to introduce kfree_rcu_barrier(), a new API, which i
+> >> >> > > wanted to avoid initially.
+> >> >> > 
+> >> >> > I wanted to avoid new API or flags for kfree_rcu() users and this would
+> >> >> > be achieved. The barrier is used internally so I don't consider that an
+> >> >> > API to avoid. How difficult is the implementation is another question,
+> >> >> > depending on how the current batching works. Once (if) we have sheaves
+> >> >> > proven to work and move kfree_rcu() fully into SLUB, the barrier might
+> >> >> > also look different and hopefully easier. So maybe it's not worth to
+> >> >> > invest too much into that barrier and just go for the potentially
+> >> >> > longer, but easier to implement?
+> >> >> > 
+> >> >> Right. I agree here. If the cache is not empty, OK, we just defer the
+> >> >> work, even we can use a big 21 seconds delay, after that we just "warn"
+> >> >> if it is still not empty and leave it as it is, i.e. emit a warning and
+> >> >> we are done.
+> >> >> 
+> >> >> Destroying the cache is not something that must happen right away. 
+> >> > 
+> >> > OK, I have to ask...
+> >> > 
+> >> > Suppose that the cache is created and destroyed by a module and
+> >> > init/cleanup time, respectively.  Suppose that this module is rmmod'ed
+> >> > then very quickly insmod'ed.
+> >> > 
+> >> > Do we need to fail the insmod if the kmem_cache has not yet been fully
+> >> > cleaned up?
+> >> 
+> >> We don't have any such link between kmem_cache and module to detect that, so
+> >> we would have to start tracking that. Probably not worth the trouble.
+> > 
+> > Fair enough!
+> > 
+> >> >  If not, do we have two versions of the same kmem_cache in
+> >> > /proc during the overlap time?
+> >> 
+> >> Hm could happen in /proc/slabinfo but without being harmful other than
+> >> perhaps confusing someone. We could filter out the caches being destroyed
+> >> trivially.
+> > 
+> > Or mark them in /proc/slabinfo?  Yet another column, yay!!!  Or script
+> > breakage from flagging the name somehow, for example, trailing "/"
+> > character.
+> 
+> Yeah I've been resisting such changes to the layout and this wouldn't be
+> worth it, apart from changing the name itself but not in a dangerous way
+> like with "/" :)
 
-Acked-by: Heiko Carstens <hca@linux.ibm.com>
-Reviewed-by: Alexander Potapenko <glider@google.com>
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- arch/s390/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+;-) ;-) ;-)
 
-diff --git a/arch/s390/Kconfig b/arch/s390/Kconfig
-index c59d2b54df49..3cba4993d7c7 100644
---- a/arch/s390/Kconfig
-+++ b/arch/s390/Kconfig
-@@ -158,6 +158,7 @@ config S390
- 	select HAVE_ARCH_KASAN
- 	select HAVE_ARCH_KASAN_VMALLOC
- 	select HAVE_ARCH_KCSAN
-+	select HAVE_ARCH_KMSAN
- 	select HAVE_ARCH_KFENCE
- 	select HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET
- 	select HAVE_ARCH_SECCOMP_FILTER
--- 
-2.45.1
+> >> Sysfs and debugfs might be more problematic as I suppose directory names
+> >> would clash. I'll have to check... might be even happening now when we do
+> >> detect leaked objects and just leave the cache around... thanks for the
+> >> question.
+> > 
+> > "It is a service that I provide."  ;-)
+> > 
+> > But yes, we might be living with it already and there might already
+> > be ways people deal with it.
+> 
+> So it seems if the sysfs/debugfs directories already exist, they will
+> silently not be created. Wonder if we have such cases today already because
+> caches with same name exist. I think we do with the zsmalloc using 32 caches
+> with same name that we discussed elsewhere just recently.
+> 
+> Also indeed if the cache has leaked objects and won't be thus destroyed,
+> these directories indeed stay around, as well as the slabinfo entry, and can
+> prevent new ones from being created (slabinfo lines with same name are not
+> prevented).
+
+New one on me!
+
+> But it wouldn't be great to introduce this possibility to happen for the
+> temporarily delayed removal due to kfree_rcu() and a module re-insert, since
+> that's a legitimate case and not buggy state due to leaks.
+
+Agreed.
+
+> The debugfs directory we could remove immediately before handing over to the
+> scheduled workfn, but if it turns out there was a leak and the workfn leaves
+> the cache around, debugfs dir will be gone and we can't check the
+> alloc_traces/free_traces files there (but we have the per-object info
+> including the traces in the dmesg splat).
+> 
+> The sysfs directory is currently removed only with the whole cache being
+> destryed due to sysfs/kobject lifetime model. I'd love to untangle it for
+> other reasons too, but haven't investigated it yet. But again it might be
+> useful for sysfs dir to stay around for inspection, as for the debugfs.
+> 
+> We could rename the sysfs/debugfs directories before queuing the work? Add
+> some prefix like GOING_AWAY-$name. If leak is detected and cache stays
+> forever, another rename to LEAKED-$name. (and same for the slabinfo). But
+> multiple ones with same name might pile up, so try adding a counter then?
+> Probably messy to implement, but perhaps the most robust in the end? The
+> automatic counter could also solve the general case of people using same
+> name for multiple caches.
+> 
+> Other ideas?
+
+Move the going-away files/directories to some new directoriesy?  But you
+would still need a counter or whatever.  I honestly cannot say what
+would be best from the viewpoint of existing software scanning those
+files and directories.
+
+							Thanx, Paul
+
+> Thanks,
+> Vlastimil
+> 
+> > 
+> > 							Thanx, Paul
+> > 
+> >> >> > > Since you do it asynchronous can we just repeat
+> >> >> > > and wait until it a cache is furry freed?
+> >> >> > 
+> >> >> > The problem is we want to detect the cases when it's not fully freed
+> >> >> > because there was an actual read. So at some point we'd need to stop the
+> >> >> > repeats because we know there can no longer be any kfree_rcu()'s in
+> >> >> > flight since the kmem_cache_destroy() was called.
+> >> >> > 
+> >> >> Agree. As noted above, we can go with 21 seconds(as an example) interval
+> >> >> and just perform destroy(without repeating).
+> >> >> 
+> >> >> --
+> >> >> Uladzislau Rezki
+> >> 
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240619154530.163232-38-iii%40linux.ibm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/04567347-c138-48fb-a5ab-44cc6a318549%40paulmck-laptop.
