@@ -1,143 +1,143 @@
-Return-Path: <kasan-dev+bncBCM3H26GVIOBBNX2ZOZQMGQEXUHV4AY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCM3H26GVIOBBN72ZOZQMGQEI4RFZTA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA3490F2B8
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 17:45:59 +0200 (CEST)
-Received: by mail-il1-x13b.google.com with SMTP id e9e14a558f8ab-376210a881dsf8419375ab.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 08:45:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1718811958; cv=pass;
+Received: from mail-oa1-x3c.google.com (mail-oa1-x3c.google.com [IPv6:2001:4860:4864:20::3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74E3D90F2BB
+	for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 17:46:00 +0200 (CEST)
+Received: by mail-oa1-x3c.google.com with SMTP id 586e51a60fabf-24fd9850021sf6017799fac.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 08:46:00 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1718811959; cv=pass;
         d=google.com; s=arc-20160816;
-        b=CoGWUWWDtlccJwCQ6FfPokZ9fx831YOBTJkMgCDQkVWCXyBDGvXWuatRSszXNx2wLD
-         X81H6KFyc4ykQG/5PdHdu+N3IVks4e/oGd0LoSO7Q9vdOoe5rBxhS5fNiIH26+ujIuK3
-         /j0VUBRBs5kxtNTEtwL4zSB9H5UXqRNUbfSXGnwThefXf1/C6Xj1iKDErEv6J612t2bJ
-         7ot+LMBhdsJv5sVfrslEaGFwzKpbVZdBtqLM4i4bSwctIDhfQwPfRCVPyaVdN+rfdLKa
-         P6mLH4WSkIqQPOMhceGRR6u6YLsjfIZzYdcbziv0oTri1moJH+o30KwVDs6B2sLXSKBK
-         B8Bg==
+        b=0KXmd6KYXCvs/yvfaKykGuChTdtFiSgtONJG4GNsRxZsMZlgI3yg+ZHFINfB06Y0g0
+         EZxVbHi1OcE+m3mTLm9CKlgZ95nAYXWv+mbhLIbzx+xBKHbtwVcSYyAMq8QqMcM5i4+w
+         ePUYlJ9QBuN1pAggu56oQpn6tsTRNnsIrxQEgiBGRNh90UtaRtDMVUi1zigdMt0AScai
+         RW6O14NuNiwDlvqfz4kNSyMelzNlij3Poor5/ZiKQimUfkzMspTiNteXQxU0bQK61mSR
+         y1/j1m/jjhliFwtGp9dssP62RHIKLmlu6Q2jtZQqDN3HudUvC7cxfSIlpdxbvNimwbE7
+         KQ/Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=TQp87rbMRQ21zZ0fXzHmOMqUpQrsyvC/hjZvvxGGqSo=;
-        fh=nWmnS9pLW2DcTXZ/FdbYDvEQ9P0df1ZywK58vJQtoV0=;
-        b=eIT7FuCDc/KEla33JRSvIFt1Q27LYCq7dvo2sNhxSpq71CIQyEpqvdM0Hssi5K1R8x
-         AQrRP+e6OjTBa/DIRZnw63GyaYpg3jyrYnnwV8sElv5kRhbl9p+9nAkyBZ/H+BmaUtoF
-         QW4pMV9BzAmUiWmEuW+dngbJBTEwedu2x84rkCL3kOh2V6aTLgB4CYaO+XONKuL/0HMG
-         9M91K++cVd/QPtlTjY9sI/g5TgGcbcTZlbXvuV2nyJIobPZH65oYQKAw50Aw7H0KvyFG
-         BmBZtpAK3iSEfWD3AxwclN6GxhZKf2Gq7KLHIG9wuAgcdNpYYYAx6Zm21rAe9ut9fSqh
-         8otw==;
+        bh=pAMWf4ccATumFUwKo7W8k6zynBOIPJ9bZi7kTwXdgEQ=;
+        fh=5+FngXayFXFRi2ccSoTiFgkFAOOVdWPBWIpArTQnCkM=;
+        b=DWE+3MTq5rFdsFjUt0FdWjVPu0JvRjlgenOJ7xHQKn9QsucQIfTnl5UqLBlycJSvrI
+         yY6PiKItK1HgLK+Uq2dZ/8fEkIn81+mhupU46dl6tBj9CPSi20onfSSv0m7TjzX/m+SY
+         xeHIs5j924Nju2MnQszlL3/o0w6/ecX7mBtOOYFusAgTKeNS6DcDUar50nsWETkeAQFQ
+         VarZzEibQ8QaE728IWeEEcvVwdBxYRznGntVGDGSiXasVH5WvNHW1Me3Ob3l3gX2pDP/
+         Ccve8rqJZA6GKdFngoYpOdp76/RE3FW9Q2c0a+DTmraQpOZ6EPUk+sVh4v1KGHCM231t
+         mQiA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=LCohBSxo;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=gFFnuzcf;
        spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
        dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1718811958; x=1719416758; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1718811959; x=1719416759; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=TQp87rbMRQ21zZ0fXzHmOMqUpQrsyvC/hjZvvxGGqSo=;
-        b=iEAKIN3s58yJfX9wZpep4/okp5uS/wxN7TeB2YbOmFg8o7zhiptfi2N1rJ4iYOz8Kr
-         43oLrzOGxXthIttvOagNTw2oP6A1f0alt9Kgi/9XAcD6wxqEgKvIp7VBUjxfg4CPp7Gd
-         gX9sY0e9Khzu6Ro/iBCi2o/auia2HESEuwfhLWF7hai1hxMopc4QbkO6RObgWFG7gzG2
-         fgefBTIOLz8PAI+nZV71wyLCbjgJkqisjWw6gyy2Abty+lu2CvrEsHN+UTZkbLypPQFw
-         fJZpmzA+FWGAOq0+GJ7kAH3wRNcbjQKVx2ItX79VMyafllDIuBZBJBW9QVNj8vkS2v/h
-         //nA==
+        bh=pAMWf4ccATumFUwKo7W8k6zynBOIPJ9bZi7kTwXdgEQ=;
+        b=Dbk4z0m/0VGUV8WOSaK+IhMFoMLPLLyz3ayuA1k858p80m5fLJ2N5wBPm6QreWa9x5
+         /58cnwS7KzsGVH22mwy0fs8EO39yYbcJZusQekQ/V2k+BHFD7vLZa0B3Ft5CTYkXgAjf
+         r48sOnTISG9WY1Zjc3zJzHHSmuuijHKjX/3NaP5pbbXmT8Wfd+KhfvLuGKGPMDCl9Jnk
+         p337o3NYKe6oPa4AlK4oChphfRVGfFBhKVMXdVyHIVnsWUx+ZWg0kJLdu4K6C0uCP2eG
+         Fx+8ChyLVeqFTpRnzjke2x9vThf5g/Zltoz6NeSYT6My3UMhbJKTMrFfIkt79IeN/FMh
+         KQtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718811958; x=1719416758;
+        d=1e100.net; s=20230601; t=1718811959; x=1719416759;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TQp87rbMRQ21zZ0fXzHmOMqUpQrsyvC/hjZvvxGGqSo=;
-        b=fIvDC55kKZk+3gwN1A1euNAz8+9R7oTh/eVk3pBeYw48ySRGca+641UyKF13zR2hW+
-         W1o/2qp0Ix5YIWsAR9efsoeGgTjF3THIWv2jGWQgFtD29N00+0Ut3IzKW3/YKT+Lv6Fl
-         39oHFh5jEmWUDvqeJw23lU/YjsH+tmkKwIKkvDVkFw2QGEy5lgREjE85HJPasxvl8/Dq
-         1xzjwsL6tcj5h2YvaKhRZDFaF2xAY6Pd1EP09cizmcwKdoXxkQYTiMHNkH7opnfHyEHr
-         L0ryMMWbKVK4uG5pMZGQigFpilTO9ebwpH1hcPSQFIzmpbqqF41VOuVlEM5QVw1Gp0FW
-         H9HQ==
+        bh=pAMWf4ccATumFUwKo7W8k6zynBOIPJ9bZi7kTwXdgEQ=;
+        b=F6w8HPH9ljMFBpwtXO9H6ZLpst3pJVc4PEbufDJrZTmd2730GOpX39Uv+NrR9BmcpX
+         SZqJHW5/BkaaGBk/7txI+ISfYr7e9Zx8QxA9QBVIj+gFHomL/3OnCq/NI1DoCz06DFxS
+         Qcgtg3ZX/1R87VqUrYpXd/xUIbNOEoV3Uuxvq9Y4H35cpmGU3K7z1bnyQ3NQu1RE2oFs
+         ZJS12VrC8OU2tfzkPuEaL+mkDll7XQ91aYmJZLAJZH/i+P/EDrmYhJTl/jpxSt9mllwS
+         KQinlGtTHMLSB4r3Eqo+crp06qvOjB4rEHV6/oLCOcGnX0/bQ0qBZeilthOMrQYn9l2Z
+         5gYA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCX+T8wTqUEPnEzp99QzlgG3U8zAlEayFpbGXXF0Hl+l6YyAsT9VUjX0gPJ6H7Gd4CUE7GIoJ9Xz6+Sb7vFn+ouTkbiM99P3pg==
-X-Gm-Message-State: AOJu0Yz+CyQjGseFSBJ6fqoweFKQsnUqP/o3L4rog+YBNeJU1NECaBDF
-	jzVixZSmkSRnuD2/AQOygM9szclOtkmH4q/WptqM6CdSSp8YKF2s
-X-Google-Smtp-Source: AGHT+IEaaVfMIuSTUhfANr0jItZatkEQIFNIkI561WF4tdbRHdr+K3vfnex4Tlz7ISAq2TCYHJPd4Q==
-X-Received: by 2002:a05:6e02:138e:b0:374:92d0:caa7 with SMTP id e9e14a558f8ab-3761d7076e1mr34361965ab.25.1718811958728;
-        Wed, 19 Jun 2024 08:45:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVnjPecJo6vAjtG3pGuah499Yl9A/FfaGi6bmRGAUiUuLCJ/yEfpFprG+/0v2rmQxnFc4dzFyF0Im+ixGg2lqq7E6/8aY0IUg==
+X-Gm-Message-State: AOJu0YzzYxX+QJY5b0uVZJypbN3fGDrj8/ybRVj10fjMCWuVHU14POnk
+	kzzJ+SUkEgB8vFg9YFRNnrVFtFakksBSZXcGf3VV7aDeDF31sNQ6
+X-Google-Smtp-Source: AGHT+IFUTKX6zTgz+1nq7DDd72bdho+dh2c5IBZdgXKelacpGvy95kWSvjDUnWkHn/VLd6fDTfiEcA==
+X-Received: by 2002:a05:6870:1714:b0:258:4ae8:4af3 with SMTP id 586e51a60fabf-25c94d04c7emr3390844fac.37.1718811959201;
+        Wed, 19 Jun 2024 08:45:59 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:3a84:b0:374:a2f2:54be with SMTP id
- e9e14a558f8ab-375d5682815ls56732935ab.1.-pod-prod-03-us; Wed, 19 Jun 2024
+Received: by 2002:a05:6870:d286:b0:250:719f:50cc with SMTP id
+ 586e51a60fabf-2552b685ffels1622172fac.0.-pod-prod-09-us; Wed, 19 Jun 2024
  08:45:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCU7uHuk8OnalNLyalraiTzpJlYfxadn1a/it+auB1BDLoQuEp3r2v0bE0Jfexvrb/3gevcdK7SwEVb41aWJosvdQYjhUQtUZACTFQ==
-X-Received: by 2002:a05:6602:3421:b0:7f1:3ad1:234e with SMTP id ca18e2360f4ac-7f13eea32f1mr350677939f.18.1718811957782;
-        Wed, 19 Jun 2024 08:45:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1718811957; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCUc31S0Xd/QvdgHvHqb/j0y8OpbvBHMIQAdwx0xeuZ9FnHejwMDJuVoxyLaRQhCBAW6/J7cJoNS6Mqq4O8EtwuA5MC41TmSFEP71A==
+X-Received: by 2002:a05:6358:7f1e:b0:19c:5226:e29a with SMTP id e5c5f4694b2df-1a1fd3c9232mr355249955d.13.1718811958143;
+        Wed, 19 Jun 2024 08:45:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1718811958; cv=none;
         d=google.com; s=arc-20160816;
-        b=vOmKHEWCO1GAL7sorOYxs60UwVhxqxbFkjNbnyxM7Kc26i+NB8W26Zrgm6lxY7BkUY
-         PEWq0OvHM9MV/9VWkHa4L4owBvKwCkzN9125URsjAwe3r66A+h+kppp64BDUAxqR9C0r
-         YNVwfTHOwvdo4YBxSrvY5n8XZfEZYhGHCD49UOYEQitnzrwAu2qHvzSsB3a12rrTe8kM
-         FCqrrWxLkWGoAJC/4+IFF3ZlhP3epwt5W0xMHFNQJuYXIJjbeJgzWhO1znPhZ4cFsDdz
-         d96LT+B0NXcksxqvvrvYr+LkHHapBckXKrOEAeWm1tsGf2Eppt9FIHE5qlpl6d2fDlck
-         br/g==
+        b=JsHtXeYfdJxlI9fSHqvD47LPjQSxG9zzbfOeqb+SQ3m5GpqFYvvwsUIUgDBqz2ZLtj
+         DGizvpXmX8Jamo1RIeGuOUerzRwioL1u9CTzACNQYA2f/4TPbWFykq4SwxktYZBzV+91
+         znydE1ormg9cQI56ZsJo16CXrC+RByxhmFZM5kTaSxJ7wXXF6ySYMK6veu+Xp2Bk4eN9
+         hjZREGWjyadjOBbEL385BM5K/82UoNiru/WgDgHqttevoN5gqtl/BpzsvGiOZE9JZqQq
+         46PpkJa7O91TfqO2puNukN85/wFcLbCKYz86tupKaPA0nhye/DgVKGf2/gq76NEVtNQ2
+         Xe7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=agNOfeGwaIxM1BpsZrTsKKrINqSU+ZKT6FzhLObZk18=;
+        bh=s6DLbG1DAru59Tf4t+R8cAAAi/8gRk1lHndotnkU+E0=;
         fh=TQATEbdDZNcnk8L2eDP6eFL9HlexFaHIexhR1TH2IlY=;
-        b=c2H8It2pepyi9nb/owW5Fy8DCUiNMIKndvC+5RySnGkHk+LO892noXQFK7ZhlpFgmS
-         2uYQc8qmydHhn1IGNK2t4DY9N3habHHucSbs4lwaVfGMXrZRDl7iGcyVEsPsQyyowP+/
-         hGcOEllC67SG+HGhbHl1T1Nf3f6ovp304FMoDALvLTfYMwPu0C4iOKS2fYmkXD5MK8zs
-         sAhk49fZJE7IsbqiEfKYRouHmZt2yeNAsEXHkbqztFGUoeMe8hlquuIb0j0GR9kNw6mu
-         SQhnfILB8Q3KUcLCXSgOh2ckyp+KkJPH6dUxe9a0HqL9eV9ACgoaMF2oCyj0iShfLzN5
-         QqlA==;
+        b=rqI+4bXg6pRLal6O1bLVR5NhrismzrAELfFl4svSQZWVcHUjg/Wt5RCZfIQW3hKBwr
+         UyEtwo0n7SV0al1d0mK+FKXFTEcrYGqxoUQiL6shsg+h5QrA2p3ZjO9IYjr8n0hwB6+6
+         bqr4IYQcFhlkU50P7OH36T1pWGEJw+yzfPIJWbYnVr4b06AKtGQuU+eB+DHR1M2g+7le
+         M+0mXtUSWqly+b2aLHjfjavBDc3nYREO4HqtTwcJbJ009Bk77k5NsIAupL+ZSBsZbsAH
+         02cfNWa/ABjx58yPl4kqpIz8rwahT61vauCyP/nS49Ng9QL7YRmyA8zh+U4KWOlSdioS
+         +Y5w==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ibm.com header.s=pp1 header.b=LCohBSxo;
+       dkim=pass header.i=@ibm.com header.s=pp1 header.b=gFFnuzcf;
        spf=pass (google.com: domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender) smtp.mailfrom=iii@linux.ibm.com;
        dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com. [148.163.156.1])
-        by gmr-mx.google.com with ESMTPS id ca18e2360f4ac-7ebdba20e5csi73745739f.1.2024.06.19.08.45.57
+        by gmr-mx.google.com with ESMTPS id af79cd13be357-79bb9794b7dsi6809485a.2.2024.06.19.08.45.57
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 19 Jun 2024 08:45:57 -0700 (PDT)
+        Wed, 19 Jun 2024 08:45:58 -0700 (PDT)
 Received-SPF: pass (google.com: domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender) client-ip=148.163.156.1;
-Received: from pps.filterd (m0353726.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45JEwrZ1024141;
-	Wed, 19 Jun 2024 15:45:53 GMT
+Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 45JFSJRr028077;
+	Wed, 19 Jun 2024 15:45:54 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yv1jfr5c5-1
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yv20g81kv-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Wed, 19 Jun 2024 15:45:53 +0000 (GMT)
-Received: from m0353726.ppops.net (m0353726.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 45JFjqUe006314;
+Received: from m0353729.ppops.net (m0353729.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 45JFjrfB023106;
 	Wed, 19 Jun 2024 15:45:53 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yv1jfr5c0-1
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3yv20g81kr-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Wed, 19 Jun 2024 15:45:52 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 45JEKDs3011355;
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 45JFhxiv023990;
 	Wed, 19 Jun 2024 15:45:51 GMT
 Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3yspsndtp2-1
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 3ysp9qdyr5-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Wed, 19 Jun 2024 15:45:51 +0000
 Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 45JFjj4B47382964
+	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 45JFjjt651249438
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
 	Wed, 19 Jun 2024 15:45:47 GMT
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5D8CB2006E;
+	by IMSVA (Postfix) with ESMTP id B283E2004D;
 	Wed, 19 Jun 2024 15:45:45 +0000 (GMT)
 Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 04F352006A;
+	by IMSVA (Postfix) with ESMTP id 6378320071;
 	Wed, 19 Jun 2024 15:45:45 +0000 (GMT)
 Received: from black.boeblingen.de.ibm.com (unknown [9.155.200.166])
 	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 19 Jun 2024 15:45:44 +0000 (GMT)
+	Wed, 19 Jun 2024 15:45:45 +0000 (GMT)
 From: Ilya Leoshkevich <iii@linux.ibm.com>
 To: Alexander Gordeev <agordeev@linux.ibm.com>,
         Alexander Potapenko <glider@google.com>,
@@ -158,27 +158,27 @@ Cc: Christian Borntraeger <borntraeger@linux.ibm.com>,
         Roman Gushchin <roman.gushchin@linux.dev>,
         Sven Schnelle <svens@linux.ibm.com>,
         Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v5 33/37] s390/uaccess: Add KMSAN support to put_user() and get_user()
-Date: Wed, 19 Jun 2024 17:44:08 +0200
-Message-ID: <20240619154530.163232-34-iii@linux.ibm.com>
+Subject: [PATCH v5 34/37] s390/uaccess: Add the missing linux/instrumented.h #include
+Date: Wed, 19 Jun 2024 17:44:09 +0200
+Message-ID: <20240619154530.163232-35-iii@linux.ibm.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240619154530.163232-1-iii@linux.ibm.com>
 References: <20240619154530.163232-1-iii@linux.ibm.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: o1S14x9snFEyIzy71_JihxIM4LerZ1J_
-X-Proofpoint-ORIG-GUID: N4O8l3X5dHvqWA4Z8xqzRXfIZtZKvw2I
+X-Proofpoint-GUID: x3IdliaCP9_W0APTwBxLUteBtiEkeKIa
+X-Proofpoint-ORIG-GUID: eWk2j-5jOwTKPdqUCsgQlthFXyMgUyxL
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.28.16
  definitions=2024-06-19_02,2024-06-19_01,2024-05-17_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxscore=0
- lowpriorityscore=0 phishscore=0 clxscore=1015 bulkscore=0 malwarescore=0
- mlxlogscore=999 suspectscore=0 priorityscore=1501 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 spamscore=0 impostorscore=0
+ phishscore=0 clxscore=1015 mlxlogscore=999 priorityscore=1501 adultscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.19.0-2405170001 definitions=main-2406190115
 X-Original-Sender: iii@linux.ibm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ibm.com header.s=pp1 header.b=LCohBSxo;       spf=pass (google.com:
+ header.i=@ibm.com header.s=pp1 header.b=gFFnuzcf;       spf=pass (google.com:
  domain of iii@linux.ibm.com designates 148.163.156.1 as permitted sender)
  smtp.mailfrom=iii@linux.ibm.com;       dmarc=pass (p=REJECT sp=NONE dis=NONE) header.from=ibm.com
 Content-Type: text/plain; charset="UTF-8"
@@ -194,229 +194,33 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-put_user() uses inline assembly with precise constraints, so Clang is
-in principle capable of instrumenting it automatically. Unfortunately,
-one of the constraints contains a dereferenced user pointer, and Clang
-does not currently distinguish user and kernel pointers. Therefore
-KMSAN attempts to access shadow for user pointers, which is not a right
-thing to do.
+uaccess.h uses instrument_get_user() and instrument_put_user(), which
+are defined in linux/instrumented.h. Currently we get this header from
+somewhere else by accident; prefer to be explicit about it and include
+it directly.
 
-An obvious fix to add __no_sanitize_memory to __put_user_fn() does not
-work, since it's __always_inline. And __always_inline cannot be removed
-due to the __put_user_bad() trick.
-
-A different obvious fix of using the "a" instead of the "+Q" constraint
-degrades the code quality, which is very important here, since it's a
-hot path.
-
-Instead, repurpose the __put_user_asm() macro to define
-__put_user_{char,short,int,long}_noinstr() functions and mark them with
-__no_sanitize_memory. For the non-KMSAN builds make them
-__always_inline in order to keep the generated code quality. Also
-define __put_user_{char,short,int,long}() functions, which call the
-aforementioned ones and which *are* instrumented, because they call
-KMSAN hooks, which may be implemented as macros.
-
-The same applies to get_user() as well.
-
-Acked-by: Heiko Carstens <hca@linux.ibm.com>
+Suggested-by: Alexander Potapenko <glider@google.com>
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 ---
- arch/s390/include/asm/uaccess.h | 111 +++++++++++++++++++++++---------
- 1 file changed, 79 insertions(+), 32 deletions(-)
+ arch/s390/include/asm/uaccess.h | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/arch/s390/include/asm/uaccess.h b/arch/s390/include/asm/uaccess.h
-index 81ae8a98e7ec..70f0edc00c2a 100644
+index 70f0edc00c2a..9213be0529ee 100644
 --- a/arch/s390/include/asm/uaccess.h
 +++ b/arch/s390/include/asm/uaccess.h
-@@ -78,13 +78,24 @@ union oac {
+@@ -18,6 +18,7 @@
+ #include <asm/extable.h>
+ #include <asm/facility.h>
+ #include <asm-generic/access_ok.h>
++#include <linux/instrumented.h>
  
- int __noreturn __put_user_bad(void);
+ void debug_user_asce(int exit);
  
--#define __put_user_asm(to, from, size)					\
--({									\
-+#ifdef CONFIG_KMSAN
-+#define get_put_user_noinstr_attributes \
-+	noinline __maybe_unused __no_sanitize_memory
-+#else
-+#define get_put_user_noinstr_attributes __always_inline
-+#endif
-+
-+#define DEFINE_PUT_USER(type)						\
-+static get_put_user_noinstr_attributes int				\
-+__put_user_##type##_noinstr(unsigned type __user *to,			\
-+			    unsigned type *from,			\
-+			    unsigned long size)				\
-+{									\
- 	union oac __oac_spec = {					\
- 		.oac1.as = PSW_BITS_AS_SECONDARY,			\
- 		.oac1.a = 1,						\
- 	};								\
--	int __rc;							\
-+	int rc;								\
- 									\
- 	asm volatile(							\
- 		"	lr	0,%[spec]\n"				\
-@@ -93,12 +104,28 @@ int __noreturn __put_user_bad(void);
- 		"2:\n"							\
- 		EX_TABLE_UA_STORE(0b, 2b, %[rc])			\
- 		EX_TABLE_UA_STORE(1b, 2b, %[rc])			\
--		: [rc] "=&d" (__rc), [_to] "+Q" (*(to))			\
-+		: [rc] "=&d" (rc), [_to] "+Q" (*(to))			\
- 		: [_size] "d" (size), [_from] "Q" (*(from)),		\
- 		  [spec] "d" (__oac_spec.val)				\
- 		: "cc", "0");						\
--	__rc;								\
--})
-+	return rc;							\
-+}									\
-+									\
-+static __always_inline int						\
-+__put_user_##type(unsigned type __user *to, unsigned type *from,	\
-+		  unsigned long size)					\
-+{									\
-+	int rc;								\
-+									\
-+	rc = __put_user_##type##_noinstr(to, from, size);		\
-+	instrument_put_user(*from, to, size);				\
-+	return rc;							\
-+}
-+
-+DEFINE_PUT_USER(char);
-+DEFINE_PUT_USER(short);
-+DEFINE_PUT_USER(int);
-+DEFINE_PUT_USER(long);
- 
- static __always_inline int __put_user_fn(void *x, void __user *ptr, unsigned long size)
- {
-@@ -106,24 +133,24 @@ static __always_inline int __put_user_fn(void *x, void __user *ptr, unsigned lon
- 
- 	switch (size) {
- 	case 1:
--		rc = __put_user_asm((unsigned char __user *)ptr,
--				    (unsigned char *)x,
--				    size);
-+		rc = __put_user_char((unsigned char __user *)ptr,
-+				     (unsigned char *)x,
-+				     size);
- 		break;
- 	case 2:
--		rc = __put_user_asm((unsigned short __user *)ptr,
--				    (unsigned short *)x,
--				    size);
-+		rc = __put_user_short((unsigned short __user *)ptr,
-+				      (unsigned short *)x,
-+				      size);
- 		break;
- 	case 4:
--		rc = __put_user_asm((unsigned int __user *)ptr,
-+		rc = __put_user_int((unsigned int __user *)ptr,
- 				    (unsigned int *)x,
- 				    size);
- 		break;
- 	case 8:
--		rc = __put_user_asm((unsigned long __user *)ptr,
--				    (unsigned long *)x,
--				    size);
-+		rc = __put_user_long((unsigned long __user *)ptr,
-+				     (unsigned long *)x,
-+				     size);
- 		break;
- 	default:
- 		__put_user_bad();
-@@ -134,13 +161,17 @@ static __always_inline int __put_user_fn(void *x, void __user *ptr, unsigned lon
- 
- int __noreturn __get_user_bad(void);
- 
--#define __get_user_asm(to, from, size)					\
--({									\
-+#define DEFINE_GET_USER(type)						\
-+static get_put_user_noinstr_attributes int				\
-+__get_user_##type##_noinstr(unsigned type *to,				\
-+			    unsigned type __user *from,			\
-+			    unsigned long size)				\
-+{									\
- 	union oac __oac_spec = {					\
- 		.oac2.as = PSW_BITS_AS_SECONDARY,			\
- 		.oac2.a = 1,						\
- 	};								\
--	int __rc;							\
-+	int rc;								\
- 									\
- 	asm volatile(							\
- 		"	lr	0,%[spec]\n"				\
-@@ -149,13 +180,29 @@ int __noreturn __get_user_bad(void);
- 		"2:\n"							\
- 		EX_TABLE_UA_LOAD_MEM(0b, 2b, %[rc], %[_to], %[_ksize])	\
- 		EX_TABLE_UA_LOAD_MEM(1b, 2b, %[rc], %[_to], %[_ksize])	\
--		: [rc] "=&d" (__rc), "=Q" (*(to))			\
-+		: [rc] "=&d" (rc), "=Q" (*(to))				\
- 		: [_size] "d" (size), [_from] "Q" (*(from)),		\
- 		  [spec] "d" (__oac_spec.val), [_to] "a" (to),		\
- 		  [_ksize] "K" (size)					\
- 		: "cc", "0");						\
--	__rc;								\
--})
-+	return rc;							\
-+}									\
-+									\
-+static __always_inline int						\
-+__get_user_##type(unsigned type *to, unsigned type __user *from,	\
-+		  unsigned long size)					\
-+{									\
-+	int rc;								\
-+									\
-+	rc = __get_user_##type##_noinstr(to, from, size);		\
-+	instrument_get_user(*to);					\
-+	return rc;							\
-+}
-+
-+DEFINE_GET_USER(char);
-+DEFINE_GET_USER(short);
-+DEFINE_GET_USER(int);
-+DEFINE_GET_USER(long);
- 
- static __always_inline int __get_user_fn(void *x, const void __user *ptr, unsigned long size)
- {
-@@ -163,24 +210,24 @@ static __always_inline int __get_user_fn(void *x, const void __user *ptr, unsign
- 
- 	switch (size) {
- 	case 1:
--		rc = __get_user_asm((unsigned char *)x,
--				    (unsigned char __user *)ptr,
--				    size);
-+		rc = __get_user_char((unsigned char *)x,
-+				     (unsigned char __user *)ptr,
-+				     size);
- 		break;
- 	case 2:
--		rc = __get_user_asm((unsigned short *)x,
--				    (unsigned short __user *)ptr,
--				    size);
-+		rc = __get_user_short((unsigned short *)x,
-+				      (unsigned short __user *)ptr,
-+				      size);
- 		break;
- 	case 4:
--		rc = __get_user_asm((unsigned int *)x,
-+		rc = __get_user_int((unsigned int *)x,
- 				    (unsigned int __user *)ptr,
- 				    size);
- 		break;
- 	case 8:
--		rc = __get_user_asm((unsigned long *)x,
--				    (unsigned long __user *)ptr,
--				    size);
-+		rc = __get_user_long((unsigned long *)x,
-+				     (unsigned long __user *)ptr,
-+				     size);
- 		break;
- 	default:
- 		__get_user_bad();
 -- 
 2.45.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240619154530.163232-34-iii%40linux.ibm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240619154530.163232-35-iii%40linux.ibm.com.
