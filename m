@@ -1,120 +1,120 @@
-Return-Path: <kasan-dev+bncBCT4XGV33UIBBPX5ZWZQMGQEGG2FVWA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT4XGV33UIBBQH5ZWZQMGQE6EFUHJI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oi1-x239.google.com (mail-oi1-x239.google.com [IPv6:2607:f8b0:4864:20::239])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D8D590FA99
-	for <lists+kasan-dev@lfdr.de>; Thu, 20 Jun 2024 02:58:40 +0200 (CEST)
-Received: by mail-oi1-x239.google.com with SMTP id 5614622812f47-3d2228a495asf303170b6e.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 17:58:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1718845119; cv=pass;
+Received: from mail-pj1-x103d.google.com (mail-pj1-x103d.google.com [IPv6:2607:f8b0:4864:20::103d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C0390FA9A
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 Jun 2024 02:58:42 +0200 (CEST)
+Received: by mail-pj1-x103d.google.com with SMTP id 98e67ed59e1d1-2c72171fd6esf438420a91.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 17:58:42 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1718845120; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WYvjoOyf6w7KQQW8IYriYfFkGuPm3WWs0Iwhp+pFv6KJbXstJs1gj4e58fvB6V3csQ
-         R3+yvEMzJ3iNfRJ+m8CaTtqg0VuUAB4AXfxlmvyRCXzv6lnkMnKrLCDmJwbGpgtZ1EIF
-         CZdImLSbdtzzBuakYekVHJcYii08dvIsr8EM6VnttBcsJITjkmTeN3ySICovZRkna8rg
-         d0qSaFU6C7YqneyB8qiL0CRYzE7CqI9OPFjGf/j/4cMc8OcVZQ+g6QcIslVVaysdBZj8
-         C5JRofaENrDigC/I2JS2gR1gOAA8XvsshJoYqsIt0bqGineia08Tf2UBhZ/5psWo8NoX
-         YuEQ==
+        b=SfXriuzCh8n63izHzhLci2oh3nbjsGJ5P5Q0sAGoSFT0WkPEy1Mb3sZtzunBpIfUBt
+         Gu6EtV3XRnPzSEkCoucR48tvWh37bNf55d4+HuF+APxb/uNKVKLDhxC287O+ggabhQGV
+         bh5hqxVeZCAyXL8n5KP+70UZb8WPa0VQ7c1Q72csJyj6lXvulpkBDcbIHblMWvi5qGZg
+         AQckc5mQKmo1CPpNZxVrQH2tUI1FwWZyNHmd9aUc5Bvo8V/wYLNPRu/8hGmq3k3a5mUj
+         3RDtnlsp221kHvffbSl+5YDz3ozw6PDIUyY6YaImHP5HOsG8ryl3AIaWdlZCRsmFlwc9
+         rW9w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:message-id:subject:from:to:date
          :mime-version:sender:dkim-signature;
-        bh=X2Y5I77wR+f9uSIus25Nr7PkwYCoSod24ZUyWnqJwBA=;
-        fh=DR9KKU1epCq5EY9xG8aJieEq63dIkLt2MTbfZ7HW8FQ=;
-        b=fjXnC8uUXXFMBnELtq6BpET3w8VhzN4kF/qvMNAlmx7At3PYFUlD+jgJARSM1edk4h
-         sKE2q2i9dwV1ceX1IUh2hKhDjJsap2XClcbZEJC7f1Vhw24KTHt8sHjIiT+SkxzZM3qv
-         MGJF5IpSr9XaGix+7mddmu/f4LnWD0HNuHpcqGCxcH8YXYfE1QKuvMxYNWR/P4ptaXkL
-         BhYmfixWZ6Vnt8iIIzpv/PnuuGJXxLB18DGNvYIBhFjrwO+PKdEZEkv3Gl6vqIz4sAux
-         jbwZS26t2/ynhMJ0l83Ym/zQign2mJesrqt8OF20Ce6gsrQsvD5GCy8Y1Bll27dbNYjP
-         yZDg==;
+        bh=CxX62HibVJH5owtLTWXtgiRdZbX2pzEI+BDOAga7PPg=;
+        fh=Riw0s8z0foF3adYCh6IV/4BlKWaDKAZXjj8BBereXYg=;
+        b=NoEWqdv+pq5aAxUV0xoUJeJtyuRir2GuLXtqDtdMphFrseLHexTOPQztI53LlGxj61
+         8jusPGYqQJsiDi63XnQNCGuGu5KriKGBDAVYjscUojveh4OXQC3TBend7yuzavAMTlgn
+         pZmQ7fRorF5n6AMC9JSZ5At2wBiNrBZnGDOYxhGYnEeh0TLlbx0kmja2omKzxytAWEIN
+         T5psUmCeKB8BdBOpUgzx8KeIgdBTnATIwYfbhRQoNUywx55t48JIYmqDvcUUp6AnixTI
+         Sj2xakSYnf39rXp1JEDzkD5fNTHR19+YM+CVvB3PDZFQ/TL/6Rnnw27FtBQy6HMcN6mo
+         N0Sw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=Ecq+QRmX;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 145.40.73.55 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=u2fXjLcC;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1718845119; x=1719449919; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1718845120; x=1719449920; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:message-id:subject:from:to:date:mime-version
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=X2Y5I77wR+f9uSIus25Nr7PkwYCoSod24ZUyWnqJwBA=;
-        b=mfoMYSs3tss6g5DehtdndRmdX/vmJbJHCpmf1EbEjCIe0x97jyIxQ83GLtqTdFfLGx
-         NoeOPgECvhR6AdrhriECtIwfoz6KQk6CI8m8rJYDWHtUBcAc5j5VJXC4dJDCqJNIk6sk
-         ZtoxwUsxrvOlSXrfdcRzYyzGq2NIdlHjJ2dY+FSKI7Ud7u4Ik0kRI00tS/yEP0iWizW+
-         JoGC5a+7355Xw3K+MhWcHPute1IIO5yU6hiEklfVcMSB5cddc21KOWibshJpiBr9SFBn
-         uHKROTIM2w9Dq6c3MEBUqfVdEzeYuAd0X0K18ko2ga3o6FnCo4dOBpCS+n9jkR+G8RZF
-         +TSw==
+        bh=CxX62HibVJH5owtLTWXtgiRdZbX2pzEI+BDOAga7PPg=;
+        b=ff7vUppLA0OLUbyMYtBdFgWF35+m7P5JbeGqAurXcy+Tu1seAQf/niT4xgfCLbhXjn
+         rrtM7Cf+L4zi802UHy6dTK+HVjzVMWWHAk2nG5fWbqr9F29g+nvpNHIyINk7zENmNmc3
+         3Z/Y4IXmWDhcc+/4mPTojz4yg7GqxFgIi7bEPlJAbSwS3NY3voz3OISqP9FXCHFWmyz+
+         V88NzmKsKQTjibS6mOU+PoeosS4xg4dPf4HS74xjZTvhqEVF8qwAwtpcL2Lc4BtUpmUA
+         UfkHtxEvcXCXoQbNl8y8L590fXhGchWwsCAkL0VRinTL9qOq1CaBkFqZ2GlzlgLHPyVF
+         rOuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718845119; x=1719449919;
+        d=1e100.net; s=20230601; t=1718845120; x=1719449920;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:message-id
          :subject:from:to:date:x-beenthere:mime-version:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=X2Y5I77wR+f9uSIus25Nr7PkwYCoSod24ZUyWnqJwBA=;
-        b=dz6qIWLJtAOq99AhPMoFzC5uDsMvqMePW3Yx/4A6Ni480OMYdbigazJHxbNi2HTRYg
-         eVoYj8NiM+Ipzm0FDwtObDk0WA2zJMsKHza2VGO26zzoXbMB+9MeLPzxwl8VUqNo74Df
-         fSq2bRhHvUPfmVHmD9+TJkZZf2ecokf+CX8De6jPLj/bFfkzanlWdo25CFskI5xDYVRJ
-         OcFxkP2evtLAW1dZbrG8rJaYCjeLpRZ4Jx8o+bYVn9kGf2OJYiqed1mWig5AAtlgWIzd
-         +WdV8fzpMNi1SK+6lrCsPpfA5UVjjMpjQiEW2recGyrEK20bRKcFKcAUWGLsOW6C34zi
-         j3lA==
+        bh=CxX62HibVJH5owtLTWXtgiRdZbX2pzEI+BDOAga7PPg=;
+        b=F3RnsVDaTLyEPjE4gkBGXGjBVqEGhaeBOPG/hYD8y7uoFh9Q4viIbCX/Tvf/06tX+u
+         XM4BmWITdshMFqQelBiT5qDpu8EScnwIno699YBpqCOUlvYJgWgK8CXizoXIZzCEVrI9
+         /sd3hxPSs3tTLuHltHazjWa3BD+Jk1OYV4KZ4xjkJtpeRmw0y1Z42m4AYh0oV9GHsv+C
+         DzmE7LqSNSwErx3fzhJg5q2vwhOU6N3XLq2cKm4PH/cUir7SBL0uSxI+qLz5feky6krj
+         TwH+gB+CddV3opKKVk0rZsXe5R9jvWD9yMHPMR2CHa+lmOt9BWMW/6oLGpQJfeKuJ6fv
+         ExUA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVXmuzX70oosHVLw7LzVBxoOEK7YEOK3jtg121DvEuvyvm912n/480aOudCm2Yeeb7rXLh7irLt/wv3bVKaHJQnwrOVmuI72Q==
-X-Gm-Message-State: AOJu0YyBnGi6QBXkkBxJzGuealAK+J4r78T7Wds8aPKHPypMamOttu4C
-	vcP1gbmTPHmArkB+emghPPbe+5etxzSi24owK79uuy3owRwQdGHO
-X-Google-Smtp-Source: AGHT+IHQ/05reOsNOuyipB0DpyF4eJrwbMYE//ds0NYbdgHtnL1ks1YeW1C6/YfG91JmWhVSiDm/fg==
-X-Received: by 2002:a05:6870:c1cb:b0:24f:d159:ea2 with SMTP id 586e51a60fabf-25c949ffaedmr3992434fac.28.1718845118956;
-        Wed, 19 Jun 2024 17:58:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXSw5f9i+mYyEx5LFPGftt6i+ZTJm4O0M/kB/5cwV38QHZO/hAHTIuB121OXoxgQRNSmjRDznS8WE2pjEQ4p+JgcKzMGlVgBw==
+X-Gm-Message-State: AOJu0YzIPm0lN8afd3nRBOJNUAuu9T9CTLESZqtL5A/rDICUf+9YMHxz
+	ISFYkdfpd1imwZ1isFUkuw7i3ABYzw3RVKDlIZEbs5BnHEp7QMJe
+X-Google-Smtp-Source: AGHT+IHPwdBn/ptsOybtIjeP8bwVJZ0fNqBxrsn7AgC5QZZQ/J27L2vwEKH0eimbJmeJCQhBEh5SUw==
+X-Received: by 2002:a17:90b:386:b0:2c2:cfd1:768b with SMTP id 98e67ed59e1d1-2c7b5af953dmr3949140a91.12.1718845120458;
+        Wed, 19 Jun 2024 17:58:40 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6871:418f:b0:25c:a475:98e6 with SMTP id
- 586e51a60fabf-25cb5ed50d6ls408322fac.1.-pod-prod-02-us; Wed, 19 Jun 2024
- 17:58:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVeQRqOMFseSyyeaCUmXDNpeg+kNU8Bzspz/SsB1ueJRQ9gMcXLM1YEJaLGMDXegBfJ+RJwcSNY5q47gTlPqoLsZJ8jLt/uT4fYHA==
-X-Received: by 2002:a05:6870:1653:b0:254:75b9:b212 with SMTP id 586e51a60fabf-25c94d72262mr4224338fac.55.1718845117199;
-        Wed, 19 Jun 2024 17:58:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1718845117; cv=none;
+Received: by 2002:a17:90b:364c:b0:2bd:e914:8fe1 with SMTP id
+ 98e67ed59e1d1-2c7dfbe9ed0ls196189a91.0.-pod-prod-04-us; Wed, 19 Jun 2024
+ 17:58:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXws5ozvSjZ2iaCKMX6qtjBzilaRzuLkTom8QL+6mwjj3z6YAm9YzoyNXkfy7gzZnRLsXGwyjvelrALJZKA8BW4dJ/jfxwmtPivvg==
+X-Received: by 2002:a05:6a20:12d2:b0:1b8:2211:b7dd with SMTP id adf61e73a8af0-1bcbb5c48ecmr4872906637.30.1718845119137;
+        Wed, 19 Jun 2024 17:58:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1718845119; cv=none;
         d=google.com; s=arc-20160816;
-        b=sUIRhgst6lTwlExPN2vDFjzMGY/GofkEAuwcWgFPHZe9p4VgDCxbneXCB14webGhc8
-         ORWktHxMKb5+9JgTPYaMK5ob1N4acUAVsGo47m4JMpeSLev7O91TNePKXjYaxDETM9y+
-         Ofv86+VvtmSK3UPiF7fSVV2n9xuszJYuRUDy1dTnYuB7GpDP73Z9IOL5MseeI2diqKDd
-         rTG59R84LTojIUp7ETYJ+GgOt2I8zREdkykhPeTmE9kQj89oblKO2ARIy1rYHNxUQGzh
-         SJrYjuElu4LewslUZsRuFCazoJGyU7aS36MSjr2ErGL6n1WPiy/NPbG6xWI13ZigqB6n
-         1nsA==
+        b=ACNkv2doEW9PfDm8S7gQcUExGErNEI0KxVWWIV6masKm/Meyxy42keuINSO4Gkev4w
+         dNCg4zD5pbNThv4W99DQZPbJJLIfiikD5tPyDe4fXxAcqUYBkkBGcnUCUk+Iu0EXpsEv
+         wMHQoHID8R+QtvhBg8NYVPpRf99HgiO1oO/k+wbn/C65L1W7G+PwkLEVClYnZ7tbPmQk
+         h4cbi9md1dZ4NypyyOPxv1EUHMxMPi5Qx0HQ5YIASt+ifviHLaQhBaIHKSx4LHDtlBE2
+         5PbMDQ4xF6H5IQvyJTMTPcPr7aOm2EF/Oqura47sB//XZV43QpzmW5w33OrhdKWxEpQO
+         SGFQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=message-id:subject:from:to:date:dkim-signature;
-        bh=DUD/loRM4P0ggE3YUHDMm2d1hkcH93eMzKyqg5c5f/w=;
+        bh=1Zy+q4U8Er9JMNrbydgUAFHJP1hcJg3hA8R8OPk0fl8=;
         fh=YLJcVBHySIoH6a7eXFb8EZw2NzFQuSbk32Vvne46C7E=;
-        b=mmLDU+Sbrzk2D2vUH1cmuZ+ZyAr3wG7S3+dAwCMoinDnHXb1+oSp5PIk/0aNMZpw86
-         DAKF+Xa5RYZ4M/hKItTumLj5PnV6AmnVbINUj7nfjIEYGEiAtGBKf5PEPCS0+VKMr7Dn
-         bOKuQo0q/fzvmmDSmLJ0Zg1JfDv5OINo8lhGFgLxjOAIcs/hXWyO5zm+9nnlN+ksiDqH
-         Oux/S0qmP7WcRr6lKHN7jNc9xFwsl762/YT8aWSgs5600NNlkNt24HkWpATA1LAR7Tx8
-         qz6gXQISzPuk885i2ESMONwJ3khbC7SirktsLXpmEOPPOdOWTxJfxospczoO+H96Z8tE
-         iXxg==;
+        b=tLqXZPANLzDETyIgDZdx2IJDwY9262k7F9uyM3fzrpElzs5LTEjocP3lzrlpuc/O1a
+         c5n42hV+FU9bBJKCWSpDnhVJ6NrdvGt87Xf3NNxvFO5S/SXB7irgeTUHe3zEXdSZKFsP
+         uMrifrRIN+ohkIa+F0DjIcaiJC/fxR9HAk8nmqLc0Pqk0x2E+OI4NDCv85V/pCS9miS5
+         jjiDcOWVs+vJV3HQy7EolQwaheABmE2ATRuc5NhdYoECc9nOxiFTE7Bcnc8OHcnyFEH2
+         N/lePz10kjHPOd4PgiF9Ado6c2AkaVVaEFDC0CK7gfOGx4MsGEovlGUbRnxsMeAZKeeq
+         40qA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=Ecq+QRmX;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 145.40.73.55 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
-Received: from sin.source.kernel.org (sin.source.kernel.org. [145.40.73.55])
-        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-2598b0dacb9si205260fac.3.2024.06.19.17.58.36
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=u2fXjLcC;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-6fee4affcfbsi264518a12.4.2024.06.19.17.58.39
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 17:58:37 -0700 (PDT)
-Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 145.40.73.55 as permitted sender) client-ip=145.40.73.55;
+        Wed, 19 Jun 2024 17:58:39 -0700 (PDT)
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id AEC87CE22D7;
-	Thu, 20 Jun 2024 00:58:34 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F182AC2BBFC;
-	Thu, 20 Jun 2024 00:58:33 +0000 (UTC)
-Date: Wed, 19 Jun 2024 17:58:33 -0700
+	by dfw.source.kernel.org (Postfix) with ESMTP id 84D3562023;
+	Thu, 20 Jun 2024 00:58:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26F49C2BBFC;
+	Thu, 20 Jun 2024 00:58:38 +0000 (UTC)
+Date: Wed, 19 Jun 2024 17:58:37 -0700
 To: mm-commits@vger.kernel.org,vbabka@suse.cz,svens@linux.ibm.com,rostedt@goodmis.org,roman.gushchin@linux.dev,rientjes@google.com,penberg@kernel.org,mhiramat@kernel.org,mark.rutland@arm.com,kasan-dev@googlegroups.com,iamjoonsoo.kim@lge.com,hca@linux.ibm.com,gor@linux.ibm.com,glider@google.com,elver@google.com,dvyukov@google.com,cl@linux.com,borntraeger@linux.ibm.com,agordeev@linux.ibm.com,42.hyeyoo@gmail.com,iii@linux.ibm.com,akpm@linux-foundation.org
 From: Andrew Morton <akpm@linux-foundation.org>
-Subject: + kmsan-allow-disabling-kmsan-checks-for-the-current-task.patch added to mm-unstable branch
-Message-Id: <20240620005833.F182AC2BBFC@smtp.kernel.org>
+Subject: + kmsan-introduce-memset_no_sanitize_memory.patch added to mm-unstable branch
+Message-Id: <20240620005838.26F49C2BBFC@smtp.kernel.org>
 X-Original-Sender: akpm@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=korg header.b=Ecq+QRmX;
+ header.i=@linux-foundation.org header.s=korg header.b=u2fXjLcC;
        spf=pass (google.com: domain of akpm@linux-foundation.org designates
- 145.40.73.55 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+ 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -130,12 +130,12 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 The patch titled
-     Subject: kmsan: allow disabling KMSAN checks for the current task
+     Subject: kmsan: introduce memset_no_sanitize_memory()
 has been added to the -mm mm-unstable branch.  Its filename is
-     kmsan-allow-disabling-kmsan-checks-for-the-current-task.patch
+     kmsan-introduce-memset_no_sanitize_memory.patch
 
 This patch will shortly appear at
-     https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/kmsan-allow-disabling-kmsan-checks-for-the-current-task.patch
+     https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/kmsan-introduce-memset_no_sanitize_memory.patch
 
 This patch will later appear in the mm-unstable branch at
     git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
@@ -154,20 +154,16 @@ and is updated there every 2-3 working days
 
 ------------------------------------------------------
 From: Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: kmsan: allow disabling KMSAN checks for the current task
-Date: Wed, 19 Jun 2024 17:43:46 +0200
+Subject: kmsan: introduce memset_no_sanitize_memory()
+Date: Wed, 19 Jun 2024 17:43:47 +0200
 
-Like for KASAN, it's useful to temporarily disable KMSAN checks around,
-e.g., redzone accesses.  Introduce kmsan_disable_current() and
-kmsan_enable_current(), which are similar to their KASAN counterparts.
+Add a wrapper for memset() that prevents unpoisoning.  This is useful for
+filling memory allocator redzones.
 
-Make them reentrant in order to handle memory allocations in interrupt
-context.  Repurpose the allow_reporting field for this.
-
-Link: https://lkml.kernel.org/r/20240619154530.163232-12-iii@linux.ibm.com
+Link: https://lkml.kernel.org/r/20240619154530.163232-13-iii@linux.ibm.com
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Reviewed-by: Alexander Potapenko <glider@google.com>
 Cc: Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: Alexander Potapenko <glider@google.com>
 Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
 Cc: Christoph Lameter <cl@linux.com>
 Cc: David Rientjes <rientjes@google.com>
@@ -188,183 +184,38 @@ Cc: Vlastimil Babka <vbabka@suse.cz>
 Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 ---
 
- Documentation/dev-tools/kmsan.rst |   11 +++++++++--
- include/linux/kmsan.h             |   24 ++++++++++++++++++++++++
- include/linux/kmsan_types.h       |    2 +-
- mm/kmsan/core.c                   |    1 -
- mm/kmsan/hooks.c                  |   18 +++++++++++++++---
- mm/kmsan/report.c                 |    7 ++++---
- tools/objtool/check.c             |    2 ++
- 7 files changed, 55 insertions(+), 10 deletions(-)
+ include/linux/kmsan.h |   13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
---- a/Documentation/dev-tools/kmsan.rst~kmsan-allow-disabling-kmsan-checks-for-the-current-task
-+++ a/Documentation/dev-tools/kmsan.rst
-@@ -110,6 +110,13 @@ in the Makefile. Think of this as applyi
- function in the file or directory. Most users won't need KMSAN_SANITIZE, unless
- their code gets broken by KMSAN (e.g. runs at early boot time).
- 
-+KMSAN checks can also be temporarily disabled for the current task using
-+``kmsan_disable_current()`` and ``kmsan_enable_current()`` calls. Each
-+``kmsan_enable_current()`` call must be preceded by a
-+``kmsan_disable_current()`` call; these call pairs may be nested. One needs to
-+be careful with these calls, keeping the regions short and preferring other
-+ways to disable instrumentation, where possible.
-+
- Support
- =======
- 
-@@ -338,11 +345,11 @@ Per-task KMSAN state
- ~~~~~~~~~~~~~~~~~~~~
- 
- Every task_struct has an associated KMSAN task state that holds the KMSAN
--context (see above) and a per-task flag disallowing KMSAN reports::
-+context (see above) and a per-task counter disallowing KMSAN reports::
- 
-   struct kmsan_context {
-     ...
--    bool allow_reporting;
-+    unsigned int depth;
-     struct kmsan_context_state cstate;
-     ...
-   }
---- a/include/linux/kmsan.h~kmsan-allow-disabling-kmsan-checks-for-the-current-task
+--- a/include/linux/kmsan.h~kmsan-introduce-memset_no_sanitize_memory
 +++ a/include/linux/kmsan.h
-@@ -239,6 +239,22 @@ void kmsan_unpoison_entry_regs(const str
+@@ -255,6 +255,14 @@ void kmsan_enable_current(void);
   */
- void *kmsan_get_metadata(void *addr, bool is_origin);
+ void kmsan_disable_current(void);
  
 +/*
-+ * kmsan_enable_current(): Enable KMSAN for the current task.
-+ *
-+ * Each kmsan_enable_current() current call must be preceded by a
-+ * kmsan_disable_current() call. These call pairs may be nested.
++ * memset_no_sanitize_memory(): memset() without KMSAN instrumentation.
 + */
-+void kmsan_enable_current(void);
-+
-+/*
-+ * kmsan_disable_current(): Disable KMSAN for the current task.
-+ *
-+ * Each kmsan_disable_current() current call must be followed by a
-+ * kmsan_enable_current() call. These call pairs may be nested.
-+ */
-+void kmsan_disable_current(void);
++static inline void *memset_no_sanitize_memory(void *s, int c, size_t n)
++{
++	return __memset(s, c, n);
++}
 +
  #else
  
  static inline void kmsan_init_shadow(void)
-@@ -338,6 +354,14 @@ static inline void kmsan_unpoison_entry_
+@@ -362,6 +370,11 @@ static inline void kmsan_disable_current
  {
  }
  
-+static inline void kmsan_enable_current(void)
++static inline void *memset_no_sanitize_memory(void *s, int c, size_t n)
 +{
-+}
-+
-+static inline void kmsan_disable_current(void)
-+{
++	return memset(s, c, n);
 +}
 +
  #endif
  
  #endif /* _LINUX_KMSAN_H */
---- a/include/linux/kmsan_types.h~kmsan-allow-disabling-kmsan-checks-for-the-current-task
-+++ a/include/linux/kmsan_types.h
-@@ -31,7 +31,7 @@ struct kmsan_context_state {
- struct kmsan_ctx {
- 	struct kmsan_context_state cstate;
- 	int kmsan_in_runtime;
--	bool allow_reporting;
-+	unsigned int depth;
- };
- 
- #endif /* _LINUX_KMSAN_TYPES_H */
---- a/mm/kmsan/core.c~kmsan-allow-disabling-kmsan-checks-for-the-current-task
-+++ a/mm/kmsan/core.c
-@@ -43,7 +43,6 @@ void kmsan_internal_task_create(struct t
- 	struct thread_info *info = current_thread_info();
- 
- 	__memset(ctx, 0, sizeof(*ctx));
--	ctx->allow_reporting = true;
- 	kmsan_internal_unpoison_memory(info, sizeof(*info), false);
- }
- 
---- a/mm/kmsan/hooks.c~kmsan-allow-disabling-kmsan-checks-for-the-current-task
-+++ a/mm/kmsan/hooks.c
-@@ -39,12 +39,10 @@ void kmsan_task_create(struct task_struc
- 
- void kmsan_task_exit(struct task_struct *task)
- {
--	struct kmsan_ctx *ctx = &task->kmsan_ctx;
--
- 	if (!kmsan_enabled || kmsan_in_runtime())
- 		return;
- 
--	ctx->allow_reporting = false;
-+	kmsan_disable_current();
- }
- 
- void kmsan_slab_alloc(struct kmem_cache *s, void *object, gfp_t flags)
-@@ -424,3 +422,17 @@ void kmsan_check_memory(const void *addr
- 					   REASON_ANY);
- }
- EXPORT_SYMBOL(kmsan_check_memory);
-+
-+void kmsan_enable_current(void)
-+{
-+	KMSAN_WARN_ON(current->kmsan_ctx.depth == 0);
-+	current->kmsan_ctx.depth--;
-+}
-+EXPORT_SYMBOL(kmsan_enable_current);
-+
-+void kmsan_disable_current(void)
-+{
-+	current->kmsan_ctx.depth++;
-+	KMSAN_WARN_ON(current->kmsan_ctx.depth == 0);
-+}
-+EXPORT_SYMBOL(kmsan_disable_current);
---- a/mm/kmsan/report.c~kmsan-allow-disabling-kmsan-checks-for-the-current-task
-+++ a/mm/kmsan/report.c
-@@ -8,6 +8,7 @@
-  */
- 
- #include <linux/console.h>
-+#include <linux/kmsan.h>
- #include <linux/moduleparam.h>
- #include <linux/stackdepot.h>
- #include <linux/stacktrace.h>
-@@ -158,12 +159,12 @@ void kmsan_report(depot_stack_handle_t o
- 
- 	if (!kmsan_enabled)
- 		return;
--	if (!current->kmsan_ctx.allow_reporting)
-+	if (current->kmsan_ctx.depth)
- 		return;
- 	if (!origin)
- 		return;
- 
--	current->kmsan_ctx.allow_reporting = false;
-+	kmsan_disable_current();
- 	ua_flags = user_access_save();
- 	raw_spin_lock(&kmsan_report_lock);
- 	pr_err("=====================================================\n");
-@@ -216,5 +217,5 @@ void kmsan_report(depot_stack_handle_t o
- 	if (panic_on_kmsan)
- 		panic("kmsan.panic set ...\n");
- 	user_access_restore(ua_flags);
--	current->kmsan_ctx.allow_reporting = true;
-+	kmsan_enable_current();
- }
---- a/tools/objtool/check.c~kmsan-allow-disabling-kmsan-checks-for-the-current-task
-+++ a/tools/objtool/check.c
-@@ -1202,6 +1202,8 @@ static const char *uaccess_safe_builtin[
- 	"__sanitizer_cov_trace_switch",
- 	/* KMSAN */
- 	"kmsan_copy_to_user",
-+	"kmsan_disable_current",
-+	"kmsan_enable_current",
- 	"kmsan_report",
- 	"kmsan_unpoison_entry_regs",
- 	"kmsan_unpoison_memory",
 _
 
 Patches currently in -mm which might be from iii@linux.ibm.com are
@@ -410,4 +261,4 @@ kmsan-enable-on-s390.patch
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240620005833.F182AC2BBFC%40smtp.kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240620005838.26F49C2BBFC%40smtp.kernel.org.
