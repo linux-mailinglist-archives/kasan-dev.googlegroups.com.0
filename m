@@ -1,120 +1,120 @@
-Return-Path: <kasan-dev+bncBCT4XGV33UIBBLH5ZWZQMGQEEOMAAIA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT4XGV33UIBBK75ZWZQMGQEZWU3Y4I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63f.google.com (mail-pl1-x63f.google.com [IPv6:2607:f8b0:4864:20::63f])
-	by mail.lfdr.de (Postfix) with ESMTPS id F198890FA91
-	for <lists+kasan-dev@lfdr.de>; Thu, 20 Jun 2024 02:58:21 +0200 (CEST)
-Received: by mail-pl1-x63f.google.com with SMTP id d9443c01a7336-1ed969a5e4asf1176175ad.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 17:58:21 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1718845100; cv=pass;
+Received: from mail-qt1-x83d.google.com (mail-qt1-x83d.google.com [IPv6:2607:f8b0:4864:20::83d])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E7D90FA90
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 Jun 2024 02:58:20 +0200 (CEST)
+Received: by mail-qt1-x83d.google.com with SMTP id d75a77b69052e-4405e3b3b78sf647051cf.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 17:58:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1718845099; cv=pass;
         d=google.com; s=arc-20160816;
-        b=SCIOHYNmw3WR91Sy/fNysfM/1jTURQPaRxBpF+v3JklVmud7j/2Wt//yrzbLez01Tu
-         geFzdslehKt011d2gN3hA4aVPTQYiP4ic64s5ToC+riiDzpDbf8OjTVtrSDIPbSuyVaQ
-         3epQq0oRGEtg1HcAFfqmCcuva0oKGLl7+EBNdJwKQMs6ecB19Y5Z0MDbWsaDDTOzRjj4
-         0fE5LpIpU+dMctL63EMmtYezOeyyUMXNeegX6+WTj55WotyIsqciIFgBK4d3L6wBaSUl
-         ivstSYgZ9L3QtTA4ix3oVYqotaML+hw4PwA7PwKSRjTqbHK7Bfutj4vLqencJi6RQ2Ss
-         MdSQ==
+        b=nvmtk9CaM+ju5Ylmaxlj9kgTUSjvr5cvflrDreFrLwtjJuXAlH97LU6xxynzCoO1jt
+         6kQWtkBglMeL1AVKT89iDqnEgiGVqTIke7Mfka7xG8565BobEdOzDr+D7PW9Yve6iiUJ
+         K/jq0xE7yPoCOnTGhknI2I1y/geqPnrXRRi1AgFAK8JpzJQfzHSRXDuqdnahSfQdm79s
+         2XNtUchYBdaLlN3lErjQJlndsMpwmkNudiHm2VEfU6NVmPCF0AA5jD6c+JPat8xs/gKL
+         zBsIsAW3EJdDu1aDQ3xciJtkDOGtpzb/2xg601UbzSbMboMms9qml3PiOGwrIb5PGsXk
+         dkUA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:message-id:subject:from:to:date
          :mime-version:sender:dkim-signature;
-        bh=CGR6/bdUnhpybHDuiQsaRLHh464rpEPtfuYEHnmaS2M=;
-        fh=q8qj8lwJjMSoiLM97km+u8v/QHEGyRp5S0Ii9J/tfKg=;
-        b=B4GWXN0N9Z4P3RaHUQbYNFiPGPtrTGyUhMErRg/ic+c62q7bSOKsX+I5UV+NvPQnl2
-         +DeAAF7LEBsLiGD9Smm4ZkDuoERlrifRmHlh9C/wVtJOM8zzPNjs0AaTug+74gzXjWC3
-         l8NdWf8lrD3Ch/tPASj7MaH+102mXepcHmUip9llbvaLJDe0K+uFNyQFYb6fEeqAhJ1p
-         12GOP0vHw4LkTvEn3XZx3Euu+EQvjGbCmICGUczVBZzegU8+5wEMA+LSkCcM6vq2p5uc
-         VdLonQEm4Wo1+uh5XX6JzP3aDtZrDZVTj7Cm3KVrJLPTvhVhpUX6vND7Vit7YrvTpbMO
-         t66w==;
+        bh=wzanSOo2mHaGeXtru/nHCINWEGCaU0bkiH8TLGQt+zI=;
+        fh=omnH+TTyKo9lFeB39WUdQOo6TV2gT9m7/zAW8KAG7o8=;
+        b=tM4fHXCiUAPxZ4aNKrBekFFtvzRDBpw2QrdSr1g4KilOq0fWV0Pv/wQ6HoZ1a/wEdh
+         uys/VP420fqCLjQ8DbfU45XB6xfOfcylEwYEFAvtMAH9iuIxQmAUYSSFHeJFluv4dxt1
+         7IbyZdznbb3SdG9pbXWZyE/j8DQSWkHcOlQdlrwWgx9dZFn+0SyGOHwa6gPAulwgoqQz
+         k+ZUxhNEIbZXyD0KlpP6IElW7rFeuiHXox9Ce66Vb6yvmRx+Klyou4DW7OQSHjlIYrMN
+         t5uKK1yvypsMLT6uLGvXqNK2R0Pk8/tOZvRT2iFt1xhHXjIFOLEbYvFDcDZIWWOYT6t2
+         saBQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=E1fdHsjY;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=TUJ5UjQ3;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1718845100; x=1719449900; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1718845099; x=1719449899; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:message-id:subject:from:to:date:mime-version
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=CGR6/bdUnhpybHDuiQsaRLHh464rpEPtfuYEHnmaS2M=;
-        b=J7CjSyqKUh6I0WRxkqstDQBefWaLGlwKX8y9Y/YT0JGlshBquHV73M+efpzDBi4+KR
-         YXS9RknJrFAN6RQ7v/o1/FyyyVeIZq+JgFZSJ3nWOtyUFc7CC/fBTjN4T5JO7Jk9XSZ5
-         7KmKihXovyBHQR8igLU+vkNmqveJsaBocTaeP0GATlXUg/ShJkkBcgbzRla7Srz3J77o
-         zrvuYKzZw24pJ1sdDnj+H5nPxemw1JXJQxdBRijHq9VYI//mYi8VI0VS1XcSG5VQt2IS
-         wEjbFjmmCcx+6twrCL4Rz05AsV4kOeJz4vA/OW4G4Y1vjvw5Dq9N04tkC8rGkeJgHhWP
-         /wNg==
+        bh=wzanSOo2mHaGeXtru/nHCINWEGCaU0bkiH8TLGQt+zI=;
+        b=ETRH992XmOQB58cn24Jo8DyRvgSBAlgeUw9vECrih0DD0wdGZ0wQ1gc825IBGaJ/GZ
+         2q3bPM3YzbqlIpFp9cs1FTGf5aco2nm8In4LG/+RkGw5R9aKONEh7iMllAkZvJvfadYX
+         Wpv1nQtYkZpj1bMVGFV6qY1TRcpndjK+Y8MGnkqflkE8MAQZmmPk5+Fxnre9mY3559U4
+         vCAorcgj/voT6qzsKFRLie2DH33RfSmyhRlmpr0ZjlB1mY2mMso1WXp6x8q1fynDeon7
+         QUq+BYfMNq6qQ4LViaUHhbybNFD2AhevMaEtaUGXNnI9tShFk0fJ0zlWPU83r5uF+gnD
+         XvnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718845100; x=1719449900;
+        d=1e100.net; s=20230601; t=1718845099; x=1719449899;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:message-id
          :subject:from:to:date:x-beenthere:mime-version:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=CGR6/bdUnhpybHDuiQsaRLHh464rpEPtfuYEHnmaS2M=;
-        b=T9vxkHuq38SgP6YcBZSAXDQlXuu6mEspvkZDD2a4jHGLNG93sqUCV9hzOblCFPnxTH
-         JC6qkpKdYCC5Ol4ntGHc6s/1fF3FibIf0r8gtCZtTme7d7fBeSyVmvBQ3aWVuvdDQORO
-         42N5Y0jiExLpj8Y23ZQN7/1Zg7eyCnMEn2NNanipEKP3WE5+HxJZyApqzQ4E/HGMvfhn
-         9p2tIbvz3+I416ObfN1q88t5hIj11xq45iT+6I+3/mZAAhbOKShYGvggPzujNPmSlZgu
-         3lHz5O/Oy18i77kz2lnz3oP3TbkdTKREvp50EFpi76Ze1/cZ7eFqk7k89tWTuGFunaSy
-         lXSQ==
+        bh=wzanSOo2mHaGeXtru/nHCINWEGCaU0bkiH8TLGQt+zI=;
+        b=W7CotD8jvrEPNpk9byhM30lFtRWaTJ4madhvSc1btPnVvCzAMzvDQz2YLmTrbX/eoR
+         DMTqkJ3wg1mCMOYkykmgQME7DiClc6C2VFUP+uKgVQgbzsz1c2gfpO3jG6NqSFNViWFn
+         Q8bzzsJvpCCA+A0LADDrtbq3+cAD5fPi72ZxatJY7td2IdcYxbMa+skvdi2VjcAoHDB6
+         kpDjHJCR9aWffCI3uzV2GovnmJTCNl2vKYb9Z/MwkbDprZC1/t7kVEIpTeihczatTtLO
+         6cHU1g9Usy2pEAueWJ3qbi//RwKbhFFviQvt+4QjS6flis8TX+vewVPqOlNOZj6J3oWQ
+         tVkg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVwKRayFY/No1NCi8rMpvtLLXJRyyUPHFbju5sgOx1dUemzIAsluwHql4ieQ++tA6tLU0ToT6JmKr+Rq80INtJ0GC/onP3IHA==
-X-Gm-Message-State: AOJu0YyzJqMPjUD2UHjDGnGYof1xJDELUrYbaC4REeTfeE4+3WgcITj1
-	RZQg+jGr2mF43DwCM2KZ0qEY2EHt8EDFDW1rsugnSRkF76bL/cno
-X-Google-Smtp-Source: AGHT+IE7wrHx/13sISbtQ8l1gsxSPkd5yAmKsmzCZvnh2aLIkbFOeVxHLwgBZKkeROotY0P8sa6/LQ==
-X-Received: by 2002:a17:902:be06:b0:1f2:fefc:e8e7 with SMTP id d9443c01a7336-1f9abad39demr4466215ad.2.1718845100464;
-        Wed, 19 Jun 2024 17:58:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXd7lp+fhiFIg22BlNuP7ZZty4yDdkx8w6kWCNmK0fiLD0RRiDGIs6OAkiKOApW9pT7ZbD2QuqtUN2tqWPrimlnv7dh/QEIvA==
+X-Gm-Message-State: AOJu0Yxx8XE0LQLxEl254n4Fsrqti8ahNEDMQOy9d+AWeYkXfY/QiP1h
+	5OGCLicnUJ915f41E+/NoDFCtrpEg6GVgzbBIWuQ4u86O0gOjS7R
+X-Google-Smtp-Source: AGHT+IHqgT1KVggWUFOpXA0idoxUQAarYeYIJCDY6kPRpu16HBxXMzZ/WCD0UkUVdtz85C+GCoT4cQ==
+X-Received: by 2002:ac8:5808:0:b0:440:3996:84aa with SMTP id d75a77b69052e-444aa406154mr3837181cf.15.1718845099524;
+        Wed, 19 Jun 2024 17:58:19 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:bd8d:b0:2c7:dd7d:5edd with SMTP id
- 98e67ed59e1d1-2c7dff07fbfls220312a91.2.-pod-prod-05-us; Wed, 19 Jun 2024
- 17:58:19 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUkBffpw7NDO9erc7ACn3xkUYp/NsNO06uX64V/q0mCU5Wn8ijk6rGRA4mfdW68nYnRRO/RQv1YPZriBfwc4YAVvMb/GiJwg5Ny5w==
-X-Received: by 2002:a17:90a:b38b:b0:2c3:3d22:b304 with SMTP id 98e67ed59e1d1-2c7b58fc912mr3712553a91.3.1718845098912;
+Received: by 2002:a05:6902:1895:b0:dff:34c9:92f8 with SMTP id
+ 3f1490d57ef6-e02d0ac0766ls576763276.0.-pod-prod-05-us; Wed, 19 Jun 2024
+ 17:58:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVZWln70TQRaRAqhUQNJSCfaQaGAEDuyOD2PVpQFx2iykWJsmPVcW681gEMP4lk9tcrwypt2C5o1lC6qQQDxG65WSmUA8eLHSIpDQ==
+X-Received: by 2002:a25:db85:0:b0:dff:3c42:8b02 with SMTP id 3f1490d57ef6-e02be10a1a2mr4183337276.3.1718845098623;
         Wed, 19 Jun 2024 17:58:18 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1718845098; cv=none;
         d=google.com; s=arc-20160816;
-        b=xnyaf5weGfe8iFhrhT2WIgltTlQbbytT2m/lcc45yCl8XRZzXn914An11ftqV15XzG
-         nuJUSUJOZgYsLY9XTSG2+pUN+nzLwfdOH4X51YpJwIbZwonnmC5p7G31cmweCqbNbxuX
-         LvmFDOaR1xuGPrL/0sY2pPZXtC1HWz2UkO2j2gjMTYa6pVKk+3YUwLWpQSiluj/RvtOc
-         1m6/8c0HOiFBs7QHdfJnvolcN3T4h/sF+sLaWzlSTv2qZAd71irVokaQYWyuUsAjJ2ZC
-         a77wt8RhRU6iFpcAsL8be9zWAaJ4UQRQ9HANpZKL3GlcvT5hGDWc0wUMbFKM6yRiIoZ6
-         FWfw==
+        b=fUjDNXMwn+VXwaP79+hKqNBf9bThpOhlUQzOHx6UwOyegOCqX0m4hzysFlGQ2jFNY0
+         UNTjObGS9EE2RdZrwzlSUZWLDHRyTmIqzfbI1EXe4PwN+upRyh4xbpl23cUVG8qUmfaN
+         p1cqmFntLCb9jwBqXD2ULkzeEWD3ODnPfsRhhR/FCCFnhKE251IcO0azJWZxjsXiNVVX
+         iam7sJBNRu8mGgC9TRpG7kl/UfpoKtCwrb/clX6AvZ1jDm4Q8HJKS4eMhyH8YJqjGGdP
+         3LuvTv1JjjZdJKKPtjXZakUn2bPBGyP0k8kLrrlcZPC5bjblTbVtZdRaHtPVfw0om5DG
+         NSwQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=message-id:subject:from:to:date:dkim-signature;
-        bh=IbDBwlhYG3z2IM+0/Y3FK/8m+CADlINz5fIHNaTSiQc=;
+        bh=NW5CqsOX/ksOjpun6Q57nXcar3c0gC9h7vuUl4K6aVE=;
         fh=YLJcVBHySIoH6a7eXFb8EZw2NzFQuSbk32Vvne46C7E=;
-        b=JcRcryCv7a52vGpKysvM0lXe/oGX+rKOJzX6hNJjBccAKm6ifwhwAQt/8fgr+Aih5u
-         eV2Gu6ntewFt0xpvAs5yWauNi1D35EEWqRdIVzApj+KsrNWAhgthp0NRM9Tn9T70PmQC
-         a1YxOPC2amDIyR93FoVZq3pWklkhWFk90wSDfWA/WlsowZB5itscO3gEyj+HhjtppC9G
-         4+Fy+8bhkWF2PJkA4GpwCQB2cWhvlDv+oQIdEvLAJPbxh6BphE66RLLrO/CmKCPrpsea
-         Of4C3I8ZxcyIhBrtG9vsO7AgrVVvras9bsseeXDXPThG0fBTxFqsz3dvbdBNSjUn3C0E
-         dLUQ==;
+        b=JMRF54p0oOQJfENzoeL60I6twa3rpUXPHh6JAwZKq4yaKu3Fyx18ZPv0zTcuAMz5Pd
+         4k+rf/UGfJWxvjTwItstn8ZdVdIOY3znGgG+oD7Cq8Fkdi3EJObgioCQ2g1WG1kxxYfo
+         lp5yu7EsrlOPGcUMdhdFcHmOV7RCulMSNVgYLeH3zoSJnuKHJvaTmTHflmBnNWLpe7XO
+         g3kfHPb6V7/ZWQzx61ov8hbWrZfup0kMgbQS76Krz0TQOOPJPzOFluLufSgll/0gaSOl
+         c1OyXyHawV/m8gup61ghjeTLYrXtn0aq99ROziLh0Qz8fimuoUZKtQ7awvlDqEFLaFi/
+         8qHA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=E1fdHsjY;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
-Received: from sin.source.kernel.org (sin.source.kernel.org. [2604:1380:40e1:4800::1])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-2c738b2270fsi422638a91.1.2024.06.19.17.58.18
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=TUJ5UjQ3;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-e02c70d09bcsi131061276.4.2024.06.19.17.58.18
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 19 Jun 2024 17:58:18 -0700 (PDT)
-Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) client-ip=2604:1380:40e1:4800::1;
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 70C9FCE22D5;
-	Thu, 20 Jun 2024 00:58:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B06EEC2BBFC;
-	Thu, 20 Jun 2024 00:58:15 +0000 (UTC)
-Date: Wed, 19 Jun 2024 17:58:15 -0700
+	by dfw.source.kernel.org (Postfix) with ESMTP id 1D5AF62023;
+	Thu, 20 Jun 2024 00:58:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B76DBC2BBFC;
+	Thu, 20 Jun 2024 00:58:17 +0000 (UTC)
+Date: Wed, 19 Jun 2024 17:58:17 -0700
 To: mm-commits@vger.kernel.org,vbabka@suse.cz,svens@linux.ibm.com,rostedt@goodmis.org,roman.gushchin@linux.dev,rientjes@google.com,penberg@kernel.org,mhiramat@kernel.org,mark.rutland@arm.com,kasan-dev@googlegroups.com,iamjoonsoo.kim@lge.com,hca@linux.ibm.com,gor@linux.ibm.com,glider@google.com,elver@google.com,dvyukov@google.com,cl@linux.com,borntraeger@linux.ibm.com,agordeev@linux.ibm.com,42.hyeyoo@gmail.com,iii@linux.ibm.com,akpm@linux-foundation.org
 From: Andrew Morton <akpm@linux-foundation.org>
-Subject: + kmsan-make-the-tests-compatible-with-kmsanpanic=1.patch added to mm-unstable branch
-Message-Id: <20240620005815.B06EEC2BBFC@smtp.kernel.org>
+Subject: + kmsan-disable-kmsan-when-deferred_struct_page_init-is-enabled.patch added to mm-unstable branch
+Message-Id: <20240620005817.B76DBC2BBFC@smtp.kernel.org>
 X-Original-Sender: akpm@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=korg header.b=E1fdHsjY;
+ header.i=@linux-foundation.org header.s=korg header.b=TUJ5UjQ3;
        spf=pass (google.com: domain of akpm@linux-foundation.org designates
- 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+ 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -130,12 +130,12 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 The patch titled
-     Subject: kmsan: make the tests compatible with kmsan.panic=1
+     Subject: kmsan: disable KMSAN when DEFERRED_STRUCT_PAGE_INIT is enabled
 has been added to the -mm mm-unstable branch.  Its filename is
-     kmsan-make-the-tests-compatible-with-kmsanpanic=1.patch
+     kmsan-disable-kmsan-when-deferred_struct_page_init-is-enabled.patch
 
 This patch will shortly appear at
-     https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/kmsan-make-the-tests-compatible-with-kmsanpanic=1.patch
+     https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/kmsan-disable-kmsan-when-deferred_struct_page_init-is-enabled.patch
 
 This patch will later appear in the mm-unstable branch at
     git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
@@ -154,15 +154,19 @@ and is updated there every 2-3 working days
 
 ------------------------------------------------------
 From: Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: kmsan: make the tests compatible with kmsan.panic=1
-Date: Wed, 19 Jun 2024 17:43:37 +0200
+Subject: kmsan: disable KMSAN when DEFERRED_STRUCT_PAGE_INIT is enabled
+Date: Wed, 19 Jun 2024 17:43:38 +0200
 
-It's useful to have both tests and kmsan.panic=1 during development, but
-right now the warnings, that the tests cause, lead to kernel panics.
+KMSAN relies on memblock returning all available pages to it (see
+kmsan_memblock_free_pages()).  It partitions these pages into 3
+categories: pages available to the buddy allocator, shadow pages and
+origin pages.  This partitioning is static.
 
-Temporarily set kmsan.panic=0 for the duration of the KMSAN testing.
+If new pages appear after kmsan_init_runtime(), it is considered an error.
+DEFERRED_STRUCT_PAGE_INIT causes this, so mark it as incompatible with
+KMSAN.
 
-Link: https://lkml.kernel.org/r/20240619154530.163232-3-iii@linux.ibm.com
+Link: https://lkml.kernel.org/r/20240619154530.163232-4-iii@linux.ibm.com
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Reviewed-by: Alexander Potapenko <glider@google.com>
 Cc: Alexander Gordeev <agordeev@linux.ibm.com>
@@ -186,33 +190,19 @@ Cc: Vlastimil Babka <vbabka@suse.cz>
 Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 ---
 
- mm/kmsan/kmsan_test.c |    5 +++++
- 1 file changed, 5 insertions(+)
+ mm/Kconfig |    1 +
+ 1 file changed, 1 insertion(+)
 
---- a/mm/kmsan/kmsan_test.c~kmsan-make-the-tests-compatible-with-kmsanpanic=1
-+++ a/mm/kmsan/kmsan_test.c
-@@ -686,9 +686,13 @@ static void test_exit(struct kunit *test
- {
- }
- 
-+static int orig_panic_on_kmsan;
-+
- static int kmsan_suite_init(struct kunit_suite *suite)
- {
- 	register_trace_console(probe_console, NULL);
-+	orig_panic_on_kmsan = panic_on_kmsan;
-+	panic_on_kmsan = 0;
- 	return 0;
- }
- 
-@@ -696,6 +700,7 @@ static void kmsan_suite_exit(struct kuni
- {
- 	unregister_trace_console(probe_console, NULL);
- 	tracepoint_synchronize_unregister();
-+	panic_on_kmsan = orig_panic_on_kmsan;
- }
- 
- static struct kunit_suite kmsan_test_suite = {
+--- a/mm/Kconfig~kmsan-disable-kmsan-when-deferred_struct_page_init-is-enabled
++++ a/mm/Kconfig
+@@ -946,6 +946,7 @@ config DEFERRED_STRUCT_PAGE_INIT
+ 	depends on SPARSEMEM
+ 	depends on !NEED_PER_CPU_KM
+ 	depends on 64BIT
++	depends on !KMSAN
+ 	select PADATA
+ 	help
+ 	  Ordinarily all struct pages are initialised during early boot in a
 _
 
 Patches currently in -mm which might be from iii@linux.ibm.com are
@@ -258,4 +248,4 @@ kmsan-enable-on-s390.patch
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240620005815.B06EEC2BBFC%40smtp.kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240620005817.B76DBC2BBFC%40smtp.kernel.org.
