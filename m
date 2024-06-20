@@ -1,162 +1,121 @@
-Return-Path: <kasan-dev+bncBCS4VDMYRUNBB3MWZSZQMGQEUCUJJBY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT4XGV33UIBBKP5ZWZQMGQE2DDIOZQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13d.google.com (mail-il1-x13d.google.com [IPv6:2607:f8b0:4864:20::13d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5975790F469
-	for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 18:46:39 +0200 (CEST)
-Received: by mail-il1-x13d.google.com with SMTP id e9e14a558f8ab-37623ddfa1fsf99805ab.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 09:46:39 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1718815598; cv=pass;
+Received: from mail-pl1-x638.google.com (mail-pl1-x638.google.com [IPv6:2607:f8b0:4864:20::638])
+	by mail.lfdr.de (Postfix) with ESMTPS id D31EF90FA8F
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 Jun 2024 02:58:19 +0200 (CEST)
+Received: by mail-pl1-x638.google.com with SMTP id d9443c01a7336-1f99666500asf3835265ad.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 17:58:19 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1718845098; cv=pass;
         d=google.com; s=arc-20160816;
-        b=WJw4QIejvtNEcKSsmeKBUNTo71XOdzg4AS/JCkwPqamNpdXJ6HDZ+5Ke3zD9mvq6fU
-         qY9Ng/mReG59jCYqY7Sz9xu9zD730S5Cc9DQgUY5jjtsGjYnD9Qe4062EYkSDjh6FLY2
-         +ulbk29SxIGOsuzhMAo4rSeSShMnf+9+6aoLAB63ghFW+RjQf+EaNiZDZ23Po4Tffijb
-         oacTGvTfdhc6odJ8frY837DZgEM3T/bkTMp2APf1Wl54hjrVGUDGs0snvCv/yIWEU5eh
-         rwxdI2XvpJfybhgl+/ppiSh8z3NiW4mjqMfJJO56thXIiZNLTqtFyL3KDczY5vgd3tqn
-         sgjg==
+        b=Richr74Ntaz2RPZpDnnJCkJAoq0sZCnALocj/qe0HUZ0jCaDTSBEnWDK3BVLgwgUGi
+         wCXaBK+Tw2nrvJrzmZQNfE1yDgLm6RFimK+PNTHS9gym1/ZYGZK4CyA8ZtWvTPuRjIV1
+         uexxL0lXHvWrcdILWdC3DlqyewU2jqL0em+wzd9gtfX3Uy3W2v/NXWl3FI4E5EtcDu1o
+         pWBN4gLMOVGlpKkgUVeliOPCD5GP1SoYYSxQDve7SELofAPTVrfFpRHp24I3gY+0QJT0
+         PXUNVc7Q+eXfy00PaPjodfJJzezbt1jLJC4bE9YTfPcbmnJRxtRHgdYOvMMVZOGg6H7K
+         Z5hA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :sender:dkim-signature;
-        bh=IRc6v1rMziV3RauSIauEtewClGRjG5E1AuCIpce23k0=;
-        fh=CjiZwqTjeoOnahLgzM0kbMOVUX273Nw3Y75rJK5cBqM=;
-        b=0J/BmcDeZJqmWbvIuVX7er147uQPf5AqglyfAP/iPtvwocG77dUSEWEoIK0RNo2Klh
-         nGiubnG7DV1I6k/fS2Yc/zg6O0eMqEhoniYGvQ2ncrKGRQb1R0ccHfcbO0KTjBSX4HZQ
-         FqoFDnUD0yrv8RwX00GQRi1rcMCBZUzxrKDccBXy9u9aPRKFcXkmCRp/h6VFQHHuo2Ni
-         OXf4c1eXQIJlth0hAR2QEuw902TFm0zMQhjK6w5h60ArVuJwQqeoTCDHcUfwSM4Gb+Dx
-         9xrwnhTp68ozIh+nBtNKfK5I2li1Dq3ViyXolLmWuBbdtN8F3PJBimo7qwOWFaMHybYH
-         noHQ==;
+         :list-id:mailing-list:precedence:message-id:subject:from:to:date
+         :mime-version:sender:dkim-signature;
+        bh=vomQDyd5iMiilY+3PVWpF3n0NU6nVHoKIIRHQBdWtQo=;
+        fh=wNRl8RTJcXYPZKqwDJTDJq9FD5H6DxrQQzRTnguJc+k=;
+        b=IeQMZrzX++1+GGAq8g8xfo4bsX4FwBka/Qa/LtkWheM0wZKA/07a/2ZT8lgjGel/ob
+         tNz/4xS76OeI4yp10pCL3WZnfH6fKM6NWd33/ZlJoBA0KvNngcBgaPN0yyV2/fl7LPwl
+         dcJRr279dKOYqYxILfgkpMhD6Zlq4Xn0P3jr0cEhvsfi3DFr6BYZD1bXPu8KfQWtGujj
+         rnLduQNQfPQ9teOTbcQZK2UtrbaZ7Qnrb5sYD4y0xT+SHqD+5WLoWpRAYUi20iMYoo7l
+         cira0v2eyBxYIkqT4O5a9EXqq/lkGBsUfMxfY6Rx8DUPNgrdXT+rbk/7albPTNenlEov
+         HKcg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="U6v5z/sd";
-       spf=pass (google.com: domain of srs0=wedf=nv=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=wedF=NV=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=YbiHSF4t;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 145.40.73.55 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1718815598; x=1719420398; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1718845098; x=1719449898; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:reply-to:message-id:subject:cc:to:from:date:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IRc6v1rMziV3RauSIauEtewClGRjG5E1AuCIpce23k0=;
-        b=SSP3USXhXypLKF/OI2AwkDYkJUTognzBunAAfHQ6KV2sENvGj39SrfHuKSMvhqeKyY
-         uBAXav90yqqyOigihnOuT2PaNbMsYRO5oXx5rY5DTIewLVRvdRaDz552muhQGhAa0hG4
-         4VYNOKvVwj6lrQdpwMj+Or5M2THe57s9CZv77WYCS/GiWVzANmhWxp16KMxSqLouAy88
-         fcQPUbP+YUE6loq2UcJq/la0bslrZ7Em78p1FcMbGWrYldNmXZYz8Az+cRTHATKuolT/
-         F8AZVkL26cWJ5MJxM7Torjdbty021T1BzLO+ElbAQ0S2tPAwbTvmmme5Zy3gwYdnWwPX
-         tR9w==
+         :x-original-sender:message-id:subject:from:to:date:mime-version
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=vomQDyd5iMiilY+3PVWpF3n0NU6nVHoKIIRHQBdWtQo=;
+        b=jZjQ8fizL54MTNm9FJ02Q9RSrorIq7FPyjn8O/qUNd8Hq+Ui18W4JMpsOk9GKfoLyH
+         byvzNZcqjz6TDDTrqpvVOAdctjL9rUCSny+DzLesOS5gNZEnbFNb33FBLrKExTnywyIi
+         SwCIOy6c4g57OcevZzVdbBY7sGwjg2Ki+Qu8UXt5WJMh1N9L+XQEq0KQV+BlMmS77QTL
+         PKwpVzsU2XHh2VW5C8LLe1fDSP7bW2IT/dqFqeq4kYFeEO1a0y58gSc83LUWFrcNxrLb
+         1jXU+RSg5wZBLbIQ5iHAcorJNDOWAYQHPa8+dQ6wZQwL1OqI0l27FwD1oa8BbvBmu7x3
+         I70Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1718815598; x=1719420398;
+        d=1e100.net; s=20230601; t=1718845098; x=1719449898;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IRc6v1rMziV3RauSIauEtewClGRjG5E1AuCIpce23k0=;
-        b=Hxp+dXPl/CXYUTN0Z11yoo7Q4XXk+ht28fIbco9Qxk9kjF+YqHzHtZMqgsAXMQCN93
-         LGdTGSO/+zVYH16/4sAcuV4nwyg4axsyFTNRdPEUot7IDozhYXHfkTvmRZeYDCm/a4UI
-         jmce02SlkR0CuZmCpvOsvCjjyaJaiIwP8I8sxfKVpKFMCuKMK26K/1OnK5XqFJ/oLAy4
-         08C6BqM+yu8Yhyi9WKWZirBOwvqoumvd0cAnme+9fTHUovcNf1Uta3OE79YUruZdFxMs
-         10zBifVpzlcJqvPsXDst9VwpCTf3bxXCc6PCv5HP4ovJ8G+tX91IdPIIBA2jvPqIzd05
-         bTKw==
+         :x-original-authentication-results:x-original-sender:message-id
+         :subject:from:to:date:x-beenthere:mime-version:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=vomQDyd5iMiilY+3PVWpF3n0NU6nVHoKIIRHQBdWtQo=;
+        b=t9ap8O/R3qcBme1SYX1KXwQtKhRA5me/1wfc8stt5DgwUaDy6PIg1/D7FHyK1CGM/7
+         uvL97TXLTcaWY/V/1K8cL30G0jBdgLDuflK3DOuyray8kizoMwLA8i5+ujtjJdjl9baX
+         dHMovB4sQpP5N8Mc9bZPpIxwzjl1VIDsw9f4Rykm89v4bPSqHCAlkZc0NwdhussvK0Zz
+         AAG28nK7+7Ka7Ew4+7WZv8uj3kraUjMz7ysK0SMLLMU1O2k1HRCrIgyII0sUeVXn2YTk
+         1OidrBeiJVLuFjOEBCp49V0SCQOeMLY18a8Fz1ar6GTmixhm5ZHaOLut+1DIXsv7beJP
+         a9MQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWAi+Ji/0AGLwETZMa6sdGRpUSO4JQL3KN3Q/5z/SO4wNu55VgpybZcqOgFgyYrI8ctQXWKkOQhzAPgLy/ELH0OsvjB3X4GRA==
-X-Gm-Message-State: AOJu0YzGNYP1V0YLAFenPkygxW1DGTeyNaXkAQnCGh17SCe1PUXjuY2L
-	IpFhu7kgCMSnmF1eyflmImt5BlAczcYI7CSHh5+FFHQxG48PG5hC
-X-Google-Smtp-Source: AGHT+IHrRZswN6pD9jlegvmRF96DzZRa0p3g6OV5mgCqyf7fbO1BwA2taY9fZhEVAu6bSWZaszOpJQ==
-X-Received: by 2002:a05:6e02:12e6:b0:375:ee62:5917 with SMTP id e9e14a558f8ab-3761e7998dfmr4003515ab.6.1718815598092;
-        Wed, 19 Jun 2024 09:46:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUarMZX2KRB7cbFy9tXfQ8X666BsMPAyo0fJCqOzeTPJQOglrhvqa40ocZ0jMv2Q0RTkCQG0hip+BHhd55Bz9mnGOgJEL6smw==
+X-Gm-Message-State: AOJu0Yyrh61eobWHhiBN95x/+9iIc4XfkqtptXMWWkzQ7i9WVKeFyi0+
+	zfpQveTxf+8POJGPIkayfvwmKRbzWamtnnDXx+d2OrYWya5+F/Qz
+X-Google-Smtp-Source: AGHT+IE+GQZCmTulyZC5JZmP1KJ1vg38BsCSzPyjcfUsu1FyiCsZzbCxoXP7BqeqRiY2U3/HmZCHGA==
+X-Received: by 2002:a17:902:c103:b0:1eb:fc2:1eed with SMTP id d9443c01a7336-1f9aa41802emr36715815ad.41.1718845098090;
+        Wed, 19 Jun 2024 17:58:18 -0700 (PDT)
+MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:1feb:b0:375:af6a:e6ec with SMTP id
- e9e14a558f8ab-3762693b4f5ls508835ab.0.-pod-prod-05-us; Wed, 19 Jun 2024
- 09:46:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWFAR4olZarWave6iS+St2umovlDjj4Q2p0cw6qgHMu3CNVk2iVWUzB3DWnikosxyNfPbb78wtvssCvpxYjRf1T0aXSgIUx5lXwAg==
-X-Received: by 2002:a05:6602:3fc9:b0:7de:c720:ab1f with SMTP id ca18e2360f4ac-7f13ee82ac8mr367555839f.20.1718815597129;
-        Wed, 19 Jun 2024 09:46:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1718815597; cv=none;
+Received: by 2002:a17:902:dac9:b0:1f8:593e:ebe3 with SMTP id
+ d9443c01a7336-1f9c50cea90ls2433225ad.2.-pod-prod-08-us; Wed, 19 Jun 2024
+ 17:58:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUWhbob85V7b0Q+mFXYwaA/RvX9uN5ynCr+ENAgLq2kNO3ICAPDTo8RZH6DLR6WjMOfHtM1VQ7lvg0GpsybBquD4keI9DWWy7ffnw==
+X-Received: by 2002:a17:903:120d:b0:1f6:e4ab:a1f4 with SMTP id d9443c01a7336-1f9aa3b12d4mr48788965ad.12.1718845096714;
+        Wed, 19 Jun 2024 17:58:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1718845096; cv=none;
         d=google.com; s=arc-20160816;
-        b=KJEPUIKav28SBZG3TMSZeIRImxHLYYDkZtcPJZ6xmKC/mChKeZwcz/vU3kMcMbKX3J
-         0+c8sqcEzvSdEkjE115DzARdypdTPOM7YhPWwQmRCWDvvEge6Lac7ByFhbJ7FEN/bdxM
-         vhjQj7Xr9JW2Nf4AWI33l8c5Kv+pbA78NAU0u1wOmKEHR0OFimqaBIN2FCICXksQ5M76
-         zpToS5L8DZ+seKB8bxDZ9tr4oyWRnBPnYfX3jR5+XJZMsPYBMmfEeAGhVQm3Rcbq1V+F
-         3vCIIhKlECxM5LuVxzjbsMOKxxdSEQHygU95pPW9OvbuANK/lvyCX5FuAfcdJN6aFp96
-         PFiQ==
+        b=zYn8cAQl++tMjeju1P+Rbut2YnrT6SkY/ngRoqh1D5Q/wd2huA9+HAjiO/YSWNk08L
+         zUM5QAio902OjNr19m65IO3eiBThje7IxP9bR4pSqWpxeKVVIHDcXelu6OrEPVVCThoB
+         WPqXnirlOAVCRQfWrUWsEeu4i+ua0CnhzOmbXfqMFPZjudHjKw64Se1e6gWGGuah3yTn
+         lL1t/vxUd28sT+Jt9vup5u3JNC1M3CNI6sWO1sa3NtZ8Jyf/gCm+lOf/JbV3mh+mW1/U
+         6QUZSvjPjGK97YGJtUpGWqiweldmijptdJd3tN8VR4llV8pPf6nf3QFZsuheWAmLYISa
+         LSqw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=pw2BXTAQiJ3NTeflX4lSxzOg39efzfkAJJriAuCUE6w=;
-        fh=b4rUQKQOOXPMgq1nkRYM+atCQEIVYCiymtW6U8DhPd0=;
-        b=kA7ESkCvNr6LJG7COanTU9Hl4xJJTp5TyaYWydir8SamCx9+axGxJV6zzgdl5obIYU
-         qN+JU53On4S48FPEq40iIvWcvgx3a9wymtk0QkI6DomhTOLEKBNcSXe2jTZ+QQq+Jw9B
-         1ZLJke4qIZWz+fzmT/yjqT/BbDmardx/iU6qzzLPlUQlgeAS3mb5naYFzOajcha16VWK
-         I8N+edB1wJNky9IqgQWOiTJhiwjw6OoDBel19qRWSG8EEBNgLd9zdNDpNwuL1Fbp4/3m
-         m73O8DjwynT2Ap63Ta/hb6DfOQB9oKZnQtORkrZtqGgfPidEDkcasuJdxVPLYk0DY6l5
-         xpKQ==;
+        h=message-id:subject:from:to:date:dkim-signature;
+        bh=UivrLOBUDQT8zPIvlNbaJnfZpxd8PXdD8XgMMTnEDdk=;
+        fh=YLJcVBHySIoH6a7eXFb8EZw2NzFQuSbk32Vvne46C7E=;
+        b=tu/K4aVrZUeHgQjSns7H1PEsJ1Cg8UvZu5QbURW+Q6CDjotgnRj5Wq87HnaoTz4Un1
+         Q35/eF4GDQL9EeC2XuzKf55R0unGL/eUXgX8EjGZKp/udHmSrFvWaZrVvjkvly1LGOsM
+         cq5lF50v7QzYFdFGw0f11hoPqXfMB1+hBETtIgHm68ZRoSwowKDr2UwXvbo1rj9r2DCa
+         sA7vo4xyOKi4dl99Js1wPOhPK+kcfAF2z0op1ncwDn3OhCDuwb+NA5wIKU6SwXGW7fJr
+         nKdwwwWe/Ym+B+gJftinfvlCw4udB9WmzrAkgCSnaD3Wov5p3HdMgDIfK7vcpFqZDAze
+         /L3w==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b="U6v5z/sd";
-       spf=pass (google.com: domain of srs0=wedf=nv=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=wedF=NV=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-4b9568bb7a7si632594173.2.2024.06.19.09.46.37
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=YbiHSF4t;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 145.40.73.55 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from sin.source.kernel.org (sin.source.kernel.org. [145.40.73.55])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-1f9a6286599si1476335ad.5.2024.06.19.17.58.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Jun 2024 09:46:37 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=wedf=nv=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+        Wed, 19 Jun 2024 17:58:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 145.40.73.55 as permitted sender) client-ip=145.40.73.55;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id B54DE61E8E;
-	Wed, 19 Jun 2024 16:46:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E5A8C2BBFC;
-	Wed, 19 Jun 2024 16:46:36 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id EC3CDCE09D8; Wed, 19 Jun 2024 09:46:35 -0700 (PDT)
-Date: Wed, 19 Jun 2024 09:46:35 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Uladzislau Rezki <urezki@gmail.com>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Julia Lawall <Julia.Lawall@inria.fr>, linux-block@vger.kernel.org,
-	kernel-janitors@vger.kernel.org, bridge@lists.linux.dev,
-	linux-trace-kernel@vger.kernel.org,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	kvm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	"Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Nicholas Piggin <npiggin@gmail.com>, netdev@vger.kernel.org,
-	wireguard@lists.zx2c4.com, linux-kernel@vger.kernel.org,
-	ecryptfs@vger.kernel.org, Neil Brown <neilb@suse.de>,
-	Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>,
-	Tom Talpey <tom@talpey.com>, linux-nfs@vger.kernel.org,
-	linux-can@vger.kernel.org, Lai Jiangshan <jiangshanlai@gmail.com>,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	kasan-dev <kasan-dev@googlegroups.com>
-Subject: Re: [PATCH 00/14] replace call_rcu by kfree_rcu for simple
- kmem_cache_free callback
-Message-ID: <04567347-c138-48fb-a5ab-44cc6a318549@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <e926e3c6-05ce-4ba6-9e2e-e5f3b37bcc23@suse.cz>
- <3b6fe525-626c-41fb-8625-3925ca820d8e@paulmck-laptop>
- <6711935d-20b5-41c1-8864-db3fc7d7823d@suse.cz>
- <ZnCDgdg1EH6V7w5d@pc636>
- <36c60acd-543e-48c5-8bd2-6ed509972d28@suse.cz>
- <ZnFT1Czb8oRb0SE7@pc636>
- <5c8b2883-962f-431f-b2d3-3632755de3b0@paulmck-laptop>
- <9967fdfa-e649-456d-a0cb-b4c4bf7f9d68@suse.cz>
- <6dad6e9f-e0ca-4446-be9c-1be25b2536dd@paulmck-laptop>
- <4cba4a48-902b-4fb6-895c-c8e6b64e0d5f@suse.cz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <4cba4a48-902b-4fb6-895c-c8e6b64e0d5f@suse.cz>
-X-Original-Sender: paulmck@kernel.org
+	by sin.source.kernel.org (Postfix) with ESMTP id 68BD0CE22CC;
+	Thu, 20 Jun 2024 00:58:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A65F1C2BBFC;
+	Thu, 20 Jun 2024 00:58:13 +0000 (UTC)
+Date: Wed, 19 Jun 2024 17:58:12 -0700
+To: mm-commits@vger.kernel.org,vbabka@suse.cz,svens@linux.ibm.com,rostedt@goodmis.org,roman.gushchin@linux.dev,rientjes@google.com,penberg@kernel.org,mhiramat@kernel.org,mark.rutland@arm.com,kasan-dev@googlegroups.com,iamjoonsoo.kim@lge.com,hca@linux.ibm.com,gor@linux.ibm.com,glider@google.com,elver@google.com,dvyukov@google.com,cl@linux.com,borntraeger@linux.ibm.com,agordeev@linux.ibm.com,42.hyeyoo@gmail.com,iii@linux.ibm.com,akpm@linux-foundation.org
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: + ftrace-unpoison-ftrace_regs-in-ftrace_ops_list_func.patch added to mm-unstable branch
+Message-Id: <20240620005813.A65F1C2BBFC@smtp.kernel.org>
+X-Original-Sender: akpm@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b="U6v5z/sd";       spf=pass
- (google.com: domain of srs0=wedf=nv=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=wedF=NV=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+ header.i=@linux-foundation.org header.s=korg header.b=YbiHSF4t;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates
+ 145.40.73.55 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,145 +128,147 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Jun 19, 2024 at 11:28:13AM +0200, Vlastimil Babka wrote:
-> On 6/18/24 7:53 PM, Paul E. McKenney wrote:
-> > On Tue, Jun 18, 2024 at 07:21:42PM +0200, Vlastimil Babka wrote:
-> >> On 6/18/24 6:48 PM, Paul E. McKenney wrote:
-> >> > On Tue, Jun 18, 2024 at 11:31:00AM +0200, Uladzislau Rezki wrote:
-> >> >> > On 6/17/24 8:42 PM, Uladzislau Rezki wrote:
-> >> >> > >> +
-> >> >> > >> +	s = container_of(work, struct kmem_cache, async_destroy_work);
-> >> >> > >> +
-> >> >> > >> +	// XXX use the real kmem_cache_free_barrier() or similar thing here
-> >> >> > > It implies that we need to introduce kfree_rcu_barrier(), a new API, which i
-> >> >> > > wanted to avoid initially.
-> >> >> > 
-> >> >> > I wanted to avoid new API or flags for kfree_rcu() users and this would
-> >> >> > be achieved. The barrier is used internally so I don't consider that an
-> >> >> > API to avoid. How difficult is the implementation is another question,
-> >> >> > depending on how the current batching works. Once (if) we have sheaves
-> >> >> > proven to work and move kfree_rcu() fully into SLUB, the barrier might
-> >> >> > also look different and hopefully easier. So maybe it's not worth to
-> >> >> > invest too much into that barrier and just go for the potentially
-> >> >> > longer, but easier to implement?
-> >> >> > 
-> >> >> Right. I agree here. If the cache is not empty, OK, we just defer the
-> >> >> work, even we can use a big 21 seconds delay, after that we just "warn"
-> >> >> if it is still not empty and leave it as it is, i.e. emit a warning and
-> >> >> we are done.
-> >> >> 
-> >> >> Destroying the cache is not something that must happen right away. 
-> >> > 
-> >> > OK, I have to ask...
-> >> > 
-> >> > Suppose that the cache is created and destroyed by a module and
-> >> > init/cleanup time, respectively.  Suppose that this module is rmmod'ed
-> >> > then very quickly insmod'ed.
-> >> > 
-> >> > Do we need to fail the insmod if the kmem_cache has not yet been fully
-> >> > cleaned up?
-> >> 
-> >> We don't have any such link between kmem_cache and module to detect that, so
-> >> we would have to start tracking that. Probably not worth the trouble.
-> > 
-> > Fair enough!
-> > 
-> >> >  If not, do we have two versions of the same kmem_cache in
-> >> > /proc during the overlap time?
-> >> 
-> >> Hm could happen in /proc/slabinfo but without being harmful other than
-> >> perhaps confusing someone. We could filter out the caches being destroyed
-> >> trivially.
-> > 
-> > Or mark them in /proc/slabinfo?  Yet another column, yay!!!  Or script
-> > breakage from flagging the name somehow, for example, trailing "/"
-> > character.
-> 
-> Yeah I've been resisting such changes to the layout and this wouldn't be
-> worth it, apart from changing the name itself but not in a dangerous way
-> like with "/" :)
 
-;-) ;-) ;-)
+The patch titled
+     Subject: ftrace: unpoison ftrace_regs in ftrace_ops_list_func()
+has been added to the -mm mm-unstable branch.  Its filename is
+     ftrace-unpoison-ftrace_regs-in-ftrace_ops_list_func.patch
 
-> >> Sysfs and debugfs might be more problematic as I suppose directory names
-> >> would clash. I'll have to check... might be even happening now when we do
-> >> detect leaked objects and just leave the cache around... thanks for the
-> >> question.
-> > 
-> > "It is a service that I provide."  ;-)
-> > 
-> > But yes, we might be living with it already and there might already
-> > be ways people deal with it.
-> 
-> So it seems if the sysfs/debugfs directories already exist, they will
-> silently not be created. Wonder if we have such cases today already because
-> caches with same name exist. I think we do with the zsmalloc using 32 caches
-> with same name that we discussed elsewhere just recently.
-> 
-> Also indeed if the cache has leaked objects and won't be thus destroyed,
-> these directories indeed stay around, as well as the slabinfo entry, and can
-> prevent new ones from being created (slabinfo lines with same name are not
-> prevented).
+This patch will shortly appear at
+     https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/ftrace-unpoison-ftrace_regs-in-ftrace_ops_list_func.patch
 
-New one on me!
+This patch will later appear in the mm-unstable branch at
+    git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
 
-> But it wouldn't be great to introduce this possibility to happen for the
-> temporarily delayed removal due to kfree_rcu() and a module re-insert, since
-> that's a legitimate case and not buggy state due to leaks.
+Before you just go and hit "reply", please:
+   a) Consider who else should be cc'ed
+   b) Prefer to cc a suitable mailing list as well
+   c) Ideally: find the original patch on the mailing list and do a
+      reply-to-all to that, adding suitable additional cc's
 
-Agreed.
+*** Remember to use Documentation/process/submit-checklist.rst when testing your code ***
 
-> The debugfs directory we could remove immediately before handing over to the
-> scheduled workfn, but if it turns out there was a leak and the workfn leaves
-> the cache around, debugfs dir will be gone and we can't check the
-> alloc_traces/free_traces files there (but we have the per-object info
-> including the traces in the dmesg splat).
-> 
-> The sysfs directory is currently removed only with the whole cache being
-> destryed due to sysfs/kobject lifetime model. I'd love to untangle it for
-> other reasons too, but haven't investigated it yet. But again it might be
-> useful for sysfs dir to stay around for inspection, as for the debugfs.
-> 
-> We could rename the sysfs/debugfs directories before queuing the work? Add
-> some prefix like GOING_AWAY-$name. If leak is detected and cache stays
-> forever, another rename to LEAKED-$name. (and same for the slabinfo). But
-> multiple ones with same name might pile up, so try adding a counter then?
-> Probably messy to implement, but perhaps the most robust in the end? The
-> automatic counter could also solve the general case of people using same
-> name for multiple caches.
-> 
-> Other ideas?
+The -mm tree is included into linux-next via the mm-everything
+branch at git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
+and is updated there every 2-3 working days
 
-Move the going-away files/directories to some new directoriesy?  But you
-would still need a counter or whatever.  I honestly cannot say what
-would be best from the viewpoint of existing software scanning those
-files and directories.
+------------------------------------------------------
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: ftrace: unpoison ftrace_regs in ftrace_ops_list_func()
+Date: Wed, 19 Jun 2024 17:43:36 +0200
 
-							Thanx, Paul
+Patch series "kmsan: Enable on s390", v5.
 
-> Thanks,
-> Vlastimil
-> 
-> > 
-> > 							Thanx, Paul
-> > 
-> >> >> > > Since you do it asynchronous can we just repeat
-> >> >> > > and wait until it a cache is furry freed?
-> >> >> > 
-> >> >> > The problem is we want to detect the cases when it's not fully freed
-> >> >> > because there was an actual read. So at some point we'd need to stop the
-> >> >> > repeats because we know there can no longer be any kfree_rcu()'s in
-> >> >> > flight since the kmem_cache_destroy() was called.
-> >> >> > 
-> >> >> Agree. As noted above, we can go with 21 seconds(as an example) interval
-> >> >> and just perform destroy(without repeating).
-> >> >> 
-> >> >> --
-> >> >> Uladzislau Rezki
-> >> 
-> 
+This series provides the minimal support for Kernel Memory Sanitizer on
+s390.  Kernel Memory Sanitizer is clang-only instrumentation for finding
+accesses to uninitialized memory.  The clang support for s390 has already
+been merged [1].
+
+With this series, I can successfully boot s390 defconfig and
+debug_defconfig with kmsan.panic=1.  The tool found one real s390-specific
+bug (fixed in master).
+
+[1] https://reviews.llvm.org/D148596
+
+
+This patch (of 37):
+
+Architectures use assembly code to initialize ftrace_regs and call
+ftrace_ops_list_func().  Therefore, from the KMSAN's point of view,
+ftrace_regs is poisoned on ftrace_ops_list_func entry().  This causes
+KMSAN warnings when running the ftrace testsuite.
+
+Fix by trusting the architecture-specific assembly code and always
+unpoisoning ftrace_regs in ftrace_ops_list_func.
+
+The issue was not encountered on x86_64 so far only by accident:
+assembly-allocated ftrace_regs was overlapping a stale partially
+unpoisoned stack frame.  Poisoning stack frames before returns [1] makes
+the issue appear on x86_64 as well.
+
+[1] https://github.com/iii-i/llvm-project/commits/msan-poison-allocas-before-returning-2024-06-12/
+
+Link: https://lkml.kernel.org/r/20240619154530.163232-1-iii@linux.ibm.com
+Link: https://lkml.kernel.org/r/20240619154530.163232-2-iii@linux.ibm.com
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Reviewed-by: Alexander Potapenko <glider@google.com>
+Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Christoph Lameter <cl@linux.com>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+Cc: <kasan-dev@googlegroups.com>
+Cc: Marco Elver <elver@google.com>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Cc: Pekka Enberg <penberg@kernel.org>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Sven Schnelle <svens@linux.ibm.com>
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
+
+ kernel/trace/ftrace.c |    1 +
+ 1 file changed, 1 insertion(+)
+
+--- a/kernel/trace/ftrace.c~ftrace-unpoison-ftrace_regs-in-ftrace_ops_list_func
++++ a/kernel/trace/ftrace.c
+@@ -7407,6 +7407,7 @@ out:
+ void arch_ftrace_ops_list_func(unsigned long ip, unsigned long parent_ip,
+ 			       struct ftrace_ops *op, struct ftrace_regs *fregs)
+ {
++	kmsan_unpoison_memory(fregs, sizeof(*fregs));
+ 	__ftrace_ops_list_func(ip, parent_ip, NULL, fregs);
+ }
+ #else
+_
+
+Patches currently in -mm which might be from iii@linux.ibm.com are
+
+ftrace-unpoison-ftrace_regs-in-ftrace_ops_list_func.patch
+kmsan-make-the-tests-compatible-with-kmsanpanic=1.patch
+kmsan-disable-kmsan-when-deferred_struct_page_init-is-enabled.patch
+kmsan-increase-the-maximum-store-size-to-4096.patch
+kmsan-fix-is_bad_asm_addr-on-arches-with-overlapping-address-spaces.patch
+kmsan-fix-kmsan_copy_to_user-on-arches-with-overlapping-address-spaces.patch
+kmsan-remove-a-useless-assignment-from-kmsan_vmap_pages_range_noflush.patch
+kmsan-remove-an-x86-specific-include-from-kmsanh.patch
+kmsan-expose-kmsan_get_metadata.patch
+kmsan-export-panic_on_kmsan.patch
+kmsan-allow-disabling-kmsan-checks-for-the-current-task.patch
+kmsan-introduce-memset_no_sanitize_memory.patch
+kmsan-support-slab_poison.patch
+kmsan-use-align_down-in-kmsan_get_metadata.patch
+kmsan-do-not-round-up-pg_data_t-size.patch
+mm-slub-let-kmsan-access-metadata.patch
+mm-slub-disable-kmsan-when-checking-the-padding-bytes.patch
+mm-kfence-disable-kmsan-when-checking-the-canary.patch
+lib-zlib-unpoison-dfltcc-output-buffers.patch
+kmsan-accept-ranges-starting-with-0-on-s390.patch
+s390-boot-turn-off-kmsan.patch
+s390-use-a-larger-stack-for-kmsan.patch
+s390-boot-add-the-kmsan-runtime-stub.patch
+s390-checksum-add-a-kmsan-check.patch
+s390-cpacf-unpoison-the-results-of-cpacf_trng.patch
+s390-cpumf-unpoison-stcctm-output-buffer.patch
+s390-diag-unpoison-diag224-output-buffer.patch
+s390-ftrace-unpoison-ftrace_regs-in-kprobe_ftrace_handler.patch
+s390-irqflags-do-not-instrument-arch_local_irq_-with-kmsan.patch
+s390-mm-define-kmsan-metadata-for-vmalloc-and-modules.patch
+s390-string-add-kmsan-support.patch
+s390-traps-unpoison-the-kernel_stack_overflows-pt_regs.patch
+s390-uaccess-add-kmsan-support-to-put_user-and-get_user.patch
+s390-uaccess-add-the-missing-linux-instrumentedh-include.patch
+s390-unwind-disable-kmsan-checks.patch
+s390-kmsan-implement-the-architecture-specific-functions.patch
+kmsan-enable-on-s390.patch
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/04567347-c138-48fb-a5ab-44cc6a318549%40paulmck-laptop.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240620005813.A65F1C2BBFC%40smtp.kernel.org.
