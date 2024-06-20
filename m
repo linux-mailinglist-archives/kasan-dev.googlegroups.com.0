@@ -1,48 +1,48 @@
 Return-Path: <kasan-dev+bncBCT4XGV33UIBB4H5ZWZQMGQEAKXLCNY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x640.google.com (mail-pl1-x640.google.com [IPv6:2607:f8b0:4864:20::640])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BCD590FAB1
-	for <lists+kasan-dev@lfdr.de>; Thu, 20 Jun 2024 02:59:30 +0200 (CEST)
-Received: by mail-pl1-x640.google.com with SMTP id d9443c01a7336-1f9a3831aa9sf3489765ad.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 17:59:30 -0700 (PDT)
+Received: from mail-oo1-xc38.google.com (mail-oo1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B1A90FAB0
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 Jun 2024 02:59:29 +0200 (CEST)
+Received: by mail-oo1-xc38.google.com with SMTP id 006d021491bc7-5bad2fe768bsf334521eaf.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 17:59:29 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1718845169; cv=pass;
         d=google.com; s=arc-20160816;
-        b=Hg2493RAscX8Rh9Hw8DsHHTf8MjzTCTzNbHJoXVzHiL3rLdU9lircwi/McPy8hiFEU
-         ki2Kf9g41z5tAqD3Iy1/c3buWyhRIzE3NMxXdr4/E7qAzmWIRDp03KNwhWATnnzQzWSV
-         XSBPeK183CKjoEreCFDHU2Oo5Oa3xNpF4u5B/hvRFwfXuXfPC5dtekVlQnYA2PMLRw5Z
-         dRsrGNlj8GHsC1jxI1F/a5N4mo6QaaW5V/dplr8yjcjaKiLhyYGnruOZJnY4ZgMJSpIp
-         3F+dCF6SH3sVwOsoXoJN4wZFpCqS4NUV7GWs6dIowLK2/8RllRtbwDNBstrH2HdNGycT
-         b7tg==
+        b=RGhkarmmN02ga903SC8gwvvfB5rYmMDC5zNHK7bSzmIFELkrL7N8rugT7uPLbdioZF
+         I/8Q3Q3cd0gybO5/OLWW9gzxtFyNOo1hYrYNWmDW/jjtBHCTdujJ1GV0rKlhwdJFhirV
+         m6AJPH9PMRRIIWIEI9bzgT/8qA3WTgeR42Kvn6ug+8V3TyHdM0PvWw11XtrgqDtoi1xb
+         hfhsOkQ2xyxO/EGgrKafWdtLWruBomkLhGz9IxVjamFowXygDLEYzxcUSNzU7lJL/WHE
+         LSX8glLS0BaP76XL9yb+RRvklsPiLVmKjqPZiZqfO+YAAB23VHsnmo5U++Xw6mnCuNsV
+         uibQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:message-id:subject:from:to:date
          :mime-version:sender:dkim-signature;
-        bh=trXT+Xs1KNWvCafZkz1ajpHz1hWGNKcoL7S3qB22aZ8=;
-        fh=E5Ae24c7UrrDViT4+j2w0f0AcsZaa9xivaFGvv3Wxp4=;
-        b=dHSesirACKpm82RJn8u5gQt90Q86hhhwknngnrFHN6CZP1VpzVF4fQ1H1DnG5D6Ezp
-         +tSbAhR3jf3JT5OZg3g9PCQwNtVJybVvpkoVYTpTQKsSYIBqjwPqs6DP+BWoUKaHhvXC
-         Jhq9A/85PJFRItgPUm2ZxVUQF5AUwx/a61D98rZi0Uv7fzPdisBAstSGeJAGgZOoi/H6
-         3BMLay59TLrSfJ9KIahdlkWKs6x9nqtNV2WlpzxKUvvNB3ns628jojMc3afMJRJtx6df
-         nm7XaChSLEr6czdTLrxWmR1pm9C6nhY+nz87xfvXIULH7nq5k+2euz+G3HCDIGxpX4Rb
-         F8Mg==;
+        bh=0e6hoDi2nP8KUqGX3rNpp1CvIIILtd6/M56rDSQsvnc=;
+        fh=a8ZgooF+trEHe0HwIKdJx59jHtDrlpOT0qJgtMZgrwY=;
+        b=N52YLLVnaq0KkIXA3ylrr714B61cUxzCsqJg3y0X/bLfe7Mbb/Ci1tb/QHRLCfIrac
+         BFEHjpUjjXawR9a4mIfHcPQZEkWKMJ/iSmyL6ExNCMhPpSS2VQ057GWk10qZf51k1Lam
+         mKMO61KbGu5KDDXd/rQM+xyNA8aWRT6msl32pHTRLC1dAfmcOE9i0NqtDsNG4770+WXM
+         RKqDPYFzQrlHfNeu5lU2xWS9YRHhYs55expmA/76HGKpgI96BAfzCwlrtrvhMm39lqq/
+         fA7PtWaEC8H/4UcmDsDi1vDQKn8ui0XkWwIqOh04vLlXoerEPjP2jEaN96GdehNuEfc6
+         l6Ww==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=FKedlEoM;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b="uv/DHq0Q";
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20230601; t=1718845169; x=1719449969; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:message-id:subject:from:to:date:mime-version
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=trXT+Xs1KNWvCafZkz1ajpHz1hWGNKcoL7S3qB22aZ8=;
-        b=vP/qWmbyedBJ+E6hhFHg2VQfSLFPD+1vprnTSbW3YwShRXPfkM0EuvEWYMmZxLhW12
-         FM1tEWxOxtRqaq6QWg3ZLDwMaE4DDxl9/uArokY3FjwkcxbdkwXJc9XgIATHTze+Y0ky
-         XrDMwnDVLeXsg/GvjzE89V6+aotXY10iCmViktPOM/SfRj727ifgpHQRn58l+KJE4oHi
-         bFq/t1OeV9nJYLh4TRdHYyvLu9+GHbQ3rgH0YKbVCqM5euzR4rj215P4R2Zn6KiCGS9R
-         hedQrCjxJuoE6SiV8FWQGPCCLPMV4ckC/dBhNKdCVF9Ke+Lhzbh3N6VYTqmr3gIlxMaD
-         zb4A==
+        bh=0e6hoDi2nP8KUqGX3rNpp1CvIIILtd6/M56rDSQsvnc=;
+        b=ftvVCjYfjOizD+dzw3wc5oRCCqi/RoLf5bGuF43GdUm791q68sfy9nvURhpcXd42LJ
+         dBmMwk+L8U5iHxzpu4n9Sf1krHHysDhluQVgXKTU2VrGNgO+p9ZodJyTh8RXxcm98ndw
+         KtgghK8D+xZKGRO8hOXf8j0gQnh3HlXAB3CeCa0lyvAULuoqBJ624JKSuu+Jv72z/Qb9
+         bYOaokgM/+gGiXjjvX8JZ2KIw4tNQCOf+Fl8gZaKAI5jyOxHsVcwq1kcALxS946Kfjnb
+         M8RQxCTsCNV4EyP4H8v14OoJDwfuPUdIqUBQRbVmfQtt3L/2W0Qf3W0DXYKxVXYdKC6F
+         sYPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1718845169; x=1719449969;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,71 +50,70 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:message-id
          :subject:from:to:date:x-beenthere:mime-version:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=trXT+Xs1KNWvCafZkz1ajpHz1hWGNKcoL7S3qB22aZ8=;
-        b=Dnd4Gpq9tmFyIfll98llJSz3QtyWh+0MqiRXZrW/eq1fgYqeQOBIWYjmQ5sm1VNjLH
-         kz5kokLXBOIxsqmg91IQczV41/ZdHo8Ph2hfxcz6K6EY+6OXYGQAG6ZeGv3JUnYXq6mA
-         GCVDVuMFUrRTUhdAqrZXE1QKumPaFF9nVN1F9Na8v0eR5lnIwicAzgED1cBRzc7CDjYS
-         vM69QUZhmEWlnLzznSSjntB5ZEY42VrhZ7e61qKbHYdf4V4UKfpx1obbt0HSRz1lAfgx
-         TLvJ+XTffgVZ3RnpusuvgAqvFPoSMJ5Ay2j63trce7eItNO1rS2x2Qe2dp1Gk892jjVR
-         nnmA==
+        bh=0e6hoDi2nP8KUqGX3rNpp1CvIIILtd6/M56rDSQsvnc=;
+        b=etRpb9RtgqKolLYZmzSZbiJZg7K8GSKwQc+0jBqP8DZKQQ9Ps63XhOFNCXlAoNvNYZ
+         KLEgaOleQwGXamnpmx9Y6CWZltpsdeCDs8nTVqL4+ZuF1W8bvT3vPlOb9faXroUgA0Sl
+         q0O8hqeXgfcD+9GVQN/Kx73tOkQ/q/IwvJDtvDVvv81YGe/YICWkOnBLFk6r3zjg7et6
+         3j2S87cv3EsQttgRUKuQooE4YkdZmal/0MjIJThejvla4kY8Y2FUQqvj3fv4Qph/eNB5
+         IVJBLcbA1ExzdYFmWyR6fXS1k0IHIo/e+9dTOOH3K5+3nEToLoILE17FX6UAgMKm8fOZ
+         Vl7g==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWiRvOzfKWBr7/CgCScvSFO8ke9+V1NI2CEgp4QJwm/lXwNJe4aIbX7yT0AK4cfE1Vq6fGn65vno2YDgXj9XiXbu+Zp6Bsm1g==
-X-Gm-Message-State: AOJu0YzSaPPD5mdVd1M1s/ZoxlbkFr4s3STTBSy5CDQ5HZPhiQP5vhwT
-	HKFaO7nIbfAMj9MSBj2wbRdOw1ndiV+STcb/ILbfFMFFcrF+UEt7
-X-Google-Smtp-Source: AGHT+IFbQRboJJSNWEaqqXjliW2FokRxZOwzyanVizcEPgPDAlMerjHnaFApmyUJ9iaD0NtGEGXXQg==
-X-Received: by 2002:a17:902:db0e:b0:1f9:a602:5e41 with SMTP id d9443c01a7336-1f9aa396eaemr39707065ad.1.1718845168745;
+X-Forwarded-Encrypted: i=2; AJvYcCU/sGPT/ytx4cRuEp1kR6UlVKzvLei9tjLrsHItMpMMEX16uIybBQgKS4+LFitHMt4oLl8hAEE3Hkdyb0nArFRglhPa2Nv/Hw==
+X-Gm-Message-State: AOJu0YwPfCW3gfeq0REpEcsJ1Xcz7JliPTnNRGX48OB3ID0lcaXoxxHE
+	7x8bd1rimfyHx6JdKLIa1iHLTfAkrkuOzJG3veb5GgdwxP1lwIkd
+X-Google-Smtp-Source: AGHT+IFbckOFE9eGFdDto5fGtfPV6Rh24Hr8VCGT2y0L1obJwGlasBeTQOYPuA2F8uguBcHTYOOKJg==
+X-Received: by 2002:a4a:d285:0:b0:5bd:c0a2:c349 with SMTP id 006d021491bc7-5c1adbeae27mr4642391eaf.4.1718845168819;
         Wed, 19 Jun 2024 17:59:28 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:2303:b0:1f7:2780:7276 with SMTP id
- d9443c01a7336-1f9c50e6721ls2508625ad.1.-pod-prod-02-us; Wed, 19 Jun 2024
- 17:59:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXjsCW2FnLHPHSDW5uvLfv9XiWNDmlCK0YI9OFfY9cU92oCoiZgUmOmfKMtzxKrzUvGG8n0WDBG9snwzmkdDLg/oPz2s8eo9FlCSQ==
-X-Received: by 2002:a17:90a:cf02:b0:2c7:b045:254a with SMTP id 98e67ed59e1d1-2c7b5daeac7mr3544305a91.46.1718845167502;
+Received: by 2002:a4a:2541:0:b0:5ba:8d10:758 with SMTP id 006d021491bc7-5c1bfd9c11cls266390eaf.0.-pod-prod-01-us;
+ Wed, 19 Jun 2024 17:59:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUPRCBo9kFB5PTfhUVUc3TX0QEGFMUebKTYMGLObwP4CPDRTHVuuloL+vMVgk2mX3HXkKAtgmqNrhfBatq2lqw0R31lVnK8lUU1mQ==
+X-Received: by 2002:a05:6808:18a8:b0:3d2:226e:2fb7 with SMTP id 5614622812f47-3d51b98d973mr4578625b6e.10.1718845167703;
         Wed, 19 Jun 2024 17:59:27 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1718845167; cv=none;
         d=google.com; s=arc-20160816;
-        b=A78WT/Fh+y8Q6wXQmaBzSX819ox498/T1fru4VJmesyC3JKKgJqO+BDVqtq/WoTPlr
-         +QxKq6PAdjoEu89TCmf+ifWip+RDeK2pZU3nPDJftAACIjraVDfqD9AAyBY7nku5RX/4
-         3/2RekZde2ZySL8kba1haIY8E2lNjmBYdMaEEQrSOzYQDR+QGE3K46oci65lha+4domk
-         L0AppMB5YvUvdiy4LxKaYTEOZKTjmo5xjKhWO9wRUVkA8oczWNteyYe341vJss4fN5QA
-         8vhMWMhnAdoxUaqb6aF/r7k5UQBzCJfHvDwX3bRseqCm8hFKp8rqgWNy5tPoGj541lxw
-         j1bQ==
+        b=NUW4l/Q8C0ozmvZDF7hpYUMR949kEIM743ZEd2HMuzGzd76NrzleULvBgQb80fRzoc
+         EB6U+5SjU3PrYPtgL5xVScn/ZfwPOZMyy4IzvZ4TR6wPJILQcjdFtK/r4/BKuDy/yUTh
+         8meG6GSzf2JesX15boqgf91fel8yisF+d9OK/LtCZsJimNUIZYAgEYRdKUJIUiMz5knp
+         a3RYMUWHdgu50EfkrRtCJcLt6o8KEQ5lQKnMffD+JH5G8hHx+bklO8xUVUYkNd5TYQbe
+         nyiQfj7na0prUv+8wNApv8rBEvB0XX4OxZ4Hn9JpleBVRCE2imldY/X+op/1ZDdem6R9
+         KjBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=message-id:subject:from:to:date:dkim-signature;
-        bh=AGyzFTzs40IPM/r4NA25dgxup94jJwSXk/mqnFoSuDc=;
+        bh=7XlDySY0bT6sJ1nP2b/H6h9SCksGsEtI/Xd3it0Lyv4=;
         fh=YLJcVBHySIoH6a7eXFb8EZw2NzFQuSbk32Vvne46C7E=;
-        b=ZU8QxyRo+0QeBdqAhwDoc99ZoPvxHjjb28rAPmT2FKqhb3JbrKK1GXnyr/4RA4EQQa
-         OBWa7thKhdmdnpNPi3b7MFaYLK3yCmnj6lxRU03GlxbOhwBbsQ8iIP6nXTjdqaK31nhs
-         F8XwCFEInSeqCnIENYBX7RfZ3fKYLCYuKqiAOFjKzwRQQxDOnui+AqHc9H0O4A9S5NPU
-         OrpDcjs1WQp2z1n+zdgCnlRMuqjsaz2nJ/CyMINDHRu+8Mr5bbJf57mkhFto3A2/bXYi
-         kdFDVAaAkhtxPJbanPSDTi/nYLStUytbAW7bzZpzaJiVhl2wZ/ZZ4O+eMNe/879acRkU
-         qCgw==;
+        b=w+tl1Zdng9zBpNejskCZvE67d74v0lYhTfoSjzDJStExO3D0VXmVFOVvccyhlpvv1O
+         CFj/kBI+dWnA+/GBVXv/Xe2RAifPRM/f6ZWFrQv9SWlqtAYcRfZFNM2Ejrqj5BoY0rkQ
+         SLXZepwIrh+SirdjhRiGM+wn0tAsEG0WuJqxthUG5bCV0/yjllzKiDu4ZVE6mry3gWQE
+         mMtsqomAJQgg5X1iLBvTFshkBUByu7meZx7Pw/Uu9pmlzN3V8U+JLRmSrUZn0Rx3tqDT
+         u7uIdAxEezEyQ96IVSeQKt+k3+enGlQCPIsLdwdviXvXO00L0WifoTJnqhQ5kAplf8cG
+         HY3Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=FKedlEoM;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
-Received: from sin.source.kernel.org (sin.source.kernel.org. [2604:1380:40e1:4800::1])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-2c7e4e0ddecsi25039a91.1.2024.06.19.17.59.27
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b="uv/DHq0Q";
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-705ccbdb4d1si685843b3a.6.2024.06.19.17.59.27
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 19 Jun 2024 17:59:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) client-ip=2604:1380:40e1:4800::1;
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 73770CE22D5;
-	Thu, 20 Jun 2024 00:59:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7036C2BBFC;
-	Thu, 20 Jun 2024 00:59:24 +0000 (UTC)
-Date: Wed, 19 Jun 2024 17:59:24 -0700
+	by dfw.source.kernel.org (Postfix) with ESMTP id 0B01062068;
+	Thu, 20 Jun 2024 00:59:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4CFCC2BBFC;
+	Thu, 20 Jun 2024 00:59:26 +0000 (UTC)
+Date: Wed, 19 Jun 2024 17:59:26 -0700
 To: mm-commits@vger.kernel.org,vbabka@suse.cz,svens@linux.ibm.com,rostedt@goodmis.org,roman.gushchin@linux.dev,rientjes@google.com,penberg@kernel.org,mhiramat@kernel.org,mark.rutland@arm.com,kasan-dev@googlegroups.com,iamjoonsoo.kim@lge.com,hca@linux.ibm.com,gor@linux.ibm.com,glider@google.com,elver@google.com,dvyukov@google.com,cl@linux.com,borntraeger@linux.ibm.com,agordeev@linux.ibm.com,42.hyeyoo@gmail.com,iii@linux.ibm.com,akpm@linux-foundation.org
 From: Andrew Morton <akpm@linux-foundation.org>
-Subject: + s390-uaccess-add-the-missing-linux-instrumentedh-include.patch added to mm-unstable branch
-Message-Id: <20240620005924.B7036C2BBFC@smtp.kernel.org>
+Subject: + s390-unwind-disable-kmsan-checks.patch added to mm-unstable branch
+Message-Id: <20240620005926.A4CFCC2BBFC@smtp.kernel.org>
 X-Original-Sender: akpm@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=korg header.b=FKedlEoM;
+ header.i=@linux-foundation.org header.s=korg header.b="uv/DHq0Q";
        spf=pass (google.com: domain of akpm@linux-foundation.org designates
- 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+ 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -130,12 +129,12 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 The patch titled
-     Subject: s390/uaccess: add the missing linux/instrumented.h #include
+     Subject: s390/unwind: disable KMSAN checks
 has been added to the -mm mm-unstable branch.  Its filename is
-     s390-uaccess-add-the-missing-linux-instrumentedh-include.patch
+     s390-unwind-disable-kmsan-checks.patch
 
 This patch will shortly appear at
-     https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/s390-uaccess-add-the-missing-linux-instrumentedh-include.patch
+     https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/s390-unwind-disable-kmsan-checks.patch
 
 This patch will later appear in the mm-unstable branch at
     git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
@@ -154,23 +153,22 @@ and is updated there every 2-3 working days
 
 ------------------------------------------------------
 From: Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: s390/uaccess: add the missing linux/instrumented.h #include
-Date: Wed, 19 Jun 2024 17:44:09 +0200
+Subject: s390/unwind: disable KMSAN checks
+Date: Wed, 19 Jun 2024 17:44:10 +0200
 
-uaccess.h uses instrument_get_user() and instrument_put_user(), which are
-defined in linux/instrumented.h.  Currently we get this header from
-somewhere else by accident; prefer to be explicit about it and include it
-directly.
+The unwind code can read uninitialized frames.  Furthermore, even in the
+good case, KMSAN does not emit shadow for backchains.  Therefore disable
+it for the unwinding functions.
 
-Link: https://lkml.kernel.org/r/20240619154530.163232-35-iii@linux.ibm.com
+Link: https://lkml.kernel.org/r/20240619154530.163232-36-iii@linux.ibm.com
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Suggested-by: Alexander Potapenko <glider@google.com>
+Reviewed-by: Alexander Potapenko <glider@google.com>
+Acked-by: Heiko Carstens <hca@linux.ibm.com>
 Cc: Alexander Gordeev <agordeev@linux.ibm.com>
 Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
 Cc: Christoph Lameter <cl@linux.com>
 Cc: David Rientjes <rientjes@google.com>
 Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: Heiko Carstens <hca@linux.ibm.com>
 Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
 Cc: <kasan-dev@googlegroups.com>
@@ -186,19 +184,29 @@ Cc: Vlastimil Babka <vbabka@suse.cz>
 Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 ---
 
- arch/s390/include/asm/uaccess.h |    1 +
- 1 file changed, 1 insertion(+)
+ arch/s390/kernel/unwind_bc.c |    4 ++++
+ 1 file changed, 4 insertions(+)
 
---- a/arch/s390/include/asm/uaccess.h~s390-uaccess-add-the-missing-linux-instrumentedh-include
-+++ a/arch/s390/include/asm/uaccess.h
-@@ -18,6 +18,7 @@
- #include <asm/extable.h>
- #include <asm/facility.h>
- #include <asm-generic/access_ok.h>
-+#include <linux/instrumented.h>
+--- a/arch/s390/kernel/unwind_bc.c~s390-unwind-disable-kmsan-checks
++++ a/arch/s390/kernel/unwind_bc.c
+@@ -49,6 +49,8 @@ static inline bool is_final_pt_regs(stru
+ 	       READ_ONCE_NOCHECK(regs->psw.mask) & PSW_MASK_PSTATE;
+ }
  
- void debug_user_asce(int exit);
++/* Avoid KMSAN false positives from touching uninitialized frames. */
++__no_kmsan_checks
+ bool unwind_next_frame(struct unwind_state *state)
+ {
+ 	struct stack_info *info = &state->stack_info;
+@@ -118,6 +120,8 @@ out_stop:
+ }
+ EXPORT_SYMBOL_GPL(unwind_next_frame);
  
++/* Avoid KMSAN false positives from touching uninitialized frames. */
++__no_kmsan_checks
+ void __unwind_start(struct unwind_state *state, struct task_struct *task,
+ 		    struct pt_regs *regs, unsigned long first_frame)
+ {
 _
 
 Patches currently in -mm which might be from iii@linux.ibm.com are
@@ -244,4 +252,4 @@ kmsan-enable-on-s390.patch
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240620005924.B7036C2BBFC%40smtp.kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240620005926.A4CFCC2BBFC%40smtp.kernel.org.
