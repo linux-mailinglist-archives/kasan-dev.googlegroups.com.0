@@ -1,48 +1,48 @@
 Return-Path: <kasan-dev+bncBCT4XGV33UIBBNP5ZWZQMGQEPC6FKAY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83a.google.com (mail-qt1-x83a.google.com [IPv6:2607:f8b0:4864:20::83a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0046E90FA95
-	for <lists+kasan-dev@lfdr.de>; Thu, 20 Jun 2024 02:58:30 +0200 (CEST)
-Received: by mail-qt1-x83a.google.com with SMTP id d75a77b69052e-44051e6249asf3087291cf.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 17:58:30 -0700 (PDT)
+Received: from mail-oi1-x238.google.com (mail-oi1-x238.google.com [IPv6:2607:f8b0:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33FFC90FA96
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 Jun 2024 02:58:31 +0200 (CEST)
+Received: by mail-oi1-x238.google.com with SMTP id 5614622812f47-3d2495664b4sf293991b6e.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 19 Jun 2024 17:58:31 -0700 (PDT)
 ARC-Seal: i=2; a=rsa-sha256; t=1718845110; cv=pass;
         d=google.com; s=arc-20160816;
-        b=spZJMI9HgyGGvMYUJR1X1PRgRqUbuoU93PZ3WYaRA9qKlr1AcMCBw1h6DddtECv7Nl
-         GNNy1+J5U8O61k95vO0YNcPukuckhEKhOXb94TVuTlnmIx9QLSin13rgpNChfjlI3jUB
-         eKlyP91K0UoM++Mnjr88mC8THKHKIFreC2mc8Ta1XrPy6p1Yprhmq9LOKU26/43OHfo2
-         HfQh/GQFCOLi7dMTYMJDwLpxJwUEdnNzZrbfw4ftbfVXbESz5VxQfbdA4OmuMnVkzTzS
-         Kj3/o1nIYhoBxMqqlPQre3/Nx5e6FuM/aZ8MT6yhmG3435QZx27IRSq3xC74SHueszbf
-         5VIg==
+        b=PuLkmkAjtGP/qzVZU7tJQ3VZxMtKCMRzI2OJcKbQC+BVQebe/HCvtnrVkNCZQtwym9
+         KfLp6TkRCK1qT7PBPlOggsRhU7qohLGJJJOimHu4hrTUOrSD6KMUyuFC6AJFGgGwoXwn
+         VduDVmxhWfDdhvsC+3s4YYTgeo8ZKveDzA5qfI3euL+xtFJnQAA9xM/aY0K5iO/fqF3i
+         N8xfYY5jJZZc2XW1SZ0p9QVb6akFEvILXyUmPzCaZDvpsT/V88UvvPbcyvrrxYG/sCSk
+         fp1kjx8108iQBaJSVX9ZbfApoUCbpHxfXnHwkyWD1gXHsKT5y/dxptCHp5OQTsy/Mgef
+         grQA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:message-id:subject:from:to:date
          :mime-version:sender:dkim-signature;
-        bh=R0uMan8nxiEhetI4OEx9argqKk40oTlFJyEnBwzJk0A=;
-        fh=iPQxtMuNpZzFFf8TdWPON61E9sKpzERz77vxGJ/4NkI=;
-        b=CifyB7yg714pXg1HlxhEtA50+fxz55OKh7slIjJvqzKgn389UevJYzOS79wCmOkV53
-         WKDM46ZgOjmK/mzmJV1qh7dr1p5ED/pRy5VNIE9a15U1oVT75TdTIbtX9i221NlX+j9J
-         BJmxY2ZlTLtylPFQkxVEAifqSI5jN5c6u1F2+QgvXEoyT6a9H4a521SeeicnDIv08EKz
-         ayh0tqoN1BqgOmU8WRt6Lohv4a81AAq3siJzjy+JD7N9J74mOjNObS2F0vzfoaIrW4aP
-         J9zDsCbHtdVYJC7b9omk2JjyklFqWZEkCG2Y+rUflpSTtM99Olt5N4ZjJ/IYLwxKDygV
-         lodg==;
+        bh=GMaudnR3OQsWWnDyLbSx3p8dqBk3ofXAh3SyRe5Asck=;
+        fh=3clePesr6TE2XKgsXS38AwQwid0S5UpB3cEDTm6aHc0=;
+        b=ZpZGjF9BzR33muMkvwdmacC8WU6GtpEHAIyxqym9fsdEbV3j+qAFGiNA21KYPZ79zT
+         SfaqSUpn3r1gO59l3lOEDbIPa3pAx7BCU9youI27TI7n7T7ODbf/Jz2S1Du9vXaZf+CW
+         5h2VPb+ni30wjdftWTDg53jLnhgV1GIttP9n45BX1aEZjbSUp9Ck48IstG/h1wEdHtyQ
+         +UeKZ5sHykoMAJMGj5awwbE8tWnxaylwFFke4PxUWfaYTZxHovOOU1jcbqrv2enI/tSC
+         PoOd4Q7D4oH5nrh9S81Ze1o8uN9dASlcXYDmGIgf1TvNph87FAR3BZoEXCmHwGIO+BGF
+         AdDA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=UH1qLKf+;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 145.40.73.55 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=jUJb1ih7;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=googlegroups.com; s=20230601; t=1718845110; x=1719449910; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:message-id:subject:from:to:date:mime-version
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=R0uMan8nxiEhetI4OEx9argqKk40oTlFJyEnBwzJk0A=;
-        b=wBKTV+4PJOzJeqLltZf/XNEuJD6Lni1THw+UC8nBjVHkAIlkVYXE5mID0+UDjbMvN8
-         UfzZ2CYMeJuKpqls5TYBilmHCoupoKO3cWLX+zkajJKJhFvgfxxJFJKsVnSVoX0cUqhp
-         l4PAEOtNxk6wQ0+K83nz/189XjS67Nm0lc3QOQXNvckh/ss/VY8DAyXgjjLwgNN+SZox
-         i0Q+sSag41KmGLMcfKPfI64X6blXu/sjwCW0lVw8OABILOhQK4SfNt6+mXSXnewCSHwE
-         YpO1YQkI1rZTmuGiyY100NfYl4iSTlM8ZtVCSNVV3j9PkbhyRmc5vqrZoWLgizpiJU4X
-         RttQ==
+        bh=GMaudnR3OQsWWnDyLbSx3p8dqBk3ofXAh3SyRe5Asck=;
+        b=cWaHDXgAdGE3C7Dm9DM9P48ZkaDt5/jBvW5wRfa6WzPoLgVr+NQTeczd0p4fgHWl93
+         qyr60kzbA0TNAsAoeVKcQ106O2OSS8uw3qfUFWRPJQJNM2HYm2/vMytEos4hiZ4bMdM6
+         FMUKMX+J3NPoBVgmXEuUVcuURNLPWriB9bG9fWUczghrGKT2X08HDqxsX5S32PiIj2b6
+         eS55ilZHyc/ljV6+8EZWGL2e1+wcunRKUsc8HdoiczO/pEu+KfuUf/D4NtWApcp0mCrX
+         uKq1cScouh7fFnuRRJ4tVqpyThUpJjqQTlzKDYE+9MqHv5S22VoZFIt74I3pQAyeay/5
+         o77g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1718845110; x=1719449910;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
@@ -50,70 +50,71 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :x-original-authentication-results:x-original-sender:message-id
          :subject:from:to:date:x-beenthere:mime-version:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=R0uMan8nxiEhetI4OEx9argqKk40oTlFJyEnBwzJk0A=;
-        b=slVpr2RGCBgwIoZSMGlMtab54WLFap5pjCHvLE0yX+uncuoQvMU4P9ao1jt/etr2wh
-         MZHF7E54Bihpuyf9MieGEPL02w5asV0iMhP2Cf27hC8gem6dKHGSrTBJOc3Ib1tPBnlG
-         IJOKTVZ+eQFzDDRKSITZ5rL4cEaKChVATAEUB5Xf3FqCi4HZqF+eV2MIJbwJzGBkgg0l
-         N+TatxClcYsxtxM7fVredtF9c1fr/fQWB/oboQcyWLvjL2l+fo6FrXZ4pIqQ78OiPDrl
-         ZJdkCX8oBFURap8CtUWOjVEhFJcMmvVid5UT+Ob4h0pm9MngK+ztM/pWKv0XEVm7UFRc
-         EubQ==
+        bh=GMaudnR3OQsWWnDyLbSx3p8dqBk3ofXAh3SyRe5Asck=;
+        b=k4JkPAgTQquXjdZX6P7OsLURqjxhxAXr25znUDO7GRAmZYigRmVmY5rlNsFaaTX+Q4
+         DpnLUrEHyUpJsd3o+tEMlawinhW+Q14asmahznYcS6H41xaDCW8/+vd7Qqq24rJCHl6o
+         gI0sDvLRYsaYqecSQqFccMV8Dmu78076uGi2mAyFhTCuRW/q6YGR5XUZd/2gW2joyT3n
+         tt3GWgLbh9Jz/+2f5vlCdDc7TAIjuHQR5/BrgHRuLCWnim2ONeBl9a9Zm/iknChvSZ6+
+         Ewdr8OU0wIzCQfb6kK36zqRYT+tsGsnSQS6S7hTbdmyWGcePbeGR6EwGgtmoGjqi3I/i
+         MhlA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVjSiFGTBnEnDzBon3qtX4Ut6whdBGhtJGac1XI/6xufokfCb7f/gKUsBgzIrq1mVFNiMpm3DxyTuctqM0uuK5PJzNt1SW3JA==
-X-Gm-Message-State: AOJu0Yx+piqRdei1QfS2y804lTzpELD7Sko3Pe8ydJrskECd9QFix+rR
-	qZK3mTsiIEvT9OlOczN+7loCd2mIhI9ujpQ69Dy9xPAcxN2URl+m
-X-Google-Smtp-Source: AGHT+IEc8e0QyJY5Rtiq8JPPRLGB0Fq3XJXIljLYoBusZrUmH8VRu8ggERnxtCpYLqCFRAE477LL3w==
-X-Received: by 2002:a05:622a:110f:b0:43a:f698:2b21 with SMTP id d75a77b69052e-444a79de220mr39546821cf.36.1718845109909;
+X-Forwarded-Encrypted: i=2; AJvYcCX+ru9+OLzaGrC3xCiZJcHR1rK8/Whqs1l3Ik8+cN+4aBHNa5krpakDVuSpDWwCYp7feFjX7XsTgH0q1QDH2QUP9CgVN5hYCQ==
+X-Gm-Message-State: AOJu0Ywd6aUPMNjqz4VCzQsmVQPLBjhpr7Tg01IUGBx7fGskO9kBcolf
+	WBC0nNF9Vf7BKqfplboAKU5NfvFNzvSJ2HJxpJxRHNRYrTBij6NS
+X-Google-Smtp-Source: AGHT+IEshKLj0xAjqS/1QONW4RDRvikzoXkWGCPBY7sEx29Wtub00wy/rU/Q7MKOr9nxmN1bTqtUvw==
+X-Received: by 2002:a05:6871:58a8:b0:24f:dad3:97c with SMTP id 586e51a60fabf-25c94d05a4bmr4742184fac.46.1718845109779;
         Wed, 19 Jun 2024 17:58:29 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac8:5f54:0:b0:440:348c:4bc with SMTP id d75a77b69052e-444b4a38c4dls4044731cf.0.-pod-prod-06-us;
- Wed, 19 Jun 2024 17:58:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCX9SMqOItbf44aGlF9SqhC9irTUi+Zm1EXXmyUigASgBSDyKrr4fcJdq7jHjIsHvMWvlo9R7WfUSDU5HTpxCs2diuoX9a94hzvpFQ==
-X-Received: by 2002:a05:620a:24d3:b0:797:d55a:515c with SMTP id af79cd13be357-79bb3e1bb03mr450515385a.13.1718845108989;
+Received: by 2002:a05:6a00:8008:b0:706:4559:9351 with SMTP id
+ d2e1a72fcca58-7064559996fls32732b3a.1.-pod-prod-04-us; Wed, 19 Jun 2024
+ 17:58:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWRpi3O1zhqrqD06JKhSKuaCRv6YTAXACQrXcfvY7Tv7xY1x36YpTWPc96NbfLfc3FzAkXXGzTWIEziOXvxkbgwgBQvP1SarrbFTQ==
+X-Received: by 2002:a05:6a00:1b51:b0:706:334a:43d8 with SMTP id d2e1a72fcca58-706334a4790mr3106509b3a.2.1718845108453;
         Wed, 19 Jun 2024 17:58:28 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1718845108; cv=none;
         d=google.com; s=arc-20160816;
-        b=0FBTuRtF2KspHDCxMrPeOq/2c78yUex4SiOlXDQpfVWO4DN8BpackcNnvgWjON3Ue1
-         gULiJaQWb0kum3jMb9amyj6oGgofsAV2TWqHOY0Vku7Vppu3BlLtIBGYCq5iYoPLwEJk
-         YrqicPTtrKiYH+XOK35qMtwu/k/15iQxCcm4IAiPLokRrWjb+SQpXIDNAXto5oCivLid
-         G7u2B4aDpFibrUpK8OLG9Pafd0Q+Wora/4ayhIIOQaOn87FMYx1ZsuZSWMMhpRlqLbCj
-         HpbbgX5LKzzYjlJyQZo3S4nXUVZYZFW/wleUHGxM+rXeAsV03A0n0nfZNvUHMXvf4Swe
-         +THg==
+        b=OmIXojNzQzmpqQ8UcLCzdtnQahgnO9Cpzd0H1KIj+TjiOH62I9i8RaXJS87WMAjCUI
+         FKMVbaup0BAdyH6l3M+5cNIUuqMhHHjPxGeTiruN7eklVFHC81IsqSV3sG3DMXcbXidR
+         VHKZCI6nuiWQGfDS9sO+uKIHwXqvi59NUbZTUGN5GcxA0ALntW8S9622uqgAlr/8d0lr
+         2oLw1UjgzFCyLQuYMcfjQR3b169t2JbUOWKVLfO9A11RSl+R5kGrlfuwpftGzzKRJ4vg
+         +cSqfaogJEq32lFN6wkMQvOFP/sXufzLgpivd3A3jI5UEXkCDA4ugNORMCuHXmhi566R
+         KAtg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=message-id:subject:from:to:date:dkim-signature;
-        bh=qsO1pPwm3qlhUADJJLSgXxakBnn2ZYANezzJqMGglbo=;
+        bh=iiUDJw6WRQzcBecq65uPcR/eQFySiOKyun2W6T1/2hM=;
         fh=YLJcVBHySIoH6a7eXFb8EZw2NzFQuSbk32Vvne46C7E=;
-        b=ONNchaCuro9WB4ACe58yZZwGhXmY+XsazwYWioNX7ddpDy9/KhWp0JPZVffM25pwCN
-         Dzz7hynQqOB8At+XM9p6UP4y7IrsF1gwH5vHQzpbcpBDm2MqOIF+hF+tdG9VhnFBlEaC
-         HwOUUalj+7riPsHTUuktFYABHtfeGxdwRnnwomLh2ZHfdXtjMkOheLmsio0oRQ9/u8Yr
-         JDTVN/5W/h3VTe2ob5pum2wZXRyOZmbRyJv0BquA7ECeSbZnHktXH34riUztoTkfn85V
-         VwE3CJ1/h8saSh6PDu6AcdYXCWgzOUyvXlaAXo4jITEUcmLnGLn9A1JnXJ4/Bp7J8x52
-         RCmQ==;
+        b=yw67HxjXBx+u/NdrLX9VMO0+UxkBRMj77zFf/HpV4bJOddMqY7tjQBvdzu+B0xJJIF
+         N2P4O4heK31096GceYf2wNkC80bEJepADAJp2ViuoAa2FS02NoKYOT6vJMMusR2lROkh
+         DKtZ7U1Fn/WsQhcyV2Nv2Jbv64lvCPP1fjGinxzfaO58egxwICMA23WimLcnxAm/MNY0
+         MQYBdhGLsN9kjRnQ3Fsb07ToYggEEoSt4zWlp4cviq2bEBvfc51DU3n1Cce1t7v9ijgX
+         O44WOsxfjnczU4TpXO9T40rnCevLvto9XqG/7gGaS0YaN60uM44DAy4d5JgNzY1u9R34
+         jWjg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=UH1qLKf+;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 145.40.73.55 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
-Received: from sin.source.kernel.org (sin.source.kernel.org. [145.40.73.55])
-        by gmr-mx.google.com with ESMTPS id af79cd13be357-798ac0ada77si68498585a.7.2024.06.19.17.58.28
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=jUJb1ih7;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-705cc9201c0si684619b3a.2.2024.06.19.17.58.28
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 19 Jun 2024 17:58:28 -0700 (PDT)
-Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 145.40.73.55 as permitted sender) client-ip=145.40.73.55;
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id 40857CE22D6;
-	Thu, 20 Jun 2024 00:58:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8288FC32786;
-	Thu, 20 Jun 2024 00:58:25 +0000 (UTC)
-Date: Wed, 19 Jun 2024 17:58:25 -0700
+	by dfw.source.kernel.org (Postfix) with ESMTP id C8D8361F4B;
+	Thu, 20 Jun 2024 00:58:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E6E2C2BBFC;
+	Thu, 20 Jun 2024 00:58:27 +0000 (UTC)
+Date: Wed, 19 Jun 2024 17:58:26 -0700
 To: mm-commits@vger.kernel.org,vbabka@suse.cz,svens@linux.ibm.com,rostedt@goodmis.org,roman.gushchin@linux.dev,rientjes@google.com,penberg@kernel.org,mhiramat@kernel.org,mark.rutland@arm.com,kasan-dev@googlegroups.com,iamjoonsoo.kim@lge.com,hca@linux.ibm.com,gor@linux.ibm.com,glider@google.com,elver@google.com,dvyukov@google.com,cl@linux.com,borntraeger@linux.ibm.com,agordeev@linux.ibm.com,42.hyeyoo@gmail.com,iii@linux.ibm.com,akpm@linux-foundation.org
 From: Andrew Morton <akpm@linux-foundation.org>
-Subject: + kmsan-remove-a-useless-assignment-from-kmsan_vmap_pages_range_noflush.patch added to mm-unstable branch
-Message-Id: <20240620005825.8288FC32786@smtp.kernel.org>
+Subject: + kmsan-remove-an-x86-specific-include-from-kmsanh.patch added to mm-unstable branch
+Message-Id: <20240620005827.6E6E2C2BBFC@smtp.kernel.org>
 X-Original-Sender: akpm@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=korg header.b=UH1qLKf+;
+ header.i=@linux-foundation.org header.s=korg header.b=jUJb1ih7;
        spf=pass (google.com: domain of akpm@linux-foundation.org designates
- 145.40.73.55 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+ 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -129,12 +130,12 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 The patch titled
-     Subject: kmsan: remove a useless assignment from kmsan_vmap_pages_range_noflush()
+     Subject: kmsan: remove an x86-specific #include from kmsan.h
 has been added to the -mm mm-unstable branch.  Its filename is
-     kmsan-remove-a-useless-assignment-from-kmsan_vmap_pages_range_noflush.patch
+     kmsan-remove-an-x86-specific-include-from-kmsanh.patch
 
 This patch will shortly appear at
-     https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/kmsan-remove-a-useless-assignment-from-kmsan_vmap_pages_range_noflush.patch
+     https://git.kernel.org/pub/scm/linux/kernel/git/akpm/25-new.git/tree/patches/kmsan-remove-an-x86-specific-include-from-kmsanh.patch
 
 This patch will later appear in the mm-unstable branch at
     git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
@@ -153,23 +154,25 @@ and is updated there every 2-3 working days
 
 ------------------------------------------------------
 From: Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: kmsan: remove a useless assignment from kmsan_vmap_pages_range_noflush()
-Date: Wed, 19 Jun 2024 17:43:42 +0200
+Subject: kmsan: remove an x86-specific #include from kmsan.h
+Date: Wed, 19 Jun 2024 17:43:43 +0200
 
-The value assigned to prot is immediately overwritten on the next line
-with PAGE_KERNEL.  The right hand side of the assignment has no
-side-effects.
+Replace the x86-specific asm/pgtable_64_types.h #include with the
+linux/pgtable.h one, which all architectures have.
 
-Link: https://lkml.kernel.org/r/20240619154530.163232-8-iii@linux.ibm.com
-Fixes: b073d7f8aee4 ("mm: kmsan: maintain KMSAN metadata for page operations")
+While at it, sort the headers alphabetically for the sake of consistency
+with other KMSAN code.
+
+Link: https://lkml.kernel.org/r/20240619154530.163232-9-iii@linux.ibm.com
+Fixes: f80be4571b19 ("kmsan: add KMSAN runtime core")
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Suggested-by: Alexander Gordeev <agordeev@linux.ibm.com>
+Suggested-by: Heiko Carstens <hca@linux.ibm.com>
 Reviewed-by: Alexander Potapenko <glider@google.com>
+Cc: Alexander Gordeev <agordeev@linux.ibm.com>
 Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
 Cc: Christoph Lameter <cl@linux.com>
 Cc: David Rientjes <rientjes@google.com>
 Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: Heiko Carstens <hca@linux.ibm.com>
 Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
 Cc: <kasan-dev@googlegroups.com>
@@ -185,19 +188,30 @@ Cc: Vlastimil Babka <vbabka@suse.cz>
 Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 ---
 
- mm/kmsan/shadow.c |    1 -
- 1 file changed, 1 deletion(-)
+ mm/kmsan/kmsan.h |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
---- a/mm/kmsan/shadow.c~kmsan-remove-a-useless-assignment-from-kmsan_vmap_pages_range_noflush
-+++ a/mm/kmsan/shadow.c
-@@ -243,7 +243,6 @@ int kmsan_vmap_pages_range_noflush(unsig
- 		s_pages[i] = shadow_page_for(pages[i]);
- 		o_pages[i] = origin_page_for(pages[i]);
- 	}
--	prot = __pgprot(pgprot_val(prot) | _PAGE_NX);
- 	prot = PAGE_KERNEL;
+--- a/mm/kmsan/kmsan.h~kmsan-remove-an-x86-specific-include-from-kmsanh
++++ a/mm/kmsan/kmsan.h
+@@ -10,14 +10,14 @@
+ #ifndef __MM_KMSAN_KMSAN_H
+ #define __MM_KMSAN_KMSAN_H
  
- 	origin_start = vmalloc_meta((void *)start, KMSAN_META_ORIGIN);
+-#include <asm/pgtable_64_types.h>
+ #include <linux/irqflags.h>
++#include <linux/mm.h>
++#include <linux/nmi.h>
++#include <linux/pgtable.h>
++#include <linux/printk.h>
+ #include <linux/sched.h>
+ #include <linux/stackdepot.h>
+ #include <linux/stacktrace.h>
+-#include <linux/nmi.h>
+-#include <linux/mm.h>
+-#include <linux/printk.h>
+ 
+ #define KMSAN_ALLOCA_MAGIC_ORIGIN 0xabcd0100
+ #define KMSAN_CHAIN_MAGIC_ORIGIN 0xabcd0200
 _
 
 Patches currently in -mm which might be from iii@linux.ibm.com are
@@ -243,4 +257,4 @@ kmsan-enable-on-s390.patch
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240620005825.8288FC32786%40smtp.kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240620005827.6E6E2C2BBFC%40smtp.kernel.org.
