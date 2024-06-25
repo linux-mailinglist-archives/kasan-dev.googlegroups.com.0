@@ -1,139 +1,171 @@
-Return-Path: <kasan-dev+bncBCAP7WGUVIKBB5VX5CZQMGQEI2MN3XI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDZIZ2OL6IIRBOPR5CZQMGQES4OHBEA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
-	by mail.lfdr.de (Postfix) with ESMTPS id A92CA915B99
-	for <lists+kasan-dev@lfdr.de>; Tue, 25 Jun 2024 03:23:04 +0200 (CEST)
-Received: by mail-pl1-x637.google.com with SMTP id d9443c01a7336-1fa308c917asf606485ad.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 24 Jun 2024 18:23:04 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1719278583; cv=pass;
+Received: from mail-qt1-x83e.google.com (mail-qt1-x83e.google.com [IPv6:2607:f8b0:4864:20::83e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82C9E915D52
+	for <lists+kasan-dev@lfdr.de>; Tue, 25 Jun 2024 05:25:46 +0200 (CEST)
+Received: by mail-qt1-x83e.google.com with SMTP id d75a77b69052e-4404a08e4d0sf115765631cf.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 24 Jun 2024 20:25:46 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1719285945; cv=pass;
         d=google.com; s=arc-20160816;
-        b=R9VCo8FuJjOwhkGwZfMgmSc0nv+HwZABcEX/X54SBYxVi8W4PUpn8PGt433txm59wq
-         SwcJ2X2/ifdbi1DLF0h8YkgM7i8fwqLav3BEIvMch6FRwYYQEyR3E6agCAPpv5k3A80F
-         kMCZYvElYnm8HE/Qg7hdhXi35jTlmnw4x+hIxDVKQRxfg1uuAe8vuI4aJ/hjIKyr366u
-         E7lddxUidtnXrsldm0frNlys32F3Ht30E3jQt6KkXTBie3WgeAPh1eAcKoNID2MChwfx
-         GyDz78T9tkAXV7/rRZfclRyzQYTKpjlXJQAAlLK02trFOsyAcEryVrFGZL4QFQ82hlwY
-         qyHQ==
+        b=MWRBD3nLwoqSxsDAgHrmHqcSRuMbv4I+z/WjWkVMO8u+CzbABawnL5c7aQXGmBRV9C
+         YZdG4xigFwUm2BHaJx9uHNymYQL17gzlKdoUZI38qDpjry6O7VcXeN5tgmGZFfPUXZ5p
+         afu3Z/CP7rzEkupdO8GlLdrbvh4HqZJmEu8apS6foJfdzlTcovBvDmY2AGBr9rfoJ+NM
+         4o4fgwCesiVGvyX0yO5H0q5Dqyn/zMAXswFn8VbYsh8LRAXvdWfsaAiqhacmpr80eQnp
+         5BsANO3RWPp1eKzjVh/gRDApbiaDZNPS7JMAPYhl3Ar3IV4dXhd+HZtWCYmnWLRFhO1r
+         sO9A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=rbiYIY4zWdfx9pOG2HW77rmZQgyv6MJiy00kpmuRTuI=;
-        fh=hzIhk73aV/9xk6K9kYBQ2MMPGs2RS9hQWlZTLqUTLj0=;
-        b=apzrIM2YdmjVgr2OUBBt9dmRZv4NnxI8FNeYmwgXsPvdikTTxt0oV2QrLJOuLaZjnZ
-         qsbq/9po1L/v0OwlSHCQ44d2QSQnTjJ09pnmwB5b03KodWVxnqXqKCiTavHgc7m+iScr
-         /nFRPFm4kWX2KkVzLJb3dRWTXHezp2+t5jLwRHcXAJ61TzUJqAqzjdCJLQH1TgTfyaKR
-         EBsEhW/wbL5gWf0XQ0qL2pUQZ0WBjYsotQ5wJsIovCksgu5Ir+cJe2gUTet6yrF3u9qC
-         TaP2QkzltWx9VqeeGz2nlzvCSX+CkBqVab9CDzkbGtMY3SKGYm4Vxfc3CUOSK/C7AtTO
-         9n1w==;
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:to:from:sender:dkim-signature:dkim-signature;
+        bh=Nxf1fiJT4teYUjXJAemaXitH5weAy66zIJWO9X/f3JA=;
+        fh=0CR7XSVCvy4qlwHPKYfEPs96hR3xyDGwkoolErvAgck=;
+        b=ipN/j6QkzhNhLnqqpxT2yh91c5U+dSx6L+zxDelVP3kapqI1bV349WWQ0TI85QbYVC
+         z7o3v++Y8XNT7V8aoVJkrkCKz8VB/Vgr+papZaDp8oNdGwpDFDNBbmnNs0cf990MHMPN
+         PKCEq0F8/NsD/AhBbnBo9+IoVgVPVMF5i4DqBazpOpylLtkTChRzQxv3iXXWSnWHoah5
+         AViuhGrV/vYiv7jUzBW251Vi9LwVQtSZbW9FiTVO7CovbzO/rQV3ONAOScC5v0bkEHI5
+         dHQiolHibnzVBXGox3SU4+Q0xnyj+cz02LTe2vsHo7vw9vjGyXlBfY8z9vGGiZOPU1O9
+         gmCw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=EWMpGRid;
+       spf=pass (google.com: domain of gatlin.newhouse@gmail.com designates 2607:f8b0:4864:20::432 as permitted sender) smtp.mailfrom=gatlin.newhouse@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1719278583; x=1719883383; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1719285945; x=1719890745; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:content-language:references:to
-         :subject:user-agent:mime-version:date:message-id:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rbiYIY4zWdfx9pOG2HW77rmZQgyv6MJiy00kpmuRTuI=;
-        b=CtsPup3kRfDTKu8dnQWVt7u/3Iok3dNjvurmQjd/EcH+gvijVg2kA9CX+XnFIgLZ98
-         J4WR6J9czbM51UNhFg5UCaBev4dBtpEA/bjjlTfDbvsiqFAW0ef8cfe/wezenrEAS24l
-         NxkQo2vimd2sotLkTUKNEtWsuIxFE3NdwyfmImVxLTu4SR34EA4Ms/ChLLiY7g6z5O2a
-         wGJuWNqZAGqUZXabVRWi98zWVlSC+bEkDAuT17TMLN+FuNo0X7xnd/S+tzFDJx5ECtw/
-         jlTvPfdkRHHJdR85F774LLTRikNWxqtJsKFdcmSuNleHgZBkgXccjOXr+WHrTMizej+p
-         R4jA==
+         :x-original-sender:mime-version:message-id:date:subject:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nxf1fiJT4teYUjXJAemaXitH5weAy66zIJWO9X/f3JA=;
+        b=C/ytdd77PpXILHGgRAIE28wB+Wnr4aZQPefVSxnr65bF56jpZkHYB5WXVGa4OnOGIk
+         8bV4/Z7eqsUzC+wIjEHT6lmMxcFF/wpPzGuYVzNt7zC8o31wDkfOcXxfAcQgXpT+Ppx+
+         x39tSvxEIbZEwQ7ZjHi5TU0nhffjYikRvA2I7sBb30bmFII7nsfFo81nxkccjSWQyQch
+         Ntfs26MIBUlIU17xg/jqsGM4HF50amvkw5UotZ7qTqRXFGKLmjpvsXYusWTJil8uNb6n
+         n0TI8AKK/OlL3hkPSEoxYLh0t3FxE+CVUfbN8O0PjGZuvG4yeunplazUlL5EBNfmEpEZ
+         gFRQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1719285945; x=1719890745; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:to:from:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Nxf1fiJT4teYUjXJAemaXitH5weAy66zIJWO9X/f3JA=;
+        b=CztmlBB6cqvjNcX8wfJK8mpT6PgQRTTqQhZVPJD8MJ5kAhSZ+3SJHDvTw6vLXjN9gS
+         gEUxNyxh2q36fOTN7zjVYqUZmR6l2ROQNK17+YbwixEBf0G6XjO8a7xl/Kqzt27+WKRN
+         mjKXqOb+Z/4vcmLVYYCN+hOruWgh1DNwevZxSYT0TSrXXPVJUz/UgTvZaC2iHHomCL2L
+         STt+1NZnZvwlC6gIJnsNG93qy9zIFuC9LVKb1Z/2RFLCx33dkKDr4aYTgK9QK4oVzquS
+         oXmzeZMRPinTnzZ59Zr8rw+zSMIPfQ3rFMKhjjpfwlxe5n08JTyLILLxPKWyNdY+RYAo
+         aCUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719278583; x=1719883383;
+        d=1e100.net; s=20230601; t=1719285945; x=1719890745;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:to:subject:user-agent:mime-version
-         :date:message-id:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rbiYIY4zWdfx9pOG2HW77rmZQgyv6MJiy00kpmuRTuI=;
-        b=Xc+E/vKM/CIGQIrc5Kg/6mdfFl4/Z2JyDkZU3JMPW0hOMn58klhfcu/D+38UYzqUV2
-         //eG9DHBJwUnG1Ie0tNZtIkm29r6Bl48WXAudgxwyzkkkBjfoRrsbqdddFOMsBgoXsYh
-         9P6dcAfzPGdUGDW45HAR44zuj2HN79+WaTUbjlSa9e7Sd+wjIlxMRCgXucAgZGdoC2zM
-         70Vk2VNkCDC/PZ+0uD3sgfi97xRvX0ngeTX95LTJYmUtD8WFgx2m2yucXvzZXWI8e7Gb
-         7fSGc5XnNYDVy4QvAmEKoM3Zkg2ZMzIP9jOwkpNootMXnjdqyq9jrUFldpdtB2T8Qamo
-         iDRQ==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nxf1fiJT4teYUjXJAemaXitH5weAy66zIJWO9X/f3JA=;
+        b=LRvfZM00RUA7mtGFYTt1XhSdgbV8Ac/zyF7tnAHZ9xgwfByVgRQsx37IGUVaSQh6Ol
+         nj4Sdk95I9vR+Je32ZoHCVTOoa3QhFItmQxkzutfo99rRKsp/vvB9Z7tMGsAdTKkbk03
+         eSqlr1Ic1+KY1cibt1unl74OiLDsjJ6oTvUd6+NVrdPm/M/5jAA0CXvAtmqNIaCH10TL
+         5oXAr8VJ56mhzbaBQ4KFawesfSTK7AnY9LDejE5XuO24lVveaP5Gj6IMuoVmmBPxZtct
+         LBk18LgOx+FpjCKgfWSfwgEG59Xd+M7g5IqTsKdKFJS35K21ojtzpNzjtxhLHa2w9A6T
+         xuRQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUdKDVtm9/YgHEKSiXzaK0Y1EJgajD1ykKnCTSu7WUvnzOQd3YQ8qAU/o5jSdcUgz/YfB8c/8IaaHqeqxaCUyaf6GBOvcavcg==
-X-Gm-Message-State: AOJu0YwFl9rN6eKL38XO1Ym+HMR58j8LSdmvjVtZM5GOd3huuAutU52e
-	BQR3d2VrrS2FUaNAye4xHtuhQTFUzXXpc/dvET4aKRtDcEHbr1wp
-X-Google-Smtp-Source: AGHT+IGPT+uMCQFFZQObHXFFSkgqPa6N5VpaOHYx3G+EgtsWRZotwaPV7FgY/Hb9/4trDD5KjtBlEw==
-X-Received: by 2002:a17:902:8c96:b0:1f9:a79b:59fd with SMTP id d9443c01a7336-1fa690e41f2mr1626835ad.22.1719278582644;
-        Mon, 24 Jun 2024 18:23:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWUvJIp5qPJRYBYsgM6bBLBLGx7RojGaCE8IT6Qz3F0gCNCHAU5OYYKJLS676esj+7bpZqdSn4VpIyYnAnAWlw4kz34ZcOMkQ==
+X-Gm-Message-State: AOJu0YymXUWkKSLwHjUwyR1sRbb3nMQEM/yqgiBSInPQIW1z7zcrk1G/
+	Is5ki4kYDTllQQi6lz4f1ncBArE+8tSjAHwDHlyZ+ngFCuVNcJrG
+X-Google-Smtp-Source: AGHT+IG5MctZQePVcDD8D5irhiC34xcjll5bynK8/eH2TO7d0sCtWEY5TJEGC3Xv5b77swEZRsrh7g==
+X-Received: by 2002:a05:622a:60f:b0:444:faf2:1a48 with SMTP id d75a77b69052e-444faf21ea3mr791021cf.31.1719285945239;
+        Mon, 24 Jun 2024 20:25:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:228f:b0:1f9:a3b8:9e82 with SMTP id
- d9443c01a7336-1f9c4ed8196ls9202395ad.0.-pod-prod-00-us; Mon, 24 Jun 2024
- 18:23:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXUtnhBJmB/3bqZO3fOiw1SV3pRO7cFLLARkYWwT/fYKXUcXyEqMjvvAC5dGRY5PMI+Fzd/4Qg0pUwd8pZjObhS5E6GJPtlLam5KA==
-X-Received: by 2002:a17:903:1cb:b0:1fa:3b97:c93d with SMTP id d9443c01a7336-1fa5e698394mr24791505ad.15.1719278581215;
-        Mon, 24 Jun 2024 18:23:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1719278581; cv=none;
+Received: by 2002:ac8:5783:0:b0:444:f49b:2483 with SMTP id d75a77b69052e-444f49b5a6fls4393751cf.1.-pod-prod-00-us;
+ Mon, 24 Jun 2024 20:25:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWQEhtfscso4SPY3QcX74cRilc7Ucgcr5LXV7/6gzJKZV7Y1WwOTd6z+pI3KskIw8eGaL5xkSHeWBZsRzRSaenwckN0JSCSC1BNBw==
+X-Received: by 2002:a05:620a:19a9:b0:795:484a:7f05 with SMTP id af79cd13be357-79bfd6236e4mr373809185a.1.1719285944357;
+        Mon, 24 Jun 2024 20:25:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1719285944; cv=none;
         d=google.com; s=arc-20160816;
-        b=y6wjY1IpY0lGqVpqFC/ZnGL8TJTLXhEeAH/UZS6igOSivBjn6co/nTJzonB5up+ioP
-         03wKzzFGtu7bncIZgL2mW1SjeVDJNq2Pzx66++oLrkSAhCx6WGjoCll2GHLnyJbKYYX3
-         HUOXP9+6zW+XODdeZqeKETJxNXA20Ad+UTYOzttD4zUNf8ZpCb9EeUnNvn5bn9YE5D3w
-         gi+mbSW40OxDBYm6jVi/eb8UmyTT+pFrwWMM0FSvXPGiM9liI2n1boLx9Mvilg9m83qP
-         SkM+9YMtPEsuyJSJYn0v49TlLnJmnc+T1bUUWYx1ySAhrQI3UAeLEjiCJaezWISXpRrk
-         vmiQ==
+        b=ALDJ2bXUUN/3DhreyK4mC0HBYbvRUT19WCovtSXT2uXHyAfcMsbesl7xg6Mu/clj/F
+         QoBwxkjQyKfJsI0fxFpHRdCpAGLpViZdMHVDTJF9rYvkJcvBPwLCMzxdF/zAIeWKRSbi
+         uFvB1ITateVxcCW9C/cjSQubVF2xsL8UVdCsZ1gbPmt1ZnjcHpHKI8lZKSNddiTcinPi
+         Cv0NAQ0forRF9aIsCNAvTrsHhl8XrwjZ/hTdUQUsXeV0Jym4Q8Vm+gjcrDpMuz6Kn1Yr
+         0Y4uIeUNn4W1CBp8RHiDhuMsJGjUGcfhRhJTWqicW0CUSfnTrA4GznDZiGCSMpa82Y5t
+         B0mQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id;
-        bh=BY1XRD+JH3GY2ZM3/0f3kTFyCSryhxfMG3zyPdaRdaE=;
-        fh=ocbF7OgWTpamFD3BLcYzK1LhdYc70zFJXiSzLl13RaA=;
-        b=dYziCOziZkngBJ6OyvCsjwCg3HJu+1fqo96d9woNryrfU3K2PTSDRFdKz1zzOrMakq
-         EH2G3dxbAZ+ffWCavUw+NNnCNsoJG45gbj1KLrTAGgkX3LBq0rF3VF5eN1ylHJK6vSW4
-         sQqPPdo7t/Jz4LKxJTBHeLLVa49Rv81meKabb2RVmFpbwckSJtP1m3avWpWs225dgadV
-         XDbGJ4gK00kNpDlc4SdGp/41s06zsW1HEwpyKhBEz6wW/dshdB0DZljeHLoH8MGDmVKa
-         JoNcMSRao8DPdbEhgmOYTxiRfXk9nLI/Hgznpqw9d9ZJaDw6qFXupESadzflawhl8zNZ
-         4clQ==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:dkim-signature;
+        bh=GgG88c9JE6XnPF8CRgN3glLQvH9X2RESdGb7e77LJso=;
+        fh=JXYaMMYTGZkyiGyEvxXtDVQZmRBjgZWRCs+gcLGhxGM=;
+        b=mptczi6l7adY87gJVqUltcICJVG0dBEMlfaN4MnI7H1Goeh9wmqGJ5hzlC0NJK7OAS
+         4ft0/0sShp2zDCJ9bLHi5IhcAkH41dVMPaoDzD08b2NMLEgu7Mxf5NeMmUXWpkZt+H6T
+         1nzCU2bkINv6hw9cVQqTRhsrsoKqqPwgJmZ4ZJKCu6Xc50JjUQUiBYgrCPDLyWThUVG4
+         0nv0WXJS0437gmmIwATz6K2PI2kaPp6mhRBGrSNlgRv27Ty9zUy58ezdovplzlor5auD
+         RFIRCMgmajurme3tV35mgTrd8EE5oFBVFmsTqpMbCheubgPieHYWZwR0zRKmWSySi9hH
+         O/ng==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp. [202.181.97.72])
-        by gmr-mx.google.com with ESMTPS id d9443c01a7336-1f9eb2eefa0si2907825ad.3.2024.06.24.18.23.00
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 24 Jun 2024 18:23:01 -0700 (PDT)
-Received-SPF: pass (google.com: domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) client-ip=202.181.97.72;
-Received: from fsav411.sakura.ne.jp (fsav411.sakura.ne.jp [133.242.250.110])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 45P1MqpW068712;
-	Tue, 25 Jun 2024 10:22:52 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav411.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav411.sakura.ne.jp);
- Tue, 25 Jun 2024 10:22:52 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav411.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 45P1MqUc068709
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 25 Jun 2024 10:22:52 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <82cf2f25-fd3b-40a2-8d2b-a6385a585601@I-love.SAKURA.ne.jp>
-Date: Tue, 25 Jun 2024 10:22:50 +0900
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=EWMpGRid;
+       spf=pass (google.com: domain of gatlin.newhouse@gmail.com designates 2607:f8b0:4864:20::432 as permitted sender) smtp.mailfrom=gatlin.newhouse@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com. [2607:f8b0:4864:20::432])
+        by gmr-mx.google.com with ESMTPS id af79cd13be357-79bce918a7asi34193485a.6.2024.06.24.20.25.44
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Jun 2024 20:25:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of gatlin.newhouse@gmail.com designates 2607:f8b0:4864:20::432 as permitted sender) client-ip=2607:f8b0:4864:20::432;
+Received: by mail-pf1-x432.google.com with SMTP id d2e1a72fcca58-70665289275so1461645b3a.0
+        for <kasan-dev@googlegroups.com>; Mon, 24 Jun 2024 20:25:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWCSKRavq4qAXfU8dkMooaZew45xyxu1DCYjY09QoaqANxS5SiZ8jn8VV/3gNqbVE6NdVZHb0Re+JWarw9rQCbNJ1Ff7t+4+rmnjg==
+X-Received: by 2002:a05:6a21:6da4:b0:1b5:d07a:57b2 with SMTP id adf61e73a8af0-1bd13bb76camr3898830637.12.1719285942871;
+        Mon, 24 Jun 2024 20:25:42 -0700 (PDT)
+Received: from localhost.localdomain ([2604:a880:4:1d0::427:6000])
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-706512e1f6esm6952010b3a.180.2024.06.24.20.25.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Jun 2024 20:25:42 -0700 (PDT)
+From: Gatlin Newhouse <gatlin.newhouse@gmail.com>
+To: Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Kees Cook <keescook@chromium.org>,
+	Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Gatlin Newhouse <gatlin.newhouse@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Baoquan He <bhe@redhat.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Changbin Du <changbin.du@huawei.com>,
+	Pengfei Xu <pengfei.xu@intel.com>,
+	Xin Li <xin3.li@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Uros Bizjak <ubizjak@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-hardening@vger.kernel.org,
+	llvm@lists.linux.dev
+Subject: [PATCH v3] x86/traps: Enable UBSAN traps on x86
+Date: Tue, 25 Jun 2024 03:24:55 +0000
+Message-Id: <20240625032509.4155839-1-gatlin.newhouse@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [kernel?] KASAN: stack-out-of-bounds Read in __show_regs
- (2)
-To: syzbot <syzbot+e9be5674af5e3a0b9ecc@syzkaller.appspotmail.com>,
-        bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
-        linux-kernel@vger.kernel.org, mingo@redhat.com,
-        syzkaller-bugs@googlegroups.com, tglx@linutronix.de, x86@kernel.org,
-        kasan-dev <kasan-dev@googlegroups.com>, linux-mm <linux-mm@kvack.org>
-References: <000000000000a8c856061ae85e20@google.com>
-Content-Language: en-US
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <000000000000a8c856061ae85e20@google.com>
+X-Original-Sender: gatlin.newhouse@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20230601 header.b=EWMpGRid;       spf=pass
+ (google.com: domain of gatlin.newhouse@gmail.com designates
+ 2607:f8b0:4864:20::432 as permitted sender) smtp.mailfrom=gatlin.newhouse@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: penguin-kernel@i-love.sakura.ne.jp
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of penguin-kernel@i-love.sakura.ne.jp designates
- 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,316 +178,229 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello.
+Currently ARM architectures output which specific sanitizer caused
+the trap, via the encoded data in the trap instruction. Clang on
+x86 currently encodes the same data in ud1 instructions but the x86
+handle_bug() and is_valid_bugaddr() functions currently only look
+at ud2s.
 
-This report is triggered by my debug printk() patch at
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/net/core/rtnetlink.c?id=5210cbe9a47fc5c1f43ba16d481e6335f3e2f345
-but I can't find where the bug is (x86 bug or mm bug or kasan bug or my bug).
+Bring x86 to parity with arm64, similar to commit 25b84002afb9
+("arm64: Support Clang UBSAN trap codes for better reporting").
+Enable the output of UBSAN type information on x86 architectures
+compiled with clang when CONFIG_UBSAN_TRAP=y.
 
-On 2024/06/15 16:06, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    a957267fa7e9 Add linux-next specific files for 20240611
-> git tree:       linux-next
-> console output: https://syzkaller.appspot.com/x/log.txt?x=171e6e56980000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=9a880e96898e79f8
-> dashboard link: https://syzkaller.appspot.com/bug?extid=e9be5674af5e3a0b9ecc
-> compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
+Signed-off-by: Gatlin Newhouse <gatlin.newhouse@gmail.com>
+---
+Changes in v3:
+  - Address Thomas's remarks about: change log structure,
+    get_ud_type() instead of is_valid_bugaddr(), handle_bug()
+    changes, and handle_ubsan_failure().
 
-Quoting from https://syzkaller.appspot.com/text?tag=CrashReport&x=17786fb1980000
-and https://syzkaller.appspot.com/text?tag=CrashLog&x=15e0202a980000 :
+Changes in v2:
+  - Name the new constants 'LEN_ASOP' and 'INSN_ASOP' instead of
+    'LEN_REX' and 'INSN_REX'
+  - Change handle_ubsan_failure() from enum bug_trap_type to void
+    function
 
-----------------------------------------
-BUG: KASAN: stack-out-of-bounds in __show_regs+0xa6/0x610 arch/x86/kernel/process_64.c:83
-Read of size 8 at addr ffffc90008807618 by task syz.0.1430/9588
+v1: https://lore.kernel.org/linux-hardening/20240529022043.3661757-1-gatlin.newhouse@gmail.com/
+v2: https://lore.kernel.org/linux-hardening/20240601031019.3708758-1-gatlin.newhouse@gmail.com/
+---
+ MAINTAINERS                  |  2 ++
+ arch/x86/include/asm/bug.h   | 11 ++++++++++
+ arch/x86/include/asm/ubsan.h | 23 +++++++++++++++++++++
+ arch/x86/kernel/Makefile     |  1 +
+ arch/x86/kernel/traps.c      | 40 +++++++++++++++++++++++++++++++-----
+ arch/x86/kernel/ubsan.c      | 21 +++++++++++++++++++
+ 6 files changed, 93 insertions(+), 5 deletions(-)
+ create mode 100644 arch/x86/include/asm/ubsan.h
+ create mode 100644 arch/x86/kernel/ubsan.c
 
-CPU: 0 UID: 0 PID: 9588 Comm: syz.0.1430 Not tainted 6.10.0-rc5-next-20240624-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/07/2024
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:377 [inline]
- print_report+0x169/0x550 mm/kasan/report.c:488
- kasan_report+0x143/0x180 mm/kasan/report.c:601
- __show_regs+0xa6/0x610 arch/x86/kernel/process_64.c:83
- show_trace_log_lvl+0x3d4/0x520 arch/x86/kernel/dumpstack.c:301
- sched_show_task+0x578/0x740 kernel/sched/core.c:7506
- report_rtnl_holders+0x1ba/0x2d0 net/core/rtnetlink.c:104
- call_timer_fn+0x18e/0x650 kernel/time/timer.c:1792
- expire_timers kernel/time/timer.c:1843 [inline]
- __run_timers kernel/time/timer.c:2417 [inline]
- __run_timer_base+0x66a/0x8e0 kernel/time/timer.c:2428
- run_timer_base kernel/time/timer.c:2437 [inline]
- run_timer_softirq+0xb7/0x170 kernel/time/timer.c:2447
- handle_softirqs+0x2c4/0x970 kernel/softirq.c:554
- __do_softirq kernel/softirq.c:588 [inline]
- invoke_softirq kernel/softirq.c:428 [inline]
- __irq_exit_rcu+0xf4/0x1c0 kernel/softirq.c:637
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:649
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1043 [inline]
- sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1043
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:702
-RIP: 0010:__raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:152 [inline]
-RIP: 0010:_raw_spin_unlock_irqrestore+0xd8/0x140 kernel/locking/spinlock.c:194
-Code: 9c 8f 44 24 20 42 80 3c 23 00 74 08 4c 89 f7 e8 0e 94 61 f6 f6 44 24 21 02 75 52 41 f7 c7 00 02 00 00 74 01 fb bf 01 00 00 00 <e8> c3 10 ca f5 65 8b 05 b4 54 6b 74 85 c0 74 43 48 c7 04 24 0e 36
-RSP: 0018:ffffc9000407f600 EFLAGS: 00000206
-RAX: 13958dc9d919f000 RBX: 1ffff9200080fec4 RCX: ffffffff816fd2da
-RDX: dffffc0000000000 RSI: ffffffff8bcac820 RDI: 0000000000000001
-RBP: ffffc9000407f690 R08: ffffffff92fe47ef R09: 1ffffffff25fc8fd
-R10: dffffc0000000000 R11: fffffbfff25fc8fe R12: dffffc0000000000
-R13: 1ffff9200080fec0 R14: ffffc9000407f620 R15: 0000000000000246
- spin_unlock_irqrestore include/linux/spinlock.h:406 [inline]
- __wake_up_common_lock+0x18c/0x1e0 kernel/sched/wait.c:108
- __unix_dgram_recvmsg+0x5f4/0x12f0 net/unix/af_unix.c:2415
- sock_recvmsg_nosec+0x18e/0x1d0 net/socket.c:1046
- ____sys_recvmsg+0x3c0/0x470 net/socket.c:2814
- ___sys_recvmsg net/socket.c:2858 [inline]
- do_recvmmsg+0x474/0xae0 net/socket.c:2952
- __sys_recvmmsg net/socket.c:3031 [inline]
- __do_sys_recvmmsg net/socket.c:3054 [inline]
- __se_sys_recvmmsg net/socket.c:3047 [inline]
- __x64_sys_recvmmsg+0x199/0x250 net/socket.c:3047
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fdfbaf75d39
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fdfbbc7e048 EFLAGS: 00000246 ORIG_RAX: 000000000000012b
-RAX: ffffffffffffffda RBX: 00007fdfbb104070 RCX: 00007fdfbaf75d39
-RDX: 0000000000010106 RSI: 00000000200000c0 RDI: 0000000000000003
-RBP: 00007fdfbaff6766 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000002 R11: 0000000000000246 R12: 0000000000000000
-R13: 000000000000006e R14: 00007fdfbb104070 R15: 00007ffeafeb36a8
- </TASK>
-
-The buggy address belongs to the virtual mapping at
- [ffffc90008800000, ffffc90008809000) created by:
- copy_process+0x5d1/0x3d90 kernel/fork.c:2206
-
-The buggy address belongs to the physical page:
-page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x295f2
-flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
-raw: 00fff00000000000 0000000000000000 dead000000000122 0000000000000000
-raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0x2dc2(GFP_KERNEL|__GFP_HIGHMEM|__GFP_NOWARN|__GFP_ZERO), pid 1052, tgid 1052 (kworker/u8:5), ts 20453244600, free_ts 0
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x1f3/0x230 mm/page_alloc.c:1500
- prep_new_page mm/page_alloc.c:1508 [inline]
- get_page_from_freelist+0x2ccb/0x2d80 mm/page_alloc.c:3487
- __alloc_pages_noprof+0x256/0x6c0 mm/page_alloc.c:4745
- alloc_pages_mpol_noprof+0x3e8/0x680 mm/mempolicy.c:2263
- vm_area_alloc_pages mm/vmalloc.c:3576 [inline]
- __vmalloc_area_node mm/vmalloc.c:3652 [inline]
- __vmalloc_node_range_noprof+0x971/0x1460 mm/vmalloc.c:3833
- alloc_thread_stack_node kernel/fork.c:313 [inline]
- dup_task_struct+0x444/0x8c0 kernel/fork.c:1114
- copy_process+0x5d1/0x3d90 kernel/fork.c:2206
- kernel_clone+0x226/0x8f0 kernel/fork.c:2788
- user_mode_thread+0x132/0x1a0 kernel/fork.c:2866
- call_usermodehelper_exec_work+0x5c/0x230 kernel/umh.c:172
- process_one_work kernel/workqueue.c:3224 [inline]
- process_scheduled_works+0xa2c/0x1830 kernel/workqueue.c:3305
- worker_thread+0x86d/0xd40 kernel/workqueue.c:3383
- kthread+0x2f0/0x390 kernel/kthread.c:389
- ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:144
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
-page_owner free stack trace missing
-
-Memory state around the buggy address:
- ffffc90008807500: 00 00 00 00 00 f3 f3 f3 f3 f3 f3 f3 00 00 00 00
- ffffc90008807580: 00 00 00 00 00 00 00 00 f1 f1 f1 f1 00 f2 f2 f2
->ffffc90008807600: 00 f3 f3 f3 00 00 00 00 00 00 00 00 00 00 00 00
-                            ^
- ffffc90008807680: 00 00 00 00 f1 f1 f1 f1 00 f2 f2 f2 00 f3 f3 f3
- ffffc90008807700: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-==================================================================
-----------------------------------------
-
-----------------------------------------
-[  560.831831][    C0] DEBUG: holding rtnl_mutex for 937 jiffies.
-[  560.838015][    C0] task:kworker/u8:9    state:R  running task     stack:20216 pid:2460  tgid:2460  ppid:2      flags:0x00004000
-[  560.849882][    C0] Workqueue: netns cleanup_net
-[  560.854770][    C0] Call Trace:
-[  560.854789][    C0]  <TASK>
-[  560.872376][    C0]  __schedule+0x17e8/0x4a20
-[  560.877336][    C0]  ? mark_lock+0x9a/0x360
-[  560.881823][    C0]  ? lockdep_hardirqs_on_prepare+0x43d/0x780
-[  560.887887][    C0]  ? __virt_addr_valid+0x183/0x520
-[  560.893171][    C0]  ? __pfx_lockdep_hardirqs_on_prepare+0x10/0x10
-[  560.899593][    C0]  ? lock_release+0xbf/0x9f0
-[  560.904330][    C0]  ? __pfx___schedule+0x10/0x10
-[  560.909271][    C0]  ? lockdep_hardirqs_on+0x99/0x150
-[  560.914617][    C0]  ? mark_lock+0x9a/0x360
-[  560.919119][    C0]  preempt_schedule_irq+0xfb/0x1c0
-[  560.924392][    C0]  ? __pfx_preempt_schedule_irq+0x10/0x10
-[  560.931783][    C0]  irqentry_exit+0x5e/0x90
-[  560.936590][    C0]  asm_sysvec_reschedule_ipi+0x1a/0x20
-[  560.942783][    C0] RIP: 0010:synchronize_rcu+0x0/0x360
-[  560.948403][    C0] Code: e1 07 80 c1 03 38 c1 0f 8c 97 fe ff ff 4c 89 f7 e8 15 50 80 00 e9 8a fe ff ff 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 <f3> 0f 1e fa 55 48 89 e5 41 57 41 56 41 55 41 54 53 48 83 e4 e0 48
-[  560.968242][    C0] RSP: 76c0:0000000000000a06 EFLAGS: 1ffff92001100ed4
-[  560.975129][    C0] ==================================================================
-[  560.994479][    C0] BUG: KASAN: stack-out-of-bounds in __show_regs+0xa6/0x610
-[  561.002642][    C0] Read of size 8 at addr ffffc90008807618 by task syz.0.1430/9588
-[  561.014598][    C0] 
-[  561.017321][    C0] CPU: 0 UID: 0 PID: 9588 Comm: syz.0.1430 Not tainted 6.10.0-rc5-next-20240624-syzkaller #0
-[  561.028952][    C0] Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 06/07/2024
-[  561.043847][    C0] Call Trace:
-[  561.047213][    C0]  <IRQ>
-[  561.050101][    C0]  dump_stack_lvl+0x241/0x360
-[  561.054963][    C0]  ? __pfx_dump_stack_lvl+0x10/0x10
-[  561.073046][    C0]  ? __pfx__printk+0x10/0x10
-[  561.077786][    C0]  ? _printk+0xd5/0x120
-[  561.082123][    C0]  print_report+0x169/0x550
-[  561.086775][    C0]  ? __virt_addr_valid+0xbd/0x520
-[  561.091947][    C0]  ? __show_regs+0xa6/0x610
-[  561.096544][    C0]  kasan_report+0x143/0x180
-[  561.101170][    C0]  ? show_opcodes+0x148/0x170
-[  561.105909][    C0]  ? __show_regs+0xa6/0x610
-[  561.110457][    C0]  __show_regs+0xa6/0x610
-[  561.114858][    C0]  ? asm_sysvec_reschedule_ipi+0x1a/0x20
-[  561.120539][    C0]  ? asm_sysvec_reschedule_ipi+0x1a/0x20
-[  561.126227][    C0]  show_trace_log_lvl+0x3d4/0x520
-[  561.131292][    C0]  ? __pfx_synchronize_rcu+0x10/0x10
-[  561.136630][    C0]  sched_show_task+0x578/0x740
-[  561.141466][    C0]  ? report_rtnl_holders+0x183/0x2d0
-[  561.147055][    C0]  ? __pfx__printk+0x10/0x10
-[  561.151699][    C0]  ? __pfx_sched_show_task+0x10/0x10
-[  561.157153][    C0]  report_rtnl_holders+0x1ba/0x2d0
-[  561.162519][    C0]  ? report_rtnl_holders+0x20/0x2d0
-[  561.167755][    C0]  call_timer_fn+0x18e/0x650
-[  561.172361][    C0]  ? call_timer_fn+0xc0/0x650
-[  561.177086][    C0]  ? __pfx_report_rtnl_holders+0x10/0x10
-[  561.182785][    C0]  ? __pfx_call_timer_fn+0x10/0x10
-[  561.187939][    C0]  ? __pfx_report_rtnl_holders+0x10/0x10
-[  561.193631][    C0]  ? __pfx_report_rtnl_holders+0x10/0x10
-[  561.199303][    C0]  ? __pfx_report_rtnl_holders+0x10/0x10
-[  561.204994][    C0]  ? _raw_spin_unlock_irq+0x23/0x50
-[  561.210231][    C0]  ? lockdep_hardirqs_on+0x99/0x150
-[  561.215469][    C0]  ? __pfx_report_rtnl_holders+0x10/0x10
-[  561.221120][    C0]  __run_timer_base+0x66a/0x8e0
-[  561.226093][    C0]  ? __pfx___run_timer_base+0x10/0x10
-[  561.231493][    C0]  ? __pfx_lockdep_hardirqs_on_prepare+0x10/0x10
-[  561.237874][    C0]  run_timer_softirq+0xb7/0x170
-[  561.242832][    C0]  handle_softirqs+0x2c4/0x970
-[  561.247626][    C0]  ? __irq_exit_rcu+0xf4/0x1c0
-[  561.252429][    C0]  ? __pfx_handle_softirqs+0x10/0x10
-[  561.257856][    C0]  ? irqtime_account_irq+0xd4/0x1e0
-[  561.263090][    C0]  __irq_exit_rcu+0xf4/0x1c0
-[  561.267711][    C0]  ? __pfx___irq_exit_rcu+0x10/0x10
-[  561.272931][    C0]  irq_exit_rcu+0x9/0x30
-[  561.277231][    C0]  sysvec_apic_timer_interrupt+0xa6/0xc0
-[  561.283185][    C0]  </IRQ>
-[  561.286769][    C0]  <TASK>
-[  561.289972][    C0]  asm_sysvec_apic_timer_interrupt+0x1a/0x20
-[  561.297172][    C0] RIP: 0010:_raw_spin_unlock_irqrestore+0xd8/0x140
-[  561.307112][    C0] Code: 9c 8f 44 24 20 42 80 3c 23 00 74 08 4c 89 f7 e8 0e 94 61 f6 f6 44 24 21 02 75 52 41 f7 c7 00 02 00 00 74 01 fb bf 01 00 00 00 <e8> c3 10 ca f5 65 8b 05 b4 54 6b 74 85 c0 74 43 48 c7 04 24 0e 36
-[  561.327228][    C0] RSP: 0018:ffffc9000407f600 EFLAGS: 00000206
-[  561.333355][    C0] RAX: 13958dc9d919f000 RBX: 1ffff9200080fec4 RCX: ffffffff816fd2da
-[  561.341352][    C0] RDX: dffffc0000000000 RSI: ffffffff8bcac820 RDI: 0000000000000001
-[  561.349458][    C0] RBP: ffffc9000407f690 R08: ffffffff92fe47ef R09: 1ffffffff25fc8fd
-[  561.357460][    C0] R10: dffffc0000000000 R11: fffffbfff25fc8fe R12: dffffc0000000000
-[  561.365478][    C0] R13: 1ffff9200080fec0 R14: ffffc9000407f620 R15: 0000000000000246
-[  561.373533][    C0]  ? mark_lock+0x9a/0x360
-[  561.378221][    C0]  ? __pfx__raw_spin_unlock_irqrestore+0x10/0x10
-[  561.385142][    C0]  ? autoremove_wake_function+0x37/0x110
-[  561.391145][    C0]  __wake_up_common_lock+0x18c/0x1e0
-[  561.396936][    C0]  __unix_dgram_recvmsg+0x5f4/0x12f0
-[  561.403018][    C0]  ? __pfx___unix_dgram_recvmsg+0x10/0x10
-[  561.409788][    C0]  ? __pfx___might_resched+0x10/0x10
-[  561.415745][    C0]  ? iovec_from_user+0x61/0x240
-[  561.421927][    C0]  ? unix_dgram_recvmsg+0xb6/0xe0
-[  561.427965][    C0]  ? __pfx_unix_dgram_recvmsg+0x10/0x10
-[  561.435584][    C0]  sock_recvmsg_nosec+0x18e/0x1d0
-[  561.441322][    C0]  ____sys_recvmsg+0x3c0/0x470
-[  561.446583][    C0]  ? __pfx_____sys_recvmsg+0x10/0x10
-[  561.455788][    C0]  ? __might_fault+0xaa/0x120
-[  561.460634][    C0]  do_recvmmsg+0x474/0xae0
-[  561.465088][    C0]  ? __pfx___futex_wait+0x10/0x10
-[  561.470148][    C0]  ? __pfx_do_recvmmsg+0x10/0x10
-[  561.475130][    C0]  ? __pfx_futex_wake_mark+0x10/0x10
-[  561.480509][    C0]  ? futex_wait+0x285/0x360
-[  561.485124][    C0]  ? __pfx_futex_wait+0x10/0x10
-[  561.490014][    C0]  ? fd_install+0x9c/0x5d0
-[  561.494459][    C0]  ? __pfx_lock_release+0x10/0x10
-[  561.499504][    C0]  ? __pfx_do_futex+0x10/0x10
-[  561.504229][    C0]  __x64_sys_recvmmsg+0x199/0x250
-[  561.510481][    C0]  ? __pfx___x64_sys_recvmmsg+0x10/0x10
-[  561.517399][    C0]  ? do_syscall_64+0x100/0x230
-[  561.522660][    C0]  ? do_syscall_64+0xb6/0x230
-[  561.529823][    C0]  do_syscall_64+0xf3/0x230
-[  561.534742][    C0]  ? clear_bhb_loop+0x35/0x90
-[  561.540096][    C0]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
-[  561.546133][    C0] RIP: 0033:0x7fdfbaf75d39
-[  561.550744][    C0] Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-[  561.571064][    C0] RSP: 002b:00007fdfbbc7e048 EFLAGS: 00000246 ORIG_RAX: 000000000000012b
-[  561.580376][    C0] RAX: ffffffffffffffda RBX: 00007fdfbb104070 RCX: 00007fdfbaf75d39
-[  561.588397][    C0] RDX: 0000000000010106 RSI: 00000000200000c0 RDI: 0000000000000003
-[  561.596400][    C0] RBP: 00007fdfbaff6766 R08: 0000000000000000 R09: 0000000000000000
-[  561.604404][    C0] R10: 0000000000000002 R11: 0000000000000246 R12: 0000000000000000
-[  561.612415][    C0] R13: 000000000000006e R14: 00007fdfbb104070 R15: 00007ffeafeb36a8
-[  561.620458][    C0]  </TASK>
-[  561.623517][    C0] 
-[  561.625876][    C0] The buggy address belongs to the virtual mapping at
-[  561.625876][    C0]  [ffffc90008800000, ffffc90008809000) created by:
-[  561.625876][    C0]  copy_process+0x5d1/0x3d90
-[  561.643549][    C0] 
-[  561.645879][    C0] The buggy address belongs to the physical page:
-[  561.652306][    C0] page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x295f2
-[  561.661135][    C0] flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
-[  561.668346][    C0] raw: 00fff00000000000 0000000000000000 dead000000000122 0000000000000000
-[  561.677050][    C0] raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
-[  561.685659][    C0] page dumped because: kasan: bad access detected
-[  561.692219][    C0] page_owner tracks the page as allocated
-[  561.697979][    C0] page last allocated via order 0, migratetype Unmovable, gfp_mask 0x2dc2(GFP_KERNEL|__GFP_HIGHMEM|__GFP_NOWARN|__GFP_ZERO), pid 1052, tgid 1052 (kworker/u8:5), ts 20453244600, free_ts 0
-[  561.716523][    C0]  post_alloc_hook+0x1f3/0x230
-[  561.721344][    C0]  get_page_from_freelist+0x2ccb/0x2d80
-[  561.727009][    C0]  __alloc_pages_noprof+0x256/0x6c0
-[  561.732233][    C0]  alloc_pages_mpol_noprof+0x3e8/0x680
-[  561.737727][    C0]  __vmalloc_node_range_noprof+0x971/0x1460
-[  561.743664][    C0]  dup_task_struct+0x444/0x8c0
-[  561.748479][    C0]  copy_process+0x5d1/0x3d90
-[  561.753128][    C0]  kernel_clone+0x226/0x8f0
-[  561.757766][    C0]  user_mode_thread+0x132/0x1a0
-[  561.762660][    C0]  call_usermodehelper_exec_work+0x5c/0x230
-[  561.768674][    C0]  process_scheduled_works+0xa2c/0x1830
-[  561.774240][    C0]  worker_thread+0x86d/0xd40
-[  561.778849][    C0]  kthread+0x2f0/0x390
-[  561.782979][    C0]  ret_from_fork+0x4b/0x80
-[  561.787453][    C0]  ret_from_fork_asm+0x1a/0x30
-[  561.792332][    C0] page_owner free stack trace missing
-[  561.797698][    C0] 
-[  561.800029][    C0] Memory state around the buggy address:
-[  561.805664][    C0]  ffffc90008807500: 00 00 00 00 00 f3 f3 f3 f3 f3 f3 f3 00 00 00 00
-[  561.813728][    C0]  ffffc90008807580: 00 00 00 00 00 00 00 00 f1 f1 f1 f1 00 f2 f2 f2
-[  561.821814][    C0] >ffffc90008807600: 00 f3 f3 f3 00 00 00 00 00 00 00 00 00 00 00 00
-[  561.829912][    C0]                             ^
-[  561.834781][    C0]  ffffc90008807680: 00 00 00 00 f1 f1 f1 f1 00 f2 f2 f2 00 f3 f3 f3
-[  561.842858][    C0]  ffffc90008807700: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-[  561.851024][    C0] ==================================================================
-[  561.859206][    C0] Kernel panic - not syncing: KASAN: panic_on_warn set ...
-[  561.866452][    C0] CPU: 0 UID: 0 PID: 9588 Comm: syz.0.1430 Not tainted 6.10.0-rc5-next-20240624-syzkaller #0
-----------------------------------------
-
-arch/x86/kernel/process_64.c:83 is
-
-	printk("%sRAX: %016lx RBX: %016lx RCX: %016lx\n",
-	       log_lvl, regs->ax, regs->bx, regs->cx);
-
-(which looks nothing special), and kernel stack area [ffffc90008800000, ffffc90008809000) is
-32768 bytes + 4096 bytes (which looks sane to me), and ffffc90008807618 is within the 32768
-bytes (which looks sane to me).
-
-Kernel config is https://syzkaller.appspot.com/text?tag=KernelConfig&x=6221d1071c39b052 .
-Can somebody find what is wrong?
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 28e20975c26f..b8512887ffb1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -22635,6 +22635,8 @@ L:	kasan-dev@googlegroups.com
+ L:	linux-hardening@vger.kernel.org
+ S:	Supported
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
++F:	arch/x86/include/asm/ubsan.h
++F:	arch/x86/kernel/ubsan.c
+ F:	Documentation/dev-tools/ubsan.rst
+ F:	include/linux/ubsan.h
+ F:	lib/Kconfig.ubsan
+diff --git a/arch/x86/include/asm/bug.h b/arch/x86/include/asm/bug.h
+index a3ec87d198ac..a363d13c263b 100644
+--- a/arch/x86/include/asm/bug.h
++++ b/arch/x86/include/asm/bug.h
+@@ -13,6 +13,17 @@
+ #define INSN_UD2	0x0b0f
+ #define LEN_UD2		2
+ 
++/*
++ * In clang we have UD1s reporting UBSAN failures on X86, 64 and 32bit.
++ */
++#define INSN_UD1	0xb90f
++#define INSN_UD_MASK	0xFFFF
++#define LEN_UD1		2
++#define INSN_ASOP	0x67
++#define INSN_ASOP_MASK	0x00FF
++#define BUG_UD_NONE	0xFFFF
++#define BUG_UD2		0xFFFE
++
+ #ifdef CONFIG_GENERIC_BUG
+ 
+ #ifdef CONFIG_X86_32
+diff --git a/arch/x86/include/asm/ubsan.h b/arch/x86/include/asm/ubsan.h
+new file mode 100644
+index 000000000000..ac2080984e83
+--- /dev/null
++++ b/arch/x86/include/asm/ubsan.h
+@@ -0,0 +1,23 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _ASM_X86_UBSAN_H
++#define _ASM_X86_UBSAN_H
++
++/*
++ * Clang Undefined Behavior Sanitizer trap mode support.
++ */
++#include <linux/bug.h>
++#include <linux/ubsan.h>
++#include <asm/ptrace.h>
++
++/*
++ * UBSAN uses the EAX register to encode its type in the ModRM byte.
++ */
++#define UBSAN_REG	0x40
++
++#ifdef CONFIG_UBSAN_TRAP
++void handle_ubsan_failure(struct pt_regs *regs, u16 insn);
++#else
++static inline void handle_ubsan_failure(struct pt_regs *regs, u16 insn) { return; }
++#endif /* CONFIG_UBSAN_TRAP */
++
++#endif /* _ASM_X86_UBSAN_H */
+diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
+index 74077694da7d..fe1d9db27500 100644
+--- a/arch/x86/kernel/Makefile
++++ b/arch/x86/kernel/Makefile
+@@ -145,6 +145,7 @@ obj-$(CONFIG_UNWINDER_GUESS)		+= unwind_guess.o
+ obj-$(CONFIG_AMD_MEM_ENCRYPT)		+= sev.o
+ 
+ obj-$(CONFIG_CFI_CLANG)			+= cfi.o
++obj-$(CONFIG_UBSAN_TRAP)		+= ubsan.o
+ 
+ obj-$(CONFIG_CALL_THUNKS)		+= callthunks.o
+ 
+diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+index 4fa0b17e5043..aef21287e7ed 100644
+--- a/arch/x86/kernel/traps.c
++++ b/arch/x86/kernel/traps.c
+@@ -67,6 +67,7 @@
+ #include <asm/vdso.h>
+ #include <asm/tdx.h>
+ #include <asm/cfi.h>
++#include <asm/ubsan.h>
+ 
+ #ifdef CONFIG_X86_64
+ #include <asm/x86_init.h>
+@@ -91,6 +92,29 @@ __always_inline int is_valid_bugaddr(unsigned long addr)
+ 	return *(unsigned short *)addr == INSN_UD2;
+ }
+ 
++/*
++ * Check for UD1, UD2, with or without Address Size Override Prefixes instructions.
++ */
++__always_inline u16 get_ud_type(unsigned long addr)
++{
++	u16 insn;
++
++	if (addr < TASK_SIZE_MAX)
++		return BUG_UD_NONE;
++	insn = *(u16 *)addr;
++	if ((insn & INSN_UD_MASK) == INSN_UD2)
++		return BUG_UD2;
++	if ((insn & INSN_ASOP_MASK) == INSN_ASOP)
++		insn = *(u16 *)(++addr);
++
++	// UBSAN encode the failure type in the two bytes after UD1
++	if ((insn & INSN_UD_MASK) == INSN_UD1)
++		return *(u16 *)(addr + LEN_UD1);
++
++	return BUG_UD_NONE;
++}
++
++
+ static nokprobe_inline int
+ do_trap_no_signal(struct task_struct *tsk, int trapnr, const char *str,
+ 		  struct pt_regs *regs,	long error_code)
+@@ -216,6 +240,7 @@ static inline void handle_invalid_op(struct pt_regs *regs)
+ static noinstr bool handle_bug(struct pt_regs *regs)
+ {
+ 	bool handled = false;
++	int ud_type;
+ 
+ 	/*
+ 	 * Normally @regs are unpoisoned by irqentry_enter(), but handle_bug()
+@@ -223,7 +248,8 @@ static noinstr bool handle_bug(struct pt_regs *regs)
+ 	 * irqentry_enter().
+ 	 */
+ 	kmsan_unpoison_entry_regs(regs);
+-	if (!is_valid_bugaddr(regs->ip))
++	ud_type = get_ud_type(regs->ip);
++	if (ud_type == BUG_UD_NONE)
+ 		return handled;
+ 
+ 	/*
+@@ -236,10 +262,14 @@ static noinstr bool handle_bug(struct pt_regs *regs)
+ 	 */
+ 	if (regs->flags & X86_EFLAGS_IF)
+ 		raw_local_irq_enable();
+-	if (report_bug(regs->ip, regs) == BUG_TRAP_TYPE_WARN ||
+-	    handle_cfi_failure(regs) == BUG_TRAP_TYPE_WARN) {
+-		regs->ip += LEN_UD2;
+-		handled = true;
++	if (ud_type == INSN_UD2) {
++		if (report_bug(regs->ip, regs) == BUG_TRAP_TYPE_WARN ||
++		    handle_cfi_failure(regs) == BUG_TRAP_TYPE_WARN) {
++			regs->ip += LEN_UD2;
++			handled = true;
++		}
++	} else {
++		handle_ubsan_failure(regs, ud_type);
+ 	}
+ 	if (regs->flags & X86_EFLAGS_IF)
+ 		raw_local_irq_disable();
+diff --git a/arch/x86/kernel/ubsan.c b/arch/x86/kernel/ubsan.c
+new file mode 100644
+index 000000000000..c90e337a1b6a
+--- /dev/null
++++ b/arch/x86/kernel/ubsan.c
+@@ -0,0 +1,21 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Clang Undefined Behavior Sanitizer trap mode support.
++ */
++#include <linux/bug.h>
++#include <linux/string.h>
++#include <linux/printk.h>
++#include <linux/ubsan.h>
++#include <asm/ptrace.h>
++#include <asm/ubsan.h>
++
++/*
++ * Checks for the information embedded in the UD1 trap instruction
++ * for the UB Sanitizer in order to pass along debugging output.
++ */
++void handle_ubsan_failure(struct pt_regs *regs, u16 type)
++{
++	if ((type & 0xFF) == UBSAN_REG)
++		type >>= 8;
++	pr_crit("%s at %pS\n", report_ubsan_failure(regs, type), (void *)regs->ip);
++}
+-- 
+2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/82cf2f25-fd3b-40a2-8d2b-a6385a585601%40I-love.SAKURA.ne.jp.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240625032509.4155839-1-gatlin.newhouse%40gmail.com.
