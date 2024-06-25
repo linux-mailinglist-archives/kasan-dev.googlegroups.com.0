@@ -1,117 +1,117 @@
-Return-Path: <kasan-dev+bncBCMIFTP47IJBBFHE5SZQMGQEV4N7VZY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIFTP47IJBBFXE5SZQMGQEUCRMDOI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3c.google.com (mail-yb1-xb3c.google.com [IPv6:2607:f8b0:4864:20::b3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 037A79172F2
-	for <lists+kasan-dev@lfdr.de>; Tue, 25 Jun 2024 23:09:42 +0200 (CEST)
-Received: by mail-yb1-xb3c.google.com with SMTP id 3f1490d57ef6-dff1bcbc104sf10621110276.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 25 Jun 2024 14:09:41 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1719349781; cv=pass;
+Received: from mail-qv1-xf3b.google.com (mail-qv1-xf3b.google.com [IPv6:2607:f8b0:4864:20::f3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 070DF9172F4
+	for <lists+kasan-dev@lfdr.de>; Tue, 25 Jun 2024 23:09:44 +0200 (CEST)
+Received: by mail-qv1-xf3b.google.com with SMTP id 6a1803df08f44-6b4f87eb2e1sf91775486d6.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 25 Jun 2024 14:09:43 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1719349783; cv=pass;
         d=google.com; s=arc-20160816;
-        b=pMfPABMZTLt89mTcJxXY3RWWZVGcnPvSAeg1TcR9wyNIC6Wb08IreSuyyLa+RbaoQH
-         f+L/9fJqHPjU2p7IhAkq7cpApJlxe0j6vHwdNav63+xgpCHzJ9ZxHWCM+hqd86jFs9fR
-         NT4AbBCKMiLZB6BCXSoINdU4OHjrorvANr0v5QVo5nB2kv5owZOswie3PdrQiTXZNk1Q
-         15MbfK9Gx0GKoFFmupR7kzCjh22hDiG3Bm5vPsxg9uzDI4Fnvl3BvDKQOqAWEihlwn68
-         xb6QY7amRCv6fav0Iw88a64pAmSs/z2vT9ktp4b/MB5nv1+qcBexFV7Ue2bdzRFPz3om
-         TsYA==
+        b=m8PimxRS9UIUaQRnbhf5S0b7Shw70Batpg9Vc3LukgQO75ZgNbU15YmsVgECVdYmTy
+         nWWJSB8W+ShwDqdhKe4GMf1QLxqP81ildEqNoYWCm0y6ahIU6Jax1Dj5Y9YtPlVgo5qd
+         wNuqQO99iFAY+4rXpaBhWHgkL23qKH8fhgg0zNXj1NeKSp/J9q0pNuLwx3u4AQcnV7DT
+         iqgy7eBMPlUswVemtt7yfdFlYZpcVnyQbz8jd9MPJmOI/Jwf29srG34CDMtHGPC7Z7eb
+         PEgNxrcF71klcMF/UfwVlp1Igcy0+7kcEGGedTdQDvcFc391orG0iGAAGsf7pS68WhEk
+         UNuw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=L9wK2v91jmaxlr5tW8A7zEgYVT6BNeNMjsMSye3vJfg=;
-        fh=xLPUN4S3OnunROlL5s5e1CBXxFFEvOcl1KLewx8mPrI=;
-        b=G7cYSLE+gvwikNbI6zBs0hjAYUqrz6gUoY3jo98KPpEVmS6bzTuKvMwthXIIHaEYQI
-         oZea5H2J6B0dv86V9wTs9LVaI7HHzoAh1WPzHhCPI81L8GDDZJ2X5Vh2selaCOQIcxZ6
-         f6PwCEdCloVzJ2nKr8s/+JhGPrE+3mQEE/V9KmofVZU6eiex58iEflaNAYKm4JfMC/Nh
-         1yJJe48QPpqdIj6Kxz7M7gBhqUjce+8COXQIzct6xVKwhrvrWTk2oYrNOXp/qlWp5/bA
-         HTo37fvmAwCRdssjyBFlo+vE8qhqyh5WAWOMKSmmcTpewwiEssIXZyvDh4V/1F+VrSkb
-         scfQ==;
+        bh=ootJNgEnGefN6i7cJDFDY/qQkO/Jd/p5Y3Q5udxtlWU=;
+        fh=Izs8wg6iqD9/apZjNGDVCNoXkuqCJdaXF+EWdrNAQDc=;
+        b=uWDrWsj1RbjwEcCJE9CRtfw51I8cwuVZItT5N64N1idwmQ+lN7VsWH3Sbm8UJheRzZ
+         rGNc3xQ5lhUvCphM1fl89+sbBQ23JrlG1Sy7HlS5bqEMeLVcv2MPL0XRu4lKJbH+jrMh
+         ky7iNr95xm0AHVentxfl39Sfy5jufkfQ+4bi0kT+1ozGWIgbe+V8aCPOtCkwx++JNznC
+         3yh2T+Gtwu4mdLAnyTU2hrZ93NkZ8S6QgmhHN//VH7IDbCIVbEcN1K8fcJo/mdTngoE4
+         WSbLfG1+gpKq2mkji6jCLyREzmxYLOMoLL8xruoM+sQEufBh9WNYtRIS0bf5aKDCATyv
+         gzlw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@sifive.com header.s=google header.b=cmnXluzS;
-       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::62c as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dkim=pass header.i=@sifive.com header.s=google header.b=CrFELqxZ;
+       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::629 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1719349781; x=1719954581; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1719349783; x=1719954583; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=L9wK2v91jmaxlr5tW8A7zEgYVT6BNeNMjsMSye3vJfg=;
-        b=L0gA5fjQL8jCts1FLLuCTbuQFhwWWX+ZWHFKzv/X/cy9RlrzMbfl+XMFTgvw+eyvAV
-         iGu49JZbyVk01iNwbKNupHP1M3qSdZ/tz5MzXEZOXx58aBcaBCjK33MvJoHxoIu3m76c
-         RSOuzzt04NVvx+RntRVSRAIbXD4gTxjlMwsxsTONlEfjfAE+Wb/+ymWfbwRGRfYeGsjO
-         mzFEGLTPpCD5Rs23AbQFC76UgFElUwtW3B5UFxAlSuBW/7XiM8CvGOEJt9cj9mxAzA1Y
-         eXrGYIWhIg+dB5eKsZYt7C8hqgS95i4S+vinoovqwnsUz00T6ofoXSlybNmUC7DIXu1n
-         2JQQ==
+        bh=ootJNgEnGefN6i7cJDFDY/qQkO/Jd/p5Y3Q5udxtlWU=;
+        b=jQ/BGsgf8dQ3szk0d8s4unDREGdLjdKc/hyV/B19krAHvzhPagS9wd+pPynWnFSJOV
+         4XIKd+krc4nBtcjV1cBmg/60+W4IAh1HP0kIS5z7OYFwkVNgj11ibgNd8yb62vC17DIL
+         mNeb5g3oNSCDm3AdZEbM+5PHV3sU43xwrCDXc7RdihKc2qOk3AR/K6UATtftQtGmz3dp
+         f7bUQUGQo9WosAfAcydSr79GTpEa/cQwA6UxHq/6CmgRuORfUhZ+xQUawAOQ2wJi59i7
+         RdCzCNPqf4NPQdfVv+V0VvuSO//W2nY5umePVD982OMlKqsX28jhL+0liMEkucvg4EUO
+         vCTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719349781; x=1719954581;
+        d=1e100.net; s=20230601; t=1719349783; x=1719954583;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=L9wK2v91jmaxlr5tW8A7zEgYVT6BNeNMjsMSye3vJfg=;
-        b=sX/7rfSLJXAn13J83DunkphdVEYSWB0aOKyN3KlGqAQpj1MGZeXh7wqYrKsHJVTqRG
-         chM3kfY964wAylrNEaa/vBXDSxlS4eii3XKuHdqZ2SisYu6Zds3ExABHZsSorezRUepg
-         V4EfpBRxB2CKtSWTmWuyjDtflTghoyZ6FCYisqaM+wNVSS5TK2v45v4mC0ZFFafu3Pez
-         PzPxWa16ILx3iksoEr0gsDLhmh1m7fgE9rSglYlLCTw/PKg14X7TXB/MbKSXJmLm53rj
-         kbkzvat0Gx9ux/Wr/L8kWH6YucqGQD0zt8jBWTEKVXSNuhtfRhQB6zBrhDNXvuNbLG4J
-         nz0w==
-X-Forwarded-Encrypted: i=2; AJvYcCVMjTt/oeFJuhrodAj6cD+Oz9VThXjwFXEPUweZiL/nJpJsUmdpY3tV0lrShlqVxFnSxUsX1Q3gCkdCnubXZA3OeNfg8JUAqw==
-X-Gm-Message-State: AOJu0YwJfQVapa+j0aQyWlfyHFy2h+cydSJpgjVgfKnjIOB3dVXAcKGr
-	IJDBhhher4gERqmrQTGcjCf5ROr/FOl4Ty6jp+Xqp2zeS6vatgt0
-X-Google-Smtp-Source: AGHT+IFnobsO27hGQsyor1s7CN8KjRt/0pKHYxRiwKT5JfSd8BT9YdOGXHP13QnrD+Myqncv8DXndA==
-X-Received: by 2002:a25:d84b:0:b0:e03:2220:5bbf with SMTP id 3f1490d57ef6-e0322205cbdmr3485290276.50.1719349780677;
-        Tue, 25 Jun 2024 14:09:40 -0700 (PDT)
+        bh=ootJNgEnGefN6i7cJDFDY/qQkO/Jd/p5Y3Q5udxtlWU=;
+        b=ZGRtD1l8vAu922zU31k/yoIrAUHo2wA0jE7veKJEXj99aU2IQDAXzy6mfjVhWSvXcQ
+         S4uChSTVe6TEN4JbYCaU4faqnivOUkMKAT0s+O+7AA941WwAwcRHXv7zqNdkr8353N0/
+         vIunOsIhakEKJjTipHIQmHc5+gxRyUD/lYA+Epq33rSr3hgdGrt2Pkd1FpFScCI7KLHT
+         Cj5IUb+hJkjl2y2XdowJqFfAgkohbaMEyiIG9w97c2GlpEg+Kbki82p8zxjW6zPgZkMK
+         u8C9BubbumHhMG6Tg/8C8QtnvlUzCo8Q1+DKFmnozMRY6YC1veoQ3RNulUxlsEb+TtMT
+         YmOQ==
+X-Forwarded-Encrypted: i=2; AJvYcCVt7TNWkbS4qcbuy+//WSh6FrRrCvsWoz+dfl93dORahHdRSMDbA3jXlunEGsCPzZ5CL99ziAmHryF7VrkIuJZV6zlYw2Ddjw==
+X-Gm-Message-State: AOJu0Yw8a3RNeYsYvA6yJXXYUS8Ui56pp5qqKzAtkWh3d6Gr6AmxFHph
+	O+REk2sSNrJo9jiaaYTqhYsSauDYvdzevmL1TT1n62epX/Hd6vyK
+X-Google-Smtp-Source: AGHT+IEKvyDJZp+VEziZezLHqaTktdWXAl5ploOaUOOHs0iq8ShQcbRP085tw8JwdOJSXeZqI+FzeQ==
+X-Received: by 2002:ad4:4102:0:b0:6b5:413a:3f96 with SMTP id 6a1803df08f44-6b5413a4007mr81505076d6.10.1719349782855;
+        Tue, 25 Jun 2024 14:09:42 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6902:1895:b0:e02:c978:fc29 with SMTP id
- 3f1490d57ef6-e02d0a8b410ls8525509276.0.-pod-prod-01-us; Tue, 25 Jun 2024
- 14:09:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWtnLsr4BOA32ugGNHbP4aoY2bsuXTbeJh/ukjLwxAJ5jpKPE8/8Tgy4d2R25hB16QQjZjeKW2oW/i5S2SS22XBttne4hcGpEcD2w==
-X-Received: by 2002:a0d:e847:0:b0:63c:aa2:829d with SMTP id 00721157ae682-6429d082528mr86834627b3.44.1719349779980;
-        Tue, 25 Jun 2024 14:09:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1719349779; cv=none;
+Received: by 2002:a05:6214:5508:b0:6b5:577:fbee with SMTP id
+ 6a1803df08f44-6b5102e41bdls78275656d6.1.-pod-prod-06-us; Tue, 25 Jun 2024
+ 14:09:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWRaE+zD5KKC7LkiqWNtrUgn7Xi4q3qOUuTu2gJVFNn7yvzdmJAzSPasDOZ3CUDX0L6fUW1Nyis7Z7gQZsQB+ci/o3PyVibaemekg==
+X-Received: by 2002:a05:6214:212d:b0:6b5:4249:7b4 with SMTP id 6a1803df08f44-6b5424911femr120236446d6.0.1719349782128;
+        Tue, 25 Jun 2024 14:09:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1719349782; cv=none;
         d=google.com; s=arc-20160816;
-        b=oQTmwRfgn049B4EuSOWFJyzlIiG8BlT99fq3M7uKS8MUrLtRgttsyzYcPJxf71BI/M
-         drQ23PdSPOM+f668vw48oiMUs4BkbSBMSSjht0cB+B4FVXMnaROtdXiRCfbRUNtGmkKK
-         lMbdyPcLyk5eKCEsOURVXzr6914ebu33vB5BJNDOYNeB6EeNXePXFMpz4s57QtHRzRHq
-         ehHrHN2AVm3t8OcPDrXApuyKe+FOl6UhTvi69XdtQTvSwe3fFXklmLKS1DMAXDzxC7Gk
-         7zkh1laAbeVOo6u9WMiLYjAjcIkg0kVKgKZZYb4m2r6hCof3MI0GHAN/6pUEbsq2uHpl
-         R62Q==
+        b=vEoRg/NTsRHcKx1BkHfZEH4YcfmfQA2AKNh4gQl7Q9ihfOLyQnmV1BoTFOWyP8689h
+         CmIZ+H+wlejobYaCC/7MTp4GytnWI2sbBhMf+UlmeirOFAhrjKFgJyrH/OxZZxwzhZxx
+         IpAZypuvxw+WDoXTEQk4R2uYM7nJPOW84h83oWPELkH6vv2ThUrwDBA2BGwLKzdEuJ+X
+         Ma0R58Fv9NQU3OKg4jm180N7SblHNfSjW9y9F9qgcXMnGQysn46RvlAWJMObdYT6xlpd
+         itRsb+Lyz+zXEiqUG2JYHv86M4lZ++p7a2gpPfW9PAHa1K9bshSMdKJwKlI056fOb0Tq
+         12+Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=/UOSPToUyaRaOvApUAfkaCWvJhdcwWzca8vHMvSzGJQ=;
-        fh=FXjauFrUg84tvHVt695s8j9FkvnDWtejFfsNUxfap4M=;
-        b=AOK507DgkbAe3MSpqUhRzU2a/kK6HqBuYQrKjx5d940foM+B/JWnn9TdvUQaU6/QGL
-         18rJBfHHVF+PXUTe/l0BsczUdA9UemGVAUNqzICNzxebGUbjATIeIV/Rum3zGW5ppspA
-         gD5qp8BD8Cwz77Dzw4dYRy7LRMgxEvEaUY9nkQomm3xIo9Ov1TqUl5c2G1yjmXxorPM0
-         TvlVRF4a4dw7gJAZFBVCoTBvTcsNbKbiwrEX+Dc6hrDWwz96w0NE96vo5bzgba7vVkPo
-         JEpAJSax1SHrQlDwfJHHaSNP8T8s9LukMjg0lCS1iPK5QsqQ+Zr+9MLR/aqTyArHzNsE
-         ee0g==;
+        bh=FrGWvMN3Ht8MgkCDub4Kzj37NN41tMPLHr9Zd0plWWo=;
+        fh=XXb2JOR/N3fmrTaIg20ZdX2lX3UGY617UwVjFjzOwjI=;
+        b=tF6V/ZI86ybS/cIt8CmVlkhwCrqyhk9HbRj5ZAJ/ThmsHJ6q4buiI0TooWWdwGW3M/
+         xeWythkJdnDtHEpAbo6WtwwccAxTwgyXA6UOsk5zhQCJ7mOxEzSrGZmm1uki/OSMlNPW
+         XV9VA1z8Dv7vv61wMCG8nXxJKwF0g1wXOPp4ncRQiHZlpMYUw/CLI1MnkuWG6LQ0rq9S
+         YtSdmh0drp6Uqyx9i9Un/vcFXouMoMDkTSNoavhe4bTQcSArO+P84Ziz1w7iX8VVTr5e
+         GduAu7wZt5OHykPgkdwHgpVuq0fHU2jaRGhiPSZiRdT/fmw+ftVJWhXc/mBlahAA2fbo
+         Zs5w==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@sifive.com header.s=google header.b=cmnXluzS;
-       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::62c as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dkim=pass header.i=@sifive.com header.s=google header.b=CrFELqxZ;
+       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::629 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com
-Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com. [2607:f8b0:4864:20::62c])
-        by gmr-mx.google.com with ESMTPS id 00721157ae682-647a9947e26si527787b3.0.2024.06.25.14.09.39
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com. [2607:f8b0:4864:20::629])
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6b51edbf5cesi6608326d6.5.2024.06.25.14.09.42
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Jun 2024 14:09:39 -0700 (PDT)
-Received-SPF: pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::62c as permitted sender) client-ip=2607:f8b0:4864:20::62c;
-Received: by mail-pl1-x62c.google.com with SMTP id d9443c01a7336-1f47f07aceaso47067745ad.0
-        for <kasan-dev@googlegroups.com>; Tue, 25 Jun 2024 14:09:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXhAL2JZYWgPnQC/ga/kKrBUJtXFgPNYjTiXtuQ5jQjttxu1yvZu/sk8sXV2Krd3wcWKa7JluP9uevzq7vjk5vF3+iO3uMHyZii/A==
-X-Received: by 2002:a17:902:ecc8:b0:1f9:fc92:1b65 with SMTP id d9443c01a7336-1fa158d0cc8mr98348615ad.9.1719349779134;
-        Tue, 25 Jun 2024 14:09:39 -0700 (PDT)
+        Tue, 25 Jun 2024 14:09:42 -0700 (PDT)
+Received-SPF: pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::629 as permitted sender) client-ip=2607:f8b0:4864:20::629;
+Received: by mail-pl1-x629.google.com with SMTP id d9443c01a7336-1f9aeb96b93so42237505ad.3
+        for <kasan-dev@googlegroups.com>; Tue, 25 Jun 2024 14:09:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUGfXOqUPl0NGUWDvzqvEaIoJJ4SZMpdpAu/VJ2On++N+92dqvgZdPYEcdLQhLJLBXd1Bz+3Xv40O+1Oe8JKWUhFwRVZMj+7Mhg0g==
+X-Received: by 2002:a17:903:41c6:b0:1f7:35e0:5af4 with SMTP id d9443c01a7336-1fa23dce235mr106984915ad.30.1719349781063;
+        Tue, 25 Jun 2024 14:09:41 -0700 (PDT)
 Received: from sw06.internal.sifive.com ([4.53.31.132])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb328f57sm85873455ad.110.2024.06.25.14.09.37
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1f9eb328f57sm85873455ad.110.2024.06.25.14.09.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jun 2024 14:09:38 -0700 (PDT)
+        Tue, 25 Jun 2024 14:09:40 -0700 (PDT)
 From: "'Samuel Holland' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Palmer Dabbelt <palmer@dabbelt.com>,
 	linux-riscv@lists.infradead.org
@@ -127,18 +127,18 @@ Cc: devicetree@vger.kernel.org,
 	Rob Herring <robh+dt@kernel.org>,
 	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
 	Samuel Holland <samuel.holland@sifive.com>
-Subject: [PATCH v2 02/10] riscv: Add ISA extension parsing for pointer masking
-Date: Tue, 25 Jun 2024 14:09:13 -0700
-Message-ID: <20240625210933.1620802-3-samuel.holland@sifive.com>
+Subject: [PATCH v2 03/10] riscv: Add CSR definitions for pointer masking
+Date: Tue, 25 Jun 2024 14:09:14 -0700
+Message-ID: <20240625210933.1620802-4-samuel.holland@sifive.com>
 X-Mailer: git-send-email 2.44.1
 In-Reply-To: <20240625210933.1620802-1-samuel.holland@sifive.com>
 References: <20240625210933.1620802-1-samuel.holland@sifive.com>
 MIME-Version: 1.0
 X-Original-Sender: samuel.holland@sifive.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@sifive.com header.s=google header.b=cmnXluzS;       spf=pass
+ header.i=@sifive.com header.s=google header.b=CrFELqxZ;       spf=pass
  (google.com: domain of samuel.holland@sifive.com designates
- 2607:f8b0:4864:20::62c as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+ 2607:f8b0:4864:20::629 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com
 X-Original-From: Samuel Holland <samuel.holland@sifive.com>
 Reply-To: Samuel Holland <samuel.holland@sifive.com>
@@ -155,73 +155,73 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The RISC-V Pointer Masking specification defines three extensions:
-Smmpm, Smnpm, and Ssnpm. Add support for parsing each of them. Which
-of these three extensions provide pointer masking support in the kernel
-(SxPM) and in userspace (SUPM) depends on the kernel's privilege mode,
-so provide macros to abstract this selection.
-
-Smmpm implies the existence of the mseccfg CSR. As it is the only user
-of this CSR so far, there is no need for an Xlinuxmseccfg extension.
+Pointer masking is controlled via a two-bit PMM field, which appears in
+various CSRs depending on which extensions are implemented. Smmpm adds
+the field to mseccfg; Smnpm adds the field to menvcfg; Ssnpm adds the
+field to senvcfg. If the H extension is implemented, Ssnpm also defines
+henvcfg.PMM and hstatus.HUPMM.
 
 Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
 ---
 
 Changes in v2:
- - Provide macros for the extension affecting the kernel and userspace
+ - Use the correct name for the hstatus.HUPMM field
 
- arch/riscv/include/asm/hwcap.h | 7 +++++++
- arch/riscv/kernel/cpufeature.c | 3 +++
- 2 files changed, 10 insertions(+)
+ arch/riscv/include/asm/csr.h | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
-index f64d4e98e67c..5291e08fe026 100644
---- a/arch/riscv/include/asm/hwcap.h
-+++ b/arch/riscv/include/asm/hwcap.h
-@@ -86,6 +86,9 @@
- #define RISCV_ISA_EXT_ZVE64X		77
- #define RISCV_ISA_EXT_ZVE64F		78
- #define RISCV_ISA_EXT_ZVE64D		79
-+#define RISCV_ISA_EXT_SMMPM		80
-+#define RISCV_ISA_EXT_SMNPM		81
-+#define RISCV_ISA_EXT_SSNPM		82
+diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
+index 25966995da04..5c0c0d574f63 100644
+--- a/arch/riscv/include/asm/csr.h
++++ b/arch/riscv/include/asm/csr.h
+@@ -119,6 +119,10 @@
  
- #define RISCV_ISA_EXT_XLINUXENVCFG	127
- 
-@@ -94,8 +97,12 @@
- 
- #ifdef CONFIG_RISCV_M_MODE
- #define RISCV_ISA_EXT_SxAIA		RISCV_ISA_EXT_SMAIA
-+#define RISCV_ISA_EXT_SxPM		RISCV_ISA_EXT_SMMPM
-+#define RISCV_ISA_EXT_SUPM		RISCV_ISA_EXT_SMNPM
- #else
- #define RISCV_ISA_EXT_SxAIA		RISCV_ISA_EXT_SSAIA
-+#define RISCV_ISA_EXT_SxPM		RISCV_ISA_EXT_SMNPM
-+#define RISCV_ISA_EXT_SUPM		RISCV_ISA_EXT_SSNPM
+ /* HSTATUS flags */
+ #ifdef CONFIG_64BIT
++#define HSTATUS_HUPMM		_AC(0x3000000000000, UL)
++#define HSTATUS_HUPMM_PMLEN_0	_AC(0x0000000000000, UL)
++#define HSTATUS_HUPMM_PMLEN_7	_AC(0x2000000000000, UL)
++#define HSTATUS_HUPMM_PMLEN_16	_AC(0x3000000000000, UL)
+ #define HSTATUS_VSXL		_AC(0x300000000, UL)
+ #define HSTATUS_VSXL_SHIFT	32
  #endif
+@@ -195,6 +199,10 @@
+ /* xENVCFG flags */
+ #define ENVCFG_STCE			(_AC(1, ULL) << 63)
+ #define ENVCFG_PBMTE			(_AC(1, ULL) << 62)
++#define ENVCFG_PMM			_AC(0x300000000, ULL)
++#define ENVCFG_PMM_PMLEN_0		_AC(0x000000000, ULL)
++#define ENVCFG_PMM_PMLEN_7		_AC(0x200000000, ULL)
++#define ENVCFG_PMM_PMLEN_16		_AC(0x300000000, ULL)
+ #define ENVCFG_CBZE			(_AC(1, UL) << 7)
+ #define ENVCFG_CBCFE			(_AC(1, UL) << 6)
+ #define ENVCFG_CBIE_SHIFT		4
+@@ -216,6 +224,12 @@
+ #define SMSTATEEN0_SSTATEEN0_SHIFT	63
+ #define SMSTATEEN0_SSTATEEN0		(_ULL(1) << SMSTATEEN0_SSTATEEN0_SHIFT)
  
- #endif /* _ASM_RISCV_HWCAP_H */
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index d3e3a865b874..b22087244856 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -339,9 +339,12 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
- 	__RISCV_ISA_EXT_BUNDLE(zvksg, riscv_zvksg_bundled_exts),
- 	__RISCV_ISA_EXT_DATA(zvkt, RISCV_ISA_EXT_ZVKT),
- 	__RISCV_ISA_EXT_DATA(smaia, RISCV_ISA_EXT_SMAIA),
-+	__RISCV_ISA_EXT_DATA(smmpm, RISCV_ISA_EXT_SMMPM),
-+	__RISCV_ISA_EXT_SUPERSET(smnpm, RISCV_ISA_EXT_SMNPM, riscv_xlinuxenvcfg_exts),
- 	__RISCV_ISA_EXT_DATA(smstateen, RISCV_ISA_EXT_SMSTATEEN),
- 	__RISCV_ISA_EXT_DATA(ssaia, RISCV_ISA_EXT_SSAIA),
- 	__RISCV_ISA_EXT_DATA(sscofpmf, RISCV_ISA_EXT_SSCOFPMF),
-+	__RISCV_ISA_EXT_SUPERSET(ssnpm, RISCV_ISA_EXT_SSNPM, riscv_xlinuxenvcfg_exts),
- 	__RISCV_ISA_EXT_DATA(sstc, RISCV_ISA_EXT_SSTC),
- 	__RISCV_ISA_EXT_DATA(svinval, RISCV_ISA_EXT_SVINVAL),
- 	__RISCV_ISA_EXT_DATA(svnapot, RISCV_ISA_EXT_SVNAPOT),
++/* mseccfg bits */
++#define MSECCFG_PMM			ENVCFG_PMM
++#define MSECCFG_PMM_PMLEN_0		ENVCFG_PMM_PMLEN_0
++#define MSECCFG_PMM_PMLEN_7		ENVCFG_PMM_PMLEN_7
++#define MSECCFG_PMM_PMLEN_16		ENVCFG_PMM_PMLEN_16
++
+ /* symbolic CSR names: */
+ #define CSR_CYCLE		0xc00
+ #define CSR_TIME		0xc01
+@@ -382,6 +396,8 @@
+ #define CSR_MIP			0x344
+ #define CSR_PMPCFG0		0x3a0
+ #define CSR_PMPADDR0		0x3b0
++#define CSR_MSECCFG		0x747
++#define CSR_MSECCFGH		0x757
+ #define CSR_MVENDORID		0xf11
+ #define CSR_MARCHID		0xf12
+ #define CSR_MIMPID		0xf13
 -- 
 2.44.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240625210933.1620802-3-samuel.holland%40sifive.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240625210933.1620802-4-samuel.holland%40sifive.com.
