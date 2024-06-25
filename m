@@ -1,150 +1,192 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRB5475KZQMGQEQ2RAM5A@googlegroups.com>
+Return-Path: <kasan-dev+bncBD22BAF5REGBBOOF5OZQMGQEJZADHAQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55AC79162A0
-	for <lists+kasan-dev@lfdr.de>; Tue, 25 Jun 2024 11:38:01 +0200 (CEST)
-Received: by mail-lf1-x138.google.com with SMTP id 2adb3069b0e04-52ce42bb0efsf1447432e87.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 25 Jun 2024 02:38:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1719308280; cv=pass;
+Received: from mail-oo1-xc38.google.com (mail-oo1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F72D916D17
+	for <lists+kasan-dev@lfdr.de>; Tue, 25 Jun 2024 17:31:07 +0200 (CEST)
+Received: by mail-oo1-xc38.google.com with SMTP id 006d021491bc7-5c219ca8e9csf572110eaf.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 25 Jun 2024 08:31:07 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1719329465; cv=pass;
         d=google.com; s=arc-20160816;
-        b=jxPlej5iRA2/IDBJBMVX0GbgpXiRqg4es7FoKgrKQIH25gwCZtoynE/sAZ3EgXOjzm
-         Kz7HUpIWd0h2YBfJTAVTNEDvzrSj4LSn99uY1crIer4eZC3+6U9IpvqzHdtrut5BKVNj
-         5ZWJLDUPHfA3vbKPbCbK+CFQTBXWdVNBzQYINZQBKG66tNmwheblzY3p3uM7g5EabMoc
-         UTuku2P50OKbq831MsLpAqBHgeTWMCnsE7nmz7JByY80K2vH9YtJBJPNJmssaO6jwnHP
-         f9au3OsvwrxGLTyXD3lQs+Un7NgMcJSfeBVPawf9GCa+Sr4EyKgV75FvyNwfK74rypCH
-         Nm0Q==
+        b=U26Jvmrnyi4O4ck6SjAXi24cyUnWHeQ4hoj6rSqC8xDNvEAXixTOwVkB4MEU8a4CWQ
+         lOsC8k41nu1dUNASM2TcF+JbEL6KyKFewWtKKJuMXt4icp9vrmbIMujzf3SrNsahuuFO
+         LBUDu9JJrgx0Lk5WzGaZEJatBomzfRIe+w9HZnRGhtWPIdwNMHMs72z438PjvO4Bv6pY
+         T4AB19mI2XBUwbZOfnchS1pgdTuk0vKCRFEMvSBOjhVtcJh398yleyaQXH0wWByM8wXo
+         77piFD6IcGy8juPpWqS2nCdkzj7pC1bW33RrridnaBJdNX8Rbggd1vO0NaT1TdX6avtF
+         S4zw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=8uLPG6Or8Cz2f7Emqi5MNEKCy8IXMHoOJks/kMaI9Bs=;
-        fh=Qs/sWIB4eOXo1u1QJ9HABEGrpTQDGZ1se47WDbCKlgg=;
-        b=A2LXyZyxEV16jVkCNLCCeZgu1u0xfEBrU6GFmtbxjNJnLq3yB6uVgDsM8KGGJ90imN
-         VrA7iqOA9+IQeBVPIXhkNHI0Osga4Y2edyKU6D9Jv7kAD0XEd73tNyzUsJ3Qev9VcE32
-         Wl/ixzuSPLvM8mRH06FUp4CtFsGnBeK/XrKrwxWhSq6laW0ZP3c3J8+J4zs4GpwgTJE4
-         7o4t9EZzcbEBvdZZYfvJ7duMK/h/dmPUCH+07S/G+nIKPC7XM0qiMV68T/vp5RLNIw9q
-         LAKvfAO3guCuAoZ1JRZFbfaheOCzC6i/yy8N/RWl/u1J7svj8OkheCr7w4Sbe7PFaCcm
-         eRYg==;
+         :list-id:mailing-list:precedence:in-reply-to:autocrypt
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:sender:dkim-signature;
+        bh=LZmIOHDKzK47tYQJ/O468pnvV9ARSJ5kqqdpc2VFa2k=;
+        fh=3NPQU7vIVCxS/J4BeOW/Ii5gY//yDtLemSQ9JIar55U=;
+        b=0c6+7q4nHcn3qCULPUtwTiUFR9RLTToaJhV7kCOmFmV3B0CZdCxL+3TsUn8aaFFTn8
+         SMl9zkgpOK3gm6Fen1y1MCEXVB5wMD0DeUyZfHnFoqbPwPWHMVdggKNTKrea2McMmdJt
+         rTufFD8b1kVcvu7F+Z/M/RuI0K+7u3iRHcCvdcm4QqNeHj1+lmTjj4OJWjrN48GkpC/u
+         y1jV/XO8WEh503jNaSo80O88zlsbrNuUQKTthlqwfIvvrr5NlbHSD0V2cyVZmc8Q/r51
+         KIdGiyFFYUCROgaRGuxHstDVzBZLDYCsajcKgv8fJApkymPVk0+cxQsvqEBluWqw05YT
+         I4vg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=Xj13taHy;
-       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@intel.com header.s=Intel header.b=hrbjp3SC;
+       spf=pass (google.com: domain of dave.hansen@intel.com designates 198.175.65.11 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1719308280; x=1719913080; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1719329465; x=1719934265; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8uLPG6Or8Cz2f7Emqi5MNEKCy8IXMHoOJks/kMaI9Bs=;
-        b=b29aBTmf6fphxdTjzpqCu5y2G879wyNcFeM06igjjuQhpfstTz8qWN8AD7GsmIzjLe
-         PgWIGW1Un1TNjtSRtB+6TGxysmcbw+8/yCqsIgxJYDMPi4Q+aHxTATPYu+lAoiStqkYs
-         fu3W5fq2zUq3eW9nET2xVqoxUJy/WnD0rgxu3s2HhLtxKnH/jt15Us7OcM3Y6+czLC59
-         RPxIRTi76j2eUHzU9GmsoLwwXEd4LaDv+9qCjm9SKtbWoEpcTTjhfu9KfgSdpmijPBv2
-         yETe22ULKqRAbxhVop0bFgrIuFV/Lir5OTe/frENRb1GLNeEYQx7e8AoxmuEUwP0oCaL
-         CqKg==
+         :x-original-sender:in-reply-to:autocrypt:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=LZmIOHDKzK47tYQJ/O468pnvV9ARSJ5kqqdpc2VFa2k=;
+        b=thprNkISEltynFeRQeRDDjRyXuEfO0x5K9rd4OThbLRVubc/o83NlP8W9sD9z08+km
+         XAvSV+xH6ROC7rEEh1v4TVf4EEmelE4XOJmqNSxGBHk5qD5k0TpK3vk6l7zyaw5A76k2
+         hbX2/+yjdCAw+8AGUtoOlIPZpi1It5VBCMNtTanek4SZ6QUCi38eBrMAQKRfO4JZKt7Y
+         4Jsu6vajbwmjqwtUtH6LZA40lwSOjvJE2pwkCs3EKJ1TbfqtVt+mB+e9fvv0bbBf0kx3
+         3rW3cGcPIVW81sziXOdPdAOGmvVmvow+q/QZ/uGhs5aumTseAkuWdIbA7dE+xBZ7y78p
+         0/9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719308280; x=1719913080;
+        d=1e100.net; s=20230601; t=1719329465; x=1719934265;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8uLPG6Or8Cz2f7Emqi5MNEKCy8IXMHoOJks/kMaI9Bs=;
-        b=c8jy8EsF5YbFgAVtKjQAUdZGp0wkdJKKmYCq13Q4iJVex2KPidfU73oAMp5G8GNkea
-         zLAuc0SxKHL7BjBLs99qEQ87CyziIv4vfsmeH/mssUSsMvRbmrovD3peYz09LcDSyA7x
-         J33IC1yXVXHGgaHdTA9I8p2lrgnG5i+nhWaDekEwI3O0kUT9w+REvjZE6cpq2abOnp3X
-         KAgHWUlj5AGl/WH25+9J0nJoON1eicBFPYdnp0PZ+C6PTlIb/AJpCgkPnp3dl5mOh+9d
-         jA3PxdO3Chg3nrBKC9gX+BdZWI4uGhDeNj+B1hv1zwD8DixmKPxLUTYbL7S6L1NHLl/o
-         2mvw==
+         :autocrypt:content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LZmIOHDKzK47tYQJ/O468pnvV9ARSJ5kqqdpc2VFa2k=;
+        b=OAG+nInaVHKnE7L/9+vn47amoNmNxnrDScmglGTBu0dBwBV/2WIcYxoGKdVHc/D89t
+         zOYJlCWp1cMjPr+9sqXC38mxQfcuTd+xSskiWTbTGRhaw+DpZ8iUT0d9L5rXrTjDpUrv
+         AWsSyEfX0etbrLqEBmmxzf5oMU3/Uiy4eijdfjgRkODtS+ixZJJq/RHFe8Id1iIrAhEw
+         BgARPQbtwJCj4TVDTSWAf54OrNcQs1pa5pw+tNsjrf/ct92rnK8BoUSPEmKU0sNNggEu
+         0A5fYPpFMD9DoUWvTBAi/gRpJLeWTP5x00jD85yXpvRuRykKW0dgFjHRhTHbD8g4Imo1
+         pvag==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWjzv0EJxddw+Ovd7dVWFOVYI6WSSKXKnNwpvA36oonH4gXSQgJgWjE6vXFkmptluxXcGGDT9chMKi1gTL5SFGqCch1V7NhPA==
-X-Gm-Message-State: AOJu0YyHgBtErQSs1F7X/8ZpJvxX6E3RMcXwEJ45imqYwSjhq4Vgweno
-	dTK9J8QB4OLbXgfDwAaTp59yQFridyFQTu9nq0LKq3qalaBKrf3T
-X-Google-Smtp-Source: AGHT+IF06wpDdMnqVjsMNxx2BBKK5ADTSSJecCGUX7syDaa0jHARA2jrJWGh/3WRXEZIxMbxTmla+Q==
-X-Received: by 2002:ac2:5e79:0:b0:52c:e180:4eac with SMTP id 2adb3069b0e04-52ce1804fa2mr4004321e87.9.1719308280114;
-        Tue, 25 Jun 2024 02:38:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUjOf278ubUj1hF+Uza90e2c0JE0ODyefwYjQPMtLgzaS9Xj8dcsnTZT9TVI2EIU5NX+UA/c7fT5EL4Np1GJnCBxdyN6zaqzw==
+X-Gm-Message-State: AOJu0YxAXTkCMORSXIQOi/HMR39DcJR9ah+9Bi3oPruW++8qEbbUMXSO
+	FFM5fRQKSSm8eiep2W50PgR5jFiiRHLqgHUuZWcxBLff4uka1ABo
+X-Google-Smtp-Source: AGHT+IEYrb6mKJlNQVvw1n4YZt8sbhI9QhJ4DeN0p2VdyXpsRLrLmqaOeuSMJyYG2szAhm4kQnh3zQ==
+X-Received: by 2002:a4a:921c:0:b0:5c1:b998:a85a with SMTP id 006d021491bc7-5c20ec26578mr1828874eaf.3.1719329465354;
+        Tue, 25 Jun 2024 08:31:05 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:5219:0:b0:52c:e4ec:ad52 with SMTP id 2adb3069b0e04-52ce4ecaf96ls779609e87.1.-pod-prod-02-eu;
- Tue, 25 Jun 2024 02:37:57 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCX8oCadX+/eXlaWx7rTPNu49mfaYOLaKAcN0a8r7yDz+YDRdqWtdlXrJbKJNlpKbQJwD2Ml0CI8gvG4HcTgvyCs+KwcvbC2T2DUwQ==
-X-Received: by 2002:a05:6512:3a8f:b0:52c:dfe0:9b1d with SMTP id 2adb3069b0e04-52ce06734bbmr5600879e87.45.1719308277420;
-        Tue, 25 Jun 2024 02:37:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1719308277; cv=none;
+Received: by 2002:a4a:9284:0:b0:5b6:60e7:a68b with SMTP id 006d021491bc7-5c1bfce2daals1616706eaf.0.-pod-prod-00-us;
+ Tue, 25 Jun 2024 08:31:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVXnD/QLRl6zaYjJZhBATQkLSnbyPPc3fK8tQxxNJzeCbhBAezgZr24iHXlmqT0117KNZ438JDT6aLcdon1+PlNzkoVG3nz3Kr9CA==
+X-Received: by 2002:a05:6830:6202:b0:6f9:d203:8d13 with SMTP id 46e09a7af769-700aa4de4cfmr5148264a34.0.1719329464590;
+        Tue, 25 Jun 2024 08:31:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1719329464; cv=none;
         d=google.com; s=arc-20160816;
-        b=AgWZFVl9GzA3CmXrxbb7ODN2rYUnXYzV7Bmgh0B1Oc1Mk6vGmc0XZq5pl0SwnOurrY
-         u1pTLtU+3dZxVcQlwERhxxhlXHbkTnnpz1WCUxdXnThfN3HWcuk44FnfFtNQleowc0+x
-         0g4ulMD+jgBYTVx9abkhYCcn1CUMfMYcXTed8M9G5TcVb/TarpMowJFdpnWt6AaPC7+H
-         CF2NEgmkCtY5uwZXufJu/2PLl+L/eYC7ALubegGzNz1wVS6OEsipsPqOd9qYE0f9q1BB
-         57m9CEyQawW/LpOIJ0VgHMGnUxiu5YMZUX/9Q43WdWExemIgr/3cmp2Gwudz54OULnIk
-         grWQ==
+        b=VM1lnwfq1qg3JG1vK/o/IvjPo+wIXBftKQ6VLuntfEC5B3aRpT1yNhz2Avu3lfkW87
+         VHiC8nLtTW2v6jgsSPwv1W0A1pGJETXyRbrEEBFVVNfrGBpfYcpjyrsCBqTZKMFsOeuG
+         Vx3x1GVvC/9AN44L7gRcpGudK/Qm6NVcok5+cadlYa7aO83yzITYPdhBArWeFAVFehUj
+         npBoDsZ9+63Pz05ktDpYVpLcEgqd0x4Jmdmh5JgjFVv4BjGzBWCpNPp8nzgl6298EH3Y
+         gcVSNs2X7MJ5GD7c+aUGU1k1qfb5etidh6tfAmLYS5DKyxO+1uEapPataKykCHnXcvas
+         jJ6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=p81muDELRMtjx8hyqZALP7SKcIRl8MDp2vLMju2Ho8E=;
-        fh=i3BH9rfZTrewb7bgHlyevoaE4fSEsexQhZjNRmnAU8o=;
-        b=TuTK9MoVKpGQUXCHZK20vOge+XdVKXXAkdIHDODdcEq4geFFBT/kkmsX1dMhjk9FNo
-         ZJo5qjAFzvqGure8Eg/2fxN8cFC+1CG8cCyaFNVjSnZo+AV96CxgFULZZMpjap7bhOsK
-         /x942v5E9JLFETyq/BjNMZvhlts2iQjFUiRFNvXbMz6qvW9LG0lhwF5qLgH8hZ1iN23a
-         T0lkhE5a/IJPrciSsH1WMpXhx9CmpKORm7jWGrMY1w3Cnu3K5vN8FynNR9lxqDaZyNb9
-         2IOQEgCwCAgtA+EuVdyGSqV8M+Me5Z7JTy2qHuqsu8NfJ+7pD75gO6wzd9yIdsmR9A0e
-         mmnw==;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:dkim-signature;
+        bh=VoiSbMu350BRg28eDf+9yVOpbObNbqlRMoIEoLcU44s=;
+        fh=GwtQrKhzZMXddfFKJBJN79HUnvlNyGskdXxUy2l7IyY=;
+        b=enRF2amSVTWEOT99TeycTKpqXE90RzA4ISyflBeeU+934P6xwcZ9l/LeBN1zEng8Ur
+         jLr+LVZKn3qF3Ulj5AV9H7vBG8VyFq9TRxbFY+wBVr7u8wO5SAl6ML3xFk1Q3sQquZiI
+         4yBra8hFdPynslq+Det9mID2KZ8zZuxdAJoujlljHKoxdtA7QfmNUyefyHSQPk1C2y3t
+         eQhwA0kXwjGQlt4Kb8i2pJ3oIpwK14V1PBo2An7QVabck1riKPvTX3+EDo38p2VLF1LD
+         WITYqNjzEYqm0p8kRNuxYlioKSXCwlOkMf7BfKdw6s/pD0GCaKxNTdZlVcJyOM0UjtRx
+         2kbQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=Xj13taHy;
-       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
-Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-52ceae2ae76si66530e87.0.2024.06.25.02.37.57
+       dkim=pass header.i=@intel.com header.s=Intel header.b=hrbjp3SC;
+       spf=pass (google.com: domain of dave.hansen@intel.com designates 198.175.65.11 as permitted sender) smtp.mailfrom=dave.hansen@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.11])
+        by gmr-mx.google.com with ESMTPS id 46e09a7af769-7009d5e51d4si290569a34.1.2024.06.25.08.31.04
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Jun 2024 02:37:57 -0700 (PDT)
-Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
-	id 1sM2c3-00000008Njg-3inE;
-	Tue, 25 Jun 2024 09:37:39 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 7378B300754; Tue, 25 Jun 2024 11:37:19 +0200 (CEST)
-Date: Tue, 25 Jun 2024 11:37:19 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Gatlin Newhouse <gatlin.newhouse@gmail.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Kees Cook <keescook@chromium.org>,
-	Marco Elver <elver@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <ndesaulniers@google.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Baoquan He <bhe@redhat.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Changbin Du <changbin.du@huawei.com>,
-	Pengfei Xu <pengfei.xu@intel.com>, Xin Li <xin3.li@intel.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Uros Bizjak <ubizjak@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-hardening@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v3] x86/traps: Enable UBSAN traps on x86
-Message-ID: <20240625093719.GW31592@noisy.programming.kicks-ass.net>
-References: <20240625032509.4155839-1-gatlin.newhouse@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 25 Jun 2024 08:31:04 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dave.hansen@intel.com designates 198.175.65.11 as permitted sender) client-ip=198.175.65.11;
+X-CSE-ConnectionGUID: o+mHVT5+Q92szRigQP+0Uw==
+X-CSE-MsgGUID: m6cpKQteQguw+toXUxw91g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11114"; a="26946543"
+X-IronPort-AV: E=Sophos;i="6.08,264,1712646000"; 
+   d="scan'208";a="26946543"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 08:31:04 -0700
+X-CSE-ConnectionGUID: +3Wk90IsSMK1hg+n//hphQ==
+X-CSE-MsgGUID: peb+A56kTT+7xoCyv94XsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.08,264,1712646000"; 
+   d="scan'208";a="44395977"
+Received: from kinlongk-mobl1.amr.corp.intel.com (HELO [10.125.109.47]) ([10.125.109.47])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2024 08:31:04 -0700
+Message-ID: <98589095-3cde-4767-b2cb-2240032420c8@intel.com>
+Date: Tue, 25 Jun 2024 08:31:05 -0700
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: KMSAN stability
+To: Alexander Potapenko <glider@google.com>
+Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+ kasan-dev@googlegroups.com, x86@kernel.org,
+ Dave Hansen <dave.hansen@linux.intel.com>
+References: <dgsgqssodokkzy6e7xreydep27ct2uldnc6eypmz3rwly6u6yq@3udi3sbubg7a>
+ <CAG_fn=WvsGFFdJKr0hf_pqe4k5d5H_J+E4ZyrYCkAWKkDasEkQ@mail.gmail.com>
+ <wlcfa6mheu2235sulno74tfjfxdcoy7syjqucqt44rfqcmtdzu@helxlktdfjcy>
+ <6272eb74-ac87-4faa-844b-8a76faf14f6f@intel.com>
+ <CAG_fn=WN1T-jo3qL3aCbCGXZ2fh7aGSkfE4WhBEqznY-G1savw@mail.gmail.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <CAG_fn=WN1T-jo3qL3aCbCGXZ2fh7aGSkfE4WhBEqznY-G1savw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20240625032509.4155839-1-gatlin.newhouse@gmail.com>
-X-Original-Sender: peterz@infradead.org
+X-Original-Sender: dave.hansen@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=desiato.20200630 header.b=Xj13taHy;
-       spf=none (google.com: infradead.org does not designate permitted sender
- hosts) smtp.mailfrom=peterz@infradead.org
+ header.i=@intel.com header.s=Intel header.b=hrbjp3SC;       spf=pass
+ (google.com: domain of dave.hansen@intel.com designates 198.175.65.11 as
+ permitted sender) smtp.mailfrom=dave.hansen@intel.com;       dmarc=pass
+ (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,210 +199,22 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jun 25, 2024 at 03:24:55AM +0000, Gatlin Newhouse wrote:
-> Currently ARM architectures output which specific sanitizer caused
-> the trap, via the encoded data in the trap instruction. Clang on
-> x86 currently encodes the same data in ud1 instructions but the x86
-> handle_bug() and is_valid_bugaddr() functions currently only look
-> at ud2s.
-> 
-> Bring x86 to parity with arm64, similar to commit 25b84002afb9
-> ("arm64: Support Clang UBSAN trap codes for better reporting").
-> Enable the output of UBSAN type information on x86 architectures
-> compiled with clang when CONFIG_UBSAN_TRAP=y.
-> 
-> Signed-off-by: Gatlin Newhouse <gatlin.newhouse@gmail.com>
-> ---
-> Changes in v3:
->   - Address Thomas's remarks about: change log structure,
->     get_ud_type() instead of is_valid_bugaddr(), handle_bug()
->     changes, and handle_ubsan_failure().
-> 
-> Changes in v2:
->   - Name the new constants 'LEN_ASOP' and 'INSN_ASOP' instead of
->     'LEN_REX' and 'INSN_REX'
->   - Change handle_ubsan_failure() from enum bug_trap_type to void
->     function
-> 
-> v1: https://lore.kernel.org/linux-hardening/20240529022043.3661757-1-gatlin.newhouse@gmail.com/
-> v2: https://lore.kernel.org/linux-hardening/20240601031019.3708758-1-gatlin.newhouse@gmail.com/
-> ---
->  MAINTAINERS                  |  2 ++
->  arch/x86/include/asm/bug.h   | 11 ++++++++++
->  arch/x86/include/asm/ubsan.h | 23 +++++++++++++++++++++
->  arch/x86/kernel/Makefile     |  1 +
->  arch/x86/kernel/traps.c      | 40 +++++++++++++++++++++++++++++++-----
->  arch/x86/kernel/ubsan.c      | 21 +++++++++++++++++++
->  6 files changed, 93 insertions(+), 5 deletions(-)
->  create mode 100644 arch/x86/include/asm/ubsan.h
->  create mode 100644 arch/x86/kernel/ubsan.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 28e20975c26f..b8512887ffb1 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -22635,6 +22635,8 @@ L:	kasan-dev@googlegroups.com
->  L:	linux-hardening@vger.kernel.org
->  S:	Supported
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
-> +F:	arch/x86/include/asm/ubsan.h
-> +F:	arch/x86/kernel/ubsan.c
->  F:	Documentation/dev-tools/ubsan.rst
->  F:	include/linux/ubsan.h
->  F:	lib/Kconfig.ubsan
-> diff --git a/arch/x86/include/asm/bug.h b/arch/x86/include/asm/bug.h
-> index a3ec87d198ac..a363d13c263b 100644
-> --- a/arch/x86/include/asm/bug.h
-> +++ b/arch/x86/include/asm/bug.h
-> @@ -13,6 +13,17 @@
->  #define INSN_UD2	0x0b0f
->  #define LEN_UD2		2
->  
-> +/*
-> + * In clang we have UD1s reporting UBSAN failures on X86, 64 and 32bit.
-> + */
-> +#define INSN_UD1	0xb90f
-> +#define INSN_UD_MASK	0xFFFF
-> +#define LEN_UD1		2
-> +#define INSN_ASOP	0x67
-> +#define INSN_ASOP_MASK	0x00FF
-> +#define BUG_UD_NONE	0xFFFF
-> +#define BUG_UD2		0xFFFE
-> +
+On 6/24/24 04:35, Alexander Potapenko wrote:
+...
+> 2. Provide simplified versions of primitives needed by KMSAN without
+> debug checks (e.g. preempt_disable(), pfn_valid(), phys_addr()) that
+> won't be instrumented.
+> + Covers all existing and future debug configs.
+> - Code duplication is bad, we'll need to keep both implementations in
+> sync. (We could refactor the existing primitives though, so that there
+> is a single version for which checks can be disabled).
 
-Please look at 790d1ce71de. Also your style above is inconsistent,
-please use lower case consistently for the hex values.
+Creating refactored, single versions of these functions that KMSAN needs
+would be my first preference for a solution.
 
-
->  #ifdef CONFIG_GENERIC_BUG
->  
->  #ifdef CONFIG_X86_32
-> diff --git a/arch/x86/include/asm/ubsan.h b/arch/x86/include/asm/ubsan.h
-> new file mode 100644
-> index 000000000000..ac2080984e83
-> --- /dev/null
-> +++ b/arch/x86/include/asm/ubsan.h
-> @@ -0,0 +1,23 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +#ifndef _ASM_X86_UBSAN_H
-> +#define _ASM_X86_UBSAN_H
-> +
-> +/*
-> + * Clang Undefined Behavior Sanitizer trap mode support.
-> + */
-> +#include <linux/bug.h>
-> +#include <linux/ubsan.h>
-> +#include <asm/ptrace.h>
-> +
-> +/*
-> + * UBSAN uses the EAX register to encode its type in the ModRM byte.
-> + */
-> +#define UBSAN_REG	0x40
-> +
-> +#ifdef CONFIG_UBSAN_TRAP
-> +void handle_ubsan_failure(struct pt_regs *regs, u16 insn);
-> +#else
-> +static inline void handle_ubsan_failure(struct pt_regs *regs, u16 insn) { return; }
-> +#endif /* CONFIG_UBSAN_TRAP */
-> +
-> +#endif /* _ASM_X86_UBSAN_H */
-> diff --git a/arch/x86/kernel/Makefile b/arch/x86/kernel/Makefile
-> index 74077694da7d..fe1d9db27500 100644
-> --- a/arch/x86/kernel/Makefile
-> +++ b/arch/x86/kernel/Makefile
-> @@ -145,6 +145,7 @@ obj-$(CONFIG_UNWINDER_GUESS)		+= unwind_guess.o
->  obj-$(CONFIG_AMD_MEM_ENCRYPT)		+= sev.o
->  
->  obj-$(CONFIG_CFI_CLANG)			+= cfi.o
-> +obj-$(CONFIG_UBSAN_TRAP)		+= ubsan.o
->  
->  obj-$(CONFIG_CALL_THUNKS)		+= callthunks.o
->  
-> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-> index 4fa0b17e5043..aef21287e7ed 100644
-> --- a/arch/x86/kernel/traps.c
-> +++ b/arch/x86/kernel/traps.c
-> @@ -67,6 +67,7 @@
->  #include <asm/vdso.h>
->  #include <asm/tdx.h>
->  #include <asm/cfi.h>
-> +#include <asm/ubsan.h>
->  
->  #ifdef CONFIG_X86_64
->  #include <asm/x86_init.h>
-> @@ -91,6 +92,29 @@ __always_inline int is_valid_bugaddr(unsigned long addr)
->  	return *(unsigned short *)addr == INSN_UD2;
->  }
->  
-> +/*
-> + * Check for UD1, UD2, with or without Address Size Override Prefixes instructions.
-> + */
-> +__always_inline u16 get_ud_type(unsigned long addr)
-> +{
-> +	u16 insn;
-> +
-> +	if (addr < TASK_SIZE_MAX)
-> +		return BUG_UD_NONE;
-> +	insn = *(u16 *)addr;
-> +	if ((insn & INSN_UD_MASK) == INSN_UD2)
-> +		return BUG_UD2;
-> +	if ((insn & INSN_ASOP_MASK) == INSN_ASOP)
-> +		insn = *(u16 *)(++addr);
-> +
-> +	// UBSAN encode the failure type in the two bytes after UD1
-> +	if ((insn & INSN_UD_MASK) == INSN_UD1)
-> +		return *(u16 *)(addr + LEN_UD1);
-> +
-> +	return BUG_UD_NONE;
-> +}
-
-Given that insn is u16, this INSN_UD_MASK seems eminently pointless.
-
-Are the bytes after UD1 a proper ModRM such that the whole forms a
-decodable instruction? You seem to not mention this anywhere. It is
-paramount that the instruction stream is still correctly decodable.
-
-Also, wouldn't it be saner to write this something like:
-
-__always_inline int decode_bug(unsigned long addr, u32 *imm)
-{
-	u8 v;
-
-	if (addr < TASK_SIZE)
-		return BUG_NONE;
-
-	v = *(u8 *)(addr++);
-	if (v == 0x67)
-		v = *(u8 *)(addr++);
-	if (v != 0x0f)
-		return BUG_NONE;
-	v = *(u8 *)(addr++);
-	if (v == 0x0b)
-		return BUG_UD2;
-	if (v != 0xb9)
-		return BUG_NONE;
-
-	if (X86_MODRM_RM(v) == 4)
-		addr++; /* consume SiB */
-
-	*imm = 0;
-	if (X86_MODRM_MOD(v) == 1)
-		*imm = *(u8 *)addr;
-	if (X86_MORRM_MOD(v) == 2)
-		*imm = *(u32 *)addr;
-
-	// WARN on MOD(v)==3 ??
-
-	return BUG_UD1;
-}
-
-Why does the thing emit the asop prefix at all through? afaict it
-doesn't affect the immediate you want to get at. And if it does this
-prefix, should we worry about other prefixes? Ideally we'd not accept
-any prefixes.
-
+But, honestly, anything is better than what we have at the moment.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240625093719.GW31592%40noisy.programming.kicks-ass.net.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/98589095-3cde-4767-b2cb-2240032420c8%40intel.com.
