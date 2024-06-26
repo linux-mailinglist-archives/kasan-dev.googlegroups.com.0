@@ -1,150 +1,154 @@
-Return-Path: <kasan-dev+bncBCMIFTP47IJBBZX46CZQMGQEVDHC5MI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDCPL7WX3MKBBDGO6GZQMGQE5PAER4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBED891870E
-	for <lists+kasan-dev@lfdr.de>; Wed, 26 Jun 2024 18:14:32 +0200 (CEST)
-Received: by mail-il1-x13a.google.com with SMTP id e9e14a558f8ab-377150fb943sf21591605ab.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 26 Jun 2024 09:14:32 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1719418471; cv=pass;
+Received: from mail-pf1-x43e.google.com (mail-pf1-x43e.google.com [IPv6:2607:f8b0:4864:20::43e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FC21919688
+	for <lists+kasan-dev@lfdr.de>; Wed, 26 Jun 2024 21:07:59 +0200 (CEST)
+Received: by mail-pf1-x43e.google.com with SMTP id d2e1a72fcca58-706791ae948sf5827577b3a.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 26 Jun 2024 12:07:59 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1719428877; cv=pass;
         d=google.com; s=arc-20160816;
-        b=0GiQlleSl/5KaXcGSIMSmB2FvV9Q7gE9yp8z4h5IaDti9+VtEm/zxRMY79sNc6O5V2
-         9XfxMbWzKYtM6b3Pm80lB16oDjmjssG9nDR5nA6/YzC2+ArgXY6eRNp90PVaeCWhsIY/
-         cMwfBEY6yB+O/IXlxv/eJ5mx+a1AgP75xMf/vxkyMD843ceyjEXuZk1L0Y1iyvBj2g9K
-         SRvbWZUf5LE5kcXTkCMi7z/S48H/UMRXVX5WrDPHcq9f9dXKJbOwHmT8pnSxxg1YXKgp
-         NlWf8/ejMbEuemUJQTIaWYiFd1GuFmkkGzJ/Na3hkQhN4hxVoJ4rWGFI6laHOd7857++
-         9wQQ==
+        b=AiQ4kMNR1ZpcnuTjLy2pb0sFpgijbmiPOxvz+RrqtP5U8+0O3L9aqUr4ltVM+yeH83
+         y1FYKEfQ4lzS4SlRb8X851X7vwZbMBuzSc06LNjHZ4SveTbcieV92LoSDmo5Om6g6zMv
+         KC4S8odg+FUM+aGJVr1waWV3LNCj6e0s6rppdqvhVwA/mfdq9kXYmzvBtTtsr+lq/5/s
+         EoA8/0ydeRpv9XyX6W/r3iwhw78wKANVuvixsnXHXUYqbbvix/3XNZCShFxrUMFAr9ve
+         i+n6UpBvkQchDBLigoGH/fWYMMbffj6xT2K8NRkLI/YCnbiZ/psG+3Jt8/IXMFCUY3yG
+         A/kg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:dkim-signature;
-        bh=LCAWhIBZ+Xj/En87E6Xit3AxUlwx2oy/nyBjXFJwNEA=;
-        fh=yXrMtZN+avLGmMRQEFeGlU+MHLLAZYYoEcDASqZzyTg=;
-        b=CAqDkpTk+9WyIzzOOCT3Vd5RbqIYyLmvlDnfsl3gNyjbVOOFCFpUp0i5IPuxsZaE2r
-         GLWqHDCmX0E1yhCVJGzs3xcRxPxceKtyOk9sXa0iGLMkEHltlEGbjUfMDGbgMEiZ62UC
-         GrT8t04dUQHltOYnLFeBFKTFgcmJ8+0e1Nida2v3NbMxi7EqoktO75nQsTtiU//uRCgw
-         8f3TEIP3vZh5wKexqmn/BL8di975Yl1T8Gu4YiwK28AWYKdZygWqhXArW/SFeJ0q3ceL
-         o8dPswlr/NWJycAh/5JgJgrwbWQFPUon8m5xosFfhTlpmbYuRVuIC8it/yLfelUTVJ2+
-         G6Fw==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=XMgKCgeEKp/axSi3+YLrYle4JCMuhI24jcjgL8HMeSE=;
+        fh=/XVp0UPeSVoursm7590xx1xMvTyBEk+Bc8BgdU22Nyg=;
+        b=FuuImHkKLaC36wH//5LS8yKxAPK80l1KgV1h1tGlud9WiBfEkbLjbkW5YRoflobImK
+         9A/lfH0+VWUT7aC4iw47fzxvyP0TA0JWIRTqe5RS52kyc+Fj4MG5qwhdWVX+J1SEsQk+
+         sFOQ0o01Na3YMzjlpiYp/quJA6+mhXW3rJ+oq5SM1YIYzl3CdtwrlxOgW2KQlyT+Mqt3
+         BknUdJ1+huopeISkgOVLGxhPS9j8hPR1kh1vwJbu3IPn+63Vz8QD8sWig+CQeVhxAusY
+         4zMEak3XcP/QM/YVquV6hujzDeUX6KqOcSqDCpSzOMKRB+3/7NswQsnCvVP91JJVL/e9
+         iyPg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@sifive.com header.s=google header.b=Lg6BOJU+;
-       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::129 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=jHTqRn4f;
+       spf=pass (google.com: domain of kees@kernel.org designates 145.40.73.55 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1719418471; x=1720023271; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1719428877; x=1720033677; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LCAWhIBZ+Xj/En87E6Xit3AxUlwx2oy/nyBjXFJwNEA=;
-        b=lqQY+ARU2xRMFs2XrDdbjlDhO5jlb5ExECHX/aOW/Cwem315uQXPqCrB/f6BBWgTgN
-         renH5lOWvntrl28LFyZmKnr8cWsVmCkwmP/OvajcaMQry8TZXrQenXfrNff29lI0gp+d
-         hWAOwIRm4bYS9DblNZLB+aqKH3ENQ8D585FGG1AZjD0sbMo4RYoiQ7FZF5TNOuSb+G+f
-         Nh1Rr6S7Kndi73I1RI341H85VFLxsWLMPTVE/3ng9gBXC8VrhfZYhN+zG94qhhYCR9Ii
-         08yIHBZUCwn57OGRuYFlnEvi6OxickSM2nn7r+XHc9+t+cix373bMhYmtv8fuFh7GrBw
-         2PCA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XMgKCgeEKp/axSi3+YLrYle4JCMuhI24jcjgL8HMeSE=;
+        b=K6QIMc3j+ORnNtEY3xjE6CvuMW8v70X4LRd3ZMBqp+SdV/rMk+qxPxipQhOteYQ5Ct
+         V8my0p/ywM3KUV/JUop868U/rvVTvQzqjQmOOf5QKngR7InDt8JMMsvuT+oeEll4s0Gd
+         9pKZ45DoA+Pg8HCpXQmxXRvr4jl2IS4H9XMOh3RmSeWZX3ByfmIit4JQFHMUBwO6lDK6
+         F9sQ67ErMQMY5HEqQBzAZOpk94LFwXNPP4yY0YJZgh+iQmGpqIs4EwyexTLUwpzhdrfa
+         oIY/aVLrhkOVHETiHmZvEs4LcY/NH6Xws1CcYK9USxS9A2PleWfu5iJStH8GXqMzoBH1
+         ajwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719418471; x=1720023271;
+        d=1e100.net; s=20230601; t=1719428877; x=1720033677;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:content-language:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LCAWhIBZ+Xj/En87E6Xit3AxUlwx2oy/nyBjXFJwNEA=;
-        b=LdWYC4Z/8pZ8mg1BfTuOanIjNVXkEFI9pgemIDVSbQp68j1HlcHkUEnTq3W+nnBn0S
-         JKcrSl3WROU5wkiGc7n05KY5dtA6a8KItKdLdE04ZWHkIabXQxTLkeyLIiXU5nzMk5O6
-         yQiDn7p/ZUgTbui1/3EVVgE6FNkfRrmdud/xhD/WyfZ1xJiiMfna4A8dv7FikAhpfiS7
-         mPBRR3KoNnsDA9Tb3NK4ft5tpcju+F+chawompcDYBvGdjUEpP4v2Qi19ya5LKVxwNjo
-         eg8Qo2WeJx+XLLmxDcscjusDrVQtUXxHrvzgQlWH9SB/YngtSChsjnU6Ug0crCfiVC1s
-         xQHA==
-X-Forwarded-Encrypted: i=2; AJvYcCXVHh2ndeW0OH0uURl+EP54twiiTLbAH7Se9GzeM6zxz7Yf34/9FERG87088hF28pV3j/I5h1xw2STlB5CarEXPRWY4ZrAUVg==
-X-Gm-Message-State: AOJu0Ywy9YKjduADaHXT/C+rtJK9SzCyds544hBObettezcE5KulDhuB
-	YgrSejP+jfDeddBlgti7gi0sX8nqUADXZ60qJsJ4FnmZ5TAOljN7
-X-Google-Smtp-Source: AGHT+IGIJ1rYBpKMoCa+S5MRZwh+KQYnbYt4+O2jf2gwU5K6MD+7pr1FFwBPdk8d5CrcD0YwsdjHVg==
-X-Received: by 2002:a05:6e02:17cc:b0:374:98b2:5a with SMTP id e9e14a558f8ab-3763df8d20bmr144583905ab.8.1719418471041;
-        Wed, 26 Jun 2024 09:14:31 -0700 (PDT)
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XMgKCgeEKp/axSi3+YLrYle4JCMuhI24jcjgL8HMeSE=;
+        b=BvM5thCCxeUmpaAnE+VqztU8PVHK6Z46goPTqfSze2pAdD8zoszy1VPea8YTZtR+OZ
+         RGBsNamkz2QkFquy+x2VJgmnW2BrlEg18fLOR4qPoEPR4Lj6zezEeOjO9NDz/bWW0JOS
+         dYR490sDMczD6DkVnTinfwm9Tt/U+FvKQKx4UzRyQ2JNFg2ThzqBJG0vYC9bHSuGYQb8
+         Ma6bVA78CJvZ17wqM5e2b8PgRet+YLotgbNrqs/0eFvfDdHFqhCQMAU/o3wTaAl7gU3K
+         9A6uwvtk1BpzkCLV+wtwOiY5hM/9CIIvNTJSNb4TpAYuMiuqkY16V9uwwQ49Yz+54JVf
+         mQAA==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCUQPWHCXgvU8hEkTwIuNrYLTveGxoc+l0koZDIZbG9RXIJEagq/cx1CmCuSUJ0oiaAlDjfOUDtL1dHzhqzMTm7ser3eHso8Ug==
+X-Gm-Message-State: AOJu0YyGicEkCE6aRHc50Wr1yTEXN23TabRffh3nWPf9tuXyPqNSGoIY
+	KMcTaehfj9lTqoC8OKwRMF+775MdxfM2hqn+GJ1ztkXzoSQvXr1u
+X-Google-Smtp-Source: AGHT+IEaRZOES2ZCb5w2IbxABSbRAoHa6b8LgiZJnQ92x8rzINSXB2ufn/soAf8GRBoHrekrRZwsow==
+X-Received: by 2002:a05:6a20:1b0f:b0:1bd:21aa:df8 with SMTP id adf61e73a8af0-1bd21aa0e3bmr4972831637.7.1719428877118;
+        Wed, 26 Jun 2024 12:07:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:216e:b0:375:9d70:4e85 with SMTP id
- e9e14a558f8ab-3762692cc44ls53929405ab.0.-pod-prod-03-us; Wed, 26 Jun 2024
- 09:14:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWKVqzr0O6hPo7fVGtty5U7zZiqgLD9WFdegJP20BGu5bUIF81nu7roeGtbdbUPw4EowWZ2hDyIzXYvvo7427VKRrzXDuHQHvO55Q==
-X-Received: by 2002:a05:6e02:17cc:b0:374:98b2:5a with SMTP id e9e14a558f8ab-3763df8d20bmr144582895ab.8.1719418470198;
-        Wed, 26 Jun 2024 09:14:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1719418470; cv=none;
+Received: by 2002:a17:903:2303:b0:1f7:3d48:5906 with SMTP id
+ d9443c01a7336-1f9c4ee6708ls50315955ad.0.-pod-prod-05-us; Wed, 26 Jun 2024
+ 12:07:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUMjpz7BufVd8nXAYlsyo8nJp2//QkQzMFxD5I094KEy9UzHExCeag0AZzHW8uJZJusLN5e9jbrUoraRwNmtNwbaTOT2QJmUEZMKA==
+X-Received: by 2002:a17:902:f685:b0:1f7:13db:527b with SMTP id d9443c01a7336-1fa23bdb870mr123052155ad.7.1719428875956;
+        Wed, 26 Jun 2024 12:07:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1719428875; cv=none;
         d=google.com; s=arc-20160816;
-        b=Z+yo85tVTvfCouRHadmOdrfcw6VRfWnBdV4q0VZICQt3pUdV4QUPvSaIyGX7FuJjWV
-         FY1ulJHi03ciG6k8hXRzFlAH+YWlLPiyGNAVnvpxueavridvaREzUMVwcYvtMG2g9thG
-         jLuaNkjzd7fCs8uPw79rwYvIcBlbtTzOqYKsvXifsrcQ1MHOXsrTef14LjOIbwD0KSb0
-         EAc8l6RD8VQC7hEO/zSyiZXM+rBpUBSqyHcMX9q1sOAI1GOKIPy2MzNFuhWHlx/p8dXf
-         SpAIFSPcEaXPA6JXtBzGfe+9SCR5z8/oUC5vUJE8KtsXdfko2j584RkaUKCd70aQzYLI
-         MPrA==
+        b=hM1IhXo7QYb2diuiV6K8zgW7HzSXwed6M2jbyvnY2ZJIidn08KGY10oEaHc6qD3sFf
+         1Argg25OE0CXfuSb0jn9aHuSyFYIiwizeGyi0A6HCMlo1AK019bYRNTSMaDcz21lPyGi
+         GdB0EcQKVKeAHv6VbvMDt/1toefDizA94A9h1AwHvl25JtUK4w1KOdWBo8AI3npcU9UB
+         fiosINIaJ9b6uD69HXjg3Uqrhy1roXFzSaNw4Dx+r7suVHS0C9PNePOxbJqx2R+tsXGQ
+         b73iFTkPwAp9VMCOqge+UD6zQrpQ/sDcJqaywobBImfn3FTHwnr2E/10piuuoSgTa8EW
+         WtWw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :dkim-signature;
-        bh=kDDEvuft6YUbchcNAvdNgKui7TGEyIpJ9wmKFGBqMjA=;
-        fh=O/zkIJxmlK15ca8x0V7mfEpOOT4FG5U0GaAAqkI/HfQ=;
-        b=qSRwEljs0iG3KAnU0FzRnDvOWUTg1qpYLjWwcvP+Af8dCmXCKFgsqyYAPfbHSe/6TR
-         dFSu3W4gouC2bi4cxmN9pOMLJlqx8gy0V5VD4HAUDaIcBLfWATTCvEwUuGwzydfV8OXU
-         AAVQf4NcYw3LD5UtT39oKGheZ8yAK1Lo3GV1nwVwZLwq2UIsSmCQAS5x1Hz/3JxRJu3a
-         MI80b7gEEq3rcpJFDeYs8uj9jSLVJLqIxq4SW3oQP8/mFi9d2WtSU5zngALVn8Mgx98z
-         T8dQ+14erOsEdTVnLmssEm3vV5GWNTNDdWP74CuEyu3QOOS4EuQKycHa2r8luuBhiWi9
-         ob+A==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=aA1BxtqP3MJs53VdcsjGWeF4jKNR2Irr+jBzhI7La8A=;
+        fh=bHUgRRbmF6rAM6Rr1vzt2B/dXFtJR09rNyMuusLa5+4=;
+        b=kDonICtb8TqGKdw6W9o9PGG5LcGh5yumOo5PcEAjZo91al5dgxh4uahKXwqdW8jun4
+         PIO5/RgHi8UVEXrMkeYG0/9ypVPgsOB1gxpgMVB6xoqxj5MiyeZGdNOfSHCnQYBX5ar3
+         zOEIpTwEVA89lIrw8AYZa/z0UwBK2GEK/ZRcohTLpUTalz/vfwC190u9AxhDH8B7o0/f
+         TYdP1pfifdqahg55m303FPjdOawD2erjStKw/k43OR5UuIKrMCtA0YEPssczFgXiaWIW
+         5PF2I9QQgqz0SljZM2cA28mPgtKhDmprAERnAed+ENDHOXstvaMWPM5bT0tQmeoRUglU
+         c5YA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@sifive.com header.s=google header.b=Lg6BOJU+;
-       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::129 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com
-Received: from mail-il1-x129.google.com (mail-il1-x129.google.com. [2607:f8b0:4864:20::129])
-        by gmr-mx.google.com with ESMTPS id e9e14a558f8ab-3762f3d60a9si5160155ab.5.2024.06.26.09.14.30
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=jHTqRn4f;
+       spf=pass (google.com: domain of kees@kernel.org designates 145.40.73.55 as permitted sender) smtp.mailfrom=kees@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from sin.source.kernel.org (sin.source.kernel.org. [145.40.73.55])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-1f9eb2ef06csi4444375ad.2.2024.06.26.12.07.55
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jun 2024 09:14:30 -0700 (PDT)
-Received-SPF: pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::129 as permitted sender) client-ip=2607:f8b0:4864:20::129;
-Received: by mail-il1-x129.google.com with SMTP id e9e14a558f8ab-376069031c7so26377445ab.0
-        for <kasan-dev@googlegroups.com>; Wed, 26 Jun 2024 09:14:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCURbm3ISy1PpNz9ozKetUqLrn3Wk0q69SQcUJ/cMkaJ+CPcUwDQOg50hs62CuQr0bCPEa9sVoKtg1zpfJwYWl37I7qOLgzc9umTGg==
-X-Received: by 2002:a92:c569:0:b0:375:c473:4a8c with SMTP id e9e14a558f8ab-3763e166c2dmr137718185ab.32.1719418469797;
-        Wed, 26 Jun 2024 09:14:29 -0700 (PDT)
-Received: from [100.64.0.1] ([147.124.94.167])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3772b4c8b06sm5483315ab.53.2024.06.26.09.14.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Jun 2024 09:14:29 -0700 (PDT)
-Message-ID: <acd4c562-1f4f-4cd0-8ff8-e24e3e70d25e@sifive.com>
-Date: Wed, 26 Jun 2024 11:14:27 -0500
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jun 2024 12:07:55 -0700 (PDT)
+Received-SPF: pass (google.com: domain of kees@kernel.org designates 145.40.73.55 as permitted sender) client-ip=145.40.73.55;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by sin.source.kernel.org (Postfix) with ESMTP id D5471CE2C52;
+	Wed, 26 Jun 2024 19:07:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1AA9C32782;
+	Wed, 26 Jun 2024 19:07:52 +0000 (UTC)
+Date: Wed, 26 Jun 2024 12:07:52 -0700
+From: Kees Cook <kees@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Gatlin Newhouse <gatlin.newhouse@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Baoquan He <bhe@redhat.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Changbin Du <changbin.du@huawei.com>,
+	Pengfei Xu <pengfei.xu@intel.com>, Xin Li <xin3.li@intel.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Uros Bizjak <ubizjak@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-hardening@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v3] x86/traps: Enable UBSAN traps on x86
+Message-ID: <202406261205.E2435C68@keescook>
+References: <20240625032509.4155839-1-gatlin.newhouse@gmail.com>
+ <20240625093719.GW31592@noisy.programming.kicks-ass.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/10] dt-bindings: riscv: Add pointer masking ISA
- extensions
-To: Conor Dooley <conor@kernel.org>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org,
- devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- linux-kernel@vger.kernel.org, Anup Patel <anup@brainfault.org>,
- kasan-dev@googlegroups.com, Atish Patra <atishp@atishpatra.org>,
- Evgenii Stepanov <eugenis@google.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-References: <20240625210933.1620802-1-samuel.holland@sifive.com>
- <20240625210933.1620802-2-samuel.holland@sifive.com>
- <20240626-refined-cadmium-d850b9e15230@spud>
-Content-Language: en-US
-From: "'Samuel Holland' via kasan-dev" <kasan-dev@googlegroups.com>
-In-Reply-To: <20240626-refined-cadmium-d850b9e15230@spud>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: samuel.holland@sifive.com
+Content-Disposition: inline
+In-Reply-To: <20240625093719.GW31592@noisy.programming.kicks-ass.net>
+X-Original-Sender: kees@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@sifive.com header.s=google header.b=Lg6BOJU+;       spf=pass
- (google.com: domain of samuel.holland@sifive.com designates
- 2607:f8b0:4864:20::129 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com
-X-Original-From: Samuel Holland <samuel.holland@sifive.com>
-Reply-To: Samuel Holland <samuel.holland@sifive.com>
+ header.i=@kernel.org header.s=k20201202 header.b=jHTqRn4f;       spf=pass
+ (google.com: domain of kees@kernel.org designates 145.40.73.55 as permitted
+ sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,76 +161,58 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Conor,
-
-On 2024-06-26 11:01 AM, Conor Dooley wrote:
-> On Tue, Jun 25, 2024 at 02:09:12PM -0700, Samuel Holland wrote:
->> The RISC-V Pointer Masking specification defines three extensions:
->> Smmpm, Smnpm, and Ssnpm. Document the behavior of these extensions as
->> following the current draft of the specification, which is 1.0.0-rc2.
+On Tue, Jun 25, 2024 at 11:37:19AM +0200, Peter Zijlstra wrote:
+> Also, wouldn't it be saner to write this something like:
 > 
-> You say draft, but the actual extension has already completed public
-> review, right?
+> __always_inline int decode_bug(unsigned long addr, u32 *imm)
+> {
+> 	u8 v;
+> 
+> 	if (addr < TASK_SIZE)
+> 		return BUG_NONE;
+> 
+> 	v = *(u8 *)(addr++);
+> 	if (v == 0x67)
+> 		v = *(u8 *)(addr++);
+> 	if (v != 0x0f)
+> 		return BUG_NONE;
+> 	v = *(u8 *)(addr++);
+> 	if (v == 0x0b)
+> 		return BUG_UD2;
+> 	if (v != 0xb9)
+> 		return BUG_NONE;
+> 
+> 	if (X86_MODRM_RM(v) == 4)
+> 		addr++; /* consume SiB */
+> 
+> 	*imm = 0;
+> 	if (X86_MODRM_MOD(v) == 1)
+> 		*imm = *(u8 *)addr;
+> 	if (X86_MORRM_MOD(v) == 2)
+> 		*imm = *(u32 *)addr;
+> 
+> 	// WARN on MOD(v)==3 ??
+> 
+> 	return BUG_UD1;
+> }
 
-Correct. The spec is frozen, and public review is complete. Here's the tracking
-ticket for details: https://jira.riscv.org/browse/RVS-1111
+Thanks for the example! (I think it should use macros instead of
+open-coded "0x67", "0x0f", etc, but yeah.)
 
-I use the word draft because it is still an -rc version, but I can reword this
-if you prefer.
+> Why does the thing emit the asop prefix at all through? afaict it
+> doesn't affect the immediate you want to get at. And if it does this
+> prefix, should we worry about other prefixes? Ideally we'd not accept
+> any prefixes.
 
-Regards,
-Samuel
+AFAICT it's because it's a small immediate? For an x86_64 build, this is
+how Clang is generating the UD1.
 
->> Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
->> ---
->>
->> Changes in v2:
->>  - Update pointer masking specification version reference
->>
->>  .../devicetree/bindings/riscv/extensions.yaml  | 18 ++++++++++++++++++
->>  1 file changed, 18 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/riscv/extensions.yaml b/Documentation/devicetree/bindings/riscv/extensions.yaml
->> index cfed80ad5540..b6aeedc53676 100644
->> --- a/Documentation/devicetree/bindings/riscv/extensions.yaml
->> +++ b/Documentation/devicetree/bindings/riscv/extensions.yaml
->> @@ -128,6 +128,18 @@ properties:
->>              changes to interrupts as frozen at commit ccbddab ("Merge pull
->>              request #42 from riscv/jhauser-2023-RC4") of riscv-aia.
->>  
->> +        - const: smmpm
->> +          description: |
->> +            The standard Smmpm extension for M-mode pointer masking as defined
->> +            at commit 654a5c4a7725 ("Update PDF and version number.") of
->> +            riscv-j-extension.
->> +
->> +        - const: smnpm
->> +          description: |
->> +            The standard Smnpm extension for next-mode pointer masking as defined
->> +            at commit 654a5c4a7725 ("Update PDF and version number.") of
->> +            riscv-j-extension.
->> +
->>          - const: smstateen
->>            description: |
->>              The standard Smstateen extension for controlling access to CSRs
->> @@ -147,6 +159,12 @@ properties:
->>              and mode-based filtering as ratified at commit 01d1df0 ("Add ability
->>              to manually trigger workflow. (#2)") of riscv-count-overflow.
->>  
->> +        - const: ssnpm
->> +          description: |
->> +            The standard Ssnpm extension for next-mode pointer masking as defined
->> +            at commit 654a5c4a7725 ("Update PDF and version number.") of
->> +            riscv-j-extension.
->> +
->>          - const: sstc
->>            description: |
->>              The standard Sstc supervisor-level extension for time compare as
->> -- 
->> 2.44.1
->>
+-Kees
+
+-- 
+Kees Cook
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/acd4c562-1f4f-4cd0-8ff8-e24e3e70d25e%40sifive.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202406261205.E2435C68%40keescook.
