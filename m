@@ -1,119 +1,119 @@
-Return-Path: <kasan-dev+bncBCT4XGV33UIBB5PD7WZQMGQEV4QCRAY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT4XGV33UIBB6HD7WZQMGQERA2W4VY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x33a.google.com (mail-ot1-x33a.google.com [IPv6:2607:f8b0:4864:20::33a])
-	by mail.lfdr.de (Postfix) with ESMTPS id F382091CAA3
-	for <lists+kasan-dev@lfdr.de>; Sat, 29 Jun 2024 04:31:18 +0200 (CEST)
-Received: by mail-ot1-x33a.google.com with SMTP id 46e09a7af769-700d0c0ed70sf1315144a34.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 28 Jun 2024 19:31:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1719628278; cv=pass;
+Received: from mail-oo1-xc3e.google.com (mail-oo1-xc3e.google.com [IPv6:2607:f8b0:4864:20::c3e])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CD5A91CAA5
+	for <lists+kasan-dev@lfdr.de>; Sat, 29 Jun 2024 04:31:22 +0200 (CEST)
+Received: by mail-oo1-xc3e.google.com with SMTP id 006d021491bc7-5c22485b47csf1201156eaf.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 28 Jun 2024 19:31:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1719628281; cv=pass;
         d=google.com; s=arc-20160816;
-        b=DmLR7tKHDPsphBj5tZ/Nt6CgT5ijQfriJ46AqzopZP7UP7IAzO8zgO+O1FzEUuiSCw
-         zBA9QMSUERWS2+NysPKlnDgMLdl1kEV48YcwHw80CPX7g/MWOZu8ljByLKnDcxCWfFG+
-         gcu7D1MFW3cxgLJ44U4iJCmeVOkvSLGFVHtzc2roy2++OPig6QyQJYJRDjq8gPku4ZMH
-         0UoUPrqMyIB/E9jVCYQg+Z02SzVS4N0Ipt9ijmtdPfkAO/ydtlsmgJ/VplhxFNlo+ohT
-         3ftX4/aqZ7g9OkUiV8V6yF2PTGUwkqp81kDQmFrjcA5Fza8/CoTpT3s3twnAJHdCv/VI
-         HiIw==
+        b=iFpAdsEYi6FPOoaA/axlddolTyWaWnDxtEb4ZoERkobj2lPnqG+IDkVztv7kO/xVEL
+         Df3gVnxg6DPllH03HIgSoon2oJ6VJWw8mzDwSC+TchVNKXPJE4HfJZUG8LHjpFiwEewE
+         Je3WBifFq6uYJMsk/jZS+wg9z4vhEXuiKt2ohDWyJDevvzHv59tidJKj1sYXrFQ9yBhF
+         gq43WLmIOARauQsWhhFVGgnBnBhq7o2oTMfo4SB8Fz+BTR5DbC/LRgR45PDsPlDfNs6q
+         NgAoftPiFZeuzmySo8797Pkvwhq+99q03pBJRqhgEqHxO2y2WkDg83Ll/MyEvg0SBYb+
+         sjmA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:message-id:subject:from:to:date
          :mime-version:sender:dkim-signature;
-        bh=xpZSaAZl+a5WC81/gnMH8fvr4RwYtVLFuFaFzL4ZDiw=;
-        fh=GnXDznPdz362Gp+o8tf0iceWIK+2Ks68Qel5n0fuZ9M=;
-        b=H+gNdpWNZpkmfKKYlBz1OpM89EipOtWfQhpXF51rSAQPtYEaxn52o9IHOe4Gd1Q0ih
-         bvY4lBy5CZ/hyyGPUqWQs4O4WOHS/LxivSWK5o1xMlJE4lz+9y84/mUHZ/dsjDLCQFD6
-         sLoQ7ycP6lraF3O/BwfYUxZnZ+bcknrMeZlIlEHBRxT55nV62ncIDoUR/4egCFxHegz8
-         c+tBeHXjnnPvY4YtQu/cag1xAWe/dkj6y8RiyTq6RzIwa309Ux5tMMLa5Pio4xFWES38
-         dEo0tGaOjahvTnPOh3z9vmJZdCm7sNfCMcFQKzJdtJVow1ToIOUjHEx3XjOdvpiflUA4
-         cjcA==;
+        bh=dDazUXNKihGiaIhn2akBkw9NmIWnjYu2L/+UZBzqivU=;
+        fh=wURuqIJl46tVfbr9odpfaU/GVtCuaAiyKK2lXdwNSN0=;
+        b=t+hpmB+14S5/ym03kVpvUDWZHAYI4Xj5zWecV9a3Ns+rUuLNL8rE+3PBAWhNGxycX/
+         ENKdKNJCXdaPVNLEwlvkKUYFDJdhAyXndoS6hPlc0RUvp6ePWuOfdxwX85Q5NN/dqUue
+         tAo5/TED5fXAiQlXUvJJuffxSOX7D2P2/Jmu1YIxSR5OriUFKSUFdB+gyC1roVsKKMib
+         NseA01MVt1gvZ3+hrhEw6Syt3BOylUeZbsXkb+TfuoEJVUq+0vYsK16UUa3zwRX3xXcj
+         9ayM9Fhcl3d59FBAc5GgjvW1yseaWI2KkYQOAXAfw7DLqt/1gwiUTmHbeCbczLUSetEN
+         k8kQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=LPjWrHjS;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=0TpOQc7U;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1719628278; x=1720233078; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1719628281; x=1720233081; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:message-id:subject:from:to:date:mime-version
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=xpZSaAZl+a5WC81/gnMH8fvr4RwYtVLFuFaFzL4ZDiw=;
-        b=ECWsyW9ZGbhfjbUgZMM8j0Bsyv9DkzbfsGis+yLWSW2YXiTUQACv2cUVzia1BJWRBR
-         ZG4UweSf2WghJS/NATmo7bpu8b8QcBkM+Jtr0HZhF7q/PoWpIR/a6TN49QC2vrY7+ICT
-         FV7P5IPQVrQHDXIK+tL0v+W1zDQUaS/paeX93ce7WkFdHmKjaX6Ucz9GCCZ95T9KZFtt
-         nl2N7hWJtx5386lKPT/+VD1Ix1ZGf/Qw9j0lDSvvHJqXaYNYJdRAVFVeasV4SLgBg1fA
-         k5qXGuHG1cjM2xu7nzGIWjmHfRQf/QKhhDLFPGIgL3RyFoHzhzz7GguRcijkq+MNyLIJ
-         OCAw==
+        bh=dDazUXNKihGiaIhn2akBkw9NmIWnjYu2L/+UZBzqivU=;
+        b=bcrcnM5NFcDiLAUDi+Hw+haoCLjN+6gCGrZHCDTHPfg/Gnx/tt7mUkf+z0bTjz7ePM
+         52nj28rkbQO5pFeEIwcL5gt6tz3cNSOBv7b68J+meB2wMc0mWgUBtX3y/WmrnT9RZ5Cd
+         zNcRhjvqN9YPN94nUnFtKZJrsyQhtUmaxqu6kcaTejbcxDBUeCSkakN11pd5a5CZKmYh
+         cKcnqK3MJbh7BEn1AFdPpwR0y1OgQaK8pyrJY56H19hE4fGXia3Xky1esbZPjHA/2DhO
+         hnVbSaFBaXZQ7YrakbrR+CsHcAZe15EGMcupwmxUN0KiaLZx0QY3jO2bYoWTsUs76KsX
+         12hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719628278; x=1720233078;
+        d=1e100.net; s=20230601; t=1719628281; x=1720233081;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:message-id
          :subject:from:to:date:x-beenthere:mime-version:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=xpZSaAZl+a5WC81/gnMH8fvr4RwYtVLFuFaFzL4ZDiw=;
-        b=rZVQGw+CbAlZ48Ldgc7xlr5u3EvS7xnPFNHJLDdxHajdUhxztkAMWR42FvXU+QWsib
-         GtsmQCGMGqLF40c6ACRCwt19DvwSHNtqieHEgTANqWuVZhPppAmdGR9K6C/JdFp1IxMY
-         pvOv2ShhCGZUBt2y7ebZstTpGO0Xjh315o/ac1sAtZZ90pcTI2NQwCo3h7rujMESjPIG
-         oyirR4wdUIWUolhAmWEPcSy/Oa9CvHGib44UKL8C851qhPfEEWXDBeISguyR8tzUnIFw
-         Fd25mGHU2URfrAClNn0NmdYFni6murzaZiLl6iZ5qle0BEqk+iDQZ1BhZyD+t0t1ah2s
-         iy5w==
+        bh=dDazUXNKihGiaIhn2akBkw9NmIWnjYu2L/+UZBzqivU=;
+        b=FhPaIdRKNyV7x8n1w4cBu+i+zEe+eluTK8/3gKxpF5Hf8F8jvw+PWCioucClz0/gFm
+         5S0/SXMfBjqH99iZH4gd7axTcyfZBXQRn1yiVAHbAkpe+0ryPR9Ei2t2w/KB239NQIDX
+         hpLJYzoJmODpFvlvEJ8PI2yVOxCOzegmdYoaZeF98VHQGwQHDSLXrw4EFoAvrqemCErW
+         VNECksBPf8K9QSu2YnwUJb6Hn1PWDImS4RsQQ9F71e6DOxNM5HtFK7ve5M4K+aevbbJ2
+         gnoFSjm3ojOGsIXnUk5dJEG2eeSjNuNxxVBIAcblnN4Vyl/I+VkW3oHe025m5Kdpuakl
+         jahQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUJ1pzuWzvgrWrpBPHEJV79NVt9guQKjfGr+GF0gJ0mAJjmp9AG9SzI3q//+sn+YEzhljoffxf8M1O8Em+Dksy2r6MK9lQjUA==
-X-Gm-Message-State: AOJu0YyR4KIgtL8Y7S10w9e9aWKCNSEk+4nSPLOUY7iHF1KE7UjPpJym
-	hJ21L32QTn4bOGGj8bI1FqUIHG2PlFfZb/LqJrFlP3NL4HR3yQXA
-X-Google-Smtp-Source: AGHT+IHTghtV7e3xuJF+6CC2qi4Qm7A2EbacnnEgic2ixJOxviOPmEbZxxLoru7157dxta3ln4D+RA==
-X-Received: by 2002:a9d:5f07:0:b0:6f9:6577:71c3 with SMTP id 46e09a7af769-700af8f2ea9mr17407063a34.6.1719628277729;
-        Fri, 28 Jun 2024 19:31:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUvtZjS+WV5wKfKFx50D85Y17v8JxZAmXKwUZ74ZM0ORJukwecSxWbhvnZeDwkSu/UxAw9dfU3wkyngGJcK+sjsm5SXiOi/KA==
+X-Gm-Message-State: AOJu0YwnMGKe736kAAXYRNU0ATKjgW1SbliuuUR+bvHDp7h1Mrv0Ro4u
+	JrG1eXCTnP2FeG+XZ8+bRgsLdcKOpWnJG9kclUcbL/4LHu+WDewO
+X-Google-Smtp-Source: AGHT+IH8SKMHMZ1hVwv+ACJ4UCxZn6AzWyE/sgju/KspIkzVjiPIzJtoC/8TSLI5x/WeECSxegIjFQ==
+X-Received: by 2002:a4a:8289:0:b0:5ba:ec8b:44b8 with SMTP id 006d021491bc7-5c1eec27800mr19274689eaf.3.1719628281051;
+        Fri, 28 Jun 2024 19:31:21 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:946:0:b0:5b9:946f:8e43 with SMTP id 006d021491bc7-5c417eb6d9dls863025eaf.2.-pod-prod-03-us;
- Fri, 28 Jun 2024 19:31:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXEjzNEGh1hozUmLp0moRbxfVyzpWbIrhWW7C7SFSEdYYDy088Vv8JZi5zPDaflnod14LSkw3fPbiv0NHNAcybGQvf/2Mb6nrXTdA==
-X-Received: by 2002:a05:6808:1906:b0:3d6:2adc:3878 with SMTP id 5614622812f47-3d62adc3b1amr8178202b6e.15.1719628276364;
-        Fri, 28 Jun 2024 19:31:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1719628276; cv=none;
+Received: by 2002:a4a:ae0e:0:b0:5c2:24be:40c1 with SMTP id 006d021491bc7-5c4200cf293ls1107638eaf.2.-pod-prod-09-us;
+ Fri, 28 Jun 2024 19:31:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWVPTciTjOK3xsMr8hZgetf64pCXQusQ9CUSet+xjXNEuXj2yWqKG90EXqBLaPrITUoo2JT5SyYlL6vWfn6C5QvynLk1h+DWnS2bg==
+X-Received: by 2002:a05:6808:2211:b0:3d5:3698:edb5 with SMTP id 5614622812f47-3d54595d9f0mr21809767b6e.11.1719628280154;
+        Fri, 28 Jun 2024 19:31:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1719628280; cv=none;
         d=google.com; s=arc-20160816;
-        b=run9Cj85ip2KFwv2eUEQOX9sNjKsH8Q9URLI2w363l8jTwQnFiJPbjHCbsvmThNI6C
-         /Vt6jneAIyHm2L00LS6g5yWgd78ewTus009anOpRFVhLWvgUfxG+whDylXgrWlb4wKHX
-         7edP7Gpe4aqgc0x4EfXWtDwXvYg/y7hBhWXIyethhguZ5ffj0JtaGoRG9DWIe8MNcYeX
-         BuZhjbEUypFLW9F7lmqJ1cCz5Nt6pm7nkm6Es37dyW9iSnNCB5eI5WMesxZz0nR9RU99
-         eF439NM5zpWQX/UM1toM7t7oUAVIvTmlpQy6lQWUUq5v3ipHlcLP9+uxIJBvvjWFrXzW
-         6w0A==
+        b=KRPeqnVH0rH7TqGaQdtdq76X7/uuUgVaW5nfjrDJY733PZY8eWVADbye7+10uvbXS/
+         v6R4jowmMYGtt+9uRvB9oa97bAbs0CPYI3gSfh7OdkBMReIeQCyEyOfTAx2jOcfNHdvp
+         RlUjRuZ9bvGndVyIuc3Ai7cS3wFS4+8JcRyYhc12veuaE4fU4zxKhhUqolpArJcKD0sC
+         T1NDdAFv/q8zos44tW1eLEp7fIRNPEmljhPRZc275uyLNouuw/XiQNkgYvzEp6LEfGgh
+         7VbWmF8vohLP7Bj7nBm4YEHJg0ezP5WTfQKsbGrYnxrMXjaw0727dRb1tkdQN4xgb93u
+         +7SA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=message-id:subject:from:to:date:dkim-signature;
-        bh=L+438zAjAaDpK3vVMYvWCibUe/OCKy1s87p4uzxQoAk=;
+        bh=o+ADE3hU/o4pu9DJAaHm1nINZgZ3XuuCYSXJGOzA7G0=;
         fh=YLJcVBHySIoH6a7eXFb8EZw2NzFQuSbk32Vvne46C7E=;
-        b=XHE2rntRiVLKADYlCWgJhykXOcmN2G0Wkfg7Yv8dUhehtwsAeufuoIFB3Qp/4/7DiR
-         uQXUx4uemcXfQc8KvA5RQ8AIoQjrz38MZuEzr7VTOv0WGqAwDAUjq/NVvLxekbakotDh
-         s3IxhkPiVoptGQYsc5Ejh5LeHL9fehQBeEYX6LZZ6ALIJYqQjbOvqW+T3uv8nox1XkzZ
-         3A8M3pmdEsMaByQaHsbUZY4+32LhrchofqzT8UB8AdjHweRTgaV/mmBzagA8c3ncEYSp
-         qcdddJpKb15ZFqg58o3gh/myXWkls/6vpU2BArBXkEvD7Lj74idIXha08M9CN0wG3ELP
-         PXZQ==;
+        b=TyFpdYfICcK7u5SoFDRBcR/Hg/K3pLcNlCPmDaZaR8ANg3LrbMGRxDghwqUulpvqkK
+         FOz5XJjps/Cb3qzMYYxn2BDG7V1qojA7ND7N027Z5zxcFmq09ikL3Ysx7Iq7m4hO8gSj
+         sjmjYV8NBLZSINFsA60ptwFGoDjTW4VCq5JKbRDNhTc06QMqwOCXUc/m1742t7sBdooo
+         txTMAuL8Xo0MZrKtD/0rqEPQ2zEYv+Qg06MaYIEJgcxws5qY/0MYeGAteBWnzx0QwM3E
+         Vf+2/tDW3J9c4UwL3esNY27IXx4fQBkqCEGIHBXs2qyhrR4C1SIodN53VXjVjN1ye1Qm
+         XvlQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=LPjWrHjS;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-70800fada07si150958b3a.0.2024.06.28.19.31.16
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=0TpOQc7U;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from sin.source.kernel.org (sin.source.kernel.org. [2604:1380:40e1:4800::1])
+        by gmr-mx.google.com with ESMTPS id 5614622812f47-3d62f9c3786si132582b6e.2.2024.06.28.19.31.19
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jun 2024 19:31:16 -0700 (PDT)
-Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+        Fri, 28 Jun 2024 19:31:20 -0700 (PDT)
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) client-ip=2604:1380:40e1:4800::1;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id AC764622C7;
-	Sat, 29 Jun 2024 02:31:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 551D0C116B1;
-	Sat, 29 Jun 2024 02:31:15 +0000 (UTC)
-Date: Fri, 28 Jun 2024 19:31:14 -0700
+	by sin.source.kernel.org (Postfix) with ESMTP id 8F5EDCE3CDA;
+	Sat, 29 Jun 2024 02:31:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA8F9C116B1;
+	Sat, 29 Jun 2024 02:31:16 +0000 (UTC)
+Date: Fri, 28 Jun 2024 19:31:16 -0700
 To: mm-commits@vger.kernel.org,vbabka@suse.cz,svens@linux.ibm.com,rostedt@goodmis.org,roman.gushchin@linux.dev,rientjes@google.com,penberg@kernel.org,mhiramat@kernel.org,mark.rutland@arm.com,kasan-dev@googlegroups.com,iamjoonsoo.kim@lge.com,hca@linux.ibm.com,gor@linux.ibm.com,glider@google.com,elver@google.com,dvyukov@google.com,cl@linux.com,borntraeger@linux.ibm.com,agordeev@linux.ibm.com,42.hyeyoo@gmail.com,iii@linux.ibm.com,akpm@linux-foundation.org
 From: Andrew Morton <akpm@linux-foundation.org>
-Subject: [merged mm-stable] s390-irqflags-do-not-instrument-arch_local_irq_-with-kmsan.patch removed from -mm tree
-Message-Id: <20240629023115.551D0C116B1@smtp.kernel.org>
+Subject: [merged mm-stable] s390-mm-define-kmsan-metadata-for-vmalloc-and-modules.patch removed from -mm tree
+Message-Id: <20240629023116.BA8F9C116B1@smtp.kernel.org>
 X-Original-Sender: akpm@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=korg header.b=LPjWrHjS;
+ header.i=@linux-foundation.org header.s=korg header.b=0TpOQc7U;
        spf=pass (google.com: domain of akpm@linux-foundation.org designates
- 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+ 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -129,51 +129,37 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 The quilt patch titled
-     Subject: s390/irqflags: do not instrument arch_local_irq_*() with KMSAN
+     Subject: s390/mm: define KMSAN metadata for vmalloc and modules
 has been removed from the -mm tree.  Its filename was
-     s390-irqflags-do-not-instrument-arch_local_irq_-with-kmsan.patch
+     s390-mm-define-kmsan-metadata-for-vmalloc-and-modules.patch
 
 This patch was dropped because it was merged into the mm-stable branch
 of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
 
 ------------------------------------------------------
 From: Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: s390/irqflags: do not instrument arch_local_irq_*() with KMSAN
-Date: Fri, 21 Jun 2024 13:35:14 +0200
+Subject: s390/mm: define KMSAN metadata for vmalloc and modules
+Date: Fri, 21 Jun 2024 13:35:15 +0200
 
-Lockdep generates the following false positives with KMSAN on s390x:
+The pages for the KMSAN metadata associated with most kernel mappings are
+taken from memblock by the common code.  However, vmalloc and module
+metadata needs to be defined by the architectures.
 
-[    6.063666] DEBUG_LOCKS_WARN_ON(lockdep_hardirqs_enabled())
-[         ...]
-[    6.577050] Call Trace:
-[    6.619637]  [<000000000690d2de>] check_flags+0x1fe/0x210
-[    6.665411] ([<000000000690d2da>] check_flags+0x1fa/0x210)
-[    6.707478]  [<00000000006cec1a>] lock_acquire+0x2ca/0xce0
-[    6.749959]  [<00000000069820ea>] _raw_spin_lock_irqsave+0xea/0x190
-[    6.794912]  [<00000000041fc988>] __stack_depot_save+0x218/0x5b0
-[    6.838420]  [<000000000197affe>] __msan_poison_alloca+0xfe/0x1a0
-[    6.882985]  [<0000000007c5827c>] start_kernel+0x70c/0xd50
-[    6.927454]  [<0000000000100036>] startup_continue+0x36/0x40
+Be a little bit more careful than x86: allocate exactly MODULES_LEN for
+the module shadow and origins, and then take 2/3 of vmalloc for the
+vmalloc shadow and origins.  This ensures that users passing small
+vmalloc= values on the command line do not cause module metadata
+collisions.
 
-Between trace_hardirqs_on() and `stosm __mask, 3` lockdep thinks that
-interrupts are on, but on the CPU they are still off.  KMSAN
-instrumentation takes spinlocks, giving lockdep a chance to see and
-complain about this discrepancy.
-
-KMSAN instrumentation is inserted in order to poison the __mask variable. 
-Disable instrumentation in the respective functions.  They are very small
-and it's easy to see that no important metadata updates are lost because
-of this.
-
-Link: https://lkml.kernel.org/r/20240621113706.315500-31-iii@linux.ibm.com
+Link: https://lkml.kernel.org/r/20240621113706.315500-32-iii@linux.ibm.com
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Reviewed-by: Alexander Potapenko <glider@google.com>
-Cc: Alexander Gordeev <agordeev@linux.ibm.com>
+Acked-by: Alexander Gordeev <agordeev@linux.ibm.com>
+Acked-by: Heiko Carstens <hca@linux.ibm.com>
 Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
 Cc: Christoph Lameter <cl@linux.com>
 Cc: David Rientjes <rientjes@google.com>
 Cc: Dmitry Vyukov <dvyukov@google.com>
-Cc: Heiko Carstens <hca@linux.ibm.com>
 Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
 Cc: <kasan-dev@googlegroups.com>
@@ -189,58 +175,52 @@ Cc: Vlastimil Babka <vbabka@suse.cz>
 Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 ---
 
- arch/s390/include/asm/irqflags.h |   17 ++++++++++++++---
- drivers/s390/char/sclp.c         |    2 +-
- 2 files changed, 15 insertions(+), 4 deletions(-)
+ arch/s390/boot/startup.c        |    7 +++++++
+ arch/s390/include/asm/pgtable.h |   12 ++++++++++++
+ 2 files changed, 19 insertions(+)
 
---- a/arch/s390/include/asm/irqflags.h~s390-irqflags-do-not-instrument-arch_local_irq_-with-kmsan
-+++ a/arch/s390/include/asm/irqflags.h
-@@ -37,12 +37,18 @@ static __always_inline void __arch_local
- 	asm volatile("ssm   %0" : : "Q" (flags) : "memory");
+--- a/arch/s390/boot/startup.c~s390-mm-define-kmsan-metadata-for-vmalloc-and-modules
++++ a/arch/s390/boot/startup.c
+@@ -301,11 +301,18 @@ static unsigned long setup_kernel_memory
+ 	MODULES_END = round_down(kernel_start, _SEGMENT_SIZE);
+ 	MODULES_VADDR = MODULES_END - MODULES_LEN;
+ 	VMALLOC_END = MODULES_VADDR;
++	if (IS_ENABLED(CONFIG_KMSAN))
++		VMALLOC_END -= MODULES_LEN * 2;
+ 
+ 	/* allow vmalloc area to occupy up to about 1/2 of the rest virtual space left */
+ 	vsize = (VMALLOC_END - FIXMAP_SIZE) / 2;
+ 	vsize = round_down(vsize, _SEGMENT_SIZE);
+ 	vmalloc_size = min(vmalloc_size, vsize);
++	if (IS_ENABLED(CONFIG_KMSAN)) {
++		/* take 2/3 of vmalloc area for KMSAN shadow and origins */
++		vmalloc_size = round_down(vmalloc_size / 3, _SEGMENT_SIZE);
++		VMALLOC_END -= vmalloc_size * 2;
++	}
+ 	VMALLOC_START = VMALLOC_END - vmalloc_size;
+ 
+ 	__memcpy_real_area = round_down(VMALLOC_START - MEMCPY_REAL_SIZE, PAGE_SIZE);
+--- a/arch/s390/include/asm/pgtable.h~s390-mm-define-kmsan-metadata-for-vmalloc-and-modules
++++ a/arch/s390/include/asm/pgtable.h
+@@ -107,6 +107,18 @@ static inline int is_module_addr(void *a
+ 	return 1;
  }
  
--static __always_inline unsigned long arch_local_save_flags(void)
 +#ifdef CONFIG_KMSAN
-+#define arch_local_irq_attributes noinline notrace __no_sanitize_memory __maybe_unused
-+#else
-+#define arch_local_irq_attributes __always_inline
++#define KMSAN_VMALLOC_SIZE (VMALLOC_END - VMALLOC_START)
++#define KMSAN_VMALLOC_SHADOW_START VMALLOC_END
++#define KMSAN_VMALLOC_SHADOW_END (KMSAN_VMALLOC_SHADOW_START + KMSAN_VMALLOC_SIZE)
++#define KMSAN_VMALLOC_ORIGIN_START KMSAN_VMALLOC_SHADOW_END
++#define KMSAN_VMALLOC_ORIGIN_END (KMSAN_VMALLOC_ORIGIN_START + KMSAN_VMALLOC_SIZE)
++#define KMSAN_MODULES_SHADOW_START KMSAN_VMALLOC_ORIGIN_END
++#define KMSAN_MODULES_SHADOW_END (KMSAN_MODULES_SHADOW_START + MODULES_LEN)
++#define KMSAN_MODULES_ORIGIN_START KMSAN_MODULES_SHADOW_END
++#define KMSAN_MODULES_ORIGIN_END (KMSAN_MODULES_ORIGIN_START + MODULES_LEN)
 +#endif
 +
-+static arch_local_irq_attributes unsigned long arch_local_save_flags(void)
- {
- 	return __arch_local_irq_stnsm(0xff);
- }
- 
--static __always_inline unsigned long arch_local_irq_save(void)
-+static arch_local_irq_attributes unsigned long arch_local_irq_save(void)
- {
- 	return __arch_local_irq_stnsm(0xfc);
- }
-@@ -52,7 +58,12 @@ static __always_inline void arch_local_i
- 	arch_local_irq_save();
- }
- 
--static __always_inline void arch_local_irq_enable(void)
-+static arch_local_irq_attributes void arch_local_irq_enable_external(void)
-+{
-+	__arch_local_irq_stosm(0x01);
-+}
-+
-+static arch_local_irq_attributes void arch_local_irq_enable(void)
- {
- 	__arch_local_irq_stosm(0x03);
- }
---- a/drivers/s390/char/sclp.c~s390-irqflags-do-not-instrument-arch_local_irq_-with-kmsan
-+++ a/drivers/s390/char/sclp.c
-@@ -736,7 +736,7 @@ sclp_sync_wait(void)
- 	cr0_sync.val = cr0.val & ~CR0_IRQ_SUBCLASS_MASK;
- 	cr0_sync.val |= 1UL << (63 - 54);
- 	local_ctl_load(0, &cr0_sync);
--	__arch_local_irq_stosm(0x01);
-+	arch_local_irq_enable_external();
- 	/* Loop until driver state indicates finished request */
- 	while (sclp_running_state != sclp_running_state_idle) {
- 		/* Check for expired request timer */
+ #ifdef CONFIG_RANDOMIZE_BASE
+ #define KASLR_LEN	(1UL << 31)
+ #else
 _
 
 Patches currently in -mm which might be from iii@linux.ibm.com are
@@ -249,4 +229,4 @@ Patches currently in -mm which might be from iii@linux.ibm.com are
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240629023115.551D0C116B1%40smtp.kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240629023116.BA8F9C116B1%40smtp.kernel.org.
