@@ -1,120 +1,120 @@
 Return-Path: <kasan-dev+bncBCT4XGV33UIBB7HD7WZQMGQETWVUETY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3e.google.com (mail-oa1-x3e.google.com [IPv6:2001:4860:4864:20::3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D5D91CAA8
-	for <lists+kasan-dev@lfdr.de>; Sat, 29 Jun 2024 04:31:26 +0200 (CEST)
-Received: by mail-oa1-x3e.google.com with SMTP id 586e51a60fabf-25d4f311638sf1359496fac.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 28 Jun 2024 19:31:26 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1719628285; cv=pass;
+Received: from mail-oa1-x38.google.com (mail-oa1-x38.google.com [IPv6:2001:4860:4864:20::38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78DDF91CAA7
+	for <lists+kasan-dev@lfdr.de>; Sat, 29 Jun 2024 04:31:25 +0200 (CEST)
+Received: by mail-oa1-x38.google.com with SMTP id 586e51a60fabf-25bfed6a3f5sf1486390fac.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 28 Jun 2024 19:31:25 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1719628284; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hY3MjJDYgwRJXPuVJRxNxM6I9w9DzUPCehfj1/+ghiGM6f5Lys6aGgqUkGQJDpDFdf
-         LmVzX9bTklU6oOSWqH7MnIFqzMde9oAx70PtznxqdZV45f8TAC9C1wW8kJ5aR3zU2tOK
-         utklr5NX6Ymgr4Ug2B3yzS5a1HOaQUstYdIU0ltMBJxEKl9KNh42QNW1XooyrkSR18vB
-         Rdw0N9PV1rtWvk6Fl7jtsnOJ17ynhIV/KT3S8wMbSvW/H2dgrzrAusUCoMyjfJEi4PJf
-         ddvtHA1mZbCOhoWLbmiD8NrtHz2EhftSTiylM3Pi8qa5+HjxLDzwpd1raDVsGe/W8TQs
-         1OHQ==
+        b=iiaU9qXZ8jR0oSTBLAEs4QupNo/xhlc9+aAFTyLpnHC8zSv/ih6e65LHzq1RHd2R7A
+         sP3oN2N1N7RkWa5zGAfOKNyvn7SQXbJG/oFf/6od7jbtQ4WgBj7P/+wvuAP9Xelds0nY
+         3p9PR8WEvDU10T56zTBotlagAbwMzbb/gQ2wqWgSQ2xPuo1boYU6xdPVYNSaU5RKoUHf
+         M4KASkOPG0hsB5tEra+TjjVqD3lOBDMiHSHAnYfbzBLM/yIVjcxFPs0GMbRBhv/h0wmk
+         31vMSKSkkHf10IGxBI5irezI4mZcTY1gtwhu20HAjgmEML1UMACTdr/6uoUzQCmrayeK
+         mo1w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:message-id:subject:from:to:date
          :mime-version:sender:dkim-signature;
-        bh=yfkBhcF1Ly7TekN0e8E0kLwPfMvlyq2EHSki+4V4K44=;
-        fh=QAWK6VOUUINF6Zln9gLlr8KkWV/U/bQUdnxYazzoM5M=;
-        b=fSCRnNvK0FKWAusgWbpeCO0w9XaltM5lmdY9xM1CghorSxYsYjK8D5YcnFSEqCR7FP
-         raMdK2Hh7WBZQelbOlGliYmeWaRr81OAOeSrz6ReRy4Bmk3X7CqRHGHiUG67BXa5q74M
-         VG6juf2qbc7FtDZuPqkavk1+i0GH7PXvGVZhJmR6t44yqLyR7x31/6tdkfRvH95H1yz8
-         YRV5jAn4Mhuegi5GjxVKK/MwqI2lhR6RXLFRGMqzHiYL4F48p4I5ehHmzFCYo3zlAdbl
-         yis5kEiW3vt9sub1Y7l3k4IZpc++1ughxVbQffYXhVqmXYn3yD34s1QVfxF1RQ9L0B06
-         4DKw==;
+        bh=QGphnu1zRA1zyrvCErMZKjTnbMQDB2gijmVKIXEmk7E=;
+        fh=eTtoPNasuZ9i9B/lhKFLmszHnRyG0jV4OnK6pP2/JMc=;
+        b=ca5h6cY2+9ytOq/7GwG1SeqVl02udJokzzNbw0g3iJMjhL0gveNs3vQvQGRPb5GmBG
+         zGnex9mQAqHJa5spZhs445sHO6eHpBIRWrzXYfPR8OH4SSaNc5rKm4sfm1rTOHDx3SSr
+         9bPA0eW0hC62LaTVpIrRmgFdcHbCw+ZVrwL5IxBcrRtD9f1booi7l9/Glocl2Z+mLkhe
+         pjii1+n4fHVpRwJgfoRj0Rcb5o7Bet0sUjxqgLVtSotO01GI78ZY/ikgAGen7k34L8LN
+         kOWEVYI3RoXRrHoL5h9YMfjN8MhE0HHYv0FTlNxagzHWxC5BpmHISFpU59z6KwsH45io
+         CY3A==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=x6foJkrz;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 145.40.73.55 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b="hC/D1x1X";
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1719628285; x=1720233085; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1719628284; x=1720233084; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:message-id:subject:from:to:date:mime-version
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=yfkBhcF1Ly7TekN0e8E0kLwPfMvlyq2EHSki+4V4K44=;
-        b=ppVrloOtEfrSe0dClJ381ekbxjCfcCjq1JlBoLnNjKEjszM+u/u7yfxitIjg3AR9TV
-         6pWpiDhMcooWDr/HjWbTw+8xYlIZTMkGoVfKzAsXjIUhKIy4cyYm+wbpR1BYdn5STxlW
-         5Yb2H2h8UDxX4Op8TxXkt0dkldvhUIroR2h+H6jTwcgkTXI5/mxZdRljwAMeQH9SsGfI
-         mT01K5pujLsk+QA03v80QmteSN+oLtfzYVuqi7aHI3RmHQDJ7uKxC9VoK0So86zdRuEo
-         wVFhJTAenLtxYCXkV/GyU5j+8xAtcm/o1MwX9Uluvjei6EwIlcz5WlyfhZT1oNSJ3/OJ
-         hpuw==
+        bh=QGphnu1zRA1zyrvCErMZKjTnbMQDB2gijmVKIXEmk7E=;
+        b=F51vauLqxsdA8t4RDGRY0nzlvUXQI+kmm7OvwOUtEcX1Mlp+PkXrDcx64fFkM/6sLt
+         FZ7lqzNUJEY2PkCunVi88BuToctCV00PObstTjZ8RL5NRpXCXjKwYb0m84TbUi+AySSb
+         OOsTleqYqJjj64Ap6mpvmZi435AYo1q9E9z0RRKtz5N6Y4vMxtHbN67COEisEjfX/Y31
+         nZGPRiAcRslim3qqJPWVXEc/MLvnlqzFdar0ku567DOAHPPXWqIy9i4SSIBmwAUILk0e
+         UEdFMYZJ5fhEDK7LbYj1s87f+wDof/jpV2fGqgKFuM/rhkUATwFvTydGnT5LC0NmHxUS
+         JVKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1719628285; x=1720233085;
+        d=1e100.net; s=20230601; t=1719628284; x=1720233084;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:message-id
          :subject:from:to:date:x-beenthere:mime-version:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=yfkBhcF1Ly7TekN0e8E0kLwPfMvlyq2EHSki+4V4K44=;
-        b=Yw6XdHudCvw4rWbA3lTgjtUG0y0uLj2MU+JSB0Y2s+7FzN/O8minEwnPfQeNxaDsBz
-         yLvbcnFQbd/qpKaa8sVMa7AeVv8wZxta8aqXsBNfXoN+NHMjdQXMRvcyv8QOR0lvkI4q
-         aokXf8dhMuR7Uv7oKQfmh52V0/Sh9SJcbaxdvJYIhYtw96KbhE+Bc/QPP3OTYmWwx7I5
-         cpmS+yJBcxWhPG/sPa5W2DJMB+VRSZ21prLjL3Jk3njptZ7LepUrSn2DlV4qD/RFxHvg
-         NLCccKEMkiqq5vTNweTbtWmcLtybOs7Ihzsq3vsDg27P5xw5g3KBWwAuRBdFtEAMcseY
-         dxLw==
+        bh=QGphnu1zRA1zyrvCErMZKjTnbMQDB2gijmVKIXEmk7E=;
+        b=s2y6haHQQCtA1uNpCuRq4BxxLKsmyJeJIj0YHP/OeyyliWbO7FFs+x2uv+tkcSV8wP
+         nI8ENF1+u/oL2Wo/+s8X6yAhT7dSTvsQcR+R5kokNNm0K53FvuI3BNsUORiHyS1fNjoM
+         6y9CgQoydotQWqhyWOAgch4yY1U6XEcyzH7f8jMfflMJNtGlBPkaSWktPrS144WsONeP
+         y1NnmhwOJTAgO5TEjFo6+I26MrKxdqrYDgdc0GqRq+DliAazy3bsBwGR29nWuv754sE7
+         nu0yGHhKqMkK4mf2THbFTCar8zpP8ul7Z2HGqwTZ1mZTR+GoGkubmyMUJz4LpivYIhh3
+         dV7A==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVhDQPnDwoh2aDElsQhB8mDgEDjfTc/b2mVHO+Ef+fyNbt8v+GHr2oYelcT8qYZoAHqC/GsfvXGHPUwAok0Gf4fzALVHgDrPA==
-X-Gm-Message-State: AOJu0YxwvzIZfdiaxZTFqIAWIu9dZD/jAi+Itn0dDhDl/irEZlA4T3Hq
-	4FvNRxAjV+YQi6117M4ZdKssdaWlM3TzB0hACj4zeS01fln25Y/m
-X-Google-Smtp-Source: AGHT+IFG6SlV1xfW5jXnaszhrf7ndXHTEjmTLrr6v07/+N7rOLsBIrmgE2WF6pWrfCrvkPomDJNMLw==
-X-Received: by 2002:a05:6870:2050:b0:254:c512:88c6 with SMTP id 586e51a60fabf-25d06e95dafmr18058033fac.51.1719628284847;
+X-Forwarded-Encrypted: i=2; AJvYcCXMsFn+TN5K48PwyHGvxLMmxz6VpsrEf1M5ilVpFhFNsirkijS9bou+C2p43+fjiOPrqz4jgV+ESXXTEP4SD8qJ69KQhopRCA==
+X-Gm-Message-State: AOJu0YxTWpxr9HcinWH93q5BAd8V0ErqJfPiVURahT+6jolmS0cx/guZ
+	Kp6jmsn3iIMAxGofPxaLSeU+JNT6T30gusJZXDlmU09wPBSXoTnj
+X-Google-Smtp-Source: AGHT+IGyxM/4uuRlnp5j4ZrYyAoixdI4yeu47KhSLvvjh6F6a922M7CAuwRsvwlLlwM6hm2RaLsyEg==
+X-Received: by 2002:a05:6870:b490:b0:24f:f282:241b with SMTP id 586e51a60fabf-25d06ce030amr18571795fac.33.1719628284329;
         Fri, 28 Jun 2024 19:31:24 -0700 (PDT)
 MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:63a5:b0:250:719f:50cc with SMTP id
- 586e51a60fabf-25d94c7443bls1232344fac.0.-pod-prod-09-us; Fri, 28 Jun 2024
- 19:31:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVQMbDlD6WYq/dEVikYs/fFHJaC+2JLzZ3409dMj2GG0S9oJd38Uq76q9bK2GnNm1KOorLimb6umLPjgyZPZp+aDCvYaTf6ih+rxA==
-X-Received: by 2002:a05:6808:220d:b0:3d5:6569:61ca with SMTP id 5614622812f47-3d56569649dmr10042913b6e.2.1719628283984;
+Received: by 2002:a05:6871:e499:b0:24f:f0cd:4790 with SMTP id
+ 586e51a60fabf-25d92c3a9bfls961568fac.2.-pod-prod-04-us; Fri, 28 Jun 2024
+ 19:31:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVz4Kir6WVGpQhIWUkZhpjEpMc7uVA3LnS364zJFN85Nh7C/EitIW8+RWp7Tlf385xAPdqN4Yf0Hrc0IEKdcyYUb6/y33thrZIg9w==
+X-Received: by 2002:a05:6358:4425:b0:1a5:fdba:7f50 with SMTP id e5c5f4694b2df-1a6acc7ce47mr6256255d.12.1719628283504;
         Fri, 28 Jun 2024 19:31:23 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1719628283; cv=none;
         d=google.com; s=arc-20160816;
-        b=v32MJDHpUW+Y2l6YGcnYONA6yqEpytOnAuKcLoBhxAmLTT5oH82g7KIpEvaJMaZ7L4
-         m2h8a6d7LinQYgbtptEwwfrrDsxsIJwsinqMQUCjN+3mMAAxtLyy6mb7Fhkhbluh3BEj
-         J9eCEjHXUw3RGRAuPlK6B/uoTHqm8CMKhedM8f8dyGnY7qb5xt6GPER1hrDcSBQzVWDs
-         9E5IA1YmGhvIAM23Ux9qH7RweHMynXRctBq1LGc6aalQtzLKJitP8kwGNO1z2F/bvJl0
-         uF2jhdfs5IpukBdvwKBkClWC9hVuJMI2VZNm5c8xcgajDhIVP1Vz59yW9Da0GX5c3I1H
-         CGuA==
+        b=CBsI1hKMagqNL6ppeEO6OX+6v4kzrysgL7Ugk9a61zoKnaGWNRGjqMGlT+2VXiRxeg
+         /gzPZ06ZMnn8kHYDMmsXpAa0Bi+hOCWJUJ/p5Ol0CXvBVI/cShHAgmgUPhhLGXsOtgob
+         1N3dBcRFkIfnKEKmUd4yx7QC6WxAcWO3AYMBurKQFSXG4uj1M5k91QSfQH27rVb2dzrx
+         1RDQRoV9ITArlfXW1sFHYl6Xq/CLhYMMlfQBa2G+2dribP3qvWmphuremScU1+mZ2QhQ
+         RX3o6/53NTL8rJJWunOTWT45gGHjCkXhHkQmxXgWZDZj7vOnCFi0fruswOUKL5+pjQyT
+         GA5w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=message-id:subject:from:to:date:dkim-signature;
-        bh=1d3Cxgxza/qfQ7q4Z5PtUb6MGC5V/+cVzqi6MG1zKKk=;
+        bh=Bd2+bKpX+cgMiJyMf8HLYb0EGrCGX2+UkxhzRXYWeGc=;
         fh=YLJcVBHySIoH6a7eXFb8EZw2NzFQuSbk32Vvne46C7E=;
-        b=nVlPoN4nE5sC1ipNGGvSlymNCI3b8v81Atro4E3MMIGIgtOe8ZAKNLmJ1qyE6H/crx
-         dH5gSj6ben5DpMtbewUn5KRooYVav8ankIEK5dtUSG1nytmc3djhMBBuVq5iIHfWuQVR
-         AsjZ1pDhNpFa/catyl7fUMkmZ+OYIUVCwRyS+jDLMzeOTCkDy4ZuuKRK1+UjfGnLGoWK
-         DjdhpVWVO9Y1iPeW2ua1FrvSa05dFO9yuLFi+x3ddpXVvID6xmXvelIhjoh/mFK5pKJ4
-         /Q91jcW1+2zz7E8liobykTB2r4uAzvrfhf8f3Uj5V9Jzcpm9RzPybErX0S25jm6CZWMA
-         zV7A==;
+        b=PWxO20yag5Ro2fUS3CV18/KFGxuU2oFujnaPlK9AGV+qUOUD3HSVnmDCD5PyXwWVT5
+         OqPA9y46vy0EY99WdlARuR1rFKym07+VOPCHJQVr0WnPukTiiKtYoNkoMvfLv37A4l6i
+         yVP+XPnOf/20tqNSRTHkknV8RALvVaBP1AQv44x5316vPex5gm0E0fPFFcQaVeCkB1Om
+         hSaWLMUqfQ5NbEaFlOwxxWnDvgFIClrc8ynt4lY7nZfD6ywBxdgMWus9/mFe2tHw7AF5
+         dnqPviMXVxRg9iyGpBwAHai7Pjwh+JfWH+0MjQq/iaJSVv2hgIxxnc2BdwNxjVE6/J1d
+         phVw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=x6foJkrz;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 145.40.73.55 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
-Received: from sin.source.kernel.org (sin.source.kernel.org. [145.40.73.55])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-708044b072csi125740b3a.5.2024.06.28.19.31.23
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b="hC/D1x1X";
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-2c93bb23c9asi17507a91.1.2024.06.28.19.31.23
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 28 Jun 2024 19:31:23 -0700 (PDT)
-Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 145.40.73.55 as permitted sender) client-ip=145.40.73.55;
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id D005BCE4334;
-	Sat, 29 Jun 2024 02:31:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0702FC116B1;
-	Sat, 29 Jun 2024 02:31:21 +0000 (UTC)
-Date: Fri, 28 Jun 2024 19:31:20 -0700
+	by dfw.source.kernel.org (Postfix) with ESMTP id C3D15622BC;
+	Sat, 29 Jun 2024 02:31:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C392C116B1;
+	Sat, 29 Jun 2024 02:31:22 +0000 (UTC)
+Date: Fri, 28 Jun 2024 19:31:21 -0700
 To: mm-commits@vger.kernel.org,vbabka@suse.cz,svens@linux.ibm.com,rostedt@goodmis.org,roman.gushchin@linux.dev,rientjes@google.com,penberg@kernel.org,mhiramat@kernel.org,mark.rutland@arm.com,kasan-dev@googlegroups.com,iamjoonsoo.kim@lge.com,hca@linux.ibm.com,gor@linux.ibm.com,glider@google.com,elver@google.com,dvyukov@google.com,cl@linux.com,borntraeger@linux.ibm.com,agordeev@linux.ibm.com,42.hyeyoo@gmail.com,iii@linux.ibm.com,akpm@linux-foundation.org
 From: Andrew Morton <akpm@linux-foundation.org>
-Subject: [merged mm-stable] s390-uaccess-add-kmsan-support-to-put_user-and-get_user.patch removed from -mm tree
-Message-Id: <20240629023121.0702FC116B1@smtp.kernel.org>
+Subject: [merged mm-stable] s390-uaccess-add-the-missing-linux-instrumentedh-include.patch removed from -mm tree
+Message-Id: <20240629023122.6C392C116B1@smtp.kernel.org>
 X-Original-Sender: akpm@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=korg header.b=x6foJkrz;
+ header.i=@linux-foundation.org header.s=korg header.b="hC/D1x1X";
        spf=pass (google.com: domain of akpm@linux-foundation.org designates
- 145.40.73.55 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+ 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -130,52 +130,33 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 The quilt patch titled
-     Subject: s390/uaccess: add KMSAN support to put_user() and get_user()
+     Subject: s390/uaccess: add the missing linux/instrumented.h #include
 has been removed from the -mm tree.  Its filename was
-     s390-uaccess-add-kmsan-support-to-put_user-and-get_user.patch
+     s390-uaccess-add-the-missing-linux-instrumentedh-include.patch
 
 This patch was dropped because it was merged into the mm-stable branch
 of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
 
 ------------------------------------------------------
 From: Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: s390/uaccess: add KMSAN support to put_user() and get_user()
-Date: Fri, 21 Jun 2024 13:35:18 +0200
+Subject: s390/uaccess: add the missing linux/instrumented.h #include
+Date: Fri, 21 Jun 2024 13:35:19 +0200
 
-put_user() uses inline assembly with precise constraints, so Clang is in
-principle capable of instrumenting it automatically.  Unfortunately, one
-of the constraints contains a dereferenced user pointer, and Clang does
-not currently distinguish user and kernel pointers.  Therefore KMSAN
-attempts to access shadow for user pointers, which is not a right thing to
-do.
+uaccess.h uses instrument_get_user() and instrument_put_user(), which are
+defined in linux/instrumented.h.  Currently we get this header from
+somewhere else by accident; prefer to be explicit about it and include it
+directly.
 
-An obvious fix to add __no_sanitize_memory to __put_user_fn() does not
-work, since it's __always_inline.  And __always_inline cannot be removed
-due to the __put_user_bad() trick.
-
-A different obvious fix of using the "a" instead of the "+Q" constraint
-degrades the code quality, which is very important here, since it's a hot
-path.
-
-Instead, repurpose the __put_user_asm() macro to define
-__put_user_{char,short,int,long}_noinstr() functions and mark them with
-__no_sanitize_memory.  For the non-KMSAN builds make them __always_inline
-in order to keep the generated code quality.  Also define
-__put_user_{char,short,int,long}() functions, which call the
-aforementioned ones and which *are* instrumented, because they call KMSAN
-hooks, which may be implemented as macros.
-
-The same applies to get_user() as well.
-
-Link: https://lkml.kernel.org/r/20240621113706.315500-35-iii@linux.ibm.com
+Link: https://lkml.kernel.org/r/20240621113706.315500-36-iii@linux.ibm.com
 Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Acked-by: Heiko Carstens <hca@linux.ibm.com>
+Suggested-by: Alexander Potapenko <glider@google.com>
 Reviewed-by: Alexander Potapenko <glider@google.com>
 Cc: Alexander Gordeev <agordeev@linux.ibm.com>
 Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
 Cc: Christoph Lameter <cl@linux.com>
 Cc: David Rientjes <rientjes@google.com>
 Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Heiko Carstens <hca@linux.ibm.com>
 Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
 Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
 Cc: <kasan-dev@googlegroups.com>
@@ -191,195 +172,19 @@ Cc: Vlastimil Babka <vbabka@suse.cz>
 Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 ---
 
- arch/s390/include/asm/uaccess.h |  111 +++++++++++++++++++++---------
- 1 file changed, 79 insertions(+), 32 deletions(-)
+ arch/s390/include/asm/uaccess.h |    1 +
+ 1 file changed, 1 insertion(+)
 
---- a/arch/s390/include/asm/uaccess.h~s390-uaccess-add-kmsan-support-to-put_user-and-get_user
+--- a/arch/s390/include/asm/uaccess.h~s390-uaccess-add-the-missing-linux-instrumentedh-include
 +++ a/arch/s390/include/asm/uaccess.h
-@@ -78,13 +78,24 @@ union oac {
+@@ -18,6 +18,7 @@
+ #include <asm/extable.h>
+ #include <asm/facility.h>
+ #include <asm-generic/access_ok.h>
++#include <linux/instrumented.h>
  
- int __noreturn __put_user_bad(void);
+ void debug_user_asce(int exit);
  
--#define __put_user_asm(to, from, size)					\
--({									\
-+#ifdef CONFIG_KMSAN
-+#define get_put_user_noinstr_attributes \
-+	noinline __maybe_unused __no_sanitize_memory
-+#else
-+#define get_put_user_noinstr_attributes __always_inline
-+#endif
-+
-+#define DEFINE_PUT_USER(type)						\
-+static get_put_user_noinstr_attributes int				\
-+__put_user_##type##_noinstr(unsigned type __user *to,			\
-+			    unsigned type *from,			\
-+			    unsigned long size)				\
-+{									\
- 	union oac __oac_spec = {					\
- 		.oac1.as = PSW_BITS_AS_SECONDARY,			\
- 		.oac1.a = 1,						\
- 	};								\
--	int __rc;							\
-+	int rc;								\
- 									\
- 	asm volatile(							\
- 		"	lr	0,%[spec]\n"				\
-@@ -93,12 +104,28 @@ int __noreturn __put_user_bad(void);
- 		"2:\n"							\
- 		EX_TABLE_UA_STORE(0b, 2b, %[rc])			\
- 		EX_TABLE_UA_STORE(1b, 2b, %[rc])			\
--		: [rc] "=&d" (__rc), [_to] "+Q" (*(to))			\
-+		: [rc] "=&d" (rc), [_to] "+Q" (*(to))			\
- 		: [_size] "d" (size), [_from] "Q" (*(from)),		\
- 		  [spec] "d" (__oac_spec.val)				\
- 		: "cc", "0");						\
--	__rc;								\
--})
-+	return rc;							\
-+}									\
-+									\
-+static __always_inline int						\
-+__put_user_##type(unsigned type __user *to, unsigned type *from,	\
-+		  unsigned long size)					\
-+{									\
-+	int rc;								\
-+									\
-+	rc = __put_user_##type##_noinstr(to, from, size);		\
-+	instrument_put_user(*from, to, size);				\
-+	return rc;							\
-+}
-+
-+DEFINE_PUT_USER(char);
-+DEFINE_PUT_USER(short);
-+DEFINE_PUT_USER(int);
-+DEFINE_PUT_USER(long);
- 
- static __always_inline int __put_user_fn(void *x, void __user *ptr, unsigned long size)
- {
-@@ -106,24 +133,24 @@ static __always_inline int __put_user_fn
- 
- 	switch (size) {
- 	case 1:
--		rc = __put_user_asm((unsigned char __user *)ptr,
--				    (unsigned char *)x,
--				    size);
-+		rc = __put_user_char((unsigned char __user *)ptr,
-+				     (unsigned char *)x,
-+				     size);
- 		break;
- 	case 2:
--		rc = __put_user_asm((unsigned short __user *)ptr,
--				    (unsigned short *)x,
--				    size);
-+		rc = __put_user_short((unsigned short __user *)ptr,
-+				      (unsigned short *)x,
-+				      size);
- 		break;
- 	case 4:
--		rc = __put_user_asm((unsigned int __user *)ptr,
-+		rc = __put_user_int((unsigned int __user *)ptr,
- 				    (unsigned int *)x,
- 				    size);
- 		break;
- 	case 8:
--		rc = __put_user_asm((unsigned long __user *)ptr,
--				    (unsigned long *)x,
--				    size);
-+		rc = __put_user_long((unsigned long __user *)ptr,
-+				     (unsigned long *)x,
-+				     size);
- 		break;
- 	default:
- 		__put_user_bad();
-@@ -134,13 +161,17 @@ static __always_inline int __put_user_fn
- 
- int __noreturn __get_user_bad(void);
- 
--#define __get_user_asm(to, from, size)					\
--({									\
-+#define DEFINE_GET_USER(type)						\
-+static get_put_user_noinstr_attributes int				\
-+__get_user_##type##_noinstr(unsigned type *to,				\
-+			    unsigned type __user *from,			\
-+			    unsigned long size)				\
-+{									\
- 	union oac __oac_spec = {					\
- 		.oac2.as = PSW_BITS_AS_SECONDARY,			\
- 		.oac2.a = 1,						\
- 	};								\
--	int __rc;							\
-+	int rc;								\
- 									\
- 	asm volatile(							\
- 		"	lr	0,%[spec]\n"				\
-@@ -149,13 +180,29 @@ int __noreturn __get_user_bad(void);
- 		"2:\n"							\
- 		EX_TABLE_UA_LOAD_MEM(0b, 2b, %[rc], %[_to], %[_ksize])	\
- 		EX_TABLE_UA_LOAD_MEM(1b, 2b, %[rc], %[_to], %[_ksize])	\
--		: [rc] "=&d" (__rc), "=Q" (*(to))			\
-+		: [rc] "=&d" (rc), "=Q" (*(to))				\
- 		: [_size] "d" (size), [_from] "Q" (*(from)),		\
- 		  [spec] "d" (__oac_spec.val), [_to] "a" (to),		\
- 		  [_ksize] "K" (size)					\
- 		: "cc", "0");						\
--	__rc;								\
--})
-+	return rc;							\
-+}									\
-+									\
-+static __always_inline int						\
-+__get_user_##type(unsigned type *to, unsigned type __user *from,	\
-+		  unsigned long size)					\
-+{									\
-+	int rc;								\
-+									\
-+	rc = __get_user_##type##_noinstr(to, from, size);		\
-+	instrument_get_user(*to);					\
-+	return rc;							\
-+}
-+
-+DEFINE_GET_USER(char);
-+DEFINE_GET_USER(short);
-+DEFINE_GET_USER(int);
-+DEFINE_GET_USER(long);
- 
- static __always_inline int __get_user_fn(void *x, const void __user *ptr, unsigned long size)
- {
-@@ -163,24 +210,24 @@ static __always_inline int __get_user_fn
- 
- 	switch (size) {
- 	case 1:
--		rc = __get_user_asm((unsigned char *)x,
--				    (unsigned char __user *)ptr,
--				    size);
-+		rc = __get_user_char((unsigned char *)x,
-+				     (unsigned char __user *)ptr,
-+				     size);
- 		break;
- 	case 2:
--		rc = __get_user_asm((unsigned short *)x,
--				    (unsigned short __user *)ptr,
--				    size);
-+		rc = __get_user_short((unsigned short *)x,
-+				      (unsigned short __user *)ptr,
-+				      size);
- 		break;
- 	case 4:
--		rc = __get_user_asm((unsigned int *)x,
-+		rc = __get_user_int((unsigned int *)x,
- 				    (unsigned int __user *)ptr,
- 				    size);
- 		break;
- 	case 8:
--		rc = __get_user_asm((unsigned long *)x,
--				    (unsigned long __user *)ptr,
--				    size);
-+		rc = __get_user_long((unsigned long *)x,
-+				     (unsigned long __user *)ptr,
-+				     size);
- 		break;
- 	default:
- 		__get_user_bad();
 _
 
 Patches currently in -mm which might be from iii@linux.ibm.com are
@@ -388,4 +193,4 @@ Patches currently in -mm which might be from iii@linux.ibm.com are
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240629023121.0702FC116B1%40smtp.kernel.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240629023122.6C392C116B1%40smtp.kernel.org.
