@@ -1,148 +1,165 @@
-Return-Path: <kasan-dev+bncBCAP7WGUVIKBBN65VG2AMGQEUFAHC3A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDEKVJM7XAHRBBNBW22AMGQEF25RECY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb39.google.com (mail-yb1-xb39.google.com [IPv6:2607:f8b0:4864:20::b39])
-	by mail.lfdr.de (Postfix) with ESMTPS id A054692976C
-	for <lists+kasan-dev@lfdr.de>; Sun,  7 Jul 2024 12:32:25 +0200 (CEST)
-Received: by mail-yb1-xb39.google.com with SMTP id 3f1490d57ef6-e035f7b5976sf5250677276.0
-        for <lists+kasan-dev@lfdr.de>; Sun, 07 Jul 2024 03:32:25 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1720348344; cv=pass;
+Received: from mail-pf1-x43e.google.com (mail-pf1-x43e.google.com [IPv6:2607:f8b0:4864:20::43e])
+	by mail.lfdr.de (Postfix) with ESMTPS id B629292C3EF
+	for <lists+kasan-dev@lfdr.de>; Tue,  9 Jul 2024 21:33:27 +0200 (CEST)
+Received: by mail-pf1-x43e.google.com with SMTP id d2e1a72fcca58-70b2793d2ffsf3121391b3a.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 09 Jul 2024 12:33:27 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1720553606; cv=pass;
         d=google.com; s=arc-20160816;
-        b=MjqIY0jQtbnTRCZ342Zu3wiUw6iFwqffam5LkYbae67M4p9N9OZwhX9BLLzFi9QCOD
-         kvUG4YCTe3g4V70dMXolcxQMI4oddbGpLkoQHg7wPE3MGlnhaUvaW1LBSxf04Uvnd1rv
-         /f3Qn050WNur+dvY7HSyRWGMKOBfnDmJrKkkdDNZbi9IBRPfwOGYlVfa5r3I6XET36Te
-         3dVz/ElyaiqkUwU75irR8nNPTP9w6g2nZy287JiebQSM+/2b5EPc5SsUB7/DiB74K39s
-         mya4wipgm0/cOonLFCyBGmvIG+Wn/pzRiuAPo9SL9SK1sMXvc99nI6VbVYyX0ldPGF/v
-         PLGw==
+        b=I/XBISaXdvbzE4gB6kVGLI66k9/cuKoFrGHG7O8+LzKeKBIHNwAUjm6RXzXbn8ZWpq
+         i5Bew12ViIhRr02Zke/GpldeUP16a6/B+99Z/pDQiyCG9V6kmANHAjfwZ2F7smQPUog2
+         E4EYmE2sUEY1mYx9RExl0KiuVLNwC9TW5MMjf6NEsbtikadd8rL3Co284QypVHoHz2Pm
+         59OoLvFwhdwaK1exKdZDudsP4JPRkbImJfz89D541p7oOszluYGVGeEDDefnuE31RFA1
+         saVVWHD0XRkSB1NPuurEBzb1JHNDKR79M08FWME+bnOBYqa4BBTAU+VvUQYwbFi6MXMO
+         RAsw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:sender:dkim-signature;
-        bh=1HVIKs0todmkk/L09+0pAKFd4E34Ca2MX632CqBKQA0=;
-        fh=voL0jh7QHoTlc3fo8lPd4eOuQLYhfErzfGuC4wFomEc=;
-        b=l+P6tPjaaGvnclgS3dd+wJc2z5tbUQ15taV1DlcklgbXplyxfxEn2iaTD3M6v0Rw2p
-         Jzz40NHSEUFhsh+NXPZnahc2ZLT5diFA9wVNuXkEJ72AW3+tcRqhLXP3kgYMkuItRVCh
-         yYbBVcRPbM2dslliOm12FNK4dpF9zUQemSBL63Ds3jExNmOOGs/qtHI8DUL/zgM4jq0T
-         DVhSXtUnJ7KexXFPFUtk4YxeP/SY5EAq0L1LZHw2LP8w6uCJvSXJyxo6ts5G3JHSnSks
-         lEQejF9NYh6AyuL2uBkb9f8GJyIXZ0FZZ0xf1AsmKiZRFj1YTp9CvHl6urLcMFJ9qK7x
-         Kg2Q==;
+         :list-id:mailing-list:precedence:subject:cc:to:from:date:references
+         :in-reply-to:message-id:mime-version:user-agent:feedback-id:sender
+         :dkim-signature;
+        bh=XqA5JugL11WV/tIYc4kB/8tfi9Qc2j+9TsYiwBC4FIM=;
+        fh=RzXr9tbGfYdVmtEycUcMO6O1RYykMzxaTH933c2eRh4=;
+        b=zAHDkg6xWFh7DXWJr6YKGqKf157EAJ6fzWwa5CEzUUe7ZLMhzse1WzU9PaJn/VUt6K
+         ZGQYrVA4dHPm0Lx6OvjsUxF525Bhh1CSzEoUIiuGpeZ+jAsZd1lb6BfXNEgrf1yzdHiT
+         Ee3N6BUNX5lqHmJNwjKlj7EpD1/EjpXbKJOXKeUsMg6BzHf2ZeloOkRnjNKHcH3fRcI2
+         MN40iit0ulOg3vtDJe2fxw+O2KB+PfstrYWG0aTqjW1guM9XMA5Y1IQT7FQg/RhBo3SR
+         mtJGAD6uNyNrLNvebkzp7PEPnq59hnmYCIKedKgsV0rERs8tC8UXjWszugK/FT6cku1E
+         2IkA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+       dkim=pass header.i=@arndb.de header.s=fm1 header.b=nch44eC1;
+       dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=BPwP3bQn;
+       spf=pass (google.com: domain of arnd@arndb.de designates 103.168.172.159 as permitted sender) smtp.mailfrom=arnd@arndb.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arndb.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1720348344; x=1720953144; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1720553606; x=1721158406; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-language:references:cc:to
-         :from:subject:user-agent:mime-version:date:message-id:sender:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=1HVIKs0todmkk/L09+0pAKFd4E34Ca2MX632CqBKQA0=;
-        b=TcNRkw24GzCxD065aChxkGlacnkLP82CjQfFgTBaXozX0ZEF6lSvmyqoQaJGG03iDN
-         3xUpS/mgOlPWIu3+RYAgM9osVAzUKtETmuxPtsZCYTu2sV79Qhc9zoilnzdpgwpkAGX1
-         OlwbW8ZNKa9jlerUgCIPcuZGfKJbGyyuVYyb6Cp1y6JqCU4M5/VFPygV57RUJOLL/4S8
-         WBSYjOhZaHsl6Y0aAUioxCf7B6PNmw+qqqbsPS4mbTy00/oGgoYdDwP8K6TUpF044a4U
-         OhLAUgftNk4ALGDzg0oYNAx+1Yl2BAz1ipUmIIE05NiEB27wl8IKxp+W9MqU9xwws1Vk
-         7Csg==
+         :x-original-sender:subject:cc:to:from:date:references:in-reply-to
+         :message-id:mime-version:user-agent:feedback-id:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XqA5JugL11WV/tIYc4kB/8tfi9Qc2j+9TsYiwBC4FIM=;
+        b=lIN8BaK9Tm13GntA8m7wnbBFIdx03WxwNWSEiyP1apvvt4VmICTBP58SB4Yhf+rCyz
+         xbKG6cDzwtL1aYWH0a2G81nFU/knFMtQJXwmGx3zJ8aCPIBUJGEPXgvJoDRvzBybb7WQ
+         jEaEkSX98HoFQ9mYWLF1w5dCQQ2XmGrcXyFUc/zIw3bB1Z0AOZK6rECQPnSfw4K4v5Y9
+         6TfyJD3ExtbiMD8YE+yAw3yGH7DbhGbvBxAZe6c0Cx4ckUBNxNku2x7GjpC5rZOq9wJU
+         3kAFrfeNhCmDjcCCK/BrUW+/powaDFT19PWmR+a9zcRNVCurOH2vX5i7VY/SwAtl+QLW
+         ZbOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720348344; x=1720953144;
+        d=1e100.net; s=20230601; t=1720553606; x=1721158406;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-language:references:cc:to:from:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1HVIKs0todmkk/L09+0pAKFd4E34Ca2MX632CqBKQA0=;
-        b=PgygwRb1zED8SFNoLASiwn48+1QIWIxaneWqft173/sLzIjJl/OYBlcqVTjpe75deg
-         FPfp7uRGELljnFqCHDZIyfQAj3w9LXBXQgLG8PbgRoqdnNPe98i04s3tuxfU2TqH7RN3
-         /YXK9DzCX3MfGCCFTEAYNgirmxxZTlakz2gnun7u0k0lZOE9iedSvnIzAH6JyOvOu+OC
-         pJCdPlCxauFa86zqHBuTWKrVA3LzJPIrK+yKr1+ptXuGuHFx35geW8pGmpIlINIPxNjJ
-         7KnXNSF8S8qp/VMGJpu4ubIvvusRJhDHTCz9JRz+CklloJyJuJQ7GVFx02XBlwBO1X20
-         KwSw==
+         :x-original-authentication-results:x-original-sender:subject:cc:to
+         :from:date:references:in-reply-to:message-id:mime-version:user-agent
+         :feedback-id:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XqA5JugL11WV/tIYc4kB/8tfi9Qc2j+9TsYiwBC4FIM=;
+        b=AXajZrIfzxnDZAJXo78ceTBVZf0qoWm5/AEIHNhGOAI9pevnJb0V+G65ETKVYkmOyQ
+         9sxzsgdld1t7nSiB7yqEs060PgR6ZDMQhx67Dr8s2mvaptdKOmwlYKxf3OBb2ni9xs1p
+         EpwDyHizrEGqJDklXV/S4jGs9iwLqH0S4cc2Rk0SVUv1tl64nDYMHl62G7bwJ/FUyChA
+         S73lTr48nP2k8JsKFqwXYCAMUvmrx1Zvtvx7L49+WGz634RjtSKdzH74RFp5r0S4GqPi
+         AlFvJDb9WwSlQIIZP1e3TOpfqCdC75lsqAauSWsYaIs3hdO2zKusbCxVu64z3NbY+Qgr
+         zkTg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCV1OTRWX+oL4U4lszSgcIT8ZCK6exv0FBI3w5EPNMG8wzepZjkEvg5x/dCGj7ZVyzE0hkD/hOFrY3rSjRV2Jwx/8tOh1uuaMA==
-X-Gm-Message-State: AOJu0YzeKwiFA2qxXOIJCdUYSwsQZ6b0uW2Vjp3mR4hhm5XClvz/nbMC
-	OWWGA/UJzG/AkNo9pME/QPbh/ufly/EwmBDhWXxstUiBlOTYeG9W
-X-Google-Smtp-Source: AGHT+IEnV48DuF/jOZRP/2aQbHVdu1weGsCq8+mx2ki9CwsfrQX+SH3AXQp6U5I82GUqdrpbDBU9PA==
-X-Received: by 2002:a05:6902:4ce:b0:e03:5a2b:8b00 with SMTP id 3f1490d57ef6-e03c28a57demr5876922276.1.1720348344023;
-        Sun, 07 Jul 2024 03:32:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXC7uVvpkSnbP3mbejqZs3K01Fp0yV0uAIefAGV5FIzkSAGPuUHc0l8nVvJoHzMFV2U1JkPJWFj/X0J9/EjvdU7iRWqjQccow==
+X-Gm-Message-State: AOJu0YyZYFFonGdyvJ/iyIy5j5jzrAaQp18KWgdLPdlAfUb9kzVKAdh9
+	UUA1ETuB4kKHo2H7/mLx9i3zKAHgYVZh5oH8yOpWiOVGG6j4DOJ5
+X-Google-Smtp-Source: AGHT+IEbH3oHe3rMrJtYEVS8FGYat2M2A3JdG9ZS09Fv75gP7n+M3FXwRIyyvUx0DImlG9reZhBviA==
+X-Received: by 2002:a05:6a00:845:b0:705:a7a6:6d11 with SMTP id d2e1a72fcca58-70b435ed145mr4008044b3a.24.1720553605719;
+        Tue, 09 Jul 2024 12:33:25 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6902:18c6:b0:e03:62ce:ce8c with SMTP id
- 3f1490d57ef6-e03bd143ea1ls1633841276.2.-pod-prod-00-us; Sun, 07 Jul 2024
- 03:32:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUMHJ4TVSgjHRcskaYJ/CtRx/hH9GLg2XljWgjPNbvBBl7vtgofYHQ1hOz/kf2tedjqD1v9iDlzSCNvEKavBz2WDTnueabxGGFFwQ==
-X-Received: by 2002:a25:9089:0:b0:dfb:c41:1abe with SMTP id 3f1490d57ef6-e03c2b51a06mr5083497276.31.1720348342994;
-        Sun, 07 Jul 2024 03:32:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1720348342; cv=none;
+Received: by 2002:a05:6a00:2d8a:b0:705:b591:29f0 with SMTP id
+ d2e1a72fcca58-70afefb1cdals3043281b3a.1.-pod-prod-06-us; Tue, 09 Jul 2024
+ 12:33:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUruNyZy5GA49kythO5WKcFc7uuMDGp7WhyAuHxQPDXqR9f2oczATaRQs0v05LG6uPVCcsS772rrmaEENAR6fLwAMoh8yct/xwsNw==
+X-Received: by 2002:a05:6a21:7884:b0:1c0:f23b:d35a with SMTP id adf61e73a8af0-1c2980f9412mr3856677637.5.1720553604574;
+        Tue, 09 Jul 2024 12:33:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1720553604; cv=none;
         d=google.com; s=arc-20160816;
-        b=P0hcsBQslgpCgGm1CUFBtbfPbrCjeYTjPUOk3XqzcVyiZIZ7KNLvoRRx1cQkMRh4OD
-         TsyHIJKEWY+u9Ko6a+6s+2w40jVQQlPAT7aOC+VB66OVV36TwtBFSYc8+z7W/6+LllRG
-         Iz6AXhO5X5GPkV6kphc47S+ct3lZt2NJH9UBBCRIrdpTDULnuOsrS0b6b2So/cHLR2iT
-         ZorrpKnONa13hHetHUjglzhuIGLtiY4Aci9saTl1awBXSXWLariRWmA99Z9PA7rXDX0L
-         0o+6hvYzitFtMcGQwzQsdF3dkjKNGL7fLS3InDrKfAsCxI9XyvfBN+WAaa4DZZzA6URt
-         U3IQ==
+        b=rqsEMNJQ+sSBr59P49NjH8CoWL2b5KEvO9VPK4Axa0vg42q0TK7Zho7IRwlAWr7hxx
+         rOfXDJDJig1ZZYR3iPQZiFDYUcvTlwKJgMl3JShr8wszmXDdNE1C0SSUHADo9EgQRxyP
+         9L3FiEeupN9rPr0UuBIdG2QuRuxyR4Tm7g98BkBkDzMuhjRllo/sDKNvWEdaU3RYHCii
+         +xL0deZt69bXlso/6dCSKi+JtkcRekDedqkZrIf25/3SPUAGnOxYPRmwn62fHhEzuuTM
+         K6huN2LbLWZu1i0JtHUYqLeyiEhSntnVYFhZ3SQVmGbgr1rH4VPLUMBGMEHEW/dLAwxc
+         BVLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id;
-        bh=Rh8OjDVSEtxqcOK+7T+/rsIZv+IyqePzR/tqvDLyv5Y=;
-        fh=pkRkJKxV1Ht9Xu56AyjyrK/Z+FH3yoXk+SFweWykk+4=;
-        b=f5NoqNTcSCrNNgeine6bBbIHb7iTX7Aq8TSJIKI8C0f5UdIWhH3aSRS31UM4LVXTib
-         E89rWe7Lhn+dUf7aT2Mg8rRFJwUqToYnMuXZiFzP7eyRI3/UW6QtDa715BQ+r6j0Lmrt
-         bepwNyqchM3WOVCAdfupWGavGFTbMUJeTk5kctRWqt9+7D1LwONe54MhFBCJ8dWdau1o
-         QAOv7LcJUvHEbTZUJEbB/Uv84/fgE+M2aUdLeFWK33yFQReSYfwf+O15rpOwf+Vkr7+g
-         Sd1DfwJQnqWF8zKSTu2XN9QAO/drWHUGbskvkvRnwMauW5Jvrv9dVlE2ROeG0d+uhnlG
-         wmNw==;
+        h=subject:cc:to:from:date:references:in-reply-to:message-id
+         :mime-version:user-agent:feedback-id:dkim-signature:dkim-signature;
+        bh=AE0fFzRZO99KbEKs+v9clAHq1pXfvPK0Ierrsu1abhs=;
+        fh=5jlKxLVBIxtu567gyNSTp/QL6lJdLU+pOvFv7YezgJ8=;
+        b=wkljdQ+MPBwmJZUCOUIUG70K5WlUVlQJyrIE4qc1R+4n0tJ+G/7BSmMZfVYllLzAHU
+         CMyJaUj9C1MZ8iKwn2Z3T46hx8Lqvk7cyxJrxQUiItm6oC97OUG9Mnh0tFWeGAelclpD
+         F8eD9i9ltcID+nb5Ut84q5VkkYuxqBAr4iF3UbmnXR8lndm1TGH6/xNnae/QX3xTk07m
+         pjfUmiioV5ogzW6EetIxgKiLS6GqXB2s7zu7lewITYuOG3Oiq6zJahrgFkoGp6cqt4GZ
+         Fe5hkTIAcGqE+Nopz9yK1xrjGpCLJ5zl7UV6gFoH5Rhk4kvRkt86SMpz4cLvWpzfpeJA
+         ZhEw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp. [202.181.97.72])
-        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-e039add9cf4si520696276.0.2024.07.07.03.32.22
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 07 Jul 2024 03:32:22 -0700 (PDT)
-Received-SPF: pass (google.com: domain of penguin-kernel@i-love.sakura.ne.jp designates 202.181.97.72 as permitted sender) client-ip=202.181.97.72;
-Received: from fsav413.sakura.ne.jp (fsav413.sakura.ne.jp [133.242.250.112])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 467AW6WL050735;
-	Sun, 7 Jul 2024 19:32:06 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav413.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav413.sakura.ne.jp);
- Sun, 07 Jul 2024 19:32:06 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav413.sakura.ne.jp)
-Received: from [192.168.1.6] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 467AW5mV050731
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Sun, 7 Jul 2024 19:32:05 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <5136bcc7-3db7-4fc2-abde-a3aceeaf17c2@I-love.SAKURA.ne.jp>
-Date: Sun, 7 Jul 2024 19:32:05 +0900
+       dkim=pass header.i=@arndb.de header.s=fm1 header.b=nch44eC1;
+       dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=BPwP3bQn;
+       spf=pass (google.com: domain of arnd@arndb.de designates 103.168.172.159 as permitted sender) smtp.mailfrom=arnd@arndb.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arndb.de
+Received: from fhigh8-smtp.messagingengine.com (fhigh8-smtp.messagingengine.com. [103.168.172.159])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-1fbb6ac0135si897035ad.10.2024.07.09.12.33.24
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jul 2024 12:33:24 -0700 (PDT)
+Received-SPF: pass (google.com: domain of arnd@arndb.de designates 103.168.172.159 as permitted sender) client-ip=103.168.172.159;
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailfhigh.nyi.internal (Postfix) with ESMTP id BA6ED1140138;
+	Tue,  9 Jul 2024 15:33:23 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 09 Jul 2024 15:33:23 -0400
+X-ME-Sender: <xms:gpCNZoCXVKxZYgd-tL_p2k9_uAle5NRuWFn4b8oB91ZexvboAwvAow>
+    <xme:gpCNZqidF1K-9jUuTpzLvnQflD26Kb9sEmupPhPbyGA9GSp03Apa1q1viLXpquDUZ
+    AokqUCeyiJz8LMOVVg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdelgddufeelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepffehueegteeihfegtefhjefgtdeugfegjeelheejueethfefgeeghfektdek
+    teffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprg
+    hrnhgusegrrhhnuggsrdguvg
+X-ME-Proxy: <xmx:gpCNZrlo8ynwoKGV2tVyoVZMt7SWJuifyw3wICL6bMUVIvZwXZo-jA>
+    <xmx:gpCNZuw4KcrMuigBpuH5fvIFjqsotTvmBsQtqM4r_KdKiRkHuKaHIQ>
+    <xmx:gpCNZtQIhXrJAMWS_snE1w-VQFd1vK5gHYOcGo9BFyaUAxzSgEFSjQ>
+    <xmx:gpCNZpbW6SzaKP6FffvTqJOfe6Ku42gxdzjTMmwUfEj0O7Ox92ndQQ>
+    <xmx:g5CNZq9s7g6T8sbAgzbFYlPgW05GWwkwxKheEFU6xYuovRAa8A8CY_up>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 2F097B6008D; Tue,  9 Jul 2024 15:33:22 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.11.0-alpha0-568-g843fbadbe-fm-20240701.003-g843fbadb
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [syzbot] [kernel?] KASAN: stack-out-of-bounds Read in __show_regs
- (2)
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-To: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>
-Cc: syzbot <syzbot+e9be5674af5e3a0b9ecc@syzkaller.appspotmail.com>,
-        linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com,
-        kasan-dev <kasan-dev@googlegroups.com>, linux-mm <linux-mm@kvack.org>,
-        bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com,
-        mingo@redhat.com, tglx@linutronix.de, x86@kernel.org,
-        Andrey Konovalov <andreyknvl@gmail.com>
-References: <000000000000a8c856061ae85e20@google.com>
- <82cf2f25-fd3b-40a2-8d2b-a6385a585601@I-love.SAKURA.ne.jp>
- <daad75ac-9fd5-439a-b04b-235152bea222@I-love.SAKURA.ne.jp>
- <CA+fCnZdg=o3bA-kBM4UKEftiGfBffWXbqSapje8w25aKUk_4Nw@mail.gmail.com>
- <ec7411af-01ac-4ebd-99ad-98019ff355bf@I-love.SAKURA.ne.jp>
- <CA+fCnZfxCWZYX-7vJzMcwN4vKguuskk5rGYA2Ntotw=owOZ6Sg@mail.gmail.com>
- <1df448bd-7e22-408a-807a-4f4a6c679915@I-love.SAKURA.ne.jp>
-Content-Language: en-US
-In-Reply-To: <1df448bd-7e22-408a-807a-4f4a6c679915@I-love.SAKURA.ne.jp>
+Message-Id: <5bfebbd4-d12e-4735-acab-549a7cf9604a@app.fastmail.com>
+In-Reply-To: <0e0150ca-fdfa-40cb-ad7f-6ac695b702e4@quicinc.com>
+References: <87y16bbvgb.fsf@kernel.org>
+ <917565ee-732a-4df0-a717-a71fbb34fd79@quicinc.com>
+ <837cd2e4-d231-411a-8af4-64b950c4066a@quicinc.com>
+ <c9b23ee3-6790-404d-80a3-4ca196327546@app.fastmail.com>
+ <0e0150ca-fdfa-40cb-ad7f-6ac695b702e4@quicinc.com>
+Date: Tue, 09 Jul 2024 21:33:01 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Jeff Johnson" <quic_jjohnson@quicinc.com>,
+ "Kalle Valo" <kvalo@kernel.org>
+Cc: linux-kernel@vger.kernel.org, ath12k@lists.infradead.org,
+ kasan-dev@googlegroups.com, "Andrey Ryabinin" <ryabinin.a.a@gmail.com>,
+ "Alexander Potapenko" <glider@google.com>,
+ "Andrey Konovalov" <andreyknvl@gmail.com>,
+ "Dmitry Vyukov" <dvyukov@google.com>,
+ "Vincenzo Frascino" <vincenzo.frascino@arm.com>
+Subject: Re: crosstool: x86 kernel compiled with GCC 14.1 fails to boot
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: penguin-kernel@i-love.sakura.ne.jp
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of penguin-kernel@i-love.sakura.ne.jp designates
- 202.181.97.72 as permitted sender) smtp.mailfrom=penguin-kernel@i-love.sakura.ne.jp
+X-Original-Sender: arnd@arndb.de
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@arndb.de header.s=fm1 header.b=nch44eC1;       dkim=pass
+ header.i=@messagingengine.com header.s=fm2 header.b=BPwP3bQn;       spf=pass
+ (google.com: domain of arnd@arndb.de designates 103.168.172.159 as permitted
+ sender) smtp.mailfrom=arnd@arndb.de;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=arndb.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -155,92 +172,41 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Guessing from IRQ entry hint, I found
-commit 37ad4ee83642 ("x86: kmsan: don't instrument stack walking functions") and
-commit 6cae637fa26d ("entry: kmsan: introduce kmsan_unpoison_entry_regs()").
-I guess that we need to disable KASAN for the same reason as well as KMSAN.
-Alexander, can you write a patch description for below change?
+On Tue, Jul 9, 2024, at 17:29, Jeff Johnson wrote:
+> On 7/8/2024 10:44 PM, Arnd Bergmann wrote:
+>> On Tue, Jul 9, 2024, at 05:55, Jeff Johnson wrote:
+>
+> I picked my favorite to begin with, enabling KASAN (which in turn enabled a
+> few others). The resulting kernel did not boot for me (just saw a black screen
+> after the GRUB menu). Diff between working and non-working config is below.
 
-diff --git a/arch/x86/kernel/dumpstack.c b/arch/x86/kernel/dumpstack.c
-index a7d562697e50..01edff4a9d6b 100644
---- a/arch/x86/kernel/dumpstack.c
-+++ b/arch/x86/kernel/dumpstack.c
-@@ -192,6 +192,9 @@ static void show_trace_log_lvl(struct task_struct *task, struct pt_regs *regs,
- 	int graph_idx = 0;
- 	bool partial = false;
- 
-+	/* As with KMSAN, disable KASAN for the same reason. */
-+	kasan_disable_current();
-+
- 	printk("%sCall Trace:\n", log_lvl);
- 
- 	unwind_start(&state, task, regs, stack);
-@@ -304,6 +307,8 @@ static void show_trace_log_lvl(struct task_struct *task, struct pt_regs *regs,
- 		if (stack_name)
- 			printk("%s </%s>\n", log_lvl, stack_name);
- 	}
-+
-+	kasan_enable_current();
- }
- 
- void show_stack(struct task_struct *task, unsigned long *sp,
+Ok, good to know. I've added the KASAN developers to Cc now, maybe
+they have already seen reports of x86 kernels failing with gcc-14?
 
-On 2024/07/03 0:21, Tetsuo Handa wrote:
-> On 2024/07/02 23:29, Andrey Konovalov wrote:
->> One other thing that comes to mind with regards to your patch: if the
->> task is still executing, the location of things on its stack might
->> change due to CONFIG_RANDOMIZE_KSTACK_OFFSET while you're printing the
->> task info. However, if the task is sleeping on a lock, this shouldn't
->> happen... But maybe a task can wake up during sched_show_task() and
->> start handling a new syscall? Just some guesses.
-> 
-> https://syzkaller.appspot.com/bug?extid=d7491e9e156404745fbb says that
-> this bug happens without my patch. It seems that this bug happens when
-> printing registers of a preempted thread. 5.15 kernel does not have
-> CONFIG_RANDOMIZE_KSTACK_OFFSET config option, but
-> 
->   __schedule()
->   preempt_schedule_irq()
->   irqentry_exit_cond_resched()
->   irqentry_exit()
-> 
-> pattern in 5.15 resembles
-> 
->   __schedule()
->   preempt_schedule_irq()
->   irqentry_exit()
-> 
-> pattern in linux-next.
-> 
-> [ 1008.224617][T14487] task:syz-executor.1  state:R  running task     stack:22256 pid:14483 ppid:   434 flags:0x00004000
-> [ 1008.224656][T14487] Call Trace:
-> [ 1008.224661][T14487]  <TASK>
-> [ 1008.224669][T14487]  __schedule+0xcbe/0x1580
-> [ 1008.224689][T14487]  ? __sched_text_start+0x8/0x8
-> [ 1008.224709][T14487]  ? ttwu_do_activate+0x15d/0x280
-> [ 1008.224732][T14487]  ? _raw_spin_unlock_irqrestore+0x5c/0x80
-> [ 1008.224758][T14487]  preempt_schedule_irq+0xc7/0x140
-> [ 1008.224781][T14487]  ? __cond_resched+0x20/0x20
-> [ 1008.224802][T14487]  ? try_invoke_on_locked_down_task+0x2a0/0x2a0
-> [ 1008.224829][T14487]  irqentry_exit_cond_resched+0x2a/0x30
-> [ 1008.224851][T14487]  irqentry_exit+0x30/0x40
-> [ 1008.224874][T14487]  sysvec_apic_timer_interrupt+0x55/0xc0
-> [ 1008.224900][T14487]  asm_sysvec_apic_timer_interrupt+0x1b/0x20
-> [ 1008.224923][T14487] RIP: 0010:preempt_schedule_thunk+0x5/0x18
-> [ 1008.224950][T14487] Code: fd 85 db 0f 84 98 00 00 00 44 8d 73 01 44 89 f6 09 de bf ff ff ff ff e8 47 e4 8f fd 41 09 de 0f 88 88 00 00 00 e8 89 e0 8f fd <4c> 89 e0 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df 0f b6 04 08 84
-> [ 1008.224970][T14487] RSP: 0000:0000000000000001 EFLAGS: 00000000 ORIG_RAX: 0000000000000000
-> [ 1008.224991][T14487] RAX: ffff88811532d948 RBX: ffffc900072ef560 RCX: ffffc900077e7680
-> [ 1008.225009][T14487] RDX: ffffc900072ef5b0 RSI: ffffffff8100817a RDI: dffffc0000000001
-> [ 1008.225027][T14487] RBP: 0000000000000001 R08: ffff88811532d948 R09: ffffc900077e7690
-> [ 1008.225043][T14487] R10: 1ffff92000efced2 R11: ffffffff84bfe126 R12: ffffc900077e7680
-> [ 1008.225062][T14487] ==================================================================
-> [ 1008.225071][T14487] BUG: KASAN: stack-out-of-bounds in __show_regs+0x252/0x4d0
-> [ 1008.225098][T14487] Read of size 8 at addr ffffc900072ef4f8 by task syz-executor.3/14487
-> [ 1008.225117][T14487] 
-> [ 1008.225123][T14487] CPU: 0 PID: 14487 Comm: syz-executor.3 Not tainted 5.15.118-syzkaller-01748-g241da2ad5601 #0
-> 
+> I then downloaded and built the config you supplied. With that I have the same
+> behavior as my original config, the display is frozen with:
+> Loading initial ramdisk ...
+
+Interesting, so the same config that works for me fails on your
+machine. I can see three possible reasons for this:
+
+- qemu vs hardware -- Can you try running this kernel in
+  qemu-system-x86_64 to see if that still boots
+
+- kernel version -- it's possible that this is a known bug
+  that was already fixed in the 6.10-rc7 kernel source I
+  tried, or that your source tree has a new bug that I don't.
+  Which version did you try?
+
+- cross-compile vs native compile -- It's possible that my
+  cross-built native x86_64 compiler has a bug that is not
+  in natively built gcc binaries, or in the cross compiler
+  I have on ARM. I've mostly ruled this one out by building
+  the same kernel using the x86 compilers through qemu-user.
+
+     Arnd
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/5136bcc7-3db7-4fc2-abde-a3aceeaf17c2%40I-love.SAKURA.ne.jp.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/5bfebbd4-d12e-4735-acab-549a7cf9604a%40app.fastmail.com.
