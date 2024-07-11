@@ -1,118 +1,117 @@
-Return-Path: <kasan-dev+bncBDCPL7WX3MKBBT4TYC2AMGQEL7N6ZPQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRBSOSYC2AMGQEEIF2TDA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc40.google.com (mail-oo1-xc40.google.com [IPv6:2607:f8b0:4864:20::c40])
-	by mail.lfdr.de (Postfix) with ESMTPS id E952192ECD3
-	for <lists+kasan-dev@lfdr.de>; Thu, 11 Jul 2024 18:35:28 +0200 (CEST)
-Received: by mail-oo1-xc40.google.com with SMTP id 006d021491bc7-5c44c86c4a8sf786671eaf.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 11 Jul 2024 09:35:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1720715727; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D2C92EF26
+	for <lists+kasan-dev@lfdr.de>; Thu, 11 Jul 2024 20:49:47 +0200 (CEST)
+Received: by mail-lj1-x238.google.com with SMTP id 38308e7fff4ca-2ee848b2fedsf10363431fa.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 11 Jul 2024 11:49:47 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1720723786; cv=pass;
         d=google.com; s=arc-20160816;
-        b=b5YUh4vGcWzcTLiYT8lSEKM7szBsyi5BBPzwUgFUy6ji9ukXNUQ5enA1ELTYouhbfu
-         89FPd9X2VRSRnHKVkJinS9K1Um3gNBNvcBXPL4ni2EWkj+zZRwXz0NqolusMOhfWAk0Y
-         0gXa7uztnYI4Mre2BJGY+aIoH9o0Zkx/drD1QAsMK1HYVrWw7zQGucHb7uiMAsNmuVpx
-         bHhB8GVNgEkwrdqCRSoSS/kDRuoFYZ0ozzqBQh1y9NiRjETuDvgEK1v8pHgZ3lvv3/pH
-         JqlbDenOoLxaJ7S0fyoFW0Xw5D1+GCbnDA3LkbJHZ/T1T3YWwZcbzuI4DuLzG0SQQPC5
-         iRQw==
+        b=SQw0bhRJyMl6cPWp3FpqkyRaSRKH+Q1FtzGkeQZAX9HmFqf3xASEYeT4FK+dhJtbdK
+         eVFYXy59baeZcGsvPQBXwrrlYDgRQAdcyzd6HsAiwCit/K1xI0DmpKcYKbUpRTORipQ7
+         2zG213Lzd3C3/rXt0tLSHyyUugZsQ6NTOZUWwICdJvWgpQbOO8Mo/81IT8cy0NcXeIOI
+         2xmhwq5K+ke9QnEHi9w9hLJfdrloGgf3fRPhq55D7RO7H48NdeygvuXosejcXfeWnSZC
+         v8AiQB9mKEdVgT7BoB0gGoUP1uRHz/w4qs5e4PNRS46MMlm/CRWScEXHPiMWVFZiRq57
+         R/JQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=nSI8ZFroWcVZEWkgoBGQmHPhlbAHI7IO3yiikZHVLEI=;
-        fh=mqdKM9/UpbtAwzJvEG5FqM7L9svSsFpB0GO3HWsCxfE=;
-        b=eDzRSddyKMuK5Dv7kxgNXbwiaiIhTL0wFcwM864hFnNEKHAH6PQ7W229tF0fexb+Z8
-         /AxdLk+Q4umnjZASFgcRvR0X8u0uexXLbOlDOpn5TpJy8iRuv8+c1dndVu8A3lDsSgqD
-         O62lcI3iEkmAIu80JhWcy6GJbhsMIh6F/nf4L/Ggk7JVzxRLy371IX3jOiSH5J1N5ohZ
-         TrvwwvNd53ZK5QeZ1VaDarvSOi131u7WB67xFdDJHKICjTbvgRN04B86WjjplPLwRkNw
-         SHKNtVv7ERNdAL7w5BE4Zvlh0TI1bxUwX1lUEj81ltG/x3FFA0+JahKOIW454Rxg6fFN
-         N88g==;
+        bh=WWA6LSZeElU9Bx1z4UwmuYUU3RRzcD4rTXeebTBDE7U=;
+        fh=ARC/eb6TCcGoLCe+WSp69eaS0hrtEhcKOFu4mzk+eyE=;
+        b=Kj5UCBOaFmnWXR1yLc0RBJaG2RsxLkNenOCZZjApeDu2zV2Yw6gxkl+2JTrsLx1HLg
+         otZvGlQaJpbtnPAn1eKOQO1l7EwbJz55tqMvCIXPvfo/d6wJhIw6QrOIEHGzRoYLQrWJ
+         QwJGdtvCqEckljJHLXDsIl6AHF7Vn5aN3UImooBKMyExq3JEe9aoZ104i/eXiZvI0g7a
+         Jb6IQFiq5kKXClbDUcwlg/hzdEOdNqKSGfAY1ctWTE4pdsQb2BMrXlHErvTfkGARWEp8
+         dhwcvJtEfInnWn+MVd4TcyjWOk+sV5qbv3gFPTxEGtlKtMVWCiLj38Pm20GqbLpM4MPy
+         EoVg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=kty32UDH;
-       spf=pass (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=kees@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=By5aYvAq;
+       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1720715727; x=1721320527; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1720723786; x=1721328586; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nSI8ZFroWcVZEWkgoBGQmHPhlbAHI7IO3yiikZHVLEI=;
-        b=VTsIz9YAzx8vg0FqHej+9kprkI3LnZBthfQu0nce2QblAsg8SXUkrWVnDxe1y1JNub
-         TCuiOW3h4Sy1RzU1VfsX1yl6QAcB9kfHv5EsX1GUHBK8od1N51xAszVvxQJ42lKNaBh/
-         TqvgdRPQIKsXD208lR2V+BfiIdvKLWE81gDqqEqOpVhZKD1N/VRYbiokrMCtyb2V7GAX
-         NelkR7b/jEX0absG93Yj3mfrevbDv2WF+4mN0jSNP62whC5bmWNX37Dtbq/LVFqM2js1
-         t4v+UPEQY1833NzSTlb1lD+iUGFzmGaV2AsMIWDSRL+kKB32BkWlZ0TocSS1Hmc4//tD
-         tgSw==
+        bh=WWA6LSZeElU9Bx1z4UwmuYUU3RRzcD4rTXeebTBDE7U=;
+        b=kGEJbx3kZOMehNRZsUdM100xn4jec99QeEoar3nV7Yy+Bag/pkt3F5MbcYzzZmm5Bn
+         is6iHAGWC3QdAxWi6OBbl+pnyJ9yqDNepk1CZQAhWVMZKWfarU0LJmbbe8cpy60tV5o6
+         qhwOKkBJ+UVjzeijCYyS/8ANy3Qw5CfztBLyZbVIfg3HPWwLP0h/UfVQK/Xnqt7Kjzbr
+         LUmmuhrMYPFctiJar8AyG9GdNltMlMe84hcdSBoacB/8/3+s9xky/wyK3WlJXRAa6+LC
+         7+T9G8HUrwPBBDZg0IiwbzfOghTTBFFyF2mZPyI0UXuQtFkNREAn8pNy0R9Is/xIksj4
+         eqnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1720715727; x=1721320527;
+        d=1e100.net; s=20230601; t=1720723786; x=1721328586;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=nSI8ZFroWcVZEWkgoBGQmHPhlbAHI7IO3yiikZHVLEI=;
-        b=PfD2bsibCmGhxLMDh/KO/C5WnH/rUXysivXuObvYc/NKiwTMFHnXmYSF1iqtDtcORU
-         sg0Rt/t/Sl1CB6S6poD3GAb0cWNsJ+CHJQmqSC8gPRgAm9kIDa8D54QRyg2p1fnFcpJh
-         wOYyFYihA73Bdos2x/9PWN9oGSfBiiD/XWK7GBlq8lBgIQJIyPcprSxIWJcfKNbDDeT6
-         y9YCkiOv7MD7claleBPHBjAeuaM2tlJ7odAyORbTBP1ovm5f4l4149YfOZ+qBLfEqn1q
-         gZO8KmqKbQ+wLtwS4sxKyl9xaGQA52+ixaHcZVfOPKMs3UPoc2384Usn9ZtOXHHJcO3D
-         1znw==
+        bh=WWA6LSZeElU9Bx1z4UwmuYUU3RRzcD4rTXeebTBDE7U=;
+        b=usKxyxr4oDmag01d8jgSYYttq/9gwR5AP3WNcPtdw3e2WJbdfaZO6msdroG2QnMhOU
+         ZkZnoRO+2Ef/Iv0iUTFyIeZ9bgvzJr0XhNaQYRlQGgHLNO7neQjCwsrwYazPlNkFoJkK
+         cA4u+mGuN1nIRjcHRsFSYxoTpOZwuyck2vH04EJrqg2yen19lj+dHXAUao6Wr2djH8V9
+         JUjl8WFhXfYP+mqTvleeAioNn/82wXsKUw5D9mMtEc0SZQW9ltAyPQ74S5gGhkVLQBcD
+         /bheE/bWYjbPP8ArmkNNU7TRJ2vzsXsuFdLakGy4CE8R41FJ5thm23TSCL+xeO6nc07n
+         mLvw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVKGtbk+75EayeU/KIEwxWJsArldG/wtFWO3hP0iH1PHOuRW4IxcHBb9spJps6/O6ZUOgwiZUns/OqYoVmgklyoORLWaM63xw==
-X-Gm-Message-State: AOJu0YzPW4nnrCIjKQOBX0SuYaYlKCQkcLG4NZzqKsIGC6IX3g8oKP+Z
-	KVTw5HDW9Ew6iltHkyRYzuSCdxYqIIpGSeiMiQK0PEAXpMSzFwFU
-X-Google-Smtp-Source: AGHT+IEGHdfj1AiBrmtrV7RcKsN3NJzlMhD+7S3Zmmda4stFaREtRx7587iPGRN9TsehMSqk9OOXlQ==
-X-Received: by 2002:a05:6820:8c2:b0:5c7:ae9d:7894 with SMTP id 006d021491bc7-5c7ae9d79d4mr9160000eaf.5.1720715727129;
-        Thu, 11 Jul 2024 09:35:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCV8xbS/y3bVRgfrRj8sYZw+hJk9IPxSkoPqgFKIhDLtHNqkEg/2x0Sddi6pRWuvILCmtrNj0ZQKd6qQ1bXGmtBlZQxbRfNNcA==
+X-Gm-Message-State: AOJu0YzvI6npknlpGGt2/trbtYx6sOeDr3/5QunamcpRrd8eOuvBtSxz
+	WLcX7hI0ATVQPJj+wB5zQhiiTz32zo4WuWtqtyEobhwp/Y6e0kep
+X-Google-Smtp-Source: AGHT+IFvnwiJQA+zDqPP1AoSyzoaqvroVUu2qCa3HnPcXFj5l8hwOOUVXRmGeCXtw03SBqZh2hKoFA==
+X-Received: by 2002:a2e:3c06:0:b0:2ee:5b97:ebce with SMTP id 38308e7fff4ca-2eeb31022dfmr55508001fa.24.1720723785920;
+        Thu, 11 Jul 2024 11:49:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:dfb5:0:b0:5c4:2c4d:b67 with SMTP id 006d021491bc7-5caad7fe2aals1010839eaf.0.-pod-prod-02-us;
- Thu, 11 Jul 2024 09:35:26 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVrCYtNebu18PSRvTcymqiPFKWwWajwug0NeNVZR9KYljQRgX1GGu6qHERQg/9rK7xoOJcYIkUiyCLvllDhi5S4TjFV5PFCQ41nyg==
-X-Received: by 2002:a05:6808:274b:b0:3da:a97d:3579 with SMTP id 5614622812f47-3daa97d4a2bmr140775b6e.16.1720715726122;
-        Thu, 11 Jul 2024 09:35:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1720715726; cv=none;
+Received: by 2002:a2e:9d49:0:b0:2ec:5d3e:a6d3 with SMTP id 38308e7fff4ca-2eec93b3299ls6928911fa.2.-pod-prod-07-eu;
+ Thu, 11 Jul 2024 11:49:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCV6Q+X0gp4oHBsocbc3Mw10T3CME1w1NljyCAebzqWIL6u9qP6Y70EKuGg/efik53/5ZZOxqNgAQOYEn+a2yOYYB7uGVQmASEFIcQ==
+X-Received: by 2002:a2e:8712:0:b0:2ec:5a25:16e9 with SMTP id 38308e7fff4ca-2eeb318a2e7mr56741651fa.34.1720723783442;
+        Thu, 11 Jul 2024 11:49:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1720723783; cv=none;
         d=google.com; s=arc-20160816;
-        b=fb2EY2zidUF7OXxrgktq969KVyNbxEK+3ebkD/seRCMj17iwE8FSJExNLIth1SJ5Oq
-         fM9cYxCUTCLazxF1bISJz5NAC8lYyHPKBM4o3YnGYTn6ayj9SUU1zdnnAgg6vKBI1txu
-         3MUVFqCsdJUQcm3vMBo4V95iLlpkRh51IXjSzwr1iNzhCw4l2ZpT93lobHUjKU/SKV5s
-         9ztg7Dpgfy1ZbaXtY+FabzumBg99mTq7zttBK2bJVOZjt1soK3/qRXFCU1y6NK9PqDIR
-         0oLjm6QAaoRrfDrVfTM49bJW7+Jo68BQhgu/ETWi+gJkGSWDUlLWaUZnNaGfgvT5GHpr
-         dBbg==
+        b=IA3TZHB45IjgTLMmXDokRgb/MtEuHd2TeSiks8eTycvbImjZ6SqwSRAQ4ilEtppI0U
+         fBcR4VbJhrRaIozekBJ7dgE55tcRUJiQy9TZkQQxIbZ4XU4Vo+pS5iHHB9PTgJIjPgaI
+         vsMQVXcsSNCcbc9xzQ6NDqk+GkrCeelYWa6sUJOdbMN6bbYXIOPqLuGBl88ekqwdsW0C
+         2HM6BcGACM40inb2fNOPcGDOg2cYNUO1P9lN++IFjm6wkydOrm+5ZR1vGQfSX1bES8/K
+         5DuUswoAM3awdUCmzOnMqXIk+tHgLmzLCKdr+XZHwOTcmKforW1qLa+nzW0GlZ9l4DyW
+         jusw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:dkim-signature;
-        bh=iG53baZ18GMDi9YXMC4xJR3Pixolumk6VvI6cKokJWk=;
-        fh=0usZ/D/H0yciGAU7rPbWQGtELZuCfxOB+nWItzrQQow=;
-        b=lZvuLU98Y8YeDiweVS1lcbQKxLgiSOzYaNEe7lVeFXvpqR2qYbMK0IVT+0mb79c2Hn
-         CNF9Zy5KAXABXpz/v5uZXP7m96VLx+616uKNONHvZ9d6NuSkPKEM5Z5kQrmzgnVoejLv
-         0PUG60A0fs+nOY3xv4dsEWc92P7WKcliTPtRzJy+kcbf5NBkAuDD8bH3dv81VFQoYXGc
-         18tM21+MbJnTOVNA2xvM499WP4M6CkJLvyVwyEHgqUYU4CB+xPFhddvdb5n//CHtthJR
-         U+y29voU9l2fMNKeMU8QwaPweP6L5zXQD6A37CV7LFoGtRWJHTA4kcBQMEeUY+J8x59d
-         I8/g==;
+        bh=o/IW2cCwLwJEDMO66z3r5dlrUmlAEsjcwslEcQLO45s=;
+        fh=dh1bgqotY4wALKP6HaRE4d7euBkKlolFqMNu5lqllw4=;
+        b=WA9NDnhlz7RbDa4XFVWF3QsRrMBejnE5wlt+MbjZ8viwIeq2z8D0ZLO15/+6UCEnNC
+         8iujoUw1wkbD9/q6MiRLuTtdGN/pAuwjtC26v6RpC/VZ8HYUNeDCUbVjWMd3nQvZk9fO
+         IMr5Kb5II2rA9rn/a8+nAnT3Sp+OPsFlivXNGv3Eod/gm4HvPHhRg2XU5aMKeE9E75Pz
+         yJ1fxBOHtxEpLGOvOJApXzIx9+t36+sOutE2nHAt5drB2TyuYphTuSzqe+n/x/AitqXm
+         vcj3LsbJOlDiPyGwKCAZthIZuMZrm9brZE5eZsbJcEoYIRZofjcOrqR2YWbgYlA3dbTo
+         Ei7Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=kty32UDH;
-       spf=pass (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=kees@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id d75a77b69052e-447f9bc3cd6si2715471cf.4.2024.07.11.09.35.26
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=By5aYvAq;
+       spf=none (google.com: infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
+Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-426725584d2si1861595e9.0.2024.07.11.11.49.43
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jul 2024 09:35:26 -0700 (PDT)
-Received-SPF: pass (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id A252961CC4;
-	Thu, 11 Jul 2024 16:35:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49893C116B1;
-	Thu, 11 Jul 2024 16:35:25 +0000 (UTC)
-Date: Thu, 11 Jul 2024 09:35:24 -0700
-From: Kees Cook <kees@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: Peter Zijlstra <peterz@infradead.org>,
+        Thu, 11 Jul 2024 11:49:43 -0700 (PDT)
+Received-SPF: none (google.com: infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.97.1 #2 (Red Hat Linux))
+	id 1sRyrJ-000000018ze-3Fdq;
+	Thu, 11 Jul 2024 18:49:37 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 4636630050D; Thu, 11 Jul 2024 20:49:37 +0200 (CEST)
+Date: Thu, 11 Jul 2024 20:49:37 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Marco Elver <elver@google.com>,
 	Gatlin Newhouse <gatlin.newhouse@gmail.com>,
 	Thomas Gleixner <tglx@linutronix.de>,
 	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -136,20 +135,20 @@ Cc: Peter Zijlstra <peterz@infradead.org>,
 	linux-hardening@vger.kernel.org, llvm@lists.linux.dev,
 	t.p.northover@gmail.com, Fangrui Song <maskray@google.com>
 Subject: Re: [PATCH v4] x86/traps: Enable UBSAN traps on x86
-Message-ID: <202407110924.81A08DD4D@keescook>
+Message-ID: <20240711184937.GE27299@noisy.programming.kicks-ass.net>
 References: <20240710203250.238782-1-gatlin.newhouse@gmail.com>
  <20240711081031.GB4587@noisy.programming.kicks-ass.net>
  <CANpmjNObEzShHvw19EAntPvCYJbqezKBq+pB=mkd7j3sXDEE7A@mail.gmail.com>
+ <202407110924.81A08DD4D@keescook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <CANpmjNObEzShHvw19EAntPvCYJbqezKBq+pB=mkd7j3sXDEE7A@mail.gmail.com>
-X-Original-Sender: kees@kernel.org
+In-Reply-To: <202407110924.81A08DD4D@keescook>
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=kty32UDH;       spf=pass
- (google.com: domain of kees@kernel.org designates 139.178.84.217 as permitted
- sender) smtp.mailfrom=kees@kernel.org;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=kernel.org
+ header.i=@infradead.org header.s=desiato.20200630 header.b=By5aYvAq;
+       spf=none (google.com: infradead.org does not designate permitted sender
+ hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -162,97 +161,108 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Jul 11, 2024 at 11:06:12AM +0200, Marco Elver wrote:
-> On Thu, 11 Jul 2024 at 10:10, Peter Zijlstra <peterz@infradead.org> wrote:
-> >
-> > On Wed, Jul 10, 2024 at 08:32:38PM +0000, Gatlin Newhouse wrote:
-> > > Currently ARM architectures extract which specific sanitizer
-> > > has caused a trap via encoded data in the trap instruction.
-> > > Clang on x86 currently encodes the same data in ud1 instructions
-> > > but the x86 handle_bug() and is_valid_bugaddr() functions
-> > > currently only look at ud2s.
+On Thu, Jul 11, 2024 at 09:35:24AM -0700, Kees Cook wrote:
+> On Thu, Jul 11, 2024 at 11:06:12AM +0200, Marco Elver wrote:
+> > On Thu, 11 Jul 2024 at 10:10, Peter Zijlstra <peterz@infradead.org> wrote:
 > > >
-> > > Bring x86 to parity with arm64, similar to commit 25b84002afb9
-> > > ("arm64: Support Clang UBSAN trap codes for better reporting").
-> > > Enable the reporting of UBSAN sanitizer detail on x86 architectures
-> > > compiled with clang when CONFIG_UBSAN_TRAP=y.
-> >
-> > Can we please get some actual words on what code clang will generate for
-> > this? This doesn't even refer to the clang commit.
-> >
-> > How am I supposed to know if the below patch matches what clang will
-> > generate etc..
-> 
-> I got curious what the history of this is - I think it was introduced
-> in https://github.com/llvm/llvm-project/commit/c5978f42ec8e9, which
-> was reviewed here: https://reviews.llvm.org/D89959
-
-Sorry, I should have suggested this commit be mentioned in the commit
-log. The details are in llvm/lib/Target/X86/X86MCInstLower.cpp:
-https://github.com/llvm/llvm-project/commit/c5978f42ec8e9#diff-bb68d7cd885f41cfc35843998b0f9f534adb60b415f647109e597ce448e92d9f
-
-  case X86::UBSAN_UD1:
-    EmitAndCountInstruction(MCInstBuilder(X86::UD1Lm)
-                                .addReg(X86::EAX)
-                                .addReg(X86::EAX)
-                                .addImm(1)
-                                .addReg(X86::NoRegister)
-                                .addImm(MI->getOperand(0).getImm())
-                                .addReg(X86::NoRegister));
-
-Which is using the UD1Lm template from
-https://github.com/llvm/llvm-project/blob/main/llvm/lib/Target/X86/X86InstrSystem.td#L27
-
-  def UD1Lm   : I<0xB9, MRMSrcMem, (outs), (ins GR32:$src1, i32mem:$src2),
-                  "ud1{l}\t{$src2, $src1|$src1, $src2}", []>, TB, OpSize32;
-
-It uses OpSize32, distinct from UD1Wm (16) and UD1Qm (64).
-
-> But besides that, there's very little documentation. Either Gatlin or
-> one of the other LLVM folks might have more background, but we might
-> be out of luck if that 1 commit is all there is.
-> 
-> [+Cc Tim, author of the LLVM commit]
-> 
-> > > diff --git a/arch/x86/include/asm/bug.h b/arch/x86/include/asm/bug.h
-> > > index a3ec87d198ac..ccd573d58edb 100644
-> > > --- a/arch/x86/include/asm/bug.h
-> > > +++ b/arch/x86/include/asm/bug.h
-> > > @@ -13,6 +13,17 @@
-> > >  #define INSN_UD2     0x0b0f
-> > >  #define LEN_UD2              2
+> > > On Wed, Jul 10, 2024 at 08:32:38PM +0000, Gatlin Newhouse wrote:
+> > > > Currently ARM architectures extract which specific sanitizer
+> > > > has caused a trap via encoded data in the trap instruction.
+> > > > Clang on x86 currently encodes the same data in ud1 instructions
+> > > > but the x86 handle_bug() and is_valid_bugaddr() functions
+> > > > currently only look at ud2s.
+> > > >
+> > > > Bring x86 to parity with arm64, similar to commit 25b84002afb9
+> > > > ("arm64: Support Clang UBSAN trap codes for better reporting").
+> > > > Enable the reporting of UBSAN sanitizer detail on x86 architectures
+> > > > compiled with clang when CONFIG_UBSAN_TRAP=y.
 > > >
-> > > +/*
-> > > + * In clang we have UD1s reporting UBSAN failures on X86, 64 and 32bit.
-> > > + */
-> > > +#define INSN_ASOP    0x67
-> >
-> > I asked, but did not receive answer, *WHY* does clang add this silly
-> > prefix? AFAICT this is entirely spurious and things would be simpler if
-> > we don't have to deal with it.
+> > > Can we please get some actual words on what code clang will generate for
+> > > this? This doesn't even refer to the clang commit.
+> > >
+> > > How am I supposed to know if the below patch matches what clang will
+> > > generate etc..
+> > 
+> > I got curious what the history of this is - I think it was introduced
+> > in https://github.com/llvm/llvm-project/commit/c5978f42ec8e9, which
+> > was reviewed here: https://reviews.llvm.org/D89959
+> 
+> Sorry, I should have suggested this commit be mentioned in the commit
+> log. The details are in llvm/lib/Target/X86/X86MCInstLower.cpp:
+> https://github.com/llvm/llvm-project/commit/c5978f42ec8e9#diff-bb68d7cd885f41cfc35843998b0f9f534adb60b415f647109e597ce448e92d9f
+> 
+>   case X86::UBSAN_UD1:
+>     EmitAndCountInstruction(MCInstBuilder(X86::UD1Lm)
+>                                 .addReg(X86::EAX)
+>                                 .addReg(X86::EAX)
+>                                 .addImm(1)
+>                                 .addReg(X86::NoRegister)
+>                                 .addImm(MI->getOperand(0).getImm())
+>                                 .addReg(X86::NoRegister));
+> 
+> Which is using the UD1Lm template from
+> https://github.com/llvm/llvm-project/blob/main/llvm/lib/Target/X86/X86InstrSystem.td#L27
+> 
+>   def UD1Lm   : I<0xB9, MRMSrcMem, (outs), (ins GR32:$src1, i32mem:$src2),
+>                   "ud1{l}\t{$src2, $src1|$src1, $src2}", []>, TB, OpSize32;
+> 
+> It uses OpSize32, distinct from UD1Wm (16) and UD1Qm (64).
+> 
+> > But besides that, there's very little documentation. Either Gatlin or
+> > one of the other LLVM folks might have more background, but we might
+> > be out of luck if that 1 commit is all there is.
+> > 
+> > [+Cc Tim, author of the LLVM commit]
+> > 
+> > > > diff --git a/arch/x86/include/asm/bug.h b/arch/x86/include/asm/bug.h
+> > > > index a3ec87d198ac..ccd573d58edb 100644
+> > > > --- a/arch/x86/include/asm/bug.h
+> > > > +++ b/arch/x86/include/asm/bug.h
+> > > > @@ -13,6 +13,17 @@
+> > > >  #define INSN_UD2     0x0b0f
+> > > >  #define LEN_UD2              2
+> > > >
+> > > > +/*
+> > > > + * In clang we have UD1s reporting UBSAN failures on X86, 64 and 32bit.
+> > > > + */
+> > > > +#define INSN_ASOP    0x67
+> > >
+> > > I asked, but did not receive answer, *WHY* does clang add this silly
+> > > prefix? AFAICT this is entirely spurious and things would be simpler if
+> > > we don't have to deal with it.
+> 
+> Even if we change LLVM, I'd still like to support the older versions, so
+> we'll need to handle this regardless.
 
-Even if we change LLVM, I'd still like to support the older versions, so
-we'll need to handle this regardless.
+Is it (LLVM) allowed to do prefix stuffing for 'random' instructions in
+order to achieve alignment goals? That is, are we ever expecting more
+prefixes here?
 
-> >
-> > > +#define OPCODE_PREFIX        0x0f
-> >
-> > This is *NOT* a prefix, it is an escape, please see the SDM Vol 2
-> > Chapter 'Instruction Format'. That ASOP thing above is a prefix.
-> >
-> > > +#define OPCODE_UD1   0xb9
-> > > +#define OPCODE_UD2   0x0b
-> >
-> > These are second byte opcodes. The actual (single byte opcodes) of those
-> > value exist and are something entirely different (0xB0+r is MOV, and
-> > 0x0B is OR).
+Anyway, as proposed the 'decoder' also accepts ASOP UD2, should we be
+complete and also return an instruction length? Just in case we want to
+be non fatal (WARN like) and skip over the instruction.
 
-What would be your preferred names for all of these defines?
+> > >
+> > > > +#define OPCODE_PREFIX        0x0f
+> > >
+> > > This is *NOT* a prefix, it is an escape, please see the SDM Vol 2
+> > > Chapter 'Instruction Format'. That ASOP thing above is a prefix.
+> > >
+> > > > +#define OPCODE_UD1   0xb9
+> > > > +#define OPCODE_UD2   0x0b
+> > >
+> > > These are second byte opcodes. The actual (single byte opcodes) of those
+> > > value exist and are something entirely different (0xB0+r is MOV, and
+> > > 0x0B is OR).
+> 
+> What would be your preferred names for all of these defines?
 
--- 
-Kees Cook
+SDM calls 0x0f the escape opcode and these others secondary opcode
+bytes, so something along those lines would be clear I suppose.	
+
+Vol2 2.1.2 (todays edition)
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202407110924.81A08DD4D%40keescook.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240711184937.GE27299%40noisy.programming.kicks-ass.net.
