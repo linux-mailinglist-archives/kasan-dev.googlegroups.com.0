@@ -1,145 +1,158 @@
-Return-Path: <kasan-dev+bncBCQ2XPNX7EOBB2G5R22QMGQEL5WIPPY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCAJFDXE4QGBBLNJR62QMGQEKHWV6RI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x439.google.com (mail-wr1-x439.google.com [IPv6:2a00:1450:4864:20::439])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8597293D4DE
-	for <lists+kasan-dev@lfdr.de>; Fri, 26 Jul 2024 16:12:59 +0200 (CEST)
-Received: by mail-wr1-x439.google.com with SMTP id ffacd0b85a97d-369bf135b49sf1094294f8f.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 26 Jul 2024 07:12:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1722003177; cv=pass;
+Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id C401493D73A
+	for <lists+kasan-dev@lfdr.de>; Fri, 26 Jul 2024 18:54:07 +0200 (CEST)
+Received: by mail-oo1-xc3c.google.com with SMTP id 006d021491bc7-5d1f7855cd7sf1019778eaf.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 26 Jul 2024 09:54:07 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1722012846; cv=pass;
         d=google.com; s=arc-20160816;
-        b=n9PvT8lDXI0bZDo6J+nbSQqCxB2kcjBBMMTIM+AW/MjMwtbhgOVABTAWCVPzYr7lDH
-         k1dUrJHPLEUVuPLZXv3iNWax+c/ut7FsJATPLs7stbkBQdiD6DnBLqFQRa/JbPgft0CP
-         McHnxuL4nfwWsGdAUD9opiBJ2nZCQMnE/NciyviuYHqvm5zsfEOhKZR2Cm6CDs6ZaPrJ
-         E8PO5+AaztkZvMwM5HimfggMiKBL/05JaZafofVECID5SjQ3G+8vppNRWxgbre3fmn/8
-         /QB+wV2yBBs5bZ+PLc3jm9eSy9vR9H6/RSjuKauMyaTHvLYe2DV72Mcy7p7W7auII9nH
-         U5zw==
+        b=oqynV4TTvXh+FWHIGyM6n/ACKuKP3ySi9022902MzH4AxfAiLMdI5MmeTqgpkj3F0C
+         terCGds3/GFM5+35z8vl8kmUWRT7070ESeq0xzUkMnx022ZazlzAsnf0sp0vBzosTZk5
+         GnlrEPp5rqNTMIxWS4c31l4T/CsKC5f1Nfxd22KmRtOw9wvxoq7s5vk1c/PF9DdnW5V0
+         SefuE348rTAoLCGc7FYqnubZN42/GkipPOh4KobrkMbEHvcfqLUQ/mHDmyxNUE2tjtOB
+         8Qt5MIj8smt3G7FWpzsegfd8QIta27n8k5oid0cFiMrTQrniQksGLuN3sWwOEImHa8+/
+         gmPQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=pqtCEcYftFzU4DZa/0J8jm63HwtnD22XkHGs8aAXhVU=;
-        fh=4Lj+mWVqHKnZlEGPO2lhFYwJlzud+el1zPY/JfMsvdA=;
-        b=K7T+uYb9nTKhZWwRk/+3k0per7MlM8rmdeNCMhXqImKBgmENl8NKaTCOMZKJpmRNrY
-         UXOswJMcDxFocSdeHjD4+GJkTTHJ5p2Iy95vFqe9aRjzODc5jFafjmvQMSXCGOC+lbQc
-         l14b5ofj5c7nUvauninVsg6rDOhQhWrHAbbGwVv1OEiIdniJZ7DK1vyMqZWYOt7AOIWD
-         K+bZH+oRK406JFkNGvyO81tgOxhKzjwwHmtFpK4Dx/t4wtqU32xFReEPBDYQZwP8F6xI
-         M2UwQJ9RuL9kXMRavLE9YQuaRe2l11rlzKJVFWY/Xv4SuUt7T+LXRrcATjwBx6QrdURS
-         dEdw==;
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature:dkim-signature;
+        bh=AoHiQczncsdg/LOWJ0z43zsLL1NhAnrdpwVsXUOfSu8=;
+        fh=9Z6IbpSdZWjXwZbxxPJBqjsC+zujlyozgGmNVpJMc3Y=;
+        b=NXs+OINC0o2n/Du2AdsnfoDcCpgBImshYUxDNwTa9xk6/aS/uVjNzIcR+m52dAU6O8
+         lgRiQCokdpbdl2V2ieJyuwrdO1or+eybI0rn48XLhGJitJPn+dwj+Eg6YOEutcbYPiGd
+         LexT4lkmsLO66jDl7pWrRdYdx0L1XUZ4PwOOZtc5uzeifX8VP34PirzbiagGeUdpqxo8
+         zP/FazCALsy7WygFc731AxC1Sv9n3vccrQDEtNbdojnW1KyiwbQ3FtdEBdECHFK8gZP0
+         usE+ZLsiH15uiP3CfOWFTdTROCs+Z15+3g2ZYc1RhB491+Tju6ugCRJUG+TIZyEfQCSG
+         +xUA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=EOuIhqYS;
-       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::530 as permitted sender) smtp.mailfrom=jannh@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=SFBCIBIE;
+       spf=pass (google.com: domain of adrianhuang0701@gmail.com designates 2607:f8b0:4864:20::634 as permitted sender) smtp.mailfrom=adrianhuang0701@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1722003177; x=1722607977; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1722012846; x=1722617646; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pqtCEcYftFzU4DZa/0J8jm63HwtnD22XkHGs8aAXhVU=;
-        b=lMxDiVt0RjYOTlcQ6eQXhTczpYsYJZMa+Z79zfi5a6AA9taJPK6hfu1qwYOAaSrweU
-         4PLsAmyIed6adLYcQ7sVkHZ70DRu6ITGNiQbcyvrq9uWSXuewvuk2upxlkj33A03NNHz
-         LAz/OLI2LZqtvyQBBQLIXptSqHMqlH+29KNo+SY3ANh4y905dn0VAKGuQx43QWnuZJz7
-         hcaJ/Bhl3f8Tc90Ob/pAZuiA2JebjIQrcwr+sxhm2G2gjcBIAigpHDFc1dRv29R1EpWj
-         lTsEGhKdusaxAqIrhmHk1l3dYlk3B5JbQr64GGMoSuSHM3NAHXsZz+ld3bB7cyASevhn
-         ryRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722003177; x=1722607977;
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=AoHiQczncsdg/LOWJ0z43zsLL1NhAnrdpwVsXUOfSu8=;
+        b=EqfGMGHyRuInyrrB9uWL8YCKyPe809j5gEKA4yZ1FZbYJ0BRc1x9VDgBLXcaPWiAaG
+         OKJoUYUS9sIzOah953c/dimZWqetXSuM6tvJvm3kAZ0bby5/6FubXXVACbDvLJjjt6x5
+         12tz50lmLLffYFixG77qXsjhzKST9gDKxpmoPz0DPh8GOVtTp1jEYUqLVMSiKPa0ABeN
+         rBjJurMc7hIH4iK65LROHu5fhCUBvYbPTmboppezbN7fEx+HlWs7VDAJtNJS/FlQZQ+I
+         BIVnS749E/0QZKRUXUgTQnH3qU/KoFDse+Ne/h0kSeYOYba6RpEZ32mC5vXFjTNhE+JB
+         lILA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722012846; x=1722617646; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=pqtCEcYftFzU4DZa/0J8jm63HwtnD22XkHGs8aAXhVU=;
-        b=AqrynnrnOEl0WOFoeavKUp2fIRcpLHJQguI3z9XJizd2oYSPTlw3jvUGcieCwywYZA
-         NVS69Zo3oBIRXNuTe47Ukq5zVuVU39P0y/TRAVJmcVum08QX/Uri9bqO9T8NcoLnZMWQ
-         9jNT7/pmOjFhwEVE8LVQ/z1vViVNXjmCrUhm9+HRsxTy3YDhfPtnP91qGWsJdHMB9kCV
-         y6pMnRWP+xMNowjA088tMcDds+B2rQBMYSkuBedl4ufOvkdLit0Uxe94Tlhgv1fdemiZ
-         5fD6ewbnyYGz8DaYgAMHGIO2evcX2tEgXTw7QcQUU5bHjLYCnKld/k8pHvd4kZbRViPl
-         YbpQ==
-X-Forwarded-Encrypted: i=2; AJvYcCVeIL5SnZ4ROoCJH/C3Pxoc86YwG+gD+X19AT+H4UeuMeSQMvRuMwz1kZspQD68IKaq/sGtwZAbitPFOvSGeSooaNvQ1efrLg==
-X-Gm-Message-State: AOJu0YzlxQou2+ttgT9xOjwLg3VQYpPjGn3LGFe32EICUz9zckRclhfh
-	nhyv80frp4avRHHOkpGd5kRjmsMr5Tu26TOpA8XzN8G0UYJS+fc8
-X-Google-Smtp-Source: AGHT+IHFRJN7Z5x8Nm2rK77bzAS1NAJnETgzr21AJGBGXNahn/5jUqAn7M3HQCSVFaI3H3BEMOREhA==
-X-Received: by 2002:adf:f9c5:0:b0:366:df35:b64f with SMTP id ffacd0b85a97d-369f6667e81mr6757355f8f.4.1722003177140;
-        Fri, 26 Jul 2024 07:12:57 -0700 (PDT)
+        bh=AoHiQczncsdg/LOWJ0z43zsLL1NhAnrdpwVsXUOfSu8=;
+        b=k3xbgTiwYuKtGKRxr3buKd4qfisDtnWmuRIUrzaSHwUHloMdCwg0VBnB2RZcgFv7se
+         fUZFugCJjWfrY29jMku0oA5iDft3j47YDUMd1zUdr21YNlXiCHwHDUUAc1qWDc7m4Mhr
+         kxTelBohcUweIZMZpV+/tZrtDi4Nl3shWmNwbGg1fQ44HvbHbZeZv+jd+Jgo9izK2m8M
+         HvH32Z0CFDyPhi7nzyftFHkFlDQ94IiCGzIh2BHKIcsVBTIa7yJFQ3EViAXs1qQhQjn5
+         hzivJaZt5+AyOffjXxyzNZSZfiP8TR7msaMLqSoj4d5mMLkICQCUxhqATESPswf6FZoP
+         Hp2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1722012846; x=1722617646;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=AoHiQczncsdg/LOWJ0z43zsLL1NhAnrdpwVsXUOfSu8=;
+        b=dVoxbfas6pH2UaGzURlC2uz2BYpXaGrrBmrtoz/CjM2f/ArYe2X3Ezc+p1Q4gPSglv
+         Ns1kL0+5pS/6kuv+6LsLcKaT35ZL82hw5N8AKV+dRLc6uUnhKLyzDes0VIXmP18Jj6Ec
+         zPNampibtOPGMP9qoUx40Qyfw2sb589JE1daJ+qtykHERdX8C30IiHts5N6lc96qwhNq
+         /cOcu/uJInII3ufuJGOnVi2MXDeFQ7aP0BuC+rMjzn+T53wG8021GtX2PFuwzqhiskp/
+         5YZJpVec5CMo9Ohc1m9xZxW2Nxa0fN3MQbgtgLLWTz77ducR82z0qlWHSgRFsfoS6BDa
+         AxDA==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCXDye2wjN8l91USPnXtb8y3Xen2AHNRQlKzfBXPoW0tAAU/lo6PWL2GpVHrDIv3AUKfN4fsoxvIAgB3FjY6Vk0/g31FGGmFgg==
+X-Gm-Message-State: AOJu0YyCTNc2crR9Nw/0Hsr0ppefcL4ZEXc1sXcpSzPSdJNb9fCDf0hq
+	ls8AZ/LfJ7S/hlJmjwYVs/KY4G2ugCZiC26Unbd853e66opf5tqQ
+X-Google-Smtp-Source: AGHT+IGbdQjmfGSiKqCWc8veF4QRe9xzmCOL9eJGqbQ87Olinl3uJ+eZwXciCTDHSFnRjkGk1mUPHA==
+X-Received: by 2002:a05:6820:1689:b0:5c6:9320:2df6 with SMTP id 006d021491bc7-5d5d0ef20demr174769eaf.7.1722012845998;
+        Fri, 26 Jul 2024 09:54:05 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:510d:b0:428:1081:6352 with SMTP id
- 5b1f17b1804b1-428108165e9ls641615e9.2.-pod-prod-00-eu; Fri, 26 Jul 2024
- 07:12:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUJook/AwtTOZ5jZBH60e6+Rb5V6mnqvz2npcEifOFYw6YTddwMEr3h+GyvzhoHNOk7h+iAZyiD7jqJSe7sDf3aqsg/k4yMCw5Tbg==
-X-Received: by 2002:a05:600c:42d1:b0:426:676a:c4d1 with SMTP id 5b1f17b1804b1-42803b01f15mr44784285e9.8.1722003175481;
-        Fri, 26 Jul 2024 07:12:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1722003175; cv=none;
+Received: by 2002:a4a:d9d4:0:b0:5b9:d066:ebff with SMTP id 006d021491bc7-5d5ae914365ls2077297eaf.2.-pod-prod-02-us;
+ Fri, 26 Jul 2024 09:54:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXZzLe8Z/94xAlNV543aLXIIJGzebN5go5DsICeweJuXjwwloEUGVMxj2WSqRNr/iQoaG1BtKnjAxOgrvb0L61NHa/jzrY1oWRJrA==
+X-Received: by 2002:a05:6820:820:b0:5c4:3f91:7e14 with SMTP id 006d021491bc7-5d5d0ea8964mr238715eaf.3.1722012844670;
+        Fri, 26 Jul 2024 09:54:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1722012844; cv=none;
         d=google.com; s=arc-20160816;
-        b=p8Pnu0gFPb/Yw3LjsA/NpiZCCydODQmuectRw6mqtHVwfZU/rRVC0cPTyZLdV6fQGj
-         /zlXG6hNvcHEL5qqqsP+mCTk0kUXAat6rAL1Bf+7H679lILFXbjGLVqBBbPyY17kMIIJ
-         5nB7iZ7rVmhQjM47MH+LnY7zaOr06XCNBNhAn+xkbm+UVeGmyWVf04KjAOjaarkvN7D+
-         AizmCVKHoiKK2L5ASq3+hX1jREYsO83qjw+lNXKWFxRnLxCIZ+WsMh1ecONy8/f0pcQd
-         FNXH2CxE4v/HQq+I26r116MlL1JG1Z3ZMYMzemxYpsn9/HPeQQFEy1Xl58zcsj6vGFpe
-         VeUg==
+        b=jO2VL2i2W62SEyPmXf5QmsUQvvu4GC7uBl8LLQuDn/NMhbYKz+Ha7smgxWb7t3eIW6
+         dbQL2co3ql6tJJWrp4W6KsnBnVt0hWgkGCABaF8dfdO2KpJYsTaXjk+lC2U4vypO2Vvf
+         7eqAxpRI7Aq5rbaU8IkN3hNVocJADnQK7tPfJ9B2cRP8jLGzNybF9vYSJK4GXeTiN9qH
+         o6d6r+Efb5ZkRLfvrfl3q7kB2Hm85oQl0x2w61IeDmiQcCuYUGpSccDBR0UgontxbiuL
+         FiB0bHbF+wFm3xf0CJ4171qqVDfqF5nAYKMyzGzUUuxxmE1I/2v63vAAAwAiz341txAf
+         Qn/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=QsYsv/ZNLS2uwAP6W4x6DqGmZNcJZ9nt2gTTMFgcvkc=;
-        fh=X9KUm4bIaX1bhJcQVLkvzR98knz7RxrtIRCbzIEW4W8=;
-        b=lxqZ+66kl4GTcHmbYLwNlRN9wHCgW0IC47au5xDqB+fcnEVYn7l1qgxxej+Nr1lCKz
-         W/p5TBPZd4mV9xW8nxxuxPRx1jeQzeLdKrLJpjeHhDoxYjpVE0npZcHGXoj6WXwNBrbc
-         Cjg3QHL+ZWjkD9q1PpeX6plI24CBPTnWMBAID5dArVB0GS0P8pMKVFtPxYB2nEgSeUu1
-         vmG7zFf/a5EiedekvJ6k0ennPtlzxcdSbPvHkPMKbEfahHhOY5DFmFh2OZkDQn9jH/jF
-         9H3xyj8uKlWkce4jykuwueLIeqx/V6wKRItEEN8xGjmslCy05U9S3G2lnrZbOY+yjkDA
-         dw9A==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=o4t2bj9tP9eNdb8RTP1Rkd3tr4D6cDtGqwUT49U/h94=;
+        fh=8y3Vv5vzCEv06LZjtLEY+w37zdMmAoGahqD7WAIer/c=;
+        b=UEg2nopjRviviJMadSc31yJzCEqrq4gHOIzBetBZ2/QXSY2Nx3ZRWc06+KoQzv/5YI
+         LWSijE5mJhiK1JkV+NPN7UtFyORlCtAXlF+B+gWHU8ZWC0BezYpL4+E91xQ90kcdtEDs
+         jpR5sSaZrSiaFCQptaxV2tmGU9ENQ0GK7E5jnWMRHDMyx4ip8TYpQykFDPGpNVLYsnPi
+         S0fJHxY2fDs7zZrTSpb51vJ5xbGQnycPzHSBIGtemb64B+cbbPTfQeoqQGYt5CHAAPEE
+         mgTww/SngaUzq0rdIFI9R1LMUD+rO46UhWbKdE14D0Zd/YfUn20rs5jrrpwJegcmlW+W
+         0hjQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=EOuIhqYS;
-       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::530 as permitted sender) smtp.mailfrom=jannh@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=SFBCIBIE;
+       spf=pass (google.com: domain of adrianhuang0701@gmail.com designates 2607:f8b0:4864:20::634 as permitted sender) smtp.mailfrom=adrianhuang0701@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com. [2a00:1450:4864:20::530])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-427f1f6e8f0si4045195e9.1.2024.07.26.07.12.55
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com. [2607:f8b0:4864:20::634])
+        by gmr-mx.google.com with ESMTPS id 006d021491bc7-5d5b36266a1si197123eaf.1.2024.07.26.09.54.04
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jul 2024 07:12:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::530 as permitted sender) client-ip=2a00:1450:4864:20::530;
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-5a1b073d7cdso15702a12.0
-        for <kasan-dev@googlegroups.com>; Fri, 26 Jul 2024 07:12:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWAirhqCGb8MJy0E97iQ4+fWI1fBbzm/UiT2Qru4dosDRAYFc3cV0EikGS/La0KIwnN+Gdt4tUeMWCv9IMq9sHOTWqklZccFPpCDg==
-X-Received: by 2002:a05:6402:524f:b0:59f:9f59:9b07 with SMTP id
- 4fb4d7f45d1cf-5aed9392d97mr171742a12.4.1722003174333; Fri, 26 Jul 2024
- 07:12:54 -0700 (PDT)
+        Fri, 26 Jul 2024 09:54:04 -0700 (PDT)
+Received-SPF: pass (google.com: domain of adrianhuang0701@gmail.com designates 2607:f8b0:4864:20::634 as permitted sender) client-ip=2607:f8b0:4864:20::634;
+Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1fd66cddd07so7659985ad.2
+        for <kasan-dev@googlegroups.com>; Fri, 26 Jul 2024 09:54:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXUhjFJiGR4JD6BsUaf1O/nBOcocuH7uVGESFyfFW71+DIbYzXzTs0Zh8KNDT8Lm2GVgYl1gmQrm5anfmQS1/kcRgfpIO0HfrG9RQ==
+X-Received: by 2002:a17:903:2284:b0:1fd:9b96:32d4 with SMTP id d9443c01a7336-1ff048e6ff9mr2338855ad.51.1722012844009;
+        Fri, 26 Jul 2024 09:54:04 -0700 (PDT)
+Received: from AHUANG12-3ZHH9X.lenovo.com (220-143-223-167.dynamic-ip.hinet.net. [220.143.223.167])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-1fed8000ecasm34897805ad.309.2024.07.26.09.54.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jul 2024 09:54:03 -0700 (PDT)
+From: Adrian Huang <adrianhuang0701@gmail.com>
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Uladzislau Rezki <urezki@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Baoquan He <bhe@redhat.com>,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Adrian Huang <ahuang12@lenovo.com>,
+	Jiwei Sun <sunjw10@lenovo.com>
+Subject: [PATCH 1/1] mm/vmalloc: Combine all TLB flush operations of KASAN shadow virtual address into one operation
+Date: Sat, 27 Jul 2024 00:52:46 +0800
+Message-Id: <20240726165246.31326-1-ahuang12@lenovo.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20240725-kasan-tsbrcu-v3-0-51c92f8f1101@google.com>
- <20240725-kasan-tsbrcu-v3-2-51c92f8f1101@google.com> <CA+fCnZc1ct_Dg7_Zw+2z-EOv_oC4occ-ru-o6-83XYQneBxpwA@mail.gmail.com>
-In-Reply-To: <CA+fCnZc1ct_Dg7_Zw+2z-EOv_oC4occ-ru-o6-83XYQneBxpwA@mail.gmail.com>
-From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 26 Jul 2024 16:12:17 +0200
-Message-ID: <CAG48ez3FES1ySuuv9VtDqCxEfw7xPqdvOd4oTEdQ25+1NvSAsQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] slub: Introduce CONFIG_SLUB_RCU_DEBUG
-To: Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Christoph Lameter <cl@linux.com>, 
-	Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, 
-	Marco Elver <elver@google.com>, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: jannh@google.com
+X-Original-Sender: AdrianHuang0701@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=EOuIhqYS;       spf=pass
- (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::530 as
- permitted sender) smtp.mailfrom=jannh@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Jann Horn <jannh@google.com>
-Reply-To: Jann Horn <jannh@google.com>
+ header.i=@gmail.com header.s=20230601 header.b=SFBCIBIE;       spf=pass
+ (google.com: domain of adrianhuang0701@gmail.com designates
+ 2607:f8b0:4864:20::634 as permitted sender) smtp.mailfrom=adrianhuang0701@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -152,144 +165,326 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jul 26, 2024 at 2:44=E2=80=AFAM Andrey Konovalov <andreyknvl@gmail.=
-com> wrote:
-> On Thu, Jul 25, 2024 at 5:32=E2=80=AFPM Jann Horn <jannh@google.com> wrot=
-e:
-> >
-> > Currently, KASAN is unable to catch use-after-free in SLAB_TYPESAFE_BY_=
-RCU
-> > slabs because use-after-free is allowed within the RCU grace period by
-> > design.
-> >
-> > Add a SLUB debugging feature which RCU-delays every individual
-> > kmem_cache_free() before either actually freeing the object or handing =
-it
-> > off to KASAN, and change KASAN to poison freed objects as normal when t=
-his
-> > option is enabled.
-[...]
-> > diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
-> > index afc72fde0f03..0c088532f5a7 100644
-> > --- a/mm/Kconfig.debug
-> > +++ b/mm/Kconfig.debug
-> > @@ -70,6 +70,35 @@ config SLUB_DEBUG_ON
-> >           off in a kernel built with CONFIG_SLUB_DEBUG_ON by specifying
-> >           "slab_debug=3D-".
-> >
-> > +config SLUB_RCU_DEBUG
-> > +       bool "Make use-after-free detection possible in TYPESAFE_BY_RCU=
- caches"
->
-> Perhaps, it makes sense to point out that is related to KASAN's
-> use-after-free detection in the option description.
+From: Adrian Huang <ahuang12@lenovo.com>
 
-Hmm, yeah, maybe I'll change it to
-"Enable UAF detection in TYPESAFE_BY_RCU caches (for KASAN)"
-and then we can change that in the future if the feature becomes
-usable with other SLUB stuff.
+When compiling kernel source 'make -j $(nproc)' with the up-and-running
+KASAN-enabled kernel on a 256-core machine, the following soft lockup
+is shown:
 
-> > +       depends on SLUB_DEBUG
->
-> Do we need depends on KASAN?
+watchdog: BUG: soft lockup - CPU#28 stuck for 22s! [kworker/28:1:1760]
+CPU: 28 PID: 1760 Comm: kworker/28:1 Kdump: loaded Not tainted 6.10.0-rc5 #95
+Workqueue: events drain_vmap_area_work
+RIP: 0010:smp_call_function_many_cond+0x1d8/0xbb0
+Code: 38 c8 7c 08 84 c9 0f 85 49 08 00 00 8b 45 08 a8 01 74 2e 48 89 f1 49 89 f7 48 c1 e9 03 41 83 e7 07 4c 01 e9 41 83 c7 03 f3 90 <0f> b6 01 41 38 c7 7c 08 84 c0 0f 85 d4 06 00 00 8b 45 08 a8 01 75
+RSP: 0018:ffffc9000cb3fb60 EFLAGS: 00000202
+RAX: 0000000000000011 RBX: ffff8883bc4469c0 RCX: ffffed10776e9949
+RDX: 0000000000000002 RSI: ffff8883bb74ca48 RDI: ffffffff8434dc50
+RBP: ffff8883bb74ca40 R08: ffff888103585dc0 R09: ffff8884533a1800
+R10: 0000000000000004 R11: ffffffffffffffff R12: ffffed1077888d39
+R13: dffffc0000000000 R14: ffffed1077888d38 R15: 0000000000000003
+FS:  0000000000000000(0000) GS:ffff8883bc400000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00005577b5c8d158 CR3: 0000000004850000 CR4: 0000000000350ef0
+Call Trace:
+ <IRQ>
+ ? watchdog_timer_fn+0x2cd/0x390
+ ? __pfx_watchdog_timer_fn+0x10/0x10
+ ? __hrtimer_run_queues+0x300/0x6d0
+ ? sched_clock_cpu+0x69/0x4e0
+ ? __pfx___hrtimer_run_queues+0x10/0x10
+ ? srso_return_thunk+0x5/0x5f
+ ? ktime_get_update_offsets_now+0x7f/0x2a0
+ ? srso_return_thunk+0x5/0x5f
+ ? srso_return_thunk+0x5/0x5f
+ ? hrtimer_interrupt+0x2ca/0x760
+ ? __sysvec_apic_timer_interrupt+0x8c/0x2b0
+ ? sysvec_apic_timer_interrupt+0x6a/0x90
+ </IRQ>
+ <TASK>
+ ? asm_sysvec_apic_timer_interrupt+0x16/0x20
+ ? smp_call_function_many_cond+0x1d8/0xbb0
+ ? __pfx_do_kernel_range_flush+0x10/0x10
+ on_each_cpu_cond_mask+0x20/0x40
+ flush_tlb_kernel_range+0x19b/0x250
+ ? srso_return_thunk+0x5/0x5f
+ ? kasan_release_vmalloc+0xa7/0xc0
+ purge_vmap_node+0x357/0x820
+ ? __pfx_purge_vmap_node+0x10/0x10
+ __purge_vmap_area_lazy+0x5b8/0xa10
+ drain_vmap_area_work+0x21/0x30
+ process_one_work+0x661/0x10b0
+ worker_thread+0x844/0x10e0
+ ? srso_return_thunk+0x5/0x5f
+ ? __kthread_parkme+0x82/0x140
+ ? __pfx_worker_thread+0x10/0x10
+ kthread+0x2a5/0x370
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork+0x30/0x70
+ ? __pfx_kthread+0x10/0x10
+ ret_from_fork_asm+0x1a/0x30
+ </TASK>
 
-My original thinking was: The feature is supposed to work basically
-independently of KASAN. It doesn't currently do anything useful
-without KASAN, but if we do something about constructor slabs in the
-future, this should make it possible to let SLUB poison freed objects.
-(Though that might also require going back to deterministically
-RCU-delaying the freeing of objects in the future...)
+Debugging Analysis:
 
-But yeah, I guess for now the config option is useless without KASAN,
-so it's reasonable to make it depend on KASAN for now. I'll change it
-that way.
+  1. The following ftrace log shows that the lockup CPU spends too much
+     time iterating vmap_nodes and flushing TLB when purging vm_area
+     structures. (Some info is trimmed).
 
-> > +       default KASAN_GENERIC || KASAN_SW_TAGS
-> > +       help
-> > +         Make SLAB_TYPESAFE_BY_RCU caches behave approximately as if t=
-he cache
-> > +         was not marked as SLAB_TYPESAFE_BY_RCU and every caller used
-> > +         kfree_rcu() instead.
-> > +
-> > +         This is intended for use in combination with KASAN, to enable=
- KASAN to
-> > +         detect use-after-free accesses in such caches.
-> > +         (KFENCE is able to do that independent of this flag.)
-> > +
-> > +         This might degrade performance.
-> > +         Unfortunately this also prevents a very specific bug pattern =
-from
-> > +         triggering (insufficient checks against an object being recyc=
-led
-> > +         within the RCU grace period); so this option can be turned of=
-f even on
-> > +         KASAN builds, in case you want to test for such a bug.
-> > +
-> > +         If you're using this for testing bugs / fuzzing and care abou=
-t
-> > +         catching all the bugs WAY more than performance, you might wa=
-nt to
-> > +         also turn on CONFIG_RCU_STRICT_GRACE_PERIOD.
-> > +
-> > +         WARNING:
-> > +         This is designed as a debugging feature, not a security featu=
-re.
-> > +         Objects are sometimes recycled without RCU delay under memory=
- pressure.
-> > +
-> > +         If unsure, say N.
-> > +
-> >  config PAGE_OWNER
-> >         bool "Track page owner"
-> >         depends on DEBUG_KERNEL && STACKTRACE_SUPPORT
-> > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> > index 7c7fc6ce7eb7..d92cb2e9189d 100644
-> > --- a/mm/kasan/common.c
-> > +++ b/mm/kasan/common.c
-> > @@ -238,7 +238,8 @@ static enum free_validation_result check_slab_free(=
-struct kmem_cache *cache,
-> >  }
-> >
-> >  static inline bool poison_slab_object(struct kmem_cache *cache, void *=
-object,
-> > -                                     unsigned long ip, bool init)
-> > +                                     unsigned long ip, bool init,
-> > +                                     bool after_rcu_delay)
-> >  {
-> >         void *tagged_object =3D object;
-> >         enum free_validation_result valid =3D check_slab_free(cache, ob=
-ject, ip);
-> > @@ -251,7 +252,8 @@ static inline bool poison_slab_object(struct kmem_c=
-ache *cache, void *object,
-> >         object =3D kasan_reset_tag(object);
-> >
-> >         /* RCU slabs could be legally used after free within the RCU pe=
-riod. */
-> > -       if (unlikely(cache->flags & SLAB_TYPESAFE_BY_RCU))
-> > +       if (unlikely(cache->flags & SLAB_TYPESAFE_BY_RCU) &&
-> > +           !after_rcu_delay)
->
-> This can be kept on the same line.
+     kworker: funcgraph_entry:              |  drain_vmap_area_work() {
+     kworker: funcgraph_entry:              |   mutex_lock() {
+     kworker: funcgraph_entry:  1.092 us    |     __cond_resched();
+     kworker: funcgraph_exit:   3.306 us    |   }
+     ...                                        ...
+     kworker: funcgraph_entry:              |    flush_tlb_kernel_range() {
+     ...                                          ...
+     kworker: funcgraph_exit: # 7533.649 us |    }
+     ...                                         ...
+     kworker: funcgraph_entry:  2.344 us    |   mutex_unlock();
+     kworker: funcgraph_exit: $ 23871554 us | }
 
-ack, I'll change that
+     The drain_vmap_area_work() spends over 23 seconds.
 
-[...]
-> > +       /* Free the object - this will internally schedule an RCU callb=
-ack. */
-> > +       kmem_cache_free(cache, p);
-> > +
-> > +       /* We should still be allowed to access the object at this poin=
-t because
->
-> Empty line after /* here and below.
+     There are 2805 flush_tlb_kernel_range() calls in the ftrace log.
+       * One is called in __purge_vmap_area_lazy().
+       * Others are called by purge_vmap_node->kasan_release_vmalloc.
+         purge_vmap_node() iteratively releases kasan vmalloc
+         allocations and flushes TLB for each vmap_area.
+           - [Rough calculation] Each flush_tlb_kernel_range() runs
+             about 7.5ms.
+               -- 2804 * 7.5ms = 21.03 seconds.
+               -- That's why a soft lock is triggered.
 
-ack, I'll change that
+  2. Extending the soft lockup time can work around the issue (For example,
+     # echo 60 > /proc/sys/kernel/watchdog_thresh). This confirms the
+     above-mentioned speculation: drain_vmap_area_work() spends too much
+     time.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG48ez3FES1ySuuv9VtDqCxEfw7xPqdvOd4oTEdQ25%2B1NvSAsQ%40mail.gmai=
-l.com.
+If we combine all TLB flush operations of the KASAN shadow virtual
+address into one operation in the call path
+'purge_vmap_node()->kasan_release_vmalloc()', the running time of
+drain_vmap_area_work() can be saved greatly. The idea is from the
+flush_tlb_kernel_range() call in __purge_vmap_area_lazy(). And, the
+soft lockup won't not be triggered.
+
+Here is the test result based on 6.10:
+
+[6.10 wo/ the patch]
+  1. ftrace latency profiling (record a trace if the latency > 20s).
+     echo 20000000 > /sys/kernel/debug/tracing/tracing_thresh
+     echo drain_vmap_area_work > /sys/kernel/debug/tracing/set_graph_function
+     echo function_graph > /sys/kernel/debug/tracing/current_tracer
+     echo 1 > /sys/kernel/debug/tracing/tracing_on
+
+  2. Run `make -j $(nproc)` to compile the kernel source
+
+  3. Once the soft lockup is reproduced, check the ftrace log:
+     cat /sys/kernel/debug/tracing/trace
+        # tracer: function_graph
+        #
+        # CPU  DURATION                  FUNCTION CALLS
+        # |     |   |                     |   |   |   |
+          76) $ 50412985 us |    } /* __purge_vmap_area_lazy */
+          76) $ 50412997 us |  } /* drain_vmap_area_work */
+          76) $ 29165911 us |    } /* __purge_vmap_area_lazy */
+          76) $ 29165926 us |  } /* drain_vmap_area_work */
+          91) $ 53629423 us |    } /* __purge_vmap_area_lazy */
+          91) $ 53629434 us |  } /* drain_vmap_area_work */
+          91) $ 28121014 us |    } /* __purge_vmap_area_lazy */
+          91) $ 28121026 us |  } /* drain_vmap_area_work */
+
+[6.10 w/ the patch]
+  1. Repeat step 1-2 in "[6.10 wo/ the patch]"
+
+  2. The soft lockup is not triggered and ftrace log is empty.
+     cat /sys/kernel/debug/tracing/trace
+     # tracer: function_graph
+     #
+     # CPU  DURATION                  FUNCTION CALLS
+     # |     |   |                     |   |   |   |
+
+  3. Setting 'tracing_thresh' to 10/5 seconds does not get any ftrace
+     log.
+
+  4. Setting 'tracing_thresh' to 1 second gets ftrace log.
+     cat /sys/kernel/debug/tracing/trace
+     # tracer: function_graph
+     #
+     # CPU  DURATION                  FUNCTION CALLS
+     # |     |   |                     |   |   |   |
+       23) $ 1074942 us  |    } /* __purge_vmap_area_lazy */
+       23) $ 1074950 us  |  } /* drain_vmap_area_work */
+
+  The worst execution time of drain_vmap_area_work() is about 1 second.
+
+Link: https://lore.kernel.org/lkml/ZqFlawuVnOMY2k3E@pc638.lan/
+Fixes: 282631cb2447 ("mm: vmalloc: remove global purge_vmap_area_root rb-tree")
+Signed-off-by: Adrian Huang <ahuang12@lenovo.com>
+Co-developed-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
+Signed-off-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
+Tested-by: Jiwei Sun <sunjw10@lenovo.com>
+---
+ include/linux/kasan.h | 12 +++++++++---
+ mm/kasan/shadow.c     | 14 ++++++++++----
+ mm/vmalloc.c          | 34 ++++++++++++++++++++++++++--------
+ 3 files changed, 45 insertions(+), 15 deletions(-)
+
+diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+index 70d6a8f6e25d..2adea4fef153 100644
+--- a/include/linux/kasan.h
++++ b/include/linux/kasan.h
+@@ -29,6 +29,9 @@ typedef unsigned int __bitwise kasan_vmalloc_flags_t;
+ #define KASAN_VMALLOC_VM_ALLOC		((__force kasan_vmalloc_flags_t)0x02u)
+ #define KASAN_VMALLOC_PROT_NORMAL	((__force kasan_vmalloc_flags_t)0x04u)
+ 
++#define KASAN_VMALLOC_PAGE_RANGE 0x1 /* Apply exsiting page range */
++#define KASAN_VMALLOC_TLB_FLUSH  0x2 /* TLB flush */
++
+ #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+ 
+ #include <linux/pgtable.h>
+@@ -511,7 +514,8 @@ void kasan_populate_early_vm_area_shadow(void *start, unsigned long size);
+ int kasan_populate_vmalloc(unsigned long addr, unsigned long size);
+ void kasan_release_vmalloc(unsigned long start, unsigned long end,
+ 			   unsigned long free_region_start,
+-			   unsigned long free_region_end);
++			   unsigned long free_region_end,
++			   unsigned long flags);
+ 
+ #else /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
+ 
+@@ -526,7 +530,8 @@ static inline int kasan_populate_vmalloc(unsigned long start,
+ static inline void kasan_release_vmalloc(unsigned long start,
+ 					 unsigned long end,
+ 					 unsigned long free_region_start,
+-					 unsigned long free_region_end) { }
++					 unsigned long free_region_end,
++					 unsigned long flags) { }
+ 
+ #endif /* CONFIG_KASAN_GENERIC || CONFIG_KASAN_SW_TAGS */
+ 
+@@ -561,7 +566,8 @@ static inline int kasan_populate_vmalloc(unsigned long start,
+ static inline void kasan_release_vmalloc(unsigned long start,
+ 					 unsigned long end,
+ 					 unsigned long free_region_start,
+-					 unsigned long free_region_end) { }
++					 unsigned long free_region_end,
++					 unsigned long flags) { }
+ 
+ static inline void *kasan_unpoison_vmalloc(const void *start,
+ 					   unsigned long size,
+diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+index d6210ca48dda..88d1c9dcb507 100644
+--- a/mm/kasan/shadow.c
++++ b/mm/kasan/shadow.c
+@@ -489,7 +489,8 @@ static int kasan_depopulate_vmalloc_pte(pte_t *ptep, unsigned long addr,
+  */
+ void kasan_release_vmalloc(unsigned long start, unsigned long end,
+ 			   unsigned long free_region_start,
+-			   unsigned long free_region_end)
++			   unsigned long free_region_end,
++			   unsigned long flags)
+ {
+ 	void *shadow_start, *shadow_end;
+ 	unsigned long region_start, region_end;
+@@ -522,12 +523,17 @@ void kasan_release_vmalloc(unsigned long start, unsigned long end,
+ 			__memset(shadow_start, KASAN_SHADOW_INIT, shadow_end - shadow_start);
+ 			return;
+ 		}
+-		apply_to_existing_page_range(&init_mm,
++
++
++		if (flags & KASAN_VMALLOC_PAGE_RANGE)
++			apply_to_existing_page_range(&init_mm,
+ 					     (unsigned long)shadow_start,
+ 					     size, kasan_depopulate_vmalloc_pte,
+ 					     NULL);
+-		flush_tlb_kernel_range((unsigned long)shadow_start,
+-				       (unsigned long)shadow_end);
++
++		if (flags & KASAN_VMALLOC_TLB_FLUSH)
++			flush_tlb_kernel_range((unsigned long)shadow_start,
++					       (unsigned long)shadow_end);
+ 	}
+ }
+ 
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index e34ea860153f..bc21d821d506 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -2186,6 +2186,25 @@ decay_va_pool_node(struct vmap_node *vn, bool full_decay)
+ 	reclaim_list_global(&decay_list);
+ }
+ 
++static void
++kasan_release_vmalloc_node(struct vmap_node *vn)
++{
++	struct vmap_area *va;
++	unsigned long start, end;
++
++	start = list_first_entry(&vn->purge_list, struct vmap_area, list)->va_start;
++	end = list_last_entry(&vn->purge_list, struct vmap_area, list)->va_end;
++
++	list_for_each_entry(va, &vn->purge_list, list) {
++		if (is_vmalloc_or_module_addr((void *) va->va_start))
++			kasan_release_vmalloc(va->va_start, va->va_end,
++				va->va_start, va->va_end,
++				KASAN_VMALLOC_PAGE_RANGE);
++	}
++
++	kasan_release_vmalloc(start, end, start, end, KASAN_VMALLOC_TLB_FLUSH);
++}
++
+ static void purge_vmap_node(struct work_struct *work)
+ {
+ 	struct vmap_node *vn = container_of(work,
+@@ -2193,20 +2212,17 @@ static void purge_vmap_node(struct work_struct *work)
+ 	struct vmap_area *va, *n_va;
+ 	LIST_HEAD(local_list);
+ 
++	if (IS_ENABLED(CONFIG_KASAN_VMALLOC))
++		kasan_release_vmalloc_node(vn);
++
+ 	vn->nr_purged = 0;
+ 
+ 	list_for_each_entry_safe(va, n_va, &vn->purge_list, list) {
+ 		unsigned long nr = (va->va_end - va->va_start) >> PAGE_SHIFT;
+-		unsigned long orig_start = va->va_start;
+-		unsigned long orig_end = va->va_end;
+ 		unsigned int vn_id = decode_vn_id(va->flags);
+ 
+ 		list_del_init(&va->list);
+ 
+-		if (is_vmalloc_or_module_addr((void *)orig_start))
+-			kasan_release_vmalloc(orig_start, orig_end,
+-					      va->va_start, va->va_end);
+-
+ 		atomic_long_sub(nr, &vmap_lazy_nr);
+ 		vn->nr_purged++;
+ 
+@@ -4726,7 +4742,8 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
+ 				&free_vmap_area_list);
+ 		if (va)
+ 			kasan_release_vmalloc(orig_start, orig_end,
+-				va->va_start, va->va_end);
++				va->va_start, va->va_end,
++				KASAN_VMALLOC_PAGE_RANGE | KASAN_VMALLOC_TLB_FLUSH);
+ 		vas[area] = NULL;
+ 	}
+ 
+@@ -4776,7 +4793,8 @@ struct vm_struct **pcpu_get_vm_areas(const unsigned long *offsets,
+ 				&free_vmap_area_list);
+ 		if (va)
+ 			kasan_release_vmalloc(orig_start, orig_end,
+-				va->va_start, va->va_end);
++				va->va_start, va->va_end,
++				KASAN_VMALLOC_PAGE_RANGE | KASAN_VMALLOC_TLB_FLUSH);
+ 		vas[area] = NULL;
+ 		kfree(vms[area]);
+ 	}
+-- 
+2.25.1
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240726165246.31326-1-ahuang12%40lenovo.com.
