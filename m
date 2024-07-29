@@ -1,155 +1,153 @@
-Return-Path: <kasan-dev+bncBDVLLAFZXUORBIVETW2QMGQEMIIJY2A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKPFB7SXUERBO5GTW2QMGQEWQDU7IY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47FB493EFDA
-	for <lists+kasan-dev@lfdr.de>; Mon, 29 Jul 2024 10:26:12 +0200 (CEST)
-Received: by mail-lf1-x13e.google.com with SMTP id 2adb3069b0e04-52f0258afecsf3783352e87.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 29 Jul 2024 01:26:12 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1722241571; cv=pass;
+Received: from mail-yb1-xb40.google.com (mail-yb1-xb40.google.com [IPv6:2607:f8b0:4864:20::b40])
+	by mail.lfdr.de (Postfix) with ESMTPS id B215E93EFE8
+	for <lists+kasan-dev@lfdr.de>; Mon, 29 Jul 2024 10:30:52 +0200 (CEST)
+Received: by mail-yb1-xb40.google.com with SMTP id 3f1490d57ef6-e05e3938a37sf3423747276.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 29 Jul 2024 01:30:52 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1722241851; cv=pass;
         d=google.com; s=arc-20160816;
-        b=MUWJ8q+rLRGZVXU+YEpmZJZHUKsNWaaLOr+1tPXraA4kBeu23XpuP2kUnvDRclWEAM
-         CPTIE7NHGv2rbm5yPDKfQgcsKvnqOFFxdT4bBE4fdVmR4MPhu4OoBsC4AFrVInDPVFHe
-         kjxUIm2D9SB/Tc/PCrIFMs+9RH8VTL3cYcgZOUaEjVmEb52/PsgpaEX+FLIBiDbfiNqy
-         O8AF5aFKSDStFlvwAczNULtt0MGha3Ki06ibY/LVAfZ0MKW8vzk2rXlUmhf2BqgS9I7y
-         7YFQeQvCNwi7qsWp7B4vqHmNO24Z/zfM/2nhZbOKWvfjHyPPI46tJXjQnBMfAaM8IRC2
-         WLXQ==
+        b=bMz1aSLK72MImbKfUyuC/BRnBraq+dLaOzjb9vJOPAv7q+07scrBR4/CDznxnzrTXV
+         EsDU0EFW4KQeyuRFFZpFBq9g3KpiHEhsmNqNIll9R2YxjSI8CMPjP1YJmsGpz0gZQHPA
+         85jo/4d5HW6X2g/FJYi0RbF3cmdRDKEUywwDbjC2/E9m4FIi/De00+L0KUS9vfDJ6AZq
+         08Uks0Ict1iT7KpRH7ZbEuweR753OsOa2Pb56qSH/3Rv8trgWhQezIIsE2Cjd6ZVZ7Uc
+         VDh3B/utFii57P6pBVCZTJKHewgZ0cH26fgoiKPwaiViYTcAJtnSquuLOJnmxT0L5e/a
+         Yu6w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:autocrypt:references
-         :in-reply-to:date:cc:to:from:subject:message-id:sender
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=J1+0sqqR52d4VlWut+Y5y2Fsyhhk627d1MqTA2kXBi8=;
-        fh=Lz2TEKlcu5FmWL1fRbnd0dxqigShyapjplgOMaUONJQ=;
-        b=v/bsPjtwpI4qM8VLIN6i0ZbWPdylP1eC8/SdIknAHa4bkbLQGbq7FigH0Z09HyY5SF
-         /xlT6sEtoHigDr7h9kVKhpMtd3Z9m6hOom5hKQnkxV6+/20BjppeOZDcc7d9cJ91XC4F
-         y12sfBpH6IkwHsLCy3/ao6r2a2mFGRFQFbSfID1K+e040rSPU4w7jXhvKOUHFvrY+agn
-         QBx7jqeVbXDAsLfY0MdSnwSk1ZWwuSmOrk5ol3dgNuDMM14b/LnvbtA9udQEFNn2aguc
-         by0teqX7jJ3xJSHrYP9WU98MdfH5kBnwU2FiA+cKgJz6z6CFgkv7HXM3ywzH8dKBNgpp
-         JLOQ==;
+        bh=9JoJ7yb27/WDpeqE6SOBmkE8F2gVrnoBylFjPA8XcF0=;
+        fh=QMawZoC5j/oJxE/7aEoweDosgVq5fjrwEB0eZ0SiSEI=;
+        b=n6Mk5ygSLwkqTpi0Ozfi59a6UgL73sTg1xAHnEwbLe0AEQG/M0SPG384sj8m4K/n2G
+         bJApxHFkay7CuqwmWzMSEBblOeUvYx3OyVlmwjbIZnkoAPgFpUP+Metlndt1PTTQ6vmN
+         k8Of4Y3g2DrBpo3QPM2tGqHVaLfOzA5oP/0QFV09gDrEDKHU5fQnAE4Jk00nTEU3jUA/
+         gK4dbc4F+8zddqRAQ3Xqi/oLzKQjQPKcYq7GCBICbpIu2icL6HTY0OGWvoTrM/+BTMsI
+         Pm3KewVkntgv0+TolFLkELCZYmeD8vWZJEUdaARnj64x64D67ib2KAh5HKqPcjpJHDny
+         whDA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@sylv.io header.s=MBO0001 header.b=DU9eH44o;
-       spf=pass (google.com: domain of sylv@sylv.io designates 80.241.56.171 as permitted sender) smtp.mailfrom=sylv@sylv.io;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=sylv.io
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=g9Jpp6Sq;
+       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1722241571; x=1722846371; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1722241851; x=1722846651; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:autocrypt:references:in-reply-to
-         :date:cc:to:from:subject:message-id:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J1+0sqqR52d4VlWut+Y5y2Fsyhhk627d1MqTA2kXBi8=;
-        b=MQ7omtmqXH9bVBVeCIoDF87i0JJWEqKPSbNtGKDTe3I6HTF1OvQFkyXg3ygca1Gw5g
-         QDmC/hqrB39AAq8Jxk3kdkUwJIWqwp46c8UOlPXk36y8Fz9T6dTOL7l62F+N0Cnxv5RX
-         U900Tl03C/axJ05fKfGVUlqhD/GtFowhThQn/T0BJutvsbPzK3UIorM+zgcKs9v/8i7e
-         +kuPl/JLKYEYa80tWHEFhtv/uCKEKiJ72eqbU8ChCwQ6lVkN7s6NJyp4W4vDUJL4JkE4
-         n7RgokWiuK8bMneBnJUlC3JBnSmC2iuoxcmHnhwkZ0iSPVrYJzuOnfrjAIHOR7v06Ut+
-         DH9A==
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9JoJ7yb27/WDpeqE6SOBmkE8F2gVrnoBylFjPA8XcF0=;
+        b=o/tVeD5fBSILlXvxY6cRJ+9Jb2fRe/APo+rYauuq2iO8Rw/5UxDI+bPcGgqKa6kDEz
+         bQnPjuoegtGOHDtzWR8H51uXoCPTsGLm+wD0cZYkl3ixBaiLcju2OOuj9gApdJLAbIza
+         S+WvkodHUGg/Vb4DIpTepvHU3s+rVK31Yaf9DPkCmxrq7vWok+TIPdiwOp9z/YM6ChhA
+         Tvu26AeyOP96U1t6HtqdFWpqY5Ii4N70hFIu0CfDz+u3KHf/Yh+IRImU/4ECNZl1Hzdx
+         RTpbiY86ptVQMT0gsMaM2nh2cMpO55i7n7ObZ3xehDnRuIjHW9f+ymOARHplNjyrppqB
+         BicA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722241571; x=1722846371;
+        d=1e100.net; s=20230601; t=1722241851; x=1722846651;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :autocrypt:references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=J1+0sqqR52d4VlWut+Y5y2Fsyhhk627d1MqTA2kXBi8=;
-        b=UuPCfCtWNTwgkvIFUtPe+eDQRx444Bw2WNaL29J7XpKrQjNRgdzGzdCSBaV4TrJWvg
-         pH2lYM4cmoJ3I7FS35ppxsdygOXLgoX8ub0ixqnSQ+4cc5rklmGT0oDQ3+tvKw/GBqLw
-         DTEC+xiGnxhzaJyidRpu6ZNnGv5PQg0aH5Dy2AtM6Iml1rkAFpWN/hVYY0sFcWn3k1lk
-         ZIC8OFidZfOUWQAuMRe7C1xeHI2V4p2hNiU3qevnmB9gvW7wUVRCTEeFH945PNHaC8IW
-         GCTweYmfa0BkEdaqxY4yw6KPq71bImXhPM1ridKtz755kW/5UN65UdzfpQFELluLd0Ot
-         UEeQ==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9JoJ7yb27/WDpeqE6SOBmkE8F2gVrnoBylFjPA8XcF0=;
+        b=ZkMluoGYhPGuB/iNJIUP09oAnmXjow3bgX6iDF2q66uytdi5EWpxAci1bI5f+PNeLX
+         +oH+RjMsFF4DOakYSyVyDmBiK11kVZ4th3Kp3jACcD5ExG933+rNdhqH+s8FjpycCcS+
+         PMmmNmDEIC+tw5XR4xoG2ZBSoMkqgEwudXM9TifYejBgO4KE+ZBxM26B8rYaLziBjh9t
+         23zl+jKdQbrrlVDHvWi/+Lf4RPqySZpnFh4CXt1wHWoT/15697uEOKEMqryopElSYfB0
+         8jTaZPM8o5XqwUIS6epxstbLW6gsQc74LsHZFxzx4CKUUFjayX/mhBMNPZvOOi6rYw2L
+         /qTQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCV8utxSX3w+3MhPrSgHXtr5BVGzrIIrYNsUziHBLLw52zlmt0vZMX5TfWabFi2NcEotcuJiB2j+qi8TV1MOg5LJgm9G2HUrZg==
-X-Gm-Message-State: AOJu0YxDosQLCD91tn/HnA4dJj3bre20Mx6f7lpoV20VAixnV2XLOlkt
-	1QIl2QA88lU+Qz4yVtxbkw4F5GKmqKo6OY0sCj2s2zXZAmHFn1RR
-X-Google-Smtp-Source: AGHT+IHCrknXE/Y2w2cWPSBBZLQLPAMurS73Lim6p+ih63q1h/aZ+mc/zYAK2e4sok7DTDo8QvGBtQ==
-X-Received: by 2002:a2e:9608:0:b0:2ef:2443:ac8c with SMTP id 38308e7fff4ca-2f12ee422eemr43073491fa.31.1722241570774;
-        Mon, 29 Jul 2024 01:26:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVgygyKmh53OMTFBr//1vEk0PWfFJ2+QZYte4xMs++OHTGI+KknuAVYWEdgerN8EaweRsXfku8/Q8l9o7p8xdOoyvnbR5S3+g==
+X-Gm-Message-State: AOJu0YyNAlPeJ/zOEZe7zR8NbePHW0LY4B0gdzogea+s9nf8qhRe3QMl
+	l/L/MgSc6Nt62XGp6lntLklq56U2x+RGcNuAYbyW05I3QreehNuK
+X-Google-Smtp-Source: AGHT+IHPp7XqND+GbGHxbfkraWXGxityTNzRf3SlIpZFxMJ1D4VO33ZVJ1M28F1vVa1UX4VvAwLneg==
+X-Received: by 2002:a05:6902:2b11:b0:e0b:6ece:605 with SMTP id 3f1490d57ef6-e0b6ece070emr3988043276.41.1722241851386;
+        Mon, 29 Jul 2024 01:30:51 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:a989:0:b0:2ec:5941:b0cb with SMTP id 38308e7fff4ca-2f03aa64559ls276291fa.1.-pod-prod-04-eu;
- Mon, 29 Jul 2024 01:26:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVuN+vkyI+kyveEO1qA0W5aAKks52GLSzf5LWGRIaRIL9jox/+2LJkzSrCmY+8uWRy8Z7c80WwmWFtvr2n0v5iXCf0AxpHppEmykw==
-X-Received: by 2002:a2e:9d98:0:b0:2ef:2e90:29f9 with SMTP id 38308e7fff4ca-2f12edfd79dmr45749171fa.17.1722241568618;
-        Mon, 29 Jul 2024 01:26:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1722241568; cv=none;
+Received: by 2002:a05:6902:1028:b0:e0b:46d7:809c with SMTP id
+ 3f1490d57ef6-e0b46d78477ls4320737276.0.-pod-prod-09-us; Mon, 29 Jul 2024
+ 01:30:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWS/ybPzjwVvo8d4BB70RCHYGjLC9eE/CSuNG7zJdvpojmlQ8EItVlPpKZKpD+odPj97JlnALJJUAwvKLeRotJOzGcPLjh12AuRFw==
+X-Received: by 2002:a81:69c6:0:b0:65f:645a:b3c4 with SMTP id 00721157ae682-67a095958acmr74106627b3.32.1722241850647;
+        Mon, 29 Jul 2024 01:30:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1722241850; cv=none;
         d=google.com; s=arc-20160816;
-        b=NMFSpli1RZIlpA0A5uyL1kGaxERg9mstVms8xEf4vOLyA7QsqRuVW+al0DcKE7bjrz
-         1Yx2LF2jK0dI7JZdtF0HBSA3JpXaenP3hzj92ZgC8hVr45rnEOE3neIGWgdT5aKZQ1iX
-         Eg9Td7y0b9CETJ5U3mFglYI5gJRbeOBaKip/OF37uKvIIzmE36E8leFBInKHdlMJshi6
-         bTseYkny9AjjRWhwmrudxpPPO/oUTT2TDAvNKiaaIDYOrpysU/9s9AcVyhDQRtw63KgL
-         CdJ8tuYt/br3GXiiyunt3OUhjCIzcvQC5Uuu8tDGc1JCBn0j1PTZ1YEdX6jsxxL6GbR7
-         9+/A==
+        b=pZOFsAishG1JKT71Hu5WdawL7eFSlQZgxkAsjzi03w4uV+QK+c5Ark/tL28FXAWm6+
+         zl4XmjAx4lrp8HHB0lRvdzQ9BdUP1FVNRxyYc0O/DmV+H9q+P5Qiv6D9sS3oeKuPVd2u
+         vwwzkrjeigXqbMYKymUTe6ncNqerGwiRefuacH+3pffoR+7tAWro0w4Yo0FG1wdIjQuq
+         7vxv8UMAemZ2nhDxbvrRbO7TOz6ru5Q2oyemEMn+r+Aa093O5rh3KjJWv1Tfsd4WW4gY
+         aNGP0daAtP+iKd8eAdqo/L4aYdVx4mAj217vifZODmxwejDD1VvtFzzYe6YS6qQbmEXH
+         34jw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=mime-version:autocrypt:references:in-reply-to:date:cc:to:from
-         :subject:message-id:dkim-signature;
-        bh=K7fnqw37rhxeqjvTfmqBdiz93kBqO/8jFv9TVqAzuSI=;
-        fh=jX8fXXqQ8/YHkyR2yk9JhmDF86K2RvTNTl5PPrj+TcQ=;
-        b=B1FWFcHMrIMHuwnkZCxfCv41jVKl/8CsFBB9vcIascAoZC+6qEusEYT6CNFyTUfcU+
-         8GLQWzmzi+W9OjKf0VSZxVAZ6nmXXSUXWh38fZFPIrHHd/ib1PxKXmMV+c1N/t6SbxzM
-         8SHC/cY4W5H8k1zDTxP37feV3EOA86HKfB0+WfMTgrwf1GoU+Pzwh4KfKK10jXkRJthn
-         Gm84GPW2nkXPZUbfrQOgB+1MKqxqp5fmq8HWUGvx2sFl72Cd1BAEwdljRddmpp6O+pxb
-         znYCq2G2Qx4RBnl/y39Rm05syEA9I21owWEkt1bHtsXbZRvBK/q1E//OUotmfTVOEouq
-         cFUA==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=BXyPUaLFEwtL9HdgLuVBIuBGMnXshUe7E68g55fuMDY=;
+        fh=bv/YoPPe0+XyYElAYyFNIlctUfEjqIRP7w4oj2v7NlE=;
+        b=QDzF4dJvRz+pf+43uEsb414XWU3oyphnyxCbnzRLTIOWkAMiWz2wm5aY91huMemZ6j
+         G5i8UExEXzOMPcjqMprZpRfdF2kyke0OX2uSs7F+A2orh1IzCRAElSZjlxkyyOzzroFc
+         ZINnusS+rca8w4Uv28K6EDuvVQQK9FWGzrD9prGe+6OfkEz1jn4D7BNGVm8woiB6Spla
+         b3ajsQBymquF/BIfZx75lpgq4pLnGf0xe0Hcbwch/nEPGc87UYAoP3P0cTxPUdyYPtlH
+         ritrZdj0lcs7etLw+Er3IB6GIgX7WJA+X77DLbrW3vbrhJqDeqtDxM8OZqwQFcgnex0l
+         U6Ew==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@sylv.io header.s=MBO0001 header.b=DU9eH44o;
-       spf=pass (google.com: domain of sylv@sylv.io designates 80.241.56.171 as permitted sender) smtp.mailfrom=sylv@sylv.io;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=sylv.io
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org. [80.241.56.171])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-42806c76337si2468825e9.0.2024.07.29.01.26.08
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=g9Jpp6Sq;
+       spf=pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id 00721157ae682-6756302689fsi5313337b3.0.2024.07.29.01.30.50
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jul 2024 01:26:08 -0700 (PDT)
-Received-SPF: pass (google.com: domain of sylv@sylv.io designates 80.241.56.171 as permitted sender) client-ip=80.241.56.171;
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+        Mon, 29 Jul 2024 01:30:50 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bhe@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-652-wb0pl83oPHywSPCvyvl9Vg-1; Mon,
+ 29 Jul 2024 04:30:44 -0400
+X-MC-Unique: wb0pl83oPHywSPCvyvl9Vg-1
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4WXWf55JDkz9tJ5;
-	Mon, 29 Jul 2024 10:26:05 +0200 (CEST)
-Message-ID: <baae33f5602d8bcd38b48cd6ea4617c8e17d8650.camel@sylv.io>
-Subject: Re: [PATCH] usb: gadget: dummy_hcd: execute hrtimer callback in
- softirq context
-From: Marcello Sylvester Bauer <sylv@sylv.io>
-To: andrey.konovalov@linux.dev, Alan Stern <stern@rowland.harvard.edu>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
- <dvyukov@google.com>,  Aleksandr Nogikh <nogikh@google.com>, Marco Elver
- <elver@google.com>, Alexander Potapenko <glider@google.com>,
- kasan-dev@googlegroups.com, Andrew Morton <akpm@linux-foundation.org>,
- linux-mm@kvack.org, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- syzbot+2388cdaeb6b10f0c13ac@syzkaller.appspotmail.com, 
- syzbot+17ca2339e34a1d863aad@syzkaller.appspotmail.com,
- stable@vger.kernel.org
-Date: Mon, 29 Jul 2024 10:25:56 +0200
-In-Reply-To: <20240729022316.92219-1-andrey.konovalov@linux.dev>
-References: <20240729022316.92219-1-andrey.konovalov@linux.dev>
-Autocrypt: addr=sylv@sylv.io; prefer-encrypt=mutual;
- keydata=mDMEX4a2/RYJKwYBBAHaRw8BAQdAgPh7hXqL35bMLhbhZbzNFhQslzLjFA/nooSPkjfwp
- 1y0J01hcmNlbGxvIFN5bHZlc3RlciBCYXVlciA8c3lsdkBzeWx2LmlvPoiRBBMWCgA5AhsBBAsJCA
- cEFQoJCAUWAgMBAAIeAQIXgBYhBAzRGzXUX6FMlUr5GUv0FpMH/RIkBQJfhrn3AhkBAAoJEEv0FpM
- H/RIk+XAA/2uYBupPaP7oiwvwRjhAnO5wAZzQh8guHu3CDiLTUnXNAQDjeHY1ES/IXN6W+gVfGPFa
- rtzmGeRUQk1lSQL7SfhwCbQvTWFyY2VsbG8gU3lsdmVzdGVyIEJhdWVyIDxtZUBtYXJjZWxsb2Jhd
- WVyLmNvbT6IjgQTFgoANhYhBAzRGzXUX6FMlUr5GUv0FpMH/RIkBQJfhrlYAhsBBAsJCAcEFQoJCA
- UWAgMBAAIeAQIXgAAKCRBL9BaTB/0SJOHbAQCp2E6WRbY3U7nxxfEt8lOq3pCi0VeUAWu93CnWZX0
- X9wEArZ6h9wCGHhlGBTaB/U7BRHlgftCcEuxeCuMZEa8rqwC0MU1hcmNlbGxvIFN5bHZlc3RlciBC
- YXVlciA8aW5mb0BtYXJjZWxsb2JhdWVyLmNvbT6IjgQTFgoANhYhBAzRGzXUX6FMlUr5GUv0FpMH/
- RIkBQJfhrmFAhsBBAsJCAcEFQoJCAUWAgMBAAIeAQIXgAAKCRBL9BaTB/0SJLF/AQDwn+Oiv2Zf2o
- ZxGttQl/oQNR3YJZuGt8k+JTSWS98xxwEAiBULaSCQ4JaVq5VdOXwb0tPsfQuYbBQjbAK9WI3QmwM=
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-LWyd7UgxwvTeqjduYLti"
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0AF4F19560A2;
+	Mon, 29 Jul 2024 08:30:42 +0000 (UTC)
+Received: from localhost (unknown [10.72.112.54])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 38D701955D42;
+	Mon, 29 Jul 2024 08:30:39 +0000 (UTC)
+Date: Mon, 29 Jul 2024 16:30:35 +0800
+From: Baoquan He <bhe@redhat.com>
+To: Adrian Huang <adrianhuang0701@gmail.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Hellwig <hch@infradead.org>, kasan-dev@googlegroups.com,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	Adrian Huang <ahuang12@lenovo.com>, Jiwei Sun <sunjw10@lenovo.com>
+Subject: Re: [PATCH 1/1] mm/vmalloc: Combine all TLB flush operations of
+ KASAN shadow virtual address into one operation
+Message-ID: <ZqdTK+i9fH/hxB2A@MiWiFi-R3L-srv>
+References: <20240726165246.31326-1-ahuang12@lenovo.com>
 MIME-Version: 1.0
-X-Rspamd-Queue-Id: 4WXWf55JDkz9tJ5
-X-Original-Sender: sylv@sylv.io
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <20240726165246.31326-1-ahuang12@lenovo.com>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+X-Original-Sender: bhe@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@sylv.io header.s=MBO0001 header.b=DU9eH44o;       spf=pass
- (google.com: domain of sylv@sylv.io designates 80.241.56.171 as permitted
- sender) smtp.mailfrom=sylv@sylv.io;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=sylv.io
+ header.i=@redhat.com header.s=mimecast20190719 header.b=g9Jpp6Sq;
+       spf=pass (google.com: domain of bhe@redhat.com designates
+ 170.10.133.124 as permitted sender) smtp.mailfrom=bhe@redhat.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -162,176 +160,46 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
---=-LWyd7UgxwvTeqjduYLti
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Andrey,
-
-On Mon, 2024-07-29 at 04:23 +0200, andrey.konovalov@linux.dev wrote:
-> From: Andrey Konovalov <andreyknvl@gmail.com>
->=20
-> Commit a7f3813e589f ("usb: gadget: dummy_hcd: Switch to hrtimer
-> transfer
-> scheduler") switched dummy_hcd to use hrtimer and made the timer's
-> callback be executed in the hardirq context.
->=20
-> With that change, __usb_hcd_giveback_urb now gets executed in the
-> hardirq
-> context, which causes problems for KCOV and KMSAN.
->=20
-> One problem is that KCOV now is unable to collect coverage from
-> the USB code that gets executed from the dummy_hcd's timer callback,
-> as KCOV cannot collect coverage in the hardirq context.
->=20
-> Another problem is that the dummy_hcd hrtimer might get triggered in
-> the
-> middle of a softirq with KCOV remote coverage collection enabled, and
-> that
-> causes a WARNING in KCOV, as reported by syzbot. (I sent a separate
-> patch
-> to shut down this WARNING, but that doesn't fix the other two
-> issues.)
->=20
-> Finally, KMSAN appears to ignore tracking memory copying operations
-> that happen in the hardirq context, which causes false positive
-> kernel-infoleaks, as reported by syzbot.
->=20
-> Change the hrtimer in dummy_hcd to execute the callback in the
-> softirq
-> context.
->=20
-> Reported-by: syzbot+2388cdaeb6b10f0c13ac@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D2388cdaeb6b10f0c13ac
-> Reported-by: syzbot+17ca2339e34a1d863aad@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D17ca2339e34a1d863aad
-> Fixes: a7f3813e589f ("usb: gadget: dummy_hcd: Switch to hrtimer
-> transfer scheduler")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Andrey Konovalov <andreyknvl@gmail.com>
->=20
+On 07/27/24 at 12:52am, Adrian Huang wrote:
+...... 
+> If we combine all TLB flush operations of the KASAN shadow virtual
+> address into one operation in the call path
+> 'purge_vmap_node()->kasan_release_vmalloc()', the running time of
+> drain_vmap_area_work() can be saved greatly. The idea is from the
+> flush_tlb_kernel_range() call in __purge_vmap_area_lazy(). And, the
+> soft lockup won't not be triggered.
+              ~~~~~~~~~~~
+               typo
+> 
+> Here is the test result based on 6.10:
+> 
+> [6.10 wo/ the patch]
+>   1. ftrace latency profiling (record a trace if the latency > 20s).
+>      echo 20000000 > /sys/kernel/debug/tracing/tracing_thresh
+>      echo drain_vmap_area_work > /sys/kernel/debug/tracing/set_graph_function
+>      echo function_graph > /sys/kernel/debug/tracing/current_tracer
+>      echo 1 > /sys/kernel/debug/tracing/tracing_on
+> 
+...... 
+>   The worst execution time of drain_vmap_area_work() is about 1 second.
+> 
+> Link: https://lore.kernel.org/lkml/ZqFlawuVnOMY2k3E@pc638.lan/
+> Fixes: 282631cb2447 ("mm: vmalloc: remove global purge_vmap_area_root rb-tree")
+> Signed-off-by: Adrian Huang <ahuang12@lenovo.com>
+> Co-developed-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
+> Signed-off-by: Uladzislau Rezki (Sony) <urezki@gmail.com>
+> Tested-by: Jiwei Sun <sunjw10@lenovo.com>
 > ---
->=20
-> Marcello, would this change be acceptable for your use case?
+>  include/linux/kasan.h | 12 +++++++++---
+>  mm/kasan/shadow.c     | 14 ++++++++++----
+>  mm/vmalloc.c          | 34 ++++++++++++++++++++++++++--------
+>  3 files changed, 45 insertions(+), 15 deletions(-)
 
-Thanks for investigating and finding the cause of this problem. I have
-already submitted an identical patch to change the hrtimer to softirq:
-https://lkml.org/lkml/2024/6/26/969
+LGTM,
 
-However, your commit messages contain more useful information about the
-problem at hand. So I'm happy to drop my patch in favor of yours.
+Reviewed-by: Baoquan He <bhe@redhat.com>
 
-Btw, the same problem has also been reported by the intel kernel test
-robot. So we should add additional tags to mark this patch as the fix.
-
-
-Reported-by: kernel test robot <oliver.sang@intel.com>
-Closes:
-https://lore.kernel.org/oe-lkp/202406141323.413a90d2-lkp@intel.com
-Acked-by: Marcello Sylvester Bauer <sylv@sylv.io>
-
-Thanks,
-Marcello
-
-> If we wanted to keep the hardirq hrtimer, we would need teach KCOV to
-> collect coverage in the hardirq context (or disable it, which would
-> be
-> unfortunate) and also fix whatever is wrong with KMSAN, but all that
-> requires some work.
-> ---
-> =C2=A0drivers/usb/gadget/udc/dummy_hcd.c | 14 ++++++++------
-> =C2=A01 file changed, 8 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/usb/gadget/udc/dummy_hcd.c
-> b/drivers/usb/gadget/udc/dummy_hcd.c
-> index f37b0d8386c1a..ff7bee78bcc49 100644
-> --- a/drivers/usb/gadget/udc/dummy_hcd.c
-> +++ b/drivers/usb/gadget/udc/dummy_hcd.c
-> @@ -1304,7 +1304,8 @@ static int dummy_urb_enqueue(
-> =C2=A0
-> =C2=A0 /* kick the scheduler, it'll do the rest */
-> =C2=A0 if (!hrtimer_active(&dum_hcd->timer))
-> - hrtimer_start(&dum_hcd->timer, ns_to_ktime(DUMMY_TIMER_INT_NSECS),
-> HRTIMER_MODE_REL);
-> + hrtimer_start(&dum_hcd->timer, ns_to_ktime(DUMMY_TIMER_INT_NSECS),
-> + HRTIMER_MODE_REL_SOFT);
-> =C2=A0
-> =C2=A0 done:
-> =C2=A0 spin_unlock_irqrestore(&dum_hcd->dum->lock, flags);
-> @@ -1325,7 +1326,7 @@ static int dummy_urb_dequeue(struct usb_hcd
-> *hcd, struct urb *urb, int status)
-> =C2=A0 rc =3D usb_hcd_check_unlink_urb(hcd, urb, status);
-> =C2=A0 if (!rc && dum_hcd->rh_state !=3D DUMMY_RH_RUNNING &&
-> =C2=A0 !list_empty(&dum_hcd->urbp_list))
-> - hrtimer_start(&dum_hcd->timer, ns_to_ktime(0), HRTIMER_MODE_REL);
-> + hrtimer_start(&dum_hcd->timer, ns_to_ktime(0),
-> HRTIMER_MODE_REL_SOFT);
-> =C2=A0
-> =C2=A0 spin_unlock_irqrestore(&dum_hcd->dum->lock, flags);
-> =C2=A0 return rc;
-> @@ -1995,7 +1996,8 @@ static enum hrtimer_restart dummy_timer(struct
-> hrtimer *t)
-> =C2=A0 dum_hcd->udev =3D NULL;
-> =C2=A0 } else if (dum_hcd->rh_state =3D=3D DUMMY_RH_RUNNING) {
-> =C2=A0 /* want a 1 msec delay here */
-> - hrtimer_start(&dum_hcd->timer, ns_to_ktime(DUMMY_TIMER_INT_NSECS),
-> HRTIMER_MODE_REL);
-> + hrtimer_start(&dum_hcd->timer, ns_to_ktime(DUMMY_TIMER_INT_NSECS),
-> + HRTIMER_MODE_REL_SOFT);
-> =C2=A0 }
-> =C2=A0
-> =C2=A0 spin_unlock_irqrestore(&dum->lock, flags);
-> @@ -2389,7 +2391,7 @@ static int dummy_bus_resume(struct usb_hcd
-> *hcd)
-> =C2=A0 dum_hcd->rh_state =3D DUMMY_RH_RUNNING;
-> =C2=A0 set_link_state(dum_hcd);
-> =C2=A0 if (!list_empty(&dum_hcd->urbp_list))
-> - hrtimer_start(&dum_hcd->timer, ns_to_ktime(0), HRTIMER_MODE_REL);
-> + hrtimer_start(&dum_hcd->timer, ns_to_ktime(0),
-> HRTIMER_MODE_REL_SOFT);
-> =C2=A0 hcd->state =3D HC_STATE_RUNNING;
-> =C2=A0 }
-> =C2=A0 spin_unlock_irq(&dum_hcd->dum->lock);
-> @@ -2467,7 +2469,7 @@ static DEVICE_ATTR_RO(urbs);
-> =C2=A0
-> =C2=A0static int dummy_start_ss(struct dummy_hcd *dum_hcd)
-> =C2=A0{
-> - hrtimer_init(&dum_hcd->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-> + hrtimer_init(&dum_hcd->timer, CLOCK_MONOTONIC,
-> HRTIMER_MODE_REL_SOFT);
-> =C2=A0 dum_hcd->timer.function =3D dummy_timer;
-> =C2=A0 dum_hcd->rh_state =3D DUMMY_RH_RUNNING;
-> =C2=A0 dum_hcd->stream_en_ep =3D 0;
-> @@ -2497,7 +2499,7 @@ static int dummy_start(struct usb_hcd *hcd)
-> =C2=A0 return dummy_start_ss(dum_hcd);
-> =C2=A0
-> =C2=A0 spin_lock_init(&dum_hcd->dum->lock);
-> - hrtimer_init(&dum_hcd->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-> + hrtimer_init(&dum_hcd->timer, CLOCK_MONOTONIC,
-> HRTIMER_MODE_REL_SOFT);
-> =C2=A0 dum_hcd->timer.function =3D dummy_timer;
-> =C2=A0 dum_hcd->rh_state =3D DUMMY_RH_RUNNING;
-> =C2=A0
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/baae33f5602d8bcd38b48cd6ea4617c8e17d8650.camel%40sylv.io.
-
---=-LWyd7UgxwvTeqjduYLti
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iIMEABYKACsWIQR81eCeIFvseLvKEUNWslSZtA36GQUCZqdSFA0cc3lsdkBzeWx2
-LmlvAAoJEFayVJm0DfoZT9wA/0cbEIRrGeccZCTVN5CQK6Nx31rSKXTIDsobIdO0
-9cG/AQDGFJq2QwpbDTAe4HN2gmybrc3qqnu5zQ/qym81WTu1BA==
-=hqtW
------END PGP SIGNATURE-----
-
---=-LWyd7UgxwvTeqjduYLti--
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZqdTK%2Bi9fH/hxB2A%40MiWiFi-R3L-srv.
