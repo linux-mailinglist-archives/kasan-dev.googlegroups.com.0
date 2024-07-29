@@ -1,134 +1,136 @@
-Return-Path: <kasan-dev+bncBCT4XGV33UIBBP7LTK2QMGQEXS7LXAA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBTPZTO2QMGQE2CO5P7Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3d.google.com (mail-io1-xd3d.google.com [IPv6:2607:f8b0:4864:20::d3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAAFA93E99D
-	for <lists+kasan-dev@lfdr.de>; Sun, 28 Jul 2024 23:18:56 +0200 (CEST)
-Received: by mail-io1-xd3d.google.com with SMTP id ca18e2360f4ac-81fa12a11b7sf145637239f.1
-        for <lists+kasan-dev@lfdr.de>; Sun, 28 Jul 2024 14:18:56 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1722201535; cv=pass;
+Received: from mail-lj1-x237.google.com (mail-lj1-x237.google.com [IPv6:2a00:1450:4864:20::237])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3F793EB1B
+	for <lists+kasan-dev@lfdr.de>; Mon, 29 Jul 2024 04:22:08 +0200 (CEST)
+Received: by mail-lj1-x237.google.com with SMTP id 38308e7fff4ca-2ef311ad4bcsf31381381fa.0
+        for <lists+kasan-dev@lfdr.de>; Sun, 28 Jul 2024 19:22:08 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1722219727; cv=pass;
         d=google.com; s=arc-20160816;
-        b=EGjOVsGWUHAUODtb6XOjGym0YrexoGI8mKk6TtLAcvgd4b6GQX3K7A9E5o2BoUk2tM
-         +LXAsMIIV/X8bR7Sl768Y+StYb0h5U7XPWDYUrFDGoF6iPoEk4bTMFDLPHEN5MTI7FIO
-         73Hl3xAoK6qWKHYQMZZCUfO2Yg/UntrZjvG3vBNBsBmSphDLSS9r0MKIeqiv8mpdyEZi
-         Yvmn4KBLozqJuNHP+tfC84FKgdmUlod9G3m8+Bo7bQiReIybKEFMIP9ZPkkjntTmAZmG
-         SKho/pxHlQG8pyeE3CdrZCh6ezETmBUMoN4qI2vcr5yJOmCvUC7QKbIS9UKL2ueAejDV
-         byOA==
+        b=wlxvu24+a5yuWHpQoXAD/5I5m8GkDFscKCR2yUFpeqkV/CvxUbXYxTlb82Aulvodec
+         lnagrZwjBkhX/NSqD3qrRUkxnCGcJ1i9S0TnSL3eD4xttrKQccVw62nBQmotaEFRyQTo
+         Pl3s6UXx3S0yhqxtN/bh6sdQfSw9H9Cs6kQ0Y7U82S+6aIpORPe8e2sF7uP5+vpgovon
+         mWWHreVIXTCYvNvT1yBRXfKQhpNCIU3DSAIjDON8nfuYJlyDKqJEPZxUA7C+cDuuw+Au
+         /wEKUDMiPZV5MwsO/DZ7j/KPksjdWqZVLc9oYVJcYrBSZhEFzqQMx0idJuqxULH3VGf0
+         h2ug==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=Z8nJg/K/I0wQpATsQWwWjR2JiGxtGGWy54G884zyE9w=;
-        fh=48CmImneiZG8X3vklkhljiQHX1/eOe2JUW7IiNQkaE4=;
-        b=JQSiQOfHYLapGklniRZkitDvkxGyrmUIZyhCW2SwFrjZRTlPMVkYycCT9c4W429ROc
-         7z+nwuhmhbAN0NEt9n2+YxPmSXkjWhWGlFvmPe6+c3ZGuroyQr8/c7ecQXAdV8VTEO1C
-         PftICLaXAoYqblezPpDHzMCeVdZZYlA7KEmLXk6zqI/e35G9qrwek54Kp5AcJ4qA87QI
-         SXKZrQAnFVGWagcgipmkQP0mJjNMQh7fdAo+74QYB1FARSloEJa64hfPGR0bv7lbM+Ja
-         N+kEjDqHum1SxBPvNfTqz13bt6MKYFNLmVKcdc+uHOC/bnBEKhLzZHixzNLU2ByxPbmn
-         bCBw==;
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=fGZ7UlKwSAfyH9ehDMCaS8lmgdVQpVwX6ge/p2l96v4=;
+        fh=k36tlb+eI89ou7e5ATS3L5sh3InainnmdazNFPmCSRM=;
+        b=QMSWLnEmsxRA0nXBiHiIKmY1CYh+50m84O5dtGP8DAVRU6BQwNbUO0K0dA6H01YwkF
+         Rx6dPjR0JyqTH3MQCMTiBU4TpbboPFct9bjetbLCil+hZVw5w5YqX4H+RzIXgOIgRMvq
+         Ha9X3Q4bz5qCxDk3b5jnozwcG8Jzj0E3q9fE/PIHSCHMRDb20j1JjQp9ARyJAFs0oTCU
+         qmMzi+bvU/LGLjPtJnnNYhN0pJn1O1j2kxbvgRID08d1JvMgx5ckU7S8gEzxqMDgg+4h
+         bKFhF+P8sXTuaRgAJlJAl6RA71SVRl3XetEM+VZEAMNp1KLr7vNERB8BQqJ68MclW9y1
+         ggiQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=LHAyydsJ;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=htsvdPzt;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:203:375::bc as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1722201535; x=1722806335; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1722219727; x=1722824527; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Z8nJg/K/I0wQpATsQWwWjR2JiGxtGGWy54G884zyE9w=;
-        b=hCWxDMvC9jIfR7c9u6ycOV95ZXAWfz4P3e8ajwySfSCk06UzI8M67IHSL4YRkBEpBo
-         At3my6iyJLhOWw8CNK8Q84u3aQGUPPi1ipzIJKSu0zeL9LA9l25JQMujoWvFyiNZGj27
-         Ju5XGknJQNmG37MOWvA4JBe6jef4vr1WIBRdx0ksKjC16HRp5d8fzbmPZUdFZPUuNPKv
-         zx5KO6xUadJrwrlvyAasEfMGDFEbnDDGucFpKrIT77kHjMdxujbWYo0CJn97TEdaSTpS
-         Tvgbr3+JnQYEa4+Xpnf61MZMfd13lpGUKI3cGXcx+dQhjNoB0Nol+RhWJUMH8KdDJd1v
-         SyNg==
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=fGZ7UlKwSAfyH9ehDMCaS8lmgdVQpVwX6ge/p2l96v4=;
+        b=tHcvsLUIdgynXZPTurT0/OfhtdUjR0f9/jxEb8F5CVeHrug+f26LO4k86oOUD3KyMs
+         laAlyuZ6Qo2xaE4BbNuqWOqHHuV5KEdVcSCVdZgkDOfdjQWJ5S/2xWdMZ7R4ezR2yGbG
+         Y9ML7ZQ4PPSYTnrRIViSlLhABJyc+K84HOEB+CAqh1RZ8iK7yrApcYp02dZ+NSRD7LhE
+         TWsIvYx37/hyBoCVsicC475/251l/tEkc4LFwD4r0N4maJoUmgE/xNWvkUzfI/Sk+f1Y
+         AsLRMlvqpPYYtw2jZz6lTuUigwuq4cTT8o4zMZndDuS/wb8Xllps3M6zTw8dhCZbr6yT
+         0fJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722201535; x=1722806335;
+        d=1e100.net; s=20230601; t=1722219727; x=1722824527;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:subject:cc:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z8nJg/K/I0wQpATsQWwWjR2JiGxtGGWy54G884zyE9w=;
-        b=s5G7+c/imjtK3KK+R6HQUb01WM1WCU+V6nul10yRmbg+/a+0PQ67MBv3fkR8xYgECV
-         kNP3QXmL9Iuy5jeeQPnI3VFfh8MHb+6Prr1xjCZ5ATtdC0aPNB1FFYl9SE9ypOc5aUqE
-         Xxo5OVb0ptPtZcngsn0uxtm4hkFWm18rAJkUVI3RmDS7/H6/tFKN/NrhHlB/vT6Ne+t5
-         9ksKSAoUdvm+I/UacOCZmyXj+iQ7Qu/OUSScfciJhN5FPEey1OdiDOAFccuf8/wVSfGs
-         G77vrQnKD4CjMbVwb7kdVVYO0AWtdVveCg/CwQZ3IsVpH/sZQsoqSP1lP1Qj4V6zOQE2
-         oc/w==
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=fGZ7UlKwSAfyH9ehDMCaS8lmgdVQpVwX6ge/p2l96v4=;
+        b=WrzJfzDNoDbQSnFHqH/9itu32TehkGeZfEDx5SqKaLYSSzk9LhW6aHOMwK4MIRYnt7
+         co2MOMMu/WKsA+a/L/I50GXtXMtpRtvh0idC9FI/hRmumBO7PaLqwC1sRqj8lK5Y9X62
+         yhqxP9L35k6KYGqP6iMZG8M/dDl7YXmAUp7Bb4R9dJyWvVXW1EV9VeeiPBpLseUoNsKM
+         i+Dk8K0sV37lpju78u26qO9seDldWsadDSVMLSjmE5nfVuIR9Hm9RrM/rNtBgSrauFPN
+         +Rq9gTM0wWdQYtXEm5tPXzEpJXF2Yc/nS7HVhyWM/ujshZgjDaAkwceQiNkO8NOELBBJ
+         gRYQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWa8WccOfn7M39K40w+aM084ojKYU0AHqrMwT/erM0EZP/RbCwI5+gwrlItf+96KwfrWVbi0nvWtBmdDJKJOVaIDLWz0GrdMg==
-X-Gm-Message-State: AOJu0YwrbzMrP0mtKwYOTlS47EwhUUQ+jShpQy7bdtD+iupGcsZkD2Dg
-	X2GjtfvdNc19qWbWJbsMCyKQq5BD7eJfYvAceiLI4AXxi2o3fCAs
-X-Google-Smtp-Source: AGHT+IH8vTscdLi8C99yh6raR9KqGX/ncVuQZ8/v1BVEFKyZcI2HmDfD4+AUth+3DZld4HuglQK3HA==
-X-Received: by 2002:a05:6e02:216e:b0:397:70e7:143b with SMTP id e9e14a558f8ab-39aec2eae11mr81772405ab.14.1722201535382;
-        Sun, 28 Jul 2024 14:18:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUeBansx8jGm0ISTs6OhAwVPiQxvQbIWudJZC6GNdSse8MOzewUhwUdHowGSXAo1SjzgOUSWARDuwYCIjkv/8r74hUliqzlNw==
+X-Gm-Message-State: AOJu0Yx/hMsYSO3r8hAeChuHSxeQ96EIo3wHT3eFr5a07uo31+BusAtw
+	ExB26GcNnMkG27KvNBTc927nAo9m3lbXDKRoXaFST6ebzLuqQGS9
+X-Google-Smtp-Source: AGHT+IGO6hrUFCLouZUQAT/t1e/KeVcUNDWPGtbErF/5aUcXBr1GjnEQ994Cf7DTYu13eaodNn9TWA==
+X-Received: by 2002:a2e:88d9:0:b0:2ef:2c4b:b799 with SMTP id 38308e7fff4ca-2f12ee1b0d9mr38316101fa.28.1722219726076;
+        Sun, 28 Jul 2024 19:22:06 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:dc4b:0:b0:39a:f263:546d with SMTP id e9e14a558f8ab-39af2635942ls6850695ab.2.-pod-prod-01-us;
- Sun, 28 Jul 2024 14:18:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVBso4jYZEYH+5olDdrabavqwV/AJO01DCA+orMeKlTuZGbmeFkgsiHtORzxp4l/qznCgm+bIp1oGE20win29cyK8DNMJ4KhL2xUg==
-X-Received: by 2002:a05:6602:15c9:b0:807:aebc:3bdd with SMTP id ca18e2360f4ac-81f95a4f653mr718749839f.5.1722201534561;
-        Sun, 28 Jul 2024 14:18:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1722201534; cv=none;
+Received: by 2002:a05:6402:4015:b0:599:9c73:c397 with SMTP id
+ 4fb4d7f45d1cf-5ac0d2d997els1952932a12.2.-pod-prod-09-eu; Sun, 28 Jul 2024
+ 19:22:04 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXy89co4cjFyMdhlx/beE/ID9RMhA1h7cazFQyxtcfyHA2HT2WsBNwjUwrQNdDbGNvND5V0DHUYUia9Rtd7erQTb+e9+7JPAae3Iw==
+X-Received: by 2002:a05:6402:2553:b0:5a1:32d1:91a6 with SMTP id 4fb4d7f45d1cf-5b021190442mr4460916a12.22.1722219724330;
+        Sun, 28 Jul 2024 19:22:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1722219724; cv=none;
         d=google.com; s=arc-20160816;
-        b=HUh14VA+lm+HYg8MnC29q5TCkcJkfkXnuWWhxMqcj21EVe9qAVRQHtUfvk0oq20ubl
-         yGguqdTWoSMsvDs+oLcgkmCu/j2RcTKiCPX2m9YVf+qHNwv+wa/gQoeb9Lok29yDVL2X
-         ZVlZI6NwFkVANiEHs+5yRohwtf3/agsRHIciNTe8MmM3ChO/eLq6wJgid5ppeQV77Vlt
-         QXuO60cCrjszYlicEJA7bnqDeMukgUWOqHlNg86kTSLMEnUaXAPlo/8qWoa/RL8vNao0
-         0uUI4RUbvsK/qu8nv04u2uvNr7ELXvuyP5xFz6QOPdSvuLngBhLclPRpeq5K6ByEcMwp
-         Za3Q==
+        b=djOfMvrtqhckGKGVbkUUJ8crVH5OQfbgGkFoSN5Dy/uFb1mD9e08PaaE6zH2Ef/ljF
+         8xt8llBdQipkS1wMEHpIAUwAGVhBHtj/nZckHLXtiu+J9XADi16l3jc17QlNNJdgWWws
+         shglow56putXIhQG7S4kzeMgBkfjP/ECC1AQF5/LWVfVEDjFiLts8LHqwrCJiJVhAGCB
+         r16EXCJ0GME/EQ4HihF/9RPjOzL0ljf3m+6zcGzIVqlIEf6bmpDAIfV6EQZZF1cMBpxs
+         yh2D7ztIaN4fdNDcL3lLaqEPQwTf/nGPyeLO67qaaNf/OGQvndUk0S3dWcmMEYGW9q3R
+         FDjA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=p+wn079PYg7GE4Z2FMCZuTF8ldh4mxPK9a38/BKbOd4=;
-        fh=icFmRCT9AmRrjURcDyIYT4LCOSxTO9k/S0Xg50cB4oo=;
-        b=wtI5HG59S3dND8Fxa8/kb8FfB9lfHvDTIfwyZBjEuo9GBGvy+5gsdmsbw5UVV96xYX
-         Pbe279ahD37unKqGhst3M+AtLXn2V0kqxmAY1Z6D1L6/Sc1irSugxvA7lYj4SVWGyaM2
-         RGqu2WOXxOqW90U2sZum7SIvpUzppVSv18N4xoDYQV5vE2vVJn2MbApt8YfYOpJ9zku3
-         RdYuncR+YwARBH+PABdf5KHnr7vVjTehvwrabxuOSXkfhicmk0DtfGm/1HPcbruHDPD+
-         NyG+FyCEe9Z6OEEUWVxWwHajptafdHpvLd2nFal6ppH+Mry4i2qS9L5+CJIQkJC8RU/x
-         me2Q==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=LsRQ18TXosCV7Zr1JLjd4CYqcPz8tKyiBF4C+fLmLDs=;
+        fh=WQYUdvapQMt7hY1FJvb7urbRwjRqqfFhsJxVQbUf9J8=;
+        b=OYlKbuJg4lpUPuL/kvU6UvT7fK/WzuUET5N2jfTuDBlSq1HCPYJ+3qNd+8s7V3TpHO
+         nw5PZJQkAN5RAaqUEuya8n65PAm9BoExtOLPJU3EP1WVtrQxlHgr+LNS8BQzQZ7KCcA1
+         h7IFaytPMn8icdi1dQ3cz3952D8IILb3b8bNDQ0Awkmmwivd50UJSbnQvldP81Lf0XBC
+         CjNh6dorW1KUybC0gaXQMXAQ1f/s+stD42FIwA+ZHi/PZJODD0CfukZGhz59nR20aeCl
+         ac9r3OD7JheBQ1KnLGJt/33JD+1vwkOQQgPDU7ftFTEOWnVSu3wLFxAWDw8AS4fb/LtD
+         ltWQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=LHAyydsJ;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
-Received: from sin.source.kernel.org (sin.source.kernel.org. [2604:1380:40e1:4800::1])
-        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-7a9f650778dsi464653a12.2.2024.07.28.14.18.54
+       dkim=pass header.i=@linux.dev header.s=key1 header.b=htsvdPzt;
+       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:203:375::bc as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com. [2001:41d0:203:375::bc])
+        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-5ac63b5639dsi230447a12.2.2024.07.28.19.22.04
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jul 2024 14:18:54 -0700 (PDT)
-Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 2604:1380:40e1:4800::1 as permitted sender) client-ip=2604:1380:40e1:4800::1;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id B963BCE098C;
-	Sun, 28 Jul 2024 21:18:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9CF4C4AF0A;
-	Sun, 28 Jul 2024 21:18:51 +0000 (UTC)
-Date: Sun, 28 Jul 2024 14:18:51 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Adrian Huang <adrianhuang0701@gmail.com>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko
- <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov
- <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>,
- Uladzislau Rezki <urezki@gmail.com>, Christoph Hellwig <hch@infradead.org>,
- Baoquan He <bhe@redhat.com>, kasan-dev@googlegroups.com,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, Adrian Huang
- <ahuang12@lenovo.com>, Jiwei Sun <sunjw10@lenovo.com>
-Subject: Re: [PATCH 1/1] mm/vmalloc: Combine all TLB flush operations of
- KASAN shadow virtual address into one operation
-Message-Id: <20240728141851.aece5581f6e13fb6d6280bc4@linux-foundation.org>
-In-Reply-To: <20240726165246.31326-1-ahuang12@lenovo.com>
-References: <20240726165246.31326-1-ahuang12@lenovo.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: akpm@linux-foundation.org
+        Sun, 28 Jul 2024 19:22:04 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 2001:41d0:203:375::bc as permitted sender) client-ip=2001:41d0:203:375::bc;
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: andrey.konovalov@linux.dev
+To: Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: Andrey Konovalov <andreyknvl@gmail.com>,
+	Aleksandr Nogikh <nogikh@google.com>,
+	Marco Elver <elver@google.com>,
+	Alexander Potapenko <glider@google.com>,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Marcello Sylvester Bauer <sylv@sylv.io>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+2388cdaeb6b10f0c13ac@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] kcov: properly check for softirq context
+Date: Mon, 29 Jul 2024 04:21:58 +0200
+Message-Id: <20240729022158.92059-1-andrey.konovalov@linux.dev>
+MIME-Version: 1.0
+X-Migadu-Flow: FLOW_OUT
+X-Original-Sender: andrey.konovalov@linux.dev
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=korg header.b=LHAyydsJ;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates
- 2604:1380:40e1:4800::1 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+ header.i=@linux.dev header.s=key1 header.b=htsvdPzt;       spf=pass
+ (google.com: domain of andrey.konovalov@linux.dev designates
+ 2001:41d0:203:375::bc as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,38 +143,91 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, 27 Jul 2024 00:52:46 +0800 Adrian Huang <adrianhuang0701@gmail.com> wrote:
+From: Andrey Konovalov <andreyknvl@gmail.com>
 
-> From: Adrian Huang <ahuang12@lenovo.com>
-> 
-> When compiling kernel source 'make -j $(nproc)' with the up-and-running
-> KASAN-enabled kernel on a 256-core machine, the following soft lockup
-> is shown:
-> 
-> ...
->
->         # CPU  DURATION                  FUNCTION CALLS
->         # |     |   |                     |   |   |   |
->           76) $ 50412985 us |    } /* __purge_vmap_area_lazy */
->
-> ...
->
->      # CPU  DURATION                  FUNCTION CALLS
->      # |     |   |                     |   |   |   |
->        23) $ 1074942 us  |    } /* __purge_vmap_area_lazy */
->        23) $ 1074950 us  |  } /* drain_vmap_area_work */
-> 
->   The worst execution time of drain_vmap_area_work() is about 1 second.
+When collecting coverage from softirqs, KCOV uses in_serving_softirq() to
+check whether the code is running in the softirq context. Unfortunately,
+in_serving_softirq() is > 0 even when the code is running in the hardirq
+or NMI context for hardirqs and NMIs that happened during a softirq.
 
-Cool, thanks.
+As a result, if a softirq handler contains a remote coverage collection
+section and a hardirq with another remote coverage collection section
+happens during handling the softirq, KCOV incorrectly detects a nested
+softirq coverate collection section and prints a WARNING, as reported
+by syzbot.
 
-But that's still pretty dreadful and I bet there are other workloads
-which will trigger the lockup detector in this path?
+This issue was exposed by commit a7f3813e589f ("usb: gadget: dummy_hcd:
+Switch to hrtimer transfer scheduler"), which switched dummy_hcd to using
+hrtimer and made the timer's callback be executed in the hardirq context.
 
-(And "avoiding lockup detector warnings" isn't the objective here - the
-detector is merely a tool for identifying issues)
+Change the related checks in KCOV to account for this behavior of
+in_serving_softirq() and make KCOV ignore remote coverage collection
+sections in the hardirq and NMI contexts.
+
+This prevents the WARNING printed by syzbot but does not fix the inability
+of KCOV to collect coverage from the __usb_hcd_giveback_urb when dummy_hcd
+is in use (caused by a7f3813e589f); a separate patch is required for that.
+
+Reported-by: syzbot+2388cdaeb6b10f0c13ac@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=2388cdaeb6b10f0c13ac
+Fixes: 5ff3b30ab57d ("kcov: collect coverage from interrupts")
+Cc: stable@vger.kernel.org
+Signed-off-by: Andrey Konovalov <andreyknvl@gmail.com>
+---
+ kernel/kcov.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/kernel/kcov.c b/kernel/kcov.c
+index f0a69d402066e..274b6b7c718de 100644
+--- a/kernel/kcov.c
++++ b/kernel/kcov.c
+@@ -161,6 +161,15 @@ static void kcov_remote_area_put(struct kcov_remote_area *area,
+ 	kmsan_unpoison_memory(&area->list, sizeof(area->list));
+ }
+ 
++/*
++ * Unlike in_serving_softirq(), this function returns false when called during
++ * a hardirq or an NMI that happened in the softirq context.
++ */
++static inline bool in_softirq_really(void)
++{
++	return in_serving_softirq() && !in_hardirq() && !in_nmi();
++}
++
+ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_struct *t)
+ {
+ 	unsigned int mode;
+@@ -170,7 +179,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
+ 	 * so we ignore code executed in interrupts, unless we are in a remote
+ 	 * coverage collection section in a softirq.
+ 	 */
+-	if (!in_task() && !(in_serving_softirq() && t->kcov_softirq))
++	if (!in_task() && !(in_softirq_really() && t->kcov_softirq))
+ 		return false;
+ 	mode = READ_ONCE(t->kcov_mode);
+ 	/*
+@@ -849,7 +858,7 @@ void kcov_remote_start(u64 handle)
+ 
+ 	if (WARN_ON(!kcov_check_handle(handle, true, true, true)))
+ 		return;
+-	if (!in_task() && !in_serving_softirq())
++	if (!in_task() && !in_softirq_really())
+ 		return;
+ 
+ 	local_lock_irqsave(&kcov_percpu_data.lock, flags);
+@@ -991,7 +1000,7 @@ void kcov_remote_stop(void)
+ 	int sequence;
+ 	unsigned long flags;
+ 
+-	if (!in_task() && !in_serving_softirq())
++	if (!in_task() && !in_softirq_really())
+ 		return;
+ 
+ 	local_lock_irqsave(&kcov_percpu_data.lock, flags);
+-- 
+2.25.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240728141851.aece5581f6e13fb6d6280bc4%40linux-foundation.org.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240729022158.92059-1-andrey.konovalov%40linux.dev.
