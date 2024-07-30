@@ -1,157 +1,149 @@
-Return-Path: <kasan-dev+bncBDK7LR5URMGRBZXPUO2QMGQEBVQHWEA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB7PSUO2QMGQEWKIROZI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x53c.google.com (mail-ed1-x53c.google.com [IPv6:2a00:1450:4864:20::53c])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7E31941448
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Jul 2024 16:25:44 +0200 (CEST)
-Received: by mail-ed1-x53c.google.com with SMTP id 4fb4d7f45d1cf-5a161d546d6sf33859a12.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Jul 2024 07:25:44 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1722349544; cv=pass;
+Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E57D941468
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Jul 2024 16:32:31 +0200 (CEST)
+Received: by mail-pl1-x637.google.com with SMTP id d9443c01a7336-1fc478ff284sf1832105ad.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Jul 2024 07:32:31 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1722349950; cv=pass;
         d=google.com; s=arc-20160816;
-        b=lfkne6i3IT6QP4UqqZS5FbLcpu98KDLh3B+d+xJC83ntVQQZYf0lJLUnLq7WlipAQR
-         /MtPUsqcJQGQ1Keg3lBeX0/5iKgjK9KABFODCB+3tlDGTKXUyT1N4geRvETVXi86zmA2
-         Rg/qSFdOBLdDbLoIhknViLttKWi7uo9qHfnpD7Uba/WQITioo+ey18BuGIFq2ryQTInR
-         xS62APYwlykk6XjDjtN1kN7bfZsOnfF5AJgxwOCUj0CvMFj13tBAAMCRx4TiclHxCgIR
-         5Igxu2i3nQN1duMfgk09NEo7XMRKpuXjesYYP0CrjKIzdELIPr4gWYQPzI4alLI4X84N
-         PP3g==
+        b=0PdjdH0Gq/cjS4j1rHqXQ8PZhXNw/DZaAkuDI9dq/zWBkjBk8qtoeYLzFEUg7fgOet
+         mSwqzAX1yf4l8yp4mwW3LfGSDKDnDIr+Xcunogqir9GbIb0iCV2OM/QAEP6QrzLIc4lo
+         BeoYqVKA9Vu7S/cVxrzsajJ1qemeuZq2t6EFyOhgAEy2E6lQWplPHLV2HcFy1dOs18op
+         7lpAYVKGvcvKOpNTL/6t+NwWc0iLZfpUKg8KJy4mol+rpxpQGtbgWtDyrygFoxCsXsUR
+         d6yFFlIqr35RZ5TomXnUAS+vYDMY6DUM1x292nyKgK+ROVhKxJVEff1x33o4qabuwy/a
+         jFBw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:date:from:sender
-         :dkim-signature:dkim-signature;
-        bh=41s8uekOMwsbumwk2Cg+gv0Cik+bkbCRC7n6Zb2p9b4=;
-        fh=FakmG0JDiExuCzGYGlvxYjDLEwJv4A+p8gzpIPN5oZU=;
-        b=g3I04heBeBI8Eo5R6NkKkmgP8OBkQj8MCKx+Y0A4axiOYkVhqt0edqgDGx7ozyWrn2
-         o+boZLCSipztNSah3RD+vZSe/hFk2R+8arkFSbL3L2JucnW4HVuGmuzbz0+759gIrzSV
-         MqUhQ71nubuAB1411tVl3szUhgs9bLTozZsuCiE3YPxCKvyF1SgATesDeIgX4OSJmo2o
-         Dw+B60dosO7IMIEvCRMT5OzD69V/LOoNEA/RzcFfKcicFwqCwIVoxvThyptF/CsOCRFU
-         2A9sWkK0qNmReEw3/DTpfF/WLMoi18AB2fYMhJ0IdDFTj3jpqS56ZDVFgxqkClFpm4E0
-         oQyg==;
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=F6/4+RNwCDeER7xKrrpF14oBHhauTjU2QvAjvRkOCwg=;
+        fh=bjlW27feYQNH7vYKcAeF2FNxB8H+/LNqodpvcnBpNbM=;
+        b=mViF1QDblE+D3fNIw+W5a+i5gNKZffs3li8FWeS/sFCA53otLGd0kZPv6EBuxHrl4s
+         pylYQpIluaMxeWXgedodLmpdZZyCqA4pHebKVh1Fwq+PxCVIav3gvDuyfmz3qlMV2pMu
+         ILxiiCI3LrvCq7KE+39jhKkiONAIByvTArkJYwVmc1MSK2pi1Ef9aWlx2ydb+BhBVv5q
+         qEy/VJPiCfL24p8HlKdejL4Yg3IoJ0TaPH1B/Bt79XiKXo4CN2UdXmPdfA2q/KE3dLz9
+         OkxrlOwEPyCFCRfD22pOgFkKCv2eVTRwIscOXkyG1tfGbsRMRKd3A3iBtuqlQX24cLMf
+         joUg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=becJiEzW;
-       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::129 as permitted sender) smtp.mailfrom=urezki@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=APhoxjyX;
+       spf=pass (google.com: domain of dakr@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=dakr@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1722349544; x=1722954344; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1722349950; x=1722954750; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:date:from:sender:from:to:cc
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=41s8uekOMwsbumwk2Cg+gv0Cik+bkbCRC7n6Zb2p9b4=;
-        b=XDP09Z48F/l3aoYPLWQZi6Nl8tW5zowwn5cVhRdo2j/moEoQ8vSnuErCUnJtTRrDmd
-         8cVCgS4PaZXmVxxzRjsK/ELibIAOVlNodsaeWOYqnxsMrBs2jUTLDvSPaY1dUh9OOHxF
-         USb21NEpds2lcqcq+g0DtWHi02gqd1B3ERM7OoSAdp/KoPz6MT3T/eYOKXLeNHvyVBxF
-         H2BZNDKdvLSPrnGLy//DEjf+AyugA2DY0B3M8Wf7MHuGAGMfigXVNPCGEMoAjk+MTWWP
-         iGip4aoiweRDcRz+WfE6ykzOS/cwhQujvqsUsErCgcEeIF7JGA/kwPn4ut5f8ZeemTHM
-         zlyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722349544; x=1722954344; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:date:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=41s8uekOMwsbumwk2Cg+gv0Cik+bkbCRC7n6Zb2p9b4=;
-        b=RaYp9N5Mcu/FwZhXgclnzo8PQzyTxNfEjn7fWN/y2oUFoVNqkuU1jbuL+De/p6XaXB
-         +rAXcZmF4Y8tcDs4a2bDX4iLE35ylXeHT+jAfa+2C50JpH/nydc731nSuEYyMjj7XAkR
-         /SlSgXw8eJuB1eyh6p+Vk/wrVUK7eb3zPDN1EvkInskbkJcoLqmCPvg1NplD5U2AEUMf
-         Oycz3tshk1Xv+EIXTPMucd3x/qKIWBbC1Wwj737mwyzk4mfleDBu4/MF2GKWFTgDcEvc
-         pugVqIb4LuidSn5w9YvU+TxcmY54Y2cAcgFr6REnTpFb7nyhCH5+seE8IKrwzg15tZDw
-         tpKQ==
+        bh=F6/4+RNwCDeER7xKrrpF14oBHhauTjU2QvAjvRkOCwg=;
+        b=ZLIUjbQPizeu9BrnmWqaCDTMG55xNinnSq3WO6ezoODD3uR5wQfa2RAPZACM270+sG
+         8ByB4/odF6Q1rItnff6lMvERdGzigwktk1alKV/iG5WdvWZF1tbGSdhYtSkjuEtmffFc
+         1EsH9FMZm/hsx7MBVqwhlEXZ12fODfWbc3//fgjVUKeNAg2Y/dHk2mgPxg7q0axsGodP
+         12oeHUj7R8azKW9Lb8ab1v30EcK2AU1tWc4hYP/tQKNN4ALhsuTEwqTJG/GXZtc3fy9D
+         paLLpind009OITvGuZ2PG+2bR6KKi2sIFKzOMgU9KSRfvxAnAlWkOgVi7OWqyHxB/zev
+         iuEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722349544; x=1722954344;
+        d=1e100.net; s=20230601; t=1722349950; x=1722954750;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
-         :to:date:from:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=41s8uekOMwsbumwk2Cg+gv0Cik+bkbCRC7n6Zb2p9b4=;
-        b=Rwb8KwWYBrEX//iamIf6LQBtwY/ICmctSchs5CwHzm3OX2ctdxOt28CBKwBlj0F/ri
-         RGTsomU0y6N/XUop9nwJks4wWmyl9f9buS/M7K9Q1JAkSb0SHoetqAUwrERdZFTq4She
-         1423ZfQWTcefpRI5IVUXcmOjvXJnnQD59HC/kIGsKnV3UfaAhqUgj3ttMlG2UPqqU3by
-         gA5jiI9HJLOzhjMLasXPfv5Y6qu/zD79jpUcxBg/Hz7KwHz/uQAOOuhlXw3SNpXI9BKh
-         jH4AnSlPGwCazpxv6phJPIM4sdBxpPg93PkJASof8Ie5SCiKxylbkWJCWinERgaSfZ83
-         eOSQ==
+        bh=F6/4+RNwCDeER7xKrrpF14oBHhauTjU2QvAjvRkOCwg=;
+        b=UNuYreb+EESVeW3NL3aTKscsmj/FHjSNl2O6ulcehhKVhB2j4iV7Fnqkq5lb6fnJT9
+         yvzPrCyIYkkjqhIJNKs91keTby2vPlnhqu87fBtd3/KVJcoTIS5Oeaiq1kgxWWfwDsdO
+         z7oe6XeizgqiZlC/AGrrrkad957WmePyQSKHZJwKuupBKzBXQmEDNM0zsr9AeC9w1xKC
+         6OhdJJV2AvjGzhMgtlOatm36Fs1Lkt5uxM8+DlKTwl1ZSHegDzWSa5ug3ejz3Rmlsu6J
+         1Pb5lcrcv/5YkV94ojviwH8Fg7MBna3UVNlb61+kq+julD6a2KsrQ2tGtSSvyGByr+10
+         9XOw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVdM8ED5zQz5KyNQY4HvVH02Zl8/MPJpzHab9fE6byijbnJN0Y/sNUP1Dza8AgyMDEUZZiHE2ueKGiH1tSfsvSQH1DnY05u2A==
-X-Gm-Message-State: AOJu0YxrO3BCia/2DsEKAxeAZcH4FqeggqpmogtZW2H2ZDn18MtL5jVg
-	PjebB+LZstHbzetFDUbycMbpkgNyUGeuFbl916zC0wTXkdiQClRj
-X-Google-Smtp-Source: AGHT+IFg0c3CMlZDKGm/PHyYE7Wa6sEJMWCJeNQtRs/6AKNQB0idJIA+qmWDLdxcBrK3lps0sHivRw==
-X-Received: by 2002:a05:6402:5107:b0:58b:b1a0:4a2d with SMTP id 4fb4d7f45d1cf-5b4870fc68cmr95604a12.1.1722349542562;
-        Tue, 30 Jul 2024 07:25:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUo+Tdphr0SZ/XPGwjQYI7kZAZBDbRlZs7u6DsdRGTZXGR7taPObsq9LQfX0qng3ZMaGdT58vMO/RAgpOD+cTOqmbIw3lHsoQ==
+X-Gm-Message-State: AOJu0YyNE+bm2ppQnGOl6YR4L2Y3NyhxkE658kmdPnWCsMqqEhJucYtd
+	IY98O55kxSTdaIwnAp2Zkb87l34z1opgbdz2PF5IdKMnbdZXB4KO
+X-Google-Smtp-Source: AGHT+IFRbS/LjrmedsiObUdor/mkOxIlVFNmkkarhxYwc5msXaDagiec1DHPjt02GCfEKIDNgzwAkQ==
+X-Received: by 2002:a17:902:eb8f:b0:1fb:b39:ce4c with SMTP id d9443c01a7336-1ff3785096cmr2340805ad.8.1722349949632;
+        Tue, 30 Jul 2024 07:32:29 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:651c:2104:b0:2ef:256c:a268 with SMTP id
- 38308e7fff4ca-2f03aa9eaa4ls137161fa.2.-pod-prod-07-eu; Tue, 30 Jul 2024
- 07:25:38 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXxCkcm0DhB2U9uCL/tRgFEEJ9UApDo7FdqniJvdRVQjEjMnJPtJmtAKhinNODbGQHQM/GPyrtfjScuGLq+E2t2Cxe2TEHKURYJqA==
-X-Received: by 2002:a05:600c:5492:b0:426:5fe1:ec7a with SMTP id 5b1f17b1804b1-42811e41a81mr76822505e9.31.1722349527176;
-        Tue, 30 Jul 2024 07:25:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1722349527; cv=none;
+Received: by 2002:a05:6a00:1a8b:b0:706:7564:770c with SMTP id
+ d2e1a72fcca58-70ea9e2a448ls3391773b3a.2.-pod-prod-07-us; Tue, 30 Jul 2024
+ 07:32:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCV9xnlBHprwYH+yFxV1EoeiX/4SS2HiGYTqWnpxoR9I1/cWyDHPZbuwadiVWc5IBVbZw2nph/egK5q7FyXYTsCwXHDjNyhE/Mmkbg==
+X-Received: by 2002:a05:6a21:3406:b0:1c4:7138:ad1b with SMTP id adf61e73a8af0-1c4a1510556mr9164764637.54.1722349948572;
+        Tue, 30 Jul 2024 07:32:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1722349948; cv=none;
         d=google.com; s=arc-20160816;
-        b=thVMHvmCSC8boETujvBnSllMMzv2DTNNecDuNRsVlDXVlsvrELykKmB6C1hLTLNN/t
-         WS0RpX2MexpLn+DxES2ukyRvFO6cXE0fl92Jk4t0/iOCflr3o4WHhAcExt6RimAzd9UN
-         vdSmmeQsu87IE9BH5NoIwicSFuDzyfVsaLvHYTroV3uQjByQXhntQHt+PxMU+LuYhL0D
-         sOn9+0qqSalC52KDxLlw1u3Xm1prrC9w5Sok88f5RwGtZWPKgVqmbrrZ2A/LUcMZv1Hw
-         FKh6jg8ieKShKbd2LhszsgxqYln1clWhYEsObrXL8tqphGyE/cFIf4WmM0EBpCKTnwkd
-         bugg==
+        b=aeOMse2WlcZsHePVx/gqhwVQ5z6wZT4LT+RS5eUIynOsHWw4ORixGU7UxsSg17W51z
+         BI2bPb8laaZ8Y3wiJrBEGRUYh4v7o+hd390g5r7RpPGtD1wrVaEo1Ls73bCkd1NXxPVi
+         In7H0LMshcrGc6/wVmVAvMSGDJBKeu5UQTRyxnfIAorsUy6OIBJETL4sZneMAauc/0jv
+         3OhbWuLqmXFPu62xwjad1Oc7aprS3wZOCnvZjOIvUI/RejTCBccExNYomqUu3OWwqPyI
+         JdKh8BMAZ9A7BPrU6can/GdKr8jOisNJ3WI1/HmNrc8SZ1MOY5ZD8ixcJL62EzxzeSCJ
+         jiPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:dkim-signature;
-        bh=5VQEznJg84i5ZK7eGARok4l5wc3m0IWj/uMPsa8F98w=;
-        fh=8GlScaSMS8FfpYE/+vM7Y3r9QYMzTewOFQNTZhKdQqQ=;
-        b=IxgPsE5++5NXR99RuxSg/p9UXFFHNPMz2nV6qfzz1IfeX69Aa/5HAfQkGLz7Slfumd
-         J1dGoc2X2djJoBn5T76oMZ76tnswev4uarRy+8P5uNFmWisWtxx3/7VnbL6qK4q80avP
-         oulCksMBX37Hu1JCNg1XLoQUNpAfzAfxZxkr3+t4fX/qStx+bTo6vl/AqWRkfKSB7ZEa
-         zij/ckqH8cnO+grd+Qx0YvQCr6ILLhV06w4NxCUkmxQ4Ju/upbQDGDZfl6uep7shL7tC
-         0Gv+LfW5WQUwwEbmwRpFYFFxrJHuaYVRPNZdoWin+Zvlk0lSLjGLwQyV4AnhqAbfhBLW
-         +E8Q==;
+         :subject:cc:to:from:date:dkim-signature;
+        bh=y0OqFpEW/LDALC/kx7R+Xa89XiiMG2r64AxNfOe0Q4k=;
+        fh=wxxr8O6T05pi/TXUho/j+VY9T7tjq5GxtDqHwYHZHYM=;
+        b=C8CL02gw0w8SF1I2SPIkY0LWqvinP1lBVMkpBC5ZqbHAl1fd63bskp35poHRYzuwKU
+         txQcj0aIV39LfR6+hqMz/hAvUAPirHeFC/7NBkOlg1XSR4engSFg6YLiYOqoRumanZLs
+         wt2Da2EBsEfuJvqrR5jzgueenhyy+gTeGlLA/2RRSiucKXfY56LUwMAQUWs9nHC7ZtjU
+         tNLCPA5wv4tC1U2dWRmJT6n+WONRkr4nv1mEqC5rmsc5P4wjdJjc/5wBjiSKhxZbH1FX
+         6HVA05Bh4Ql+Sx5IsuRfJHk9zZX96TlaTaWeGzcKiCTdAEQ3UuF70mgzUMCH1fJzmeLx
+         Fxag==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=becJiEzW;
-       spf=pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::129 as permitted sender) smtp.mailfrom=urezki@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com. [2a00:1450:4864:20::129])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-42824af684dsi1135325e9.1.2024.07.30.07.25.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jul 2024 07:25:27 -0700 (PDT)
-Received-SPF: pass (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::129 as permitted sender) client-ip=2a00:1450:4864:20::129;
-Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-52f024f468bso6949075e87.1;
-        Tue, 30 Jul 2024 07:25:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWVrM/dkgu8QQcfn1H5Jq90JBFqDMMgCav2yUx2cGpmPmTsRKQQl+exaq70/EE5JNFDyI5Xeaf/G3YJyC8VXYPVOacz+o6SoUcAnbKdfQg4fsrvChBmiesegkIgNdWjKd6idqN4Mhs7/J6oEg==
-X-Received: by 2002:a05:6512:480a:b0:52e:be1f:bf7f with SMTP id 2adb3069b0e04-5309b27b283mr6293800e87.27.1722349526121;
-        Tue, 30 Jul 2024 07:25:26 -0700 (PDT)
-Received: from pc638.lan (84-217-131-213.customers.ownit.se. [84.217.131.213])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-52fd5bd15d2sm1868898e87.112.2024.07.30.07.25.25
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=APhoxjyX;
+       spf=pass (google.com: domain of dakr@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=dakr@kernel.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-7a9f5f2d1absi693748a12.1.2024.07.30.07.32.28
+        for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jul 2024 07:25:25 -0700 (PDT)
-From: Uladzislau Rezki <urezki@gmail.com>
-Date: Tue, 30 Jul 2024 16:25:24 +0200
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: syzbot <syzbot+ff2407cef5068e202465@syzkaller.appspotmail.com>,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	syzkaller-bugs@googlegroups.com, Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>, kasan-dev@googlegroups.com,
-	Aleksandr Nogikh <nogikh@google.com>,
-	"Uladzislau Rezki (Sony)" <urezki@gmail.com>
-Subject: Re: [syzbot] [mm?] INFO: rcu detected stall in kcov_ioctl (2)
-Message-ID: <Zqj31Kf9_Nb01GYR@pc638.lan>
-References: <0000000000000f67c9061e649949@google.com>
- <20240729143112.3d713abe2bde51d718c7db93@linux-foundation.org>
+        Tue, 30 Jul 2024 07:32:28 -0700 (PDT)
+Received-SPF: pass (google.com: domain of dakr@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id E462E61F38;
+	Tue, 30 Jul 2024 14:32:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E04DBC32782;
+	Tue, 30 Jul 2024 14:32:22 +0000 (UTC)
+Date: Tue, 30 Jul 2024 16:32:19 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: cl@linux.com, penberg@kernel.org, rientjes@google.com,
+	iamjoonsoo.kim@lge.com, akpm@linux-foundation.org,
+	roman.gushchin@linux.dev, 42.hyeyoo@gmail.com, urezki@gmail.com,
+	hch@infradead.org, kees@kernel.org, ojeda@kernel.org,
+	wedsonaf@gmail.com, mhocko@kernel.org, mpe@ellerman.id.au,
+	chandan.babu@oracle.com, christian.koenig@amd.com, maz@kernel.org,
+	oliver.upton@linux.dev, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, rust-for-linux@vger.kernel.org,
+	Feng Tang <feng.tang@intel.com>,
+	kasan-dev <kasan-dev@googlegroups.com>
+Subject: Re: [PATCH v2 1/2] mm: vmalloc: implement vrealloc()
+Message-ID: <Zqj5cyBCSu8bxsLJ@pollux>
+References: <20240722163111.4766-1-dakr@kernel.org>
+ <20240722163111.4766-2-dakr@kernel.org>
+ <07491799-9753-4fc9-b642-6d7d7d9575aa@suse.cz>
+ <ZqQBjjtPXeErPsva@cassiopeiae>
+ <ZqfomPVr7PadY8Et@cassiopeiae>
+ <ZqhDXkFNaN_Cx11e@cassiopeiae>
+ <44fa564b-9c8f-4ac2-bce3-f6d2c99b73b7@suse.cz>
+ <ZqjnR4Wxzf-ciUGW@pollux>
+ <d0234a41-811e-40a7-b239-e51b35862adc@suse.cz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20240729143112.3d713abe2bde51d718c7db93@linux-foundation.org>
-X-Original-Sender: Urezki@gmail.com
+In-Reply-To: <d0234a41-811e-40a7-b239-e51b35862adc@suse.cz>
+X-Original-Sender: dakr@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=becJiEzW;       spf=pass
- (google.com: domain of urezki@gmail.com designates 2a00:1450:4864:20::129 as
- permitted sender) smtp.mailfrom=urezki@gmail.com;       dmarc=pass (p=NONE
- sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+ header.i=@kernel.org header.s=k20201202 header.b=APhoxjyX;       spf=pass
+ (google.com: domain of dakr@kernel.org designates 139.178.84.217 as permitted
+ sender) smtp.mailfrom=dakr@kernel.org;       dmarc=pass (p=NONE sp=NONE
+ dis=NONE) header.from=kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -164,61 +156,83 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Jul 29, 2024 at 02:31:12PM -0700, Andrew Morton wrote:
-> On Mon, 29 Jul 2024 08:34:33 -0700 syzbot <syzbot+ff2407cef5068e202465@syzkaller.appspotmail.com> wrote:
+On Tue, Jul 30, 2024 at 03:58:25PM +0200, Vlastimil Babka wrote:
+> On 7/30/24 3:14 PM, Danilo Krummrich wrote:
+> > On Tue, Jul 30, 2024 at 02:15:34PM +0200, Vlastimil Babka wrote:
+> >> On 7/30/24 3:35 AM, Danilo Krummrich wrote:
+> >>> On Mon, Jul 29, 2024 at 09:08:16PM +0200, Danilo Krummrich wrote:
+> >>>> On Fri, Jul 26, 2024 at 10:05:47PM +0200, Danilo Krummrich wrote:
+> >>>>> On Fri, Jul 26, 2024 at 04:37:43PM +0200, Vlastimil Babka wrote:
+> >>>>>> On 7/22/24 6:29 PM, Danilo Krummrich wrote:
+> >>>>>>> Implement vrealloc() analogous to krealloc().
+> >>>>>>>
+> >>>>>>> Currently, krealloc() requires the caller to pass the size of the
+> >>>>>>> previous memory allocation, which, instead, should be self-contained.
+> >>>>>>>
+> >>>>>>> We attempt to fix this in a subsequent patch which, in order to do so,
+> >>>>>>> requires vrealloc().
+> >>>>>>>
+> >>>>>>> Besides that, we need realloc() functions for kernel allocators in Rust
+> >>>>>>> too. With `Vec` or `KVec` respectively, potentially growing (and
+> >>>>>>> shrinking) data structures are rather common.
+> >>>>>>>
+> >>>>>>> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> >>>>>>
+> >>>>>> Acked-by: Vlastimil Babka <vbabka@suse.cz>
+> >>>>>>
+> >>>>>>> --- a/mm/vmalloc.c
+> >>>>>>> +++ b/mm/vmalloc.c
+> >>>>>>> @@ -4037,6 +4037,65 @@ void *vzalloc_node_noprof(unsigned long size, int node)
+> >>>>>>>  }
+> >>>>>>>  EXPORT_SYMBOL(vzalloc_node_noprof);
+> >>>>>>>  
+> >>>>>>> +/**
+> >>>>>>> + * vrealloc - reallocate virtually contiguous memory; contents remain unchanged
+> >>>>>>> + * @p: object to reallocate memory for
+> >>>>>>> + * @size: the size to reallocate
+> >>>>>>> + * @flags: the flags for the page level allocator
+> >>>>>>> + *
+> >>>>>>> + * The contents of the object pointed to are preserved up to the lesser of the
+> >>>>>>> + * new and old size (__GFP_ZERO flag is effectively ignored).
+> >>>>>>
+> >>>>>> Well, technically not correct as we don't shrink. Get 8 pages, kvrealloc to
+> >>>>>> 4 pages, kvrealloc back to 8 and the last 4 are not zeroed. But it's not
+> >>>>>> new, kvrealloc() did the same before patch 2/2.
+> >>>>>
+> >>>>> Taking it (too) literal, it's not wrong. The contents of the object pointed to
+> >>>>> are indeed preserved up to the lesser of the new and old size. It's just that
+> >>>>> the rest may be "preserved" as well.
+> >>>>>
+> >>>>> I work on implementing shrink and grow for vrealloc(). In the meantime I think
+> >>>>> we could probably just memset() spare memory to zero.
+> >>>>
+> >>>> Probably, this was a bad idea. Even with shrinking implemented we'd need to
+> >>>> memset() potential spare memory of the last page to zero, when new_size <
+> >>>> old_size.
+> >>>>
+> >>>> Analogously, the same would be true for krealloc() buckets. That's probably not
+> >>>> worth it.
+> >>
+> >> I think it could remove unexpected bad surprises with the API so why not
+> >> do it.
+> > 
+> > We'd either need to do it *every* time we shrink an allocation on spec, or we
+> > only do it when shrinking with __GFP_ZERO flag set, which might be a bit
+> > counter-intuitive.
 > 
-> > Hello,
-> > 
-> > syzbot found the following issue on:
-> > 
-> > HEAD commit:    3a7e02c040b1 minmax: avoid overly complicated constant exp..
-> > git tree:       upstream
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=132e32bd980000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=381b8eb3d35e3ad9
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=ff2407cef5068e202465
-> > compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-> > 
-> > Unfortunately, I don't have any reproducer for this issue yet.
-> > 
-> > Downloadable assets:
-> > disk image: https://storage.googleapis.com/syzbot-assets/198814da854c/disk-3a7e02c0.raw.xz
-> > vmlinux: https://storage.googleapis.com/syzbot-assets/868e99275bc0/vmlinux-3a7e02c0.xz
-> > kernel image: https://storage.googleapis.com/syzbot-assets/ce63033f3708/bzImage-3a7e02c0.xz
-> > 
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+ff2407cef5068e202465@syzkaller.appspotmail.com
+> I don't think it is that much counterintuitive.
 > 
-> Thanks.  Possibly kcov_ioctl(KCOV_INIT_TRACE) was passed a crazily huge
-> size.  Perhaps some more realistic checking should be applied there?
+> > If we do it, I'd probably vote for the latter semantics. While it sounds more
+> > error prone, it's less wasteful and enough to cover the most common case where
+> > the actual *realloc() call is always with the same parameters, but a changing
+> > size.
 > 
-> Also, vmalloc() shouldn't be doing this even if asked to allocate a
-> crazily huge size.
+> Yeah. Or with hardening enabled (init_on_alloc) it could be done always.
 > 
-<snip>
-diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index bc21d821d506..450c6b10a357 100644
---- a/mm/vmalloc.c
-+++ b/mm/vmalloc.c
-@@ -3783,7 +3783,7 @@ void *__vmalloc_node_range_noprof(unsigned long size, unsigned long align,
- 	if (WARN_ON_ONCE(!size))
- 		return NULL;
- 
--	if ((size >> PAGE_SHIFT) > totalram_pages()) {
-+	if ((size >> PAGE_SHIFT) > totalram_pages() || size > INT32_MAX) {
- 		warn_alloc(gfp_mask, NULL,
- 			"vmalloc error: size %lu, exceeds total pages",
- 			real_size);
-<snip>
 
-We can limit it to ~2GB or add a special threshold which will control
-the maximum allocation size.
-
-Any thoughts?
-
---
-Uladzislau Rezki
+Ok, sounds good. Will go with that then.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Zqj31Kf9_Nb01GYR%40pc638.lan.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Zqj5cyBCSu8bxsLJ%40pollux.
