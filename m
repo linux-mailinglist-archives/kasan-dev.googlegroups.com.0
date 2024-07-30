@@ -1,147 +1,158 @@
-Return-Path: <kasan-dev+bncBAABBU6OUO2QMGQE2UI2VBI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBFG4UO2QMGQE6WNTVFQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63e.google.com (mail-pl1-x63e.google.com [IPv6:2607:f8b0:4864:20::63e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 227369412E1
-	for <lists+kasan-dev@lfdr.de>; Tue, 30 Jul 2024 15:15:01 +0200 (CEST)
-Received: by mail-pl1-x63e.google.com with SMTP id d9443c01a7336-1fc478ff284sf1653965ad.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 30 Jul 2024 06:15:01 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1722345299; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D28C941367
+	for <lists+kasan-dev@lfdr.de>; Tue, 30 Jul 2024 15:43:50 +0200 (CEST)
+Received: by mail-lj1-x238.google.com with SMTP id 38308e7fff4ca-2ef23ec8dcesf48187951fa.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 30 Jul 2024 06:43:50 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1722347030; cv=pass;
         d=google.com; s=arc-20160816;
-        b=hQ7KxpcLgZdJ8gjxk9Cz1dMDGn/ngKAuNuh1OT8mL7+b8nR3Qho3NClPoUczXEh7HW
-         CRayn3CV0LPaImzLUamv78P7hVwYKYQFVk+IztcnJgNjt+jEn6kaKNJdcz0mDaGKDpN3
-         6w9s7SwXOUO/WNTES/7tVQ4p9gBSM7egVKYdZcicW1cwWp07/U9eEr1XwUScDtCD4B4I
-         +nkmfj1UkiCR04F6oZQG/uBvVp1B79+yTbbqhR4FpNEuJBKbj0D4WWsr/9mwoitgYMdJ
-         IYqrq+a5v78X+OovQPSF5PiDDpOwV5WBfODnq+cFi79dsqfWCa/i9utR6MjAJmi0Xqs9
-         dFMQ==
+        b=RSqa3FZ9r7o8paWu2zwbs7n8PEEii7AzYgPkPMr08vClZWVmyWnyDzUI7itx9MeNXt
+         mOISval99k7GbOALD1N3dQkR5zBtuAMbTxRrSc5+l04kG0wbZP5/vjMnFL93aauumB0Y
+         WsRJApHxD4fWGL0HhvvGyZcMkHfUfmNNTSU0IJWXknZNUt/Rn0FJ4vNjHqf7sd3ok5Ay
+         EX2IOlZ77+VWcMRw2Y0s4YNvctt0I7+SOWGy6BfNDSrMUKPn2keQscvb/WMfIc6yf3e4
+         eZQpHrWun70SShBEiS2Cg6wWj0F8GYzWgtGdZvwPrtFpStSea0MS1wFIRQ8Gy3Tb98Ag
+         5PJQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=EDrjbeMx1zBDPAWeKq/PNZcP2941UfiAFK2hdPzOuls=;
-        fh=RmGWyEa+AmK/DCnvm4fN0qCOnQsNXZMbzpK7RajJ9WI=;
-        b=pillvqBvNYw/iSkTTnSY4P0RiOG/UNtGu5LLFO/E+r+gpj26CjGNbMCMzhKoHzsblK
-         8BfIfrOtBx1RhVDB0vy8Kvc3QVrI1TyaGK5xWO9V29StP5MjHs/KXt0mMzgoHufGtMM8
-         Lv0IOoiUZI7dhKx0SdkPC7TOVU/f8yRLFr3r9ZXZLzlUa8YHypwvB26aq2QrZtLne+Mi
-         B2wu0kcEmmbiAyvIfO8IVaKXwazrhlmBbLbvm6eOZ5LOAjlQE+oboXHWtg/HQeyT7bbq
-         PzDj3lvm1sRqkXlUR2U1K4kPLRbJpgZlxtaD0vAXyAmAzjAarneA3ja6HrVyhK2w4NMy
-         kNiA==;
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=iGl4Q1bJ/qP1IJxdi5jP/jLkxhvgH9qAXB4MH6i2t10=;
+        fh=96XZAhzmnqxkqFCzKbkqmoHDHY0TxcZBWnICGLdp1b8=;
+        b=bd0urv4gASuBPBvFhtcskN5ybIQFRTV8YdpVQkwn019OwgEXvRyKV0bZ+JCXp6EJXQ
+         3b9w6+MxX4D6e9sDZhXAyLhg5cbP6tqg6Ve/5MlZQOsQHWxzlWyeiYbQ4kha9f9mg4/G
+         vJBSO63hKQMlC90xTgxU4Nh52pCe7UrDWW2rNuBrjFxxAneakPpST9y0k7PHVQ8UjDDm
+         4nHeoX5W/5pL2jd0udLdfz04v3XLOBm9yvAbOOrQeItCEEGBP1rsDMLpyiuUXTUqdqpp
+         9T+zL7FqJJdEAGSLWXcbP7cw4Kx6olWP3XHgSobv3dlNaervNOlXh9vDjMccA20Ja3z9
+         ksEw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=PDLf5vP9;
-       spf=pass (google.com: domain of dakr@kernel.org designates 145.40.73.55 as permitted sender) smtp.mailfrom=dakr@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=c5WKSV9a;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::436 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1722345299; x=1722950099; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1722347030; x=1722951830; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iGl4Q1bJ/qP1IJxdi5jP/jLkxhvgH9qAXB4MH6i2t10=;
+        b=VKx53SdVcRecUzUmcTU7svHYlz2+KS5RUAwrRn3c2ZPeAIxzqE8WEOHKz3INnOIxV/
+         tI0yMlkkTgSTmu9LTDqFDKmvZxh+plXHRCtKdgT1NUWBlJdTmfPbk5mc8P8bi4Q78qsa
+         9qdt4JQg2I/JH3VfynbhReSbimEcWg1+A1l3un6pmmHYTBGHfmdj4nnQwBcictUO9ToG
+         qWnNO1C6bGUs395uurVhqRwKkk0PJtPoB9tuSag1LnAfdKAa3dqDj6QyX38w6MFTfran
+         yx2UQ/2neGYG3huSBDIqjD1Gfn/UL51aawhSp2xhFzt7pxcmiarPSdz/WlZe+zCoFvIR
+         N0Rg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1722347030; x=1722951830; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=EDrjbeMx1zBDPAWeKq/PNZcP2941UfiAFK2hdPzOuls=;
-        b=Q+q+gfjsX+q8hK4x3QvsxivbobFw0ffoRIQ5oY+uFg4+iawEt+bNN3gOA3kT8VOcOm
-         toFD0CT+KJLXZixsQu5vrFt7Hg1xdOpULiIsDpMf9TgV3EON+yDOwY2Ja0yxGV7TAN7t
-         2i0tpoLHcjKml73f1YCJfiBhYeQdgA7IWl4qU8UzfruM8T73HcLac5jwifz59e3aK32r
-         ttKMRhxaLodUZXjHKM4wmC5Pucc2Xp3HzzfiJrwYDQYq4DZ33uTlXbT+9myqZ7zhDU3z
-         XAhU7El1XN7XfX1zY+yK6pJpStoi/e2MoD9sdQdaolJHvVoPOmxVOm2/RGqDXLzvGSuV
-         EQGQ==
+        bh=iGl4Q1bJ/qP1IJxdi5jP/jLkxhvgH9qAXB4MH6i2t10=;
+        b=ZlanMqy+xtscjcXFwRm97q/a5CwB0XGGTg1nrZ8g6g0fkxb5UaC8cxYPdq9cQhN7fb
+         1eX7qvOQm2WcAwnfyJa+BLZAMAbsr6ax4mvhYP0dAYgM9IR7tU62XWMxlF8cxaX5Yd0+
+         zYlCaWd4rH/Mhak7UZmT0KDCeDFsLqJi52ldTF9xJMdsqJeJXD2P0sdbeFMls6N5TKm9
+         nTa4QRMoD/uaMKRRlhh9ND5Abht9GSlNvWspKEG4JxXEFgp3Xfv0VXVCKZPf3gjLV+am
+         Nzd71fSdUsHrYGNjk47WqXf/3HvQzwaoNY0ECLCl0C4rSZ1b6SAbuCuoxoYBvzr2qXha
+         W9PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722345299; x=1722950099;
+        d=1e100.net; s=20230601; t=1722347030; x=1722951830;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EDrjbeMx1zBDPAWeKq/PNZcP2941UfiAFK2hdPzOuls=;
-        b=P34ki3hCreaQGvS6bojhgKxfnOeQ+bC4rF6lU+aEkoPU6pUjtJhGd2Is10H4e1U6eZ
-         Eqizm0sdVdRx1OYEVYfIxDzIm1qYC6khMePH0s6wB3LK8ccAG9RoTr/CvaRP2OwdTeWg
-         D0AYY6vMuicVRUPZoMrbC1our943jQcoFpvUP0sv9OS6j1+FgyONzT2jpQ7su0Q6a7TG
-         BsRmIDUbkR8SKPyfWZFLliHt9ucUnZtTmYZE791Slx0gclodY9Pa+SdmeP14+bNfyMXp
-         dDy8ovte/VPtrBn+uQ6de60XmKEj8I9UvpL2aG9BrKmsbupAqLqrE/aSTW3AuMJkttYv
-         T9hA==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=iGl4Q1bJ/qP1IJxdi5jP/jLkxhvgH9qAXB4MH6i2t10=;
+        b=lvCqYgN+0bPlU4320+D8LjFRflIY9DXwl1+iwy5dfh6vX5/QoEhqE20gPt5xhSuBjZ
+         JnpeKuTu7sisgMTGUq9Daf3UvqopjeOS1zVffqhDVpjyvtuGCzS/ROO6h4F/D/3aSgHB
+         sANTwGI2Gnn2EK2rrMAVVShovJaYcHTzVz1lyCRUx/SZosNlLhfVNGIbw0FfNokUdnwH
+         VUqDnDa6Th8gD+Fy+HnArXUz38vHKrqL64ae882MWD8gYOrbRFCskCY/ElYA0n/QtXKz
+         ZHlvRvXgBWcSsrIXi7K5yPxC/4PN4Fr3vX0bPlQ2IoZjydN36T7smP9qVgP3kSquyW6I
+         WnmQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXyMrYQnNkwjBXEbnGkGzAZa0b01z6olL3nONdN66AvWief5ADZZEUZKv8itvtL6xzko0twSwjjVel6dUpTRwjcPo7f+K27Bw==
-X-Gm-Message-State: AOJu0Yw/m19tCSoMQrJlbSF0491qdpUpM94gaejjMbE5nD/vYVyQO0mG
-	mVKE+oRPCkYtKVGdxhPEPJNS8kSt0Jlep7E5sjhhrPfTfSz1Z78e
-X-Google-Smtp-Source: AGHT+IGCaj1KlOeKtFdGYlcjwRBQYfFdX9v+rx24t1tvcTJvT6Do1OHAij0TM3xoUiIsmHXtnPaQHQ==
-X-Received: by 2002:a17:903:2ac7:b0:1fa:191c:fe4e with SMTP id d9443c01a7336-1ff38c677famr1645605ad.21.1722345299413;
-        Tue, 30 Jul 2024 06:14:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWXuMr1lVGhdBwjfOP5oTO/oO+kUbmT9JsnPR/k0AeclMLI3BgkehvABmMvuRbRWaeV30ZtzBLf8Jl9RKICbbuG+0/sPixlLQ==
+X-Gm-Message-State: AOJu0YwHQn5E525YRqiwI5uWz7y/JOtmD/fqepIcjhNOgOJ4EQafBChc
+	mfKql1urAInFHSGjM37bkZObfkRDHaOAGYnajj1ebeLBPyggzbHL
+X-Google-Smtp-Source: AGHT+IG7QurTkz3kkpjdk4RNv53vcbRieUobSiEM1ZaEMznx9O3m6SQnIcEaRMGhc/eD/CBbMRcloQ==
+X-Received: by 2002:a2e:8006:0:b0:2ef:c281:54f7 with SMTP id 38308e7fff4ca-2f12ee233f2mr68200001fa.37.1722347029068;
+        Tue, 30 Jul 2024 06:43:49 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:c70c:b0:2c7:50ae:5c1b with SMTP id
- 98e67ed59e1d1-2cf233b6653ls3668363a91.2.-pod-prod-00-us; Tue, 30 Jul 2024
- 06:14:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVyP7/gxFcUay+Zp3ygTbI6QHVBI9uENBjfB2BbSiMICvCCObsyHgB+/FWQA5Fz8+n5UpqgqZyUFDJypuQ8FNXT6i/hDFgKyZY/1A==
-X-Received: by 2002:a17:90a:67ce:b0:2cb:58e1:abc8 with SMTP id 98e67ed59e1d1-2cfcab4c7bfmr3165569a91.21.1722345298127;
-        Tue, 30 Jul 2024 06:14:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1722345298; cv=none;
+Received: by 2002:a2e:be1b:0:b0:2ef:1eb3:4748 with SMTP id 38308e7fff4ca-2f03a2cd04els16705021fa.0.-pod-prod-07-eu;
+ Tue, 30 Jul 2024 06:43:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWbZv3mY3D/JbhSkBs1KqVdk29EDYkBlGEOpx0ZZNvAM4UTVEsRmHLrp310y4PB8KmcFmeAReUzDvvV+wQ4xVAvuK+/UUdksR7lzQ==
+X-Received: by 2002:a05:6512:3124:b0:52c:e10b:cb36 with SMTP id 2adb3069b0e04-5309b280a68mr5895500e87.33.1722347026865;
+        Tue, 30 Jul 2024 06:43:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1722347026; cv=none;
         d=google.com; s=arc-20160816;
-        b=MR9UEhO/3EefxnqFuWBN2/SJQnZRCM/EI59IXIdOt58hkv7XCaYnCToeGNC1BkHswW
-         lC+72qS/nSTWa3YO7TWQ4WOp7z/479ybzg1WDiBC0MfLtc1sxS9HPbkG9gSi00D7yZIz
-         SnJgPHVvL9ry16fM0JKrrAVLBv+0uaMfQ3XVpw9544ASQSObWOHieyS/ZtKQ/C5eSmKw
-         W9uTuhi94WHVc6CPK1GtBJzoUSaqEO1D3LM3FoQ7DO8gTneQ+rCGnaTrTB8yqxGSH3wZ
-         jg8CWSpaQcKSr7m1wZF1BTzjmEPrY4+IDCoRCOMXpkxh4e9DGOpJKu7RLCXAd7BuFfvf
-         h1mA==
+        b=QrwK69qiKknohl8i9+z9gBnvm9IWsjmgBz6m80+WlZNEI+rh0NFDvqhH0LegEMCfsY
+         ni/y4bD480NydENdGFPN5H6hH6330bm7NS2jQNuu5skzAmmSPixWdDRzOUjlTnkfswgp
+         ADvW0FbWjrQVa/I8/8NM+Fcrc98KbFQ4mmXzwg21IWm9dEYm6nPGB9DQeHb1O5QWgr3+
+         t9wNvvAV0QiWorFbv9p88tueOZzOcj9rWScjvRTcIiRNpdcR0epa52lz/y972ZY+v1y3
+         vZIGiaD9YQFegT5eCFmYsxeXBgm1nE8z2p6bQTBZvGSuSmXA7+OB4TMHgUGPOjXn59lJ
+         fGuA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=aORqCZnl/5dPLxmiOJW4MSZlynTa9JBYDsQhaV8fBPo=;
-        fh=wxxr8O6T05pi/TXUho/j+VY9T7tjq5GxtDqHwYHZHYM=;
-        b=MrHGxUJoFZvVvz+4RlpmHenVAahEzYwePIvw26lRC3dBnBlug/L28r6ubPcgxIZUXZ
-         67C+yn/p95n3BtCXjd1WUFs8WCHiL050N4a+lFvOSCFDa3h3cFr/nX7TO2duRVhgElWh
-         1Xo+pOsLtF4f5gCfk0WGdR8T3Z74/9vU7+acVYCz/wH+EzNS3aYaXKF5E+tDz+xISpQO
-         5j5Er1IQvndyCKExk1RnQyRxxHtOnKD81tKE2tNdYmcGlD0hhhnU1Hy3wdIGN2gX7U8p
-         tepv4ety0ItGAGMG3z6yC1+bJGGk2l5QTyksG4Pklhs48wExWVBkhwzAUIQlSEBqH6yi
-         /7Eg==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=gtgxA2PssDFaogYfTQNLJ3b/Lh3FbXzi+L0/39/oBQ0=;
+        fh=Qa2epLCRolvV6UQvj61npokra0WGly/UJe4qmTgoIi0=;
+        b=e7qFGFjdI4zGU9hc04jYJKqm2TcMSGD8xMNtiXApQIv0k9WPCtEPhlNxyFPtcMRrnE
+         XBWNo6JLxNfiU3lUVGdIs3gPLktoIj7oOj/72ZyswYwQF4gPmE8oisJw51X3WWeAI2fl
+         l5N6hNbXHMRtejy8wY8SlGAAyzaDR/O03EO9J2wOWsdmdUMUztMwhjInfyFzxzSMsHe0
+         3HBex+P0Sno1nZHp18rsOnX5jt6oJR2V6pahoMdJHqB7sXCOmrZNyAhnz8Omazc9XCNT
+         9CKjvvmYP3cmusBz64nn/qkk6ksJKgPob9AVJMzUxhjf5TUZBXHFAYLFGTYocvfMMrnG
+         knzA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=PDLf5vP9;
-       spf=pass (google.com: domain of dakr@kernel.org designates 145.40.73.55 as permitted sender) smtp.mailfrom=dakr@kernel.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=kernel.org
-Received: from sin.source.kernel.org (sin.source.kernel.org. [145.40.73.55])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-2cdb75ff1cfsi702386a91.3.2024.07.30.06.14.57
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=c5WKSV9a;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::436 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com. [2a00:1450:4864:20::436])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-52fd5bee532si250373e87.13.2024.07.30.06.43.46
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jul 2024 06:14:58 -0700 (PDT)
-Received-SPF: pass (google.com: domain of dakr@kernel.org designates 145.40.73.55 as permitted sender) client-ip=145.40.73.55;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by sin.source.kernel.org (Postfix) with ESMTP id E75B4CE0ECD;
-	Tue, 30 Jul 2024 13:14:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80495C32782;
-	Tue, 30 Jul 2024 13:14:50 +0000 (UTC)
-Date: Tue, 30 Jul 2024 15:14:47 +0200
-From: Danilo Krummrich <dakr@kernel.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: cl@linux.com, penberg@kernel.org, rientjes@google.com,
-	iamjoonsoo.kim@lge.com, akpm@linux-foundation.org,
-	roman.gushchin@linux.dev, 42.hyeyoo@gmail.com, urezki@gmail.com,
-	hch@infradead.org, kees@kernel.org, ojeda@kernel.org,
-	wedsonaf@gmail.com, mhocko@kernel.org, mpe@ellerman.id.au,
-	chandan.babu@oracle.com, christian.koenig@amd.com, maz@kernel.org,
-	oliver.upton@linux.dev, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, rust-for-linux@vger.kernel.org,
-	Feng Tang <feng.tang@intel.com>,
-	kasan-dev <kasan-dev@googlegroups.com>
-Subject: Re: [PATCH v2 1/2] mm: vmalloc: implement vrealloc()
-Message-ID: <ZqjnR4Wxzf-ciUGW@pollux>
-References: <20240722163111.4766-1-dakr@kernel.org>
- <20240722163111.4766-2-dakr@kernel.org>
- <07491799-9753-4fc9-b642-6d7d7d9575aa@suse.cz>
- <ZqQBjjtPXeErPsva@cassiopeiae>
- <ZqfomPVr7PadY8Et@cassiopeiae>
- <ZqhDXkFNaN_Cx11e@cassiopeiae>
- <44fa564b-9c8f-4ac2-bce3-f6d2c99b73b7@suse.cz>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jul 2024 06:43:46 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::436 as permitted sender) client-ip=2a00:1450:4864:20::436;
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-368557c9e93so2323964f8f.2
+        for <kasan-dev@googlegroups.com>; Tue, 30 Jul 2024 06:43:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXRajHBNyljhIRCPMCAeES6gZSORaWGgEAOJHxiPQNN7pRMwv1LWLS52w62afqbNK/cW0EY4ED/4Dwrb8O5C6164dLXPagIzhwElw==
+X-Received: by 2002:a5d:59a8:0:b0:368:747c:5a05 with SMTP id
+ ffacd0b85a97d-36b5cf2534emr8775942f8f.36.1722347025779; Tue, 30 Jul 2024
+ 06:43:45 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240729022316.92219-1-andrey.konovalov@linux.dev>
+ <baae33f5602d8bcd38b48cd6ea4617c8e17d8650.camel@sylv.io> <CA+fCnZcWvtnTrST3PrORdPwmo0m2rrE+S-hWD74ZU_4RD6mSPA@mail.gmail.com>
+ <d4ed3fb2-0d59-4376-af12-de4cd2167b18@rowland.harvard.edu>
+In-Reply-To: <d4ed3fb2-0d59-4376-af12-de4cd2167b18@rowland.harvard.edu>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Tue, 30 Jul 2024 15:43:34 +0200
+Message-ID: <CA+fCnZebutAq7dfzutMhp-KO0vwM67PC7r4FRHPUcY1eg5rW3Q@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: dummy_hcd: execute hrtimer callback in
+ softirq context
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Marcello Sylvester Bauer <sylv@sylv.io>, andrey.konovalov@linux.dev, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Vyukov <dvyukov@google.com>, 
+	Aleksandr Nogikh <nogikh@google.com>, Marco Elver <elver@google.com>, 
+	Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+2388cdaeb6b10f0c13ac@syzkaller.appspotmail.com, 
+	syzbot+17ca2339e34a1d863aad@syzkaller.appspotmail.com, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <44fa564b-9c8f-4ac2-bce3-f6d2c99b73b7@suse.cz>
-X-Original-Sender: dakr@kernel.org
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: andreyknvl@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=PDLf5vP9;       spf=pass
- (google.com: domain of dakr@kernel.org designates 145.40.73.55 as permitted
- sender) smtp.mailfrom=dakr@kernel.org;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=kernel.org
+ header.i=@gmail.com header.s=20230601 header.b=c5WKSV9a;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::436
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -154,205 +165,38 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Jul 30, 2024 at 02:15:34PM +0200, Vlastimil Babka wrote:
-> On 7/30/24 3:35 AM, Danilo Krummrich wrote:
-> > On Mon, Jul 29, 2024 at 09:08:16PM +0200, Danilo Krummrich wrote:
-> >> On Fri, Jul 26, 2024 at 10:05:47PM +0200, Danilo Krummrich wrote:
-> >>> On Fri, Jul 26, 2024 at 04:37:43PM +0200, Vlastimil Babka wrote:
-> >>>> On 7/22/24 6:29 PM, Danilo Krummrich wrote:
-> >>>>> Implement vrealloc() analogous to krealloc().
-> >>>>>
-> >>>>> Currently, krealloc() requires the caller to pass the size of the
-> >>>>> previous memory allocation, which, instead, should be self-contained.
-> >>>>>
-> >>>>> We attempt to fix this in a subsequent patch which, in order to do so,
-> >>>>> requires vrealloc().
-> >>>>>
-> >>>>> Besides that, we need realloc() functions for kernel allocators in Rust
-> >>>>> too. With `Vec` or `KVec` respectively, potentially growing (and
-> >>>>> shrinking) data structures are rather common.
-> >>>>>
-> >>>>> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> >>>>
-> >>>> Acked-by: Vlastimil Babka <vbabka@suse.cz>
-> >>>>
-> >>>>> --- a/mm/vmalloc.c
-> >>>>> +++ b/mm/vmalloc.c
-> >>>>> @@ -4037,6 +4037,65 @@ void *vzalloc_node_noprof(unsigned long size, int node)
-> >>>>>  }
-> >>>>>  EXPORT_SYMBOL(vzalloc_node_noprof);
-> >>>>>  
-> >>>>> +/**
-> >>>>> + * vrealloc - reallocate virtually contiguous memory; contents remain unchanged
-> >>>>> + * @p: object to reallocate memory for
-> >>>>> + * @size: the size to reallocate
-> >>>>> + * @flags: the flags for the page level allocator
-> >>>>> + *
-> >>>>> + * The contents of the object pointed to are preserved up to the lesser of the
-> >>>>> + * new and old size (__GFP_ZERO flag is effectively ignored).
-> >>>>
-> >>>> Well, technically not correct as we don't shrink. Get 8 pages, kvrealloc to
-> >>>> 4 pages, kvrealloc back to 8 and the last 4 are not zeroed. But it's not
-> >>>> new, kvrealloc() did the same before patch 2/2.
-> >>>
-> >>> Taking it (too) literal, it's not wrong. The contents of the object pointed to
-> >>> are indeed preserved up to the lesser of the new and old size. It's just that
-> >>> the rest may be "preserved" as well.
-> >>>
-> >>> I work on implementing shrink and grow for vrealloc(). In the meantime I think
-> >>> we could probably just memset() spare memory to zero.
-> >>
-> >> Probably, this was a bad idea. Even with shrinking implemented we'd need to
-> >> memset() potential spare memory of the last page to zero, when new_size <
-> >> old_size.
-> >>
-> >> Analogously, the same would be true for krealloc() buckets. That's probably not
-> >> worth it.
-> 
-> I think it could remove unexpected bad surprises with the API so why not
-> do it.
+On Mon, Jul 29, 2024 at 8:01=E2=80=AFPM Alan Stern <stern@rowland.harvard.e=
+du> wrote:
+>
+> > And I also found one more:
+> >
+> > Reported-by: syzbot+edd9fe0d3a65b14588d5@syzkaller.appspotmail.com
+> > Closes: https://syzkaller.appspot.com/bug?extid=3Dedd9fe0d3a65b14588d5
+>
+> You need to be careful about claiming that this patch will fix those bug
+> reports.  At least one of them (the last one above) still fails with the
+> patch applied.  See:
+>
+> https://lore.kernel.org/linux-usb/ade15714-6aa3-4988-8b45-719fc9d74727@ro=
+wland.harvard.edu/
+>
+> and the following response.
 
-We'd either need to do it *every* time we shrink an allocation on spec, or we
-only do it when shrinking with __GFP_ZERO flag set, which might be a bit
-counter-intuitive.
+Ah, right, that one is something else, so let's not add those last
+Reported-by/Closes.
 
-If we do it, I'd probably vote for the latter semantics. While it sounds more
-error prone, it's less wasteful and enough to cover the most common case where
-the actual *realloc() call is always with the same parameters, but a changing
-size.
+However, that crash was bisected to the same guilty patch, so the
+issue is somehow related. Even if we were to mark it as to be fixed
+with the patch I sent, this wouldn't be critical: syzbot would just
+rereport it, and with fresher stack traces.
 
-> 
-> >> I think we should indeed just document that __GFP_ZERO doesn't work for
-> >> re-allocating memory and start to warn about it. As already mentioned, I think
-> >> we should at least gurantee that *realloc(NULL, size, flags | __GFP_ZERO) is
-> >> valid, i.e. WARN_ON(p && flags & __GFP_ZERO).
-> > 
-> > Maybe I spoke a bit to soon with this last paragraph. I think continuously
-> > gowing something with __GFP_ZERO is a legitimate use case. I just did a quick
-> > grep for users of krealloc() with __GFP_ZERO and found 18 matches.
-> > 
-> > So, I think, at least for now, we should instead document that __GFP_ZERO is
-> > only fully honored when the buffer is grown continuously (without intermediate
-> > shrinking) and __GFP_ZERO is supplied in every iteration.
-> > 
-> > In case I miss something here, and not even this case is safe, it looks like
-> > we have 18 broken users of krealloc().
-> 
-> +CC Feng Tang
-> 
-> Let's say we kmalloc(56, __GFP_ZERO), we get an object from kmalloc-64
-> cache. Since commit 946fa0dbf2d89 ("mm/slub: extend redzone check to
-> extra allocated kmalloc space than requested") and preceding commits, if
-> slub_debug is enabled (red zoning or user tracking), only the 56 bytes
-> will be zeroed. The rest will be either unknown garbage, or redzone.
-> 
-> Then we might e.g. krealloc(120) and get a kmalloc-128 object and 64
-> bytes (result of ksize()) will be copied, including the garbage/redzone.
-> I think it's fixable because when we do this in slub_debug, we also
-> store the original size in the metadata, so we could read it back and
-> adjust how many bytes are copied.
-> 
-> Then we could guarantee that if __GFP_ZERO is used consistently on
-> initial kmalloc() and on krealloc() and the user doesn't corrupt the
-> extra space themselves (which is a bug anyway that the redzoning is
-> supposed to catch) all will be fine.
+Thank you!
 
-Ok, so those 18 users are indeed currently broken, but only when slub_debug is
-enabled (assuming that all of those are consistently growing with __GFP_ZERO).
-
-> 
-> There might be also KASAN side to this, I see poison_kmalloc_redzone()
-> is also redzoning the area between requested size and cache's object_size?
-> 
-> >>
-> >>>
-> >>> nommu would still uses krealloc() though...
-> >>>
-> >>>>
-> >>>> But it's also fundamentally not true for krealloc(), or kvrealloc()
-> >>>> switching from a kmalloc to valloc. ksize() returns the size of the kmalloc
-> >>>> bucket, we don't know what was the exact prior allocation size.
-> >>>
-> >>> Probably a stupid question, but can't we just zero the full bucket initially and
-> >>> make sure to memset() spare memory in the bucket to zero when krealloc() is
-> >>> called with new_size < ksize()?
-> >>>
-> >>>> Worse, we
-> >>>> started poisoning the padding in debug configurations, so even a
-> >>>> kmalloc(__GFP_ZERO) followed by krealloc(__GFP_ZERO) can give you unexpected
-> >>>> poison now...
-> >>>
-> >>> As in writing magics directly to the spare memory in the bucket? Which would
-> >>> then also be copied over to a new buffer in __do_krealloc()?
-> >>>
-> >>>>
-> >>>> I guess we should just document __GFP_ZERO is not honored at all for
-> >>>> realloc, and maybe start even warning :/ Hopefully nobody relies on that.
-> >>>
-> >>> I think it'd be great to make __GFP_ZERO work in all cases. However, if that's
-> >>> really not possible, I'd prefer if we could at least gurantee that
-> >>> *realloc(NULL, size, flags | __GFP_ZERO) is a valid call, i.e.
-> >>> WARN_ON(p && flags & __GFP_ZERO).
-> >>>
-> >>>>
-> >>>>> + *
-> >>>>> + * If @p is %NULL, vrealloc() behaves exactly like vmalloc(). If @size is 0 and
-> >>>>> + * @p is not a %NULL pointer, the object pointed to is freed.
-> >>>>> + *
-> >>>>> + * Return: pointer to the allocated memory; %NULL if @size is zero or in case of
-> >>>>> + *         failure
-> >>>>> + */
-> >>>>> +void *vrealloc_noprof(const void *p, size_t size, gfp_t flags)
-> >>>>> +{
-> >>>>> +	size_t old_size = 0;
-> >>>>> +	void *n;
-> >>>>> +
-> >>>>> +	if (!size) {
-> >>>>> +		vfree(p);
-> >>>>> +		return NULL;
-> >>>>> +	}
-> >>>>> +
-> >>>>> +	if (p) {
-> >>>>> +		struct vm_struct *vm;
-> >>>>> +
-> >>>>> +		vm = find_vm_area(p);
-> >>>>> +		if (unlikely(!vm)) {
-> >>>>> +			WARN(1, "Trying to vrealloc() nonexistent vm area (%p)\n", p);
-> >>>>> +			return NULL;
-> >>>>> +		}
-> >>>>> +
-> >>>>> +		old_size = get_vm_area_size(vm);
-> >>>>> +	}
-> >>>>> +
-> >>>>> +	if (size <= old_size) {
-> >>>>> +		/*
-> >>>>> +		 * TODO: Shrink the vm_area, i.e. unmap and free unused pages.
-> >>>>> +		 * What would be a good heuristic for when to shrink the
-> >>>>> +		 * vm_area?
-> >>>>> +		 */
-> >>>>> +		return (void *)p;
-> >>>>> +	}
-> >>>>> +
-> >>>>> +	/* TODO: Grow the vm_area, i.e. allocate and map additional pages. */
-> >>>>> +	n = __vmalloc_noprof(size, flags);
-> >>>>> +	if (!n)
-> >>>>> +		return NULL;
-> >>>>> +
-> >>>>> +	if (p) {
-> >>>>> +		memcpy(n, p, old_size);
-> >>>>> +		vfree(p);
-> >>>>> +	}
-> >>>>> +
-> >>>>> +	return n;
-> >>>>> +}
-> >>>>> +
-> >>>>>  #if defined(CONFIG_64BIT) && defined(CONFIG_ZONE_DMA32)
-> >>>>>  #define GFP_VMALLOC32 (GFP_DMA32 | GFP_KERNEL)
-> >>>>>  #elif defined(CONFIG_64BIT) && defined(CONFIG_ZONE_DMA)
-> >>>>
-> 
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZqjnR4Wxzf-ciUGW%40pollux.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CA%2BfCnZebutAq7dfzutMhp-KO0vwM67PC7r4FRHPUcY1eg5rW3Q%40mail.gmai=
+l.com.
