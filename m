@@ -1,140 +1,139 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORB3FKVO2QMGQEIYMBAIQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORB5VKVO2QMGQE5MEYMJY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02883943B11
-	for <lists+kasan-dev@lfdr.de>; Thu,  1 Aug 2024 02:23:10 +0200 (CEST)
-Received: by mail-wm1-x338.google.com with SMTP id 5b1f17b1804b1-428e0d30911sf1299545e9.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 31 Jul 2024 17:23:10 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1722471789; cv=pass;
+Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32674943B19
+	for <lists+kasan-dev@lfdr.de>; Thu,  1 Aug 2024 02:23:19 +0200 (CEST)
+Received: by mail-wm1-x33c.google.com with SMTP id 5b1f17b1804b1-42809eb7b99sf8263595e9.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 31 Jul 2024 17:23:19 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1722471799; cv=pass;
         d=google.com; s=arc-20160816;
-        b=vCjBnz9Np0uzP9KVhGyFsVnaNsFrieFDWdz5gEClC1/jI8E4FOWC7Bilciz0k/Zx2o
-         p63Si6Wleq27MSGbg9jJdYJNkcbAImir1h4Z4CMPIO8dKO9hlc5YLSLunn1GX2VHsfnp
-         SS+kUZIqn1wsNkdwwcbqC3j5pszsueBBi4VP2UZm8e1s0z2+XrJiE3PwPPOzaAlpu+Cm
-         4F3Jn1n2oEko7Ov1mfkBOd+6kocqL8ELk9s+9mmJqPvhPOBztwZeBLYjkF+gcx9n60ZF
-         oBYj2n2sy/YAp/dKgSeCaVzHu5ENGfmqaS91hkMrE4JZPbXZmYBTbXgHcz6MFGH+eMlI
-         AnCg==
+        b=S+cMoAVANtwSvd3jppAYzoflF3CN/qNDlvk6auhGf6UtNzbn1jJALt+FRLPv9/f/6G
+         jz05YRd50JNcQS5cFGOSXa5GyR8PQhgTmZXh1R2HZBiyR0trCOx7xND7R5Z4EYihM6oW
+         Ly9bv0IH4JWrM/CcjemBQ1k8d8rjyD9gy6GFZ4TvWm/EgwrqZJCtjZng1nsBnSxfIVtk
+         +vCDWGEAzu/KQTGXEbDdTDKgGtsZLHSqb2MQI/EVjbFv+KuOw5Vu62x7unij+V0pxJaB
+         meA7hpCsCjpapnj1EK6trpsHubsA6sQorS/2F62g8thkMYtMY8p24duhkiRX9jC++JXw
+         VLKA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
          :subject:message-id:date:from:in-reply-to:references:mime-version
          :sender:dkim-signature:dkim-signature;
-        bh=UUCURHOEpcl6xVLcM+0kc/gOqtSqCZnVjj6go5R7vfU=;
-        fh=v/yu3ip4xOuOn8F7MC5e18wLawqaPdB83AQ/KlhpVyE=;
-        b=Vjfq66D5sX+A/7SR3EupBfvNg8DBjwkyIukr52Wvf+w0AxsTRnKrAGMNT4Yt1FD8D+
-         YAawrHi3QZUUGqfLG8mbopdNDtDcRYH3kA03ISNYSGiX49+aojtYMZ8hOW7N9xCqOIA8
-         kKEujeTCH6zRzxMB5uiXWWQJ4H5BJMRUGFP14Qi+A4gvK8n4cq1gfy92KKJ8xUNSCQqU
-         WDPyg9AcITBgdHrpFERsar9LdCeZgz6TFOzHZNXOCo3FCortSzHBrWS+9E9rYpU5UpCl
-         9GTmz8GqlkATvAt4ktmpSxly7PiNJrzhameupvFcE9bohHiDfGV7wYKZ57AzgWdSmHMM
-         DJkw==;
+        bh=1rszz0BCNp6XT+6UkeO87e+l2kYM1InNtcXt1BpU99M=;
+        fh=t46DM6TglSxrkBtdaubc+RfrXfsOVTilelbkdBQKN1A=;
+        b=CY2PygeTrqlbS5ojbM9XdYNXWqVKyAb6E2noRIrIf4eFy0Wy9reeAtdtUlIWPFnaV1
+         bSrkHog6YtwPdzwLz9V38Gb9/p2EYlxdIspeGodN9XHDTh61G38NrOQlx5J4xoyC5P/m
+         rFf7UjFAHmFbBLy3SpSm7hjmGYzdzmNb7UGwgxK6OZeGkU+EnVgLCHlPTjJ+4xOBsHQH
+         BlhE1GoaICKiWcU4psoGFMQb5G97STPU9cYOzr1GZSP1e7lhbmBlnRg4feFzpsVNPzHK
+         jAOcdnMnhTqs25S8kyKMiMhIKLiDEPyzx3HmmqJ0+H0LVDGNT4NQ/QpH8hT9zOHmf5ar
+         dQlg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=KQXnBpPW;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::431 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=TeUoIuSY;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1722471789; x=1723076589; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1722471799; x=1723076599; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=UUCURHOEpcl6xVLcM+0kc/gOqtSqCZnVjj6go5R7vfU=;
-        b=jrEzrkh4PtOUpJh5Qf4N7aSbdpQzGJyX5M5Gso2xgMjt6kBY/fBdJYqigOTfEbJ/jQ
-         hM5W2HMc+sCk1Nd3qGbsLal19v4xaoubWn4VhC3fUAEhSNjJYe9WMScYdVpk+t4IWnS7
-         uHK8blekOPnDAw6eL9xpwMPNxPa9s8qhjjWl4i915jPBavqyDKPGyDeBTpfcSmmHQPmg
-         RwtKEmoaISY5lsikrQ2aNjrgwCXHSgeVS08KUOwk6vt80xZzBr6y97S+UNg8VDY0+pm/
-         smnxCdi0Cpgc6FU583a/+uJPcFi48S5XRzmZtOM6jKzICmI53NlQwVdkCPB/nENmW0qW
-         vsmA==
+        bh=1rszz0BCNp6XT+6UkeO87e+l2kYM1InNtcXt1BpU99M=;
+        b=HbcTaGnFapDUeeYChkR/YozvRfnT4iFNIpSwAbuYFFXZUklaEQF0sXSY7pruXYgbTh
+         MDEGI/hx/XzkXWKrz6trVtgsgrISqeLdhDXdCngmkRPLvhi+XMzvK7AztL2KYsVCh9QM
+         ZJlFg/mUdf1se+f2TDC2hhQIiGzpjWTyaXEKctZgmLHk0g8wNm4YsNZyU/0Bi/Bp5vFf
+         IYHc6+aGQ8Mtr3uUf0inyoX0wKEOAlsiJgw3R0gnWTDgQtl3vkviyAUf+euW8i9jm4Jj
+         GFREMRhAnGPLZjzV52lTkSwYFxihujluMz6j8YC/FVty8nn8CRZssnv4I0TnjrYdXAsh
+         alKg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1722471789; x=1723076589; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1722471799; x=1723076599; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UUCURHOEpcl6xVLcM+0kc/gOqtSqCZnVjj6go5R7vfU=;
-        b=nHmORnDnsoyrX05XowUqPWHhrVrcrm/xWPYU6HXq4Ek19Y8sC7YJe3dScpLyZ4ziW4
-         6g/EcRYB3v9CI3aznOkzHRiT5s6foa9NmkRyv4ttZwYfELE1FCgiqgYk/Ez1knp+HK++
-         VUx3zAqGB86CDDXL4FmajfGWn37MVPQw5UtigTIgUngwmPWhv34oYUNsXZbYTiQMV6Xh
-         1E8QCCe3JPq5JHMNoaG36hvHhefezafE9gVZFb552ejmpYNc9ejwca78QYClJV4IS4FM
-         U6Mknd1HWJ4vsJ+8/Ndh77kySh1dJYogua90Swp4m81DokqV5pAiTQOffLeDQeCQ4tAm
-         G3Fg==
+        bh=1rszz0BCNp6XT+6UkeO87e+l2kYM1InNtcXt1BpU99M=;
+        b=UAbCoz7WnsHkkZ2Kx3iaYXeg6tisX7jyW6/AthiojVYFqIpBG78CRc6mEmV1Qd4/n5
+         mPqozesIOUIm24uh5FqTCRxcWpX0LS8ZZpBLrzWjP0ZsUKU/i1/nFKxiagi7cL5x3B7R
+         YllbIF31b0DHhv3G62qj65xBxdRlBH+tWXsoG4kPNuBxGQ21lzuspixQU91+il8mokZW
+         x24/AHSlW5XCn6zmxhb1wCq+P1IE6sYhRoVlY5jlT0Uouqye/32QBPss8QI7fP4DKwM7
+         EcVnJBW0tCRjvK+DY5gl+URf2mEg/D9iskVcRLJ9Bwu0mkUEXON2RIeopOHYkMX0VJ1c
+         WOjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722471789; x=1723076589;
+        d=1e100.net; s=20230601; t=1722471799; x=1723076599;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=UUCURHOEpcl6xVLcM+0kc/gOqtSqCZnVjj6go5R7vfU=;
-        b=RxkVLwOW69jZfmF+1BX5CiMXSi1ypzlURXMFkePg6xnxLZHQ5SKT5qQm2GgqyioIgw
-         PphdU7p2MtMRgjI6zhktmDC8RPwAdUPA9eQ6JQ8Nhq7aRqykaLmMnFzjC5KeRLsvQTUC
-         Ls3HIuUd2JL91nyRdlSxzhu39UnljYejNA0BFmLx+6Z2UiCUCS5grUz1sxY9aw89r6V0
-         hCuHy4KJs2b1cj6lL4+h1en+iQewhvueDsDDLspQxXpsbw5pWFw8rYiU625G/jP/DUM2
-         d61AvBL0MUa1NClPw66oxCrtz9E3527ZAxMXkITRCZ4Jx5Hd2lT1LlbZ/6Dh9nqxMo3L
-         et7A==
+        bh=1rszz0BCNp6XT+6UkeO87e+l2kYM1InNtcXt1BpU99M=;
+        b=WcAv4rjNi29y+xH/jTVxYHYO42uMDAglKWVUn+SU08EykWQykGISI9iJhneEZxHYKG
+         1g+BZFGLmz0JDnvjXvXzTWVagcgfXns3lCmw9yP2dIHa5MwJydcYLoTizdCeJoTi9Sre
+         nSEtgHJ+Oi7E04HKQ5h4hcCJxtLGHvDIuxXe++5aDRHCMkJNLKQa09S/VnWu2xhoArT3
+         HL3ibdoDJ/Rlq7K1fcc4gkrv3q6DCAsTowzvcShRYJiQI2nFDRedKIJbOJPEbEyKa286
+         0T5KnwAN9ihH6PYd095OY/E8gTdp/0jPU5IizVBX3CHVa2TtXMEGm17AEqOAGjMiJudc
+         2tNw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUqC+djgRA2OugzxzttgKhQzv+/0RoLUsDaa79muZ1fGIK2R9EQ+j47grXUDAU69DUCaweuREbeXmzOMveu6TqTRzseQoSnVg==
-X-Gm-Message-State: AOJu0YyRjp2pyYkpZkZFNLtw4R8xoNJBF2VgWI99P7ul3Dsbqe75AGUj
-	EBYbE6DHK5RyHoYJM+W3/xpi0omS+GFnRn2TQc1VHqPHAfOunNX7
-X-Google-Smtp-Source: AGHT+IGRedu5XJtk9oU1a96m0X3Xp67qTT4bPbKqDIo+8ipTbCKQ2HcQebH+zXHLo+P1Er4Vi3q05w==
-X-Received: by 2002:a05:600c:a01:b0:427:dae6:8416 with SMTP id 5b1f17b1804b1-428b03219f0mr4628745e9.36.1722471788578;
-        Wed, 31 Jul 2024 17:23:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCW15qbo2vKBC+GsqWhP/dl9eFVYPDgUVrdXN7oFpWkrZLscIR++0/ZObqrv6jCvgI0SGF7U2Q==@lfdr.de
+X-Gm-Message-State: AOJu0YyNySSQYFN0iLMb4atlhylfN1/U3T765gjyCQ+RyGyblp4Gb9zV
+	w6+MevJQEaVx+apWN9xgQavy39hv3CAs9cQzq40Ilmh20EcvAp7p
+X-Google-Smtp-Source: AGHT+IGaxWfz8XSgQfhCk59Ys4jKRsxKyIwA0QKF7fsSfm/owAefgqAPwasAaKLen2T9L0zdSwE59Q==
+X-Received: by 2002:a05:600c:4f54:b0:426:6eb6:1374 with SMTP id 5b1f17b1804b1-42824390747mr51651625e9.0.1722471798264;
+        Wed, 31 Jul 2024 17:23:18 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:3513:b0:426:68ce:c99e with SMTP id
- 5b1f17b1804b1-42803b69c50ls33896145e9.1.-pod-prod-03-eu; Wed, 31 Jul 2024
- 17:23:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUUFq6uiPXo/rEXZ0ZW+WLU1kx46FQgyZhbYekE5N0wl2DBqK85cYxHKkFUtYAqowikOtr/F9BZ187qhi5M8ra5FoXi0lG0zV74hw==
-X-Received: by 2002:a5d:67cc:0:b0:368:3789:1a2 with SMTP id ffacd0b85a97d-36baacc9cd9mr490773f8f.21.1722471786484;
-        Wed, 31 Jul 2024 17:23:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1722471786; cv=none;
+Received: by 2002:a05:600c:5118:b0:428:9f15:7820 with SMTP id
+ 5b1f17b1804b1-4289f157de6ls1573795e9.0.-pod-prod-00-eu; Wed, 31 Jul 2024
+ 17:23:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUYKLgbKEKw9IUsPC2AppJNbo9ygsN7aQQO8OiQTlsseA22sZ4SCZNWaw+sLNpWKS+0nEd3bv8QTLU=@googlegroups.com
+X-Received: by 2002:a05:600c:444e:b0:424:8dbe:817d with SMTP id 5b1f17b1804b1-42824403d2dmr54587465e9.10.1722471796357;
+        Wed, 31 Jul 2024 17:23:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1722471796; cv=none;
         d=google.com; s=arc-20160816;
-        b=W86NN0wiHi19iOdOKnnVrFc392sZNUkCjipJMYX0V+eaNAl3B2Wffsrw+dCzFW1nn/
-         34AeTYQgKD9nZkghoPxE/attiH2W/bpmXd4WKq3sTGM/f2wZClux6cJ3x8v1oXIcWzJF
-         A52qKeSS1GXYJbXWJTsSKl/nhRd8kfvbM+ZEdzlZXXEfc9knh2U6ZcjyuatHuZRumGIt
-         Un7r9yEj1PCoKziwUP4mKYfOIJ1TUC2gAD1ykVICg29NzjmN5QSVkoe227CequljlPhn
-         +xUWUuUAy3VmAEsFDFsJogdOw4Tydia8lvBemtXNIcIY9p2lBM0gDnuEPcNDIDvajkQP
-         wfGw==
+        b=toCgJW48YjL7dXtT19ujJYA0/dvwoVJmDSlg7AZwqOdE01ncMVDNI+3mZEYdlgP53f
+         GfnHQ2PGRHdaVnIKKH/HnqNv7RABQ6dUjc1dpJyMDT2jPcl35BrSVavlPo/Wgfqk0S98
+         3s8hEKdzEYgZrVnyq+6XDazXgtO3Klui9Pc5MfsJLsMVEIGbxK3h26nwnb7CZYVCjkTJ
+         +D0cXSdiu43sKCCOpyRxVYk4G2ydridHqYHVxS5U+jx+2C5LFP9DodXDBYGjN8/KBl2Z
+         kzRAmu9ZDa9aXBINwbTNEzjXSHb1gTrkoLc5fbE0kBrAM1Dc+7jnUpz2QGvFSD2pKcYP
+         UWPg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=vsRe15f8SeekhA1unFJl3x8nWV4+YMvQOTBZActqfL4=;
-        fh=NTDAMfK2kpnAQvpuMGHuxtHavFdWArgB8FwSq5Ytpdo=;
-        b=ELis/GzArJSULPFb+AkCEELTHd+XfqFPxTb3j8MiEixOyvmkzKPuyDK2h7srpwAd+C
-         siBQQ4F2Nj9zz8UAu+a+i3eiNXlHZEsQ6ccyiangFtyiBVU7y/cQIfj1jFaFBVX1zUHF
-         4DPsAdLzrx0UAVpYxdDV3NW3LUjkpb24P/D1/wtMGRQYr+tbKmorjKcKgvztI+XKq/Az
-         rPXsdrYWfmmiWR3BMTbNTTN5ztU0Fq/7uxlc9e3uxFcjiyhPAWCLKtGkYi4rPVqc33p1
-         fvsvrZnU5A7/QJg1QE0LCxQVxR1WCxcfuLNkQ/xa+HgbCcTuC8YXb1AepXT46y+j7yxS
-         h9aQ==;
+        bh=+/OWgCrKT8FaN/NojJFZkZVtPfuI+fAkVxQk1yUAr8I=;
+        fh=qv+eANdr8IS+fPcRKJXaVK5vqVtYtqhQN9c1uZhCZiA=;
+        b=epjja/fPCQmiRSkbGpJcz2OTl1mUPIaVOlVxwU2XkhUGjO1Nsg6iXhxgyASHucXihb
+         /XSjmWfPdCH7jjP3i7uQrtNNsAygEmtTzMHLJUqNMfLkwBAn5LXX2fiesXOT2f0fUDcO
+         sLzvIPNRzm52Y1S9pqzaYwDKh6bcNcTPwNWAlxtAoX8AlhLv1ZXw+rjGfd+GCRAMTYbl
+         +QxQqH3ZDmsCgI0Fho+eaLPfx5jGmT1l+2BB7Cl51KDR7JcsZf6vonWP1BJ02BcfrrXQ
+         QApy9c5XLMFxflP+VovLrvbUoOlfMQDrwlADTEOZEUkVtnPgbhMoTJPD3Wa8DiL+S6yO
+         5MEg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=KQXnBpPW;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::431 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=TeUoIuSY;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com. [2a00:1450:4864:20::431])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-36b36771c4fsi308527f8f.2.2024.07.31.17.23.06
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com. [2a00:1450:4864:20::32f])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-42824af684dsi3843235e9.1.2024.07.31.17.23.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Jul 2024 17:23:06 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::431 as permitted sender) client-ip=2a00:1450:4864:20::431;
-Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-369cb9f086aso3512653f8f.0
-        for <kasan-dev@googlegroups.com>; Wed, 31 Jul 2024 17:23:06 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW9qdmkzeTlVOfLNf6KvTVrRyiwrSOosaj3DMbeQ7MevWHxwe0sJZmKd83OTXffVGufFqvZnA67LZYkvfdQR97hWeG0RW/00IfiDQ==
-X-Received: by 2002:a05:6000:188:b0:367:9088:fecc with SMTP id
- ffacd0b85a97d-36baaca26cfmr431122f8f.7.1722471785502; Wed, 31 Jul 2024
- 17:23:05 -0700 (PDT)
+        Wed, 31 Jul 2024 17:23:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32f as permitted sender) client-ip=2a00:1450:4864:20::32f;
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-428035c0bb2so8848805e9.1
+        for <kasan-dev@googlegroups.com>; Wed, 31 Jul 2024 17:23:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXdOABu7tHy9QjOMYEVcd0qRBDn1bbUnRkplG+wXOdQUeQV5RfnSz09cVUVH5eV0E3ueXEGkxsVl2U=@googlegroups.com
+X-Received: by 2002:a05:600c:4688:b0:426:698b:791f with SMTP id
+ 5b1f17b1804b1-428243e1dcemr46512705e9.3.1722471795367; Wed, 31 Jul 2024
+ 17:23:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240730-kasan-tsbrcu-v5-0-48d3cbdfccc5@google.com> <20240730-kasan-tsbrcu-v5-1-48d3cbdfccc5@google.com>
-In-Reply-To: <20240730-kasan-tsbrcu-v5-1-48d3cbdfccc5@google.com>
+References: <20240730-kasan-tsbrcu-v5-0-48d3cbdfccc5@google.com> <20240730-kasan-tsbrcu-v5-2-48d3cbdfccc5@google.com>
+In-Reply-To: <20240730-kasan-tsbrcu-v5-2-48d3cbdfccc5@google.com>
 From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Thu, 1 Aug 2024 02:22:54 +0200
-Message-ID: <CA+fCnZfURBYNM+o6omuTJyCtL4GpeudpErEd26qde296ciVYuQ@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] kasan: catch invalid free before SLUB
- reinitializes the object
+Date: Thu, 1 Aug 2024 02:23:04 +0200
+Message-ID: <CA+fCnZeq8JGSkFwGitwSc3DbeuoXnoyvC7RgWh6XSG1CoWH=Zg@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] slub: Introduce CONFIG_SLUB_RCU_DEBUG
 To: Jann Horn <jannh@google.com>
 Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
 	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
@@ -148,8 +147,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: andreyknvl@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=KQXnBpPW;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::431
+ header.i=@gmail.com header.s=20230601 header.b=TeUoIuSY;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::32f
  as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
  (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Precedence: list
@@ -166,268 +165,236 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 On Tue, Jul 30, 2024 at 1:06=E2=80=AFPM Jann Horn <jannh@google.com> wrote:
 >
-> Currently, when KASAN is combined with init-on-free behavior, the
-> initialization happens before KASAN's "invalid free" checks.
+> Currently, KASAN is unable to catch use-after-free in SLAB_TYPESAFE_BY_RC=
+U
+> slabs because use-after-free is allowed within the RCU grace period by
+> design.
 >
-> More importantly, a subsequent commit will want to RCU-delay the actual
-> SLUB freeing of an object, and we'd like KASAN to still validate
-> synchronously that freeing the object is permitted. (Otherwise this
-> change will make the existing testcase kmem_cache_invalid_free fail.)
+> Add a SLUB debugging feature which RCU-delays every individual
+> kmem_cache_free() before either actually freeing the object or handing it
+> off to KASAN, and change KASAN to poison freed objects as normal when thi=
+s
+> option is enabled.
 >
-> So add a new KASAN hook that allows KASAN to pre-validate a
-> kmem_cache_free() operation before SLUB actually starts modifying the
-> object or its metadata.
-
-A few more minor comments below. With that:
-
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
-
-Thank you!
-
-> Inside KASAN, this:
+> For now I've configured Kconfig.debug to default-enable this feature in t=
+he
+> KASAN GENERIC and SW_TAGS modes; I'm not enabling it by default in HW_TAG=
+S
+> mode because I'm not sure if it might have unwanted performance degradati=
+on
+> effects there.
 >
->  - moves checks from poison_slab_object() into check_slab_free()
->  - moves kasan_arch_is_ready() up into callers of poison_slab_object()
->  - removes "ip" argument of poison_slab_object() and __kasan_slab_free()
->    (since those functions no longer do any reporting)
-
->  - renames check_slab_free() to check_slab_allocation()
-
-check_slab_allocation() is introduced in this patch, so technically
-you don't rename anything.
-
-> Acked-by: Vlastimil Babka <vbabka@suse.cz> #slub
+> Note that this is mostly useful with KASAN in the quarantine-based GENERI=
+C
+> mode; SLAB_TYPESAFE_BY_RCU slabs are basically always also slabs with a
+> ->ctor, and KASAN's assign_tag() currently has to assign fixed tags for
+> those, reducing the effectiveness of SW_TAGS/HW_TAGS mode.
+> (A possible future extension of this work would be to also let SLUB call
+> the ->ctor() on every allocation instead of only when the slab page is
+> allocated; then tag-based modes would be able to assign new tags on every
+> reallocation.)
+>
 > Signed-off-by: Jann Horn <jannh@google.com>
+
+Acked-by: Andrey Konovalov <andreyknvl@gmail.com>
+
+But see a comment below.
+
 > ---
->  include/linux/kasan.h | 43 ++++++++++++++++++++++++++++++++++---
->  mm/kasan/common.c     | 59 +++++++++++++++++++++++++++++++--------------=
+>  include/linux/kasan.h | 11 +++++---
+>  mm/Kconfig.debug      | 30 ++++++++++++++++++++
+>  mm/kasan/common.c     | 11 ++++----
+>  mm/kasan/kasan_test.c | 46 +++++++++++++++++++++++++++++++
+>  mm/slab_common.c      | 12 ++++++++
+>  mm/slub.c             | 76 +++++++++++++++++++++++++++++++++++++++++++++=
 ------
->  mm/slub.c             |  7 ++++++
->  3 files changed, 83 insertions(+), 26 deletions(-)
+>  6 files changed, 169 insertions(+), 17 deletions(-)
 >
 > diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index 70d6a8f6e25d..34cb7a25aacb 100644
+> index 34cb7a25aacb..0b952e11c7a0 100644
 > --- a/include/linux/kasan.h
 > +++ b/include/linux/kasan.h
-> @@ -172,19 +172,50 @@ static __always_inline void * __must_check kasan_in=
-it_slab_obj(
+> @@ -194,28 +194,30 @@ static __always_inline bool kasan_slab_pre_free(str=
+uct kmem_cache *s,
 >  {
 >         if (kasan_enabled())
->                 return __kasan_init_slab_obj(cache, object);
->         return (void *)object;
+>                 return __kasan_slab_pre_free(s, object, _RET_IP_);
+>         return false;
 >  }
 >
-> -bool __kasan_slab_free(struct kmem_cache *s, void *object,
-> -                       unsigned long ip, bool init);
-> +bool __kasan_slab_pre_free(struct kmem_cache *s, void *object,
-> +                       unsigned long ip);
-> +/**
-> + * kasan_slab_pre_free - Validate a slab object freeing request.
-> + * @object: Object to free.
-> + *
-> + * This function checks whether freeing the given object might be permit=
-ted; it
-> + * checks things like whether the given object is properly aligned and n=
-ot
-> + * already freed.
-> + *
-> + * This function is only intended for use by the slab allocator.
-> + *
-> + * @Return true if freeing the object is known to be invalid; false othe=
-rwise.
-> + */
+> -bool __kasan_slab_free(struct kmem_cache *s, void *object, bool init);
+> +bool __kasan_slab_free(struct kmem_cache *s, void *object, bool init,
+> +                      bool after_rcu_delay);
 
-Let's reword this to:
+What do you think about renaming this argument to poison_rcu? I think
+it makes the intention more clear from the KASAN's point of view.
 
-kasan_slab_pre_free - Check whether freeing a slab object is safe.
-@object: Object to be freed.
+>  /**
+>   * kasan_slab_free - Possibly handle slab object freeing.
+>   * @object: Object to free.
 
-This function checks whether freeing the given object is safe. It
-performs checks to detect double-free and invalid-free bugs and
-reports them.
+@poison_rcu - Whether to skip poisoning for SLAB_TYPESAFE_BY_RCU caches.
 
-This function is intended only for use by the slab allocator.
-
-@Return true if freeing the object is not safe; false otherwise.
-
-> +static __always_inline bool kasan_slab_pre_free(struct kmem_cache *s,
-> +                                               void *object)
-> +{
-> +       if (kasan_enabled())
-> +               return __kasan_slab_pre_free(s, object, _RET_IP_);
-> +       return false;
-> +}
-> +
-> +bool __kasan_slab_free(struct kmem_cache *s, void *object, bool init);
-> +/**
-> + * kasan_slab_free - Possibly handle slab object freeing.
-> + * @object: Object to free.
-> + *
-> + * This hook is called from the slab allocator to give KASAN a chance to=
- take
-> + * ownership of the object and handle its freeing.
-> + * kasan_slab_pre_free() must have already been called on the same objec=
-t.
-> + *
-> + * @Return true if KASAN took ownership of the object; false otherwise.
-> + */
-
-kasan_slab_free - Poison, initialize, and quarantine a slab object.
-@object: Object to be freed.
-@init: Whether to initialize the object.
+And also update the reworded comment from the previous patch:
 
 This function poisons a slab object and saves a free stack trace for
-it, except for SLAB_TYPESAFE_BY_RCU caches.
+it, except for SLAB_TYPESAFE_BY_RCU caches when @poison_rcu is false.
 
-For KASAN modes that have integrated memory initialization
-(kasan_has_integrated_init() =3D=3D true), this function also initializes
-the object's memory. For other modes, the @init argument is ignored.
 
-For the Generic mode, this function might also quarantine the object.
-When this happens, KASAN will defer freeing the object to a later
-stage and handle it internally then. The return value indicates
-whether the object was quarantined.
 
-This function is intended only for use by the slab allocator.
-
-@Return true if KASAN quarantined the object; false otherwise.
-
+>   *
+>   * This hook is called from the slab allocator to give KASAN a chance to=
+ take
+>   * ownership of the object and handle its freeing.
+>   * kasan_slab_pre_free() must have already been called on the same objec=
+t.
+>   *
+>   * @Return true if KASAN took ownership of the object; false otherwise.
+>   */
 >  static __always_inline bool kasan_slab_free(struct kmem_cache *s,
->                                                 void *object, bool init)
+> -                                               void *object, bool init)
+> +                                               void *object, bool init,
+> +                                               bool after_rcu_delay)
 >  {
 >         if (kasan_enabled())
-> -               return __kasan_slab_free(s, object, _RET_IP_, init);
-> +               return __kasan_slab_free(s, object, init);
+> -               return __kasan_slab_free(s, object, init);
+> +               return __kasan_slab_free(s, object, init, after_rcu_delay=
+);
 >         return false;
 >  }
 >
 >  void __kasan_kfree_large(void *ptr, unsigned long ip);
 >  static __always_inline void kasan_kfree_large(void *ptr)
 >  {
-> @@ -368,12 +399,18 @@ static inline void kasan_poison_new_object(struct k=
-mem_cache *cache,
->                                         void *object) {}
->  static inline void *kasan_init_slab_obj(struct kmem_cache *cache,
->                                 const void *object)
->  {
->         return (void *)object;
->  }
-> +
-> +static inline bool kasan_slab_pre_free(struct kmem_cache *s, void *objec=
+> @@ -405,13 +407,14 @@ static inline void *kasan_init_slab_obj(struct kmem=
+_cache *cache,
+>
+>  static inline bool kasan_slab_pre_free(struct kmem_cache *s, void *objec=
 t)
-> +{
-> +       return false;
-> +}
-> +
->  static inline bool kasan_slab_free(struct kmem_cache *s, void *object, b=
+>  {
+>         return false;
+>  }
+>
+> -static inline bool kasan_slab_free(struct kmem_cache *s, void *object, b=
 ool init)
+> +static inline bool kasan_slab_free(struct kmem_cache *s, void *object,
+> +                                  bool init, bool after_rcu_delay)
 >  {
 >         return false;
 >  }
 >  static inline void kasan_kfree_large(void *ptr) {}
 >  static inline void *kasan_slab_alloc(struct kmem_cache *s, void *object,
+>                                    gfp_t flags, bool init)
+> diff --git a/mm/Kconfig.debug b/mm/Kconfig.debug
+> index afc72fde0f03..8e440214aac8 100644
+> --- a/mm/Kconfig.debug
+> +++ b/mm/Kconfig.debug
+> @@ -67,12 +67,42 @@ config SLUB_DEBUG_ON
+>           equivalent to specifying the "slab_debug" parameter on boot.
+>           There is no support for more fine grained debug control like
+>           possible with slab_debug=3Dxxx. SLUB debugging may be switched
+>           off in a kernel built with CONFIG_SLUB_DEBUG_ON by specifying
+>           "slab_debug=3D-".
+>
+> +config SLUB_RCU_DEBUG
+> +       bool "Enable UAF detection in TYPESAFE_BY_RCU caches (for KASAN)"
+> +       depends on SLUB_DEBUG
+> +       depends on KASAN # not a real dependency; currently useless witho=
+ut KASAN
+> +       default KASAN_GENERIC || KASAN_SW_TAGS
+> +       help
+> +         Make SLAB_TYPESAFE_BY_RCU caches behave approximately as if the=
+ cache
+> +         was not marked as SLAB_TYPESAFE_BY_RCU and every caller used
+> +         kfree_rcu() instead.
+> +
+> +         This is intended for use in combination with KASAN, to enable K=
+ASAN to
+> +         detect use-after-free accesses in such caches.
+> +         (KFENCE is able to do that independent of this flag.)
+> +
+> +         This might degrade performance.
+> +         Unfortunately this also prevents a very specific bug pattern fr=
+om
+> +         triggering (insufficient checks against an object being recycle=
+d
+> +         within the RCU grace period); so this option can be turned off =
+even on
+> +         KASAN builds, in case you want to test for such a bug.
+> +
+> +         If you're using this for testing bugs / fuzzing and care about
+> +         catching all the bugs WAY more than performance, you might want=
+ to
+> +         also turn on CONFIG_RCU_STRICT_GRACE_PERIOD.
+> +
+> +         WARNING:
+> +         This is designed as a debugging feature, not a security feature=
+.
+> +         Objects are sometimes recycled without RCU delay under memory p=
+ressure.
+> +
+> +         If unsure, say N.
+> +
+>  config PAGE_OWNER
+>         bool "Track page owner"
+>         depends on DEBUG_KERNEL && STACKTRACE_SUPPORT
+>         select DEBUG_FS
+>         select STACKTRACE
+>         select STACKDEPOT
 > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
-> index 85e7c6b4575c..8cede1ce00e1 100644
+> index 8cede1ce00e1..0769b23a9d5f 100644
 > --- a/mm/kasan/common.c
 > +++ b/mm/kasan/common.c
-> @@ -205,59 +205,65 @@ void * __must_check __kasan_init_slab_obj(struct km=
-em_cache *cache,
->         /* Tag is ignored in set_tag() without CONFIG_KASAN_SW/HW_TAGS */
->         object =3D set_tag(object, assign_tag(cache, object, true));
+> @@ -227,43 +227,44 @@ static bool check_slab_allocation(struct kmem_cache=
+ *cache, void *object,
+>         }
 >
->         return (void *)object;
+>         return false;
 >  }
 >
-> -static inline bool poison_slab_object(struct kmem_cache *cache, void *ob=
+>  static inline void poison_slab_object(struct kmem_cache *cache, void *ob=
 ject,
-> -                                     unsigned long ip, bool init)
-> +/* returns true for invalid request */
-
-"Returns true when freeing the object is not safe."
-
-> +static bool check_slab_allocation(struct kmem_cache *cache, void *object=
-,
-> +                                 unsigned long ip)
+> -                                     bool init)
+> +                                     bool init, bool after_rcu_delay)
 >  {
-> -       void *tagged_object;
-> -
-> -       if (!kasan_arch_is_ready())
-> -               return false;
-> +       void *tagged_object =3D object;
+>         void *tagged_object =3D object;
 >
-> -       tagged_object =3D object;
 >         object =3D kasan_reset_tag(object);
 >
->         if (unlikely(nearest_obj(cache, virt_to_slab(object), object) !=
-=3D object)) {
->                 kasan_report_invalid_free(tagged_object, ip, KASAN_REPORT=
-_INVALID_FREE);
->                 return true;
->         }
->
-> -       /* RCU slabs could be legally used after free within the RCU peri=
+>         /* RCU slabs could be legally used after free within the RCU peri=
 od. */
 > -       if (unlikely(cache->flags & SLAB_TYPESAFE_BY_RCU))
-> -               return false;
-> -
->         if (!kasan_byte_accessible(tagged_object)) {
->                 kasan_report_invalid_free(tagged_object, ip, KASAN_REPORT=
-_DOUBLE_FREE);
->                 return true;
->         }
+> +       if (unlikely(cache->flags & SLAB_TYPESAFE_BY_RCU) && !after_rcu_d=
+elay)
+>                 return;
 >
-> +       return false;
-> +}
-> +
-> +static inline void poison_slab_object(struct kmem_cache *cache, void *ob=
-ject,
-> +                                     bool init)
-> +{
-> +       void *tagged_object =3D object;
-> +
-> +       object =3D kasan_reset_tag(object);
-> +
-> +       /* RCU slabs could be legally used after free within the RCU peri=
-od. */
-> +       if (unlikely(cache->flags & SLAB_TYPESAFE_BY_RCU))
-> +               return;
-> +
 >         kasan_poison(object, round_up(cache->object_size, KASAN_GRANULE_S=
 IZE),
 >                         KASAN_SLAB_FREE, init);
 >
 >         if (kasan_stack_collection_enabled())
 >                 kasan_save_free_info(cache, tagged_object);
-> +}
->
-> -       return false;
-> +bool __kasan_slab_pre_free(struct kmem_cache *cache, void *object,
-> +                               unsigned long ip)
-> +{
-> +       if (!kasan_arch_is_ready() || is_kfence_address(object))
-> +               return false;
-> +       return check_slab_allocation(cache, object, ip);
 >  }
 >
-> -bool __kasan_slab_free(struct kmem_cache *cache, void *object,
-> -                               unsigned long ip, bool init)
-> +bool __kasan_slab_free(struct kmem_cache *cache, void *object, bool init=
-)
+>  bool __kasan_slab_pre_free(struct kmem_cache *cache, void *object,
+>                                 unsigned long ip)
 >  {
-> -       if (is_kfence_address(object))
-> +       if (!kasan_arch_is_ready() || is_kfence_address(object))
+>         if (!kasan_arch_is_ready() || is_kfence_address(object))
+>                 return false;
+>         return check_slab_allocation(cache, object, ip);
+>  }
+>
+> -bool __kasan_slab_free(struct kmem_cache *cache, void *object, bool init=
+)
+> +bool __kasan_slab_free(struct kmem_cache *cache, void *object, bool init=
+,
+> +                      bool after_rcu_delay)
+>  {
+>         if (!kasan_arch_is_ready() || is_kfence_address(object))
 >                 return false;
 >
-> -       /*
-> -        * If the object is buggy, do not let slab put the object onto th=
-e
-> -        * freelist. The object will thus never be allocated again and it=
-s
-> -        * metadata will never get released.
-> -        */
-> -       if (poison_slab_object(cache, object, ip, init))
-> -               return true;
-> +       poison_slab_object(cache, object, init);
+> -       poison_slab_object(cache, object, init);
+> +       poison_slab_object(cache, object, init, after_rcu_delay);
 >
 >         /*
 >          * If the object is put into quarantine, do not let slab put the =
@@ -436,47 +403,188 @@ object
  the
 >          * object gets evicted from quarantine.
 >          */
-> @@ -503,15 +509,22 @@ bool __kasan_mempool_poison_object(void *ptr, unsig=
+> @@ -517,13 +518,13 @@ bool __kasan_mempool_poison_object(void *ptr, unsig=
 ned long ip)
->                 kasan_poison(ptr, folio_size(folio), KASAN_PAGE_FREE, fal=
-se);
->                 return true;
->         }
 >
->         if (is_kfence_address(ptr))
->                 return false;
-> +       if (!kasan_arch_is_ready())
-> +               return true;
-
-Hm, I think we had a bug here: the function should return true in both
-cases. This seems reasonable: if KASAN is not checking the object, the
-caller can do whatever they want with it.
-
-
-
-
-
 >         slab =3D folio_slab(folio);
-> -       return !poison_slab_object(slab->slab_cache, ptr, ip, false);
-> +
-> +       if (check_slab_allocation(slab->slab_cache, ptr, ip))
-> +               return false;
-> +
-> +       poison_slab_object(slab->slab_cache, ptr, false);
-> +       return true;
+>
+>         if (check_slab_allocation(slab->slab_cache, ptr, ip))
+>                 return false;
+>
+> -       poison_slab_object(slab->slab_cache, ptr, false);
+> +       poison_slab_object(slab->slab_cache, ptr, false, false);
+>         return true;
 >  }
 >
 >  void __kasan_mempool_unpoison_object(void *ptr, size_t size, unsigned lo=
 ng ip)
 >  {
 >         struct slab *slab;
->         gfp_t flags =3D 0; /* Might be executing under a lock. */
+> diff --git a/mm/kasan/kasan_test.c b/mm/kasan/kasan_test.c
+> index 7b32be2a3cf0..567d33b493e2 100644
+> --- a/mm/kasan/kasan_test.c
+> +++ b/mm/kasan/kasan_test.c
+> @@ -993,12 +993,57 @@ static void kmem_cache_invalid_free(struct kunit *t=
+est)
+>          */
+>         kmem_cache_free(cache, p);
+>
+>         kmem_cache_destroy(cache);
+>  }
+>
+> +static void kmem_cache_rcu_uaf(struct kunit *test)
+> +{
+> +       char *p;
+> +       size_t size =3D 200;
+> +       struct kmem_cache *cache;
+> +
+> +       KASAN_TEST_NEEDS_CONFIG_ON(test, CONFIG_SLUB_RCU_DEBUG);
+> +
+> +       cache =3D kmem_cache_create("test_cache", size, 0, SLAB_TYPESAFE_=
+BY_RCU,
+> +                                 NULL);
+> +       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, cache);
+> +
+> +       p =3D kmem_cache_alloc(cache, GFP_KERNEL);
+> +       if (!p) {
+> +               kunit_err(test, "Allocation failed: %s\n", __func__);
+> +               kmem_cache_destroy(cache);
+> +               return;
+> +       }
+> +       *p =3D 1;
+> +
+> +       rcu_read_lock();
+> +
+> +       /* Free the object - this will internally schedule an RCU callbac=
+k. */
+> +       kmem_cache_free(cache, p);
+> +
+> +       /*
+> +        * We should still be allowed to access the object at this point =
+because
+> +        * the cache is SLAB_TYPESAFE_BY_RCU and we've been in an RCU rea=
+d-side
+> +        * critical section since before the kmem_cache_free().
+> +        */
+> +       READ_ONCE(*p);
+> +
+> +       rcu_read_unlock();
+> +
+> +       /*
+> +        * Wait for the RCU callback to execute; after this, the object s=
+hould
+> +        * have actually been freed from KASAN's perspective.
+> +        */
+> +       rcu_barrier();
+> +
+> +       KUNIT_EXPECT_KASAN_FAIL(test, READ_ONCE(*p));
+> +
+> +       kmem_cache_destroy(cache);
+> +}
+> +
+>  static void empty_cache_ctor(void *object) { }
+>
+>  static void kmem_cache_double_destroy(struct kunit *test)
+>  {
+>         struct kmem_cache *cache;
+>
+> @@ -1934,12 +1979,13 @@ static struct kunit_case kasan_kunit_test_cases[]=
+ =3D {
+>         KUNIT_CASE(workqueue_uaf),
+>         KUNIT_CASE(kfree_via_page),
+>         KUNIT_CASE(kfree_via_phys),
+>         KUNIT_CASE(kmem_cache_oob),
+>         KUNIT_CASE(kmem_cache_double_free),
+>         KUNIT_CASE(kmem_cache_invalid_free),
+> +       KUNIT_CASE(kmem_cache_rcu_uaf),
+>         KUNIT_CASE(kmem_cache_double_destroy),
+>         KUNIT_CASE(kmem_cache_accounted),
+>         KUNIT_CASE(kmem_cache_bulk),
+>         KUNIT_CASE(mempool_kmalloc_oob_right),
+>         KUNIT_CASE(mempool_kmalloc_large_oob_right),
+>         KUNIT_CASE(mempool_slab_oob_right),
+> diff --git a/mm/slab_common.c b/mm/slab_common.c
+> index 40b582a014b8..df09066d56fe 100644
+> --- a/mm/slab_common.c
+> +++ b/mm/slab_common.c
+> @@ -539,12 +539,24 @@ static void slab_caches_to_rcu_destroy_workfn(struc=
+t work_struct *work)
+>                 kmem_cache_release(s);
+>         }
+>  }
+>
+>  static int shutdown_cache(struct kmem_cache *s)
+>  {
+> +       if (IS_ENABLED(CONFIG_SLUB_RCU_DEBUG) &&
+> +           (s->flags & SLAB_TYPESAFE_BY_RCU)) {
+> +               /*
+> +                * Under CONFIG_SLUB_RCU_DEBUG, when objects in a
+> +                * SLAB_TYPESAFE_BY_RCU slab are freed, SLUB will interna=
+lly
+> +                * defer their freeing with call_rcu().
+> +                * Wait for such call_rcu() invocations here before actua=
+lly
+> +                * destroying the cache.
+> +                */
+> +               rcu_barrier();
+> +       }
+> +
+>         /* free asan quarantined objects */
+>         kasan_cache_shutdown(s);
+>
+>         if (__kmem_cache_shutdown(s) !=3D 0)
+>                 return -EBUSY;
+>
 > diff --git a/mm/slub.c b/mm/slub.c
-> index 3520acaf9afa..0c98b6a2124f 100644
+> index 0c98b6a2124f..f0d0e3c30837 100644
 > --- a/mm/slub.c
 > +++ b/mm/slub.c
-> @@ -2223,12 +2223,19 @@ bool slab_free_hook(struct kmem_cache *s, void *x=
-, bool init)
+> @@ -2197,45 +2197,78 @@ static inline bool memcg_slab_post_alloc_hook(str=
+uct kmem_cache *s,
+>  static inline void memcg_slab_free_hook(struct kmem_cache *s, struct sla=
+b *slab,
+>                                         void **p, int objects)
+>  {
+>  }
+>  #endif /* CONFIG_MEMCG */
+>
+> +#ifdef CONFIG_SLUB_RCU_DEBUG
+> +static void slab_free_after_rcu_debug(struct rcu_head *rcu_head);
+> +
+> +struct rcu_delayed_free {
+> +       struct rcu_head head;
+> +       void *object;
+> +};
+> +#endif
+> +
+>  /*
+>   * Hooks for other subsystems that check memory allocations. In a typica=
+l
+>   * production configuration these hooks all should produce no code at al=
+l.
+>   *
+>   * Returns true if freeing of the object can proceed, false if its reuse
+> - * was delayed by KASAN quarantine, or it was returned to KFENCE.
+> + * was delayed by CONFIG_SLUB_RCU_DEBUG or KASAN quarantine, or it was r=
+eturned
+> + * to KFENCE.
+>   */
+>  static __always_inline
+> -bool slab_free_hook(struct kmem_cache *s, void *x, bool init)
+> +bool slab_free_hook(struct kmem_cache *s, void *x, bool init,
+> +                   bool after_rcu_delay)
+>  {
+>         kmemleak_free_recursive(x, s->flags);
+>         kmsan_slab_free(s, x);
+>
+>         debug_check_no_locks_freed(x, s->object_size);
+>
+>         if (!(s->flags & SLAB_DEBUG_OBJECTS))
+>                 debug_check_no_obj_freed(x, s->object_size);
+>
+>         /* Use KCSAN to help debug racy use-after-free. */
+> -       if (!(s->flags & SLAB_TYPESAFE_BY_RCU))
+> +       if (!(s->flags & SLAB_TYPESAFE_BY_RCU) || after_rcu_delay)
 >                 __kcsan_check_access(x, s->object_size,
 >                                      KCSAN_ACCESS_WRITE | KCSAN_ACCESS_AS=
 SERT);
@@ -484,13 +592,40 @@ SERT);
 >         if (kfence_free(x))
 >                 return false;
 >
-> +       /*
-> +        * Give KASAN a chance to notice an invalid free operation before=
+>         /*
+>          * Give KASAN a chance to notice an invalid free operation before=
  we
-> +        * modify the object.
-> +        */
-> +       if (kasan_slab_pre_free(s, x))
-> +               return false;
+>          * modify the object.
+>          */
+>         if (kasan_slab_pre_free(s, x))
+>                 return false;
+>
+> +#ifdef CONFIG_SLUB_RCU_DEBUG
+> +       if ((s->flags & SLAB_TYPESAFE_BY_RCU) && !after_rcu_delay) {
+> +               struct rcu_delayed_free *delayed_free;
+> +
+> +               delayed_free =3D kmalloc(sizeof(*delayed_free), GFP_NOWAI=
+T);
+> +               if (delayed_free) {
+> +                       /*
+> +                        * Let KASAN track our call stack as a "related w=
+ork
+> +                        * creation", just like if the object had been fr=
+eed
+> +                        * normally via kfree_rcu().
+> +                        * We have to do this manually because the rcu_he=
+ad is
+> +                        * not located inside the object.
+> +                        */
+> +                       kasan_record_aux_stack_noalloc(x);
+> +
+> +                       delayed_free->object =3D x;
+> +                       call_rcu(&delayed_free->head, slab_free_after_rcu=
+_debug);
+> +                       return false;
+> +               }
+> +       }
+> +#endif /* CONFIG_SLUB_RCU_DEBUG */
 > +
 >         /*
 >          * As memory initialization might be integrated into KASAN,
@@ -498,6 +633,133 @@ SERT);
 >          * kept together to avoid discrepancies in behavior.
 >          *
 >          * The initialization memset's clear the object and the metadata,
+> @@ -2253,42 +2286,42 @@ bool slab_free_hook(struct kmem_cache *s, void *x=
+, bool init)
+>                         memset(kasan_reset_tag(x), 0, s->object_size);
+>                 rsize =3D (s->flags & SLAB_RED_ZONE) ? s->red_left_pad : =
+0;
+>                 memset((char *)kasan_reset_tag(x) + inuse, 0,
+>                        s->size - inuse - rsize);
+>         }
+>         /* KASAN might put x into memory quarantine, delaying its reuse. =
+*/
+> -       return !kasan_slab_free(s, x, init);
+> +       return !kasan_slab_free(s, x, init, after_rcu_delay);
+>  }
+>
+>  static __fastpath_inline
+>  bool slab_free_freelist_hook(struct kmem_cache *s, void **head, void **t=
+ail,
+>                              int *cnt)
+>  {
+>
+>         void *object;
+>         void *next =3D *head;
+>         void *old_tail =3D *tail;
+>         bool init;
+>
+>         if (is_kfence_address(next)) {
+> -               slab_free_hook(s, next, false);
+> +               slab_free_hook(s, next, false, false);
+>                 return false;
+>         }
+>
+>         /* Head and tail of the reconstructed freelist */
+>         *head =3D NULL;
+>         *tail =3D NULL;
+>
+>         init =3D slab_want_init_on_free(s);
+>
+>         do {
+>                 object =3D next;
+>                 next =3D get_freepointer(s, object);
+>
+>                 /* If object's reuse doesn't have to be delayed */
+> -               if (likely(slab_free_hook(s, object, init))) {
+> +               if (likely(slab_free_hook(s, object, init, false))) {
+>                         /* Move object to the new freelist */
+>                         set_freepointer(s, object, *head);
+>                         *head =3D object;
+>                         if (!*tail)
+>                                 *tail =3D object;
+>                 } else {
+> @@ -4474,40 +4507,67 @@ static __fastpath_inline
+>  void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
+>                unsigned long addr)
+>  {
+>         memcg_slab_free_hook(s, slab, &object, 1);
+>         alloc_tagging_slab_free_hook(s, slab, &object, 1);
+>
+> -       if (likely(slab_free_hook(s, object, slab_want_init_on_free(s))))
+> +       if (likely(slab_free_hook(s, object, slab_want_init_on_free(s), f=
+alse)))
+>                 do_slab_free(s, slab, object, object, 1, addr);
+>  }
+>
+>  #ifdef CONFIG_MEMCG
+>  /* Do not inline the rare memcg charging failed path into the allocation=
+ path */
+>  static noinline
+>  void memcg_alloc_abort_single(struct kmem_cache *s, void *object)
+>  {
+> -       if (likely(slab_free_hook(s, object, slab_want_init_on_free(s))))
+> +       if (likely(slab_free_hook(s, object, slab_want_init_on_free(s), f=
+alse)))
+>                 do_slab_free(s, virt_to_slab(object), object, object, 1, =
+_RET_IP_);
+>  }
+>  #endif
+>
+>  static __fastpath_inline
+>  void slab_free_bulk(struct kmem_cache *s, struct slab *slab, void *head,
+>                     void *tail, void **p, int cnt, unsigned long addr)
+>  {
+>         memcg_slab_free_hook(s, slab, p, cnt);
+>         alloc_tagging_slab_free_hook(s, slab, p, cnt);
+>         /*
+>          * With KASAN enabled slab_free_freelist_hook modifies the freeli=
+st
+>          * to remove objects, whose reuse must be delayed.
+>          */
+>         if (likely(slab_free_freelist_hook(s, &head, &tail, &cnt)))
+>                 do_slab_free(s, slab, head, tail, cnt, addr);
+>  }
+>
+> +#ifdef CONFIG_SLUB_RCU_DEBUG
+> +static void slab_free_after_rcu_debug(struct rcu_head *rcu_head)
+> +{
+> +       struct rcu_delayed_free *delayed_free =3D
+> +                       container_of(rcu_head, struct rcu_delayed_free, h=
+ead);
+> +       void *object =3D delayed_free->object;
+> +       struct slab *slab =3D virt_to_slab(object);
+> +       struct kmem_cache *s;
+> +
+> +       if (WARN_ON(is_kfence_address(rcu_head)))
+> +               return;
+> +
+> +       /* find the object and the cache again */
+> +       if (WARN_ON(!slab))
+> +               return;
+> +       s =3D slab->slab_cache;
+> +       if (WARN_ON(!(s->flags & SLAB_TYPESAFE_BY_RCU)))
+> +               return;
+> +
+> +       /* resume freeing */
+> +       if (!slab_free_hook(s, object, slab_want_init_on_free(s), true))
+> +               return;
+> +       do_slab_free(s, slab, object, object, 1, _THIS_IP_);
+> +       kfree(delayed_free);
+> +}
+> +#endif /* CONFIG_SLUB_RCU_DEBUG */
+> +
+>  #ifdef CONFIG_KASAN_GENERIC
+>  void ___cache_free(struct kmem_cache *cache, void *x, unsigned long addr=
+)
+>  {
+>         do_slab_free(cache, virt_to_slab(x), x, x, 1, addr);
+>  }
+>  #endif
 >
 > --
 > 2.46.0.rc1.232.g9752f9e123-goog
@@ -509,5 +771,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CA%2BfCnZfURBYNM%2Bo6omuTJyCtL4GpeudpErEd26qde296ciVYuQ%40mail.gm=
+kasan-dev/CA%2BfCnZeq8JGSkFwGitwSc3DbeuoXnoyvC7RgWh6XSG1CoWH%3DZg%40mail.gm=
 ail.com.
