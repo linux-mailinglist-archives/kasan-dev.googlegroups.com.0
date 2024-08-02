@@ -1,126 +1,127 @@
-Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBCOFWK2QMGQEMYDABSY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCQ2XPNX7EOBBC63WK2QMGQEAQNUOVI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13f.google.com (mail-lf1-x13f.google.com [IPv6:2a00:1450:4864:20::13f])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAAA2945A84
-	for <lists+kasan-dev@lfdr.de>; Fri,  2 Aug 2024 11:10:35 +0200 (CEST)
-Received: by mail-lf1-x13f.google.com with SMTP id 2adb3069b0e04-52f02833519sf9290751e87.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 02 Aug 2024 02:10:35 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1722589835; cv=pass;
+Received: from mail-pg1-x53e.google.com (mail-pg1-x53e.google.com [IPv6:2607:f8b0:4864:20::53e])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9860945BA6
+	for <lists+kasan-dev@lfdr.de>; Fri,  2 Aug 2024 11:57:33 +0200 (CEST)
+Received: by mail-pg1-x53e.google.com with SMTP id 41be03b00d2f7-7163489149fsf7843693a12.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 02 Aug 2024 02:57:33 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1722592652; cv=pass;
         d=google.com; s=arc-20160816;
-        b=VoEWNOicvc7X31Qqkj3l/tOdR5YRfgVDzg2amNXztJTARsMQhmPiknU8wxrtusLmJc
-         PPWpXAM+NbtaTllmIIC+BCGeCJfNdl4MWs/bUbqxIoOj1MfLQi1+Zf2kL6mZjPuih/eM
-         aNm5eK5VJkUqIUWc1WIL/ro22Y+tt/WC1RABDx+wwBt8QfEChuWsBZ6VttHX1Pmx9ZhV
-         l14OZNx5tO8wv4xAdZrk8wQ/LtZocKWStC7a83vs+msS1npUlZ5JVMSLirY34e04eJd8
-         QqwXU/b1yIbpK6p4Ccb/EZRyUuKjGXAqfNhM/CfQ9vzwQxcDEn6sT0rMaar/z5PWlmkI
-         QWrw==
+        b=w+tdXnCd8qoYOwA2PCl8LTyu0hNXjNcVhRy1A9kRdJI+ZvXUS41OTlKrEXh0VK5kOD
+         LLTXYitKGwukPtDw1kUoY/TL0GWKK1AKinOOKVdbWlfZVdrrwzvny+NlKvOumOsQ0CnR
+         Ul1gxT7r0IGK0cYAEfTREYDc9CRZC8ACT5Oa2cRS2OrqeM/GMwMqOleFn78xQ/2/4QY0
+         6Zj49Hmd8vx8foRhYQoUuiC06IQ9WN/38dXoGHMAsgiUmJbsXgLllhTXweRgobj8FYZr
+         hodwghaIZDpCsxZlHXxYALdLawp2EWrtuW3TfTwWw8x9HjhRQRQwgcQ7OrsUrJDQ26r3
+         DnJg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=A3gXJlssIdw6gmZ6rz+0nKazn7PRcLeqyxa5OGzaKe8=;
-        fh=3wfHkotscWTd82LmiuBoDlM6LqTpsc4bNjtBZ0BTciQ=;
-        b=gi18xd9AqtiLPsSe0y59HYqOU2v7kENQ5oiNRz9Wy5JWu3lJAMVmNiYdTdshEJiMWM
-         OIUDpxMPPNDaplVLyc3DKKfeqJ7EINI8ZLUX/5HwcLubO+vyVpEtU1F4j1tO6WTVSfja
-         tZcC9iVmaO8HSkz2jUKJ6izrzPuQwIu1CRhw/eSUammpF3hbIB6P4lQTfyszT9Zws/zR
-         s3jD4GkMGp8JrROTlWtoFXVVYuFO6MSerR8aYqryvPL1ldpv6bRV3CvOUFN+0X/I97GV
-         pqJE2Z4MG6tn3bUaTfA6FuWYapqyWzCBzpME0T0POaIdR5SDFu0wHCHz4nfoh3I1AUvg
-         T9pw==;
+        bh=oP/XFImOXn14BemExeYRCs8KYFT+N+iB7LzUH6B9y9o=;
+        fh=mG5FEk6qVUK2eBmLUNebT2MJYpZL3m1EhYdLJkWVXU8=;
+        b=QFNDMyxnUjM6U+lV+WlwhUXPCnSC+Rm3/uosGERKijzo/ZIjz5ANhL5vGYxki/QHJe
+         CVLyNgyp7rJpzocyKgmx9rR3Op5G1jfQVbuuKuqMv9+DhYumW9Rp0Z3LDiWyuAlPGBcv
+         rJfhIluQuuN8r7N0Ydw7q/Y7cJAtYJKz5Rg1bLZ5i0Q5z8XA/xBjfqOK03+A5V6Z30Ht
+         rX+R5Jy3z+jIkQetx1MflCUtlHu1toIigllG8qZrrd8sCyItIaJRK9D34YNx78gxxVJJ
+         loVsqkG+gtgst5kLeGRjTt4VegcvL02gKV4xHc7hx5EV9s7Qj2B+RhWbFDm42zIwWo1K
+         BpnA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=oQFRRXuz;
-       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::52e as permitted sender) smtp.mailfrom=jannh@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=NdRL1SUQ;
+       spf=pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::632 as permitted sender) smtp.mailfrom=jannh@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1722589835; x=1723194635; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1722592652; x=1723197452; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=A3gXJlssIdw6gmZ6rz+0nKazn7PRcLeqyxa5OGzaKe8=;
-        b=ooUIqVLZtdbNMqAS1j+yvavqIDu/ngVI8lr2iwDK6FFfYdeOgwESLPbihzzatJ5pPq
-         mUNU5spgLuPw033mSDuOBA0sjyZ3RYshRt57AhC8FfBIT/FwYkSoHwynudZweRId6/Sb
-         qNqO46cvjfnvczag8af3djcGRlrXGVz7aCkBZJKL3eTIcFw3DkrEtxW+Q3wIYP2HcXuw
-         UKuqmQBLBU8syR7qyH9fcflmNd4v6+fHudr40ITer0toYo6gnm51WDS6nRGZwmRTEDb1
-         78V35v7nTmFT/rBUuMuzYZhwPK0K3Tkj1nW9XX4STIkqteOSD27S7Wt/B+lRYecTXUbU
-         F0UQ==
+        bh=oP/XFImOXn14BemExeYRCs8KYFT+N+iB7LzUH6B9y9o=;
+        b=BmTtOH/dBn5VJlerWzVOz/B8KEbsForg/xFE9C0c3HG1iU49SKnPGsOAKZSi7d4azV
+         Ew1fYNQAAh9TRNyVo8p2OkHS2dlGrZRoUZqKbkLJyMt2GkpnAhdx7cLIzdkh8ra91nxv
+         vrPnMCSJxINQNsqcPBZgF0cTKOaHOKMA/0rpPK52+PJM946XJS9IRMz8P30mGc3/owvy
+         +ud+it8kD+9esp0bG/CBi/4JHG08vsFxsJ0WRxcLAIuB850Fc6RrEOlthJNUC4NKFj3A
+         EZREY1Q+PimIs7C15ZeYugRhSwEdtOmUjK+YbFTEL2LvsfugMBN11jLcniGE4EP+/diQ
+         9OMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1722589835; x=1723194635;
+        d=1e100.net; s=20230601; t=1722592652; x=1723197452;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=A3gXJlssIdw6gmZ6rz+0nKazn7PRcLeqyxa5OGzaKe8=;
-        b=KtwDbO3NRFSNgcnjWmxvxu7Z4cz6lhdV3YYViLDakaaa/N8dK6KsOi0uQ0TQG9APDB
-         TbPlOESR+lStTrn+esRyxqM0k8jLLEPLYtnSc1Ylw1Lm5ce47rE+dq5hK296Z1cpO1ey
-         SRvIIkU94RTShBKuS2hT3bO0G7Yg4peUhr61iSTvEeZ/6LWTDtDn/6eJ6fRipQIcNas+
-         sB3OTLcBAES98PX2hEjDrPR4tkJx3ASGgEs9puoQgN0RWPEHJChkf/V+Ho9InciDhjMJ
-         lcyqE+NqjXpUC241jy5STEWh9AOatyeSD9U5bj/63G+PujR735OWrzOgZacf1/8SQPTZ
-         OHBg==
-X-Forwarded-Encrypted: i=2; AJvYcCVZkkMLiMp4efYa62/k0yZIDo9GgtUezWnfWg8z5Je0vwvTaO65C0RLAwzJWakLapi1BZPNMmaSuQUuJbsxvNHcmk6gZYd2Yg==
-X-Gm-Message-State: AOJu0Ywl6Jj/NlrXCYXnyyXUr9tM2G4Nml5L3qNaR73faad6DHS3NQ/4
-	KQL+5BZBXxCVExO2LFt9A6a3FdmxIoX0P0LzL2PTisb/O7iKPZ14
-X-Google-Smtp-Source: AGHT+IHj7gHQz4xrgP+J1J06r8Fpg5UDXhS1L3l+Q6ed4JOFuNZD0Y3gjELaPZ7y8GUVrr3rBmmC9A==
-X-Received: by 2002:a05:6512:3f1f:b0:52e:f9f1:c139 with SMTP id 2adb3069b0e04-530bb4d6d72mr1805002e87.58.1722589834101;
-        Fri, 02 Aug 2024 02:10:34 -0700 (PDT)
+        bh=oP/XFImOXn14BemExeYRCs8KYFT+N+iB7LzUH6B9y9o=;
+        b=HHh6BfnCpGsWlV+Cb9vBpS4IETfec+r+IMU0vDThwgxMjptVIZSzh+Nwm51KXMk/Y1
+         UZbIuQDikTfyIEq/1ZHlAf+MbGxvKyqXbyI3WSwQUYYOvfk4J6XPPYLwhSrmvA/h2s/0
+         c9889SWtapkJtP5GzBS4RSI+2pvdJoWYBRZAvQYpa8urc7Z4MyzGi5w23a3PnaRExQzH
+         FFhlWrbed2SUdMeJTgnMxPFVhQC9AsUVOMkc2jxLuKhfK64I39GyXZbmBSIcQc+Nyx3p
+         Kb1I6WbSnZR+8Iy3HrbiwM4fA88ODhNRD7nb45dedCsYsdSjKsC2x/7/UgE6Cpe1gq97
+         NOWQ==
+X-Forwarded-Encrypted: i=2; AJvYcCVvwBbqkxHfQrlw0aV3ZLI3ecPAPxPLU+TKB1MWCB/FSC577ih/GDNI/WVI0yw1xfKXszKxJae7dB292tg3JPKKpymSmZ9B8w==
+X-Gm-Message-State: AOJu0YwGd49d+ag2NMYy4ZDjloB2ELibcqCzPoG/kyQvcOxgqQeowzcE
+	CH8oNzQ5uDB3v8g5iJgGBk3mIRw5Wv0QpkaGXoUyBT5eFUzicmqu
+X-Google-Smtp-Source: AGHT+IEfTLqfehhI+B1biUuKdjCDj72o6y2Y0wNXm9aPo8h7Gi0fFlu+yqFWX5lmxf/ACLKQ1QzN9A==
+X-Received: by 2002:a05:6a21:3389:b0:1c4:a7a0:a7d4 with SMTP id adf61e73a8af0-1c699550dd5mr4115991637.7.1722592651414;
+        Fri, 02 Aug 2024 02:57:31 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3088:b0:52f:4ab:7f4b with SMTP id
- 2adb3069b0e04-52fd3f4f350ls4366641e87.0.-pod-prod-03-eu; Fri, 02 Aug 2024
- 02:10:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXrvqXK/wzNC0Iujzdq8qKkdCZ3G4vc9H7AsorbftA03x/bYrkPpt0VHl0rvrwHhE44lmPjgXD61Bo818iuOAPJJQ56GQqO7mkBVA==
-X-Received: by 2002:a05:6512:15a0:b0:52c:b479:902d with SMTP id 2adb3069b0e04-530bb392926mr1722970e87.4.1722589831825;
-        Fri, 02 Aug 2024 02:10:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1722589831; cv=none;
+Received: by 2002:a17:90b:1811:b0:2ca:f17f:84ef with SMTP id
+ 98e67ed59e1d1-2cf20f4df04ls170239a91.0.-pod-prod-03-us; Fri, 02 Aug 2024
+ 02:57:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCX8uRqdZNcnauhOs57idih87IpRYtUlFDPJLPE7JWuksJkH5n12qyiryVPMcAVOIIwGPiYfU4Tu88i5frvDsaCvcu8wYfaNDBa+ZA==
+X-Received: by 2002:a17:90b:23d3:b0:2c9:9199:bf44 with SMTP id 98e67ed59e1d1-2cff9463fc3mr3500666a91.19.1722592650228;
+        Fri, 02 Aug 2024 02:57:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1722592650; cv=none;
         d=google.com; s=arc-20160816;
-        b=AmAGvz3MARcJYHmc5TyMi/kZzfJL6394SRW4pymujjYKhMYAqaseQ0fS9n6Qm30dtm
-         +mI2o1/4fFt5eWdC6JxBw+P/0iwF7GICaP/RuTvSCpwDqv9potHMrBXJaSvIG6xuyvOU
-         ZE+d5H7Z+IAs4cfcbHsGAeKFh6NreIgSV0hbE5y/f/PDkgpHzMR6wcrMxjk3CMTCPfoM
-         8KwRCk3FrBFIX6p6gyyZwJMrT2rp7RUiZpni01hOGq4v6dkAnyEXTZjQVTSeES4xLI/8
-         hd3AVTACZp8mNFufqDgQ5CTxv3fizIOLZPU8W2xEOirZ7AVj5NzDI08lhih/2JaJL8W8
-         /V9A==
+        b=g3rYNi/hpb+cGnqohasXe6zHlwl8eZGqwGRajtapcZMtLNd9GMuJdChZIWfn/M3WCe
+         jB4nBJSQm3QqR0LQDJ35URlBRLwcvLj5R1vjT/rCeNxPFdI+vuRsjV4OepgREJWlUgBE
+         UfgCIZeCkvP08h/iDZ5E+VjGTyEczg2uEAHxaRdGYTwAovTJLsjsLFqahpFqPa0LHjlZ
+         cPvRAB2nCaAE5wHkEOtTnzM9w1OpvzeiYNy1oO5ZUFssWpm7MUClfJrSyLLt0zkvtSFU
+         qAkinL8pcGzAzt4bh8VRE//5r81hh2hfSPd0F1BEpX0F+kyNWdmSp8oLqzGQBJcoWFf2
+         9DBw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=BdfVeEEYqxRlg+wsbTTfgEpqIH6PLQRg/ETvJe3ixN4=;
-        fh=8i1Usgo7V6IfmtrodXlNIb7TjRxQvxSOJxmUKl6XP58=;
-        b=VS5HEtloR9HsUGyqRjO11zwQxkMRjZJggcNt1+p+LJEcEglG9xZwxn6G/P5dxpNcAl
-         4iWMfEmmlCALQ556AgulW+aCDhiICvWb3IdM1JG9MnKdVOsipy5vFI6wQV8XqheyY62e
-         lHtLUMIitXgyTmm9253NfZ1vDV69NRetkc5LX0r04a4TpjlM6zHrGCVsd7YnY1bLj7sj
-         n9mV0xOCCS/lD5hIYzBXHBO28z5oKGlIg8jHuvMhni+U4zkbZku/fDfUVDfS0p3lX4l/
-         7IsJoLJ8PzjCf0rkKvrxOwldJJeF5ahyg0xTYmZaQEVPh3PXR+op1EOHU4PbVL0bEe5b
-         zzbA==;
+        bh=X0BnywGd6SV2Ld2s9hvxt+PjYwo9DGOXawX5efNb35U=;
+        fh=cZut7927Rfv3D2DNiIHjp0rzzbgW2QkTKP/E6nW1T9Y=;
+        b=Up6KQUD/zYg9JESeIBPf7PQQMP8n0hE3CE+fvAiseZ3ikNEnF7pcRlu79vBK6++ddu
+         7nSlVoSk/7rJFVO3F8bMDb8jd9DU+EwEpbTFn5lC1jxOxysZGmPHTCdBkEQbCisWKr4k
+         s+war8j6gxmLkT1ZylOsEPsr85veZ+HPgljG0c4BTH935i4t0al8PE1Ymzc3Ej62yvTD
+         ulEb2JaliYXyxhCKmoxxOQFX4kk0haj9IIu+fglI1APweuD2rLoMp+mp0yZWZpammvLb
+         1Vxz09UTUc/jzpwg1FCZWgyxO8hi+Ds89Sw7aAyeZCxljT9QUhUNcmW2TThTk3rUEPro
+         UQEw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=oQFRRXuz;
-       spf=pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::52e as permitted sender) smtp.mailfrom=jannh@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=NdRL1SUQ;
+       spf=pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::632 as permitted sender) smtp.mailfrom=jannh@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com. [2a00:1450:4864:20::52e])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-530bba2732bsi60110e87.8.2024.08.02.02.10.31
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com. [2607:f8b0:4864:20::632])
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-2cfcb858947si601292a91.1.2024.08.02.02.57.30
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Aug 2024 02:10:31 -0700 (PDT)
-Received-SPF: pass (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::52e as permitted sender) client-ip=2a00:1450:4864:20::52e;
-Received: by mail-ed1-x52e.google.com with SMTP id 4fb4d7f45d1cf-5a28b61b880so48095a12.1
-        for <kasan-dev@googlegroups.com>; Fri, 02 Aug 2024 02:10:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUd7nclpDtV8Eg86zCh8ItwYoGUMlrgEmPY4zcIJYCscW0xtm6Hp9yXn2l99s6mLlra1Lvexb/LB9i41NeelvBEyuaSUxomVcZgfw==
-X-Received: by 2002:a05:6402:1747:b0:5b8:ccae:a8b8 with SMTP id
- 4fb4d7f45d1cf-5b8ccaeab1bmr32772a12.3.1722589830338; Fri, 02 Aug 2024
- 02:10:30 -0700 (PDT)
+        Fri, 02 Aug 2024 02:57:30 -0700 (PDT)
+Received-SPF: pass (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::632 as permitted sender) client-ip=2607:f8b0:4864:20::632;
+Received: by mail-pl1-x632.google.com with SMTP id d9443c01a7336-1fd7509397bso531445ad.0
+        for <kasan-dev@googlegroups.com>; Fri, 02 Aug 2024 02:57:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVGAQFYvyjqFgaPtpSb2DsgUSSbCgTxZcI8HmWZZ7BPy7ZQCA7X8ON0T3cqfAIKS6RzZ2mfaIbW36MLZlmx7qSBH32XbcJQum2iBg==
+X-Received: by 2002:a17:902:ec90:b0:1f7:3764:1e19 with SMTP id
+ d9443c01a7336-1ff5cc4a18cmr1463485ad.20.1722592649125; Fri, 02 Aug 2024
+ 02:57:29 -0700 (PDT)
 MIME-Version: 1.0
 References: <20240730-kasan-tsbrcu-v5-0-48d3cbdfccc5@google.com>
- <20240730-kasan-tsbrcu-v5-2-48d3cbdfccc5@google.com> <CA+fCnZeq8JGSkFwGitwSc3DbeuoXnoyvC7RgWh6XSG1CoWH=Zg@mail.gmail.com>
-In-Reply-To: <CA+fCnZeq8JGSkFwGitwSc3DbeuoXnoyvC7RgWh6XSG1CoWH=Zg@mail.gmail.com>
+ <20240730-kasan-tsbrcu-v5-1-48d3cbdfccc5@google.com> <CA+fCnZfURBYNM+o6omuTJyCtL4GpeudpErEd26qde296ciVYuQ@mail.gmail.com>
+In-Reply-To: <CA+fCnZfURBYNM+o6omuTJyCtL4GpeudpErEd26qde296ciVYuQ@mail.gmail.com>
 From: "'Jann Horn' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 2 Aug 2024 11:09:52 +0200
-Message-ID: <CAG48ez1guHcQaZtGoap7MG1sac5F3PmMA7XKUH03pEaibvaFJw@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] slub: Introduce CONFIG_SLUB_RCU_DEBUG
+Date: Fri, 2 Aug 2024 11:56:50 +0200
+Message-ID: <CAG48ez0frEi5As0sJdMk1rfpnKRqNo=b7fF77Zf0cBHTFO_bjQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] kasan: catch invalid free before SLUB
+ reinitializes the object
 To: Andrey Konovalov <andreyknvl@gmail.com>
 Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
 	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
@@ -134,8 +135,8 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: jannh@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=oQFRRXuz;       spf=pass
- (google.com: domain of jannh@google.com designates 2a00:1450:4864:20::52e as
+ header.i=@google.com header.s=20230601 header.b=NdRL1SUQ;       spf=pass
+ (google.com: domain of jannh@google.com designates 2607:f8b0:4864:20::632 as
  permitted sender) smtp.mailfrom=jannh@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
 X-Original-From: Jann Horn <jannh@google.com>
@@ -156,114 +157,218 @@ On Thu, Aug 1, 2024 at 2:23=E2=80=AFAM Andrey Konovalov <andreyknvl@gmail.c=
 om> wrote:
 > On Tue, Jul 30, 2024 at 1:06=E2=80=AFPM Jann Horn <jannh@google.com> wrot=
 e:
-> > Currently, KASAN is unable to catch use-after-free in SLAB_TYPESAFE_BY_=
-RCU
-> > slabs because use-after-free is allowed within the RCU grace period by
-> > design.
 > >
-> > Add a SLUB debugging feature which RCU-delays every individual
-> > kmem_cache_free() before either actually freeing the object or handing =
-it
-> > off to KASAN, and change KASAN to poison freed objects as normal when t=
-his
-> > option is enabled.
+> > Currently, when KASAN is combined with init-on-free behavior, the
+> > initialization happens before KASAN's "invalid free" checks.
 > >
-> > For now I've configured Kconfig.debug to default-enable this feature in=
- the
-> > KASAN GENERIC and SW_TAGS modes; I'm not enabling it by default in HW_T=
-AGS
-> > mode because I'm not sure if it might have unwanted performance degrada=
-tion
-> > effects there.
+> > More importantly, a subsequent commit will want to RCU-delay the actual
+> > SLUB freeing of an object, and we'd like KASAN to still validate
+> > synchronously that freeing the object is permitted. (Otherwise this
+> > change will make the existing testcase kmem_cache_invalid_free fail.)
 > >
-> > Note that this is mostly useful with KASAN in the quarantine-based GENE=
-RIC
-> > mode; SLAB_TYPESAFE_BY_RCU slabs are basically always also slabs with a
-> > ->ctor, and KASAN's assign_tag() currently has to assign fixed tags for
-> > those, reducing the effectiveness of SW_TAGS/HW_TAGS mode.
-> > (A possible future extension of this work would be to also let SLUB cal=
-l
-> > the ->ctor() on every allocation instead of only when the slab page is
-> > allocated; then tag-based modes would be able to assign new tags on eve=
-ry
-> > reallocation.)
+> > So add a new KASAN hook that allows KASAN to pre-validate a
+> > kmem_cache_free() operation before SLUB actually starts modifying the
+> > object or its metadata.
+>
+> A few more minor comments below. With that:
+>
+> Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+>
+> Thank you!
+>
+> > Inside KASAN, this:
 > >
+> >  - moves checks from poison_slab_object() into check_slab_free()
+> >  - moves kasan_arch_is_ready() up into callers of poison_slab_object()
+> >  - removes "ip" argument of poison_slab_object() and __kasan_slab_free(=
+)
+> >    (since those functions no longer do any reporting)
+>
+> >  - renames check_slab_free() to check_slab_allocation()
+>
+> check_slab_allocation() is introduced in this patch, so technically
+> you don't rename anything.
+
+Right, I'll fix the commit message.
+
+> > Acked-by: Vlastimil Babka <vbabka@suse.cz> #slub
 > > Signed-off-by: Jann Horn <jannh@google.com>
->
-> Acked-by: Andrey Konovalov <andreyknvl@gmail.com>
->
-> But see a comment below.
->
 > > ---
-> >  include/linux/kasan.h | 11 +++++---
-> >  mm/Kconfig.debug      | 30 ++++++++++++++++++++
-> >  mm/kasan/common.c     | 11 ++++----
-> >  mm/kasan/kasan_test.c | 46 +++++++++++++++++++++++++++++++
-> >  mm/slab_common.c      | 12 ++++++++
-> >  mm/slub.c             | 76 +++++++++++++++++++++++++++++++++++++++++++=
-++------
-> >  6 files changed, 169 insertions(+), 17 deletions(-)
+> >  include/linux/kasan.h | 43 ++++++++++++++++++++++++++++++++++---
+> >  mm/kasan/common.c     | 59 +++++++++++++++++++++++++++++++------------=
+--------
+> >  mm/slub.c             |  7 ++++++
+> >  3 files changed, 83 insertions(+), 26 deletions(-)
 > >
 > > diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> > index 34cb7a25aacb..0b952e11c7a0 100644
+> > index 70d6a8f6e25d..34cb7a25aacb 100644
 > > --- a/include/linux/kasan.h
 > > +++ b/include/linux/kasan.h
-> > @@ -194,28 +194,30 @@ static __always_inline bool kasan_slab_pre_free(s=
-truct kmem_cache *s,
+> > @@ -172,19 +172,50 @@ static __always_inline void * __must_check kasan_=
+init_slab_obj(
 > >  {
 > >         if (kasan_enabled())
-> >                 return __kasan_slab_pre_free(s, object, _RET_IP_);
-> >         return false;
+> >                 return __kasan_init_slab_obj(cache, object);
+> >         return (void *)object;
 > >  }
 > >
-> > -bool __kasan_slab_free(struct kmem_cache *s, void *object, bool init);
-> > +bool __kasan_slab_free(struct kmem_cache *s, void *object, bool init,
-> > +                      bool after_rcu_delay);
+> > -bool __kasan_slab_free(struct kmem_cache *s, void *object,
+> > -                       unsigned long ip, bool init);
+> > +bool __kasan_slab_pre_free(struct kmem_cache *s, void *object,
+> > +                       unsigned long ip);
+> > +/**
+> > + * kasan_slab_pre_free - Validate a slab object freeing request.
+> > + * @object: Object to free.
+> > + *
+> > + * This function checks whether freeing the given object might be perm=
+itted; it
+> > + * checks things like whether the given object is properly aligned and=
+ not
+> > + * already freed.
+> > + *
+> > + * This function is only intended for use by the slab allocator.
+> > + *
+> > + * @Return true if freeing the object is known to be invalid; false ot=
+herwise.
+> > + */
 >
-> What do you think about renaming this argument to poison_rcu? I think
-> it makes the intention more clear from the KASAN's point of view.
-
-Hm - my thinking here was that the hook is an API between SLUB and
-KASAN, and so the hook definition should reflect the API contract that
-both SLUB and KASAN have to know - and in my head, this contract is
-that the parameter says whether SLUB guarantees that an RCU delay has
-happened after kmem_cache_free() was called.
-In my mind, SLUB tells KASAN what is going on and gives KASAN a chance
-to take ownership of the object, but doesn't instruct KASAN to do
-anything specific.
-
-And "poison" is ambiguous - in SLUB, "poison" normally refers to
-overwriting object contents with a poison value, which currently
-wouldn't be allowed here due to constructor slabs.
-
-I guess another way to describe the meaning of the argument with its
-current value would be something like "even though the object is an
-object with RCU lifetime, the object is guaranteed to no longer be in
-use". But I think the simplest way to describe the argument as
-currently defined is "an RCU grace period has passed since
-kmem_cache_free() was called" (which I guess I'll add to the
-kasan_slab_free doc comment if we keep the current naming).
-
-I guess I could also change the API to pass something different - like
-a flag meaning "the object is guaranteed to no longer be in use".
-There is already code in slab_free_hook() that computes this
-expression, so we could easily pass that to KASAN and then avoid doing
-the same logic in KASAN again... I think that would be the most
-elegant approach?
-
-> >  /**
-> >   * kasan_slab_free - Possibly handle slab object freeing.
-> >   * @object: Object to free.
+> Let's reword this to:
 >
-> @poison_rcu - Whether to skip poisoning for SLAB_TYPESAFE_BY_RCU caches.
+> kasan_slab_pre_free - Check whether freeing a slab object is safe.
+> @object: Object to be freed.
 >
-> And also update the reworded comment from the previous patch:
+> This function checks whether freeing the given object is safe. It
+> performs checks to detect double-free and invalid-free bugs and
+> reports them.
+>
+> This function is intended only for use by the slab allocator.
+>
+> @Return true if freeing the object is not safe; false otherwise.
+
+Ack, will apply this for v6. But I'll replace "not safe" with
+"unsafe", and change "It performs checks to detect double-free and
+invalid-free bugs and reports them" to "It may check for double-free
+and invalid-free bugs and report them.", since KASAN only sometimes
+performs such checks (depending on CONFIG_KASAN, kasan_enabled(),
+kasan_arch_is_ready(), and so on).
+
+> > +static __always_inline bool kasan_slab_pre_free(struct kmem_cache *s,
+> > +                                               void *object)
+> > +{
+> > +       if (kasan_enabled())
+> > +               return __kasan_slab_pre_free(s, object, _RET_IP_);
+> > +       return false;
+> > +}
+> > +
+> > +bool __kasan_slab_free(struct kmem_cache *s, void *object, bool init);
+> > +/**
+> > + * kasan_slab_free - Possibly handle slab object freeing.
+> > + * @object: Object to free.
+> > + *
+> > + * This hook is called from the slab allocator to give KASAN a chance =
+to take
+> > + * ownership of the object and handle its freeing.
+> > + * kasan_slab_pre_free() must have already been called on the same obj=
+ect.
+> > + *
+> > + * @Return true if KASAN took ownership of the object; false otherwise=
+.
+> > + */
+>
+> kasan_slab_free - Poison, initialize, and quarantine a slab object.
+> @object: Object to be freed.
+> @init: Whether to initialize the object.
 >
 > This function poisons a slab object and saves a free stack trace for
-> it, except for SLAB_TYPESAFE_BY_RCU caches when @poison_rcu is false.
+> it, except for SLAB_TYPESAFE_BY_RCU caches.
+>
+> For KASAN modes that have integrated memory initialization
+> (kasan_has_integrated_init() =3D=3D true), this function also initializes
+> the object's memory. For other modes, the @init argument is ignored.
 
-I think that's a KASAN implementation detail, so I would prefer not
-putting that in this header.
+As an aside: Is this actually reliably true? It would be false for
+kfence objects, but luckily we can't actually get kfence objects
+passed to this function (which I guess maybe we should maybe document
+here as part of the API). It would also be wrong if
+__kasan_slab_free() can be reached while kasan_arch_is_ready() is
+false, which I guess would happen if you ran a CONFIG_KASAN=3Dy kernel
+on a powerpc machine without radix or something like that?
+
+(And similarly I wonder if the check of kasan_has_integrated_init() in
+slab_post_alloc_hook() is racy, but I haven't checked in which phase
+of boot KASAN is enabled for HWASAN.)
+
+But I guess that's out of scope for this series.
+
+> For the Generic mode, this function might also quarantine the object.
+> When this happens, KASAN will defer freeing the object to a later
+> stage and handle it internally then. The return value indicates
+> whether the object was quarantined.
+>
+> This function is intended only for use by the slab allocator.
+>
+> @Return true if KASAN quarantined the object; false otherwise.
+
+Same thing as I wrote on patch 2/2: To me this seems like too much
+implementation detail for the documentation of an API between
+components of the kernel? I agree that the meaning of the "init"
+argument is important to document here, and it should be documented
+that the hook can take ownership of the object (and I guess it's fine
+to mention that this is for quarantine purposes), but I would leave
+out details about differences in behavior between KASAN modes.
+Basically my heuristic here is that in my opinion, this header comment
+should mostly describe as much of the function as SLUB has to know to
+properly use it.
+
+So I'd do something like:
+
+<<<
+kasan_slab_free - Poison, initialize, and quarantine a slab object.
+@object: Object to be freed.
+@init: Whether to initialize the object.
+
+This function informs that a slab object has been freed and is not
+supposed to be accessed anymore, except for objects in
+SLAB_TYPESAFE_BY_RCU caches.
+
+For KASAN modes that have integrated memory initialization
+(kasan_has_integrated_init() =3D=3D true), this function also initializes
+the object's memory. For other modes, the @init argument is ignored.
+
+This function might also take ownership of the object to quarantine it.
+When this happens, KASAN will defer freeing the object to a later
+stage and handle it internally until then. The return value indicates
+whether KASAN took ownership of the object.
+
+This function is intended only for use by the slab allocator.
+
+@Return true if KASAN took ownership of the object; false otherwise.
+>>>
+
+But if you disagree, I'll add your full comment as you suggested.
+
+[...]
+> > diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> > index 85e7c6b4575c..8cede1ce00e1 100644
+> > --- a/mm/kasan/common.c
+> > +++ b/mm/kasan/common.c
+> > @@ -205,59 +205,65 @@ void * __must_check __kasan_init_slab_obj(struct =
+kmem_cache *cache,
+> >         /* Tag is ignored in set_tag() without CONFIG_KASAN_SW/HW_TAGS =
+*/
+> >         object =3D set_tag(object, assign_tag(cache, object, true));
+> >
+> >         return (void *)object;
+> >  }
+> >
+> > -static inline bool poison_slab_object(struct kmem_cache *cache, void *=
+object,
+> > -                                     unsigned long ip, bool init)
+> > +/* returns true for invalid request */
+>
+> "Returns true when freeing the object is not safe."
+
+ack, applied
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -271,5 +376,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAG48ez1guHcQaZtGoap7MG1sac5F3PmMA7XKUH03pEaibvaFJw%40mail.gmail.=
-com.
+kasan-dev/CAG48ez0frEi5As0sJdMk1rfpnKRqNo%3Db7fF77Zf0cBHTFO_bjQ%40mail.gmai=
+l.com.
