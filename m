@@ -1,207 +1,201 @@
-Return-Path: <kasan-dev+bncBD2KV7O4UQOBBAXHZS2QMGQEVHURHAY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXYDPH3S4OBBCE2ZW2QMGQE2RRIQLI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727D194A314
-	for <lists+kasan-dev@lfdr.de>; Wed,  7 Aug 2024 10:42:44 +0200 (CEST)
-Received: by mail-il1-x140.google.com with SMTP id e9e14a558f8ab-39b331c43desf24231105ab.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 07 Aug 2024 01:42:44 -0700 (PDT)
+Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFDCB94A581
+	for <lists+kasan-dev@lfdr.de>; Wed,  7 Aug 2024 12:31:38 +0200 (CEST)
+Received: by mail-lf1-x13e.google.com with SMTP id 2adb3069b0e04-52efe4c2261sf2609795e87.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 07 Aug 2024 03:31:38 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1723026698; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=GfX9dD6IyS4n+Ar90uQed6Ms2eiEm+TRNDClkTdqVrFrtJforOnZvobgZ1Ky6eElXU
+         nqW07Ex90gCb5Zd8H/Tv1Z2vIxoFaXoVDirHZmiYpTtczd+aHYcJi+6OYExjwl/ZLxaj
+         Gt2Cpq5jeYF7n/ayCtw6GBf19BWizxGQDLjulcCXup1zTk5XOz0XB8RBvhkzs34DMDMb
+         +ZMXVY4ceaAgzFm99aVivO6h6K9TgisW5zDSrUAJD3VXwXDk2JhUKXgkjThws5XyEL/W
+         XKvSz+CP4POJjd4R9Hglg3hPfLNgEHG7XXdFAkYusUmNrYIyrIYCi3td0jBfDSsEFY7V
+         gm1w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:cc:to:mime-version:message-id:date
+         :subject:from:sender:dkim-signature;
+        bh=Ye+2GHDh7kzEQGjwmQ2psxHi0NYXlv3T1CntSPs6NOk=;
+        fh=JGEU+p++Nt3DhmfhBQ4VK9sVYdyTIoGNzQxHBQSO7KI=;
+        b=L1tNAPPC1Hiiz7CjUHLRCmza0wz+oajdtkE23oLEYwB5Vsg88YOJ9pez3n8QM/O2/G
+         ac3x0VqLmw3FQdoWKuJC0gMVMQKETWEznmeoewiPeMeB+PLMCANinTfh+Zw0HYqk8BBb
+         tAVo2AepQOsbtX11NwKvzgQutPAjjYpb1EI1qhXDlq6clSU4C0u7fJ2hNY3OPkcKnN6C
+         exwzaBquGo8wuNOgz1lrX2OO+O5lf/gmVbvv1muGD/8lyxepgMp+acz+KSlC3BN0Lfow
+         wh5w/MPVBLGRTm5JugwuT6pFVvvHUlZTrltwMSPONG+ke7AqDlEi1eAXv9gMoYZ/CIVK
+         cm3A==;
+        darn=lfdr.de
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="cLY3/utF";
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="cLY3/utF";
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1723020163; x=1723624963; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1723026698; x=1723631498; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:content-disposition:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xSHYaG9nO7E4AFBz4/hjxyRYlA/y6SQ5vKyCNpJFfXU=;
-        b=BLZqzC6Zs2C1AHgSBP/1cHt4PxGGpgZkNuAIseUkgsnFre1+QdVy/v2t8j+E4R1mrN
-         REDGVzU00oSvZdqJKlMsitww9iH28NShyPa4GfXgPWq/SjSVyzdBmWSNMYMuIHiAcNwy
-         GecO2udr5lXn0m87TP7yaZeVpMPgzLpcOsM/EiRIz52BaR3Y8Wss9LK+bv/E6bH6NVMQ
-         aMUzk8nLXXCDs6QGx3rBJ6Plim5i8wSRjisZF8caiMHtRwUebRPwDHl6F3Oqgs5RaFiI
-         YIS1M6FmRY9XNUJrn40ppMNEEB6KArGKLJR1xUyU8dodOLa4lia9WPV99qQ6RFCW3Lxa
-         85aw==
+         :x-original-sender:cc:to:mime-version:message-id:date:subject:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ye+2GHDh7kzEQGjwmQ2psxHi0NYXlv3T1CntSPs6NOk=;
+        b=DBtIuibw1TBWRQaTDXx4Rp5SFG169ty0eHrWqYJnq2JU6mcP9RXZkssXqTRmNSvDTG
+         IB689RTaj+W7ljZ75UZREce+679xS19S9St45ZeEQdVdTBHu3RSN3SRjanOr4m87lucN
+         gJ2u8UdZBKO7ZjKQDgkw/tlv1TrdrTxv2Ck0MaI7Hjz1NVJTtoJlVtJYT8uHlsxKehEf
+         8i3hCn8Z3WNJS3G0XI8ge/841hCs4UbacV34fncBx4zUP3epVKNLQLAT+NRJ0aRiRTby
+         SL4P8HNdJz0G0+qtk+qxlqPhqnFjGiyk+1bjfIlVV+DQ6LVc2MULVagwDMSenGw3j5f/
+         4X7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723020163; x=1723624963;
+        d=1e100.net; s=20230601; t=1723026698; x=1723631498;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :content-disposition:message-id:subject:cc:to:from:date:x-beenthere
+         :x-original-authentication-results:x-original-sender:cc:to
+         :mime-version:message-id:date:subject:from:x-beenthere
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=xSHYaG9nO7E4AFBz4/hjxyRYlA/y6SQ5vKyCNpJFfXU=;
-        b=Z9BdH+CKdm+mphQBnmtbr6E2TPj+doDgNkI/HWjnjEE8eYIM8VH1izdkeb+g5jWDQY
-         rOK7xmxdEFISlpvadweJiOkJWfNF7em/Eaziu0WGWIwW2SX1BCcjryegXboXLq9Qwzrr
-         K3NfBVVJPt36C3fBc3ZBldLNp+jOGee//fJr4f5kOb7W0xAdD2FnONmJUYFBNLsUr4EQ
-         dfXUGus2GAZ1Sxko+XoNdBjipvHNWEEek0S6NRiZghNyi2W8Su/rDwlRZgyzMW0HiaQq
-         7vyrkiZqia7jfOSHtPHvdCe6hIyTN2N4p4hDOpQV1iFvkQwh2gpKIAN5kqDbGcwbUSI9
-         5/7A==
+        bh=Ye+2GHDh7kzEQGjwmQ2psxHi0NYXlv3T1CntSPs6NOk=;
+        b=N3BMbTpeoTXJp1sQhgT2J/C0002G3wCVesEPkpn4DEcDeqaH1aQJH9ayOB+OauRxLX
+         BZWdiX2Q/zD+VSIYKmtlyF5O9APrVqfvPgePOIwY/qHIck2IcD379iIOLiVt5rgK/9dg
+         yt3RsmHFMw0OSAvo1dMBUWa/S3jObGMOvyIiRqH/Q6OyaRzpwODPC0vrH+hoTFUIhfML
+         Dr/lkkVk1AMA6Yct3EOFq237Vw42lpJlMAKszga2Afmpr8+xAEvX73h6H31rIlFeS7Wn
+         +eZyeio/14Q5SFPdADxpCBdB2OJqQtvUXKlcukq4gIS8zc4uYsdGPBgTynGYJ08QyD/h
+         uU3Q==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXbg1zLwBh9DMcO63j1svfJJjjaJeFrA2u1rqrTxpd6vkkW0xNZDLGs55vQH/zVzc6grN2OFLGFoncUCGjhEuMcx/Os8LRrBg==
-X-Gm-Message-State: AOJu0YyUMTZ+Ae/Dbx0U5ZQ3zdvsGjSp/4ypoDj05WQiyHPjaWff2EOo
-	qeZYdEt17577d/KrLAVucSOAkZUbEmXVkOQRAmjgmisf5QeecWZs
-X-Google-Smtp-Source: AGHT+IHyFP3f8f7EK77/E5XbJsMDi8lsG7iQim0qrHDoOkxHsLI6CebBaDdMtMZyITXUkxSDPcG9cw==
-X-Received: by 2002:a92:cd8e:0:b0:39b:3649:1b68 with SMTP id e9e14a558f8ab-39b36491d25mr183336045ab.13.1723020163122;
-        Wed, 07 Aug 2024 01:42:43 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCV5IAmaLTTCDGki6LMSZBzWDAyDIFvfX5fag2DFSPZupxc/tcsUKHLUByVtTOs9KXRXyIi18gTQadeeqyjkf2bBFrUJaKQ85g==
+X-Gm-Message-State: AOJu0YxzHVf7cqNenjEXS5KK6soJuRphZViPPywvfXtgJrJk7wA+322b
+	kbg+O3XuYUVqjqir7H7Vp6RLjwYSA0GUJt1xyBBZopwA1YEWQ0iS
+X-Google-Smtp-Source: AGHT+IFRGS7wZlS3hB/Vi6e14rnzeeuZMnnPNsE9knw+NioJ5+9PnWoYbTcv8+rDtV/Y6AmklVqGjg==
+X-Received: by 2002:a05:6512:3b89:b0:52c:cd77:fe03 with SMTP id 2adb3069b0e04-530bb380dabmr15044009e87.14.1723026697058;
+        Wed, 07 Aug 2024 03:31:37 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:8ed:b0:39a:f263:546d with SMTP id
- e9e14a558f8ab-39b29ee095els34377275ab.2.-pod-prod-01-us; Wed, 07 Aug 2024
- 01:42:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVd1DYpFX/emTgrXDKl0Nal1zyKeQHt0ACoBKRcx2xMf0WCSJt5xVm54B89qlMx+bpHTdZe0wDtotyBQAy/91d9PAyf4zAHZu/Mxw==
-X-Received: by 2002:a05:6602:2dcd:b0:81f:d579:335c with SMTP id ca18e2360f4ac-81fd579363fmr1736948739f.17.1723020161668;
-        Wed, 07 Aug 2024 01:42:41 -0700 (PDT)
-Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.9])
-        by gmr-mx.google.com with ESMTPS id ca18e2360f4ac-81fd4d50295si52816739f.2.2024.08.07.01.42.40
+Received: by 2002:a05:6512:6c8:b0:52e:9b66:4f8 with SMTP id
+ 2adb3069b0e04-530c31f24e7ls2267384e87.2.-pod-prod-05-eu; Wed, 07 Aug 2024
+ 03:31:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWI/UzC5xU5LEQSo/L5tKzfmiOtS+C0FLGIYb3x7Tc+RFp5qWFEyyvQoiD1aEbMhzVeyc7+xeulS0U0/W8e0dSEq3Pcw1M0r9xLlw==
+X-Received: by 2002:a05:6512:3da6:b0:52e:73f5:b7c4 with SMTP id 2adb3069b0e04-530bb3b47c3mr16585249e87.37.1723026694757;
+        Wed, 07 Aug 2024 03:31:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1723026694; cv=none;
+        d=google.com; s=arc-20160816;
+        b=feGWLBWM3/06W7GLoXBgNHHukoouMCIKv9iUBvngW22Hofo0HbTqbY/llNnROMmlAp
+         pEb3eEAFr/KgokS5O7tXiakVe3+v9WatPx74BXGAgrpPF5hgv72IVt06El2pq6uC0Ur3
+         yjCVPHiZjmg2ZnpHfvi3yXUL5l2pLxxqDTC/Lk960ffyqmkB4O370jNqEQll/q7pApQJ
+         vLQ/Xq6HYk7Yqy2CEJEUN0OUuR7IpWSBoV5FD9CMG4uipc5quxLie/HW9SVhipnuJIi0
+         3tFTD+gTCr0Lnldt+gOJcpOQ368L8henIgFLNIXh8kyOyBiY6R+TNE2a010bgYuqG55N
+         +FfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:dkim-signature:dkim-signature:dkim-signature
+         :dkim-signature;
+        bh=MYAQdZfiQ9b2HS7QQayr4v2PzJCMJBGtNuCobIJ9kog=;
+        fh=IkE9nfmJjqF0Gh4XK//npeGH2HkSHIqCgOhfhWJ/CPU=;
+        b=mCObDqeOue4z/EQ9fyF8/IePGs2mDtUG8vw5h7PHQUZzkO8+U+bCfYsqBUqxSZF7cM
+         /hO388d92QhehzX6iM2tP/UXJckIl3JAWhJdZcxWA6vJZ8gd9J9doyhLxfjaygTvejKh
+         UbPeG8SJ26vJrPnCBnPvLtJ2D9BNMcmWom022CxZGMSnbbtHliwc2z+QFSMbG2XHImIs
+         A5f/hdZYb39BFnewkjMUDDrPGY9lLvxhjIqLmGfsWKkkqCMiSD2MVVqMbr5rScBz3XGy
+         VgcUSs2Tb9CfA375tRliPkKiyhJj0fImS2GRhtCRdPx9fC/pPVv69F8SZ1MH/wyxLGQE
+         L/Yg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="cLY3/utF";
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="cLY3/utF";
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2a07:de40:b251:101:10:150:64:1])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-530de3dbf8fsi24294e87.5.2024.08.07.03.31.34
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 07 Aug 2024 01:42:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of oliver.sang@intel.com designates 192.198.163.9 as permitted sender) client-ip=192.198.163.9;
-X-CSE-ConnectionGUID: tVTiXoHgSlO9rcvxAC7lpw==
-X-CSE-MsgGUID: k5K5exVCTUe6TD8IO3EEaQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11156"; a="31745645"
-X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="31745645"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 01:42:39 -0700
-X-CSE-ConnectionGUID: noR7e9paRfi69Jt9arVe3Q==
-X-CSE-MsgGUID: cgvfK98CQAumvBMRLgwMBg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,269,1716274800"; 
-   d="scan'208";a="56468537"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 07 Aug 2024 01:42:39 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 7 Aug 2024 01:42:38 -0700
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 7 Aug 2024 01:42:38 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 7 Aug 2024 01:42:38 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.173)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 7 Aug 2024 01:42:38 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qpAOvxPEU0jELuqcyFbMx5bG+vkar/uIqz7hjU86UIMR4lEsaGCGhQ7qS+/FheHTFw2+Zn6HF05hJXrdh89MrpiYHbiqLgaWhfrlvql8iHAyoNPh47tJ97IPW8DeKlD0ZiHhoTD5jZJPfS980ct9hsyDRlgp2GNyu6bNDPgm5A+rI4e6ZPd38yhr2g3TtgDybq6Bz7yQP0n+6uuRAFiE51q2vsZqICsl9RrfPxaOPH/ZHs2YsWiv+oE033lMQPMoZ2Sh0z5957Eav2EC6qN5LoYwuX/eliE/HHexDxeE5Qq6QoJtjfA+S7A4skn+57ZlDpuqitQ4sF7dum/iKFstjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TYzb6o/q9VegJCx2lFkICB0oL+6migoEKADX5Qu1eX8=;
- b=iGqhXo12mJVW4pl2CzF8wLPfViTVDlGuHWAtFT2R6hfXZsCJQQ89uKhjen5ykT/fOvX7T2iFnuIFsuBEB1OfsUAqtIk7sNSpoqT66S45EzdF6O0nKoEYTRUKtoBy5kC6iBmHSs7//dc+xQSW1hcByxzBMc4H83fQ1QEHRgiUbBJvIdAePYEod60+1mc3I3BwMu2JsiPsv5nL03pQqIiUbiRnz+v62mzA2gjcHhtt0fbznlJHv3YtESk25yzXXnLWZLYnPKHAN5hSCjUFYkdNsk+Q2dX7xOUQHmPeaYuwxrJUM6mMPxlcHsc2QIXUs8U8Now35dzj4XeXUor6geyuwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
- by PH7PR11MB7497.namprd11.prod.outlook.com (2603:10b6:510:270::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7807.32; Wed, 7 Aug
- 2024 08:42:33 +0000
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c%5]) with mapi id 15.20.7828.023; Wed, 7 Aug 2024
- 08:42:33 +0000
-Date: Wed, 7 Aug 2024 16:42:20 +0800
-From: kernel test robot <oliver.sang@intel.com>
-To: Jann Horn <jannh@google.com>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, Linux Memory Management List
-	<linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, "Alexander
- Potapenko" <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Christoph Lameter <cl@linux.com>,
-	David Rientjes <rientjes@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Marco Elver <elver@google.com>, Pekka Enberg <penberg@kernel.org>, "Roman
- Gushchin" <roman.gushchin@linux.dev>, Vincenzo Frascino
-	<vincenzo.frascino@arm.com>, <kasan-dev@googlegroups.com>,
-	<oliver.sang@intel.com>
-Subject: [linux-next:master] [slub]  b82c7add4c:
- WARNING:at_mm/slub.c:#slab_free_after_rcu_debug
-Message-ID: <202408071606.258f19a0-oliver.sang@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-X-ClientProxiedBy: SI1PR02CA0042.apcprd02.prod.outlook.com
- (2603:1096:4:1f6::17) To LV3PR11MB8603.namprd11.prod.outlook.com
- (2603:10b6:408:1b6::9)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Aug 2024 03:31:34 -0700 (PDT)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:1;
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 9D1BE21B30;
+	Wed,  7 Aug 2024 10:31:33 +0000 (UTC)
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 7078B13297;
+	Wed,  7 Aug 2024 10:31:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id KnTUGgVNs2YsHwAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 07 Aug 2024 10:31:33 +0000
+From: Vlastimil Babka <vbabka@suse.cz>
+Subject: [PATCH v2 0/7] mm, slub: handle pending kfree_rcu() in
+ kmem_cache_destroy()
+Date: Wed, 07 Aug 2024 12:31:13 +0200
+Message-Id: <20240807-b4-slab-kfree_rcu-destroy-v2-0-ea79102f428c@suse.cz>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|PH7PR11MB7497:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4f661e9e-5dd7-42a3-528f-08dcb6bce175
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Br346evaX86ohdCEtOG5uxg2+V0Vh5TZpLxGHNLwPVGSPND7HDpSHvlHn3LG?=
- =?us-ascii?Q?9pjHcQmayFm5TUpJcgfE3g3QyyEHXlMMYYZ7O9qCM+hra4TDZqC2O5EYh6wl?=
- =?us-ascii?Q?zR0c9HY43VyqE5EhpV/nl6zKm/breD5usY9W03HhfYztFHhm786wUqst+hHm?=
- =?us-ascii?Q?Zq7yF3YcV/tZQpJ6HaowbMivp7vEFfuxEHucdmqD3LHH+iEnCigkFi04VZaZ?=
- =?us-ascii?Q?lqewSTluCHisogPeHHfypIZDp9QLIAswebaiL23YcC/QJUwW6GS3myDiu0ri?=
- =?us-ascii?Q?8vQpTf+UBrWyuIZDlhxZDPm4ryKaj+uqsU1ckxlxFORr5WzTMw7V3oHtbpcD?=
- =?us-ascii?Q?CkWYU4PGYyte3n/KqElTcdxoun9z+WsptN1z2tex48sA42vJhg8guofiV4tF?=
- =?us-ascii?Q?+bnw4vV2nP0Jgcx7fuU7hkK0vfhHp6oc6wTsZ4nzh0umlj5JDOkiD8dyyL73?=
- =?us-ascii?Q?8p5RcGwVMVMDLb9ttBTII9h17ianlAE94LYwBZ5QP1TDNNjaTYhQJXEJrUpn?=
- =?us-ascii?Q?PDu2y993Cj0fFpBTOaQ7QrbAtfMtmUbm2CeeYSoXsThRXzzuElTfn05ygvg0?=
- =?us-ascii?Q?epgiCPJNFyS8PqIDTtvT8YP/HFO//qBi8OVQ866NcJqPH0eeLErX3NTkR5hA?=
- =?us-ascii?Q?3bkqjqNh/7W8JkGcx4TdM2EepZbTn6vfL71KzpfFbV7XA9SKHv7Qu9z3BVq7?=
- =?us-ascii?Q?/M3t6AISwL5CSG+NZBUGJAMMzrx6FiWPy4RN7flN6t76d2UVmAhGzfVA6ohV?=
- =?us-ascii?Q?ASfy4Ei3+EulMoll4FB9p8Hp+KAxcSYH4JmXSQrHSi28jNdETyIR8DAcaLVt?=
- =?us-ascii?Q?qL5wyKroxXVMz4SErYDIqk2qt4KQ5yqdCW+nEcCKlklB9OfWQScOTkmypMtP?=
- =?us-ascii?Q?pKeps+4+3E8qgOyzAeUO6RcV2Ql7E7ZEeN/zFxon1FDxsq5xuXlJaJpoj5Z5?=
- =?us-ascii?Q?hwQThoFz7lkNyB/KweaftwhVt/CGyKmAGspKgjsXpILPEpsIZN2GhfdvzKVv?=
- =?us-ascii?Q?0lvxnp4UZa6ud9KYMP4bOLZrsYRf3ykJEkA8yTWOluEdzAC5ECVQ6+iUw4Q4?=
- =?us-ascii?Q?yUH+Spfm1mVxGeP0rZhSfNIjWdM1E5sXiBYtYQEdtqVTz/t5vsTTSjeeCQ4n?=
- =?us-ascii?Q?UHl72vCQ7mV6rsLcxgVfd0dfF7R1aZKxRlZxqh8dy3JCohDN5vEMjIQJmZ+7?=
- =?us-ascii?Q?bBplcFAUQ33YIfDQJxifiSXwykjPvVUX8ByTHj0D9W6HI3Pi/guxXLjFBpOw?=
- =?us-ascii?Q?lRJtEdbvua/NZyoYa3ZyA8p92fBDQKIJa5fBubj8OPG+KoPKrqzVYvXgHGtg?=
- =?us-ascii?Q?JSwMhRjld7Dn97Rz6oeMBZ+G?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Dv9nw3SBupZ1T0R0KuuaXqsqt7XB0/ZO5b1O2BVece8u5tdn2R9p0ErGvKI2?=
- =?us-ascii?Q?3HJts/OmnHiTkIX/wB5dldmVqsvGs0ZAJWGGc3tcOwIVLPgO3MtW/F/e9bPq?=
- =?us-ascii?Q?ygyU8uhabeog/fhJ5u+rfHOy68Sbm3337wdd3je8InpR1AaD3C8B/K2auXZi?=
- =?us-ascii?Q?anvqSDQ4N51I/iFKg5mdyrSWJumGa9sh/yu9L4DbiiTNsboGN/1hOESxoS6M?=
- =?us-ascii?Q?MQZLU47N7agVMddGFukDIK+WYStpV9DZIdQzjtCSOBsnj0FZ43L7a5fv86eo?=
- =?us-ascii?Q?P62Zy9fJf2rT/7JA1oWL9vr07hk+zbMo1MVuwazUdVzkTQ2bBANMen7KC/1U?=
- =?us-ascii?Q?onWzb3HQrWs6OsyjxWnYUQzy70QlWicf4Qkb2/y+Igqf2QC0u8M67Nc150ih?=
- =?us-ascii?Q?dnRia4by9LwwwkiJqAWzh4JM2m7owNCMH7I85y+yibvi64w7UmaXEQztKoeS?=
- =?us-ascii?Q?sKytdvEXc0tE18ETd920U9Z64Pgx/kfNJw+m5kugYsGkpCXjtuB9yBeZhSNS?=
- =?us-ascii?Q?xS3Fae3XrS8GY84uTKsqHcxgqGOTRRTC6KRIy6eEsOJNLwjw9kVUqK2cOxSo?=
- =?us-ascii?Q?jOwxz8DjErK1ezs6VSrxW2lqyYYXlyMV6SpyeDuk4J3j0TwKw2gS92YyLLQb?=
- =?us-ascii?Q?qpbYEjKjGwYHMA2zafNyTe0MEafdAHCTrIydL8D76RZUNPWRzkpqJRYFOBkN?=
- =?us-ascii?Q?GdXbuAOtQ16aR2xBvJm9syaVeFA0P+GdEODQF4nScTAzQbdc9v/8G4OZSsWk?=
- =?us-ascii?Q?cbjri1SzQNoe2kozbGH3VKVRyIdKuYDwpuSvHYm4V0y+GZYL3FGuCFbwpa8j?=
- =?us-ascii?Q?rgGYdOejRd+pc2WHkgy8AaRevXNw2UuH0K9CS/WkI9tFL19lzidoxok5qOrU?=
- =?us-ascii?Q?sBqg1b0gnIx+XERX1/XvmvoWuzaAqZmecs8bqD8YqW90cT9QIQ2yEwv8DT8K?=
- =?us-ascii?Q?Q0/RrpynaOipfxfJJbRWAoo6Ek0Eanpiw9Z7PxCzgrH1v3lWubJ5Eop4+aTC?=
- =?us-ascii?Q?Yk01TsYaSn1mrIYsc8ozoW+kulJ1rk6PIi5GwXsHeifgKZM6IYaBUhiGofr3?=
- =?us-ascii?Q?I6Z7pZwAI9yqz0hS/yjfO9+3UYu/kS2i8yN0rC8h9QoSqsdVAh8AQ3VbL6cw?=
- =?us-ascii?Q?7vIFszUYA+KK81eS1PBeghQ7uydfzZMUVkEVBZo7rcWzS2LTxyUlSPiS9bKz?=
- =?us-ascii?Q?/49HRotspbqGaETerD3vWMeH0vPPxBcf2NE0T2gMFb5mY8f3XsN+aT1bZDIw?=
- =?us-ascii?Q?4ScACl+n7VVB9DjE3LQOplt5pI0x67avQdHLa32Qao7kvjwKk2RJEiwNnLaX?=
- =?us-ascii?Q?Qp1nkGJ+MIQ3JC0LRlJJLrr+2RQGau1McZDcO5BbturKO4wq2twQscVOASWL?=
- =?us-ascii?Q?H5plxV5CdAFW03XuZfK4WBOGNyB1SgWsRF+u5hwgTjHipZ0fJSWcShDvqFHM?=
- =?us-ascii?Q?ERXftfJdUTj2LU/beDvOFlRekse0QkiIbGW73iAxAFoIewWo2lUr8MVa8GJL?=
- =?us-ascii?Q?3RfiT/fOOaslvqOfzexwpBPtiBN4VDOUyaJqcgXzCeRrJf/rv+CI9t5us6w/?=
- =?us-ascii?Q?08NgErHRSEclO4JLE5NEcNAjwPgLWlDUap80WZjl5+biRQgY3f5l8newo0Cv?=
- =?us-ascii?Q?pQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f661e9e-5dd7-42a3-528f-08dcb6bce175
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2024 08:42:33.3839
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LGteDhQygDSpLDP7VsM/rba88yTHRjUqeaegI1hfTr9aLHlKXOQVgBjHojmAPNSNrzLM8hwGWPRGULaVlW2Mhg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7497
-X-OriginatorOrg: intel.com
-X-Original-Sender: oliver.sang@intel.com
+Content-Type: text/plain; charset="UTF-8"
+X-B4-Tracking: v=1; b=H4sIAPFMs2YC/42NQQ6CMBBFr2Jm7ZgyKQquvIchhraDNBowM0BEw
+ t2tnMDle8l/fwFliaxw3i0gPEWNfZeA9jvwbd3dGWNIDGTImlOWo7Ooz9rhoxHmm/gRA+sg/Yx
+ FHgI5ChxKgrR/CTfxvbWvVeI26tDLvF1N2c/+U50yNGiPjsrCeiKTX3RUPvgPVOu6fgGMaZPzw
+ AAAAA==
+To: "Paul E. McKenney" <paulmck@kernel.org>, 
+ Joel Fernandes <joel@joelfernandes.org>, 
+ Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun.feng@gmail.com>, 
+ Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang1211@gmail.com>, 
+ Julia Lawall <Julia.Lawall@inria.fr>, Jakub Kicinski <kuba@kernel.org>, 
+ "Jason A. Donenfeld" <Jason@zx2c4.com>, 
+ "Uladzislau Rezki (Sony)" <urezki@gmail.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Roman Gushchin <roman.gushchin@linux.dev>, 
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, rcu@vger.kernel.org, 
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+ Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
+ Jann Horn <jannh@google.com>, Mateusz Guzik <mjguzik@gmail.com>, 
+ Vlastimil Babka <vbabka@suse.cz>
+X-Mailer: b4 0.14.1
+X-Spam-Level: 
+X-Rspamd-Action: no action
+X-Spam-Score: -3.01
+X-Spam-Flag: NO
+X-Rspamd-Queue-Id: 9D1BE21B30
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[kernel.org,joelfernandes.org,joshtriplett.org,gmail.com,linux.com,google.com];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_CC(0.00)[goodmis.org,efficios.com,gmail.com,inria.fr,kernel.org,zx2c4.com,linux-foundation.org,linux.dev,kvack.org,vger.kernel.org,google.com,googlegroups.com,suse.cz];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TAGGED_RCPT(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLsm9p66qmnckghmjmpccdnq6s)];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=dr2umA4B;       arc=fail
- (signature failed);       spf=pass (google.com: domain of oliver.sang@intel.com
- designates 192.198.163.9 as permitted sender) smtp.mailfrom=oliver.sang@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+ header.i=@suse.cz header.s=susede2_rsa header.b="cLY3/utF";
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b="cLY3/utF";
+       dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
+       spf=pass (google.com: domain of vbabka@suse.cz designates
+ 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -214,196 +208,128 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+Also in git:
+https://git.kernel.org/vbabka/l/slab-kfree_rcu-destroy-v2r2
 
-hi, Jann Horn,
+Since SLOB was removed, we have allowed kfree_rcu() for objects
+allocated from any kmem_cache in addition to kmalloc().
 
-as you educated me last time, I know this b82c7add4c is v5:)
-the CONFIG_SLUB_RCU_DEBUG is really enabled, and we saw lots of WARNING in dmesg
-https://download.01.org/0day-ci/archive/20240807/202408071606.258f19a0-oliver.sang@intel.com/dmesg.xz
+Recently we have attempted to replace existing call_rcu() usage with
+kfree_rcu() where the callback is a plain kmem_cache_free(), in a series
+by Julia Lawall [1].
 
-not sure if it's expected? below report (parsed one of WARNING) just FYI.
+Jakub Kicinski pointed out [2] this was tried already in batman-adv but
+had to be reverted due to kmem_cache_destroy() failing due to objects
+remaining in the cache, despite rcu_barrier() being used.
 
+Jason Donenfeld found the culprit [3] being a35d16905efc ("rcu: Add
+basic support for kfree_rcu() batching") causing rcu_barrier() to be
+insufficient.
 
-Hello,
+This was never a problem for kfree_rcu() usage on kmalloc() objects as
+the kmalloc caches are never destroyed, but arbitrary caches can be,
+e.g. due to module unload.
 
-kernel test robot noticed "WARNING:at_mm/slub.c:#slab_free_after_rcu_debug" on:
+Out of the possible solutions collected by Paul McKenney [4] the most
+appealing to me is "kmem_cache_destroy() lingers for kfree_rcu()" as
+it adds no additional concerns to kfree_rcu() users.
 
-commit: b82c7add4c7fd6beefefbaf67e9a0378ec2e6ee1 ("slub: introduce CONFIG_SLUB_RCU_DEBUG")
-https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
+We already have the precedence in some parts of the kmem_cache cleanup
+being done asynchronously for SLAB_TYPESAFE_BY_RCU caches. The v1 of
+this RFC took the same approach for asynchronously waiting for pending
+kfree_rcu(). Mateusz Guzik on IRC questioned this approach, and it turns
+out the rcu_barrier() used to be synchronous before commit 657dc2f97220
+("slab: remove synchronous rcu_barrier() call in memcg cache release
+path") and the motivation for that is no longer applicable. So instead
+in v2 the existing barrier is reverted to be synchronous, and the new
+barrier for kfree_rcu() is also called sychronously.
 
-[test failed on linux-next/master 1e391b34f6aa043c7afa40a2103163a0ef06d179]
+The new kvfree_rcu_barrier() was provided by Uladzislau Rezki in a patch
+[5] carried now by this series.
 
-in testcase: boot
+There is also a bunch of preliminary cleanup steps. The potentially
+visible one is that sysfs and debugfs directories, as well as
+/proc/slabinfo record of the cache are now removed immediately during
+kmem_cache_destroy() - previously this would be delayed for
+SLAB_TYPESAFE_BY_RCU caches or left around forever if leaked objects
+were detected. Even though we no longer have the delayed removal, leaked
+objects should not prevent the cache to be recreated including its sysfs
+and debugfs directories, so it's better to make this cleanup anyway.
+The immediate removal is the simplest solution (compared to e.g.
+renaming the directories) and should not make debugging harder - while
+it won't be possible to check debugfs for allocation traces of leaked
+objects, they are listed with more detail in dmesg anyway.
 
-compiler: gcc-12
-test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
+[1] https://lore.kernel.org/all/20240609082726.32742-1-Julia.Lawall@inria.fr/
+[2] https://lore.kernel.org/all/20240612143305.451abf58@kernel.org/
+[3] https://lore.kernel.org/all/Zmo9-YGraiCj5-MI@zx2c4.com/
+[4] https://docs.google.com/document/d/1v0rcZLvvjVGejT3523W0rDy_sLFu2LWc_NR3fQItZaA/edit
+[5] https://lore.kernel.org/all/20240801111039.79656-1-urezki@gmail.com/
 
-(please refer to attached dmesg/kmsg for entire log/backtrace)
+To: Paul E. McKenney <paulmck@kernel.org>
+To: Joel Fernandes <joel@joelfernandes.org>
+To: Josh Triplett <josh@joshtriplett.org>
+To: Boqun Feng <boqun.feng@gmail.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+CC: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>
+Cc: Zqiang <qiang.zhang1211@gmail.com>
+Cc: Julia Lawall <Julia.Lawall@inria.fr>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Jason A. Donenfeld <Jason@zx2c4.com>
+Cc: Uladzislau Rezki (Sony) <urezki@gmail.com>
+To: Christoph Lameter <cl@linux.com>
+To: David Rientjes <rientjes@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc: linux-mm@kvack.org
+Cc: linux-kernel@vger.kernel.org
+Cc: rcu@vger.kernel.org
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Marco Elver <elver@google.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: kasan-dev@googlegroups.com
+Cc: Jann Horn <jannh@google.com>
+Cc: Mateusz Guzik <mjguzik@gmail.com>
 
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+---
+Changes in v2:
+- Include the necessary barrier implementation (by Uladzislau Rezki)
+- Switch to synchronous barriers (Mateusz Guzik)
+- Moving of kfence_shutdown_cache() outside slab_mutex done in a
+  separate step for review and bisectability.
+- Additional kunit test for destroying a cache with leaked object.
+- Link to v1: https://lore.kernel.org/r/20240715-b4-slab-kfree_rcu-destroy-v1-0-46b2984c2205@suse.cz
 
+---
+Uladzislau Rezki (Sony) (1):
+      rcu/kvfree: Add kvfree_rcu_barrier() API
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <oliver.sang@intel.com>
-| Closes: https://lore.kernel.org/oe-lkp/202408071606.258f19a0-oliver.sang@intel.com
+Vlastimil Babka (6):
+      mm, slab: dissolve shutdown_cache() into its caller
+      mm, slab: unlink slabinfo, sysfs and debugfs immediately
+      mm, slab: move kfence_shutdown_cache() outside slab_mutex
+      mm, slab: reintroduce rcu_barrier() into kmem_cache_destroy()
+      mm, slab: call kvfree_rcu_barrier() from kmem_cache_destroy()
+      kunit, slub: add test_kfree_rcu() and test_leak_destroy()
 
+ include/linux/rcutiny.h |   5 +++
+ include/linux/rcutree.h |   1 +
+ kernel/rcu/tree.c       | 103 ++++++++++++++++++++++++++++++++++++++++----
+ lib/slub_kunit.c        |  31 ++++++++++++++
+ mm/slab_common.c        | 111 ++++++++++++++----------------------------------
+ 5 files changed, 163 insertions(+), 88 deletions(-)
+---
+base-commit: 8400291e289ee6b2bf9779ff1c83a291501f017b
+change-id: 20240715-b4-slab-kfree_rcu-destroy-85dd2b2ded92
 
-[    1.253080][    C1] ------------[ cut here ]------------
-[ 1.253941][ C1] WARNING: CPU: 1 PID: 0 at mm/slub.c:4550 slab_free_after_rcu_debug (mm/slub.c:4550) 
-[    1.254388][    C1] Modules linked in:
-[    1.255015][    C1] CPU: 1 UID: 0 PID: 0 Comm: swapper/1 Not tainted 6.11.0-rc1-00103-gb82c7add4c7f #1
-[    1.256371][    C1] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-[ 1.257395][ C1] RIP: 0010:slab_free_after_rcu_debug (mm/slub.c:4550) 
-[ 1.258255][ C1] Code: 00 c7 44 24 0c 00 00 00 00 0f 85 11 ff ff ff f7 c2 04 02 00 00 40 0f 94 c7 41 0f 94 c7 40 0f b6 ff 89 7c 24 0c e9 f6 fe ff ff <0f> 0b 48 8d 65 d8 5b 41 5c 41 5d 41 5e 41 5f 5d c3 cc cc cc cc 84
-All code
-========
-   0:	00 c7                	add    %al,%bh
-   2:	44 24 0c             	rex.R and $0xc,%al
-   5:	00 00                	add    %al,(%rax)
-   7:	00 00                	add    %al,(%rax)
-   9:	0f 85 11 ff ff ff    	jne    0xffffffffffffff20
-   f:	f7 c2 04 02 00 00    	test   $0x204,%edx
-  15:	40 0f 94 c7          	sete   %dil
-  19:	41 0f 94 c7          	sete   %r15b
-  1d:	40 0f b6 ff          	movzbl %dil,%edi
-  21:	89 7c 24 0c          	mov    %edi,0xc(%rsp)
-  25:	e9 f6 fe ff ff       	jmpq   0xffffffffffffff20
-  2a:*	0f 0b                	ud2    		<-- trapping instruction
-  2c:	48 8d 65 d8          	lea    -0x28(%rbp),%rsp
-  30:	5b                   	pop    %rbx
-  31:	41 5c                	pop    %r12
-  33:	41 5d                	pop    %r13
-  35:	41 5e                	pop    %r14
-  37:	41 5f                	pop    %r15
-  39:	5d                   	pop    %rbp
-  3a:	c3                   	retq   
-  3b:	cc                   	int3   
-  3c:	cc                   	int3   
-  3d:	cc                   	int3   
-  3e:	cc                   	int3   
-  3f:	84                   	.byte 0x84
-
-Code starting with the faulting instruction
-===========================================
-   0:	0f 0b                	ud2    
-   2:	48 8d 65 d8          	lea    -0x28(%rbp),%rsp
-   6:	5b                   	pop    %rbx
-   7:	41 5c                	pop    %r12
-   9:	41 5d                	pop    %r13
-   b:	41 5e                	pop    %r14
-   d:	41 5f                	pop    %r15
-   f:	5d                   	pop    %rbp
-  10:	c3                   	retq   
-  11:	cc                   	int3   
-  12:	cc                   	int3   
-  13:	cc                   	int3   
-  14:	cc                   	int3   
-  15:	84                   	.byte 0x84
-[    1.263025][    C1] RSP: 0000:ffffc900001f8d70 EFLAGS: 00010202
-[    1.263973][    C1] RAX: ffff8883ad600000 RBX: ffff888100bbb480 RCX: 0000000000000f01
-[    1.264356][    C1] RDX: 0000000080000000 RSI: ffffffff8e009f01 RDI: ffff8883ad604fe0
-[    1.265346][    C1] RBP: ffffc900001f8da8 R08: ffffffff92b46324 R09: ffff8883ad206890
-[    1.266351][    C1] R10: ffffc900001f89c8 R11: ffffffff92b580f4 R12: ffffea000402ee00
-[    1.267008][    C1] R13: ffff8883ad604fe0 R14: 0000000000000002 R15: 0000000000000f01
-[    1.267008][    C1] FS:  0000000000000000(0000) GS:ffff8883af100000(0000) knlGS:0000000000000000
-[    1.267397][    C1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[    1.268008][    C1] CR2: 0000000000000000 CR3: 00000003a7662000 CR4: 00000000000406f0
-[    1.269367][    C1] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[    1.270360][    C1] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[    1.271351][    C1] Call Trace:
-[    1.272002][    C1]  <IRQ>
-[ 1.272207][ C1] ? __warn (kernel/panic.c:735) 
-[ 1.272994][ C1] ? slab_free_after_rcu_debug (mm/slub.c:4550) 
-[ 1.274014][ C1] ? report_bug (lib/bug.c:180 lib/bug.c:219) 
-[ 1.274891][ C1] ? handle_bug (arch/x86/kernel/traps.c:239) 
-[ 1.275231][ C1] ? exc_invalid_op (arch/x86/kernel/traps.c:260 (discriminator 1)) 
-[ 1.276013][ C1] ? asm_exc_invalid_op (arch/x86/include/asm/idtentry.h:621) 
-[ 1.276976][ C1] ? memcg_alloc_abort_single (mm/slub.c:4524) 
-[ 1.278267][ C1] ? slab_free_after_rcu_debug (mm/slub.c:4550) 
-[ 1.279254][ C1] rcu_do_batch (arch/x86/include/asm/preempt.h:26 kernel/rcu/tree.c:2576) 
-[ 1.280013][ C1] ? kvm_sched_clock_read (arch/x86/kernel/kvmclock.c:91) 
-[ 1.280520][ C1] ? sched_clock_cpu (kernel/sched/clock.c:270 kernel/sched/clock.c:405) 
-[ 1.281010][ C1] ? __pfx_rcu_do_batch (kernel/rcu/tree.c:2493) 
-[ 1.281504][ C1] ? __pfx_sched_clock_cpu (kernel/sched/clock.c:389) 
-[ 1.282010][ C1] rcu_core (kernel/rcu/tree.c:2845) 
-[ 1.282430][ C1] ? irqtime_account_irq (kernel/sched/cputime.c:64) 
-[ 1.282941][ C1] handle_softirqs (arch/x86/include/asm/jump_label.h:27 include/linux/jump_label.h:207 include/trace/events/irq.h:142 kernel/softirq.c:555) 
-[ 1.283144][ C1] ? __pfx_handle_softirqs (kernel/softirq.c:512) 
-[ 1.283666][ C1] ? irqtime_account_irq (kernel/sched/cputime.c:64) 
-[ 1.284147][ C1] __irq_exit_rcu (kernel/softirq.c:589 kernel/softirq.c:428 kernel/softirq.c:637) 
-[ 1.284609][ C1] sysvec_apic_timer_interrupt (arch/x86/kernel/apic/apic.c:1043 arch/x86/kernel/apic/apic.c:1043) 
-[    1.285176][    C1]  </IRQ>
-[    1.285640][    C1]  <TASK>
-[ 1.286008][ C1] asm_sysvec_apic_timer_interrupt (arch/x86/include/asm/idtentry.h:702) 
-[ 1.286008][ C1] RIP: 0010:default_idle (arch/x86/include/asm/irqflags.h:37 arch/x86/include/asm/irqflags.h:92 arch/x86/kernel/process.c:743) 
-[ 1.286008][ C1] Code: 4c 01 c7 4c 29 c2 e9 72 ff ff ff 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa eb 07 0f 00 2d 63 e1 35 00 fb f4 <fa> c3 cc cc cc cc 66 66 2e 0f 1f 84 00 00 00 00 00 90 90 90 90 90
-All code
-========
-   0:	4c 01 c7             	add    %r8,%rdi
-   3:	4c 29 c2             	sub    %r8,%rdx
-   6:	e9 72 ff ff ff       	jmpq   0xffffffffffffff7d
-   b:	90                   	nop
-   c:	90                   	nop
-   d:	90                   	nop
-   e:	90                   	nop
-   f:	90                   	nop
-  10:	90                   	nop
-  11:	90                   	nop
-  12:	90                   	nop
-  13:	90                   	nop
-  14:	90                   	nop
-  15:	90                   	nop
-  16:	90                   	nop
-  17:	90                   	nop
-  18:	90                   	nop
-  19:	90                   	nop
-  1a:	90                   	nop
-  1b:	f3 0f 1e fa          	endbr64 
-  1f:	eb 07                	jmp    0x28
-  21:	0f 00 2d 63 e1 35 00 	verw   0x35e163(%rip)        # 0x35e18b
-  28:	fb                   	sti    
-  29:	f4                   	hlt    
-  2a:*	fa                   	cli    		<-- trapping instruction
-  2b:	c3                   	retq   
-  2c:	cc                   	int3   
-  2d:	cc                   	int3   
-  2e:	cc                   	int3   
-  2f:	cc                   	int3   
-  30:	66 66 2e 0f 1f 84 00 	data16 nopw %cs:0x0(%rax,%rax,1)
-  37:	00 00 00 00 
-  3b:	90                   	nop
-  3c:	90                   	nop
-  3d:	90                   	nop
-  3e:	90                   	nop
-  3f:	90                   	nop
-
-Code starting with the faulting instruction
-===========================================
-   0:	fa                   	cli    
-   1:	c3                   	retq   
-   2:	cc                   	int3   
-   3:	cc                   	int3   
-   4:	cc                   	int3   
-   5:	cc                   	int3   
-   6:	66 66 2e 0f 1f 84 00 	data16 nopw %cs:0x0(%rax,%rax,1)
-   d:	00 00 00 00 
-  11:	90                   	nop
-  12:	90                   	nop
-  13:	90                   	nop
-  14:	90                   	nop
-  15:	90                   	nop
-
-
-The kernel config and materials to reproduce are available at:
-https://download.01.org/0day-ci/archive/20240807/202408071606.258f19a0-oliver.sang@intel.com
-
-
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Vlastimil Babka <vbabka@suse.cz>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202408071606.258f19a0-oliver.sang%40intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240807-b4-slab-kfree_rcu-destroy-v2-0-ea79102f428c%40suse.cz.
