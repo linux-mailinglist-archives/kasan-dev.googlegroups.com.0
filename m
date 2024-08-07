@@ -1,132 +1,133 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBHGHZ62QMGQEV56VRUY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXYDPH3S4OBBAWNZ62QMGQEHWPUSKY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43b.google.com (mail-wr1-x43b.google.com [IPv6:2a00:1450:4864:20::43b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4582294B1D2
-	for <lists+kasan-dev@lfdr.de>; Wed,  7 Aug 2024 23:14:06 +0200 (CEST)
-Received: by mail-wr1-x43b.google.com with SMTP id ffacd0b85a97d-36848f30d39sf118332f8f.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 07 Aug 2024 14:14:06 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1723065246; cv=pass;
+Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B6994B21F
+	for <lists+kasan-dev@lfdr.de>; Wed,  7 Aug 2024 23:26:28 +0200 (CEST)
+Received: by mail-lf1-x137.google.com with SMTP id 2adb3069b0e04-52efce218fesf270095e87.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 07 Aug 2024 14:26:28 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1723065987; cv=pass;
         d=google.com; s=arc-20160816;
-        b=cPc+cFEiHPaBkZzE90az6nVfx5ysA0rpBIi0pn19LqHG3jPPCZESrwGcNy8raU56k8
-         DUH4yc1T5pyNBxt4ODqJ6OrflnOIeQHWYgrhlZO4bN6P6adUba2dpdhKI/vvueqla1ET
-         QzQzxYWZaz+pXvcGERnUQxOk31YgWqR/ZptmOf/UD6hCLziWa61/Xc1GLSlmxC3uNqO0
-         b3GzfPqUcJz+pJB1ghN9eyZGxgz7agghiQe1CrSQlVDOigd0sd/a8CQwPIlWO0SASMQq
-         CWbHegeoaPgPU0bjSS07hv+j3A7PJlQM0pMNJxgjiyxdZFXBNgqH4ZxLXH6+MzG82FKz
-         P3fQ==
+        b=AJebsos2NCGTE8QIkQUM6OTG59UItW40aM+a+OghbtHOd0rsEKUXd4yJh8/23bMl9q
+         AyAe2KT3oxn2PCw9YN766IZqwg8BfuQB3IwpEmdpjORVukXDo7ZGblsWLq6w9+Y1MWZI
+         Yoomh3WiEAeyDtl8vu2hApMz30ad/0e18vbYcOVIZdQ9kdoF4KNWgbCG4y4p1VHKbJKp
+         xezshFrtTTku4GGK0Xyo4nENd/zIiPk+ybrP1hCjARK4hbjzhVMLJ7uV3Iq9vp99342n
+         rfG3B+DysQ5LBW3dNNxDAVq7JQt4C1t8SlpSkGusYyUa1l6uYgNjPX9hfddZSHEwMGlR
+         BXLg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:autocrypt:from
          :references:cc:to:content-language:subject:user-agent:mime-version
          :date:message-id:sender:dkim-signature;
-        bh=23h+jqFzs7IgUHWGXzZRVO4T8Ij1gYOLKtZDqVBiQQ0=;
-        fh=8LC7z4H6aRWsyE/b7s0HH9/UVaDX59FiA+gTtOKELIs=;
-        b=kGgULaJr7kCFh7Ljq48K4kLfrLezT7FAxDGj1aqPKsHs8Lzy6hBFmC1XMBbTrFx7As
-         60lso3aOQTI+ZikJ3v02p1cpCFlh1naE7O++0DT3RtW7xucxETG/q8EIySYVUYL8hxMT
-         gHb6NLnXByRHYm9v1fynC7LCpnNmDaIGIeShdH8saFvFCmOzhUn2EiEQFsCOtvwLzeFk
-         L+1A1ijeTKknROZ8/Rq+ogrJt2lmKS3UTQNI1Q5ZP/6dp3rFUuyGLZQqzUKJg0naaDAb
-         Jt/RkaWJI67CYmHvov9cpy1Y95XCn8kgtvapoTEZF01EkdUEQ8QP+ggLwBsTJ6RQGW3c
-         4y9g==;
+        bh=tvKpoO3YuaTNy3PHpEOAVeAmWpwJYmWIPgOIx2CcT9w=;
+        fh=c2qwkB3vVuhIvo9lKUPT25VLGQKI2rtvP/Tpay76yLA=;
+        b=F1C9FPPXto2Y7WLw/f2bKvB/fntpOCvcv6b+2X9K7VYlrlRJ3qPu0ZmMguhom/aRxG
+         Cvlowm5a0r7LuL2gRQ0uKvdS8HewgwJLGx3osgbvQXefzyzacLmMgasxEvs26S0jmBHt
+         G0O2l72rl0adsMMVRUfEcU35nBRJjmP9OQ5wmYEnUmuIecBS5Q2cIeqWk6GfcqxxDeC+
+         pYciEgT/EuqqXybuvqvU3cp1czB5hSIdGJdtRjLC/Bbt7FU73HzsD8y3TiRgP8AQIhHj
+         1udEbe95CjA6kxA7ZDIndSOzav5XltxXIGI2V5Meixd/qSNB3XxdkeTlTSLuuVSxc+zJ
+         Ehsg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=P+umTWfE;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=nuCqc8hG;
        dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=P+umTWfE;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=nuCqc8hG;
        dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1723065246; x=1723670046; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1723065987; x=1723670787; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:autocrypt:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=23h+jqFzs7IgUHWGXzZRVO4T8Ij1gYOLKtZDqVBiQQ0=;
-        b=JrdgSlgN477qqJ5j7+tvg0Uw5MD6bluO8ZJezBPtrhqxjKEG8v9PLiKOcWTid3tffg
-         P3ILz2OYZ1Fgvmn1QHgY4UeOPiHDpg/PsoNjUhk4kZ2xnQFRVxKGNUseDAuRHbtO5FW/
-         lHRynU5/Ljs+Z34dTfgSunkyiEI/RaLRzjkoj5qKiuAgnx8o0bW0FjrI3lwJYZBFu+PQ
-         MhxBQPdhRKbkvGv1jfU30TWHH0rSSqDd6wAzENGsvjcvvtgFBmm0mYD2zWlhZX0h34c4
-         YZ23GMP3pUNDVEPB/M/F9T/rCxKFQE5WeoCQjirq5zF4khby7xrUVKglgXn4PCj/aiWJ
-         1SXg==
+        bh=tvKpoO3YuaTNy3PHpEOAVeAmWpwJYmWIPgOIx2CcT9w=;
+        b=uaVvaP6NC/wd0AAwWXJE7T+XytSB7f9BiUNvQlNPd1iGdiCYG3jLol03IIUBCVvUsF
+         L+F0jHvJ8Kls7oUmmNCuOcahsawz+eS2OHwGIC8xL1nzPMZKqo33wIp7jJp1Ck/PMEQp
+         oHw2mybOtJ6zI9SIpNDCFeC9IAB4hIwYfpm+LmbbbFOLYjMVPFZirWphMT8GPQt8DfIO
+         EXEqTQJNXMRUZwhsX4lfAK5aKp4Udzynf8jgl/Nlq3lh76hhKmaZTbC5ibpEYGmhkegI
+         bTHd82u8bvAaTzDkO31V6vDEnh3/mupGGypc0HJIjZUxes4ZE+ylMm5mRcqn3mPUHZTa
+         hP+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723065246; x=1723670046;
+        d=1e100.net; s=20230601; t=1723065987; x=1723670787;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :autocrypt:from:references:cc:to:content-language:subject:user-agent
          :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=23h+jqFzs7IgUHWGXzZRVO4T8Ij1gYOLKtZDqVBiQQ0=;
-        b=bnwRrD74wlvBLCLWTwnRVJp6U12XzJw8uhCm1htZBHzuV1k5RKlDJIztiv6TxZDQpC
-         NxIdgxPsyWhk3a6TBvmgufMa79Q52mRJ3bQGUdCXSwHvXelkP5qkDlc8IC4Pje/SJYNL
-         8Ys0NMXNhFZC6SnT/FshTblBpX4xf8WBUyICxlBL+evsT6qQ8qhrp9SPyhcQg9Szk4ch
-         VkQLvAboj5HOAvDrjjLE9xq/HXJI/YdfQVOuebMezEKcLSVBTayX/oagS57TfhDlL4pN
-         pJz69pAmW9U2cIw0OQbKysOTcXs3Nisf0ZF4fFP9uHzy0wmhVAyskQ1lBQIuSe4o6epl
-         CIlA==
+        bh=tvKpoO3YuaTNy3PHpEOAVeAmWpwJYmWIPgOIx2CcT9w=;
+        b=dlbsFp77YcnEiM5WB5yZToFFpCws9yTWomV40DUxH71O7v3gvuLR94eHWL3Tw4sgqB
+         5Eh+WNwj2rukI8x2yrmqCoZ+teY4BxpzC+hiXqx60ug8qfKwIzhq7qWwQqsUmQCH4K7L
+         fJQ/ZfYu/N6PS+tV/jSBN3SAFc4m+vN5U01/osAj5NaoYjXv9M3h86Dn/S1iMk4UnrE4
+         e6Zi9LCIg5dqOmhNOrQjHZUyRyy06DZW8iYbMPRhrla7IihIMxkqd7PQ74Q5GhbbS5LQ
+         a/kRt9jy3DvReId/9qhYdlY6Zj+/81gNOG2vhYqj4yWwTrCjIX/Z3fd1i/Na7dt5Ukff
+         nKHA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUhMfaoZ6M6yRSAfXid49uTzKcrTKTesszw66M+lyNIx1eCCUDVgpUco2CjzhKPgmAl6k3u+uHW54OFmIylSMRWQwBV0MeSRw==
-X-Gm-Message-State: AOJu0YxFeXgv0Pc4bNRikNrotj6WhmR1SjPk03I7pf0K4bK3P46TH2/B
-	AagUrW6rbJ9FwJ7A/gLA0kASU79qtbeff8+3LGZ5Qsv3ya8fvZ2C
-X-Google-Smtp-Source: AGHT+IFOGbPU2/8E6iL4tWHyu7GXf0Vq67giw/iDCgqvp8MemA0tXBHndbtXf1wV7WJF1VcdAh3J6g==
-X-Received: by 2002:a5d:58ca:0:b0:368:7564:5a1d with SMTP id ffacd0b85a97d-36bbc10f5dcmr13592059f8f.35.1723065245097;
-        Wed, 07 Aug 2024 14:14:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXwvyVZPNXBaMOM7yvKqYBX57qR4YbHZTVFOpFPwiMyhZTqIX4EzmEs9iJLvoNVwnXgrG+Yu70o9X4DXCuL/5qM8Rh5apLsFQ==
+X-Gm-Message-State: AOJu0Yw3kBdCfS96r0ozdydg9uLZz7NVNBb2qq/uVfz7z2xrXPhqrl3Z
+	q5CAjQIhI7Y/XMZtl2hL/ycnrL89fjku6ZLFvAEMnVJFFd6Rl0C5
+X-Google-Smtp-Source: AGHT+IGtp8scQevJLsd1ppzMRZerUAkb6cy8IOkHMPtpMS5a3VQ0uTm4mt2GfAfZg5DsXPAw9fVdhA==
+X-Received: by 2002:a05:6512:239e:b0:52c:daa4:2f5c with SMTP id 2adb3069b0e04-530bb395ea1mr14071592e87.42.1723065986845;
+        Wed, 07 Aug 2024 14:26:26 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a5d:5345:0:b0:362:606d:1022 with SMTP id ffacd0b85a97d-36c8134c754ls70309f8f.1.-pod-prod-04-eu;
- Wed, 07 Aug 2024 14:14:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWI26fwdPL/P5x9diENdrNzKIOJfVCLJJfAACTpDMqOy2IgGiwsuY2Svf7obKkzql2UmGD6ZD0PXQUFNIUC9Apbqyh5vJ9s/Bvp/Q==
-X-Received: by 2002:a05:600c:3552:b0:428:314:f08e with SMTP id 5b1f17b1804b1-4290aee0495mr149875e9.5.1723065243248;
-        Wed, 07 Aug 2024 14:14:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1723065243; cv=none;
+Received: by 2002:a05:6512:3b0b:b0:52e:9bbf:bef3 with SMTP id
+ 2adb3069b0e04-530e3952a42ls157134e87.0.-pod-prod-04-eu; Wed, 07 Aug 2024
+ 14:26:24 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXLy1xa6QprPyOs0NkvQakeDxfC+JT9TslnwRIdJ5R5uo/9xzXeyyH1BJhdKZD5hyP6gvjJNtVpp+eGpdmNtfwhQKUNIP9Rnrx8Gw==
+X-Received: by 2002:a05:6512:3083:b0:52b:8ef7:bf1f with SMTP id 2adb3069b0e04-530bb36c127mr12822777e87.17.1723065984519;
+        Wed, 07 Aug 2024 14:26:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1723065984; cv=none;
         d=google.com; s=arc-20160816;
-        b=KG+Ibu5BAfa9G/40yGLhuN/kfiazqqrx4a40NOciwuMFdREOtSvkII9X+IZ/0rF+mK
-         K/ZKrzIICR2jkGAxkKLse8EKqXJbvnbX6lTds+2svD0uXjb392ieprraQXtEtBU3s/I8
-         zxGb0bVtveLwADmsjtkgsv1FdlredeW5hdrVlSJlmYP+c1KTvC8rjl762C6H0xaZ4M7m
-         8Uwh402hzydXO3b2uP9pyp+Px7lRNMlgayRnZ75G9kAxNnY0IXM0sH6Awa2yXm+xOQ7R
-         vkghKZHJ5gFm0no2h99T+deqxl7vCXMbqZ5XoDBshTBOwhRnAEEWJkSwbmlsGFEz+ihd
-         cfew==
+        b=wYaVAb9PdDczayfIAkvAeOpsttcvqm11MVrJMFX2K86TN1Wxnv2N3zewP1iNJrA3cV
+         jpAz+hkr6cckNuqEJI97JpQyce+oM9+izVQgReaIj7KcSnrzxT2JJQYd1McEtpIJWQLI
+         tFL34goRPsnFydDj1uYpqTmMb3lBKD2hhfibFtk6/bNM6K2AxOuTxr+qDmwbEbnvt7dJ
+         izmaxvV3AyCZ/i96ETiDKG7qqQuhkQivnb9xtrdJHKXvH6JJOsxhDexy2cSsl9rKj+Tz
+         U0+662iT2QefFug3YXJoLmfWZWQ5+VobPkfsRAfuA7LL9tPx8qT/l+lufU+rTsLmTLLU
+         6lww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :dkim-signature:dkim-signature:dkim-signature:dkim-signature;
-        bh=eQD4Br/ZzkU5aWA9puuXt04qjFbGSUKuou34lXjuW3Q=;
-        fh=GJQHVfLY7tV7xmEoTG7nVHA2Hyb6i4zglgDjbMqriLU=;
-        b=dj+Yn1ERFO+i399ohNitefW9sRTCnhZ4c66kSBFFwVeOqdCHc1rQmUUUHh/bM4GWwz
-         EUZ2ZMwppIzU07qgZgKagAVEfQSZDvVOeEuMGq9KzMief9BggW6sr5/IM8OIVFxfTdlX
-         8sWcywkjZ91PSQYaNQbr41XFeoMFk7LLpKC3spIJFDeJTX2fV6pGKme2tekvYlJTjPnH
-         urcuPRsS0L2ukEs9MjZJwMGRCl5GklS+aD8Yn06FtItVLYjw7AsyUZmRB+krCVLbHCmO
-         3gSVqAGrZx+KzLxjmlADPwYmJATmMjaZB+47SZpMkBoYznPKWQVK/UuKatThgbyWb3UM
-         T6ag==;
+        bh=yFaaPhzAcNeg29ttS56jgyY0UwZ+hQiKmIaFkQWJJyg=;
+        fh=QQQbUPTd7BKvLP/JMAEk1jecmoELXGKtNiSX0qHuHFI=;
+        b=vvOeLIRgf5yVWx5Rk0nH8/kLTLX7o7yjEQe25O9/VWbFIfRnjxJdif83rdF9inn0Ha
+         DZLp0EEMk4svWwT9oPb1ObNmajLa/EpEyPYJitjUjXLRihnruf87ua2EPBUlegNNaEZ3
+         ThAR0//BdpYYq0mY9OGcknVbdJ5fvLA0jAcPReMFXCgZi+lM8nkohq38BP6oxcHkNP8/
+         byt4OE441pj+sc3YRCUQwl/QFpkeMXYCqCrXsPaD2fCcRh5B9Gbo2gPUFQo1Ti4IEN5D
+         8PqLI80tPMMjMBCx555alxP4ZsiW1w335+GBEsb+QAQTht0CxWHIjHQ+t80MeYqy7YUG
+         8/ow==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=P+umTWfE;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=nuCqc8hG;
        dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=P+umTWfE;
+       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=nuCqc8hG;
        dkim=neutral (no key) header.i=@suse.cz header.s=susede2_ed25519;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2a07:de40:b251:101:10:150:64:1])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-42905698ebesi465395e9.0.2024.08.07.14.14.03
+       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+Received: from smtp-out2.suse.de (smtp-out2.suse.de. [2a07:de40:b251:101:10:150:64:2])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-530de3ec20esi51631e87.7.2024.08.07.14.26.24
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Aug 2024 14:14:03 -0700 (PDT)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:1;
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+        Wed, 07 Aug 2024 14:26:24 -0700 (PDT)
+Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:2;
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8563E21CFA;
-	Wed,  7 Aug 2024 21:14:02 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7EB621FBA3;
+	Wed,  7 Aug 2024 21:26:23 +0000 (UTC)
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5F75B13297;
-	Wed,  7 Aug 2024 21:14:02 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5159013297;
+	Wed,  7 Aug 2024 21:26:23 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jEDwFprjs2btYAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Wed, 07 Aug 2024 21:14:02 +0000
-Message-ID: <9d250713-d62d-459e-be3a-e6ad8da78d1a@suse.cz>
-Date: Wed, 7 Aug 2024 23:14:02 +0200
+	id w4k2E3/ms2bTYwAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 07 Aug 2024 21:26:23 +0000
+Message-ID: <c41afd73-97b4-4683-96a1-0da4a4dfeb2b@suse.cz>
+Date: Wed, 7 Aug 2024 23:26:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v6 2/2] slub: Introduce CONFIG_SLUB_RCU_DEBUG
@@ -139,7 +140,7 @@ To: Jann Horn <jannh@google.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
  Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>,
  Joonsoo Kim <iamjoonsoo.kim@lge.com>,
  Roman Gushchin <roman.gushchin@linux.dev>,
- Hyeonggon Yoo <42.hyeyoo@gmail.com>
+ Hyeonggon Yoo <42.hyeyoo@gmail.com>, David Sterba <dsterba@suse.cz>
 Cc: Marco Elver <elver@google.com>, kasan-dev@googlegroups.com,
  linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  syzbot+263726e59eab6b442723@syzkaller.appspotmail.com
@@ -187,47 +188,40 @@ Autocrypt: addr=vbabka@suse.cz; keydata=
  EP+ylKVEKb0Q2A==
 In-Reply-To: <20240802-kasan-tsbrcu-v6-2-60d86ea78416@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.00 / 50.00];
+X-Spamd-Result: default: False [-2.79 / 50.00];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
 	XM_UA_NO_VERSION(0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[google.com,gmail.com,arm.com,linux-foundation.org,linux.com,kernel.org,lge.com,linux.dev];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_RCPT(0.00)[263726e59eab6b442723];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[google.com,gmail.com,arm.com,linux-foundation.org,linux.com,kernel.org,lge.com,linux.dev,suse.cz];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MID_RHS_MATCH_FROM(0.00)[];
 	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[263726e59eab6b442723];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Action: no action
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email]
+X-Spam-Score: -2.79
 X-Spam-Flag: NO
-X-Spam-Score: -3.00
-X-Rspamd-Queue-Id: 8563E21CFA
+X-Spam-Level: 
 X-Original-Sender: vbabka@suse.cz
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=P+umTWfE;       dkim=neutral
+ header.i=@suse.cz header.s=susede2_rsa header.b=nuCqc8hG;       dkim=neutral
  (no key) header.i=@suse.cz header.s=susede2_ed25519;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=P+umTWfE;       dkim=neutral
+ header.i=@suse.cz header.s=susede2_rsa header.b=nuCqc8hG;       dkim=neutral
  (no key) header.i=@suse.cz header.s=susede2_ed25519;       spf=pass
- (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1
+ (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:2
  as permitted sender) smtp.mailfrom=vbabka@suse.cz
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -268,9 +262,53 @@ On 8/2/24 22:31, Jann Horn wrote:
 > Tested-by: syzbot+263726e59eab6b442723@syzkaller.appspotmail.com
 > Signed-off-by: Jann Horn <jannh@google.com>
 
-Acked-by: Vlastimil Babka <vbabka@suse.cz>      [slab]
+Actually, wait a second...
+
+> +#ifdef CONFIG_SLUB_RCU_DEBUG
+> +static void slab_free_after_rcu_debug(struct rcu_head *rcu_head)
+> +{
+> +	struct rcu_delayed_free *delayed_free =
+> +			container_of(rcu_head, struct rcu_delayed_free, head);
+> +	void *object = delayed_free->object;
+> +	struct slab *slab = virt_to_slab(object);
+> +	struct kmem_cache *s;
+> +
+> +	if (WARN_ON(is_kfence_address(object)))
+> +		return;
+> +
+> +	/* find the object and the cache again */
+> +	if (WARN_ON(!slab))
+> +		return;
+> +	s = slab->slab_cache;
+> +	if (WARN_ON(!(s->flags & SLAB_TYPESAFE_BY_RCU)))
+> +		return;
+> +
+> +	/* resume freeing */
+> +	if (!slab_free_hook(s, object, slab_want_init_on_free(s), true))
+> +		return;
+> +	do_slab_free(s, slab, object, object, 1, _THIS_IP_);
+> +	kfree(delayed_free);
+
+This will leak memory of delayed_free when slab_free_hook() returns false
+(such as because of KASAN quarantine), the kfree() needs to happen always.
+Even in the WARN_ON cases but that's somewhat less critical.
+
+Thanks to David Sterba for making me look again, as he's been asking me
+about recent OOMs in -next with heavy kmalloc-32 cache usage (delayed_free
+is 24 bytes) and CONFIG_SLUB_RCU_DEBUG was so far almost certainly confirmed.
+
+> +}
+> +#endif /* CONFIG_SLUB_RCU_DEBUG */
+> +
+>  #ifdef CONFIG_KASAN_GENERIC
+>  void ___cache_free(struct kmem_cache *cache, void *x, unsigned long addr)
+>  {
+>  	do_slab_free(cache, virt_to_slab(x), x, x, 1, addr);
+>  }
+>  #endif
+> 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/9d250713-d62d-459e-be3a-e6ad8da78d1a%40suse.cz.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/c41afd73-97b4-4683-96a1-0da4a4dfeb2b%40suse.cz.
