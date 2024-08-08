@@ -1,224 +1,149 @@
-Return-Path: <kasan-dev+bncBD2KV7O4UQOBBGGB2C2QMGQEDPG4SCI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT7LKPERQDRBYND2K2QMGQEIDGK75A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3a.google.com (mail-io1-xd3a.google.com [IPv6:2607:f8b0:4864:20::d3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB2F894B4AB
-	for <lists+kasan-dev@lfdr.de>; Thu,  8 Aug 2024 03:34:18 +0200 (CEST)
-Received: by mail-io1-xd3a.google.com with SMTP id ca18e2360f4ac-8224c9a44dfsf8987039f.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 07 Aug 2024 18:34:18 -0700 (PDT)
+Received: from mail-pl1-x63a.google.com (mail-pl1-x63a.google.com [IPv6:2607:f8b0:4864:20::63a])
+	by mail.lfdr.de (Postfix) with ESMTPS id E248994B9C5
+	for <lists+kasan-dev@lfdr.de>; Thu,  8 Aug 2024 11:37:39 +0200 (CEST)
+Received: by mail-pl1-x63a.google.com with SMTP id d9443c01a7336-1fca868b53csf7409945ad.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 08 Aug 2024 02:37:39 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1723109858; cv=pass;
+        d=google.com; s=arc-20160816;
+        b=uAY7Urp29eStdpua9gfU+pqRH/r/5K1GA8U+5PSYJU/47kfxwKnJ9zgbEjYTajLYbj
+         A6NBP9I83YbpngairRCbyqaq7/toqEB0h8klYT3nsRcdTaYhu8HeD2VIFvnMa9GZhsNO
+         zZVM6vgTitXMlxT8Jjtops2Tp91kr6rrqn+OCTxQDg0MOm9k+UAgEyqhmfIdHkvPP+MZ
+         2vPqHVW6oSvRmo7InG3J3IeIVh26igshiwJ+o7k4GCladFBa4wQ7NO+kzpuGhzDmnYR1
+         E7t+W3g8xZx4aDKCUkbCL0ILfus20uCNtW24/xbE9Xr6g2UdffoRt1/C4UpM355j0ZHa
+         3CyQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to:in-reply-to:from
+         :references:cc:to:content-language:subject:user-agent:mime-version
+         :date:message-id:dkim-signature;
+        bh=gbzdT7MVNz2xCsSPcxFu1y8GkGE7WXXiSWFtm6Ae8ls=;
+        fh=x2ouyP+R0UJEhKuBPRauIE27zJbeqH9RciQxLD1jGJ0=;
+        b=pgL3yhBaxwPcsQ+hoACj+UfIPJ8zMulWSGbEB4Ow8pXxA/ga/210o+RnaSrJbsQqoe
+         pe4bH4ygmJiOLSZPvhMwk62LSk1pjkRIUiZcR8SGLVWy29DBbz1qbjgiymJMc2Gu59dO
+         Vl3t3Akv56LwA/Y2azOHmEs8t8kblbqfooxGJjQsq/d8oYxeOWmT5ZHUOvVuEJu2fpXs
+         w3P4XuuTWCeUeZIaGyS+T5NyMqYpcidYtITauXtFsFh+u115hF+8iag4mTOFzPHDoftB
+         gxqty5nzcahdHRUAcrct4X5VxvgGr2IQXxvSKK5Es2lVqDWrdVQUYxUB257Hb1H5acfd
+         AbDw==;
+        darn=lfdr.de
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       spf=pass (google.com: domain of ruanjinjie@huawei.com designates 45.249.212.32 as permitted sender) smtp.mailfrom=ruanjinjie@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1723080857; x=1723685657; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1723109858; x=1723714658; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:in-reply-to
-         :content-transfer-encoding:content-disposition:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=pDK+l/iyB+gyh5K54H62xYupI9dOwSfs6dcQi8ud3ZE=;
-        b=lPGI/jcf06ubgczTS0hLJTJ6goqtoNrDm1azTHiwCDmHUN4mF55oIYiV6aYhu6hl5K
-         Ii8KF5mEGRnqY5lsBQhvFRVVNHa9C1usR1D1lj5eDaOjji5QeiMNkifxTZYDT1dsSfAZ
-         zzHu/0hwo62dmOu8ba+3Kgx4WwFwNnvVM+D+qes88Qzh5iUrCHVx1LSTYtgaI7x7wMcO
-         YgRi/3daAqi/WmPYKb209yVz+tF3qcp4Kj3l/6d2+Q+HsYm+oo2NlV7HnaZjd5THr4L8
-         U7RK+vZHTVhlkxjkkDcG3RAtf8pN05pYyjN6khypYJnksO/+AOWR0sMy84u3v1Pn2RVQ
-         IZlg==
+        bh=gbzdT7MVNz2xCsSPcxFu1y8GkGE7WXXiSWFtm6Ae8ls=;
+        b=Xb6KHdkzTbIS0pAf5r4++m5fP/Q7/nob9OVskeLOxnWPmHM12Be++gmFKvUnlZ/+3g
+         9QfgKbM0T+PCtGQWP4wu8ynJxUDGG0aki5+Zd8iSnaHnahIgipwKE/PkVlZxzbBJoPDt
+         ILYYQymKfEW/hC4yI8qQC/wB6mRqM3D0vFOZ8IbIVlUGBNzbuDAwbtgnjD/YmmHsAoK0
+         yEhlyOk+RumG/rwZ2Fp23lDiyaCfrwqUgNGN++MyhC5QG9/bD1xqgCx2eIYhQZc6t8S3
+         bv8iRg0qkaVb4bzm+u4yHwzg9m0hNq2v4u4reqjY4XkcN7oveg4Nv4SJUbTO53unKptf
+         pJLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723080857; x=1723685657;
+        d=1e100.net; s=20230601; t=1723109858; x=1723714658;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-transfer-encoding:content-disposition
-         :references:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pDK+l/iyB+gyh5K54H62xYupI9dOwSfs6dcQi8ud3ZE=;
-        b=rV/e1e732unniIyaJMDlU0IX5L3yh8FGMjCbJsvNjyFHCbVIztMsyoxqoO8jjs+4YP
-         VgGb9NsOVAl1+YY/NL6kuDkAMdHQG2SucMTi0XoZKgRDC2DlyQJWRG0EnCbpsSE16axB
-         UqoN8Hgcq6ocFd5V9Zb6VHj0CIPU4qK9eNs7w65BaFF5H12VDLT4ZhPhhE+3+eZUoOP8
-         R4Blt0rUguNy6qUGO/ct3l9TXAoUJAOsnreqgAUo4DBcvI09Ql/pUBcoIwEW7Zcjb814
-         f5Qnv46EXZeat+w1dgzs3/LIUbFC9d4svMCxY7DvZmXwcGC5a9uQvkWQvRLP68PejZBt
-         8FSg==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWW5E84a6OOWKGMjlJGgxW6kmKaJKFOmbeluI1wkgJwI5oVBTz9f4Kdcm/a/IWXyZS6pESuiA==@lfdr.de
-X-Gm-Message-State: AOJu0YwUVZgrb7nNk9y6LakxSpW/FwPcc1pLI/LrdP4NAiFKSM0hPIfF
-	sxX2olnpzc5fThXHLO8FyJpARJ1pL3VkG/qeL/sqNR6IZZHJKisX
-X-Google-Smtp-Source: AGHT+IFiqDm9ypTrZ0YBqJma/+N67Z8+gVlpjzVAm42gK+0T6nC+Ji1cp19buC3LfXo/8QO31DQcUg==
-X-Received: by 2002:a05:6e02:18cd:b0:39a:f2f4:7ead with SMTP id e9e14a558f8ab-39b5ec6df27mr2713055ab.1.1723080857010;
-        Wed, 07 Aug 2024 18:34:17 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:references:cc:to:content-language:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=gbzdT7MVNz2xCsSPcxFu1y8GkGE7WXXiSWFtm6Ae8ls=;
+        b=U+w/kOq/LUMGT8ohZknnVG1iwUHvF+/bNK/qgffengMHQOMcUosyqGJFDPs6gnC0bC
+         bStzG8ifpGwnpiKcAyB03MVJ+Lu5jnzMuqg39NQ6Matf5L+wJnt6NSbd279PHYy0iw22
+         tnkXxr8FPi7UjGeuia9P1mNS3BHJH6Z4TNnmB3BE7R5pPwfgSBEV4gloTSgTNXSuhBgj
+         fopCQOLvxcQ2r7+B0qBDKCu/G/N9hn+UaPk7Z/4PNptTTy7lAVAxsxNLWBreGAW1BXhI
+         ijJtABo4cksP5afTwk16cw8lz/xskl77HSQZnBEiBEPrRnoDaAA5jdI0HL+1rVni/7CD
+         +Vpw==
+X-Forwarded-Encrypted: i=2; AJvYcCXEsPVLUgZbFxXr0zCCQw8FehZ7sit8S1hzT0a7cg0oLtpZc44hF+XX1se3pnQQyNBRN1Q4fVUjKjgukzKqCheUzcN0gGf70g==
+X-Gm-Message-State: AOJu0YytX6ZDRlFKqNlWVG3IAy/SUNubAfLQfVuEjrkjwrn1afta19Py
+	5u0jJAeva+QdqbAeAJ19Zs/jxhxGo9XBlyqdJe+rxCzF5z2qVr8Q
+X-Google-Smtp-Source: AGHT+IEk7/pu7nr9l6ar9ZQqGHQProoiNjjK6b8DdXt/oJl0JR4geuWY+hUSDHJGbYl4R8742AYUoA==
+X-Received: by 2002:a17:902:d4c2:b0:1ff:1bd:7e61 with SMTP id d9443c01a7336-20095252872mr12311005ad.14.1723109857891;
+        Thu, 08 Aug 2024 02:37:37 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:f91:b0:39a:f263:546d with SMTP id
- e9e14a558f8ab-39b5c99376fls3243975ab.2.-pod-prod-01-us; Wed, 07 Aug 2024
- 18:34:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXXnhum8+YpWPBrHxvFXd5GWpuZ5pRWeRfSZB+hsda/hbNG9lpgqqXh9wN56kVTpqJpthtld0rLzkQ=@googlegroups.com
-X-Received: by 2002:a05:6602:6d05:b0:803:1d26:d359 with SMTP id ca18e2360f4ac-82253831dddmr65530339f.12.1723080855983;
-        Wed, 07 Aug 2024 18:34:15 -0700 (PDT)
-Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.12])
-        by gmr-mx.google.com with ESMTPS id ca18e2360f4ac-81fd4d50295si60357139f.2.2024.08.07.18.34.15
+Received: by 2002:a17:903:22d1:b0:1f7:1d41:9224 with SMTP id
+ d9443c01a7336-20090625167ls5565725ad.1.-pod-prod-05-us; Thu, 08 Aug 2024
+ 02:37:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCW8GTmzloos51Wdv2wZfIqPhhYGC8Oi3Fwr1RIzR2Z2TZZRrOydfZ65A0leRrSIoV3wGZ+9m5cR5aC64MvwxafQB4sU3tcpf752tw==
+X-Received: by 2002:a17:902:d508:b0:1fb:d335:b0bf with SMTP id d9443c01a7336-20095252f2emr15034805ad.25.1723109856613;
+        Thu, 08 Aug 2024 02:37:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1723109856; cv=none;
+        d=google.com; s=arc-20160816;
+        b=MxLAxXfJwnK9/whqULrRATI4Zj6Puo6zJekuNvjY0YRqDelz3jw2e86tXnblS8sSxl
+         6GnBaN/6ulaSh9k9PEeiz4QUXGg+JpZHlXN5dY8bUWnLltP9TfFq1ZgT5jgBLVJRPl+i
+         UzgxbWyHOpKHzoXdvxvLFmWWM/Vi7nMQIanavuaJFj3s7E57h/R9CgYslvCA8/Vh/p94
+         vkHejVt7FXf3C9s1g+Bw9cov/PGJRzXSCPRCf/ZY4RsDfFDe9FO6l4L/yvQtJ2qsbAy2
+         lonpAC4p+0gh3YkAiNhlUsQyeOHSEK7Sp1jN2U1StCosGcJNlmbOf2oLX7yeIeT0slEw
+         Dyag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id;
+        bh=62wOabOstf4lwV3t77AY3EOluNfI9D5JFi6YbAPl2XY=;
+        fh=w7WGD/F95HLv/kjcAlxeJ9/1DyKl2fKDRfQGweFJBR8=;
+        b=wR9oF9mggRn0Kw8yKRplELcsP4+8UoD3tYcF60dMWir1u7pUFUIp6R2yyUVLhbIejp
+         JDMIY+lTc2+XLjXwXnpEUDh+8xr+TNRn/90Se/2E6ryKT/RH7+DVccaX2AWUgAeMuiAU
+         4ulhKJC+PSAhyYOby4S8dtpUxSTJcV++YfNppOubHp+WUhI2EfamTRWaspTPR/n+Wa+c
+         CNsk8ZE8HYhi8bB4gQTNEZtRKulGl58cFd/c67g5yRkHiZnnrNgfOE9I1uRcfDT96w/Q
+         N8oJdrE8kNi2554VfpQdlBtm+9d0a1xLY4uxhhwwhlwQDRNX34o+zeH99bLjO1YWwBBu
+         RNgQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       spf=pass (google.com: domain of ruanjinjie@huawei.com designates 45.249.212.32 as permitted sender) smtp.mailfrom=ruanjinjie@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+Received: from szxga06-in.huawei.com (szxga06-in.huawei.com. [45.249.212.32])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-20064527131si3022745ad.7.2024.08.08.02.37.36
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 07 Aug 2024 18:34:15 -0700 (PDT)
-Received-SPF: pass (google.com: domain of oliver.sang@intel.com designates 192.198.163.12 as permitted sender) client-ip=192.198.163.12;
-X-CSE-ConnectionGUID: Jt6YntARSsyBaUsBr6ySsA==
-X-CSE-MsgGUID: nuPAV2gYQSWNdOLWVnPMng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11157"; a="25057621"
-X-IronPort-AV: E=Sophos;i="6.09,271,1716274800"; 
-   d="scan'208";a="25057621"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2024 18:34:14 -0700
-X-CSE-ConnectionGUID: 1I+IhKOwRGqhW1CcaumgGg==
-X-CSE-MsgGUID: lFRQtPVoSxO9aZDRva2MRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.09,271,1716274800"; 
-   d="scan'208";a="94613321"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 07 Aug 2024 18:34:13 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Wed, 7 Aug 2024 18:34:13 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Wed, 7 Aug 2024 18:34:13 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.170)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 08 Aug 2024 02:37:36 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ruanjinjie@huawei.com designates 45.249.212.32 as permitted sender) client-ip=45.249.212.32;
+Received: from mail.maildlp.com (unknown [172.19.88.234])
+	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Wfhjr4173z1xv1M;
+	Thu,  8 Aug 2024 17:35:44 +0800 (CST)
+Received: from kwepemi100008.china.huawei.com (unknown [7.221.188.57])
+	by mail.maildlp.com (Postfix) with ESMTPS id 41FF71400CB;
+	Thu,  8 Aug 2024 17:37:33 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ kwepemi100008.china.huawei.com (7.221.188.57) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 7 Aug 2024 18:34:13 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p/d98OGVCW9t7KwKpW/ukFXh4beruEma8xkuo2ig9iJqQwQubHgRKUuVQxLMpE3JsymfI2ihLTG/xbhTJgWftb4eHF+2envJNFzOqeddM2b0S/YKy1f1i9X/pc4cSqragxt+xcub6tpjHMpXO746oD6veX03nHaUjGXdt1+jhB71be7wSQtzc9fUo/tdY5tSYnXnD1rYiyXSa2HjciM9PSH4dcngIZR+W/36mcYNZM3HBtLAfSmzOtVIxYttFu9hZ/jIRKZZkmeaClvpzbqkKgMGQow91Yki0o07QRwuxo7lBqkyLvEpeN7o25OTTgoWSZSvE1EQywpYTDjBMQbi3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cTbGTc30PAJxkaqduvqdtsvKRBThQs+tff/zjegJcSY=;
- b=tmFg/0dMwN3lghlKigrbxUyK7VaeJk6mYzJb1mNUF+DnbWtHKaMSfeU2x86WNn50rLu3PS6J6QiOPPFcVEACUAMcgjMrmJgzrB6/odwA7/Q4Craz6s1j5jQJ/qEOrYbZOUQoMCRQ4o6BbnknrllNt714HrGMkmD1OYbyJPxbM53tR/hqsr3k/BY050TJfMW5g1dC7J51VRFJ3EgOQlGRgSGewqzK84pCfR5SyfbfoQSPZK707KG7mF5z1XE79vwAH6dDEjacE3EHc9YmMw8WjSzPWp0RZM3R79/IQYM33627JZPDO+Hw62bjDFgGjNSO4+NzbUx/T09507qE+lYmew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
- by CH3PR11MB8518.namprd11.prod.outlook.com (2603:10b6:610:1b8::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7828.23; Thu, 8 Aug
- 2024 01:34:10 +0000
-Received: from LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
- ([fe80::4622:29cf:32b:7e5c%5]) with mapi id 15.20.7828.023; Thu, 8 Aug 2024
- 01:34:10 +0000
-Date: Thu, 8 Aug 2024 09:33:57 +0800
-From: Oliver Sang <oliver.sang@intel.com>
-To: Jann Horn <jannh@google.com>
-CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, Linux Memory Management List
-	<linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>, "Alexander
- Potapenko" <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Christoph Lameter <cl@linux.com>,
-	David Rientjes <rientjes@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Marco Elver <elver@google.com>, Pekka Enberg <penberg@kernel.org>, "Roman
- Gushchin" <roman.gushchin@linux.dev>, Vincenzo Frascino
-	<vincenzo.frascino@arm.com>, <kasan-dev@googlegroups.com>,
-	<oliver.sang@intel.com>
-Subject: Re: [linux-next:master] [slub] b82c7add4c:
- WARNING:at_mm/slub.c:#slab_free_after_rcu_debug
-Message-ID: <ZrQghVSk39s0gb/k@xsang-OptiPlex-9020>
-References: <202408071606.258f19a0-oliver.sang@intel.com>
- <CAG48ez1if0dEpL9kdby=5=PcFfnwSP+xn_kKO2aibGpqNNqm6Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAG48ez1if0dEpL9kdby=5=PcFfnwSP+xn_kKO2aibGpqNNqm6Q@mail.gmail.com>
-X-ClientProxiedBy: SG2P153CA0054.APCP153.PROD.OUTLOOK.COM (2603:1096:4:c6::23)
- To LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ 15.1.2507.39; Thu, 8 Aug 2024 17:37:31 +0800
+Message-ID: <945e5c43-c5c8-5520-8d0d-b76b7d87f24f@huawei.com>
+Date: Thu, 8 Aug 2024 17:37:31 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|CH3PR11MB8518:EE_
-X-MS-Office365-Filtering-Correlation-Id: fa0fd6a4-3525-4971-846f-08dcb74a33ca
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?UHZSTmdSeCtYZDdxTy92TEphc2dYcWNsK0ZGZDhxMkZLSFBPd01MOGZVeFZZ?=
- =?utf-8?B?OW9DQm1pdUU3M0NuOUxZNHhUYWVDTlQ2bjRoa2c0QzRPakVYUHZxUUFCOTRC?=
- =?utf-8?B?YlErMHVrVXN0S21sL0tab1d2UkI1dFM4MFROUlk4eWpmYlE3N3hIT2NhTStm?=
- =?utf-8?B?N3VjdC9lWkRvY3VRVWs2bmt4akVyVUxBQjFhdURkbDRta3cxZlpENDJyS2xV?=
- =?utf-8?B?aWlYRGVGNE9CWUFIeWV6cUV5WHErdkduTjFaY0tEbWN0cWI2UnVGVk9LVERT?=
- =?utf-8?B?RzFIazA2N1dLNWN5cmtVaW1xK09vbzJPQUtHRVpMdUtBTWh0NWtJbzk3S0Nt?=
- =?utf-8?B?THBKb2RaMzRWd2RJSW03d05TcmNKbHlhMEZRNVNmR2RHWnlOdDJLSEFjV212?=
- =?utf-8?B?bTl2eThwU3BQdlN4UFd4NkFEMU14NHRjSVN5UEM2a1lkN0JTV1pKREFST29E?=
- =?utf-8?B?ZmZ4aW9NaVlSMHYvZ0c4cjEwaGQ1Z1g3WXlUMHM3Vm5WbWhHUHEzTEpvdFBy?=
- =?utf-8?B?d2NGK1RZNmRJVmZBbmd6aE9pQlFOK0FUUG5HeWdaM1h6S1JOYVhEVTdzdkNL?=
- =?utf-8?B?SlYvcmdXUS83NVgrQzFHTTFMczVtQ05xTUJ1N29oZXFFUXU4K2ZSaHQwWGF3?=
- =?utf-8?B?WlZZcDVhM0pnK2pRRXdHSVhaNnE1eDBuczUvU0I3L3dVdFRmUkFJZ2RmMnoy?=
- =?utf-8?B?bEtlZFB2U1A0RGxvTndmVVA1dGhJVWM5aE9MQ05qNU5GRjBERWI1TGZIa2Jn?=
- =?utf-8?B?QU1vZUxnUmh1S3FBY2QrdmhrVlpYWFJ1Yk1hNi9hRlBXMGFnakhka1dzMlhY?=
- =?utf-8?B?NEhvbENtM3M4MUJuZzI3Q0o2T3VKckF1RjlTS1d3TFM3eFNFU3ptRm9XLzVh?=
- =?utf-8?B?b0RzbWRxYVlSOHVDOXl1T3RkOGV0aUEyUWd6YWE0Qm5xQk0wa2xYaWM5cXVH?=
- =?utf-8?B?LzlLdVh5MWpLZ2wwS3I2REhyVjNRZ2NOMzNxenFkeWZJaG5KYXlQcXpoMkVC?=
- =?utf-8?B?YW94VkxqREtPQlBwOWFXcmlUOEZraVcyMlJiTllUWTdCaDIrMDV1eDZkb016?=
- =?utf-8?B?NzVqRitGN0tibGRCZyswdk8reXd5SmNVREd5THBBUmk0SjdEOU14UHNzcFVB?=
- =?utf-8?B?TkVZQ1o4OHJSTitZaWV3NjFEajlRdklWL0xiVjh0YU9ZcnpmcTI2cG0yazF6?=
- =?utf-8?B?QUh5ak9oVXB6L1ltOTZqRTBHSWtjVG1jRFN5eTNQd2NucnBLYVh0N09EMW4v?=
- =?utf-8?B?a3RuM25ONklvaWs2TlBWcUxOSU1zWnZla05FMUtmNTRqMVA2NWVwSXM0RTlF?=
- =?utf-8?B?K3MwcFhHWWVUOXB4dUVFendLVXdaTURvU1VxS3lia0R6QWdseFl0MjVKd3ZZ?=
- =?utf-8?B?dHNISlpQVU5CNXJHQWdkcDM0QmhpTWQ2Ylg1aTAwM2lMQUJaSGF3RG0zVHMr?=
- =?utf-8?B?RGhCdEpwTno1eE81VmY5YWxzOHZ0QVVJQnhHbjFLemtRVWpqNGNXdEphVHhp?=
- =?utf-8?B?ZjgzZHpxSnkyaUFCdkhLVW41TkRyS0tuQzFtdmo2aGlSY2x6SXQ0elpHaVJO?=
- =?utf-8?B?YWZiTTJYSk9IVmYxa3RsTTR1bmJGSFpRNmYwb2JUQktrS1ZBNlJZRFk1dW5n?=
- =?utf-8?B?VS9Gd29jaklGSC9qcEw3M0RYQVUyR0RoVXZKeDM4YjJ3cGsvOU1TZ3VGb2tj?=
- =?utf-8?B?LzVrcU5yZEdVYVpDVVBaeWV6b2Q3VkFXUGNZajBOTksyVkN6S1czdkIycXI4?=
- =?utf-8?Q?4x680isgdsW4bgs7Uk=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TFJBOHJCTlVGalVlZmt4dlJndkhwS2hZeEh6cllDNk0zbDJ0L3N4MmhDbTRO?=
- =?utf-8?B?UkdWbnI2NE5KT3FUVlVLY3RhaVNuK2p6c0tyeHA4cDJ5bkRwRURnM3ZOdDg5?=
- =?utf-8?B?ZkwvdFBOb2piV0dTdDNRUC9TL2Y2WTJnOXBaMC9IYzFnelorc1VWazFJS3NH?=
- =?utf-8?B?TlVISWYrSzhDcGJlY0tKcXdqTkJGYk1uSlRnVERBZWNTVmdlbkU5cUQ4MHRa?=
- =?utf-8?B?VHVWbC90ckIrVmdKNERSaDRhZ3RXc25Zb2EwWU16dG9xeTJ3RG14aDIwcUtO?=
- =?utf-8?B?VWRpbUZoL09JVXZBME9ieFRIcStQM24zci9yNy9ZMHhpVjdNajVZVDdiYlBM?=
- =?utf-8?B?Ni8yU3VMZzlwdWNqclE0VWZrdHZGWXNZMHU4L3JVcnFFQjY3MmNEWnl0OEx3?=
- =?utf-8?B?Si9YK3pMMG85b3VZWmp1ekp5RzVsby9PdnM1VHJxUU1hT0dtakxRZG1TZTlY?=
- =?utf-8?B?OTgyODhnTTVtYUducUVjT0o0UW1PZEpiL1pCLzd5Z25jWHdscHJBaVNBcEUz?=
- =?utf-8?B?bnUyU2R2a0gveVdCRTVaNnhXZTRWL2FVRlM4R2h6UmdkNkdSUFZQQU13ZDFq?=
- =?utf-8?B?QVg0ZWhNZmRHWkp2SXEwRWhJUjdZY3pEV1pBZU1KNWtZQWltOFNVZ1NMU1NI?=
- =?utf-8?B?RWhLK04zcHAxYWNqZlU3R1F6U0orVmlBVHhXc25DckVMR1M2aXA2cUdIZGl0?=
- =?utf-8?B?NTRxRGQ1MENEWnNDU3dFb0swMERMb0lqNE1lcVliQzdtOFdUTVJoYXE0ZVBs?=
- =?utf-8?B?UXd1bTlpNzZCL3NRaU8zTjFlVU5JUEJ0ZmNQYmMvYTV3K0JBdzBkQTNPYzBs?=
- =?utf-8?B?bFJ2cWNUbWtrd0dmUWc2emxKc1k0d0Q3cjNDRDhuYmYxRUx6eGpaRGlxWHFJ?=
- =?utf-8?B?aU1Bd25xa3pVWktPQ2k1RXpzenc0OGtGWGMvWmNnQ3EwNzJncFlLUCtGYWdl?=
- =?utf-8?B?dXdrYjdhcXJOZWZNalpvK2tDVVloR2dCb0c5bE9YeTBpdTZjenBMdXg3RWtE?=
- =?utf-8?B?aVVvQk1OcDhWOVg3dDFKVzNscUVnRloya3VqTzhiVUU2cG9wWTl6Yis2RWUw?=
- =?utf-8?B?bzQ3VCsrL0JNV2ttZ25MK0dHdmVSNDdTZHVHUTZTblE2OUk2SU15SGlVVGlL?=
- =?utf-8?B?UjBvQWV2dWhOM3BIYm5VbDdLN1dVY29GQkNtQXBIcVJEakhGWFEvWkpYbHd1?=
- =?utf-8?B?b21DaWNYVU9KR2hTQnBodHpGb3BYSkRqSzI3azh4YVlST3FpS01BU1JKY05h?=
- =?utf-8?B?aVJUckRFVnJFdWlYcENBRzd6VlZzWE9QYzVLT3R2NVNoYUQwZ3BUTmFJVS9t?=
- =?utf-8?B?V1ZHYWNFcm5jT05NamVYZyt3SFZlcW1LNFhyUFRCN1kzdWZ4NXl3Um9lU2hz?=
- =?utf-8?B?MzRHSXVVazZWVForOTVFTFVrWEwrVnkwWnlaMnNTSjBqR0Z2NkVlNlJTTldQ?=
- =?utf-8?B?VFZEVnFYbElZS2xwU0ZiN2w5ZHE1NDc5SG5ZR0lOcFZwN1VpRDlPSUtURk95?=
- =?utf-8?B?R3l6azMwVDl6Zy9Vd0toRnFpME14MFN2K2pLZnJRVWpML3RacGsrejRpcHI1?=
- =?utf-8?B?RUlZZXlUaEM2ZXVaQzJRajBZQVRaNTA1Q09ucng1TUd4VU9IOVJrRlZpN3RZ?=
- =?utf-8?B?eVkyNk9jcitlS0Z4ZTV4SU1rMlRJR1VlWktzT01ORC9RRVFDRGZVUkV1ZmpQ?=
- =?utf-8?B?eWtTZGJ1VzAzWjFWQVJLbnJXbHU5ZXJvLzFmcjdoQzhSR1lrR1Qzdk0rc1lO?=
- =?utf-8?B?L2RKdHZiSkV0M2ZTczlZTFlrRmhuQ1NTdmwwbU9rRkNoaFZzaFhZdzJkVCtu?=
- =?utf-8?B?UWk3V0YvcDBtaWc1M1ZkeGR0STYxbXpVNmlac0lSSlVRb3paZk9HRm8xS0xh?=
- =?utf-8?B?bHNnTzdUVjloc243Y0tYNnVGbkFRNVZQZEplaVhYVWQxV204bkVINk15S1Zx?=
- =?utf-8?B?YjNHaHpKYS9RTFFVeEtJTUtzNnlhS0NrS3ZoZFJ4WnhXdlNITmpodXNESUNJ?=
- =?utf-8?B?UzRhQ1pIUm1lbUNCZkRPQUthTFBGUDlMdmt1aVA2SkcydFdQTmhBMnlDVmVF?=
- =?utf-8?B?akdNaUxpZjYvN05mTVVJVTY4NEorb1pmNzhvb3NxTmsyMnhKN3prZmZ3N0tK?=
- =?utf-8?B?Z1JheDVoS3NTakR3SlRLU0luWGQ4RHpTeTZBVTJ2SUFjWVlrUzBKMVhtSWtk?=
- =?utf-8?B?VUE9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa0fd6a4-3525-4971-846f-08dcb74a33ca
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Aug 2024 01:34:10.5218
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tR0bNO/W/tw/272jd553dkkJ9Uc2YCQJemK+oN1Ooich1m4ENBlFCOw6c9bSGxK8uR2OKiX3Wbppi7E0SoteHg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8518
-X-OriginatorOrg: intel.com
-X-Original-Sender: oliver.sang@intel.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b="NRWGq3F/";       arc=fail
- (signature failed);       spf=pass (google.com: domain of oliver.sang@intel.com
- designates 192.198.163.12 as permitted sender) smtp.mailfrom=oliver.sang@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH 3/4] mm/slub: handle bulk and single object freeing
+ separately
+Content-Language: en-US
+To: Vlastimil Babka <vbabka@suse.cz>, Christoph Lameter <cl@linux.com>, Pekka
+ Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>, Joonsoo
+ Kim <iamjoonsoo.kim@lge.com>
+CC: Andrew Morton <akpm@linux-foundation.org>, Roman Gushchin
+	<roman.gushchin@linux.dev>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, Alexander
+ Potapenko <glider@google.com>, Marco Elver <elver@google.com>, Dmitry Vyukov
+	<dvyukov@google.com>, <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<kasan-dev@googlegroups.com>
+References: <20231204-slub-cleanup-hooks-v1-0-88b65f7cd9d5@suse.cz>
+ <20231204-slub-cleanup-hooks-v1-3-88b65f7cd9d5@suse.cz>
+From: "'Jinjie Ruan' via kasan-dev" <kasan-dev@googlegroups.com>
+In-Reply-To: <20231204-slub-cleanup-hooks-v1-3-88b65f7cd9d5@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.67.109.254]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ kwepemi100008.china.huawei.com (7.221.188.57)
+X-Original-Sender: ruanjinjie@huawei.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of ruanjinjie@huawei.com designates 45.249.212.32 as
+ permitted sender) smtp.mailfrom=ruanjinjie@huawei.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+X-Original-From: Jinjie Ruan <ruanjinjie@huawei.com>
+Reply-To: Jinjie Ruan <ruanjinjie@huawei.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -231,42 +156,313 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Aug 07, 2024 at 02:54:52PM +0200, Jann Horn wrote:
-> Hi!
->=20
-> On Wed, Aug 7, 2024 at 10:42=E2=80=AFAM kernel test robot <oliver.sang@in=
-tel.com> wrote:
-> > hi, Jann Horn,
-> >
-> > as you educated me last time, I know this b82c7add4c is v5:)
-> > the CONFIG_SLUB_RCU_DEBUG is really enabled, and we saw lots of WARNING=
- in dmesg
-> > https://download.01.org/0day-ci/archive/20240807/202408071606.258f19a0-=
-oliver.sang@intel.com/dmesg.xz
-> >
-> > not sure if it's expected? below report (parsed one of WARNING) just FY=
-I.
->=20
-> Thanks a lot, and sorry that my series is creating so much work for you..=
-.
 
-not at all! our team's work is testing linux kernel and helping developers
-regarding with increasing kernel code quality.
 
->=20
-> Okay, all these warnings at mm/slub.c:4550 are for the "if
-> (WARN_ON(is_kfence_address(rcu_head)))" check, which was wrong up to
-> v5 and fixed in v6. syzbot had also encountered that bug...
+On 2023/12/5 3:34, Vlastimil Babka wrote:
+> Currently we have a single function slab_free() handling both single
+> object freeing and bulk freeing with necessary hooks, the latter case
+> requiring slab_free_freelist_hook(). It should be however better to
+> distinguish the two use cases for the following reasons:
+> 
+> - code simpler to follow for the single object case
+> 
+> - better code generation - although inlining should eliminate the
+>   slab_free_freelist_hook() for single object freeing in case no
+>   debugging options are enabled, it seems it's not perfect. When e.g.
+>   KASAN is enabled, we're imposing additional unnecessary overhead for
+>   single object freeing.
+> 
+> - preparation to add percpu array caches in near future
+> 
+> Therefore, simplify slab_free() for the single object case by dropping
+> unnecessary parameters and calling only slab_free_hook() instead of
+> slab_free_freelist_hook(). Rename the bulk variant to slab_free_bulk()
+> and adjust callers accordingly.
+> 
+> While at it, flip (and document) slab_free_hook() return value so that
+> it returns true when the freeing can proceed, which matches the logic of
+> slab_free_freelist_hook() and is not confusingly the opposite.
+> 
+> Additionally we can simplify a bit by changing the tail parameter of
+> do_slab_free() when freeing a single object - instead of NULL we can set
+> it equal to head.
+> 
+> bloat-o-meter shows small code reduction with a .config that has KASAN
+> etc disabled:
+> 
+> add/remove: 0/0 grow/shrink: 0/4 up/down: 0/-118 (-118)
+> Function                                     old     new   delta
+> kmem_cache_alloc_bulk                       1203    1196      -7
+> kmem_cache_free                              861     835     -26
+> __kmem_cache_free                            741     704     -37
+> kmem_cache_free_bulk                         911     863     -48
+> 
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+>  mm/slub.c | 59 +++++++++++++++++++++++++++++++++++------------------------
+>  1 file changed, 35 insertions(+), 24 deletions(-)
+> 
+> diff --git a/mm/slub.c b/mm/slub.c
+> index 0742564c4538..ed2fa92e914c 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -2037,9 +2037,12 @@ static inline void memcg_slab_free_hook(struct kmem_cache *s, struct slab *slab,
+>  /*
+>   * Hooks for other subsystems that check memory allocations. In a typical
+>   * production configuration these hooks all should produce no code at all.
+> + *
+> + * Returns true if freeing of the object can proceed, false if its reuse
+> + * was delayed by KASAN quarantine.
+>   */
+> -static __always_inline bool slab_free_hook(struct kmem_cache *s,
+> -						void *x, bool init)
+> +static __always_inline
+> +bool slab_free_hook(struct kmem_cache *s, void *x, bool init)
+>  {
+>  	kmemleak_free_recursive(x, s->flags);
+>  	kmsan_slab_free(s, x);
+> @@ -2072,7 +2075,7 @@ static __always_inline bool slab_free_hook(struct kmem_cache *s,
+>  		       s->size - s->inuse - rsize);
+>  	}
+>  	/* KASAN might put x into memory quarantine, delaying its reuse. */
+> -	return kasan_slab_free(s, x, init);
+> +	return !kasan_slab_free(s, x, init);
+>  }
+>  
+>  static inline bool slab_free_freelist_hook(struct kmem_cache *s,
+> @@ -2082,7 +2085,7 @@ static inline bool slab_free_freelist_hook(struct kmem_cache *s,
+>  
+>  	void *object;
+>  	void *next = *head;
+> -	void *old_tail = *tail ? *tail : *head;
+> +	void *old_tail = *tail;
+>  
+>  	if (is_kfence_address(next)) {
+>  		slab_free_hook(s, next, false);
+> @@ -2098,8 +2101,8 @@ static inline bool slab_free_freelist_hook(struct kmem_cache *s,
+>  		next = get_freepointer(s, object);
+>  
+>  		/* If object's reuse doesn't have to be delayed */
+> -		if (likely(!slab_free_hook(s, object,
+> -					   slab_want_init_on_free(s)))) {
+> +		if (likely(slab_free_hook(s, object,
+> +					  slab_want_init_on_free(s)))) {
+>  			/* Move object to the new freelist */
+>  			set_freepointer(s, object, *head);
+>  			*head = object;
+> @@ -2114,9 +2117,6 @@ static inline bool slab_free_freelist_hook(struct kmem_cache *s,
+>  		}
+>  	} while (object != old_tail);
+>  
+> -	if (*head == *tail)
+> -		*tail = NULL;
+> -
+>  	return *head != NULL;
+>  }
+>  
+> @@ -4227,7 +4227,6 @@ static __always_inline void do_slab_free(struct kmem_cache *s,
+>  				struct slab *slab, void *head, void *tail,
+>  				int cnt, unsigned long addr)
+>  {
+> -	void *tail_obj = tail ? : head;
+>  	struct kmem_cache_cpu *c;
+>  	unsigned long tid;
+>  	void **freelist;
+> @@ -4246,14 +4245,14 @@ static __always_inline void do_slab_free(struct kmem_cache *s,
+>  	barrier();
+>  
+>  	if (unlikely(slab != c->slab)) {
+> -		__slab_free(s, slab, head, tail_obj, cnt, addr);
+> +		__slab_free(s, slab, head, tail, cnt, addr);
+>  		return;
+>  	}
+>  
+>  	if (USE_LOCKLESS_FAST_PATH()) {
+>  		freelist = READ_ONCE(c->freelist);
+>  
+> -		set_freepointer(s, tail_obj, freelist);
+> +		set_freepointer(s, tail, freelist);
+>  
+>  		if (unlikely(!__update_cpu_freelist_fast(s, freelist, head, tid))) {
+>  			note_cmpxchg_failure("slab_free", s, tid);
+> @@ -4270,7 +4269,7 @@ static __always_inline void do_slab_free(struct kmem_cache *s,
+>  		tid = c->tid;
+>  		freelist = c->freelist;
+>  
+> -		set_freepointer(s, tail_obj, freelist);
+> +		set_freepointer(s, tail, freelist);
+>  		c->freelist = head;
+>  		c->tid = next_tid(tid);
+>  
+> @@ -4283,15 +4282,27 @@ static void do_slab_free(struct kmem_cache *s,
+>  				struct slab *slab, void *head, void *tail,
+>  				int cnt, unsigned long addr)
+>  {
+> -	void *tail_obj = tail ? : head;
+> -
+> -	__slab_free(s, slab, head, tail_obj, cnt, addr);
+> +	__slab_free(s, slab, head, tail, cnt, addr);
+>  }
+>  #endif /* CONFIG_SLUB_TINY */
+>  
+> -static __fastpath_inline void slab_free(struct kmem_cache *s, struct slab *slab,
+> -				      void *head, void *tail, void **p, int cnt,
+> -				      unsigned long addr)
+> +static __fastpath_inline
+> +void slab_free(struct kmem_cache *s, struct slab *slab, void *object,
+> +	       unsigned long addr)
+> +{
+> +	bool init;
+> +
+> +	memcg_slab_free_hook(s, slab, &object, 1);
+> +
+> +	init = !is_kfence_address(object) && slab_want_init_on_free(s);
+> +
+> +	if (likely(slab_free_hook(s, object, init)))
+> +		do_slab_free(s, slab, object, object, 1, addr);
+> +}
+> +
+> +static __fastpath_inline
+> +void slab_free_bulk(struct kmem_cache *s, struct slab *slab, void *head,
+> +		    void *tail, void **p, int cnt, unsigned long addr)
+>  {
+>  	memcg_slab_free_hook(s, slab, p, cnt);
+>  	/*
+> @@ -4305,7 +4316,7 @@ static __fastpath_inline void slab_free(struct kmem_cache *s, struct slab *slab,
+>  #ifdef CONFIG_KASAN_GENERIC
+>  void ___cache_free(struct kmem_cache *cache, void *x, unsigned long addr)
+>  {
+> -	do_slab_free(cache, virt_to_slab(x), x, NULL, 1, addr);
+> +	do_slab_free(cache, virt_to_slab(x), x, x, 1, addr);
+>  }
+>  #endif
+>  
+> @@ -4349,7 +4360,7 @@ void kmem_cache_free(struct kmem_cache *s, void *x)
+>  	if (!s)
+>  		return;
+>  	trace_kmem_cache_free(_RET_IP_, x, s);
+> -	slab_free(s, virt_to_slab(x), x, NULL, &x, 1, _RET_IP_);
+> +	slab_free(s, virt_to_slab(x), x, _RET_IP_);
 
-thanks a lot for information!
 
->=20
-> Thanks for letting me know, and have a nice day!
+Hi, everyone,
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/ZrQghVSk39s0gb/k%40xsang-OptiPlex-9020.
+I found many kmemleaks call trace as follow on linux-next, and it occurs
+only after Linux 6.11-rc1, and I tried to locate the problem patch, but
+it didn't work.
+
+How to reproduce: with following config open
+	CONFIG_HAVE_DEBUG_KMEMLEAK=y
+	CONFIG_DEBUG_KMEMLEAK=y
+	CONFIG_DEBUG_KMEMLEAK_AUTO_SCAN=y
+
+unreferenced object 0xffff4913c0ddb380 (size 32):
+  comm "kworker/R-acpi_", pid 65, jiffies 4294893729
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 25 94 c1 13 49 ff ff 00 00 00 00 00 00 00 00  .%...I..........
+  backtrace (crc f9d57280):
+    [<00000000c0652f06>] kmemleak_alloc+0x34/0x40
+    [<000000006227a848>] __kmalloc_cache_noprof+0x270/0x2f8
+    [<000000008acd203e>] kmem_cache_free+0x124/0x410
+    [<00000000e43531e7>] __cleanup_sighand+0x94/0xc0
+    [<0000000078680548>] release_task+0x828/0x1070
+    [<00000000c0f8c5d5>] do_exit+0x111c/0x1edc
+    [<00000000367ccb22>] kthread_exit+0x58/0x60
+    [<00000000bc4738b5>] kthread+0x298/0x374
+    [<00000000a533ef0f>] ret_from_fork+0x10/0x20
+
+
+unreferenced object 0xffff4913c14d0fc0 (size 32):
+  comm "softirq", pid 0, jiffies 4294894408
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 c0 a4 c5 13 49 ff ff 00 00 00 00 00 00 00 00  .....I..........
+  backtrace (crc ad845771):
+    [<00000000c0652f06>] kmemleak_alloc+0x34/0x40
+    [<000000006227a848>] __kmalloc_cache_noprof+0x270/0x2f8
+    [<000000008acd203e>] kmem_cache_free+0x124/0x410
+    [<00000000e575b5fb>] mempool_free_slab+0x1c/0x28
+    [<00000000b5df13a3>] mempool_free+0xd0/0x314
+    [<000000000480d4fb>] bio_free+0x150/0x1bc
+    [<000000000c247f54>] bio_put+0x3f8/0x950
+    [<000000003916cfe2>] end_bio_bh_io_sync+0xc0/0x128
+    [<000000001e99ce6a>] bio_endio+0x4d4/0x6d0
+    [<0000000085eb0fe3>] blk_update_request+0x41c/0x1064
+    [<000000007e079da2>] blk_mq_end_request+0x50/0x80
+    [<0000000067fcfa3f>] virtblk_request_done+0x154/0x2b4
+    [<00000000c2d49a49>] blk_complete_reqs+0xa8/0xe8
+    [<000000006559344d>] blk_done_softirq+0x20/0x2c
+    [<000000001c82c05d>] handle_softirqs+0x2b8/0xbd4
+    [<00000000924bc46d>] __do_softirq+0x14/0x20
+
+
+unreferenced object 0xffff4913c573a2c0 (size 32):
+  comm "kworker/u16:0", pid 67, jiffies 4294894505
+  hex dump (first 32 bytes):
+    60 4e 01 c6 13 49 ff ff 00 00 00 00 00 00 00 00  `N...I..........
+    00 c0 92 c7 13 49 ff ff 00 00 00 00 00 00 00 00  .....I..........
+  backtrace (crc 8c85f9b3):
+    [<00000000c0652f06>] kmemleak_alloc+0x34/0x40
+    [<000000006227a848>] __kmalloc_cache_noprof+0x270/0x2f8
+    [<000000008acd203e>] kmem_cache_free+0x124/0x410
+    [<000000006285099d>] fput+0x2a0/0x334
+    [<00000000e50ddea7>] path_openat+0x120c/0x1f70
+    [<00000000986ab24f>] do_filp_open+0x154/0x328
+    [<00000000ea1348f1>] do_open_execat+0xa4/0x224
+    [<00000000e94e18f5>] alloc_bprm+0x20/0x964
+    [<00000000b6ff006b>] kernel_execve+0x7c/0x2d4
+    [<000000007deddead>] call_usermodehelper_exec_async+0x1e0/0x3c8
+    [<00000000a533ef0f>] ret_from_fork+0x10/0x20
+unreferenced object 0xffff4913c2c627c0 (size 32):
+  comm "softirq", pid 0, jiffies 4294895572
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 1c c5 13 49 ff ff 00 00 00 00 00 00 00 00  .....I..........
+  backtrace (crc 320469d7):
+    [<00000000c0652f06>] kmemleak_alloc+0x34/0x40
+    [<000000006227a848>] __kmalloc_cache_noprof+0x270/0x2f8
+    [<000000008acd203e>] kmem_cache_free+0x124/0x410
+    [<00000000e575b5fb>] mempool_free_slab+0x1c/0x28
+    [<00000000b5df13a3>] mempool_free+0xd0/0x314
+    [<000000000480d4fb>] bio_free+0x150/0x1bc
+    [<000000000c247f54>] bio_put+0x3f8/0x950
+    [<000000003916cfe2>] end_bio_bh_io_sync+0xc0/0x128
+    [<000000001e99ce6a>] bio_endio+0x4d4/0x6d0
+    [<0000000085eb0fe3>] blk_update_request+0x41c/0x1064
+    [<000000007e079da2>] blk_mq_end_request+0x50/0x80
+    [<0000000067fcfa3f>] virtblk_request_done+0x154/0x2b4
+    [<00000000c2d49a49>] blk_complete_reqs+0xa8/0xe8
+    [<000000006559344d>] blk_done_softirq+0x20/0x2c
+    [<000000001c82c05d>] handle_softirqs+0x2b8/0xbd4
+    [<00000000924bc46d>] __do_softirq+0x14/0x20
+
+>  }
+>  EXPORT_SYMBOL(kmem_cache_free);
+>  
+> @@ -4395,7 +4406,7 @@ void kfree(const void *object)
+>  
+>  	slab = folio_slab(folio);
+>  	s = slab->slab_cache;
+> -	slab_free(s, slab, x, NULL, &x, 1, _RET_IP_);
+> +	slab_free(s, slab, x, _RET_IP_);
+>  }
+>  EXPORT_SYMBOL(kfree);
+>  
+> @@ -4512,8 +4523,8 @@ void kmem_cache_free_bulk(struct kmem_cache *s, size_t size, void **p)
+>  		if (!df.slab)
+>  			continue;
+>  
+> -		slab_free(df.s, df.slab, df.freelist, df.tail, &p[size], df.cnt,
+> -			  _RET_IP_);
+> +		slab_free_bulk(df.s, df.slab, df.freelist, df.tail, &p[size],
+> +			       df.cnt, _RET_IP_);
+>  	} while (likely(size));
+>  }
+>  EXPORT_SYMBOL(kmem_cache_free_bulk);
+> 
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/945e5c43-c5c8-5520-8d0d-b76b7d87f24f%40huawei.com.
