@@ -1,132 +1,76 @@
-Return-Path: <kasan-dev+bncBC7PZX4C3UKBBGUK5W2QMGQE42MW3JI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDO456PHTELBBTUK5W2QMGQEE5ES6ZQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9008E9503C8
-	for <lists+kasan-dev@lfdr.de>; Tue, 13 Aug 2024 13:35:56 +0200 (CEST)
-Received: by mail-lj1-x23b.google.com with SMTP id 38308e7fff4ca-2f1752568cfsf64278081fa.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 13 Aug 2024 04:35:56 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1723548956; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=p3sNnIzYyyIe+ICiIQvMOIH1rYhEZp9J7f60Ojknu3MMU9rwt/Jyl4lFHJYjEpybQh
-         IzElmKuM8TAkpKlaw6VHtp16f+BA7VKNmI/D1fuuiiRyTzy90CouJzT47BfCdfngOOJp
-         /sLiFQPlUXhsYMMfGyspNX1ETVZMkSs1vXBF4rbXlfmKb/bktaq9q/PsZ6TImMe9SQvi
-         CrBtpSA2O5RolI/W/wP+Cb0OeRihOkiIAJKwy+Ucw8EbUpULA8FL5ywXwMFS0HUKPZLy
-         XsuAWISXDiKiDhs9rwvnqTqBRmtHO3UCsFWjUzPG6AwbDs2FGRTtgZzh4Xx6c2Lz9Nb5
-         z34g==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=tXtNjm2omeYFdxjvIjk06BRs3CpEfhloZ06IAUR8PCY=;
-        fh=stAH6FuPVmDnjLFaLhhotvE2TM5P/eBcUUUdVtJgrUM=;
-        b=VEu3gKcamQ6+kGYSQqUz/IxrvOJUToBxHsdo2hMaKlmu7GrQ5PFTs9Ny38xnNfCQNH
-         jPpScBb8ngeQGxMsXijM9LFZVOOupfzcr0YWVgctoOIrFXNuORM8XsCxFJuFBjsvvJsF
-         /GsyljU7DaPyCtfK/Vi6tJ2fUBWC8TEZ4TMYJ5lOuureaOze+TFZ0ixttz2KkR5uv9nu
-         m9uiT3PMPdkUZr7eNZkfpB2Y/5+gz1uf3UEwt9VvCLRDFp4hB6kJuqWwtYCQI/dYKcKF
-         anc1tcgs6SnNTrOZJXtNCljG/dOTljQw2MrrFD5qmfw8k5mDtpc9C8ccCN1TNuYxNuWX
-         KRXw==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of alex@ghiti.fr designates 2001:4b98:dc4:8::228 as permitted sender) smtp.mailfrom=alex@ghiti.fr
+Received: from mail-oo1-xc38.google.com (mail-oo1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07F8D9503D3
+	for <lists+kasan-dev@lfdr.de>; Tue, 13 Aug 2024 13:36:48 +0200 (CEST)
+Received: by mail-oo1-xc38.google.com with SMTP id 006d021491bc7-5da5516c615sf1788603eaf.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 13 Aug 2024 04:36:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1723548956; x=1724153756; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1723549007; x=1724153807; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=tXtNjm2omeYFdxjvIjk06BRs3CpEfhloZ06IAUR8PCY=;
-        b=fJv/LGY9yy8FNJK3KNH7O/tbtR2tR/am0u1NO0kvMuJ4eg4TWI3dAZSy1wZmlRJRpu
-         BbmAhlguFbisY90KWH1J9pNXDAyZ+1sABIoq8eCqa3hnflXiffLWNaxiqWw6UKbNYqBY
-         Xm3TczLFIl2FDB37Yhc9S3kgrAv0COEiGuW0SYOVLXblP7ZAHU7q2RGR5agOnpc1VrUW
-         tIOht7CumQEtQ2jcwKBqTT/6WY0fnFwAc4eqmtOc9tRVmADfXQXQ53m+19LmkrQnELls
-         umHpbqZppXzOf4z6Xor19o3n3FRU7icKTlifysfH89l3ku3l0zxLqgHXpgNRFIuZQFCe
-         2aDg==
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:message-id:to:from:date:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+yoSkGNsHer+Pd65FypVvHwVK7jnwt+osu2t40sLULo=;
+        b=DIncj674Ox6puBTCGIXrjn+r/a6GGkNg67L2g5KfS51P//DY1CxsoxA+vzq164ztWC
+         AITEGnc95BYd+N1Qj1QUW1dyHT7k7Zp341ct/FgGD6OIgpwOQYa1f46YYi1bz1EpeKHZ
+         MWi/3Nxgn56mP944rZU5RIS7ZJzpQfQkdEBVGTFkeDQBvaGfYevKJeIaCB3i45M/cMQW
+         fY4PirqbpNnOMmatq1tqJ2MeB3U6Fd9Ol4R3rZxEBr7FGxX66DgxpeWp1eCOXphPiad/
+         KD7ufGrJjDrPa0RgTENhyT6XWDgfMhguYzxV7+8+MEgXb5U/8Zb5tZU8fW1kR7mzyMUa
+         76AA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723549007; x=1724153807; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+yoSkGNsHer+Pd65FypVvHwVK7jnwt+osu2t40sLULo=;
+        b=QsgIZlM7UqkXjZSpPix47wkZn5ke0nVXUiPC96wzqjpmpC6XP44g2PXSRBmcFe6gWm
+         jI1yoE6C0HgBYER1X1viGPlhNUXYyFPpJAuYcu2cw8n43Q8afg7EQYsMh5jX585Rf2EG
+         36p7V7foPF6f7CwOSmRy1/fm7H3Kooih6EMNKlbh14UqXqvRjKvDJZ+fR5MKae4OVwnj
+         FhEt1nrpjlKZRjt6DQxr7KNj2KXKukDWXjc/sx7afFJ5fkcSL/AjaxCoBxinEy/qLL2t
+         LwOaLKhYEIuX+MkASBquZ+9P46g8uq0MN8b9q5b0ad/KjeZuvRi+GiZrBKgoj4YN6TQI
+         RV+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723548956; x=1724153756;
+        d=1e100.net; s=20230601; t=1723549007; x=1724153807;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=tXtNjm2omeYFdxjvIjk06BRs3CpEfhloZ06IAUR8PCY=;
-        b=nPmENyjfurp4ljMmLNui/dDVyDP9O3IovNEV23NFk+4IV8kGbRQmP1cG1p7oFG4K+Z
-         pS5sMB/200g3hH0fMNjIfbeugpqz+iO/eM3SX0Nt6C+EjuygsrDB1XP4uIYuwP3umgbn
-         /MmRBgtGDhBbpQBkX9wyS72w32Rulevs34QOQm/qxgL2J4Ix0vqITzxlMa+rSezaHZ/g
-         wukp5I0cJFEIjQ2+DmA0f914tJfUhYrZ2aUVb8SFGRySO6ZpBuJxIfoOglrygjgJoK4h
-         kRT0eeixcsrYD1A4fTmXK9rF3759GcWHUMuMTkBeqmT3HKMh+LGSawOwPGrK+MxHEPjy
-         d1tw==
+         :x-original-sender:mime-version:subject:message-id:to:from:date
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+yoSkGNsHer+Pd65FypVvHwVK7jnwt+osu2t40sLULo=;
+        b=lOxaAtS5qIlSXqjFJP5hhFffyBE/eGq1GksOodbpW+V58X/J4ejIH87wM/FrPV6YQ1
+         l5oKbxiv/Le70TnstEHrdUrfJ0GWxFWCeEt2vLkQl0iIZnbwMwgJyRXIX8f4Nb4tfTQp
+         FKIdP9IY0zDHUR9cHdefETPK934rC4RTCiZ3+J+ycR5o0wKe5+8PQcPdI9jz04cLxUN7
+         blxtSlroGYNh8oyxllRKapyM2EkmAV0bfVAAL6rJId09wdpHF/z0kVJ09Ib2kK1WQ98U
+         uQ+zrD3GPBXyyg3ekCjZL/vLrcOh0SBDpLJ12NmWy6cPQT/NA39fwmJtJzOvkkmiYD9R
+         PntQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWQ1Bc8krnuUy0u6QbkNSfOZtT6lZJWgDGlCkkEocJbfaY0rbOTSvYWkM7bJEKkq1hBTaYEhKSGnUE47tE4XRlo3AMAje/l+w==
-X-Gm-Message-State: AOJu0Yy1LjcI2XyCH5z4fIN62+/s0y1rmE79JLNCFoJCVauXiiLAxzOf
-	5f1tXOgYn+5Pwl2AxRz3aws2CYpkoFdd6Pmiut0NnRq4+Hp7OSp9
-X-Google-Smtp-Source: AGHT+IGgU1f6Ja3itgUTEg9DRAdFcT0vnBkoady/TttX/ZLDHxz/4DO8niZnbJfdajAToh8Rzk/L7A==
-X-Received: by 2002:a2e:9bc2:0:b0:2f2:9bef:10bb with SMTP id 38308e7fff4ca-2f2b7156b51mr20702971fa.22.1723548955196;
-        Tue, 13 Aug 2024 04:35:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUGVKPSu1jK+UB8Y1FwCT4uHV++mLc0fIMQWFBkC/3qgrTqefbxA6XlENnsVV3vkA6bfBO0BIdnrZ8icEvqVw5tqOv8jG2R5A==
+X-Gm-Message-State: AOJu0YyNWVWqnteC/bZzCZqnOmSFBVsLuv8K+9ZkhlB1gcSvOpEqhdoM
+	nY0iHPB5spxnBUnRcCZpIa/VlpwpQEVc2ecfbMt/wOKb/VMdcIBC
+X-Google-Smtp-Source: AGHT+IFN1HAaawBb8TGK0ppr80XFw4Qx0sP80vO9iITDVHtgigK9gqN+F58XEbkQDU2hcFkkTJqoDw==
+X-Received: by 2002:a05:6820:1b8d:b0:5d8:e6a:236 with SMTP id 006d021491bc7-5da68813643mr3955927eaf.3.1723549006517;
+        Tue, 13 Aug 2024 04:36:46 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:2203:0:b0:2ef:2eec:5052 with SMTP id 38308e7fff4ca-2f19bc583fbls4182991fa.1.-pod-prod-03-eu;
- Tue, 13 Aug 2024 04:35:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWr94yKQH0yo8BBrlxM6AlG/lBzngRwEZaivRYNsQHNrSbrd0OeDaWbOHLia7OCRuPHbrzI3mhDJ8rUp32pPc1BuVdltCBZYQvYMA==
-X-Received: by 2002:a2e:a550:0:b0:2f1:8622:dc6b with SMTP id 38308e7fff4ca-2f2b7132fd7mr28255371fa.1.1723548952626;
-        Tue, 13 Aug 2024 04:35:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1723548952; cv=none;
-        d=google.com; s=arc-20160816;
-        b=jmumK0Ju5dFC0Y2+Tt0u5zLNnQ0458AlAvaKXqubHXkPXc8GHjmtOxKR8bT8gEEPfM
-         k/mZNKJ9JB8o9n4YV8Y6HbhABYnXEBRIhjv0cSEy7uAy0SHNFP2+wmLxIOPSyg3+tjgx
-         QeJ1/A4ye6UgL8eeNqTLS6RQuHljsV8eyEh7tLYPkIfhcP9eNm0AyHFmeH+vQCi16JNv
-         LXfsd0tTqVtptEsxtYH8TGaiWfo4xMuGqGeLiyPC/3ROU4YIo80GAWomiRl/jOZzMZsA
-         B8nfb2w3cWW0yxxIBw2m5avFixZ4drZ0/jPln+Z9e3ZET4EEwVQyKXOwgFB36W1xlWuX
-         Pmiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=W/ONv/4+8Syyqjkk1KCaBAXR9NKx95lRx78SWilOfwo=;
-        fh=PlrXXiljIqn5FFku5uz3XLLiXAFcGGd/MpVQIupLlEU=;
-        b=mWAJZkEkD0i1j8Aa9y4hDV8sg73PNrtBSm38JinKyBIzh/lFKwwQwo2e3XqQDlIPRy
-         8CQIoW02gQBcYCKOMu48Dcr7wrdt6rwP9HcrXa5k86kGKxlhLP9fHy08NJdKxJ+n3WRL
-         TsqV6FbLTZZF1pinLzCzh5rA0pgSfmuD/lxjqQsMimfRwMD0y6sLi5V2r+3NvujEoS0b
-         R2e5CCdkRdqJcZbyYgyIun7ECzJzCgp6qQ9j1JOhicnRfhF5hxlQydCopAGivOUADGbU
-         Hx1Uq18i8uvLrfYBKnUE3O1FJrCY7QfDnTQOQdBXxy+VkmKDkAs4wzak6cgEsub+i7Ts
-         YGNg==;
-        dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of alex@ghiti.fr designates 2001:4b98:dc4:8::228 as permitted sender) smtp.mailfrom=alex@ghiti.fr
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net. [2001:4b98:dc4:8::228])
-        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-5bd1a5d73aasi230006a12.3.2024.08.13.04.35.52
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 13 Aug 2024 04:35:52 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alex@ghiti.fr designates 2001:4b98:dc4:8::228 as permitted sender) client-ip=2001:4b98:dc4:8::228;
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 96AB61BF204;
-	Tue, 13 Aug 2024 11:35:50 +0000 (UTC)
-Message-ID: <1faba7e8-903d-40f5-8285-1b309d7b9410@ghiti.fr>
-Date: Tue, 13 Aug 2024 13:35:50 +0200
+Received: by 2002:a4a:de44:0:b0:5c4:69bc:810f with SMTP id 006d021491bc7-5d8512d6c7els6108692eaf.2.-pod-prod-07-us;
+ Tue, 13 Aug 2024 04:36:45 -0700 (PDT)
+X-Received: by 2002:a05:6808:159b:b0:3da:b385:f949 with SMTP id 5614622812f47-3dd1edeb5f9mr95251b6e.3.1723549005367;
+        Tue, 13 Aug 2024 04:36:45 -0700 (PDT)
+Date: Tue, 13 Aug 2024 04:36:44 -0700 (PDT)
+From: hana soodi <hanasoodi668@gmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <b5a90aae-8127-4f5d-992a-4f5c8457fdeen@googlegroups.com>
+Subject: =?UTF-8?B?WyBQQVRdINiv2YjYpyDYs9in2YrYqtmI2KrZgyDYp9mE2KfYs9mI2K8=?=
+ =?UTF-8?B?INin2YTYqNix2YrYt9in2YbZiiDYpw==?=
+ =?UTF-8?B?2YTYp9i12YTZiiDYp9mG2YjYp9i5INiz?=
+ =?UTF-8?B?2KfZitiq2YjYqtmK2YMgMDA5NzE1NTMwMzE4NDYg2KfZhA==?=
+ =?UTF-8?B?2LHZitin2LYg2ZIg2KzYr9ipfiDYrtio2LEgfiDYp9mE2YXYr9mK2YbYqQ==?=
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 05/10] riscv: Add support for the tagged address ABI
-Content-Language: en-US
-To: Samuel Holland <samuel.holland@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org
-Cc: devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- linux-kernel@vger.kernel.org, Anup Patel <anup@brainfault.org>,
- Conor Dooley <conor@kernel.org>, kasan-dev@googlegroups.com,
- Atish Patra <atishp@atishpatra.org>, Evgenii Stepanov <eugenis@google.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-References: <20240625210933.1620802-1-samuel.holland@sifive.com>
- <20240625210933.1620802-6-samuel.holland@sifive.com>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20240625210933.1620802-6-samuel.holland@sifive.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-GND-Sasl: alex@ghiti.fr
-X-Original-Sender: alex@ghiti.fr
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of alex@ghiti.fr designates 2001:4b98:dc4:8::228 as
- permitted sender) smtp.mailfrom=alex@ghiti.fr
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_41446_1218348563.1723549004762"
+X-Original-Sender: hanasoodi668@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -139,350 +83,148 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Samuel,
+------=_Part_41446_1218348563.1723549004762
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_41447_1690189994.1723549004762"
 
-On 25/06/2024 23:09, Samuel Holland wrote:
-> When pointer masking is enabled for userspace, the kernel can accept
-> tagged pointers as arguments to some system calls. Allow this by
-> untagging the pointers in access_ok() and the uaccess routines. The
-> uaccess routines must peform untagging in software because U-mode and
-> S-mode have entirely separate pointer masking configurations. In fact,
-> hardware may not even implement pointer masking for S-mode.
+------=_Part_41447_1690189994.1723549004762
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
+2YbYstmK2YQg2KfZhNit2YXZhCDYp9mE2KfYs9mC2KfYtyDYudmE2KfYrCDYp9mE2KfYrNmH2KfY
+tiDYqtiz2YLZiti3INmI2YrZhiDYp9it2LXZhNmH2Kcg2LfYsdmK2YLYqSDZhNmE2KfYrNmH2KfY
+tiDYp9mE2YXZhtiy2YTZiiAK2KfZhNis2YbZitmGINin2LHZitivINin2YbYstmECiDYp9i32YrY
+rSDYqNi62YrYqiDZiNmK2YYg2K/ZiNin2KEg2K/ZiNinINmF2YYg2YPZitmBINin2KrYrtmE2LUg
+2KfZhNiv2YjYsdipINin2YTYtNmH2LHZitipINmD2YUg2LPYudixCtmK2YXZg9mG2YUg2KfZhNiq
+2YjYp9i12YQg2YXYudmG2Kcg2YXZhiDYrtmE2KfZhCDYp9mE2LHYp9io2LcgaHR0cHM6Ly9saW5r
+dHIuZWUvY3l0b3RpY19kX251cgrYt9ix2YrZgtmHINiz2KfZitiq2YjYqtmDINit2KjZiNioINin
+2KzZh9in2LYg2KrZhtiy2YrZhCDYp9mE2K3ZhdmEINin2YTYp9iz2YLYp9i3INi52YTYp9isINin
+2YTYp9is2YfYp9i2INiq2LPZgtmK2Lcg2YjZitmGINin2K3YtdmE2YfYpyAK2LfYsdmK2YLYqSAK
+2YTZhNin2KzZh9in2LYg2KfZhNmF2YbYstmE2Yog2KfZhNis2YbZitmGINmK2K/YqNmK2K8g2KfZ
+hNiz2LnZiNiv2YrYqSAg2YPZhSDYs9i52LEg2LPYp9mK2KrZiNiq2YrZgyDZh9mEINiq2KjYp9i5
+INin2YTYtdmK2K/ZhNmK2KfYqiAK2LXZitiv2YTZitipINinXyDZgwrZitmBINin2KrYrtmE2LUg
+2YXZhiDYp9mE2K3ZhdmEINi32LHZgiDYp9mE2KrYrtmE2LVf2YTYs9i52YjYr9mK2Kkg8J+Sg/Cf
+j7vYp9mE2LHZitin2Lbwn5KK2KzYr9ip8J+lgNiu2YXZitizINmF2LTZiti38J+lgNiu2KjYsfCf
+kp4gCtiv2YXYp9mF8J+SitmF2YPYqfCfkoPwn4+72KfZhNmF2K/ZitmG2Kkg2LfYsdmK2YLYqSDY
+p9mE2KzZhtmK2YYg2KfYrdi12YQg2YTYp9is2YfYp9i2XyDZhNiq2YbYstmK2YQg2YXYqtmI2YHY
+sdmHINio2KfZhNi12YrYr9mE2YrYp9iqCiDYs9mK2KrZiNiq2YrZgyDYs9in2YrYs9mI2KrZgyDY
+s9in2YrYs9mI2KrZitmDINmF2YrYstmI2KrYp9mDINmF2YrYstmI2KrZgyDYp9iv2YjZitipINmE
+2KfYrNmH2KfYtiDYp9is2YfYtiDYp9mG2LLZhCDYp9i32YrYrSDYqti32YrYrSAK2KfYqNinINio
+2LrZitiqINmI2YrZhiDYr9mI2KfYoSDYr9mI2Kcg2KfZhNiq2LPZgtmK2LcgCtin2KzZh9mE2Lgg
+2KfZhNin2KzZh9in2Lgg2YHYudmGINiq2KjZiti5INi32LHZitmCINiz2YrYqtmI2KrZgyDYp9mE
+2LPYp9mK2KrZiNiq2YMg2KfZhNiz2KfZitiq2YjYqtmK2YMg2LPYp9iq2YjYqtmDINiz2YrYqtmI
+2KrYp9mDIAog2KjYp9mE2LPYudmI2K/ZitipINiv2KfYrtmEINin2YbYstin2YQg2KjYrdi12YQg
+2KrYqtmI2YHYsSDYqNiz2KrYrtiv2KfZhSDYqNin2LPYqtiu2K/Yp9mFINin2LnYtNin2Kgg2KfZ
+hNin2LnYtNin2KggY3l0b3RlYyAK2KfZhNiv2YHYuSDYudmG2K8g2KfZhNin2LPYqtmE2KfZhSAK
+2YrZiNis2K8g2KrZiNis2K8g2KrYs9mC2Lcg2KfZhNiz2LnZiNiv2YrYqSDwn5KD8J+Pu9in2YTY
+sdmK2KfYtvCfkorYrNiv2Knwn6WA2K7ZhdmK2LMg2YXYtNmK2Lfwn6WA2K7YqNix8J+SniAK2K/Z
+hdin2YXwn5KK2YXZg9ip8J+Sg/Cfj7vYp9mE2YXYr9mK2YbYqdmF2YYg2KfZhNiv2YjYsdipINin
+2YTYtNmH2LHZitipINin2LHZitivINin2KjZiiDYp9io2LrZiSDYs9mK2KrYqtmDINin2YTYudmK
+2YYg2LPZiNiq2KrZgyDYqNiv2YjZhiAK2YPZitmB2Kkg2YHZitmH2Kcg2KfZhNix2YrYp9i2ICDY
+rNiv2Ycg2KfZhNi02LHZgtmK2YcgINin2YTYr9mF2KfZhSAK2KjZiti5INiq2K3Yp9mF2YrZhCDY
+qNix2LTYp9mFINi52YTYp9is2KfYqiDYp9mKINmF2YPYp9mGINin2YbZh9mKINin2YbZh9in2KEg
+2KfZhNi62YrYsSDZhdix2LrZiNioINmB2YrZhyDYp9iu2YTYtSDYp9iq2K7ZhNi1INio2LrZitiq
+IArYp9mB2KrZgyDYp9io2LrZiSDZitmG2LLZhCAK2KrZhtiy2YQg2KfZhNin2YbYstin2YQg2KjY
+rdi12YTZh9inINio2K3YtdmE2Ycg2LTZiiDZitmG2LLZhNmHINmK2LPZgti3INmK2LPZgti32Ycg
+2YrYrNmH2LYg2KfZhdmG2Ycg2YXZhtiy2YTZitinINiz2KfZitiq2YMg2LPYp9mK2KrYqtmDIArY
+p9mC2LHYp9i1INiq2K3ZhdmK2YTZhyDYqtit2YXZitmE2KfYqgrZg9mK2YHZitipINmE2KfYs9mC
+2KfYtyDZhNiq2YbYstmK2YQg2YTZhNiq2YbYstmK2YQg2K/ZiNmGINi52YXZhNmK2Kkg2YXYs9iq
+2LTZgdmJINi52YrYp9iv2Ycg2KrYs9mI2Yog2KfYs9mI2Yog2KfZhNmF2YbYstmEINin2YTYqNmK
+2KogCtin2YrZhiDYqtiq2YjYp9is2K8g2YXYqtmI2KfYrNiv2Ycg2KrYrdin2YXZitmEIArYp9it
+2KrYp9isINmF2K3Yqtin2KzZhyDYrdin2YXZhCDYp9is2YfYtiDZhNiz2LnZiNiv2YrYqSDwn5KD
+8J+Pu9in2YTYsdmK2KfYtvCfkorYrNiv2Knwn6WA2K7ZhdmK2LMg2YXYtNmK2Lfwn6WA2K7YqNix
+8J+SniAK2K/Zhdin2YXwn5KK2YXZg9ip8J+Sg/Cfj7vYp9mE2YXYr9mK2YbYqdin2LHYutioINio
+2KrZhtiy2YrZhCDYrdmC2Kog2KfYudir2LEg2YTZhNio2YrYuSDYqNin2KzZh9in2LYg2KjYqtiz
+2YLZiti3INi02Ygg2KfYtNiq2LHZiiDYtNix2KfYoSAK2YXYp9mH2Yog2YfZitinIArYp9iz2KrY
+t9mK2Lkg2KfZgtiv2LEg2KfZhNiv2YHYuSDYudmG2K8g2KfZhNin2LPYqtmE2KfZhSDYrdmC2KfY
+qiDZgti32LEg2KfZhNiz2YrYqtmI2KrYp9mDINiz2YrYqtmI2KrYp9mDINi32LHZitmC2Kkg2KrY
+rtmE2LXZhtmKINmF2YYgCtin2YTYrdmF2YQg2KfZhNi62YrYsSDZhdix2LrZiNioINmB2YrZhyDY
+t9ix2YIg2KfZhtmH2KfYoSDYp9mE2K3ZhdmECiDZiNiz2KfYptmEINin2YTYqtiu2YTYtSDZhdmG
+INin2YTYrdmF2YQg2KfYr9mI2YrZhyDYqtiz2KjYqCDYp9mE2KzZh9in2LYg2KrYqNmK2YYg2KrY
+qtiu2YTYtdmK2YYg2KfYqNmKINin2KrYrtmE2LUg2KrYqtiu2YTYtdmKINmF2YYgCtin2YTYrdmF
+2YQg2YjYr9mDINmI2K/ZiiDYp9iu2K/YrCDYp9mE2K3ZhdmEINinCtio2Yog2KfYrNmH2LYg2KfZ
+hNit2YXZhCDZiNi0INmH2Yog2KfZhNi32LHZitmC2Kkg2LfYsdmK2YLYqSDYp9mE2Yog2KrZhtmH
+2Yog2KfZhNit2YXZhCDYqNi62YrYqiDYp9io2Kcg2LPYp9iq2YjZgyDYs9in2YrYqtmI2YMg2KjZ
+g9mFIArYp9ix2YrYryDYtNix2KfYoSDYp9iu2LAg2KfZgtiv2LEg2KfZhNi52YrZhgoNCi0tIApZ
+b3UgcmVjZWl2ZWQgdGhpcyBtZXNzYWdlIGJlY2F1c2UgeW91IGFyZSBzdWJzY3JpYmVkIHRvIHRo
+ZSBHb29nbGUgR3JvdXBzICJrYXNhbi1kZXYiIGdyb3VwLgpUbyB1bnN1YnNjcmliZSBmcm9tIHRo
+aXMgZ3JvdXAgYW5kIHN0b3AgcmVjZWl2aW5nIGVtYWlscyBmcm9tIGl0LCBzZW5kIGFuIGVtYWls
+IHRvIGthc2FuLWRldit1bnN1YnNjcmliZUBnb29nbGVncm91cHMuY29tLgpUbyB2aWV3IHRoaXMg
+ZGlzY3Vzc2lvbiBvbiB0aGUgd2ViIHZpc2l0IGh0dHBzOi8vZ3JvdXBzLmdvb2dsZS5jb20vZC9t
+c2dpZC9rYXNhbi1kZXYvYjVhOTBhYWUtODEyNy00ZjVkLTk5MmEtNGY1Yzg0NTdmZGVlbiU0MGdv
+b2dsZWdyb3Vwcy5jb20uCg==
+------=_Part_41447_1690189994.1723549004762
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Would it make sense to have a fast path when S-mode and U-mode PMLENs 
-are equal?
+2YbYstmK2YQg2KfZhNit2YXZhCDYp9mE2KfYs9mC2KfYtyDYudmE2KfYrCDYp9mE2KfYrNmH2KfY
+tiDYqtiz2YLZiti3INmI2YrZhiDYp9it2LXZhNmH2Kcg2LfYsdmK2YLYqSDZhNmE2KfYrNmH2KfY
+tiDYp9mE2YXZhtiy2YTZiiDYp9mE2KzZhtmK2YYg2KfYsdmK2K8g2KfZhtiy2YQ8YnIgLz7CoNin
+2LfZititINio2LrZitiqINmI2YrZhiDYr9mI2KfYoSDYr9mI2Kcg2YXZhiDZg9mK2YEg2KfYqtiu
+2YTYtSDYp9mE2K/ZiNix2Kkg2KfZhNi02YfYsdmK2Kkg2YPZhSDYs9i52LE8YnIgLz7ZitmF2YPZ
+htmFINin2YTYqtmI2KfYtdmEINmF2LnZhtinINmF2YYg2K7ZhNin2YQg2KfZhNix2KfYqNi3wqBo
+dHRwczovL2xpbmt0ci5lZS9jeXRvdGljX2RfbnVyPGJyIC8+2LfYsdmK2YLZhyDYs9in2YrYqtmI
+2KrZgyDYrdio2YjYqCDYp9is2YfYp9i2INiq2YbYstmK2YQg2KfZhNit2YXZhCDYp9mE2KfYs9mC
+2KfYtyDYudmE2KfYrCDYp9mE2KfYrNmH2KfYtiDYqtiz2YLZiti3INmI2YrZhiDYp9it2LXZhNmH
+2Kcg2LfYsdmK2YLYqSA8YnIgLz7ZhNmE2KfYrNmH2KfYtiDYp9mE2YXZhtiy2YTZiiDYp9mE2KzZ
+htmK2YYg2YrYr9io2YrYryDYp9mE2LPYudmI2K/ZitipIMKg2YPZhSDYs9i52LEg2LPYp9mK2KrZ
+iNiq2YrZgyDZh9mEINiq2KjYp9i5INin2YTYtdmK2K/ZhNmK2KfYqiDYtdmK2K/ZhNmK2Kkg2Kdf
+INmDPGJyIC8+2YrZgSDYp9iq2K7ZhNi1INmF2YYg2KfZhNit2YXZhCDYt9ix2YIg2KfZhNiq2K7Z
+hNi1X9mE2LPYudmI2K/ZitipIPCfkoPwn4+72KfZhNix2YrYp9i28J+Sitis2K/YqfCfpYDYrtmF
+2YrYsyDZhdi02YrYt/CfpYDYrtio2LHwn5KeINiv2YXYp9mF8J+SitmF2YPYqfCfkoPwn4+72KfZ
+hNmF2K/ZitmG2Kkg2LfYsdmK2YLYqSDYp9mE2KzZhtmK2YYg2KfYrdi12YQg2YTYp9is2YfYp9i2
+XyDZhNiq2YbYstmK2YQg2YXYqtmI2YHYsdmHINio2KfZhNi12YrYr9mE2YrYp9iqPGJyIC8+wqDY
+s9mK2KrZiNiq2YrZgyDYs9in2YrYs9mI2KrZgyDYs9in2YrYs9mI2KrZitmDINmF2YrYstmI2KrY
+p9mDINmF2YrYstmI2KrZgyDYp9iv2YjZitipINmE2KfYrNmH2KfYtiDYp9is2YfYtiDYp9mG2LLZ
+hCDYp9i32YrYrSDYqti32YrYrSDYp9io2Kcg2KjYutmK2Kog2YjZitmGINiv2YjYp9ihINiv2YjY
+pyDYp9mE2KrYs9mC2YrYtyA8YnIgLz7Yp9is2YfZhNi4INin2YTYp9is2YfYp9i4INmB2LnZhiDY
+qtio2YrYuSDYt9ix2YrZgiDYs9mK2KrZiNiq2YMg2KfZhNiz2KfZitiq2YjYqtmDINin2YTYs9in
+2YrYqtmI2KrZitmDINiz2KfYqtmI2KrZgyDYs9mK2KrZiNiq2KfZgyA8YnIgLz7CoNio2KfZhNiz
+2LnZiNiv2YrYqSDYr9in2K7ZhCDYp9mG2LLYp9mEINio2K3YtdmEINiq2KrZiNmB2LEg2KjYs9iq
+2K7Yr9in2YUg2KjYp9iz2KrYrtiv2KfZhSDYp9i52LTYp9ioINin2YTYp9i52LTYp9ioIGN5dG90
+ZWMg2KfZhNiv2YHYuSDYudmG2K8g2KfZhNin2LPYqtmE2KfZhSA8YnIgLz7ZitmI2KzYryDYqtmI
+2KzYryDYqtiz2YLYtyDYp9mE2LPYudmI2K/ZitipIPCfkoPwn4+72KfZhNix2YrYp9i28J+Sitis
+2K/YqfCfpYDYrtmF2YrYsyDZhdi02YrYt/CfpYDYrtio2LHwn5KeINiv2YXYp9mF8J+SitmF2YPY
+qfCfkoPwn4+72KfZhNmF2K/ZitmG2KnZhdmGINin2YTYr9mI2LHYqSDYp9mE2LTZh9ix2YrYqSDY
+p9ix2YrYryDYp9io2Yog2KfYqNi62Ykg2LPZitiq2KrZgyDYp9mE2LnZitmGINiz2YjYqtiq2YMg
+2KjYr9mI2YYg2YPZitmB2Kkg2YHZitmH2Kcg2KfZhNix2YrYp9i2IMKg2KzYr9mHINin2YTYtNix
+2YLZitmHIMKg2KfZhNiv2YXYp9mFIDxiciAvPtio2YrYuSDYqtit2KfZhdmK2YQg2KjYsdi02KfZ
+hSDYudmE2KfYrNin2Kog2KfZiiDZhdmD2KfZhiDYp9mG2YfZiiDYp9mG2YfYp9ihINin2YTYutmK
+2LEg2YXYsdi62YjYqCDZgdmK2Ycg2KfYrtmE2LUg2KfYqtiu2YTYtSDYqNi62YrYqiDYp9mB2KrZ
+gyDYp9io2LrZiSDZitmG2LLZhCA8YnIgLz7YqtmG2LLZhCDYp9mE2KfZhtiy2KfZhCDYqNit2LXZ
+hNmH2Kcg2KjYrdi12YTZhyDYtNmKINmK2YbYstmE2Ycg2YrYs9mC2Lcg2YrYs9mC2LfZhyDZitis
+2YfYtiDYp9mF2YbZhyDZhdmG2LLZhNmK2Kcg2LPYp9mK2KrZgyDYs9in2YrYqtiq2YMg2KfZgtix
+2KfYtSDYqtit2YXZitmE2Ycg2KrYrdmF2YrZhNin2Ko8YnIgLz7Zg9mK2YHZitipINmE2KfYs9mC
+2KfYtyDZhNiq2YbYstmK2YQg2YTZhNiq2YbYstmK2YQg2K/ZiNmGINi52YXZhNmK2Kkg2YXYs9iq
+2LTZgdmJINi52YrYp9iv2Ycg2KrYs9mI2Yog2KfYs9mI2Yog2KfZhNmF2YbYstmEINin2YTYqNmK
+2Kog2KfZitmGINiq2KrZiNin2KzYryDZhdiq2YjYp9is2K/ZhyDYqtit2KfZhdmK2YQgPGJyIC8+
+2KfYrdiq2KfYrCDZhdit2KrYp9is2Ycg2K3Yp9mF2YQg2KfYrNmH2LYg2YTYs9i52YjYr9mK2Kkg
+8J+Sg/Cfj7vYp9mE2LHZitin2Lbwn5KK2KzYr9ip8J+lgNiu2YXZitizINmF2LTZiti38J+lgNiu
+2KjYsfCfkp4g2K/Zhdin2YXwn5KK2YXZg9ip8J+Sg/Cfj7vYp9mE2YXYr9mK2YbYqdin2LHYutio
+INio2KrZhtiy2YrZhCDYrdmC2Kog2KfYudir2LEg2YTZhNio2YrYuSDYqNin2KzZh9in2LYg2KjY
+qtiz2YLZiti3INi02Ygg2KfYtNiq2LHZiiDYtNix2KfYoSDZhdin2YfZiiDZh9mK2KcgPGJyIC8+
+2KfYs9iq2LfZiti5INin2YLYr9ixINin2YTYr9mB2Lkg2LnZhtivINin2YTYp9iz2KrZhNin2YUg
+2K3Zgtin2Kog2YLYt9ixINin2YTYs9mK2KrZiNiq2KfZgyDYs9mK2KrZiNiq2KfZgyDYt9ix2YrZ
+gtipINiq2K7ZhNi12YbZiiDZhdmGINin2YTYrdmF2YQg2KfZhNi62YrYsSDZhdix2LrZiNioINmB
+2YrZhyDYt9ix2YIg2KfZhtmH2KfYoSDYp9mE2K3ZhdmEPGJyIC8+wqDZiNiz2KfYptmEINin2YTY
+qtiu2YTYtSDZhdmGINin2YTYrdmF2YQg2KfYr9mI2YrZhyDYqtiz2KjYqCDYp9mE2KzZh9in2LYg
+2KrYqNmK2YYg2KrYqtiu2YTYtdmK2YYg2KfYqNmKINin2KrYrtmE2LUg2KrYqtiu2YTYtdmKINmF
+2YYg2KfZhNit2YXZhCDZiNiv2YMg2YjYr9mKINin2K7Yr9isINin2YTYrdmF2YQg2Kc8YnIgLz7Y
+qNmKINin2KzZh9i2INin2YTYrdmF2YQg2YjYtCDZh9mKINin2YTYt9ix2YrZgtipINi32LHZitmC
+2Kkg2KfZhNmKINiq2YbZh9mKINin2YTYrdmF2YQg2KjYutmK2Kog2KfYqNinINiz2KfYqtmI2YMg
+2LPYp9mK2KrZiNmDINio2YPZhSDYp9ix2YrYryDYtNix2KfYoSDYp9iu2LAg2KfZgtiv2LEg2KfZ
+hNi52YrZhjxiciAvPg0KDQo8cD48L3A+CgotLSA8YnIgLz4KWW91IHJlY2VpdmVkIHRoaXMgbWVz
+c2FnZSBiZWNhdXNlIHlvdSBhcmUgc3Vic2NyaWJlZCB0byB0aGUgR29vZ2xlIEdyb3VwcyAmcXVv
+dDtrYXNhbi1kZXYmcXVvdDsgZ3JvdXAuPGJyIC8+ClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBn
+cm91cCBhbmQgc3RvcCByZWNlaXZpbmcgZW1haWxzIGZyb20gaXQsIHNlbmQgYW4gZW1haWwgdG8g
+PGEgaHJlZj0ibWFpbHRvOmthc2FuLWRldit1bnN1YnNjcmliZUBnb29nbGVncm91cHMuY29tIj5r
+YXNhbi1kZXYrdW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbTwvYT4uPGJyIC8+ClRvIHZpZXcg
+dGhpcyBkaXNjdXNzaW9uIG9uIHRoZSB3ZWIgdmlzaXQgPGEgaHJlZj0iaHR0cHM6Ly9ncm91cHMu
+Z29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi9iNWE5MGFhZS04MTI3LTRmNWQtOTkyYS00ZjVj
+ODQ1N2ZkZWVuJTQwZ29vZ2xlZ3JvdXBzLmNvbT91dG1fbWVkaXVtPWVtYWlsJnV0bV9zb3VyY2U9
+Zm9vdGVyIj5odHRwczovL2dyb3Vwcy5nb29nbGUuY29tL2QvbXNnaWQva2FzYW4tZGV2L2I1YTkw
+YWFlLTgxMjctNGY1ZC05OTJhLTRmNWM4NDU3ZmRlZW4lNDBnb29nbGVncm91cHMuY29tPC9hPi48
+YnIgLz4K
+------=_Part_41447_1690189994.1723549004762--
 
-
->
-> Since the number of tag bits is variable, untagged_addr_remote() needs
-> to know what PMLEN to use for the remote mm. Therefore, the pointer
-> masking mode must be the same for all threads sharing an mm. Enforce
-> this with a lock flag in the mm context, as x86 does for LAM.The flag gets reset in init_new_context() during fork(), as the new mm is no
-> longer multithreaded.
->
-> Unlike x86, untagged_addr() gets pmlen from struct thread_info instead
-> of a percpu variable, as this both avoids context switch overhead and
-> loads the value more efficiently.
->
-> Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
-> ---
->
-> Changes in v2:
->   - Implement untagged_addr_remote()
->   - Restrict PMLEN changes once a process is multithreaded
->
->   arch/riscv/include/asm/mmu.h         |  7 +++
->   arch/riscv/include/asm/mmu_context.h |  6 +++
->   arch/riscv/include/asm/thread_info.h |  3 ++
->   arch/riscv/include/asm/uaccess.h     | 58 +++++++++++++++++++++--
->   arch/riscv/kernel/process.c          | 69 +++++++++++++++++++++++++++-
->   5 files changed, 136 insertions(+), 7 deletions(-)
->
-> diff --git a/arch/riscv/include/asm/mmu.h b/arch/riscv/include/asm/mmu.h
-> index 947fd60f9051..361a9623f8c8 100644
-> --- a/arch/riscv/include/asm/mmu.h
-> +++ b/arch/riscv/include/asm/mmu.h
-> @@ -26,8 +26,15 @@ typedef struct {
->   	unsigned long exec_fdpic_loadmap;
->   	unsigned long interp_fdpic_loadmap;
->   #endif
-> +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
-> +	unsigned long flags;
-> +	u8 pmlen;
-> +#endif
->   } mm_context_t;
->   
-> +/* Lock the pointer masking mode because this mm is multithreaded */
-> +#define MM_CONTEXT_LOCK_PMLEN	0
-> +
->   #define cntx2asid(cntx)		((cntx) & SATP_ASID_MASK)
->   #define cntx2version(cntx)	((cntx) & ~SATP_ASID_MASK)
->   
-> diff --git a/arch/riscv/include/asm/mmu_context.h b/arch/riscv/include/asm/mmu_context.h
-> index 7030837adc1a..62a9f76cf257 100644
-> --- a/arch/riscv/include/asm/mmu_context.h
-> +++ b/arch/riscv/include/asm/mmu_context.h
-> @@ -20,6 +20,9 @@ void switch_mm(struct mm_struct *prev, struct mm_struct *next,
->   static inline void activate_mm(struct mm_struct *prev,
->   			       struct mm_struct *next)
->   {
-> +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
-> +	next->context.pmlen = 0;
-> +#endif
->   	switch_mm(prev, next, NULL);
->   }
->   
-> @@ -29,6 +32,9 @@ static inline int init_new_context(struct task_struct *tsk,
->   {
->   #ifdef CONFIG_MMU
->   	atomic_long_set(&mm->context.id, 0);
-> +#endif
-> +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
-> +	clear_bit(MM_CONTEXT_LOCK_PMLEN, &mm->context.flags);
->   #endif
->   	return 0;
->   }
-> diff --git a/arch/riscv/include/asm/thread_info.h b/arch/riscv/include/asm/thread_info.h
-> index 5d473343634b..cd355f8a550f 100644
-> --- a/arch/riscv/include/asm/thread_info.h
-> +++ b/arch/riscv/include/asm/thread_info.h
-> @@ -60,6 +60,9 @@ struct thread_info {
->   	void			*scs_base;
->   	void			*scs_sp;
->   #endif
-> +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
-> +	u8			pmlen;
-> +#endif
->   };
->   
->   #ifdef CONFIG_SHADOW_CALL_STACK
-> diff --git a/arch/riscv/include/asm/uaccess.h b/arch/riscv/include/asm/uaccess.h
-> index 72ec1d9bd3f3..153495997bc1 100644
-> --- a/arch/riscv/include/asm/uaccess.h
-> +++ b/arch/riscv/include/asm/uaccess.h
-> @@ -9,8 +9,56 @@
->   #define _ASM_RISCV_UACCESS_H
->   
->   #include <asm/asm-extable.h>
-> +#include <asm/cpufeature.h>
->   #include <asm/pgtable.h>		/* for TASK_SIZE */
->   
-> +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
-> +static inline unsigned long __untagged_addr(unsigned long addr)
-> +{
-> +	if (riscv_has_extension_unlikely(RISCV_ISA_EXT_SUPM)) {
-> +		u8 pmlen = current->thread_info.pmlen;
-
-
-Why don't we use mm->pmlen? I don't see the need to introduce this 
-variable that mirrors what is in mm already but I may be missing something.
-
-
-> +
-> +		/* Virtual addresses are sign-extended; physical addresses are zero-extended. */
-> +		if (IS_ENABLED(CONFIG_MMU))
-> +			return (long)(addr << pmlen) >> pmlen;
-> +		else
-> +			return (addr << pmlen) >> pmlen;
-> +	}
-> +
-> +	return addr;
-> +}
-> +
-> +#define untagged_addr(addr) ({						\
-> +	unsigned long __addr = (__force unsigned long)(addr);		\
-> +	(__force __typeof__(addr))__untagged_addr(__addr);		\
-> +})
-> +
-> +static inline unsigned long __untagged_addr_remote(struct mm_struct *mm, unsigned long addr)
-> +{
-> +	if (riscv_has_extension_unlikely(RISCV_ISA_EXT_SUPM)) {
-> +		u8 pmlen = mm->context.pmlen;
-> +
-> +		/* Virtual addresses are sign-extended; physical addresses are zero-extended. */
-> +		if (IS_ENABLED(CONFIG_MMU))
-> +			return (long)(addr << pmlen) >> pmlen;
-> +		else
-> +			return (addr << pmlen) >> pmlen;
-> +	}
-> +
-> +	return addr;
-> +}
-> +
-> +#define untagged_addr_remote(mm, addr) ({				\
-> +	unsigned long __addr = (__force unsigned long)(addr);		\
-> +	mmap_assert_locked(mm);						\
-> +	(__force __typeof__(addr))__untagged_addr_remote(mm, __addr);	\
-> +})
-> +
-> +#define access_ok(addr, size) likely(__access_ok(untagged_addr(addr), size))
-> +#else
-> +#define untagged_addr(addr) (addr)
-> +#endif
-> +
->   /*
->    * User space memory access functions
->    */
-> @@ -130,7 +178,7 @@ do {								\
->    */
->   #define __get_user(x, ptr)					\
->   ({								\
-> -	const __typeof__(*(ptr)) __user *__gu_ptr = (ptr);	\
-> +	const __typeof__(*(ptr)) __user *__gu_ptr = untagged_addr(ptr); \
->   	long __gu_err = 0;					\
->   								\
->   	__chk_user_ptr(__gu_ptr);				\
-> @@ -246,7 +294,7 @@ do {								\
->    */
->   #define __put_user(x, ptr)					\
->   ({								\
-> -	__typeof__(*(ptr)) __user *__gu_ptr = (ptr);		\
-> +	__typeof__(*(ptr)) __user *__gu_ptr = untagged_addr(ptr); \
->   	__typeof__(*__gu_ptr) __val = (x);			\
->   	long __pu_err = 0;					\
->   								\
-> @@ -293,13 +341,13 @@ unsigned long __must_check __asm_copy_from_user(void *to,
->   static inline unsigned long
->   raw_copy_from_user(void *to, const void __user *from, unsigned long n)
->   {
-> -	return __asm_copy_from_user(to, from, n);
-> +	return __asm_copy_from_user(to, untagged_addr(from), n);
->   }
->   
->   static inline unsigned long
->   raw_copy_to_user(void __user *to, const void *from, unsigned long n)
->   {
-> -	return __asm_copy_to_user(to, from, n);
-> +	return __asm_copy_to_user(untagged_addr(to), from, n);
->   }
->   
->   extern long strncpy_from_user(char *dest, const char __user *src, long count);
-> @@ -314,7 +362,7 @@ unsigned long __must_check clear_user(void __user *to, unsigned long n)
->   {
->   	might_fault();
->   	return access_ok(to, n) ?
-> -		__clear_user(to, n) : n;
-> +		__clear_user(untagged_addr(to), n) : n;
->   }
->   
->   #define __get_kernel_nofault(dst, src, type, err_label)			\
-> diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
-> index dec5ccc44697..7bd445dade92 100644
-> --- a/arch/riscv/kernel/process.c
-> +++ b/arch/riscv/kernel/process.c
-> @@ -173,8 +173,10 @@ void flush_thread(void)
->   	clear_tsk_thread_flag(current, TIF_RISCV_V_DEFER_RESTORE);
->   #endif
->   #ifdef CONFIG_RISCV_ISA_POINTER_MASKING
-> -	if (riscv_has_extension_unlikely(RISCV_ISA_EXT_SUPM))
-> +	if (riscv_has_extension_unlikely(RISCV_ISA_EXT_SUPM)) {
->   		envcfg_update_bits(current, ENVCFG_PMM, ENVCFG_PMM_PMLEN_0);
-> +		current->thread_info.pmlen = 0;
-> +	}
->   #endif
->   }
->   
-> @@ -204,6 +206,12 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
->   	unsigned long tls = args->tls;
->   	struct pt_regs *childregs = task_pt_regs(p);
->   
-> +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
-> +	/* Ensure all threads in this mm have the same pointer masking mode. */
-> +	if (p->mm && (clone_flags & CLONE_VM))
-> +		set_bit(MM_CONTEXT_LOCK_PMLEN, &p->mm->context.flags);
-> +#endif
-> +
->   	memset(&p->thread.s, 0, sizeof(p->thread.s));
->   
->   	/* p->thread holds context to be restored by __switch_to() */
-> @@ -243,10 +251,16 @@ void __init arch_task_cache_init(void)
->   static bool have_user_pmlen_7;
->   static bool have_user_pmlen_16;
->   
-> +/*
-> + * Control the relaxed ABI allowing tagged user addresses into the kernel.
-> + */
-> +static unsigned int tagged_addr_disabled;
-> +
->   long set_tagged_addr_ctrl(struct task_struct *task, unsigned long arg)
->   {
-> -	unsigned long valid_mask = PR_PMLEN_MASK;
-> +	unsigned long valid_mask = PR_PMLEN_MASK | PR_TAGGED_ADDR_ENABLE;
->   	struct thread_info *ti = task_thread_info(task);
-> +	struct mm_struct *mm = task->mm;
->   	unsigned long pmm;
->   	u8 pmlen;
->   
-> @@ -277,6 +291,14 @@ long set_tagged_addr_ctrl(struct task_struct *task, unsigned long arg)
->   			return -EINVAL;
->   	}
->   
-> +	/*
-> +	 * Do not allow the enabling of the tagged address ABI if globally
-> +	 * disabled via sysctl abi.tagged_addr_disabled, if pointer masking
-> +	 * is disabled for userspace.
-> +	 */
-> +	if (arg & PR_TAGGED_ADDR_ENABLE && (tagged_addr_disabled || !pmlen))
-> +		return -EINVAL;
-> +
->   	if (pmlen == 7)
->   		pmm = ENVCFG_PMM_PMLEN_7;
->   	else if (pmlen == 16)
-> @@ -284,7 +306,22 @@ long set_tagged_addr_ctrl(struct task_struct *task, unsigned long arg)
->   	else
->   		pmm = ENVCFG_PMM_PMLEN_0;
->   
-> +	if (!(arg & PR_TAGGED_ADDR_ENABLE))
-> +		pmlen = 0;
-> +
-> +	if (mmap_write_lock_killable(mm))
-> +		return -EINTR;
-> +
-> +	if (test_bit(MM_CONTEXT_LOCK_PMLEN, &mm->context.flags) && mm->context.pmlen != pmlen) {
-> +		mmap_write_unlock(mm);
-> +		return -EBUSY;
-> +	}
-> +
->   	envcfg_update_bits(task, ENVCFG_PMM, pmm);
-> +	task->mm->context.pmlen = pmlen;
-> +	task->thread_info.pmlen = pmlen;
-> +
-> +	mmap_write_unlock(mm);
->   
->   	return 0;
->   }
-> @@ -297,6 +334,13 @@ long get_tagged_addr_ctrl(struct task_struct *task)
->   	if (is_compat_thread(ti))
->   		return -EINVAL;
->   
-> +	if (task->thread_info.pmlen)
-> +		ret = PR_TAGGED_ADDR_ENABLE;
-> +
-> +	/*
-> +	 * The task's pmlen is only set if the tagged address ABI is enabled,
-> +	 * so the effective PMLEN must be extracted from envcfg.PMM.
-> +	 */
->   	switch (task->thread.envcfg & ENVCFG_PMM) {
->   	case ENVCFG_PMM_PMLEN_7:
->   		ret |= FIELD_PREP(PR_PMLEN_MASK, 7);
-> @@ -315,6 +359,24 @@ static bool try_to_set_pmm(unsigned long value)
->   	return (csr_read_clear(CSR_ENVCFG, ENVCFG_PMM) & ENVCFG_PMM) == value;
->   }
->   
-> +/*
-> + * Global sysctl to disable the tagged user addresses support. This control
-> + * only prevents the tagged address ABI enabling via prctl() and does not
-> + * disable it for tasks that already opted in to the relaxed ABI.
-> + */
-> +
-> +static struct ctl_table tagged_addr_sysctl_table[] = {
-> +	{
-> +		.procname	= "tagged_addr_disabled",
-> +		.mode		= 0644,
-> +		.data		= &tagged_addr_disabled,
-> +		.maxlen		= sizeof(int),
-> +		.proc_handler	= proc_dointvec_minmax,
-> +		.extra1		= SYSCTL_ZERO,
-> +		.extra2		= SYSCTL_ONE,
-> +	},
-> +};
-> +
->   static int __init tagged_addr_init(void)
->   {
->   	if (!riscv_has_extension_unlikely(RISCV_ISA_EXT_SUPM))
-> @@ -328,6 +390,9 @@ static int __init tagged_addr_init(void)
->   	have_user_pmlen_7 = try_to_set_pmm(ENVCFG_PMM_PMLEN_7);
->   	have_user_pmlen_16 = try_to_set_pmm(ENVCFG_PMM_PMLEN_16);
->   
-> +	if (!register_sysctl("abi", tagged_addr_sysctl_table))
-> +		return -EINVAL;
-> +
->   	return 0;
->   }
->   core_initcall(tagged_addr_init);
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/1faba7e8-903d-40f5-8285-1b309d7b9410%40ghiti.fr.
+------=_Part_41446_1218348563.1723549004762--
