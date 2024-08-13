@@ -1,133 +1,78 @@
-Return-Path: <kasan-dev+bncBC7PZX4C3UKBBO7D5S2QMGQEFZGUURQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDO456PHTELBBU4F5W2QMGQELQ55RRQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BF0950228
-	for <lists+kasan-dev@lfdr.de>; Tue, 13 Aug 2024 12:13:17 +0200 (CEST)
-Received: by mail-lf1-x13a.google.com with SMTP id 2adb3069b0e04-52efc9f200asf5268667e87.2
-        for <lists+kasan-dev@lfdr.de>; Tue, 13 Aug 2024 03:13:17 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1723543997; cv=pass;
-        d=google.com; s=arc-20160816;
-        b=pMmeOTfCQxbgVG3sdcGX2aJFJyft11GI2MNG3NUOzUGz+i0ssrn3oqqGfh6YU3JWg0
-         cmphxLnl7org1AExuRrVPgCOoiOiu4U3R6Fkm8IesPq7yB040s9w1AGjduwQ6kN3GTn5
-         OjlPJ8+dMeUM0ZnLEKcg5Lg17KLvG+PRVbYnQd4w+FeqNcAnwoppFQ4hE4HKA8VDMucg
-         pN0O9pHhB27vN7MUjotWhbr33dwvUNozfar/cDQ2e6mF3/htFwKp6C0VsztOf/qPtB2U
-         I8Z2TNFw/GsAVXjflUL/1Q96KM1+2b8cI2h9O/g5xQA3wnkI0FNAjrmArEcVqcmxSgwm
-         qvrA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=Y9lGVjwBjjQ7uJF60O4ZaBGqXTpX0qK5sbkqmiKo46w=;
-        fh=wQbHTL50NqNjS2Vr9UUpsUpRMjbYMsZF3mrH2xLms0s=;
-        b=KY//uSrHxuHtCR+nMoAz8NX8gWrE4kf7U2+WiUV/KWOCCSeC97u5cWBkYp0Wu3d8yR
-         6ZfkofKVnRykGEYI7k60srQ8HGn3xazy2uJknpZ7A9QFxjaXuznsAeIgWbmDbi60J+L1
-         XT2V18V9QoEoAoyE/ZDl/Vl+kMj1BlKSS/523RkzUzw+Q+zVtrpDAP5VarngFmjbv52X
-         LUN6rSX5FEgtBGBIJVYYvUDPZkK6u3NCMFAMQZ+nE16NXiTPwcMEvbuVw7Ny/sdHTIgC
-         OEzbmWk9lvBycTlwqpXUebKN8+vCyUfe53FFjpGcyFHvJnihYX2erFjFMmFaX59blpPP
-         jnWA==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of alex@ghiti.fr designates 2001:4b98:dc4:8::229 as permitted sender) smtp.mailfrom=alex@ghiti.fr
+Received: from mail-oo1-xc3a.google.com (mail-oo1-xc3a.google.com [IPv6:2607:f8b0:4864:20::c3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF01A95038E
+	for <lists+kasan-dev@lfdr.de>; Tue, 13 Aug 2024 13:26:13 +0200 (CEST)
+Received: by mail-oo1-xc3a.google.com with SMTP id 006d021491bc7-5d5a3f113b1sf4455454eaf.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 13 Aug 2024 04:26:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1723543997; x=1724148797; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1723548372; x=1724153172; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y9lGVjwBjjQ7uJF60O4ZaBGqXTpX0qK5sbkqmiKo46w=;
-        b=iVFifjvCKO0bOwf0wpwmOjqXyiizqOl76Hff3GqV6GVZVM6J/aTVpbG/34ToGTg+X2
-         bBRgrVRw2AcUhEUI0JX5CdFjoBGLHv4d+RoiN6mVEN7IonujXR1cJpOz50LOCy1iIvvR
-         ilToZdCWi38zUF5uL3Ktt8z1AK5xinuF4Tn1qmdMVBuCRAHJoM/jgAgkJlO3eCnSh4fy
-         eRTojJxIkeIQqf3ucCltnUEn/nGReDwm5b1poKx3ciQqKhLcumqqt8wPF1vtVmH/eKt/
-         9hNEBBfJqjhqQSdFJ9dOzoH1Qf5f2Z1ibMD8zD98Tnojtr78nW/OYyvCc+n6qGGik4Ip
-         YDzQ==
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:message-id:to:from:date:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kQeuLeol1gA/qAd1TuLS4a/vUDFpVQaKdhyn53ByzIw=;
+        b=tA55f774wNovJCt98AwZbHvqEPoonH2Us3rK5wSCh10GVObFV1ya6gfWJv07i1Rd9h
+         JQo3j7bKTCvBjMDSf7t1Unwcd2sfANHkh53ZUMoyFguoo/B7RkTkaTLKIhOXPmGn82lW
+         Fa8sAs7ZpTSBVOrKclFwxrE81TzhAbiP6fRITv1oQO0bmgKHAnh5cNd9GcXqZJ1wuzIg
+         ymiEgsF6pb99C83Pd2ZuyheZXOx0hEifm9n0Ynk8vnxLhZYBqItmRIaBCeRW1weFO1WL
+         OgXCro8oQ8wdvLkDB/NaE5plUgLClS7wibsIAObQl8Q9g1pE2CYTYeofqM/B/8PURBu8
+         XO7w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1723548372; x=1724153172; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kQeuLeol1gA/qAd1TuLS4a/vUDFpVQaKdhyn53ByzIw=;
+        b=IAR5UYstFN+QmAYMZZGV4PbY2fy8rYfas90I/Va/xrNHPfHOhynHra+kAEWDR+uo3J
+         3dTfNnCQbkr4jFxNm6NOQQgnDEn9o7v8NSnw5oPgEe6CsHR0KyoESIkzycND2Hzfg72H
+         pAL8MyX8Jyu6+EIAqR09YSvxW5moYooB5bKG3Oa0W9asCyCP/Dl+mpfOMyLzChavFC8L
+         ZDca0uQw+vdnaJt8mnjdZNWGsVPElwIjAbKMfiFl6ACOaZlWC4dN304XJkNJuxwUhdco
+         tzishC9uhsv18hG6aLiIb6d+m5owj1DNjWjdkvIkn8ikBnYsLHmUhtd+mlg3qL/vYqn+
+         qtmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723543997; x=1724148797;
+        d=1e100.net; s=20230601; t=1723548372; x=1724153172;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y9lGVjwBjjQ7uJF60O4ZaBGqXTpX0qK5sbkqmiKo46w=;
-        b=KhafKopzsw+xBFdloUJaVGBH7uSeHFSFKCcIzcy04be+nOXqilGBUq7Fhd/Cvd3Sax
-         eJIzkzEbN1odnqHFb6QJSw+IAJtYpazKYSiMbZCKI4AK2XuWjlDoeFuwfqu1oYwGnrMk
-         9gNaRJL5n0dwctZAEuT15GO0jXGXY/JkXNScrSxMLFh4W/plswNklt1UgQC18lcxqKjl
-         lNYqERnArSa9dBwJiuscSvEZttAVULexu0goPuM7hNtIWPRW0vEU4F/sWxAr7RSYtMoN
-         alyDD6S8PYf7DWZTSm9ae1Bq8IPt7C+KlRBBUhNOIUM9iGgNPpZ016jCmVtN60y5382p
-         29vA==
+         :x-original-sender:mime-version:subject:message-id:to:from:date
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kQeuLeol1gA/qAd1TuLS4a/vUDFpVQaKdhyn53ByzIw=;
+        b=lm+NNsu6V4uCGoAK6kKlApd3CB+Mk2YfhziJEw72ug0qTISuj2CK35Uikqq3I+TRTZ
+         oFOFv/4YSEAxkvltD5OW1VAVMDx5FC5i2z7cnn0bKILRHJ13sUz4YWEMXtQ+PeQh2oH7
+         IyfiDUtEXPvUjsYwyuWUW6XajSBeTcT5rIGYLdiUKTqgCkk/Mfmzs0XfmP1azApxniz/
+         xqvytDHZ4MERB4ogWVx/cHTK43AqGR7AZmoNYAsmVijR18koddOzWGErY0gnnK9U6f1s
+         fJS5aaqNPtI9oXOVGSNATo8p8n5MLt2bQ2hxuQcVxY5A5pTjo5NXIlyZbIsLeDXeSpdI
+         AsEw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUCpkraFhD8pvS4DIxEQ2zWL7UVuuJCAJUrPFlciGi9cccQPDNjVEpMHOfGXAeKPT9Ys/5hZSvo8iP5C61wb894uUA5NK+FBw==
-X-Gm-Message-State: AOJu0YwgrzSnbgJk3ZDBN4mQF62VqfUf7rq4ddKK2U6I0QTQLqxyxhOe
-	I8FGnuCsUHXMK4LOa2aaonGsgS4To7luN5gkoDLEf1WMjnMEkzyG
-X-Google-Smtp-Source: AGHT+IG7Zay9/3/IewXd9BiNRDZf+Rmk9N0kwBjV+/nf7l1xA4VNN0mbSL2KbsCdWs3+QC81kEHKDA==
-X-Received: by 2002:a05:6512:12d3:b0:52d:b226:9428 with SMTP id 2adb3069b0e04-532136483demr2352870e87.6.1723543996057;
-        Tue, 13 Aug 2024 03:13:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVMdlY1Li9XSQFcL4rJZu+v8ZrZuzOZ76nO9jBZ5U6cakaD+s7GjwuSXLF4J30Rvm1NxwBQ6A==@lfdr.de
+X-Gm-Message-State: AOJu0YwPqHebpDmY5HMMzVE7aiiGF0iMgOBGRAP+vbEIOQIQl42MYjMq
+	XwakGHBTySfLKkFAdjLxc1JPc3mg9+EOD8D3upvIviqiXD7/qmkO
+X-Google-Smtp-Source: AGHT+IFQZpyEaqksNf+GNSudL3FYQUlnrF3ChiS/MVu914zLIXt3uwebnbypJK2qgUashodS0mEC7A==
+X-Received: by 2002:a05:6870:6389:b0:260:fb1d:3c13 with SMTP id 586e51a60fabf-26fcb892937mr3507558fac.50.1723548372010;
+        Tue, 13 Aug 2024 04:26:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:45d0:b0:421:7e41:1867 with SMTP id
- 5b1f17b1804b1-42909097c2bls25383475e9.0.-pod-prod-08-eu; Tue, 13 Aug 2024
- 03:13:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXTUh0IvXD7W3k4Wv/oncyl6MAFxPCe3V9qYDcrLz2Ip8+ML2yzb7YuL0C+leqGjhZ0gfDJKl+2lpc7j4BEgqQEuQgnSSQ/iPnKvA==
-X-Received: by 2002:a05:600c:4713:b0:427:abed:3602 with SMTP id 5b1f17b1804b1-429d486febdmr23551145e9.24.1723543993835;
-        Tue, 13 Aug 2024 03:13:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1723543993; cv=none;
-        d=google.com; s=arc-20160816;
-        b=VZ6I4jtzAq3bPnxNM8n+Kr0PH/c29jDDjFagjPTPA0CvO0r/lADQENa7IRkQZ+ilec
-         cSlXw4GTd+5friqfNXXsibE/5vfRHVW7Dt635arHM9DDvDYSFWPdMxN0JPyIlu0YsRpS
-         ZMur9PdUFot3mYTbRS1smQi6enn3i9mt2hqeeNwxI0uFgodsMycKeKzcSYV+F1NLRacE
-         G0AzCF1vD9g89YSK5UYfvXbXFD7uAyU5OOxSHfLtehkN/dTsquuJyWxsbNE4PV4NLWh0
-         tQlJh0RBwe8ii6hUYXVjj867XIO1ZvCZeXZnfBoJA03nAbi5E96ivbzJg1asnC9rn6EO
-         rtZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=mgHJmGolVXWRjhLGM7Cz4xwas5huheeBlTowlivzmY8=;
-        fh=PlrXXiljIqn5FFku5uz3XLLiXAFcGGd/MpVQIupLlEU=;
-        b=WoKuh3NjYf0vvT4IIqZ9czDrh4lK3XtzEWi/eTV8m1dYMGUjdhVVL1SU4NznU5OhQ8
-         oN+8fCZqZnooQdLHEYcCaKMF2bvo3JFgYVI1gz8Cc0kTo+B14/M2XDqX4TPXapaRt5xZ
-         SMROJb4NkgRjCf+a/hprKhOIHg0OV6hvcKp0oxkvPg/7YuqclpgQNyQqZ35Yjxq6lCOi
-         rBKdpG7pVgXJOXJ8QVgtYXKUS+q37RsSRn5/FH0OE6c/Ajz529DfCVGdHqK/UAtGDXab
-         ZrEIxaYDczJXKWkv55eQOFvwr2qm4bv8FrtzjJ49RnaAm5tpzouoMlx28W89sN/lY/WE
-         skiA==;
-        dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of alex@ghiti.fr designates 2001:4b98:dc4:8::229 as permitted sender) smtp.mailfrom=alex@ghiti.fr
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net. [2001:4b98:dc4:8::229])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-429c772b33fsi1450815e9.1.2024.08.13.03.13.13
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 13 Aug 2024 03:13:13 -0700 (PDT)
-Received-SPF: pass (google.com: domain of alex@ghiti.fr designates 2001:4b98:dc4:8::229 as permitted sender) client-ip=2001:4b98:dc4:8::229;
-Received: by mail.gandi.net (Postfix) with ESMTPSA id B2980FF803;
-	Tue, 13 Aug 2024 10:13:10 +0000 (UTC)
-Message-ID: <4fe4a8a0-b5ac-4c52-ac9f-210c59a5d2f2@ghiti.fr>
-Date: Tue, 13 Aug 2024 12:13:10 +0200
+Received: by 2002:a05:6871:d08e:b0:24f:f4eb:3558 with SMTP id
+ 586e51a60fabf-269253b21e2ls3586174fac.2.-pod-prod-01-us; Tue, 13 Aug 2024
+ 04:26:11 -0700 (PDT)
+X-Received: by 2002:a05:6871:ca25:b0:25e:fb:af83 with SMTP id 586e51a60fabf-26fcb8ce0f2mr5253fac.9.1723548370914;
+        Tue, 13 Aug 2024 04:26:10 -0700 (PDT)
+Date: Tue, 13 Aug 2024 04:26:09 -0700 (PDT)
+From: hana soodi <hanasoodi668@gmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <7fa1582b-ffe1-4ad0-8945-d322396d070an@googlegroups.com>
+Subject: =?UTF-8?B?2YXZitiy2Ygg2KrYp9mDINio2LHZiA==?=
+ =?UTF-8?B?2KzYs9iqINiz2KfZitiq2YjYqtmI2YMg?=
+ =?UTF-8?B?2KjYsdmK2LfYp9mG2Yog2LXZitiv2YTZig==?=
+ =?UTF-8?B?2Kkg2KfZhNmG2YfYr9mKINiu2LXZhSA=?=
+ =?UTF-8?B?2KfYs9i52KfYsSDZhdmC2KjZiNmE2KkgY3l0b3RlYyDYp9mE2LPYudmI?=
+ =?UTF-8?B?2K/ZitipICAwMCBoZ3ZkaHE5NzE1NTMwMzE4NDY=?=
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/10] riscv: Add CSR definitions for pointer masking
-Content-Language: en-US
-To: Samuel Holland <samuel.holland@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org
-Cc: devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
- linux-kernel@vger.kernel.org, Anup Patel <anup@brainfault.org>,
- Conor Dooley <conor@kernel.org>, kasan-dev@googlegroups.com,
- Atish Patra <atishp@atishpatra.org>, Evgenii Stepanov <eugenis@google.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-References: <20240625210933.1620802-1-samuel.holland@sifive.com>
- <20240625210933.1620802-4-samuel.holland@sifive.com>
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <20240625210933.1620802-4-samuel.holland@sifive.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-X-GND-Sasl: alex@ghiti.fr
-X-Original-Sender: alex@ghiti.fr
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of alex@ghiti.fr designates 2001:4b98:dc4:8::229 as
- permitted sender) smtp.mailfrom=alex@ghiti.fr
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_42366_1558481282.1723548369908"
+X-Original-Sender: hanasoodi668@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -140,78 +85,134 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+------=_Part_42366_1558481282.1723548369908
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_42367_1752721269.1723548369908"
 
-On 25/06/2024 23:09, Samuel Holland wrote:
-> Pointer masking is controlled via a two-bit PMM field, which appears in
-> various CSRs depending on which extensions are implemented. Smmpm adds
-> the field to mseccfg; Smnpm adds the field to menvcfg; Ssnpm adds the
-> field to senvcfg. If the H extension is implemented, Ssnpm also defines
-> henvcfg.PMM and hstatus.HUPMM.
->
-> Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
-> ---
->
-> Changes in v2:
->   - Use the correct name for the hstatus.HUPMM field
->
->   arch/riscv/include/asm/csr.h | 16 ++++++++++++++++
->   1 file changed, 16 insertions(+)
->
-> diff --git a/arch/riscv/include/asm/csr.h b/arch/riscv/include/asm/csr.h
-> index 25966995da04..5c0c0d574f63 100644
-> --- a/arch/riscv/include/asm/csr.h
-> +++ b/arch/riscv/include/asm/csr.h
-> @@ -119,6 +119,10 @@
->   
->   /* HSTATUS flags */
->   #ifdef CONFIG_64BIT
-> +#define HSTATUS_HUPMM		_AC(0x3000000000000, UL)
-> +#define HSTATUS_HUPMM_PMLEN_0	_AC(0x0000000000000, UL)
-> +#define HSTATUS_HUPMM_PMLEN_7	_AC(0x2000000000000, UL)
-> +#define HSTATUS_HUPMM_PMLEN_16	_AC(0x3000000000000, UL)
->   #define HSTATUS_VSXL		_AC(0x300000000, UL)
->   #define HSTATUS_VSXL_SHIFT	32
->   #endif
-> @@ -195,6 +199,10 @@
->   /* xENVCFG flags */
->   #define ENVCFG_STCE			(_AC(1, ULL) << 63)
->   #define ENVCFG_PBMTE			(_AC(1, ULL) << 62)
-> +#define ENVCFG_PMM			_AC(0x300000000, ULL)
-> +#define ENVCFG_PMM_PMLEN_0		_AC(0x000000000, ULL)
-> +#define ENVCFG_PMM_PMLEN_7		_AC(0x200000000, ULL)
-> +#define ENVCFG_PMM_PMLEN_16		_AC(0x300000000, ULL)
+------=_Part_42367_1752721269.1723548369908
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
+2YbYstmK2YQg2KfZhNit2YXZhCDYp9mE2KfYs9mC2KfYtyDYudmE2KfYrCDYp9mE2KfYrNmH2KfY
+tiDYqtiz2YLZiti3INmI2YrZhiDYp9it2LXZhNmH2Kcg2LfYsdmK2YLYqSDZhNmE2KfYrNmH2KfY
+tiDYp9mE2YXZhtiy2YTZiiAK2KfZhNis2YbZitmGINin2LHZitivINin2YbYstmECiDYp9i32YrY
+rSDYqNi62YrYqiDZiNmK2YYg2K/ZiNin2KEg2K/ZiNinINmF2YYg2YPZitmBINin2KrYrtmE2LUg
+2KfZhNiv2YjYsdipINin2YTYtNmH2LHZitipINmD2YUg2LPYudixCtmK2YXZg9mG2YUg2KfZhNiq
+2YjYp9i12YQg2YXYudmG2Kcg2YXZhiDYrtmE2KfZhCDYp9mE2LHYp9io2LcgIGh0dHBzOi8vbGlu
+a3RyLmVlL2N5dG90aWNfZF9udXIK2LfYsdmK2YLZhyDYs9in2YrYqtmI2KrZgyDYrdio2YjYqCDY
+p9is2YfYp9i2INiq2YbYstmK2YQg2KfZhNit2YXZhCDYp9mE2KfYs9mC2KfYtyDYudmE2KfYrCDY
+p9mE2KfYrNmH2KfYtiDYqtiz2YLZiti3INmI2YrZhiDYp9it2LXZhNmH2KcgCti32LHZitmC2Kkg
+CtmE2YTYp9is2YfYp9i2INin2YTZhdmG2LLZhNmKINin2YTYrNmG2YrZhiDZitiv2KjZitivINin
+2YTYs9i52YjYr9mK2KkgINmD2YUg2LPYudixINiz2KfZitiq2YjYqtmK2YMg2YfZhCDYqtio2KfY
+uSDYp9mE2LXZitiv2YTZitin2KogCti12YrYr9mE2YrYqSDYp18g2YMK2YrZgSDYp9iq2K7ZhNi1
+INmF2YYg2KfZhNit2YXZhCDYt9ix2YIg2KfZhNiq2K7ZhNi1XyDYt9ix2YrZgtipINin2YTYrNmG
+2YrZhiDYp9it2LXZhCDZhNin2KzZh9in2LZfINmE2KrZhtiy2YrZhCDZhdiq2YjZgdix2YcgCtio
+2KfZhNi12YrYr9mE2YrYp9iqCiDYs9mK2KrZiNiq2YrZgyDYs9in2YrYs9mI2KrZgyDYs9in2YrY
+s9mI2KrZitmDINmF2YrYstmI2KrYp9mDINmF2YrYstmI2KrZgyDYp9iv2YjZitipINmE2KfYrNmH
+2KfYtiDYp9is2YfYtiDYp9mG2LLZhCDYp9i32YrYrSDYqti32YrYrSAK2KfYqNinINio2LrZitiq
+INmI2YrZhiDYr9mI2KfYoSDYr9mI2Kcg2KfZhNiq2LPZgtmK2LcgCtin2KzZh9mE2Lgg2KfZhNin
+2KzZh9in2Lgg2YHYudmGINiq2KjZiti5INi32LHZitmCINiz2YrYqtmI2KrZgyDYp9mE2LPYp9mK
+2KrZiNiq2YMg2KfZhNiz2KfZitiq2YjYqtmK2YMg2LPYp9iq2YjYqtmDINiz2YrYqtmI2KrYp9mD
+IAog2KjYp9mE2LPYudmI2K/ZitipINiv2KfYrtmEINin2YbYstin2YQg2KjYrdi12YQg2KrYqtmI
+2YHYsSDYqNiz2KrYrtiv2KfZhSDYqNin2LPYqtiu2K/Yp9mFINin2LnYtNin2Kgg2KfZhNin2LnY
+tNin2KggY3l0b3RlYyAK2KfZhNiv2YHYuSDYudmG2K8g2KfZhNin2LPYqtmE2KfZhSAK2YrZiNis
+2K8g2KrZiNis2K8g2KrYs9mC2Lcg2KfZhdmGINin2YTYr9mI2LHYqSDYp9mE2LTZh9ix2YrYqSDY
+p9ix2YrYryDYp9io2Yog2KfYqNi62Ykg2LPZitiq2KrZgyDYp9mE2LnZitmGINiz2YjYqtiq2YMg
+2KjYr9mI2YYg2YPZitmB2KkgCtmB2YrZh9inINin2YTYsdmK2KfYtiAg2KzYr9mHINin2YTYtNix
+2YLZitmHICDYp9mE2K/Zhdin2YUgCtio2YrYuSDYqtit2KfZhdmK2YQg2KjYsdi02KfZhSDYudmE
+2KfYrNin2Kog2KfZiiDZhdmD2KfZhiDYp9mG2YfZiiDYp9mG2YfYp9ihINin2YTYutmK2LEg2YXY
+sdi62YjYqCDZgdmK2Ycg2KfYrtmE2LUg2KfYqtiu2YTYtSDYqNi62YrYqiAK2KfZgdiq2YMg2KfY
+qNi62Ykg2YrZhtiy2YQgCtiq2YbYstmEINin2YTYp9mG2LLYp9mEINio2K3YtdmE2YfYpyDYqNit
+2LXZhNmHINi02Yog2YrZhtiy2YTZhyDZitiz2YLYtyDZitiz2YLYt9mHINmK2KzZh9i2INin2YXZ
+htmHINmF2YbYstmE2YrYpyDYs9in2YrYqtmDINiz2KfZitiq2KrZgyAK2KfZgtix2KfYtSDYqtit
+2YXZitmE2Ycg2KrYrdmF2YrZhNin2KoK2YPZitmB2YrYqSDZhNin2LPZgtin2Lcg2YTYqtmG2LLZ
+itmEINmE2YTYqtmG2LLZitmEINiv2YjZhiDYudmF2YTZitipINmF2LPYqti02YHZiSDYudmK2KfY
+r9mHINiq2LPZiNmKINin2LPZiNmKINin2YTZhdmG2LLZhCDYp9mE2KjZitiqIArYp9mK2YYg2KrY
+qtmI2KfYrNivINmF2KrZiNin2KzYr9mHINiq2K3Yp9mF2YrZhCAK2KfYrdiq2KfYrCDZhdit2KrY
+p9is2Ycg2K3Yp9mF2YQg2KfYrNmH2LYg2KfYsdi62Kgg2KjYqtmG2LLZitmEINit2YLYqiDYp9i5
+2KvYsSDZhNmE2KjZiti5INio2KfYrNmH2KfYtiDYqNiq2LPZgtmK2Lcg2LTZiCDYp9i02KrYsdmK
+IArYtNix2KfYoSDZhdin2YfZiiDZh9mK2KcgCtin2LPYqti32YrYuSDYp9mC2K/YsSDYp9mE2K/Z
+gdi5INi52YbYryDYp9mE2KfYs9iq2YTYp9mFINit2YLYp9iqINmC2LfYsSDYp9mE2LPZitiq2YjY
+qtin2YMg2LPZitiq2YjYqtin2YMg2LfYsdmK2YLYqSDYqtiu2YTYtdmG2Yog2YXZhiAK2KfZhNit
+2YXZhCDYp9mE2LrZitixINmF2LHYutmI2Kgg2YHZitmHINi32LHZgiDYp9mG2YfYp9ihINin2YTY
+rdmF2YQKINmI2LPYp9im2YQg2KfZhNiq2K7ZhNi1INmF2YYg2KfZhNit2YXZhCDYp9iv2YjZitmH
+INiq2LPYqNioINin2YTYrNmH2KfYtiDYqtio2YrZhiDYqtiq2K7ZhNi12YrZhiDYp9io2Yog2KfY
+qtiu2YTYtSDYqtiq2K7ZhNi12Yog2YXZhiAK2KfZhNit2YXZhCDZiNiv2YMg2YjYr9mKINin2K7Y
+r9isINin2YTYrdmF2YQg2KcK2KjZiiDYp9is2YfYtiDYp9mE2K3ZhdmEINmI2LQg2YfZiiDYp9mE
+2LfYsdmK2YLYqSDYt9ix2YrZgtipINin2YTZiiDYqtmG2YfZiiDYp9mE2K3ZhdmEINio2LrZitiq
+INin2KjYpyDYs9in2KrZiNmDINiz2KfZitiq2YjZgyDYqNmD2YUgCtin2LHZitivINi02LHYp9ih
+INin2K7YsCDYp9mC2K/YsSDYp9mE2LnZitmGCg0KLS0gCllvdSByZWNlaXZlZCB0aGlzIG1lc3Nh
+Z2UgYmVjYXVzZSB5b3UgYXJlIHN1YnNjcmliZWQgdG8gdGhlIEdvb2dsZSBHcm91cHMgImthc2Fu
+LWRldiIgZ3JvdXAuClRvIHVuc3Vic2NyaWJlIGZyb20gdGhpcyBncm91cCBhbmQgc3RvcCByZWNl
+aXZpbmcgZW1haWxzIGZyb20gaXQsIHNlbmQgYW4gZW1haWwgdG8ga2FzYW4tZGV2K3Vuc3Vic2Ny
+aWJlQGdvb2dsZWdyb3Vwcy5jb20uClRvIHZpZXcgdGhpcyBkaXNjdXNzaW9uIG9uIHRoZSB3ZWIg
+dmlzaXQgaHR0cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi83ZmExNTgy
+Yi1mZmUxLTRhZDAtODk0NS1kMzIyMzk2ZDA3MGFuJTQwZ29vZ2xlZ3JvdXBzLmNvbS4K
+------=_Part_42367_1752721269.1723548369908
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-Nit: the other ENVCFG_XX use (_AC(Y, ULL) << Z)
+2YbYstmK2YQg2KfZhNit2YXZhCDYp9mE2KfYs9mC2KfYtyDYudmE2KfYrCDYp9mE2KfYrNmH2KfY
+tiDYqtiz2YLZiti3INmI2YrZhiDYp9it2LXZhNmH2Kcg2LfYsdmK2YLYqSDZhNmE2KfYrNmH2KfY
+tiDYp9mE2YXZhtiy2YTZiiDYp9mE2KzZhtmK2YYg2KfYsdmK2K8g2KfZhtiy2YQ8YnIgLz7CoNin
+2LfZititINio2LrZitiqINmI2YrZhiDYr9mI2KfYoSDYr9mI2Kcg2YXZhiDZg9mK2YEg2KfYqtiu
+2YTYtSDYp9mE2K/ZiNix2Kkg2KfZhNi02YfYsdmK2Kkg2YPZhSDYs9i52LE8YnIgLz7ZitmF2YPZ
+htmFINin2YTYqtmI2KfYtdmEINmF2LnZhtinINmF2YYg2K7ZhNin2YQg2KfZhNix2KfYqNi3wqDC
+oGh0dHBzOi8vbGlua3RyLmVlL2N5dG90aWNfZF9udXI8YnIgLz7Yt9ix2YrZgtmHINiz2KfZitiq
+2YjYqtmDINit2KjZiNioINin2KzZh9in2LYg2KrZhtiy2YrZhCDYp9mE2K3ZhdmEINin2YTYp9iz
+2YLYp9i3INi52YTYp9isINin2YTYp9is2YfYp9i2INiq2LPZgtmK2Lcg2YjZitmGINin2K3YtdmE
+2YfYpyDYt9ix2YrZgtipIDxiciAvPtmE2YTYp9is2YfYp9i2INin2YTZhdmG2LLZhNmKINin2YTY
+rNmG2YrZhiDZitiv2KjZitivINin2YTYs9i52YjYr9mK2KkgwqDZg9mFINiz2LnYsSDYs9in2YrY
+qtmI2KrZitmDINmH2YQg2KrYqNin2Lkg2KfZhNi12YrYr9mE2YrYp9iqINi12YrYr9mE2YrYqSDY
+p18g2YM8YnIgLz7ZitmBINin2KrYrtmE2LUg2YXZhiDYp9mE2K3ZhdmEINi32LHZgiDYp9mE2KrY
+rtmE2LVfINi32LHZitmC2Kkg2KfZhNis2YbZitmGINin2K3YtdmEINmE2KfYrNmH2KfYtl8g2YTY
+qtmG2LLZitmEINmF2KrZiNmB2LHZhyDYqNin2YTYtdmK2K/ZhNmK2KfYqjxiciAvPsKg2LPZitiq
+2YjYqtmK2YMg2LPYp9mK2LPZiNiq2YMg2LPYp9mK2LPZiNiq2YrZgyDZhdmK2LLZiNiq2KfZgyDZ
+hdmK2LLZiNiq2YMg2KfYr9mI2YrYqSDZhNin2KzZh9in2LYg2KfYrNmH2LYg2KfZhtiy2YQg2KfY
+t9mK2K0g2KrYt9mK2K0g2KfYqNinINio2LrZitiqINmI2YrZhiDYr9mI2KfYoSDYr9mI2Kcg2KfZ
+hNiq2LPZgtmK2LcgPGJyIC8+2KfYrNmH2YTYuCDYp9mE2KfYrNmH2KfYuCDZgdi52YYg2KrYqNmK
+2Lkg2LfYsdmK2YIg2LPZitiq2YjYqtmDINin2YTYs9in2YrYqtmI2KrZgyDYp9mE2LPYp9mK2KrZ
+iNiq2YrZgyDYs9in2KrZiNiq2YMg2LPZitiq2YjYqtin2YMgPGJyIC8+wqDYqNin2YTYs9i52YjY
+r9mK2Kkg2K/Yp9iu2YQg2KfZhtiy2KfZhCDYqNit2LXZhCDYqtiq2YjZgdixINio2LPYqtiu2K/Y
+p9mFINio2KfYs9iq2K7Yr9in2YUg2KfYudi02KfYqCDYp9mE2KfYudi02KfYqCBjeXRvdGVjINin
+2YTYr9mB2Lkg2LnZhtivINin2YTYp9iz2KrZhNin2YUgPGJyIC8+2YrZiNis2K8g2KrZiNis2K8g
+2KrYs9mC2Lcg2KfZhdmGINin2YTYr9mI2LHYqSDYp9mE2LTZh9ix2YrYqSDYp9ix2YrYryDYp9io
+2Yog2KfYqNi62Ykg2LPZitiq2KrZgyDYp9mE2LnZitmGINiz2YjYqtiq2YMg2KjYr9mI2YYg2YPZ
+itmB2Kkg2YHZitmH2Kcg2KfZhNix2YrYp9i2IMKg2KzYr9mHINin2YTYtNix2YLZitmHIMKg2KfZ
+hNiv2YXYp9mFIDxiciAvPtio2YrYuSDYqtit2KfZhdmK2YQg2KjYsdi02KfZhSDYudmE2KfYrNin
+2Kog2KfZiiDZhdmD2KfZhiDYp9mG2YfZiiDYp9mG2YfYp9ihINin2YTYutmK2LEg2YXYsdi62YjY
+qCDZgdmK2Ycg2KfYrtmE2LUg2KfYqtiu2YTYtSDYqNi62YrYqiDYp9mB2KrZgyDYp9io2LrZiSDZ
+itmG2LLZhCA8YnIgLz7YqtmG2LLZhCDYp9mE2KfZhtiy2KfZhCDYqNit2LXZhNmH2Kcg2KjYrdi1
+2YTZhyDYtNmKINmK2YbYstmE2Ycg2YrYs9mC2Lcg2YrYs9mC2LfZhyDZitis2YfYtiDYp9mF2YbZ
+hyDZhdmG2LLZhNmK2Kcg2LPYp9mK2KrZgyDYs9in2YrYqtiq2YMg2KfZgtix2KfYtSDYqtit2YXZ
+itmE2Ycg2KrYrdmF2YrZhNin2Ko8YnIgLz7Zg9mK2YHZitipINmE2KfYs9mC2KfYtyDZhNiq2YbY
+stmK2YQg2YTZhNiq2YbYstmK2YQg2K/ZiNmGINi52YXZhNmK2Kkg2YXYs9iq2LTZgdmJINi52YrY
+p9iv2Ycg2KrYs9mI2Yog2KfYs9mI2Yog2KfZhNmF2YbYstmEINin2YTYqNmK2Kog2KfZitmGINiq
+2KrZiNin2KzYryDZhdiq2YjYp9is2K/ZhyDYqtit2KfZhdmK2YQgPGJyIC8+2KfYrdiq2KfYrCDZ
+hdit2KrYp9is2Ycg2K3Yp9mF2YQg2KfYrNmH2LYg2KfYsdi62Kgg2KjYqtmG2LLZitmEINit2YLY
+qiDYp9i52KvYsSDZhNmE2KjZiti5INio2KfYrNmH2KfYtiDYqNiq2LPZgtmK2Lcg2LTZiCDYp9i0
+2KrYsdmKINi02LHYp9ihINmF2KfZh9mKINmH2YrYpyA8YnIgLz7Yp9iz2KrYt9mK2Lkg2KfZgtiv
+2LEg2KfZhNiv2YHYuSDYudmG2K8g2KfZhNin2LPYqtmE2KfZhSDYrdmC2KfYqiDZgti32LEg2KfZ
+hNiz2YrYqtmI2KrYp9mDINiz2YrYqtmI2KrYp9mDINi32LHZitmC2Kkg2KrYrtmE2LXZhtmKINmF
+2YYg2KfZhNit2YXZhCDYp9mE2LrZitixINmF2LHYutmI2Kgg2YHZitmHINi32LHZgiDYp9mG2YfY
+p9ihINin2YTYrdmF2YQ8YnIgLz7CoNmI2LPYp9im2YQg2KfZhNiq2K7ZhNi1INmF2YYg2KfZhNit
+2YXZhCDYp9iv2YjZitmHINiq2LPYqNioINin2YTYrNmH2KfYtiDYqtio2YrZhiDYqtiq2K7ZhNi1
+2YrZhiDYp9io2Yog2KfYqtiu2YTYtSDYqtiq2K7ZhNi12Yog2YXZhiDYp9mE2K3ZhdmEINmI2K/Z
+gyDZiNiv2Yog2KfYrtiv2Kwg2KfZhNit2YXZhCDYpzxiciAvPtio2Yog2KfYrNmH2LYg2KfZhNit
+2YXZhCDZiNi0INmH2Yog2KfZhNi32LHZitmC2Kkg2LfYsdmK2YLYqSDYp9mE2Yog2KrZhtmH2Yog
+2KfZhNit2YXZhCDYqNi62YrYqiDYp9io2Kcg2LPYp9iq2YjZgyDYs9in2YrYqtmI2YMg2KjZg9mF
+INin2LHZitivINi02LHYp9ihINin2K7YsCDYp9mC2K/YsSDYp9mE2LnZitmGPGJyIC8+DQoNCjxw
+PjwvcD4KCi0tIDxiciAvPgpZb3UgcmVjZWl2ZWQgdGhpcyBtZXNzYWdlIGJlY2F1c2UgeW91IGFy
+ZSBzdWJzY3JpYmVkIHRvIHRoZSBHb29nbGUgR3JvdXBzICZxdW90O2thc2FuLWRldiZxdW90OyBn
+cm91cC48YnIgLz4KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGdyb3VwIGFuZCBzdG9wIHJlY2Vp
+dmluZyBlbWFpbHMgZnJvbSBpdCwgc2VuZCBhbiBlbWFpbCB0byA8YSBocmVmPSJtYWlsdG86a2Fz
+YW4tZGV2K3Vuc3Vic2NyaWJlQGdvb2dsZWdyb3Vwcy5jb20iPmthc2FuLWRldit1bnN1YnNjcmli
+ZUBnb29nbGVncm91cHMuY29tPC9hPi48YnIgLz4KVG8gdmlldyB0aGlzIGRpc2N1c3Npb24gb24g
+dGhlIHdlYiB2aXNpdCA8YSBocmVmPSJodHRwczovL2dyb3Vwcy5nb29nbGUuY29tL2QvbXNnaWQv
+a2FzYW4tZGV2LzdmYTE1ODJiLWZmZTEtNGFkMC04OTQ1LWQzMjIzOTZkMDcwYW4lNDBnb29nbGVn
+cm91cHMuY29tP3V0bV9tZWRpdW09ZW1haWwmdXRtX3NvdXJjZT1mb290ZXIiPmh0dHBzOi8vZ3Jv
+dXBzLmdvb2dsZS5jb20vZC9tc2dpZC9rYXNhbi1kZXYvN2ZhMTU4MmItZmZlMS00YWQwLTg5NDUt
+ZDMyMjM5NmQwNzBhbiU0MGdvb2dsZWdyb3Vwcy5jb208L2E+LjxiciAvPgo=
+------=_Part_42367_1752721269.1723548369908--
 
-
->   #define ENVCFG_CBZE			(_AC(1, UL) << 7)
->   #define ENVCFG_CBCFE			(_AC(1, UL) << 6)
->   #define ENVCFG_CBIE_SHIFT		4
-> @@ -216,6 +224,12 @@
->   #define SMSTATEEN0_SSTATEEN0_SHIFT	63
->   #define SMSTATEEN0_SSTATEEN0		(_ULL(1) << SMSTATEEN0_SSTATEEN0_SHIFT)
->   
-> +/* mseccfg bits */
-> +#define MSECCFG_PMM			ENVCFG_PMM
-> +#define MSECCFG_PMM_PMLEN_0		ENVCFG_PMM_PMLEN_0
-> +#define MSECCFG_PMM_PMLEN_7		ENVCFG_PMM_PMLEN_7
-> +#define MSECCFG_PMM_PMLEN_16		ENVCFG_PMM_PMLEN_16
-> +
->   /* symbolic CSR names: */
->   #define CSR_CYCLE		0xc00
->   #define CSR_TIME		0xc01
-> @@ -382,6 +396,8 @@
->   #define CSR_MIP			0x344
->   #define CSR_PMPCFG0		0x3a0
->   #define CSR_PMPADDR0		0x3b0
-> +#define CSR_MSECCFG		0x747
-> +#define CSR_MSECCFGH		0x757
->   #define CSR_MVENDORID		0xf11
->   #define CSR_MARCHID		0xf12
->   #define CSR_MIMPID		0xf13
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/4fe4a8a0-b5ac-4c52-ac9f-210c59a5d2f2%40ghiti.fr.
+------=_Part_42366_1558481282.1723548369908--
