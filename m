@@ -1,129 +1,127 @@
-Return-Path: <kasan-dev+bncBCMIFTP47IJBBB5P6G2QMGQEVGC7IFY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIFTP47IJBBMFU6G2QMGQEWYWAXFA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103a.google.com (mail-pj1-x103a.google.com [IPv6:2607:f8b0:4864:20::103a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288499514F5
-	for <lists+kasan-dev@lfdr.de>; Wed, 14 Aug 2024 09:06:50 +0200 (CEST)
-Received: by mail-pj1-x103a.google.com with SMTP id 98e67ed59e1d1-2cb6b642c49sf553619a91.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 14 Aug 2024 00:06:50 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1723619208; cv=pass;
+Received: from mail-yb1-xb40.google.com (mail-yb1-xb40.google.com [IPv6:2607:f8b0:4864:20::b40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F349951535
+	for <lists+kasan-dev@lfdr.de>; Wed, 14 Aug 2024 09:18:10 +0200 (CEST)
+Received: by mail-yb1-xb40.google.com with SMTP id 3f1490d57ef6-e035949cc4esf12026023276.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 14 Aug 2024 00:18:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1723619889; cv=pass;
         d=google.com; s=arc-20160816;
-        b=B0FvmSkEM65R4gghO6DFyfABGgUJLI1LN/lNxiDPfVG/m/ZZ//FzIlUstpT67K6mRk
-         t9d0jo/vnQh+16Hp3M/3s/zDOKC+yqwUq74d7Ao0CSTDDArK3IvUgOPAqlJHJvO2H/1C
-         Fcu00Xi+VYkLVFtums7r4RCkwasZJI3MUUzbBvM1G6qKt5lRIsKgk/pwLLxQnyYDPjio
-         3CdU23WXZ6QgqQg07MIonvPVS++jh8djTb63K4lNA+1wfJBTWcKZSN9He8J8KKd/Xia2
-         PZZAWLaa8HPwwtAmvDn5uptRUaHV9OO0CQ2lgYYCX6nHMXNe7YkEhtZqwJZakZux9BK9
-         E/2Q==
+        b=krM8C8SoEC/K1ZiFeyDDtqYy9+OWadsmxYNdMXd7SlsqoMKKnhQAK/ViaW45vLH0jb
+         D5gOEE5+ht69w0RFPeBSyKrIi0wj7VsicHALOQcuWqzBHToMvZW/rW/Jmi1JV8vIs1ze
+         T7R7rsMFRhWU4g0pFdTlav0IhGVFvCDupIPlGlEbylk/2ONt7yjH9UrndqW0OXo+qb0S
+         nTM35+8Yru96KLoofM3X1rUs2e8e/oAoOsR18iiCMXcKmmcdotvQ4iH9CXfVbxeOJORN
+         FnM+xXnBiPAnMooPUdpq3dkxw8/EhMQU+r7cAm25fi6JIMp1d1uEFAjXWQFQTYV0vpra
+         lBAA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :in-reply-to:content-language:references:cc:to:from:subject
+         :in-reply-to:from:content-language:references:cc:to:subject
          :user-agent:mime-version:date:message-id:dkim-signature;
-        bh=5uTkKBd44cf5KzqVQ3lzy1OMXiRtCazj8C4mpzkWsQo=;
-        fh=c2HYNmtSNM4I37vVOEyvO0HDnt6YzIYm1w8OjFNBJAU=;
-        b=wAHL2OZIsTgXuMIhfkJdq98BPx9lcJqJAPm762j9OITX4xVVU2x4CoivGYkK9jbGDQ
-         9ZsPrIzzuSzcUuqlBJp99Z0oQ4QWdoa5/s94wRWJdM2F0Lv+ByDl0i7q+sYTCXe1UfoN
-         tioK0xqJOIuUjdjlWglPpFKDh3qCS8f0uzaPDSJ+k9z+kiM2yQC0E14QaHXiPLDo6idQ
-         i8r1U+zYcjKYx/sjC350wEhcElRAZrx+aIUBG3LPgnF2gfpC/oGSJ9qPc9XXAznOj4jx
-         /lJObCRfyGyLFHSeoJ0vPzhGm0KglQJ3JAbzdZCQMj2Yjy59n/XcMxmEy8f9tnpsWHET
-         WJ9w==;
+        bh=vfqYSV3IcFxuftCpE6ZNfhkgDd7RJ/METaxZBENyaW4=;
+        fh=PcQrPjMyceOB+LJ5a123AWbYNYPkKLMkxi+xpVGh8ww=;
+        b=vTs5RcDbsJmqg7CP8Wt60GIJYIyRctj9V0UivjeGwiGHj05rov78HrNCm/Zq5hnxhM
+         HYKGKR/IQ5W4JWvA9jhWAgwPZFy+Wx33hWsBOeUOhchotK+VmAf0r+4ZNKvGjCKahIZY
+         dMwcV0VeAza7DN/ysliXIXMjpF00JTkuS1BRNltcPfZpedf2Y1EAB2f2C4wOJHvXzqRV
+         KIPXhGD0ZMfW+q29iA8OSNxwrfw6ZkeZ7So4mJl9dCRbdr9zWOtTOA2GaBuarzcitxZf
+         KJYbbU6YWCD5oVorYBGB1TeWQb2Zk5+9K7gwZjXpTRcKtuhmxI6dvXxoPpAPmuUe51rp
+         kxYQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@sifive.com header.s=google header.b=FfzdnPoc;
-       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::d2b as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dkim=pass header.i=@sifive.com header.s=google header.b=nXECFcI7;
+       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::730 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1723619208; x=1724224008; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1723619889; x=1724224689; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=5uTkKBd44cf5KzqVQ3lzy1OMXiRtCazj8C4mpzkWsQo=;
-        b=nPI3NcWrBd20pzOhCE4qN2CLfMusny2biriuF9Ht2j26LTfgiaw2P46iYErUoIWkuD
-         IkEd56r1uTO4zS/j9GjPBpkRF536XLkDj61Qnqv7YeNH7Qq9LYEKxSwVUN7RltfWR2sm
-         8BOAjRU9WakLDIc2L7PawU4ALVoiYfykNgDQj51nh08QwRJyl70tA0O7M3VrxrYgTdAB
-         IllgLYVKz8xumvIgySKHwHVfIr29NWUUiHPVhwHY5Pqkt4c/mxa+vQL1+8znpnDWQ7vY
-         tf8yTcQb/ZxDVXeyA/YosGF9QjKBHCrAkSplklmi8aDnaR5mr77xq80Nii+niqZl0GLU
-         rtFw==
+         :content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vfqYSV3IcFxuftCpE6ZNfhkgDd7RJ/METaxZBENyaW4=;
+        b=f81rmUi5atFF44+Eeqtv+8m9H5Gmn4R2qi02x7kv9ZY7dt/JgoYPR1QTheDhLELZx8
+         cVMRUWUw5Fe6ejwxbcksoJ7ui/jYrYT/YM5Y3RjxKHLleBl9fe0k8dPGmGRVNX2u5ffx
+         ZIUZttMm63pSSlx1jFjzMhdMdIHuQ5DCte+EIWeIwoTTVyo+yQvGUAsgjjwoH7PMK6vA
+         ZupsWxD0CutLQqQKYBlt/48TX0QDipN2mvwiDjK9v/FaI5w9PR1FMs7zuAQ375MIcIkZ
+         YBHHBc2QS9CwiRzOHz/5UyegvDkg0hw7Qx5am3YPt2p6RgyDPRdKJelTiIw48miT6tFj
+         s3QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723619208; x=1724224008;
+        d=1e100.net; s=20230601; t=1723619889; x=1724224689;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5uTkKBd44cf5KzqVQ3lzy1OMXiRtCazj8C4mpzkWsQo=;
-        b=dHsIOn5e1dm6/4GVB1lOmGh4GZAtSSA9dOxqJit3b6lHmKdybDi8ievQ83fDGBjde5
-         TO40wzcIO1hz8f6WRNnnWhBCiIo7pMGT1SxMci1h58JAe05tDpt9XY/uOPd+V4L57aH9
-         0OKhWlvqYR/ng+ebuySzlODUlSLjI9nIUUBAC8fJi2f5L6K4Qan8tEIMnoDnizwJpiGL
-         Arfvq1eh+KYANA1RYA5eIrbv8dWsI2mt3wKTylNm2MJaFkCfVIrGDzlPBmrnTes/ivUx
-         z5yyYEDDFRoOQKMMF/Nv6+2R01oMyh3BYq1fxubE90WSlojQOlZJtBGTSemEQtuW9jMy
-         ucvg==
-X-Forwarded-Encrypted: i=2; AJvYcCVbkF4F/azfdjY3HxgQqbG3htyNmWmG0dWbNyywSN3A0mWbZ7Ew21fRB9UMp3oMFhhW+kqmJTkp0bs/1saS/LnRgsD2a+TIDQ==
-X-Gm-Message-State: AOJu0Yx4jo92hb/YhsMeuhjE4jWVifaz9vQkbMwC9pGIS1q7nzxB+MS9
-	OLYR+z1Zrw5Hmsomfekw0mbMQWvHvvpdX4u3c/6dR5YAoaJJuTMo
-X-Google-Smtp-Source: AGHT+IEbJ1RXlBsYR/P6Kv7PvzrcPZjAyIcOpShgMr5p7Hm0c9IX9544b7spb5pY6CIQ3uwu4fmpaw==
-X-Received: by 2002:a17:90a:f2d4:b0:2c8:f3b5:7dd1 with SMTP id 98e67ed59e1d1-2d3ace552eamr1994089a91.16.1723619208070;
-        Wed, 14 Aug 2024 00:06:48 -0700 (PDT)
+        bh=vfqYSV3IcFxuftCpE6ZNfhkgDd7RJ/METaxZBENyaW4=;
+        b=SLelL1iWJQHM5+yrGcG8b9In/VkGen1oj4Jijd7whBm9ZRkzWeZILp1T0weheRk2jZ
+         LLqqGbuDpt4wTmYOvpdhWFPG4NdFV1wcz34odkgyuSXdkn/uz+2G5Fi7DV9tVggVfWOs
+         4UK4UEREy2FP8woGg+lEku/O0GA83bpwWh5ipopEUpiCC/+epC8sttJq4/QKbW3yZT5T
+         Nesh9osHl++DbuxCtwMREXB8KgvT+Pu3DEEqHTeUqENAmBjGKiC3+/+prpnUf+XF4NCX
+         WdBDHQV8AtIzcSXeaZ4VhoUv60nmzbBZCSmTk+W2zymPEVeVNt+tepkG/s72zsMdCUQ+
+         Y8vg==
+X-Forwarded-Encrypted: i=2; AJvYcCWN76dvxMfzhOrS7ElgAL74c1IcZWzok97dwoHcrRPZU5skvsBjhkWKgXruy4bW/PgrHZVlxJbKBaAPXjmWSA75yBD7gzvGjg==
+X-Gm-Message-State: AOJu0YwqpAkKUuyYOWL6AST7ch/AU3RO99nSBhaCRmNwedZhuDzbNxSj
+	GOWmfF6Gc8XzY2a/MpcKNDVcrvJXM4gd3NVS11msbxWeSbc9tPpj
+X-Google-Smtp-Source: AGHT+IHq4ml8P3yyx47ViXrl2x87pGejbIp+mEP321S3m9J74HcjzWH2Hwn6fcS2G3Ln4xMZuNMqFg==
+X-Received: by 2002:a05:6902:2306:b0:e0e:4171:aee6 with SMTP id 3f1490d57ef6-e1155b85bffmr1852923276.42.1723619888944;
+        Wed, 14 Aug 2024 00:18:08 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:ca12:b0:2c7:50ae:5c1b with SMTP id
- 98e67ed59e1d1-2d3aa8f735fls359973a91.2.-pod-prod-00-us; Wed, 14 Aug 2024
- 00:06:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUP5IZPsiAzI0+IQorMd33rlFrm+SWMm7GS5OLsvyw83hvegudXq80BQO+tefPZWALQU0Cx3dkPPdZ8MWv+GiHCW6lBpQ7VWoLWTA==
-X-Received: by 2002:a17:90a:d586:b0:2c9:6abd:ca64 with SMTP id 98e67ed59e1d1-2d3acbf5253mr1906920a91.9.1723619206615;
-        Wed, 14 Aug 2024 00:06:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1723619206; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TTw1GQ+DDKCfTeabL/azNOmqbvgqMqOSJnOKQDEUIRC3dGc9Dq0vBH05KPAoZQY1HF
-         FDKpsPbPHvuvmidiGzYJ+vI1CL7fH4xd24HUI3F7fkMwAUF8U9eW0A39fXqCq7cDMEEB
-         mkIEoi74ksM+fP8NXw0+jx0but52wBZM9h0ooF1zY6zVYCXACl/50/cLT3suwwT9oSn8
-         PzPuo7T2PIR05OJlni3D/xV89D1vM3LANRZYfA0qX0Ea4wiXf4dVVAbtgcs9pNm9Dknh
-         WUuvnNz+hglGFHpcrPDi8P4gd3gpCcfAv24Rz3dsXueKALdQhyee+ZHEP3R0Eo0mx9G7
-         RifQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
+Received: by 2002:ac8:5813:0:b0:447:ed03:aa4b with SMTP id d75a77b69052e-451d12f6c25ls100965201cf.2.-pod-prod-09-us;
+ Wed, 14 Aug 2024 00:18:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUnQnbpW+5/AqJP2BmpfLnieIS3/cqo9j4qO3OxzekTJI0C3q07jvALkYD8p7i8wd1C7GvJO8JBV/PWDTMDtlKvyplo1lY7zHHtcw==
+X-Received: by 2002:a05:6122:1d51:b0:4f6:ad2d:c867 with SMTP id 71dfb90a1353d-4fad221ac88mr2673420e0c.12.1723619888059;
+        Wed, 14 Aug 2024 00:18:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1723619888; cv=none;
+        d=google.com; s=arc-20160816;
+        b=IjCu5yBvk/8BXSXdKfxRwlrGdrySO2Fnv7y2EnNz71pMDoEV9IXBkRRuptnR+7WfLY
+         SFSMcWhLNpLtqb+Wy6ReHcqHT0nJRrLkFvLza9znxVdkFTB9+SnFzC75PMRCqOKSGHIG
+         FEUGcRGILVyqpE1G8cgFTRBOJbgAl7mrDgCoSj/io4zIG3n2m+Jwed9zwKgMqkZMVY8q
+         wJtgMPUrJi08zNarWWmgo7mNUx5p6tNxPEdlb77EwSxQkbtO4pGLg4o6MRgoAWyzUoV0
+         PuVedzYKLHTMfF7Wy0Ydk8Y+fffBMvd2RGVWE3tC56EpCEN3qzDnhiTZpHRr9xIb4YEA
+         wrFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :dkim-signature;
-        bh=sTHU8iXlEqUwgCimuhc001HOr+meABY+UioHyXt5kKk=;
-        fh=9FOAVLSLYH0tZu2a/cYw+ya4kKVeMam7dvip+iyUKjk=;
-        b=lQiIO7fDmZCExFuCCaIjeyb2HMgkROFnn9QY8YTY2lIH/JV6eLee973ca4b41ZTGBl
-         LER7iEeA4lF/xSamb0pZo+0aPP27OFl2/JNvr9NQ033ycjGTmY74mVfp9yy4naOdIyr9
-         XIppt57F9AbZMmMQq5p72rNOwgVjUbWM1zrLyX5uofgFzaJOqokaaqAvAWKYPMbTb0tc
-         uVrait5t2j30Jjd6ouxGdH7LlXpnD57qe5ZNfE6J1QFxFZiVdIXMGe67PYU7WjIAlCNj
-         uLkqCgVEA7QapoyuK5X4DFE0wzncBexUsAIoX4cNIb4Hy/JQA/jF0TOqi0agJ9uf6oOf
-         jnAw==;
+        bh=RP1GFNJ9F5O2M+ikaXwAnDD9dagu3njbGJDnJ0WlSno=;
+        fh=LOJJoR3Jk0I67xEw8QmCHv0TMYTivl7n6lbEE8v+CJ0=;
+        b=UeJoFZcHqG2rkMVL8FphsTMODyzCxtDTGUCSqDA1oRLHmXXKxrNW3SDiTwdtlVDEUN
+         oPHDxi+ue0qq6QhrTVXlSVTCEFt/icSnHKiXssMX7KD9QgKCU4lj5T8/cmNFcH+b6/vj
+         vxGEODtX8ZrCd3hmOk3gqfFelJTAGxQ3AhwDmBg7wM1aJflTsLEsL3mc7eV7qTWS7J8y
+         1ahY8syn4XeBuGVJtcqrEXow8dnijsNRPp/8Ukqtcw7oplvJJ7p3ZCihFfCjYO4cz4cc
+         3AunqzsFzNqdfA6CnHQeKGAX2XqBDHA0+b7boJF7AMm/olyUYzoZOo6jhfWdk6S5CAZj
+         o2fA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@sifive.com header.s=google header.b=FfzdnPoc;
-       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::d2b as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dkim=pass header.i=@sifive.com header.s=google header.b=nXECFcI7;
+       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::730 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com. [2607:f8b0:4864:20::d2b])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-2d3ac852da9si33242a91.3.2024.08.14.00.06.46
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com. [2607:f8b0:4864:20::730])
+        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-4f91f1193e8si329151e0c.0.2024.08.14.00.18.08
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Aug 2024 00:06:46 -0700 (PDT)
-Received-SPF: pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::d2b as permitted sender) client-ip=2607:f8b0:4864:20::d2b;
-Received: by mail-io1-xd2b.google.com with SMTP id ca18e2360f4ac-81f86fd93acso24191939f.1
-        for <kasan-dev@googlegroups.com>; Wed, 14 Aug 2024 00:06:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVey2tJ6QTyfWTMuHDNrQTlszf6qkcy1KP8DNi0hz3LlSf5bulBM07b5FKuZ0JvMigyVrW4WpSxrZteg7eaXxp1q1GFCMXn/YBn/g==
-X-Received: by 2002:a05:6e02:154d:b0:39d:184c:19b0 with SMTP id e9e14a558f8ab-39d184c1b38mr1818145ab.10.1723619205757;
-        Wed, 14 Aug 2024 00:06:45 -0700 (PDT)
+        Wed, 14 Aug 2024 00:18:08 -0700 (PDT)
+Received-SPF: pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::730 as permitted sender) client-ip=2607:f8b0:4864:20::730;
+Received: by mail-qk1-x730.google.com with SMTP id af79cd13be357-7a1d0dc869bso377673085a.2
+        for <kasan-dev@googlegroups.com>; Wed, 14 Aug 2024 00:18:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXXfTAqKrvncgi3dKV+ttActiMzwTQBt2Ih4+M5CzER8mj5kj7cfLsYMtujr5NiQvauQUIZs3VnZDe1jOCmCHCl7DyK9WJOgq/C+g==
+X-Received: by 2002:a05:622a:4e0d:b0:453:5eeb:4e79 with SMTP id d75a77b69052e-4535eeb4ff8mr10211141cf.6.1723619887463;
+        Wed, 14 Aug 2024 00:18:07 -0700 (PDT)
 Received: from [100.64.0.1] ([147.124.94.167])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4ca76a367e2sm3019621173.150.2024.08.14.00.06.44
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4531c26edb1sm38367841cf.76.2024.08.14.00.18.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Aug 2024 00:06:45 -0700 (PDT)
-Message-ID: <fc65fc29-4cd8-4e41-93e4-a35e3c8998d8@sifive.com>
-Date: Wed, 14 Aug 2024 02:06:43 -0500
+        Wed, 14 Aug 2024 00:18:07 -0700 (PDT)
+Message-ID: <6859c9db-1d15-4d05-bb0e-1add2a594864@sifive.com>
+Date: Wed, 14 Aug 2024 02:18:04 -0500
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/10] riscv: Add support for userspace pointer masking
-From: "'Samuel Holland' via kasan-dev" <kasan-dev@googlegroups.com>
+Subject: Re: [PATCH v2 05/10] riscv: Add support for the tagged address ABI
 To: Alexandre Ghiti <alex@ghiti.fr>, Palmer Dabbelt <palmer@dabbelt.com>,
  linux-riscv@lists.infradead.org
 Cc: devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
@@ -134,18 +132,18 @@ Cc: devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
  Rob Herring <robh+dt@kernel.org>,
  "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 References: <20240625210933.1620802-1-samuel.holland@sifive.com>
- <20240625210933.1620802-5-samuel.holland@sifive.com>
- <440ca2a7-9dfb-45cd-8331-a8d0afff47d0@ghiti.fr>
- <dc8da1d4-435a-4786-b4bc-7f89590c2269@sifive.com>
+ <20240625210933.1620802-6-samuel.holland@sifive.com>
+ <1faba7e8-903d-40f5-8285-1b309d7b9410@ghiti.fr>
 Content-Language: en-US
-In-Reply-To: <dc8da1d4-435a-4786-b4bc-7f89590c2269@sifive.com>
+From: "'Samuel Holland' via kasan-dev" <kasan-dev@googlegroups.com>
+In-Reply-To: <1faba7e8-903d-40f5-8285-1b309d7b9410@ghiti.fr>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: samuel.holland@sifive.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@sifive.com header.s=google header.b=FfzdnPoc;       spf=pass
+ header.i=@sifive.com header.s=google header.b=nXECFcI7;       spf=pass
  (google.com: domain of samuel.holland@sifive.com designates
- 2607:f8b0:4864:20::d2b as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+ 2607:f8b0:4864:20::730 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Samuel Holland <samuel.holland@sifive.com>
@@ -162,360 +160,482 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 2024-08-13 8:54 PM, Samuel Holland wrote:
-> Hi Alex,
+Hi Alex,
+
+On 2024-08-13 6:35 AM, Alexandre Ghiti wrote:
+> Hi Samuel,
 >=20
-> Thanks for the review!
+> On 25/06/2024 23:09, Samuel Holland wrote:
+>> When pointer masking is enabled for userspace, the kernel can accept
+>> tagged pointers as arguments to some system calls. Allow this by
+>> untagging the pointers in access_ok() and the uaccess routines. The
+>> uaccess routines must peform untagging in software because U-mode and
+>> S-mode have entirely separate pointer masking configurations. In fact,
+>> hardware may not even implement pointer masking for S-mode.
 >=20
-> On 2024-08-13 3:58 AM, Alexandre Ghiti wrote:
->> Hi Samuel,
+>=20
+> Would it make sense to have a fast path when S-mode and U-mode PMLENs are=
+ equal?
+
+I don't think so? Different userspace processes can have different PMLEN va=
+lues,
+including PMLEN=3D=3D0, so it wouldn't be possible to patch out the untaggi=
+ng
+operation based on PMLEN. (It's already skipped with a static branch if the
+hardware doesn't support pointer masking). The untagging sequence is only 4
+instructions (3 with pmlen in struct thread_info):
+
+ 746:   41023603                ld      a2,1040(tp) current->mm
+ 74a:   46064603                lbu     a2,1120(a2) current->mm->context.pm=
+len
+ 74e:   00c51533                sll     a0,a0,a2
+ 752:   40c55533                sra     a0,a0,a2
+
+so I'm not sure how to make this faster.
+
+>> Since the number of tag bits is variable, untagged_addr_remote() needs
+>> to know what PMLEN to use for the remote mm. Therefore, the pointer
+>> masking mode must be the same for all threads sharing an mm. Enforce
+>> this with a lock flag in the mm context, as x86 does for LAM.The flag ge=
+ts
+>> reset in init_new_context() during fork(), as the new mm is no
+>> longer multithreaded.
 >>
->> On 25/06/2024 23:09, Samuel Holland wrote:
->>> RISC-V supports pointer masking with a variable number of tag bits
->>> (which is called "PMLEN" in the specification) and which is configured
->>> at the next higher privilege level.
->>>
->>> Wire up the PR_SET_TAGGED_ADDR_CTRL and PR_GET_TAGGED_ADDR_CTRL prctls
->>> so userspace can request a lower bound on the=C2=A0 number of tag bits =
-and
->>> determine the actual number of tag bits. As with arm64's
->>> PR_TAGGED_ADDR_ENABLE, the pointer masking configuration is
->>> thread-scoped, inherited on clone() and fork() and cleared on execve().
->>>
->>> Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
->>> ---
->>>
->>> Changes in v2:
->>> =C2=A0 - Rebase on riscv/linux.git for-next
->>> =C2=A0 - Add and use the envcfg_update_bits() helper function
->>> =C2=A0 - Inline flush_tagged_addr_state()
->>>
->>> =C2=A0 arch/riscv/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 11 ++++
->>> =C2=A0 arch/riscv/include/asm/processor.h |=C2=A0 8 +++
->>> =C2=A0 arch/riscv/include/asm/switch_to.h | 11 ++++
->>> =C2=A0 arch/riscv/kernel/process.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 99 ++++++++++++++++++++++++++++++
->>> =C2=A0 include/uapi/linux/prctl.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 3 +
->>> =C2=A0 5 files changed, 132 insertions(+)
->>>
->>> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
->>> index b94176e25be1..8f9980f81ea5 100644
->>> --- a/arch/riscv/Kconfig
->>> +++ b/arch/riscv/Kconfig
->>> @@ -505,6 +505,17 @@ config RISCV_ISA_C
->>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If you don't know wha=
-t to do here, say Y.
->>> =C2=A0 +config RISCV_ISA_POINTER_MASKING
->>> +=C2=A0=C2=A0=C2=A0 bool "Smmpm, Smnpm, and Ssnpm extensions for pointe=
-r masking"
->>> +=C2=A0=C2=A0=C2=A0 depends on 64BIT
->>> +=C2=A0=C2=A0=C2=A0 default y
->>> +=C2=A0=C2=A0=C2=A0 help
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Add support for the pointer masking ext=
-ensions (Smmpm, Smnpm,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 and Ssnpm) when they are detected at bo=
-ot.
->>> +
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If this option is disabled, userspace w=
-ill be unable to use
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the prctl(PR_{SET,GET}_TAGGED_ADDR_CTRL=
-) API.
->>> +
->>> =C2=A0 config RISCV_ISA_SVNAPOT
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool "Svnapot extension support for supe=
-rvisor mode NAPOT pages"
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 depends on 64BIT && MMU
->>> diff --git a/arch/riscv/include/asm/processor.h
->>> b/arch/riscv/include/asm/processor.h
->>> index 0838922bd1c8..4f99c85d29ae 100644
->>> --- a/arch/riscv/include/asm/processor.h
->>> +++ b/arch/riscv/include/asm/processor.h
->>> @@ -194,6 +194,14 @@ extern int set_unalign_ctl(struct task_struct *tsk=
-,
->>> unsigned int val);
->>> =C2=A0 #define RISCV_SET_ICACHE_FLUSH_CTX(arg1, arg2)=C2=A0=C2=A0=C2=A0
->>> riscv_set_icache_flush_ctx(arg1, arg2)
->>> =C2=A0 extern int riscv_set_icache_flush_ctx(unsigned long ctx, unsigne=
-d long
->>> per_thread);
->>> =C2=A0 +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
->>> +/* PR_{SET,GET}_TAGGED_ADDR_CTRL prctl */
->>> +long set_tagged_addr_ctrl(struct task_struct *task, unsigned long arg)=
+>> Unlike x86, untagged_addr() gets pmlen from struct thread_info instead
+>> of a percpu variable, as this both avoids context switch overhead and
+>> loads the value more efficiently.
+>>
+>> Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
+>> ---
+>>
+>> Changes in v2:
+>> =C2=A0 - Implement untagged_addr_remote()
+>> =C2=A0 - Restrict PMLEN changes once a process is multithreaded
+>>
+>> =C2=A0 arch/riscv/include/asm/mmu.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 7 +++
+>> =C2=A0 arch/riscv/include/asm/mmu_context.h |=C2=A0 6 +++
+>> =C2=A0 arch/riscv/include/asm/thread_info.h |=C2=A0 3 ++
+>> =C2=A0 arch/riscv/include/asm/uaccess.h=C2=A0=C2=A0=C2=A0=C2=A0 | 58 +++=
+++++++++++++++++++--
+>> =C2=A0 arch/riscv/kernel/process.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 69 +++++++++++++++++++++++++++-
+>> =C2=A0 5 files changed, 136 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/arch/riscv/include/asm/mmu.h b/arch/riscv/include/asm/mmu.h
+>> index 947fd60f9051..361a9623f8c8 100644
+>> --- a/arch/riscv/include/asm/mmu.h
+>> +++ b/arch/riscv/include/asm/mmu.h
+>> @@ -26,8 +26,15 @@ typedef struct {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long exec_fdpic_loadmap;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long interp_fdpic_loadmap;
+>> =C2=A0 #endif
+>> +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
+>> +=C2=A0=C2=A0=C2=A0 unsigned long flags;
+>> +=C2=A0=C2=A0=C2=A0 u8 pmlen;
+>> +#endif
+>> =C2=A0 } mm_context_t;
+>> =C2=A0 +/* Lock the pointer masking mode because this mm is multithreade=
+d */
+>> +#define MM_CONTEXT_LOCK_PMLEN=C2=A0=C2=A0=C2=A0 0
+>> +
+>> =C2=A0 #define cntx2asid(cntx)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ ((cntx) & SATP_ASID_MASK)
+>> =C2=A0 #define cntx2version(cntx)=C2=A0=C2=A0=C2=A0 ((cntx) & ~SATP_ASID=
+_MASK)
+>> =C2=A0 diff --git a/arch/riscv/include/asm/mmu_context.h
+>> b/arch/riscv/include/asm/mmu_context.h
+>> index 7030837adc1a..62a9f76cf257 100644
+>> --- a/arch/riscv/include/asm/mmu_context.h
+>> +++ b/arch/riscv/include/asm/mmu_context.h
+>> @@ -20,6 +20,9 @@ void switch_mm(struct mm_struct *prev, struct mm_struc=
+t *next,
+>> =C2=A0 static inline void activate_mm(struct mm_struct *prev,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct mm_struct *next)
+>> =C2=A0 {
+>> +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
+>> +=C2=A0=C2=A0=C2=A0 next->context.pmlen =3D 0;
+>> +#endif
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch_mm(prev, next, NULL);
+>> =C2=A0 }
+>> =C2=A0 @@ -29,6 +32,9 @@ static inline int init_new_context(struct task_=
+struct *tsk,
+>> =C2=A0 {
+>> =C2=A0 #ifdef CONFIG_MMU
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 atomic_long_set(&mm->context.id, 0);
+>> +#endif
+>> +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
+>> +=C2=A0=C2=A0=C2=A0 clear_bit(MM_CONTEXT_LOCK_PMLEN, &mm->context.flags)=
 ;
->>> +long get_tagged_addr_ctrl(struct task_struct *task);
->>> +#define SET_TAGGED_ADDR_CTRL(arg)=C2=A0=C2=A0=C2=A0 set_tagged_addr_ct=
-rl(current, arg)
->>> +#define GET_TAGGED_ADDR_CTRL()=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 get_tagged_addr_ctrl(current)
->>> +#endif
->>> +
->>> =C2=A0 #endif /* __ASSEMBLY__ */
->>> =C2=A0 =C2=A0 #endif /* _ASM_RISCV_PROCESSOR_H */
->>> diff --git a/arch/riscv/include/asm/switch_to.h
->>> b/arch/riscv/include/asm/switch_to.h
->>> index 9685cd85e57c..94e33216b2d9 100644
->>> --- a/arch/riscv/include/asm/switch_to.h
->>> +++ b/arch/riscv/include/asm/switch_to.h
->>> @@ -70,6 +70,17 @@ static __always_inline bool has_fpu(void) { return f=
-alse; }
->>> =C2=A0 #define __switch_to_fpu(__prev, __next) do { } while (0)
->>> =C2=A0 #endif
->>> =C2=A0 +static inline void envcfg_update_bits(struct task_struct *task,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long mas=
-k, unsigned long val)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 unsigned long envcfg;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 envcfg =3D (task->thread.envcfg & ~mask) | val;
->>> +=C2=A0=C2=A0=C2=A0 task->thread.envcfg =3D envcfg;
->>> +=C2=A0=C2=A0=C2=A0 if (task =3D=3D current)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 csr_write(CSR_ENVCFG, envcf=
-g);
->>> +}
->>> +
->>> =C2=A0 static inline void __switch_to_envcfg(struct task_struct *next)
->>> =C2=A0 {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 asm volatile (ALTERNATIVE("nop", "csrw "=
- __stringify(CSR_ENVCFG) ", %0",
->>> diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
->>> index e4bc61c4e58a..dec5ccc44697 100644
->>> --- a/arch/riscv/kernel/process.c
->>> +++ b/arch/riscv/kernel/process.c
->>> @@ -7,6 +7,7 @@
->>> =C2=A0=C2=A0 * Copyright (C) 2017 SiFive
->>> =C2=A0=C2=A0 */
->>> =C2=A0 +#include <linux/bitfield.h>
->>> =C2=A0 #include <linux/cpu.h>
->>> =C2=A0 #include <linux/kernel.h>
->>> =C2=A0 #include <linux/sched.h>
->>> @@ -171,6 +172,10 @@ void flush_thread(void)
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memset(&current->thread.vstate, 0, sizeo=
-f(struct __riscv_v_ext_state));
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clear_tsk_thread_flag(current, TIF_RISCV=
-_V_DEFER_RESTORE);
->>> =C2=A0 #endif
->>> +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
->>> +=C2=A0=C2=A0=C2=A0 if (riscv_has_extension_unlikely(RISCV_ISA_EXT_SUPM=
-))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 envcfg_update_bits(current,=
- ENVCFG_PMM, ENVCFG_PMM_PMLEN_0);
->>> +#endif
->>
->> if (IS_ENABLED(CONFIG_RISCV_ISA_POINTER_MASKING) &&
->> riscv_has_extension_unlikely(RISCV_ISA_EXT_SUPM))
+>> =C2=A0 #endif
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>> =C2=A0 }
+>> diff --git a/arch/riscv/include/asm/thread_info.h
+>> b/arch/riscv/include/asm/thread_info.h
+>> index 5d473343634b..cd355f8a550f 100644
+>> --- a/arch/riscv/include/asm/thread_info.h
+>> +++ b/arch/riscv/include/asm/thread_info.h
+>> @@ -60,6 +60,9 @@ struct thread_info {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *scs_base;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *scs_sp;
+>> =C2=A0 #endif
+>> +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
+>> +=C2=A0=C2=A0=C2=A0 u8=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 pmlen;
+>> +#endif
+>> =C2=A0 };
+>> =C2=A0 =C2=A0 #ifdef CONFIG_SHADOW_CALL_STACK
+>> diff --git a/arch/riscv/include/asm/uaccess.h b/arch/riscv/include/asm/u=
+access.h
+>> index 72ec1d9bd3f3..153495997bc1 100644
+>> --- a/arch/riscv/include/asm/uaccess.h
+>> +++ b/arch/riscv/include/asm/uaccess.h
+>> @@ -9,8 +9,56 @@
+>> =C2=A0 #define _ASM_RISCV_UACCESS_H
+>> =C2=A0 =C2=A0 #include <asm/asm-extable.h>
+>> +#include <asm/cpufeature.h>
+>> =C2=A0 #include <asm/pgtable.h>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 /* for TASK_SIZE */
+>> =C2=A0 +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
+>> +static inline unsigned long __untagged_addr(unsigned long addr)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 if (riscv_has_extension_unlikely(RISCV_ISA_EXT_SUPM)=
+) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u8 pmlen =3D current->thread=
+_info.pmlen;
 >=20
-> I will update this.
 >=20
->>> =C2=A0 }
->>> =C2=A0 =C2=A0 void arch_release_task_struct(struct task_struct *tsk)
->>> @@ -233,3 +238,97 @@ void __init arch_task_cache_init(void)
->>> =C2=A0 {
->>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 riscv_v_setup_ctx_cache();
->>> =C2=A0 }
->>> +
->>> +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
->>> +static bool have_user_pmlen_7;
->>> +static bool have_user_pmlen_16;
->>> +
->>> +long set_tagged_addr_ctrl(struct task_struct *task, unsigned long arg)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 unsigned long valid_mask =3D PR_PMLEN_MASK;
->>> +=C2=A0=C2=A0=C2=A0 struct thread_info *ti =3D task_thread_info(task);
->>> +=C2=A0=C2=A0=C2=A0 unsigned long pmm;
->>> +=C2=A0=C2=A0=C2=A0 u8 pmlen;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 if (is_compat_thread(ti))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 if (arg & ~valid_mask)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 pmlen =3D FIELD_GET(PR_PMLEN_MASK, arg);
->>> +=C2=A0=C2=A0=C2=A0 if (pmlen > 16) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
->>> +=C2=A0=C2=A0=C2=A0 } else if (pmlen > 7) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (have_user_pmlen_16)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pml=
-en =3D 16;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
-urn -EINVAL;
->>> +=C2=A0=C2=A0=C2=A0 } else if (pmlen > 0) {
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Prefer the smallest=
- PMLEN that satisfies the user's request,
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * in case choosing a =
-larger PMLEN has a performance impact.
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (have_user_pmlen_7)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pml=
-en =3D 7;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else if (have_user_pmlen_16=
-)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pml=
-en =3D 16;
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
-urn -EINVAL;
->>> +=C2=A0=C2=A0=C2=A0 }
->>> +
->>> +=C2=A0=C2=A0=C2=A0 if (pmlen =3D=3D 7)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pmm =3D ENVCFG_PMM_PMLEN_7;
->>> +=C2=A0=C2=A0=C2=A0 else if (pmlen =3D=3D 16)
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pmm =3D ENVCFG_PMM_PMLEN_16=
-;
->>> +=C2=A0=C2=A0=C2=A0 else
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pmm =3D ENVCFG_PMM_PMLEN_0;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 envcfg_update_bits(task, ENVCFG_PMM, pmm);
->>> +
->>> +=C2=A0=C2=A0=C2=A0 return 0;
->>> +}
->>> +
->>> +long get_tagged_addr_ctrl(struct task_struct *task)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 struct thread_info *ti =3D task_thread_info(task);
->>> +=C2=A0=C2=A0=C2=A0 long ret =3D 0;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 if (is_compat_thread(ti))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 switch (task->thread.envcfg & ENVCFG_PMM) {
->>> +=C2=A0=C2=A0=C2=A0 case ENVCFG_PMM_PMLEN_7:
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret |=3D FIELD_PREP(PR_PMLE=
-N_MASK, 7);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
->>> +=C2=A0=C2=A0=C2=A0 case ENVCFG_PMM_PMLEN_16:
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret |=3D FIELD_PREP(PR_PMLE=
-N_MASK, 16);
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
->>> +=C2=A0=C2=A0=C2=A0 }
->>
->>
->> No need for the |=3D
->=20
-> This is used in the next patch since the returned value may include
-> PR_TAGGED_ADDR_ENABLE as well, but it's not needed here, so I will make t=
-his change.
->=20
->>> +
->>> +=C2=A0=C2=A0=C2=A0 return ret;
->>> +}
->>
->>
->> In all the code above, I'd use a macro for 7 and 16, something like PMLE=
-N[7|16]?
->=20
-> I've done this using an enum in v4. Please let me know if it looks good t=
-o you.
+> Why don't we use mm->pmlen? I don't see the need to introduce this variab=
+le that
+> mirrors what is in mm already but I may be missing something.
 
-Obviously I meant to say v3 here.
-
->>> +
->>> +static bool try_to_set_pmm(unsigned long value)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 csr_set(CSR_ENVCFG, value);
->>> +=C2=A0=C2=A0=C2=A0 return (csr_read_clear(CSR_ENVCFG, ENVCFG_PMM) & EN=
-VCFG_PMM) =3D=3D value;
->>> +}
->>> +
->>> +static int __init tagged_addr_init(void)
->>> +{
->>> +=C2=A0=C2=A0=C2=A0 if (!riscv_has_extension_unlikely(RISCV_ISA_EXT_SUP=
-M))
->>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>> +
->>> +=C2=A0=C2=A0=C2=A0 /*
->>> +=C2=A0=C2=A0=C2=A0=C2=A0 * envcfg.PMM is a WARL field. Detect which va=
-lues are supported.
->>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Assume the supported PMLEN values are the s=
-ame on all harts.
->>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
->>> +=C2=A0=C2=A0=C2=A0 csr_clear(CSR_ENVCFG, ENVCFG_PMM);
->>> +=C2=A0=C2=A0=C2=A0 have_user_pmlen_7 =3D try_to_set_pmm(ENVCFG_PMM_PML=
-EN_7);
->>> +=C2=A0=C2=A0=C2=A0 have_user_pmlen_16 =3D try_to_set_pmm(ENVCFG_PMM_PM=
-LEN_16);
->>
->>
->> Shouldn't this depend on the satp mode? sv57 does not allow 16bits for t=
-he tag.
->=20
-> No, late last year the pointer masking spec was changed so that the valid=
- values
-> for PMM can no longer dynamically depend on satp.MODE. If an implementati=
-on
-> chooses to support both Sv57 and PMLEN=3D=3D16, then it does so by maskin=
-g off some
-> of the valid bits in the virtual address. (This is a valid if unusual use=
- case
-> considering that pointer masking does not apply to instruction fetches, s=
-o an
-> application could place code at addresses above 2^47-1 and use the whole =
-masked
-> virtual address space for data. Or it could enable pointer masking for on=
-ly
-> certain threads, and those threads would be limited to a subset of data.)
->=20
->>> +
->>> +=C2=A0=C2=A0=C2=A0 return 0;
->>> +}
->>> +core_initcall(tagged_addr_init);
->>
->>
->> Any reason it's not called from setup_arch()? I see the vector extension=
- does
->> the same; just wondering if we should not centralize all this early exte=
-nsions
->> decisions in setup_arch() (in my Zacas series, I choose the spinlock
->> implementation in setup_arch()).
-
-Forgot to reply: no special reason, I copied this part of the code from arm=
-64.
-This code doesn't need to be called especially early; the only requirement =
-is
-that it runs before userspace starts. One advantage of core_initcall() is t=
-hat
-it happens after SMP bringup, so this way will have less impact on boot tim=
-e.
+Only that caching the value in struct thread_info saves an instruction/cach=
+e
+line load from the pointer chasing. current->mm is likely to be hot anyway,=
+ so
+it probably doesn't make too much difference. I will simplify this in v3.
 
 Regards,
 Samuel
 
->>> +#endif=C2=A0=C2=A0=C2=A0 /* CONFIG_RISCV_ISA_POINTER_MASKING */
->>> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
->>> index 35791791a879..6e84c827869b 100644
->>> --- a/include/uapi/linux/prctl.h
->>> +++ b/include/uapi/linux/prctl.h
->>> @@ -244,6 +244,9 @@ struct prctl_mm_map {
->>> =C2=A0 # define PR_MTE_TAG_MASK=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 (0xffffUL << PR_MTE_TAG_SHIFT)
->>> =C2=A0 /* Unused; kept only for source compatibility */
->>> =C2=A0 # define PR_MTE_TCF_SHIFT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 1
->>> +/* RISC-V pointer masking tag length */
->>> +# define PR_PMLEN_SHIFT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 24
->>> +# define PR_PMLEN_MASK=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 (0x7fUL << PR_PMLEN_SHIFT)
->>
->>
->> I don't understand the need for this shift, can't userspace pass the pml=
-en value
->> directly without worrying about this?
->=20
-> No, because the PR_TAGGED_ADDR_ENABLE flag (bit 0, defined just a few lin=
-es
-> above) is part of the the same argument word. It's just not used until th=
-e next
-> patch.
->=20
-> Regards,
-> Samuel
->=20
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Virtual addresses are sig=
+n-extended; physical addresses are
+>> zero-extended. */
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_ENABLED(CONFIG_MMU))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retu=
+rn (long)(addr << pmlen) >> pmlen;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retu=
+rn (addr << pmlen) >> pmlen;
+>> +=C2=A0=C2=A0=C2=A0 }
+>> +
+>> +=C2=A0=C2=A0=C2=A0 return addr;
+>> +}
+>> +
+>> +#define untagged_addr(addr) ({=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> +=C2=A0=C2=A0=C2=A0 unsigned long __addr =3D (__force unsigned long)(add=
+r);=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> +=C2=A0=C2=A0=C2=A0 (__force __typeof__(addr))__untagged_addr(__addr);=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> +})
+>> +
+>> +static inline unsigned long __untagged_addr_remote(struct mm_struct *mm=
+,
+>> unsigned long addr)
+>> +{
+>> +=C2=A0=C2=A0=C2=A0 if (riscv_has_extension_unlikely(RISCV_ISA_EXT_SUPM)=
+) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u8 pmlen =3D mm->context.pml=
+en;
+>> +
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Virtual addresses are sig=
+n-extended; physical addresses are
+>> zero-extended. */
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (IS_ENABLED(CONFIG_MMU))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retu=
+rn (long)(addr << pmlen) >> pmlen;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retu=
+rn (addr << pmlen) >> pmlen;
+>> +=C2=A0=C2=A0=C2=A0 }
+>> +
+>> +=C2=A0=C2=A0=C2=A0 return addr;
+>> +}
+>> +
+>> +#define untagged_addr_remote(mm, addr) ({=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> +=C2=A0=C2=A0=C2=A0 unsigned long __addr =3D (__force unsigned long)(add=
+r);=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> +=C2=A0=C2=A0=C2=A0 mmap_assert_locked(mm);=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> +=C2=A0=C2=A0=C2=A0 (__force __typeof__(addr))__untagged_addr_remote(mm,=
+ __addr);=C2=A0=C2=A0=C2=A0 \
+>> +})
+>> +
+>> +#define access_ok(addr, size) likely(__access_ok(untagged_addr(addr), s=
+ize))
+>> +#else
+>> +#define untagged_addr(addr) (addr)
+>> +#endif
+>> +
+>> =C2=A0 /*
+>> =C2=A0=C2=A0 * User space memory access functions
+>> =C2=A0=C2=A0 */
+>> @@ -130,7 +178,7 @@ do {=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> =C2=A0=C2=A0 */
+>> =C2=A0 #define __get_user(x, ptr)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ \
+>> =C2=A0 ({=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> -=C2=A0=C2=A0=C2=A0 const __typeof__(*(ptr)) __user *__gu_ptr =3D (ptr);=
+=C2=A0=C2=A0=C2=A0 \
+>> +=C2=A0=C2=A0=C2=A0 const __typeof__(*(ptr)) __user *__gu_ptr =3D untagg=
+ed_addr(ptr); \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 long __gu_err =3D 0;=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __chk_user_ptr(__gu_ptr);=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ \
+>> @@ -246,7 +294,7 @@ do {=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> =C2=A0=C2=A0 */
+>> =C2=A0 #define __put_user(x, ptr)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ \
+>> =C2=A0 ({=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> -=C2=A0=C2=A0=C2=A0 __typeof__(*(ptr)) __user *__gu_ptr =3D (ptr);=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> +=C2=A0=C2=A0=C2=A0 __typeof__(*(ptr)) __user *__gu_ptr =3D untagged_add=
+r(ptr); \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __typeof__(*__gu_ptr) __val =3D (x);=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 long __pu_err =3D 0;=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 \
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> @@ -293,13 +341,13 @@ unsigned long __must_check __asm_copy_from_user(vo=
+id *to,
+>> =C2=A0 static inline unsigned long
+>> =C2=A0 raw_copy_from_user(void *to, const void __user *from, unsigned lo=
+ng n)
+>> =C2=A0 {
+>> -=C2=A0=C2=A0=C2=A0 return __asm_copy_from_user(to, from, n);
+>> +=C2=A0=C2=A0=C2=A0 return __asm_copy_from_user(to, untagged_addr(from),=
+ n);
+>> =C2=A0 }
+>> =C2=A0 =C2=A0 static inline unsigned long
+>> =C2=A0 raw_copy_to_user(void __user *to, const void *from, unsigned long=
+ n)
+>> =C2=A0 {
+>> -=C2=A0=C2=A0=C2=A0 return __asm_copy_to_user(to, from, n);
+>> +=C2=A0=C2=A0=C2=A0 return __asm_copy_to_user(untagged_addr(to), from, n=
+);
+>> =C2=A0 }
+>> =C2=A0 =C2=A0 extern long strncpy_from_user(char *dest, const char __use=
+r *src, long
+>> count);
+>> @@ -314,7 +362,7 @@ unsigned long __must_check clear_user(void __user *t=
+o,
+>> unsigned long n)
+>> =C2=A0 {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 might_fault();
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return access_ok(to, n) ?
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __clear_user(to, n) : n;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 __clear_user(untagged_addr(t=
+o), n) : n;
+>> =C2=A0 }
+>> =C2=A0 =C2=A0 #define __get_kernel_nofault(dst, src, type, err_label)=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 \
+>> diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
+>> index dec5ccc44697..7bd445dade92 100644
+>> --- a/arch/riscv/kernel/process.c
+>> +++ b/arch/riscv/kernel/process.c
+>> @@ -173,8 +173,10 @@ void flush_thread(void)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clear_tsk_thread_flag(current, TIF_RISCV_=
+V_DEFER_RESTORE);
+>> =C2=A0 #endif
+>> =C2=A0 #ifdef CONFIG_RISCV_ISA_POINTER_MASKING
+>> -=C2=A0=C2=A0=C2=A0 if (riscv_has_extension_unlikely(RISCV_ISA_EXT_SUPM)=
+)
+>> +=C2=A0=C2=A0=C2=A0 if (riscv_has_extension_unlikely(RISCV_ISA_EXT_SUPM)=
+) {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 envcfg_update_bit=
+s(current, ENVCFG_PMM, ENVCFG_PMM_PMLEN_0);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 current->thread_info.pmlen =
+=3D 0;
+>> +=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0 #endif
+>> =C2=A0 }
+>> =C2=A0 @@ -204,6 +206,12 @@ int copy_thread(struct task_struct *p, const=
+ struct
+>> kernel_clone_args *args)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long tls =3D args->tls;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct pt_regs *childregs =3D task_pt_reg=
+s(p);
+>> =C2=A0 +#ifdef CONFIG_RISCV_ISA_POINTER_MASKING
+>> +=C2=A0=C2=A0=C2=A0 /* Ensure all threads in this mm have the same point=
+er masking mode. */
+>> +=C2=A0=C2=A0=C2=A0 if (p->mm && (clone_flags & CLONE_VM))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_bit(MM_CONTEXT_LOCK_PMLE=
+N, &p->mm->context.flags);
+>> +#endif
+>> +
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memset(&p->thread.s, 0, sizeof(p->thread.=
+s));
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* p->thread holds context to be r=
+estored by __switch_to() */
+>> @@ -243,10 +251,16 @@ void __init arch_task_cache_init(void)
+>> =C2=A0 static bool have_user_pmlen_7;
+>> =C2=A0 static bool have_user_pmlen_16;
+>> =C2=A0 +/*
+>> + * Control the relaxed ABI allowing tagged user addresses into the kern=
+el.
+>> + */
+>> +static unsigned int tagged_addr_disabled;
+>> +
+>> =C2=A0 long set_tagged_addr_ctrl(struct task_struct *task, unsigned long=
+ arg)
+>> =C2=A0 {
+>> -=C2=A0=C2=A0=C2=A0 unsigned long valid_mask =3D PR_PMLEN_MASK;
+>> +=C2=A0=C2=A0=C2=A0 unsigned long valid_mask =3D PR_PMLEN_MASK | PR_TAGG=
+ED_ADDR_ENABLE;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct thread_info *ti =3D task_thread_in=
+fo(task);
+>> +=C2=A0=C2=A0=C2=A0 struct mm_struct *mm =3D task->mm;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned long pmm;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u8 pmlen;
+>> =C2=A0 @@ -277,6 +291,14 @@ long set_tagged_addr_ctrl(struct task_struct=
+ *task,
+>> unsigned long arg)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 return -EINVAL;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0 +=C2=A0=C2=A0=C2=A0 /*
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * Do not allow the enabling of the tagged addr=
+ess ABI if globally
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * disabled via sysctl abi.tagged_addr_disabled=
+, if pointer masking
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * is disabled for userspace.
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
+>> +=C2=A0=C2=A0=C2=A0 if (arg & PR_TAGGED_ADDR_ENABLE && (tagged_addr_disa=
+bled || !pmlen))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
+>> +
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (pmlen =3D=3D 7)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pmm =3D ENVCFG_PM=
+M_PMLEN_7;
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else if (pmlen =3D=3D 16)
+>> @@ -284,7 +306,22 @@ long set_tagged_addr_ctrl(struct task_struct *task,
+>> unsigned long arg)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pmm =3D ENVCFG_PM=
+M_PMLEN_0;
+>> =C2=A0 +=C2=A0=C2=A0=C2=A0 if (!(arg & PR_TAGGED_ADDR_ENABLE))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pmlen =3D 0;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 if (mmap_write_lock_killable(mm))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINTR;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 if (test_bit(MM_CONTEXT_LOCK_PMLEN, &mm->context.fla=
+gs) &&
+>> mm->context.pmlen !=3D pmlen) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mmap_write_unlock(mm);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EBUSY;
+>> +=C2=A0=C2=A0=C2=A0 }
+>> +
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 envcfg_update_bits(task, ENVCFG_PMM, pmm)=
+;
+>> +=C2=A0=C2=A0=C2=A0 task->mm->context.pmlen =3D pmlen;
+>> +=C2=A0=C2=A0=C2=A0 task->thread_info.pmlen =3D pmlen;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 mmap_write_unlock(mm);
+>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>> =C2=A0 }
+>> @@ -297,6 +334,13 @@ long get_tagged_addr_ctrl(struct task_struct *task)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (is_compat_thread(ti))
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
+>> =C2=A0 +=C2=A0=C2=A0=C2=A0 if (task->thread_info.pmlen)
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D PR_TAGGED_ADDR_ENABL=
+E;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 /*
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * The task's pmlen is only set if the tagged a=
+ddress ABI is enabled,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 * so the effective PMLEN must be extracted fro=
+m envcfg.PMM.
+>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (task->thread.envcfg & ENVCFG_PMM)=
+ {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case ENVCFG_PMM_PMLEN_7:
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret |=3D FIELD_PR=
+EP(PR_PMLEN_MASK, 7);
+>> @@ -315,6 +359,24 @@ static bool try_to_set_pmm(unsigned long value)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return (csr_read_clear(CSR_ENVCFG, ENVCFG=
+_PMM) & ENVCFG_PMM) =3D=3D value;
+>> =C2=A0 }
+>> =C2=A0 +/*
+>> + * Global sysctl to disable the tagged user addresses support. This con=
+trol
+>> + * only prevents the tagged address ABI enabling via prctl() and does n=
+ot
+>> + * disable it for tasks that already opted in to the relaxed ABI.
+>> + */
+>> +
+>> +static struct ctl_table tagged_addr_sysctl_table[] =3D {
+>> +=C2=A0=C2=A0=C2=A0 {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .procname=C2=A0=C2=A0=C2=A0 =
+=3D "tagged_addr_disabled",
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .mode=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 =3D 0644,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .data=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 =3D &tagged_addr_disabled,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .maxlen=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 =3D sizeof(int),
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .proc_handler=C2=A0=C2=A0=C2=
+=A0 =3D proc_dointvec_minmax,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .extra1=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 =3D SYSCTL_ZERO,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .extra2=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 =3D SYSCTL_ONE,
+>> +=C2=A0=C2=A0=C2=A0 },
+>> +};
+>> +
+>> =C2=A0 static int __init tagged_addr_init(void)
+>> =C2=A0 {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!riscv_has_extension_unlikely(RISCV_I=
+SA_EXT_SUPM))
+>> @@ -328,6 +390,9 @@ static int __init tagged_addr_init(void)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 have_user_pmlen_7 =3D try_to_set_pmm(ENVC=
+FG_PMM_PMLEN_7);
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 have_user_pmlen_16 =3D try_to_set_pmm(ENV=
+CFG_PMM_PMLEN_16);
+>> =C2=A0 +=C2=A0=C2=A0=C2=A0 if (!register_sysctl("abi", tagged_addr_sysct=
+l_table))
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
+>> +
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>> =C2=A0 }
+>> =C2=A0 core_initcall(tagged_addr_init);
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -523,4 +643,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/fc65fc29-4cd8-4e41-93e4-a35e3c8998d8%40sifive.com.
+kasan-dev/6859c9db-1d15-4d05-bb0e-1add2a594864%40sifive.com.
