@@ -1,137 +1,134 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBJVH6G2QMGQEE5MYDBQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBPNI6G2QMGQET2UYXDQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x83b.google.com (mail-qt1-x83b.google.com [IPv6:2607:f8b0:4864:20::83b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314C69514CD
-	for <lists+kasan-dev@lfdr.de>; Wed, 14 Aug 2024 08:50:16 +0200 (CEST)
-Received: by mail-qt1-x83b.google.com with SMTP id d75a77b69052e-4501f17051esf81722271cf.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 13 Aug 2024 23:50:16 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1723618215; cv=pass;
+Received: from mail-oo1-xc3b.google.com (mail-oo1-xc3b.google.com [IPv6:2607:f8b0:4864:20::c3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F7A9514D2
+	for <lists+kasan-dev@lfdr.de>; Wed, 14 Aug 2024 08:52:47 +0200 (CEST)
+Received: by mail-oo1-xc3b.google.com with SMTP id 006d021491bc7-5da50ab90c0sf3290216eaf.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 13 Aug 2024 23:52:46 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1723618365; cv=pass;
         d=google.com; s=arc-20160816;
-        b=HVDRU86P7SYKJgdDtp0xfQNemRIvwyT4Xm+wjfmprUM1xsCo1YsTcRsvGymEPXD6GZ
-         +aItL1W1PrOOvlMgdDeTkmkT2f4ul4lcRvnJQL/5ttUi9DsBYxdH7pzIjvDsYTTWsqNS
-         TDvVGbOGJnts93AI8xXn8cwXWa63Te7XN9Tl8LnF5+b+VygzGabdY0vuyeTu/OO7YRLQ
-         etl6PZeU7aQuFnLVKglqbxUdKIqK2wBI5nsavhfQ70w3WmaQeFbTpTKk/KwRiWKn8Z4B
-         vYWKEvm44RE/kEvZ7y7Ibv1wN1qqpTGTxhNyC/Jd4bSQOYRNDwtcz1GnCV0/VzsCt0r9
-         qvuw==
+        b=d64xzx2P2EFLc/0ppJAvXglJx8jFyN9VC2JGVI/7Aum+8pFkPUDzpjiLEGD3f6HlIr
+         fCtGo7+gu2WxbDotA7OGpPImOC6qyAs24F2uEEGh2PJ88oHZufpIYpF3Rm14NnUXQK/1
+         U5XfBjW2KrxlhkcfiYewYwGC+/vCOQhYB3H2sPphp1YDEoa5A8lomsvPsnFZ1G+PWD8h
+         yChsgAmj6Si01DzvZfs6hYRCt6LWwAMi52GYJLTULCjHRQZmc8sgCv78luKMEDtGtjel
+         Zi+6DcRGK27n2g9yHsnEUCewvSk2sbmA+4QgVmgCD/25hqtlTlWmDpINRYkql9FB1Zxk
+         TZPg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=zO/Bz6XuBcNLfJYJ2YgNJesRAtfH5ElSnKMKg76dwiA=;
-        fh=Yh45L33Wb88kCd16mof0A2OpR7CtUb6UgLJ+eqCDioY=;
-        b=DSpP4h2uA40FxUll8fGV5Z/Js1BtRmhVuftahi1ArF193OWcDfav3igALT8NBgCWu8
-         HPJjcHtnKSS1lY1Lb+VclLcdTsjkydYaPv9UqpZ38SHKIg5lXSv8kkCcG77X3qSSX4NU
-         DsvXMGX5u4hz0/ZCdlXNuyUcCsPltWUjW7YfgeoRrtrR0w2rAYLfGhAgSy+IuVJOiz8O
-         PriqX++wBTjBueFBVGqWaLEcWwROkLPny/5xX1NFURQgJbQzbPHfbs3QgB7IcCeqzo0d
-         m5vPokNeksNQoMs7uUTcIBW8Ho0aKX6nxi4e24aWrf/GgxlDlcLI+DBkoqs3ni/t9jp/
-         SiCA==;
+         :list-id:mailing-list:precedence:subject:to:from:mime-version
+         :message-id:date:sender:dkim-signature;
+        bh=mVOehgxx1SkmqUh4PRQV9Ta5kMUVSFsYQjBcYCqNkZg=;
+        fh=pZPI26WJpnfVuH32b9mvOytMfNaYGcMfUpHxjWU467w=;
+        b=Xl+Cnsky//1RDCKbmcxbZgOFCB7LW60EVO1AHBphBeP7Zf8nrMFsZKNt1to3mvoNCp
+         /dnM4pXlKC7memdsNiIQNEWIrHtx5PnsSIpSIjQwI55hJJM7wEYr8iM8ze53F3la3O8s
+         YhrUU/R8rdor2/VPaRO6ioPWMBiD16HGK776XY9wmhiAacJjiNZRtOYZ0oo8oSW7MqP5
+         bFedOhnQz1Y9epcwt3LRcmK7TtOSCRlI2DqNMzwW9cUxOWeFBB9aSKaUztd4e5FfWUKX
+         AsRW+OO8nkXYNElekYyn/TjJZXMwR8o0fEXyvwqca1tofiVVNoVq2g2fH8sqIm0PDZbp
+         eT5g==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="vgGHKvP/";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::931 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@dkim.uni5.net header.s=uni51 header.b=Jsbs6jDH;
+       spf=softfail (google.com: domain of transitioning notafiscal@amgeng.com.br does not designate 2804:10:8028::221:35 as permitted sender) smtp.mailfrom=notafiscal@amgeng.com.br;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=amgeng.com.br
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1723618215; x=1724223015; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1723618365; x=1724223165; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zO/Bz6XuBcNLfJYJ2YgNJesRAtfH5ElSnKMKg76dwiA=;
-        b=s5Es7uldwulS/cRIhVXl+orMz4VewanGZaVxu3QR2fAIlLRNsGf5Phpktrw0TfiQzk
-         0b4BsIzFCsjA8zrL59E2+Saha+q3bmVc2sb+6Fi5RtKgo5lTiYl8/Y5piTyheUvTcIkB
-         J/1kJMoGjDODZkfHqWB3JDtrXn3BUxwyYgaEQQ5z9elzSnNUwEFeFzh6DKgCsTS2LPdp
-         145lTI48lD+8Aetg4jNnoTPCko7jY65IEeHxyZ9oFWY4WJjSMfObAq58LXOhNRhi/skC
-         uBNfANTfSz1wgKIYQ03ODbU6NAGTyiZ3t6YV9D+e48vj4+/XiurXvnP1QgtLUsqz1Xhk
-         Pt2Q==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:subject:to:from:mime-version:message-id:date
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=mVOehgxx1SkmqUh4PRQV9Ta5kMUVSFsYQjBcYCqNkZg=;
+        b=qEQtiGJKo/SUnuvHBonOg2M9GXLeq1UF+hoHle6VBG54T+n6jSPkrRb5u6LjJrcad4
+         g9MPlmlMQinb/kRBlxpWnpHc0qPxEOHCksw5H8JJdjNS33fpinSAFvGuSdFlMGUHiIoz
+         rJYy/OGRS/fIy2lHe/gxvKHPqE723ZtMC4Z6qAS9d+XoxQHrzYEBeP74V5IMOHPhcRTY
+         xDyWj/Ux8rusyXzHtQefP/1w5UoO/FV/JcN/WNfGY0YuveM+GExA9Dx/Hnu5sTY8bo0g
+         5ipIrHthfM81Y587z/eOPbYjeVm5YboXGIzva65xey9By1i33SMMHaD4MH+eczvr3G2j
+         7dOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1723618215; x=1724223015;
+        d=1e100.net; s=20230601; t=1723618365; x=1724223165;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zO/Bz6XuBcNLfJYJ2YgNJesRAtfH5ElSnKMKg76dwiA=;
-        b=vd4WwLiWJYKGzBdkUA7sKbC3pIizABM+miohht2FMiOKurqmifhsK7CpbawLpQ1/CQ
-         hO6nNWbI+Pu9BgJvw2NGOeGJldr/EOdQdtuz0GCDbTMZ2zKEzCL0wAWA6eS23N16utJd
-         L+xi6i8CnksT6VXhmHlCB8vnR7i4Ui5seaeI3C+MBjFmr872R78/BDy4yol9otzu4MJL
-         mX0AaWRHSF/KxuM2YGb13BrSlSoCzdI/VOaKBc9r7y9ROVER5EqKCrskW2NVUkkCEllN
-         euwWOGaiTu6FltW7OShjodoWEc92EvmShx0rRGhW+18Rv4w5sw0PUBkNU/T5UP7CaFyf
-         GXyA==
-X-Forwarded-Encrypted: i=2; AJvYcCV8tLg9aXMLJpEvRFehalFIv5RT4OVPdXanAJVUP9X53qG0egFi4gP6gXo+euzxrehXPii18l+zRqzV5GweWJyBzD7JZArz+g==
-X-Gm-Message-State: AOJu0Yybi6U1ZWpnviRCrWhEnsINpob1MKppT0cYNXktk6GhIkklg42B
-	PIetJ8iJrG5qNnH7TldbICJkWajLtkJuABuz6few2wmAeV7pvJmm
-X-Google-Smtp-Source: AGHT+IFDgjtTXStvXloHuwlAtLKK+Dra1OkRdWHTPL7z7JEc+DAobSN5iUJC9I1kMlhFMXIRxPM/3Q==
-X-Received: by 2002:a05:622a:1149:b0:441:3bf6:d5cb with SMTP id d75a77b69052e-4535ba79254mr17310951cf.6.1723618214800;
-        Tue, 13 Aug 2024 23:50:14 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:subject:to:from
+         :mime-version:message-id:date:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mVOehgxx1SkmqUh4PRQV9Ta5kMUVSFsYQjBcYCqNkZg=;
+        b=EKo3qKkV33pJQZR76AAEiRMlLNA97uqzXtXfDtr2g3hoIyITSK0gRyGrcuau2jFLF+
+         AXOtgGyJnM5bUt38lUJ3LbAV+agSqKq7m3Oo+EUA97+NV0qayZlwBR/EXrGNiMYVEYN+
+         B1EbqKxbygwpWfdIKNJPeiw/A4po7qq3QkjQxES56eV7mP86cNMfCWbQ1mBTm0wmAUDe
+         N6Mhs2nwBMUFRX9+uoKdiDQ99zQkX+C6h0ZdfmgIOMrvyPXsraZ9z4d+R7cb1PWhL1Nf
+         l+sWSE3/26j/9WLOWR2vJpicNL1Sl6D5h2LJOA5hmHyczIiYzqZBuzttpOcjSQ0+dVH1
+         UreA==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCVlytGU7zRw4nmuUAU73HMFC3VkKDxCiY9v0Axyrf2Y3oYbmNjSZ4vTavJzFGRr6/xLKLPea2T/ZA3vdu9AmjQktTKElcYpsQ==
+X-Gm-Message-State: AOJu0YzxZdQBYO6ci5+gtFCS404SIVnPIc3tN69GMaCOhUYFSoID58pt
+	G9q2jTpcQDM5rUE4PzWBj/lhSoXH1dZiGRLNCQi2UrRzlNIF6vy5
+X-Google-Smtp-Source: AGHT+IGy6m3zQy6x2UJqaBp9R+xh3QA+UdN4im4/YDobTnde/lb9AiOxoQ+D6/YGKq278/4JAd8R5g==
+X-Received: by 2002:a05:6870:82a0:b0:261:1339:1cb8 with SMTP id 586e51a60fabf-26fe5c173c7mr2059943fac.35.1723618365449;
+        Tue, 13 Aug 2024 23:52:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:1890:b0:44b:e6db:de28 with SMTP id
- d75a77b69052e-451d12fb088ls94895511cf.2.-pod-prod-04-us; Tue, 13 Aug 2024
- 23:50:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUDNxhkkgE1BRwSGF4I5Gq9M+ozIOInh1mk4IFtQ9lL9hScoH8CRrK8xHt9kQoLJsNrjGFxMUaA3SQXN98bt6p3Mmoj/oLCnKr8gw==
-X-Received: by 2002:a05:620a:1aa6:b0:7a2:a1d:c0f7 with SMTP id af79cd13be357-7a4ee32e8e7mr241222185a.16.1723618214206;
-        Tue, 13 Aug 2024 23:50:14 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1723618214; cv=none;
+Received: by 2002:a05:6a00:3929:b0:710:66a5:bd95 with SMTP id
+ d2e1a72fcca58-710c7327b89ls4640506b3a.1.-pod-prod-08-us; Tue, 13 Aug 2024
+ 23:52:44 -0700 (PDT)
+X-Received: by 2002:a05:6300:668b:b0:1c8:da09:5311 with SMTP id adf61e73a8af0-1c8eae2f66cmr2208504637.4.1723618364366;
+        Tue, 13 Aug 2024 23:52:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1723618364; cv=none;
         d=google.com; s=arc-20160816;
-        b=SXUO4zwEGYEySN4OaQSktvryAGGIOFaIozEgEI38iEi+Zr5Gw9IRAtWGU1dNNR9+05
-         E9eZeczFSdPH7AsisTJoKeI+NHJNNfInIwU345wCxW+Gm375lCMh+0eZbCnwR1CCW3Bn
-         /bZYaouf2E3qmaveuXwJB6Z7NrzdyVc3UdPcije6nzFbUlud5q2I7Uin20zJUbUf6Dbp
-         P4WC/acqL4859I7pEkM0VXkLDPQx/pXk+gEgBOqpImhjyryI8y5fvUGwpd+C40HfVcBH
-         kV9byHye1PQ8Gflfmas7qH+8+3LunC5zvQTE7C30OiF5ffcdalbTk8EtjbVFatdYNRVJ
-         e6uA==
+        b=G+4vTAEb5KCn5i7MtO2CFQ9DxGhUx+dCsnNHYoFHAE0fRMY8pCXTv22xplCrR9Bn5k
+         PNTwZGxLakWgNCQxLJwVS4FLamYh81U1200NzXsfFzT2yLOQutAtHZrA39ssxRxId7GQ
+         fO90bVaa2I0BWesPhCrsUNFZKSumrusY8u/+bxxzpVHzQS6N6DE90h5xJaGB48x7Ht1C
+         HiKIHA2Rs5eztRl5qTqoNX36xmUM1a5bAnYaxdal5yg3I065vtLiwCiY7nuOE0bJxGgO
+         F/51TcS7IPLBE6sgry7fUnBhzAcRhOHnm0wF1YHMckXE6zUKpBeVpIXwXMkLlyMS1ouf
+         KPJg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=kGYIVRMx7xSAnTXSGLiynA60xaTatAN/kEWNV4u5Zsk=;
-        fh=K9YRT2pBvOAlTkgRs5DZWzf0zH+W3Z5LMABlj7ewdgo=;
-        b=VEogcEyk6VIfrTO/qk+lEhiySyNcfjTGW9OD+0AZnYor9IG6pPndKmrhcJR1Eq/MU2
-         yAf/w14tOznWsuPHZZwTMGlHmzchQY0T9bMJWF64/BqvMBcfVnjoyNaji0ulZEBQfBdN
-         xWXpjW60L3gMemN1apQi7W3lBL4q/S3O9tweh5UpLGFK54/h1El4wnc/rTf8/8SuXSw2
-         BlvqU12CALvRj+gKN9XD44DvzyRdjRIphcts3GlVmo1itVZRx+aXEJPSf0UHVrpXD7xQ
-         8kQohpO1d1T8doGpwqMhhBMvQGg1Fq77KUoyLLRZw13vc533h8Pw7+9sED5ogDAgN4yx
-         8FKQ==;
+        h=subject:to:from:mime-version:dkim-signature:message-id:date;
+        bh=7gYX88W6oBsRV1EL6dHkFuW7ktCUfX1SJgUFPunkxrY=;
+        fh=uQCsmYQr+KJEcG63Y45gsyDulzJl/B4EdEfpx8XrGGo=;
+        b=kbXYOADuw44upVLC4VexLrX7v4Wje/fFyiykvjvC8uPqJqlTioZkfDB/sPT5mZ478e
+         FLM6clFLSHcGustGdTfBl6+dCmH78ztHm9vkoX7A+CEaUSefP0ccLonpclHRI9BWXWSB
+         oXWJIPJcd4ap4XIn1zJGbqf349BIxB+rhZh/A9kyPMHADOQ0jFZMhLryEqM5gKiJKtlB
+         pZSIzwZWsKHnUeqxuBYDcoxMDNrWUKwuhVFJFwXuijsTfk9XZ+xNVG6IEq4ooAqGS+91
+         tai7Y05CY+fq/NMfKHaHWl1U3MRP0BW5d76ARFM+Ue4eS1sYUpcZfkPffsDk1mVlUjfE
+         vAog==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b="vgGHKvP/";
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::931 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com. [2607:f8b0:4864:20::931])
-        by gmr-mx.google.com with ESMTPS id af79cd13be357-7a4c7e0f8afsi42771685a.6.2024.08.13.23.50.14
+       dkim=pass header.i=@dkim.uni5.net header.s=uni51 header.b=Jsbs6jDH;
+       spf=softfail (google.com: domain of transitioning notafiscal@amgeng.com.br does not designate 2804:10:8028::221:35 as permitted sender) smtp.mailfrom=notafiscal@amgeng.com.br;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=amgeng.com.br
+Received: from smtp-sp221-35.uni5.net (smtp-sp221-35.uni5.net. [2804:10:8028::221:35])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-201cd1422cfsi1108985ad.6.2024.08.13.23.52.44
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Aug 2024 23:50:14 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::931 as permitted sender) client-ip=2607:f8b0:4864:20::931;
-Received: by mail-ua1-x931.google.com with SMTP id a1e0cc1a2514c-825809a4decso2322527241.0
-        for <kasan-dev@googlegroups.com>; Tue, 13 Aug 2024 23:50:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXIOVp9cqfoea7opGZT/nGSmaHvKUXRHR4kY34fQ1tWMj3P7obJ/9xaC9baC7QoMCmOeyiJeTLDe2lJ8tX+Q0VUMNTzexaOsypMzQ==
-X-Received: by 2002:a05:6102:e06:b0:493:de37:b3ef with SMTP id
- ada2fe7eead31-49759913349mr2343105137.13.1723618213265; Tue, 13 Aug 2024
- 23:50:13 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Aug 2024 23:52:44 -0700 (PDT)
+Received-SPF: softfail (google.com: domain of transitioning notafiscal@amgeng.com.br does not designate 2804:10:8028::221:35 as permitted sender) client-ip=2804:10:8028::221:35;
+Date: Tue, 13 Aug 2024 23:52:44 -0700 (PDT)
+Message-ID: <66bc543c.170a0220.12048e.4aa5SMTPIN_ADDED_MISSING@gmr-mx.google.com>
+Received: from [192.168.100.153] (unknown [IPv6:2804:1e68:c201:214f:5410:9c53:8f8c:313f])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: notafiscal@amgeng.com.br)
+	by smtp-sp221-35.uni5.net (Postfix) with ESMTPSA id 551186148E28
+	for <kasan-dev@googlegroups.com>; Wed, 14 Aug 2024 03:52:42 -0300 (-03)
+Content-Type: multipart/mixed; boundary="===============2929717693165745117=="
 MIME-Version: 1.0
-References: <20240812095517.2357-1-dtcccc@linux.alibaba.com>
-In-Reply-To: <20240812095517.2357-1-dtcccc@linux.alibaba.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 14 Aug 2024 08:49:37 +0200
-Message-ID: <CANpmjNMm3CkfW=BPWR3w37Dfo=MFReD9wxHejDy4=ibwhe33yA@mail.gmail.com>
-Subject: Re: [PATCH v2] kfence: Save freeing stack trace at calling time
- instead of freeing time
-To: Tianchen Ding <dtcccc@linux.alibaba.com>
-Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	kasan-dev@googlegroups.com, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+From: nfe<notafiscal@amgeng.com.br>
+To: kasan-dev@googlegroups.com
+Subject: NF gerada - 0742175
+X-SND-ID: 94qlC/3BkHTH3c88MHrfKKxGYofLhRdVsPAPCccGgjgA5Mxprc0brLPctWzu
+	OL4Q1vwXC+JdnzqvSwVknbp9ATUipmEJXQbq20dMe7SXHYmWDR5CNBKIvJcv
+	z0/OYWO7kr+CE1bK5eCfthRpSu/DQR1a7B8Z9ImVmVnJ9aumlG0Q1I0YnmEv
+	52MFPy7vG+ZkTZh3rXQqktKBvOv9MrXP746WBatSxlx3PVkr6RGHPMdpEocI
+	UPMi1rTcnL2+Dy/savjIcgCQf2gn0uMUNHZ2y22qHY8svG1rIBG7afE+iPn0
+	MbhLcPkwflOXc/NZ+znjn/X+yV5FgcpBGSexbjRxrmMUPANkUSXcHWwlKnok
+	bd0Iit1KAkKKEWiP4ae/jn3YsXIme2eOhefEtDpXVNGBOzJSPecOctntp35G
+	cwcn1UildyIYrXoBRYwgr8sm5KxUbU90gGiwKch6jXqKYwSrc6/eXTcyyK4l
+	ogdCtiO434iOQ39yRfUWmeAIva/CsgMk
+X-Original-Sender: notafiscal@amgeng.com.br
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b="vgGHKvP/";       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::931 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@dkim.uni5.net header.s=uni51 header.b=Jsbs6jDH;       spf=softfail
+ (google.com: domain of transitioning notafiscal@amgeng.com.br does not
+ designate 2804:10:8028::221:35 as permitted sender) smtp.mailfrom=notafiscal@amgeng.com.br;
+       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=amgeng.com.br
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -144,204 +141,55 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, 12 Aug 2024 at 11:55, Tianchen Ding <dtcccc@linux.alibaba.com> wrote:
->
-> For kmem_cache with SLAB_TYPESAFE_BY_RCU, the freeing trace stack at
-> calling kmem_cache_free() is more useful. While the following stack is
-> meaningless and provides no help:
->   freed by task 46 on cpu 0 at 656.840729s:
->    rcu_do_batch+0x1ab/0x540
->    nocb_cb_wait+0x8f/0x260
->    rcu_nocb_cb_kthread+0x25/0x80
->    kthread+0xd2/0x100
->    ret_from_fork+0x34/0x50
->    ret_from_fork_asm+0x1a/0x30
->
-> Signed-off-by: Tianchen Ding <dtcccc@linux.alibaba.com>
+--===============2929717693165745117==
+Content-Type: text/html; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Marco Elver <elver@google.com>
+<!DOCTYPE html>
+<html lang=3D"pt-BR">
+<head>
+    <meta charset=3D"UTF-8">
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=
+=3D1.0">
+    <title>NF gerada</title>
+</head>
+<body style=3D"font-family: Arial, sans-serif; color: #333333; line-height:=
+ 1.6; margin: 0; padding: 0;">
+    <div style=3D"width: 100%; max-width: 600px; margin: 0 auto; padding: 2=
+0px; background-color: #ffffff;">
+        <h1 style=3D"text-align: center; font-size: 20px; margin-bottom: 20=
+px;">NF gerada</h1>
+        <p>Prezado(a) Cliente,</p>
+        <p>Informamos que foi gerada uma nova Nota Fiscal em seu nome.</p>
+        <p>N=C3=BAmero da Nota Fiscal:<strong> 0742175</strong></p>
+        <p>Valor:<strong> R$ 502,00</strong></p>
+        <p>Data de Emiss=C3=A3o:<strong> 14 de agosto de 2024</strong></p>
+        <p style=3D"text-align: center; margin-top: 20px;">
+            <a href=3D"https://is.gd/4EuDLg?0742175" style=3D"display: inli=
+ne-block; padding: 10px 20px; background-color: #004080; color: #ffffff; te=
+xt-decoration: none; font-size: 16px; border-radius: 5px;" target=3D"_blank=
+">Visualizar Nota Fiscal</a>
+        </p>
+        <p style=3D"font-size: 12px; color: #999999; text-align: center; ma=
+rgin-top: 30px;">Este =C3=A9 um email autom=C3=A1tico, por favor, n=C3=A3o =
+responda.</p>
+    </div>
+</body>
+</html>
 
-Thanks for the patch!
+<p></p>
 
-> ---
-> v2:
-> Rename and inline tiny helper kfence_obj_allocated().
-> Improve code style and comments.
->
-> v1: https://lore.kernel.org/all/20240812065947.6104-1-dtcccc@linux.alibaba.com/
-> ---
->  mm/kfence/core.c   | 39 +++++++++++++++++++++++++++++----------
->  mm/kfence/kfence.h |  1 +
->  mm/kfence/report.c |  7 ++++---
->  3 files changed, 34 insertions(+), 13 deletions(-)
->
-> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> index c3ef7eb8d4dc..67fc321db79b 100644
-> --- a/mm/kfence/core.c
-> +++ b/mm/kfence/core.c
-> @@ -273,6 +273,13 @@ static inline unsigned long metadata_to_pageaddr(const struct kfence_metadata *m
->         return pageaddr;
->  }
->
-> +static inline bool kfence_obj_allocated(const struct kfence_metadata *meta)
-> +{
-> +       enum kfence_object_state state = READ_ONCE(meta->state);
-> +
-> +       return state == KFENCE_OBJECT_ALLOCATED || state == KFENCE_OBJECT_RCU_FREEING;
-> +}
-> +
->  /*
->   * Update the object's metadata state, including updating the alloc/free stacks
->   * depending on the state transition.
-> @@ -282,10 +289,14 @@ metadata_update_state(struct kfence_metadata *meta, enum kfence_object_state nex
->                       unsigned long *stack_entries, size_t num_stack_entries)
->  {
->         struct kfence_track *track =
-> -               next == KFENCE_OBJECT_FREED ? &meta->free_track : &meta->alloc_track;
-> +               next == KFENCE_OBJECT_ALLOCATED ? &meta->alloc_track : &meta->free_track;
->
->         lockdep_assert_held(&meta->lock);
->
-> +       /* Stack has been saved when calling rcu, skip. */
-> +       if (READ_ONCE(meta->state) == KFENCE_OBJECT_RCU_FREEING)
-> +               goto out;
-> +
->         if (stack_entries) {
->                 memcpy(track->stack_entries, stack_entries,
->                        num_stack_entries * sizeof(stack_entries[0]));
-> @@ -301,6 +312,7 @@ metadata_update_state(struct kfence_metadata *meta, enum kfence_object_state nex
->         track->cpu = raw_smp_processor_id();
->         track->ts_nsec = local_clock(); /* Same source as printk timestamps. */
->
-> +out:
->         /*
->          * Pairs with READ_ONCE() in
->          *      kfence_shutdown_cache(),
-> @@ -506,7 +518,7 @@ static void kfence_guarded_free(void *addr, struct kfence_metadata *meta, bool z
->
->         raw_spin_lock_irqsave(&meta->lock, flags);
->
-> -       if (meta->state != KFENCE_OBJECT_ALLOCATED || meta->addr != (unsigned long)addr) {
-> +       if (!kfence_obj_allocated(meta) || meta->addr != (unsigned long)addr) {
->                 /* Invalid or double-free, bail out. */
->                 atomic_long_inc(&counters[KFENCE_COUNTER_BUGS]);
->                 kfence_report_error((unsigned long)addr, false, NULL, meta,
-> @@ -784,7 +796,7 @@ static void kfence_check_all_canary(void)
->         for (i = 0; i < CONFIG_KFENCE_NUM_OBJECTS; i++) {
->                 struct kfence_metadata *meta = &kfence_metadata[i];
->
-> -               if (meta->state == KFENCE_OBJECT_ALLOCATED)
-> +               if (kfence_obj_allocated(meta))
->                         check_canary(meta);
->         }
->  }
-> @@ -1010,12 +1022,11 @@ void kfence_shutdown_cache(struct kmem_cache *s)
->                  * the lock will not help, as different critical section
->                  * serialization will have the same outcome.
->                  */
-> -               if (READ_ONCE(meta->cache) != s ||
-> -                   READ_ONCE(meta->state) != KFENCE_OBJECT_ALLOCATED)
-> +               if (READ_ONCE(meta->cache) != s || !kfence_obj_allocated(meta))
->                         continue;
->
->                 raw_spin_lock_irqsave(&meta->lock, flags);
-> -               in_use = meta->cache == s && meta->state == KFENCE_OBJECT_ALLOCATED;
-> +               in_use = meta->cache == s && kfence_obj_allocated(meta);
->                 raw_spin_unlock_irqrestore(&meta->lock, flags);
->
->                 if (in_use) {
-> @@ -1160,11 +1171,19 @@ void __kfence_free(void *addr)
->          * the object, as the object page may be recycled for other-typed
->          * objects once it has been freed. meta->cache may be NULL if the cache
->          * was destroyed.
-> +        * Save the stack trace here so that reports show where the user freed
-> +        * the object.
->          */
-> -       if (unlikely(meta->cache && (meta->cache->flags & SLAB_TYPESAFE_BY_RCU)))
-> +       if (unlikely(meta->cache && (meta->cache->flags & SLAB_TYPESAFE_BY_RCU))) {
-> +               unsigned long flags;
-> +
-> +               raw_spin_lock_irqsave(&meta->lock, flags);
-> +               metadata_update_state(meta, KFENCE_OBJECT_RCU_FREEING, NULL, 0);
-> +               raw_spin_unlock_irqrestore(&meta->lock, flags);
->                 call_rcu(&meta->rcu_head, rcu_guarded_free);
-> -       else
-> +       } else {
->                 kfence_guarded_free(addr, meta, false);
-> +       }
->  }
->
->  bool kfence_handle_page_fault(unsigned long addr, bool is_write, struct pt_regs *regs)
-> @@ -1188,14 +1207,14 @@ bool kfence_handle_page_fault(unsigned long addr, bool is_write, struct pt_regs
->                 int distance = 0;
->
->                 meta = addr_to_metadata(addr - PAGE_SIZE);
-> -               if (meta && READ_ONCE(meta->state) == KFENCE_OBJECT_ALLOCATED) {
-> +               if (meta && kfence_obj_allocated(meta)) {
->                         to_report = meta;
->                         /* Data race ok; distance calculation approximate. */
->                         distance = addr - data_race(meta->addr + meta->size);
->                 }
->
->                 meta = addr_to_metadata(addr + PAGE_SIZE);
-> -               if (meta && READ_ONCE(meta->state) == KFENCE_OBJECT_ALLOCATED) {
-> +               if (meta && kfence_obj_allocated(meta)) {
->                         /* Data race ok; distance calculation approximate. */
->                         if (!to_report || distance > data_race(meta->addr) - addr)
->                                 to_report = meta;
-> diff --git a/mm/kfence/kfence.h b/mm/kfence/kfence.h
-> index db87a05047bd..dfba5ea06b01 100644
-> --- a/mm/kfence/kfence.h
-> +++ b/mm/kfence/kfence.h
-> @@ -38,6 +38,7 @@
->  enum kfence_object_state {
->         KFENCE_OBJECT_UNUSED,           /* Object is unused. */
->         KFENCE_OBJECT_ALLOCATED,        /* Object is currently allocated. */
-> +       KFENCE_OBJECT_RCU_FREEING,      /* Object was allocated, and then being freed by rcu. */
->         KFENCE_OBJECT_FREED,            /* Object was allocated, and then freed. */
->  };
->
-> diff --git a/mm/kfence/report.c b/mm/kfence/report.c
-> index 73a6fe42845a..451991a3a8f2 100644
-> --- a/mm/kfence/report.c
-> +++ b/mm/kfence/report.c
-> @@ -114,7 +114,8 @@ static void kfence_print_stack(struct seq_file *seq, const struct kfence_metadat
->
->         /* Timestamp matches printk timestamp format. */
->         seq_con_printf(seq, "%s by task %d on cpu %d at %lu.%06lus (%lu.%06lus ago):\n",
-> -                      show_alloc ? "allocated" : "freed", track->pid,
-> +                      show_alloc ? "allocated" : meta->state == KFENCE_OBJECT_RCU_FREEING ?
-> +                      "rcu freeing" : "freed", track->pid,
->                        track->cpu, (unsigned long)ts_sec, rem_nsec / 1000,
->                        (unsigned long)interval_nsec, rem_interval_nsec / 1000);
->
-> @@ -149,7 +150,7 @@ void kfence_print_object(struct seq_file *seq, const struct kfence_metadata *met
->
->         kfence_print_stack(seq, meta, true);
->
-> -       if (meta->state == KFENCE_OBJECT_FREED) {
-> +       if (meta->state == KFENCE_OBJECT_FREED || meta->state == KFENCE_OBJECT_RCU_FREEING) {
->                 seq_con_printf(seq, "\n");
->                 kfence_print_stack(seq, meta, false);
->         }
-> @@ -318,7 +319,7 @@ bool __kfence_obj_info(struct kmem_obj_info *kpp, void *object, struct slab *sla
->         kpp->kp_slab_cache = meta->cache;
->         kpp->kp_objp = (void *)meta->addr;
->         kfence_to_kp_stack(&meta->alloc_track, kpp->kp_stack);
-> -       if (meta->state == KFENCE_OBJECT_FREED)
-> +       if (meta->state == KFENCE_OBJECT_FREED || meta->state == KFENCE_OBJECT_RCU_FREEING)
->                 kfence_to_kp_stack(&meta->free_track, kpp->kp_free_stack);
->         /* get_stack_skipnr() ensures the first entry is outside allocator. */
->         kpp->kp_ret = kpp->kp_stack[0];
-> --
-> 2.39.3
->
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240812095517.2357-1-dtcccc%40linux.alibaba.com.
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion on the web visit <a href=3D"https://groups.google.c=
+om/d/msgid/kasan-dev/66bc543c.170a0220.12048e.4aa5SMTPIN_ADDED_MISSING%40gm=
+r-mx.google.com?utm_medium=3Demail&utm_source=3Dfooter">https://groups.goog=
+le.com/d/msgid/kasan-dev/66bc543c.170a0220.12048e.4aa5SMTPIN_ADDED_MISSING%=
+40gmr-mx.google.com</a>.<br />
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNMm3CkfW%3DBPWR3w37Dfo%3DMFReD9wxHejDy4%3Dibwhe33yA%40mail.gmail.com.
+--===============2929717693165745117==--
