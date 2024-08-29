@@ -1,119 +1,119 @@
-Return-Path: <kasan-dev+bncBCMIFTP47IJBBDMRX63AMGQEUWNCHKY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIFTP47IJBBD4RX63AMGQETLNRKOI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3f.google.com (mail-oa1-x3f.google.com [IPv6:2001:4860:4864:20::3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD47963732
-	for <lists+kasan-dev@lfdr.de>; Thu, 29 Aug 2024 03:02:06 +0200 (CEST)
-Received: by mail-oa1-x3f.google.com with SMTP id 586e51a60fabf-27795dffb33sf149426fac.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 28 Aug 2024 18:02:06 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1724893325; cv=pass;
+Received: from mail-oa1-x3c.google.com (mail-oa1-x3c.google.com [IPv6:2001:4860:4864:20::3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD3C963734
+	for <lists+kasan-dev@lfdr.de>; Thu, 29 Aug 2024 03:02:08 +0200 (CEST)
+Received: by mail-oa1-x3c.google.com with SMTP id 586e51a60fabf-2706005dbcbsf90340fac.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 28 Aug 2024 18:02:08 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1724893327; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ivlPC2cf1QJab6PpcvvxdlpchnFlENLbD+ijuULT0aLJOmlpup5k7AsgXQ8zOhsQWr
-         vTQq27yRu3a9cOMfmlzsH5mdRPPPG6jaV/o2Bq0b+/TiXALgAO5LE4/9zqVuzfbgJ+BH
-         VsXb+dfv5gbkndUTvcT+P+LGRwhSkhI06ps7ZPNn/rYA2j+LfIDZ+OxRZ+lg3AbSgCjq
-         meT//hJMVSQZvJpUbAuBLfGku+TCSc/i/aYizv43MT2ao5KeeAICEyaR7HspSbTyFE2R
-         GyDU+TW0YA0CXksVAgTbQqZ1EeZDbRsP70FOfPhhE5i7IC9Iy44oVM85EpIgyEQ/Azo6
-         M1hA==
+        b=D92Na3eB0ZQjfu4Zkq4OZQR0yUR2GLk61cDVoCSo7H8Z11PmdpqhV27rJtzo2PgMm6
+         be1xcviVhQSB5JtA9i0te0rJauivC9Of0glev51LeZyy89qTNVqop14ygUm3ifUbkhZI
+         H07d2yDuzLJirdi5H1MrTkpmHuT/b3t4RSnwBFoo/YV3uZ7y+c+s2MTPvtdCNWT8cEfm
+         on4TFgOynoirphpQdPcbzpcwi3lTFPg5mkv6DNAKcBLK+s/5TBnQgHEXGtmkFjVq/NLe
+         MGSPMqQpVQRtjPR7ZGlj+8C9eGiSRaI21SEjMb+Eh+RdsT04+5Zf8LCnF6wPikp8R8FL
+         AsHQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=f5sWITHSS41uOHUp/fn91GzOvsvqOMBbSsJAlVhm1qY=;
-        fh=hS7cujRd4q1BaEL4sJrVcYJ2FcCx0Vm5e+0b0sa9Pmg=;
-        b=KNxUT62/RU2pclUThtdePwd7KRVeiHZarDFXT8pDpPG8PfPX3JQ37GGUr7l1Acj20+
-         k+amLxOgK8RmtoKGX8kYgmTYwScQquQTtkt6A3gjFuqOPQ4qvT1EFj8Rv4iWrJY42Qvn
-         3fk+G1GKs6hu0XovMst1y2OZeqXylRBJ0jpGGgDvagnU7ID0zo+P7smhKZjHZKQFEvkr
-         7RzX+OzohggfmW26jMHbca6CSwrnF5j2GJSV0GLWBSr+BIkzzVptmWAODs1QeVaJX34a
-         /Dsedjz4zuHO4511zpUV/d8PahgB9UTQ3E1xjdjt07nngeVRdlqu0wMFeFUyEp+Kn8K1
-         SNFQ==;
+        bh=IJuVJXCIIGm2doYaQCYw7NriLReCAKm1hQUgB2TT+gk=;
+        fh=7Wh7bvRpAyU/3ccuW6Cq3ocHoxn6ZbAaXQET7ACXr6g=;
+        b=ODtyffU66+ulsR4jKZhRdDaOkv7y0KySjPrQER3lHlp/7drUA4IY3m89te2V6xhMY5
+         fD2DfR5NKEoBZjxfW7cgtlRjcuTCMYWUXm0izbrktZ9GKZCD5ydHrw81WHdhaz9/1B0b
+         kLPajh9clH574K3NqaClLwDP6Y4CX1Kuu0Mj7beCgBJF/uVPx7eL5YRte1U3dp8ablOs
+         nNFtSMZ2lpm+QOj00Wr4K6Seki+KmHMnm/MMhmffY+vvxGSSHHTVXPA5tMV/s8LtIoWs
+         xP6KUsx8i0tQP2LB7rsi0Jr5eNuhQufVM9yxxF96b5GDqlicDUcXvDdz0GzghCXNsG0I
+         gfeg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@sifive.com header.s=google header.b=JPEmM1sF;
-       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dkim=pass header.i=@sifive.com header.s=google header.b=U1SIptP0;
+       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::42e as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1724893325; x=1725498125; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1724893327; x=1725498127; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=f5sWITHSS41uOHUp/fn91GzOvsvqOMBbSsJAlVhm1qY=;
-        b=McC74tIm6R8/4HJszzp5aYmyAZ6hpk9QnBKkQlyErbauVbAI8EP9sd7dvU5gjuSngt
-         sr2DvNgBX6QwfRs/DQRf3wqAzRh9KhPpxopPTg2XsWhnwVD3UlWpJp4WiVj1GwPAdQlz
-         5UJ1auAeDmejXz8qBwoKYhUbvSdkRWSh08DkxPBS9ZwtzTYx1p0sTUm89a6/uhZm0MbZ
-         OY3bw5h5oEr/S/gie9EnG32Po3L3Pla3J0lvSMHMnFhdjEg3BenYE2bYZxFQOQ2Fn0b+
-         Ie/26syJJJ+BkneJ0PQJyIpkeD9lQYJjsRUv5VP7kqXVAJuIaRzYj1Fv8PONV5P7YTdO
-         LHdQ==
+        bh=IJuVJXCIIGm2doYaQCYw7NriLReCAKm1hQUgB2TT+gk=;
+        b=Lqma5Hwc+NbRFENFqSLaLrBwjcEI/xvjxTJSHQLLyzz+CVLIdKIaBNRlu5hA80OOsC
+         rkNbjeWHulLPRlr+F71YvRK6xpcZfSQCWLP8lW7dfu7l5XNb2yLUavUvN5Ds2eb3PMtu
+         s7Ji0Q6xeUDmA6FBmWwLKTLz/ia0WvgRM7X5fxhXIwzP96cmmpyiHcF+WmGdpXEmgKN+
+         /Ac5wueAsXT0/RXVQ0kxxLmn03yu9JjkxQRNeDDsQANQAK07fwMTItO1ugywjOvkEfV4
+         L+zCRYhiZ6kDRz9SqOmb9UhOfzKh6thB1qcYWL7nznk3BEkCvpI8agMF9oGxfoCISMgY
+         78cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724893325; x=1725498125;
+        d=1e100.net; s=20230601; t=1724893327; x=1725498127;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=f5sWITHSS41uOHUp/fn91GzOvsvqOMBbSsJAlVhm1qY=;
-        b=uAm7pNN2XMNC2juHgBiCDZYbBqM/0ouTrkv31lR8aiQUn764PlCNXkqtaz5bPtizDW
-         VgXubZE/zRJZkuhhrx78qYeIXZnUxfxE9iDZM/KEuRqnUTRKK61ye8yknN7C3zLjJo1z
-         xfBIo71JFrIWgewU0VFQSSbOzRyuWs/AyMfpjZSnUFcf1F9KrB+17OQQ2haQ50LVzuvJ
-         peenPv1aQVr6iYfR+crJynfKa1ZCt6y1mQRW5aZSCFlx0dr6dzGjx4rpjlwOoZP3iYHX
-         LAdHqwOKpCDrFDjjX4Ct9ph7ef9XgKbHAh6FtYAhNgmERfbHfArGPlSV9DpjI5caT+zk
-         nx1w==
-X-Forwarded-Encrypted: i=2; AJvYcCVwbv2N+lFPZKFrtnzSfewBc7NuC3VtDEClz2px4JApiRmMau2svtMxB37++zIcMZYSVvcQBg==@lfdr.de
-X-Gm-Message-State: AOJu0YyESPgCHvLXo77OfWnx3WBl9MDX7jK4ZGbNandkn8XqF/TTi0jJ
-	7mSZttPys7AtOT/qBtOiCHUim5Pp0KUd/5SQqPDUBBBhGdAjCKp5
-X-Google-Smtp-Source: AGHT+IGa4QbSL3WeMN6cVd1f78QlOqeDVwETOxJISbzporPJjRRrFKc8uBRX+77j4nfIArYzw7dCJQ==
-X-Received: by 2002:a05:687c:2c4d:b0:260:f01e:a3f5 with SMTP id 586e51a60fabf-2779013e14fmr1365515fac.23.1724893325435;
-        Wed, 28 Aug 2024 18:02:05 -0700 (PDT)
+        bh=IJuVJXCIIGm2doYaQCYw7NriLReCAKm1hQUgB2TT+gk=;
+        b=WoeA0HcZ7od98UqpuuWcWqJ1Qt/MnMR1ZM75NCE94oHOeDAIq8tI9jL48PgWYeqPgB
+         0ZjBUi2uOeZ6Wx7nPzARwJuYRCWFN+rZlHDMurHuDrM2BcydQzDVX/AW7dsxhZRZDI0Y
+         CN2t+hPHPWhTsHbCyIrFB0vB1W7NlkUyEjq8dTDV+spjmEEBx2ARxzNfep+O9VSyjjJt
+         BuPqj0vqj1az9nB+l2fXiXrMjszzoYXtNZKMPSLl2N1VS8qxDdGWoDSvpYATTxGV2PYN
+         tt3ZmrmDXusshDxPypdhDv2Kgq8/SxrF5oVDhxnI+iDSP0PsswLGypXopwBtu8sKE38b
+         PCKg==
+X-Forwarded-Encrypted: i=2; AJvYcCVeJ1fiEEWE/pvVJWu5DuYC15jfAPh3ESqSiy0ti3EHYpxWw07zNWyX9y1YBIB+ggCt/WYBxQ==@lfdr.de
+X-Gm-Message-State: AOJu0YzLECrFppGvSxaVyd1lNI124BFNdIaHIY2WsLOKCuI+f/fpNtd/
+	s5jOv4y+gYS4rV+GLr0z4FNt7OSV7blOLAmV3pGmzMqwyyiSq1hA
+X-Google-Smtp-Source: AGHT+IGLn3JVFvs3S4zq7smdX/nwu2/Y7PDAr1g+KYFK+nnJ0jZvP4t0C+6cC39qRkFCuBJwVE7jcw==
+X-Received: by 2002:a05:6870:b68e:b0:259:8371:513f with SMTP id 586e51a60fabf-27793544d83mr410427fac.21.1724893327274;
+        Wed, 28 Aug 2024 18:02:07 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6871:a583:b0:25e:1ff1:3bb7 with SMTP id
- 586e51a60fabf-2778f0a207els693995fac.0.-pod-prod-02-us; Wed, 28 Aug 2024
- 18:02:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCV8r17onyI2N+Ki1ScIXiAhKa/xvYtLZ4+kNwXq4AVD/9GQNOyMx5eNaq1NinYGKchK+UPeUN6/jfE=@googlegroups.com
-X-Received: by 2002:a05:6870:164b:b0:25e:24b:e65b with SMTP id 586e51a60fabf-2779031e583mr1573646fac.42.1724893324670;
-        Wed, 28 Aug 2024 18:02:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1724893324; cv=none;
+Received: by 2002:a05:6871:758c:b0:24f:f6d5:2d15 with SMTP id
+ 586e51a60fabf-2778f0c2720ls204942fac.0.-pod-prod-00-us; Wed, 28 Aug 2024
+ 18:02:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWSIWrMDjwsQFhZPJnoJol70JwBKOyVaH1vyuQqJNuEJNbv6q/bFhENIUcVibjDyJKHmo+Vp3isYTQ=@googlegroups.com
+X-Received: by 2002:a05:6871:553:b0:267:ab12:7fbe with SMTP id 586e51a60fabf-27792f148bfmr427607fac.0.1724893326532;
+        Wed, 28 Aug 2024 18:02:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1724893326; cv=none;
         d=google.com; s=arc-20160816;
-        b=ZYDxf37T1hXqi9OSvfnXlgo87HdKK/+9QQZaotyc4hNB31t+gHCRXgULIpMKryGBvZ
-         iJJNcxPe3nhFahryA7kyMV25enEE595eS/mN9IhYNs9t5g2hDYNTYJv9BUzSr7VIOppp
-         vFbl7XXAfXqTtxRj9vEIKCJtRcBJgl0cFFEMizyKj4HFCZiUtrgkh5nZ7uM1Hbe90q6S
-         0jGmYT45C0S7q8c76hZVj91ubAaHI/BX4hu5qw/z+hcPRb69YNfpXogfUUCl5i0QskLa
-         WV8MeClgNUYu8ITUCwHAIipL+mqMODKsemYYMGla5VezQa9NlF1BEG2iL2BYz3T7twyN
-         JVQw==
+        b=sp2QMYZPoNocDVGpGdQH2cCSLvLbrwvE9xXLQP0+lezcRzAs3yj0hQQB0+3AO+IQMx
+         V3d3mM7dLb2Xs75GNrt+FVbLVwUZqRxMmhgnr6AD49eOE1vo+C3c5cvn9nzZIY6OnK6K
+         DtfdPnjKgIZLtvftphrG04tG2Wa++Y/Y3KSTPxtw8nUB2jntdJVTOr/mOhedhj40XQM5
+         msUZWXTtzMeql2ry5CP+fhq6c4CO2fbyKw6JsJaaG1zda5qx+ws6+C+5mYGGA9IWpBnh
+         le8bsp3dyP+7AfAaQVJC5voS/6upW6+AZsElU88d7T2weLiEwJ60eF/DGCntLooutFOT
+         mrFw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=+2DzaTFaQhCi8x+b8lScKZdT6wqGghcdZfo+S0TqwgI=;
-        fh=UkkLWsvMq0K2z8w/VJBd9ZiBaEd3moGW5s4G5Gt5tuE=;
-        b=baaiJKEvU2KzlP34FDJx51E+nJi3OhIaYzwo4oA0I2iI1i8Nj1MqhygoOTdQRX0jnL
-         IJ2NdfPXLTfaIoo8GMHX35HBMXoPJS5pvugR/2jPb5XibcxaIjLiR0ADuasFpqeTtryJ
-         AVTsprba1j97El0ionb9UqOEibhlJUQL0UkZPZOdpkd8NrrGOKlgLOwPP1Hb5m+/sOw3
-         F+O1vJIBCy6I/2GhZomJKRoQ0xttfTeYCnhoQ3ug+U2cpKbBKzsYcu0p7GqWYr/JG60l
-         ht5kuKNnkuiJJGjyGTe+KRrS84ABedTzd4Z1m7XA1pOTzhsaqdezutxFDJeu6+onaCod
-         NZhg==;
+        bh=QdTr6WFexikZD5z5SMB0wNcwIFtpGfuIsUFT4S+mZyo=;
+        fh=tSKJNg+VT8o4AkCmcp6kQW8uDkS4pyfS2de9CaH0Izc=;
+        b=SjJyq2/KhSyvhVjxrR6Xa2kQjGls+l1dgkfddh6bZfN21EKDf6LuA7BYclQjrMFzNf
+         m5HUg5OZXY1JAueDUAsub1Tn+HEZ0TlEYfcgdgeyheDRMcIo+yxBKNoqUc51jzuHRzVi
+         xW251whDu2rCIsr+/06AM7OV6XGTgXvXZo0KTxb6FdJFKcmlNJaTiJd0YRzJYMCFpdRk
+         Gzlp//F3cXCk0SXCTVgqecAPC5bM7cOkr4sxpM5CidWGhgbA3HX5yvjWS5qReCB3oQVr
+         4SlxN5OoJdm+Ftzrcj9MKfRr2Cih5ut6gArogeG/pJND0P+J4PqicvGTSGMblu6/Rg36
+         RT3A==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@sifive.com header.s=google header.b=JPEmM1sF;
-       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dkim=pass header.i=@sifive.com header.s=google header.b=U1SIptP0;
+       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::42e as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com. [2607:f8b0:4864:20::42f])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-715e55b0c74si7390b3a.2.2024.08.28.18.02.04
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com. [2607:f8b0:4864:20::42e])
+        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-27799f3162dsi4013fac.1.2024.08.28.18.02.06
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Aug 2024 18:02:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::42f as permitted sender) client-ip=2607:f8b0:4864:20::42f;
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-71430e7eaf8so114346b3a.1
-        for <kasan-dev@googlegroups.com>; Wed, 28 Aug 2024 18:02:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXB74foAwd6RJNEbCOLeKUY1J942fZX8QS+es1wmafuvKHD+3YrR++4J17Q5l0Xhws09goZhblHRjA=@googlegroups.com
-X-Received: by 2002:a05:6a20:9c89:b0:1c3:a63a:cef2 with SMTP id adf61e73a8af0-1cce10161e3mr1027463637.28.1724893323584;
-        Wed, 28 Aug 2024 18:02:03 -0700 (PDT)
+        Wed, 28 Aug 2024 18:02:06 -0700 (PDT)
+Received-SPF: pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::42e as permitted sender) client-ip=2607:f8b0:4864:20::42e;
+Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-7142448aaf9so82679b3a.1
+        for <kasan-dev@googlegroups.com>; Wed, 28 Aug 2024 18:02:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWtVajR40CSczU02YrRvtTS67k0v8cP5aHeB1/83uuxkhSbAgGnQFIUNhHPHN7UFV4n2ED/RrC975c=@googlegroups.com
+X-Received: by 2002:a05:6a00:3a99:b0:70e:ce95:b87 with SMTP id d2e1a72fcca58-715e0d94b8cmr1199293b3a.0.1724893325492;
+        Wed, 28 Aug 2024 18:02:05 -0700 (PDT)
 Received: from sw06.internal.sifive.com ([4.53.31.132])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e5576a4dsm89670b3a.17.2024.08.28.18.02.02
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e5576a4dsm89670b3a.17.2024.08.28.18.02.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Aug 2024 18:02:03 -0700 (PDT)
+        Wed, 28 Aug 2024 18:02:05 -0700 (PDT)
 From: "'Samuel Holland' via kasan-dev" <kasan-dev@googlegroups.com>
 To: Palmer Dabbelt <palmer@dabbelt.com>,
 	linux-riscv@lists.infradead.org
@@ -129,18 +129,18 @@ Cc: devicetree@vger.kernel.org,
 	Rob Herring <robh+dt@kernel.org>,
 	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
 	Samuel Holland <samuel.holland@sifive.com>
-Subject: [PATCH v4 06/10] riscv: Allow ptrace control of the tagged address ABI
-Date: Wed, 28 Aug 2024 18:01:28 -0700
-Message-ID: <20240829010151.2813377-7-samuel.holland@sifive.com>
+Subject: [PATCH v4 07/10] selftests: riscv: Add a pointer masking test
+Date: Wed, 28 Aug 2024 18:01:29 -0700
+Message-ID: <20240829010151.2813377-8-samuel.holland@sifive.com>
 X-Mailer: git-send-email 2.45.1
 In-Reply-To: <20240829010151.2813377-1-samuel.holland@sifive.com>
 References: <20240829010151.2813377-1-samuel.holland@sifive.com>
 MIME-Version: 1.0
 X-Original-Sender: samuel.holland@sifive.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@sifive.com header.s=google header.b=JPEmM1sF;       spf=pass
+ header.i=@sifive.com header.s=google header.b=U1SIptP0;       spf=pass
  (google.com: domain of samuel.holland@sifive.com designates
- 2607:f8b0:4864:20::42f as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+ 2607:f8b0:4864:20::42e as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Samuel Holland <samuel.holland@sifive.com>
@@ -158,100 +158,406 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This allows a tracer to control the ABI of the tracee, as on arm64.
+This test covers the behavior of the PR_SET_TAGGED_ADDR_CTRL and
+PR_GET_TAGGED_ADDR_CTRL prctl() operations, their effects on the
+userspace ABI, and their effects on the system call ABI.
 
 Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
 ---
 
-(no changes since v1)
+(no changes since v2)
 
- arch/riscv/kernel/ptrace.c | 42 ++++++++++++++++++++++++++++++++++++++
- include/uapi/linux/elf.h   |  1 +
- 2 files changed, 43 insertions(+)
+Changes in v2:
+ - Rename "tags" directory to "pm" to avoid .gitignore rules
+ - Add .gitignore file to ignore the compiled selftest binary
+ - Write to a pipe to force dereferencing the user pointer
+ - Handle SIGSEGV in the child process to reduce dmesg noise
 
-diff --git a/arch/riscv/kernel/ptrace.c b/arch/riscv/kernel/ptrace.c
-index 92731ff8c79a..ea67e9fb7a58 100644
---- a/arch/riscv/kernel/ptrace.c
-+++ b/arch/riscv/kernel/ptrace.c
-@@ -28,6 +28,9 @@ enum riscv_regset {
- #ifdef CONFIG_RISCV_ISA_V
- 	REGSET_V,
- #endif
-+#ifdef CONFIG_RISCV_ISA_SUPM
-+	REGSET_TAGGED_ADDR_CTRL,
+ tools/testing/selftests/riscv/Makefile        |   2 +-
+ tools/testing/selftests/riscv/pm/.gitignore   |   1 +
+ tools/testing/selftests/riscv/pm/Makefile     |  10 +
+ .../selftests/riscv/pm/pointer_masking.c      | 330 ++++++++++++++++++
+ 4 files changed, 342 insertions(+), 1 deletion(-)
+ create mode 100644 tools/testing/selftests/riscv/pm/.gitignore
+ create mode 100644 tools/testing/selftests/riscv/pm/Makefile
+ create mode 100644 tools/testing/selftests/riscv/pm/pointer_masking.c
+
+diff --git a/tools/testing/selftests/riscv/Makefile b/tools/testing/selftests/riscv/Makefile
+index 7ce03d832b64..2ee1d1548c5f 100644
+--- a/tools/testing/selftests/riscv/Makefile
++++ b/tools/testing/selftests/riscv/Makefile
+@@ -5,7 +5,7 @@
+ ARCH ?= $(shell uname -m 2>/dev/null || echo not)
+ 
+ ifneq (,$(filter $(ARCH),riscv))
+-RISCV_SUBTARGETS ?= hwprobe vector mm sigreturn
++RISCV_SUBTARGETS ?= hwprobe mm pm sigreturn vector
+ else
+ RISCV_SUBTARGETS :=
+ endif
+diff --git a/tools/testing/selftests/riscv/pm/.gitignore b/tools/testing/selftests/riscv/pm/.gitignore
+new file mode 100644
+index 000000000000..b38358f91c4d
+--- /dev/null
++++ b/tools/testing/selftests/riscv/pm/.gitignore
+@@ -0,0 +1 @@
++pointer_masking
+diff --git a/tools/testing/selftests/riscv/pm/Makefile b/tools/testing/selftests/riscv/pm/Makefile
+new file mode 100644
+index 000000000000..ed82ff9c664e
+--- /dev/null
++++ b/tools/testing/selftests/riscv/pm/Makefile
+@@ -0,0 +1,10 @@
++# SPDX-License-Identifier: GPL-2.0
++
++CFLAGS += -I$(top_srcdir)/tools/include
++
++TEST_GEN_PROGS := pointer_masking
++
++include ../../lib.mk
++
++$(OUTPUT)/pointer_masking: pointer_masking.c
++	$(CC) -static -o$@ $(CFLAGS) $(LDFLAGS) $^
+diff --git a/tools/testing/selftests/riscv/pm/pointer_masking.c b/tools/testing/selftests/riscv/pm/pointer_masking.c
+new file mode 100644
+index 000000000000..0fe80f963ace
+--- /dev/null
++++ b/tools/testing/selftests/riscv/pm/pointer_masking.c
+@@ -0,0 +1,330 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#include <errno.h>
++#include <fcntl.h>
++#include <setjmp.h>
++#include <signal.h>
++#include <stdbool.h>
++#include <sys/prctl.h>
++#include <sys/wait.h>
++#include <unistd.h>
++
++#include "../../kselftest.h"
++
++#ifndef PR_PMLEN_SHIFT
++#define PR_PMLEN_SHIFT			24
 +#endif
- };
- 
- static int riscv_gpr_get(struct task_struct *target,
-@@ -152,6 +155,35 @@ static int riscv_vr_set(struct task_struct *target,
- }
- #endif
- 
-+#ifdef CONFIG_RISCV_ISA_SUPM
-+static int tagged_addr_ctrl_get(struct task_struct *target,
-+				const struct user_regset *regset,
-+				struct membuf to)
++#ifndef PR_PMLEN_MASK
++#define PR_PMLEN_MASK			(0x7fUL << PR_PMLEN_SHIFT)
++#endif
++
++static int dev_zero;
++
++static int pipefd[2];
++
++static sigjmp_buf jmpbuf;
++
++static void sigsegv_handler(int sig)
 +{
-+	long ctrl = get_tagged_addr_ctrl(target);
-+
-+	if (IS_ERR_VALUE(ctrl))
-+		return ctrl;
-+
-+	return membuf_write(&to, &ctrl, sizeof(ctrl));
++	siglongjmp(jmpbuf, 1);
 +}
 +
-+static int tagged_addr_ctrl_set(struct task_struct *target,
-+				const struct user_regset *regset,
-+				unsigned int pos, unsigned int count,
-+				const void *kbuf, const void __user *ubuf)
++static int min_pmlen;
++static int max_pmlen;
++
++static inline bool valid_pmlen(int pmlen)
 +{
++	return pmlen == 0 || pmlen == 7 || pmlen == 16;
++}
++
++static void test_pmlen(void)
++{
++	ksft_print_msg("Testing available PMLEN values\n");
++
++	for (int request = 0; request <= 16; request++) {
++		int pmlen, ret;
++
++		ret = prctl(PR_SET_TAGGED_ADDR_CTRL, request << PR_PMLEN_SHIFT, 0, 0, 0);
++		if (ret)
++			goto pr_set_error;
++
++		ret = prctl(PR_GET_TAGGED_ADDR_CTRL, 0, 0, 0, 0);
++		ksft_test_result(ret >= 0, "PMLEN=%d PR_GET_TAGGED_ADDR_CTRL\n", request);
++		if (ret < 0)
++			goto pr_get_error;
++
++		pmlen = (ret & PR_PMLEN_MASK) >> PR_PMLEN_SHIFT;
++		ksft_test_result(pmlen >= request, "PMLEN=%d constraint\n", request);
++		ksft_test_result(valid_pmlen(pmlen), "PMLEN=%d validity\n", request);
++
++		if (min_pmlen == 0)
++			min_pmlen = pmlen;
++		if (max_pmlen < pmlen)
++			max_pmlen = pmlen;
++
++		continue;
++
++pr_set_error:
++		ksft_test_result_skip("PMLEN=%d PR_GET_TAGGED_ADDR_CTRL\n", request);
++pr_get_error:
++		ksft_test_result_skip("PMLEN=%d constraint\n", request);
++		ksft_test_result_skip("PMLEN=%d validity\n", request);
++	}
++
++	if (max_pmlen == 0)
++		ksft_exit_fail_msg("Failed to enable pointer masking\n");
++}
++
++static int set_tagged_addr_ctrl(int pmlen, bool tagged_addr_abi)
++{
++	int arg, ret;
++
++	arg = pmlen << PR_PMLEN_SHIFT | tagged_addr_abi;
++	ret = prctl(PR_SET_TAGGED_ADDR_CTRL, arg, 0, 0, 0);
++	if (!ret) {
++		ret = prctl(PR_GET_TAGGED_ADDR_CTRL, 0, 0, 0, 0);
++		if (ret == arg)
++			return 0;
++	}
++
++	return ret < 0 ? -errno : -ENODATA;
++}
++
++static void test_dereference_pmlen(int pmlen)
++{
++	static volatile int i;
++	volatile int *p;
 +	int ret;
-+	long ctrl;
 +
-+	ret = user_regset_copyin(&pos, &count, &kbuf, &ubuf, &ctrl, 0, -1);
++	ret = set_tagged_addr_ctrl(pmlen, false);
 +	if (ret)
-+		return ret;
++		return ksft_test_result_error("PMLEN=%d setup (%d)\n", pmlen, ret);
 +
-+	return set_tagged_addr_ctrl(target, ctrl);
++	i = pmlen;
++
++	if (pmlen) {
++		p = (volatile int *)((uintptr_t)&i | 1UL << __riscv_xlen - pmlen);
++
++		/* These dereferences should succeed. */
++		if (sigsetjmp(jmpbuf, 1))
++			return ksft_test_result_fail("PMLEN=%d valid tag\n", pmlen);
++		if (*p != pmlen)
++			return ksft_test_result_fail("PMLEN=%d bad value\n", pmlen);
++		*p++;
++	}
++
++	p = (volatile int *)((uintptr_t)&i | 1UL << __riscv_xlen - pmlen - 1);
++
++	/* These dereferences should raise SIGSEGV. */
++	if (sigsetjmp(jmpbuf, 1))
++		return ksft_test_result_pass("PMLEN=%d dereference\n", pmlen);
++	*p++;
++	ksft_test_result_fail("PMLEN=%d invalid tag\n", pmlen);
 +}
-+#endif
 +
- static const struct user_regset riscv_user_regset[] = {
- 	[REGSET_X] = {
- 		.core_note_type = NT_PRSTATUS,
-@@ -182,6 +214,16 @@ static const struct user_regset riscv_user_regset[] = {
- 		.set = riscv_vr_set,
- 	},
- #endif
-+#ifdef CONFIG_RISCV_ISA_SUPM
-+	[REGSET_TAGGED_ADDR_CTRL] = {
-+		.core_note_type = NT_RISCV_TAGGED_ADDR_CTRL,
-+		.n = 1,
-+		.size = sizeof(long),
-+		.align = sizeof(long),
-+		.regset_get = tagged_addr_ctrl_get,
-+		.set = tagged_addr_ctrl_set,
-+	},
-+#endif
- };
- 
- static const struct user_regset_view riscv_user_native_view = {
-diff --git a/include/uapi/linux/elf.h b/include/uapi/linux/elf.h
-index b54b313bcf07..9a32532d7264 100644
---- a/include/uapi/linux/elf.h
-+++ b/include/uapi/linux/elf.h
-@@ -448,6 +448,7 @@ typedef struct elf64_shdr {
- #define NT_MIPS_MSA	0x802		/* MIPS SIMD registers */
- #define NT_RISCV_CSR	0x900		/* RISC-V Control and Status Registers */
- #define NT_RISCV_VECTOR	0x901		/* RISC-V vector registers */
-+#define NT_RISCV_TAGGED_ADDR_CTRL 0x902	/* RISC-V tagged address control (prctl()) */
- #define NT_LOONGARCH_CPUCFG	0xa00	/* LoongArch CPU config registers */
- #define NT_LOONGARCH_CSR	0xa01	/* LoongArch control and status registers */
- #define NT_LOONGARCH_LSX	0xa02	/* LoongArch Loongson SIMD Extension registers */
++static void test_dereference(void)
++{
++	ksft_print_msg("Testing userspace pointer dereference\n");
++
++	signal(SIGSEGV, sigsegv_handler);
++
++	test_dereference_pmlen(0);
++	test_dereference_pmlen(min_pmlen);
++	test_dereference_pmlen(max_pmlen);
++
++	signal(SIGSEGV, SIG_DFL);
++}
++
++static void execve_child_sigsegv_handler(int sig)
++{
++	exit(42);
++}
++
++static int execve_child(void)
++{
++	static volatile int i;
++	volatile int *p = (volatile int *)((uintptr_t)&i | 1UL << __riscv_xlen - 7);
++
++	signal(SIGSEGV, execve_child_sigsegv_handler);
++
++	/* This dereference should raise SIGSEGV. */
++	return *p;
++}
++
++static void test_fork_exec(void)
++{
++	int ret, status;
++
++	ksft_print_msg("Testing fork/exec behavior\n");
++
++	ret = set_tagged_addr_ctrl(min_pmlen, false);
++	if (ret)
++		return ksft_test_result_error("setup (%d)\n", ret);
++
++	if (fork()) {
++		wait(&status);
++		ksft_test_result(WIFEXITED(status) && WEXITSTATUS(status) == 42,
++				 "dereference after fork\n");
++	} else {
++		static volatile int i = 42;
++		volatile int *p = (volatile int *)((uintptr_t)&i | 1UL << __riscv_xlen - min_pmlen);
++
++		/* This dereference should succeed. */
++		exit(*p);
++	}
++
++	if (fork()) {
++		wait(&status);
++		ksft_test_result(WIFEXITED(status) && WEXITSTATUS(status) == 42,
++				 "dereference after fork+exec\n");
++	} else {
++		/* Will call execve_child(). */
++		execve("/proc/self/exe", (char *const []) { "", NULL }, NULL);
++	}
++}
++
++static void test_tagged_addr_abi_sysctl(void)
++{
++	char value;
++	int fd;
++
++	ksft_print_msg("Testing tagged address ABI sysctl\n");
++
++	fd = open("/proc/sys/abi/tagged_addr_disabled", O_WRONLY);
++	if (fd < 0) {
++		ksft_test_result_skip("failed to open sysctl file\n");
++		ksft_test_result_skip("failed to open sysctl file\n");
++		return;
++	}
++
++	value = '1';
++	pwrite(fd, &value, 1, 0);
++	ksft_test_result(set_tagged_addr_ctrl(min_pmlen, true) == -EINVAL,
++			 "sysctl disabled\n");
++
++	value = '0';
++	pwrite(fd, &value, 1, 0);
++	ksft_test_result(set_tagged_addr_ctrl(min_pmlen, true) == 0,
++			 "sysctl enabled\n");
++
++	set_tagged_addr_ctrl(0, false);
++
++	close(fd);
++}
++
++static void test_tagged_addr_abi_pmlen(int pmlen)
++{
++	int i, *p, ret;
++
++	i = ~pmlen;
++
++	if (pmlen) {
++		p = (int *)((uintptr_t)&i | 1UL << __riscv_xlen - pmlen);
++
++		ret = set_tagged_addr_ctrl(pmlen, false);
++		if (ret)
++			return ksft_test_result_error("PMLEN=%d ABI disabled setup (%d)\n",
++						      pmlen, ret);
++
++		ret = write(pipefd[1], p, sizeof(*p));
++		if (ret >= 0 || errno != EFAULT)
++			return ksft_test_result_fail("PMLEN=%d ABI disabled write\n", pmlen);
++
++		ret = read(dev_zero, p, sizeof(*p));
++		if (ret >= 0 || errno != EFAULT)
++			return ksft_test_result_fail("PMLEN=%d ABI disabled read\n", pmlen);
++
++		if (i != ~pmlen)
++			return ksft_test_result_fail("PMLEN=%d ABI disabled value\n", pmlen);
++
++		ret = set_tagged_addr_ctrl(pmlen, true);
++		if (ret)
++			return ksft_test_result_error("PMLEN=%d ABI enabled setup (%d)\n",
++						      pmlen, ret);
++
++		ret = write(pipefd[1], p, sizeof(*p));
++		if (ret != sizeof(*p))
++			return ksft_test_result_fail("PMLEN=%d ABI enabled write\n", pmlen);
++
++		ret = read(dev_zero, p, sizeof(*p));
++		if (ret != sizeof(*p))
++			return ksft_test_result_fail("PMLEN=%d ABI enabled read\n", pmlen);
++
++		if (i)
++			return ksft_test_result_fail("PMLEN=%d ABI enabled value\n", pmlen);
++
++		i = ~pmlen;
++	} else {
++		/* The tagged address ABI cannot be enabled when PMLEN == 0. */
++		ret = set_tagged_addr_ctrl(pmlen, true);
++		if (ret != -EINVAL)
++			return ksft_test_result_error("PMLEN=%d ABI setup (%d)\n",
++						      pmlen, ret);
++	}
++
++	p = (int *)((uintptr_t)&i | 1UL << __riscv_xlen - pmlen - 1);
++
++	ret = write(pipefd[1], p, sizeof(*p));
++	if (ret >= 0 || errno != EFAULT)
++		return ksft_test_result_fail("PMLEN=%d invalid tag write (%d)\n", pmlen, errno);
++
++	ret = read(dev_zero, p, sizeof(*p));
++	if (ret >= 0 || errno != EFAULT)
++		return ksft_test_result_fail("PMLEN=%d invalid tag read\n", pmlen);
++
++	if (i != ~pmlen)
++		return ksft_test_result_fail("PMLEN=%d invalid tag value\n", pmlen);
++
++	ksft_test_result_pass("PMLEN=%d tagged address ABI\n", pmlen);
++}
++
++static void test_tagged_addr_abi(void)
++{
++	ksft_print_msg("Testing tagged address ABI\n");
++
++	test_tagged_addr_abi_pmlen(0);
++	test_tagged_addr_abi_pmlen(min_pmlen);
++	test_tagged_addr_abi_pmlen(max_pmlen);
++}
++
++static struct test_info {
++	unsigned int nr_tests;
++	void (*test_fn)(void);
++} tests[] = {
++	{ .nr_tests = 17 * 3, test_pmlen },
++	{ .nr_tests = 3, test_dereference },
++	{ .nr_tests = 2, test_fork_exec },
++	{ .nr_tests = 2, test_tagged_addr_abi_sysctl },
++	{ .nr_tests = 3, test_tagged_addr_abi },
++};
++
++int main(int argc, char **argv)
++{
++	unsigned int plan = 0;
++	int ret;
++
++	/* Check if this is the child process after execve(). */
++	if (!argv[0][0])
++		return execve_child();
++
++	dev_zero = open("/dev/zero", O_RDWR);
++	if (dev_zero < 0)
++		return 1;
++
++	/* Write to a pipe so the kernel must dereference the buffer pointer. */
++	ret = pipe(pipefd);
++	if (ret)
++		return 1;
++
++	ksft_print_header();
++
++	for (int i = 0; i < ARRAY_SIZE(tests); ++i)
++		plan += tests[i].nr_tests;
++
++	ksft_set_plan(plan);
++
++	for (int i = 0; i < ARRAY_SIZE(tests); ++i)
++		tests[i].test_fn();
++
++	ksft_finished();
++}
 -- 
 2.45.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240829010151.2813377-7-samuel.holland%40sifive.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240829010151.2813377-8-samuel.holland%40sifive.com.
