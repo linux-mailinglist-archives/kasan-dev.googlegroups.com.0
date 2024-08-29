@@ -1,80 +1,148 @@
-Return-Path: <kasan-dev+bncBCZJFLUA24DBB3OTX23AMGQEW3MU3SI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIFTP47IJBBA4RX63AMGQEBOBXGIA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc38.google.com (mail-oo1-xc38.google.com [IPv6:2607:f8b0:4864:20::c38])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF55963506
-	for <lists+kasan-dev@lfdr.de>; Thu, 29 Aug 2024 00:51:27 +0200 (CEST)
-Received: by mail-oo1-xc38.google.com with SMTP id 006d021491bc7-5d5b62ee8b9sf39728eaf.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 28 Aug 2024 15:51:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1724885486; x=1725490286; darn=lfdr.de;
+Received: from mail-oa1-x37.google.com (mail-oa1-x37.google.com [IPv6:2001:4860:4864:20::37])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2773096372B
+	for <lists+kasan-dev@lfdr.de>; Thu, 29 Aug 2024 03:01:57 +0200 (CEST)
+Received: by mail-oa1-x37.google.com with SMTP id 586e51a60fabf-2701a253946sf150800fac.3
+        for <lists+kasan-dev@lfdr.de>; Wed, 28 Aug 2024 18:01:57 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1724893316; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=DlcW6hF3oEJAfVMgMWTkGnvQAFI1B0Ye/Au0cTgC9rCPZgYPxV+vST9E5qn0pQRS6q
+         G8t63AAMNM7kwa6lUil8n6qEIkTMbMnYtCb2fmogOAVvvAqk1jtPUnWuHSlSXGmiRmVx
+         CsIHW1F7TZUHAZtsY4DEuqeOhDukY1nOawFmXFdipRr/6Wx33xO7MDgTmGSUQcJu7aLn
+         CkhQDa+wPcuYWm4T1huJEEShERV7YoGVs/cbIHkaVEpuHcvUnE675Tq7HlZeCZdh1zkH
+         S8St8mithHxBw8t+2MPQJaqhKTfaIqQEwWQ2NrIusiuOXp72aQcb+XI3iaFLi0Tl817/
+         /kyA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:message-id:to:from:date:sender:from:to:cc:subject:date
+         :list-id:mailing-list:precedence:reply-to:mime-version:message-id
+         :date:subject:cc:to:from:dkim-signature;
+        bh=x7CoAorWNwnpWevKfKlWQIHMLVgpBuaCAV+MSfmjLOg=;
+        fh=8IVS8ElQ6Bl9fkWx1DrzrSvWVA2g6nej1YvWucNoGXE=;
+        b=aqkqbpX5evunAth+yfTzwpZLMEr9dxVhQTE2i7pz+lgIMKJWEg64K9nCzoKYwEM0GL
+         Xm8z6qr2Ehm25FRFyqrU735NBiBLhxr43GzL5ZO+FRvHgP18PUHVDX6+uWQrqF/reLDo
+         nk5iiDy+mUJEgVWNWw/5lHMvPvumknYcCgApwSkPg3xoepDiF+7siunHHLEYJc3y/2tG
+         PZk0GrN32LHNe/iSlhAWwu/5p8kvbvLZDwsd7F0pRvXiv7q3eo2nBpiUoQe3uiLkKje+
+         0GFRlm+xDz/9m4CT92IjPPHA/KzqYi4onRZWtqA0AVFPbb9therAH4ME3Me/EOiIgas+
+         xKUg==;
+        darn=lfdr.de
+ARC-Authentication-Results: i=2; gmr-mx.google.com;
+       dkim=pass header.i=@sifive.com header.s=google header.b=EAVkf62M;
+       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com;
+       dara=pass header.i=@googlegroups.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20230601; t=1724893316; x=1725498116; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O3a0YV4r+aUQKR9mInksenJ416Apb/pFpVOm54MHCSw=;
-        b=anH7WHi2FIYUYLUSHHmdNkYU4rADNYd0USGlB7d+/4rVDKDpCxYLD+zt1yxk+7tz7Z
-         NG0oZ3OhukYNQGzrDjimWNduPiv3RjwG8xNp97ft4YrgKl6jh6dWcLJJjao77tjOVnjm
-         6AXit+phOppHN/xUBjxYwsqoCdUEgZbdHz6us00dvUyRBcyM1opyrFf0QowNEsuTamPY
-         BDaQ3g7dc7gtO/I3aBGhwf3W46QAQ1gvLWpBfc0lox0LDrJ742OvMysy2nDvW6ePxSjB
-         YjGB7y2eqrYZ7M0f5KYbSV4dnL092joZx3xUU7VpicuD3uTax3I+LMeb06jdy5mxhyFD
-         VZrg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724885486; x=1725490286; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-sender:mime-version
-         :subject:message-id:to:from:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=O3a0YV4r+aUQKR9mInksenJ416Apb/pFpVOm54MHCSw=;
-        b=H034T2zXAxLyn9I1wW/M4We5BzNlQlhuGHC2sRo13YQwgQtr6MLmw0IyXyV2/zywMr
-         lmVDdykMyDrNbxGJBO0R8GnYWGR+cM55fQC1sBdWYperEzdCeFKmDPROAt5vD+uxZRjw
-         W0lZ3/KNObRzAXo9NNV3/uwn3ycSl9xlPUb92ntH9WcKH+RMOkODNQupkNpy0TjLxf9W
-         23Dgu4H4m/VdVhaEdFidDPJZZNRMFZPPWl4kNqaUlY1sxbFanbO7iX2daBoKRDKCsc3e
-         2IxOmtVV2r5U5Uq0LKo0f7ZL9HACp942ZNpd3M2h6Z8WO8MjXAQ2v86o6cpb+VjM6V//
-         gMsg==
+        bh=x7CoAorWNwnpWevKfKlWQIHMLVgpBuaCAV+MSfmjLOg=;
+        b=qaPpcdSf3gNScnJMyeYytHdU+09k141GBIX3iif2DZj1ETaoNyRC5WWawzSqMLKDG5
+         sIcpN77kmd3RGPgEPAeZQGSVi7afCuFxr9YchEpBPllh+gAV+6zeVlXrMYCB4p9HK7kb
+         N/5wRFxXSp0QWgz2bAAluNcaa7vW72xYnEnRf4mJnGQuCYUFfX+sc7dPSQ3FC9biZKDg
+         VrVyJS2Xs+NZNgFC7N/1JivsY+6M1ckfu69UcQjgzTUbfPI4ahhNBEPm+aglgMC+/AtM
+         OBcbYMv2mAtSpqBmMbd7yeHESm/xUwPwKHVx75fBEliT0N8P/Xjb0SgNVq9qwBd2QXuS
+         ucoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724885486; x=1725490286;
+        d=1e100.net; s=20230601; t=1724893316; x=1725498116;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-sender:mime-version:subject:message-id:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O3a0YV4r+aUQKR9mInksenJ416Apb/pFpVOm54MHCSw=;
-        b=tni3xXKRNcg3QAuNk993+TQNt8Bea8PnwoZVKLE8NBy0jCtJyQG9nMSPa8cWXhCFCU
-         XAyINBzdZZr82EoSNFHiwx0XRGcQdgiE7tBpOhDNhKl3nZ8q6cr45LNyvTxlNuURjA41
-         gQgSgiqlvJP/lvdiwhTxqN2LLuaheHF1LcEemE+x6RbsJrTDESq2ASIXQr0VxnZx9OOD
-         rQaN4NUiwRdIVy05qVU9EqKcHPZgchCFmGMMfa7x7/LffIuWEA19tN59EXJIIllRNYV8
-         uTMRpOfKSH1W2BkNgTIPkWzN67B3F+mUffN1V33aW29qQcYxzIhbELbYsS8/lVcCzhG1
-         iq3g==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=1; AJvYcCXcWsV4U6uD4abT9JiZ6omtVpkn5+0eCF6FzFinzuJ/AwSc+H9KUSmOnQkRzyxJCzL2FLZmCA==@lfdr.de
-X-Gm-Message-State: AOJu0Yysc2BSpNf/B3oAKls7GuXpDDxQvGfAQkEzJxFmMtAhWZPdEH2F
-	8/ge4Qds+d+NWIypdND2sR208XavqBFmcdJI6V9N00KryAu9uuLO
-X-Google-Smtp-Source: AGHT+IEpTZccH1+9FS08rkYtTSU0dSyyjDIWyOYEL5JjB6HfdiaH8295tVqOB/GLyI/X6LUU/tpWMw==
-X-Received: by 2002:a05:6870:a34d:b0:25e:d90:fe70 with SMTP id 586e51a60fabf-2779035f8a2mr1149172fac.43.1724885485757;
-        Wed, 28 Aug 2024 15:51:25 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x7CoAorWNwnpWevKfKlWQIHMLVgpBuaCAV+MSfmjLOg=;
+        b=VjFvHUoDm9Q9BRpYCoexcfxt1Nfh9z1l/LN5JOdjuPWLIoptaaumyYXPQlUyk4n2a8
+         vyjDZBBdkAfJ50LE2niMsFck4q6W/OIy5PvAijQle9j8wwhNYSnKnTvin9k2MPVMWGaj
+         ryvV39BjecLG+esRbGG1nvm2oe7bAj7ffFbVKkTctcQAkOlEzCiqBdhI136NsK91EIDD
+         9ca7eqE8kirAX0YN5KKXxXmTx/5G6jTE8op7NOcTw3eq4kN1PjUjTTLPs9+cSWdIg/14
+         crt2vZUNRcsztpttgvxl9H17P4v5I6zG3BPIG6IDtMQfKh0lQPxqB4F3YUl+nbffNCzD
+         Q31g==
+X-Forwarded-Encrypted: i=2; AJvYcCWL/8e1e/JxnbioGWm7kN4LDMm2iBCxAgKMLFjmf8Syyly4ZLhmdS9OJDFlQ4n6h/WqQ1dpPg==@lfdr.de
+X-Gm-Message-State: AOJu0YyfYJmJ5eBgTEMol3tGB27lTewLIv9Vms/hwiGRSLWVkReySahA
+	s45HcSb895vGj/7gdUFLWmEDlhFMtMYxMeti6QYv1RBslu8j/xDS
+X-Google-Smtp-Source: AGHT+IFyrGYcmJyPIA9yjAnF7kqfETkauF9KReZZOEFEKINP6u6/pOtzuJjTCQfccWHKuFK0QcsZSw==
+X-Received: by 2002:a05:6871:7828:b0:25d:8d4:68ab with SMTP id 586e51a60fabf-277902bfc25mr1679753fac.40.1724893315869;
+        Wed, 28 Aug 2024 18:01:55 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:1ec3:b0:24f:6f0d:5f4a with SMTP id
- 586e51a60fabf-2778f0b1d63ls457732fac.0.-pod-prod-01-us; Wed, 28 Aug 2024
- 15:51:25 -0700 (PDT)
-X-Received: by 2002:a05:6808:3093:b0:3da:a763:4718 with SMTP id 5614622812f47-3df05e63e78mr929059b6e.45.1724885484660;
-        Wed, 28 Aug 2024 15:51:24 -0700 (PDT)
-Date: Wed, 28 Aug 2024 15:51:23 -0700 (PDT)
-From: Eliam Klump <eliamklump893@gmail.com>
-To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <a429e3f9-b654-4868-83cd-9d99a4925fe5n@googlegroups.com>
-Subject: =?UTF-8?B?2YjYp9iq2LPYp9ioICs0MTc5OTU2OTk=?=
- =?UTF-8?B?NjIg2LTYsdin2KEg2KfZhNiv2YjZhNin2LEg2Kc=?=
- =?UTF-8?B?2YTYo9mF2LHZitmD2Yog2LnYqNixINin2YTYpdmG2Ko=?=
- =?UTF-8?B?2LHZhtiqINmB2Yog2KfZhNmD2YjZitiqINin2YTZhdmF?=
- =?UTF-8?B?2YTZg9ipINin2YTYudix2KjZitipINin2YTYs9i52Yg=?=
- =?UTF-8?B?2K/ZitipINmC2LfYsSDYp9mE2KjYrdix2YrZhiDYpw==?=
- =?UTF-8?B?2YTYo9ix2K/ZhiDYp9mE2KXZhdin2LHYp9iqINin2YQ=?=
- =?UTF-8?B?2LnYsdio2YrYqSDYp9mE2YXYqtit2K/YqSDYudmF2KfZhg==?=
+Received: by 2002:a05:6871:a085:b0:25c:b2c1:8569 with SMTP id
+ 586e51a60fabf-2778f4fd364ls544821fac.1.-pod-prod-04-us; Wed, 28 Aug 2024
+ 18:01:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXSsGjLY1Abv0iNxHSe6JXILDnseGl8yM5MtLItjNQljb193VH26Mz0J/ARemGx7nnqX3hnHQq1IWc=@googlegroups.com
+X-Received: by 2002:a05:6870:4713:b0:270:1eca:e9fd with SMTP id 586e51a60fabf-277900774c5mr1350380fac.3.1724893314943;
+        Wed, 28 Aug 2024 18:01:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1724893314; cv=none;
+        d=google.com; s=arc-20160816;
+        b=I8wRpMXTdticagE3M/IKtY3rJoi/zrzbSJaoWXrI/zplfjk854hDP5C715jId7cyzi
+         iMxFN7AtbYlN/ryHr6qmkDbuwuMoNzI7/vxKVQHmUkfGLhTcltwMU5uWgEf+iN8Afp4K
+         I1NoqqGSXyflTIAvE30dIiw48WdO6yAvg/3Zq4tlhX+uJxZnqvCWsW9xQgx0HccApTHa
+         7vZlb96KFnRWuV6hAFBqRDRNYQ4bhfKUQMU7oO3drzWs9tNFUFF8dMmg72y7EJolcdkT
+         bfwWLywm3kbxwphzE6nKe4EB7ryvovx27JUmsr2O5Qx1RVb+9RChW4mSNXNQQKE5lOe3
+         Mw8A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=6QwsbhYPJkRIIKdEOQBCTBjh/yHwiNO4KwyjIKyWe5c=;
+        fh=MTk75dVwlGfZ6SApQwyIr+WTVBdRcMlAKXgmqYQ6KsU=;
+        b=wCBKnlsI7VqS8hkNPWZgWQ7VHa/chu1dh5+HSjk0iQ3l3Al0fk1eiiiD6/6kC4gm+D
+         X+sYQDRQpFFo8RNlX5mnkQh08FEE9eMADZoR4zZ5U6r3gr+CV6qulE8vzOxWMNKa6mw0
+         8/LqVgyFAJOnip8ez6YAGAXMqBUb/7lpA7iQpz5UUxAU1RErh/MTH3fcu6F2ckZyqo2y
+         LzodkThUD4z4fM4C0t386oXKnA14GDCXbDsxoai+15PVGTgLrZx4ydFAlRqnO1DyW9OU
+         ZrSY5I0qA45hQXhHmdB38oWvZjq/jhFBS97M/wrhXRtEHgpKYwV0s7/cSNIfur33iz9w
+         p0dA==;
+        dara=google.com
+ARC-Authentication-Results: i=1; gmr-mx.google.com;
+       dkim=pass header.i=@sifive.com header.s=google header.b=EAVkf62M;
+       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com. [2607:f8b0:4864:20::431])
+        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-27799bbbc90si4264fac.0.2024.08.28.18.01.54
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Aug 2024 18:01:54 -0700 (PDT)
+Received-SPF: pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::431 as permitted sender) client-ip=2607:f8b0:4864:20::431;
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-7142e4dddbfso102774b3a.0
+        for <kasan-dev@googlegroups.com>; Wed, 28 Aug 2024 18:01:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWGpIcnZk33fLzZxvmQ1FD8OPbecohBFWWrveUJ1DO7yW9snAIDfCiD6n++6vSpNZtzpwV2VDwXZ4A=@googlegroups.com
+X-Received: by 2002:a05:6a00:17a8:b0:70a:fb91:66d7 with SMTP id d2e1a72fcca58-715dfca3b68mr1609341b3a.20.1724893313850;
+        Wed, 28 Aug 2024 18:01:53 -0700 (PDT)
+Received: from sw06.internal.sifive.com ([4.53.31.132])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-715e5576a4dsm89670b3a.17.2024.08.28.18.01.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Aug 2024 18:01:53 -0700 (PDT)
+From: "'Samuel Holland' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Palmer Dabbelt <palmer@dabbelt.com>,
+	linux-riscv@lists.infradead.org
+Cc: devicetree@vger.kernel.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-kernel@vger.kernel.org,
+	Anup Patel <anup@brainfault.org>,
+	Conor Dooley <conor@kernel.org>,
+	kasan-dev@googlegroups.com,
+	Atish Patra <atishp@atishpatra.org>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+	Samuel Holland <samuel.holland@sifive.com>
+Subject: [PATCH v4 00/10] riscv: Userspace pointer masking and tagged address ABI
+Date: Wed, 28 Aug 2024 18:01:22 -0700
+Message-ID: <20240829010151.2813377-1-samuel.holland@sifive.com>
+X-Mailer: git-send-email 2.45.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_16800_331888009.1724885483991"
-X-Original-Sender: eliamklump893@gmail.com
+X-Original-Sender: samuel.holland@sifive.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@sifive.com header.s=google header.b=EAVkf62M;       spf=pass
+ (google.com: domain of samuel.holland@sifive.com designates
+ 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com;
+       dara=pass header.i=@googlegroups.com
+X-Original-From: Samuel Holland <samuel.holland@sifive.com>
+Reply-To: Samuel Holland <samuel.holland@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -87,111 +155,119 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_16800_331888009.1724885483991
-Content-Type: multipart/alternative; 
-	boundary="----=_Part_16801_1361919243.1724885483991"
+RISC-V defines three extensions for pointer masking[1]:
+ - Smmpm: configured in M-mode, affects M-mode
+ - Smnpm: configured in M-mode, affects the next lower mode (S or U-mode)
+ - Ssnpm: configured in S-mode, affects the next lower mode (VS, VU, or U-mode)
 
-------=_Part_16801_1361919243.1724885483991
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+This series adds support for configuring Smnpm or Ssnpm (depending on
+which privilege mode the kernel is running in) to allow pointer masking
+in userspace (VU or U-mode), extending the PR_SET_TAGGED_ADDR_CTRL API
+from arm64. Unlike arm64 TBI, userspace pointer masking is not enabled
+by default on RISC-V. Additionally, the tag width (referred to as PMLEN)
+is variable, so userspace needs to ask the kernel for a specific tag
+width, which is interpreted as a lower bound on the number of tag bits.
 
-2LHZgtmFINin2YTYqtmI2KfYtdmEOiArNDE3OTk1Njk5NjIKV2hhdHNBcHA6ICs4NTUxODM5NzE4
-MjUK2KXYsNinINmD2YbYqiDZhdmH2KrZhdmL2Kcg2KjYpdis2LHYp9ihINij2LnZhdin2YQg2KrY
-rNin2LHZitipINmF2LnZhtin2Iwg2YHYp9iq2LXZhCDYqNmG2Kcg2LnYqNixINin2LPZhSDZhdiz
-2KrYrtiv2YUgVGVsZWdyYW06IApAUFJJVkFURUlOVkVTVE8KV2hhdHNBcHA6ICs4NDc3NjMyNjM4
-MgrYtNix2KfYoSDYp9mE2K/ZiNmE2KfYsSDYp9mE2KPZhdix2YrZg9mKINin2YTYo9i12YTZiiDY
-udio2LEg2KfZhNil2YbYqtix2YbYqiDZgdmKINi52YXYp9mGINmI2KfZhNmD2YjZitiqINmI2KfZ
-hNmF2YXZhNmD2Kkg2KfZhNi52LHYqNmK2KkgCtin2YTYs9i52YjYr9mK2Kkg2YjZgti32LEg2YjY
-p9mE2KjYrdix2YrZhiDZiNin2YTYo9ix2K/ZhiDZiNin2YTYpdmF2KfYsdin2Kog2KfZhNi52LHY
-qNmK2Kkg2KfZhNmF2KrYrdiv2Kkg2YjYudmF2KfZhiDZiNin2YTZitmF2YYgCtmI2KfZhNi52LHY
-p9mCINi02LHYp9ihINin2YTYo9mI2LHYp9mCINin2YTZhtmC2K/ZitipINio2KzZhdmK2Lkg2KfZ
-hNi52YXZhNin2Kog2LnYqNixINin2YTYpdmG2KrYsdmG2Kog2LTYsdin2KEg2KPYs9mE2KfZgyDZ
-htit2KfYs9mK2KkgCtiw2YfYqNmK2KkgU1NEINi52KjYsSDYp9mE2KXZhtiq2LHZhtiqINmG2YLY
-r9mFINmF2KzZhdmI2LnYqSDZhdiq2YbZiNi52Kkg2YXZhiDYp9mE2K7Yr9mF2KfYqiDZhNis2YXZ
-iti5INin2YTZhdiz2KrYq9mF2LHZitmGCtmG2K3ZhiDZh9mK2KbYqSDZhdin2YTZitipINmF2LHY
-rti12Kkg2KrZgti5INmB2Yog2YLYp9ix2KfYqiDZhdiu2KrZhNmB2Kkg2YHZiiDYo9mI2LHZiNio
-2Kcg2YjYo9mF2LHZitmD2Kcg2YjYo9mF2LHZitmD2Kcg2KfZhNi02YXYp9mE2YrYqSAK2YjYutmK
-2LHZh9inLi4uINmG2K3ZhiDZh9mK2KbYqSDZhdin2YTZitipINiv2YjZhNmK2Kkg2YXYsdiu2LXY
-qSDZhNiq2YjZgdmK2LEg2LXZhtiv2YjZgiDZgtix2LYg2KfYs9iq2KvZhdin2LHZiiDZiNil2YrY
-rNin2LEg2YjYtNix2KfYoSAK2KjYo9mB2LbZhCDYs9i52LEg2YHYp9im2K/YqSDZhdi52YLZiNmE
-2Iwg2YjZhtmC2K/ZhSDYo9iv2KfYqSDZhdi12LHZgdmK2Kkg2YXYudiq2YXYr9ipINmI2YLYp9io
-2YTYqSDZhNmE2KrYrdmC2YIg2LnYqNixINmG2YXZiNiw2KwgCtin2YTYpdix2LPYp9mEINin2YTY
-s9ix2YrYudiMINmI2YfZiCDZhdiy2YjYryDYudio2YLYsdmKINmC2KfYr9ixINi52YTZiSDYpdis
-2LHYp9ihINin2YTYpdmK2KzYp9ixINmI2KfZhNi02LHYp9ihINio2LPYudixINmF2YbYrtmB2LYg
-NiAKKyAyLiAg2YbYrdmGINmH2YrYptipINmC2LHZiNi2INmF2LHYrti12Kkg2YXYp9mE2YrZi9in
-INix2KfYptiv2Kkg2YHZiiDYp9mE2LnYp9mE2YXYjCDZiNmG2YLYr9mFINis2YXZiti5INij2YbZ
-iNin2Lkg2KrZhdmI2YrZhCAK2KfZhNmF2LTYp9ix2YrYuSDYp9mE2YXYp9mE2YrYqdiMINmI2YLY
-sdmI2LYg2KfZhNin2LPYqtir2YXYp9ix2Iwg2YjZgtix2YjYtiDYp9mE2KPYudmF2KfZhNiMINmI
-2YLYsdmI2LYg2KfZhNiz2YrYp9ix2KfYqtiMINmI2KfZhNmC2LHZiNi2IArYp9mE2LTYrti12YrY
-qdiMINmI2YLYsdmI2LYg2KfZhNix2YfZhiDYp9mE2LnZgtin2LHZiiDZhNmE2LTYsdmD2KfYqtiM
-INmI2KfZhNmC2LHZiNi2INi32YjZitmE2Kkg2KfZhNij2KzZhCDZiNmC2LXZitix2Kkg2KfZhNij
-2KzZhCAK2LPZhtmI2YrZi9inINmE2YXYr9ipINiq2KrYsdin2YjYrSDZhdmGIDIg2KXZhNmJIDIw
-INi52KfZhdmL2Kcg2KjZgdin2KbYr9ipINiz2YbZiNmK2KkuINmD2YXYpyDZhtiv2YHYuSDYudmF
-2YjZhNipINio2YbYs9io2KkgMSUgCtmE2YTZiNiz2LfYp9ihL9in2YTZhdiz2KrYtNin2LHZitmG
-L9in2YTYrtio2LHYp9ihLi4uINmE2YXYstmK2K8g2YXZhiDYp9mE2YXYudmE2YjZhdin2Kov2KfZ
-hNin2LPYqtmB2LPYp9ix2KfYqtiMINmK2LHYrNmJINin2YTYp9iq2LXYp9mEIArYqNmG2Kcg2YTZ
-hdiy2YrYryDZhdmGINin2YTZhdiz2KfYudiv2Kkg2K3YqtmJINij2KrZhdmD2YYg2YXZhiDYpdix
-2LTYp9iv2YMg2KjYs9mH2YjZhNipINio2LTYo9mG2YfYpy4KDQotLSAKWW91IHJlY2VpdmVkIHRo
-aXMgbWVzc2FnZSBiZWNhdXNlIHlvdSBhcmUgc3Vic2NyaWJlZCB0byB0aGUgR29vZ2xlIEdyb3Vw
-cyAia2FzYW4tZGV2IiBncm91cC4KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGdyb3VwIGFuZCBz
-dG9wIHJlY2VpdmluZyBlbWFpbHMgZnJvbSBpdCwgc2VuZCBhbiBlbWFpbCB0byBrYXNhbi1kZXYr
-dW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbS4KVG8gdmlldyB0aGlzIGRpc2N1c3Npb24gb24g
-dGhlIHdlYiB2aXNpdCBodHRwczovL2dyb3Vwcy5nb29nbGUuY29tL2QvbXNnaWQva2FzYW4tZGV2
-L2E0MjllM2Y5LWI2NTQtNDg2OC04M2NkLTlkOTlhNDkyNWZlNW4lNDBnb29nbGVncm91cHMuY29t
-Lgo=
-------=_Part_16801_1361919243.1724885483991
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+This series also adds support for a tagged address ABI similar to arm64
+and x86. Since accesses from the kernel to user memory use the kernel's
+pointer masking configuration, not the user's, the kernel must untag
+user pointers in software before dereferencing them. And since the tag
+width is variable, as with LAM on x86, it must be kept the same across
+all threads in a process so untagged_addr_remote() can work.
 
-PGRpdj7YsdmC2YUg2KfZhNiq2YjYp9i12YQ6ICs0MTc5OTU2OTk2MjxiciAvPldoYXRzQXBwOiAr
-ODU1MTgzOTcxODI1PGJyIC8+2KXYsNinINmD2YbYqiDZhdmH2KrZhdmL2Kcg2KjYpdis2LHYp9ih
-INij2LnZhdin2YQg2KrYrNin2LHZitipINmF2LnZhtin2Iwg2YHYp9iq2LXZhCDYqNmG2Kcg2LnY
-qNixINin2LPZhSDZhdiz2KrYrtiv2YUgVGVsZWdyYW06IEBQUklWQVRFSU5WRVNUTzxiciAvPldo
-YXRzQXBwOiArODQ3NzYzMjYzODI8YnIgLz7YtNix2KfYoSDYp9mE2K/ZiNmE2KfYsSDYp9mE2KPZ
-hdix2YrZg9mKINin2YTYo9i12YTZiiDYudio2LEg2KfZhNil2YbYqtix2YbYqiDZgdmKINi52YXY
-p9mGINmI2KfZhNmD2YjZitiqINmI2KfZhNmF2YXZhNmD2Kkg2KfZhNi52LHYqNmK2Kkg2KfZhNiz
-2LnZiNiv2YrYqSDZiNmC2LfYsSDZiNin2YTYqNit2LHZitmGINmI2KfZhNij2LHYr9mGINmI2KfZ
-hNil2YXYp9ix2KfYqiDYp9mE2LnYsdio2YrYqSDYp9mE2YXYqtit2K/YqSDZiNi52YXYp9mGINmI
-2KfZhNmK2YXZhiDZiNin2YTYudix2KfZgiDYtNix2KfYoSDYp9mE2KPZiNix2KfZgiDYp9mE2YbZ
-gtiv2YrYqSDYqNis2YXZiti5INin2YTYudmF2YTYp9iqINi52KjYsSDYp9mE2KXZhtiq2LHZhtiq
-INi02LHYp9ihINij2LPZhNin2YMg2YbYrdin2LPZitipINiw2YfYqNmK2KkgU1NEINi52KjYsSDY
-p9mE2KXZhtiq2LHZhtiqINmG2YLYr9mFINmF2KzZhdmI2LnYqSDZhdiq2YbZiNi52Kkg2YXZhiDY
-p9mE2K7Yr9mF2KfYqiDZhNis2YXZiti5INin2YTZhdiz2KrYq9mF2LHZitmGPGJyIC8+2YbYrdmG
-INmH2YrYptipINmF2KfZhNmK2Kkg2YXYsdiu2LXYqSDYqtmC2Lkg2YHZiiDZgtin2LHYp9iqINmF
-2K7YqtmE2YHYqSDZgdmKINij2YjYsdmI2KjYpyDZiNij2YXYsdmK2YPYpyDZiNij2YXYsdmK2YPY
-pyDYp9mE2LTZhdin2YTZitipINmI2LrZitix2YfYpy4uLiDZhtit2YYg2YfZitim2Kkg2YXYp9mE
-2YrYqSDYr9mI2YTZitipINmF2LHYrti12Kkg2YTYqtmI2YHZitixINi12YbYr9mI2YIg2YLYsdi2
-INin2LPYqtir2YXYp9ix2Yog2YjYpdmK2KzYp9ixINmI2LTYsdin2KEg2KjYo9mB2LbZhCDYs9i5
-2LEg2YHYp9im2K/YqSDZhdi52YLZiNmE2Iwg2YjZhtmC2K/ZhSDYo9iv2KfYqSDZhdi12LHZgdmK
-2Kkg2YXYudiq2YXYr9ipINmI2YLYp9io2YTYqSDZhNmE2KrYrdmC2YIg2LnYqNixINmG2YXZiNiw
-2Kwg2KfZhNil2LHYs9in2YQg2KfZhNiz2LHZiti52Iwg2YjZh9mIINmF2LLZiNivINi52KjZgtix
-2Yog2YLYp9iv2LEg2LnZhNmJINil2KzYsdin2KEg2KfZhNil2YrYrNin2LEg2YjYp9mE2LTYsdin
-2KEg2KjYs9i52LEg2YXZhtiu2YHYtiA2ICsgMi4gwqDZhtit2YYg2YfZitim2Kkg2YLYsdmI2LYg
-2YXYsdiu2LXYqSDZhdin2YTZitmL2Kcg2LHYp9im2K/YqSDZgdmKINin2YTYudin2YTZhdiMINmI
-2YbZgtiv2YUg2KzZhdmK2Lkg2KPZhtmI2KfYuSDYqtmF2YjZitmEINin2YTZhdi02KfYsdmK2Lkg
-2KfZhNmF2KfZhNmK2KnYjCDZiNmC2LHZiNi2INin2YTYp9iz2KrYq9mF2KfYsdiMINmI2YLYsdmI
-2LYg2KfZhNij2LnZhdin2YTYjCDZiNmC2LHZiNi2INin2YTYs9mK2KfYsdin2KrYjCDZiNin2YTZ
-gtix2YjYtiDYp9mE2LTYrti12YrYqdiMINmI2YLYsdmI2LYg2KfZhNix2YfZhiDYp9mE2LnZgtin
-2LHZiiDZhNmE2LTYsdmD2KfYqtiMINmI2KfZhNmC2LHZiNi2INi32YjZitmE2Kkg2KfZhNij2KzZ
-hCDZiNmC2LXZitix2Kkg2KfZhNij2KzZhCDYs9mG2YjZitmL2Kcg2YTZhdiv2Kkg2KrYqtix2KfZ
-iNitINmF2YYgMiDYpdmE2YkgMjAg2LnYp9mF2YvYpyDYqNmB2KfYptiv2Kkg2LPZhtmI2YrYqS4g
-2YPZhdinINmG2K/Zgdi5INi52YXZiNmE2Kkg2KjZhtiz2KjYqSAxJSDZhNmE2YjYs9i32KfYoS/Y
-p9mE2YXYs9iq2LTYp9ix2YrZhi/Yp9mE2K7YqNix2KfYoS4uLiDZhNmF2LLZitivINmF2YYg2KfZ
-hNmF2LnZhNmI2YXYp9iqL9in2YTYp9iz2KrZgdiz2KfYsdin2KrYjCDZitix2KzZiSDYp9mE2KfY
-qti12KfZhCDYqNmG2Kcg2YTZhdiy2YrYryDZhdmGINin2YTZhdiz2KfYudiv2Kkg2K3YqtmJINij
-2KrZhdmD2YYg2YXZhiDYpdix2LTYp9iv2YMg2KjYs9mH2YjZhNipINio2LTYo9mG2YfYpy48YnIg
-Lz48L2Rpdj4NCg0KPHA+PC9wPgoKLS0gPGJyIC8+CllvdSByZWNlaXZlZCB0aGlzIG1lc3NhZ2Ug
-YmVjYXVzZSB5b3UgYXJlIHN1YnNjcmliZWQgdG8gdGhlIEdvb2dsZSBHcm91cHMgJnF1b3Q7a2Fz
-YW4tZGV2JnF1b3Q7IGdyb3VwLjxiciAvPgpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgZ3JvdXAg
-YW5kIHN0b3AgcmVjZWl2aW5nIGVtYWlscyBmcm9tIGl0LCBzZW5kIGFuIGVtYWlsIHRvIDxhIGhy
-ZWY9Im1haWx0bzprYXNhbi1kZXYrdW5zdWJzY3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbSI+a2FzYW4t
-ZGV2K3Vuc3Vic2NyaWJlQGdvb2dsZWdyb3Vwcy5jb208L2E+LjxiciAvPgpUbyB2aWV3IHRoaXMg
-ZGlzY3Vzc2lvbiBvbiB0aGUgd2ViIHZpc2l0IDxhIGhyZWY9Imh0dHBzOi8vZ3JvdXBzLmdvb2ds
-ZS5jb20vZC9tc2dpZC9rYXNhbi1kZXYvYTQyOWUzZjktYjY1NC00ODY4LTgzY2QtOWQ5OWE0OTI1
-ZmU1biU0MGdvb2dsZWdyb3Vwcy5jb20/dXRtX21lZGl1bT1lbWFpbCZ1dG1fc291cmNlPWZvb3Rl
-ciI+aHR0cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi9hNDI5ZTNmOS1i
-NjU0LTQ4NjgtODNjZC05ZDk5YTQ5MjVmZTVuJTQwZ29vZ2xlZ3JvdXBzLmNvbTwvYT4uPGJyIC8+
-Cg==
-------=_Part_16801_1361919243.1724885483991--
+This series depends on my per-thread envcfg series[3].
 
-------=_Part_16800_331888009.1724885483991--
+This series can be tested in QEMU by applying a patch set[2].
+
+KASAN support will be added in a separate patch series.
+
+[1]: https://github.com/riscv/riscv-j-extension/releases/download/pointer-masking-v1.0.0-rc2/pointer-masking-v1.0.0-rc2.pdf
+[2]: https://lore.kernel.org/qemu-devel/20240511101053.1875596-1-me@deliversmonkey.space/
+[3]: https://lore.kernel.org/linux-riscv/20240814081126.956287-1-samuel.holland@sifive.com/
+
+Changes in v4:
+ - Switch IS_ENABLED back to #ifdef to fix riscv32 build
+ - Combine __untagged_addr() and __untagged_addr_remote()
+
+Changes in v3:
+ - Note in the commit message that the ISA extension spec is frozen
+ - Rebase on riscv/for-next (ISA extension list conflicts)
+ - Remove RISCV_ISA_EXT_SxPM, which was not used anywhere
+ - Use shifts instead of large numbers in ENVCFG_PMM* macro definitions
+ - Rename CONFIG_RISCV_ISA_POINTER_MASKING to CONFIG_RISCV_ISA_SUPM,
+   since it only controls the userspace part of pointer masking
+ - Use IS_ENABLED instead of #ifdef when possible
+ - Use an enum for the supported PMLEN values
+ - Simplify the logic in set_tagged_addr_ctrl()
+ - Use IS_ENABLED instead of #ifdef when possible
+ - Implement mm_untag_mask()
+ - Remove pmlen from struct thread_info (now only in mm_context_t)
+
+Changes in v2:
+ - Drop patch 4 ("riscv: Define is_compat_thread()"), as an equivalent
+   patch was already applied
+ - Move patch 5 ("riscv: Split per-CPU and per-thread envcfg bits") to a
+   different series[3]
+ - Update pointer masking specification version reference
+ - Provide macros for the extension affecting the kernel and userspace
+ - Use the correct name for the hstatus.HUPMM field
+ - Rebase on riscv/linux.git for-next
+ - Add and use the envcfg_update_bits() helper function
+ - Inline flush_tagged_addr_state()
+ - Implement untagged_addr_remote()
+ - Restrict PMLEN changes once a process is multithreaded
+ - Rename "tags" directory to "pm" to avoid .gitignore rules
+ - Add .gitignore file to ignore the compiled selftest binary
+ - Write to a pipe to force dereferencing the user pointer
+ - Handle SIGSEGV in the child process to reduce dmesg noise
+ - Export Supm via hwprobe
+ - Export Smnpm and Ssnpm to KVM guests
+
+Samuel Holland (10):
+  dt-bindings: riscv: Add pointer masking ISA extensions
+  riscv: Add ISA extension parsing for pointer masking
+  riscv: Add CSR definitions for pointer masking
+  riscv: Add support for userspace pointer masking
+  riscv: Add support for the tagged address ABI
+  riscv: Allow ptrace control of the tagged address ABI
+  selftests: riscv: Add a pointer masking test
+  riscv: hwprobe: Export the Supm ISA extension
+  RISC-V: KVM: Allow Smnpm and Ssnpm extensions for guests
+  KVM: riscv: selftests: Add Smnpm and Ssnpm to get-reg-list test
+
+ Documentation/arch/riscv/hwprobe.rst          |   3 +
+ .../devicetree/bindings/riscv/extensions.yaml |  18 +
+ arch/riscv/Kconfig                            |  11 +
+ arch/riscv/include/asm/csr.h                  |  16 +
+ arch/riscv/include/asm/hwcap.h                |   5 +
+ arch/riscv/include/asm/mmu.h                  |   7 +
+ arch/riscv/include/asm/mmu_context.h          |  13 +
+ arch/riscv/include/asm/processor.h            |   8 +
+ arch/riscv/include/asm/switch_to.h            |  11 +
+ arch/riscv/include/asm/uaccess.h              |  43 ++-
+ arch/riscv/include/uapi/asm/hwprobe.h         |   1 +
+ arch/riscv/include/uapi/asm/kvm.h             |   2 +
+ arch/riscv/kernel/cpufeature.c                |   3 +
+ arch/riscv/kernel/process.c                   | 154 ++++++++
+ arch/riscv/kernel/ptrace.c                    |  42 +++
+ arch/riscv/kernel/sys_hwprobe.c               |   3 +
+ arch/riscv/kvm/vcpu_onereg.c                  |   3 +
+ include/uapi/linux/elf.h                      |   1 +
+ include/uapi/linux/prctl.h                    |   3 +
+ .../selftests/kvm/riscv/get-reg-list.c        |   8 +
+ tools/testing/selftests/riscv/Makefile        |   2 +-
+ tools/testing/selftests/riscv/pm/.gitignore   |   1 +
+ tools/testing/selftests/riscv/pm/Makefile     |  10 +
+ .../selftests/riscv/pm/pointer_masking.c      | 330 ++++++++++++++++++
+ 24 files changed, 692 insertions(+), 6 deletions(-)
+ create mode 100644 tools/testing/selftests/riscv/pm/.gitignore
+ create mode 100644 tools/testing/selftests/riscv/pm/Makefile
+ create mode 100644 tools/testing/selftests/riscv/pm/pointer_masking.c
+
+-- 
+2.45.1
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240829010151.2813377-1-samuel.holland%40sifive.com.
