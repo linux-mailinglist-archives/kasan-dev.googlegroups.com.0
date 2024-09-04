@@ -1,140 +1,158 @@
-Return-Path: <kasan-dev+bncBAABBWXQ323AMGQEIKYT44I@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBFPS323AMGQEWUPZE5A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x137.google.com (mail-lf1-x137.google.com [IPv6:2a00:1450:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B4096ADE8
-	for <lists+kasan-dev@lfdr.de>; Wed,  4 Sep 2024 03:31:07 +0200 (CEST)
-Received: by mail-lf1-x137.google.com with SMTP id 2adb3069b0e04-5334d43c562sf169804e87.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 03 Sep 2024 18:31:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1725413467; cv=pass;
+Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id B944296ADF1
+	for <lists+kasan-dev@lfdr.de>; Wed,  4 Sep 2024 03:34:15 +0200 (CEST)
+Received: by mail-lf1-x13b.google.com with SMTP id 2adb3069b0e04-535681e6f8esf65982e87.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 03 Sep 2024 18:34:15 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1725413655; cv=pass;
         d=google.com; s=arc-20240605;
-        b=DRGn/ktop6JeQJfzzCIqpNZVhnfhukhHPpq5l76K346Z3Hr7gKDpGoOd0/gkp+lBHw
-         8djgrEITmHJF7wLlAr/gvcpU+WVcJAqKEDMzT/QSfW2j2cuCz42YhY2fR/uBipM7UIoG
-         T5tNcqrjb5XPLW8Qv6Xei548wwFwjqYxn3NpStwPFdwguOaUNlzeQJOWSy7oP513WYoe
-         Bg0MO3zfrNConD4z0HKbavmtXkxtUmGy7NzR5KU1yHQ4nrqfLvARy+960A7cK0kNYC1+
-         gB0yOxyQCKwdpr+1AjtdCJZX9EsQrpz/zMZWIuTsbnWwCr28TcWd+wlwi3f1zmevi9iq
-         TUDg==
+        b=KJKBr0E/cmzJLTh5ygqC0JI0dbafDc/+DTt1SJ5LgVeCXC36duChvAFMqINyw3vSUV
+         pfvf8eszDp5FBfrY6TxiBZZIT3fvqXkvZdgvkNKOLNzLkHI8WHt6+uMtzPPPCHSrwj6H
+         cQgYf9tG7TzMxi5LjFSELqLGBYlQrZZkgc6gk17Oel588b6dUPJohMsAN/py66iq6Rr2
+         SRG+4LRk3mr35dR66goSF6bw2mfr2cDLWgrBw1I1s3zy56UffhtrKofbb/kTDMbsOOJX
+         nHWlem0FR5Pb2k5sE5MYK2+eDme1HbaDHiviBJfbZ6h6OjqNNpjCDN47niJ6wMbiYsdy
+         bDLA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=o1UR/FB+mkahZt959qbHCmkQBKEAOYkhD4QPQ13vT94=;
-        fh=bdcAGRRGxez+U/uN/G3TDT0pIsFDH2ehfSYdsr5ha94=;
-        b=kcmHH1mAH0PkRg4lUAEZG65izS9nTLSusg9GvBoRj5xmTX8xybRaKz+cpquN670VrD
-         wvZcl+J7QmOp6m6At0reIrph9lTDIh9iSBgkLxyJ9tqLNoEywzZaCGGq39DgKlVjhQsp
-         flZH6yU9nTz4d6/zyYfcTxxiATWXP8EPXBjK+DuMPs2lZREGvgTU1eV4NjF0XD3/pLW9
-         cXNuOQa/s/iThJAcZpY82XT9mH63OTedVRrvU/LFh6lvH/b2hg3z96Nk9o+oT50mjgOh
-         xic9/5RFx66GKiRrrGQxRhkwvQDfUYOBZ6N4DonCAzEqwLc2e72W0SGWzGqxRt38UzxI
-         pu/w==;
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=gjsfr9iRbm+j5VmdDskNzCrhMARSlfrDK8deWoKb1ck=;
+        fh=Uzbq+uof/I4+jXSz600jJ+tNzdIXmgPjFLeaypDiWas=;
+        b=awwEE5MbYfWuEdLHSA3JFAtFJZrrju8vw3scZ31zuW1o0fLxTrxRAcBEXIOufTfYSs
+         Uqz5Ltvya/A7PO0lR5vDbQyYw+2o5yptdVcUKl3hlKnls0n0QZZ0dp9IqJGf9yy1x9ra
+         boyB/t7g9nTMLRlXla6TD71bhvdZtGFiA36eqLHOExky0xEQ7C+oykN1BIET2W1BgxkR
+         4YqMrRRV/yQC352MNUl+33JTAqczrO/lkyLyN9xd3fSuIFmsn9/PiEYrt4JWlXwUQF3H
+         Iaj+BbyHLw1AISGhJpg/s2+AavItuO/Cbra6TeBp6H+0/WHAwzqB9JqHyizoOKzCzNJQ
+         /maQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=KUlzZgiJ;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.175 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=NKPsnpb+;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1725413467; x=1726018267; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1725413655; x=1726018455; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=o1UR/FB+mkahZt959qbHCmkQBKEAOYkhD4QPQ13vT94=;
-        b=AWBdtT7A6K8ivSIxGi06Zu3QzGhJlMUMclkTV10pR0+Wq+pJsb2HjHJiLBz8JTYi0V
-         s2xkpArrR9XD+TmBkx6sBN7GMkrVaMmAENMVWz3f8bUhlJrdX5sIyrM1oKiaSApin4tj
-         liMx1phCV5IxXPMIQpNODk3gyg9QEzc0ugH97LMAbEBitBtNRLrGBP4Lvje6E71OJTVe
-         frA46Wc7oMLcIdXY/AwJlMMjuoWdlqKBzQnuVzP7toKsVToGnVaoS1r28veE+81EbJqf
-         hiYV+5zJVXehLu7oKNVjAyEX69PgLgUzCvMxCeAxucexUwK5UWFwGEJuVT1EebTIg38M
-         ADbw==
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gjsfr9iRbm+j5VmdDskNzCrhMARSlfrDK8deWoKb1ck=;
+        b=UFDLsAN2vMOjhE7AamsCwubkqztfelMS4Bkv5SDF+rmkIoBw9dK0QbM9WeFq72EwNd
+         PowdseAWRBMxWeKa4XMTICRaRSQuzuXEBYX9/JbOiGo1wkGoRqi+U//u+ko2MC7cG11c
+         foPrDk9ffcZzhsmQJoQRPqLIgCTQnwvEBQ7BAnXNLkYdlG1BTdLi9R8b7D4Cl0rUx8Cc
+         6MYP3V8lRGG8JDOoYF0c2Lt3KztNQn/9KUox1iTVf11Ui/iabokXHoQgP1GdWa5v+UuD
+         vvA4MIC93XyuRL2bhKho3T9MIBzYFc80HtYh+Pu1XuiP/kJVYEwCxozNbc5JxvUajICP
+         dKJQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1725413655; x=1726018455; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gjsfr9iRbm+j5VmdDskNzCrhMARSlfrDK8deWoKb1ck=;
+        b=KPYGILO/XHZcYEmP2pmP3wdngBPL1Ls3kWn8y4b2CYI8G/ylhuchrCgblHwDyCp0sB
+         +HxpytfOZJjhQcZnShUFN7Kx5V86UJYg7FsmYBbNNjng09GCoZkRuTgF8MEpkQdnpIrN
+         7L0g9YBPlmJ5uNWBr1tGIQGlTuYs2gWMFkrgiJCNWXOnN4SbraQALerj9c8xyiFryIAL
+         mEPxioWADjwLu6usSrlhXrKFDhkszxF5JHIaGbzYiQFEZP2oVuSgizyX8r1T1BSmg90M
+         PClfwIeN/kM4l46srtR9WdMONejJukBzWszy9bWAT3jEI8NwbH1dXDqFbYkD4PWE7NRO
+         HD2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725413467; x=1726018267;
+        d=1e100.net; s=20230601; t=1725413655; x=1726018455;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=o1UR/FB+mkahZt959qbHCmkQBKEAOYkhD4QPQ13vT94=;
-        b=Cne35Ckw/bXNDmagj/dKdUFiAbypIlOMkj1CAo56+A09bekvgm7hsrhWzjzF7243YC
-         XBL4kp4woT2PkSTX8lrrb/MDmMIoBIuhpB7o9F+1lyrKyT5YUNW3rdf8mmXzzDvPf8FD
-         cv8XBZ1fQa5htrpcQ56ALNJ8rN7v5g96MEp6rXP+YG13ziTZ0Z4nESsTxpjFHaWRIJpr
-         b22scuxBHlWdlzd06e284G5s+bCYmALJccOtI+jVqQXbXdkOYWqEUTu6TMalZUQHAt8U
-         dJi8NLc006Wl4xcn5uUUYXWXe5kHCHSl/ucZQgnwR2UHE2OefTSgwB/jFE2GDP2sDlCd
-         NZmw==
+        bh=gjsfr9iRbm+j5VmdDskNzCrhMARSlfrDK8deWoKb1ck=;
+        b=R7RyG6Q61yz0qc17BfESq1YmQuwogihMHqFJzm8igLwXeJdMzZ2bXUsms3qDG0KAKR
+         OnuP4efHShOO3jSOLp52kcvTjssbLiRDm3SweoGpbIgDRWDzmb4jtv1MAPdex2RPXMke
+         3dPdocp2Za4AZwAodHKlX0KSpQMw1xuOBQadNRXK+VOhzoyTd/OjIGlJB4NXRmNN7vj0
+         TcQIw04BXz7dIa8+9hGvw9+R/7x/P6DdD0qTIrMQ45wCVKBxj3pc9BCJ7V7/pii4dj9+
+         JdXHvY5+l6I0VXBPgTLlSOOmZGoosrHFc4HFtovbHs6g+XTYBvqklZbwIvxKR85Uq+Gk
+         Od7g==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXZIPNeRk0GEytvGZw4M6kaixL32fWo+F2F5bsOJ/hRU3MLTXOAMCvipQ1QeEbA05+RrW4QkA==@lfdr.de
-X-Gm-Message-State: AOJu0YwL1oCEgBrFTe60G8Evj0WJ5lEFwBPkFm8Z3GX+2eJQ82e9hxkn
-	oHPK2rK0ohulPJXipv+9MfTEUq0IgHZQqJXm21HTJ8tN9EKPxRn+
-X-Google-Smtp-Source: AGHT+IFX9g5YiqGp4T7wL22Ybc7DWtFzC6dUC1q8imvslyedcLA/znIpeTxnx15vhkXSwBvcO/raCw==
-X-Received: by 2002:a05:6512:108f:b0:52c:ad70:6feb with SMTP id 2adb3069b0e04-5356778bc21mr96163e87.20.1725413466411;
-        Tue, 03 Sep 2024 18:31:06 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVvwRhLbPjkxpM3mk4pOu924IVDNSuB32K+sWti9gxGpicMkY8gj3DgpGMhU66kmdROW9GNZA==@lfdr.de
+X-Gm-Message-State: AOJu0YwCn4V/dEG5fH0eHJ27LfS3vm1EVix4uPT2u9FonsvyIpX6gW5X
+	QvytTkXWDOXAdNEQSUtTGfhoeL8cXWA0CjeaLCQbB/lsxKDpVBUU
+X-Google-Smtp-Source: AGHT+IEUOWEWP0Xpr2b8lZ7h/3nayLC3b2finU5isoAt0UfqPwmb5NMu1kSTR7IX3SWTm+jZ2nxP5g==
+X-Received: by 2002:a05:6512:3e02:b0:533:483f:957f with SMTP id 2adb3069b0e04-53546b2c0c9mr10667594e87.32.1725413654176;
+        Tue, 03 Sep 2024 18:34:14 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3b8f:b0:533:4886:850a with SMTP id
- 2adb3069b0e04-5353d813255ls119427e87.2.-pod-prod-00-eu; Tue, 03 Sep 2024
- 18:31:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUKtOXIIJwpvAnnu8hjhjcEhk8Y8VEMiI2QJ69jt7+DLNQqv7Rl6FTOMUCC9jznns4KNSXnv2HZJcw=@googlegroups.com
-X-Received: by 2002:a05:6512:1110:b0:533:426a:d52f with SMTP id 2adb3069b0e04-5356778d5f2mr143625e87.11.1725413464440;
-        Tue, 03 Sep 2024 18:31:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1725413464; cv=none;
+Received: by 2002:a05:6512:2351:b0:533:48c9:754e with SMTP id
+ 2adb3069b0e04-5353d814aa2ls387118e87.2.-pod-prod-06-eu; Tue, 03 Sep 2024
+ 18:34:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWD27Owzumhm+uWzF/xb9uT7sIew6zKaLp6+59spFxF2NtAdQDnTCD8XzpfzNzJtDmFIYEpSlymAOM=@googlegroups.com
+X-Received: by 2002:a2e:619:0:b0:2f3:f49a:c6df with SMTP id 38308e7fff4ca-2f6104f2547mr100542971fa.32.1725413652147;
+        Tue, 03 Sep 2024 18:34:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1725413652; cv=none;
         d=google.com; s=arc-20240605;
-        b=ISxKZBgr5Un9kl48++n1jeewMr+N/ONbupheS1dXqa0Bj6uhSzJL0AmaGPUnqKBOMy
-         qIVO4avAKyv0Fziatx030078MzDcyLjFdsfciot7nHUpU8ziCP/t7RbWEp2tdrtp3KB9
-         rBnDFrGmyzR7HEJtUzHAOxgeMDU+Czx13zw+42sjTLk1vc1ijldY3qYfXyb+j3U9ccLk
-         D6zpwvRogyA5rZk8nMUyAcejOHmO2er72jMMgh+RL3gQYVMibeAONANoZhw1+SEHbMFx
-         WMIEAoWJ2aOQm9xE/bmhDo96qTyc7DpttpRu6z0kKuch7yvMd5v1ZNrgoJvXlpxAQuQt
-         NnFQ==
+        b=ji9P85lqNAIenFm+sh3XvN5n8tn5R84M7jtjNqXML2lf84hTvvITg6wOWuzJlVlmBj
+         KKMZIR+DQulpEl8jR127LYGWoE/LcoeTJ0nmOhiFG5Tapwa0KweaaTznxEMQxRarGaI6
+         ztnAp0ax9w4XH2TbsqO9TJrVANj85mzF+jKyHEtsQ6crT3kBJtgd4AM9v30l82A0Hu79
+         DqdTVy56lehtEM/wynjj22X6KgYDe5TFXJ3kfE36MbY8a+9192IV1cMyCDcP3ec3RLd3
+         98lOCMrkon5CG5Ky+MRQSGeuCiuktkt4vR21CvQ/N+hRo/n/OLpda+Jjd5oKAYEQdiH1
+         YomA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:dkim-signature;
-        bh=WL9bEn+qeDafnFmH2mu2935t12N8fCu85vsLBSg/BdU=;
-        fh=Lr36PwTFHKduRAzN23dY3xi99YoABDbn2m0xoUZGH8M=;
-        b=WqZbW9sb62acusZN2nygqTqhQrWqc3lSonGGPNAdVsdHKW4wUgM3JIDzrzV83bLJTl
-         QJaoRIh2eNJN2t3HfOv9z6EgHcenEtNwUP50Tbbv0m6jGyj8m5lT5sXya8ePpsmyRXXj
-         Ndssu9AR6U1l69RANJCI/YPiAQD52C6kcvP3fzm+yo240wv5kXfLIjEflWMEsKKRBMel
-         C/Oh0dOQx8oMbDPIiFICU5AWtzW7QZjowlcqIRIWpx7c/rCA4SEP9x+auTJZYhH7HKc7
-         TtTeWz13LEmUoDN3HLmiXUWs4fgtNubEh7RRGdySBtJw5lFJCbTLmVImAxIRaO/FTb1s
-         wjFg==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=93FgyLKkVo2N1tBHkMC3aUUtyplqFSBZGLIS2ASQJQE=;
+        fh=LnZW7ThkucQSNmlGUmqSd+E7017VCBchSqlhCGmaa4Y=;
+        b=gFue3AixYsJrmZitQSeXJ/5SQzEYQ8aY53npf3RBAEpFcXN1WANaCf6D3ARrHUKVCf
+         GEwT3790u+O1PBzF244XXBGmz4l+hTIozH88Kn8GJq2tYP60CNBiJzAz+mTGfpSkwd9b
+         W0A+lAwgUZcmlsfIqKwsxQ+KKKpeLlhahQM1bKne2Rm7qWa+fsFAzPi1eCcKOw3rAPhE
+         X14xDwnE9PBpHh/6fxcUoBs2D+vfyu38cIB/6uOzbPGeGneUO2cPR2OartEpdsNr5X93
+         De0WytVqFKsmYOMYx82uhTB0NfFvKyRY9nyXh0cQKaDrLfe/UVRtDo7eq5l3QsSv64MJ
+         cniA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux.dev header.s=key1 header.b=KUlzZgiJ;
-       spf=pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.175 as permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linux.dev
-Received: from out-175.mta1.migadu.com (out-175.mta1.migadu.com. [95.215.58.175])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-5354081d8ebsi250219e87.13.2024.09.03.18.31.04
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=NKPsnpb+;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com. [2a00:1450:4864:20::433])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-2f614de8911si2521221fa.0.2024.09.03.18.34.12
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Sep 2024 18:31:04 -0700 (PDT)
-Received-SPF: pass (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.175 as permitted sender) client-ip=95.215.58.175;
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: andrey.konovalov@linux.dev
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Aleksandr Nogikh <nogikh@google.com>,
-	Marco Elver <elver@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	kasan-dev@googlegroups.com,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Marcello Sylvester Bauer <sylv@sylv.io>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+2388cdaeb6b10f0c13ac@syzkaller.appspotmail.com,
-	syzbot+17ca2339e34a1d863aad@syzkaller.appspotmail.com,
-	syzbot+c793a7eca38803212c61@syzkaller.appspotmail.com,
-	syzbot+1e6e0b916b211bee1bd6@syzkaller.appspotmail.com,
-	kernel test robot <oliver.sang@intel.com>,
-	stable@vger.kernel.org
-Subject: [PATCH RESEND] usb: gadget: dummy_hcd: execute hrtimer callback in softirq context
-Date: Wed,  4 Sep 2024 03:30:51 +0200
-Message-Id: <20240904013051.4409-1-andrey.konovalov@linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Sep 2024 18:34:12 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) client-ip=2a00:1450:4864:20::433;
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-374b25263a3so2583982f8f.0
+        for <kasan-dev@googlegroups.com>; Tue, 03 Sep 2024 18:34:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWmcpmKU1MNJcQ0uSi2umbfvG/2GOE6Jk9p/AnDyHukokRRHQl5bb8G4zgCTj+kX49Z4tn+q9Wu9f4=@googlegroups.com
+X-Received: by 2002:a05:6000:1886:b0:376:65fc:6cbf with SMTP id
+ ffacd0b85a97d-37665fc6d98mr3028566f8f.23.1725413651088; Tue, 03 Sep 2024
+ 18:34:11 -0700 (PDT)
 MIME-Version: 1.0
-X-Migadu-Flow: FLOW_OUT
-X-Original-Sender: andrey.konovalov@linux.dev
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux.dev header.s=key1 header.b=KUlzZgiJ;       spf=pass
- (google.com: domain of andrey.konovalov@linux.dev designates 95.215.58.175 as
- permitted sender) smtp.mailfrom=andrey.konovalov@linux.dev;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=linux.dev
+References: <20240729022316.92219-1-andrey.konovalov@linux.dev>
+ <CA+fCnZc7qVTmH2neiCn3T44+C-CCyxfCKNc0FP3F9Cu0oKtBRQ@mail.gmail.com> <2024090332-whomever-careless-5b7d@gregkh>
+In-Reply-To: <2024090332-whomever-careless-5b7d@gregkh>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Wed, 4 Sep 2024 03:34:00 +0200
+Message-ID: <CA+fCnZdCwpxc4gL7FeUEJ0cbMESe3d2tRe-NTCyDH9uZTR_tZQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: dummy_hcd: execute hrtimer callback in
+ softirq context
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>, Marcello Sylvester Bauer <sylv@sylv.io>, 
+	Dmitry Vyukov <dvyukov@google.com>, Aleksandr Nogikh <nogikh@google.com>, Marco Elver <elver@google.com>, 
+	Alexander Potapenko <glider@google.com>, kasan-dev@googlegroups.com, 
+	Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+2388cdaeb6b10f0c13ac@syzkaller.appspotmail.com, 
+	syzbot+17ca2339e34a1d863aad@syzkaller.appspotmail.com, stable@vger.kernel.org, 
+	andrey.konovalov@linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: andreyknvl@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20230601 header.b=NKPsnpb+;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::433
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -147,117 +165,27 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Andrey Konovalov <andreyknvl@gmail.com>
+On Tue, Sep 3, 2024 at 9:09=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> > Hi Greg,
+> >
+> > Could you pick up either this or Marcello's patch
+> > (https://lkml.org/lkml/2024/6/26/969)? In case they got lost.
+>
+> Both are lost now, (and please use lore.kernel.org, not lkml.org), can
+> you resend the one that you wish to see accepted?
 
-Commit a7f3813e589f ("usb: gadget: dummy_hcd: Switch to hrtimer transfer
-scheduler") switched dummy_hcd to use hrtimer and made the timer's
-callback be executed in the hardirq context.
+Done: https://lore.kernel.org/linux-usb/20240904013051.4409-1-andrey.konova=
+lov@linux.dev/T/#u
 
-With that change, __usb_hcd_giveback_urb now gets executed in the hardirq
-context, which causes problems for KCOV and KMSAN.
+Thanks!
 
-One problem is that KCOV now is unable to collect coverage from
-the USB code that gets executed from the dummy_hcd's timer callback,
-as KCOV cannot collect coverage in the hardirq context.
-
-Another problem is that the dummy_hcd hrtimer might get triggered in the
-middle of a softirq with KCOV remote coverage collection enabled, and that
-causes a WARNING in KCOV, as reported by syzbot. (I sent a separate patch
-to shut down this WARNING, but that doesn't fix the other two issues.)
-
-Finally, KMSAN appears to ignore tracking memory copying operations
-that happen in the hardirq context, which causes false positive
-kernel-infoleaks, as reported by syzbot.
-
-Change the hrtimer in dummy_hcd to execute the callback in the softirq
-context.
-
-Reported-by: syzbot+2388cdaeb6b10f0c13ac@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=2388cdaeb6b10f0c13ac
-Reported-by: syzbot+17ca2339e34a1d863aad@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=17ca2339e34a1d863aad
-Reported-by: syzbot+c793a7eca38803212c61@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=c793a7eca38803212c61
-Reported-by: syzbot+1e6e0b916b211bee1bd6@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=1e6e0b916b211bee1bd6
-Reported-by: kernel test robot <oliver.sang@intel.com>
-Closes: https://lore.kernel.org/oe-lkp/202406141323.413a90d2-lkp@intel.com
-Fixes: a7f3813e589f ("usb: gadget: dummy_hcd: Switch to hrtimer transfer scheduler")
-Cc: stable@vger.kernel.org
-Acked-by: Marcello Sylvester Bauer <sylv@sylv.io>
-Signed-off-by: Andrey Konovalov <andreyknvl@gmail.com>
-
----
-
-No difference to v1 except a few more tags.
----
- drivers/usb/gadget/udc/dummy_hcd.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/dummy_hcd.c b/drivers/usb/gadget/udc/dummy_hcd.c
-index f37b0d8386c1a..ff7bee78bcc49 100644
---- a/drivers/usb/gadget/udc/dummy_hcd.c
-+++ b/drivers/usb/gadget/udc/dummy_hcd.c
-@@ -1304,7 +1304,8 @@ static int dummy_urb_enqueue(
- 
- 	/* kick the scheduler, it'll do the rest */
- 	if (!hrtimer_active(&dum_hcd->timer))
--		hrtimer_start(&dum_hcd->timer, ns_to_ktime(DUMMY_TIMER_INT_NSECS), HRTIMER_MODE_REL);
-+		hrtimer_start(&dum_hcd->timer, ns_to_ktime(DUMMY_TIMER_INT_NSECS),
-+				HRTIMER_MODE_REL_SOFT);
- 
-  done:
- 	spin_unlock_irqrestore(&dum_hcd->dum->lock, flags);
-@@ -1325,7 +1326,7 @@ static int dummy_urb_dequeue(struct usb_hcd *hcd, struct urb *urb, int status)
- 	rc = usb_hcd_check_unlink_urb(hcd, urb, status);
- 	if (!rc && dum_hcd->rh_state != DUMMY_RH_RUNNING &&
- 			!list_empty(&dum_hcd->urbp_list))
--		hrtimer_start(&dum_hcd->timer, ns_to_ktime(0), HRTIMER_MODE_REL);
-+		hrtimer_start(&dum_hcd->timer, ns_to_ktime(0), HRTIMER_MODE_REL_SOFT);
- 
- 	spin_unlock_irqrestore(&dum_hcd->dum->lock, flags);
- 	return rc;
-@@ -1995,7 +1996,8 @@ static enum hrtimer_restart dummy_timer(struct hrtimer *t)
- 		dum_hcd->udev = NULL;
- 	} else if (dum_hcd->rh_state == DUMMY_RH_RUNNING) {
- 		/* want a 1 msec delay here */
--		hrtimer_start(&dum_hcd->timer, ns_to_ktime(DUMMY_TIMER_INT_NSECS), HRTIMER_MODE_REL);
-+		hrtimer_start(&dum_hcd->timer, ns_to_ktime(DUMMY_TIMER_INT_NSECS),
-+				HRTIMER_MODE_REL_SOFT);
- 	}
- 
- 	spin_unlock_irqrestore(&dum->lock, flags);
-@@ -2389,7 +2391,7 @@ static int dummy_bus_resume(struct usb_hcd *hcd)
- 		dum_hcd->rh_state = DUMMY_RH_RUNNING;
- 		set_link_state(dum_hcd);
- 		if (!list_empty(&dum_hcd->urbp_list))
--			hrtimer_start(&dum_hcd->timer, ns_to_ktime(0), HRTIMER_MODE_REL);
-+			hrtimer_start(&dum_hcd->timer, ns_to_ktime(0), HRTIMER_MODE_REL_SOFT);
- 		hcd->state = HC_STATE_RUNNING;
- 	}
- 	spin_unlock_irq(&dum_hcd->dum->lock);
-@@ -2467,7 +2469,7 @@ static DEVICE_ATTR_RO(urbs);
- 
- static int dummy_start_ss(struct dummy_hcd *dum_hcd)
- {
--	hrtimer_init(&dum_hcd->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-+	hrtimer_init(&dum_hcd->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_SOFT);
- 	dum_hcd->timer.function = dummy_timer;
- 	dum_hcd->rh_state = DUMMY_RH_RUNNING;
- 	dum_hcd->stream_en_ep = 0;
-@@ -2497,7 +2499,7 @@ static int dummy_start(struct usb_hcd *hcd)
- 		return dummy_start_ss(dum_hcd);
- 
- 	spin_lock_init(&dum_hcd->dum->lock);
--	hrtimer_init(&dum_hcd->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-+	hrtimer_init(&dum_hcd->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL_SOFT);
- 	dum_hcd->timer.function = dummy_timer;
- 	dum_hcd->rh_state = DUMMY_RH_RUNNING;
- 
--- 
-2.25.1
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240904013051.4409-1-andrey.konovalov%40linux.dev.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CA%2BfCnZdCwpxc4gL7FeUEJ0cbMESe3d2tRe-NTCyDH9uZTR_tZQ%40mail.gmai=
+l.com.
