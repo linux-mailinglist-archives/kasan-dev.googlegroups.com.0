@@ -1,139 +1,138 @@
-Return-Path: <kasan-dev+bncBD5L3BOATYFRBYU74G3AMGQE3RV2DJI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDFJHU6GRMBBBB5C4G3AMGQEDNBZTMQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x338.google.com (mail-wm1-x338.google.com [IPv6:2a00:1450:4864:20::338])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D27C96BBCC
-	for <lists+kasan-dev@lfdr.de>; Wed,  4 Sep 2024 14:17:40 +0200 (CEST)
-Received: by mail-wm1-x338.google.com with SMTP id 5b1f17b1804b1-42bbad819d0sf49022385e9.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 04 Sep 2024 05:17:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1725452260; cv=pass;
+Received: from mail-il1-x13c.google.com (mail-il1-x13c.google.com [IPv6:2607:f8b0:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id E9F9696BBF6
+	for <lists+kasan-dev@lfdr.de>; Wed,  4 Sep 2024 14:22:32 +0200 (CEST)
+Received: by mail-il1-x13c.google.com with SMTP id e9e14a558f8ab-39d505a087asf8072535ab.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 04 Sep 2024 05:22:32 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1725452551; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Uli3GqKK9cMEQrfl8Hz7qqWXc3jwqvGPQwjGuPuGVqV86onblkzfG0cE6le7iqcv44
-         vmUbJBEf8nCzwgKp9G7TN8EszngvGNeG95YkB4uxjSCdF68DahwcnCI6qubZ+0tN2P7U
-         whFnKBpeVWdN+gJR7R6i169jj4RVkqr2JKbhXKVIWlVM/dGKkxR8lysXZT9feHl0JQYF
-         RKx4U6Odz8ESIZ7alqu+Gicb+ZSLFztDLah+p85iXgbz4UsQChchCvPVY/wRjwjo4G+c
-         xWcqYPQ09XaWipB/C9hE+Z23BQ++1+mgnz9YrGbusUMyXPzXo9RXRkNT6r5AlE7fVO53
-         91SQ==
+        b=J8IIbix+wb/JRcXJisOZGinOFNQN0MGjlt0QtAfx1Ysa7HyrPgreK4ZMSeR/O7J5fi
+         Al+juFFW/Bs2qt4/h/ko7yoKvSu6fOj3nSKEsvfEkN5+5wwMIy8y4EayH0JFx+keSez/
+         Tlrv8RW2DcFJF6/6bFxaD4oCFZc30OJ8O8wcTMQHeVjZuRv2egWH5EpgJ1LayTsp411A
+         KhmvN5mnE9CbwlVOeElclr8Pk3kxgdEhRkvd6qxHfHUUbnCVfO3hkN0tYu2iLZow0spj
+         vlhyA67uVNUBYITuwvdUDCW/3NLjdrSMviWOQzZgFmbZRmo4mAkRrPRO6xsa+cwRg6yb
+         iSyQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
          :subject:message-id:date:from:in-reply-to:references:mime-version
          :sender:dkim-signature;
-        bh=liXV+n2h5hbumkDA/XsY3zTX2oYSywY33CRX5UDHccM=;
-        fh=QAHOG1hFo6AOczjnava/vlG6jU9/A0o7LThXLgYv6oQ=;
-        b=KTd/vgXKszsbQBHgdxRQmQZrxPgr82t6JNF0bkklBSxsdjty2Yfwtyqht30oupyB7D
-         6Z4Brqs+aBjPziKtMbCm29/9UJFhN3jeQwPNWxXAiWNTIHbvNUWQYUNIP3q59Rls5GhF
-         cCuErs4H+F9fCe2OMxDLyUVS73LCb4OoTPp6SV9BGR/SMhrGByLDDqJQQ+CN2hYO5Sgx
-         Q22ca1NmFTPX5x+WIco7TlRBOezt+H2Dr9yWGd50Zg9bnrTGdhNKiDEqIAbL+L2iH+N/
-         WxuoYECEv08OPkejRU0XinJ1uMmLp/K8bkBAedZHjjpw3+UN2EE4N/q+fq4y8DVMD5Mv
-         fXWA==;
+        bh=/G38W6QrV5JM9ysCFlNTsTQ7/PHyXr6RtK1vdinqTsQ=;
+        fh=T0fzebUQZ8Y2Y+6Rjjl4rKKMh5Nq6IY9iH7AvDy8/c4=;
+        b=dm+SU+Xzpj49geX8YWMT2V8N/kiURm84G/rqInJpRtjWwvcMLMl7LGZZQ0hv/uQ3F7
+         lfouc39D2JaYWRwxDzmVwt9uQMQt0+ZHHWaIOJKS4M+RN5yg3m2t9jBQ3zMy2pY15xIJ
+         Hq0Htcf4CYvDyMx+EKny/+6ypBALmZQAXbssVU5RIN656zLNZPDkl+2HuPNRpXWMcDEu
+         gZClV5nMet2GvddMm9TFKSdIPH2IDMc8lv9Cmdjl31wlicgmy0HFlwEcAUzhyL3JKXUX
+         lmft85Vb2+Z1cF5qzLZ3+AuNIGDrX6+HEa2ob8fDeZHMMADmS8wYs6cXneO9JEVgluAt
+         iZOQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@ventanamicro.com header.s=google header.b=FQ3FOs68;
-       spf=pass (google.com: domain of apatel@ventanamicro.com designates 2a00:1450:4864:20::136 as permitted sender) smtp.mailfrom=apatel@ventanamicro.com;
+       dkim=pass header.i=@brainfault-org.20230601.gappssmtp.com header.s=20230601 header.b=GA2nDUz8;
+       spf=neutral (google.com: 2607:f8b0:4864:20::d32 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1725452260; x=1726057060; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1725452551; x=1726057351; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=liXV+n2h5hbumkDA/XsY3zTX2oYSywY33CRX5UDHccM=;
-        b=eW63Tg4j+fAi4CisFMUKsoVrjd9x0ByQik18RG4q1NotS3HF1xJZ1GkqL+yWoCodSS
-         cIrXh/jWCBd/DbZVbmjSo2Is+29k7WTJXFvywaP/UsZUXkHSPrrlHIEUBa/xoTdcBlLl
-         9lIdJRRhIc46RlMaDfBuNGH0ejrWtmZLZiXeybCSx78S0fWRUT/1Zoh3k9o8V1bxzdP+
-         sZmOacPJFDDfPn9pOP271dKRetAoDD8SNpF0sKV9URpRFqN4bQvivjfBjz/vK+JbmDZd
-         pTc6dFwmcluch4NkWKfwSYn2pvLE11tbWAUYYb8u5rotg7bNt7xdPJdqVCi3PWncxsPB
-         dzwg==
+        bh=/G38W6QrV5JM9ysCFlNTsTQ7/PHyXr6RtK1vdinqTsQ=;
+        b=dTN9alO59il99PZPPWJ9imhWH4S2VOWF6YL6+0630da9J1du9io+ha5YdA2LkK1A2v
+         um2yX145oXAXbGZZkXnDWLOttndjSNlGu58xW9g57Znpu0clVDwcXOynd9C9cZjc3CFR
+         pYT/HimrEUrrJcnDIN/b+wDb3V9uvnbKVJZFRfoVCxWtGd2EsKkZYx/rRCDFCuTI//iK
+         mh2UI1r9iJhBaCnADbnPrX1LRR/oSrg7uI7KV+8Zu2qaNHnIk7x1a8ScahA4BSGfhT6r
+         YANCOdGo2lc6trvoUVua0198ifA0LuyPB/AOiWfCyBRHRZEIOAEv0ZYhC55Cyo5nWsr2
+         lQ6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725452260; x=1726057060;
+        d=1e100.net; s=20230601; t=1725452551; x=1726057351;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=liXV+n2h5hbumkDA/XsY3zTX2oYSywY33CRX5UDHccM=;
-        b=FMPqUY5tBEbdlJ4eDepZb7TS8rWNlGUfiawb1xxW01GgJuapnCjvjLcQAbl9CWGSLz
-         ZNHtY39Y12r5ptQyV8B/hFaobmo2uVO3wvLwvAsEvfUvkJKwOmCKkIiEX8wUSgBKNiC1
-         r4fkxkzG1j4YAUJ8I9wfrod606gXcNql1qz77yMNfNevTUSqIzAPsbgWS1j0NnMJN3mJ
-         OQNShbROQ8WiRILXwDPZ+rxUMVRYtmRskUliyEbVwR+TmF20hlC97WjHi8s++xPiLTgM
-         nvc7yWHXi21EzBiDZFBbWlaip+WAj/ez5QzhTi38eT44tLbnPp/+yU+4d1FFNBo+FHme
-         R8bw==
+        bh=/G38W6QrV5JM9ysCFlNTsTQ7/PHyXr6RtK1vdinqTsQ=;
+        b=Pq3HbSI1geIWSs260yPS50rLJF7QEq5im5WlG6Q4XYb5AZf8wUTD2v3fIwZSR1seZs
+         NhUMZtK/bvPUMW60Xj6L+llKEKU1nD7CDbp+FX9DzUIN+dxPx9yGMZlMIW+9V8VsLSNX
+         /pLK/egDo8VcooLeyXxdZM7U6afKhNXZG4PP9nd3nBss3WwSf4tw18qCInKMIE9ZMu4v
+         z55+85dlY0R6wgmqJDNs4hzZm6u1n45uCCEXa9g/yzPGzweJW8KPSHE8BdVXJSnOzmpG
+         urJxgwu+xhKo6AJ/WjlkhrA1FTX1t4hQtUlzyDNjU81bV8q9C3Ck2S+0cEZ0fbYcVAGb
+         em0g==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXbkrPDxZydZGwJChk41NyHaEBULPByu4wm5C+gyvpbDfIRjws9EN/AhPeQrWEcpX6xEaafdQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yzdp9jmm4p33snLCO2RfnFP3O2LWgqBhgV5kL9H1S8sJxaDVK5m
-	3PCQttsi1ie/gG9V5SdeuQ8Ag7ho71Cf6OA47SROOy+QQFP9wAva
-X-Google-Smtp-Source: AGHT+IGhim2FjdKUurd9rMKAvvwDK3tW09E3sFcybGsukFgSCKM5pvEQNujxx+8F0tY/zeY5sDYJQA==
-X-Received: by 2002:a05:600c:3b0c:b0:429:d43e:dbb9 with SMTP id 5b1f17b1804b1-42bbb436ddamr120172805e9.23.1725452258942;
-        Wed, 04 Sep 2024 05:17:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVde8Nfaj/zjiJmshfvTtOF/M37eXgP4nF3FefHbEqWzC6+jvitYkFFpBreLSImVmXf8A/a4w==@lfdr.de
+X-Gm-Message-State: AOJu0Yw9WBVFipEf0y5CxgzUr4ghWvSwsdNmNBFdpyu5sjwDyqEHPKh4
+	TCI8tgW5H6c0JRiK9xYXVAC8kradS4e5RUyZkmerAP4xGMIzNu6j
+X-Google-Smtp-Source: AGHT+IGliA0TnTVKyXLyPcqGtpYgori6OXuZQ+SHQY7RBHnpLizk+E68//Ihy5xosZKPIKCqOeKVQA==
+X-Received: by 2002:a05:6e02:1a0e:b0:375:acd3:31b3 with SMTP id e9e14a558f8ab-39f7978eb8fmr13213195ab.5.1725452551452;
+        Wed, 04 Sep 2024 05:22:31 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:4506:b0:428:7aa:dab5 with SMTP id
- 5b1f17b1804b1-42bb283e022ls21717465e9.0.-pod-prod-07-eu; Wed, 04 Sep 2024
- 05:17:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVzneT2t+GC1fNn/2CbdFeoYsaeLwuX630F7L9/tG68Y0TbwJMOIUWqLlsC1Cfwv1hIxYuhB9X0nQY=@googlegroups.com
-X-Received: by 2002:adf:e94a:0:b0:374:c90c:226 with SMTP id ffacd0b85a97d-374c90c0298mr7969988f8f.9.1725452256870;
-        Wed, 04 Sep 2024 05:17:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1725452256; cv=none;
-        d=google.com; s=arc-20160816;
-        b=Oq8C8QAFQX8owlZDSryfNQD3+mRaV6QKdrmwl7KlaTlRoFst0tKytltWdhyF3IjSMG
-         hlem3dLUi7rfvOQ/rL+jhc2l0i5ytypYMxLyZFjuLVnQ47LLDbtcOArjBBhjtOP0IdFx
-         lMLt6AwUuosKHkiVJYpsBfK77BoPnH0oP6Jr2ir+CmYZU5yboSRlBtQkhSUEGI98csAi
-         Mnk4381QMXAajac8xJxKs1DrwfumQNYZJs5UmAobAvMYwKvi9m7gaVwawANsVOtE0o/j
-         kqDSa1nbFPHAxCRWVCCDE+gg7QOaG3o3elipjNvFvt5PD5dJMJewnUUQh1L7xKKnXk8N
-         /kzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+Received: by 2002:a92:c14f:0:b0:39f:57ce:7264 with SMTP id e9e14a558f8ab-39f57ce74b9ls12980675ab.0.-pod-prod-00-us;
+ Wed, 04 Sep 2024 05:22:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVoSLWscZKlNU+RAn7qBAZKRh4Y8xUyKbHXkbV5mKKAWbg+U70JY7ighQogbmhIlRZIncPHFHeCkA0=@googlegroups.com
+X-Received: by 2002:a05:6e02:13a4:b0:39b:35d8:dc37 with SMTP id e9e14a558f8ab-39f797b951emr15636695ab.13.1725452550656;
+        Wed, 04 Sep 2024 05:22:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1725452550; cv=none;
+        d=google.com; s=arc-20240605;
+        b=HY29Hhv2nwM84wKq31XXeCIdUPmhKHknIJ/DRVkVF4kdjVlPE4lLaYv/5PGUgEuIlH
+         Z1NkvrzPZFTghvFGDKkUkrCNJoqEorI8MYYlrET1bfh4oAO/9Y9mzwoT4bShs8w+v45J
+         71qHNL8IjnLxiGC1m3fu1q+8hS3iElNkGsQwykAyjZn4ZybhuiQAOy57L9dUMaC8cOt9
+         k6cZDZMCXPqygyE/6CyEeoVOfZDCdcVGVQxJQJLWPNilHhCyIw6jZC0y05XL791nRz7m
+         OZr1hXeNdOXlgvU2UnYqRFELylRh+EkM/dRqk5Cv/TyH/hE6YHIIS7GLMfxUgJx1si/q
+         0Qog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=jlAAsB7SoUZZgOYwhXzTNmhBITwqQOW3TbtLYgYnb60=;
-        fh=98FWJidbgjTjyJc6MTsDRys6Zumbco6UEbdi60oGTjQ=;
-        b=CCRA94nfMo/8CeULmfOD1hKY76PA3wwf8DCEve5k+6+6RqouT9UyYs1DeO1LiSKUu2
-         OELDJ5Wb8ByLg7ZQAog3TRT5uNZqxo0H1UegxL7PLsWeV+Ky7LP6EnNv0ZrA7p2W3qIl
-         mmpLdRC/W1FrV8Vz3xWWk1B8d/vQC1R4XpFLWXJ+X74QNt+mQeHsBsEJPYPF0/3SVfbk
-         qoWM/t6+meGhxORqMHEenaOSLfRcrkxlr8zMpCUJExcr/yoVvpHRX1eZGg3lcYA+/3Vv
-         Xw+tVp5O7WW209GhvxKEhu6rJ9OF0GGzOGLIDZ/penttIDDe3+65n+PxqfxWdiX7OqHy
-         bMlg==;
+        bh=Ju9Hq+FgR4Nn2GcAcehqW18ZWQc9xC6Fkglr1yE5YOM=;
+        fh=ESTmNvo6cyfbwe8FOIQs3U68wNDJ7BIGBe1w2fe5cQY=;
+        b=K13VrTgHdLyUD+QDiVWSRhqWZnh4gwMnMhoPmN19aH4Kpitq92SdLrhzlTwjbAGmT5
+         IRMuRdgmOBGrRlmG9tYE6grKbb+g/EucIMSn/JU3eQHu0qmA08VlOXJCVyIyH7O3X6k4
+         Tn2jfZI6swHEDLWW8wEl4S6B6+plOQRJjyjVYFGoIsIfzd16Qe8omue80kXeF80qaEil
+         9R8XbqW/GtlqVCRR98R9+wbwrjyhc7K36ACRD92NKzimm2G8U3GVufdq9icGvYYIoE0L
+         NLyL5GzrFdV6rnrDUSgTvjcx2+chUyWsf8DNatCoABIgnhwQQBaXz8UKRo+P4umi5gl9
+         h0FA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@ventanamicro.com header.s=google header.b=FQ3FOs68;
-       spf=pass (google.com: domain of apatel@ventanamicro.com designates 2a00:1450:4864:20::136 as permitted sender) smtp.mailfrom=apatel@ventanamicro.com;
+       dkim=pass header.i=@brainfault-org.20230601.gappssmtp.com header.s=20230601 header.b=GA2nDUz8;
+       spf=neutral (google.com: 2607:f8b0:4864:20::d32 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org;
        dara=pass header.i=@googlegroups.com
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com. [2a00:1450:4864:20::136])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-374d26c0159si94307f8f.3.2024.09.04.05.17.36
+Received: from mail-io1-xd32.google.com (mail-io1-xd32.google.com. [2607:f8b0:4864:20::d32])
+        by gmr-mx.google.com with ESMTPS id e9e14a558f8ab-39f4938c4e0si4071415ab.4.2024.09.04.05.22.30
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Sep 2024 05:17:36 -0700 (PDT)
-Received-SPF: pass (google.com: domain of apatel@ventanamicro.com designates 2a00:1450:4864:20::136 as permitted sender) client-ip=2a00:1450:4864:20::136;
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-5333b2fbedaso11409104e87.0
-        for <kasan-dev@googlegroups.com>; Wed, 04 Sep 2024 05:17:36 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU/1JHKIGg8x0YMzRIpfXnexzYpzNT1k228TfEcfGA+tACFjLYeY8284z+e8MBVD/8xUiLzUWQ/6N4=@googlegroups.com
-X-Received: by 2002:a05:6512:2211:b0:534:3cdc:dbef with SMTP id
- 2adb3069b0e04-53546b8d6d5mr11049948e87.43.1725452254963; Wed, 04 Sep 2024
- 05:17:34 -0700 (PDT)
+        Wed, 04 Sep 2024 05:22:30 -0700 (PDT)
+Received-SPF: neutral (google.com: 2607:f8b0:4864:20::d32 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) client-ip=2607:f8b0:4864:20::d32;
+Received: by mail-io1-xd32.google.com with SMTP id ca18e2360f4ac-82a32294b27so22241139f.0
+        for <kasan-dev@googlegroups.com>; Wed, 04 Sep 2024 05:22:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVT9q/LpoQO31mMuNA/brS/LPUOp1uS56+8SkXWQ6WlIEhtkpJG6cxSSH1WdKYxTMEk8KP8EVyfY/Q=@googlegroups.com
+X-Received: by 2002:a05:6e02:1c46:b0:39d:4dab:a533 with SMTP id
+ e9e14a558f8ab-39f74f88f94mr14510545ab.0.1725452549998; Wed, 04 Sep 2024
+ 05:22:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240829010151.2813377-1-samuel.holland@sifive.com> <20240829010151.2813377-10-samuel.holland@sifive.com>
-In-Reply-To: <20240829010151.2813377-10-samuel.holland@sifive.com>
-From: Anup Patel <apatel@ventanamicro.com>
-Date: Wed, 4 Sep 2024 17:47:24 +0530
-Message-ID: <CAK9=C2WjraWjuQCeU2Y4Jhr-gKkOcP42Sza7wVp0FgeGaD923g@mail.gmail.com>
-Subject: Re: [PATCH v4 09/10] RISC-V: KVM: Allow Smnpm and Ssnpm extensions
- for guests
+References: <20240829010151.2813377-1-samuel.holland@sifive.com> <20240829010151.2813377-11-samuel.holland@sifive.com>
+In-Reply-To: <20240829010151.2813377-11-samuel.holland@sifive.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Wed, 4 Sep 2024 17:52:19 +0530
+Message-ID: <CAAhSdy0P6Jxdr1+zQLuisMpMapHWHXkSkzEEBG+wWXbbzf7ASw@mail.gmail.com>
+Subject: Re: [PATCH v4 10/10] KVM: riscv: selftests: Add Smnpm and Ssnpm to
+ get-reg-list test
 To: Samuel Holland <samuel.holland@sifive.com>
 Cc: Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, 
 	devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
-	linux-kernel@vger.kernel.org, Anup Patel <anup@brainfault.org>, 
-	Conor Dooley <conor@kernel.org>, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, Conor Dooley <conor@kernel.org>, kasan-dev@googlegroups.com, 
 	Atish Patra <atishp@atishpatra.org>, Evgenii Stepanov <eugenis@google.com>, 
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
 	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: apatel@ventanamicro.com
+X-Original-Sender: anup@brainfault.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@ventanamicro.com header.s=google header.b=FQ3FOs68;       spf=pass
- (google.com: domain of apatel@ventanamicro.com designates 2a00:1450:4864:20::136
- as permitted sender) smtp.mailfrom=apatel@ventanamicro.com;       dara=pass header.i=@googlegroups.com
+ header.i=@brainfault-org.20230601.gappssmtp.com header.s=20230601
+ header.b=GA2nDUz8;       spf=neutral (google.com: 2607:f8b0:4864:20::d32 is
+ neither permitted nor denied by best guess record for domain of
+ anup@brainfault.org) smtp.mailfrom=anup@brainfault.org;       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,16 +148,17 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 On Thu, Aug 29, 2024 at 6:32=E2=80=AFAM Samuel Holland
 <samuel.holland@sifive.com> wrote:
 >
-> The interface for controlling pointer masking in VS-mode is henvcfg.PMM,
-> which is part of the Ssnpm extension, even though pointer masking in
-> HS-mode is provided by the Smnpm extension. As a result, emulating Smnpm
-> in the guest requires (only) Ssnpm on the host.
->
-> Since the guest configures Smnpm through the SBI Firmware Features
-> interface, the extension can be disabled by failing the SBI call. Ssnpm
-> cannot be disabled without intercepting writes to the senvcfg CSR.
+> Add testing for the pointer masking extensions exposed to KVM guests.
 >
 > Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
+
+LGTM.
+
+Reviewed-by: Anup Patel <anup@brainfault.org>
+
+Regards,
+Anup
+
 > ---
 >
 > (no changes since v2)
@@ -166,76 +166,75 @@ On Thu, Aug 29, 2024 at 6:32=E2=80=AFAM Samuel Holland
 > Changes in v2:
 >  - New patch for v2
 >
->  arch/riscv/include/uapi/asm/kvm.h | 2 ++
->  arch/riscv/kvm/vcpu_onereg.c      | 3 +++
->  2 files changed, 5 insertions(+)
+>  tools/testing/selftests/kvm/riscv/get-reg-list.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 >
-> diff --git a/arch/riscv/include/uapi/asm/kvm.h b/arch/riscv/include/uapi/=
-asm/kvm.h
-> index e97db3296456..4f24201376b1 100644
-> --- a/arch/riscv/include/uapi/asm/kvm.h
-> +++ b/arch/riscv/include/uapi/asm/kvm.h
-> @@ -175,6 +175,8 @@ enum KVM_RISCV_ISA_EXT_ID {
->         KVM_RISCV_ISA_EXT_ZCF,
->         KVM_RISCV_ISA_EXT_ZCMOP,
->         KVM_RISCV_ISA_EXT_ZAWRS,
-> +       KVM_RISCV_ISA_EXT_SMNPM,
-> +       KVM_RISCV_ISA_EXT_SSNPM,
->         KVM_RISCV_ISA_EXT_MAX,
->  };
->
-> diff --git a/arch/riscv/kvm/vcpu_onereg.c b/arch/riscv/kvm/vcpu_onereg.c
-> index b319c4c13c54..6f833ec2344a 100644
-> --- a/arch/riscv/kvm/vcpu_onereg.c
-> +++ b/arch/riscv/kvm/vcpu_onereg.c
-> @@ -34,9 +34,11 @@ static const unsigned long kvm_isa_ext_arr[] =3D {
->         [KVM_RISCV_ISA_EXT_M] =3D RISCV_ISA_EXT_m,
->         [KVM_RISCV_ISA_EXT_V] =3D RISCV_ISA_EXT_v,
->         /* Multi letter extensions (alphabetically sorted) */
-> +       [KVM_RISCV_ISA_EXT_SMNPM] =3D RISCV_ISA_EXT_SSNPM,
-
-Why not use KVM_ISA_EXT_ARR() macro here ?
-
->         KVM_ISA_EXT_ARR(SMSTATEEN),
->         KVM_ISA_EXT_ARR(SSAIA),
->         KVM_ISA_EXT_ARR(SSCOFPMF),
-> +       KVM_ISA_EXT_ARR(SSNPM),
->         KVM_ISA_EXT_ARR(SSTC),
->         KVM_ISA_EXT_ARR(SVINVAL),
->         KVM_ISA_EXT_ARR(SVNAPOT),
-> @@ -129,6 +131,7 @@ static bool kvm_riscv_vcpu_isa_disable_allowed(unsign=
-ed long ext)
->         case KVM_RISCV_ISA_EXT_M:
->         /* There is not architectural config bit to disable sscofpmf comp=
-letely */
->         case KVM_RISCV_ISA_EXT_SSCOFPMF:
-> +       case KVM_RISCV_ISA_EXT_SSNPM:
-
-Why not add KVM_RISCV_ISA_EXT_SMNPM here ?
-
-Disabling Smnpm from KVM user space is very different from
-disabling Smnpm from Guest using SBI FWFT extension.
-
-The KVM user space should always add Smnpm in the
-Guest ISA string whenever the Host ISA string has it.
-
-The Guest must explicitly use SBI FWFT to enable
-Smnpm only after it sees Smnpm in ISA string.
-
->         case KVM_RISCV_ISA_EXT_SSTC:
->         case KVM_RISCV_ISA_EXT_SVINVAL:
->         case KVM_RISCV_ISA_EXT_SVNAPOT:
+> diff --git a/tools/testing/selftests/kvm/riscv/get-reg-list.c b/tools/tes=
+ting/selftests/kvm/riscv/get-reg-list.c
+> index 8e34f7fa44e9..54ab484d0000 100644
+> --- a/tools/testing/selftests/kvm/riscv/get-reg-list.c
+> +++ b/tools/testing/selftests/kvm/riscv/get-reg-list.c
+> @@ -41,9 +41,11 @@ bool filter_reg(__u64 reg)
+>         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
+_ISA_EXT_I:
+>         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
+_ISA_EXT_M:
+>         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
+_ISA_EXT_V:
+> +       case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
+_ISA_EXT_SMNPM:
+>         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
+_ISA_EXT_SMSTATEEN:
+>         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
+_ISA_EXT_SSAIA:
+>         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
+_ISA_EXT_SSCOFPMF:
+> +       case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
+_ISA_EXT_SSNPM:
+>         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
+_ISA_EXT_SSTC:
+>         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
+_ISA_EXT_SVINVAL:
+>         case KVM_REG_RISCV_ISA_EXT | KVM_REG_RISCV_ISA_SINGLE | KVM_RISCV=
+_ISA_EXT_SVNAPOT:
+> @@ -414,9 +416,11 @@ static const char *isa_ext_single_id_to_str(__u64 re=
+g_off)
+>                 KVM_ISA_EXT_ARR(I),
+>                 KVM_ISA_EXT_ARR(M),
+>                 KVM_ISA_EXT_ARR(V),
+> +               KVM_ISA_EXT_ARR(SMNPM),
+>                 KVM_ISA_EXT_ARR(SMSTATEEN),
+>                 KVM_ISA_EXT_ARR(SSAIA),
+>                 KVM_ISA_EXT_ARR(SSCOFPMF),
+> +               KVM_ISA_EXT_ARR(SSNPM),
+>                 KVM_ISA_EXT_ARR(SSTC),
+>                 KVM_ISA_EXT_ARR(SVINVAL),
+>                 KVM_ISA_EXT_ARR(SVNAPOT),
+> @@ -946,8 +950,10 @@ KVM_ISA_EXT_SUBLIST_CONFIG(aia, AIA);
+>  KVM_ISA_EXT_SUBLIST_CONFIG(fp_f, FP_F);
+>  KVM_ISA_EXT_SUBLIST_CONFIG(fp_d, FP_D);
+>  KVM_ISA_EXT_SIMPLE_CONFIG(h, H);
+> +KVM_ISA_EXT_SIMPLE_CONFIG(smnpm, SMNPM);
+>  KVM_ISA_EXT_SUBLIST_CONFIG(smstateen, SMSTATEEN);
+>  KVM_ISA_EXT_SIMPLE_CONFIG(sscofpmf, SSCOFPMF);
+> +KVM_ISA_EXT_SIMPLE_CONFIG(ssnpm, SSNPM);
+>  KVM_ISA_EXT_SIMPLE_CONFIG(sstc, SSTC);
+>  KVM_ISA_EXT_SIMPLE_CONFIG(svinval, SVINVAL);
+>  KVM_ISA_EXT_SIMPLE_CONFIG(svnapot, SVNAPOT);
+> @@ -1009,8 +1015,10 @@ struct vcpu_reg_list *vcpu_configs[] =3D {
+>         &config_fp_f,
+>         &config_fp_d,
+>         &config_h,
+> +       &config_smnpm,
+>         &config_smstateen,
+>         &config_sscofpmf,
+> +       &config_ssnpm,
+>         &config_sstc,
+>         &config_svinval,
+>         &config_svnapot,
 > --
 > 2.45.1
 >
->
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
-
-Regards,
-Anup
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -243,5 +242,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAK9%3DC2WjraWjuQCeU2Y4Jhr-gKkOcP42Sza7wVp0FgeGaD923g%40mail.gmai=
-l.com.
+kasan-dev/CAAhSdy0P6Jxdr1%2BzQLuisMpMapHWHXkSkzEEBG%2BwWXbbzf7ASw%40mail.gm=
+ail.com.
