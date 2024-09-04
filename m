@@ -1,139 +1,135 @@
-Return-Path: <kasan-dev+bncBDFJHU6GRMBBBBNH4G3AMGQEUOV7HBA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDIPVEX3QUMRBDWS4G3AMGQE5OMVI6I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D7696BC61
-	for <lists+kasan-dev@lfdr.de>; Wed,  4 Sep 2024 14:33:12 +0200 (CEST)
-Received: by mail-pf1-x440.google.com with SMTP id d2e1a72fcca58-7142fc79985sf6578511b3a.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 04 Sep 2024 05:33:11 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1725453190; cv=pass;
+Received: from mail-pj1-x1038.google.com (mail-pj1-x1038.google.com [IPv6:2607:f8b0:4864:20::1038])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB7696BF97
+	for <lists+kasan-dev@lfdr.de>; Wed,  4 Sep 2024 16:05:04 +0200 (CEST)
+Received: by mail-pj1-x1038.google.com with SMTP id 98e67ed59e1d1-2da8c2eeecasf927131a91.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 04 Sep 2024 07:05:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1725458703; cv=pass;
         d=google.com; s=arc-20240605;
-        b=eI7eU4ga4krMZFegxa1FDOax6m+OrtnpSfGX9hb+xTWR2ie9RW56KRMUy5ErJkY48v
-         rUJGGBalwsBo9WsAxoGTQmTC28QjH8oUqPSnD2+IVgH/1NIBCw9p16cQS4v6X8vzP6zZ
-         x4FawWE+p/xVECZ6UN3HVf5KdhOQp7ljC/6XOd+parLvYPtgusRZDE64l9+H6ySBVKe/
-         2rUXJ9AqV5XylXcdstqZG6DD+9OcqbnEDyKVEnq99OmPwdGM0TnvDT+gxaJDyRhrJvQv
-         SbJIkoHu8kFFJnkLJv3/fcOf5diNBFsvEwS76Tqm99ltwwfKA5UG7T084OxB2Pe00XjL
-         wRJA==
+        b=R14Hq8mqKezAFjVNZ2xbDeJtZEu12QtbrZ0frury8qV9ch6EsRJ04zJcUsiREA5dWX
+         FMf7ANFDousA4+mGVM4TKF0LvhvEhTyTRK2I0nmu2HQMkPSTQ6QpBKiwcqzJLXS/qc4l
+         tZsLsbc2csURjw24MGxmq+5nNRhSVXdjgP6VTi+HE1lok5rPlkJMimw2YMgQ72zKHXBO
+         /a6hn+XRUdykECvkuBwrzrgJl96K16BrM0iC4wLPYk69l4hGhBzWJ+TAbzXXq0Wzy4ae
+         h/8Nyoh9jLKa9w6P5wH+9gxMs+J0L1CCfWixGrQXNX4y4kIeCBcsxDZoWx4f45ZURR8g
+         5gnw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature;
-        bh=4oD7uca10xHDJqTY0XvxBa6A+4pCjBv9OWzcav4c4jQ=;
-        fh=Bj6bEPmf1shFkBAAYFglHNCp0hjlE4B1K0L+5NsRKZI=;
-        b=SQPM/Lpg3bthYaq+ntZVbiueGmTJlEz/eeqzUsOEM4jaG/FqNkXspsF3t+u50JNXFw
-         99ZBwt4Ht8mytwNymi0l0zYGu9FRHA4AbF7m8l3TNtve/IUhAM+6rkkD5BDgmwXU0vh8
-         695Miw21dMrjKJgmNoBIE0bubt9DkfVz+EJvBbPEZ2w08TsImxx6O+V3Jc/lvmHn8gV+
-         +KRZuC2k1adPfsh6V1QHYaIwAM865P3iJ9QMwDJXZTnCIysZ7MNaBU+f7RSY9BCOhupx
-         MOj5+sDsqQ5vh+g4FbNmdWg20QquQyuN6D9++16fWiBmW+GwNS/u31xdU/BOQ5kCj0hI
-         YMpg==;
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:dkim-filter:sender
+         :dkim-signature;
+        bh=BcDWw8EOMuwHyE73R2rw6cmk/zrpPOl2wHPCckOPlIc=;
+        fh=U/dYARmy+IoasCuvBKu7lKOZ5zrpPP8mTiWHaxa5tG8=;
+        b=TvkWYvXayPUsvPxIvYHs3XtLhK1KUq5fc+izh4owYz7bMQbmpYa60qmrC8x1319Xjy
+         CgE90reCS/P5yD0m+3rhrl5JkXQyNhEWcbDDZYPgk7yrtJOpR4fhb4b+qj4TA6hgajJz
+         pd5upVQdgVWUB9YEz/UocytsCIWyltmJoZApbOvGo9IPAXKQVK1oBrbfoSQbO64vu45F
+         2dGI8tYv6bbwUPu3umRq9WUlGOj2ImpRbK/3yyca1GOX4M1O+XYRYmyLaOCzlzHR1OQr
+         D7lalR3dI7qvTz04G7/yqrk5LPdsqedpXv4VSRHaQQqtuL5dXFRy8u+X29jOOFO/fx6H
+         qfZA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@brainfault-org.20230601.gappssmtp.com header.s=20230601 header.b=kB59i7Wc;
-       spf=neutral (google.com: 2607:f8b0:4864:20::129 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@lwn.net header.s=20201203 header.b=QSXeqYqW;
+       spf=pass (google.com: domain of corbet@lwn.net designates 2600:3c01:e000:3a1::42 as permitted sender) smtp.mailfrom=corbet@lwn.net;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=lwn.net
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1725453190; x=1726057990; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1725458703; x=1726063503; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4oD7uca10xHDJqTY0XvxBa6A+4pCjBv9OWzcav4c4jQ=;
-        b=Tkif0ZwnbiZ/5Ykq4IKUKhlb4tAKhZf62Rw7DMAeJSiMkvtuZWpCruKbFYHKODmbw+
-         xpxNNmLoR2AjWm5Xb//JM3n8XQ7fuYxB/S47Olvb2skjGyFoKUCp2UicHmNQEuhOxjmH
-         27F8Op9tPrGoJIWnqsORFnz0dNoLiLQn84n/h5Hn2/ZsyqxVcaxwrqdMcrH0o03RN/y+
-         8ijOmiBte06O/mIJd5EZd4e4907TYRLs2lzfDlMbNzQtC7qA+75b/TSI1U9cnTMBI1rB
-         svQoLJCalvOLRgCcR1MmSAeqv9gTZnHUNiwFynM+3Kfgw98XbezACTwjLqabR+N1qg99
-         p/bg==
+         :x-original-sender:mime-version:message-id:date:references
+         :in-reply-to:subject:cc:to:from:dkim-filter:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BcDWw8EOMuwHyE73R2rw6cmk/zrpPOl2wHPCckOPlIc=;
+        b=nkI7KfYG+uuqnWVBNyLyeZT91cug9wtgg+Nt8sFwksIsPr3vb2s7CvNvl35xDcN/fA
+         TiaCB/bACBuF2mMYXVg7zeS2cQ8fv8J/LCROHP85MP0Q2gVXuJNCPlNcSIptJq56gKnp
+         iIGqVnR9VCZbbsii2gw1EL0JeOTFOYIoxZlljwUJV8TThFezjEq1D2Wgz9bCJETZOiAv
+         qnkULcCXuJnAYOZdPvFsNyw5jSzsbvw9QKR0s44V8tOqEEqVWfXQeKrDHKU8WZh6Y49p
+         905M2vBBsums6sN0+ghU4OXqoJgMvw31tpekbGDY7WppgT/1DCJ6QO49nZTJSQ6gkleo
+         dAJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725453190; x=1726057990;
+        d=1e100.net; s=20230601; t=1725458703; x=1726063503;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=4oD7uca10xHDJqTY0XvxBa6A+4pCjBv9OWzcav4c4jQ=;
-        b=vZWtzp+tqJebUEyrNTXUiM1cidYZzUZxrdMMVMzyPUIsSC+o5pQWux5/yYzM0GQS+H
-         fcMB69O6aJamUAMDl8WKBnvrFl/wbI8x3OUjSsjOJJ0VHMr3be/lOEDRdp1qhWrghxAe
-         +WHA5HzkYnPuexSxWqW36Si9FrtcLiE4vJaC/7hycTCSX31iVeNRHQAJ1awQWzoR3uTd
-         yInSwC851oMlyY9ScPWKzm4G9dMq6jM/f7h11z4cA8HDUM45nmRFYkI6E+vWeQkS3kyv
-         QYwdSHnWuKkuM7uwbedh2XEkJ8T+0YNAzCVpZzDoMavoK+cxp/VjVc0bOyJcfLFoLJjp
-         9W4g==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:references:in-reply-to:subject:cc:to:from
+         :dkim-filter:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BcDWw8EOMuwHyE73R2rw6cmk/zrpPOl2wHPCckOPlIc=;
+        b=wZj4oOGjSwDe7sDdQYaqv63brU+IJ1QilVya8J0yslKli2+Oi0QDT9DKeqahdXg02G
+         4Qvz77Tl3HZ/bBZPATcyJcVpiHuL7Yut8kXssYxnk5KHqtbIUo7PKPNfSPRETfS5w5wD
+         E8oKT57VnN3ngscOAemuXGWLDKkJtDeQPsZ2vagZv7oMi0DledZ12PyxJ/nkzTg3TgHa
+         6dX7WN1DE7bDDL6Bk3M8huW+KoAjZ9T9QGUbw9TvAXt9Md40i13kUCq4pGyt40b9ZwVY
+         Npz/0bLDz54tjBqPEvVd3WifLUvTpMg903mWnpZI4cFVi/pI/gwEcEBiRmoZc3k07hhx
+         k0Tw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUWrmmAmaji15hfrilajBJR20nC08UMiawyNGI0HQvQjDWjSVnalYvts64OX8vHQm9/l/tWdg==@lfdr.de
-X-Gm-Message-State: AOJu0YzGRd0xtrTsh+hqsBYJXb+tPBJABf4ZC/dZbiNjp2LY69HiU9+4
-	/GODGQbnqeFeBKuvIQOrCuvNt0IeW8T9v5dmH47ZNDVyfMfLSN9H
-X-Google-Smtp-Source: AGHT+IFsVPtHBU1bz5WKQQUI80bs98eOOwtAZHLp0JYtPhenQFRWs1Z1agYsECT9WtCVdIPlse+krA==
-X-Received: by 2002:a05:6a20:4389:b0:1c0:e997:7081 with SMTP id adf61e73a8af0-1cecdf2e14amr17654309637.29.1725453190023;
-        Wed, 04 Sep 2024 05:33:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUn8zrtHtYnwCMwMog1/7lYpKOYQmsFHUWvMOnUFDk8DaqZNPtlZSJ3RPcIaC+PHzKI44ah5g==@lfdr.de
+X-Gm-Message-State: AOJu0YzPA8pjhuk47n80Y3UkOFMGSqj99JwWbcXGiMQcsd2vfDAX2l96
+	2IjV5Sdxn1zxPIKalKch5CNbFLdKFlij8DQ+crd16Bgq7hLxvYtu
+X-Google-Smtp-Source: AGHT+IFUaTvs7Nh1gQOo0xnmYaXd5z/oVPqK4ZBYBSUbyGgXI5KB7K2GfspXH8TPLJIewrXrRWqTBA==
+X-Received: by 2002:a17:90a:c28a:b0:2d8:8ead:f013 with SMTP id 98e67ed59e1d1-2da55929d85mr6660979a91.7.1725458702497;
+        Wed, 04 Sep 2024 07:05:02 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:a24:b0:706:a89c:32b4 with SMTP id
- d2e1a72fcca58-715de43b239ls4397736b3a.0.-pod-prod-06-us; Wed, 04 Sep 2024
- 05:33:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUdI8Fg620nk5YtU8a6WW31L+/sg3nqtH4JwW0nmWN8hiLgzNcGCpHtwa5lxu0fDN+QlMSdDgdQ1ho=@googlegroups.com
-X-Received: by 2002:a05:6a00:2ea8:b0:714:3325:d8e9 with SMTP id d2e1a72fcca58-7173b690c1cmr18145574b3a.22.1725453188664;
-        Wed, 04 Sep 2024 05:33:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1725453188; cv=none;
+Received: by 2002:a17:90b:4a45:b0:2da:6346:d569 with SMTP id
+ 98e67ed59e1d1-2da6346d7a2ls1109830a91.1.-pod-prod-04-us; Wed, 04 Sep 2024
+ 07:05:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUAQrqAFNbkeQg9h4dPTMbc/G9TmRPDT3Iddzo+mIypJazc4JyQMB61pna7DJVRJ4pQldCsh9aHHsI=@googlegroups.com
+X-Received: by 2002:a17:90b:350d:b0:2d3:c9bb:9cd7 with SMTP id 98e67ed59e1d1-2da55a77e52mr6873212a91.36.1725458701357;
+        Wed, 04 Sep 2024 07:05:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1725458701; cv=none;
         d=google.com; s=arc-20240605;
-        b=Ntj3Ghqrl+7WofpAO0tj0QMhMTMdZz5EKpgYR8eniIdjVf5i/9xJgemXyqrlwKCwDD
-         8it1BuZPicWBxA0YPHcc9DkDDYmbMTztoVYPnatvCbR/nHm0pEdvKrMgx2ix3d+4KmE7
-         yvStDals/Km14gINnr5L7NUPW901ezW7/5Z464cMrk/MOLXCBzqeKSIJkwKUFpVy4wiV
-         NHracQGnQrnAiJQjBuR0zjKGmdmoOpyZpeYASrDJ/4ZNI3VZsOsCLBqMGf4+b7GpAVTj
-         kDpdrbDfTnCCI3Tp2BiOwnK3CPlXk4vDr74n3tw1FxBdw0S0yvmcTGzdfyjUODHw9Ne3
-         B3aA==
+        b=A2GtBv+eg05YF8QI4LpolzBcdeEwNIPpD5WxctWtNWk+l/pUF64OLFqLb4tXw4Phvs
+         6hzD1cznNE6FWHsXA7WpMRytqRUI/M1sGpvTQ4q1tDdMhHTGagy398AQpYGS/dkdUVF9
+         g5gzZ9jeB9asgo64xzLgrcUTh2kMlrGS5nxmC8ByIa5xuxQ493Vb3tPf4d/fiIILJRmm
+         9TWPK+PRPtX/o8al/GMKW77T78VYmuidsnQcxh+BHiax8bsNCftwFBbV8pnP85dtg1hi
+         HKDIFl3s9CB3xSIHIudECVRPLgAq7v6/cfRkoPa5E5It1XDyt81Hgsfg5BbaHXKPaxOw
+         Ye1A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6ZsaBihnC5N+75Ve3rV3kB2kS1uqP0/r3+HmOHWQjaE=;
-        fh=Zm7NCs/Jf5JL4sYve7h4EM4f3AXGiq7aeq0x/xj/Za4=;
-        b=XgZX/qxyFbviqwqly3T0JPhni/y0fJXNsZt6nwJqj6xyVd/90pvziXanRiiWCiTys4
-         OlSQOvsgLXiRe5B1/Tt9bP4RCFB+rhwxm45+k7W1oLb2vPDOhVIAkUcTqySSrUz1mxOD
-         0PUmSSrH1Al5ESF3DfD+FjHri15w2Oj4VdGRJZ/32LMQxsSq4PIjCMO2g8JiZfrrZ2Bz
-         AXjNXpbf3E7qMPCSHyjTeufgYU8X4hFZNUeQ/I+DydbOTYwIWupo5cwMKeV3PvUWo6IM
-         AvDmy3jMcPkOSlabfGlSQjP6E5VJTPXoENRbh1RvEUWbdyT7zKYJuyXSgVRUfiYT+3es
-         cJmg==;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:dkim-signature:dkim-filter;
+        bh=bPJsyN4OVHJPkKS+55oOZsTfbS95iFLn1DvzX0Lx3OY=;
+        fh=6hApI4cJMwXleAHKvukLx/JCiBN9IAEp2MAuzMIHfT4=;
+        b=kefMLcPnn/ztH0gTpj6+wfgQCaIhcLsrXqqZXctcEo1omwfZ7dVf25QR8axHbcp70p
+         ze9HYvXtrGL5oTxlw5YZ3KUsYGrGT24O69G+JkteLT+Aj2ZyGB+L6PyfyryH413Uvj56
+         CXaC9dtbNKY0yq3RRKADrrio9OOj7Qowbi6Llb/CFxOQvRrQg9nSdwewXjG9cHiAzfs/
+         MiR2mXFMN54T0s91/gr++O4G5DIa3mjHuYMedu4h1/m96DVbXB90lh9zoNS2z0qL45Ra
+         kkgDZCjzkx5NqSjxygPMjq4SFmQ4O79YmgqVsk9u9NpvqjKkDiwhloLx+H/IL5Y3HqTm
+         1NSQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@brainfault-org.20230601.gappssmtp.com header.s=20230601 header.b=kB59i7Wc;
-       spf=neutral (google.com: 2607:f8b0:4864:20::129 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) smtp.mailfrom=anup@brainfault.org;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-il1-x129.google.com (mail-il1-x129.google.com. [2607:f8b0:4864:20::129])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-7177f9c462csi29130b3a.1.2024.09.04.05.33.08
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Sep 2024 05:33:08 -0700 (PDT)
-Received-SPF: neutral (google.com: 2607:f8b0:4864:20::129 is neither permitted nor denied by best guess record for domain of anup@brainfault.org) client-ip=2607:f8b0:4864:20::129;
-Received: by mail-il1-x129.google.com with SMTP id e9e14a558f8ab-39f37a5a091so21636035ab.1
-        for <kasan-dev@googlegroups.com>; Wed, 04 Sep 2024 05:33:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXOj3h4gegY4JDX95hO+3ic4pN4l0Y+T5A9WEIEhT2DA3iB9Wp6yJ60IWaBtYXknQNZzL1sxERxCVQ=@googlegroups.com
-X-Received: by 2002:a05:6e02:2146:b0:39d:2a84:869f with SMTP id
- e9e14a558f8ab-39f49a1ff96mr164451425ab.6.1725453187950; Wed, 04 Sep 2024
- 05:33:07 -0700 (PDT)
+       dkim=pass header.i=@lwn.net header.s=20201203 header.b=QSXeqYqW;
+       spf=pass (google.com: domain of corbet@lwn.net designates 2600:3c01:e000:3a1::42 as permitted sender) smtp.mailfrom=corbet@lwn.net;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=lwn.net
+Received: from ms.lwn.net (ms.lwn.net. [2600:3c01:e000:3a1::42])
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-2d8a1c35e18si343635a91.3.2024.09.04.07.05.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2024 07:05:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of corbet@lwn.net designates 2600:3c01:e000:3a1::42 as permitted sender) client-ip=2600:3c01:e000:3a1::42;
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 724B642B1D
+Received: from localhost (unknown [IPv6:2601:280:5e00:625::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 724B642B1D;
+	Wed,  4 Sep 2024 14:05:00 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Haoyang Liu <tttturtleruss@hust.edu.cn>, Marco Elver <elver@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>
+Cc: hust-os-kernel-patches@googlegroups.com, Haoyang Liu
+ <tttturtleruss@hust.edu.cn>, kasan-dev@googlegroups.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: update dev-tools/kcsan.rst url about KTSAN
+In-Reply-To: <20240725174632.23803-1-tttturtleruss@hust.edu.cn>
+References: <20240725174632.23803-1-tttturtleruss@hust.edu.cn>
+Date: Wed, 04 Sep 2024 08:04:59 -0600
+Message-ID: <87cyljms50.fsf@trenco.lwn.net>
 MIME-Version: 1.0
-References: <20240829010151.2813377-1-samuel.holland@sifive.com>
-In-Reply-To: <20240829010151.2813377-1-samuel.holland@sifive.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Wed, 4 Sep 2024 18:02:57 +0530
-Message-ID: <CAAhSdy04aEg35j3NTGOz5Gs_wPP3PBuR7sKbvosvQ1jFFGE5sQ@mail.gmail.com>
-Subject: Re: [PATCH v4 00/10] riscv: Userspace pointer masking and tagged
- address ABI
-To: Samuel Holland <samuel.holland@sifive.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, 
-	devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>, 
-	linux-kernel@vger.kernel.org, Conor Dooley <conor@kernel.org>, kasan-dev@googlegroups.com, 
-	Atish Patra <atishp@atishpatra.org>, Evgenii Stepanov <eugenis@google.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
-	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: anup@brainfault.org
+X-Original-Sender: corbet@lwn.net
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@brainfault-org.20230601.gappssmtp.com header.s=20230601
- header.b=kB59i7Wc;       spf=neutral (google.com: 2607:f8b0:4864:20::129 is
- neither permitted nor denied by best guess record for domain of
- anup@brainfault.org) smtp.mailfrom=anup@brainfault.org;       dara=pass header.i=@googlegroups.com
+ header.i=@lwn.net header.s=20201203 header.b=QSXeqYqW;       spf=pass
+ (google.com: domain of corbet@lwn.net designates 2600:3c01:e000:3a1::42 as
+ permitted sender) smtp.mailfrom=corbet@lwn.net;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=lwn.net
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,138 +142,35 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Aug 29, 2024 at 6:31=E2=80=AFAM Samuel Holland
-<samuel.holland@sifive.com> wrote:
->
-> RISC-V defines three extensions for pointer masking[1]:
->  - Smmpm: configured in M-mode, affects M-mode
->  - Smnpm: configured in M-mode, affects the next lower mode (S or U-mode)
->  - Ssnpm: configured in S-mode, affects the next lower mode (VS, VU, or U=
--mode)
->
-> This series adds support for configuring Smnpm or Ssnpm (depending on
-> which privilege mode the kernel is running in) to allow pointer masking
-> in userspace (VU or U-mode), extending the PR_SET_TAGGED_ADDR_CTRL API
-> from arm64. Unlike arm64 TBI, userspace pointer masking is not enabled
-> by default on RISC-V. Additionally, the tag width (referred to as PMLEN)
-> is variable, so userspace needs to ask the kernel for a specific tag
-> width, which is interpreted as a lower bound on the number of tag bits.
->
-> This series also adds support for a tagged address ABI similar to arm64
-> and x86. Since accesses from the kernel to user memory use the kernel's
-> pointer masking configuration, not the user's, the kernel must untag
-> user pointers in software before dereferencing them. And since the tag
-> width is variable, as with LAM on x86, it must be kept the same across
-> all threads in a process so untagged_addr_remote() can work.
->
-> This series depends on my per-thread envcfg series[3].
->
-> This series can be tested in QEMU by applying a patch set[2].
->
-> KASAN support will be added in a separate patch series.
->
-> [1]: https://github.com/riscv/riscv-j-extension/releases/download/pointer=
--masking-v1.0.0-rc2/pointer-masking-v1.0.0-rc2.pdf
-> [2]: https://lore.kernel.org/qemu-devel/20240511101053.1875596-1-me@deliv=
-ersmonkey.space/
-> [3]: https://lore.kernel.org/linux-riscv/20240814081126.956287-1-samuel.h=
-olland@sifive.com/
->
-> Changes in v4:
->  - Switch IS_ENABLED back to #ifdef to fix riscv32 build
->  - Combine __untagged_addr() and __untagged_addr_remote()
->
-> Changes in v3:
->  - Note in the commit message that the ISA extension spec is frozen
->  - Rebase on riscv/for-next (ISA extension list conflicts)
->  - Remove RISCV_ISA_EXT_SxPM, which was not used anywhere
->  - Use shifts instead of large numbers in ENVCFG_PMM* macro definitions
->  - Rename CONFIG_RISCV_ISA_POINTER_MASKING to CONFIG_RISCV_ISA_SUPM,
->    since it only controls the userspace part of pointer masking
->  - Use IS_ENABLED instead of #ifdef when possible
->  - Use an enum for the supported PMLEN values
->  - Simplify the logic in set_tagged_addr_ctrl()
->  - Use IS_ENABLED instead of #ifdef when possible
->  - Implement mm_untag_mask()
->  - Remove pmlen from struct thread_info (now only in mm_context_t)
->
-> Changes in v2:
->  - Drop patch 4 ("riscv: Define is_compat_thread()"), as an equivalent
->    patch was already applied
->  - Move patch 5 ("riscv: Split per-CPU and per-thread envcfg bits") to a
->    different series[3]
->  - Update pointer masking specification version reference
->  - Provide macros for the extension affecting the kernel and userspace
->  - Use the correct name for the hstatus.HUPMM field
->  - Rebase on riscv/linux.git for-next
->  - Add and use the envcfg_update_bits() helper function
->  - Inline flush_tagged_addr_state()
->  - Implement untagged_addr_remote()
->  - Restrict PMLEN changes once a process is multithreaded
->  - Rename "tags" directory to "pm" to avoid .gitignore rules
->  - Add .gitignore file to ignore the compiled selftest binary
->  - Write to a pipe to force dereferencing the user pointer
->  - Handle SIGSEGV in the child process to reduce dmesg noise
->  - Export Supm via hwprobe
->  - Export Smnpm and Ssnpm to KVM guests
->
-> Samuel Holland (10):
->   dt-bindings: riscv: Add pointer masking ISA extensions
->   riscv: Add ISA extension parsing for pointer masking
->   riscv: Add CSR definitions for pointer masking
->   riscv: Add support for userspace pointer masking
->   riscv: Add support for the tagged address ABI
->   riscv: Allow ptrace control of the tagged address ABI
->   selftests: riscv: Add a pointer masking test
->   riscv: hwprobe: Export the Supm ISA extension
->   RISC-V: KVM: Allow Smnpm and Ssnpm extensions for guests
->   KVM: riscv: selftests: Add Smnpm and Ssnpm to get-reg-list test
+Haoyang Liu <tttturtleruss@hust.edu.cn> writes:
 
-Please CC kvm-riscv mailing list for KVM changes otherwise the
-KVM RISC-V patchwork can't track patches.
-
+> The KTSAN doc has moved to
+> https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md.
+> Update the url in kcsan.rst accordingly.
 >
->  Documentation/arch/riscv/hwprobe.rst          |   3 +
->  .../devicetree/bindings/riscv/extensions.yaml |  18 +
->  arch/riscv/Kconfig                            |  11 +
->  arch/riscv/include/asm/csr.h                  |  16 +
->  arch/riscv/include/asm/hwcap.h                |   5 +
->  arch/riscv/include/asm/mmu.h                  |   7 +
->  arch/riscv/include/asm/mmu_context.h          |  13 +
->  arch/riscv/include/asm/processor.h            |   8 +
->  arch/riscv/include/asm/switch_to.h            |  11 +
->  arch/riscv/include/asm/uaccess.h              |  43 ++-
->  arch/riscv/include/uapi/asm/hwprobe.h         |   1 +
->  arch/riscv/include/uapi/asm/kvm.h             |   2 +
->  arch/riscv/kernel/cpufeature.c                |   3 +
->  arch/riscv/kernel/process.c                   | 154 ++++++++
->  arch/riscv/kernel/ptrace.c                    |  42 +++
->  arch/riscv/kernel/sys_hwprobe.c               |   3 +
->  arch/riscv/kvm/vcpu_onereg.c                  |   3 +
->  include/uapi/linux/elf.h                      |   1 +
->  include/uapi/linux/prctl.h                    |   3 +
->  .../selftests/kvm/riscv/get-reg-list.c        |   8 +
->  tools/testing/selftests/riscv/Makefile        |   2 +-
->  tools/testing/selftests/riscv/pm/.gitignore   |   1 +
->  tools/testing/selftests/riscv/pm/Makefile     |  10 +
->  .../selftests/riscv/pm/pointer_masking.c      | 330 ++++++++++++++++++
->  24 files changed, 692 insertions(+), 6 deletions(-)
->  create mode 100644 tools/testing/selftests/riscv/pm/.gitignore
->  create mode 100644 tools/testing/selftests/riscv/pm/Makefile
->  create mode 100644 tools/testing/selftests/riscv/pm/pointer_masking.c
+> Signed-off-by: Haoyang Liu <tttturtleruss@hust.edu.cn>
+> ---
+>  Documentation/dev-tools/kcsan.rst | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> --
-> 2.45.1
->
+> diff --git a/Documentation/dev-tools/kcsan.rst b/Documentation/dev-tools/kcsan.rst
+> index 02143f060b22..d81c42d1063e 100644
+> --- a/Documentation/dev-tools/kcsan.rst
+> +++ b/Documentation/dev-tools/kcsan.rst
+> @@ -361,7 +361,8 @@ Alternatives Considered
+>  -----------------------
+>  
+>  An alternative data race detection approach for the kernel can be found in the
+> -`Kernel Thread Sanitizer (KTSAN) <https://github.com/google/ktsan/wiki>`_.
+> +`Kernel Thread Sanitizer (KTSAN)
+> +<https://github.com/google/kernel-sanitizers/blob/master/KTSAN.md>`_.
+>  KTSAN is a happens-before data race detector, which explicitly establishes the
 
-Regards,
-Anup
+Applied, thanks.
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAAhSdy04aEg35j3NTGOz5Gs_wPP3PBuR7sKbvosvQ1jFFGE5sQ%40mail.gmail.=
-com.
+jon
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/87cyljms50.fsf%40trenco.lwn.net.
