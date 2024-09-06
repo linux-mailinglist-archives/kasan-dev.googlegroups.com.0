@@ -1,118 +1,118 @@
-Return-Path: <kasan-dev+bncBAABBHPY5K3AMGQEYPD7VPA@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBGHY5K3AMGQECDGYEOQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qt1-x837.google.com (mail-qt1-x837.google.com [IPv6:2607:f8b0:4864:20::837])
-	by mail.lfdr.de (Postfix) with ESMTPS id 478E996EDBA
-	for <lists+kasan-dev@lfdr.de>; Fri,  6 Sep 2024 10:23:59 +0200 (CEST)
-Received: by mail-qt1-x837.google.com with SMTP id d75a77b69052e-45677d056c3sf26744101cf.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 06 Sep 2024 01:23:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1725611038; cv=pass;
+Received: from mail-yb1-xb3c.google.com (mail-yb1-xb3c.google.com [IPv6:2607:f8b0:4864:20::b3c])
+	by mail.lfdr.de (Postfix) with ESMTPS id B738296EDB7
+	for <lists+kasan-dev@lfdr.de>; Fri,  6 Sep 2024 10:23:53 +0200 (CEST)
+Received: by mail-yb1-xb3c.google.com with SMTP id 3f1490d57ef6-e1a91576564sf3881618276.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 06 Sep 2024 01:23:53 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1725611032; cv=pass;
         d=google.com; s=arc-20240605;
-        b=K9rxzxOOsCciQhWp1tdmBx7V+RkslnGhjsx6WY1YKbBgmCDFZeToaFOVgwaZ4NwZDp
-         PoQnWS65tGguYZiUfzWbh6JmOueYpurxgPFpZqpk6x3ZWRhqQzFJ4IbDdKy+DEcOERPu
-         vcAnskoAlvVI55U5ZsqRlZY+q5WwhHrVg75snmdRTs3tqWU0nV6VPuv+BqBEdiv530Xc
-         LAPwQCHAa7JjK3KMGIPBWGNYZQc/PPtiDpjojnhdK0ky6aeGZpcwEFrYSWPyR4UHs0Kj
-         SGETqPwzsqxgQGsNrYXkjWvOVVRIzkYZ5nKtNMcCFV+3XO1oglNAkn2xkZE75cNv+LEH
-         3vqg==
+        b=UnI+dZ2BvnECT8KNRh9u8lvqfPR0b8jdp+xSiw95kA41nSiCZ6hpgjXGkkTscdXmf6
+         6bA9BQd0uWgy1+tYjMHP+fWsA3yrUVKzKsFATKhSrytosdTvDbTLWRp92trykS7GI/pY
+         a7nZxmJWODic2bRAc1T7BSQQSQjWscJBlvfEy/B0aaltJE1hfWwyBaNsHrHwCFY+eIed
+         pSrgSrMaX/lZ3QzYNGMeM3/9Khbdu5drki3JfuBRr/BjektcvqRPByoOGV8x7+aUU8/m
+         P1w0KlBz+rq9idHLfnNOWx3YL8kWvtlIG3fN2PrSdRL7f0a4ypM9DPlwxwOQUV1zcv6x
+         4ysw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:feedback-id:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:sender
          :dkim-signature;
-        bh=NQosgl8FxEfkxjH2fbwXoVRyBYjxihcGBJ7O63t23Jg=;
-        fh=ZWZ+mxwhMhkXMc7p48uohFxbbZWoJQFA4hTCKCiM2PU=;
-        b=CIDnuj+ED2HFiuAqHA82Z4MwWVFyL3HyWNm8CwVYjZHQa0/cw4vfp/ZaKQdK/ezwjX
-         nqlUMmrIMvwJfYBmHHKFcXilYQIGirMIDZgZgfGck/4dYx5+mFNVDuV/ou8R+9gJmZOy
-         vTDIqPHi1CIwRKwgg4tkqu/aE4W6jK5+5CJrCWCQCwqNDgxrUeNJnZYQYsTLvq3MPIsL
-         wCm+ruT5Th1XvMppdS+XdtvfqPyRqPipjgiEJYMMXn46wH2chXOTDAjd76zI/pLl3yIU
-         5ASXToDIkuv6vSn0PgVNoKgbiIo3IWQgXkcmD6kkY/9Akh0GxxS90+FXhLz7fBC9z/ld
-         PlcQ==;
+        bh=68m7NQ/lY2IaNh7D+pYDan1wqfQPB5BEYsLtChmdo1o=;
+        fh=y0X3bRfMPiDXW3c4MDLNDAhlsZPnOdNy3JvcUcUaAoI=;
+        b=gMN7yb3w1/HjBVnlUhHoFcwd7MnAa60pwW2/5W6BAYrAQV6iTeNQHzV4eg1OUywx2E
+         Uvzlyg9G4c39VNMjzEa6cvN3gLL+CE0GmsJm/4fnUx/QgsuEZb9SfgtamKVYF983gdIA
+         Jr4teExE1mEl/7tCz+8hM5Xmqhkt1JA6I6P/kQY+c6RpJ9S53SMbcgWfoeiupjbCzhA8
+         Gv3FoZxwVFQQ7ZLI2pFKYDqs9842TKgr3ajqMfN67uP717qt5DZmrHx+BivNdYR0AyGl
+         zyIFUBB7yXBdxJYlMSXQO9zkqU6madLpm4d46UCFsoNpXpjxNCZf854TPXD4K+MPoPKS
+         O3CQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@uniontech.com header.s=onoh2408 header.b=ShqhxArB;
-       spf=pass (google.com: domain of wangyuli@uniontech.com designates 54.207.22.56 as permitted sender) smtp.mailfrom=wangyuli@uniontech.com;
+       dkim=pass header.i=@uniontech.com header.s=onoh2408 header.b=nazGTTq5;
+       spf=pass (google.com: domain of wangyuli@uniontech.com designates 54.204.34.130 as permitted sender) smtp.mailfrom=wangyuli@uniontech.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=uniontech.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1725611038; x=1726215838; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1725611032; x=1726215832; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:feedback-id:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NQosgl8FxEfkxjH2fbwXoVRyBYjxihcGBJ7O63t23Jg=;
-        b=q2i70IV7RX4Rk4PF6C5aVSd+rre6JpPaYJaxt2Cv0Ariety9U0/7xb0tuGOKrLvoao
-         dZG+xRvAj0mROubadO6e+qQm/3y7hRBMQWO7SNzryl0ZfM0gMAQpqntfu68Q1ms6drcM
-         jEo3/xBDCvAzoZLlJ4FOUOO/neJokOfBTG9HVWdtDDx7D60CgvJPvhNIlGhyZ4A6es5N
-         Z6TxT/pmXLObN1H/MtptkJgnfnR1kQeyTv2Jwt+W3aFX9KYaaieaxFFJmMjZHnufVfrC
-         irj1j8MEyB4pr7Wfnr2+rqnkE6qXTl8tcai0PrFIo6O2VRgzf+azzB2NGrrUIpqjEJrI
-         1J1A==
+        bh=68m7NQ/lY2IaNh7D+pYDan1wqfQPB5BEYsLtChmdo1o=;
+        b=njvho/auwI7ZxUX+1VFHlHpspMYhsuQfVAts1R57yVQiYS95gtX60moo8K+wN7B+Qt
+         XTO516lQ09vqWWr2QpkTJDgSSKmYgTivFCIt0P742b/+HV0h3GgQjIgV1eW8LI5/m5l7
+         rAEIe+hXmifNQ6P0FXFNImj6V8AaqbjuxCcnPAx3Lkfrosx++fPCRmJBwn0olAmYhkn9
+         P5pgHk74kPGtVvxslGPMsyG3I5dJOKrlSGl3r0rd1alvv3puox9yYXBCwyagEL9+s5IK
+         pzFTNJnlRXrTIVp2lHYqsgCiDOMEfywSag9U/ogEydYiKiicaznsA6Nk9UJri5nomaRw
+         JSEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725611038; x=1726215838;
+        d=1e100.net; s=20230601; t=1725611032; x=1726215832;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:feedback-id
          :mime-version:references:in-reply-to:message-id:date:subject:cc:to
          :from:x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NQosgl8FxEfkxjH2fbwXoVRyBYjxihcGBJ7O63t23Jg=;
-        b=Z9AGymmYQeVFnQMQLq1JFYLjkUGyYQRA+O1SaPJVX00hXqKGiPfNz36561nDxIU+Tt
-         U15O5rJqs7mQJCo3Rn+mARZFkL1twBJlwrlP7SwCotNxbD612o8zUaIINLgu9jy2a1kp
-         lMiBUzyxllMgPdGxT6s+BYSvE3CQOwuXlWDm3Z4xRL7fHFqzWJW54d7zWx0WF3c0DIm1
-         v6b5DTwc9DLZwgGITjTLuZjZRdwfsSp4hCT7z+7lNSy3LFYgYQus0hh0+m/bWS7P5LX7
-         sp8uMt1agTZNwi98Gq7Jq03N/ZKPQWvFkvUTHNPAzqIeut+Z/pVXIR02C0WtOckEL77a
-         9Eog==
+        bh=68m7NQ/lY2IaNh7D+pYDan1wqfQPB5BEYsLtChmdo1o=;
+        b=Opt4BLf/VMYuIsLDCdXcT7Egf1rWSbk0EPqesminYndGQs/95qfkgAA4dsKJq+XTvX
+         beVQozG3s6K3zfv/MEgBfGe9A1Ge0+h0ovdYR6ZKFso9L+UdPks1ytT9/CMiiMTOp1lq
+         oRLG2+lzD0zht+A0K3dwaAVHHo+5ox3Fs9f2CBMUt36ytweizF5cxHoVqAbllGREaPVc
+         W1l/4bqCDvnWE4Ot1/IiNy9LVdo3uxGO9QRxRXK1tVNw8eCSDz2fvEFfUlLBElDQvvxh
+         9v+tBWmksrMD9aMPaK5CHiRkbPvYoqrAgder7jfEoKX8QmQw2eopTeTs9zU0Bk0yxAiR
+         rpgg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXpc1mM7cf8vWYyOEV3BSQ+qQK/eNVd4BKAgHgvdbmI1irAmR7XYpBkNYN5s5xWZ3NZuU+RYQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yy4wkm4nY0iYPqcrG6AhdE0bBALV7PLeFmBxy84dl6HKxccBJ/Y
-	o1AQoiR28dD+pNy2ViJGN1I/I0pIWigmerBcWeJJsffakAmNlnMs
-X-Google-Smtp-Source: AGHT+IH7v7Vd+3SvddhBW+1xPvnzKYdp44Wp1GWz8jPsdvkN/NO6v6+zFqrx2fS8lQ1+0jwo4YiaRQ==
-X-Received: by 2002:ac8:57d0:0:b0:457:cbf6:ec80 with SMTP id d75a77b69052e-4580c744918mr17596261cf.43.1725611038067;
-        Fri, 06 Sep 2024 01:23:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWTmMW6aFnacUrkwnhawLKpD28/RokZdEafdOx7SGyEDBZEkj7/q8an2DrhtOLu76kV/ep9bQ==@lfdr.de
+X-Gm-Message-State: AOJu0YwwwOrNRRpLhCY+wwyHjMMslYX2ABSJnnnBSJt8P/lRHC2hMoOj
+	U0VOl+spkF/+x9z62qz3fC/Gh0CWmGnywjg8EPbSqNd2CJiPIX7Q
+X-Google-Smtp-Source: AGHT+IH1Is4RiFbP0IlHMXdSODv9SDChyivSpt1d4hWmVCtNPAfBXGzLf7b4AkPfwAbE78UMONTCKQ==
+X-Received: by 2002:a5b:8c7:0:b0:e1c:f184:259d with SMTP id 3f1490d57ef6-e1d34a4e42cmr1946254276.54.1725611032497;
+        Fri, 06 Sep 2024 01:23:52 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:622a:15cb:b0:444:b60d:daa5 with SMTP id
- d75a77b69052e-4580b78268dls8374351cf.1.-pod-prod-07-us; Fri, 06 Sep 2024
- 01:23:57 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCU1KIDjrngH1F1pYNZewaN9QT61I3sE+3VlSKvevwuqP9RcCErP/GrGK7ml0JFsWogVb3FP3jKpbec=@googlegroups.com
-X-Received: by 2002:a05:622a:199f:b0:456:80fa:617e with SMTP id d75a77b69052e-4580c66ff87mr21563841cf.2.1725611037477;
-        Fri, 06 Sep 2024 01:23:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1725611037; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hKkS0REbBcjT+nkb92Vt1GT47jONwu1ViHrrZsYZZUqAW9Ks35okHMbTplRCNwwErV
-         37HF9MIGHbe18+SalJICpclHcvTU/Ar2PcTgVAUixZwttWSkJ1F7uzASUvrKaiLLBJfW
-         WhEyj1AJVUBZMG0xLZ3KXvMrQulV2+ro2Qrv7w6mwL0OO8CG78Gq9PVJy+q5rwtvAju4
-         ire5wZRZ14m/sKNtQQ+33lqDfSDl/V74yULxt0INw/GElQQzat7gdpydFsiC2Pu5QW7H
-         2S14eYseno5CQDIfRHkZ8D6kdp8HtuTpY3kDkI5k8Cee3Ch/QhHKPzhrxdj0mKMozGm1
-         IFpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+Received: by 2002:a05:6902:701:b0:e03:514d:f716 with SMTP id
+ 3f1490d57ef6-e1d33da4a7cls490020276.2.-pod-prod-07-us; Fri, 06 Sep 2024
+ 01:23:52 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUULy7AWmkKg+x0DpwOe3wYBB4zYsB8bKIsGlCi/aNlbBBwLFAfH381BXcx5R0NKRnNTHF2lcAmi8I=@googlegroups.com
+X-Received: by 2002:a05:6902:1189:b0:e1a:8e31:e44d with SMTP id 3f1490d57ef6-e1d348b97e3mr2248832276.14.1725611031891;
+        Fri, 06 Sep 2024 01:23:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1725611031; cv=none;
+        d=google.com; s=arc-20160816;
+        b=mT2M9djBr7IqLvPMRTh9dv0MROEzC7u52lFcl7eA5/8IHIMGaqdZe3i0FYDIVa0R2o
+         5uwEiuzsfRVWgaudn70Q3z6N0uDv4a+GLZJ5vsKSQ6TuEIPPxweiPEpSUaoD9B6OlEur
+         tUe3ggfX2Btdh2OLl/lWcr16T2sUCn+PqxiPXRRT1FlarfuzMI9cPaeRjnqBgXFXdiEk
+         SIzo8xnAeeNNboK8/hU/+zVX4DNWy87HBOouGLpTahyqd1HEmjg2gzJoWbfkfKiO4t2R
+         0Xc9IoTCB9oN9EWGjW5AjUa+XhTANB7/CP5/K43/Ea7Dux4mam5ozFzT2yGLlb2ZbhDO
+         SXYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
         h=feedback-id:content-transfer-encoding:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=c2Y6hDcW5soaI9k7gniI980VucnVpsyCwVOK429FvIA=;
+        bh=MO0pi98eViiMaBz/NH3uP9iuQWzc2fwH2Tnw5ppTaJs=;
         fh=gZAG9vHOZ16B4SEK/V8lEUbRtGWfKWOwkMT9Yi15/RE=;
-        b=bt3WD0UPD8E0CoSQsKrlsp071hm1szRNJ4s0TVHnxgKQop+NAw60hO7nryIlIO6UdP
-         L2hRjXM6UA1Xr+84Mm7s941r9D+ckpxXmcreQWVNc668mHGXzyx6r4iBCFpaHkj42xgF
-         MFJP81TNHEvQ5lOZ7Q4Y7IZ9tOrbOWNFaPtlYIOrW8lXz2QiKcdCVK8zXejT0bKHH+O2
-         li271dYRZb9fqhje99aNKKVSHY3oxY1PEWUg58xyqVhKweTQpFDpQOmU2qhKeesnCcK/
-         NhrmzdwaFYLVyCZ3494dGeFzD3kPzS6UjG5krDXLdi+7cQJlVGgsQNVHQC/oSGEoEWxT
-         /FhQ==;
+        b=RctHJGveX+ldVAfCqjCnAFgdCnAKrdC4c+H4MZ/z+E+rNQNvGu/DSfsRPrUEyhZPpE
+         kYk6HwDPqb/Cs72z8kCyVKjaIuQBrNVreJIEnjT6aQnfda7TQViwXOMtiWOm6rB9fvIN
+         aSZFz/0tBJEF5rJtBKqy6uYyvMtiYdykxT8r7SbJfSMmW8cbpQp27lnrsStuAX5S8UZP
+         2UAi01tTPP+cBX4IbAkVduG+/v+zyQa/ZP8wEsA/6FTPFkHFKIkmS/2vP8Nd1zamvqOA
+         FxQRsfYzfjTWugzvZQ1Nte26EIFNFjsrW062Zcmoviga/ZEEkDiI/n8zLUyaUhqzRH/a
+         mrSg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@uniontech.com header.s=onoh2408 header.b=ShqhxArB;
-       spf=pass (google.com: domain of wangyuli@uniontech.com designates 54.207.22.56 as permitted sender) smtp.mailfrom=wangyuli@uniontech.com;
+       dkim=pass header.i=@uniontech.com header.s=onoh2408 header.b=nazGTTq5;
+       spf=pass (google.com: domain of wangyuli@uniontech.com designates 54.204.34.130 as permitted sender) smtp.mailfrom=wangyuli@uniontech.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=uniontech.com
-Received: from smtpbgbr2.qq.com (smtpbgbr2.qq.com. [54.207.22.56])
-        by gmr-mx.google.com with ESMTPS id d75a77b69052e-45801dd2ec8si1585281cf.4.2024.09.06.01.23.54
+Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com. [54.204.34.130])
+        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-e1d1142cd54si309354276.1.2024.09.06.01.23.49
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 06 Sep 2024 01:23:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of wangyuli@uniontech.com designates 54.207.22.56 as permitted sender) client-ip=54.207.22.56;
-X-QQ-mid: bizesmtp82t1725610993tbhs3wew
-X-QQ-Originating-IP: gB/3WYVXTwnwfUfShFtfuqtn/wTOkf9uPbAVVydCjDE=
+        Fri, 06 Sep 2024 01:23:51 -0700 (PDT)
+Received-SPF: pass (google.com: domain of wangyuli@uniontech.com designates 54.204.34.130 as permitted sender) client-ip=54.204.34.130;
+X-QQ-mid: bizesmtp82t1725611003tulm6gpk
+X-QQ-Originating-IP: WlORxptxdtKcKmsPKXiz0WSiWrD5HCSBdepoR+2Hh7o=
 Received: from localhost.localdomain ( [113.57.152.160])
 	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 06 Sep 2024 16:23:07 +0800 (CST)
+	id ; Fri, 06 Sep 2024 16:23:17 +0800 (CST)
 X-QQ-SSF: 0000000000000000000000000000000
 X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 10217785498291060438
+X-BIZMAIL-ID: 18096305791163907771
 From: WangYuli <wangyuli@uniontech.com>
 To: stable@vger.kernel.org,
 	gregkh@linuxfoundation.org,
@@ -153,9 +153,9 @@ Cc: paul.walmsley@sifive.com,
 	andreyknvl@gmail.com,
 	vincenzo.frascino@arm.com,
 	namcao@linutronix.de
-Subject: [PATCH 6.6 2/4] mm: Introduce pudp/p4dp/pgdp_get() functions
-Date: Fri,  6 Sep 2024 16:22:37 +0800
-Message-ID: <0BC12DAA7222E361+20240906082254.435410-2-wangyuli@uniontech.com>
+Subject: [PATCH 6.6 3/4] riscv: mm: Only compile pgtable.c if MMU
+Date: Fri,  6 Sep 2024 16:22:38 +0800
+Message-ID: <A01B1440514C416E+20240906082254.435410-3-wangyuli@uniontech.com>
 X-Mailer: git-send-email 2.43.4
 In-Reply-To: <20240906082254.435410-1-wangyuli@uniontech.com>
 References: <20240906082254.435410-1-wangyuli@uniontech.com>
@@ -164,8 +164,8 @@ X-QQ-SENDSIZE: 520
 Feedback-ID: bizesmtp:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
 X-Original-Sender: wangyuli@uniontech.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@uniontech.com header.s=onoh2408 header.b=ShqhxArB;       spf=pass
- (google.com: domain of wangyuli@uniontech.com designates 54.207.22.56 as
+ header.i=@uniontech.com header.s=onoh2408 header.b=nazGTTq5;       spf=pass
+ (google.com: domain of wangyuli@uniontech.com designates 54.204.34.130 as
  permitted sender) smtp.mailfrom=wangyuli@uniontech.com;       dmarc=pass
  (p=NONE sp=NONE dis=NONE) header.from=uniontech.com
 Content-Type: text/plain; charset="UTF-8"
@@ -183,77 +183,39 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 
-[ Upstream commit eba2591d99d1f14a04c8a8a845ab0795b93f5646 ]
+[ Upstream commit d6508999d1882ddd0db8b3b4bd7967d83e9909fa ]
 
-Instead of directly dereferencing page tables entries, which can cause
-issues (see commit 20a004e7b017 ("arm64: mm: Use READ_ONCE/WRITE_ONCE when
-accessing page tables"), let's introduce new functions to get the
-pud/p4d/pgd entries (the pte and pmd versions already exist).
-
-Note that arm pgd_t is actually an array so pgdp_get() is defined as a
-macro to avoid a build error.
-
-Those new functions will be used in subsequent commits by the riscv
-architecture.
+All functions defined in there depend on MMU, so no need to compile it
+for !MMU configs.
 
 Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-Link: https://lore.kernel.org/r/20231213203001.179237-3-alexghiti@rivosinc.com
+Link: https://lore.kernel.org/r/20231213203001.179237-4-alexghiti@rivosinc.com
 Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 Signed-off-by: WangYuli <wangyuli@uniontech.com>
 ---
- arch/arm/include/asm/pgtable.h |  2 ++
- include/linux/pgtable.h        | 21 +++++++++++++++++++++
- 2 files changed, 23 insertions(+)
+ arch/riscv/mm/Makefile | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/arch/arm/include/asm/pgtable.h b/arch/arm/include/asm/pgtable.h
-index 16b02f44c7d3..d657b84b6bf7 100644
---- a/arch/arm/include/asm/pgtable.h
-+++ b/arch/arm/include/asm/pgtable.h
-@@ -151,6 +151,8 @@ extern pgprot_t phys_mem_access_prot(struct file *file, unsigned long pfn,
+diff --git a/arch/riscv/mm/Makefile b/arch/riscv/mm/Makefile
+index 3a4dfc8babcf..2c869f8026a8 100644
+--- a/arch/riscv/mm/Makefile
++++ b/arch/riscv/mm/Makefile
+@@ -13,10 +13,9 @@ endif
+ KCOV_INSTRUMENT_init.o := n
  
- extern pgd_t swapper_pg_dir[PTRS_PER_PGD];
+ obj-y += init.o
+-obj-$(CONFIG_MMU) += extable.o fault.o pageattr.o
++obj-$(CONFIG_MMU) += extable.o fault.o pageattr.o pgtable.o
+ obj-y += cacheflush.o
+ obj-y += context.o
+-obj-y += pgtable.o
+ obj-y += pmem.o
  
-+#define pgdp_get(pgpd)		READ_ONCE(*pgdp)
-+
- #define pud_page(pud)		pmd_page(__pmd(pud_val(pud)))
- #define pud_write(pud)		pmd_write(__pmd(pud_val(pud)))
- 
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index af7639c3b0a3..8b7daccd11be 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -292,6 +292,27 @@ static inline pmd_t pmdp_get(pmd_t *pmdp)
- }
- #endif
- 
-+#ifndef pudp_get
-+static inline pud_t pudp_get(pud_t *pudp)
-+{
-+	return READ_ONCE(*pudp);
-+}
-+#endif
-+
-+#ifndef p4dp_get
-+static inline p4d_t p4dp_get(p4d_t *p4dp)
-+{
-+	return READ_ONCE(*p4dp);
-+}
-+#endif
-+
-+#ifndef pgdp_get
-+static inline pgd_t pgdp_get(pgd_t *pgdp)
-+{
-+	return READ_ONCE(*pgdp);
-+}
-+#endif
-+
- #ifndef __HAVE_ARCH_PTEP_TEST_AND_CLEAR_YOUNG
- static inline int ptep_test_and_clear_young(struct vm_area_struct *vma,
- 					    unsigned long address,
+ ifeq ($(CONFIG_MMU),y)
 -- 
 2.43.4
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/0BC12DAA7222E361%2B20240906082254.435410-2-wangyuli%40uniontech.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/A01B1440514C416E%2B20240906082254.435410-3-wangyuli%40uniontech.com.
