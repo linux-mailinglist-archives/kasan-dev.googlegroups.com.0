@@ -1,122 +1,122 @@
-Return-Path: <kasan-dev+bncBDN7L7O25EIBBKE77G3AMGQEFIZGAFQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDN7L7O25EIBBLE77G3AMGQEDSE6I2I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73e.google.com (mail-qk1-x73e.google.com [IPv6:2607:f8b0:4864:20::73e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DFD0970B35
-	for <lists+kasan-dev@lfdr.de>; Mon,  9 Sep 2024 03:30:18 +0200 (CEST)
-Received: by mail-qk1-x73e.google.com with SMTP id af79cd13be357-7a9bb56da15sf15580085a.1
-        for <lists+kasan-dev@lfdr.de>; Sun, 08 Sep 2024 18:30:18 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1725845417; cv=pass;
+Received: from mail-yb1-xb40.google.com (mail-yb1-xb40.google.com [IPv6:2607:f8b0:4864:20::b40])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C560970B36
+	for <lists+kasan-dev@lfdr.de>; Mon,  9 Sep 2024 03:30:22 +0200 (CEST)
+Received: by mail-yb1-xb40.google.com with SMTP id 3f1490d57ef6-e1ceef1b984sf9211351276.2
+        for <lists+kasan-dev@lfdr.de>; Sun, 08 Sep 2024 18:30:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1725845421; cv=pass;
         d=google.com; s=arc-20240605;
-        b=NHvkut0McXhQX1atyristkWQtjaL6Mu8KCONUhtLejIuULXWNmG5tGxzETgVsD3CoH
-         BMEpMpA2r0cjaZWGLmYzk0eC69Pms8e4WxWM1IpGZnT+PZQnCmk5EfkeIVvSAzRpDI6c
-         b6EkJVoMzKTQmJcQhiyeTpU74MwfKpUIM5lf6dwzOYiRtXNR1ZePkwEnLz7xeKYwAYjv
-         jV4d0bWikirJ3LKarJtqgzS42Tx6hxlPUw7Zts6lc9Pr3OYRGYpr1mTqUQaIZ1o1sUCd
-         RKHajgRZw9Se3P2kRRoi8fcgXLwqkQYBMRAoaKdCKtt4uz7yQMnBjebOEqEk5haSGNcO
-         Mdxw==
+        b=QmNWhIZ2oFCKITXkG0vjU6i4cbb+GboRnc4bLNsfDswJGcFUAQ5pCzYUuRjFu+TGJH
+         TGzRjqI4pVzho2vExlIILL979s+y1eUNMcuwIouEfFD+DSmvn5g0UJDOpm993lQtQ2DC
+         yrOCXAcEoyJaddWmKvXDzL2Ln75uY6Poz5g4Oc1Mhqt3ss5g+I6OOucQZdrTgogLMsTJ
+         7UVuhAs8sAQHebnt08V33zSlO/OK5oxbd2zNbseoPYpWcvzCQ7PwyTN1nbMHzm7Vdzv7
+         glfSUsbbS8G1l8D1JsZdQuG6keNloolbFWtZG49rq8Lw0ZYkO6+cr/WU1j5e7/kYGx4o
+         9jzQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=yfGu1T7SaOtBh/YwwJylzMZqDPR7bXjTJqcUpDCAIto=;
-        fh=hrvGaI1bMT+SbN1Sgud/27LxDMJo0UU5bDvH5M0h15I=;
-        b=aB3YBmU4vCW5lBom29otcNOkyG8FhyEsQPHyunK/N1j6ZDN16ntwQIZCnMWTRS7LX3
-         bDot08/7elAqUVL2I0+GebFxzCxbZ8fL9jxEX9vXR6+ceBMnaoa/TkyYf3Ku4+QFSWtz
-         dWdW+5YeUjYWb9KUxnSHD3LVpSM3p9/R4YtH/hEVw66heI8AQBVbwqFnj4FljatpZigy
-         TCw65UQS5NtzwS/7R8JlDQbp/vyQuJqC5uQ0O17hv9gRhJTdhPGLAXJKG6cqIUSWV/fb
-         LovW4ggFsHT4hFD0nYa4wYthpdJlHcvnsGfevclo/aki/rb7fZhn/tsv7WvsCKzW2u/I
-         /fMQ==;
+        bh=wZuyKlpgYJQNEskLUpB9Ni1mLlKwL9GWHYudA9HH1ME=;
+        fh=DTEGeF8OEvH575XWZrnthk25I8Hqn4N1t2I8ttgrKiw=;
+        b=M6O62Az2CiA3mXWj2ZFJ2UdQEYjmbPFrwMdoRWlq0OPupNHkcPbLdVhYndR75L2TU0
+         zx/bP2xuxTcUJ+qVI9gQKIbPqGVrxzUtTLPSTtJRiv27naI+Xe+WYrgCor2w2jbxLLR9
+         vBY4sw/3h/hQLiR/X164uqiw1HYTDyaBqTOay16//CIfvfOJyptE8KsY0TCW33VXrYex
+         L1UPh3m0hZr4iODVEgrX2JORdC2Ns300XGENH+Vhr2hoOLd9KXpVvO0NQP1bbGBySX5H
+         It8aXigRB/4PfOnCX+OIdb+8Gc5ubaJTyr8Ar7QnNTBOKHAu61gNk6r49zoB+Cq5I1Oh
+         mfwA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=UO0zbAn1;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=Nq8Qelke;
        spf=pass (google.com: domain of feng.tang@intel.com designates 198.175.65.15 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1725845417; x=1726450217; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1725845421; x=1726450221; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yfGu1T7SaOtBh/YwwJylzMZqDPR7bXjTJqcUpDCAIto=;
-        b=T8P6oZUHc7MUbQXHT3b3cie77/njRfiDjqi9AJg/HU5D82HhEgWLLUST+HwkTXeDyA
-         o7RkQB+gzw4FnBkcI2GM/22xBYXH2XEMlRLk4Sz7vZJGLyvK3BOH0CGWmPjSIrbwgjFN
-         /+lQwMw5UvfD1Uo1iBJDbc/z1eiHSItsD4FyA16tlr1OWUT/0txYxgb3ni50aVpw6Thf
-         Xemr6oPnYUc/d7wEGelGwgJfJkndF0FA+T9fj0o4IRsDDHtwRd3HQbo5KWUHYlK6eMav
-         +HzNzkjD0bSrjuwpq4xoLN/1LWw3exHl7uNu5AYirEZrcTZVzh4B/eJ/KJX03RInBB0W
-         zpzg==
+        bh=wZuyKlpgYJQNEskLUpB9Ni1mLlKwL9GWHYudA9HH1ME=;
+        b=oHE96fiUPvpOLAwgZEEVnycjQBqVZOJ9iwCVO8IocyK0GzMYDZfR+DRNRSR5HpfW67
+         KaBUiby+cFkruA9RyuZ3yZYKYGQl9dCmJz9GkwmaBzqmcpHWRi/MoUWkT4IgF9I2SXz1
+         5/Xjq3GcQzDJGdTQvJxGrw2fLYhKny1G1z0PEpKX9NHnpatYQZnwHjUuXdrK4OEu/LHH
+         9qVscwY5HWWUtxXRmi3SqVMaNxkLkiGQf8h0Gk8ZyzI+zWGvllhsG5ioUbC20QK1b912
+         r8C+eVbMXu+OVfDYoC/KehmoVzRNL2AJZ5wISuwxASH9fCtjNDnIY+eYq7Ft+c7fy7WR
+         /zLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725845417; x=1726450217;
+        d=1e100.net; s=20230601; t=1725845421; x=1726450221;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yfGu1T7SaOtBh/YwwJylzMZqDPR7bXjTJqcUpDCAIto=;
-        b=gcA8JoSVblqLqfBHzsBrO8dXLlZDAYnNYtFYrXGCvsDiS+watMwJeUh223BpyBFRmd
-         ujTOuiOaIpNhIqcCed2p3/sjtce0Kz2+p3RKnBpLoQRbjCahF4H/UxVAo3mwGXRipj5x
-         1JB3YYXstjl85A5rKmv9d1PU11PYg0nRsaLwYrqwmYV9y7ogyqJO7qJtdrFA3N7TYRlA
-         3QWgQtZr3L4T5S5ghmpYGpSdqv5sk0pZtfOdPn2Bw/6fIS8iFSV87G4oD738YFZbQJK2
-         NfciWX1320Fd1kaUMz9iLudwfpWKqjFYE3NO+ENlXxCa3/SoNyQo/hBFLZH9pKr2L6Sq
-         W38Q==
+        bh=wZuyKlpgYJQNEskLUpB9Ni1mLlKwL9GWHYudA9HH1ME=;
+        b=ZOdAFnk8GgpoQZIlbrgHFaQDI4xTvaaJ+4baRNswQpgWGG1bOvzaVeNmUZ6IEML88t
+         YRfth9Stlb/D/v1uFhl0Fr06JMh0WJDjHihe+QjPbf26Fu7EsA531kSTtAxVR5JE4QuQ
+         BXVGFb3bOvHtA7fO+tUU0Sl4SEWWA07TqHOtl5u10qJ/ofDQkSFP0pJ5L4H4vqMdts1Y
+         eLJwGxMXdV7ww/sCekQDZuvKfnNTQZFzhWS2KEDnNzsHvpmvRFN3bYmL1tkQZUOeK/ut
+         aOFAU5fgDCguQ8JsBL8doGZ2K5ckCGNJj/xdhfP7IixOoKhFWsVDlPFq/d5GfLZ7TcXS
+         LbCw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWKNk/yiweIXnHvC6G2KO5mkP6uB49Anr8nMeXiRFBPm/X8jVzEEs76QPgoTGUmMinlhOpFSA==@lfdr.de
-X-Gm-Message-State: AOJu0YyXYiiV7Xl1KDT0S5ngEWXdBnKtBTwmwwmh/ZudhSNk0bRf0lL/
-	PZALk7U15fA/MUBZmUAOI2Qt5mpf76E6hbDWarNOyjJ1mi/Hw5XT
-X-Google-Smtp-Source: AGHT+IEHlMwk/rEziN7aiFiFe6dcVZ4tdQCd1R/btZFTXI5BOV1imPir+aIZX28sveG4I7MXZ51OJg==
-X-Received: by 2002:a05:6214:3910:b0:6bd:80f0:42c7 with SMTP id 6a1803df08f44-6c52850bb74mr139151986d6.42.1725845416855;
-        Sun, 08 Sep 2024 18:30:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXsL8sG5Vdcxg0VluF3gYyUk0DvEw8w8RmI2jyHzuMqZ1tBK3VHAR7P6NYrzbKkMbmhkXn/gQ==@lfdr.de
+X-Gm-Message-State: AOJu0YyTEWEFgj6J/lcJg3WL5MVJkWf3tuhS6BQQMQAep3i0Ku8AYYgl
+	8GTrLvBn6YvQv/07Zh7hWWvC4aM6XNDMi7bBGFeEvSE0Gw1Q4zW8
+X-Google-Smtp-Source: AGHT+IG33TfeSrx/X9TMEXY7HSdEi0debuL2p1z/TLhKYetoEFn2i4TwwTnBEBJ+ka6Q4UDAx5EvoA==
+X-Received: by 2002:a05:6902:1b93:b0:e1a:72e9:b243 with SMTP id 3f1490d57ef6-e1d34875d03mr9691218276.9.1725845421044;
+        Sun, 08 Sep 2024 18:30:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ad4:5dea:0:b0:6b7:96a6:c5e7 with SMTP id 6a1803df08f44-6c5279cbde2ls46690846d6.0.-pod-prod-08-us;
- Sun, 08 Sep 2024 18:30:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVgufRL9cS49D/s3rQ46bj3zI4NzeFQNEmn6IoJTi5E3hSlPPRaebbDYgtcK4h7NRBHNZhzyE9gYIM=@googlegroups.com
-X-Received: by 2002:a05:620a:2596:b0:79e:ff38:5806 with SMTP id af79cd13be357-7a99737c439mr1605858085a.46.1725845416270;
-        Sun, 08 Sep 2024 18:30:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1725845416; cv=none;
+Received: by 2002:ac8:7e8d:0:b0:458:355c:362b with SMTP id d75a77b69052e-458355c37f7ls1112111cf.0.-pod-prod-06-us;
+ Sun, 08 Sep 2024 18:30:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXDcM5ZcYn4LDXlCbpXLZJtQViY3hzd/kyS+1gr95jtGlijmnOiiOx1DQvjBahhK7dA9Zv2p04gMqU=@googlegroups.com
+X-Received: by 2002:a05:620a:1a03:b0:7a9:b7fe:68f5 with SMTP id af79cd13be357-7a9b7fe6c86mr247224885a.61.1725845420326;
+        Sun, 08 Sep 2024 18:30:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1725845420; cv=none;
         d=google.com; s=arc-20240605;
-        b=Uw4ri10wDXzoMjTK7Jxbi5ShmR6Nl8cus4jWWh1BqjMvPVXQppcVqMSie7yeGakKIB
-         lgmo2viOyvLVL8+STPnTbbj+Ek25BSX9gPPlAR7rkWEjkB8isev5887AKO0bEL5KRSHg
-         DGMKtl0scrTL6E3crRNF6y1vZjG2f981dmoFWYAIFHOMZbmiAgfNmiTBm0r48NNEflsC
-         T3fzSdzIlVHTxwNFVZlLSPeP7dG/iOb3Wu0XDN2pQeTIAefETfyipIr/RdJh5cnI3r0T
-         UCAvxiD8tWcdlcSMxxXqP+4ijacHbGXgq8zHrLKXA303rfwVtngYiplXwuzjBFc8fVLC
-         G9uA==
+        b=EcBtap/S7hXO2eMGRy+Kd729OVXDZplOKgufpcrko9qFcTwzRknDLnjYw6sy7oOXNU
+         IoFgfkdtUudEEnsrKS5dnODxaSIWZEGi2OHa9jM3mhwPhBkny1mPQccST6QmqF6CZ+vY
+         JSAxZyUGmTD4bYmdclOb63SVK/h71jQs5ww0UbyYdngM6GxFhetOEs2ErZ1wKVXo1ljP
+         djd+xuvCsxqV+7MhTlc6m/zAqZxCjdEJf3UAT4gMYq2hC331LvTIIntsiangFIAA04o4
+         gpW9xbSN1BQAUlZdL/oSN+u+4KpSjUwCihPP5AgPDxnWclKUqjPyHC7ZxobfXuG76+zW
+         RK8w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=5SIq2Al2KKMR6KlWBzxeKlCo6AeeNgLC3rgQdDAQ+Bw=;
+        bh=7vVZ50kdJDNFI19gsV94XEZMSmlP1RCFkWL2RtPs6kk=;
         fh=DOrQZqwZ3gYiN8TxsTSOKms3YTEHds3R/56bZbzlpuk=;
-        b=YyvN2ZGyWisnodGagUU0vXCg7focrqrXDDXl0MSW4WAkIRYRxs5O7vQPkzs8GHSkPq
-         pg8tQPX79mA6Cqqyy/swvxeMCioA78kXEZlCUXgSHgDU8/o3YvIT+SlJjJuMq/IkVuA7
-         6BsEWG+/j8BFjCbW11ffZ9WuZ2L3t5RvymorPfDwk4T5nac8w/3LR6Hrn6wn4b3MAT6Z
-         L4cg+nc2N0qcr5Ec7pIKvyg97vksJliYISi04cG3/1O3J8k/jM2HI6vmObKnGokdz94j
-         nCVAROTkm+yQgOMbNdZH246hndM+ZlEdvAieM8jUP9l5XlmrL1Hwm0VCmhOmoLCU7RNF
-         I4/g==;
+        b=YMG5OI3ju59WKlN0hPzOIifT+12TnU1DfnrCatk4m5MYVhOUbfNPrcqk1/8Bsj8SNk
+         u5JWwv8jo0PnJx00AqhfqtKDV2e1WbiIBYmZ1GAu9aHpS1FnOiavPPcPv5kNyIzMTH8X
+         tf2Opk+oQsstXwPjONCS7tQkwRPo2ilm1xJlQdxiu9fhB5t2G7qgQFAcWQHyg52oXh/K
+         y7keoGPCd2Q44naheRVlUOxzUdrW1kKFUfU0GBNWcPbUsu+cpKYGVe0sSr0bvFTplFTx
+         KInSfHejbaoFkD8/OOWp3fB3l8Va0hFWPwg4z0Qe0+7qCsiGs9yTwKlS1QXsEZ63okoJ
+         kdZQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=UO0zbAn1;
+       dkim=pass header.i=@intel.com header.s=Intel header.b=Nq8Qelke;
        spf=pass (google.com: domain of feng.tang@intel.com designates 198.175.65.15 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.15])
-        by gmr-mx.google.com with ESMTPS id af79cd13be357-7a9a7a07571si13098485a.4.2024.09.08.18.30.15
+        by gmr-mx.google.com with ESMTPS id af79cd13be357-7a9a7a07571si13098485a.4.2024.09.08.18.30.20
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 08 Sep 2024 18:30:16 -0700 (PDT)
+        Sun, 08 Sep 2024 18:30:20 -0700 (PDT)
 Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 198.175.65.15 as permitted sender) client-ip=198.175.65.15;
-X-CSE-ConnectionGUID: vd6peuhORpeKizvLsR3e9A==
-X-CSE-MsgGUID: oT3SdejXQ2OcJ4f7D5rMwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="28258127"
+X-CSE-ConnectionGUID: 5kQraL03R0OP1yC0Y/cg5g==
+X-CSE-MsgGUID: ou+eVFCoQBinQPA+wDNocw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11189"; a="28258144"
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="28258127"
+   d="scan'208";a="28258144"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 18:30:16 -0700
-X-CSE-ConnectionGUID: cx70BTLlS3CxDDTgPHNKyA==
-X-CSE-MsgGUID: E/DBYOyRSA6Yo9pun0F7fg==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Sep 2024 18:30:20 -0700
+X-CSE-ConnectionGUID: WDU907LnRC+3vfLghWzWkw==
+X-CSE-MsgGUID: 4FEk/tfqQaKVE8AxVIBYaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,213,1719903600"; 
-   d="scan'208";a="66486467"
+   d="scan'208";a="66486499"
 Received: from feng-clx.sh.intel.com ([10.239.159.50])
-  by orviesa009.jf.intel.com with ESMTP; 08 Sep 2024 18:30:11 -0700
+  by orviesa009.jf.intel.com with ESMTP; 08 Sep 2024 18:30:15 -0700
 From: Feng Tang <feng.tang@intel.com>
 To: Vlastimil Babka <vbabka@suse.cz>,
 	Andrew Morton <akpm@linux-foundation.org>,
@@ -135,16 +135,16 @@ Cc: linux-mm@kvack.org,
 	kasan-dev@googlegroups.com,
 	linux-kernel@vger.kernel.org,
 	Feng Tang <feng.tang@intel.com>
-Subject: [PATCH 3/5] mm/slub: Improve redzone check and zeroing for krealloc()
-Date: Mon,  9 Sep 2024 09:29:56 +0800
-Message-Id: <20240909012958.913438-4-feng.tang@intel.com>
+Subject: [PATCH 4/5] kunit: kfence: Make KFENCE_TEST_REQUIRES macro available for all kunit case
+Date: Mon,  9 Sep 2024 09:29:57 +0800
+Message-Id: <20240909012958.913438-5-feng.tang@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20240909012958.913438-1-feng.tang@intel.com>
 References: <20240909012958.913438-1-feng.tang@intel.com>
 MIME-Version: 1.0
 X-Original-Sender: feng.tang@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=UO0zbAn1;       spf=pass
+ header.i=@intel.com header.s=Intel header.b=Nq8Qelke;       spf=pass
  (google.com: domain of feng.tang@intel.com designates 198.175.65.15 as
  permitted sender) smtp.mailfrom=feng.tang@intel.com;       dmarc=pass (p=NONE
  sp=NONE dis=NONE) header.from=intel.com
@@ -161,243 +161,71 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-For current krealloc(), one problem is its caller doesn't know what's
-the actual request size, say the object is 64 bytes kmalloc one, but
-the original caller may only requested 48 bytes. And when krealloc()
-shrinks or grows in the same object, or allocate a new bigger object,
-it lacks this 'original size' information to do accurate data preserving
-or zeroing (when __GFP_ZERO is set).
+KFENCE_TEST_REQUIRES macro is convenient for judging if a prerequisite of a
+test case exists. Lift it into kunit/test.h so that all kunit test cases
+can benefit from it.
 
-And when some slub debug option is enabled, kmalloc caches do have this
-'orig_size' feature. So utilize it to do more accurate data handling,
-as well as enforce the kmalloc-redzone sanity check.
-
-The krealloc() related code is moved from slab_common.c to slub.c for
-more efficient function calling.
-
-Suggested-by: Vlastimil Babka <vbabka@suse.cz>
 Signed-off-by: Feng Tang <feng.tang@intel.com>
 ---
- mm/slab_common.c |  84 -------------------------------------
- mm/slub.c        | 106 +++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 106 insertions(+), 84 deletions(-)
+ include/kunit/test.h    | 6 ++++++
+ mm/kfence/kfence_test.c | 9 ++-------
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/mm/slab_common.c b/mm/slab_common.c
-index ad438ba62485..e59942fb7970 100644
---- a/mm/slab_common.c
-+++ b/mm/slab_common.c
-@@ -1297,90 +1297,6 @@ module_init(slab_proc_init);
+diff --git a/include/kunit/test.h b/include/kunit/test.h
+index 5ac237c949a0..8a8027e10b89 100644
+--- a/include/kunit/test.h
++++ b/include/kunit/test.h
+@@ -643,6 +643,12 @@ void __printf(2, 3) kunit_log_append(struct string_stream *log, const char *fmt,
+ 	WRITE_ONCE(test->last_seen.line, __LINE__);			       \
+ } while (0)
  
- #endif /* CONFIG_SLUB_DEBUG */
- 
--static __always_inline __realloc_size(2) void *
--__do_krealloc(const void *p, size_t new_size, gfp_t flags)
--{
--	void *ret;
--	size_t ks;
--
--	/* Check for double-free before calling ksize. */
--	if (likely(!ZERO_OR_NULL_PTR(p))) {
--		if (!kasan_check_byte(p))
--			return NULL;
--		ks = ksize(p);
--	} else
--		ks = 0;
--
--	/* If the object still fits, repoison it precisely. */
--	if (ks >= new_size) {
--		/* Zero out spare memory. */
--		if (want_init_on_alloc(flags)) {
--			kasan_disable_current();
--			memset((void *)p + new_size, 0, ks - new_size);
--			kasan_enable_current();
--		}
--
--		p = kasan_krealloc((void *)p, new_size, flags);
--		return (void *)p;
--	}
--
--	ret = kmalloc_node_track_caller_noprof(new_size, flags, NUMA_NO_NODE, _RET_IP_);
--	if (ret && p) {
--		/* Disable KASAN checks as the object's redzone is accessed. */
--		kasan_disable_current();
--		memcpy(ret, kasan_reset_tag(p), ks);
--		kasan_enable_current();
--	}
--
--	return ret;
--}
--
--/**
-- * krealloc - reallocate memory. The contents will remain unchanged.
-- * @p: object to reallocate memory for.
-- * @new_size: how many bytes of memory are required.
-- * @flags: the type of memory to allocate.
-- *
-- * If @p is %NULL, krealloc() behaves exactly like kmalloc().  If @new_size
-- * is 0 and @p is not a %NULL pointer, the object pointed to is freed.
-- *
-- * If __GFP_ZERO logic is requested, callers must ensure that, starting with the
-- * initial memory allocation, every subsequent call to this API for the same
-- * memory allocation is flagged with __GFP_ZERO. Otherwise, it is possible that
-- * __GFP_ZERO is not fully honored by this API.
-- *
-- * This is the case, since krealloc() only knows about the bucket size of an
-- * allocation (but not the exact size it was allocated with) and hence
-- * implements the following semantics for shrinking and growing buffers with
-- * __GFP_ZERO.
-- *
-- *         new             bucket
-- * 0       size             size
-- * |--------|----------------|
-- * |  keep  |      zero      |
-- *
-- * In any case, the contents of the object pointed to are preserved up to the
-- * lesser of the new and old sizes.
-- *
-- * Return: pointer to the allocated memory or %NULL in case of error
-- */
--void *krealloc_noprof(const void *p, size_t new_size, gfp_t flags)
--{
--	void *ret;
--
--	if (unlikely(!new_size)) {
--		kfree(p);
--		return ZERO_SIZE_PTR;
--	}
--
--	ret = __do_krealloc(p, new_size, flags);
--	if (ret && kasan_reset_tag(p) != kasan_reset_tag(ret))
--		kfree(p);
--
--	return ret;
--}
--EXPORT_SYMBOL(krealloc_noprof);
--
++#define KUNIT_TEST_REQUIRES(test, cond) do {			\
++	if (!(cond))						\
++		kunit_skip((test), "Test requires: " #cond);	\
++} while (0)
++
++
  /**
-  * kfree_sensitive - Clear sensitive information in memory before freeing
-  * @p: object to free memory of
-diff --git a/mm/slub.c b/mm/slub.c
-index 4cb3822dba08..d4c938dfb89e 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -4709,6 +4709,112 @@ void kfree(const void *object)
- }
- EXPORT_SYMBOL(kfree);
+  * KUNIT_SUCCEED() - A no-op expectation. Only exists for code clarity.
+  * @test: The test context object.
+diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
+index 00fd17285285..5dbb22c8c44f 100644
+--- a/mm/kfence/kfence_test.c
++++ b/mm/kfence/kfence_test.c
+@@ -32,11 +32,6 @@
+ #define arch_kfence_test_address(addr) (addr)
+ #endif
  
-+static __always_inline __realloc_size(2) void *
-+__do_krealloc(const void *p, size_t new_size, gfp_t flags)
-+{
-+	void *ret;
-+	size_t ks;
-+	int orig_size = 0;
-+	struct kmem_cache *s;
-+
-+	/* Check for double-free before calling ksize. */
-+	if (likely(!ZERO_OR_NULL_PTR(p))) {
-+		if (!kasan_check_byte(p))
-+			return NULL;
-+
-+		s = virt_to_cache(p);
-+		orig_size = get_orig_size(s, (void *)p);
-+		ks = s->object_size;
-+	} else
-+		ks = 0;
-+
-+	/* If the object doesn't fit, allocate a bigger one */
-+	if (new_size > ks)
-+		goto alloc_new;
-+
-+	/* Zero out spare memory. */
-+	if (want_init_on_alloc(flags)) {
-+		kasan_disable_current();
-+		if (orig_size < new_size)
-+			memset((void *)p + orig_size, 0, new_size - orig_size);
-+		else
-+			memset((void *)p + new_size, 0, ks - new_size);
-+		kasan_enable_current();
-+	}
-+
-+	if (slub_debug_orig_size(s) && !is_kfence_address(p)) {
-+		set_orig_size(s, (void *)p, new_size);
-+		if (s->flags & SLAB_RED_ZONE && new_size < ks)
-+			memset_no_sanitize_memory((void *)p + new_size,
-+						SLUB_RED_ACTIVE, ks - new_size);
-+	}
-+
-+	p = kasan_krealloc((void *)p, new_size, flags);
-+	return (void *)p;
-+
-+alloc_new:
-+	ret = kmalloc_node_track_caller_noprof(new_size, flags, NUMA_NO_NODE, _RET_IP_);
-+	if (ret && p) {
-+		/* Disable KASAN checks as the object's redzone is accessed. */
-+		kasan_disable_current();
-+		if (orig_size)
-+			memcpy(ret, kasan_reset_tag(p), orig_size);
-+		kasan_enable_current();
-+	}
-+
-+	return ret;
-+}
-+
-+/**
-+ * krealloc - reallocate memory. The contents will remain unchanged.
-+ * @p: object to reallocate memory for.
-+ * @new_size: how many bytes of memory are required.
-+ * @flags: the type of memory to allocate.
-+ *
-+ * If @p is %NULL, krealloc() behaves exactly like kmalloc().  If @new_size
-+ * is 0 and @p is not a %NULL pointer, the object pointed to is freed.
-+ *
-+ * If __GFP_ZERO logic is requested, callers must ensure that, starting with the
-+ * initial memory allocation, every subsequent call to this API for the same
-+ * memory allocation is flagged with __GFP_ZERO. Otherwise, it is possible that
-+ * __GFP_ZERO is not fully honored by this API.
-+ *
-+ * When slub_debug_orig_size() is off,  since krealloc() only knows about the
-+ * bucket size of an allocation (but not the exact size it was allocated with)
-+ * and hence implements the following semantics for shrinking and growing
-+ * buffers with __GFP_ZERO.
-+ *
-+ *         new             bucket
-+ * 0       size             size
-+ * |--------|----------------|
-+ * |  keep  |      zero      |
-+ *
-+ * Otherwize, the original allocation size 'orig_size' could be used to
-+ * precisely clear the requested size, and the new size will also be stored as
-+ * the new 'orig_size'.
-+ *
-+ * In any case, the contents of the object pointed to are preserved up to the
-+ * lesser of the new and old sizes.
-+ *
-+ * Return: pointer to the allocated memory or %NULL in case of error
-+ */
-+void *krealloc_noprof(const void *p, size_t new_size, gfp_t flags)
-+{
-+	void *ret;
-+
-+	if (unlikely(!new_size)) {
-+		kfree(p);
-+		return ZERO_SIZE_PTR;
-+	}
-+
-+	ret = __do_krealloc(p, new_size, flags);
-+	if (ret && kasan_reset_tag(p) != kasan_reset_tag(ret))
-+		kfree(p);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL(krealloc_noprof);
-+
- struct detached_freelist {
- 	struct slab *slab;
- 	void *tail;
+-#define KFENCE_TEST_REQUIRES(test, cond) do {			\
+-	if (!(cond))						\
+-		kunit_skip((test), "Test requires: " #cond);	\
+-} while (0)
+-
+ /* Report as observed from console. */
+ static struct {
+ 	spinlock_t lock;
+@@ -561,7 +556,7 @@ static void test_init_on_free(struct kunit *test)
+ 	};
+ 	int i;
+ 
+-	KFENCE_TEST_REQUIRES(test, IS_ENABLED(CONFIG_INIT_ON_FREE_DEFAULT_ON));
++	KUNIT_TEST_REQUIRES(test, IS_ENABLED(CONFIG_INIT_ON_FREE_DEFAULT_ON));
+ 	/* Assume it hasn't been disabled on command line. */
+ 
+ 	setup_test_cache(test, size, 0, NULL);
+@@ -609,7 +604,7 @@ static void test_gfpzero(struct kunit *test)
+ 	int i;
+ 
+ 	/* Skip if we think it'd take too long. */
+-	KFENCE_TEST_REQUIRES(test, kfence_sample_interval <= 100);
++	KUNIT_TEST_REQUIRES(test, kfence_sample_interval <= 100);
+ 
+ 	setup_test_cache(test, size, 0, NULL);
+ 	buf1 = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
 -- 
 2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240909012958.913438-4-feng.tang%40intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240909012958.913438-5-feng.tang%40intel.com.
