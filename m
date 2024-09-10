@@ -1,98 +1,93 @@
-Return-Path: <kasan-dev+bncBDN7L7O25EIBBZOY723AMGQE5SIM6AA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDN7L7O25EIBB2OZ723AMGQE2JXABZY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3546897270D
-	for <lists+kasan-dev@lfdr.de>; Tue, 10 Sep 2024 04:18:15 +0200 (CEST)
-Received: by mail-qv1-xf3a.google.com with SMTP id 6a1803df08f44-6c518ae847dsf67174746d6.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 09 Sep 2024 19:18:15 -0700 (PDT)
+Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4008A972711
+	for <lists+kasan-dev@lfdr.de>; Tue, 10 Sep 2024 04:20:27 +0200 (CEST)
+Received: by mail-qt1-x840.google.com with SMTP id d75a77b69052e-4581b5172a6sf69494831cf.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 09 Sep 2024 19:20:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1725934693; x=1726539493; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1725934826; x=1726539626; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:in-reply-to
-         :content-transfer-encoding:content-disposition:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DPgMQS8oDPW2+iWOYrfcys3QL9JbXHxil5OCov8XsXk=;
-        b=C/n07bsTZpgnrmDH4kv4qnoMOBt8lFdxWXtwjnqq9l9cMVSJ8VB1AAOQhSZlW8GBK3
-         XuJCcoWeRXwEVLR/z/UL2NRvT9D4ymimYfxaC5tL5R5HGBDtoslo+nJbmniPUUzsrgCg
-         G7TfSpBbkvglDupOaSjofa7il+9Z681k7OMrJUSoUI9f/SW84CMrdsedyXmeIOFnaFuq
-         5fC3RkPhVLIErSnM2pCorpOLYS6Uyf7RfBLZyAaPyotEGc/9QtLGLTCUtyWqIax5oJmU
-         PYVhAkhJJfRsGbimh7gaor1XAsBYP7nzVPmqW4Y+08BzJ0hcblVyfclmboF/5A4nkpoS
-         eKXw==
+         :x-original-sender:mime-version:in-reply-to:content-disposition
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KZYP802mjcVyH8OFfFCLkGVDUgBR2ac0TrEbLPeTI14=;
+        b=WemKs/M9afJk30bSQpgsHK1MdiGiPy+wAkQDCa+VznzyIgp0ACWDHYmwiHNYlHNhWz
+         8UdC/1WVtEeOmQNolVhyz4HmFZeiEg4SZpgk+QyDMQ/WyqSBkBp6BuI4WjbpRcAfAekv
+         6h23QQarAAXzPFriFwUVqJt0MJ+7ThRHM53ljA1gw8D04Fxuvllk9Y+Fgy1jesBVe1Hl
+         T2ZYg3O+nlPJUGuNK71Np9XRz70mv2yhxb/kck9rmIXcpA2EsQXCnv1Kc/9dKnuKqnAL
+         BE1/MxjNb4GMpEuoMkGvk3/k1y+sudORrAK88YHAvV175A4KHdp5QdMBZH3YhOJmKtXM
+         DXPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725934693; x=1726539493;
+        d=1e100.net; s=20230601; t=1725934826; x=1726539626;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :in-reply-to:content-transfer-encoding:content-disposition
-         :references:message-id:subject:cc:to:from:date:x-beenthere
-         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DPgMQS8oDPW2+iWOYrfcys3QL9JbXHxil5OCov8XsXk=;
-        b=bfNDIhg61BCbnUYNKu7fvbzOys7F0AdUav6GkmLJcNRVe3wPni/IXwxXA0XIrufu/M
-         KfOZujzQdBodX3q+Izr0QAgWJUqA7hE4EJ8OvblGZlmAC+bBjGqBsMt3dvXzlCUytIac
-         cfLdaXHlXCvT9V14CGvsuNEA3jAsXRrQrm4C8kh9SvkT8LU9zjxopwIgow7+RM+nB3SK
-         FFmfc1u6t6XtLT9NgA6q/j8TJqStZITKokCYa3XYY5ISXKfko2fyWZm5nw6QOAvL3/lb
-         Vx88yGv9sYyqDBbf3zK7fu1JH3lKt939HE4K0W2gkbs6L587ysuR9tCJs8JmlSqJ/qMA
-         n8XQ==
+         :in-reply-to:content-disposition:references:message-id:subject:cc:to
+         :from:date:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=KZYP802mjcVyH8OFfFCLkGVDUgBR2ac0TrEbLPeTI14=;
+        b=bOwSmhYmNO0Xqr8whhNO/0RxnNtK3rv7vGgvhNzPNjAogvMWxABguPVSetYekBV8x3
+         +Ahw0Do5q/OK3s46yX3RKrOdj3WUoO4P5d19ErqqQBkTLiKpADZ9hZs5SBGS2h+11Hn7
+         WlVvheqL6GLpKvBX0+NRED6y4T1D45hqKaL8I2/Ryq33/m+uTtDulIK3xgUFd9s8yEw4
+         LbtqQOYAf2tVwSZoXnS5Y4xgkSl9eh5P2GWuLVqJ7/WD8FYN/ffQirzZaj9RTxMj3IHz
+         9CvhAXQPo+qh0TDd+C+2scwWaCRgZE394gHYM5xT7qGgS1ucpfL1X4hhwngzlT5DGo5y
+         BHhQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCX6Ea7jwwQu9cjPaEOTjSS2GPiAFzQOkj0AqMsXLjCNOcZXZzCQX1mlmDcAihV2H1rEtxhOWw==@lfdr.de
-X-Gm-Message-State: AOJu0YzJScPFkPwToPovD68x1q+B1G4nk6SYJgUFJ/bhrajy44nzu3rO
-	Kw4AHo2vVjo7JFAsrKznxMZyTEieEkZqEx0aYl1j8FWg4wgrSTdn
-X-Google-Smtp-Source: AGHT+IEUESWLLhYfX24NS8vvpNrPAfRmnd9jFZa+rHV3WcsxX+8UgY3WvXX8+DrTpH361ztBmNB4aQ==
-X-Received: by 2002:a05:6214:3993:b0:6c5:540c:82b0 with SMTP id 6a1803df08f44-6c5540c82e7mr29502486d6.4.1725934693330;
-        Mon, 09 Sep 2024 19:18:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVsHiLtUNCOGjTR4iFBXBP/FBbLEgqRfTnq2Y5nbHlQ8MaqImFckjpHFAhlntwZVXvYanARjg==@lfdr.de
+X-Gm-Message-State: AOJu0Yy1xWucNe6pqCrTK2I8RjHRWBNAvNM2+oH9RlJhbEWwIEZR6ssu
+	CuoUbgQFe7YezvFmjRv+WyLOnXxIXvyNBvJefS8N1FhnXNEP0CP8
+X-Google-Smtp-Source: AGHT+IHwdHfqTHKtGvuSzJm0lBf0gpVTWVwyTfldiVYU7Ym8coAXN+pN+Yr6+RacJocn5X9w0GzyBQ==
+X-Received: by 2002:ac8:5742:0:b0:456:802c:a67e with SMTP id d75a77b69052e-458200cde45mr168649601cf.3.1725934825831;
+        Mon, 09 Sep 2024 19:20:25 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ad4:5dec:0:b0:6c3:6f57:c477 with SMTP id 6a1803df08f44-6c5279bae2els51214396d6.0.-pod-prod-07-us;
- Mon, 09 Sep 2024 19:18:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCV7d/L83V/gScnp91ofHUjLjtFcUGdlrKZcEXqhxvuNhR0M1NesovY7oRvaodQ9IiPK9KTUKFbbjYo=@googlegroups.com
-X-Received: by 2002:a05:620a:3942:b0:7a2:c96:8737 with SMTP id af79cd13be357-7a99735e76fmr1963916885a.52.1725934692409;
-        Mon, 09 Sep 2024 19:18:12 -0700 (PDT)
-Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.18])
-        by gmr-mx.google.com with ESMTPS id d75a77b69052e-45822f14988si2451181cf.2.2024.09.09.19.18.11
+Received: by 2002:a05:622a:1994:b0:449:2608:3035 with SMTP id
+ d75a77b69052e-4582cfdb5e9ls41025681cf.1.-pod-prod-01-us; Mon, 09 Sep 2024
+ 19:20:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUs0Z1/KGu/mmFxCpshPwuyZgxWWxdQ3EI9m0bMu5TINCihkz2P05U8o8VMbytwunfmmRPaHCcQ23g=@googlegroups.com
+X-Received: by 2002:ac8:5742:0:b0:456:802c:a67e with SMTP id d75a77b69052e-458200cde45mr168649251cf.3.1725934825100;
+        Mon, 09 Sep 2024 19:20:25 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.9])
+        by gmr-mx.google.com with ESMTPS id d75a77b69052e-45822eb9ce4si2385641cf.1.2024.09.09.19.20.24
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 09 Sep 2024 19:18:12 -0700 (PDT)
-Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 192.198.163.18 as permitted sender) client-ip=192.198.163.18;
-X-CSE-ConnectionGUID: IcYlEJMlQx2CELCsFvysHg==
-X-CSE-MsgGUID: TZDIcLVNQhGSKWqyx44JQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="24161904"
+        Mon, 09 Sep 2024 19:20:25 -0700 (PDT)
+Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 192.198.163.9 as permitted sender) client-ip=192.198.163.9;
+X-CSE-ConnectionGUID: Yb485aPVTt2tbLeIM7oOzg==
+X-CSE-MsgGUID: igz8YWAwRwuA5HPpCEUJzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11190"; a="35327227"
 X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
-   d="scan'208";a="24161904"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 19:18:11 -0700
-X-CSE-ConnectionGUID: KpfKdFwdRA2f8zREIIhiGA==
-X-CSE-MsgGUID: sRJ47Az6R3qSD9rVRPgKcA==
+   d="scan'208";a="35327227"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2024 19:20:24 -0700
+X-CSE-ConnectionGUID: 6l/uB7ICQu2ciNKAZsoaFA==
+X-CSE-MsgGUID: spaOKUCdTy+eIja84VGD/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,215,1719903600"; 
-   d="scan'208";a="67121980"
-Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 09 Sep 2024 19:18:11 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+   d="scan'208";a="71837569"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 09 Sep 2024 19:20:24 -0700
+Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 9 Sep 2024 19:18:10 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 9 Sep 2024 19:18:10 -0700
+ 15.1.2507.39; Mon, 9 Sep 2024 19:20:23 -0700
 Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 9 Sep 2024 19:18:10 -0700
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.48) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ 15.1.2507.39 via Frontend Transport; Mon, 9 Sep 2024 19:20:23 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.172)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 9 Sep 2024 19:18:09 -0700
+ 15.1.2507.39; Mon, 9 Sep 2024 19:20:22 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PLJhFdRwPFk8w+Z1wNN2kn61DdHy7Y/AdZ2hLqlqBKKFTVO/6O/RTxaaSPVdFNin8a2sWCVI+hIkEh25+hSiqBzNxBofG5eicmCMBQ3PQjAZsVE1w9A/Wbtb3S4dtCZX5wiG44ePKC828Rqj3nzaSdTAAbu3hMjKz5CWw871TtI2jLVkKxnFHUzDekjyd5nnJusXZjOc2G8Tc2m2yOGzGswrkJQGKAQsEwymhAO9iqyu0++wWbV9e3HBCnIuvN0DhEO3nmm7e/YtB0JLS0j1mdwyzwxL18cnKI16/gegPsS1pNit3hKfom6tDqOZv3tV50ChIPM5iMrYP1Q1C45bUw==
+ b=T4acKEh0+asrtOf5iINE1Vl5XnnhobfyZ14Yn8M+aQQPGBntoQNSU6+O7pbh/7L8X3UyhEAsBfYWEgNRf7lNRiLjg8RUnq3Qcfg9Sw1VnCgR1RTOLjPQjH38W6cHq7guL5tM4B2NdFYYwjQQp6g7HvuP/Stt2RSIcpt6/J9GGwdZSdj4qh0xy6yKA4Acgwmb1EdsMk1+e9l+0yOCS51j0Z1D+VNko/l4FlkvBgWeOEC6vdjUlnw/PeduXfelkbI6M9WKyJ7/cTwyefK779Py2v6Zqvwpwr5d7QhI22DshZ8kFXDhCOI2otemknE3kqj9lqvhOotpTveMi3O2uhyKPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B7BGG6a4MU4IV9Pk6VDHqgGUYMeCGni7DpdPBDwY3RI=;
- b=tNOUNouia3tZ0T/BXECUDlqYGIOnJxJg9ehtHKwdSrKwbM1vzfOdVNQU67qXTdFOeidgOwZk5Wcvt8aWycW92DCgLBnJRBwRDgeqzUtX+dwZ1Zjwqz/w0JLHYvQwU+NTqV5Vrnw2svDD3w9z8r+Ht30g08RxwAvKCTgmBCi7UQ0G6QJeK6aTN0p6sdAYHsTyeMinyJANtJusHIiZG6D3e/98r2L7kialuVoaK2s1/iSJ+YAEavNTXwN99nsvA3VzN4wsL9AZY/QXqzkQx8tg4GF8LJV90/stQ36YvJ3v7u9yvWofbnBhgKj4Q3JmOYAt4IoyxD7cdUQersvv46iQTg==
+ bh=ybNxLYB6lun2oidHqYglPQBpDDUEjVegsqL9Ua9iXeI=;
+ b=n8DJor2I/dDA3t9O4xAROFfA8lnzApMLzZAv3fXIqkvK+ysDPWXdSFP3v+aTM97jV1OU1eTIZMBnFwKv6Jdm3sFCwYjsu1+JGU/s0ez3YpIw0uXF9uWhpiW4q+WD6d3dToi+FWRdiNpul9O9WMzY4kx0pGpE+tw6Z3pE2Mp6EIju7ljc98l0K7wWpP9JKf8GZ7c01dwzwS1R8dyvvx1p7mW5/UaXN4MvBcS4jxRIoByCit1qvb1aCV7+AzGs2Q/C9ovnk1rLaqU1I7rSzPil4+E7NhTQls4UGn3TLUyU70TVBHxZ+xT9zFIxKqjdVSyx5lYPG2GH9V593JIVm+TZFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -100,127 +95,108 @@ Received: from MN0PR11MB6304.namprd11.prod.outlook.com (2603:10b6:208:3c0::7)
  by DS0PR11MB6397.namprd11.prod.outlook.com (2603:10b6:8:ca::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7918.28; Tue, 10 Sep
- 2024 02:18:08 +0000
+ 2024 02:20:21 +0000
 Received: from MN0PR11MB6304.namprd11.prod.outlook.com
  ([fe80::7f88:f3b1:22ec:f508]) by MN0PR11MB6304.namprd11.prod.outlook.com
  ([fe80::7f88:f3b1:22ec:f508%5]) with mapi id 15.20.7939.017; Tue, 10 Sep 2024
- 02:18:06 +0000
-Date: Tue, 10 Sep 2024 10:17:54 +0800
+ 02:20:21 +0000
+Date: Tue, 10 Sep 2024 10:20:08 +0800
 From: Feng Tang <feng.tang@intel.com>
-To: Andrey Konovalov <andreyknvl@gmail.com>
-CC: Vlastimil Babka <vbabka@suse.cz>, Andrew Morton
-	<akpm@linux-foundation.org>, Christoph Lameter <cl@linux.com>, Pekka Enberg
-	<penberg@kernel.org>, David Rientjes <rientjes@google.com>, Joonsoo Kim
-	<iamjoonsoo.kim@lge.com>, Roman Gushchin <roman.gushchin@linux.dev>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Marco Elver <elver@google.com>, "Shuah
- Khan" <skhan@linuxfoundation.org>, David Gow <davidgow@google.com>, "Danilo
+To: Vlastimil Babka <vbabka@suse.cz>
+CC: Andrew Morton <akpm@linux-foundation.org>, Christoph Lameter
+	<cl@linux.com>, Pekka Enberg <penberg@kernel.org>, David Rientjes
+	<rientjes@google.com>, Joonsoo Kim <iamjoonsoo.kim@lge.com>, Roman Gushchin
+	<roman.gushchin@linux.dev>, Hyeonggon Yoo <42.hyeyoo@gmail.com>, "Andrey
+ Konovalov" <andreyknvl@gmail.com>, Marco Elver <elver@google.com>, Shuah Khan
+	<skhan@linuxfoundation.org>, David Gow <davidgow@google.com>, "Danilo
  Krummrich" <dakr@kernel.org>, <linux-mm@kvack.org>,
 	<kasan-dev@googlegroups.com>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/5] mm/kasan: Don't store metadata inside kmalloc object
- when slub_debug_orig_size is on
-Message-ID: <Zt+sUs46cZc0vh/K@feng-clx.sh.intel.com>
+Subject: Re: [PATCH 0/5] mm/slub: Improve data handling of krealloc() when
+ orig_size is enabled
+Message-ID: <Zt+s2J87hZ7CZjl9@feng-clx.sh.intel.com>
 References: <20240909012958.913438-1-feng.tang@intel.com>
- <20240909012958.913438-2-feng.tang@intel.com>
- <CA+fCnZcqnsAFEHKcPDag60FR_UbpOQpJidF+wqgZzUZUe6MPVQ@mail.gmail.com>
+ <edd4e139-363b-4a8a-a4bb-b5625acac33f@suse.cz>
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CA+fCnZcqnsAFEHKcPDag60FR_UbpOQpJidF+wqgZzUZUe6MPVQ@mail.gmail.com>
-X-ClientProxiedBy: SI2PR04CA0014.apcprd04.prod.outlook.com
- (2603:1096:4:197::18) To MN0PR11MB6304.namprd11.prod.outlook.com
+In-Reply-To: <edd4e139-363b-4a8a-a4bb-b5625acac33f@suse.cz>
+X-ClientProxiedBy: SI2PR01CA0032.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:192::18) To MN0PR11MB6304.namprd11.prod.outlook.com
  (2603:10b6:208:3c0::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MN0PR11MB6304:EE_|DS0PR11MB6397:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed6299d4-5f22-4615-8ed7-08dcd13eceaf
+X-MS-Office365-Filtering-Correlation-Id: 8c5d8396-c7dd-4497-b7f0-08dcd13f1ec5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?S2U5Zkw0NEcxOXMvajI4U3R0TnIvSXBXd1kycHRLOXdkNU5aeW10Z2JuYklV?=
- =?utf-8?B?T21jMk1FQzhzSWcvbW1iN1k0WTJFaEF0V09sQjJ5aW9MNnlXam5wNnl0clIv?=
- =?utf-8?B?Qm1RWExoRC9sTkhUMCtRS1FRV3o4SlAwVGlHRzlVYU5xZk9ldmpGc0JUdzdF?=
- =?utf-8?B?WFZzclRsWCtPSXY3WFBqZnBmY2JacHIvcytjano0RTlOWUFmb0NFeUlTUUtu?=
- =?utf-8?B?OTl5UjNjT1BuOGtOYnd0bUtwT25YbE41cGl6ZERUTHNyTFBLaEt2WkdnNksx?=
- =?utf-8?B?ajVRaCszVkh2bGlKalM4ZFE2MnZtSStESkwwc2hBZ0pZcC9mV1dhc1JzRi9D?=
- =?utf-8?B?OVhWaUsyMkNzaCtQRm4vWXhxaE0vY1RENWlvOE9OYk53c014WWJOYTJOREFa?=
- =?utf-8?B?NG9GMjA0WDBWSDdSUU9CM1JpVktLVUFqZkZ5aVNranRkYTJ6NUt5azdYSVph?=
- =?utf-8?B?L21kamt2bGRrSjhVRnZxN2NuK01lZklxc1RZRmttTnhzbWJFSmllWVpsa3E3?=
- =?utf-8?B?dTFYVDdWZ05ocUhHalNWQ09TV051K08xTXIva25PakVYVWlpYjY4RXFNRUJn?=
- =?utf-8?B?WDl5Ni90TlEvS2hWQmRKUERJbEFtVVd6eFNJR3pzUWVBZ21lT0x0QldIYUZ3?=
- =?utf-8?B?SHJBR3MwT2FJdkVBMWU5ZUFTcFpZY0I1dEFSaEQ2bFVuUWlHcElZc2crQXJu?=
- =?utf-8?B?ekN3a2VROFpzaExsNVd1K1JNRnI5S0RmRFUxNGxueGEvTHB5NmU2Q0N2SHJ0?=
- =?utf-8?B?YXMyUUdtQ0JrU2tjdHZ6cXNROEd1M0E2a1hBaEhNeEV2TEpSckF1S0FjZkU3?=
- =?utf-8?B?T044S3Uyd0NJRWgvaGRBZXNhTUtIbjViSEJmdStHQ2htdGJOYS9HZGpROUVF?=
- =?utf-8?B?UnlnOUVHV3BKWitEaUNMWDIxZXk4YUtuRXF5cVhWSEgxNTI4akpHamMvVExi?=
- =?utf-8?B?SlluRTdyTWx0R3lDRjdSL3gwRU0vUE5wd3BqdWJqd0dOY1BGWjdGQTZ4QUJM?=
- =?utf-8?B?RS8zTHBuenpHanRlbXFQbTluTnZLc1BZQVE5MjBGWEg0SEUwODU1Um5reEdU?=
- =?utf-8?B?NUZySjRvVldVdDNBTlJHMU1KT1U1MzdrcTlzcjU0WDI3THdISnZUL3QrRXJx?=
- =?utf-8?B?Y01haG5zMXpRRU1TY2lmUWQ4Sm1wTzVPWmgyeWpVQWwwYUMxYWNlcEdrQUIw?=
- =?utf-8?B?U1lFQzVDVnZZN0M2K3VpNjJpY1hYOFFqd3BFUjhDTExYckNjSk02VXBLL3l4?=
- =?utf-8?B?Tngxbnc5cWx5SXRrSEtqb1Nqd1hFRUR4cjNrMzhkd3I0dTVpcjJ1cWFHYWhQ?=
- =?utf-8?B?c2dvclR2eVpjUDNpdzhOc1l1emZBQWs0eHMrMHllN04rNTZuTXIzWW9oRzdV?=
- =?utf-8?B?bGJRbTRmSzY3WkM0QzlKcjhhL0prQmwxdWVMVGhKaGFtcFdURVZKYUpsWTNz?=
- =?utf-8?B?SGdibU5IcmxlYzVQa3NwMlRTNldHMzJqS1dIRTF5VXBNMC9PcWJjYkJIb0lz?=
- =?utf-8?B?SW1iMTNqVHBSTFczV3c0a3l3a2ROSkRXcy9pNVluaVI0WlNIYjhBWUg4QUl3?=
- =?utf-8?B?Wlh0NnlGUGRjODErNUh4L2xzR2Uvc1lrZXVnbUdZU2JqekV4S0JHSVBiVU8v?=
- =?utf-8?B?RCtGbjB0aW9hZmN2a0o1NzFvaEl3U2hoaDRjQzBqSU82bHdPN2REc1JiNkRK?=
- =?utf-8?B?ZjlXVENlRzlDb3ovRFZMV1BKTmlFWHROVzZvb25yNkR2MDY4c2ZGQ0FqNW94?=
- =?utf-8?B?TmQvUGpveXFyYktSSmQ2alRLSm5xWVR2Zkt3Qlk1K3Z2Zll6WEN6aWxleE4y?=
- =?utf-8?B?eXk5RTkwdEtvK2lVY1FRdz09?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?uMzPxlrvrRYKSOs+YrFPNX6kn3JFtcHRuR1lY4/d32MUKhjJhbdGJ1S3YBG1?=
+ =?us-ascii?Q?RWiEcYJom6airg/4hqn34X8yOEw1c2jxkRCzUTBLWx5dLF4J22AuQlCl4AX+?=
+ =?us-ascii?Q?3PTMDQ9FcyRbBbF7b2H2AoOONnkpSZhkJal05CxOM2/kyCRSLaoDXkMY3NND?=
+ =?us-ascii?Q?bZ/Ri3yG71Glw7K/LGGLdVVxsYTFYiRlGLu6HUnInufsRTSmNOCkIP1ZpUzR?=
+ =?us-ascii?Q?CHvyyYO1pBHSjyBbsqovgYnyPZ3lp14k/PwOYK0wObjkJdyeG2zNl0NGv3t6?=
+ =?us-ascii?Q?mHg2qMw1kimiYv+/SsKgTCAygVjcokQqelHX2UzABz+zjJhp9Lc54drN+khx?=
+ =?us-ascii?Q?nQifsO28Jl6vIob9+F/HDsRcAYDolInreSZj8eElJKfJ8x+rHg0/LhiOUQ0l?=
+ =?us-ascii?Q?x67aJqT+jXACgLuInw9FDohze9vnna23cHUTIA9u4RtAXvQVieqdPk6VK3BD?=
+ =?us-ascii?Q?sW4hEfU+pUOpA2fWSHPiEyBP3FsXg4BnbQ4eaivdz2uF5FdzTLI96i2tNmBI?=
+ =?us-ascii?Q?HUVJzqgqpMvNyGDO+2HIIuYKluGB1pwCYtpxjLeSQRThYGl1QCt5LGwmH7j+?=
+ =?us-ascii?Q?Vzo366LZGH2Pt5W6f5DMIgr26NrXiPJHBFeyusm1vRtamZqrhqGq1vzhPeC4?=
+ =?us-ascii?Q?0yXFoYyACNonmbibNlFS6vKZ+2V8KtcqlmyIsFvQOLbNp6DaS0R2+yKVWBre?=
+ =?us-ascii?Q?vk/CwFNvrahPM/P2W19I+8XZ6ra/AhgVWaCOywIMXXlaX2oeyTOHI+xBoyy2?=
+ =?us-ascii?Q?3/y+IacxoHNBPCAuJw2ta4JgXKTS+z32TUVBfON17lGP6FRrKp/0SeFEDZVZ?=
+ =?us-ascii?Q?C6oAVoNLj+T3jHT5TwmZNvi5ygWEH+mJ8PsqT7Z0Q154AY0/jMKPOiO51tjw?=
+ =?us-ascii?Q?0C536fXPNGtejQmFFbTECdXAVtZr0pGyZEpIiviREHPoukqcWc6HULTZJH0p?=
+ =?us-ascii?Q?xLXm8IIJZgaIZOqtVxAtMymxJYyg+0LiaCRf7hjcDSNDlzrFkgj9DrST+wRu?=
+ =?us-ascii?Q?RIeAbLfx1xWLF0j8bglDj1CGEsA8b1WlHsy9Ryrzm4BYq3XjFv0spzw3Ebkl?=
+ =?us-ascii?Q?K7TmRjBsGv8nvR+6iq01hiLWjscPxyOkgWxwru7g6DO3aXv3pNpdXfkpXq8u?=
+ =?us-ascii?Q?yEHqvbPKmnlHT4aoSidWgBP29RgRmIGkKJrxgEbwRHC42eQECC2MBiKa7YIR?=
+ =?us-ascii?Q?rcpgtQihZsjqc9sSOx4YLoopYYeFwVRXZIjgQniIRTuZqb6iJeAI2Gz2n39/?=
+ =?us-ascii?Q?ljt7Y0JPnGQiPNl3PbBZpXmM8Rr2sX5++sBbdqSYTayVHdzFvpxktepFXNQc?=
+ =?us-ascii?Q?F9B0exMgcTdtxHfQ8AuKFBUTyUZeCq7hLea4ueN7FmNG0g=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6304.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UHRFR1I3LzhDWmF5WElNaUdZVGsycGRYWW5TOHZaYnRlMDBUSHdYSE8xRlVK?=
- =?utf-8?B?U3E5U1dCb01tZXVYYXBTelJrWnI5bElYd0dtQ0huWU94cU1HQzdFSitmU1Nq?=
- =?utf-8?B?aHpZMFpEMFFsMGN0SXNLQUJ4c0M5d3EwYlZLcGFVcjM0MVc0YU40NGFSS25m?=
- =?utf-8?B?ZWtWb0R5STJHSDM0TmxQa0QvSEZCT0I0TGxZUFcrRm9rcHdaeVpkNUk1VWJJ?=
- =?utf-8?B?S1pWN2RMN082dktENjNKb1VWYUdSYkhJWE8rVTNDakNkdmQ2RFg2VEdkb2po?=
- =?utf-8?B?ZEhIUU9NQnRGb1NGc1pJcHhtZFZCU1BaY0xkejdwc1lxNHZPZmUvVk1BZjJC?=
- =?utf-8?B?RHFUbXVReTA2Z2hlUzc5dnBmTjVPbngzZVozZ1BVTHNoUlM3Smxob1Z2RDlw?=
- =?utf-8?B?cG0xSklHcUVHcXdTUmxBbFVLcXlXbkpsTmpxdlh1L2ZvQ0ZyM3FiTFhXem16?=
- =?utf-8?B?a2hiVVR3VVQ4ZFpLSHY1alZqdk1HUzZqOXBCYnlBK09GSjlkTWI2YWNBSE1a?=
- =?utf-8?B?WlFuYXlUSGJlbEExRk90Nnl4aVhURWhMYnN5WlZOZVR4czhIRFBHOFNsZjJF?=
- =?utf-8?B?MEV3a3l4OWpkL2g0WklibGNSM1FJS29UQ3VhbDNRczk0Vmw5WFhDakNzTlBa?=
- =?utf-8?B?c3dTVHlTY3hBY2VnSnd3bk4rYjNxT2F1eHA2UUorWitEa1QyVmhoZVFRb3hI?=
- =?utf-8?B?S3VGaTBDSlc4OXFPbnEzdzdZMG0zNmpnUXp1NjNqSExyM0xxd1B0RmpvNTFY?=
- =?utf-8?B?S1dlZmZ5bjVBSlBOM0ZWVnVMN2VwaXBqV214eHFGK1ZEdEpITEFGV3ErbXZC?=
- =?utf-8?B?cXhTc1dZSEd0ems0amN4NmxyY0pQV2xpKzBJdlVPcTlHdko2YkJramNJR0Zl?=
- =?utf-8?B?eXJqeGFmZFU1U3hER2tkcExEM3dqN1RVc3Q5QllNWm5IejFOSE1RRVo1YjdQ?=
- =?utf-8?B?SDdxVU9uaFhISk1YUE52YTk5L2RJY2w4US9tN1gxZVZpL2dNWWFBak1JejVF?=
- =?utf-8?B?U2c0ZDVyWWlzdlQzeW55RHFJOUptWUlDNUNXUVdObmhpUjZPSFlONTJmMmF3?=
- =?utf-8?B?TGxTTVBqd0hwMlFzTnhXNlcycGZtVDR3QjZaSmFOLzdBRXNlYjlVSXJUNXEy?=
- =?utf-8?B?OXdsM1VHVmpvbS9rUnRiSDJMa0liYXhRZDZvaWhJbkhvekdiWnZyUWNhempq?=
- =?utf-8?B?c1NMa3hJZ2ZvOEVqWW1nNVhzclo3L1FwV3Y1Qm5BV25ZSmxWNkQwcFNLQ0Y5?=
- =?utf-8?B?K09HNzRjTzV2TlNyZ1RYZXBRL3RmUlZ2dUUzT0dkeEFFSXlscjY1a3JkQ0pi?=
- =?utf-8?B?OFl4NW9yMUN0R1VYWE4vSC9haDgrbHphV2JPTVdGQmZYT1c3Mzl3a3pRbGs2?=
- =?utf-8?B?QkhGMndGTmEyQ3JiSHppNFMvUHhuT2hZTEg4TWdvZjRsam84UEdFNzgrZ2VB?=
- =?utf-8?B?T1lOYmJaR3JkSXY4eVRJcmFKdXJLbWlhWDIyQjQ4STgzUitJeEFqbWNSbFdi?=
- =?utf-8?B?eDk4ZFlGQ1dRVnJrbW9FeXhocDJYNExHUjU1Z3lsVWpLRkVmUmdMdW1Ic0Ry?=
- =?utf-8?B?QXMvcW1iRUpNRXVkOGJvQVVqRlVOUWZlS1NiaW81THhGbXVBN29hcVplb1dn?=
- =?utf-8?B?Unk5Ni83bGxVYk9UVE92c2pRdlNWSGNlSE1Ea1R0aURiK2Jjcks1cUJYWVl3?=
- =?utf-8?B?eTY2eGRvcldya1lFdm0ycXVwbXlGa3VkelhQeGdEeHhLQVp1ZlFSUmU3UmdJ?=
- =?utf-8?B?cHVQUEo4Z3MxK0ExZU44a3dSMXJQV0pJSFFqbjM0dDlsZmQ4Vk5NUU13VCs2?=
- =?utf-8?B?OXN5dnJhSHZuZ3RDRWdSTnQ5blpmNGV2SEtkR2t1WXNSbjIyYU1VbGJtZXdQ?=
- =?utf-8?B?R2UwSXNRMHJkM00rSVJXWjEzVWoyR3BxSWpVV0dpd2tpTW5YSENCeVRmYW5W?=
- =?utf-8?B?bUtlNHV3eDJVWVRWdWxQSmNpeUVuVzVhS0tQd2xQRko2bWxRcXI0NWFVN2x2?=
- =?utf-8?B?WENBS0JCazc1Q1hITVNUeFhzaENacWF0R2ZtMkZ4OHFnNTdxd3lXMjJkL3Vt?=
- =?utf-8?B?MkRvM1VFekFwc29FalhMN09MTzFkencxVGYrNkhHZjFxeHp6U3dvc1FCd0tr?=
- =?utf-8?Q?aP0L+ZHdA9tqsP7dDX99mg9pY?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed6299d4-5f22-4615-8ed7-08dcd13eceaf
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zWG+ErP+WGjFpXNGtb9z7WEwB7sKeDUoaqXkqSkya/MVqwWQycF9E24yIphf?=
+ =?us-ascii?Q?vBqq7CEaw2imylx/zAu0VGLfBujXiJCAhjBp3i+mNhcPZ9IyBW0iW/sUDX4N?=
+ =?us-ascii?Q?JKPmtvIWwva6dLJ17PC5Ezdbq5YhdtwTliOhQ2QLVuG3Vc1+baxeextw3gPB?=
+ =?us-ascii?Q?Ubi01UYAKDraikyGxepegrfKxGEFAf7OK8iQw6zE/ZqOKvVrx2hR5q7TWNfi?=
+ =?us-ascii?Q?2TVB1mFJ+fQVFriZqWrxKd+0mMgoHyKbKiaoPY9U08hTJUmXuPbEBC5YItGr?=
+ =?us-ascii?Q?lR792GOTljkhIiMyB2dCC/TEOdy6u/cy10udeyNr3DPJNY2ITEjAqAH2mko/?=
+ =?us-ascii?Q?DAMPZUZhPFRDyx9dCadTgWyAkt6ZR/l2RY9rQnH1rbqC29R88fOr8SU/Dutl?=
+ =?us-ascii?Q?WT8a58eFyKkXKeg10pjqjZLssOXkRpySOeAlgZqmYIVLsDzXZT3qe8rJXon5?=
+ =?us-ascii?Q?dsePEOfMX8B9cnwmKDoU07VzK5WOxaoi4I87XlokK2hHvDEmjNInChfLz/9N?=
+ =?us-ascii?Q?iSix0gHbdXWt0mMYEYijrueWq5i5b7KU1R1x305bDZkJufnDMNwNrtKfEEur?=
+ =?us-ascii?Q?HpgdDiC2wV3EjfaxgPjYZa+HgibjSOiH/LPeuauhTWtsp2DRTOoMp+O/EhGy?=
+ =?us-ascii?Q?dMNX2HA2sUCG3eeQK6EK8qVWxmkmcii7FmZx9NMZld4cj4h4e4w09sKL8TB2?=
+ =?us-ascii?Q?WQ9tdRCA2eMRDw+N3+S/cNYVgZbtpF0QO77edoTwkls1FwGXMz++AUu1v+/2?=
+ =?us-ascii?Q?579eq2jfDin/4U+UPsoI3L+b4BE+kDvI96b7b0+rvIuwSE7g42ZIiRMqv+/R?=
+ =?us-ascii?Q?qhLWM425jgjfDcSQBBiTiU4rZ0hXVhZ6f1gzOeUeu2g+kL3DOfaM0ozPPRYU?=
+ =?us-ascii?Q?R+RC7iZ887MI6IEfbJ1YXXvrrAoYGLlJJD9I50XOEvfyyt3tUlkdqLf/0SSk?=
+ =?us-ascii?Q?rQrizDd7wvxJ618XKmlQTnQ5R3TJcGQf2vUFPhWoH8uXsfILjds+FnXPsMH7?=
+ =?us-ascii?Q?M7Sa8yw8jZG+rLi+dLYGGFD81EtlLoH2bp8ZqfCTrupCnZKlChZNMIRHeX3+?=
+ =?us-ascii?Q?28p8mL9AO8bduysZ73IzeeeBFlVAkuCoe4WJczzTjgvK1SZxrcYvgKUcRCvL?=
+ =?us-ascii?Q?9n8x/mFNl5fyQ1kt7+3Bxii63/yoL15EoAHE1CtwiQRshnPyPFOqiPTx8zIT?=
+ =?us-ascii?Q?V+mLY47cIqQxWS7REN52foEQoZ+XXuh1x0dHXjnYGd27j+ZI35SRcC5focro?=
+ =?us-ascii?Q?Tkzw4/rcHrofj8k9fqNxMbDt5WIJCzQEB0T9bufLHiPnLSZ6h3hm5lV6keUM?=
+ =?us-ascii?Q?4QiXMf+6+LMOPS+8Tj4yCQS2oGAM8PxW087FcM29RZykw4+Sa26jKgQiQ9ei?=
+ =?us-ascii?Q?IzPLzMkpfdBxLwrXoM9IHYr+5HvSU/1mD68/scapvf6ensR/8ywkCvOhqK2h?=
+ =?us-ascii?Q?LhXknHyw1GRAtDqKyB1rmCImir4AJp2ac4wMT/ZKCSt8hbD90cM5bgqsQa6Q?=
+ =?us-ascii?Q?qciYE5S6Z1qfF2bJoOGJBAt9zTNo+2ole20Nv3VBFLcLr5lPt50sIgONG1DZ?=
+ =?us-ascii?Q?qEfvbKN7XbDphfXkrDXcl3LQeYZRDHW1rznXDVON?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c5d8396-c7dd-4497-b7f0-08dcd13f1ec5
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6304.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2024 02:18:06.6531
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2024 02:20:21.0343
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JS5KxD8GoVUg0yUXUQZLj8xcxtQRNeCRDKBceyVl/MsHm851h4rj6P2wIAzCarHbOfBZp6xORZkn2dsP/p92Zw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: VrkGVWnRBLwR9qW8I0kPLZ4BPszaQdujEq4jlj33kBNVwSX7lAwh+CkHrPthA8p65kgx+IrPdyfuS5CydoS2Qw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6397
 X-OriginatorOrg: intel.com
 X-Original-Sender: feng.tang@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=a1D2oKUy;       arc=fail
+ header.i=@intel.com header.s=Intel header.b=JWEzfhpx;       arc=fail
  (signature failed);       spf=pass (google.com: domain of feng.tang@intel.com
- designates 192.198.163.18 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
+ designates 192.198.163.9 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -234,135 +210,60 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Sep 09, 2024 at 06:24:21PM +0200, Andrey Konovalov wrote:
-> On Mon, Sep 9, 2024 at 3:30=E2=80=AFAM Feng Tang <feng.tang@intel.com> wr=
-ote:
-> >
-> > For a kmalloc object, when both kasan and slub redzone sanity check
-> > are enabled, they could both manipulate its data space like storing
-> > kasan free meta data and setting up kmalloc redzone, and may affect
-> > accuracy of that object's 'orig_size'.
-> >
-> > As an accurate 'orig_size' will be needed by some function like
-> > krealloc() soon, save kasan's free meta data in slub's metadata area
-> > instead of inside object when 'orig_size' is enabled.
-> >
-> > This will make it easier to maintain/understand the code. Size wise,
-> > when these two options are both enabled, the slub meta data space is
-> > already huge, and this just slightly increase the overall size.
-> >
-> > Signed-off-by: Feng Tang <feng.tang@intel.com>
-> > ---
-> >  mm/kasan/generic.c |  5 ++++-
-> >  mm/slab.h          |  6 ++++++
-> >  mm/slub.c          | 17 -----------------
-> >  3 files changed, 10 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-> > index 6310a180278b..cad376199d47 100644
-> > --- a/mm/kasan/generic.c
-> > +++ b/mm/kasan/generic.c
-> > @@ -393,8 +393,11 @@ void kasan_cache_create(struct kmem_cache *cache, =
-unsigned int *size,
-> >          *    be touched after it was freed, or
-> >          * 2. Object has a constructor, which means it's expected to
-> >          *    retain its content until the next allocation.
->=20
-> Nit: ", or" above.
-
-Aha, yes, I missed that.
-
-Hi Vlastimil,
-
-Could you help to change it when taking the patches, or you prefer me
-to send a new version? thanks!
-
->=20
-> > +        * 3. It is from a kmalloc cache which enables the debug option
-> > +        *    to store original size.
-> >          */
-> > -       if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor) {
-> > +       if ((cache->flags & SLAB_TYPESAFE_BY_RCU) || cache->ctor ||
-> > +            slub_debug_orig_size(cache)) {
-> >                 cache->kasan_info.free_meta_offset =3D *size;
-> >                 *size +=3D sizeof(struct kasan_free_meta);
-> >                 goto free_meta_added;
-> > diff --git a/mm/slab.h b/mm/slab.h
-> > index 90f95bda4571..7a0e9b34ba2a 100644
-> > --- a/mm/slab.h
-> > +++ b/mm/slab.h
-> > @@ -689,6 +689,12 @@ void __kmem_obj_info(struct kmem_obj_info *kpp, vo=
-id *object, struct slab *slab)
-> >  void __check_heap_object(const void *ptr, unsigned long n,
-> >                          const struct slab *slab, bool to_user);
-> >
-> > +static inline bool slub_debug_orig_size(struct kmem_cache *s)
-> > +{
-> > +       return (kmem_cache_debug_flags(s, SLAB_STORE_USER) &&
-> > +                       (s->flags & SLAB_KMALLOC));
-> > +}
-> > +
-> >  #ifdef CONFIG_SLUB_DEBUG
-> >  void skip_orig_size_check(struct kmem_cache *s, const void *object);
-> >  #endif
-> > diff --git a/mm/slub.c b/mm/slub.c
-> > index 23761533329d..996a72fa6f62 100644
-> > --- a/mm/slub.c
-> > +++ b/mm/slub.c
-> > @@ -230,12 +230,6 @@ static inline bool kmem_cache_debug(struct kmem_ca=
-che *s)
-> >         return kmem_cache_debug_flags(s, SLAB_DEBUG_FLAGS);
-> >  }
-> >
-> > -static inline bool slub_debug_orig_size(struct kmem_cache *s)
-> > -{
-> > -       return (kmem_cache_debug_flags(s, SLAB_STORE_USER) &&
-> > -                       (s->flags & SLAB_KMALLOC));
-> > -}
-> > -
-> >  void *fixup_red_left(struct kmem_cache *s, void *p)
-> >  {
-> >         if (kmem_cache_debug_flags(s, SLAB_RED_ZONE))
-> > @@ -760,21 +754,10 @@ static inline void set_orig_size(struct kmem_cach=
-e *s,
-> >                                 void *object, unsigned int orig_size)
-> >  {
-> >         void *p =3D kasan_reset_tag(object);
-> > -       unsigned int kasan_meta_size;
-> >
-> >         if (!slub_debug_orig_size(s))
-> >                 return;
-> >
-> > -       /*
-> > -        * KASAN can save its free meta data inside of the object at of=
-fset 0.
-> > -        * If this meta data size is larger than 'orig_size', it will o=
-verlap
-> > -        * the data redzone in [orig_size+1, object_size]. Thus, we adj=
-ust
-> > -        * 'orig_size' to be as at least as big as KASAN's meta data.
-> > -        */
-> > -       kasan_meta_size =3D kasan_metadata_size(s, true);
-> > -       if (kasan_meta_size > orig_size)
-> > -               orig_size =3D kasan_meta_size;
-> > -
-> >         p +=3D get_info_end(s);
-> >         p +=3D sizeof(struct track) * 2;
-> >
-> > --
-> > 2.34.1
-> >
->=20
-> Acked-by: Andrey Konovalov <andreyknvl@gmail.com>
-
-Thank you!
+On Mon, Sep 09, 2024 at 07:12:31PM +0200, Vlastimil Babka wrote:
+> On 9/9/24 03:29, Feng Tang wrote:
+> > Danilo Krummrich's patch [1] raised one problem about krealloc() that
+> > its caller doesn't know what's the actual request size, say the object
+> > is 64 bytes kmalloc one, but the original caller may only requested 48
+> > bytes. And when krealloc() shrinks or grows in the same object, or
+> > allocate a new bigger object, it lacks this 'original size' information
+> > to do accurate data preserving or zeroing (when __GFP_ZERO is set).
+> > 
+> > And when some slub debug option is enabled, kmalloc caches do have this
+> > 'orig_size' feature. As suggested by Vlastimil, utilize it to do more
+> > accurate data handling, as well as enforce the kmalloc-redzone sanity check.
+> > 
+> > To make the 'orig_size' accurate, we adjust some kasan/slub meta data
+> > handling. Also add a slub kunit test case for krealloc().
+> > 
+> > This patchset has dependency over patches in both -mm tree and -slab
+> > trees, so it is written based on linux-next tree '20240905' version.
+> 
+> Thanks, given the timing with merge window opening soon, I would take this
+> into the slab tree after the merge window, when the current -next becomes
+> 6.12-rc1.
+ 
+Sounds good to me. Thanks for the review!
 
 - Feng
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/Zt%2BsUs46cZc0vh/K%40feng-clx.sh.intel.com.
+> > 
+> > [1]. https://lore.kernel.org/lkml/20240812223707.32049-1-dakr@kernel.org/
+> > 
+> > Thanks,
+> > Feng
+> > 
+> > Feng Tang (5):
+> >   mm/kasan: Don't store metadata inside kmalloc object when
+> >     slub_debug_orig_size is on
+> >   mm/slub: Consider kfence case for get_orig_size()
+> >   mm/slub: Improve redzone check and zeroing for krealloc()
+> >   kunit: kfence: Make KFENCE_TEST_REQUIRES macro available for all kunit
+> >     case
+> >   mm/slub, kunit: Add testcase for krealloc redzone and zeroing
+> > 
+> >  include/kunit/test.h    |   6 ++
+> >  lib/slub_kunit.c        |  46 +++++++++++++++
+> >  mm/kasan/generic.c      |   5 +-
+> >  mm/kfence/kfence_test.c |   9 +--
+> >  mm/slab.h               |   6 ++
+> >  mm/slab_common.c        |  84 ---------------------------
+> >  mm/slub.c               | 125 ++++++++++++++++++++++++++++++++++------
+> >  7 files changed, 171 insertions(+), 110 deletions(-)
+> > 
+> 
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Zt%2Bs2J87hZ7CZjl9%40feng-clx.sh.intel.com.
