@@ -1,106 +1,106 @@
-Return-Path: <kasan-dev+bncBDN7L7O25EIBBZVFQG3QMGQENRSWHYA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDN7L7O25EIBBWFIQG3QMGQEM3IHNWI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103e.google.com (mail-pj1-x103e.google.com [IPv6:2607:f8b0:4864:20::103e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861E2973960
-	for <lists+kasan-dev@lfdr.de>; Tue, 10 Sep 2024 16:08:40 +0200 (CEST)
-Received: by mail-pj1-x103e.google.com with SMTP id 98e67ed59e1d1-2d889fde2aasf6784127a91.0
-        for <lists+kasan-dev@lfdr.de>; Tue, 10 Sep 2024 07:08:40 -0700 (PDT)
+Received: from mail-oa1-x39.google.com (mail-oa1-x39.google.com [IPv6:2001:4860:4864:20::39])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF1C97398D
+	for <lists+kasan-dev@lfdr.de>; Tue, 10 Sep 2024 16:14:49 +0200 (CEST)
+Received: by mail-oa1-x39.google.com with SMTP id 586e51a60fabf-277f1e27d63sf8108654fac.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 10 Sep 2024 07:14:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1725977319; x=1726582119; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1725977688; x=1726582488; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:in-reply-to:content-disposition
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XAxuZGqY9j/wWgmM3Hm3gzLpNyIPcpBUME4nFKdPV/Y=;
-        b=izSueDn7FvAUudnma6V9dwFvQtWwjJDaHtL3oqVTXLNvmTiAhp1tiYZL2NyVdY2b1t
-         /7XMdZC2p1AvC3hYDeExKERS8KR8KW0ytqZvD+i/77KsSEslQOA5Qodtxp10YUa7vKXw
-         74PrBqjCXPGXswrV86x+N6/ad0PD6joc4FM0JzqFyz8sXZ3nhg8crLS8q4Wh9FBbZyGE
-         P7yUDVa+avHVJm+LAVZOU4KA/yyf3dcOpd4JCtegWzX/00WlwnJpdtxDauvet4tefne1
-         OGC/ERio5sd7b314pdLyGAjMYQTmwg6NCXj5gLb5v3IOw6l89kmAVY9q4UaNcPe+51tL
-         UxDA==
+        bh=VAxVwGDXz9c3jbuI6t62N/f12hMxNQBq9tuWgvs/F/E=;
+        b=WFOii5rR5/6bxuJeoRyZkzLT9jTb+Gk0i21+kdqOAAxt5QAtBKa3TC7LD5ZDOqec8E
+         8g8GPaAJKhIKyNTeoKQZJwJURE2XfHH0dGJS0SPawXHM9lTOrBoZ6PUWiLC35+Bvp9um
+         bVeGgMg/4Fz7YMfA6xDwvPPRB1JOX6WAUmX+iAtvTDWIdpASDsxHKKejgTWk/zsoHtRW
+         tAe5x0a8gyVhJloCLqgb8mpRXswUDSPbdsDmsAv41qmmRC6e5z7nH1Uh4F6UCEx5ulc9
+         XSfVcq9WRhEWall1teumKk/nufiYBHHOLw1+KBwd7DE1Vf4jwd1f7w2w1mtxL5HU27F2
+         xI/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1725977319; x=1726582119;
+        d=1e100.net; s=20230601; t=1725977688; x=1726582488;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :in-reply-to:content-disposition:references:message-id:subject:cc:to
          :from:date:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=XAxuZGqY9j/wWgmM3Hm3gzLpNyIPcpBUME4nFKdPV/Y=;
-        b=c6U22axhEzUX87ZisHPPHLDhvpGxSLUXuL8mFd5OH+Qv+XStRJsgoheeV8JbRjtX1e
-         VsmRjxLh7SePlKYwBKpGLfWAMO7Ov28H154hKG/PDq5OTJfGC28pD1Ig/LjBBI18R4DE
-         u773qduJKYzZWxEiDL2BrieFjQA8OWXDAFVCuwDIAX+qFyUyqbnsPdzqpzUIoRnHa2Qd
-         Y+mmqvYq/D5d1H1BTdaATA/y0NjKAHhdSssAsaKUBMdQjWUttGvRtAXyLDyqKXu0MWZP
-         ANUbCoNuTXxiAquVpsJOSwTxwr8qHLd57s/9Mw3mUYjAChJ4A9+/1W6qZbfGCMP+ntrP
-         1Fqg==
+        bh=VAxVwGDXz9c3jbuI6t62N/f12hMxNQBq9tuWgvs/F/E=;
+        b=ICPy4QVnnYIzEAR4G/KzevpvfcTQYD48I6unaREGBp75ZfihcW0N0m/HFr4e/ETyiJ
+         gtLaR1nUDcfXyh7myA2IN/vZRDi4w6giSnqnWWsgFSZ4cyq9Ev0Mt+rvxsxXEYuV9/XN
+         EPCHgPPIUlr5v0MBgHG/BXyun0o+5APhXOe4Qv/J23KGLNVtTXOtvQjGpymJF36XnLwB
+         ysDD2NfkhJnuB70WWg4Vb5ntLu93p/Eja+1BrX2DJVRJmiEoHdDhmA2sLMBh43NtkxrK
+         aybOc/pZp7DSTYTyKpSpcKWrWxl2p+DAXQxuq9eRvGtIxwfXvySGJ4y5myqcuhaGxrZ5
+         fDCQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUTatoflp/2ZglGIhy+Z/Rrq3rt2jzRtGULtWqHWtTlb/bDZnAnokJuEl60kpDHzPG2S61l9Q==@lfdr.de
-X-Gm-Message-State: AOJu0YzsVtLGMAqEhtamEalM1xOx4xF9Y6XPYtixYJMvjO6Kj2Rl/1Sf
-	BzdMSIcd3PR77LxNLaqLZk0ntq4+9eGGEpt0RRU8lRd6REaiRdZh
-X-Google-Smtp-Source: AGHT+IHxwi0D7vfQz9TRmdy84l18wAaTdmx7N0NmKUmW00JLDiJfWqs99olpUZvMtJwRTzLbQCt18A==
-X-Received: by 2002:a17:90b:274d:b0:2d8:f0e2:96bc with SMTP id 98e67ed59e1d1-2dad4de1093mr19596624a91.4.1725977318621;
-        Tue, 10 Sep 2024 07:08:38 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXFSaD/XwSaaDK+KkKEVav175I1XWSy8TYnOgFelXNUXbI2rPoIXv/xdNXXKRdFXOqmWCJBiw==@lfdr.de
+X-Gm-Message-State: AOJu0Yx2C8MEa4YXmaDDCfhBU6xvmdDLHB4/Z0VM060Htc/Sq8NpCb+/
+	rrN5T1JWKDTDCnfdGblUHpyWGAYrNqpJq+NTqIw6qYzXXYIZwuGC
+X-Google-Smtp-Source: AGHT+IE7+D51Tdehwl8a32hwsxC0LppMZSEUyGxnZUlB5BqAY1zZFkWxPIbngfcYLyxzka+zGvROXw==
+X-Received: by 2002:a05:6870:eca1:b0:270:172c:32ae with SMTP id 586e51a60fabf-27b82fb6bf0mr16248358fac.32.1725977688518;
+        Tue, 10 Sep 2024 07:14:48 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:4dc7:b0:2d8:7c42:a28d with SMTP id
- 98e67ed59e1d1-2dad284e04cls2498106a91.0.-pod-prod-08-us; Tue, 10 Sep 2024
- 07:08:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCX7Z7kvfPh6KWJUrhog5o/U1TQkIoArqItjJcGBjPocGdzK8CfRxdvwWskaZbvPH1saQImZZeoOG1M=@googlegroups.com
-X-Received: by 2002:a17:90a:4b88:b0:2d8:b26f:694f with SMTP id 98e67ed59e1d1-2dad50106abmr17878203a91.17.1725977317300;
-        Tue, 10 Sep 2024 07:08:37 -0700 (PDT)
-Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.8])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-2dadc0e5772si732679a91.2.2024.09.10.07.08.36
+Received: by 2002:a05:6870:f807:b0:26f:e0d3:95d4 with SMTP id
+ 586e51a60fabf-27b81eeaac9ls6378059fac.0.-pod-prod-05-us; Tue, 10 Sep 2024
+ 07:14:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCViYF11aRWOlswYddSjCItT88PVnqYYtsYJq1UlZX6nVKU7fpBAf8wsGDvZSLZVGO09X8LBP7MadlA=@googlegroups.com
+X-Received: by 2002:a05:6808:2e8d:b0:3e0:47dc:93d9 with SMTP id 5614622812f47-3e047de23dfmr5483020b6e.26.1725977687617;
+        Tue, 10 Sep 2024 07:14:47 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.21])
+        by gmr-mx.google.com with ESMTPS id 5614622812f47-3e0398a2160si308267b6e.0.2024.09.10.07.14.46
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 10 Sep 2024 07:08:37 -0700 (PDT)
-Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 192.198.163.8 as permitted sender) client-ip=192.198.163.8;
-X-CSE-ConnectionGUID: hz4jqxTxRXmN98fQeG1lYQ==
-X-CSE-MsgGUID: l/eDZWjxS3Cth1GwKTVKZg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="42243773"
+        Tue, 10 Sep 2024 07:14:47 -0700 (PDT)
+Received-SPF: pass (google.com: domain of feng.tang@intel.com designates 198.175.65.21 as permitted sender) client-ip=198.175.65.21;
+X-CSE-ConnectionGUID: J7FcVXzlQ4KdadAomifbbQ==
+X-CSE-MsgGUID: S3P6Fq6OSZeRb4WiLN2H6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11191"; a="24665157"
 X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
-   d="scan'208";a="42243773"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 07:08:35 -0700
-X-CSE-ConnectionGUID: dPXQLu6vSGi7y3cLeibpVA==
-X-CSE-MsgGUID: UsZ6fRTRQSycA6Pu8HwYrw==
+   d="scan'208";a="24665157"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2024 07:14:46 -0700
+X-CSE-ConnectionGUID: Fn1dYGxpReCShy9WOr71Gg==
+X-CSE-MsgGUID: pcdLy1F9RWKGJLJS84shgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.10,217,1719903600"; 
-   d="scan'208";a="97741136"
+   d="scan'208";a="67805582"
 Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orviesa002.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Sep 2024 07:08:35 -0700
+  by orviesa008.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 10 Sep 2024 07:14:45 -0700
 Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
  fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 10 Sep 2024 07:08:34 -0700
+ 15.1.2507.39; Tue, 10 Sep 2024 07:14:44 -0700
 Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
  fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Tue, 10 Sep 2024 07:08:34 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
+ 15.1.2507.39 via Frontend Transport; Tue, 10 Sep 2024 07:14:44 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.172)
  by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Tue, 10 Sep 2024 07:08:33 -0700
+ 15.1.2507.39; Tue, 10 Sep 2024 07:14:44 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lrNquwJRAtC3bwwxBJ/rdiQqdgcgeEQKL5XGYAbnnEKCIQPDadPipMlG6xqS4ymlicdVQ0Z/VuH2yepiuRmdTTdMywVQx44+8uRQFE9bFtC7oVZmkbhLDOev/AvDkb3K92EVlvPNZn60z3kH77Q5kidD4zE1E2UUMWHK2kzt977HrdJXtRsJyjpm3sDDs7IdWCBG/x52vEAZsToqnQyYG5OMk6mDetarv9J0gd6NuDiiN1VRx5nIDyHIgz3Mgef1OVdvjpkA4N90lDbz0NPV+p6slkUqv7YMUblIK6FM/Z5CfYtkc/Wr0prxT2NEPqKYKOouJdQ/pspZs46jOXLV4Q==
+ b=d9TckCrKA8HkALTLfO+kK8ml7LtCCotb8fkCgDQ/ZFUQ821AiXstJNMxdf7ii3N4znRhyC4Dlxm0Gbm/BH45StqdLcDbtAyruVCNikBMdfSyFG7zJ4y0h3M2HBDW9uxo9ZDUchXSu8MFT5okuKu2Y1GfqDEcxgIg33sc7R9CSjIuh5CxXHKfKSsqMhF/AGSbUmAwNfUbM3beiwc0D5apMY/PUulLyXujjOOwHNWn9EUZTQjowxh8/CE5vCqgmaUQ194/72RLxm7L4PZq3w2fXwLmSVZSLGEjxbY3zow2j6+AlNuzLOmdDDUCGXPudc/UZi0A/bX4SNtJPFvy3X60Kg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6d/HLBvXIMPhNEWcOY+aBQT0T7u29Hpamtm8wbF5xa8=;
- b=QYVjYj8wyxK/yn0n0BDiq36nlNUHOfGowsUxChVHK5TZKTxjKIV89JgqbqSJx+jv68T/rHIZ+vbOrUV7cAnD7ktwJRSt4RAwTsjf6VgAVf3QqTLce1IXnHdvINpVGfpe+2xPfblcDKUjxqZDk3RMaNKMQy807fRG+wbfkw07KfDf58Nvzy1QcUZVDyRUmPWgEJPAaE4xa9DQTrOvV0nOBxmxU6JI/a7kJdWCKgD/NbGB9lMYIkKE4CK7M4FDdxg6+d+p/axRgN2pQ4HFIoqRfgriMNxSptdzjHe8JMkPmre22wslzZ1REACkkAKi9+pn2LBM2EDc8sIorK9nmXQs/g==
+ bh=PUUuJyYLxcmQ7nBuaz3+uFUy9Y7wbU/sjLUBjcBmdPM=;
+ b=PKwal17cQyswkGl9LPewhQRqjJlAjPEoE/uSymVUQ8b2zefLCpkXsF0Bj2NBnrAYvkNd1FxB8OhwV4qQB1CikwB9sOT8T5ys+GK0HTlw587x6gH73vUDV2No9NaIhdTM0mlz5ljQZjDHdPN+Vp728OpQTKRYsUPwPIy41q/LMCE8/UO/dpKJCIKnUVLqVNQG2KQMOV1faUO/TPerGRj0lvBMl2+KSpnjfEK7P65CQONDQ1doSzCIuBE9Ip9UrQuLZD5u4Hib21gtNlK1pzdSiL8vlmjxeJp8oOEl7bXbEO8e0fX5DaqkNiXz7g+e1OgAaZ2gS2Jq0aWguHvndjITGg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Received: from MN0PR11MB6304.namprd11.prod.outlook.com (2603:10b6:208:3c0::7)
- by SA1PR11MB7129.namprd11.prod.outlook.com (2603:10b6:806:29d::12) with
+ by MN6PR11MB8146.namprd11.prod.outlook.com (2603:10b6:208:470::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.25; Tue, 10 Sep
- 2024 14:08:26 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7939.24; Tue, 10 Sep
+ 2024 14:14:41 +0000
 Received: from MN0PR11MB6304.namprd11.prod.outlook.com
  ([fe80::7f88:f3b1:22ec:f508]) by MN0PR11MB6304.namprd11.prod.outlook.com
  ([fe80::7f88:f3b1:22ec:f508%5]) with mapi id 15.20.7939.017; Tue, 10 Sep 2024
- 14:08:26 +0000
-Date: Tue, 10 Sep 2024 22:08:13 +0800
+ 14:14:41 +0000
+Date: Tue, 10 Sep 2024 22:14:29 +0800
 From: Feng Tang <feng.tang@intel.com>
 To: Vlastimil Babka <vbabka@suse.cz>
 CC: Andrew Morton <akpm@linux-foundation.org>, Christoph Lameter
@@ -111,93 +111,93 @@ CC: Andrew Morton <akpm@linux-foundation.org>, Christoph Lameter
 	<skhan@linuxfoundation.org>, David Gow <davidgow@google.com>, "Danilo
  Krummrich" <dakr@kernel.org>, <linux-mm@kvack.org>,
 	<kasan-dev@googlegroups.com>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 5/5] mm/slub, kunit: Add testcase for krealloc redzone
- and zeroing
-Message-ID: <ZuBSzcMx/K8Dcsyv@feng-clx.sh.intel.com>
+Subject: Re: [PATCH 4/5] kunit: kfence: Make KFENCE_TEST_REQUIRES macro
+ available for all kunit case
+Message-ID: <ZuBURfScdtDbSBeo@feng-clx.sh.intel.com>
 References: <20240909012958.913438-1-feng.tang@intel.com>
- <20240909012958.913438-6-feng.tang@intel.com>
- <a4805d44-9595-429c-86c1-6003b9faa59f@suse.cz>
+ <20240909012958.913438-5-feng.tang@intel.com>
+ <4b7670e1-072a-46e6-bfd7-0937cdc7d329@suse.cz>
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <a4805d44-9595-429c-86c1-6003b9faa59f@suse.cz>
-X-ClientProxiedBy: SG2PR01CA0111.apcprd01.prod.exchangelabs.com
- (2603:1096:4:40::15) To MN0PR11MB6304.namprd11.prod.outlook.com
+In-Reply-To: <4b7670e1-072a-46e6-bfd7-0937cdc7d329@suse.cz>
+X-ClientProxiedBy: SG2PR06CA0228.apcprd06.prod.outlook.com
+ (2603:1096:4:68::36) To MN0PR11MB6304.namprd11.prod.outlook.com
  (2603:10b6:208:3c0::7)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN0PR11MB6304:EE_|SA1PR11MB7129:EE_
-X-MS-Office365-Filtering-Correlation-Id: ca5ae8e9-0fea-400f-2b6a-08dcd1a209cb
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6304:EE_|MN6PR11MB8146:EE_
+X-MS-Office365-Filtering-Correlation-Id: eab63e3d-589d-4d87-6eb7-08dcd1a2e9a3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?2d5ixSMb/Fha6R2YOPNd+hfAzqbaOrakuyiXsSAT/u6HqTt4RYjxfo4dFyaJ?=
- =?us-ascii?Q?XBKEJorplJFkNCc8xrzzNxgLCZvb3JKKPa650oa2/kIPGLDEG57FWQ/gefbB?=
- =?us-ascii?Q?aZNTUoXm+sG7P2tFFGEQFHI2nRPJXaCn7RaKAvwhfbq8hcqIpvha2/L79Vfj?=
- =?us-ascii?Q?1F43+Ye+0hyWslDphZRpGV77wYOc8N7mSL8DzpEgZtO96ayN5tz8t7RhT8qZ?=
- =?us-ascii?Q?XdCXNUtHsghrd7gwfO8ZvrE0QWttwX9aOt4nIFzbohOJGvaDsw8/x0sgqHwD?=
- =?us-ascii?Q?xcXyLzKObHpwEodQL8EMjKkbnW3winx8I2DvZQY2TdwRDC+qj7IA4cjuXK5O?=
- =?us-ascii?Q?t8bDPsMoipizi0YeGGnjSeNmYw1D+xeqoTxSf/qbYG5WrPmYTkQiArs0V44i?=
- =?us-ascii?Q?VFxtTemWx8iMy88EGKlBPICH7cyCwLulGOTJXaJI8/V8TDYQyDvoYUpQxrCt?=
- =?us-ascii?Q?7Dnu3nMaWv6VzMtOJG6/cIxICGTjs/4tJG2TQE3LI4eTFm2a1WudvNxpLBQj?=
- =?us-ascii?Q?WnQrfMuHQ/DxQrZyiHkQmu5YpOlor9OUGc8sya/aFuIolYrou5v1WTA4J1qW?=
- =?us-ascii?Q?1waKgd2l2CF4udQRejX82/pR+5rq4UxatzsJVTh+MjuAlAHtu9S9f2JqIJSe?=
- =?us-ascii?Q?YxFfF550JV6m0CtfdUaDPx+ocOXvgEbnCrY1xgMP3F55dzOYdXTl3bLPmC1B?=
- =?us-ascii?Q?Pn8S3BUcnDjRoJmGeNDrAF14P8cFOQ86Q5ybJEXNFg2ifj6Q1aqN650o9EDp?=
- =?us-ascii?Q?iXwviB3nY17laNpro1yhinW3rZ15RZk5LcpGirGnZAa/8znY66kY23c53SDE?=
- =?us-ascii?Q?MYbJbVCuyetzJfhWqG9Nw/BojML3h12PRqsxvOm/7bq/YjCsFkvV+LEYqK0B?=
- =?us-ascii?Q?zm9MGqmIuK6v5pzA0blqDq1IX6g1f5fRHBZQdjJcLnRZrwXDVA6bddG1eEXX?=
- =?us-ascii?Q?elvdiCHy2xWedzPqQQYXNYh3IJ2xioOTsAgcU6pXfrSQPWN/fO/MV9Z/3zX6?=
- =?us-ascii?Q?LYfI3mOEQNh3KXdd3bCVl6xx1Ty+Yg5GpUe2qGEZPFz5YdfBCIG3UQwgYB/l?=
- =?us-ascii?Q?DFQuRY/+YGTcTJwse3WAFaR3/eqbquyIM7qlEsO+Rtrn82BCSPKw6tzmmeeT?=
- =?us-ascii?Q?6ubFn1pRtEfNJxPhCtlo6V+2IiQ3Vusjx2tzG7WGwBy02IrS8p5MHmiQ3suX?=
- =?us-ascii?Q?gAJwSArQbdlkUmgvy7/WR8FXdTFb3Hfv9XgRY58HZtZNtv0wQQNaOSAQZibf?=
- =?us-ascii?Q?kkxZxux5YtfCIhSLWKAKfiCLMF4RGRUMEcnX0OSWyEcVaaFr8V8KuC/uEreZ?=
- =?us-ascii?Q?c8s7jYH7Fm+asExqyLf//GUELypEgncgOk0q6Hp8I7c9Vw=3D=3D?=
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?EMSLLnUZ425zid4JCzwYww68bBGBOeNBHcVaST+NMxWc4vGZ0Op/u+FgzRB7?=
+ =?us-ascii?Q?QvT4InqdSGqnqRBPtY9QBJsMtrLuR1ROVoqtDUV32R/n0nGWTyhKizb0xeIL?=
+ =?us-ascii?Q?A4U6SBXymAUFOey4smlmdivU2Ro2iEFCz7X5ydZ1b7p0xw2h+rcz75aAZdqk?=
+ =?us-ascii?Q?dvc9ud1XyY3ZGDBGpWPHqYQ1WstbPxNgfgCZFCYui1Vzrcs9Iyo6l7/Wjtpm?=
+ =?us-ascii?Q?ggoigzDGTW4lUEYdcpyf3uGWs/uethhku8aLUURSCoryaZvIEULNn5XfHov6?=
+ =?us-ascii?Q?8SSK/LyNEpatimlM41wZl9vOYvSj8RlCDGhWjdNxg9ax/NEd9y1YBBpHrzi7?=
+ =?us-ascii?Q?1dx9OcKrMxAVz4td6P2tXkD+rTXU30aXoO6HZBj5qhmWxxOMjiZuSpl33i4z?=
+ =?us-ascii?Q?LMkE6sOLU4dDLpE9zvq75KvuuDjwe/ujs0+5G/yhh4RfolfMkLea73a+QfQa?=
+ =?us-ascii?Q?yUNPDAqlKY4VZ1Vdn1UWaHtaJT3SnGwU75A2TuQrEtnAcTpdO8CPhAFMEqNo?=
+ =?us-ascii?Q?y2ny8ffI5zSHA/nd4F6O94/nbcKyC6s6RjyZ72cMJBM1gQajrKmVTvpBm29y?=
+ =?us-ascii?Q?/06wLzISgFUubVfCdzRVqZt0MU3y1gJ8Woa2/1nZR05rEljiJ0FrR0xrlBQA?=
+ =?us-ascii?Q?RA1HviF/pQRobZmm4zY9kxOAZpBogpnJQvNGOy1FqI56NnyD38WZtW98/StV?=
+ =?us-ascii?Q?EYQPNdOnK+2hhQMWclpmm8obPsvRjEIsQ/keFIp4bH/SNKsqqoR2HPgz4Cwm?=
+ =?us-ascii?Q?wUsS8dnZvJN5NfaTGREAHbPTN3iHZWziZxDTGXZnkeeFJddXKOYdYQXf3bo4?=
+ =?us-ascii?Q?pV6sDxinqpTEmQ+oFoYwJyDPkdNyvSVFqX6CNcu8E5ZSZHlrMnTXFR67Veih?=
+ =?us-ascii?Q?oU2XHtc4tnsyh8gwcbXPssJ3KEeoYc5GR9NKAz7zRVW5W4AUGXzkFS7kde2J?=
+ =?us-ascii?Q?nuX6iVTyQBxGfLZXhRb18niRkxAQc5xNqK3H4xJMt8cTTOcdkXKPMJnKe5JF?=
+ =?us-ascii?Q?zxQrkKIjZJAYIJ0JcsAvYkdH+1hu4Mw5MQ2p1xJ5o5yXTyRCMWiEdj2VL6sx?=
+ =?us-ascii?Q?LMehq7+BFSz8h4Cd4qV5w6ZuNpQlPdMzKrsFg3VXyN6d+gGTPMREmAIe0mLt?=
+ =?us-ascii?Q?rB445ZHaqWDmh7LN2NFt7q4S1u1l9O4PjN+Bdz7SjhLvJNYOxqhicSY6m4KG?=
+ =?us-ascii?Q?AduiiZvUUM/4gV4rLBoIEeNYwlwKfIqcARJ0TT6EPysLlKLybPtNUs9tUGsf?=
+ =?us-ascii?Q?ycsZn5pNhOwzzz+jnx1XyHsto1+Bk6O+YfDvtd7e/rTgh3B4e88CTW6Xm048?=
+ =?us-ascii?Q?pHjfs+2mIWVZ+uipVufWJzit1wKY9mZ6BYLI3Tc+tZ28Qw=3D=3D?=
 X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6304.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1Y9IxX7s9KEpQFAXs1/S+C17OsdbGNdPCT2qCyGv7rkVdoHyE9vjnCkXj2O7?=
- =?us-ascii?Q?7q3Mo00B46ZX2tnjApNryL83NDZhMDThFPgf7V2+3ZBu4Aj1aiX2If7vO7ww?=
- =?us-ascii?Q?OPk6WYpOvKE5EgD+/lvI6BqiDgZ0Ite0pBgJ7cfiUR0dkyEmXr8lfwL8KwcH?=
- =?us-ascii?Q?DKysgOfOw4R2B1fRE1SRLEX/6nYAvM7qOsi60rx/ZdWtMaQ/jZOeHyfUIVpa?=
- =?us-ascii?Q?GTAKJ6AH+9TetbXqZDO0chkjpn//XsZ4eZCelPP4iEDl6vRCn7Aphqo01Kwo?=
- =?us-ascii?Q?ZjV+QsomPLekG7A4d5uXd712CIJoXHNuYhFRWoSFObjistvIaxjw0pWzfpBT?=
- =?us-ascii?Q?RlKkjj7oJ3ReeGersAHHNijUuw+UvcenxlKXFS4vytG0okI/XSdgKbcxGOAr?=
- =?us-ascii?Q?/Jmt3vLSs9jRf1pEMBm0jaslq5fOTQdAUtgb8YTpEyiiIuSjB9tqmXDXAuto?=
- =?us-ascii?Q?QeyuXCN5viw6xUtL/fxlLYBC3/hMO9Hd3fCchX2cQWvOpI/fGI38JCx0tRTP?=
- =?us-ascii?Q?UpFggXHbGW8IKomI5HDuzBsnjptJqs6hKtt5p8xwq9x04CE4Pioo9oOE2NMJ?=
- =?us-ascii?Q?eW0advJbAEODnw9P7qyjAEM1Xf4hmOpBOKG99N8hRPrUbya15UmSqOXzh+Ot?=
- =?us-ascii?Q?quy/zyCG88QROwO31MYi2DouV77yL55qJySXkxFuyS3EwVbWepgBeX35CI0B?=
- =?us-ascii?Q?gJL8nKoGijR/UBmAEg2L/jOy8tRXeXTkPtx5G2MPqtU06e/9V+S/Ca+BV8G6?=
- =?us-ascii?Q?mu1BcYw1TXiUQT6WkzQOw4kU+/Ni3fGKVHaE+0HCywDQB0wxeieuhh9SreXB?=
- =?us-ascii?Q?X+QaBDrP0pT+V1Eu/rwfxjgRW5BXpuevjPp7A8Suz53kSKy3cFYPHcMXteBk?=
- =?us-ascii?Q?N7P56OBzh5tWY+cKM29a+hp8IDeDXDpjNE16Nm95brhhaxZpqoYm2aUtStcB?=
- =?us-ascii?Q?ef8MU9k7se5tt06dgLvxXSscUFz6GYcKfOjG7TBjn/GTKCXJazV6n+O9LPQv?=
- =?us-ascii?Q?hLnHMh9dMi9JGtZpFdaYBsPvdTHoYFaF99upupSG6rN8TmSMyPAJfATm3iRZ?=
- =?us-ascii?Q?uXx4LAJw45r9veo/43Rhr5NZgeAXJSBF4H+UFKAfzMOoPVGdYQgHnCNXW71P?=
- =?us-ascii?Q?B2/2njAyPLEgeHgVTjZawiEzQkMIv3YwO1HZH+tRVL/tgYcqCNg4+N7cVdXk?=
- =?us-ascii?Q?Xun/YXciyt20DTxGpxlNSgf0tBtApf2EvMTsUUHc+HBzZ6xVelAKcLYfr6h1?=
- =?us-ascii?Q?U0n4VzMWyJr17ogakB6N2Qx3IwdyS8NypAXteB8NKPsDhZcvWDxr1PI5udnm?=
- =?us-ascii?Q?6DOoEbf0+e/eIHaSPLG891syTzCuLxef7Vhgxa1QLPScRC+Dn+tB3zfD9jk+?=
- =?us-ascii?Q?9I4Sq5/w3U5WjjqAQJPY9Ho7AFn3J4Im0EWCleozcM0FdPnxp6DbbqERqZzi?=
- =?us-ascii?Q?Ex1SZj8eBm+YW7NgUlm7ME6Wz431JfbmhSy+DAwDkQIEF3nKYpmG4+ILMFk1?=
- =?us-ascii?Q?cl7AI0HdzLWLtV07uNdYa4LFl1S7SLJcNjobc5Xz19G20ra3va25ronmPdMi?=
- =?us-ascii?Q?aNgayMnuWr+qe1XIHYhDZZZcpNEBLZC5epky/VKj?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca5ae8e9-0fea-400f-2b6a-08dcd1a209cb
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lqsuNYSJvQKjGp00kaAcoRpyuNCH/avug+eot0OTOFvwSYvGaSoU/YmL6b9T?=
+ =?us-ascii?Q?QMiD6gNLAo7teR9tgas0pR8cH6eEf/itO60fj4vwSt2hx+K2DgaWSzUu5i3T?=
+ =?us-ascii?Q?jsjgOO7ZCTgsiYdMEItUBGE+lcowLylMr8L44fem9QGrHE94FWGZGtf01ppF?=
+ =?us-ascii?Q?QueuPd6bRFF+7pzV5/i8RNHIhgVkNa3GlInOdbceBnH2Ug8ouIAvfAYTjmZO?=
+ =?us-ascii?Q?VeB09ns6qJSaCO357x/TxnLc3pexR3goAxUwsV7jJ01yban/kYHq3DxqHYZa?=
+ =?us-ascii?Q?HFtBvUCaohkH7SwBeXyG7X6TP7qnrc5DLLFeruaH5mP9mWtFOKDY0X5R/InB?=
+ =?us-ascii?Q?7Qwc2rb1Mi1VMgJAAWDWHQhLMtUY9mshVvPXQKgdqg2f/tvP4DeQ50nKG/Ft?=
+ =?us-ascii?Q?c0+QpQSTVsr2SvJg/JzHqLb7ymZYGrIfbA/yiuQVwsGKMgzdWbgW9SJNMlQT?=
+ =?us-ascii?Q?ch5Ej82+XhC+BIRObcArS7ttNNscy2s26D3bNMd98WUtRS+iPu1PGkxzR8vr?=
+ =?us-ascii?Q?F/u/7AyuL+TrTqaAyhGxrlcL0fuk2S/jvATlgtIk+a8hOvtvlYUbieDG+EaM?=
+ =?us-ascii?Q?ZFIhK94sTVrzPaRUWreaPgqolrkFwXaML8NdPh6BAkeb7T8v0PrpvYHfUdst?=
+ =?us-ascii?Q?9lagwedchJUoueyb4E330zDF84N9vMJosPv41WmTttfKGExuUZBpL6Rh61YT?=
+ =?us-ascii?Q?YOOQqioHlFf5jDCF6RT+g0zDa+XB5BMrVcSKqz9kxX5FahulgLzH8WpUxaRm?=
+ =?us-ascii?Q?NJ8Ry7afv72fs27W74KvEiYh8w7tEtRgBvai7sh+3qW411ekvswJ0g5onAr+?=
+ =?us-ascii?Q?43vKkwyLg/iDPc9a9Ro7gv/r2ig7AhIxzt45oyEcKr3yg0fjEBsGPnlF0iA8?=
+ =?us-ascii?Q?nz8UPsqzWunc3yFwx2TI6g605VnJv3WxB5zBUjG7xIlIFrJYicEC/UyLzDbp?=
+ =?us-ascii?Q?8/hztbs/a3P+tPFo2pLfteureV1Q88mISU1dyGbJkdHj1rxmkuOvb9GtZUr9?=
+ =?us-ascii?Q?W9tM6RQL4INxVuXEuHMc4I6+k3g1dhXkxF5cyv6kMCYnZb5wF8BNRlPd+u9U?=
+ =?us-ascii?Q?f2mXoeEzun+R1XjKJ8GpvVhGWA7XbtzEs7N3bR7KhTU8/9r03eSkVdP2emX4?=
+ =?us-ascii?Q?ajJENRzIhpYnf97o2iaguwuetKOCoE7sX70XQdwS3tNHNd9vLyFwEozG105h?=
+ =?us-ascii?Q?2A/ZRT8CmdrGvD0Z127+v0X2HCLb0yrIp2XuW3sB3I9G6pG+iKcKlwKl8Oqx?=
+ =?us-ascii?Q?G8KXQfpwYjru/RPd1vrRaFZA0o/0f4959OzsX3H76GWjYMdLNJ4BEDt3p/Xp?=
+ =?us-ascii?Q?QFFLIwPd1jsO2dnKZSVPMtOzoKPXEsupDfXxtnbgK2u2tJpAvdZvyhWcCtgn?=
+ =?us-ascii?Q?+aeTdhjVL4s+cGSh5tgTxuz7nzjVOmlX3E4JAxTBKQgTTUcAq44bQKM2iZZd?=
+ =?us-ascii?Q?Eb/43vfi+xagKF+wpH6D5ar/+qj4o7z8bpqwFMxpAZmeuvDbmdHtDIO9oq0Z?=
+ =?us-ascii?Q?w8ANDag4jJzuCzmSODk3LPSz7zT9f634FVHnS9yGcaEoXOWu9Xt/FVcPKUk4?=
+ =?us-ascii?Q?y/spyzlto4O/baChiGUMvf1iFoods8hqWgE8IKB7?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: eab63e3d-589d-4d87-6eb7-08dcd1a2e9a3
 X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6304.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2024 14:08:26.1104
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2024 14:14:41.5323
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0xZ35DOUlXZCoge96gxFNIOM7Ne2dHb7XbYV7a9oZvjv0aYqCcaRNjhuGp2PtAOvbCFqbJrpJoXlmGF4RGPs9Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB7129
+X-MS-Exchange-CrossTenant-UserPrincipalName: Qf7DYT/r3nFTJU54YXQXw+EGoicqijPZYIm/CoO5nENZ7iV7DgTL9jxMhmdwsO5EdpCNCPZXrJhRq7TMgqMkEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8146
 X-OriginatorOrg: intel.com
 X-Original-Sender: feng.tang@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=jb6piHga;       arc=fail
+ header.i=@intel.com header.s=Intel header.b=LFRlXRKh;       arc=fail
  (signature failed);       spf=pass (google.com: domain of feng.tang@intel.com
- designates 192.198.163.8 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
+ designates 198.175.65.21 as permitted sender) smtp.mailfrom=feng.tang@intel.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -211,122 +211,83 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Sep 10, 2024 at 03:29:21PM +0200, Vlastimil Babka wrote:
+On Tue, Sep 10, 2024 at 03:17:10PM +0200, Vlastimil Babka wrote:
 > On 9/9/24 03:29, Feng Tang wrote:
-> > Danilo Krummrich raised issue about krealloc+GFP_ZERO [1], and Vlastimil
-> > suggested to add some test case which can sanity test the kmalloc-redzone
-> > and zeroing by utilizing the kmalloc's 'orig_size' debug feature.
+> > KFENCE_TEST_REQUIRES macro is convenient for judging if a prerequisite of a
+> > test case exists. Lift it into kunit/test.h so that all kunit test cases
+> > can benefit from it.
 > > 
-> > It covers the grow and shrink case of krealloc() re-using current kmalloc
-> > object, and the case of re-allocating a new bigger object.
-> > 
-> > User can add "slub_debug" kernel cmdline parameter to test it.
-> > 
-> > [1]. https://lore.kernel.org/lkml/20240812223707.32049-1-dakr@kernel.org/
-> > 
-> > Suggested-by: Vlastimil Babka <vbabka@suse.cz>
 > > Signed-off-by: Feng Tang <feng.tang@intel.com>
+> 
+> I think you should have Cc'd kunit and kfence maintainers on this one.
+> But if that's necessary depends on the review for patch 5...
+
+I added Marco Elver, Shuah Khan, David Gow and kasan-dev@googlegroups.com 
+for kence and kunit review. That should be incomplete, will add more in
+next verion. Thanks for the reminder!
+
+- Feng
+
+> 
 > > ---
-> >  lib/slub_kunit.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 46 insertions(+)
+> >  include/kunit/test.h    | 6 ++++++
+> >  mm/kfence/kfence_test.c | 9 ++-------
+> >  2 files changed, 8 insertions(+), 7 deletions(-)
 > > 
-> > diff --git a/lib/slub_kunit.c b/lib/slub_kunit.c
-> > index 6e3a1e5a7142..03e0089149ad 100644
-> > --- a/lib/slub_kunit.c
-> > +++ b/lib/slub_kunit.c
-> > @@ -186,6 +186,51 @@ static void test_leak_destroy(struct kunit *test)
-> >  	KUNIT_EXPECT_EQ(test, 1, slab_errors);
-> >  }
+> > diff --git a/include/kunit/test.h b/include/kunit/test.h
+> > index 5ac237c949a0..8a8027e10b89 100644
+> > --- a/include/kunit/test.h
+> > +++ b/include/kunit/test.h
+> > @@ -643,6 +643,12 @@ void __printf(2, 3) kunit_log_append(struct string_stream *log, const char *fmt,
+> >  	WRITE_ONCE(test->last_seen.line, __LINE__);			       \
+> >  } while (0)
 > >  
-> > +static void test_krealloc_redzone_zeroing(struct kunit *test)
-> > +{
-> > +	char *p;
-> > +	int i;
+> > +#define KUNIT_TEST_REQUIRES(test, cond) do {			\
+> > +	if (!(cond))						\
+> > +		kunit_skip((test), "Test requires: " #cond);	\
+> > +} while (0)
 > > +
-> > +	KUNIT_TEST_REQUIRES(test, __slub_debug_enabled());
-> 
-> AFAICS this is insufficient, because the static key may be enabled due to
-> debugging enabled for different caches than kmalloc, or it might not include
-> both red zone and object tracking.
-
-You are right, that concerned me too. In first version, I make it depend
-on CONFIG_SLUB_DEBUG_ON==y, but most user' and distribution's kernel
-won't enable it, and user have to rebuild kernel to test. So I changed
-to this check finally.
-
-If there is a way to judge whether 'slub_debug' is enabled, that would
-solve this issue.
-
-> 
-> But it should be possible to instead create a fake kmalloc cache of size 64
-> and use __kmalloc_cache_noprof() like test_kmalloc_redzone_access()?
-
-Yep, I thought about that, and the problem was the krealloc a new 128B
-object.
-
 > > +
-> > +	/* Allocate a 64B kmalloc object */
-> > +	p = kzalloc(48, GFP_KERNEL);
-> > +	if (unlikely(is_kfence_address(p))) {
-> > +		kfree(p);
-> > +		return;
-> > +	}
-> > +	memset(p, 0xff, 48);
-> > +
-> > +	kasan_disable_current();
-> > +	OPTIMIZER_HIDE_VAR(p);
-> > +
-> > +	/* Test shrink */
-> > +	p = krealloc(p, 40, GFP_KERNEL | __GFP_ZERO);
-> > +	for (i = 40; i < 64; i++)
-> > +		KUNIT_EXPECT_EQ(test, p[i], SLUB_RED_ACTIVE);
-> > +
-> > +	/* Test grow within the same 64B kmalloc object */
-> > +	p = krealloc(p, 56, GFP_KERNEL | __GFP_ZERO);
-> > +	for (i = 40; i < 56; i++)
-> > +		KUNIT_EXPECT_EQ(test, p[i], 0);
-> > +	for (i = 56; i < 64; i++)
-> > +		KUNIT_EXPECT_EQ(test, p[i], SLUB_RED_ACTIVE);
-> > +
-> > +	/* Test grow with allocating a bigger 128B object */
-> > +	p = krealloc(p, 112, GFP_KERNEL | __GFP_ZERO);
+> >  /**
+> >   * KUNIT_SUCCEED() - A no-op expectation. Only exists for code clarity.
+> >   * @test: The test context object.
+> > diff --git a/mm/kfence/kfence_test.c b/mm/kfence/kfence_test.c
+> > index 00fd17285285..5dbb22c8c44f 100644
+> > --- a/mm/kfence/kfence_test.c
+> > +++ b/mm/kfence/kfence_test.c
+> > @@ -32,11 +32,6 @@
+> >  #define arch_kfence_test_address(addr) (addr)
+> >  #endif
+> >  
+> > -#define KFENCE_TEST_REQUIRES(test, cond) do {			\
+> > -	if (!(cond))						\
+> > -		kunit_skip((test), "Test requires: " #cond);	\
+> > -} while (0)
+> > -
+> >  /* Report as observed from console. */
+> >  static struct {
+> >  	spinlock_t lock;
+> > @@ -561,7 +556,7 @@ static void test_init_on_free(struct kunit *test)
+> >  	};
+> >  	int i;
+> >  
+> > -	KFENCE_TEST_REQUIRES(test, IS_ENABLED(CONFIG_INIT_ON_FREE_DEFAULT_ON));
+> > +	KUNIT_TEST_REQUIRES(test, IS_ENABLED(CONFIG_INIT_ON_FREE_DEFAULT_ON));
+> >  	/* Assume it hasn't been disabled on command line. */
+> >  
+> >  	setup_test_cache(test, size, 0, NULL);
+> > @@ -609,7 +604,7 @@ static void test_gfpzero(struct kunit *test)
+> >  	int i;
+> >  
+> >  	/* Skip if we think it'd take too long. */
+> > -	KFENCE_TEST_REQUIRES(test, kfence_sample_interval <= 100);
+> > +	KUNIT_TEST_REQUIRES(test, kfence_sample_interval <= 100);
+> >  
+> >  	setup_test_cache(test, size, 0, NULL);
+> >  	buf1 = test_alloc(test, size, GFP_KERNEL, ALLOCATE_ANY);
 > 
-> The only downside is that krealloc() here might use kmalloc-128 cache that's
-> not doing red zoning and object tracking....
-
-Yes.
-
-> > +	if (unlikely(is_kfence_address(p)))
-> > +		goto exit;
-> > +
-> > +	for (i = 56; i < 112; i++)
-> > +		KUNIT_EXPECT_EQ(test, p[i], 0);
-> 
-> ... but this test is still valid and necessary
-> 
-> > +	for (i = 112; i < 128; i++)
-> > +		KUNIT_EXPECT_EQ(test, p[i], SLUB_RED_ACTIVE);
-> 
-> ... we might skip this test as the red zoning is not done by __do_krealloc()
-> anyway in the alloc_new case.
-> 
-> > +
-> > +exit:
-> > +	kfree(p);
-> 
-> Ideally we'd also validate the fake kmalloc cache we created and expect zero
-> slab_errors.
-> 
-> Hopefully this approach works and I'm not missing something...
-
-Yep, this should work. As redzone was tested in earlier check, and
-not necessary to be checked again here. Will do some test on this.
-
-Thanks,
-Feng
-
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZuBSzcMx/K8Dcsyv%40feng-clx.sh.intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZuBURfScdtDbSBeo%40feng-clx.sh.intel.com.
