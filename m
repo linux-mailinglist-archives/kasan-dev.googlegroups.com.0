@@ -1,113 +1,112 @@
-Return-Path: <kasan-dev+bncBDGZVRMH6UCRBGXXR63QMGQEZSIDFTI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGZVRMH6UCRBIPXR63QMGQEB5C4MZI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3c.google.com (mail-qv1-xf3c.google.com [IPv6:2607:f8b0:4864:20::f3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547BF977B72
-	for <lists+kasan-dev@lfdr.de>; Fri, 13 Sep 2024 10:45:16 +0200 (CEST)
-Received: by mail-qv1-xf3c.google.com with SMTP id 6a1803df08f44-6c360967e53sf11197746d6.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 13 Sep 2024 01:45:16 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1726217115; cv=pass;
+Received: from mail-yw1-x1137.google.com (mail-yw1-x1137.google.com [IPv6:2607:f8b0:4864:20::1137])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CD5D977B74
+	for <lists+kasan-dev@lfdr.de>; Fri, 13 Sep 2024 10:45:23 +0200 (CEST)
+Received: by mail-yw1-x1137.google.com with SMTP id 00721157ae682-6db7a8c6910sf14571807b3.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 13 Sep 2024 01:45:23 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1726217122; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Pp7ojlPY0FKqdKbLfFCeopyF0Qm2dQrNQ4lOXfuZNClx39NTcbBhUPh6N8Z+xB253g
-         S2WKZmjNqB01F8GDjSQvYJVIBoHZI2aFuIX2b1i67IFI/klXXpa3+lLaUpLFrOm9CP9t
-         HcDDmm+/6NT0QtkAaFbIvRGXs0HAWSYwWFtzL8UOuPXZnDt72bIj9/PhnEC7OeU9tjpb
-         OIdg/BbliqFN+K3vwX824hEqkWHGaTBK7nzmkhd3dHPNvDZc0eQs1JsDw4d5ch19FxfF
-         ++Rs+1fKugkr6Bf43YK6HHRaKB1TEmh/GKrXYnJEsEmdHtUL7Hnslzm8JigmgCwKoksm
-         KXGQ==
+        b=jLByGy8Hw7bsKmumjsvOpV3SRyAaJo/xsPuXdfsjzaTDhjFqXwGxyYEyMlvGc6708Z
+         SKAKK77lBbtWesjSrCEwPYyVgxk3cqDtbLrbcaAewe0iQcsFhxLfBEozHQYllBd6rT+A
+         W5MuCRVYF7Gutzh7COTXyKYMRgOXo702Ey/nEpH8cTiG2mkvhqBt4C7gGaV01wGmC4sG
+         pBX1t2NWUwPUZVPkYJMDH6OGNgp/ZTD7ejHegHVAoX1mmtSdkmhXwU69rmK2Ox7j67DU
+         9Cx/WxQnsbnHT60VD89RokbwpzAtz0ebA2Pb2e5R15M/1PuJkj/1XyYSQF5E+f8V2svJ
+         W8pg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
-         :from:sender:dkim-signature;
-        bh=YAZShqP5Q249vTp3UCZXcdq/fDWjgrLnmjTweM0yh8w=;
-        fh=ospgR83s49iVTvdeaohimgsQ0Wc344IFZwiF22lpdhY=;
-        b=P332pRwlcFpXgnaEOzjMvNWxPri6HooE84ZkIFf1nkPvF3GFnJgV3+CRsvpJnl6Kwa
-         zFABR1Qq1DJX8RLS7UeIiF4jJsStQdf8SAXZtPObuTNYGybvFf49ldWJ8G5Fimf0ocwR
-         6bFzbZ7IReiGvFBozEZPjtpUjb/Usoyq2jbsXAe9LBRLbGTa0EtYd0K2Js+rs6edZeC+
-         lLK+xTnskG5SxxdeR34jU/VQoq86WWa+K2kd0HDfBV0ys7sT/8qzypwsA9PWI9wGZMu1
-         YOYvZmf/8eZfTKTs5rDEJ10jbKdtLU69ESEivAmQqwmlYpu+v4IGvRkfhEs+fIZRoLhm
-         ByMQ==;
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=kT3f+VwGP9mtNbvYmsVHlNEzG3Y7magbBh0oOsebEPk=;
+        fh=RuUv03H9C39OVmoSpFq1EVc7fFQQU4FQWG7XO53vXrw=;
+        b=kdC5QsQdMmz7m4JJo/If9kWa5TbrVdKtnENSPNRQsoK6WrorEYkYu5xFFpsDFYh5kM
+         mKnBY4lUCiVkMevx4Eu8K39qvCyOwmAcmsc311xdzqcgFshKZJMWERUf8Lvg+i5fyxPX
+         al0+3k1qOJPXsIZbKtAK8Vyt9TjHw7yWkBASCMt85338uYvnGfv0mMGA/EO+wonCNNiB
+         ikPGVU2YcD/YrlLkE6guL/sEwjSF0GolWiMoTBTg/InteC42S+BC+pJNeRZxvL8hIbAT
+         +hfzWdmjfZvEEClQVKG5X/SghZFDHfa32pCICPyqtph8BcudMMqz9yYIg14e1Hye4rsw
+         dzYQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1726217115; x=1726821915; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1726217122; x=1726821922; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YAZShqP5Q249vTp3UCZXcdq/fDWjgrLnmjTweM0yh8w=;
-        b=Z+sXjD6Bs+FZoHEixyqk5VDc4KqJbqBJJbv1XuEFRN26gheXjzmJTbWRu3/07IsN6Q
-         +mtVemYpuEvoMWzewwYvxWyxLbrzQAFoGbgcdGoPUcdsjizAVo+s/fs0exUMiNhOHRCA
-         Xj0bOkFCRt1gX9FKI77sWteE6bPsKbQOcYP211wZ3epcwvH+2HpwcqpW7hbqZUKXGeXY
-         RJNOrhghR4et98hQ9L3Ri1LKWe0EhsqYgCQ0Ty9edeJ9XSUQgIzJXV3kzwU+fkvy/L5x
-         Lbc2/MCM+jvZCyt1Hx4x0dcofznwvGqhsBq/F1KDikHIDDK2W8oHHp4AlFrfUihaIyX+
-         MR1Q==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=kT3f+VwGP9mtNbvYmsVHlNEzG3Y7magbBh0oOsebEPk=;
+        b=XM/jyi2UBWfBFQ1jYVDVVMuqYVSx/3bnzeCfxG9wGS2eTnr22unhrN/GapkAjN6W7w
+         6w+JJjxSi9kI/d2UtEoYEvU4TZjoT6hiIQhL0/HrSWT+hsUHmNwuBw8DnLwGXRzTP0Qn
+         rKNEUvSF1hJjSy5+pjPCrn4dOVX7M11ApRN9fJbyBufQJ/73VdfL+VA/vkvr8wUztz6J
+         4v892EhuHb7WCH13gSuXtOTiTOD2KeGHgkd5RnqbSra2endnxvvIxqlONPpk9fvqWuFc
+         vRCjTmF/gd6P3XAOwmKL2NNIw8Rh9yfSSQZ0KN6p80lYkcXjm2S8Ml7rCGDCnPK8k+4V
+         WOWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726217115; x=1726821915;
+        d=1e100.net; s=20230601; t=1726217122; x=1726821922;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=YAZShqP5Q249vTp3UCZXcdq/fDWjgrLnmjTweM0yh8w=;
-        b=q485Ce5rgmHQIdeJ6lSUOsEWDCK22S8mZmjyQvURJY4mFxBH7CTFIH5RfO3Qv5Szqb
-         FU2tg8XyAfAmbGIK34AY6kyqRzuKnltIbi++VQUlfB1xE0CVAVRmOX2yEOPu/koaD09Y
-         l1GRqH5zTkq4Sx6TVWYXbineSxZ0dlgnCvAn2DHV8RfMfsSHNjDo4ZCxlmese15aVyYl
-         +riFi3R7HxKXTsphiFxFgRKKQEROf1+BRiNRXS5mhQOXfDKwXts+oDa6ukGnDAYJTKjc
-         MpKAxRpbGHQTMX9udMavQfx2m1h9hwML4qXFYjMzNjsYkD3jjqbBSvoe/OS0S9sKenIh
-         nYww==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kT3f+VwGP9mtNbvYmsVHlNEzG3Y7magbBh0oOsebEPk=;
+        b=smRIMxzOQ7T8m0MtkYkEABsbUeyZmaWexLCaVnCKiB6FJG5Ibjv0tc8v0mM6/FgSLC
+         GLKSWfiPSiyuEs1Lxh3aWcpWvy2jutbk6pTZmcztVLjWsWlmAqFXnnJSr6WglnF/uU90
+         sKNyZdGGaE5yCElSu3m/vyrDnwWeXFi3k9EkfcHuHlRZyA/xDY8F+UUIq28PliahnGEq
+         9Xzo1fXRpipJnFykuFqo0HNip5ug9fDoU2A2fGAAZOVEExZXxiWTmuSEtaj+CBgTsMeF
+         KVLeGcEfew13oHrCmhCf66B9D/LaClDVqP9Vy+IHanUOeIeOkvTlmx52aGxN7ClZcGc/
+         vx1w==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCV/qS5J4mIRb6L1ydR8NZXKXaZ1aIVH7pwCk/pHpv1dJCernN5cKNe07CKIuRO9tOLiRx588Q==@lfdr.de
-X-Gm-Message-State: AOJu0Yz94OKSCBrsDw+xlcPPkJediwkhOQ7nBhFLUN8fIEzIeQ/trRLC
-	XXK9ie7iRseySmxfCmqbSUTXZOkCrm164fCGGjUd/KHMOCHKlAP7
-X-Google-Smtp-Source: AGHT+IGhOysfZjVN/q7wN67yR36jiV7xP4hvterkURCZ0HPUbjt9zqZPRKg07Ov2TVp1OjjeVGnwww==
-X-Received: by 2002:a05:6214:4605:b0:6c5:3177:eaed with SMTP id 6a1803df08f44-6c57e102dcbmr27576886d6.36.1726217115010;
-        Fri, 13 Sep 2024 01:45:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWBpvhZ7tPFKjF8BnJ5QdgIDDbr5lT0AZS1dlQMQIwhHyU9++NBt+umQ+We1xIfAQqyDvXqJw==@lfdr.de
+X-Gm-Message-State: AOJu0YwZx2/VOz3v1+eEu5lpZNJt69BbumnVJvZX7ZaHfbf0WVRAFwPv
+	kALq7c1yn0hX8Yq81ybqoyq7r6kRuCq/Vbihv9+prmfHlZAe6Ymg
+X-Google-Smtp-Source: AGHT+IF6sQOu9uMnmZIcfjq7Sa1jgQ70TpJ9b9GJHVS84HrKUsk3T1LfQbxVlUD+SZD4fvsUPLDIjg==
+X-Received: by 2002:a05:6902:2b91:b0:e16:5177:7598 with SMTP id 3f1490d57ef6-e1db00c67dbmr1544509276.16.1726217122156;
+        Fri, 13 Sep 2024 01:45:22 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:407:b0:6c5:19d1:7aa8 with SMTP id
- 6a1803df08f44-6c573507319ls28931776d6.2.-pod-prod-06-us; Fri, 13 Sep 2024
- 01:45:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCX287ZBUCjIg1ifS+IX4ZperIVWEhUcxKZbCwiUFBQqjYS3gzyMIVmZwmWJ3l27BXGzcfhvl5K9rhw=@googlegroups.com
-X-Received: by 2002:a05:6102:3709:b0:49c:92d:1041 with SMTP id ada2fe7eead31-49d4f60c8d7mr1586460137.14.1726217113980;
-        Fri, 13 Sep 2024 01:45:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1726217113; cv=none;
+Received: by 2002:a05:6902:120c:b0:e1c:6c1:816f with SMTP id
+ 3f1490d57ef6-e1d9d58e285ls2435223276.1.-pod-prod-05-us; Fri, 13 Sep 2024
+ 01:45:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUpOQPeMD/seZN4IQIKjdOYcw0+U40/0MwoD5EcdErPEo1F8zIkIBdjdK/a+1lyurPcVimwgdyPQRk=@googlegroups.com
+X-Received: by 2002:a05:690c:7241:b0:6b0:e93b:7179 with SMTP id 00721157ae682-6dbcc4a8dd2mr19283617b3.26.1726217121200;
+        Fri, 13 Sep 2024 01:45:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1726217121; cv=none;
         d=google.com; s=arc-20240605;
-        b=V0V9AeSq8CEzauesjzrHC+ymHEagSGynNE69FdvmKjhQoNf0c7PYJlQEIjdWXe3qiy
-         VZj7mQGf3wV7TNfhgjBhOybTJWFexu4LRnYZ+yyLZSSvu4ISCxW1sOcDGD9kQk4VbmPU
-         Ssq9H2+a0F4wM1Jdb/Dt6EMgENVCYl95Bv6LixdPo5dKD6HGjPYSVRMqTnH8gbVMcEci
-         Fa1cl5apZD8jgq0NmGKly7GnnIvAF4piPDu/20TWIrwSTlSCpFAhAEfRDu1edjwzAhiu
-         2chdYBXRiCyFsGBq6xGfreiQZpHpMIWbCHlgfXlmlFChI3ODnNFf8ZNmpgFS5VwdryO2
-         UsUQ==
+        b=VGwlPCkzXMKluE9DWVCvnzCP2EW+DDkXOc6UIZPI7aZEy5Dpgo/rktfQwxvfnLEOXG
+         UCpI0KDKoyzNrYKtbZzsRAaFOQFQyvo7gbTO/lN2PHjEFW7tEdLCpsR2jm5wULokK9Kq
+         gYirTVZi0lMfYER3lQA4asTfIWIt9o6O7v6hw7ImMRUPSuai0haDIb6XvGqncjlXYBUN
+         vb4LG2Oc7mUOiC8oFF4LrMccy5d05NJqCKywyaHZ3je6TlXIwbpE/6YfEroh40MNH2VG
+         sIE3LOzl5I9OBpqHmpFuNuYexpig0Zhz5S056NS6Yyp3u+r274qfxs3fL8GyUIHmEUG1
+         Xb3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=DfoPueKoSMiPINFrFEnLdwElCrFNUUFiXm5c72uAasM=;
-        fh=zPRZeEmJP4LlGVEGfR3f/0Od4eO8rC08qZYXsq0IL6Y=;
-        b=GwXviNpfHSjzXxFgpFkivU3vB9O+YbrS0REvGSlXpqDU4bDWajddzXv3Se2GhnfcOU
-         fu5wJ7/6BUEo3zXVITAJDAcOWo+Z/1n+Ca+xkAZDKKhA5n5G00gfyqav062mb10Rtgsz
-         tp1LmwTJaRvZxCStzEwR9Hwd6S7SOCVNifewN9JAwjYhpe5BF5cKhN9kR5TvW9i6iWdM
-         /OoymfeGZyY/CTDf1O7XvykqqYmvkb9qWJjv2N1mb4j4aXkrl3+Z0c4AuiUnKQBLUFtI
-         pYncUbgjO7/CDyzxG9Pa8Namu4i4Rga/PckjBBOGi03TqkgalV1Pyw7tTDO+ibOuRS3W
-         XGRA==;
+        bh=hH23dTPA4wuJnAjCDsjpwn8/Ctui8fk7cKB3IoWP1xw=;
+        fh=L0I0rQF349wute9+dmvK5DBpQz+l6pxvsbf+WAdbOHs=;
+        b=En4la919pn4DSOgpT8+94O/i+cQr0eT1OYYGMD8miwSYf4hRb3s9mVXhpMTgGUdHWA
+         jgdeLKCiiBeUuTjHd+eybLzRzStqG5GQkt6Nu78959U2OnImNOGu/zUBxicr5T2Qp89w
+         ucVPeOSxSjTsLaGYfbhHKoSoX+W3AphSlZ3EYa0etxpROwx8Hy+iw7tdMQgPAZEg551c
+         P9PJdydA1Bgv+qI/DnHa/pm0Ceo7ZWokE2hDKvU1rwkNVTAiClAbrNaPOVx2l7z8b4iq
+         mgv/DPkwlcgrktHUmROy94B1K4Qqr+9A2VGp6dZolcw6yPbmOZuh6zjQNzzwH9I1r2jp
+         E1sg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id a1e0cc1a2514c-84906e8bb5fsi174094241.2.2024.09.13.01.45.13
+        by gmr-mx.google.com with ESMTP id 00721157ae682-6db965107e2si2565517b3.3.2024.09.13.01.45.21
         for <kasan-dev@googlegroups.com>;
-        Fri, 13 Sep 2024 01:45:13 -0700 (PDT)
+        Fri, 13 Sep 2024 01:45:21 -0700 (PDT)
 Received-SPF: pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E3EAA15BF;
-	Fri, 13 Sep 2024 01:45:42 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CAA98153B;
+	Fri, 13 Sep 2024 01:45:49 -0700 (PDT)
 Received: from a077893.blr.arm.com (a077893.blr.arm.com [10.162.16.84])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2AD203F73B;
-	Fri, 13 Sep 2024 01:45:06 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 11A813F73B;
+	Fri, 13 Sep 2024 01:45:13 -0700 (PDT)
 From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: linux-mm@kvack.org
 Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
@@ -123,29 +122,28 @@ Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
 	linux-kernel@vger.kernel.org,
 	linux-perf-users@vger.kernel.org,
 	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
 	Muchun Song <muchun.song@linux.dev>,
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
 	Miaohe Lin <linmiaohe@huawei.com>,
-	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>
-Subject: [PATCH 5/7] mm: Use pudp_get() for accessing PUD entries
-Date: Fri, 13 Sep 2024 14:14:31 +0530
-Message-Id: <20240913084433.1016256-6-anshuman.khandual@arm.com>
+	Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@linux.com>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Christoph Hellwig <hch@infradead.org>
+Subject: [PATCH 6/7] mm: Use p4dp_get() for accessing P4D entries
+Date: Fri, 13 Sep 2024 14:14:32 +0530
+Message-Id: <20240913084433.1016256-7-anshuman.khandual@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240913084433.1016256-1-anshuman.khandual@arm.com>
 References: <20240913084433.1016256-1-anshuman.khandual@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: anshuman.khandual@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
  (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172
  as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -158,549 +156,537 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Convert PUD accesses via pudp_get() helper that defaults as READ_ONCE() but
+Convert P4D accesses via p4dp_get() helper that defaults as READ_ONCE() but
 also provides the platform an opportunity to override when required.
 
 Cc: Dimitri Sivanich <dimitri.sivanich@hpe.com>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Arnaldo Carvalho de Melo <acme@kernel.org>
-Cc: "J=C3=A9r=C3=B4me Glisse" <jglisse@redhat.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>
 Cc: Muchun Song <muchun.song@linux.dev>
 Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
 Cc: Miaohe Lin <linmiaohe@huawei.com>
-Cc: Naoya Horiguchi <nao.horiguchi@gmail.com>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Dennis Zhou <dennis@kernel.org>
+Cc: Tejun Heo <tj@kernel.org>
+cc: Christoph Lameter <cl@linux.com>
+Cc: Uladzislau Rezki <urezki@gmail.com>
+Cc: Christoph Hellwig <hch@infradead.org>
 Cc: linux-kernel@vger.kernel.org
-Cc: linux-mm@kvack.org
+Cc: linux-fsdevel@vger.kernel.org
 Cc: linux-perf-users@vger.kernel.org
+Cc: linux-mm@kvack.org
 Cc: kasan-dev@googlegroups.com
 Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
  drivers/misc/sgi-gru/grufault.c |  2 +-
- include/linux/huge_mm.h         |  2 +-
- include/linux/mm.h              |  2 +-
- include/linux/pgtable.h         | 10 +++++-----
+ fs/userfaultfd.c                |  4 ++--
+ include/linux/pgtable.h         |  6 +++---
  kernel/events/core.c            |  2 +-
- mm/gup.c                        | 12 ++++++------
- mm/hmm.c                        |  2 +-
- mm/huge_memory.c                | 16 ++++++++--------
- mm/hugetlb.c                    |  6 +++---
+ mm/gup.c                        |  6 +++---
+ mm/hugetlb.c                    |  2 +-
  mm/kasan/init.c                 | 10 +++++-----
- mm/kasan/shadow.c               |  4 ++--
- mm/mapping_dirty_helpers.c      |  2 +-
- mm/memory-failure.c             |  4 ++--
- mm/memory.c                     | 10 +++++-----
- mm/page_table_check.c           |  2 +-
+ mm/kasan/shadow.c               |  2 +-
+ mm/memory-failure.c             |  2 +-
+ mm/memory.c                     | 14 +++++++-------
  mm/page_vma_mapped.c            |  2 +-
+ mm/pagewalk.c                   |  6 +++---
+ mm/percpu.c                     |  4 ++--
  mm/pgalloc-track.h              |  2 +-
- mm/pgtable-generic.c            |  2 +-
- mm/ptdump.c                     |  4 ++--
- 19 files changed, 48 insertions(+), 48 deletions(-)
+ mm/pgtable-generic.c            |  4 ++--
+ mm/ptdump.c                     |  2 +-
+ mm/rmap.c                       |  4 ++--
+ mm/sparse-vmemmap.c             |  4 ++--
+ mm/vmalloc.c                    | 24 ++++++++++++------------
+ mm/vmscan.c                     |  6 +++---
+ 20 files changed, 54 insertions(+), 54 deletions(-)
 
-diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufaul=
-t.c
-index f3d6249b7dfb..0a06ec92f090 100644
+diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufault.c
+index 0a06ec92f090..cdca93398b44 100644
 --- a/drivers/misc/sgi-gru/grufault.c
 +++ b/drivers/misc/sgi-gru/grufault.c
-@@ -220,7 +220,7 @@ static int atomic_pte_lookup(struct vm_area_struct *vma=
-, unsigned long vaddr,
+@@ -216,7 +216,7 @@ static int atomic_pte_lookup(struct vm_area_struct *vma, unsigned long vaddr,
  		goto err;
-=20
- 	pudp =3D pud_offset(p4dp, vaddr);
--	if (unlikely(pud_none(*pudp)))
-+	if (unlikely(pud_none(pudp_get(pudp))))
+ 
+ 	p4dp = p4d_offset(pgdp, vaddr);
+-	if (unlikely(p4d_none(*p4dp)))
++	if (unlikely(p4d_none(p4dp_get(p4dp))))
  		goto err;
-=20
- 	pmdp =3D pmd_offset(pudp, vaddr);
-diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-index 351d6c72af9e..17ee222e4004 100644
---- a/include/linux/huge_mm.h
-+++ b/include/linux/huge_mm.h
-@@ -378,7 +378,7 @@ static inline spinlock_t *pmd_trans_huge_lock(pmd_t *pm=
-d,
- static inline spinlock_t *pud_trans_huge_lock(pud_t *pud,
- 		struct vm_area_struct *vma)
- {
--	if (pud_trans_huge(*pud) || pud_devmap(*pud))
-+	if (pud_trans_huge(pudp_get(pud)) || pud_devmap(pudp_get(pud)))
- 		return __pud_trans_huge_lock(pud, vma);
- 	else
- 		return NULL;
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 258e49323306..1bb1599b5779 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -2832,7 +2832,7 @@ static inline pud_t *pud_alloc(struct mm_struct *mm, =
-p4d_t *p4d,
-=20
- static inline pmd_t *pmd_alloc(struct mm_struct *mm, pud_t *pud, unsigned =
-long address)
- {
--	return (unlikely(pud_none(*pud)) && __pmd_alloc(mm, pud, address))?
-+	return (unlikely(pud_none(pudp_get(pud))) && __pmd_alloc(mm, pud, address=
-)) ?
- 		NULL: pmd_offset(pud, address);
- }
- #endif /* CONFIG_MMU */
+ 
+ 	pudp = pud_offset(p4dp, vaddr);
+diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+index 27a3e9285fbf..4044e15cdfd9 100644
+--- a/fs/userfaultfd.c
++++ b/fs/userfaultfd.c
+@@ -307,10 +307,10 @@ static inline bool userfaultfd_must_wait(struct userfaultfd_ctx *ctx,
+ 	if (!pgd_present(*pgd))
+ 		goto out;
+ 	p4d = p4d_offset(pgd, address);
+-	if (!p4d_present(*p4d))
++	if (!p4d_present(p4dp_get(p4d)))
+ 		goto out;
+ 	pud = pud_offset(p4d, address);
+-	if (!pud_present(*pud))
++	if (!pud_present(pudp_get(pud)))
+ 		goto out;
+ 	pmd = pmd_offset(pud, address);
+ again:
 diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index 188a183205b3..b25a0a505ce6 100644
+index b25a0a505ce6..b3e40f06c8c4 100644
 --- a/include/linux/pgtable.h
 +++ b/include/linux/pgtable.h
-@@ -611,7 +611,7 @@ static inline pud_t pudp_huge_get_and_clear(struct mm_s=
-truct *mm,
- 					    unsigned long address,
- 					    pud_t *pudp)
- {
--	pud_t pud =3D *pudp;
-+	pud_t pud =3D pudp_get(pudp);
-=20
- 	pud_clear(pudp);
- 	page_table_check_pud_clear(mm, pud);
-@@ -893,7 +893,7 @@ static inline void pmdp_set_wrprotect(struct mm_struct =
-*mm,
- static inline void pudp_set_wrprotect(struct mm_struct *mm,
- 				      unsigned long address, pud_t *pudp)
- {
--	pud_t old_pud =3D *pudp;
-+	pud_t old_pud =3D pudp_get(pudp);
-=20
- 	set_pud_at(mm, address, pudp, pud_wrprotect(old_pud));
- }
-@@ -1072,7 +1072,7 @@ static inline int pgd_same(pgd_t pgd_a, pgd_t pgd_b)
-=20
- #define set_pud_safe(pudp, pud) \
+@@ -1078,7 +1078,7 @@ static inline int pgd_same(pgd_t pgd_a, pgd_t pgd_b)
+ 
+ #define set_p4d_safe(p4dp, p4d) \
  ({ \
--	WARN_ON_ONCE(pud_present(*pudp) && !pud_same(*pudp, pud)); \
-+	WARN_ON_ONCE(pud_present(pudp_get(pudp)) && !pud_same(pudp_get(pudp), pud=
-)); \
- 	set_pud(pudp, pud); \
+-	WARN_ON_ONCE(p4d_present(*p4dp) && !p4d_same(*p4dp, p4d)); \
++	WARN_ON_ONCE(p4d_present(p4dp_get(p4dp)) && !p4d_same(p4dp_get(p4dp), p4d)); \
+ 	set_p4d(p4dp, p4d); \
  })
-=20
-@@ -1259,9 +1259,9 @@ static inline int p4d_none_or_clear_bad(p4d_t *p4d)
-=20
- static inline int pud_none_or_clear_bad(pud_t *pud)
+ 
+@@ -1248,9 +1248,9 @@ static inline int pgd_none_or_clear_bad(pgd_t *pgd)
+ 
+ static inline int p4d_none_or_clear_bad(p4d_t *p4d)
  {
--	if (pud_none(*pud))
-+	if (pud_none(pudp_get(pud)))
+-	if (p4d_none(*p4d))
++	if (p4d_none(p4dp_get(p4d)))
  		return 1;
--	if (unlikely(pud_bad(*pud))) {
-+	if (unlikely(pud_bad(pudp_get(pud)))) {
- 		pud_clear_bad(pud);
+-	if (unlikely(p4d_bad(*p4d))) {
++	if (unlikely(p4d_bad(p4dp_get(p4d)))) {
+ 		p4d_clear_bad(p4d);
  		return 1;
  	}
 diff --git a/kernel/events/core.c b/kernel/events/core.c
-index 8a6c6bbcd658..35e2f2789246 100644
+index 35e2f2789246..4e56a276ed25 100644
 --- a/kernel/events/core.c
 +++ b/kernel/events/core.c
-@@ -7619,7 +7619,7 @@ static u64 perf_get_pgtable_size(struct mm_struct *mm=
-, unsigned long addr)
- 		return p4d_leaf_size(p4d);
-=20
- 	pudp =3D pud_offset_lockless(p4dp, p4d, addr);
--	pud =3D READ_ONCE(*pudp);
-+	pud =3D pudp_get(pudp);
- 	if (!pud_present(pud))
+@@ -7611,7 +7611,7 @@ static u64 perf_get_pgtable_size(struct mm_struct *mm, unsigned long addr)
+ 		return pgd_leaf_size(pgd);
+ 
+ 	p4dp = p4d_offset_lockless(pgdp, pgd, addr);
+-	p4d = READ_ONCE(*p4dp);
++	p4d = p4dp_get(p4dp);
+ 	if (!p4d_present(p4d))
  		return 0;
-=20
+ 
 diff --git a/mm/gup.c b/mm/gup.c
-index aeeac0a54944..300fc7eb306c 100644
+index 300fc7eb306c..3a97d0263052 100644
 --- a/mm/gup.c
 +++ b/mm/gup.c
-@@ -606,7 +606,7 @@ static struct page *follow_huge_pud(struct vm_area_stru=
-ct *vma,
- {
- 	struct mm_struct *mm =3D vma->vm_mm;
- 	struct page *page;
--	pud_t pud =3D *pudp;
-+	pud_t pud =3D pudp_get(pudp);
- 	unsigned long pfn =3D pud_pfn(pud);
- 	int ret;
-=20
-@@ -989,7 +989,7 @@ static struct page *follow_pud_mask(struct vm_area_stru=
-ct *vma,
- 	struct mm_struct *mm =3D vma->vm_mm;
-=20
- 	pudp =3D pud_offset(p4dp, address);
--	pud =3D READ_ONCE(*pudp);
-+	pud =3D pudp_get(pudp);
- 	if (!pud_present(pud))
- 		return no_page_table(vma, flags, address);
- 	if (pud_leaf(pud)) {
-@@ -1117,7 +1117,7 @@ static int get_gate_page(struct mm_struct *mm, unsign=
-ed long address,
- 	if (p4d_none(*p4d))
+@@ -1014,7 +1014,7 @@ static struct page *follow_p4d_mask(struct vm_area_struct *vma,
+ 	p4d_t *p4dp, p4d;
+ 
+ 	p4dp = p4d_offset(pgdp, address);
+-	p4d = READ_ONCE(*p4dp);
++	p4d = p4dp_get(p4dp);
+ 	BUILD_BUG_ON(p4d_leaf(p4d));
+ 
+ 	if (!p4d_present(p4d) || p4d_bad(p4d))
+@@ -1114,7 +1114,7 @@ static int get_gate_page(struct mm_struct *mm, unsigned long address,
+ 	if (pgd_none(*pgd))
  		return -EFAULT;
- 	pud =3D pud_offset(p4d, address);
--	if (pud_none(*pud))
-+	if (pud_none(pudp_get(pud)))
+ 	p4d = p4d_offset(pgd, address);
+-	if (p4d_none(*p4d))
++	if (p4d_none(p4dp_get(p4d)))
  		return -EFAULT;
- 	pmd =3D pmd_offset(pud, address);
- 	if (!pmd_present(pmdp_get(pmd)))
-@@ -3025,7 +3025,7 @@ static int gup_fast_devmap_pud_leaf(pud_t orig, pud_t=
- *pudp, unsigned long addr,
- 	if (!gup_fast_devmap_leaf(fault_pfn, addr, end, flags, pages, nr))
- 		return 0;
-=20
--	if (unlikely(pud_val(orig) !=3D pud_val(*pudp))) {
-+	if (unlikely(pud_val(orig) !=3D pud_val(pudp_get(pudp)))) {
- 		gup_fast_undo_dev_pagemap(nr, nr_start, flags, pages);
- 		return 0;
- 	}
-@@ -3118,7 +3118,7 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp,=
- unsigned long addr,
- 	if (!folio)
- 		return 0;
-=20
--	if (unlikely(pud_val(orig) !=3D pud_val(*pudp))) {
-+	if (unlikely(pud_val(orig) !=3D pud_val(pudp_get(pudp)))) {
- 		gup_put_folio(folio, refs, flags);
- 		return 0;
- 	}
-@@ -3219,7 +3219,7 @@ static int gup_fast_pud_range(p4d_t *p4dp, p4d_t p4d,=
- unsigned long addr,
-=20
- 	pudp =3D pud_offset_lockless(p4dp, p4d, addr);
+ 	pud = pud_offset(p4d, address);
+ 	if (pud_none(pudp_get(pud)))
+@@ -3245,7 +3245,7 @@ static int gup_fast_p4d_range(pgd_t *pgdp, pgd_t pgd, unsigned long addr,
+ 
+ 	p4dp = p4d_offset_lockless(pgdp, pgd, addr);
  	do {
--		pud_t pud =3D READ_ONCE(*pudp);
-+		pud_t pud =3D pudp_get(pudp);
-=20
- 		next =3D pud_addr_end(addr, end);
- 		if (unlikely(!pud_present(pud)))
-diff --git a/mm/hmm.c b/mm/hmm.c
-index 7e0229ae4a5a..c1b093d670b8 100644
---- a/mm/hmm.c
-+++ b/mm/hmm.c
-@@ -423,7 +423,7 @@ static int hmm_vma_walk_pud(pud_t *pudp, unsigned long =
-start, unsigned long end,
- 	/* Normally we don't want to split the huge page */
- 	walk->action =3D ACTION_CONTINUE;
-=20
--	pud =3D READ_ONCE(*pudp);
-+	pud =3D pudp_get(pudp);
- 	if (!pud_present(pud)) {
- 		spin_unlock(ptl);
- 		return hmm_vma_walk_hole(start, end, -1, walk);
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 3545142a5dc9..994babaca75f 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -1247,13 +1247,13 @@ static void insert_pfn_pud(struct vm_area_struct *v=
-ma, unsigned long addr,
- 	spinlock_t *ptl;
-=20
- 	ptl =3D pud_lock(mm, pud);
--	if (!pud_none(*pud)) {
-+	if (!pud_none(pudp_get(pud))) {
- 		if (write) {
--			if (pud_pfn(*pud) !=3D pfn_t_to_pfn(pfn)) {
--				WARN_ON_ONCE(!is_huge_zero_pud(*pud));
-+			if (pud_pfn(pudp_get(pud)) !=3D pfn_t_to_pfn(pfn)) {
-+				WARN_ON_ONCE(!is_huge_zero_pud(pudp_get(pud)));
- 				goto out_unlock;
- 			}
--			entry =3D pud_mkyoung(*pud);
-+			entry =3D pud_mkyoung(pudp_get(pud));
- 			entry =3D maybe_pud_mkwrite(pud_mkdirty(entry), vma);
- 			if (pudp_set_access_flags(vma, addr, pud, entry, 1))
- 				update_mmu_cache_pud(vma, addr, pud);
-@@ -1475,7 +1475,7 @@ void touch_pud(struct vm_area_struct *vma, unsigned l=
-ong addr,
- {
- 	pud_t _pud;
-=20
--	_pud =3D pud_mkyoung(*pud);
-+	_pud =3D pud_mkyoung(pudp_get(pud));
- 	if (write)
- 		_pud =3D pud_mkdirty(_pud);
- 	if (pudp_set_access_flags(vma, addr & HPAGE_PUD_MASK,
-@@ -2284,7 +2284,7 @@ spinlock_t *__pud_trans_huge_lock(pud_t *pud, struct =
-vm_area_struct *vma)
- 	spinlock_t *ptl;
-=20
- 	ptl =3D pud_lock(vma->vm_mm, pud);
--	if (likely(pud_trans_huge(*pud) || pud_devmap(*pud)))
-+	if (likely(pud_trans_huge(pudp_get(pud)) || pud_devmap(pudp_get(pud))))
- 		return ptl;
- 	spin_unlock(ptl);
- 	return NULL;
-@@ -2318,7 +2318,7 @@ static void __split_huge_pud_locked(struct vm_area_st=
-ruct *vma, pud_t *pud,
- 	VM_BUG_ON(haddr & ~HPAGE_PUD_MASK);
- 	VM_BUG_ON_VMA(vma->vm_start > haddr, vma);
- 	VM_BUG_ON_VMA(vma->vm_end < haddr + HPAGE_PUD_SIZE, vma);
--	VM_BUG_ON(!pud_trans_huge(*pud) && !pud_devmap(*pud));
-+	VM_BUG_ON(!pud_trans_huge(pudp_get(pud)) && !pud_devmap(pudp_get(pud)));
-=20
- 	count_vm_event(THP_SPLIT_PUD);
-=20
-@@ -2336,7 +2336,7 @@ void __split_huge_pud(struct vm_area_struct *vma, pud=
-_t *pud,
- 				(address & HPAGE_PUD_MASK) + HPAGE_PUD_SIZE);
- 	mmu_notifier_invalidate_range_start(&range);
- 	ptl =3D pud_lock(vma->vm_mm, pud);
--	if (unlikely(!pud_trans_huge(*pud) && !pud_devmap(*pud)))
-+	if (unlikely(!pud_trans_huge(pudp_get(pud)) && !pud_devmap(pudp_get(pud))=
-))
- 		goto out;
- 	__split_huge_pud_locked(vma, pud, range.start);
-=20
+-		p4d_t p4d = READ_ONCE(*p4dp);
++		p4d_t p4d = p4dp_get(p4dp);
+ 
+ 		next = p4d_addr_end(addr, end);
+ 		if (!p4d_present(p4d))
 diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index aaf508be0a2b..a3820242b01e 100644
+index a3820242b01e..4fdb91c8cc2b 100644
 --- a/mm/hugetlb.c
 +++ b/mm/hugetlb.c
-@@ -7328,7 +7328,7 @@ pte_t *huge_pmd_share(struct mm_struct *mm, struct vm=
-_area_struct *vma,
- 		goto out;
-=20
- 	spin_lock(&mm->page_table_lock);
--	if (pud_none(*pud)) {
-+	if (pud_none(pudp_get(pud))) {
- 		pud_populate(mm, pud,
- 				(pmd_t *)((unsigned long)spte & PAGE_MASK));
- 		mm_inc_nr_pmds(mm);
-@@ -7417,7 +7417,7 @@ pte_t *huge_pte_alloc(struct mm_struct *mm, struct vm=
-_area_struct *vma,
- 			pte =3D (pte_t *)pud;
- 		} else {
- 			BUG_ON(sz !=3D PMD_SIZE);
--			if (want_pmd_share(vma, addr) && pud_none(*pud))
-+			if (want_pmd_share(vma, addr) && pud_none(pudp_get(pud)))
- 				pte =3D huge_pmd_share(mm, vma, addr, pud);
- 			else
- 				pte =3D (pte_t *)pmd_alloc(mm, pud, addr);
-@@ -7461,7 +7461,7 @@ pte_t *huge_pte_offset(struct mm_struct *mm,
- 	if (sz =3D=3D PUD_SIZE)
- 		/* must be pud huge, non-present or none */
- 		return (pte_t *)pud;
--	if (!pud_present(*pud))
-+	if (!pud_present(pudp_get(pud)))
+@@ -7454,7 +7454,7 @@ pte_t *huge_pte_offset(struct mm_struct *mm,
+ 	if (!pgd_present(*pgd))
  		return NULL;
- 	/* must have a valid entry and size to go further */
-=20
+ 	p4d = p4d_offset(pgd, addr);
+-	if (!p4d_present(*p4d))
++	if (!p4d_present(p4dp_get(p4d)))
+ 		return NULL;
+ 
+ 	pud = pud_offset(p4d, addr);
 diff --git a/mm/kasan/init.c b/mm/kasan/init.c
-index 4418bcdcb2aa..f4cf519443e1 100644
+index f4cf519443e1..02af738fee5e 100644
 --- a/mm/kasan/init.c
 +++ b/mm/kasan/init.c
-@@ -162,7 +162,7 @@ static int __ref zero_pud_populate(p4d_t *p4d, unsigned=
- long addr,
+@@ -208,7 +208,7 @@ static int __ref zero_p4d_populate(pgd_t *pgd, unsigned long addr,
  			continue;
  		}
-=20
--		if (pud_none(*pud)) {
-+		if (pud_none(pudp_get(pud))) {
- 			pmd_t *p;
-=20
+ 
+-		if (p4d_none(*p4d)) {
++		if (p4d_none(p4dp_get(p4d))) {
+ 			pud_t *p;
+ 
  			if (slab_is_available()) {
-@@ -315,7 +315,7 @@ static void kasan_free_pmd(pmd_t *pmd_start, pud_t *pud=
-)
+@@ -330,7 +330,7 @@ static void kasan_free_pud(pud_t *pud_start, p4d_t *p4d)
  			return;
  	}
-=20
--	pmd_free(&init_mm, (pmd_t *)page_to_virt(pud_page(*pud)));
-+	pmd_free(&init_mm, (pmd_t *)page_to_virt(pud_page(pudp_get(pud))));
- 	pud_clear(pud);
+ 
+-	pud_free(&init_mm, (pud_t *)page_to_virt(p4d_page(*p4d)));
++	pud_free(&init_mm, (pud_t *)page_to_virt(p4d_page(p4dp_get(p4d))));
+ 	p4d_clear(p4d);
  }
-=20
-@@ -326,7 +326,7 @@ static void kasan_free_pud(pud_t *pud_start, p4d_t *p4d=
-)
-=20
- 	for (i =3D 0; i < PTRS_PER_PUD; i++) {
- 		pud =3D pud_start + i;
--		if (!pud_none(*pud))
-+		if (!pud_none(pudp_get(pud)))
+ 
+@@ -341,7 +341,7 @@ static void kasan_free_p4d(p4d_t *p4d_start, pgd_t *pgd)
+ 
+ 	for (i = 0; i < PTRS_PER_P4D; i++) {
+ 		p4d = p4d_start + i;
+-		if (!p4d_none(*p4d))
++		if (!p4d_none(p4dp_get(p4d)))
  			return;
  	}
-=20
-@@ -407,10 +407,10 @@ static void kasan_remove_pud_table(pud_t *pud, unsign=
-ed long addr,
-=20
- 		next =3D pud_addr_end(addr, end);
-=20
--		if (!pud_present(*pud))
-+		if (!pud_present(pudp_get(pud)))
+ 
+@@ -434,10 +434,10 @@ static void kasan_remove_p4d_table(p4d_t *p4d, unsigned long addr,
+ 
+ 		next = p4d_addr_end(addr, end);
+ 
+-		if (!p4d_present(*p4d))
++		if (!p4d_present(p4dp_get(p4d)))
  			continue;
-=20
--		if (kasan_pmd_table(*pud)) {
-+		if (kasan_pmd_table(pudp_get(pud))) {
- 			if (IS_ALIGNED(addr, PUD_SIZE) &&
- 			    IS_ALIGNED(next, PUD_SIZE)) {
- 				pud_clear(pud);
+ 
+-		if (kasan_pud_table(*p4d)) {
++		if (kasan_pud_table(p4dp_get(p4d))) {
+ 			if (IS_ALIGNED(addr, P4D_SIZE) &&
+ 			    IS_ALIGNED(next, P4D_SIZE)) {
+ 				p4d_clear(p4d);
 diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-index aec16a7236f7..dbd8164c75f1 100644
+index dbd8164c75f1..52150cc5ae5f 100644
 --- a/mm/kasan/shadow.c
 +++ b/mm/kasan/shadow.c
-@@ -197,9 +197,9 @@ static bool shadow_mapped(unsigned long addr)
- 	if (p4d_none(*p4d))
+@@ -194,7 +194,7 @@ static bool shadow_mapped(unsigned long addr)
+ 	if (pgd_none(*pgd))
  		return false;
- 	pud =3D pud_offset(p4d, addr);
--	if (pud_none(*pud))
-+	if (pud_none(pudp_get(pud)))
+ 	p4d = p4d_offset(pgd, addr);
+-	if (p4d_none(*p4d))
++	if (p4d_none(p4dp_get(p4d)))
  		return false;
--	if (pud_leaf(*pud))
-+	if (pud_leaf(pudp_get(pud)))
- 		return true;
- 	pmd =3D pmd_offset(pud, addr);
- 	if (pmd_none(pmdp_get(pmd)))
-diff --git a/mm/mapping_dirty_helpers.c b/mm/mapping_dirty_helpers.c
-index 2f8829b3541a..c556cc4e3480 100644
---- a/mm/mapping_dirty_helpers.c
-+++ b/mm/mapping_dirty_helpers.c
-@@ -149,7 +149,7 @@ static int wp_clean_pud_entry(pud_t *pud, unsigned long=
- addr, unsigned long end,
- 			      struct mm_walk *walk)
- {
- #ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
--	pud_t pudval =3D READ_ONCE(*pud);
-+	pud_t pudval =3D pudp_get(pud);
-=20
- 	/* Do not split a huge pud */
- 	if (pud_trans_huge(pudval) || pud_devmap(pudval)) {
+ 	pud = pud_offset(p4d, addr);
+ 	if (pud_none(pudp_get(pud)))
 diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index 305dbef3cc4d..fbb63401fb51 100644
+index fbb63401fb51..3d900cc039b3 100644
 --- a/mm/memory-failure.c
 +++ b/mm/memory-failure.c
-@@ -417,9 +417,9 @@ static unsigned long dev_pagemap_mapping_shift(struct v=
-m_area_struct *vma,
- 	if (!p4d_present(*p4d))
+@@ -414,7 +414,7 @@ static unsigned long dev_pagemap_mapping_shift(struct vm_area_struct *vma,
+ 	if (!pgd_present(*pgd))
  		return 0;
- 	pud =3D pud_offset(p4d, address);
--	if (!pud_present(*pud))
-+	if (!pud_present(pudp_get(pud)))
+ 	p4d = p4d_offset(pgd, address);
+-	if (!p4d_present(*p4d))
++	if (!p4d_present(p4dp_get(p4d)))
  		return 0;
--	if (pud_devmap(*pud))
-+	if (pud_devmap(pudp_get(pud)))
- 		return PUD_SHIFT;
- 	pmd =3D pmd_offset(pud, address);
- 	if (!pmd_present(pmdp_get(pmd)))
+ 	pud = pud_offset(p4d, address);
+ 	if (!pud_present(pudp_get(pud)))
 diff --git a/mm/memory.c b/mm/memory.c
-index 43953a6d350f..af6c9346493c 100644
+index af6c9346493c..7e6bb051d187 100644
 --- a/mm/memory.c
 +++ b/mm/memory.c
-@@ -1753,7 +1753,7 @@ static inline unsigned long zap_pud_range(struct mmu_=
-gather *tlb,
- 	pud =3D pud_offset(p4d, addr);
- 	do {
- 		next =3D pud_addr_end(addr, end);
--		if (pud_trans_huge(*pud) || pud_devmap(*pud)) {
-+		if (pud_trans_huge(pudp_get(pud)) || pud_devmap(pudp_get(pud))) {
- 			if (next - addr !=3D HPAGE_PUD_SIZE) {
- 				mmap_assert_locked(tlb->mm);
- 				split_huge_pud(vma, pud, addr);
-@@ -2819,7 +2819,7 @@ static int apply_to_pmd_range(struct mm_struct *mm, p=
-ud_t *pud,
- 	unsigned long next;
- 	int err =3D 0;
-=20
--	BUG_ON(pud_leaf(*pud));
-+	BUG_ON(pud_leaf(pudp_get(pud)));
-=20
- 	if (create) {
- 		pmd =3D pmd_alloc_track(mm, pud, addr, mask);
-@@ -2866,11 +2866,11 @@ static int apply_to_pud_range(struct mm_struct *mm,=
- p4d_t *p4d,
+@@ -2902,11 +2902,11 @@ static int apply_to_p4d_range(struct mm_struct *mm, pgd_t *pgd,
  	}
  	do {
- 		next =3D pud_addr_end(addr, end);
--		if (pud_none(*pud) && !create)
-+		if (pud_none(pudp_get(pud)) && !create)
+ 		next = p4d_addr_end(addr, end);
+-		if (p4d_none(*p4d) && !create)
++		if (p4d_none(p4dp_get(p4d)) && !create)
  			continue;
--		if (WARN_ON_ONCE(pud_leaf(*pud)))
-+		if (WARN_ON_ONCE(pud_leaf(pudp_get(pud))))
+-		if (WARN_ON_ONCE(p4d_leaf(*p4d)))
++		if (WARN_ON_ONCE(p4d_leaf(p4dp_get(p4d))))
  			return -EINVAL;
--		if (!pud_none(*pud) && WARN_ON_ONCE(pud_bad(*pud))) {
-+		if (!pud_none(pudp_get(pud)) && WARN_ON_ONCE(pud_bad(pudp_get(pud)))) {
+-		if (!p4d_none(*p4d) && WARN_ON_ONCE(p4d_bad(*p4d))) {
++		if (!p4d_none(p4dp_get(p4d)) && WARN_ON_ONCE(p4d_bad(p4dp_get(p4d)))) {
  			if (!create)
  				continue;
- 			pud_clear_bad(pud);
-diff --git a/mm/page_table_check.c b/mm/page_table_check.c
-index 48a2cf56c80e..2a22d098b0b1 100644
---- a/mm/page_table_check.c
-+++ b/mm/page_table_check.c
-@@ -254,7 +254,7 @@ void __page_table_check_pud_set(struct mm_struct *mm, p=
-ud_t *pudp, pud_t pud)
- 	if (&init_mm =3D=3D mm)
- 		return;
-=20
--	__page_table_check_pud_clear(mm, *pudp);
-+	__page_table_check_pud_clear(mm, pudp_get(pudp));
- 	if (pud_user_accessible_page(pud)) {
- 		page_table_check_set(pud_pfn(pud), PUD_SIZE >> PAGE_SHIFT,
- 				     pud_write(pud));
+ 			p4d_clear_bad(p4d);
+@@ -6058,7 +6058,7 @@ int __pud_alloc(struct mm_struct *mm, p4d_t *p4d, unsigned long address)
+ 		return -ENOMEM;
+ 
+ 	spin_lock(&mm->page_table_lock);
+-	if (!p4d_present(*p4d)) {
++	if (!p4d_present(p4dp_get(p4d))) {
+ 		mm_inc_nr_puds(mm);
+ 		smp_wmb(); /* See comment in pmd_install() */
+ 		p4d_populate(mm, p4d, new);
+@@ -6082,7 +6082,7 @@ int __pmd_alloc(struct mm_struct *mm, pud_t *pud, unsigned long address)
+ 		return -ENOMEM;
+ 
+ 	ptl = pud_lock(mm, pud);
+-	if (!pud_present(*pud)) {
++	if (!pud_present(pudp_get(pud))) {
+ 		mm_inc_nr_pmds(mm);
+ 		smp_wmb(); /* See comment in pmd_install() */
+ 		pud_populate(mm, pud, new);
+@@ -6143,11 +6143,11 @@ int follow_pte(struct vm_area_struct *vma, unsigned long address,
+ 		goto out;
+ 
+ 	p4d = p4d_offset(pgd, address);
+-	if (p4d_none(*p4d) || unlikely(p4d_bad(*p4d)))
++	if (p4d_none(p4dp_get(p4d)) || unlikely(p4d_bad(p4dp_get(p4d))))
+ 		goto out;
+ 
+ 	pud = pud_offset(p4d, address);
+-	if (pud_none(*pud) || unlikely(pud_bad(*pud)))
++	if (pud_none(pudp_get(pud)) || unlikely(pud_bad(pudp_get(pud))))
+ 		goto out;
+ 
+ 	pmd = pmd_offset(pud, address);
 diff --git a/mm/page_vma_mapped.c b/mm/page_vma_mapped.c
-index ae5cc42aa208..511266307771 100644
+index 511266307771..a33f92db2666 100644
 --- a/mm/page_vma_mapped.c
 +++ b/mm/page_vma_mapped.c
-@@ -222,7 +222,7 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *=
-pvmw)
+@@ -217,7 +217,7 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
  			continue;
  		}
- 		pud =3D pud_offset(p4d, pvmw->address);
--		if (!pud_present(*pud)) {
-+		if (!pud_present(pudp_get(pud))) {
- 			step_forward(pvmw, PUD_SIZE);
+ 		p4d = p4d_offset(pgd, pvmw->address);
+-		if (!p4d_present(*p4d)) {
++		if (!p4d_present(p4dp_get(p4d))) {
+ 			step_forward(pvmw, P4D_SIZE);
  			continue;
  		}
+diff --git a/mm/pagewalk.c b/mm/pagewalk.c
+index c3019a160e77..1d32c6da1a0d 100644
+--- a/mm/pagewalk.c
++++ b/mm/pagewalk.c
+@@ -145,7 +145,7 @@ static int walk_pud_range(p4d_t *p4d, unsigned long addr, unsigned long end,
+ 	do {
+  again:
+ 		next = pud_addr_end(addr, end);
+-		if (pud_none(*pud)) {
++		if (pud_none(pudp_get(pud))) {
+ 			if (ops->pte_hole)
+ 				err = ops->pte_hole(addr, next, depth, walk);
+ 			if (err)
+@@ -163,14 +163,14 @@ static int walk_pud_range(p4d_t *p4d, unsigned long addr, unsigned long end,
+ 		if (walk->action == ACTION_AGAIN)
+ 			goto again;
+ 
+-		if ((!walk->vma && (pud_leaf(*pud) || !pud_present(*pud))) ||
++		if ((!walk->vma && (pud_leaf(pudp_get(pud)) || !pud_present(pudp_get(pud)))) ||
+ 		    walk->action == ACTION_CONTINUE ||
+ 		    !(ops->pmd_entry || ops->pte_entry))
+ 			continue;
+ 
+ 		if (walk->vma)
+ 			split_huge_pud(walk->vma, pud, addr);
+-		if (pud_none(*pud))
++		if (pud_none(pudp_get(pud)))
+ 			goto again;
+ 
+ 		err = walk_pmd_range(pud, addr, next, walk);
+diff --git a/mm/percpu.c b/mm/percpu.c
+index 7ee77c0fd5e3..58660e8eb892 100644
+--- a/mm/percpu.c
++++ b/mm/percpu.c
+@@ -3192,7 +3192,7 @@ void __init __weak pcpu_populate_pte(unsigned long addr)
+ 	}
+ 
+ 	p4d = p4d_offset(pgd, addr);
+-	if (p4d_none(*p4d)) {
++	if (p4d_none(p4dp_get(p4d))) {
+ 		pud = memblock_alloc(PUD_TABLE_SIZE, PUD_TABLE_SIZE);
+ 		if (!pud)
+ 			goto err_alloc;
+@@ -3200,7 +3200,7 @@ void __init __weak pcpu_populate_pte(unsigned long addr)
+ 	}
+ 
+ 	pud = pud_offset(p4d, addr);
+-	if (pud_none(*pud)) {
++	if (pud_none(pudp_get(pud))) {
+ 		pmd = memblock_alloc(PMD_TABLE_SIZE, PMD_TABLE_SIZE);
+ 		if (!pmd)
+ 			goto err_alloc;
 diff --git a/mm/pgalloc-track.h b/mm/pgalloc-track.h
-index e9e879de8649..0f6b809431a3 100644
+index 0f6b809431a3..3db8ccbcb141 100644
 --- a/mm/pgalloc-track.h
 +++ b/mm/pgalloc-track.h
-@@ -33,7 +33,7 @@ static inline pmd_t *pmd_alloc_track(struct mm_struct *mm=
-, pud_t *pud,
+@@ -20,7 +20,7 @@ static inline pud_t *pud_alloc_track(struct mm_struct *mm, p4d_t *p4d,
  				     unsigned long address,
  				     pgtbl_mod_mask *mod_mask)
  {
--	if (unlikely(pud_none(*pud))) {
-+	if (unlikely(pud_none(pudp_get(pud)))) {
- 		if (__pmd_alloc(mm, pud, address))
+-	if (unlikely(p4d_none(*p4d))) {
++	if (unlikely(p4d_none(p4dp_get(p4d)))) {
+ 		if (__pud_alloc(mm, p4d, address))
  			return NULL;
- 		*mod_mask |=3D PGTBL_PUD_MODIFIED;
+ 		*mod_mask |= PGTBL_P4D_MODIFIED;
 diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
-index a5045d0fc73e..5bd02c6208e7 100644
+index 5bd02c6208e7..7e0a4974b0fc 100644
 --- a/mm/pgtable-generic.c
 +++ b/mm/pgtable-generic.c
-@@ -153,7 +153,7 @@ pud_t pudp_huge_clear_flush(struct vm_area_struct *vma,=
- unsigned long address,
- 	pud_t pud;
-=20
- 	VM_BUG_ON(address & ~HPAGE_PUD_MASK);
--	VM_BUG_ON(!pud_trans_huge(*pudp) && !pud_devmap(*pudp));
-+	VM_BUG_ON(!pud_trans_huge(pudp_get(pudp)) && !pud_devmap(pudp_get(pudp)))=
-;
- 	pud =3D pudp_huge_get_and_clear(vma->vm_mm, address, pudp);
- 	flush_pud_tlb_range(vma, address, address + HPAGE_PUD_SIZE);
- 	return pud;
+@@ -31,7 +31,7 @@ void pgd_clear_bad(pgd_t *pgd)
+ #ifndef __PAGETABLE_P4D_FOLDED
+ void p4d_clear_bad(p4d_t *p4d)
+ {
+-	p4d_ERROR(*p4d);
++	p4d_ERROR(p4dp_get(p4d));
+ 	p4d_clear(p4d);
+ }
+ #endif
+@@ -39,7 +39,7 @@ void p4d_clear_bad(p4d_t *p4d)
+ #ifndef __PAGETABLE_PUD_FOLDED
+ void pud_clear_bad(pud_t *pud)
+ {
+-	pud_ERROR(*pud);
++	pud_ERROR(pudp_get(pud));
+ 	pud_clear(pud);
+ }
+ #endif
 diff --git a/mm/ptdump.c b/mm/ptdump.c
-index e17588a32012..32ae8e829329 100644
+index 32ae8e829329..2c40224b8ad0 100644
 --- a/mm/ptdump.c
 +++ b/mm/ptdump.c
-@@ -30,7 +30,7 @@ static int ptdump_pgd_entry(pgd_t *pgd, unsigned long add=
-r,
+@@ -53,7 +53,7 @@ static int ptdump_p4d_entry(p4d_t *p4d, unsigned long addr,
  			    unsigned long next, struct mm_walk *walk)
  {
- 	struct ptdump_state *st =3D walk->private;
--	pgd_t val =3D READ_ONCE(*pgd);
-+	pgd_t val =3D pgdp_get(pgd);
-=20
- #if CONFIG_PGTABLE_LEVELS > 4 && \
+ 	struct ptdump_state *st = walk->private;
+-	p4d_t val = READ_ONCE(*p4d);
++	p4d_t val = p4dp_get(p4d);
+ 
+ #if CONFIG_PGTABLE_LEVELS > 3 && \
  		(defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS))
-@@ -76,7 +76,7 @@ static int ptdump_pud_entry(pud_t *pud, unsigned long add=
-r,
- 			    unsigned long next, struct mm_walk *walk)
+diff --git a/mm/rmap.c b/mm/rmap.c
+index ec668c48bccc..829d0cf5e384 100644
+--- a/mm/rmap.c
++++ b/mm/rmap.c
+@@ -813,11 +813,11 @@ pmd_t *mm_find_pmd(struct mm_struct *mm, unsigned long address)
+ 		goto out;
+ 
+ 	p4d = p4d_offset(pgd, address);
+-	if (!p4d_present(*p4d))
++	if (!p4d_present(p4dp_get(p4d)))
+ 		goto out;
+ 
+ 	pud = pud_offset(p4d, address);
+-	if (!pud_present(*pud))
++	if (!pud_present(pudp_get(pud)))
+ 		goto out;
+ 
+ 	pmd = pmd_offset(pud, address);
+diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+index c89706e107ce..2bd1c95f107a 100644
+--- a/mm/sparse-vmemmap.c
++++ b/mm/sparse-vmemmap.c
+@@ -203,7 +203,7 @@ void __weak __meminit pmd_init(void *addr)
+ pud_t * __meminit vmemmap_pud_populate(p4d_t *p4d, unsigned long addr, int node)
  {
- 	struct ptdump_state *st =3D walk->private;
--	pud_t val =3D READ_ONCE(*pud);
-+	pud_t val =3D pudp_get(pud);
-=20
- #if CONFIG_PGTABLE_LEVELS > 2 && \
- 		(defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS))
---=20
+ 	pud_t *pud = pud_offset(p4d, addr);
+-	if (pud_none(*pud)) {
++	if (pud_none(pudp_get(pud))) {
+ 		void *p = vmemmap_alloc_block_zero(PAGE_SIZE, node);
+ 		if (!p)
+ 			return NULL;
+@@ -220,7 +220,7 @@ void __weak __meminit pud_init(void *addr)
+ p4d_t * __meminit vmemmap_p4d_populate(pgd_t *pgd, unsigned long addr, int node)
+ {
+ 	p4d_t *p4d = p4d_offset(pgd, addr);
+-	if (p4d_none(*p4d)) {
++	if (p4d_none(p4dp_get(p4d))) {
+ 		void *p = vmemmap_alloc_block_zero(PAGE_SIZE, node);
+ 		if (!p)
+ 			return NULL;
+diff --git a/mm/vmalloc.c b/mm/vmalloc.c
+index d27aa1ebaad6..c67b067f4686 100644
+--- a/mm/vmalloc.c
++++ b/mm/vmalloc.c
+@@ -200,7 +200,7 @@ static int vmap_try_huge_pud(pud_t *pud, unsigned long addr, unsigned long end,
+ 	if (!IS_ALIGNED(phys_addr, PUD_SIZE))
+ 		return 0;
+ 
+-	if (pud_present(*pud) && !pud_free_pmd_page(pud, addr))
++	if (pud_present(pudp_get(pud)) && !pud_free_pmd_page(pud, addr))
+ 		return 0;
+ 
+ 	return pud_set_huge(pud, phys_addr, prot);
+@@ -251,7 +251,7 @@ static int vmap_try_huge_p4d(p4d_t *p4d, unsigned long addr, unsigned long end,
+ 	if (!IS_ALIGNED(phys_addr, P4D_SIZE))
+ 		return 0;
+ 
+-	if (p4d_present(*p4d) && !p4d_free_pud_page(p4d, addr))
++	if (p4d_present(p4dp_get(p4d)) && !p4d_free_pud_page(p4d, addr))
+ 		return 0;
+ 
+ 	return p4d_set_huge(p4d, phys_addr, prot);
+@@ -396,7 +396,7 @@ static void vunmap_pud_range(p4d_t *p4d, unsigned long addr, unsigned long end,
+ 		next = pud_addr_end(addr, end);
+ 
+ 		cleared = pud_clear_huge(pud);
+-		if (cleared || pud_bad(*pud))
++		if (cleared || pud_bad(pudp_get(pud)))
+ 			*mask |= PGTBL_PUD_MODIFIED;
+ 
+ 		if (cleared)
+@@ -418,7 +418,7 @@ static void vunmap_p4d_range(pgd_t *pgd, unsigned long addr, unsigned long end,
+ 		next = p4d_addr_end(addr, end);
+ 
+ 		p4d_clear_huge(p4d);
+-		if (p4d_bad(*p4d))
++		if (p4d_bad(p4dp_get(p4d)))
+ 			*mask |= PGTBL_P4D_MODIFIED;
+ 
+ 		if (p4d_none_or_clear_bad(p4d))
+@@ -760,19 +760,19 @@ struct page *vmalloc_to_page(const void *vmalloc_addr)
+ 		return NULL;
+ 
+ 	p4d = p4d_offset(pgd, addr);
+-	if (p4d_none(*p4d))
++	if (p4d_none(p4dp_get(p4d)))
+ 		return NULL;
+-	if (p4d_leaf(*p4d))
+-		return p4d_page(*p4d) + ((addr & ~P4D_MASK) >> PAGE_SHIFT);
+-	if (WARN_ON_ONCE(p4d_bad(*p4d)))
++	if (p4d_leaf(p4dp_get(p4d)))
++		return p4d_page(p4dp_get(p4d)) + ((addr & ~P4D_MASK) >> PAGE_SHIFT);
++	if (WARN_ON_ONCE(p4d_bad(p4dp_get(p4d))))
+ 		return NULL;
+ 
+ 	pud = pud_offset(p4d, addr);
+-	if (pud_none(*pud))
++	if (pud_none(pudp_get(pud)))
+ 		return NULL;
+-	if (pud_leaf(*pud))
+-		return pud_page(*pud) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+-	if (WARN_ON_ONCE(pud_bad(*pud)))
++	if (pud_leaf(pudp_get(pud)))
++		return pud_page(pudp_get(pud)) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
++	if (WARN_ON_ONCE(pud_bad(pudp_get(pud))))
+ 		return NULL;
+ 
+ 	pmd = pmd_offset(pud, addr);
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index bd489c1af228..b16925b5f072 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -3421,7 +3421,7 @@ static void walk_pmd_range_locked(pud_t *pud, unsigned long addr, struct vm_area
+ 	DEFINE_MAX_SEQ(walk->lruvec);
+ 	int old_gen, new_gen = lru_gen_from_seq(max_seq);
+ 
+-	VM_WARN_ON_ONCE(pud_leaf(*pud));
++	VM_WARN_ON_ONCE(pud_leaf(pudp_get(pud)));
+ 
+ 	/* try to batch at most 1+MIN_LRU_BATCH+1 entries */
+ 	if (*first == -1) {
+@@ -3501,7 +3501,7 @@ static void walk_pmd_range(pud_t *pud, unsigned long start, unsigned long end,
+ 	struct lru_gen_mm_walk *walk = args->private;
+ 	struct lru_gen_mm_state *mm_state = get_mm_state(walk->lruvec);
+ 
+-	VM_WARN_ON_ONCE(pud_leaf(*pud));
++	VM_WARN_ON_ONCE(pud_leaf(pudp_get(pud)));
+ 
+ 	/*
+ 	 * Finish an entire PMD in two passes: the first only reaches to PTE
+@@ -3579,7 +3579,7 @@ static int walk_pud_range(p4d_t *p4d, unsigned long start, unsigned long end,
+ 	unsigned long next;
+ 	struct lru_gen_mm_walk *walk = args->private;
+ 
+-	VM_WARN_ON_ONCE(p4d_leaf(*p4d));
++	VM_WARN_ON_ONCE(p4d_leaf(p4dp_get(p4d)));
+ 
+ 	pud = pud_offset(p4d, start & P4D_MASK);
+ restart:
+-- 
 2.25.1
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/20240913084433.1016256-6-anshuman.khandual%40arm.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240913084433.1016256-7-anshuman.khandual%40arm.com.
