@@ -1,146 +1,163 @@
-Return-Path: <kasan-dev+bncBDHJX64K2UNBBOP7SG3QMGQEUF6C7UI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMIFTP47IJBBXHUSO3QMGQEFQJV7MQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63f.google.com (mail-pl1-x63f.google.com [IPv6:2607:f8b0:4864:20::63f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D9997878E
-	for <lists+kasan-dev@lfdr.de>; Fri, 13 Sep 2024 20:08:59 +0200 (CEST)
-Received: by mail-pl1-x63f.google.com with SMTP id d9443c01a7336-206da734c53sf32973005ad.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 13 Sep 2024 11:08:59 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1726250937; cv=pass;
+Received: from mail-pj1-x103b.google.com (mail-pj1-x103b.google.com [IPv6:2607:f8b0:4864:20::103b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FD19978CD7
+	for <lists+kasan-dev@lfdr.de>; Sat, 14 Sep 2024 04:52:14 +0200 (CEST)
+Received: by mail-pj1-x103b.google.com with SMTP id 98e67ed59e1d1-2d87b7618d3sf3818931a91.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 13 Sep 2024 19:52:14 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1726282332; cv=pass;
         d=google.com; s=arc-20240605;
-        b=BjrisXZnZkGm3BzHDgGOwsP00O8Grjyb7kAT9btfL6W7h4U9PXc+xlJlZP7a5lA6/o
-         voxzOiByHWGVI7Cc+M0A5wTQXB4hGS8mkua7j7Jj3G/+j8Zmdldw3nnxrsyrt25M7dFD
-         NBV3uy7mJh+2chfiW7GbEte2Fak4ovjUILom6KuOdKzkSyoCznqUPTULV8dpQBIi6+IU
-         x6/IAoaY7AEScIkL99Ld2VgCmUGKb6pgD390vH1sDDo9DIeboER/UlnumCJJkXrlYY2w
-         4bmnyarVFppdUOYPUPbpPT+Esmj5y4DTPT0mIPfgf3es1q5hygFiPg4ngr/YZc5PAcne
-         8PhQ==
+        b=SMcdqWu9SmyRnVw6hNWye1U/x7ZfT7NSm5aitUgTRDvbIktnj5KhGRfQj3RIsc5Ve3
+         sONVWPNa44gQb5Uewa80YVM3ngCoND7d+qm7kPqyN3a6UTNHnIrW/KHtJy0Y9/tsVDLF
+         FovbbZHCi1zKzVB1Dt19UG9mRBmHQKoEYwNZvYwFVWsIavVdEBtO4ixVHQC92KzBQpiL
+         GqSkLUAzagBPprdFHH8LjkMYL2fXJBcwxlsnvryhi7dzY4ADiN8i/WU0FvXDCXS6XA5N
+         HyVbn8KBxi7He4wZmyd4pBorE2V49wkdpNyE2SUwhesoVl2LjjGHny4wbUuQb5H9q2IL
+         JUYg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=uRUUeGT9nmjYVBdYBycqiq61fSVTyBDFZoxrEpibkjM=;
-        fh=L8Pl9IfXW5G/CnHW48MSyTQC3+771XPXTF6o4QuwOjc=;
-        b=VZDXToq6rmKgwzzOWhTXkJ6unaT5WhsiYIUHwk+i4vtjtkTO1zZUGIFRVcilnFZXfi
-         ciGc2peZlUvpNiV/zrChh0jEE+AlcvoqSmwlEeJtCPCDDG6MOKbPmK4VxlDgUe0L+daC
-         so7NUlF6bQxzEMvMh/UNqpHKeXO5cpjFFlEb/+4o9u5JDthLAOEjX+OCcRVyCd9nuLUH
-         w99g1TXlEofnU+jdL/H2UKxxtwOy/oDJ9lb9X7rI7J4HGbM074dxSF6yVMUzpDLmHwCC
-         Ibz8quNe/PRaQM3RulAUaHWJlD/aKx8Bgzt8MBSjSN7vXyguMSLzhAHAStJQlq3DxOaQ
-         3Xfg==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :in-reply-to:content-language:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:dkim-signature;
+        bh=1BkraBjf9mNy3NspCtulzgqzw/NxOnfoiZZsGUgO9a4=;
+        fh=+5sk5VtcDcShjJ1wxkaMdmKoWvrvh5m9qeqAKG+2K+4=;
+        b=Tc7pMGqbwS2wjRIOuzOFTqAGAwqiWvyXu9KpVjnPX/mJc2wF7QfLQ0phLfnKwsR0ST
+         QMCSiaefqeKZ5hjZHfwf2OGqihxPsz4oLNHUDTIyhhm77pTSeLwpt/D7/7pRD8xitF8p
+         FJE+FVy6K9XMrHKLFX0aHs5Dy1J0hnp+MfSYkLT2Bcc6FNGzjl0a2m2UCxf/JQbq6U0D
+         PfQh4ErzHWdQXAKw2zNQsLy00hlG/RCO3VjRMwivJF9umFasdC7sETW7sd41rGz0smfK
+         j8f91DY3pC8d5gg4Oj90/s4AuRzs6vRHz0xLuI32ve7n46SSU/lR2cgaz5UYap+17V9a
+         kbdQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=m7bPJ9zU;
-       spf=pass (google.com: domain of charlie@rivosinc.com designates 2607:f8b0:4864:20::631 as permitted sender) smtp.mailfrom=charlie@rivosinc.com;
+       dkim=pass header.i=@sifive.com header.s=google header.b=Q08QFNtU;
+       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::d2b as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1726250937; x=1726855737; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1726282332; x=1726887132; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uRUUeGT9nmjYVBdYBycqiq61fSVTyBDFZoxrEpibkjM=;
-        b=L4x0W/n1NMgQMLJVNBjzetL/hOlq8EpOEDy5uZs8cuo5wgrYdjIQ2kAw12VI1Rx5SN
-         N3y98NwE0VWmiAENpatqgp/gZjRh1zdjISbdEP7T9SLDyexbfYcQCAEY3ykQpA0X5PJk
-         ryz/b80qsj9tNNbwCK/S0NrvnfhlA6DA4Al/goeIiBgXOJhx4v66v6MJdpJ85JQYN3Hm
-         MKbwsqa64ytnawt0Zwd7c8SaX/rX3ZWPa1eD99Pw/ZYbLEjeghDsIUkj1tPLYlWQJXiG
-         kR8frzHb2LWCUAZCTA0cgzIa76TmRtEhli/ljpaAheT+iYRwQ0ZN43v8iZBd+En45xsZ
-         Ju3A==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1BkraBjf9mNy3NspCtulzgqzw/NxOnfoiZZsGUgO9a4=;
+        b=jmVx8+LE3o/q0BbELLrv4oNHC8hR7+fbwYO7LD5CSDsjZpUgtPULB5Fc0QIK5ixjui
+         xUZdDzHn4df0K+vJlVeIB/BUrhCT+D/JRvdRzkxndKe7ZS7wC10fQccqo+wuhukwnoCq
+         qQ7EcRON4SfnR7uKzxSU4ryI2a4HJXHvWeERzwovYvXCphUvJdUpfTpYnPJYaAwe7cfl
+         SV5AjjLib37YZmaPvl2OQ4YvcA5LPMCQo0sh0/bsYDHd5T7YV/+c4G6ZIWf2b6Izqq97
+         zvxQjkW3zauzc6jqnwU77bJaLAIqR34GBcBOY/9QYZ74UX0oqzhN2zMNaRSSBuKhDxXL
+         qc/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726250937; x=1726855737;
+        d=1e100.net; s=20230601; t=1726282332; x=1726887132;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uRUUeGT9nmjYVBdYBycqiq61fSVTyBDFZoxrEpibkjM=;
-        b=oUstDHWA1DjrjEG16LkKGnzHdQyUL+ZS0JTL+1sqNDg1xWpXjcI6pH5lObn1Qll0HL
-         Z53wqxea87l4VAoIZyRuPR7M5jiptp7qwANWn+LoXf4/myWBreK+n4Fstyb0doiQ6289
-         wQ58er0bRDyvsanugnZcaY60q7Yx45U+/EGGPA/aVRIzx8B4cL2gYU7tBo0LjrgmU7vN
-         WSYoWeorRoiGAU99RGFz0SEKP2YRa2/KM7mdh22h1hk6cL3hs7QNLC1LC5MnpiwvtOxn
-         Ia2FIxhvJMwYEz8hd/IBYfSFKToWA054p48Dues1VPBD5MpzmGBEHt+A67rdkL+hJNPf
-         t62g==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXWi7YK6Y6iqcC7sjiR2m8GG8aK/glj/Xo3PljU1HlTCK3z4kNwWrUNWs+9zwnq6l7+EiskKw==@lfdr.de
-X-Gm-Message-State: AOJu0Yx0IijXa+92FHzFhXh7gLDywjnCUKUcdrY5Tcxpa+UWyvW18NPT
-	uHBTXGSBlSJK7RocVP5S6HzwCC5M/4jjh50iskBxnzq05ZHTxASb
-X-Google-Smtp-Source: AGHT+IFeQvcUmPKZrIdXcmCZlj+sWJWIr7AiqONo3h9+UXQIpEDY77HvkVMxLvwGin+g61L3wj9w5Q==
-X-Received: by 2002:a17:903:24e:b0:205:5d12:3f24 with SMTP id d9443c01a7336-2076e347618mr112210205ad.20.1726250937268;
-        Fri, 13 Sep 2024 11:08:57 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1BkraBjf9mNy3NspCtulzgqzw/NxOnfoiZZsGUgO9a4=;
+        b=k0sUXaaG6kToQvtCwEOu7AUZBIXlsZ4WEe94Kmj/hLX9eafeEsD4s+2csFF7Sj3KsB
+         /muJid8RI/QOTc9UfsKFVq91SoDYdBZtzQDKa2TUhpaZj/duFLWA6H8TWiOmh1d9C6Ke
+         al/8bFCClp/fdATE0kWdPvM78wfb5RA4UqLmc0zfgyij5k8kibiWMXtU4la/hh8xSDn7
+         uC3JO2wtp1qLQVLmvnd000kNtB2Kt5hQusAqITy7JfcTNURTztzC8tYqsyrPNoxPQCBf
+         bTrO4XaNnFSWXI+OTz2sSbeURv4BJ0qdwFIF5m+WmwhGjjQQR4OmsgbiFgd+3noPfF22
+         l6Ag==
+X-Forwarded-Encrypted: i=2; AJvYcCXGN8rBpx1rwYIShe4fua/EuRhFO+rjmmN9YWRb91ztJ0FibSOBf9WIaKFNMTZszFzB+sSI+Q==@lfdr.de
+X-Gm-Message-State: AOJu0YwfqN2EYnoDsHiHqMrFvSVqf3OdJPEOrijbDTTfhLmcpmGismz9
+	4SJ/X6e1V3WHBL9OU0yK6YytLHI1J7LvbzqRq+l7eU+ahx4NsWYp
+X-Google-Smtp-Source: AGHT+IFqKLAnuklNVMpMSnhAwYVeAZttPSxOspLYNXTH+ryo1n+aap5QpgO1vwLzXYZzAE1cOROJ+Q==
+X-Received: by 2002:a17:90a:9303:b0:2cb:e429:f525 with SMTP id 98e67ed59e1d1-2dba0082f0bmr11507204a91.33.1726282332504;
+        Fri, 13 Sep 2024 19:52:12 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:2287:b0:206:a24f:b08f with SMTP id
- d9443c01a7336-2076cb0f4cdls21083825ad.2.-pod-prod-03-us; Fri, 13 Sep 2024
- 11:08:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXMPriAD3YN+j6RrGZlwKtrhwokf369TnAngwGvfkDO76w+NkraWS9vpZxk3DGt0nVakXhqtclAiho=@googlegroups.com
-X-Received: by 2002:a05:6a21:1191:b0:1ce:d08c:2c10 with SMTP id adf61e73a8af0-1cf7615c25dmr11740399637.28.1726250936071;
-        Fri, 13 Sep 2024 11:08:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1726250936; cv=none;
+Received: by 2002:a17:90b:1c12:b0:2d1:e21f:8543 with SMTP id
+ 98e67ed59e1d1-2db9f66406els1317686a91.2.-pod-prod-03-us; Fri, 13 Sep 2024
+ 19:52:11 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXo018BtxC+fn0uDOnLy98KFwM28iZt7kYAgQvEi/qrNixaEZ7w3CiJgPjXZwxgvhF4gVEbUcuJraA=@googlegroups.com
+X-Received: by 2002:a17:90a:a781:b0:2d8:b43b:6ecc with SMTP id 98e67ed59e1d1-2db9ffb11c3mr11611664a91.4.1726282331081;
+        Fri, 13 Sep 2024 19:52:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1726282331; cv=none;
         d=google.com; s=arc-20240605;
-        b=HIKGXGRaxSlX9fctD4S+vREaCU30+o2GNGe/mbP3Uvoz/9ameeoiG0yQ0czDLqbe2m
-         rcsduCN3Qa/eJBez9TcKP6DZYz7ao/LPJpzTFZQ+1pmLKUfpDIuWtity2xCWNl1Vx/pN
-         cH81NUz6xawoy/wV30QUfKGKZZ+4XOMY9HdUlTDJsBGyVlDajxgVOMftNs1YzmVQ//lt
-         tXu1m2JNutkC/XfWNJF2t90fUKiB1xx9Y8y6M3VQMkKbcrZfKrDQey/LoVXqXuqSQ6eb
-         Ewt6f3Q2CrQew0PBmoX3+Xe6rhtcbylJ3gepT1OvdzI8FkwnPHWoT5gOBruqFDmtfCdC
-         5Usw==
+        b=cUCsNMGjlBXp7efYWUrY07HbWqIKfxhL0+LlNlwTqnMU4bNAOznp05CqEYEGz2btGo
+         2tQZKP5dNB7WN66PstlfCPB0l18ULdCHnIFLABBYVwCGhMD2X9ktVbDm9sdmXbFUJBDl
+         YCn7CnLmFJW4327i96K3YC+HbBcIAjYcR15UM5a7ORFv4xUB3Ase18eb7+m1KF1CM/WH
+         rKi6Q+j/UQBC3pNyL0mMx3npmetVI8netNX7VgTWBLxg5wTtB8eSkshbYaASxFz6wzea
+         10JX0Kpjvl+r/8AlkjL/ihV9efxulsABlnsXA+c1jwjN8t4Epk3ldR8P9pppqLop78WE
+         ug4g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=0ZnA3erGKxX6kl7LXrESncIv3ytuXvzogy+s/qD8NvE=;
-        fh=IVJq3U+poOZFjnozna6pftnvAqoMTKEprgSo7LP2KCQ=;
-        b=L6sailKNQegL9qLSqTX+sTdyPG9SzVZ9xEhfv7PQdHuNoev3h7MgLQjm+lXT2Qv3+f
-         nWqVwdAcdIp8cDteSgEB8R/nMzL1+6EDMwFeO1JGu2aIAODLheF7/8DhTyRn/QMInGjH
-         q78QE2p4XpPbXh5aALwDTwpSCW0E9dOnk9g2hVylKVW/xQIekwZfe1tuqtDaOXnUqS0J
-         sa1vXFk14ftQOUflbDViWHWsieCoznlK1tp8X6XdZjUESb9LsxswS0yUKjqV2BhmVvJQ
-         tgAeZKjvPRtTY9KnyD9D03i0gGT4vYTi+HRUh/vJnE8UyIN20JdZrvHvC9tVke3euPmp
-         UTDg==;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=PcgocvC07KwdgYkvDV/qMfScM5+LqmPejCCEAA1uMJI=;
+        fh=bqdFTTlhK6f4XOIgoTFnrQZ4eOabIbhr9dNIJyFlEPQ=;
+        b=DzRDxgn6k8Eu53YlIFSSrYjd9IkqkQ9566qLUo5oXwqJDeTea6Urvnfoag0IFxZaCp
+         hTDiupWvw/3rtI1Z6euJA2KZ7+wvPpeHQDCsZERMH5MRk1MEHb5zGucyyFY/YP+QcYs4
+         mWsTZxvBsmaGEPRbD3qivTEONVLo6xwLQL0dAoXRBV/bRNf1x5ChYYKFiOWS4Y/wW+4U
+         TtQwYqUx//6XfMn1/4vYw2mKe8FP/yLl3PDJ4cN+MhOt0PSHYzQAK3v43ZI+T1dk5car
+         xHoDsbtRF7VGvANLmJR2v0IIBxjggnQYaKO4it/KY/Cki3okzE/n/51HuhDMLqrjptKE
+         o4dg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=m7bPJ9zU;
-       spf=pass (google.com: domain of charlie@rivosinc.com designates 2607:f8b0:4864:20::631 as permitted sender) smtp.mailfrom=charlie@rivosinc.com;
+       dkim=pass header.i=@sifive.com header.s=google header.b=Q08QFNtU;
+       spf=pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::d2b as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-pl1-x631.google.com (mail-pl1-x631.google.com. [2607:f8b0:4864:20::631])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-719090e8fd3si461407b3a.3.2024.09.13.11.08.56
+Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com. [2607:f8b0:4864:20::d2b])
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-2db6dc9977asi703989a91.1.2024.09.13.19.52.10
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Sep 2024 11:08:56 -0700 (PDT)
-Received-SPF: pass (google.com: domain of charlie@rivosinc.com designates 2607:f8b0:4864:20::631 as permitted sender) client-ip=2607:f8b0:4864:20::631;
-Received: by mail-pl1-x631.google.com with SMTP id d9443c01a7336-2055f630934so22592285ad.1
-        for <kasan-dev@googlegroups.com>; Fri, 13 Sep 2024 11:08:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVvAsfwW4aFdxlUtsOTH3w0vpG6X9ziBcNGXcnZxgCHATJLZrFkwWtvNWTLOIfXavwhkN93HuTFcig=@googlegroups.com
-X-Received: by 2002:a17:902:f550:b0:205:4e4a:72d9 with SMTP id d9443c01a7336-2076e30651fmr127545975ad.7.1726250935453;
-        Fri, 13 Sep 2024 11:08:55 -0700 (PDT)
-Received: from ghost ([50.145.13.30])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2076afe9a75sm30468575ad.211.2024.09.13.11.08.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Sep 2024 11:08:54 -0700 (PDT)
-Date: Fri, 13 Sep 2024 11:08:52 -0700
-From: Charlie Jenkins <charlie@rivosinc.com>
-To: Samuel Holland <samuel.holland@sifive.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	linux-kernel@vger.kernel.org, Anup Patel <anup@brainfault.org>,
-	Conor Dooley <conor@kernel.org>, kasan-dev@googlegroups.com,
-	Atish Patra <atishp@atishpatra.org>,
-	Evgenii Stepanov <eugenis@google.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v4 00/10] riscv: Userspace pointer masking and tagged
- address ABI
-Message-ID: <ZuR/tK+9cKUXqDga@ghost>
-References: <20240829010151.2813377-1-samuel.holland@sifive.com>
+        Fri, 13 Sep 2024 19:52:11 -0700 (PDT)
+Received-SPF: pass (google.com: domain of samuel.holland@sifive.com designates 2607:f8b0:4864:20::d2b as permitted sender) client-ip=2607:f8b0:4864:20::d2b;
+Received: by mail-io1-xd2b.google.com with SMTP id ca18e2360f4ac-82ce603d8daso100138639f.0
+        for <kasan-dev@googlegroups.com>; Fri, 13 Sep 2024 19:52:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUwexrQFh1E9FxBq5OIHVe0T44/x16KbjdODvblJV3ffjvAmx3s7B+2dD7YnVJKUgcIicnpCsCWjHc=@googlegroups.com
+X-Received: by 2002:a05:6e02:5ad:b0:3a0:8dae:8b06 with SMTP id e9e14a558f8ab-3a08dae8c99mr24837465ab.9.1726282330175;
+        Fri, 13 Sep 2024 19:52:10 -0700 (PDT)
+Received: from [100.64.0.1] ([147.124.94.167])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a092dfe1d8sm1609685ab.13.2024.09.13.19.52.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Sep 2024 19:52:09 -0700 (PDT)
+Message-ID: <8e474b14-e963-4d3e-8240-37f662e7bd8a@sifive.com>
+Date: Fri, 13 Sep 2024 21:52:07 -0500
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 09/10] RISC-V: KVM: Allow Smnpm and Ssnpm extensions
+ for guests
+To: Anup Patel <anup@brainfault.org>
+Cc: Anup Patel <apatel@ventanamicro.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, linux-riscv@lists.infradead.org,
+ devicetree@vger.kernel.org, Catalin Marinas <catalin.marinas@arm.com>,
+ linux-kernel@vger.kernel.org, Conor Dooley <conor@kernel.org>,
+ kasan-dev@googlegroups.com, Atish Patra <atishp@atishpatra.org>,
+ Evgenii Stepanov <eugenis@google.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ kvm-riscv@lists.infradead.org
+References: <20240829010151.2813377-1-samuel.holland@sifive.com>
+ <20240829010151.2813377-10-samuel.holland@sifive.com>
+ <CAK9=C2WjraWjuQCeU2Y4Jhr-gKkOcP42Sza7wVp0FgeGaD923g@mail.gmail.com>
+ <b6de8769-7e4e-4a19-b239-a39fd424e0c8@sifive.com>
+ <CAAhSdy08SoDoZCii9R--BK7_NKLnRciW7V3mo2aQRKW1dbOgNg@mail.gmail.com>
+ <20ab0fa2-d5dd-446d-9fff-a3ef82e8db35@sifive.com>
+ <CAAhSdy1pZcEfajg3OZUCaFf9JMYcMzpRVogCT5VL2FHx__vDdA@mail.gmail.com>
+ <4c010cb1-b57c-427e-a241-1dd3ab15f2ce@sifive.com>
+ <CAAhSdy0kYUdgX8NUKuOdQa-69ET=cscduJvyz3z31kVeB-JaNw@mail.gmail.com>
+From: "'Samuel Holland' via kasan-dev" <kasan-dev@googlegroups.com>
+Content-Language: en-US
+In-Reply-To: <CAAhSdy0kYUdgX8NUKuOdQa-69ET=cscduJvyz3z31kVeB-JaNw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20240829010151.2813377-1-samuel.holland@sifive.com>
-X-Original-Sender: charlie@rivosinc.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: samuel.holland@sifive.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601
- header.b=m7bPJ9zU;       spf=pass (google.com: domain of charlie@rivosinc.com
- designates 2607:f8b0:4864:20::631 as permitted sender) smtp.mailfrom=charlie@rivosinc.com;
+ header.i=@sifive.com header.s=google header.b=Q08QFNtU;       spf=pass
+ (google.com: domain of samuel.holland@sifive.com designates
+ 2607:f8b0:4864:20::d2b as permitted sender) smtp.mailfrom=samuel.holland@sifive.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=sifive.com;
        dara=pass header.i=@googlegroups.com
+X-Original-From: Samuel Holland <samuel.holland@sifive.com>
+Reply-To: Samuel Holland <samuel.holland@sifive.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -153,132 +170,249 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Aug 28, 2024 at 06:01:22PM -0700, Samuel Holland wrote:
-> RISC-V defines three extensions for pointer masking[1]:
->  - Smmpm: configured in M-mode, affects M-mode
->  - Smnpm: configured in M-mode, affects the next lower mode (S or U-mode)
->  - Ssnpm: configured in S-mode, affects the next lower mode (VS, VU, or U-mode)
-> 
-> This series adds support for configuring Smnpm or Ssnpm (depending on
-> which privilege mode the kernel is running in) to allow pointer masking
-> in userspace (VU or U-mode), extending the PR_SET_TAGGED_ADDR_CTRL API
-> from arm64. Unlike arm64 TBI, userspace pointer masking is not enabled
-> by default on RISC-V. Additionally, the tag width (referred to as PMLEN)
-> is variable, so userspace needs to ask the kernel for a specific tag
-> width, which is interpreted as a lower bound on the number of tag bits.
-> 
-> This series also adds support for a tagged address ABI similar to arm64
-> and x86. Since accesses from the kernel to user memory use the kernel's
-> pointer masking configuration, not the user's, the kernel must untag
-> user pointers in software before dereferencing them. And since the tag
-> width is variable, as with LAM on x86, it must be kept the same across
-> all threads in a process so untagged_addr_remote() can work.
-> 
-> This series depends on my per-thread envcfg series[3].
-> 
-> This series can be tested in QEMU by applying a patch set[2].
-> 
-> KASAN support will be added in a separate patch series.
-> 
-> [1]: https://github.com/riscv/riscv-j-extension/releases/download/pointer-masking-v1.0.0-rc2/pointer-masking-v1.0.0-rc2.pdf
-> [2]: https://lore.kernel.org/qemu-devel/20240511101053.1875596-1-me@deliversmonkey.space/
-> [3]: https://lore.kernel.org/linux-riscv/20240814081126.956287-1-samuel.holland@sifive.com/
-> 
-> Changes in v4:
->  - Switch IS_ENABLED back to #ifdef to fix riscv32 build
->  - Combine __untagged_addr() and __untagged_addr_remote()
-> 
-> Changes in v3:
->  - Note in the commit message that the ISA extension spec is frozen
->  - Rebase on riscv/for-next (ISA extension list conflicts)
->  - Remove RISCV_ISA_EXT_SxPM, which was not used anywhere
->  - Use shifts instead of large numbers in ENVCFG_PMM* macro definitions
->  - Rename CONFIG_RISCV_ISA_POINTER_MASKING to CONFIG_RISCV_ISA_SUPM,
->    since it only controls the userspace part of pointer masking
->  - Use IS_ENABLED instead of #ifdef when possible
->  - Use an enum for the supported PMLEN values
->  - Simplify the logic in set_tagged_addr_ctrl()
->  - Use IS_ENABLED instead of #ifdef when possible
->  - Implement mm_untag_mask()
->  - Remove pmlen from struct thread_info (now only in mm_context_t)
-> 
-> Changes in v2:
->  - Drop patch 4 ("riscv: Define is_compat_thread()"), as an equivalent
->    patch was already applied
->  - Move patch 5 ("riscv: Split per-CPU and per-thread envcfg bits") to a
->    different series[3]
->  - Update pointer masking specification version reference
->  - Provide macros for the extension affecting the kernel and userspace
->  - Use the correct name for the hstatus.HUPMM field
->  - Rebase on riscv/linux.git for-next
->  - Add and use the envcfg_update_bits() helper function
->  - Inline flush_tagged_addr_state()
->  - Implement untagged_addr_remote()
->  - Restrict PMLEN changes once a process is multithreaded
->  - Rename "tags" directory to "pm" to avoid .gitignore rules
->  - Add .gitignore file to ignore the compiled selftest binary
->  - Write to a pipe to force dereferencing the user pointer
->  - Handle SIGSEGV in the child process to reduce dmesg noise
->  - Export Supm via hwprobe
->  - Export Smnpm and Ssnpm to KVM guests
-> 
-> Samuel Holland (10):
->   dt-bindings: riscv: Add pointer masking ISA extensions
->   riscv: Add ISA extension parsing for pointer masking
->   riscv: Add CSR definitions for pointer masking
->   riscv: Add support for userspace pointer masking
->   riscv: Add support for the tagged address ABI
->   riscv: Allow ptrace control of the tagged address ABI
->   selftests: riscv: Add a pointer masking test
->   riscv: hwprobe: Export the Supm ISA extension
->   RISC-V: KVM: Allow Smnpm and Ssnpm extensions for guests
->   KVM: riscv: selftests: Add Smnpm and Ssnpm to get-reg-list test
-> 
->  Documentation/arch/riscv/hwprobe.rst          |   3 +
+Hi Anup,
 
-Would you be open to writing documentation similar to what is available
-for arm? https://www.kernel.org/doc/html/next/arm64/tagged-address-abi.html
+On 2024-09-05 12:18 AM, Anup Patel wrote:
+> On Wed, Sep 4, 2024 at 9:25=E2=80=AFPM Samuel Holland <samuel.holland@sif=
+ive.com> wrote:
+>>
+>> On 2024-09-04 10:20 AM, Anup Patel wrote:
+>>> On Wed, Sep 4, 2024 at 8:27=E2=80=AFPM Samuel Holland <samuel.holland@s=
+ifive.com> wrote:
+>>>>
+>>>> Hi Anup,
+>>>>
+>>>> On 2024-09-04 9:45 AM, Anup Patel wrote:
+>>>>> On Wed, Sep 4, 2024 at 8:01=E2=80=AFPM Samuel Holland <samuel.holland=
+@sifive.com> wrote:
+>>>>>> On 2024-09-04 7:17 AM, Anup Patel wrote:
+>>>>>>> On Thu, Aug 29, 2024 at 6:32=E2=80=AFAM Samuel Holland
+>>>>>>> <samuel.holland@sifive.com> wrote:
+>>>>>>>>
+>>>>>>>> The interface for controlling pointer masking in VS-mode is henvcf=
+g.PMM,
+>>>>>>>> which is part of the Ssnpm extension, even though pointer masking =
+in
+>>>>>>>> HS-mode is provided by the Smnpm extension. As a result, emulating=
+ Smnpm
+>>>>>>>> in the guest requires (only) Ssnpm on the host.
+>>>>>>>>
+>>>>>>>> Since the guest configures Smnpm through the SBI Firmware Features
+>>>>>>>> interface, the extension can be disabled by failing the SBI call. =
+Ssnpm
+>>>>>>>> cannot be disabled without intercepting writes to the senvcfg CSR.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Samuel Holland <samuel.holland@sifive.com>
+>>>>>>>> ---
+>>>>>>>>
+>>>>>>>> (no changes since v2)
+>>>>>>>>
+>>>>>>>> Changes in v2:
+>>>>>>>>  - New patch for v2
+>>>>>>>>
+>>>>>>>>  arch/riscv/include/uapi/asm/kvm.h | 2 ++
+>>>>>>>>  arch/riscv/kvm/vcpu_onereg.c      | 3 +++
+>>>>>>>>  2 files changed, 5 insertions(+)
+>>>>>>>>
+>>>>>>>> diff --git a/arch/riscv/include/uapi/asm/kvm.h b/arch/riscv/includ=
+e/uapi/asm/kvm.h
+>>>>>>>> index e97db3296456..4f24201376b1 100644
+>>>>>>>> --- a/arch/riscv/include/uapi/asm/kvm.h
+>>>>>>>> +++ b/arch/riscv/include/uapi/asm/kvm.h
+>>>>>>>> @@ -175,6 +175,8 @@ enum KVM_RISCV_ISA_EXT_ID {
+>>>>>>>>         KVM_RISCV_ISA_EXT_ZCF,
+>>>>>>>>         KVM_RISCV_ISA_EXT_ZCMOP,
+>>>>>>>>         KVM_RISCV_ISA_EXT_ZAWRS,
+>>>>>>>> +       KVM_RISCV_ISA_EXT_SMNPM,
+>>>>>>>> +       KVM_RISCV_ISA_EXT_SSNPM,
+>>>>>>>>         KVM_RISCV_ISA_EXT_MAX,
+>>>>>>>>  };
+>>>>>>>>
+>>>>>>>> diff --git a/arch/riscv/kvm/vcpu_onereg.c b/arch/riscv/kvm/vcpu_on=
+ereg.c
+>>>>>>>> index b319c4c13c54..6f833ec2344a 100644
+>>>>>>>> --- a/arch/riscv/kvm/vcpu_onereg.c
+>>>>>>>> +++ b/arch/riscv/kvm/vcpu_onereg.c
+>>>>>>>> @@ -34,9 +34,11 @@ static const unsigned long kvm_isa_ext_arr[] =
+=3D {
+>>>>>>>>         [KVM_RISCV_ISA_EXT_M] =3D RISCV_ISA_EXT_m,
+>>>>>>>>         [KVM_RISCV_ISA_EXT_V] =3D RISCV_ISA_EXT_v,
+>>>>>>>>         /* Multi letter extensions (alphabetically sorted) */
+>>>>>>>> +       [KVM_RISCV_ISA_EXT_SMNPM] =3D RISCV_ISA_EXT_SSNPM,
+>>>>>>>
+>>>>>>> Why not use KVM_ISA_EXT_ARR() macro here ?
+>>>>>>
+>>>>>> Because the extension name in the host does not match the extension =
+name in the
+>>>>>> guest. Pointer masking for HS mode is provided by Smnpm. Pointer mas=
+king for VS
+>>>>>> mode is provided by Ssnpm at the hardware level, but this needs to a=
+ppear to the
+>>>>>> guest as if Smnpm was implemented, since the guest thinks it is runn=
+ing on bare
+>>>>>> metal.
+>>>>>
+>>>>> Okay, makes sense.
+>>>>>
+>>>>>>
+>>>>>>>>         KVM_ISA_EXT_ARR(SMSTATEEN),
+>>>>>>>>         KVM_ISA_EXT_ARR(SSAIA),
+>>>>>>>>         KVM_ISA_EXT_ARR(SSCOFPMF),
+>>>>>>>> +       KVM_ISA_EXT_ARR(SSNPM),
+>>>>>>>>         KVM_ISA_EXT_ARR(SSTC),
+>>>>>>>>         KVM_ISA_EXT_ARR(SVINVAL),
+>>>>>>>>         KVM_ISA_EXT_ARR(SVNAPOT),
+>>>>>>>> @@ -129,6 +131,7 @@ static bool kvm_riscv_vcpu_isa_disable_allowed=
+(unsigned long ext)
+>>>>>>>>         case KVM_RISCV_ISA_EXT_M:
+>>>>>>>>         /* There is not architectural config bit to disable sscofp=
+mf completely */
+>>>>>>>>         case KVM_RISCV_ISA_EXT_SSCOFPMF:
+>>>>>>>> +       case KVM_RISCV_ISA_EXT_SSNPM:
+>>>>>>>
+>>>>>>> Why not add KVM_RISCV_ISA_EXT_SMNPM here ?
+>>>>>>>
+>>>>>>> Disabling Smnpm from KVM user space is very different from
+>>>>>>> disabling Smnpm from Guest using SBI FWFT extension.
+>>>>>>
+>>>>>> Until a successful SBI FWFT call to KVM to enable pointer masking fo=
+r VS mode,
+>>>>>> the existence of Smnpm has no visible effect on the guest. So failin=
+g the SBI
+>>>>>> call is sufficient to pretend that the hardware does not support Smn=
+pm.
+>>>>>>
+>>>>>>> The KVM user space should always add Smnpm in the
+>>>>>>> Guest ISA string whenever the Host ISA string has it.
+>>>>>>
+>>>>>> I disagree. Allowing userspace to disable extensions is useful for t=
+esting and
+>>>>>> to support migration to hosts which do not support those extensions.=
+ So I would
+>>>>>> only add extensions to this list if there is no possible way to disa=
+ble them.
+>>>>>
+>>>>> I am not saying to disallow KVM user space disabling Smnpm.
+>>>>
+>>>> Then I'm confused. This is the "return false;" switch case inside
+>>>> kvm_riscv_vcpu_isa_disable_allowed(). If I add KVM_RISCV_ISA_EXT_SMNPM=
+ here,
+>>>> then (unless I am misreading the code) I am disallowing KVM userspace =
+from
+>>>> disabling Smnpm in the guest (i.e. preventing KVM userspace from remov=
+ing Smnpm
+>>>> from the guest ISA string). If that is not desired, then why do you su=
+ggest I
+>>>> add KVM_RISCV_ISA_EXT_SMNPM here?
+>>>
+>>> Yes, adding KVM_RISCV_ISA_EXT_SMNPM here means KVM
+>>> user space can't disable it using ONE_REG interface but KVM user
+>>> space can certainly not add it in the Guest ISA string.
+>>
+>> Is there a problem with allowing KVM userspace to disable the ISA extens=
+ion with
+>> the ONE_REG interface?
+>>
+>> If KVM userspace removes Smnpm from the ISA string without the host kern=
+el's
+>> knowledge, that doesn't actually prevent the guest from successfully cal=
+ling
+>> sbi_fwft_set(POINTER_MASKING_PMLEN, ...), so it doesn't guarantee that t=
+he VM
+>> can be migrated to a host without pointer masking support. So the ONE_RE=
+G
+>> interface still has value. (And that's my answer to your original questi=
+on "Why
+>> not add KVM_RISCV_ISA_EXT_SMNPM here ?")
+>=20
+> Currently, disabling KVM_RISCV_ISA_EXT_SMNPM via ONE_REG
+> will only clear the corresponding bit in VCPU isa bitmap. Basically, the
+> KVM user space disabling KVM_RISCV_ISA_EXT_SMNPM for Guest
+> changes nothing for the Guest/VM.
+>=20
+> On other hand, disabling KVM_RISCV_ISA_EXT_SVPBMT via
+> ONE_REG will not only clear it from VCPU isa bitmap but also
+> disable Svpmbt from henvcfg CSR for the Guest/VM.
+>=20
+> In other words, if disabling an ISA extension is allowed by the
+> kvm_riscv_vcpu_isa_disable_allowed() then the Guest/VM must
+> see a different behaviour when the ISA extension is disabled by
+> KVM user space.
+>=20
+>>
+>>>>> The presence of Smnpm in ISA only means that it is present in HW
+>>>>> but it needs to be explicitly configured/enabled using SBI FWFT.
+>>>>>
+>>>>> KVM user space can certainly disable extensions by not adding it to
+>>>>> ISA string based on the KVMTOOL/QEMU-KVM command line option.
+>>>>> Additionally, when SBI FWFT is added to KVM RISC-V. It will have its
+>>>>> own way to explicitly disable firmware features from KVM user space.
+>>>>
+>>>> I think we agree on this, but your explanation here appears to conflic=
+t with
+>>>> your suggested code change. Apologies if I'm missing something.
+>>>
+>>> I think the confusion is about what does it mean when Smnpm is present
+>>> in the ISA string. We have two approaches:
+>>>
+>>> 1) Presence of Smnpm in ISA string only means it is present in HW but
+>>>     says nothing about its enable/disable state. To configure/enable
+>>>     Smnpm, the supervisor must use SBI FWFT.
+>>>
+>>> 2) Presence of Smnpm in ISA string means it is present in HW and
+>>>     enabled at boot-time. To re-configure/disable Smnpm, the supervisor
+>>>     must use SBI FWFT.
+>>>
+>>> I am suggesting approach #1 but I am guessing you are leaning towards
+>>> approach #2 ?
+>>>
+>>> For approach #2, additional hencfg.PMM configuration is required in
+>>> this patch based on the state of KVM_RISCV_ISA_EXT_SMNPM.
+>>
+>> No, I am definitely suggesting only approach #1. My proposal for adding =
+pointer
+>> masking to the SBI FWFT extension[1] specifies the feature as disabled b=
+y
+>> default, and this would apply both inside and ouside a VM.
+>>
+>> But I am also suggesting that the ONE_REG interface is a useful way to
+>> completely hide the extension from the guest, like we do for other exten=
+sions
+>> such as Svpbmt. The only difference between something like Svpbmt and Sm=
+npm is
+>> that instead of clearing a bit in henvcfg to hide the extension from the=
+ guest,
+>> we reject calls to sbi_fwft_set(POINTER_MASKING_PMLEN, ...) when the ISA
+>> extension is hidden from the guest.
+>=20
+> I think we are converging towards the same thing.
+>=20
+> How about this ?
+>=20
+> For this series, lets add KVM_RISCV_ISA_EXT_SMNPM to
+> kvm_riscv_vcpu_isa_disable_allowed() so that for the time
+> being KVM user space can't disable Smnpm.
+>=20
+> In the future, a separate series which adds SBI FWFT to
+> KVM RISC-V will remove KVM_RISCV_ISA_EXT_SMNPM
+> from the kvm_riscv_vcpu_isa_disable_allowed() because
+> disabling Smnpm from KVM user space would mean that
+> the POINTER_MASKING_PMLEN firmware feature is
+> not available to the Guest/VM.
+>=20
+> This means in the future (after SBI FWFT is implemented in
+> KVM RISC-V), Guest with Smnpm disabled can be migrated
+> to a host without pointer masking.
 
-- Charlie
+OK, that is a reasonable compromise. I'll do that for v5.
 
->  .../devicetree/bindings/riscv/extensions.yaml |  18 +
->  arch/riscv/Kconfig                            |  11 +
->  arch/riscv/include/asm/csr.h                  |  16 +
->  arch/riscv/include/asm/hwcap.h                |   5 +
->  arch/riscv/include/asm/mmu.h                  |   7 +
->  arch/riscv/include/asm/mmu_context.h          |  13 +
->  arch/riscv/include/asm/processor.h            |   8 +
->  arch/riscv/include/asm/switch_to.h            |  11 +
->  arch/riscv/include/asm/uaccess.h              |  43 ++-
->  arch/riscv/include/uapi/asm/hwprobe.h         |   1 +
->  arch/riscv/include/uapi/asm/kvm.h             |   2 +
->  arch/riscv/kernel/cpufeature.c                |   3 +
->  arch/riscv/kernel/process.c                   | 154 ++++++++
->  arch/riscv/kernel/ptrace.c                    |  42 +++
->  arch/riscv/kernel/sys_hwprobe.c               |   3 +
->  arch/riscv/kvm/vcpu_onereg.c                  |   3 +
->  include/uapi/linux/elf.h                      |   1 +
->  include/uapi/linux/prctl.h                    |   3 +
->  .../selftests/kvm/riscv/get-reg-list.c        |   8 +
->  tools/testing/selftests/riscv/Makefile        |   2 +-
->  tools/testing/selftests/riscv/pm/.gitignore   |   1 +
->  tools/testing/selftests/riscv/pm/Makefile     |  10 +
->  .../selftests/riscv/pm/pointer_masking.c      | 330 ++++++++++++++++++
->  24 files changed, 692 insertions(+), 6 deletions(-)
->  create mode 100644 tools/testing/selftests/riscv/pm/.gitignore
->  create mode 100644 tools/testing/selftests/riscv/pm/Makefile
->  create mode 100644 tools/testing/selftests/riscv/pm/pointer_masking.c
-> 
-> -- 
-> 2.45.1
-> 
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+Regards,
+Samuel
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZuR/tK%2B9cKUXqDga%40ghost.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/8e474b14-e963-4d3e-8240-37f662e7bd8a%40sifive.com.
