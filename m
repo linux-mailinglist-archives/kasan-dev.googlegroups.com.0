@@ -1,112 +1,113 @@
-Return-Path: <kasan-dev+bncBDGZVRMH6UCRB27AUS3QMGQEE6QOZ4I@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGZVRMH6UCRB5PAUS3QMGQEJ3XNSUY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x139.google.com (mail-il1-x139.google.com [IPv6:2607:f8b0:4864:20::139])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A17897AC19
-	for <lists+kasan-dev@lfdr.de>; Tue, 17 Sep 2024 09:31:57 +0200 (CEST)
-Received: by mail-il1-x139.google.com with SMTP id e9e14a558f8ab-3a05311890bsf89980335ab.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 17 Sep 2024 00:31:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1726558316; cv=pass;
+Received: from mail-pj1-x1037.google.com (mail-pj1-x1037.google.com [IPv6:2607:f8b0:4864:20::1037])
+	by mail.lfdr.de (Postfix) with ESMTPS id 054CD97AC1C
+	for <lists+kasan-dev@lfdr.de>; Tue, 17 Sep 2024 09:32:07 +0200 (CEST)
+Received: by mail-pj1-x1037.google.com with SMTP id 98e67ed59e1d1-2d8b4a23230sf6151722a91.0
+        for <lists+kasan-dev@lfdr.de>; Tue, 17 Sep 2024 00:32:06 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1726558325; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Ry12G+cEEXANE70WptAiOTFf1fX0R07R+Oo5izjObPJgoArC4NfaL6OXcP6cJhuQEH
-         rk0oYHn42B7Kf4lMLLVe758yR1Qx8S5nYcE3lZA/pe541vxbi+M34lqIAhpa8UrgQ3+/
-         RvSO5DIi7Yjc3CqAdpGW2KqR7GzVqNjl2GzKPVbaUEFzZ2E8nTRIIlaZZxdQH8CWfLfT
-         my6BsENh/LGkYBo5wHjvyqHyomdBT/S4uecMEa9DVCj4G7Am+lThk7a17hHp+diPFVdO
-         5NGFOLLhoTtfCEBFn+xMhhaKTvRHhnDtqcQL/AUdGXyEaxqcFy11ASJOq9Qpgr586v7Y
-         Rj8A==
+        b=aKpCs6X2bizdDgOUB/aQnTzur173hufQIOi6+Snqs00GgYQckQJG12x4R+J+4yK1IK
+         5jyfQGF9Yv53bU78V3du0mx6U9anJmPrj5iTJTTgCHHEH9wLXZMuzg3W8pZ+GKsLzMgg
+         eS5KwKeSkp2O6hJ20KQ9TiRwVkmViXpEU+nHLVhBLoF62EsokijXzgzUTgmA6MvW6QS7
+         3Qp6vgiejfZBGwag20uSswhpLmSP6IW3fSOprX8jPo9UiOD03m2NTfuaDjMNcVDUc2NM
+         R91g8ph1Twp+6aSI+iLCyb+VrSvJGTxicauYKpNjROI7/TyWlZKM0HvLJLffvbl1bzJF
+         yrMQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=mJhZ+4c5vAS2AyMh/i+Bwz9chPYo2uf3GPs2rJqMmBc=;
-        fh=pDpyqBPIGFQPy/uplM2pqUehn9hkXtxiUG6+Ex0qyZs=;
-        b=NH8WtwCz446M2T/zx8Kg+aASUbDDhxT+a2P2sOIZtKPmHCf8am99uwgD6HZlG96gOm
-         +F28YucbKT7QJVmAP1+0Im0bxauACK/Dc175HWl9NCXg+9c81LKBBP7L7rnK9xPgxNXK
-         nV0TtL6PYSFcwHEqoPuyUakgCxlU3CqbYiVNjTG4l4iVWyvq0Rwsmg+EVX3EiGdAJpEP
-         khSxUtqLrZTzUjem8lsXSrXZAfk/teqx1FrOLOZ1uni7arOkv3f+aELOr/F3tPWtvmE/
-         zrOnbPub+snXQPuJMdVc/zf5SLJOaRXH6jTpCe1qni9rLc5KRFPayl0EBe04uW0Kw+rA
-         9V9Q==;
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:sender:dkim-signature;
+        bh=90Ag43oBe+ZXb3KE9u+46fFwCzgfZR1IlsYHt/iTqL4=;
+        fh=TakyhcwWPAhsYikUoRcPbFD5b9bQlkjLMPJTkWlS+Pw=;
+        b=YRyhHNQKAP3TduAEJ1BL6g4pudEDLjn9RRxLkqPsKwKJ0rMxq0IIkrePDqFAym0Gnt
+         XR0TOfztE2I5EgcjsUYmAHU+lNTVBg/YMfZ5zworlf3AHrwun5VSO8imBMHgkeZ++/1P
+         mUh6FWD//BEZY408ghvy6zdKoEH90IKzjs0bMyqAK1G14vQIzUmY6ReuNFl2HJq7aojj
+         yF46pXWOt8isew1cqdBSLBa/fdXydqaLQtHT3u+AbdGFOjSONStw1XLk1xqFhjhtrw5g
+         2kk5/EQWajs5/UIyzt8d9YrB0m5thZUiNoLK3L50qWG2xfMKPdlnZSG0G+6GgSiGfHDS
+         9+wg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1726558316; x=1727163116; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1726558325; x=1727163125; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mJhZ+4c5vAS2AyMh/i+Bwz9chPYo2uf3GPs2rJqMmBc=;
-        b=pK2/DDEd2o6/jHov7owxG2/d2BUSxjZmsZJqe9rOZiNhoNOhavLf5G6LJjsiOxD0EF
-         ImNfCCb01n/3zcXY+sPAmxPUQCIoOz0uXYH6PuGukNlSd11xoRtyAAN24tYyG7q9zBdt
-         k6wKPMRJfL9m73tAweCJ+ndNK42mZio+WVVAy8j7j/vWuPrU5GTTyogRcX88vPEOtPxa
-         kfvpA4pLFJTTLMUc4EQ1wydYHbU0xzB/VQH7HusVirI8nCKdysjkNyE2Cr0R0eRjbqKz
-         b7ZZu+TOL0+flN1DGNQzoisYg9pyo7LMR2RFQiKQOgDChdgrgB/T1S1aZLZLlI3JjmmK
-         CP1g==
+         :x-original-sender:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=90Ag43oBe+ZXb3KE9u+46fFwCzgfZR1IlsYHt/iTqL4=;
+        b=uzG0GqfUpBcv3Wn2EI5oulYynskA7kjEMUdPPqaXIiEpv0DA/qLATu3bdQkuBTMvAQ
+         1LpSwCz0wbRx/hL0hL5RIoqgO8bKZ3+WtMHmIs/MX/HWHtumQK4/rLzY50CpcdnMUPOa
+         rvRpca8G41WxnoL6teHfRHUG0Pzy366qPtAGZ+tskom4yvmxA5zEkg43g2gLMrsCPh/k
+         WgzJPZURQiWgF5dKzArBAReC9DklktSOlc2ENAHMYFL60wvr6zJid8UIQsyzg1NyGgF7
+         0TT8ekrvX0YIoRKCWa6ZJ/mashKSuneR0/qCXiyGjJ+lYG0cgPKF1zk0nuKt85/+WulW
+         dHkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726558316; x=1727163116;
+        d=1e100.net; s=20230601; t=1726558325; x=1727163125;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mJhZ+4c5vAS2AyMh/i+Bwz9chPYo2uf3GPs2rJqMmBc=;
-        b=tW4xK1qbuG38mpS4dVO+QqB286QCHvtC1GrWJBWucBzpAl7ROc6LtZmVlT1gQOyLFq
-         aRsJHJ4AjF1/DZnfekh5GtsBTWJav9q+QaiBWgsCGs1KLWUWaqq5t5jRDdw0KmO0N0Re
-         26oFJJOY2yh9/yIMLL9uMwZnHsdxjcjVQzmZ/iirD+XNgRI7m5sGlPXhL3G73qoQlwA2
-         6NfjJwr9B1Wp3HfM1yzCGpOE0vMHFrgDRFBFjGd9UOITHiBfSelhq67afAjJrt1//Cvg
-         BLMMLydEKb2Ff//FZZQLg738/ryLNZU2M/2RAS79WJDWz4oHAJFW6Q2ClL4G21xE1UxM
-         Ukyg==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=90Ag43oBe+ZXb3KE9u+46fFwCzgfZR1IlsYHt/iTqL4=;
+        b=MO6ySGqlewJmdgl2A2v7pyd8us4SzNG/l/dfMjA4dMumEHRE9ddBJAfXsholR/3kBU
+         8Vq+UsQ8PgSKTtj+ovanO0omjrSSZacliKICJWh50Ez8oZWeoHPbgfO2jUnjwQ9To4qp
+         H1QmUDZo06UvIyYGqUcoKARymndTYD5MAikYZBDKiGxgq2okbbbx3W1RCccW2OcC94nD
+         RB/g0zxF1eU7a14VHQCML+BdJ76KHSumIJh2Dv4NURnnwyN9RlcEXb754vL8A/yW+Bf+
+         hzApFU/vdFKkdzW9VYGL2muwyJRB66UKBg8lyev+jMQ7eSkZUgqKg1S4DyKhGkqjwnBf
+         NYKQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUGeYnzBEFkUHs6CeqUROm81awKSX8a6fIpZqiQeRpZqQ6ynszXni+fT/3NJ058X5HVljYGtA==@lfdr.de
-X-Gm-Message-State: AOJu0YyxAily0jHcKG71XwGUKMk/jqfQWjdvPNmnKQLuZ5ejGBubdxr/
-	WqF7wTrwoQdtXPymv1OMnD4tjbQtTa2YvQ3lOqCrG7MPj07u5ly+
-X-Google-Smtp-Source: AGHT+IGLQvyTDzqA1KDfZoPqO4LSHM4MEZTNXTLDFY0jCeP/FNIFq5SdgC7Cw9ZteZqLVDDgh/JwXg==
-X-Received: by 2002:a92:c548:0:b0:3a0:8dcb:b033 with SMTP id e9e14a558f8ab-3a08dcbb224mr103613945ab.24.1726558315939;
-        Tue, 17 Sep 2024 00:31:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVuLK1IgFpCNqpX+30i4vLJOfH7ta2ZUtiv49E6KYAmoXtWbCs9tcG5x8ppBTc84R6lbrakDQ==@lfdr.de
+X-Gm-Message-State: AOJu0Ywo/KWj/Iuyiyh4AzcdaGu727k60G/CUH8MhAJF7VIsJA/7nwF6
+	EelOvTRDQn2EnKZ0n9WT6M647phLUF/HDXFCtJ/Dt9DL+mczWAX6
+X-Google-Smtp-Source: AGHT+IGn4mkq+agarJTNj59s2X5Nl+2YwxYPhGzT+3eHerBpkYou5kSIFOUadv0yq9OJU3OGWuNnEQ==
+X-Received: by 2002:a17:90b:2883:b0:2dd:4f93:93d4 with SMTP id 98e67ed59e1d1-2dd4f93944emr1262516a91.17.1726558325500;
+        Tue, 17 Sep 2024 00:32:05 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:154e:b0:3a0:b55f:cde1 with SMTP id
- e9e14a558f8ab-3a0b55fce60ls145985ab.0.-pod-prod-04-us; Tue, 17 Sep 2024
- 00:31:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVwmdK9iUkBmgvovZJrTBLfbBMhGCy6f68PlV1zBOQff+5jlCTsyEU34Qdoh5r5u3GVhOre9BuUGbo=@googlegroups.com
-X-Received: by 2002:a05:6602:26ca:b0:82c:d768:aa4d with SMTP id ca18e2360f4ac-82d376e2f3cmr1534047539f.9.1726558314970;
-        Tue, 17 Sep 2024 00:31:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1726558314; cv=none;
+Received: by 2002:a17:90b:17cb:b0:2cb:57a2:d478 with SMTP id
+ 98e67ed59e1d1-2db9f63b0d0ls2225648a91.1.-pod-prod-01-us; Tue, 17 Sep 2024
+ 00:32:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUf+lxixTFMrl3Jz1KS9YUes68mC34k2T35pbKuB3sK3n/3hqVqb5pKbiDDLj1nSY3ca/5DZXyQ9fw=@googlegroups.com
+X-Received: by 2002:a05:6a20:c6c1:b0:1d2:e78d:214a with SMTP id adf61e73a8af0-1d2e78dc400mr727147637.44.1726558323190;
+        Tue, 17 Sep 2024 00:32:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1726558323; cv=none;
         d=google.com; s=arc-20240605;
-        b=Gid/mdR868oCE5c5xn/E2ZHPXuRhwL77JOgFnyQEvQLAXCAVv8V71+3GQJC05eDlKT
-         zNQjbvN3n2eiiAGk4ijbHBLb2W2if5uulOwb4Kd4RMiH2aUEyXNijPQbU388vqd6MG2a
-         UUb+sI93s93IvchHAT7ur3ZxN0xKXXzUEC6YYK0b0h72N3ezVe9+xCbkuUqZI/RrU9ss
-         PM5b16sLTmAsKkHW2cCz3GVZwDWX6ylBIrWG/vVejyXVNZHR95MS0Eoysc2/6UBW3qp2
-         hN4F0QGK7GNjU9oCEIZS7MBXUFgpYjHJRka6/tEir38QOvF9hdSLI9EMNFAL3CSyCbtP
-         KtUQ==
+        b=Gv7E81xq4txOW83c9anxt35BFzK1Mm5mzr/0/t76JjLu5QAp7PdCBcnJRhUR16wG+s
+         0q8LUWwJ9vWpId/sksMGu401mmK1EsCmxrQjIZQxcCwdkGikkfaZ3ikSkgDA2xDs93D2
+         qpU1DVVcAUYmRlW8dtpXQUxkOUGU+/ZmU1bVHJvK1OniRqP3UD9rkvfeEsq02L3mN4tc
+         6gc2G5JfWckJHNdOzzf3lKnhXTpWgR2xkVQ004NvUur5Hpjlv74jtnwiAYoIBgHWOH90
+         1Q5eEYOb5yVCZdRFxjLfiejve0eyyrk0iFPVyqZabVoy+V/DXzHROOR2uaqJTq9pQCct
+         t+4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=62Yfe2hEn3kMms/kObacDTTloBjetxe+IGf2cAuDm/8=;
-        fh=xRfYHoGbnBZDJKL3oBOog8tCgTNJotzrfwCfruu/2uI=;
-        b=T9AQqF0oBBNRXm9ISaLWWB+DpWiD+uK4qwWk+mAMtYmhnbBXa3RoPbuiAapGWrqSk7
-         u4dIpqTTaRXYVGQJCpZ0heAkl4HvH43GRalI+6sq3YPXtyR9xr5Jw3as2Z+lSSX3qIxB
-         KHzaUUVzfpS9Yr6HMVQYOS8whEKptbBSs0Iyeqayc1de1nwPrlg+NiVjxMkw81el35vl
-         gNBeHfM7jDm6RipFgROhF3O1weNgMbLRcOM+7myW1D2ndKR8K11zVrfRgkYvNsBEsG7Y
-         Wd/TL2S1DvDT5fHy1cVuotcvPBFUOfjOss1rKAIXEt0N5ncM7kIO1RgmLOW/2rUtoclv
-         roOg==;
+        bh=CEFgZetd4pxu5jlYUNdyrjKeZ6YDsS89h9L42GW3kkM=;
+        fh=zPRZeEmJP4LlGVEGfR3f/0Od4eO8rC08qZYXsq0IL6Y=;
+        b=E4j4mE5HMgJHbWQGmAxDwEPLOPOWeArNiHyhXTJhjBI29gFwK+K/ve0pAx7kQ1hgtf
+         5QJ6bA46UiBtohHEF2vf2LlDEqPg+JWj3Nu75ZV6ZkTtEki07EDBp8CvQulyqCvVkiIi
+         STHM19jX4755pcRi7OIlc82kiEkL3FABpC21+rQ/3RC7bdkCNSPpT6jKn73BCxlEaglW
+         ibyTxYoOVcyHLyB/MIPotlOVId+kQ9nhNBBQnOX2gZD0cUm09jUihlH5fGglsZoHK5ms
+         /WWNJ+h1fUhajeGqR5Elq4h0ovdhM3p3vAlQy/y8RaQotJjRc9nblxD74UXndrnPqzgE
+         4xoQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id 8926c6da1cb9f-4d37ecaa652si251790173.6.2024.09.17.00.31.54
+        by gmr-mx.google.com with ESMTP id 98e67ed59e1d1-2dbcfde60basi253237a91.3.2024.09.17.00.32.02
         for <kasan-dev@googlegroups.com>;
-        Tue, 17 Sep 2024 00:31:54 -0700 (PDT)
+        Tue, 17 Sep 2024 00:32:03 -0700 (PDT)
 Received-SPF: pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6DEA31063;
-	Tue, 17 Sep 2024 00:32:23 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 950FD106F;
+	Tue, 17 Sep 2024 00:32:31 -0700 (PDT)
 Received: from a077893.arm.com (unknown [10.163.61.158])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 36A203F64C;
-	Tue, 17 Sep 2024 00:31:45 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9716F3F64C;
+	Tue, 17 Sep 2024 00:31:54 -0700 (PDT)
 From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: linux-mm@kvack.org
 Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
@@ -122,29 +123,29 @@ Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
 	linux-kernel@vger.kernel.org,
 	linux-perf-users@vger.kernel.org,
 	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
 	Muchun Song <muchun.song@linux.dev>,
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
 	Miaohe Lin <linmiaohe@huawei.com>,
 	Naoya Horiguchi <nao.horiguchi@gmail.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@linux.com>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>
-Subject: [PATCH V2 4/7] mm: Use pmdp_get() for accessing PMD entries
-Date: Tue, 17 Sep 2024 13:01:14 +0530
-Message-Id: <20240917073117.1531207-5-anshuman.khandual@arm.com>
+	Pasha Tatashin <pasha.tatashin@soleen.com>
+Subject: [PATCH V2 5/7] mm: Use pudp_get() for accessing PUD entries
+Date: Tue, 17 Sep 2024 13:01:15 +0530
+Message-Id: <20240917073117.1531207-6-anshuman.khandual@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240917073117.1531207-1-anshuman.khandual@arm.com>
 References: <20240917073117.1531207-1-anshuman.khandual@arm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: anshuman.khandual@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
  (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172
  as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -157,1153 +158,780 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Convert PMD accesses via pmdp_get() helper that defaults as READ_ONCE() but
+Convert PUD accesses via pudp_get() helper that defaults as READ_ONCE() but
 also provides the platform an opportunity to override when required. This
 stores read page table entry value in a local variable which can be used in
 multiple instances there after. This helps in avoiding multiple memory load
 operations as well possible race conditions.
 
 Cc: Dimitri Sivanich <dimitri.sivanich@hpe.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Arnaldo Carvalho de Melo <acme@kernel.org>
+Cc: "J=C3=A9r=C3=B4me Glisse" <jglisse@redhat.com>
 Cc: Muchun Song <muchun.song@linux.dev>
 Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
 Cc: Miaohe Lin <linmiaohe@huawei.com>
 Cc: Naoya Horiguchi <nao.horiguchi@gmail.com>
 Cc: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Dennis Zhou <dennis@kernel.org>
-Cc: Tejun Heo <tj@kernel.org>
-Cc: Christoph Lameter <cl@linux.com>
-Cc: Uladzislau Rezki <urezki@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Ryan Roberts <ryan.roberts@arm.com>
-Cc: "Mike Rapoport (IBM)" <rppt@kernel.org>
 Cc: linux-kernel@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org
 Cc: linux-mm@kvack.org
+Cc: linux-perf-users@vger.kernel.org
 Cc: kasan-dev@googlegroups.com
 Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- drivers/misc/sgi-gru/grufault.c |  7 ++--
- fs/proc/task_mmu.c              | 28 +++++++-------
- include/linux/huge_mm.h         |  4 +-
+ drivers/misc/sgi-gru/grufault.c |  2 +-
+ fs/userfaultfd.c                |  2 +-
+ include/linux/huge_mm.h         |  2 +-
  include/linux/mm.h              |  2 +-
- include/linux/pgtable.h         | 15 ++++----
- mm/gup.c                        | 14 +++----
- mm/huge_memory.c                | 66 +++++++++++++++++----------------
- mm/hugetlb_vmemmap.c            |  4 +-
- mm/kasan/init.c                 | 10 ++---
- mm/kasan/shadow.c               |  4 +-
- mm/khugepaged.c                 |  4 +-
- mm/madvise.c                    |  6 +--
- mm/memory-failure.c             |  6 +--
- mm/memory.c                     | 25 +++++++------
- mm/mempolicy.c                  |  4 +-
- mm/migrate.c                    |  4 +-
- mm/migrate_device.c             | 10 ++---
- mm/mlock.c                      |  6 +--
- mm/mprotect.c                   |  2 +-
- mm/mremap.c                     |  4 +-
+ include/linux/pgtable.h         | 13 ++++++++-----
+ kernel/events/core.c            |  2 +-
+ mm/gup.c                        | 12 ++++++------
+ mm/hmm.c                        |  2 +-
+ mm/huge_memory.c                | 24 +++++++++++++++---------
+ mm/hugetlb.c                    |  6 +++---
+ mm/kasan/init.c                 | 10 +++++-----
+ mm/kasan/shadow.c               |  4 ++--
+ mm/mapping_dirty_helpers.c      |  2 +-
+ mm/memory-failure.c             |  4 ++--
+ mm/memory.c                     | 14 +++++++-------
  mm/page_table_check.c           |  2 +-
- mm/pagewalk.c                   |  4 +-
+ mm/page_vma_mapped.c            |  2 +-
+ mm/pagewalk.c                   |  6 +++---
  mm/percpu.c                     |  2 +-
- mm/pgtable-generic.c            | 20 +++++-----
- mm/ptdump.c                     |  2 +-
- mm/rmap.c                       |  4 +-
- mm/sparse-vmemmap.c             |  4 +-
- mm/vmalloc.c                    | 15 ++++----
- 28 files changed, 145 insertions(+), 133 deletions(-)
+ mm/pgalloc-track.h              |  2 +-
+ mm/pgtable-generic.c            |  6 +++---
+ mm/ptdump.c                     |  4 ++--
+ mm/rmap.c                       |  2 +-
+ mm/sparse-vmemmap.c             |  2 +-
+ mm/vmalloc.c                    | 15 ++++++++-------
+ mm/vmscan.c                     |  4 ++--
+ 26 files changed, 79 insertions(+), 69 deletions(-)
 
-diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufault.c
-index 3557d78ee47a..804f275ece99 100644
+diff --git a/drivers/misc/sgi-gru/grufault.c b/drivers/misc/sgi-gru/grufaul=
+t.c
+index 804f275ece99..95d479d5e40f 100644
 --- a/drivers/misc/sgi-gru/grufault.c
 +++ b/drivers/misc/sgi-gru/grufault.c
-@@ -208,7 +208,7 @@ static int atomic_pte_lookup(struct vm_area_struct *vma, unsigned long vaddr,
- 	pgd_t *pgdp;
- 	p4d_t *p4dp;
- 	pud_t *pudp;
--	pmd_t *pmdp;
-+	pmd_t *pmdp, old_pmd;
- 	pte_t pte;
- 
- 	pgdp = pgd_offset(vma->vm_mm, vaddr);
-@@ -224,10 +224,11 @@ static int atomic_pte_lookup(struct vm_area_struct *vma, unsigned long vaddr,
+@@ -220,7 +220,7 @@ static int atomic_pte_lookup(struct vm_area_struct *vma=
+, unsigned long vaddr,
  		goto err;
- 
- 	pmdp = pmd_offset(pudp, vaddr);
--	if (unlikely(pmd_none(*pmdp)))
-+	old_pmd = pmdp_get(pmdp);
-+	if (unlikely(pmd_none(old_pmd)))
+=20
+ 	pudp =3D pud_offset(p4dp, vaddr);
+-	if (unlikely(pud_none(*pudp)))
++	if (unlikely(pud_none(pudp_get(pudp))))
  		goto err;
- #ifdef CONFIG_X86_64
--	if (unlikely(pmd_leaf(*pmdp)))
-+	if (unlikely(pmd_leaf(old_pmd)))
- 		pte = ptep_get((pte_t *)pmdp);
- 	else
- #endif
-diff --git a/fs/proc/task_mmu.c b/fs/proc/task_mmu.c
-index 5f171ad7b436..f0c63884d008 100644
---- a/fs/proc/task_mmu.c
-+++ b/fs/proc/task_mmu.c
-@@ -861,12 +861,13 @@ static void smaps_pmd_entry(pmd_t *pmd, unsigned long addr,
- 	struct page *page = NULL;
- 	bool present = false;
- 	struct folio *folio;
-+	pmd_t old_pmd = pmdp_get(pmd);
- 
--	if (pmd_present(*pmd)) {
--		page = vm_normal_page_pmd(vma, addr, *pmd);
-+	if (pmd_present(old_pmd)) {
-+		page = vm_normal_page_pmd(vma, addr, old_pmd);
- 		present = true;
--	} else if (unlikely(thp_migration_supported() && is_swap_pmd(*pmd))) {
--		swp_entry_t entry = pmd_to_swp_entry(*pmd);
-+	} else if (unlikely(thp_migration_supported() && is_swap_pmd(old_pmd))) {
-+		swp_entry_t entry = pmd_to_swp_entry(old_pmd);
- 
- 		if (is_pfn_swap_entry(entry))
- 			page = pfn_swap_entry_to_page(entry);
-@@ -883,7 +884,7 @@ static void smaps_pmd_entry(pmd_t *pmd, unsigned long addr,
- 	else
- 		mss->file_thp += HPAGE_PMD_SIZE;
- 
--	smaps_account(mss, page, true, pmd_young(*pmd), pmd_dirty(*pmd),
-+	smaps_account(mss, page, true, pmd_young(old_pmd), pmd_dirty(old_pmd),
- 		      locked, present);
- }
- #else
-@@ -1426,7 +1427,7 @@ static inline void clear_soft_dirty(struct vm_area_struct *vma,
- static inline void clear_soft_dirty_pmd(struct vm_area_struct *vma,
- 		unsigned long addr, pmd_t *pmdp)
- {
--	pmd_t old, pmd = *pmdp;
-+	pmd_t old, pmd = pmdp_get(pmdp);
- 
- 	if (pmd_present(pmd)) {
- 		/* See comment in change_huge_pmd() */
-@@ -1468,10 +1469,10 @@ static int clear_refs_pte_range(pmd_t *pmd, unsigned long addr,
- 			goto out;
- 		}
- 
--		if (!pmd_present(*pmd))
-+		if (!pmd_present(pmdp_get(pmd)))
- 			goto out;
- 
--		folio = pmd_folio(*pmd);
-+		folio = pmd_folio(pmdp_get(pmd));
- 
- 		/* Clear accessed and referenced bits. */
- 		pmdp_test_and_clear_young(vma, addr, pmd);
-@@ -1769,7 +1770,7 @@ static int pagemap_pmd_range(pmd_t *pmdp, unsigned long addr, unsigned long end,
- 	if (ptl) {
- 		unsigned int idx = (addr & ~PMD_MASK) >> PAGE_SHIFT;
- 		u64 flags = 0, frame = 0;
--		pmd_t pmd = *pmdp;
-+		pmd_t pmd = pmdp_get(pmdp);
- 		struct page *page = NULL;
- 		struct folio *folio = NULL;
- 
-@@ -2189,7 +2190,7 @@ static unsigned long pagemap_thp_category(struct pagemap_scan_private *p,
- static void make_uffd_wp_pmd(struct vm_area_struct *vma,
- 			     unsigned long addr, pmd_t *pmdp)
- {
--	pmd_t old, pmd = *pmdp;
-+	pmd_t old, pmd = pmdp_get(pmdp);
- 
- 	if (pmd_present(pmd)) {
- 		old = pmdp_invalidate_ad(vma, addr, pmdp);
-@@ -2416,7 +2417,7 @@ static int pagemap_scan_thp_entry(pmd_t *pmd, unsigned long start,
- 		return -ENOENT;
- 
- 	categories = p->cur_vma_category |
--		     pagemap_thp_category(p, vma, start, *pmd);
-+		     pagemap_thp_category(p, vma, start, pmdp_get(pmd));
- 
- 	if (!pagemap_scan_is_interesting_page(categories, p))
- 		goto out_unlock;
-@@ -2946,10 +2947,11 @@ static int gather_pte_stats(pmd_t *pmd, unsigned long addr,
- 	ptl = pmd_trans_huge_lock(pmd, vma);
- 	if (ptl) {
- 		struct page *page;
-+		pmd_t old_pmd = pmdp_get(pmd);
- 
--		page = can_gather_numa_stats_pmd(*pmd, vma, addr);
-+		page = can_gather_numa_stats_pmd(old_pmd, vma, addr);
- 		if (page)
--			gather_stats(page, md, pmd_dirty(*pmd),
-+			gather_stats(page, md, pmd_dirty(old_pmd),
- 				     HPAGE_PMD_SIZE/PAGE_SIZE);
- 		spin_unlock(ptl);
- 		return 0;
+=20
+ 	pmdp =3D pmd_offset(pudp, vaddr);
+diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+index 27a3e9285fbf..00719a0f688c 100644
+--- a/fs/userfaultfd.c
++++ b/fs/userfaultfd.c
+@@ -310,7 +310,7 @@ static inline bool userfaultfd_must_wait(struct userfau=
+ltfd_ctx *ctx,
+ 	if (!p4d_present(*p4d))
+ 		goto out;
+ 	pud =3D pud_offset(p4d, address);
+-	if (!pud_present(*pud))
++	if (!pud_present(pudp_get(pud)))
+ 		goto out;
+ 	pmd =3D pmd_offset(pud, address);
+ again:
 diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-index e25d9ebfdf89..38b5de040d02 100644
+index 38b5de040d02..66a19622d95b 100644
 --- a/include/linux/huge_mm.h
 +++ b/include/linux/huge_mm.h
-@@ -369,7 +369,9 @@ static inline int is_swap_pmd(pmd_t pmd)
- static inline spinlock_t *pmd_trans_huge_lock(pmd_t *pmd,
+@@ -379,7 +379,7 @@ static inline spinlock_t *pmd_trans_huge_lock(pmd_t *pm=
+d,
+ static inline spinlock_t *pud_trans_huge_lock(pud_t *pud,
  		struct vm_area_struct *vma)
  {
--	if (is_swap_pmd(*pmd) || pmd_trans_huge(*pmd) || pmd_devmap(*pmd))
-+	pmd_t old_pmd = pmdp_get(pmd);
-+
-+	if (is_swap_pmd(old_pmd) || pmd_trans_huge(old_pmd) || pmd_devmap(old_pmd))
- 		return __pmd_trans_huge_lock(pmd, vma);
+-	if (pud_trans_huge(*pud) || pud_devmap(*pud))
++	if (pud_trans_huge(pudp_get(pud)) || pud_devmap(pudp_get(pud)))
+ 		return __pud_trans_huge_lock(pud, vma);
  	else
  		return NULL;
 diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 147073601716..258e49323306 100644
+index 258e49323306..1bb1599b5779 100644
 --- a/include/linux/mm.h
 +++ b/include/linux/mm.h
-@@ -2921,7 +2921,7 @@ static inline spinlock_t *ptlock_ptr(struct ptdesc *ptdesc)
- 
- static inline spinlock_t *pte_lockptr(struct mm_struct *mm, pmd_t *pmd)
+@@ -2832,7 +2832,7 @@ static inline pud_t *pud_alloc(struct mm_struct *mm, =
+p4d_t *p4d,
+=20
+ static inline pmd_t *pmd_alloc(struct mm_struct *mm, pud_t *pud, unsigned =
+long address)
  {
--	return ptlock_ptr(page_ptdesc(pmd_page(*pmd)));
-+	return ptlock_ptr(page_ptdesc(pmd_page(pmdp_get(pmd))));
+-	return (unlikely(pud_none(*pud)) && __pmd_alloc(mm, pud, address))?
++	return (unlikely(pud_none(pudp_get(pud))) && __pmd_alloc(mm, pud, address=
+)) ?
+ 		NULL: pmd_offset(pud, address);
  }
- 
- static inline spinlock_t *ptep_lockptr(struct mm_struct *mm, pte_t *pte)
+ #endif /* CONFIG_MMU */
 diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index 547eeae8c43f..ea283ce958a7 100644
+index ea283ce958a7..eb993ef0946f 100644
 --- a/include/linux/pgtable.h
 +++ b/include/linux/pgtable.h
-@@ -367,7 +367,7 @@ static inline int pmdp_test_and_clear_young(struct vm_area_struct *vma,
+@@ -611,7 +611,7 @@ static inline pud_t pudp_huge_get_and_clear(struct mm_s=
+truct *mm,
  					    unsigned long address,
- 					    pmd_t *pmdp)
+ 					    pud_t *pudp)
  {
--	pmd_t pmd = *pmdp;
-+	pmd_t pmd = pmdp_get(pmdp);
- 	int r = 1;
- 	if (!pmd_young(pmd))
- 		r = 0;
-@@ -598,7 +598,7 @@ static inline pmd_t pmdp_huge_get_and_clear(struct mm_struct *mm,
- 					    unsigned long address,
- 					    pmd_t *pmdp)
+-	pud_t pud =3D *pudp;
++	pud_t pud =3D pudp_get(pudp);
+=20
+ 	pud_clear(pudp);
+ 	page_table_check_pud_clear(mm, pud);
+@@ -893,7 +893,7 @@ static inline void pmdp_set_wrprotect(struct mm_struct =
+*mm,
+ static inline void pudp_set_wrprotect(struct mm_struct *mm,
+ 				      unsigned long address, pud_t *pudp)
  {
--	pmd_t pmd = *pmdp;
-+	pmd_t pmd = pmdp_get(pmdp);
- 
- 	pmd_clear(pmdp);
- 	page_table_check_pmd_clear(mm, pmd);
-@@ -876,7 +876,7 @@ static inline pte_t pte_sw_mkyoung(pte_t pte)
- static inline void pmdp_set_wrprotect(struct mm_struct *mm,
- 				      unsigned long address, pmd_t *pmdp)
- {
--	pmd_t old_pmd = *pmdp;
-+	pmd_t old_pmd = pmdp_get(pmdp);
- 	set_pmd_at(mm, address, pmdp, pmd_wrprotect(old_pmd));
+-	pud_t old_pud =3D *pudp;
++	pud_t old_pud =3D pudp_get(pudp);
+=20
+ 	set_pud_at(mm, address, pudp, pud_wrprotect(old_pud));
  }
- #else
-@@ -945,7 +945,7 @@ extern pgtable_t pgtable_trans_huge_withdraw(struct mm_struct *mm, pmd_t *pmdp);
- static inline pmd_t generic_pmdp_establish(struct vm_area_struct *vma,
- 		unsigned long address, pmd_t *pmdp, pmd_t pmd)
- {
--	pmd_t old_pmd = *pmdp;
-+	pmd_t old_pmd = pmdp_get(pmdp);
- 	set_pmd_at(vma->vm_mm, address, pmdp, pmd);
- 	return old_pmd;
- }
-@@ -1067,7 +1067,8 @@ static inline int pgd_same(pgd_t pgd_a, pgd_t pgd_b)
- 
- #define set_pmd_safe(pmdp, pmd) \
+@@ -1074,7 +1074,8 @@ static inline int pgd_same(pgd_t pgd_a, pgd_t pgd_b)
+=20
+ #define set_pud_safe(pudp, pud) \
  ({ \
--	WARN_ON_ONCE(pmd_present(*pmdp) && !pmd_same(*pmdp, pmd)); \
-+	pmd_t __old = pmdp_get(pmdp); \
-+	WARN_ON_ONCE(pmd_present(__old) && !pmd_same(__old, pmd)); \
- 	set_pmd(pmdp, pmd); \
+-	WARN_ON_ONCE(pud_present(*pudp) && !pud_same(*pudp, pud)); \
++	pud_t __old =3D pudp_get(pudp); \
++	WARN_ON_ONCE(pud_present(__old) && !pud_same(__old, pud)); \
+ 	set_pud(pudp, pud); \
  })
- 
-@@ -1271,9 +1272,9 @@ static inline int pud_none_or_clear_bad(pud_t *pud)
- 
- static inline int pmd_none_or_clear_bad(pmd_t *pmd)
+=20
+@@ -1261,9 +1262,11 @@ static inline int p4d_none_or_clear_bad(p4d_t *p4d)
+=20
+ static inline int pud_none_or_clear_bad(pud_t *pud)
  {
--	if (pmd_none(*pmd))
-+	if (pmd_none(pmdp_get(pmd)))
+-	if (pud_none(*pud))
++	pud_t old_pud =3D pudp_get(pud);
++
++	if (pud_none(old_pud))
  		return 1;
--	if (unlikely(pmd_bad(*pmd))) {
-+	if (unlikely(pmd_bad(pmdp_get(pmd)))) {
- 		pmd_clear_bad(pmd);
+-	if (unlikely(pud_bad(*pud))) {
++	if (unlikely(pud_bad(old_pud))) {
+ 		pud_clear_bad(pud);
  		return 1;
  	}
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index 8a6c6bbcd658..35e2f2789246 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -7619,7 +7619,7 @@ static u64 perf_get_pgtable_size(struct mm_struct *mm=
+, unsigned long addr)
+ 		return p4d_leaf_size(p4d);
+=20
+ 	pudp =3D pud_offset_lockless(p4dp, p4d, addr);
+-	pud =3D READ_ONCE(*pudp);
++	pud =3D pudp_get(pudp);
+ 	if (!pud_present(pud))
+ 		return 0;
+=20
 diff --git a/mm/gup.c b/mm/gup.c
-index 54d0dc3831fb..aeeac0a54944 100644
+index aeeac0a54944..300fc7eb306c 100644
 --- a/mm/gup.c
 +++ b/mm/gup.c
-@@ -699,7 +699,7 @@ static struct page *follow_huge_pmd(struct vm_area_struct *vma,
- 				    struct follow_page_context *ctx)
+@@ -606,7 +606,7 @@ static struct page *follow_huge_pud(struct vm_area_stru=
+ct *vma,
  {
- 	struct mm_struct *mm = vma->vm_mm;
--	pmd_t pmdval = *pmd;
-+	pmd_t pmdval = pmdp_get(pmd);
+ 	struct mm_struct *mm =3D vma->vm_mm;
  	struct page *page;
+-	pud_t pud =3D *pudp;
++	pud_t pud =3D pudp_get(pudp);
+ 	unsigned long pfn =3D pud_pfn(pud);
  	int ret;
- 
-@@ -714,7 +714,7 @@ static struct page *follow_huge_pmd(struct vm_area_struct *vma,
- 	if ((flags & FOLL_DUMP) && is_huge_zero_pmd(pmdval))
- 		return ERR_PTR(-EFAULT);
- 
--	if (pmd_protnone(*pmd) && !gup_can_follow_protnone(vma, flags))
-+	if (pmd_protnone(pmdp_get(pmd)) && !gup_can_follow_protnone(vma, flags))
- 		return NULL;
- 
- 	if (!pmd_write(pmdval) && gup_must_unshare(vma, flags, page))
-@@ -957,7 +957,7 @@ static struct page *follow_pmd_mask(struct vm_area_struct *vma,
+=20
+@@ -989,7 +989,7 @@ static struct page *follow_pud_mask(struct vm_area_stru=
+ct *vma,
+ 	struct mm_struct *mm =3D vma->vm_mm;
+=20
+ 	pudp =3D pud_offset(p4dp, address);
+-	pud =3D READ_ONCE(*pudp);
++	pud =3D pudp_get(pudp);
+ 	if (!pud_present(pud))
  		return no_page_table(vma, flags, address);
- 
- 	ptl = pmd_lock(mm, pmd);
--	pmdval = *pmd;
-+	pmdval = pmdp_get(pmd);
- 	if (unlikely(!pmd_present(pmdval))) {
- 		spin_unlock(ptl);
- 		return no_page_table(vma, flags, address);
-@@ -1120,7 +1120,7 @@ static int get_gate_page(struct mm_struct *mm, unsigned long address,
- 	if (pud_none(*pud))
+ 	if (pud_leaf(pud)) {
+@@ -1117,7 +1117,7 @@ static int get_gate_page(struct mm_struct *mm, unsign=
+ed long address,
+ 	if (p4d_none(*p4d))
  		return -EFAULT;
- 	pmd = pmd_offset(pud, address);
--	if (!pmd_present(*pmd))
-+	if (!pmd_present(pmdp_get(pmd)))
+ 	pud =3D pud_offset(p4d, address);
+-	if (pud_none(*pud))
++	if (pud_none(pudp_get(pud)))
  		return -EFAULT;
- 	pte = pte_offset_map(pmd, address);
- 	if (!pte)
-@@ -2898,7 +2898,7 @@ static int gup_fast_pte_range(pmd_t pmd, pmd_t *pmdp, unsigned long addr,
- 		if (!folio)
- 			goto pte_unmap;
- 
--		if (unlikely(pmd_val(pmd) != pmd_val(*pmdp)) ||
-+		if (unlikely(pmd_val(pmd) != pmd_val(pmdp_get(pmdp))) ||
- 		    unlikely(pte_val(pte) != pte_val(ptep_get(ptep)))) {
- 			gup_put_folio(folio, 1, flags);
- 			goto pte_unmap;
-@@ -3007,7 +3007,7 @@ static int gup_fast_devmap_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+ 	pmd =3D pmd_offset(pud, address);
+ 	if (!pmd_present(pmdp_get(pmd)))
+@@ -3025,7 +3025,7 @@ static int gup_fast_devmap_pud_leaf(pud_t orig, pud_t=
+ *pudp, unsigned long addr,
  	if (!gup_fast_devmap_leaf(fault_pfn, addr, end, flags, pages, nr))
  		return 0;
- 
--	if (unlikely(pmd_val(orig) != pmd_val(*pmdp))) {
-+	if (unlikely(pmd_val(orig) != pmd_val(pmdp_get(pmdp)))) {
+=20
+-	if (unlikely(pud_val(orig) !=3D pud_val(*pudp))) {
++	if (unlikely(pud_val(orig) !=3D pud_val(pudp_get(pudp)))) {
  		gup_fast_undo_dev_pagemap(nr, nr_start, flags, pages);
  		return 0;
  	}
-@@ -3074,7 +3074,7 @@ static int gup_fast_pmd_leaf(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+@@ -3118,7 +3118,7 @@ static int gup_fast_pud_leaf(pud_t orig, pud_t *pudp,=
+ unsigned long addr,
  	if (!folio)
  		return 0;
- 
--	if (unlikely(pmd_val(orig) != pmd_val(*pmdp))) {
-+	if (unlikely(pmd_val(orig) != pmd_val(pmdp_get(pmdp)))) {
+=20
+-	if (unlikely(pud_val(orig) !=3D pud_val(*pudp))) {
++	if (unlikely(pud_val(orig) !=3D pud_val(pudp_get(pudp)))) {
  		gup_put_folio(folio, refs, flags);
  		return 0;
  	}
+@@ -3219,7 +3219,7 @@ static int gup_fast_pud_range(p4d_t *p4dp, p4d_t p4d,=
+ unsigned long addr,
+=20
+ 	pudp =3D pud_offset_lockless(p4dp, p4d, addr);
+ 	do {
+-		pud_t pud =3D READ_ONCE(*pudp);
++		pud_t pud =3D pudp_get(pudp);
+=20
+ 		next =3D pud_addr_end(addr, end);
+ 		if (unlikely(!pud_present(pud)))
+diff --git a/mm/hmm.c b/mm/hmm.c
+index 7e0229ae4a5a..c1b093d670b8 100644
+--- a/mm/hmm.c
++++ b/mm/hmm.c
+@@ -423,7 +423,7 @@ static int hmm_vma_walk_pud(pud_t *pudp, unsigned long =
+start, unsigned long end,
+ 	/* Normally we don't want to split the huge page */
+ 	walk->action =3D ACTION_CONTINUE;
+=20
+-	pud =3D READ_ONCE(*pudp);
++	pud =3D pudp_get(pudp);
+ 	if (!pud_present(pud)) {
+ 		spin_unlock(ptl);
+ 		return hmm_vma_walk_hole(start, end, -1, walk);
 diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 67c86a5d64a6..bb63de935937 100644
+index bb63de935937..69e1400a51ec 100644
 --- a/mm/huge_memory.c
 +++ b/mm/huge_memory.c
-@@ -1065,7 +1065,7 @@ static void set_huge_zero_folio(pgtable_t pgtable, struct mm_struct *mm,
- 		struct folio *zero_folio)
+@@ -1243,17 +1243,18 @@ static void insert_pfn_pud(struct vm_area_struct *v=
+ma, unsigned long addr,
  {
- 	pmd_t entry;
--	if (!pmd_none(*pmd))
-+	if (!pmd_none(pmdp_get(pmd)))
- 		return;
- 	entry = mk_pmd(&zero_folio->page, vma->vm_page_prot);
- 	entry = pmd_mkhuge(entry);
-@@ -1144,17 +1144,17 @@ static void insert_pfn_pmd(struct vm_area_struct *vma, unsigned long addr,
- 		pgtable_t pgtable)
- {
- 	struct mm_struct *mm = vma->vm_mm;
--	pmd_t entry;
-+	pmd_t entry, old_pmd = pmdp_get(pmd);
+ 	struct mm_struct *mm =3D vma->vm_mm;
+ 	pgprot_t prot =3D vma->vm_page_prot;
+-	pud_t entry;
++	pud_t entry, old_pud;
  	spinlock_t *ptl;
- 
- 	ptl = pmd_lock(mm, pmd);
--	if (!pmd_none(*pmd)) {
-+	if (!pmd_none(old_pmd)) {
+=20
+ 	ptl =3D pud_lock(mm, pud);
+-	if (!pud_none(*pud)) {
++	old_pud =3D pudp_get(pud);
++	if (!pud_none(old_pud)) {
  		if (write) {
--			if (pmd_pfn(*pmd) != pfn_t_to_pfn(pfn)) {
--				WARN_ON_ONCE(!is_huge_zero_pmd(*pmd));
-+			if (pmd_pfn(old_pmd) != pfn_t_to_pfn(pfn)) {
-+				WARN_ON_ONCE(!is_huge_zero_pmd(old_pmd));
+-			if (pud_pfn(*pud) !=3D pfn_t_to_pfn(pfn)) {
+-				WARN_ON_ONCE(!is_huge_zero_pud(*pud));
++			if (pud_pfn(old_pud) !=3D pfn_t_to_pfn(pfn)) {
++				WARN_ON_ONCE(!is_huge_zero_pud(old_pud));
  				goto out_unlock;
  			}
--			entry = pmd_mkyoung(*pmd);
-+			entry = pmd_mkyoung(old_pmd);
- 			entry = maybe_pmd_mkwrite(pmd_mkdirty(entry), vma);
- 			if (pmdp_set_access_flags(vma, addr, pmd, entry, 1))
- 				update_mmu_cache_pmd(vma, addr, pmd);
-@@ -1318,7 +1318,7 @@ void touch_pmd(struct vm_area_struct *vma, unsigned long addr,
+-			entry =3D pud_mkyoung(*pud);
++			entry =3D pud_mkyoung(old_pud);
+ 			entry =3D maybe_pud_mkwrite(pud_mkdirty(entry), vma);
+ 			if (pudp_set_access_flags(vma, addr, pud, entry, 1))
+ 				update_mmu_cache_pud(vma, addr, pud);
+@@ -1476,7 +1477,7 @@ void touch_pud(struct vm_area_struct *vma, unsigned l=
+ong addr,
  {
- 	pmd_t _pmd;
- 
--	_pmd = pmd_mkyoung(*pmd);
-+	_pmd = pmd_mkyoung(pmdp_get(pmd));
+ 	pud_t _pud;
+=20
+-	_pud =3D pud_mkyoung(*pud);
++	_pud =3D pud_mkyoung(pudp_get(pud));
  	if (write)
- 		_pmd = pmd_mkdirty(_pmd);
- 	if (pmdp_set_access_flags(vma, addr & HPAGE_PMD_MASK,
-@@ -1329,17 +1329,18 @@ void touch_pmd(struct vm_area_struct *vma, unsigned long addr,
- struct page *follow_devmap_pmd(struct vm_area_struct *vma, unsigned long addr,
- 		pmd_t *pmd, int flags, struct dev_pagemap **pgmap)
- {
--	unsigned long pfn = pmd_pfn(*pmd);
-+	pmd_t old_pmd = pmdp_get(pmd);
-+	unsigned long pfn = pmd_pfn(old_pmd);
- 	struct mm_struct *mm = vma->vm_mm;
- 	struct page *page;
- 	int ret;
- 
- 	assert_spin_locked(pmd_lockptr(mm, pmd));
- 
--	if (flags & FOLL_WRITE && !pmd_write(*pmd))
-+	if (flags & FOLL_WRITE && !pmd_write(old_pmd))
- 		return NULL;
- 
--	if (pmd_present(*pmd) && pmd_devmap(*pmd))
-+	if (pmd_present(old_pmd) && pmd_devmap(old_pmd))
- 		/* pass */;
- 	else
- 		return NULL;
-@@ -1772,7 +1773,7 @@ bool madvise_free_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
- 	if (!ptl)
- 		goto out_unlocked;
- 
--	orig_pmd = *pmd;
-+	orig_pmd = pmdp_get(pmd);
- 	if (is_huge_zero_pmd(orig_pmd))
- 		goto out;
- 
-@@ -1990,7 +1991,7 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
- {
- 	struct mm_struct *mm = vma->vm_mm;
- 	spinlock_t *ptl;
--	pmd_t oldpmd, entry;
-+	pmd_t oldpmd, entry, old_pmd;
- 	bool prot_numa = cp_flags & MM_CP_PROT_NUMA;
- 	bool uffd_wp = cp_flags & MM_CP_UFFD_WP;
- 	bool uffd_wp_resolve = cp_flags & MM_CP_UFFD_WP_RESOLVE;
-@@ -2005,13 +2006,14 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
- 	if (!ptl)
- 		return 0;
- 
-+	old_pmd = pmdp_get(pmd);
- #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
--	if (is_swap_pmd(*pmd)) {
--		swp_entry_t entry = pmd_to_swp_entry(*pmd);
-+	if (is_swap_pmd(old_pmd)) {
-+		swp_entry_t entry = pmd_to_swp_entry(old_pmd);
- 		struct folio *folio = pfn_swap_entry_folio(entry);
- 		pmd_t newpmd;
- 
--		VM_BUG_ON(!is_pmd_migration_entry(*pmd));
-+		VM_BUG_ON(!is_pmd_migration_entry(old_pmd));
- 		if (is_writable_migration_entry(entry)) {
- 			/*
- 			 * A protection check is difficult so
-@@ -2022,17 +2024,17 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
- 			else
- 				entry = make_readable_migration_entry(swp_offset(entry));
- 			newpmd = swp_entry_to_pmd(entry);
--			if (pmd_swp_soft_dirty(*pmd))
-+			if (pmd_swp_soft_dirty(old_pmd))
- 				newpmd = pmd_swp_mksoft_dirty(newpmd);
- 		} else {
--			newpmd = *pmd;
-+			newpmd = old_pmd;
- 		}
- 
- 		if (uffd_wp)
- 			newpmd = pmd_swp_mkuffd_wp(newpmd);
- 		else if (uffd_wp_resolve)
- 			newpmd = pmd_swp_clear_uffd_wp(newpmd);
--		if (!pmd_same(*pmd, newpmd))
-+		if (!pmd_same(old_pmd, newpmd))
- 			set_pmd_at(mm, addr, pmd, newpmd);
- 		goto unlock;
- 	}
-@@ -2046,13 +2048,13 @@ int change_huge_pmd(struct mmu_gather *tlb, struct vm_area_struct *vma,
- 		 * data is likely to be read-cached on the local CPU and
- 		 * local/remote hits to the zero page are not interesting.
- 		 */
--		if (is_huge_zero_pmd(*pmd))
-+		if (is_huge_zero_pmd(old_pmd))
- 			goto unlock;
- 
--		if (pmd_protnone(*pmd))
-+		if (pmd_protnone(old_pmd))
- 			goto unlock;
- 
--		folio = pmd_folio(*pmd);
-+		folio = pmd_folio(old_pmd);
- 		toptier = node_is_toptier(folio_nid(folio));
- 		/*
- 		 * Skip scanning top tier node if normal numa
-@@ -2266,8 +2268,8 @@ spinlock_t *__pmd_trans_huge_lock(pmd_t *pmd, struct vm_area_struct *vma)
+ 		_pud =3D pud_mkdirty(_pud);
+ 	if (pudp_set_access_flags(vma, addr & HPAGE_PUD_MASK,
+@@ -2284,9 +2285,10 @@ spinlock_t *__pmd_trans_huge_lock(pmd_t *pmd, struct=
+ vm_area_struct *vma)
+ spinlock_t *__pud_trans_huge_lock(pud_t *pud, struct vm_area_struct *vma)
  {
  	spinlock_t *ptl;
- 	ptl = pmd_lock(vma->vm_mm, pmd);
--	if (likely(is_swap_pmd(*pmd) || pmd_trans_huge(*pmd) ||
--			pmd_devmap(*pmd)))
-+	if (likely(is_swap_pmd(pmdp_get(pmd)) || pmd_trans_huge(pmdp_get(pmd)) ||
-+			pmd_devmap(pmdp_get(pmd))))
++	pud_t old_pud =3D pudp_get(pud);
+=20
+ 	ptl =3D pud_lock(vma->vm_mm, pud);
+-	if (likely(pud_trans_huge(*pud) || pud_devmap(*pud)))
++	if (likely(pud_trans_huge(old_pud) || pud_devmap(old_pud)))
  		return ptl;
  	spin_unlock(ptl);
  	return NULL;
-@@ -2404,8 +2406,8 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
- 	VM_BUG_ON(haddr & ~HPAGE_PMD_MASK);
- 	VM_BUG_ON_VMA(vma->vm_start > haddr, vma);
- 	VM_BUG_ON_VMA(vma->vm_end < haddr + HPAGE_PMD_SIZE, vma);
--	VM_BUG_ON(!is_pmd_migration_entry(*pmd) && !pmd_trans_huge(*pmd)
--				&& !pmd_devmap(*pmd));
-+	VM_BUG_ON(!is_pmd_migration_entry(pmdp_get(pmd)) && !pmd_trans_huge(pmdp_get(pmd))
-+				&& !pmd_devmap(pmdp_get(pmd)));
- 
- 	count_vm_event(THP_SPLIT_PMD);
- 
-@@ -2438,7 +2440,7 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
- 		return;
- 	}
- 
--	if (is_huge_zero_pmd(*pmd)) {
-+	if (is_huge_zero_pmd(pmdp_get(pmd))) {
- 		/*
- 		 * FIXME: Do we want to invalidate secondary mmu by calling
- 		 * mmu_notifier_arch_invalidate_secondary_tlbs() see comments below
-@@ -2451,11 +2453,11 @@ static void __split_huge_pmd_locked(struct vm_area_struct *vma, pmd_t *pmd,
- 		return __split_huge_zero_page_pmd(vma, haddr, pmd);
- 	}
- 
--	pmd_migration = is_pmd_migration_entry(*pmd);
-+	pmd_migration = is_pmd_migration_entry(pmdp_get(pmd));
- 	if (unlikely(pmd_migration)) {
- 		swp_entry_t entry;
- 
--		old_pmd = *pmd;
-+		old_pmd = pmdp_get(pmd);
- 		entry = pmd_to_swp_entry(old_pmd);
- 		page = pfn_swap_entry_to_page(entry);
- 		write = is_writable_migration_entry(entry);
-@@ -2620,9 +2622,9 @@ void split_huge_pmd_locked(struct vm_area_struct *vma, unsigned long address,
- 	 * require a folio to check the PMD against. Otherwise, there
- 	 * is a risk of replacing the wrong folio.
- 	 */
--	if (pmd_trans_huge(*pmd) || pmd_devmap(*pmd) ||
--	    is_pmd_migration_entry(*pmd)) {
--		if (folio && folio != pmd_folio(*pmd))
-+	if (pmd_trans_huge(pmdp_get(pmd)) || pmd_devmap(pmdp_get(pmd)) ||
-+	    is_pmd_migration_entry(pmdp_get(pmd))) {
-+		if (folio && folio != pmd_folio(pmdp_get(pmd)))
- 			return;
- 		__split_huge_pmd_locked(vma, pmd, address, freeze);
- 	}
-@@ -2719,7 +2721,7 @@ static bool __discard_anon_folio_pmd_locked(struct vm_area_struct *vma,
+@@ -2317,10 +2319,12 @@ int zap_huge_pud(struct mmu_gather *tlb, struct vm_=
+area_struct *vma,
+ static void __split_huge_pud_locked(struct vm_area_struct *vma, pud_t *pud=
+,
+ 		unsigned long haddr)
  {
- 	struct mm_struct *mm = vma->vm_mm;
- 	int ref_count, map_count;
--	pmd_t orig_pmd = *pmdp;
-+	pmd_t orig_pmd = pmdp_get(pmdp);
- 
- 	if (folio_test_dirty(folio) || pmd_dirty(orig_pmd))
- 		return false;
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 0c3f56b3578e..9deb82654d5b 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -70,7 +70,7 @@ static int vmemmap_split_pmd(pmd_t *pmd, struct page *head, unsigned long start,
- 	}
- 
- 	spin_lock(&init_mm.page_table_lock);
--	if (likely(pmd_leaf(*pmd))) {
-+	if (likely(pmd_leaf(pmdp_get(pmd)))) {
- 		/*
- 		 * Higher order allocations from buddy allocator must be able to
- 		 * be treated as indepdenent small pages (as they can be freed
-@@ -104,7 +104,7 @@ static int vmemmap_pmd_entry(pmd_t *pmd, unsigned long addr,
- 		walk->action = ACTION_CONTINUE;
- 
- 	spin_lock(&init_mm.page_table_lock);
--	head = pmd_leaf(*pmd) ? pmd_page(*pmd) : NULL;
-+	head = pmd_leaf(pmdp_get(pmd)) ? pmd_page(pmdp_get(pmd)) : NULL;
- 	/*
- 	 * Due to HugeTLB alignment requirements and the vmemmap
- 	 * pages being at the start of the hotplugged memory
++	pud_t old_pud =3D pudp_get(pud);
++
+ 	VM_BUG_ON(haddr & ~HPAGE_PUD_MASK);
+ 	VM_BUG_ON_VMA(vma->vm_start > haddr, vma);
+ 	VM_BUG_ON_VMA(vma->vm_end < haddr + HPAGE_PUD_SIZE, vma);
+-	VM_BUG_ON(!pud_trans_huge(*pud) && !pud_devmap(*pud));
++	VM_BUG_ON(!pud_trans_huge(old_pud) && !pud_devmap(old_pud));
+=20
+ 	count_vm_event(THP_SPLIT_PUD);
+=20
+@@ -2332,13 +2336,15 @@ void __split_huge_pud(struct vm_area_struct *vma, p=
+ud_t *pud,
+ {
+ 	spinlock_t *ptl;
+ 	struct mmu_notifier_range range;
++	pud_t old_pud;
+=20
+ 	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma->vm_mm,
+ 				address & HPAGE_PUD_MASK,
+ 				(address & HPAGE_PUD_MASK) + HPAGE_PUD_SIZE);
+ 	mmu_notifier_invalidate_range_start(&range);
+ 	ptl =3D pud_lock(vma->vm_mm, pud);
+-	if (unlikely(!pud_trans_huge(*pud) && !pud_devmap(*pud)))
++	old_pud =3D pudp_get(pud);
++	if (unlikely(!pud_trans_huge(old_pud) && !pud_devmap(old_pud)))
+ 		goto out;
+ 	__split_huge_pud_locked(vma, pud, range.start);
+=20
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index aaf508be0a2b..a3820242b01e 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -7328,7 +7328,7 @@ pte_t *huge_pmd_share(struct mm_struct *mm, struct vm=
+_area_struct *vma,
+ 		goto out;
+=20
+ 	spin_lock(&mm->page_table_lock);
+-	if (pud_none(*pud)) {
++	if (pud_none(pudp_get(pud))) {
+ 		pud_populate(mm, pud,
+ 				(pmd_t *)((unsigned long)spte & PAGE_MASK));
+ 		mm_inc_nr_pmds(mm);
+@@ -7417,7 +7417,7 @@ pte_t *huge_pte_alloc(struct mm_struct *mm, struct vm=
+_area_struct *vma,
+ 			pte =3D (pte_t *)pud;
+ 		} else {
+ 			BUG_ON(sz !=3D PMD_SIZE);
+-			if (want_pmd_share(vma, addr) && pud_none(*pud))
++			if (want_pmd_share(vma, addr) && pud_none(pudp_get(pud)))
+ 				pte =3D huge_pmd_share(mm, vma, addr, pud);
+ 			else
+ 				pte =3D (pte_t *)pmd_alloc(mm, pud, addr);
+@@ -7461,7 +7461,7 @@ pte_t *huge_pte_offset(struct mm_struct *mm,
+ 	if (sz =3D=3D PUD_SIZE)
+ 		/* must be pud huge, non-present or none */
+ 		return (pte_t *)pud;
+-	if (!pud_present(*pud))
++	if (!pud_present(pudp_get(pud)))
+ 		return NULL;
+ 	/* must have a valid entry and size to go further */
+=20
 diff --git a/mm/kasan/init.c b/mm/kasan/init.c
-index 89895f38f722..4418bcdcb2aa 100644
+index 4418bcdcb2aa..f4cf519443e1 100644
 --- a/mm/kasan/init.c
 +++ b/mm/kasan/init.c
-@@ -121,7 +121,7 @@ static int __ref zero_pmd_populate(pud_t *pud, unsigned long addr,
+@@ -162,7 +162,7 @@ static int __ref zero_pud_populate(p4d_t *p4d, unsigned=
+ long addr,
  			continue;
  		}
- 
--		if (pmd_none(*pmd)) {
-+		if (pmd_none(pmdp_get(pmd))) {
- 			pte_t *p;
- 
- 			if (slab_is_available())
-@@ -300,7 +300,7 @@ static void kasan_free_pte(pte_t *pte_start, pmd_t *pmd)
+=20
+-		if (pud_none(*pud)) {
++		if (pud_none(pudp_get(pud))) {
+ 			pmd_t *p;
+=20
+ 			if (slab_is_available()) {
+@@ -315,7 +315,7 @@ static void kasan_free_pmd(pmd_t *pmd_start, pud_t *pud=
+)
  			return;
  	}
- 
--	pte_free_kernel(&init_mm, (pte_t *)page_to_virt(pmd_page(*pmd)));
-+	pte_free_kernel(&init_mm, (pte_t *)page_to_virt(pmd_page(pmdp_get(pmd))));
- 	pmd_clear(pmd);
+=20
+-	pmd_free(&init_mm, (pmd_t *)page_to_virt(pud_page(*pud)));
++	pmd_free(&init_mm, (pmd_t *)page_to_virt(pud_page(pudp_get(pud))));
+ 	pud_clear(pud);
  }
- 
-@@ -311,7 +311,7 @@ static void kasan_free_pmd(pmd_t *pmd_start, pud_t *pud)
- 
- 	for (i = 0; i < PTRS_PER_PMD; i++) {
- 		pmd = pmd_start + i;
--		if (!pmd_none(*pmd))
-+		if (!pmd_none(pmdp_get(pmd)))
+=20
+@@ -326,7 +326,7 @@ static void kasan_free_pud(pud_t *pud_start, p4d_t *p4d=
+)
+=20
+ 	for (i =3D 0; i < PTRS_PER_PUD; i++) {
+ 		pud =3D pud_start + i;
+-		if (!pud_none(*pud))
++		if (!pud_none(pudp_get(pud)))
  			return;
  	}
- 
-@@ -381,10 +381,10 @@ static void kasan_remove_pmd_table(pmd_t *pmd, unsigned long addr,
- 
- 		next = pmd_addr_end(addr, end);
- 
--		if (!pmd_present(*pmd))
-+		if (!pmd_present(pmdp_get(pmd)))
+=20
+@@ -407,10 +407,10 @@ static void kasan_remove_pud_table(pud_t *pud, unsign=
+ed long addr,
+=20
+ 		next =3D pud_addr_end(addr, end);
+=20
+-		if (!pud_present(*pud))
++		if (!pud_present(pudp_get(pud)))
  			continue;
- 
--		if (kasan_pte_table(*pmd)) {
-+		if (kasan_pte_table(pmdp_get(pmd))) {
- 			if (IS_ALIGNED(addr, PMD_SIZE) &&
- 			    IS_ALIGNED(next, PMD_SIZE)) {
- 				pmd_clear(pmd);
+=20
+-		if (kasan_pmd_table(*pud)) {
++		if (kasan_pmd_table(pudp_get(pud))) {
+ 			if (IS_ALIGNED(addr, PUD_SIZE) &&
+ 			    IS_ALIGNED(next, PUD_SIZE)) {
+ 				pud_clear(pud);
 diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-index d6210ca48dda..aec16a7236f7 100644
+index aec16a7236f7..dbd8164c75f1 100644
 --- a/mm/kasan/shadow.c
 +++ b/mm/kasan/shadow.c
-@@ -202,9 +202,9 @@ static bool shadow_mapped(unsigned long addr)
- 	if (pud_leaf(*pud))
- 		return true;
- 	pmd = pmd_offset(pud, addr);
--	if (pmd_none(*pmd))
-+	if (pmd_none(pmdp_get(pmd)))
+@@ -197,9 +197,9 @@ static bool shadow_mapped(unsigned long addr)
+ 	if (p4d_none(*p4d))
  		return false;
--	if (pmd_leaf(*pmd))
-+	if (pmd_leaf(pmdp_get(pmd)))
+ 	pud =3D pud_offset(p4d, addr);
+-	if (pud_none(*pud))
++	if (pud_none(pudp_get(pud)))
+ 		return false;
+-	if (pud_leaf(*pud))
++	if (pud_leaf(pudp_get(pud)))
  		return true;
- 	pte = pte_offset_kernel(pmd, addr);
- 	return !pte_none(ptep_get(pte));
-diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-index cdd1d8655a76..793da996313f 100644
---- a/mm/khugepaged.c
-+++ b/mm/khugepaged.c
-@@ -1192,7 +1192,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
- 		if (pte)
- 			pte_unmap(pte);
- 		spin_lock(pmd_ptl);
--		BUG_ON(!pmd_none(*pmd));
-+		BUG_ON(!pmd_none(pmdp_get(pmd)));
- 		/*
- 		 * We can only use set_pmd_at when establishing
- 		 * hugepmds and never for establishing regular pmds that
-@@ -1229,7 +1229,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
- 	_pmd = maybe_pmd_mkwrite(pmd_mkdirty(_pmd), vma);
- 
- 	spin_lock(pmd_ptl);
--	BUG_ON(!pmd_none(*pmd));
-+	BUG_ON(!pmd_none(pmdp_get(pmd)));
- 	folio_add_new_anon_rmap(folio, vma, address, RMAP_EXCLUSIVE);
- 	folio_add_lru_vma(folio, vma);
- 	pgtable_trans_huge_deposit(mm, pmd, pgtable);
-diff --git a/mm/madvise.c b/mm/madvise.c
-index 89089d84f8df..382c55d2ec94 100644
---- a/mm/madvise.c
-+++ b/mm/madvise.c
-@@ -357,7 +357,7 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
- 					!can_do_file_pageout(vma);
- 
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
--	if (pmd_trans_huge(*pmd)) {
-+	if (pmd_trans_huge(pmdp_get(pmd))) {
- 		pmd_t orig_pmd;
- 		unsigned long next = pmd_addr_end(addr, end);
- 
-@@ -366,7 +366,7 @@ static int madvise_cold_or_pageout_pte_range(pmd_t *pmd,
- 		if (!ptl)
- 			return 0;
- 
--		orig_pmd = *pmd;
-+		orig_pmd = pmdp_get(pmd);
- 		if (is_huge_zero_pmd(orig_pmd))
- 			goto huge_unlock;
- 
-@@ -655,7 +655,7 @@ static int madvise_free_pte_range(pmd_t *pmd, unsigned long addr,
- 	int nr, max_nr;
- 
- 	next = pmd_addr_end(addr, end);
--	if (pmd_trans_huge(*pmd))
-+	if (pmd_trans_huge(pmdp_get(pmd)))
- 		if (madvise_free_huge_pmd(tlb, vma, pmd, addr, next))
- 			return 0;
- 
+ 	pmd =3D pmd_offset(pud, addr);
+ 	if (pmd_none(pmdp_get(pmd)))
+diff --git a/mm/mapping_dirty_helpers.c b/mm/mapping_dirty_helpers.c
+index 2f8829b3541a..c556cc4e3480 100644
+--- a/mm/mapping_dirty_helpers.c
++++ b/mm/mapping_dirty_helpers.c
+@@ -149,7 +149,7 @@ static int wp_clean_pud_entry(pud_t *pud, unsigned long=
+ addr, unsigned long end,
+ 			      struct mm_walk *walk)
+ {
+ #ifdef CONFIG_HAVE_ARCH_TRANSPARENT_HUGEPAGE_PUD
+-	pud_t pudval =3D READ_ONCE(*pud);
++	pud_t pudval =3D pudp_get(pud);
+=20
+ 	/* Do not split a huge pud */
+ 	if (pud_trans_huge(pudval) || pud_devmap(pudval)) {
 diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index 7066fc84f351..305dbef3cc4d 100644
+index 305dbef3cc4d..fbb63401fb51 100644
 --- a/mm/memory-failure.c
 +++ b/mm/memory-failure.c
-@@ -422,9 +422,9 @@ static unsigned long dev_pagemap_mapping_shift(struct vm_area_struct *vma,
- 	if (pud_devmap(*pud))
- 		return PUD_SHIFT;
- 	pmd = pmd_offset(pud, address);
--	if (!pmd_present(*pmd))
-+	if (!pmd_present(pmdp_get(pmd)))
+@@ -417,9 +417,9 @@ static unsigned long dev_pagemap_mapping_shift(struct v=
+m_area_struct *vma,
+ 	if (!p4d_present(*p4d))
  		return 0;
--	if (pmd_devmap(*pmd))
-+	if (pmd_devmap(pmdp_get(pmd)))
- 		return PMD_SHIFT;
- 	pte = pte_offset_map(pmd, address);
- 	if (!pte)
-@@ -775,7 +775,7 @@ static int check_hwpoisoned_entry(pte_t pte, unsigned long addr, short shift,
- static int check_hwpoisoned_pmd_entry(pmd_t *pmdp, unsigned long addr,
- 				      struct hwpoison_walk *hwp)
- {
--	pmd_t pmd = *pmdp;
-+	pmd_t pmd = pmdp_get(pmdp);
- 	unsigned long pfn;
- 	unsigned long hwpoison_vaddr;
- 
+ 	pud =3D pud_offset(p4d, address);
+-	if (!pud_present(*pud))
++	if (!pud_present(pudp_get(pud)))
+ 		return 0;
+-	if (pud_devmap(*pud))
++	if (pud_devmap(pudp_get(pud)))
+ 		return PUD_SHIFT;
+ 	pmd =3D pmd_offset(pud, address);
+ 	if (!pmd_present(pmdp_get(pmd)))
 diff --git a/mm/memory.c b/mm/memory.c
-index ebfc9768f801..5520e1f6a1b9 100644
+index 5520e1f6a1b9..801750e4337c 100644
 --- a/mm/memory.c
 +++ b/mm/memory.c
-@@ -189,7 +189,7 @@ void mm_trace_rss_stat(struct mm_struct *mm, int member)
- static void free_pte_range(struct mmu_gather *tlb, pmd_t *pmd,
- 			   unsigned long addr)
- {
--	pgtable_t token = pmd_pgtable(*pmd);
-+	pgtable_t token = pmd_pgtable(pmdp_get(pmd));
- 	pmd_clear(pmd);
- 	pte_free_tlb(tlb, token, addr);
- 	mm_dec_nr_ptes(tlb->mm);
-@@ -421,7 +421,7 @@ void pmd_install(struct mm_struct *mm, pmd_t *pmd, pgtable_t *pte)
- {
- 	spinlock_t *ptl = pmd_lock(mm, pmd);
- 
--	if (likely(pmd_none(*pmd))) {	/* Has another populated it ? */
-+	if (likely(pmd_none(pmdp_get(pmd)))) {	/* Has another populated it ? */
- 		mm_inc_nr_ptes(mm);
- 		/*
- 		 * Ensure all pte setup (eg. pte page lock and page clearing) are
-@@ -462,7 +462,7 @@ int __pte_alloc_kernel(pmd_t *pmd)
- 		return -ENOMEM;
- 
- 	spin_lock(&init_mm.page_table_lock);
--	if (likely(pmd_none(*pmd))) {	/* Has another populated it ? */
-+	if (likely(pmd_none(pmdp_get(pmd)))) {	/* Has another populated it ? */
- 		smp_wmb(); /* See comment in pmd_install() */
- 		pmd_populate_kernel(&init_mm, pmd, new);
- 		new = NULL;
-@@ -1710,7 +1710,8 @@ static inline unsigned long zap_pmd_range(struct mmu_gather *tlb,
- 	pmd = pmd_offset(pud, addr);
+@@ -1753,7 +1753,7 @@ static inline unsigned long zap_pud_range(struct mmu_=
+gather *tlb,
+ 	pud =3D pud_offset(p4d, addr);
  	do {
- 		next = pmd_addr_end(addr, end);
--		if (is_swap_pmd(*pmd) || pmd_trans_huge(*pmd) || pmd_devmap(*pmd)) {
-+		if (is_swap_pmd(pmdp_get(pmd)) || pmd_trans_huge(pmdp_get(pmd)) ||
-+		    pmd_devmap(pmdp_get(pmd))) {
- 			if (next - addr != HPAGE_PMD_SIZE)
- 				__split_huge_pmd(vma, pmd, addr, false, NULL);
- 			else if (zap_huge_pmd(tlb, vma, pmd, addr)) {
-@@ -1720,7 +1721,7 @@ static inline unsigned long zap_pmd_range(struct mmu_gather *tlb,
- 			/* fall through */
- 		} else if (details && details->single_folio &&
- 			   folio_test_pmd_mappable(details->single_folio) &&
--			   next - addr == HPAGE_PMD_SIZE && pmd_none(*pmd)) {
-+			   next - addr == HPAGE_PMD_SIZE && pmd_none(pmdp_get(pmd))) {
- 			spinlock_t *ptl = pmd_lock(tlb->mm, pmd);
- 			/*
- 			 * Take and drop THP pmd lock so that we cannot return
-@@ -1729,7 +1730,7 @@ static inline unsigned long zap_pmd_range(struct mmu_gather *tlb,
- 			 */
- 			spin_unlock(ptl);
- 		}
--		if (pmd_none(*pmd)) {
-+		if (pmd_none(pmdp_get(pmd))) {
- 			addr = next;
- 			continue;
- 		}
-@@ -1975,7 +1976,7 @@ static pmd_t *walk_to_pmd(struct mm_struct *mm, unsigned long addr)
- 	if (!pmd)
- 		return NULL;
- 
--	VM_BUG_ON(pmd_trans_huge(*pmd));
-+	VM_BUG_ON(pmd_trans_huge(pmdp_get(pmd)));
- 	return pmd;
- }
- 
-@@ -2577,7 +2578,7 @@ static inline int remap_pmd_range(struct mm_struct *mm, pud_t *pud,
- 	pmd = pmd_alloc(mm, pud, addr);
- 	if (!pmd)
- 		return -ENOMEM;
--	VM_BUG_ON(pmd_trans_huge(*pmd));
-+	VM_BUG_ON(pmd_trans_huge(pmdp_get(pmd)));
- 	do {
- 		next = pmd_addr_end(addr, end);
- 		err = remap_pte_range(mm, pmd, addr, next,
-@@ -2846,11 +2847,11 @@ static int apply_to_pmd_range(struct mm_struct *mm, pud_t *pud,
+ 		next =3D pud_addr_end(addr, end);
+-		if (pud_trans_huge(*pud) || pud_devmap(*pud)) {
++		if (pud_trans_huge(pudp_get(pud)) || pud_devmap(pudp_get(pud))) {
+ 			if (next - addr !=3D HPAGE_PUD_SIZE) {
+ 				mmap_assert_locked(tlb->mm);
+ 				split_huge_pud(vma, pud, addr);
+@@ -2836,7 +2836,7 @@ static int apply_to_pmd_range(struct mm_struct *mm, p=
+ud_t *pud,
+ 	unsigned long next;
+ 	int err =3D 0;
+=20
+-	BUG_ON(pud_leaf(*pud));
++	BUG_ON(pud_leaf(pudp_get(pud)));
+=20
+ 	if (create) {
+ 		pmd =3D pmd_alloc_track(mm, pud, addr, mask);
+@@ -2883,11 +2883,11 @@ static int apply_to_pud_range(struct mm_struct *mm,=
+ p4d_t *p4d,
  	}
  	do {
- 		next = pmd_addr_end(addr, end);
--		if (pmd_none(*pmd) && !create)
-+		if (pmd_none(pmdp_get(pmd)) && !create)
+ 		next =3D pud_addr_end(addr, end);
+-		if (pud_none(*pud) && !create)
++		if (pud_none(pudp_get(pud)) && !create)
  			continue;
--		if (WARN_ON_ONCE(pmd_leaf(*pmd)))
-+		if (WARN_ON_ONCE(pmd_leaf(pmdp_get(pmd))))
+-		if (WARN_ON_ONCE(pud_leaf(*pud)))
++		if (WARN_ON_ONCE(pud_leaf(pudp_get(pud))))
  			return -EINVAL;
--		if (!pmd_none(*pmd) && WARN_ON_ONCE(pmd_bad(*pmd))) {
-+		if (!pmd_none(pmdp_get(pmd)) && WARN_ON_ONCE(pmd_bad(pmdp_get(pmd)))) {
+-		if (!pud_none(*pud) && WARN_ON_ONCE(pud_bad(*pud))) {
++		if (!pud_none(pudp_get(pud)) && WARN_ON_ONCE(pud_bad(pudp_get(pud)))) {
  			if (!create)
  				continue;
- 			pmd_clear_bad(pmd);
-@@ -6167,7 +6168,7 @@ int follow_pte(struct vm_area_struct *vma, unsigned long address,
+ 			pud_clear_bad(pud);
+@@ -6099,7 +6099,7 @@ int __pmd_alloc(struct mm_struct *mm, pud_t *pud, uns=
+igned long address)
+ 		return -ENOMEM;
+=20
+ 	ptl =3D pud_lock(mm, pud);
+-	if (!pud_present(*pud)) {
++	if (!pud_present(pudp_get(pud))) {
+ 		mm_inc_nr_pmds(mm);
+ 		smp_wmb(); /* See comment in pmd_install() */
+ 		pud_populate(mm, pud, new);
+@@ -6164,7 +6164,7 @@ int follow_pte(struct vm_area_struct *vma, unsigned l=
+ong address,
  		goto out;
- 
- 	pmd = pmd_offset(pud, address);
--	VM_BUG_ON(pmd_trans_huge(*pmd));
-+	VM_BUG_ON(pmd_trans_huge(pmdp_get(pmd)));
- 
- 	ptep = pte_offset_map_lock(mm, pmd, address, ptlp);
- 	if (!ptep)
-diff --git a/mm/mempolicy.c b/mm/mempolicy.c
-index b858e22b259d..03f2df44b07f 100644
---- a/mm/mempolicy.c
-+++ b/mm/mempolicy.c
-@@ -505,11 +505,11 @@ static void queue_folios_pmd(pmd_t *pmd, struct mm_walk *walk)
- 	struct folio *folio;
- 	struct queue_pages *qp = walk->private;
- 
--	if (unlikely(is_pmd_migration_entry(*pmd))) {
-+	if (unlikely(is_pmd_migration_entry(pmdp_get(pmd)))) {
- 		qp->nr_failed++;
- 		return;
- 	}
--	folio = pmd_folio(*pmd);
-+	folio = pmd_folio(pmdp_get(pmd));
- 	if (is_huge_zero_folio(folio)) {
- 		walk->action = ACTION_CONTINUE;
- 		return;
-diff --git a/mm/migrate.c b/mm/migrate.c
-index 923ea80ba744..a1dd5c8f88dd 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -369,9 +369,9 @@ void pmd_migration_entry_wait(struct mm_struct *mm, pmd_t *pmd)
- 	spinlock_t *ptl;
- 
- 	ptl = pmd_lock(mm, pmd);
--	if (!is_pmd_migration_entry(*pmd))
-+	if (!is_pmd_migration_entry(pmdp_get(pmd)))
- 		goto unlock;
--	migration_entry_wait_on_locked(pmd_to_swp_entry(*pmd), ptl);
-+	migration_entry_wait_on_locked(pmd_to_swp_entry(pmdp_get(pmd)), ptl);
- 	return;
- unlock:
- 	spin_unlock(ptl);
-diff --git a/mm/migrate_device.c b/mm/migrate_device.c
-index 6d66dc1c6ffa..3a08cef6cd39 100644
---- a/mm/migrate_device.c
-+++ b/mm/migrate_device.c
-@@ -67,19 +67,19 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
- 	pte_t *ptep;
- 
- again:
--	if (pmd_none(*pmdp))
-+	if (pmd_none(pmdp_get(pmdp)))
- 		return migrate_vma_collect_hole(start, end, -1, walk);
- 
--	if (pmd_trans_huge(*pmdp)) {
-+	if (pmd_trans_huge(pmdp_get(pmdp))) {
- 		struct folio *folio;
- 
- 		ptl = pmd_lock(mm, pmdp);
--		if (unlikely(!pmd_trans_huge(*pmdp))) {
-+		if (unlikely(!pmd_trans_huge(pmdp_get(pmdp)))) {
- 			spin_unlock(ptl);
- 			goto again;
- 		}
- 
--		folio = pmd_folio(*pmdp);
-+		folio = pmd_folio(pmdp_get(pmdp));
- 		if (is_huge_zero_folio(folio)) {
- 			spin_unlock(ptl);
- 			split_huge_pmd(vma, pmdp, addr);
-@@ -596,7 +596,7 @@ static void migrate_vma_insert_page(struct migrate_vma *migrate,
- 	pmdp = pmd_alloc(mm, pudp, addr);
- 	if (!pmdp)
- 		goto abort;
--	if (pmd_trans_huge(*pmdp) || pmd_devmap(*pmdp))
-+	if (pmd_trans_huge(pmdp_get(pmdp)) || pmd_devmap(pmdp_get(pmdp)))
- 		goto abort;
- 	if (pte_alloc(mm, pmdp))
- 		goto abort;
-diff --git a/mm/mlock.c b/mm/mlock.c
-index e3e3dc2b2956..c3c479e9d0f8 100644
---- a/mm/mlock.c
-+++ b/mm/mlock.c
-@@ -363,11 +363,11 @@ static int mlock_pte_range(pmd_t *pmd, unsigned long addr,
- 
- 	ptl = pmd_trans_huge_lock(pmd, vma);
- 	if (ptl) {
--		if (!pmd_present(*pmd))
-+		if (!pmd_present(pmdp_get(pmd)))
- 			goto out;
--		if (is_huge_zero_pmd(*pmd))
-+		if (is_huge_zero_pmd(pmdp_get(pmd)))
- 			goto out;
--		folio = pmd_folio(*pmd);
-+		folio = pmd_folio(pmdp_get(pmd));
- 		if (vma->vm_flags & VM_LOCKED)
- 			mlock_folio(folio);
- 		else
-diff --git a/mm/mprotect.c b/mm/mprotect.c
-index 222ab434da54..121fb448b0db 100644
---- a/mm/mprotect.c
-+++ b/mm/mprotect.c
-@@ -381,7 +381,7 @@ static inline long change_pmd_range(struct mmu_gather *tlb,
- 			break;
- 		}
- 
--		if (pmd_none(*pmd))
-+		if (pmd_none(pmdp_get(pmd)))
- 			goto next;
- 
- 		/* invoke the mmu notifier if the pmd is populated */
-diff --git a/mm/mremap.c b/mm/mremap.c
-index e7ae140fc640..d42ac62bd34e 100644
---- a/mm/mremap.c
-+++ b/mm/mremap.c
-@@ -63,7 +63,7 @@ static pmd_t *get_old_pmd(struct mm_struct *mm, unsigned long addr)
- 		return NULL;
- 
- 	pmd = pmd_offset(pud, addr);
--	if (pmd_none(*pmd))
-+	if (pmd_none(pmdp_get(pmd)))
- 		return NULL;
- 
- 	return pmd;
-@@ -97,7 +97,7 @@ static pmd_t *alloc_new_pmd(struct mm_struct *mm, struct vm_area_struct *vma,
- 	if (!pmd)
- 		return NULL;
- 
--	VM_BUG_ON(pmd_trans_huge(*pmd));
-+	VM_BUG_ON(pmd_trans_huge(pmdp_get(pmd)));
- 
- 	return pmd;
- }
+=20
+ 	pud =3D pud_offset(p4d, address);
+-	if (pud_none(*pud) || unlikely(pud_bad(*pud)))
++	if (pud_none(pudp_get(pud)) || unlikely(pud_bad(pudp_get(pud))))
+ 		goto out;
+=20
+ 	pmd =3D pmd_offset(pud, address);
 diff --git a/mm/page_table_check.c b/mm/page_table_check.c
-index 509c6ef8de40..48a2cf56c80e 100644
+index 48a2cf56c80e..2a22d098b0b1 100644
 --- a/mm/page_table_check.c
 +++ b/mm/page_table_check.c
-@@ -241,7 +241,7 @@ void __page_table_check_pmd_set(struct mm_struct *mm, pmd_t *pmdp, pmd_t pmd)
- 
- 	page_table_check_pmd_flags(pmd);
- 
--	__page_table_check_pmd_clear(mm, *pmdp);
-+	__page_table_check_pmd_clear(mm, pmdp_get(pmdp));
- 	if (pmd_user_accessible_page(pmd)) {
- 		page_table_check_set(pmd_pfn(pmd), PMD_SIZE >> PAGE_SHIFT,
- 				     pmd_write(pmd));
+@@ -254,7 +254,7 @@ void __page_table_check_pud_set(struct mm_struct *mm, p=
+ud_t *pudp, pud_t pud)
+ 	if (&init_mm =3D=3D mm)
+ 		return;
+=20
+-	__page_table_check_pud_clear(mm, *pudp);
++	__page_table_check_pud_clear(mm, pudp_get(pudp));
+ 	if (pud_user_accessible_page(pud)) {
+ 		page_table_check_set(pud_pfn(pud), PUD_SIZE >> PAGE_SHIFT,
+ 				     pud_write(pud));
+diff --git a/mm/page_vma_mapped.c b/mm/page_vma_mapped.c
+index ae5cc42aa208..511266307771 100644
+--- a/mm/page_vma_mapped.c
++++ b/mm/page_vma_mapped.c
+@@ -222,7 +222,7 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *=
+pvmw)
+ 			continue;
+ 		}
+ 		pud =3D pud_offset(p4d, pvmw->address);
+-		if (!pud_present(*pud)) {
++		if (!pud_present(pudp_get(pud))) {
+ 			step_forward(pvmw, PUD_SIZE);
+ 			continue;
+ 		}
 diff --git a/mm/pagewalk.c b/mm/pagewalk.c
-index ae2f08ce991b..c3019a160e77 100644
+index c3019a160e77..1d32c6da1a0d 100644
 --- a/mm/pagewalk.c
 +++ b/mm/pagewalk.c
-@@ -86,7 +86,7 @@ static int walk_pmd_range(pud_t *pud, unsigned long addr, unsigned long end,
+@@ -145,7 +145,7 @@ static int walk_pud_range(p4d_t *p4d, unsigned long add=
+r, unsigned long end,
  	do {
- again:
- 		next = pmd_addr_end(addr, end);
--		if (pmd_none(*pmd)) {
-+		if (pmd_none(pmdp_get(pmd))) {
+  again:
+ 		next =3D pud_addr_end(addr, end);
+-		if (pud_none(*pud)) {
++		if (pud_none(pudp_get(pud))) {
  			if (ops->pte_hole)
- 				err = ops->pte_hole(addr, next, depth, walk);
+ 				err =3D ops->pte_hole(addr, next, depth, walk);
  			if (err)
-@@ -112,7 +112,7 @@ static int walk_pmd_range(pud_t *pud, unsigned long addr, unsigned long end,
- 		 * Check this here so we only break down trans_huge
- 		 * pages when we _need_ to
- 		 */
--		if ((!walk->vma && (pmd_leaf(*pmd) || !pmd_present(*pmd))) ||
-+		if ((!walk->vma && (pmd_leaf(pmdp_get(pmd)) || !pmd_present(pmdp_get(pmd)))) ||
- 		    walk->action == ACTION_CONTINUE ||
- 		    !(ops->pte_entry))
+@@ -163,14 +163,14 @@ static int walk_pud_range(p4d_t *p4d, unsigned long a=
+ddr, unsigned long end,
+ 		if (walk->action =3D=3D ACTION_AGAIN)
+ 			goto again;
+=20
+-		if ((!walk->vma && (pud_leaf(*pud) || !pud_present(*pud))) ||
++		if ((!walk->vma && (pud_leaf(pudp_get(pud)) || !pud_present(pudp_get(pud=
+)))) ||
+ 		    walk->action =3D=3D ACTION_CONTINUE ||
+ 		    !(ops->pmd_entry || ops->pte_entry))
  			continue;
+=20
+ 		if (walk->vma)
+ 			split_huge_pud(walk->vma, pud, addr);
+-		if (pud_none(*pud))
++		if (pud_none(pudp_get(pud)))
+ 			goto again;
+=20
+ 		err =3D walk_pmd_range(pud, addr, next, walk);
 diff --git a/mm/percpu.c b/mm/percpu.c
-index 20d91af8c033..7ee77c0fd5e3 100644
+index 7ee77c0fd5e3..5f32164b04a2 100644
 --- a/mm/percpu.c
 +++ b/mm/percpu.c
-@@ -3208,7 +3208,7 @@ void __init __weak pcpu_populate_pte(unsigned long addr)
+@@ -3200,7 +3200,7 @@ void __init __weak pcpu_populate_pte(unsigned long ad=
+dr)
  	}
- 
- 	pmd = pmd_offset(pud, addr);
--	if (!pmd_present(*pmd)) {
-+	if (!pmd_present(pmdp_get(pmd))) {
- 		pte_t *new;
- 
- 		new = memblock_alloc(PTE_TABLE_SIZE, PTE_TABLE_SIZE);
+=20
+ 	pud =3D pud_offset(p4d, addr);
+-	if (pud_none(*pud)) {
++	if (pud_none(pudp_get(pud))) {
+ 		pmd =3D memblock_alloc(PMD_TABLE_SIZE, PMD_TABLE_SIZE);
+ 		if (!pmd)
+ 			goto err_alloc;
+diff --git a/mm/pgalloc-track.h b/mm/pgalloc-track.h
+index e9e879de8649..0f6b809431a3 100644
+--- a/mm/pgalloc-track.h
++++ b/mm/pgalloc-track.h
+@@ -33,7 +33,7 @@ static inline pmd_t *pmd_alloc_track(struct mm_struct *mm=
+, pud_t *pud,
+ 				     unsigned long address,
+ 				     pgtbl_mod_mask *mod_mask)
+ {
+-	if (unlikely(pud_none(*pud))) {
++	if (unlikely(pud_none(pudp_get(pud)))) {
+ 		if (__pmd_alloc(mm, pud, address))
+ 			return NULL;
+ 		*mod_mask |=3D PGTBL_PUD_MODIFIED;
 diff --git a/mm/pgtable-generic.c b/mm/pgtable-generic.c
-index a78a4adf711a..920947bb76cd 100644
+index 920947bb76cd..e09e3f920f7a 100644
 --- a/mm/pgtable-generic.c
 +++ b/mm/pgtable-generic.c
-@@ -51,7 +51,7 @@ void pud_clear_bad(pud_t *pud)
-  */
- void pmd_clear_bad(pmd_t *pmd)
+@@ -39,7 +39,7 @@ void p4d_clear_bad(p4d_t *p4d)
+ #ifndef __PAGETABLE_PUD_FOLDED
+ void pud_clear_bad(pud_t *pud)
  {
--	pmd_ERROR(*pmd);
-+	pmd_ERROR(pmdp_get(pmd));
- 	pmd_clear(pmd);
- }
- 
-@@ -110,7 +110,7 @@ int pmdp_set_access_flags(struct vm_area_struct *vma,
- 			  unsigned long address, pmd_t *pmdp,
- 			  pmd_t entry, int dirty)
- {
--	int changed = !pmd_same(*pmdp, entry);
-+	int changed = !pmd_same(pmdp_get(pmdp), entry);
- 	VM_BUG_ON(address & ~HPAGE_PMD_MASK);
- 	if (changed) {
- 		set_pmd_at(vma->vm_mm, address, pmdp, entry);
-@@ -137,10 +137,10 @@ int pmdp_clear_flush_young(struct vm_area_struct *vma,
- pmd_t pmdp_huge_clear_flush(struct vm_area_struct *vma, unsigned long address,
- 			    pmd_t *pmdp)
- {
--	pmd_t pmd;
-+	pmd_t pmd, old_pmd = pmdp_get(pmdp);
- 	VM_BUG_ON(address & ~HPAGE_PMD_MASK);
--	VM_BUG_ON(pmd_present(*pmdp) && !pmd_trans_huge(*pmdp) &&
--			   !pmd_devmap(*pmdp));
-+	VM_BUG_ON(pmd_present(old_pmd) && !pmd_trans_huge(old_pmd) &&
-+			   !pmd_devmap(old_pmd));
- 	pmd = pmdp_huge_get_and_clear(vma->vm_mm, address, pmdp);
- 	flush_pmd_tlb_range(vma, address, address + HPAGE_PMD_SIZE);
- 	return pmd;
-@@ -198,8 +198,10 @@ pgtable_t pgtable_trans_huge_withdraw(struct mm_struct *mm, pmd_t *pmdp)
- pmd_t pmdp_invalidate(struct vm_area_struct *vma, unsigned long address,
- 		     pmd_t *pmdp)
- {
--	VM_WARN_ON_ONCE(!pmd_present(*pmdp));
--	pmd_t old = pmdp_establish(vma, address, pmdp, pmd_mkinvalid(*pmdp));
-+	pmd_t old_pmd = pmdp_get(pmdp);
-+
-+	VM_WARN_ON_ONCE(!pmd_present(old_pmd));
-+	pmd_t old = pmdp_establish(vma, address, pmdp, pmd_mkinvalid(old_pmd));
- 	flush_pmd_tlb_range(vma, address, address + HPAGE_PMD_SIZE);
- 	return old;
- }
-@@ -209,7 +211,7 @@ pmd_t pmdp_invalidate(struct vm_area_struct *vma, unsigned long address,
- pmd_t pmdp_invalidate_ad(struct vm_area_struct *vma, unsigned long address,
- 			 pmd_t *pmdp)
- {
--	VM_WARN_ON_ONCE(!pmd_present(*pmdp));
-+	VM_WARN_ON_ONCE(!pmd_present(pmdp_get(pmdp)));
- 	return pmdp_invalidate(vma, address, pmdp);
+-	pud_ERROR(*pud);
++	pud_ERROR(pudp_get(pud));
+ 	pud_clear(pud);
  }
  #endif
-@@ -225,7 +227,7 @@ pmd_t pmdp_collapse_flush(struct vm_area_struct *vma, unsigned long address,
- 	pmd_t pmd;
- 
- 	VM_BUG_ON(address & ~HPAGE_PMD_MASK);
--	VM_BUG_ON(pmd_trans_huge(*pmdp));
-+	VM_BUG_ON(pmd_trans_huge(pmdp_get(pmdp)));
- 	pmd = pmdp_huge_get_and_clear(vma->vm_mm, address, pmdp);
- 
- 	/* collapse entails shooting down ptes not pmd */
+@@ -150,10 +150,10 @@ pmd_t pmdp_huge_clear_flush(struct vm_area_struct *vm=
+a, unsigned long address,
+ pud_t pudp_huge_clear_flush(struct vm_area_struct *vma, unsigned long addr=
+ess,
+ 			    pud_t *pudp)
+ {
+-	pud_t pud;
++	pud_t pud, old_pud =3D pudp_get(pudp);
+=20
+ 	VM_BUG_ON(address & ~HPAGE_PUD_MASK);
+-	VM_BUG_ON(!pud_trans_huge(*pudp) && !pud_devmap(*pudp));
++	VM_BUG_ON(!pud_trans_huge(old_pud) && !pud_devmap(old_pud));
+ 	pud =3D pudp_huge_get_and_clear(vma->vm_mm, address, pudp);
+ 	flush_pud_tlb_range(vma, address, address + HPAGE_PUD_SIZE);
+ 	return pud;
 diff --git a/mm/ptdump.c b/mm/ptdump.c
-index 106e1d66e9f9..e17588a32012 100644
+index e17588a32012..32ae8e829329 100644
 --- a/mm/ptdump.c
 +++ b/mm/ptdump.c
-@@ -99,7 +99,7 @@ static int ptdump_pmd_entry(pmd_t *pmd, unsigned long addr,
+@@ -30,7 +30,7 @@ static int ptdump_pgd_entry(pgd_t *pgd, unsigned long add=
+r,
  			    unsigned long next, struct mm_walk *walk)
  {
- 	struct ptdump_state *st = walk->private;
--	pmd_t val = READ_ONCE(*pmd);
-+	pmd_t val = pmdp_get(pmd);
- 
- #if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
- 	if (pmd_page(val) == virt_to_page(lm_alias(kasan_early_shadow_pte)))
+ 	struct ptdump_state *st =3D walk->private;
+-	pgd_t val =3D READ_ONCE(*pgd);
++	pgd_t val =3D pgdp_get(pgd);
+=20
+ #if CONFIG_PGTABLE_LEVELS > 4 && \
+ 		(defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS))
+@@ -76,7 +76,7 @@ static int ptdump_pud_entry(pud_t *pud, unsigned long add=
+r,
+ 			    unsigned long next, struct mm_walk *walk)
+ {
+ 	struct ptdump_state *st =3D walk->private;
+-	pud_t val =3D READ_ONCE(*pud);
++	pud_t val =3D pudp_get(pud);
+=20
+ #if CONFIG_PGTABLE_LEVELS > 2 && \
+ 		(defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS))
 diff --git a/mm/rmap.c b/mm/rmap.c
-index 2490e727e2dc..32e4920e419d 100644
+index 32e4920e419d..81f1946653e0 100644
 --- a/mm/rmap.c
 +++ b/mm/rmap.c
-@@ -1034,9 +1034,9 @@ static int page_vma_mkclean_one(struct page_vma_mapped_walk *pvmw)
- 		} else {
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
- 			pmd_t *pmd = pvmw->pmd;
--			pmd_t entry;
-+			pmd_t entry, old_pmd = pmdp_get(pmd);
- 
--			if (!pmd_dirty(*pmd) && !pmd_write(*pmd))
-+			if (!pmd_dirty(old_pmd) && !pmd_write(old_pmd))
- 				continue;
- 
- 			flush_cache_range(vma, address,
+@@ -817,7 +817,7 @@ pmd_t *mm_find_pmd(struct mm_struct *mm, unsigned long =
+address)
+ 		goto out;
+=20
+ 	pud =3D pud_offset(p4d, address);
+-	if (!pud_present(*pud))
++	if (!pud_present(pudp_get(pud)))
+ 		goto out;
+=20
+ 	pmd =3D pmd_offset(pud, address);
 diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-index edcc7a6b0f6f..c89706e107ce 100644
+index c89706e107ce..d8ea64ec665f 100644
 --- a/mm/sparse-vmemmap.c
 +++ b/mm/sparse-vmemmap.c
-@@ -187,7 +187,7 @@ static void * __meminit vmemmap_alloc_block_zero(unsigned long size, int node)
- pmd_t * __meminit vmemmap_pmd_populate(pud_t *pud, unsigned long addr, int node)
+@@ -203,7 +203,7 @@ void __weak __meminit pmd_init(void *addr)
+ pud_t * __meminit vmemmap_pud_populate(p4d_t *p4d, unsigned long addr, int=
+ node)
  {
- 	pmd_t *pmd = pmd_offset(pud, addr);
--	if (pmd_none(*pmd)) {
-+	if (pmd_none(pmdp_get(pmd))) {
- 		void *p = vmemmap_alloc_block_zero(PAGE_SIZE, node);
+ 	pud_t *pud =3D pud_offset(p4d, addr);
+-	if (pud_none(*pud)) {
++	if (pud_none(pudp_get(pud))) {
+ 		void *p =3D vmemmap_alloc_block_zero(PAGE_SIZE, node);
  		if (!p)
  			return NULL;
-@@ -332,7 +332,7 @@ int __meminit vmemmap_populate_hugepages(unsigned long start, unsigned long end,
- 			return -ENOMEM;
- 
- 		pmd = pmd_offset(pud, addr);
--		if (pmd_none(READ_ONCE(*pmd))) {
-+		if (pmd_none(pmdp_get(pmd))) {
- 			void *p;
- 
- 			p = vmemmap_alloc_block_buf(PMD_SIZE, node, altmap);
 diff --git a/mm/vmalloc.c b/mm/vmalloc.c
-index a0df1e2e155a..1da56cbe5feb 100644
+index 1da56cbe5feb..05292d998122 100644
 --- a/mm/vmalloc.c
 +++ b/mm/vmalloc.c
-@@ -150,7 +150,7 @@ static int vmap_try_huge_pmd(pmd_t *pmd, unsigned long addr, unsigned long end,
- 	if (!IS_ALIGNED(phys_addr, PMD_SIZE))
+@@ -200,7 +200,7 @@ static int vmap_try_huge_pud(pud_t *pud, unsigned long =
+addr, unsigned long end,
+ 	if (!IS_ALIGNED(phys_addr, PUD_SIZE))
  		return 0;
- 
--	if (pmd_present(*pmd) && !pmd_free_pte_page(pmd, addr))
-+	if (pmd_present(pmdp_get(pmd)) && !pmd_free_pte_page(pmd, addr))
+=20
+-	if (pud_present(*pud) && !pud_free_pmd_page(pud, addr))
++	if (pud_present(pudp_get(pud)) && !pud_free_pmd_page(pud, addr))
  		return 0;
- 
- 	return pmd_set_huge(pmd, phys_addr, prot);
-@@ -371,7 +371,7 @@ static void vunmap_pmd_range(pud_t *pud, unsigned long addr, unsigned long end,
- 		next = pmd_addr_end(addr, end);
- 
- 		cleared = pmd_clear_huge(pmd);
--		if (cleared || pmd_bad(*pmd))
-+		if (cleared || pmd_bad(pmdp_get(pmd)))
- 			*mask |= PGTBL_PMD_MODIFIED;
- 
+=20
+ 	return pud_set_huge(pud, phys_addr, prot);
+@@ -396,7 +396,7 @@ static void vunmap_pud_range(p4d_t *p4d, unsigned long =
+addr, unsigned long end,
+ 		next =3D pud_addr_end(addr, end);
+=20
+ 		cleared =3D pud_clear_huge(pud);
+-		if (cleared || pud_bad(*pud))
++		if (cleared || pud_bad(pudp_get(pud)))
+ 			*mask |=3D PGTBL_PUD_MODIFIED;
+=20
  		if (cleared)
-@@ -743,7 +743,7 @@ struct page *vmalloc_to_page(const void *vmalloc_addr)
- 	pgd_t *pgd = pgd_offset_k(addr);
+@@ -742,7 +742,7 @@ struct page *vmalloc_to_page(const void *vmalloc_addr)
+ 	struct page *page =3D NULL;
+ 	pgd_t *pgd =3D pgd_offset_k(addr);
  	p4d_t *p4d;
- 	pud_t *pud;
--	pmd_t *pmd;
-+	pmd_t *pmd, old_pmd;
+-	pud_t *pud;
++	pud_t *pud, old_pud;
+ 	pmd_t *pmd, old_pmd;
  	pte_t *ptep, pte;
- 
+=20
+@@ -768,11 +768,12 @@ struct page *vmalloc_to_page(const void *vmalloc_addr=
+)
+ 		return NULL;
+=20
+ 	pud =3D pud_offset(p4d, addr);
+-	if (pud_none(*pud))
++	old_pud =3D pudp_get(pud);
++	if (pud_none(old_pud))
+ 		return NULL;
+-	if (pud_leaf(*pud))
+-		return pud_page(*pud) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+-	if (WARN_ON_ONCE(pud_bad(*pud)))
++	if (pud_leaf(old_pud))
++		return pud_page(old_pud) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
++	if (WARN_ON_ONCE(pud_bad(old_pud)))
+ 		return NULL;
+=20
+ 	pmd =3D pmd_offset(pud, addr);
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index bd489c1af228..04b03e6c3095 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -3421,7 +3421,7 @@ static void walk_pmd_range_locked(pud_t *pud, unsigne=
+d long addr, struct vm_area
+ 	DEFINE_MAX_SEQ(walk->lruvec);
+ 	int old_gen, new_gen =3D lru_gen_from_seq(max_seq);
+=20
+-	VM_WARN_ON_ONCE(pud_leaf(*pud));
++	VM_WARN_ON_ONCE(pud_leaf(pudp_get(pud)));
+=20
+ 	/* try to batch at most 1+MIN_LRU_BATCH+1 entries */
+ 	if (*first =3D=3D -1) {
+@@ -3501,7 +3501,7 @@ static void walk_pmd_range(pud_t *pud, unsigned long =
+start, unsigned long end,
+ 	struct lru_gen_mm_walk *walk =3D args->private;
+ 	struct lru_gen_mm_state *mm_state =3D get_mm_state(walk->lruvec);
+=20
+-	VM_WARN_ON_ONCE(pud_leaf(*pud));
++	VM_WARN_ON_ONCE(pud_leaf(pudp_get(pud)));
+=20
  	/*
-@@ -776,11 +776,12 @@ struct page *vmalloc_to_page(const void *vmalloc_addr)
- 		return NULL;
- 
- 	pmd = pmd_offset(pud, addr);
--	if (pmd_none(*pmd))
-+	old_pmd = pmdp_get(pmd);
-+	if (pmd_none(old_pmd))
- 		return NULL;
--	if (pmd_leaf(*pmd))
--		return pmd_page(*pmd) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
--	if (WARN_ON_ONCE(pmd_bad(*pmd)))
-+	if (pmd_leaf(old_pmd))
-+		return pmd_page(old_pmd) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
-+	if (WARN_ON_ONCE(pmd_bad(old_pmd)))
- 		return NULL;
- 
- 	ptep = pte_offset_kernel(pmd, addr);
--- 
+ 	 * Finish an entire PMD in two passes: the first only reaches to PTE
+--=20
 2.25.1
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240917073117.1531207-5-anshuman.khandual%40arm.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/20240917073117.1531207-6-anshuman.khandual%40arm.com.
