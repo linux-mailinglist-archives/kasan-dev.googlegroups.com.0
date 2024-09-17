@@ -1,112 +1,111 @@
-Return-Path: <kasan-dev+bncBDGZVRMH6UCRBXXAUS3QMGQE5CMUT7Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGZVRMH6UCRBYXAUS3QMGQE3UAB4WQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1040.google.com (mail-pj1-x1040.google.com [IPv6:2607:f8b0:4864:20::1040])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C6B97AC17
-	for <lists+kasan-dev@lfdr.de>; Tue, 17 Sep 2024 09:31:44 +0200 (CEST)
-Received: by mail-pj1-x1040.google.com with SMTP id 98e67ed59e1d1-2da8c2eeecasf5253526a91.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 17 Sep 2024 00:31:44 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1726558303; cv=pass;
+Received: from mail-qv1-xf3d.google.com (mail-qv1-xf3d.google.com [IPv6:2607:f8b0:4864:20::f3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 395E697AC18
+	for <lists+kasan-dev@lfdr.de>; Tue, 17 Sep 2024 09:31:48 +0200 (CEST)
+Received: by mail-qv1-xf3d.google.com with SMTP id 6a1803df08f44-6c5b440309asf3912046d6.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 17 Sep 2024 00:31:48 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1726558307; cv=pass;
         d=google.com; s=arc-20240605;
-        b=YUeog+73+ngdU7pBuUpNeKjrdRrND5GPrVaZW0qOsb5ABgVaSd39qe0wr05SVvFhpX
-         fsM8j/cOgGZFR/iDfIlttI5tUwEcLI72q2qQRvjrtzGFHMfJrBXde1caao5cbScGvE/d
-         xFN8t5jEo/Hl6zn5/HmWMGY4QOmjaGXUEQsy6E9D3J0Z++/wpyKeVLMoZ66SMjWtC07N
-         ExeOGuTPvthYPlkelTrgtSVFk2BzOUhmCo8dqfUmfFNxy7r0/fZlkLrtDrn2Jv0fyKNn
-         qLK60EWm7hYK/qXrbHX8E3ooTDI7fM5NelOaiznG/lSBlHmqINh2dOERq+9KibjAwaDT
-         cGuQ==
+        b=CpKgpvLqXbxm1IcsINxjtR7PjiO51V0El5cqg4sACs01uK9/V/eJd06ragqG/7kGje
+         G02rWIcZ8zKpnc0h9kNNkopbll8J0ZOokMD2u6DACrgNHbsl6xDA1uHvtjWqfxleKlQg
+         fBglXJ2I7Y7rIwBqrvOZZ0qtQrYhIMieK1EQcAs0xS+rOXVtdbkL16FSrr0zGxZb7rA8
+         MLtgyUJYPaFmJ67oDQ2e8wR4GPsrwsCU3zwMtAiFsnH1cV6dbJjR41EF2gl9GXZXo2tj
+         ogDprKn8gdMLgo5rkC6r7OiMPQzhvwZufzzYLwUl9TcbCYwgkwaof57hdJuCaEKUHzn2
+         VOYw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=yWJtQvu7VvY2Zu0rb+xGjbleW+47/lKUjhJISEQJoL0=;
-        fh=h6MiJHxqw7UC3dyqpVBhn3ddVTTzmETwEs1yimgCB3w=;
-        b=Y+l7Xe7qdI92SvHq8Aj/4ywhhmW/ZWMUi+mw7+fYpGuUAROdrPuRUbtsMAlObrfPC9
-         KjDGAKs5vmjpb3IWu7rTTakc0TyGtPct2rQ2UXAc4aBIx2/G9Rb4Z5KC62OgGPU5GKon
-         QMTdB4Dk+fJ5828qeynJcLnX+iVrZoyHlAdnTXTLOE3BHnJhcVh4TbhCVXZFL7BVwkDu
-         zEAdT8Xhi7CMQQMXUGcMg1SdZP0aZ4MqbKjiJ7hF9HDBmNtD4FlbjzD+niqVuqCdq02R
-         MVoAjHn+D9glXFUz42FeLAIFS84PR6ibueR42Ql2jYBzM1OedtcHOQ8CKj5UrDtDtH2H
-         iolw==;
+        bh=kumUFwoxlW7tb4iV+FpN7W88Z8likS2fV2P6+1HoE48=;
+        fh=05DPpchg+7mGXaDietCDuDGc6eG/U/mgjvxHWxn7Fiw=;
+        b=K0YG0VHPlSZSKLUOb+E6debFGHqzgg29IrKfLNlBvTziWyQ56kc0brz3LHyJyBGjsy
+         HBotVbVLkRhiqllbIaIGLVMQRxaTsxD7myKHU/jtGmY/8d02FIxNSuxo8+GaUdzVmzAz
+         UxvzKWJEWJdFDFGCb9F1SzgJIrANWNCRMNtuxzltZmXOHzY7meiM5W2xLbloQ1cptlKd
+         rSqGMQuUZ901aVaiM69MK6fc3TyGdJjQV2FFwjxaX0hGFS9TQ6fJOjWoeWVX9Lcbcoq1
+         hKIcmqD/mZBIZRTwDEhlVcKi+ibye2DOoj7vufh21YOOgjHJvsjKOLrUeZgfk7h4A2gm
+         48QA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1726558303; x=1727163103; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1726558307; x=1727163107; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yWJtQvu7VvY2Zu0rb+xGjbleW+47/lKUjhJISEQJoL0=;
-        b=roLv+XHE1Jbbqj1+8MvrT/x9HEOe7o8hNQTGN321/7i/oXVfatitttjfle1BeEzhij
-         yrrxGHui3XzEiFk7BvXkYyYnA1Ivl+rz9lRqGAcO8HBooIcgmprWHYSqBk2eaIgeZl8W
-         4kOqaq85/YLZlg/SYFLhMF1l+coajJRGwiDZ6XrdT+rEWwY2y3HDGk5d9z/8lInLxTJw
-         YnmtiAlPe6fVDVyohFics2HNXYJS//DRQSkixNMQfQKCV5uupdWQ5k83OxvxwDaK1LaY
-         vJtP3sHsgFRVwLxHuZ1rOuawV/HBndhDlu73+c1JgSbrEXRZi+IIMKuHcdSVkBfjZ/0i
-         pxmA==
+        bh=kumUFwoxlW7tb4iV+FpN7W88Z8likS2fV2P6+1HoE48=;
+        b=HguGPb6VHJ+Xn/DSWxnh5Pc7OdPRZYVrh8nnpOQX5D2y1h/BEOAgQndmEAd6OVEsN+
+         HDuDTj579Pee6/+9VoQ+0lI5+cFkvATZq/ZkZmiwDctH/QVxM2BFG0eLqd7RTdSI9i6V
+         a7i1JgV29vLvaYFSOBowtAO8eTdyINvHuXIv+74wMnYi6CMovqqiCdNFOu4sZAAW7bTk
+         fOx6qiIJ4jC1OnNX8Z9UCwzSAQwJ2M6ZyJHcWYekNyOKqV3TLKUVwh7ldJCM1IgcWuFX
+         uX3FtxDfzl7Ni5QgOtXCptYPgE9f03l/hz6JfrD9VqdXrL+rUVbtFdyBy8omdRlfvTwu
+         AkLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726558303; x=1727163103;
+        d=1e100.net; s=20230601; t=1726558307; x=1727163107;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yWJtQvu7VvY2Zu0rb+xGjbleW+47/lKUjhJISEQJoL0=;
-        b=B/FvvU+n78Vm4qJPsXNO4n3rgPmW/cHriQsuV2OrZKtW3xU6PcaK19bv/1mCl+8avM
-         U7dxZfZ/zSS0LFkZHpxyH4t/yU04qixnhEdwU3wDED3Alkh2JL9/+y6Uri8/PKysHzdK
-         areYBCtS7ABaslKLq4rKteA9gdDtwimv42sQgsCgXCbVtTdaUAUfoRnpQKhxiicCOvAF
-         CTOF8qHyEvF7+7oVG8bUsaFJglUPQl72YrOw0Cc1d5y9Fweoc/B9AXZrOWwGBMbZkP1T
-         cS1/uUz0fPWCeAUp4m8X/v6GngOjF0+SjPZ41XUQZAro5rk+8g6m2nWGcTuiVAnq8YgX
-         C2Wg==
+        bh=kumUFwoxlW7tb4iV+FpN7W88Z8likS2fV2P6+1HoE48=;
+        b=HtsqWt/arpCD71/5GBIy2mhvYDIJQ4Lpp3Dzqt/H0kOT9xjt06yl4ITyUAYqFbTEKC
+         feSWSDzPb40mzK4sDpkZl2xRWpkmpdeAcanCVCFearKtkxwwUSJHDgSPPCczc1jHFZPk
+         LLTh9iqPNRPn2cb8XjrWHzc0cIGtzSEQ1aSEjnrdkPbf4wNXCKQ3XSEvn8mqr4rHJ73/
+         PxWfWNJmMUuhlfwRfVWllhqHcFaTxnKP6cx4sDc9mHFUQaoE52ZoE7PEvwOteyeuebR0
+         +9l/8FXp5YJ0rnjdCTgWqOPjGbdtQwSmFk1rSlM6xWc3z5LdeenWxl5qxMYiIxMn6w/l
+         2ErQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXuyN4N4tGvKITSvODsonWHNDtqL4BKhNdIoRMvJCeADHYlRlAnrWzDRMneb9ofpcg9gIj4VQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yyvy8Q0/wI+19XGmdXLMrLemPmOLDgleMYnbMhkAdMJr5eMPvAP
-	dhgVE5cZkhA4UP3H9Idq76PAWcxMhpNRTDOUbLj4pxEif6JLNOId
-X-Google-Smtp-Source: AGHT+IGAO4Kyr5xk2sKvyfNv0AR+CO0zcOGKPG2l+Xrt9INOHdiAArJKQxDFy1S5Zlcvlz+1hjA+mg==
-X-Received: by 2002:a17:90a:4b87:b0:2d8:f0b4:9acb with SMTP id 98e67ed59e1d1-2dbb9f08179mr18741584a91.34.1726558302843;
-        Tue, 17 Sep 2024 00:31:42 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVbW20MUVw8wWCYwRDdpgiEPRqa9JZwR1jmKxE5OkvdBxhiAr/Wg7dRuIy0qEX3ksEgxmdnYA==@lfdr.de
+X-Gm-Message-State: AOJu0Yxrq4XVDRWzkx8Fk62IR5y9jAXVHrSG0KNd1mjJsthOJK/5/ski
+	dyI0EwSTpg0ikbpzVF7ewoIS80+iM9Gd43FMg70CXJ3sNXVAKX5e
+X-Google-Smtp-Source: AGHT+IGjp9s7GKum9eiuAsOrwOw5IPbMf41W2JbB5NaOhoVkH/oBRB8KoCrVTFL1B3MMU4nnayFV8g==
+X-Received: by 2002:a05:6214:4806:b0:6c3:6560:af09 with SMTP id 6a1803df08f44-6c573a26148mr359587956d6.0.1726558306858;
+        Tue, 17 Sep 2024 00:31:46 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:1f88:b0:2da:6346:d569 with SMTP id
- 98e67ed59e1d1-2db9f63b81cls716784a91.1.-pod-prod-04-us; Tue, 17 Sep 2024
- 00:31:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWFVOh4ka4T4UC9+wpfmwSxrMay7wAWvIKLY8ui9b9fGspk4/Hi0OTBSjb7FluGAjpfuPt4Ucb42iA=@googlegroups.com
-X-Received: by 2002:a17:90a:1648:b0:2d3:c9bb:9cd7 with SMTP id 98e67ed59e1d1-2dbb9f08b4amr20855003a91.36.1726558301436;
-        Tue, 17 Sep 2024 00:31:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1726558301; cv=none;
+Received: by 2002:ad4:5f4f:0:b0:6c5:1cfa:1e03 with SMTP id 6a1803df08f44-6c5734f142fls21796436d6.1.-pod-prod-00-us;
+ Tue, 17 Sep 2024 00:31:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCX2lhyzuna+OmvbrMYyFyLxOK7hQ0xJiuPmF7rzjk60Wv88y9WSm+Ht2TgUxX+6YH5OUjunglXQmLk=@googlegroups.com
+X-Received: by 2002:a05:6214:3c97:b0:6c3:6414:7172 with SMTP id 6a1803df08f44-6c573ac9044mr310450476d6.9.1726558306033;
+        Tue, 17 Sep 2024 00:31:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1726558306; cv=none;
         d=google.com; s=arc-20240605;
-        b=fCJuUAE4zMp42US3Wf+R+GRDIIkk5NXfuHPHz4mbEUEpY97OsoAl7A9uASw+9UCMn3
-         GKmu9nTTFSyOssF/VKBtTarmewy46DwaVoFOhV730sIOjI4gKJIHPw7paoxftIVmVvfb
-         dgK8RhbfzeEE2LhkHeliD71kaImKrdaOMOMKiET7hmRSsEZflIunKgO6K9lCWrpsgy7/
-         IleAAfxATDsy3dEv/k1GmpktREp79JaUWsIn8jDb56gCMXutTg14gRoagiEePJU5orF6
-         /w78vKQEgn7vogTMN7KTAOoSYsSpQEr8xORoI8u+d3KcJj+iGgZNCpZmajD4wlrGjBs/
-         lzzw==
+        b=MXMVkKFifDWCRoTYfBE3XWBVCCAsTa8+HJiLfN04lemJWbtqjmHQZqLBJW8hjPZmzn
+         yY266eUKPdJOAyRBK6gCfuPvriljFBDI9v3tUabDSz2AhVf4m4KyT/tuj+doUQ7Wg994
+         LElcReLtrhvJOoG4kaPkUTvfYUbbCLQFzyTh0z0p6BSF9VJO3jWehFlnDPbyHvARAQJH
+         Q6qeF7rHIjiHY9AcRwFwT4jNvmWaLKd9M/ZKqkNbgaVluQudOlv3rmF8+7Hb+oZ+wpYo
+         5wfVBEPEXn0FaHtuMVHW6YGxS1btpV9vEWc/u64yckf7oQHg6bm/cAjfQgWF8OJIZip9
+         Fwbg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=Kf+QKFudpY6BIdljIQcwJegJXtg0lo4RbS3FDlRfCHA=;
-        fh=2Qg1lQCKbOaLhilWuULCpF79d+LAtLSDknwN1+HxWCU=;
-        b=PJsUFjhweqfslUuCqcjRG5VSNWsA3pcgKZUlw3ClEToZf07dNXyMTJMQ9k4zGqeZre
-         6uJMzkExkzkQBctCae+GmnQkr52wCGJo0cq7NJYnWbgfNkNpnMM4KZaCY0NZhbiWVqT/
-         hNizYfzgS/k8PxmmTpn6QSm264T5vGAypbclXpuA3b/sPzfg42NWaaFYByASHmFS/+hd
-         sbNnpQa9Vk/Oo/Eg9gTaJPeg4PJJnmBu2YJCQCd5Kv4L5hNWkTdj2OGeIPMRcVunw7Ve
-         Ugii5SoYk0cIuOzQVVa9XTP3J4/SRn+2NH4QrVrmgq5xeKXpFioLCOxwGSz2dP8nfDU7
-         jDfQ==;
+        bh=WBPoMFgWT2ZiqZhDgBB8E2TVvrfOMNhXDz2ju2nc0jk=;
+        fh=UQNaMAYHGrpcz1A3KIVW4uNQRqY/Xs/Tgi5PZeMplwM=;
+        b=Hoy1Nw9v2fYySwnZ5elg+0t1hmRCuH9k/sPwy+r9Z0UHJuZPBS9rSwyk6cHjapUpp1
+         wbSdpJk5loTs1bNOXXRD4kFSJkew6ewQdE/17SbI+TDAmy39awpvfaOc744Pezm8uC6X
+         97s/jlXk3/sFUDs0DjKhwtKglp688oW+F13r1HXIm8TSBTG3TrB7hlM7GBERGizdy7Yz
+         e6THZEqXA+I36CqvGGcq0/NhsiuWy7gizClz3IYlv3Ws92ATa0r69Hcq+peeuV7L5T45
+         2+ieHNbfaZWNeqRldlCtv19QHWZKNXBZHGDetRZs7px1yZSJ8dXbVLkyY2eC00Z43AOC
+         eChg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id 98e67ed59e1d1-2dd52e36330si38310a91.1.2024.09.17.00.31.41
+        by gmr-mx.google.com with ESMTP id 6a1803df08f44-6c58c7f6e59si2696686d6.8.2024.09.17.00.31.45
         for <kasan-dev@googlegroups.com>;
-        Tue, 17 Sep 2024 00:31:41 -0700 (PDT)
+        Tue, 17 Sep 2024 00:31:46 -0700 (PDT)
 Received-SPF: pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D43661063;
-	Tue, 17 Sep 2024 00:32:09 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0434D106F;
+	Tue, 17 Sep 2024 00:32:15 -0700 (PDT)
 Received: from a077893.arm.com (unknown [10.163.61.158])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B83D53F64C;
-	Tue, 17 Sep 2024 00:31:34 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 11DEC3F64C;
+	Tue, 17 Sep 2024 00:31:40 -0700 (PDT)
 From: Anshuman Khandual <anshuman.khandual@arm.com>
 To: linux-mm@kvack.org
 Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
@@ -120,14 +119,10 @@ Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
 	linux-fsdevel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
 	linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>
-Subject: [PATCH V2 2/7] x86/mm: Drop page table entry address output from pxd_ERROR()
-Date: Tue, 17 Sep 2024 13:01:12 +0530
-Message-Id: <20240917073117.1531207-3-anshuman.khandual@arm.com>
+	linux-perf-users@vger.kernel.org
+Subject: [PATCH V2 3/7] mm: Use ptep_get() for accessing PTE entries
+Date: Tue, 17 Sep 2024 13:01:13 +0530
+Message-Id: <20240917073117.1531207-4-anshuman.khandual@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20240917073117.1531207-1-anshuman.khandual@arm.com>
 References: <20240917073117.1531207-1-anshuman.khandual@arm.com>
@@ -150,89 +145,36 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This drops page table entry address output from all pxd_ERROR() definitions
-which now matches with other architectures. This also prevents build issues
-while transitioning into pxdp_get() based page table entry accesses.
+Convert PTE accesses via ptep_get() helper that defaults as READ_ONCE() but
+also provides the platform an opportunity to override when required. This
+stores read page table entry value in a local variable which can be used in
+multiple instances there after. This helps in avoiding multiple memory load
+operations as well possible race conditions.
 
-The mentioned build error is caused with changed macros pxd_ERROR() ends up
-doing &pxdp_get(pxd) which does not make sense and generates "error: lvalue
-required as unary '&' operand" warning.
-
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Ingo Molnar <mingo@redhat.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: x86@kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Ryan Roberts <ryan.roberts@arm.com>
+Cc: "Mike Rapoport (IBM)" <rppt@kernel.org>
+Cc: linux-mm@kvack.org
 Cc: linux-kernel@vger.kernel.org
 Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
 ---
- arch/x86/include/asm/pgtable-3level.h | 12 ++++++------
- arch/x86/include/asm/pgtable_64.h     | 20 ++++++++++----------
- 2 files changed, 16 insertions(+), 16 deletions(-)
+ include/linux/pgtable.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/include/asm/pgtable-3level.h b/arch/x86/include/asm/pgtable-3level.h
-index dabafba957ea..e1fa4dd87753 100644
---- a/arch/x86/include/asm/pgtable-3level.h
-+++ b/arch/x86/include/asm/pgtable-3level.h
-@@ -10,14 +10,14 @@
+diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+index 2a6a3cccfc36..547eeae8c43f 100644
+--- a/include/linux/pgtable.h
++++ b/include/linux/pgtable.h
+@@ -1060,7 +1060,8 @@ static inline int pgd_same(pgd_t pgd_a, pgd_t pgd_b)
   */
- 
- #define pte_ERROR(e)							\
--	pr_err("%s:%d: bad pte %p(%08lx%08lx)\n",			\
--	       __FILE__, __LINE__, &(e), (e).pte_high, (e).pte_low)
-+	pr_err("%s:%d: bad pte (%08lx%08lx)\n",			\
-+	       __FILE__, __LINE__, (e).pte_high, (e).pte_low)
- #define pmd_ERROR(e)							\
--	pr_err("%s:%d: bad pmd %p(%016Lx)\n",				\
--	       __FILE__, __LINE__, &(e), pmd_val(e))
-+	pr_err("%s:%d: bad pmd (%016Lx)\n",				\
-+	       __FILE__, __LINE__, pmd_val(e))
- #define pgd_ERROR(e)							\
--	pr_err("%s:%d: bad pgd %p(%016Lx)\n",				\
--	       __FILE__, __LINE__, &(e), pgd_val(e))
-+	pr_err("%s:%d: bad pgd (%016Lx)\n",				\
-+	       __FILE__, __LINE__, pgd_val(e))
- 
- #define pxx_xchg64(_pxx, _ptr, _val) ({					\
- 	_pxx##val_t *_p = (_pxx##val_t *)_ptr;				\
-diff --git a/arch/x86/include/asm/pgtable_64.h b/arch/x86/include/asm/pgtable_64.h
-index 3c4407271d08..4e462c825cab 100644
---- a/arch/x86/include/asm/pgtable_64.h
-+++ b/arch/x86/include/asm/pgtable_64.h
-@@ -32,24 +32,24 @@ extern void paging_init(void);
- static inline void sync_initial_page_table(void) { }
- 
- #define pte_ERROR(e)					\
--	pr_err("%s:%d: bad pte %p(%016lx)\n",		\
--	       __FILE__, __LINE__, &(e), pte_val(e))
-+	pr_err("%s:%d: bad pte (%016lx)\n",		\
-+	       __FILE__, __LINE__, pte_val(e))
- #define pmd_ERROR(e)					\
--	pr_err("%s:%d: bad pmd %p(%016lx)\n",		\
--	       __FILE__, __LINE__, &(e), pmd_val(e))
-+	pr_err("%s:%d: bad pmd (%016lx)\n",		\
-+	       __FILE__, __LINE__, pmd_val(e))
- #define pud_ERROR(e)					\
--	pr_err("%s:%d: bad pud %p(%016lx)\n",		\
--	       __FILE__, __LINE__, &(e), pud_val(e))
-+	pr_err("%s:%d: bad pud (%016lx)\n",		\
-+	       __FILE__, __LINE__, pud_val(e))
- 
- #if CONFIG_PGTABLE_LEVELS >= 5
- #define p4d_ERROR(e)					\
--	pr_err("%s:%d: bad p4d %p(%016lx)\n",		\
--	       __FILE__, __LINE__, &(e), p4d_val(e))
-+	pr_err("%s:%d: bad p4d (%016lx)\n",		\
-+	       __FILE__, __LINE__, p4d_val(e))
- #endif
- 
- #define pgd_ERROR(e)					\
--	pr_err("%s:%d: bad pgd %p(%016lx)\n",		\
--	       __FILE__, __LINE__, &(e), pgd_val(e))
-+	pr_err("%s:%d: bad pgd (%016lx)\n",		\
-+	       __FILE__, __LINE__, pgd_val(e))
- 
- struct mm_struct;
+ #define set_pte_safe(ptep, pte) \
+ ({ \
+-	WARN_ON_ONCE(pte_present(*ptep) && !pte_same(*ptep, pte)); \
++	pte_t __old = ptep_get(ptep); \
++	WARN_ON_ONCE(pte_present(__old) && !pte_same(__old, pte)); \
+ 	set_pte(ptep, pte); \
+ })
  
 -- 
 2.25.1
@@ -240,4 +182,4 @@ index 3c4407271d08..4e462c825cab 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240917073117.1531207-3-anshuman.khandual%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240917073117.1531207-4-anshuman.khandual%40arm.com.
