@@ -1,164 +1,157 @@
-Return-Path: <kasan-dev+bncBC4LXIPCY4NRBAXRVS3QMGQEUP6EPOQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDS6NZUJ6ILRBWVFV23QMGQEF5M5GFY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63a.google.com (mail-pl1-x63a.google.com [IPv6:2607:f8b0:4864:20::63a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9AC97C0BE
-	for <lists+kasan-dev@lfdr.de>; Wed, 18 Sep 2024 22:31:00 +0200 (CEST)
-Received: by mail-pl1-x63a.google.com with SMTP id d9443c01a7336-20537e42b7asf3277775ad.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 18 Sep 2024 13:31:00 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1726691459; cv=pass;
+Received: from mail-pl1-x638.google.com (mail-pl1-x638.google.com [IPv6:2607:f8b0:4864:20::638])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9A297C2E0
+	for <lists+kasan-dev@lfdr.de>; Thu, 19 Sep 2024 04:56:30 +0200 (CEST)
+Received: by mail-pl1-x638.google.com with SMTP id d9443c01a7336-20535259f94sf5813645ad.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 18 Sep 2024 19:56:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1726714587; cv=pass;
         d=google.com; s=arc-20240605;
-        b=NRFBNxcUo16kOaKFUPSFxxqkl/4e7QheW6uXBxrYhVqFWuNyGan68I1ftkRD3DS+I5
-         EAJaFvzDRmHgsreIPnU3AL5CpoypFwkGEVgnkY2cuJqeH1ifySKMDiHlWNJt63rwI71e
-         i6kSUX3O06qS7fsjJdR0n6wHQ0SMT/yrg+4rBzkGQEBblGq0ABGh/phVUDyOYSNBZ49N
-         PqFnpUzjaDkf7bRstD6+NabHLmdb3PPrVPv7Hqi8laN35hKf2zoQU9GjXncpXG+KtY+4
-         aKyvfvaAQXc70zyL+3g6dHsaEGYpgyWiC2O3fNBbPipmJ7baUo/3cJsZ6oALPonKdRzE
-         Vmaw==
+        b=N9FwxE3gUclrbvryLZJAWgeib6bcore05e6QEuerkcB37atTHI8OgHXnBKRCAg2V2e
+         Q8TBhKIT5pO+dRXy0QNzjK2h1Y6KG/GwN1V9GYzYjY8LQ0JrhpJPFMNir3kqmXzVuk0Z
+         J76tA8ZTVvPknHQtHTUzJypO1ozzE4AMg9xZG9QfuztZrAfw5MOII9Gi1iZsYQb0I/X6
+         emMit4x1VPQXANlBBtmTpsdhpLHY5cpY86EHdEw3KDEI5H6V9ZNwVCnNQvN51+OrhMLS
+         z8v973K2drM6M7iCauC78cACDjeDIGGmue7r2hi3E4vKD8KZMOCy/BbHcgnV1//ZOZgt
+         UWdw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=M5PqsRTh23TczKkoL7W7VS7qv02g+BwGatG0hNFRRNM=;
-        fh=sAsIDD9xgB5Zr4g1FViLu1ic9LLceCXl7+pjwPBjRok=;
-        b=SKijEwvPK89y0gZbRX7njjrLSoJEh89/ImqFhzJ/YXRaRy4o0uow4E2jjIY2cN+cqB
-         241vq9CGd8g5i1kvvwvV4xsvPxj/cG6PZrKMCsqLQ0/E+dJAarLl4RjmayXGFH2/je7A
-         2H6m/B9QCMNihmnI3KBOAGfYJkVU5Sf5Gs7vhOnjaVMn/YrZXG82yapgbStqfxyk4Osi
-         djm/jmOUmFzA25RATaLjtbqSQSxYZk+b1axTjm2BvBkl+3b1y8re8Top3mN/xtRZRTy2
-         dgTRwcG7B8KiitOt0Rt1ClbRBiSJfR7WNeSxoJRVjg8dL/UKB5lFGWOL4OKCm1xHjdoo
-         wjlQ==;
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature:dkim-signature;
+        bh=N3B5dAwAhj8gaFVNT9zRigA74sbZ4gkfU1dUdRFBfiM=;
+        fh=a5TEb+JrHVVhWxigF6x4UIv9OmiHvIcK4Tr/6phaDi0=;
+        b=IT8k01oD9vCnI79AeCPPvwpYob5dj7Of3VP1EZbhE0RZ1ToLu0bpLc24qx/rFDLXh+
+         sZ0R3xbEigQSOHHBHwLTyBPR/ZmZQJ+mNSY31vBVerIX1WJUPDg5dugS5rR1iI3iV2jl
+         Mvdl8RvBXZxoyw5IkDf/iHDPr2nRHVo1Gk/afvk7H0SvU/ZsllsovoGwN7fSBovQ0Es0
+         xS05bQUZcRUGUIgxlSDpaHbq83cRKwfwlDYTliC0EHCb/jdqmn57Cgp3deuoWsih6tPA
+         CpvRdiDiNwveVKdPWnlxk349g7adB2kggvjrz5bMhob5n+qV390k12B91laVP/+qD6Xn
+         dozA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=DKOvUFhr;
-       spf=pass (google.com: domain of lkp@intel.com designates 192.198.163.11 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=eYXn7OXH;
+       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::62a as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1726691459; x=1727296259; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1726714587; x=1727319387; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M5PqsRTh23TczKkoL7W7VS7qv02g+BwGatG0hNFRRNM=;
-        b=OhdZwljXAFsBRVE+hPPR1ydsJoyTcVrllWEr/fT4PsRumfBLZDFlIJO2kYeE/v8ekx
-         yltmX4zGfMtn+MPKkR2yz57HZS8rXOXKNF84LkOKKpCW5/VMcu1sv7Uj1T4/7pmziQyI
-         TTf6eU5tJ+eYfxx7P2jkWTaYFIGU63wjhZFVekg8jn/h6mf1RhhJ0U0MnQgPZTjwya6N
-         i4K9Sd22P83fVCDnQhC1F+Gccwcex+qDE+4UGSqHWl9bIr2RSuIQjR6EquGTHfwUkhVs
-         OuHTjA1cFsR1XVnQtAd2l4iJZxvinXsaUGyD9q66qW8njhvFq+6t+TQn+uxfA/3aNsMn
-         lQKw==
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=N3B5dAwAhj8gaFVNT9zRigA74sbZ4gkfU1dUdRFBfiM=;
+        b=YBb9kGgjarIuoOAvLsrlmliSMZt4Yl0kY3F1pdJIyKAkCuIHRBLEXeTCLr59gN2GPV
+         yEZnLbwEJ9UzaYpuMRkB6YUCONaRBe8CTBDcNH0q2O9qcjYtawpJHe7m6c1P4HAi8mUo
+         j9asLVGYaHkWJ/Yr7EoQDpSTGxLJ62Don29Pf6A9TUhbeR0Po7vMnIovMk0P/WTJDkx4
+         tnZW/mnfqJkNFx2FDjVbEWRoEin41+PLEpxTDqhA9RFP1e39pPU1w7Aw4P3eMKc/g9si
+         8mjRuTYcT7xnzUepm7ccQ6f2D+La2G9FLkQeAlGaEfAJuldkyEdiXzgXz1zenjvO1zW5
+         N5Tg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1726714587; x=1727319387; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=N3B5dAwAhj8gaFVNT9zRigA74sbZ4gkfU1dUdRFBfiM=;
+        b=L+uF86yWyJA/+0IrGhe7FFJYLHhIHTc0XN2vwzw5aM3QYSqQWxHhkf9LW5BJ+l7g5r
+         3xCyOeZ9QoyYGSSdnwuFSg5bFqd6/Rf+4JlQCnD5/0xeRxIPJ7VOWBd8cjfncvzsV7bF
+         cvKrOEjvRJRSkTIrHiFSYoIfQN0b0jTqtj03Dtp5Ri104+AFXecFDLVrtI1T72p743Mp
+         p8VzOgR1ODHTXqo+7RDoSB/upF2CGH9tuk4RpQ32PdpT54et9+Nrx42gTcgk0otDocPY
+         aCgpZlk3ONYLkCk5beHiYpM5WuwDDS6cExWOaGG927C40FoENHZzDGUS/UDrNLps/7hc
+         wgKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726691459; x=1727296259;
+        d=1e100.net; s=20230601; t=1726714587; x=1727319387;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M5PqsRTh23TczKkoL7W7VS7qv02g+BwGatG0hNFRRNM=;
-        b=qMDo+0QqVkWJriVPL1DkbMLp3Gj+WXebzU0qI0tRsM4SFNsPoqW4Sgnwt85fUk3otP
-         YKVY3+OXtOU+J6pnTbmsqrl/+3GYf8wsf2aBJHgdKczIZOvQnSi9YUWweLONIkYZ7K0U
-         vKgHn151aJrMaT4Cm93+UblimzLtmiqT/G3dDTiwqkhRoDG7cFVQrbQ0yoK8K3zsxm8G
-         A+2oz3nlsm9zYAW+DOHqcwPBSz5P5gxepbPXAvSPOGRYxIJOn5DXgS9802X+UOO3ivhW
-         zcX4QeZvmrW5pjyXqhQZMDLN68tp7HTmPJR8qNsUJWbyvdRvjsFd8xFE+0A+vednGJt+
-         3qdg==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=N3B5dAwAhj8gaFVNT9zRigA74sbZ4gkfU1dUdRFBfiM=;
+        b=bFZFMuPP4Lm7O6un3PUlB4r4HggOptbc7GfmtCB4OCxARPGGIdqM07XbSjlpbIU9hx
+         nvdfvzwvb8mYA89E1xazE9sASES7045UeD33oVIvmeMs5SGekoEJhxvBc79885eXucQe
+         VuOR5RLQgh5DYfz5wZkP5GVM+63EwWwDJsGgvk5VspOoCBbZTEvZgFfBLoDFKULmYmlJ
+         70R71o8WkcL6UhEITDQavaPZW+ccvJXaucESSOpE35DIG3eMWIPe4dMRXP3p2CyY7SEB
+         tUnE9dop3Kj3DKxokKPID8e3YqNnNWkwb1V49o/JEzEijPbjh75x0aDzPeFlewu2uhoj
+         7Ycg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVSbvmw9qfWGbfu7TM/kS6aA2kCaCLZqm51BG5CexHqM7yrSbCAZydT3oczerbqpDFsFZiZHg==@lfdr.de
-X-Gm-Message-State: AOJu0YzbDJQbeH2g+P3z8YQKeyDxWKoo5ococgUpaDv/yjH+NjYf94Zc
-	BfALU28Xw1vFVUNPYxIC5RIR4dyiVIOs9qdkJo6pmqVr1zDkYG/R
-X-Google-Smtp-Source: AGHT+IGdgubYFruz4+48zQPBBefYVc9Y8AvmtUEJpdTqK8tCoFsaL9rpjNqBaSok7mvjs9sZaoCsrw==
-X-Received: by 2002:a17:902:f681:b0:206:d8c2:4a79 with SMTP id d9443c01a7336-2076e3366c9mr392568225ad.15.1726691458612;
-        Wed, 18 Sep 2024 13:30:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXl5vkmmt5pGM6cDf6fqaqQNfYO6cLYIabSQqIPWJCsCIgNrqgozsaThAUBLqqlhLu3+Wv+dA==@lfdr.de
+X-Gm-Message-State: AOJu0YxkElxddNak+w9boYG3hMQco1OSGDYEyG1MYPHJyVWzAifWWxLd
+	geD+T+/R+PnAbbxsrTVISOk1b1ZNWZ+5L0m412vsRP39cjsLXw4Q
+X-Google-Smtp-Source: AGHT+IGtSPzuNEkOWtShI/eHBujjKheLzEpEL0HuRTK9vf9P3pLDOZyB7Z4SYVHyPRVm8AfdvpRRiQ==
+X-Received: by 2002:a17:903:22ca:b0:206:a913:96a7 with SMTP id d9443c01a7336-2076e4616e2mr361492345ad.44.1726714586853;
+        Wed, 18 Sep 2024 19:56:26 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:2283:b0:205:866d:1761 with SMTP id
- d9443c01a7336-208cc009b9dls1816265ad.1.-pod-prod-08-us; Wed, 18 Sep 2024
- 13:30:57 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVbCfXa/OIlIrWQKtbIcWBfEye15jH4TgLwk/Y8H8dJCPa3JkQi3nk8hehhQOW6p7SuTdYDLaCkHTI=@googlegroups.com
-X-Received: by 2002:a05:6a21:e8d:b0:1cf:6c64:f5de with SMTP id adf61e73a8af0-1cf75f5af88mr34825415637.27.1726691457135;
-        Wed, 18 Sep 2024 13:30:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1726691457; cv=none;
+Received: by 2002:a17:902:d2ce:b0:205:909a:f7c8 with SMTP id
+ d9443c01a7336-208cc01e1a3ls4732495ad.2.-pod-prod-07-us; Wed, 18 Sep 2024
+ 19:56:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXoTaAWnkXcCNrAJF0glKh0FQqKngj5hnQXwQLl3vVGXFWg4x5DoeV4+Dsm/rSkOPM5psknhd2t0UM=@googlegroups.com
+X-Received: by 2002:a17:903:2281:b0:201:f8b4:3e3c with SMTP id d9443c01a7336-2076e36c158mr385579595ad.12.1726714585254;
+        Wed, 18 Sep 2024 19:56:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1726714585; cv=none;
         d=google.com; s=arc-20240605;
-        b=De4+TvbNAU8Sqm7t1+k+7JUtFUwSZ/Ek7d3aRpBmY4LQUQ5PK4LJpJ2wZAVXQWYKPM
-         tp2XJa3oh1bVB63Oo309y5C2tEzoXe7qqOBpeiGioZWvqGRt2z9LElRMW9zz3UKkYg1b
-         dZ2Q56spIHgZ1uuurbkGb2oy0OLdjMIeEPUkUcaiAJmgh14G8+B+oneB6Yz004jGBBBO
-         7E3ACtyoX9laAo99ifqnYDkhz8fh5xJ0xt9zALOylEtBDZgFBph3NoeIbgK/DnBp/hSx
-         mXaw0R/rrZXBdjD3lJ2LwXrruefpVEog1I02yvwf8/unPQ8VFQddT452eJ/x8zKDE4Nd
-         +sNw==
+        b=V3lUNEVZrFmItnXbzg/o5r7mmy5XY9ZuJ79ZwWSev+w15/gEMdkRlnu4BUYfQKNcH9
+         MYvAyzg6x6nIrVJNQntfWMIY8X+9jJhHSX/9nI24f+yTznkXijG1oxb/Q7FdczNjUnEy
+         +CAKdXWyVlWVKb0sc+EI5xt2isUdpGIUXtgS+s9qlheNGgp3USy1uArgYoA/4H9E7C/d
+         lmm6tkZhQaOMx4m6Km1WZfc3fBpJz7umVwxUcZfOeOZsicpsuH0qJO5uh7H6pmAhsUns
+         /LkQyBrfnsGqVo0vyNPhoyJF6t7gkGrKiW6bdroe9jBQ4jkN1z0AYE3ulJpN9bFk/v/C
+         UDAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=6y93hK9fJeEj8Dp8VzUu/cuJ9J287umls7haJSmnzfw=;
-        fh=wOZxOwjH4qrmpqNVXsEBkp5sKLyvNgsUJf9SRZj0BV0=;
-        b=BEidxLYAnTbLyX7C04xAurq6IJvmD7wJC8uvWYRGLxAMmgFjPlrxhTsPPT1k3OHuSc
-         ie9x61Xi188QP4i0GgFVrhI5NfFB6K2gIgmK9rUWQISXFr3IF0wtxFfWq17Zff7YVEHd
-         nVbL5T/+DZG6KLT735Aj1B6+uxemB6Hg/+3gWkUiPEXox9Gt3zb5xlICNugK6fDWIK/z
-         1+MztaDx1QZkkVzLXVCMBES/f/zedHEf9jO+dnjsxfAI0b7n+4Bgri/wjjCkrF6gvdx/
-         sYp7gjT6HMVELAjg5lLdcZVzJY621k8V5KcBpF5DMGJzJHRmzAtyLgDfejkdbeEHaxvP
-         Qr3g==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=5GJhA0mjEPdtfqnf/P6njWML6hfKb60sWwrvJGKoU+s=;
+        fh=H0hI2LCI8Ov6jJZlS6s2rg9Xu2FkzGnQ/hslIak9j4Y=;
+        b=HcVQ70zUxzPtGoGn0eIVK07OrL/M4C4C5lzTwQJzFxN0iR0dDrKETyxE/adGtHWGiv
+         mbVbLJbHGGHIeMBwdDz08igkmu+yzRNforJ2HjZWxlW55NBvGyNNZ5yZYpT0qWQ4BAgO
+         XOupbICchYgdLQ26GSHx/XFKnQW+51CyCaK9Tc1/Xh1MfJ9LWGmewmy6ZfBR1kJ8YTxg
+         frSnLzqjHy3VaJttP2M1I+JuEt1PVoyUeIUDGk76ZKmKoPbuOw1nBh+Y8aYE6G+DMJwl
+         hdiUK1SrHZXOaZrtXQ1zwEJ3TAYPF48QSwzEq7QltZ09QttIGT5zUxde0zjx2tRAgHls
+         Atlg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=DKOvUFhr;
-       spf=pass (google.com: domain of lkp@intel.com designates 192.198.163.11 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.11])
-        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-7db499f7264si497982a12.4.2024.09.18.13.30.56
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=eYXn7OXH;
+       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::62a as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com. [2607:f8b0:4864:20::62a])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-20794611769si4017855ad.5.2024.09.18.19.56.25
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 18 Sep 2024 13:30:57 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lkp@intel.com designates 192.198.163.11 as permitted sender) client-ip=192.198.163.11;
-X-CSE-ConnectionGUID: Kh4NANyrRUOzAOSC1OL8Tg==
-X-CSE-MsgGUID: S530lQXPQOO9wvdR5BPvQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11199"; a="36211524"
-X-IronPort-AV: E=Sophos;i="6.10,239,1719903600"; 
-   d="scan'208";a="36211524"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2024 13:30:55 -0700
-X-CSE-ConnectionGUID: G03l2KzpRg6lUZ1ybq6Pkw==
-X-CSE-MsgGUID: KgXze0/ERmmsxsK33VvTNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,239,1719903600"; 
-   d="scan'208";a="107154632"
-Received: from lkp-server01.sh.intel.com (HELO 53e96f405c61) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Sep 2024 13:30:48 -0700
-Received: from kbuild by 53e96f405c61 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sr1K1-000Cc6-1d;
-	Wed, 18 Sep 2024 20:30:45 +0000
-Date: Thu, 19 Sep 2024 04:30:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Hildenbrand <david@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, x86@kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-fsdevel@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
-Message-ID: <202409190310.ViHBRe12-lkp@intel.com>
-References: <20240917073117.1531207-8-anshuman.khandual@arm.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Sep 2024 19:56:25 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::62a as permitted sender) client-ip=2607:f8b0:4864:20::62a;
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-207115e3056so3701055ad.2
+        for <kasan-dev@googlegroups.com>; Wed, 18 Sep 2024 19:56:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXo/aEEITxnAUdd5TcmhX5ZPIuwJ2aDi6ml+iiRY2K5HIx1hnA198p0gC/9e+m/9iGgVfQ5rtkSD3E=@googlegroups.com
+X-Received: by 2002:a17:903:1252:b0:204:e310:8c7b with SMTP id d9443c01a7336-2076e3f7347mr313393475ad.34.1726714584737;
+        Wed, 18 Sep 2024 19:56:24 -0700 (PDT)
+Received: from dw-tp.. ([171.76.85.129])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-207946d2823sm71389105ad.148.2024.09.18.19.56.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Sep 2024 19:56:24 -0700 (PDT)
+From: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+To: linuxppc-dev@lists.ozlabs.org
+Cc: Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Hari Bathini <hbathini@linux.ibm.com>,
+	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
+	Donet Tom <donettom@linux.vnet.ibm.com>,
+	Pavithra Prakash <pavrampu@linux.vnet.ibm.com>,
+	Nirjhar Roy <nirjhar@linux.ibm.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	kasan-dev@googlegroups.com,
+	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
+Subject: [RFC v2 00/13] powerpc/kfence: Improve kfence support
+Date: Thu, 19 Sep 2024 08:25:58 +0530
+Message-ID: <cover.1726571179.git.ritesh.list@gmail.com>
+X-Mailer: git-send-email 2.46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20240917073117.1531207-8-anshuman.khandual@arm.com>
-X-Original-Sender: lkp@intel.com
+X-Original-Sender: ritesh.list@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=DKOvUFhr;       spf=pass
- (google.com: domain of lkp@intel.com designates 192.198.163.11 as permitted
- sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=intel.com
+ header.i=@gmail.com header.s=20230601 header.b=eYXn7OXH;       spf=pass
+ (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::62a
+ as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -171,428 +164,98 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Anshuman,
+This patch series addresses following to improve kfence support on Powerpc.
 
-kernel test robot noticed the following build errors:
+1. Usage of copy_from_kernel_nofault() within kernel, such as read from
+   /proc/kcore can cause kfence to report false negatives.
 
-[auto build test ERROR on char-misc/char-misc-testing]
-[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus brauner-vfs/vfs.all dennis-percpu/for-next linus/master v6.11]
-[cannot apply to akpm-mm/mm-everything next-20240918]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+2. (book3s64) Kfence depends upon debug_pagealloc infrastructure on Hash.
+   debug_pagealloc allocates a linear map based on the size of the DRAM i.e.
+   1 byte for every 64k page. That means for a 16TB DRAM, it will need 256MB
+   memory for linear map. Memory for linear map on pseries comes from
+   RMA region which has size limitation. On P8 RMA is 512MB, in which we also
+   fit crash kernel at 256MB, paca allocations and emergency stacks.
+   That means there is not enough memory in the RMA region for the linear map
+   based on DRAM size (required by debug_pagealloc).
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/m68k-mm-Change-pmd_val/20240917-153331
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20240917073117.1531207-8-anshuman.khandual%40arm.com
-patch subject: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
-config: arm-footbridge_defconfig (https://download.01.org/0day-ci/archive/20240919/202409190310.ViHBRe12-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409190310.ViHBRe12-lkp@intel.com/reproduce)
+   Now kfence only requires memory for it's kfence objects. kfence by default
+   requires only (255 + 1) * 2 i.e. 32 MB for 64k pagesize.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202409190310.ViHBRe12-lkp@intel.com/
+This series in Patch-1 adds a kfence kunit testcase to detect
+copy_from_kernel_nofault() case. I assume the same should be needed for all
+other archs as well.
 
-All errors (new ones prefixed by >>):
+Patch-2 adds a fix to handle this false negatives from copy_from_kernel_nofault().
 
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:30:
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |                         ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/pgtable.h:1243:48: note: 'pgd' declared here
-    1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-         |                                                ^
->> include/linux/pgtable.h:1245:8: error: array initializer must be an initializer list or wide string literal
-    1245 |         pgd_t old_pgd = pgdp_get(pgd);
-         |               ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
-     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
-         |                      ^      ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
+Patch[3-9] removes the direct dependency of kfence on debug_pagealloc
+infrastructure. We make Hash kernel linear map functions to take linear map array
+as a parameter so that it can support debug_pagealloc and kfence individually.
+That means we don't need to keep the size of the linear map to be
+DRAM_SIZE >> PAGE_SHIFT anymore for kfence.
+
+Patch-10: Adds kfence support with above (abstracted out) kernel linear map
+infrastructure. With it, this also fixes, the boot failure problem when kfence
+gets enabled on Hash with >=16TB of RAM.
+
+Patch-11 & Patch-12: Ensure late initialization of kfence is disabled for both
+Hash and Radix due to linear mapping size limiations. Commit gives more
+description.
+
+Patch-13: Early detects if debug_pagealloc cannot be enabled (due to RMA size
+limitation) so that the linear mapping size can be set correctly during init.
+
+Testing:
+========
+It passes kfence kunit tests with Hash and Radix.
+[   44.355173][    T1] # kfence: pass:27 fail:0 skip:0 total:27
+[   44.358631][    T1] # Totals: pass:27 fail:0 skip:0 total:27
+[   44.365570][    T1] ok 1 kfence
+
+
+Future TODO:
+============
+When kfence on Hash gets enabled, the kernel linear map uses PAGE_SIZE mapping
+rather than 16MB mapping.
+
+
+v1 -> v2:
+=========
+1. Added a kunit testcase patch-1.
+2. Fixed a false negative with copy_from_kernel_nofault() in patch-2.
+3. Addressed review comments from Christophe Leroy.
+4. Added patch-13.
+
+
+Nirjhar Roy (1):
+  mm/kfence: Add a new kunit test test_use_after_free_read_nofault()
+
+Ritesh Harjani (IBM) (12):
+  powerpc: mm: Fix kfence page fault reporting
+  book3s64/hash: Remove kfence support temporarily
+  book3s64/hash: Refactor kernel linear map related calls
+  book3s64/hash: Add hash_debug_pagealloc_add_slot() function
+  book3s64/hash: Add hash_debug_pagealloc_alloc_slots() function
+  book3s64/hash: Refactor hash__kernel_map_pages() function
+  book3s64/hash: Make kernel_map_linear_page() generic
+  book3s64/hash: Disable debug_pagealloc if it requires more memory
+  book3s64/hash: Add kfence functionality
+  book3s64/radix: Refactoring common kfence related functions
+  book3s64/hash: Disable kfence if not early init
+  book3s64/hash: Early detect debug_pagealloc size requirement
+
+ arch/powerpc/include/asm/kfence.h        |   8 +-
+ arch/powerpc/mm/book3s64/hash_utils.c    | 364 +++++++++++++++++------
+ arch/powerpc/mm/book3s64/pgtable.c       |  13 +
+ arch/powerpc/mm/book3s64/radix_pgtable.c |  12 -
+ arch/powerpc/mm/fault.c                  |  10 +-
+ arch/powerpc/mm/init-common.c            |   1 +
+ mm/kfence/kfence_test.c                  |  17 ++
+ 7 files changed, 318 insertions(+), 107 deletions(-)
+
 --
-     163 | _SIG_SET_BINOP(sigandnsets, _sig_andn)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:140:3: note: expanded from macro '_SIG_SET_BINOP'
-     140 |                 r->sig[3] = op(a3, b3);                                 \
-         |                 ^      ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:163:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     163 | _SIG_SET_BINOP(sigandnsets, _sig_andn)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:141:3: note: expanded from macro '_SIG_SET_BINOP'
-     141 |                 r->sig[2] = op(a2, b2);                                 \
-         |                 ^      ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:174:27: note: expanded from macro '_SIG_SET_OP'
-     174 |         case 4: set->sig[3] = op(set->sig[3]);                          \
-         |                                  ^        ~
-   include/linux/signal.h:186:24: note: expanded from macro '_sig_not'
-     186 | #define _sig_not(x)     (~(x))
-         |                            ^
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:174:10: note: expanded from macro '_SIG_SET_OP'
-     174 |         case 4: set->sig[3] = op(set->sig[3]);                          \
-         |                 ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:175:20: note: expanded from macro '_SIG_SET_OP'
-     175 |                 set->sig[2] = op(set->sig[2]);                          \
-         |                                  ^        ~
-   include/linux/signal.h:186:24: note: expanded from macro '_sig_not'
-     186 | #define _sig_not(x)     (~(x))
-         |                            ^
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:1131:
-   In file included from include/linux/huge_mm.h:8:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:175:3: note: expanded from macro '_SIG_SET_OP'
-     175 |                 set->sig[2] = op(set->sig[2]);                          \
-         |                 ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from arch/arm/kernel/asm-offsets.c:12:
-   In file included from include/linux/mm.h:2232:
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from arch/arm/kernel/asm-offsets.c:12:
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                                   ^
-   arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                            ^
-   include/linux/mm.h:2819:61: note: 'pgd' declared here
-    2819 | static inline p4d_t *p4d_alloc(struct mm_struct *mm, pgd_t *pgd,
-         |                                                             ^
->> include/linux/mm.h:2822:28: error: passing 'const volatile pmdval_t *' (aka 'const volatile unsigned int *') to parameter of type 'pmdval_t *' (aka 'unsigned int *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-    2822 |         return (unlikely(pgd_none(pgdp_get(pgd))) && __p4d_alloc(mm, pgd, address)) ?
-         |                 ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
-   arch/arm/include/asm/pgtable.h:154:25: note: expanded from macro 'pgdp_get'
-     154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
-         |                                 ^
-   include/asm-generic/rwonce.h:47:28: note: expanded from macro 'READ_ONCE'
-      47 | #define READ_ONCE(x)                                                    \
-         |                                                                         ^
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/asm-generic/pgtable-nop4d.h:21:34: note: passing argument to parameter 'pgd' here
-      21 | static inline int pgd_none(pgd_t pgd)           { return 0; }
-         |                                  ^
-   29 warnings and 18 errors generated.
-   make[3]: *** [scripts/Makefile.build:117: arch/arm/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1194: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:224: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +1245 include/linux/pgtable.h
-
-  1242	
-  1243	static inline int pgd_none_or_clear_bad(pgd_t *pgd)
-  1244	{
-> 1245		pgd_t old_pgd = pgdp_get(pgd);
-  1246	
-  1247		if (pgd_none(old_pgd))
-  1248			return 1;
-  1249		if (unlikely(pgd_bad(old_pgd))) {
-  1250			pgd_clear_bad(pgd);
-  1251			return 1;
-  1252		}
-  1253		return 0;
-  1254	}
-  1255	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.46.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202409190310.ViHBRe12-lkp%40intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/cover.1726571179.git.ritesh.list%40gmail.com.
