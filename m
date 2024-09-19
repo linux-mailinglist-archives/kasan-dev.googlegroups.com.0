@@ -1,152 +1,143 @@
-Return-Path: <kasan-dev+bncBDS6NZUJ6ILRBXMIV63QMGQEZTSV5DY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGZVRMH6UCRBVU5V63QMGQEUQ67LQQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x63e.google.com (mail-pl1-x63e.google.com [IPv6:2607:f8b0:4864:20::63e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0793197C44C
-	for <lists+kasan-dev@lfdr.de>; Thu, 19 Sep 2024 08:27:43 +0200 (CEST)
-Received: by mail-pl1-x63e.google.com with SMTP id d9443c01a7336-2073498f269sf7391055ad.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 18 Sep 2024 23:27:42 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1726727261; cv=pass;
+Received: from mail-qt1-x837.google.com (mail-qt1-x837.google.com [IPv6:2607:f8b0:4864:20::837])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D2A97C4AC
+	for <lists+kasan-dev@lfdr.de>; Thu, 19 Sep 2024 09:12:23 +0200 (CEST)
+Received: by mail-qt1-x837.google.com with SMTP id d75a77b69052e-4584cfbee5bsf36387661cf.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 19 Sep 2024 00:12:23 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1726729942; cv=pass;
         d=google.com; s=arc-20240605;
-        b=bqAbVHya0SVKZc2rOYkBhTweujxatNHg2gmh5qyxdb1p34qrvHf77EBL1J1FFrARm3
-         XO0X1fqur4do9Hm/gBNjneuzhwvumYYUr/xNr0LZ+g11Qxn9WJPNLP5QWH/LMcL+v26F
-         E5WznV7d9iG07nUoyz5k7t4LGWvI3df8wW7DZVMbDAF/cz0NGQ3mBvwQelQKD3PU7dTb
-         pPejj5+CFLsVsg3y1CbkplEMrTSbm99jzNLspUCGruwptca+zVqIpNTsRhFtgb3IWkKU
-         eQeE5v/s4YABRkViSMuWEzqZG2myo8H4Z1pgzbPNDNHSJqnZuRIq05L3Y53Gx6JytAYH
-         +EFQ==
+        b=fbjxWike3ZfmD64j8fRzz9IWY5aP4Xq+mhoy6dSlbGsHO/lMJ0ogKWS43WIb9F8bGP
+         4y0s/Dbhy5QkXRMJcBgHUO+SeBQ4LDN0rYeJvMrLoTXdwfwFRYFsR5jtxPttK5TkIEk1
+         pFKcBPsL6cgdvHDZfXupP2l+APkZHW1GacC+m8KkZdM3uTSGbhl1FdfqLFS09Wh3O1rY
+         J+HDNsf+zHaYTxm7VVJgDK291rHVZyXXmeGVzxoNEYHFMbZNtHlHkGEL0FwKCN1DSy14
+         sC+Z4v5bzXY1cyPKhNcun59mJgZis5Ha3Brnd49hvayOHiogyTqmcOo5YFwvA5ajW4J+
+         B1HA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:references:message-id:date:in-reply-to:subject:cc:to
-         :from:sender:dkim-signature:dkim-signature;
-        bh=vdnXn8hEyr2PjWKMZ9G8xKZTHY+AimHDCUS9Bw33jX8=;
-        fh=bwXplKwPfNZ3v3GZ4mrV8lbF9CA8P4sqM9apsfYIf0s=;
-        b=QZ1kBA+sx5bFqBwxuA5USmlPFX3nsUnSEDwbl45WbH87UTwb7EW0kOhrRpQkGKUqUq
-         y85hcis0M7YDFzQmGy6IOkTJnF5SNysCIFA8U9X55F8L5xc2guD9e3+qzMITpu0Z0ERh
-         7ycwgdELfaVvMcH4gUdGkEDQv1RTmIUt/xDTtCKXxaQabwn7AWyCArv+YvoG/bHFBqTE
-         lrtRz0EYN4hl4/Yg9wQEvxFNReFNx5UsUT5zfPNKvHh6Z2jGkXNx1tRBf0gQOaqwN7pV
-         BTTbZxoUEleOxOnVszZMbC5jKaToaR4iBSUCN5ubExfcHDonfS1qOiTTKWabJEcR9/Fm
-         9Qew==;
+         :list-id:mailing-list:precedence:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=+RbdfBiOtktXUzkK2OO6Dpb5j7bNQXl6WcQw/XUBUqg=;
+        fh=B8yuQDSnqXhLkMnym/48BQiTKLrep/Bjc5AzV/umjhg=;
+        b=fe85aWXjuBeEwqjbRKggjPYi8WnrpNGDAl80g4ogGCkQ/FfD2VBFj3kIUzvLans7ZC
+         6XvXcgzMFFvbtMiaPqAnOpVPKfhCq6q8wZyle9pPa3p97cl0V3ab56adhHkDyN6iKNmS
+         geDXxGG2VATG4UJYKNNseGEv7PlixHjn282RkU3y1d5281//ENQ9dx7FRHBEFkYo/FMb
+         UH/q1bih5fp/5337zkF0En4VBU20RmGN5aWfV98iyEVxPA5xiiDUPdiFKhSnVIHwelAs
+         jA6rheo87Y5/p7FMvycQ4tv3A60jZ0dkSsrT7V5K3C3iXgk3rtyYi84x68+1P1eArjVB
+         6dIw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=EllzgWF1;
-       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::630 as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1726727261; x=1727332061; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1726729942; x=1727334742; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:mime-version:references
-         :message-id:date:in-reply-to:subject:cc:to:from:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vdnXn8hEyr2PjWKMZ9G8xKZTHY+AimHDCUS9Bw33jX8=;
-        b=gcD5InBSva7bC99EUsH4JeuGJUyGNTzhJqH1jh0Ak/uoeq8iiRN9lMGmIICglJyP4r
-         vW+FzCaiItTZaR1L5dWnTUuuZSPZLWAQpeBpJwMOOySupNfzI7GvbMsxc8vdom7pKuM8
-         X5gpgc1UkFo3bi/05hyqMxYXrFP+kdPM7Ej9srcqurWY4HD5xZW6FuQLTUK8H4vpH5GB
-         4C/4Zw/PExLeo1zgE7IETYf/smANBjayTLvXR9JRIQzZVubekpw0YNFhzNLKRMGn/sTi
-         lHnssh9feV03GvQ6LYjqSEY2hONJD65cAxO3km4XFcy7cCzSifLp9kw45TldU3t/dt29
-         YvbQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1726727261; x=1727332061; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:mime-version:references
-         :message-id:date:in-reply-to:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=vdnXn8hEyr2PjWKMZ9G8xKZTHY+AimHDCUS9Bw33jX8=;
-        b=IJhq62u32iJpn1hHEhU5a2t80m4bYiN+CPFwaAvaFe7M8RbaKEqlLWj3ipXAyFjv2P
-         kTqej+badL+JVNkOhPYPeg3QnUxQ6o6NV2JbVajgWw5TbqmHPO1o6ZvhNY9wWT+OSStH
-         trncc1+6s+mloqvEzX09iJZfOHLyo7qCirqK5FrxTKY18MXx2BtPuXIdA32d66qoWda4
-         aH8VNS1+FaJGg8cbiOkTt15cyXoTK6UhDDRN8fqhZ/ugRp/FnpOEM68kTJUazyzxtCro
-         t5pxigCVBbTkVFZzbSKBUJRm2C35O2yUccMSGeK/27uTo7dXgBCqcl4/UR97sTBuZWeZ
-         x4dg==
+         :x-original-sender:in-reply-to:from:content-language:references:cc
+         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+RbdfBiOtktXUzkK2OO6Dpb5j7bNQXl6WcQw/XUBUqg=;
+        b=R7n7hreQ+/pXCaLciucRLE+yFkutngNATETrofq01YyLox6WDA79QvO1iUdTKpHdis
+         jbUP17j7LeqOjDBEEQsORN14f+HB8txOgbrwDpD+KmZNj562H5bLNtrVJCdM3pv45Qli
+         7W0fqgfPweFNlNwfJtFxAh2+DinEfhUvCma4h29XiN30RBb51BfrHUwaMsDkKBwQCNCy
+         b7BPTG/msv7fWmm5vFz/e4t9u8/VqjxVgzdYnPb8pwSJwgrqN5yLqxG+RaVcIly0LVMw
+         Bw8m39MeSHt4XqpWkdgpK9HFBJpbDqvUlaDoIPFHoua6Ywufj9Or020MFSYtKUsnG/pA
+         5Njw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726727261; x=1727332061;
+        d=1e100.net; s=20230601; t=1726729942; x=1727334742;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:mime-version:references:message-id:date
-         :in-reply-to:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=vdnXn8hEyr2PjWKMZ9G8xKZTHY+AimHDCUS9Bw33jX8=;
-        b=tngL+w1I918ta0vjVNzi4r/rkA3uD7+/QB5onZPc7y5k0lsOTqa4xvlrsZtlEAcB0t
-         yw9Oknv0msrQLUhrX1Hyq5UjxGovY3u67KG8sX+OMHeqO4pAZqP/P7nUPkdkaKM4uhMw
-         Ok/tyk6YF0uGaBvVTZzzLg71Ft3b/3rBmeKf+qkd0KAlYOmK7BqwFqOCOA6zdqM1yaFb
-         pFTif4QlMK/Cc3+j4GRKJJN3rG8KBHfWtA+uytx9kYeO6KHXH+7keWw9N7orn8YGyCpY
-         Rm5+aveznlJ3xszhyUNQYhcF586HMZ2e29CwziQ4Bh+Xq1+ZHmdG7L0YCF395BPTG5et
-         3rdg==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:content-language:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+RbdfBiOtktXUzkK2OO6Dpb5j7bNQXl6WcQw/XUBUqg=;
+        b=cxGznIV8/2GjdfFOBEUsGMZAK4frOiymyNJLau3XqJQpkPe2hhGRmfmMvy7QVnG5UL
+         HhHuiEVEhD016kx9na+FwUCzYaSxUrLYhKtja6YANAb1VRTFxuOe6PKU5sIjyoA4vPTI
+         zcbz0yGRoH9EWReXRC/nuc6Sm3Pq49QreMNuDhWRR2IFPFfq+y8v/aeeORvY6Y3kFYPX
+         Yk3fOJVftGou3c58QAVpLDpRSdmeCbR7inMZ2ozS9Qv/mHZkTLfovVWtaWpJmCLXyAvZ
+         O6bdmqrkA1Cd9Vcw/WPqNrr1LA5mh700qE1tmlswyKA/OyaSLocGzLwLAX38b1JjQu/m
+         iltQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVBRUR1tW03da5n70OFT7uAfSSP9TXg/j+OnV1qKlIiSl+1Y+KYHZhDJCnLQ1A5YQ8vxVsiZQ==@lfdr.de
-X-Gm-Message-State: AOJu0YztQeSrInJsSdie0C9wd4KM1xEUkU3FVwqcaryrzxTko4haeQRg
-	PrqU7AUYpuxTY6Bempr5oMEjybKeVQ/+EXyNkw7I+3kgXpynSYs2
-X-Google-Smtp-Source: AGHT+IFrFIFeSi9cSjUxsQIdJZkywTyRcT5BTfXWGdFoZF3H2qaiIByN3WTy4CbhXNvp3njnBrsZGQ==
-X-Received: by 2002:a17:902:dad2:b0:205:9112:efee with SMTP id d9443c01a7336-2076e3b6137mr372905185ad.21.1726727261344;
-        Wed, 18 Sep 2024 23:27:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVipFNUcleMAoCDrMZkXr1kCmi+P1jff8rScS/PW2pR2aJ9a6d0l9IMjA4xjVltA0uGuBdZig==@lfdr.de
+X-Gm-Message-State: AOJu0YzHQFyZMaU6HDKhXQkYFVqGwt5lJlTvfPLFSaCr2wBrxLy1MvNY
+	Jso2sK2xPYVlu21hJJo0leDMqstXDslQBnBjc5rwFz7QK0LpuIhk
+X-Google-Smtp-Source: AGHT+IF17xtzMj0+Ksy3R7ijDOBh6sKEaUltVZzrPFsQ+J71xSmn5tqv7DQ3HHWzw2TBMqo6NitSqw==
+X-Received: by 2002:a05:622a:1189:b0:458:209b:5ec2 with SMTP id d75a77b69052e-45b160b7f08mr31813591cf.29.1726729942153;
+        Thu, 19 Sep 2024 00:12:22 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:902:d2ce:b0:205:909a:f7c8 with SMTP id
- d9443c01a7336-208cc01e1a3ls6664805ad.2.-pod-prod-07-us; Wed, 18 Sep 2024
- 23:27:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXte6L6oR8a0HYcbJv84G1kIEUWKk8vQgDbuR27fNliPESpO+WX0U43ajXW0bteVgMhxC0qz5Ig8JY=@googlegroups.com
-X-Received: by 2002:a17:902:c949:b0:206:b1fa:ccbb with SMTP id d9443c01a7336-2076e36a257mr346646695ad.9.1726727259942;
-        Wed, 18 Sep 2024 23:27:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1726727259; cv=none;
+Received: by 2002:a05:622a:507:b0:458:2b02:700b with SMTP id
+ d75a77b69052e-45b16698b62ls10078911cf.1.-pod-prod-00-us; Thu, 19 Sep 2024
+ 00:12:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCV2a7ZkQIbjP0jswWTaxTe0UwND2Rns3cRx+6fXiHNxCOYqooYnRgJXmfUIKF6AP50OOqBlK+Dwx0k=@googlegroups.com
+X-Received: by 2002:a05:622a:1995:b0:458:32ca:a306 with SMTP id d75a77b69052e-45b1603b6c6mr35282431cf.14.1726729941349;
+        Thu, 19 Sep 2024 00:12:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1726729941; cv=none;
         d=google.com; s=arc-20240605;
-        b=G4wNAqb2C3Tf2ggus44y/VmhCbGuuaAaasCUxFuUw87c08IExzSy/m9dadSENGs7rw
-         KKRgZ7PGPIxCNWcvnrCXHZVcnENipgC+DVKAEl8c69+jn3VO2ZCFk2bsNx7VUhX0GhHz
-         rD1uM3JDHltwbrozOWT5rBUXtQF7VCW/vYu62UdEdJNoDDktqWh7HPF1k9Y3TK7khtAx
-         /b8xejovx++CJ0KLY/erbJCviFAVNLbLfhDrGnFCnGxc3udbX3L36kAgUCelZq2ObxBk
-         bF1iqJESCyGUYvHuwwByaILbrvbk9K7XFgQTFtMS7hNAuPB4148FgnhS1c9bn27rr48f
-         1llA==
+        b=Xq1SK1nI7N1eGjTLtBOhl0q2+2984XeyAcdzvqnXNz7PL/Ku/WAh9y30tdcsKkfRAM
+         LZhNPRaFqMWF6zZAd3iaHiarbnVjA3tSfIIOjkkkXlPYNl5GK7hupKTJNFiQPCMCYydt
+         MEpewW+PuVzU7eqPeo+X1yW1vG0KrZvwT9BrcDY3w6nNC6Aep6yLROIxCtG3959pTyle
+         hRD9QvvLwwHtYPz+fWbcbp9iSn0u3WTqSboG52ZpWDifUJ6k3rglcHCfb+Oy/xcntHMW
+         QqVSVZtftYPIDE+QNwZIvAG8s9eX6cos7WBeX7zn3xia21CIDOoBMYha0YGjMD0gpZe2
+         OdWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:references:message-id:date
-         :in-reply-to:subject:cc:to:from:dkim-signature;
-        bh=2Hj+1vqgujWOrqlQpkce2sq1h+JT76BLtBiXrr9bmsw=;
-        fh=7WEoxXfprZXhZU6zVoAMok4FQwpeNfQ3zpZ7uGVTo5E=;
-        b=Ys5YnIVDy/aiLyHjNhR16bzOTF5V/R5kwdA0NxhV98XdUAEJNiSoDow2gUx14xXpxV
-         WVRJma3FJGXweWJl/PQS5QbM7fWoy7Ie7sgXMAKTzASRXKsNQy4VT8VVB1yvoOFrNrVw
-         TwkzUg0zCapt1lHxcOca3ZnyS/5uRB/OUNdl/mnLx1ET/v3mqVTYypDfEU011LLxy79k
-         hGL7tnXQuDqNWzVcLHzDoSdlFYUlBTrrdur7i+Kp1wDSEk+pUBdEgn2XYY9Xf2TZchCI
-         jhSbsHy6pn1Tnrd6M1+mByGp0mVmoaawV7UljdQ/53FDSvh2Oo3q2DUJrYZTmer7O8FB
-         1jlQ==;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id;
+        bh=VfvmTILgdFtcSVTD5VawbOnNN+7L2DqOz2QZKDFkEeE=;
+        fh=3Jl9QiNPalj7/0ROfaGA9IG3PfEs+XI3AiXzJO/kGSI=;
+        b=S6cFwBicKRnJ76M9HTlvbMnE+UFJvV1YZnSwjvCVwPVY7zV01U+hNXBBg+emcUmBLZ
+         sPvkjra7mfLE2cRJ+zoZsLWCg9eiIO2KjUphEQpmbkCSTM9JGVcLoKobJBgcCr9FnRih
+         dkpWwJNUOMO6YN8SeXgvsACVz38qDQ6c70fCL0vPTDVbdaRRghzPASOEuu8oK/uP+58z
+         TMRUax4/tN+um25nNgN00qcPEjXyCeaSjtdFwDVcDFTdD9IBBb2HVH5IUXLAdBn8x8T7
+         Pb5791XcgjJrqNRZByTwsvlT77uCO3jz4mCOqmz9l5h6MWW3cc13glr4TPG+o9eXqb8j
+         HCPw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=EllzgWF1;
-       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::630 as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com. [2607:f8b0:4864:20::630])
-        by gmr-mx.google.com with ESMTPS id d9443c01a7336-207946c2c05si5039125ad.10.2024.09.18.23.27.39
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Sep 2024 23:27:39 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::630 as permitted sender) client-ip=2607:f8b0:4864:20::630;
-Received: by mail-pl1-x630.google.com with SMTP id d9443c01a7336-205722ba00cso4654505ad.0
-        for <kasan-dev@googlegroups.com>; Wed, 18 Sep 2024 23:27:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUnz6z33O32by2ck/oaURJrbIsXQ5iXw/bi/vWMT5cWqKnlvy16jeWyLerG7nVpxegHTJ6DcRrvFmA=@googlegroups.com
-X-Received: by 2002:a17:902:eb8a:b0:206:ca91:1dda with SMTP id d9443c01a7336-2076e39c56bmr305359875ad.17.1726727258556;
-        Wed, 18 Sep 2024 23:27:38 -0700 (PDT)
-Received: from dw-tp ([171.76.85.129])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-207945da793sm73443715ad.54.2024.09.18.23.27.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Sep 2024 23:27:37 -0700 (PDT)
-From: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>, linuxppc-dev@lists.ozlabs.org
-Cc: Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, Hari Bathini <hbathini@linux.ibm.com>, "Aneesh Kumar K . V" <aneesh.kumar@kernel.org>, Donet Tom <donettom@linux.vnet.ibm.com>, Pavithra Prakash <pavrampu@linux.vnet.ibm.com>, Nirjhar Roy <nirjhar@linux.ibm.com>, LKML <linux-kernel@vger.kernel.org>, kasan-dev@googlegroups.com
-Subject: Re: [RFC v2 03/13] book3s64/hash: Remove kfence support temporarily
-In-Reply-To: <d9d8703a-df24-47e3-bd0d-2ff5a6eae184@csgroup.eu>
-Date: Thu, 19 Sep 2024 11:53:15 +0530
-Message-ID: <87jzf8tb58.fsf@gmail.com>
-References: <cover.1726571179.git.ritesh.list@gmail.com> <5f6809f3881d5929eedc33deac4847bf41a063b9.1726571179.git.ritesh.list@gmail.com> <d9d8703a-df24-47e3-bd0d-2ff5a6eae184@csgroup.eu>
-MIME-version: 1.0
-Content-type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: ritesh.list@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=EllzgWF1;       spf=pass
- (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::630
- as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+       spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id d75a77b69052e-45b1793e274si583291cf.5.2024.09.19.00.12.21
+        for <kasan-dev@googlegroups.com>;
+        Thu, 19 Sep 2024 00:12:21 -0700 (PDT)
+Received-SPF: pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 190C81007;
+	Thu, 19 Sep 2024 00:12:50 -0700 (PDT)
+Received: from [10.163.34.169] (unknown [10.163.34.169])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 109FE3F64C;
+	Thu, 19 Sep 2024 00:12:11 -0700 (PDT)
+Message-ID: <6191a730-1a0f-476e-8041-a0a51094b6b3@arm.com>
+Date: Thu, 19 Sep 2024 12:42:08 +0530
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 4/7] mm: Use pmdp_get() for accessing PMD entries
+To: kernel test robot <lkp@intel.com>, linux-mm@kvack.org
+Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
+ "Mike Rapoport (IBM)" <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ x86@kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-fsdevel@vger.kernel.org, kasan-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+ Muchun Song <muchun.song@linux.dev>, Andrey Ryabinin
+ <ryabinin.a.a@gmail.com>, Miaohe Lin <linmiaohe@huawei.com>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>,
+ Pasha Tatashin <pasha.tatashin@soleen.com>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>, Christoph Hellwig <hch@infradead.org>
+References: <20240917073117.1531207-5-anshuman.khandual@arm.com>
+ <202409190244.JcrD4CwD-lkp@intel.com>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <202409190244.JcrD4CwD-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: anshuman.khandual@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -159,81 +150,103 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Christophe Leroy <christophe.leroy@csgroup.eu> writes:
 
-> Le 19/09/2024 =C3=A0 04:56, Ritesh Harjani (IBM) a =C3=A9crit=C2=A0:
->> Kfence on book3s Hash on pseries is anyways broken. It fails to boot
->> due to RMA size limitation. That is because, kfence with Hash uses
->> debug_pagealloc infrastructure. debug_pagealloc allocates linear map
->> for entire dram size instead of just kfence relevant objects.
->> This means for 16TB of DRAM it will require (16TB >> PAGE_SHIFT)
->> which is 256MB which is half of RMA region on P8.
->> crash kernel reserves 256MB and we also need 2048 * 16KB * 3 for
->> emergency stack and some more for paca allocations.
->> That means there is not enough memory for reserving the full linear map
->> in the RMA region, if the DRAM size is too big (>=3D16TB)
->> (The issue is seen above 8TB with crash kernel 256 MB reservation).
->>=20
->> Now Kfence does not require linear memory map for entire DRAM.
->> It only needs for kfence objects. So this patch temporarily removes the
->> kfence functionality since debug_pagealloc code needs some refactoring.
->> We will bring in kfence on Hash support in later patches.
->>=20
->> Signed-off-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
->> ---
->>   arch/powerpc/include/asm/kfence.h     |  5 +++++
->>   arch/powerpc/mm/book3s64/hash_utils.c | 16 +++++++++++-----
->>   2 files changed, 16 insertions(+), 5 deletions(-)
->>=20
->> diff --git a/arch/powerpc/include/asm/kfence.h b/arch/powerpc/include/as=
-m/kfence.h
->> index fab124ada1c7..f3a9476a71b3 100644
->> --- a/arch/powerpc/include/asm/kfence.h
->> +++ b/arch/powerpc/include/asm/kfence.h
->> @@ -10,6 +10,7 @@
->>  =20
->>   #include <linux/mm.h>
->>   #include <asm/pgtable.h>
->> +#include <asm/mmu.h>
->>  =20
->>   #ifdef CONFIG_PPC64_ELF_ABI_V1
->>   #define ARCH_FUNC_PREFIX "."
->> @@ -25,6 +26,10 @@ static inline void disable_kfence(void)
->>  =20
->>   static inline bool arch_kfence_init_pool(void)
->>   {
->> +#ifdef CONFIG_PPC64
->> +	if (!radix_enabled())
->
-> No need for a #ifdef here, you can just do:
->
-> 	if (IS_ENABLED(CONFIG_PPC64) && !radix_enabled())
-> 		return false;
->
->
 
-This special radix handling is anyway dropped in later pacthes.=20
-So I didn't bother changing it here.
+On 9/19/24 00:37, kernel test robot wrote:
+> Hi Anshuman,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on char-misc/char-misc-testing]
+> [also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus brauner-vfs/vfs.all dennis-percpu/for-next linus/master v6.11]
+> [cannot apply to akpm-mm/mm-everything next-20240918]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/m68k-mm-Change-pmd_val/20240917-153331
+> base:   char-misc/char-misc-testing
+> patch link:    https://lore.kernel.org/r/20240917073117.1531207-5-anshuman.khandual%40arm.com
+> patch subject: [PATCH V2 4/7] mm: Use pmdp_get() for accessing PMD entries
+> config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20240919/202409190244.JcrD4CwD-lkp@intel.com/config)
+> compiler: or1k-linux-gcc (GCC) 14.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409190244.JcrD4CwD-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409190244.JcrD4CwD-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from include/asm-generic/bug.h:22,
+>                     from arch/openrisc/include/asm/bug.h:5,
+>                     from include/linux/bug.h:5,
+>                     from include/linux/mmdebug.h:5,
+>                     from include/linux/mm.h:6,
+>                     from include/linux/pagemap.h:8,
+>                     from mm/pgtable-generic.c:10:
+>    mm/pgtable-generic.c: In function 'pmd_clear_bad':
+>>> arch/openrisc/include/asm/pgtable.h:369:36: error: lvalue required as unary '&' operand
+>      369 |                __FILE__, __LINE__, &(e), pgd_val(e))
+>          |                                    ^
+>    include/linux/printk.h:437:33: note: in definition of macro 'printk_index_wrap'
+>      437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+>          |                                 ^~~~~~~~~~~
+>    arch/openrisc/include/asm/pgtable.h:368:9: note: in expansion of macro 'printk'
+>      368 |         printk(KERN_ERR "%s:%d: bad pgd %p(%08lx).\n", \
+>          |         ^~~~~~
+>    include/asm-generic/pgtable-nop4d.h:25:50: note: in expansion of macro 'pgd_ERROR'
+>       25 | #define p4d_ERROR(p4d)                          (pgd_ERROR((p4d).pgd))
+>          |                                                  ^~~~~~~~~
+>    include/asm-generic/pgtable-nopud.h:32:50: note: in expansion of macro 'p4d_ERROR'
+>       32 | #define pud_ERROR(pud)                          (p4d_ERROR((pud).p4d))
+>          |                                                  ^~~~~~~~~
+>    include/asm-generic/pgtable-nopmd.h:36:50: note: in expansion of macro 'pud_ERROR'
+>       36 | #define pmd_ERROR(pmd)                          (pud_ERROR((pmd).pud))
+>          |                                                  ^~~~~~~~~
+>    mm/pgtable-generic.c:54:9: note: in expansion of macro 'pmd_ERROR'
+>       54 |         pmd_ERROR(pmdp_get(pmd));
+>          |         ^~~~~~~~~
+> 
+> 
+> vim +369 arch/openrisc/include/asm/pgtable.h
+> 
+> 61e85e367535a7 Jonas Bonn 2011-06-04  363  
+> 61e85e367535a7 Jonas Bonn 2011-06-04  364  #define pte_ERROR(e) \
+> 61e85e367535a7 Jonas Bonn 2011-06-04  365  	printk(KERN_ERR "%s:%d: bad pte %p(%08lx).\n", \
+> 61e85e367535a7 Jonas Bonn 2011-06-04  366  	       __FILE__, __LINE__, &(e), pte_val(e))
+> 61e85e367535a7 Jonas Bonn 2011-06-04  367  #define pgd_ERROR(e) \
+> 61e85e367535a7 Jonas Bonn 2011-06-04  368  	printk(KERN_ERR "%s:%d: bad pgd %p(%08lx).\n", \
+> 61e85e367535a7 Jonas Bonn 2011-06-04 @369  	       __FILE__, __LINE__, &(e), pgd_val(e))
+> 61e85e367535a7 Jonas Bonn 2011-06-04  370  
+> 
 
->> +		return false;
->> +#endif
->>   	return !kfence_disabled;
->
-> But why not just set kfence_disabled to true by calling disable_kfence()=
-=20
-> from one of the powerpc init functions ?
->
+This build failure can be fixed with dropping address output from
+pxd_ERROR() helpers as is being done for the x86 platform. Similar
+fix is also required for the UM architecture as well.
 
-This patch is only temporarily disabling kfence support for only Hash.
-This special Hash handling gets removed in patch-10 which brings back
-kfence support.
+diff --git a/arch/openrisc/include/asm/pgtable.h b/arch/openrisc/include/asm/pgtable.h
+index 60c6ce7ff2dc..831efb71ab54 100644
+--- a/arch/openrisc/include/asm/pgtable.h
++++ b/arch/openrisc/include/asm/pgtable.h
+@@ -362,11 +362,11 @@ static inline unsigned long pmd_page_vaddr(pmd_t pmd)
+ #define pfn_pte(pfn, prot)  __pte((((pfn) << PAGE_SHIFT)) | pgprot_val(prot))
+ 
+ #define pte_ERROR(e) \
+-       printk(KERN_ERR "%s:%d: bad pte %p(%08lx).\n", \
+-              __FILE__, __LINE__, &(e), pte_val(e))
++       printk(KERN_ERR "%s:%d: bad pte (%08lx).\n", \
++              __FILE__, __LINE__, pte_val(e))
+ #define pgd_ERROR(e) \
+-       printk(KERN_ERR "%s:%d: bad pgd %p(%08lx).\n", \
+-              __FILE__, __LINE__, &(e), pgd_val(e))
++       printk(KERN_ERR "%s:%d: bad pgd (%08lx).\n", \
++              __FILE__, __LINE__, pgd_val(e))
+ 
+ extern pgd_t swapper_pg_dir[PTRS_PER_PGD]; /* defined in head.S */
 
--ritesh
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/87jzf8tb58.fsf%40gmail.com.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/6191a730-1a0f-476e-8041-a0a51094b6b3%40arm.com.
