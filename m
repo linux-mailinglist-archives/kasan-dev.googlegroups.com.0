@@ -1,118 +1,120 @@
-Return-Path: <kasan-dev+bncBDGZVRMH6UCRBC5CV63QMGQEXIAVKEI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGZVRMH6UCRB2NRV63QMGQEZ5HVXCA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4679B97C4C8
-	for <lists+kasan-dev@lfdr.de>; Thu, 19 Sep 2024 09:21:49 +0200 (CEST)
-Received: by mail-oo1-xc3c.google.com with SMTP id 006d021491bc7-5e1c26c85c2sf478969eaf.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 19 Sep 2024 00:21:49 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1726730508; cv=pass;
+Received: from mail-oo1-xc40.google.com (mail-oo1-xc40.google.com [IPv6:2607:f8b0:4864:20::c40])
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC3497C565
+	for <lists+kasan-dev@lfdr.de>; Thu, 19 Sep 2024 09:55:22 +0200 (CEST)
+Received: by mail-oo1-xc40.google.com with SMTP id 006d021491bc7-5e1ce60337esf415383eaf.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 19 Sep 2024 00:55:22 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1726732521; cv=pass;
         d=google.com; s=arc-20240605;
-        b=OLr03Iv73SJbat3D26crzdsrH/04qO/4bXmo7Z4uhcZAVq/wVBOcinJYKoDE55qsKh
-         s//UFXJ/1iAzg2aULtOHln7koDdij+wjK7KNdrNdkl91COXw6NKe4ORN2RljTz3mJxLp
-         TVZRUqHtOqUGASGxoLHOda4bZamaxPufNCyWzxZtwoVamiN2c2lT1Fre+AmyrzNJoc/Y
-         W8pwcZRpeq4OEVb04TfvV3U6FMrm2S/mqeyGqbtJG0qWUJ6m4QeJxpuucj5kWGAMOT3Q
-         GpNKmLN6oauEHWVHHsiZyVrmo7kKhXE6DF8xI2JAz+coPePbLHC4FxI9YCqwO69TN2Jy
-         lMVw==
+        b=XmGqnBrG7mvCpCr8pz3jZexIyhuPutfxad+9kzgRlIXUWPns8CFR97NGBrz5ZiRs83
+         wbG/JLrXT/LOIPyUMyXYfxRD5bQDuz0oH9+Rp33fNzWgtt8mo5Kgh9fjWNphpfKazQBm
+         1WGgU9xRd19jXwAZy6HzkwD8fr2Jm8djC1PAsJYsBvOByq9Ay+DVqMn5HDrqQlz65i7u
+         fhRin+QQB2n4kjC1RbOOLu1milkcKar+Ia2gCoua5Myyl8Nj7x7ZEJufwXtqohs/kpok
+         LmaJNaGg2b2wxocZEUsz7RwzFhybJMEZ1ioVaac+tnZDGkn/Imv8fzgBCHhu64P9JWGu
+         7OiQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :sender:dkim-signature;
-        bh=ABTPiAMeHkA6aVPwxJMBQivBoM0zPLD0ckihCEpLkPw=;
-        fh=YWiHTy8HxAqskW3yeky/zqX8CVwCoPYQSY727VQp7js=;
-        b=jmqi5rHUOOrko7xQ980DDB83dQTfrnCPx3/x5cSlvka9ulOqJQ2ozY65V63Rc2uQzF
-         5CEVMGsSIlkfFRdHJMBHvnAy/CsZAl1uP7Z7KmhN3m8+DZXlXe4nDm62uYAk407EzAJ+
-         JCMJAWNMNom8ykEESLVevJ5DMjSSGhcfrxnUcceLPxbnFRq0md4o2v4XYpUPQxmk++ub
-         9njbqShyQQSY7qIRW0Nm5pKiSgjZPdDa4EaF412rwyqiSYq3wqO2H3glw1ad16bwE20s
-         O6/bPY7Yu7gExIIfSusy3MbQ/V0FKv94bdg/fsOwJupd3eCGSKIFqxXQNnIqASaJUcMW
-         qzAA==;
+        bh=+da92H4cGGPw6Xz172smOVeA8sWduNDhotqGhMZYXBA=;
+        fh=ysfDX5SYRTBFE2EejSGD5cmlO6jPLVjxY2dqIHkaaBo=;
+        b=j54080Q7F8JO3IsEyb9paQM3vWjjzDEbSYapK8qfHdYuPizQC05hvm/0VXd/M9q4MQ
+         UOkAOgyi7Nf5kSHHyF6l55k1cS0tP96XTVFuG4Rhiu5MMp/b1z3OKozpRRQffLf78WkZ
+         JfyEZ7hjFRd7nt05Iej0oAQgRvCx8RXxDeOt9CzQV7fciSLntq8w6aoMtyoBiv7sozbl
+         DUneBOYIrNB24q9OcJbe06FRUUQGuETPV9z0VY5ZpGmFZBWcnf1FtJEqKV2m4OAgMubX
+         FVSneUT6MPN4TxLtt6QxRK2j1JhiwL+fs2AR3AqaguxrKnIsEqtIr65BJ3UqteitWZZy
+         C3RA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1726730508; x=1727335308; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1726732521; x=1727337321; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:from:content-language:references:cc
          :to:subject:user-agent:mime-version:date:message-id:sender:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=ABTPiAMeHkA6aVPwxJMBQivBoM0zPLD0ckihCEpLkPw=;
-        b=JS6ClKsvPwTje9OtesLsEUE7/NxjQUSvhE9/aCYCdsDHB9EkRbbfzLWG2nto/LzBMT
-         LxvMd6NqDAos0r1ebJ4MJwyRjWBQjDGk4z9qJIsxh7U+6ulRxbpt5eBDEPBLHzc3RPp3
-         t3yORMW9U/z/Q91d7NZISGBlxPUWJlHpSdWMza6+SGjr0GxOxA49p6q41iQ5loYjeXCi
-         ipf+EfX78oIf27VQiL2HMvhmBjC9qZ1BjbP0FIBeFEhZ+bkxJi1hpx1Yc2dsxUXu07AR
-         3VvtGSjvxp19Y5rYjaoLljp2feNZrvqhnwFFZac8jc6NoHNv72o+oQiPw6pye8R4nTm2
-         PlnA==
+        bh=+da92H4cGGPw6Xz172smOVeA8sWduNDhotqGhMZYXBA=;
+        b=Dl0q9Go7BofYd2XCvjrfMGyctD3S12VZWY4qAqgZODscnbjCDhKfvrhDrykeyir54S
+         UXdtYAMx2cskUTBZSPeJHP4SGY+J4l48SVrHWXfG4EoQCw2AtP9pZqNzRTHrlHs4ONBY
+         jeuDJaBNkfwvWU3A2R6+0BUhy/4U62nRHHSXWvoW52sYgU0YIRvLVZZYKZ6j8plAngMf
+         GAtovmefQKCG4yDpLWKuKhS9PqaK7JOn4BEQit+lfVFpZMHonwukN6fzctv2gfla2y1n
+         apW30uUQam9ITVXgJqzfga2KKPceDu0oxi1ynR9LLkz4jOU9wP1v4JIGJkHuHCFkgCEy
+         Ryjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726730508; x=1727335308;
+        d=1e100.net; s=20230601; t=1726732521; x=1727337321;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :from:content-language:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ABTPiAMeHkA6aVPwxJMBQivBoM0zPLD0ckihCEpLkPw=;
-        b=ke76GjtvK+B5FWnKGuQOvaSh9wspZyVeSjyXexBUjrzlGak7PMc3DKeaT0iw2Qe4jA
-         J80DCEDUb1CnNsTloede5gaYWQ7xymLBXRLIrHEk1cEy7xQYCuliSfqkUQjIaNpy1/R9
-         V84pXRIwnx/+sQjkczjUia6WXPsj4fOoHrdriV/k8XICkkq2MVYG8w3Ki9J63/Qsn0eu
-         KTx613SI1iU8FJFHOHZex98zm6IZAduX/t5MhInshBs0yme40agpbFo21WlKfcayH3ta
-         j0WYaqW7xVQwxYFO8Juck6Jiy7GH3PdkIym5h75HsvfnSXzKI5QYF5tFfvnLb9AGod2S
-         QUGg==
+        bh=+da92H4cGGPw6Xz172smOVeA8sWduNDhotqGhMZYXBA=;
+        b=D8KEota7O6J0yYiReOuoGofL1N7OZR+y9O/mrBegSK0pvC3ZbhqLOsGMBg8wok2SQh
+         r8ygNEEPWRQRxKwmqyIY3oPD7tgSfOzn1Rbw5LseBUUC0FGY10LjLDLMVJ5gkxxDfgts
+         ZNJw4Rqaj1JFSXpS0egsiMjXlstW6AJ2Y3sAOGadMaaF1FvIIaQSwZqnj/UFnNT1G/ro
+         oFveax9En8MDLkcplJ2FQ68+/6A/HJssCODoDh1f7s6AiEolTP/P//6Rtyeb3GDUsWRQ
+         Nd07/ihcFKT1FGFhAU/IW5ur9PLF7OMKsgCbCi+AHKswUvrrpyJ1OvyBFTiGNyMuKWnC
+         xbSg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUTVvWLWZCUVnHEYft+EGc6IgFC8i3zyFz1tI4o80j6OMnMjpo69R6pgu9PvoyaZTtn7K6hnQ==@lfdr.de
-X-Gm-Message-State: AOJu0YzvWzCtIUYWjh3+Ec7zLaBxp1FYLBftn+9cbEw7DU/PfMImHtdl
-	m9eHsk2YpLOmHB+wDu7bdZxjNlBVDDME7kNDW1ieZvHRTlJZUQBY
-X-Google-Smtp-Source: AGHT+IGp0OCH+vJBw1is4mjz/2iCKbn2xAliM3Lp+k9+KTZkmnoXTqqI54U7zo84GAHwhO05CKHU5A==
-X-Received: by 2002:a05:6820:1c85:b0:5e1:e65d:5146 with SMTP id 006d021491bc7-5e2014359c7mr13057372eaf.5.1726730507694;
-        Thu, 19 Sep 2024 00:21:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVe7WlnfaA8gO0KdCA25PiYI3DWvged/LdfVsrHyLv0sd7VeXu7RtAi8/mpYIbWOjMkOKe+OQ==@lfdr.de
+X-Gm-Message-State: AOJu0YzwB/NZip40NOk+26oOHkQJHMbzk9waMEalTlVbzZtRF52YUxOA
+	58gabEU+SjYYlGzavkWRHYjIoGA60YKBw55vfPuqovAImW4u3EGi
+X-Google-Smtp-Source: AGHT+IH5so/eKycp/aaqX5FH0U66ZR4y1S0YwdlaUZxeAnnKeb3HXuq/tIRns7iB3dgh8HsiGtntYQ==
+X-Received: by 2002:a05:6870:7b47:b0:277:d7f1:db53 with SMTP id 586e51a60fabf-27c3f2c3db5mr16017148fac.17.1726732521178;
+        Thu, 19 Sep 2024 00:55:21 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:d34e:0:b0:5e5:684f:4567 with SMTP id 006d021491bc7-5e57e9abba6ls240352eaf.1.-pod-prod-09-us;
- Thu, 19 Sep 2024 00:21:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXFNMijZa/HWQkLZGYHEmfVmsiNW7WDLnnT6czdElzmybfafIJLaQHiT7pEGgpltsZ+RwFtwEn3Qdw=@googlegroups.com
-X-Received: by 2002:a05:6830:2692:b0:710:f3cb:5b85 with SMTP id 46e09a7af769-7110946408dmr15256720a34.6.1726730506911;
-        Thu, 19 Sep 2024 00:21:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1726730506; cv=none;
+Received: by 2002:a05:6871:d209:b0:270:5705:a448 with SMTP id
+ 586e51a60fabf-27d092df278ls438457fac.1.-pod-prod-07-us; Thu, 19 Sep 2024
+ 00:55:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWM08dWYAnU/FQT7FJjL8xrnvqFKzS3KPx6Gzd5/EQCzHCtci6tlMGxBFz6t71v3VsxXdw3TcsBrnw=@googlegroups.com
+X-Received: by 2002:a05:6870:56aa:b0:25e:b999:d24 with SMTP id 586e51a60fabf-27c3eeb92c1mr15253026fac.0.1726732520329;
+        Thu, 19 Sep 2024 00:55:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1726732520; cv=none;
         d=google.com; s=arc-20240605;
-        b=V5O5gluHcVW2mTHdzPSbptHS3gScND6tnoc/fe2qO6rvuCZrKpLHp7Ei91GealSVa2
-         N2fiJxD5PaXGiJQO18Mqn9alW2qJmkWy+GhzuWEFE59Fh/YIDdCv365ys7eirc0kwojv
-         KudeXSNm4yMG8GZ2b+utFT+KxseH8gFqvGx50ZDHNHeNVMi/zjT8VF2hEdsfemyTYbK6
-         zRcyLbM8yZgEQPCMn+JuTOKdswYA3G6iO/eQDY7uC+shLr1+OezU51bbxdWvvEUO4c+W
-         SNO+GjWGVegX2+QPsKwVDp+S5wmCLTm1PDY/guaLYerUk2fCwEWX0xR0eY70NUF4/BD4
-         sF/w==
+        b=Yu0i4yOBB2p4n1sI31zzv7K51JwjCw4uQtiE8sZ3s0Nc8+tyxs/TGb7vbBxffI2cSE
+         PTQSoeB+dzpyYiCGan0JrFy4afkabPLfhEeSTuV32MboaNm2fu5/ImLp8tNeSaERPme5
+         mcZG6ERvaqMYK7JxuuTunXBNW+ttqO1QkcpF+BqTktN31tqssBdAtCyQi96pOAVOHDWb
+         C6GSCHpYR8oaaIXd0+qtjBWXZRCFDlff/1h0+dPIYsQ27IRg127nGOEYnZmJ42BywlyQ
+         E5YwEQcXympbT3b5fpYpmIZWb3ifguExwHJNLgpULZRFIZEL6+BKMODBaB3zDvWlQmoU
+         pRrA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id;
-        bh=LPOvVFiFxkp8wPIQ25B+uct6N3jvyLIyr6Qy+Wyn0lw=;
-        fh=Dlts5TV2gQ0clhDQDCpspghuSeM1+Fekc1fhwnL+v/c=;
-        b=WfT9t7wG5+/7RNSUHG2VUQ27f5xs0cfIEiOOGumEwtwEMIVTvPzTeTPZ30y/rtHsoG
-         Mg3t3wsO2EucPhG+JpTMQNbB6/KydZxk3oNYgTet2PP40XlTzVGWjNlMSmAnu8S2cu/F
-         EV3UovR5/fkXdpzjdrDBdNLMfAAi5gQIKsNG6AZFwbMpejl0ae2D0BaNUzF05bMHTQOG
-         1z5it8b9OgVI2rLLHU7HXE3U/pt8uAFMM41n7JsovBBcQWxm06iZ9OPqwO9RzsQhg+H4
-         MsVOiGbmnPd1BDnXlHtHi3eBigBr3nL609MYwvw7klZASfw/rMCg3vpTyT0GrnvY+B1b
-         VAsw==;
+        bh=00GyeIpQiVrRLmk5/aXY8FNlHVW8nZ/1kuIlcJVwo48=;
+        fh=6PQ0+YiNs7jWb4+11PVNRLJtg1D6DwdmoKKvgLHbb8o=;
+        b=GNGDWAOan7WmjOXuunrZxBDjUNYJxE8LCfCR7L2IYvZ/iPDe4nKeWd1CkyCOWszM8E
+         4ILI+INmyohmEOGrsA8nxj/e6F9UsJZ3yME4H/QVc028GCuq7a4qevSRT257njrlkHUk
+         2HcLNjUncTGRiOB0Lj0GaLm0Pa/hk17Cyd3XzGEoBjkMuR/AB9KnzHKxl4m3WXU8Z0BW
+         rBT50u/g4SOEBjk1WjCMaXE8uWiULnAnuTRCrAu7yATmdKl6BoLvGTSzWE85dG1Aglfe
+         mQWokaNqJF5CmMkjT4yxY6uTGX+MKYMw6dqrXqYZsNElY39y1lY9NffMzyQDP7DTW0AG
+         9JzQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id 46e09a7af769-71389c030a8si51322a34.5.2024.09.19.00.21.46
+        by gmr-mx.google.com with ESMTP id 586e51a60fabf-27d0b5e5a48si75326fac.4.2024.09.19.00.55.20
         for <kasan-dev@googlegroups.com>;
-        Thu, 19 Sep 2024 00:21:46 -0700 (PDT)
+        Thu, 19 Sep 2024 00:55:20 -0700 (PDT)
 Received-SPF: pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 56B1A13D5;
-	Thu, 19 Sep 2024 00:22:15 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 157351007;
+	Thu, 19 Sep 2024 00:55:49 -0700 (PDT)
 Received: from [10.163.34.169] (unknown [10.163.34.169])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A5A43F64C;
-	Thu, 19 Sep 2024 00:21:37 -0700 (PDT)
-Message-ID: <b0548a9f-6201-47e3-81cd-0d3b1de0a8e5@arm.com>
-Date: Thu, 19 Sep 2024 12:51:33 +0530
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D82B3F71A;
+	Thu, 19 Sep 2024 00:55:10 -0700 (PDT)
+Message-ID: <8f43251a-5418-4c54-a9b0-29a6e9edd879@arm.com>
+Date: Thu, 19 Sep 2024 13:25:08 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 4/7] mm: Use pmdp_get() for accessing PMD entries
-To: kernel test robot <lkp@intel.com>, linux-mm@kvack.org
+Subject: Re: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
+To: kernel test robot <lkp@intel.com>, linux-mm@kvack.org,
+ "Russell King (Oracle)" <linux@armlinux.org.uk>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
  Andrew Morton <akpm@linux-foundation.org>,
  David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
@@ -121,17 +123,16 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
  linux-fsdevel@vger.kernel.org, kasan-dev@googlegroups.com,
  linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
  Dimitri Sivanich <dimitri.sivanich@hpe.com>,
- Muchun Song <muchun.song@linux.dev>, Andrey Ryabinin
- <ryabinin.a.a@gmail.com>, Miaohe Lin <linmiaohe@huawei.com>,
- Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Pasha Tatashin <pasha.tatashin@soleen.com>, Dennis Zhou <dennis@kernel.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Muchun Song
+ <muchun.song@linux.dev>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
  Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux-foundation.org>,
  Uladzislau Rezki <urezki@gmail.com>, Christoph Hellwig <hch@infradead.org>
-References: <20240917073117.1531207-5-anshuman.khandual@arm.com>
- <202409190205.YJ5gtx3T-lkp@intel.com>
+References: <20240917073117.1531207-8-anshuman.khandual@arm.com>
+ <202409190310.ViHBRe12-lkp@intel.com>
 Content-Language: en-US
 From: Anshuman Khandual <anshuman.khandual@arm.com>
-In-Reply-To: <202409190205.YJ5gtx3T-lkp@intel.com>
+In-Reply-To: <202409190310.ViHBRe12-lkp@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: anshuman.khandual@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
@@ -150,9 +151,7 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-
-
-On 9/19/24 00:27, kernel test robot wrote:
+On 9/19/24 02:00, kernel test robot wrote:
 > Hi Anshuman,
 > 
 > kernel test robot noticed the following build errors:
@@ -166,158 +165,65 @@ On 9/19/24 00:27, kernel test robot wrote:
 > 
 > url:    https://github.com/intel-lab-lkp/linux/commits/Anshuman-Khandual/m68k-mm-Change-pmd_val/20240917-153331
 > base:   char-misc/char-misc-testing
-> patch link:    https://lore.kernel.org/r/20240917073117.1531207-5-anshuman.khandual%40arm.com
-> patch subject: [PATCH V2 4/7] mm: Use pmdp_get() for accessing PMD entries
-> config: um-allnoconfig (https://download.01.org/0day-ci/archive/20240919/202409190205.YJ5gtx3T-lkp@intel.com/config)
-> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409190205.YJ5gtx3T-lkp@intel.com/reproduce)
+> patch link:    https://lore.kernel.org/r/20240917073117.1531207-8-anshuman.khandual%40arm.com
+> patch subject: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
+> config: arm-footbridge_defconfig (https://download.01.org/0day-ci/archive/20240919/202409190310.ViHBRe12-lkp@intel.com/config)
+> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 8663a75fa2f31299ab8d1d90288d9df92aadee88)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240919/202409190310.ViHBRe12-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202409190205.YJ5gtx3T-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202409190310.ViHBRe12-lkp@intel.com/
 > 
 > All errors (new ones prefixed by >>):
 > 
->    In file included from mm/pgtable-generic.c:10:
->    In file included from include/linux/pagemap.h:11:
->    In file included from include/linux/highmem.h:12:
->    In file included from include/linux/hardirq.h:11:
->    In file included from arch/um/include/asm/hardirq.h:5:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:14:
->    In file included from arch/um/include/asm/io.h:24:
->    include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      548 |         val = __raw_readb(PCI_IOBASE + addr);
->          |                           ~~~~~~~~~~ ^
->    include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
->          |                                                         ~~~~~~~~~~ ^
->    include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
->       37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
->          |                                                   ^
->    In file included from mm/pgtable-generic.c:10:
->    In file included from include/linux/pagemap.h:11:
->    In file included from include/linux/highmem.h:12:
->    In file included from include/linux/hardirq.h:11:
->    In file included from arch/um/include/asm/hardirq.h:5:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:14:
->    In file included from arch/um/include/asm/io.h:24:
->    include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
->          |                                                         ~~~~~~~~~~ ^
->    include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
->       35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
->          |                                                   ^
->    In file included from mm/pgtable-generic.c:10:
->    In file included from include/linux/pagemap.h:11:
->    In file included from include/linux/highmem.h:12:
->    In file included from include/linux/hardirq.h:11:
->    In file included from arch/um/include/asm/hardirq.h:5:
->    In file included from include/asm-generic/hardirq.h:17:
->    In file included from include/linux/irq.h:20:
->    In file included from include/linux/io.h:14:
->    In file included from arch/um/include/asm/io.h:24:
->    include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      585 |         __raw_writeb(value, PCI_IOBASE + addr);
->          |                             ~~~~~~~~~~ ^
->    include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
->          |                                                       ~~~~~~~~~~ ^
->    include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
->          |                                                       ~~~~~~~~~~ ^
->    include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      693 |         readsb(PCI_IOBASE + addr, buffer, count);
->          |                ~~~~~~~~~~ ^
->    include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      701 |         readsw(PCI_IOBASE + addr, buffer, count);
->          |                ~~~~~~~~~~ ^
->    include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      709 |         readsl(PCI_IOBASE + addr, buffer, count);
->          |                ~~~~~~~~~~ ^
->    include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      718 |         writesb(PCI_IOBASE + addr, buffer, count);
->          |                 ~~~~~~~~~~ ^
->    include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      727 |         writesw(PCI_IOBASE + addr, buffer, count);
->          |                 ~~~~~~~~~~ ^
->    include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
->      736 |         writesl(PCI_IOBASE + addr, buffer, count);
+>    In file included from arch/arm/kernel/asm-offsets.c:12:
+>    In file included from include/linux/mm.h:30:
+>>> include/linux/pgtable.h:1245:18: error: use of undeclared identifier 'pgdp'; did you mean 'pgd'?
+>     1245 |         pgd_t old_pgd = pgdp_get(pgd);
+>          |                         ^
+>    arch/arm/include/asm/pgtable.h:154:36: note: expanded from macro 'pgdp_get'
+>      154 | #define pgdp_get(pgpd)          READ_ONCE(*pgdp)
+>          |                                            ^
+>    include/linux/pgtable.h:1243:48: note: 'pgd' declared here
+>     1243 | static inline int pgd_none_or_clear_bad(pgd_t *pgd)
+>          |                                                ^
 
-Not sure if the above warnings are actually caused by this patch.
+arm (32) platform currently overrides pgdp_get() helper in the platform but
+defines that like the exact same version as the generic one, albeit with a
+typo which can be fixed with something like this.
 
->          |                 ~~~~~~~~~~ ^
->>> mm/pgtable-generic.c:54:2: error: cannot take the address of an rvalue of type 'pgd_t'
->       54 |         pmd_ERROR(pmdp_get(pmd));
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~
->    include/asm-generic/pgtable-nopmd.h:36:28: note: expanded from macro 'pmd_ERROR'
->       36 | #define pmd_ERROR(pmd)                          (pud_ERROR((pmd).pud))
->          |                                                  ^~~~~~~~~~~~~~~~~~~~
->    include/asm-generic/pgtable-nopud.h:32:28: note: expanded from macro 'pud_ERROR'
->       32 | #define pud_ERROR(pud)                          (p4d_ERROR((pud).p4d))
->          |                                                  ^~~~~~~~~~~~~~~~~~~~
->    include/asm-generic/pgtable-nop4d.h:25:28: note: expanded from macro 'p4d_ERROR'
->       25 | #define p4d_ERROR(p4d)                          (pgd_ERROR((p4d).pgd))
->          |                                                  ^~~~~~~~~~~~~~~~~~~~
->    arch/um/include/asm/pgtable-2level.h:31:67: note: expanded from macro 'pgd_ERROR'
->       31 |         printk("%s:%d: bad pgd %p(%08lx).\n", __FILE__, __LINE__, &(e), \
->          |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
->       32 |                pgd_val(e))
->          |                ~~~~~~~~~~~
->    include/linux/printk.h:465:60: note: expanded from macro 'printk'
->      465 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
->          |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
->    include/linux/printk.h:437:19: note: expanded from macro 'printk_index_wrap'
->      437 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
->          |                                 ^~~~~~~~~~~
->    12 warnings and 1 error generated.
-> 
-> 
-> vim +/pgd_t +54 mm/pgtable-generic.c
-> 
->     46	
->     47	/*
->     48	 * Note that the pmd variant below can't be stub'ed out just as for p4d/pud
->     49	 * above. pmd folding is special and typically pmd_* macros refer to upper
->     50	 * level even when folded
->     51	 */
->     52	void pmd_clear_bad(pmd_t *pmd)
->     53	{
->   > 54		pmd_ERROR(pmdp_get(pmd));
->     55		pmd_clear(pmd);
->     56	}
->     57	
-> 
-
-But the above build error can be fixed with the following change.
-
-diff --git a/arch/um/include/asm/pgtable-3level.h b/arch/um/include/asm/pgtable-3level.h
-index 8a5032ec231f..f442c1e3156a 100644
---- a/arch/um/include/asm/pgtable-3level.h
-+++ b/arch/um/include/asm/pgtable-3level.h
-@@ -43,13 +43,13 @@
- #define USER_PTRS_PER_PGD ((TASK_SIZE + (PGDIR_SIZE - 1)) / PGDIR_SIZE)
+diff --git a/arch/arm/include/asm/pgtable.h b/arch/arm/include/asm/pgtable.h
+index be91e376df79..aedb32d49c2a 100644
+--- a/arch/arm/include/asm/pgtable.h
++++ b/arch/arm/include/asm/pgtable.h
+@@ -151,7 +151,7 @@ extern pgprot_t phys_mem_access_prot(struct file *file, unsigned long pfn,
  
- #define pte_ERROR(e) \
--        printk("%s:%d: bad pte %p(%016lx).\n", __FILE__, __LINE__, &(e), \
-+        printk("%s:%d: bad pte (%016lx).\n", __FILE__, __LINE__, \
-               pte_val(e))
- #define pmd_ERROR(e) \
--        printk("%s:%d: bad pmd %p(%016lx).\n", __FILE__, __LINE__, &(e), \
-+        printk("%s:%d: bad pmd (%016lx).\n", __FILE__, __LINE__, \
-               pmd_val(e))
- #define pgd_ERROR(e) \
--        printk("%s:%d: bad pgd %p(%016lx).\n", __FILE__, __LINE__, &(e), \
-+        printk("%s:%d: bad pgd (%016lx).\n", __FILE__, __LINE__, \
-               pgd_val(e))
+ extern pgd_t swapper_pg_dir[PTRS_PER_PGD];
  
- #define pud_none(x)    (!(pud_val(x) & ~_PAGE_NEWPAGE))
+-#define pgdp_get(pgpd)         READ_ONCE(*pgdp)
++#define pgdp_get(pgdp)         READ_ONCE(*pgdp)
+ 
+ #define pud_page(pud)          pmd_page(__pmd(pud_val(pud)))
+ #define pud_write(pud)         pmd_write(__pmd(pud_val(pud)))
+
+Regardless there is another problem here. On arm platform there are multiple
+pgd_t definitions available depending on various configs but some are arrays
+instead of a single data element, although platform pgdp_get() helper remains
+the same for all.
+
+arch/arm/include/asm/page-nommu.h:typedef unsigned long pgd_t[2];
+arch/arm/include/asm/pgtable-2level-types.h:typedef struct { pmdval_t pgd[2]; } pgd_t;
+arch/arm/include/asm/pgtable-2level-types.h:typedef pmdval_t pgd_t[2];
+arch/arm/include/asm/pgtable-3level-types.h:typedef struct { pgdval_t pgd; } pgd_t;
+arch/arm/include/asm/pgtable-3level-types.h:typedef pgdval_t pgd_t;
+
+I guess it might need different pgdp_get() variants depending applicable pgd_t
+definition. Will continue looking into this further but meanwhile copied Russel
+King in case he might be able to give some direction.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/b0548a9f-6201-47e3-81cd-0d3b1de0a8e5%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/8f43251a-5418-4c54-a9b0-29a6e9edd879%40arm.com.
