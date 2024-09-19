@@ -1,143 +1,141 @@
-Return-Path: <kasan-dev+bncBCSPV64IYUKBBZOVV63QMGQEBYMHKMI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDGZVRMH6UCRBSGZV63QMGQE4SZIKZY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-f55.google.com (mail-ed1-f55.google.com [209.85.208.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5860297C69C
-	for <lists+kasan-dev@lfdr.de>; Thu, 19 Sep 2024 11:12:07 +0200 (CEST)
-Received: by mail-ed1-f55.google.com with SMTP id 4fb4d7f45d1cf-5c24b4a57b4sf498393a12.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 19 Sep 2024 02:12:07 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1726737127; cv=pass;
+Received: from mail-il1-x140.google.com (mail-il1-x140.google.com [IPv6:2607:f8b0:4864:20::140])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80F3197C6DC
+	for <lists+kasan-dev@lfdr.de>; Thu, 19 Sep 2024 11:20:10 +0200 (CEST)
+Received: by mail-il1-x140.google.com with SMTP id e9e14a558f8ab-3a0a4db9807sf11325795ab.3
+        for <lists+kasan-dev@lfdr.de>; Thu, 19 Sep 2024 02:20:10 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1726737609; cv=pass;
         d=google.com; s=arc-20240605;
-        b=gPQHNchrBVmmRw5UgnYoD+ErqPPJU+PD8ohPqCqOcz83mMRL204Rdj0W9PeFFAKvoH
-         YTHL0i2CY9H/k1OsO9fCHYoLK5OPs5E5Vos7ujWQhg2sBt/dW8I1WbmfxGN4GGEc8zDC
-         VVf2DTBUbnUpWcyjeNE0ArnyMV0dks5AO+MDWYXmgWk462fxbu/er+h2+olVYqtcs3Uy
-         uxQPtBuj0ISMwEvpO08LnoTnDTfh+vIGgkHxZl/+qTMXs/CdKe0C+65DzqfBUgPOt100
-         cTDdVAxmv4A9wPDjCsMFZs8bAb6edJKoPEdW9Ntj+bJLOuABKgCNKiVvBTx68YgSTl8m
-         Q23A==
+        b=H1mUdRWXcKAtRxZSutZgYX1uMA+KmrbcB+rS1GqLSyk8R07iybfTaOvPcJ4kLRKEz3
+         LyrDCKbKRI6SbeBPFz5X6vJYejynJWDXW3DOaMKWPcJVGMudIzTzoUfpTcdCXRhi3VY+
+         Y+QdLsKLciBVDfRAM9JSscCxsRJT5nNCIgAPDI0ZC8IWdMq46EO60uTB89EVD9uqwfHM
+         eVgozuCJkeNjd6H0CYBkToZsKiGhn5laABGNDe0dN9DjqvJXHHVnGAtvYfSfbGWq8998
+         fGgmX+/37cDMnD2kvSSSnQn7Ydncb3zRA9OmI6B384cYSd8LXnQnea5miWePrF5/W3Sl
+         h4kA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date;
-        bh=aEG7Zulf676y/1QwTff7vD8KsFWpmuKxLaeCCaKDxz8=;
-        fh=oYuWhwCx5git7Jbj0q5jZzCX/TWjr+ZpyrHJV9krEUQ=;
-        b=DX7OeW4H7EmNTAhXJ4wJOLkOgn+rrTWYWXZZ+tNUyI6KnvBPgEautA5xgZOpfdM2pQ
-         9XK0FjEfNZFdzn41IW66UNftCIDIDOJ6PjqQI0CH3wfCu0UvfhbbdYloob/Ge+dPwjAF
-         9t0hVCCnrY0nxwSBv1nUstCSlQWN7sPsaV11SnHiQPEswEaJYx61FZC3hgqQ6F3j/l3f
-         uCGquXUvtvNjekyFrHNfrMo74Vw9dq/8lLlRVcQVMOkOv+YBU1srhAgnqoqWym4iWrid
-         VLcpG966P71naAMvv7YytgMRAeyfC0PDHLy9hnyjltFoKeVX/ctrPY4HCcClYO9qZwCk
-         vzAg==;
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:sender:dkim-signature;
+        bh=5LgJsnpbjP24d37CszkX7kQsdBeT0BM5NNhyGc55gA8=;
+        fh=IVuCqU4g4NvraZmnqaJMQBKJI/9ldKXKRp5+P63FMyw=;
+        b=Z1Ha4id37+yuz+h5FMXrL4hOMRGELZm1W8g17frRCrNOYd6FHFFfDSEa3WdV3p0Kil
+         wTZsUr7rQkxU5yqUvWarcklSmb+I1EsDvtPvyP7NtQEAEOks1Ki9ZUyQL3oNJ3MPz4Ip
+         nHiMzoFSHVv4L1N+9y2y6ur3IzGjODkZuT4CnkwILAVlEbuCtx5gDLN3aGI/hJqVhkUW
+         CshI4VFGfLDx5HnnR+lBY+lGJFlCTJgwfprtGO0qwoBG6m7N6NEjfaonYgjxWGrZGbIP
+         UAaFPn3cuQKXgKQusHTg3Or/6h7p8YNWDYBzrjGCsZA14tbVEE93+glHWCPLIY0n5uPQ
+         D/cA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass (test mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=KxWAU0sA;
-       spf=none (google.com: armlinux.org.uk does not designate permitted sender hosts) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
+       spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlegroups.com; s=20230601; t=1726737609; x=1727342409; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=5LgJsnpbjP24d37CszkX7kQsdBeT0BM5NNhyGc55gA8=;
+        b=G13me8pcnU/Tn2ol5mKtxEC4uW1tegyo7PLRTB4StRni2iIorUb79WDE8gJJZ6n9iF
+         ezKo7RnVevi3e8QVysaet+RFxLN3WoOCPYs8aqM+jYs8PgL7Lu5pVnL7LEgaUYO98RPK
+         G1dmT7qGMpNZZ9Gfgzl2mY3CfY2HriLky1aanDChtq3+2KkJQNJocW+yBHgF73uUIUV0
+         hIbIpDrBrvxAN5C5dTxcGLrfnzaIFwttpb/ugqyQ7Bwtde1xZ8RurvvIopAQjfElYuR5
+         iOWRftYiTKkWyh0EHchLUwRW2hoJ+mn/chiPzKNfzRyuJipumrE0bAyWs9I9YhGFE7wY
+         2juQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726737127; x=1727341927;
+        d=1e100.net; s=20230601; t=1726737609; x=1727342409;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:sender
-         :in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aEG7Zulf676y/1QwTff7vD8KsFWpmuKxLaeCCaKDxz8=;
-        b=LGcez3y7Iq+gpNXq71f7lowumNoB+kY2PXfRCq8BajeCpXF+hGctFW/J11GbiVYivz
-         AGoudVWUaKXy8zqokb1KjXZo+RFaNYUlcN3Y9wrK4pctJHrU+relHLlmeBUBv3vGdw6r
-         T8COxDQfDMH/MUrt+Y60RZqy+LvvvDJG47fNcdEB9Yaf9k9cgV8xZAmmoyQ4EzLq44Bm
-         l7RpGViEL7ISsKxxtVgd//CdSLzz1R29nV2IGk01tjVI4U0SId0Lz5ExapGz+jPgRXEB
-         yKr0gavyoBwGMvK9rtxfK1ZqoVTtSuJxI2YUnDtlBHe5hrHaGVRq/0O/Y+qVWuxLgGcw
-         7T1w==
-X-Forwarded-Encrypted: i=2; AJvYcCXVdBAzD8HFzOv6lNBmKdK9NwyaAbpmC0vkmQu0OdJIkMHmljjkvopnLIhmkP/bw6vE7yQXyg==@lfdr.de
-X-Gm-Message-State: AOJu0Yy+T7FtjBlAAhR38DYA96KaFHh3Zp6IAaxL7Vxixpi4t7PSOPjQ
-	fTKEjwtDAHqHzF+wXnGSdMB+Da/1UwL5j38m4T+5CEf2x4o6LbMs
-X-Google-Smtp-Source: AGHT+IE82jfWmQZFrkN3KHpycyHE/YfYGvV/yhvmiRBbZG/P1eU3mnWP/hR/qEHZF12XwbSAN03vVA==
-X-Received: by 2002:a05:6402:d08:b0:5c3:cb1d:8176 with SMTP id 4fb4d7f45d1cf-5c41e2ad471mr16031068a12.30.1726737125814;
-        Thu, 19 Sep 2024 02:12:05 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5LgJsnpbjP24d37CszkX7kQsdBeT0BM5NNhyGc55gA8=;
+        b=Fhn0DK1QQS5uzqSZik+MdxpWJrjovoa4BYRt2S23vbn09GVlMVsLCzPjqgliYSrZ5q
+         +x5Nyk7FOSQQyVgaBfg9WVF1lZRGu9rHMrvgQNFND5sA9gnmHxYUZvQu3WiR++dCUj5u
+         kgfrvCVQUJAY31IBRzNn/ihChBtT0bjhvY15qitFIuExPC+8Hfn0sTQO+YX3W5agMcJt
+         yOQdyPt7/dKKiKRCQtYuIhP5CB4b/m/ypshHFJw0xFDkmW3vOLCj00aFnbrcVFNResxS
+         d69Uvom1cSodj0HlmHEhMDxg/hxsJHiJaK5kDLwHfCr34d60q4Ge1ls9wU9jT8KFdr/u
+         alWQ==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCVbZHEcbG74d1dZ1L+6vh5nz+0Xwtrm/T4a9rtfggN1eXd952E68FVaod8KI47zAPSmHJqItg==@lfdr.de
+X-Gm-Message-State: AOJu0YyRKgsIpNK6tVmR2WUDnR+zU0PwbrN6rYewrZ99dNp6a53ZKn/x
+	X0OE2cQWaA0Dq8LSNlBFgyYUuMrQSsX9gE1yHI+bs07p4cwssYIn
+X-Google-Smtp-Source: AGHT+IFwMy8sYpHUL2rNsvZVKp2CYXCCAbS3qZLQihQSSK5WyhuIU6mSVHvdgCjCZO4lDgcqvS10kw==
+X-Received: by 2002:a05:6e02:1d01:b0:3a0:4e2b:9ab9 with SMTP id e9e14a558f8ab-3a0848ac8efmr282524005ab.5.1726737609018;
+        Thu, 19 Sep 2024 02:20:09 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:35cf:b0:5c4:2278:28dd with SMTP id
- 4fb4d7f45d1cf-5c459953550ls609548a12.2.-pod-prod-06-eu; Thu, 19 Sep 2024
- 02:12:04 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWpvyDM2ig8YABbPf145CY0zx23eQukDxtNRDwHHo2uEHjBNj6vLdXuu8U5FAECrzJy+uw+YBlzuoE=@googlegroups.com
-X-Received: by 2002:a05:6402:42d0:b0:5c4:2fb1:416f with SMTP id 4fb4d7f45d1cf-5c42fb142ccmr13528008a12.29.1726737123925;
-        Thu, 19 Sep 2024 02:12:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1726737123; cv=none;
+Received: by 2002:a05:6e02:1a0d:b0:3a0:a130:66bd with SMTP id
+ e9e14a558f8ab-3a0bf1a991cls106855ab.1.-pod-prod-08-us; Thu, 19 Sep 2024
+ 02:20:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUE4T+dQQENzH3EtqR8pceu9m/KhFSaGRoNpBvhtQD4otFCEbNVVSjY1frl8YtUL+xbbRpQIBgplyw=@googlegroups.com
+X-Received: by 2002:a05:6602:6b87:b0:804:f2be:ee33 with SMTP id ca18e2360f4ac-82d1f8c45dcmr2413826639f.2.1726737608092;
+        Thu, 19 Sep 2024 02:20:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1726737608; cv=none;
         d=google.com; s=arc-20240605;
-        b=jMeGmjeQGLVnO94ryXB/RvB/E1Awli3sjq1Z76UyQXDDaemseVKnp60yQmAS58wfgY
-         YJO4/0ovLvjDQ/97MDnQHpTFIHb4LUnzr2MBCYxREhSp25ZmaAdzLC2zV9DSxAT9Qm7m
-         tKv6Pb0YqdHWRt/MtO1JEj4LlHsimyE+iQoIdHYHGD6TIznUer1CAEc2yCHYkv6b0Cci
-         WeGfJXMdYUwJFh9X0k58lOepf8uIiqb/bKrFo1BrefyGshHr6TAhwHVxHI4doLLN4TFV
-         p4424ed4xeKWHMn7YV4Y9/VBwZ6UGgCikLg/GszGIYq6JrBM9d9PgKw1ijgDnmpHw5Fa
-         G6vw==
+        b=jLDaefncMFP+aMSM+YX4FDQU75FdEVB+TnUcvof9Sa0IrApxNTsYAxObVP6NZg2NdG
+         XfeiBwr09hoNoV76Pjs3pfC/Y294v6fpqELwNjN8OVKAZ1sM5Ddv2f+CXjgZcGVmqUSF
+         LmHxgAHTUcpR5p/aHAxNvI/7qMpRX3RwtON+KhHqM91v+7W4cfEDE/PQGa5AplHqChqk
+         dX9Vpf3XcnOkC3ryG/uRas9192/4n9t+tAlvtER2Fbi0C13EBYCrY2RTlnDz0JmkB/oU
+         Ua13jvhuqs9QW0eOGbfSc93SGQBEtYnu0DYeR6GOwwrS/fACzGsG0UkMzt4bRjy2kuW2
+         WzxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=sender:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=XSYMeRXWsqrG7F+YI4a+nTQDZpFZ8nCNoB9zSp4g67c=;
-        fh=YehCnJWJ8ydYMqqQH63ECl1nAqLkbWGsb3FK5dl0ebA=;
-        b=BEXzA0n07x3rCMIdewSY51dd3kYBmxfDntf6FrfWsAJCETqBYaadjx+svteEV5iazZ
-         9NmsyIE85rN1wKNexjJNnRSkMCWdR9qr/foDP+Vfr4gHT7KeBlixdQcbT38RLBy77NwM
-         9OZyvHOfQp83T2puEhDNUIothlZ077Hw7qgwsuWc4J1DDfGt4ZegK7Eed8oDMbWTT5k/
-         ef5+Xyu10SwU62/mBYQ9/P3tUXSpC41Pe524I4e3feedhflz7PjYp+bqL5eru1EGJZ9V
-         WcWy4Q+NX1kan8e9uXJhSQFnGwQbHYH9Y8A1ZMRDN6RBFSfJASE5dZuD5KMgOTaNBI9v
-         4YUA==;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id;
+        bh=Di6WOZpK0vZIlV10s5uClF60KLfnVE1RQxRILeythSs=;
+        fh=6gg0ght8wldm0GlcQKu2mojnASHp4ZVfvdboFPG5SJw=;
+        b=HixRaGg7WvaFOH/V9HQIqOhNZkVOWVgzJKXLi7zMkjDAymM6Bo9R0bjThRdB3MkgEe
+         ohYou7Y7wGDx02Msxj0kKprkfrwHOMjHK3zlsxjB0KCWHMJKyhJ9jE06fRavIDuhMFk8
+         x6hDDp6AT/jKrHJKimoP0HpSC6674X9UGh9F2WhQOW9B991FOqGmaDCVASSfqQ4exgJs
+         XlTl7BXN6r0jkVo1mU0TGPxjrlj1W/U/a8yQqdPWb3tKX7Eci6OyXnYZ2A9c/UzL5D73
+         SdZLoO9bymRKMwOd9hdLUI135B9ResKRLpwgvXtjS8is7brYVPpZd7X8K5/JuOW2oM4T
+         NUIw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass (test mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=KxWAU0sA;
-       spf=none (google.com: armlinux.org.uk does not designate permitted sender hosts) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk. [2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-5c42bb51dcfsi222263a12.2.2024.09.19.02.12.03
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Sep 2024 02:12:03 -0700 (PDT)
-Received-SPF: none (google.com: armlinux.org.uk does not designate permitted sender hosts) client-ip=2001:4d48:ad52:32c8:5054:ff:fe00:142;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:59440)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1srDBz-0000GJ-37;
-	Thu, 19 Sep 2024 10:11:15 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1srDBn-0001Rd-0M;
-	Thu, 19 Sep 2024 10:11:03 +0100
-Date: Thu, 19 Sep 2024 10:11:02 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Anshuman Khandual <anshuman.khandual@arm.com>
-Cc: kernel test robot <lkp@intel.com>, linux-mm@kvack.org,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Ryan Roberts <ryan.roberts@arm.com>,
-	"Mike Rapoport (IBM)" <rppt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, x86@kernel.org,
-	linux-m68k@lists.linux-m68k.org, linux-fsdevel@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Muchun Song <muchun.song@linux.dev>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
-Message-ID: <ZuvqpvJ6ht4LCuB+@shell.armlinux.org.uk>
-References: <20240917073117.1531207-8-anshuman.khandual@arm.com>
- <202409190310.ViHBRe12-lkp@intel.com>
- <8f43251a-5418-4c54-a9b0-29a6e9edd879@arm.com>
+       spf=pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
+        by gmr-mx.google.com with ESMTP id ca18e2360f4ac-82d48f7a48bsi45644839f.0.2024.09.19.02.20.07
+        for <kasan-dev@googlegroups.com>;
+        Thu, 19 Sep 2024 02:20:07 -0700 (PDT)
+Received-SPF: pass (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A9BC71007;
+	Thu, 19 Sep 2024 02:20:36 -0700 (PDT)
+Received: from [10.163.34.169] (unknown [10.163.34.169])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 402293F86F;
+	Thu, 19 Sep 2024 02:20:02 -0700 (PDT)
+Message-ID: <3ac8c39c-e842-41e4-960a-6b41cd83848d@arm.com>
+Date: Thu, 19 Sep 2024 14:50:00 +0530
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 3/7] mm: Use ptep_get() for accessing PTE entries
+To: David Hildenbrand <david@redhat.com>, linux-mm@kvack.org
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Ryan Roberts <ryan.roberts@arm.com>, "Mike Rapoport (IBM)"
+ <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, x86@kernel.org,
+ linux-m68k@lists.linux-m68k.org, linux-fsdevel@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org
+References: <20240917073117.1531207-1-anshuman.khandual@arm.com>
+ <20240917073117.1531207-4-anshuman.khandual@arm.com>
+ <f9a7ebb4-3d7c-403e-b818-29a6a3b12adc@redhat.com>
+ <8cafe140-35cf-4e9d-8218-dfbfc156ca69@arm.com>
+ <d32136d4-94ab-432a-89ae-5f41935404ff@redhat.com>
+Content-Language: en-US
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+In-Reply-To: <d32136d4-94ab-432a-89ae-5f41935404ff@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <8f43251a-5418-4c54-a9b0-29a6e9edd879@arm.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
-X-Original-Sender: linux@armlinux.org.uk
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass (test
- mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=KxWAU0sA;
-       spf=none (google.com: armlinux.org.uk does not designate permitted
- sender hosts) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: anshuman.khandual@arm.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of anshuman.khandual@arm.com designates 217.140.110.172
+ as permitted sender) smtp.mailfrom=anshuman.khandual@arm.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,68 +148,125 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Sep 19, 2024 at 01:25:08PM +0530, Anshuman Khandual wrote:
-> arm (32) platform currently overrides pgdp_get() helper in the platform but
-> defines that like the exact same version as the generic one, albeit with a
-> typo which can be fixed with something like this.
 
-pgdp_get() was added to arm in eba2591d99d1 ("mm: Introduce
-pudp/p4dp/pgdp_get() functions") with the typo you've spotted. It seems
-it was added with no users, otherwise the error would have been spotted
-earlier. I'm not a fan of adding dead code to the kernel for this
-reason.
+On 9/19/24 13:34, David Hildenbrand wrote:
+> On 18.09.24 08:32, Anshuman Khandual wrote:
+>>
+>>
+>> On 9/17/24 15:58, David Hildenbrand wrote:
+>>> On 17.09.24 09:31, Anshuman Khandual wrote:
+>>>> Convert PTE accesses via ptep_get() helper that defaults as READ_ONCE(=
+) but
+>>>> also provides the platform an opportunity to override when required. T=
+his
+>>>> stores read page table entry value in a local variable which can be us=
+ed in
+>>>> multiple instances there after. This helps in avoiding multiple memory=
+ load
+>>>> operations as well possible race conditions.
+>>>>
+>>>
+>>> Please make it clearer in the subject+description that this really only=
+ involves set_pte_safe().
+>>
+>> I will update the commit message with some thing like this.
+>>
+>> mm: Use ptep_get() in set_pte_safe()
+>>
+>> This converts PTE accesses in set_pte_safe() via ptep_get() helper which
+>> defaults as READ_ONCE() but also provides the platform an opportunity to
+>> override when required. This stores read page table entry value in a loc=
+al
+>> variable which can be used in multiple instances there after. This helps
+>> in avoiding multiple memory load operations as well as some possible rac=
+e
+>> conditions.
+>>
+>>>
+>>>
+>>>> Cc: Andrew Morton <akpm@linux-foundation.org>
+>>>> Cc: David Hildenbrand <david@redhat.com>
+>>>> Cc: Ryan Roberts <ryan.roberts@arm.com>
+>>>> Cc: "Mike Rapoport (IBM)" <rppt@kernel.org>
+>>>> Cc: linux-mm@kvack.org
+>>>> Cc: linux-kernel@vger.kernel.org
+>>>> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+>>>> ---
+>>>> =C2=A0=C2=A0 include/linux/pgtable.h | 3 ++-
+>>>> =C2=A0=C2=A0 1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+>>>> index 2a6a3cccfc36..547eeae8c43f 100644
+>>>> --- a/include/linux/pgtable.h
+>>>> +++ b/include/linux/pgtable.h
+>>>> @@ -1060,7 +1060,8 @@ static inline int pgd_same(pgd_t pgd_a, pgd_t pg=
+d_b)
+>>>> =C2=A0=C2=A0=C2=A0 */
+>>>> =C2=A0=C2=A0 #define set_pte_safe(ptep, pte) \
+>>>> =C2=A0=C2=A0 ({ \
+>>>> -=C2=A0=C2=A0=C2=A0 WARN_ON_ONCE(pte_present(*ptep) && !pte_same(*ptep=
+, pte)); \
+>>>> +=C2=A0=C2=A0=C2=A0 pte_t __old =3D ptep_get(ptep); \
+>>>> +=C2=A0=C2=A0=C2=A0 WARN_ON_ONCE(pte_present(__old) && !pte_same(__old=
+, pte)); \
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 set_pte(ptep, pte); \
+>>>> =C2=A0=C2=A0 })
+>>>> =C2=A0=C2=A0=20
+>>>
+>>> I don't think this is necessary. PTE present cannot flip concurrently, =
+that's the whole reason of the "safe" part after all.
+>>
+>> Which is not necessary ? Converting de-references to ptep_get() OR cachi=
+ng
+>> the page table read value in a local variable ? ptep_get() conversion al=
+so
+>> serves the purpose providing an opportunity for platform to override.
+>=20
+> Which arch override are you thinking of where this change here would make=
+ a real difference? Would it even make a difference with cont-pte on arm?
 
-> Regardless there is another problem here. On arm platform there are multiple
-> pgd_t definitions available depending on various configs but some are arrays
-> instead of a single data element, although platform pgdp_get() helper remains
-> the same for all.
-> 
-> arch/arm/include/asm/page-nommu.h:typedef unsigned long pgd_t[2];
-> arch/arm/include/asm/pgtable-2level-types.h:typedef struct { pmdval_t pgd[2]; } pgd_t;
-> arch/arm/include/asm/pgtable-2level-types.h:typedef pmdval_t pgd_t[2];
-> arch/arm/include/asm/pgtable-3level-types.h:typedef struct { pgdval_t pgd; } pgd_t;
-> arch/arm/include/asm/pgtable-3level-types.h:typedef pgdval_t pgd_t;
-> 
-> I guess it might need different pgdp_get() variants depending applicable pgd_t
-> definition. Will continue looking into this further but meanwhile copied Russel
-> King in case he might be able to give some direction.
+As we figured out already this code is not used any where other than x86 pl=
+atform.
+So changing this, won't make a difference for arm64 unless I am missing som=
+ething.
+The idea behind the series is to ensure that, there are no direct de-refere=
+ncing
+of page table entries in generic MM code and all accesses should go via ava=
+ilable
+helpers instead. But if we move these set_pxd_safe() helpers into platform =
+code as
+you have suggested earlier, those changes will not be necessary anymore.
 
-That's Russel*L*, thanks.
+>=20
+>>
+>>>
+>>> Can we just move these weird set_pte/pmd_safe() stuff to x86 init code =
+and be done with it? Then it's also clear *where* it is getting used and fo=
+r which reason.
+>>>
+>> set_pte/pmd_safe() can be moved to x86 platform - as that is currently t=
+he
+>> sole user for these helpers. But because set_pgd_safe() gets used in ris=
+cv
+>> platform, just wondering would it be worth moving only the pte/pmd helpe=
+rs
+>> but not the pgd one ?
+>=20
+> My take would be just to move them where they are used, and possibly even=
+ inlining them.
+>=20
+> The point is that it's absolutely underdocumented what "_safe" is suppose=
+d to be here, and I don't really see the reason to have this in common code=
+ (making the common API more complicated).
 
-32-bit arm uses, in some circumstances, an array because each level 1
-page table entry is actually two descriptors. It needs to be this way
-because each level 2 table pointed to by each level 1 entry has 256
-entries, meaning it only occupies 1024 bytes in a 4096 byte page.
+Agreed, it makes sense for these helpers to be in the platform code instead=
+ where
+they get used (x86, riscv). Will move them as required.
 
-In order to cut down on the wastage, treat the level 1 page table as
-groups of two entries, which point to two consecutive 1024 byte tables
-in the level 2 page.
-
-The level 2 entry isn't suitable for the kernel's use cases (there are
-no bits to represent accessed/dirty and other important stuff that the
-Linux MM wants) so we maintain the hardware page tables and a separate
-set that Linux uses in the same page. Again, the software tables are
-consecutive, so from Linux's perspective, the level 2 page tables
-have 512 entries in them and occupy one full page.
-
-This is documented in arch/arm/include/asm/pgtable-2level.h
-
-However, what this means is that from the software perspective, the
-level 1 page table descriptors are an array of two entries, both of
-which need to be setup when creating a level 2 page table, but only
-the first one should ever be dereferenced when walking the tables,
-otherwise the code that walks the second level of page table entries
-will walk off the end of the software table into the actual hardware
-descriptors.
-
-I've no idea what the idea is behind introducing pgd_get() and what
-it's semantics are, so I can't comment further.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ZuvqpvJ6ht4LCuB%2B%40shell.armlinux.org.uk.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/3ac8c39c-e842-41e4-960a-6b41cd83848d%40arm.com.
