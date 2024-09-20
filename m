@@ -1,149 +1,148 @@
-Return-Path: <kasan-dev+bncBAABBMEFWW3QMGQEBOKUZGQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCSPV64IYUKBB5EJWW3QMGQE7PGE4PA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb3d.google.com (mail-yb1-xb3d.google.com [IPv6:2607:f8b0:4864:20::b3d])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFBFD97D3C6
-	for <lists+kasan-dev@lfdr.de>; Fri, 20 Sep 2024 11:38:57 +0200 (CEST)
-Received: by mail-yb1-xb3d.google.com with SMTP id 3f1490d57ef6-e1a8de19944sf3229809276.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 20 Sep 2024 02:38:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1726825137; cv=pass;
+Received: from mail-wm1-f64.google.com (mail-wm1-f64.google.com [209.85.128.64])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF24D97D3DC
+	for <lists+kasan-dev@lfdr.de>; Fri, 20 Sep 2024 11:48:37 +0200 (CEST)
+Received: by mail-wm1-f64.google.com with SMTP id 5b1f17b1804b1-42ca8037d9asf11786905e9.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 20 Sep 2024 02:48:37 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1726825717; cv=pass;
         d=google.com; s=arc-20240605;
-        b=TMr4MTPqDJ8vH95LeKYL1ROIyF8vyjC0QjF1z12p0A8XM0zbii6nnY1gksR7PN9vhx
-         YaCWve22eO4/GBprRPuosaNbrlWsodD5fCMtITyunW/jF6ulm+VG0pr0iufaP71NlzJi
-         sSidPtKeCK3gm+IzW82WgjGqh2LLlCPg7GRF9ZhvEA7Vq8hIPKMg4cpqjGSsCsTpnn9K
-         XMwfztIDT5e/k5oiqYcgaAt/vi5T8ChYSKAa4USvX68VCTY2Orfcweq3AIpY3cogSqSK
-         Ie/JgmO5UWX7qbqs+dRim5+EtNcA8IyTe7wQ0KdegFpJ/egvrtK64T8luHIFAjYvLYhK
-         /CcQ==
+        b=TLYWTdUqDdI0FKaUZxfskmapH+Ya/N8mNpj9o5bYlQRh/Ok7CubBEyGTI1ILOXn+vV
+         7wFSwslmzS6/KIurzIC3BvktiD/4bqM2xTsvJ7QOAMZOAJN4CaK07u8QIYHM9a3399sA
+         O2VgoCglJjq4gbuRzfmBjYVTGqMow+9LEA7YzPWxehjdbRah9qOyAcDbPYZnUigGhiCA
+         gYLnUyi6cMm0NFuBf7V4le7iS3kqLeOXBUWPGMmQ2hJPk56FSCRV4i650E0iqmX7nHKm
+         ek0p3KIzICv0H3JFEBiDD3fjKrw5VmgQ4YisBAwrng6bAlUAo2LG/lvDLLXmA1+Xtesu
+         lzyw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version
-         :auto-submitted:references:in-reply-to:message-id:date:subject:to
-         :from:dkim-signature;
-        bh=3iy70JVIjuec6EAgSX3UDzw+vBlX0MVP6gDnh5MBYhw=;
-        fh=z5fRmFP88aqBeI839vf5vLqNJ8rMLB55EN3IJOmyGCM=;
-        b=SpngbvOe1i+scaAaCoz1vuMC559jINHRriG9crEB8acKcUVc3X+47i/N4bmb6T3ecC
-         k+MGNLiKPfdkh8rT/JO86DHYrgxNwVMycQFbV6atmZ/VqP3Kq9jCul0Ag8btdiN0MWP3
-         zj//pwdHbAuDS4CE7K+QiwKvfrJ4Epw/AhkBmoPBfitxWKYk2UoUBhBH9SeHco2cX2pW
-         aUJS5ztPnzUtqJ2LYEi/IjRWeR/yeW38TgzAZxm0OJaQETvIIUFudw5u011Om9cUqoje
-         Mgg+KM7kbbdxeULZnKeRjnkVxAPNE1bBKIFwAjxJvvyPoiNmaiTrmoVQ3nhUeheKfRmW
-         qeyg==;
+         :list-id:mailing-list:precedence:sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date;
+        bh=Pqy4Bh3bosoPEHdV4DTOoEL9wYvSVPCxoK1NQmJjbl0=;
+        fh=5m3llkjKFdtNzM9lgtnnc1s6rbF8N+NWRClYHHJeEiU=;
+        b=K6mh3fj7VMxcX6vTIs8ZS2UEC0hpcGJCt/uISSh8FCE3vinf6LNa9wQS/d1m4JJLGo
+         kle0T6tciAAuZBb2aCQNrgjlqneqtp4N+QeVee7DQJePEASWMrzTIL3OjRSNLjTl59cj
+         7FFzCs0BYRJsRPyFY5j99qeA2X4EcpD9e3cVu1AXNnhOxQbbtMcgKAb9AyDqQgeoyou5
+         b2v068k0g9uK7DazVRTB/eOH/joTZHZ5tfiJaqqwtwkkwDX7c5PRzu2ATYJ5PV9Ie70N
+         nb8pRr1VPE7+XTmyxVljEea0wKlNo4FfBdkVxQLPqpj5OMrBQNH1kWlsObLHpuyLBnxB
+         dU5Q==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=QzunUkmV;
-       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1726825137; x=1727429937; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :auto-submitted:references:in-reply-to:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3iy70JVIjuec6EAgSX3UDzw+vBlX0MVP6gDnh5MBYhw=;
-        b=Nh2V//MYdhFaRwwtDRP0q3sa+G5MEC/eLTE3Oe6KBdhMPWS+MPH71FElzco42n39jT
-         H/GzLvapslEkb5XqbXvS0oBJuFza3nEYuZDNOaMljIFRO0a20I70spJQm2aIlcgC70xN
-         EytnfGJACyDJmSVpPtrEcDqmovBl184ome+XOTAyxrUjdtBh/bKkwHiRlUnH6RyIFJNZ
-         IkcgXsF8+ZTR15CLse7zEynH+iunoHXXSYmrqHv3S1UtKn7rtiGq5Iwn6HgdgYkStcZd
-         bDBUiTDc1t9YMOkmzmz4ucpeZrvYG8dNsODdGQA0e7Gt0rREC3pY70sjAsamIGEQ3M5d
-         mzYg==
+       dkim=pass (test mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=FCaBAyrk;
+       spf=none (google.com: armlinux.org.uk does not designate permitted sender hosts) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1726825137; x=1727429937;
+        d=1e100.net; s=20230601; t=1726825717; x=1727430517;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :auto-submitted:references:in-reply-to:message-id:date:subject:to
-         :from:x-beenthere:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3iy70JVIjuec6EAgSX3UDzw+vBlX0MVP6gDnh5MBYhw=;
-        b=U12OjAyEbPf9b2LSeudcuSh9f6NGCg4mVmh+9/K5wq442eNZXFwQZleP8JrTdEGaJ8
-         rLQOFkp9ZGxiGkwAx+Jw1cuSg4MI5F05YtzrsaVEZ7ymBEBPo/LK3QZ6932a4cVosa4j
-         eL70EneRqMBLwKRhYee3/UZQpcXZH6KBNyuLzwS67CQbd8KFGmC//mEfzcCpfws18uep
-         G3G67jQX1ISC8ZBcPnMkxSYvX5hOP5UT5olxxo4sT6y7hQL+SO2pWX1eltUUjsBvrAlz
-         /lOYMaedvL+JKYXlg/1fNu3ABBG0ZDrctjlwntVDovQaFM8rweNIl1u/8bW9sZMzMgr6
-         L0zw==
-X-Forwarded-Encrypted: i=2; AJvYcCU9bybx2KLheVyIfOJtSKBBZ78jP4MR3zhIYEjAP0f38Hx7bTLpZe0TY7wRXiCv5KO8f5/WKg==@lfdr.de
-X-Gm-Message-State: AOJu0Ywxf78E1UU97hv2MX23boYS03sDWd1nZxgHpa3ANKBnUhqpeCCi
-	K+jQEAW0uPSP9N38QpsH0zdl6c40LkcQt2oqsVPNci3k2BnIvJFk
-X-Google-Smtp-Source: AGHT+IFQEvokXAdnD6i/1tddXh6vVzsMJKJt9Vo418RoYABOyWLzr1ZK2ezhH6MDpzOcqA9M+ogJ9A==
-X-Received: by 2002:a05:6902:2004:b0:e0e:4923:55f4 with SMTP id 3f1490d57ef6-e2250c29079mr1920970276.5.1726825136601;
-        Fri, 20 Sep 2024 02:38:56 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:sender
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Pqy4Bh3bosoPEHdV4DTOoEL9wYvSVPCxoK1NQmJjbl0=;
+        b=FIdcYyNxRt3DfP4+slI22pvqT3yZ6Mm68b4GfwR/DhVh6VZ/NS1IL+93gWRpFacleA
+         JQIL/zM16fRepZ5KNhEnDycSl7HFJsMhBnDAuEKiHuFnJ00lQk1HU3Ivx0Z0z3wKGzql
+         MG3FPaymWQ6ZsKte5UGNsDykdOslygT7AEqUrInrNjWnCHTGY+GU4KWSR6d/ujLGk9Aq
+         YdGE1KcXpp4Kz7XpFXFJzZP6CpTRbjsXX/C6pVHu673xHCn0GGRCWCEmdgXr218PAWh4
+         +vZuxNo3/hz+ON8Pe3LjmWnEihyiF7uKiJTP6pieMYkI6bhQKnkhv0BQA6R4f2NGDhR6
+         yQRA==
+X-Forwarded-Encrypted: i=2; AJvYcCWFVNCqIUiRLuCYj8SaaW3ui05Cw7K5HedlbAzOUhuzIGLkdoyeRHp34VjrsTssYVBeXryCdQ==@lfdr.de
+X-Gm-Message-State: AOJu0YyzawB7G5/QlMG2jgAe0Crgh/f6tKcAW6n9Q10XJi9Wg8gjQalS
+	u9l3VjK5ITCTVDFEAdCJ0csRsootyvjb5lEtAXUaUIlDDjayRE8c
+X-Google-Smtp-Source: AGHT+IGZh1r3iBYpfvUTBPrE9EB09yNO93C+0RsHcZfRuPFJtKxBmP0SHmfgIvxWO8UeAiSOiTjaPQ==
+X-Received: by 2002:a5d:4f92:0:b0:374:b24e:d2bf with SMTP id ffacd0b85a97d-37a422c01e2mr1195300f8f.27.1726825716433;
+        Fri, 20 Sep 2024 02:48:36 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6902:1883:b0:e1d:d1b:d4fb with SMTP id
- 3f1490d57ef6-e2027e91959ls203584276.2.-pod-prod-04-us; Fri, 20 Sep 2024
- 02:38:56 -0700 (PDT)
-X-Received: by 2002:a05:690c:3610:b0:699:7b60:d349 with SMTP id 00721157ae682-6dfeed2dcc2mr23415267b3.11.1726825135935;
-        Fri, 20 Sep 2024 02:38:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1726825135; cv=none;
+Received: by 2002:a5d:5983:0:b0:374:c0b6:44ce with SMTP id ffacd0b85a97d-379a860c2dals272007f8f.0.-pod-prod-04-eu;
+ Fri, 20 Sep 2024 02:48:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVsmHlFYRI0oCy3ypSBf7VDmcYrfYzda9w6flKvEBfjmY9NLm1BqQlFZpXoGSBQlbGr2QDqMPxDEGo=@googlegroups.com
+X-Received: by 2002:a05:600c:1d08:b0:42c:bad0:6c16 with SMTP id 5b1f17b1804b1-42e7abe21c2mr17167125e9.2.1726825714597;
+        Fri, 20 Sep 2024 02:48:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1726825714; cv=none;
         d=google.com; s=arc-20240605;
-        b=FTusS5AxNyHMSulNp+Ge/1tO+Jun53PcJeN8VXbPtCVe1iA7QIP1c/93AZ1rgRTg9v
-         PLC094EPArNZ2k45Ed7+OJF5lrdjRwlyOlQFlpZpEHmbSqnSQmomF7urVpk+m09NHukw
-         JUiYAaSGG3kfkHo7tdqXQ+Zi0F8G6bJGvWeRzYGcyWzrIUyVa1Z3mF6bVSgqZDtjQRcG
-         dxMGb01Pehb8UcIKJaIvyzrbxs6otg/LyJX1zY6WqCxxclj5BEaVTwEyYuOPOvThbJaY
-         cWCjZZTWI+gUhlE/kmBoyT8mLs01wt8xfmP4AZRN+97coqCOt4sGDofqkfEe+K9j1Xzq
-         w+xQ==
+        b=A6W1HDtI1leTt5j4LIC7uVZlEcMQ3XxOPQQd39jwV8L5Cliu1vQlcOH/THz3hPyfmg
+         QzkAF1U3mmzkKlLtfPZ15HDK2Ikmh+VawvRkfXh1e0XJLQgoM+leZZs4xrhJEBMFEicp
+         fuvORXQhbGMFvp3dcFJ3faPqIsWivBu+kp+N1ttf0EQSGuSImUjLiq0B2ZNyuRWzbtEM
+         /YeYyAbIlNxeT9kWMi9aDzoy732N1EqW6e4WKvE2RqaI3mNBir7e7IZvSJdIlf+OpjWB
+         AUOOYtpy76PNf4+iI1q4ceNQQtb0Fs0rWCwI/gMrf8v5ef9VVxC95rg4BfABpAmeoZa6
+         DNrA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:auto-submitted:content-transfer-encoding:references
-         :in-reply-to:message-id:date:subject:to:from:dkim-signature;
-        bh=Sg+XbH/tdHs+sIuqiF5Z5UIVhjtfCye65UqzbLkK6u8=;
-        fh=uQCsmYQr+KJEcG63Y45gsyDulzJl/B4EdEfpx8XrGGo=;
-        b=gvX3o1PHDR4Fs1oeCia6iQJd6KgDGzLK6U79MqYTmiPgWtsxJKRJeGTMWr8OMy+LIZ
-         l7rDiWbzhnxLXhTfXfa8tpjUwpHbs/FNFxU2/A167rgVm4UC2s6x1d7baDTHCoHvA1Y/
-         lQjUFCKp8lnmRFITpLRD6GX08tI9ct7cYquDPXmKlG5/4MHH4+ALxKz1x2hu6Lq66Zap
-         3RhGYrhmVtjM6XvKvhBWvjh+kFc/5A0iuRCwhJG1XnXUxFXWHzSk+W2fW0Gs96glRaI0
-         MLerUA1YfcDtct+dxtcTJgJ/Iozg2TwD5NYDf90KSVD4mWDLmf/oQyUzpYLAfkibOsrN
-         Bwqw==;
+        h=sender:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=lqLyI3VFGw/HAwz/TUdgSpSC7qmKkHxnZTuEYK+TROA=;
+        fh=vvFsAELp3/ijmy+VyjXHqEgJwr2AV/p0Vw32McP4bZ8=;
+        b=Wni06f8k6F8/HXTGEXTduu/Ja02FDpPoinTrphRQxS757whL34NcMwe1ysOgGeXrYJ
+         RNQ1Uzaz6FOc6q0JjlL0B/7HAZQfJicuSss55CRL9zUWDEQOiZigazQ1diWHGWmhR2bo
+         knogMJtD4BGmK5307zuoipWb1/+ASFVeiP5F5PDexDkcZ7wVoajDUjhANZY/5RfaK1dI
+         rzBzkak1gRxHA26DjDt1x5yaugVp8WszyZ+fMrcLL5+N/xdsHPA1RT/R0nomSqMNIO7I
+         PanpiBvt+WdC5LIDKSQhiBl7gq2Q2v3DDvJjkrS4CbUpgTFSDQsaQdFEafaNm7+XSP34
+         hiNw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=QzunUkmV;
-       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org. [147.75.193.91])
-        by gmr-mx.google.com with ESMTPS id 00721157ae682-6dbe2f3c0b5si8048717b3.4.2024.09.20.02.38.55
+       dkim=pass (test mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=FCaBAyrk;
+       spf=none (google.com: armlinux.org.uk does not designate permitted sender hosts) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk. [2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-42e6c718f09si2308555e9.1.2024.09.20.02.48.34
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2024 02:38:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of bugzilla-daemon@kernel.org designates 147.75.193.91 as permitted sender) client-ip=147.75.193.91;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 7C703A407AE
-	for <kasan-dev@googlegroups.com>; Fri, 20 Sep 2024 09:38:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 28DFEC4CEC3
-	for <kasan-dev@googlegroups.com>; Fri, 20 Sep 2024 09:38:55 +0000 (UTC)
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 1DE7EC53BC3; Fri, 20 Sep 2024 09:38:55 +0000 (UTC)
-From: bugzilla-daemon via kasan-dev <kasan-dev@googlegroups.com>
-To: kasan-dev@googlegroups.com
-Subject: [Bug 206285] KASAN: instrument pv_queued_spin_unlock
-Date: Fri, 20 Sep 2024 09:38:54 +0000
-X-Bugzilla-Reason: CC
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: None
-X-Bugzilla-Product: Memory Management
-X-Bugzilla-Component: Sanitizers
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: enhancement
-X-Bugzilla-Who: snovitoll@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-206285-199747-15d0jNMmmr@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-206285-199747@https.bugzilla.kernel.org/>
-References: <bug-206285-199747@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+        Fri, 20 Sep 2024 02:48:34 -0700 (PDT)
+Received-SPF: none (google.com: armlinux.org.uk does not designate permitted sender hosts) client-ip=2001:4d48:ad52:32c8:5054:ff:fe00:142;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:33476)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1sraF3-0001NG-1b;
+	Fri, 20 Sep 2024 10:47:57 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1sraEr-0002Qp-2B;
+	Fri, 20 Sep 2024 10:47:45 +0100
+Date: Fri, 20 Sep 2024 10:47:45 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Ryan Roberts <ryan.roberts@arm.com>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
+	kernel test robot <lkp@intel.com>, linux-mm@kvack.org,
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	"Mike Rapoport (IBM)" <rppt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, x86@kernel.org,
+	linux-m68k@lists.linux-m68k.org, linux-fsdevel@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	Dimitri Sivanich <dimitri.sivanich@hpe.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Muchun Song <muchun.song@linux.dev>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Miaohe Lin <linmiaohe@huawei.com>, Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@linux-foundation.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Christoph Hellwig <hch@infradead.org>
+Subject: Re: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
+Message-ID: <Zu1EwTItDrnkTVTB@shell.armlinux.org.uk>
+References: <20240917073117.1531207-8-anshuman.khandual@arm.com>
+ <202409190310.ViHBRe12-lkp@intel.com>
+ <8f43251a-5418-4c54-a9b0-29a6e9edd879@arm.com>
+ <ZuvqpvJ6ht4LCuB+@shell.armlinux.org.uk>
+ <82fa108e-5b15-435a-8b61-6253766c7d88@arm.com>
+ <ZuxZ/QeSdqTHtfmw@shell.armlinux.org.uk>
+ <5bd51798-cb47-4a7b-be40-554b5a821fe7@arm.com>
+ <ZuyIwdnbYcm3ZkkB@shell.armlinux.org.uk>
+ <9e68ffad-8a7e-40d7-a6f3-fa989a834068@arm.com>
 MIME-Version: 1.0
-X-Original-Sender: bugzilla-daemon@kernel.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=QzunUkmV;       spf=pass
- (google.com: domain of bugzilla-daemon@kernel.org designates 147.75.193.91 as
- permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: bugzilla-daemon@kernel.org
-Reply-To: bugzilla-daemon@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Disposition: inline
+In-Reply-To: <9e68ffad-8a7e-40d7-a6f3-fa989a834068@arm.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-Original-Sender: linux@armlinux.org.uk
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass (test
+ mode) header.i=@armlinux.org.uk header.s=pandora-2019 header.b=FCaBAyrk;
+       spf=none (google.com: armlinux.org.uk does not designate permitted
+ sender hosts) smtp.mailfrom="linux+kasan-dev=googlegroups.com@armlinux.org.uk";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=armlinux.org.uk
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -156,37 +155,152 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=206285
+On Fri, Sep 20, 2024 at 08:57:23AM +0200, Ryan Roberts wrote:
+> On 19/09/2024 21:25, Russell King (Oracle) wrote:
+> > On Thu, Sep 19, 2024 at 07:49:09PM +0200, Ryan Roberts wrote:
+> >> On 19/09/2024 18:06, Russell King (Oracle) wrote:
+> >>> On Thu, Sep 19, 2024 at 05:48:58PM +0200, Ryan Roberts wrote:
+> >>>>> 32-bit arm uses, in some circumstances, an array because each level 1
+> >>>>> page table entry is actually two descriptors. It needs to be this way
+> >>>>> because each level 2 table pointed to by each level 1 entry has 256
+> >>>>> entries, meaning it only occupies 1024 bytes in a 4096 byte page.
+> >>>>>
+> >>>>> In order to cut down on the wastage, treat the level 1 page table as
+> >>>>> groups of two entries, which point to two consecutive 1024 byte tables
+> >>>>> in the level 2 page.
+> >>>>>
+> >>>>> The level 2 entry isn't suitable for the kernel's use cases (there are
+> >>>>> no bits to represent accessed/dirty and other important stuff that the
+> >>>>> Linux MM wants) so we maintain the hardware page tables and a separate
+> >>>>> set that Linux uses in the same page. Again, the software tables are
+> >>>>> consecutive, so from Linux's perspective, the level 2 page tables
+> >>>>> have 512 entries in them and occupy one full page.
+> >>>>>
+> >>>>> This is documented in arch/arm/include/asm/pgtable-2level.h
+> >>>>>
+> >>>>> However, what this means is that from the software perspective, the
+> >>>>> level 1 page table descriptors are an array of two entries, both of
+> >>>>> which need to be setup when creating a level 2 page table, but only
+> >>>>> the first one should ever be dereferenced when walking the tables,
+> >>>>> otherwise the code that walks the second level of page table entries
+> >>>>> will walk off the end of the software table into the actual hardware
+> >>>>> descriptors.
+> >>>>>
+> >>>>> I've no idea what the idea is behind introducing pgd_get() and what
+> >>>>> it's semantics are, so I can't comment further.
+> >>>>
+> >>>> The helper is intended to read the value of the entry pointed to by the passed
+> >>>> in pointer. And it shoiuld be read in a "single copy atomic" manner, meaning no
+> >>>> tearing. Further, the PTL is expected to be held when calling the getter. If the
+> >>>> HW can write to the entry such that its racing with the lock holder (i.e. HW
+> >>>> update of access/dirty) then READ_ONCE() should be suitable for most
+> >>>> architectures. If there is no possibility of racing (because HW doesn't write to
+> >>>> the entry), then a simple dereference would be sufficient, I think (which is
+> >>>> what the core code was already doing in most cases).
+> >>>
+> >>> The core code should be making no access to the PGD entries on 32-bit
+> >>> ARM since the PGD level does not exist. Writes are done at PMD level
+> >>> in arch code. Reads are done by core code at PMD level.
+> >>>
+> >>> It feels to me like pgd_get() just doesn't fit the model to which 32-bit
+> >>> ARM was designed to use decades ago, so I want full details about what
+> >>> pgd_get() is going to be used for and how it is going to be used,
+> >>> because I feel completely in the dark over this new development. I fear
+> >>> that someone hasn't understood the Linux page table model if they're
+> >>> wanting to access stuff at levels that effectively "aren't implemented"
+> >>> in the architecture specific kernel model of the page tables.
+> >>
+> >> This change isn't as big and scary as I think you fear.
+> > 
+> > The situation is as I state above. Core code must _not_ dereference pgd
+> > pointers on 32-bit ARM.
+> 
+> Let's just rewind a bit. This thread exists because the kernel test robot failed
+> to compile pgd_none_or_clear_bad() (a core-mm function) for the arm architecture
+> after Anshuman changed the direct pgd dereference to pgdp_get(). The reason
+> compilation failed is because arm defines its own pgdp_get() override, but it is
+> broken (there is a typo).
 
-Sabyrzhan Tasbolatov (snovitoll@gmail.com) changed:
+Let's not rewind, because had you fully read and digested my reply, you
+would have seen why this isn't a problem... but let me spell it out.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |snovitoll@gmail.com
+> 
+> Code before Anshuman's change:
+> 
+> static inline int pgd_none_or_clear_bad(pgd_t *pgd)
+> {
+> 	if (pgd_none(*pgd))
+> 		return 1;
+> 	if (unlikely(pgd_bad(*pgd))) {
+> 		pgd_clear_bad(pgd);
+> 		return 1;
+> 	}
+> 	return 0;
+> }
 
---- Comment #3 from Sabyrzhan Tasbolatov (snovitoll@gmail.com) ---
-I've checked pv_queued_spin_unlock in v6.11-rc7, AFAIU,
-the missing check is `cmpxchg` instruction.
+This isn't a problem as the code stands. While there is a dereference
+in C, that dereference is a simple struct copy, something that we use
+everywhere in the kernel. However, that is as far as it goes, because
+neither pgd_none() and pgd_bad() make use of their argument, and thus
+the compiler will optimise it away, resulting in no actual access to
+the page tables - _as_ _intended_.
 
-https://elixir.bootlin.com/linux/v6.11-rc7/source/arch/x86/include/asm/qspinlock_paravirt.h#L45
+If these are going to be converted to pgd_get(), then we need pgd_get()
+to _also_ be optimised away, and if e.g. this is the only place that
+pgd_get() is going to be used, the suggestion I made in my previous
+email is entirely reasonable, since we know that the result of pgd_get()
+will not actually be used.
 
-, which, I believe, can be replaced with  atomic, instrumented `try_cmpxchg`:
+> As an aside, the kernel also dereferences p4d, pud, pmd and pte pointers in
+> various circumstances.
 
-https://elixir.bootlin.com/linux/v6.11-rc7/source/include/linux/atomic/atomic-instrumented.h#L4873
+I already covered these in my previous reply.
 
-I'll research if I can reproduce it via kunit test to verify.
-If there is a 4-year old tweet from grsecurity,
-that would be helpful :)
+> And other changes in this series are also replacing those
+> direct dereferences with calls to similar helpers. The fact that these are all
+> folded (by a custom arm implementation if I've understood the below correctly)
+> just means that each dereference is returning what you would call the pmd from
+> the HW perspective, I think?
 
-Thanks
+It'll "return" the first of each pair of level-1 page table entries,
+which is pgd[0] or *p4d, *pud, *pmd - but all of these except *pmd
+need to be optimised away, so throwing lots of READ_ONCE() around
+this code without considering this is certainly the wrong approach.
+
+> >> The core-mm today
+> >> dereferences pgd pointers (and p4d, pud, pmd pointers) directly in its code. See
+> >> follow_pfnmap_start(),
+> > 
+> > Doesn't seem to exist at least not in 6.11.
+> 
+> Appologies, I'm on mm-unstable and that isn't upstream yet. See follow_pte() in
+> v6.11 or __apply_to_page_range(), or pgd_none_or_clear_bad() as per above.
+
+Looking at follow_pte(), it's not a problem.
+
+I think we wouldn't be having this conversation before:
+
+commit a32618d28dbe6e9bf8ec508ccbc3561a7d7d32f0
+Author: Russell King <rmk+kernel@arm.linux.org.uk>
+Date:   Tue Nov 22 17:30:28 2011 +0000
+
+    ARM: pgtable: switch to use pgtable-nopud.h
+
+where:
+-#define pgd_none(pgd)          (0)
+-#define pgd_bad(pgd)           (0)
+
+existed before this commit - and thus the dereference in things like:
+
+	pgd_none(*pgd)
+
+wouldn't even be visible to beyond the preprocessor step.
 
 -- 
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are on the CC list for the bug.
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-206285-199747-15d0jNMmmr%40https.bugzilla.kernel.org/.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/Zu1EwTItDrnkTVTB%40shell.armlinux.org.uk.
