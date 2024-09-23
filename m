@@ -1,152 +1,149 @@
-Return-Path: <kasan-dev+bncBCZP5TXROEIPNDWGW4DBUBHYUR5A6@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBEMVY63QMGQE7Z5BAPI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13b.google.com (mail-il1-x13b.google.com [IPv6:2607:f8b0:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id A735997EE04
-	for <lists+kasan-dev@lfdr.de>; Mon, 23 Sep 2024 17:21:28 +0200 (CEST)
-Received: by mail-il1-x13b.google.com with SMTP id e9e14a558f8ab-3a19534ac2fsf28963995ab.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 23 Sep 2024 08:21:28 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1727104887; cv=pass;
+Received: from mail-pf1-x439.google.com (mail-pf1-x439.google.com [IPv6:2607:f8b0:4864:20::439])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEE6F97F18A
+	for <lists+kasan-dev@lfdr.de>; Mon, 23 Sep 2024 22:07:47 +0200 (CEST)
+Received: by mail-pf1-x439.google.com with SMTP id d2e1a72fcca58-7197cce7697sf7335751b3a.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 23 Sep 2024 13:07:47 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1727122066; cv=pass;
         d=google.com; s=arc-20240605;
-        b=MZcm1L7hgUwBvhKb+W3IiwLIYosucQzH3CVQfWVLzVkRN8O2dlASl7SFYAD0plNOWR
-         38/Ua2B6c4mX8jv3K3CNQVxMZkW4CNUKFap9w9txtQg7pjY+h45cwb6YfDzGbFjfpl47
-         ytRkSo043hwvzlmookth+yOx4tA9qfWg4TFdmI5p4XxMyWbFvFYHxDd/ZaYTxUff7LD8
-         OHwGT4l28kLGerPsQW2SK17Vp2GH/W08tipg1G6kK7QrSjeWw3my/xpJS1GQC4FBAhKG
-         XjtmdmPxdQP+U5QqWdbQYoM+xbI4yah8WlUlw29xbYyq3Y86FqRzq0WtyCRMbvGhcua1
-         5SPw==
+        b=RPKvZQMnfbqcypSxyNdJLzY/UvHBzapokYONiHga7Xj4cKVShkrwxuxkl8teY8sy/U
+         2kfi3lT/uXb5z30cL7uub88cu/RGaHjEDP9QpN7Ih3vRTra709UEh6ftUN4VwuCdd13f
+         yX83taG+VVANI4CS5EEO6FPyB7l81LMrckDfTV+Um2ViY/HlnmiIxJQL+aOPLkWeUqO5
+         gfy11X/AUmgvhFhcJ/EvTm4QArj07JOD7/JEFAsUHMmHg+f5D2bua8Tb9jGlbLvYvTcj
+         Fzu5x2LWfs4HAAoISXH9JwVbu5U1mTND57rGYA91sboWK/B5bdQMkzMzEU8fcGDk4CJ4
+         aHSQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:dkim-signature;
-        bh=Ru1yVp1Ubk8mk+6pRBSGgUvrIQBoA7rkpZq3ZnfbXgE=;
-        fh=j5HHdU+tuZJw/W9JIsvh9zfQtMnASpNAftWHUg6bmUk=;
-        b=lC5Btl1HxRyrDATOx2LYuo9l8e3Zb7z9evlEIXdtnJsI3xxT+BpWm9Fh2c4XEbYYmM
-         Xkw92gH41bgPIyGs7HS2vP2VYkxdzLeXB0PF9zPY0aheIgaeF7txKeFbE0rfrhwIDsfU
-         Wp7DwvNGQr5YEwozttdErMfL6SqaMEo/1+83gVViodi8YKe1NJuGkhy0AICe3w7pd2c2
-         2JQYhkwVvMB2LKe29abBUatRrV4eXaTkiYtxb3C+FSAn88/57AOx/wPuCyrjI2ZEoeA3
-         +B4Ac/X8MY4MD7ic0L7b391nDTU5IJbU6W+lFckKyPM9+xh0cmdBn0ipDH6rc9e+bhQK
-         +YCA==;
+         :list-id:mailing-list:precedence:reply-to:mime-version
+         :auto-submitted:references:in-reply-to:message-id:date:subject:to
+         :from:dkim-signature;
+        bh=I5t4HBuM7Unw8LEQ7sIDYrdnHj1WTFE0uN1LJc4CF24=;
+        fh=0IRJMcz6aPQZ/opEDb17yDB0sRjFA/LtDoCmQYVTB8A=;
+        b=XKt1vpS4Wnly+kNAoo/ZqS5AEYePsQhfMFAnkWNSZFiwooJRtKVV+7AmfMu0JupX9E
+         VABxxjvw2PPT+MqcGhexOQZegbFLDPbJ4gaI5ymGThGXunhCjBDOdZ4aBYLr6PzEzijj
+         jIlX2pA5QfjfvgufcAzT3+9x6IjPuW0GMYmiUtmAptJpiFqRtZ1sUXa44Mf531hr+EJF
+         wuufhQUROHAQcN1IJ8ZEDJIp5BwTdyD3yN/+Ma3btNCQkTdD6794sIAFy+BxTt1tkBPA
+         Jq70X98lAJAK+yQVanalhH3I1r9+ywQFSW7CEaIEtMH0+FW3UokxwO8bNt9n78NTLzvt
+         tQSA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of ryan.roberts@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=ryan.roberts@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=WxUte0Sc;
+       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1727104887; x=1727709687; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1727122066; x=1727726866; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ru1yVp1Ubk8mk+6pRBSGgUvrIQBoA7rkpZq3ZnfbXgE=;
-        b=C7h54iA78guWFDOlKafvSgJysN4ytYVRmYlwO1dR6NpRKQDCKUWYTRyzDAQIW6ze6d
-         oXxMQboxShEl/zLHBcg7+wnTe8fGsiRyvLNn32f6qggWh0FHChDakahwiW3QTskADOY/
-         DU1/KsB0RV+LZJ/9C3GDbNhRtbHgm5BEb92vm/hGIQLxbRhY82pzvujvg/M+p4Bx+mS3
-         4dIKoTZB/voHFfwmD8XR4JcYh2d4JGGDaeDFpw/i9Svyijdy/GqVWiFhyawJtP3cUIoM
-         vwBdvSk3jrU/1jH9I2SxNWnCa+UwKOmllhvzcTUo6xYMLgp398VjfGCmurCz0qCxzfeY
-         uUHQ==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :auto-submitted:references:in-reply-to:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I5t4HBuM7Unw8LEQ7sIDYrdnHj1WTFE0uN1LJc4CF24=;
+        b=lIncmftI2yGYaY1C0oSOmliSngbpVmbJyzJAAEyJPxWoNQ9eXYgHHQ4BWUopgh7+h9
+         Atu6UGMAtH0yIAsmmwtPId1S28EA0cloMrjrxG9KiGGXtAEwnmym4e+7PprzMICfik+j
+         2q6P+d8Xzo2wIDosEEY/HxK8O6DFZSCSYECG74hnpH/wO5qJXGxDShgiHJiZGlAWgRxJ
+         hOWalUl+A/bGvtQ6mZhOIZ0zjKHPfSxqrRGsKDc4m8bW/yciTlYdV/fUSLgDxRX6/DVB
+         rUNdVjVzRqNnDyEibt6pp8q/VcWekpV3pZkalBHEh8cvSAs7tKASH4417lPcurWg3HFR
+         6PoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727104887; x=1727709687;
+        d=1e100.net; s=20230601; t=1727122066; x=1727726866;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Ru1yVp1Ubk8mk+6pRBSGgUvrIQBoA7rkpZq3ZnfbXgE=;
-        b=V71TRaqrv5k5zorbTBj69701Dhm8tO8RoxpqPv0nRrvGXutKLK+RY9T7WisHv5PaiJ
-         qnQsE+tZKxUDWt9O0axqrqQoiNNJLFk6rOygB0z3crQ+VR1i6jGLlhlp1TsS+Ef9T9Ls
-         v8kFH+Ub+1DfU1m0KLtfqViKKbk1yvueuQBWWe0rgizkgY4Wo6BlZYYKj3/I14/r3ZlA
-         MqXC0xuSUj0Kn5edQVluqeSRZ5dr/g92kqQ344Mfw3LATm3jr1yLEkgpkNN5xQqs8HLd
-         NE07S6/Etsv5mJ3j4jREUNXzLiN7dt0gLVt0LQWvMuYpvLmKpwgwYum26jVEFhah3WLM
-         thHg==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCX55M2tROejgOTknthAiT8CFuUZMfJsQi+eL0oLwlq9/xmC4yhiMWEkZq2xdKhNxWAwUN8a0A==@lfdr.de
-X-Gm-Message-State: AOJu0YyIYBFgAT0LeOmTxTdA5Nn0WI5KPexiHkqcpzjffF4XHflNka6J
-	c7sbNW9ibi6lBgV8sA+RCznblhH2Yc9gpBXwBYO7piIXXejnh7Oh
-X-Google-Smtp-Source: AGHT+IFN1NYesdVPEldibNrA7LUXROKgFsBjHTAMQaXkUK0i6UHb8J+h8B+NHWQ+8Kebzv8bitB9/g==
-X-Received: by 2002:a05:6e02:1a43:b0:3a0:a070:b81 with SMTP id e9e14a558f8ab-3a0c8d2ea34mr114185415ab.23.1727104886697;
-        Mon, 23 Sep 2024 08:21:26 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :auto-submitted:references:in-reply-to:message-id:date:subject:to
+         :from:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I5t4HBuM7Unw8LEQ7sIDYrdnHj1WTFE0uN1LJc4CF24=;
+        b=Azs13sogPoyIIOMZmNlW2MUc5dWACA/5vLnduT24KrWnasCFtUbQoGi4aEmAz610Rf
+         xNLVCDteHPODkW/I1Kuj74cTRbuT84zYVyNZBsGEgvO0UY9pK9vLAncfs0ixXRePJvVn
+         UHDj7d6L7kyYMzqcFvK+BBtPuGK1X+o6hbIDmSol4HrA8ZNCxw/iFjZhfuRQDmgpUTy+
+         gkBvaDvKBCDFlvypzc9nHjXecPw6P17TtFUiAJtmvrgEKV1n/vvI7lrPdRjRHhxn4P+q
+         u8vLwBJpHaukAUepqmnNJ7nZW5sZ5aJNaP+A1r/VbYD2bQGHTPme4LXPb8Su0SCoREH4
+         v+sg==
+X-Forwarded-Encrypted: i=2; AJvYcCWGCITetb3rBXraUkJvSsDflD72nbZWN2NJbnVleI1pv6JsgTqSQpAIORIRuwZNOHJ7VcuCYQ==@lfdr.de
+X-Gm-Message-State: AOJu0YzbFeWRJdk4TAJ0bp4o+sK2EyC6PD/093xGlXPRva6H2ZgFJ+Ba
+	1tSZEOO3oFFL9VOnMYCcwWkkzUtQO+r8/og0hwppsvM8k6q0JbxX
+X-Google-Smtp-Source: AGHT+IGFFS/Lx76OXFd9iVth4U7vQow842XRUx+gVTj1L7EF/NwsmvFNW2jyawicAQh0JYS6HF/+bA==
+X-Received: by 2002:aa7:88c8:0:b0:719:2046:5d69 with SMTP id d2e1a72fcca58-7199ce0d060mr19405251b3a.22.1727122065485;
+        Mon, 23 Sep 2024 13:07:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:1945:b0:3a0:bc59:71d5 with SMTP id
- e9e14a558f8ab-3a0bf1664ddls22743895ab.2.-pod-prod-02-us; Mon, 23 Sep 2024
- 08:21:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCV3/k0p9kTGq1p65TzMm71r0gjHxre1oc6m3Ng0VxJT+XKrnFf4F8aUGOTkpZm8Vr7dbAFqaTwJLEQ=@googlegroups.com
-X-Received: by 2002:a05:6e02:2162:b0:3a0:b384:219b with SMTP id e9e14a558f8ab-3a0c8d4282bmr92064045ab.26.1727104885209;
-        Mon, 23 Sep 2024 08:21:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1727104885; cv=none;
+Received: by 2002:a05:6a00:cd0:b0:717:8044:3166 with SMTP id
+ d2e1a72fcca58-7198e66b3a8ls4106730b3a.1.-pod-prod-08-us; Mon, 23 Sep 2024
+ 13:07:43 -0700 (PDT)
+X-Received: by 2002:a05:6a21:4d8a:b0:1cf:9a86:73e4 with SMTP id adf61e73a8af0-1d30c9fa444mr18470889637.14.1727122063424;
+        Mon, 23 Sep 2024 13:07:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1727122063; cv=none;
         d=google.com; s=arc-20240605;
-        b=PB2ORGjYp5yUBmrPR9HrQP3YwDBbEIbYPwBroIgAPRcdDYc5DxKvoz4q6C/CS3fOea
-         OkU3Ns4N+x87hq75wXO/meRI1Qvo+sJtP4zVYnRLyU4BUBGli0p0ZK+7sJnVEgodDz+s
-         M6fXy+wrE+8quICXmFxs+1qCCAdxeggoOSXP94KobvfAOleORYb4JU/6M7j+6N+3ceIo
-         iMYZWKPn68WOCmuqiw0CiVjtPhK8rSpD5w6pH2JOyU8efBVpkeQv5MCKSoF/vtUkYMrP
-         rQODwEcvwIlIfg6D0m6KFYmsjtZ01WwUcPlQzDqLHy/uylBFjLOcn5f+FXikdOpp2Edr
-         +F4Q==
+        b=FmflHHJI4QxZOymysFuRRKBCzHkcV01OxjLvgq5Z4C4l7rFdkett8aQ2yneY58GQVe
+         qVcw0MOo3r8CGceRx9FRguwiFSQENUmn7O7YdZxvvKzfHVr/oOh0P8DeeuPj8ZFXfI2m
+         8me/XqkdFsBk9VpTaUVdW0QZjhY9ydvZzfvsoTdQlsy7UwifhDW1DzysG5uYlXr5qObS
+         jaoME3f7sm6NxRSeVpV42ZIGijSez1UX02BDvWGsf32be7gKzzwG8NUlq7yaBecHbfQW
+         yuHWgpEMQfty+sqHoPhky7o0fCnqUr89mpUQgsjtpqfHs3FZ6TfYL2dw23HwjDaNAjXA
+         DGMw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id;
-        bh=1q2jz1CK7eOsJJb0bvYMQalo6dVdgNgYBjoqos/dtys=;
-        fh=GF0OURt1aobVVYo7M3iRXWSqWc1A5XkS9a4tiebN1YY=;
-        b=RVytHFWdITbhSy/CHDljS7dDJc/9iKRiuBdRAUsdoqRO6gR0nFoeKiSMhEmqGzSaec
-         v8G/AM9TQw1Wcuvqai94pawYM+SPdEh99sfMmpdYCEWou/9STro3sBQUWMMx6O5COzSC
-         jv/kspwf7eBWjnjKXn2hNOboRktQSAxzFEs+ogZn0wQze6phhImyuO/DBw2YdEmQNq8q
-         1yB8bD59kHiSnrkqQcuIpMb9tJmkSU+7Zec8WHkWpNcTxMsmpdgPpDTYdKXcCWB2RQJs
-         GAiy34SfsIN9Cer7Ps+A5HE1/Vu3NdljYFQQ4HClNO82eJnOr16FsrG9xcF0yF5Rv/eE
-         RtKQ==;
+        h=mime-version:auto-submitted:content-transfer-encoding:references
+         :in-reply-to:message-id:date:subject:to:from:dkim-signature;
+        bh=kjR0WrBijx4WMsuCB3oIGnfR98FGQ72TMgKg4EmYXNE=;
+        fh=uQCsmYQr+KJEcG63Y45gsyDulzJl/B4EdEfpx8XrGGo=;
+        b=bZKvO1+IZBYZ1PlMR5i+YBGvXDcqXIwDOAG+3VHYyQER2z+WCS3N3T84wt1B26lzM3
+         NvPSa5tUC2G9W6rqeW57KNav/myleMevG/8dwTTzCgkvs8Zu5FJ20dwd3n7cSXecC/qY
+         UsJQkbsSi0KGqgkY9g7N4McFW4tAe1Qfjw4NteHE9CNhppsjARNFV8GRLYY4ykG1bQCF
+         Q4KoicX8q2oYVmN33+gkTpySHYxGg99jwOT5k/Dk8D3bnY6yLDtROU9eDlg1H5c57jOf
+         Bj4qIdWxlvLZC0ehjvNMlVW1LoI+e6a0ly6QJkO2ZZlj5kfyp3h+JKXskP1VY5tsOK/H
+         EllA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of ryan.roberts@arm.com designates 217.140.110.172 as permitted sender) smtp.mailfrom=ryan.roberts@arm.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from foss.arm.com (foss.arm.com. [217.140.110.172])
-        by gmr-mx.google.com with ESMTP id 41be03b00d2f7-7db49a17343si940421a12.5.2024.09.23.08.21.25
-        for <kasan-dev@googlegroups.com>;
-        Mon, 23 Sep 2024 08:21:25 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ryan.roberts@arm.com designates 217.140.110.172 as permitted sender) client-ip=217.140.110.172;
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 80143FEC;
-	Mon, 23 Sep 2024 08:21:53 -0700 (PDT)
-Received: from [10.57.84.103] (unknown [10.57.84.103])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B4B793F64C;
-	Mon, 23 Sep 2024 08:21:20 -0700 (PDT)
-Message-ID: <ebf8d9c6-867d-4e50-9e98-5d7f854278d8@arm.com>
-Date: Mon, 23 Sep 2024 16:21:18 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 7/7] mm: Use pgdp_get() for accessing PGD entries
-Content-Language: en-GB
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Anshuman Khandual <anshuman.khandual@arm.com>,
- kernel test robot <lkp@intel.com>, linux-mm@kvack.org, llvm@lists.linux.dev,
- oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, "Mike Rapoport (IBM)"
- <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, x86@kernel.org,
- linux-m68k@lists.linux-m68k.org, linux-fsdevel@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, Dimitri Sivanich
- <dimitri.sivanich@hpe.com>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Muchun Song <muchun.song@linux.dev>, Andrey Ryabinin
- <ryabinin.a.a@gmail.com>, Miaohe Lin <linmiaohe@huawei.com>,
- Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
- Christoph Lameter <cl@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>, Christoph Hellwig <hch@infradead.org>
-References: <20240917073117.1531207-8-anshuman.khandual@arm.com>
- <202409190310.ViHBRe12-lkp@intel.com>
- <8f43251a-5418-4c54-a9b0-29a6e9edd879@arm.com>
- <ZuvqpvJ6ht4LCuB+@shell.armlinux.org.uk>
- <82fa108e-5b15-435a-8b61-6253766c7d88@arm.com>
- <ZuxZ/QeSdqTHtfmw@shell.armlinux.org.uk>
- <5bd51798-cb47-4a7b-be40-554b5a821fe7@arm.com>
- <ZuyIwdnbYcm3ZkkB@shell.armlinux.org.uk>
- <9e68ffad-8a7e-40d7-a6f3-fa989a834068@arm.com>
- <Zu1EwTItDrnkTVTB@shell.armlinux.org.uk>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <Zu1EwTItDrnkTVTB@shell.armlinux.org.uk>
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=WxUte0Sc;
+       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-71afc72c848si2771b3a.0.2024.09.23.13.07.43
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Sep 2024 13:07:43 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bugzilla-daemon@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id DA2DA5C5930
+	for <kasan-dev@googlegroups.com>; Mon, 23 Sep 2024 20:07:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 70847C4CEC5
+	for <kasan-dev@googlegroups.com>; Mon, 23 Sep 2024 20:07:41 +0000 (UTC)
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 59499C53BC4; Mon, 23 Sep 2024 20:07:41 +0000 (UTC)
+From: bugzilla-daemon via kasan-dev <kasan-dev@googlegroups.com>
+To: kasan-dev@googlegroups.com
+Subject: [Bug 218854] KASAN (sw-tags): multiple issues with GCC 13
+Date: Mon, 23 Sep 2024 20:07:41 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Memory Management
+X-Bugzilla-Component: Sanitizers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: andreyknvl@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: mm_sanitizers@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-218854-199747-xKOkjxZucJ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-218854-199747@https.bugzilla.kernel.org/>
+References: <bug-218854-199747@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: ryan.roberts@arm.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of ryan.roberts@arm.com designates 217.140.110.172 as
- permitted sender) smtp.mailfrom=ryan.roberts@arm.com;       dmarc=pass
- (p=NONE sp=NONE dis=NONE) header.from=arm.com
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
+X-Original-Sender: bugzilla-daemon@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=k20201202 header.b=WxUte0Sc;       spf=pass
+ (google.com: domain of bugzilla-daemon@kernel.org designates
+ 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: bugzilla-daemon@kernel.org
+Reply-To: bugzilla-daemon@kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -159,114 +156,19 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
->> Let's just rewind a bit. This thread exists because the kernel test robot failed
->> to compile pgd_none_or_clear_bad() (a core-mm function) for the arm architecture
->> after Anshuman changed the direct pgd dereference to pgdp_get(). The reason
->> compilation failed is because arm defines its own pgdp_get() override, but it is
->> broken (there is a typo).
-> 
-> Let's not rewind, because had you fully read and digested my reply, you
-> would have seen why this isn't a problem... but let me spell it out.
-> 
->>
->> Code before Anshuman's change:
->>
->> static inline int pgd_none_or_clear_bad(pgd_t *pgd)
->> {
->> 	if (pgd_none(*pgd))
->> 		return 1;
->> 	if (unlikely(pgd_bad(*pgd))) {
->> 		pgd_clear_bad(pgd);
->> 		return 1;
->> 	}
->> 	return 0;
->> }
-> 
-> This isn't a problem as the code stands. While there is a dereference
-> in C, that dereference is a simple struct copy, something that we use
-> everywhere in the kernel. However, that is as far as it goes, because
-> neither pgd_none() and pgd_bad() make use of their argument, and thus
-> the compiler will optimise it away, resulting in no actual access to
-> the page tables - _as_ _intended_.
+https://bugzilla.kernel.org/show_bug.cgi?id=218854
 
-Right. Are you saying you depend upon those loads being optimized away for
-correctness or performance reasons?
+--- Comment #1 from Andrey Konovalov (andreyknvl@gmail.com) ---
+Mark Rutland posted a detailed analysis for issue #1:
+https://lore.kernel.org/all/ZvFGwKfoC4yVjN_X@J2N7QTR9R3/
 
-> 
-> If these are going to be converted to pgd_get(), then we need pgd_get()
-> to _also_ be optimised away, 
+-- 
+You may reply to this email to add a comment.
 
-OK, agreed.
-
-So perhaps the best approach is to modify the existing default pxdp_get()
-implementations to just do a C dereference. That will ensure that there are no
-intended consequences, unlike moving to READ_ONCE() by default. Then riscv
-(which I think is the only arch to actually use pxdp_get() currently?) will need
-its own pxdp_get() overrides, which use READ_ONCE(). arm64 would also define its
-own overrides in terms of READ_ONCE() to ensure single copy atomicity in the
-presence of HW updates.
-
-How does that sound to you?
-
-> and if e.g. this is the only place that
-> pgd_get() is going to be used, the suggestion I made in my previous
-> email is entirely reasonable, since we know that the result of pgd_get()
-> will not actually be used.
-
-I guess you could do that as an arm-specific override, but I don't think it adds
-anything over using my proposed reworked default? Your call.
-
-> 
->> As an aside, the kernel also dereferences p4d, pud, pmd and pte pointers in
->> various circumstances.
-> 
-> I already covered these in my previous reply.
-> 
->> And other changes in this series are also replacing those
->> direct dereferences with calls to similar helpers. The fact that these are all
->> folded (by a custom arm implementation if I've understood the below correctly)
->> just means that each dereference is returning what you would call the pmd from
->> the HW perspective, I think?
-> 
-> It'll "return" the first of each pair of level-1 page table entries,
-> which is pgd[0] or *p4d, *pud, *pmd - but all of these except *pmd
-> need to be optimised away, so throwing lots of READ_ONCE() around
-> this code without considering this is certainly the wrong approach.
-
-Yep, got it.
-
-> 
->>>> The core-mm today
->>>> dereferences pgd pointers (and p4d, pud, pmd pointers) directly in its code. See
->>>> follow_pfnmap_start(),
->>>
->>> Doesn't seem to exist at least not in 6.11.
->>
->> Appologies, I'm on mm-unstable and that isn't upstream yet. See follow_pte() in
->> v6.11 or __apply_to_page_range(), or pgd_none_or_clear_bad() as per above.
-> 
-> Looking at follow_pte(), it's not a problem.
-> 
-> I think we wouldn't be having this conversation before:
-> 
-> commit a32618d28dbe6e9bf8ec508ccbc3561a7d7d32f0
-> Author: Russell King <rmk+kernel@arm.linux.org.uk>
-> Date:   Tue Nov 22 17:30:28 2011 +0000
-> 
->     ARM: pgtable: switch to use pgtable-nopud.h
-> 
-> where:
-> -#define pgd_none(pgd)          (0)
-> -#define pgd_bad(pgd)           (0)
-> 
-> existed before this commit - and thus the dereference in things like:
-> 
-> 	pgd_none(*pgd)
-> 
-> wouldn't even be visible to beyond the preprocessor step.
-> 
+You are receiving this mail because:
+You are on the CC list for the bug.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/ebf8d9c6-867d-4e50-9e98-5d7f854278d8%40arm.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/bug-218854-199747-xKOkjxZucJ%40https.bugzilla.kernel.org/.
