@@ -1,155 +1,161 @@
-Return-Path: <kasan-dev+bncBDLKPY4HVQKBB4WAZ63QMGQE4WCB6XI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDRZHGH43YJRBEWIZ63QMGQEMNFZWFI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B4A9856E0
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2024 12:05:40 +0200 (CEST)
-Received: by mail-lf1-x13b.google.com with SMTP id 2adb3069b0e04-5365a82e3dfsf4354049e87.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2024 03:05:40 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1727258739; cv=pass;
+Received: from mail-qv1-xf3d.google.com (mail-qv1-xf3d.google.com [IPv6:2607:f8b0:4864:20::f3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFDB4985717
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2024 12:21:07 +0200 (CEST)
+Received: by mail-qv1-xf3d.google.com with SMTP id 6a1803df08f44-6cb25c3c532sf5201716d6.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2024 03:21:07 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1727259666; cv=pass;
         d=google.com; s=arc-20240605;
-        b=asHw8/+y3vOc3jCvIuyMcRE+SShAf/jCexmr8/YsERYpPifa1hfbeZVPNJTuBzB5T4
-         GzFKycaFsrUpHCmHDe9i3HbKZCq2t2X0m7ZRCkLH7V2nz62Vc89VefvJvTNDQHXyI/bk
-         qZdsWSEuIrwVTTTKHKgME3V9CpcDYefC4q3ZYidPh9E9oyGVXgV1gNTg4Vv+5v0quOO1
-         UIKx8psK6W5YRBbXb9lDbKRdX1FqhGp6RIzGe2qgwUexoP05cIAEqDBKGR3GiM/NcDdH
-         iLCkq21yGxwVC7U3vcplUna22xV7FIbFwDScNQcIKo1W6QyNTlRK5zySqApY3DC2dhLl
-         d6oA==
+        b=a+vHD5B8BgJqAvOCssLyEbifRnoF0B/svnlNZTKq+NOaUh5OjvdQUqhB1Evd9Na7Mm
+         V8k51bNzOsTBzkujZLQYn7cjOntubn/o/MIn9YkcrYRRtkZn+R2m0k5zA2lfpDcJlZ62
+         HcChfX/2WpSkdbaNFOpuCe+WId3WRAbtgTJ6+zKXlF50oc2lryKbp9Cx39WCHuYbd6JW
+         C0fJViiPwn85K6WT0RpKMJ9MKvB9tajEvy7D1XdeIKTm16ihRmM5jJnfI6YSdlVgtGpc
+         veQaJPnd4hTBt2t+cYhv65CV0Px4awzDej0m3l/sGIJYybLHuFZpY3PjCdVQ6oaC/ZsI
+         gKyw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :in-reply-to:from:content-language:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:dkim-signature;
-        bh=6Hwfy+WjAgfYQCdtzWzWUFcNdyhwCq9Ij/t9Y9AC6mo=;
-        fh=0AQvAw4d8wX7/6t7q2pzMY8KRbogH113ywpPeIypuu8=;
-        b=JsTEJobQ24fooUkl4iEWq3gnMyPQ+7ZVLEduVccztpdeEq3pHlfzdylQBb0sv52Y70
-         6+r8Wk2GIOvKYhU6TQlmfTSWzcr4/7L4QiH97CyIWovmOA/npZN6ULeIFJ898rrhfO/U
-         TvmLzXzNIVngjHZGsPnfNnA3NYg2gAwm01blU2TZWLB/Mix8ZyWgYGKR36co1pBEVqpG
-         lco5M/F7MzbXWmr3YDy5lMabxzaFBU7qlfWMa3e7NidVTH2b79zVszhMYkSNb9szpdIO
-         iavqFrkA0iolS+6q3SbNrrQPCg6EaujDIRTydUj2m38+AYhFnDakTeVSXz5xYIlnXoNn
-         hGeg==;
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=/4PnJVXR1rwfBF/kAjX/4qBkYeyC8P5WiAs4MPe4ujQ=;
+        fh=+3ce95lPBLS+0pFQIiKFVbuR/psadctLEtlEerlDMbY=;
+        b=bhyR3eDZSvY1VY30J5HqHMGiFH66qt0TFAPUwXToeMKZLeudvbLD2YZre//BctlKEh
+         eHpGLnT91pOC9G7XLJoOQn2CGblcX3fPi+VC+zEz3+1zI0A4A8wnspS0qIcv/wGZR58R
+         q7fVCx8jD7u1La8w4ctw3Cq8h3s2WtcAhcu3lc+PZJQKWcASZUu9+SCMxPhklrljaq24
+         AoEsDa81TFpAhpyALJRieQ0rWCVKUJ5HYLgjQQS96wxCIw/St/6dj2ORhq0arBtuxhX8
+         NtamMnrsYxX0W8yJoBeq+JSsDyxPVrMbwpCo0AcOqtv67E0j9ckXN9E9kuBqB3tt62Fq
+         BLlw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=QIAdwo03;
+       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1727258739; x=1727863539; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1727259666; x=1727864466; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=6Hwfy+WjAgfYQCdtzWzWUFcNdyhwCq9Ij/t9Y9AC6mo=;
-        b=Zr037xKo0jVMQQ5Q3zMsapwwYNSOcuHuHJS7JK5YQagPWRWZHg4popbNoFnpnxLWKR
-         6E7IzEqOULi0fxu+U5mFchk1mlvIwyEQ1DUpcKNiUDAnj4QO+I0CVBBbMLe+bxm0B3fs
-         ///g/Ip3mcruHG3y1V9cGmd8ht6v2wOMg2wkttkjxyZy+v/awIYikds2lc6p1L6yavD5
-         Pd8Wlz4SqUweHJoOluAgU4Ds12SLJvy/d9Hxw/eW9vUl3+aZD2x4WGghh49ID7DI8hRe
-         YCAKlZg09Uiq9dRx5Tz7J5ErWts5v5W5e9zQ/KLLf3SGrECkAyd6HIksNn66JlL3fXBL
-         1Cdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727258739; x=1727863539;
+        bh=/4PnJVXR1rwfBF/kAjX/4qBkYeyC8P5WiAs4MPe4ujQ=;
+        b=l7AbdsYSLhL9D+AL/GPTdPq4GmhBNu1V9TLCGc8ZoLMb2zbLgibh2CmyCWOYgY8RGn
+         EJkH5vkDPf4y7wMFU6V2w31fIDH2gkTOLI/vbUKN5+2N3r1WdTN9XJBxf2+Tbx0/jh7j
+         KB9NUdNmqiW7N6e6CpV5WQrzTudeVU9vulsSG66zJtuG2UlsMalq8MIv4b2ld3hdcijl
+         60k6zdkZgSWzbqYaf6d6Ews8fv64+7uK9e2utsKNi6rCDSFuYONBJamTDndcGDkm3Yo2
+         sE6PyNd/VgXHvvgxsLoZPYqnZ94WEdQ7d2dYi59NGTxrOf2GuEgKqCCDFe19IMcKBdue
+         TjBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727259666; x=1727864466; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/4PnJVXR1rwfBF/kAjX/4qBkYeyC8P5WiAs4MPe4ujQ=;
+        b=XQBs4lJUUesXKCJxoytmBq9hFfkGo22SsFI0wK7/FkRqIZpnsGzOkn6yMy/aoEmpJh
+         YHFTY7T/vR9jt5HjwsKwqGUDrbiaHnWfVUm5Gk8XdG1RH37m/7du4q15g/LMaRkjM2K+
+         l6qyA2y5OgMBwyzLrF0LM57+i1F2DypvABYVwlReHVrB0Syp9+dOuxAOs/qxVAxJmJAJ
+         fg+e8E8XgpXjKSpiidqRd+PU+3YBFztnSYzsItnJmUDX98HHUm8hP0xo8lrBJF/bkFuV
+         MBt8eqmjyYmfmx7xCbdLkzd6RX7kWxv2GKdKc/IjRjP8g57nPTd4pkD+HKIg+yHEUb0c
+         xMEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727259666; x=1727864466;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6Hwfy+WjAgfYQCdtzWzWUFcNdyhwCq9Ij/t9Y9AC6mo=;
-        b=b8YIx+q4eRZbtRCTCst1iT45dSpTpQuE9KGqRq7T2/81cKBkAD0D0T6d/2wENjMw0z
-         2uVUCCDyA9djDz8njt26gNhIM3CMNTW+shi4yk/Ibf4chpdRTigXz5Bcc2dTF/ts9QtH
-         cidPkHN8PLCmPvjt6ptq+n+TTyY0bH5dYS4St+KzdlXAX+yG5/BAaVN0o9DxsaGgGIco
-         sobcZ2Ewa0CQhntaWVyok8qmZxa2Jt+EqyYrpfFfHFJg8r46kqOqpYoV7jYjujBLI2oC
-         t5OSGyfqln19wAlZguo6Sft51C7WrV/dsE+2C1bJHMDgO6aM7Y+AC5+WRZAcHdtlZLKY
-         0GtQ==
-X-Forwarded-Encrypted: i=2; AJvYcCX+EPRepTbchzTW1/S4dp7oL3xh/Nau+TEzJzBeDBI+qz084v9rox2BGe4vEvm5euTQ4PghGg==@lfdr.de
-X-Gm-Message-State: AOJu0Yx+K0Qa6GMOQcVZiGudJ5aHqfHqjLybE6AGGt1byrBEkEnw8bYl
-	YQf3ZKgxxbF7a5UojPVLfWLEtDLjF2VfUOAWF9Km5tAGX12J1+8i
-X-Google-Smtp-Source: AGHT+IGgvtxj0gxt4K/RmNg0WBbFBmFTT4vztyQD1IiMtba9VRvxlHZZUoRJp2b4ftbnZjVi6FSYZw==
-X-Received: by 2002:a05:6512:104f:b0:52f:ca2b:1d33 with SMTP id 2adb3069b0e04-53870498612mr965650e87.20.1727258738561;
-        Wed, 25 Sep 2024 03:05:38 -0700 (PDT)
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=/4PnJVXR1rwfBF/kAjX/4qBkYeyC8P5WiAs4MPe4ujQ=;
+        b=nYYJAI7bQ2EwPEM9cX/zQIvqrCzNHdpPQ3GLMTtk9ON6K8tj/POzv+b0brLjss8e5z
+         IGdk0iTyeSXbL5AKzHqkeGsfYAI6eRBLiQGh6FLn4I37/7eaJyCUo9xkX8QxDNbSdGJi
+         fja1z3IjPVzxE1ho5tSwptogt6pPAaSO9taSa/Jkjrbplise9U3msDIHOv6kro2+BUdN
+         +eNJ685vTZL2VT4URyctP8o+VykVnfUPMtR6/jtYwrwDZoVXsuu8xbDk4J6T/grJok6o
+         f9vwUhZy/sNejNY313NV6Ve/bX1HmNN+PRbs5pRQ22M9pIsZlEEcKd6vd3xnseyD9KHr
+         jygw==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCWRxhZn3OIn7AXfblV1lGDn1slQObvUUOwXTEw+bGoLy79aHVbbqdexf93Duli5BvvfECp92Q==@lfdr.de
+X-Gm-Message-State: AOJu0YxQ9o7Z4+lF0s2RUDnOY5zdKdGGU6Z0VGbvu2hhoWxRhRsRFlC6
+	n3ou0wKDITl6OgDepAjXV+y3VBwfCsJrGk/1m6vVieV/BL9SzNg6
+X-Google-Smtp-Source: AGHT+IF/ru3yzDsly3GTxsT6lLmdeHfq0/pOgfDFcJJ+xtbT7JXo8Jmxnou9oURVdyC5BhV2f3fxqA==
+X-Received: by 2002:a05:6214:3d87:b0:6c3:6d8c:b293 with SMTP id 6a1803df08f44-6cb1dd15d65mr43566116d6.7.1727259666367;
+        Wed, 25 Sep 2024 03:21:06 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:2524:b0:537:aba1:16dd with SMTP id
- 2adb3069b0e04-537aba11932ls528033e87.0.-pod-prod-01-eu; Wed, 25 Sep 2024
- 03:05:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVqTy0u53q0o77cGzoqUSDot/SkKMIHS+A0PJ1maYi7EULY4pYEsYPZ00tKn2KS9FuXXE6vOC1zk2w=@googlegroups.com
-X-Received: by 2002:a05:6512:238b:b0:535:69ee:9717 with SMTP id 2adb3069b0e04-5387048bc5bmr1133917e87.3.1727258736539;
-        Wed, 25 Sep 2024 03:05:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1727258736; cv=none;
+Received: by 2002:a05:6214:2348:b0:6c5:15ae:4b18 with SMTP id
+ 6a1803df08f44-6c6823b3e99ls89136576d6.0.-pod-prod-02-us; Wed, 25 Sep 2024
+ 03:21:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWAXXnJe9BVxhO3EXXLBGfzJTyiwjwPJlfBrKkTFBY4ptH/AKnjPFRWaB0vVRf3IZnJPouAh07ZKNk=@googlegroups.com
+X-Received: by 2002:a05:6214:4497:b0:6c7:5e3c:ed4 with SMTP id 6a1803df08f44-6cb1ddb5302mr30431236d6.32.1727259665248;
+        Wed, 25 Sep 2024 03:21:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1727259665; cv=none;
         d=google.com; s=arc-20240605;
-        b=FzXLnofLyHJxqzPmMhL/gvulXqotG4KUUWH1WrjsRpzrfS20rZtY11J7a/qCRp+5YH
-         hwZMGPGwixH3z9RHZWPQNzRiibqEETK2ew/AUXZIoo8i9NY+F1MpXl1D7em9ojRcGJZA
-         giqfqWH4FVdXUj6kQ8MkaPgzUUBNOVBJKqHjEIoQER+i2DjfnKmqjh/GJqFfS6PpKpDU
-         B3ocp+S2OWcLPiLqJxGg8bv5UJR7AFMYxgmK7VuAHIUCyA0wM04qeNpuPUtwEWtc3SkH
-         nf+gpbNWwkNfF11zlQNsHosa+gRcK0ub+I0sUt2zVRXurhqHCMbbc+gMWB2IRoy/Bd4t
-         8GPQ==
+        b=QVX9oYNYaS6fjCMzU7VRyJAtDS2Yw4S6nx1GW7x277qIrI+JqLWrmmlnBuAkavNlwn
+         jtU+IU2/cEhEyT/CIJRWnefbS5b6eaF5+M4fM/jL475aGcLoWrO5K1GZsQcRH8b0KaYn
+         2AUmvDoUES+wzh5tyFC/FHf6VR7WG7ms1rxs8zAIW8pkAZqPelBpgBYjgUdKwa5sKlXa
+         /Br32OyrJELNgRQ/PYYXhE+7AioNbTdX7yrkyNKlTUolWqVa1kQJh2TkYZaiHZPN+atp
+         ZIw20ElUBVPtdB4Wqco6KpZLVnnvLeVfiBfEbmrooEEWZqgBQX0JGbU/5S5lQjwgzwUJ
+         eQfQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id;
-        bh=e5ySudKEzO3otYcm2RSI2zoDblMQoInA4cXkcyXtubc=;
-        fh=Nid7WRGluN0tR8kYSrDoFfWtWhgMdFarH+pxOkw2yyQ=;
-        b=fiicTbcMrqLellaqwCoZh9qG4nKhWdsb9CkGw3nijmEoZVkggqHKTlsRQe9FNidE5p
-         07rlvtfFr7LhyaA0wSuzyB6nIU8E7ZWeaHymsiybE+0ee59nqe1tHkymUolpvpWxckN5
-         oRdnZHxoA1jTcx7gfaCRCXQ7fnCkwVW6n6DGARBDvODlAOdsSSn6HIcViGk48Lz8ge+k
-         5cDc1plCdsrZdn6/2woMFLx1WDMCo9LCTGtshKSzZAsB6XH9bK6pOPgIq+ir17VSW4AH
-         oOmxws/VGNnZhYVujDkvhIrPt9KO4ieZ6E15AMR3WTWdRZokKt85YpdrzZGLN1Oau1vs
-         ETbw==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=TCDnE5O1Qj4Sx4FFyUqVkcdfYPO8wvEkGDEg/b8x6RM=;
+        fh=GiXels2OhPpNbM5+57A7OeWF/oYkZWHDv5ZMdCRJxms=;
+        b=g3a7l1XPdoAg1VRRirzpnwkOI6XVN/8tRLBWWfcFkrMm7AqBALyCU8F8pTkOnpPXrF
+         yomp/u7cAEGe9W3gx4l3V9mpB1xuUw9/cOTRb5omXir7cfD5/JVPLXDiN5UjCDiYz2PV
+         sEr6L1HZy1/2D8VzQO7oDGgqY4+hhK7F6ofGFL+O0tLSonYnFk1XWrO/+qZjVPyjEhBi
+         klp1KHgNVOG6vUF0oE2E641gdmbHqa4FDdleJIpdwap5nYU07spyn9/OJwdISRZZb6Yr
+         ARECFyoY/wK6z5nWH+U1gCm5rekjBGJ/4/qaExcpU9kWkWMq85s6viDjfW2DsApihdpT
+         fRdw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
-Received: from pegase2.c-s.fr (pegase2.c-s.fr. [93.17.235.10])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-537a862be35si64799e87.8.2024.09.25.03.05.36
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=QIAdwo03;
+       spf=pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com. [2607:f8b0:4864:20::431])
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6cb0f3f9948si1495446d6.0.2024.09.25.03.21.05
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Sep 2024 03:05:36 -0700 (PDT)
-Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) client-ip=93.17.235.10;
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4XDC664Lgnz9sSK;
-	Wed, 25 Sep 2024 12:05:34 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id tdRuDw19ZA5l; Wed, 25 Sep 2024 12:05:34 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4XDC663XQwz9sRr;
-	Wed, 25 Sep 2024 12:05:34 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 66F1B8B76E;
-	Wed, 25 Sep 2024 12:05:34 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id PJHxtpbIOOEt; Wed, 25 Sep 2024 12:05:34 +0200 (CEST)
-Received: from [192.168.232.90] (PO27091.IDSI0.si.c-s.fr [192.168.232.90])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id CBE218B763;
-	Wed, 25 Sep 2024 12:05:33 +0200 (CEST)
-Message-ID: <f40ea8bf-0862-41a7-af19-70bfbd838568@csgroup.eu>
-Date: Wed, 25 Sep 2024 12:05:33 +0200
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Sep 2024 03:21:05 -0700 (PDT)
+Received-SPF: pass (google.com: domain of miguel.ojeda.sandonis@gmail.com designates 2607:f8b0:4864:20::431 as permitted sender) client-ip=2607:f8b0:4864:20::431;
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-718ebb01fd2so1216927b3a.2
+        for <kasan-dev@googlegroups.com>; Wed, 25 Sep 2024 03:21:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVkG28/T5pfc5ZjGUBN1oU/prZODbHYVdK/Fw2C6xdv/g1+lpSNg8yHEvuAcG9v1YfoG5efinV2Pdc=@googlegroups.com
+X-Received: by 2002:a05:6a00:1149:b0:70d:140c:7369 with SMTP id
+ d2e1a72fcca58-71b0ac5a8c4mr1439818b3a.3.1727259664158; Wed, 25 Sep 2024
+ 03:21:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2 0/7] mm: Use pxdp_get() for accessing page table
- entries
-To: Anshuman Khandual <anshuman.khandual@arm.com>, linux-mm@kvack.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
- "Mike Rapoport (IBM)" <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- x86@kernel.org, linux-m68k@lists.linux-m68k.org,
- linux-fsdevel@vger.kernel.org, kasan-dev@googlegroups.com,
- linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
-References: <20240917073117.1531207-1-anshuman.khandual@arm.com>
-Content-Language: fr-FR
-From: "'Christophe Leroy' via kasan-dev" <kasan-dev@googlegroups.com>
-In-Reply-To: <20240917073117.1531207-1-anshuman.khandual@arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+References: <20240820194910.187826-1-mmaurer@google.com> <CANiq72mv5E0PvZRW5eAEvqvqj74PH01hcRhLWTouB4z32jTeSA@mail.gmail.com>
+ <CANiq72myZL4_poCMuNFevtpYYc0V0embjSuKb7y=C+m3vVA_8g@mail.gmail.com>
+ <CAH5fLgheG47LdgJGX6grHXL6h08tsSM1DACRkkzQk_1U8VAOxQ@mail.gmail.com> <CAH5fLgj7E03DKBcptgmZ8SLgco=Qs4puO=O6=v9=-3SSuqJyUQ@mail.gmail.com>
+In-Reply-To: <CAH5fLgj7E03DKBcptgmZ8SLgco=Qs4puO=O6=v9=-3SSuqJyUQ@mail.gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 25 Sep 2024 12:20:50 +0200
+Message-ID: <CANiq72mFKE4tLp1bgr+c0-Hi+dmReFT4m5RcV6MigjyiAiuwmg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/4] Rust KASAN Support
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: Matthew Maurer <mmaurer@google.com>, andreyknvl@gmail.com, ojeda@kernel.org, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
+	Nathan Chancellor <nathan@kernel.org>, dvyukov@google.com, samitolvanen@google.com, 
+	kasan-dev@googlegroups.com, linux-mm@kvack.org, glider@google.com, 
+	ryabinin.a.a@gmail.com, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@samsung.com>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, rust-for-linux@vger.kernel.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: christophe.leroy@csgroup.eu
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as
- permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
-X-Original-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-Reply-To: Christophe Leroy <christophe.leroy@csgroup.eu>
+X-Original-Sender: miguel.ojeda.sandonis@gmail.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@gmail.com header.s=20230601 header.b=QIAdwo03;       spf=pass
+ (google.com: domain of miguel.ojeda.sandonis@gmail.com designates
+ 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=miguel.ojeda.sandonis@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -162,55 +168,30 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+On Wed, Sep 25, 2024 at 12:00=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> =
+wrote:
+>
+> I posted a fix:
+> https://github.com/rust-lang/rust/pull/130824
 
+Reviewed, tagged and added to the lists -- thanks!
 
-Le 17/09/2024 =C3=A0 09:31, Anshuman Khandual a =C3=A9crit=C2=A0:
-> This series converts all generic page table entries direct derefences via
-> pxdp_get() based helpers extending the changes brought in via the commit
-> c33c794828f2 ("mm: ptep_get() conversion"). First it does some platform
-> specific changes for m68k and x86 architecture.
->=20
-> This series has been build tested on multiple architecture such as x86,
-> arm64, powerpc, powerpc64le, riscv, and m68k etc.
+> We'll need a check on RUSTC_VERSION in Kconfig for this. If the PR
+> gets merged within the next 22 days, this will land in 1.83.0. Would
+> you like me to send a fix with that version number now or wait for it
+> to get merged before I send that fix?
 
-Seems like this series imply sub-optimal code with unnecessary reads.
+Perhaps it could also go into 1.82.0 since it is a fix? (there are
+still a couple weeks for that)
 
-Lets take a simple exemple : function mm_find_pmd() in mm/rmap.c
+In any case, I think we can put 1.83 in the fix already and modify
+later if needed. Even then, I am not sure if the requirement is a big
+deal, i.e. I guess we could keep the warning and avoid adding the
+restriction. But since this is for KASAN-enabled, I guess it is fine
+adding the restriction and being safe & proper.
 
-On a PPC32 platform (2 level pagetables):
-
-Before the patch:
-
-00001b54 <mm_find_pmd>:
-     1b54:	80 63 00 18 	lwz     r3,24(r3)
-     1b58:	54 84 65 3a 	rlwinm  r4,r4,12,20,29
-     1b5c:	7c 63 22 14 	add     r3,r3,r4
-     1b60:	4e 80 00 20 	blr
-
-Here, the function reads mm->pgd, then calculates and returns a pointer=20
-to the PMD entry corresponding to the address.
-
-After the patch:
-
-00001b54 <mm_find_pmd>:
-     1b54:	81 23 00 18 	lwz     r9,24(r3)
-     1b58:	54 84 65 3a 	rlwinm  r4,r4,12,20,29
-     1b5c:	7d 49 20 2e 	lwzx    r10,r9,r4	<=3D useless read
-     1b60:	7c 69 22 14 	add     r3,r9,r4
-     1b64:	7d 49 20 2e 	lwzx    r10,r9,r4	<=3D useless read
-     1b68:	7d 29 20 2e 	lwzx    r9,r9,r4	<=3D useless read
-     1b6c:	4e 80 00 20 	blr
-
-Here, the function also reads mm->pgd and still calculates and returns a=20
-pointer to the PMD entry corresponding to the address. But in addition=20
-to that it reads three times that entry while doing nothing at all with=20
-the value read.
-
-On PPC32, PMD/PUD/P4D are single entry tables folded into the=20
-corresponding PGD entry, it is therefore pointless to read the=20
-intermediate entries.
-
-Christophe
+Cheers,
+Miguel
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -218,4 +199,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/f40ea8bf-0862-41a7-af19-70bfbd838568%40csgroup.eu.
+kasan-dev/CANiq72mFKE4tLp1bgr%2Bc0-Hi%2BdmReFT4m5RcV6MigjyiAiuwmg%40mail.gm=
+ail.com.
