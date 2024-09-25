@@ -1,164 +1,154 @@
-Return-Path: <kasan-dev+bncBCKJJ7XLVUBBBGER2C3QMGQE5DEXXJQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBCAJFDXE4QGBBH5J2C3QMGQELXESJHY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33e.google.com (mail-wm1-x33e.google.com [IPv6:2a00:1450:4864:20::33e])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3D3985CE4
-	for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2024 14:56:58 +0200 (CEST)
-Received: by mail-wm1-x33e.google.com with SMTP id 5b1f17b1804b1-42cb830ea86sf46852665e9.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2024 05:56:58 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1727269017; cv=pass;
+Received: from mail-qv1-xf3d.google.com (mail-qv1-xf3d.google.com [IPv6:2607:f8b0:4864:20::f3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDEF985EFE
+	for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2024 15:48:16 +0200 (CEST)
+Received: by mail-qv1-xf3d.google.com with SMTP id 6a1803df08f44-6cb27fb4c98sf5725726d6.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 25 Sep 2024 06:48:16 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1727272095; cv=pass;
         d=google.com; s=arc-20240605;
-        b=gFdkWu1231gfV5Sak00OymFk0/ecQLXz5CzqxZd+5atvDFJXle3zDrPoxDgNTryfRG
-         hRsQnOyWyZgGx4MOD4H2fJ9pk80yGSKsvcBVwafjcAAQZGXzq4rxqlYE02xM/bwdMbcR
-         q4ROyzWPoEILr0j2Fy3addhS5L+Nvy4oGPMo3f2Vi6BZZgRsC2EEb2RiwCOoLrxxSAWn
-         3sP1Zm5BqOgvO5aSFQ0pFih5h1PMNnA40Bhv1tpAL9sNuRnY0nqhBLrL/k/tJDd8JVD/
-         YZJanJIFmyayKPTH7e8ZVu37pJLvZLY2tcXFTWwadTHCOHs1/Dk+mmk5zef8qaBpefv2
-         N+LQ==
+        b=MFWSwdd/Flbdr1AI+O3i8+y6Mhw0VopkB3ajrUCDhT+dy6Pu6gGZaROkbxVd1xnNTs
+         RbL0f6vLo4n9o/coJxiieiHT2psKAK5Zb+w8IMk4wyj5da4uqaMi+rpF6lCjr8JxFVVd
+         vghVhczgvquxRuCmamNcwCOqglS/nKRFFm+qGOPWRKIgz31bs0Gi3ovYRzD6IhKs5m4N
+         mhCaJxkzr3Zv03ImHx8Nrkxuw2xULkI0wANyXNQwdL1SnwcECSdMnMEqFZ9CyibjnC+D
+         NJQ+I+b0xFeq5c978hK3i/0iSqck8x53vqWj71A6nLOvKKzb7mJDIFv7bj7Al8Vj+B9O
+         41zw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=D/jY3mHWPXU2EFH8PAE1mi7eNDiGvImS41D9MK6jts4=;
-        fh=9SKgL1Xfz66DwT4G8lT7fq3v4lh2t2g5iZj6Rulp00w=;
-        b=BZ5B7lSQMtGLuEVJ3UQXaigB0qxhE/f6s9DgIc+R7oe0p8d1PP9PX4ajUy5Z5MhBA9
-         nS4Df1F0OP+IxNgpmnA3BcDgrxqTWIND9Bsw1AhzVrmZqXMgX4Jv7ZsFGHTDQcb7TbnM
-         l5ph/wyGNtw5qqVyTUo5V964w9Fb4fEhpVM0ZZyzW+lvdIEgFHlVLmK5ZB+t9BNp57+A
-         xBx1fRFd1/OcvS8N+6U2n8/g0dSLd3HdUjYhNBcER2taGx8qHGnc+0aJY9QeOycxzzUm
-         enL0XGHT0Y9P15AHQ2wXzvp8A+uzfN5XPOA/jb9/FWeegFcwhWrOnoA1u6cyQW/5KB7u
-         fgcg==;
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature:dkim-signature;
+        bh=Tmh+s9TVB5zTn4zCZeXKD/FlgQWCEnP6vwHx5vEES8s=;
+        fh=c8SPbfkUFzzH4Sn+cTqW7nvH27jJ8Wd4iN/VbXeLvN8=;
+        b=EJ8VxfCRT51kMgpdWA9JYymL0R5DejHEgfNvHtQxgSPhYyYDmujOgQApNysjUUY2WW
+         RrdV2zNI2xHq6b83BsEPkYluLR80Uqjy9gsBZY5UEYWefsRyChwBMRoPqOUhklGFc/0h
+         /Oa4btEOaRD3dXAaB3mQ0LOOc96N+AXUaIvaxV+BRQLkGIyGhqHzv7rEnNRMZHEwE5Hg
+         HwRahWYuS8Yc5Lu6hNpCLOE+WfeTOo35M30bzVjtY/UQY4+RCvifGOFSlWdDM7Zy9bIo
+         8BDjGTJjXZzueMQgyv808nYDo91H52GjljtKBN/LcLPHpbEn4tw56oXsfZlXgHV+dHf7
+         Dwhw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=gIqQhZu5;
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2a00:1450:4864:20::231 as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=WCQzURMs;
+       spf=pass (google.com: domain of adrianhuang0701@gmail.com designates 2607:f8b0:4864:20::62e as permitted sender) smtp.mailfrom=adrianhuang0701@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1727269017; x=1727873817; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1727272095; x=1727876895; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=D/jY3mHWPXU2EFH8PAE1mi7eNDiGvImS41D9MK6jts4=;
-        b=C6adVA4QyO+4VoMjOTpVnR9DYTN1otPz21L9tPt0wVzEmkb05EidcvtUj0g7om5Prb
-         iH+xtzG9aDQNrDstXd4qc9wjSOMJxyJjsKcqLCfcMVgfKHUyWOp3g6KZDtDYTDLfXB0f
-         rRofm/atjVshc7MLLKJLSBXoyCmBT70Lc+EGbPQ7Vy6g3GIg4t6nP3vvzZDuAHY6duAl
-         7XxwLiPxi9EP2vbGQQdm/q3Vpw9kfD6q2snwnTJmP/kLMmNvX2JtFzOPGqvZBHkQrOeF
-         RUZ9UdXn9ghDRb/ZpXW4VBKJC78RpMeMoLGTN9rDtjZK7MbDDR09IjP9OlmmJwavtSFx
-         Cezw==
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tmh+s9TVB5zTn4zCZeXKD/FlgQWCEnP6vwHx5vEES8s=;
+        b=m+L/d8Uob+x2eHHt2Bdql0mP9YRARshJgowHe5gngmKRz5hnX8htTEgWVpz1TGyTEn
+         hN/Ww1gKlDs9ywsnk3kWCSqfsMy6cJOSBhHwOPEQu2vYpoyRNPYLmIZlW2bVgn805SNG
+         xVF8Kgsp/bSNswzpdbJDuMhE7p7AqY7RNK6qQRXuEOxXvSPdpgjTOrh6ECH9XzYwvkOY
+         PRMGm9FuFvDmK3YLmdyrQu2+jHwazt9O8wdoJPH28yJsL/GmmPj7iiBh4ftzEqXCSKF/
+         4J82gB6RRy9VZeqCl6YzwKheFajabaYP2pHoxpWdmokS6L46Ji3koomuAUCavJAVZId3
+         S2Bw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727269017; x=1727873817; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1727272095; x=1727876895; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=D/jY3mHWPXU2EFH8PAE1mi7eNDiGvImS41D9MK6jts4=;
-        b=W3IB5VD/2sT0o9k61B8eCJRNA5eTNZCt6P6/r8WRZleyXf3Oe2m1y7xVTGp4jSHVS+
-         hItMcO04hZKApTgwsG6a0Tyh2agxteojn4UR/dNOMz5N5yQgyxW3ManpGkG9G1pXmd+A
-         QyyCTWX1pM5YW6y2NrNxmk2yNt4ORc1HtsOGXPW7O9eenmPkATvX3VwZgfdqdLUbFOgS
-         4kvkmKZX1dzW35QZL06BG/zDsJoaTVZNlTtp+bhmPINtY/3SbcPmf+FHfsgc7jTjrHBO
-         ufSFIA0nfbGU0Nny6Y0H9BLOENetxw5m459l6Lr9seDJzJcwXekG/pLq23hA7+HpUDVZ
-         DHJg==
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Tmh+s9TVB5zTn4zCZeXKD/FlgQWCEnP6vwHx5vEES8s=;
+        b=XNOAKsE5e1DXVf39UYTCxa2gNseq7QP5J7UADOptHD3FPm4M8fH/bezd3nCKhesSsE
+         ORLE9vrpj5p2ciENK/cyZ/okwgOecUl74ju5qOZr6sAohbVWH3WNPNIiH8QYpy9Z3D2q
+         3eLTYyYCeAFSWCFhKcRyP5x5OMQxu/stpvLLZq64OsoZAv5fmA1DJgzHewDaGEhC5upD
+         KsmS/25pmHUSTbO4VCdf/f5Yg7Lig84k29Zxkd3E/BaeIqEsEVoaMtaMMByjQ1eUcUoy
+         xsDNveicYVOkLAN2cCq9eVePo+Pte33B8jXsPyR8KqY2tqVetgnwyZNHTxjgSk5Xx43N
+         3yOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727269017; x=1727873817;
+        d=1e100.net; s=20230601; t=1727272095; x=1727876895;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
          :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=D/jY3mHWPXU2EFH8PAE1mi7eNDiGvImS41D9MK6jts4=;
-        b=uLL732ZOYJ/HjDmGapM4hiElXsQ03zY6EHtIFyPb4wsjIT49afvE389FXbnQA3zui5
-         u8O8uYHVyjyIo0PZ3qt3DxiwRGcxDpMg+oDW49BipW9xZQ8WgDiP4pBqddj8Z/Lt074m
-         HZtJhCWFXMxPDnCaRaqadrTVNOH7srDrVqhJuwW9OhFs+nFyLJXnnQ1k0byq4po2Ys6o
-         8XotVyXfy5naoIMGJ9qNeMYsmHan23AmMe7M9FRnOAEEE/s6zatWKuqVV9mxxrT5dPYz
-         rTlkAUrcOWUoayt80wtFJmVDSp0SLKVmnudFtkJRuMOha6G4YnkE1u3PngAOYCe7KggS
-         G7CA==
+        bh=Tmh+s9TVB5zTn4zCZeXKD/FlgQWCEnP6vwHx5vEES8s=;
+        b=qoiSOVvGG4IxE29L3eb9YD3FM9XSGn3ZUWZpRiaEpvNtHdGC1sS5OK9nV6kj3n/OzC
+         UAII+skVKK6B8qNR80mCizcdl/SDdTE/2bSPWfWAqEfthbZoW2stkIsBZ3Exlspu6u2D
+         zpvYS1ANLLvc2maO3clG1TVbvR0EKFmdzsdSqVZg50XLsSxhJfc3zDf9uRiUK1Cnfmg0
+         D0wBWYsXzWqqsAhtKH1vPU4YM916NiaKSjtbPluPVn8Bk/1GpbXOs9/CmEuCfFPujuDi
+         lxV/mz91GieKZ7TpJkZuKPo0ywJloV5C/ebhCwEbp/4FDB63dlvO/Vxls5gKFzEzs7An
+         SPEg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUL3K+x1YitbMfrBEY4jMOQSQ/kFWj0utGTVNS+RXW+X3ZeMQYGtzFhuxNikzdEgY8KTYG8lQ==@lfdr.de
-X-Gm-Message-State: AOJu0YzxlTbl1kJTvv/Ydu+WL54WY3oOdMw+0jGz4xgSn/YtnuVGWk5z
-	S10AQRsqvFzCxqyJ+q8RvNC6iWcGv5g7Ku5bqU8UWzUSQ7qSMvoX
-X-Google-Smtp-Source: AGHT+IHcGiOxpjdZ3V+BD0cwdjH2GCD+nIP/cx1ELmmG1XWTcvKcbP0vSHgllptD7uV78BMslD4NNw==
-X-Received: by 2002:a05:600c:4751:b0:42c:be90:fa2f with SMTP id 5b1f17b1804b1-42e96144d26mr16982485e9.25.1727269016858;
-        Wed, 25 Sep 2024 05:56:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVsa7gvdB8+o+lQtwSZWLa1yin2ofjHSafwr54XLAa3vyXZY3GEjTvlR/giW2rzycGtsKVjbg==@lfdr.de
+X-Gm-Message-State: AOJu0YzBe5dCaxeMEY31hNGLQIr1gkr7Ut98lfmAY7j3iVbURZhKfB7o
+	tdx6B4Kwx8arrI5GWcgQCp29hCbp+J0nsaCf2C0oxKTe9fyuJkj4
+X-Google-Smtp-Source: AGHT+IFXQFABhJNRJaKBfw0nTYrRRVnPERD1VOI8kVWVcvytF87ks+Xo7mx1kLWCC5xRaYQ2yyWVmw==
+X-Received: by 2002:a05:6214:3d99:b0:6c5:2fc7:a623 with SMTP id 6a1803df08f44-6cb1dd17561mr48644546d6.11.1727272095388;
+        Wed, 25 Sep 2024 06:48:15 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:1c95:b0:42c:bb08:9fa6 with SMTP id
- 5b1f17b1804b1-42e74554fe8ls24943875e9.0.-pod-prod-03-eu; Wed, 25 Sep 2024
- 05:56:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVytnkg534EQ+9VJ9+0NmFlEh+bPv5N6dsRaoWWMb2BvMFfovlYHcytJ6JBs8Q2rSJQETB/DHeMkds=@googlegroups.com
-X-Received: by 2002:a5d:5e0b:0:b0:37c:c9fc:1824 with SMTP id ffacd0b85a97d-37cc9fc19a7mr720142f8f.8.1727269014552;
-        Wed, 25 Sep 2024 05:56:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1727269014; cv=none;
+Received: by 2002:a05:6214:21c4:b0:6b0:8881:bc19 with SMTP id
+ 6a1803df08f44-6c6a7f9b1d2ls117538706d6.1.-pod-prod-08-us; Wed, 25 Sep 2024
+ 06:48:14 -0700 (PDT)
+X-Received: by 2002:a05:620a:170b:b0:7a3:785a:dc1c with SMTP id af79cd13be357-7ace744d99amr371914085a.50.1727272094684;
+        Wed, 25 Sep 2024 06:48:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1727272094; cv=none;
         d=google.com; s=arc-20240605;
-        b=GvoauZpABMavIBRv+gsDJauCLMcWM+t/QynG0mJ2XtBXTUTZiWIYgfF+Bq9pUW3Rkh
-         V+If2AsSZjqpAsoLVDjTzg9PDkAw2stVrMpRM68YyDp+QlAxg4TH76ND2nPDAJIUSRz9
-         krSeI2Y8Vpw95XNU5/WTeCJyxCqnDAWHNVQR1U5Ff8h5EkU7oAtjJk9QdPxB4djFyRyK
-         idjlVbUQW7LRJWKWq4KyydttHYNEI8PiPZR8avZj5gzyH3K0a8DT596KNRGKsS3Davdb
-         9iKUhBvk3w1dLABuGmL5slZgpNv1ucFLXeSkLAERdIH9ra+3D32T3XAanVaDjpkI+gge
-         c1RA==
+        b=cLOztUH3KbLNKnYldxvUzRfA2zQ2Fa5K08epwKMSIZJ2gfsMAthFw2FcwJv08EMXuN
+         92xwMuyXby0BwuUdPFUd5VjIplrf0bGmPdP5CDXxbzJ1PfC5i1dqELUa43xzJMsEPnyR
+         /Tp26gZmkZuLR2BNu515/ML5GKRpK8Z3tUfREdY71iyNUQSbYeofG5tQgNGGZKewrwJW
+         9/VpaKiq+M8ulECNeYOn0RnM5zIK+46PkAz8nMlQC8nNHFgMjIeREpU716+ealY/s7bT
+         YhG4aeWzMcoPYkZGLmJRBeE8Fh5oj3MlTlhuWZQRgBWXb1t4qU+qPFp9xCQ6wEzHeaIQ
+         773A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3fxAT9AVfLIeN6rjTVrSeohwxgf70dKlprguYeTQ+CE=;
-        fh=oHf0M7JPvIbH1YLen716HCIQVMkSW/v3RKwaYoCRqTE=;
-        b=hFRbH6e/IFk0EIYAf85jRLmnZHl9c+oPoqwQ16fVi3FrFxGwmrXmVa1KZasefkzVij
-         QT5H8U8nL7YrB39UkrUJryhU1RlPoMiMbC0IlUqBEfnvz+zVNLqsrqtX6cfUVPCWPTFs
-         4DmLYEh9s+ojgFi9WlkzN8bwjgwz8KKqnrB9EM0QlxpfDnjVickFdpQzJaBwWGAGU5gI
-         rwsyVKAC/sLaRHKNpUnS/woXrr/XEYsbrKfePLMLTZ72aW1jbht99Yjt/uWziKWjiy58
-         k7rSeM2XYw1gSsZiar2tqa36qhSSeK5wIdfDhFBB1nPae93A2mn13GT/ASWaZS6EB+H5
-         VJ6A==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=5Ssh+pRrf5L+2e4qG8n4IwFFdzUvMFGa+rHl+gGVC1w=;
+        fh=3d4rYj7y2TlmClP/cIrdUmUATLndWk9RpmrEI0CRy8s=;
+        b=OdtBAQRsz0qc/nzB0lR2CZGnJIb4oEl1HaIlPQ/h0nLkNLrEvYXqXfI29yoAWwYiF7
+         I/rnoHCDDjsgSOF6z6VYycHqZzBZXbG8ZWPKVLRXU+Ka2vufWyivhxTIuLhOyUmSzifU
+         nYFQh7kIz0Ts9vOLASUFUUJlxO5E7XVZvV9ICD5hRlOuajp06yF+RB4T3EG1g44YcQzv
+         oXzdAHJjhkxjjhth78lN/21zmPYWVrampkNFPFzTR/eYhWLM8Lem52ps5UE1mRh47/VI
+         rO+ZyJxh+T50VZuZAr+X81nMhYYzjDFtnEh2wj5rFsdSM13EfHfFV6vSxeGuD9UORAg3
+         dQKQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=gIqQhZu5;
-       spf=pass (google.com: domain of 42.hyeyoo@gmail.com designates 2a00:1450:4864:20::231 as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=WCQzURMs;
+       spf=pass (google.com: domain of adrianhuang0701@gmail.com designates 2607:f8b0:4864:20::62e as permitted sender) smtp.mailfrom=adrianhuang0701@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com. [2a00:1450:4864:20::231])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-42e90cd16easi1721055e9.1.2024.09.25.05.56.54
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com. [2607:f8b0:4864:20::62e])
+        by gmr-mx.google.com with ESMTPS id af79cd13be357-7acde5cbcdfsi16496585a.3.2024.09.25.06.48.14
+        for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Sep 2024 05:56:54 -0700 (PDT)
-Received-SPF: pass (google.com: domain of 42.hyeyoo@gmail.com designates 2a00:1450:4864:20::231 as permitted sender) client-ip=2a00:1450:4864:20::231;
-Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2f763e9e759so76137001fa.3;
-        Wed, 25 Sep 2024 05:56:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUrJgvwYjlevsWDs83EqhnEvJz7LwZvUSeer7XUazhoZG0ZYxL1kDwXtV/dYGNCq3nx8U3avGtdD1Y=@googlegroups.com, AJvYcCWj18C3szrDn0aZd/SJTzFH4dUeIJnygwMNA7bT8+tlpXp+MIg5CSXxGUlkPGPViEU3baaaV0pI1gdC@googlegroups.com
-X-Received: by 2002:a05:6512:4019:b0:52c:86d7:fa62 with SMTP id
- 2adb3069b0e04-53877538cc6mr1823486e87.23.1727269013251; Wed, 25 Sep 2024
- 05:56:53 -0700 (PDT)
+        Wed, 25 Sep 2024 06:48:14 -0700 (PDT)
+Received-SPF: pass (google.com: domain of adrianhuang0701@gmail.com designates 2607:f8b0:4864:20::62e as permitted sender) client-ip=2607:f8b0:4864:20::62e;
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-20b0b2528d8so5393715ad.2
+        for <kasan-dev@googlegroups.com>; Wed, 25 Sep 2024 06:48:14 -0700 (PDT)
+X-Received: by 2002:a17:903:234f:b0:209:dc6d:7697 with SMTP id d9443c01a7336-20afc44865bmr34325865ad.24.1727272093509;
+        Wed, 25 Sep 2024 06:48:13 -0700 (PDT)
+Received: from AHUANG12-3ZHH9X.lenovo.com (220-143-197-103.dynamic-ip.hinet.net. [220.143.197.103])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20af16e7f40sm24958805ad.8.2024.09.25.06.48.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2024 06:48:13 -0700 (PDT)
+From: Adrian Huang <adrianhuang0701@gmail.com>
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Uladzislau Rezki <urezki@gmail.com>
+Cc: kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	Adrian Huang <ahuang12@lenovo.com>
+Subject: [PATCH 1/1] kasan, vmalloc: avoid lock contention when depopulating vmalloc
+Date: Wed, 25 Sep 2024 21:47:32 +0800
+Message-Id: <20240925134732.24431-1-ahuang12@lenovo.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20240807-b4-slab-kfree_rcu-destroy-v2-0-ea79102f428c@suse.cz>
- <20240807-b4-slab-kfree_rcu-destroy-v2-7-ea79102f428c@suse.cz>
- <6fcb1252-7990-4f0d-8027-5e83f0fb9409@roeck-us.net> <07d5a214-a6c2-4444-8122-0a7b1cdd711f@suse.cz>
- <73f9e6d7-f5c0-4cdc-a9c4-dde3e2fb057c@roeck-us.net> <474b0519-b354-4370-84ac-411fd3d6d14b@suse.cz>
- <CAB=+i9SQHqVrfUbuSgsKbD07k37MUsPcU7NMSYgwXhLL+UhF2w@mail.gmail.com> <fcaaf6b9-f284-4983-a8e3-e282dd95fc16@roeck-us.net>
-In-Reply-To: <fcaaf6b9-f284-4983-a8e3-e282dd95fc16@roeck-us.net>
-From: Hyeonggon Yoo <42.hyeyoo@gmail.com>
-Date: Wed, 25 Sep 2024 21:56:40 +0900
-Message-ID: <CAB=+i9Ty5kUUR1P_ahSfReJAOfhQc_dOdQ=9LBZJ4-=1kEOVXg@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] kunit, slub: add test_kfree_rcu() and test_leak_destroy()
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Vlastimil Babka <vbabka@suse.cz>, KUnit Development <kunit-dev@googlegroups.com>, 
-	Brendan Higgins <brendanhiggins@google.com>, David Gow <davidgow@google.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Joel Fernandes <joel@joelfernandes.org>, 
-	Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun.feng@gmail.com>, 
-	Christoph Lameter <cl@linux.com>, David Rientjes <rientjes@google.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Zqiang <qiang.zhang1211@gmail.com>, Julia Lawall <Julia.Lawall@inria.fr>, 
-	Jakub Kicinski <kuba@kernel.org>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
-	"Uladzislau Rezki (Sony)" <urezki@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	rcu@vger.kernel.org, Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
-	Jann Horn <jannh@google.com>, Mateusz Guzik <mjguzik@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: 42.hyeyoo@gmail.com
+X-Original-Sender: AdrianHuang0701@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=gIqQhZu5;       spf=pass
- (google.com: domain of 42.hyeyoo@gmail.com designates 2a00:1450:4864:20::231
- as permitted sender) smtp.mailfrom=42.hyeyoo@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+ header.i=@gmail.com header.s=20230601 header.b=WCQzURMs;       spf=pass
+ (google.com: domain of adrianhuang0701@gmail.com designates
+ 2607:f8b0:4864:20::62e as permitted sender) smtp.mailfrom=adrianhuang0701@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -171,135 +161,157 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sun, Sep 22, 2024 at 11:13=E2=80=AFPM Guenter Roeck <linux@roeck-us.net>=
- wrote:
->
-> On 9/21/24 23:16, Hyeonggon Yoo wrote:
-> > On Sun, Sep 22, 2024 at 6:25=E2=80=AFAM Vlastimil Babka <vbabka@suse.cz=
-> wrote:
-> >>
-> >> On 9/21/24 23:08, Guenter Roeck wrote:
-> >>> On 9/21/24 13:40, Vlastimil Babka wrote:
-> >>>> +CC kunit folks
-> >>>>
-> >>>> On 9/20/24 15:35, Guenter Roeck wrote:
-> >>>>> Hi,
-> >>>>
-> >>>> Hi,
-> >>>>
-> >>>>> On Wed, Aug 07, 2024 at 12:31:20PM +0200, Vlastimil Babka wrote:
-> >>>>>> Add a test that will create cache, allocate one object, kfree_rcu(=
-) it
-> >>>>>> and attempt to destroy it. As long as the usage of kvfree_rcu_barr=
-ier()
-> >>>>>> in kmem_cache_destroy() works correctly, there should be no warnin=
-gs in
-> >>>>>> dmesg and the test should pass.
-> >>>>>>
-> >>>>>> Additionally add a test_leak_destroy() test that leaks an object o=
-n
-> >>>>>> purpose and verifies that kmem_cache_destroy() catches it.
-> >>>>>>
-> >>>>>> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> >>>>>
-> >>>>> This test case, when run, triggers a warning traceback.
-> >>>>>
-> >>>>> kmem_cache_destroy TestSlub_kfree_rcu: Slab cache still has objects=
- when called from test_leak_destroy+0x70/0x11c
-> >>>>> WARNING: CPU: 0 PID: 715 at mm/slab_common.c:511 kmem_cache_destroy=
-+0x1dc/0x1e4
-> >>>>
-> >>>> Yes that should be suppressed like the other slub_kunit tests do. I =
-have
-> >>>> assumed it's not that urgent because for example the KASAN kunit tes=
-ts all
-> >>>> produce tons of warnings and thus assumed it's in some way acceptabl=
-e for
-> >>>> kunit tests to do.
-> >>>>
-> >>>
-> >>> I have all tests which generate warning backtraces disabled. Trying t=
-o identify
-> >>> which warnings are noise and which warnings are on purpose doesn't sc=
-ale,
-> >>> so it is all or nothing for me. I tried earlier to introduce a patch =
-series
-> >>> which would enable selective backtrace suppression, but that died the=
- death
-> >>> of architecture maintainers not caring and people demanding it to be =
-perfect
-> >>> (meaning it only addressed WARNING: backtraces and not BUG: backtrace=
-s,
-> >>> and apparently that wasn't good enough).
-> >>
-> >> Ah, didn't know, too bad.
-> >>
-> >>> If the backtrace is intentional (and I think you are saying that it i=
-s),
-> >>> I'll simply disable the test. That may be a bit counter-productive, b=
-ut
-> >>> there is really no alternative for me.
-> >>
-> >> It's intentional in the sense that the test intentionally triggers a
-> >> condition that normally produces a warning. Many if the slub kunit tes=
-t do
-> >> that, but are able to suppress printing the warning when it happens in=
- the
-> >> kunit context. I forgot to do that for the new test initially as the w=
-arning
-> >> there happens from a different path that those that already have the k=
-unit
-> >> suppression, but we'll implement that suppression there too ASAP.
-> >
-> > We might also need to address the concern of the commit
-> > 7302e91f39a ("mm/slab_common: use WARN() if cache still has objects on
-> > destroy"),
-> > the concern that some users prefer WARN() over pr_err() to catch
-> > errors on testing systems
-> > which relies on WARN() format, and to respect panic_on_warn.
-> >
-> > So we might need to call WARN() instead of pr_err() if there are errors=
- in
-> > slub error handling code in general, except when running kunit tests?
-> >
->
-> If people _want_ to see WARNING backtraces generated on purpose, so be it=
-.
-> For me it means that _real_ WARNING backtraces disappear in the noise.
-> Manually maintaining a list of expected warning backtraces is too mainten=
-ance
-> expensive for me, so I simply disable all kunit tests which generate
-> backtraces on purpose. That is just me, though. Other testbeds may have
-> more resources available and may be perfectly happy with the associated
-> maintenance cost.
->
-> In this specific case, I now have disabled slub kunit tests, and, as
-> mentioned before, from my perspective there is no need to change the
-> code just to accommodate my needs. I'll do the same with all other new
-> unit tests which generate backtraces in the future, without bothering
-> anyone.
->
-> Sorry for the noise.
+From: Adrian Huang <ahuang12@lenovo.com>
 
-I don't think this was a noise :) IMO some people want to see WARNING
-during testing to catch errors,
-but not for the slub_kunit test case. I think a proper approach here
-would be suppressing
-warnings while running slub_kunit test cases, but print WARNING when
-it is not running slub_kunit test cases.
+When running the test_vmalloc stress on a 448-core server, the following
+soft/hard lockups were observed and the OS was panicked eventually.
 
-That would require some work changing the slub error reporting logic
-to print WARNING on certain errors.
-Any opinions, Vlastimil?
+1) Kernel config
+   CONFIG_KASAN=y
+   CONFIG_KASAN_VMALLOC=y
 
-Thanks,
-Hyeonggon
+2) Reproduced command
+   # modprobe test_vmalloc nr_threads=448 run_test_mask=0x1 nr_pages=8
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAB%3D%2Bi9Ty5kUUR1P_ahSfReJAOfhQc_dOdQ%3D9LBZJ4-%3D1kEOVXg%40mai=
-l.gmail.com.
+3) OS Log: Detail is in [1].
+   watchdog: BUG: soft lockup - CPU#258 stuck for 26s!
+   RIP: 0010:native_queued_spin_lock_slowpath+0x504/0x940
+   Call Trace:
+    do_raw_spin_lock+0x1e7/0x270
+    _raw_spin_lock+0x63/0x80
+    kasan_depopulate_vmalloc_pte+0x3c/0x70
+    apply_to_pte_range+0x127/0x4e0
+    apply_to_pmd_range+0x19e/0x5c0
+    apply_to_pud_range+0x167/0x510
+    __apply_to_page_range+0x2b4/0x7c0
+    kasan_release_vmalloc+0xc8/0xd0
+    purge_vmap_node+0x190/0x980
+    __purge_vmap_area_lazy+0x640/0xa60
+    drain_vmap_area_work+0x23/0x30
+    process_one_work+0x84a/0x1760
+    worker_thread+0x54d/0xc60
+    kthread+0x2a8/0x380
+    ret_from_fork+0x2d/0x70
+    ret_from_fork_asm+0x1a/0x30
+   ...
+   watchdog: Watchdog detected hard LOCKUP on cpu 8
+   watchdog: Watchdog detected hard LOCKUP on cpu 42
+   watchdog: Watchdog detected hard LOCKUP on cpu 10
+   ...
+   Shutting down cpus with NMI
+   Kernel Offset: disabled
+   pstore: backend (erst) writing error (-28)
+   ---[ end Kernel panic - not syncing: Hard LOCKUP ]---
+
+BTW, the issue can be also reproduced on a 192-core server and a 256-core
+server.
+
+[Root Cause]
+The tight loop in kasan_release_vmalloc_node() iteratively calls
+kasan_release_vmalloc() to clear the corresponding PTE, which
+acquires/releases "init_mm.page_table_lock" in
+kasan_depopulate_vmalloc_pte().
+
+The lock_stat shows that the "init_mm.page_table_lock" is the first entry
+of top list of the contentions. This lock_stat info is based on the
+following command (in order not to get OS panicked), where the max
+wait time is 600ms:
+
+  # modprobe test_vmalloc nr_threads=150 run_test_mask=0x1 nr_pages=8
+
+<snip>
+------------------------------------------------------------------
+class name con-bounces contentions waittime-min   waittime-max ...
+------------------------------------------------------------------
+init_mm.page_table_lock:  87859653 93020601  0.27 600304.90 ...
+  -----------------------
+  init_mm.page_table_lock  54332301  [<000000008ce229be>] kasan_populate_vmalloc_pte.part.0.isra.0+0x99/0x120
+  init_mm.page_table_lock   6680902  [<000000009c0800ad>] __pte_alloc_kernel+0x9b/0x370
+  init_mm.page_table_lock  31991077  [<00000000180bc35d>] kasan_depopulate_vmalloc_pte+0x3c/0x70
+  init_mm.page_table_lock     16321  [<000000003ef0e79b>] __pmd_alloc+0x1d5/0x720
+  -----------------------
+  init_mm.page_table_lock  50278552  [<000000008ce229be>] kasan_populate_vmalloc_pte.part.0.isra.0+0x99/0x120
+  init_mm.page_table_lock   5725380  [<000000009c0800ad>] __pte_alloc_kernel+0x9b/0x370
+  init_mm.page_table_lock  36992410  [<00000000180bc35d>] kasan_depopulate_vmalloc_pte+0x3c/0x70
+  init_mm.page_table_lock     24259  [<000000003ef0e79b>] __pmd_alloc+0x1d5/0x720
+  ...
+<snip>
+
+[Solution]
+After re-visiting code path about setting the kasan ptep (pte pointer),
+it's unlikely that a kasan ptep is set and cleared simultaneously by
+different CPUs. So, use ptep_get_and_clear() to get rid of the spinlock
+operation.
+
+The result shows the max wait time is 13ms with the following command
+(448 cores are fully stressed):
+
+  # modprobe test_vmalloc nr_threads=448 run_test_mask=0x1 nr_pages=8
+
+<snip>
+------------------------------------------------------------------
+class name con-bounces contentions waittime-min   waittime-max ...
+------------------------------------------------------------------
+init_mm.page_table_lock:  109999304  110008477  0.27  13534.76
+  -----------------------
+  init_mm.page_table_lock 109369156  [<000000001a135943>] kasan_populate_vmalloc_pte.part.0.isra.0+0x99/0x120
+  init_mm.page_table_lock    637661  [<0000000051481d84>] __pte_alloc_kernel+0x9b/0x370
+  init_mm.page_table_lock      1660  [<00000000a492cdc5>] __pmd_alloc+0x1d5/0x720
+  -----------------------
+  init_mm.page_table_lock 109410237  [<000000001a135943>] kasan_populate_vmalloc_pte.part.0.isra.0+0x99/0x120
+  init_mm.page_table_lock    595016  [<0000000051481d84>] __pte_alloc_kernel+0x9b/0x370
+  init_mm.page_table_lock      3224  [<00000000a492cdc5>] __pmd_alloc+0x1d5/0x720
+
+[More verifications on a 448-core server: Passed]
+1) test_vmalloc module
+   * Each test is run sequentially.
+
+2) stress-ng
+   * fork() and exit()
+       # stress-ng --fork 448 --timeout 180
+   * pthread
+       # stress-ng --pthread 448 --timeout 180
+   * fork()/exit() and pthread
+       # stress-ng --pthread 448 --fork 448 --timeout 180
+
+The above verifications were run repeatedly for more than 24 hours.
+
+[1] https://gist.github.com/AdrianHuang/99d12986a465cc33a38c7a7ceeb6f507
+
+Signed-off-by: Adrian Huang <ahuang12@lenovo.com>
+---
+ mm/kasan/shadow.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
+
+diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
+index 88d1c9dcb507..985356811aee 100644
+--- a/mm/kasan/shadow.c
++++ b/mm/kasan/shadow.c
+@@ -397,17 +397,13 @@ int kasan_populate_vmalloc(unsigned long addr, unsigned long size)
+ static int kasan_depopulate_vmalloc_pte(pte_t *ptep, unsigned long addr,
+ 					void *unused)
+ {
++	pte_t orig_pte = ptep_get_and_clear(&init_mm, addr, ptep);
+ 	unsigned long page;
+ 
+-	page = (unsigned long)__va(pte_pfn(ptep_get(ptep)) << PAGE_SHIFT);
+-
+-	spin_lock(&init_mm.page_table_lock);
+-
+-	if (likely(!pte_none(ptep_get(ptep)))) {
+-		pte_clear(&init_mm, addr, ptep);
++	if (likely(!pte_none(orig_pte))) {
++		page = (unsigned long)__va(pte_pfn(orig_pte) << PAGE_SHIFT);
+ 		free_page(page);
+ 	}
+-	spin_unlock(&init_mm.page_table_lock);
+ 
+ 	return 0;
+ }
+-- 
+2.34.1
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20240925134732.24431-1-ahuang12%40lenovo.com.
