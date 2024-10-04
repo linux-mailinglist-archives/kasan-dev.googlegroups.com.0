@@ -1,138 +1,136 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBD46723QMGQEXYTVW3Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB3VC723QMGQE2IL2JMY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf37.google.com (mail-qv1-xf37.google.com [IPv6:2607:f8b0:4864:20::f37])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD5C98FD78
-	for <lists+kasan-dev@lfdr.de>; Fri,  4 Oct 2024 08:45:36 +0200 (CEST)
-Received: by mail-qv1-xf37.google.com with SMTP id 6a1803df08f44-6cb461aed30sf26477316d6.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 03 Oct 2024 23:45:36 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1728024335; cv=pass;
+Received: from mail-yb1-xb38.google.com (mail-yb1-xb38.google.com [IPv6:2607:f8b0:4864:20::b38])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8B998FD94
+	for <lists+kasan-dev@lfdr.de>; Fri,  4 Oct 2024 08:55:43 +0200 (CEST)
+Received: by mail-yb1-xb38.google.com with SMTP id 3f1490d57ef6-e25d494faa4sf2162762276.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 03 Oct 2024 23:55:43 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1728024942; cv=pass;
         d=google.com; s=arc-20240605;
-        b=RgzKM88t5a8GylG2lrSbZDSykPxFN48Tz+7As57U2WmJXcJLi36H59dsZahV6kHE31
-         aqyAH3un3QRJWsnGziRKA59cESvB/POfOiaVPEL7WeFpYDRD1LNsm+hd57PNVzvrYfjY
-         syZjwSwblQseFVLPuFxE9sxI0Txg314p5gpggfALT4g/9cKc9ZAgGiIPYfzWby0z+HOU
-         2Vji9afhB3PexQNVFIOnjb49ezI6Ix7ozccl7M3ZDSP9T+bmltqRaNWCk4/h2Vn0bxKr
-         VJAk4XZ+AhFdapfO1QqoDwGm2ypKx00yo3t/PRT6vNv1LjuQb0AF/XRz0bgFZsGjxCtJ
-         SFMw==
+        b=Z90nGbVwv7PoK5PxMm26ragdxFgAxbtwA/mfozOLXlBZocb7fUEy4dgKHhYkhzWRH4
+         /fWO6DVb+i8GZMcQryRl3mi2msBQPgPiKbJkTdCioNTWKFFdiaJORhNaJuY2zQLeIp25
+         /CgESmluYk6+9uW+0qM14cGTSfysKFCvuWc3nOfq9645jOFgVjw4FPkerohX/ry6Cv0l
+         amVsWbYmMCKmHdC2WJKK+himNAbUFDMQ93MsG/S02HB4YEMZa6MLs+WVoMkxsrv13wND
+         W5iSte8fp7LRMbPU5UlAEEpv3bbk0k5P6ChULJnXJylzoqZJ+ttjuzog8iLr2m03/gkv
+         Q7nw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=1RQL4f+NgmECNiyRdqgD/khitFvYZgNZ5PMh0Of1C88=;
-        fh=nNCEu120Wfp6GJFQfN2k3fx/r3CKu8EjlONm469c8Mw=;
-        b=No1OY1PiADm9/LptrpKAEBulqmMAKRoZXqbCjpsvOlVsoZLHV8Q9Kkl+UknvOBfcdR
-         L22FUpaBZr3GtiyGHgDoVZgyTZbDTUHptsXFEBEKwjYaTGYrafrjuPvonhV1BqvxSbQF
-         /44livCWbjVlvKEOgas3ODjg7s9kMTXCoFVPTKpY4XXEZbRfprJzMWRbGeKvNlbhGGkl
-         MqyKcycnjmL4O2WVMMaTy1Zlo8JsApP2AuPd9BtuhI5NBz19MImxHqJpILzjVprYI7I3
-         E5dpIqiqzsAanATA1TktuyfPkgXF2HFCOYWBLC591yMIm4MdoYLhvFgub4+ncVoGGECO
-         vibQ==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=C8SFGxGoqm9Re87Faz7QMdGr5l8VywKViqguKwGtTwg=;
+        fh=alfm/HAXFSc0Ey+A46t7KUB1KbWSDNxB2+cArBFzbnM=;
+        b=akjaAto29Q4HPw3ysJij+8cz/JVshL8JC2VgkobGRv1mORzxjvHLFkkn9byWvNK8uw
+         4FkDjbZNgDCnHE+Gx9/9jb0YIapAAtudQnhIcx3iLFRdfwYAnflXyQQtbDgc4HRaG0LF
+         mNa2yZMfJ862BSVgJEzEbjW4g6KjiQX91bQCgBet9AXi/aaAdiEV2bxRNKd9X9Z3OiTz
+         mFF4oEB6RNJldjnR/aud4Kmqj3cpzn2+hpY2CtQ6w3qEorMaF3nE0zVvrj/mXfFzseUG
+         VPYRqc8hexgCXLXN5WGVaii1Uv4S57XNboeu+437jH5nfCtH/iP3hEaIwffJQR2HrOW/
+         N09A==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=GJXLhzaS;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c2b as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=g6BUDgda;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::62d as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1728024335; x=1728629135; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1728024942; x=1728629742; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1RQL4f+NgmECNiyRdqgD/khitFvYZgNZ5PMh0Of1C88=;
-        b=DvAgUCfteitkdCXjXl39bc5jelkHK/5BcYA8g7/FKRgsAxSEaOevIdiGTVKP9taeEv
-         ftQy3xJ5MQ+Cu6ml1MSTGlXSFv18gskrWVvugbJ71Op9P/gdZZUuwvPhKxAQMIzfRtj4
-         1fuYY7Y/ydtEqPPUFO+Ct0hjahjMWcd5PCn80FxurkDDO+1lKYQmswMFDWh9XNd/LNlk
-         cqqJIXcwdfV85j7onXSTBq/w4wdVyJY3YPDaA32th4pBoBKnq8G6SWAgXztOm7lNK1yD
-         zK11eseqV45EwqhhDqB7H7uJOTjdFbWAz7EiWpqaTetnfN5LpKPMu//GRugAZPupxSc8
-         OeHQ==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C8SFGxGoqm9Re87Faz7QMdGr5l8VywKViqguKwGtTwg=;
+        b=t76BxBjjMMsOmyoNLygQTHHG4efGX6EpYiSfwxsXTnwOiitnBpE/kSwEGRyJsZvOds
+         qNnrPdvtGF30/cAhpOVmxj9if0m40QQTFS2L85d5uAieD9uiopBjFoONJN36sy6ukN3M
+         o/wzAncXoVMI+ozie/zhEs3r2/SzmsvKFVZj+JK6vB8H8rInTFjk5JecftekgNcbHD7+
+         4TTFXoYOjSXOsiR1NrDOT3o7KVaPq5FQ8q/ZtALBHqUrG4R4t02n/aq7PezdbdWMDxx7
+         cnm0cRJjQCY3LSWP0Oz5Kjx2/8hlDhyqGoLg4KpQQIIo1zFsYHKveq8TbqWGluArSzZo
+         +AEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728024335; x=1728629135;
+        d=1e100.net; s=20230601; t=1728024942; x=1728629742;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1RQL4f+NgmECNiyRdqgD/khitFvYZgNZ5PMh0Of1C88=;
-        b=Ug1tOc5SC5M+qnnmJAg0cxL45soPoO7TblqrR77YoCBgsZkKtEN8Ki1iCdVLdaGJnR
-         smQY39Gff9tIKy7AiGH2dGixemqYIPOHs2m50du3nnRatCQNxne3Co0BUgFmE8I3yvQF
-         JK+xJrbb/NbU57wzRFJWXvNgPHDVqd1QgKFe6hTysTiJ7ZdEKMalcqq9Ae0uOjnLhPSJ
-         dgWxvqV5axD5y+4jwO+HCnkzcItlWFRYfGdAnwBJi5iuw6IAugp3D9iISUWe8lgKoPwn
-         haCEJIKAI7z38xmyt+w6lb41TL3YVXIOSLiHvNRbOudI/7fOOZO3E8jDLy0WweZhDUcm
-         CsqQ==
-X-Forwarded-Encrypted: i=2; AJvYcCUKWsTcD7MTO4eF7zbLzyqYLxLdtP9MiG2Dk1Ikc7CcLCXOCh98LFBS6vKCf/51fn04ObV+wA==@lfdr.de
-X-Gm-Message-State: AOJu0YzDEvXECCHmkUidSmUMP3PBq7N8rAdK0K9TGYL/6RPzhOUl0WBu
-	EiRXbx1je2TaIm8b38rm7tfC/ZkrFTivJKuZ3DAped5EQ6LsjHR4
-X-Google-Smtp-Source: AGHT+IF5ZPCqjuqHyEIuxNWAMdnVs5XqxGmcTZtjVpMZVDIUGKTG2FyWQuH/keT2QvOsUrujIHrZxA==
-X-Received: by 2002:a05:6214:4287:b0:6c7:c650:962b with SMTP id 6a1803df08f44-6cb9a4bd0ccmr22546246d6.51.1728024335248;
-        Thu, 03 Oct 2024 23:45:35 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C8SFGxGoqm9Re87Faz7QMdGr5l8VywKViqguKwGtTwg=;
+        b=VcOtHQRoALy0qgxoQL4bkFDpRCTrIq/xgNSyjiPukCy8nHZENRCnnuiq9UgZCafFCc
+         API0UU9V3Z/Lvk7FDwpQcnMaWrqN7NrEMW8doR7d7VAiZ0hhztt/QDq9BsGQGyPoiwJH
+         YtLHQ4z5HHeDmP3yqoiyK1rsi1t/3Lij06B/uzr0bYgBWAXFPyKOEKRXyNQpoAwcGSzd
+         ZBPUqHlp3CmQfTIKJ+mlkXpfugiNf5RV3+JhdssAiR1p2wpuR+8HmEcxKpKb5BiTRXTe
+         effCSvhZYwCzttWWXRmYbDZB3b5oLkS53krDXEfZmbXREHPk4WvrTslyPF3gCCjJ7WfW
+         2FBw==
+X-Forwarded-Encrypted: i=2; AJvYcCWEYG13TPnfATvzad2mhnZXMSmYw9a/bXLYFBlTrRSd6I+AaYU/kz4T89DiFnfMc8ibMdKrvg==@lfdr.de
+X-Gm-Message-State: AOJu0Yw3BW3gbkI14KOJC6xLM64w0wvL9WHpM/cOViulIdiZ4GCiBhUw
+	Twi8Cog29jmXTEYlQKTxMpAfWikZT875p7RIxkQtQWQQfIqQbNyI
+X-Google-Smtp-Source: AGHT+IFOljyFZZdAxYD9ADc08yQSG01FCGIxCLKNLKEuksr8hIRHik5TTa09vJvSYGlp+6qebChm6Q==
+X-Received: by 2002:a05:6902:e0e:b0:e24:fac6:fad9 with SMTP id 3f1490d57ef6-e28936dc1dcmr1278724276.16.1728024942222;
+        Thu, 03 Oct 2024 23:55:42 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ad4:5aa1:0:b0:6bd:735f:a702 with SMTP id 6a1803df08f44-6cb8fdbc78bls31031796d6.0.-pod-prod-03-us;
- Thu, 03 Oct 2024 23:45:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXZj6kOX3RLhM0WLeYsaRa2Xsb+q9I+NzihYqRuTTtMo7jmDeVBEDgXQgLb/it/jQnxotAxqucem78=@googlegroups.com
-X-Received: by 2002:a05:6102:3595:b0:4a3:b777:3613 with SMTP id ada2fe7eead31-4a405905334mr1234195137.27.1728024334133;
-        Thu, 03 Oct 2024 23:45:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1728024334; cv=none;
+Received: by 2002:a05:6902:120b:b0:e1d:a081:e017 with SMTP id
+ 3f1490d57ef6-e286fa6c604ls2227194276.2.-pod-prod-09-us; Thu, 03 Oct 2024
+ 23:55:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVQxJ/OkAAYMZnSzfyeXPw5dJgN2n7NqmNXP3RFOIdILwYgnYW5MB6qwDKqPjG4M64Zt5RcR6foK8c=@googlegroups.com
+X-Received: by 2002:a05:690c:d90:b0:627:24d0:5037 with SMTP id 00721157ae682-6e2c6e90c3amr16524517b3.0.1728024941322;
+        Thu, 03 Oct 2024 23:55:41 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1728024941; cv=none;
         d=google.com; s=arc-20240605;
-        b=e2/Munh4dB/sHNZzl05AEAqdLoz8kJsRuKdKWt992LByjZkw2G3G1PngFSnRZa4Z7W
-         XyzLH4vvfy44tTE+NXXsBdQTB0W8suqRdOZoVnGTMZjKcgAk/0+1n2LK94drmismaDF9
-         5zhmGk51+rCJXYi/6f6kk8aUs8zDnCDuqjSrpaxdK7MQsfcS2BENGbuTfJSwiJtgNxsM
-         QX7pJqby6FeHBgZl9AVNRT1WJWAeMfEq1wi2rciuPlQ5T7jvVtmy47AYZ22mi9JHHcS/
-         0s/zLDtvNyDG6s8r3CU15Af1nhpsFM3mC4tB7Dr9ZcceKOe8AOB27UET7Vji00+ScyFJ
-         9wpA==
+        b=jy3r3GARdM4Bc8iYe8w21tONCVVJR6gx5iM/MVsxHHFTIouGYy7ckJtMaPS0IKs7bF
+         kUxVTn58SJtTyUuHJ6QRPe8hNLbVm/gg4GQwIke3tKLG0thf1jL564Zkk27OQal7xNoB
+         p1gVNmgSNJQ+MfwkTG7gPSzWwsqMgqRrfZQwhm/1Jj/070Rw/vOprM4FQkPiUale8EuJ
+         /eT1nkMI+sQu+C//VN3/2xJmuxOFt2jyv8tLlGWxNKBfx+C7Qxqs1Es74UYG8fjRvfan
+         VFHiYd8egK3eb440abFamg46P+N95J8YcAp43gPQ8+CzvsjFgYq2Rbkd3O967fZ7a8kp
+         Mxkg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=mL2W2tJrDMQeo1z+yDtY45KIaV/M8fHOjbAIS4+Vjz4=;
-        fh=p3jaZZVGiZvn7A2H+aSW6l2rq6PsVCQohpdaGcHW13g=;
-        b=S1vKXj5N2+4/tnCOHM+LU1fuAPj/RVLQOwm4/4TIhvQebWpidgfT3gTTuFrER87ydM
-         vSUdqFqsio2kB6aG6k8Vwbu6Whmpa9SkMlGlwWrswLM/oa8CzIZxF+Ztkp7CxnIaI7b0
-         UKLMvdFcnTIh7TgjQLJZfKq+XmxVI4bqQnsRgegnHpRVG/CvIlI4eL/hQr5gkVIdXJ9Y
-         pk37kOApIKvkCfdB8GQy4ZVY37mnk3UNSHVE/Hpt7iu6JJ80s4SLxxpCvv1+nimH8VOZ
-         pM2Hw5BHAc8/cW4uhpoPSGio3e8yVVFgssgmti6HZXLlcx+PYeoojwYmq74hn+sy4rXQ
-         DOrg==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=q7o2gtlpEVASHHeeVwEYiWWRZirGk2x9V5M6y6RZYrM=;
+        fh=N2sLcP6QfTIq7gF/xjl/2yQeSr/RTm246rz7q60nRFw=;
+        b=V3vaZyEv1gjXMzPLlM0Ta5pJzvnOC9d/SODMD0r/fEkMuOzmNsmuJI3/pwreh10cdd
+         9TPaW/RYmkH3bcl/nHN3pLQZ/tN9WLS+YcVq+zzhb1O8+jiYoCoZgAWyqoCrFDCwmiwB
+         U4TCzulHtc1n42g5QxdQ7Me4C6SrwfpnNNyBSmI40B2RXuu67ty69fFoLdvmTinlovVa
+         L4YI0h/L+jRDcwbZuPE0abMGloxZceKNiaC21pYEDByHI1U4Xc3zuWwAQGi1EH+q70EA
+         HE4piDlPDsE1rPXUFPapKxsv+omKPxzDlhlgcFUjieSUZi9pU6hj/pZ5FXZXf+LztDEq
+         fG+g==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=GJXLhzaS;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c2b as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=g6BUDgda;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::62d as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com. [2607:f8b0:4864:20::c2b])
-        by gmr-mx.google.com with ESMTPS id af79cd13be357-7ae6a124d36si11210785a.1.2024.10.03.23.45.34
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com. [2607:f8b0:4864:20::62d])
+        by gmr-mx.google.com with ESMTPS id 00721157ae682-6e2bbcad91asi2236577b3.2.2024.10.03.23.55.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Oct 2024 23:45:34 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c2b as permitted sender) client-ip=2607:f8b0:4864:20::c2b;
-Received: by mail-oo1-xc2b.google.com with SMTP id 006d021491bc7-5e1b6e8720dso920933eaf.0
-        for <kasan-dev@googlegroups.com>; Thu, 03 Oct 2024 23:45:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVwW1D3CcuY2Y2j0h6XIRDOV70eP37lVsu1y8vn9YJ8vaJ2f6SiQ6IG+WvQkZMV0tsFbxKJGzFxGXI=@googlegroups.com
-X-Received: by 2002:a05:6870:364e:b0:278:14b6:a8f7 with SMTP id
- 586e51a60fabf-287c20219d4mr1335084fac.42.1728024333180; Thu, 03 Oct 2024
- 23:45:33 -0700 (PDT)
+        Thu, 03 Oct 2024 23:55:41 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::62d as permitted sender) client-ip=2607:f8b0:4864:20::62d;
+Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-20ba9f3824fso14097865ad.0
+        for <kasan-dev@googlegroups.com>; Thu, 03 Oct 2024 23:55:41 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVsI65fGzI7BNJcqUvRJ/ODakRbr3CL1etda89UMmTupWRRsf+1ytMhxcyf0slofftbMok86aEEF5g=@googlegroups.com
+X-Received: by 2002:a17:903:11c7:b0:20b:9f77:e8bd with SMTP id
+ d9443c01a7336-20bfe04aca9mr24574365ad.36.1728024940031; Thu, 03 Oct 2024
+ 23:55:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240911064535.557650-1-feng.tang@intel.com> <d3dd32ba-2866-40ce-ad2b-a147dcd2bf86@suse.cz>
-In-Reply-To: <d3dd32ba-2866-40ce-ad2b-a147dcd2bf86@suse.cz>
+References: <20240927151438.2143936-1-snovitoll@gmail.com> <CANpmjNMAVFzqnCZhEity9cjiqQ9CVN1X7qeeeAp_6yKjwKo8iw@mail.gmail.com>
+ <CACzwLxhjvJ5WmgB-yxZt3x5YQss9dLhL7KoHra0T-E2jm=vEAQ@mail.gmail.com>
+In-Reply-To: <CACzwLxhjvJ5WmgB-yxZt3x5YQss9dLhL7KoHra0T-E2jm=vEAQ@mail.gmail.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Fri, 4 Oct 2024 08:44:54 +0200
-Message-ID: <CANpmjNM5XjwwSc8WrDE9=FGmSScftYrbsvC+db+82GaMPiQqvQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/5] mm/slub: Improve data handling of krealloc() when
- orig_size is enabled
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Feng Tang <feng.tang@intel.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, David Gow <davidgow@google.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Alexander Potapenko <glider@google.com>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, linux-mm@kvack.org, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, Eric Dumazet <edumazet@google.com>
+Date: Fri, 4 Oct 2024 08:55:03 +0200
+Message-ID: <CANpmjNMBJJ4e8EGkfFB2LmtPNEtzx2K7xLhK8PXdRsO=KiAS0Q@mail.gmail.com>
+Subject: Re: [PATCH] mm: instrument copy_from/to_kernel_nofault
+To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+Cc: ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com, 
+	dvyukov@google.com, vincenzo.frascino@arm.com, akpm@linux-foundation.org, 
+	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=GJXLhzaS;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::c2b as
+ header.i=@google.com header.s=20230601 header.b=g6BUDgda;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::62d as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -149,75 +147,71 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 2 Oct 2024 at 12:42, Vlastimil Babka <vbabka@suse.cz> wrote:
+On Wed, 2 Oct 2024 at 18:40, Sabyrzhan Tasbolatov <snovitoll@gmail.com> wro=
+te:
 >
-> On 9/11/24 08:45, Feng Tang wrote:
-> > Danilo Krummrich's patch [1] raised one problem about krealloc() that
-> > its caller doesn't pass the old request size, say the object is 64
-> > bytes kmalloc one, but caller originally only requested 48 bytes. Then
-> > when krealloc() shrinks or grows in the same object, or allocate a new
-> > bigger object, it lacks this 'original size' information to do accurate
-> > data preserving or zeroing (when __GFP_ZERO is set).
+> On Wed, Oct 2, 2024 at 9:00=E2=80=AFPM Marco Elver <elver@google.com> wro=
+te:
 > >
-> > Thus with slub debug redzone and object tracking enabled, parts of the
-> > object after krealloc() might contain redzone data instead of zeroes,
-> > which is violating the __GFP_ZERO guarantees. Good thing is in this
-> > case, kmalloc caches do have this 'orig_size' feature, which could be
-> > used to improve the situation here.
+> > On Fri, 27 Sept 2024 at 17:14, Sabyrzhan Tasbolatov <snovitoll@gmail.co=
+m> wrote:
+> > >
+> > > Instrument copy_from_kernel_nofault(), copy_to_kernel_nofault()
+> > > with instrument_memcpy_before() for KASAN, KCSAN checks and
+> > > instrument_memcpy_after() for KMSAN.
 > >
-> > To make the 'orig_size' accurate, we adjust some kasan/slub meta data
-> > handling. Also add a slub kunit test case for krealloc().
+> > There's a fundamental problem with instrumenting
+> > copy_from_kernel_nofault() - it's meant to be a non-faulting helper,
+> > i.e. if it attempts to read arbitrary kernel addresses, that's not a
+> > problem because it won't fault and BUG. These may be used in places
+> > that probe random memory, and KASAN may say that some memory is
+> > invalid and generate a report - but in reality that's not a problem.
 > >
-> > This patchset has dependency over patches in both -mm tree and -slab
-> > trees, so it is written based on linux-next tree '20240910' version.
+> > In the Bugzilla bug, Andrey wrote:
 > >
-> > [1]. https://lore.kernel.org/lkml/20240812223707.32049-1-dakr@kernel.org/
+> > > KASAN should check both arguments of copy_from/to_kernel_nofault() fo=
+r accessibility when both are fault-safe.
+> >
+> > I don't see this patch doing it, or at least it's not explained. By
+> > looking at the code, I see that it does the instrument_memcpy_before()
+> > right after pagefault_disable(), which tells me that KASAN or other
+> > tools will complain if a page is not faulted in. These helpers are
+> > meant to be usable like that - despite their inherent unsafety,
+> > there's little that I see that KASAN can help with.
 >
-> Thanks, added to slab/for-next
-
-This series just hit -next, and we're seeing several "KFENCE: memory
-corruption ...". Here's one:
-https://lore.kernel.org/all/66ff8bf6.050a0220.49194.0453.GAE@google.com/
-
-One more (no link):
-
-> ==================================================================
-> BUG: KFENCE: memory corruption in xfs_iext_destroy_node+0xab/0x670 fs/xfs/libxfs/xfs_iext_tree.c:1051
+> Hello, thanks for the comment!
+> instrument_memcpy_before() has been replaced with
+> instrument_read() and instrument_write() in
+> commit 9e3f2b1ecdd4("mm, kasan: proper instrument _kernel_nofault"),
+> and there are KASAN, KCSAN checks.
 >
-> Corrupted memory at 0xffff88823bf5a0d0 [ 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00 ] (in kfence-#172):
-> xfs_iext_destroy_node+0xab/0x670 fs/xfs/libxfs/xfs_iext_tree.c:1051
-> xfs_iext_destroy+0x66/0x100 fs/xfs/libxfs/xfs_iext_tree.c:1062
-> xfs_inode_free_callback+0x91/0x1d0 fs/xfs/xfs_icache.c:145
-> rcu_do_batch kernel/rcu/tree.c:2567 [inline]
-[...]
+> > What _might_ be useful, is detecting copying faulted-in but
+> > uninitialized memory to user space. So I think the only
+> > instrumentation we want to retain is KMSAN instrumentation for the
+> > copy_from_kernel_nofault() helper, and only if no fault was
+> > encountered.
+> >
+> > Instrumenting copy_to_kernel_nofault() may be helpful to catch memory
+> > corruptions, but only if faulted-in memory was accessed.
 >
-> kfence-#172: 0xffff88823bf5a000-0xffff88823bf5a0cf, size=208, cache=kmalloc-256
->
-> allocated by task 5494 on cpu 0 at 101.266046s (0.409225s ago):
-> __do_krealloc mm/slub.c:4784 [inline]
-> krealloc_noprof+0xd6/0x2e0 mm/slub.c:4838
-> xfs_iext_realloc_root fs/xfs/libxfs/xfs_iext_tree.c:613 [inline]
-[...]
->
-> freed by task 16 on cpu 0 at 101.573936s (0.186416s ago):
-> xfs_iext_destroy_node+0xab/0x670 fs/xfs/libxfs/xfs_iext_tree.c:1051
-> xfs_iext_destroy+0x66/0x100 fs/xfs/libxfs/xfs_iext_tree.c:1062
-> xfs_inode_free_callback+0x91/0x1d0 fs/xfs/xfs_icache.c:145
-[...]
->
-> CPU: 0 UID: 0 PID: 16 Comm: ksoftirqd/0 Not tainted 6.12.0-rc1-next-20241003-syzkaller #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/13/2024
-> ==================================================================
+> If we need to have KMSAN only instrumentation for
+> copy_from_user_nofault(), then AFAIU, in mm/kasan/kasan_test.c
 
-Unfortunately there's no reproducer yet it seems. Unless it's
-immediately obvious to say what's wrong, is it possible to take this
-series out of -next to confirm this series is causing the memory
-corruptions? Syzbot should then stop finding these crashes.
+Did you mean s/copy_from_user_nofault/copy_from_kernel_nofault/?
 
-Thanks,
--- Marco
+> copy_from_to_kernel_nofault_oob() should have only
+> copy_to_kernel_nofault() OOB kunit test to trigger KASAN.
+> And copy_from_user_nofault() kunit test can be placed in mm/kmsan/kmsan_t=
+est.c.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNM5XjwwSc8WrDE9%3DFGmSScftYrbsvC%2Bdb%2B82GaMPiQqvQ%40mail.gmail.com.
+I think in the interest of reducing false positives, I'd proceed with
+making copy_from_kernel_nofault() KMSAN only.
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CANpmjNMBJJ4e8EGkfFB2LmtPNEtzx2K7xLhK8PXdRsO%3DKiAS0Q%40mail.gmai=
+l.com.
