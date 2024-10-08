@@ -1,162 +1,139 @@
-Return-Path: <kasan-dev+bncBDAOJ6534YNBBEMMSS4AMGQEL5TFNWI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBI5SSS4AMGQE2MUESBY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x339.google.com (mail-wm1-x339.google.com [IPv6:2a00:1450:4864:20::339])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9251E99451C
-	for <lists+kasan-dev@lfdr.de>; Tue,  8 Oct 2024 12:14:43 +0200 (CEST)
-Received: by mail-wm1-x339.google.com with SMTP id 5b1f17b1804b1-42cb236ad4asf33328365e9.3
-        for <lists+kasan-dev@lfdr.de>; Tue, 08 Oct 2024 03:14:43 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1728382483; cv=pass;
+Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
+	by mail.lfdr.de (Postfix) with ESMTPS id A55A299473E
+	for <lists+kasan-dev@lfdr.de>; Tue,  8 Oct 2024 13:36:04 +0200 (CEST)
+Received: by mail-qt1-x840.google.com with SMTP id d75a77b69052e-4584224c8ffsf145509151cf.3
+        for <lists+kasan-dev@lfdr.de>; Tue, 08 Oct 2024 04:36:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1728387363; cv=pass;
         d=google.com; s=arc-20240605;
-        b=baMm66+3JHjJ1yr4VLxecI2hfrgkQ6OCeJI9bH76Ka8Q4qAduWmjtlzlKStmyd8T69
-         1A/E/UNKuNvvWCqCuiF1MRc57CHUKQMZFbfRXKwpB7F3VgiXD19v5M9XVnV8wApsE0jb
-         kuWSozqhYqKUbgalRqvydUoj0Jr0orDd32JWcVmYihxD15356PM2di0sX5EXnLVp9RHn
-         jgjGphDYd9aCz5JWy1iXbiBQLnxHTyfMKzarOjR/+RTgvedg7FfP6xwd+iK1AaxEZlxR
-         EBYrRZ6LZBTwQojm0UPPLHEoFPlTZ9qLAfrpKI2hO8M8hCrtQo53sl/6L91IeZgqpzyV
-         YuYQ==
+        b=O0oODrPKQIE5pHZJzlTn7WV0/mvFgeHqqf0qKdH2z+u35s/QulSRzr6laLF3f1AYu/
+         77MnsxtrnDXuYrBAXtrlhYevN2MV09yj1Hod9hOgC/A4ATW11uYlIjN4mqGsywf9vT7v
+         OayFx7Zcb0bpsoVcPbrGy3pquHUmKNrp/8kf4kMrpYeegMqMM3dhr1qnttZIawaOnUiq
+         ISQODfO09rb1cL8RdN6+QpN9qFfN/ASlNhpDzTNCY+NWn32P27XVmCv+hSeBlwKE0Crk
+         bFB6S9jqOJLldtTRrWAxVRLsi5A6avgGpGUt3kYP13hLkvJseN2XR5lihEOIyK5Gag2e
+         titg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature
-         :dkim-signature;
-        bh=OKyX06n5SO+9jcvT41d43yUmqsw1ODci+fj7eAcF2eU=;
-        fh=z/8SZvbNFfiUbBXS/Uf/Z6z1l7m/lZp5rhQ326vAJjE=;
-        b=HKZp3PBGRhBBjoMPenfJyo9dMZh2cfZAi/9+Gs7DlASYo89/KL/L03FVZbKLEzVby2
-         5SQNYgPVaTjmveR20GwFB9b8Ay20i6vAe+HNCrZus81YdLkUkXp+cDHqjX/JD/3AHe0/
-         pdRoXPKWnwPAQlLVMTW1mqMqQqH6/g7lqwsC4w1ar9DmSXPKtMRyN6B63Ppb0DDmRR09
-         4tLTS+gbzi6pPa3XCEaBZVojSK/7Z6JuCixKdVQl/0bqwtLeg4xi+rtqSQCM66zkpA66
-         6AlsfG0vq+HRCU6u5cG2giwMGEVM2pePG3TCWxKbCBilrY/RfW+/s+hXghAY3uInLH/2
-         +QVg==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:dkim-signature;
+        bh=r9KKDrF9RdAwYV/gxa4VwTtuBNRV+tOy+NSOooCwPkk=;
+        fh=1nk+pe167ClOXzdNBe7Jq1my/7wgWtA+8rMR6nP76wQ=;
+        b=B2lALG22Gq5RbEmtI0dCwu3pwDq8EaP48g8fD7uBvX0/iVTkFoYzjpeUtnQFPIXoky
+         46exijv5KGPu0l8/QKz0+360SVr7ghoPbQasoRXPV6xM+d2FXETM02ZA/8zZBajGYMNP
+         /GxYPqcU39XHb4yRBwIGQqcEYFc2yvZuvAGWTq4LISWJ9XDo6FgOlxdiFkEOtnaEL5F4
+         iCVlOPdvJriyh2LNCm6IUQsCSmvhH74WrMB2olsVWnJ2za9P8ts9nlDDfZKill3z1CIf
+         4ummChj8IiOEJxoE5azAFmQ5fdgFrweg/b4S6Sv6UcGkzIQAjd1GJlW1T0ddMlCgY94C
+         SOEw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b="IGNSEJ7/";
-       spf=pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::32b as permitted sender) smtp.mailfrom=snovitoll@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=mJWO7r69;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::635 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1728382483; x=1728987283; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1728387363; x=1728992163; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OKyX06n5SO+9jcvT41d43yUmqsw1ODci+fj7eAcF2eU=;
-        b=dAxKJ4XF3OWZp5Xa/zw06kO5s3lbpNmjxyqTNm8+uVRbpTNlbndJkWSbXhni0O9sbs
-         FiCznhSiGVA7mwj4JRpKTeKG0QwDMtdwM2WAfDmnAwigfSsN37V/1ZI92cVnKok/ISRN
-         SDxR9QmC7DO6IfbbCuZk18TCrlptB7Q+LG81pta4qpvK6bdUSgZUkjQIicoVM8ueUZbY
-         0hrWzE2kH86sJz62M7fHoPXYTFvDQIVdEGAcMToPCFv5mdkOnRSvU/btqcGsQ0Ep6jQ+
-         1f87TX22c2WLz0vFmI+WoUxpZUNfpSxE2uVFTfvB/6d+5hhkesfyC2jHnPlYC77rpH/+
-         nvng==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728382483; x=1728987283; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OKyX06n5SO+9jcvT41d43yUmqsw1ODci+fj7eAcF2eU=;
-        b=KJGUnxf3DY996A3GwREA4tNFF08nEf7KkNPvffSvnqPqopLV/80S/Y7BsduULcDr+W
-         cYAcY+xTl8XkCIoXPTMSyqA8Xbb86WNzh+TPs+3RkXC98qDsqM9LQYQVVjHz6iPWItB8
-         ax8T44dX3afgClbNt4yo5vKsqClUyqHFGPuf72dtZKDGLeg/DyAJkrDBSWT62jecqQAG
-         QTrVmij4hcsnfSYuYrZU9ncLYP4FJYe/R1+dSqmMOzhFKq/2LmDfM04Q9RbN6ZtTG2HO
-         2h58wZJ3E+mTTCWlO3NlBWtT9dI/d9p/nI3EAnLZA2QeB7Gtj4/kD9bNnvC4LyXBeTE7
-         ifaQ==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=r9KKDrF9RdAwYV/gxa4VwTtuBNRV+tOy+NSOooCwPkk=;
+        b=CqyJXTrDo6EcQj89TV8sCth2jz+3SMY99wn8+VTdisev54Qx0qgSFQpn6FfiMNDRab
+         P+rlYYYo7MzlJRb4noJkT50lzAYHVuV9X3jWaOtRYJ7LAEdrjAViyMaFMdwqtClSdulX
+         87Vt7sEC5YCCW3uVXZWJ/PbWNeLkN3RvvE7WkWSpf/1tEpRK25GXFgdaJ89HCrKlO1Um
+         lzs5ZxpR9dnL3XneV45Tv1iA8qZcDEqvjaUHdrsY+zDvHxP4CIi67DWK1mub5klYtViM
+         hoY2xFvnwepEtZZbpvS1jqgbEPiqqWrNxEMPhtuomObyCxMjAYAaH4UnojfOcjT+gpMH
+         7hkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728382483; x=1728987283;
+        d=1e100.net; s=20230601; t=1728387363; x=1728992163;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OKyX06n5SO+9jcvT41d43yUmqsw1ODci+fj7eAcF2eU=;
-        b=W7ZN+TNsaAobwTI2IWdedNSYsiDBXnr/SC/1wN11JrgMfDfDkgZPuaG3s7MKi8sJ6B
-         2dv3neKMKlRpyjVR+3s68tdMIff6L5h75DiJIQaN7ggJ1LplFmndcVI83A7m+QMkphRw
-         jGBb0KAAwVbqH554XFdfXNHy0A4r/BUBQLmWLVFtH2ce1coqxyS49Hd4/ppp6bEA2Ux9
-         o06VAX8xpnlsBbMarps4+pDF/jI0mA2T/9yZsFSG+4JwmHDW+KMkNUTNDLwCEJsjktAd
-         cLSOrCNWxm6DZE0VNXIp845ukHPOwxT5XqkaZbqJ5JXfQaCZNEIiP0OJm/3MRKgfQyrr
-         45xw==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXpbntRNW/cj+sXTqJTtZ0pl9qa+D3eD2D/YvF+F6A+vs9aVIYEIhoCqEjvpN5CwrtSPn+odQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yxh+5QA636SpLPfvF3gx/b/anuBOZ8x5uqsD18Qf6MzfEM4JWQA
-	umPL8KORhPOQ5K2fQkdKtKP4V9PY/uDexXJ2tRrNkOFbOGdi+2tD
-X-Google-Smtp-Source: AGHT+IE1AtrPfPAcVuh45xUgUV5fMAiXLaTnbiIP16CRFfUWI1v1IbZ5UFCJ2etPw4o6yIu7UkpSqQ==
-X-Received: by 2002:a05:600c:1daa:b0:42f:8515:e482 with SMTP id 5b1f17b1804b1-42f85ab59b8mr118117585e9.9.1728382481929;
-        Tue, 08 Oct 2024 03:14:41 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r9KKDrF9RdAwYV/gxa4VwTtuBNRV+tOy+NSOooCwPkk=;
+        b=AAztxnYrkkPDv1C4MPFOB0bXT3dUBnG4m3JQUokAVt4QtZz38wlQAmRfjWOUKWTbzY
+         mvkgy7AREEAdoT52r2+f+tP9eKanNOtx1su8EDbjUHc0GQsw19VvYTaKD9AVEDdPioAp
+         awk+tNnqy4bXOknZs62Ff1cbB9+0PBbTxpsYMD8+6N3KnXAVRQClho+ZxuY2NJtivbnz
+         5v5EatW6yV/77WkJ35yIrj2r0oumzZyGgKluWtf6nWUbG9em+r7MjnpDkrr7t7NNVbvr
+         LFxTb3Cy4RkcGYndn3ifOgzfwPvsXSufqxvfpZ87hftYrOtdNd87GHoqUWjNVWWF9Kig
+         QLaQ==
+X-Forwarded-Encrypted: i=2; AJvYcCW3QMqHj0YYm1NXuFgSYL9x8ExX7KuwVqYDkCw7Us9Cdnlwed3rs3h1tbA9mrUMMXF/2e8LNg==@lfdr.de
+X-Gm-Message-State: AOJu0YyvhW3BS3s3DJAh0vOJ++qB2bs6YebnBEgfY5WFN+PAbDw2eLfc
+	PrYznZy7GFLAhx42XPWiTKNNUZbq0nLFYbycw68KBKlgIu2JL9Om
+X-Google-Smtp-Source: AGHT+IFniSLN+dnPtdA4jrRCs9+u4AwoIsBnwOy6jnaHCccgJ0lV8z4YrZyB110/gSHFm6zgd6wjMQ==
+X-Received: by 2002:a05:622a:598c:b0:45b:16f5:6c16 with SMTP id d75a77b69052e-45d9ba62e5dmr257533451cf.24.1728387363304;
+        Tue, 08 Oct 2024 04:36:03 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:3147:b0:430:5356:acb2 with SMTP id
- 5b1f17b1804b1-4305356b020ls1730185e9.0.-pod-prod-08-eu; Tue, 08 Oct 2024
- 03:14:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXyfrl6fdlgoDTYS8n+MfUzMTdRYRZeoiFYrV+nd5jusLwoizUUlH7z4cAAVNzBGc0Igzt9a4TAoI8=@googlegroups.com
-X-Received: by 2002:a05:600c:548a:b0:425:7bbf:fd07 with SMTP id 5b1f17b1804b1-42f85aa3c1dmr120154055e9.5.1728382479870;
-        Tue, 08 Oct 2024 03:14:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1728382479; cv=none;
+Received: by 2002:a05:622a:1448:b0:458:355c:3632 with SMTP id
+ d75a77b69052e-45d8d7bacdels16778851cf.2.-pod-prod-04-us; Tue, 08 Oct 2024
+ 04:36:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWrvk/SrAAt6f4PKIx+Nue3P8xVs4/InKGb0DVsQYajgvcZhUkLbnD+xSIalRYkvNE2w0hxecti7U0=@googlegroups.com
+X-Received: by 2002:a05:620a:1921:b0:7a9:c31f:e4df with SMTP id af79cd13be357-7ae6f42cf09mr2548023285a.6.1728387362428;
+        Tue, 08 Oct 2024 04:36:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1728387362; cv=none;
         d=google.com; s=arc-20240605;
-        b=leG0pCvBWunPpX6qmSdXsAoeQWFEcjucw9Yj3p3j4wJHHqN/uRehlzWBJv/eo3kcWO
-         BoXrQc+djsUmC/3vomU3qPjM2cKlqcSk/nnXN+vskIv1aCh26LvxVL/8NyeHzcCZyxDO
-         FoIZFjf+GNUUo0OiEg8rC485GnUCmOARJa6GhbAnwfsvKMSOEPRgP8kyn/d6DHVSfb92
-         LuqFzVC1Ro2V2QCTCzy9Dpj+sCANfjm/uS1QB1CDEGihNo/EFCIue+/RCCpNm/BMe/i0
-         c+icBnLU1LP24P7Rz5KHu+VejW3v2PAKidakC99tb4Hk3KiEa2sP+EQ1bAc55cqkWY7r
-         /hQg==
+        b=P7MyCg7rNHVCarrn6IB29RnhH9IzjP5Kbk2ERlQj2HulQAp2QxTrPUtAfJKIXujuc0
+         t4H1B5XFa7fJNg8WPCqHNe6+Ugcf0BTCpdJ1f07EMbBxkDT3QN0XcJ7uFxf2DpvIj04A
+         G/ykylmtObUnvJNtX1GCaTExLRe9jhLHThcK+6pptm6c4QrewybWyCmcX9Q3ZLOKUPWA
+         Yy9njV23bBVqECRkibp3kBbV7Q/WFb9SbPD0S6baCJrQ8X1GkJQEbqvrXHrm2DoTc6wq
+         wCbyOxdSKXFGNBsSuK39QQhqLibl/7a6JdUXImc2Fs7qL2jo3ZLbqTemGp1CwvGt6rCX
+         0ZEQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=Imn45k5J9wM19h9i9/RuyLoAF2diDSxFA12TsgI6H5w=;
-        fh=8B1XQn8qCuhkh8n3OGRoTvHcrjeOEDWguvyLgwpMFV8=;
-        b=AxUV8zdW98E9OQj//44b39U/xYMLhg4ysZZ+GMlAMPc0vzELMC4zbaALEwgJlNtk+Y
-         JhM+RW2VQtFrkzfS2YKPk3hNdhz4QQXMvwlmjCUECYbzG0D8Fe05JrH0l5ezTOjHq+GG
-         5b9+COIs0rgC+YpMDxiA5NXjDbFcMebMeHsYNfnel1D5lxk+IcO3qRsxxN6Ug7vHjFPD
-         8nwrk4SUnHv4vCGakgIFqQtkUMggcSHv1F/nC7dH/Unj3AayNcWnQDVEmZpkq/+QwqkQ
-         QXHE98L4Xt0MZZfqSj+4DSWpV2wK0TnroYdeNmA7elDqL+dx5906xPp6U1LZU4OBVKGT
-         Op9g==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=ALIusGAUH/4/gvGvjWJecPeh4PIpgeoXr9PxFWIdEcw=;
+        fh=vXATM/r5FNLVt7ITfomVlDaA+0XiXwrQW1PTg2nEMNk=;
+        b=OWYI/7jIdvOuqtGjH2nsDkHVDxe4cX+phc1Cn++R8gTufmsedWNufT//k4W/0YyrKy
+         PAEIaKObauq+w8YYUABQx1oNqeSuotA5ey4qk9p9IC/E0s7pn0SlIYp30EGfua5wE/g/
+         pJsNuw9MhJYH8YXoN/GaWumF0FCEdN6p5DjoWP9dxabBm9qE2afEENrOoQX3ER4kZY2T
+         EZdPbbhKvFn9IbqPbJx8xCSyvD31ajO7KYlx7XMrk/uOdEUvvZ9Vcp3PSDV8zoVtXyHT
+         dtLF/XpViKMcJMGjOxJ6yq3kUtrG9EBryJCR37IlaprfxeoBom8g6kh76TsBR7d+tpWx
+         zBMQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b="IGNSEJ7/";
-       spf=pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::32b as permitted sender) smtp.mailfrom=snovitoll@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=mJWO7r69;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::635 as permitted sender) smtp.mailfrom=elver@google.com;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com. [2a00:1450:4864:20::32b])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-43053f83cf9si541625e9.0.2024.10.08.03.14.39
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com. [2607:f8b0:4864:20::635])
+        by gmr-mx.google.com with ESMTPS id af79cd13be357-7ae7576681asi26856485a.7.2024.10.08.04.36.02
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2024 03:14:39 -0700 (PDT)
-Received-SPF: pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::32b as permitted sender) client-ip=2a00:1450:4864:20::32b;
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-42ca4e0299eso48508815e9.2
-        for <kasan-dev@googlegroups.com>; Tue, 08 Oct 2024 03:14:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUfK6XyIZKlZhcU0BudMcUnYjTqR1hHd7t63m6PRo+PWwEiRMDftx31Fq+5IegovZDGXstWhIqkl7g=@googlegroups.com
-X-Received: by 2002:a05:600c:4f14:b0:42b:a88f:f872 with SMTP id 5b1f17b1804b1-42f85af5387mr96155965e9.32.1728382479035;
-        Tue, 08 Oct 2024 03:14:39 -0700 (PDT)
-Received: from work.. ([94.200.20.179])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f89e89624sm103790585e9.12.2024.10.08.03.14.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2024 03:14:38 -0700 (PDT)
-From: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
-To: elver@google.com,
-	akpm@linux-foundation.org
-Cc: andreyknvl@gmail.com,
-	bpf@vger.kernel.org,
-	dvyukov@google.com,
-	glider@google.com,
-	kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	ryabinin.a.a@gmail.com,
-	snovitoll@gmail.com,
-	syzbot+61123a5daeb9f7454599@syzkaller.appspotmail.com,
-	vincenzo.frascino@arm.com
-Subject: [PATCH v3] mm, kasan, kmsan: copy_from/to_kernel_nofault
-Date: Tue,  8 Oct 2024 15:15:26 +0500
-Message-Id: <20241008101526.2591147-1-snovitoll@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <CACzwLxh1yWXQZ4LAO3gFMjK8KPDFfNOR6wqWhtXyucJ0+YXurw@mail.gmail.com>
-References: <CACzwLxh1yWXQZ4LAO3gFMjK8KPDFfNOR6wqWhtXyucJ0+YXurw@mail.gmail.com>
+        Tue, 08 Oct 2024 04:36:02 -0700 (PDT)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::635 as permitted sender) client-ip=2607:f8b0:4864:20::635;
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-20b5fb2e89dso43039505ad.1
+        for <kasan-dev@googlegroups.com>; Tue, 08 Oct 2024 04:36:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUTQUekAh5qC9Ezrz1T6uS1ko3XW8DQ4dygKOZvNsOQgbSTLwjHoU9oVFWKvizUjRpsi8mGIL6J2Zs=@googlegroups.com
+X-Received: by 2002:a17:90a:bc92:b0:2e0:9147:7db5 with SMTP id
+ 98e67ed59e1d1-2e1e63bf552mr17536878a91.38.1728387361594; Tue, 08 Oct 2024
+ 04:36:01 -0700 (PDT)
 MIME-Version: 1.0
-X-Original-Sender: snovitoll@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b="IGNSEJ7/";       spf=pass
- (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::32b
- as permitted sender) smtp.mailfrom=snovitoll@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+References: <CACzwLxh1yWXQZ4LAO3gFMjK8KPDFfNOR6wqWhtXyucJ0+YXurw@mail.gmail.com>
+ <20241008101526.2591147-1-snovitoll@gmail.com>
+In-Reply-To: <20241008101526.2591147-1-snovitoll@gmail.com>
+From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Tue, 8 Oct 2024 13:35:22 +0200
+Message-ID: <CANpmjNN3OYXXamVb3FcSLxfnN5og-cS31-4jJiB3jrbN_Rsuag@mail.gmail.com>
+Subject: Re: [PATCH v3] mm, kasan, kmsan: copy_from/to_kernel_nofault
+To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+Cc: akpm@linux-foundation.org, andreyknvl@gmail.com, bpf@vger.kernel.org, 
+	dvyukov@google.com, glider@google.com, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ryabinin.a.a@gmail.com, 
+	syzbot+61123a5daeb9f7454599@syzkaller.appspotmail.com, 
+	vincenzo.frascino@arm.com
 Content-Type: text/plain; charset="UTF-8"
+X-Original-Sender: elver@google.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@google.com header.s=20230601 header.b=mJWO7r69;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::635 as
+ permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
+ sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
+X-Original-From: Marco Elver <elver@google.com>
+Reply-To: Marco Elver <elver@google.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,157 +146,170 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Instrument copy_from_kernel_nofault() with KMSAN for uninitialized kernel
-memory check and copy_to_kernel_nofault() with KASAN, KCSAN to detect
-the memory corruption.
+On Tue, 8 Oct 2024 at 12:14, Sabyrzhan Tasbolatov <snovitoll@gmail.com> wrote:
+>
+> Instrument copy_from_kernel_nofault() with KMSAN for uninitialized kernel
+> memory check and copy_to_kernel_nofault() with KASAN, KCSAN to detect
+> the memory corruption.
+>
+> syzbot reported that bpf_probe_read_kernel() kernel helper triggered
+> KASAN report via kasan_check_range() which is not the expected behaviour
+> as copy_from_kernel_nofault() is meant to be a non-faulting helper.
+>
+> Solution is, suggested by Marco Elver, to replace KASAN, KCSAN check in
+> copy_from_kernel_nofault() with KMSAN detection of copying uninitilaized
+> kernel memory. In copy_to_kernel_nofault() we can retain
+> instrument_write() explicitly for the memory corruption instrumentation.
+>
+> copy_to_kernel_nofault() is tested on x86_64 and arm64 with
+> CONFIG_KASAN_SW_TAGS. On arm64 with CONFIG_KASAN_HW_TAGS,
+> kunit test currently fails. Need more clarification on it
+> - currently, disabled in kunit test.
 
-syzbot reported that bpf_probe_read_kernel() kernel helper triggered
-KASAN report via kasan_check_range() which is not the expected behaviour
-as copy_from_kernel_nofault() is meant to be a non-faulting helper.
+I assume you retested. Did you also test the bpf_probe_read_kernel()
+false positive no longer appears?
 
-Solution is, suggested by Marco Elver, to replace KASAN, KCSAN check in
-copy_from_kernel_nofault() with KMSAN detection of copying uninitilaized
-kernel memory. In copy_to_kernel_nofault() we can retain
-instrument_write() explicitly for the memory corruption instrumentation.
+> Link: https://lore.kernel.org/linux-mm/CANpmjNMAVFzqnCZhEity9cjiqQ9CVN1X7qeeeAp_6yKjwKo8iw@mail.gmail.com/
+> Suggested-by: Marco Elver <elver@google.com>
 
-copy_to_kernel_nofault() is tested on x86_64 and arm64 with
-CONFIG_KASAN_SW_TAGS. On arm64 with CONFIG_KASAN_HW_TAGS,
-kunit test currently fails. Need more clarification on it
-- currently, disabled in kunit test.
+This looks more reasonable:
 
-Link: https://lore.kernel.org/linux-mm/CANpmjNMAVFzqnCZhEity9cjiqQ9CVN1X7qeeeAp_6yKjwKo8iw@mail.gmail.com/
-Suggested-by: Marco Elver <elver@google.com>
-Reported-by: syzbot+61123a5daeb9f7454599@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=61123a5daeb9f7454599
-Reported-by: Andrey Konovalov <andreyknvl@gmail.com>
-Closes: https://bugzilla.kernel.org/show_bug.cgi?id=210505
-Signed-off-by: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
----
-v2:
-- squashed previous submitted in -mm tree 2 patches based on Linus tree
-v3:
-- moved checks to *_nofault_loop macros per Marco's comments
-- edited the commit message
----
- mm/kasan/kasan_test_c.c | 27 +++++++++++++++++++++++++++
- mm/kmsan/kmsan_test.c   | 17 +++++++++++++++++
- mm/maccess.c            | 10 ++++++++--
- 3 files changed, 52 insertions(+), 2 deletions(-)
+Reviewed-by: Marco Elver <elver@google.com>
 
-diff --git a/mm/kasan/kasan_test_c.c b/mm/kasan/kasan_test_c.c
-index a181e4780d9d..5cff90f831db 100644
---- a/mm/kasan/kasan_test_c.c
-+++ b/mm/kasan/kasan_test_c.c
-@@ -1954,6 +1954,32 @@ static void rust_uaf(struct kunit *test)
- 	KUNIT_EXPECT_KASAN_FAIL(test, kasan_test_rust_uaf());
- }
- 
-+static void copy_to_kernel_nofault_oob(struct kunit *test)
-+{
-+	char *ptr;
-+	char buf[128];
-+	size_t size = sizeof(buf);
-+
-+	/* Not detecting fails currently with HW_TAGS */
-+	KASAN_TEST_NEEDS_CONFIG_OFF(test, CONFIG_KASAN_HW_TAGS);
-+
-+	ptr = kmalloc(size - KASAN_GRANULE_SIZE, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
-+	OPTIMIZER_HIDE_VAR(ptr);
-+
-+	if (IS_ENABLED(CONFIG_KASAN_SW_TAGS)) {
-+		/* Check that the returned pointer is tagged. */
-+		KUNIT_EXPECT_GE(test, (u8)get_tag(ptr), (u8)KASAN_TAG_MIN);
-+		KUNIT_EXPECT_LT(test, (u8)get_tag(ptr), (u8)KASAN_TAG_KERNEL);
-+	}
-+
-+	KUNIT_EXPECT_KASAN_FAIL(test,
-+		copy_to_kernel_nofault(&buf[0], ptr, size));
-+	KUNIT_EXPECT_KASAN_FAIL(test,
-+		copy_to_kernel_nofault(ptr, &buf[0], size));
-+	kfree(ptr);
-+}
-+
- static struct kunit_case kasan_kunit_test_cases[] = {
- 	KUNIT_CASE(kmalloc_oob_right),
- 	KUNIT_CASE(kmalloc_oob_left),
-@@ -2027,6 +2053,7 @@ static struct kunit_case kasan_kunit_test_cases[] = {
- 	KUNIT_CASE(match_all_not_assigned),
- 	KUNIT_CASE(match_all_ptr_tag),
- 	KUNIT_CASE(match_all_mem_tag),
-+	KUNIT_CASE(copy_to_kernel_nofault_oob),
- 	KUNIT_CASE(rust_uaf),
- 	{}
- };
-diff --git a/mm/kmsan/kmsan_test.c b/mm/kmsan/kmsan_test.c
-index 13236d579eba..9733a22c46c1 100644
---- a/mm/kmsan/kmsan_test.c
-+++ b/mm/kmsan/kmsan_test.c
-@@ -640,6 +640,22 @@ static void test_unpoison_memory(struct kunit *test)
- 	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
- }
- 
-+static void test_copy_from_kernel_nofault(struct kunit *test)
-+{
-+	long ret;
-+	char buf[4], src[4];
-+	size_t size = sizeof(buf);
-+
-+	EXPECTATION_UNINIT_VALUE_FN(expect, "copy_from_kernel_nofault");
-+	kunit_info(
-+		test,
-+		"testing copy_from_kernel_nofault with uninitialized memory\n");
-+
-+	ret = copy_from_kernel_nofault((char *)&buf[0], (char *)&src[0], size);
-+	USE(ret);
-+	KUNIT_EXPECT_TRUE(test, report_matches(&expect));
-+}
-+
- static struct kunit_case kmsan_test_cases[] = {
- 	KUNIT_CASE(test_uninit_kmalloc),
- 	KUNIT_CASE(test_init_kmalloc),
-@@ -664,6 +680,7 @@ static struct kunit_case kmsan_test_cases[] = {
- 	KUNIT_CASE(test_long_origin_chain),
- 	KUNIT_CASE(test_stackdepot_roundtrip),
- 	KUNIT_CASE(test_unpoison_memory),
-+	KUNIT_CASE(test_copy_from_kernel_nofault),
- 	{},
- };
- 
-diff --git a/mm/maccess.c b/mm/maccess.c
-index 518a25667323..3ca55ec63a6a 100644
---- a/mm/maccess.c
-+++ b/mm/maccess.c
-@@ -13,9 +13,14 @@ bool __weak copy_from_kernel_nofault_allowed(const void *unsafe_src,
- 	return true;
- }
- 
-+/*
-+ * The below only uses kmsan_check_memory() to ensure uninitialized kernel
-+ * memory isn't leaked.
-+ */
- #define copy_from_kernel_nofault_loop(dst, src, len, type, err_label)	\
- 	while (len >= sizeof(type)) {					\
--		__get_kernel_nofault(dst, src, type, err_label);		\
-+		__get_kernel_nofault(dst, src, type, err_label);	\
-+		kmsan_check_memory(src, sizeof(type));			\
- 		dst += sizeof(type);					\
- 		src += sizeof(type);					\
- 		len -= sizeof(type);					\
-@@ -49,7 +54,8 @@ EXPORT_SYMBOL_GPL(copy_from_kernel_nofault);
- 
- #define copy_to_kernel_nofault_loop(dst, src, len, type, err_label)	\
- 	while (len >= sizeof(type)) {					\
--		__put_kernel_nofault(dst, src, type, err_label);		\
-+		__put_kernel_nofault(dst, src, type, err_label);	\
-+		instrument_write(dst, sizeof(type));			\
- 		dst += sizeof(type);					\
- 		src += sizeof(type);					\
- 		len -= sizeof(type);					\
--- 
-2.34.1
+This looks like the most conservative thing to do for now.
+
+> Reported-by: syzbot+61123a5daeb9f7454599@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=61123a5daeb9f7454599
+> Reported-by: Andrey Konovalov <andreyknvl@gmail.com>
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=210505
+> Signed-off-by: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+> ---
+> v2:
+> - squashed previous submitted in -mm tree 2 patches based on Linus tree
+> v3:
+> - moved checks to *_nofault_loop macros per Marco's comments
+> - edited the commit message
+> ---
+>  mm/kasan/kasan_test_c.c | 27 +++++++++++++++++++++++++++
+>  mm/kmsan/kmsan_test.c   | 17 +++++++++++++++++
+>  mm/maccess.c            | 10 ++++++++--
+>  3 files changed, 52 insertions(+), 2 deletions(-)
+>
+> diff --git a/mm/kasan/kasan_test_c.c b/mm/kasan/kasan_test_c.c
+> index a181e4780d9d..5cff90f831db 100644
+> --- a/mm/kasan/kasan_test_c.c
+> +++ b/mm/kasan/kasan_test_c.c
+> @@ -1954,6 +1954,32 @@ static void rust_uaf(struct kunit *test)
+>         KUNIT_EXPECT_KASAN_FAIL(test, kasan_test_rust_uaf());
+>  }
+>
+> +static void copy_to_kernel_nofault_oob(struct kunit *test)
+> +{
+> +       char *ptr;
+> +       char buf[128];
+> +       size_t size = sizeof(buf);
+> +
+> +       /* Not detecting fails currently with HW_TAGS */
+> +       KASAN_TEST_NEEDS_CONFIG_OFF(test, CONFIG_KASAN_HW_TAGS);
+> +
+> +       ptr = kmalloc(size - KASAN_GRANULE_SIZE, GFP_KERNEL);
+> +       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
+> +       OPTIMIZER_HIDE_VAR(ptr);
+> +
+> +       if (IS_ENABLED(CONFIG_KASAN_SW_TAGS)) {
+> +               /* Check that the returned pointer is tagged. */
+> +               KUNIT_EXPECT_GE(test, (u8)get_tag(ptr), (u8)KASAN_TAG_MIN);
+> +               KUNIT_EXPECT_LT(test, (u8)get_tag(ptr), (u8)KASAN_TAG_KERNEL);
+> +       }
+> +
+> +       KUNIT_EXPECT_KASAN_FAIL(test,
+> +               copy_to_kernel_nofault(&buf[0], ptr, size));
+> +       KUNIT_EXPECT_KASAN_FAIL(test,
+> +               copy_to_kernel_nofault(ptr, &buf[0], size));
+> +       kfree(ptr);
+> +}
+> +
+>  static struct kunit_case kasan_kunit_test_cases[] = {
+>         KUNIT_CASE(kmalloc_oob_right),
+>         KUNIT_CASE(kmalloc_oob_left),
+> @@ -2027,6 +2053,7 @@ static struct kunit_case kasan_kunit_test_cases[] = {
+>         KUNIT_CASE(match_all_not_assigned),
+>         KUNIT_CASE(match_all_ptr_tag),
+>         KUNIT_CASE(match_all_mem_tag),
+> +       KUNIT_CASE(copy_to_kernel_nofault_oob),
+>         KUNIT_CASE(rust_uaf),
+>         {}
+>  };
+> diff --git a/mm/kmsan/kmsan_test.c b/mm/kmsan/kmsan_test.c
+> index 13236d579eba..9733a22c46c1 100644
+> --- a/mm/kmsan/kmsan_test.c
+> +++ b/mm/kmsan/kmsan_test.c
+> @@ -640,6 +640,22 @@ static void test_unpoison_memory(struct kunit *test)
+>         KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+>  }
+>
+> +static void test_copy_from_kernel_nofault(struct kunit *test)
+> +{
+> +       long ret;
+> +       char buf[4], src[4];
+> +       size_t size = sizeof(buf);
+> +
+> +       EXPECTATION_UNINIT_VALUE_FN(expect, "copy_from_kernel_nofault");
+> +       kunit_info(
+> +               test,
+> +               "testing copy_from_kernel_nofault with uninitialized memory\n");
+> +
+> +       ret = copy_from_kernel_nofault((char *)&buf[0], (char *)&src[0], size);
+> +       USE(ret);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+>  static struct kunit_case kmsan_test_cases[] = {
+>         KUNIT_CASE(test_uninit_kmalloc),
+>         KUNIT_CASE(test_init_kmalloc),
+> @@ -664,6 +680,7 @@ static struct kunit_case kmsan_test_cases[] = {
+>         KUNIT_CASE(test_long_origin_chain),
+>         KUNIT_CASE(test_stackdepot_roundtrip),
+>         KUNIT_CASE(test_unpoison_memory),
+> +       KUNIT_CASE(test_copy_from_kernel_nofault),
+>         {},
+>  };
+>
+> diff --git a/mm/maccess.c b/mm/maccess.c
+> index 518a25667323..3ca55ec63a6a 100644
+> --- a/mm/maccess.c
+> +++ b/mm/maccess.c
+> @@ -13,9 +13,14 @@ bool __weak copy_from_kernel_nofault_allowed(const void *unsafe_src,
+>         return true;
+>  }
+>
+> +/*
+> + * The below only uses kmsan_check_memory() to ensure uninitialized kernel
+> + * memory isn't leaked.
+> + */
+>  #define copy_from_kernel_nofault_loop(dst, src, len, type, err_label)  \
+>         while (len >= sizeof(type)) {                                   \
+> -               __get_kernel_nofault(dst, src, type, err_label);                \
+> +               __get_kernel_nofault(dst, src, type, err_label);        \
+> +               kmsan_check_memory(src, sizeof(type));                  \
+>                 dst += sizeof(type);                                    \
+>                 src += sizeof(type);                                    \
+>                 len -= sizeof(type);                                    \
+> @@ -49,7 +54,8 @@ EXPORT_SYMBOL_GPL(copy_from_kernel_nofault);
+>
+>  #define copy_to_kernel_nofault_loop(dst, src, len, type, err_label)    \
+>         while (len >= sizeof(type)) {                                   \
+> -               __put_kernel_nofault(dst, src, type, err_label);                \
+> +               __put_kernel_nofault(dst, src, type, err_label);        \
+> +               instrument_write(dst, sizeof(type));                    \
+>                 dst += sizeof(type);                                    \
+>                 src += sizeof(type);                                    \
+>                 len -= sizeof(type);                                    \
+> --
+> 2.34.1
+>
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20241008101526.2591147-1-snovitoll%40gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNN3OYXXamVb3FcSLxfnN5og-cS31-4jJiB3jrbN_Rsuag%40mail.gmail.com.
