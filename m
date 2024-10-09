@@ -1,148 +1,153 @@
-Return-Path: <kasan-dev+bncBDZJXP7F6YLRBLXRTK4AMGQED3KY7BI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBNGKTO4AMGQESVJ2TEI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x540.google.com (mail-ed1-x540.google.com [IPv6:2a00:1450:4864:20::540])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C549972A5
-	for <lists+kasan-dev@lfdr.de>; Wed,  9 Oct 2024 19:09:05 +0200 (CEST)
-Received: by mail-ed1-x540.google.com with SMTP id 4fb4d7f45d1cf-5c92ad674aesf289687a12.3
-        for <lists+kasan-dev@lfdr.de>; Wed, 09 Oct 2024 10:09:05 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1728493744; cv=pass;
+Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4189F99764A
+	for <lists+kasan-dev@lfdr.de>; Wed,  9 Oct 2024 22:19:02 +0200 (CEST)
+Received: by mail-lj1-x240.google.com with SMTP id 38308e7fff4ca-2fad1771626sf1253101fa.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 09 Oct 2024 13:19:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1728505141; cv=pass;
         d=google.com; s=arc-20240605;
-        b=QYZr6nALggBIl2n1kVN8L18ZSdCQ9p8UY95tOqNmhY5CrD7JsGS/q3KYJTfy9pEgTH
-         X5MCI6+GkTglMHRYfDGqtTZG3GGM71cHd+F/BidvDeOvbIhgTjpZgr+/Kb700hu34si/
-         EHQGHWqVuirXn2nNee8cEsq+xL//EKZOBI6TeePPOUssaiIzfGJaoZLoa/nCELDN1oDV
-         9id9CFRuiS4DixoXh0+0zw3l8xRWRn3wY4nUAUJg3fsiWFNxbd0EmQRPNkLVxew6rO+A
-         gYVXQ8DH4B6t1SXhE/m8h/hRAgWM136TUbHE0udICUC1HA6p+/FqAq9R6w0Xw6iwCXX+
-         T3aw==
+        b=Me/e2qkOVjGuums1fhJCvSnpAhrbHBKAjWcN4AlHEXCulDTEzTdyOPFuydfiQKA3tB
+         qawJYdwq6+xZHGbdruUb1k4m6rCwTV8WTVxlzE8AoFcl22PXM2v1y4dJvWAb847ALzv2
+         lpbeod2SDFrUyRHzo/d/yDm7Tp58IAN+nSQdZYVIHUmxbXhxBNR7jkerH3u1n0Q8XvZT
+         jBFZegPlAhZnPxa8Q74IAUMwzq14LiBQwFgBmo4OSUbgrwFeXPG3eb3WwTsdU/fM+88w
+         4xZSg01+ZMBBGEudX9gS/ezylc7IoyAGlstcocdh7bhQf37APnDtqQA8MdS7fIt6R79+
+         yWHQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:message-id
-         :in-reply-to:subject:cc:to:from:date:sender:dkim-signature;
-        bh=tkhFvsSzmF0DMJu9WVgxC0QuTthV0ik2J1EmYbSJrV4=;
-        fh=5vARChcXBjsuKsLjsHy1x0dtJS9pxSgVti3yiTOiEZs=;
-        b=XqYxLj59Qx+VBkzD9C+yTLoPaC9K+o/fpgd/C2nMtMJlKezWrEgsfr/zQ9zZ+tSbH6
-         x3Urq90QzR5LwvjeBdl+UC6TKv4PnuF7wNJTSEbAMjeipkVxPk7hcmyFfyR13Qljlo35
-         7F/DkrE11cunfebShNv6rmhM86QVQsPYzAD1pNhTIKulCa0dre5VOoWujKBNK4U+ftLv
-         MTrsPQYAlayWt4964MDwuvduV8XGOGy9ykVCnxrPGgaj1JGnNyPxysn8N6/1HUYm6wog
-         U2qA8Yjkay4wY7tinUrclddyZjxZfsaLwHVZTuhwxSgJQAJU6SaPKZPifQhklhtNH2Cx
-         hV4g==;
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=HKiqfhtDzaVjrM6PSwNtAoMEyvlAip/i+k2rj4q4LKk=;
+        fh=1hoAz9KuwqHyhcMmqqmULd6RqChy8zjwl3ljqpwMYhc=;
+        b=WsEDYwQZZ+V6YatDvUQLmDvW9eBDSNpyGf/1Ur2VX6NWg/eJJmiIM2EFwy7FMfSt7x
+         CHYmF5jOUBF3PDDjpF2272BJgzCtAW8VKthDpDKqOoo7kIkL79UPi0YJmyVo10DA7uBX
+         JYVeO19PhbTqp791y3bUTzApKV9ANvnStsZDkMjhzjy1BWc7jyvAUCtbllxaytIhXKuf
+         MRG069yWPvgbs46YZlW9MTa8BNRVSx45CHjMNqY+t++L8/PsGD9eItYsgCXIRsxtQmDF
+         hXXVbE51ezcehMGcyf/jdnAsWs48K7p1S2a3JnirznN3NgIyfRmpArf8Wp8cxN1vahnK
+         V4sw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@inria.fr header.s=dc header.b=P2PqLt2R;
-       spf=pass (google.com: domain of julia.lawall@inria.fr designates 192.134.164.104 as permitted sender) smtp.mailfrom=julia.lawall@inria.fr;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=inria.fr
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=icNme11m;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::330 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1728493744; x=1729098544; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1728505141; x=1729109941; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:message-id:in-reply-to
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tkhFvsSzmF0DMJu9WVgxC0QuTthV0ik2J1EmYbSJrV4=;
-        b=AX3T2Ynv0PhnmVlIO77dD9CO4c3a3uQlwha0DxjHj7t0LKERoA85xyI6SYscbX9+ux
-         6lTIJHUhbPtn0OZk41ASUgLcBPyzO0rX9kmg7AODZSyAvZHkrVKGxV5gltvRq4saxUUw
-         3iy4eaE5A/ibnCLVQCt8Nlf5qdfM6XmJHZGYp3h/+JtMpS6WuYStFz0Z6XTxwOxRzEoG
-         AWHrWEPaZK4mbqUsn+Gtt2vAD1mTfS6DMzIA8qtvMU1nFKHGwLYCF//l3mETvWJ31nzJ
-         rraqp/R6O2mJ8lcujdjWXD3ZzyV8WVyColpdJynLp31R6mmo6O7ZPcXQCDYHq1raWO8l
-         kMUw==
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HKiqfhtDzaVjrM6PSwNtAoMEyvlAip/i+k2rj4q4LKk=;
+        b=CKJ4PiXZ7rlcOsgY9u1Ab0Eoij8qSOqy+f5Q8rR5dIMslc8U3BJbSAet6PXvsbi2Wx
+         izCV6izCxF0faXflU6csJ5HTLMwJfWb9SSUshHN3YIs06XJjSc2//eXkyy7veAFevh1R
+         M/29anxKMjNpPWkXLATtL7YsSDn4lsTHQGI0D6HUU2Jw8jEbZkkNP1zrB4pHJ0u3KmPx
+         +l3jg8xfCjFwRNwlpDRdA207ZAb0H2rMFBeNsIl64DaA4Qz5LtedFa1hGWXYCbv2Len9
+         JiXg2L4egkMmY63O68dcB3wWKoQ7omQRsfpl7CJAaSkGmF/FgmHuIHY9Hzfbbh1kCR5x
+         yxSw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728505141; x=1729109941; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HKiqfhtDzaVjrM6PSwNtAoMEyvlAip/i+k2rj4q4LKk=;
+        b=GU74wFdfxLi7Ad0APr8dd3MAZzGf5a7OpVqiccioaUPMjyXM1zLT4Hi/xe0ACZbcwo
+         yP0+IEZnhnG5sRQexHBLxLSmrGGj32+xRgnLhRSz2UosrAgs9XsqBdAB7KwTzFB0Shcq
+         7hCqbM0LQ3nOypIOQdaa6ge+Q97KqXr5WJDtatF5SyPFASxZKTQbxeWwoYPwhZjZkEgu
+         fLMMtljUVlYS8cfxHjNV2WHte1k5q2HLjbuoXSKUAZrhnmhJVEdgqYqznmBAx91Qxe7x
+         aP9FMxAKNuUWlOEQEjdmg4tozuiDbqtvavyw3ObCIL5f9BuI6hAfTOuLXrGTaNH38zl7
+         y46A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728493744; x=1729098544;
+        d=1e100.net; s=20230601; t=1728505141; x=1729109941;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:message-id:in-reply-to:subject:cc:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tkhFvsSzmF0DMJu9WVgxC0QuTthV0ik2J1EmYbSJrV4=;
-        b=e7TJp2l0gxHkhZZLX0R2GBl2EMV457mbzInkpJ5ZD2RCG1PzBSGkRWKjC/+eKs8LpW
-         Xbs+eQ90uwzv+tdibZIPotqv5cfE0xdhBj6lUmiSGEQhQyFKP2Q+W9HrwvIujLtyUQEK
-         v6FLN7qEKuSZkuZFh1MGli+ZLK1QHQAC3+kOijyaOFxqwGQ745Q3Qud83IbGxWgYfsZ+
-         +Bi7I8ympEirOtTES9ZA20rEWxrwwh2cHkBe8qgNgRkTZqBfdRssfH6aXk3peH2G0Moe
-         zw/RzNuq/8k1Lc+5/3BRLfzn+uT8QyV1kY5bNbdNzhOkFWbgaAJZfuHFRfZyrHIWzfmh
-         Fhww==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=HKiqfhtDzaVjrM6PSwNtAoMEyvlAip/i+k2rj4q4LKk=;
+        b=GdvRk7dBkYRUUA0bwlUMBWXo+cP5S7W9e9zh3J2HY8WMhZYuarOzV70IAe7QMdQt/G
+         0oF3Bith69dydijrYn2xID5LTplszIFtYM4+v6k/v42eprU53lZb+k4COaEbRhTq3BxC
+         21Q/REceAA05rkeZOYPPOAMvDPbl+P0VR5GkgdofMqATTQOv3p1AzKTkB2Yw0IudML4e
+         oyUEqgwWz5adM7XSDurhXcC2maopfjq3TvDwlRFNmFzChR8SjTI17pN4cJIquAO8QPm/
+         4AtTKQ2eTVHbMAn22dO8qDedX5z0NO30yDHxLqg1tdVEh0/qAJnDTpRl7DDxa/Xu/BYN
+         nScA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXcCyFwvWvUCA1OcJgcaBuCcYwrCG3x2J9D9BfMXdYTLXx8ahvWeWnpuxfNbTmZSbzgWZMQfA==@lfdr.de
-X-Gm-Message-State: AOJu0YyPN2+Ww48Oob5ksiKjHAeoBdd4VAgNZkCHOhf14pXhVB9FqClK
-	dIjtOJ4Okb2ObZoAs1IJ5wEMcuCkKM+m3DOvbsqE10BWo00WrYzY
-X-Google-Smtp-Source: AGHT+IE9VpPfDsIWo+oaZ+wHt5xYgNaWmYNPJ389F25lzrq/uAHWqmpG68J8laxlM1mNkNLrGomErA==
-X-Received: by 2002:a05:6402:51ca:b0:5c8:9f3c:ea01 with SMTP id 4fb4d7f45d1cf-5c91d54d157mr2136904a12.2.1728493742905;
-        Wed, 09 Oct 2024 10:09:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUsNXPaRnDXY8teCSBrhKlajBf2axL+CLxo+lX0GJvMfQ/Enhm5gzjsBS7dLPMOZR/Qs6mQPg==@lfdr.de
+X-Gm-Message-State: AOJu0YwNxvsLkfzOVyc7z8d8DScQw73uA/b6JNcGLNrpQoW70v+Wuh4W
+	M+zv1BV0ukGS6uy0UJaPFxj7nlvENhxqLopW/LwYGQPiknRucM3m
+X-Google-Smtp-Source: AGHT+IHba6hg4SHw25iGv8kFdUpW5uKwFBcZzlHJl0shtgz08UMX3goDln2os3t2xgnKAb/ey1+nlw==
+X-Received: by 2002:a2e:bc1f:0:b0:2fa:cf5b:1e8e with SMTP id 38308e7fff4ca-2fb1872ba6amr25473451fa.2.1728505140354;
+        Wed, 09 Oct 2024 13:19:00 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:518b:b0:5c8:acf3:1296 with SMTP id
- 4fb4d7f45d1cf-5c933d3e2ddls26554a12.2.-pod-prod-03-eu; Wed, 09 Oct 2024
- 10:09:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUPPcJyEXahDU+QKFcbqzbV/E3nmfz+sBzwF7wYjXr90MIuGlln883i1ukgbLWJYbVKxZY03s8mwTI=@googlegroups.com
-X-Received: by 2002:a05:6402:278b:b0:5c9:296f:8a95 with SMTP id 4fb4d7f45d1cf-5c9296f8e86mr1678938a12.14.1728493740360;
-        Wed, 09 Oct 2024 10:09:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1728493740; cv=none;
+Received: by 2002:a2e:2a46:0:b0:2ee:89a7:12ac with SMTP id 38308e7fff4ca-2fb2121809fls481641fa.1.-pod-prod-06-eu;
+ Wed, 09 Oct 2024 13:18:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWAzHwgjrl2fDl45Qf6u1jKwfuPW3F9Zbm+5RVgTRmC2XLVYQCMHgKVCdu54TMQG0hxIDFTXIIYkhY=@googlegroups.com
+X-Received: by 2002:a2e:4e0a:0:b0:2ef:1b1f:4b4f with SMTP id 38308e7fff4ca-2fb187d12c0mr21794861fa.34.1728505138122;
+        Wed, 09 Oct 2024 13:18:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1728505138; cv=none;
         d=google.com; s=arc-20240605;
-        b=lLnM5VJsSeG6kxETODaGQV7De36s3E16Gg5nX69SRS7LBR8tqYgyL8hhkmUFMFliYB
-         YJjfRBLa7jikhL0fymH2z0lNtwYTrdJ7kpqGwZbcxNo2cOBgGI925fcxvwzTxhWlPkP9
-         ySElDUwCP2YEtHruSAVHqkel2miNdFzuDmcJbucZ995vu8StXSCXidKML1ps8S27djdD
-         813HHpotmUNfdeYfxD4c+eQKxxbjWX+9RkpyhF14U77rILNadgskL6g9ohBGuI4e5gT6
-         dxlewUrrswNOLfH6WNjYhCBa0l7kNELon81dqWeGAiVK1M8upvhn1oRqUN4udJgWyYAJ
-         BRkg==
+        b=UAhGj5nu//eS30uXmCmPfbKpw+GbKuPV3JWjMFvoM/iCJGRsu3YH1/Zu9lrwtXRtf0
+         cQuqjSPQu5ub7S/ZjqbUJx3Xb/BlcX58+uw9Avf71thAEqI2V+zF2RyLaTK+G+DbNWyl
+         C8MTZ9IhyRnLZR6bMMFo6gp8phq/GDLxkCYsRtfnMMugIwYjFA7H4aorVg5Ax0BKVauN
+         V9oJKvjzFOAHs3J01LAv0SYc33BU4Ns6JQpcGJcutLYPvhe9U2ie6/7vKOcL4SEYSarL
+         jPRGuaGpOsdq3/Kf9/IUtVZ97ESZ+dhFhac7ij2vpU78KuMhSFlbL+nH7t1Xlo29ko7O
+         hIdg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=mime-version:references:message-id:in-reply-to:subject:cc:to:from
-         :date:dkim-signature;
-        bh=Ei5tc3PfylWx64diDodItk/7guQ0rWtWfXKiWLfUtgQ=;
-        fh=HXtrOteJFB6SnApnM5iSx4r3BCMQ8MTdEnE5dVnpHqg=;
-        b=hNpku9WohBYd0eVvDW+YRJwVfdoZWMt3wm6zjXQvTCsKwEv0aQPHC7hPNooJEN+lFj
-         CAmBcS3iPcXqEEaP8igBU9aVckvOV7inYo6SKpWg2R13OlI3ECvys71kUq67RG5bGr5b
-         zVYfV03YWnrxvr7ODxLkHG8mo4PiekOGVstL/hZ8CAE3xSE4qCc28ayC5z+SD3goeiJM
-         mmHoT9rKGf/S6126wOrw8rA+Fxz1GawmkkWMMMpkJXYBhbI7sg0PDc/OmAlHak/rPI0g
-         W5Jd+yotmPL/I4e4uwW55/QYpUINRIeM6BbWkppodAvkyGRiuKBMCoFF3NHRiQ0Jr96/
-         Qhjg==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=7c35+JpWEpsPpCJZNGS7NrTRM+BKUrPMr11LkkZQ0go=;
+        fh=thD+l3UHKQTvHIoGfsNROhbkjpQhdGlgnsekfIFt/NI=;
+        b=dhKabwJrHesC0GcqUVkrc2IImmWHxOlPq0MN5G/2iOdOyyhXdE+R1PfGUIIY/CnYUR
+         mEnrWJHwDzHbkHes84VdIRksQWHrXMejpgeeScPnCByWgtuiMKTalb62mDngjWJ6qK+7
+         90H7FqTjBOk7C04hq4mrYn7MubdoshD7k038FQiPMQcpmJ6DzI2nAtC1ZQv3+iAiVSl0
+         9nbuoDVuCXZ1HDOWEI2g2uwgzHxRo0Iyz2YBe6uODl8WhCtkmODX7ttZqRmDl3VFD1sO
+         GytzQq+XmKvs+iCXqxuOt3SkfThFGTUJqqruIGfZPN+3kl3lS93lLI9/EwkEVUtyXyJq
+         VcLQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@inria.fr header.s=dc header.b=P2PqLt2R;
-       spf=pass (google.com: domain of julia.lawall@inria.fr designates 192.134.164.104 as permitted sender) smtp.mailfrom=julia.lawall@inria.fr;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=inria.fr
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr. [192.134.164.104])
-        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-5c92a59ded7si17846a12.0.2024.10.09.10.09.00
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=icNme11m;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::330 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com. [2a00:1450:4864:20::330])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-2faf9b42a1fsi2226891fa.7.2024.10.09.13.18.58
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 09 Oct 2024 10:09:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of julia.lawall@inria.fr designates 192.134.164.104 as permitted sender) client-ip=192.134.164.104;
-X-IronPort-AV: E=Sophos;i="6.11,190,1725314400"; 
-   d="scan'208";a="98667983"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 19:08:59 +0200
-Date: Wed, 9 Oct 2024 19:08:58 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: "Paul E. McKenney" <paulmck@kernel.org>
-cc: Vlastimil Babka <vbabka@suse.cz>, Uladzislau Rezki <urezki@gmail.com>, 
-    "Jason A. Donenfeld" <Jason@zx2c4.com>, Jakub Kicinski <kuba@kernel.org>, 
-    Julia Lawall <Julia.Lawall@inria.fr>, linux-block@vger.kernel.org, 
-    kernel-janitors@vger.kernel.org, bridge@lists.linux.dev, 
-    linux-trace-kernel@vger.kernel.org, 
-    Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, kvm@vger.kernel.org, 
-    linuxppc-dev@lists.ozlabs.org, 
-    "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>, 
-    Christophe Leroy <christophe.leroy@csgroup.eu>, 
-    Nicholas Piggin <npiggin@gmail.com>, netdev@vger.kernel.org, 
-    wireguard@lists.zx2c4.com, linux-kernel@vger.kernel.org, 
-    ecryptfs@vger.kernel.org, Neil Brown <neilb@suse.de>, 
-    Olga Kornievskaia <kolga@netapp.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
-    Tom Talpey <tom@talpey.com>, linux-nfs@vger.kernel.org, 
-    linux-can@vger.kernel.org, Lai Jiangshan <jiangshanlai@gmail.com>, 
-    netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
-    kasan-dev <kasan-dev@googlegroups.com>
-Subject: Re: [PATCH 00/14] replace call_rcu by kfree_rcu for simple
- kmem_cache_free callback
-In-Reply-To: <acf7a96b-facb-469b-8079-edbec7770780@paulmck-laptop>
-Message-ID: <2ae9cb0-b16e-58a-693b-7cd927657946@inria.fr>
-References: <36c60acd-543e-48c5-8bd2-6ed509972d28@suse.cz> <ZnFT1Czb8oRb0SE7@pc636> <5c8b2883-962f-431f-b2d3-3632755de3b0@paulmck-laptop> <9967fdfa-e649-456d-a0cb-b4c4bf7f9d68@suse.cz> <6dad6e9f-e0ca-4446-be9c-1be25b2536dd@paulmck-laptop>
- <4cba4a48-902b-4fb6-895c-c8e6b64e0d5f@suse.cz> <ZnVInAV8BXhgAjP_@pc636> <df0716ac-c995-498c-83ee-b8c25302f9ed@suse.cz> <b3d9710a-805e-4e37-8295-b5ec1133d15c@paulmck-laptop> <37807ec7-d521-4f01-bcfc-a32650d5de25@suse.cz>
- <acf7a96b-facb-469b-8079-edbec7770780@paulmck-laptop>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Oct 2024 13:18:58 -0700 (PDT)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::330 as permitted sender) client-ip=2a00:1450:4864:20::330;
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-4305724c12eso1180115e9.1
+        for <kasan-dev@googlegroups.com>; Wed, 09 Oct 2024 13:18:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVhsiqFjdKglIBWwL9eCuqMKs3Nzh7ARRL9cU80VjJQ6LSr8fjQBSGvC7jEs7tDst82nJKDouVX4Vw=@googlegroups.com
+X-Received: by 2002:adf:dd8d:0:b0:37d:31a7:2814 with SMTP id
+ ffacd0b85a97d-37d3aa579famr2243483f8f.29.1728505137061; Wed, 09 Oct 2024
+ 13:18:57 -0700 (PDT)
 MIME-Version: 1.0
+References: <CANpmjNN3OYXXamVb3FcSLxfnN5og-cS31-4jJiB3jrbN_Rsuag@mail.gmail.com>
+ <20241008192910.2823726-1-snovitoll@gmail.com>
+In-Reply-To: <20241008192910.2823726-1-snovitoll@gmail.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Wed, 9 Oct 2024 22:18:46 +0200
+Message-ID: <CA+fCnZeMRZZe4A0QW4SSnEgXFEnb287PgHd5hVq8AA4itBFxEQ@mail.gmail.com>
+Subject: Re: [PATCH v4] mm, kasan, kmsan: copy_from/to_kernel_nofault
+To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+Cc: elver@google.com, akpm@linux-foundation.org, bpf@vger.kernel.org, 
+	dvyukov@google.com, glider@google.com, kasan-dev@googlegroups.com, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ryabinin.a.a@gmail.com, 
+	syzbot+61123a5daeb9f7454599@syzkaller.appspotmail.com, 
+	vincenzo.frascino@arm.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: Julia.Lawall@inria.fr
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: andreyknvl@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@inria.fr header.s=dc header.b=P2PqLt2R;       spf=pass (google.com:
- domain of julia.lawall@inria.fr designates 192.134.164.104 as permitted
- sender) smtp.mailfrom=julia.lawall@inria.fr;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=inria.fr
+ header.i=@gmail.com header.s=20230601 header.b=icNme11m;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::330
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -155,484 +160,204 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello,
+On Tue, Oct 8, 2024 at 9:28=E2=80=AFPM Sabyrzhan Tasbolatov <snovitoll@gmai=
+l.com> wrote:
+>
+> Instrument copy_from_kernel_nofault() with KMSAN for uninitialized kernel
+> memory check and copy_to_kernel_nofault() with KASAN, KCSAN to detect
+> the memory corruption.
+>
+> syzbot reported that bpf_probe_read_kernel() kernel helper triggered
+> KASAN report via kasan_check_range() which is not the expected behaviour
+> as copy_from_kernel_nofault() is meant to be a non-faulting helper.
+>
+> Solution is, suggested by Marco Elver, to replace KASAN, KCSAN check in
+> copy_from_kernel_nofault() with KMSAN detection of copying uninitilaized
+> kernel memory. In copy_to_kernel_nofault() we can retain
+> instrument_write() explicitly for the memory corruption instrumentation.
+>
+> copy_to_kernel_nofault() is tested on x86_64 and arm64 with
+> CONFIG_KASAN_SW_TAGS. On arm64 with CONFIG_KASAN_HW_TAGS,
+> kunit test currently fails. Need more clarification on it
+> - currently, disabled in kunit test.
+>
+> Link: https://lore.kernel.org/linux-mm/CANpmjNMAVFzqnCZhEity9cjiqQ9CVN1X7=
+qeeeAp_6yKjwKo8iw@mail.gmail.com/
+> Reviewed-by: Marco Elver <elver@google.com>
+> Reported-by: syzbot+61123a5daeb9f7454599@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D61123a5daeb9f7454599
+> Reported-by: Andrey Konovalov <andreyknvl@gmail.com>
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=3D210505
+> Signed-off-by: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
 
-I have rerun the semantic patch that removes call_rcu calls in cases where
-the callback function just does some pointer arithmetic and calls
-kmem_cache_free.  Let me know if this looks ok, and if so, I can make a
-more formal patch submission.
+(Back from travels, looking at the patches again.)
 
-This is against:
+> ---
+> v2:
+> - squashed previous submitted in -mm tree 2 patches based on Linus tree
+> v3:
+> - moved checks to *_nofault_loop macros per Marco's comments
+> - edited the commit message
+> v4:
+> - replaced Suggested-By with Reviewed-By: Marco Elver
+> ---
+>  mm/kasan/kasan_test_c.c | 27 +++++++++++++++++++++++++++
+>  mm/kmsan/kmsan_test.c   | 17 +++++++++++++++++
+>  mm/maccess.c            | 10 ++++++++--
+>  3 files changed, 52 insertions(+), 2 deletions(-)
+>
+> diff --git a/mm/kasan/kasan_test_c.c b/mm/kasan/kasan_test_c.c
+> index a181e4780d9d..5cff90f831db 100644
+> --- a/mm/kasan/kasan_test_c.c
+> +++ b/mm/kasan/kasan_test_c.c
+> @@ -1954,6 +1954,32 @@ static void rust_uaf(struct kunit *test)
+>         KUNIT_EXPECT_KASAN_FAIL(test, kasan_test_rust_uaf());
+>  }
+>
+> +static void copy_to_kernel_nofault_oob(struct kunit *test)
+> +{
+> +       char *ptr;
+> +       char buf[128];
+> +       size_t size =3D sizeof(buf);
+> +
+> +       /* Not detecting fails currently with HW_TAGS */
 
-commit 75b607fab38d149f232f01eae5e6392b394dd659 (HEAD -> master, origin/master, origin/HEAD)
-Merge: 5b7c893ed5ed e0ed52154e86
-Author: Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Tue Oct 8 12:54:04 2024 -0700
+Let's reword this to:
 
-    Merge tag 'sched_ext-for-6.12-rc2-fixes' of git://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext
+This test currently fails with the HW_TAGS mode. The reason is unknown
+and needs to be investigated.
 
+> +       KASAN_TEST_NEEDS_CONFIG_OFF(test, CONFIG_KASAN_HW_TAGS);
+> +
+> +       ptr =3D kmalloc(size - KASAN_GRANULE_SIZE, GFP_KERNEL);
+> +       KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr);
+> +       OPTIMIZER_HIDE_VAR(ptr);
+> +
+> +       if (IS_ENABLED(CONFIG_KASAN_SW_TAGS)) {
+> +               /* Check that the returned pointer is tagged. */
+> +               KUNIT_EXPECT_GE(test, (u8)get_tag(ptr), (u8)KASAN_TAG_MIN=
+);
+> +               KUNIT_EXPECT_LT(test, (u8)get_tag(ptr), (u8)KASAN_TAG_KER=
+NEL);
+> +       }
 
-julia
+Let's drop the checks above: if pointers returned by kmalloc are not
+tagged, the checks below (and many other tests) will fail.
 
-diff -u -p a/arch/powerpc/kvm/book3s_mmu_hpte.c b/arch/powerpc/kvm/book3s_mmu_hpte.c
---- a/arch/powerpc/kvm/book3s_mmu_hpte.c
-+++ b/arch/powerpc/kvm/book3s_mmu_hpte.c
-@@ -92,12 +92,6 @@ void kvmppc_mmu_hpte_cache_map(struct kv
- 	spin_unlock(&vcpu3s->mmu_lock);
- }
+> +
 
--static void free_pte_rcu(struct rcu_head *head)
--{
--	struct hpte_cache *pte = container_of(head, struct hpte_cache, rcu_head);
--	kmem_cache_free(hpte_cache, pte);
--}
--
- static void invalidate_pte(struct kvm_vcpu *vcpu, struct hpte_cache *pte)
- {
- 	struct kvmppc_vcpu_book3s *vcpu3s = to_book3s(vcpu);
-@@ -126,7 +120,7 @@ static void invalidate_pte(struct kvm_vc
+Please add a comment here explaining why we only check
+copy_to_kernel_nofault and not copy_from_kernel_nofault (is this
+because we cannot add KASAN instrumentation to
+copy_from_kernel_nofault?).
 
- 	spin_unlock(&vcpu3s->mmu_lock);
+> +       KUNIT_EXPECT_KASAN_FAIL(test,
+> +               copy_to_kernel_nofault(&buf[0], ptr, size));
+> +       KUNIT_EXPECT_KASAN_FAIL(test,
+> +               copy_to_kernel_nofault(ptr, &buf[0], size));
+> +       kfree(ptr);
+> +}
+> +
+>  static struct kunit_case kasan_kunit_test_cases[] =3D {
+>         KUNIT_CASE(kmalloc_oob_right),
+>         KUNIT_CASE(kmalloc_oob_left),
+> @@ -2027,6 +2053,7 @@ static struct kunit_case kasan_kunit_test_cases[] =
+=3D {
+>         KUNIT_CASE(match_all_not_assigned),
+>         KUNIT_CASE(match_all_ptr_tag),
+>         KUNIT_CASE(match_all_mem_tag),
+> +       KUNIT_CASE(copy_to_kernel_nofault_oob),
+>         KUNIT_CASE(rust_uaf),
+>         {}
+>  };
+> diff --git a/mm/kmsan/kmsan_test.c b/mm/kmsan/kmsan_test.c
+> index 13236d579eba..9733a22c46c1 100644
+> --- a/mm/kmsan/kmsan_test.c
+> +++ b/mm/kmsan/kmsan_test.c
+> @@ -640,6 +640,22 @@ static void test_unpoison_memory(struct kunit *test)
+>         KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+>  }
+>
+> +static void test_copy_from_kernel_nofault(struct kunit *test)
+> +{
+> +       long ret;
+> +       char buf[4], src[4];
+> +       size_t size =3D sizeof(buf);
+> +
+> +       EXPECTATION_UNINIT_VALUE_FN(expect, "copy_from_kernel_nofault");
+> +       kunit_info(
+> +               test,
+> +               "testing copy_from_kernel_nofault with uninitialized memo=
+ry\n");
+> +
+> +       ret =3D copy_from_kernel_nofault((char *)&buf[0], (char *)&src[0]=
+, size);
+> +       USE(ret);
+> +       KUNIT_EXPECT_TRUE(test, report_matches(&expect));
+> +}
+> +
+>  static struct kunit_case kmsan_test_cases[] =3D {
+>         KUNIT_CASE(test_uninit_kmalloc),
+>         KUNIT_CASE(test_init_kmalloc),
+> @@ -664,6 +680,7 @@ static struct kunit_case kmsan_test_cases[] =3D {
+>         KUNIT_CASE(test_long_origin_chain),
+>         KUNIT_CASE(test_stackdepot_roundtrip),
+>         KUNIT_CASE(test_unpoison_memory),
+> +       KUNIT_CASE(test_copy_from_kernel_nofault),
+>         {},
+>  };
+>
+> diff --git a/mm/maccess.c b/mm/maccess.c
+> index 518a25667323..3ca55ec63a6a 100644
+> --- a/mm/maccess.c
+> +++ b/mm/maccess.c
+> @@ -13,9 +13,14 @@ bool __weak copy_from_kernel_nofault_allowed(const voi=
+d *unsafe_src,
+>         return true;
+>  }
+>
+> +/*
+> + * The below only uses kmsan_check_memory() to ensure uninitialized kern=
+el
+> + * memory isn't leaked.
+> + */
+>  #define copy_from_kernel_nofault_loop(dst, src, len, type, err_label)  \
+>         while (len >=3D sizeof(type)) {                                  =
+ \
+> -               __get_kernel_nofault(dst, src, type, err_label);         =
+       \
+> +               __get_kernel_nofault(dst, src, type, err_label);        \
+> +               kmsan_check_memory(src, sizeof(type));                  \
+>                 dst +=3D sizeof(type);                                   =
+ \
+>                 src +=3D sizeof(type);                                   =
+ \
+>                 len -=3D sizeof(type);                                   =
+ \
+> @@ -49,7 +54,8 @@ EXPORT_SYMBOL_GPL(copy_from_kernel_nofault);
+>
+>  #define copy_to_kernel_nofault_loop(dst, src, len, type, err_label)    \
+>         while (len >=3D sizeof(type)) {                                  =
+ \
+> -               __put_kernel_nofault(dst, src, type, err_label);         =
+       \
+> +               __put_kernel_nofault(dst, src, type, err_label);        \
+> +               instrument_write(dst, sizeof(type));                    \
+>                 dst +=3D sizeof(type);                                   =
+ \
+>                 src +=3D sizeof(type);                                   =
+ \
+>                 len -=3D sizeof(type);                                   =
+ \
+> --
+> 2.34.1
+>
 
--	call_rcu(&pte->rcu_head, free_pte_rcu);
-+	kfree_rcu(pte, rcu_head);
- }
-
- static void kvmppc_mmu_pte_flush_all(struct kvm_vcpu *vcpu)
-diff -u -p a/block/blk-ioc.c b/block/blk-ioc.c
---- a/block/blk-ioc.c
-+++ b/block/blk-ioc.c
-@@ -32,13 +32,6 @@ static void get_io_context(struct io_con
- 	atomic_long_inc(&ioc->refcount);
- }
-
--static void icq_free_icq_rcu(struct rcu_head *head)
--{
--	struct io_cq *icq = container_of(head, struct io_cq, __rcu_head);
--
--	kmem_cache_free(icq->__rcu_icq_cache, icq);
--}
--
- /*
-  * Exit an icq. Called with ioc locked for blk-mq, and with both ioc
-  * and queue locked for legacy.
-@@ -102,7 +95,7 @@ static void ioc_destroy_icq(struct io_cq
- 	 */
- 	icq->__rcu_icq_cache = et->icq_cache;
- 	icq->flags |= ICQ_DESTROYED;
--	call_rcu(&icq->__rcu_head, icq_free_icq_rcu);
-+	kfree_rcu(icq, __rcu_head);
- }
-
- /*
-diff -u -p a/drivers/net/wireguard/allowedips.c b/drivers/net/wireguard/allowedips.c
---- a/drivers/net/wireguard/allowedips.c
-+++ b/drivers/net/wireguard/allowedips.c
-@@ -48,11 +48,6 @@ static void push_rcu(struct allowedips_n
- 	}
- }
-
--static void node_free_rcu(struct rcu_head *rcu)
--{
--	kmem_cache_free(node_cache, container_of(rcu, struct allowedips_node, rcu));
--}
--
- static void root_free_rcu(struct rcu_head *rcu)
- {
- 	struct allowedips_node *node, *stack[MAX_ALLOWEDIPS_DEPTH] = {
-@@ -330,13 +325,13 @@ void wg_allowedips_remove_by_peer(struct
- 			child = rcu_dereference_protected(
- 					parent->bit[!(node->parent_bit_packed & 1)],
- 					lockdep_is_held(lock));
--		call_rcu(&node->rcu, node_free_rcu);
-+		kfree_rcu(node, rcu);
- 		if (!free_parent)
- 			continue;
- 		if (child)
- 			child->parent_bit_packed = parent->parent_bit_packed;
- 		*(struct allowedips_node **)(parent->parent_bit_packed & ~3UL) = child;
--		call_rcu(&parent->rcu, node_free_rcu);
-+		kfree_rcu(parent, rcu);
- 	}
- }
-
-diff -u -p a/fs/ecryptfs/dentry.c b/fs/ecryptfs/dentry.c
---- a/fs/ecryptfs/dentry.c
-+++ b/fs/ecryptfs/dentry.c
-@@ -51,12 +51,6 @@ static int ecryptfs_d_revalidate(struct
-
- struct kmem_cache *ecryptfs_dentry_info_cache;
-
--static void ecryptfs_dentry_free_rcu(struct rcu_head *head)
--{
--	kmem_cache_free(ecryptfs_dentry_info_cache,
--		container_of(head, struct ecryptfs_dentry_info, rcu));
--}
--
- /**
-  * ecryptfs_d_release
-  * @dentry: The ecryptfs dentry
-@@ -68,7 +62,7 @@ static void ecryptfs_d_release(struct de
- 	struct ecryptfs_dentry_info *p = dentry->d_fsdata;
- 	if (p) {
- 		path_put(&p->lower_path);
--		call_rcu(&p->rcu, ecryptfs_dentry_free_rcu);
-+		kfree_rcu(p, rcu);
- 	}
- }
-
-diff -u -p a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
---- a/fs/nfsd/nfs4state.c
-+++ b/fs/nfsd/nfs4state.c
-@@ -572,13 +572,6 @@ opaque_hashval(const void *ptr, int nbyt
- 	return x;
- }
-
--static void nfsd4_free_file_rcu(struct rcu_head *rcu)
--{
--	struct nfs4_file *fp = container_of(rcu, struct nfs4_file, fi_rcu);
--
--	kmem_cache_free(file_slab, fp);
--}
--
- void
- put_nfs4_file(struct nfs4_file *fi)
- {
-@@ -586,7 +579,7 @@ put_nfs4_file(struct nfs4_file *fi)
- 		nfsd4_file_hash_remove(fi);
- 		WARN_ON_ONCE(!list_empty(&fi->fi_clnt_odstate));
- 		WARN_ON_ONCE(!list_empty(&fi->fi_delegations));
--		call_rcu(&fi->fi_rcu, nfsd4_free_file_rcu);
-+		kfree_rcu(fi, fi_rcu);
- 	}
- }
-
-diff -u -p a/kernel/time/posix-timers.c b/kernel/time/posix-timers.c
---- a/kernel/time/posix-timers.c
-+++ b/kernel/time/posix-timers.c
-@@ -413,18 +413,11 @@ static struct k_itimer * alloc_posix_tim
- 	return tmr;
- }
-
--static void k_itimer_rcu_free(struct rcu_head *head)
--{
--	struct k_itimer *tmr = container_of(head, struct k_itimer, rcu);
--
--	kmem_cache_free(posix_timers_cache, tmr);
--}
--
- static void posix_timer_free(struct k_itimer *tmr)
- {
- 	put_pid(tmr->it_pid);
- 	sigqueue_free(tmr->sigq);
--	call_rcu(&tmr->rcu, k_itimer_rcu_free);
-+	kfree_rcu(tmr, rcu);
- }
-
- static void posix_timer_unhash_and_free(struct k_itimer *tmr)
-diff -u -p a/net/batman-adv/translation-table.c b/net/batman-adv/translation-table.c
---- a/net/batman-adv/translation-table.c
-+++ b/net/batman-adv/translation-table.c
-@@ -408,19 +408,6 @@ static void batadv_tt_global_size_dec(st
- }
-
- /**
-- * batadv_tt_orig_list_entry_free_rcu() - free the orig_entry
-- * @rcu: rcu pointer of the orig_entry
-- */
--static void batadv_tt_orig_list_entry_free_rcu(struct rcu_head *rcu)
--{
--	struct batadv_tt_orig_list_entry *orig_entry;
--
--	orig_entry = container_of(rcu, struct batadv_tt_orig_list_entry, rcu);
--
--	kmem_cache_free(batadv_tt_orig_cache, orig_entry);
--}
--
--/**
-  * batadv_tt_orig_list_entry_release() - release tt orig entry from lists and
-  *  queue for free after rcu grace period
-  * @ref: kref pointer of the tt orig entry
-@@ -433,7 +420,7 @@ static void batadv_tt_orig_list_entry_re
- 				  refcount);
-
- 	batadv_orig_node_put(orig_entry->orig_node);
--	call_rcu(&orig_entry->rcu, batadv_tt_orig_list_entry_free_rcu);
-+	kfree_rcu(orig_entry, rcu);
- }
-
- /**
-diff -u -p a/net/bridge/br_fdb.c b/net/bridge/br_fdb.c
---- a/net/bridge/br_fdb.c
-+++ b/net/bridge/br_fdb.c
-@@ -73,13 +73,6 @@ static inline int has_expired(const stru
- 	       time_before_eq(fdb->updated + hold_time(br), jiffies);
- }
-
--static void fdb_rcu_free(struct rcu_head *head)
--{
--	struct net_bridge_fdb_entry *ent
--		= container_of(head, struct net_bridge_fdb_entry, rcu);
--	kmem_cache_free(br_fdb_cache, ent);
--}
--
- static int fdb_to_nud(const struct net_bridge *br,
- 		      const struct net_bridge_fdb_entry *fdb)
- {
-@@ -329,7 +322,7 @@ static void fdb_delete(struct net_bridge
- 	if (test_and_clear_bit(BR_FDB_DYNAMIC_LEARNED, &f->flags))
- 		atomic_dec(&br->fdb_n_learned);
- 	fdb_notify(br, f, RTM_DELNEIGH, swdev_notify);
--	call_rcu(&f->rcu, fdb_rcu_free);
-+	kfree_rcu(f, rcu);
- }
-
- /* Delete a local entry if no other port had the same address.
-diff -u -p a/net/can/gw.c b/net/can/gw.c
---- a/net/can/gw.c
-+++ b/net/can/gw.c
-@@ -577,13 +577,6 @@ static inline void cgw_unregister_filter
- 			  gwj->ccgw.filter.can_mask, can_can_gw_rcv, gwj);
- }
-
--static void cgw_job_free_rcu(struct rcu_head *rcu_head)
--{
--	struct cgw_job *gwj = container_of(rcu_head, struct cgw_job, rcu);
--
--	kmem_cache_free(cgw_cache, gwj);
--}
--
- static int cgw_notifier(struct notifier_block *nb,
- 			unsigned long msg, void *ptr)
- {
-@@ -603,7 +596,7 @@ static int cgw_notifier(struct notifier_
- 			if (gwj->src.dev == dev || gwj->dst.dev == dev) {
- 				hlist_del(&gwj->list);
- 				cgw_unregister_filter(net, gwj);
--				call_rcu(&gwj->rcu, cgw_job_free_rcu);
-+				kfree_rcu(gwj, rcu);
- 			}
- 		}
- 	}
-@@ -1168,7 +1161,7 @@ static void cgw_remove_all_jobs(struct n
- 	hlist_for_each_entry_safe(gwj, nx, &net->can.cgw_list, list) {
- 		hlist_del(&gwj->list);
- 		cgw_unregister_filter(net, gwj);
--		call_rcu(&gwj->rcu, cgw_job_free_rcu);
-+		kfree_rcu(gwj, rcu);
- 	}
- }
-
-@@ -1236,7 +1229,7 @@ static int cgw_remove_job(struct sk_buff
-
- 		hlist_del(&gwj->list);
- 		cgw_unregister_filter(net, gwj);
--		call_rcu(&gwj->rcu, cgw_job_free_rcu);
-+		kfree_rcu(gwj, rcu);
- 		err = 0;
- 		break;
- 	}
-diff -u -p a/net/ipv4/fib_trie.c b/net/ipv4/fib_trie.c
---- a/net/ipv4/fib_trie.c
-+++ b/net/ipv4/fib_trie.c
-@@ -292,15 +292,9 @@ static const int inflate_threshold = 50;
- static const int halve_threshold_root = 15;
- static const int inflate_threshold_root = 30;
-
--static void __alias_free_mem(struct rcu_head *head)
--{
--	struct fib_alias *fa = container_of(head, struct fib_alias, rcu);
--	kmem_cache_free(fn_alias_kmem, fa);
--}
--
- static inline void alias_free_mem_rcu(struct fib_alias *fa)
- {
--	call_rcu(&fa->rcu, __alias_free_mem);
-+	kfree_rcu(fa, rcu);
- }
-
- #define TNODE_VMALLOC_MAX \
-diff -u -p a/net/ipv4/inetpeer.c b/net/ipv4/inetpeer.c
---- a/net/ipv4/inetpeer.c
-+++ b/net/ipv4/inetpeer.c
-@@ -128,11 +128,6 @@ static struct inet_peer *lookup(const st
- 	return NULL;
- }
-
--static void inetpeer_free_rcu(struct rcu_head *head)
--{
--	kmem_cache_free(peer_cachep, container_of(head, struct inet_peer, rcu));
--}
--
- /* perform garbage collect on all items stacked during a lookup */
- static void inet_peer_gc(struct inet_peer_base *base,
- 			 struct inet_peer *gc_stack[],
-@@ -168,7 +163,7 @@ static void inet_peer_gc(struct inet_pee
- 		if (p) {
- 			rb_erase(&p->rb_node, &base->rb_root);
- 			base->total--;
--			call_rcu(&p->rcu, inetpeer_free_rcu);
-+			kfree_rcu(p, rcu);
- 		}
- 	}
- }
-@@ -242,7 +237,7 @@ void inet_putpeer(struct inet_peer *p)
- 	WRITE_ONCE(p->dtime, (__u32)jiffies);
-
- 	if (refcount_dec_and_test(&p->refcnt))
--		call_rcu(&p->rcu, inetpeer_free_rcu);
-+		kfree_rcu(p, rcu);
- }
- EXPORT_SYMBOL_GPL(inet_putpeer);
-
-diff -u -p a/net/ipv6/ip6_fib.c b/net/ipv6/ip6_fib.c
---- a/net/ipv6/ip6_fib.c
-+++ b/net/ipv6/ip6_fib.c
-@@ -198,16 +198,9 @@ static void node_free_immediate(struct n
- 	net->ipv6.rt6_stats->fib_nodes--;
- }
-
--static void node_free_rcu(struct rcu_head *head)
--{
--	struct fib6_node *fn = container_of(head, struct fib6_node, rcu);
--
--	kmem_cache_free(fib6_node_kmem, fn);
--}
--
- static void node_free(struct net *net, struct fib6_node *fn)
- {
--	call_rcu(&fn->rcu, node_free_rcu);
-+	kfree_rcu(fn, rcu);
- 	net->ipv6.rt6_stats->fib_nodes--;
- }
-
-diff -u -p a/net/ipv6/xfrm6_tunnel.c b/net/ipv6/xfrm6_tunnel.c
---- a/net/ipv6/xfrm6_tunnel.c
-+++ b/net/ipv6/xfrm6_tunnel.c
-@@ -178,12 +178,6 @@ __be32 xfrm6_tunnel_alloc_spi(struct net
- }
- EXPORT_SYMBOL(xfrm6_tunnel_alloc_spi);
-
--static void x6spi_destroy_rcu(struct rcu_head *head)
--{
--	kmem_cache_free(xfrm6_tunnel_spi_kmem,
--			container_of(head, struct xfrm6_tunnel_spi, rcu_head));
--}
--
- static void xfrm6_tunnel_free_spi(struct net *net, xfrm_address_t *saddr)
- {
- 	struct xfrm6_tunnel_net *xfrm6_tn = xfrm6_tunnel_pernet(net);
-@@ -200,7 +194,7 @@ static void xfrm6_tunnel_free_spi(struct
- 			if (refcount_dec_and_test(&x6spi->refcnt)) {
- 				hlist_del_rcu(&x6spi->list_byaddr);
- 				hlist_del_rcu(&x6spi->list_byspi);
--				call_rcu(&x6spi->rcu_head, x6spi_destroy_rcu);
-+				kfree_rcu(x6spi, rcu_head);
- 				break;
- 			}
- 		}
-diff -u -p a/net/kcm/kcmsock.c b/net/kcm/kcmsock.c
---- a/net/kcm/kcmsock.c
-+++ b/net/kcm/kcmsock.c
-@@ -1584,14 +1584,6 @@ static int kcm_ioctl(struct socket *sock
- 	return err;
- }
-
--static void free_mux(struct rcu_head *rcu)
--{
--	struct kcm_mux *mux = container_of(rcu,
--	    struct kcm_mux, rcu);
--
--	kmem_cache_free(kcm_muxp, mux);
--}
--
- static void release_mux(struct kcm_mux *mux)
- {
- 	struct kcm_net *knet = mux->knet;
-@@ -1619,7 +1611,7 @@ static void release_mux(struct kcm_mux *
- 	knet->count--;
- 	mutex_unlock(&knet->mutex);
-
--	call_rcu(&mux->rcu, free_mux);
-+	kfree_rcu(mux, rcu);
- }
-
- static void kcm_done(struct kcm_sock *kcm)
-diff -u -p a/net/netfilter/nf_conncount.c b/net/netfilter/nf_conncount.c
---- a/net/netfilter/nf_conncount.c
-+++ b/net/netfilter/nf_conncount.c
-@@ -275,14 +275,6 @@ bool nf_conncount_gc_list(struct net *ne
- }
- EXPORT_SYMBOL_GPL(nf_conncount_gc_list);
-
--static void __tree_nodes_free(struct rcu_head *h)
--{
--	struct nf_conncount_rb *rbconn;
--
--	rbconn = container_of(h, struct nf_conncount_rb, rcu_head);
--	kmem_cache_free(conncount_rb_cachep, rbconn);
--}
--
- /* caller must hold tree nf_conncount_locks[] lock */
- static void tree_nodes_free(struct rb_root *root,
- 			    struct nf_conncount_rb *gc_nodes[],
-@@ -295,7 +287,7 @@ static void tree_nodes_free(struct rb_ro
- 		spin_lock(&rbconn->list.list_lock);
- 		if (!rbconn->list.count) {
- 			rb_erase(&rbconn->node, root);
--			call_rcu(&rbconn->rcu_head, __tree_nodes_free);
-+			kfree_rcu(rbconn, rcu_head);
- 		}
- 		spin_unlock(&rbconn->list.list_lock);
- 	}
-diff -u -p a/net/netfilter/nf_conntrack_expect.c b/net/netfilter/nf_conntrack_expect.c
---- a/net/netfilter/nf_conntrack_expect.c
-+++ b/net/netfilter/nf_conntrack_expect.c
-@@ -367,18 +367,10 @@ void nf_ct_expect_init(struct nf_conntra
- }
- EXPORT_SYMBOL_GPL(nf_ct_expect_init);
-
--static void nf_ct_expect_free_rcu(struct rcu_head *head)
--{
--	struct nf_conntrack_expect *exp;
--
--	exp = container_of(head, struct nf_conntrack_expect, rcu);
--	kmem_cache_free(nf_ct_expect_cachep, exp);
--}
--
- void nf_ct_expect_put(struct nf_conntrack_expect *exp)
- {
- 	if (refcount_dec_and_test(&exp->use))
--		call_rcu(&exp->rcu, nf_ct_expect_free_rcu);
-+		kfree_rcu(exp, rcu);
- }
- EXPORT_SYMBOL_GPL(nf_ct_expect_put);
-
-diff -u -p a/net/netfilter/xt_hashlimit.c b/net/netfilter/xt_hashlimit.c
---- a/net/netfilter/xt_hashlimit.c
-+++ b/net/netfilter/xt_hashlimit.c
-@@ -256,18 +256,11 @@ dsthash_alloc_init(struct xt_hashlimit_h
- 	return ent;
- }
-
--static void dsthash_free_rcu(struct rcu_head *head)
--{
--	struct dsthash_ent *ent = container_of(head, struct dsthash_ent, rcu);
--
--	kmem_cache_free(hashlimit_cachep, ent);
--}
--
- static inline void
- dsthash_free(struct xt_hashlimit_htable *ht, struct dsthash_ent *ent)
- {
- 	hlist_del_rcu(&ent->node);
--	call_rcu(&ent->rcu, dsthash_free_rcu);
-+	kfree_rcu(ent, rcu);
- 	ht->count--;
- }
- static void htable_gc(struct work_struct *work);
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/2ae9cb0-b16e-58a-693b-7cd927657946%40inria.fr.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/CA%2BfCnZeMRZZe4A0QW4SSnEgXFEnb287PgHd5hVq8AA4itBFxEQ%40mail.gmai=
+l.com.
