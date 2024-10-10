@@ -1,109 +1,109 @@
-Return-Path: <kasan-dev+bncBAABBIE6TW4AMGQEHPXDY4A@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBIM6TW4AMGQE2XXYYPQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3e.google.com (mail-oa1-x3e.google.com [IPv6:2001:4860:4864:20::3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9E9997B7B
-	for <lists+kasan-dev@lfdr.de>; Thu, 10 Oct 2024 05:50:57 +0200 (CEST)
-Received: by mail-oa1-x3e.google.com with SMTP id 586e51a60fabf-2878304b155sf1209371fac.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 09 Oct 2024 20:50:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1728532256; cv=pass;
+Received: from mail-yb1-xb37.google.com (mail-yb1-xb37.google.com [IPv6:2607:f8b0:4864:20::b37])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE99997B7D
+	for <lists+kasan-dev@lfdr.de>; Thu, 10 Oct 2024 05:50:59 +0200 (CEST)
+Received: by mail-yb1-xb37.google.com with SMTP id 3f1490d57ef6-e163641feb9sf615298276.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 09 Oct 2024 20:50:59 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1728532258; cv=pass;
         d=google.com; s=arc-20240605;
-        b=eq8vGJ5gEiA+w1kbosW6islnx+0Y1rO+gCtxXKraEIKQVFs7vJxqRh093isShK0Qbi
-         LOT474yQLx3U3vCxRnuI6TtW/ghyOQtVkUyvLG5Of9gOMfV/0S2DmYKhk8MEyqEjLzyq
-         6DLbUEYVdmknIyWhMkTAWbBc3OHatBEsK3SBcvXblV5G7BagUi7rEvb1+Fi0Iu4mVbsI
-         QTAw5pGuPXmk4xwfoPdUOwNLGZvP9V4mlcJ1rQ+UL3fDBcdzRdmMSm0n0sLYZiKuh4Nu
-         8sKuaHtL1JV0b5hhLER+hQvjUnegD1gsPaEkTxpZZ2ZISax4OKq1i9j47MDs9E+96lCz
-         1liA==
+        b=KVWgoSnyN5l07GLYVeQ0UfBno7Kh8GDs8qCD2JTkSFMqvsf+bbJkYWwgghAJjq3+bk
+         7awaMWB8DE5geuYbRbBpSmQxd3LuMnOoXx33Z04w5Ql+FfI+GKiORs7VxDqP17Ix2BLZ
+         y9wwhpLNFLxXATdcXSsndIvzJdiiOoisZQl5uEO/YjCTYtlq0odr+jC8+ib9zcEiuNZt
+         4GX18Q7AYUFkZmqEpkOTELKlE25uFhZte5kq909owSAXKVvoNJGXcmbUbq7Dw/2Ceb7G
+         uoJzkvXHsw6ehnfNequEzX7s4MarG0KORywcMfVNisjEzWVeyS1Pmu5eMeTfwMZJvT69
+         ycQQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=oqA8gVobDUkBil0H7aQECGIkvpcO0lDoCnL3QOvCpwI=;
-        fh=ql9K20nac2SI7JqykKqJLFIo631FzQRnfQCipln1pLA=;
-        b=ZmxAcetKB504xkuKoGlK/cgtR+3E9cFeviqn0lXzPOZxqLgdsOfjHPpgVfMLO6h8JV
-         1jc1rVrPz2ROYf0krsKrV0baxWpDfigQjBF22snfajGzpj2zL1IMwwP+/LkT6E/jCWzn
-         /Bl3O9JeGFinXvtOB5YPhygybnxybiZsUS0voUEbLOt4jXtAESkrdUlaDWc+Qqy9hg3f
-         YgTzZogtrXnw1NPcEeeIUh8goh7RFiH6X68qOkjIkgFHQOk0rZT5TeClItl8l/PNDt97
-         xX5MsXkY0ZqQXMCNrl2GF2SKI8ya1G5Qd1N8VqGvyDJHgX3LdgRURCECzWScQ+O41Np8
-         79hg==;
+        bh=4CSe5fiKHL7AqBsB1BDu90zuPXgrB34OlaVj295cr8s=;
+        fh=jj0yHsR3AKhh27wh2kY5tO1UuIIOAACpUOrLVGxCvM0=;
+        b=TrcsUeGnU4EH9NcmV+3guJMsPhG7Mcw3Z408vXVRylfjrDMrEu4qALm5AKYpP5dymh
+         AoK4wbp6a1FsM6ukgvGjsnbIa9TQlqdqYdaXGIXJITvFHQvZS8vMYUYz5l1RxbVJP4j9
+         L4no24Uc4DvGOVdToeoEHFzUXHIJIIicOZ3IkWLubtD5/f5wUQ5U+pMKo0cz6jkXaCSO
+         swGl1t4GDGugKKktZUzgQDPePPgz8YhBCeZ1Zz0YaZEYXpssVZr+AiUqXUQf5TtnF4zT
+         Jh5u8e8BPPG/D12iF0bEKbYuaE16730EDVIqp/bQpP/zM6l2QZePzXuh/AnGTXW9XASn
+         ppnA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=maobibo@loongson.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1728532256; x=1729137056; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1728532258; x=1729137058; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oqA8gVobDUkBil0H7aQECGIkvpcO0lDoCnL3QOvCpwI=;
-        b=iKCvs//GHSb9MZd1wdHaMEphJmvmign4QJCzx+54ov1lA5fxWYQRthtgEIv/dE3UpF
-         USsAIekpbUUprZjloS6usInGOj1Q3LR0DzPw3r1okgNImEOSUkmgpbYya7PHh4yE1lt/
-         KCLEOlP7mfqW7VBoagm+FNRSdTevFR5CEGpBV0J0exD5isEoo0OwcjBsejgFMt8jVWXH
-         sDjsv9ni8gT2o3zz1spBsLdDpTjZ602nemnnvxYY+sgvP7vZYUU2KnvTPh4Hcf2Dm9Do
-         Ypwkoik2ecLTk9RPepBepiimW1tvMl3IgzHB5ajA1VdvNM/cZ4se8e6ti2PfXEpdEMCS
-         1e0Q==
+        bh=4CSe5fiKHL7AqBsB1BDu90zuPXgrB34OlaVj295cr8s=;
+        b=c2fsn2x4YX4fyOaYH95JCW+HmdECoKfG57j5GvjOKS6kGTgiqcnJTA67OQKGphdeQe
+         uExTtx+yyKTBVoN6niwEbJ9eByrpBVPOPG2AW0xa/Sk86vMOQt6w3gHsnspYvpYQnkMU
+         xOHr5quN7LAZTopqyklMiUiZ0Ij/d+gSbag7j0s37qPaefQ6lJciOzDuIiW2HIMH234u
+         fkzN0AxVZlEs6LHe+n3VGnKvfPPHhCIWLIN84m8nOwIabITd9jPa+Pg2hKG0ZkfTp8D3
+         i/vRINZT43yk7kBiU+kPT0giYg0TkwzKl1X8dLALdGayDeMbT0U2MOvQG17BlX0uK2ab
+         QAaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728532256; x=1729137056;
+        d=1e100.net; s=20230601; t=1728532258; x=1729137058;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oqA8gVobDUkBil0H7aQECGIkvpcO0lDoCnL3QOvCpwI=;
-        b=Wd9KpAjVfzz3JEbVO76eoLu1NeH22IZQ2HMW4BnsgL/uHppNCVaAEEAuM9N696vl4f
-         FTpBG3B652gtJYVh6U8/XIsoervPH/rVejX6EMPLpJmR9HRS0NsvxPkqCu54lTDyKQgQ
-         6gAnYU3KIpp41ohtWHkmQHNerKkyjkf9hLXk6oIM3kKydLJmF+WXkPHiNXkksE+c9lc7
-         7/MkIUFMspibcsXRYl6iAtDyCKZwcARGBCRG1ocHT/Vt9m+z0r3vaMjS/rCuaur1gHoq
-         voHGlZm1k0GNZJgZbo3rK9bfmlbqxNbw/dFaFVRZPJD1gqqJpUEkd2n/H9dGMyhkMzwD
-         bggA==
+        bh=4CSe5fiKHL7AqBsB1BDu90zuPXgrB34OlaVj295cr8s=;
+        b=DO2h2idVi++XP6Bzw+RH9SZSmoHy1cBZFHH5TE3AGKS25SpEYLqLB2FPXc+rOOlMcR
+         Ykvcor12akF0RIpjbEsee9xBiAMaSYuhRQQh7ZugPj6UHV8QfjPdftyzocEKVrmZiK84
+         1lVfiegkD7BaN0+Xrstv/hCyjxVtPRBUY0FhCRGVEUl398F5D2Dt98F9D14gDqOZPI6H
+         vYxCiDq0qikVyZFuQqZIk429N0jT/lKUyvu3ndBhCfWskL9VqLPuj3plr5358Sn7osl1
+         pYMHF7cSz/SBUI8DGRqEvVmQOEm1nwMaqCwtot9rK73/4r+0W71bXh+CGYwXfur9kYWi
+         ykow==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXOqnaF/aS+cEUxnoFkX0is+jKd+ERV8guQhC4bqcL8AudCUZ/pb3oYDiigOF0N+1LsYLIvDw==@lfdr.de
-X-Gm-Message-State: AOJu0YzVLvEh6ASUqsCLdspxkbzNsU/b0+kn9+8YtaF4veiQSBlZU/Ir
-	gAAvxsg3dAo5czyXTJIyBhoKNcxz/0tiHqawBtLjoPv1XADGlOr8
-X-Google-Smtp-Source: AGHT+IEK/hxlB/mtkxSODJ/wgBv8f3SfAVHCmPoj3r0cxtvQHPnIvWfbfMShF7vCMMFCcDErg75mZw==
-X-Received: by 2002:a05:6870:c093:b0:254:b337:eeb5 with SMTP id 586e51a60fabf-2884d4e0830mr1334196fac.18.1728532256184;
-        Wed, 09 Oct 2024 20:50:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVOQcPZFrD4L8GO8abEpbT7di+KEpIVHWjP9JpjZh2v+zQryYo30HAHLO92cUz6KrcDyephgw==@lfdr.de
+X-Gm-Message-State: AOJu0YxjPRHflAZMbgfyntdq1DZuY4/C3RXTZB15lFSuzEs7gJaCsEK4
+	T9Q3bVbfEjaiAneEnx2nuXCel7ZTkH1K2/oVdTqFLAoH2FvO9hOI
+X-Google-Smtp-Source: AGHT+IHrasG9U0tGfS0HWdYvxRnVs+qYynDlndWxoD1LhA5mSFuH7jp1j7fGKqSSB7NIpZx54hm68A==
+X-Received: by 2002:a05:6902:220a:b0:e1d:318c:74e8 with SMTP id 3f1490d57ef6-e290b5d252cmr1621845276.2.1728532257962;
+        Wed, 09 Oct 2024 20:50:57 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6871:728b:b0:25c:ac6e:8806 with SMTP id
- 586e51a60fabf-2884dac6ccbls199326fac.1.-pod-prod-00-us; Wed, 09 Oct 2024
- 20:50:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVO5wAmzhIvgdMDBodh4kdGdncRweIxRzvUBiwfWfd+JykUMCJp9V1A9rOKEknDkaJe4BXfdNbBceQ=@googlegroups.com
-X-Received: by 2002:a05:6871:4314:b0:288:4a73:1fe6 with SMTP id 586e51a60fabf-2884d531baemr1462405fac.21.1728532255062;
-        Wed, 09 Oct 2024 20:50:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1728532255; cv=none;
+Received: by 2002:a05:6902:1887:b0:e1d:a3e8:5b14 with SMTP id
+ 3f1490d57ef6-e290b83eaa5ls171285276.0.-pod-prod-00-us; Wed, 09 Oct 2024
+ 20:50:57 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUCwsdCg0cTN2D3Ku3BBkhethbnUZ3aVGLdICm98RoQCKhz99+7rk7PfWcxtquERTDZSyloj5VrNgQ=@googlegroups.com
+X-Received: by 2002:a05:690c:7083:b0:6e2:2684:7f62 with SMTP id 00721157ae682-6e32f13a27cmr14457817b3.8.1728532257304;
+        Wed, 09 Oct 2024 20:50:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1728532257; cv=none;
         d=google.com; s=arc-20240605;
-        b=UTdXQ18Gww9Gl96x9r8TgkeUZdlZxZrRcEYBaInsP7fUb4l7ykbv/aYcGSf6RbixMs
-         2eJkCdZUYI3MxvhWJgsxjZ8T8es07OwIzspPsR8We4OI4n+OL5aeR0cpsBW32RbfVN1e
-         tDpwJFTIuiPb1pJvwjxviaxLKIspSl7p7ECR/fdzj8TW+tjpnW0HpBt9OaEB2ysMjoV3
-         qYQ7eID9zuozikoyJZVvfvINCWkEU65gyqHqE1+vpRwgTVhThOQtuh08lYcjGGbHmIQc
-         qb/Y+3HGp7kyixLXCzeduDMOhI+wGC0MGV8kOgJhApLOVptPFkMh2rXBtG+qCyIRGW6S
-         5DBw==
+        b=ERR2CTWQ/hILFG+nH+E6jR4BLxRnO231VL05BoEw4aMzTDr9t8S9LMNgnWvNWr7PDA
+         m6eLbLBn8kxEqY7bKgRQgMbIcCm0cQXitBGJM3gARRK/OGQQC5886zqjGDE02keoyN1B
+         h0/epENR7eIDJz/38qVRqjn8PWi3aEA2AFibBs63Bjbpeby6gsznFtRP0KMC0QpOXIOn
+         af39OmMJeWQ9mC2m1HlacM6XBq2uyYHS9ZFIIQ+C5zZylzR60gRxEZEk/+Y0qhTC8VYo
+         BT8qOA2ajK2FcAemZAOowusPAvPcBxp+Vi9sjLhP9J7K3U7iS1QU6EMZE7aH+6eduTzW
+         973A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=ojkToVyZt+6AV6/9LXFFZWf07ErRU8/WaYD6ufYZxvY=;
+        bh=6Iw/wAbEu0SHxzXukkARToGn17qUMEhn7+bxpypLMb0=;
         fh=W/+Rlbd92klLtgnDZozu+1Zm8L3oNk9WCo5yqUG4SDo=;
-        b=bJ2ISZtT6fNke7wnqqCrq/CBvvSkc6rLc2mqqxOYeitiCQ06ujwRcFYyJFnXOIoJik
-         wSaE88h1TbHTgciHYDmA0ngTF1meWP8p7sn0lRLya72t1EVMCnMi0RJ7AbpkjR3KJoeG
-         S5H1IFYiLM7PdIDwey8uPCiPEmPGMjGvYSCPJIXFka+SnQk5RfmXTjGDOFEbBKPUdYpn
-         lbW175ofv3ZQq0a21cADuih4eEu6yuqveiEWF1gmBg+JpzaSXMDQ8Ot+uEQJwjKjfKhP
-         PPevPxX1TVUMj6QyJMbMdjyVrWTJF1ETczHgookRmjHBac/Gun48XUY+vT8zuoIC7yFI
-         FK1Q==;
+        b=KSS6wv6FdUxYPKspw9NaQZ7D/gAX12D3xQ6ielP1C1HMIbZc7xvet9JrvrB73Y6YQf
+         XmmwCzs1zudAFt4WmSkVc6BeuwpP0MLxd9Tuc/JLq+LJg3makoRQ2rgKCWWDFVrFJEgC
+         itSW7WVtk/NYf3oatO24NIrzQiGxU+jtFYDXKvNssIsNGzkUyvt9WFv0gu3mDeDG5mcJ
+         nfakG4aMN9yovNe+cafTXZTm9lPiuNaR244goYc6z3FJGSBkgrcvjNQ/haRIPMHn+3+9
+         0jheZVFImKeX52MQFDvTEAkupvB9jY2XPJsdeSBlrIBvPOniLVJryErfLUe4ODBP/4qQ
+         saoQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=maobibo@loongson.cn
 Received: from mail.loongson.cn (mail.loongson.cn. [114.242.206.163])
-        by gmr-mx.google.com with ESMTP id 586e51a60fabf-2885829bc8dsi16939fac.1.2024.10.09.20.50.53
+        by gmr-mx.google.com with ESMTP id 00721157ae682-6e332bde004si307507b3.3.2024.10.09.20.50.55
         for <kasan-dev@googlegroups.com>;
-        Wed, 09 Oct 2024 20:50:54 -0700 (PDT)
+        Wed, 09 Oct 2024 20:50:56 -0700 (PDT)
 Received-SPF: pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) client-ip=114.242.206.163;
 Received: from loongson.cn (unknown [10.2.5.213])
-	by gateway (Coremail) with SMTP id _____8AxCGoaTwdnybsRAA--.25766S3;
-	Thu, 10 Oct 2024 11:50:50 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____8CxrrMbTwdnzrsRAA--.26962S3;
+	Thu, 10 Oct 2024 11:50:51 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.213])
-	by front1 (Coremail) with SMTP id qMiowMDx7tUZTwdnFP8hAA--.52915S4;
+	by front1 (Coremail) with SMTP id qMiowMDx7tUZTwdnFP8hAA--.52915S5;
 	Thu, 10 Oct 2024 11:50:50 +0800 (CST)
 From: Bibo Mao <maobibo@loongson.cn>
 To: Huacai Chen <chenhuacai@kernel.org>,
@@ -115,14 +115,14 @@ Cc: David Hildenbrand <david@redhat.com>,
 	linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
 	linux-mm@kvack.org
-Subject: [PATCH 2/4] mm/sparse-vmemmap: set pte_init when vmemmap is created
-Date: Thu, 10 Oct 2024 11:50:46 +0800
-Message-Id: <20241010035048.3422527-3-maobibo@loongson.cn>
+Subject: [PATCH 3/4] LoongArch: Add barrier between set_pte and memory access
+Date: Thu, 10 Oct 2024 11:50:47 +0800
+Message-Id: <20241010035048.3422527-4-maobibo@loongson.cn>
 X-Mailer: git-send-email 2.39.3
 In-Reply-To: <20241010035048.3422527-1-maobibo@loongson.cn>
 References: <20241010035048.3422527-1-maobibo@loongson.cn>
 MIME-Version: 1.0
-X-CM-TRANSID: qMiowMDx7tUZTwdnFP8hAA--.52915S4
+X-CM-TRANSID: qMiowMDx7tUZTwdnFP8hAA--.52915S5
 X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
 X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
 	ZEXasCq-sGcSsGvfJ3UbIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnUUvcSsGvfC2Kfnx
@@ -144,44 +144,55 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Like pmd_init(), a weak function kernel_pte_init() is added and it
-is only effective on LoongArch system. When pte table is created for
-vmemmap kernel space, function kernel_pte_init() is called here.
+It is possible to return a spurious fault if memory is accessed
+right after the pte is set. For user address space, pte is set
+in kernel space and memory is accessed in user space, there is
+long time for synchronization, no barrier needed. However for
+kernel address space, it is possible that memory is accessed
+right after the pte is set.
 
-It has no any effective on other architectures.
+Here flush_cache_vmap/flush_cache_vmap_early is used for
+synchronization.
 
 Signed-off-by: Bibo Mao <maobibo@loongson.cn>
 ---
- mm/sparse-vmemmap.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/loongarch/include/asm/cacheflush.h | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-index edcc7a6b0f6f..c0388b2e959d 100644
---- a/mm/sparse-vmemmap.c
-+++ b/mm/sparse-vmemmap.c
-@@ -184,6 +184,10 @@ static void * __meminit vmemmap_alloc_block_zero(unsigned long size, int node)
- 	return p;
- }
+diff --git a/arch/loongarch/include/asm/cacheflush.h b/arch/loongarch/include/asm/cacheflush.h
+index f8754d08a31a..53be231319ef 100644
+--- a/arch/loongarch/include/asm/cacheflush.h
++++ b/arch/loongarch/include/asm/cacheflush.h
+@@ -42,12 +42,24 @@ void local_flush_icache_range(unsigned long start, unsigned long end);
+ #define flush_cache_dup_mm(mm)				do { } while (0)
+ #define flush_cache_range(vma, start, end)		do { } while (0)
+ #define flush_cache_page(vma, vmaddr, pfn)		do { } while (0)
+-#define flush_cache_vmap(start, end)			do { } while (0)
+ #define flush_cache_vunmap(start, end)			do { } while (0)
+ #define flush_icache_user_page(vma, page, addr, len)	do { } while (0)
+ #define flush_dcache_mmap_lock(mapping)			do { } while (0)
+ #define flush_dcache_mmap_unlock(mapping)		do { } while (0)
  
-+void __weak __meminit kernel_pte_init(void *addr)
++/*
++ * It is possible for a kernel virtual mapping access to return a spurious
++ * fault if it's accessed right after the pte is set. The page fault handler
++ * does not expect this type of fault. flush_cache_vmap is not exactly the
++ * right place to put this, but it seems to work well enough.
++ */
++static inline void flush_cache_vmap(unsigned long start, unsigned long end)
 +{
++	smp_mb();
 +}
++#define flush_cache_vmap flush_cache_vmap
++#define flush_cache_vmap_early	flush_cache_vmap
 +
- pmd_t * __meminit vmemmap_pmd_populate(pud_t *pud, unsigned long addr, int node)
- {
- 	pmd_t *pmd = pmd_offset(pud, addr);
-@@ -191,6 +195,7 @@ pmd_t * __meminit vmemmap_pmd_populate(pud_t *pud, unsigned long addr, int node)
- 		void *p = vmemmap_alloc_block_zero(PAGE_SIZE, node);
- 		if (!p)
- 			return NULL;
-+		kernel_pte_init(p);
- 		pmd_populate_kernel(&init_mm, pmd, p);
- 	}
- 	return pmd;
+ #define cache_op(op, addr)						\
+ 	__asm__ __volatile__(						\
+ 	"	cacop	%0, %1					\n"	\
 -- 
 2.39.3
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20241010035048.3422527-3-maobibo%40loongson.cn.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20241010035048.3422527-4-maobibo%40loongson.cn.
