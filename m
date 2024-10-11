@@ -1,151 +1,153 @@
-Return-Path: <kasan-dev+bncBC4LXIPCY4NRBVOZUK4AMGQEF6I4MDY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAOJ6534YNBBM5BUO4AMGQEQSDU5MQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3e.google.com (mail-io1-xd3e.google.com [IPv6:2607:f8b0:4864:20::d3e])
-	by mail.lfdr.de (Postfix) with ESMTPS id E73E9999BC4
-	for <lists+kasan-dev@lfdr.de>; Fri, 11 Oct 2024 06:43:02 +0200 (CEST)
-Received: by mail-io1-xd3e.google.com with SMTP id ca18e2360f4ac-8352a3cc8b5sf157725839f.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 10 Oct 2024 21:43:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1728621781; cv=pass;
+Received: from mail-lj1-x240.google.com (mail-lj1-x240.google.com [IPv6:2a00:1450:4864:20::240])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F2A9999DA5
+	for <lists+kasan-dev@lfdr.de>; Fri, 11 Oct 2024 09:16:06 +0200 (CEST)
+Received: by mail-lj1-x240.google.com with SMTP id 38308e7fff4ca-2fadadb092dsf9155641fa.1
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Oct 2024 00:16:06 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1728630965; cv=pass;
         d=google.com; s=arc-20240605;
-        b=EU8gXUqzoUgwnmuyz3efCWawk+69bO5xYPifETSTbIuI6PmMtoUvmjYJkrU1Fpd5gN
-         ufzI/2bOpdlRgg1zPsusumHHnhq6yuxDpawRFKTL3JAdFUtffgT0pEd3INW+gtUTyh1p
-         cHElBimh/hfXHAuDq5rrYBn8gzxJm2sPS1YajfhS6INt9256aa8Z/OTvotPFG5R6bVQG
-         E3XnH0yYIvCJOlnKFPGe1scRZOny+SMlY66rSk3KsxzZR1w0OT/hqn0tIIFkpJsAZN+f
-         QTLsYte/o6qL7GgWZ0q3XGT9L07kY4VgIYNS32knsr9gBRz3itM8U5i6ZbEIfnRgKHsa
-         y43g==
+        b=apmkIXDEjYlryKq+E5VSTHq1Blh8I+RuFAifOIomxxjlECLXL0+nXZnOjxu6IOAQii
+         zJd0EWB2qiud1xyd3Uv47sb/mZAYmSz9bZZw0x/M1LQnJEynY4kPNF+9Uura0RmWVnJg
+         ZolV2rs3vfMquG3WiFUTI/npycr15i55zjg+eWynFgszxU62FymXl4uZbE6HOeP9D05l
+         2NZqwsJh8JR+UdJzsdHHNbsGGQENOP/RK72O0icqiuqpQ2lrNxj+qTkYP/KXu11/sZ7P
+         DaEhBDWh+7wemap9nmloaGKEVHyPQEd5Rk16+h4riQ+7sHi7bdUOlXGenlENb5sAOXZ9
+         72Mg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=mNzinKzN4+tPhB6mBXq2KUyVkHU9zQjevhAUisg8ntY=;
-        fh=GUSr74QgfRM2ystqAkdKHOIeQWKMQDwmOQN0cNyjPoI=;
-        b=e0s1gCZnu32RLttPInkTL9GuEelFR60E2zaKTbmh+CAYF1OEHiPgKBC9F6u2w5w1BF
-         cdG5yM2Pyn9sPeR13lw/jBMW/S6NVrjUyocOGRhhLcJIo/Sah6rFxAHM5wM9PeenZgR+
-         PVUPl8DZ9sqYBxK1g9Scp69E4RmZbjiZPDFnimsjEUmEWPyJctALrYDOCQYah+Z6ZYNd
-         a1ScQiOdohQHIPsqRkaKuXgurMwAewtTmlXv2nXnVNvrZRxxYHCOsqLxSND4l+K9uvYs
-         iYnE98bFZkYwUCJGgX7FzEVYNcq6QfEs3TMPiiuaYi+BRhYOOJxICZsSt2sl19nOfdR7
-         CMFA==;
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature:dkim-signature;
+        bh=OE2RQwn9/cTHKxbnpq+zp4zoN89CXBLu8GGa3qXVMMo=;
+        fh=Gz/IqN/UMfeqjzdzvKdNRAGu75Rwo+x5rytXcoIvK9U=;
+        b=NEhE37eOLrryMC5R9a1NHOJgN+CeZqcaLXyKSNQJUIgGsPHQvRtUMQLB8I4NRyFeOL
+         OFjExibKHcMP0o2OpoHqqCaQD+dTudHfRevFO+XoX10ZuCd6KjSfeN6kX7Ynwt2vx7yf
+         tw7E3voePI6v7rLzmXceOO54J2Bg2pZKG83kyvQ0qJxGg8NQJABaEcb6+4bRFMypNmia
+         cY1PRN9Fqi0jPuw6DfyknMxxX39qMvHMf1LFRzOnr0pkMqCmm9AWp1Op8MvIBc4k1LFH
+         Sz3zVZg19PL/9tHOupU3HvKMwareY9oufQ2mYiXhtNb4YSygKXxTyYMzawEnO8OYa707
+         LTjw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=mSsLiclH;
-       spf=pass (google.com: domain of lkp@intel.com designates 198.175.65.21 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=FXRfI2r6;
+       spf=pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::22f as permitted sender) smtp.mailfrom=snovitoll@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1728621781; x=1729226581; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1728630965; x=1729235765; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mNzinKzN4+tPhB6mBXq2KUyVkHU9zQjevhAUisg8ntY=;
-        b=EOW5KVJjG39UKIY6XZOPEOKjVX4ahESMpNcJaH63+Vsq8oYD+PGzXb5pG/Mnn3Ymqs
-         4GZqttGnAkmboarI3VnmELXmx9KfFhrusblni/ObxQQZydSgOxEw3g6s172X9IjNdAjX
-         XuragQfzcYgqWEmmv1gYKKBmHNlTMFBODxRo4pssgbN00pL912fxFqwaX4MUJoM5cmPx
-         tk5X6KOCNUJ5gFFHyrh8rfUWmgGXHpxNzUZ40iS4ut/zMUrPQHJ5pfE/2OLRTqjb3MDz
-         f0KVbUmXR/46fJSqBYgxug3oLgNTYMr7MlaTvWHLPE4TUhovNc/il92yFDSQ9IkVN+yR
-         s7uQ==
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=OE2RQwn9/cTHKxbnpq+zp4zoN89CXBLu8GGa3qXVMMo=;
+        b=hjpvs8Ey6gpm4zR7c2BTkRD+QOt6zPom0D4elILGZocV4wtEtSfCwxtVhCIS32kHmd
+         nPHZ0LDqPrOt/WMegzGZVXuJqa1px/T0zPaMM9PqrJSOiiWsdxIrbqoIz3r08vpOhb0E
+         YwhurJHgMzUKzCb8sCwHKBgiKjmo8ipbVeu8O9EgToOGngOKUcfjS7blhomi3bn4K61K
+         bKx8tX2UQWHUod0Xkrj2eJiNpPKNccxMaZcQFBzg4k91u6wi+NwNKG4MFgnSsL4GQoXJ
+         bOUOwAvtyzpXcDjlHIPc3T74haYcLjrBtjqWzV6FVkVdJqMszMzfkq5yubOyH+QUNgOH
+         kEaw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728630965; x=1729235765; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=OE2RQwn9/cTHKxbnpq+zp4zoN89CXBLu8GGa3qXVMMo=;
+        b=JhAtb4yNmPu+VO6HGBOfaRRH2jh//rxvzrkGrE2HOd7Jyk1+XgB7DgiU7j80skgUPq
+         GeIpum6N/gOQJRoDUnXoPWuNZ9RbK7XgfYGbi5Pb2CFDdMQL7DobHnfnHQa+zmXj0IIP
+         GUAojZtGIntZuGkyTEUIXWG51EnRExMv2VWRs4U4BW6W55mv0lA4yymEVlhPhQU2rD+7
+         3qGiMtSjrT+TGy3XyPTeqilqJ/wJhxdeL+r6sOJQpR/wpr3SW3MULKRmqSjaeSs1puCY
+         Lym6G21VLnfX5uCsWLLTg9TYXYqbvnqS9ncIs1X8Yulklae3WDK9IoFGQFJxfbdwH14Q
+         mTIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728621781; x=1729226581;
+        d=1e100.net; s=20230601; t=1728630965; x=1729235765;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mNzinKzN4+tPhB6mBXq2KUyVkHU9zQjevhAUisg8ntY=;
-        b=ZcHOcKsxxdQkf4EPgsFOnpdnnKYliKbX9uNEwkYT1v8zgUHAL0x+YIvVEGPoICqZgj
-         32n3NEX9ibYZRTlSd7porSdq2MEB/QRY9IElC8AlFLQVLq29Abv1xKqChvzDkin1xRtC
-         Uqhll5/vqrQIQZP3HwCTFmEaRPW4DaJW8716bXivj46t4fbKJ0QeUAMf7BhkcVORn34z
-         szvNkHUI2SgglabpqSNHgeZNGvqe+NmJL7Axa1pOeJti7B6pqd48lWYkZvXcGWsRVA2v
-         0FxTZm+MwskL5BLjWEG8ACMf+4B8sJy3sFFCE39qG6g4C/ShnODwQAye2ofrZ7goxLj9
-         BlmA==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=OE2RQwn9/cTHKxbnpq+zp4zoN89CXBLu8GGa3qXVMMo=;
+        b=YiMUhwRdS9i0/MdmNzx6sog/djcelEXjCY+FxFBCUGPXtvbXwnyA5/sX5WRvTEemq9
+         zhpsBg/hYmzMLY6mVByG2ZkA59lsPEVV57hbZRgOY2d9+Q7n0dXhrbaJoKzGoy1AO3yP
+         7JjdD9BQhHCXrGOjrC30V4ALmK0885PSePWEsR0w9m17L+6fP0vVKuqoQbTAigVEq9DO
+         +IbuGONz4m4fOFFJgti4S7BCDoSvpR1nGLksabRoyLZt+fFE6TiyNkTKdl+c5m802dC3
+         rCeJ7dSsF+spiefiN5kOXY6GVTYsha5DUQ8JgGkMQ5uM7FJyd6ALnaAZirIbwJc2nhNi
+         M6zw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWq6PsBVQe/+Dwqe4Cwsa3Z0nDXK4PWrqGgagF8Yt8jeRTl63YRwpRrClqur4f+BCFcaVdEQA==@lfdr.de
-X-Gm-Message-State: AOJu0YxhczohVDgMLtXvnB7pO6ksLB82jz+81ziPaZ3XSsmKfOYNcZZ3
-	S9UOTKqX0EBuoZ7V83kP4ihrdfCYGVFgZwTeWoytFlBqx4BCovNU
-X-Google-Smtp-Source: AGHT+IF6ORiKmt5tduZzZS7Kv7rg2DTeS+JlVm30G3CjdxZIefstSn4jxAmSbcuju3NvAq9qXVVRmA==
-X-Received: by 2002:a05:6e02:1548:b0:3a1:a69f:939a with SMTP id e9e14a558f8ab-3a3b5f7c44fmr13671145ab.13.1728621781346;
-        Thu, 10 Oct 2024 21:43:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXe8iiO2pUqEUtO6ASK2878b09TjZ9igeFr/0mBWZWAZ+grRBCBKS6O+EaLkxiEdLYykABang==@lfdr.de
+X-Gm-Message-State: AOJu0YwDOMliDNoxCMtVLG7CqR6KGxhaj26/lhNwPyLcqulSWYthEK+Y
+	1udYy+dmH0vm8bXj8QaiIZqL2YgVNBaO48aus18qnJQlgiEA1zDo
+X-Google-Smtp-Source: AGHT+IGOklw2v/Q9HDHbi7flQpw2QubSfQGOS6IvjALjhnIl9HDfRnWzrWCkJ2EIYje9MvijTbXerQ==
+X-Received: by 2002:a05:651c:98b:b0:2fa:c185:ac4e with SMTP id 38308e7fff4ca-2fb208e5e51mr21568581fa.13.1728630963994;
+        Fri, 11 Oct 2024 00:16:03 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:c24c:0:b0:3a3:9c22:3a4a with SMTP id e9e14a558f8ab-3a3a736d09bls9259885ab.0.-pod-prod-03-us;
- Thu, 10 Oct 2024 21:43:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVdrPDYtDuV2ON30D9FdplCaWmSAAFHeJvGyoPkraBEGf1T0cMBwAgdzYbjI+1A5epWm5HthUtfTmY=@googlegroups.com
-X-Received: by 2002:a05:6602:2cc5:b0:82c:fb31:2340 with SMTP id ca18e2360f4ac-837932de019mr114660639f.7.1728621780402;
-        Thu, 10 Oct 2024 21:43:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1728621780; cv=none;
+Received: by 2002:a2e:3e02:0:b0:2fb:3a87:c904 with SMTP id 38308e7fff4ca-2fb3a87cb2fls167201fa.0.-pod-prod-00-eu;
+ Fri, 11 Oct 2024 00:16:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXG8P/7PUEMPw7G6UPYnVML7WGVjDjifRaqN5dSCjYVucpGeBTTDt3J2vem5FFbLd6EfIvNR6YllyY=@googlegroups.com
+X-Received: by 2002:a05:651c:507:b0:2f7:6664:f272 with SMTP id 38308e7fff4ca-2fb207cafbbmr19622881fa.6.1728630961816;
+        Fri, 11 Oct 2024 00:16:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1728630961; cv=none;
         d=google.com; s=arc-20240605;
-        b=B0qJQ0//rCBk6Rhnv88nHIgaGEzKItbY0erLW+p9Jd0yTw5p1+3nm34skr6rU6/m14
-         9JTv/VW30KUt6TaZsLPlDxyC3mWd61TCJWIMdiA9tyXhmYyqr9UiABIVl9hvJc167n4e
-         tHnpevFA3pZXQ6ldAwd0tVWL6DHV2E5u6q5PpfJqNtIriRoO9Oo6aG+3r5wTkr6uk6gf
-         rfQ60P5dOdvG/3G67VkePdbfSavFaIBOrKq2Pc3f6/zXVImkxMawbFYnUWKQaU2NRABC
-         Jh0mP0PKYZ3cwO36b904pqfhG5MJgsk33eaPgMEBCxnjx7Gig+qVvozBvhig/Vdl15zv
-         HpzQ==
+        b=YoIpUoN69uinzv5kwgbclvcGrwWeKFVDLFu1SvjC8lfURF1rxiLSEg8Xvh6ucpf99h
+         tM4QC2hT7vj9JWNLZimMW/ISq0VmHqrDVi4oj8qlzpddCdY31HxJk3Vvg+RCcGOjjkbk
+         czpi/wKccb02oRfwe7JKTnfsyk0JezLkQUapUeVR5198TFl1bYKgHzM6vOap3KbOAaFK
+         2wHsK79SMG1dy9OIulEXjr/Nag1+jzDMGLRYqQqHdT2A+EPFspbWxDho6JJJu4EUPJtt
+         WOg1cPfHXkCBNjz0UyQhrwduotsYPBxcnMRfMEXOaX000W806V8HRYUK5dHbqXazj56A
+         SHGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=6ueJlU84+7U4j+zBBLEI9J39OkJAqCNlP6eXO48ylO0=;
-        fh=Pii+ye6aEamv3UXG1Ma9xLfTLXLb0tVQsv97JAq2y4U=;
-        b=TFRK5hnWz9bMuG4xoE8BTU/dF4kVoDpTSVGfeqwrZaUCNzwg4zbEdAHBshH2jKVaQz
-         RfqK4xWQc9qiIdtRmeH+xaeuKQ1VtlBQ9BhAqpTF/SDFjQv2Vb0Opo04ppsQSkfQyHSa
-         6MzJ6lYKWhq4ByK/HScsg0xSG4R4hOVm/wkM0QTPFlV77q7Wdp9uVGMMcNphtS3q2Neh
-         bSMNTmk+FV6fjZj84Md1SJdakj+RjkErj3piyPranZahiG/ZGhVtLGSB0FevcE5YI1yQ
-         A3ldmMspsdCbZEm5XAqWmH7eQ+0SvcA4kKPbEmrFm9BvTQ+JmgHWfBXm7SSFSkaFe+U4
-         +CEA==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=XCjVoezSoJ9cXRJsoOufBJfIeNbu/4t5Ob362xE6LB4=;
+        fh=af+eZ4alpOkwFa/nNv42/CiF0vyE6xxdIJGXRHzxibE=;
+        b=DVrHxgcL3Smm2WIwglyHybCwYRt5df8qlj9XjabdJn3acHvwuAwNSCmdXBvxCHetg8
+         BDQcBIQBhbCM91IIIzhmeGJbD7sdvGMq5FBCwT3fsRYQY0rHbgYQ8UNojTr+zr1x1k/x
+         Ty2RLuwRQsfD8ilUdTHJBylnjZV98sVKNOl3RLqercCMsnnAziwNpMFZOSTV+gcn6CMI
+         rvzyf7Sqrk3240ro4N3DKCGvm3VwC2PW9Ou6wnQHBD0JgTAz6E08GK5Oupk0XeH/h3hb
+         boCQyPJu4aTkPpDz/4N5qHTAvl1XfuqC1u2W3vWeCBE8KmESwQZfmqeFMIgEAO7rpSOH
+         dKGg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b=mSsLiclH;
-       spf=pass (google.com: domain of lkp@intel.com designates 198.175.65.21 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [198.175.65.21])
-        by gmr-mx.google.com with ESMTPS id ca18e2360f4ac-8354ba63012si12389339f.3.2024.10.10.21.43.00
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=FXRfI2r6;
+       spf=pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::22f as permitted sender) smtp.mailfrom=snovitoll@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com. [2a00:1450:4864:20::22f])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-2fb2474c5ccsi531171fa.5.2024.10.11.00.16.01
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 10 Oct 2024 21:43:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of lkp@intel.com designates 198.175.65.21 as permitted sender) client-ip=198.175.65.21;
-X-CSE-ConnectionGUID: KQfh4J7gTc21KHgkbpReQw==
-X-CSE-MsgGUID: nVDsvuazR262x4C/AhlFIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11221"; a="27959197"
-X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="27959197"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Oct 2024 21:42:58 -0700
-X-CSE-ConnectionGUID: pbRcFdqLRZmQX/JmBKPFNg==
-X-CSE-MsgGUID: /8q1Oky7SJmnO1TALXDWhw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,194,1725346800"; 
-   d="scan'208";a="76712344"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 10 Oct 2024 21:42:56 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1sz7UL-000Bod-0J;
-	Fri, 11 Oct 2024 04:42:53 +0000
-Date: Fri, 11 Oct 2024 12:42:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bibo Mao <maobibo@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Hildenbrand <david@redhat.com>,
-	Barry Song <baohua@kernel.org>, loongarch@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com
-Subject: Re: [PATCH 2/4] mm/sparse-vmemmap: set pte_init when vmemmap is
- created
-Message-ID: <202410111254.kon5pPzX-lkp@intel.com>
-References: <20241010035048.3422527-3-maobibo@loongson.cn>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Oct 2024 00:16:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::22f as permitted sender) client-ip=2a00:1450:4864:20::22f;
+Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2fb2e21b631so6712961fa.0
+        for <kasan-dev@googlegroups.com>; Fri, 11 Oct 2024 00:16:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUSH4v6zTYSOVbK7iEp8igXAfagREl86E5G0QPL4r1kVGIrLJtgqdITkvLXiwsTF/6uCMUmpbvsKos=@googlegroups.com
+X-Received: by 2002:a05:6512:304c:b0:52f:36a:f929 with SMTP id 2adb3069b0e04-539c986474amr2004231e87.4.1728630960909;
+        Fri, 11 Oct 2024 00:16:00 -0700 (PDT)
+Received: from work.. (2.133.25.254.dynamic.telecom.kz. [2.133.25.254])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539ddf85cf4sm93946e87.68.2024.10.11.00.15.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Oct 2024 00:16:00 -0700 (PDT)
+From: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+To: akpm@linux-foundation.org,
+	ryabinin.a.a@gmail.com,
+	andreyknvl@gmail.com
+Cc: glider@google.com,
+	dvyukov@google.com,
+	vincenzo.frascino@arm.com,
+	linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	snovitoll@gmail.com
+Subject: [PATCH] kasan: migrate copy_user_test to kunit
+Date: Fri, 11 Oct 2024 12:16:57 +0500
+Message-Id: <20241011071657.3032690-1-snovitoll@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20241010035048.3422527-3-maobibo@loongson.cn>
-X-Original-Sender: lkp@intel.com
+X-Original-Sender: snovitoll@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b=mSsLiclH;       spf=pass
- (google.com: domain of lkp@intel.com designates 198.175.65.21 as permitted
- sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=intel.com
+ header.i=@gmail.com header.s=20230601 header.b=FXRfI2r6;       spf=pass
+ (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::22f
+ as permitted sender) smtp.mailfrom=snovitoll@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -158,118 +160,196 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Bibo,
+Migrate the copy_user_test to the KUnit framework to verify out-of-bound
+detection via KASAN reports in copy_from_user(), copy_to_user() and
+their static functions.
 
-kernel test robot noticed the following build warnings:
+This is the last migrated test in kasan_test_module.c, therefore delete
+the file.
 
-[auto build test WARNING on 87d6aab2389e5ce0197d8257d5f8ee965a67c4cd]
+In order to detect OOB access in strncpy_from_user(), we need to move
+kasan_check_write() to the function beginning to cover
+if (can_do_masked_user_access()) {...} branch as well.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-Set-pte-entry-with-PAGE_GLOBAL-for-kernel-space/20241010-115120
-base:   87d6aab2389e5ce0197d8257d5f8ee965a67c4cd
-patch link:    https://lore.kernel.org/r/20241010035048.3422527-3-maobibo%40loongson.cn
-patch subject: [PATCH 2/4] mm/sparse-vmemmap: set pte_init when vmemmap is created
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20241011/202410111254.kon5pPzX-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 70e0a7e7e6a8541bcc46908c592eed561850e416)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241011/202410111254.kon5pPzX-lkp@intel.com/reproduce)
+Reported-by: Andrey Konovalov <andreyknvl@gmail.com>
+Closes: https://bugzilla.kernel.org/show_bug.cgi?id=212205
+Signed-off-by: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+---
+ lib/strncpy_from_user.c      |  3 +-
+ mm/kasan/kasan_test_c.c      | 39 +++++++++++++++++
+ mm/kasan/kasan_test_module.c | 81 ------------------------------------
+ 3 files changed, 41 insertions(+), 82 deletions(-)
+ delete mode 100644 mm/kasan/kasan_test_module.c
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410111254.kon5pPzX-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from mm/sparse-vmemmap.c:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/sparse-vmemmap.c:23:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from mm/sparse-vmemmap.c:23:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from mm/sparse-vmemmap.c:23:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/s390/include/asm/dma.h:5:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> mm/sparse-vmemmap.c:187:23: warning: no previous prototype for function 'kernel_pte_init' [-Wmissing-prototypes]
-     187 | void __weak __meminit kernel_pte_init(void *addr)
-         |                       ^
-   mm/sparse-vmemmap.c:187:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     187 | void __weak __meminit kernel_pte_init(void *addr)
-         | ^
-         | static 
-   14 warnings generated.
-
-
-vim +/kernel_pte_init +187 mm/sparse-vmemmap.c
-
-   186	
- > 187	void __weak __meminit kernel_pte_init(void *addr)
-   188	{
-   189	}
-   190	
-
+diff --git a/lib/strncpy_from_user.c b/lib/strncpy_from_user.c
+index 989a12a67872..55c33e4f3c70 100644
+--- a/lib/strncpy_from_user.c
++++ b/lib/strncpy_from_user.c
+@@ -120,6 +120,8 @@ long strncpy_from_user(char *dst, const char __user *src, long count)
+ 	if (unlikely(count <= 0))
+ 		return 0;
+ 
++	kasan_check_write(dst, count);
++
+ 	if (can_do_masked_user_access()) {
+ 		long retval;
+ 
+@@ -142,7 +144,6 @@ long strncpy_from_user(char *dst, const char __user *src, long count)
+ 		if (max > count)
+ 			max = count;
+ 
+-		kasan_check_write(dst, count);
+ 		check_object_size(dst, count, false);
+ 		if (user_read_access_begin(src, max)) {
+ 			retval = do_strncpy_from_user(dst, src, count, max);
+diff --git a/mm/kasan/kasan_test_c.c b/mm/kasan/kasan_test_c.c
+index a181e4780d9d..e71a16d0dfb9 100644
+--- a/mm/kasan/kasan_test_c.c
++++ b/mm/kasan/kasan_test_c.c
+@@ -1954,6 +1954,44 @@ static void rust_uaf(struct kunit *test)
+ 	KUNIT_EXPECT_KASAN_FAIL(test, kasan_test_rust_uaf());
+ }
+ 
++static void copy_user_test_oob(struct kunit *test)
++{
++	char *kmem;
++	char __user *usermem;
++	unsigned long useraddr;
++	size_t size = 128 - KASAN_GRANULE_SIZE;
++	int __maybe_unused unused;
++
++	kmem = kunit_kmalloc(test, size, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, kmem);
++
++	useraddr = kunit_vm_mmap(test, NULL, 0, PAGE_SIZE,
++					PROT_READ | PROT_WRITE | PROT_EXEC,
++					MAP_ANONYMOUS | MAP_PRIVATE, 0);
++	KUNIT_ASSERT_NE_MSG(test, useraddr, 0,
++		"Could not create userspace mm");
++	KUNIT_ASSERT_LT_MSG(test, useraddr, (unsigned long)TASK_SIZE,
++		"Failed to allocate user memory");
++
++	OPTIMIZER_HIDE_VAR(size);
++	usermem = (char __user *)useraddr;
++
++	KUNIT_EXPECT_KASAN_FAIL(test,
++		unused = copy_from_user(kmem, usermem, size + 1));
++	KUNIT_EXPECT_KASAN_FAIL(test,
++		unused = copy_to_user(usermem, kmem, size + 1));
++	KUNIT_EXPECT_KASAN_FAIL(test,
++		unused = __copy_from_user(kmem, usermem, size + 1));
++	KUNIT_EXPECT_KASAN_FAIL(test,
++		unused = __copy_to_user(usermem, kmem, size + 1));
++	KUNIT_EXPECT_KASAN_FAIL(test,
++		unused = __copy_from_user_inatomic(kmem, usermem, size + 1));
++	KUNIT_EXPECT_KASAN_FAIL(test,
++		unused = __copy_to_user_inatomic(usermem, kmem, size + 1));
++	KUNIT_EXPECT_KASAN_FAIL(test,
++		unused = strncpy_from_user(kmem, usermem, size + 1));
++}
++
+ static struct kunit_case kasan_kunit_test_cases[] = {
+ 	KUNIT_CASE(kmalloc_oob_right),
+ 	KUNIT_CASE(kmalloc_oob_left),
+@@ -2028,6 +2066,7 @@ static struct kunit_case kasan_kunit_test_cases[] = {
+ 	KUNIT_CASE(match_all_ptr_tag),
+ 	KUNIT_CASE(match_all_mem_tag),
+ 	KUNIT_CASE(rust_uaf),
++	KUNIT_CASE(copy_user_test_oob),
+ 	{}
+ };
+ 
+diff --git a/mm/kasan/kasan_test_module.c b/mm/kasan/kasan_test_module.c
+deleted file mode 100644
+index 27ec22767e42..000000000000
+--- a/mm/kasan/kasan_test_module.c
++++ /dev/null
+@@ -1,81 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-only
+-/*
+- *
+- * Copyright (c) 2014 Samsung Electronics Co., Ltd.
+- * Author: Andrey Ryabinin <a.ryabinin@samsung.com>
+- */
+-
+-#define pr_fmt(fmt) "kasan: test: " fmt
+-
+-#include <linux/mman.h>
+-#include <linux/module.h>
+-#include <linux/printk.h>
+-#include <linux/slab.h>
+-#include <linux/uaccess.h>
+-
+-#include "kasan.h"
+-
+-static noinline void __init copy_user_test(void)
+-{
+-	char *kmem;
+-	char __user *usermem;
+-	size_t size = 128 - KASAN_GRANULE_SIZE;
+-	int __maybe_unused unused;
+-
+-	kmem = kmalloc(size, GFP_KERNEL);
+-	if (!kmem)
+-		return;
+-
+-	usermem = (char __user *)vm_mmap(NULL, 0, PAGE_SIZE,
+-			    PROT_READ | PROT_WRITE | PROT_EXEC,
+-			    MAP_ANONYMOUS | MAP_PRIVATE, 0);
+-	if (IS_ERR(usermem)) {
+-		pr_err("Failed to allocate user memory\n");
+-		kfree(kmem);
+-		return;
+-	}
+-
+-	OPTIMIZER_HIDE_VAR(size);
+-
+-	pr_info("out-of-bounds in copy_from_user()\n");
+-	unused = copy_from_user(kmem, usermem, size + 1);
+-
+-	pr_info("out-of-bounds in copy_to_user()\n");
+-	unused = copy_to_user(usermem, kmem, size + 1);
+-
+-	pr_info("out-of-bounds in __copy_from_user()\n");
+-	unused = __copy_from_user(kmem, usermem, size + 1);
+-
+-	pr_info("out-of-bounds in __copy_to_user()\n");
+-	unused = __copy_to_user(usermem, kmem, size + 1);
+-
+-	pr_info("out-of-bounds in __copy_from_user_inatomic()\n");
+-	unused = __copy_from_user_inatomic(kmem, usermem, size + 1);
+-
+-	pr_info("out-of-bounds in __copy_to_user_inatomic()\n");
+-	unused = __copy_to_user_inatomic(usermem, kmem, size + 1);
+-
+-	pr_info("out-of-bounds in strncpy_from_user()\n");
+-	unused = strncpy_from_user(kmem, usermem, size + 1);
+-
+-	vm_munmap((unsigned long)usermem, PAGE_SIZE);
+-	kfree(kmem);
+-}
+-
+-static int __init kasan_test_module_init(void)
+-{
+-	/*
+-	 * Temporarily enable multi-shot mode. Otherwise, KASAN would only
+-	 * report the first detected bug and panic the kernel if panic_on_warn
+-	 * is enabled.
+-	 */
+-	bool multishot = kasan_save_enable_multi_shot();
+-
+-	copy_user_test();
+-
+-	kasan_restore_multi_shot(multishot);
+-	return -EAGAIN;
+-}
+-
+-module_init(kasan_test_module_init);
+-MODULE_LICENSE("GPL");
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/202410111254.kon5pPzX-lkp%40intel.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20241011071657.3032690-1-snovitoll%40gmail.com.
