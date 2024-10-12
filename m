@@ -1,51 +1,51 @@
-Return-Path: <kasan-dev+bncBAABBK6HU64AMGQEDETVEII@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBQGIU64AMGQEP5VD3LY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13e.google.com (mail-il1-x13e.google.com [IPv6:2607:f8b0:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E35B99B03B
-	for <lists+kasan-dev@lfdr.de>; Sat, 12 Oct 2024 04:49:17 +0200 (CEST)
-Received: by mail-il1-x13e.google.com with SMTP id e9e14a558f8ab-3a3b4395dedsf16800315ab.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 11 Oct 2024 19:49:17 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1728701356; cv=pass;
+Received: from mail-pf1-x440.google.com (mail-pf1-x440.google.com [IPv6:2607:f8b0:4864:20::440])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2CE599B03E
+	for <lists+kasan-dev@lfdr.de>; Sat, 12 Oct 2024 04:51:46 +0200 (CEST)
+Received: by mail-pf1-x440.google.com with SMTP id d2e1a72fcca58-71e1ed58e9bsf3054392b3a.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Oct 2024 19:51:46 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1728701505; cv=pass;
         d=google.com; s=arc-20240605;
-        b=f4r+TL+7xv2jyLkLziuzhsNyvEW87UFBCEi+pPoOdHLcEkwniBeOwONF4Kz1S0NWb/
-         N3p4lUj8jQ4RG5Rql53U3UP2yj8Xr80Has5IgarKCGNNwvaThPffN5JZiJrlcSR5YhF8
-         eeySZXvb//vcWGMsAKG093gI0HBNnrhHoOeEGhQInV2wdJVzDdo9CmSFsBNmvpLGXWc1
-         WWSCn/NWAi3rWknSbUUdvWjBuzb3mHE8yVaSKW9In1eDP7hqbUsfcNN5TPG5c7GTuQil
-         1oPEAvo5Zur8v86AqcNGqljuOFAg6EfKvMWXK6cAiIC/McKcxkoToH7N3hXZnQuWcOMy
-         wvHA==
+        b=QQ/9S7s/lACe0ivvX4fQwpdUamcBQHcSLUCCc3tSBK6rhEzU/aIZ2U5FiObO/fM6bu
+         kGew5q2k1lfEnM1BiI2v8iJ3zRJBEoubIM4lN5N17yafQh2ipOpXMSZ7A8B4p/gUFrty
+         dnmuTzzoo1AwNzoZ7pm6Ei4OHOLy78iwZIWSd/7rurg8nQlVdHKj6xPeDpMcMbueVyFr
+         FzM4HMy5cIUeI12qh8rSxLsT8NEaKvcdw6PC8CIXCuK9MM2INq3xyFa26vp1OZmS4hWd
+         hsrm39H1Qzl6bMmnBx1bta79iIwSjG+XAyqwRdqGkPsPls9iyJ+MSgCuNlUmjsYm8Ir1
+         UN3g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:content-transfer-encoding
          :content-language:in-reply-to:mime-version:user-agent:date
          :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=MwpwSalHyIo9g+cAJ7+f4Qdmo8uJykGeJ06k7uJYeXQ=;
-        fh=dWDVqJN+MYLipkdqv525yd7+z0UDSoI+cNF2DZwLULQ=;
-        b=fc6VOovDAvMCHrEqXc3g0IX6Cm4ZTT0FS4wFALDnDlbuznz89/N1E+1BQscvuE0ft0
-         uQ1GpSPeyfSMT+eqHSaCV2jnjC8FbXIneglxL19c4Zgq1J2MBDhkH3vkgCJEJLVAqmmy
-         o13nSKjqeI503WFQjSOoINRk+1EA2oClej35eI74KW50qie2ZocPDujQatk9bIeS/Lgc
-         BflfEvD/8+Kym3byjKJvgaVG1QeL60A5mkrxLF976o8qUoLWMltNRF6ZerW4xfuijErC
-         STGJahwi33Im+P1pc0UOC2tOkHn9qcKz+15sB5gjYjOmiCoV3F2ThUGCsUW5rjA7EhMK
-         xkXQ==;
+        bh=bab3uHk1tu0mn1ADByeWZOjBf4yzNCiavzVy348LVBg=;
+        fh=Mv7bQcFXlzyAWgSdb9Ac4jOz4x1ZhG6xHa/i5U1PVAo=;
+        b=Egh4dmNVjKwzjmGZqa6GInPwnse3061vlNFcSQi0iIFW3B6FSFx4n8Z6qfWm3at1wp
+         vpnuUkm4sNiPkEB+c3v/iWCFNFeSzfcKK6HxvzeWKFF1q0c+JY4LipBnDzK8RYagpyWa
+         /+TGU5vhQ+aKSMMRzpvYYiRCxatDdG0GkpgtK+cLL3BHpnGPxcYTUOfvojgJWA7AjAJs
+         ivPLzmkLJh3xh+8CKKyXUF37pJ8c67Pb0pDksWwflZTugUiEFOs9J8jQDH1UxgCHJ/ad
+         AyV72/cDW6GvI6qdtV+JzcvKkhWD6S0a8rHRVsroqshrRJhxxd6BruNWuQ/cw5+8YB1U
+         MPRg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=maobibo@loongson.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1728701356; x=1729306156; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1728701505; x=1729306305; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:content-transfer-encoding:content-language
          :in-reply-to:mime-version:user-agent:date:message-id:from:references
          :cc:to:subject:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=MwpwSalHyIo9g+cAJ7+f4Qdmo8uJykGeJ06k7uJYeXQ=;
-        b=vsVesbMj48xZeoTMT5htiJNaD2oHo2JW2zljMk8VL4Qd/Vt1tpB3wAZyNMFHAw0Ysc
-         JJshd+F9QZllRrfsk96EapSGDrg8cMJYxFUrvX3BzWKfoMCWIeMrQlvQlQ0MpQQLeGL2
-         Uq3JsnwsvddzRxXgSUPXTAWPARGheug3iLI6D91dH31R36gFc892YrFjV9ZUgHpkWLYV
-         GlMtMR0qfjj4+rAUzn7LrWqzdHmQo5pmuN7GXrzAkZPFbrz5qE5Fc3c9xQGiEuhjlUC2
-         xXtZj3/uKcFN6CYbh5O8JUDhrjCG4Z8t/1ADkuAm6Mo75ckJPWLzyDbw6hA1P/EI5Qq7
-         FhKg==
+        bh=bab3uHk1tu0mn1ADByeWZOjBf4yzNCiavzVy348LVBg=;
+        b=nVmvjZu3XXClkhD78vgezmOYAG+mlAyr9+oFWFHxaN60PnTU3KVc5krKQ3nHm39RPX
+         VwUtMdtBj9Ynwvx+EJTEy4Hqd8M08uVLoPbNvKCY13XpGgPdRP67SZ/SQ2cqFjkJyHEW
+         AdhCmDQjBh6gilewFl6fz6RafbjsX6teknCNTZI5Ha5cL86GcTYeDJY0ioCaAbyMsEwh
+         CliQ3pk2uH5y96ZWs9XEkexSpFCI/UlgsM1iV0HXVG3sX0otwSLzy9WUlPooZafM1dmg
+         Hq0AYJeoh4pBCbhBxKMGSgOnEHK/Qz1sMKemMi450f1/oWGXW+dmRo9IbXLuk9NHC9GK
+         +HeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728701356; x=1729306156;
+        d=1e100.net; s=20230601; t=1728701505; x=1729306305;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
@@ -53,62 +53,61 @@ X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
          :user-agent:date:message-id:from:references:cc:to:subject
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MwpwSalHyIo9g+cAJ7+f4Qdmo8uJykGeJ06k7uJYeXQ=;
-        b=IzviTE7+T/SPuEnOW0yBxxMck5ThzgG+wWYJQosL8AHNvzg9NDJMJOcoubIHPwg5Zs
-         5kleToZZFz3C6TtyTfAZfz3dc2fnHxb2hBOf4GwuNy3rBiQsq0gk3DbMmOdCjPTGWDOD
-         C5jtU7BXOnRt8Wlr7k2J1ZgraqabSCJ6DrGRa7o42VC5GEumgwaZgXXTbWJd8uFI5yjC
-         F7iF2GTNcLTdSP3fYVn49LrRLgU5sqPamwMiTIac9b+bemL1xzynuBWXVqu6E0w2/sfY
-         yyTc2eUrpYtsGgfTNR2wcQmutKxtHbtEi7CeGdpTL1HHNkYe9XPbga72R0dQndyhcutD
-         6brg==
+        bh=bab3uHk1tu0mn1ADByeWZOjBf4yzNCiavzVy348LVBg=;
+        b=sC0XpxcrK72/Mt7yeci0K7js5w/7NZ23eaoehPzNSmpTQZB0+Oln20OrRwvw8VrvNV
+         j2RUmHxQxUxtQ7UjURVi0F54LP++Kru6G5pNVEZsjtkXTcSNOpL3uOuRzOIgX476acCd
+         2b16Rxus8vARI18COltZ7XEqAgWuHbTMNBxREn8uF5Oet+0nM0KtQHmeyQfsx+tkBSmu
+         Dsq2DzoOQx6D/0Qi+YjFYkvZPcukXjwpB8FtyJxkk/iOxR+z3MXP0Mh2BfrfRH15wTEU
+         gTlGVRrxsCDBZLVfKScwPstq5F0i1yFvyT5U0OI2DHcb7peZ8ZZVpkMhJ3JymwHl6uOr
+         B8vw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXqVzwj+R+m2gD84KAMrlW7dajFlCXVsST8tILm4TY1OyGMOtpEQxPHkqdZu0t1lX2fJdka6g==@lfdr.de
-X-Gm-Message-State: AOJu0Yxk6h1tMQ9Fu25JyMRtu4pGOHV+fWLj0Zx6PdgpwmIf2tAzintt
-	Rfg4oi8fEzDQMCOcgQoc+mDBJeAxRAoVusIbqyjio8hxnFj5rT0I
-X-Google-Smtp-Source: AGHT+IFZfBB9lZQ/6dnmiSWZANeLsiVtAesAFlZJL9ebbHX3vd3Xt4hdVQVMXzxA1DVP1ikz7Ud3vg==
-X-Received: by 2002:a92:c241:0:b0:3a2:91f:497b with SMTP id e9e14a558f8ab-3a3b5fa76f0mr43335335ab.13.1728701356075;
-        Fri, 11 Oct 2024 19:49:16 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCX3lPPAEMRg3LXtM+bimgmS8NISkYeYfgEiwLdTdY6RfOryVKXMhIisCOWIEUeXlHc4PX2dzA==@lfdr.de
+X-Gm-Message-State: AOJu0YwjJ7SbXi4a0LWLpArdgZu3BoUiv5D+pNFpJAR8ku+WKXfKlRXv
+	7NQ4pW5E1axkfwZfeAJqYz0NmvqtmY6l05hcbAfxHAGVnOI21Ber
+X-Google-Smtp-Source: AGHT+IFZfifaulIJVk2x9PY9YuJorcRoSkUHM0b6Kq73RputwYLme4BkE+l6mxXhmUJ+y0AGdzcsLg==
+X-Received: by 2002:a05:6a20:e188:b0:1d8:a3ab:7212 with SMTP id adf61e73a8af0-1d8c9577310mr2236961637.2.1728701505151;
+        Fri, 11 Oct 2024 19:51:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:1805:b0:3a1:96f6:f0f2 with SMTP id
- e9e14a558f8ab-3a3a7428207ls18153665ab.1.-pod-prod-02-us; Fri, 11 Oct 2024
- 19:49:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUkrQ1H5o/7UXvqNf9NgV10tAlG2esK/AYD2O6ERB64+6dUgk+L7/mSm1K51XHMnNnmF3+k3t+7YO4=@googlegroups.com
-X-Received: by 2002:a05:6e02:180e:b0:3a3:b3f4:af42 with SMTP id e9e14a558f8ab-3a3b5f86635mr39716405ab.7.1728701355297;
-        Fri, 11 Oct 2024 19:49:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1728701355; cv=none;
+Received: by 2002:aa7:8c04:0:b0:71e:4de3:36df with SMTP id d2e1a72fcca58-71e4de33c19ls201826b3a.1.-pod-prod-04-us;
+ Fri, 11 Oct 2024 19:51:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWSCW4dQ4o0tNh6Sgiwxac5seOe9vvWod9jiq5JQilFAfvt9rCv/+Mpk7nULeBKKhHqIvWwaOku2Uk=@googlegroups.com
+X-Received: by 2002:a05:6a00:22d4:b0:71e:104d:62fe with SMTP id d2e1a72fcca58-71e4c1bfbcbmr2528735b3a.20.1728701503623;
+        Fri, 11 Oct 2024 19:51:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1728701503; cv=none;
         d=google.com; s=arc-20240605;
-        b=ii15/Y/pgMQHplC71RK4fo6WQI46kh0izHoAim/RtoI10GJv9R3IwfgTUhPYDXzyoC
-         Mekc/sG/LLSz9tsmeCjIZ8k1OcolWBrXljEf5NCIDXTnQ0WPLN52dLzlcZfjpOpVA+rA
-         BaWR4IQ7G8Ne3xCqzHmb1L9dzw8bC6XxRtLVdneeIaAGjo2WGSh8+ERSiK0rA9OEc0/D
-         92pz7Ovj393oWjO+DQtde8W0Qmxymwa8rQ7lOSrjA8A5bRlkFcPiZpCEwo/CRU6scCea
-         98nV5XPiWp6xikc06emJXhmW6PREwkXJJlYuBXH2AcUIucmPnAja4dDfxdCHVVM77gDj
-         +dkw==
+        b=K/hiVZSxv/AzTOI26KorGU8Q8UX3gZfBWepyYNwNnorXOimORGw3PWP4FVFiIWHDJ1
+         LCuACAHOtqgeiJJTvu4kI3FXPpKrjg0YgDwFb25wjrEIRi0OH2aDOEB1y18g4lTQWp4I
+         xN/EmyGCD2M3Ueq5HCheIRsu3S0QmvHOfw/raJrLADpYWZ8qh5QRhwljLbdpFY6E3tcv
+         1s5afinGI4vG6kTQebvlNuGpnXSoetgO1bfPqNRGsWkQanmuc/gtIqkkzR6Ym1A5mDFR
+         FCaH3KRUce4HUB3FWMQJk6CAc4rEOkHH27ZsT1moCtQeVqtogQfbU//3o9y5sYhNdqEn
+         U63w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:content-language:in-reply-to:mime-version
          :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=EgfVMQ505JhtZRIyJWfm34fHt7zMejpm4MBtyVmSdqo=;
+        bh=j//Qp/2cQmu1nXrbzNxviuEmwhTe22q+aYbVOnDIM7s=;
         fh=ocVjpFH1JzmNVfR49Byi2MWYGiGWER7Q25i+GX3k5Kg=;
-        b=HW5XpzU/2qifKzVTQ++wa0Isj1KSQkQQNek+NeOCMAu5fV4k0TTP2bB5Rn17PdXHdk
-         YAdY1qFj8q7X2il9/ABZ/HIxKf0DQ3gN2OcEaqeXWbJyvp8HyZysEgQvJaPHvq+bWO8c
-         5NRY0Z0OvIVi42MERKR/rQoAp+9UK5BBD5JhUpG4ZC7iN8EWgdqiMXKA6Gb+diSFliCn
-         2PiANHyZs0l9TbiLTJg9xu9b/kuMWfdnZtg+UNv2tdNk7h03SFJSMc4bNSZ0mjj8QEVm
-         8nIG/mvw1R4m5nlmSME21uG5J7TLiH+vBIPKIlIJzDKqiDsC3i2kGjjHmElumpoAF/jb
-         Fpzg==;
+        b=gANa3HdZqPaNwizaUlEFeoauC8h1D1xH9e0OCSX/kc5xEXaJXibLTmsbgDly9lH4Kq
+         dyb7KgAlbyfH7Y0P1eQiyF5os8GYPGboVkb28J4GaR5KU0deVc0850FJiwy1Yh9TUm0p
+         bLkRYK/NkLmhbOhDRgRL0IF7JD2AhRkvSEffn0jHpIb47ajarMwwtoCJiO4/TbW2M4KC
+         QAhknttzbuCGGb1vyqZL6jFHswDqLG6ZClEQnK92IKAuYcf7w7oV9brCKFYdGz0s3iZI
+         +XPcsaSEcsvj+KamjxTWWvvFyjwnOZ4pBE/GDEVHIiJ//i3s/JV5iJ7qnQWfGz8Flksq
+         3vDA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=maobibo@loongson.cn
 Received: from mail.loongson.cn (mail.loongson.cn. [114.242.206.163])
-        by gmr-mx.google.com with ESMTP id e9e14a558f8ab-3a3afdec443si2064805ab.4.2024.10.11.19.49.14
+        by gmr-mx.google.com with ESMTP id d2e1a72fcca58-71e4c35aea9si38359b3a.2.2024.10.11.19.51.42
         for <kasan-dev@googlegroups.com>;
-        Fri, 11 Oct 2024 19:49:14 -0700 (PDT)
+        Fri, 11 Oct 2024 19:51:43 -0700 (PDT)
 Received-SPF: pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) client-ip=114.242.206.163;
 Received: from loongson.cn (unknown [10.20.42.62])
-	by gateway (Coremail) with SMTP id _____8Bxkuin4wlnL2oUAA--.30137S3;
-	Sat, 12 Oct 2024 10:49:11 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____8CxrrM95Aln_GoUAA--.31421S3;
+	Sat, 12 Oct 2024 10:51:41 +0800 (CST)
 Received: from [10.20.42.62] (unknown [10.20.42.62])
-	by front1 (Coremail) with SMTP id qMiowMDx_9en4wlnIaAkAA--.51933S3;
-	Sat, 12 Oct 2024 10:49:11 +0800 (CST)
-Subject: Re: [PATCH 3/4] LoongArch: Add barrier between set_pte and memory
- access
+	by front1 (Coremail) with SMTP id qMiowMBxXuQ85AlnuqAkAA--.51936S3;
+	Sat, 12 Oct 2024 10:51:40 +0800 (CST)
+Subject: Re: [PATCH 4/4] LoongArch: Use atomic operation with set_pte and
+ pte_clear function
 To: Huacai Chen <chenhuacai@kernel.org>
 Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -116,26 +115,26 @@ Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
  loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
  kasan-dev@googlegroups.com, linux-mm@kvack.org
 References: <20241010035048.3422527-1-maobibo@loongson.cn>
- <20241010035048.3422527-4-maobibo@loongson.cn>
- <CAAhV-H6OR_HYSF451vSk_qSt1a6froSPZKY-=YSRBQgww5a+0A@mail.gmail.com>
+ <20241010035048.3422527-5-maobibo@loongson.cn>
+ <CAAhV-H5DvHcS+apFthMWNNqvvq+VMu--6bcuyGzdMz66K8Bd=g@mail.gmail.com>
 From: maobibo <maobibo@loongson.cn>
-Message-ID: <1141ad15-26ae-71a9-9f6f-26671d01a30e@loongson.cn>
-Date: Sat, 12 Oct 2024 10:48:53 +0800
+Message-ID: <4917e6ac-2874-218c-a3be-f2a1462f11c5@loongson.cn>
+Date: Sat, 12 Oct 2024 10:51:22 +0800
 User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAAhV-H6OR_HYSF451vSk_qSt1a6froSPZKY-=YSRBQgww5a+0A@mail.gmail.com>
+In-Reply-To: <CAAhV-H5DvHcS+apFthMWNNqvvq+VMu--6bcuyGzdMz66K8Bd=g@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-CM-TRANSID: qMiowMDx_9en4wlnIaAkAA--.51933S3
+X-CM-TRANSID: qMiowMBxXuQ85AlnuqAkAA--.51936S3
 X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBj93XoWxCr13WF4fZry7Kr43Wry7twc_yoW5Aw48pr
-	y2k3Z8Krs7WF4fJw1jvr1rWr18X39rWF1xK3ySvryUCw1DXF12gryrWws5ury7Xa4rJa1x
-	u3yUK345WFWUAagCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+X-Coremail-Antispam: 1Uk129KBj93XoWxCF1fKr13Aw47Xw45WrWUJrc_yoW5Zw1Upr
+	ZxCF95ZFs7GryIkwsFqFn8tryYv34ava4ktr9IkFy8AFnav3sFqFy0grWayFy5t3yfWw48
+	Ja1UKwnxWFsFyacCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
 	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUvYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
 	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
 	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
 	6r4j6r4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
@@ -143,10 +142,10 @@ X-Coremail-Antispam: 1Uk129KBj93XoWxCr13WF4fZry7Kr43Wry7twc_yoW5Aw48pr
 	wI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4
 	CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
 	67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
-	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E
-	14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
-	W8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07josjUU
-	UUUU=
+	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E
+	14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JV
+	WxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU2F4i
+	UUUUU
 X-Original-Sender: maobibo@loongson.cn
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
  (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as
@@ -163,6 +162,7 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
+
 Huacai,
 
 On 2024/10/12 =E4=B8=8A=E5=8D=8810:16, Huacai Chen wrote:
@@ -171,75 +171,78 @@ On 2024/10/12 =E4=B8=8A=E5=8D=8810:16, Huacai Chen wrote:
 > On Thu, Oct 10, 2024 at 11:50=E2=80=AFAM Bibo Mao <maobibo@loongson.cn> w=
 rote:
 >>
->> It is possible to return a spurious fault if memory is accessed
->> right after the pte is set. For user address space, pte is set
->> in kernel space and memory is accessed in user space, there is
->> long time for synchronization, no barrier needed. However for
->> kernel address space, it is possible that memory is accessed
->> right after the pte is set.
+>> For kernel space area on LoongArch system, both two consecutive page
+>> table entries should be enabled with PAGE_GLOBAL bit. So with function
+>> set_pte() and pte_clear(), pte buddy entry is checked and set besides
+>> its own pte entry. However it is not atomic operation to set both two
+>> pte entries, there is problem with test_vmalloc test case.
 >>
->> Here flush_cache_vmap/flush_cache_vmap_early is used for
->> synchronization.
+>> With previous patch, all page table entries are set with PAGE_GLOBAL
+>> bit at beginning. Only its own pte entry need update with function
+>> set_pte() and pte_clear(), nothing to do with buddy pte entry.
 >>
 >> Signed-off-by: Bibo Mao <maobibo@loongson.cn>
 >> ---
->>   arch/loongarch/include/asm/cacheflush.h | 14 +++++++++++++-
->>   1 file changed, 13 insertions(+), 1 deletion(-)
+>>   arch/loongarch/include/asm/pgtable.h | 44 ++++++++++------------------
+>>   1 file changed, 15 insertions(+), 29 deletions(-)
 >>
->> diff --git a/arch/loongarch/include/asm/cacheflush.h b/arch/loongarch/in=
-clude/asm/cacheflush.h
->> index f8754d08a31a..53be231319ef 100644
->> --- a/arch/loongarch/include/asm/cacheflush.h
->> +++ b/arch/loongarch/include/asm/cacheflush.h
->> @@ -42,12 +42,24 @@ void local_flush_icache_range(unsigned long start, u=
-nsigned long end);
->>   #define flush_cache_dup_mm(mm)                         do { } while (0=
-)
->>   #define flush_cache_range(vma, start, end)             do { } while (0=
-)
->>   #define flush_cache_page(vma, vmaddr, pfn)             do { } while (0=
-)
->> -#define flush_cache_vmap(start, end)                   do { } while (0)
->>   #define flush_cache_vunmap(start, end)                 do { } while (0=
-)
->>   #define flush_icache_user_page(vma, page, addr, len)   do { } while (0=
-)
->>   #define flush_dcache_mmap_lock(mapping)                        do { } =
-while (0)
->>   #define flush_dcache_mmap_unlock(mapping)              do { } while (0=
-)
->>
->> +/*
->> + * It is possible for a kernel virtual mapping access to return a spuri=
-ous
->> + * fault if it's accessed right after the pte is set. The page fault ha=
-ndler
->> + * does not expect this type of fault. flush_cache_vmap is not exactly =
-the
->> + * right place to put this, but it seems to work well enough.
->> + */
->> +static inline void flush_cache_vmap(unsigned long start, unsigned long =
-end)
->> +{
->> +       smp_mb();
+>> diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/inclu=
+de/asm/pgtable.h
+>> index 22e3a8f96213..4be3f0dbecda 100644
+>> --- a/arch/loongarch/include/asm/pgtable.h
+>> +++ b/arch/loongarch/include/asm/pgtable.h
+>> @@ -325,40 +325,26 @@ extern void paging_init(void);
+>>   static inline void set_pte(pte_t *ptep, pte_t pteval)
+>>   {
+>>          WRITE_ONCE(*ptep, pteval);
 >> +}
-> I don't know whether this is the best API to do this, and I think
-> flush_cache_vunmap() also should be a smp_mb().
-I do not know neither -:(, it seems that flush_cache_vmap() is better=20
-than arch_sync_kernel_mappings(), since function flush_cache_vmap() is=20
-used in vmalloc/kasan/percpu module, however arch_sync_kernel_mappings
-is only used in vmalloc.
-
-For flush_cache_vunmap(), it is used before pte_clear(), here is usage=20
-example.
-void vunmap_range(unsigned long addr, unsigned long end)
-{
-         flush_cache_vunmap(addr, end);
-         vunmap_range_noflush(addr, end);
-         flush_tlb_kernel_range(addr, end);
-}
-
-So I think it is not necessary to add smp_mb() in flush_cache_vunmap().
+>>
+>> -       if (pte_val(pteval) & _PAGE_GLOBAL) {
+>> -               pte_t *buddy =3D ptep_buddy(ptep);
+>> -               /*
+>> -                * Make sure the buddy is global too (if it's !none,
+>> -                * it better already be global)
+>> -                */
+>> -               if (pte_none(ptep_get(buddy))) {
+>> -#ifdef CONFIG_SMP
+>> -                       /*
+>> -                        * For SMP, multiple CPUs can race, so we need
+>> -                        * to do this atomically.
+>> -                        */
+>> -                       __asm__ __volatile__(
+>> -                       __AMOR "$zero, %[global], %[buddy] \n"
+>> -                       : [buddy] "+ZB" (buddy->pte)
+>> -                       : [global] "r" (_PAGE_GLOBAL)
+>> -                       : "memory");
+>> -
+>> -                       DBAR(0b11000); /* o_wrw =3D 0b11000 */
+>> -#else /* !CONFIG_SMP */
+>> -                       WRITE_ONCE(*buddy, __pte(pte_val(ptep_get(buddy)=
+) | _PAGE_GLOBAL));
+>> -#endif /* CONFIG_SMP */
+>> -               }
+>> -       }
+>> +static inline unsigned long __ptep_get_and_clear(pte_t *ptep)
+>> +{
+>> +       return atomic64_fetch_and(_PAGE_GLOBAL, (atomic64_t *)&pte_val(*=
+ptep));
+>>   }
+>>
+>>   static inline void pte_clear(struct mm_struct *mm, unsigned long addr,=
+ pte_t *ptep)
+>>   {
+>> -       /* Preserve global status for the pair */
+>> -       if (pte_val(ptep_get(ptep_buddy(ptep))) & _PAGE_GLOBAL)
+>> -               set_pte(ptep, __pte(_PAGE_GLOBAL));
+>> -       else
+>> -               set_pte(ptep, __pte(0));
+>> +       __ptep_get_and_clear(ptep);
+> With the first patch, a kernel pte always take _PAGE_GLOBAL, so we
+> don't need an expensive atomic operation, just
+> "set_pte(pte_val(ptep_get(ptep)) & _PAGE_GLOBAL)" is OK here. And then
+> we don't need a custom ptep_get_and_clear().
+Will use non-atomic method and test again, also will remove customed=20
+function ptep_get_and_clear().
 
 Regards
 Bibo Mao
@@ -247,15 +250,19 @@ Bibo Mao
 >=20
 > Huacai
 >=20
->> +#define flush_cache_vmap flush_cache_vmap
->> +#define flush_cache_vmap_early flush_cache_vmap
+>> +}
 >> +
->>   #define cache_op(op, addr)                                            =
- \
->>          __asm__ __volatile__(                                          =
- \
->>          "       cacop   %0, %1                                  \n"    =
- \
+>> +#define __HAVE_ARCH_PTEP_GET_AND_CLEAR
+>> +static inline pte_t ptep_get_and_clear(struct mm_struct *mm,
+>> +                                       unsigned long addr, pte_t *ptep)
+>> +{
+>> +       unsigned long val;
+>> +
+>> +       val =3D __ptep_get_and_clear(ptep);
+>> +       return __pte(val);
+>>   }
+>>
+>>   #define PGD_T_LOG2     (__builtin_ffs(sizeof(pgd_t)) - 1)
 >> --
 >> 2.39.3
 >>
@@ -266,4 +273,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/1141ad15-26ae-71a9-9f6f-26671d01a30e%40loongson.cn.
+kasan-dev/4917e6ac-2874-218c-a3be-f2a1462f11c5%40loongson.cn.
