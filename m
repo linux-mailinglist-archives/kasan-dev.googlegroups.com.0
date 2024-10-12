@@ -1,130 +1,129 @@
-Return-Path: <kasan-dev+bncBAABB55XU64AMGQESHKS75Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBWVYU64AMGQEXJHS2II@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qk1-x73e.google.com (mail-qk1-x73e.google.com [IPv6:2607:f8b0:4864:20::73e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B1FE99B009
-	for <lists+kasan-dev@lfdr.de>; Sat, 12 Oct 2024 04:16:25 +0200 (CEST)
-Received: by mail-qk1-x73e.google.com with SMTP id af79cd13be357-7b11316a8fesf492171185a.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 11 Oct 2024 19:16:25 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1728699384; cv=pass;
+Received: from mail-pl1-x63f.google.com (mail-pl1-x63f.google.com [IPv6:2607:f8b0:4864:20::63f])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB6D699B00E
+	for <lists+kasan-dev@lfdr.de>; Sat, 12 Oct 2024 04:18:04 +0200 (CEST)
+Received: by mail-pl1-x63f.google.com with SMTP id d9443c01a7336-20c8a799e8dsf22304465ad.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 11 Oct 2024 19:18:04 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1728699483; cv=pass;
         d=google.com; s=arc-20240605;
-        b=GzgEmWbepHrDuf+HIssZrCjvwkn10i8Elrd6Jr7ltR/1cbZ1PKB0Z/MbT1Q04364KW
-         IL+ztj/6OR6kY4F01Jet0KZIO8Tkr8jFm4Ky3yxGB2+WKPJ9T0BXm02fVnQ9y24i25C7
-         yFYcooQ6BgigxR9s4LO2rq3azi9qynRF1vtMfT7Jvy1mkUK7vbfYaQyiGwL4ha+GnXzb
-         A5U19ZTUs3UA4+yINQliWE+x3hRKWk58WxUnKwXGEglXv4kuh7X7vSRf3whsEwBtuaOf
-         B4nXZ4T7EYdG3W52dVnNR9QYXXpohjIBsT68CcpwwioTAb4NJDMDMsVb5quejeqe/Gzy
-         YmbA==
+        b=LdJoFyfz3CuamDymALyT6HCNzk2Aal6HKSBRpGKp+Yc5hHqZUKHfJvOK+WjX96BvcL
+         hXardPK0TQXQFYVZrnxAIEqCPa49NwNqm/i+JHHz80ZoMXoIyB5emQNxwp+fK4Cl4kol
+         oWowjMIvpfKg477DaB9vqWGn+E1frFEh73KY2sZ3+64fOmDI5Yb9pGs/4tfN7wDcX+Dv
+         6OOvC6MEWDGohzZ5FBpng9EnIHVV/9eh0Jw16qHoUYSa9wcXHJ85PCjY8ZySFyYcajaM
+         vGACgxcP3bYoJTIv5IZVxC9meVTtYfuUgpiq2GwYKVMj5sUTjgM1D4cF/j9NPE53XeWb
+         p+5A==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=UcqPS6ULvqo4Ludgx9+cHhKJOtlxnvRrKf7+OcZ0ySQ=;
-        fh=RuJVK3/SyEhwdXPjiBvlixLTk9VX+VPrn/a+N6Tm/Q4=;
-        b=NqPfA77HFtPcGe7so6Vnv05FFBuGJkPzpG8oYFdUOIyA6XWaw6PFnrqOAW/Pwj6YAW
-         g432OybiAmiDkj0HTq3BvOJ2SpECrCrv2Vk2t28yoVaXEFVuMuyj+VV11mJKCO5kVBdK
-         WBRW9+EquQBPF/A2i5D81dp49Y5pXmEDupUpeSfX62e3xicjIVG8W7iUYpODYXdg5FkA
-         D5Rmz/BMhMrxG3qSlKCOWafklLTByQBUvf9kDKWfaA58xhx+81imuE/Gctz/w8MBCBR3
-         rBKIvzJ7Q5v5LqT+vlZM4FAshNu1v38c0d13YEdrYFUEZ3XzWoGb3278ZO5fjClyuX5h
-         rSFQ==;
+        bh=xYm02oZrOLTz9FNeEPT8kl6sbPUHHC/tt3jzDRBGT0g=;
+        fh=pQjMA/a2S6jETXrhOdeUMDw5Jxg3N/2FHwoZG6ZmWRU=;
+        b=grQbbu4+WbCH0LYt4ptpp57Am+e0oyMvtIGl8pyDtIF8xxtG8dHsAQWfgO0SiJPOac
+         it7+DiRG0OYBpXiarsIcxdIe8dAImNhWLks++QjlXQqnHUVE7fQU/58ZsftsB6FVYPRN
+         xEhINW7hMiGHUTQNg6x5FcMSLHxRKMfCPxFkgHFIokIdTH9dKnc0w366cbS1Uw1LFfB5
+         3lC9KjsvWI6Ua4AZmess8B6H1qrKi+OQEljKIF+lmjgqWuHEzGx80qyaYjHG1mXPHPOG
+         dnkY8UqahVlZO6Q82qDbYTspQ3rygCjKNCQZaPgNfQ2seCjSbxgGRaWJQz6i8nRTnApz
+         pfQw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=PMIcQXZX;
-       spf=pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=h+CAB8VO;
+       spf=pass (google.com: domain of chenhuacai@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1728699384; x=1729304184; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1728699483; x=1729304283; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UcqPS6ULvqo4Ludgx9+cHhKJOtlxnvRrKf7+OcZ0ySQ=;
-        b=FnBCexmLk3vGESDksXpL0NZsI9EbOtrhTXykoyVbu07xzPN6pbS2nkAXzgYKrom4Si
-         mwnyC7D5dYCWVfJ15kJwV3xCIAb8p0G7YLTbH/Iq0SCgeiean6fUwqxbXNC43WNQTD8F
-         rwUo7KIiwRt0oqrvOSf8VxGj119B7RJfsJAPleDpfoBB9gYLcgjDrxDM93HJ/GqvJsAt
-         Dw8NsmkW5RIR3u5XmWS+3Z01ooR0SLShKcbDwTSVWdx2zBRzZDwZvs4FRyejRuAfdEYV
-         1ywWtkdetVu8vNZbY3FsAWLTwB0hUKz9aacJhcBkWmn+NMGE0DV2+5/0ElxeQ82v5H+H
-         yLIw==
+        bh=xYm02oZrOLTz9FNeEPT8kl6sbPUHHC/tt3jzDRBGT0g=;
+        b=ogob+y1YOI7+aQ1w2vyt/g8pwoFRxKd/VY7Ifb1XIHU3Z7306hpzEQzxeR9m1oh17A
+         8JkVAOhCcn3K/+rGF7sqpRK3x+5WuDOo6iNTL8NQCl/Ze7JHb9kXA4Jl9r/eLU/Xu+18
+         BYv7uD3/UZJTMzy5API+we3sq9XLmCaoOTstvH8+K6/NyWYqzHOVJ9UQ/I+BIHoQ3Vnw
+         s/d/i30S4jtJMeWUQeiFWiU5pL1SqyNZx1XfnELYODVPXeUNJGjnZQ/kwzjbrOeVfpkG
+         56SvSwm+H3q1MdoXLNLbYZ22lYlvl8Ia/thbn9FernUkCksOgSBP44vM4m7Z7s/tU/sy
+         suFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728699384; x=1729304184;
+        d=1e100.net; s=20230601; t=1728699483; x=1729304283;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=UcqPS6ULvqo4Ludgx9+cHhKJOtlxnvRrKf7+OcZ0ySQ=;
-        b=klJdGqBYoo4sV0YvG1ZAxHMRWHgBlczQnlJQgmSD/V6y/hec0ujZ2Mq3rn/URO9xmM
-         xR4eJlZmdyZnk36cWqOu2k+INQdbfr1UkAs3VfNGuOiqYCZGkjfp0dX6n14pZUWhUm2s
-         arWL6B0UVTtuEXQZQHsgP6DnpF8BzKKh785xmT1qbre9Vw3vbJJgxh3CE4fNxLFvCkNt
-         gFqlMApcdQJPOK/HXGHRj9hJ1JJW3tfPGijnMDc6Bb+6KGsrPGqSWpX6kBB1TpOx5YrG
-         Pi/TsRcQIqfs9czGp5z80MEKcHCMEcIAAcEzr9n5Jaq2cP6+TbjPqnXEbGzXNrnbrKmA
-         5kOw==
-X-Forwarded-Encrypted: i=2; AJvYcCUt6xBrOlkWP1zeNWeZ/3GZSe8d0jA3BmmXPhtahZNBPwcbYBJFyiIBw+Z8WDPpAWiWpVRgNA==@lfdr.de
-X-Gm-Message-State: AOJu0YxJai3oFw+sF/mhvBOQLW33C6H2UtUJW1YOcp555Zud3MJB7bAw
-	kcTx3Efb99qRnZ3AGN99i/Vv7NIyrr+MBC8UAlN4R5lgGk0DxN7F
-X-Google-Smtp-Source: AGHT+IE8e82Rgzvk1ZHKEMU/gcdC9NvLEn6FCf2by3Um+M40Xk5K/1upQt7jJT+3NSLsPhycFju25w==
-X-Received: by 2002:a05:6214:5f07:b0:6c7:5e3a:7855 with SMTP id 6a1803df08f44-6cbf0006078mr52178436d6.39.1728699383803;
-        Fri, 11 Oct 2024 19:16:23 -0700 (PDT)
+        bh=xYm02oZrOLTz9FNeEPT8kl6sbPUHHC/tt3jzDRBGT0g=;
+        b=e1baBe3yNv+9KvgVt9QIWK7Z37NXEHm2Nfkslf+oksEFUxkyBlj4FQqodkPF4Lz+DC
+         0gZkhpLN88daqqt6WVtmQAJ2J3RkllnONWK6YbmQKVSjr3qsdYtohRB4HSGvPFdYYgq9
+         B8D4UUTl6vOKXVB9oWuk8DiaTJmutaY2EiAaHnwFNDLKMYpMX9w3ZSt2BLwftfW9OHDr
+         oj6d3Vw/eULtm4kzB/WctYClSec8E+Yq9aVZdDXPVLjeIRNzpRW9B+vruqh4wcxWxloQ
+         rgUgdJKaaU2aqEX7AgQmN/56qdCFiuW3Ybz4GeFN4ooVMO90xKSOcP0cFfKYz/uFQAKa
+         WPdg==
+X-Forwarded-Encrypted: i=2; AJvYcCVxDdlxcSwDXYtKOR7mYRgftbHi6Hsi/BaBYyVeo5kjNBW2ct80+XMu7Li9YIzvkhStuu2O0g==@lfdr.de
+X-Gm-Message-State: AOJu0YytI2X0NtHgiydy1J7y3B7PUYJlYBWJVDqoNXF9B7E08Cq8pO2t
+	mjzpEOjSPBUQpR2WuoMZMUCYxau3/M6j9wzBf5wHMXcgoYHgPDtW
+X-Google-Smtp-Source: AGHT+IGiS2Mxh3f3O7H25REZ2gAQuToFa3SD0hYxRqwNKPTmMZ1PMq+bFYXJdj82ErJfM6eDUaQmcg==
+X-Received: by 2002:a17:902:cec2:b0:20c:7485:891c with SMTP id d9443c01a7336-20cbb24ca76mr21273405ad.54.1728699482817;
+        Fri, 11 Oct 2024 19:18:02 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:c8d:b0:6cb:c91d:f3d2 with SMTP id
- 6a1803df08f44-6cbe54926a0ls42448726d6.0.-pod-prod-09-us; Fri, 11 Oct 2024
- 19:16:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCX3g914cJVbwV6xCTLTn+AN5QH5S+oN9iHv4fmkRJ0Z9NoQhDK9mDVN6NhWHCfagt4XXQRZzJFTrZU=@googlegroups.com
-X-Received: by 2002:a05:6214:5e8d:b0:6cb:f6de:3d12 with SMTP id 6a1803df08f44-6cbf6de4035mr39850976d6.36.1728699382807;
-        Fri, 11 Oct 2024 19:16:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1728699382; cv=none;
+Received: by 2002:a17:902:ea03:b0:1f7:1d41:9224 with SMTP id
+ d9443c01a7336-20c807a4970ls25792035ad.1.-pod-prod-05-us; Fri, 11 Oct 2024
+ 19:18:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWJ7yiCBsWuCrPjlgTzoRb3hTjo3eX86Rp03+P0NeJFzgVVXPJZ5ON14JduX7vZUMA8J+wgzzYdFac=@googlegroups.com
+X-Received: by 2002:a17:90b:2387:b0:2e2:effb:618b with SMTP id 98e67ed59e1d1-2e3152c0683mr1980909a91.13.1728699481781;
+        Fri, 11 Oct 2024 19:18:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1728699481; cv=none;
         d=google.com; s=arc-20240605;
-        b=GCff1sENPavDQe7AYB5KVh05uHb5wvLLTQW/x8cZK79B3sIyRDrEz0b8jAr4FhTkfP
-         2gJbfD0WLzWUIUzFqotfYNNLG3smQ3ttc+wBf75L3bszYQkoLRm5eErwmJipakQoubCg
-         1KJNivrCZJ5uVWTB+jo5bFKEGSIxwpt7jiPzh55LBynQEVsv+KcnCEHzmfuCZ6MLf6Qs
-         sx4t5vX2MSLwwgiCZl6IzKn13cElZ7cMyXsNK2G5F1UgxxEWFSNSDAW0fmlcl0C7b1az
-         aFzyVmyMe3WC8K2CN3Cr/Xd6IcqxK1MQ4Uyfx/voWmBwfblmMSKhMdUnbAG6JeQR7csX
-         sPJQ==
+        b=Ap2TtChIBK7Z9uoibo61S+JXQ38jWEBGklW67Zzxbx/d43xMcZG5WFqLa5Ll5QgepE
+         UUCS2TkmRY0mq4W2XGTfgUOzEJQlq/ColtVbkk4h33dhal6DUQn2fjaVtNY09vup9O7C
+         8NVxGRaCMl6lZ3S0aqKqQ3HMtQYCOCAoj2ZuBgprSKmD7+MFol7ZRqOcBklZfO6GDLby
+         pYf0buuPdYGcFEB7/M124JIal5IEYRp6qsGqXyOoQSBlyqIiF69ZG1oxw5FNqnwIvHQC
+         xfIVw74gZ9JnSvmVpl5mRWvOHHyHSNxbW8kUXx4Am3hpWk8MhTEC64ia1dLgTQVAjOve
+         yYtQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=drHMGJm5ahLi/V0BeUnf6hUOITulM1J/wwIzvUYv1Dc=;
-        fh=ca+Oxpvw4nFtVxyaeyDLLFg6mVUjOvPh3IligPRXpUk=;
-        b=kdRYX7T7ViOfq7WVA7RTsBj+BlJ7MUSKsEwKem4UuYMVRYkjtKTEw6yaIgo29CAfYH
-         neIgEDFplp6plc3VxI3ag1SefVAWPpMVDe/4CsqbTzeyQ5CpuxTaaMP5jE7kicxFWk3r
-         QlkFBE0cPkN7ddJog4NGoSY0VXLpcl1C5i/ZirKeHR9AVEKnKCX9rDbo55pSH32ZnwPA
-         z6bfrMnUs/YDcU8pDaRB4l+m7rF0eMkc0yfJqQ/wi9x8mxgxI+vtBFLadQxtWeZpDVU5
-         7uza0j/lp6x8u4Lv0Cf4+rTIJUlXa4/fiMR1CwFY9cmbTYuTVZcbzqXpH3tTQGyjB1JO
-         gRbA==;
+        bh=pqJ/AERVmK6K4aQ02OIzrFrKz5TUyCtyl4z64EExDH0=;
+        fh=PxyFEJ3lVv58OoecC7f5K9DzN2uunkx0mEbwoyoCXJo=;
+        b=BW493Vf1krovyfH7Jz3a2TPTnV92CWh+r9eIsYRzT85+4XVNhpuKHjgpkBfquvihKm
+         S4DBasqccgwxCvFEEhYi9IfvDnEX7o/l5nyS75IC+Gcy+Qq/d5IQefNtdCENg7DEEFqV
+         Bsf/NQpwXndiO/Ug7SXDa1lsj5KW3NH/byTlR1NXZ2J2YyA63YyiMBGJ4M0p43gQFk/+
+         T+koChS2cOfKwd5DkD2Hx3XEquqHca/8c+8IM1IVJhRO1d49OC6ouqGfpDOD/8BR4GsW
+         rvcwwf3+H2HnQRtBP/f0IQ7AJ5TrPepxkSZrwu+HYJ/iPFVRQMbOZBEiYznP8HS3aqXk
+         nlWA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=PMIcQXZX;
-       spf=pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=h+CAB8VO;
+       spf=pass (google.com: domain of chenhuacai@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6cbe867c3cbsi1923406d6.6.2024.10.11.19.16.22
+Received: from nyc.source.kernel.org (nyc.source.kernel.org. [147.75.193.91])
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-2e2ca44a71dsi536148a91.0.2024.10.11.19.18.01
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2024 19:16:22 -0700 (PDT)
-Received-SPF: pass (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+        Fri, 11 Oct 2024 19:18:01 -0700 (PDT)
+Received-SPF: pass (google.com: domain of chenhuacai@kernel.org designates 147.75.193.91 as permitted sender) client-ip=147.75.193.91;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 0C75F5C5F73
-	for <kasan-dev@googlegroups.com>; Sat, 12 Oct 2024 02:16:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA58DC4CED1
-	for <kasan-dev@googlegroups.com>; Sat, 12 Oct 2024 02:16:21 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c42f406e29so3115401a12.2
-        for <kasan-dev@googlegroups.com>; Fri, 11 Oct 2024 19:16:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXeqCrb4D3psp8ZdiizWNvv5eKebEI7rcIK0aP7k9JxDraGCBtoWzmvG/MdeYbxN7vJX+O0NQ1UhAM=@googlegroups.com
-X-Received: by 2002:a17:907:940c:b0:a8d:29b7:ecf3 with SMTP id
- a640c23a62f3a-a99b930e9d1mr358486566b.13.1728699380354; Fri, 11 Oct 2024
- 19:16:20 -0700 (PDT)
+	by nyc.source.kernel.org (Postfix) with ESMTP id 0F973A45372
+	for <kasan-dev@googlegroups.com>; Sat, 12 Oct 2024 02:17:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B36EC4AF0D
+	for <kasan-dev@googlegroups.com>; Sat, 12 Oct 2024 02:18:00 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a9968114422so371226966b.2
+        for <kasan-dev@googlegroups.com>; Fri, 11 Oct 2024 19:18:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU6YDLtp7oNu68DswQDktHpQNrH9waWOj++oyB9PeFGmur3FcAWIOSVP/JxKlh8LjPFjlC3t7MRFC8=@googlegroups.com
+X-Received: by 2002:a17:906:6a12:b0:a99:742c:5c7 with SMTP id
+ a640c23a62f3a-a99b9305ed1mr326220766b.10.1728699478702; Fri, 11 Oct 2024
+ 19:17:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20241010035048.3422527-1-maobibo@loongson.cn> <20241010035048.3422527-5-maobibo@loongson.cn>
-In-Reply-To: <20241010035048.3422527-5-maobibo@loongson.cn>
+References: <20241010035048.3422527-1-maobibo@loongson.cn> <20241010035048.3422527-3-maobibo@loongson.cn>
+In-Reply-To: <20241010035048.3422527-3-maobibo@loongson.cn>
 From: "'Huacai Chen' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Sat, 12 Oct 2024 10:16:07 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H5DvHcS+apFthMWNNqvvq+VMu--6bcuyGzdMz66K8Bd=g@mail.gmail.com>
-Message-ID: <CAAhV-H5DvHcS+apFthMWNNqvvq+VMu--6bcuyGzdMz66K8Bd=g@mail.gmail.com>
-Subject: Re: [PATCH 4/4] LoongArch: Use atomic operation with set_pte and
- pte_clear function
+Date: Sat, 12 Oct 2024 10:17:46 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6-m6PhD49X3UyHYhCggAruf=5g9zh=6FvNc5004Z5New@mail.gmail.com>
+Message-ID: <CAAhV-H6-m6PhD49X3UyHYhCggAruf=5g9zh=6FvNc5004Z5New@mail.gmail.com>
+Subject: Re: [PATCH 2/4] mm/sparse-vmemmap: set pte_init when vmemmap is created
 To: Bibo Mao <maobibo@loongson.cn>
 Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
 	David Hildenbrand <david@redhat.com>, Barry Song <baohua@kernel.org>, loongarch@lists.linux.dev, 
@@ -133,9 +132,9 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: chenhuacai@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=PMIcQXZX;       spf=pass
- (google.com: domain of chenhuacai@kernel.org designates 2604:1380:4641:c500::1
- as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;       dmarc=pass
+ header.i=@kernel.org header.s=k20201202 header.b=h+CAB8VO;       spf=pass
+ (google.com: domain of chenhuacai@kernel.org designates 147.75.193.91 as
+ permitted sender) smtp.mailfrom=chenhuacai@kernel.org;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 X-Original-From: Huacai Chen <chenhuacai@kernel.org>
 Reply-To: Huacai Chen <chenhuacai@kernel.org>
@@ -153,96 +152,52 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 Hi, Bibo,
 
-On Thu, Oct 10, 2024 at 11:50=E2=80=AFAM Bibo Mao <maobibo@loongson.cn> wro=
-te:
->
-> For kernel space area on LoongArch system, both two consecutive page
-> table entries should be enabled with PAGE_GLOBAL bit. So with function
-> set_pte() and pte_clear(), pte buddy entry is checked and set besides
-> its own pte entry. However it is not atomic operation to set both two
-> pte entries, there is problem with test_vmalloc test case.
->
-> With previous patch, all page table entries are set with PAGE_GLOBAL
-> bit at beginning. Only its own pte entry need update with function
-> set_pte() and pte_clear(), nothing to do with buddy pte entry.
->
-> Signed-off-by: Bibo Mao <maobibo@loongson.cn>
-> ---
->  arch/loongarch/include/asm/pgtable.h | 44 ++++++++++------------------
->  1 file changed, 15 insertions(+), 29 deletions(-)
->
-> diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/includ=
-e/asm/pgtable.h
-> index 22e3a8f96213..4be3f0dbecda 100644
-> --- a/arch/loongarch/include/asm/pgtable.h
-> +++ b/arch/loongarch/include/asm/pgtable.h
-> @@ -325,40 +325,26 @@ extern void paging_init(void);
->  static inline void set_pte(pte_t *ptep, pte_t pteval)
->  {
->         WRITE_ONCE(*ptep, pteval);
-> +}
->
-> -       if (pte_val(pteval) & _PAGE_GLOBAL) {
-> -               pte_t *buddy =3D ptep_buddy(ptep);
-> -               /*
-> -                * Make sure the buddy is global too (if it's !none,
-> -                * it better already be global)
-> -                */
-> -               if (pte_none(ptep_get(buddy))) {
-> -#ifdef CONFIG_SMP
-> -                       /*
-> -                        * For SMP, multiple CPUs can race, so we need
-> -                        * to do this atomically.
-> -                        */
-> -                       __asm__ __volatile__(
-> -                       __AMOR "$zero, %[global], %[buddy] \n"
-> -                       : [buddy] "+ZB" (buddy->pte)
-> -                       : [global] "r" (_PAGE_GLOBAL)
-> -                       : "memory");
-> -
-> -                       DBAR(0b11000); /* o_wrw =3D 0b11000 */
-> -#else /* !CONFIG_SMP */
-> -                       WRITE_ONCE(*buddy, __pte(pte_val(ptep_get(buddy))=
- | _PAGE_GLOBAL));
-> -#endif /* CONFIG_SMP */
-> -               }
-> -       }
-> +static inline unsigned long __ptep_get_and_clear(pte_t *ptep)
-> +{
-> +       return atomic64_fetch_and(_PAGE_GLOBAL, (atomic64_t *)&pte_val(*p=
-tep));
->  }
->
->  static inline void pte_clear(struct mm_struct *mm, unsigned long addr, p=
-te_t *ptep)
->  {
-> -       /* Preserve global status for the pair */
-> -       if (pte_val(ptep_get(ptep_buddy(ptep))) & _PAGE_GLOBAL)
-> -               set_pte(ptep, __pte(_PAGE_GLOBAL));
-> -       else
-> -               set_pte(ptep, __pte(0));
-> +       __ptep_get_and_clear(ptep);
-With the first patch, a kernel pte always take _PAGE_GLOBAL, so we
-don't need an expensive atomic operation, just
-"set_pte(pte_val(ptep_get(ptep)) & _PAGE_GLOBAL)" is OK here. And then
-we don't need a custom ptep_get_and_clear().
-
+Just declare kernel_pte_init() in header file. Since this series is a
+bugfix, we should merge it as soon as possible. The refactoring patch
+can be sent after this series.
 
 Huacai
 
-> +}
-> +
-> +#define __HAVE_ARCH_PTEP_GET_AND_CLEAR
-> +static inline pte_t ptep_get_and_clear(struct mm_struct *mm,
-> +                                       unsigned long addr, pte_t *ptep)
-> +{
-> +       unsigned long val;
-> +
-> +       val =3D __ptep_get_and_clear(ptep);
-> +       return __pte(val);
+On Thu, Oct 10, 2024 at 11:50=E2=80=AFAM Bibo Mao <maobibo@loongson.cn> wro=
+te:
+>
+> Like pmd_init(), a weak function kernel_pte_init() is added and it
+> is only effective on LoongArch system. When pte table is created for
+> vmemmap kernel space, function kernel_pte_init() is called here.
+>
+> It has no any effective on other architectures.
+>
+> Signed-off-by: Bibo Mao <maobibo@loongson.cn>
+> ---
+>  mm/sparse-vmemmap.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+> index edcc7a6b0f6f..c0388b2e959d 100644
+> --- a/mm/sparse-vmemmap.c
+> +++ b/mm/sparse-vmemmap.c
+> @@ -184,6 +184,10 @@ static void * __meminit vmemmap_alloc_block_zero(uns=
+igned long size, int node)
+>         return p;
 >  }
 >
->  #define PGD_T_LOG2     (__builtin_ffs(sizeof(pgd_t)) - 1)
+> +void __weak __meminit kernel_pte_init(void *addr)
+> +{
+> +}
+> +
+>  pmd_t * __meminit vmemmap_pmd_populate(pud_t *pud, unsigned long addr, i=
+nt node)
+>  {
+>         pmd_t *pmd =3D pmd_offset(pud, addr);
+> @@ -191,6 +195,7 @@ pmd_t * __meminit vmemmap_pmd_populate(pud_t *pud, un=
+signed long addr, int node)
+>                 void *p =3D vmemmap_alloc_block_zero(PAGE_SIZE, node);
+>                 if (!p)
+>                         return NULL;
+> +               kernel_pte_init(p);
+>                 pmd_populate_kernel(&init_mm, pmd, p);
+>         }
+>         return pmd;
 > --
 > 2.39.3
 >
@@ -253,5 +208,5 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/CAAhV-H5DvHcS%2BapFthMWNNqvvq%2BVMu--6bcuyGzdMz66K8Bd%3Dg%40mail.=
-gmail.com.
+kasan-dev/CAAhV-H6-m6PhD49X3UyHYhCggAruf%3D5g9zh%3D6FvNc5004Z5New%40mail.gm=
+ail.com.
