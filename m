@@ -1,107 +1,109 @@
-Return-Path: <kasan-dev+bncBAABBBVOWK4AMGQEPWL46JQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBBNOWK4AMGQELUZUPXI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CCA399BE70
-	for <lists+kasan-dev@lfdr.de>; Mon, 14 Oct 2024 05:59:03 +0200 (CEST)
-Received: by mail-qv1-xf3a.google.com with SMTP id 6a1803df08f44-6cbd2cb2f78sf75996986d6.0
-        for <lists+kasan-dev@lfdr.de>; Sun, 13 Oct 2024 20:59:03 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1728878342; cv=pass;
+Received: from mail-il1-x137.google.com (mail-il1-x137.google.com [IPv6:2607:f8b0:4864:20::137])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B1F99BE6E
+	for <lists+kasan-dev@lfdr.de>; Mon, 14 Oct 2024 05:59:02 +0200 (CEST)
+Received: by mail-il1-x137.google.com with SMTP id e9e14a558f8ab-3a3a5f6cb13sf30125475ab.3
+        for <lists+kasan-dev@lfdr.de>; Sun, 13 Oct 2024 20:59:02 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1728878341; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Nlx6SvnWow5MdvwaTACr30XS+v+FbXg850qpCFikWUCUppb5NGgiSAb/olwjwwSiQ2
-         8BSFbL/LLtPsp/SbTj6QsYBrfQBhlWJvyqfaBH1nm1odM4UsqwxUGUyz/+Q4a/89CMBL
-         k/+62/vI+AryBPgeQWFmTpyAh9G0RBfpDBfGEmMK1v2pehlRGVT1sbNPfIMEMNhf6JJf
-         Tw5VbSlRWlzv4Q+oQODWvflPu+Iz2cgq+SEOF38xSYWEFvmUVP51tFVX890zJi3RrWWg
-         fgWw4e4zY9V/OE4hPVzCq+EmOQotsbFJoaBPk0GnOtH6VJZmrCUZjdOG9f+ZNvK0TqNi
-         zhZg==
+        b=H+YxroAtal4y71EPtHpWQxel6VmsHF7ZrMkxFavAxpt4Q4x8NtoN8gwlgeU2KDCmvF
+         adrE7cSeBaPP6W3BKrlXMZofErejuLnzNY/QmT+eu3PiqNooulyDkoa93/xzTuG+NWIG
+         xQIb5/9JgNp6LWjJMhxLrRNA8VbpBzbr3A3xZp9n5KXGbG+vAX6oJ0uIBTRNi94Cbtu7
+         ukflwcThyK03nFVrl/81MbNXOl4PSIiTUlhBDBnPSVzMw5s7sOHm1/u/YbFiWIdusNrV
+         oDSvyAhJ2gB3Z1/qxYdS3L0T0o1JXnBJP/8SYMjwPJtZXCteBU2AA8LLFstF4sIM9rcl
+         wYxQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:message-id:date
-         :subject:cc:to:from:sender:dkim-signature;
-        bh=pObMglnB96kEp+l3QajGm5DshLJZ0CFYfmUqf5zzQjQ=;
-        fh=Ko0Xlw58Se0BX5xHChxJYhvA9YNIvBtqP+7WdI0e2xc=;
-        b=Dp7/uFJCioCOPNoBuNrgYinV8CYFazOdmXnjxJwneJ69jQX+RveftLdN962EnmMD+Y
-         w/JQGqYsC3VBMF5Ve5mUBnYrP2VUuxp5saM8n4BQOScjJMkKSiTtCjGHIcSi4MElKvuo
-         ZsdERUeSJItAE/9uwFCBEE3uYD6+Md3EUWlTOc8jTnhW/VOVVCuT6uGpOBMso6sBbE2j
-         xal8F3sz5Km+X7hf9qHoVGXVu0BSOk5QwH/gAOh0ZEAVxRFealnMXQtVmaKliBl00hBq
-         TaNRq00tCBk9eN92L5VFUMU/lQ2u6ScSVladDQuy8PPjm2B+8bzUy6Jz9g49ADqgB83X
-         XhjA==;
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=XN75hg6tewN0OX3CfvZt7Oi8SEkxjh9aMv3E7SLTZz0=;
+        fh=8Cwqlt4HF/gph66HhmEga4eNd15ess71cv0oFwr3l0M=;
+        b=SSi2jRChHOzbrm6+u0eDDuL2XFV8N76/ax+vMlA+sIsauI9xITWP4iaVYlY6/MB7U5
+         2P7J24yGJ76S+3I0jJPB3Er8GWiz3zYXBvwfyBrnTJg3s1O2U/wK6MA82J69QqbaqJD1
+         L9s88L8bOxH4GOCrfhSYKoFmSZfjSGjo7xSN6YwBRtTQo+6thmpf1VouKjFvGPJqvySA
+         EdOMX5eOJrmEf3hz75CuacHre3tCx2COlBqZnFG+LlPcNytkwunpn569QIssc8OcsY/u
+         DTfSdjoGZE44AOzw4Y4N2EYbFd9UJUeIAlBvLxKAUNveMEo7H1otd5wLrK/IcI5xZKg7
+         EN1w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=maobibo@loongson.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1728878342; x=1729483142; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1728878341; x=1729483141; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=pObMglnB96kEp+l3QajGm5DshLJZ0CFYfmUqf5zzQjQ=;
-        b=B2NE6pDVn7sOEefvgCAWu9eP5HR/N8BHTaZguAaRR9MX6bVQYTvrvp8GkVg9HbzhBq
-         Rze0EwBG1edWWCtOtTK/gDWZvdB0boLRhyblDTT8Ihmc8AmMBk96D7G7mM06az9AO4LU
-         W+WUsc8Om1Pah2NO+YkLgoawmZKVhlqO3NaoN3asTxNsY5xTx47K0FJI9xMZyvitqi5K
-         vZNxs8nLmsjyOF+8Rrt/gU8mAO3KqaO+tXCvcJrmZq7is23gTm5pd/1F1UeD0phRMMoz
-         nb9aUXoMuHuqBsYQZuK8JCcue0vdO360cmBwCv8uGNV3kBan7q58RDMkOVSMT2jKm7eo
-         eUqg==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XN75hg6tewN0OX3CfvZt7Oi8SEkxjh9aMv3E7SLTZz0=;
+        b=ICl4+mzgAUUm57c3GU+xZwn+N/lUTvPXQCy2VS2BGBsJ0HU4rNLwnl83SnrCSYpyQg
+         iSgiodrWzLA3O1pTfOhjnZnC3luDzP6AAgitMTsXJ3zyuxvSySBiVy8v8Ku4T4FTBmUn
+         4EbXlAQs801B6J7jLlGIrt3+hCPtitteDrMlfCO9GsBX50EeGVTMY9Rk/fQE4gAz9HPA
+         qisIGTsbYmzL/5CAQBmG/7xJkfPvYw6FcqKSlriffoD1mS0wYymnnw7EWFWFSKw6zu0B
+         1fFxbYN1AGmqBGD3eHSyyYjEqayo/h0qlhMoXzp+Sy/AN9VSKfqlw0QAIHnb2odl2j01
+         CLTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728878342; x=1729483142;
+        d=1e100.net; s=20230601; t=1728878341; x=1729483141;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=pObMglnB96kEp+l3QajGm5DshLJZ0CFYfmUqf5zzQjQ=;
-        b=CEW5EUdTTLRkXMs6aAPMKdqeDqz2UnL/UlXRlGQk8WVAz+OFM6CtepWJFeCGqk5iPZ
-         kNoU+sdYf093dmZ5m3uYozNvnIlcxOhfi/E5P3486kgdzF9klv30f/8vQ9tlp4UWjcg9
-         H+xF24vfyo+k2H/N3qE1vvdufkZPF4gyH9VW7IPtBj00+z6EHmHC8OMPJF+U31sRGNUp
-         VBEjiunzaGK+5zk/FnUhCCbbLEDadWVWocdmMky3QSUudw91OvLo34gcShyJkIC5ctI5
-         6Ythgf7njGirJ2pIDRNWi7yLpcYQ6AHimVZOxh9Nr2PmQARP6ai0MQvPi65UF6Tn0/nW
-         tjqg==
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XN75hg6tewN0OX3CfvZt7Oi8SEkxjh9aMv3E7SLTZz0=;
+        b=u6BW83YYH7+PD3RrFDum4+aALv7WaW7JGz5ORkPcT2g3qK9JGOwAi9i0a+GYjdpki0
+         mI0madnwySbzIBBM83yGVkfi//2nCEjfVJsB555H8F2wvbP8Eh4SkjT/P21TjSJbhnjg
+         DbDqG12ojtcdaIScJEkZdBVneXquIN2siiIPbyqImf7+a3qkr5P5t0NOWKkuz+qnQ5h5
+         8HSRlZTazksTxsQMkFbNKvtEsO3tBZ9HB+iNTVNzDYIVwl5P+XzoeZl+SYnv5/HUw3DO
+         uHlnlY6tgob/P8upjQsIFRLGdDjM1kDqg6P8ewiu3nVtpvRZRWeGG21Zi60DyUgmqVws
+         2cOg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCU51Y9PR/kJ95tjAe/9uv8RndAaiN3KQLmIgBzNXroKLYuvemzl1WulR09nBUrG5JLfrQkb5Q==@lfdr.de
-X-Gm-Message-State: AOJu0YwpLEayeP215lLtBbVuBZ5tK2i+eeqj/GDFTTfE5RUB/SIZp8K+
-	saw6J1XaTrRa9jNrQyf6x2p5G7vE0s/WFpLHAnMhuW8YDDaIfXWl
-X-Google-Smtp-Source: AGHT+IGah0zY8WTyOmuwEalXaG43zs86AxPUHIUAgzzB+XrZ/wm7M6Qk8/QNfXfuKIgugjGsH1sN6Q==
-X-Received: by 2002:a05:6214:3912:b0:6cb:f904:4633 with SMTP id 6a1803df08f44-6cbf9044699mr130618556d6.9.1728878342169;
-        Sun, 13 Oct 2024 20:59:02 -0700 (PDT)
-X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:1d03:b0:6c5:1cfa:1e03 with SMTP id
- 6a1803df08f44-6cbe56639cels28952946d6.1.-pod-prod-00-us; Sun, 13 Oct 2024
- 20:59:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVzrimkfsZsRzVlK4tZNwHn9jF2va089RcQ7xpudOVbiiVlOB7Lla64HjhDVwSvD6Jqr3UkSpUBhFA=@googlegroups.com
-X-Received: by 2002:a05:6122:2508:b0:50d:4bd2:bc9b with SMTP id 71dfb90a1353d-50d4bd2c032mr1355744e0c.0.1728878341454;
+X-Forwarded-Encrypted: i=2; AJvYcCW5QT7U7UB/wgrJSUjQkZ/Q71G6Ym8iH/aNXCI0nEd4mNrAOOjPPCTTP576WQUL/aO8+2bXqw==@lfdr.de
+X-Gm-Message-State: AOJu0Ywu0t+4XEsGu+qmcyUv6JcS8lqzqIx/R9+y/2cBvbwHxCaqa4tm
+	4rmS4GNdTKldnm+wVN3IZ6D9CXpP6yygz+irPjhH/HfOcMPlmJH0
+X-Google-Smtp-Source: AGHT+IFjfb+yMPtHkqH1ws6o/LFoCx61ysNxIYRHjTO2NJyEB7262laOhQh4+MHsoS0fQOdw42zIKQ==
+X-Received: by 2002:a05:6e02:214f:b0:3a3:b256:f325 with SMTP id e9e14a558f8ab-3a3b5fb2ce4mr62629715ab.20.1728878341433;
         Sun, 13 Oct 2024 20:59:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1728878341; cv=none;
+X-BeenThere: kasan-dev@googlegroups.com
+Received: by 2002:a05:6e02:1805:b0:3a0:90de:1bae with SMTP id
+ e9e14a558f8ab-3a3a742c886ls4151935ab.1.-pod-prod-09-us; Sun, 13 Oct 2024
+ 20:59:00 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXqs0wRal92jvzVYkBF3Gb+4ULoFpqRqHTjk82KhAGbYKXovq4wuVBq2aKXe0FF7bkV2CdFAQ4/4U4=@googlegroups.com
+X-Received: by 2002:a05:6e02:b44:b0:3a1:f549:7272 with SMTP id e9e14a558f8ab-3a3b5fc3bafmr72395895ab.23.1728878340563;
+        Sun, 13 Oct 2024 20:59:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1728878340; cv=none;
         d=google.com; s=arc-20240605;
-        b=Tx2B8+2qmDKvWT170slptR0fV9dZug7b7Z15cjKleH046pRb9HYnb5SZkBGB5n9UyH
-         OoBy1ch3c534r+3bIKccshZqLU3q+m0cMEb6tGlVFmKkywEhesAahnxHxXs4bdyBMxc0
-         to6LgyxvGYLAjT1ngGhfpDqUNLvdzm1XeY3BW3VnVyrR/RwNpkmuc8pcM2VkmAbpKb54
-         xsTYC//kb0smR1w0OOu4gnIWnKNJt+M5yZBG5ZpJS3Q/NB50v3Y8UljE7EXn13z2XAT3
-         cr5heoV2hVydL9wwyRwSK2scD1yyolwqxZNi0k5BdMANPOQhx7TFGqen2oLIqYoalwj4
-         +VuQ==
+        b=GcEPu4Vh2IaCEpe3eQcUejwEewbRv3b4A2u3+Aa0gjHYxs0/081VVqRTHztN6SRVw5
+         WbhKdLJxeAnfVD9wJKnucTPaOrR39dOo6ZA4BZrgwQjr6izIRyWORIinGkvDzrdwktUB
+         nw8nyuOCmvapcSWHos4X5aEGURKtoXIirdoClS2n06L2U1E+9aBNTFZVEyizPwJXXYck
+         hMRlbJaCfM8ysILLD4lkOAJeR+UOfga10cXOWKAFsfhufHyohaxiSdbSYtQ+5GH5Nyeb
+         Yj6O7amEGvvEc0K55ypYCHuHaiOgjKxbfDZOKKIdiobhHaGtJAqe8qYPXTKlcYg02tQF
+         YKIA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from;
-        bh=kJf0bhlzRwFJdD6ttbRFo0QxETGkwmAfI75yB+TvWTY=;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from;
+        bh=p7I8M5tc4Tck4U2HYdN2nAH2O+CY+L0GJMEbYTmhcQU=;
         fh=W/+Rlbd92klLtgnDZozu+1Zm8L3oNk9WCo5yqUG4SDo=;
-        b=li2Elc0CgkAUp38z/6G0MjUcIQ5F19E9Hl4OvJsy5DtFJ0MjyzN3/+D/M6ofBzrq96
-         3ds8ZP4jSG0wDuK/qWS/fAjprgEP6hdeqEG5jwmBXzf5dqHGtQjffa3Rlv85+FrCnGqk
-         JLR6ff7rlyCIoNiXBxNY00/ol59seNyV7H1IuY95cEBY5xKFWoytdSYmbc3Q6hLi3tN8
-         I7P0z08JK1ukHR+HWYLGcN21UxLwed4UCKaeX1oURf2eCms9GiIiQ6B2Tvw/ew0tz1DT
-         VQq1eIs9xRpyo1K8HlmvS5GbwZOyZTmqQn9z0F+xcWdsXENSEDTrmyzz1LBDawy5pLuD
-         POUg==;
+        b=KTnr9uXzsSDSR0bnC31xxs22Mdlo5xYORjwyPl7RFx77xsrnIz7owSZwt/AgUzJoot
+         JIz/LX9+67txkjmebmhLXOKWr6rqgfnxWA9cVENoe0eMK2ILka9v7dz++zc/GNA5/IaW
+         E1eh61j2D29Uzaayu8PH5PaRF7sz5XVnkJqr1kcqeELouTd8F/BqED3oW+egWGmslygd
+         QaLzCwA1Yg7if8yKG4Zd+0mH5RlBJilbhXBGZ1QTeK9D4jOHNu2U0YP5BTgBND94T+5b
+         93SwfZ9CL0YbTBaciHlMvIhezaZiugJK8HgTKtLcTjIoTzRPwZ8No4MrAr5qgG0jdXj5
+         +cEQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=maobibo@loongson.cn
 Received: from mail.loongson.cn (mail.loongson.cn. [114.242.206.163])
-        by gmr-mx.google.com with ESMTP id 71dfb90a1353d-50d08a78eacsi563810e0c.5.2024.10.13.20.58.59
+        by gmr-mx.google.com with ESMTP id e9e14a558f8ab-3a3afdf12casi3318495ab.5.2024.10.13.20.58.59
         for <kasan-dev@googlegroups.com>;
-        Sun, 13 Oct 2024 20:58:59 -0700 (PDT)
+        Sun, 13 Oct 2024 20:59:00 -0700 (PDT)
 Received-SPF: pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) client-ip=114.242.206.163;
 Received: from loongson.cn (unknown [10.2.5.213])
-	by gateway (Coremail) with SMTP id _____8CxLOsAlwxncQIaAA--.37528S3;
-	Mon, 14 Oct 2024 11:58:56 +0800 (CST)
+	by gateway (Coremail) with SMTP id _____8DxhbABlwxnfQIaAA--.37521S3;
+	Mon, 14 Oct 2024 11:58:57 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.213])
-	by front1 (Coremail) with SMTP id qMiowMBxXuT_lgxnc6EoAA--.1717S2;
+	by front1 (Coremail) with SMTP id qMiowMBxXuT_lgxnc6EoAA--.1717S3;
 	Mon, 14 Oct 2024 11:58:56 +0800 (CST)
 From: Bibo Mao <maobibo@loongson.cn>
 To: Huacai Chen <chenhuacai@kernel.org>,
@@ -113,12 +115,14 @@ Cc: David Hildenbrand <david@redhat.com>,
 	linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
 	linux-mm@kvack.org
-Subject: [PATCH v2 0/3] LoongArch: Fix vmalloc test issue
-Date: Mon, 14 Oct 2024 11:58:52 +0800
-Message-Id: <20241014035855.1119220-1-maobibo@loongson.cn>
+Subject: [PATCH v2 1/3] LoongArch: Set initial pte entry with PAGE_GLOBAL for kernel space
+Date: Mon, 14 Oct 2024 11:58:53 +0800
+Message-Id: <20241014035855.1119220-2-maobibo@loongson.cn>
 X-Mailer: git-send-email 2.39.3
+In-Reply-To: <20241014035855.1119220-1-maobibo@loongson.cn>
+References: <20241014035855.1119220-1-maobibo@loongson.cn>
 MIME-Version: 1.0
-X-CM-TRANSID: qMiowMBxXuT_lgxnc6EoAA--.1717S2
+X-CM-TRANSID: qMiowMBxXuT_lgxnc6EoAA--.1717S3
 X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
 X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
 	ZEXasCq-sGcSsGvfJ3UbIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnUUvcSsGvfC2Kfnx
@@ -140,87 +144,208 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On LoongArch 3C5000 Dual-Way machine, there are 32 CPUs and 128G RAM,
-there are some errors with run vmalloc test with command like this
-  insmod test_vmalloc.ko   nr_threads=32  run_test_mask=0x3af
+Unlike general architectures, there are two pages in one TLB entry
+on LoongArch system. For kernel space, it requires both two pte
+entries with PAGE_GLOBAL bit set, else HW treats it as non-global
+tlb, there will be potential problems if tlb entry for kernel space
+is not global. Such as fail to flush kernel tlb with function
+local_flush_tlb_kernel_range() which only flush tlb with global bit.
 
-Here is part of error message and summary test report for failed cases:
- WARNING: CPU: 13 PID: 1457 at mm/vmalloc.c:503 vmap_small_pages_range_noflush+0x388/0x510
- CPU: 13 UID: 0 PID: 1457 Comm: vmalloc_test/15 Not tainted 6.12.0-rc2+ #93
+With function kernel_pte_init() added, it can be used to init pte
+table when it is created for kernel address space, and the default
+initial pte value is PAGE_GLOBAL rather than zero at beginning.
 
- Trying to vfree() nonexistent vm area (000000004dec9ced)
- WARNING: CPU: 3 PID: 1444 at mm/vmalloc.c:3345 vfree+0x1e8/0x4c8
- CPU: 3 UID: 0 PID: 1444 Comm: vmalloc_test/2
+Kernel address space areas includes fixmap, percpu, vmalloc, kasan
+and vmemmap areas set default pte entry with PAGE_GLOBAL set.
 
- Trying to vfree() bad address (00000000fc7c9da5)
- WARNING: CPU: 10 PID: 1552 at mm/vmalloc.c:3210 remove_vm_area+0x88/0x98
- CPU: 10 UID: 0 PID: 1552 Comm: kworker/u144:3
-
-Summary: long_busy_list_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: long_busy_list_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: random_size_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: random_size_align_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: kvfree_rcu_2_arg_vmalloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: long_busy_list_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: random_size_align_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: fix_size_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: random_size_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: random_size_align_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: long_busy_list_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: random_size_align_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: long_busy_list_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: long_busy_list_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: long_busy_list_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: kvfree_rcu_2_arg_vmalloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: long_busy_list_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: random_size_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: kvfree_rcu_1_arg_vmalloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: long_busy_list_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: fix_size_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-Summary: long_busy_list_alloc_test passed: 0 failed: 1 repeat: 1 loops: 1000000
-
-The mainly problem is that function set_pte() and pte_free() is not atomic,
-since these functions need modify two consecutive pte entries for kernel
-space area to assure that both pte entries with PAGE_GLOBAL bit set. And
-there is contension problem between them.
-
-With this patchset, vmalloc test case passes to run with command
-  insmod test_vmalloc.ko   nr_threads=32  run_test_mask=0x3af
-
+Signed-off-by: Bibo Mao <maobibo@loongson.cn>
 ---
-  v1 ... v2:
-    1. Solve compile warning issue by declaring function
-       kernel_pte_init() in header file include/linux/mm.h
-    2. Add kernel_pte_init() in function zero_pmd_populate() called by
-       file mm/kasan/init.c
-    3. Merge the first two patches into one since both these two patches
-       set pte entry with PAGE_GLOBAL in different modules
-    4. Remove amotic operation with pte_clear(), using generic read and
-       clear operation, vmalloc test pass to run also
-    5. refresh some comments description
----
-Bibo Mao (3):
-  LoongArch: Set initial pte entry with PAGE_GLOBAL for kernel space
-  LoongArch: Add barrier between set_pte and memory access
-  LoongArch: Remove pte buddy set with set_pte and pte_clear function
+ arch/loongarch/include/asm/pgalloc.h | 13 +++++++++++++
+ arch/loongarch/include/asm/pgtable.h |  1 +
+ arch/loongarch/mm/init.c             |  4 +++-
+ arch/loongarch/mm/kasan_init.c       |  4 +++-
+ arch/loongarch/mm/pgtable.c          | 22 ++++++++++++++++++++++
+ include/linux/mm.h                   |  1 +
+ mm/kasan/init.c                      |  8 +++++++-
+ mm/sparse-vmemmap.c                  |  5 +++++
+ 8 files changed, 55 insertions(+), 3 deletions(-)
 
- arch/loongarch/include/asm/cacheflush.h | 14 +++++++++-
- arch/loongarch/include/asm/pgalloc.h    | 13 +++++++++
- arch/loongarch/include/asm/pgtable.h    | 36 +++++--------------------
- arch/loongarch/mm/init.c                |  4 ++-
- arch/loongarch/mm/kasan_init.c          |  4 ++-
- arch/loongarch/mm/pgtable.c             | 22 +++++++++++++++
- include/linux/mm.h                      |  1 +
- mm/kasan/init.c                         |  8 +++++-
- mm/sparse-vmemmap.c                     |  5 ++++
- 9 files changed, 73 insertions(+), 34 deletions(-)
-
-
-base-commit: 6485cf5ea253d40d507cd71253c9568c5470cd27
+diff --git a/arch/loongarch/include/asm/pgalloc.h b/arch/loongarch/include/asm/pgalloc.h
+index 4e2d6b7ca2ee..b2698c03dc2c 100644
+--- a/arch/loongarch/include/asm/pgalloc.h
++++ b/arch/loongarch/include/asm/pgalloc.h
+@@ -10,8 +10,21 @@
+ 
+ #define __HAVE_ARCH_PMD_ALLOC_ONE
+ #define __HAVE_ARCH_PUD_ALLOC_ONE
++#define __HAVE_ARCH_PTE_ALLOC_ONE_KERNEL
+ #include <asm-generic/pgalloc.h>
+ 
++static inline pte_t *pte_alloc_one_kernel(struct mm_struct *mm)
++{
++	pte_t *pte;
++
++	pte = (pte_t *) __get_free_page(GFP_KERNEL);
++	if (!pte)
++		return NULL;
++
++	kernel_pte_init(pte);
++	return pte;
++}
++
+ static inline void pmd_populate_kernel(struct mm_struct *mm,
+ 				       pmd_t *pmd, pte_t *pte)
+ {
+diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/include/asm/pgtable.h
+index 9965f52ef65b..22e3a8f96213 100644
+--- a/arch/loongarch/include/asm/pgtable.h
++++ b/arch/loongarch/include/asm/pgtable.h
+@@ -269,6 +269,7 @@ extern void set_pmd_at(struct mm_struct *mm, unsigned long addr, pmd_t *pmdp, pm
+ extern void pgd_init(void *addr);
+ extern void pud_init(void *addr);
+ extern void pmd_init(void *addr);
++extern void kernel_pte_init(void *addr);
+ 
+ /*
+  * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
+diff --git a/arch/loongarch/mm/init.c b/arch/loongarch/mm/init.c
+index 8a87a482c8f4..9f26e933a8a3 100644
+--- a/arch/loongarch/mm/init.c
++++ b/arch/loongarch/mm/init.c
+@@ -198,9 +198,11 @@ pte_t * __init populate_kernel_pte(unsigned long addr)
+ 	if (!pmd_present(pmdp_get(pmd))) {
+ 		pte_t *pte;
+ 
+-		pte = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
++		pte = memblock_alloc_raw(PAGE_SIZE, PAGE_SIZE);
+ 		if (!pte)
+ 			panic("%s: Failed to allocate memory\n", __func__);
++
++		kernel_pte_init(pte);
+ 		pmd_populate_kernel(&init_mm, pmd, pte);
+ 	}
+ 
+diff --git a/arch/loongarch/mm/kasan_init.c b/arch/loongarch/mm/kasan_init.c
+index 427d6b1aec09..34988573b0d5 100644
+--- a/arch/loongarch/mm/kasan_init.c
++++ b/arch/loongarch/mm/kasan_init.c
+@@ -152,6 +152,8 @@ static void __init kasan_pte_populate(pmd_t *pmdp, unsigned long addr,
+ 		phys_addr_t page_phys = early ?
+ 					__pa_symbol(kasan_early_shadow_page)
+ 					      : kasan_alloc_zeroed_page(node);
++		if (!early)
++			kernel_pte_init(__va(page_phys));
+ 		next = addr + PAGE_SIZE;
+ 		set_pte(ptep, pfn_pte(__phys_to_pfn(page_phys), PAGE_KERNEL));
+ 	} while (ptep++, addr = next, addr != end && __pte_none(early, ptep_get(ptep)));
+@@ -287,7 +289,7 @@ void __init kasan_init(void)
+ 		set_pte(&kasan_early_shadow_pte[i],
+ 			pfn_pte(__phys_to_pfn(__pa_symbol(kasan_early_shadow_page)), PAGE_KERNEL_RO));
+ 
+-	memset(kasan_early_shadow_page, 0, PAGE_SIZE);
++	kernel_pte_init(kasan_early_shadow_page);
+ 	csr_write64(__pa_symbol(swapper_pg_dir), LOONGARCH_CSR_PGDH);
+ 	local_flush_tlb_all();
+ 
+diff --git a/arch/loongarch/mm/pgtable.c b/arch/loongarch/mm/pgtable.c
+index eb6a29b491a7..228ffc1db0a3 100644
+--- a/arch/loongarch/mm/pgtable.c
++++ b/arch/loongarch/mm/pgtable.c
+@@ -38,6 +38,28 @@ pgd_t *pgd_alloc(struct mm_struct *mm)
+ }
+ EXPORT_SYMBOL_GPL(pgd_alloc);
+ 
++void kernel_pte_init(void *addr)
++{
++	unsigned long *p, *end;
++	unsigned long entry;
++
++	entry = (unsigned long)_PAGE_GLOBAL;
++	p = (unsigned long *)addr;
++	end = p + PTRS_PER_PTE;
++
++	do {
++		p[0] = entry;
++		p[1] = entry;
++		p[2] = entry;
++		p[3] = entry;
++		p[4] = entry;
++		p += 8;
++		p[-3] = entry;
++		p[-2] = entry;
++		p[-1] = entry;
++	} while (p != end);
++}
++
+ void pgd_init(void *addr)
+ {
+ 	unsigned long *p, *end;
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index ecf63d2b0582..6909fe059a2c 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -3818,6 +3818,7 @@ void *sparse_buffer_alloc(unsigned long size);
+ struct page * __populate_section_memmap(unsigned long pfn,
+ 		unsigned long nr_pages, int nid, struct vmem_altmap *altmap,
+ 		struct dev_pagemap *pgmap);
++void kernel_pte_init(void *addr);
+ void pmd_init(void *addr);
+ void pud_init(void *addr);
+ pgd_t *vmemmap_pgd_populate(unsigned long addr, int node);
+diff --git a/mm/kasan/init.c b/mm/kasan/init.c
+index 89895f38f722..ac607c306292 100644
+--- a/mm/kasan/init.c
++++ b/mm/kasan/init.c
+@@ -106,6 +106,10 @@ static void __ref zero_pte_populate(pmd_t *pmd, unsigned long addr,
+ 	}
+ }
+ 
++void __weak __meminit kernel_pte_init(void *addr)
++{
++}
++
+ static int __ref zero_pmd_populate(pud_t *pud, unsigned long addr,
+ 				unsigned long end)
+ {
+@@ -126,8 +130,10 @@ static int __ref zero_pmd_populate(pud_t *pud, unsigned long addr,
+ 
+ 			if (slab_is_available())
+ 				p = pte_alloc_one_kernel(&init_mm);
+-			else
++			else {
+ 				p = early_alloc(PAGE_SIZE, NUMA_NO_NODE);
++				kernel_pte_init(p);
++			}
+ 			if (!p)
+ 				return -ENOMEM;
+ 
+diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+index edcc7a6b0f6f..c0388b2e959d 100644
+--- a/mm/sparse-vmemmap.c
++++ b/mm/sparse-vmemmap.c
+@@ -184,6 +184,10 @@ static void * __meminit vmemmap_alloc_block_zero(unsigned long size, int node)
+ 	return p;
+ }
+ 
++void __weak __meminit kernel_pte_init(void *addr)
++{
++}
++
+ pmd_t * __meminit vmemmap_pmd_populate(pud_t *pud, unsigned long addr, int node)
+ {
+ 	pmd_t *pmd = pmd_offset(pud, addr);
+@@ -191,6 +195,7 @@ pmd_t * __meminit vmemmap_pmd_populate(pud_t *pud, unsigned long addr, int node)
+ 		void *p = vmemmap_alloc_block_zero(PAGE_SIZE, node);
+ 		if (!p)
+ 			return NULL;
++		kernel_pte_init(p);
+ 		pmd_populate_kernel(&init_mm, pmd, p);
+ 	}
+ 	return pmd;
 -- 
 2.39.3
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20241014035855.1119220-1-maobibo%40loongson.cn.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20241014035855.1119220-2-maobibo%40loongson.cn.
