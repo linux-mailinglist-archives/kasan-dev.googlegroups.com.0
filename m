@@ -1,110 +1,110 @@
 Return-Path: <kasan-dev+bncBAABBBNOWK4AMGQELUZUPXI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x137.google.com (mail-il1-x137.google.com [IPv6:2607:f8b0:4864:20::137])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B1F99BE6E
-	for <lists+kasan-dev@lfdr.de>; Mon, 14 Oct 2024 05:59:02 +0200 (CEST)
-Received: by mail-il1-x137.google.com with SMTP id e9e14a558f8ab-3a3a5f6cb13sf30125475ab.3
-        for <lists+kasan-dev@lfdr.de>; Sun, 13 Oct 2024 20:59:02 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1728878341; cv=pass;
+Received: from mail-qv1-xf3f.google.com (mail-qv1-xf3f.google.com [IPv6:2607:f8b0:4864:20::f3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF9A99BE6F
+	for <lists+kasan-dev@lfdr.de>; Mon, 14 Oct 2024 05:59:03 +0200 (CEST)
+Received: by mail-qv1-xf3f.google.com with SMTP id 6a1803df08f44-6cbeca2b235sf87321166d6.3
+        for <lists+kasan-dev@lfdr.de>; Sun, 13 Oct 2024 20:59:03 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1728878342; cv=pass;
         d=google.com; s=arc-20240605;
-        b=H+YxroAtal4y71EPtHpWQxel6VmsHF7ZrMkxFavAxpt4Q4x8NtoN8gwlgeU2KDCmvF
-         adrE7cSeBaPP6W3BKrlXMZofErejuLnzNY/QmT+eu3PiqNooulyDkoa93/xzTuG+NWIG
-         xQIb5/9JgNp6LWjJMhxLrRNA8VbpBzbr3A3xZp9n5KXGbG+vAX6oJ0uIBTRNi94Cbtu7
-         ukflwcThyK03nFVrl/81MbNXOl4PSIiTUlhBDBnPSVzMw5s7sOHm1/u/YbFiWIdusNrV
-         oDSvyAhJ2gB3Z1/qxYdS3L0T0o1JXnBJP/8SYMjwPJtZXCteBU2AA8LLFstF4sIM9rcl
-         wYxQ==
+        b=C6N68cI9JqZ/RcOQ7EYDlyvEp6krfBHSDRlZceM6U1K6pNjxK6RvEjRVX3C+t1UEbF
+         kUQxBPErt0W/KPrGhr0WxLMW4c3o6s3F7ZP157ts8/kfZFS+vvCMAjRV/Lcx/fTJaGZp
+         yMuniYCm/uX6hCLgovmzIi+tmn2lWU8D7q9SCWzrV/+Ssxc4TV2ZvQ459U9b2qwnTf+p
+         NddeBXUzv9wgSWAiT8EUIhtsufBem9Mxu6X5H9vmXTSrVOf/9UyjSzUosftFqiGOzrrK
+         0RObwHuqw5R/JfDgde2Lgah57Y3yJIKC+/mzWPv8l3kfB5HEVB+9BzdplbULqoTwMFbL
+         HJKw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=XN75hg6tewN0OX3CfvZt7Oi8SEkxjh9aMv3E7SLTZz0=;
-        fh=8Cwqlt4HF/gph66HhmEga4eNd15ess71cv0oFwr3l0M=;
-        b=SSi2jRChHOzbrm6+u0eDDuL2XFV8N76/ax+vMlA+sIsauI9xITWP4iaVYlY6/MB7U5
-         2P7J24yGJ76S+3I0jJPB3Er8GWiz3zYXBvwfyBrnTJg3s1O2U/wK6MA82J69QqbaqJD1
-         L9s88L8bOxH4GOCrfhSYKoFmSZfjSGjo7xSN6YwBRtTQo+6thmpf1VouKjFvGPJqvySA
-         EdOMX5eOJrmEf3hz75CuacHre3tCx2COlBqZnFG+LlPcNytkwunpn569QIssc8OcsY/u
-         DTfSdjoGZE44AOzw4Y4N2EYbFd9UJUeIAlBvLxKAUNveMEo7H1otd5wLrK/IcI5xZKg7
-         EN1w==;
+        bh=IsVZdUVnNdR2VChKHq7IPGCkx3kviL7T2RmTUsV3DPE=;
+        fh=t80q85ciKcsySCDevHHg73i/EVQUMOHFoZcdovAEWp4=;
+        b=FMS8zW1fdiU7a8TBlyxeqsKbtS5Buy2DRV6UXwvJOqYpmxyZ1CyLx2LvglcGLvzrXy
+         fJ3eyCTZ6Mhrcjg7hW+qW6xHXcz3FeuCRp+1YqOQwGu7WhYBjUtaKDrlSs5QFi8ZX5DM
+         sJ366uZEv06Z5JtYG5uLCb3F+P//1rdVXUtA4PrDnNTxM+h+08cdT4h4AIsKEVsLEPnw
+         1Ne5IsdJhoaQQNJIDYjyiGvJvEI3U/h6SX27NEvVDLU3bh5XYqEdhv3i56BkwlObanZO
+         RrRNWPPqNlHcJfsnVS1uNqOgdbR43cgOozB1TysvTJNV3sfaa2Cm52nO6q/MLGiW8BOh
+         bGKw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
        spf=pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=maobibo@loongson.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1728878341; x=1729483141; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1728878342; x=1729483142; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XN75hg6tewN0OX3CfvZt7Oi8SEkxjh9aMv3E7SLTZz0=;
-        b=ICl4+mzgAUUm57c3GU+xZwn+N/lUTvPXQCy2VS2BGBsJ0HU4rNLwnl83SnrCSYpyQg
-         iSgiodrWzLA3O1pTfOhjnZnC3luDzP6AAgitMTsXJ3zyuxvSySBiVy8v8Ku4T4FTBmUn
-         4EbXlAQs801B6J7jLlGIrt3+hCPtitteDrMlfCO9GsBX50EeGVTMY9Rk/fQE4gAz9HPA
-         qisIGTsbYmzL/5CAQBmG/7xJkfPvYw6FcqKSlriffoD1mS0wYymnnw7EWFWFSKw6zu0B
-         1fFxbYN1AGmqBGD3eHSyyYjEqayo/h0qlhMoXzp+Sy/AN9VSKfqlw0QAIHnb2odl2j01
-         CLTg==
+        bh=IsVZdUVnNdR2VChKHq7IPGCkx3kviL7T2RmTUsV3DPE=;
+        b=YoAMvLs6eqz+dfpJzTzo9zyeHa0jkY7RJnDVjtNBBSJXqJPJZoRby88T/hqVfqcDDf
+         E7guHAeVr+Mb+0qXpon8g2ZT5pVecWp3koll7uweYiBGN+pUfX57Y8rS5PaCPhya8zJC
+         mg4pCgOAzM79SzLPIx/mmec0OwaHyNfI4k6l3nCDcRDQAdiReXqjLWDQjb2BrVlgDyuV
+         yuPCaqzfAgXxSSrUO3cXfwOlvA1fHmL/W4Wh94tfsEMYpMZIl1V3VfhDNLtVqloKTfRa
+         c7oUKIx5+TXniGa1iNdQ//Am4LY3Q7lZcrgssiqupatiAvDBIKu1ut1dSU9SS9JbT2xU
+         dkuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728878341; x=1729483141;
+        d=1e100.net; s=20230601; t=1728878342; x=1729483142;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XN75hg6tewN0OX3CfvZt7Oi8SEkxjh9aMv3E7SLTZz0=;
-        b=u6BW83YYH7+PD3RrFDum4+aALv7WaW7JGz5ORkPcT2g3qK9JGOwAi9i0a+GYjdpki0
-         mI0madnwySbzIBBM83yGVkfi//2nCEjfVJsB555H8F2wvbP8Eh4SkjT/P21TjSJbhnjg
-         DbDqG12ojtcdaIScJEkZdBVneXquIN2siiIPbyqImf7+a3qkr5P5t0NOWKkuz+qnQ5h5
-         8HSRlZTazksTxsQMkFbNKvtEsO3tBZ9HB+iNTVNzDYIVwl5P+XzoeZl+SYnv5/HUw3DO
-         uHlnlY6tgob/P8upjQsIFRLGdDjM1kDqg6P8ewiu3nVtpvRZRWeGG21Zi60DyUgmqVws
-         2cOg==
+        bh=IsVZdUVnNdR2VChKHq7IPGCkx3kviL7T2RmTUsV3DPE=;
+        b=DrcAFC5s8LQXABuGbpLDkEeUF8zlfJn4vzsndJcxdRomNhR2QVh60xBzA+PdCJBRL8
+         viBrcBYoObCpxZC4v2Om6SEBdsuQ1IVsUdHitGdmC/3e3LPLK8gg2OM0C5V2qev90/sI
+         fPU95j22h/wno3nen5ZS5nw+ENgCzlNvRDe1rLAoh9gk15Bdnr2Y56FcGuahEOaXNN+A
+         Q+qcLNIpz2qVJZgT125T4jaPWvA1cc4VVTejV27I140AD6P9S2DDwm4sQNYmC5oE7e/O
+         7KiW8OGhY1IZECu83EeUgEcnptcePJHOKsjepH2/w2ZznekO2gsWKUGwWnTqWjvke6zy
+         Y2sg==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCW5QT7U7UB/wgrJSUjQkZ/Q71G6Ym8iH/aNXCI0nEd4mNrAOOjPPCTTP576WQUL/aO8+2bXqw==@lfdr.de
-X-Gm-Message-State: AOJu0Ywu0t+4XEsGu+qmcyUv6JcS8lqzqIx/R9+y/2cBvbwHxCaqa4tm
-	4rmS4GNdTKldnm+wVN3IZ6D9CXpP6yygz+irPjhH/HfOcMPlmJH0
-X-Google-Smtp-Source: AGHT+IFjfb+yMPtHkqH1ws6o/LFoCx61ysNxIYRHjTO2NJyEB7262laOhQh4+MHsoS0fQOdw42zIKQ==
-X-Received: by 2002:a05:6e02:214f:b0:3a3:b256:f325 with SMTP id e9e14a558f8ab-3a3b5fb2ce4mr62629715ab.20.1728878341433;
+X-Forwarded-Encrypted: i=2; AJvYcCVNcz4DOMgPNUTJoB8hZBSpphycd2ZpBcXTDsFzVtJzQKS5HhbMFRpiKpLdeSOhlGsPMXcxig==@lfdr.de
+X-Gm-Message-State: AOJu0YzGbNuJ3U1xr38AF97hlkpRFjQPbuBJ1i2IPyueRGdvBvsVpCV8
+	3lLqX/UCuAGN4GjPtZ74tWPF8wlqtiK53tmDHU9097A6OfxAwi7d
+X-Google-Smtp-Source: AGHT+IF0u4WKaXbs6AfoVsYlCN+L06MnJYv0Cq3UrOiCeQ2LOVw9+OjiXa7Ea0TfrmIO+E21qpVfQw==
+X-Received: by 2002:a05:6214:11ac:b0:6cb:fa3d:dfbe with SMTP id 6a1803df08f44-6cbfa3de0aemr93327286d6.41.1728878341800;
         Sun, 13 Oct 2024 20:59:01 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:1805:b0:3a0:90de:1bae with SMTP id
- e9e14a558f8ab-3a3a742c886ls4151935ab.1.-pod-prod-09-us; Sun, 13 Oct 2024
- 20:59:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXqs0wRal92jvzVYkBF3Gb+4ULoFpqRqHTjk82KhAGbYKXovq4wuVBq2aKXe0FF7bkV2CdFAQ4/4U4=@googlegroups.com
-X-Received: by 2002:a05:6e02:b44:b0:3a1:f549:7272 with SMTP id e9e14a558f8ab-3a3b5fc3bafmr72395895ab.23.1728878340563;
-        Sun, 13 Oct 2024 20:59:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1728878340; cv=none;
+Received: by 2002:a05:6214:248f:b0:6b7:8ba3:a39a with SMTP id
+ 6a1803df08f44-6cbe56591f1ls20784426d6.1.-pod-prod-04-us; Sun, 13 Oct 2024
+ 20:59:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUaUVvVp6quvoJ5q51eDxCXyfxrrJ+pqyGj9a9NmkWvPH9xSK3VNGgOHHVAZKOeaVv6JrBcHlNM358=@googlegroups.com
+X-Received: by 2002:a05:6214:568b:b0:6cb:e770:f50b with SMTP id 6a1803df08f44-6cbf9e76302mr99781266d6.33.1728878341264;
+        Sun, 13 Oct 2024 20:59:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1728878341; cv=none;
         d=google.com; s=arc-20240605;
-        b=GcEPu4Vh2IaCEpe3eQcUejwEewbRv3b4A2u3+Aa0gjHYxs0/081VVqRTHztN6SRVw5
-         WbhKdLJxeAnfVD9wJKnucTPaOrR39dOo6ZA4BZrgwQjr6izIRyWORIinGkvDzrdwktUB
-         nw8nyuOCmvapcSWHos4X5aEGURKtoXIirdoClS2n06L2U1E+9aBNTFZVEyizPwJXXYck
-         hMRlbJaCfM8ysILLD4lkOAJeR+UOfga10cXOWKAFsfhufHyohaxiSdbSYtQ+5GH5Nyeb
-         Yj6O7amEGvvEc0K55ypYCHuHaiOgjKxbfDZOKKIdiobhHaGtJAqe8qYPXTKlcYg02tQF
-         YKIA==
+        b=klBjewHgxHlFnOZgkmeOXfch7w/hGw2GF27PloZV4YLXgA2ztTrqxi1bpbtwHufwkT
+         XFetYjhu3WYuuuHBjmYYu0PDzkY2jT89LWbp8/Q0R1Uwnp5tixw6E/WhthN3ilOuIFVM
+         kqTfHZMBVUbLvl03+mZ+alj2as+JJ4duwvI3L7XZPN+2u6cpEmmlMDGOfZE4hybyN2Xc
+         3y6kZtwfM2lX6sjtQAmZ1naChjdXXprKqZQNAHorIrVKfJiMBTQ2+74O2pdpnOyDyAix
+         OU6nCrkch55E9Az6c3JnPRXvCpcKZP5AQ7b+iHbHPvvGkVgHBHAkmaZpgc0RfS5k2rkB
+         HvFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from;
-        bh=p7I8M5tc4Tck4U2HYdN2nAH2O+CY+L0GJMEbYTmhcQU=;
+        bh=6Iw/wAbEu0SHxzXukkARToGn17qUMEhn7+bxpypLMb0=;
         fh=W/+Rlbd92klLtgnDZozu+1Zm8L3oNk9WCo5yqUG4SDo=;
-        b=KTnr9uXzsSDSR0bnC31xxs22Mdlo5xYORjwyPl7RFx77xsrnIz7owSZwt/AgUzJoot
-         JIz/LX9+67txkjmebmhLXOKWr6rqgfnxWA9cVENoe0eMK2ILka9v7dz++zc/GNA5/IaW
-         E1eh61j2D29Uzaayu8PH5PaRF7sz5XVnkJqr1kcqeELouTd8F/BqED3oW+egWGmslygd
-         QaLzCwA1Yg7if8yKG4Zd+0mH5RlBJilbhXBGZ1QTeK9D4jOHNu2U0YP5BTgBND94T+5b
-         93SwfZ9CL0YbTBaciHlMvIhezaZiugJK8HgTKtLcTjIoTzRPwZ8No4MrAr5qgG0jdXj5
-         +cEQ==;
+        b=CPi0pFCLzW81JOi+p0MWu9vvBP6+S5x/GGKr7ckz9v0oauVVr+CdcU/27sPGzlpZN7
+         AvpaCxZeekgmfP+2ZGGiH0WvH99nkWhZ7hDBOzQLwNFv1tfo7MC78QtlEYNTSBYDS+4l
+         Ehdi/ebeYrkbSS/9HjY+YevB8kns++n3inPckqpmJ29bW8IDS5SyIl01vM7MuJqLfR0F
+         n+MYHmFIovKORvW2BOduXCq/mkF9J/91Ahx9tzobmo4G6Kk1vQAESP2/vePQjlli2u4R
+         31KNHd0F5N6M+e/IG0WsLnJIImuHyAw4WMk8Mh+8q8wTvLgZXGOllRFoJYrwOwAaVh5w
+         888g==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
        spf=pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=maobibo@loongson.cn
 Received: from mail.loongson.cn (mail.loongson.cn. [114.242.206.163])
-        by gmr-mx.google.com with ESMTP id e9e14a558f8ab-3a3afdf12casi3318495ab.5.2024.10.13.20.58.59
+        by gmr-mx.google.com with ESMTP id 6a1803df08f44-6cbe8634125si3198766d6.5.2024.10.13.20.58.59
         for <kasan-dev@googlegroups.com>;
         Sun, 13 Oct 2024 20:59:00 -0700 (PDT)
 Received-SPF: pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) client-ip=114.242.206.163;
 Received: from loongson.cn (unknown [10.2.5.213])
-	by gateway (Coremail) with SMTP id _____8DxhbABlwxnfQIaAA--.37521S3;
+	by gateway (Coremail) with SMTP id _____8BxEIgBlwxngQIaAA--.37606S3;
 	Mon, 14 Oct 2024 11:58:57 +0800 (CST)
 Received: from localhost.localdomain (unknown [10.2.5.213])
-	by front1 (Coremail) with SMTP id qMiowMBxXuT_lgxnc6EoAA--.1717S3;
-	Mon, 14 Oct 2024 11:58:56 +0800 (CST)
+	by front1 (Coremail) with SMTP id qMiowMBxXuT_lgxnc6EoAA--.1717S4;
+	Mon, 14 Oct 2024 11:58:57 +0800 (CST)
 From: Bibo Mao <maobibo@loongson.cn>
 To: Huacai Chen <chenhuacai@kernel.org>,
 	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
@@ -115,14 +115,14 @@ Cc: David Hildenbrand <david@redhat.com>,
 	linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
 	linux-mm@kvack.org
-Subject: [PATCH v2 1/3] LoongArch: Set initial pte entry with PAGE_GLOBAL for kernel space
-Date: Mon, 14 Oct 2024 11:58:53 +0800
-Message-Id: <20241014035855.1119220-2-maobibo@loongson.cn>
+Subject: [PATCH v2 2/3] LoongArch: Add barrier between set_pte and memory access
+Date: Mon, 14 Oct 2024 11:58:54 +0800
+Message-Id: <20241014035855.1119220-3-maobibo@loongson.cn>
 X-Mailer: git-send-email 2.39.3
 In-Reply-To: <20241014035855.1119220-1-maobibo@loongson.cn>
 References: <20241014035855.1119220-1-maobibo@loongson.cn>
 MIME-Version: 1.0
-X-CM-TRANSID: qMiowMBxXuT_lgxnc6EoAA--.1717S3
+X-CM-TRANSID: qMiowMBxXuT_lgxnc6EoAA--.1717S4
 X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
 X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
 	ZEXasCq-sGcSsGvfJ3UbIjqfuFe4nvWSU5nxnvy29KBjDU0xBIdaVrnUUvcSsGvfC2Kfnx
@@ -144,208 +144,55 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Unlike general architectures, there are two pages in one TLB entry
-on LoongArch system. For kernel space, it requires both two pte
-entries with PAGE_GLOBAL bit set, else HW treats it as non-global
-tlb, there will be potential problems if tlb entry for kernel space
-is not global. Such as fail to flush kernel tlb with function
-local_flush_tlb_kernel_range() which only flush tlb with global bit.
+It is possible to return a spurious fault if memory is accessed
+right after the pte is set. For user address space, pte is set
+in kernel space and memory is accessed in user space, there is
+long time for synchronization, no barrier needed. However for
+kernel address space, it is possible that memory is accessed
+right after the pte is set.
 
-With function kernel_pte_init() added, it can be used to init pte
-table when it is created for kernel address space, and the default
-initial pte value is PAGE_GLOBAL rather than zero at beginning.
-
-Kernel address space areas includes fixmap, percpu, vmalloc, kasan
-and vmemmap areas set default pte entry with PAGE_GLOBAL set.
+Here flush_cache_vmap/flush_cache_vmap_early is used for
+synchronization.
 
 Signed-off-by: Bibo Mao <maobibo@loongson.cn>
 ---
- arch/loongarch/include/asm/pgalloc.h | 13 +++++++++++++
- arch/loongarch/include/asm/pgtable.h |  1 +
- arch/loongarch/mm/init.c             |  4 +++-
- arch/loongarch/mm/kasan_init.c       |  4 +++-
- arch/loongarch/mm/pgtable.c          | 22 ++++++++++++++++++++++
- include/linux/mm.h                   |  1 +
- mm/kasan/init.c                      |  8 +++++++-
- mm/sparse-vmemmap.c                  |  5 +++++
- 8 files changed, 55 insertions(+), 3 deletions(-)
+ arch/loongarch/include/asm/cacheflush.h | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-diff --git a/arch/loongarch/include/asm/pgalloc.h b/arch/loongarch/include/asm/pgalloc.h
-index 4e2d6b7ca2ee..b2698c03dc2c 100644
---- a/arch/loongarch/include/asm/pgalloc.h
-+++ b/arch/loongarch/include/asm/pgalloc.h
-@@ -10,8 +10,21 @@
+diff --git a/arch/loongarch/include/asm/cacheflush.h b/arch/loongarch/include/asm/cacheflush.h
+index f8754d08a31a..53be231319ef 100644
+--- a/arch/loongarch/include/asm/cacheflush.h
++++ b/arch/loongarch/include/asm/cacheflush.h
+@@ -42,12 +42,24 @@ void local_flush_icache_range(unsigned long start, unsigned long end);
+ #define flush_cache_dup_mm(mm)				do { } while (0)
+ #define flush_cache_range(vma, start, end)		do { } while (0)
+ #define flush_cache_page(vma, vmaddr, pfn)		do { } while (0)
+-#define flush_cache_vmap(start, end)			do { } while (0)
+ #define flush_cache_vunmap(start, end)			do { } while (0)
+ #define flush_icache_user_page(vma, page, addr, len)	do { } while (0)
+ #define flush_dcache_mmap_lock(mapping)			do { } while (0)
+ #define flush_dcache_mmap_unlock(mapping)		do { } while (0)
  
- #define __HAVE_ARCH_PMD_ALLOC_ONE
- #define __HAVE_ARCH_PUD_ALLOC_ONE
-+#define __HAVE_ARCH_PTE_ALLOC_ONE_KERNEL
- #include <asm-generic/pgalloc.h>
- 
-+static inline pte_t *pte_alloc_one_kernel(struct mm_struct *mm)
++/*
++ * It is possible for a kernel virtual mapping access to return a spurious
++ * fault if it's accessed right after the pte is set. The page fault handler
++ * does not expect this type of fault. flush_cache_vmap is not exactly the
++ * right place to put this, but it seems to work well enough.
++ */
++static inline void flush_cache_vmap(unsigned long start, unsigned long end)
 +{
-+	pte_t *pte;
-+
-+	pte = (pte_t *) __get_free_page(GFP_KERNEL);
-+	if (!pte)
-+		return NULL;
-+
-+	kernel_pte_init(pte);
-+	return pte;
++	smp_mb();
 +}
++#define flush_cache_vmap flush_cache_vmap
++#define flush_cache_vmap_early	flush_cache_vmap
 +
- static inline void pmd_populate_kernel(struct mm_struct *mm,
- 				       pmd_t *pmd, pte_t *pte)
- {
-diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/include/asm/pgtable.h
-index 9965f52ef65b..22e3a8f96213 100644
---- a/arch/loongarch/include/asm/pgtable.h
-+++ b/arch/loongarch/include/asm/pgtable.h
-@@ -269,6 +269,7 @@ extern void set_pmd_at(struct mm_struct *mm, unsigned long addr, pmd_t *pmdp, pm
- extern void pgd_init(void *addr);
- extern void pud_init(void *addr);
- extern void pmd_init(void *addr);
-+extern void kernel_pte_init(void *addr);
- 
- /*
-  * Encode/decode swap entries and swap PTEs. Swap PTEs are all PTEs that
-diff --git a/arch/loongarch/mm/init.c b/arch/loongarch/mm/init.c
-index 8a87a482c8f4..9f26e933a8a3 100644
---- a/arch/loongarch/mm/init.c
-+++ b/arch/loongarch/mm/init.c
-@@ -198,9 +198,11 @@ pte_t * __init populate_kernel_pte(unsigned long addr)
- 	if (!pmd_present(pmdp_get(pmd))) {
- 		pte_t *pte;
- 
--		pte = memblock_alloc(PAGE_SIZE, PAGE_SIZE);
-+		pte = memblock_alloc_raw(PAGE_SIZE, PAGE_SIZE);
- 		if (!pte)
- 			panic("%s: Failed to allocate memory\n", __func__);
-+
-+		kernel_pte_init(pte);
- 		pmd_populate_kernel(&init_mm, pmd, pte);
- 	}
- 
-diff --git a/arch/loongarch/mm/kasan_init.c b/arch/loongarch/mm/kasan_init.c
-index 427d6b1aec09..34988573b0d5 100644
---- a/arch/loongarch/mm/kasan_init.c
-+++ b/arch/loongarch/mm/kasan_init.c
-@@ -152,6 +152,8 @@ static void __init kasan_pte_populate(pmd_t *pmdp, unsigned long addr,
- 		phys_addr_t page_phys = early ?
- 					__pa_symbol(kasan_early_shadow_page)
- 					      : kasan_alloc_zeroed_page(node);
-+		if (!early)
-+			kernel_pte_init(__va(page_phys));
- 		next = addr + PAGE_SIZE;
- 		set_pte(ptep, pfn_pte(__phys_to_pfn(page_phys), PAGE_KERNEL));
- 	} while (ptep++, addr = next, addr != end && __pte_none(early, ptep_get(ptep)));
-@@ -287,7 +289,7 @@ void __init kasan_init(void)
- 		set_pte(&kasan_early_shadow_pte[i],
- 			pfn_pte(__phys_to_pfn(__pa_symbol(kasan_early_shadow_page)), PAGE_KERNEL_RO));
- 
--	memset(kasan_early_shadow_page, 0, PAGE_SIZE);
-+	kernel_pte_init(kasan_early_shadow_page);
- 	csr_write64(__pa_symbol(swapper_pg_dir), LOONGARCH_CSR_PGDH);
- 	local_flush_tlb_all();
- 
-diff --git a/arch/loongarch/mm/pgtable.c b/arch/loongarch/mm/pgtable.c
-index eb6a29b491a7..228ffc1db0a3 100644
---- a/arch/loongarch/mm/pgtable.c
-+++ b/arch/loongarch/mm/pgtable.c
-@@ -38,6 +38,28 @@ pgd_t *pgd_alloc(struct mm_struct *mm)
- }
- EXPORT_SYMBOL_GPL(pgd_alloc);
- 
-+void kernel_pte_init(void *addr)
-+{
-+	unsigned long *p, *end;
-+	unsigned long entry;
-+
-+	entry = (unsigned long)_PAGE_GLOBAL;
-+	p = (unsigned long *)addr;
-+	end = p + PTRS_PER_PTE;
-+
-+	do {
-+		p[0] = entry;
-+		p[1] = entry;
-+		p[2] = entry;
-+		p[3] = entry;
-+		p[4] = entry;
-+		p += 8;
-+		p[-3] = entry;
-+		p[-2] = entry;
-+		p[-1] = entry;
-+	} while (p != end);
-+}
-+
- void pgd_init(void *addr)
- {
- 	unsigned long *p, *end;
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index ecf63d2b0582..6909fe059a2c 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -3818,6 +3818,7 @@ void *sparse_buffer_alloc(unsigned long size);
- struct page * __populate_section_memmap(unsigned long pfn,
- 		unsigned long nr_pages, int nid, struct vmem_altmap *altmap,
- 		struct dev_pagemap *pgmap);
-+void kernel_pte_init(void *addr);
- void pmd_init(void *addr);
- void pud_init(void *addr);
- pgd_t *vmemmap_pgd_populate(unsigned long addr, int node);
-diff --git a/mm/kasan/init.c b/mm/kasan/init.c
-index 89895f38f722..ac607c306292 100644
---- a/mm/kasan/init.c
-+++ b/mm/kasan/init.c
-@@ -106,6 +106,10 @@ static void __ref zero_pte_populate(pmd_t *pmd, unsigned long addr,
- 	}
- }
- 
-+void __weak __meminit kernel_pte_init(void *addr)
-+{
-+}
-+
- static int __ref zero_pmd_populate(pud_t *pud, unsigned long addr,
- 				unsigned long end)
- {
-@@ -126,8 +130,10 @@ static int __ref zero_pmd_populate(pud_t *pud, unsigned long addr,
- 
- 			if (slab_is_available())
- 				p = pte_alloc_one_kernel(&init_mm);
--			else
-+			else {
- 				p = early_alloc(PAGE_SIZE, NUMA_NO_NODE);
-+				kernel_pte_init(p);
-+			}
- 			if (!p)
- 				return -ENOMEM;
- 
-diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-index edcc7a6b0f6f..c0388b2e959d 100644
---- a/mm/sparse-vmemmap.c
-+++ b/mm/sparse-vmemmap.c
-@@ -184,6 +184,10 @@ static void * __meminit vmemmap_alloc_block_zero(unsigned long size, int node)
- 	return p;
- }
- 
-+void __weak __meminit kernel_pte_init(void *addr)
-+{
-+}
-+
- pmd_t * __meminit vmemmap_pmd_populate(pud_t *pud, unsigned long addr, int node)
- {
- 	pmd_t *pmd = pmd_offset(pud, addr);
-@@ -191,6 +195,7 @@ pmd_t * __meminit vmemmap_pmd_populate(pud_t *pud, unsigned long addr, int node)
- 		void *p = vmemmap_alloc_block_zero(PAGE_SIZE, node);
- 		if (!p)
- 			return NULL;
-+		kernel_pte_init(p);
- 		pmd_populate_kernel(&init_mm, pmd, p);
- 	}
- 	return pmd;
+ #define cache_op(op, addr)						\
+ 	__asm__ __volatile__(						\
+ 	"	cacop	%0, %1					\n"	\
 -- 
 2.39.3
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20241014035855.1119220-2-maobibo%40loongson.cn.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20241014035855.1119220-3-maobibo%40loongson.cn.
