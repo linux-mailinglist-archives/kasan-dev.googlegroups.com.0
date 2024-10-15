@@ -1,157 +1,160 @@
-Return-Path: <kasan-dev+bncBAABBSVSW64AMGQE74YXZLQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDLKPY4HVQKBBYE5XC4AMGQE54C6W7Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x1138.google.com (mail-yw1-x1138.google.com [IPv6:2607:f8b0:4864:20::1138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EBD499DC74
-	for <lists+kasan-dev@lfdr.de>; Tue, 15 Oct 2024 04:54:04 +0200 (CEST)
-Received: by mail-yw1-x1138.google.com with SMTP id 00721157ae682-6e31e5d1739sf75244987b3.1
-        for <lists+kasan-dev@lfdr.de>; Mon, 14 Oct 2024 19:54:04 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1728960843; cv=pass;
+Received: from mail-lf1-x13a.google.com (mail-lf1-x13a.google.com [IPv6:2a00:1450:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B8599DE9C
+	for <lists+kasan-dev@lfdr.de>; Tue, 15 Oct 2024 08:42:42 +0200 (CEST)
+Received: by mail-lf1-x13a.google.com with SMTP id 2adb3069b0e04-539e4b7c8f4sf2824290e87.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 14 Oct 2024 23:42:42 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1728974562; cv=pass;
         d=google.com; s=arc-20240605;
-        b=eyVEsaiW7A2+ew4vqGb1navPHfIVbEiu85VUDPCUeghuVxqX0bnNIzqsSQ/k/yS8dY
-         V7bShfyx+bn12xevNe7lAGH0+FLvbY18KSy7OAW10E5NhNHA3BpZoyz3pIvn3zW2oALW
-         8t/mvp2cVOkPHOoJSEC8PE+wk69j0ohMR1tjTyC9iOmznjUHvtEgl1HrjaOd8QfGZY+U
-         xttnIOwFrYA6yaIqhS4EXrAt4OnJTXMzGDkiuv8hBth8uARCQpQ8R4oe+MLLVlYpfsO/
-         Ik4Oh81vt2a8qgjppyZ5L52esh7+oEqfHCS3m1DY06mYwiOVQbAH7QUOOcQAkkr+40Fg
-         atIg==
+        b=kwEJSpp59kXoCmM2VAuGswXVTrw5c3E/osnPohAppL4oh6c9fOTsaGXtLLJWmUXhpf
+         ggglk8cfi0kzKUaz3UiQm+Jj9aRMyqmTvGffBJmOp6of0sAk2OcVZIGOMqTsUcfJ93WR
+         kRpDsPyo+8Jjch7EqtH7uT53iJyhXXG0AealYB0MvE5smhcmu45zccnLrZBQLBkowx+V
+         QZOi+olPETnG13NFklMmEg9j3j81xNZDtU8/EVFGIqyAErau9TUKD4yXB0WpAg9qG5kL
+         tcW2ow00c6qrMHW2ZBzf6GbqqEnQIyQNbYhFdmWBcQKrzn1YwJdG6vc20p9y7qVqFL3o
+         L4jg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:mime-version:user-agent:date
-         :message-id:from:references:cc:to:subject:sender:dkim-signature;
-        bh=6pk/C9/IfTr4qaPxB5RjgV2FifZCPnhDbnxbfu98wbE=;
-        fh=eG7TQzIKUS8/W4WXbi0xkEh2rMuB/rvx+6eQKHccY/k=;
-        b=DITp/CIhGALLGxjHT7IGWSQEHBWCScz8zq6+kG1G6mbBj9JnSkZYWgdUgYuXfFShke
-         qIfmzbudn5qFYZ17VQZZ4PQx8BxxjDOxJa8OFVIavyHFatZK3T60RZf+ujj7LEFFzB09
-         a3bWc94T51JUFOMLFOEmQBq4yjpO/T1M+Zr4BtCE4rY8S3Yz0ySDHXuRS+B6c3+JtBSy
-         kx8H2YCOfFJTJnSkJzpizFi4HSqmRJ10gIjXJ21ekfzTzDscvLJAZgEbs2H+M191VtEf
-         EqI5TimvpLBd5vQ64+BlGM6SCFcJGt0GkYLIf+i7q4quKcUoY1dX6oQ2+siyqpcKR92i
-         SJlQ==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:dkim-signature;
+        bh=ttUAUlmUq1QsJmtM6iEZ+gMC0IZMQeFs/pr9VB4uIK0=;
+        fh=6xA6CQEdHFUwwjF4Pa4E3ibYA2bEn6EIwWxKxvCpIys=;
+        b=gefiO54ImoHNqjH/PrfcxUz5D6Z/8RzZwY54k7Kn2B4fuK0fbR8lzpFwVGCEeiWkhW
+         FiFUNew7/q/MqM/OtH5qpPax8vikFHGWX2gDwe30cbrzR6PiMd+kouQcGC5XsnFZJ3OL
+         2Gs24VkuDZHQfLpCrjqW/2yugUumdjRLFQ6zwyAkkdrramZl5A/z0UGOPhOWaW64nY8D
+         +U/0xYQX6Z8i7oTt1/vOEuSG8YUV8eUTUlxL0XVqp4hGN8sNQ5+uZeM7CbGhtAdspR6y
+         mAnMfIVTcEgGidytcitGdMwUYgtKGo6rN+YTBhdbK7637a0QJeXhWuyNeKhGwKMWQLtG
+         XEuw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=maobibo@loongson.cn
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1728960843; x=1729565643; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1728974561; x=1729579361; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:content-language
-         :in-reply-to:mime-version:user-agent:date:message-id:from:references
-         :cc:to:subject:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=6pk/C9/IfTr4qaPxB5RjgV2FifZCPnhDbnxbfu98wbE=;
-        b=al+XZZecmpsorlBz531zgNzxrKklld5Vhux6l/T8HhQBZbZevF7ZHsb++mHY3FKhSA
-         8W6e+9gJpR00VEpp2wSo7wZmF0+rHiBjCD0XcmxV8uIONLglJKPcfgwqywslYPV8qrAt
-         sJCElUq+gKlqM1F2udXrY/eH6eTtFs+HoJd09Ga6GhTIQTv3DJ+m1clW541JOuD1cxQv
-         JxM+fbU2KXTRbpX+3tYtm2//L6DboRnlY5+AbOQaEhedd+uPmGWcjdP8QfAcyQn4FT5f
-         8vQ7qhdcWTWC72GBlBa6WvTe6KJ4NllB0XAupzVYbgE7LW6TSqWqruEG0jqn4vaJbbmB
-         a/DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728960843; x=1729565643;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6pk/C9/IfTr4qaPxB5RjgV2FifZCPnhDbnxbfu98wbE=;
-        b=j5kUtyaPburLW5Fymk60Rm04vK4XyG33FxcYae3Aj6UAhASkZvS5rdnkS2RIbGTprI
-         6TAYaVZt/ZAfduzuw4WRsCtX9JfhQHhE6ffumCkNkPpEtPPYXM4mujxDlazVX57k06n0
-         uBSFdrmkCEhQC97iZduPYb1NwvqrT+Xm1nEhMsLExqmbp4aLSu6FpL66ARkal7iiZF6P
-         jIyBGuxLLbgVhipY8fD+7t0D7JQQPRytKX4GBxDvhiQrEodt7GJUizl/xFDm4syosdSp
-         V/ng+XzgkaxwqxrsnAOA3uTA+geK1zduvcUjqKjlwPYHwiVo5ZzplVf2v9BnHLPI66gm
-         a8MQ==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCU6kfhRoN49yXdNSVTYWQevGWjoofBabgWemYRIQQPWZ3YHxWkvgcyoe9wW9CF0Y4N0kzzLHQ==@lfdr.de
-X-Gm-Message-State: AOJu0YxOwceE0bgJVUDta313EXa9ldVkYXeQn1kb2NlPhKg2Lz/eM52K
-	bYWGKvoFq9gkdQJqVCW399/qBdEUh3aHHVCMfTt8uFx9Em5xSYAf
-X-Google-Smtp-Source: AGHT+IHaVMJ9KZ7zqwRCuCjh6Kg+07La+GuhxabZRsw1wGdQ/Xlmeb3gsRhPCdtyggkFvpIaKlbAuA==
-X-Received: by 2002:a05:6902:1b01:b0:e28:f0e5:380b with SMTP id 3f1490d57ef6-e2931b00e80mr6921371276.4.1728960842877;
-        Mon, 14 Oct 2024 19:54:02 -0700 (PDT)
+         :content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ttUAUlmUq1QsJmtM6iEZ+gMC0IZMQeFs/pr9VB4uIK0=;
+        b=PKsPZG+gBr3hhTQ9yPuS1pqTt+D7V6fjfNc9sfvO5SQZUdbwJ0olijy1wO4WgoCpkN
+         0Jmj8GBN2FcRlElXXtnTlnh00/jsIz8eJad0SaRYUlVlHVXndtW9VzSCW63XsZBB6fZe
+         FsWgBju34BAKvywRrGDtLDpVrd8V0c4mXUwcjJPjhdWvbVa43toesB7ZQsiLSJmygLr5
+         H2PWF4Tg7stdMlBh/uWlOSbYu9yWxbjhxmBLkb1bEJM+V8HUqzhm+znh6zGTjUKFLUWx
+         sr20Oraj0FGXZIZSxoUUNv+8bfC2QZnB6LTs6moI1V3gR9HoMUwXrApRe/g72KeWriau
+         3u+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728974561; x=1729579361;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ttUAUlmUq1QsJmtM6iEZ+gMC0IZMQeFs/pr9VB4uIK0=;
+        b=X/CsKMS9n8T1WCN0YCHFzfU9Qbqv8jMtFhwLq4PUNixoND5LBV+z9epvPBDCUY1pEn
+         /d8RXtT7UhprA6MPx5LJV3zNo14Mri/Awiaibh68bYPWWcAsjDCSdvfaF9qI9/G0iUij
+         tywfh3VQjmcGF5TQYxMhCkOzcuPpg9a8Dc2g48HLv+PDobWfTwvLT2vD6mfu8LkTkKpj
+         /PFHOJyTigIfXx6xPfx9Cjl0WLxMiHmdtW+LM9wDJ6RQwi+ccUEWUPwXkYuUTXCUlrwU
+         OVwOla8UhAiDoC7FSQ7eTPLPssZSLwq8y6FEc1ZXbmRy1rTHikSDdR2hGl7pMJl0W6bm
+         UHlA==
+X-Forwarded-Encrypted: i=2; AJvYcCX2FbfJcAIeOYiKyVVDG6slJ7OS1j7vKp2lAxz1t86qZcL232TBDdhszWBw8av2TbGhN18YUQ==@lfdr.de
+X-Gm-Message-State: AOJu0YxBvfCNkr6TpJBB/fxWABbaqQk1Sxypo2MycCl07MJpICnVAtro
+	p1+oZtmDsDK4Rh54KoX/O+PDe8n8yfsna1wyfOrWoxEXrlpLugQM
+X-Google-Smtp-Source: AGHT+IEWQSCjeYdTlg3OgR+CafK2/ixG+IhTA65UUcVeqyup5E9Vw/QkFx5qPUoNjLENw4uBkN4Ekw==
+X-Received: by 2002:a05:6512:3b90:b0:539:fcb7:8d53 with SMTP id 2adb3069b0e04-539fcb78de2mr1807722e87.46.1728974560829;
+        Mon, 14 Oct 2024 23:42:40 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6902:704:b0:e1c:e3aa:57d1 with SMTP id
- 3f1490d57ef6-e290bb9ea1fls278564276.2.-pod-prod-05-us; Mon, 14 Oct 2024
- 19:54:02 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXUabUxF5V9JWJKIGi4rya9C/Kc8rAyfIn4WjGt43lo4TPn8K8j7MmHKABOIhz4lszqfhwUzaT7ELA=@googlegroups.com
-X-Received: by 2002:a05:6902:70c:b0:e29:2fa2:fe92 with SMTP id 3f1490d57ef6-e2931b01110mr9417132276.5.1728960842159;
-        Mon, 14 Oct 2024 19:54:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1728960842; cv=none;
+Received: by 2002:a05:600c:512a:b0:42f:75e0:781e with SMTP id
+ 5b1f17b1804b1-43115fdb7bfls20342005e9.1.-pod-prod-09-eu; Mon, 14 Oct 2024
+ 23:42:39 -0700 (PDT)
+X-Received: by 2002:a05:600c:45ce:b0:42e:93eb:ca26 with SMTP id 5b1f17b1804b1-4311ded374cmr117736255e9.11.1728974558952;
+        Mon, 14 Oct 2024 23:42:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1728974558; cv=none;
         d=google.com; s=arc-20240605;
-        b=Dmp5ZxTMPJkNMVclmt09CDdhgdbNJjmBVwQjGsfQxi5LtqCpXTtNFf8Ip9g9Zna73t
-         GT02COqmmBFdY/7YJE0YvYl+T4JVxCHQVotbz7Hn7Y+C6ECbOJZJdrVojGm+QucwY16J
-         DX2Y12ekpTrNQE4hwORbN13S1n4ZMLFDjNUfVIhUtUeOOGKixggm9Cu4PDmDnK2UZNvL
-         Glv2EdRpBmKyDs+NiRy3uOuAgV6/vDMFXgpeqAjnWkphJZ8NC1qtfpnRZJg3Q9ItRfuj
-         lYxSdeRgdnzHeC/DGWphUg87gGZd2rsLZ4SpF4Rl1KLIiqHwqlJw3rwY6aSLD4dwrNci
-         NR5g==
+        b=FuLis2v8mGjGpcmDAQ6ZkS/KfVx3stzZIILGZYcmASJ4NppNOTCula9eQWLofN2N8s
+         SJiLF0qNuz97kXpTI/1g71arPoHRvAdOSL1nANtuJdSWEi9Q7+v1HhMXmOsCxlWdY5eg
+         q4gkzGnm5Hco8XHvM0cAbwFGLlvxoLnYQhs4zHW3GVmhK5ZNXJUEDYUvtW7ftxMr0Qdj
+         QV2K/krOvVWq/eUW3oFCCn/nkkxvdeX46153rcWsnbiBufrf2uwsxZO6BiKt3qfBWpjv
+         G7+ZbghBnCsM0D25T2k5DC6HLUZ5uArcPUcqVCb+U+L+hs93G0sQhc15Q6T3YH3e5rO1
+         YLDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject;
-        bh=antQz67lcCNued2pq+xEdHFbmajHIbSvTPFsRsj2B6Y=;
-        fh=ocVjpFH1JzmNVfR49Byi2MWYGiGWER7Q25i+GX3k5Kg=;
-        b=S2/1GQj7r5WwTvu2yjZWxHGmdQnDLh36kDlHadcqPTjIaWGyit0Vvft7dXEL3A1w/U
-         n29cRtpcso96Bc/2IOW62mz5PoKjKVWosTwIN9st39/Np3j7jFDYeSUz5QdOQtkR7zkc
-         LhlkqnayRmF2Y90sC6aHGaeUVZsppnKrQhVTlSKVF+Osuul854lq+VMPo54hKz/1/WQi
-         49rFSytGiObNlfSy4yzpCQlRhOf13bkj6gYNTpW7R9r0pIWuUBidMyGPoBnm8Kj4tLav
-         mx/D5RdCvCGmQrOATeGQQukaS/Ejoxz5wbo7guMuV/5UJmZ5rp3y6JdyYbwFYYHw82rD
-         nK8Q==;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id;
+        bh=yZY8Q+WVwnCzpj20CVghuUX3o6Hwo32dGoF20noZK+8=;
+        fh=waMq+E6muCHVDi9UmWJzPdhoSjMLRu8bOumcs+VT5c8=;
+        b=RPJ2EJ7K0NKb8ZIApqU2YhEq29orO1Bt38dACTDlO8woMARkYDT0ncNQwHLymND0A0
+         4nbt+IQ1USInr2+s063lWjrLBDs1pAORxR5R2ruig0momCRT0oGkVRZmCyYoxZ5RKngj
+         Z5sA4mN9aEq5jMbk2qNlKMPaY5njz/V0PUOPY61f5sAuLKR5ws+Lt4dNIR6TRWSrLWx6
+         7KEFyoowT5jT6mOuz5i3RHDxW4tfkgu3CLSt9AFXD2r8GF0UzSTBG5g46a+PtYJi0NEa
+         GvwRVlQxZLTtYpBeuZhiGFdYrz44ibqbV4COevTEhzUTXmAwWHAS7lf/tDCgorYOnQqm
+         CoZQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=maobibo@loongson.cn
-Received: from mail.loongson.cn (mail.loongson.cn. [114.242.206.163])
-        by gmr-mx.google.com with ESMTP id 3f1490d57ef6-e296d1894f0si22530276.4.2024.10.14.19.53.59
-        for <kasan-dev@googlegroups.com>;
-        Mon, 14 Oct 2024 19:54:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) client-ip=114.242.206.163;
-Received: from loongson.cn (unknown [10.20.42.62])
-	by gateway (Coremail) with SMTP id _____8BxTPBE2Q1niYkcAA--.45531S3;
-	Tue, 15 Oct 2024 10:53:57 +0800 (CST)
-Received: from [10.20.42.62] (unknown [10.20.42.62])
-	by front1 (Coremail) with SMTP id qMiowMAxSeZB2Q1nClAqAA--.8242S3;
-	Tue, 15 Oct 2024 10:53:56 +0800 (CST)
-Subject: Re: [PATCH v2 2/3] LoongArch: Add barrier between set_pte and memory
- access
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@redhat.com>, Barry Song <baohua@kernel.org>,
- loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-mm@kvack.org
-References: <20241014035855.1119220-1-maobibo@loongson.cn>
- <20241014035855.1119220-3-maobibo@loongson.cn>
- <CAAhV-H6nkiw_eOS3jFdojJsCJOA2yiprQmaT5c=SnPhJTOyKkQ@mail.gmail.com>
-From: maobibo <maobibo@loongson.cn>
-Message-ID: <e7c06bf4-897a-7060-61f9-97435d2af16e@loongson.cn>
-Date: Tue, 15 Oct 2024 10:53:35 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
+Received: from pegase2.c-s.fr (pegase2.c-s.fr. [93.17.235.10])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-43055b3f3bdsi7967255e9.0.2024.10.14.23.42.38
+        for <kasan-dev@googlegroups.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2024 23:42:38 -0700 (PDT)
+Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) client-ip=93.17.235.10;
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4XSPfk3bvFz9sPd;
+	Tue, 15 Oct 2024 08:42:38 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id jWUMtT-TFO-Y; Tue, 15 Oct 2024 08:42:38 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4XSPfk2bjlz9rvV;
+	Tue, 15 Oct 2024 08:42:38 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 456068B766;
+	Tue, 15 Oct 2024 08:42:38 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id haU307l0a_y8; Tue, 15 Oct 2024 08:42:38 +0200 (CEST)
+Received: from [192.168.233.13] (unknown [192.168.233.13])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 6D1568B764;
+	Tue, 15 Oct 2024 08:42:37 +0200 (CEST)
+Message-ID: <660a2cf7-24f9-4558-87df-5e4c13362380@csgroup.eu>
+Date: Tue, 15 Oct 2024 08:42:36 +0200
 MIME-Version: 1.0
-In-Reply-To: <CAAhV-H6nkiw_eOS3jFdojJsCJOA2yiprQmaT5c=SnPhJTOyKkQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC RESEND v2 02/13] powerpc: mm: Fix kfence page fault
+ reporting
+To: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+ linuxppc-dev@lists.ozlabs.org
+Cc: kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Hari Bathini <hbathini@linux.ibm.com>,
+ "Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
+ Donet Tom <donettom@linux.vnet.ibm.com>,
+ Pavithra Prakash <pavrampu@linux.vnet.ibm.com>,
+ LKML <linux-kernel@vger.kernel.org>, Disha Goel <disgoel@linux.ibm.com>
+References: <cover.1728954719.git.ritesh.list@gmail.com>
+ <6bf523aa03e72d701d24aca49b51864331eed2d5.1728954719.git.ritesh.list@gmail.com>
+Content-Language: fr-FR
+From: "'Christophe Leroy' via kasan-dev" <kasan-dev@googlegroups.com>
+In-Reply-To: <6bf523aa03e72d701d24aca49b51864331eed2d5.1728954719.git.ritesh.list@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-CM-TRANSID: qMiowMAxSeZB2Q1nClAqAA--.8242S3
-X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
-X-Coremail-Antispam: 1Uk129KBj93XoWxXw1ktw1kAFykJrWfWw15GFX_yoWrXF1Dpr
-	W2kas8Krs7WF4fXw1jvr13Wr1kX3srWF18Jw1FvryDCwsrXFy29ryxWrW8Wry3Xa4rJa1x
-	Cw4UKw15WFWUXFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUf529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUPIb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r106r15M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6r4UJVWxJr1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12
-	xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r12
-	6r1DMcIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
-	1lc7I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUAVWUtwCF04k20xvY0x0EwIxG
-	rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14
-	v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkG
-	c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4U
-	MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jFOJ5UUU
-	UU=
-X-Original-Sender: maobibo@loongson.cn
+X-Original-Sender: christophe.leroy@csgroup.eu
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as
- permitted sender) smtp.mailfrom=maobibo@loongson.cn
+ (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as
+ permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
+X-Original-From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Reply-To: Christophe Leroy <christophe.leroy@csgroup.eu>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -166,126 +169,100 @@ List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegro
 
 
 
-On 2024/10/14 =E4=B8=8B=E5=8D=882:31, Huacai Chen wrote:
-> Hi, Bibo,
+Le 15/10/2024 =C3=A0 03:33, Ritesh Harjani (IBM) a =C3=A9crit=C2=A0:
+> copy_from_kernel_nofault() can be called when doing read of /proc/kcore.
+> /proc/kcore can have some unmapped kfence objects which when read via
+> copy_from_kernel_nofault() can cause page faults. Since *_nofault()
+> functions define their own fixup table for handling fault, use that
+> instead of asking kfence to handle such faults.
 >=20
-> On Mon, Oct 14, 2024 at 11:59=E2=80=AFAM Bibo Mao <maobibo@loongson.cn> w=
-rote:
->>
->> It is possible to return a spurious fault if memory is accessed
->> right after the pte is set. For user address space, pte is set
->> in kernel space and memory is accessed in user space, there is
->> long time for synchronization, no barrier needed. However for
->> kernel address space, it is possible that memory is accessed
->> right after the pte is set.
->>
->> Here flush_cache_vmap/flush_cache_vmap_early is used for
->> synchronization.
->>
->> Signed-off-by: Bibo Mao <maobibo@loongson.cn>
->> ---
->>   arch/loongarch/include/asm/cacheflush.h | 14 +++++++++++++-
->>   1 file changed, 13 insertions(+), 1 deletion(-)
->>
->> diff --git a/arch/loongarch/include/asm/cacheflush.h b/arch/loongarch/in=
-clude/asm/cacheflush.h
->> index f8754d08a31a..53be231319ef 100644
->> --- a/arch/loongarch/include/asm/cacheflush.h
->> +++ b/arch/loongarch/include/asm/cacheflush.h
->> @@ -42,12 +42,24 @@ void local_flush_icache_range(unsigned long start, u=
-nsigned long end);
->>   #define flush_cache_dup_mm(mm)                         do { } while (0=
-)
->>   #define flush_cache_range(vma, start, end)             do { } while (0=
-)
->>   #define flush_cache_page(vma, vmaddr, pfn)             do { } while (0=
-)
->> -#define flush_cache_vmap(start, end)                   do { } while (0)
->>   #define flush_cache_vunmap(start, end)                 do { } while (0=
-)
->>   #define flush_icache_user_page(vma, page, addr, len)   do { } while (0=
-)
->>   #define flush_dcache_mmap_lock(mapping)                        do { } =
-while (0)
->>   #define flush_dcache_mmap_unlock(mapping)              do { } while (0=
-)
->>
->> +/*
->> + * It is possible for a kernel virtual mapping access to return a spuri=
-ous
->> + * fault if it's accessed right after the pte is set. The page fault ha=
-ndler
->> + * does not expect this type of fault. flush_cache_vmap is not exactly =
-the
->> + * right place to put this, but it seems to work well enough.
->> + */
->> +static inline void flush_cache_vmap(unsigned long start, unsigned long =
-end)
->> +{
->> +       smp_mb();
->> +}
->> +#define flush_cache_vmap flush_cache_vmap
->> +#define flush_cache_vmap_early flush_cache_vmap
->  From the history of flush_cache_vmap_early(), It seems only archs with
-> "virtual cache" (VIVT or VIPT) need this API, so LoongArch can be a
-> no-op here.
-
-Here is usage about flush_cache_vmap_early in file linux/mm/percpu.c,
-map the page and access it immediately. Do you think it should be noop=20
-on LoongArch.
-
-rc =3D __pcpu_map_pages(unit_addr, &pages[unit * unit_pages],
-                                      unit_pages);
-if (rc < 0)
-     panic("failed to map percpu area, err=3D%d\n", rc);
-     flush_cache_vmap_early(unit_addr, unit_addr + ai->unit_size);
-     /* copy static data */
-     memcpy((void *)unit_addr, __per_cpu_load, ai->static_size);
-}
-
-
+> Hence we search the exception tables for the nip which generated the
+> fault. If there is an entry then we let the fixup table handler handle th=
+e
+> page fault by returning an error from within ___do_page_fault().
 >=20
-> And I still think flush_cache_vunmap() should be a smp_mb(). A
-> smp_mb() in flush_cache_vmap() prevents subsequent accesses be
-> reordered before pte_set(), and a smp_mb() in flush_cache_vunmap()
-smp_mb() in flush_cache_vmap() does not prevent reorder. It is to flush=20
-pipeline and let page table walker HW sync with data cache.
-
-For the following example.
-   rb =3D vmap(pages, nr_meta_pages + 2 * nr_data_pages,
-                   VM_MAP | VM_USERMAP, PAGE_KERNEL);
-   if (rb) {
-<<<<<<<<<<< * the sentence if (rb) can prevent reorder. Otherwise with=20
-any API kmalloc/vmap/vmalloc and subsequent memory access, there will be=20
-reorder issu. *
-       kmemleak_not_leak(pages);
-       rb->pages =3D pages;
-       rb->nr_pages =3D nr_pages;
-       return rb;
-   }
-
-> prevents preceding accesses be reordered after pte_clear(). This
-Can you give an example about such usage about flush_cache_vunmap()? and=20
-we can continue to talk about it, else it is just guessing.
-
-Regards
-Bibo Mao
-> potential problem may not be seen from experiment, but it is needed in
-> theory.
+> This can be easily triggered if someone tries to do dd from /proc/kcore.
+> dd if=3D/proc/kcore of=3D/dev/null bs=3D1M
 >=20
-> Huacai
+> <some example false negatives>
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> BUG: KFENCE: invalid read in copy_from_kernel_nofault+0xb0/0x1c8
+> Invalid read at 0x000000004f749d2e:
+>   copy_from_kernel_nofault+0xb0/0x1c8
+>   0xc0000000057f7950
+>   read_kcore_iter+0x41c/0x9ac
+>   proc_reg_read_iter+0xe4/0x16c
+>   vfs_read+0x2e4/0x3b0
+>   ksys_read+0x88/0x154
+>   system_call_exception+0x124/0x340
+>   system_call_common+0x160/0x2c4
 >=20
->> +
->>   #define cache_op(op, addr)                                            =
- \
->>          __asm__ __volatile__(                                          =
- \
->>          "       cacop   %0, %1                                  \n"    =
- \
->> --
->> 2.39.3
->>
->>
+> BUG: KFENCE: use-after-free read in copy_from_kernel_nofault+0xb0/0x1c8
+> Use-after-free read at 0x000000008fbb08ad (in kfence-#0):
+>   copy_from_kernel_nofault+0xb0/0x1c8
+>   0xc0000000057f7950
+>   read_kcore_iter+0x41c/0x9ac
+>   proc_reg_read_iter+0xe4/0x16c
+>   vfs_read+0x2e4/0x3b0
+>   ksys_read+0x88/0x154
+>   system_call_exception+0x124/0x340
+>   system_call_common+0x160/0x2c4
+>=20
+> Guessing the fix should go back to when we first got kfence on PPC32.
+>=20
+> Fixes: 90cbac0e995d ("powerpc: Enable KFENCE for PPC32")
+> Reported-by: Disha Goel <disgoel@linux.ibm.com>
+> Signed-off-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+> ---
+>   arch/powerpc/mm/fault.c | 10 +++++++++-
+>   1 file changed, 9 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/arch/powerpc/mm/fault.c b/arch/powerpc/mm/fault.c
+> index 81c77ddce2e3..fa825198f29f 100644
+> --- a/arch/powerpc/mm/fault.c
+> +++ b/arch/powerpc/mm/fault.c
+> @@ -439,9 +439,17 @@ static int ___do_page_fault(struct pt_regs *regs, un=
+signed long address,
+>   	/*
+>   	 * The kernel should never take an execute fault nor should it
+>   	 * take a page fault to a kernel address or a page fault to a user
+> -	 * address outside of dedicated places
+> +	 * address outside of dedicated places.
+> +	 *
+> +	 * Rather than kfence reporting false negatives, let the fixup table
+> +	 * handler handle the page fault by returning SIGSEGV, if the fault
+> +	 * has come from functions like copy_from_kernel_nofault().
+>   	 */
+>   	if (unlikely(!is_user && bad_kernel_fault(regs, error_code, address, i=
+s_write))) {
+> +
+> +		if (search_exception_tables(instruction_pointer(regs)))
+> +			return SIGSEGV;
+
+This is a heavy operation. It should at least be done only when KFENCE=20
+is built-in.
+
+kfence_handle_page_fault() bails out immediately when=20
+is_kfence_address() returns false, and is_kfence_address() returns=20
+always false when KFENCE is not built-in.
+
+So you could check that before calling the heavy weight=20
+search_exception_tables().
+
+		if (is_kfence_address(address) &&
+		    !search_exception_tables(instruction_pointer(regs)) &&
+		    kfence_handle_page_fault(address, is_write, regs))
+			return 0;
+
+
+
+ > +			return SIGSEGV;
+
+> +
+>   		if (kfence_handle_page_fault(address, is_write, regs))
+>   			return 0;
+>  =20
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
@@ -293,4 +270,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion on the web visit https://groups.google.com/d/msgid/=
-kasan-dev/e7c06bf4-897a-7060-61f9-97435d2af16e%40loongson.cn.
+kasan-dev/660a2cf7-24f9-4558-87df-5e4c13362380%40csgroup.eu.
