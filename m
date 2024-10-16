@@ -1,134 +1,135 @@
-Return-Path: <kasan-dev+bncBDAOJ6534YNBBHH2X24AMGQENGQR35Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBDAOJ6534YNBBIH2X24AMGQEFDOAMTY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13e.google.com (mail-lf1-x13e.google.com [IPv6:2a00:1450:4864:20::13e])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19A289A0B34
-	for <lists+kasan-dev@lfdr.de>; Wed, 16 Oct 2024 15:18:22 +0200 (CEST)
-Received: by mail-lf1-x13e.google.com with SMTP id 2adb3069b0e04-539fdef0040sf2178250e87.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 16 Oct 2024 06:18:22 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1729084701; cv=pass;
+Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1569A0B35
+	for <lists+kasan-dev@lfdr.de>; Wed, 16 Oct 2024 15:18:26 +0200 (CEST)
+Received: by mail-wm1-x340.google.com with SMTP id 5b1f17b1804b1-43052e05c8fsf44536305e9.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 16 Oct 2024 06:18:26 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1729084706; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ijE7/+zhguPRTOm+w2CKN2OSZMlhpMqqRAKjmygZpsutI/XdgcZqLC9WIf+8S7pG4g
-         MpBI3dIMiu8RKdDDF0D2qckXwOgtAfe6KMQX89VVSA+Bht+eXp1f7zH//UI/a4SJys2l
-         ZVCFUqO2nwl//7n7qq2TQ3C7UYyqOznO+Z03/hlgbGlL7rCMow1/C2Bc5+arGAkXuGbI
-         MWSSxRLMVEGD+ToILD4icDVsnLZyGNfSYMI7abB9Lpk4Pvm0/0A3UxWcgnPCyw+LGW/Z
-         OSLEFoRPrx5yfNxPowYP3fzdPeCpyGyWrxQvf3IdGglbuNfUtH8xurLzWzFMhWu+aTGv
-         1HVA==
+        b=Sp8tvSaSeqR5kt/asdbRpUD9orchoHUVyoKVd85XLLMH8WQT/Q1VtojWfr3FRLFxlP
+         mBinqV+3tTXkRmwyrBTNnyww/+5vY4LmgNabW/vtZi5sr6cScGr8xfzsz0hHRIMMXth7
+         ipNf9y0f5JYwq9AJbNptznyb2BuVjDME8O/XQoekwHP2eFKdlRMpqEINQyZQZBYzjhkv
+         O6Uosl41DuS4ANLtJbNcc13+HMaVzI6mwdl5xp4TqJNKCXmLQgtmdPau44UHshDUHlIS
+         +w3D/DF2Q9lbsRCBeEbJeN5lIJx4uzRzwP6wXmOkXbxfECjZah8O26LqPpWm2Uq5OVp7
+         gFHA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature
-         :dkim-signature;
-        bh=Hn9yBFZWKU9rCR8LGmpBsb5Z29tVN2THo/euMT6UNA0=;
-        fh=27HeUER7b6WRN5vYUOOqOdPLVg2qV6Uc4X/ZsLpieP8=;
-        b=h8gvWxd9ggoPxLa5TDOhn9h0R/Z7BjIHS280U77ERm93+/lG4Tfmr+c+9jtytwVqo9
-         KutzdhYdf5qKLh6OeGc+3WcENDr9cVJJKWELZsp/W3FjLsq33ZXPUklFaMOJ1KYAKghj
-         rYhVgLz6T8++O/TChD3gj6off5rNkGZqGJ9XQ8KvGkegJ1mOhLkUtdsqsQ4VkzufUnkh
-         +xfrjt19N391G5fEB9+j2JSKufK+X2CrbjjTpGgUHQawyZbKDERL/frDg5cINIQf9C7T
-         y0KHTYQF0wTEUzc6EQ8ZB+10kltbDZ/i5xTHZ92SGgAGGDtl21vcsD1awtOIhUhwrsyz
-         wOHQ==;
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:sender:dkim-signature:dkim-signature;
+        bh=RTMwbfgHPvz5B/DTGjsrQf44b5Z95CT9/MSgbPqAl98=;
+        fh=BAe2yIPN8TkXDmTw2Hj7Gi0XqNccfIf8fiXbCv5UG/Q=;
+        b=Jg5avve1VQRVsvR5alraiJqW/cBqoeWU5bO98fYsJY01nZX+0mdroA0P5qIJTC2y1+
+         VL4/Xz9N2U5mXDNGJ/BeIxc+wFC7ezIq7K7GlbLAQsMR4Hv7B0wUNaZbbK45pzCpqlv8
+         xS5bgCMY8VBdyX26p9rBhvTHflNUdq1+r0DhIqJ6XbBqxCSayL2+Nct8pncMxTRLm7f1
+         IpZJxYyTzvBaYRUluruD7+ZwBLFUcG9Z7LkEUnL3KlPb7yIPrFtR/NyHD17AZh1rK3gF
+         zK/LZTBOZYM68ylw+VsDrQY61S69vqJ3ie8w/AWJ/Uw2LqAULUY3AMZuC2HD7DkBIZta
+         fGPA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=b9jMqyRM;
-       spf=pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::32a as permitted sender) smtp.mailfrom=snovitoll@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=mNQpDIIs;
+       spf=pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=snovitoll@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1729084701; x=1729689501; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1729084706; x=1729689506; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Hn9yBFZWKU9rCR8LGmpBsb5Z29tVN2THo/euMT6UNA0=;
-        b=WfGxGKHQclzZ9VO5+IvoBorXJWR2+co7E7Bn6kCrsaMccVeonIRkfC5epjgFxQ2Eul
-         ZBGqjER0hgCx7dKv/YqV5k3udhTYPHzag8GT6A1Ty/R/cbqzHfeQFmvV8xxglARAmOA4
-         hhgj0ZifmMNTkJMWL9XUgyiKGNO1Ej7UvzTo0kcBAl6NYtbkrst1jC5FHXdIElQP9X0c
-         neoI3CUAvUsAT8IMSpoh2ZDom2JCaPlIK3T2Y8O1sDcuC1FHmNQ8Lw7i77Lhekq92gTK
-         eRbq2PrIhiTbbgmICyMPy0Cal6ScVssLBJ4zJADHi/MD2oReAGVpEanVvetFhRcKaDDk
-         yYCg==
+         :x-original-sender:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RTMwbfgHPvz5B/DTGjsrQf44b5Z95CT9/MSgbPqAl98=;
+        b=IWf9U5JPVcMMhCwc72DyKGKw/HycCeNLVRdHDQzSeTsYlm3bgMnS1xT/B/qdjPNznu
+         9ey188TLMMhslIqRdUa5LYni+8uPkzQbbIQ4VGt4Q125kF8DF6xu00/etilmSQ9BgGl9
+         yB7Y5q8hISk3bwUAcsnFK14AFk/uGdPIhETvS/KlfoYKns/APQ8QS8sdNU66YCEnGoZ2
+         xHR4jlu8Eba6ewNa3lPEse0iVkS6JzIZ0KYhqo5f0x1IkpnJS3u5a70rogg/TizMxtpa
+         F06qxmcoJi5bSew06MYylSq9w3BGeCRBHewxmcsrtFjEaQM7ktacAtVVCci7R6RBNDfZ
+         B6oA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729084701; x=1729689501; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1729084706; x=1729689506; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hn9yBFZWKU9rCR8LGmpBsb5Z29tVN2THo/euMT6UNA0=;
-        b=XeyO/c4q1iKCxM8jfIxbQGz5s98sS1mTPpzLnh7Gd/j0qC1GaUIUBWRmce4SLlfvnD
-         ATdX+m6WYVs6reD81lUOHHpxhb0jeGbzjVvATKoE29Zizkd3pyG3Xid8U9LCa/LXlEa5
-         OVtsEhrJb+01ozKk5ucUoLbpEWdHcvNDjVoPqjxvf0UFS5K00U0yccAwpgAiB6YK9Bad
-         pLXH6FZwF6HBz5K85QT138Andcbr1JN9L/yLC4qfG+vY7hmlIAkqjjD0/00j/Q4B1KRL
-         MWTcWWCmIjZFaAugP0oaKP51PsuUNw5Dv+GlBOqzwjKS2/whniOL6NmeYxZCqJSZfX4O
-         r74w==
+         :x-original-sender:content-transfer-encoding:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=RTMwbfgHPvz5B/DTGjsrQf44b5Z95CT9/MSgbPqAl98=;
+        b=RtgUvWCx/B5oDDfoXPxbQUJXxIb9B6bWdwZ05JanfIGEkq1tcnE0EgX0UQGJm+XMvx
+         IhgPC0p+8Z0Irnk6ssXWth0pvQXui95c1qhQIz03hBtlzRnpcAXWArT20esFLPLdKJGR
+         rG9SYFzLj1rtcnXzDXCS0njKY6FU/wI2hc+kw/DXfkY1bHpWwjznfDomRC7oBP7rIUKN
+         LJfZN7ekgVAHhBUCGp9NMwfnonoey43OY/JmAC5a0ScnFg6HcVgUjbw8RZxoYEXdiiJA
+         JbBOHoJpUACkGEcrCK68lR1yBxG83awRppZQBQ61z6L/ngPrIm0Ay7s6jP4yjeSsPCTS
+         7y7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729084701; x=1729689501;
+        d=1e100.net; s=20230601; t=1729084706; x=1729689506;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Hn9yBFZWKU9rCR8LGmpBsb5Z29tVN2THo/euMT6UNA0=;
-        b=t2PZWMsjsP5poThNTuPNGL3auQTHPSCkKZcFBeq0LpD75JxAIkBWWvtKSf9DI+MUDG
-         wfeVYBeZZV+pF7K9PCkL3Lv4VA4D7cL60GlV2DNRUaJXoRYgDO33fESyNHyEStI9aj64
-         Yx9qRWbW6uCqPPCGT3NvrcohLScurZ4HupfaYu+iFv7YOm9qvqwRdOu6XifHBrloPXfj
-         pjEQajgx0euMAUmM8U6S0VExq8VocslI6l+HSH+BfWNn7R/JMgnvOTm5mxGyskFS6Li3
-         jQWpzk4YHZtl/wyEvowJZLz6BCF1sZZTXW347NrErjdHbkqKEzUV0r/SbD6w+ARot1ih
-         6RkQ==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=RTMwbfgHPvz5B/DTGjsrQf44b5Z95CT9/MSgbPqAl98=;
+        b=moHuBNMjE0TrLniAXrHKM86xnrT6ql3lN0cfy7x22aB7UYBg8fumTmApISTV9RuTYM
+         IoexDfGDwF23tyWApMSQYoqh0kZED+0WVe0TVSF0SEY2DAC+u8gakqYQsK3vc5cBSP13
+         EW+oNK/qQ9J4jBgFSP0BemRq8OgnpQ8lJ1/G1zqHwPoyy+uMYcMA7hUsA+/gCMjojJOf
+         VtI6QeaqpDZsfMeyzVNlDYfnJAoP2ZMRZyAvpuTTieZrZjJfMzrLyW+7yDrMnBJBaUy0
+         SSv0vZ6fMlCJYS1Vzejfhhi84s0gN/cteU3BM2rqW9PGC6BMAnFZcl+/UOj4ySUw9Vjk
+         UIow==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXoDSQfGA5s1Qi+Z44SaybRV5KTY6kkpFzC6tLzNNpAzJYwu5geDnxEu3Gpy9xUqgt0qoIu8A==@lfdr.de
-X-Gm-Message-State: AOJu0YwsagLLRe7qel3TDAwLkJqq67898HJMQbuGjtv1wawLlJEYTFgx
-	JnyULP++cZovr4volqj3ndpVBVVDCzFdyl/IV7aQnnH/vuHSlkKV
-X-Google-Smtp-Source: AGHT+IHocOoT8K360LWOeIufg3AzRCxeNAoEdcjlUAdlxh+ihrGX7w/TXLP4nlVtzNnlLQjVy6M9kQ==
-X-Received: by 2002:a05:6512:2244:b0:539:d22c:37bd with SMTP id 2adb3069b0e04-539e5621de9mr6941833e87.36.1729084700674;
-        Wed, 16 Oct 2024 06:18:20 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVi4A8rNFQvcj0bsdoIjgEy9WN3yk0MxAbpf4wv5UMgzUSOTk0rZPhP7OPyVi2pv+TWSwSiag==@lfdr.de
+X-Gm-Message-State: AOJu0YwlYYywWSnzZzYOwoI4Pg6zIeXrCFfFlzQA2mWaPYFVlhUC//93
+	69MlzMTD6kfEuHbxfhAD7IqZdy4u7HbUUIplUvL+1bHxzQo1CwWR
+X-Google-Smtp-Source: AGHT+IGh66rLxEcMTUYvbZutM3Hct+E9xyRTIHeVkykcqHDAyKIzI1ZAwIX0tOzCamHKhB90B2liGw==
+X-Received: by 2002:a05:600c:444d:b0:431:51a9:e956 with SMTP id 5b1f17b1804b1-43151a9eb2cmr19475505e9.1.1729084705056;
+        Wed, 16 Oct 2024 06:18:25 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:6408:b0:539:e021:5376 with SMTP id
- 2adb3069b0e04-539e021561cls25405e87.1.-pod-prod-04-eu; Wed, 16 Oct 2024
- 06:18:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVwVe9oLCEilTsse32xtq+YTs3xXsNTDa6sdOGZDU+/1th16y/ukuWHk1ipjmA3weYVYHWO8NSuLdU=@googlegroups.com
-X-Received: by 2002:a05:6512:3dac:b0:533:d3e:16f5 with SMTP id 2adb3069b0e04-539e57316e4mr8189605e87.38.1729084698536;
-        Wed, 16 Oct 2024 06:18:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1729084698; cv=none;
+Received: by 2002:a05:600c:1c28:b0:42c:b0f2:87f7 with SMTP id
+ 5b1f17b1804b1-43115fe3571ls13782305e9.1.-pod-prod-01-eu; Wed, 16 Oct 2024
+ 06:18:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCU1pQllgPxJsHxhtcJJVZoKfdOETBFctYXIc59oYo7RC5O4xl8hgucpn/o+5T7e+hjeTSCyBnDZyyk=@googlegroups.com
+X-Received: by 2002:adf:f3c9:0:b0:37d:3280:203a with SMTP id ffacd0b85a97d-37d55184cdbmr14037742f8f.10.1729084703123;
+        Wed, 16 Oct 2024 06:18:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1729084703; cv=none;
         d=google.com; s=arc-20240605;
-        b=hJ5d/yjS4UCwVx2OiNJ/mIO2re9PprqwLnD1dsAOzWy688PPoRM9Ay4AUoL5YL8JSO
-         rCJ18NIfLuB0M3h1tEARnZeRm0Ym7GFOcHgG6KV0HrbWU5G/t5c+dcWkdvWUdSBehwGx
-         28CyQQWryqwUgcQewZjylb990ZhHV8CBlk9y/wNMGzYnGzx2Lnc9WJblmHY2WNvYM6E0
-         9R/Syj0thzgpFXLpOhSPpiOF/oOow+t7gWPRjsFXjJkCeLrUVS1sHH1TsIXEV3qY5dp6
-         KKLJFfEYI3gx78tcDmFni2ReI59y96enKoV+pww3uGg10Z9RfeUTvaUX4OvZkES/wdfp
-         iOOw==
+        b=I9lcXR7BpMuZEmVyf/8j5j+BwDSS3sCWOREEnOjbc/Dlzr9sQJUrlRZh+mh2MXJhID
+         +a7nkHMpc56E+KlabI0w5LvaLkYqCg7hbbutawlQmAmVt35Lb6UiwQm2oLAkwxRwEss4
+         DyHfpy54oajfkXnj2VOJPj7EkrSF+CBxJW+8XBLzq/PWNc+AaGtXoqycHsL+o8Wjblej
+         P7T9GCAusPbWaDj1TSRhArvpJa0MXlk5siBRNOzMOvvOgbT7pxxgPWnAraAFDXCwrVZA
+         hGCAI88lMdfnINvBHcnA4w69A4GezhLUOCz/uOetvEKhGB9YWHbbohw5miIrYw3mBtmn
+         FAbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=/8xPPGnp2eNdFzyDsH77udpuxb5hGHHiKYVsaBBQcww=;
-        fh=zA5Wfc8kTI4FEbN12meXxPYWCkIslEXx0JNTKtbvu9g=;
-        b=Q+bJszfzglAl3aK22SaVf5w4hNd0olM/x68RYxJGYGcUWfH2Mhxu/9NrRBrPcAYkH3
-         TV54azcwUd570SmKOEAxe+6obwPhlkHWCDFqipznGRBDsrUcm1bstswrQw2oJjruJa7Z
-         ZV6ngvg92sUw55cYD7W7L6dpkGnHDzgDQh1jGSnNku9PmPpfXYJgTCFCJkQQ6640C5BR
-         VHiXa3HsbmEfRXImRaJx5nR12opUcORaSaS5nrt/c95Ig9aIxeq2h32KlJTlCMw2V7g9
-         sOd1pUFSp2hcb36+fgECPBxSvA5hPsKybJmXb2KhP+YoefmrdHjL2ys9Iqr9bVgx65fU
-         JgXA==;
+        bh=JGMf0QveJLuqNVGuhCQVRHmO+zBayTHS2lF5VIrEUbY=;
+        fh=5nOrTh+TdB29/VXNbTD4/3HoS49oBWf/WOEJZyU+nVQ=;
+        b=GF/g8StTq2ZZYA/0FecIoy3unBrPFoZGE6hOd3Ur5mPFihdfKYO37oDT6va7ZJTdav
+         bpYIL2xqIloNCDTRojawDI5qqq94RTc0XjCeyeD1TOttkat2Iw3rledzrrXVhjzwbWck
+         zLGHfuFdee0sCDBbjQE9MKtlrqRa9LgIy/ELiRpqaMkQEkkEUftnddKbvL8Qfw7QCi7K
+         LJxzaDNIAy1j0ty51WeqLv7h6z40SONF41DPa8gG4SUhyldfq8nvYHUc+Z1vzXpEoI4z
+         V5ugTUA6Jad1P4zVSgEdr4Ceon+JmDpDRqfSuF7hchBK2LB6+ArSwCHWnHp0tPUYQT2w
+         ZxKg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=b9jMqyRM;
-       spf=pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::32a as permitted sender) smtp.mailfrom=snovitoll@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=mNQpDIIs;
+       spf=pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) smtp.mailfrom=snovitoll@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com. [2a00:1450:4864:20::32a])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-539fff78794si62627e87.0.2024.10.16.06.18.18
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com. [2a00:1450:4864:20::42a])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-37d7f887be3si68906f8f.0.2024.10.16.06.18.23
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2024 06:18:18 -0700 (PDT)
-Received-SPF: pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::32a as permitted sender) client-ip=2a00:1450:4864:20::32a;
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-431548bd1b4so3783135e9.3
-        for <kasan-dev@googlegroups.com>; Wed, 16 Oct 2024 06:18:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU166Nd8EZQfrVdLk68YBZm5lLp+5/Y/CCXtnQOf/Rg9NQi5Fpq94Pba4LAhEG4ti3TITgal/GbEwE=@googlegroups.com
-X-Received: by 2002:a05:600c:4fd3:b0:431:5503:43ca with SMTP id 5b1f17b1804b1-43155035333mr7296085e9.28.1729084697677;
-        Wed, 16 Oct 2024 06:18:17 -0700 (PDT)
+        Wed, 16 Oct 2024 06:18:23 -0700 (PDT)
+Received-SPF: pass (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::42a as permitted sender) client-ip=2a00:1450:4864:20::42a;
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-37d462c91a9so4229646f8f.2
+        for <kasan-dev@googlegroups.com>; Wed, 16 Oct 2024 06:18:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUjyYjc8Qn6LkLQk9VWmfCKzLWiIyYTRuJYW/XgtlKVy2YiUAn2ndif78B8uHbtLyKbavHUj25aJus=@googlegroups.com
+X-Received: by 2002:a5d:6109:0:b0:37d:3999:7b4 with SMTP id ffacd0b85a97d-37d5519cbb6mr11646512f8f.17.1729084702303;
+        Wed, 16 Oct 2024 06:18:22 -0700 (PDT)
 Received: from work.. (2.133.25.254.dynamic.telecom.kz. [2.133.25.254])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4313f5698aesm49612825e9.11.2024.10.16.06.18.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4313f5698aesm49612825e9.11.2024.10.16.06.18.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 06:18:17 -0700 (PDT)
+        Wed, 16 Oct 2024 06:18:21 -0700 (PDT)
 From: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
 To: andreyknvl@gmail.com
 Cc: 2023002089@link.tyut.edu.cn,
@@ -147,21 +148,22 @@ Cc: 2023002089@link.tyut.edu.cn,
 	snovitoll@gmail.com,
 	vincenzo.frascino@arm.com,
 	workflows@vger.kernel.org
-Subject: [PATCH v4 2/3] kasan: migrate copy_user_test to kunit
-Date: Wed, 16 Oct 2024 18:18:01 +0500
-Message-Id: <20241016131802.3115788-3-snovitoll@gmail.com>
+Subject: [PATCH v4 3/3] kasan: delete CONFIG_KASAN_MODULE_TEST
+Date: Wed, 16 Oct 2024 18:18:02 +0500
+Message-Id: <20241016131802.3115788-4-snovitoll@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241016131802.3115788-1-snovitoll@gmail.com>
 References: <CA+fCnZf8YRH=gkmwU8enMLnGi7hHfVP4DSE2TLrmmVsHT10wRQ@mail.gmail.com>
  <20241016131802.3115788-1-snovitoll@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 X-Original-Sender: snovitoll@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=b9jMqyRM;       spf=pass
- (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::32a
+ header.i=@gmail.com header.s=20230601 header.b=mNQpDIIs;       spf=pass
+ (google.com: domain of snovitoll@gmail.com designates 2a00:1450:4864:20::42a
  as permitted sender) smtp.mailfrom=snovitoll@gmail.com;       dmarc=pass
  (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -174,198 +176,172 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Migrate the copy_user_test to the KUnit framework to verify out-of-bound
-detection via KASAN reports in copy_from_user(), copy_to_user() and
-their static functions.
-
-This is the last migrated test in kasan_test_module.c, therefore delete
-the file.
-
-Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
-Signed-off-by: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
----
-Changes v2 -> v3:
-- added a long string in usermem for strncpy_from_user. Suggested by Andrey.
----
- mm/kasan/Makefile            |  2 -
- mm/kasan/kasan_test_c.c      | 47 +++++++++++++++++++++
- mm/kasan/kasan_test_module.c | 81 ------------------------------------
- 3 files changed, 47 insertions(+), 83 deletions(-)
- delete mode 100644 mm/kasan/kasan_test_module.c
-
-diff --git a/mm/kasan/Makefile b/mm/kasan/Makefile
-index b88543e5c0c..1a958e7c8a4 100644
---- a/mm/kasan/Makefile
-+++ b/mm/kasan/Makefile
-@@ -46,7 +46,6 @@ endif
- 
- CFLAGS_kasan_test_c.o := $(CFLAGS_KASAN_TEST)
- RUSTFLAGS_kasan_test_rust.o := $(RUSTFLAGS_KASAN)
--CFLAGS_kasan_test_module.o := $(CFLAGS_KASAN_TEST)
- 
- obj-y := common.o report.o
- obj-$(CONFIG_KASAN_GENERIC) += init.o generic.o report_generic.o shadow.o quarantine.o
-@@ -59,4 +58,3 @@ ifdef CONFIG_RUST
- endif
- 
- obj-$(CONFIG_KASAN_KUNIT_TEST) += kasan_test.o
--obj-$(CONFIG_KASAN_MODULE_TEST) += kasan_test_module.o
-diff --git a/mm/kasan/kasan_test_c.c b/mm/kasan/kasan_test_c.c
-index a181e4780d9..382bc64e42d 100644
---- a/mm/kasan/kasan_test_c.c
-+++ b/mm/kasan/kasan_test_c.c
-@@ -1954,6 +1954,52 @@ static void rust_uaf(struct kunit *test)
- 	KUNIT_EXPECT_KASAN_FAIL(test, kasan_test_rust_uaf());
- }
- 
-+static void copy_user_test_oob(struct kunit *test)
-+{
-+	char *kmem;
-+	char __user *usermem;
-+	unsigned long useraddr;
-+	size_t size = 128 - KASAN_GRANULE_SIZE;
-+	int __maybe_unused unused;
-+
-+	kmem = kunit_kmalloc(test, size, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, kmem);
-+
-+	useraddr = kunit_vm_mmap(test, NULL, 0, PAGE_SIZE,
-+					PROT_READ | PROT_WRITE | PROT_EXEC,
-+					MAP_ANONYMOUS | MAP_PRIVATE, 0);
-+	KUNIT_ASSERT_NE_MSG(test, useraddr, 0,
-+		"Could not create userspace mm");
-+	KUNIT_ASSERT_LT_MSG(test, useraddr, (unsigned long)TASK_SIZE,
-+		"Failed to allocate user memory");
-+
-+	OPTIMIZER_HIDE_VAR(size);
-+	usermem = (char __user *)useraddr;
-+
-+	KUNIT_EXPECT_KASAN_FAIL(test,
-+		unused = copy_from_user(kmem, usermem, size + 1));
-+	KUNIT_EXPECT_KASAN_FAIL(test,
-+		unused = copy_to_user(usermem, kmem, size + 1));
-+	KUNIT_EXPECT_KASAN_FAIL(test,
-+		unused = __copy_from_user(kmem, usermem, size + 1));
-+	KUNIT_EXPECT_KASAN_FAIL(test,
-+		unused = __copy_to_user(usermem, kmem, size + 1));
-+	KUNIT_EXPECT_KASAN_FAIL(test,
-+		unused = __copy_from_user_inatomic(kmem, usermem, size + 1));
-+	KUNIT_EXPECT_KASAN_FAIL(test,
-+		unused = __copy_to_user_inatomic(usermem, kmem, size + 1));
-+
-+	/*
-+	* Prepare a long string in usermem to avoid the strncpy_from_user test
-+	* bailing out on '\0' before it reaches out-of-bounds.
-+	*/
-+	memset(kmem, 'a', size);
-+	KUNIT_EXPECT_EQ(test, copy_to_user(usermem, kmem, size), 0);
-+
-+	KUNIT_EXPECT_KASAN_FAIL(test,
-+		unused = strncpy_from_user(kmem, usermem, size + 1));
-+}
-+
- static struct kunit_case kasan_kunit_test_cases[] = {
- 	KUNIT_CASE(kmalloc_oob_right),
- 	KUNIT_CASE(kmalloc_oob_left),
-@@ -2028,6 +2074,7 @@ static struct kunit_case kasan_kunit_test_cases[] = {
- 	KUNIT_CASE(match_all_ptr_tag),
- 	KUNIT_CASE(match_all_mem_tag),
- 	KUNIT_CASE(rust_uaf),
-+	KUNIT_CASE(copy_user_test_oob),
- 	{}
- };
- 
-diff --git a/mm/kasan/kasan_test_module.c b/mm/kasan/kasan_test_module.c
-deleted file mode 100644
-index 27ec22767e4..00000000000
---- a/mm/kasan/kasan_test_module.c
-+++ /dev/null
-@@ -1,81 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- *
-- * Copyright (c) 2014 Samsung Electronics Co., Ltd.
-- * Author: Andrey Ryabinin <a.ryabinin@samsung.com>
-- */
--
--#define pr_fmt(fmt) "kasan: test: " fmt
--
--#include <linux/mman.h>
--#include <linux/module.h>
--#include <linux/printk.h>
--#include <linux/slab.h>
--#include <linux/uaccess.h>
--
--#include "kasan.h"
--
--static noinline void __init copy_user_test(void)
--{
--	char *kmem;
--	char __user *usermem;
--	size_t size = 128 - KASAN_GRANULE_SIZE;
--	int __maybe_unused unused;
--
--	kmem = kmalloc(size, GFP_KERNEL);
--	if (!kmem)
--		return;
--
--	usermem = (char __user *)vm_mmap(NULL, 0, PAGE_SIZE,
--			    PROT_READ | PROT_WRITE | PROT_EXEC,
--			    MAP_ANONYMOUS | MAP_PRIVATE, 0);
--	if (IS_ERR(usermem)) {
--		pr_err("Failed to allocate user memory\n");
--		kfree(kmem);
--		return;
--	}
--
--	OPTIMIZER_HIDE_VAR(size);
--
--	pr_info("out-of-bounds in copy_from_user()\n");
--	unused = copy_from_user(kmem, usermem, size + 1);
--
--	pr_info("out-of-bounds in copy_to_user()\n");
--	unused = copy_to_user(usermem, kmem, size + 1);
--
--	pr_info("out-of-bounds in __copy_from_user()\n");
--	unused = __copy_from_user(kmem, usermem, size + 1);
--
--	pr_info("out-of-bounds in __copy_to_user()\n");
--	unused = __copy_to_user(usermem, kmem, size + 1);
--
--	pr_info("out-of-bounds in __copy_from_user_inatomic()\n");
--	unused = __copy_from_user_inatomic(kmem, usermem, size + 1);
--
--	pr_info("out-of-bounds in __copy_to_user_inatomic()\n");
--	unused = __copy_to_user_inatomic(usermem, kmem, size + 1);
--
--	pr_info("out-of-bounds in strncpy_from_user()\n");
--	unused = strncpy_from_user(kmem, usermem, size + 1);
--
--	vm_munmap((unsigned long)usermem, PAGE_SIZE);
--	kfree(kmem);
--}
--
--static int __init kasan_test_module_init(void)
--{
--	/*
--	 * Temporarily enable multi-shot mode. Otherwise, KASAN would only
--	 * report the first detected bug and panic the kernel if panic_on_warn
--	 * is enabled.
--	 */
--	bool multishot = kasan_save_enable_multi_shot();
--
--	copy_user_test();
--
--	kasan_restore_multi_shot(multishot);
--	return -EAGAIN;
--}
--
--module_init(kasan_test_module_init);
--MODULE_LICENSE("GPL");
--- 
-2.34.1
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20241016131802.3115788-3-snovitoll%40gmail.com.
+U2luY2Ugd2UndmUgbWlncmF0ZWQgYWxsIHRlc3RzIHRvIHRoZSBLVW5pdCBmcmFtZXdvcmssDQp3
+ZSBjYW4gZGVsZXRlIENPTkZJR19LQVNBTl9NT0RVTEVfVEVTVCBhbmQgbWVudGlvbmluZyBvZiBp
+dCBpbiB0aGUNCmRvY3VtZW50YXRpb24gYXMgd2VsbC4NCg0KSSd2ZSB1c2VkIHRoZSBvbmxpbmUg
+dHJhbnNsYXRvciB0byBtb2RpZnkgdGhlIG5vbi1FbmdsaXNoIGRvY3VtZW50YXRpb24uDQoNClJl
+dmlld2VkLWJ5OiBBbmRyZXkgS29ub3ZhbG92IDxhbmRyZXlrbnZsQGdtYWlsLmNvbT4NClNpZ25l
+ZC1vZmYtYnk6IFNhYnlyemhhbiBUYXNib2xhdG92IDxzbm92aXRvbGxAZ21haWwuY29tPg0KLS0t
+DQpDaGFuZ2VzIHYyIC0+IHYzOg0KLSBhcHBsaWVkIEFuZHJleSdzIHBhdGNoIHRvIG1vZGlmeSBm
+dXJ0aGVyIGthc2FuLnJzdC4NCi0tLQ0KIERvY3VtZW50YXRpb24vZGV2LXRvb2xzL2thc2FuLnJz
+dCAgICAgICAgICAgICB8IDIzICsrKysrKysrLS0tLS0tLS0tLS0NCiAuLi4vdHJhbnNsYXRpb25z
+L3poX0NOL2Rldi10b29scy9rYXNhbi5yc3QgICAgfCAyMCArKysrKysrLS0tLS0tLS0tDQogLi4u
+L3RyYW5zbGF0aW9ucy96aF9UVy9kZXYtdG9vbHMva2FzYW4ucnN0ICAgIHwgMjEgKysrKysrKyst
+LS0tLS0tLS0NCiBsaWIvS2NvbmZpZy5rYXNhbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+fCAgNyAtLS0tLS0NCiBtbS9rYXNhbi9rYXNhbi5oICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgfCAgMiArLQ0KIG1tL2thc2FuL3JlcG9ydC5jICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICB8ICAyICstDQogNiBmaWxlcyBjaGFuZ2VkLCAyOCBpbnNlcnRpb25zKCspLCA0NyBkZWxldGlv
+bnMoLSkNCg0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2LXRvb2xzL2thc2FuLnJzdCBi
+L0RvY3VtZW50YXRpb24vZGV2LXRvb2xzL2thc2FuLnJzdA0KaW5kZXggZDdkZTQ0ZjUzMzkuLjBh
+MTQxOGFiNzJmIDEwMDY0NA0KLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXYtdG9vbHMva2FzYW4ucnN0
+DQorKysgYi9Eb2N1bWVudGF0aW9uL2Rldi10b29scy9rYXNhbi5yc3QNCkBAIC01MTEsMTkgKzUx
+MSwxNCBAQCBUZXN0cw0KIH5+fn5+DQogDQogVGhlcmUgYXJlIEtBU0FOIHRlc3RzIHRoYXQgYWxs
+b3cgdmVyaWZ5aW5nIHRoYXQgS0FTQU4gd29ya3MgYW5kIGNhbiBkZXRlY3QNCi1jZXJ0YWluIHR5
+cGVzIG9mIG1lbW9yeSBjb3JydXB0aW9ucy4gVGhlIHRlc3RzIGNvbnNpc3Qgb2YgdHdvIHBhcnRz
+Og0KK2NlcnRhaW4gdHlwZXMgb2YgbWVtb3J5IGNvcnJ1cHRpb25zLg0KIA0KLTEuIFRlc3RzIHRo
+YXQgYXJlIGludGVncmF0ZWQgd2l0aCB0aGUgS1VuaXQgVGVzdCBGcmFtZXdvcmsuIEVuYWJsZWQg
+d2l0aA0KLWBgQ09ORklHX0tBU0FOX0tVTklUX1RFU1RgYC4gVGhlc2UgdGVzdHMgY2FuIGJlIHJ1
+biBhbmQgcGFydGlhbGx5IHZlcmlmaWVkDQorQWxsIEtBU0FOIHRlc3RzIGFyZSBpbnRlZ3JhdGVk
+IHdpdGggdGhlIEtVbml0IFRlc3QgRnJhbWV3b3JrIGFuZCBjYW4gYmUgZW5hYmxlZA0KK3ZpYSBg
+YENPTkZJR19LQVNBTl9LVU5JVF9URVNUYGAuIFRoZSB0ZXN0cyBjYW4gYmUgcnVuIGFuZCBwYXJ0
+aWFsbHkgdmVyaWZpZWQNCiBhdXRvbWF0aWNhbGx5IGluIGEgZmV3IGRpZmZlcmVudCB3YXlzOyBz
+ZWUgdGhlIGluc3RydWN0aW9ucyBiZWxvdy4NCiANCi0yLiBUZXN0cyB0aGF0IGFyZSBjdXJyZW50
+bHkgaW5jb21wYXRpYmxlIHdpdGggS1VuaXQuIEVuYWJsZWQgd2l0aA0KLWBgQ09ORklHX0tBU0FO
+X01PRFVMRV9URVNUYGAgYW5kIGNhbiBvbmx5IGJlIHJ1biBhcyBhIG1vZHVsZS4gVGhlc2UgdGVz
+dHMgY2FuDQotb25seSBiZSB2ZXJpZmllZCBtYW51YWxseSBieSBsb2FkaW5nIHRoZSBrZXJuZWwg
+bW9kdWxlIGFuZCBpbnNwZWN0aW5nIHRoZQ0KLWtlcm5lbCBsb2cgZm9yIEtBU0FOIHJlcG9ydHMu
+DQotDQotRWFjaCBLVW5pdC1jb21wYXRpYmxlIEtBU0FOIHRlc3QgcHJpbnRzIG9uZSBvZiBtdWx0
+aXBsZSBLQVNBTiByZXBvcnRzIGlmIGFuDQotZXJyb3IgaXMgZGV0ZWN0ZWQuIFRoZW4gdGhlIHRl
+c3QgcHJpbnRzIGl0cyBudW1iZXIgYW5kIHN0YXR1cy4NCitFYWNoIEtBU0FOIHRlc3QgcHJpbnRz
+IG9uZSBvZiBtdWx0aXBsZSBLQVNBTiByZXBvcnRzIGlmIGFuIGVycm9yIGlzIGRldGVjdGVkLg0K
+K1RoZW4gdGhlIHRlc3QgcHJpbnRzIGl0cyBudW1iZXIgYW5kIHN0YXR1cy4NCiANCiBXaGVuIGEg
+dGVzdCBwYXNzZXM6Og0KIA0KQEAgLTU1MCwxNiArNTQ1LDE2IEBAIE9yLCBpZiBvbmUgb2YgdGhl
+IHRlc3RzIGZhaWxlZDo6DQogDQogICAgICAgICBub3Qgb2sgMSAtIGthc2FuDQogDQotVGhlcmUg
+YXJlIGEgZmV3IHdheXMgdG8gcnVuIEtVbml0LWNvbXBhdGlibGUgS0FTQU4gdGVzdHMuDQorVGhl
+cmUgYXJlIGEgZmV3IHdheXMgdG8gcnVuIHRoZSBLQVNBTiB0ZXN0cy4NCiANCiAxLiBMb2FkYWJs
+ZSBtb2R1bGUNCiANCi0gICBXaXRoIGBgQ09ORklHX0tVTklUYGAgZW5hYmxlZCwgS0FTQU4tS1Vu
+aXQgdGVzdHMgY2FuIGJlIGJ1aWx0IGFzIGEgbG9hZGFibGUNCi0gICBtb2R1bGUgYW5kIHJ1biBi
+eSBsb2FkaW5nIGBga2FzYW5fdGVzdC5rb2BgIHdpdGggYGBpbnNtb2RgYCBvciBgYG1vZHByb2Jl
+YGAuDQorICAgV2l0aCBgYENPTkZJR19LVU5JVGBgIGVuYWJsZWQsIHRoZSB0ZXN0cyBjYW4gYmUg
+YnVpbHQgYXMgYSBsb2FkYWJsZSBtb2R1bGUNCisgICBhbmQgcnVuIGJ5IGxvYWRpbmcgYGBrYXNh
+bl90ZXN0LmtvYGAgd2l0aCBgYGluc21vZGBgIG9yIGBgbW9kcHJvYmVgYC4NCiANCiAyLiBCdWls
+dC1Jbg0KIA0KLSAgIFdpdGggYGBDT05GSUdfS1VOSVRgYCBidWlsdC1pbiwgS0FTQU4tS1VuaXQg
+dGVzdHMgY2FuIGJlIGJ1aWx0LWluIGFzIHdlbGwuDQorICAgV2l0aCBgYENPTkZJR19LVU5JVGBg
+IGJ1aWx0LWluLCB0aGUgdGVzdHMgY2FuIGJlIGJ1aWx0LWluIGFzIHdlbGwuDQogICAgSW4gdGhp
+cyBjYXNlLCB0aGUgdGVzdHMgd2lsbCBydW4gYXQgYm9vdCBhcyBhIGxhdGUtaW5pdCBjYWxsLg0K
+IA0KIDMuIFVzaW5nIGt1bml0X3Rvb2wNCmRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5z
+bGF0aW9ucy96aF9DTi9kZXYtdG9vbHMva2FzYW4ucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xh
+dGlvbnMvemhfQ04vZGV2LXRvb2xzL2thc2FuLnJzdA0KaW5kZXggNDQ5MWFkMjgzMGUuLmZkMmUz
+YWZiZGZhIDEwMDY0NA0KLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZGV2
+LXRvb2xzL2thc2FuLnJzdA0KKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04v
+ZGV2LXRvb2xzL2thc2FuLnJzdA0KQEAgLTQyMiwxNiArNDIyLDEyIEBAIEtBU0FO6L+e5o6l5Yiw
+dm1hcOWfuuehgOaetuaehOS7peaHkua4heeQhuacquS9v+eUqOeahOW9seWtkOWGheWtmOOAgg0K
+IH5+fn4NCiANCiDmnInkuIDkuptLQVNBTua1i+ivleWPr+S7pemqjOivgUtBU0FO5piv5ZCm5q2j
+5bi45bel5L2c5bm25Y+v5Lul5qOA5rWL5p+Q5Lqb57G75Z6L55qE5YaF5a2Y5o2f5Z2P44CCDQot
+5rWL6K+V55Sx5Lik6YOo5YiG57uE5oiQOg0KIA0KLTEuIOS4jktVbml05rWL6K+V5qGG5p626ZuG
+5oiQ55qE5rWL6K+V44CC5L2/55SoIGBgQ09ORklHX0tBU0FOX0tVTklUX1RFU1RgYCDlkK/nlKjj
+gIINCi3ov5nkupvmtYvor5Xlj6/ku6XpgJrov4flh6Dnp43kuI3lkIznmoTmlrnlvI/oh6rliqjo
+v5DooYzlkozpg6jliIbpqozor4HvvJvor7flj4LpmIXkuIvpnaLnmoTor7TmmI7jgIINCivmiYDm
+nIkgS0FTQU4g5rWL6K+V6YO95LiOIEtVbml0IOa1i+ivleahhuaetumbhuaIkO+8jOWPr+mAmui/
+hyBgYENPTkZJR19LQVNBTl9LVU5JVF9URVNUYGAg5ZCv55So44CCDQor5rWL6K+V5Y+v5Lul6YCa
+6L+H5Yeg56eN5LiN5ZCM55qE5pa55byP6Ieq5Yqo6L+Q6KGM5ZKM6YOo5YiG6aqM6K+B77yb6K+3
+5Y+C6ZiF5Lul5LiL6K+05piO44CCDQogDQotMi4g5LiOS1VuaXTkuI3lhbzlrrnnmoTmtYvor5Xj
+gILkvb/nlKggYGBDT05GSUdfS0FTQU5fTU9EVUxFX1RFU1RgYCDlkK/nlKjlubbkuJTlj6rog73k
+vZzkuLrmqKHlnZcNCi3ov5DooYzjgILov5nkupvmtYvor5Xlj6rog73pgJrov4fliqDovb3lhoXm
+oLjmqKHlnZflubbmo4Dmn6XlhoXmoLjml6Xlv5fku6Xojrflj5ZLQVNBTuaKpeWRiuadpeaJi+WK
+qOmqjOivgeOAgg0KLQ0KLeWmguaenOajgOa1i+WIsOmUmeivr++8jOavj+S4qktVbml05YW85a65
+55qES0FTQU7mtYvor5Xpg73kvJrmiZPljbDlpJrkuKpLQVNBTuaKpeWRiuS5i+S4gO+8jOeEtuWQ
+jua1i+ivleaJk+WNsA0KLeWFtue8luWPt+WSjOeKtuaAgeOAgg0KK+WmguaenOajgOa1i+WIsOmU
+meivr++8jOavj+S4qiBLQVNBTiDmtYvor5Xpg73kvJrmiZPljbDlpJrku70gS0FTQU4g5oql5ZGK
+5Lit55qE5LiA5Lu944CCDQor54S25ZCO5rWL6K+V5Lya5omT5Y2w5YW257yW5Y+35ZKM54q25oCB
+44CCDQogDQog5b2T5rWL6K+V6YCa6L+HOjoNCiANCkBAIC00NTgsMTYgKzQ1NCwxNiBAQCBLQVNB
+Tui/nuaOpeWIsHZtYXDln7rnoYDmnrbmnoTku6Xmh5LmuIXnkIbmnKrkvb/nlKjnmoTlvbHlrZDl
+hoXlrZjjgIINCiANCiAgICAgICAgIG5vdCBvayAxIC0ga2FzYW4NCiANCi3mnInlh6Dnp43mlrnm
+s5Xlj6/ku6Xov5DooYzkuI5LVW5pdOWFvOWuueeahEtBU0FO5rWL6K+V44CCDQor5pyJ5Yeg56eN
+5pa55rOV5Y+v5Lul6L+Q6KGMIEtBU0FOIOa1i+ivleOAgg0KIA0KIDEuIOWPr+WKoOi9veaooeWd
+lw0KIA0KLSAgIOWQr+eUqCBgYENPTkZJR19LVU5JVGBgIOWQju+8jEtBU0FOLUtVbml05rWL6K+V
+5Y+v5Lul5p6E5bu65Li65Y+v5Yqg6L295qih5Z2X77yM5bm26YCa6L+H5L2/55SoDQotICAgYGBp
+bnNtb2RgYCDmiJYgYGBtb2Rwcm9iZWBgIOWKoOi9vSBgYGthc2FuX3Rlc3Qua29gYCDmnaXov5Do
+oYzjgIINCisgICDlkK/nlKggYGBDT05GSUdfS1VOSVRgYCDlkI7vvIzlj6/ku6XlsIbmtYvor5Xm
+noTlu7rkuLrlj6/liqDovb3mqKHlnZcNCisgICDlubbpgJrov4fkvb/nlKggYGBpbnNtb2RgYCDm
+iJYgYGBtb2Rwcm9iZWBgIOWKoOi9vSBgYGthc2FuX3Rlc3Qua29gYCDmnaXov5DooYzjgIINCiAN
+CiAyLiDlhoXnva4NCiANCi0gICDpgJrov4flhoXnva4gYGBDT05GSUdfS1VOSVRgYCDvvIzkuZ/l
+j6/ku6XlhoXnva5LQVNBTi1LVW5pdOa1i+ivleOAguWcqOi/meenjeaDheWGteS4i++8jA0KKyAg
+IOmAmui/h+WGhee9riBgYENPTkZJR19LVU5JVGBg77yM5rWL6K+V5Lmf5Y+v5Lul5YaF572u44CC
+DQogICAg5rWL6K+V5bCG5Zyo5ZCv5Yqo5pe25L2c5Li65ZCO5pyf5Yid5aeL5YyW6LCD55So6L+Q
+6KGM44CCDQogDQogMy4g5L2/55Soa3VuaXRfdG9vbA0KZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRp
+b24vdHJhbnNsYXRpb25zL3poX1RXL2Rldi10b29scy9rYXNhbi5yc3QgYi9Eb2N1bWVudGF0aW9u
+L3RyYW5zbGF0aW9ucy96aF9UVy9kZXYtdG9vbHMva2FzYW4ucnN0DQppbmRleCBlZDM0MmU2N2Q4
+ZS4uMzViN2ZkMThhYTQgMTAwNjQ0DQotLS0gYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96
+aF9UVy9kZXYtdG9vbHMva2FzYW4ucnN0DQorKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
+cy96aF9UVy9kZXYtdG9vbHMva2FzYW4ucnN0DQpAQCAtNDA0LDE2ICs0MDQsMTMgQEAgS0FTQU7p
+gKPmjqXliLB2bWFw5Z+656SO5p625qeL5Lul5oe25riF55CG5pyq5L2/55So55qE5b2x5a2Q5YWn
+5a2Y44CCDQogfn5+fg0KIA0KIOacieS4gOS6m0tBU0FO5ris6Kmm5Y+v5Lul6amX6K2JS0FTQU7m
+mK/lkKbmraPluLjlt6XkvZzkuKblj6/ku6XmqqLmuKzmn5DkupvpoZ7lnovnmoTlhaflrZjmkI3l
+o57jgIINCi3muKzoqabnlLHlhanpg6jliIbntYTmiJA6DQogDQotMS4g6IiHS1VuaXTmuKzoqabm
+oYbmnrbpm4bmiJDnmoTmuKzoqabjgILkvb/nlKggYGBDT05GSUdfS0FTQU5fS1VOSVRfVEVTVGBg
+IOWVk+eUqOOAgg0KLemAmeS6m+a4rOippuWPr+S7pemAmumBjuW5vueoruS4jeWQjOeahOaWueW8
+j+iHquWLlemBi+ihjOWSjOmDqOWIhumpl+itie+8m+iri+WPg+mWseS4i+mdoueahOiqquaYjuOA
+gg0KK+aJgOaciSBLQVNBTiDmuKzoqablnYfoiIcgS1VuaXQg5ris6Kmm5qGG5p626ZuG5oiQ77yM
+5Lim5LiU5Y+v5Lul5ZWf55SoDQor6YCP6YGOIGBgQ09ORklHX0tBU0FOX0tVTklUX1RFU1RgYOOA
+guWPr+S7pemBi+ihjOa4rOippuS4pumAsuihjOmDqOWIhumpl+itiQ0KKyDku6Xlub7nqK7kuI3l
+kIznmoTmlrnlvI/oh6rli5XpgLLooYzvvJvoq4vlj4PplrHkuIvpnaLnmoToqqrmmI7jgIINCiAN
+Ci0yLiDoiIdLVW5pdOS4jeWFvOWuueeahOa4rOippuOAguS9v+eUqCBgYENPTkZJR19LQVNBTl9N
+T0RVTEVfVEVTVGBgIOWVk+eUqOS4puS4lOWPquiDveS9nOeIsuaooeWhig0KLemBi+ihjOOAgumA
+meS6m+a4rOippuWPquiDvemAmumBjuWKoOi8ieWFp+aguOaooeWhiuS4puaqouafpeWFp+aguOaX
+peiqjOS7peeNsuWPlktBU0FO5aCx5ZGK5L6G5omL5YuV6amX6K2J44CCDQotDQot5aaC5p6c5qqi
+5ris5Yiw6Yyv6Kqk77yM5q+P5YCLS1VuaXTlhbzlrrnnmoRLQVNBTua4rOippumDveacg+aJk+WN
+sOWkmuWAi0tBU0FO5aCx5ZGK5LmL5LiA77yM54S25b6M5ris6Kmm5omT5Y2wDQot5YW257eo6Jmf
+5ZKM54uA5oWL44CCDQor5aaC5p6c5YG15ris5Yiw6Yyv6Kqk77yM5q+P5YCLIEtBU0FOIOa4rOip
+pumDveacg+WIl+WNsOWkmuWAiyBLQVNBTiDloLHlkYrkuYvkuIDjgIINCivnhLblvozmuKzoqabl
+iJfljbDlhbbnt6jomZ/lkozni4DmhYvjgIINCiANCiDnlbbmuKzoqabpgJrpgY46Og0KIA0KQEAg
+LTQ0MCwxNiArNDM3LDE2IEBAIEtBU0FO6YCj5o6l5Yiwdm1hcOWfuuekjuaetuani+S7peaHtua4
+heeQhuacquS9v+eUqOeahOW9seWtkOWFp+WtmOOAgg0KIA0KICAgICAgICAgbm90IG9rIDEgLSBr
+YXNhbg0KIA0KLeacieW5vueoruaWueazleWPr+S7pemBi+ihjOiIh0tVbml05YW85a6555qES0FT
+QU7muKzoqabjgIINCivmnInlub7nqK7mlrnms5Xlj6/ku6Xln7fooYwgS0FTQU4g5ris6Kmm44CC
+DQogDQogMS4g5Y+v5Yqg6LyJ5qih5aGKDQogDQotICAg5ZWT55SoIGBgQ09ORklHX0tVTklUYGAg
+5b6M77yMS0FTQU4tS1VuaXTmuKzoqablj6/ku6Xmp4vlu7rniLLlj6/liqDovInmqKHloYrvvIzk
+uKbpgJrpgY7kvb/nlKgNCi0gICBgYGluc21vZGBgIOaIliBgYG1vZHByb2JlYGAg5Yqg6LyJIGBg
+a2FzYW5fdGVzdC5rb2BgIOS+humBi+ihjOOAgg0KKyAgIOWVn+eUqCBgYENPTkZJR19LVU5JVGBg
+IOW+jO+8jOa4rOippuWPr+S7peW7uue9rueCuuWPr+i8ieWFpeaooee1hA0KKyAgIOS4puS4lOmA
+j+mBjuS9v+eUqCBgYGluc21vZGBgIOaIliBgYG1vZHByb2JlYGAg5L6G6LyJ5YWlIGBga2FzYW5f
+dGVzdC5rb2BgIOS+humBi+S9nOOAgg0KIA0KIDIuIOWFp+e9rg0KIA0KLSAgIOmAmumBjuWFp+e9
+riBgYENPTkZJR19LVU5JVGBgIO+8jOS5n+WPr+S7peWFp+e9rktBU0FOLUtVbml05ris6Kmm44CC
+5Zyo6YCZ56iu5oOF5rOB5LiL77yMDQorICAg6YCP6YGO5YWn5bu6IGBgQ09ORklHX0tVTklUYGDv
+vIzmuKzoqabkuZ/lj6/ku6Xlhaflu7rjgIINCiAgICDmuKzoqablsIflnKjllZPli5XmmYLkvZzn
+iLLlvozmnJ/liJ3lp4vljJboqr/nlKjpgYvooYzjgIINCiANCiAzLiDkvb/nlKhrdW5pdF90b29s
+DQpkaWZmIC0tZ2l0IGEvbGliL0tjb25maWcua2FzYW4gYi9saWIvS2NvbmZpZy5rYXNhbg0KaW5k
+ZXggOTgwMTZlMTM3YjcuLmY4Mjg4OWE4MzBmIDEwMDY0NA0KLS0tIGEvbGliL0tjb25maWcua2Fz
+YW4NCisrKyBiL2xpYi9LY29uZmlnLmthc2FuDQpAQCAtMTk1LDEzICsxOTUsNiBAQCBjb25maWcg
+S0FTQU5fS1VOSVRfVEVTVA0KIAkgIEZvciBtb3JlIGluZm9ybWF0aW9uIG9uIEtVbml0IGFuZCB1
+bml0IHRlc3RzIGluIGdlbmVyYWwsIHBsZWFzZSByZWZlcg0KIAkgIHRvIHRoZSBLVW5pdCBkb2N1
+bWVudGF0aW9uIGluIERvY3VtZW50YXRpb24vZGV2LXRvb2xzL2t1bml0Ly4NCiANCi1jb25maWcg
+S0FTQU5fTU9EVUxFX1RFU1QNCi0JdHJpc3RhdGUgIktVbml0LWluY29tcGF0aWJsZSB0ZXN0cyBv
+ZiBLQVNBTiBidWcgZGV0ZWN0aW9uIGNhcGFiaWxpdGllcyINCi0JZGVwZW5kcyBvbiBtICYmIEtB
+U0FOICYmICFLQVNBTl9IV19UQUdTDQotCWhlbHANCi0JICBBIHBhcnQgb2YgdGhlIEtBU0FOIHRl
+c3Qgc3VpdGUgdGhhdCBpcyBub3QgaW50ZWdyYXRlZCB3aXRoIEtVbml0Lg0KLQkgIEluY29tcGF0
+aWJsZSB3aXRoIEhhcmR3YXJlIFRhZy1CYXNlZCBLQVNBTi4NCi0NCiBjb25maWcgS0FTQU5fRVhU
+UkFfSU5GTw0KIAlib29sICJSZWNvcmQgYW5kIHJlcG9ydCBtb3JlIGluZm9ybWF0aW9uIg0KIAlk
+ZXBlbmRzIG9uIEtBU0FODQpkaWZmIC0tZ2l0IGEvbW0va2FzYW4va2FzYW4uaCBiL21tL2thc2Fu
+L2thc2FuLmgNCmluZGV4IGY0MzhhNmNkYzk2Li5iN2U0YjgxNDIxYiAxMDA2NDQNCi0tLSBhL21t
+L2thc2FuL2thc2FuLmgNCisrKyBiL21tL2thc2FuL2thc2FuLmgNCkBAIC01NjgsNyArNTY4LDcg
+QEAgc3RhdGljIGlubGluZSB2b2lkIGthc2FuX2t1bml0X3Rlc3Rfc3VpdGVfZW5kKHZvaWQpIHsg
+fQ0KIA0KICNlbmRpZiAvKiBDT05GSUdfS0FTQU5fS1VOSVRfVEVTVCAqLw0KIA0KLSNpZiBJU19F
+TkFCTEVEKENPTkZJR19LQVNBTl9LVU5JVF9URVNUKSB8fCBJU19FTkFCTEVEKENPTkZJR19LQVNB
+Tl9NT0RVTEVfVEVTVCkNCisjaWYgSVNfRU5BQkxFRChDT05GSUdfS0FTQU5fS1VOSVRfVEVTVCkN
+CiANCiBib29sIGthc2FuX3NhdmVfZW5hYmxlX211bHRpX3Nob3Qodm9pZCk7DQogdm9pZCBrYXNh
+bl9yZXN0b3JlX211bHRpX3Nob3QoYm9vbCBlbmFibGVkKTsNCmRpZmYgLS1naXQgYS9tbS9rYXNh
+bi9yZXBvcnQuYyBiL21tL2thc2FuL3JlcG9ydC5jDQppbmRleCBiNDhjNzY4YWNjOC4uM2U0ODY2
+OGMzZTQgMTAwNjQ0DQotLS0gYS9tbS9rYXNhbi9yZXBvcnQuYw0KKysrIGIvbW0va2FzYW4vcmVw
+b3J0LmMNCkBAIC0xMzIsNyArMTMyLDcgQEAgc3RhdGljIGJvb2wgcmVwb3J0X2VuYWJsZWQodm9p
+ZCkNCiAJcmV0dXJuICF0ZXN0X2FuZF9zZXRfYml0KEtBU0FOX0JJVF9SRVBPUlRFRCwgJmthc2Fu
+X2ZsYWdzKTsNCiB9DQogDQotI2lmIElTX0VOQUJMRUQoQ09ORklHX0tBU0FOX0tVTklUX1RFU1Qp
+IHx8IElTX0VOQUJMRUQoQ09ORklHX0tBU0FOX01PRFVMRV9URVNUKQ0KKyNpZiBJU19FTkFCTEVE
+KENPTkZJR19LQVNBTl9LVU5JVF9URVNUKQ0KIA0KIGJvb2wga2FzYW5fc2F2ZV9lbmFibGVfbXVs
+dGlfc2hvdCh2b2lkKQ0KIHsNCi0tIA0KMi4zNC4xDQoNCi0tIApZb3UgcmVjZWl2ZWQgdGhpcyBt
+ZXNzYWdlIGJlY2F1c2UgeW91IGFyZSBzdWJzY3JpYmVkIHRvIHRoZSBHb29nbGUgR3JvdXBzICJr
+YXNhbi1kZXYiIGdyb3VwLgpUbyB1bnN1YnNjcmliZSBmcm9tIHRoaXMgZ3JvdXAgYW5kIHN0b3Ag
+cmVjZWl2aW5nIGVtYWlscyBmcm9tIGl0LCBzZW5kIGFuIGVtYWlsIHRvIGthc2FuLWRldit1bnN1
+YnNjcmliZUBnb29nbGVncm91cHMuY29tLgpUbyB2aWV3IHRoaXMgZGlzY3Vzc2lvbiBvbiB0aGUg
+d2ViIHZpc2l0IGh0dHBzOi8vZ3JvdXBzLmdvb2dsZS5jb20vZC9tc2dpZC9rYXNhbi1kZXYvMjAy
+NDEwMTYxMzE4MDIuMzExNTc4OC00LXNub3ZpdG9sbCU0MGdtYWlsLmNvbS4K
