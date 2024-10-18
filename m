@@ -1,132 +1,131 @@
-Return-Path: <kasan-dev+bncBDS6NZUJ6ILRBZVWZK4AMGQE5UQ5C3A@googlegroups.com>
+Return-Path: <kasan-dev+bncBDS6NZUJ6ILRB25WZK4AMGQEMPTJF4Q@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x138.google.com (mail-il1-x138.google.com [IPv6:2607:f8b0:4864:20::138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CAE19A44B3
-	for <lists+kasan-dev@lfdr.de>; Fri, 18 Oct 2024 19:31:20 +0200 (CEST)
-Received: by mail-il1-x138.google.com with SMTP id e9e14a558f8ab-3a3b7d1e8a0sf23054695ab.0
-        for <lists+kasan-dev@lfdr.de>; Fri, 18 Oct 2024 10:31:20 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1729272679; cv=pass;
+Received: from mail-io1-xd3b.google.com (mail-io1-xd3b.google.com [IPv6:2607:f8b0:4864:20::d3b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3BC9A44B5
+	for <lists+kasan-dev@lfdr.de>; Fri, 18 Oct 2024 19:31:25 +0200 (CEST)
+Received: by mail-io1-xd3b.google.com with SMTP id ca18e2360f4ac-83ac0354401sf52015639f.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 18 Oct 2024 10:31:25 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1729272683; cv=pass;
         d=google.com; s=arc-20240605;
-        b=dGtCIzQqXrw8nt6gVLQPk5dlNwI5xJ+epdlmNhSr7c8jWZ/S3WZ2ryZRw0rkfi0bub
-         JJJ6qgj0gfpoxOOjlqG4EgvDHB6cpmP7PC9pxc5f45z5okkjH2n8paLpcOHqdwnlfK4i
-         tkuqyHAHEEUdTG1gRpneFGrVRtM2nAnr4FdFA/Gc7iky0QETB4ejBKkx3Aqem10+5iMu
-         zs1iMLKgcWjwWc3L+UtJMwpsPGVK960CdwGWTMSW9AmSxtRfff21p+FGRcbXcsD/Q4jn
-         /dLacRwMZV+0E0bUgdRPrWIiJB+dBVKP/0xuKfr8oRjSiU9Rl4vIRqZOnMoesOZXbFD+
-         czLg==
+        b=WN5HLvsY04Kn95B/yUp/EbsrtqOY/br24ref4zEJNybIRKAYmu7DKllzNy8L0pFC2l
+         fncILO/uLrG07ULfIDGdbk1A4Hccu2xdjiwYsld0wh368adZVxJsUnO2hI9Wst0aj5cX
+         mqLXX6kpnzpVjJoRrZTJETampv+Wk7TSnGJuExjhPk6qHL6lkk6OecfGJHJ7IDnvJfr0
+         JqnTnpjBPyKmiWmVJE1CF7XSCRXsZrXbzfEozGE9lKm6xBY8fpjlQJUSAMxvOqdeOPXX
+         yJCk65djRN4fyHNd3hDwohrwvZ3/7Fp9M0C0eJGQSGHoRIyQT8P/KRSnpsTBKiTSdWI/
+         yM9w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature
          :dkim-signature;
-        bh=EokyfGT45gsbej0uV3eJsEuUtaKMU9KwOjpqf2d0GOc=;
-        fh=w5gxy1l/W8QHZhjv7zR+4osKuwpz+558GaDfYCfrlWc=;
-        b=ikkJXhAfRgXqrQLgor5ewBKYr446a52Mn8gl3D1ZXDsm91e8RfATjvywyTGTxBJvyB
-         y+LsYSwLyGBpuY1rPM3JCNE+otuEkJCWAXCaxiayzGllRKW4q8pJ2OEr1Ny7M22abVEe
-         DOGTjXOKuxzwf4+VhXyLOcRDg+FQeg4r6Ae85u1xqRgxvl/U7YZ9iHTdZoLEpBuIDVEA
-         p2wSv9URdzaoa5RxP1iWFN7PB9AzJBqwyVYKAmG/atnjK/EMK5luL46mZUq4Q9pgPwVc
-         QBTJjLcc8wVuyfVoRwmSGix7JtWYKowa1MrEwhVbOvXsW18VezV8fHSUVLyr5dA6EyL2
-         wqww==;
+        bh=FnlYHYypW3Wn7rgt6ZsSpLeJ57s2ZS0nae5YU3Z+wj8=;
+        fh=CT+qWFSIVezM05A+HmM9nkrSqq28IebK2tOBZf1vekY=;
+        b=IBrF6YBBSAhicS7d9R5AX6dggmqujyeesi6q90dgyNoa1/WiahAlyc5gNWmw8gMQVJ
+         P2yRHD0AzogR5jc10xg9j8AyiXwqA+1Avu7H0Z5xB08LLjK+VpuBu1R/0qFMIg6PILI2
+         ScelG3PJaOr4LHmVx0QZdAAdeYFoovRxGMWoALckfu5lqgxQs5MEvwWlp29ebi4O45ai
+         OQQkbTyhoUS+cZfq90XpMZ//ggEZEJyqvAIWEsFOZP6NB75zKM1kqmJpGw/gtb77MrT/
+         dcul31u7YJL96YI/x29r8DWUZauSjpsVMdiSLz7iPUca2dl1KIY/AAiqE6HjLhBnrqbA
+         RJBg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=FsDnzZWD;
-       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::42d as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z5QQ1Fkk;
+       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::429 as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1729272679; x=1729877479; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1729272683; x=1729877483; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=EokyfGT45gsbej0uV3eJsEuUtaKMU9KwOjpqf2d0GOc=;
-        b=SILu4/5xyGislND/WDUERmUumuoxlVQkhpYpJu4d8xAA2xzObu+C0Un+uKrC0ZOwqO
-         I3dNoAcpVeItmHhDPvtyFiPJ3gWAUsQ4nrbGjNPqVqYPZnXYFNkYxDT83hH5CPFeNzEL
-         zBI0Fvyr24cluUvkRbPu6+eaQc+Vp0HpCViVurHOpNrWwTCXpFLKgtWF7JC+/Br1PFuP
-         L0jSMxoN/xD47nZqb85SPbyTknxI0+NbPq0JobLJPIX7hGPsr9IiMzd/l+RlzxjtX2hA
-         z4j6i5EYCKQdJgZuHEqREe7C1mhw+iMxUxIPR+uNolHQD+adwRvXszt6JaNB+9YLoT/N
-         7/KQ==
+        bh=FnlYHYypW3Wn7rgt6ZsSpLeJ57s2ZS0nae5YU3Z+wj8=;
+        b=YYRimzZlCk9olcg354Xkx9M2akBCz4CNW/n2RB2tTYoFe22RgJCpii/+pxmZCxTx62
+         y0RiSzotOLlzhzCL6Nsm/wn9G/HbECGrH3YXvJewbAgxCmlbYH51iY3yrLfhvo+Sypxd
+         pJftfIt+LiK0blVc6OCfXUm0FdGfv5TmruP4R8ts8zJCXh219s3jjqVahBiN14EaQvCq
+         k8hP5sfPIMW1yr/C2RjJXav65hjO8IKK3khRKqj1euhlsZFtqyXrEVHFQzQnjccHqJKy
+         mQd/YzjrUIRNI78m6o7nst0FiLgFKimkQdy6JJiilltZhlsnBoj/aItSQIH2DqajuwyM
+         6gaw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729272679; x=1729877479; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1729272683; x=1729877483; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EokyfGT45gsbej0uV3eJsEuUtaKMU9KwOjpqf2d0GOc=;
-        b=KYOB5I5PkIBP6SOB5wFkKmQSfPn8qkPp/RaQCdwGdDm+71aE01BFVGPQ3TQ6zG0AWj
-         DEJW4sOt44EiY5QhHdUp50CgCXUbVFXbnERAHqLJ43b4pKqou46zD6Q5BqVL/4Q1skLN
-         QcwTdNdM43AWQ7ApCmlE85wYLbfNp2OS2CILeUu/hUbgXwDXk6Bp5AS1zDU9Brz2PO4i
-         E/QfkRVmgHzLM+KHB+BMWFC905Ap/s4TudKjVDvckeNK7iEj5Df/AkYzUnV4DDWShLW1
-         PDFVNJcCZ8dtYr+x/8NHTzO0aCiDVFsSmrWedbH8nOXdtXHl+Lph+51w643A2tBwm0jt
-         f8ig==
+        bh=FnlYHYypW3Wn7rgt6ZsSpLeJ57s2ZS0nae5YU3Z+wj8=;
+        b=VL74h80RJe4EP5JIYAwFQxywE0wrsAtdSOcePEeaPF5EN8Ele8U3ug3KJkQdeKhyaL
+         sGbRNK5iEcsxsNh+tT13j4aMyYtE1uQuVUm9H/Tv8Ichv39rRopYmdc1JctvdY7jZKQu
+         qwWhzMY1ZNpzir/BKnyqV5nHthhN6eO31/hgWfstTuvlyBALi4DizRbAIhqjR05nfiT4
+         A7ONSwL/nNcrkhE/ESaaYj5LOSzBJ/LQZZqdquZtOFc87TvSfEZAGZXX0n3ueHqGu1NA
+         mOitWIw0GQGCEc+pZElEyJ+t7+R4S7/qotd9g7pwGwjnvUKDzNK3sqvAs+0QnlkPVOHi
+         VAbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729272679; x=1729877479;
+        d=1e100.net; s=20230601; t=1729272683; x=1729877483;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EokyfGT45gsbej0uV3eJsEuUtaKMU9KwOjpqf2d0GOc=;
-        b=wRCFrweI+1sK5WqG5Pwur7ghBaRvH3HfWCC2b1w2pt4z4NERJs71ne4JyFWz2KA8+g
-         T9KNws4gBt6zazNdYgZjwqKsu7bWI07Ru5WnntIpnmwHVoI4fETpqv2HitqOtjxVYhZo
-         L/00K8ZRauWWfMazXaXmjCHQFiNION6NN37vDIk8Y7olkM+kwph/3ArgoxHqIj334FXI
-         f3RvP6DmZipuiR44Txk3wwPaL1U6hdPHDqM+wY4ISIMu3ljAAu6+dVXnzl+VWpFKcBws
-         xG5X+f1GtVzow2I2Bjukz+iGWcff2DzIHZng4P5Fvlvq1rdHvmjNf2+S3Ye7RliPgknp
-         UbdA==
+        bh=FnlYHYypW3Wn7rgt6ZsSpLeJ57s2ZS0nae5YU3Z+wj8=;
+        b=ZOe9u9svi+t6gK4iRM2mddYPqxHUPxDQ4DYC/hd6/WIC/u8FWoP+tkk7s1cEpA6g5L
+         k2eFK1S7k9IVd/g6HzeM3XIwHwWaOXlCAy9XeHTQfilBOLprGedWeUkXcKAKDmSdWPy2
+         QEj7hhWoinjCQtNRvwzuHZjMOwljVzY8GBGoz6vS0VEnwi6+pb1n/+Ez8o/hXUlkURCj
+         cwU2ZCF7atLRgbuFjpVG5ceShcW1WG5gDYTAxcQkUzRzlhha530MwXdM7uhQrlIc5lU2
+         rMjm2qhBKGPEbQKD2bmVrShi1fiER42Vs/FLJntCCPlMCYB91xS+6hlKtEoYw4aBJKR7
+         xWtA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCV1+A3B8qjJ2QkkBhm83sUVaEAdXrIPgQTuHoA4uUwytLwxAwFFT5Y0gqyGOBBaR2Ria7nz9w==@lfdr.de
-X-Gm-Message-State: AOJu0YzjziH4yNalgssj/gL1jJ7unLfKiMQoVnNDczyO8YxKbugtkqXS
-	Sji1Y3czn+8tLBM/92K3T4cyOqqIOQVnDpdSDXETlSXdCqLykD1z
-X-Google-Smtp-Source: AGHT+IFtbDsCgvbpwl2L3nR1hWAdyocI29F0gNvVLfe/1og9XK4Usje1eBfH6OgBXWyQsXtEn3863g==
-X-Received: by 2002:a05:6e02:b4f:b0:3a3:449b:597b with SMTP id e9e14a558f8ab-3a3f40a7ea9mr31101275ab.18.1729272678972;
-        Fri, 18 Oct 2024 10:31:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUqI8GhA6GOV4qqn1WGQ00S79Pjhprbnyn+/BOxcrRHAiPD/Xj8yHGi8cXCa2pQ8Z1CGnYGbg==@lfdr.de
+X-Gm-Message-State: AOJu0YyTMP13embSrQwNQw9vfy2C2SABzr5YQfSQlJGUqE8Zlg7rhlOS
+	cDSFGx4AwWym3NtsiaHSXBd8WmkU+GcgWVm2fAG3XGfD0dOPrjaM
+X-Google-Smtp-Source: AGHT+IFvi53Je2RhEjgHOXthhuHG5XFd46zGv0Znpg5tf3yKX5r2Tk2SFZU6rBWyU6H3V4EfcxI5BA==
+X-Received: by 2002:a05:6e02:1c8d:b0:3a0:98b2:8f3b with SMTP id e9e14a558f8ab-3a3f405445emr32701795ab.7.1729272683566;
+        Fri, 18 Oct 2024 10:31:23 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:12ec:b0:3a1:a1b8:cf6c with SMTP id
- e9e14a558f8ab-3a3e506622fls14309615ab.2.-pod-prod-04-us; Fri, 18 Oct 2024
- 10:31:18 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1389:b0:3a1:a5dc:aa4e with SMTP id e9e14a558f8ab-3a3f4059c9dmr36432695ab.8.1729272678088;
-        Fri, 18 Oct 2024 10:31:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1729272678; cv=none;
+Received: by 2002:a92:c563:0:b0:3a0:beb4:f1e6 with SMTP id e9e14a558f8ab-3a3e4afb8bcls5412085ab.1.-pod-prod-05-us;
+ Fri, 18 Oct 2024 10:31:22 -0700 (PDT)
+X-Received: by 2002:a05:6e02:180e:b0:3a0:ae35:f2eb with SMTP id e9e14a558f8ab-3a3f409f253mr34604155ab.19.1729272682727;
+        Fri, 18 Oct 2024 10:31:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1729272682; cv=none;
         d=google.com; s=arc-20240605;
-        b=kygMenAYrEicD02fLO9wG2DwlLYdQdzK6xgh5bNuMjUUktFdhQlEcyebLFoUF9WAHO
-         wrB+TnHC6whhkOKalNX5HCLusuv0btbUByAa4FNIjCOVCxdYBE7nT/7ijjqya4aE8FK+
-         MLxINDcdwsX4psdfUzn7gkg2mzv0W2rqgMl7eCSm6smjwJK/GnMUWsKIBh27VaVHgxV1
-         bjGzw6axSYSOHtBwDLLpCbOpi4q8VSmbqXhVtL244bhQCg2HRCMhHjByV2bv7yAt3U/Y
-         hvAz2mlWmIEArdOVPObSZgpIHOPdm8YbtiBF4x++KFfozAszloe+U8ND/RRO2Acn3a2K
-         FbTw==
+        b=C9str/Szq1fABdk5t2UmFJk69qDT2t0PpYp/qdFb3oss8665heXSFrJk7MSYIPWuhp
+         Jz7/kDcP2edBl0bIeY08EXoP0rzqo6DVqi/zqCdJvD0dJeXerqREPo5B5te/iAQDrf1U
+         PSxQC68PsaTdoclNn72F/EIpOomTpl6iF8oxPrHvXY9R8Qvp/PhjIdhQuUa9tpu4h5AT
+         E+DqxrGlajhXNMgb1bzDwaQG1ahi++zwKIlKk/saIF/P+2m6EqBDCYqoQZp7ClLJfPrJ
+         rD7nub5OmLN2wPj1TJ1gVxZVnOoAp44e7kYVikduEF4xmeY0S0I1ossXpw+eJpsLwzTR
+         ViAw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=M+pQKseSbUwQ7nDgMGbwYxJsHyJez2ZBxycyN9iER7I=;
+        bh=1QLaMyzhWv0h56bpJNLe2thoYBckgfAdM8HvqGdr41M=;
         fh=Bj4mozzLk9zJsLtJNyH+nEsVaBAd92VPaXopXx18a2s=;
-        b=LnhekB3xOVgy/bz/9DIOjCWDSvjSpiX7DfhfuIf73ule5/KzcqvafGGIJZ54R9RoCS
-         W0MvWi/mSE27nfKD7XKQmBuYa+dxi+Xq+lkX700PvqQfKZDR4Jz9Gq4dh9OGWR/aFjd9
-         lnKeMuPK3BO8xEtWhJp3XjUqGCE4o5jDs6obfTwWYyi3zhhxV+3QlKlF9pESn8afvEPo
-         bHPs1kpasMqgkxp0MGYO1wBq2f8XoXrj2pea7nna4DIg7jc3hLCeRJdSCr6FfTEzVZ3X
-         iUiEYPWYXRmo2aa6ab2ChG3KLjESYhviAXAijClugQXK+HqoZqXOaCcjUe0px2wIcuYB
-         9P8w==;
+        b=Pvio7ShCEBVpeQUuauCI1o0ZCILaGtFrHQdwIVxu0rl8f75gQEz18iRMzuGveRmlWg
+         OcDp3EDupFug3G+RwK43xhH/ez2OFiVDMBPDP193u9NVM86fEwC+JkgS78hikZvd6BaC
+         CMqttCLrb4I/Ai+kgwh9Y/ojO8hjUX51/lXUYnihwSmgaXmWNKAiatJ0IUZX1hZkqVV5
+         CKUSq8Ul7ewWfk2Sijo6i3yAmeWuIVgd3DOUfv/OQYgi1tsIRZn/l5zf07mpNnFgA3Wl
+         9XU32x3uREJhUJJNCqUr7Va2D97dilxRDho5Fcz2N9TLqS7Qik9Y0HaC8+7GZSPwoVVW
+         6mHg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=FsDnzZWD;
-       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::42d as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z5QQ1Fkk;
+       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::429 as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com. [2607:f8b0:4864:20::42d])
-        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6cde110d170si776136d6.2.2024.10.18.10.31.18
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com. [2607:f8b0:4864:20::429])
+        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-4dc10c1b0b7si87575173.4.2024.10.18.10.31.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Oct 2024 10:31:18 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::42d as permitted sender) client-ip=2607:f8b0:4864:20::42d;
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-71e5a62031aso1701731b3a.1
-        for <kasan-dev@googlegroups.com>; Fri, 18 Oct 2024 10:31:18 -0700 (PDT)
-X-Received: by 2002:a05:6a21:168d:b0:1d9:61b:9607 with SMTP id adf61e73a8af0-1d92c4a0231mr4271987637.6.1729272677039;
-        Fri, 18 Oct 2024 10:31:17 -0700 (PDT)
+        Fri, 18 Oct 2024 10:31:22 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::429 as permitted sender) client-ip=2607:f8b0:4864:20::429;
+Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-71e953f4e7cso1514413b3a.3
+        for <kasan-dev@googlegroups.com>; Fri, 18 Oct 2024 10:31:22 -0700 (PDT)
+X-Received: by 2002:a05:6a00:cd4:b0:71e:cf8:d6f1 with SMTP id d2e1a72fcca58-71ea316bf4emr3925702b3a.14.1729272682003;
+        Fri, 18 Oct 2024 10:31:22 -0700 (PDT)
 Received: from dw-tp.ibmuc.com ([171.76.80.151])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ea3311f51sm1725242b3a.36.2024.10.18.10.31.12
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ea3311f51sm1725242b3a.36.2024.10.18.10.31.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2024 10:31:16 -0700 (PDT)
+        Fri, 18 Oct 2024 10:31:21 -0700 (PDT)
 From: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
 To: linuxppc-dev@lists.ozlabs.org
 Cc: kasan-dev@googlegroups.com,
@@ -144,17 +143,17 @@ Cc: kasan-dev@googlegroups.com,
 	Pavithra Prakash <pavrampu@linux.vnet.ibm.com>,
 	LKML <linux-kernel@vger.kernel.org>,
 	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Subject: [PATCH v3 11/12] book3s64/hash: Disable kfence if not early init
-Date: Fri, 18 Oct 2024 22:59:52 +0530
-Message-ID: <4a6eea8cfd1cd28fccfae067026bff30cbec1d4b.1729271995.git.ritesh.list@gmail.com>
+Subject: [PATCH v3 12/12] book3s64/hash: Early detect debug_pagealloc size requirement
+Date: Fri, 18 Oct 2024 22:59:53 +0530
+Message-ID: <c33c6691b2a2cf619cc74ac100118ca4dbf21a48.1729271995.git.ritesh.list@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <cover.1729271995.git.ritesh.list@gmail.com>
 References: <cover.1729271995.git.ritesh.list@gmail.com>
 MIME-Version: 1.0
 X-Original-Sender: ritesh.list@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=FsDnzZWD;       spf=pass
- (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::42d
+ header.i=@gmail.com header.s=20230601 header.b=Z5QQ1Fkk;       spf=pass
+ (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::429
  as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;       dmarc=pass
  (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
@@ -170,45 +169,68 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Enable kfence on book3s64 hash only when early init is enabled.
-This is because, kfence could cause the kernel linear map to be mapped
-at PAGE_SIZE level instead of 16M (which I guess we don't want).
+Add hash_supports_debug_pagealloc() helper to detect whether
+debug_pagealloc can be supported on hash or not. This checks for both,
+whether debug_pagealloc config is enabled and the linear map should
+fit within rma_size/4 region size.
 
-Also currently there is no way to -
-1. Make multiple page size entries for the SLB used for kernel linear
-   map.
-2. No easy way of getting the hash slot details after the page table
-   mapping for kernel linear setup. So even if kfence allocate the
-   pool in late init, we won't be able to get the hash slot details in
-   kfence linear map.
-
-Thus this patch disables kfence on hash if kfence early init is not
-enabled.
+This can then be used early during htab_init_page_sizes() to decide
+linear map pagesize if hash supports either debug_pagealloc or
+kfence.
 
 Signed-off-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
 ---
- arch/powerpc/mm/book3s64/hash_utils.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ arch/powerpc/mm/book3s64/hash_utils.c | 25 +++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
 diff --git a/arch/powerpc/mm/book3s64/hash_utils.c b/arch/powerpc/mm/book3s64/hash_utils.c
-index 558d6f5202b9..2f5dd6310a8f 100644
+index 2f5dd6310a8f..2674f763f5db 100644
 --- a/arch/powerpc/mm/book3s64/hash_utils.c
 +++ b/arch/powerpc/mm/book3s64/hash_utils.c
-@@ -410,6 +410,8 @@ static phys_addr_t kfence_pool;
+@@ -329,25 +329,26 @@ static void kernel_unmap_linear_page(unsigned long vaddr, unsigned long idx,
+ }
+ #endif
  
- static inline void hash_kfence_alloc_pool(void)
++static inline bool hash_supports_debug_pagealloc(void)
++{
++	unsigned long max_hash_count = ppc64_rma_size / 4;
++	unsigned long linear_map_count = memblock_end_of_DRAM() >> PAGE_SHIFT;
++
++	if (!debug_pagealloc_enabled() || linear_map_count > max_hash_count)
++		return false;
++	return true;
++}
++
+ #ifdef CONFIG_DEBUG_PAGEALLOC
+ static u8 *linear_map_hash_slots;
+ static unsigned long linear_map_hash_count;
+ static DEFINE_RAW_SPINLOCK(linear_map_hash_lock);
+ static void hash_debug_pagealloc_alloc_slots(void)
  {
-+	if (!kfence_early_init_enabled())
-+		goto err;
+-	unsigned long max_hash_count = ppc64_rma_size / 4;
+-
+-	if (!debug_pagealloc_enabled())
+-		return;
+-	linear_map_hash_count = memblock_end_of_DRAM() >> PAGE_SHIFT;
+-	if (unlikely(linear_map_hash_count > max_hash_count)) {
+-		pr_info("linear map size (%llu) greater than 4 times RMA region (%llu). Disabling debug_pagealloc\n",
+-			((u64)linear_map_hash_count << PAGE_SHIFT),
+-			ppc64_rma_size);
+-		linear_map_hash_count = 0;
++	if (!hash_supports_debug_pagealloc())
+ 		return;
+-	}
  
- 	/* allocate linear map for kfence within RMA region */
- 	linear_map_kf_hash_count = KFENCE_POOL_SIZE >> PAGE_SHIFT;
-@@ -1074,7 +1076,7 @@ static void __init htab_init_page_sizes(void)
++	linear_map_hash_count = memblock_end_of_DRAM() >> PAGE_SHIFT;
+ 	linear_map_hash_slots = memblock_alloc_try_nid(
+ 			linear_map_hash_count, 1, MEMBLOCK_LOW_LIMIT,
+ 			ppc64_rma_size,	NUMA_NO_NODE);
+@@ -1076,7 +1077,7 @@ static void __init htab_init_page_sizes(void)
  	bool aligned = true;
  	init_hpte_page_sizes();
  
--	if (!debug_pagealloc_enabled_or_kfence()) {
-+	if (!debug_pagealloc_enabled() && !kfence_early_init_enabled()) {
+-	if (!debug_pagealloc_enabled() && !kfence_early_init_enabled()) {
++	if (!hash_supports_debug_pagealloc() && !kfence_early_init_enabled()) {
  		/*
  		 * Pick a size for the linear mapping. Currently, we only
  		 * support 16M, 1M and 4K which is the default
@@ -218,4 +240,4 @@ index 558d6f5202b9..2f5dd6310a8f 100644
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/4a6eea8cfd1cd28fccfae067026bff30cbec1d4b.1729271995.git.ritesh.list%40gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/c33c6691b2a2cf619cc74ac100118ca4dbf21a48.1729271995.git.ritesh.list%40gmail.com.
