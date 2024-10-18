@@ -1,132 +1,131 @@
-Return-Path: <kasan-dev+bncBDS6NZUJ6ILRBPFWZK4AMGQEG4PLESA@googlegroups.com>
+Return-Path: <kasan-dev+bncBDS6NZUJ6ILRBQ5WZK4AMGQEVGVZJWQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yb1-xb39.google.com (mail-yb1-xb39.google.com [IPv6:2607:f8b0:4864:20::b39])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9989A44A1
-	for <lists+kasan-dev@lfdr.de>; Fri, 18 Oct 2024 19:30:37 +0200 (CEST)
-Received: by mail-yb1-xb39.google.com with SMTP id 3f1490d57ef6-e28edea9af6sf3324698276.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 18 Oct 2024 10:30:37 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1729272636; cv=pass;
+Received: from mail-qv1-xf39.google.com (mail-qv1-xf39.google.com [IPv6:2607:f8b0:4864:20::f39])
+	by mail.lfdr.de (Postfix) with ESMTPS id C47AA9A44A4
+	for <lists+kasan-dev@lfdr.de>; Fri, 18 Oct 2024 19:30:44 +0200 (CEST)
+Received: by mail-qv1-xf39.google.com with SMTP id 6a1803df08f44-6cbe77eeeadsf32660796d6.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 18 Oct 2024 10:30:44 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1729272643; cv=pass;
         d=google.com; s=arc-20240605;
-        b=CPYm8wCsvCd48Kl8uZOVu0YvYPlxMURBt2SIQarnTa1QLk+wwEoq+s1G01puVFvU/R
-         JFuiOAzyA+HDzy9wppdyAKftgPTkSONVuuJmZUhefd6EdvDbAlmg2EyFIAkibmK8bjZu
-         k5IeEMRUad/COEZTjqwfvv/+5BjRfvsYy1gx9J6u3IkV7EHG9cKMrq8Ak2nx/Bha0ryI
-         Lq47ztdwrwguT7bjLXmwLS64gXUBh0GIJLw7H4TQEXQef8wyjDQKT5X6A3oPMmuKRqHM
-         EPYxgZK6iDDuNlIu7AQnr23fuGDe4cymSkF+IDuxXra48LsBvUaX+cCOUsxFBbt6gQwa
-         VxTg==
+        b=ix7wPQCuTeOWlzlS2rfL3oDpb49O+fdYLiajBAHZFTzoE8+mF4FOhRaHAHP8a9RL7p
+         AI2P5ggrh21Jg19IcePzJcLfgdGaDwNz8U64r/Nz+I47MTBbwEVWSNWszBdLKhhlT2OH
+         NlUCX3j6pd3DVtW3OOOmD6SQP3QQbV4rWjTAGax2SJ0REintf0+qzrKAeovqN7oC6x7a
+         nLbEF8wtoPts1C6mdeie+z84KD0SsJva7A8s82JrBi6Q36DzzYhLIfTGQDdGIYLKBR9d
+         ZcpuU3QtHvj7cCdCfmUa9d765vNoFWk7uzrDkll1b3/5Y0NkY4LI1r58OD5AV7+hDA3J
+         sQjA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature
          :dkim-signature;
-        bh=64WGkYKicUUSQIkmBlsXuwoVZVzDbWNEh2ay/FI9LtA=;
-        fh=AMipD/LIaryP0/VVl/jHtHOy5qokyf2sxa1Xa4jcTuY=;
-        b=UtgQKLmq9bBrf4n1EnJ/E/mcd1RDn5MQAgKiW3Ff/qEatVdk5M6ia+quUVUfyWwwv6
-         xqK/5tZhTiU1R6cAK1EI4+UpKcgQEPCU0vayXHESJJnMkschWiXajmwgUxrkC+zWL79h
-         fFzAIzbkSXWZf5+D6CZihuy0BOBymwKm9KqIeYVMm2EUYGbCznh1kxMTAYBggGRBHVVk
-         FcxQVBG63DpWT1zWCYX3oJ7jBLwRflsfGxT9K17/x0Kgv0jSX+7rLy1cHbvwimyY1CiN
-         12w4kRVr7RuQJ89HUMSwZ+i9HcOYCk+L13Ato+GjKtRChjEA5IC0ejoEoDxp8Kobre2J
-         dArw==;
+        bh=NIeYPCECCqFCnZdTc5tFfGD6QgMgWiewcDbiJNmnQ1s=;
+        fh=H0VNksm5sE636PYZBpk03kyBANzvtJXRNSA1ZVINVN8=;
+        b=lfYLbCG0UMWmhMavEmvcV83H+5mcY6wnmG48NKbMUOOeUWRy2op+bO17FXTRPH+lfT
+         ZrA8KkeSWqBu7lM9jo1/ih781qD1RnLF7Q01ewVYS8ZglaaccfSkcfnCSPQEiYIexnk/
+         /Jaq8eM9KtbMRJpvRZlShrMkiTK5LCPF2g71TJc0PRyGFts2LkWdflPd1E2qKOHcMdQN
+         AjHqeiIfLAdCGGjHsbPWGhH79MJGRNujA02n2n1ogMyqzKkLmzLHSoJk9Irc+OARAsbB
+         TK2neRwdZXZxsuHSolP5QITVpK/fEZBteGOKzSGZ6EXH7JNzyYjQGE4DC1upUyeULRPy
+         7UUw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=h8rwNlnb;
-       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::52a as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=S3X2Pfkk;
+       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::436 as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1729272636; x=1729877436; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1729272643; x=1729877443; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=64WGkYKicUUSQIkmBlsXuwoVZVzDbWNEh2ay/FI9LtA=;
-        b=qBuil+GEOCZG7R/vwt+7lYWISoJFJx0xAz5vClir6k643q8h5K6De2B/2VRFnWA8wd
-         6aLQeJSH0cvpKTd7pIVuN2a1WRARNaVsip1bFN+nhrc0/mNPe3jmI10/NAfyKOkrChCb
-         1DRiKnDC5e6SAyRzKuPTJwvkbxIjpzL+K0KG8bZyfVg25rjzzJQHnaqI11zZKWQ7pJZZ
-         MNEjjAykHxUWp4ukYbJetYtGfxxupgMyCmb1wCA15S1Sdp1myUTh7Ur17g2EPXv3MyLY
-         D1S97cQtYQvVhWvdVjxaNp2pxo8+Pob30BitkGv+ZhMePYmIFdxwXBuPCtsMUQ89sBYg
-         ojzw==
+        bh=NIeYPCECCqFCnZdTc5tFfGD6QgMgWiewcDbiJNmnQ1s=;
+        b=Gy5rt10GhnRU/SgpO/P6PO/zm0cHQhSxaHvvn/USHJIGuKHOq1AdmtquJLEbZ2AAK+
+         WPDMnlawLravZLXpg5IsKYXOZW/q3mcdTtrCQ+2qVrhTO+Up+8udOnmuBPbPbdtpufxa
+         sk2csgOoOrB04PfmKc9BFR/OeNnjkt+Z/yZiSgoS68n6W2eA/UUqul2pmV939XHO0D3z
+         YV5mxuDwxHJGRY8ZGsRJnGZfq28jub97xzKMOLAz2433FTpZcWZT5AyRxT+2z3/jJpYB
+         0oHMTdpx0KOoO9GlmkCraa3orOert8O5/LUuCCb1NwdfcMYcDBolDinsrRcPb+mnejig
+         CGDA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729272636; x=1729877436; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1729272643; x=1729877443; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=64WGkYKicUUSQIkmBlsXuwoVZVzDbWNEh2ay/FI9LtA=;
-        b=kpekUdfY7ndfIcYbNk/1oAZ4u4KNOOB95lKc9L/mSD5OY8cRWfF2muwC8j7j28eVMR
-         xiCBT7K3dT2VVNq/F9FeU+dReJVAdctx/KU4wASU4kwPGcn6t8ndnSP2QtGStfTYszme
-         MSIe+7Aeja4ZjonZTgkK7z016esk/lCcdGNhqAIHsZzdWJ0QbFFO7FTt8WaSnskk0A25
-         nUn+tLzYFQVteYZ7ITAGN+1JzfnDTsohX+k+sPy3k3aYqbV1eRXYjhsWoXx90UcDBPmQ
-         D11wI7alq5YkmKPxOoAI6Z5hVu9jG3YT9PA3XtbmiG7QfSYIxzAjtEoATJXeOBoEhqhA
-         KfvQ==
+        bh=NIeYPCECCqFCnZdTc5tFfGD6QgMgWiewcDbiJNmnQ1s=;
+        b=hJxQR9ybX/WVBYm1lWZqD5bNGovZwyxAfuTb1EATdjDts+GSMMQ7ajD/x6bc3hL3jp
+         cciF2cpXL1T7jhTXf+3SsHvkeVkCHDx65Jxwe0zrhpL6x4W+JwEFyMW34l+lW2VrWCAk
+         5SM7XDzs4Tj9rVONFImpiUJ9mDrZItswiRjf5VTrXrmp1ZjWBSUHVOAd0i8w+oEoGWEc
+         5etweyysC3z6WrNOa2eJbzlZDlUISXuVTOj4hNvydDwa/3tyzhal63qOcIhFUnbkvg7+
+         cBC5fI44Td7IjHnnrBnQ+1eDC+lyNG/IHbXc7+9pzpeh2llrI5/4xXWl+/Unf9f45aDd
+         iu7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729272636; x=1729877436;
+        d=1e100.net; s=20230601; t=1729272643; x=1729877443;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=64WGkYKicUUSQIkmBlsXuwoVZVzDbWNEh2ay/FI9LtA=;
-        b=kb5h4c9pYHvIMXUZxVn4DhPusR0E/W2VFrEx/bs0rHf9u++AOBH2JoD8FfsWwDVOxv
-         bk6Zpn1k4ZV7soBzoGqzkKpKyi8vjfoeahEoErBGDKI8D6wAa7zAoWs28et38GGRjVAE
-         GnGiQF7ULoAi/vwNFQgJsSsV/4PakWAUDWKxZJKcxo5yBTqNZusQvBUYMjgJtTgWMfIi
-         cXyAxCLwHBYXlfDGmUm/cEKa6AdhKCKTqkVbAw5Pu1ExSbxCK9uBdmjPhq8sRlQR6mc7
-         UJzbGgs5nqjSmbLLz1XIY80+2M4R8HpKJjbQnWJXm5k/ZCh9k4VkkpxOKXQnNKJipqIa
-         zMhQ==
+        bh=NIeYPCECCqFCnZdTc5tFfGD6QgMgWiewcDbiJNmnQ1s=;
+        b=SwscwQmUeUQs9zjAipMaRzfZvyJrq+lkS8fQKgsgqbXzxsy9u+CXmGlAX3vbdXTeD3
+         Sffrg12ID2N6sxtTqG8VXlr0qXsaq9m9L6t1uHSm1QoJxokb9Cn8ayEJNbehSBwwUg9Z
+         TGGnvm6U1qNTCfWWlHmOxmlxmqYEWH0QkyfsQesXlxFjZ3urbdpPdRKqVwV4oGGuwCxx
+         Vm14LYk4aUZWujPTIIhVnQYNqzbp6+ke/JfvRh7ruwyLh5KDrJxOUaxFkYvpx8k7y577
+         tcchVHODYPaxIz8tHVBMNtKPX3VUjNInwNwAoio1J9vMeYoA1Po+agHL+Ed4Y87iYMow
+         boHw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVR6pwqe/6WgL3YYQqncIPmS6GTjYfw9GpqNoyUVAsIJvzx+mGYCQUtivcpvgqWKV4q26j9DQ==@lfdr.de
-X-Gm-Message-State: AOJu0YyH8fJGk+l8I1JkIBBWMaMitFow2mKyx7oZCfj22Wx+aUkZUX0K
-	lwOLQvL7d/CHw7NpiC/FJfGyJu6KKEXRk1Lnnv6RrXUu+xWPU/eA
-X-Google-Smtp-Source: AGHT+IEuvIFvGhp/sVssOLtvf747YLJXkhkSnvGFW3zCQoLybyMocTFzuiSo4gAma3RCEmi83OjlIw==
-X-Received: by 2002:a05:6902:2491:b0:e28:eaed:3244 with SMTP id 3f1490d57ef6-e2bb16d5e8cmr2006264276.55.1729272636163;
-        Fri, 18 Oct 2024 10:30:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUIrUY4+pi/zMRJ23Tm2aEwwicmDBSXgJeadoi4T6kKOtmyumYHIVINlrvqrB5HaFJqjA+FMw==@lfdr.de
+X-Gm-Message-State: AOJu0YzyEOpFmiUW4shYVjk/sA+l1mWEy17yetPM4jtd2RSMHmWESRP3
+	pW6qRpTKRLX6IwGp4ATRSBbp3V3JD6dUqj7t/ranLX1nMvu6iNTT
+X-Google-Smtp-Source: AGHT+IE56QGFf2ZfyjwgComaNGg4rNrMeCZnkltvtCs0y6uVODEa00pEDdXHlxEtHQdrIBziPdYs2Q==
+X-Received: by 2002:a05:6214:3381:b0:6cb:f039:85a0 with SMTP id 6a1803df08f44-6cde16203bfmr44873446d6.40.1729272643509;
+        Fri, 18 Oct 2024 10:30:43 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6902:1243:b0:e29:2bfb:85f6 with SMTP id
- 3f1490d57ef6-e2b9cdfb313ls2427346276.1.-pod-prod-07-us; Fri, 18 Oct 2024
- 10:30:35 -0700 (PDT)
-X-Received: by 2002:a05:6902:12ce:b0:e11:6348:5d95 with SMTP id 3f1490d57ef6-e2bb11decb1mr2887344276.7.1729272635416;
-        Fri, 18 Oct 2024 10:30:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1729272635; cv=none;
+Received: by 2002:ad4:5aeb:0:b0:6c5:127c:2ebc with SMTP id 6a1803df08f44-6cc371dbb8als52323836d6.2.-pod-prod-05-us;
+ Fri, 18 Oct 2024 10:30:42 -0700 (PDT)
+X-Received: by 2002:a05:6102:5120:b0:492:9e3a:9f48 with SMTP id ada2fe7eead31-4a5d6a8b20bmr2992458137.2.1729272642526;
+        Fri, 18 Oct 2024 10:30:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1729272642; cv=none;
         d=google.com; s=arc-20240605;
-        b=RsN035u2xZ8RrH4Aj87szopGKe1TqXeKeZf+g5mDReehidpEGHbyIebdRvGaFHVdqB
-         27q543GQQZBAVmmeyMFFYFlit3+BKCfjNnmEzQbSGqZKAotFGAw4hGDfYkdAU4R3uM96
-         99IzoG5fIMR1Dfs+ANJoE4VRJtEtRVaF9Z/5nZtSt+vw2KNassp359sUNvKomiNlvCfq
-         NaGeYllF2sTNiAqjFLQwSZ9X9y/h5PvyRDt54l/DaiiKShdDta6is8vOir91xFw1RaJH
-         CB/DMZXcU7MADmSEEVJi/6n5a2usQj4nzzfPGCxm/r/DfD+zEQOcOeEioa1GBPeodxTv
-         LdwA==
+        b=CuMHOuLk2KQ4IOdrQZMcfVDPQ+a4zZlEnlFe9XZoNpX2OX4lv1xOEOZlKNO93r5rBt
+         eiisk3XLpqW0Piqvl+pIuN2rVfBOoLiDyJ9xsrj31Kgmi8U62J6tDXA9Y0Fw12OcALum
+         lbf1sot73x7QzZRkCDt4MejZ20mNlSIP3RNY5KGMNtYH6HgaoVubl8XsIqsMjldMv7Oe
+         tVx/mmzE0JqNNATcYgMoqDLsYu5smyATrcKt+z8b0kpY+k2zKDMbw6cV5TAK/nCfHg20
+         E0N/5QhQWy2592L9lZPsD4cRzbPkPhnbraT8Svcjpbnqbmty1Zjl/JGcpn8D4BeosSgR
+         ioqw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=PKeOGzBwhkORap+bFaXRZ5k5ETEZTGkTXkc6r1BfTnM=;
+        bh=Jw41Uo4vlK/av70SyuzQ/EcBacKxJaXG8uVQm7tNSaA=;
         fh=Bj4mozzLk9zJsLtJNyH+nEsVaBAd92VPaXopXx18a2s=;
-        b=Ut66+w/m9FjgEk4Xbm0+R7mbnonPM4uIbbdRBlOiRKE+sPwOzy28BW5rVw+GQo/O3C
-         We6GXWKlT3zCcuIF8w38PRuD/0+ixQgmj/agHd7km5abgFb1kOPnTbn8yAO0/ZHNGJcE
-         T3XKfM6/YVRbpESQz0zbRnxgm/8rKL2CgrpY3RI56g4XpFwvnwgWzPPNJ/g+vvvGqcSQ
-         0gu3OTkC74UaTaKOVD+HVRLr023MIQHx88H+pA9GmGLk3Pv9soKrVE9rVRrT7y1o+xUr
-         RftlqjSk+UdM3WB7wHDUSoBAEFpT5l6bvGGKnlp855M/dYNaEWtkzVBm5G1R6jPWK74V
-         R50A==;
+        b=DZ21t7ZkfhQppWbvG+P38+P+tW+22H+Lon+GzKJ8OzR617/Rg5H/Pg3EZtTeLI3aJ2
+         FUQuaVVg/9RNzzNbu1kgT177QVqndAhsxhfj3PTcnIdFAjOiO3xOJ9K/l/eYzVlEZp6X
+         GzuuJIv2gI1CM1SnN4ZaPbJ6Taw9mPWu8QTAX+eDv+8fzIMQxL08gdNv+hfrT0WnlZdB
+         ZVL1yUrmHdxZCm740sH6l9nGtJkY/64tH8tWT2rOAAHOutkVsIWPAf/6ojjkv7daZqpn
+         x6M8J/4OXTT7FKmtGxIIBnCrI17+hMguKweS9U0c2wY2vnKn2+MRC7PclxfK7MRzuRJP
+         Urww==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=h8rwNlnb;
-       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::52a as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=S3X2Pfkk;
+       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::436 as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com. [2607:f8b0:4864:20::52a])
-        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-e2bb03fbe9bsi101851276.3.2024.10.18.10.30.35
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com. [2607:f8b0:4864:20::436])
+        by gmr-mx.google.com with ESMTPS id ada2fe7eead31-4a5d633cf21si93873137.2.2024.10.18.10.30.42
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Oct 2024 10:30:35 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::52a as permitted sender) client-ip=2607:f8b0:4864:20::52a;
-Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-7d916b6a73aso1549223a12.1
-        for <kasan-dev@googlegroups.com>; Fri, 18 Oct 2024 10:30:35 -0700 (PDT)
-X-Received: by 2002:a05:6a20:d98:b0:1cf:38b0:57ff with SMTP id adf61e73a8af0-1d92c5ac311mr4139493637.48.1729272634341;
-        Fri, 18 Oct 2024 10:30:34 -0700 (PDT)
+        Fri, 18 Oct 2024 10:30:42 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::436 as permitted sender) client-ip=2607:f8b0:4864:20::436;
+Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-71e93d551a3so1606858b3a.1
+        for <kasan-dev@googlegroups.com>; Fri, 18 Oct 2024 10:30:42 -0700 (PDT)
+X-Received: by 2002:aa7:86da:0:b0:71e:b1dc:f255 with SMTP id d2e1a72fcca58-71eb1dcf5e7mr118528b3a.9.1729272641491;
+        Fri, 18 Oct 2024 10:30:41 -0700 (PDT)
 Received: from dw-tp.ibmuc.com ([171.76.80.151])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ea3311f51sm1725242b3a.36.2024.10.18.10.30.29
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ea3311f51sm1725242b3a.36.2024.10.18.10.30.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2024 10:30:33 -0700 (PDT)
+        Fri, 18 Oct 2024 10:30:40 -0700 (PDT)
 From: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
 To: linuxppc-dev@lists.ozlabs.org
 Cc: kasan-dev@googlegroups.com,
@@ -144,17 +143,17 @@ Cc: kasan-dev@googlegroups.com,
 	Pavithra Prakash <pavrampu@linux.vnet.ibm.com>,
 	LKML <linux-kernel@vger.kernel.org>,
 	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Subject: [PATCH v3 03/12] book3s64/hash: Refactor kernel linear map related calls
-Date: Fri, 18 Oct 2024 22:59:44 +0530
-Message-ID: <56c610310aa50b5417976a39c5f15b78bc76c764.1729271995.git.ritesh.list@gmail.com>
+Subject: [PATCH v3 04/12] book3s64/hash: Add hash_debug_pagealloc_add_slot() function
+Date: Fri, 18 Oct 2024 22:59:45 +0530
+Message-ID: <026f0aaa1dddd89154dc8d20ceccfca4f63ccf79.1729271995.git.ritesh.list@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <cover.1729271995.git.ritesh.list@gmail.com>
 References: <cover.1729271995.git.ritesh.list@gmail.com>
 MIME-Version: 1.0
 X-Original-Sender: ritesh.list@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=h8rwNlnb;       spf=pass
- (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::52a
+ header.i=@gmail.com header.s=20230601 header.b=S3X2Pfkk;       spf=pass
+ (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::436
  as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;       dmarc=pass
  (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
@@ -170,203 +169,59 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-This just brings all linear map related handling at one place instead of
-having those functions scattered in hash_utils file.
-Makes it easy for review.
+This adds hash_debug_pagealloc_add_slot() function instead of open
+coding that in htab_bolt_mapping(). This is required since we will be
+separating kfence functionality to not depend upon debug_pagealloc.
 
-No functionality changes in this patch.
+No functionality change in this patch.
 
 Signed-off-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
 ---
- arch/powerpc/mm/book3s64/hash_utils.c | 164 +++++++++++++-------------
- 1 file changed, 82 insertions(+), 82 deletions(-)
+ arch/powerpc/mm/book3s64/hash_utils.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/arch/powerpc/mm/book3s64/hash_utils.c b/arch/powerpc/mm/book3s64/hash_utils.c
-index e22a8f540193..fb2f717e9e74 100644
+index fb2f717e9e74..de3cabd66812 100644
 --- a/arch/powerpc/mm/book3s64/hash_utils.c
 +++ b/arch/powerpc/mm/book3s64/hash_utils.c
-@@ -273,6 +273,88 @@ void hash__tlbiel_all(unsigned int action)
- 		WARN(1, "%s called on pre-POWER7 CPU\n", __func__);
+@@ -328,6 +328,14 @@ static void kernel_unmap_linear_page(unsigned long vaddr, unsigned long lmi)
+ 				     mmu_kernel_ssize, 0);
  }
  
-+#ifdef CONFIG_DEBUG_PAGEALLOC
-+static DEFINE_RAW_SPINLOCK(linear_map_hash_lock);
-+
-+static void kernel_map_linear_page(unsigned long vaddr, unsigned long lmi)
++static inline void hash_debug_pagealloc_add_slot(phys_addr_t paddr, int slot)
 +{
-+	unsigned long hash;
-+	unsigned long vsid = get_kernel_vsid(vaddr, mmu_kernel_ssize);
-+	unsigned long vpn = hpt_vpn(vaddr, vsid, mmu_kernel_ssize);
-+	unsigned long mode = htab_convert_pte_flags(pgprot_val(PAGE_KERNEL), HPTE_USE_KERNEL_KEY);
-+	long ret;
-+
-+	hash = hpt_hash(vpn, PAGE_SHIFT, mmu_kernel_ssize);
-+
-+	/* Don't create HPTE entries for bad address */
-+	if (!vsid)
++	if (!debug_pagealloc_enabled())
 +		return;
-+
-+	if (linear_map_hash_slots[lmi] & 0x80)
-+		return;
-+
-+	ret = hpte_insert_repeating(hash, vpn, __pa(vaddr), mode,
-+				    HPTE_V_BOLTED,
-+				    mmu_linear_psize, mmu_kernel_ssize);
-+
-+	BUG_ON (ret < 0);
-+	raw_spin_lock(&linear_map_hash_lock);
-+	BUG_ON(linear_map_hash_slots[lmi] & 0x80);
-+	linear_map_hash_slots[lmi] = ret | 0x80;
-+	raw_spin_unlock(&linear_map_hash_lock);
++	if ((paddr >> PAGE_SHIFT) < linear_map_hash_count)
++		linear_map_hash_slots[paddr >> PAGE_SHIFT] = slot | 0x80;
 +}
 +
-+static void kernel_unmap_linear_page(unsigned long vaddr, unsigned long lmi)
-+{
-+	unsigned long hash, hidx, slot;
-+	unsigned long vsid = get_kernel_vsid(vaddr, mmu_kernel_ssize);
-+	unsigned long vpn = hpt_vpn(vaddr, vsid, mmu_kernel_ssize);
-+
-+	hash = hpt_hash(vpn, PAGE_SHIFT, mmu_kernel_ssize);
-+	raw_spin_lock(&linear_map_hash_lock);
-+	if (!(linear_map_hash_slots[lmi] & 0x80)) {
-+		raw_spin_unlock(&linear_map_hash_lock);
-+		return;
-+	}
-+	hidx = linear_map_hash_slots[lmi] & 0x7f;
-+	linear_map_hash_slots[lmi] = 0;
-+	raw_spin_unlock(&linear_map_hash_lock);
-+	if (hidx & _PTEIDX_SECONDARY)
-+		hash = ~hash;
-+	slot = (hash & htab_hash_mask) * HPTES_PER_GROUP;
-+	slot += hidx & _PTEIDX_GROUP_IX;
-+	mmu_hash_ops.hpte_invalidate(slot, vpn, mmu_linear_psize,
-+				     mmu_linear_psize,
-+				     mmu_kernel_ssize, 0);
-+}
-+
-+int hash__kernel_map_pages(struct page *page, int numpages, int enable)
-+{
-+	unsigned long flags, vaddr, lmi;
-+	int i;
-+
-+	local_irq_save(flags);
-+	for (i = 0; i < numpages; i++, page++) {
-+		vaddr = (unsigned long)page_address(page);
-+		lmi = __pa(vaddr) >> PAGE_SHIFT;
-+		if (lmi >= linear_map_hash_count)
-+			continue;
-+		if (enable)
-+			kernel_map_linear_page(vaddr, lmi);
-+		else
-+			kernel_unmap_linear_page(vaddr, lmi);
-+	}
-+	local_irq_restore(flags);
-+	return 0;
-+}
-+#else /* CONFIG_DEBUG_PAGEALLOC */
-+int hash__kernel_map_pages(struct page *page, int numpages,
-+					 int enable)
-+{
-+	return 0;
-+}
-+#endif /* CONFIG_DEBUG_PAGEALLOC */
-+
- /*
-  * 'R' and 'C' update notes:
-  *  - Under pHyp or KVM, the updatepp path will not set C, thus it *will*
-@@ -2120,88 +2202,6 @@ void hpt_do_stress(unsigned long ea, unsigned long hpte_group)
- 	}
- }
- 
--#ifdef CONFIG_DEBUG_PAGEALLOC
--static DEFINE_RAW_SPINLOCK(linear_map_hash_lock);
--
--static void kernel_map_linear_page(unsigned long vaddr, unsigned long lmi)
--{
--	unsigned long hash;
--	unsigned long vsid = get_kernel_vsid(vaddr, mmu_kernel_ssize);
--	unsigned long vpn = hpt_vpn(vaddr, vsid, mmu_kernel_ssize);
--	unsigned long mode = htab_convert_pte_flags(pgprot_val(PAGE_KERNEL), HPTE_USE_KERNEL_KEY);
--	long ret;
--
--	hash = hpt_hash(vpn, PAGE_SHIFT, mmu_kernel_ssize);
--
--	/* Don't create HPTE entries for bad address */
--	if (!vsid)
--		return;
--
--	if (linear_map_hash_slots[lmi] & 0x80)
--		return;
--
--	ret = hpte_insert_repeating(hash, vpn, __pa(vaddr), mode,
--				    HPTE_V_BOLTED,
--				    mmu_linear_psize, mmu_kernel_ssize);
--
--	BUG_ON (ret < 0);
--	raw_spin_lock(&linear_map_hash_lock);
--	BUG_ON(linear_map_hash_slots[lmi] & 0x80);
--	linear_map_hash_slots[lmi] = ret | 0x80;
--	raw_spin_unlock(&linear_map_hash_lock);
--}
--
--static void kernel_unmap_linear_page(unsigned long vaddr, unsigned long lmi)
--{
--	unsigned long hash, hidx, slot;
--	unsigned long vsid = get_kernel_vsid(vaddr, mmu_kernel_ssize);
--	unsigned long vpn = hpt_vpn(vaddr, vsid, mmu_kernel_ssize);
--
--	hash = hpt_hash(vpn, PAGE_SHIFT, mmu_kernel_ssize);
--	raw_spin_lock(&linear_map_hash_lock);
--	if (!(linear_map_hash_slots[lmi] & 0x80)) {
--		raw_spin_unlock(&linear_map_hash_lock);
--		return;
--	}
--	hidx = linear_map_hash_slots[lmi] & 0x7f;
--	linear_map_hash_slots[lmi] = 0;
--	raw_spin_unlock(&linear_map_hash_lock);
--	if (hidx & _PTEIDX_SECONDARY)
--		hash = ~hash;
--	slot = (hash & htab_hash_mask) * HPTES_PER_GROUP;
--	slot += hidx & _PTEIDX_GROUP_IX;
--	mmu_hash_ops.hpte_invalidate(slot, vpn, mmu_linear_psize,
--				     mmu_linear_psize,
--				     mmu_kernel_ssize, 0);
--}
--
--int hash__kernel_map_pages(struct page *page, int numpages, int enable)
--{
--	unsigned long flags, vaddr, lmi;
--	int i;
--
--	local_irq_save(flags);
--	for (i = 0; i < numpages; i++, page++) {
--		vaddr = (unsigned long)page_address(page);
--		lmi = __pa(vaddr) >> PAGE_SHIFT;
--		if (lmi >= linear_map_hash_count)
--			continue;
--		if (enable)
--			kernel_map_linear_page(vaddr, lmi);
--		else
--			kernel_unmap_linear_page(vaddr, lmi);
--	}
--	local_irq_restore(flags);
--	return 0;
--}
--#else /* CONFIG_DEBUG_PAGEALLOC */
--int hash__kernel_map_pages(struct page *page, int numpages,
--					 int enable)
--{
--	return 0;
--}
--#endif /* CONFIG_DEBUG_PAGEALLOC */
--
- void hash__setup_initial_memory_limit(phys_addr_t first_memblock_base,
- 				phys_addr_t first_memblock_size)
+ int hash__kernel_map_pages(struct page *page, int numpages, int enable)
  {
+ 	unsigned long flags, vaddr, lmi;
+@@ -353,6 +361,7 @@ int hash__kernel_map_pages(struct page *page, int numpages,
+ {
+ 	return 0;
+ }
++static inline void hash_debug_pagealloc_add_slot(phys_addr_t paddr, int slot) {}
+ #endif /* CONFIG_DEBUG_PAGEALLOC */
+ 
+ /*
+@@ -513,9 +522,7 @@ int htab_bolt_mapping(unsigned long vstart, unsigned long vend,
+ 			break;
+ 
+ 		cond_resched();
+-		if (debug_pagealloc_enabled() &&
+-			(paddr >> PAGE_SHIFT) < linear_map_hash_count)
+-			linear_map_hash_slots[paddr >> PAGE_SHIFT] = ret | 0x80;
++		hash_debug_pagealloc_add_slot(paddr, ret);
+ 	}
+ 	return ret < 0 ? ret : 0;
+ }
 -- 
 2.46.0
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/56c610310aa50b5417976a39c5f15b78bc76c764.1729271995.git.ritesh.list%40gmail.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/026f0aaa1dddd89154dc8d20ceccfca4f63ccf79.1729271995.git.ritesh.list%40gmail.com.
