@@ -1,162 +1,160 @@
-Return-Path: <kasan-dev+bncBDS6NZUJ6ILRB25WZK4AMGQEMPTJF4Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBDLKPY4HVQKBBAV3ZK4AMGQEL5T7P3A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-io1-xd3b.google.com (mail-io1-xd3b.google.com [IPv6:2607:f8b0:4864:20::d3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F3BC9A44B5
-	for <lists+kasan-dev@lfdr.de>; Fri, 18 Oct 2024 19:31:25 +0200 (CEST)
-Received: by mail-io1-xd3b.google.com with SMTP id ca18e2360f4ac-83ac0354401sf52015639f.3
-        for <lists+kasan-dev@lfdr.de>; Fri, 18 Oct 2024 10:31:25 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1729272683; cv=pass;
+Received: from mail-ed1-x53b.google.com (mail-ed1-x53b.google.com [IPv6:2a00:1450:4864:20::53b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C009A450A
+	for <lists+kasan-dev@lfdr.de>; Fri, 18 Oct 2024 19:40:20 +0200 (CEST)
+Received: by mail-ed1-x53b.google.com with SMTP id 4fb4d7f45d1cf-5c95ac2d13bsf1497830a12.2
+        for <lists+kasan-dev@lfdr.de>; Fri, 18 Oct 2024 10:40:20 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1729273220; cv=pass;
         d=google.com; s=arc-20240605;
-        b=WN5HLvsY04Kn95B/yUp/EbsrtqOY/br24ref4zEJNybIRKAYmu7DKllzNy8L0pFC2l
-         fncILO/uLrG07ULfIDGdbk1A4Hccu2xdjiwYsld0wh368adZVxJsUnO2hI9Wst0aj5cX
-         mqLXX6kpnzpVjJoRrZTJETampv+Wk7TSnGJuExjhPk6qHL6lkk6OecfGJHJ7IDnvJfr0
-         JqnTnpjBPyKmiWmVJE1CF7XSCRXsZrXbzfEozGE9lKm6xBY8fpjlQJUSAMxvOqdeOPXX
-         yJCk65djRN4fyHNd3hDwohrwvZ3/7Fp9M0C0eJGQSGHoRIyQT8P/KRSnpsTBKiTSdWI/
-         yM9w==
+        b=Mbqo3ykwyrw8EDlRwQExKbVFtivHCi4WFxEYPZ36VnN/NC+HLjiL/Ht/rpgTuz4V8q
+         15VzpfBPGK8OcL5JPbqE9KytVVRCP7M/sT7ZLHwwPuaMu5aAofwT7S7Ukz+YwHLQYsPh
+         2d8NCgdoE6szX/8fT9c66aFZ+oRE3ymwz/8KCZlO+xdRH7rXgtNljYQkMIE8UEoNpryE
+         CjjmtbxLA92rHSJVSRfQ5PwR1oI4dYR420BBvMnNwMEjX14kUmy8gSF5a83UpIrKB0yC
+         4VnQ/taOURhV7IztMIanOUd1/q/pFg3KDAaKOY9NgcWoFW+yjYgDDkzntb+02lueJrow
+         9vXQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:sender:dkim-signature
-         :dkim-signature;
-        bh=FnlYHYypW3Wn7rgt6ZsSpLeJ57s2ZS0nae5YU3Z+wj8=;
-        fh=CT+qWFSIVezM05A+HmM9nkrSqq28IebK2tOBZf1vekY=;
-        b=IBrF6YBBSAhicS7d9R5AX6dggmqujyeesi6q90dgyNoa1/WiahAlyc5gNWmw8gMQVJ
-         P2yRHD0AzogR5jc10xg9j8AyiXwqA+1Avu7H0Z5xB08LLjK+VpuBu1R/0qFMIg6PILI2
-         ScelG3PJaOr4LHmVx0QZdAAdeYFoovRxGMWoALckfu5lqgxQs5MEvwWlp29ebi4O45ai
-         OQQkbTyhoUS+cZfq90XpMZ//ggEZEJyqvAIWEsFOZP6NB75zKM1kqmJpGw/gtb77MrT/
-         dcul31u7YJL96YI/x29r8DWUZauSjpsVMdiSLz7iPUca2dl1KIY/AAiqE6HjLhBnrqbA
-         RJBg==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:dkim-signature;
+        bh=tO53YQWDRQd18nYFqWb8mnrD2vXic37+9SkZdeyZIUo=;
+        fh=zjCrOeUIgs5I05AKEucV7Ry1qA752ugiYh8IE6Q0Lr0=;
+        b=EgjPZG7xjcwqc5AmZ8WabRw+PZrhJpUN8AHDai9VrkZqLeFem2Z7z1ZU2mRxrkEdKS
+         Bdac2HjQ6PMwoBiZd468fVcZc3Rbx9hiLCaHo1904DXUuygzX2bglG4xduqe0aMqTdFk
+         rMy52xbKuiYPAmiGZyy6uYmyeH0WUGWpBxFMLkCwtJlLBHNNufFshUuWA1xJrJK6i3Ul
+         kEanX7BNtVpdhrDxaFLPrn33b+YwcMwdIoV/xGMyr/jIYP1Y+i82EdxDmDeNVyFiNCnv
+         XWfcabXTlX3tvzmkJf0Qx30GiRagjonIn+w8Pu8OBrC3WVOwFmQ1NlFB3PXmjun0aMFj
+         cquw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z5QQ1Fkk;
-       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::429 as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1729272683; x=1729877483; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1729273220; x=1729878020; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FnlYHYypW3Wn7rgt6ZsSpLeJ57s2ZS0nae5YU3Z+wj8=;
-        b=YYRimzZlCk9olcg354Xkx9M2akBCz4CNW/n2RB2tTYoFe22RgJCpii/+pxmZCxTx62
-         y0RiSzotOLlzhzCL6Nsm/wn9G/HbECGrH3YXvJewbAgxCmlbYH51iY3yrLfhvo+Sypxd
-         pJftfIt+LiK0blVc6OCfXUm0FdGfv5TmruP4R8ts8zJCXh219s3jjqVahBiN14EaQvCq
-         k8hP5sfPIMW1yr/C2RjJXav65hjO8IKK3khRKqj1euhlsZFtqyXrEVHFQzQnjccHqJKy
-         mQd/YzjrUIRNI78m6o7nst0FiLgFKimkQdy6JJiilltZhlsnBoj/aItSQIH2DqajuwyM
-         6gaw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729272683; x=1729877483; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :date:subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FnlYHYypW3Wn7rgt6ZsSpLeJ57s2ZS0nae5YU3Z+wj8=;
-        b=VL74h80RJe4EP5JIYAwFQxywE0wrsAtdSOcePEeaPF5EN8Ele8U3ug3KJkQdeKhyaL
-         sGbRNK5iEcsxsNh+tT13j4aMyYtE1uQuVUm9H/Tv8Ichv39rRopYmdc1JctvdY7jZKQu
-         qwWhzMY1ZNpzir/BKnyqV5nHthhN6eO31/hgWfstTuvlyBALi4DizRbAIhqjR05nfiT4
-         A7ONSwL/nNcrkhE/ESaaYj5LOSzBJ/LQZZqdquZtOFc87TvSfEZAGZXX0n3ueHqGu1NA
-         mOitWIw0GQGCEc+pZElEyJ+t7+R4S7/qotd9g7pwGwjnvUKDzNK3sqvAs+0QnlkPVOHi
-         VAbw==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tO53YQWDRQd18nYFqWb8mnrD2vXic37+9SkZdeyZIUo=;
+        b=Icr73ZyYYC5p+nKJhaiH54AUkqdRMdon9JGoECbPkrIuPqL2cpmE/furxq5pIUzrrz
+         aQhoXaPMO7LXIf2vplmQzbwHxIaH+pYnWnSFIc8n4Cin2KWseZnB7+9YQSAA2OdKwVKg
+         gGqKWBUxUl+LwP0yDiwEgrDrjdAMdy2XJAOIHcVYL/t1P96ISoxurHKsekARLCwEMKWi
+         akstOk/HGAUCgVsv0RblW0mqPsRlhezRDJLA+ZPikc+WmE1teCFnt44jLBGzuDwJse6g
+         a0a3lb7YrgOAVaAgwgpdWk4YXzQRl7n7UMH+sgPtlFAU9eHuAUAZvF5HVzlE5ZQgS/Ig
+         aKcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729272683; x=1729877483;
+        d=1e100.net; s=20230601; t=1729273220; x=1729878020;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FnlYHYypW3Wn7rgt6ZsSpLeJ57s2ZS0nae5YU3Z+wj8=;
-        b=ZOe9u9svi+t6gK4iRM2mddYPqxHUPxDQ4DYC/hd6/WIC/u8FWoP+tkk7s1cEpA6g5L
-         k2eFK1S7k9IVd/g6HzeM3XIwHwWaOXlCAy9XeHTQfilBOLprGedWeUkXcKAKDmSdWPy2
-         QEj7hhWoinjCQtNRvwzuHZjMOwljVzY8GBGoz6vS0VEnwi6+pb1n/+Ez8o/hXUlkURCj
-         cwU2ZCF7atLRgbuFjpVG5ceShcW1WG5gDYTAxcQkUzRzlhha530MwXdM7uhQrlIc5lU2
-         rMjm2qhBKGPEbQKD2bmVrShi1fiER42Vs/FLJntCCPlMCYB91xS+6hlKtEoYw4aBJKR7
-         xWtA==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUqI8GhA6GOV4qqn1WGQ00S79Pjhprbnyn+/BOxcrRHAiPD/Xj8yHGi8cXCa2pQ8Z1CGnYGbg==@lfdr.de
-X-Gm-Message-State: AOJu0YyTMP13embSrQwNQw9vfy2C2SABzr5YQfSQlJGUqE8Zlg7rhlOS
-	cDSFGx4AwWym3NtsiaHSXBd8WmkU+GcgWVm2fAG3XGfD0dOPrjaM
-X-Google-Smtp-Source: AGHT+IFvi53Je2RhEjgHOXthhuHG5XFd46zGv0Znpg5tf3yKX5r2Tk2SFZU6rBWyU6H3V4EfcxI5BA==
-X-Received: by 2002:a05:6e02:1c8d:b0:3a0:98b2:8f3b with SMTP id e9e14a558f8ab-3a3f405445emr32701795ab.7.1729272683566;
-        Fri, 18 Oct 2024 10:31:23 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tO53YQWDRQd18nYFqWb8mnrD2vXic37+9SkZdeyZIUo=;
+        b=uxSyluzbsoGh8ABwyUC+WR9t50Eo8a8OfDm+ySsGpIpby0Cr3GZ6tlJkLSOca4wdRO
+         cSHi48meIS2eVIOUXx/f5mv278g+Di314sR9NjIJvjypPQIdlnS9ehYB72RNWauc0HEf
+         W1ujKnsKpP+7Ae3pPQryMQz/vP/SrliG7zYfljqrjQyGvcdhWN7hHtbpQZDv6XZPzD2M
+         UgxyM85gWFdUenai+9GTlwLasj/qqUWepW5fhSIMJmIPoa30kZaUoP6Cq8A+MJBYR7+m
+         VB0/mGb0spt2atHAxfw9jNMGdqndtHJYFSvcivpKLTPvkdRWDbx2TyDA/aNWG8i9aETU
+         GbXg==
+X-Forwarded-Encrypted: i=2; AJvYcCU7Edy7xGiGGP8ANVY2GZjlKfnH+DlHrFL1xT2jhHIaWn45CPjE26ojkh42BF67Y2aM3lWVww==@lfdr.de
+X-Gm-Message-State: AOJu0YyHZRXVIkbDS6QsekyqnruanUgz013YwC3LyKQ3SOIjO/LdMIDc
+	keN/XUPPH+hgsxM6VjVQo2NHCPOAJXlFPTbB6Qon784a82AIoNtk
+X-Google-Smtp-Source: AGHT+IHFfHYkobYL7O7b60oeeExX9QYUqbsDmXGoBlFHx0M86+rGTmjEeoKf7lBre0n784Sm3QxiLw==
+X-Received: by 2002:a05:6402:26ce:b0:5c9:87a0:4fcc with SMTP id 4fb4d7f45d1cf-5ca0ac62747mr2353882a12.16.1729273219109;
+        Fri, 18 Oct 2024 10:40:19 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a92:c563:0:b0:3a0:beb4:f1e6 with SMTP id e9e14a558f8ab-3a3e4afb8bcls5412085ab.1.-pod-prod-05-us;
- Fri, 18 Oct 2024 10:31:22 -0700 (PDT)
-X-Received: by 2002:a05:6e02:180e:b0:3a0:ae35:f2eb with SMTP id e9e14a558f8ab-3a3f409f253mr34604155ab.19.1729272682727;
-        Fri, 18 Oct 2024 10:31:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1729272682; cv=none;
+Received: by 2002:a05:6402:3489:b0:5c4:6c19:f74f with SMTP id
+ 4fb4d7f45d1cf-5c9a5a31722ls1443568a12.2.-pod-prod-04-eu; Fri, 18 Oct 2024
+ 10:40:16 -0700 (PDT)
+X-Received: by 2002:a17:907:720c:b0:a89:f5f6:395 with SMTP id a640c23a62f3a-a9a69a63837mr299962566b.1.1729273216314;
+        Fri, 18 Oct 2024 10:40:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1729273216; cv=none;
         d=google.com; s=arc-20240605;
-        b=C9str/Szq1fABdk5t2UmFJk69qDT2t0PpYp/qdFb3oss8665heXSFrJk7MSYIPWuhp
-         Jz7/kDcP2edBl0bIeY08EXoP0rzqo6DVqi/zqCdJvD0dJeXerqREPo5B5te/iAQDrf1U
-         PSxQC68PsaTdoclNn72F/EIpOomTpl6iF8oxPrHvXY9R8Qvp/PhjIdhQuUa9tpu4h5AT
-         E+DqxrGlajhXNMgb1bzDwaQG1ahi++zwKIlKk/saIF/P+2m6EqBDCYqoQZp7ClLJfPrJ
-         rD7nub5OmLN2wPj1TJ1gVxZVnOoAp44e7kYVikduEF4xmeY0S0I1ossXpw+eJpsLwzTR
-         ViAw==
+        b=Pu5STDrgnjxM3yQI3yeWTSkitPKKolAnbBOO9tDfD9ld8YyN6VWC2psV7LsG2DmQJX
+         IhoR75Efn2AG0gZmoPS4RTHsMjnI1843sxAPnpcsLYzLxQ9Id/jrgOZNu2aIuaF1oxEe
+         o0G7T1FqBrxceoqilcNoloas/bkSAndr2VOekvHomLibl+Zzkos8R05jFfRFroaJ0dv8
+         yYa78xaUqHEARJmoq7V1ArO2CuwGKlGZi0zX+VaGTOsqP8kxtntJUhWygDkDVhHNsmUr
+         A5Aia+9D3zLugC1qknw32eJ3P+FOIjxoiUZd7P64Ize1WpzRs9G/1pmKLwygwU1DTXE6
+         j4JQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=1QLaMyzhWv0h56bpJNLe2thoYBckgfAdM8HvqGdr41M=;
-        fh=Bj4mozzLk9zJsLtJNyH+nEsVaBAd92VPaXopXx18a2s=;
-        b=Pvio7ShCEBVpeQUuauCI1o0ZCILaGtFrHQdwIVxu0rl8f75gQEz18iRMzuGveRmlWg
-         OcDp3EDupFug3G+RwK43xhH/ez2OFiVDMBPDP193u9NVM86fEwC+JkgS78hikZvd6BaC
-         CMqttCLrb4I/Ai+kgwh9Y/ojO8hjUX51/lXUYnihwSmgaXmWNKAiatJ0IUZX1hZkqVV5
-         CKUSq8Ul7ewWfk2Sijo6i3yAmeWuIVgd3DOUfv/OQYgi1tsIRZn/l5zf07mpNnFgA3Wl
-         9XU32x3uREJhUJJNCqUr7Va2D97dilxRDho5Fcz2N9TLqS7Qik9Y0HaC8+7GZSPwoVVW
-         6mHg==;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id;
+        bh=v57rTYxRjrPWie/sbzb55q8HI0oXpri0RSDi3q5sTzg=;
+        fh=waMq+E6muCHVDi9UmWJzPdhoSjMLRu8bOumcs+VT5c8=;
+        b=Vtod5qStnTz6SlfDSRpNfyD0prW78VWmULUTCSXdDEjicQqxHQ2+idDOWWsGn9FJ17
+         CIjLe0tFFE0p38wytlyL6X8aBz/8jkJV2qJizjrkB+rx3Oak9RMEogb5KxJ0TBa2Ie/k
+         imEWYgeVS9riJJpnmT2d8ULLYB/k7cVOnx4L+FKdi2Ie2ADBJly2bK9iYz5tdnzLs9Qq
+         Xc8RjwstUxnNJKfz4StJdsXSk5hm+7RuAp1QFuk+k3y5UH+a8qqBs5AWYRs1dnuYcNHn
+         810wwzS0me87WAyXGd4PA9ZGYxeqM2nBfHqeIoBAkrWlfhmOuFm6GRF9gbn1GdUmeija
+         0nGg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z5QQ1Fkk;
-       spf=pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::429 as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com. [2607:f8b0:4864:20::429])
-        by gmr-mx.google.com with ESMTPS id 8926c6da1cb9f-4dc10c1b0b7si87575173.4.2024.10.18.10.31.22
+       spf=pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
+Received: from pegase2.c-s.fr (pegase2.c-s.fr. [93.17.235.10])
+        by gmr-mx.google.com with ESMTPS id a640c23a62f3a-a9a68769627si3815766b.0.2024.10.18.10.40.16
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Oct 2024 10:31:22 -0700 (PDT)
-Received-SPF: pass (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::429 as permitted sender) client-ip=2607:f8b0:4864:20::429;
-Received: by mail-pf1-x429.google.com with SMTP id d2e1a72fcca58-71e953f4e7cso1514413b3a.3
-        for <kasan-dev@googlegroups.com>; Fri, 18 Oct 2024 10:31:22 -0700 (PDT)
-X-Received: by 2002:a05:6a00:cd4:b0:71e:cf8:d6f1 with SMTP id d2e1a72fcca58-71ea316bf4emr3925702b3a.14.1729272682003;
-        Fri, 18 Oct 2024 10:31:22 -0700 (PDT)
-Received: from dw-tp.ibmuc.com ([171.76.80.151])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ea3311f51sm1725242b3a.36.2024.10.18.10.31.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2024 10:31:21 -0700 (PDT)
-From: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-To: linuxppc-dev@lists.ozlabs.org
-Cc: kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	Marco Elver <elver@google.com>,
-	Alexander Potapenko <glider@google.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Hari Bathini <hbathini@linux.ibm.com>,
-	"Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
-	Donet Tom <donettom@linux.vnet.ibm.com>,
-	Pavithra Prakash <pavrampu@linux.vnet.ibm.com>,
-	LKML <linux-kernel@vger.kernel.org>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>
-Subject: [PATCH v3 12/12] book3s64/hash: Early detect debug_pagealloc size requirement
-Date: Fri, 18 Oct 2024 22:59:53 +0530
-Message-ID: <c33c6691b2a2cf619cc74ac100118ca4dbf21a48.1729271995.git.ritesh.list@gmail.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <cover.1729271995.git.ritesh.list@gmail.com>
-References: <cover.1729271995.git.ritesh.list@gmail.com>
+        Fri, 18 Oct 2024 10:40:16 -0700 (PDT)
+Received-SPF: pass (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as permitted sender) client-ip=93.17.235.10;
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4XVX675pLBz9sPd;
+	Fri, 18 Oct 2024 19:40:15 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id A60ALosMKCjZ; Fri, 18 Oct 2024 19:40:15 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4XVX674tplz9rvV;
+	Fri, 18 Oct 2024 19:40:15 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 97B0A8B779;
+	Fri, 18 Oct 2024 19:40:15 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id ZaNkbIa7WNNO; Fri, 18 Oct 2024 19:40:15 +0200 (CEST)
+Received: from [192.168.232.18] (unknown [192.168.232.18])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id CBDAC8B764;
+	Fri, 18 Oct 2024 19:40:14 +0200 (CEST)
+Message-ID: <0c81a6cc-2466-4932-805b-056d4e7dec2b@csgroup.eu>
+Date: Fri, 18 Oct 2024 19:40:14 +0200
 MIME-Version: 1.0
-X-Original-Sender: ritesh.list@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=Z5QQ1Fkk;       spf=pass
- (google.com: domain of ritesh.list@gmail.com designates 2607:f8b0:4864:20::429
- as permitted sender) smtp.mailfrom=ritesh.list@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 01/12] powerpc: mm/fault: Fix kfence page fault
+ reporting
+To: "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
+ linuxppc-dev@lists.ozlabs.org
+Cc: kasan-dev@googlegroups.com, linux-mm@kvack.org,
+ Marco Elver <elver@google.com>, Alexander Potapenko <glider@google.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ Nicholas Piggin <npiggin@gmail.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Hari Bathini <hbathini@linux.ibm.com>,
+ "Aneesh Kumar K . V" <aneesh.kumar@kernel.org>,
+ Donet Tom <donettom@linux.vnet.ibm.com>,
+ Pavithra Prakash <pavrampu@linux.vnet.ibm.com>,
+ LKML <linux-kernel@vger.kernel.org>, Disha Goel <disgoel@linux.ibm.com>
+References: <cover.1729271995.git.ritesh.list@gmail.com>
+ <a411788081d50e3b136c6270471e35aba3dfafa3.1729271995.git.ritesh.list@gmail.com>
+Content-Language: fr-FR
+From: "'Christophe Leroy' via kasan-dev" <kasan-dev@googlegroups.com>
+In-Reply-To: <a411788081d50e3b136c6270471e35aba3dfafa3.1729271995.git.ritesh.list@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: christophe.leroy@csgroup.eu
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of christophe.leroy@csgroup.eu designates 93.17.235.10 as
+ permitted sender) smtp.mailfrom=christophe.leroy@csgroup.eu;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=csgroup.eu
+X-Original-From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Reply-To: Christophe Leroy <christophe.leroy@csgroup.eu>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -169,75 +167,99 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Add hash_supports_debug_pagealloc() helper to detect whether
-debug_pagealloc can be supported on hash or not. This checks for both,
-whether debug_pagealloc config is enabled and the linear map should
-fit within rma_size/4 region size.
 
-This can then be used early during htab_init_page_sizes() to decide
-linear map pagesize if hash supports either debug_pagealloc or
-kfence.
 
-Signed-off-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
----
- arch/powerpc/mm/book3s64/hash_utils.c | 25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+Le 18/10/2024 =C3=A0 19:29, Ritesh Harjani (IBM) a =C3=A9crit=C2=A0:
+> copy_from_kernel_nofault() can be called when doing read of /proc/kcore.
+> /proc/kcore can have some unmapped kfence objects which when read via
+> copy_from_kernel_nofault() can cause page faults. Since *_nofault()
+> functions define their own fixup table for handling fault, use that
+> instead of asking kfence to handle such faults.
+>=20
+> Hence we search the exception tables for the nip which generated the
+> fault. If there is an entry then we let the fixup table handler handle th=
+e
+> page fault by returning an error from within ___do_page_fault().
+>=20
+> This can be easily triggered if someone tries to do dd from /proc/kcore.
+> dd if=3D/proc/kcore of=3D/dev/null bs=3D1M
+>=20
+> <some example false negatives>
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+> BUG: KFENCE: invalid read in copy_from_kernel_nofault+0xb0/0x1c8
+> Invalid read at 0x000000004f749d2e:
+>   copy_from_kernel_nofault+0xb0/0x1c8
+>   0xc0000000057f7950
+>   read_kcore_iter+0x41c/0x9ac
+>   proc_reg_read_iter+0xe4/0x16c
+>   vfs_read+0x2e4/0x3b0
+>   ksys_read+0x88/0x154
+>   system_call_exception+0x124/0x340
+>   system_call_common+0x160/0x2c4
+>=20
+> BUG: KFENCE: use-after-free read in copy_from_kernel_nofault+0xb0/0x1c8
+> Use-after-free read at 0x000000008fbb08ad (in kfence-#0):
+>   copy_from_kernel_nofault+0xb0/0x1c8
+>   0xc0000000057f7950
+>   read_kcore_iter+0x41c/0x9ac
+>   proc_reg_read_iter+0xe4/0x16c
+>   vfs_read+0x2e4/0x3b0
+>   ksys_read+0x88/0x154
+>   system_call_exception+0x124/0x340
+>   system_call_common+0x160/0x2c4
+>=20
+> Fixes: 90cbac0e995d ("powerpc: Enable KFENCE for PPC32")
+> Suggested-by: Christophe Leroy <christophe.leroy@csgroup.eu>
 
-diff --git a/arch/powerpc/mm/book3s64/hash_utils.c b/arch/powerpc/mm/book3s64/hash_utils.c
-index 2f5dd6310a8f..2674f763f5db 100644
---- a/arch/powerpc/mm/book3s64/hash_utils.c
-+++ b/arch/powerpc/mm/book3s64/hash_utils.c
-@@ -329,25 +329,26 @@ static void kernel_unmap_linear_page(unsigned long vaddr, unsigned long idx,
- }
- #endif
- 
-+static inline bool hash_supports_debug_pagealloc(void)
-+{
-+	unsigned long max_hash_count = ppc64_rma_size / 4;
-+	unsigned long linear_map_count = memblock_end_of_DRAM() >> PAGE_SHIFT;
-+
-+	if (!debug_pagealloc_enabled() || linear_map_count > max_hash_count)
-+		return false;
-+	return true;
-+}
-+
- #ifdef CONFIG_DEBUG_PAGEALLOC
- static u8 *linear_map_hash_slots;
- static unsigned long linear_map_hash_count;
- static DEFINE_RAW_SPINLOCK(linear_map_hash_lock);
- static void hash_debug_pagealloc_alloc_slots(void)
- {
--	unsigned long max_hash_count = ppc64_rma_size / 4;
--
--	if (!debug_pagealloc_enabled())
--		return;
--	linear_map_hash_count = memblock_end_of_DRAM() >> PAGE_SHIFT;
--	if (unlikely(linear_map_hash_count > max_hash_count)) {
--		pr_info("linear map size (%llu) greater than 4 times RMA region (%llu). Disabling debug_pagealloc\n",
--			((u64)linear_map_hash_count << PAGE_SHIFT),
--			ppc64_rma_size);
--		linear_map_hash_count = 0;
-+	if (!hash_supports_debug_pagealloc())
- 		return;
--	}
- 
-+	linear_map_hash_count = memblock_end_of_DRAM() >> PAGE_SHIFT;
- 	linear_map_hash_slots = memblock_alloc_try_nid(
- 			linear_map_hash_count, 1, MEMBLOCK_LOW_LIMIT,
- 			ppc64_rma_size,	NUMA_NO_NODE);
-@@ -1076,7 +1077,7 @@ static void __init htab_init_page_sizes(void)
- 	bool aligned = true;
- 	init_hpte_page_sizes();
- 
--	if (!debug_pagealloc_enabled() && !kfence_early_init_enabled()) {
-+	if (!hash_supports_debug_pagealloc() && !kfence_early_init_enabled()) {
- 		/*
- 		 * Pick a size for the linear mapping. Currently, we only
- 		 * support 16M, 1M and 4K which is the default
--- 
-2.46.0
+Reviewed-by: Christophe Leroy <christophe.leroy@csgroup.eu>
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/c33c6691b2a2cf619cc74ac100118ca4dbf21a48.1729271995.git.ritesh.list%40gmail.com.
+Nit below.
+
+> Reported-by: Disha Goel <disgoel@linux.ibm.com>
+> Signed-off-by: Ritesh Harjani (IBM) <ritesh.list@gmail.com>
+> ---
+>   arch/powerpc/mm/fault.c | 11 +++++++++--
+>   1 file changed, 9 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/arch/powerpc/mm/fault.c b/arch/powerpc/mm/fault.c
+> index 81c77ddce2e3..316f5162ffc4 100644
+> --- a/arch/powerpc/mm/fault.c
+> +++ b/arch/powerpc/mm/fault.c
+> @@ -439,10 +439,17 @@ static int ___do_page_fault(struct pt_regs *regs, u=
+nsigned long address,
+>   	/*
+>   	 * The kernel should never take an execute fault nor should it
+>   	 * take a page fault to a kernel address or a page fault to a user
+> -	 * address outside of dedicated places
+> +	 * address outside of dedicated places.
+> +	 *
+> +	 * Rather than kfence directly reporting false negatives, search whethe=
+r
+> +	 * the NIP belongs to the fixup table for cases where fault could come
+> +	 * from functions like copy_from_kernel_nofault().
+>   	 */
+>   	if (unlikely(!is_user && bad_kernel_fault(regs, error_code, address, i=
+s_write))) {
+> -		if (kfence_handle_page_fault(address, is_write, regs))
+> +
+
+Why do you need a blank line here ?
+
+> +		if (is_kfence_address((void *)address) &&
+> +		    !search_exception_tables(instruction_pointer(regs)) &&
+> +		    kfence_handle_page_fault(address, is_write, regs))
+>   			return 0;
+>=20
+>   		return SIGSEGV;
+> --
+> 2.46.0
+>=20
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion on the web visit https://groups.google.com/d/msgid/=
+kasan-dev/0c81a6cc-2466-4932-805b-056d4e7dec2b%40csgroup.eu.
