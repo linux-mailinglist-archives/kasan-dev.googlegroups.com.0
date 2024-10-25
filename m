@@ -1,145 +1,159 @@
-Return-Path: <kasan-dev+bncBDE6RCFOWIARBHUG5O4AMGQERNPSRYY@googlegroups.com>
+Return-Path: <kasan-dev+bncBCMPTDOCVYOBB7EN5S4AMGQE7PJB6UI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7629AF4E3
-	for <lists+kasan-dev@lfdr.de>; Thu, 24 Oct 2024 23:58:56 +0200 (CEST)
-Received: by mail-wm1-x340.google.com with SMTP id 5b1f17b1804b1-43150f13cf2sf2237365e9.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 24 Oct 2024 14:58:56 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1729807135; cv=pass;
+Received: from mail-il1-x13a.google.com (mail-il1-x13a.google.com [IPv6:2607:f8b0:4864:20::13a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D1D9AF79F
+	for <lists+kasan-dev@lfdr.de>; Fri, 25 Oct 2024 04:48:30 +0200 (CEST)
+Received: by mail-il1-x13a.google.com with SMTP id e9e14a558f8ab-3a3b2aee1a3sf14377815ab.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 24 Oct 2024 19:48:30 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1729824509; cv=pass;
         d=google.com; s=arc-20240605;
-        b=O2Xj4uQ1jnyGsadE66oh0G0dkHB/oCJH3HOs4sQw1hg4IeyG1RPCrn0+qPy0wlSOKe
-         e8gLiUpMIQ+fZjx1vN5BQE1ECddmZkQObWqQmmn1zBw0+OK+w3h62kIj1s2JL3hF+Q1+
-         v0T9/3v8Jgi4hYpw0HqQWbbNsxJfdpbJM9O/sOIa855j/612fvBInfNg1Q3fekco+JKw
-         Kzdw81tY3wH3yGURaJOI3IFM5fxXRcXDbryT96uoTzDejx/ASiaqRJ08/v07UgnlUoL9
-         2U2H1HYzf/DKecQHoMXcgGm+h2Ori6MuIZkLLL4sSM9lTWR4U9Od9OWxLD2Isk8snnoX
-         ClYA==
+        b=eCbbZYen0e3Lx7LYGoVK6trBcCMy14vya2yu3Rz4RyRa84QHAT6+uQDMW56UlYG7N1
+         JePBi905u7L0qQ9OavjhsutbWrVbZUYtajXkBvQ4p6ocpksxeG3/xlFNX17E6OD68Z/r
+         QPD/Ec+lsxpAufBz9bIgdZSPmVFobGeJf9jAr5lV+TUnvlzvqxMWY6HF9OTJWMWihViv
+         2t91NjkZV6B8gOGCjdX5BDlRVfjjuPih/0VHc5dGecX1DqvrhFJOuxsoo1vTg5s24ez2
+         rnIPJnNfGZnn6BLFn5d+ty6+9AAlOusWag+dj+Xrm+caozVlzhrwzvNp9yXUZ6tgODlT
+         uK3Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature;
-        bh=W3Rc48kB3siKAQaOZL+oHOI7nwH3wlGDjU+mEhYxgBo=;
-        fh=FAoSLozcRUGqJEDAta2hwp3ly6EdNKjXM6sqrERBrBE=;
-        b=jp4vkKUzlUWizaNa70pi69VFZ3RR7zGD0yVdaHeTzlFMx+5BAvdp6aX6OUvmU3VPFf
-         8HO0ZF5K7EDkSkhwAsZkB56cFZODJeC5+UkH0UbEZwgG9tJyAJN900Pw5CKnpsTLzXRf
-         BvHDmN77ml+m9GW+cqM2UztL/YoToRctOVpkrpvdISEYbuVLJkLukHl5yG1xkVPrc3nh
-         WvWnn3xYkEkfzWKJnBnxCGXFckTUKhWPm2w+zaGZc9/64d2IgScHL+4YdfTID3yN1OKl
-         m/IqPXpt0R77yDBcmP4GZjPw/RhAx17LMUGnI3IxtEhOrjTV+ZbQSaWnjlCnaUdEvtCI
-         E1QA==;
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:sender:dkim-signature
+         :dkim-signature;
+        bh=Bhuf5SWebCkF1uVsLexTRTrl1uUVh0OSNA6SyDUwTAs=;
+        fh=wHnyWpY7ameLYtVezPD4s4+A3aopcssni4B25m63YF8=;
+        b=dONBSTyqMiZMi3ZXQZjSYmFajCPCj0waJ4eFxQ4yUZJ1BWsVWV1PfgrhWSFZvk5T3J
+         GzK6TcXpjn3GHP7YWY+DlfSD7lKBHo6n0y71bB700eqw2tHCZ0YRsirPs7hZrbs0mK3z
+         JiVH7Qc9XrjiHc60sq6DK3xszKzvIinlrJCAX9MgFXgPvHlXD47N3tjGTnbUgcRFwboX
+         9LJyjeoG4eempu66zR7ZT1qZ6OFiHSueauLp7rfzwXmOHVm8rK5yWZsOGddio7gaw+Gn
+         8msYWWgrjGzYK/set0Okn+zaYKJK5e7RkZOoPtzR2fACdudp6Tjk6SiULWZZ15cg2XaB
+         xMcw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=wH8exBzc;
-       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::22a as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=fblJALRk;
+       spf=pass (google.com: domain of niharchaithanya@gmail.com designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=niharchaithanya@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1729807135; x=1730411935; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1729824509; x=1730429309; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=W3Rc48kB3siKAQaOZL+oHOI7nwH3wlGDjU+mEhYxgBo=;
-        b=av5cMGKY/1qQ1GHuC4rpUWfbonjs2FPW3k5u3/1wor+u/iV/hOtykz7phxRTVncgl1
-         wZrHUpCwHwOAwVKDY7S1sRi2sHJhVxSbqNY23uj4bkhU4Q9vgSyiboq7feTDfNRhf2sY
-         hqVPEDTwXK2ZSXXJujZ1P/5efiO2y/tG8uIlpiB0YSCdSdKzQlzXIOar/wzaS3wfhdir
-         tY9g9DlBJOkfqJ2DEfnD2QLNtRMiEX2JMFiT0+zQWAtN0izmVldXvlyBpL75Z7JIX0t9
-         XrkinZOAGq1vFY8Hp/jovU1Z2oB4A3o04fzYr0MavT235zFIM7/5++WiYv9yPhy1CuXl
-         0Srg==
+         :x-original-sender:content-transfer-encoding:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bhuf5SWebCkF1uVsLexTRTrl1uUVh0OSNA6SyDUwTAs=;
+        b=pznfxTkyHirut1qQmXGwthh+FgpGjVkgRGxcXMu8DIPYNHHEbfS6h7Fi/sZpn0nlJL
+         EZHCuhPP+kvMnlwkJU9A4qOjxlbCIo+4+FEIG+nkHufw213N3rnaGK0keQSUAqK+rUaU
+         yY9hKEfxIJ7bv1dtUq+fcE1AMq0WNkRCGZkLlYRNKSBcotDnqlPx6OKutOkB2lKuQ/SG
+         ckgphZHYRYzILxwIQCtHetCMmRrnVdKcOxfOF6CqZ3VNJFiNmfR4iDjKq6nZRXWCfEp2
+         ETefQCGBxlGL7gDl/ZpulO4AvDETPcpqvG7Cq0v7St4b5bQhop/gRWJuJiRmIXNs3INJ
+         Bctg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729824509; x=1730429309; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bhuf5SWebCkF1uVsLexTRTrl1uUVh0OSNA6SyDUwTAs=;
+        b=V9UMYdXj8y402CFB2E1227cEdjbyCQL4kUfDI9csFdTDZCLzRiVuvLqGeZn55DsA4t
+         MJHtyUo30C0nplsPWpJvsc9w/efMZY81nwf2NdWUOVcZpjBLf47pkapwuvkcWW9+QjcF
+         utO6ANIeqEEnVe9vfZN0uq0i8uSIA6ch4oPEgzSti9aJsT05WPHA/koWfIwSuLFaAe/8
+         5cKBBispJlF0uXlOX0TyFXxGIszus148tazatCkVHJ5xrNsyTMgaaIMdGVznHFbaSBXU
+         tMusLufik7qC95R1BS4GWSpMKUeM79zn/IEE3pgaBXBbjdbzae3xWgv308LzJ8/n1OeE
+         CkkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729807135; x=1730411935;
+        d=1e100.net; s=20230601; t=1729824509; x=1730429309;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=W3Rc48kB3siKAQaOZL+oHOI7nwH3wlGDjU+mEhYxgBo=;
-        b=byvdfUKzFYs/EBI4ytFamfPIZPye83WOpFKbM6k9VcBTlfz6J1S0Yoo3A0hbpZknoT
-         jumDxGi2l13ocNew2jW2zmZaFmv0iSdgi3FScVEIU0SXois3K6YBIJC6/lWFAtWO7BN4
-         QeXy7oblKQCDkPN8enVebcUL+uX+/CaoaZwSu+zXtAmqgtZMFFC0Qazo976p6Abim9+w
-         dN8OH3kOn9OnpLqEeWdSRhQj756mCZtD7/tjqrpVFrCoofVZ10nr2X2eB2MOIZVbTaaG
-         d1DkQ5WxbVT8Mu/aYkGabgf45sAjx7VjAs1jmA2mGiXGYHEKQtlBoE/OzKfra9wbGmSS
-         Tj0A==
+         :content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Bhuf5SWebCkF1uVsLexTRTrl1uUVh0OSNA6SyDUwTAs=;
+        b=bsFPOAyGbUCYRMa+wWUAMN68rk03h93JJQ1OuH8InGwg0hX3akrvFmNzCsseKPxcrm
+         VZK0vxWIK+cm31vU6nEQt7X8/dnn+mc/iTA1wzsoI2XUw7rZ3UkQ41YjclwYFVk/lZZW
+         kYcVoWGeJQsE4XKb4Pj4nuJbEnUurvsDSqrIEHHeSWpLZ0USLo+Y7LO8PNLTRHaK7YPt
+         IRJ17ypLZtpDIHTEm9hMpcas6m7I6FXlBcfKZjpUh2f8hCtwfII+XNSLOi/SbqpaR3dY
+         8wpoIHWNIBP3dIP89ZvDiD5FLUf4LJXZpyCgHZ0Y/Pg4rHNmrr1MBFzlbwhoXDavFLMf
+         hpqw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUNASVKS39F1z02X0VlEgBZomXQUmeVgPD94M6TIp3OdkhnVvR4E4xR5llWcHB3Kb2vzrQeRA==@lfdr.de
-X-Gm-Message-State: AOJu0YyD4C3W6TN89eMVn14Gt/42UysjdLKmwBlolCXHzM5U1pX1+F52
-	OMKQoj1r/PxEh9K2LxQQ9ULj5Irw3wiVL4jE4Uwm4l8Yrc5rNDJ/
-X-Google-Smtp-Source: AGHT+IEGj7qFLt2HzDRrOqIB87KvOVddx9+hFwHotkQ32dHGB7usvN8cZNblyrm6dCexkPIRd7RnDA==
-X-Received: by 2002:a05:6000:400c:b0:37d:4705:ff71 with SMTP id ffacd0b85a97d-37efcf84d12mr2642076f8f.10.1729807134982;
-        Thu, 24 Oct 2024 14:58:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCVhJyKPQklzba11DXUPHO2vW9UEz+khmaoPp1QSIH52TQyt9CR/WMPzFxBck/G6NZ+EvKSf6g==@lfdr.de
+X-Gm-Message-State: AOJu0Yw0Q+UkbK2hdkDndeUyCcmouMkpyKwE3UwxFypWUjQ9unRC6qHT
+	zhmSdSTmww/Ak7iP8eb20gz0Lr7ace4UJV6e0K674T6LR7pHG7uW
+X-Google-Smtp-Source: AGHT+IHwSqHA5+oNSWES/cX5z52mdPs+Vwlk1qK0i1g8A02Ry+bZWYvCSY5L2BkbastsJgBEg/cT7Q==
+X-Received: by 2002:a05:6e02:1d90:b0:3a0:933d:d306 with SMTP id e9e14a558f8ab-3a4d5975ddemr89683105ab.9.1729824508709;
+        Thu, 24 Oct 2024 19:48:28 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:1c14:b0:431:55bf:fdf with SMTP id
- 5b1f17b1804b1-4318a1f30afls7486825e9.0.-pod-prod-04-eu; Thu, 24 Oct 2024
- 14:58:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUL3WNZN5ojYEls7aS0wJPBmrq/B+UTsD7IpzLm56Rc6N6ya05P7eeqNL99F7UmkkU7yIkxqH8ThpI=@googlegroups.com
-X-Received: by 2002:a05:600c:4751:b0:431:58c4:2eb9 with SMTP id 5b1f17b1804b1-431841e175bmr70198465e9.3.1729807133142;
-        Thu, 24 Oct 2024 14:58:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1729807133; cv=none;
+Received: by 2002:a92:c244:0:b0:3a1:a3bd:adc1 with SMTP id e9e14a558f8ab-3a4dc815ea7ls8064655ab.2.-pod-prod-01-us;
+ Thu, 24 Oct 2024 19:48:28 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUuthXENRCXNAB8lUVYvUGvEwJ7bpbZ0EPcu1rNx55M/Bmx1laX+1zdXmBF8wlgzgMkYONdcC4rnTw=@googlegroups.com
+X-Received: by 2002:a05:6602:14c9:b0:82c:ddfc:c57b with SMTP id ca18e2360f4ac-83af616e51fmr1105443539f.5.1729824507944;
+        Thu, 24 Oct 2024 19:48:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1729824507; cv=none;
         d=google.com; s=arc-20240605;
-        b=j6r0JLAy/1XYPOE/i+Zl9/CHLBt8BRbMrq+PBAc5Gibd+laCDwfmL+ITwwgo7Ilymm
-         vJkYBZU1WfJ8La76LrKLcCMzulLDM6Skvin4NSO5+542HOOpNn7IqtpN/RidG6yLcGpZ
-         4aHM0a+U7RBCEjdIyQuIEBGqpHsNzsDHxtCgFT685racXORLveu5fby0mbKGtgldBxff
-         r598wufJR0K7O1uiGoFaEeVT5osFl4SxSV0XUtWed4WN9Fjzg2/hQ6+3x/S5W8lsyK+a
-         TBtWg+VWaYl9IaS4M4mMgy+IG+igpxAfV7NnUMzhFNz8iTMj0D1E9y62DUt/l0PKrtVs
-         7Aiw==
+        b=PywQ3aSRmUtbKam6tedwSyC/hCq+d006wOVlCD14HVNifcrRuz5wJdHTbWO/HWrA4a
+         l+UzPvb3n1T2IIGyenUIg0ApisWIzDtwq+Hi93MyPESMv76e6gZoI0LcL8drGdkH5ID1
+         XycaV9cWIdFrNB7iUUNbI02HCru+IFtQrW2ucJNlqlOHREOu9RXhjXRpw+6O45kcOFDj
+         F0pdBnonYNQEtLdPwayrxbS3JX6x28V+mQso1at6ySB6r0QRXRjPMZq4EwLokVKoI7i4
+         YpR8+bjFpVeT45b5ksbpfcvVQBFVv5pgkUhAnIDFOuq6Ggselm9lzAcKH3JqWbF30Owz
+         abrA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=XFVxrWwlGXu7xwVCAmBNg01QSRfDgCIGYPTLM5Loo7A=;
-        fh=ptWgCc8pt4KKKMQ8hrWMn9RR+uIIvE36uLIKdw3iqKo=;
-        b=CJUdfvmYhWa6C2j01je3TbUP9rx8qC9PenAn2nvF+3m86P6GOF4CPRv7eC3qy/EiYe
-         8NtIMzYh19RJbT9R2UI9qSquTzL7bkIJ1MrtLZK5OM+DgxD3wFD14JePmRTrIn9rkydi
-         A9ZOigT9TvNLpm+3ApUDY6yY+6W82/elsrZh4GOEvjq4yC16sxZfRbrI0Vhj89GuMBLO
-         Ux/IPymNyXaBmAj1Vj27W8UNFz71Lz5Tv304iYzj4Hz8rOtB0OGQX/XonNay7xGnfjIG
-         ByqEt7WETI0Ucxw0SvAfqUGJ6si5pchLRxOn4BtVk2Nx5YpZ1UhU9V68MoUhgg2+d60Q
-         URFg==;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=IMlkAz1rGfXdC3YuTmyO/PA2KhdShJ1qEJ3uVonYBbY=;
+        fh=LGfE3L7HnWAjT6dwvICrwJwGr7LltSUqPEXuYV11Ivk=;
+        b=OvRAgKthzUY3UIGvWEYlRlCzo1bv3O5yYlADC3lnFC/bF0OOhOYcDvlI8WQ7hEE5+m
+         xpgHe7E3kVxjeL4ifeLrGxDrynU+w+bJm8PNp4nzwMZkKpNCGO7qPl+crRYSd4E8yhm2
+         C29xHWDpAYbd5+JW/VjX2irnHWfU6TmFKUaRTJ2fiYWn24tTlCdyKzL5HhpKZbx+BPU9
+         S9vvkQnGMWwUMiz9wZFUO7ExCc8+n58JKtnnpN8aZqitYKHHN79K3bqZl5Udj1GXxS/y
+         6TfNesQLnlmzSlw1RMHOXDQT1uaUUZEoQiwkwDOSiWDoprIyXvsOWhCTeje2JkAMQkl1
+         dv+g==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linaro.org header.s=google header.b=wH8exBzc;
-       spf=pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::22a as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=fblJALRk;
+       spf=pass (google.com: domain of niharchaithanya@gmail.com designates 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=niharchaithanya@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com. [2a00:1450:4864:20::22a])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-43186bd6bc5si997385e9.1.2024.10.24.14.58.53
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com. [2607:f8b0:4864:20::431])
+        by gmr-mx.google.com with ESMTPS id ca18e2360f4ac-83b137c9274si910639f.1.2024.10.24.19.48.27
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Oct 2024 14:58:53 -0700 (PDT)
-Received-SPF: pass (google.com: domain of linus.walleij@linaro.org designates 2a00:1450:4864:20::22a as permitted sender) client-ip=2a00:1450:4864:20::22a;
-Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2fb599aac99so14935451fa.1
-        for <kasan-dev@googlegroups.com>; Thu, 24 Oct 2024 14:58:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUBYLEP6o1LDF987EcfBycpUWSmTUDzHg1S+UG71UBKLIGC44RRdaKBDzhTy3LJdya16BXalx6fMkc=@googlegroups.com
-X-Received: by 2002:a2e:9010:0:b0:2fb:3e01:b2bd with SMTP id
- 38308e7fff4ca-2fc9d35a589mr34560231fa.21.1729807132380; Thu, 24 Oct 2024
- 14:58:52 -0700 (PDT)
+        Thu, 24 Oct 2024 19:48:27 -0700 (PDT)
+Received-SPF: pass (google.com: domain of niharchaithanya@gmail.com designates 2607:f8b0:4864:20::431 as permitted sender) client-ip=2607:f8b0:4864:20::431;
+Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-717839f9eb6so29853b3a.3
+        for <kasan-dev@googlegroups.com>; Thu, 24 Oct 2024 19:48:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVgVHb8PQDrXBhYGW2SBquWhoGe05YRTaauvY4UnquAB2zyZR1sPAmct43ozPpwbcPLX307bi4ZkEU=@googlegroups.com
+X-Received: by 2002:a05:6a00:2d1a:b0:71e:66ed:7bd4 with SMTP id d2e1a72fcca58-72030a5183bmr5084342b3a.1.1729824506922;
+        Thu, 24 Oct 2024 19:48:26 -0700 (PDT)
+Received: from [192.168.1.17] ([171.76.80.180])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7edc8698e30sm97594a12.52.2024.10.24.19.48.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Oct 2024 19:48:26 -0700 (PDT)
+Message-ID: <f26691b2-fe26-4e13-a34f-c4a2a995f25f@gmail.com>
+Date: Fri, 25 Oct 2024 08:18:21 +0530
 MIME-Version: 1.0
-References: <20241017-arm-kasan-vmalloc-crash-v3-0-d2a34cd5b663@linaro.org>
- <20241017-arm-kasan-vmalloc-crash-v3-1-d2a34cd5b663@linaro.org>
- <69f71ac8-4ba6-46ed-b2ab-e575dcada47b@foss.st.com> <CACRpkdYvgZj1R4gAmzFhf4GmFOxZXhpHVTOio+hVP52OBAJP0A@mail.gmail.com>
- <46336aba-e7dd-49dd-aa1c-c5f765006e3c@foss.st.com>
-In-Reply-To: <46336aba-e7dd-49dd-aa1c-c5f765006e3c@foss.st.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 24 Oct 2024 23:58:40 +0200
-Message-ID: <CACRpkdY2=qdY_0GA1gB03yHODPEvxum+4YBjzsXRVnhLaf++6Q@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] ARM: ioremap: Sync PGDs for VMALLOC shadow
-To: Clement LE GOFFIC <clement.legoffic@foss.st.com>, Ard Biesheuvel <ardb@kernel.org>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev <kasan-dev@googlegroups.com>, 
-	Russell King <linux@armlinux.org.uk>, Kees Cook <kees@kernel.org>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Mark Brown <broonie@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Antonio Borneo <antonio.borneo@foss.st.com>, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] kasan:report: filter out kasan related stack entries
+To: Andrey Konovalov <andreyknvl@gmail.com>, elver@google.com
+Cc: ryabinin.a.a@gmail.com, glider@google.com, dvyukov@google.com,
+ skhan@linuxfoundation.org, kasan-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org
+References: <20241021195714.50473-1-niharchaithanya@gmail.com>
+ <CA+fCnZf7sX2-H_jRMcJhiYxYZ=5f5oQ7iO__pQnjEXDLUS+fkg@mail.gmail.com>
+Content-Language: en-US
+From: Nihar Chaithanya <niharchaithanya@gmail.com>
+In-Reply-To: <CA+fCnZf7sX2-H_jRMcJhiYxYZ=5f5oQ7iO__pQnjEXDLUS+fkg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: linus.walleij@linaro.org
+X-Original-Sender: niharchaithanya@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linaro.org header.s=google header.b=wH8exBzc;       spf=pass
- (google.com: domain of linus.walleij@linaro.org designates
- 2a00:1450:4864:20::22a as permitted sender) smtp.mailfrom=linus.walleij@linaro.org;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=linaro.org;
+ header.i=@gmail.com header.s=20230601 header.b=fblJALRk;       spf=pass
+ (google.com: domain of niharchaithanya@gmail.com designates
+ 2607:f8b0:4864:20::431 as permitted sender) smtp.mailfrom=niharchaithanya@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -153,70 +167,237 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Clement,
 
-I saw I missed to look closer at the new bug found in ext4
-on the STM32:
+On 23/10/24 19:30, Andrey Konovalov wrote:
+> On Mon, Oct 21, 2024 at 9:58=E2=80=AFPM Nihar Chaithanya
+> <niharchaithanya@gmail.com> wrote:
+> Let's change the patch name prefix to "kasan: report:" (i.e. add an
+> extra space between "kasan:" and "report:").
+>
+>> The reports of KASAN include KASAN related stack frames which are not
+>> the point of interest in the stack-trace. KCSAN report filters out such
+>> internal frames providing relevant stack trace. Currently, KASAN reports
+>> are generated by dump_stack_lvl() which prints the entire stack.
+>>
+>> Add functionality to KASAN reports to save the stack entries and filter
+>> out the kasan related stack frames in place of dump_stack_lvl() and
+>> stack_depot_print().
+>>
+>> Within this new functionality:
+>>          - A function kasan_dump_stack_lvl() in place of dump_stack_lvl(=
+) is
+>>            created which contains functionality for saving, filtering an=
+d
+>>            printing the stack-trace.
+>>          - A function kasan_stack_depot_print() in place of
+>>            stack_depot_print() is created which contains functionality f=
+or
+>>            filtering and printing the stack-trace.
+>>          - The get_stack_skipnr() function is included to get the number=
+ of
+>>            stack entries to be skipped for filtering the stack-trace.
+>>
+>> Signed-off-by: Nihar Chaithanya <niharchaithanya@gmail.com>
+>> Fixes: https://bugzilla.kernel.org/show_bug.cgi?id=3D215756
+>> ---
+>> Changes in v2:
+>>          - Changed the function name from save_stack_lvl_kasan() to
+>>            kasan_dump_stack_lvl().
+>>          - Added filtering of stack frames for print_track() with
+>>            kasan_stack_depot_print().
+>>          - Removed redundant print_stack_trace(), and instead using
+>>            stack_trace_print() directly.
+>>          - Removed sanitize_stack_entries() and replace_stack_entry()
+>>            functions.
+>>          - Increased the buffer size in get_stack_skipnr to 128.
+>>
+>> Note:
+>> When using sanitize_stack_entries() the output was innacurate for free a=
+nd
+>> alloc tracks, because of the missing ip value in print_track().
+>> The buffer size in get_stack_skipnr() is increase as it was too small wh=
+en
+>> testing with some KASAN uaf bugs which included free and alloc tracks.
+>>
+>>   mm/kasan/report.c | 62 ++++++++++++++++++++++++++++++++++++++++++-----
+>>   1 file changed, 56 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+>> index b48c768acc84..e00cf764693c 100644
+>> --- a/mm/kasan/report.c
+>> +++ b/mm/kasan/report.c
+>> @@ -261,6 +261,59 @@ static void print_error_description(struct kasan_re=
+port_info *info)
+>>                          info->access_addr, current->comm, task_pid_nr(c=
+urrent));
+>>   }
+>>
+>> +/* Helper to skip KASAN-related functions in stack-trace. */
+>> +static int get_stack_skipnr(const unsigned long stack_entries[], int nu=
+m_entries)
+>> +{
+>> +       char buf[128];
+>> +       int len, skip;
+>> +
+>> +       for (skip =3D 0; skip < num_entries; ++skip) {
+>> +               len =3D scnprintf(buf, sizeof(buf), "%ps", (void *)stack=
+_entries[skip]);
+>> +
+>> +               /* Never show  kasan_* functions. */
+>> +               if (strnstr(buf, "kasan_", len) =3D=3D buf)
+>> +                       continue;
+> Also check for "__kasan_" prefix: Right now, for the very first KASAN
+> test, we get this alloc stack trace:
+>
+> [    1.799579] Allocated by task 63:
+> [    1.799935]  __kasan_kmalloc+0x8b/0x90
+> [    1.800353]  kmalloc_oob_right+0x95/0x6c0
+> [    1.800801]  kunit_try_run_case+0x16e/0x280
+> [    1.801267]  kunit_generic_run_threadfn_adapter+0x77/0xe0
+> [    1.801863]  kthread+0x296/0x350
+> [    1.802224]  ret_from_fork+0x2b/0x70
+> [    1.802652]  ret_from_fork_asm+0x1a/0x30
+>
+> The __kasan_kmalloc frame is a part of KASAN internals and we want to
+> skip that. kmalloc_oob_right is the function where the allocation
+> happened, and that should be the first stack trace frame.
+>
+> (I suspect we'll have to adapt more of these from KFENCE, but let's do
+> that after resolving the other issues.)
+>
+>> +               /*
+>> +                * No match for runtime functions -- @skip entries to sk=
+ip to
+>> +                * get to first frame of interest.
+>> +                */
+>> +               break;
+>> +       }
+>> +
+>> +       return skip;
+>> +}
+>> +
+>> +/*
+>> + * Use in place of stack_dump_lvl to filter KASAN related functions in
+>> + * stack_trace.
+> "Use in place of dump_stack() to filter out KASAN-related frames in
+> the stack trace."
+>
+>> + */
+>> +static void kasan_dump_stack_lvl(void)
+> No need for the "_lvl" suffix - you removed the lvl argument.
+>
+>> +{
+>> +       unsigned long stack_entries[KASAN_STACK_DEPTH] =3D { 0 };
+>> +       int num_stack_entries =3D stack_trace_save(stack_entries, KASAN_=
+STACK_DEPTH, 1);
+>> +       int skipnr =3D get_stack_skipnr(stack_entries, num_stack_entries=
+);
+> For printing the access stack trace, we still want to keep the
+> ip-based skipping (done via sanitize_stack_entries() in v1) - it's
+> more precise than pattern-based matching in get_stack_skipnr(). But
+> for alloc/free stack traces, we can only use get_stack_skipnr().
+>
+> However, I realized I don't fully get the point of replacing a stack
+> trace entry when doind the ip-based skipping. Marco, is this something
+> KCSAN-specific? I see that this is used for reodered_to thing.
+When I included ip-based skipping for filtering access stack trace the=20
+output was
+inconsistent where the Freed track was not fully printed and it also=20
+triggered
+the following warning a few times:
 
-On Mon, Oct 21, 2024 at 2:12=E2=80=AFPM Clement LE GOFFIC
-<clement.legoffic@foss.st.com> wrote:
+[=C2=A0=C2=A0=C2=A0 6.467470][ T4653] Freed by task 511183648:
+[=C2=A0=C2=A0=C2=A0 6.467792][ T4653] ------------[ cut here ]------------
+[=C2=A0=C2=A0=C2=A0 6.468194][ T4653] pool index 100479 out of bounds (466)=
+ for stack=20
+id ffff8880
+[=C2=A0=C2=A0=C2=A0 6.468862][ T4653] WARNING: CPU: 1 PID: 4653 at lib/stac=
+kdepot.c:452=20
+depot_fetch_stack+0x86/0xb0
 
-> Perhaps not related with this topic but as in the backtrace I am getting
-> some keyword from our start exchange, I dump the crash below.
-> If this backtrace is somehow related with our issue, please have a look.
-(...)
-> [ 1439.351945] PC is at __read_once_word_nocheck+0x0/0x8
-> [ 1439.356965] LR is at unwind_exec_insn+0x364/0x658
-(...)
-> [ 1440.333183]  __read_once_word_nocheck from unwind_exec_insn+0x364/0x65=
-8
-> [ 1440.339726]  unwind_exec_insn from unwind_frame+0x270/0x618
-> [ 1440.345352]  unwind_frame from arch_stack_walk+0x6c/0xe0
-> [ 1440.350674]  arch_stack_walk from stack_trace_save+0x90/0xc0
-> [ 1440.356308]  stack_trace_save from kasan_save_stack+0x30/0x4c
-> [ 1440.362042]  kasan_save_stack from __kasan_record_aux_stack+0x84/0x8c
-> [ 1440.368473]  __kasan_record_aux_stack from task_work_add+0x90/0x210
-> [ 1440.374706]  task_work_add from scheduler_tick+0x18c/0x250
-> [ 1440.380245]  scheduler_tick from update_process_times+0x124/0x148
-> [ 1440.386287]  update_process_times from tick_sched_handle+0x64/0x88
-> [ 1440.392521]  tick_sched_handle from tick_sched_timer+0x60/0xcc
-> [ 1440.398341]  tick_sched_timer from __hrtimer_run_queues+0x2c4/0x59c
-> [ 1440.404572]  __hrtimer_run_queues from hrtimer_interrupt+0x1bc/0x3a0
-> [ 1440.411009]  hrtimer_interrupt from arch_timer_handler_virt+0x34/0x3c
-> [ 1440.417447]  arch_timer_handler_virt from
-> handle_percpu_devid_irq+0xf4/0x368
-> [ 1440.424480]  handle_percpu_devid_irq from
-> generic_handle_domain_irq+0x38/0x48
-> [ 1440.431618]  generic_handle_domain_irq from gic_handle_irq+0x90/0xa8
-> [ 1440.437953]  gic_handle_irq from generic_handle_arch_irq+0x30/0x40
-> [ 1440.444094]  generic_handle_arch_irq from __irq_svc+0x88/0xc8
-> [ 1440.449920] Exception stack(0xde803a30 to 0xde803a78)
-> [ 1440.454914] 3a20:                                     de803b00
-> 00000000 00000001 000000c0
-> [ 1440.463141] 3a40: e5333f40 de803ba0 de803bd0 00000001 e5333f40
-> de803b00 c1241d90 bad0075c
-> [ 1440.471262] 3a60: c20584b8 de803a7c c0114114 c0113850 200f0013 fffffff=
-f
-> [ 1440.477959]  __irq_svc from unwind_exec_insn+0x4/0x658
-> [ 1440.483078]  unwind_exec_insn from call_with_stack+0x18/0x20
-
-This is hard to analyze without being able to reproduce it, but it talks
-about the stack and Kasan and unwinding, so could it (also) be related to t=
-he
-VMAP:ed stack?
-
-Did you try to revert (or check out the commit before and after)
-b6506981f880 ARM: unwind: support unwinding across multiple stacks
-to see if this is again fixing the issue?
-
-Yours,
-Linus Walleij
+This was not present when using pattern based skipping. Does modifying=20
+access
+stack trace when using sanitize_stack_entries() modify the free and=20
+alloc tracks
+as well? In that case shall we just use pattern based skipping.
+>> +
+>> +       dump_stack_print_info(KERN_ERR);
+>> +       stack_trace_print(stack_entries + skipnr, num_stack_entries - sk=
+ipnr, 0);
+>> +       pr_err("\n");
+>> +}
+>> +
+>> +/*
+>> + * Use in place of stack_depot_print to filter KASAN related functions =
+in
+>> + * stack_trace.
+> "Use in place of stack_depot_print() to filter out KASAN-related
+> frames in the stack trace."
+>
+>> + */
+>> +static void kasan_stack_depot_print(depot_stack_handle_t stack)
+>> +{
+>> +       unsigned long *entries;
+>> +       unsigned int nr_entries;
+>> +
+>> +       nr_entries =3D stack_depot_fetch(stack, &entries);
+>> +       int skipnr =3D get_stack_skipnr(entries, nr_entries);
+>> +
+>> +       if (nr_entries > 0)
+>> +               stack_trace_print(entries + skipnr, nr_entries - skipnr,=
+ 0);
+>> +}
+>> +
+>>   static void print_track(struct kasan_track *track, const char *prefix)
+>>   {
+>>   #ifdef CONFIG_KASAN_EXTRA_INFO
+>> @@ -277,7 +330,7 @@ static void print_track(struct kasan_track *track, c=
+onst char *prefix)
+>>          pr_err("%s by task %u:\n", prefix, track->pid);
+>>   #endif /* CONFIG_KASAN_EXTRA_INFO */
+>>          if (track->stack)
+>> -               stack_depot_print(track->stack);
+>> +               kasan_stack_depot_print(track->stack);
+>>          else
+>>                  pr_err("(stack is not available)\n");
+>>   }
+>> @@ -374,9 +427,6 @@ static void print_address_description(void *addr, u8=
+ tag,
+>>   {
+>>          struct page *page =3D addr_to_page(addr);
+>>
+>> -       dump_stack_lvl(KERN_ERR);
+>> -       pr_err("\n");
+> This new line we want to keep.
+>
+>> -
+>>          if (info->cache && info->object) {
+>>                  describe_object(addr, info);
+>>                  pr_err("\n");
+>> @@ -484,11 +534,11 @@ static void print_report(struct kasan_report_info =
+*info)
+>>                  kasan_print_tags(tag, info->first_bad_addr);
+>>          pr_err("\n");
+>>
+>> +       kasan_dump_stack_lvl();
+>> +
+>>          if (addr_has_metadata(addr)) {
+>>                  print_address_description(addr, tag, info);
+>>                  print_memory_metadata(info->first_bad_addr);
+>> -       } else {
+>> -               dump_stack_lvl(KERN_ERR);
+>>          }
+>>   }
+>>
+>> --
+>> 2.34.1
+>>
+> Thank you!
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-ACRpkdY2%3DqdY_0GA1gB03yHODPEvxum%2B4YBjzsXRVnhLaf%2B%2B6Q%40mail.gmail.com=
-.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/f=
+26691b2-fe26-4e13-a34f-c4a2a995f25f%40gmail.com.
