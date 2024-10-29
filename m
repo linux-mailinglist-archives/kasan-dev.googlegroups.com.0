@@ -1,136 +1,198 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBEX36S4AMGQEJWMIT2Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBD2KV7O4UQOBBZOZQG4QMGQEP5ARFGI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x38.google.com (mail-oa1-x38.google.com [IPv6:2001:4860:4864:20::38])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FD5E9B1A87
-	for <lists+kasan-dev@lfdr.de>; Sat, 26 Oct 2024 21:05:56 +0200 (CEST)
-Received: by mail-oa1-x38.google.com with SMTP id 586e51a60fabf-28861cecac4sf2266903fac.1
-        for <lists+kasan-dev@lfdr.de>; Sat, 26 Oct 2024 12:05:56 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1729969554; cv=pass;
-        d=google.com; s=arc-20240605;
-        b=lwGet986o0b07rkht4l0hIz5lzq8AHshBIgbOh9mBPjkVCgApF3QPTJRf9N0yRvyzN
-         IMS6p0Xb9UJRbfyb9S1c2I+PX9V6nfiZapMUGXg6mxAI/E7w2mvN3ZDU1cNOKPwwtO1j
-         gSmPq78/w4BIoW9ae5dCCNPXMZIhIRvlaSfu8U6tikPrK+vZTaXHWAv/YNQUdWkwSbm/
-         iJVBelepdiD2Gv8p5gPMoxLY0aQfwF20xQ3bMRiLhGfqw46Nso53SrtK2lHxz09gGkvD
-         O2ZD9nxNMY4U0kVKx+r09Qxk2KxWHLzczbnMgL+spgx2pRRs1UnlqWcy5X0ZBwyHVclG
-         2m2A==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=RBQnV2c/7zY3S91ppGpC3gipiY4li6sGXwSzhVwOSVw=;
-        fh=YeVCGwVXrtxz1G7wtANcsK/t4kwlH5qxdBUrZx9MCJA=;
-        b=FjmMB+1xONNZMmgPO7HfEio/LIbMF4nR6IfQSHIRY0LKdMcc7W3Asrek3upbwgYhDc
-         +OsLIlmqRNawQJsl9JImRCzRdEw8ueuWT0tguVEhTTKM3suX+fQZDN1fg5IA8J8uvDue
-         vOUqbyTPvjEwfesCJHi8HCCIDADK92ooSHIJvZbIQxvNTGw6dWmOh/u9L8NYKBfpfDSA
-         eIrI6vqS2WbDXUjDsb4eLoiyIk2eA8JVs3xB4ZLsOaHnakVqpUF2exOCVlEqanNy/LQA
-         5hyGv0UxxiMJyQhSrg1XmTL4NGxdjwT6xTBxlGYZ/o7Wll+4htTv/ttrvcL7fL6rxk61
-         JfMg==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=bPZXanCA;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::536 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
+Received: from mail-oa1-x3d.google.com (mail-oa1-x3d.google.com [IPv6:2001:4860:4864:20::3d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 810469B41B2
+	for <lists+kasan-dev@lfdr.de>; Tue, 29 Oct 2024 06:04:39 +0100 (CET)
+Received: by mail-oa1-x3d.google.com with SMTP id 586e51a60fabf-28f4d9c29bfsf2160982fac.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 28 Oct 2024 22:04:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1729969554; x=1730574354; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1730178278; x=1730783078; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RBQnV2c/7zY3S91ppGpC3gipiY4li6sGXwSzhVwOSVw=;
-        b=OG2ZvBmmKX0D9sdNxLXuAcShCY9oxV2Zt9LUXOOnlGCL15gORPvN8KYjaeI0cRLW0P
-         5+EbhmDXKUH3+peRbSXy2/U20xokz7GO9DXO3tKhz9yBF4+MnlIg4ksumPnpUEiHXepa
-         YPK00lVIUEqjAl1jNcW4oDjXH8tuqecutDkkD2JL+8mjs5JIQsm3/zN8WOPnWgy8iyAQ
-         GYkcACEr8kHskjI0K1cVzD+6CWwv7LQiWB+dngIukX5NbdNzT46AAsA+v/J72TL2deqR
-         8YF6LNTVYCxDk7DW/vWpBKO/pfOppdBcqDCItCqVISy9KsKOuxWuDIlIBrWp5+nopgEI
-         gBCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729969554; x=1730574354;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:content-disposition:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RBQnV2c/7zY3S91ppGpC3gipiY4li6sGXwSzhVwOSVw=;
-        b=fjqcHeFJN67Nyks7nr5ovFOpn332bXuyEDqdd4k6zB+jes5LUrj0Llgl/7ZtgkdSVF
-         SnS6wLV6yzDMaNBgRIlFkFsZj8uoCNWIqmxkut5JpaawAgwHeqY+l9/XbLOhH5q1Ndu+
-         0iQQZzJHJvHtQhohykpEFNfg++stTwZCvSeAEg+Rb8CVyCYVm4TcYP98GoeT/Z5wqPMe
-         l1tOXJzAlfxOiLrQd4m3tZpVbKF5L+KWtlFKIj++4vnPyMbQ8D3sUHjTZ/s/Pzwim5uJ
-         vzFkJQbU/NnPPZcINb/Hh8KM427pEcsD1Hy7LLtoK291TdHY/DUbLiSGXmuriwCwux3Q
-         RfQw==
-X-Forwarded-Encrypted: i=2; AJvYcCX56RMHZPf7UVuF5lgcceeYRbTQz7u/FfmiivhpzneqRAbLwUWC0py//oj9YVjOe6f5weMYdA==@lfdr.de
-X-Gm-Message-State: AOJu0Yx3ekEAtoeDNO0Sj04dDoeeS1AzzwKtZeJp/U/JVhU4NCtgI/E7
-	maiwFZi/X1gul2nqFIdSjW2FOxbzHtdkskhkUZdVd5I+jMn7NRWZ
-X-Google-Smtp-Source: AGHT+IG2ebGrDgBu8WWBC2orJ7/DRdXordleJhLVxCgqYUqynheFENraawpTze8ZvKwlQIfxtT34KQ==
-X-Received: by 2002:a05:6870:1cd:b0:25d:ff4c:bc64 with SMTP id 586e51a60fabf-29051af0f90mr2185418fac.6.1729969554329;
-        Sat, 26 Oct 2024 12:05:54 -0700 (PDT)
+        bh=3hPn0pVameg8HRvG3UVpsE+WQhTSQenn2d1Isvb0lCE=;
+        b=EbBMlIBZNu++q1EHwvkIoDFHSMbJQ2pvOvgeHHPJyZulw11d+WBKVENMiBMtsBvbU3
+         OH57ve+TfNult7v1aR2vZZBJ8PpE9eVlsh9LDheK4kxnntnqKnvl0JvSBz6Syfn7pWma
+         M1ZUAMdxpLj2sa8oi3MUJunuC2NItUI5cpdAIZIu88Hp8j5ajb7lHEM8LCs5jL1KMP4K
+         qv+vnKxLIOb+Ca18kSpKbQZLH1aA08meBurSEH9+kCV2r6whTRtyGmXtV1k1h0q7Om75
+         ZYZMLgCMxBqszYKnoZfQLnfiOvZYZzhCWFODRlAB3/amGGKwVStVED2mpzGeNs6sgLEp
+         x2ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730178278; x=1730783078;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-disposition:message-id:subject:cc:to:from:date:x-beenthere
+         :x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3hPn0pVameg8HRvG3UVpsE+WQhTSQenn2d1Isvb0lCE=;
+        b=VgyUIqhPmz4aaR0QnyarqUKAaXeBhEPi23BXovqQQpNmGdhc/d9HEqpcYnbk2S9ytB
+         6KdDYnjob8jdJGWRlS86TD/KSz9xR1okNlJ3P+BtYzt9uAgZBy2muALW4NvmlSifUZHA
+         7iQD30YH6jIynmaYHMfepLu8E5427tfhl7nDs0gkmAYxtxM0xh4gG9OpXGm0nqC2XYSC
+         U2XWIvK3lFgT45U/In/xHhVFciyxaLm5fjGHtNTFS8z46OFs479HF5HDuHvJLs8mUPa8
+         eF5Otg73USQ9pPRkG6OkJ5V9GxWTS4c1G7JN06rdjjVRW45NyFWrAd8D2a4q5ZvG9rGu
+         stVg==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCXUu4SdsF1nXc7asWj3z4KI66gV5a1hiGXr85Vm+EtXjagkayOzPNsh67PEWg0vxs1KAEvA0w==@lfdr.de
+X-Gm-Message-State: AOJu0Yxyt0IqpK+30QJiv8QpVjZpt10twgFVUfE93AuEG7w4OuElZCBd
+	mqwpxekhBxuzv3+en0fCGymjU3T17k/OOVi6f+rbc8lnU0PtuM6L
+X-Google-Smtp-Source: AGHT+IEiwjTNzdtA2msyXV9T8/J8tlhEBPNsFXY8vUFHwDsNfTZIWhPveMX8a6aNNqfV/Tu2qlDzyA==
+X-Received: by 2002:a05:6871:452:b0:277:da52:777 with SMTP id 586e51a60fabf-29051b6b5e1mr8962426fac.11.1730178277809;
+        Mon, 28 Oct 2024 22:04:37 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:ad0d:b0:27c:4263:6191 with SMTP id
- 586e51a60fabf-28ce46ea96fls657957fac.2.-pod-prod-06-us; Sat, 26 Oct 2024
- 12:05:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUKN6+M54gCnBIaCjLyib9Z4J9Glz0DQ51oi+gotl1PEuZm1DsNGgPTTqdLxw4lzFdZw+DojBy/w54=@googlegroups.com
-X-Received: by 2002:a05:6870:e303:b0:261:1aad:2c03 with SMTP id 586e51a60fabf-29051dd93c7mr2448909fac.43.1729969553336;
-        Sat, 26 Oct 2024 12:05:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1729969553; cv=none;
-        d=google.com; s=arc-20240605;
-        b=U+bFmBV6yK4EQEosiGqX3Lb6iUHlHIm+JvaRxnPfbA6XvaQMxRwYJ3i0JdEA2sLlt3
-         aHdf7F5humArkR/TvLjT8EYAk9RW+dlmtcVbbJpJvxUJB26jjhGWSjV7E/GfhcXN1AJk
-         vCyOY2LkqXWe8F1UR8yQdXDotLyf6UMkxXf5AQVNavNK46vxhA5UjVInpdTxAcRl3DBU
-         /WH5ztQBlkwK6pZqF7ABmbndVeoi0nc2Zn0cAVzORg14wbg93UNToXuIEMEGDXhmqg9W
-         XGwACGX41PbyyNPzutMIqZI+60+SjPGvZSsEUwHvXaMmn88YI4fQ5ju2v/GaHp90u7Zh
-         6Vaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=mMu6nFv9m1WVpI3Z0zFLZSZgLAEo3FaBzaLQot1713w=;
-        fh=xYOcWEM0CFc7/2QvMYPrVJqlmxolxdCWhCBoHYEFmwY=;
-        b=kc1xcPTH8a5kxpWTk1GoAF8sA9/yjH2Q4sOT0zCmiemj0hxgLMyyipRTNWvOYhYC64
-         /ICjcOyGBMWGuebD0i8A8eKlZf0j0ptD+ROERuIS2dyp8vxthvW4a+KgXXszxm/Av7AP
-         tY1ujTAMtGsMH1zppuVUljO/0DuGsoV3zxw6VD9LBGKJ0MQJX9HS4fIdaWpExYOVXEae
-         eAXBx0JGBCjJQ6qvzopnMMoQ/nEHmRQj5EAoa0Hl0zgs/7LJPaJgdOYNBY/Eu3CZ079G
-         szO6vlhnCVb8xy6vdqwCdCpaGfhOnf6xttDTGGlgsRQz1lJuqzjBmVTggCF7K8DpojI3
-         wx0w==;
-        dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=bPZXanCA;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::536 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com. [2607:f8b0:4864:20::536])
-        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-29035da4ba8si169011fac.2.2024.10.26.12.05.53
+Received: by 2002:a05:6870:d06:b0:25c:b2c1:8569 with SMTP id
+ 586e51a60fabf-28ce4744007ls2785319fac.1.-pod-prod-04-us; Mon, 28 Oct 2024
+ 22:04:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXofRNQn0vGPTw5ILLAxF23ovoYzrx80iuvJwpdwBpLt+EFfdRui3hyc0FopPio0OAoduQ/5gl0IUo=@googlegroups.com
+X-Received: by 2002:a05:6870:8a09:b0:287:cb2:c0e with SMTP id 586e51a60fabf-29051b6b726mr9537897fac.12.1730178276976;
+        Mon, 28 Oct 2024 22:04:36 -0700 (PDT)
+Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.11])
+        by gmr-mx.google.com with ESMTPS id 46e09a7af769-718614e84f6si359065a34.1.2024.10.28.22.04.36
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Oct 2024 12:05:53 -0700 (PDT)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::536 as permitted sender) client-ip=2607:f8b0:4864:20::536;
-Received: by mail-pg1-x536.google.com with SMTP id 41be03b00d2f7-7ea68af2f62so2384121a12.3
-        for <kasan-dev@googlegroups.com>; Sat, 26 Oct 2024 12:05:53 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXklQRC6tiZqj1oNRgDrJfXLjOLemqO1LRSkFse1Yr0heNkZ0S+zvbaxVd6W5wCkIT65YJvCZyZc/k=@googlegroups.com
-X-Received: by 2002:a05:6a21:1743:b0:1d9:77e1:9e57 with SMTP id
- adf61e73a8af0-1d9a83d019emr4901773637.11.1729969552489; Sat, 26 Oct 2024
- 12:05:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20241026161413.222898-1-niharchaithanya@gmail.com>
-In-Reply-To: <20241026161413.222898-1-niharchaithanya@gmail.com>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Sat, 26 Oct 2024 21:05:14 +0200
-Message-ID: <CANpmjNPQQid6UirgZkBov-WhpyRR_5tqazvfS5f_K3PoAF3WYw@mail.gmail.com>
-Subject: Re: [PATCH v3] kasan: report: filter out kasan related stack entries
-To: Nihar Chaithanya <niharchaithanya@gmail.com>
-Cc: ryabinin.a.a@gmail.com, andreyknvl@gmail.com, dvyukov@google.com, 
-	glider@google.com, skhan@linuxfoundation.org, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 28 Oct 2024 22:04:36 -0700 (PDT)
+Received-SPF: pass (google.com: domain of oliver.sang@intel.com designates 192.198.163.11 as permitted sender) client-ip=192.198.163.11;
+X-CSE-ConnectionGUID: m8e4ThF+SCiQ/8w8KKJQSQ==
+X-CSE-MsgGUID: dQXEBUM3R/K/s82goOEm9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="40380770"
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="40380770"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 22:04:33 -0700
+X-CSE-ConnectionGUID: RJ5DuBdTQdyWli/ItOp6MQ==
+X-CSE-MsgGUID: NNR+G/w6Tf6UGNCvCj94XQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="81908228"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa009.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 28 Oct 2024 22:04:30 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 28 Oct 2024 22:04:28 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Mon, 28 Oct 2024 22:04:28 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 28 Oct 2024 22:04:27 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kzDivs8YqRuBl0x6CRKaemLihNdmeoZh3I2BOXoNN2AZx8ja3LrTmgV690yIpiFbUbpMsKxoULbSu6IYU/f5JBdAp9/QEoLGePH5G43ABNO/CR8lEM1/VS6K0VXlC0MHXWzKNTkaNRfMz1JAeSZdMb0AMONLrG5DXUV0jg7O93CIk3W0cftIYGIVbY4S5Te9mSb1sM7vii8ceoseVnrmxDCVEdJIaMJhH3wCujDmCpcyqDhK7ZjbF3uphmBawJSsrhdOKalzu9gu/w1eMTcdu0iKcNPC/Rds8WgLFo4W17h9Mg96yX4wsDFtofk8i+sT13BlW1KafiJ2bHBt/2zcUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q2YhutE/3kRDKgM2DcK4GgbP7GNN69ZPbqVFrXrhpB4=;
+ b=qta9MKrT3umfmyS9htCy4GeTQ9rkmrLmdRHspU3NNajfyZ/1Mprnj/pK0oE1nrTuf7XSXqlPXEy6Bxh9t05RDC+p86pT3cxrF20HijVt/0KVmQKXXVXkuKtdN9dbZrYfLUlXdJqdOFstD00EWduGpVS88t76IazWEEOet6TlxN9aNJLkh6KjRLW1qIFBmI4xDDqLtYeXY0Ix9T2Bue+haLnELm2JcEz1TOuQjo1kwWcwJmhBS8uPudmSB0coL5kBAfUIxjMEbICzUI0uNX8+CfYg9MZWKO0qTs36ZoSVWVs+SDc9KBzlv5GrMlpwtPLjeNJgRUhpzgPATo+mxMaIvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by DS7PR11MB6174.namprd11.prod.outlook.com (2603:10b6:8:9a::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.25; Tue, 29 Oct
+ 2024 05:04:24 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c%5]) with mapi id 15.20.8093.025; Tue, 29 Oct 2024
+ 05:04:24 +0000
+Date: Tue, 29 Oct 2024 13:04:12 +0800
+From: kernel test robot <oliver.sang@intel.com>
+To: Kees Cook <keescook@chromium.org>
+CC: <oe-lkp@lists.linux.dev>, <lkp@intel.com>, <linux-kernel@vger.kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
+	"Peter Zijlstra" <peterz@infradead.org>, Hao Luo <haoluo@google.com>, Marco
+ Elver <elver@google.com>, Justin Stitt <justinstitt@google.com>,
+	<kasan-dev@googlegroups.com>, <linux-hardening@vger.kernel.org>,
+	<linux-kbuild@vger.kernel.org>, <oliver.sang@intel.com>
+Subject: [linus:master] [ubsan]  557f8c582a:
+ UBSAN:signed-integer-overflow_in_fs/sync.c
+Message-ID: <202410281544.bd98d329-lkp@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR01CA0193.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:189::18) To LV3PR11MB8603.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|DS7PR11MB6174:EE_
+X-MS-Office365-Filtering-Correlation-Id: 02817213-4765-4537-4968-08dcf7d727d4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?ZtNDTjfiCgocAQEMGmGRLDYEUTt5CzgjYIA7V4ZpOBwmSEuX4RAOxAC9x5p7?=
+ =?us-ascii?Q?q2XN5QZacTdPymhW2L1PQ3utH+89nLT3hUEPhixTo1x8H84ruL7Z6f/galba?=
+ =?us-ascii?Q?4gwOh96nIsCeIkFuN8vhhZ57d2ar5W+W4/ubZIe5LLsnWk9qQssuUrbf1ie8?=
+ =?us-ascii?Q?0s1jQ98zykE8Lluvkpf7cTd3icfD2Q2FL+QaHt4C+lW6DcN2wmhnZ+oSV9dG?=
+ =?us-ascii?Q?jYWK3p9mw5RptKOKpwEUE/umKGJYsvhUdNQf1En4oJ6sSZSQxww4aFkWr2lP?=
+ =?us-ascii?Q?/VoJ0PSQlHdltbLwRZsWexBt5oVqym870tjvFZUbZ+5pPRJP3wXhsom/R0yK?=
+ =?us-ascii?Q?miiLfEkx9YccFxYiOKYcBVwz8tJW68gQFrfrLdWV5bXoLM2yf+z8NG2HsqQf?=
+ =?us-ascii?Q?JGcA9PUx+dAKU9IHJq338i6MQOVyjw0yVdAclvhDn7M1XQjlVyUNNiVdwGnv?=
+ =?us-ascii?Q?D/2i+bnuvJ/aas+It0m/QhjLUrf9HTLB5OrDrQbSj8J3hKFOC70ROxOjhJdq?=
+ =?us-ascii?Q?1RW0qTM73L8w5IRTyFDbzJz6zGzDDX9bXjXvE4RWbKx7HOOvc8qD8PxE5gB8?=
+ =?us-ascii?Q?mEK+/iBv15PCjEeLxyq+OpZM0N7IfOgK1d1F6fjHnErd8wp2HANNn0mTpoRm?=
+ =?us-ascii?Q?lJGQBvEO819DEghe+puYazdLiQgbSG8j7urz4Hsw4hLdX9f3d62JHnStOzof?=
+ =?us-ascii?Q?+ORKmYCebnHnaJBKD/13n0+JHa5J/k/TVAL+vKuupye5YxaHcADhBB7K7C8L?=
+ =?us-ascii?Q?QXo6YMNDKgUfE4CW63sKB7BqAJvZVXOQD4w9cCL/WFgt1GJd8Kn8ZAD6x+h1?=
+ =?us-ascii?Q?URU933v8XVupyu4pB7VxLuTQboMWNti8u+OsZBOsIab4DCwwyZlTsc9qRIo9?=
+ =?us-ascii?Q?Suc6sFmYDDKCJKl36Jk8iWnRpw2R77941siIO5ovud6o16KDBTAmD/21m+eZ?=
+ =?us-ascii?Q?tcEoH1PKeloiv+iOi5wEtJq69h8E7XinwFg171aVgS/foZXgaWwsTeXYa+jf?=
+ =?us-ascii?Q?T42seRV84tTR/cn8/t95YLaLkevwacI2CjgVnKnFpC9u5KOkgOC/fGUIIr9B?=
+ =?us-ascii?Q?prCF1V5ReT1PBGb17ev+EO6SVuS/6d5/oXPybF7VSZfdt0ANDGQbJGUCXMOm?=
+ =?us-ascii?Q?JqKuuwEtT0i8+g1tneT4rkeLJSSJZKh7xmz2fbINW+nWeouY+MoVezR5adDx?=
+ =?us-ascii?Q?2FNy7YUGoZz/EpIqiUlhWTJfgp8YtzHUDfIg5FRxq8L3Smtvh+BRgk/f34Tk?=
+ =?us-ascii?Q?WTKgabhp5sDC/4oYU/Ib4DnErS9mgq7NOaM8FKgmgQ=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?eAXhprWIXjc65GYDsMPECLFvm+oFz+N87d1ZJYFXIAesfqpJBt86sruURMQN?=
+ =?us-ascii?Q?XEM6YskoPIYFA4Ifd96ZrYjbTDtH0AqAdNFkZoHFlLzge4s3JLtAzzZzMSac?=
+ =?us-ascii?Q?iPQBYajbnGj0E28fFji4dZA89MswmJSJ+GaUdmJvYLCoZ+GpDF4mlvKHzOPM?=
+ =?us-ascii?Q?rc2DWjQ3Z81MGOARmFLCVIZQX+jhvkzRh5We3DEDfDGFYsf+DpNv6EdH9+I4?=
+ =?us-ascii?Q?WveajbUOydipiBC5q7HwFEiKvh4esqW32zeRyadjkruD+Yz8cMIjzLDbjH0I?=
+ =?us-ascii?Q?AMhvof0+YgWSoGYkYYmSh7Ig424HCSULY0ITE41J50fYF04RRWRza3uYDVWL?=
+ =?us-ascii?Q?FZqneVVII7iuUDeCRpH2SGF4Eo1+7HQS+HuHyrEh1v8y8P7zHaBzmVoHy51z?=
+ =?us-ascii?Q?k0h+5RYd+pVFKKYGZ3B31Yqul3xhc53qoFNk+9U5UOtzV83rI45/npV+4GIx?=
+ =?us-ascii?Q?dg5aHK9DQ9ifAoJVA4QfcTv+dZrowgK68AWwhcFPuGCregbKzk5Kw4k5Z9Xr?=
+ =?us-ascii?Q?CpXjqpJcyjo9sYar8rhIwUCr2mY6TgNfJ9xVkY0j8q4mgxFcMT/j9ExNTA0y?=
+ =?us-ascii?Q?xD3Vb4HJUIWH3kuRHCxK8iWNR3xnf9wUlQKGPEOroDaUC4SO/KvKBUm7qr/v?=
+ =?us-ascii?Q?e8Dghh6k+BqGZYENmFoKholWBGpD7Hgt2LydD5MN9auSlHqIuPNgwMueQNac?=
+ =?us-ascii?Q?nN6wYxyipH8bD4daFsIBaPFuvjg20p1cziNmW1/mcH//4xpZiMp4LE3OdVx5?=
+ =?us-ascii?Q?Bg/FNEsIp4p4MK0veR0oGhVDnXxbfbMFHJ77erulIKB+Km8W2f3SsJIQr12m?=
+ =?us-ascii?Q?BCYvno1L0kFHktiCT0JJjqb1+SRrmCBtsiM8czQXaEQqfCp1j+cB8ieCNzgu?=
+ =?us-ascii?Q?TGw18cl8GluaOl700LXazhw2vGNwn9qbLa2N/5sRmBOXFG3GVnGoRyA2IBXw?=
+ =?us-ascii?Q?kWZIwF3bp2RrlQxC4PneVvLged6CxA6xX8uM+Kdfedh5KWBA315v+StBq9sC?=
+ =?us-ascii?Q?loBeP2acvM40r2Gx/dlwHNx6kSjTfC4RHA1b9+CoeN/ALTFY/ErUGjUx6xxa?=
+ =?us-ascii?Q?DBZMl4qX2K19qsGOt+9eLp0nmWwAur1GzkpfyRCNbJWW1Jptr0MS9kIXNbk7?=
+ =?us-ascii?Q?2DUUBnu1ZSOTaAFtzTI00Jy0GmHF8JDBKTTDFskNobqMhkLUR8StL2wix/fX?=
+ =?us-ascii?Q?QyGDsaTqSOFNupMuz3EEOyGs4eUyJO/CwxmpHgxsQ0x9761YsmPD94Ajht0I?=
+ =?us-ascii?Q?VwvI5jMZ+gU0A9EZBq9nMERrndJB1ktvj90+xzCZv1ffcNjQ0+6EhSAbWNDl?=
+ =?us-ascii?Q?Ah+SPphWgJftEZuBffXG+kL6orlyIoTIRFwYisPGUdXCCPbyo0yYXCLwNeez?=
+ =?us-ascii?Q?jE10/xur8ANFzFpIbuhtYqiX1n5NfiScFN9zBs68Ikz6JqujEKrvxU0GmXbS?=
+ =?us-ascii?Q?yEHeDQD1vdhQnKdmLf9wtJWoR2x4kQm8wFwhw+YHKlXwo4XRa4xH/lURpOyE?=
+ =?us-ascii?Q?Ld370iHyXb3cO8FE/pGn9GZyP8nL5tFesCw+422t1vlpXv/LwOm4XMsTiYqn?=
+ =?us-ascii?Q?vmEIlUVePuzMIemz5M9R56hzE+4NCilkAJqhF4RMsUwuemWBdN+rBMGHjstH?=
+ =?us-ascii?Q?qw=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02817213-4765-4537-4968-08dcf7d727d4
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2024 05:04:24.1367
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yKs375sdMhd92TaaYBgZjyKg8KLxaVifF4dzPiOTpE4zJ0ePm5xF1RE9zp4wyedpv6axMM6EzgGPmDdidgn+UA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB6174
+X-OriginatorOrg: intel.com
+X-Original-Sender: oliver.sang@intel.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=bPZXanCA;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::536 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@intel.com header.s=Intel header.b=MAA0Gl11;       arc=fail
+ (signature failed);       spf=pass (google.com: domain of oliver.sang@intel.com
+ designates 192.198.163.11 as permitted sender) smtp.mailfrom=oliver.sang@intel.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -143,161 +205,218 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Sat, 26 Oct 2024 at 18:17, Nihar Chaithanya
-<niharchaithanya@gmail.com> wrote:
->
-> The reports of KASAN include KASAN related stack frames which are not
-> the point of interest in the stack-trace. KCSAN report filters out such
-> internal frames providing relevant stack trace. Currently, KASAN reports
-> are generated by dump_stack_lvl() which prints the entire stack.
->
-> Add functionality to KASAN reports to save the stack entries and filter
-> out the kasan related stack frames in place of dump_stack_lvl() and
-> stack_depot_print().
->
-> Within this new functionality:
->         - A function kasan_dump_stack_lvl() in place of dump_stack_lvl() is
->           created which contains functionality for saving, filtering and
->           printing the stack-trace.
->         - A function kasan_stack_depot_print() in place of
->           stack_depot_print() is created which contains functionality for
->           filtering and printing the stack-trace.
->         - The get_stack_skipnr() function which employs pattern based stack
->           filtering is included.
->         - The replace_stack_entry() function which uses ip value based
->           stack filtering is included.
->
-> Signed-off-by: Nihar Chaithanya <niharchaithanya@gmail.com>
-> Fixes: https://bugzilla.kernel.org/show_bug.cgi?id=215756
-> ---
-> Changes in v2:
->         - Changed the function name from save_stack_lvl_kasan() to
->           kasan_dump_stack_lvl().
->         - Added filtering of stack frames for print_track() with
->           kasan_stack_depot_print().
->         - Removed redundant print_stack_trace(), and instead using
->           stack_trace_print() directly.
->         - Removed sanitize_stack_entries() and replace_stack_entry()
->           functions.
->         - Increased the buffer size in get_stack_skipnr to 128.
->
-> Changes in v3:
->         - Included an additional criteria for pattern based filtering
->           in get_stack_skipnr().
->         - Included ip value based stack filtering with the functions
->           sanitize_stack_entries() and replace_stack_entry().
->         - Corrected the comments and name of the newly added functions
->           kasan_dump_stack() and kasan_stack_depot_print().
->
->  mm/kasan/report.c | 111 ++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 107 insertions(+), 4 deletions(-)
->
-> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
-> index 3e48668c3e40..648a89fea3e7 100644
-> --- a/mm/kasan/report.c
-> +++ b/mm/kasan/report.c
-> @@ -261,6 +261,110 @@ static void print_error_description(struct kasan_report_info *info)
->                         info->access_addr, current->comm, task_pid_nr(current));
->  }
->
-> +/* Helper to skip KASAN-related functions in stack-trace. */
-> +static int get_stack_skipnr(const unsigned long stack_entries[], int num_entries)
-> +{
-> +       char buf[64];
-> +       int len, skip;
-> +
-> +       for (skip = 0; skip < num_entries; ++skip) {
-> +               len = scnprintf(buf, sizeof(buf), "%ps", (void *)stack_entries[skip]);
-> +
-> +               /* Never show  kasan_* or __kasan_* functions. */
-> +               if ((strnstr(buf, "kasan_", len) == buf) ||
-> +                       (strnstr(buf, "__kasan_", len) == buf))
-> +                       continue;
-> +               /*
-> +                * No match for runtime functions -- @skip entries to skip to
-> +                * get to first frame of interest.
-> +                */
-> +               break;
-> +       }
-> +
-> +       return skip;
-> +}
-> +
-> +/*
-> + * Skips to the first entry that matches the function of @ip, and then replaces
-> + * that entry with @ip, returning the entries to skip with @replaced containing
-> + * the replaced entry.
-> + */
-> +static int
-> +replace_stack_entry(unsigned long stack_entries[], int num_entries, unsigned long ip,
-> +                   unsigned long *replaced)
-> +{
-> +       unsigned long symbolsize, offset;
-> +       unsigned long target_func;
-> +       int skip;
-> +
-> +       if (kallsyms_lookup_size_offset(ip, &symbolsize, &offset))
-> +               target_func = ip - offset;
-> +       else
-> +               goto fallback;
-> +
-> +       for (skip = 0; skip < num_entries; ++skip) {
-> +               unsigned long func = stack_entries[skip];
-> +
-> +               if (!kallsyms_lookup_size_offset(func, &symbolsize, &offset))
-> +                       goto fallback;
-> +               func -= offset;
-> +
-> +               if (func == target_func) {
-> +                       *replaced = stack_entries[skip];
 
-All this replaced logic is not needed for KASAN.
 
-> +                       stack_entries[skip] = ip;
-> +                       return skip;
-> +               }
-> +       }
-> +
-> +fallback:
-> +       /* Should not happen; the resulting stack trace is likely misleading. */
-> +       WARN_ONCE(1, "Cannot find frame for %pS in stack trace", (void *)ip);
-> +       return get_stack_skipnr(stack_entries, num_entries);
-> +}
-> +
-> +static int
-> +sanitize_stack_entries(unsigned long stack_entries[], int num_entries, unsigned long ip,
-> +                      unsigned long *replaced)
-> +{
-> +       return ip ? replace_stack_entry(stack_entries, num_entries, ip, replaced) :
-> +                         get_stack_skipnr(stack_entries, num_entries);
-> +}
-> +
-> +/*
-> + * Use in place of dump_stack() to filter out KASAN-related frames in
-> + * the stack trace.
-> + */
-> +static void kasan_dump_stack(unsigned long ip)
-> +{
-> +       unsigned long reordered_to = 0;
+Hello,
 
-Do you understand what this code is doing? The whole "reordered_to"
-logic (along with the "replaced" logic in replace_stack_entry()) is
-very specific to KCSAN and not at all needed for KASAN. See the commit
-that introduced it:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/kernel/kcsan/report.c?id=be3f6967ec5947dd7b2f23bf9d42bb2729889618
 
-You've copied and pasted the code from KCSAN, in the hopes it more or
-less does what we want. However, the code as-is is more complex than
-needed.
+for this "ubsan: Reintroduce signed overflow sanitizer" change, we really
+noticed some UBSAN issues start to appear
 
-Please try to really understand what the most optimal way to do this
-might be. As additional inspiration, please look at how KFENCE does
-it: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/mm/kfence/report.c#n49
+918327e9b7ffb453 557f8c582a9ba8abe6aa0fd734b
+---------------- ---------------------------
+       fail:runs  %reproduction    fail:runs
+           |             |             |
+           :20          50%          10:20    dmesg.UBSAN:signed-integer-overflow_in_arch/x86/include/asm/atomic.h
+           :20          10%           2:20    dmesg.UBSAN:signed-integer-overflow_in_fs/open.c
+           :20           5%           1:20    dmesg.UBSAN:signed-integer-overflow_in_fs/read_write.c
+           :20          50%          10:20    dmesg.UBSAN:signed-integer-overflow_in_fs/sync.c
+           :20          85%          17:20    dmesg.UBSAN:signed-integer-overflow_in_include/linux/atomic/atomic-arch-fallback.h
 
-In the end what I'd like to see is the simplest possible way to do
-this for KASAN.
+it's out of our scope to backport this change then to find out the real first
+bad commits which introduce these issues.
+
+just made out below report FYI what we observed in our tests.
+
+
+kernel test robot noticed "UBSAN:signed-integer-overflow_in_fs/sync.c" on:
+
+commit: 557f8c582a9ba8abe6aa0fd734b6f342af106b26 ("ubsan: Reintroduce signed overflow sanitizer")
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git master
+
+[test failed on linus/master      850925a8133c73c4a2453c360b2c3beb3bab67c9]
+[test failed on linux-next/master a39230ecf6b3057f5897bc4744a790070cfbe7a8]
+
+
+in testcase: trinity
+version: trinity-i386-abe9de86-1_20230429
+with following parameters:
+
+	runtime: 600s
+
+
+
+config: i386-randconfig-141-20241024
+compiler: clang-19
+test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
+
+(please refer to attached dmesg/kmsg for entire log/backtrace)
+
+
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <oliver.sang@intel.com>
+| Closes: https://lore.kernel.org/oe-lkp/202410281544.bd98d329-lkp@intel.com
+
+
+[  215.770370][  T642] ------------[ cut here ]------------
+[  215.777621][  T642] UBSAN: signed-integer-overflow in fs/sync.c:240:19
+[  215.788285][  T642] 1880844493352075409 + 8608480566024911059 cannot be represented in type 'loff_t' (aka 'long long')
+[  215.801598][  T642] CPU: 0 PID: 642 Comm: trinity-c7 Tainted: G                T  6.8.0-rc2-00013-g557f8c582a9b #1
+[  215.817967][  T642] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+[  215.830638][  T642] Call Trace:
+[ 215.834397][ T642] dump_stack_lvl (lib/dump_stack.c:107) 
+[ 215.839685][ T642] dump_stack (lib/dump_stack.c:113) 
+[ 215.844573][ T642] handle_overflow (lib/ubsan.c:218 lib/ubsan.c:248) 
+[ 215.850605][ T642] __ubsan_handle_add_overflow (lib/ubsan.c:255) 
+[ 215.857665][ T642] sync_file_range (fs/sync.c:?) 
+[ 215.863236][ T642] ? do_int80_syscall_32 (arch/x86/entry/common.c:278) 
+[ 215.869588][ T642] ksys_sync_file_range (fs/sync.c:364) 
+[ 215.875456][ T642] __ia32_sys_ia32_sync_file_range (arch/x86/kernel/sys_ia32.c:107) 
+[ 215.886149][ T642] do_int80_syscall_32 (arch/x86/entry/common.c:?) 
+[ 215.892113][ T642] ? syscall_exit_to_user_mode (kernel/entry/common.c:215) 
+[ 215.899078][ T642] ? do_int80_syscall_32 (arch/x86/entry/common.c:278) 
+[ 215.905299][ T642] ? irqentry_exit_to_user_mode (kernel/entry/common.c:228) 
+[ 215.912366][ T642] ? irqentry_exit (kernel/entry/common.c:361) 
+[ 215.917978][ T642] ? sysvec_call_function_single (arch/x86/kernel/apic/apic.c:1076) 
+[ 215.925139][ T642] entry_INT80_32 (arch/x86/entry/entry_32.S:947) 
+[  215.931354][  T642] EIP: 0xb7fcc092
+[ 215.936180][ T642] Code: 00 00 00 e9 90 ff ff ff ff a3 24 00 00 00 68 30 00 00 00 e9 80 ff ff ff ff a3 f8 ff ff ff 66 90 00 00 00 00 00 00 00 00 cd 80 <c3> 8d b4 26 00 00 00 00 8d b6 00 00 00 00 8b 1c 24 c3 8d b4 26 00
+All code
+========
+   0:	00 00                	add    %al,(%rax)
+   2:	00 e9                	add    %ch,%cl
+   4:	90                   	nop
+   5:	ff                   	(bad)
+   6:	ff                   	(bad)
+   7:	ff                   	(bad)
+   8:	ff a3 24 00 00 00    	jmp    *0x24(%rbx)
+   e:	68 30 00 00 00       	push   $0x30
+  13:	e9 80 ff ff ff       	jmp    0xffffffffffffff98
+  18:	ff a3 f8 ff ff ff    	jmp    *-0x8(%rbx)
+  1e:	66 90                	xchg   %ax,%ax
+	...
+  28:	cd 80                	int    $0x80
+  2a:*	c3                   	ret		<-- trapping instruction
+  2b:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
+  32:	8d b6 00 00 00 00    	lea    0x0(%rsi),%esi
+  38:	8b 1c 24             	mov    (%rsp),%ebx
+  3b:	c3                   	ret
+  3c:	8d                   	.byte 0x8d
+  3d:	b4 26                	mov    $0x26,%ah
+	...
+
+Code starting with the faulting instruction
+===========================================
+   0:	c3                   	ret
+   1:	8d b4 26 00 00 00 00 	lea    0x0(%rsi,%riz,1),%esi
+   8:	8d b6 00 00 00 00    	lea    0x0(%rsi),%esi
+   e:	8b 1c 24             	mov    (%rsp),%ebx
+  11:	c3                   	ret
+  12:	8d                   	.byte 0x8d
+  13:	b4 26                	mov    $0x26,%ah
+	...
+[  215.959775][  T642] EAX: ffffffda EBX: 00000167 ECX: 00000091 EDX: 1a1a1a1a
+[  215.968070][  T642] ESI: 11c4b8d3 EDI: 77777777 EBP: 00000000 ESP: bfafd7a8
+[  215.976212][  T642] DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b EFLAGS: 00000292
+[  216.099174][    T1] sbc7240_wdt: timeout value must be 1<=x<=255
+[  216.190859][  T642] ---[ end trace ]---
+
+
+
+[  274.950074][    C0] ------------[ cut here ]------------
+[  274.956226][    C0] UBSAN: signed-integer-overflow in arch/x86/include/asm/atomic.h:85:11
+[  274.966763][    C0] -560020972 + -1641070746 cannot be represented in type 'int'
+[  275.004321][    C0] CPU: 0 PID: 1058 Comm: trinity-c4 Tainted: G                T  6.8.0-rc2-00013-g557f8c582a9b #1
+[  275.014695][    C0] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+[  275.024834][    C0] Call Trace:
+[  275.028200][    C0]  <SOFTIRQ>
+[  275.031444][    C0]  dump_stack_lvl+0x77/0xb0
+[  275.035949][    C0]  dump_stack+0xd/0x14
+[  275.039999][    C0]  handle_overflow+0x279/0x2a0
+[  275.044833][    C0]  __ubsan_handle_add_overflow+0x10/0x20
+[  275.050399][    C0]  __ip_select_ident+0xe1/0x100
+[  275.055298][    C0]  ip_select_ident_segs+0xb8/0x110
+[  275.060353][    C0]  __ip_make_skb+0x257/0x390
+[  275.064951][    C0]  ip_push_pending_frames+0x1b/0x40
+[  275.070103][    C0]  icmp_push_reply+0xc8/0x100
+[  275.074775][    C0]  __icmp_send+0x47e/0x4d0
+[  275.079534][    C0]  __udp4_lib_rcv+0x609/0x6e0
+[  275.084394][    C0]  udplite_rcv+0x17/0x20
+[  275.088608][    C0]  ip_protocol_deliver_rcu+0xe4/0x390
+[  275.093960][    C0]  ? ip_local_deliver+0x150/0x150
+[  275.099299][    C0]  ip_local_deliver+0xe8/0x150
+[  275.104613][    C0]  ip_rcv_finish+0x73/0x90
+[  275.109057][    C0]  ip_rcv+0x1f/0x30
+[  275.112983][    C0]  __netif_receive_skb+0x6e/0x120
+[  275.118031][    C0]  process_backlog+0x1a7/0x250
+[  275.123224][    C0]  __napi_poll+0x2a/0x1f0
+[  275.127626][    C0]  net_rx_action+0x138/0x2a0
+[  275.132262][    C0]  __do_softirq+0x11f/0x41f
+[  275.136794][    C0]  ? do_softirq_own_stack+0x55/0x60
+[  275.141921][    C0]  ? queued_write_lock_slowpath+0x13c/0x13c
+[  275.147853][    C0]  do_softirq_own_stack+0x55/0x60
+[  275.152840][    C0]  </SOFTIRQ>
+[  275.156181][    C0]  do_softirq+0x46/0x90
+[  275.160351][    C0]  __local_bh_enable_ip+0xe0/0x110
+[  275.165410][    C0]  local_bh_enable+0x12/0x20
+[  275.170019][    C0]  __dev_queue_xmit+0x5bd/0x950
+[  275.174874][    C0]  ? read_seqbegin+0x78/0xc0
+[  275.179543][    C0]  ? neigh_resolve_output+0xec/0x180
+[  275.184754][    C0]  ? trace_hardirqs_on+0x56/0xa0
+[  275.189687][    C0]  ? of_get_ethdev_address+0x50/0x50
+[  275.194928][    C0]  neigh_resolve_output+0x133/0x180
+[  275.200083][    C0]  ? eth_header_parse+0x30/0x30
+[  275.204881][    C0]  ip_finish_output2+0x598/0x6c0
+[  275.209806][    C0]  ? ip_finish_output+0x47/0x110
+[  275.214703][    C0]  ? __local_bh_enable_ip+0xb0/0x110
+[  275.220076][    C0]  ip_finish_output+0x47/0x110
+[  275.224815][    C0]  ip_output+0x49/0x60
+[  275.228926][    C0]  ip_local_out+0x74/0xa0
+[  275.233397][    C0]  ip_send_skb+0x18/0x110
+[  275.237738][    C0]  udp_send_skb+0x2d7/0x350
+[  275.242281][    C0]  udp_sendmsg+0x9c2/0xa70
+[  275.246883][    C0]  ? udp_sendmsg+0xa70/0xa70
+[  275.251648][    C0]  ? udp_cmsg_send+0xd0/0xd0
+[  275.256670][    C0]  inet_sendmsg+0xa6/0xb0
+[  275.261266][    C0]  __sock_sendmsg+0x48/0x80
+[  275.265773][    C0]  ____sys_sendmsg+0x13b/0x1e0
+[  275.270597][    C0]  __sys_sendmsg+0x18b/0x1c0
+[  275.275597][    C0]  __ia32_sys_sendmsg+0x1a/0x20
+[  275.280454][    C0]  do_int80_syscall_32+0xe7/0x12c
+[  275.285440][    C0]  ? syscall_exit_to_user_mode+0xf0/0x100
+[  275.291087][    C0]  ? do_int80_syscall_32+0xf1/0x12c
+[  275.296333][    C0]  ? rcu_lock_acquire+0x30/0x30
+[  275.301222][    C0]  ? syscall_exit_to_user_mode+0xf0/0x100
+[  275.306894][    C0]  ? do_int80_syscall_32+0xf1/0x12c
+[  275.312116][    C0]  ? do_int80_syscall_32+0xf1/0x12c
+[  275.317262][    C0]  ? syscall_exit_to_user_mode+0xf0/0x100
+[  275.322879][    C0]  ? do_int80_syscall_32+0xf1/0x12c
+[  275.328094][    C0]  ? do_int80_syscall_32+0xf1/0x12c
+[  275.333216][    C0]  ? irqentry_exit_to_user_mode+0xe4/0xf4
+[  275.338851][    C0]  ? irqentry_exit+0x56/0x88
+[  275.343455][    C0]  ? sysvec_call_function_single+0x30/0x30
+[  275.349279][    C0]  entry_INT80_32+0x125/0x125
+[  275.353945][    C0] EIP: 0xb7fcc092
+[  275.357581][    C0] Code: 00 00 00 e9 90 ff ff ff ff a3 24 00 00 00 68 30 00 00 00 e9 80 ff ff ff ff a3 f8 ff ff ff 66 90 00 00 00 00 00 00 00 00 cd 80 <c3> 8d b4 26 00 00 00 00 8d b6 00 00 00 00 8b 1c 24 c3 8d b4 26 00
+[  275.376574][    C0] EAX: ffffffda EBX: 00000134 ECX: 01f07b00 EDX: 00000000
+[  275.383603][    C0] ESI: fffffffc EDI: 85858585 EBP: fffffffe ESP: bfafd7a8
+[  275.390502][    C0] DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b EFLAGS: 00000292
+[  275.400392][    C0] ---[ end trace ]---
+
+
+
+The kernel config and materials to reproduce are available at:
+https://download.01.org/0day-ci/archive/20241028/202410281544.bd98d329-lkp@intel.com
+
+
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNPQQid6UirgZkBov-WhpyRR_5tqazvfS5f_K3PoAF3WYw%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/202410281544.bd98d329-lkp%40intel.com.
