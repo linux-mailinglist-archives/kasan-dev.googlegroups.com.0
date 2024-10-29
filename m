@@ -1,139 +1,180 @@
-Return-Path: <kasan-dev+bncBDBK55H2UQKRBROOQO4QMGQEX6CZXTI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBLXSQO4QMGQEF27BCVQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ed1-x539.google.com (mail-ed1-x539.google.com [IPv6:2a00:1450:4864:20::539])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6485A9B4B29
-	for <lists+kasan-dev@lfdr.de>; Tue, 29 Oct 2024 14:46:47 +0100 (CET)
-Received: by mail-ed1-x539.google.com with SMTP id 4fb4d7f45d1cf-5c943824429sf3546528a12.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 29 Oct 2024 06:46:47 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1730209607; cv=pass;
+Received: from mail-oa1-x3f.google.com (mail-oa1-x3f.google.com [IPv6:2001:4860:4864:20::3f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 951C29B4CCB
+	for <lists+kasan-dev@lfdr.de>; Tue, 29 Oct 2024 16:03:12 +0100 (CET)
+Received: by mail-oa1-x3f.google.com with SMTP id 586e51a60fabf-2889e4e9a62sf6191069fac.2
+        for <lists+kasan-dev@lfdr.de>; Tue, 29 Oct 2024 08:03:12 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1730214191; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Hhl6/DVOjTjDP4fBN1ybZjEfSnbW9ld2vnxVXQpTmNZRmkRYqMYks1W/I54dQ9xnIK
-         Sg8UQ8pY0XEMTXfThcdCDDANHgCA458gB48L7VShrQnKyTDP77k4pEe8am34ooB02BD8
-         cjm182gnqJVylqYdDdiy3hsYRl0CkiBjx1b9xd0X7X0JlK3iW2b8VT668ZUDWHXM2ZdW
-         ahZH4u2QnlAg36FomKgLc+ws/oKAkUqZY4fphvJK5iGaDBc0m2+evVB90nlmLtKbxMSv
-         5BOqTsfGTix/A/f0MHlvgNYS/AuVpA85CpLHPkLCVigdtI8w0m48Tz9FV+TmI8YLkfLc
-         DdQQ==
+        b=jXJ740vZnvlphlLMGOcnAsMb3y2vest4/NMbx1UCzz29jwuqR4I3Vnh8eCz+oG6wty
+         UrFDJks2tJk0p5SrZlnFGYSGFUkmo4FNanOqQsjtrOVZwTwc9SScQLOA20h9JEz6Yaa5
+         F1kyPbo810DtveOZ9f96jHLEuu0TOwnSEr9P9AuQQK1uqPeIDOJA/yfk5+yZFTs7H0D2
+         V1S8FpxHhIcLZPbIYe9p+MCSozGDz1upHAT/ktQmzNLAWMZPgl4HBAOqpwdyNf3jP/tU
+         Z3plk8C0ZzukD1KXRGoamMQEbldxbTLXXHFS33gMh+mMlpCRTSnra9QW3EsS/FtDzqaW
+         BrKQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=kL06M2EHdt2iQj9Tvb6kVcqr4pmUcg4623NdjHu1ruk=;
-        fh=0XH0MplXRwLqLsYWaPOWH4Hn1okx+7+r6aDtFrsGEN8=;
-        b=Fl/4zBLU1cZrbnWmJDwP9nVe0RUzA1+WPplMlvzvnhSYMWDGvm25P2oDWEWqHUSoEx
-         31I4oCrqnQ1L+d7lJJ8x4KEPl5ZUuaLChsHxxnGVgewkE4KPapHJps+qW9AakCBW862b
-         pH/fb2s/l7pFiNP3FyynRuWA3uVmPUPoA6EuJPcjVeWEEm6HcyLR5/crOhXqCjxQHJhI
-         LYH+eOdbA5zDc8KFBbVBD/JRlLkiafU8w5XxQBnrcBgs65Bzg8pN+45gkv0rJTBAYISL
-         uA83qPewRlJhPDDCMkNk+1mhSWJ10ASCtYgc+3Ye3eOlwztCGcw0KijT7LYuBaclQYgr
-         o0aQ==;
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :in-reply-to:from:content-language:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:sender:dkim-signature;
+        bh=e4dmmORfjB8220OR9iGSAy5xnigBSeH6eDj8QDexEH4=;
+        fh=beTecZqfuvCFvaYF1DszguDIOqgCfwFPmL3IdPVkLWk=;
+        b=U7B33TT3Ocmxo+zPz1439RsqNmWwMpOsaA1a59C5y32PUL1VpKX3zZXAkAV/ADDgnr
+         5K7E6RJ0H7dWEX+yPF0W3oGAwQqnGLqhoHYHnZrlOqDYotLQo5QN7HtM81+g+D7LYMGJ
+         Xs9P380NtOZVsJoTbVoFHhqDyAJzvxZy/2GAQMp9URcICM1J1LK1r+q6ZY+RoAMAcbs6
+         IKF5opu6ybWlNZxXS4Wsw3ay5IfvFYMckgGXTM3ZiNuxB6MZKgOq7oJ4Rly1Z/Qadeim
+         nq3mHYiOoZsageFjrsa+9zoZ0W2VBHdsV5jc1pd7iQjijckbzlf1uPfdqCtMqzUJzsK8
+         lviw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b="N0q/XtCe";
-       spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
+       dkim=pass header.i=@foss.st.com header.s=selector1 header.b=hZ3d57Iq;
+       spf=pass (google.com: domain of prvs=1032c950c7=clement.legoffic@foss.st.com designates 91.207.212.93 as permitted sender) smtp.mailfrom="prvs=1032c950c7=clement.legoffic@foss.st.com";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=foss.st.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1730209607; x=1730814407; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1730214191; x=1730818991; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kL06M2EHdt2iQj9Tvb6kVcqr4pmUcg4623NdjHu1ruk=;
-        b=LEhi4YT/4YFAyQb3znqfBPiN5ziLuRcvIgAfzQcuXVqa4j/qW5UK8G34oDHShn/qLW
-         U90Xp7NA3kayT8nOL/OBaTSKB6/dGJUmVPbgkEQTFauNgUKAHwBSjxnWycCbb4Bb8FlO
-         xlIgdLclPrFcl5H2p+VJtTilXn0anwmE3zZTUUC6dM5Sqf9tnS3A/efiwjOeo/PzOKNo
-         UBtmVZJj+K9rSzxdY4ouW3qW7LUCQwp9knwrMmFKVH+wEpd9kNsIwlnR8xKbLzQw3MXi
-         BQyIYzz3SQ3tzqAyBISzTSE0ei+B6+gF3Di/oVXYbd1HByr8xpuCK6ZTSZo2qmmJn/RG
-         ttIw==
+         :x-original-sender:content-transfer-encoding:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=e4dmmORfjB8220OR9iGSAy5xnigBSeH6eDj8QDexEH4=;
+        b=M5ZPrumw7vGHUqwLZ/bi36oY3t4//KYn/KHstNAzD619cJ6sJxwjPWXFcKvF7dyZLG
+         YMbk01zW6MyMzfslCNVL8LUCzcRh0d5ftBZf6jQH6H9IPGZpSfTdTSrz+3KsyJbWrJ0Q
+         btHBx1GQuo1DNTyQm+vj1mbxbA6/m9565wr4jTKeUsKqsmsTSfDYJ7++tucOjT2GtOYl
+         ZUGLh3qo89WRLOIrzY55kFzGKblV9OwCoDtlJzbsu6lKYCfIouFtNeWQmEtHWC0hWFLm
+         BFzUjxKDciOhW8DBMi8DQlNtmUre8y6vgkdN5Leo+QPcIi9629TuI4qv4RXzxjyPX/WV
+         htog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730209607; x=1730814407;
+        d=1e100.net; s=20230601; t=1730214191; x=1730818991;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kL06M2EHdt2iQj9Tvb6kVcqr4pmUcg4623NdjHu1ruk=;
-        b=udXFTQtvXA+hwDLBLvF7TKrZDCAMq6NgRhIN+nfAvBA7Y1ukFk+W8R2MmYL4WV5N7s
-         X+NeCJbtbrD95raRVP0T26T+RChYnYkjwzKonEmEji67TgYFydNahZH5fHJPicLePk7+
-         6ifvoA49dmpuMRxc7TArSqRgwHOnIsD+SgBwrqU5wwLLmNLYY0mcYf1c1OwGvRzI/cKy
-         RBwGAaNtCZQx2B/uH32vKUnB4UfVRgcg6AX7zHP3LC5xepMHnwMBm/PruKVw3i9T9GMC
-         21EWqhJbnuiCDOooWAMEmd7Xqd5ZRG1PW21O++t0UKCCDlvaB9/YqWYy5jBaDVcCOhWS
-         JNOg==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=e4dmmORfjB8220OR9iGSAy5xnigBSeH6eDj8QDexEH4=;
+        b=u52Np1HMLzI38iQcDcUL0u3SLzBgUogAtQ6jKkM95Q4nHdj5D0UzY6tc8plptP1vgp
+         GFw4ry1g9v1vxAOANpIkUtLu4KXZzIJ2RbDEZ4JY7CdS9qQfD311dhK6R7EeG99hOgp0
+         SLRjhcJNPz7YESqifgOSZS/jyxuDmdIalrPe5zXeNOnCjZ4ODjCSZ1F0x4zVXioAJYWE
+         ggzzqB0jwrnsYIIoBpY22TpKrZjngkp2HT0R82iBOTJ0wWVBbjZckiFBErO/9HB1FenQ
+         HHv5OcJTEafDoHwnsTU8FtpK9DhyEdRtayBzo5lU6bfSHlCxUggF2Zd3shWkeYnuYANP
+         r4sw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCU8VBRZpBh1C1ntYzpPvY+Xb6FAbOsdljGLpCvFHX9eZTBLasfzYUU71Jt0Xt4FLoZuFZEhxA==@lfdr.de
-X-Gm-Message-State: AOJu0YxGgT/7PYRDmc61N98l9TZdEtZgJipv0jfFk6wfqxcT1WbXVaFl
-	4llPUFahNshRvzBsDtmqoCnkOVUuO+xsq9cAqAqQx1AsR/8B2Dgw
-X-Google-Smtp-Source: AGHT+IEt8ci6X8Tug5qGkGnqs8m1gHeOFO5bWL0CuUbwBi1lMokUENsxxdV4MJAtBwwLQu1dVy1R6w==
-X-Received: by 2002:a05:6402:2350:b0:5c9:8705:ea9c with SMTP id 4fb4d7f45d1cf-5cbbf8e176cmr8993858a12.19.1730209606070;
-        Tue, 29 Oct 2024 06:46:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXRaHH4fXlL6DVimjLGAQWFst0i+0br1sSP/GvnrSK8OC93J53TA6UdrarbWKpX9rEk6OJNQA==@lfdr.de
+X-Gm-Message-State: AOJu0YyykujckynTsqSGGL3CjiS88y/NmbrA7ou+C0VeHYyx5iJ9sV9Q
+	7wd+dZOO2Dy0ZL+GtpVMwc4iZ8CTKhi0TSObWDT17dE4gZM5hRyB
+X-Google-Smtp-Source: AGHT+IHFy8zy0dsKGPn2HzSYzD9vdKSqtHhY9UWW8l8rOUn0OBPl+dLnEK1KwUHpWslcMRrt7RVVpg==
+X-Received: by 2002:a05:6870:55cd:b0:287:7faf:2186 with SMTP id 586e51a60fabf-29051bccc4cmr10889905fac.24.1730214190512;
+        Tue, 29 Oct 2024 08:03:10 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6402:520d:b0:5c8:acf3:12a7 with SMTP id
- 4fb4d7f45d1cf-5cb99a0a140ls834135a12.2.-pod-prod-09-eu; Tue, 29 Oct 2024
- 06:46:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCVkVPbWo4szlroyWrQyaV+MwJHtDpn5zJBKGBSGAlVIRfnMQ1ti6jx3Wy35xRkY+r3jJkRXFi3xA1o=@googlegroups.com
-X-Received: by 2002:a17:907:7e8e:b0:a99:e939:d69e with SMTP id a640c23a62f3a-a9de61d1a8cmr900597666b.51.1730209603585;
-        Tue, 29 Oct 2024 06:46:43 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1730209603; cv=none;
+Received: by 2002:a05:6871:4193:b0:288:39e2:5483 with SMTP id
+ 586e51a60fabf-28ce47b0805ls5309827fac.2.-pod-prod-02-us; Tue, 29 Oct 2024
+ 08:03:09 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCUS67qxJDwcKXPFAhVg4ZaeTCas35UhFKfhf3bWrvwDxQaOVrwONhnBdesIbR6Mv8ncLWOxf8E1D90=@googlegroups.com
+X-Received: by 2002:a05:6870:2113:b0:287:7bb6:3c54 with SMTP id 586e51a60fabf-29051d4304fmr10528971fac.38.1730214189582;
+        Tue, 29 Oct 2024 08:03:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1730214189; cv=none;
         d=google.com; s=arc-20240605;
-        b=bSYErHezAGE5kOgt+A42fdF/gNDfn1mvQRw9jB9uPnicDZAVyeYIRu/cBRRT6wIEtQ
-         907G8lhoLsJqUxnyHIfbwp2fNnJOtDNTDjyY+kZoOPs1K2v1Yem+8tULjcP/9Xg7FF8T
-         +dGHSBIS2WlvAIKh5EjGn+c659JjWIAAkvEGHE9ngpQKdH3ABz04DuMZr/VEPRieHCkj
-         pTEBjAbUPOVlY/ifWdw2ipkoN3hGIFvyxnXUhzqD7VwqJjFvzHSFE/3OElG9iHKTJcWy
-         UlTXvdPcIMMcBnI18pgcJQJaeHZ2CW+VBeLNImCmYuEmvGCPYk7lp62uQvaQt5P+ziHI
-         wmNQ==
+        b=WVipJvg8IkGwV8+UE/MVk+J6x3yUXenm7wPq2dBaAtvr9yem/ZigI61b4zJnQNKNPI
+         PURrKcGKb7lr7LZ9dgKCHZt3P/v6GZOpMMKaWGqM5k7Y0KTI2o0IqP2xqfqg0cODtzFZ
+         KX6RcaiB8lNeJu7WKbrZDrfioUFUVtgPExos5cuJwo/j3eJQtp6XaOsJkzhF/DnPUB7k
+         sTopmGSt5DATTdmTsNZS0X2zjWNCH9UHw5au1+rwZOuOwTwgDwpB6qqlnZioQKAO1YK6
+         h6R/ccV8hSNpy+2NAY+SYlVZWGBq5b3tfEWMp7NA88vepbscr0soCcARTBIws8zxm/wr
+         ceoQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=z8SicmJPe91V7nwH+BPJtaqFkv7A2APH/euLs/x+oZI=;
-        fh=rsYLeNn3EhqnY/ERv90DXt1NYQkHGuhFKomDG1eXtr4=;
-        b=RN2m8tfQPHusc2efPf2vPDJXZtexAI86X0X2rTQIOp3ea5JmnDSaNu85kHmOxW1hw9
-         ZtximEywPINwrI32fxr2osvmUWYCrunWM0ab5Zpam9GiU5Ik1s57B244ROkxW67Dpfu2
-         PpjY3lSo3Hsz5tIt3DDlw/NmbVcqT4kfXeoo8jRezMusxjxuckd5nipqeUPPriVKSp3B
-         h5qCID3diVMqqKskPxKUAC6KkPgDZXwsWHw1Tq40GQdjnigVxvfLsTWtguROB9C6fhSi
-         0Q+cU2OcHU2Fwp3fjE66SHsoBivU8SHjzn3sQUoA6ZpuHuUDBCTTay7pRDNf8VPCn6tV
-         CgPw==;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=UqeRlTfozsVN09UU+kff1ZF8lDSMEDqo8CyqaqZhk/Y=;
+        fh=D6eXkIe5nmd/RISPau0pIn5rjMekmJrjLqHLTGk03Po=;
+        b=LPgKj7mOOZxYd3tTJZ1j6DhrZdDDeWJyXutS5FjtzrNDOIJKFnwFUgm1iNxu+bxjEv
+         cUHbPV7HdndoNwuDXW9bdWToERPoboHdc3H0yF41g3AcjlvGPFpaaxmirIhWdAW5nOgA
+         bFcTvfz/e32OdE1vP1uoZrWFVSyDCIGyadAOQMPzlh8t/kJDgZHLuzorhnLhv0XPKOhM
+         yI38goqVCCSFMV4cKcNoeJXHddRvxnYPkAs/Ddhk6EgPN9fh9qealJGJutjGModquSNd
+         m4uHE/ymaDOiqjURau7oS5++NGa+mRwpdt81xs1fCz/BJPYGw8tU2z5HtA6PNc5IQ/Cy
+         q5ZQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b="N0q/XtCe";
-       spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
-Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by gmr-mx.google.com with ESMTPS id a640c23a62f3a-a9afceea51asi18747566b.0.2024.10.29.06.46.43
+       dkim=pass header.i=@foss.st.com header.s=selector1 header.b=hZ3d57Iq;
+       spf=pass (google.com: domain of prvs=1032c950c7=clement.legoffic@foss.st.com designates 91.207.212.93 as permitted sender) smtp.mailfrom="prvs=1032c950c7=clement.legoffic@foss.st.com";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=foss.st.com
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com. [91.207.212.93])
+        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-510042e4f27si403149e0c.1.2024.10.29.08.03.09
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 06:46:43 -0700 (PDT)
-Received-SPF: none (google.com: peterz@infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
-	id 1t5mYU-00000009uRU-1Tym;
-	Tue, 29 Oct 2024 13:46:42 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 01DB830073F; Tue, 29 Oct 2024 14:46:42 +0100 (CET)
-Date: Tue, 29 Oct 2024 14:46:41 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Marco Elver <elver@google.com>
-Cc: Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
-	linux-kernel@vger.kernel.org,
-	Alexander Potapenko <glider@google.com>
-Subject: Re: [PATCH] kcsan, seqlock: Support seqcount_latch_t
-Message-ID: <20241029134641.GR9767@noisy.programming.kicks-ass.net>
-References: <20241029083658.1096492-1-elver@google.com>
- <20241029114937.GT14555@noisy.programming.kicks-ass.net>
- <CANpmjNPyXGRTWHhycVuEXdDfe7MoN19MeztdQaSOJkzqhCD69Q@mail.gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 29 Oct 2024 08:03:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of prvs=1032c950c7=clement.legoffic@foss.st.com designates 91.207.212.93 as permitted sender) client-ip=91.207.212.93;
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49TCVZdE022650;
+	Tue, 29 Oct 2024 16:02:54 +0100
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 42gnj4ff7u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 29 Oct 2024 16:02:54 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 7183B4002D;
+	Tue, 29 Oct 2024 16:01:12 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node2.st.com [10.75.129.70])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1A45E26702B;
+	Tue, 29 Oct 2024 16:00:04 +0100 (CET)
+Received: from [10.48.86.107] (10.48.86.107) by SHFDAG1NODE2.st.com
+ (10.75.129.70) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.37; Tue, 29 Oct
+ 2024 16:00:03 +0100
+Message-ID: <aeef0000-2b08-4fd5-b834-0ead5c122223@foss.st.com>
+Date: Tue, 29 Oct 2024 16:00:02 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CANpmjNPyXGRTWHhycVuEXdDfe7MoN19MeztdQaSOJkzqhCD69Q@mail.gmail.com>
-X-Original-Sender: peterz@infradead.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] ARM: ioremap: Sync PGDs for VMALLOC shadow
+To: Linus Walleij <linus.walleij@linaro.org>
+CC: Ard Biesheuvel <ardb@kernel.org>,
+        Andrey Ryabinin
+	<ryabinin.a.a@gmail.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey
+ Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        kasan-dev
+	<kasan-dev@googlegroups.com>,
+        Russell King <linux@armlinux.org.uk>, Kees Cook
+	<kees@kernel.org>,
+        AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>,
+        Mark Brown <broonie@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+        Antonio Borneo
+	<antonio.borneo@foss.st.com>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <stable@vger.kernel.org>
+References: <20241017-arm-kasan-vmalloc-crash-v3-0-d2a34cd5b663@linaro.org>
+ <20241017-arm-kasan-vmalloc-crash-v3-1-d2a34cd5b663@linaro.org>
+ <69f71ac8-4ba6-46ed-b2ab-e575dcada47b@foss.st.com>
+ <CACRpkdYvgZj1R4gAmzFhf4GmFOxZXhpHVTOio+hVP52OBAJP0A@mail.gmail.com>
+ <46336aba-e7dd-49dd-aa1c-c5f765006e3c@foss.st.com>
+ <CACRpkdY2=qdY_0GA1gB03yHODPEvxum+4YBjzsXRVnhLaf++6Q@mail.gmail.com>
+ <f3856158-10e6-4ee8-b4d5-b7f2fe6d1097@foss.st.com>
+ <CACRpkdZa5x6NvUg0kU6F0+HaFhKhVswvK2WaaCSBx3-JCVFcag@mail.gmail.com>
+ <CACRpkdYtG3ObRCghte2D0UgeZxkOC6oEUg39uRs+Z0nXiPhUTA@mail.gmail.com>
+Content-Language: en-US
+From: Clement LE GOFFIC <clement.legoffic@foss.st.com>
+In-Reply-To: <CACRpkdYtG3ObRCghte2D0UgeZxkOC6oEUg39uRs+Z0nXiPhUTA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.48.86.107]
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE2.st.com
+ (10.75.129.70)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Original-Sender: clement.legoffic@foss.st.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@infradead.org header.s=desiato.20200630 header.b="N0q/XtCe";
-       spf=none (google.com: peterz@infradead.org does not designate permitted
- sender hosts) smtp.mailfrom=peterz@infradead.org
+ header.i=@foss.st.com header.s=selector1 header.b=hZ3d57Iq;       spf=pass
+ (google.com: domain of prvs=1032c950c7=clement.legoffic@foss.st.com
+ designates 91.207.212.93 as permitted sender) smtp.mailfrom="prvs=1032c950c7=clement.legoffic@foss.st.com";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=foss.st.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -146,97 +187,44 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, Oct 29, 2024 at 02:05:38PM +0100, Marco Elver wrote:
-> On Tue, 29 Oct 2024 at 12:49, Peter Zijlstra <peterz@infradead.org> wrote:
-> >
-> > On Tue, Oct 29, 2024 at 09:36:29AM +0100, Marco Elver wrote:
-> > > Reviewing current raw_write_seqcount_latch() callers, the most common
-> > > patterns involve only few memory accesses, either a single plain C
-> > > assignment, or memcpy;
-> >
-> > Then I assume you've encountered latch_tree_{insert,erase}() in your
-> > travels, right?
-> 
-> Oops. That once certainly exceeds the "8 memory accesses".
-> 
-> > Also, I note that update_clock_read_data() seems to do things
-> > 'backwards' and will completely elide your proposed annotation.
-> 
-> Hmm, for the first access, yes. This particular oddity could be
-> "fixed" by surrounding the accesses by
-> kcsan_nestable_atomic_begin/end(). I don't know if it warrants adding
-> a raw_write_seqcount_latch_begin().
-> 
-> Preferences?
+On 10/25/24 22:57, Linus Walleij wrote:
+>> What happens if you just
+>>
+>> git checkout b6506981f880^
+>>
+>> And build and boot that? It's just running the commit right before the
+>> unwinding patch.
+>=20
+> Another thing you can test is to disable vmap:ed stacks and see
+> what happens. (General architecture-dependent options uncheck
+> "Use a virtually-mapped stack".)
 
-I *think* it is doable to flip it around to the 'normal' order, but
-given I've been near cross-eyed with a head-ache these past two days,
-I'm not going to attempt a patch for you, since I'm bound to get it
-wrong :/
+Hi Linus,
 
-> > > therefore, the value of 8 memory accesses after
-> > > raw_write_seqcount_latch() is chosen to (a) avoid most false positives,
-> > > and (b) avoid excessive number of false negatives (due to inadvertently
-> > > declaring most accesses in the proximity of update_fast_timekeeper() as
-> > > "atomic").
-> >
-> > The above latch'ed RB-trees can certainly exceed this magical number 8.
-> >
-> > > Reported-by: Alexander Potapenko <glider@google.com>
-> > > Tested-by: Alexander Potapenko <glider@google.com>
-> > > Fixes: 88ecd153be95 ("seqlock, kcsan: Add annotations for KCSAN")
-> > > Signed-off-by: Marco Elver <elver@google.com>
-> > > ---
-> > >  include/linux/seqlock.h | 9 +++++++++
-> > >  1 file changed, 9 insertions(+)
-> > >
-> > > diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-> > > index fffeb754880f..e24cf144276e 100644
-> > > --- a/include/linux/seqlock.h
-> > > +++ b/include/linux/seqlock.h
-> > > @@ -614,6 +614,7 @@ typedef struct {
-> > >   */
-> > >  static __always_inline unsigned raw_read_seqcount_latch(const seqcount_latch_t *s)
-> > >  {
-> > > +     kcsan_atomic_next(KCSAN_SEQLOCK_REGION_MAX);
-> > >       /*
-> > >        * Pairs with the first smp_wmb() in raw_write_seqcount_latch().
-> > >        * Due to the dependent load, a full smp_rmb() is not needed.
-> > > @@ -631,6 +632,7 @@ static __always_inline unsigned raw_read_seqcount_latch(const seqcount_latch_t *
-> > >  static __always_inline int
-> > >  raw_read_seqcount_latch_retry(const seqcount_latch_t *s, unsigned start)
-> > >  {
-> > > +     kcsan_atomic_next(0);
-> > >       smp_rmb();
-> > >       return unlikely(READ_ONCE(s->seqcount.sequence) != start);
-> > >  }
-> > > @@ -721,6 +723,13 @@ static inline void raw_write_seqcount_latch(seqcount_latch_t *s)
-> > >       smp_wmb();      /* prior stores before incrementing "sequence" */
-> > >       s->seqcount.sequence++;
-> > >       smp_wmb();      /* increment "sequence" before following stores */
-> > > +
-> > > +     /*
-> > > +      * Latch writers do not have a well-defined critical section, but to
-> > > +      * avoid most false positives, at the cost of false negatives, assume
-> > > +      * the next few memory accesses belong to the latch writer.
-> > > +      */
-> > > +     kcsan_atomic_next(8);
-> > >  }
-> >
-> > Given there are so very few latch users, would it make sense to
-> > introduce a raw_write_seqcount_latch_end() callback that does
-> > kcsan_atomic_next(0) ? -- or something along those lines? Then you won't
-> > have to assume such a small number.
-> 
-> That's something I considered, but thought I'd try the unintrusive
-> version first. But since you proposed it here, I'd much prefer that,
-> too. ;-)
-> Let me try that.
-> 
-> Thanks,
-> -- Marco
+I have tested your patches against few kernel versions without=20
+reproducing the issue.
+- b6506981f880^
+- v6.6.48
+- v6.12-rc4
+I didn't touch to CONFIG_VMAP_STACK though.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20241029134641.GR9767%40noisy.programming.kicks-ass.net.
+The main difference from my crash report is my test environment which=20
+was a downstream one.
+
+So it seems related to ST downstream kernel version based on a v6.6.48.
+Even though the backtrace was talking about unwinding and kasan.
+
+I will continue to investigate on my side in the next weeks but I don't=20
+want to block the patch integration process if I was.
+
+Best regards,
+
+Cl=C3=A9ment
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a=
+eef0000-2b08-4fd5-b834-0ead5c122223%40foss.st.com.
