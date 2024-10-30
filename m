@@ -1,142 +1,134 @@
-Return-Path: <kasan-dev+bncBCS4VDMYRUNBBBX2RK4QMGQERDVGBBI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT4XGV33UIBBLELRO4QMGQETZSOWKY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x640.google.com (mail-pl1-x640.google.com [IPv6:2607:f8b0:4864:20::640])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9F09B7058
-	for <lists+kasan-dev@lfdr.de>; Thu, 31 Oct 2024 00:11:10 +0100 (CET)
-Received: by mail-pl1-x640.google.com with SMTP id d9443c01a7336-20c9673e815sf4950195ad.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 30 Oct 2024 16:11:10 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1730329862; cv=pass;
+Received: from mail-il1-x13c.google.com (mail-il1-x13c.google.com [IPv6:2607:f8b0:4864:20::13c])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDEB09B70AC
+	for <lists+kasan-dev@lfdr.de>; Thu, 31 Oct 2024 00:47:57 +0100 (CET)
+Received: by mail-il1-x13c.google.com with SMTP id e9e14a558f8ab-3a4e4c723c3sf9686215ab.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 30 Oct 2024 16:47:57 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1730332076; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Gn+89VnZ015nNpA2uRJLqf0n2YR56rC7OiqaDMH0521+EO5wUqF2OJh3gmbdvsqbKU
-         q02/ROoV2piRsHCE1mthdI+Ka1mGSJNR8i7ECk/AaEuf7/Z8xbW3q1zlLxdgPNPcCctz
-         tz7LGSQir7ODwB/00osaFn2BNKxF4pFIfjAbA9WS6MD9tNF1Qxgy9Zg8dWbDDqaHU0ZC
-         gasYtXWurXzDKxtVAXTVpy9lSvy2QD3F/KrDPwHFKMfZ3aJO+kR4FzNX6vADjUVnKEbK
-         cqBBgU5zqRcK51YAfa2D8zgE+rctwzQCrDcHCwKxEKqRYjyAv36UnHhO2wgwgnr9FX4S
-         DWSw==
+        b=aonzmywsWVTi53pp3TGcWUTSTYMSWU6iwew0cKSL1McCUc6OIHOfaqvNopGm3GkNPp
+         S0XW1fv2ElhFYGgTD6GPKG2Fa4X0YOusG3+Ttz7+x6K9EXYVxc34PhGFtMbsqEj/bkms
+         oyxWkypzPMnGp5zyZy/8tt1eTRlc3DheXGz6Q49egFBI7eR7FDCmTPWXU/D/peX7Z/HD
+         VkHnapQif/jK8UZOJSP/fN4fqULi1rrZt01eWJ2AJyM1Jca/PMjKnD3+6UZiXv+95QHx
+         bwXbJDX7BwD/VmnZ4qc1FMLXGD2QvcDHJzjCE/dFwBz3SV248z8xG2QA87Dtq5HcSWNh
+         JBDw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=QrFFtotvMgKwbRTq+ZvUfocyDKOsx4k+Qq+eyij1fiY=;
-        fh=kKBl7jFbe3ueqcSIUcgNuf00zc5u70K9cItghplbG2o=;
-        b=QiHe0SbtQmm+2f4Qb+Hqr3aF3S5/GmCzFjCbFBvqOLAq9erYMmHTi23dmsgX+A/A4/
-         YETn5wNwoiVq4kldb4VlSBehL0rWvKf0/JH4XZHyzvW9L1fwAeIm2Tf2KlUleaZkC/gX
-         nZ3eRGbcLQHSYa1QXRG+68/6OxFKHg9Rff5WdYyzbnroV2vfTILg6UayZdZsDXH8pyUx
-         hozWMxYbOuF0YGRpRKn0uoC6Pi7cyVjPPKm143zynJ5QGTlt2/O2zTc0HUqH+8iCE/3o
-         3IrPvaW0yGx3iIIx2JL844hhGkEB6W5QnxEvcwuSn932xqj5e5aCM5wcQq2NVLJeguS8
-         v62g==;
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=xw0JtHBQDM0T1nzxe1RHvsRGHknfTyAsLFeRDPAvqsg=;
+        fh=bA1a/L/uuZ5A2uaYsfc3Fs+VO2hiQ7f93yQ0Xca+bOQ=;
+        b=MSlVh03nyQbI05HBjGyGa4ihAWAGUZGA3DA0ha6lgvuYGg9Q8HhC78FLaelEokP+Zu
+         kMThQXJ/Q9ZbQfBEerDNrwav2ke2R26QeuY1jRfAhL2dP+v67rv5SdMLfMJee/QUM4TS
+         dAD0FSw38T10kdCj4imWL+B0LJYs4dsnZI4HgRi3vtS/yPq/Pg/24hDwgPv+WJ+Cxtjr
+         Tcsp0UieFX2alc5jhbNRIU4MRB0eCMIFx9i7xFhtYL60P5JW7i9VZhrFpKf4/VIjdYKS
+         tHwT3CtzXML17RxcVFEtqmE/xohQFMCj11EeSHQzEj29+ApHYvtrHmJTJwr1ZVmQ6hGW
+         phUQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=VopkGahq;
-       spf=pass (google.com: domain of srs0=rut/=r2=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=rUt/=R2=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=KzprbEYD;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1730329862; x=1730934662; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1730332076; x=1730936876; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:reply-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QrFFtotvMgKwbRTq+ZvUfocyDKOsx4k+Qq+eyij1fiY=;
-        b=rM93pzwgg+tAWNamGVMnvGkUDrSiLzKahcUKgxArbBj0un4xTXtPLzzbeOjg/i6pwj
-         6CWV/kj+QcP49pZyISvY7spcm33bfQ4GjtRrR7Wb61BSrVxZR3KMXsyVLF1z8MqRlTO8
-         65LKDiVKSD1Vp7g5Y+5aSTVhb2bWV1TCmrylR+foVj8f3LzDuW7oBkoGssd2r8bfoh4M
-         bEMjC1DuDxfqU5ud5dhevzc0kyuE9UOqSQjzgu6btmOt2MKzPXg6nzX+H6IyFC/rZvyr
-         YS8ilFUpN6YJg1Ww0IWedwNcOBHstzeGjxPULLN6toOqCGD6kglyz8b/JNkaPs/s/G5i
-         bA4Q==
+         :x-original-sender:mime-version:references:in-reply-to:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xw0JtHBQDM0T1nzxe1RHvsRGHknfTyAsLFeRDPAvqsg=;
+        b=iEJOldn8qvBUkcQI0kUfsWbMa6JbEalwZnlSLieM0OsPBb0M7NykGkjz7/HGpcOgaL
+         gHqeLdHva5LplefGuj2wQJS0W+v7tjUFiObP1IuOXdVEXU9k/n9JcxkPiWOgvujt0RkZ
+         CQK9XrdYRdNMJRyeS36iI8xvBOSPmxzMCNI5brp4AUagt2EZoufbG90dn6vWBv56Q16b
+         DVN+WlZVE5SDDVmIXuqu+iGUcb4ebTI/FI2Wl55WYtzMMJhAwl3tpkiGtQ8INwIGGj5b
+         i8kPzu78fEoB+HQ5S4DIvojrIdRFzxrxouI1U8KsUYMF63gGM7N/tu2VrIe9Ln7xalGg
+         urew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730329862; x=1730934662;
+        d=1e100.net; s=20230601; t=1730332076; x=1730936876;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:reply-to:message-id
-         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QrFFtotvMgKwbRTq+ZvUfocyDKOsx4k+Qq+eyij1fiY=;
-        b=P9SoCBKVyJBZNUW3bjyC3/+3RRfZ+6HiB2n50SwCP94kVwfs23bupjoKGU4r6/5LTz
-         PCMpYJdlMNx1mosqFoN6wqsRuuRuZ+Kgzv6f3dzEg2JOqEdxBe56pLXyY6vYMNPrTJUZ
-         e19bvRLQagivhUtg7kvrD+XcKsXXa0e87Ufj/RZaz80PT39jsj3b3hzgpo8aCcu0ee9g
-         nSjOkF6MGneQ8LVCPjype8JGZqv6SUsnPuW01MddKzQcF3xzUVOWMwTIAYibBw/OmCKW
-         mKM7rQM1SoQa1TnkHhY4FH39EoqWdw6CZRxzDgjfyHl+vyofir0xEcJdUT6n85TaRyLK
-         HtUQ==
-X-Forwarded-Encrypted: i=2; AJvYcCVNhF54UOCo1DbmplX0iyOUZ+Pgaggcvt6zk+HzTxAJW3qE4aDIyVXPyw0hQovmYtSLFNCfAA==@lfdr.de
-X-Gm-Message-State: AOJu0YyZpojOPl0e5qUSl4BbiAEL0dD/GxpyruNRNF16+vTWNrBQGyYK
-	bSofiA82Xzi6WcOBYbTnddejR3qT1crE4uOEnlPL+p3IHqOVoDOl
-X-Google-Smtp-Source: AGHT+IEF4F4X46skOdlIRTQHVZwaMml50XqsNmDi36YW046JUSuj4eFSa5bJbO5MQdCT6faPtJBA6Q==
-X-Received: by 2002:a17:903:1ca:b0:20c:9ddf:a238 with SMTP id d9443c01a7336-21103c78c5dmr10549885ad.47.1730329862412;
-        Wed, 30 Oct 2024 16:11:02 -0700 (PDT)
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:subject:cc:to:from:date
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xw0JtHBQDM0T1nzxe1RHvsRGHknfTyAsLFeRDPAvqsg=;
+        b=wflt+EEPjlUpXrzIuOgOcuUzoJAq9iwy0fYYRJBmvkzysdub68+7jZsvcgPRE9Yq77
+         DRb7XsDRDDN+Su8zafoEC5ze03kBZbuuit90pwWnGDEi9XB56nfimZjJW0XPnOGof3gA
+         WgrgvtDZ0CGzZAHseBtwkJ1x56ThfcbsNupEBy9IovFPlMxxKh52iPDvJMTIOS/Ybu01
+         +s2SlOS5j/ZExRbnGd+iZBmJv1Oc6mLy18DwHctz9MFTRmjL8vCR5fM4x3XLkKHCbSc0
+         vI/BTkdvbZb7PQQmatUK9bWge1fjzjkUhGKahmoNX4G9+5QL2JQTXE14AnVKZ8bJdw47
+         dZwg==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCXFSDh9UEFXIbEdvdtJ2MQP+aJXBWNyRspQlL7ldLfIDibw1XIOhptoYzDEnRkbG3inIreLjQ==@lfdr.de
+X-Gm-Message-State: AOJu0Yy+UjizGfOxcAgEHvvjHhaEbcctRj3JTq/yOZPWLpSmhbGVjRGg
+	njehTRr9+GwSWtPSjHjqypGt9WsafQ7UXyG5B58JA6b4mIjs/MNQ
+X-Google-Smtp-Source: AGHT+IEXbE7Jwzcp2jum64k5mWu7X2e43QTbsYo9vM88tcCWb8D9JGkvMkt1GnYoL7l/k9nVoVH16g==
+X-Received: by 2002:a05:6e02:3886:b0:3a3:a639:a594 with SMTP id e9e14a558f8ab-3a6a94a162dmr3548465ab.4.1730332076653;
+        Wed, 30 Oct 2024 16:47:56 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:903:80c:b0:206:cbad:e63f with SMTP id
- d9443c01a7336-21103625f47ls2463145ad.0.-pod-prod-02-us; Wed, 30 Oct 2024
- 16:11:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCXJSzvw/BKE71P0jwjICYn5rziEpfYk2ZkGgenHOh+FHr57txVPRbLYhp1Iy7VUsRbI37rPKFWgyLY=@googlegroups.com
-X-Received: by 2002:a17:903:228b:b0:205:4e15:54ce with SMTP id d9443c01a7336-21103acde55mr15529155ad.20.1730329860947;
-        Wed, 30 Oct 2024 16:11:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1730329860; cv=none;
+Received: by 2002:a05:6e02:1d95:b0:3a4:ed5d:5799 with SMTP id
+ e9e14a558f8ab-3a62810099cls1958065ab.1.-pod-prod-00-us; Wed, 30 Oct 2024
+ 16:47:55 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCWO/7n59rNl6ezYSPB2IMSBufFWs+mTUqtPtFv4bIzTbzpZaHItxRIjm9ZNPFSdMWGh3MZQ1OFFUOU=@googlegroups.com
+X-Received: by 2002:a92:d20b:0:b0:3a0:8e7c:b4ae with SMTP id e9e14a558f8ab-3a6a947d85fmr3333255ab.2.1730332075705;
+        Wed, 30 Oct 2024 16:47:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1730332075; cv=none;
         d=google.com; s=arc-20240605;
-        b=coSuuu4niJZWeDac6hqagFdDf9LWUIzicxdKsDI7U1HKYdm8idpDQzQE5l2oxA7DSH
-         4VlDkFJAvOPAdauEul1DeUVVHZ8otf28zB6YOcfGn17G4rBXTEk9TnmzR9T2J8hzFhHA
-         tjcN1WrKyQGyWtBW/nxP86Tvn5fR4faAg6JjWnFgvRm6428CPampeJ9q3cnRv5BaYNSh
-         h3Ft/e8Ek1NfoxUNYNi5Q0n91RE31adNtpyACqSyn65LFDjaoDMarF+wFyHMc3TWICOq
-         B2/PPAMkEXfXmjMY31306eXot7GyqN49UR4OXYliYjgCZTQo1YJlrl7YsJX/a2KYLEFa
-         aF9g==
+        b=hN+nTM+2C+cdJwEDwO81dwQnVnXBloI3HTvMwH3OSR65p7ZiirlB0C840oLXOWnoos
+         9CL/0OeNXFNz5HInd63c+wzhMemZ4WKrYQyYvsd37EKjJict02XAc1yf/UeLM701jxbx
+         aa4Uclbs2SA7xOe/6EW4F0FsZscQ3Ae+JJdkAKiRRocHhlsBqG7NECzSGmgEG+2fmF++
+         B9UKvr/ZEI5XuYij63ZdjuJLPtKRVpVRZAee9VNOirrQfNNhcS08eFxPVHFAnJc63DS9
+         XBuUjL5mQseqEzuNZmp1P7cpsBrdGwhYnQfm1aDAPckVAsf/zDFrsHpUkvwYuE5AakRw
+         pgsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:reply-to
+        h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=fx+aMQvnHIPIR/kIiX2EJFAWTHAag/FigDGsXRc8T8o=;
-        fh=30vagIL8iZW/K1hNoKt03Lud0MuIDNqP09qn+usGrWc=;
-        b=LNv/MN1GM1yiRW9nLxLDynh1tUF2RaeEIRKJrO5aAijzvT5uuKsVwSJjXJrliM33V0
-         CVtyjvUFVff6R1qbOiEBwyI7CdIaVmAr5mQEj3tqzNLWfpS00wsXXUCCZC+i40mSk4ZN
-         otQ7R4iKbFF6WFEraWIUZD+pLJzrh3r0+vSP0r7eQHGwuYHn3IYq44jmC6DKLEAE1Smc
-         Je/PaxzlI1rSk2XXBD/OpRZVgF8X7F/L5bPIzKBsjvJ1ncIHr5ZlLISo3qH6GDlP7KIG
-         R5Dr5/+UNKTICNAa4+Wvjejzq4LeuM+sTJq8kzadswRog67zaB7hk2Wh+I0YSla64+bY
-         9LAQ==;
+        bh=G0KDOwoeGJMZbo/sAlYkGuX50FK2j+D0LW0wEHv64gI=;
+        fh=tq4C/5C3DCcfJogqErcqTJcwqyqbt+p840LBzh6Y+ys=;
+        b=Cle4IfWiGH7wtuloqatCuH3eLpDpluzP0vVIzDSOcf8ny++3Kt5U4F3R2WJRDPl0mz
+         5BhQuppZoWfxNqTHrBbGZC8+n9b/RbmfzC99Aczm6s1gvI1U3ww4yX1NW2OgIdVctfVu
+         NB1SbsC9FyOawxuFruVBKNiPA1urS2bFZIAzJrzLvUuxa4O5L+G7wwUJ1c/ZV2dHvOr0
+         Pa/PfYjojBoEL0sEjLUh3Llzxm2kYk8+r8NigwO9mkLfnY5DmPODAfq/LSuckOONC/9q
+         6yt2QGEz1Wv9+zr2hZZwV1OdwDKvFPTlVVN6VsGoP6zGWU/ouEudW+LmbTtuen7O5r1S
+         8F2w==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=VopkGahq;
-       spf=pass (google.com: domain of srs0=rut/=r2=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=rUt/=R2=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id d9443c01a7336-2110572d9easi85245ad.6.2024.10.30.16.11.00
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=KzprbEYD;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from nyc.source.kernel.org (nyc.source.kernel.org. [147.75.193.91])
+        by gmr-mx.google.com with ESMTPS id e9e14a558f8ab-3a6a9a29397si82635ab.3.2024.10.30.16.47.55
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2024 16:11:00 -0700 (PDT)
-Received-SPF: pass (google.com: domain of srs0=rut/=r2=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+        Wed, 30 Oct 2024 16:47:55 -0700 (PDT)
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 147.75.193.91 as permitted sender) client-ip=147.75.193.91;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 53C6E5C6A13;
-	Wed, 30 Oct 2024 23:10:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBEFCC4CECE;
-	Wed, 30 Oct 2024 23:10:58 +0000 (UTC)
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 82F26CE0864; Wed, 30 Oct 2024 16:10:58 -0700 (PDT)
-Date: Wed, 30 Oct 2024 16:10:58 -0700
-From: "'Paul E. McKenney' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Marco Elver <elver@google.com>
-Cc: Vlastimil Babka <vbabka@suse.cz>, linux-next@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-mm@kvack.org, sfr@canb.auug.org.au, bigeasy@linutronix.de,
-	longman@redhat.com, boqun.feng@gmail.com, cl@linux.com,
-	penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
-	akpm@linux-foundation.org
-Subject: Re: [BUG] -next lockdep invalid wait context
-Message-ID: <66a745bb-d381-471c-aeee-3800a504f87d@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <41619255-cdc2-4573-a360-7794fc3614f7@paulmck-laptop>
- <e06d69c9-f067-45c6-b604-fd340c3bd612@suse.cz>
- <ZyK0YPgtWExT4deh@elver.google.com>
-MIME-Version: 1.0
+	by nyc.source.kernel.org (Postfix) with ESMTP id 2CE42A437DF;
+	Wed, 30 Oct 2024 23:45:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0C40C4E68E;
+	Wed, 30 Oct 2024 23:41:23 +0000 (UTC)
+Date: Wed, 30 Oct 2024 16:41:23 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Bibo Mao <maobibo@loongson.cn>
+Cc: Huacai Chen <chenhuacai@kernel.org>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-mm@kvack.org, kasan-dev@googlegroups.com,
+ Alexander Potapenko <glider@google.com>, Andrey Konovalov
+ <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo
+ Frascino <vincenzo.frascino@arm.com>, WANG Xuerui <kernel@xen0n.name>
+Subject: Re: [PATCH v2] mm: define general function pXd_init()
+Message-Id: <20241030164123.ff63a1c0e7666ad1a4f8944e@linux-foundation.org>
+In-Reply-To: <20241030063905.2434824-1-maobibo@loongson.cn>
+References: <20241030063905.2434824-1-maobibo@loongson.cn>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <ZyK0YPgtWExT4deh@elver.google.com>
-X-Original-Sender: paulmck@kernel.org
+X-Original-Sender: akpm@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=VopkGahq;       spf=pass
- (google.com: domain of srs0=rut/=r2=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
- designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=rUt/=R2=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: "Paul E. McKenney" <paulmck@kernel.org>
+ header.i=@linux-foundation.org header.s=korg header.b=KzprbEYD;
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates
+ 147.75.193.91 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -149,132 +141,31 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, Oct 30, 2024 at 11:34:08PM +0100, Marco Elver wrote:
-> On Wed, Oct 30, 2024 at 10:48PM +0100, Vlastimil Babka wrote:
-> > On 10/30/24 22:05, Paul E. McKenney wrote:
-> > > Hello!
-> > 
-> > Hi!
-> > 
-> > > The next-20241030 release gets the splat shown below when running
-> > > scftorture in a preemptible kernel.  This bisects to this commit:
-> > > 
-> > > 560af5dc839e ("lockdep: Enable PROVE_RAW_LOCK_NESTING with PROVE_LOCKING")
-> > > 
-> > > Except that all this is doing is enabling lockdep to find the problem.
-> > > 
-> > > The obvious way to fix this is to make the kmem_cache structure's
-> > > cpu_slab field's ->lock be a raw spinlock, but this might not be what
-> > > we want for real-time response.
-> > 
-> > But it's a local_lock, not spinlock and it's doing local_lock_irqsave(). I'm
-> > confused what's happening here, the code has been like this for years now.
-> > 
-> > > This can be reproduced deterministically as follows:
-> > > 
-> > > tools/testing/selftests/rcutorture/bin/kvm.sh --torture scf --allcpus --duration 2 --configs PREEMPT --kconfig CONFIG_NR_CPUS=64 --memory 7G --trust-make --kasan --bootargs "scftorture.nthreads=64 torture.disable_onoff_at_boot csdlock_debug=1"
-> > > 
-> > > I doubt that the number of CPUs or amount of memory makes any difference,
-> > > but that is what I used.
-> > > 
-> > > Thoughts?
-> > > 
-> > > 							Thanx, Paul
-> > > 
-> > > ------------------------------------------------------------------------
-> > > 
-> > > [   35.659746] =============================
-> > > [   35.659746] [ BUG: Invalid wait context ]
-> > > [   35.659746] 6.12.0-rc5-next-20241029 #57233 Not tainted
-> > > [   35.659746] -----------------------------
-> > > [   35.659746] swapper/37/0 is trying to lock:
-> > > [   35.659746] ffff8881ff4bf2f0 (&c->lock){....}-{3:3}, at: put_cpu_partial+0x49/0x1b0
-> > > [   35.659746] other info that might help us debug this:
-> > > [   35.659746] context-{2:2}
-> > > [   35.659746] no locks held by swapper/37/0.
-> > > [   35.659746] stack backtrace:
-> > > [   35.659746] CPU: 37 UID: 0 PID: 0 Comm: swapper/37 Not tainted 6.12.0-rc5-next-20241029 #57233
-> > > [   35.659746] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.14.0-0-g155821a1990b-prebuilt.qemu.org 04/01/2014
-> > > [   35.659746] Call Trace:
-> > > [   35.659746]  <IRQ>
-> > > [   35.659746]  dump_stack_lvl+0x68/0xa0
-> > > [   35.659746]  __lock_acquire+0x8fd/0x3b90
-> > > [   35.659746]  ? start_secondary+0x113/0x210
-> > > [   35.659746]  ? __pfx___lock_acquire+0x10/0x10
-> > > [   35.659746]  ? __pfx___lock_acquire+0x10/0x10
-> > > [   35.659746]  ? __pfx___lock_acquire+0x10/0x10
-> > > [   35.659746]  ? __pfx___lock_acquire+0x10/0x10
-> > > [   35.659746]  lock_acquire+0x19b/0x520
-> > > [   35.659746]  ? put_cpu_partial+0x49/0x1b0
-> > > [   35.659746]  ? __pfx_lock_acquire+0x10/0x10
-> > > [   35.659746]  ? __pfx_lock_release+0x10/0x10
-> > > [   35.659746]  ? lock_release+0x20f/0x6f0
-> > > [   35.659746]  ? __pfx_lock_release+0x10/0x10
-> > > [   35.659746]  ? lock_release+0x20f/0x6f0
-> > > [   35.659746]  ? kasan_save_track+0x14/0x30
-> > > [   35.659746]  put_cpu_partial+0x52/0x1b0
-> > > [   35.659746]  ? put_cpu_partial+0x49/0x1b0
-> > > [   35.659746]  ? __pfx_scf_handler_1+0x10/0x10
-> > > [   35.659746]  __flush_smp_call_function_queue+0x2d2/0x600
-> > 
-> > How did we even get to put_cpu_partial directly from flushing smp calls?
-> > SLUB doesn't use them, it uses queue_work_on)_ for flushing and that
-> > flushing doesn't involve put_cpu_partial() AFAIK.
-> > 
-> > I think only slab allocation or free can lead to put_cpu_partial() that
-> > would mean the backtrace is missing something. And that somebody does a slab
-> > alloc/free from a smp callback, which I'd then assume isn't allowed?
-> 
-> Tail-call optimization is hiding the caller. Compiling with
-> -fno-optimize-sibling-calls exposes the caller. This gives the full
-> picture:
-> 
-> [   40.321505] =============================
-> [   40.322711] [ BUG: Invalid wait context ]
-> [   40.323927] 6.12.0-rc5-next-20241030-dirty #4 Not tainted
-> [   40.325502] -----------------------------
-> [   40.326653] cpuhp/47/253 is trying to lock:
-> [   40.327869] ffff8881ff9bf2f0 (&c->lock){....}-{3:3}, at: put_cpu_partial+0x48/0x1a0
-> [   40.330081] other info that might help us debug this:
-> [   40.331540] context-{2:2}
-> [   40.332305] 3 locks held by cpuhp/47/253:
-> [   40.333468]  #0: ffffffffae6e6910 (cpu_hotplug_lock){++++}-{0:0}, at: cpuhp_thread_fun+0xe0/0x590
-> [   40.336048]  #1: ffffffffae6e9060 (cpuhp_state-down){+.+.}-{0:0}, at: cpuhp_thread_fun+0xe0/0x590
-> [   40.338607]  #2: ffff8881002a6948 (&root->kernfs_rwsem){++++}-{4:4}, at: kernfs_remove_by_name_ns+0x78/0x100
-> [   40.341454] stack backtrace:
-> [   40.342291] CPU: 47 UID: 0 PID: 253 Comm: cpuhp/47 Not tainted 6.12.0-rc5-next-20241030-dirty #4
-> [   40.344807] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-> [   40.347482] Call Trace:
-> [   40.348199]  <IRQ>
-> [   40.348827]  dump_stack_lvl+0x6b/0xa0
-> [   40.349899]  dump_stack+0x10/0x20
-> [   40.350850]  __lock_acquire+0x900/0x4010
-> [   40.360290]  lock_acquire+0x191/0x4f0
-> [   40.364850]  put_cpu_partial+0x51/0x1a0
-> [   40.368341]  scf_handler+0x1bd/0x290
-> [   40.370590]  scf_handler_1+0x4e/0xb0
-> [   40.371630]  __flush_smp_call_function_queue+0x2dd/0x600
-> [   40.373142]  generic_smp_call_function_single_interrupt+0xe/0x20
-> [   40.374801]  __sysvec_call_function_single+0x50/0x280
-> [   40.376214]  sysvec_call_function_single+0x6c/0x80
-> [   40.377543]  </IRQ>
-> [   40.378142]  <TASK>
-> 
-> And scf_handler does indeed tail-call kfree:
-> 
-> 	static void scf_handler(void *scfc_in)
-> 	{
-> 	[...]
-> 		} else {
-> 			kfree(scfcp);
-> 		}
-> 	}
+On Wed, 30 Oct 2024 14:39:05 +0800 Bibo Mao <maobibo@loongson.cn> wrote:
 
-So I need to avoid calling kfree() within an smp_call_function() handler?
+> --- a/arch/loongarch/include/asm/pgtable.h
+> +++ b/arch/loongarch/include/asm/pgtable.h
+> @@ -267,8 +267,11 @@ extern void set_pmd_at(struct mm_struct *mm, unsigned long addr, pmd_t *pmdp, pm
+>   * Initialize a new pgd / pud / pmd table with invalid pointers.
+>   */
+>  extern void pgd_init(void *addr);
+> +#define pud_init pud_init
+>  extern void pud_init(void *addr);
+> +#define pmd_init pmd_init
+>  extern void pmd_init(void *addr);
+> +#define kernel_pte_init kernel_pte_init
+>  extern void kernel_pte_init(void *addr);
 
-							Thanx, Paul
+Nitlet: don't we usually put the #define *after* the definition?
+
+void foo(void);
+#define foo() foo()
+
+?
+
+
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/66a745bb-d381-471c-aeee-3800a504f87d%40paulmck-laptop.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20241030164123.ff63a1c0e7666ad1a4f8944e%40linux-foundation.org.
