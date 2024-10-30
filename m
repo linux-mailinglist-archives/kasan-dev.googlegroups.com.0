@@ -1,146 +1,141 @@
-Return-Path: <kasan-dev+bncBAABB6MPRC4QMGQETDZKPPQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBDBK55H2UQKRBGFXRK4QMGQESXGGQOQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x103c.google.com (mail-pj1-x103c.google.com [IPv6:2607:f8b0:4864:20::103c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6092E9B5FDD
-	for <lists+kasan-dev@lfdr.de>; Wed, 30 Oct 2024 11:18:35 +0100 (CET)
-Received: by mail-pj1-x103c.google.com with SMTP id 98e67ed59e1d1-2e3be80e9f3sf699698a91.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 30 Oct 2024 03:18:35 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1730283514; cv=pass;
+Received: from mail-wm1-x33b.google.com (mail-wm1-x33b.google.com [IPv6:2a00:1450:4864:20::33b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 565D19B6E08
+	for <lists+kasan-dev@lfdr.de>; Wed, 30 Oct 2024 21:48:26 +0100 (CET)
+Received: by mail-wm1-x33b.google.com with SMTP id 5b1f17b1804b1-4315ad4938fsf1393975e9.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 30 Oct 2024 13:48:26 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1730321306; cv=pass;
         d=google.com; s=arc-20240605;
-        b=TKzZTlwTnVPSpAuNGT2rw8voJdqQskmUWV1xSSiANMmtPwhNaEBLnq/6RWEnbF4rQI
-         QojEaO1I8hm4UJTqpgwk7mVG5smDqxOc36d5FGcKzCv+0S0Qvsx3VvQG+sbrk4R38r1x
-         oXrJ+VV9GPKD4uCL/3fnlMUeBnvP4cyUxlIrsYuOhOmOIuIhxKZsh7lweXwma5fzcRPQ
-         31BpQYli3WtzhmE8iAIew5F5Hgue0/WoDpSr3WCfDv2kiyFdbLWThkWM0h+WC6e7mH6n
-         ruVKWJ7G8dNxN9m7qPrV3lwZRTOVxORhoPKCrqsXEN46o4nWECPc2MN32PLBv/lOTxQT
-         oiMA==
+        b=VYmJjHz+Q69oeEEEF/GS4s8H2ngNC1lbeGwkDYei4aGj3+4lfNZm47Objrvb30UStc
+         sZ36yZdOg8vOhLaNB1yxEA4bu6kB9boS7kHajKTKTPGzQuwLlzXXZ5/+dNjL+94vERMF
+         jrjo8YbRMx2WbwxJWGYBX5TE68iA1jd3tegnujsapt4EelN7aOLWPwoAFxZQV8jn1ugn
+         Gr/h+bFDx7nXPqqq7hJllUR4O4IjxaUpHhyt8sTDEqwgUqd2aeKRAGrW48Ss9mI0SHrZ
+         sXe0MZFkoHjTnCw4Btd3p9svfQsM2YzirjVxYseEM5hc/jfMcSLUyaxtU5gl7RXTM5ko
+         QOYA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=yJUC8ttA3qe7YCleItFiNn8l477/z5Byr/jC95qS4p4=;
-        fh=W8n4hd+DL7tFcYYJOo0PCLSHbW98kIDk7Bob5k3CGCs=;
-        b=NsVbp/WOeiK/XzHVZBMq/OAQQin7im0Xz/dswsE9wLrcBHhhxxzGP1wmeJLxAMeFSk
-         u9jwjNngQLXTX0JvI37ljYaSsLWGzmcOK4vrya0rXATob9/U3RsS9VxKc1BD496K9E6A
-         r/bXYXbrBsPmaCLgTPDWcv4u3YL4OEQYtwnWGB9zfrTUETrQ2mqV2gijhRmH/HdIumJN
-         2cLGyYKE5i3mfzuNI7HykmsgQbwFOJHrc6PP4oyd36wuuON8jt47r9Duf58yOkSEvTVv
-         Pi9em9ffmTAfOQT48+r4PZYUbf7CrrzrhzYcWXDZ+QfqLkZgqVCbUM24cYspdz7FeNU8
-         NVtA==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :dkim-signature;
+        bh=FQqJhq+TeSeDbBLHHOr3FPcOGjqOyK9VjaAtQ7ZdaVA=;
+        fh=1X/shhdY1Hc8eNUnIg8BetXH6lMQ1caVJkXmKtGlxDY=;
+        b=bDa7TJgH1CP23NCKFl1QZeUoyyMYVyshG/qXkBP32Dbr/9xoKj/W4eE76v9lvgG0HN
+         zu0R6ljL0ssBQsWBFSoSOX0tg1lDBEHD1WT9c82s4HXATL2nBGgeSVlonHqqP2LJGSA6
+         hYThOd56yYO6WRjeqZN7Ubjviwfi5zB9Yu710svK/irk8goSoMN0NNu+BbPwSojro9DG
+         kvRfVJK+sXiEDIOCJjjZCvnp7qLyHe4X/FgU8vxfJJYAK/zmtJLj2MdXUylPmAafXRPn
+         VeZoSwdvxTWCVx1ryLzqmzx4ui7XrgePZVR373+s6F3X9FtMvENSTYmJJXJA/Dz5VBmf
+         rrKQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=QmLBYLiQ;
-       spf=pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=PI16AU47;
+       spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1730283514; x=1730888314; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1730321306; x=1730926106; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yJUC8ttA3qe7YCleItFiNn8l477/z5Byr/jC95qS4p4=;
-        b=ukbRT9aorWC/oqVZhaZLr2IjdvLbrNingRzgRYMHiKa8jq3SWAUVV7OkLBkatifieG
-         meBwlsnsS2bjY6q049hilUIzlOc95LGL82QKadgg0diS155dnNlpxI+KWGAH/g3iwVni
-         9w2PfdxziZ+yQgD0+9ZcJmVyI2i7u+YcxsioG74/I9dcL35pVlU+rjSntZzjtWzs6Nfy
-         lnMexyz+8EnJWJ8x/9WbKOsaVBuklxYy2ATJc0aKwR3XtEZLRHFRN1gnILIT23iwuXWK
-         2AmRdbjoTKnfbH3u1Bf+4G8MszfTbhddCfgHtylw/Wg+EnU78ba+QtQfR5X4DUdzFc8Z
-         MGVA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FQqJhq+TeSeDbBLHHOr3FPcOGjqOyK9VjaAtQ7ZdaVA=;
+        b=tURYrssOT0zTu5maeiWYeYpFQSWIgY7fBgQvZMjUi+h7DW4WC70hY2w3hbOqDD51OG
+         TV7VOOJx0LJwDhUc4jmm4DSZqEuidWTLmb4k07Jy0DKRCblrpBBQI17TJbOfv0jMN+2F
+         f18RTkGK1vQ0f2yr5i+qkPS7pdZEEFNi1SKEDq+o2DYPxXCYbJY/TgglxTFZLSi8C3fG
+         IW4lAj2szy6PjphtMvP2gblHmw8OhScnZ5zP0hep5ly5yYiSU6yz3Fw3WMgEy7a+Otng
+         6cyrAxaDLx0UTaoYUE3jHU8+2DwnwFsKHHr7zo7M7sBsWLxpZcJp/E+5y/T9ZGppmOx0
+         d8TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730283514; x=1730888314;
+        d=1e100.net; s=20230601; t=1730321306; x=1730926106;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yJUC8ttA3qe7YCleItFiNn8l477/z5Byr/jC95qS4p4=;
-        b=bDumqUnmAAaEclz5v7Dtgr5WQyXzfJ4Sg317BaYuvxMf9970KjWR+M/bu7n0MEALEe
-         rIGr95RzbUwm8xgs7GIGQQSN4TA3aYBTpST5iF0+K457dCecSG5nE4wB4wIwU/Z0p0s9
-         AYf7o0jPPlB8v/EOp9HmYz13f4UJRCLpmjOXqpLOu8p7rU5sFzjRXtW5OSTZKKfEKSe7
-         QJw6XwSiYSmKfS2o+BfMrX76Klns3yToMw77MthDN1ON4A2jd/UcTfTSjSaNBG6KZYZe
-         fyu0ylUcaHXXD0/hF12huKh4RY4HGwYb2wA0YfQa52jR8yzqPXt7DbPndvj2/TIa03bK
-         x2bg==
-X-Forwarded-Encrypted: i=2; AJvYcCXrHqTMIoB7P/iXjGe1t2xD8oub7WfDkzavg15uA9FOUhITuhrM9NgxdV+y4zJuT0ExNdIiOQ==@lfdr.de
-X-Gm-Message-State: AOJu0YwpHvo7NEwMmgfp03CMdX4MhHfGMG54axoLRsDzX7NI6QFLUHQN
-	RIXcTlADZbvpmK3ZkQ7QW6Qe8WUm7bsqFQD3z5yz1MgLAAfbFE+e
-X-Google-Smtp-Source: AGHT+IFjk/PoUif6ZmygujumLyZmEq78HfBoq2/QPYwo/REoUZxierzMbenEumwze5HyehxnZ8ZHng==
-X-Received: by 2002:a17:90b:507:b0:2d8:b043:9414 with SMTP id 98e67ed59e1d1-2e9224d9dbemr8112469a91.18.1730283513575;
-        Wed, 30 Oct 2024 03:18:33 -0700 (PDT)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FQqJhq+TeSeDbBLHHOr3FPcOGjqOyK9VjaAtQ7ZdaVA=;
+        b=kNzKIsvnfoHF3A6bY9DgVATodhs14GMazeaSwZAV+zzRQ7liyKHXn548l9dA9fPB8b
+         j3RFj6LD6miU2vyY2gRMKWSvU66N3ibKfvDeYyvXVX34kdmqUKJdgVGOWX9J+MXt/Q78
+         n57reo8UzaWd1alCtisjsdzZyS8WHp0zCUfqGVrpzUk3v+sLAe6r+9dHdAqu+3HMUW/r
+         EmpRrQo6T3i+85d/YhJAhMel6ypvWrOlGcSpE4V0qt86PBqZJcavaAEuicsmfnzuYWcP
+         +UH20tFiTeWtbBO/WEgor2y7skYIogvDOdUQN9LDi6+wAK2w7uhKlQxX5gh5mDOZ5jMx
+         8MTw==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCU/7HaTuS+4Y47FkxjLH0/tU6UD8awqDaWIw4dmS9RsM8Essl+Jtf1VaVLuudTeBWzhX6HwFQ==@lfdr.de
+X-Gm-Message-State: AOJu0YyKWgbLe8VfVjmUbPYCyYLA/Ze/Sq8N+1x4bvd76OcNjvciWHto
+	t8niI/PVg4agWS8ewomwv74bDHvks7npP38Q3ERaa5ksI10Kmxda
+X-Google-Smtp-Source: AGHT+IFKaNGk2vctqZlq7GO307wITE1DGyd0+7Pcij0C7w3MFsfKyryD0BRPTdyi9GYCmfpZk7Rjjg==
+X-Received: by 2002:a05:600c:2153:b0:431:5d4f:73b9 with SMTP id 5b1f17b1804b1-4319ad04f95mr176488325e9.26.1730321305053;
+        Wed, 30 Oct 2024 13:48:25 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90b:3101:b0:2e2:b20d:f6a3 with SMTP id
- 98e67ed59e1d1-2e92d792093ls482455a91.1.-pod-prod-00-us-canary; Wed, 30 Oct
- 2024 03:18:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCViajHUFRO1mrTyW8jRdNYCltLM0HIiufm75NTzjT6STGz4029DtXIp0PXrl9EPuuEyNjKYrqD35hU=@googlegroups.com
-X-Received: by 2002:a17:903:22c3:b0:20c:cb6b:3631 with SMTP id d9443c01a7336-210ed469538mr78664915ad.27.1730283512355;
-        Wed, 30 Oct 2024 03:18:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1730283512; cv=none;
+Received: by 2002:a05:600c:3b92:b0:42c:b037:5fe4 with SMTP id
+ 5b1f17b1804b1-4327b81d5fdls1237745e9.2.-pod-prod-08-eu; Wed, 30 Oct 2024
+ 13:48:22 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCW7hyzuToV54AExGCD4jhhH6rh3Oxdr1PIWXcZWrJS3hvOqp6nCk1nLhmzt+tpIanOLoSyBstNKnzM=@googlegroups.com
+X-Received: by 2002:a5d:5705:0:b0:37d:2e59:68ca with SMTP id ffacd0b85a97d-380611633f3mr11746654f8f.28.1730321302490;
+        Wed, 30 Oct 2024 13:48:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1730321302; cv=none;
         d=google.com; s=arc-20240605;
-        b=EAgcHjXDMKsTyooB2IRJ0VVfOa5nnZVX+7Pzz1clS+zzq9f/s+yd9XZeR0BBXLiwI0
-         LVLnqGcEBirNgK8lf9bmsqE22zn2sB/x8v8Q5kGuhbKHUlFVtDhRIv2BE03CX7OPD8n8
-         rV50F5cNU2UjY6EPRuIFPilEHbbaUfOx38KsaKax00vVuyABagZQwmZb9Y+nqjjqevIb
-         cu29k6kD9zBTBpaxCD7Omca9yhOPA6AiTitrziHJPsTsM9fLW556vmLBCbGmcdu+84x6
-         lk0RWHJIq53qDj3g9gsplnI3xCza+VEZPY6zr38v/gsCAW6b83JgL4O9LFz/Bb+CRGt0
-         rIDA==
+        b=DEE93zNdXaGvbzOL6XndWRaVxtTUxqf8xoQR+Q12KR3to+oTTj7glBLG6nKAIpoZ47
+         +sXQfeejUHo+XqTeWsnwkM4qDnWoma/c48DvpQI/XIS8VW0LmPPnpPnhHxyvhaZipKbh
+         eiCh4AjNGCKwcnGn2UnzFGy9xzBjfvmYvovm8j7Hp4HEe5SLXTXZq6Fhl3kVXw5uJaoA
+         n0p6p0z5NDm3LSGHUJ9v0M8hUlxXI2scEDIT3Odvjbh4+6FQqYPjaFdL4otxTR3V64lU
+         HNC56HHizyzm5vBRXPK+pO+Yx/X1FGO/gFT1p52m+opzq1OOK6GYewZH1VikimzUEEkm
+         r8Nw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wKc28QdF+vvrcEl4ukrPCmM1V6U1/x4aUsBDxFh3gv0=;
-        fh=/05bH+4A4js4VkijbV/9z2eM33hSQCIadAsJJOz4feM=;
-        b=BCNxH8bMIJijVpECUB0teLx2fUkhqVePBSBfTJn1UBnuFWOOmxTQrIyGsuP65BaNYw
-         cQgTjf1mSTdWEM3Sm8wRKtugtIEGOk7ej8mKydzw2fKZtJvP0TVMxptGy7pLUkMTfGv2
-         ZjxJvWnLftVCtFX3nkog+/OLbabqQ+FbdF5yuQdYNyvAwNULzh+2F4FxiiqpGvISf0Hi
-         pumr7+f+DpG41P6DBTXiNos6+jAz27ted7fNYxDcpePdSi4w9kn/atw3Gq4aNTCWu2E6
-         DDngqm5ksN/MkvqXEX0wgabAOeROUFL8w/G3T1G/vEBDpbOOkq8nH8jLlsHKarw5uGVv
-         NFLg==;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:dkim-signature;
+        bh=99kTf82GzK1ndpXdfczRfvZOLKCNQTEUCVNieLNuiSs=;
+        fh=rsYLeNn3EhqnY/ERv90DXt1NYQkHGuhFKomDG1eXtr4=;
+        b=NzRAf+N8SnInR50b5pEJen4dcrkmCbxAphDeuLrwRVBY8VPtG0YIYK9cq3lzXcOrhH
+         ariJvW2r34hV5d4RmyVr+nKCbgH6kEMN++rtt3r+li/O23/VknIB1Ad4X3HRAUnd0yyZ
+         hYw+h8e+FYygH827NlZhJi9dQ9No75JCRw0BU2OLenmMLo4p9QxBEtyA/0VfffQCNMek
+         8MaWyTJsK0soc0zKA5npTw0lnpcOpqqGTXV1xRmPxEquK48SAv6MPd1VOPxhXqg/Avjf
+         HzrGleQvBYi4Zmx2e/xbui4epSyLglRj4dMYjU3NdmywDMVqt6osf7lBr2886j7//xn3
+         aJjw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=QmLBYLiQ;
-       spf=pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=chenhuacai@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
-        by gmr-mx.google.com with ESMTPS id d9443c01a7336-210bbfde225si3553975ad.11.2024.10.30.03.18.32
+       dkim=pass header.i=@infradead.org header.s=desiato.20200630 header.b=PI16AU47;
+       spf=none (google.com: peterz@infradead.org does not designate permitted sender hosts) smtp.mailfrom=peterz@infradead.org
+Received: from desiato.infradead.org (desiato.infradead.org. [2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-381c11629bdsi2634f8f.3.2024.10.30.13.48.22
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2024 03:18:32 -0700 (PDT)
-Received-SPF: pass (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 982C45C6049
-	for <kasan-dev@googlegroups.com>; Wed, 30 Oct 2024 10:17:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ABCBC4AF0C
-	for <kasan-dev@googlegroups.com>; Wed, 30 Oct 2024 10:18:30 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a99f629a7aaso116082966b.1
-        for <kasan-dev@googlegroups.com>; Wed, 30 Oct 2024 03:18:30 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWBRPrUoXb4XvEr4/CzGXfSMOVEa4nvtgtigopXLl8HwTN1mocuu0AwZHB+bNgdPlKWPpbS2969pN0=@googlegroups.com
-X-Received: by 2002:a17:906:730b:b0:a9a:c57f:964b with SMTP id
- a640c23a62f3a-a9e40bc5d44mr134325766b.8.1730283509388; Wed, 30 Oct 2024
- 03:18:29 -0700 (PDT)
+        Wed, 30 Oct 2024 13:48:22 -0700 (PDT)
+Received-SPF: none (google.com: peterz@infradead.org does not designate permitted sender hosts) client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1t6Fc0-0000000ALFy-1gjc;
+	Wed, 30 Oct 2024 20:48:18 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id B3B51300ABE; Wed, 30 Oct 2024 21:48:15 +0100 (CET)
+Date: Wed, 30 Oct 2024 21:48:15 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Marco Elver <elver@google.com>
+Cc: Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
+	linux-kernel@vger.kernel.org,
+	Alexander Potapenko <glider@google.com>
+Subject: Re: [PATCH] kcsan, seqlock: Support seqcount_latch_t
+Message-ID: <20241030204815.GQ14555@noisy.programming.kicks-ass.net>
+References: <20241029083658.1096492-1-elver@google.com>
+ <20241029114937.GT14555@noisy.programming.kicks-ass.net>
+ <CANpmjNPyXGRTWHhycVuEXdDfe7MoN19MeztdQaSOJkzqhCD69Q@mail.gmail.com>
+ <20241029134641.GR9767@noisy.programming.kicks-ass.net>
+ <ZyFKUU1LpFfLrVXb@elver.google.com>
 MIME-Version: 1.0
-References: <20241030063905.2434824-1-maobibo@loongson.cn>
-In-Reply-To: <20241030063905.2434824-1-maobibo@loongson.cn>
-From: "'Huacai Chen' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 30 Oct 2024 18:18:16 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H4KXMyj0hpmhEWxiyapVNVcWk3K7HcshNyx5_wp2NBUWA@mail.gmail.com>
-Message-ID: <CAAhV-H4KXMyj0hpmhEWxiyapVNVcWk3K7HcshNyx5_wp2NBUWA@mail.gmail.com>
-Subject: Re: [PATCH v2] mm: define general function pXd_init()
-To: Bibo Mao <maobibo@loongson.cn>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Andrew Morton <akpm@linux-foundation.org>, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, loongarch@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, linux-mm@kvack.org, 
-	kasan-dev@googlegroups.com, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, WANG Xuerui <kernel@xen0n.name>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: chenhuacai@kernel.org
+Content-Disposition: inline
+In-Reply-To: <ZyFKUU1LpFfLrVXb@elver.google.com>
+X-Original-Sender: peterz@infradead.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=QmLBYLiQ;       spf=pass
- (google.com: domain of chenhuacai@kernel.org designates 139.178.84.217 as
- permitted sender) smtp.mailfrom=chenhuacai@kernel.org;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Huacai Chen <chenhuacai@kernel.org>
-Reply-To: Huacai Chen <chenhuacai@kernel.org>
+ header.i=@infradead.org header.s=desiato.20200630 header.b=PI16AU47;
+       spf=none (google.com: peterz@infradead.org does not designate permitted
+ sender hosts) smtp.mailfrom=peterz@infradead.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -153,203 +148,339 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
+On Tue, Oct 29, 2024 at 09:49:21PM +0100, Marco Elver wrote:
 
-On Wed, Oct 30, 2024 at 2:39=E2=80=AFPM Bibo Mao <maobibo@loongson.cn> wrot=
-e:
->
-> Function pud_init(), pmd_init() and kernel_pte_init() are duplicated
-> defined in file kasan.c and sparse-vmemmap.c as weak functions. Move
-> them to generic header file pgtable.h, architecture can redefine them.
->
-> Signed-off-by: Bibo Mao <maobibo@loongson.cn>
-> ---
-> v1 ... v2:
->   1. Add general function definition about kernel_pte_init().
-> ---
->  arch/loongarch/include/asm/pgtable.h |  3 +++
->  arch/mips/include/asm/pgtable-64.h   |  2 ++
->  include/linux/mm.h                   |  3 ---
->  include/linux/pgtable.h              | 21 +++++++++++++++++++++
->  mm/kasan/init.c                      | 12 ------------
->  mm/sparse-vmemmap.c                  | 12 ------------
->  6 files changed, 26 insertions(+), 27 deletions(-)
->
-> diff --git a/arch/loongarch/include/asm/pgtable.h b/arch/loongarch/includ=
-e/asm/pgtable.h
-> index 20714b73f14c..df5889d995f9 100644
-> --- a/arch/loongarch/include/asm/pgtable.h
-> +++ b/arch/loongarch/include/asm/pgtable.h
-> @@ -267,8 +267,11 @@ extern void set_pmd_at(struct mm_struct *mm, unsigne=
-d long addr, pmd_t *pmdp, pm
->   * Initialize a new pgd / pud / pmd table with invalid pointers.
+> Something like this?
+> 
+> ------ >8 ------
+> 
+> Author: Marco Elver <elver@google.com>
+> Date:   Tue Oct 29 21:16:21 2024 +0100
+> 
+>     time/sched_clock: Swap update_clock_read_data() latch writes
+>     
+>     Swap the writes to the odd and even copies to make the writer critical
+>     section look like all other seqcount_latch writers.
+>     
+>     With that, we can also add the raw_write_seqcount_latch_end() to clearly
+>     denote the end of the writer section.
+>     
+>     Signed-off-by: Marco Elver <elver@google.com>
+> 
+> diff --git a/kernel/time/sched_clock.c b/kernel/time/sched_clock.c
+> index 68d6c1190ac7..311c90a0e86e 100644
+> --- a/kernel/time/sched_clock.c
+> +++ b/kernel/time/sched_clock.c
+> @@ -119,9 +119,6 @@ unsigned long long notrace sched_clock(void)
 >   */
->  extern void pgd_init(void *addr);
-> +#define pud_init pud_init
->  extern void pud_init(void *addr);
-> +#define pmd_init pmd_init
->  extern void pmd_init(void *addr);
-> +#define kernel_pte_init kernel_pte_init
->  extern void kernel_pte_init(void *addr);
->
+>  static void update_clock_read_data(struct clock_read_data *rd)
+>  {
+> -	/* update the backup (odd) copy with the new data */
+> -	cd.read_data[1] = *rd;
+> -
+>  	/* steer readers towards the odd copy */
+>  	raw_write_seqcount_latch(&cd.seq);
+>  
+> @@ -130,6 +127,11 @@ static void update_clock_read_data(struct clock_read_data *rd)
+>  
+>  	/* switch readers back to the even copy */
+>  	raw_write_seqcount_latch(&cd.seq);
+> +
+> +	/* update the backup (odd) copy with the new data */
+> +	cd.read_data[1] = *rd;
+> +
+> +	raw_write_seqcount_latch_end(&cd.seq);
+>  }
+>  
 >  /*
-> diff --git a/arch/mips/include/asm/pgtable-64.h b/arch/mips/include/asm/p=
-gtable-64.h
-> index 401c1d9e4409..45c8572a0462 100644
-> --- a/arch/mips/include/asm/pgtable-64.h
-> +++ b/arch/mips/include/asm/pgtable-64.h
-> @@ -316,7 +316,9 @@ static inline pmd_t *pud_pgtable(pud_t pud)
->   * Initialize a new pgd / pud / pmd table with invalid pointers.
->   */
->  extern void pgd_init(void *addr);
-> +#define pud_init pud_init
->  extern void pud_init(void *addr);
-> +#define pmd_init pmd_init
->  extern void pmd_init(void *addr);
->
->  /*
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index 61fff5d34ed5..651bdc1bef48 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -3818,9 +3818,6 @@ void *sparse_buffer_alloc(unsigned long size);
->  struct page * __populate_section_memmap(unsigned long pfn,
->                 unsigned long nr_pages, int nid, struct vmem_altmap *altm=
-ap,
->                 struct dev_pagemap *pgmap);
-> -void pud_init(void *addr);
-> -void pmd_init(void *addr);
-> -void kernel_pte_init(void *addr);
->  pgd_t *vmemmap_pgd_populate(unsigned long addr, int node);
->  p4d_t *vmemmap_p4d_populate(pgd_t *pgd, unsigned long addr, int node);
->  pud_t *vmemmap_pud_populate(p4d_t *p4d, unsigned long addr, int node);
-> diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-> index e8b2ac6bd2ae..adee214c21f8 100644
-> --- a/include/linux/pgtable.h
-> +++ b/include/linux/pgtable.h
-> @@ -90,6 +90,27 @@ static inline unsigned long pud_index(unsigned long ad=
-dress)
->  #define pgd_index(a)  (((a) >> PGDIR_SHIFT) & (PTRS_PER_PGD - 1))
->  #endif
->
-> +#ifndef kernel_pte_init
-> +static inline void kernel_pte_init(void *addr)
-> +{
-> +}
-> +#define kernel_pte_init kernel_pte_init
-> +#endif
-> +
-> +#ifndef pmd_init
-> +static inline void pmd_init(void *addr)
-> +{
-> +}
-> +#define pmd_init pmd_init
-> +#endif
-> +
-> +#ifndef pud_init
-> +static inline void pud_init(void *addr)
-> +{
-> +}
-> +#define pud_init pud_init
-> +#endif
-> +
->  #ifndef pte_offset_kernel
->  static inline pte_t *pte_offset_kernel(pmd_t *pmd, unsigned long address=
-)
->  {
-> diff --git a/mm/kasan/init.c b/mm/kasan/init.c
-> index ac607c306292..ced6b29fcf76 100644
-> --- a/mm/kasan/init.c
-> +++ b/mm/kasan/init.c
-> @@ -106,10 +106,6 @@ static void __ref zero_pte_populate(pmd_t *pmd, unsi=
-gned long addr,
->         }
->  }
->
-> -void __weak __meminit kernel_pte_init(void *addr)
-> -{
-> -}
-> -
->  static int __ref zero_pmd_populate(pud_t *pud, unsigned long addr,
->                                 unsigned long end)
->  {
-> @@ -145,10 +141,6 @@ static int __ref zero_pmd_populate(pud_t *pud, unsig=
-ned long addr,
->         return 0;
->  }
->
-> -void __weak __meminit pmd_init(void *addr)
-> -{
-> -}
-> -
->  static int __ref zero_pud_populate(p4d_t *p4d, unsigned long addr,
->                                 unsigned long end)
->  {
-> @@ -187,10 +179,6 @@ static int __ref zero_pud_populate(p4d_t *p4d, unsig=
-ned long addr,
->         return 0;
->  }
->
-> -void __weak __meminit pud_init(void *addr)
-> -{
-> -}
-> -
->  static int __ref zero_p4d_populate(pgd_t *pgd, unsigned long addr,
->                                 unsigned long end)
->  {
-> diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
-> index c0388b2e959d..cec67c5f37d8 100644
-> --- a/mm/sparse-vmemmap.c
-> +++ b/mm/sparse-vmemmap.c
-> @@ -184,10 +184,6 @@ static void * __meminit vmemmap_alloc_block_zero(uns=
-igned long size, int node)
->         return p;
->  }
->
-> -void __weak __meminit kernel_pte_init(void *addr)
-> -{
-> -}
-> -
->  pmd_t * __meminit vmemmap_pmd_populate(pud_t *pud, unsigned long addr, i=
-nt node)
->  {
->         pmd_t *pmd =3D pmd_offset(pud, addr);
-> @@ -201,10 +197,6 @@ pmd_t * __meminit vmemmap_pmd_populate(pud_t *pud, u=
-nsigned long addr, int node)
->         return pmd;
->  }
->
-> -void __weak __meminit pmd_init(void *addr)
-> -{
-> -}
-> -
->  pud_t * __meminit vmemmap_pud_populate(p4d_t *p4d, unsigned long addr, i=
-nt node)
->  {
->         pud_t *pud =3D pud_offset(p4d, addr);
-> @@ -218,10 +210,6 @@ pud_t * __meminit vmemmap_pud_populate(p4d_t *p4d, u=
-nsigned long addr, int node)
->         return pud;
->  }
->
-> -void __weak __meminit pud_init(void *addr)
-> -{
-> -}
-> -
->  p4d_t * __meminit vmemmap_p4d_populate(pgd_t *pgd, unsigned long addr, i=
-nt node)
->  {
->         p4d_t *p4d =3D p4d_offset(pgd, addr);
->
-> base-commit: 81983758430957d9a5cb3333fe324fd70cf63e7e
-> --
-> 2.39.3
->
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-AAhV-H4KXMyj0hpmhEWxiyapVNVcWk3K7HcshNyx5_wp2NBUWA%40mail.gmail.com.
+That looks about right :-)
+
+> ------ >8 ------
+> 
+> I also noticed your d16317de9b41 ("seqlock/latch: Provide
+> raw_read_seqcount_latch_retry()") to get rid of explicit instrumentation
+> in noinstr.
+> 
+> Not sure how to resolve that. We have that objtool support to erase
+> calls in noinstr code (is_profiling_func), but that's x86 only.
+> 
+> I could also make kcsan_atomic_next(0) noinstr compatible by checking if
+> the ret IP is in noinstr, and immediately return if it is.
+> 
+> Preferences?
+
+Something like this perhaps?
+
+---
+ arch/x86/kernel/tsc.c        |  5 +++--
+ include/linux/rbtree_latch.h | 14 ++++++++------
+ include/linux/seqlock.h      | 31 ++++++++++++++++++++++++++++++-
+ kernel/printk/printk.c       |  9 +++++----
+ kernel/time/sched_clock.c    | 20 ++++++++++++--------
+ kernel/time/timekeeping.c    | 10 ++++++----
+ 6 files changed, 64 insertions(+), 25 deletions(-)
+
+diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
+index dfe6847fd99e..67aeaba4ba9c 100644
+--- a/arch/x86/kernel/tsc.c
++++ b/arch/x86/kernel/tsc.c
+@@ -174,10 +174,11 @@ static void __set_cyc2ns_scale(unsigned long khz, int cpu, unsigned long long ts
+ 
+ 	c2n = per_cpu_ptr(&cyc2ns, cpu);
+ 
+-	raw_write_seqcount_latch(&c2n->seq);
++	write_seqcount_latch_begin(&c2n->seq);
+ 	c2n->data[0] = data;
+-	raw_write_seqcount_latch(&c2n->seq);
++	write_seqcount_latch(&c2n->seq);
+ 	c2n->data[1] = data;
++	write_seqcount_latch_end(&c2n->seq);
+ }
+ 
+ static void set_cyc2ns_scale(unsigned long khz, int cpu, unsigned long long tsc_now)
+diff --git a/include/linux/rbtree_latch.h b/include/linux/rbtree_latch.h
+index 6a0999c26c7c..bc992c61b7ce 100644
+--- a/include/linux/rbtree_latch.h
++++ b/include/linux/rbtree_latch.h
+@@ -145,10 +145,11 @@ latch_tree_insert(struct latch_tree_node *node,
+ 		  struct latch_tree_root *root,
+ 		  const struct latch_tree_ops *ops)
+ {
+-	raw_write_seqcount_latch(&root->seq);
++	write_seqcount_latch_begin(&root->seq);
+ 	__lt_insert(node, root, 0, ops->less);
+-	raw_write_seqcount_latch(&root->seq);
++	write_seqcount_latch(&root->seq);
+ 	__lt_insert(node, root, 1, ops->less);
++	write_seqcount_latch_end(&root->seq);
+ }
+ 
+ /**
+@@ -172,10 +173,11 @@ latch_tree_erase(struct latch_tree_node *node,
+ 		 struct latch_tree_root *root,
+ 		 const struct latch_tree_ops *ops)
+ {
+-	raw_write_seqcount_latch(&root->seq);
++	write_seqcount_latch_begin(&root->seq);
+ 	__lt_erase(node, root, 0);
+-	raw_write_seqcount_latch(&root->seq);
++	write_seqcount_latch(&root->seq);
+ 	__lt_erase(node, root, 1);
++	write_seqcount_latch_end(&root->seq);
+ }
+ 
+ /**
+@@ -204,9 +206,9 @@ latch_tree_find(void *key, struct latch_tree_root *root,
+ 	unsigned int seq;
+ 
+ 	do {
+-		seq = raw_read_seqcount_latch(&root->seq);
++		seq = read_seqcount_latch(&root->seq);
+ 		node = __lt_find(key, root, seq & 1, ops->comp);
+-	} while (raw_read_seqcount_latch_retry(&root->seq, seq));
++	} while (read_seqcount_latch_retry(&root->seq, seq));
+ 
+ 	return node;
+ }
+diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
+index fffeb754880f..9c2751087185 100644
+--- a/include/linux/seqlock.h
++++ b/include/linux/seqlock.h
+@@ -621,6 +621,12 @@ static __always_inline unsigned raw_read_seqcount_latch(const seqcount_latch_t *
+ 	return READ_ONCE(s->seqcount.sequence);
+ }
+ 
++static __always_inline unsigned read_seqcount_latch(const seqcount_latch_t *s)
++{
++	kcsan_atomic_next(KCSAN_SEQLOCK_REGION_MAX);
++	return raw_read_seqcount_latch(s);
++}
++
+ /**
+  * raw_read_seqcount_latch_retry() - end a seqcount_latch_t read section
+  * @s:		Pointer to seqcount_latch_t
+@@ -635,6 +641,13 @@ raw_read_seqcount_latch_retry(const seqcount_latch_t *s, unsigned start)
+ 	return unlikely(READ_ONCE(s->seqcount.sequence) != start);
+ }
+ 
++static __always_inline int
++read_seqcount_latch_retry(const seqcount_latch_t *s, unsigned start)
++{
++	kcsan_atomic_next(0);
++	return raw_read_seqcount_latch_retry(s, start);
++}
++
+ /**
+  * raw_write_seqcount_latch() - redirect latch readers to even/odd copy
+  * @s: Pointer to seqcount_latch_t
+@@ -716,13 +729,29 @@ raw_read_seqcount_latch_retry(const seqcount_latch_t *s, unsigned start)
+  *	When data is a dynamic data structure; one should use regular RCU
+  *	patterns to manage the lifetimes of the objects within.
+  */
+-static inline void raw_write_seqcount_latch(seqcount_latch_t *s)
++static __always_inline void raw_write_seqcount_latch(seqcount_latch_t *s)
+ {
+ 	smp_wmb();	/* prior stores before incrementing "sequence" */
+ 	s->seqcount.sequence++;
+ 	smp_wmb();      /* increment "sequence" before following stores */
+ }
+ 
++static __always_inline void write_seqcount_latch_begin(seqcount_latch_t *s)
++{
++	kcsan_nestable_atomic_begin();
++	raw_write_seqcount_latch(s);
++}
++
++static __always_inline void write_seqcount_latch(seqcount_latch_t *s)
++{
++	raw_write_seqcount_latch(s);
++}
++
++static __always_inline void write_seqcount_latch_end(seqcount_latch_t *s)
++{
++	kcsan_nestable_atomic_end();
++}
++
+ #define __SEQLOCK_UNLOCKED(lockname)					\
+ 	{								\
+ 		.seqcount = SEQCNT_SPINLOCK_ZERO(lockname, &(lockname).lock), \
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index beb808f4c367..19911c8fa7b6 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -560,10 +560,11 @@ bool printk_percpu_data_ready(void)
+ /* Must be called under syslog_lock. */
+ static void latched_seq_write(struct latched_seq *ls, u64 val)
+ {
+-	raw_write_seqcount_latch(&ls->latch);
++	write_seqcount_latch_begin(&ls->latch);
+ 	ls->val[0] = val;
+-	raw_write_seqcount_latch(&ls->latch);
++	write_seqcount_latch(&ls->latch);
+ 	ls->val[1] = val;
++	write_seqcount_latch_end(&ls->latch);
+ }
+ 
+ /* Can be called from any context. */
+@@ -574,10 +575,10 @@ static u64 latched_seq_read_nolock(struct latched_seq *ls)
+ 	u64 val;
+ 
+ 	do {
+-		seq = raw_read_seqcount_latch(&ls->latch);
++		seq = read_seqcount_latch(&ls->latch);
+ 		idx = seq & 0x1;
+ 		val = ls->val[idx];
+-	} while (raw_read_seqcount_latch_retry(&ls->latch, seq));
++	} while (read_seqcount_latch_retry(&ls->latch, seq));
+ 
+ 	return val;
+ }
+diff --git a/kernel/time/sched_clock.c b/kernel/time/sched_clock.c
+index 68d6c1190ac7..4958b40ba6c9 100644
+--- a/kernel/time/sched_clock.c
++++ b/kernel/time/sched_clock.c
+@@ -71,13 +71,13 @@ static __always_inline u64 cyc_to_ns(u64 cyc, u32 mult, u32 shift)
+ 
+ notrace struct clock_read_data *sched_clock_read_begin(unsigned int *seq)
+ {
+-	*seq = raw_read_seqcount_latch(&cd.seq);
++	*seq = read_seqcount_latch(&cd.seq);
+ 	return cd.read_data + (*seq & 1);
+ }
+ 
+ notrace int sched_clock_read_retry(unsigned int seq)
+ {
+-	return raw_read_seqcount_latch_retry(&cd.seq, seq);
++	return read_seqcount_latch_retry(&cd.seq, seq);
+ }
+ 
+ unsigned long long noinstr sched_clock_noinstr(void)
+@@ -102,7 +102,9 @@ unsigned long long notrace sched_clock(void)
+ {
+ 	unsigned long long ns;
+ 	preempt_disable_notrace();
++	kcsan_atomic_next(KCSAN_SEQLOCK_REGION_MAX);
+ 	ns = sched_clock_noinstr();
++	kcsan_atomic_next(0);
+ 	preempt_enable_notrace();
+ 	return ns;
+ }
+@@ -119,17 +121,19 @@ unsigned long long notrace sched_clock(void)
+  */
+ static void update_clock_read_data(struct clock_read_data *rd)
+ {
+-	/* update the backup (odd) copy with the new data */
+-	cd.read_data[1] = *rd;
+-
+ 	/* steer readers towards the odd copy */
+-	raw_write_seqcount_latch(&cd.seq);
++	write_seqcount_latch_begin(&cd.seq);
+ 
+ 	/* now its safe for us to update the normal (even) copy */
+ 	cd.read_data[0] = *rd;
+ 
+ 	/* switch readers back to the even copy */
+-	raw_write_seqcount_latch(&cd.seq);
++	write_seqcount_latch(&cd.seq);
++
++	/* update the backup (odd) copy with the new data */
++	cd.read_data[1] = *rd;
++
++	write_seqcount_latch_end(&cd.seq);
+ }
+ 
+ /*
+@@ -267,7 +271,7 @@ void __init generic_sched_clock_init(void)
+  */
+ static u64 notrace suspended_sched_clock_read(void)
+ {
+-	unsigned int seq = raw_read_seqcount_latch(&cd.seq);
++	unsigned int seq = read_seqcount_latch(&cd.seq);
+ 
+ 	return cd.read_data[seq & 1].epoch_cyc;
+ }
+diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
+index 7e6f409bf311..2ca26bfeb8f3 100644
+--- a/kernel/time/timekeeping.c
++++ b/kernel/time/timekeeping.c
+@@ -424,16 +424,18 @@ static void update_fast_timekeeper(const struct tk_read_base *tkr,
+ 	struct tk_read_base *base = tkf->base;
+ 
+ 	/* Force readers off to base[1] */
+-	raw_write_seqcount_latch(&tkf->seq);
++	write_seqcount_latch_begin(&tkf->seq);
+ 
+ 	/* Update base[0] */
+ 	memcpy(base, tkr, sizeof(*base));
+ 
+ 	/* Force readers back to base[0] */
+-	raw_write_seqcount_latch(&tkf->seq);
++	write_seqcount_latch(&tkf->seq);
+ 
+ 	/* Update base[1] */
+ 	memcpy(base + 1, base, sizeof(*base));
++
++	write_seqcount_latch_end(&tkf->seq);
+ }
+ 
+ static __always_inline u64 __ktime_get_fast_ns(struct tk_fast *tkf)
+@@ -443,11 +445,11 @@ static __always_inline u64 __ktime_get_fast_ns(struct tk_fast *tkf)
+ 	u64 now;
+ 
+ 	do {
+-		seq = raw_read_seqcount_latch(&tkf->seq);
++		seq = read_seqcount_latch(&tkf->seq);
+ 		tkr = tkf->base + (seq & 0x01);
+ 		now = ktime_to_ns(tkr->base);
+ 		now += __timekeeping_get_ns(tkr);
+-	} while (raw_read_seqcount_latch_retry(&tkf->seq, seq));
++	} while (read_seqcount_latch_retry(&tkf->seq, seq));
+ 
+ 	return now;
+ }
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20241030204815.GQ14555%40noisy.programming.kicks-ass.net.
