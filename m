@@ -1,134 +1,158 @@
-Return-Path: <kasan-dev+bncBCT4XGV33UIBBLELRO4QMGQETZSOWKY@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBHNRRO4QMGQE4VSXC4A@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-il1-x13c.google.com (mail-il1-x13c.google.com [IPv6:2607:f8b0:4864:20::13c])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDEB09B70AC
-	for <lists+kasan-dev@lfdr.de>; Thu, 31 Oct 2024 00:47:57 +0100 (CET)
-Received: by mail-il1-x13c.google.com with SMTP id e9e14a558f8ab-3a4e4c723c3sf9686215ab.1
-        for <lists+kasan-dev@lfdr.de>; Wed, 30 Oct 2024 16:47:57 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1730332076; cv=pass;
+Received: from mail-pj1-x103f.google.com (mail-pj1-x103f.google.com [IPv6:2607:f8b0:4864:20::103f])
+	by mail.lfdr.de (Postfix) with ESMTPS id 445B59B717A
+	for <lists+kasan-dev@lfdr.de>; Thu, 31 Oct 2024 02:08:47 +0100 (CET)
+Received: by mail-pj1-x103f.google.com with SMTP id 98e67ed59e1d1-2e3984f50c3sf512219a91.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 30 Oct 2024 18:08:47 -0700 (PDT)
+ARC-Seal: i=2; a=rsa-sha256; t=1730336926; cv=pass;
         d=google.com; s=arc-20240605;
-        b=aonzmywsWVTi53pp3TGcWUTSTYMSWU6iwew0cKSL1McCUc6OIHOfaqvNopGm3GkNPp
-         S0XW1fv2ElhFYGgTD6GPKG2Fa4X0YOusG3+Ttz7+x6K9EXYVxc34PhGFtMbsqEj/bkms
-         oyxWkypzPMnGp5zyZy/8tt1eTRlc3DheXGz6Q49egFBI7eR7FDCmTPWXU/D/peX7Z/HD
-         VkHnapQif/jK8UZOJSP/fN4fqULi1rrZt01eWJ2AJyM1Jca/PMjKnD3+6UZiXv+95QHx
-         bwXbJDX7BwD/VmnZ4qc1FMLXGD2QvcDHJzjCE/dFwBz3SV248z8xG2QA87Dtq5HcSWNh
-         JBDw==
+        b=JFv9VhkvrXw0sHgTm4e9v0ZWuGh5pJASXTwggIu854S6iyPQ3DfmqcSODqeZRKdArK
+         IZVzbumlmANmA8Y/0OpXbVwML/vmBdm92fgPcmciVMn4VF7w0i37uwtUAhflj7nmN2bx
+         cDsW3KZHvucJQUnUF/CK9f6baY4kkJG2zSG+ayKopJw+yDALO/D5k9hoaA5LaLyTu717
+         z7kdY9naoE60YD3OlHQsbFCXOumxLqSWenndH6LfpSoWQRXGjCzkVWSjAXUJ13yQsdSG
+         1wdioP4JsgnSnUNt5yQXZ7QG25iqg0MDK0eI0JKev8Km35Hg3R9b6au2dhI/1nUlJE6D
+         9upg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=xw0JtHBQDM0T1nzxe1RHvsRGHknfTyAsLFeRDPAvqsg=;
-        fh=bA1a/L/uuZ5A2uaYsfc3Fs+VO2hiQ7f93yQ0Xca+bOQ=;
-        b=MSlVh03nyQbI05HBjGyGa4ihAWAGUZGA3DA0ha6lgvuYGg9Q8HhC78FLaelEokP+Zu
-         kMThQXJ/Q9ZbQfBEerDNrwav2ke2R26QeuY1jRfAhL2dP+v67rv5SdMLfMJee/QUM4TS
-         dAD0FSw38T10kdCj4imWL+B0LJYs4dsnZI4HgRi3vtS/yPq/Pg/24hDwgPv+WJ+Cxtjr
-         Tcsp0UieFX2alc5jhbNRIU4MRB0eCMIFx9i7xFhtYL60P5JW7i9VZhrFpKf4/VIjdYKS
-         tHwT3CtzXML17RxcVFEtqmE/xohQFMCj11EeSHQzEj29+ApHYvtrHmJTJwr1ZVmQ6hGW
-         phUQ==;
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :content-language:in-reply-to:mime-version:user-agent:date
+         :message-id:from:references:cc:to:subject:sender:dkim-signature;
+        bh=t6TUvayOgDdj5GsFHQyMbyAnuhWx6iL20wy74IiDKow=;
+        fh=6SsxxS5ma9mPHDQe+eqnWWvSIKiCl1Cf0wiR+jl2xn8=;
+        b=B4MtFEzbgUTQyT44q5wENTeafF3BkcmC5f2cduQyrSR0B8SqdI55WdEYzFa51hC0Aq
+         3hTRsmH++iK2X/EiHQ/rXbr+O2eyzNSqgi2YWsSmTj09xO/0RCqa2s5Sok6HHH3zPrXx
+         BCMYbiHG7+9IEckQ78twiSvKSRQnNX8Wj1ZjkrEgcZkC6IJXL5MD9QZOxXnLahEkpqLb
+         480pk1D76BlQgGtPLEkHbvLdSZhdAKa+YxFpNBek/sGIdFhgzb/0wSs/C/eCy0OuCy9/
+         Rjp7KfOv3bnWlmnV0lDpGtkDbRCz1+g+WOJ6VZvf/xR1e/NCqUuTt1an4T8ZOXjKdz3R
+         OZ+A==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=KzprbEYD;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+       spf=pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=maobibo@loongson.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1730332076; x=1730936876; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1730336926; x=1730941726; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xw0JtHBQDM0T1nzxe1RHvsRGHknfTyAsLFeRDPAvqsg=;
-        b=iEJOldn8qvBUkcQI0kUfsWbMa6JbEalwZnlSLieM0OsPBb0M7NykGkjz7/HGpcOgaL
-         gHqeLdHva5LplefGuj2wQJS0W+v7tjUFiObP1IuOXdVEXU9k/n9JcxkPiWOgvujt0RkZ
-         CQK9XrdYRdNMJRyeS36iI8xvBOSPmxzMCNI5brp4AUagt2EZoufbG90dn6vWBv56Q16b
-         DVN+WlZVE5SDDVmIXuqu+iGUcb4ebTI/FI2Wl55WYtzMMJhAwl3tpkiGtQ8INwIGGj5b
-         i8kPzu78fEoB+HQ5S4DIvojrIdRFzxrxouI1U8KsUYMF63gGM7N/tu2VrIe9Ln7xalGg
-         urew==
+         :x-original-sender:content-transfer-encoding:content-language
+         :in-reply-to:mime-version:user-agent:date:message-id:from:references
+         :cc:to:subject:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=t6TUvayOgDdj5GsFHQyMbyAnuhWx6iL20wy74IiDKow=;
+        b=pkXsl9A11xek4fGXckXfJ4VbY/BmIvBY5C5PXzZp1CVDdRRdXAixubvV5eKAwbLbIJ
+         /HoLQ0gobuRhpsqf16fJQFSHuswT+//cI/V+TA85nswNUPFuX4FRlfQM2f3mZp2Fq900
+         oHDEOwOeASoXK/b7vQyM424R/A1nzUB65P3AHTPWvbC0cU5zRNEXRfVHQSIey7ei5Mkd
+         E4E+QJrZwd9BvfTVjFpjyaPQCDq6SYoaMmNLVYfJjSiTLHeXafiO29ylUtST7S8kuB05
+         GvkqTDofwxdQuEUXPRJj8TMv+uNIOS6o7JN3XXQ72ZSsB702hmDeg6qvWn3B0/dyx3KI
+         iQWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730332076; x=1730936876;
+        d=1e100.net; s=20230601; t=1730336926; x=1730941726;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:subject:cc:to:from:date
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xw0JtHBQDM0T1nzxe1RHvsRGHknfTyAsLFeRDPAvqsg=;
-        b=wflt+EEPjlUpXrzIuOgOcuUzoJAq9iwy0fYYRJBmvkzysdub68+7jZsvcgPRE9Yq77
-         DRb7XsDRDDN+Su8zafoEC5ze03kBZbuuit90pwWnGDEi9XB56nfimZjJW0XPnOGof3gA
-         WgrgvtDZ0CGzZAHseBtwkJ1x56ThfcbsNupEBy9IovFPlMxxKh52iPDvJMTIOS/Ybu01
-         +s2SlOS5j/ZExRbnGd+iZBmJv1Oc6mLy18DwHctz9MFTRmjL8vCR5fM4x3XLkKHCbSc0
-         vI/BTkdvbZb7PQQmatUK9bWge1fjzjkUhGKahmoNX4G9+5QL2JQTXE14AnVKZ8bJdw47
-         dZwg==
+        bh=t6TUvayOgDdj5GsFHQyMbyAnuhWx6iL20wy74IiDKow=;
+        b=mdXj7qGEnGHrFCjeIa1LXrsI5ARB4QHSvaUQeordwz91ZVCNQ66yX9FpMko1lUTAn+
+         7ffgmYxSPiajcOhjk6yr0STkGVcBNlenL3cTjbRRrKwEQ6aEEblquD9uQM4gpIbDxnRV
+         V0CABTUsELFGF/vN83isRS5dFnlzAm/I5enHB1SLALuGWdXnpl1YqE+x7YMyVmLXPVly
+         POWzlKC0Kzh7wJRHeA67ukSDEIUJz0BvX+lDo2gqcjQi+XUMD4pw64s9l+qi3oslfK8N
+         hY0liCX7wPslFAn1tIaPj6807YkKJMNw59IE10PAlRalokVUbb0wvR10IkQqtRXA2uuO
+         O0rQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXFSDh9UEFXIbEdvdtJ2MQP+aJXBWNyRspQlL7ldLfIDibw1XIOhptoYzDEnRkbG3inIreLjQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yy+UjizGfOxcAgEHvvjHhaEbcctRj3JTq/yOZPWLpSmhbGVjRGg
-	njehTRr9+GwSWtPSjHjqypGt9WsafQ7UXyG5B58JA6b4mIjs/MNQ
-X-Google-Smtp-Source: AGHT+IEXbE7Jwzcp2jum64k5mWu7X2e43QTbsYo9vM88tcCWb8D9JGkvMkt1GnYoL7l/k9nVoVH16g==
-X-Received: by 2002:a05:6e02:3886:b0:3a3:a639:a594 with SMTP id e9e14a558f8ab-3a6a94a162dmr3548465ab.4.1730332076653;
-        Wed, 30 Oct 2024 16:47:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCX1bZnXzNWZGOA+jewBPQFMz99/+L4wOvpuF6y6VGUTwulpvHFYMxGgGMZZz49xmp9ldxnZww==@lfdr.de
+X-Gm-Message-State: AOJu0Yz894n+pfp08qtwShEG8EEDwUih0Rj4JgfcCQxoEX+YuczBUkSt
+	/u1nO3bPJvalhp5QCIAMdg2PCKuEREOPjwbeq3aMfm9PIBCxxmxy
+X-Google-Smtp-Source: AGHT+IGZVG8nxobpxSRE9OIvEFiX5n26gWIPOmnByh3yildIh1FS+huN0btyT5B0N7B+kpCeg1QEDw==
+X-Received: by 2002:a17:90a:9e3:b0:2e2:b6c2:2ae with SMTP id 98e67ed59e1d1-2e8f11d5677mr19426629a91.36.1730336925711;
+        Wed, 30 Oct 2024 18:08:45 -0700 (PDT)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6e02:1d95:b0:3a4:ed5d:5799 with SMTP id
- e9e14a558f8ab-3a62810099cls1958065ab.1.-pod-prod-00-us; Wed, 30 Oct 2024
- 16:47:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCWO/7n59rNl6ezYSPB2IMSBufFWs+mTUqtPtFv4bIzTbzpZaHItxRIjm9ZNPFSdMWGh3MZQ1OFFUOU=@googlegroups.com
-X-Received: by 2002:a92:d20b:0:b0:3a0:8e7c:b4ae with SMTP id e9e14a558f8ab-3a6a947d85fmr3333255ab.2.1730332075705;
-        Wed, 30 Oct 2024 16:47:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1730332075; cv=none;
+Received: by 2002:a17:90b:4b09:b0:2cb:5bad:6b1a with SMTP id
+ 98e67ed59e1d1-2e93abf5832ls432792a91.0.-pod-prod-05-us; Wed, 30 Oct 2024
+ 18:08:44 -0700 (PDT)
+X-Forwarded-Encrypted: i=2; AJvYcCXZwKuf5V1sYmh1ssFhOCYUF0iQOqMZjXSU5GfsopyxNlSMdLI4XzXjdy5PFjYsSVbqUAjqM7czKSA=@googlegroups.com
+X-Received: by 2002:a17:90a:6b0f:b0:2e2:de27:db08 with SMTP id 98e67ed59e1d1-2e8f1082165mr20001550a91.23.1730336924434;
+        Wed, 30 Oct 2024 18:08:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1730336924; cv=none;
         d=google.com; s=arc-20240605;
-        b=hN+nTM+2C+cdJwEDwO81dwQnVnXBloI3HTvMwH3OSR65p7ZiirlB0C840oLXOWnoos
-         9CL/0OeNXFNz5HInd63c+wzhMemZ4WKrYQyYvsd37EKjJict02XAc1yf/UeLM701jxbx
-         aa4Uclbs2SA7xOe/6EW4F0FsZscQ3Ae+JJdkAKiRRocHhlsBqG7NECzSGmgEG+2fmF++
-         B9UKvr/ZEI5XuYij63ZdjuJLPtKRVpVRZAee9VNOirrQfNNhcS08eFxPVHFAnJc63DS9
-         XBuUjL5mQseqEzuNZmp1P7cpsBrdGwhYnQfm1aDAPckVAsf/zDFrsHpUkvwYuE5AakRw
-         pgsg==
+        b=bzyeREFZmjuyWLJrm00R0qYrWKcNyctENAW7/5hISGZPdvhRt6ugYPl3qpM0BEYiSA
+         OVjhqAWP9XNLfshVXt8HtED7t0WHIQJd8+UPWcZbGKph98FIAaPboBVQBfN4BNEu0CKN
+         kYF3h+KUTqD5t4UzsPDR61AmrQT7FJ3J6yt4vE6RTSbZc4LZNtcO5McKjt9CtnlXz35J
+         342ciKuF5WmamGUgj5ZeL/gxzxMGf5bm2pJoJVXY7CNePIWdN57dDaL+G7UqPo8WrXxG
+         5MBYTdgIPWW3Lvpdd15gi+qh7d0dCUrTU4bvFujqu/zUCNT8Wrj//3AkheALJK5MckZz
+         +Y1Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=G0KDOwoeGJMZbo/sAlYkGuX50FK2j+D0LW0wEHv64gI=;
-        fh=tq4C/5C3DCcfJogqErcqTJcwqyqbt+p840LBzh6Y+ys=;
-        b=Cle4IfWiGH7wtuloqatCuH3eLpDpluzP0vVIzDSOcf8ny++3Kt5U4F3R2WJRDPl0mz
-         5BhQuppZoWfxNqTHrBbGZC8+n9b/RbmfzC99Aczm6s1gvI1U3ww4yX1NW2OgIdVctfVu
-         NB1SbsC9FyOawxuFruVBKNiPA1urS2bFZIAzJrzLvUuxa4O5L+G7wwUJ1c/ZV2dHvOr0
-         Pa/PfYjojBoEL0sEjLUh3Llzxm2kYk8+r8NigwO9mkLfnY5DmPODAfq/LSuckOONC/9q
-         6yt2QGEz1Wv9+zr2hZZwV1OdwDKvFPTlVVN6VsGoP6zGWU/ouEudW+LmbTtuen7O5r1S
-         8F2w==;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject;
+        bh=U2satVl/EjUt6b8eaeOcoyCBMnxPkPLjVdch8TDZcEA=;
+        fh=5xgLpFcXZ4hTOkdNAXGqgT6NYQAC4Yqjwqix8eJpci8=;
+        b=cjYZsCJFbIX3G3a+24qB0reWu6P3yONt2yoLuywmpTsqKQkZgoSQbm6dvaur1U0+8K
+         EESs2z+mm3zf9FTdKQNLBd7/NHzLv4W8n6hHstoqeQcwY7DJlzUUkTi9vQYjBoFJ3pFD
+         CnSdxSe+5BW3AsPVlfDBB698Gr6yWSm3XX0OuDQ9hVVHFQeVfDlBZTyDQ1ZSiGDiCUy9
+         ahqB1QLEfUN9bh4QU3p3wCXG76wE0NfwyfkaEMmYBvqlccalVcVCgmKbkUM6l6xZ5etw
+         ziKehOlwD5YKWT3hqAJvtTWzCeEmlDKfO546T8XLOJpcnMIkZRItkIfdEH7eUGvlqOfG
+         vCeQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linux-foundation.org header.s=korg header.b=KzprbEYD;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org. [147.75.193.91])
-        by gmr-mx.google.com with ESMTPS id e9e14a558f8ab-3a6a9a29397si82635ab.3.2024.10.30.16.47.55
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2024 16:47:55 -0700 (PDT)
-Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 147.75.193.91 as permitted sender) client-ip=147.75.193.91;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 2CE42A437DF;
-	Wed, 30 Oct 2024 23:45:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0C40C4E68E;
-	Wed, 30 Oct 2024 23:41:23 +0000 (UTC)
-Date: Wed, 30 Oct 2024 16:41:23 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Bibo Mao <maobibo@loongson.cn>
-Cc: Huacai Chen <chenhuacai@kernel.org>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-mm@kvack.org, kasan-dev@googlegroups.com,
- Alexander Potapenko <glider@google.com>, Andrey Konovalov
- <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo
- Frascino <vincenzo.frascino@arm.com>, WANG Xuerui <kernel@xen0n.name>
+       spf=pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) smtp.mailfrom=maobibo@loongson.cn
+Received: from mail.loongson.cn (mail.loongson.cn. [114.242.206.163])
+        by gmr-mx.google.com with ESMTP id 98e67ed59e1d1-2e9201995fbsi424189a91.0.2024.10.30.18.08.43
+        for <kasan-dev@googlegroups.com>;
+        Wed, 30 Oct 2024 18:08:44 -0700 (PDT)
+Received-SPF: pass (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as permitted sender) client-ip=114.242.206.163;
+Received: from loongson.cn (unknown [10.20.42.62])
+	by gateway (Coremail) with SMTP id _____8DxDeOZ2CJn2t4fAA--.65262S3;
+	Thu, 31 Oct 2024 09:08:41 +0800 (CST)
+Received: from [10.20.42.62] (unknown [10.20.42.62])
+	by front1 (Coremail) with SMTP id qMiowMAxreCX2CJn3b8rAA--.6898S3;
+	Thu, 31 Oct 2024 09:08:41 +0800 (CST)
 Subject: Re: [PATCH v2] mm: define general function pXd_init()
-Message-Id: <20241030164123.ff63a1c0e7666ad1a4f8944e@linux-foundation.org>
-In-Reply-To: <20241030063905.2434824-1-maobibo@loongson.cn>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>, loongarch@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-mm@kvack.org, kasan-dev@googlegroups.com,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Vincenzo Frascino <vincenzo.frascino@arm.com>,
+ WANG Xuerui <kernel@xen0n.name>
 References: <20241030063905.2434824-1-maobibo@loongson.cn>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: akpm@linux-foundation.org
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linux-foundation.org header.s=korg header.b=KzprbEYD;
-       spf=pass (google.com: domain of akpm@linux-foundation.org designates
- 147.75.193.91 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+ <20241030164123.ff63a1c0e7666ad1a4f8944e@linux-foundation.org>
+From: maobibo <maobibo@loongson.cn>
+Message-ID: <836c4d86-3b93-06fc-8ac1-6f636a244753@loongson.cn>
+Date: Thu, 31 Oct 2024 09:08:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <20241030164123.ff63a1c0e7666ad1a4f8944e@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-CM-TRANSID: qMiowMAxreCX2CJn3b8rAA--.6898S3
+X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBj9xXoWrKry7ZrykuF13CF18Cry5KFX_yoWfXFg_W3
+	Z7Zws5u3ykGay2gFWqkry5Cr4UGayrJF4vyw1UWr92k3s3tr45Jws0gFyfXrs09Fs2vr9x
+	uayvvan8Zrn8WosvyTuYvTs0mTUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvT
+	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
+	cSsGvfJTRUUUbxxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
+	vaj40_Wr0E3s1l1IIY67AEw4v_Jrv_JF1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8
+	JVW8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27wAqx4
+	xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v2
+	6r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1cAE67
+	vIY487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
+	wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
+	0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AK
+	xVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr
+	1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU7_MaUUUU
+	U
+X-Original-Sender: maobibo@loongson.cn
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of maobibo@loongson.cn designates 114.242.206.163 as
+ permitted sender) smtp.mailfrom=maobibo@loongson.cn
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,31 +165,42 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 30 Oct 2024 14:39:05 +0800 Bibo Mao <maobibo@loongson.cn> wrote:
-
-> --- a/arch/loongarch/include/asm/pgtable.h
-> +++ b/arch/loongarch/include/asm/pgtable.h
-> @@ -267,8 +267,11 @@ extern void set_pmd_at(struct mm_struct *mm, unsigned long addr, pmd_t *pmdp, pm
->   * Initialize a new pgd / pud / pmd table with invalid pointers.
->   */
->  extern void pgd_init(void *addr);
-> +#define pud_init pud_init
->  extern void pud_init(void *addr);
-> +#define pmd_init pmd_init
->  extern void pmd_init(void *addr);
-> +#define kernel_pte_init kernel_pte_init
->  extern void kernel_pte_init(void *addr);
-
-Nitlet: don't we usually put the #define *after* the definition?
-
-void foo(void);
-#define foo() foo()
-
-?
 
 
+On 2024/10/31 =E4=B8=8A=E5=8D=887:41, Andrew Morton wrote:
+> On Wed, 30 Oct 2024 14:39:05 +0800 Bibo Mao <maobibo@loongson.cn> wrote:
+>=20
+>> --- a/arch/loongarch/include/asm/pgtable.h
+>> +++ b/arch/loongarch/include/asm/pgtable.h
+>> @@ -267,8 +267,11 @@ extern void set_pmd_at(struct mm_struct *mm, unsign=
+ed long addr, pmd_t *pmdp, pm
+>>    * Initialize a new pgd / pud / pmd table with invalid pointers.
+>>    */
+>>   extern void pgd_init(void *addr);
+>> +#define pud_init pud_init
+>>   extern void pud_init(void *addr);
+>> +#define pmd_init pmd_init
+>>   extern void pmd_init(void *addr);
+>> +#define kernel_pte_init kernel_pte_init
+>>   extern void kernel_pte_init(void *addr);
+>=20
+> Nitlet: don't we usually put the #define *after* the definition?
+>=20
+> void foo(void);
+> #define foo() foo()
+yes, it should be so. Will modify it in next version.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20241030164123.ff63a1c0e7666ad1a4f8944e%40linux-foundation.org.
+Regards
+Bibo Mao
+>=20
+> ?
+>=20
+>=20
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/8=
+36c4d86-3b93-06fc-8ac1-6f636a244753%40loongson.cn.
