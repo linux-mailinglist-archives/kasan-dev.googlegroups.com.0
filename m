@@ -1,174 +1,119 @@
-Return-Path: <kasan-dev+bncBC6LHPWNU4DBBDO7TO4QMGQE2B7BKLA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCS4VDMYRUNBBUFBT24QMGQEWDFJNZY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x37.google.com (mail-oa1-x37.google.com [IPv6:2001:4860:4864:20::37])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94AC39BA3C6
-	for <lists+kasan-dev@lfdr.de>; Sun,  3 Nov 2024 04:35:43 +0100 (CET)
-Received: by mail-oa1-x37.google.com with SMTP id 586e51a60fabf-2883d08e5f8sf2925522fac.1
-        for <lists+kasan-dev@lfdr.de>; Sat, 02 Nov 2024 20:35:43 -0700 (PDT)
-ARC-Seal: i=2; a=rsa-sha256; t=1730604942; cv=pass;
+Received: from mail-pl1-x638.google.com (mail-pl1-x638.google.com [IPv6:2607:f8b0:4864:20::638])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD8A69BA63A
+	for <lists+kasan-dev@lfdr.de>; Sun,  3 Nov 2024 16:03:46 +0100 (CET)
+Received: by mail-pl1-x638.google.com with SMTP id d9443c01a7336-2112b3f4338sf22077195ad.1
+        for <lists+kasan-dev@lfdr.de>; Sun, 03 Nov 2024 07:03:46 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1730646225; cv=pass;
         d=google.com; s=arc-20240605;
-        b=LJ3fF4dH6+zmCksjFWBxvf4UlJK3Hjb+3iAjdH2ouRqq8zo+rsKYoXjh9ngCV4/kqm
-         g4layp0P01JQIjJ20XfGkqvMYk6xsfCB1X3Xqr7KUK+s8P+pwenIS9ONO6+xH1rbm5oQ
-         nZnkjAcuOHOd41k04zMOsvtWWUOTeKOUb6K8Xr0YSaCDpKGAN8F/r6tMAzUbYk2Ky7CE
-         DXR8z9TRKVFICrNW0BHuLs6vvK7Eg7hVVqRVsYBwKP9U6J8nRzWf+qjlgf0i4nEQeXcM
-         1FlaKMkXPhvmDlZYJBTBDVZ6YZezATqUWkYG5nwX+amuNAabT4yhAIq8+q6H+YegfLGu
-         r3eg==
+        b=ajC6ibumCy81JXpWTf/IVzqvpJdLT3JEm3H65KPQKl3Y7S34LclW7SnEMgE5R13y/d
+         xsqysyn/XNC/VUlLzeZChk23ioznoSvNis4zLql1CCo8HEptrBP/0E/Kgs33Yu/mWkv9
+         b7VTNFTbHO+zuZmofVdaNAF60NLG8A+O0JYR+mehAk9yMQyF6P3ZSr5Z3/7dTf7JwZ1q
+         rUccbPlBpil760RSYDp7URTRofsqfMz7LZ2IrRs3d8olpQMCQcvbg18bJDgBRUvaQ9zb
+         pcU+vSHC/y5gxhihUbTPeLfZJi8RIEIKcddeVEXr3qwcH6AJ9DCpPUDT3lm2xkB7Z+xk
+         POCQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :feedback-id:sender:dkim-signature:dkim-signature;
-        bh=SL4sLZEdk9EYR8LCUYvT/xb3nv53QOZUQzwN+ZfKiuU=;
-        fh=CbgutRGM92fQ/e5kKtskXLEN9znWK9EowkGlvZNujVk=;
-        b=DA+QUTsvJscsSGqEYUZS4+W6O1tlVPtghN3y+4QxIW61acI/urnI2pYkHTa3BaRbLm
-         dz2KmM0x7pONeEv/Zj1UtaM/pU3snajdiyasoa111n/2S9wzG9IjCgwyZVv9bkmW4AwE
-         f27Fa5aCaQGUwKM5ejjrrqEQ1IB2xNFiTDBH98DN6meH0wQdqxweqSv4Xxa70rN37j7N
-         6udrWEvFxd2EiHptUShpaYXXxRpdLPwWa0JZNRdUVXdBUy75jtNRbdLaXuqweLQmnYa+
-         i1oBfgEBFoDn6N+9aQ+NQEvPMOTqa8CSGM+92p75zUFSr1Redb/4XohGa+5DzGUEsL+A
-         6rRQ==;
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=e4K5D0a1qWGOQBWpMUvS2quBSyCu1V0KAdhHz/kQPUw=;
+        fh=AmuIkZNSJZHHfbyrdk/ZQ+5GPXWNZjT4qqIZUz1xB88=;
+        b=ND+hrLKwtWcZLwOw8x6kRexTarZOQAIi9c+l5NAcEdQJh0LJksMa5GVGKXiXggP6RZ
+         M+NxKjomMOtZwG0hEMbtziyvnuTp53j5GhpAwyTgvR1V9A9hbraAs/UirDaeLGGvpOew
+         xZVstAuNhIcfsDxVDiKoBeiH1JIh1b1dHcHRQzKqM0eaAjiKflYOD3CahWLHzTF5hYBE
+         iM14H7JGPyxeNqzcIMnaIcTyccjqsoy+J/4PfVJWdvtAziDEsuHjJX37qBjnrp8G80eQ
+         pH2zuMxnNIzUPm0Ksnz7KI4j16IU1EI3MM/caWWpmF0zlwljOCSJrOx/a3lgoA4AvD61
+         e4zg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=KQPC353q;
-       spf=pass (google.com: domain of boqun.feng@gmail.com designates 2607:f8b0:4864:20::f33 as permitted sender) smtp.mailfrom=boqun.feng@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Qy8gOKmM;
+       spf=pass (google.com: domain of srs0=b2af=r6=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=b2af=R6=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1730604942; x=1731209742; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1730646225; x=1731251025; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:feedback-id:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SL4sLZEdk9EYR8LCUYvT/xb3nv53QOZUQzwN+ZfKiuU=;
-        b=WrxgiMSqoL2P5RDax5I3AmYdVgzZU7TxMCDmbBkK+SPkVJWDgse6q/Y7f6D0RGYVq+
-         JcbaNarS0OOy1EBgs8uANi5jpCWeWGYJlmwJyzKLEA8vnG8zVvnPI0F/toCEbeKnaFp6
-         rawc6te2anBY/e6hTO/80wb8QjollhZ9xFbzqDCd9CbPrvAmmVkavs7biTKedXqkbDOf
-         aGBBU9cuiUE+hgnOidcBQFUVUDCXidZvRId/LMMva8mJfv1ExQO/QdrQYPVH2UcbokfQ
-         FMjEURWIs4snbVaI7xtALzs2aWgQWARmJ3NI85LdMjI6T6ASjONvevYHayPtbnJFj6i3
-         4YDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730604942; x=1731209742; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:feedback-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=SL4sLZEdk9EYR8LCUYvT/xb3nv53QOZUQzwN+ZfKiuU=;
-        b=Fg1iBWcWSn2B/x6VCFRIgPzS4DqFB3YxeUMckFzHmZrWO+I1wheAuVH7nvPWkhTWu2
-         EMFO0NwXeVu0o7BH5fsbZpNVQNnVpNPtv84o8Jj4PWWLbMRO9/yuio3ttHjbjOA82WNj
-         YYazvXIzW1DknsxGOgjwB46elCZf5y8Dl/Gn3K0mkZpXD5htT8/YP1z9RjDT04o5diJ3
-         OKyDc7bVtgIBZYGooeuTd1gJYgII1hZ+sILWeQmMTuV9aqPmSOWbQv6QJCqi8KRYGGf7
-         6QSQoJ6jdkjfqBWJii2Sxlz2LGjtC87riU7JKSIye6+PRubdAPavEoB9ueprcH+6OlDf
-         vw4w==
+         :references:reply-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e4K5D0a1qWGOQBWpMUvS2quBSyCu1V0KAdhHz/kQPUw=;
+        b=hfFsUyoaDWkHU916uM7cmj6YUj4Z76wGz2TiowUWVNSqdfRXIpzQF33QjkxHQdf74E
+         7jTOc8S7Caw3kAl8t6PFCeD2u3O+1yEVyKstxwbdFGO23bCWZVqSkmqco5JqSWNXu6Qo
+         ia0XGxqKFpFTxS8b/Cc6kVxa4ZTfE6kMDyphyS240FpEDnbzrT7HP0qSaLPy/8zvZNer
+         j1H6LyTsDqc+9uzvtD3RCTgzmQHq8oupzLOv1PohW9g3f4O4RDZE1ey/b6Q0+kv9phKd
+         mGeQWDj74Z7j20l6mKs9/cu7nYY5GGglbzSDUrnvTTSJsAMzOHRxWkooSBWmu3PSKeEo
+         NCZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730604942; x=1731209742;
+        d=1e100.net; s=20230601; t=1730646225; x=1731251025;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:feedback-id:x-beenthere:x-gm-message-state:sender:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SL4sLZEdk9EYR8LCUYvT/xb3nv53QOZUQzwN+ZfKiuU=;
-        b=h+CUKk2zn5+IabaRrJqonY3yHzjjz4Q4i0xCYRVzDOwSjP7plmZr22NwCaYcoaQ+Ho
-         QPDNW3n2Xvllrni2jQej/GbzVK9k7t/huQ9OFrjK6Bxeu8qgFQ7xH/vLt5X5DGVAmhl5
-         QPzna4cmzPWW1M6qna5AdT3TJvWNvFlqafu27PBGpwycGRXLrRXFV6kmoesie46I7HBA
-         QdlDEL4S7vz0EJvUKB2eUCtRaaLJElnvo7URss7ffMdwD6tYbIvZUM0gNqIatrkg/TFS
-         UtdzwgH0CeKpzgC5+gal3hH1Y+uFhZOnzf/SEhdm4i1LlR2r4XqYfIhV2KCSFKZBTse1
-         4HuA==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWdpbM4YUQ7PlRPufqkZoqQJg/0F+JuEcHhCwL+AG9KKEh+ACZQFNGFfjrCod2pwSBD4QH7uw==@lfdr.de
-X-Gm-Message-State: AOJu0YwXaS/OHaFaIjMJ7rMtZeKtd2ASXc4r/01rKFb5Cm0pYRyULlcO
-	2jHAU0SZ5P8GxkcOpQT+B2I7He18TjBM9Xhg6f6FpFdqAoAXPiaB
-X-Google-Smtp-Source: AGHT+IEcWFSv5UBVrgySv7/UFOUNVIP5kun/7UF25nk/pIuLssoqKGFb5PiItSiDxzJAkkm3SRu/kQ==
-X-Received: by 2002:a05:6870:fbaa:b0:277:f09f:9eb7 with SMTP id 586e51a60fabf-2949cfda7bbmr5188104fac.7.1730604941806;
-        Sat, 02 Nov 2024 20:35:41 -0700 (PDT)
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e4K5D0a1qWGOQBWpMUvS2quBSyCu1V0KAdhHz/kQPUw=;
+        b=huyss0CtI4SDAt5X2jlC0I5NiDu9BMa8glFpv5o+Eqecbf/NP33kwTZPLDa8WI8Jg+
+         FWBo+efxm0zb2kboqZ6+7BJGVXPq42AwQNWxXpIlWJBsyYsipSmNF/JvEbVVgL9U1LBf
+         de88gaJ4eE6b6ZKu3vDaInRLdGGdBR65xWkjhpgY9GqjZ80nSFgmv12Mm/8MMNeWyAyo
+         MPJE4GiblSPzg3AVtJiiwSDwo+wCEOUrVHvNXKtEUi1J5Egy3KUB+UDqyWJnJV1vWxZN
+         09DtaBR+DE9OlX+M5Iue4aVjczFniLiaaR6660JQiNsXntIU6RyAZ+ZQSRPS7bkVN1di
+         b1ag==
+X-Forwarded-Encrypted: i=2; AJvYcCUnlFUhFjxup+HQoX3omc4PN9KsPPdhLx+CqCjC6gtJhz8X22kjFvViFmRF2CMYkmeJtFm7OQ==@lfdr.de
+X-Gm-Message-State: AOJu0Yx+ibklwGyZgwrVVOFuqFtKLMG+FE7BiWox03jX+HMB5XH+myB7
+	DvEUemwzwO3TEmPMywGj3lwNK89B3/1HT8JQCg3pQT9/zpR3xm2m
+X-Google-Smtp-Source: AGHT+IHu+VndyM7NiQGnQr8poRUc4NyAvy9ptdSQVa+LwbVWxF2n+uM6Dyg3M9HwZ/If1C6F0K+U2g==
+X-Received: by 2002:a17:90b:1c8d:b0:2e2:bd32:f60 with SMTP id 98e67ed59e1d1-2e94c5175e1mr13909014a91.32.1730646224374;
+        Sun, 03 Nov 2024 07:03:44 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:1689:b0:289:3280:70fd with SMTP id
- 586e51a60fabf-294827fceafls2408fac.2.-pod-prod-00-us; Sat, 02 Nov 2024
- 20:35:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=2; AJvYcCUEOiLGbKWiG+qAV1ggys+CNZgWe4T+sbqHY1j1FZOX2aoyw+6CfptygsZCkOVXN/bw4kDqWuh00h4=@googlegroups.com
-X-Received: by 2002:a05:6870:781a:b0:265:b32b:c465 with SMTP id 586e51a60fabf-2949cff585cmr5277368fac.9.1730604940859;
-        Sat, 02 Nov 2024 20:35:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1730604940; cv=none;
+Received: by 2002:a17:90b:1c08:b0:2e2:c421:c3e with SMTP id
+ 98e67ed59e1d1-2e93b13bae5ls869458a91.2.-pod-prod-05-us; Sun, 03 Nov 2024
+ 07:03:43 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVjhG66WrMO22BRnNhbuXSdlruIsJ6vmbkrYpW3sC4+te28quMNj8vRMmLKOD5lhwjH4DDZmN2qNW8=@googlegroups.com
+X-Received: by 2002:a17:90b:1d0d:b0:2e2:b513:d534 with SMTP id 98e67ed59e1d1-2e94c533121mr14707217a91.37.1730646222801;
+        Sun, 03 Nov 2024 07:03:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1730646222; cv=none;
         d=google.com; s=arc-20240605;
-        b=hyOdmsclx3WMk7b+GUofrvaE6/VN6X573OC6GAnbk8Uxbii1a100ADWNgVa6R4EDC7
-         6JhtBmrF3MgVdAvw16l4oD8zw9C7ZIvEvR8SJLP6bQlUOLIaheOFXDXf++gISCBVkwQp
-         SPaUvtxovCDlOCKia7g3wrmP/LAcMBBwZBdOBdRxBTus+yRfAkD+HWjrypW2wf4sYgbA
-         wisECOtCgUixkroLiXsLSACieSevhAGLl7MlEkIYCAha5TxizXt3lcfjPxj9KYZiS6br
-         jwLa1dfmDZa2gON1bpFHXSibhDOLrlUWpHDNicNB6MOmfAlw03VOI7/dHJ/EwRf8q1D2
-         0kGw==
+        b=FJraDxD/slW770pC3+N8aZGmKPFdroIZbxVDNNzmOPyQ4CBdgxCMedyMTfCziqyZkg
+         b/UG92FYpzNJ9S++5SkIVf3grYBlK0I7DQpbgqhPoKJGX3MDE1wpqT7rA2TCRzLfqwzV
+         a7js9NlQv1MtaHzEORT/okTydYJ8A6Emmx/w0dn2cr8JMD7j0DvZD0w3EMxXCccGyh8f
+         JS3OjUvWkoaPBQGq7LYSumlqQGrMG7kuKCh61ncGuEHlqTEyPaWNS9HgS402eZBhtjg0
+         fH8da9rV6iRIPstQNNFON0vFHhEc8X8DUTLPd2RYw4fPQWzYE1UrC1YWnxOwaFkdwIFV
+         npWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:dkim-signature;
-        bh=7Urc9Z86LcjyqhCcm6H0VVQdu+SdtQEzmvHdA+i0O10=;
-        fh=q8xkXcbPj82Qfxg9I/o70ab+B4PMe6sSMIno7/BNO6s=;
-        b=LC1UxK10sG7aof2q/MVAPPVhi367n5B+ZqV53LfS/NiJFOA1v2/sLC2Zgj6AcCZ9+V
-         6t7pI9Fdp7NLCuND/Yyr7oHM+S7buoeI/Nje6n1psJDnrSHuPqrYsboIppBCPn4IH0hT
-         vrA/lKrNIu2DZJK+9S0wGvT7Pg++uZDCer61gkVCFH2Z5oRz7lIm0l6X6stgCVLWHRxe
-         QzyxxI2F0tFnzJTW19/UrLTYDCliOOngW3vA2PXWlCsckSXGbDzfUCXU8LWYtXDZupp4
-         XDVOB6rrI8hFNAIlwC+zUWD0OpX3ehnOC7RBiqULAJjPUHX9iBdMi26k56YkKbsUX8Fm
-         8gkg==;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=IadLORJd8TUnpt493OKxzjK06ithZB89GPZehVhaZiY=;
+        fh=sgMI7tmNu/xPld+3m5xVJvRQdKiIcc7Lsrt9++K6A78=;
+        b=RWyLQk1PKa1G5gqPZ4oAKuxJ6Kri2Ov8XxUR1m4BYrZPJEGwhMoYLGDr9BG0N5jdSl
+         oPJvYBhYUhHScy/uagC4FtbfI1KTaRbKNOtpiDivDbIN6vnk5VN34N6YV+81qB0vlpdz
+         9j4JQtPwVHWoU/I66VWXQUXeHFbowybSAb74r5qV/wazm0ep6WLZ5Z/tisqE/Jah69pS
+         ero/6mHn4wkHJfxm4RvZrWviggaglycnQphp9gJmRcqrbi0fDegHSRDWuyyEDwIp+jDn
+         a4RPKsjvttB+qa4qBU8tWRccEsdqkWP1chJgukvEXs+rpw+iflznKypv4QJuwTNclAch
+         EJSQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=KQPC353q;
-       spf=pass (google.com: domain of boqun.feng@gmail.com designates 2607:f8b0:4864:20::f33 as permitted sender) smtp.mailfrom=boqun.feng@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com. [2607:f8b0:4864:20::f33])
-        by gmr-mx.google.com with ESMTPS id 46e09a7af769-7189ccf7dc6si258529a34.5.2024.11.02.20.35.40
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Qy8gOKmM;
+       spf=pass (google.com: domain of srs0=b2af=r6=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=b2af=R6=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-2e93d93ab44si310349a91.0.2024.11.03.07.03.42
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 Nov 2024 20:35:40 -0700 (PDT)
-Received-SPF: pass (google.com: domain of boqun.feng@gmail.com designates 2607:f8b0:4864:20::f33 as permitted sender) client-ip=2607:f8b0:4864:20::f33;
-Received: by mail-qv1-xf33.google.com with SMTP id 6a1803df08f44-6cbd57cc35bso36217416d6.1
-        for <kasan-dev@googlegroups.com>; Sat, 02 Nov 2024 20:35:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX9mP4ezIYK1G4GNwYRk7y/h2OXqXKxI8PeAM5xVGSzUpdt7yBQuGpiyuLpXT8E3hFqCMg2VDvCmKM=@googlegroups.com
-X-Received: by 2002:a05:6214:5d0e:b0:6d1:9f1b:b669 with SMTP id 6a1803df08f44-6d3542eddbbmr200542976d6.15.1730604939972;
-        Sat, 02 Nov 2024 20:35:39 -0700 (PDT)
-Received: from fauth-a2-smtp.messagingengine.com (fauth-a2-smtp.messagingengine.com. [103.168.172.201])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b2f3a718bbsm309375385a.87.2024.11.02.20.35.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Nov 2024 20:35:39 -0700 (PDT)
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 89A4F1200076;
-	Sat,  2 Nov 2024 23:35:38 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Sat, 02 Nov 2024 23:35:38 -0400
-X-ME-Sender: <xms:iu8mZ9g9xRAqgpSsuv468xIJ18NCxzL5b6y2mLAeCASem1XW6oZEvA>
-    <xme:iu8mZyCBofRgAjDFqnIdvWgwDOLWr8q1TJKTkNntMuO6Rz421sRc1cJjrtTxyZpdK
-    F6VeRxhHtLSoXfBzw>
-X-ME-Received: <xmr:iu8mZ9ESpwMuCl-pTWTfpIAjWjHl5PzKT0TnWmdNt3_7yz1UzzRSaeOU7hs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdelvddgheekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
-    ucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrd
-    gtohhmqeenucggtffrrghtthgvrhhnpefhtedvgfdtueekvdekieetieetjeeihedvteeh
-    uddujedvkedtkeefgedvvdehtdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuve
-    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdo
-    mhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedtieegqddujeejke
-    ehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgr
-    mhgvpdhnsggprhgtphhtthhopedukedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoh
-    epphgruhhlmhgtkheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepsghighgvrghshies
-    lhhinhhuthhrohhnihigrdguvgdprhgtphhtthhopehvsggrsghkrgesshhushgvrdgtii
-    dprhgtphhtthhopegvlhhvvghrsehgohhoghhlvgdrtghomhdprhgtphhtthhopehlihhn
-    uhigqdhnvgigthesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuh
-    igqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrghs
-    rghnqdguvghvsehgohhoghhlvghgrhhouhhpshdrtghomhdprhgtphhtthhopehlihhnuh
-    igqdhmmheskhhvrggtkhdrohhrghdprhgtphhtthhopehsfhhrsegtrghnsgdrrghuuhhg
-    rdhorhhgrdgruh
-X-ME-Proxy: <xmx:iu8mZyQ1moQKIgbQ5C7gBiQUMnsFQjOHesl3UO3wY02XC8g7xxxk0A>
-    <xmx:iu8mZ6y82nLjVDUhjZjyoVrhkf_8ZVHbfL0lpUtQHFer8UTchH6fPw>
-    <xmx:iu8mZ455GwRqIxBQlyCoTo9iVl2kjeDonsPd0hBGe3_LMmoaQYz4wg>
-    <xmx:iu8mZ_zmbRQkGqS8hxvRnfLnU4jUeoU1M-MF3u4SVsW_6yH7ZMQJzg>
-    <xmx:iu8mZyiOUvEEIEqpkifvVtnQalduFxGP0MgorsiFo2_fLE7n8y_nqzZ3>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 2 Nov 2024 23:35:37 -0400 (EDT)
-Date: Sat, 2 Nov 2024 20:35:36 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: "Paul E. McKenney" <paulmck@kernel.org>
+        Sun, 03 Nov 2024 07:03:42 -0800 (PST)
+Received-SPF: pass (google.com: domain of srs0=b2af=r6=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 4F9705C4A0F;
+	Sun,  3 Nov 2024 15:02:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB12EC4CECD;
+	Sun,  3 Nov 2024 15:03:41 +0000 (UTC)
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 6454ECE0F53; Sun,  3 Nov 2024 07:03:41 -0800 (PST)
+Date: Sun, 3 Nov 2024 07:03:41 -0800
+From: "'Paul E. McKenney' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Boqun Feng <boqun.feng@gmail.com>
 Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	Vlastimil Babka <vbabka@suse.cz>, Marco Elver <elver@google.com>,
 	linux-next@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -178,20 +123,23 @@ Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
 	akpm@linux-foundation.org, Thomas Gleixner <tglx@linutronix.de>,
 	Peter Zijlstra <peterz@infradead.org>
 Subject: Re: [PATCH] scftorture: Use workqueue to free scf_check
-Message-ID: <ZybviLZqjw_VYg8A@Boquns-Mac-mini.local>
+Message-ID: <88694240-1eea-4f4c-bb7b-80de25f252e7@paulmck-laptop>
+Reply-To: paulmck@kernel.org
 References: <ZyUxBr5Umbc9odcH@boqun-archlinux>
  <20241101195438.1658633-1-boqun.feng@gmail.com>
  <37c2ad76-37d1-44da-9532-65d67e849bba@paulmck-laptop>
+ <ZybviLZqjw_VYg8A@Boquns-Mac-mini.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <37c2ad76-37d1-44da-9532-65d67e849bba@paulmck-laptop>
-X-Original-Sender: boqun.feng@gmail.com
+In-Reply-To: <ZybviLZqjw_VYg8A@Boquns-Mac-mini.local>
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=KQPC353q;       spf=pass
- (google.com: domain of boqun.feng@gmail.com designates 2607:f8b0:4864:20::f33
- as permitted sender) smtp.mailfrom=boqun.feng@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+ header.i=@kernel.org header.s=k20201202 header.b=Qy8gOKmM;       spf=pass
+ (google.com: domain of srs0=b2af=r6=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
+ designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=b2af=R6=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: "Paul E. McKenney" <paulmck@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -204,115 +152,132 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Nov 01, 2024 at 04:35:28PM -0700, Paul E. McKenney wrote:
-> On Fri, Nov 01, 2024 at 12:54:38PM -0700, Boqun Feng wrote:
-> > Paul reported an invalid wait context issue in scftorture catched by
-> > lockdep, and the cause of the issue is because scf_handler() may call
-> > kfree() to free the struct scf_check:
+On Sat, Nov 02, 2024 at 08:35:36PM -0700, Boqun Feng wrote:
+> On Fri, Nov 01, 2024 at 04:35:28PM -0700, Paul E. McKenney wrote:
+> > On Fri, Nov 01, 2024 at 12:54:38PM -0700, Boqun Feng wrote:
+> > > Paul reported an invalid wait context issue in scftorture catched by
+> > > lockdep, and the cause of the issue is because scf_handler() may call
+> > > kfree() to free the struct scf_check:
+> > > 
+> > > 	static void scf_handler(void *scfc_in)
+> > >         {
+> > >         [...]
+> > >                 } else {
+> > >                         kfree(scfcp);
+> > >                 }
+> > >         }
+> > > 
+> > > (call chain anlysis from Marco Elver)
+> > > 
+> > > This is problematic because smp_call_function() uses non-threaded
+> > > interrupt and kfree() may acquire a local_lock which is a sleepable lock
+> > > on RT.
+> > > 
+> > > The general rule is: do not alloc or free memory in non-threaded
+> > > interrupt conntexts.
+> > > 
+> > > A quick fix is to use workqueue to defer the kfree(). However, this is
+> > > OK only because scftorture is test code. In general the users of
+> > > interrupts should avoid giving interrupt handlers the ownership of
+> > > objects, that is, users should handle the lifetime of objects outside
+> > > and interrupt handlers should only hold references to objects.
+> > > 
+> > > Reported-by: "Paul E. McKenney" <paulmck@kernel.org>
+> > > Link: https://lore.kernel.org/lkml/41619255-cdc2-4573-a360-7794fc3614f7@paulmck-laptop/
+> > > Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
 > > 
-> > 	static void scf_handler(void *scfc_in)
-> >         {
-> >         [...]
-> >                 } else {
-> >                         kfree(scfcp);
-> >                 }
-> >         }
+> > Thank you!
 > > 
-> > (call chain anlysis from Marco Elver)
-> > 
-> > This is problematic because smp_call_function() uses non-threaded
-> > interrupt and kfree() may acquire a local_lock which is a sleepable lock
-> > on RT.
-> > 
-> > The general rule is: do not alloc or free memory in non-threaded
-> > interrupt conntexts.
-> > 
-> > A quick fix is to use workqueue to defer the kfree(). However, this is
-> > OK only because scftorture is test code. In general the users of
-> > interrupts should avoid giving interrupt handlers the ownership of
-> > objects, that is, users should handle the lifetime of objects outside
-> > and interrupt handlers should only hold references to objects.
-> > 
-> > Reported-by: "Paul E. McKenney" <paulmck@kernel.org>
-> > Link: https://lore.kernel.org/lkml/41619255-cdc2-4573-a360-7794fc3614f7@paulmck-laptop/
-> > Signed-off-by: Boqun Feng <boqun.feng@gmail.com>
+> > I was worried that putting each kfree() into a separate workqueue handler
+> > would result in freeing not keeping up with allocation for asynchronous
+> > testing (for example, scftorture.weight_single=1), but it seems to be
+> > doing fine in early testing.
 > 
-> Thank you!
+> I shared the same worry, so it's why I added the comments before
+> queue_work() saying it's only OK because it's test code, it's certainly
+> not something recommended for general use.
 > 
-> I was worried that putting each kfree() into a separate workqueue handler
-> would result in freeing not keeping up with allocation for asynchronous
-> testing (for example, scftorture.weight_single=1), but it seems to be
-> doing fine in early testing.
-> 
+> But glad it turns out OK so far for scftorture ;-)
 
-I shared the same worry, so it's why I added the comments before
-queue_work() saying it's only OK because it's test code, it's certainly
-not something recommended for general use.
+That said, I have only tried a couple of memory sizes at 64 CPUs, the
+default (512M), which OOMs both with and without this fix and 7G, which
+is selected by torture.sh, which avoids OOMing either way.  It would be
+interesting to vary the memory provided between those limits and see if
+there is any difference in behavior.
 
-But glad it turns out OK so far for scftorture ;-)
+It avoids OOM at the default 512M at 16 CPUs.
 
-Regards,
-Boqun
+Ah, and I did not check throughput, which might have changed.  A quick
+test on my laptop says that it dropped by almost a factor of two,
+from not quite 1M invocations/s to a bit more than 500K invocations/s.
+So something more efficient does seem in order.  ;-)
 
-> So I have queued this in my -rcu tree for review and further testing.
+tools/testing/selftests/rcutorture/bin/kvm.sh --torture scf --allcpus --configs PREEMPT --duration 30 --bootargs "scftorture.weight_single=1" --trust-make
+
+							Thanx, Paul
+
+> Regards,
+> Boqun
 > 
-> 							Thanx, Paul
-> 
-> > ---
-> >  kernel/scftorture.c | 14 +++++++++++++-
-> >  1 file changed, 13 insertions(+), 1 deletion(-)
+> > So I have queued this in my -rcu tree for review and further testing.
 > > 
-> > diff --git a/kernel/scftorture.c b/kernel/scftorture.c
-> > index 44e83a646264..ab6dcc7c0116 100644
-> > --- a/kernel/scftorture.c
-> > +++ b/kernel/scftorture.c
-> > @@ -127,6 +127,7 @@ static unsigned long scf_sel_totweight;
-> >  
-> >  // Communicate between caller and handler.
-> >  struct scf_check {
-> > +	struct work_struct work;
-> >  	bool scfc_in;
-> >  	bool scfc_out;
-> >  	int scfc_cpu; // -1 for not _single().
-> > @@ -252,6 +253,13 @@ static struct scf_selector *scf_sel_rand(struct torture_random_state *trsp)
-> >  	return &scf_sel_array[0];
-> >  }
-> >  
-> > +static void kfree_scf_check_work(struct work_struct *w)
-> > +{
-> > +	struct scf_check *scfcp = container_of(w, struct scf_check, work);
-> > +
-> > +	kfree(scfcp);
-> > +}
-> > +
-> >  // Update statistics and occasionally burn up mass quantities of CPU time,
-> >  // if told to do so via scftorture.longwait.  Otherwise, occasionally burn
-> >  // a little bit.
-> > @@ -296,7 +304,10 @@ static void scf_handler(void *scfc_in)
-> >  		if (scfcp->scfc_rpc)
-> >  			complete(&scfcp->scfc_completion);
-> >  	} else {
-> > -		kfree(scfcp);
-> > +		// Cannot call kfree() directly, pass it to workqueue. It's OK
-> > +		// only because this is test code, avoid this in real world
-> > +		// usage.
-> > +		queue_work(system_wq, &scfcp->work);
-> >  	}
-> >  }
-> >  
-> > @@ -335,6 +346,7 @@ static void scftorture_invoke_one(struct scf_statistics *scfp, struct torture_ra
-> >  			scfcp->scfc_wait = scfsp->scfs_wait;
-> >  			scfcp->scfc_out = false;
-> >  			scfcp->scfc_rpc = false;
-> > +			INIT_WORK(&scfcp->work, kfree_scf_check_work);
-> >  		}
-> >  	}
-> >  	switch (scfsp->scfs_prim) {
-> > -- 
-> > 2.45.2
+> > 							Thanx, Paul
 > > 
+> > > ---
+> > >  kernel/scftorture.c | 14 +++++++++++++-
+> > >  1 file changed, 13 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/kernel/scftorture.c b/kernel/scftorture.c
+> > > index 44e83a646264..ab6dcc7c0116 100644
+> > > --- a/kernel/scftorture.c
+> > > +++ b/kernel/scftorture.c
+> > > @@ -127,6 +127,7 @@ static unsigned long scf_sel_totweight;
+> > >  
+> > >  // Communicate between caller and handler.
+> > >  struct scf_check {
+> > > +	struct work_struct work;
+> > >  	bool scfc_in;
+> > >  	bool scfc_out;
+> > >  	int scfc_cpu; // -1 for not _single().
+> > > @@ -252,6 +253,13 @@ static struct scf_selector *scf_sel_rand(struct torture_random_state *trsp)
+> > >  	return &scf_sel_array[0];
+> > >  }
+> > >  
+> > > +static void kfree_scf_check_work(struct work_struct *w)
+> > > +{
+> > > +	struct scf_check *scfcp = container_of(w, struct scf_check, work);
+> > > +
+> > > +	kfree(scfcp);
+> > > +}
+> > > +
+> > >  // Update statistics and occasionally burn up mass quantities of CPU time,
+> > >  // if told to do so via scftorture.longwait.  Otherwise, occasionally burn
+> > >  // a little bit.
+> > > @@ -296,7 +304,10 @@ static void scf_handler(void *scfc_in)
+> > >  		if (scfcp->scfc_rpc)
+> > >  			complete(&scfcp->scfc_completion);
+> > >  	} else {
+> > > -		kfree(scfcp);
+> > > +		// Cannot call kfree() directly, pass it to workqueue. It's OK
+> > > +		// only because this is test code, avoid this in real world
+> > > +		// usage.
+> > > +		queue_work(system_wq, &scfcp->work);
+> > >  	}
+> > >  }
+> > >  
+> > > @@ -335,6 +346,7 @@ static void scftorture_invoke_one(struct scf_statistics *scfp, struct torture_ra
+> > >  			scfcp->scfc_wait = scfsp->scfs_wait;
+> > >  			scfcp->scfc_out = false;
+> > >  			scfcp->scfc_rpc = false;
+> > > +			INIT_WORK(&scfcp->work, kfree_scf_check_work);
+> > >  		}
+> > >  	}
+> > >  	switch (scfsp->scfs_prim) {
+> > > -- 
+> > > 2.45.2
+> > > 
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/ZybviLZqjw_VYg8A%40Boquns-Mac-mini.local.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/88694240-1eea-4f4c-bb7b-80de25f252e7%40paulmck-laptop.
