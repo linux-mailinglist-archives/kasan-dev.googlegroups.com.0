@@ -1,136 +1,136 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBFPIUO4QMGQEUQYEOYQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBBGHIUO4QMGQE2JEP3WA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB96B9BBA21
-	for <lists+kasan-dev@lfdr.de>; Mon,  4 Nov 2024 17:19:36 +0100 (CET)
-Received: by mail-lf1-x140.google.com with SMTP id 2adb3069b0e04-539e75025f9sf2430444e87.3
-        for <lists+kasan-dev@lfdr.de>; Mon, 04 Nov 2024 08:19:36 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1730737176; cv=pass;
+Received: from mail-wm1-x340.google.com (mail-wm1-x340.google.com [IPv6:2a00:1450:4864:20::340])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B6F29BBA23
+	for <lists+kasan-dev@lfdr.de>; Mon,  4 Nov 2024 17:19:37 +0100 (CET)
+Received: by mail-wm1-x340.google.com with SMTP id 5b1f17b1804b1-4315d98a75fsf30344005e9.2
+        for <lists+kasan-dev@lfdr.de>; Mon, 04 Nov 2024 08:19:37 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1730737177; cv=pass;
         d=google.com; s=arc-20240605;
-        b=egQXGK77+HOT1V8frRMFnsyTXwiJ10tRi8PkjLu7lyzYDhANO9CgF8R+E8NQG6wXja
-         /vn4+1Xy8ODnrKCf7NwP3fKopZ/AbtJnJ+w1mqzcihLX39ezQ5DRNaaTEE11F3yOMGXR
-         fcTt6dGZJFyW5lBE0CGaGM1p8nFUIx4BKUcZolde0o/2GPXlA/tWr82XixE1n4sxL1HZ
-         /QtSMsh53LTTLSXJZZT1Dgrk4IyrEhsJS9nrwIlSrsKOjNsE/E4amyuS1HHnT+dAR66W
-         ssMqvEhcx8tYIEp/0fPP5clz33aW9IlFXVSwJzUL9TtMRRmi49iXnfdTxlX0mKjcNV7p
-         Gd1A==
+        b=Y80Cb6p/Qs8IJCycpq+2R0PEU/pMrZi8cW1tuuBEWHA8bqiGgIokYNlZlM51JewUxX
+         SAAmo5HMZwQf2hVmJxuDOg2YFbqe7Do3JXMN6rT6Ifo4kQpSa/fWhjEhCzqk2s/GS2U2
+         Oa7K/KyTuu+3brBnW8g3D/ar6eiX6tzXoWWbgBWZnXmw4GmrWpLdakfvszzruQiohNuc
+         ykn+WgawheqFcdzW3y1ER3D1ltJC1r969l1ljmidzO16Bu5F3do7HQe1icJC/HmFpPfX
+         kwH6d7IGYLvv3n/JllJRsPWa3pibUvziGlQd0epS3rVRPvgVBM6wB33u0ry20UveupCh
+         CJ8w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
          :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=R/UUrj2bxNw8UFF9UUozuxu+lr4GIfjYZPJsVUTdw9U=;
-        fh=MEVrMQjlroxlOMAPNaP65P5yyFcuu+l1rx6AQ2YhvFE=;
-        b=auHnS94fl0VH0BC0b3EMaz29mJGzA9K8F1nhaTqWu7dCB/68aNVJBY3qMM3pbbt33/
-         CQPNWPTgEU0+R4HKH52Jo9RC8JOQSojckDuzv42hWcBt0ZOrYiCFeJruZJTdCNTCDaeT
-         7n3YignyqUfPOXt0nUQJDFHWb+es/piTh+tKB5PHWoz9IWtuiEC4daIpJf5lsuCdsH0i
-         NQKPJbqQRpDKo2q3yYADxN5XeZRf3qVeMgUM2y1jSE82Nw2gaqmC8gQ5kUoqNTp9sUra
-         WhjbPp5kwHsxscjcjfZjNpQ9XrJGloR+LnvBoZbtEZnGgXMse5UcJalJ+tA5M+x5nxHQ
-         PTIw==;
+        bh=GEVtw/tKNGYJydG1PVxjHJWSiqugzqGhea+I2IOizNQ=;
+        fh=UhLNI9OXRmxagSItJtI+/ULCAc5v+Dr3Gdco+Yc8cW8=;
+        b=fGfsT5dTFHVXYNHkhuxAgGfdpTYcEGMLoB2SLEPq/Aq1b4pfa8euW667P+6NO0JZNN
+         PFvRs7SyFYh79QyCLm8r9vl5IHbab2titFYD2i9DuaFnpd2iIfcSEZB+rMxmLJdZfT6i
+         rHdWSDBgdCjo9tkIwd8xTNA/NSve8qdu7Rv+CsqjEAeR4xURwu2PUFdnjYOm1Wk3gsT5
+         svPGqyZA0rhLx0kCHMUzewFT3k1Axw4t2dCwaLfxM3XZysWwpemz9dCzlc8a7CRxt2e7
+         Cpw62TlddUi0zD2geHUOZLjsWoVbZucT0tTUZvDv2MqpPnywTPn8gVO3OiiRxK5CnraD
+         SsVQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=3pziI0Jp;
-       spf=pass (google.com: domain of 3e_qozwukcd4elvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3E_QoZwUKCd4ELVERGOOGLE.COMKASAN-DEVGOOGLEGROUPS.COM@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=nrzcrR88;
+       spf=pass (google.com: domain of 3fvqozwukceehoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3FvQoZwUKCeEHOYHUJRRJOH.FRPNDVDQ-GHYJRRJOHJURXSV.FRP@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1730737176; x=1731341976; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1730737177; x=1731341977; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=R/UUrj2bxNw8UFF9UUozuxu+lr4GIfjYZPJsVUTdw9U=;
-        b=pmlQ+iF5Eik65lkBIDkfFWgmAxCn2QvOCgLb50u8WY99+4vtZV91peKPvxcdZtcKf/
-         Lnm70g1FsIiF92yaqUX9aerXLMh9Ze0zpq4eMhHD8b7CLJKPrhClI1ep/wFSVz53xn9m
-         6AjpxB6X9xPhnlnROcSLx/t2soBf2vHD0eDDhzeJm5WM+rhpPA8m9umEj/Kbq/yMWc4u
-         Mj015R58EdtGLGyWHDC8MBy4qKWtzVzGToGADreKNUMaxfWGiIpX4RTylbOFavsj/0TV
-         ZG7Cb3KjkIQrqEX2dSAof40jNEe71N/WEwyfQ71dySs1UwnTqktdBMEaS/KUMIVkV74d
-         MIow==
+        bh=GEVtw/tKNGYJydG1PVxjHJWSiqugzqGhea+I2IOizNQ=;
+        b=klSsfwlX7ZJE1YHskJsImkGQUgYyQZu82lYS32a0ZkNCqNm7eMLFSsUQWLD4JP0vSA
+         mXMi5Zb1REchlfD47hSGHBuZHuy8MSABQe9eqDnLFnVqa2zQTdOzxBPU/v0uQr+2+XN7
+         E2N79ylL5mVCg4xV0sDn+KSiZk6+lKnlUxs7/Ftohv+PMnyRO5P62CWqU2Iv35YyMHhQ
+         7B0MFk1VujDox1uC5YrXxctf19+wUgOe4INmkOPdIkvN5VeNO3qK4ldKNwRcFY3bJ984
+         Z9DbMHsQPRe9RAJNUfLfolRON7Jypniz3bAvZixLRsEPPLht3QyGnAuOwHKr10/zdCRn
+         lLJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730737176; x=1731341976;
+        d=1e100.net; s=20230601; t=1730737177; x=1731341977;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:from
          :subject:message-id:references:mime-version:in-reply-to:date
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=R/UUrj2bxNw8UFF9UUozuxu+lr4GIfjYZPJsVUTdw9U=;
-        b=qqZnYebzV//HnM7aXNVIH6AgLimTapNE8ODaDJyEfV0AYMzrArSJxDGkr69nQwY5JA
-         GdgWwta8STeexK9kp7wTDyt0/Gx2a8Ig2J+xmZ5o4aRmxCQphUKakZ7C8Ai6ayd9rLra
-         nPaWf3ejetdDGah8E6YugnOI7acoZ5fHq11/J4IobE9+DC28/gJWjFAvhyxBTxQDK4EW
-         TvtL40j2Jd43xJCrfY7wLzGP939axHJdVlUf1vRxtpiEgihbwoXxI0SofDk0NM/wnVb6
-         sJ5CctQV8+jDpFajyBt5KZ9L8naO2u1O+spORTyhZAB/xp2Kci5D1P+QRGvUoSAOxGh/
-         anGQ==
-X-Forwarded-Encrypted: i=2; AJvYcCUdnBtsT+4plWCFEdyCaQ+P1bGCQ4IwCCkKjPiG2/2Lb/d8YQT46Z7/4hBiGGd54+samFSl0Q==@lfdr.de
-X-Gm-Message-State: AOJu0YwUmyLyJfR2uhD1USCUfQuq3ZpYlYQIe0ug9Ep+xOkQpDyR6O/y
-	Yc8EixEUBDvm7tPlleQ5cs1KqvPTu3okyBmuZalx3g6QWwSC8ClP
-X-Google-Smtp-Source: AGHT+IFAUefeMxXN/WEPeX2/n42nIfmuJBRHzGuN3TL3m4iHHLZj7CMhT4LNsXFUb3Evh2EyJ2kg5w==
-X-Received: by 2002:a05:6512:3195:b0:53a:38:7b8c with SMTP id 2adb3069b0e04-53b348e73bfmr15826567e87.34.1730737174190;
-        Mon, 04 Nov 2024 08:19:34 -0800 (PST)
+        bh=GEVtw/tKNGYJydG1PVxjHJWSiqugzqGhea+I2IOizNQ=;
+        b=mCcHbVuZBZarnmM8BjHJbyQj53ck5cV2Bwej9Rn3b4xw0YHsbeYYXs6nWOHnfMgHz2
+         AukJhQbfF/cUaQ4HhhwgvMkc9pYrTRvJE3W/nnwRMa2Z+O0hs7nP6olF0MFNrsiss194
+         rfdxAtSW6JO5z9BHz5PMRWnM3ua5i+AQ4G70HghXJLcvUqcOigPD2o/c55vZRc5hBdM0
+         fS+erAUeUb7A+YE4ruwQ8XO+CRGfDz88lU4sqwBXJ0mDe+03hHUEoRwBi4FF7nfN+4kq
+         cRWI2icU7mymUZFyceIDkGuFCHN+q5UBlnN8xDLLEokUv6jMMUNenaxtR2oOQqgebi9U
+         4mvw==
+X-Forwarded-Encrypted: i=2; AJvYcCU7FTccN1AxjAmD0M0Q7AjKJrvYl8HTO2x7niNWkbXcoJxIEDdSxfR/sawEwABYN4u/3q97Rw==@lfdr.de
+X-Gm-Message-State: AOJu0Yz6Hy3SGxtlJmpU/xdCjPS90gA6H7XIq//aMcmdz3QnRHcgsUQa
+	2Kv0QQoXBOisdYDxH0pq4pNf+zRqPZHo3llhxqKQMklxynKKYqiF
+X-Google-Smtp-Source: AGHT+IEf5AovnwsQiKJ52j3x7FMXjCK2DP1+sTugd2iUkSyDifpiYnGtMhFkS0II4p2SJS3BRfiyFg==
+X-Received: by 2002:a05:600c:1552:b0:42c:de34:34be with SMTP id 5b1f17b1804b1-4319ac76422mr304222685e9.3.1730737176833;
+        Mon, 04 Nov 2024 08:19:36 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:acb:b0:53c:75e8:a5d6 with SMTP id
- 2adb3069b0e04-53c7973fda9ls439181e87.2.-pod-prod-07-eu; Mon, 04 Nov 2024
- 08:19:32 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXKLUnw4VwN2PchQzJlKv0CFvOP3o0hwQoLIVDrLlwltw99qtSEH7B9+7zj1QcxLiPCq52v24FnBz8=@googlegroups.com
-X-Received: by 2002:a05:651c:1a0a:b0:2fb:55f0:2f7b with SMTP id 38308e7fff4ca-2fcbe04f0d2mr158274441fa.35.1730737171732;
-        Mon, 04 Nov 2024 08:19:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1730737171; cv=none;
+Received: by 2002:a05:600c:4fc3:b0:431:4fa0:2e0a with SMTP id
+ 5b1f17b1804b1-4327b80876fls23664195e9.1.-pod-prod-09-eu; Mon, 04 Nov 2024
+ 08:19:35 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWviMnIG94ZjSfTm53WOIuosWopWMqEO6DYK3PsBEpuET35AeIO/EpRMqiXFjAh8qXTiK9QIsKRWJw=@googlegroups.com
+X-Received: by 2002:a05:600c:3593:b0:430:54a4:5ad7 with SMTP id 5b1f17b1804b1-4319ac76449mr299996145e9.1.1730737174756;
+        Mon, 04 Nov 2024 08:19:34 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1730737174; cv=none;
         d=google.com; s=arc-20240605;
-        b=fkVxjNljvejVsO0BmnXvHhLG1pfxRkwMRo7US4OYYohoSeR/Q3EPNeCOKQD0JsSGv1
-         kPIF9GTy6kFcIQ/V7wB0d21tJU0X0OG+cN3tbUOm7YteuIw0Cv0Ph8yck9gBMcB/iL/a
-         EJn6BFol4zGSVpdBmOq1CkOn0kVY5nks3bCnPQBoXlCd8ZizRX72iAkYs4kvtgx2sEGH
-         nWrgMbQOvvFn0kYMqU/pnaSGCTk8aY66T5r7uFOkD4Ali7Co8R75n6TA7kxikmVeaJGF
-         zGj30skpLNwtp9fsN+MslvKwc+RasvHsbU8gJb9UrpP4xC0hjMuvOcpV8J32n9AT1rHV
-         82nA==
+        b=B4bJdzHPSPllFsrHW3lv/Zh0IOlVSo31PtNXzMsPVRh1kvQf6Ro92dfEfAXoz7k8Lx
+         AhYqtyuwkqdjPyBWik83z5mulecIg83ftk/Psoji2F9d7ZlZLW7E/dR7tCcVr4aEhDUT
+         fWuIwuGNo+VIw+s1YLEhjhIASTVLiY4ol56bEbIXb4Zi+br/ycx8z52Q5du4EsBodgtf
+         YzdmV5LNua2zEDAEJcxt1NKL8x/YGAXK3v1qO9hXwJWW4UVfpvh64eJc9pVQL3Lb6a9l
+         hxrgMFNnInQGirzo3Y5qyegZjoKnrlE4weap2vI5JpzzIXqbC4ANzvPHMh6tK3Qg5ki+
+         9ppQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:dkim-signature;
-        bh=18LLtGEOGzu+73DHRju+ymYzFojyLpzj5nOA/GmHSqU=;
-        fh=wLeUZcexHOoCdCU4kjVTFpFdYkkX3YnQdSKAcvzVbAs=;
-        b=FUCeBmBfgXF5pIIT+i0H3sKqebjzpWPg217cHv/Xpw9MPfn2HXdaWhMBZt3k3Tert7
-         RjY2rnerz0UHSvhKNHdxLfKG0WAxUEin0pkx0cMIsHE00Vhi8/uShd8DaHylQO4gHshl
-         U0VLkhGd/GwyQ+ZpaGwJs4feVsUGACL6gMk4AFWqYU5PhpiuhXt/0Rgs12JErFYvFDmB
-         PQ8UAAWbNKb2bWoAPzTKrOhHnRoEyH4dpez3NveVQODrKkRDbx4phDCYUGpeAIHSq9i8
-         JcUOKj/0xgtPlRveZhri1W869WJ+T3NOhvpKvD5VAQ5IUsiB4N6LErwR0hyVZjtQpEZE
-         6H5Q==;
+        bh=D01NtyTMk6i2oodCmqKoOULZz5EC2eZ4CIhcaLc7Lms=;
+        fh=K568823xJCjX/cjvy0OInMO/mHStZlSIEX9kAzqZ6xs=;
+        b=CQJ3fYfqMXnbD/CxVX5Gqv6rl5ts/0qkc9R4Wyi57j3KLxf65Nmnp4MF4dnVY0MAxd
+         ATnGMvD8kfB0GXYlP1/6Wa+IiHRLFcHpuTQHZmRiYgMrA+FJZiLXOdgUWC9+bBwbi0jo
+         1CfVeXDJsBtTUfRPrbzsjvshFeeEtLhwJeVmzDePXIyV0x0P07IvW/WM9ATFP8a6u7ZR
+         vnBqrVDxd0INAqVszqFeoO+EkTjmNHEvUQAPIW5HfY0R4nppkqnz0KZ9Gen3fjyHq4+F
+         E8r3GxKu4rNOfqXM0B/U/KQUd2R78qSTpVbsGO4Hll3wK1dk3PPpjKcu7J8krbE7KAp9
+         T+Hw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=3pziI0Jp;
-       spf=pass (google.com: domain of 3e_qozwukcd4elvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3E_QoZwUKCd4ELVERGOOGLE.COMKASAN-DEVGOOGLEGROUPS.COM@flex--elver.bounces.google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=nrzcrR88;
+       spf=pass (google.com: domain of 3fvqozwukceehoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3FvQoZwUKCeEHOYHUJRRJOH.FRPNDVDQ-GHYJRRJOHJURXSV.FRP@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-ed1-x549.google.com (mail-ed1-x549.google.com. [2a00:1450:4864:20::549])
-        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-5cee6aaa239si691a12.2.2024.11.04.08.19.31
+Received: from mail-ej1-x649.google.com (mail-ej1-x649.google.com. [2a00:1450:4864:20::649])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-431b43ab92csi6901815e9.0.2024.11.04.08.19.34
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Nov 2024 08:19:31 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3e_qozwukcd4elvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com designates 2a00:1450:4864:20::549 as permitted sender) client-ip=2a00:1450:4864:20::549;
-Received: by mail-ed1-x549.google.com with SMTP id 4fb4d7f45d1cf-5c95b050667so4433583a12.2
-        for <kasan-dev@googlegroups.com>; Mon, 04 Nov 2024 08:19:31 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWpBAGIMNUfwB0PdrPbMSVSeScsbruL3ZoSRH+QVEvPDIx6AZVgcSvWDrXou7OU5FLSTO8V7BBnJjU=@googlegroups.com
+        Mon, 04 Nov 2024 08:19:34 -0800 (PST)
+Received-SPF: pass (google.com: domain of 3fvqozwukceehoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com designates 2a00:1450:4864:20::649 as permitted sender) client-ip=2a00:1450:4864:20::649;
+Received: by mail-ej1-x649.google.com with SMTP id a640c23a62f3a-a9a1b8d4563so150326966b.3
+        for <kasan-dev@googlegroups.com>; Mon, 04 Nov 2024 08:19:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXs00aWyQiKUA0XpqkNJc0rk0PyvLz5+i2FVbgER3m9he2KbmozHy0zrcOw5+FvTS0k6bBlRtNkwgs=@googlegroups.com
 X-Received: from elver.muc.corp.google.com ([2a00:79e0:9c:201:dc4d:3b27:d746:73ee])
- (user=elver job=sendgmr) by 2002:a05:6402:2350:b0:5cb:c081:92b2 with SMTP id
- 4fb4d7f45d1cf-5cea966ac74mr5044a12.1.1730737171303; Mon, 04 Nov 2024 08:19:31
+ (user=elver job=sendgmr) by 2002:a17:906:c0c1:b0:a99:fa8a:9783 with SMTP id
+ a640c23a62f3a-a9e654bee59mr296866b.3.1730737174017; Mon, 04 Nov 2024 08:19:34
  -0800 (PST)
-Date: Mon,  4 Nov 2024 16:43:07 +0100
+Date: Mon,  4 Nov 2024 16:43:08 +0100
 In-Reply-To: <20241104161910.780003-1-elver@google.com>
 Mime-Version: 1.0
 References: <20241104161910.780003-1-elver@google.com>
 X-Mailer: git-send-email 2.47.0.163.g1226f6d8fa-goog
-Message-ID: <20241104161910.780003-4-elver@google.com>
-Subject: [PATCH v2 3/5] kcsan, seqlock: Support seqcount_latch_t
+Message-ID: <20241104161910.780003-5-elver@google.com>
+Subject: [PATCH v2 4/5] seqlock, treewide: Switch to non-raw seqcount_latch interface
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
 To: elver@google.com, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
 	Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>
 Cc: "Paul E. McKenney" <paulmck@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
 	Mark Rutland <mark.rutland@arm.com>, Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com, 
-	linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=3pziI0Jp;       spf=pass
- (google.com: domain of 3e_qozwukcd4elvergoogle.comkasan-devgooglegroups.com@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::549 as permitted sender) smtp.mailfrom=3E_QoZwUKCd4ELVERGOOGLE.COMKASAN-DEVGOOGLEGROUPS.COM@flex--elver.bounces.google.com;
+ header.i=@google.com header.s=20230601 header.b=nrzcrR88;       spf=pass
+ (google.com: domain of 3fvqozwukceehoyhujrrjoh.frpndvdq-ghyjrrjohjurxsv.frp@flex--elver.bounces.google.com
+ designates 2a00:1450:4864:20::649 as permitted sender) smtp.mailfrom=3FvQoZwUKCeEHOYHUJRRJOH.FRPNDVDQ-GHYJRRJOHJURXSV.FRP@flex--elver.bounces.google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -147,210 +147,246 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-While fuzzing an arm64 kernel, Alexander Potapenko reported:
-
-| BUG: KCSAN: data-race in ktime_get_mono_fast_ns / timekeeping_update
-|
-| write to 0xffffffc082e74248 of 56 bytes by interrupt on cpu 0:
-|  update_fast_timekeeper kernel/time/timekeeping.c:430 [inline]
-|  timekeeping_update+0x1d8/0x2d8 kernel/time/timekeeping.c:768
-|  timekeeping_advance+0x9e8/0xb78 kernel/time/timekeeping.c:2344
-|  update_wall_time+0x18/0x38 kernel/time/timekeeping.c:2360
-|  [...]
-|
-| read to 0xffffffc082e74258 of 8 bytes by task 5260 on cpu 1:
-|  __ktime_get_fast_ns kernel/time/timekeeping.c:372 [inline]
-|  ktime_get_mono_fast_ns+0x88/0x174 kernel/time/timekeeping.c:489
-|  init_srcu_struct_fields+0x40c/0x530 kernel/rcu/srcutree.c:263
-|  init_srcu_struct+0x14/0x20 kernel/rcu/srcutree.c:311
-|  [...]
-|
-| value changed: 0x000002f875d33266 -> 0x000002f877416866
-|
-| Reported by Kernel Concurrency Sanitizer on:
-| CPU: 1 UID: 0 PID: 5260 Comm: syz.2.7483 Not tainted 6.12.0-rc3-dirty #78
-
-This is a false positive data race between a seqcount latch writer and a reader
-accessing stale data. Since its introduction, KCSAN has never understood the
-seqcount_latch interface (due to being unannotated).
-
-Unlike the regular seqlock interface, the seqcount_latch interface for latch
-writers never has had a well-defined critical section, making it difficult to
-teach tooling where the critical section starts and ends.
-
-Introduce an instrumentable (non-raw) seqcount_latch interface, with
-which we can clearly denote writer critical sections. This both helps
-readability and tooling like KCSAN to understand when the writer is done
-updating all latch copies.
+Switch all instrumentable users of the seqcount_latch interface over to
+the non-raw interface.
 
 Link: https://lore.kernel.org/all/20241030204815.GQ14555@noisy.programming.kicks-ass.net/
-Reported-by: Alexander Potapenko <glider@google.com>
-Fixes: 88ecd153be95 ("seqlock, kcsan: Add annotations for KCSAN")
 Co-developed-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
 Signed-off-by: Marco Elver <elver@google.com>
 ---
 v2:
-* Introduce new interface, courtesy of Peter Zijlstra. Adjust
-  documentation along with its introduction.
+* New patch.
 ---
- Documentation/locking/seqlock.rst |  2 +-
- include/linux/seqlock.h           | 86 +++++++++++++++++++++++++------
- 2 files changed, 72 insertions(+), 16 deletions(-)
+ arch/x86/kernel/tsc.c        |  5 +++--
+ include/linux/rbtree_latch.h | 20 +++++++++++---------
+ kernel/printk/printk.c       |  9 +++++----
+ kernel/time/sched_clock.c    | 12 +++++++-----
+ kernel/time/timekeeping.c    | 12 +++++++-----
+ 5 files changed, 33 insertions(+), 25 deletions(-)
 
-diff --git a/Documentation/locking/seqlock.rst b/Documentation/locking/seqlock.rst
-index bfda1a5fecad..ec6411d02ac8 100644
---- a/Documentation/locking/seqlock.rst
-+++ b/Documentation/locking/seqlock.rst
-@@ -153,7 +153,7 @@ Use seqcount_latch_t when the write side sections cannot be protected
- from interruption by readers. This is typically the case when the read
- side can be invoked from NMI handlers.
+diff --git a/arch/x86/kernel/tsc.c b/arch/x86/kernel/tsc.c
+index dfe6847fd99e..67aeaba4ba9c 100644
+--- a/arch/x86/kernel/tsc.c
++++ b/arch/x86/kernel/tsc.c
+@@ -174,10 +174,11 @@ static void __set_cyc2ns_scale(unsigned long khz, int cpu, unsigned long long ts
  
--Check `raw_write_seqcount_latch()` for more information.
-+Check `write_seqcount_latch()` for more information.
+ 	c2n = per_cpu_ptr(&cyc2ns, cpu);
  
- 
- .. _seqlock_t:
-diff --git a/include/linux/seqlock.h b/include/linux/seqlock.h
-index fffeb754880f..45eee0e5dca0 100644
---- a/include/linux/seqlock.h
-+++ b/include/linux/seqlock.h
-@@ -621,6 +621,23 @@ static __always_inline unsigned raw_read_seqcount_latch(const seqcount_latch_t *
- 	return READ_ONCE(s->seqcount.sequence);
+-	raw_write_seqcount_latch(&c2n->seq);
++	write_seqcount_latch_begin(&c2n->seq);
+ 	c2n->data[0] = data;
+-	raw_write_seqcount_latch(&c2n->seq);
++	write_seqcount_latch(&c2n->seq);
+ 	c2n->data[1] = data;
++	write_seqcount_latch_end(&c2n->seq);
  }
  
-+/**
-+ * read_seqcount_latch() - pick even/odd latch data copy
-+ * @s: Pointer to seqcount_latch_t
-+ *
-+ * See write_seqcount_latch() for details and a full reader/writer usage
-+ * example.
-+ *
-+ * Return: sequence counter raw value. Use the lowest bit as an index for
-+ * picking which data copy to read. The full counter must then be checked
-+ * with read_seqcount_latch_retry().
-+ */
-+static __always_inline unsigned read_seqcount_latch(const seqcount_latch_t *s)
-+{
-+	kcsan_atomic_next(KCSAN_SEQLOCK_REGION_MAX);
-+	return raw_read_seqcount_latch(s);
-+}
-+
- /**
-  * raw_read_seqcount_latch_retry() - end a seqcount_latch_t read section
-  * @s:		Pointer to seqcount_latch_t
-@@ -635,9 +652,34 @@ raw_read_seqcount_latch_retry(const seqcount_latch_t *s, unsigned start)
- 	return unlikely(READ_ONCE(s->seqcount.sequence) != start);
- }
- 
-+/**
-+ * read_seqcount_latch_retry() - end a seqcount_latch_t read section
-+ * @s:		Pointer to seqcount_latch_t
-+ * @start:	count, from read_seqcount_latch()
-+ *
-+ * Return: true if a read section retry is required, else false
-+ */
-+static __always_inline int
-+read_seqcount_latch_retry(const seqcount_latch_t *s, unsigned start)
-+{
-+	kcsan_atomic_next(0);
-+	return raw_read_seqcount_latch_retry(s, start);
-+}
-+
- /**
-  * raw_write_seqcount_latch() - redirect latch readers to even/odd copy
-  * @s: Pointer to seqcount_latch_t
-+ */
-+static __always_inline void raw_write_seqcount_latch(seqcount_latch_t *s)
-+{
-+	smp_wmb();	/* prior stores before incrementing "sequence" */
-+	s->seqcount.sequence++;
-+	smp_wmb();      /* increment "sequence" before following stores */
-+}
-+
-+/**
-+ * write_seqcount_latch_begin() - redirect latch readers to odd copy
-+ * @s: Pointer to seqcount_latch_t
+ static void set_cyc2ns_scale(unsigned long khz, int cpu, unsigned long long tsc_now)
+diff --git a/include/linux/rbtree_latch.h b/include/linux/rbtree_latch.h
+index 6a0999c26c7c..2f630eb8307e 100644
+--- a/include/linux/rbtree_latch.h
++++ b/include/linux/rbtree_latch.h
+@@ -14,7 +14,7 @@
   *
-  * The latch technique is a multiversion concurrency control method that allows
-  * queries during non-atomic modifications. If you can guarantee queries never
-@@ -665,17 +707,11 @@ raw_read_seqcount_latch_retry(const seqcount_latch_t *s, unsigned start)
+  * If we need to allow unconditional lookups (say as required for NMI context
+  * usage) we need a more complex setup; this data structure provides this by
+- * employing the latch technique -- see @raw_write_seqcount_latch -- to
++ * employing the latch technique -- see @write_seqcount_latch_begin -- to
+  * implement a latched RB-tree which does allow for unconditional lookups by
+  * virtue of always having (at least) one stable copy of the tree.
   *
-  *	void latch_modify(struct latch_struct *latch, ...)
-  *	{
-- *		smp_wmb();	// Ensure that the last data[1] update is visible
-- *		latch->seq.sequence++;
-- *		smp_wmb();	// Ensure that the seqcount update is visible
-- *
-+ *		write_seqcount_latch_begin(&latch->seq);
-  *		modify(latch->data[0], ...);
-- *
-- *		smp_wmb();	// Ensure that the data[0] update is visible
-- *		latch->seq.sequence++;
-- *		smp_wmb();	// Ensure that the seqcount update is visible
-- *
-+ *		write_seqcount_latch(&latch->seq);
-  *		modify(latch->data[1], ...);
-+ *		write_seqcount_latch_end(&latch->seq);
-  *	}
+@@ -132,7 +132,7 @@ __lt_find(void *key, struct latch_tree_root *ltr, int idx,
+  * @ops: operators defining the node order
   *
-  * The query will have a form like::
-@@ -686,13 +722,13 @@ raw_read_seqcount_latch_retry(const seqcount_latch_t *s, unsigned start)
-  *		unsigned seq, idx;
+  * It inserts @node into @root in an ordered fashion such that we can always
+- * observe one complete tree. See the comment for raw_write_seqcount_latch().
++ * observe one complete tree. See the comment for write_seqcount_latch_begin().
   *
-  *		do {
-- *			seq = raw_read_seqcount_latch(&latch->seq);
-+ *			seq = read_seqcount_latch(&latch->seq);
-  *
-  *			idx = seq & 0x01;
-  *			entry = data_query(latch->data[idx], ...);
-  *
-  *		// This includes needed smp_rmb()
-- *		} while (raw_read_seqcount_latch_retry(&latch->seq, seq));
-+ *		} while (read_seqcount_latch_retry(&latch->seq, seq));
-  *
-  *		return entry;
-  *	}
-@@ -716,11 +752,31 @@ raw_read_seqcount_latch_retry(const seqcount_latch_t *s, unsigned start)
-  *	When data is a dynamic data structure; one should use regular RCU
-  *	patterns to manage the lifetimes of the objects within.
-  */
--static inline void raw_write_seqcount_latch(seqcount_latch_t *s)
-+static __always_inline void write_seqcount_latch_begin(seqcount_latch_t *s)
+  * The inserts use rcu_assign_pointer() to publish the element such that the
+  * tree structure is stored before we can observe the new @node.
+@@ -145,10 +145,11 @@ latch_tree_insert(struct latch_tree_node *node,
+ 		  struct latch_tree_root *root,
+ 		  const struct latch_tree_ops *ops)
  {
--	smp_wmb();	/* prior stores before incrementing "sequence" */
--	s->seqcount.sequence++;
--	smp_wmb();      /* increment "sequence" before following stores */
-+	kcsan_nestable_atomic_begin();
-+	raw_write_seqcount_latch(s);
-+}
-+
-+/**
-+ * write_seqcount_latch() - redirect latch readers to even copy
-+ * @s: Pointer to seqcount_latch_t
-+ */
-+static __always_inline void write_seqcount_latch(seqcount_latch_t *s)
-+{
-+	raw_write_seqcount_latch(s);
-+}
-+
-+/**
-+ * write_seqcount_latch_end() - end a seqcount_latch_t write section
-+ * @s:		Pointer to seqcount_latch_t
-+ *
-+ * Marks the end of a seqcount_latch_t writer section, after all copies of the
-+ * latch-protected data have been updated.
-+ */
-+static __always_inline void write_seqcount_latch_end(seqcount_latch_t *s)
-+{
-+	kcsan_nestable_atomic_end();
+-	raw_write_seqcount_latch(&root->seq);
++	write_seqcount_latch_begin(&root->seq);
+ 	__lt_insert(node, root, 0, ops->less);
+-	raw_write_seqcount_latch(&root->seq);
++	write_seqcount_latch(&root->seq);
+ 	__lt_insert(node, root, 1, ops->less);
++	write_seqcount_latch_end(&root->seq);
  }
  
- #define __SEQLOCK_UNLOCKED(lockname)					\
+ /**
+@@ -159,7 +160,7 @@ latch_tree_insert(struct latch_tree_node *node,
+  *
+  * Removes @node from the trees @root in an ordered fashion such that we can
+  * always observe one complete tree. See the comment for
+- * raw_write_seqcount_latch().
++ * write_seqcount_latch_begin().
+  *
+  * It is assumed that @node will observe one RCU quiescent state before being
+  * reused of freed.
+@@ -172,10 +173,11 @@ latch_tree_erase(struct latch_tree_node *node,
+ 		 struct latch_tree_root *root,
+ 		 const struct latch_tree_ops *ops)
+ {
+-	raw_write_seqcount_latch(&root->seq);
++	write_seqcount_latch_begin(&root->seq);
+ 	__lt_erase(node, root, 0);
+-	raw_write_seqcount_latch(&root->seq);
++	write_seqcount_latch(&root->seq);
+ 	__lt_erase(node, root, 1);
++	write_seqcount_latch_end(&root->seq);
+ }
+ 
+ /**
+@@ -204,9 +206,9 @@ latch_tree_find(void *key, struct latch_tree_root *root,
+ 	unsigned int seq;
+ 
+ 	do {
+-		seq = raw_read_seqcount_latch(&root->seq);
++		seq = read_seqcount_latch(&root->seq);
+ 		node = __lt_find(key, root, seq & 1, ops->comp);
+-	} while (raw_read_seqcount_latch_retry(&root->seq, seq));
++	} while (read_seqcount_latch_retry(&root->seq, seq));
+ 
+ 	return node;
+ }
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index beb808f4c367..19911c8fa7b6 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -560,10 +560,11 @@ bool printk_percpu_data_ready(void)
+ /* Must be called under syslog_lock. */
+ static void latched_seq_write(struct latched_seq *ls, u64 val)
+ {
+-	raw_write_seqcount_latch(&ls->latch);
++	write_seqcount_latch_begin(&ls->latch);
+ 	ls->val[0] = val;
+-	raw_write_seqcount_latch(&ls->latch);
++	write_seqcount_latch(&ls->latch);
+ 	ls->val[1] = val;
++	write_seqcount_latch_end(&ls->latch);
+ }
+ 
+ /* Can be called from any context. */
+@@ -574,10 +575,10 @@ static u64 latched_seq_read_nolock(struct latched_seq *ls)
+ 	u64 val;
+ 
+ 	do {
+-		seq = raw_read_seqcount_latch(&ls->latch);
++		seq = read_seqcount_latch(&ls->latch);
+ 		idx = seq & 0x1;
+ 		val = ls->val[idx];
+-	} while (raw_read_seqcount_latch_retry(&ls->latch, seq));
++	} while (read_seqcount_latch_retry(&ls->latch, seq));
+ 
+ 	return val;
+ }
+diff --git a/kernel/time/sched_clock.c b/kernel/time/sched_clock.c
+index 29bdf309dae8..fcca4e72f1ef 100644
+--- a/kernel/time/sched_clock.c
++++ b/kernel/time/sched_clock.c
+@@ -71,13 +71,13 @@ static __always_inline u64 cyc_to_ns(u64 cyc, u32 mult, u32 shift)
+ 
+ notrace struct clock_read_data *sched_clock_read_begin(unsigned int *seq)
+ {
+-	*seq = raw_read_seqcount_latch(&cd.seq);
++	*seq = read_seqcount_latch(&cd.seq);
+ 	return cd.read_data + (*seq & 1);
+ }
+ 
+ notrace int sched_clock_read_retry(unsigned int seq)
+ {
+-	return raw_read_seqcount_latch_retry(&cd.seq, seq);
++	return read_seqcount_latch_retry(&cd.seq, seq);
+ }
+ 
+ static __always_inline unsigned long long __sched_clock(void)
+@@ -132,16 +132,18 @@ unsigned long long notrace sched_clock(void)
+ static void update_clock_read_data(struct clock_read_data *rd)
+ {
+ 	/* steer readers towards the odd copy */
+-	raw_write_seqcount_latch(&cd.seq);
++	write_seqcount_latch_begin(&cd.seq);
+ 
+ 	/* now its safe for us to update the normal (even) copy */
+ 	cd.read_data[0] = *rd;
+ 
+ 	/* switch readers back to the even copy */
+-	raw_write_seqcount_latch(&cd.seq);
++	write_seqcount_latch(&cd.seq);
+ 
+ 	/* update the backup (odd) copy with the new data */
+ 	cd.read_data[1] = *rd;
++
++	write_seqcount_latch_end(&cd.seq);
+ }
+ 
+ /*
+@@ -279,7 +281,7 @@ void __init generic_sched_clock_init(void)
+  */
+ static u64 notrace suspended_sched_clock_read(void)
+ {
+-	unsigned int seq = raw_read_seqcount_latch(&cd.seq);
++	unsigned int seq = read_seqcount_latch(&cd.seq);
+ 
+ 	return cd.read_data[seq & 1].epoch_cyc;
+ }
+diff --git a/kernel/time/timekeeping.c b/kernel/time/timekeeping.c
+index 7e6f409bf311..18752983e834 100644
+--- a/kernel/time/timekeeping.c
++++ b/kernel/time/timekeeping.c
+@@ -411,7 +411,7 @@ static inline u64 timekeeping_get_ns(const struct tk_read_base *tkr)
+  * We want to use this from any context including NMI and tracing /
+  * instrumenting the timekeeping code itself.
+  *
+- * Employ the latch technique; see @raw_write_seqcount_latch.
++ * Employ the latch technique; see @write_seqcount_latch.
+  *
+  * So if a NMI hits the update of base[0] then it will use base[1]
+  * which is still consistent. In the worst case this can result is a
+@@ -424,16 +424,18 @@ static void update_fast_timekeeper(const struct tk_read_base *tkr,
+ 	struct tk_read_base *base = tkf->base;
+ 
+ 	/* Force readers off to base[1] */
+-	raw_write_seqcount_latch(&tkf->seq);
++	write_seqcount_latch_begin(&tkf->seq);
+ 
+ 	/* Update base[0] */
+ 	memcpy(base, tkr, sizeof(*base));
+ 
+ 	/* Force readers back to base[0] */
+-	raw_write_seqcount_latch(&tkf->seq);
++	write_seqcount_latch(&tkf->seq);
+ 
+ 	/* Update base[1] */
+ 	memcpy(base + 1, base, sizeof(*base));
++
++	write_seqcount_latch_end(&tkf->seq);
+ }
+ 
+ static __always_inline u64 __ktime_get_fast_ns(struct tk_fast *tkf)
+@@ -443,11 +445,11 @@ static __always_inline u64 __ktime_get_fast_ns(struct tk_fast *tkf)
+ 	u64 now;
+ 
+ 	do {
+-		seq = raw_read_seqcount_latch(&tkf->seq);
++		seq = read_seqcount_latch(&tkf->seq);
+ 		tkr = tkf->base + (seq & 0x01);
+ 		now = ktime_to_ns(tkr->base);
+ 		now += __timekeeping_get_ns(tkr);
+-	} while (raw_read_seqcount_latch_retry(&tkf->seq, seq));
++	} while (read_seqcount_latch_retry(&tkf->seq, seq));
+ 
+ 	return now;
+ }
 -- 
 2.47.0.163.g1226f6d8fa-goog
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20241104161910.780003-4-elver%40google.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20241104161910.780003-5-elver%40google.com.
