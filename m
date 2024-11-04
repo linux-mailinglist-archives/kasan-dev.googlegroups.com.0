@@ -1,111 +1,110 @@
-Return-Path: <kasan-dev+bncBCKLNNXAXYFBBGWOUK4QMGQEAPRKA5A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKLNNXAXYFBBG6OUK4QMGQEXWMWL3Y@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B91C9BB189
+Received: from mail-lj1-x23c.google.com (mail-lj1-x23c.google.com [IPv6:2a00:1450:4864:20::23c])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4A99BB18A
 	for <lists+kasan-dev@lfdr.de>; Mon,  4 Nov 2024 11:51:08 +0100 (CET)
-Received: by mail-lf1-x13b.google.com with SMTP id 2adb3069b0e04-539ea0fcd4bsf2789992e87.2
+Received: by mail-lj1-x23c.google.com with SMTP id 38308e7fff4ca-2f759001cb1sf30648961fa.0
         for <lists+kasan-dev@lfdr.de>; Mon, 04 Nov 2024 02:51:08 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1730717467; cv=pass;
+ARC-Seal: i=2; a=rsa-sha256; t=1730717468; cv=pass;
         d=google.com; s=arc-20240605;
-        b=g4Sq3ecuzcE2DyE/7Ss+YjzGy8rAgsvTeTs/DZoY/SRItfG+Pms1d1X+1mFi84hIsR
-         uhBRB/l5onBzP/XsMgwKIUD2BQeYOh4dLJcJYjrMLFqsZ19aCKmUS7kJGycd5IzKM1F8
-         E++98cq42Zq2xIIdL+qPHxCW2gkdcVQP+PDqkCamZKE42QS/Q3wEujeqXPxp+dvIJgQL
-         3GR3S0MVXjSY5Q1m88LetZZ4dIr8hM2rHjHakQVKAIx74bgk6x4VQT9+mqY27fsTYH+q
-         BmcrtmKzVTeKMgmyM2uPCt5dp744SEXhyaw3/ma4FTjqrXPYtXGgyKuP1xomCvbf7eyK
-         huHA==
+        b=FFDQ6ZKC9khdKRSG/jdyyjxB9rWoMiCkiMhbxReBcvySfuBtoPCnS+LoQoVNvZRvzi
+         KD+aSZDogkmJdX9+OL4ehSYWbgjz1MvyUUsEFZUxrACabZJVE36fKpva92ZTVncUWsCL
+         sGugEhtigQgDxHcYu9suTASIYvYP985o7x9fx0hdBZ79pqDxyAkw9lfhKluxpwM0W2ri
+         bEVlUmHqQJWieMdikaqjK5YyaH6KkBv0gy9P4fbUoP9I8gsRVVJ+sJaCmaQuZ1lBjKAz
+         dHizoM1ZsoUcPWNKbKplTcEtz2tOqDoerxfqRi3Qi5c5IKC191RFfL3/AkzBX8PoKqYy
+         X5Fg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=AbLLqtd5zyuQEyrPn/416+rs34qrA0tXMMkpAofgxbA=;
-        fh=4TE8WbkCUiywxfnjzzmCCxsvZ4IebcUP+J61rR9gV5E=;
-        b=E/HZMyPu5tXk4VB+f9oxCH5Bq+YHMpqKZ4kiSq+5Nza18UeHHe7c/GHyixoO3EvBcc
-         sWbCu1mt/voRqoiFad/GpWh6ta0QA1LCkpZeNECAPWHFmA9C8OKwM72kJPGWrPRE5Cz/
-         fLMHhJVG9sryePW9ZgM3SXrt7uc6EWEO6zfWC3wUGQTnLbt46daSPQLq0UPTtEOJqbFX
-         MdMTxlqDSLpwJ8NwTJ1C0ltWEL8nkbHHyrCKZvCMzy7xyQbhGBNv+JktW9WYgmMuoGEg
-         1RR9NG9GhQz884GOmdzPggT4nC0rub+ES7WWGbWJF54go61EHiNGqA6EIvhzUYpg0QFI
-         yDBg==;
+        bh=Qh8ObitUbRik8kvW7saYAkTHH3AB9++NILlRg63bS7U=;
+        fh=HG7pe7QlPGvhudzSm/tAbPhZu5HQ4s1PuJARldV2mTQ=;
+        b=Ai8B1dxLC/taPh1hU49B5Qwd7YE4QXNMwsd6OzVbQyb5VH8H9Ixilv4/WIwbG1HRKs
+         zqPOqHBeB3WoLCDxGECYKyc/HG3jYTOm5sztwEZcU2uPe3TrJdiaVZjAz8pEJSGe5ckc
+         otQPrqjZEmVm5AprDEPpgSOCZu/GGNXU98oxRHl9k9eTMTY4ofRZgqmA+nS96WF+TrBe
+         47MOlqOA4cOePvNqzTm+oL/GKsdzY0IIAOts52F+lCNzxUpcCDoHr09VEzhGm02Q/gzE
+         kJOfHcjorotw5wbsFW9cynKpCvzt9eqmqRG93wsSK2UaJ0aZ48F95d7YP9/O8UUXPm+o
+         bSrg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=bqSJbLly;
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=SukzN7T5;
        dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of bigeasy@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
+       spf=pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1730717467; x=1731322267; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1730717468; x=1731322268; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AbLLqtd5zyuQEyrPn/416+rs34qrA0tXMMkpAofgxbA=;
-        b=KTrPLncQ6UBfZaqqhT5XzX3INZmDykZgtcj6bWXiVPqqOQPwOp3N+xoz3Mevhxm3aS
-         5LxbErpCy1e8D+QGv4taFtVe7HkvpIQj6iDL9eSOUCO3mO6lmLpydnhNielDUn3CHVxF
-         iOk2R8Ne4EkocSPmrrq++riyMaqRmAZVqnclmzVJD5HgpAekVJtWPSzMnf5MGiTwoTyg
-         8tGkJIrIt00cecbzF8o0YzM4eUqZFTIXAcvMeEBju7+KfjCDtNVwYCsIJr4ROIzCP9gI
-         oJ/5L/m9Kq/Cn6GkyjV9QCz1FL33bo2R5g3TMY2oDNWUcSRFLMfXMgyQMDW1vhTcThP6
-         tATQ==
+        bh=Qh8ObitUbRik8kvW7saYAkTHH3AB9++NILlRg63bS7U=;
+        b=cjYVsdQp44cjznwuY8nF95/JuzK0psH0IQcS4toOVxy4z3Cfeb5XqChCty74myZh+D
+         jrWtdVv3zOJqXEKR57RAVPRnaK86FZNv9J8nrlA1ismgNs+yY+8Vs07WYa7TekWftnx6
+         b0Yr/pTyn52iOddUrUG3jgaBtIatNcdXlvN8IyaqaORpcR9Q2zDC28ehNa8f2JEkrRpf
+         pH+jZ9j6+y1l4tzJxdu74Fd5ZhHtSd5YH73s5dKzu4sZgwH0jJKu5ak7wI0ej1MGR0tE
+         tPKznPJpuoibYWTSL3gKXdWEbVZEQJwF4799bRMSI1J3P2WxnVgnmpAwmiYtsboZk92n
+         Q+TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730717467; x=1731322267;
+        d=1e100.net; s=20230601; t=1730717468; x=1731322268;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AbLLqtd5zyuQEyrPn/416+rs34qrA0tXMMkpAofgxbA=;
-        b=MnR2JM/H94CFeVA07yyS5dN9wgkJdej2vzloNIZhPfmPLDuQnfi7bxXkMtpCGhlZHr
-         3IO7dYzKUA+x3WDxqEPLIBX3tLxtX5PNUoq5TsM5cZG1KQN+RSuTE0rt95sCQXiovhAJ
-         gs+OkmpkMVcqET6FTtz7m0MMzD5Y2oIKMWOrruYfkHonqPZRt5lcF4qY1jGFwasQKPlE
-         tHpROacDN+GaOtpqjPGrSC+5p1OEqA8cuXbAP2KyixvswuAYWK0ow8pYxRksdR40D3vz
-         hJisa0LGwlvIZViYOXDCFviiuyeZ9qKTssVkiyzgVHO37ZcoqrqN8PufjuplgDJFA5HD
-         4D5Q==
+        bh=Qh8ObitUbRik8kvW7saYAkTHH3AB9++NILlRg63bS7U=;
+        b=ZkSkffNd9Q3O5amS7d22P86x3mosZbx0QBYQsr7K0QVlcNWBCMGOb3a6qsuI9Odh6t
+         7QH4/ot++SeImRzp0+afZo3ki+jFRRhlYKG4eUsHrgdO5bw9Rco1T2ExkcN5YHl8FZQf
+         KklnVlsnHS/CBWor99pnlGk9H15VrPIa1ZelBJvSqVaAW/KAMHjWqq795/3MbkyP7+w4
+         2kgAcUlBbyK3SHrPpo9U9RN1BXq8449Wqh5qQenl/CR6kyIFSY9wqTsZnMiiEb1ko1PQ
+         nSgcxxwC1SOhVkeQP8tJ/cCXBDpY4f3y0sq34ynu9nKgvSeqn6Gg2Xc48GAJ9F/92R8z
+         Xj9w==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCV0cXsYRp8c47fuzn06QUiQt2Ja01hKBuKvszpM7D7QoTKALkimfbIrztqn14YXYhJ20WUhyA==@lfdr.de
-X-Gm-Message-State: AOJu0YwFWdSOyuX6N0OvxPik7ky7YRhOXfrb11peL6w+xsTYg7xUBvyw
-	fT2FFKOWTSBSEL37Frsw4gVvgojddZxQ1hQUHFM6arM6uu+bXv28
-X-Google-Smtp-Source: AGHT+IEjt83vvbH+G9vNWaX9wWEpZCVVYsE5EwsX9u6cGEX1hWC7Pc6QjyosPqXDX2AU6AiILiL8+Q==
-X-Received: by 2002:a05:6512:15aa:b0:539:de9c:c8a4 with SMTP id 2adb3069b0e04-53c79e3277emr7536715e87.24.1730717466860;
-        Mon, 04 Nov 2024 02:51:06 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUKopEohTdnx3gpId9UoPzvjHbHsWcbCB6IL47j9QjfQv+EZebhfPKm2nv1DXZucI80ZIp6xQ==@lfdr.de
+X-Gm-Message-State: AOJu0YzvhQzmtGtw1oO1g3RM8958SiU/S6fuCfHGYVAw+jTQ8cOJaafg
+	1TzvuUW8hxI2+Jq5xy/1K48zX1/fMJ8nFKSkL2FcZc5I4ZKbvaNb
+X-Google-Smtp-Source: AGHT+IGN3niG7rjW8I7t1uOCyUUxoUJsI0geQS56w9KhbKHy/I1fAH314Y1f6os1/IltU3pHoV4Wqw==
+X-Received: by 2002:a2e:a545:0:b0:2fa:fcf0:7c2a with SMTP id 38308e7fff4ca-2fedb7ca5b3mr82859691fa.24.1730717467571;
+        Mon, 04 Nov 2024 02:51:07 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6512:3f04:b0:53c:75d1:4f2b with SMTP id
- 2adb3069b0e04-53c7951daa8ls790568e87.1.-pod-prod-03-eu; Mon, 04 Nov 2024
- 02:51:04 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCU/UW/JNFHX6ijZe0iZWHgPMZNd84nVOm8/Fa5zF+pwkwymTc/gB1anOKom0JsW/CemdB69SmCTc9c=@googlegroups.com
-X-Received: by 2002:ac2:4e14:0:b0:539:964c:16b4 with SMTP id 2adb3069b0e04-53c79eb3041mr6220929e87.58.1730717464288;
-        Mon, 04 Nov 2024 02:51:04 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1730717464; cv=none;
+Received: by 2002:a2e:1f0a:0:b0:2fb:4dc3:c906 with SMTP id 38308e7fff4ca-2fdeb6c575dls6716991fa.1.-pod-prod-05-eu;
+ Mon, 04 Nov 2024 02:51:05 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCX/Um2b2JiBQS/Y3oay+4FrxFzbPnI66mAtFMkFdhZEPNakvuKSqOGWTaHQNbdVnaabftJsZQzmM6U=@googlegroups.com
+X-Received: by 2002:a05:651c:158f:b0:2fb:5206:1675 with SMTP id 38308e7fff4ca-2fedb7d8957mr79807431fa.27.1730717465326;
+        Mon, 04 Nov 2024 02:51:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1730717465; cv=none;
         d=google.com; s=arc-20240605;
-        b=iaQY7GmRH8W0QBa8G+zN6l9nWpPk9uzdmOr2hYWW1Ew2G2ud5kPOkRXnH7TkqTEzy6
-         4B7bAsW1gh2oq85tNqibeBQIKAeGTaDwtOk9UG6+T/OA6SLXJ+xXB/ly66NTckwhfaZy
-         HmMP+F8dtEQvBdLNTtyu3Kt3U1q28mhXPGA8Dl58tiNPsdu9LH8gGV6pxkCJj0Wou8+n
-         vR707JQ9CgXwaJCAQp+EshKGboDXxqr80Fp7pWtTKD2YkaY6o6I9rtPJvNv8hVkkCPsW
-         TaEvZlU1ApiWO+Anh0AtpIbbjvHdQsH8kHnFciWq/MjCVbJ3SOZ7boI53VYijYTcKnE/
-         ET8Q==
+        b=ZiaoDcxRqUkrOu38OLChEPd5lEAWCbVW800dvyNE50AdOMpWY+0xslDcsorRdeOaFk
+         YTyvPhpyATJeMBFlR1pUV9eojHrq7m0hTD8nENmiUumejIz6XM1zflteFmYj00R4buIk
+         A/fzxZd9cCpU4Ge1h0M4XxuhxSpVXnX9P616+n+bBs/OG9Dg4ZbwY9AJ/EWG+HLdik18
+         Qo6Rn8NhRnSDTrkQdyQ2uIvQBLDkHUnxhzvdaWjSTrZvDNPygqNxEVzUiQL2pPvrx1Kb
+         +amr8YYaP9oYbPRKBLc/0cvyNhVU7YbC9GLEuVUz/FQ668FUPDKWBbzJVvGgJx4JGi74
+         DITA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:dkim-signature:dkim-signature:from;
-        bh=ktKI//sMmnnCjs54hJYaz5s5ts5YF9AmvSNM3G4N7f4=;
+        bh=GcwZ4Huf0ok76UUKQ+LdAyCTe3RrRb5PN85tcNXwRJk=;
         fh=nGK+SoD1ex8by9wamSKwhZcZoH8mNV5YxsuUiQLVlHg=;
-        b=gImJ+SL7jjJkix8MngacyVA4egBPQ+cCChPTkSryYWKwpCO7t4nR+hK9xGyTRgPMmv
-         uTJohszMPGdSBeezH2mK9Gkte+mTshxQ9FKdrsZmLzQbCgdCh7j4gTtpPGoIMl5/UL9u
-         fPCWoAfHJWpNdyN57IemLhSkZxLJFuP0w4WMu3DfFtzJ8s+42Xa2F9acPQkH5cbQq9oj
-         iJTkQ3ruqiPTWZAvvj2dWhEMelFSbBuqqDcGiG7jiYf5eGVAn+GICOveWouf5nix3fH8
-         0Mpe4yJa+MPqqIsUEhkh2GBva/qbp6V87FMAIlKJmv6RCtMXMGT1zpTWMk0l4+p7rZBh
-         /ZSQ==;
+        b=A0ZSHBeetV9r3EF6cBqZTNgmpI9XFKGolre68gawLWZacOMcF9PUiN6hYnMKgKBvPN
+         hRu5vSHQGUxPdoko1M3G4qBNL7rim7SBb69JELukj4MdIj6BgKf80F+NLnSbTPV7YHXx
+         XENGMUS8V0+2ocnf+q34nW48R6ZnBtezdeJXOxtIG0Bw2rxXoqfETer053Kto04a8eZM
+         CHB4GHgmflBULmmywi9y6YiZjXSRVImuZjAT8icKcin6iyxr/EzuDc6+pfX4YtgLnrkh
+         x3TjJID+2XRtRRr8ILqIJdrPG0d3C4BDa2X30lE6Y5+LryLSd1OqA/+ntcVyZFNvPy+d
+         nWjw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=bqSJbLly;
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b=SukzN7T5;
        dkim=neutral (no key) header.i=@linutronix.de;
-       spf=pass (google.com: domain of bigeasy@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
+       spf=pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
-Received: from galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-53c7bc9623bsi174497e87.2.2024.11.04.02.51.04
+Received: from galois.linutronix.de (Galois.linutronix.de. [193.142.43.55])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-431bb78931bsi5802825e9.1.2024.11.04.02.51.05
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 02:51:04 -0800 (PST)
-Received-SPF: pass (google.com: domain of bigeasy@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
+        Mon, 04 Nov 2024 02:51:05 -0800 (PST)
+Received-SPF: pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) client-ip=193.142.43.55;
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: "Paul E. McKenney" <paulmck@kernel.org>
 Cc: Boqun Feng <boqun.feng@gmail.com>,
@@ -124,17 +123,18 @@ Cc: Boqun Feng <boqun.feng@gmail.com>,
 	Tomas Gleixner <tglx@linutronix.de>,
 	Peter Zijlstra <peterz@infradead.org>,
 	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH 1/2] scftorture: Move memory allocation outside of preempt_disable region.
-Date: Mon,  4 Nov 2024 11:50:52 +0100
-Message-ID: <20241104105053.2182833-1-bigeasy@linutronix.de>
-In-Reply-To: <88694240-1eea-4f4c-bb7b-80de25f252e7@paulmck-laptop>
+Subject: [PATCH 2/2] scftorture: Use a lock-less list to free memory.
+Date: Mon,  4 Nov 2024 11:50:53 +0100
+Message-ID: <20241104105053.2182833-2-bigeasy@linutronix.de>
+In-Reply-To: <20241104105053.2182833-1-bigeasy@linutronix.de>
 References: <88694240-1eea-4f4c-bb7b-80de25f252e7@paulmck-laptop>
+ <20241104105053.2182833-1-bigeasy@linutronix.de>
 MIME-Version: 1.0
 X-Original-Sender: bigeasy@linutronix.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linutronix.de header.s=2020 header.b=bqSJbLly;       dkim=neutral
+ header.i=@linutronix.de header.s=2020 header.b=SukzN7T5;       dkim=neutral
  (no key) header.i=@linutronix.de;       spf=pass (google.com: domain of
- bigeasy@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender)
+ bigeasy@linutronix.de designates 193.142.43.55 as permitted sender)
  smtp.mailfrom=bigeasy@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
  dis=NONE) header.from=linutronix.de
 Content-Type: text/plain; charset="UTF-8"
@@ -150,49 +150,149 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Memory allocations can not happen within regions with explicit disabled
-preemption PREEMPT_RT. The problem is that the locking structures
-underneath are sleeping locks.
+scf_handler() is used as a SMP function call. This function is always
+invoked in IRQ-context even with forced-threading enabled. This function
+frees memory which not allowed on PREEMPT_RT because the locking
+underneath is using sleeping locks.
 
-Move the memory allocation outside of the preempt-disabled section. Keep
-the GFP_ATOMIC for the allocation to behave like a "ememergncy
-allocation".
+Add a per-CPU scf_free_pool where each SMP functions adds its memory to
+be freed. This memory is then freed by scftorture_invoker() on each
+iteration. On the majority of invocations the number of items is less
+than five. If the thread sleeps/ gets delayed the number exceed 350 but
+did not reach 400 in testing. These were the spikes during testing.
+The bulk free of 64 pointers at once should improve the give-back if the
+list grows. The list size is ~1.3 items per invocations.
 
+Having one global scf_free_pool with one cleaning thread let the list
+grow to over 10.000 items with 32 CPUs (again, spikes not the average)
+especially if the CPU went to sleep. The per-CPU part looks like a good
+compromise.
+
+Reported-by: "Paul E. McKenney" <paulmck@kernel.org>
+Closes: https://lore.kernel.org/lkml/41619255-cdc2-4573-a360-7794fc3614f7@paulmck-laptop/
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- kernel/scftorture.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ kernel/scftorture.c | 47 +++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 43 insertions(+), 4 deletions(-)
 
 diff --git a/kernel/scftorture.c b/kernel/scftorture.c
-index 44e83a6462647..e5546fe256329 100644
+index e5546fe256329..ba9f1125821b8 100644
 --- a/kernel/scftorture.c
 +++ b/kernel/scftorture.c
-@@ -320,10 +320,6 @@ static void scftorture_invoke_one(struct scf_statistics *scfp, struct torture_ra
- 	struct scf_check *scfcp = NULL;
- 	struct scf_selector *scfsp = scf_sel_rand(trsp);
+@@ -97,6 +97,7 @@ struct scf_statistics {
+ static struct scf_statistics *scf_stats_p;
+ static struct task_struct *scf_torture_stats_task;
+ static DEFINE_PER_CPU(long long, scf_invoked_count);
++static DEFINE_PER_CPU(struct llist_head, scf_free_pool);
  
--	if (use_cpus_read_lock)
--		cpus_read_lock();
--	else
--		preempt_disable();
- 	if (scfsp->scfs_prim == SCF_PRIM_SINGLE || scfsp->scfs_wait) {
- 		scfcp = kmalloc(sizeof(*scfcp), GFP_ATOMIC);
- 		if (!scfcp) {
-@@ -337,6 +333,10 @@ static void scftorture_invoke_one(struct scf_statistics *scfp, struct torture_ra
- 			scfcp->scfc_rpc = false;
- 		}
+ // Data for random primitive selection
+ #define SCF_PRIM_RESCHED	0
+@@ -133,6 +134,7 @@ struct scf_check {
+ 	bool scfc_wait;
+ 	bool scfc_rpc;
+ 	struct completion scfc_completion;
++	struct llist_node scf_node;
+ };
+ 
+ // Use to wait for all threads to start.
+@@ -148,6 +150,40 @@ static DEFINE_TORTURE_RANDOM_PERCPU(scf_torture_rand);
+ 
+ extern void resched_cpu(int cpu); // An alternative IPI vector.
+ 
++static void scf_add_to_free_list(struct scf_check *scfcp)
++{
++	struct llist_head *pool;
++	unsigned int cpu;
++
++	cpu = raw_smp_processor_id() % nthreads;
++	pool = &per_cpu(scf_free_pool, cpu);
++	llist_add(&scfcp->scf_node, pool);
++}
++
++static void scf_cleanup_free_list(unsigned int cpu)
++{
++	struct llist_head *pool;
++	struct llist_node *node;
++	struct scf_check *scfcp;
++	unsigned int slot = 0;
++	void *free_pool[64];
++
++	pool = &per_cpu(scf_free_pool, cpu);
++	node = llist_del_all(pool);
++	while (node) {
++		scfcp = llist_entry(node, struct scf_check, scf_node);
++		node = node->next;
++		free_pool[slot] = scfcp;
++		slot++;
++		if (slot == ARRAY_SIZE(free_pool)) {
++			kfree_bulk(slot, free_pool);
++			slot = 0;
++		}
++	}
++	if (slot)
++		kfree_bulk(slot, free_pool);
++}
++
+ // Print torture statistics.  Caller must ensure serialization.
+ static void scf_torture_stats_print(void)
+ {
+@@ -296,7 +332,7 @@ static void scf_handler(void *scfc_in)
+ 		if (scfcp->scfc_rpc)
+ 			complete(&scfcp->scfc_completion);
+ 	} else {
+-		kfree(scfcp);
++		scf_add_to_free_list(scfcp);
  	}
-+	if (use_cpus_read_lock)
-+		cpus_read_lock();
-+	else
-+		preempt_disable();
- 	switch (scfsp->scfs_prim) {
- 	case SCF_PRIM_RESCHED:
- 		if (IS_BUILTIN(CONFIG_SCF_TORTURE_TEST)) {
+ }
+ 
+@@ -363,7 +399,7 @@ static void scftorture_invoke_one(struct scf_statistics *scfp, struct torture_ra
+ 				scfp->n_single_wait_ofl++;
+ 			else
+ 				scfp->n_single_ofl++;
+-			kfree(scfcp);
++			scf_add_to_free_list(scfcp);
+ 			scfcp = NULL;
+ 		}
+ 		break;
+@@ -391,7 +427,7 @@ static void scftorture_invoke_one(struct scf_statistics *scfp, struct torture_ra
+ 				preempt_disable();
+ 		} else {
+ 			scfp->n_single_rpc_ofl++;
+-			kfree(scfcp);
++			scf_add_to_free_list(scfcp);
+ 			scfcp = NULL;
+ 		}
+ 		break;
+@@ -428,7 +464,7 @@ static void scftorture_invoke_one(struct scf_statistics *scfp, struct torture_ra
+ 			pr_warn("%s: Memory-ordering failure, scfs_prim: %d.\n", __func__, scfsp->scfs_prim);
+ 			atomic_inc(&n_mb_out_errs); // Leak rather than trash!
+ 		} else {
+-			kfree(scfcp);
++			scf_add_to_free_list(scfcp);
+ 		}
+ 		barrier(); // Prevent race-reduction compiler optimizations.
+ 	}
+@@ -442,6 +478,7 @@ static void scftorture_invoke_one(struct scf_statistics *scfp, struct torture_ra
+ 		schedule_timeout_uninterruptible(1);
+ }
+ 
++
+ // SCF test kthread.  Repeatedly does calls to members of the
+ // smp_call_function() family of functions.
+ static int scftorture_invoker(void *arg)
+@@ -479,6 +516,8 @@ static int scftorture_invoker(void *arg)
+ 	VERBOSE_SCFTORTOUT("scftorture_invoker %d started", scfp->cpu);
+ 
+ 	do {
++		scf_cleanup_free_list(scfp->cpu);
++
+ 		scftorture_invoke_one(scfp, &rand);
+ 		while (cpu_is_offline(cpu) && !torture_must_stop()) {
+ 			schedule_timeout_interruptible(HZ / 5);
 -- 
 2.45.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20241104105053.2182833-1-bigeasy%40linutronix.de.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20241104105053.2182833-2-bigeasy%40linutronix.de.
