@@ -1,122 +1,124 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBBFJVG4QMGQEL253EZI@googlegroups.com>
+Return-Path: <kasan-dev+bncBC7OBJGL2MHBB3XKVS4QMGQER3IBYJI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ot1-x338.google.com (mail-ot1-x338.google.com [IPv6:2607:f8b0:4864:20::338])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12A8E9BD34A
-	for <lists+kasan-dev@lfdr.de>; Tue,  5 Nov 2024 18:23:18 +0100 (CET)
-Received: by mail-ot1-x338.google.com with SMTP id 46e09a7af769-7180ef2acd7sf4761483a34.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 05 Nov 2024 09:23:18 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1730827397; cv=pass;
+Received: from mail-pg1-x53d.google.com (mail-pg1-x53d.google.com [IPv6:2607:f8b0:4864:20::53d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 64DC89BE24D
+	for <lists+kasan-dev@lfdr.de>; Wed,  6 Nov 2024 10:22:56 +0100 (CET)
+Received: by mail-pg1-x53d.google.com with SMTP id 41be03b00d2f7-7ec0d56d624sf6881502a12.1
+        for <lists+kasan-dev@lfdr.de>; Wed, 06 Nov 2024 01:22:56 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1730884974; cv=pass;
         d=google.com; s=arc-20240605;
-        b=G2ropxn+EfdXrpPibeQQv5l3MScrqmxE0ztOmUPWSMKl6upBnz68jroH/N/XwxLuAk
-         mlnhFXkLGfHX/EFWDsmdCbXvD7Lrv7oX/WjyjRrDtEp3SArS+oHQmP5ETdGvlexgiNUW
-         FTYcWr9AoXnth9HafTVi7ZcTFs54j1FoT//dirXYDcOnar9zD4VHkoYjlTHZykU9DJH4
-         JZKvvXE6d70Cu7keL3Hy9e1mHiETbfVAXqeJFzFx1oGNK5Jv4GeY1ySwWYg5ero0/rh5
-         1OJDdp76R8uehB8ORD5m7KxKn7xaoURIoVwxqZ5GOJp7LqRx0uC8VY8Jg6E6NgPo65wf
-         INHA==
+        b=fB/r/Gn6cT4JY7oDZl3AaRqRGTr/Qba+LnichF0FyxcKDwImgTha++mOXjCgfaOsMd
+         JDiUkjtksG0FNX/5t4iB4vTTu102J6MpSFFDyLjnphX3M+ZcpGR1IAAr9ERx6eXqcZc2
+         J+A3PDolUfrYK+5MupVomx4U4zBPDcJMo+hvQ4WO/zZ2MZtTgqzflunfDkzMKuoGgj6z
+         kMKXqLweulOcFGqgdU7nufr0LAKR36B5obUH8I/u0YBSN4vlWHeLRp23V1orurMTRYdN
+         SOcZYJUNuaw5aXRcBeyxoUEebI1Y79Rdi7fYXoFFjZUE/Yn876rvGyAT25GPoGGzYxyt
+         YucA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=3ydUzszPCmTSa4b7zKLoNGGiohezwbqg2XKZUGGGBDg=;
-        fh=d87xCyZoaw2MLuJdhMsFTozPvqwKt7Kw45aN3g9qTL8=;
-        b=Sh9ZGofnsr+UMIDemYCwtQxucdmhk8rZ3lIy1++8PzSSuDPaZyDv8xZLsbILMo2pwO
-         gyr1Zidv1NgHBT3spIGDee5SEq0PoxV7Go9RJgnA5yDTSYxVuuqNXjYIDW7sTznwEUqi
-         qhleonBoOcDCLDGvfjCafb2NAFIeSa+DgSgjKy65310o56ZF9z6e0qQ1XJX7NChCJSqk
-         omnmwxEtQX54n2Qrs5KyQ7Jzm+jZcFy3xKNAL46sJZ4buEiVfYh4P/PyVWttYtkr9DzZ
-         6dB9j1LwAVhazIwJvScpnJX9jPljl6GdgsOcozW+Q6Hq2coOVsXdMxVVlvgICUiIO+p3
-         q0sw==;
+        bh=ppJprUhrfVbDe+eRgJ0TLwD1n62JKJcCON2moPSCWJU=;
+        fh=LvjOgq4x40xNpJc1Fih6IhLKGyY/Z1cTLag6798eyZI=;
+        b=J/XCX1GRN515BFgELOgtz4PKt/Vynb8jaOmwGUErVsslybY6iSOPkE/C1ENj8F00xI
+         ivRUo1GJVVigY7StygqA1n34f6UoquQwv1dHlGzA8eHbPhXOSYtXa+aIm0RmtG852ixv
+         oi7odW7WjVlt/OgGr/NlvtXkWY2yJtsyVKtN9az2fkZLlTUFZ3E8gQAq4OVL3FGa4Mm5
+         17l2RCCBDVU8UAUVuNJxU8C7SpbTpPJhpriM24DeSTzVXWjoxhmSnb7j843/gK+XMeO1
+         xOH714BzfbsfKWiLmg9ndfHmQlSeWO6Q2lZk78S1FieYxJxwwkzNBka/CPwmqaMI1cfP
+         z6JA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=0br0sKlY;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::52a as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=A90pzUzw;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::52b as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1730827396; x=1731432196; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1730884974; x=1731489774; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3ydUzszPCmTSa4b7zKLoNGGiohezwbqg2XKZUGGGBDg=;
-        b=jdO8R5QyqS00xP+pdZfnkED1iwTUtyce/EafHo2nfvR+R6c88mKlMnSDjA4A9ZFzd3
-         zeEr16axhyOOmt7WPlaUKSjSFGDYc8+EBi+IqgPxX5+OHfaeppDIv2iMGqqKByJAM1IW
-         r+Sb41WHp71J/InXcicHJOhvRHP/sa4O3qrJhVwBu1mOm13DO+hJc6n/acGL3NlT6hmV
-         kRBiE3rbtldqI1g7WbvzvQjodtNHEngkOnHSGLxA2s7pQT2fWlJqjmk4JINxJc6WJx7X
-         xcx6+CDKYE6OQzNpgQ2vRH5PeVaeOx/A0Dwj49d8TlKWD8jg/o6UHaH265jTjBIm0OC0
-         f0Kg==
+        bh=ppJprUhrfVbDe+eRgJ0TLwD1n62JKJcCON2moPSCWJU=;
+        b=s6Al0jm30EXCp/OP971XznlhhQf3KV4sCsSJHKSGwrlFCWiX1aJLZ+eDRWlgnMuYMz
+         57rd91nnBQrNam+86H41hkGLBsm3v6/7o3PDwATLe6bcKLIPb5312c/nchbSlhImrCcV
+         1Qz0GdQF7uUONM3pWyILeImmRbwOw9k7qSAbcKRli486SjdNOrAPhrjQHgZCKK2CFO8+
+         AuZiXEz4bPnEzYWatV372Oku27foW6UkCIhe9UmoQs7p1BMxRq9mB7me4GQix44qKDfU
+         TgyP971ogx6PxYa90jICXQTjVfGTVoT5cGpKaZcUgOiQKbT8K1eVbGEQxKJkEfhms9RR
+         f6NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730827396; x=1731432196;
+        d=1e100.net; s=20230601; t=1730884974; x=1731489774;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version
          :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=3ydUzszPCmTSa4b7zKLoNGGiohezwbqg2XKZUGGGBDg=;
-        b=ugI3r1NheppkqQQFePwmdY5o5ShrvbRBBRAuEjHddk+xRe017p5rbOTElvyu48Wbha
-         NaqmvOpHobizuNpvEs0YGSS8aSslcH9RWxgvM9xc/ft3VCKwXFrBf0hufJDwGhK6obIR
-         tXoBzQ3jZAe9EtET5CVIi08Q4VVISORgSX5Gcu+Pi6beYBk1ygZYKbPWw1WDKExr8u9s
-         PMOXgWye3+bGgOmOrRDzIhs53pJpsGifidqm39Hlsoan0qcxA8mDCHH+lHrRhIpSGP90
-         q0/tCHadluxbwkgveZWcBnA4OURdhmgXhc7EOgGM8b/n/eUQI2bvJbee1bpm0wF5s8zR
-         9CWQ==
-X-Forwarded-Encrypted: i=2; AJvYcCUGOrUcA/QriDMp8vmYXKfEKDEY4kky3EN8cmA/wl3mlDRX4w2aQFoNrzewoX8blxdxKI+p0A==@lfdr.de
-X-Gm-Message-State: AOJu0Ywwd2RWQWrhj4ytpzDLd2otuxteocMgw8uVIMekqR0e+EzHv4uv
-	NFxBiQxugIQzhvc/0eiboEIKyT95RzuO/T4Ru3Puf62GTHa2axpW
-X-Google-Smtp-Source: AGHT+IHiqJxrpPcTlHiQ9zaFDvQIKIUTqSVPe9j5I8PhHU56L57i58wtvGEFKaTRyJE4r8RhGNbEiA==
-X-Received: by 2002:a05:6830:670b:b0:718:137e:c7e3 with SMTP id 46e09a7af769-7189b55e7f6mr18993661a34.31.1730827396762;
-        Tue, 05 Nov 2024 09:23:16 -0800 (PST)
+        bh=ppJprUhrfVbDe+eRgJ0TLwD1n62JKJcCON2moPSCWJU=;
+        b=swUaS9zlsfUKlkhKbv27Oct7pzF9c1QFnvzvzQpAxsAuZpZ4rGvq1vReV3MEStK3jp
+         hDNO2V8x7/9CztDChHLwv/ZX9iyyZvZA8CFCZayYjfZGLB3IlNxyNK/PQE8PA4w9onWE
+         YFLOZ/3s+wbJroNXJIXyMZtyU/UihfLiRGsPT8s1ibV9dHmFBWFL8ELWSWulzJQGgTMC
+         /f4K6F4rT1BLAcpsopxpXTq1qkszRranFbQ4PRP1aZffL8w5oCXInajloMyWAsiFEpw7
+         x+HTNrrnmnUyqF2+0IqsekDYxW3kp3PMDg9a5fjx133kb3l895y24Ex+ofsSHwrH4G+L
+         e/oQ==
+X-Forwarded-Encrypted: i=2; AJvYcCUvzur+80PWadBGy6i0oyaWpBKrckxrgETFvWB1DZy8CJSzdT9i1K35vXIu1s5wov74pmZ4SA==@lfdr.de
+X-Gm-Message-State: AOJu0YyOhjgV3oZuPSp32l7aYnamtcCjyrW/cutdlNoxVqifZFfFZTrH
+	cKAeiRPjeUF3r6/2h7SUHkFgA1fNHOY/QuLo54AnOUJviFwM3tcX
+X-Google-Smtp-Source: AGHT+IHBGyz6kw58/vYlG0NcWC4MPhlYySh7GSqThtGrLrWXg9Q/WsXuGouI9jxXspgL7wtOsfu0UA==
+X-Received: by 2002:a05:6a20:840f:b0:1db:eb9f:81c1 with SMTP id adf61e73a8af0-1dbeb9f81f8mr10414866637.6.1730884974382;
+        Wed, 06 Nov 2024 01:22:54 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a4a:c703:0:b0:5ba:c07d:d1e3 with SMTP id 006d021491bc7-5ec6d2aeb0dls3297869eaf.1.-pod-prod-03-us;
- Tue, 05 Nov 2024 09:23:13 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUAaho8LJoo7R6rYQMxWmZQBgN06cWoZdaRRxx8m0wUAiftyZna6ZJgO9oAgvM9p0Ep2471+ns8c4o=@googlegroups.com
-X-Received: by 2002:a05:6820:161e:b0:5e1:ea03:9286 with SMTP id 006d021491bc7-5ec6db4a30dmr11752935eaf.6.1730827393737;
-        Tue, 05 Nov 2024 09:23:13 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1730827393; cv=none;
+Received: by 2002:a17:90a:8984:b0:2e2:840e:d4a7 with SMTP id
+ 98e67ed59e1d1-2e93b134845ls4328369a91.1.-pod-prod-06-us; Wed, 06 Nov 2024
+ 01:22:53 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXrJmrkaPb4L0QMdOd+WqJO3tNKKjdqtyAyijo3s8Amb6zx8HNKN3mQo1jo2UEvCeeNoy/Zxth6x0I=@googlegroups.com
+X-Received: by 2002:a17:903:11c5:b0:20b:b40b:3454 with SMTP id d9443c01a7336-2111ae2bebemr221611195ad.0.1730884972658;
+        Wed, 06 Nov 2024 01:22:52 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1730884972; cv=none;
         d=google.com; s=arc-20240605;
-        b=XDOVImiJE5AgJAvx5oZvJMOYCCfm9ZjZduzCUHTzVX/noi7NbOb33Oe1oxNEzc5j5c
-         pjte1Epsi+Yxpf107tl4Q3OiCoZlkefZKtTkdDs3EOgT4nEDC9TMmpcNVAt+hGlBVMyc
-         HKyrYhaJO7PRLLi+Eh8rIvQ3TqMPzcUeSMgZZZCA3P3Ami3vkdPs2PUsMYz3I+aI+Vo/
-         pitDY80TRbXLrzeFO0EzFXCSDlS7GSHpayW0tHbbq48s4oz2gwTS4C8hbn830WZmdZyj
-         4Nld4hAVbGSVEMjCsxv2+9mDJ3l/3UL/5fGXebrwEJIqhETyYlejcG5X7goR81rBbxDa
-         nItA==
+        b=CwH6LLg+/9PJq2ZVRfU1WlBscNaAmYRs+CMLd/2wJvn2lBo4i6p58YG0J8/j1/v3Vf
+         8f0H6W1G4O4+DoYE6x7mDMmB5mZLVGMSEJ9WUzdH7UVAmjNOx3dgMI5Y2PIA2z2xhhvh
+         WR8Xd0IVOuC5ifauJH/kqpp3edA94cXV4rI+qIzbnUIoCf5Dg4rozu8C7AwX/MvIkHWV
+         1kH26tfHqQ7t7kVQeJdek1+ExMJ5sRZocSvowRrOaZ80EqBxsKBwxiCLZat0mexn7yZR
+         PZoEFPsLPfk5mm9CfcficZKX8gQFNrM4bDVwXN1Mx3rU9WewkPrttysRAB+t7PAnXsKX
+         fujg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=dFEkJSmFiPqxmVdTIAWTeQZ4orXSMuinYyWJKTteJXA=;
-        fh=ygp13Ia9g7j+CLgoYScfAoSY7tBlfbSQ1YY/yHUst5E=;
-        b=AIltDrmci6dxebyU8mKAtIp5EhW3gu+RxasSdleZ63gMVqepAL2uI5fRWQ0nBcRWa0
-         JrCue3Cm70j3hR1a+xsdKbl6X6vsOwWuMl8moLibIhSzOI4VLHm/Jw8M8yNlMBldg8S9
-         oqff230xmfssf0F3ZRkydrlge6MQbjlpGWpVR99AJy1078CUBmtSBeMhAMKSMF/GAHhQ
-         xW2RhwNjPdYy2s7yRMpr0VX4RdUgv8+7CheL95bG/0XqsBxcaRMC74x8CKoicxJYWj4i
-         WOQA/qYJLx1V310VZ6m76OjVVP7fO1yul8gmBewsa79xsHcMVu1CWCQJfufSBZLX/ekf
-         XnQg==;
+        bh=j1zaLifxSHG9dqHGVi3lzDCXh1QBtGfWizelzPv1KKI=;
+        fh=J9D6ry35r9+EHtu6lzPoBmypAHyAbwYfZki9eYp0Ht8=;
+        b=YZe+cehjpVhkHPckLvZLFe48sgOIDTX09cYnjYMPxTE2Ge8K2v9o5IzVIDs+bTULOV
+         21OQ2n3HfdIQTVFZK1Ev32JGBwzGy9OcHXkBerMkBB+HYd7lXFGPYzEw6yeaguugllpp
+         IGmgFtBsTcXaDYzfIniDsaHXyPGYdwM68lx0gcsVpqApPFNjSLC2wce4cqpkg7L+uREP
+         LnDJ51+UQS2HycgmzCgjzlVib7dZUs18E8CF7FtpdmyNyC4BsODXwEKuAUB6lM1QTu7q
+         i4zvK9PjVoNI9dBlaMrXdZlDMbEucGqeIQxjolyfEI78AIftUgkCxqePCC2vOd4nlvx4
+         7YjA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=0br0sKlY;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::52a as permitted sender) smtp.mailfrom=elver@google.com;
+       dkim=pass header.i=@google.com header.s=20230601 header.b=A90pzUzw;
+       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::52b as permitted sender) smtp.mailfrom=elver@google.com;
        dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com. [2607:f8b0:4864:20::52a])
-        by gmr-mx.google.com with ESMTPS id 006d021491bc7-5ec70556477si575772eaf.2.2024.11.05.09.23.13
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com. [2607:f8b0:4864:20::52b])
+        by gmr-mx.google.com with ESMTPS id d9443c01a7336-211056f05b2si6009415ad.1.2024.11.06.01.22.52
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 Nov 2024 09:23:13 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::52a as permitted sender) client-ip=2607:f8b0:4864:20::52a;
-Received: by mail-pg1-x52a.google.com with SMTP id 41be03b00d2f7-7ea76a12c32so4332573a12.1
-        for <kasan-dev@googlegroups.com>; Tue, 05 Nov 2024 09:23:13 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWHnYaXaR9f742vt8wGGmvqLUVg7ay0cXhYGTfCOb+VTJ0bHWulZ2cphcSUN0DO6jZv9V7q4P4u/Xk=@googlegroups.com
-X-Received: by 2002:a17:90b:4c8b:b0:2e2:cd80:4d44 with SMTP id
- 98e67ed59e1d1-2e93c1d22famr25936840a91.28.1730827392768; Tue, 05 Nov 2024
- 09:23:12 -0800 (PST)
+        Wed, 06 Nov 2024 01:22:52 -0800 (PST)
+Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::52b as permitted sender) client-ip=2607:f8b0:4864:20::52b;
+Received: by mail-pg1-x52b.google.com with SMTP id 41be03b00d2f7-7ee11ff7210so4570144a12.1
+        for <kasan-dev@googlegroups.com>; Wed, 06 Nov 2024 01:22:52 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVmylTEQJrK75G7f5OHgb4bcWzD510wRGfFOUv8PgzLAOlHkYTKsfFS7O7kMfD5gx4Fv50QlNz5mIk=@googlegroups.com
+X-Received: by 2002:a05:6a20:d48e:b0:1d9:26b7:6ca with SMTP id
+ adf61e73a8af0-1dba556fbfemr27874210637.45.1730884971969; Wed, 06 Nov 2024
+ 01:22:51 -0800 (PST)
 MIME-Version: 1.0
 References: <20241105133610.1937089-1-elver@google.com> <20241105113111.76c46806@gandalf.local.home>
- <CANpmjNMuTdLDMmSeJkHmGjr59OtMEsf4+Emkr8hWD++XjQpSpg@mail.gmail.com> <20241105120247.596a0dc9@gandalf.local.home>
-In-Reply-To: <20241105120247.596a0dc9@gandalf.local.home>
+ <CANpmjNMuTdLDMmSeJkHmGjr59OtMEsf4+Emkr8hWD++XjQpSpg@mail.gmail.com>
+ <20241105120247.596a0dc9@gandalf.local.home> <CANpmjNNTcrk7KtsQAdGVPmcOkiy446VmD-Y=YqxoUx+twTiOwA@mail.gmail.com>
+In-Reply-To: <CANpmjNNTcrk7KtsQAdGVPmcOkiy446VmD-Y=YqxoUx+twTiOwA@mail.gmail.com>
 From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Tue, 5 Nov 2024 18:22:36 +0100
-Message-ID: <CANpmjNNTcrk7KtsQAdGVPmcOkiy446VmD-Y=YqxoUx+twTiOwA@mail.gmail.com>
+Date: Wed, 6 Nov 2024 10:22:15 +0100
+Message-ID: <CANpmjNP+CFijZ-nhwSR_sdxNDTjfRfyQ5c5wLE=fqN=nhL8FEA@mail.gmail.com>
 Subject: Re: [PATCH] tracing: Add task_prctl_unknown tracepoint
 To: Steven Rostedt <rostedt@goodmis.org>
 Cc: Kees Cook <keescook@chromium.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
@@ -127,8 +129,8 @@ Cc: Kees Cook <keescook@chromium.org>, Masami Hiramatsu <mhiramat@kernel.org>,
 Content-Type: text/plain; charset="UTF-8"
 X-Original-Sender: elver@google.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=0br0sKlY;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::52a as
+ header.i=@google.com header.s=20230601 header.b=A90pzUzw;       spf=pass
+ (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::52b as
  permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
  sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
 X-Original-From: Marco Elver <elver@google.com>
@@ -145,69 +147,27 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Tue, 5 Nov 2024 at 18:02, Steven Rostedt <rostedt@goodmis.org> wrote:
->
-> On Tue, 5 Nov 2024 17:53:53 +0100
-> Marco Elver <elver@google.com> wrote:
->
-> > > > +/**
-> > > > + * task_prctl_unknown - called on unknown prctl() option
-> > > > + * @task:    pointer to the current task
-> > > > + * @option:  option passed
-> > > > + * @arg2:    arg2 passed
-> > > > + * @arg3:    arg3 passed
-> > > > + * @arg4:    arg4 passed
-> > > > + * @arg5:    arg5 passed
-> > > > + *
-> > > > + * Called on an unknown prctl() option.
-> > > > + */
-> > > > +TRACE_EVENT(task_prctl_unknown,
-> > > > +
-> > > > +     TP_PROTO(struct task_struct *task, int option, unsigned long arg2, unsigned long arg3,
-> > > > +              unsigned long arg4, unsigned long arg5),
-> > > > +
-> > > > +     TP_ARGS(task, option, arg2, arg3, arg4, arg5),
-> > > > +
-> > > > +     TP_STRUCT__entry(
-> > > > +             __field(        pid_t,          pid             )
+On Tue, 5 Nov 2024 at 18:22, Marco Elver <elver@google.com> wrote:
+...
+> > > > I'm also surprised that the comm didn't show in the trace_pipe.
 > > >
-> > > Why record the pid that is already recorded by the event header?
-> >
-> > To keep in style with the other "task" tracepoints above. I can
-> > certainly do without - it does seem unnecessary.
->
-> Hmm, new_task, pid is different than the creator. But rename is pointless
-> to record pid. I would get rid of it here, especially since it also creates
-> a hole in the event (three int fields followed by a long).
->
-> >
-> > To cleanup, do we want to remove "pid=" from the other tracepoints in
-> > this file as well (in another patch). Or does this potentially break
-> > existing users?
->
-> We can't from task_newtask as that's the pid of the task that's being
-> created. In other words, it's very relevant. The task_rename could have its
-> pid field dropped.
-
-Ack - will do.
-
-> >
-> > > > +             __string(       comm,           task->comm      )
+> > > Any config options or tweaks needed to get it to show more reliably?
 > > >
-> > > I'm also surprised that the comm didn't show in the trace_pipe.
+> > > > I've
+> > > > updated the code so that it should usually find it. But saving it here may
+> > > > not be a big deal.
 > >
-> > Any config options or tweaks needed to get it to show more reliably?
-> >
-> > > I've
-> > > updated the code so that it should usually find it. But saving it here may
-> > > not be a big deal.
+> > How did you start it? Because it appears reliable for me.
 >
-> How did you start it? Because it appears reliable for me.
+> Very normally from bash. Maybe my env is broken in other ways, I'll
+> dig a little.
 
-Very normally from bash. Maybe my env is broken in other ways, I'll
-dig a little.
+Some trial and error led me to conclude it's a race between the logic
+looking up the comm and the process exiting: If the test program exits
+soon after the traced event, it doesn't print the comm. Adding a
+generous usleep() before it exits reliably prints the comm.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNTcrk7KtsQAdGVPmcOkiy446VmD-Y%3DYqxoUx%2BtwTiOwA%40mail.gmail.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNP%2BCFijZ-nhwSR_sdxNDTjfRfyQ5c5wLE%3DfqN%3DnhL8FEA%40mail.gmail.com.
