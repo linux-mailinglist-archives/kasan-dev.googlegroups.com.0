@@ -1,131 +1,138 @@
-Return-Path: <kasan-dev+bncBCU73AEHRQBBBKOEWO4QMGQECI47JUA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCR6PUHQH4IKHRNTXEDBUBFK5L6TK@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pj1-x1039.google.com (mail-pj1-x1039.google.com [IPv6:2607:f8b0:4864:20::1039])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0C29C0A6C
-	for <lists+kasan-dev@lfdr.de>; Thu,  7 Nov 2024 16:52:12 +0100 (CET)
-Received: by mail-pj1-x1039.google.com with SMTP id 98e67ed59e1d1-2e2ed2230fcsf1154851a91.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 07 Nov 2024 07:52:12 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1730994731; cv=pass;
+Received: from mail-oo1-xc39.google.com (mail-oo1-xc39.google.com [IPv6:2607:f8b0:4864:20::c39])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5EDF9C0A75
+	for <lists+kasan-dev@lfdr.de>; Thu,  7 Nov 2024 16:54:12 +0100 (CET)
+Received: by mail-oo1-xc39.google.com with SMTP id 006d021491bc7-5eb60cc6d66sf799710eaf.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 07 Nov 2024 07:54:12 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1730994851; cv=pass;
         d=google.com; s=arc-20240605;
-        b=J9Pnb3ktm6U02GHd1UkYlJX4gJa5mUmsn6AbIqbpwkpsBO0cK6/wbvwjTivCQHuTdV
-         nRvkND3S18aMT8gb1q6mfqKzO4YMFG+iusBmf78QG/bJCH9c1S9YoIVuyPsxj+afpR8p
-         2A1IsGoDUf3e2DXxU5rC7xAggiDcQ3XVMsEsg6M7bpFqGrAkPu8Sg8ufv1/yvqHNegu5
-         Ch9YHV/MargyloW2KnivLDoB71A527vahH66ovKCQj5d/MnFMZMVMVrr6Fz/vbw1+lJc
-         Glt9n+qjC6cTU9uqqUW1tWzCxYt2fwptt/Qn5dZUk8tIROABG2Eg/VCzrSTgptXDL2VK
-         CjWg==
+        b=jCG5meJ/jhDTuKbkzvCeEEBBS1a3u2KpT6iSoSnb3enb0F2VPB0EfTHEfw5Suxq+8B
+         SoJ8RGKM1zxCoFNgEU7XXb9OKNZ1hroByTNSRaj+GPqriLzIg1ScBRrSvcrs2k1zKICe
+         f0EIwWJdfWmBIW+VrmfdxhBzIPZasQfnUeABhDQFau3GtZe7XEKfv2D6HYapADW2d5/T
+         gF10zZf72hjfJqkbS3+zQYdtlZbB+QVrSrqOVvsCuPT74PUqjvDciZ/RNWYCOt3vVlh6
+         V/rHBCMlomzLH60OEf5SBUjJcJ9H/bAt6hcYIiL7cWFADvD+QgKP7avwVv66gumf4y3O
+         7WGA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:sender:dkim-signature;
-        bh=TlQ1NF5IIupfwug40pGNrRWqMsHNXkortZ7Gl/+DOOI=;
-        fh=Zy3/fcJMFWLwX4YJng72029qGEd29Jnq3ma9pKNkVAA=;
-        b=dl+i7E5lq9qwe67MbPWcIDT70cygmpDx4Mr/367Q9RlsGzOUqKRF9P5ercndypO2is
-         TqyfiXdaQd8+kfQfn+9E2Yf+lXYz/4XLkhVctGMJccaTbI7hzQxfW61SlY+TuzSVV7jt
-         4fKNZJRcfDjeAFX4scLP5ff9HXpKQFmuvi4CTqW8PWqtuoFq5o2kGuM1vYDC5EdJMDh9
-         n2cjaUUzw3vKkjzmCphyDIBhNpMX50KMW67ylF03InKpMzZuIzIb4YE4MdNxRTi5FEkY
-         /x2e5wPZjae6HIbX1sc9y28Cfr2sdpzoYPO6pZaTk9YAOQAbj+SVwKdg0rGOnlWy5h63
-         zEww==;
+         :list-id:mailing-list:precedence:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:dkim-signature;
+        bh=1awyfeJn/+bHXWbCqkXl1NRmX6mvBUPY1JZN/6b76Jc=;
+        fh=u4HCpjC8QnN+5CZ0MUmqrk9Y+wpVBGBJGBdkmiHfH6I=;
+        b=cAkh3h7TBJSiW/fUKK8kYDZJ22Jc5GOTFzwwNzE4ZwFV2tPIyhVy0wyYYsazRO5oLQ
+         aI5/sK9fnQRFPQg+T80Ja6xrzyKVYyS+aed9nonEsGoerq2QpxNr0TZfQZUfX1S/3zl5
+         Z6q9biYHVjS9b2Xb1K+1iBOvVMSxsYgxar5mN8m6M8qKgqnfOBo5cIt/CxzaVEME4dHK
+         vUk9c2nVL+rElm/asdQYBZC9UundGw8/3xfWht/Nuz591URxxeGqrwujqAaTfdFLSfGd
+         LC1BzkQm2T3RuD0/MBZEC0+OZKcipqRRWe80Dyy1b0M3EuQTr+5dPY4oLUw6zrS8OUoK
+         8xhw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of srs0=q2pa=sc=goodmis.org=rostedt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=Q2PA=SC=goodmis.org=rostedt@kernel.org"
+       dkim=pass header.i=@efficios.com header.s=smtpout1 header.b=rrqT6gFA;
+       spf=pass (google.com: domain of mathieu.desnoyers@efficios.com designates 2607:5300:203:b2ee::31e5 as permitted sender) smtp.mailfrom=mathieu.desnoyers@efficios.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=efficios.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1730994731; x=1731599531; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1730994851; x=1731599651; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:mime-version:references:in-reply-to:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=TlQ1NF5IIupfwug40pGNrRWqMsHNXkortZ7Gl/+DOOI=;
-        b=IxHVN4N7OpYFg8Q9wfkkKiMkhR7Lmi0kZ4RbSZxR/tYDc7uMtDenyHFRWRvCeuRZ5C
-         RkuXypEHmWjre2267PrxA3Uyw/vy5B276EYcLCCxdik0A3FLDLKR0gGNwiLlryOhyYLc
-         /OcJUKyXQPY6rRnend2zXOybzq7dG+Qylcf6WTx1i4/2jP/tLMov9Pv4/uMiEFHu1VaM
-         ZAqWj3jQBuYqda0armz6gcMEEfLTKUrl5K0xVCoYk54wuORDPsEx5dRvPhYerR0RV27b
-         myjohIn1s+QAKhNL1WYK+OxU2zbTbLyHZXHzakDV1skAY02qf2UOEq3Nc9RYBGgoFkSN
-         bdpw==
+         :x-original-sender:in-reply-to:from:content-language:references:cc
+         :to:subject:user-agent:mime-version:date:message-id:sender:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1awyfeJn/+bHXWbCqkXl1NRmX6mvBUPY1JZN/6b76Jc=;
+        b=BRlPjUfw/OB+z3ifbO10AMlaCgQsqOoIQnjeKTBs/mjxlpo1X0LZJ1AR+EBXh1tNk3
+         oNPs37JVeLzldWyfEvTnq5nRXPn/JISSBdubT3Inyilie7LFYjnsNI5un8NSA3shvf+W
+         Qdk7YFshlfhJVShkaeZlFbMi4eGG5+YNyRTo4MdQZ5OK+WcImRn4XxEGeiu37RaoVodd
+         zFC90+VZxmUbUHD0a+qMU6J1Hk+UBvR+QLppkeaJ5usx4STgaTvmGDSbNQszwXSWq4YM
+         BYh5+c6WgJAHqsRo6JeCKFbleytJp/2u7rr7CgymF8E2CG/xahxbiqQdqq4NFFU7MRLN
+         bZ6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730994731; x=1731599531;
+        d=1e100.net; s=20230601; t=1730994851; x=1731599651;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:subject:cc:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TlQ1NF5IIupfwug40pGNrRWqMsHNXkortZ7Gl/+DOOI=;
-        b=QXtdLEtnqd9uXgNDM9820kqgbwPkLptUiEvLyTchHylawlqPKBi/R0EiCVXQ215P9k
-         2ZOaWTpNFwLIqouR/cwbhDWl/0ChvRRjj141IlLIa0hdXCn4WOsColShEjAxw3FGozii
-         ZVbDNS3U1S4PyxVR1++SM6erYO9S7z33uufXgnC2w2VdDCN/OxKRaHeKd0WBtdth0dXC
-         GOJoYxLIC3hsJb8GJWl2et3o4Tq+7/GwrlUp9xqBerAunDA7mlFvbYAsJta1uTLOCq+h
-         XiEdTYC4pWyXdsfxrEMJMg7fSc948H88qEZ0jOsDOjgEX44YjNxQOrmKL7HKvL3KuGVf
-         s7oQ==
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :from:content-language:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1awyfeJn/+bHXWbCqkXl1NRmX6mvBUPY1JZN/6b76Jc=;
+        b=lfK9IC1fOHx6y1YVuzN1FIHQMaa2cQ+nfwuAD5B9KbDhvfNWG6wAA3MgFvTT8aybNz
+         TGGpuez8BNsLRsK+q+vpDU6vUQAdue+E4Dl7I/6iU3PMOSiu6kB0xfbcVi1SIsUSeEai
+         VqVfAooaY2kyG9YNso1lPqz/jrzvAQFEXpA9GNvfSPgWzpMIgH6FNdUu4FLJojwv2zJz
+         tgTWwdXsITbwgU/Xa/6d5cSJzEaCBMeCu99B3PdgELUv/QSiyd2P7ENTEdT0We7vvBb7
+         AlljmaQO75Tdb5upn5JxBWIJpqRG19lrk4X7lHTFgcJasqrH/Hxck9GLBsQYq7dGZTRH
+         FJWw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXUcB92t0vOgSsXvKjCpNgTc+qn7MxjShX0hLOz78Wt3ITcuMgMlrBsWXRnzjYU7AOJW970Kw==@lfdr.de
-X-Gm-Message-State: AOJu0YwLcf16rP0YUj5plAZ/iXydQg77ejtC6LTxvMss7pxycNHMe9Aj
-	eKnq+zL/dJdHXyaFJlVUu7MA0ubUdpyv7TSpzZFYl1rxSalqdKMw
-X-Google-Smtp-Source: AGHT+IGBhmKgZZJtfXMQlon++CsCg0jO2ihEck6Qm/cTH1x0IgwACCw4M42+U97VUvpZJMqrhQM1+A==
-X-Received: by 2002:a17:90b:380f:b0:2e2:cf5c:8ee8 with SMTP id 98e67ed59e1d1-2e9afbed104mr507792a91.12.1730994729326;
-        Thu, 07 Nov 2024 07:52:09 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWzGqG3ZtqIx7CCrGZxXHEdnVjrT0XMcCnVArrvfC9GhneMOivMH4Qvcp/GvynqhbUn6L4VQQ==@lfdr.de
+X-Gm-Message-State: AOJu0Yz45hTbjrnMcuX6U4WqD7Cn4lDHv/fQb3i/NDuX5vMcOgpqJ7CO
+	W+2ytVvWN+khmJe1xfTX/rIOAbl+YinAV9fjWGl/tlbzSnMzDjVT
+X-Google-Smtp-Source: AGHT+IEL6+ShOgRiDLqFL2pGt8rhdMbJFqjQ0gZ248IKlvZY3gk5ZQ0y/l1BmkSaiLhIwJSzvnWtDw==
+X-Received: by 2002:a05:6820:1f08:b0:5eb:75a9:3aac with SMTP id 006d021491bc7-5ee566ccb00mr70836eaf.6.1730994851395;
+        Thu, 07 Nov 2024 07:54:11 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a17:90a:5e46:b0:2e7:8a36:a99f with SMTP id
- 98e67ed59e1d1-2e9a4074974ls822027a91.2.-pod-prod-02-us; Thu, 07 Nov 2024
- 07:52:08 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUiL63Mc+wlfiV8XWuN8g/hEx+CaLErbVfpwh6lXLxyG1gW2WbM2MzHRGWx47eO0JN8H5qFx7/520Y=@googlegroups.com
-X-Received: by 2002:a17:90b:2e46:b0:2d3:c638:ec67 with SMTP id 98e67ed59e1d1-2e9afaf7f7amr597298a91.0.1730994727901;
-        Thu, 07 Nov 2024 07:52:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1730994727; cv=none;
+Received: by 2002:a05:6820:4d0a:b0:5ed:f9c5:832a with SMTP id
+ 006d021491bc7-5ee459a354als985455eaf.0.-pod-prod-09-us; Thu, 07 Nov 2024
+ 07:54:08 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXinL/ntL4qOmNIPVsnXfi0Dmrquu36ISZZJifjJvpUvSUXBYJjrtJtgizETGL/UI3aixdmrKBOuWE=@googlegroups.com
+X-Received: by 2002:a4a:e90f:0:b0:5eb:c6ba:796d with SMTP id 006d021491bc7-5ee568de65emr23954eaf.1.1730994848129;
+        Thu, 07 Nov 2024 07:54:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1730994848; cv=none;
         d=google.com; s=arc-20240605;
-        b=Dsq7+Cd6BCQTAOYCbIqeR2W+qjYPnwNweeT+EHJJGDx59sSFwB91HsztYoEzmULSx6
-         sKkJyGYHRQNO31s5ynZAcZI2dgxdbzzLAxwyCT5Gn1avnBQxbZDcjH6kmvzrtiDEh1Im
-         c+KI+aS6IDgqNphPJx/CIHwI5TCS6nXJ8sWZjhwllT7YLA3UMlc46QbifF6EUgjWKzrQ
-         aH2lfmdZtzFoWk5xewqFRqyRCvpQsRlyLxhh2gvmD0UENnPcnvc/5Tt2gK58fdC5u+gi
-         WGHjxE7vNjQ6JjZCw4fDO8l0rcD7mEPK5h/Ou+VZncbChIQZMvIcsrvt0txNbZDLKoyS
-         vMkg==
+        b=kncuZ28cDtOio3kPmeDqaFSNrwLll6p04eGy/WCPreIhbn9peoRfQL66mumVfjnLZ6
+         wpdAMg+vpVtzHuSpa5pUVxt6ePOL1amiTuM0cmKRn9DVLTIFcak/P6la4BxSwuiLShWO
+         FyU831d1gXht6MLulFcSwn4cPFOXMbuHgEOywPTLHLEmsFcP/TCWr5f/txOVArUyqsNx
+         93RfWIEgSiGS1aPXPgL5tE2CwxLCMnqU25wkSNgHv739Twkq3iK6KL6ISb2JaDLVtINq
+         yv3fTvXH7iXo8K7XdSKOonj14bEC7VQZyqkmL2wa0UmSRVGl8a7tftE10bAMcAfIZnz7
+         S6Qw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date;
-        bh=0hwdWcbrWft1DjB/sYRyvW0V22f0lvulHb7B62YOWas=;
-        fh=dSJMJtD5qUkaJL/wuD+ubXntj4y+QHLuwplSkt5M1vQ=;
-        b=dMjQsZgJyMqMuaSWRa+FMzYKSEfInwsNweCFwOoZvbBiq8/Tpuoz6hYhuSVKDsjEcu
-         QdkXZX2JoEEQSHhYGJvAooGo4bLAfHWK9JN2ZBve62rXNjyxMVDxs29EuPIrJzaISM4h
-         WFQMLtwXk93YZCyBmr6nUWJyjWwWN7+PznaD2cMSBj34SzN8pyqq9V9bj3gm8Ce+uUwm
-         KXsa8BdAgfFtdAW3Q1XjZW/UcdVVYSt+Gn2hOVmgymYeML5FUI7Jr0zpKeNi6vVJwKuN
-         NuKW6KUKgI+fknEIakD82YpEbWoijAbXWyIS6yLhsQVe8JFVZuSyXr5Bri44G5F0j1jf
-         LTmQ==;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :dkim-signature;
+        bh=ItjcwwFWJ1eN8C6GeicRaz4ZF3Qa5clzrN3+55+EGPU=;
+        fh=hPVy8hZoYoKgFBD7jpNt4DrkUeK6gv5h1xZcyiS3szs=;
+        b=MLue9CmbJxI2dxRnQjP2Nonm5poAmisRihOfa7+/AhDkPZB8OQ6Kv/Un4c51qpIbR5
+         6SsWpLFrBbk67T+8AWTFNH/InY4KdV4gctL6mmE4O8TFdd1p6pqWsi6ExgA0YGGlFKf7
+         BEQD/MZqajAMad0QEP1kNuVpFEjSA/togD+SB+KoxmhBTZFchx5PPM8j6M7Ee7V6JXfO
+         vdqWPkHhhWxiQ6opuZyb5Ox0+O83ZUh0OaObTxKD3SoirPsKa90VbjhEaWa9il/FFV6/
+         pVEXrf9TjtlcX3Mx+rWvyPRYiEPaWqdg8IuxG3FUSZA9C8c1H0SNFu802WjalWNNyG6N
+         rwOQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of srs0=q2pa=sc=goodmis.org=rostedt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=Q2PA=SC=goodmis.org=rostedt@kernel.org"
-Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
-        by gmr-mx.google.com with ESMTPS id 98e67ed59e1d1-2e99a64e53csi157814a91.3.2024.11.07.07.52.07
+       dkim=pass header.i=@efficios.com header.s=smtpout1 header.b=rrqT6gFA;
+       spf=pass (google.com: domain of mathieu.desnoyers@efficios.com designates 2607:5300:203:b2ee::31e5 as permitted sender) smtp.mailfrom=mathieu.desnoyers@efficios.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=efficios.com
+Received: from smtpout.efficios.com (smtpout.efficios.com. [2607:5300:203:b2ee::31e5])
+        by gmr-mx.google.com with ESMTPS id 006d021491bc7-5ee4967312bsi78723eaf.1.2024.11.07.07.54.08
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2024 07:52:07 -0800 (PST)
-Received-SPF: pass (google.com: domain of srs0=q2pa=sc=goodmis.org=rostedt@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by dfw.source.kernel.org (Postfix) with ESMTP id 85AED5C2D61;
-	Thu,  7 Nov 2024 15:51:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3387C4CECC;
-	Thu,  7 Nov 2024 15:52:05 +0000 (UTC)
-Date: Thu, 7 Nov 2024 10:52:11 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Marco Elver <elver@google.com>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Kees Cook
- <keescook@chromium.org>, Masami Hiramatsu <mhiramat@kernel.org>, Andrew
- Morton <akpm@linux-foundation.org>, Oleg Nesterov <oleg@redhat.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, Dmitry
- Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com
-Subject: Re: [PATCH v2 1/2] tracing: Add task_prctl_unknown tracepoint
-Message-ID: <20241107105211.3275831b@gandalf.local.home>
-In-Reply-To: <CANpmjNPWLOfXBMYV0_Eon6NgKPyDorTxwS4b67ZKz7hyz5i13A@mail.gmail.com>
-References: <20241107122648.2504368-1-elver@google.com>
-	<5b7defe4-09db-491e-b2fb-3fb6379dc452@efficios.com>
-	<CANpmjNPWLOfXBMYV0_Eon6NgKPyDorTxwS4b67ZKz7hyz5i13A@mail.gmail.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Thu, 07 Nov 2024 07:54:08 -0800 (PST)
+Received-SPF: pass (google.com: domain of mathieu.desnoyers@efficios.com designates 2607:5300:203:b2ee::31e5 as permitted sender) client-ip=2607:5300:203:b2ee::31e5;
+Received: from [172.16.0.134] (96-127-217-162.qc.cable.ebox.net [96.127.217.162])
+	by smtpout.efficios.com (Postfix) with ESMTPSA id 4XkmpR0prGzxsy;
+	Thu,  7 Nov 2024 10:54:07 -0500 (EST)
+Message-ID: <3326c8a1-36c7-476b-8afa-2957f5bd5426@efficios.com>
+Date: Thu, 7 Nov 2024 10:52:37 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: rostedt@goodmis.org
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of srs0=q2pa=sc=goodmis.org=rostedt@kernel.org designates
- 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=Q2PA=SC=goodmis.org=rostedt@kernel.org"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] tracing: Add task_prctl_unknown tracepoint
+To: Marco Elver <elver@google.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Kees Cook <keescook@chromium.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Oleg Nesterov <oleg@redhat.com>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com
+References: <20241107122648.2504368-1-elver@google.com>
+ <5b7defe4-09db-491e-b2fb-3fb6379dc452@efficios.com>
+ <CANpmjNPWLOfXBMYV0_Eon6NgKPyDorTxwS4b67ZKz7hyz5i13A@mail.gmail.com>
+Content-Language: en-US
+From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+In-Reply-To: <CANpmjNPWLOfXBMYV0_Eon6NgKPyDorTxwS4b67ZKz7hyz5i13A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Original-Sender: mathieu.desnoyers@efficios.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@efficios.com header.s=smtpout1 header.b=rrqT6gFA;       spf=pass
+ (google.com: domain of mathieu.desnoyers@efficios.com designates
+ 2607:5300:203:b2ee::31e5 as permitted sender) smtp.mailfrom=mathieu.desnoyers@efficios.com;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=efficios.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -138,24 +145,68 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, 7 Nov 2024 16:46:47 +0100
-Marco Elver <elver@google.com> wrote:
-
-> > My concern is that we start adding tons of special-case
-> > tracepoints to the implementation of system calls which
-> > are redundant with the sys_enter/exit tracepoints.
-> >
-> > Why favor this approach rather than hooking on sys_enter/exit ?  
+On 2024-11-07 10:46, Marco Elver wrote:
+> On Thu, 7 Nov 2024 at 16:45, Mathieu Desnoyers
+> <mathieu.desnoyers@efficios.com> wrote:
+>>
+>> On 2024-11-07 07:25, Marco Elver wrote:
+>>> prctl() is a complex syscall which multiplexes its functionality based
+>>> on a large set of PR_* options. Currently we count 64 such options. The
+>>> return value of unknown options is -EINVAL, and doesn't distinguish from
+>>> known options that were passed invalid args that also return -EINVAL.
+>>>
+>>> To understand if programs are attempting to use prctl() options not yet
+>>> available on the running kernel, provide the task_prctl_unknown
+>>> tracepoint.
+>>>
+>>> Note, this tracepoint is in an unlikely cold path, and would therefore
+>>> be suitable for continuous monitoring (e.g. via perf_event_open).
+>>>
+>>> While the above is likely the simplest usecase, additionally this
+>>> tracepoint can help unlock some testing scenarios (where probing
+>>> sys_enter or sys_exit causes undesirable performance overheads):
+>>>
+>>>     a. unprivileged triggering of a test module: test modules may register a
+>>>        probe to be called back on task_prctl_unknown, and pick a very large
+>>>        unknown prctl() option upon which they perform a test function for an
+>>>        unprivileged user;
+>>>
+>>>     b. unprivileged triggering of an eBPF program function: similar
+>>>        as idea (a).
+>>>
+>>> Example trace_pipe output:
+>>>
+>>>     test-484     [000] .....   631.748104: task_prctl_unknown: comm=test option=1234 arg2=101 arg3=102 arg4=103 arg5=104
+>>>
+>>
+>> My concern is that we start adding tons of special-case
+>> tracepoints to the implementation of system calls which
+>> are redundant with the sys_enter/exit tracepoints.
+>>
+>> Why favor this approach rather than hooking on sys_enter/exit ?
 > 
 > It's __extremely__ expensive when deployed at scale. See note in
 > commit description above.
 
-Agreed. The sys_enter/exit trace events make all syscalls go the slow path,
-which can be quite expensive.
+I suspect you base the overhead analysis on the x86-64 implementation
+of sys_enter/exit tracepoint and especially the overhead caused by
+the SYSCALL_WORK_SYSCALL_TRACEPOINT thread flag, am I correct ?
 
--- Steve
+If that is causing a too large overhead, we should investigate if
+those can be improved instead of adding tracepoints in the
+implementation of system calls.
+
+Thanks,
+
+Mathieu
+
+
+-- 
+Mathieu Desnoyers
+EfficiOS Inc.
+https://www.efficios.com
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20241107105211.3275831b%40gandalf.local.home.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/3326c8a1-36c7-476b-8afa-2957f5bd5426%40efficios.com.
