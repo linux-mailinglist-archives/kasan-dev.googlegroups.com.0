@@ -1,111 +1,109 @@
-Return-Path: <kasan-dev+bncBCKLNNXAXYFBBEOWW64QMGQE5VUN24A@googlegroups.com>
+Return-Path: <kasan-dev+bncBCKLNNXAXYFBBEWWW64QMGQEUIV6WEY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-ej1-x63a.google.com (mail-ej1-x63a.google.com [IPv6:2a00:1450:4864:20::63a])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6B89C1AE1
-	for <lists+kasan-dev@lfdr.de>; Fri,  8 Nov 2024 11:42:26 +0100 (CET)
-Received: by mail-ej1-x63a.google.com with SMTP id a640c23a62f3a-a9a1b872d8bsf145531266b.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 08 Nov 2024 02:42:26 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1731062546; cv=pass;
+Received: from mail-lj1-x23b.google.com (mail-lj1-x23b.google.com [IPv6:2a00:1450:4864:20::23b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6739C1AE3
+	for <lists+kasan-dev@lfdr.de>; Fri,  8 Nov 2024 11:42:28 +0100 (CET)
+Received: by mail-lj1-x23b.google.com with SMTP id 38308e7fff4ca-2fcd9765852sf11835611fa.3
+        for <lists+kasan-dev@lfdr.de>; Fri, 08 Nov 2024 02:42:28 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1731062547; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ZSy57eHQtd6TmrZ/cAEtdcQIop2Cxvay+eWU5GGT7xyBwcVwvqMtYNZnnEfqKqoLKN
-         7A11veJj74A9F7ZL8ktOnLuT2YuFuMpglxAD2A9J9TN+MJi5aRJEn2JPEX62E1qfPuHn
-         mud4uP5BoNcRaDDKmxuU3vtic7LAJdR3soxfMBKeKeqtAmBymMtGQalmgQsYPSuWGLOw
-         3QvgDr9meSankqQEuP2UR2yT0JqIEUuCPFli8L2PkeTAZYGI/DUnZDWm0T9wtGf68UME
-         oNenoCXUoMxZ3UUbB3Fqe80WtbCg3SK+GBLR5kxrchGr2tDZ30vtAzu4RZTKibubHy+I
-         +Lwg==
+        b=H7UMEZKAB2pvCy79VFrzlyfQCGBX8TKWfaJTSb1zaotxXMYk/FHOTeBvRLMii+3mEf
+         ZZm9jVcM9CYHEUan19qwRUL18MFN27hB10lizOGrjPHc51Thwi4TebYKiu21sVDp1YV+
+         ND8lhw6W0ZAxjsuUrNnytIy4tR7yi8Ljkly3obKaCjkvZXWbl415fXYRfg2pxU+s12Zg
+         CWkE3XeTKwX+AQQdVUln6fq1mcS8IkLiBAmEPcazCescDDouK2RSkoDJ7qKAPRPrp+0n
+         wQBpYfOrJItrPsq6NEkhIY+HFNSLLwL+zUZj/33DycP6vkL5MINpQCbd4Zh0+d0/elfK
+         gE6Q==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :mime-version:message-id:date:subject:cc:to:from:sender
-         :dkim-signature;
-        bh=bd/joGkAf0sCzSOVgzDuDdB4WrjLRmocZzXw2SIZDEY=;
-        fh=r2UskpQTmWss1yy7VBBqk5N7YcymfZKSVaO7z5LtUzY=;
-        b=MbCzjv3LtvCm7AW+77V89KQD//iQcpQV2KR8+zqEFHnfIcs9vkya0an/a2TCL6miu3
-         iSic06yDymt/nuJL4mMhflmxZ6jWfpwbYM2bZTX1OUdpuL16j59sfRUx7ggXBKoUzM7b
-         9iy3DHMZ9481d95KudmkR6zhpReOmqq91N74/QV7oQjbUu2URjxjPJkBdNp43Jw2pUfb
-         ur0tmAPlsoHDXuP5zwuLwZ97hjdmkGEvAcMsEnQTZIreiwuoDzF4tj+wqEtma6HJSJ4P
-         IGmJAQ/eICl7xrfIkJspmcItTAvTzsTJuyJLnMzlcpJGgMRbtKcz6SX1Jk8S5QViRHOJ
-         oLfw==;
+         :list-id:mailing-list:precedence:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:dkim-signature;
+        bh=KTWamw3GNskXy5qpE8b0XKKEMYfISYL2L01LvL2mESA=;
+        fh=SF0535CdsvisEeXzWS0GN7nsSK0ShNkF+Sv2WksCpNw=;
+        b=cEiu4UuFWSYXtAu5jaAlWBLC2axn9ru3TcuVEqv5fjlEDDYgrDlJ4LotifZouGeNRA
+         Byrk+lhPP6SeXeE/OM32wAYMxbdYAbwsXro9bL1SMSI3+dqxYmhzrXe4FkYVHpov+UiO
+         1RCDbVdOcgMu45RUtKiQdUS00xCB9KfKoNoS5gAT/o1Y6pBmT6QHaDUJTXDrqd4VIkAt
+         /5BzSONpomznqTaJxg9kbMIYlocrc44+qCTlwNIEP9xJhXB+YwBZu8fbK70z+/BI9HPe
+         Xuowf6E3+MkO0jtS6nVriWDJei5a3Vd15TbBRxOB+gbQu40qhWNoGV8QanqF4La66RYJ
+         ybHA==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=qfBvYQ6k;
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b="aHiJn/o/";
        dkim=neutral (no key) header.i=@linutronix.de header.s=2020e;
-       spf=pass (google.com: domain of bigeasy@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
+       spf=pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1731062546; x=1731667346; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1731062547; x=1731667347; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:mime-version:message-id
+         :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bd/joGkAf0sCzSOVgzDuDdB4WrjLRmocZzXw2SIZDEY=;
-        b=La8/YcNs4bMQPjEWSTPmFruB9InXhE14xBw5eEZd9+MvUUG1jCSJLzRuvPFb2tBVAF
-         fdwtOpalk2DDMx/mCKj+QoMT606OEpXQK2UnSD9n4xnofhulpz7H3sCHpqDCgiPC5VKR
-         MshFGOGnooW7JoAMIpr09IZKScOfwekvsVXyjXhlcAvJibdF5oTpU7swNM3rQZRUQ3Dy
-         di3ZVw/jxeCdCRPXXNDDcmMe3WX6kjiP6tEJVPAqs02iaBGGeB1+ftKPhAsnWl/SPDzy
-         nZV/Nb/wS7o/gXx3T94rD9O98Qs+uKl1jzqBOLFfvZtNV6hpoVZkLa7sU2Wefjns0PIv
-         jPNw==
+        bh=KTWamw3GNskXy5qpE8b0XKKEMYfISYL2L01LvL2mESA=;
+        b=giOrwB92aVktPpk4vmY7yMUbF54R1l0GPKuAXuk889Qs7S8EOh73RavvCCfw+xG3NS
+         vP30JLZbMI7r/bhjRSKx8Da5Gj+LttrgVRw5mUuD3a+JXKYtjHjh+c6Ybmc1QwN9etP5
+         gHpvvYUSXeb1591DR1eZ2u1Dq6jB8eQlw5OksstSZT/eiYZUVofkHSNXyo/8jI5LazYZ
+         1FKn+b7wyhGvVqw00ZTI2tl/7E5cYV26xL7IugNLIEg+nyWsyw4oYOC/eQiIiUeYED7m
+         5w1a3zbljUODDnDmXrgIHeakycm4S09BTW5eMupHEHvFYNTxK3BXQrwbmbiKR693MmxS
+         WJMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731062546; x=1731667346;
+        d=1e100.net; s=20230601; t=1731062547; x=1731667347;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-beenthere:x-gm-message-state:sender:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bd/joGkAf0sCzSOVgzDuDdB4WrjLRmocZzXw2SIZDEY=;
-        b=Z6D94SgfW/ezirYkAeqX2KrjnT80ofxG5n0B1TVwNjtCsjR8CVC2qWt/OmXAB4Np30
-         MAZg5Kuyr360bbx/16ApLiCvoLJHOBPxJY60J+5GcaiTfmara7XZTL9bvn3WNcd0bc5G
-         OGWmurUsS3gxBUODLKZbrKF1jw/zOWNKffsJc7KaqMg0AwvusHtVVXweonlxZRWFV/A4
-         y4W0dvCt1faEmBAzmrGZaakMnuNucPGyCuAv01w41IAbkUFjB5QzMY6OB35WK00Tko7U
-         NgIz72Jzm4J/k2mO0WWNfC/XxQg7EHssP1VwSZxPze+S0lTM+7jVZIs5y1qTkEpQTU4u
-         A7bg==
+         :x-original-authentication-results:x-original-sender:mime-version
+         :references:in-reply-to:message-id:date:subject:cc:to:from
+         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KTWamw3GNskXy5qpE8b0XKKEMYfISYL2L01LvL2mESA=;
+        b=VtdYWwz6lH/2WYVYtpv+eNRxiIZEhJsvC8DDFe/27cPiT3cDEL5in35cVp/7bZI2fc
+         TRk0GZM/xPWPIInBDEi/bvM5qrcLNY6Qb2fZ5155q6dsCTIh+nbzgXcsvIY3jVGIq+UB
+         Ja1h16WW75X4Z+gx0tv4gmde4bNNyOv5Cret2o1VRY2IRCAyhfJVJxhZ9LXLIm3BwJ8O
+         mVrEOAIeKN2UtfwDYNARigcTBPyYKGkf/pJK8FDuuN/5orDP7ysVCy/wJlxf/gUHecrZ
+         JpxVXfs+Wkk2GMc+8t/HlRr5rDNkDu80XyvAkTEFXLM0TKa0ivWbnfdWAkV7t3PHCalo
+         qszw==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVIntouzC93Hpq3ESPzsbuuBsE90GCqtM8Y1vSGpP7ZzILe/dzSfZ1xG0zAw2R21h0hgVSgog==@lfdr.de
-X-Gm-Message-State: AOJu0YxqwngO0mmYpjsKp1OFymH0p1MKGnUIV4eu+TJ55xDxNBjxmtWT
-	Kw911bJmYFZNuKiJ6mctGF3UyEx5Vrs1UbOCs9Jxlym5vSFht8ZW
-X-Google-Smtp-Source: AGHT+IGkoLj41vVVTBIRvWtavHJ6/plcvqqT0elDwjNmQ318nsqt5SDEV2qi82YUF4WalISPF1W0TA==
-X-Received: by 2002:a17:907:724d:b0:a9a:90c:8bc with SMTP id a640c23a62f3a-a9eefeb2b89mr189965566b.12.1731062545625;
-        Fri, 08 Nov 2024 02:42:25 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWvbHsMn/CtHF1QUHnxFI9uJorCyZeh3i1LK1Ct48T7vSsC7z7S/7iD2efqCwzjFfGCED7i6w==@lfdr.de
+X-Gm-Message-State: AOJu0YxDMh0iaL13vGX2/nJkg89x7a7SaefyrAiIpXIe6OV4iKS22a9I
+	fAo1v9GB3MLgi7LMf+Wd89sUSd0uF6ZsHQp3N+yuRJ1E2AMHF0hh
+X-Google-Smtp-Source: AGHT+IFB3yA6XHvaDN5JkJYt97YvN7uOobByyNsrU5jL55PrSZ3WXq5uKT3NRPx3bgtWfJfWTVX1oA==
+X-Received: by 2002:a05:651c:160c:b0:2fd:e3ed:a360 with SMTP id 38308e7fff4ca-2ff20309b6dmr12870471fa.37.1731062546908;
+        Fri, 08 Nov 2024 02:42:26 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:a49:b0:42c:b1b4:db22 with SMTP id
- 5b1f17b1804b1-432af02d164ls8973635e9.2.-pod-prod-02-eu; Fri, 08 Nov 2024
- 02:42:23 -0800 (PST)
-X-Received: by 2002:a05:600c:35cc:b0:431:1512:743b with SMTP id 5b1f17b1804b1-432b751b715mr16577375e9.21.1731062543314;
-        Fri, 08 Nov 2024 02:42:23 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1731062543; cv=none;
+Received: by 2002:a2e:9ed9:0:b0:2fb:5304:f15 with SMTP id 38308e7fff4ca-2ff14d4267cls4561011fa.2.-pod-prod-01-eu;
+ Fri, 08 Nov 2024 02:42:24 -0800 (PST)
+X-Received: by 2002:a05:651c:50b:b0:2fa:d4c1:3b6b with SMTP id 38308e7fff4ca-2ff203098efmr12346381fa.33.1731062544115;
+        Fri, 08 Nov 2024 02:42:24 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1731062544; cv=none;
         d=google.com; s=arc-20240605;
-        b=eanQMbp7a07YZytY13/yoe9rzcqwiPPW3dfaT/6JkarszyltxKA5x7edpzUSJ3XUvc
-         Ari+QO0RgV7lov5J7mf9k3U7AQXuwn4kKudd4n5nRiZwO+sOuhvm8n9ZAd5vc1LPTM9C
-         WyKbWqCaM5ljOOEdHKLnKozT2JPce+KU24/u79eINfdIoluU28aSQF/t3S2bK8EUxidU
-         4XCow0BqzKN/FY/vFlFiyvStHqhSl9A+uM8ghzfI80QC02Uocv/i/i5C0hccLN75b5TJ
-         onXx1pgvqHnbn740ecTYDNJIJtHzMbhQ5dTbo6FIzM04rn9Gl6nsger5QwoDsT8XWmnb
-         mXXA==
+        b=X79xpXeIBPvoMtXphT/4iQPCqcKEsmM4WzUKXcRLW2Ztqw6OnfAG2LBZPjzOR23tL0
+         Ziat06tURz95QCcV/GEqfFENxlQFfgOHgKfJkNRpTbWSUKaDVZa9OAbUjb+IOwBL4QfU
+         BZDGSNW14lKGijKr+6a1k7F5YvhKOM32fYXxOmEg+LXc9PqIyOjaAbBCoSU14M0JSh5Z
+         qtk3vPnvjpj5Xd5nU/OV8lubeGIrPCsfwPNyE/2UH+5N8JzCJ8YHe+MWSbYhVeSLWTvf
+         ydc7lJIXdTsCoIZbl1T+p75Fyim1Nv0EvuvkrnGI3b12BHUrLAY0DA+1k1h3Ve2IpDVO
+         kkbg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:dkim-signature:dkim-signature:from;
-        bh=Xc/LqlPAYILBsDwML9BEpmuv1miP0xN2teShbWenCQw=;
-        fh=MOSuA1H8QGDNXmm4cbnRHrcIY2Uk2qJ1ER8N4n2HqjE=;
-        b=fhveUI+pBE5n2DjqhG8xRb/AXJl6LbnKjk6Tcj42jOYCMHiVwr4uJtwKB8gDkXmwrP
-         QtyLeLXTVXRVtF4TjtoSlaNMmgI1/7UrGi2nsK6mEXgYHAkZitXqEB70alSQR+dFQyRB
-         3TtCLDfxpyaPUzZw+b1qxgVSvT5ImoOuOZPWvUmIdl6sOiP71Ud1h37VCwOLz/7qDcsY
-         WgJa+6TiP0Ooit5m2Du4dTFbnFqzG5RY3CoPN5lgGYYCp7r8w+XEJS/+fj5V1fF87jIO
-         taJcGkg+IsuJM88m8WER42uJumpjktg4oHbfkWV//Ud5JKjnKDZFJm2DnxPwdBHG+eXj
-         bW8Q==;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:dkim-signature:dkim-signature:from;
+        bh=CcYB5rXKKViOk7fZRL5jGg/tydDAGzhBkw56NFEZwc4=;
+        fh=iWXmJmSNHIKwihjAFTZHxJXx+Bx4TM7umj/iDaR++1w=;
+        b=BrMYS+iXHvblL9EKUbpLYC0kxg3lo0NpTitN2DvN0Tw9Y6nNyQEL6sd6TOed5tKJnt
+         mJJR3Bcyxgr2UDWwceWl4HVItsGIf4APcvcxw2VFwHNgPgprUW6iWZciu1o6fW6AiClQ
+         PKcVXCwXFdjj9DcMPMeHw0EDJ9ztxrCdT0RwUygqYjZLnzpAck1Y+yAY/CMO8hazwOZS
+         wJdh/5BbQeN676vJpJE4IdQBpz7fTDT2AE+iZEyIZXo7jtaob81it51RyrxksXT7eDmE
+         lxozQYqm4s3w4SKD3Fbh85C8V+TRm6gu/J8BTBd5Kh3sdi0gxlUsvFCea2WirTv6eM43
+         bm+Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@linutronix.de header.s=2020 header.b=qfBvYQ6k;
+       dkim=pass header.i=@linutronix.de header.s=2020 header.b="aHiJn/o/";
        dkim=neutral (no key) header.i=@linutronix.de header.s=2020e;
-       spf=pass (google.com: domain of bigeasy@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
+       spf=pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) smtp.mailfrom=bigeasy@linutronix.de;
        dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
-Received: from galois.linutronix.de (Galois.linutronix.de. [2a0a:51c0:0:12e:550::1])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-432a267d4f7si6265815e9.0.2024.11.08.02.42.23
+Received: from galois.linutronix.de (Galois.linutronix.de. [193.142.43.55])
+        by gmr-mx.google.com with ESMTPS id 38308e7fff4ca-2ff179d8ef3si778781fa.8.2024.11.08.02.42.23
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 02:42:23 -0800 (PST)
-Received-SPF: pass (google.com: domain of bigeasy@linutronix.de designates 2a0a:51c0:0:12e:550::1 as permitted sender) client-ip=2a0a:51c0:0:12e:550::1;
+        Fri, 08 Nov 2024 02:42:24 -0800 (PST)
+Received-SPF: pass (google.com: domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender) client-ip=193.142.43.55;
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 To: kasan-dev@googlegroups.com,
 	linux-kernel@vger.kernel.org,
@@ -122,20 +120,22 @@ Cc: "Paul E. McKenney" <paulmck@kernel.org>,
 	longman@redhat.com,
 	penberg@kernel.org,
 	rientjes@google.com,
-	sfr@canb.auug.org.au
-Subject: [PATCH v3 0/4] scftorture: Avoid kfree from IRQ context.
-Date: Fri,  8 Nov 2024 11:39:30 +0100
-Message-ID: <20241108104217.3759904-1-bigeasy@linutronix.de>
+	sfr@canb.auug.org.au,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH v3 1/4] scftorture: Avoid additional div operation.
+Date: Fri,  8 Nov 2024 11:39:31 +0100
+Message-ID: <20241108104217.3759904-2-bigeasy@linutronix.de>
+In-Reply-To: <20241108104217.3759904-1-bigeasy@linutronix.de>
+References: <20241108104217.3759904-1-bigeasy@linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Original-Sender: bigeasy@linutronix.de
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@linutronix.de header.s=2020 header.b=qfBvYQ6k;       dkim=neutral
+ header.i=@linutronix.de header.s=2020 header.b="aHiJn/o/";       dkim=neutral
  (no key) header.i=@linutronix.de header.s=2020e;       spf=pass (google.com:
- domain of bigeasy@linutronix.de designates 2a0a:51c0:0:12e:550::1 as
- permitted sender) smtp.mailfrom=bigeasy@linutronix.de;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=linutronix.de
+ domain of bigeasy@linutronix.de designates 193.142.43.55 as permitted sender)
+ smtp.mailfrom=bigeasy@linutronix.de;       dmarc=pass (p=NONE sp=QUARANTINE
+ dis=NONE) header.from=linutronix.de
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -148,34 +148,32 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi,
+Replace "scfp->cpu % nr_cpu_ids" with "cpu". This has been computed
+earlier.
 
-Paul reported kfree from IRQ context in scftorture which is noticed by
-lockdep since the recent PROVE_RAW_LOCK_NESTING switch.
+Tested-by: Paul E. McKenney <paulmck@kernel.org>
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ kernel/scftorture.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The last patch in this series adresses the issues, the other things
-happened on the way.
+diff --git a/kernel/scftorture.c b/kernel/scftorture.c
+index 44e83a6462647..455cbff35a1a2 100644
+--- a/kernel/scftorture.c
++++ b/kernel/scftorture.c
+@@ -463,7 +463,7 @@ static int scftorture_invoker(void *arg)
+ 
+ 	// Make sure that the CPU is affinitized appropriately during testing.
+ 	curcpu = raw_smp_processor_id();
+-	WARN_ONCE(curcpu != scfp->cpu % nr_cpu_ids,
++	WARN_ONCE(curcpu != cpu,
+ 		  "%s: Wanted CPU %d, running on %d, nr_cpu_ids = %d\n",
+ 		  __func__, scfp->cpu, curcpu, nr_cpu_ids);
+ 
+-- 
+2.45.2
 
-v2=E2=80=A6v3:
-  - The clean up on module exit must not be done with thread numbers.
-    Reported by Boqun Feng.
-  - Move the clean up on module exit prior to torture_cleanup_end().
-    Reported by Paul.
-
-v1=E2=80=A6v2:
-  - Remove kfree_bulk(). I get more invocations per report without it.
-  - Pass `cpu' to scf_cleanup_free_list in scftorture_invoker() instead
-    of scfp->cpu. The latter is the thread number which can be larger
-    than the number CPUs leading to a crash in such a case. Reported by
-    Boqun Feng.
-  - Clean up the per-CPU lists on module exit. Reported by Boqun Feng.
-
-Sebastian
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
-0241108104217.3759904-1-bigeasy%40linutronix.de.
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20241108104217.3759904-2-bigeasy%40linutronix.de.
