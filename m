@@ -1,81 +1,81 @@
-Return-Path: <kasan-dev+bncBD47LZVWXQIBBYVY6K4QMGQETS5HCOY@googlegroups.com>
+Return-Path: <kasan-dev+bncBD47LZVWXQIBB4FY6K4QMGQEYD56QAI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3a.google.com (mail-oa1-x3a.google.com [IPv6:2001:4860:4864:20::3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901F49D27AD
-	for <lists+kasan-dev@lfdr.de>; Tue, 19 Nov 2024 15:10:43 +0100 (CET)
-Received: by mail-oa1-x3a.google.com with SMTP id 586e51a60fabf-29652a48919sf830588fac.1
-        for <lists+kasan-dev@lfdr.de>; Tue, 19 Nov 2024 06:10:43 -0800 (PST)
+Received: from mail-oo1-xc3a.google.com (mail-oo1-xc3a.google.com [IPv6:2607:f8b0:4864:20::c3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 953089D27AE
+	for <lists+kasan-dev@lfdr.de>; Tue, 19 Nov 2024 15:10:58 +0100 (CET)
+Received: by mail-oo1-xc3a.google.com with SMTP id 006d021491bc7-5ee2aa2335esf2132514eaf.1
+        for <lists+kasan-dev@lfdr.de>; Tue, 19 Nov 2024 06:10:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1732025442; x=1732630242; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1732025457; x=1732630257; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-sender:mime-version
          :subject:references:in-reply-to:message-id:to:from:date:sender:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=9BBKlH2UfE7bInKR7eoZUDdok2TLPhsMUH/+to+zS8I=;
-        b=Zy8SRJ88X2n9QgDDxy/im6i2wKoKG/utGFqae2DPkevcrx9Y2T2U3wwBi18ZaQIFy8
-         qtzxktJS+nmHzB3+9OqUQUZkiTyl3nxPXIaTfzxnt90vKlNuwm7seU+Hz0yS3wSsUPIF
-         04RllHOsSh168fCTL3QVS67L1Tg8wQU/buHG5yTR5iRX4JVynsl75dwk2RK4MUDGG23T
-         n1Q0Z6VjDu3M5Wap5XYbg8peoTB7TVBDrGPpRp3+tefuugbZFB9FrK1WFwyKaboo5DjZ
-         /puX0wZSCJj1R9kMGJnskyvgoKOTBlXo4h+wOdv0E8r7l0ZXs/c8r723Hm5SeRY/s5yo
-         iOIg==
+        bh=hLe5YpJYfjdPLy0fkPCI8fpDinBmqyhi63B4Hn93yQI=;
+        b=bDRnWMVS6J4C9vhGrHzDoR5BjGV5PajBVvvMidJzWfoZhJJeSi0bTNJmTg/TxKWqJt
+         t3rwjAc52WR1JwHax61EOD5CUjaIZ3B1IWZEm5/WxWXjskpN2po7MwevL381FZ5wC5sF
+         8ylpKPRdec8cVNG8kFV8nWXreVftGHUCzEwPVnpMyj162T1QQ1E8Q5gdwWExF4hCpQ0W
+         LxXl6BAsP8fj5B4kGe1H/ZJk3nsab1U3h1puMoRRvfgCVUKq4H+VlPRB+TlEB0ZsTJNg
+         EbWYIwFTArNoY1XhciSTtFaPgQOWztSYBeC8DiPAb7nOvBcXONFI84NG5mFpRpSXwIEf
+         5MfQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732025442; x=1732630242; darn=lfdr.de;
+        d=gmail.com; s=20230601; t=1732025457; x=1732630257; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-sender:mime-version
          :subject:references:in-reply-to:message-id:to:from:date:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9BBKlH2UfE7bInKR7eoZUDdok2TLPhsMUH/+to+zS8I=;
-        b=jzyOtBxZ5iisVFi22/iyHdW1KYsh0/KAhj9jeISs2ffc8neLF/c0AZVtAmQ7Q3lNOs
-         w4A17itJL4zJSCOVRphNpLb3B6PbhWt6mdwmBMIvpgIHXgfGwjbkL0QjPBlezEIKDi80
-         GafjxTrDH9yom41xXx/P35TLMaiFPVG06jlOaoh41EdPDNmkt1HF+2QMwzIrqJZL5TRr
-         82AZ2x1J84TOdjmDN3JWktwc9V3h2ugNi4w6Ey8mi3jMaGJqvjaQbkifbYmBl1na+/fA
-         1veVksPwzgpv1YSTy9grTCalcmq52/4iOtgn06cuHUNxYoGeuUFlKRsz/AKW2t9ndztw
-         eG6g==
+        bh=hLe5YpJYfjdPLy0fkPCI8fpDinBmqyhi63B4Hn93yQI=;
+        b=QAoqIT3/TtRb8if71UETZEeq1WcF6UALe/8J3WI9Tw5AS7JG9A/kXgLDhEi/MtBRdi
+         GzGWpHJNHzkoj/uYvVG1eTr9I3jlPFT3AX8LgSRNDONMCp8ZCMUwdtxAfraaeB5le0zw
+         zYMIrpkaZfp/rmoMr9x3OIeX2agHOnhZkAtcNJY5d51RqgP6R6lW4dxDWjE6WIoZSEY/
+         ruDzSLgKduW5kX5jqmmJ3CtHuP3kVqshWjwG2WOyMxhqWBlJ7HlG+a2ymJMSFnmDvZGp
+         g6g63sebUywG/+GBUtJHEDHVEIHbIRAa1SpPJ2nyXkFzbzgjqLarCkhKJBtpgh6lOyNn
+         YKmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732025442; x=1732630242;
+        d=1e100.net; s=20230601; t=1732025457; x=1732630257;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-sender:mime-version:subject:references:in-reply-to
          :message-id:to:from:date:x-beenthere:x-gm-message-state:sender:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=9BBKlH2UfE7bInKR7eoZUDdok2TLPhsMUH/+to+zS8I=;
-        b=NBi98U8ieJQIdlBEzDRTrf8JwfFt8WLLZhKlDU3El78XGemUPuCMq7yyBOh1gveDOm
-         Rv1HbBm/VZVdFWskcexNiR7W5NK7ASTijhBWOVi17tipgS/PTFrbMqfO2sJbn6gpppEG
-         xh8PK3MbvXJFh6XJfF7aolVfQT0ddFmSAVMr574XldkYdaH9s2784wl1+5JiIJG5EHPU
-         lMuSQ5FhmGmuZRe9qGHwCTxp54cmsKAh2MvRLm6gpoKTb2fb8k008smmpp8SYQctE8R0
-         YO+fUTQPXU1hNfwY85j/giwwon67grxhXoM86KbJDu0Dc/AduxCTIWXFxblwpmGS8Pt3
-         nDRQ==
+        bh=hLe5YpJYfjdPLy0fkPCI8fpDinBmqyhi63B4Hn93yQI=;
+        b=gfDnXXvhT5bwLfdtinc7DZnU/OJK3jvU+76S/KUUKHLc6TbF6KrX1ARjMWJ0qXmKr8
+         qFj+S+dEGNQEELjJNkQ1K7vyvWYi4H4+cldP+n9WGNT7S7/nbk++xIy5gA5GMRGVvP6d
+         eHUfNYVr+09ZFiVkBhVWMeF5QLlCyigkxTk3nBfVMOLQNoxL3PNChg47y2AAEpavnMpj
+         TOgrMSr1HQopyxsJ+zUwR1ivgbJd185iOcEkwtDCGi/uSN4iFcMPu3Kq7wdt1QCIFfC5
+         Ir30DtmatV0IQWAsDzKaqNW441N1gCcxdCyu2IH2/Fy9EWgn3LpwNJIb+4Tk+dYJtTAn
+         CGUA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=1; AJvYcCXlBMrL8UmGksLeUZvE/UxcjBPDjNSug5KstR9maV40UvF7tNotEkcXbl1XlFf/i4Cr3Be7iw==@lfdr.de
-X-Gm-Message-State: AOJu0YxTYigpZg27trVxTxYnlmqDIr+9+SYi1QxQqTMwcPTaf5rjp6/h
-	bGwzz763nCBYGQ8dKaiakSPNrgRsGrpn84lP+V9LZg2WFpSdEE9P
-X-Google-Smtp-Source: AGHT+IHzBs7MGnhVpy2/D++JrJltZ+nmxaHYnR3yO+r9/4C9UX3NBomOijdK/FXm9ROAfpT7tWVk1Q==
-X-Received: by 2002:a05:687c:2bc4:b0:296:7b65:2fac with SMTP id 586e51a60fabf-2967b6534cemr6887462fac.3.1732025442415;
-        Tue, 19 Nov 2024 06:10:42 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVEGv9ZjpaONVbQiRi3/hOKUXeZJsL+jOn8P3uLCddvT4G8DYWfrrP4bRoeFTGVcBH4yKkaxg==@lfdr.de
+X-Gm-Message-State: AOJu0YygAIaY/xHpX7CV2pdGLEgnhE5JGbY970+RusTpmhwFrtpSsCCR
+	ZoA69+KA8EW+X/D5rUywZzW67sswgCQKygG05wEsihT3hheCsKdv
+X-Google-Smtp-Source: AGHT+IFJKyzbV67TCca9OemXEEk3wG65dbSCM0Ius0wheoGXoYBG+zbx/j3uQh9ZtBhnKzbQg2H4+g==
+X-Received: by 2002:a05:6820:2005:b0:5ee:e04b:436d with SMTP id 006d021491bc7-5eee04b4421mr1860950eaf.3.1732025457044;
+        Tue, 19 Nov 2024 06:10:57 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:96a9:b0:296:a54:f32a with SMTP id
- 586e51a60fabf-2960b40b19dls1036157fac.1.-pod-prod-01-us; Tue, 19 Nov 2024
- 06:10:41 -0800 (PST)
-X-Received: by 2002:a05:6808:1824:b0:3e7:b2b4:ee7a with SMTP id 5614622812f47-3e7bc84fe44mr12563184b6e.26.1732025441302;
-        Tue, 19 Nov 2024 06:10:41 -0800 (PST)
-Date: Tue, 19 Nov 2024 06:10:40 -0800 (PST)
+Received: by 2002:a4a:e915:0:b0:5eb:54fe:5b3f with SMTP id 006d021491bc7-5ee9ccd54efls3130138eaf.1.-pod-prod-00-us;
+ Tue, 19 Nov 2024 06:10:56 -0800 (PST)
+X-Received: by 2002:a05:6808:6412:b0:3e6:628a:a8d2 with SMTP id 5614622812f47-3e7e0fc4e6bmr2346361b6e.5.1732025455918;
+        Tue, 19 Nov 2024 06:10:55 -0800 (PST)
+Date: Tue, 19 Nov 2024 06:10:55 -0800 (PST)
 From: Jeremy Shurtleff <jeremyshurtleff54@gmail.com>
 To: kasan-dev <kasan-dev@googlegroups.com>
-Message-Id: <5c8e7e55-3ee0-4b47-a635-9d3a70b28571n@googlegroups.com>
-In-Reply-To: <eed347c9-a647-4e77-afb4-86f4b18391ffn@googlegroups.com>
+Message-Id: <f8c90d23-b13d-47b5-964c-c96f63bed04cn@googlegroups.com>
+In-Reply-To: <5c8e7e55-3ee0-4b47-a635-9d3a70b28571n@googlegroups.com>
 References: <0aef4e91-194a-4a14-80a4-8bc7e02c868cn@googlegroups.com>
  <3bd3d941-0fae-49cf-91e9-6929ff8edde5n@googlegroups.com>
  <ce646f8b-f2a0-4377-a364-2a31a5c4040bn@googlegroups.com>
  <2a6af860-ef0d-4395-8e9a-7aed11b45e81n@googlegroups.com>
  <eed347c9-a647-4e77-afb4-86f4b18391ffn@googlegroups.com>
+ <5c8e7e55-3ee0-4b47-a635-9d3a70b28571n@googlegroups.com>
 Subject: =?UTF-8?B?UmU6INiz2KfZitiq2YjYqtmDINmF2YjYs9mFINin2YQ=?=
  =?UTF-8?B?2LHZitin2LYgLSAwMDk3MTU1MzAzMTg=?=
  =?UTF-8?B?NDYg2YjYp9iq2LPYp9ioINiq2YTZitis2LHYp9mFIOKdhw==?=
  =?UTF-8?B?IOKdiCAoKCEh4K+1W8KpICkg2YXYudiq2YXYr9ip?=
 MIME-Version: 1.0
 Content-Type: multipart/mixed; 
-	boundary="----=_Part_56082_131818336.1732025440683"
+	boundary="----=_Part_55548_444743517.1732025455264"
 X-Original-Sender: jeremyshurtleff54@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
@@ -89,184 +89,286 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-------=_Part_56082_131818336.1732025440683
+------=_Part_55548_444743517.1732025455264
 Content-Type: multipart/alternative; 
-	boundary="----=_Part_56083_1837264435.1732025440683"
+	boundary="----=_Part_55549_1326183204.1732025455264"
 
-------=_Part_56083_1837264435.1732025440683
+------=_Part_55549_1326183204.1732025455264
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 
-whatsapp 00971553429899 Where Abortion Pills In Sharjah=E2=99=BB=EF=B8=8F)(=
-00971553429899=20
-dubai ,ajman,abu dhabi.al ain Where to buy(^^00971553429899 Where Abortion=
-=20
-Pills in Dubai/UAE/ Abudhabi/Fujairah 00971553429899 Where )-mifepristone &=
-=20
-misoprostol in Dubai/Abu Dhabi/Sharjah- price of cytotec in=20
-Dubai/Ajman/RAK-Abortion pills for sale in DUBAI CONTACT DR.Leen Whatsapp=
-=20
-00971553429899 Where We have Abortion Pills / Cytotec Tablets /mifegest kit=
-=20
-Available in Dubai, Sharjah, Abudhabi, Ajman, Alain, Fujairah, Ras Al=20
-Khaimah, Umm Al Quwain, UAE, buy cytotec in Dubai 00971553429899 Where=20
-=E2=80=9C=E2=80=9DAbortion Pills near me DUBAI | ABU DHABI|UAE. Price of Mi=
-soprostol,=20
-Cytotec=E2=80=9D 00971553429899 Where =E2=80=9CBUY ABORTION PILLS MIFEGEST =
-KIT,=20
-MISOPROTONE, CYTOTEC PILLS IN DUBAI, ABU DHABI,UAE=E2=80=9D Contact me now =
-via=20
-whatsapp=E2=80=A6=E2=80=A6 abortion Pills Cytotec also available Oman Qatar=
- Doha Saudi=20
-Arabia Bahrain Above all, Cytotec Abortion Pills are Available In Dubai /=
-=20
-UAE, you will be very happy to do abortion in dubai we are providing=20
-cytotec 200mg abortion pill in Dubai, UAE. Medication abortion offers an=20
-alternative to Surgical Abortion for women in the early weeks of pregnancy.=
-=20
-We only offer abortion pills from 1 week-6 Months. We then advice you to=20
-use surgery if its beyond 6 months. Our Abu Dhabi, Ajman, Al Ain, Dubai,=20
-Fujairah, Ras Al Khaimah (RAK), Sharjah, Umm Al Quwain (UAQ) United Arab=20
-Emirates Abortion Clinic provides the safest and most advanced techniques=
-=20
-for providing non-surgical, medical and surgical abortion methods for early=
-=20
-through late second trimester, including the Abortion By Pill Procedure (RU=
-=20
-486, Mifeprex, Mifepristone, early options French Abortion Pill),=20
-Tamoxifen, Methotrexate and Cytotec (Misoprostol). The Abu Dhabi, United=20
-Arab Emirates Abortion Clinic performs Same Day Abortion Procedure using=20
-medications that are taken on the first day of the office visit and will=20
-cause the abortion to occur generally within 4 to 6 hours (as early as 30=
-=20
-minutes) for patients who are 3 to 12 weeks pregnant. When Mifepristone and=
-=20
-Misoprostol are used, 50% of patients complete in 4 to 6 hours; 75% to 80%=
-=20
-in 12 hours; and 90% in 24 hours. We use a regimen that allows for=20
-completion without the need for surgery 99% of the time. All advanced=20
-second trimester and late term pregnancies at our Tampa clinic (17 to 24=20
-weeks or greater) can be completed within 24 hours or less 99% of the time=
-=20
-without the need surgery. The procedure is completed with minimal to no=20
-complications. Our Women=E2=80=99s Health Center located in Abu Dhabi, Unit=
-ed Arab=20
-Emirates,00971553429899 Where uses the latest medications for medical=20
-abortions (RU486, Mifeprex, Mifegyne, Mifepristone, early options French=20
-abortion pill), Methotrexate and Cytotec (Misoprostol). The safety=20
-standards of our Abu Dhabi, United Arab Emirates Abortion Doctors remain=20
-unparalleled. They consistently maintain the lowest complication rates=20
-throughout the nation. Our Physicians and staff are always available to=20
-answer questions and care for women in one of the most difficult times in=
-=20
-their life. The decision to have an abortion at the Abortion Clinic in Abu=
-=20
-Dhabi, United Arab Emirates, involves moral, ethical, religious, family,=20
-financial, health and age considerations. Buy abortion pills in Dubai, Buy=
-=20
-abortion pills in Oman, Buy abortion pills in Abu Dhabi, Buy abortion pills=
-=20
-in Sharjah Fujairah, Buy abortion pills in Ras Al Khaimah (RAK), Buy=20
-abortion pills in Ajman, Buy abortion pills in Al Ain, Buy abortion pills=
-=20
-in Umm Al Quwain (UAQ), Buy abortion pills in Kuwait, Abortion Pills=20
-Available In Dubai, Abortion Pills Available In UAE, Abortion Pills=20
-Available In Abu Dhabi, Abortion Pills Available In Sharjah, Abortion Pills=
-=20
-Available In Fujairah, Abortion Pills Available In Alain, Abortion Pills=20
-Available In Qatar, Cytotec Available In Dubai Cytotec in Dubai, abortion=
-=20
-pills in Dubai for sale 00971553429899 Where Cytotec Pills Dubai, Abortion=
-=20
-Cytotec Pills In Dubai UAE, Whatsapp 00971553429899 Where Question Tags:=20
-00971553429899 Where =E2=80=9CLegit & Safe ABORTION PILLS, ABU DHABI Sharja=
-h Alain=20
-RAK city Satwa Jumeirah Al barsha, CYTOTEC, MIFEGEST KIT IN DUBAI,=20
-Misoprostol, UAE=E2=80=9D Contact me now via
-
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/5=
-c8e7e55-3ee0-4b47-a635-9d3a70b28571n%40googlegroups.com.
-
-------=_Part_56083_1837264435.1732025440683
+KDAwOTcxNTUzMDMxODQ2KSDZhtit2YYg2YfZhtinINmE2YXYs9in2LnYr9iq2YMuINin2LTYqtix
+2Yog2LPYp9mK2KrZiNiq2YMgQ3l0b3RlYyDYp9mI2YYg2YTYp9mK2YYg2LnZhNmJIArYp9mF2KfY
+stmI2YYg2KfZhNiz2LnZiNiv2YrYqSDYqNij2YHYttmEIArYp9mE2KfYs9i52KfYsSDYs9in2YrY
+qtmI2KrZitmDCuKckyDYtNit2YYg2LPYsdmK2LkK4pyTINin2YTYr9mB2Lkg2LnZhtivINin2YTY
+p9iz2KrZhNin2YUg2YXYqtmI2YHYsQrYp9iq2LXZhCDYqNmG2Kcg2KfZhNii2YYg2LnZhNmJINin
+2YTYsdmC2YUgKDAwOTcxNTUzMDMxODQ2KSDZiNiq2YjYp9i12YQg2YXYudmG2Kcg2LnYqNixINmI
+2KfYqtiz2KfYqCDYo9mIINiq2YTZitis2LHYp9mFIArZhNmE2K3YtdmI2YQg2LnZhNmJINit2KjZ
+iNioINiz2KfZitiq2YjYqtmDINmF2YrYstmI2KjYsdmI2LLZiNmEIEN5dG90ZWMg2KjYo9mF2KfZ
+hiDZiNiz2LHZitipINiq2KfZhdipCiAj2K3YqNmI2Khf2KfYrNmH2KfYtiAj2LPYudmI2K/Zitip
+ICPYrdmF2YRf2LrZitixX9mF2K7Yt9i3X9mE2YcKCtin2YTYsdmK2KfYtgrYrNiv2KkK2YXZg9mH
+Ctin2YTYr9mF2KfZhQrYp9mE2K7YqNixCgoj2YbYrdmGX9mH2YbYp1/ZhNmF2LPYp9i52K/YqtmD
+ICAj2KfZhNiz2LnZiNiv2YrYqSAj2KfZhNil2KzZh9in2LYgI9mF2YbYuV/Yp9mE2K3ZhdmEICPY
+s9in2YrYqtmI2KrZgyAj2KfZhNix2YrYp9i2ICPYrNiv2KkgI9mF2YPYqSAKICAj2K3YqNmI2Khf
+2KfYrNmH2KfYtiAj2LPYudmI2K/ZitipICPYrdmF2YRf2LrZitixX9mF2K7Yt9i3X9mE2YcKCtit
+2KjZiNioINiz2KfZitiq2YjYqtmDINmB2Yog2KfZhNiz2LnZiNiv2YrZhwoK2K3YqNmI2Kgg2LPY
+p9mK2KrZiNiq2YMg2YHZiiDYp9mE2LXZitiv2YTZitmHCgrZh9mEINmK2YjYrNivINit2KjZiNio
+INiz2KfZitiq2YjYqtmDINmB2Yog2KfZhNi12YrYr9mE2YrYp9iqCgrYp9mK2YYg2KrZiNis2K8g
+2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMg2YHZiiDYp9mE2LPYudmI2K/ZitipCgrZiNmK2YYg2KfZ
+hNin2YLZiiDYrdio2YjYqCDYs9in2YrYqtmI2KrZgyAj2YHZiiDYp9mE2LPYudmI2K/ZitipCgrY
+s9i52LEg2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMgI9mB2Yog2KfZhNiz2LnZiNiv2YrYqQoK2YfZ
+hCDYrdio2YjYqCDYs9in2YrYqtmI2KrZgyDZhdi22YXZiNmG2KkKCtmH2YQg2K3YqNmI2Kgg2LPY
+p9mK2KrZiNiq2YMg2KrYs9io2Kgg2KfZhNmFCgrYrdio2YjYqCDYs9in2YrYqtmI2KrZgyDYsdiu
+2YrYtdmHCgrYr9mI2KfYoSDYs9in2YrYqtmI2KrZgyDZgdmKINin2YTYs9i52YjYr9mK2KkKCtin
+2K7YsNiqINit2KjZiNioINiz2KfZitiq2YjYqtmDCgrYs9i52LEg2K3YqNmI2Kgg2LPYp9mK2KrZ
+iNiq2YMg2YHZiiDYrNiv2KkKCtit2KjZiNioINiz2KfZitiq2YjYqtmDINmB2Yog2KfZhNix2YrY
+p9i2CgrYrdio2YjYqCDYs9in2YrYqtmI2KrZgyDZgdmKINin2YTYtNmH2LEg2KfZhNir2KfZhNir
+CgrYp9mG2YjYp9i5INit2KjZiNioINiz2KfZitiq2YjYqtmDCgrYp9iv2YjZitmHINin2KzZh9in
+2LYg2KfZhNit2YXZhAoK2YfZhCDYp9iv2YjZitipINin2YTZgtmE2YIg2KrYpNir2LEg2LnZhNmJ
+INin2YTYrdmF2YQKCtmH2YQg2KfZhNin2K/ZiNmK2Kkg2KrYpNir2LEg2LnZhNmJINin2YTYrNmG
+2YrZhiDZgdmKINin2YTYtNmH2LEg2KfZhNin2YjZhAoK2K3YqNmI2Kgg2KfYrNmH2KfYtiDZgdmK
+INin2YTYs9i52YjYr9mK2KkKCtit2KjZiNioINin2KzZh9in2LYg2KfZhNit2YXZhCDYrNiv2YcK
+Cti12YrYr9mE2YrYqSDYp9mE2YbZh9iv2Yog2K3YqNmI2Kgg2KfYrNmH2KfYtgoK2K3YqNmI2Kgg
+2KXYrNmH2KfYtiDYp9mE2LTZh9ixINin2YTYq9in2YTYqwoK2K3YqNmI2Kgg2KfYrNmH2KfYtiDY
+p9mE2K/Zhdin2YUKCtit2KjZiNioINin2KzZh9in2LYg2KjYp9mE2KfZhtis2YTZitiy2YoKCtin
+2KzZh9in2LYg2aQg2KfYs9in2KjZiti5CgrYp9is2YfYp9i2INmmINin2LPYp9io2YrYuQoK2YXZ
+hiDYp9mE2YjYp9i22K0g2KPZhiDYp9mE2K3ZhdmEINi62YrYsSDYp9mE2YXYrti32Lcg2YTZhyDZ
+itmF2YPZhiDYo9mGINmK2YPZiNmGINmF2LXYr9ixINmC2YTZgiDZiNi22LrYtyDZhtmB2LPZiiDZ
+g9io2YrYsSAK2YTZhNi52K/ZitivINmF2YYg2KfZhNmG2LPYp9ihLiDZhNit2LPZhiDYp9mE2K3Y
+uNiMINmH2YbYpyDZhtit2YYg2YTZhtiz2KfYudiv2YMg2YHZiiDYp9mE2LnYq9mI2LEg2LnZhNmJ
+INit2YQg2YTZh9iw2Ycg2KfZhNmF2LTZg9mE2KkgCtio2LfYsdmK2YLYqSDYotmF2YbYqSDZiNiz
+2LHZitipINiq2KfZhdipLiDZitmF2YPZhtmDINi02LHYp9ihINit2KjZiNioINiz2KfZitiq2YjY
+qtmDIEN5dG90ZWMg2LnZhNmJINin2YXYp9iy2YjZhiDYp9mE2LPYudmI2K/ZitipIArYqNij2YHY
+ttmEINin2YTYo9iz2LnYp9ixINmI2KjYt9ix2YrZgtipINmF2LHZitit2Kkg2YjYs9mH2YTYqS4K
+CtmG2K3ZhiDZhtmC2K/ZhSDYtNit2YYg2LPYsdmK2LkgINmE2LbZhdin2YYg2YjYtdmI2YQg2KfZ
+hNit2KjZiNioINil2YTZitmDINmB2Yog2KPYs9ix2Lkg2YjZgtiqINmF2YXZg9mGLiDZiNio2KfZ
+hNil2LbYp9mB2Kkg2KXZhNmJIArYsNmE2YPYjCDZitiq2YjZgdixINin2YTYr9mB2Lkg2LnZhtiv
+INin2YTYp9iz2KrZhNin2YUg2K3YqtmJINiq2KrZhdmD2YYg2YXZhiDYqtmE2YLZiiDYp9mE2K3Y
+qNmI2Kgg2YjYr9mB2Lkg2KvZhdmG2YfYpyDYqNi52K8gCtin2YTYqtij2YPYryDZhdmGINis2YjY
+r9iq2YfYpy4KCtmE2Kcg2KrYqtix2K/YryDZgdmKINin2YTYqtmI2KfYtdmEINmF2LnZhtinINin
+2YTYotmGINi52YTZiSDYp9mE2LHZgtmFICgwMDk3MTU1MzAzMTg0Nikg2LnYqNixINmI2KfYqtiz
+2KfYqCDYo9mIIArYqtmE2YrYrNix2KfZhSDZhNmE2K3YtdmI2YQg2LnZhNmJINit2KjZiNioINiz
+2KfZitiq2YjYqtmDINin2YTZhtmH2K/ZiiBDeXRvdGVjINio2LPYsdmK2Kkg2KrYp9mF2Kkg2YjY
+qNij2YXYp9mGLiDZhtit2YYg2YfZhtinIArZhNmG2YjZgdixINmE2YMg2KfZhNiv2LnZhSDZiNin
+2YTZhdiz2KfYudiv2Kkg2YHZiiDYp9mE2LnYq9mI2LEg2LnZhNmJINin2YTYrdmEINin2YTZhdmG
+2KfYs9ioINmE2YPYjCDZiNmE2YbYttmF2YYg2YTZgyDYqtis2LHYqNipIArYtNix2KfYoSDYs9mH
+2YTYqSDZiNiz2YTYs9ipLgoK2YHZhNiq2KrYrtiw2Yog2KfZhNmC2LHYp9ixINin2YTYtdit2YrY
+rSDZiNmE2Kcg2KrYqtix2K/Yr9mKINmB2Yog2KfZhNin2LPYqtmB2LPYp9ixINi52YYg2KPZiiDZ
+hdi52YTZiNmF2KfYqiDYqtit2KrYp9is2YrZhtmH2Kcg2K3ZiNmEIArYrdio2YjYqCDYs9in2YrY
+qtmI2KrZgy4g2YbYrdmGINmH2YbYpyDZhNmF2LPYp9i52K/YqtmDINmI2YTYrNi52YQg2YfYsNmH
+INin2YTYudmF2YTZitipINij2YLZhCDYqtmI2KrYsdmL2Kcg2YjYtti62LfZi9inINi52YTZiSAK
+2KPYudi12KfYqNmDLiDYp9iq2LXZhNmKINio2YbYpyDYp9mE2KLZhiDZiNin2K3YtdmE2Yog2LnZ
+hNmJINin2YTYr9i52YUg2YjYp9mE2K7Yr9mF2Kkg2KfZhNiq2Yog2KrYs9iq2K3ZgtmK2YbZh9in
+LgoK2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YrZgyDZgdmKINin2YTYsdmK2KfYtgoK2YfZhCDZitmI
+2KzYryDYrdio2YjYqCDYs9in2YrYqtmI2KrZgyDZgdmKINin2YTYtdmK2K/ZhNmK2KfYqgoK2KfZ
+itmGINiq2YjYrNivINit2KjZiNioINiz2KfZitiq2YjYqtmDINmB2Yog2KfZhNiz2LnZiNiv2YrY
+qQoK2YjZitmGINin2YTYp9mC2Yog2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMgI9mB2Yog2KfZhNiz
+2LnZiNiv2YrYqQoK2YfZhCDYrdio2YjYqCDYs9in2YrYqtmI2KrZgyDZhdi22YXZiNmG2KkKCtit
+2KjZiNioINiz2KfZitiq2YjYqtmDINmB2Yog2KfZhNi12YrYr9mE2YrZhwoK2LPYudixINit2KjZ
+iNioINiz2KfZitiq2YjYqtmDICPZgdmKINin2YTYs9i52YjYr9mK2KkKCtit2KjZiNioINiz2KfZ
+itiq2YjYqtmDINmB2Yog2KfZhNix2YrYp9i2CgrYrdio2YjYqCDYs9in2YrYqtmI2KrZgyDYsdiu
+2YrYtdmHCgrYp9iu2LDYqiDYrdio2YjYqCDYs9in2YrYqtmI2KrZgwoK2LPYudixINit2KjZiNio
+INiz2KfZitiq2YjYqtmDINmB2Yog2KzYr9ipCgrYrdio2YjYqCDYs9in2YrYqtmI2KrZgyDZgdmK
+INin2YTYr9mF2KfZhQoKCtit2KjZiNioINiz2KfZitiq2YjYqtmK2YMg2YHZiiDYp9mE2LHZitin
+2LYg2KjYo9iz2LnYp9ixINmF2LrYsdmK2KkhIAoK2KPZhtinINmH2YbYpyDZhNmF2LPYp9i52K/Y
+qtmDINmB2Yog2YXYrtiq2YTZgSDYp9mE2YXYr9mGINio2KfZhNmF2YXZhNmD2Kkg2KfZhNi52LHY
+qNmK2Kkg2KfZhNiz2LnZiNiv2YrYqToKCtin2YTYsdmK2KfYtgrYrNiv2KkK2YXZg9ipCtin2YTY
+r9mF2KfZhQrYp9mE2K7YqNixCtmB2YLYtyDYp9iq2LXZhCDYqNmKINi52YTZiSAoMDA5NzE1NTMw
+MzE4NDYpINmE2YTYt9mE2Kgg2LnYqNixINmI2KfYqtiz2KfYqCDYo9mIINiq2YrZhNmK2KzYsdin
+2YUuCgoj2YbYrdmGX9mH2YbYp1/ZhNmF2LPYp9i52K/YqtmDICPYp9mE2LPYudmI2K/ZitipICPY
+p9mE2KXYrNmH2KfYtiAj2YXZhti5X9in2YTYrdmF2YQgI9iz2KfZitiq2YjYqtmK2YMgI9it2KjZ
+iNioX9in2KzZh9in2LYgCiPYs9i52YjYr9mK2KkgCgrZitinINmG2KfYsyAhICDYo9mG2Kcg2LnZ
+htiv2Yog2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMg2KjYo9iz2LnYp9ixINmF2LrYsdmK2KkgCgrY
+o9mG2Kcg2LnZhtiv2Yog2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMg2KjYo9iz2LnYp9ixINmF2LrY
+sdmK2Kkg2YHZiiDYp9mE2LPYudmI2K/ZitipISDYqNizINit2KjZiNioINiz2KfZitiq2YjYqtmK
+2YMg2KfZhNit2YTZiNipINmF2KcgCtiq2YjYrNivINmB2Yog2KfZhNi12YrYr9mE2YrYp9iq2Iwg
+2KrZgtiv2LHZiNinINiq2YjYp9i12YTZiNinINmF2LnYp9mK2Kcg2LnZhNmJINmI2KfYqtiz2KfY
+qCDZiNiq2YTZitis2LHYp9mFINi52YTZiSDYp9mE2LHZgtmFIAooMDA5NzE1NTMwMzE4NDYpISDY
+o9mG2Kcg2YfZhtinINi52LTYp9mGINij2LPYp9i52K/Zg9mFINmB2Yog2K3ZhCDZhdi02KfZg9mE
+2YPZhSAj2YbYrdmGX9mH2YbYp1/ZhNmF2LPYp9i52K/YqtmDCgoj2LPYp9mK2KrZiNiq2YrZg1/Y
+qNij2LPYudin2LFf2YXZhtin2YHYs9ipICPYrdio2YjYqF/Ys9in2YrYqtmI2KrZgyAj2KfZhNiz
+2LnZiNiv2YrYqSAj2KfZhNil2KzZh9in2LYgI9it2YXZhF/YutmK2LFf2YXYrti32Ldf2YTZhyAK
+Ctij2YfZhNin2Ysg2KjZg9mFISDwn4e48J+HpiDYpdiw2Kcg2YPZhtiqINiq2KjYrdirINi52YYg
+2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMg2KjYo9iz2LnYp9ixINmF2LrYsdmK2Kkg2YHZiiDYp9mE
+2LPYudmI2K/Zitip2Iwg2YHYo9mG2KcgCtmH2YbYpyDZhNmF2LPYp9i52K/YqtmDISDZitmF2YPZ
+htmDINin2YTYqtmI2KfYtdmEINmF2LnZiiDYudio2LEgINmI2KfYqtiz2KfYqCDYo9mIINiq2YTZ
+itis2LHYp9mFINi52YTZiSDYp9mE2LHZgtmFIAooMDA5NzE1NTMwMzE4NDYpLiDYs9in2LnYr9mG
+2Yog2YTZhdiz2KfYudiv2KrZgyDZgdmKINin2YTYudir2YjYsSDYudmE2Ykg2K3YqNmI2Kgg2LPY
+p9mK2KrZiNiq2YMg2KjYs9mH2YjZhNip2Iwg2K3ZitirIArYo9mC2K/ZhSDYrtiv2YXYqSDYtNin
+2YXZhNipINmB2Yog2YPZhCDZhdmGINin2YTYsdmK2KfYttiMINis2K/YqdiMINmF2YPYqdiMINin
+2YTYr9mF2KfZhdiMINin2YTYrtio2LEuIAogI9mG2K3Zhl/Zh9mG2Kdf2YTZhdiz2KfYudiv2KrZ
+gyAj2KfZhNil2KzZh9in2LYgI9mF2YbYuV/Yp9mE2K3ZhdmEICPYs9in2YrYqtmI2KrZgyAj2K3Y
+qNmI2Khf2KfYrNmH2KfYtiAj2LPYudmI2K/ZitipCgoKCtmG2K3ZhiDZh9mG2Kcg2YTZhdiz2KfY
+udiv2KrZgyDZgdmKINin2YTYudir2YjYsSDYudmE2Ykg2K3YqNmI2Kgg2KfZhNil2KzZh9in2LYg
+2KfZhNiz2LnZiNiv2YrYqSDYqNij2LPYudin2LEg2YXYutix2YrYqSEgCtiq2YjYp9i12YQg2YXY
+udmG2Kcg2LnZhNmJINin2YTYsdmC2YUgKDAwOTcxNTUzMDMxODQ2KSDYudio2LEg2YjYp9iq2LPY
+p9ioINmI2KrZhNmK2KzYsdin2YUg2YTZhNit2LXZiNmEINi52YTZiSDYrdio2YjYqCAKQ3l0b3Rl
+YyDZgdmKINin2YTZhdmF2YTZg9ipINin2YTYudix2KjZitipINin2YTYs9i52YjYr9mK2KkuCiPZ
+htit2YZf2YfZhtinX9mE2YXYs9in2LnYr9iq2YMg8J+HuPCfh6YgI9in2YTYs9i52YjYr9mK2Kkg
+I9in2YTYpdis2YfYp9i2ICPZhdmG2Llf2KfZhNit2YXZhCAj2LPYp9mK2KrZiNiq2YMgI9in2YTY
+sdmK2KfYtiAj2KzYr9ipIAoj2YXZg9ipIPCfh7jwn4emICPYrdio2YjYqF/Yp9is2YfYp9i2ICPY
+s9i52YjYr9mK2KkgI9it2YXZhF/YutmK2LFf2YXYrti32Ldf2YTZhwoKCgrZh9mEINiq2KjYrdir
+INi52YYg2LPYp9mK2KrZiNiq2YrZgyDYp9mE2LPYudmI2K/ZitipINiz2KfZitiq2YjYqtmDINio
+2KPYs9i52KfYsSDZhdi62LHZitip2J8gCtin2KrYtdmEINio2Yog2KfZhNii2YYg2LnZhNmJICgw
+MDk3MTU1MzAzMTg0Nikg2LnYqNixINmI2KfYqtiz2KfYqCDZiNiq2YTZitis2LHYp9mFINmE2YTY
+rdi12YjZhCDYudmE2Ykg2K7YtdmFIDIwJSAK2YTZhNi52YXZhNin2KEg2KfZhNis2K/YryEg2KfY
+rdi12YQg2LnZhNmJINit2KjZiNioINiz2KfZitiq2YjYqtmDINmB2Yog2KfZhNmF2YXZhNmD2Kkg
+2KfZhNi52LHYqNmK2Kkg2KfZhNiz2LnZiNiv2YrYqSDYp9mE2KLZhi4KI9mG2K3Zhl/Zh9mG2Kdf
+2YTZhdiz2KfYudiv2KrZgyDwn4e48J+HpiAj2KfZhNil2KzZh9in2LYgI9mF2YbYuV/Yp9mE2K3Z
+hdmEICPYs9in2YrYqtmI2KrZgyAj2K3YqNmI2Khf2KfYrNmH2KfYtiAj2LPYudmI2K/ZitipIAoj
+2KfZhNix2YrYp9i2ICPYrNiv2KkgI9mF2YPYqQ0KDQotLSAKWW91IHJlY2VpdmVkIHRoaXMgbWVz
+c2FnZSBiZWNhdXNlIHlvdSBhcmUgc3Vic2NyaWJlZCB0byB0aGUgR29vZ2xlIEdyb3VwcyAia2Fz
+YW4tZGV2IiBncm91cC4KVG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGdyb3VwIGFuZCBzdG9wIHJl
+Y2VpdmluZyBlbWFpbHMgZnJvbSBpdCwgc2VuZCBhbiBlbWFpbCB0byBrYXNhbi1kZXYrdW5zdWJz
+Y3JpYmVAZ29vZ2xlZ3JvdXBzLmNvbS4KVG8gdmlldyB0aGlzIGRpc2N1c3Npb24gdmlzaXQgaHR0
+cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi9mOGM5MGQyMy1iMTNkLTQ3
+YjUtOTY0Yy1jOTZmNjNiZWQwNGNuJTQwZ29vZ2xlZ3JvdXBzLmNvbS4K
+------=_Part_55549_1326183204.1732025455264
 Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 
-whatsapp 00971553429899 Where Abortion Pills In Sharjah=E2=99=BB=EF=B8=8F)(=
-00971553429899 dubai ,ajman,abu dhabi.al ain Where to buy(^^00971553429899 =
-Where Abortion Pills in Dubai/UAE/ Abudhabi/Fujairah 00971553429899 Where )=
--mifepristone &amp; misoprostol in Dubai/Abu Dhabi/Sharjah- price of cytote=
-c in Dubai/Ajman/RAK-Abortion pills for sale in DUBAI CONTACT DR.Leen Whats=
-app 00971553429899 Where We have Abortion Pills / Cytotec Tablets /mifegest=
- kit Available in Dubai, Sharjah, Abudhabi, Ajman, Alain, Fujairah, Ras Al =
-Khaimah, Umm Al Quwain, UAE, buy cytotec in Dubai 00971553429899 Where =E2=
-=80=9C=E2=80=9DAbortion Pills near me DUBAI | ABU DHABI|UAE. Price of Misop=
-rostol, Cytotec=E2=80=9D 00971553429899 Where =E2=80=9CBUY ABORTION PILLS M=
-IFEGEST KIT, MISOPROTONE, CYTOTEC PILLS IN DUBAI, ABU DHABI,UAE=E2=80=9D Co=
-ntact me now via whatsapp=E2=80=A6=E2=80=A6 abortion Pills Cytotec also ava=
-ilable Oman Qatar Doha Saudi Arabia Bahrain Above all, Cytotec Abortion Pil=
-ls are Available In Dubai / UAE, you will be very happy to do abortion in d=
-ubai we are providing cytotec 200mg abortion pill in Dubai, UAE. Medication=
- abortion offers an alternative to Surgical Abortion for women in the early=
- weeks of pregnancy. We only offer abortion pills from 1 week-6 Months. We =
-then advice you to use surgery if its beyond 6 months. Our Abu Dhabi, Ajman=
-, Al Ain, Dubai, Fujairah, Ras Al Khaimah (RAK), Sharjah, Umm Al Quwain (UA=
-Q) United Arab Emirates Abortion Clinic provides the safest and most advanc=
-ed techniques for providing non-surgical, medical and surgical abortion met=
-hods for early through late second trimester, including the Abortion By Pil=
-l Procedure (RU 486, Mifeprex, Mifepristone, early options French Abortion =
-Pill), Tamoxifen, Methotrexate and Cytotec (Misoprostol). The Abu Dhabi, Un=
-ited Arab Emirates Abortion Clinic performs Same Day Abortion Procedure usi=
-ng medications that are taken on the first day of the office visit and will=
- cause the abortion to occur generally within 4 to 6 hours (as early as 30 =
-minutes) for patients who are 3 to 12 weeks pregnant. When Mifepristone and=
- Misoprostol are used, 50% of patients complete in 4 to 6 hours; 75% to 80%=
- in 12 hours; and 90% in 24 hours. We use a regimen that allows for complet=
-ion without the need for surgery 99% of the time. All advanced second trime=
-ster and late term pregnancies at our Tampa clinic (17 to 24 weeks or great=
-er) can be completed within 24 hours or less 99% of the time without the ne=
-ed surgery. The procedure is completed with minimal to no complications. Ou=
-r Women=E2=80=99s Health Center located in Abu Dhabi, United Arab Emirates,=
-00971553429899 Where uses the latest medications for medical abortions (RU4=
-86, Mifeprex, Mifegyne, Mifepristone, early options French abortion pill), =
-Methotrexate and Cytotec (Misoprostol). The safety standards of our Abu Dha=
-bi, United Arab Emirates Abortion Doctors remain unparalleled. They consist=
-ently maintain the lowest complication rates throughout the nation. Our Phy=
-sicians and staff are always available to answer questions and care for wom=
-en in one of the most difficult times in their life. The decision to have a=
-n abortion at the Abortion Clinic in Abu Dhabi, United Arab Emirates, invol=
-ves moral, ethical, religious, family, financial, health and age considerat=
-ions. Buy abortion pills in Dubai, Buy abortion pills in Oman, Buy abortion=
- pills in Abu Dhabi, Buy abortion pills in Sharjah Fujairah, Buy abortion p=
-ills in Ras Al Khaimah (RAK), Buy abortion pills in Ajman, Buy abortion pil=
-ls in Al Ain, Buy abortion pills in Umm Al Quwain (UAQ), Buy abortion pills=
- in Kuwait, Abortion Pills Available In Dubai, Abortion Pills Available In =
-UAE, Abortion Pills Available In Abu Dhabi, Abortion Pills Available In Sha=
-rjah, Abortion Pills Available In Fujairah, Abortion Pills Available In Ala=
-in, Abortion Pills Available In Qatar, Cytotec Available In Dubai Cytotec i=
-n Dubai, abortion pills in Dubai for sale 00971553429899 Where Cytotec Pill=
-s Dubai, Abortion Cytotec Pills In Dubai UAE, Whatsapp 00971553429899 Where=
- Question Tags: 00971553429899 Where =E2=80=9CLegit &amp; Safe ABORTION PIL=
-LS, ABU DHABI Sharjah Alain RAK city Satwa Jumeirah Al barsha, CYTOTEC, MIF=
-EGEST KIT IN DUBAI, Misoprostol, UAE=E2=80=9D Contact me now via
+KDAwOTcxNTUzMDMxODQ2KSDZhtit2YYg2YfZhtinINmE2YXYs9in2LnYr9iq2YMuINin2LTYqtix
+2Yog2LPYp9mK2KrZiNiq2YMgQ3l0b3RlYyDYp9mI2YYg2YTYp9mK2YYg2LnZhNmJINin2YXYp9iy
+2YjZhiDYp9mE2LPYudmI2K/ZitipINio2KPZgdi22YQgPGJyIC8+2KfZhNin2LPYudin2LEg2LPY
+p9mK2KrZiNiq2YrZgzxiciAvPuKckyDYtNit2YYg2LPYsdmK2Lk8YnIgLz7inJMg2KfZhNiv2YHY
+uSDYudmG2K8g2KfZhNin2LPYqtmE2KfZhSDZhdiq2YjZgdixPGJyIC8+2KfYqti12YQg2KjZhtin
+INin2YTYotmGINi52YTZiSDYp9mE2LHZgtmFICgwMDk3MTU1MzAzMTg0Nikg2YjYqtmI2KfYtdmE
+INmF2LnZhtinINi52KjYsSDZiNin2KrYs9in2Kgg2KPZiCDYqtmE2YrYrNix2KfZhSDZhNmE2K3Y
+tdmI2YQg2LnZhNmJINit2KjZiNioINiz2KfZitiq2YjYqtmDINmF2YrYstmI2KjYsdmI2LLZiNmE
+IEN5dG90ZWMg2KjYo9mF2KfZhiDZiNiz2LHZitipINiq2KfZhdipPGJyIC8+wqAj2K3YqNmI2Khf
+2KfYrNmH2KfYtiAj2LPYudmI2K/ZitipICPYrdmF2YRf2LrZitixX9mF2K7Yt9i3X9mE2Yc8YnIg
+Lz48YnIgLz7Yp9mE2LHZitin2LY8YnIgLz7YrNiv2Kk8YnIgLz7ZhdmD2Yc8YnIgLz7Yp9mE2K/Z
+hdin2YU8YnIgLz7Yp9mE2K7YqNixPGJyIC8+PGJyIC8+I9mG2K3Zhl/Zh9mG2Kdf2YTZhdiz2KfY
+udiv2KrZgyDCoCPYp9mE2LPYudmI2K/ZitipICPYp9mE2KXYrNmH2KfYtiAj2YXZhti5X9in2YTY
+rdmF2YQgI9iz2KfZitiq2YjYqtmDICPYp9mE2LHZitin2LYgI9is2K/YqSAj2YXZg9ipIMKgICPY
+rdio2YjYqF/Yp9is2YfYp9i2ICPYs9i52YjYr9mK2KkgI9it2YXZhF/YutmK2LFf2YXYrti32Ldf
+2YTZhzxiciAvPjxiciAvPtit2KjZiNioINiz2KfZitiq2YjYqtmDINmB2Yog2KfZhNiz2LnZiNiv
+2YrZhzxiciAvPjxiciAvPtit2KjZiNioINiz2KfZitiq2YjYqtmDINmB2Yog2KfZhNi12YrYr9mE
+2YrZhzxiciAvPjxiciAvPtmH2YQg2YrZiNis2K8g2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMg2YHZ
+iiDYp9mE2LXZitiv2YTZitin2Ko8YnIgLz48YnIgLz7Yp9mK2YYg2KrZiNis2K8g2K3YqNmI2Kgg
+2LPYp9mK2KrZiNiq2YMg2YHZiiDYp9mE2LPYudmI2K/ZitipPGJyIC8+PGJyIC8+2YjZitmGINin
+2YTYp9mC2Yog2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMgI9mB2Yog2KfZhNiz2LnZiNiv2YrYqTxi
+ciAvPjxiciAvPtiz2LnYsSDYrdio2YjYqCDYs9in2YrYqtmI2KrZgyAj2YHZiiDYp9mE2LPYudmI
+2K/ZitipPGJyIC8+PGJyIC8+2YfZhCDYrdio2YjYqCDYs9in2YrYqtmI2KrZgyDZhdi22YXZiNmG
+2Kk8YnIgLz48YnIgLz7Zh9mEINit2KjZiNioINiz2KfZitiq2YjYqtmDINiq2LPYqNioINin2YTZ
+hTxiciAvPjxiciAvPtit2KjZiNioINiz2KfZitiq2YjYqtmDINix2K7Ziti12Yc8YnIgLz48YnIg
+Lz7Yr9mI2KfYoSDYs9in2YrYqtmI2KrZgyDZgdmKINin2YTYs9i52YjYr9mK2Kk8YnIgLz48YnIg
+Lz7Yp9iu2LDYqiDYrdio2YjYqCDYs9in2YrYqtmI2KrZgzxiciAvPjxiciAvPtiz2LnYsSDYrdio
+2YjYqCDYs9in2YrYqtmI2KrZgyDZgdmKINis2K/YqTxiciAvPjxiciAvPtit2KjZiNioINiz2KfZ
+itiq2YjYqtmDINmB2Yog2KfZhNix2YrYp9i2PGJyIC8+PGJyIC8+2K3YqNmI2Kgg2LPYp9mK2KrZ
+iNiq2YMg2YHZiiDYp9mE2LTZh9ixINin2YTYq9in2YTYqzxiciAvPjxiciAvPtin2YbZiNin2Lkg
+2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YM8YnIgLz48YnIgLz7Yp9iv2YjZitmHINin2KzZh9in2LYg
+2KfZhNit2YXZhDxiciAvPjxiciAvPtmH2YQg2KfYr9mI2YrYqSDYp9mE2YLZhNmCINiq2KTYq9ix
+INi52YTZiSDYp9mE2K3ZhdmEPGJyIC8+PGJyIC8+2YfZhCDYp9mE2KfYr9mI2YrYqSDYqtik2KvY
+sSDYudmE2Ykg2KfZhNis2YbZitmGINmB2Yog2KfZhNi02YfYsSDYp9mE2KfZiNmEPGJyIC8+PGJy
+IC8+2K3YqNmI2Kgg2KfYrNmH2KfYtiDZgdmKINin2YTYs9i52YjYr9mK2Kk8YnIgLz48YnIgLz7Y
+rdio2YjYqCDYp9is2YfYp9i2INin2YTYrdmF2YQg2KzYr9mHPGJyIC8+PGJyIC8+2LXZitiv2YTZ
+itipINin2YTZhtmH2K/ZiiDYrdio2YjYqCDYp9is2YfYp9i2PGJyIC8+PGJyIC8+2K3YqNmI2Kgg
+2KXYrNmH2KfYtiDYp9mE2LTZh9ixINin2YTYq9in2YTYqzxiciAvPjxiciAvPtit2KjZiNioINin
+2KzZh9in2LYg2KfZhNiv2YXYp9mFPGJyIC8+PGJyIC8+2K3YqNmI2Kgg2KfYrNmH2KfYtiDYqNin
+2YTYp9mG2KzZhNmK2LLZijxiciAvPjxiciAvPtin2KzZh9in2LYg2aQg2KfYs9in2KjZiti5PGJy
+IC8+PGJyIC8+2KfYrNmH2KfYtiDZpiDYp9iz2KfYqNmK2Lk8YnIgLz48YnIgLz7ZhdmGINin2YTZ
+iNin2LbYrSDYo9mGINin2YTYrdmF2YQg2LrZitixINin2YTZhdiu2LfYtyDZhNmHINmK2YXZg9mG
+INij2YYg2YrZg9mI2YYg2YXYtdiv2LEg2YLZhNmCINmI2LbYuti3INmG2YHYs9mKINmD2KjZitix
+INmE2YTYudiv2YrYryDZhdmGINin2YTZhtiz2KfYoS4g2YTYrdiz2YYg2KfZhNit2LjYjCDZh9mG
+2Kcg2YbYrdmGINmE2YbYs9in2LnYr9mDINmB2Yog2KfZhNi52KvZiNixINi52YTZiSDYrdmEINmE
+2YfYsNmHINin2YTZhdi02YPZhNipINio2LfYsdmK2YLYqSDYotmF2YbYqSDZiNiz2LHZitipINiq
+2KfZhdipLiDZitmF2YPZhtmDINi02LHYp9ihINit2KjZiNioINiz2KfZitiq2YjYqtmDIEN5dG90
+ZWMg2LnZhNmJINin2YXYp9iy2YjZhiDYp9mE2LPYudmI2K/ZitipINio2KPZgdi22YQg2KfZhNij
+2LPYudin2LEg2YjYqNi32LHZitmC2Kkg2YXYsdmK2K3YqSDZiNiz2YfZhNipLjxiciAvPjxiciAv
+PtmG2K3ZhiDZhtmC2K/ZhSDYtNit2YYg2LPYsdmK2LkgwqDZhNi22YXYp9mGINmI2LXZiNmEINin
+2YTYrdio2YjYqCDYpdmE2YrZgyDZgdmKINij2LPYsdi5INmI2YLYqiDZhdmF2YPZhi4g2YjYqNin
+2YTYpdi22KfZgdipINil2YTZiSDYsNmE2YPYjCDZitiq2YjZgdixINin2YTYr9mB2Lkg2LnZhtiv
+INin2YTYp9iz2KrZhNin2YUg2K3YqtmJINiq2KrZhdmD2YYg2YXZhiDYqtmE2YLZiiDYp9mE2K3Y
+qNmI2Kgg2YjYr9mB2Lkg2KvZhdmG2YfYpyDYqNi52K8g2KfZhNiq2KPZg9ivINmF2YYg2KzZiNiv
+2KrZh9inLjxiciAvPjxiciAvPtmE2Kcg2KrYqtix2K/YryDZgdmKINin2YTYqtmI2KfYtdmEINmF
+2LnZhtinINin2YTYotmGINi52YTZiSDYp9mE2LHZgtmFICgwMDk3MTU1MzAzMTg0Nikg2LnYqNix
+INmI2KfYqtiz2KfYqCDYo9mIINiq2YTZitis2LHYp9mFINmE2YTYrdi12YjZhCDYudmE2Ykg2K3Y
+qNmI2Kgg2LPYp9mK2KrZiNiq2YMg2KfZhNmG2YfYr9mKIEN5dG90ZWMg2KjYs9ix2YrYqSDYqtin
+2YXYqSDZiNio2KPZhdin2YYuINmG2K3ZhiDZh9mG2Kcg2YTZhtmI2YHYsSDZhNmDINin2YTYr9i5
+2YUg2YjYp9mE2YXYs9in2LnYr9ipINmB2Yog2KfZhNi52KvZiNixINi52YTZiSDYp9mE2K3ZhCDY
+p9mE2YXZhtin2LPYqCDZhNmD2Iwg2YjZhNmG2LbZhdmGINmE2YMg2KrYrNix2KjYqSDYtNix2KfY
+oSDYs9mH2YTYqSDZiNiz2YTYs9ipLjxiciAvPjxiciAvPtmB2YTYqtiq2K7YsNmKINin2YTZgtix
+2KfYsSDYp9mE2LXYrdmK2K0g2YjZhNinINiq2KrYsdiv2K/ZiiDZgdmKINin2YTYp9iz2KrZgdiz
+2KfYsSDYudmGINij2Yog2YXYudmE2YjZhdin2Kog2KrYrdiq2KfYrNmK2YbZh9inINit2YjZhCDY
+rdio2YjYqCDYs9in2YrYqtmI2KrZgy4g2YbYrdmGINmH2YbYpyDZhNmF2LPYp9i52K/YqtmDINmI
+2YTYrNi52YQg2YfYsNmHINin2YTYudmF2YTZitipINij2YLZhCDYqtmI2KrYsdmL2Kcg2YjYtti6
+2LfZi9inINi52YTZiSDYo9i52LXYp9io2YMuINin2KrYtdmE2Yog2KjZhtinINin2YTYotmGINmI
+2KfYrdi12YTZiiDYudmE2Ykg2KfZhNiv2LnZhSDZiNin2YTYrtiv2YXYqSDYp9mE2KrZiiDYqtiz
+2KrYrdmC2YrZhtmH2KcuPGJyIC8+PGJyIC8+2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YrZgyDZgdmK
+INin2YTYsdmK2KfYtjxiciAvPjxiciAvPtmH2YQg2YrZiNis2K8g2K3YqNmI2Kgg2LPYp9mK2KrZ
+iNiq2YMg2YHZiiDYp9mE2LXZitiv2YTZitin2Ko8YnIgLz48YnIgLz7Yp9mK2YYg2KrZiNis2K8g
+2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMg2YHZiiDYp9mE2LPYudmI2K/ZitipPGJyIC8+PGJyIC8+
+2YjZitmGINin2YTYp9mC2Yog2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMgI9mB2Yog2KfZhNiz2LnZ
+iNiv2YrYqTxiciAvPjxiciAvPtmH2YQg2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMg2YXYttmF2YjZ
+htipPGJyIC8+PGJyIC8+2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YMg2YHZiiDYp9mE2LXZitiv2YTZ
+itmHPGJyIC8+PGJyIC8+2LPYudixINit2KjZiNioINiz2KfZitiq2YjYqtmDICPZgdmKINin2YTY
+s9i52YjYr9mK2Kk8YnIgLz48YnIgLz7Yrdio2YjYqCDYs9in2YrYqtmI2KrZgyDZgdmKINin2YTY
+sdmK2KfYtjxiciAvPjxiciAvPtit2KjZiNioINiz2KfZitiq2YjYqtmDINix2K7Ziti12Yc8YnIg
+Lz48YnIgLz7Yp9iu2LDYqiDYrdio2YjYqCDYs9in2YrYqtmI2KrZgzxiciAvPjxiciAvPtiz2LnY
+sSDYrdio2YjYqCDYs9in2YrYqtmI2KrZgyDZgdmKINis2K/YqTxiciAvPjxiciAvPtit2KjZiNio
+INiz2KfZitiq2YjYqtmDINmB2Yog2KfZhNiv2YXYp9mFPGJyIC8+PGJyIC8+PGJyIC8+2K3YqNmI
+2Kgg2LPYp9mK2KrZiNiq2YrZgyDZgdmKINin2YTYsdmK2KfYtiDYqNij2LPYudin2LEg2YXYutix
+2YrYqSEgPGJyIC8+PGJyIC8+2KPZhtinINmH2YbYpyDZhNmF2LPYp9i52K/YqtmDINmB2Yog2YXY
+rtiq2YTZgSDYp9mE2YXYr9mGINio2KfZhNmF2YXZhNmD2Kkg2KfZhNi52LHYqNmK2Kkg2KfZhNiz
+2LnZiNiv2YrYqTo8YnIgLz48YnIgLz7Yp9mE2LHZitin2LY8YnIgLz7YrNiv2Kk8YnIgLz7ZhdmD
+2Kk8YnIgLz7Yp9mE2K/Zhdin2YU8YnIgLz7Yp9mE2K7YqNixPGJyIC8+2YHZgti3INin2KrYtdmE
+INio2Yog2LnZhNmJICgwMDk3MTU1MzAzMTg0Nikg2YTZhNi32YTYqCDYudio2LEg2YjYp9iq2LPY
+p9ioINij2Ygg2KrZitmE2YrYrNix2KfZhS48YnIgLz48YnIgLz4j2YbYrdmGX9mH2YbYp1/ZhNmF
+2LPYp9i52K/YqtmDICPYp9mE2LPYudmI2K/ZitipICPYp9mE2KXYrNmH2KfYtiAj2YXZhti5X9in
+2YTYrdmF2YQgI9iz2KfZitiq2YjYqtmK2YMgI9it2KjZiNioX9in2KzZh9in2LYgI9iz2LnZiNiv
+2YrYqSA8YnIgLz48YnIgLz7ZitinINmG2KfYsyAhIMKg2KPZhtinINi52YbYr9mKINit2KjZiNio
+INiz2KfZitiq2YjYqtmDINio2KPYs9i52KfYsSDZhdi62LHZitipIDxiciAvPjxiciAvPtij2YbY
+pyDYudmG2K/ZiiDYrdio2YjYqCDYs9in2YrYqtmI2KrZgyDYqNij2LPYudin2LEg2YXYutix2YrY
+qSDZgdmKINin2YTYs9i52YjYr9mK2KkhINio2LMg2K3YqNmI2Kgg2LPYp9mK2KrZiNiq2YrZgyDY
+p9mE2K3ZhNmI2Kkg2YXYpyDYqtmI2KzYryDZgdmKINin2YTYtdmK2K/ZhNmK2KfYqtiMINiq2YLY
+r9ix2YjYpyDYqtmI2KfYtdmE2YjYpyDZhdi52KfZitinINi52YTZiSDZiNin2KrYs9in2Kgg2YjY
+qtmE2YrYrNix2KfZhSDYudmE2Ykg2KfZhNix2YLZhSAoMDA5NzE1NTMwMzE4NDYpISDYo9mG2Kcg
+2YfZhtinINi52LTYp9mGINij2LPYp9i52K/Zg9mFINmB2Yog2K3ZhCDZhdi02KfZg9mE2YPZhSAj
+2YbYrdmGX9mH2YbYp1/ZhNmF2LPYp9i52K/YqtmDPGJyIC8+PGJyIC8+I9iz2KfZitiq2YjYqtmK
+2YNf2KjYo9iz2LnYp9ixX9mF2YbYp9mB2LPYqSAj2K3YqNmI2Khf2LPYp9mK2KrZiNiq2YMgI9in
+2YTYs9i52YjYr9mK2KkgI9in2YTYpdis2YfYp9i2ICPYrdmF2YRf2LrZitixX9mF2K7Yt9i3X9mE
+2YcgPGJyIC8+PGJyIC8+2KPZh9mE2KfZiyDYqNmD2YUhIPCfh7jwn4emINil2LDYpyDZg9mG2Kog
+2KrYqNit2Ksg2LnZhiDYrdio2YjYqCDYs9in2YrYqtmI2KrZgyDYqNij2LPYudin2LEg2YXYutix
+2YrYqSDZgdmKINin2YTYs9i52YjYr9mK2KnYjCDZgdij2YbYpyDZh9mG2Kcg2YTZhdiz2KfYudiv
+2KrZgyEg2YrZhdmD2YbZgyDYp9mE2KrZiNin2LXZhCDZhdi52Yog2LnYqNixIMKg2YjYp9iq2LPY
+p9ioINij2Ygg2KrZhNmK2KzYsdin2YUg2LnZhNmJINin2YTYsdmC2YUgKDAwOTcxNTUzMDMxODQ2
+KS4g2LPYp9i52K/ZhtmKINmE2YXYs9in2LnYr9iq2YMg2YHZiiDYp9mE2LnYq9mI2LEg2LnZhNmJ
+INit2KjZiNioINiz2KfZitiq2YjYqtmDINio2LPZh9mI2YTYqdiMINit2YrYqyDYo9mC2K/ZhSDY
+rtiv2YXYqSDYtNin2YXZhNipINmB2Yog2YPZhCDZhdmGINin2YTYsdmK2KfYttiMINis2K/YqdiM
+INmF2YPYqdiMINin2YTYr9mF2KfZhdiMINin2YTYrtio2LEuIMKgI9mG2K3Zhl/Zh9mG2Kdf2YTZ
+hdiz2KfYudiv2KrZgyAj2KfZhNil2KzZh9in2LYgI9mF2YbYuV/Yp9mE2K3ZhdmEICPYs9in2YrY
+qtmI2KrZgyAj2K3YqNmI2Khf2KfYrNmH2KfYtiAj2LPYudmI2K/ZitipPGJyIC8+PGJyIC8+PGJy
+IC8+PGJyIC8+2YbYrdmGINmH2YbYpyDZhNmF2LPYp9i52K/YqtmDINmB2Yog2KfZhNi52KvZiNix
+INi52YTZiSDYrdio2YjYqCDYp9mE2KXYrNmH2KfYtiDYp9mE2LPYudmI2K/ZitipINio2KPYs9i5
+2KfYsSDZhdi62LHZitipISA8YnIgLz7YqtmI2KfYtdmEINmF2LnZhtinINi52YTZiSDYp9mE2LHZ
+gtmFICgwMDk3MTU1MzAzMTg0Nikg2LnYqNixINmI2KfYqtiz2KfYqCDZiNiq2YTZitis2LHYp9mF
+INmE2YTYrdi12YjZhCDYudmE2Ykg2K3YqNmI2KggQ3l0b3RlYyDZgdmKINin2YTZhdmF2YTZg9ip
+INin2YTYudix2KjZitipINin2YTYs9i52YjYr9mK2KkuPGJyIC8+I9mG2K3Zhl/Zh9mG2Kdf2YTZ
+hdiz2KfYudiv2KrZgyDwn4e48J+HpiAj2KfZhNiz2LnZiNiv2YrYqSAj2KfZhNil2KzZh9in2LYg
+I9mF2YbYuV/Yp9mE2K3ZhdmEICPYs9in2YrYqtmI2KrZgyAj2KfZhNix2YrYp9i2ICPYrNiv2Kkg
+I9mF2YPYqSDwn4e48J+HpiAj2K3YqNmI2Khf2KfYrNmH2KfYtiAj2LPYudmI2K/ZitipICPYrdmF
+2YRf2LrZitixX9mF2K7Yt9i3X9mE2Yc8YnIgLz48YnIgLz48YnIgLz48YnIgLz7Zh9mEINiq2KjY
+rdirINi52YYg2LPYp9mK2KrZiNiq2YrZgyDYp9mE2LPYudmI2K/ZitipINiz2KfZitiq2YjYqtmD
+INio2KPYs9i52KfYsSDZhdi62LHZitip2J8gPGJyIC8+2KfYqti12YQg2KjZiiDYp9mE2KLZhiDY
+udmE2YkgKDAwOTcxNTUzMDMxODQ2KSDYudio2LEg2YjYp9iq2LPYp9ioINmI2KrZhNmK2KzYsdin
+2YUg2YTZhNit2LXZiNmEINi52YTZiSDYrti12YUgMjAlINmE2YTYudmF2YTYp9ihINin2YTYrNiv
+2K8hINin2K3YtdmEINi52YTZiSDYrdio2YjYqCDYs9in2YrYqtmI2KrZgyDZgdmKINin2YTZhdmF
+2YTZg9ipINin2YTYudix2KjZitipINin2YTYs9i52YjYr9mK2Kkg2KfZhNii2YYuPGJyIC8+I9mG
+2K3Zhl/Zh9mG2Kdf2YTZhdiz2KfYudiv2KrZgyDwn4e48J+HpiAj2KfZhNil2KzZh9in2LYgI9mF
+2YbYuV/Yp9mE2K3ZhdmEICPYs9in2YrYqtmI2KrZgyAj2K3YqNmI2Khf2KfYrNmH2KfYtiAj2LPY
+udmI2K/ZitipICPYp9mE2LHZitin2LYgI9is2K/YqSAj2YXZg9ipDQoNCjxwPjwvcD4KCi0tIDxi
+ciAvPgpZb3UgcmVjZWl2ZWQgdGhpcyBtZXNzYWdlIGJlY2F1c2UgeW91IGFyZSBzdWJzY3JpYmVk
+IHRvIHRoZSBHb29nbGUgR3JvdXBzICZxdW90O2thc2FuLWRldiZxdW90OyBncm91cC48YnIgLz4K
+VG8gdW5zdWJzY3JpYmUgZnJvbSB0aGlzIGdyb3VwIGFuZCBzdG9wIHJlY2VpdmluZyBlbWFpbHMg
+ZnJvbSBpdCwgc2VuZCBhbiBlbWFpbCB0byA8YSBocmVmPSJtYWlsdG86a2FzYW4tZGV2K3Vuc3Vi
+c2NyaWJlQGdvb2dsZWdyb3Vwcy5jb20iPmthc2FuLWRldit1bnN1YnNjcmliZUBnb29nbGVncm91
+cHMuY29tPC9hPi48YnIgLz4KVG8gdmlldyB0aGlzIGRpc2N1c3Npb24gdmlzaXQgPGEgaHJlZj0i
+aHR0cHM6Ly9ncm91cHMuZ29vZ2xlLmNvbS9kL21zZ2lkL2thc2FuLWRldi9mOGM5MGQyMy1iMTNk
+LTQ3YjUtOTY0Yy1jOTZmNjNiZWQwNGNuJTQwZ29vZ2xlZ3JvdXBzLmNvbT91dG1fbWVkaXVtPWVt
+YWlsJnV0bV9zb3VyY2U9Zm9vdGVyIj5odHRwczovL2dyb3Vwcy5nb29nbGUuY29tL2QvbXNnaWQv
+a2FzYW4tZGV2L2Y4YzkwZDIzLWIxM2QtNDdiNS05NjRjLWM5NmY2M2JlZDA0Y24lNDBnb29nbGVn
+cm91cHMuY29tPC9hPi48YnIgLz4K
+------=_Part_55549_1326183204.1732025455264--
 
-<p></p>
-
--- <br />
-You received this message because you are subscribed to the Google Groups &=
-quot;kasan-dev&quot; group.<br />
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
-+unsubscribe@googlegroups.com</a>.<br />
-To view this discussion visit <a href=3D"https://groups.google.com/d/msgid/=
-kasan-dev/5c8e7e55-3ee0-4b47-a635-9d3a70b28571n%40googlegroups.com?utm_medi=
-um=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-dev=
-/5c8e7e55-3ee0-4b47-a635-9d3a70b28571n%40googlegroups.com</a>.<br />
-
-------=_Part_56083_1837264435.1732025440683--
-
-------=_Part_56082_131818336.1732025440683--
+------=_Part_55548_444743517.1732025455264--
