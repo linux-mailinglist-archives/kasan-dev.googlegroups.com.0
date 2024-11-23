@@ -1,183 +1,101 @@
-Return-Path: <kasan-dev+bncBCPILY4NUAFBBPUPQO5AMGQENPMJNDI@googlegroups.com>
+Return-Path: <kasan-dev+bncBD47LZVWXQIBBE4BQ65AMGQEQQSAZRI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oo1-xc3c.google.com (mail-oo1-xc3c.google.com [IPv6:2607:f8b0:4864:20::c3c])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC629D63B1
-	for <lists+kasan-dev@lfdr.de>; Fri, 22 Nov 2024 19:04:48 +0100 (CET)
-Received: by mail-oo1-xc3c.google.com with SMTP id 006d021491bc7-5eb61b55b47sf1863468eaf.2
-        for <lists+kasan-dev@lfdr.de>; Fri, 22 Nov 2024 10:04:48 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1732298686; cv=pass;
-        d=google.com; s=arc-20240605;
-        b=OHp2Dx+ymsmby4lzrES6ohlAWz+ln6qauDLn4fbwEu+HrtQ5UNS5xca+ogvFTeJR4q
-         0w3DEHalG3OGCYWb4SJsrg/ubb0DGxBKWb7fc6pnx5Mu3zD0tveIs5Xik2M45MlxcYjt
-         TilFtSA81kBNjXFupkVaA5174G/4QKaegb8u0a7gsyLYugOGZcurkYquoK2J9bEx/qhy
-         SUFPFSVXfMf1Jvpah0mTHh14xGLrsZwQLnK+Yht1T29yFRIxaD0kOKlCKcJkmW9Di+Xs
-         jSLZOPMB5duMIZPfdHH1expp15IGHTJUJwfiwruCgh2J/fDNdgulNW3z3pDoUY87VW1Z
-         uPqA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :content-language:in-reply-to:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:from:sender:dkim-signature;
-        bh=aPm/SS0igCi79yGHnKg4khItJGMXytpB8+yzorvgE9w=;
-        fh=CTIOGYdf8Fab/VGMKSjDDwUJAfPnqBQza7CHg6quTa4=;
-        b=JR5jcv23yi3AmgPcnXON+q0hZ8XmgNFed4nl5vBLtR37UK1mgAnJ7vC+lwh7FlzcQR
-         qASjqIK5dvISuAbFzrlXwaOmmTO3z0jR2RdZM6jFzIb/KUPvMJKxXLl/I0eXsIZ92SuB
-         WYqjOJFnFeov1eFYOCWrgkItxrQNp2+MACpgks629GMiXf43M2XoXuHypPtLZXRzf9g+
-         Kkvm9SKmAJcx0JlsRCLY28ogJmuBpbDHWK3G/zaX0mif/RQF0B/+k4Jxl3WNGu78PtYB
-         YtKeSllssiqa6Eui/HqjeeoUPvrCeNsr4AY1LPfQy5+8rJk8B17WCoqyRg26/yY5s8/M
-         J8qw==;
-        darn=lfdr.de
-ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=GqyXe4yZ;
-       spf=pass (google.com: domain of llong@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=llong@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Received: from mail-ot1-x33b.google.com (mail-ot1-x33b.google.com [IPv6:2607:f8b0:4864:20::33b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1869D68ED
+	for <lists+kasan-dev@lfdr.de>; Sat, 23 Nov 2024 12:46:29 +0100 (CET)
+Received: by mail-ot1-x33b.google.com with SMTP id 46e09a7af769-7181b684032sf2267439a34.1
+        for <lists+kasan-dev@lfdr.de>; Sat, 23 Nov 2024 03:46:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1732298686; x=1732903486; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1732362388; x=1732967188; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:content-language
-         :in-reply-to:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=aPm/SS0igCi79yGHnKg4khItJGMXytpB8+yzorvgE9w=;
-        b=kO8lwhu32YyjugwovV751R1jGkC7aSvfDnRt4+/xTHb0Mb9uamGBwe7/W1uLIxXpIg
-         WRMj3iTPJmwrUtWLuJPaxARQY+YILxjlthtWKWyt4eiK0fDecb/gY1PPShpQLWZ+CCuy
-         e65hFv8XAVEG6CHDGhQPiueXJx/YyVt0nbvoP+roeuTkVC/3WLGXVP7R+hDJ0mZl46fE
-         /1F0ub7jPIdH3bgtCE/aPZr8LWIC5+yEWQUS4GFv17Ac0yOEwK1iZTtJC7kdCTiB+5N2
-         dlI9qi42V6qn6nMiq+NQMh/KaOlj5HwJp8zIhx+05FJhkK37P7dAZqF2HKBpojEkSCJJ
-         fIqA==
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:references:in-reply-to:message-id:to:from:date:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=auh1AnrGLEMtYxReGhN6TYwiZmNghOt/alVYYfP1WCc=;
+        b=Ukb/6EAOircABJeiXsbeQH4z/cl7ZN57IdvyDvRkjafTvoJyLVC2z/TcoYrVOMKc5P
+         Fh28FI7Y7iSnzDoJkWNgm6nzsjMb+xDbdzwvPznAKRCEhFZAH64T+/PJZJjss/RY/qEf
+         laMpDcMTiNhTmh2IcyLDsuQrvACLrsrKVpYTN5b97KA+uoRJ0WP3265qIf8T5hat+YmF
+         eDZH5xM3x/Z+Ly0PknQcWtPz8Gfg34FD4YpI3gyaQO+YT39KKpvJkVrG1B+VCbkGNABT
+         fHZJWaSATxc8bRPTSOCf3jnntWQepObgBF+AFC+1uDwzZsc0FdG6seEORZ4v4I7diU/o
+         mo5w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732362388; x=1732967188; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-sender:mime-version
+         :subject:references:in-reply-to:message-id:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=auh1AnrGLEMtYxReGhN6TYwiZmNghOt/alVYYfP1WCc=;
+        b=Hh/RNnVzKr0ShxvAlHQ6Py/sxiYxa3k4J5JbthN4Zl1itqNV+VJrRtTfhrdb+zVh0u
+         8lrSE6ZZDnTKuiZesaes9xpVWrXAq5Y13m2EtXLfchvrBQsVcWstLH3eAleb42WKlZqB
+         S1tgbj7/RDfov5DMxkTVMcWpmK/Qo5sHenSjboJEvUuXy6m2bBQgrgkWnlB+w2HdN0M2
+         /4AHTzXbRRbjONbXg4Z3AK6wvrkC/xMn5wAfiMozdCO8jX/oMWiM0TZMX2dxavbbUdkO
+         gCLUcFGnComzcJnMKYeoXsv2Nio/t3X16OGBf4ZNTEbNHEbBCfvt0GBXcGpMaMfh7RLa
+         0zDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732298686; x=1732903486;
+        d=1e100.net; s=20230601; t=1732362388; x=1732967188;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:content-language:in-reply-to:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aPm/SS0igCi79yGHnKg4khItJGMXytpB8+yzorvgE9w=;
-        b=wv4EJep0qpblwNws8QcFos/0U5dMmElV+HhWlrAQFTO5NdgsdVDcOVgWOBEpLzgxid
-         bmPnOemtbpO+YvnkJB+iQmYGg1A17IZO12ZikiRpNJ6T4PTv669sbc2sPrr9nQoiWr/b
-         +bi3IY99ku8Dr7IicZDmQ5LNRJ5HZurtSpHvBMDGOe7V83Rw/HuJN5aG/KNhAsYb78ob
-         RbNQCt/A+VQxk3UKNVjENOgN3ixEOc9hNuBwMpA5a8+fIrHBDaoL0x7PEzuucBPoFDrR
-         0a4u8rPRjFuNFqIr43z0VZxqTWfUGIF24RD7vXJkVQxs/iQKdtoCdaVpxdevxBRe2rkb
-         ssdQ==
+         :x-original-sender:mime-version:subject:references:in-reply-to
+         :message-id:to:from:date:x-beenthere:x-gm-message-state:sender:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=auh1AnrGLEMtYxReGhN6TYwiZmNghOt/alVYYfP1WCc=;
+        b=vBtsHUeZ4RLYWipjdU1k6wG0BdrMHAcMfLt3rx9Z7EELkQ/ez724bnSB7xmaOTL3gx
+         HEgXZd2Fg3qJWFXOYjJWizExaLbp+9MjtWZKxa+eUUPUuFK2Fr4WGtEX2zuNyPbqnNI7
+         Jac0D5tuU3wc3zv7hF/W4fFnRlBSB9yGi1DtgGZJ5UC1g1au6bxztCzrgbpVoiZv4ZWa
+         qXaH8uhjh14WqcQS/rgYB4Ns1Cwf5g8Mxgj5hsCERW2DsnLsZ0eW8nr5dXYYTpL7ZOAx
+         b/VLqjpLD0SqX5ZcZ3vzc/nzG5mqYK2XYnOHJWIwblnOzOY9H035Xt5pNE2APAVwWMRX
+         3qWA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVtfx5hDRfXp5MW0xoHGrZvYVcR8HXEp8OoFMKAKkRiupe7Jt0fi6fd6j0LIVWpq8EtVyVCpA==@lfdr.de
-X-Gm-Message-State: AOJu0YwxuUfOjlMjFsmbX9nrntmv/E3R5MYlJMy7B4qoybz1RsFnW1E7
-	dB5CMLwEmgni/TsqZZbcvW3h3p4PL+GjJtA/GekjbUmE1Aw0ospf
-X-Google-Smtp-Source: AGHT+IEyg/niCD70vyoPO1wkydUnfm6XafJaHnrqS2ZO/0wuaBY1sV+/HOjoqOhtnxMEWOXylE47qg==
-X-Received: by 2002:a05:6820:1806:b0:5ee:56d:69f9 with SMTP id 006d021491bc7-5f06a9f95ecmr3543199eaf.5.1732298686567;
-        Fri, 22 Nov 2024 10:04:46 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVwXl3/IQx5dCqC1CSRyCP9gSl3iipFyFTgpV4TMMvo0glKnsiLmdBwdJV3mHwsuFYBQXauzw==@lfdr.de
+X-Gm-Message-State: AOJu0YyUd6b68soDWTpuwazbQAiQ/WI7alKrv/1spsdva4I9IsWfNDIQ
+	Zbsd93SfdrX7kJMKslpPMFWs88E2Q2rGRGSs5CdVd5HjhTAaBrez
+X-Google-Smtp-Source: AGHT+IFMXu5Zv2Ix48loseGmYFm0kFrOcEqG1xmVhz6mGbhfqYsWMEK7lLwIaAiTVdu1yJgx/Sz1hA==
+X-Received: by 2002:a9d:6b03:0:b0:710:eb9a:f8d1 with SMTP id 46e09a7af769-71c04b96307mr5910808a34.17.1732362388059;
+        Sat, 23 Nov 2024 03:46:28 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6820:22a4:b0:5eb:5d64:a13a with SMTP id
- 006d021491bc7-5ef3c4c4703ls2071306eaf.1.-pod-prod-08-us; Fri, 22 Nov 2024
- 10:04:45 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUsF7n9Rk9aX0bccWNkCyHKHpIFeQLzh2ncG+FFtgKbM6o5J0bx9ROKQmSjz8EPTzrwX0odhgJppsg=@googlegroups.com
-X-Received: by 2002:a05:6358:2190:b0:1c5:e364:d4d1 with SMTP id e5c5f4694b2df-1ca797ce0bbmr291345455d.26.1732298685537;
-        Fri, 22 Nov 2024 10:04:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1732298685; cv=none;
-        d=google.com; s=arc-20240605;
-        b=IDNwuB+/yM/vIVkcFbFg6x0W0qXt6EkwRrz6RT+znqOG6Fjt+2XG7f68OAPJkBWUbc
-         WM4Hlwow4bd25VjxjBOan7cO7dHlOK/gLxzHkQMnuDXpc21UcqTOZyKfs6AaqwuqUPEj
-         o5ISLfqqLuGBDZEi9NxqPnwxXroBtYV7ZfrUiV+Tqts6QK8YX/gltw3W5Ex4DX2gnHdU
-         AZ8jScnTqfdMWLPu8nwEcRvQ411sGTDD+SybF88YO/Oqq4pDpJZEGoYf9bEaC+9duYcC
-         nyloy2FKR3KiKgllUuYgr9CAxxuwcDCGfP9jtmSmSmF1A/6rA9T32PUb4X+rVekFDY/6
-         QyTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:content-language:in-reply-to:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from
-         :dkim-signature;
-        bh=CgB4Xh16LltpIZ14PxsaottjJCcCZ0sRpmkNwhVZ7wk=;
-        fh=tGwDmbOzoD0oFZiSWCLTpIBZXnoehvYlZjKB35dcHCI=;
-        b=XVj9rICAWyMUzaYWV5c0MJi2LxD5B46ay8PI4O+eaMgwvcvRNNq6zekop4DnrC92qv
-         hi8+NlFeOOdMH/5M7Cs1ZtNrjLXdHWFXMXdgzcGZoHN4cmYZal02458eSXw9OoXvmrPU
-         z/eMRkorSFHN+ObBDM/HQojrXUuNawjiH4T73/8JWCFxrNXnGw04oGndM7wCekIm8Yxt
-         Xi4t9/r2yXjGL2yhrZXDOmbmFF0SpAeRjPP6aK9ZyBaZtv9YryYQjKuT1oq88HJ+ui8+
-         LYoHgQufEbGFMBCYlZoKWxblxqLjQpYgMXSn/0bXMo1VlxZwiaT9010n8DKGJBpnfYF1
-         aPLg==;
-        dara=google.com
-ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=GqyXe4yZ;
-       spf=pass (google.com: domain of llong@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=llong@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
-        by gmr-mx.google.com with ESMTPS id ada2fe7eead31-4adda6fd5c4si113492137.2.2024.11.22.10.04.45
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 10:04:45 -0800 (PST)
-Received-SPF: pass (google.com: domain of llong@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-668-Dyw2B9kjPx6J0CnjOUljKw-1; Fri, 22 Nov 2024 13:04:44 -0500
-X-MC-Unique: Dyw2B9kjPx6J0CnjOUljKw-1
-X-Mimecast-MFC-AGG-ID: Dyw2B9kjPx6J0CnjOUljKw
-Received: by mail-il1-f200.google.com with SMTP id e9e14a558f8ab-3a77a808c27so24692455ab.1
-        for <kasan-dev@googlegroups.com>; Fri, 22 Nov 2024 10:04:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCUiQYhNRKsWFYe0NuDcKZ74zZJuva8pozwt90svtSAAipl2g5Y18AONa39TXG0uWPei4Ui6pqtOeoI=@googlegroups.com
-X-Gm-Gg: ASbGncswenedMKpPfKeA4udcp6zk4Ib4ULWoYryNzK74Ghm6bHE2wCyp/JGxSIm4Dt4
-	1m6Qx36U1Nl0bmeeryiuGTSDMtQVxuYQ2SLJQvJExjIssesWYLBw5KWH6OCM0voxrH8x7IVQ/Iu
-	yqIHNWiWm87CyutamZE80WyoXLQ+FRRZg4+IAkiSjIvDiReo/uJlnPikvrs8Pf08ra4wP5hdH9E
-	evbf07nRLI3K4+zLEMyRTI6ANKFirDiVwWc8jtJRA/8evK+0isfE7iTRwPbHR1yzK25uMzN6/VZ
-	wNEg/4+5BW9gOFMaKQ==
-X-Received: by 2002:a05:6e02:3187:b0:3a7:a553:7dc with SMTP id e9e14a558f8ab-3a7a5530fafmr21839535ab.7.1732298683164;
-        Fri, 22 Nov 2024 10:04:43 -0800 (PST)
-X-Received: by 2002:a05:6e02:3187:b0:3a7:a553:7dc with SMTP id e9e14a558f8ab-3a7a5530fafmr21838975ab.7.1732298682781;
-        Fri, 22 Nov 2024 10:04:42 -0800 (PST)
-Received: from ?IPV6:2601:188:ca00:a00:f844:fad5:7984:7bd7? ([2601:188:ca00:a00:f844:fad5:7984:7bd7])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a79ac9735csm5893795ab.50.2024.11.22.10.04.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Nov 2024 10:04:40 -0800 (PST)
-From: Waiman Long <llong@redhat.com>
-Message-ID: <514c8a18-0b12-481b-94c2-00cabd5a4a42@redhat.com>
-Date: Fri, 22 Nov 2024 13:04:34 -0500
+Received: by 2002:a05:6820:1623:b0:5eb:55c6:2ada with SMTP id
+ 006d021491bc7-5ef3326d719ls645689eaf.0.-pod-prod-07-us; Sat, 23 Nov 2024
+ 03:46:26 -0800 (PST)
+X-Received: by 2002:a05:6808:220a:b0:3e7:ef21:ef8 with SMTP id 5614622812f47-3e915b570b9mr6514900b6e.35.1732362385977;
+        Sat, 23 Nov 2024 03:46:25 -0800 (PST)
+Date: Sat, 23 Nov 2024 03:46:24 -0800 (PST)
+From: Jeremy Shurtleff <jeremyshurtleff54@gmail.com>
+To: kasan-dev <kasan-dev@googlegroups.com>
+Message-Id: <610dcc94-ab40-4715-87b9-fe347ff096e4n@googlegroups.com>
+In-Reply-To: <0a7f9efa-7aeb-4638-817d-f78a003427fcn@googlegroups.com>
+References: <0f8bcf08-df8a-4f8e-a5b3-fc156af6e98fn@googlegroups.com>
+ <81ac6522-7761-49aa-8f45-7f03ba257d3an@googlegroups.com>
+ <7193d113-c2d8-4562-8b18-bd5cb539dad8n@googlegroups.com>
+ <2b978e79-a67c-45d5-8fc0-04c8c7c05033n@googlegroups.com>
+ <330e091d-e1a7-44d2-8b04-39a3c0673a5an@googlegroups.com>
+ <97233167-ad93-4058-91a9-b307ec628355n@googlegroups.com>
+ <cf6539bb-acc3-4ada-9916-e49979bf1dfbn@googlegroups.com>
+ <2432054c-d758-4005-8cd5-140710f986a0n@googlegroups.com>
+ <fda139f3-2470-49b1-b639-0eb0f22c8c9dn@googlegroups.com>
+ <8e466b49-cd56-4324-b0e4-781c43be86f9n@googlegroups.com>
+ <0fe451b8-18dc-4083-be91-84ddc0132a77n@googlegroups.com>
+ <c4f0da86-ffbf-4155-8009-c206a7d29e92n@googlegroups.com>
+ <fba97f1d-7404-4a51-98c8-5797750f838an@googlegroups.com>
+ <f96289ee-bde7-48b5-a979-40638ced9d85n@googlegroups.com>
+ <830720ed-380b-4098-9714-1fb2aacc159cn@googlegroups.com>
+ <ed817b7b-69bc-45b2-a666-2e5a4c6cf340n@googlegroups.com>
+ <791a0020-d939-4fb3-bd83-f6bd5151fb24n@googlegroups.com>
+ <61310f50-0d7f-403c-96cf-36cc43a64533n@googlegroups.com>
+ <5b2c2261-fbe9-42b8-95fb-2291ec3858f9n@googlegroups.com>
+ <65e1b6c0-ffaf-4279-97ff-a772bf488144n@googlegroups.com>
+ <8d9cae9f-9a85-497d-8399-add766a65131n@googlegroups.com>
+ <0a7f9efa-7aeb-4638-817d-f78a003427fcn@googlegroups.com>
+Subject: =?UTF-8?Q?Re:_UAE_-_=D8=AD=D8=A8=D9=88?=
+ =?UTF-8?Q?=D8=A8_=D8=A7=D9=84=D8=A7=D8=AC=D9=87?=
+ =?UTF-8?Q?=D8=A7=D8=B6_=D8=B3=D8=A7=D9=8A=D8=AA?=
+ =?UTF-8?Q?=D9=88=D8=AA=D9=83_=D8=A7=D9=84?=
+ =?UTF-8?Q?=D8=A7=D9=85=D8=A7=D8=B1=D8=A7=D8=AA_?=
+ =?UTF-8?Q?00971553031846?=
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] kasan: Make kasan_record_aux_stack_noalloc() the
- default behaviour
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Andrey Konovalov <andreyknvl@gmail.com>
-Cc: Marco Elver <elver@google.com>, Peter Zijlstra <peterz@infradead.org>,
- Vlastimil Babka <vbabka@suse.cz>,
- syzbot <syzbot+39f85d612b7c20d8db48@syzkaller.appspotmail.com>,
- Liam.Howlett@oracle.com, akpm@linux-foundation.org, jannh@google.com,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- lorenzo.stoakes@oracle.com, syzkaller-bugs@googlegroups.com,
- kasan-dev <kasan-dev@googlegroups.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>, dvyukov@google.com,
- vincenzo.frascino@arm.com, paulmck@kernel.org, frederic@kernel.org,
- neeraj.upadhyay@kernel.org, joel@joelfernandes.org, josh@joshtriplett.org,
- boqun.feng@gmail.com, urezki@gmail.com, rostedt@goodmis.org,
- mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
- qiang.zhang1211@gmail.com, mingo@redhat.com, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, tj@kernel.org, cl@linux.com,
- penberg@kernel.org, rientjes@google.com, iamjoonsoo.kim@lge.com,
- Thomas Gleixner <tglx@linutronix.de>, roman.gushchin@linux.dev,
- 42.hyeyoo@gmail.com, rcu@vger.kernel.org
-References: <67275485.050a0220.3c8d68.0a37.GAE@google.com>
- <ee48b6e9-3f7a-49aa-ae5b-058b5ada2172@suse.cz>
- <b9a674c1-860c-4448-aeb2-bf07a78c6fbf@suse.cz>
- <20241104114506.GC24862@noisy.programming.kicks-ass.net>
- <CANpmjNPmQYJ7pv1N3cuU8cP18u7PP_uoZD8YxwZd4jtbof9nVQ@mail.gmail.com>
- <20241119155701.GYennzPF@linutronix.de>
- <CA+fCnZfzJcbEy0Qmn5GPzPUx9diR+3qw+4ukHa2j5xzzQMF8Kw@mail.gmail.com>
- <20241122155451.Mb2pmeyJ@linutronix.de>
-In-Reply-To: <20241122155451.Mb2pmeyJ@linutronix.de>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: JL86u7fvvM5jz35L7ImQjusie4EHWwvDIQS85CvDOTc_1732298683
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: llong@redhat.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=GqyXe4yZ;
-       spf=pass (google.com: domain of llong@redhat.com designates
- 170.10.133.124 as permitted sender) smtp.mailfrom=llong@redhat.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_180478_496402011.1732362384701"
+X-Original-Sender: jeremyshurtleff54@gmail.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -190,274 +108,184 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 11/22/24 10:54 AM, Sebastian Andrzej Siewior wrote:
-> From: Peter Zijlstra <peterz@infradead.org>
->
-> kasan_record_aux_stack_noalloc() was introduced to record a stack trace
-> without allocating memory in the process. It has been added to callers
-> which were invoked while a raw_spinlock_t was held.
-> More and more callers were identified and changed over time. Is it a
-> good thing to have this while functions try their best to do a
-> locklessly setup? The only downside of having kasan_record_aux_stack()
-> not allocate any memory is that we end up without a stacktrace if
-> stackdepot runs out of memory and at the same stacktrace was not
-> recorded before To quote Marco Elver from
->     https://lore.kernel.org/all/CANpmjNPmQYJ7pv1N3cuU8cP18u7PP_uoZD8YxwZd=
-4jtbof9nVQ@mail.gmail.com/
->
-> | I'd be in favor, it simplifies things. And stack depot should be
-> | able to replenish its pool sufficiently in the "non-aux" cases
-> | i.e. regular allocations. Worst case we fail to record some
-> | aux stacks, but I think that's only really bad if there's a bug
-> | around one of these allocations. In general the probabilities
-> | of this being a regression are extremely small [...]
->
-> Make the kasan_record_aux_stack_noalloc() behaviour default as
-> kasan_record_aux_stack().
->
-> [bigeasy: Dressed the diff as patch. ]
->
-> Reported-by: syzbot+39f85d612b7c20d8db48@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/all/67275485.050a0220.3c8d68.0a37.GAE@goo=
-gle.com
-> Acked-by: Waiman Long <longman@redhat.com>
-> Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
-> Reviewed-by: Marco Elver <elver@google.com>
-> Fixes: 7cb3007ce2da2 ("kasan: generic: introduce kasan_record_aux_stack_n=
-oalloc()")
-> Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> ---
-> v1=E2=80=A6v2:
->    - Renamed the patch as per Marco.
->    - Added comment to kasan_record_aux_stack() as per Andrey.
->    - Added fixes tag since Waiman that it is the only user.
->    - Added Marco's quote from the mail to the commit description.
->
->   include/linux/kasan.h     |  2 --
->   include/linux/task_work.h |  3 ---
->   kernel/irq_work.c         |  2 +-
->   kernel/rcu/tiny.c         |  2 +-
->   kernel/rcu/tree.c         |  4 ++--
->   kernel/sched/core.c       |  2 +-
->   kernel/task_work.c        | 14 +-------------
->   kernel/workqueue.c        |  2 +-
->   mm/kasan/generic.c        | 18 ++++++------------
->   mm/slub.c                 |  2 +-
->   10 files changed, 14 insertions(+), 37 deletions(-)
->
-> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
-> index 00a3bf7c0d8f0..1a623818e8b39 100644
-> --- a/include/linux/kasan.h
-> +++ b/include/linux/kasan.h
-> @@ -488,7 +488,6 @@ void kasan_cache_create(struct kmem_cache *cache, uns=
-igned int *size,
->   void kasan_cache_shrink(struct kmem_cache *cache);
->   void kasan_cache_shutdown(struct kmem_cache *cache);
->   void kasan_record_aux_stack(void *ptr);
-> -void kasan_record_aux_stack_noalloc(void *ptr);
->  =20
->   #else /* CONFIG_KASAN_GENERIC */
->  =20
-> @@ -506,7 +505,6 @@ static inline void kasan_cache_create(struct kmem_cac=
-he *cache,
->   static inline void kasan_cache_shrink(struct kmem_cache *cache) {}
->   static inline void kasan_cache_shutdown(struct kmem_cache *cache) {}
->   static inline void kasan_record_aux_stack(void *ptr) {}
-> -static inline void kasan_record_aux_stack_noalloc(void *ptr) {}
->  =20
->   #endif /* CONFIG_KASAN_GENERIC */
->  =20
-> diff --git a/include/linux/task_work.h b/include/linux/task_work.h
-> index 2964171856e00..0646804860ff1 100644
-> --- a/include/linux/task_work.h
-> +++ b/include/linux/task_work.h
-> @@ -19,9 +19,6 @@ enum task_work_notify_mode {
->   	TWA_SIGNAL,
->   	TWA_SIGNAL_NO_IPI,
->   	TWA_NMI_CURRENT,
-> -
-> -	TWA_FLAGS =3D 0xff00,
-> -	TWAF_NO_ALLOC =3D 0x0100,
->   };
->  =20
->   static inline bool task_work_pending(struct task_struct *task)
-> diff --git a/kernel/irq_work.c b/kernel/irq_work.c
-> index 2f4fb336dda17..73f7e1fd4ab4d 100644
-> --- a/kernel/irq_work.c
-> +++ b/kernel/irq_work.c
-> @@ -147,7 +147,7 @@ bool irq_work_queue_on(struct irq_work *work, int cpu=
-)
->   	if (!irq_work_claim(work))
->   		return false;
->  =20
-> -	kasan_record_aux_stack_noalloc(work);
-> +	kasan_record_aux_stack(work);
->  =20
->   	preempt_disable();
->   	if (cpu !=3D smp_processor_id()) {
-> diff --git a/kernel/rcu/tiny.c b/kernel/rcu/tiny.c
-> index b3b3ce34df631..4b3f319114650 100644
-> --- a/kernel/rcu/tiny.c
-> +++ b/kernel/rcu/tiny.c
-> @@ -250,7 +250,7 @@ EXPORT_SYMBOL_GPL(poll_state_synchronize_rcu);
->   void kvfree_call_rcu(struct rcu_head *head, void *ptr)
->   {
->   	if (head)
-> -		kasan_record_aux_stack_noalloc(ptr);
-> +		kasan_record_aux_stack(ptr);
->  =20
->   	__kvfree_call_rcu(head, ptr);
->   }
-> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
-> index b1f883fcd9185..7eae9bd818a90 100644
-> --- a/kernel/rcu/tree.c
-> +++ b/kernel/rcu/tree.c
-> @@ -3083,7 +3083,7 @@ __call_rcu_common(struct rcu_head *head, rcu_callba=
-ck_t func, bool lazy_in)
->   	}
->   	head->func =3D func;
->   	head->next =3D NULL;
-> -	kasan_record_aux_stack_noalloc(head);
-> +	kasan_record_aux_stack(head);
->   	local_irq_save(flags);
->   	rdp =3D this_cpu_ptr(&rcu_data);
->   	lazy =3D lazy_in && !rcu_async_should_hurry();
-> @@ -3807,7 +3807,7 @@ void kvfree_call_rcu(struct rcu_head *head, void *p=
-tr)
->   		return;
->   	}
->  =20
-> -	kasan_record_aux_stack_noalloc(ptr);
-> +	kasan_record_aux_stack(ptr);
->   	success =3D add_ptr_to_bulk_krc_lock(&krcp, &flags, ptr, !head);
->   	if (!success) {
->   		run_page_cache_worker(krcp);
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index a1c353a62c568..3717360a940d2 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -10485,7 +10485,7 @@ void task_tick_mm_cid(struct rq *rq, struct task_=
-struct *curr)
->   		return;
->  =20
->   	/* No page allocation under rq lock */
-> -	task_work_add(curr, work, TWA_RESUME | TWAF_NO_ALLOC);
-> +	task_work_add(curr, work, TWA_RESUME);
->   }
->  =20
->   void sched_mm_cid_exit_signals(struct task_struct *t)
-> diff --git a/kernel/task_work.c b/kernel/task_work.c
-> index c969f1f26be58..d1efec571a4a4 100644
-> --- a/kernel/task_work.c
-> +++ b/kernel/task_work.c
-> @@ -55,26 +55,14 @@ int task_work_add(struct task_struct *task, struct ca=
-llback_head *work,
->   		  enum task_work_notify_mode notify)
->   {
->   	struct callback_head *head;
-> -	int flags =3D notify & TWA_FLAGS;
->  =20
-> -	notify &=3D ~TWA_FLAGS;
->   	if (notify =3D=3D TWA_NMI_CURRENT) {
->   		if (WARN_ON_ONCE(task !=3D current))
->   			return -EINVAL;
->   		if (!IS_ENABLED(CONFIG_IRQ_WORK))
->   			return -EINVAL;
->   	} else {
-> -		/*
-> -		 * Record the work call stack in order to print it in KASAN
-> -		 * reports.
-> -		 *
-> -		 * Note that stack allocation can fail if TWAF_NO_ALLOC flag
-> -		 * is set and new page is needed to expand the stack buffer.
-> -		 */
-> -		if (flags & TWAF_NO_ALLOC)
-> -			kasan_record_aux_stack_noalloc(work);
-> -		else
-> -			kasan_record_aux_stack(work);
-> +		kasan_record_aux_stack(work);
->   	}
->  =20
->   	head =3D READ_ONCE(task->task_works);
-> diff --git a/kernel/workqueue.c b/kernel/workqueue.c
-> index 9949ffad8df09..65b8314b2d538 100644
-> --- a/kernel/workqueue.c
-> +++ b/kernel/workqueue.c
-> @@ -2180,7 +2180,7 @@ static void insert_work(struct pool_workqueue *pwq,=
- struct work_struct *work,
->   	debug_work_activate(work);
->  =20
->   	/* record the work call stack in order to print it in KASAN reports */
-> -	kasan_record_aux_stack_noalloc(work);
-> +	kasan_record_aux_stack(work);
->  =20
->   	/* we own @work, set data and link */
->   	set_work_pwq(work, pwq, extra_flags);
-> diff --git a/mm/kasan/generic.c b/mm/kasan/generic.c
-> index 6310a180278b6..2242249c2d50d 100644
-> --- a/mm/kasan/generic.c
-> +++ b/mm/kasan/generic.c
-> @@ -521,7 +521,11 @@ size_t kasan_metadata_size(struct kmem_cache *cache,=
- bool in_object)
->   			sizeof(struct kasan_free_meta) : 0);
->   }
->  =20
-> -static void __kasan_record_aux_stack(void *addr, depot_flags_t depot_fla=
-gs)
-> +/*
-> + * This function avoids dynamic memory allocations and thus can be calle=
-d from
-> + * contexts that do not allow allocating memory.
-> + */
-> +void kasan_record_aux_stack(void *addr)
->   {
->   	struct slab *slab =3D kasan_addr_to_slab(addr);
->   	struct kmem_cache *cache;
-> @@ -538,17 +542,7 @@ static void __kasan_record_aux_stack(void *addr, dep=
-ot_flags_t depot_flags)
->   		return;
->  =20
->   	alloc_meta->aux_stack[1] =3D alloc_meta->aux_stack[0];
-> -	alloc_meta->aux_stack[0] =3D kasan_save_stack(0, depot_flags);
-> -}
-> -
-> -void kasan_record_aux_stack(void *addr)
-> -{
-> -	return __kasan_record_aux_stack(addr, STACK_DEPOT_FLAG_CAN_ALLOC);
-> -}
-> -
-> -void kasan_record_aux_stack_noalloc(void *addr)
-> -{
-> -	return __kasan_record_aux_stack(addr, 0);
-> +	alloc_meta->aux_stack[0] =3D kasan_save_stack(0, 0);
->   }
->  =20
->   void kasan_save_alloc_info(struct kmem_cache *cache, void *object, gfp_=
-t flags)
-> diff --git a/mm/slub.c b/mm/slub.c
-> index 5b832512044e3..b8c4bf3fe0d07 100644
-> --- a/mm/slub.c
-> +++ b/mm/slub.c
-> @@ -2300,7 +2300,7 @@ bool slab_free_hook(struct kmem_cache *s, void *x, =
-bool init,
->   			 * We have to do this manually because the rcu_head is
->   			 * not located inside the object.
->   			 */
-> -			kasan_record_aux_stack_noalloc(x);
-> +			kasan_record_aux_stack(x);
->  =20
->   			delayed_free->object =3D x;
->   			call_rcu(&delayed_free->head, slab_free_after_rcu_debug);
+------=_Part_180478_496402011.1732362384701
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_180479_1393585839.1732362384701"
 
-LGTM
+------=_Part_180479_1393585839.1732362384701
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Waiman Long <longman@redhat.com>
+whatsapp 00971553429899 Where Abortion Pills In Sharjah=E2=99=BB=EF=B8=8F)(=
+00971553429899=20
+dubai ,ajman,abu dhabi.al ain Where to buy(^^00971553429899 Where Abortion=
+=20
+Pills in Dubai/UAE/ Abudhabi/Fujairah 00971553429899 Where )-mifepristone &=
+=20
+misoprostol in Dubai/Abu Dhabi/Sharjah- price of cytotec in=20
+Dubai/Ajman/RAK-Abortion pills for sale in DUBAI CONTACT DR.Leen Whatsapp=
+=20
+00971553429899 Where We have Abortion Pills / Cytotec Tablets /mifegest kit=
+=20
+Available in Dubai, Sharjah, Abudhabi, Ajman, Alain, Fujairah, Ras Al=20
+Khaimah, Umm Al Quwain, UAE, buy cytotec in Dubai 00971553429899 Where=20
+=E2=80=9C=E2=80=9DAbortion Pills near me DUBAI | ABU DHABI|UAE. Price of Mi=
+soprostol,=20
+Cytotec=E2=80=9D 00971553429899 Where =E2=80=9CBUY ABORTION PILLS MIFEGEST =
+KIT,=20
+MISOPROTONE, CYTOTEC PILLS IN DUBAI, ABU DHABI,UAE=E2=80=9D Contact me now =
+via=20
+whatsapp=E2=80=A6=E2=80=A6 abortion Pills Cytotec also available Oman Qatar=
+ Doha Saudi=20
+Arabia Bahrain Above all, Cytotec Abortion Pills are Available In Dubai /=
+=20
+UAE, you will be very happy to do abortion in dubai we are providing=20
+cytotec 200mg abortion pill in Dubai, UAE. Medication abortion offers an=20
+alternative to Surgical Abortion for women in the early weeks of pregnancy.=
+=20
+We only offer abortion pills from 1 week-6 Months. We then advice you to=20
+use surgery if its beyond 6 months. Our Abu Dhabi, Ajman, Al Ain, Dubai,=20
+Fujairah, Ras Al Khaimah (RAK), Sharjah, Umm Al Quwain (UAQ) United Arab=20
+Emirates Abortion Clinic provides the safest and most advanced techniques=
+=20
+for providing non-surgical, medical and surgical abortion methods for early=
+=20
+through late second trimester, including the Abortion By Pill Procedure (RU=
+=20
+486, Mifeprex, Mifepristone, early options French Abortion Pill),=20
+Tamoxifen, Methotrexate and Cytotec (Misoprostol). The Abu Dhabi, United=20
+Arab Emirates Abortion Clinic performs Same Day Abortion Procedure using=20
+medications that are taken on the first day of the office visit and will=20
+cause the abortion to occur generally within 4 to 6 hours (as early as 30=
+=20
+minutes) for patients who are 3 to 12 weeks pregnant. When Mifepristone and=
+=20
+Misoprostol are used, 50% of patients complete in 4 to 6 hours; 75% to 80%=
+=20
+in 12 hours; and 90% in 24 hours. We use a regimen that allows for=20
+completion without the need for surgery 99% of the time. All advanced=20
+second trimester and late term pregnancies at our Tampa clinic (17 to 24=20
+weeks or greater) can be completed within 24 hours or less 99% of the time=
+=20
+without the need surgery. The procedure is completed with minimal to no=20
+complications. Our Women=E2=80=99s Health Center located in Abu Dhabi, Unit=
+ed Arab=20
+Emirates,00971553429899 Where uses the latest medications for medical=20
+abortions (RU486, Mifeprex, Mifegyne, Mifepristone, early options French=20
+abortion pill), Methotrexate and Cytotec (Misoprostol). The safety=20
+standards of our Abu Dhabi, United Arab Emirates Abortion Doctors remain=20
+unparalleled. They consistently maintain the lowest complication rates=20
+throughout the nation. Our Physicians and staff are always available to=20
+answer questions and care for women in one of the most difficult times in=
+=20
+their life. The decision to have an abortion at the Abortion Clinic in Abu=
+=20
+Dhabi, United Arab Emirates, involves moral, ethical, religious, family,=20
+financial, health and age considerations. Buy abortion pills in Dubai, Buy=
+=20
+abortion pills in Oman, Buy abortion pills in Abu Dhabi, Buy abortion pills=
+=20
+in Sharjah Fujairah, Buy abortion pills in Ras Al Khaimah (RAK), Buy=20
+abortion pills in Ajman, Buy abortion pills in Al Ain, Buy abortion pills=
+=20
+in Umm Al Quwain (UAQ), Buy abortion pills in Kuwait, Abortion Pills=20
+Available In Dubai, Abortion Pills Available In UAE, Abortion Pills=20
+Available In Abu Dhabi, Abortion Pills Available In Sharjah, Abortion Pills=
+=20
+Available In Fujairah, Abortion Pills Available In Alain, Abortion Pills=20
+Available In Qatar, Cytotec Available In Dubai Cytotec in Dubai, abortion=
+=20
+pills in Dubai for sale 00971553429899 Where Cytotec Pills Dubai, Abortion=
+=20
+Cytotec Pills In Dubai UAE, Whatsapp 00971553429899 Where Question Tags:=20
+00971553429899 Where =E2=80=9CLegit & Safe ABORTION PILLS, ABU DHABI Sharja=
+h Alain=20
+RAK city Satwa Jumeirah Al barsha, CYTOTEC, MIFEGEST KIT IN DUBAI,=20
+Misoprostol, UAE=E2=80=9D Contact me now via
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/5=
-14c8a18-0b12-481b-94c2-00cabd5a4a42%40redhat.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/6=
+10dcc94-ab40-4715-87b9-fe347ff096e4n%40googlegroups.com.
+
+------=_Part_180479_1393585839.1732362384701
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+whatsapp 00971553429899 Where Abortion Pills In Sharjah=E2=99=BB=EF=B8=8F)(=
+00971553429899 dubai ,ajman,abu dhabi.al ain Where to buy(^^00971553429899 =
+Where Abortion Pills in Dubai/UAE/ Abudhabi/Fujairah 00971553429899 Where )=
+-mifepristone &amp; misoprostol in Dubai/Abu Dhabi/Sharjah- price of cytote=
+c in Dubai/Ajman/RAK-Abortion pills for sale in DUBAI CONTACT DR.Leen Whats=
+app 00971553429899 Where We have Abortion Pills / Cytotec Tablets /mifegest=
+ kit Available in Dubai, Sharjah, Abudhabi, Ajman, Alain, Fujairah, Ras Al =
+Khaimah, Umm Al Quwain, UAE, buy cytotec in Dubai 00971553429899 Where =E2=
+=80=9C=E2=80=9DAbortion Pills near me DUBAI | ABU DHABI|UAE. Price of Misop=
+rostol, Cytotec=E2=80=9D 00971553429899 Where =E2=80=9CBUY ABORTION PILLS M=
+IFEGEST KIT, MISOPROTONE, CYTOTEC PILLS IN DUBAI, ABU DHABI,UAE=E2=80=9D Co=
+ntact me now via whatsapp=E2=80=A6=E2=80=A6 abortion Pills Cytotec also ava=
+ilable Oman Qatar Doha Saudi Arabia Bahrain Above all, Cytotec Abortion Pil=
+ls are Available In Dubai / UAE, you will be very happy to do abortion in d=
+ubai we are providing cytotec 200mg abortion pill in Dubai, UAE. Medication=
+ abortion offers an alternative to Surgical Abortion for women in the early=
+ weeks of pregnancy. We only offer abortion pills from 1 week-6 Months. We =
+then advice you to use surgery if its beyond 6 months. Our Abu Dhabi, Ajman=
+, Al Ain, Dubai, Fujairah, Ras Al Khaimah (RAK), Sharjah, Umm Al Quwain (UA=
+Q) United Arab Emirates Abortion Clinic provides the safest and most advanc=
+ed techniques for providing non-surgical, medical and surgical abortion met=
+hods for early through late second trimester, including the Abortion By Pil=
+l Procedure (RU 486, Mifeprex, Mifepristone, early options French Abortion =
+Pill), Tamoxifen, Methotrexate and Cytotec (Misoprostol). The Abu Dhabi, Un=
+ited Arab Emirates Abortion Clinic performs Same Day Abortion Procedure usi=
+ng medications that are taken on the first day of the office visit and will=
+ cause the abortion to occur generally within 4 to 6 hours (as early as 30 =
+minutes) for patients who are 3 to 12 weeks pregnant. When Mifepristone and=
+ Misoprostol are used, 50% of patients complete in 4 to 6 hours; 75% to 80%=
+ in 12 hours; and 90% in 24 hours. We use a regimen that allows for complet=
+ion without the need for surgery 99% of the time. All advanced second trime=
+ster and late term pregnancies at our Tampa clinic (17 to 24 weeks or great=
+er) can be completed within 24 hours or less 99% of the time without the ne=
+ed surgery. The procedure is completed with minimal to no complications. Ou=
+r Women=E2=80=99s Health Center located in Abu Dhabi, United Arab Emirates,=
+00971553429899 Where uses the latest medications for medical abortions (RU4=
+86, Mifeprex, Mifegyne, Mifepristone, early options French abortion pill), =
+Methotrexate and Cytotec (Misoprostol). The safety standards of our Abu Dha=
+bi, United Arab Emirates Abortion Doctors remain unparalleled. They consist=
+ently maintain the lowest complication rates throughout the nation. Our Phy=
+sicians and staff are always available to answer questions and care for wom=
+en in one of the most difficult times in their life. The decision to have a=
+n abortion at the Abortion Clinic in Abu Dhabi, United Arab Emirates, invol=
+ves moral, ethical, religious, family, financial, health and age considerat=
+ions. Buy abortion pills in Dubai, Buy abortion pills in Oman, Buy abortion=
+ pills in Abu Dhabi, Buy abortion pills in Sharjah Fujairah, Buy abortion p=
+ills in Ras Al Khaimah (RAK), Buy abortion pills in Ajman, Buy abortion pil=
+ls in Al Ain, Buy abortion pills in Umm Al Quwain (UAQ), Buy abortion pills=
+ in Kuwait, Abortion Pills Available In Dubai, Abortion Pills Available In =
+UAE, Abortion Pills Available In Abu Dhabi, Abortion Pills Available In Sha=
+rjah, Abortion Pills Available In Fujairah, Abortion Pills Available In Ala=
+in, Abortion Pills Available In Qatar, Cytotec Available In Dubai Cytotec i=
+n Dubai, abortion pills in Dubai for sale 00971553429899 Where Cytotec Pill=
+s Dubai, Abortion Cytotec Pills In Dubai UAE, Whatsapp 00971553429899 Where=
+ Question Tags: 00971553429899 Where =E2=80=9CLegit &amp; Safe ABORTION PIL=
+LS, ABU DHABI Sharjah Alain RAK city Satwa Jumeirah Al barsha, CYTOTEC, MIF=
+EGEST KIT IN DUBAI, Misoprostol, UAE=E2=80=9D Contact me now via
+
+<p></p>
+
+-- <br />
+You received this message because you are subscribed to the Google Groups &=
+quot;kasan-dev&quot; group.<br />
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to <a href=3D"mailto:kasan-dev+unsubscribe@googlegroups.com">kasan-dev=
++unsubscribe@googlegroups.com</a>.<br />
+To view this discussion visit <a href=3D"https://groups.google.com/d/msgid/=
+kasan-dev/610dcc94-ab40-4715-87b9-fe347ff096e4n%40googlegroups.com?utm_medi=
+um=3Demail&utm_source=3Dfooter">https://groups.google.com/d/msgid/kasan-dev=
+/610dcc94-ab40-4715-87b9-fe347ff096e4n%40googlegroups.com</a>.<br />
+
+------=_Part_180479_1393585839.1732362384701--
+
+------=_Part_180478_496402011.1732362384701--
