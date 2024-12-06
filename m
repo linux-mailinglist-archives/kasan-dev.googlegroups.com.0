@@ -1,134 +1,149 @@
-Return-Path: <kasan-dev+bncBCHPRM5QQQKRBOX5Y25AMGQEZOBPL3I@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB4OCZK5AMGQEDZ6BFBY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28CB29E58F3
-	for <lists+kasan-dev@lfdr.de>; Thu,  5 Dec 2024 15:54:52 +0100 (CET)
-Received: by mail-wm1-x33d.google.com with SMTP id 5b1f17b1804b1-4349d895ef8sf10180165e9.0
-        for <lists+kasan-dev@lfdr.de>; Thu, 05 Dec 2024 06:54:52 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1733410491; cv=pass;
+Received: from mail-qt1-x840.google.com (mail-qt1-x840.google.com [IPv6:2607:f8b0:4864:20::840])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA7DF9E678E
+	for <lists+kasan-dev@lfdr.de>; Fri,  6 Dec 2024 08:02:10 +0100 (CET)
+Received: by mail-qt1-x840.google.com with SMTP id d75a77b69052e-4668d3833a4sf66171791cf.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 05 Dec 2024 23:02:10 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1733468529; cv=pass;
         d=google.com; s=arc-20240605;
-        b=NP8sInk++W6F+JKfXvrVbDMyfGCbC0bU27/i5NkhLqoWlbKQHbAl6OvuHZJ7PSNid1
-         IBzabx8cw9C4B4IQB1ViRyY1rok2qn9KUX2WcFiMNH7qecN/HbhN4z7Ns2DePGnWraBp
-         l7WJVX7pOx9548kVO8Hp+tIN9BvecnF/LS0qbqYyk51bsUYfWBDErFGtkNBmdLjlZ2xQ
-         isi9CLi1Vhq/aSTnyjLMYUIB5f8a+1Q6JhzRYI8V1lEWW1fekeuRNzJO5LNH6fn4JxYI
-         vw/+0yDmE01UG+DClbvqU0iXw7+pNth6UCs7N0WY5eei0Jyglm3YbZchgF2D9qXEt+n+
-         Ch0g==
+        b=CHBQlsmbJ0y4idBeLYPmuz9zAp51YwZDjRK0jeWPEK02GazZRamH/viA1M0xy9cwyl
+         K4z9u8FLNiogpLRGQP1jOULyA2CG/3AAZAXKisWTkqCqMa/5t9u7Mzp15IDClMBMFTFs
+         DyTJF/5Oq5Kgb2Aj4T7PMdvEbBI7VKFOxtnTxk4ojEWFa5jbNyE+ezM6jmAJgDfveYbq
+         3X7/nKf3062bz8FwHRSXXkQGpiMWkdacanL14u00XHlRWIhMMxd47e3lsZq5Q22AUKIC
+         /eEp6QqvvGYujGbzJFND7qwSNb1EW6zj/5vgu+Vy2C6qzAg96FMQNJA1Mwd7bSz+XJCb
+         pmLw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id:sender:dkim-signature;
-        bh=ioiUP5Q+N04m8gguyX2e091q44wC4Jfiftnn9OPsWyo=;
-        fh=pRqfWFHX+n2g2nl7F/9YssseE72gICi5sZ32sgeYN50=;
-        b=B/IGJ2w5rZVHxT+8ucnmWTFFOB+VI10z4EGLgHveEx09yUeYP9UnEtwH9v8zQIthDE
-         jv3wA5xPl1QbsZ6QiDjO6bIQBuIZhZuVq1tFZAMBfuiJ6cUqR4ZuJwStGOx5IhiLeBbv
-         2+5c+kSIAyKlmsZMxdou/i4vc5PLEo59BSBhQ1/zrhuE0BCQK/jN0ZOqjB9SZIJV8tJO
-         0Y3ovLIVQRSYDSjPjMCwBeFlJmIkG++Qo74aJkZi2KrB9d3JsnVfx8MbLUjlxhlP4Xu+
-         ezjrpFyOE63JDniwSpZqy+J/vTuNHZ1mjtFNDobVJn0jUUYw6kxiaprIzmwO8NgiQ+i4
-         03aw==;
+         :list-id:mailing-list:precedence:reply-to:mime-version
+         :auto-submitted:references:in-reply-to:message-id:date:subject:to
+         :from:dkim-signature;
+        bh=/+RDvZTABZJuc0ttfeRBH7NirL2sD9yibkgVHDzt7U0=;
+        fh=xw/6ZJDrKCLAyAJhmjMh/jPPqY7bZ+BQcAGY9XqjD9A=;
+        b=LhkeoSeMnYrFfx87cFhBKboZrhzGVHAetu7z6ksNT8ZcmXLEd38icy7mJ0aj49Bx/m
+         CiwEqECuKJjREGxIG87C1ZcI1/zCFEKpjbgQObc350ce4fKVArP6zK8z5KnFkghBNevW
+         dvyUrgSk2tRLVBMAWFp/hqDEZBQS+HVpOmXveRn3Mtu2gJ8KYTKeSpylyYn2WzODyWyJ
+         BJ6eJo3qXF1b2EEipsCEI923FcUJw9BCCxbnWgga9AiEaNB7N3fg6CxwT/+Xw9eR+ZXa
+         Xivwlx66AiL1dENI6n6sdzZW4uRWfKzcpKlJzE8nEsCZnbgWOsKGaivRGeurMunbu1wg
+         dklQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of a.fatoum@pengutronix.de designates 2a0a:edc0:2:b01:1d::104 as permitted sender) smtp.mailfrom=a.fatoum@pengutronix.de
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=rZfSMt8B;
+       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1733410491; x=1734015291; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1733468529; x=1734073329; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:subject:from:cc:to:content-language:user-agent
-         :mime-version:date:message-id:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ioiUP5Q+N04m8gguyX2e091q44wC4Jfiftnn9OPsWyo=;
-        b=TQjbibJVV8+50hLCFhGdkoxlMFxM2XyCKPEqUDDcfFFvsNJTRWkxvzII9kKPIJR7xm
-         bQRsI00JOFAIwNv2U1exw5dJuEAhQVMAON3EgLwHZvDfS8CUkYTMx4MUjOy3+aGOVnfr
-         2Quk/wDn9SFzV/tihKb2PK+L6Mg+mnW4ob4VkBQQdR5SzqWjRehqtxuC5AorBLidcGGu
-         88fi0c08KzujnzDcaIpGl9i2kJyhUqUA3cqYQha3qIBgw5YJyyC5yse1RtPT1x3n8aOK
-         7TcMzR3J/ev9Xs3svtvHB3S3ruJHRLm+FPm8R+do0g+Ajr/At8YSvr+GCBLEi7Y9k6+E
-         3/hg==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :auto-submitted:references:in-reply-to:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/+RDvZTABZJuc0ttfeRBH7NirL2sD9yibkgVHDzt7U0=;
+        b=IE7qMmN7ic0on2rzrBUxj4PT+/56WXSG4KvtDY7vbAO0NyNgFueNs6QlNpwlTsFRTB
+         1+7igXY1RX7oslt9SeUdBWqylXMoiPufbVCecCyuG7aZI8qYdITE2zd7VHwj0M3OBU6j
+         SKDYPUZx1yLfIZsUxjELLfXQ1clnTXDoz+LJKJ7ypbtel1yhU2It191iCwLWrNY9pkIb
+         v1t1fbYE5X86GpWgfkHn/3wxemKVVPj43aDX45d2PoBmB2SSDbPknv47eJaBsrN9QTKd
+         uWtw7+x0DMUht9pitkhFBhqeBYY0x2bydqAx0PYjN7QqL7HVsWzMVjkQ3zr/c2VdQA0R
+         ut+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733410491; x=1734015291;
+        d=1e100.net; s=20230601; t=1733468529; x=1734073329;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:subject:from:cc
-         :to:content-language:user-agent:mime-version:date:message-id
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :auto-submitted:references:in-reply-to:message-id:date:subject:to
+         :from:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ioiUP5Q+N04m8gguyX2e091q44wC4Jfiftnn9OPsWyo=;
-        b=petXJYlzsXoChC2yo0ofHNEp7/zfFx+uUsmJFlJdvogQRRGeFsif4s3CRjJZoX2wqY
-         J1MmgWqLep63l8pumm1JgdwRHdSWoXs05JD2jqNccvBXqDb7GHIBKKs3M/YRQdT1u8Eq
-         4QYOAmWuwHsxZGcMy8MNlZzJZmSzz99rIeW8Nccy4tvF0ke+ffn0hrEFAl/ef5HIi3If
-         e3qW62iI+v2UwGQFOh5tOxqXI+6LZiSmD9AgiSornBaJ+2AffoXXZSW8vuPOs/OWKOuZ
-         mHSQCy5erQXy7wtTPMsXpP3bpQb9AyEbG77pfgnBbM/rn+SuOHE3ZTNT/ZNe91Dq/pPQ
-         xHgw==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCU4v7pvX0gOwvBfax52tOQmhUpNg4wVgaWrZ2nMCYcQIVg6/iWzQ3ELyW7VN7SSJlbHZxFX0g==@lfdr.de
-X-Gm-Message-State: AOJu0Yx8NUMCDgv01next/+eqX4j3LfE0J1DAFwZ2ycP0y/Td5TrKczR
-	aJJOu44XuNXD/z4FD67wwiQmZ8rSrZah8Alq1qLLI9VD3XEnG/ZB
-X-Google-Smtp-Source: AGHT+IEVcnRINtnQAFHeA4wgvpYLzOzmhcYuIIbeuZYTsYkAK00mjuSGprWv03/vrDeF9/NTa6yonA==
-X-Received: by 2002:a05:600c:4ecf:b0:434:a26c:8291 with SMTP id 5b1f17b1804b1-434d0a0e2c0mr99830815e9.24.1733410490580;
-        Thu, 05 Dec 2024 06:54:50 -0800 (PST)
+        bh=/+RDvZTABZJuc0ttfeRBH7NirL2sD9yibkgVHDzt7U0=;
+        b=eO3iknQsPb6DvdRmHiOkUo6GXxzccAF92X7mKwGZlmKMrxscG5mqf+ONLKldrBLwTR
+         QHdP2H947mGEPJ/N9NP3mor/69l4sofUZoq260DKDvgaPVyntsjxn1JAMsMyTUIaZdGk
+         6+xeG64jpsqFLINCvCAucwuOSuBdJ79YBLRVQJX5K7vmIOTxoRPA1bXqgaa6T0XQh4Dy
+         V419Jt4H0j9eBazjQCpJhTW8gNVzajaYZDEV7pnwV3JnwXJm14yMj+tnkW7COXbW6l1U
+         szfhI4WJeCTD83N8U8Ksjk3R4xdu62xyM75I+uKu1rhVeIr0sTcXp9TKd5a5j86L8tDT
+         Vr+g==
+X-Forwarded-Encrypted: i=2; AJvYcCU6ZnDVBZGFp0KiuUlNx+RrL+DeNakZgZGBw9c/vPX7d5nsv063ODN+v4bSWFaLOjzoPxnwTA==@lfdr.de
+X-Gm-Message-State: AOJu0YydHObUtDLZasfmrGJtYhyiU/MBIN9HbOjRg+rWrVU9AZ8dfRXf
+	jAqrHS3KRVSQHH+FiZCsxU4vBWDKTZPzDIExSF9Z2sBkH6Kx4bZH
+X-Google-Smtp-Source: AGHT+IH8e201V/ms/4mPMD/0KNMPteocRzYWirctEy0PcrE+CWHK50IAexckHlFHO2rUzJNKcdclcQ==
+X-Received: by 2002:ac8:584e:0:b0:466:9018:c91f with SMTP id d75a77b69052e-46734c9e97amr35506431cf.1.1733468529259;
+        Thu, 05 Dec 2024 23:02:09 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:5802:b0:434:a059:b74e with SMTP id
- 5b1f17b1804b1-434d9626622ls8435105e9.2.-pod-prod-05-eu; Thu, 05 Dec 2024
- 06:54:47 -0800 (PST)
-X-Received: by 2002:a05:600c:4f03:b0:434:a852:ba77 with SMTP id 5b1f17b1804b1-434d09d0432mr106212495e9.15.1733410486922;
-        Thu, 05 Dec 2024 06:54:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1733410486; cv=none;
+Received: by 2002:a05:622a:107:b0:466:b34c:8811 with SMTP id
+ d75a77b69052e-46727afc9eals31132571cf.0.-pod-prod-04-us; Thu, 05 Dec 2024
+ 23:02:08 -0800 (PST)
+X-Received: by 2002:a05:620a:2b85:b0:7b6:5d83:122c with SMTP id af79cd13be357-7b6bcad4abbmr330957785a.16.1733468528723;
+        Thu, 05 Dec 2024 23:02:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1733468528; cv=none;
         d=google.com; s=arc-20240605;
-        b=gGnBUaayTUNoyGJwQUmCHFOd0qJ5CVyrcYCxjUgVYQUfc3GBISJeIigvy3iznGV1Xu
-         QtqHwVK/0iJNxSYR1Vsu1AeJTqSoERcN6YQjS64voITWMueN6TBNuYpcv45eD8k9rFCW
-         rTLaukUwrNdnm3kxGr2PbS9JtYxlTwCk1STnmR4VvAi9dbdGBxqHePIPD0DbLqlAFXWk
-         TYm8xi/3qpAwZYtIxtZAgwgL6dxU+M3j6J3a2dDyksqgkEIPv8RZNIcJFuCKoLY5GxLK
-         sThuwsd+wuzDZ1tUV4HVinQOgMufgc3WuAL3usKrdqEgrp8Z2wv2zWMdXTBE90Mi2xb3
-         u99g==
+        b=PblT+QcEbUWJv9CJ4+Tj6iBsAGW/hivS5bPqNrKQR9xXrVWNDLj0QYMO7rkPKxzv8X
+         376MfxM8qN1ywcL0Ew85kjq63FKpzFk/hvsv9G0DRPiC/3qeemqdhhumLuTcdMufnKoR
+         +j3YT9KSSvZgNE4gSAfdUBrMg4CpKXeeHiroF842DCMB05PmocdjH5ap4p0LVVJQiLNF
+         C+n5AeNPlzpvIsGbPmhwZUy3qF171/fuBATmtjAdNHu1bsyL+yztWspEy6JSlkPufbvq
+         LBCyNochaQQKN1vxgdr22KareOTucgULLYBTyGGZdNpTNGrWHppBRi3oWeLQThVkinDd
+         uu8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:subject:from:cc:to:content-language
-         :user-agent:mime-version:date:message-id;
-        bh=82zRfxBhbpMp4JJQgBQ2OdsoYy0jZ1yWartOyzXMvSA=;
-        fh=oIfFa1f2fYSVHaCiEqzFYuQ37rKpgIO9y9OYK8FMfRw=;
-        b=MTq+J6M5GEyWqPH7kNCaILsIvSszzzM7i3krZuQIJwKcL6pkTHRtOZlh6Oaxc5yorF
-         6HOV+IujEYbjHLqUYozw2/qCClFOQRiE+r2Zq8V7G1MquqzLGlMNUbMxs3xmJKzZSy3K
-         wP9psh6EvUBY8VZMKpjx4fhF7vDYLWHd1/0dIu0CBpqxrMXA4j2nCwpBNTujG1n4r6hx
-         nK2FkfXzrrGNaCOiZXIbEcqb4YclyRS/2nJdaUPQnkPC63s5geBy8W3b6TovD2qaM6Iy
-         GUdkHDgqPL285SLrhn1dZzPjt/+goGUwAAFJObWtdTtlBSQWuvms2VRRT9NLvpy8fd5T
-         Yi2A==;
+        h=mime-version:auto-submitted:content-transfer-encoding:references
+         :in-reply-to:message-id:date:subject:to:from:dkim-signature;
+        bh=LGHq6KzF2RQ9d3joMp6AWK8RNb3QtZX60y5nyRJS0vk=;
+        fh=uQCsmYQr+KJEcG63Y45gsyDulzJl/B4EdEfpx8XrGGo=;
+        b=QOZRkXsal3wJdsfnknUuL3on00Mg5iut6eIIzitsRSOPdmGuU3d8MC4QCvffZUpFvS
+         68HmsJRl8ncUAJuk4urEHN+MU6r2o+u2cYMFNQ5CE8jtOT69aVYfe+gsqYtoSdd9iuUg
+         hlLdxXTS4nyz2qPKeuL6H3c1V88uRrkHCQNWPXJxm74nWopTGDNmCYeO9LrwIP1lJpKy
+         FXuGVm/+n8uqDBsHba4nCNeXkD0c6wAiYXyIjzSIBbxXcSZoXLQVEanFOMczMxYw7Yli
+         5ImALkxGJnMpaZKBJqdHDWe2bwazKDQNWBkVa0j1wL3y1jVM5/zPLvj8DoTJsFZF1Q1J
+         cEOg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of a.fatoum@pengutronix.de designates 2a0a:edc0:2:b01:1d::104 as permitted sender) smtp.mailfrom=a.fatoum@pengutronix.de
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de. [2a0a:edc0:2:b01:1d::104])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-434da13ea8fsi443305e9.1.2024.12.05.06.54.46
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=rZfSMt8B;
+       spf=pass (google.com: domain of bugzilla-daemon@kernel.org designates 147.75.193.91 as permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from nyc.source.kernel.org (nyc.source.kernel.org. [147.75.193.91])
+        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6d8ee0ca03dsi184546d6.4.2024.12.05.23.02.08
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 06:54:46 -0800 (PST)
-Received-SPF: pass (google.com: domain of a.fatoum@pengutronix.de designates 2a0a:edc0:2:b01:1d::104 as permitted sender) client-ip=2a0a:edc0:2:b01:1d::104;
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1tJDFe-0008Hp-Hr; Thu, 05 Dec 2024 15:54:46 +0100
-Message-ID: <72ad8ca7-5280-457e-9769-b8a645966105@pengutronix.de>
-Date: Thu, 5 Dec 2024 15:54:43 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: kasan-dev@googlegroups.com, iommu@lists.linux.dev,
- Arnd Bergmann <arnd@arndb.de>
-Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
- Vincenzo Frascino <vincenzo.frascino@arm.com>, Christoph Hellwig
- <hch@lst.de>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, "Paul E . McKenney"
- <paulmck@kernel.org>, elver@google.com, Kees Cook <keescook@chromium.org>,
- Pengutronix Kernel Team <kernel@pengutronix.de>
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: Using KASAN to catch streaming DMA API violations
+        Thu, 05 Dec 2024 23:02:08 -0800 (PST)
+Received-SPF: pass (google.com: domain of bugzilla-daemon@kernel.org designates 147.75.193.91 as permitted sender) client-ip=147.75.193.91;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 60F97A44022
+	for <kasan-dev@googlegroups.com>; Fri,  6 Dec 2024 07:00:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CF377C4CEDF
+	for <kasan-dev@googlegroups.com>; Fri,  6 Dec 2024 07:02:07 +0000 (UTC)
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id C0B0FC41614; Fri,  6 Dec 2024 07:02:07 +0000 (UTC)
+From: bugzilla-daemon via kasan-dev <kasan-dev@googlegroups.com>
+To: kasan-dev@googlegroups.com
+Subject: [Bug 198661] KASAN: add checks to DMA transfers
+Date: Fri, 06 Dec 2024 07:02:07 +0000
+X-Bugzilla-Reason: CC
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: None
+X-Bugzilla-Product: Memory Management
+X-Bugzilla-Component: Sanitizers
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: enhancement
+X-Bugzilla-Who: dvyukov@google.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: dvyukov@google.com
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-198661-199747-uNuRg9awK8@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-198661-199747@https.bugzilla.kernel.org/>
+References: <bug-198661-199747@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: kasan-dev@googlegroups.com
-X-Original-Sender: a.fatoum@pengutronix.de
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of a.fatoum@pengutronix.de designates 2a0a:edc0:2:b01:1d::104
- as permitted sender) smtp.mailfrom=a.fatoum@pengutronix.de
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
+X-Original-Sender: bugzilla-daemon@kernel.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@kernel.org header.s=k20201202 header.b=rZfSMt8B;       spf=pass
+ (google.com: domain of bugzilla-daemon@kernel.org designates 147.75.193.91 as
+ permitted sender) smtp.mailfrom=bugzilla-daemon@kernel.org;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: bugzilla-daemon@kernel.org
+Reply-To: bugzilla-daemon@kernel.org
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -141,91 +156,21 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hello,
+https://bugzilla.kernel.org/show_bug.cgi?id=198661
 
-This is a follow-up to a discussion that took place in the Kernel Sanitizers
-Office Hours (IIRC) at this year's Plumbers Event in Vienna.
+--- Comment #6 from Dmitry Vyukov (dvyukov@google.com) ---
+FTR implementation of this idea in barebox bootloader:
+https://lore.kernel.org/all/72ad8ca7-5280-457e-9769-b8a645966105@pengutronix.de/
 
-I had asked about how KCSAN could detect races due to DMA[1] and Arnd
-suggested that we could use KASAN to detect the CPU accessing buffers that
-it doesn't have ownership of. I mentioned having implemented[2] this exact scheme
-in the barebox bootloader's KASAN support and promised to type up an email
-about it to help getting a similar functionality into the kernel, but first
-some context:
-
-The streaming DMA API is used to annotate ownership transfer of buffers in
-memory shared between the kernel and a DMA-capable device.
-
-The relevant kernel documentation is:
-
-  https://www.kernel.org/doc/Documentation/DMA-API.txt
-  https://www.kernel.org/doc/Documentation/DMA-API-HOWTO.txt
-
-But I'll give a quick recap. There are four key operations:
-
- - dma_map_single() moves a range of memory from CPU to device ownership
-
- - dma_sync_single_for_cpu() can be called on all or a subset of the range
-   mapped by dma_map_single() to move ownership back to the CPU
-
- - dma_sync_single_for_device() moves back all oo a subset of the range
-   mapped by dma_map_single() to the ownership of the device
-
- - dma_unmap_single() gives back ownership of a range of memory to the CPU
-
-It's a bug for the CPU or the device to access a streaming DMA mapping while
-it's owned by the other side. On many systems, that bug will manifest itself
-as memory corruption due to loss of cache coherence.
-
-To make it easier to spot some misuses of the API, the kernel has a
-CONFIG_DMA_API_DEBUG feature, which will run sanity checks when using the API.
-It can't however detect if a memory access happens to a buffer while it's
-owned by other side, which is where KASAN can come in by having CONFIG_DMA_API_DEBUG
-record ownership information into the KASAN shadow memory.
-
-That way accessing a device mapped buffer before sync'ing it to the CPU is
-detected like KASAN would detect a use-after-free.  When the ownership is moved
-back to the CPU, the memory is unpoisoned and such an access would be allowed
-again.
-
-I had implemented this scheme[3] in the barebox bootloader and it works ok:
-
-  BUG: KASAN: dma-mapped-to-device in eqos_send+0xdc/0x1a8
-  Read of size 4 at addr 0000000040419f00
-
-  Call trace:
-  [<7fbd4980>] (unwind_backtrace+0x0/0xb0) from [<7fbd4a40>] (dump_stack+0x10/0x18)
-  [<7fbd4a40>] (dump_stack+0x10/0x18) from [<7fba2360>] (kasan_report+0x11c/0x290)
-  [<7fba2360>] (kasan_report+0x11c/0x290) from [<7fba1f44>] (__asan_load4+0x54/0xb8)
-  [<7fba1f44>] (__asan_load4+0x54/0xb8) from [<7fb2e52c>] (eqos_send+0xdc/0x1a8)
-  [<7fb2e52c>] (eqos_send+0xdc/0x1a8) from [<7fbb6544>] (eth_send+0x154/0x16c)
-  [<7fbb6544>] (eth_send+0x154/0x16c) from [<7fbb7114>] (net_ip_send+0xe8/0xf8)
-  [<7fbb7114>] (net_ip_send+0xe8/0xf8) from [<7fbb7d10>] (net_udp_send+0x68/0x78)
-
-
-The aforementioned barebox functionality goes a step further and also used
-the shadow memory information to detect repeated syncs without an ownership
-change. While this is not a bug, my impression is that this is unnecessary
-overhead and a diagnostic could help correct a developer's misunderstanding
-of the API.
-
-I hope to kick off a discussion about this with my mail here and perhaps even
-motivate someone else to port it over or reimplement it. :D
-
-[1]: when CONFIG_KCSAN_REPORT_RACE_UNKNOWN_ORIGIN is enabled
-[2]: https://lore.barebox.org/barebox/20240910114832.2984195-1-a.fatoum@pengutronix.de/
-[3]: https://github.com/barebox/barebox/blob/master/drivers/dma/debug.c
-
-Cheers,
-Ahmad
+It also has some details of the DMA API.
 
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are on the CC list for the bug.
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/72ad8ca7-5280-457e-9769-b8a645966105%40pengutronix.de.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/bug-198661-199747-uNuRg9awK8%40https.bugzilla.kernel.org/.
