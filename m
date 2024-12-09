@@ -1,154 +1,146 @@
-Return-Path: <kasan-dev+bncBAABB45S3G5AMGQEBSY3NVI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDXY7I6V6AMRBKV63K5AMGQESWCQGQI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5109E894F
-	for <lists+kasan-dev@lfdr.de>; Mon,  9 Dec 2024 03:44:04 +0100 (CET)
-Received: by mail-qv1-xf3a.google.com with SMTP id 6a1803df08f44-6d8fe8a0371sf23312946d6.1
-        for <lists+kasan-dev@lfdr.de>; Sun, 08 Dec 2024 18:44:04 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1733712243; cv=pass;
+Received: from mail-lf1-x138.google.com (mail-lf1-x138.google.com [IPv6:2a00:1450:4864:20::138])
+	by mail.lfdr.de (Postfix) with ESMTPS id 865899E8C63
+	for <lists+kasan-dev@lfdr.de>; Mon,  9 Dec 2024 08:41:32 +0100 (CET)
+Received: by mail-lf1-x138.google.com with SMTP id 2adb3069b0e04-54019e668bfsf712515e87.0
+        for <lists+kasan-dev@lfdr.de>; Sun, 08 Dec 2024 23:41:32 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1733730092; cv=pass;
         d=google.com; s=arc-20240605;
-        b=I++KvdCtEX4/Grf3Plp3EN8RANpS42nPpQCBGLjl1xbgzDEA145usg8xtUInNh8kMD
-         3pPFMQWTosavqWVmOnAEsZGFw0RQ89CWIuykZsuQwU+sC0tzMvSLm8fpef8pmVZ3nX/O
-         dWmRs5TANabXrDPypq7jq8l95tlZUszk0MBIgmhwzNhySIiI7saTQeUEWSp2eONYLuSR
-         jtwy7wji9z+jxX4yvpC9bjLmaFwqP3sNRiRKWFFfDP9bt5uzzf4Orm7MlxGKHeAtERdY
-         fUMVxYQsQBenQmII9OEX1chtHCnm05GlyFZxk7jZbwUsw1of/DUXiEOu3ymmR8fXMo7n
-         m4Mw==
+        b=GawePfgGnXivTaEFZ7/yj6RvlHjQ0LviHusm5u+97WvDoZwYNaskY1kefJKCtc10Aq
+         ImaTtlLLQNFqwUSh6YzQ36jZiqHofizmVXkB3WDSjhY5TAJofHKVV8jAWNpQyExHWxdd
+         eUhASOqNJ5vutN/9tYkLHk067KaJvzM6ByDITibk689EwySa0HnnloPToTMphwLkd/lW
+         XnYUldAnyh61ukBI8siRwWaKP0RR6sQmWvEGGHRhd2AjJutgXo59ikqCD82+WmTaRggv
+         k4TCo0LWHXD3YZ6dUcCE3uVdFhgwf351sdJKJraHPem+UTO2uJF75Q5ib5lCVkN1h74G
+         lwfg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:dkim-signature;
-        bh=dkRFCz5Oz4YtBQ0E22dH6rhLCBpZLDGjJ2tSuELTygk=;
-        fh=gbHQ30TL3rWhQTTBK1Uo3MbdxiHUEi1TKv1GEcdiebM=;
-        b=QCkqskpk21BRiemEKnVmwOkfBIPEKjZ36iULzJDCf9Uv74MDKDxes4c0IkpPg5bH1H
-         o0wqp8Jpu5tYcEq1NcfPqkFmv201bIdejgO28cA+N0gtasrJKtaHQ3cO6G88m6Bd228i
-         6nri7/BHgielgnTkIYoi2f77ok1ZLNZ/PMM2aKgQy8YMB5fL6YJUOOPUy6s+I9bgUziq
-         0+DKtdip9tgPV6FzL+hn1VJGg0IY1cqqnkHN2IKsMlTtvCf3SASYtvE839A0URAkLJ53
-         yaFDX4HwGp/3vwZYLf5V0iLJ1F6091sbHcLQjjRccR/pbhYhCLE5lz7kTNbhpRImlqrb
-         QSjA==;
+         :list-id:mailing-list:precedence:mime-version:message-id:date
+         :subject:cc:to:from:sender:dkim-signature;
+        bh=iXuhzmolCaLDDHQ7pobfRGJJnCrufQy6GNB2WpnVX54=;
+        fh=LXq6hmnjeLC4pXpC8Ggfa3eZCp0Inejq1EFzseksQmE=;
+        b=VOOdkbbV61WXuD4xlxIOsiB3Q4yO73ra9p2h8t6y36TA3DDpqSvCYDRQSYjGwx9MXg
+         G0xXjMfoOeZz2SDf2oPUntrC6tgBVYiekrR3XQ8QcsXq+PiUuLRFWJaW009efznh4ypF
+         HvnLzPSU6zQy/w7+7YTHvDbYRiiRk6JtvSs7VW2ro+aJyQV9X20VOI7iR7eCdRkdeGES
+         v+PMmMHptPq5zT9lv5CZjhFl4I8cVHYqcxcf0syCzLcXA4m0N0tn8N+McA94IGPhFtYK
+         xHdCwxO7men4Xvgt/Vxf3SVQ99B/nc77Kqm4eSWSkQsAJ1dOQiJEHym3no65ZjJnbPKI
+         gd+g==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.191 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=i1ocIrps;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::32c as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1733712243; x=1734317043; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1733730092; x=1734334892; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dkRFCz5Oz4YtBQ0E22dH6rhLCBpZLDGjJ2tSuELTygk=;
-        b=r5KKTd3uPSqWOP74xSGv+AAOgG9umWqTtGudqnBs1mSo+7z4JuOGNr+rkkoA7yhH9s
-         k6wxxg1HYzqL2RyI08Ix/CK6LKAhtcmQHp18/1WJ5EogjCID6Ba8YZ93wbx6bUj67lHY
-         xu0HCIx6C6QUS4Q4/qJFjyXdvYZh7kTFffQrUuA8e3D+vD1vHL4WxoKw6Yf1KoGz1nfY
-         VaHoxhe2a76m5pDg8UWyscC9x0dVkVVLcWxTACH8OaKi1TsB8a0tRD8M6mQEBuLSNtJ5
-         O2QZLH72TJOfGm3tw0UinXbkwvhqoIoLSfRD0D+s9CF9hHeqpa4a7sq3em8whLiT5Rbt
-         Wn6w==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:mime-version:message-id:date:subject:cc:to:from
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=iXuhzmolCaLDDHQ7pobfRGJJnCrufQy6GNB2WpnVX54=;
+        b=mlh945nzxQXULDhI8MvUZi+I3aMNeABJ2LiRBwVM0gOzyg9Y/M/jICIdSnFl68ZLOy
+         +fuF5FBQrW/eToKNaZlsDcYgbzWQojRK2O1i9++WaOogR6qTbqg2UiVrQd8d6aRndiGn
+         W7VZrGrfOoPX7BNlpBNuYU9p/2tm9WbixaZBNhdK6opfnxE0VWvK4A4yp43bhyoymbPs
+         rdzZNjAhIkftUtQgXQpc8sbaK0WvkZ0YKYX/Aa+WRgztQL1y224Eeyls/PUEAgXG6vEo
+         cFTQlZgj3BqYJeX+5vPsjS+r2bP5oaBrCfGcZMiSY9QCTWLYg99yjWfH/bKSGR5pjmwm
+         2FpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733712243; x=1734317043;
+        d=1e100.net; s=20230601; t=1733730092; x=1734334892;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
-         :references:in-reply-to:message-id:date:subject:cc:to:from
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dkRFCz5Oz4YtBQ0E22dH6rhLCBpZLDGjJ2tSuELTygk=;
-        b=JAiATNQ7J3lLbhVpqEF/GWwd99SnmS+Mapj2LEtCouw1Ak6VYasHLe/HZzu3Tnv1vC
-         qSL3wOPbGRCPCjKlQ9CkM0IcX2EskKWkVYM/0jy9+hBRdgLazap8J585slClYUAg9WyM
-         U3Q7dEsXijcih9QSrpWKlDJgMQJfIFwhw4JL7OsuSKrdCUu1z0BnozmMgf3n6TbK3cOh
-         XHAuQ068MTmhFkikY62ebOby1vo2jSkuD/XMIq3OOcpnGmdVV5Crzk9R5L0D0Lw2eRfq
-         kuUejSNLrWBy8KrhFuOLSDed9SmIscdjBHGQacvBBcehACDDMaP2o6qEs+BdDivsjjBL
-         74cw==
-X-Forwarded-Encrypted: i=2; AJvYcCVk/VtUB8ep3Lao8o5KuCVYn5tgK12hZk+THCQHMStFPWT3SkOHpnS6MDMxLQVpPmkHEJJuoA==@lfdr.de
-X-Gm-Message-State: AOJu0YzOoD/NfJ7VYEFERl3KoF/k7rjiARryf38+9hrkc7cgXzbE2oGS
-	o2V0yP6+4RTvxfpHdgcO/6e4ut8NfmPz1qHZmSoM6oTFFeTu3Bm9
-X-Google-Smtp-Source: AGHT+IHjZ+bR3rv+WrEWg3SshW/7YaN9lVRzylMDg0e+n/xKYDQbVpoOPb27uuhrIy8m6ajQkd570w==
-X-Received: by 2002:a05:6214:d44:b0:6d4:586:6292 with SMTP id 6a1803df08f44-6d8e717d01cmr169876466d6.26.1733712243236;
-        Sun, 08 Dec 2024 18:44:03 -0800 (PST)
+         :message-id:date:subject:cc:to:from:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=iXuhzmolCaLDDHQ7pobfRGJJnCrufQy6GNB2WpnVX54=;
+        b=g/QpkPE7rbWW9GbSoqhg+Ci97UwcDhJ6bcOVMJ5v6hfPjTeOoy0kVMJLezHXz2BcWU
+         Vkzc4yGy0Aj8ra6RLekAO1hcsBxCXYg+chHWVLsltzeIU76gtK1Or9ApF9rmwa4Swj6P
+         dnhp4E906deolekdUmHUNp7mL9KQKAlzmTp1YCkV9S5RvGpKLi+rox1B+nRVePIuzlIJ
+         c2mR3YvbuvpsWH8wg257+IjXjOzz1N/79RNy282y78AO1OU/vRDgCJERH4H0WRj74JzG
+         vS3o8blagGOogJ8cYNolcyh0FosYwmHOsY8ut3yBF4x0tB3IK1dRUk+0aC9nsMgUOT2y
+         OTow==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCU38qFZlAZA84s+CE/xwG7YXvYrvg6rVdJErTx9tAh3lMhAXQ/oG7Qqdv0AjhwmGwHCNwXbNw==@lfdr.de
+X-Gm-Message-State: AOJu0YyGmmXBEJ7c9j8FSf++JW83990tCiQgSKI+R/khmHKJ5YiGgqD7
+	W4JgAWtAjNipoFJ9pUFqroBka1jU9TprO0PLNYzL31sC8g4gWmp8
+X-Google-Smtp-Source: AGHT+IHyxDsCs/koFkke7TQ8t8ZYU8xkqcFrkLU/PPffYf37Lxgklb+MliAHEpXMb2m3MiqCL1Hfjw==
+X-Received: by 2002:a05:6512:31d3:b0:540:1d58:da70 with SMTP id 2adb3069b0e04-5401d58db92mr1309383e87.4.1733730090910;
+        Sun, 08 Dec 2024 23:41:30 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:d6d:b0:6cb:be88:c825 with SMTP id
- 6a1803df08f44-6d8f9d490cals27575566d6.0.-pod-prod-05-us; Sun, 08 Dec 2024
- 18:44:02 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWGJAq8GbMmnbfhIbcByyk98YRXLWRFez6g/4yOp2xaxhiSKcK02Pz/ZrUTSCwFRduIAsJybGykfw8=@googlegroups.com
-X-Received: by 2002:a05:6102:32ca:b0:4af:eed0:91f1 with SMTP id ada2fe7eead31-4afeed0a218mr2675991137.13.1733712242622;
-        Sun, 08 Dec 2024 18:44:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1733712242; cv=none;
+Received: by 2002:a05:6512:6c7:b0:53f:22fa:27d6 with SMTP id
+ 2adb3069b0e04-53f22fa28e7ls29292e87.2.-pod-prod-03-eu; Sun, 08 Dec 2024
+ 23:41:28 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCU08LzfG9IXbmHy7mXyWF8PB1nZncFoTNns8jLvPzl/NIVKdomLTWHZDmsNi2BuhU/U7HpwUuqxwVs=@googlegroups.com
+X-Received: by 2002:ac2:4e08:0:b0:53e:239b:6097 with SMTP id 2adb3069b0e04-53e2c2ede4amr4130458e87.50.1733730087993;
+        Sun, 08 Dec 2024 23:41:27 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1733730087; cv=none;
         d=google.com; s=arc-20240605;
-        b=gFvVaCCwNob9xwXD2ZtptToLzyM5+Ksu4D7lB9W5TvDVP2bzM/vBo/PlComccJnYgq
-         QxUzM0OqEdwAT+PEP9El/YW0OnchEP1JlHKK1B2ppbE2T9sBuuU6wVW37dZ9kVadnOV5
-         X4Utd5X+cOj72M8cJ7Od8z98lwSjn3PWjc7TJFplfBIcc6pErP37VYBS2UktOCEABY9t
-         PpiDWeFLxOaIUzl/PacivHojuk+4H6H0myNPyf9jdtsiDTKFVHsZFicp7Kf6CMFiDFsB
-         P2uO/1taE+MomvZImrUn7Q6gCEcx7F3HGPLTwYMtNEVPm/7fyCEmRJpi6tPkr4QGyo4Y
-         lNzA==
+        b=JCAtrLT94YzrU6TtI2ZGGpqPsWErV9dcR1Dy/TOT+FPcBp3+fFBGgP89T5v+ONF1si
+         Whvl3eGT2by0MDmCT13ID19RqAO6mk8u6EVwWC7cqUIyA40VR90hKClJS81f52dzV67Z
+         sWX8oq37L3r4NaKQgTr9ps02Ifviw+HlP29A8W8yUZf9EQ0Rlh5IClNnWQwyd6Ysk0op
+         qMg/NOvO/i/RV4mkTiarzz1S5Ni0QnU/IplI3HHVZpzMu/8ahHO37KdxMIdEiPa2Jipf
+         vMv4HZ+pU6hMcFxIIBQviqJeGyLvGy01B7orX2unNI5/ZfGB6LQFmWEwCIxcNoqzOgP0
+         lUjg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from;
-        bh=3LXOxUklyNgf5lug7zsMwusW92Er0cLCd2wPgXWZ91s=;
-        fh=zBWha3m7j9g4fOlI2Dk54gN6qyAThRjo4Lp4VAY4w1U=;
-        b=EBQ8azAyWFj0WcM4kFAQp8TURTxLwGyUkM3y3giwgL3DXWgSLjZhg0waAF32TKt0Vy
-         SG+mT1O/20GwNjAgLxP7ua7egKFJ/LqTOwvyIiTUrOd92IiZIvS37Oegz0sXKkM6C+ya
-         E57GPKigbHsih+6IlH/9mFpRozLx9SJiJY/cOUHbE3w50yi0VNHZKXSQVtE6mBSV1VM+
-         JakvLxwRjVvcFlxDJzkMT7f29+P3m22KY+dgG1dy+dDySNnXAAcm6Xr0Y9+k2gzyO214
-         OYvVZhUOuNNuiTKaVeLNrytsvqmVPTN3LHLFoSBKtoSFTa5VP6L+1JvICU7ZeObKCXmz
-         SMQQ==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:dkim-signature;
+        bh=z3RCak58lMoNTf2/3PYYExuMpiOUpiJrkwR5/y5GnZY=;
+        fh=9q59LBcUgurW1NosHVX5VRXnteCUXJTX5SwAfZPAqN8=;
+        b=jm8+EjxqgP+LKhlSRjfoTT/wxoP/S5Ol0GvhjhYrBSG/Vdo2s3ifaD5brLlw7FVmtN
+         dTobLcPm4kreWU1jJ5VezU4LajLNRBIRrYMQIDMsyPcMtd+LPb+ABBuHYrhk5ymWEAsF
+         9YP4ILKxgObJY6FyxxBXbqQxcPlPYBmkstnM8wlUkJFhf3rzjdhRz03Xd4euwjZNEP3E
+         Ug1yd+zTX2+Mq9ZndS3EJbWI1vasRwFFcuwB0bWAWvfWRtyeUC6OtZwl0cHoLgqygulG
+         UEiYvwYDMbpiuOv+SXr5tIGprzxK36El+0P6F6xKPoV4nwzM0L7uZiJrDrZmOuA4SpAo
+         hYsw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.191 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com. [45.249.212.191])
-        by gmr-mx.google.com with ESMTPS id a1e0cc1a2514c-85c2bc8f161si307918241.1.2024.12.08.18.44.01
+       dkim=pass header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601 header.b=i1ocIrps;
+       spf=pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::32c as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com. [2a00:1450:4864:20::32c])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-5401c92065dsi40963e87.2.2024.12.08.23.41.27
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 08 Dec 2024 18:44:02 -0800 (PST)
-Received-SPF: pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.191 as permitted sender) client-ip=45.249.212.191;
-Received: from mail.maildlp.com (unknown [172.19.88.234])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Y65hf0h34z1kvfy;
-	Mon,  9 Dec 2024 10:41:06 +0800 (CST)
-Received: from kwepemk500005.china.huawei.com (unknown [7.202.194.90])
-	by mail.maildlp.com (Postfix) with ESMTPS id A318F14010C;
-	Mon,  9 Dec 2024 10:43:28 +0800 (CST)
-Received: from localhost.localdomain (10.175.112.125) by
- kwepemk500005.china.huawei.com (7.202.194.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 9 Dec 2024 10:43:26 +0800
-From: "'Tong Tiangen' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Mark Rutland <mark.rutland@arm.com>, Jonathan Cameron
-	<Jonathan.Cameron@Huawei.com>, Mauro Carvalho Chehab
-	<mchehab+huawei@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will
- Deacon <will@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, James
- Morse <james.morse@arm.com>, Robin Murphy <robin.murphy@arm.com>, Andrey
- Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, Michael Ellerman
-	<mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, Andrey Ryabinin
-	<ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Christophe
- Leroy <christophe.leroy@csgroup.eu>, Aneesh Kumar K.V
-	<aneesh.kumar@kernel.org>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Madhavan Srinivasan
-	<maddy@linux.ibm.com>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>,
-	<linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
-	<kasan-dev@googlegroups.com>, Tong Tiangen <tongtiangen@huawei.com>,
-	<wangkefeng.wang@huawei.com>, Guohanjun <guohanjun@huawei.com>
-Subject: [PATCH v13 5/5] arm64: introduce copy_mc_to_kernel() implementation
-Date: Mon, 9 Dec 2024 10:42:57 +0800
-Message-ID: <20241209024257.3618492-6-tongtiangen@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241209024257.3618492-1-tongtiangen@huawei.com>
-References: <20241209024257.3618492-1-tongtiangen@huawei.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Dec 2024 23:41:27 -0800 (PST)
+Received-SPF: pass (google.com: domain of alexghiti@rivosinc.com designates 2a00:1450:4864:20::32c as permitted sender) client-ip=2a00:1450:4864:20::32c;
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-434e406a547so11739985e9.3
+        for <kasan-dev@googlegroups.com>; Sun, 08 Dec 2024 23:41:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV+QDsL7Q3/BJhY4vRb7MkOhrcKkZvqfozLe5bPnu8UhxZZDPXdk5F/h7FhFpyM7CE29elFJUcps24=@googlegroups.com
+X-Gm-Gg: ASbGncvPpSOME6tX7Cyoi0a7PTzzWGApTskBVp2tKS1GFRjZCbeUzmfcGzO/RWOiG4g
+	7ECvC2BNLV/PwEod+jQ4lHmfYJ/KM41NyotYmOoScmKF5zMomoV/25MqpZj+biqhXvrYGruyG83
+	elqJiT5dqiFmCOHFMY5QpmEFlVAmIeUXYdBG+gpDC3a4+SYZeXA2TUjiBLPANtwMLvC9G8hZPJM
+	PFajlfLVNxccBiPkokbxdszfcq5XaKPXKVb9zzV1Eh9R2nWl8miCFr3bQMp/xT0879Ln89It97/
+	A0HV3iNJjhoftgYkOA==
+X-Received: by 2002:a5d:47af:0:b0:385:ed16:cac with SMTP id ffacd0b85a97d-3862b3f4930mr8270534f8f.56.1733730087202;
+        Sun, 08 Dec 2024 23:41:27 -0800 (PST)
+Received: from alex-rivos.home (lfbn-lyo-1-472-36.w2-7.abo.wanadoo.fr. [2.7.62.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38636c919e5sm6471730f8f.18.2024.12.08.23.41.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Dec 2024 23:41:26 -0800 (PST)
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+To: Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Liu Shixin <liushixin2@huawei.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>,
+	kasan-dev@googlegroups.com,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH -fixes] riscv: Fix IPIs usage in kfence_protect_page()
+Date: Mon,  9 Dec 2024 08:41:25 +0100
+Message-Id: <20241209074125.52322-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
+X-Original-Sender: alexghiti@rivosinc.com
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@rivosinc-com.20230601.gappssmtp.com header.s=20230601
+ header.b=i1ocIrps;       spf=pass (google.com: domain of alexghiti@rivosinc.com
+ designates 2a00:1450:4864:20::32c as permitted sender) smtp.mailfrom=alexghiti@rivosinc.com;
+       dara=pass header.i=@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [10.175.112.125]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemk500005.china.huawei.com (7.202.194.90)
-X-Original-Sender: tongtiangen@huawei.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of tongtiangen@huawei.com designates 45.249.212.191 as
- permitted sender) smtp.mailfrom=tongtiangen@huawei.com;       dmarc=pass
- (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-X-Original-From: Tong Tiangen <tongtiangen@huawei.com>
-Reply-To: Tong Tiangen <tongtiangen@huawei.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -161,223 +153,80 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-The copy_mc_to_kernel() helper is memory copy implementation that handles
-source exceptions. It can be used in memory copy scenarios that tolerate
-hardware memory errors(e.g: pmem_read/dax_copy_to_iter).
+flush_tlb_kernel_range() may use IPIs to flush the TLBs of all the
+cores, which triggers the following warning when the irqs are disabled:
 
-Currently, only x86 and ppc support this helper, Add this for ARM64 as
-well, if ARCH_HAS_COPY_MC is defined, by implementing copy_mc_to_kernel()
-and memcpy_mc() functions.
+[    3.455330] WARNING: CPU: 1 PID: 0 at kernel/smp.c:815 smp_call_function_many_cond+0x452/0x520
+[    3.456647] Modules linked in:
+[    3.457218] CPU: 1 UID: 0 PID: 0 Comm: swapper/1 Not tainted 6.12.0-rc7-00010-g91d3de7240b8 #1
+[    3.457416] Hardware name: QEMU QEMU Virtual Machine, BIOS
+[    3.457633] epc : smp_call_function_many_cond+0x452/0x520
+[    3.457736]  ra : on_each_cpu_cond_mask+0x1e/0x30
+[    3.457786] epc : ffffffff800b669a ra : ffffffff800b67c2 sp : ff2000000000bb50
+[    3.457824]  gp : ffffffff815212b8 tp : ff6000008014f080 t0 : 000000000000003f
+[    3.457859]  t1 : ffffffff815221e0 t2 : 000000000000000f s0 : ff2000000000bc10
+[    3.457920]  s1 : 0000000000000040 a0 : ffffffff815221e0 a1 : 0000000000000001
+[    3.457953]  a2 : 0000000000010000 a3 : 0000000000000003 a4 : 0000000000000000
+[    3.458006]  a5 : 0000000000000000 a6 : ffffffffffffffff a7 : 0000000000000000
+[    3.458042]  s2 : ffffffff815223be s3 : 00fffffffffff000 s4 : ff600001ffe38fc0
+[    3.458076]  s5 : ff600001ff950d00 s6 : 0000000200000120 s7 : 0000000000000001
+[    3.458109]  s8 : 0000000000000001 s9 : ff60000080841ef0 s10: 0000000000000001
+[    3.458141]  s11: ffffffff81524812 t3 : 0000000000000001 t4 : ff60000080092bc0
+[    3.458172]  t5 : 0000000000000000 t6 : ff200000000236d0
+[    3.458203] status: 0000000200000100 badaddr: ffffffff800b669a cause: 0000000000000003
+[    3.458373] [<ffffffff800b669a>] smp_call_function_many_cond+0x452/0x520
+[    3.458593] [<ffffffff800b67c2>] on_each_cpu_cond_mask+0x1e/0x30
+[    3.458625] [<ffffffff8000e4ca>] __flush_tlb_range+0x118/0x1ca
+[    3.458656] [<ffffffff8000e6b2>] flush_tlb_kernel_range+0x1e/0x26
+[    3.458683] [<ffffffff801ea56a>] kfence_protect+0xc0/0xce
+[    3.458717] [<ffffffff801e9456>] kfence_guarded_free+0xc6/0x1c0
+[    3.458742] [<ffffffff801e9d6c>] __kfence_free+0x62/0xc6
+[    3.458764] [<ffffffff801c57d8>] kfree+0x106/0x32c
+[    3.458786] [<ffffffff80588cf2>] detach_buf_split+0x188/0x1a8
+[    3.458816] [<ffffffff8058708c>] virtqueue_get_buf_ctx+0xb6/0x1f6
+[    3.458839] [<ffffffff805871da>] virtqueue_get_buf+0xe/0x16
+[    3.458880] [<ffffffff80613d6a>] virtblk_done+0x5c/0xe2
+[    3.458908] [<ffffffff8058766e>] vring_interrupt+0x6a/0x74
+[    3.458930] [<ffffffff800747d8>] __handle_irq_event_percpu+0x7c/0xe2
+[    3.458956] [<ffffffff800748f0>] handle_irq_event+0x3c/0x86
+[    3.458978] [<ffffffff800786cc>] handle_simple_irq+0x9e/0xbe
+[    3.459004] [<ffffffff80073934>] generic_handle_domain_irq+0x1c/0x2a
+[    3.459027] [<ffffffff804bf87c>] imsic_handle_irq+0xba/0x120
+[    3.459056] [<ffffffff80073934>] generic_handle_domain_irq+0x1c/0x2a
+[    3.459080] [<ffffffff804bdb76>] riscv_intc_aia_irq+0x24/0x34
+[    3.459103] [<ffffffff809d0452>] handle_riscv_irq+0x2e/0x4c
+[    3.459133] [<ffffffff809d923e>] call_on_irq_stack+0x32/0x40
 
-Because there is no caller-saved GPR is available for saving "bytes not
-copied" in memcpy(), the memcpy_mc() is referenced to the implementation
-of copy_from_user(). In addition, the fixup of MOPS insn is not considered
-at present.
+So only flush the local TLB and let the lazy kfence page fault handling
+deal with the faults which could happen when a core has an old protected
+pte version cached in its TLB. That leads to potential inaccuracies which
+can be tolerated when using kfence.
 
-Signed-off-by: Tong Tiangen <tongtiangen@huawei.com>
+Fixes: 47513f243b45 ("riscv: Enable KFENCE for riscv64")
+Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 ---
- arch/arm64/include/asm/string.h  |  5 ++
- arch/arm64/include/asm/uaccess.h | 18 ++++++
- arch/arm64/lib/Makefile          |  2 +-
- arch/arm64/lib/memcpy_mc.S       | 98 ++++++++++++++++++++++++++++++++
- mm/kasan/shadow.c                | 12 ++++
- 5 files changed, 134 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/lib/memcpy_mc.S
+ arch/riscv/include/asm/kfence.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/include/asm/string.h b/arch/arm64/include/asm/string.h
-index 3a3264ff47b9..23eca4fb24fa 100644
---- a/arch/arm64/include/asm/string.h
-+++ b/arch/arm64/include/asm/string.h
-@@ -35,6 +35,10 @@ extern void *memchr(const void *, int, __kernel_size_t);
- extern void *memcpy(void *, const void *, __kernel_size_t);
- extern void *__memcpy(void *, const void *, __kernel_size_t);
+diff --git a/arch/riscv/include/asm/kfence.h b/arch/riscv/include/asm/kfence.h
+index 7388edd88986..d08bf7fb3aee 100644
+--- a/arch/riscv/include/asm/kfence.h
++++ b/arch/riscv/include/asm/kfence.h
+@@ -22,7 +22,9 @@ static inline bool kfence_protect_page(unsigned long addr, bool protect)
+ 	else
+ 		set_pte(pte, __pte(pte_val(ptep_get(pte)) | _PAGE_PRESENT));
  
-+#define __HAVE_ARCH_MEMCPY_MC
-+extern int memcpy_mc(void *, const void *, __kernel_size_t);
-+extern int __memcpy_mc(void *, const void *, __kernel_size_t);
-+
- #define __HAVE_ARCH_MEMMOVE
- extern void *memmove(void *, const void *, __kernel_size_t);
- extern void *__memmove(void *, const void *, __kernel_size_t);
-@@ -57,6 +61,7 @@ void memcpy_flushcache(void *dst, const void *src, size_t cnt);
-  */
+-	flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
++	preempt_disable();
++	local_flush_tlb_kernel_range(addr, addr + PAGE_SIZE);
++	preempt_enable();
  
- #define memcpy(dst, src, len) __memcpy(dst, src, len)
-+#define memcpy_mc(dst, src, len) __memcpy_mc(dst, src, len)
- #define memmove(dst, src, len) __memmove(dst, src, len)
- #define memset(s, c, n) __memset(s, c, n)
- 
-diff --git a/arch/arm64/include/asm/uaccess.h b/arch/arm64/include/asm/uaccess.h
-index 5b91803201ef..2a14b732306a 100644
---- a/arch/arm64/include/asm/uaccess.h
-+++ b/arch/arm64/include/asm/uaccess.h
-@@ -542,4 +542,22 @@ static inline void put_user_gcs(unsigned long val, unsigned long __user *addr,
- 
- #endif /* CONFIG_ARM64_GCS */
- 
-+#ifdef CONFIG_ARCH_HAS_COPY_MC
-+/**
-+ * copy_mc_to_kernel - memory copy that handles source exceptions
-+ *
-+ * @to:		destination address
-+ * @from:	source address
-+ * @size:	number of bytes to copy
-+ *
-+ * Return 0 for success, or bytes not copied.
-+ */
-+static inline unsigned long __must_check
-+copy_mc_to_kernel(void *to, const void *from, unsigned long size)
-+{
-+	return memcpy_mc(to, from, size);
-+}
-+#define copy_mc_to_kernel copy_mc_to_kernel
-+#endif
-+
- #endif /* __ASM_UACCESS_H */
-diff --git a/arch/arm64/lib/Makefile b/arch/arm64/lib/Makefile
-index 78b0e9904689..326d71ba0517 100644
---- a/arch/arm64/lib/Makefile
-+++ b/arch/arm64/lib/Makefile
-@@ -13,7 +13,7 @@ endif
- 
- lib-$(CONFIG_ARCH_HAS_UACCESS_FLUSHCACHE) += uaccess_flushcache.o
- 
--lib-$(CONFIG_ARCH_HAS_COPY_MC) += copy_mc_page.o
-+lib-$(CONFIG_ARCH_HAS_COPY_MC) += copy_mc_page.o memcpy_mc.o
- 
- obj-$(CONFIG_CRC32) += crc32.o crc32-glue.o
- 
-diff --git a/arch/arm64/lib/memcpy_mc.S b/arch/arm64/lib/memcpy_mc.S
-new file mode 100644
-index 000000000000..cb9caaa1ab0b
---- /dev/null
-+++ b/arch/arm64/lib/memcpy_mc.S
-@@ -0,0 +1,98 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2013 ARM Ltd.
-+ * Copyright (C) 2013 Linaro.
-+ *
-+ * This code is based on glibc cortex strings work originally authored by Linaro
-+ * be found @
-+ *
-+ * http://bazaar.launchpad.net/~linaro-toolchain-dev/cortex-strings/trunk/
-+ * files/head:/src/aarch64/
-+ */
-+
-+#include <linux/linkage.h>
-+#include <asm/assembler.h>
-+#include <asm/cache.h>
-+#include <asm/asm-uaccess.h>
-+
-+/*
-+ * Copy a buffer from src to dest (alignment handled by the hardware)
-+ *
-+ * Parameters:
-+ *	x0 - dest
-+ *	x1 - src
-+ *	x2 - n
-+ * Returns:
-+ *	x0 - bytes not copied
-+ */
-+	.macro ldrb1 reg, ptr, val
-+	KERNEL_MEM_ERR(9997f, ldrb  \reg, [\ptr], \val)
-+	.endm
-+
-+	.macro strb1 reg, ptr, val
-+	strb \reg, [\ptr], \val
-+	.endm
-+
-+	.macro ldrh1 reg, ptr, val
-+	KERNEL_MEM_ERR(9997f, ldrh  \reg, [\ptr], \val)
-+	.endm
-+
-+	.macro strh1 reg, ptr, val
-+	strh \reg, [\ptr], \val
-+	.endm
-+
-+	.macro ldr1 reg, ptr, val
-+	KERNEL_MEM_ERR(9997f, ldr \reg, [\ptr], \val)
-+	.endm
-+
-+	.macro str1 reg, ptr, val
-+	str \reg, [\ptr], \val
-+	.endm
-+
-+	.macro ldp1 reg1, reg2, ptr, val
-+	KERNEL_MEM_ERR(9997f, ldp \reg1, \reg2, [\ptr], \val)
-+	.endm
-+
-+	.macro stp1 reg1, reg2, ptr, val
-+	stp \reg1, \reg2, [\ptr], \val
-+	.endm
-+
-+end	.req	x5
-+SYM_FUNC_START(__memcpy_mc_generic)
-+	add	end, x0, x2
-+#include "copy_template.S"
-+	mov	x0, #0				// Nothing to copy
-+	ret
-+
-+	// Exception fixups
-+9997:	sub	x0, end, dst			// bytes not copied
-+	ret
-+SYM_FUNC_END(__memcpy_mc_generic)
-+
-+#ifdef CONFIG_AS_HAS_MOPS
-+	.arch_extension mops
-+SYM_FUNC_START(__memcpy_mc)
-+alternative_if_not ARM64_HAS_MOPS
-+	b       __memcpy_mc_generic
-+alternative_else_nop_endif
-+
-+dstin   .req    x0
-+src     .req    x1
-+count   .req    x2
-+dst     .req    x3
-+
-+	mov     dst, dstin
-+	cpyp    [dst]!, [src]!, count!
-+	cpym    [dst]!, [src]!, count!
-+	cpye    [dst]!, [src]!, count!
-+
-+	mov	x0, #0				// Nothing to copy
-+	ret
-+SYM_FUNC_END(__memcpy_mc)
-+#else
-+SYM_FUNC_ALIAS(__memcpy_mc, __memcpy_mc_generic)
-+#endif
-+
-+EXPORT_SYMBOL(__memcpy_mc)
-+SYM_FUNC_ALIAS_WEAK(memcpy_mc, __memcpy_mc)
-+EXPORT_SYMBOL(memcpy_mc)
-diff --git a/mm/kasan/shadow.c b/mm/kasan/shadow.c
-index 88d1c9dcb507..a12770fb2e9c 100644
---- a/mm/kasan/shadow.c
-+++ b/mm/kasan/shadow.c
-@@ -79,6 +79,18 @@ void *memcpy(void *dest, const void *src, size_t len)
+ 	return true;
  }
- #endif
- 
-+#ifdef __HAVE_ARCH_MEMCPY_MC
-+#undef memcpy_mc
-+int memcpy_mc(void *dest, const void *src, size_t len)
-+{
-+	if (!kasan_check_range(src, len, false, _RET_IP_) ||
-+	    !kasan_check_range(dest, len, true, _RET_IP_))
-+		return (int)len;
-+
-+	return __memcpy_mc(dest, src, len);
-+}
-+#endif
-+
- void *__asan_memset(void *addr, int c, ssize_t len)
- {
- 	if (!kasan_check_range(addr, len, true, _RET_IP_))
 -- 
-2.25.1
+2.39.2
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20241209024257.3618492-6-tongtiangen%40huawei.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20241209074125.52322-1-alexghiti%40rivosinc.com.
