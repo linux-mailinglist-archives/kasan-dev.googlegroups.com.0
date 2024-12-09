@@ -1,174 +1,153 @@
-Return-Path: <kasan-dev+bncBDEKVJM7XAHRB7HEZK5AMGQEHMFRXVQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABB2VS3G5AMGQEUCMEJEA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pf1-x439.google.com (mail-pf1-x439.google.com [IPv6:2607:f8b0:4864:20::439])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75CC29E689D
-	for <lists+kasan-dev@lfdr.de>; Fri,  6 Dec 2024 09:14:54 +0100 (CET)
-Received: by mail-pf1-x439.google.com with SMTP id d2e1a72fcca58-725164ccd4dsf1563131b3a.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 06 Dec 2024 00:14:54 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1733472893; cv=pass;
+Received: from mail-pf1-x43a.google.com (mail-pf1-x43a.google.com [IPv6:2607:f8b0:4864:20::43a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5594F9E8949
+	for <lists+kasan-dev@lfdr.de>; Mon,  9 Dec 2024 03:43:56 +0100 (CET)
+Received: by mail-pf1-x43a.google.com with SMTP id d2e1a72fcca58-725c36cdc5csf2177846b3a.0
+        for <lists+kasan-dev@lfdr.de>; Sun, 08 Dec 2024 18:43:56 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1733712234; cv=pass;
         d=google.com; s=arc-20240605;
-        b=LEam2+7BK0oIei2ADERt3odiCsj20BrHdf/LGBTwYfRkpk3gGKJ9GJx2zXpvuCkQ2A
-         UNg3sAI2T7gr2sSQpZTUQIqmd/zaYzulo0kXesu29DiFPUn8SOp0uuPs/C6yqhWKHPfw
-         x1hnovHwost737YsFSUM4G1rZsP7hvHIeULrx6DelF+Vb1dIJFZR0xNPwa0QqnD7ZedR
-         hnd+Z8t5kHHFXhg3wCM7AtOG4vO7mOGUAVmrri21oB3bQhNfqawia80A+JJa5mfn0iSE
-         Wj2LnkTCcDB2r29cMrv0g4ASjlvaiLDgaAaacAgg2DrRi2ol3f8ZQ5i8PeT3R8v00V9k
-         y6lA==
+        b=efiqYKyDBKUnGCS2ACuMTvQiYi3hqjT+yhWobmPxKxmnWpNeDhvvo/3Ag+MkSTpP4D
+         Hi7elJhGEg2aTnaD0bAlsundNdhAuzS484X1IUmIYeYVoGIq+5osz3dSekPjYqDOlu6u
+         v18Yzluv06t1e6rjPuR2+ctviIWrg3owaa7jNeBVtgdWKDUb//Yl1N/udt3JEWH4OfeD
+         vwuA4RC3XI4lScvl8uApGcISHGkc1D5QmK4V468AEfZqh/C1lKwlboHlI8Hdv3ZheNg5
+         ZHDWXldNzGEpn3aP0KhZCLaIexBkEpoBWhnCxGVvmlrJxaVSD2N8Vmdt1kwRRp13UnkC
+         pR+g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:subject:references:in-reply-to
-         :message-id:cc:to:from:date:mime-version:feedback-id:sender
-         :dkim-signature;
-        bh=cuSFzCCmIrNhkDNu1NsgXo9obqiSo2yXywhzx6dUFSI=;
-        fh=Qpb7iBB6RoTJB8wEIgvQl5xDMZk3EvRQwSCxS3YdpUg=;
-        b=ZfQzJhY/Bfm9Cd3ppOTewr6d+Vwcgm8sOgozu768M9AwJYc0Htcw/7IZufrKthABpd
-         72CB1PNweTmFCWZg2OVSDO5KYFe6Kvc6gcXOVhAbLokuRWndzM2HLaoIOKqcWpkh8lld
-         0solcu9f6emQbwK7+S4aNqCFUtRkcAIlktLAm+19DNBeT3aHkOsn3Qx/3jPOSGK0UqPb
-         tL9AerqwFyLLWCEgDOZRz+KejJ9hEkgiwfL5V/jvESdu4A9KLkqDZh0lrwWKgePhr6tf
-         yRN0U6IcMAcIlAo0Eo765lQoZhQiWqMNdd3/7n1VFfKZFcLCkTl5gK14gJS0WSH/gOs4
-         Lo/Q==;
+         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
+         :mime-version:message-id:date:subject:cc:to:from:dkim-signature;
+        bh=qe95rK95/C2kdAZe+e3vbOHoOeDipweo4QutyYDqpfU=;
+        fh=N+9PrQQECDNMvR6hG5vz41pvJMMqhPoM98Jn76fyK2o=;
+        b=ddBX3YP3OP3VPEfsdR3eo+uIBIw8171VVrGAtGyQIeMv0A4tf2QhubWUrqMUKyPhzM
+         jjTzcBQcSJHHlKUzvVwySKuoiG35NO2NZ5IxWriRwRIUbd+CvaqEIarw71mJHot8eNXd
+         1uLnQUa+VI7jK+eiLsPDxJtTTGNSwuN1nMSGFQErzZsS79Z8bW/i0MUUKugSDtxd6AQ1
+         8bExQIaTOHiVyJbncZd60ctuVE0nwTlQjm/RTZJC/vbBAjP6kBEbeJXjMLHKfdd3QWDM
+         hqWsGvPowEbnjkqQPsn/eKc/y75Qo+jgjX1JklvgSV0c9FgLL3S1DlZ3VX58V+hCZwbG
+         VOdw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@arndb.de header.s=fm3 header.b=pXckWW2s;
-       dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=sHeGb7qE;
-       spf=pass (google.com: domain of arnd@arndb.de designates 202.12.124.157 as permitted sender) smtp.mailfrom=arnd@arndb.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arndb.de
+       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.190 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1733472892; x=1734077692; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1733712234; x=1734317034; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:subject:references:in-reply-to:message-id:cc:to
-         :from:date:mime-version:feedback-id:sender:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cuSFzCCmIrNhkDNu1NsgXo9obqiSo2yXywhzx6dUFSI=;
-        b=YqSeM288Cacm8pDaQ3FzTo8jTPYZxRAvBBofPQR5x90/XKAwWB1tjQ5dGDSmmZf3LW
-         RF5D0+dkchhTO7ETqHyYfz9pb9MqQEjE7nBGsMS3+k5EDCCO2a5cJRJ12NcOcyOmShPF
-         sR57lQKPVWHd1Z0GVGwIyS1IiWpTrGr1WtLomP7NHyS1m30J7kZwUrROeq+7NhqDd8vQ
-         Fec1etaoTSUADSyCr6A5m51Jw9zvgHgPp5mg6dlU3VOnJPllo797O2fn4VqR3TKuTP6F
-         6ucHC0upR49/mGR+WFjrILcGVrG6uGkdpJBOz0mjWYAH6KvXyuvQpZrBu87vxIntXuaz
-         Qp3Q==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qe95rK95/C2kdAZe+e3vbOHoOeDipweo4QutyYDqpfU=;
+        b=ZukmQ3oaQzhS94dY+ynb/2s+rXgGRYLbuhUWAm/1bBiM1W/vIpWtw5eaSCmjuWcES1
+         bkexmdZAqbacj4oZ0N7O9xI6u01kc66nj7IdL6fzmVbGTgn9lzTV9OGkn+4pa6uBShE7
+         ivREJcAZ21QMCCkIz1iCoJipiw2MEB6NJgN5ATGRucJvcA3XvWRVZ3HuzfQszdSsPYtV
+         ngFs2zdiKeXWKu84tsFI0ecOqfZE9JWWuE+4z+43jno5ExfD4lLDgrWdiR+73ieF0cLO
+         B7wmmu3qkwcjoVz/wmrHs/1B1f+31LjwXfxz+bz9sJ9+oVU+pJCECSmUhx7Y874Afkrt
+         CPEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733472893; x=1734077693;
+        d=1e100.net; s=20230601; t=1733712234; x=1734317034;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:subject
-         :references:in-reply-to:message-id:cc:to:from:date:mime-version
-         :feedback-id:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cuSFzCCmIrNhkDNu1NsgXo9obqiSo2yXywhzx6dUFSI=;
-        b=DS9iBJ2RMD1TeTUNAkpwNZGHfPDNDU1v34uTkfRXqhhxsfCG11VOyAN2r/qNfKMEqi
-         MsIvJySRX1dYiHnwEkJZK8TVf15G5tbIiU9fQHKt0hR+VH60gi/EeCruNOaD3C54AGl6
-         UZvCvN93Vp8STvtNxhwHfX0wmcMjOaoURJUqN2w5jlwXrv/MHQC2g6fSAhbi5rrtWulm
-         /Sxlex6qoOxsXfIGwW/d22/a2C627aaGtEHFqSDCAJDcXQCqO5EDokrvywjcr8nwFEYF
-         6W8fVNXHEZCn+mFZdTE3fh1ODXFAK1umzHvy35zsJNU8obTv2vUDjzZTo4Hpu93tNUUB
-         /upA==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVvD+2owssawEy2TodxyEm0U8+Y96slQpHxtP6itKymxeAhYN5JsgAp/MCXgJ25YmnLghlLLw==@lfdr.de
-X-Gm-Message-State: AOJu0YzVPt9KJlBewSc/rv8Hl8YvRtoY+25QxH8iJSdouSW+xohcUgnO
-	t0FHLLlmhfSP9Eu8ZnnfmM73GCFD7jUsKBBrlk69jqBWBMXnmkym
-X-Google-Smtp-Source: AGHT+IGkZyWbqtCLVOrB/DZqcuc7XrwkFKNdkMR41c5IzipcXpXJiuUveAaE2jt3683xUi2xuWu1oQ==
-X-Received: by 2002:a05:6a00:4613:b0:725:8c02:8dbc with SMTP id d2e1a72fcca58-725b81b5cf5mr4141341b3a.22.1733472892468;
-        Fri, 06 Dec 2024 00:14:52 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-beenthere:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qe95rK95/C2kdAZe+e3vbOHoOeDipweo4QutyYDqpfU=;
+        b=F91pVgyPop16sKCn9XPkep9rMXC130umDUGx3jHWHTU8nwnu+8A4LezmEQFiO++/7X
+         VeFta22QPndJzLnyyIvGlBlw8ckckLX8/sPITtvtVCVmxIwSm74C2/42sZKrfLq+qtDw
+         53QrVqzlnG1V6n6IszC5DR7Ih4hKP9NdgCszXkUrnSeC3KWY3Z8b3qwN+5jFLIDei27o
+         +IMqFMEkktnjhix4/nTuyL6E/OVpSoqYoxHSIG1oYwVHL+iyfXJy7lZi036IXh7ij+xY
+         DpfX+EwfC8j0XZO9zt9bdtWhD5ZK6YwzV4CIvuSyTSde0zqnPY+MHLxTCeDinwzwDTv8
+         Hjtg==
+X-Forwarded-Encrypted: i=2; AJvYcCW1cNKfZgqgugmfNw5FlQCVJ37fqhgAX1gEny0Ko5+2kVDKVRiCG02gfSY5AGxYNRnBStxRZQ==@lfdr.de
+X-Gm-Message-State: AOJu0YzgTi+BGcLyqrUKVUbM4HihM3g6KeR+ArViqpuuW/eVDEVpGOX8
+	R2SsGfa43/lDukQ/93C2TjM1UvRnr/mJox+zMhr7t/wlONOenasj
+X-Google-Smtp-Source: AGHT+IFyb7fnXPCbcF9Ixntj12fabwTPsbo5xjlJ86Shai3FM60SJQQavp5SEtDnVAX3aoyWyxYDLA==
+X-Received: by 2002:a05:6a00:148d:b0:71e:722b:ae1d with SMTP id d2e1a72fcca58-725b81be3fdmr15856167b3a.25.1733712234274;
+        Sun, 08 Dec 2024 18:43:54 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:4f0e:b0:725:3fb9:271b with SMTP id
- d2e1a72fcca58-7259d7a1c22ls1786293b3a.2.-pod-prod-01-us; Fri, 06 Dec 2024
- 00:14:51 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXwvaUS49pygxn1plqh1KvftSJcJLSc6cM85o2qc8xoWyH7M27V500VVZgcX0homM4fqiacA3YlFHs=@googlegroups.com
-X-Received: by 2002:a05:6a00:218e:b0:725:9cb4:da8 with SMTP id d2e1a72fcca58-725b80e4a49mr4205861b3a.2.1733472891132;
-        Fri, 06 Dec 2024 00:14:51 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1733472891; cv=none;
+Received: by 2002:a05:6a00:1814:b0:725:9248:d60e with SMTP id
+ d2e1a72fcca58-7259d61c8ecls2217203b3a.0.-pod-prod-07-us; Sun, 08 Dec 2024
+ 18:43:53 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCW/PHnRdW4uM2PRIFPL2/Tt3Whe0ZCplzFo0QUFvhFLsoRwi05Gz9gQb34xNFGwqGWQItSHI/3TlCM=@googlegroups.com
+X-Received: by 2002:a05:6a00:148d:b0:71e:722b:ae1d with SMTP id d2e1a72fcca58-725b81be3fdmr15856112b3a.25.1733712233109;
+        Sun, 08 Dec 2024 18:43:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1733712233; cv=none;
         d=google.com; s=arc-20240605;
-        b=ZLYLL8f1g4Du0ch4AXlF/nZj3Gp32wkRp5BXhCkVGRq7qIZiqy5JtKaFHa/kA1ABz+
-         6bt1j4vQJEiyCtGw/nbmvO9yaFJuq3UqyqKQnyqwtYXjTRUH6eLZyKkb7HaclVnk760w
-         Ort2uotd4GZdsBnB+o4aNbjT86YuMztHg5c6PhJ4plvkoLGvOiNjghGypG74aODuUB4T
-         IcPi+htumJ+6+PbMTdVCwGyzLW9yvv2di2jsOjeJ8wQKOn1d/Xr4cJEbCEfbRVkeofkZ
-         StLX7vHiC6XitiPth7Q4Lww/hXZjoaso0DrPivNmm4skrW3C00usenvG6PnF+JhqE2ke
-         8MQg==
+        b=U8Mrb6kYwZP8QIvRndc170YNB+hK8b2htO6ATc68IVZUKwSTnIzKzTQyf4MDuROcLb
+         gZWnNG8yRkWlaJcLQvHWi0Y1U6dj9p1tnWsEreAflgKAcuZcnd34w9Fi5QmYZlP5BDrv
+         7QWDGlwzi5IrcNyqtYgGTjUoeabau5l9KvCOm4QnpyEcNilbJOMUlYt5TScxtlPUdGS0
+         fPI41t4Qqge780Ajk0V4RbJVO3zeg6YE+MpnPQXMiE4tKV4RnYDU00YQJewlS07sEekX
+         nsUfooMJjLI7KANUnAZ9oKJd5Sghm0h7x8IAztG6mcJKZ0PBh9KtAgcSklJuJ5u87WaV
+         i7lg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:subject:references:in-reply-to:message-id
-         :cc:to:from:date:mime-version:feedback-id:dkim-signature
-         :dkim-signature;
-        bh=+CiivsHw0GsDv+l7OLvRGatcFJi5S1S1fcW7OKv42mQ=;
-        fh=DNhQX6JmRjnRE8p9hBKYgYKh1OpmRN8hpc9QQHjqG6g=;
-        b=SeMeiPvQ0GrdCxrFTBiW6FDfbUwEqvsNtnsq3JlZRrSgIx+CAyL3/YkyM2I8Q0Q1jP
-         UW3F9an8B1j+xsST1hgLZpC5gOjEEYeZbtJmyvqMElo7b2sLvBGoF3oMrfRZhjsf4PKY
-         Z66Vl2XMmR0eXn8cZLuDFI3YIXSxNiQyQdZsNBEhFd/XX79FCiQEAzjvnTh02CNQq1O5
-         6oWBs6Z0GiLy12G84QKXJBuNmGaK2bwkhOniCtno9OJlRmlK2uhmhD2A+IQZ7gRsSPg0
-         tp/pg5lVHuc9dhpCdljwQ5Z6myl0JW6YJdYMlOIAxAEOlptPWlgwnXjdlBFWLfGJMjF7
-         aLrg==;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from;
+        bh=20OY5Wca9v29+l5BtvCY5fuiV4sFMquFAGouScos9WA=;
+        fh=zBWha3m7j9g4fOlI2Dk54gN6qyAThRjo4Lp4VAY4w1U=;
+        b=AJf/lbUelv/PwHfY2Pp4jQub9aQif2J7sERWPWUlHc8FwnNhKKcXYxxkH1NpMjT5nA
+         kyy+3qiQAbXQSDzOI4YN4IEDRoUMaUfwUa7H9OMV9K2k186r/F8xtRfBeKIJ9mhOvFI6
+         4dnKnNIvtDtBMF9pGGlKNv0YOHc5qRqSpvoN8T62zgMIi7DGqzNv++xvJm1X6bmrUXVc
+         iImfhgPv+XT+8BkFbHwdaJjVUX0oLManun2/p2kqSeC/QI+pfkoZHfXXnARC3cRq6q1u
+         TqesCMySrxHAgNrOB9WCtm6h0e1t/0sjrstkoniz321jjydb4fI8sCfhamBVvcF5oh7t
+         FYqg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@arndb.de header.s=fm3 header.b=pXckWW2s;
-       dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=sHeGb7qE;
-       spf=pass (google.com: domain of arnd@arndb.de designates 202.12.124.157 as permitted sender) smtp.mailfrom=arnd@arndb.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=arndb.de
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com. [202.12.124.157])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-725a2da4c23si138591b3a.5.2024.12.06.00.14.51
+       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.190 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com. [45.249.212.190])
+        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-7fd4275e39fsi131231a12.3.2024.12.08.18.43.52
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Dec 2024 00:14:51 -0800 (PST)
-Received-SPF: pass (google.com: domain of arnd@arndb.de designates 202.12.124.157 as permitted sender) client-ip=202.12.124.157;
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 8B62125401A4;
-	Fri,  6 Dec 2024 03:14:49 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Fri, 06 Dec 2024 03:14:49 -0500
-X-ME-Sender: <xms:eLJSZ8oEBU9sosKyjwR7pKq3xbj7uonUkEZezol8JTAejBhi3JYvxA>
-    <xme:eLJSZyqingUbGotVfmXEmfiTf0cIt2SkcloadGaZLNtPdixxbrlQz3qGiEuHE47el
-    tZqIcS7Fc19RAwybKY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrieekgdduudehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
-    guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
-    gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudeh
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehrohgsihhnrdhmuhhrphhhhiesrg
-    hrmhdrtghomhdprhgtphhtthhopehvihhntggvnhiiohdrfhhrrghstghinhhosegrrhhm
-    rdgtohhmpdhrtghpthhtohepkhgvvghstghoohhksegthhhrohhmihhumhdrohhrghdprh
-    gtphhtthhopegrnhgurhgvhihknhhvlhesghhmrghilhdrtghomhdprhgtphhtthhopehr
-    higrsghinhhinhdrrgdrrgesghhmrghilhdrtghomhdprhgtphhtthhopeguvhihuhhkoh
-    hvsehgohhoghhlvgdrtghomhdprhgtphhtthhopegvlhhvvghrsehgohhoghhlvgdrtgho
-    mhdprhgtphhtthhopehglhhiuggvrhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepkh
-    grshgrnhdquggvvhesghhoohhglhgvghhrohhuphhsrdgtohhm
-X-ME-Proxy: <xmx:eLJSZxMgVcxqz0Gs_wLqlipfmPu89jkBAV5-3b9JsHLX5Z7oX9D3-A>
-    <xmx:eLJSZz4md8s0pf6otWcUcQ3Zjjbvm1JqurlGVtsbXCpinoCsQ39Ofw>
-    <xmx:eLJSZ77Agu_PYpt_x9IpyvpJJ2urUw7oP-amPVz50j94u1lNRlWHfA>
-    <xmx:eLJSZzhh5WctICoMy7-ZNMxQwOGMpmgZIrJmWIDaLwzhe3IG1BoeWw>
-    <xmx:ebJSZ6R-G1r3_buE5ycNdcbYxfZcFyDuAOEJFck1nIxbxD4kvV9nr-st>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 12DBB2220072; Fri,  6 Dec 2024 03:14:47 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 08 Dec 2024 18:43:53 -0800 (PST)
+Received-SPF: pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.190 as permitted sender) client-ip=45.249.212.190;
+Received: from mail.maildlp.com (unknown [172.19.88.214])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Y65hS4kNBz2DhQD;
+	Mon,  9 Dec 2024 10:40:56 +0800 (CST)
+Received: from kwepemk500005.china.huawei.com (unknown [7.202.194.90])
+	by mail.maildlp.com (Postfix) with ESMTPS id 732081A016C;
+	Mon,  9 Dec 2024 10:43:19 +0800 (CST)
+Received: from localhost.localdomain (10.175.112.125) by
+ kwepemk500005.china.huawei.com (7.202.194.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 9 Dec 2024 10:43:17 +0800
+From: "'Tong Tiangen' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Mark Rutland <mark.rutland@arm.com>, Jonathan Cameron
+	<Jonathan.Cameron@Huawei.com>, Mauro Carvalho Chehab
+	<mchehab+huawei@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Will
+ Deacon <will@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, James
+ Morse <james.morse@arm.com>, Robin Murphy <robin.murphy@arm.com>, Andrey
+ Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Michael Ellerman
+	<mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>, Andrey Ryabinin
+	<ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Christophe
+ Leroy <christophe.leroy@csgroup.eu>, Aneesh Kumar K.V
+	<aneesh.kumar@kernel.org>, "Naveen N. Rao" <naveen.n.rao@linux.ibm.com>,
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+	<x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Madhavan Srinivasan
+	<maddy@linux.ibm.com>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-mm@kvack.org>,
+	<linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
+	<kasan-dev@googlegroups.com>, Tong Tiangen <tongtiangen@huawei.com>,
+	<wangkefeng.wang@huawei.com>, Guohanjun <guohanjun@huawei.com>
+Subject: [PATCH v13 0/5]arm64: add ARCH_HAS_COPY_MC support
+Date: Mon, 9 Dec 2024 10:42:52 +0800
+Message-ID: <20241209024257.3618492-1-tongtiangen@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Date: Fri, 06 Dec 2024 09:14:27 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Ahmad Fatoum" <a.fatoum@pengutronix.de>, kasan-dev@googlegroups.com,
- iommu@lists.linux.dev
-Cc: "Andrey Ryabinin" <ryabinin.a.a@gmail.com>,
- "Alexander Potapenko" <glider@google.com>,
- "Andrey Konovalov" <andreyknvl@gmail.com>,
- "Dmitry Vyukov" <dvyukov@google.com>,
- "Vincenzo Frascino" <vincenzo.frascino@arm.com>,
- "Christoph Hellwig" <hch@lst.de>,
- "Marek Szyprowski" <m.szyprowski@samsung.com>,
- "Robin Murphy" <robin.murphy@arm.com>,
- "Paul E. McKenney" <paulmck@kernel.org>, "Marco Elver" <elver@google.com>,
- "Kees Cook" <keescook@chromium.org>,
- "Pengutronix Kernel Team" <kernel@pengutronix.de>
-Message-Id: <360e2ec9-556e-4507-a539-f86f7619fe29@app.fastmail.com>
-In-Reply-To: <72ad8ca7-5280-457e-9769-b8a645966105@pengutronix.de>
-References: <72ad8ca7-5280-457e-9769-b8a645966105@pengutronix.de>
-Subject: Re: Using KASAN to catch streaming DMA API violations
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: arnd@arndb.de
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@arndb.de header.s=fm3 header.b=pXckWW2s;       dkim=pass
- header.i=@messagingengine.com header.s=fm1 header.b=sHeGb7qE;       spf=pass
- (google.com: domain of arnd@arndb.de designates 202.12.124.157 as permitted
- sender) smtp.mailfrom=arnd@arndb.de;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=arndb.de
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.175.112.125]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ kwepemk500005.china.huawei.com (7.202.194.90)
+X-Original-Sender: tongtiangen@huawei.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of tongtiangen@huawei.com designates 45.249.212.190 as
+ permitted sender) smtp.mailfrom=tongtiangen@huawei.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+X-Original-From: Tong Tiangen <tongtiangen@huawei.com>
+Reply-To: Tong Tiangen <tongtiangen@huawei.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -181,38 +160,261 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Dec 5, 2024, at 15:54, Ahmad Fatoum wrote:
+Problem
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+With the increase of memory capacity and density, the probability of memory
+error also increases. The increasing size and density of server RAM in data
+centers and clouds have shown increased uncorrectable memory errors.
 
-> That way accessing a device mapped buffer before sync'ing it to the CPU is
-> detected like KASAN would detect a use-after-free.  When the ownership is moved
-> back to the CPU, the memory is unpoisoned and such an access would be allowed
-> again.
+Currently, more and more scenarios that can tolerate memory errors=EF=BC=8C=
+such as
+COW[1,2], KSM copy[3], coredump copy[4], khugepaged[5,6], uaccess copy[7],
+etc.
 
-Right. I would go even further and say that transferring ownership
-to the device poisons an area that is aligned to ARCH_DMA_MINALIGN,
-making it possibly bigger on both ends of the area. Transferring
-ownership back to the CPU only unpoisons the exact area that was
-specified, leaving the unaligned bytes around it as uninitialized.
+Solution
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
-That may need to be controlled by an additional Kconfig option on
-top of poisoning the data initially.
+This patchset introduces a new processing framework on ARM64, which enables
+ARM64 to support error recovery in the above scenarios, and more scenarios
+can be expanded based on this in the future.
 
-ARCH_DMA_MINALIGN is between 4 and 128 bytes depending on the
-architecture.
+In arm64, memory error handling in do_sea(), which is divided into two case=
+s:
+ 1. If the user state consumed the memory errors, the solution is to kill
+    the user process and isolate the error page.
+ 2. If the kernel state consumed the memory errors, the solution is to
+    panic.
 
-> The aforementioned barebox functionality goes a step further and also used
-> the shadow memory information to detect repeated syncs without an ownership
-> change. While this is not a bug, my impression is that this is unnecessary
-> overhead and a diagnostic could help correct a developer's misunderstanding
-> of the API.
+For case 2, Undifferentiated panic may not be the optimal choice, as it can
+be handled better. In some scenarios, we can avoid panic, such as uaccess,
+if the uaccess fails due to memory error, only the user process will be
+affected, killing the user process and isolating the user page with
+hardware memory errors is a better choice.
 
-Agreed, there is clearly something wrong if a driver does it, but
-I can see them still work correctly without any risk of data corruption,
-so it's a different class of bug.
+[1] commit d302c2398ba2 ("mm, hwpoison: when copy-on-write hits poison, tak=
+e page offline")
+[2] commit 1cb9dc4b475c ("mm: hwpoison: support recovery from HugePage copy=
+-on-write faults")
+[3] commit 6b970599e807 ("mm: hwpoison: support recovery from ksm_might_nee=
+d_to_copy()")
+[4] commit 245f09226893 ("mm: hwpoison: coredump: support recovery from dum=
+p_user_range()")
+[5] commit 98c76c9f1ef7 ("mm/khugepaged: recover from poisoned anonymous me=
+mory")
+[6] commit 12904d953364 ("mm/khugepaged: recover from poisoned file-backed =
+memory")
+[7] commit 278b917f8cb9 ("x86/mce: Add _ASM_EXTABLE_CPY for copy user acces=
+s")
 
-     Arnd
+------------------
+Test result:
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/360e2ec9-556e-4507-a539-f86f7619fe29%40app.fastmail.com.
+1. copy_page(), copy_mc_page() basic function test pass, and the disassembl=
+y
+   contents remains the same before and after refactor.
+
+2. copy_to/from_user() access kernel NULL pointer raise translation fault
+   and dump error message then die(), test pass.
+
+3. Test following scenarios: copy_from_user(), get_user(), COW.
+
+   Before patched: trigger a hardware memory error then panic.
+   After  patched: trigger a hardware memory error without panic.
+
+   Testing step:
+   step1. start an user-process.
+   step2. poison(einj) the user-process's page.
+   step3: user-process access the poison page in kernel mode, then trigger =
+SEA.
+   step4: the kernel will not panic, only the user process is killed, the p=
+oison
+          page is isolated. (before patched, the kernel will panic in do_se=
+a())
+
+------------------
+
+Benefits
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
+According to the statistics of our storage product, the memory errors trigg=
+ered
+in kernel-mode by COW and page cache read (uaccess) scenarios account for m=
+ore
+than 50%, with this patchset deployed, all the kernel panic caused by COW a=
+nd
+page cache memory errors are eliminated, in addition, other scenarios that
+account for a small proportion will also benefit.
+
+Since v12:
+Thanks to the suggestions of Jonathan, Mark, and Mauro, the following modif=
+ications
+are made:
+1. Rebase to latest kernel version.
+2. Patch1, add Jonathan's and Mauro's review-by.
+3. Patch2, modified do_apei_claim_sea() according to Mark's and Jonathan's =
+suggestions,
+   and optimized the commit message according to Mark's suggestions(Added d=
+escription of
+   the impact on regular copy_to_user()).
+4. Patch3, optimized the commit message according to Mauro's suggestions an=
+d add Jonathan's
+   review-by.
+5. Patch4, modified copy_mc_user_highpage() and Optimized the commit messag=
+e according to
+   Jonathan's suggestions(no functional changes).
+6. Patch5, optimized the commit message according to Mauro's suggestions.
+7. Patch4/5, FEAT_MOPS is added to the code logic. Currently, the fixup is =
+not performed
+   on the MOPS instruction.=20
+8. Remove patch6 in v12 according to Jonathan's suggestions.
+
+Since v11:
+1. Rebase to latest kernel version 6.9-rc1.
+2. Add patch 5, Since the problem described in "Since V10 Besides 3" has
+   been solved in a50026bdb867 ('iov_iter: get rid of 'copy_mc' flag').
+3. Add the benefit of applying the patch set to our company to the descript=
+ion of patch0.
+
+Since V10:
+ Accroding Mark's suggestion:
+ 1. Merge V10's patch2 and patch3 to V11's patch2.
+ 2. Patch2(V11): use new fixup_type for ld* in copy_to_user(), fix fatal
+    issues (NULL kernel pointeraccess) been fixup incorrectly.
+ 3. Patch2(V11): refactoring the logic of do_sea().
+ 4. Patch4(V11): Remove duplicate assembly logic and remove do_mte().
+
+ Besides:
+ 1. Patch2(V11): remove st* insn's fixup, st* generally not trigger memory =
+error.
+ 2. Split a part of the logic of patch2(V11) to patch5(V11), for detail,
+    see patch5(V11)'s commit msg.
+ 3. Remove patch6(v10) =E2=80=9Carm64: introduce copy_mc_to_kernel() implem=
+entation=E2=80=9D.
+    During modification, some problems that cannot be solved in a short
+    period are found. The patch will be released after the problems are
+    solved.
+ 4. Add test result in this patch.
+ 5. Modify patchset title, do not use machine check and remove "-next".
+
+Since V9:
+ 1. Rebase to latest kernel version 6.8-rc2.
+ 2. Add patch 6/6 to support copy_mc_to_kernel().
+
+Since V8:
+ 1. Rebase to latest kernel version and fix topo in some of the patches.
+ 2. According to the suggestion of Catalin, I attempted to modify the
+    return value of function copy_mc_[user]_highpage() to bytes not copied.
+    During the modification process, I found that it would be more
+    reasonable to return -EFAULT when copy error occurs (referring to the
+    newly added patch 4).=20
+
+    For ARM64, the implementation of copy_mc_[user]_highpage() needs to
+    consider MTE. Considering the scenario where data copying is successful
+    but the MTE tag copying fails, it is also not reasonable to return
+    bytes not copied.
+ 3. Considering the recent addition of machine check safe support for
+    multiple scenarios, modify commit message for patch 5 (patch 4 for V8).
+
+Since V7:
+ Currently, there are patches supporting recover from poison
+ consumption for the cow scenario[1]. Therefore, Supporting cow
+ scenario under the arm64 architecture only needs to modify the relevant
+ code under the arch/.
+ [1]https://lore.kernel.org/lkml/20221031201029.102123-1-tony.luck@intel.co=
+m/
+
+Since V6:
+ Resend patches that are not merged into the mainline in V6.
+
+Since V5:
+ 1. Add patch2/3 to add uaccess assembly helpers.
+ 2. Optimize the implementation logic of arm64_do_kernel_sea() in patch8.
+ 3. Remove kernel access fixup in patch9.
+ All suggestion are from Mark.=20
+
+Since V4:
+ 1. According Michael's suggestion, add patch5.
+ 2. According Mark's suggestiog, do some restructuring to arm64
+ extable, then a new adaptation of machine check safe support is made based
+ on this.
+ 3. According Mark's suggestion, support machine check safe in do_mte() in
+ cow scene.
+ 4. In V4, two patches have been merged into -next, so V5 not send these
+ two patches.
+
+Since V3:
+ 1. According to Robin's suggestion, direct modify user_ldst and
+ user_ldp in asm-uaccess.h and modify mte.S.
+ 2. Add new macro USER_MC in asm-uaccess.h, used in copy_from_user.S
+ and copy_to_user.S.
+ 3. According to Robin's suggestion, using micro in copy_page_mc.S to
+ simplify code.
+ 4. According to KeFeng's suggestion, modify powerpc code in patch1.
+ 5. According to KeFeng's suggestion, modify mm/extable.c and some code
+ optimization.
+
+Since V2:
+ 1. According to Mark's suggestion, all uaccess can be recovered due to
+    memory error.
+ 2. Scenario pagecache reading is also supported as part of uaccess
+    (copy_to_user()) and duplication code problem is also solved.=20
+    Thanks for Robin's suggestion.
+ 3. According Mark's suggestion, update commit message of patch 2/5.
+ 4. According Borisllav's suggestion, update commit message of patch 1/5.
+
+Since V1:
+ 1.Consistent with PPC/x86, Using CONFIG_ARCH_HAS_COPY_MC instead of
+   ARM64_UCE_KERNEL_RECOVERY.
+ 2.Add two new scenes, cow and pagecache reading.
+ 3.Fix two small bug(the first two patch).
+
+V1 in here:
+https://lore.kernel.org/lkml/20220323033705.3966643-1-tongtiangen@huawei.co=
+m/
+
+Tong Tiangen (5):
+  uaccess: add generic fallback version of copy_mc_to_user()
+  arm64: add support for ARCH_HAS_COPY_MC
+  mm/hwpoison: return -EFAULT when copy fail in
+    copy_mc_[user]_highpage()
+  arm64: support copy_mc_[user]_highpage()
+  arm64: introduce copy_mc_to_kernel() implementation
+
+ arch/arm64/Kconfig                   |  1 +
+ arch/arm64/include/asm/asm-extable.h | 31 +++++++--
+ arch/arm64/include/asm/asm-uaccess.h |  4 ++
+ arch/arm64/include/asm/extable.h     |  1 +
+ arch/arm64/include/asm/mte.h         |  9 +++
+ arch/arm64/include/asm/page.h        | 10 +++
+ arch/arm64/include/asm/string.h      |  5 ++
+ arch/arm64/include/asm/uaccess.h     | 18 +++++
+ arch/arm64/lib/Makefile              |  2 +
+ arch/arm64/lib/copy_mc_page.S        | 37 +++++++++++
+ arch/arm64/lib/copy_page.S           | 62 ++----------------
+ arch/arm64/lib/copy_page_template.S  | 70 ++++++++++++++++++++
+ arch/arm64/lib/copy_to_user.S        | 10 +--
+ arch/arm64/lib/memcpy_mc.S           | 98 ++++++++++++++++++++++++++++
+ arch/arm64/lib/mte.S                 | 29 ++++++++
+ arch/arm64/mm/copypage.c             | 75 +++++++++++++++++++++
+ arch/arm64/mm/extable.c              | 19 ++++++
+ arch/arm64/mm/fault.c                | 30 ++++++---
+ arch/powerpc/include/asm/uaccess.h   |  1 +
+ arch/x86/include/asm/uaccess.h       |  1 +
+ include/linux/highmem.h              | 16 +++--
+ include/linux/uaccess.h              |  8 +++
+ mm/kasan/shadow.c                    | 12 ++++
+ mm/khugepaged.c                      |  4 +-
+ 24 files changed, 472 insertions(+), 81 deletions(-)
+ create mode 100644 arch/arm64/lib/copy_mc_page.S
+ create mode 100644 arch/arm64/lib/copy_page_template.S
+ create mode 100644 arch/arm64/lib/memcpy_mc.S
+
+--=20
+2.25.1
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
+0241209024257.3618492-1-tongtiangen%40huawei.com.
