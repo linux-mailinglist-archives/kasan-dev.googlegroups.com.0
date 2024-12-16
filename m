@@ -1,138 +1,150 @@
-Return-Path: <kasan-dev+bncBCQPF57GUQHBBCOX7K5AMGQEAJ2X3LI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCU2BBWH4IORBOMQQK5QMGQEEDLAAXQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-yw1-x1138.google.com (mail-yw1-x1138.google.com [IPv6:2607:f8b0:4864:20::1138])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339219F2314
-	for <lists+kasan-dev@lfdr.de>; Sun, 15 Dec 2024 11:12:27 +0100 (CET)
-Received: by mail-yw1-x1138.google.com with SMTP id 00721157ae682-6ef55d44f73sf24060217b3.3
-        for <lists+kasan-dev@lfdr.de>; Sun, 15 Dec 2024 02:12:27 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1734257545; cv=pass;
+Received: from mail-oi1-x239.google.com (mail-oi1-x239.google.com [IPv6:2607:f8b0:4864:20::239])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BE719F3A6E
+	for <lists+kasan-dev@lfdr.de>; Mon, 16 Dec 2024 21:06:19 +0100 (CET)
+Received: by mail-oi1-x239.google.com with SMTP id 5614622812f47-3eb8dd455edsf3468672b6e.3
+        for <lists+kasan-dev@lfdr.de>; Mon, 16 Dec 2024 12:06:19 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1734379578; cv=pass;
         d=google.com; s=arc-20240605;
-        b=ZHdeh2an6voNGBam2LV/8ht+CTAxxLiLU0HQLBj8vsMRMlqQRLfiWKiT5rcNgcE7c3
-         7MmW3ma46FQGPefdm7tPwf9uDFCNuxtQ0ebaGdiWtUWtx7kVUA+VZVfEqGGBZr4QZaGs
-         uDlYkxSPaVvGS2OGUja2ZdUqk6Ji4GqSEdV2+Ipg4Mm6XGLFH1C+5AJ5C2UA4mnmzfFa
-         6CMVO0/C5iGFE5fkkseEOhY+bg4nDUXY7jVYPgbk1Ux2M0TjdKZiR08HS5WAVWiFOBxi
-         nhOgU+GeLkLR6YvXpqBBAIAEV/G+I1kH7qqP2J/yHvdyYMNouTm+6PZTEBjVikD75O1s
-         9/XQ==
+        b=VTlxHNkp3a+K3P1SjH8i7xrNIdEWiW47CO/sKjot+9lcWBqSlBP+8fYm2g2uvqYLqz
+         pyueQTx1cWiP6qLfpi1hbiG9fa0d3i52wfpWDB4xkO/XUZarrtFiivk/FULbG2kILhlk
+         VdZz0bU5rhyyU8MQcxC1FZGSjUe/noWuWcbybackMKX8739V17JUGlMCn4Rgk6LI0UW5
+         95kLkGBgbnSSSLu2QkLUyp7moPrJoC1Pw6kweByDmslV2ykmy1uXzuWXiJ8qZ/5CN0su
+         2AuE1z4cGuEgTPYN+wLs/7Zn6TCXzWbW6KnMrHnmW+H2WEK3E3I9FVsuTOrWGVXTIIUK
+         9row==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:to:from:subject:message-id
-         :in-reply-to:date:mime-version:sender:dkim-signature;
-        bh=DGgmXLRTPDcDeutAWzUxlDa5d1k3Fx8ff+a1tfJfZE0=;
-        fh=lBdBnbNf5HsJlnhVPBXFNqsHAeemKm+4TiczN1iYS2A=;
-        b=dylVZVLNbdCap9XxO2wvWh8Ru1xcgOqJLEYYEddf2+ALgbjCN7NCXmeX6M5uHpO9ll
-         IJU523BIlJuJuxW3NaLzDpazu2mpk7GF27XXnXFluiZzVg4QqqJFJyIahfFdFXXZK2up
-         FAb3qrQ8YeSYNbFmFTYQUJoMnrDW4gQ88BJhWmsQtMbf4t4vFgBzAOF/zqGlSc1KRaE5
-         WKgGoaWUFk247aRon6mk1Q1RQH1h1/xxsGM4szCEcNu1GA3E5huSNMjaWaUvTHwTMiRK
-         AvziN9XePJSGPj4VsDOMN3H4bb3tsrHq0dhlgvzpV5/YmA/a9XVJSrAZ9nhY1qlczotj
-         0h9Q==;
+         :list-id:mailing-list:precedence:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:dkim-signature;
+        bh=4S3kUU2mVD9FF/O2P5umtpzgkURPgkHN9EBr+RTKfyY=;
+        fh=OWf+G98AIfbw3wpEBQ3tRsqMwBjQx4Ykk2k3dAd+7B4=;
+        b=B+SGvIEqQjJsbxgbtUVSMjoBHHm9kv6au5QFfsd2HI5A0tPTKoN8QOkGuECuSLco1r
+         mgAOPTRTyqjMqv7MYy3R+ELz84tysi/+zbLuVPX35COKvB9Y9p3HjGE5oCwgldfLuEqu
+         jdCFeeQopqm1/ohu9bSUGaQ4i/x/zPCM9u2PdJ3EB6vg5rJbePxiKfjIixqov1yjDIcP
+         oAmEzpVRJeknfpafrlbwUWYPfRgfnnz0kgysU+8ww23qKOFlmgb/6+T50BdfSF4RGkQx
+         5NHir4E3yxU+fOHRbNpM4Ud7aIoznr1rj/e3q3OcY2xxD427CocMj3W/LbiXCx3BIs1C
+         l8bw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of 3h6tezwkbajomste4ff8l4jjc7.aiiaf8om8l6ihn8hn.6ig@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.205 as permitted sender) smtp.mailfrom=3h6teZwkbAJoMSTE4FF8L4JJC7.AIIAF8OM8L6IHN8HN.6IG@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
+       dkim=pass header.i=@chromium.org header.s=google header.b=jp0ioIaw;
+       spf=pass (google.com: domain of briannorris@chromium.org designates 2607:f8b0:4864:20::102f as permitted sender) smtp.mailfrom=briannorris@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1734257545; x=1734862345; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1734379578; x=1734984378; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:to:from:subject:message-id:in-reply-to:date
-         :mime-version:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=DGgmXLRTPDcDeutAWzUxlDa5d1k3Fx8ff+a1tfJfZE0=;
-        b=ovpAYhXqYmFdZvBE7ilNMUDnagk3MaSm3Z30nAGPCbwVQkTiGi/4yweWPdoDMDfw/y
-         qbcjAyZ+j/xAV928ok1IT0yvunVC2zJAjmJNKa9H8vsLPd7mnhRmIaWkoXBAJUNZ3px5
-         zIi/BUK3Cod03XlhXsyfMfcVZp7Op4FLsM4gLUs4Ft+FFcJDTsNtKZTw93nJbYEOo+V2
-         hEXe/YM80Cn0UfA/wmQBiBcaf3r3AVeVYpMDQor0g81ofZZJvCG1GRgDpt9U+/hBMD2Y
-         DBcXyavt1lWGYjHVtsgjdcWqjEdhHaTGlMJ1GG8+51+h2fR+5DZWTB9DwaIbokMiBngK
-         xFKA==
+         :x-original-sender:in-reply-to:content-transfer-encoding
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=4S3kUU2mVD9FF/O2P5umtpzgkURPgkHN9EBr+RTKfyY=;
+        b=ms5g72EfYLvl+nXyw9/KixiXQeonym7EfGrrJ1pQbU21iqCDluE1bmuUqvXqcjKp3C
+         AO+T0ztElVxPQ81YLreY2HGvU/Nw3dqADbvuPOXJBpQJixqJE3+zJ4QPoNCPQX4VG4lC
+         i4TGlT0+at4KlQYd+K5K+Q44nmUtz2Oo5oZgSUJ4FBzYrm8J3kJleBAIHZ2BhLNpP2Sn
+         vnsYYHATCfqKIalSkKdxeomI33Ei/jY0oqqV0AzsYCU4iuSikZfimlaelQh52lF7AcEQ
+         awCG3O74tBhdsvUAgU9pGVCDqz5MQTLLCvxFatSH9wNiZBK6T9D/BOybMpoQhkL6vZiD
+         H5AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734257545; x=1734862345;
+        d=1e100.net; s=20230601; t=1734379578; x=1734984378;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:to:from:subject
-         :message-id:in-reply-to:date:mime-version:x-beenthere
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-transfer-encoding:content-disposition:mime-version
+         :references:message-id:subject:cc:to:from:date:x-beenthere
          :x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DGgmXLRTPDcDeutAWzUxlDa5d1k3Fx8ff+a1tfJfZE0=;
-        b=DDeMpL7Xw53rBlNHfi9rujDGJFT3mUJdOTQ7+I5VUuaCkIF4cS6jO+kCmgNPNWBj9f
-         rH1Sq2l4F18QwlTxXKi9faroNbj1Q1ptyWOMwiGQwDUviaKBSaAo9srCmEd2h7eGEjj+
-         NqGeUGtCpzqp2x6jMISj5x9bntOKLhpMTlrB7ocZZW4MNXb6A9JfjDoIeBtqG7CojBtC
-         J0d/ZVhW2DHqfw/9NkZz+9WQ2gnNWjgPYB0ShKPa7tRxbioOeRjOZCtffauMvxuB86km
-         /IdRnOHhuykt3H3ZLGGOuXB6jNUnqPKNlb6M28LjI9mJiCPx8ADEyPdJmJRArDo/A7h9
-         87PQ==
+        bh=4S3kUU2mVD9FF/O2P5umtpzgkURPgkHN9EBr+RTKfyY=;
+        b=PAG+akr2DdZMfy9skIWjZs/YOnUvNU69rTMV4M1e427t8YW5W4Ph4QJ1htFnPiTCUl
+         gfp1xhlRPLWt5TYq8Q5K2yiMuVJUBCu7Zu1/fQ1E8TxtfjS84EZN5yzmSKhFljFevIwY
+         Vp7uBuUeaInfLp3m+p3kT3JF22o1K/+6poFO+lm0bRS64dH0WsTpH7+UGDBs4OVUWxMA
+         NxFBNEUUaI1t9Q5kOZFHYhg2S0bhQx7c0Hcx6k3c05MXmkQbSnBVtTJ2h4Z327n+3DP1
+         CJ1yV0RyvR2o6dAijujqk3964jLLbWPlgi5as3JMt4yj88BoLo9jXt87YHsWmULxhM3+
+         oxFA==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVJ2WNs5RzF8ozZJpLlAbqzMbwLfajBnEy4C4KeidNTk11uJL/h3ClH7sSjBxQ+pUfwb/iPfw==@lfdr.de
-X-Gm-Message-State: AOJu0Ywo/nKocPynYMU8MKdgzT/1u/j+Px34UOuWuZD5vfCqNuKSzF4C
-	x7Vp+d4V2VVDiYN255xY+5JWCi1pDbmQtTBGCCH8zAWJWSzf1a06
-X-Google-Smtp-Source: AGHT+IFIE5IhBMdQHVJXnfUYvaYoUhFgwA3m9mnG6gSrvQ86K1iGFn3Re2twdLpSfVMOaOKTn8FrRw==
-X-Received: by 2002:a05:6902:1692:b0:e4b:25c6:54f1 with SMTP id 3f1490d57ef6-e4b25c65776mr1380600276.33.1734257545447;
-        Sun, 15 Dec 2024 02:12:25 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXro8RUr4NC5G4xZKZBAESg9+BzgIeM35IrjfDF5m0NxCMs4EaLw13C2yvmsaA+0odxGtNWeA==@lfdr.de
+X-Gm-Message-State: AOJu0Yy1qgYGvJ7IX3JBL775xvm1ew5n/kqCrU3EuTcQWltE33lpHl9y
+	ZOh00oj9egABYxeIKkktclgH3s00ofAPXb6ZS3XHOO1k3lPNIJ6M
+X-Google-Smtp-Source: AGHT+IEGLrzwQixXea3h8Cb4/Kwuor2r9u+3zZNbwnvOtYhXEovhu5vBk+ZPV7uATq9cD1jWPgwo7w==
+X-Received: by 2002:a05:6808:2e8e:b0:3eb:6dd3:12aa with SMTP id 5614622812f47-3ebcb2f921amr64428b6e.23.1734379577843;
+        Mon, 16 Dec 2024 12:06:17 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a25:830f:0:b0:e3c:9f51:6da with SMTP id 3f1490d57ef6-e43b216a866ls1775847276.2.-pod-prod-03-us;
- Sun, 15 Dec 2024 02:12:24 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVLkHdg6uXbpJBaYAlATTKaBz2pJH9mSoF73b1VYfYhB2R3g+JX1SdL/V5gsCp5ttoaNLmP3rEG3oA=@googlegroups.com
-X-Received: by 2002:a05:6902:a85:b0:e4d:3fa8:b924 with SMTP id 3f1490d57ef6-e4d3fa9164dmr237441276.53.1734257544499;
-        Sun, 15 Dec 2024 02:12:24 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1734257544; cv=none;
+Received: by 2002:a4a:e758:0:b0:5f2:ca2b:a504 with SMTP id 006d021491bc7-5f32be13cdcls110477eaf.2.-pod-prod-07-us;
+ Mon, 16 Dec 2024 12:06:17 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUh7crWYbY9I+qqdF7waEhBtCr5yhbQ+8MWYpZhJ6KRErLMc7oyw3QetkukC7XAAuLS8sEyux97Oic=@googlegroups.com
+X-Received: by 2002:a05:6830:6a91:b0:718:2302:7560 with SMTP id 46e09a7af769-71e3b84c2f0mr8238773a34.7.1734379576968;
+        Mon, 16 Dec 2024 12:06:16 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1734379576; cv=none;
         d=google.com; s=arc-20240605;
-        b=ga3ZP/57Xzc2eaxepksq+ivv4zn2UWJg08bT/+QrWte80RSN1AMKCu8MZr5tlJHr4k
-         xPQs12EA9ESocz5vUVIqR+LZEJpk7WKGsd/tBTOOUEmJsH3Rv8nBzxzlb339RTjvXHce
-         dDW/c9Wn/bq1LfMqdnUy/tUhwdpu4NnOvqbAqyUmySlmdbZBUga+NnU0NwlA8S6NmFQe
-         C54Jc3L7EKpntPIKuWb9xPi9KQ4ZirTtBNf31T6p95854d9lWT4Y4UC2pbfcBH9Mm5mo
-         fbhB70ngfOCIMDxm1Hc7yM1OUFBTyLzJeN8HxWzroFIMOb+HgGMfJvDEqyloLi9zNXgW
-         C0mQ==
+        b=bSCCuo5jz/kadNg2S2jvLqP0hLHrS4C6wUxFmwW5TTlfTmR0RRfJfF8yvHqpnRBNW3
+         gBMqtlqUxAu7vqpa+pyFeiBwBjIV/ZI1i9e55seUo5A1SKgoSbG2TsgKvyzR3GyeJ4e2
+         LmnoarGERnMMqgCQuDibTeuymUmfcpxStUAhDR1KEW2+PkgPjuX6pn766xr+wirrDYbF
+         +VxIwGZjasneIb5uBrcL8WmonimEDsQyOEGTOT053ywJBjp1juw9wsulyhfkjO8G7uj7
+         Hnj92/X1RwZo5rAS8JJMgX96UtYDIQdJKFyQ2mGwd2NOQdES8TC5yFuHSwS9rcVWx5MG
+         tgSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version;
-        bh=643DiHG3EUFao9sts4NqrLKwx9WEZmymFRelU6s+3fM=;
-        fh=0x1PEC02qMeVRr8+hcA6hd2iantqqeFkm9x6LrKijXI=;
-        b=Yqsu8O3k6yVH/p+14W+ztHo6GD+Hsb/30WZQgMtK0Z6YmSJE4ERQ5vWRWOT9ZcZZV1
-         BadWsaWxO+ZM/oklrlWNRl8j8ibd3mZpoyicWakWaZtTRHy87lCuNBI0AiQ+rQZhjijE
-         DcSwm/QshkUwrC4usqPZ3nge1BGXHOrlBPeq5zRgMRhpXnuF/blguqpBZ3xmvzbkueOj
-         CySjejXl9zi5BOxhXJH8MdsOrUwCPK87tWOufNXFTxH0lFzm4rzJUaygHuONNm5C3qM6
-         VoySr7KS2nSDAi7bXt2SO4p3bvzMos+Tigw/1WS74NL9y3K7y1LB+jHOoMJHcedEUIfw
-         ZYCg==;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=3EfsgiLuEZpT8xsRppiqSwVXpZ7RDZSu4foO30f3Bu4=;
+        fh=5z9jvmyejDfoyxe37+CnF209r37wTgCgs7wo+1JDTZA=;
+        b=kpHGXzd87mBemiczOS2n2hW2UHhr8Q6vcNWyAs+FvRAqaXy9v42IYJdKnPArMARAT5
+         o8ouUa9NPzzdl0ngdhTpKRvl3a9+tkjaAa/gkgJKEPl23mwOgnaOck5zN7liQoemELW4
+         +Xysq/hlqfLwxRlWNLcUavML0MNHJoHJA5/yRL7spczv72ZBR1CdEss/Khxm/vxDQMUq
+         7OJMiKZ0c4A/z4Y3aoImKWgr/XXVza1EU5wIRyBZEBWcmP0Ov45JoIuTK80GpgLe4d+i
+         /ELj8Ov7wgD8OtWxgXdfihCOP/BnwFy2dgZC06NehJIqD2tRIJkV+dLoPMFQBsZWJmEz
+         XQXw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of 3h6tezwkbajomste4ff8l4jjc7.aiiaf8om8l6ihn8hn.6ig@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.205 as permitted sender) smtp.mailfrom=3h6teZwkbAJoMSTE4FF8L4JJC7.AIIAF8OM8L6IHN8HN.6IG@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
-Received: from mail-il1-f205.google.com (mail-il1-f205.google.com. [209.85.166.205])
-        by gmr-mx.google.com with ESMTPS id 3f1490d57ef6-e480158570asi108802276.1.2024.12.15.02.12.24
+       dkim=pass header.i=@chromium.org header.s=google header.b=jp0ioIaw;
+       spf=pass (google.com: domain of briannorris@chromium.org designates 2607:f8b0:4864:20::102f as permitted sender) smtp.mailfrom=briannorris@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com. [2607:f8b0:4864:20::102f])
+        by gmr-mx.google.com with ESMTPS id 46e09a7af769-71e4844c65esi269504a34.3.2024.12.16.12.06.16
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Dec 2024 02:12:24 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3h6tezwkbajomste4ff8l4jjc7.aiiaf8om8l6ihn8hn.6ig@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com designates 209.85.166.205 as permitted sender) client-ip=209.85.166.205;
-Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-3ac005db65eso31649355ab.3
-        for <kasan-dev@googlegroups.com>; Sun, 15 Dec 2024 02:12:24 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXmFtsj82VMVDBaEkEGIUB48PWGpJOLWZQEO+mBNxFBctvyZYmriTlX+oZPeQ+cLQ7yFA1YBe09S2o=@googlegroups.com
+        Mon, 16 Dec 2024 12:06:16 -0800 (PST)
+Received-SPF: pass (google.com: domain of briannorris@chromium.org designates 2607:f8b0:4864:20::102f as permitted sender) client-ip=2607:f8b0:4864:20::102f;
+Received: by mail-pj1-x102f.google.com with SMTP id 98e67ed59e1d1-2ef6c56032eso2968455a91.2
+        for <kasan-dev@googlegroups.com>; Mon, 16 Dec 2024 12:06:16 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCV74Fu0ZrtImdjRGW50fKpGSe5oFUZZtTMD9OvchCk0emLXpHcGNuJk9+kpvEHyVNHjCC+V4U4qclE=@googlegroups.com
+X-Gm-Gg: ASbGncvtHuHHA2vDAI+IoWDWA/nNADG4joZ6poUP4R2G8rJAhQC4VbHlMQ97iXmRil1
+	flt2V+qvwblq6eFldpeegR1VCi3dzlX8Sv0xa25ruZI4f3VdR8it4XBj+wyd18YKEXtXnh2wdOo
+	uXbUt0vmWBdf1OTpPTTYI8BIwtjS8W9Zpt643nWOSBeiWYTkYFHPvgQGS8hqdiYMamca0iCdB2j
+	k80g8eka8im7i5/EEzwHmW21HScBmVGXkqEn7xZNYhJWa73MxH+kNAM5HTpfo2s5QLP5Ifj6i6U
+	eIM7C8ZPsTEynRQgcQ==
+X-Received: by 2002:a17:90b:4e85:b0:2f1:2fa5:1924 with SMTP id 98e67ed59e1d1-2f28ffa4e4cmr17934259a91.26.1734379576253;
+        Mon, 16 Dec 2024 12:06:16 -0800 (PST)
+Received: from localhost ([2a00:79e0:2e14:7:953:5b91:a52c:e817])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-218a1dcc463sm46738955ad.79.2024.12.16.12.06.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Dec 2024 12:06:15 -0800 (PST)
+Date: Mon, 16 Dec 2024 12:06:14 -0800
+From: Brian Norris <briannorris@chromium.org>
+To: Benjamin Berg <benjamin@sipsolutions.net>
+Cc: linux-um@lists.infradead.org, johannes@sipsolutions.net,
+	kasan-dev@googlegroups.com
+Subject: Re: [PATCH v5] um: switch to regset API and depend on XSTATE
+Message-ID: <Z2CINocd5Pqkzykw@google.com>
+References: <20241023094120.4083426-1-benjamin@sipsolutions.net>
+ <Z1ySXmjZm-xOqk90@google.com>
+ <689539526e48a2648134bb8de463c3bf68724993.camel@sipsolutions.net>
+ <c9bc87ceb666a9ab04a8c10a543ecfb6aa002aa2.camel@sipsolutions.net>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:190f:b0:3a7:e800:7d26 with SMTP id
- e9e14a558f8ab-3aff6eada72mr98056395ab.8.1734257543991; Sun, 15 Dec 2024
- 02:12:23 -0800 (PST)
-Date: Sun, 15 Dec 2024 02:12:23 -0800
-In-Reply-To: <67275485.050a0220.3c8d68.0a37.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-Message-ID: <675eab87.050a0220.37aaf.00f6.GAE@google.com>
-Subject: Re: [syzbot] [mm?] WARNING: locking bug in __rmqueue_pcplist
-From: syzbot <syzbot+39f85d612b7c20d8db48@syzkaller.appspotmail.com>
-To: 42.hyeyoo@gmail.com, akpm@linux-foundation.org, andreyknvl@gmail.com, 
-	bigeasy@linutronix.de, boqun.feng@gmail.com, bsegall@google.com, cl@linux.com, 
-	dietmar.eggemann@arm.com, dvyukov@google.com, elver@google.com, 
-	frederic@kernel.org, glider@google.com, iamjoonsoo.kim@lge.com, 
-	jannh@google.com, jiangshanlai@gmail.com, joel@joelfernandes.org, 
-	josh@joshtriplett.org, juri.lelli@redhat.com, kasan-dev@googlegroups.com, 
-	liam.howlett@oracle.com, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	llong@redhat.com, longman@redhat.com, lorenzo.stoakes@oracle.com, 
-	mathieu.desnoyers@efficios.com, mgorman@suse.de, mingo@redhat.com, 
-	neeraj.upadhyay@kernel.org, paulmck@kernel.org, penberg@kernel.org, 
-	peterz@infradead.org, qiang.zhang1211@gmail.com, rcu@vger.kernel.org, 
-	rientjes@google.com, roman.gushchin@linux.dev, rostedt@goodmis.org, 
-	ryabinin.a.a@gmail.com, syzkaller-bugs@googlegroups.com, tglx@linutronix.de, 
-	tj@kernel.org, urezki@gmail.com, vbabka@suse.cz, vincent.guittot@linaro.org, 
-	vincenzo.frascino@arm.com, vschneid@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: syzbot@syzkaller.appspotmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of 3h6tezwkbajomste4ff8l4jjc7.aiiaf8om8l6ihn8hn.6ig@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com
- designates 209.85.166.205 as permitted sender) smtp.mailfrom=3h6teZwkbAJoMSTE4FF8L4JJC7.AIIAF8OM8L6IHN8HN.6IG@m3kw2wvrgufz5godrsrytgd7.apphosting.bounces.google.com;
-       dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=appspotmail.com
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <c9bc87ceb666a9ab04a8c10a543ecfb6aa002aa2.camel@sipsolutions.net>
+X-Original-Sender: briannorris@chromium.org
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@chromium.org header.s=google header.b=jp0ioIaw;       spf=pass
+ (google.com: domain of briannorris@chromium.org designates
+ 2607:f8b0:4864:20::102f as permitted sender) smtp.mailfrom=briannorris@chromium.org;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=chromium.org;
+       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -145,189 +157,333 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-syzbot has found a reproducer for the following issue on:
+(+ kasan-dev; leaving most of this thread intact)
 
-HEAD commit:    a0e3919a2df2 Merge tag 'usb-6.13-rc3' of git://git.kernel...
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15a4c344580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b874549ac3d0b012
-dashboard link: https://syzkaller.appspot.com/bug?extid=39f85d612b7c20d8db48
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=139407e8580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=179407e8580000
+On Sat, Dec 14, 2024 at 01:25:59PM +0100, Benjamin Berg wrote:
+> Hi,
+>=20
+> On Sat, 2024-12-14 at 00:08 +0100, Benjamin Berg wrote:
+> > outch. It is doing a memcpy of init_task. Now, struct task_struct is
+> > variably sized, but init_struct is statically allocated, which could
+> > explain why the memcpy is not permitted to read the larger memory (for
+> > the FP register space).
+> > I can reproduce it with the kunit.py script, but didn't run into it
+> > with my own configuration.
+> >=20
+> > Now, this patch works around the problem:
+> >=20
+> > diff --git a/arch/um/kernel/process.c b/arch/um/kernel/process.c
+> > index 30bdc0a87dc8..7748df822d30 100644
+> > --- a/arch/um/kernel/process.c
+> > +++ b/arch/um/kernel/process.c
+> > @@ -191,7 +191,10 @@ void initial_thread_cb(void (*proc)(void *), void
+> > *arg)
+> > =C2=A0int arch_dup_task_struct(struct task_struct *dst,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ struct task_struct *src)
+> > =C2=A0{
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memcpy(dst, src, arch_task_struct=
+_size);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (src =3D=3D &init_task)
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 memcpy(dst, src, sizeof(init_task));
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 memcpy(dst, src, arch_task_struct_size);
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+> > =C2=A0}
+> > =C2=A0
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/694eb7d9bffc/disk-a0e3919a.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/1350ab6a6022/vmlinux-a0e3919a.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/f64266879922/bzImage-a0e3919a.xz
+FWIW, after fixing up the mangled whitespace, this works for me:
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+39f85d612b7c20d8db48@syzkaller.appspotmail.com
+Tested-by: Brian Norris <briannorris@chromium.org>
 
-=============================
-[ BUG: Invalid wait context ]
-6.13.0-rc2-syzkaller-00333-ga0e3919a2df2 #0 Not tainted
------------------------------
-syz-executor300/5884 is trying to lock:
-ffff88813fffc298 (&zone->lock){-.-.}-{3:3}, at: rmqueue_bulk mm/page_alloc.c:2307 [inline]
-ffff88813fffc298 (&zone->lock){-.-.}-{3:3}, at: __rmqueue_pcplist+0x6bb/0x1600 mm/page_alloc.c:3001
-other info that might help us debug this:
-context-{2:2}
-5 locks held by syz-executor300/5884:
- #0: ffff888036701f20 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_lock include/linux/mmap_lock.h:144 [inline]
- #0: ffff888036701f20 (&mm->mmap_lock){++++}-{4:4}, at: __mm_populate+0x21d/0x380 mm/gup.c:2014
- #1: ffffffff8e1bb500 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
- #1: ffffffff8e1bb500 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
- #1: ffffffff8e1bb500 (rcu_read_lock){....}-{1:3}, at: count_memcg_events_mm.constprop.0+0x3a/0x340 include/linux/memcontrol.h:994
- #2: ffffffff8e1bb500 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:337 [inline]
- #2: ffffffff8e1bb500 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
- #2: ffffffff8e1bb500 (rcu_read_lock){....}-{1:3}, at: ieee80211_rx_napi+0xa6/0x400 net/mac80211/rx.c:5491
- #3: ffff888067a68168 (&rdev->bss_lock){+.-.}-{3:3}, at: spin_lock_bh include/linux/spinlock.h:356 [inline]
- #3: ffff888067a68168 (&rdev->bss_lock){+.-.}-{3:3}, at: cfg80211_inform_single_bss_data+0x791/0x1de0 net/wireless/scan.c:2329
- #4: ffff8880b8644c58 (&pcp->lock){+.+.}-{3:3}, at: spin_trylock include/linux/spinlock.h:361 [inline]
- #4: ffff8880b8644c58 (&pcp->lock){+.+.}-{3:3}, at: rmqueue_pcplist mm/page_alloc.c:3030 [inline]
- #4: ffff8880b8644c58 (&pcp->lock){+.+.}-{3:3}, at: rmqueue mm/page_alloc.c:3074 [inline]
- #4: ffff8880b8644c58 (&pcp->lock){+.+.}-{3:3}, at: get_page_from_freelist+0x350/0x2f80 mm/page_alloc.c:3471
-stack backtrace:
-CPU: 0 UID: 0 PID: 5884 Comm: syz-executor300 Not tainted 6.13.0-rc2-syzkaller-00333-ga0e3919a2df2 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 11/25/2024
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
- print_lock_invalid_wait_context kernel/locking/lockdep.c:4826 [inline]
- check_wait_context kernel/locking/lockdep.c:4898 [inline]
- __lock_acquire+0x878/0x3c40 kernel/locking/lockdep.c:5176
- lock_acquire.part.0+0x11b/0x380 kernel/locking/lockdep.c:5849
- __raw_spin_lock_irqsave include/linux/spinlock_api_smp.h:110 [inline]
- _raw_spin_lock_irqsave+0x3a/0x60 kernel/locking/spinlock.c:162
- rmqueue_bulk mm/page_alloc.c:2307 [inline]
- __rmqueue_pcplist+0x6bb/0x1600 mm/page_alloc.c:3001
- rmqueue_pcplist mm/page_alloc.c:3043 [inline]
- rmqueue mm/page_alloc.c:3074 [inline]
- get_page_from_freelist+0x3d2/0x2f80 mm/page_alloc.c:3471
- __alloc_pages_noprof+0x223/0x25b0 mm/page_alloc.c:4751
- alloc_pages_mpol_noprof+0x2c9/0x610 mm/mempolicy.c:2269
- stack_depot_save_flags+0x8e0/0x9e0 lib/stackdepot.c:627
- kasan_save_stack+0x42/0x60 mm/kasan/common.c:48
- __kasan_record_aux_stack+0xba/0xd0 mm/kasan/generic.c:544
- task_work_add+0xc0/0x3b0 kernel/task_work.c:77
- __run_posix_cpu_timers kernel/time/posix-cpu-timers.c:1223 [inline]
- run_posix_cpu_timers+0x69f/0x7d0 kernel/time/posix-cpu-timers.c:1422
- update_process_times+0x1a1/0x2d0 kernel/time/timer.c:2526
- tick_sched_handle kernel/time/tick-sched.c:276 [inline]
- tick_nohz_handler+0x376/0x530 kernel/time/tick-sched.c:297
- __run_hrtimer kernel/time/hrtimer.c:1739 [inline]
- __hrtimer_run_queues+0x5fb/0xae0 kernel/time/hrtimer.c:1803
- hrtimer_interrupt+0x392/0x8e0 kernel/time/hrtimer.c:1865
- local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1038 [inline]
- __sysvec_apic_timer_interrupt+0x10f/0x400 arch/x86/kernel/apic/apic.c:1055
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1049 [inline]
- sysvec_apic_timer_interrupt+0x52/0xc0 arch/x86/kernel/apic/apic.c:1049
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:702
-RIP: 0010:__sanitizer_cov_trace_switch+0x4f/0x90 kernel/kcov.c:351
-Code: 83 f8 10 75 2f 41 bd 03 00 00 00 4c 8b 75 00 31 db 4d 85 f6 74 1e 48 8b 74 dd 10 4c 89 e2 4c 89 ef 48 83 c3 01 48 8b 4c 24 28 <e8> 8c fd ff ff 49 39 de 75 e2 5b 5d 41 5c 41 5d 41 5e c3 cc cc cc
-RSP: 0018:ffffc90000007098 EFLAGS: 00000212
-RAX: 0000000000000000 RBX: 0000000000000020 RCX: ffffffff8aaf7a17
-RDX: 0000000000000000 RSI: 00000000000000f4 RDI: 0000000000000001
-RBP: ffffffff8cc04980 R08: 0000000000000001 R09: 00000000000000e8
-R10: 0000000000000000 R11: 0000000000000004 R12: 0000000000000000
-R13: 0000000000000001 R14: 0000000000000020 R15: dffffc0000000000
- _ieee802_11_parse_elems_full+0x297/0x4340 net/mac80211/parse.c:293
- ieee802_11_parse_elems_full+0x9ca/0x1680 net/mac80211/parse.c:984
- ieee802_11_parse_elems_crc net/mac80211/ieee80211_i.h:2384 [inline]
- ieee802_11_parse_elems net/mac80211/ieee80211_i.h:2391 [inline]
- ieee80211_inform_bss+0xfd/0x1100 net/mac80211/scan.c:79
- rdev_inform_bss net/wireless/rdev-ops.h:418 [inline]
- cfg80211_inform_single_bss_data+0x8f6/0x1de0 net/wireless/scan.c:2334
- cfg80211_inform_bss_data+0x205/0x3ba0 net/wireless/scan.c:3189
- cfg80211_inform_bss_frame_data+0x272/0x7a0 net/wireless/scan.c:3284
- ieee80211_bss_info_update+0x311/0xab0 net/mac80211/scan.c:226
- ieee80211_scan_rx+0x474/0xac0 net/mac80211/scan.c:340
- __ieee80211_rx_handle_packet net/mac80211/rx.c:5232 [inline]
- ieee80211_rx_list+0x1bd7/0x2970 net/mac80211/rx.c:5469
- ieee80211_rx_napi+0xdd/0x400 net/mac80211/rx.c:5492
- ieee80211_rx include/net/mac80211.h:5166 [inline]
- ieee80211_handle_queued_frames+0xd5/0x130 net/mac80211/main.c:441
- tasklet_action_common+0x251/0x3f0 kernel/softirq.c:811
- handle_softirqs+0x213/0x8f0 kernel/softirq.c:561
- __do_softirq kernel/softirq.c:595 [inline]
- invoke_softirq kernel/softirq.c:435 [inline]
- __irq_exit_rcu+0x109/0x170 kernel/softirq.c:662
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:678
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1049 [inline]
- sysvec_apic_timer_interrupt+0xa4/0xc0 arch/x86/kernel/apic/apic.c:1049
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:702
-RIP: 0010:rcu_read_unlock include/linux/rcupdate.h:878 [inline]
-RIP: 0010:count_memcg_events_mm.constprop.0+0x108/0x340 include/linux/memcontrol.h:998
-Code: ba 01 00 00 00 89 de 48 89 ef e8 c3 13 22 00 9c 5b 81 e3 00 02 00 00 31 ff 48 89 de e8 91 2d b7 ff 48 85 db 0f 85 06 02 00 00 <e8> 13 2b b7 ff e8 9e 50 46 09 31 ff 89 c3 89 c6 e8 43 2d b7 ff 85
-RSP: 0018:ffffc90002ee7a90 EFLAGS: 00000293
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffff81e2da5e
-RDX: ffff88803650a440 RSI: ffffffff81e2da68 RDI: 0000000000000007
-RBP: ffff888035a04000 R08: 0000000000000007 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000001 R12: 0000000000000200
-R13: ffff8880223138d8 R14: 0000000000000000 R15: ffff88803650a440
- count_memcg_event_mm include/linux/memcontrol.h:1004 [inline]
- mm_account_fault mm/memory.c:5978 [inline]
- handle_mm_fault+0x5cc/0xaa0 mm/memory.c:6138
- faultin_page mm/gup.c:1196 [inline]
- __get_user_pages+0x8d9/0x3b50 mm/gup.c:1494
- populate_vma_page_range+0x27f/0x3a0 mm/gup.c:1932
- __mm_populate+0x1d6/0x380 mm/gup.c:2035
- mm_populate include/linux/mm.h:3386 [inline]
- vm_mmap_pgoff+0x293/0x360 mm/util.c:585
- ksys_mmap_pgoff+0x7d/0x5c0 mm/mmap.c:542
- __do_sys_mmap arch/x86/kernel/sys_x86_64.c:89 [inline]
- __se_sys_mmap arch/x86/kernel/sys_x86_64.c:82 [inline]
- __x64_sys_mmap+0x125/0x190 arch/x86/kernel/sys_x86_64.c:82
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f9a0d37bde9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 c1 1f 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f9a0cb00148 EFLAGS: 00000246 ORIG_RAX: 0000000000000009
-RAX: ffffffffffffffda RBX: 00007f9a0d4031f8 RCX: 00007f9a0d37bde9
-RDX: b635773f06ebbeee RSI: 0000000000b36000 RDI: 0000000020000000
-RBP: 00007f9a0d4031f0 R08: 00000000ffffffff R09: 0000000002000000
-R10: 0000000000008031 R11: 0000000000000246 R12: 00007f9a0d4031fc
-R13: 000000000000006e R14: 00007ffd73f9daf0 R15: 00007ffd73f9dbd8
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	83 f8 10             	cmp    $0x10,%eax
-   3:	75 2f                	jne    0x34
-   5:	41 bd 03 00 00 00    	mov    $0x3,%r13d
-   b:	4c 8b 75 00          	mov    0x0(%rbp),%r14
-   f:	31 db                	xor    %ebx,%ebx
-  11:	4d 85 f6             	test   %r14,%r14
-  14:	74 1e                	je     0x34
-  16:	48 8b 74 dd 10       	mov    0x10(%rbp,%rbx,8),%rsi
-  1b:	4c 89 e2             	mov    %r12,%rdx
-  1e:	4c 89 ef             	mov    %r13,%rdi
-  21:	48 83 c3 01          	add    $0x1,%rbx
-  25:	48 8b 4c 24 28       	mov    0x28(%rsp),%rcx
-* 2a:	e8 8c fd ff ff       	call   0xfffffdbb <-- trapping instruction
-  2f:	49 39 de             	cmp    %rbx,%r14
-  32:	75 e2                	jne    0x16
-  34:	5b                   	pop    %rbx
-  35:	5d                   	pop    %rbp
-  36:	41 5c                	pop    %r12
-  38:	41 5d                	pop    %r13
-  3a:	41 5e                	pop    %r14
-  3c:	c3                   	ret
-  3d:	cc                   	int3
-  3e:	cc                   	int3
-  3f:	cc                   	int3
+> >=20
+> > However, that cannot really be correct. I believe what should be
+> > happening is that init_task is loaded into init_stack (see
+> > INIT_TASK_DATA in vmlinux.lds.h). I am assuming that if this was the
+> > case, then KASAN would be happy with it. However, I see the following
+> > addresses
+> > =C2=A0 __start_init_stack: 0x606dc000
+> > =C2=A0 __end_init_stack: 0x606e0000
+> > =C2=A0 init_task: 0x606e2ec0
+> > and I am not sure why the linker script is not placing init_task into
+> > the stack here.
+> >=20
+> > Also note that commit 2f681ba4b352 ("um: move thread info into task")
+> > may be part of a correct fix here.
+>=20
+> So, I dug a bit more, and found
+>=20
+> commit 0eb5085c38749f2a91e5bd8cbebb1ebf3398343c
+> Author: Heiko Carstens <hca@linux.ibm.com>
+> Date:   Thu Nov 16 14:36:38 2023 +0100
+>=20
+>     arch: remove ARCH_TASK_STRUCT_ON_STACK
+>=20
+> This explains why init_task is not on init_stack. It also means that
+> the related linker script entries that I saw can be removed.
+>=20
+> So, maybe the above patch is actually acceptable. We never need the FPU
+> register state for init_task, so we do not really need it to be
+> allocated either. The only place where it causes issues is in
+> arch_dup_task_struct.
+> In that case, x86 would require the same fix.
+>=20
+>=20
+> My best guess right now is that whether the error occurs depends on the
+> on the size/alignment of init_task. If we happen to have enough padding
+> afterwards then we do not run into the red zone of the next
+> (unexported) global variable (init_sighand for me). But, if the padding
+> is too small, then KASAN detects the error and aborts.
+>=20
+>=20
+> Does someone maybe know a KASAN/x86 expert that we could talk to?
 
+Not exactly, but I've CC'd their development list.
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Brian
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/675eab87.050a0220.37aaf.00f6.GAE%40google.com.
+> Benjamin
+>=20
+> > On Fri, 2024-12-13 at 12:00 -0800, Brian Norris wrote:
+> > > Hi Benjamin,
+> > >=20
+> > > On Wed, Oct 23, 2024 at 11:41:20AM +0200, Benjamin Berg wrote:
+> > > > From: Benjamin Berg <benjamin.berg@intel.com>
+> > > >=20
+> > > > The PTRACE_GETREGSET API has now existed since Linux 2.6.33. The
+> > > > XSAVE
+> > > > CPU feature should also be sufficiently common to be able to rely
+> > > > on it.
+> > > >=20
+> > > > With this, define our internal FP state to be the hosts XSAVE
+> > > > data.
+> > > > Add
+> > > > discovery for the hosts XSAVE size and place the FP registers at
+> > > > the end
+> > > > of task_struct so that we can adjust the size at runtime.
+> > > >=20
+> > > > Next we can implement the regset API on top and update the signal
+> > > > handling as well as ptrace APIs to use them. Also switch coredump
+> > > > creation to use the regset API and finally set
+> > > > HAVE_ARCH_TRACEHOOK.
+> > > >=20
+> > > > This considerably improves the signal frames. Previously they
+> > > > might
+> > > > not
+> > > > have contained all the registers (i386) and also did not have the
+> > > > sizes and magic values set to the correct values to permit
+> > > > userspace to
+> > > > decode the frame.
+> > > >=20
+> > > > As a side effect, this will permit UML to run on hosts with newer
+> > > > CPU
+> > > > extensions (such as AMX) that need even more register state.
+> > > >=20
+> > > > Signed-off-by: Benjamin Berg <benjamin.berg@intel.com>
+> > >=20
+> > > This patch seems to trip up KASAN. Or at least, KUnit tests fail
+> > > when
+> > > I
+> > > enable CONFIG_KASAN, and 'git bisect' points me here:
+> > >=20
+> > > $ git bisect run ./tools/testing/kunit/kunit.py run
+> > > stackinit.test_user --kconfig_add CONFIG_KASAN=3Dy
+> > > [...]
+> > > 3f17fed2149192c7d3b76a45a6a87b4ff22cd586 is the first bad commit
+> > > commit 3f17fed2149192c7d3b76a45a6a87b4ff22cd586
+> > > Author: Benjamin Berg <benjamin.berg@intel.com>
+> > > Date:=C2=A0=C2=A0 Wed Oct 23 11:41:20 2024 +0200
+> > >=20
+> > > =C2=A0=C2=A0=C2=A0 um: switch to regset API and depend on XSTATE
+> > > [...]
+> > >=20
+> > > If I run at Linus's latest:
+> > >=20
+> > > =C2=A0 243f750a2df0 Merge tag 'gpio-fixes-for-v6.13-rc3' of
+> > > git://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux
+> > >=20
+> > > I get a KASAN warning and panic [1]. I tried this fix for fun, but
+> > > it
+> > > doesn't help:
+> > > Subject: [PATCH] um: add back support for FXSAVE registers
+> > > https://lore.kernel.org/linux-um/20241204074827.1582917-1-benjamin@si=
+psolutions.net/
+> > >=20
+> > > I'm not very familiar with this area, but let me know if there's
+> > > more
+> > > I
+> > > can help with on tracking the issue down. Hopefully, it's as easy
+> > > as
+> > > running these same commands for you to reproduce.
+> > >=20
+> > > Brian
+> > >=20
+> > > [1]
+> > > $ ./tools/testing/kunit/kunit.py run stackinit.test_user --
+> > > kconfig_add CONFIG_KASAN=3Dy --raw_output=3Dall
+> > > [...]
+> > > <3>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > =3D=3D
+> > > <3>BUG: KASAN: global-out-of-bounds in
+> > > arch_dup_task_struct+0x4b/0x70
+> > > <3>Read of size 4616 at addr 0000000060b1aec0 by task swapper/0
+> > > <3>
+> > > <3>CPU: 0 UID: 0 PID: 0 Comm: swapper Not tainted 6.13.0-rc2-00194-
+> > > g6787126c27ef #61
+> > > <3>Stack:
+> > > <4> 00000000 00000000 ffffff00 60acc428
+> > > <4> 60ad2ffc 9f225db0 00000001 6008b7fb
+> > > <4> 60b17aa0 6003fbf5 60b1aec0 6004c654
+> > > <3>Call Trace:
+> > > <3> [<60038c0e>] ? show_stack.cold+0x64/0xf3
+> > > <3> [<6008b7fb>] ? dump_stack_lvl+0x8b/0xa7
+> > > <3> [<6003fbf5>] ? _printk+0x0/0x103
+> > > <3> [<6004c654>] ? print_report+0x145/0x519
+> > > <3> [<60090f2b>] ? arch_dup_task_struct+0x4b/0x70
+> > > <3> [<6031f854>] ? kasan_report+0x114/0x160
+> > > <3> [<60090f2b>] ? arch_dup_task_struct+0x4b/0x70
+> > > <3> [<60320830>] ? kasan_check_range+0x0/0x1e0
+> > > <3> [<603209a0>] ? kasan_check_range+0x170/0x1e0
+> > > <3> [<6032135d>] ? __asan_memcpy+0x2d/0x80
+> > > <3> [<60090f2b>] ? arch_dup_task_struct+0x4b/0x70
+> > > <3> [<600b9381>] ? copy_process+0x3e1/0x7390
+> > > <3> [<600af1a0>] ? block_signals+0x0/0x20
+> > > <3> [<603bb46e>] ? vfs_kern_mount.part.0+0x6e/0x140
+> > > <3> [<601b48d6>] ? stack_trace_save+0x86/0xa0
+> > > <3> [<6063ef2c>] ? stack_depot_save_flags+0x2c/0xa80
+> > > <3> [<601b4850>] ? stack_trace_save+0x0/0xa0
+> > > <3> [<6031e919>] ? kasan_save_stack+0x49/0x60
+> > > <3> [<603bb46e>] ? vfs_kern_mount.part.0+0x6e/0x140
+> > > <3> [<6031e919>] ? kasan_save_stack+0x49/0x60
+> > > <3> [<600b8fa0>] ? copy_process+0x0/0x7390
+> > > <3> [<600c04b3>] ? kernel_clone+0xd3/0x8c0
+> > > <3> [<600c03e0>] ? kernel_clone+0x0/0x8c0
+> > > <3> [<60038743>] ? arch_irqs_disabled_flags+0x0/0x9
+> > > <3> [<60038700>] ? arch_local_save_flags+0x0/0x43
+> > > <3> [<600c107d>] ? user_mode_thread+0x9d/0xc0
+> > > <3> [<600c0fe0>] ? user_mode_thread+0x0/0xc0
+> > > <3> [<60926934>] ? kernel_init+0x0/0x18c
+> > > <3> [<6003875e>] ? arch_local_irq_disable+0x0/0xc
+> > > <3> [<60038743>] ? arch_irqs_disabled_flags+0x0/0x9
+> > > <3> [<60038700>] ? arch_local_save_flags+0x0/0x43
+> > > <3> [<603bb69d>] ? kern_mount+0x3d/0xb0
+> > > <3> [<6003875e>] ? arch_local_irq_disable+0x0/0xc
+> > > <3> [<60926831>] ? rest_init+0x2d/0x130
+> > > <3> [<6003875e>] ? arch_local_irq_disable+0x0/0xc
+> > > <3> [<60038743>] ? arch_irqs_disabled_flags+0x0/0x9
+> > > <3> [<60038700>] ? arch_local_save_flags+0x0/0x43
+> > > <3> [<60002679>] ? do_one_initcall+0x0/0x450
+> > > <3> [<60005c97>] ? start_kernel_proc+0x0/0x1d
+> > > <3> [<60005cb0>] ? start_kernel_proc+0x19/0x1d
+> > > <3> [<600904fa>] ? new_thread_handler+0xca/0x130
+> > > <3>
+> > > <3>The buggy address belongs to the variable:
+> > > <3> 0x60b1aec0
+> > > <3>
+> > > <3>The buggy address belongs to the physical page:
+> > > <4>page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0
+> > > pfn:0xb1a
+> > > <4>flags: 0x2000(reserved|zone=3D0)
+> > > <4>raw: 0000000000002000 000000009f225db8 000000009f225db8
+> > > 0000000000000000
+> > > <4>raw: 0000000000000000 0000000000000000 00000001ffffffff
+> > > <4>page dumped because: kasan: bad access detected
+> > > <3>
+> > > <3>Memory state around the buggy address:
+> > > <3> 0000000060b1b600: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > > 00
+> > > <3> 0000000060b1b680: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > > 00
+> > > <3>>0000000060b1b700: 00 00 00 00 00 00 00 00 f9 f9 f9 f9 00 00 00
+> > > 00
+> > > <3>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ^
+> > > <3> 0000000060b1b780: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > > 00
+> > > <3> 0000000060b1b800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > > 00
+> > > <3>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > =3D=3D
+> > > <4>Disabling lock debugging due to kernel taint
+> > > <4>
+> > > <6>Pid: 0, comm: swapper Tainted: G=C2=A0=C2=A0=C2=A0 B=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 6.13.0-r=
+c2-
+> > > 00194-g6787126c27ef
+> > > <6>RIP: 0033:copy_namespaces+0x104/0x2b0
+> > > <6>RSP: 0000000060b17b70=C2=A0 EFLAGS: 00010246
+> > > <6>RAX: 0000000000000001 RBX: 00000000610a8000 RCX:
+> > > 0000000060133d7f
+> > > <6>RDX: 0000000000000001 RSI: 0000000000000004 RDI:
+> > > 0000000000000000
+> > > <6>RBP: 0000000000000000 R08: 0000000000000001 R09:
+> > > 0000100000000000
+> > > <6>R10: 0000000000000003 R11: ffffffffffffffff R12:
+> > > 0000000000800300
+> > > <6>R13: 000000006102a000 R14: 00000000610a84d8 R15:
+> > > 0000000060b31ba0
+> > > <0>Kernel panic - not syncing: Segfault with no mm
+> > > <4>CPU: 0 UID: 0 PID: 0 Comm: swapper Tainted: G=C2=A0=C2=A0=C2=A0 B=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0
+> > > 6.13.0-rc2-00194-g6787126c27ef #61
+> > > <4>Tainted: [B]=3DBAD_PAGE
+> > > <4>Stack:
+> > > <4> 00000000 60321286 61070380 0c162f92
+> > > <4> 00000000 60b1aec0 61070110 610a8000
+> > > <4> 610a8498 600bae85 61001400 60b17ed0
+> > > <4>Call Trace:
+> > > <4> [<60321286>] ? __asan_memset+0x26/0x50
+> > > <4> [<600bae85>] ? copy_process+0x1ee5/0x7390
+> > > <4> [<600af1a0>] ? block_signals+0x0/0x20
+> > > <4> [<6063ef2c>] ? stack_depot_save_flags+0x2c/0xa80
+> > > <4> [<601b4850>] ? stack_trace_save+0x0/0xa0
+> > > <4> [<6031e919>] ? kasan_save_stack+0x49/0x60
+> > > <4> [<603bb46e>] ? vfs_kern_mount.part.0+0x6e/0x140
+> > > <4> [<6031e919>] ? kasan_save_stack+0x49/0x60
+> > > <4> [<600b8fa0>] ? copy_process+0x0/0x7390
+> > > <4> [<600c04b3>] ? kernel_clone+0xd3/0x8c0
+> > > <4> [<600c03e0>] ? kernel_clone+0x0/0x8c0
+> > > <4> [<60038743>] ? arch_irqs_disabled_flags+0x0/0x9
+> > > <4> [<60038700>] ? arch_local_save_flags+0x0/0x43
+> > > <4> [<600c107d>] ? user_mode_thread+0x9d/0xc0
+> > > <4> [<600c0fe0>] ? user_mode_thread+0x0/0xc0
+> > > <4> [<60926934>] ? kernel_init+0x0/0x18c
+> > > <4> [<6003875e>] ? arch_local_irq_disable+0x0/0xc
+> > > <4> [<60038743>] ? arch_irqs_disabled_flags+0x0/0x9
+> > > <4> [<60038700>] ? arch_local_save_flags+0x0/0x43
+> > > <4> [<603bb69d>] ? kern_mount+0x3d/0xb0
+> > > <4> [<6003875e>] ? arch_local_irq_disable+0x0/0xc
+> > > <4> [<60926831>] ? rest_init+0x2d/0x130
+> > > <4> [<6003875e>] ? arch_local_irq_disable+0x0/0xc
+> > > <4> [<60038743>] ? arch_irqs_disabled_flags+0x0/0x9
+> > > <4> [<60038700>] ? arch_local_save_flags+0x0/0x43
+> > > <4> [<60002679>] ? do_one_initcall+0x0/0x450
+> > > <4> [<60005c97>] ? start_kernel_proc+0x0/0x1d
+> > > <4> [<60005cb0>] ? start_kernel_proc+0x19/0x1d
+> > > <4> [<600904fa>] ? new_thread_handler+0xca/0x130
+> > > [11:56:56] Elapsed time: 6.794s total, 0.001s configuring, 5.513s
+> > > building, 1.280s running
+> > >=20
+> > >=20
+> >=20
+> >=20
+> >=20
+>=20
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/Z=
+2CINocd5Pqkzykw%40google.com.
