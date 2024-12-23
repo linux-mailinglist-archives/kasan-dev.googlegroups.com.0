@@ -1,187 +1,207 @@
-Return-Path: <kasan-dev+bncBDZ2VWGKUYCBB7NDUS5QMGQES3JONMI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCP4ZTXNRIFBBBFRUS5QMGQEB6KK2VQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf40.google.com (mail-qv1-xf40.google.com [IPv6:2607:f8b0:4864:20::f40])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4D639FAB1F
-	for <lists+kasan-dev@lfdr.de>; Mon, 23 Dec 2024 08:32:14 +0100 (CET)
-Received: by mail-qv1-xf40.google.com with SMTP id 6a1803df08f44-6d931c7fc26sf63273106d6.3
-        for <lists+kasan-dev@lfdr.de>; Sun, 22 Dec 2024 23:32:14 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1734939133; cv=pass;
+Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D3E9FAB5A
+	for <lists+kasan-dev@lfdr.de>; Mon, 23 Dec 2024 09:00:06 +0100 (CET)
+Received: by mail-lj1-x238.google.com with SMTP id 38308e7fff4ca-3023de5b71bsf18832341fa.0
+        for <lists+kasan-dev@lfdr.de>; Mon, 23 Dec 2024 00:00:06 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1734940805; cv=pass;
         d=google.com; s=arc-20240605;
-        b=Utm3pDd5V6ZpZCeWle3aYQjeUbFXFM2KpYJLiFO19/YGz7k5uJLXg/ViHcLKPk3BT5
-         JvB03LSAcht7zUtGfV6WadwqJGza/adnQSYYhtdUvaN9A2x3iBZx1krPCveFs2U30kPI
-         Uu+mtGpXTuFZCGaoh9TJkxvH7P9auFyY5C58HboN5gxA7D/H7orhdTpExEsLdHL6yTu8
-         siE8n6N0o7tfuc8xW5XZooPd38gNBxg6z4GjrHlZPpWxb06KLCgCE4A7XT3tOdU0PUiI
-         t1pTNd+NKXkLs/oZKjx5Po4NDG6dGLwtCy9WmmsWJuaI7uE9U3asLgjKSv88Oa1yBizk
-         4HwA==
+        b=dNDr7NaWcJy6+p6rnX5FfmAgHlLOc3z6duNdJThKjiwJ2vPk2xlVYtxAXNILMmLz6e
+         Ok9jQBRLO+Ob/3pvhlfZmEGroey02LDxIuiSdSEPzoUhID3dgSvFRfqrzBchRX5vUYFO
+         Y4WfSLb+p3HHARZ9JpuvncAj251lLUiV9Pq7AQ9P/ahHk8BZRQPCEsN6Xqv0+La8zz9W
+         u4KLVMkh6fbq+gejCQ1QY7Uup36LqBz8t7NGtOla+Fmmn4XMIOXsIdIlRbz+YFFaqOjD
+         HEti9u6KTUF1fvuEpFfCdZ/OX3gFhB7vFXQGDZK/pfae8tE1IZcPb6qxRsDXVVTXT/0G
+         y5Rw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:sender:dkim-signature
-         :dkim-signature;
-        bh=rqXo4HnG9+HzExBui4TRzTCFiuidpZdMjUEkTGP8SAk=;
-        fh=2rykY1aDrvOcE8a/HzXjzVzfw0hEhKQb6+gyy/G5erA=;
-        b=V4PoDnpfNoIpIXvDhGaYMLtK59Ki761svPYodCrHWJNfow3G3yUBL7q10/XqLqO/cG
-         Ebpt1twzrJL0PufWcijJ/KAacxab5ICGIz7XMsV0UmfRVQQT5xGiYH+lGlOXy0nEb1/w
-         QZORuDmO3D2NGRCUcU3YolArh05mozzbtzMGUl3OvbsQ79MvkdfHnmXuL8gK9jUMOibx
-         jk0lydM3SFy7omkVrLcYRFeQsXavyp22sBSuNK3k+tMSWBMc8XtofMaYe7x159+SQsO5
-         lgiwhPAR7dDRG/Ax+R8qGHXIQGaArh25caBaXCfSFNFciS9bExByS7xaf4jXoiOqVHHK
-         GEhw==;
+         :list-id:mailing-list:precedence:content-transfer-encoding
+         :in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:dkim-signature;
+        bh=UBydxPt8UbWumDvI6waRszvHwDQkwibh5zLqLn8v3xM=;
+        fh=Jq+nEQEXIADUgh/fgkPA40Bn49GggCiICmRbD7OgYYw=;
+        b=MUqxV/4Evpgdu+YG7vs4TIazDSNdaG4d/dqNH22B0EagmvkhAo6EU3o0tL/SvZ7pwl
+         kJUXamu46R0WqH0ZSf82mqsnocE9UBD3vUmjokFCEqBKVqs85/0U8EaJNKxPF5snYSLl
+         won9Nt+gNIER+dHrDL/w9dAjN+NVeW3+YIME5atrymRB5GpCtqMyj9c/xTkMC1p+Ng8h
+         pi2+2W6OXcW/zMYxbHFgnNBzoXITb12mHnNw+1CTtnOEpPNq+2fCMBsZctqu83XxJx/s
+         HFuPxHpKe1x0MFmWNewwqrxkrTAYJKyUoeAjnxJESiONhwrrFx5tb8E49YZzQSJwijX+
+         bcnw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b="SwPprwE/";
-       spf=pass (google.com: domain of guoweikang.kernel@gmail.com designates 2607:f8b0:4864:20::1131 as permitted sender) smtp.mailfrom=guoweikang.kernel@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=neutral (body hash did not verify) header.i=@alien8.de header.s=alien8 header.b="NwAS/XG2";
+       spf=pass (google.com: domain of bp@alien8.de designates 65.109.113.108 as permitted sender) smtp.mailfrom=bp@alien8.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1734939133; x=1735543933; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1734940805; x=1735545605; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rqXo4HnG9+HzExBui4TRzTCFiuidpZdMjUEkTGP8SAk=;
-        b=QrbbsUkrKr9YJVoZ2sZ7i7jkEhPeMqcXxAuOjcqdw391lrjCM3kl/ILgXM3fdj7GGf
-         iEa0gsd6QDZrObLQchtDTVyCmuNU2zByJ58IBrskptRJUNXSTzA4UFRkWrGQlV9El45A
-         0fxP7JrdFfusWjUJOBCoixAxRQckyYlZjLImGTPliK0ck98m9j6DJyyQxSGuOCms5KJY
-         UKxA5irTnCTeiaDa9yOoIXDIZ8cDA6k7qc8LWCN3D/4X5EtRY6nkOLPSwBTY9P78urOt
-         1XWn66zj5932Me9L+OT8d+RtBZGZDVlVSadRMX039XdUQDXoNKd6GnYGUoB4pF09oRZA
-         9mpA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734939133; x=1735543933; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rqXo4HnG9+HzExBui4TRzTCFiuidpZdMjUEkTGP8SAk=;
-        b=PkvT5ivwZ74WnDXY0hZD1ebzBHFj5t9uAGe8FSuLpsM2aaGbYYnGbYFNBiKYNsn+5N
-         h10YIyr0BBxHeIwjhiutWG6JqZcROwyLRZsyF1KQJkrvjqRRPQ4CjBw1ifFI+C10HhJL
-         XEdi6DlasP0h8pv35VO5m0OipHiZ02Nm+kO1F5YS2j/Qq0E5A3RUmeAvvHtjgfOXhAdW
-         3ahfo1r0npYLXyKtZoOZWtsvIb8tuBahZdq0u5z0zGaCKtvUiitv6R92FmBbt5tLcg/b
-         +c4y+T6HCpTFEcFkO11VGQ8P6w+E/YQ0c/1CUAcqq1VURz0kKKXJeXHvCyztaqulPZ4D
-         WIOw==
+         :x-original-sender:content-transfer-encoding:in-reply-to
+         :content-disposition:mime-version:references:message-id:subject:cc
+         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=UBydxPt8UbWumDvI6waRszvHwDQkwibh5zLqLn8v3xM=;
+        b=ZZqHoJXwN+bhEo+8A6TMTrlJxgoTlEAN+3ibInRKJSMYeZvduA1Vshm/cltR6tNRmt
+         F862Beg0Jc+RFrmjh52jyDVFMMmuVR8rRY2GqwH+TvP/KSdqZkhEd5x0+Z8o/SLr4ZgR
+         6DX87ng9rrPC7l7mFLQwSSLhfbpPDUuPIg+Wa4G0YbKw6Q9ONLUglSnSH03aXIftOap8
+         zE4FpBzixkikpZd78vRK4a7XNa1zfnRgJQE8JQ+9wapouz8DB3Fdl6xGf4vOp8IcsaoY
+         eGRQPDmN2ZEf+RxfgXrxTdaOVx21+mvu0CDCYlM8DH8Rm+317n628GcUBXc9hiWc3FVf
+         c/Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734939133; x=1735543933;
+        d=1e100.net; s=20230601; t=1734940805; x=1735545605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rqXo4HnG9+HzExBui4TRzTCFiuidpZdMjUEkTGP8SAk=;
-        b=cUTPlZQY+veCTZA7lfi9YTXEOUy2fs4jxMBheEafz/ZKWzvd3PO/cxTZvjX1mKWsMW
-         +K5UKeHIHT0sNJGWmjAgM7uHIPl0qT3XBlRyotYcaIG0kBaNW69FLrJGQAnNsy5PLgNb
-         c9jafYwax5lSmB4Z1qJdTnd7Uj6yYfyA7IiE60JCalRgHVCnrtYIfnceoLBupDyPwA+R
-         pwn24+vYt39Nhry5TtM93qwLHfLW1XxgfOm+408v4wk7py5bhDwGp/b6iiNY0T87t3h5
-         QTqWTpJpMUQWiFYwF/8jDHR81dLYi1+A79QhGMDLm6mP5ROcyDCyEgnpbV6AHEkMBuT3
-         mKqg==
+        bh=UBydxPt8UbWumDvI6waRszvHwDQkwibh5zLqLn8v3xM=;
+        b=BY6mG2rmkrxFHEoVJdi7RkvnyAE1bd/x96a6a5cNBsmigA2ie75RhdoFet16FDr5w7
+         z9oj0cwE8FDfn0+daoJKq4c/BX52n01XvAyRdEbD8WvPpQ8NPWBNfUZhh3qI3E2nTgV1
+         k+ObYA4Qw0pJYYuWb2R3z+j5wwChrKjXip7sxqo2h0dAiPy3jDTW7wiazsacTltRgynC
+         abU9zlhVvNFQbAd1sT6Ao2DEGqiR8lGm+OlQKL9UbI8Nwuv0NSMhfggptIkwlBAzAZ2n
+         VCGF+eyk60EnYB8nd3+th+TX2igKJCNlM3Yom2KYeLobQVuQ0GhQtKQTogJyZFcff0eh
+         zEnQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCX6LvJV3l/5Xh2RTqWKWyNP+iIlR3M9JapUBti7wKLT6+sa3tq2RIjwYObw1SIt2HuIuvWKjg==@lfdr.de
-X-Gm-Message-State: AOJu0Yxo/AzFVCx2WBABi+NBMZRRILxqE7FUgd6BJhENlyy8jHUOoMGB
-	VBevpe/c96SCDqYQgD7gs2pBsD2x4d026rfU8OS2E51aYNo6WGs0
-X-Google-Smtp-Source: AGHT+IEV42BrnwW0hvMl4+tgHvcXJWuH7JiMvE25s07fy/usw+mApxCQ4tsPMayj5sf3YcUTxnexAg==
-X-Received: by 2002:a05:6214:3111:b0:6d8:aa52:74a3 with SMTP id 6a1803df08f44-6dd2335811cmr216971496d6.28.1734939133260;
-        Sun, 22 Dec 2024 23:32:13 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXbCWlZPpcx0r09fDNQz0I8gAyaXCWrkUeiqCqlP7QkjyrvTGvqjZrsrlqZ3NZQ1VAgUFEsyQ==@lfdr.de
+X-Gm-Message-State: AOJu0Yy1CnfJFTi2hhXPClN5fXA7H/TVdLz/mEAEUUh8SYNbTye8iLVt
+	wv3hzbG7/XDwEy5pE5H0AByP9IxlsCcr0v3QznExs9dfPyiochkN
+X-Google-Smtp-Source: AGHT+IGSdM7JTZ0P4zZhi1/oWwodtg3PXhC/f1wO8eXA3Uj7ckLXgUVnIqEEl8E3jj1feJoVxb9+ww==
+X-Received: by 2002:a05:651c:b14:b0:302:4147:178d with SMTP id 38308e7fff4ca-304685c1ad4mr47622031fa.28.1734940804528;
+        Mon, 23 Dec 2024 00:00:04 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a0c:f9d1:0:b0:6d9:86b:cc0c with SMTP id 6a1803df08f44-6dd1549dc3dls60544396d6.2.-pod-prod-05-us;
- Sun, 22 Dec 2024 23:32:12 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWCtJmlor7QNDOcHpI+7ObFRDtNiRf2OBB4GRUaJxT5UncCRIzA75TnTqv10S4wLVTYdTawOdgDpqQ=@googlegroups.com
-X-Received: by 2002:a05:6122:4f8a:b0:518:8753:34a6 with SMTP id 71dfb90a1353d-51b75d6fb15mr8976631e0c.10.1734939132493;
-        Sun, 22 Dec 2024 23:32:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1734939132; cv=none;
+Received: by 2002:a2e:9199:0:b0:300:168c:dda5 with SMTP id 38308e7fff4ca-3045809066bls5330251fa.2.-pod-prod-05-eu;
+ Mon, 23 Dec 2024 00:00:02 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWfp7SnHiuaL5N2Fc6OPOBkXi7XPgaPdnielAgswmPQoAZcMSleZYVumEDXNGB4XXjhmtX0Sif4knI=@googlegroups.com
+X-Received: by 2002:a05:6512:281b:b0:53e:2900:89b4 with SMTP id 2adb3069b0e04-5422959cfa1mr3900208e87.49.1734940802164;
+        Mon, 23 Dec 2024 00:00:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1734940802; cv=none;
         d=google.com; s=arc-20240605;
-        b=J2pkQF2fPjzIprXFpGN3Jaqzg4+m0iVYvz9uD89cZ8NI/xtHkaSCimvTcEJfgFid5x
-         wP/5nuWlt9PH5IR/dPTZ1UAWc2y5avLq254Jel8u8UAvhijw0utdIWH2gJDZBpSHxn+v
-         kJekYcfLpLH2BwiyFeJJStTRjZvjIn8664zE7tSiwihehRsyroMkJmn+6UCbThTAE8Sx
-         cHTs/1HbYAdWFnWqE1ZQ/QYVAnlFH+qTrbLW2AUHarfM1le/JKQm3dcaroSM4XJiqfHK
-         /3TqJ8x5+R7GwjP2OBPKygt0DkWU7uppc839/SF/VATNhgF1ldRpM8KWnr6qHgSUDV5S
-         xUbA==
+        b=HvpUrxgLQKIK01aylnI7Q2z2BWeR46JxTq+wJRbVRgbuSkWqfrhZYylvNbNH3YUtKq
+         f76TZO5gmcbq4BBULwh8UF3X7bBCRmWEWjsbRQLUkk0I9D19UNQWncVy7znGotf2KNI8
+         UpK0dRkbWphsYw4oCejsqz14d1JOEYAXgAfaxq5nF906eEMWJ7nNUJzKcU7R2g9oFuMN
+         UAiodAL/3Rp9a7SI4GqwG49jTZLkvxCgIo0KR+F9/EQTG+TMLZgks26KVveD8zDHpPDz
+         Yx60xGXPSSgTIm1Cz+KgIKMwbTdZG+gxz7Oig3ZDwe9+FHNe2G1tV4BjzvBaksahRW4F
+         +omw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0v6aG1YFkKVxPZgrKFkppCnD7setaclMAdKcShBz7Ms=;
-        fh=XdIodtShxW4iwCOc0KpBSZj6A64yGz7gbHByNNzlkBU=;
-        b=O/ecoMvEcfhDAIj+Tukn4NtvhS0s4VE5DqU+YsAaCCI+pJvJHfaNFIN3Lk1s6PKMvv
-         N9mHklVumhqbRJEh4mFSRDPtS/lakHA20tWg2vYxvEI1gZMN18drrp7uRwGmcP9DZY+Y
-         QuKysHWiqvLtVyisSz6iWsey0RkxP2yh4LtAqHs49+MAmpAf5ufHlVuZAq1jbDK/g/Ye
-         shhXvQnyhySyGSWikGA9WgVwS0Eqq+20/ALuhC8A22efW+Z2FqQkAq4CQ75ryB3PCBEF
-         BiZYacaD12raRV9VCj85S3KaUiKOZSKW1sdE+LGFuWL71RWvvBpYGzhyzcqXCmW63TTE
-         yztw==;
+        h=content-transfer-encoding:in-reply-to:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=YB+gFlVnZ5PUQr1POGl1EZ9GI6OWIXEqAYn2x8miLt0=;
+        fh=VjHSSSNpMM0ZHlFIlQvm22uy26+yYkwvw58YZx1c5HA=;
+        b=W+4SVmxmGlQheJvkZePYpVMqisQpH04Gt6ILuFT8t/x1bVeR5lISWWMAMrlzsVwvkd
+         7gcI0Pk8Tb+C21Ehgn4eqLeuveGM3EzZdMoPibftgDAAoJ+KoUxZTtqzzfGF5QA5NY6n
+         GsdRaJrMisZigI1m+xlNycgTdKxw+U1LUVZLHK11TSjB1fROSxPJvRtXbHVWaiWbhaK8
+         wV8Iz8Ld52WgQZsSW/duYjkblL9Ptz9+GHKgG/HHSyP8OulsTvKw4VLyWcZbx4CVtaj3
+         KMWUqcHwKKIiiT9IBSO2Fp1VOFcDw/h0LDK8+1m5zVNbpUaTLd+odVonSd6K6zPl16yK
+         GaRw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b="SwPprwE/";
-       spf=pass (google.com: domain of guoweikang.kernel@gmail.com designates 2607:f8b0:4864:20::1131 as permitted sender) smtp.mailfrom=guoweikang.kernel@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-yw1-x1131.google.com (mail-yw1-x1131.google.com. [2607:f8b0:4864:20::1131])
-        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-51b68cf47cesi282480e0c.5.2024.12.22.23.32.12
+       dkim=neutral (body hash did not verify) header.i=@alien8.de header.s=alien8 header.b="NwAS/XG2";
+       spf=pass (google.com: domain of bp@alien8.de designates 65.109.113.108 as permitted sender) smtp.mailfrom=bp@alien8.de;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
+Received: from mail.alien8.de (mail.alien8.de. [65.109.113.108])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-54223818939si209494e87.10.2024.12.23.00.00.02
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Dec 2024 23:32:12 -0800 (PST)
-Received-SPF: pass (google.com: domain of guoweikang.kernel@gmail.com designates 2607:f8b0:4864:20::1131 as permitted sender) client-ip=2607:f8b0:4864:20::1131;
-Received: by mail-yw1-x1131.google.com with SMTP id 00721157ae682-6eff4f0d627so33673037b3.1
-        for <kasan-dev@googlegroups.com>; Sun, 22 Dec 2024 23:32:12 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCX2DYhuAI2VV23hMHfw/jKMp4WFriPRJ3x99JO8BwMbHk20SPdwTWa8icQELOIav3Pn1oFvJ3CPKow=@googlegroups.com
-X-Gm-Gg: ASbGnctSCQcbJdoYhtzcXW6PJPhDeGGSnrnejZfAcF1YYSn98Cwt39jEANDWbj0GwBu
-	/iCFwNxmC0ikqCyKnRQwJtcjJVbzRBGNZ8u9mkKk=
-X-Received: by 2002:a05:690c:6e0c:b0:6ef:6b56:fb46 with SMTP id
- 00721157ae682-6f3f824cb08mr87351047b3.40.1734939131915; Sun, 22 Dec 2024
- 23:32:11 -0800 (PST)
-MIME-Version: 1.0
-References: <20241222111537.2720303-1-guoweikang.kernel@gmail.com> <Z2kNTjO8hXzN66bX@kernel.org>
-In-Reply-To: <Z2kNTjO8hXzN66bX@kernel.org>
-From: Weikang Guo <guoweikang.kernel@gmail.com>
-Date: Mon, 23 Dec 2024 15:32:01 +0800
-Message-ID: <CAOm6qnkRUMnVGj7tnem822nRpJ8R6kFVf6B4W9MhMSBQY8X7Kg@mail.gmail.com>
-Subject: Re: [PATCH v7] mm/memblock: Add memblock_alloc_or_panic interface
-To: Mike Rapoport <rppt@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@linux.com>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Sam Creasey <sammy@sammy.net>, 
-	Huacai Chen <chenhuacai@kernel.org>, Will Deacon <will@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Oreoluwa Babatunde <quic_obabatun@quicinc.com>, 
-	rafael.j.wysocki@intel.com, Palmer Dabbelt <palmer@rivosinc.com>, 
-	Hanjun Guo <guohanjun@huawei.com>, Easwar Hariharan <eahariha@linux.microsoft.com>, 
-	Johannes Berg <johannes.berg@intel.com>, Ingo Molnar <mingo@kernel.org>, 
-	Dave Hansen <dave.hansen@intel.com>, Christian Brauner <brauner@kernel.org>, 
-	KP Singh <kpsingh@kernel.org>, Richard Henderson <richard.henderson@linaro.org>, 
-	Matt Turner <mattst88@gmail.com>, Russell King <linux@armlinux.org.uk>, 
-	WANG Xuerui <kernel@xen0n.name>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne <shorne@gmail.com>, 
-	Helge Deller <deller@gmx.de>, Nicholas Piggin <npiggin@gmail.com>, 
-	Christophe Leroy <christophe.leroy@csgroup.eu>, Naveen N Rao <naveen@kernel.org>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Geoff Levand <geoff@infradead.org>, 
-	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
-	Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
-	Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
-	Sven Schnelle <svens@linux.ibm.com>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
-	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
-	Andreas Larsson <andreas@gaisler.com>, Richard Weinberger <richard@nod.at>, 
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>, Johannes Berg <johannes@sipsolutions.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, linux-alpha@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org, 
-	linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-riscv@lists.infradead.org, kasan-dev@googlegroups.com, 
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, 
-	sparclinux@vger.kernel.org, linux-um@lists.infradead.org, 
-	linux-acpi@vger.kernel.org, xen-devel@lists.xenproject.org, 
-	linux-omap@vger.kernel.org, linux-clk@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-mm@kvack.org, linux-pm@vger.kernel.org, 
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Dec 2024 00:00:02 -0800 (PST)
+Received-SPF: pass (google.com: domain of bp@alien8.de designates 65.109.113.108 as permitted sender) client-ip=65.109.113.108;
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 20CD440E02C4;
+	Mon, 23 Dec 2024 08:00:01 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ZuI5ArBa_EaL; Mon, 23 Dec 2024 07:59:57 +0000 (UTC)
+Received: from nazgul.tnic (2-228-221-6.ip193.fastwebnet.it [2.228.221.6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C580D40E0286;
+	Mon, 23 Dec 2024 07:58:32 +0000 (UTC)
+Date: Mon, 23 Dec 2024 08:58:11 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Weikang Guo <guoweikang.kernel@gmail.com>
+Cc: Mike Rapoport <rppt@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+	Christoph Lameter <cl@linux.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Sam Creasey <sammy@sammy.net>, Huacai Chen <chenhuacai@kernel.org>,
+	Will Deacon <will@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Oreoluwa Babatunde <quic_obabatun@quicinc.com>,
+	rafael.j.wysocki@intel.com, Palmer Dabbelt <palmer@rivosinc.com>,
+	Hanjun Guo <guohanjun@huawei.com>,
+	Easwar Hariharan <eahariha@linux.microsoft.com>,
+	Johannes Berg <johannes.berg@intel.com>,
+	Ingo Molnar <mingo@kernel.org>, Dave Hansen <dave.hansen@intel.com>,
+	Christian Brauner <brauner@kernel.org>,
+	KP Singh <kpsingh@kernel.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Matt Turner <mattst88@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	WANG Xuerui <kernel@xen0n.name>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+	Stafford Horne <shorne@gmail.com>, Helge Deller <deller@gmx.de>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Geoff Levand <geoff@infradead.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	Rich Felker <dalias@libc.org>,
+	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+	Andreas Larsson <andreas@gaisler.com>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+	kasan-dev@googlegroups.com, linux-s390@vger.kernel.org,
+	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-omap@vger.kernel.org,
+	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-mm@kvack.org, linux-pm@vger.kernel.org,
 	Xi Ruoyao <xry111@xry111.site>
+Subject: Re: [PATCH v7] mm/memblock: Add memblock_alloc_or_panic interface
+Message-ID: <20241223075811.GAZ2kYEwZ93CYkatrD@fat_crate.local>
+References: <20241222111537.2720303-1-guoweikang.kernel@gmail.com>
+ <Z2kNTjO8hXzN66bX@kernel.org>
+ <CAOm6qnkRUMnVGj7tnem822nRpJ8R6kFVf6B4W9MhMSBQY8X7Kg@mail.gmail.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: guoweikang.kernel@gmail.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b="SwPprwE/";       spf=pass
- (google.com: domain of guoweikang.kernel@gmail.com designates
- 2607:f8b0:4864:20::1131 as permitted sender) smtp.mailfrom=guoweikang.kernel@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+Content-Disposition: inline
+In-Reply-To: <CAOm6qnkRUMnVGj7tnem822nRpJ8R6kFVf6B4W9MhMSBQY8X7Kg@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: bp@alien8.de
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=neutral (body
+ hash did not verify) header.i=@alien8.de header.s=alien8 header.b="NwAS/XG2";
+       spf=pass (google.com: domain of bp@alien8.de designates 65.109.113.108
+ as permitted sender) smtp.mailfrom=bp@alien8.de;       dmarc=pass (p=NONE
+ sp=NONE dis=NONE) header.from=alien8.de
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -194,67 +214,44 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Mike Rapoport <rppt@kernel.org> wrote on Monday 23 December 2024 at 15:12
->
-> On Sun, Dec 22, 2024 at 07:15:37PM +0800, Guo Weikang wrote:
-> > Before SLUB initialization, various subsystems used memblock_alloc to
-> > allocate memory. In most cases, when memory allocation fails, an immediate
-> > panic is required. To simplify this behavior and reduce repetitive checks,
-> > introduce `memblock_alloc_or_panic`. This function ensures that memory
-> > allocation failures result in a panic automatically, improving code
-> > readability and consistency across subsystems that require this behavior.
-> >
-> > Changelog:
-> > ----------
-> > v1: initial version
-> > v2: add __memblock_alloc_or_panic support panic output caller
-> > v3: panic output phys_addr_t use printk's %pap
-> > v4: make __memblock_alloc_or_panic out-of-line, move to memblock.c
-> > v6: Fix CI compile error
-> > Links to CI: https://lore.kernel.org/oe-kbuild-all/202412221000.r1NzXJUO-lkp@intel.com/
-> > v6: Fix CI compile warinigs
-> > Links to CI: https://lore.kernel.org/oe-kbuild-all/202412221259.JuGNAUCq-lkp@intel.com/
-> > v7: add chagelog and adjust function declaration alignment format
-> > ----------
-> >
-> > Signed-off-by: Guo Weikang <guoweikang.kernel@gmail.com>
-> > Reviewed-by: Andrew Morton <akpm@linux-foundation.org>
-> > Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Reviewed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> > Acked-by: Xi Ruoyao <xry111@xry111.site>
->
-> If people commented on your patch it does not mean you should add
-> Reviewed-by or Acked-by tags for them. Wait for explicit tags from the
-> reviewers.
+On Mon, Dec 23, 2024 at 03:32:01PM +0800, Weikang Guo wrote:
+> First of all, thank you for your reminder and patience. In fact, this
+> is the first time I received a patch discussion when submitting a
+> patch.
+> About Reviewed-by or Acked-by tags, I will not add it myself in the
+> future. Regarding this patch, do I need to provide a new patch to
+> update it? Or will you modify it?  Looking forward to your reply
 
-First of all, thank you for your reminder and patience. In fact, this
-is the first time I received a patch discussion when submitting a
-patch.
-About Reviewed-by or Acked-by tags, I will not add it myself in the
-future. Regarding this patch, do I need to provide a new patch to
-update it? Or will you modify it?  Looking forward to your reply
+It is all explained here:
 
->
-> And don't respin that often, "Reviewers are busy people and may not get to
-> your patch right away" [1].
->
+https://kernel.org/doc/html/latest/process/development-process.html
 
-OK, I will be more patient and update after confirming that there are
-no more comments.
+Go read it while waiting instead of spamming everyone.
 
-> [1] https://docs.kernel.org/process/submitting-patches.html
->
->
-> --
-> Sincerely yours,
-> Mike.
+Lemme get your started on that reading:
 
+"Don=E2=80=99t get discouraged - or impatient
 
---
-Best regards,
-Guo
+After you have submitted your change, be patient and wait. Reviewers are
+busy people and may not get to your patch right away.
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CAOm6qnkRUMnVGj7tnem822nRpJ8R6kFVf6B4W9MhMSBQY8X7Kg%40mail.gmail.com.
+Once upon a time, patches used to disappear into the void without
+comment, but the development process works more smoothly than that now.
+You should receive comments within a few weeks (typically 2-3); if that
+does not happen, make sure that you have sent your patches to the right
+place. Wait for a minimum of one week before resubmitting or pinging
+reviewers - possibly longer during busy times like merge windows."
+
+--=20
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
+0241223075811.GAZ2kYEwZ93CYkatrD%40fat_crate.local.
