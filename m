@@ -1,207 +1,159 @@
-Return-Path: <kasan-dev+bncBCP4ZTXNRIFBBBFRUS5QMGQEB6KK2VQ@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBV4M3C5QMGQE7JIICEI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lj1-x238.google.com (mail-lj1-x238.google.com [IPv6:2a00:1450:4864:20::238])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D3E9FAB5A
-	for <lists+kasan-dev@lfdr.de>; Mon, 23 Dec 2024 09:00:06 +0100 (CET)
-Received: by mail-lj1-x238.google.com with SMTP id 38308e7fff4ca-3023de5b71bsf18832341fa.0
-        for <lists+kasan-dev@lfdr.de>; Mon, 23 Dec 2024 00:00:06 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1734940805; cv=pass;
+Received: from mail-qt1-x838.google.com (mail-qt1-x838.google.com [IPv6:2607:f8b0:4864:20::838])
+	by mail.lfdr.de (Postfix) with ESMTPS id B350E9FF5BC
+	for <lists+kasan-dev@lfdr.de>; Thu,  2 Jan 2025 04:22:00 +0100 (CET)
+Received: by mail-qt1-x838.google.com with SMTP id d75a77b69052e-467b19b55d6sf142149741cf.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 01 Jan 2025 19:22:00 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1735788119; cv=pass;
         d=google.com; s=arc-20240605;
-        b=dNDr7NaWcJy6+p6rnX5FfmAgHlLOc3z6duNdJThKjiwJ2vPk2xlVYtxAXNILMmLz6e
-         Ok9jQBRLO+Ob/3pvhlfZmEGroey02LDxIuiSdSEPzoUhID3dgSvFRfqrzBchRX5vUYFO
-         Y4WfSLb+p3HHARZ9JpuvncAj251lLUiV9Pq7AQ9P/ahHk8BZRQPCEsN6Xqv0+La8zz9W
-         u4KLVMkh6fbq+gejCQ1QY7Uup36LqBz8t7NGtOla+Fmmn4XMIOXsIdIlRbz+YFFaqOjD
-         HEti9u6KTUF1fvuEpFfCdZ/OX3gFhB7vFXQGDZK/pfae8tE1IZcPb6qxRsDXVVTXT/0G
-         y5Rw==
+        b=CgwohaNs3OW0Jxrof4xGAuGrcoAkVOodRd/DIVSO54RSmWQQXmnwTvFe/pqUQb1sxp
+         qqKguTEJpGdRg+AYxO6P5yawAJz6I/gFI87t/I1q33o+1rOepQe7aEv04o87n1W/Rm0m
+         SO2grBz4cksx8uFM7uMtzCpX+fkK5fQ26O1GHTA4PV9v1dLZRmPQelpPV5OitU9/xER6
+         lfmTa0SNlXUVi73qse6+eMAWmhHZPzD4JJFmJaM80slb82VFfs+qyZtAbcwEIKA2Vhkd
+         ZdwEfJbsxbsHaEKyqUoiATkJSbqONbCwK/HWok1ylGUSGakStBXro3+RDcqmVeygP6xq
+         gq9w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding
-         :in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:dkim-signature;
-        bh=UBydxPt8UbWumDvI6waRszvHwDQkwibh5zLqLn8v3xM=;
-        fh=Jq+nEQEXIADUgh/fgkPA40Bn49GggCiICmRbD7OgYYw=;
-        b=MUqxV/4Evpgdu+YG7vs4TIazDSNdaG4d/dqNH22B0EagmvkhAo6EU3o0tL/SvZ7pwl
-         kJUXamu46R0WqH0ZSf82mqsnocE9UBD3vUmjokFCEqBKVqs85/0U8EaJNKxPF5snYSLl
-         won9Nt+gNIER+dHrDL/w9dAjN+NVeW3+YIME5atrymRB5GpCtqMyj9c/xTkMC1p+Ng8h
-         pi2+2W6OXcW/zMYxbHFgnNBzoXITb12mHnNw+1CTtnOEpPNq+2fCMBsZctqu83XxJx/s
-         HFuPxHpKe1x0MFmWNewwqrxkrTAYJKyUoeAjnxJESiONhwrrFx5tb8E49YZzQSJwijX+
-         bcnw==;
+         :list-id:mailing-list:precedence:reply-to:feedback-id:to:cc:date
+         :message-id:subject:mime-version:content-transfer-encoding:from
+         :dkim-signature;
+        bh=X3/6N2v9GObaGNwRscFEkgv/0dyqyH47CQmxWHigU2o=;
+        fh=ZkfJhJ1hka8wofhJf0vkV8vfB1DDS8mTHIlcXjRnvcU=;
+        b=ctIALLEGj1jPP/KfN57NbwfJa9tXFvS8NUnNnuVlJDqzq+1YYAsEUupouryX5CNGW4
+         /8Ex9EIL1o2Ut3AXYXtX3Qd2QnRAeBkezSDQZ6oIl9Lw5xvyRoKszSh7WNFuW4B1/DGr
+         d8jb7FWJbE2UX7z/5+gWXZPSN6qMJ/Nz06p8HhR8SiKV6ixSVh8KMQD4HuP6ILUMz/qz
+         KGBJkEXptQsO23m+biytdm7iMkwFbBnOeZHnVa8Od+/ux2B+TuwJZz/RgQkScNEz3DAO
+         CJlbWcoW8o2AH8+yF5iLD5TXRclGdDzyeScINW6KCAYobwN2eSJXJSOTiq3LMJ8Xg5dZ
+         jBWw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=neutral (body hash did not verify) header.i=@alien8.de header.s=alien8 header.b="NwAS/XG2";
-       spf=pass (google.com: domain of bp@alien8.de designates 65.109.113.108 as permitted sender) smtp.mailfrom=bp@alien8.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
+       dkim=pass header.i=@m.fudan.edu.cn header.s=sorc2401 header.b=QXizUrsF;
+       spf=pass (google.com: domain of huk23@m.fudan.edu.cn designates 52.59.177.22 as permitted sender) smtp.mailfrom=huk23@m.fudan.edu.cn;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=m.fudan.edu.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1734940805; x=1735545605; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1735788119; x=1736392919; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=UBydxPt8UbWumDvI6waRszvHwDQkwibh5zLqLn8v3xM=;
-        b=ZZqHoJXwN+bhEo+8A6TMTrlJxgoTlEAN+3ibInRKJSMYeZvduA1Vshm/cltR6tNRmt
-         F862Beg0Jc+RFrmjh52jyDVFMMmuVR8rRY2GqwH+TvP/KSdqZkhEd5x0+Z8o/SLr4ZgR
-         6DX87ng9rrPC7l7mFLQwSSLhfbpPDUuPIg+Wa4G0YbKw6Q9ONLUglSnSH03aXIftOap8
-         zE4FpBzixkikpZd78vRK4a7XNa1zfnRgJQE8JQ+9wapouz8DB3Fdl6xGf4vOp8IcsaoY
-         eGRQPDmN2ZEf+RxfgXrxTdaOVx21+mvu0CDCYlM8DH8Rm+317n628GcUBXc9hiWc3FVf
-         c/Ow==
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:feedback-id:to
+         :cc:date:message-id:subject:mime-version:content-transfer-encoding
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=X3/6N2v9GObaGNwRscFEkgv/0dyqyH47CQmxWHigU2o=;
+        b=NvBO07hXmPZjhPcicLRd99anS4ZByOMHdFfc22WIZDII4RDAMZuXBaq4Dy1PB3lByf
+         mtP/+joNIeBYhKnvz7lKU6cBdfYM2wIqffOLvsMQoiOAagmiY+5zZ+Yhfc5wUAfhChAc
+         Gn0GqgD/VjyWl1nXkQb1PwBBqSmRh4vk+9pPJRFCu22yhpDuKo8p+ee5zaloM5VvaOXR
+         zwXYxABroTwDQc1VdHeKmKkmbRQVXM2flGCU6k4Xmn8NXR6mvitYfYVqWVc+/RgbC+k9
+         ZYXeRgEw/z4TagO3xnRZupJ38kEVHzBmzdlzGxos8X7xDNKPCjj0duHV3kNFQ/4Arkpg
+         bTEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734940805; x=1735545605;
+        d=1e100.net; s=20230601; t=1735788119; x=1736392919;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:feedback-id:to
+         :cc:date:message-id:subject:mime-version:content-transfer-encoding
+         :from:x-beenthere:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UBydxPt8UbWumDvI6waRszvHwDQkwibh5zLqLn8v3xM=;
-        b=BY6mG2rmkrxFHEoVJdi7RkvnyAE1bd/x96a6a5cNBsmigA2ie75RhdoFet16FDr5w7
-         z9oj0cwE8FDfn0+daoJKq4c/BX52n01XvAyRdEbD8WvPpQ8NPWBNfUZhh3qI3E2nTgV1
-         k+ObYA4Qw0pJYYuWb2R3z+j5wwChrKjXip7sxqo2h0dAiPy3jDTW7wiazsacTltRgynC
-         abU9zlhVvNFQbAd1sT6Ao2DEGqiR8lGm+OlQKL9UbI8Nwuv0NSMhfggptIkwlBAzAZ2n
-         VCGF+eyk60EnYB8nd3+th+TX2igKJCNlM3Yom2KYeLobQVuQ0GhQtKQTogJyZFcff0eh
-         zEnQ==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXbCWlZPpcx0r09fDNQz0I8gAyaXCWrkUeiqCqlP7QkjyrvTGvqjZrsrlqZ3NZQ1VAgUFEsyQ==@lfdr.de
-X-Gm-Message-State: AOJu0Yy1CnfJFTi2hhXPClN5fXA7H/TVdLz/mEAEUUh8SYNbTye8iLVt
-	wv3hzbG7/XDwEy5pE5H0AByP9IxlsCcr0v3QznExs9dfPyiochkN
-X-Google-Smtp-Source: AGHT+IGSdM7JTZ0P4zZhi1/oWwodtg3PXhC/f1wO8eXA3Uj7ckLXgUVnIqEEl8E3jj1feJoVxb9+ww==
-X-Received: by 2002:a05:651c:b14:b0:302:4147:178d with SMTP id 38308e7fff4ca-304685c1ad4mr47622031fa.28.1734940804528;
-        Mon, 23 Dec 2024 00:00:04 -0800 (PST)
+        bh=X3/6N2v9GObaGNwRscFEkgv/0dyqyH47CQmxWHigU2o=;
+        b=MF0GZN8CS26DBEKYBvcjpjweWbnhjZ0OiXzEgd3FwKpuxOILBzZ5Bd3ooyw7eRmYVS
+         zdi/1Q+g4eWWd+R16VPFvO0yb3MLG6iL6rWE0jkYq23ToHahYwl304dWh/FikI+VqylC
+         1ZXcSMgUf1OXRgeakbtMDz2GEk0FFWPHt1bref3KTW9h2TMzTcNMB6f34fNY7WZcS2NG
+         JcXXmwVwxjN6i18qIFlzMe0fgzOl0hzok7WMJ9tMsAYV/kSdri5B90iWtsMGiP78eXmb
+         fleKr9PXRimr5QvIIk/wg+pc+AekYIVmkI/qpffDeUnLaznUg1gAK5oJzqJplwLEHx1a
+         Tmng==
+X-Forwarded-Encrypted: i=2; AJvYcCUgpvz6BFhRtVOml+Hl1E9iRiqCwCeHCiRw9rArVT/I6iBadMdwTKaphcX+C1E4POtUPUTSQw==@lfdr.de
+X-Gm-Message-State: AOJu0Yxp5TczFfZOAS/3M3EQBAqfesVfzCxOabn9mdtAznR/p4+HUL1x
+	c5XjHklFzliiegNROjOcwJr4boiVug0LuCFiWpvENtlKRuqqwQY1
+X-Google-Smtp-Source: AGHT+IGvc0fpHc+huChAiQEduya6e3j73vuslEFbZgJIq8Kym8rQBfVrdcPQhhbb8hpEXWh5uGfwfQ==
+X-Received: by 2002:a05:622a:48:b0:45d:9357:1cca with SMTP id d75a77b69052e-46a4a8cc592mr700557401cf.14.1735788119561;
+        Wed, 01 Jan 2025 19:21:59 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a2e:9199:0:b0:300:168c:dda5 with SMTP id 38308e7fff4ca-3045809066bls5330251fa.2.-pod-prod-05-eu;
- Mon, 23 Dec 2024 00:00:02 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWfp7SnHiuaL5N2Fc6OPOBkXi7XPgaPdnielAgswmPQoAZcMSleZYVumEDXNGB4XXjhmtX0Sif4knI=@googlegroups.com
-X-Received: by 2002:a05:6512:281b:b0:53e:2900:89b4 with SMTP id 2adb3069b0e04-5422959cfa1mr3900208e87.49.1734940802164;
-        Mon, 23 Dec 2024 00:00:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1734940802; cv=none;
+Received: by 2002:ac8:5205:0:b0:466:ac8d:733d with SMTP id d75a77b69052e-46a3b05aebcls162542811cf.0.-pod-prod-08-us;
+ Wed, 01 Jan 2025 19:21:59 -0800 (PST)
+X-Received: by 2002:a05:622a:181e:b0:469:715:d94c with SMTP id d75a77b69052e-46a4a8b6c74mr543747321cf.6.1735788118944;
+        Wed, 01 Jan 2025 19:21:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1735788118; cv=none;
         d=google.com; s=arc-20240605;
-        b=HvpUrxgLQKIK01aylnI7Q2z2BWeR46JxTq+wJRbVRgbuSkWqfrhZYylvNbNH3YUtKq
-         f76TZO5gmcbq4BBULwh8UF3X7bBCRmWEWjsbRQLUkk0I9D19UNQWncVy7znGotf2KNI8
-         UpK0dRkbWphsYw4oCejsqz14d1JOEYAXgAfaxq5nF906eEMWJ7nNUJzKcU7R2g9oFuMN
-         UAiodAL/3Rp9a7SI4GqwG49jTZLkvxCgIo0KR+F9/EQTG+TMLZgks26KVveD8zDHpPDz
-         Yx60xGXPSSgTIm1Cz+KgIKMwbTdZG+gxz7Oig3ZDwe9+FHNe2G1tV4BjzvBaksahRW4F
-         +omw==
+        b=eB1K6u/69JZRSM32VAzrWzW1n00SW0oxzKtthFDrZkyvawkHU0C06HzXWAFXT5lSTX
+         t1z/HPDlZmY1/wElLDwJUnI0+l8q2vkdUSnjUb1MPwSwZNtEqF7ZkF5o68rSRXugMWzB
+         2/jQij5EQEXV60FKfd/AstFSrxrKYC9gzBsYMfXtci7XN/9wn1IWyAPZxG56Iej+h4ZZ
+         aR1q+n22v2sGPZIqzXxdvETIIX0tRALyNVBe7Dpa3MxcRRDqi0WaFUIk1ACg/3X/zORs
+         zkaHA2hgQqq4lRNAOP2kFGfZrKQkHpXgyYI3vWEbF2dqz4/O5nwNDliW1MWVAbUO8207
+         +FiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :dkim-signature;
-        bh=YB+gFlVnZ5PUQr1POGl1EZ9GI6OWIXEqAYn2x8miLt0=;
-        fh=VjHSSSNpMM0ZHlFIlQvm22uy26+yYkwvw58YZx1c5HA=;
-        b=W+4SVmxmGlQheJvkZePYpVMqisQpH04Gt6ILuFT8t/x1bVeR5lISWWMAMrlzsVwvkd
-         7gcI0Pk8Tb+C21Ehgn4eqLeuveGM3EzZdMoPibftgDAAoJ+KoUxZTtqzzfGF5QA5NY6n
-         GsdRaJrMisZigI1m+xlNycgTdKxw+U1LUVZLHK11TSjB1fROSxPJvRtXbHVWaiWbhaK8
-         wV8Iz8Ld52WgQZsSW/duYjkblL9Ptz9+GHKgG/HHSyP8OulsTvKw4VLyWcZbx4CVtaj3
-         KMWUqcHwKKIiiT9IBSO2Fp1VOFcDw/h0LDK8+1m5zVNbpUaTLd+odVonSd6K6zPl16yK
-         GaRw==;
+        h=feedback-id:to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:dkim-signature;
+        bh=LYdAe9fE2pxNVjXt+nkKiABoEtrxJQfceesrzNnuhJQ=;
+        fh=YphHoG+pq10eMqP59aA1kmjZdqPO7Yqx1jSs0PMHpkI=;
+        b=K7ifscTK4IMPouXyB9skEWDw1OwmZUZ1cqjql7RVcybfyBfgLGvPDYxs6w8Lvg/a5Z
+         e8Yn7OQZl+liN+xP/2GZRDpHfpMqmivonj/Duq/L1PuJyEkVXcI/x5tCNgALvmIHAlR0
+         3H2FSoXbNYIUqB9ZRJ7BKobIty12jZv8/Z+aSEcHrkOrenwwKTZsItMO4QT5V4HloPUg
+         WO0ytPxa6/vHWSSkeegvuDtRLdYf0Zb1JhMOqpjoAnC0ZN2URYc80xfk0C14mPe83edG
+         ujMyDS94xQQEBpHnehsmsGImgFmuHFitRErQFMVjYKkO4gS7T8xcky1JNIw1/KBu+CDN
+         rrHA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=neutral (body hash did not verify) header.i=@alien8.de header.s=alien8 header.b="NwAS/XG2";
-       spf=pass (google.com: domain of bp@alien8.de designates 65.109.113.108 as permitted sender) smtp.mailfrom=bp@alien8.de;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=alien8.de
-Received: from mail.alien8.de (mail.alien8.de. [65.109.113.108])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-54223818939si209494e87.10.2024.12.23.00.00.02
+       dkim=pass header.i=@m.fudan.edu.cn header.s=sorc2401 header.b=QXizUrsF;
+       spf=pass (google.com: domain of huk23@m.fudan.edu.cn designates 52.59.177.22 as permitted sender) smtp.mailfrom=huk23@m.fudan.edu.cn;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=m.fudan.edu.cn
+Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com. [52.59.177.22])
+        by gmr-mx.google.com with ESMTPS id d75a77b69052e-46a3e646ec3si12011641cf.1.2025.01.01.19.21.55
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Dec 2024 00:00:02 -0800 (PST)
-Received-SPF: pass (google.com: domain of bp@alien8.de designates 65.109.113.108 as permitted sender) client-ip=65.109.113.108;
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 20CD440E02C4;
-	Mon, 23 Dec 2024 08:00:01 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ZuI5ArBa_EaL; Mon, 23 Dec 2024 07:59:57 +0000 (UTC)
-Received: from nazgul.tnic (2-228-221-6.ip193.fastwebnet.it [2.228.221.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id C580D40E0286;
-	Mon, 23 Dec 2024 07:58:32 +0000 (UTC)
-Date: Mon, 23 Dec 2024 08:58:11 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Weikang Guo <guoweikang.kernel@gmail.com>
-Cc: Mike Rapoport <rppt@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@linux.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Sam Creasey <sammy@sammy.net>, Huacai Chen <chenhuacai@kernel.org>,
-	Will Deacon <will@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Oreoluwa Babatunde <quic_obabatun@quicinc.com>,
-	rafael.j.wysocki@intel.com, Palmer Dabbelt <palmer@rivosinc.com>,
-	Hanjun Guo <guohanjun@huawei.com>,
-	Easwar Hariharan <eahariha@linux.microsoft.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	Ingo Molnar <mingo@kernel.org>, Dave Hansen <dave.hansen@intel.com>,
-	Christian Brauner <brauner@kernel.org>,
-	KP Singh <kpsingh@kernel.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Matt Turner <mattst88@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-	Stafford Horne <shorne@gmail.com>, Helge Deller <deller@gmx.de>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Naveen N Rao <naveen@kernel.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Geoff Levand <geoff@infradead.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Alexander Potapenko <glider@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	Rich Felker <dalias@libc.org>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Andreas Larsson <andreas@gaisler.com>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-	kasan-dev@googlegroups.com, linux-s390@vger.kernel.org,
-	linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
-	xen-devel@lists.xenproject.org, linux-omap@vger.kernel.org,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-mm@kvack.org, linux-pm@vger.kernel.org,
-	Xi Ruoyao <xry111@xry111.site>
-Subject: Re: [PATCH v7] mm/memblock: Add memblock_alloc_or_panic interface
-Message-ID: <20241223075811.GAZ2kYEwZ93CYkatrD@fat_crate.local>
-References: <20241222111537.2720303-1-guoweikang.kernel@gmail.com>
- <Z2kNTjO8hXzN66bX@kernel.org>
- <CAOm6qnkRUMnVGj7tnem822nRpJ8R6kFVf6B4W9MhMSBQY8X7Kg@mail.gmail.com>
-MIME-Version: 1.0
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 01 Jan 2025 19:21:57 -0800 (PST)
+Received-SPF: pass (google.com: domain of huk23@m.fudan.edu.cn designates 52.59.177.22 as permitted sender) client-ip=52.59.177.22;
+X-QQ-mid: bizesmtpip2t1735788090tjm1hr8
+X-QQ-Originating-IP: xUpUCfZw1KSL+IW0BnREExUmmt3R5LOo5Svr9feJciU=
+Received: from smtpclient.apple ( [localhost])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 02 Jan 2025 11:21:27 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 11487057782185545285
+From: "'Kun Hu' via kasan-dev" <kasan-dev@googlegroups.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CAOm6qnkRUMnVGj7tnem822nRpJ8R6kFVf6B4W9MhMSBQY8X7Kg@mail.gmail.com>
 Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: bp@alien8.de
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=neutral (body
- hash did not verify) header.i=@alien8.de header.s=alien8 header.b="NwAS/XG2";
-       spf=pass (google.com: domain of bp@alien8.de designates 65.109.113.108
- as permitted sender) smtp.mailfrom=bp@alien8.de;       dmarc=pass (p=NONE
- sp=NONE dis=NONE) header.from=alien8.de
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3818.100.11.1.3\))
+Subject: Bug: Potential KCOV Race Condition in __sanitizer_cov_trace_pc
+ Leading to Crash at kcov.c:217
+Message-Id: <F989E9DA-B018-4B0A-AD8A-A47DCCD288B2@m.fudan.edu.cn>
+Date: Thu, 2 Jan 2025 11:21:17 +0800
+Cc: kasan-dev@googlegroups.com,
+ linux-kernel@vger.kernel.org
+To: dvyukov@google.com,
+ andreyknvl@gmail.com,
+ akpm@linux-foundation.org,
+ elver@google.com,
+ arnd@arndb.de,
+ nogikh@google.com
+X-Mailer: Apple Mail (2.3818.100.11.1.3)
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtpip:m.fudan.edu.cn:qybglogicsvrgz:qybglogicsvrgz8a-1
+X-QQ-XMAILINFO: N4KH/PyO63Qv8wqMlxoOjZLhIUCqR6EjleBBBLJPs/hyJzd7ZR+vRI2D
+	RxCB2YYyNb0iQnkrGvbvR2vvGrXMFOUogTaSnThr9ACTEti+b6T/WdQxV/PPalRskhMwtSJ
+	F5nEjXbqwuGk77Qy/56EkBX8zVUittPEsf9W1Dy3N3BDvWE2FfH1tV8KFyJJsflBjASwoZ4
+	NfD6m+agBEzXIe1DNH8YpFcAlnwjO47dfOKT4ftxBzmCiSPWiJxOKOTZJbIrV0Y/VFS1O4i
+	6CzNtx8d+53p9wffNL5HOC3PIR0MdIyiQl+69ID8RRMDlx7GlKwvlIsdTngC5FADo6IzsC7
+	lhHq+M2PucDpi9NEauOe2oGOsrpcL0ZhyyWF5SVEQia4boX9bHaBToDx75oxrOingYA95Gp
+	e849jZbA/VLKlYVI2x5rI4eDPYf3Jg1fd5hoydqyl/LFrfCCc30iRodQJAzVUGjZgKuerxX
+	EyBrPzHYmAvYHTtJsAn6t2/1qwbbhhXX127Le5O6hkaR7ZJj5wLRV/YHb+Mnir3I5sGUKCQ
+	7h6JxJM7DZU2BvsofjKi8tAmlmP01jLHvA3/P5dvMjnN2e4cbf6oSdlqDe+lDoP3J3cw67B
+	WqwrEMP+N68PW0w6QD/6B0QqS7u91LrQ77xsIKsiATtPn3God4cqPZxWNwuhJg3NqxfZJPw
+	URzLit2iuPU/SF/UWCuZOhvoMKC9E5wFPFFke14FgMnSXbEQreXsVces92/6/r0rWWesBGm
+	dbBHyA4vYN34K0pKVXtjUkVvakrLkDL1JBsxcinlvOXB8iesZIBH0HIAB2SMSe/rgGaRZsc
+	f0K/xb0QPxFriZQOBq7gMdlnCHv9HOT7jZFsLgNLS7jGuVfg1tMShKH6KFFuk1t/4HvwMA3
+	YBH/9fMe0YIIMj0bQkGE9IA3YqEulBiU8vNmel0FwZK0bnSWRfi4kjKcf8hDdxrx1fGt5u7
+	HOgFHA0052Dul4fiNTkd3kH2yIpSij4ufHGhttPjHMMRTEw==
+X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
+X-QQ-RECHKSPAM: 0
+X-Original-Sender: huk23@m.fudan.edu.cn
+X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
+ header.i=@m.fudan.edu.cn header.s=sorc2401 header.b=QXizUrsF;       spf=pass
+ (google.com: domain of huk23@m.fudan.edu.cn designates 52.59.177.22 as
+ permitted sender) smtp.mailfrom=huk23@m.fudan.edu.cn;       dmarc=pass
+ (p=REJECT sp=REJECT dis=NONE) header.from=m.fudan.edu.cn
+X-Original-From: Kun Hu <huk23@m.fudan.edu.cn>
+Reply-To: Kun Hu <huk23@m.fudan.edu.cn>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -214,44 +166,150 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Dec 23, 2024 at 03:32:01PM +0800, Weikang Guo wrote:
-> First of all, thank you for your reminder and patience. In fact, this
-> is the first time I received a patch discussion when submitting a
-> patch.
-> About Reviewed-by or Acked-by tags, I will not add it myself in the
-> future. Regarding this patch, do I need to provide a new patch to
-> update it? Or will you modify it?  Looking forward to your reply
+Hello,
 
-It is all explained here:
+When using our customed fuzzer tool to fuzz the latest Linux kernel, the fo=
+llowing crash
+was triggered.
 
-https://kernel.org/doc/html/latest/process/development-process.html
+HEAD commit: dbfac60febfa806abb2d384cb6441e77335d2799
+git tree: upstream
+Console output: https://drive.google.com/file/d/1rmVTkBzuTt0xMUS-KPzm9OafML=
+ZVOAHU/view?usp=3Dsharing
+Kernel config: https://drive.google.com/file/d/1m1mk_YusR-tyusNHFuRbzdj8KUz=
+hkeHC/view?usp=3Dsharing
+C reproducer: /
+Syzlang reproducer: /
 
-Go read it while waiting instead of spamming everyone.
+The crash in __sanitizer_cov_trace_pc at kernel/kcov.c:217 seems to be rela=
+ted to the handling of KCOV instrumentation when running in a preemption or=
+ IRQ-sensitive context. Specifically, the code might allow potential recurs=
+ive invocations of __sanitizer_cov_trace_pc during early interrupt handling=
+, which could lead to data races or inconsistent updates to the coverage ar=
+ea (kcov_area). It remains unclear whether this is a KCOV-specific issue or=
+ a rare edge case exposed by fuzzing.
 
-Lemme get your started on that reading:
+Could you please help check if this needs to be addressed?
 
-"Don=E2=80=99t get discouraged - or impatient
+If you fix this issue, please add the following tag to the commit:
+Reported-by: Kun Hu <huk23@m.fudan.edu.cn>, Jiaji Qin <jjtan24@m.fudan.edu.=
+cn>
 
-After you have submitted your change, be patient and wait. Reviewers are
-busy people and may not get to your patch right away.
+--------------------------------
+rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+rcu: 	0-....: (36 ticks this GP) idle=3D5a54/1/0x4000000000000000 softirq=
+=3D28602/28602 fqs=3D20758
+rcu: 	(detected by 2, t=3D105010 jiffies, g=3D53165, q=3D148274 ncpus=3D4)
+Sending NMI from CPU 2 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 UID: 0 PID: 2946 Comm: syz.1.149 Tainted: G    B              6.13.0=
+-rc4 #1
+Tainted: [B]=3DBAD_PAGE
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1ubuntu1=
+.1 04/01/2014
+RIP: 0010:__sanitizer_cov_trace_pc+0x22/0x60 kernel/kcov.c:217
+Code: 90 90 90 90 90 90 90 90 f3 0f 1e fa 55 bf 02 00 00 00 53 48 8b 6c 24 =
+10 65 48 8b 1d 78 11 7a 6b 48 89 de e8 40 ff ff ff 84 c0 <74> 27 48 8b 93 e=
+0 14 00 00 8b 8b dc 14 00 00 48 8b 02 48 83 c0 01
+RSP: 0018:ffa0000000007698 EFLAGS: 00000046
+RAX: 0000000000000000 RBX: ff110000386f0000 RCX: ffffffff949eb81e
+RDX: 0000000000000000 RSI: ff110000386f0000 RDI: 0000000000000002
+RBP: ffffffff949eb8c3 R08: 0000000000000000 R09: fffffbfff4177aab
+R10: fffffbfff4177aaa R11: ffffffffa0bbd557 R12: ff11000002b9ab50
+R13: 0000000000000000 R14: 1ff4000000000edc R15: ff11000053a361a8
+FS:  00007f403e2c1700(0000) GS:ff11000053a00000(0000) knlGS:000000000000000=
+0
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000001 CR3: 0000000024264004 CR4: 0000000000771ef0
+PKRU: 80000000
+Call Trace:
+ <NMI>
+ </NMI>
+ <IRQ>
+ perf_prepare_sample+0x803/0x2580 kernel/events/core.c:7977
+ __perf_event_output kernel/events/core.c:8079 [inline]
+ perf_event_output_forward+0xd3/0x2c0 kernel/events/core.c:8100
+ __perf_event_overflow+0x1e4/0x8f0 kernel/events/core.c:9926
+ perf_swevent_overflow+0xac/0x150 kernel/events/core.c:10001
+ perf_swevent_event+0x1e9/0x2e0 kernel/events/core.c:10034
+ perf_tp_event+0x227/0xfe0 kernel/events/core.c:10535
+ perf_trace_run_bpf_submit+0xef/0x180 kernel/events/core.c:10471
+ do_perf_trace_preemptirq_template include/trace/events/preemptirq.h:14 [in=
+line]
+ perf_trace_preemptirq_template+0x287/0x450 include/trace/events/preemptirq=
+.h:14
+ trace_irq_enable include/trace/events/preemptirq.h:40 [inline]
+ trace_hardirqs_on+0xf2/0x160 kernel/trace/trace_preemptirq.c:73
+ irqentry_exit+0x3b/0x90 kernel/entry/common.c:357
+ asm_sysvec_irq_work+0x1a/0x20 arch/x86/include/asm/idtentry.h:738
+RIP: 0010:get_current arch/x86/include/asm/current.h:49 [inline]
+RIP: 0010:__rcu_read_unlock+0xc6/0x570 kernel/rcu/tree_plugin.h:440
+Code: b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 0f b6 04 02 84 c0 74 =
+08 3c 03 0f 8e bf 01 00 00 8b 85 00 04 00 00 85 c0 75 57 <65> 48 8b 1d 02 a=
+f 92 6b 48 8d bb fc 03 00 00 48 b8 00 00 00 00 00
+RSP: 0018:ffa0000000007e08 EFLAGS: 00000206
+RAX: 0000000000000046 RBX: ff11000053a3d240 RCX: 1ffffffff4177c76
+RDX: 0000000000000000 RSI: 0000000000000101 RDI: ffffffff947103e2
+RBP: ffffffff9ed26380 R08: 0000000000000000 R09: 0000000000000000
+R10: fffffbfff4177aaa R11: ffffffffa0bbd557 R12: 0000000000000001
+R13: 0000000000000200 R14: ffa0000000007e00 R15: 1ff4000000000fc9
+ rcu_read_unlock include/linux/rcupdate.h:882 [inline]
+ ieee80211_rx_napi+0x117/0x410 net/mac80211/rx.c:5493
+ ieee80211_rx include/net/mac80211.h:5166 [inline]
+ ieee80211_handle_queued_frames+0xd9/0x130 net/mac80211/main.c:441
+ tasklet_action_common+0x279/0x810 kernel/softirq.c:811
+ handle_softirqs+0x1ad/0x870 kernel/softirq.c:561
+ __do_softirq kernel/softirq.c:595 [inline]
+ invoke_softirq kernel/softirq.c:435 [inline]
+ __irq_exit_rcu kernel/softirq.c:662 [inline]
+ irq_exit_rcu+0xee/0x140 kernel/softirq.c:678
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1049 [inline=
+]
+ sysvec_apic_timer_interrupt+0x94/0xb0 arch/x86/kernel/apic/apic.c:1049
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:=
+702
+RIP: 0010:__sanitizer_cov_trace_pc+0x0/0x60 kernel/kcov.c:210
+Code: 48 8b 05 b3 11 7a 6b 48 8b 80 f0 14 00 00 e9 32 a1 e6 07 0f 1f 80 00 =
+00 00 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 <f3> 0f 1e fa 55 b=
+f 02 00 00 00 53 48 8b 6c 24 10 65 48 8b 1d 78 11
+RSP: 0018:ffa0000007f17db0 EFLAGS: 00000246
+RAX: 0000000000000000 RBX: 0000000000000200 RCX: ffffffff947854c4
+RDX: 0000000000000200 RSI: ff110000386f0000 RDI: 0000000000000002
+RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+R10: fffffbfff4177aaa R11: ffffffffa0bbd557 R12: ffa0000007f17ec0
+R13: dffffc0000000000 R14: dffffc0000000000 R15: 1ff4000000fe2fd8
+ __seqprop_raw_spinlock_sequence include/linux/seqlock.h:226 [inline]
+ ktime_get_ts64+0xe4/0x3c0 kernel/time/timekeeping.c:952
+ posix_get_monotonic_timespec+0x78/0x260 kernel/time/posix-timers.c:156
+ __do_sys_clock_gettime kernel/time/posix-timers.c:1148 [inline]
+ __se_sys_clock_gettime kernel/time/posix-timers.c:1138 [inline]
+ __x64_sys_clock_gettime+0x15c/0x260 kernel/time/posix-timers.c:1138
+ do_syscall_x64 arch/x86/entry/common.c:52 [inline]
+ do_syscall_64+0xc3/0x1d0 arch/x86/entry/common.c:83
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f403f808ba5
+Code: c0 4c 89 63 08 48 8d 65 d8 5b 41 5c 41 5d 41 5e 41 5f 5d c3 83 f8 02 =
+0f 84 e6 02 00 00 44 89 e7 48 89 de b8 e4 00 00 00 0f 05 <48> 8d 65 d8 5b 4=
+1 5c 41 5d 41 5e 41 5f 5d c3 81 7e 04 ff ff ff 7f
+RSP: 002b:00007f403e2c0b20 EFLAGS: 00000293 ORIG_RAX: 00000000000000e4
+RAX: ffffffffffffffda RBX: 00007f403e2c0ba0 RCX: 00007f403f808ba5
+RDX: 0000000000000002 RSI: 00007f403e2c0ba0 RDI: 0000000000000001
+RBP: 00007f403e2c0b70 R08: 00007f403f804010 R09: 0000000000032b26
+R10: 7fffffffffffffff R11: 0000000000000293 R12: 00007f403e2c0ba0
+R13: 00007f403f82ff8c R14: 00007f403f830018 R15: 00007f403e2c0d40
+ </TASK>
 
-Once upon a time, patches used to disappear into the void without
-comment, but the development process works more smoothly than that now.
-You should receive comments within a few weeks (typically 2-3); if that
-does not happen, make sure that you have sent your patches to the right
-place. Wait for a minimum of one week before resubmitting or pinging
-reviewers - possibly longer during busy times like merge windows."
 
---=20
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+---------------
+thanks,
+Kun Hu
 
 --=20
 You received this message because you are subscribed to the Google Groups "=
 kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
-0241223075811.GAZ2kYEwZ93CYkatrD%40fat_crate.local.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/F=
+989E9DA-B018-4B0A-AD8A-A47DCCD288B2%40m.fudan.edu.cn.
