@@ -1,157 +1,149 @@
-Return-Path: <kasan-dev+bncBC4LXIPCY4NRBTO7RS6AMGQEGVTDA2Q@googlegroups.com>
+Return-Path: <kasan-dev+bncBCIN3AMT7YNBBUWKRW6AMGQER6DYADA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-oa1-x3f.google.com (mail-oa1-x3f.google.com [IPv6:2001:4860:4864:20::3f])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A7BA0A706
-	for <lists+kasan-dev@lfdr.de>; Sun, 12 Jan 2025 03:58:23 +0100 (CET)
-Received: by mail-oa1-x3f.google.com with SMTP id 586e51a60fabf-29e2bd938a1sf4443531fac.3
-        for <lists+kasan-dev@lfdr.de>; Sat, 11 Jan 2025 18:58:23 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1736650702; cv=pass;
+Received: from mail-qv1-xf3a.google.com (mail-qv1-xf3a.google.com [IPv6:2607:f8b0:4864:20::f3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89700A0A761
+	for <lists+kasan-dev@lfdr.de>; Sun, 12 Jan 2025 07:46:43 +0100 (CET)
+Received: by mail-qv1-xf3a.google.com with SMTP id 6a1803df08f44-6d89154adabsf58799576d6.0
+        for <lists+kasan-dev@lfdr.de>; Sat, 11 Jan 2025 22:46:43 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1736664402; cv=pass;
         d=google.com; s=arc-20240605;
-        b=iSV9I2zobv3uyDH9DeyGNgop9Wvj4PV3FwX0m6mgVV4JMoXRGRK/wPaPRgyFoMtITU
-         AYrvS+ANBd+vjfezzHdeYsx6ANuCxg/EFvCuwoF+auf3GcwXy659OQ3094KpNmlBTftH
-         rxqVzTIFH3RiipkmoUWp4tJgcSTB4D9AAyQlCb4N7aogRMYgk6RJOZ/U4B5MGr/unJeC
-         NdYIycalPXHfyLqkGR2oi0kmdBifOMNOOuM94SCTA6pOPZSy1T+PnpvA9lmAml4a42A5
-         Cybwrc4fnTCoogiHRQ3eI/FAD9tQR39597dHtxiwGv+VNgQjlt/S71R6qaS09z1P4NE/
-         s3Rg==
+        b=h59iY3gQYzMm6a+ENvrUrrreFrUrZCrGO/TuJ8XoHagRlloYcguIW+P5y+b4lWmEOi
+         9nz37hIoS1lSWXPkHuYyUT3C6GP9q+QTNYlVxNWjU+3xX0d6Ls6V7VQRRDjCA870T3Z2
+         5V8QqhhRyQuBQqzKE3kHN59ueAnOPrm4QjFOfhgPDwi8IOmyFs+k12hHoztNnUmi1tdp
+         jqjVmNo549v1YDdQHsHpe68DCPJI5YHVcdFH/e6rO88XHX/vl+piSLKyEdKUSKy0E3Uy
+         IpbIm/nJnqokOPbmZAsDYH086hfV0FHuRO9Jgh0KNlMAtebLMgB23lygs2hlmT1l3neG
+         rE2w==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=hlylj2vytrM0CuqtYN+5LoRTo8r/0KXjL5N2wIFCm4o=;
-        fh=uXIEKIlqn2/ZD1H6Ko1tain12lpCDSeaMEcxOaVMwII=;
-        b=k6MGQKn3i4nnedherHhaCLCKMTDjwFMccTgGU+qt/F6p/OL9gnFZ9fLXtbFs8l2ywK
-         LJ1/t4LWV4Dm3b0VaXuq9YDiNdy31AgYhnO6EJ2sPzMQ1iNxUWNFafaqSG7BSZZtndZR
-         PrvEBr6JEywMPkIwgdkAcgbvqs7QjcaafP10B9Yg29FO8qQiqrGfT8/CWm9zfg5sbXNg
-         ptkkAzE+n4le+JAWeQNKyaaOIJ0hUnS9ouFRyDHcVO7t2le5F9V3KCDM6k33m+4qmuh1
-         t1JUGgJIvLGZyLidN9EaLeGqyTN9v2b2k2bbwLw6wkfMcQNbYTdE7s8UH+mMCDYaCo5z
-         r8tA==;
+         :list-id:mailing-list:precedence:reply-to:mime-version
+         :content-language:accept-language:in-reply-to:references:message-id
+         :date:thread-index:thread-topic:subject:cc:to:from:dkim-signature;
+        bh=j7qXNxvjkA17HhguaSV9iVuZfb8bh+10/p+GpxcoBe0=;
+        fh=GQ+kfBlMe+Nua0kXK45MAO6klmIr3dk6l+wttC41VEI=;
+        b=STiV+wIcPPs3fLE01LvAq9DOrxtunSiqIlhdiTgXyfoG66j0FY00ShnEkDilmlwehu
+         jC37qKX6w4plV9UAb6ds1DWV+EOie45EoXELQXwogIjM5S9ISukUlhuLBZzzuT2Fd2iM
+         2CAP6fgy4zGjXRpw/uoX2xlSBQiK0BpjJXqDfszqPlUPSrR8JpWQgk4J1c6CoYdyVV6h
+         6C5ABcZEiy410Zh8AsFRv7b6vsP+IRH8HSc3W1uTJdlbUYU5Z6rJpDUzB+QnPp0P86Fy
+         kchfYWrDIIIXSs4z59AHkh4KspXCJ2Mouws1ZV4FlLVRra/z8tPkdMiJ2tTx6wZ9OVEi
+         4iDw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b="blTn/G0/";
-       spf=pass (google.com: domain of lkp@intel.com designates 192.198.163.9 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
+       spf=pass (google.com: domain of lizetao1@huawei.com designates 45.249.212.191 as permitted sender) smtp.mailfrom=lizetao1@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1736650702; x=1737255502; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1736664402; x=1737269202; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-language:accept-language:in-reply-to:references:message-id
+         :date:thread-index:thread-topic:subject:cc:to:from:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hlylj2vytrM0CuqtYN+5LoRTo8r/0KXjL5N2wIFCm4o=;
-        b=lnsowIPU4T29UoXYC/GnecAy/PJi8pZ6rnFW8m29iiU45+aH8+p9cf2xNtxhcL+vM9
-         gMlSCrgPeYhFp7L2cT4JphM+q3xPYyvtoCD+z4oKW4k9dL9xSErTweJAkfShOcCXE3Fb
-         Zo5S11WHYX6lXrZ253J0SNRn3AQBxymm41ggFYroSYuXia8yWusqb214vJfi/s0HLWhm
-         45sifZJyh/8Ac4M33cUEuT+JRpcZfhRRpWOl/agdq3s0lOgyPOq5272ve0mjtfzyqZDp
-         sX6xmR3RNbvRKB5YBExEHqWLyKbv7gbKjkhTqhUIodlHumijxziyQSyrbMJI8T4GhDUF
-         4UeA==
+        bh=j7qXNxvjkA17HhguaSV9iVuZfb8bh+10/p+GpxcoBe0=;
+        b=XIkgFdbZFEoejT+wvSaQwAUGQhNk7ZuyTrQK4OgY1+YZJorcWH9pFwZ3CKmMX2oEf0
+         d6bzNHneMZd7GTiDNW91cl9QOtII1cjjwHgN74y4FavQrL0gzQZ8IpVMpKP1/4xDv1fb
+         siFl097WgDWSySxr9ZClewc7RzL2v7EnKQFRWW/W0CemyLBnNlTEizCQKJCV49JU2AZ0
+         NgNoNcJDDc5+RYrFzl2FzHx1Sh5MPXa2t+eO7BofxdGslyFL54IUr0zcecHLs91GZb8L
+         koa7Mee/BxZr0hiTKUs29Kv92U4uK8nGGlbR2v0CHtxW+ss4Zf76PVOalI/LuMpIpiNz
+         pjxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736650702; x=1737255502;
+        d=1e100.net; s=20230601; t=1736664402; x=1737269202;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hlylj2vytrM0CuqtYN+5LoRTo8r/0KXjL5N2wIFCm4o=;
-        b=i/5xkbwXUj6/qSrLSVubKX7Wa9KdEB611flc8066Qh6CXb6C7gtGl+MyZEcTV/bV5A
-         WZTTySYMlG4RbObr4+4AonmMQPfYXj8KwZD6PQCEnvhJ2BdTT6gyEPaC1CuTOPcYq7ss
-         SQdVy3xMLVL3eVUqJzJa8of7XYAE8ywacEEgPQrltTi0gn36h8APzZkOaXqxIOdvPhOh
-         +SshidT+qkiwjIkrdZGYBmtxqG2L16R8zupFuczp2KsJoBMd0Wyw0oYExSOmWJekmWYI
-         YhQ3EZm0oKHbeGtSyuDoBOWXTHuI5yMxo2/+hVQ0fAK6TNMQ/sxw17kHPz1iAnsZEYjX
-         G4Ng==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCW4+6FPqhXu4PQ3/rzGZTKI5yqe0C7JWe85EmDUPJwMWqBAEwpNFvf7Q3ivykL1/8cBjSAb7g==@lfdr.de
-X-Gm-Message-State: AOJu0YxBylsGErtDDqHXXMXkj2CXQGQikoYVkkgK0oUbsUmk/heJfqnu
-	EpQ40eyVqTEQUZh+v6JJtz+PCuF8QaQRP6pxN9LKqXJBGmjHEmUN
-X-Google-Smtp-Source: AGHT+IG9PH/Qux1EuPw5SJo9gvPPJapIiJVUssoQTDCi28Nn6a9jKqRG83A40MBGkfM8XX0R7Helfw==
-X-Received: by 2002:a05:6871:8083:b0:29e:5a89:8ed8 with SMTP id 586e51a60fabf-2aa06687b11mr8625836fac.11.1736650702326;
-        Sat, 11 Jan 2025 18:58:22 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
+         :x-original-authentication-results:x-original-sender:mime-version
+         :content-language:accept-language:in-reply-to:references:message-id
+         :date:thread-index:thread-topic:subject:cc:to:from:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=j7qXNxvjkA17HhguaSV9iVuZfb8bh+10/p+GpxcoBe0=;
+        b=fz3Hmarumde9LXaWLfLtJuRsgKTLOZBhjhfRMTe4hdjVa36C72/iDLK/Not2GsYnr/
+         zjKj7EoZ3tIzmvAVwmqAM44rqRNbew++P11zIAyonf65wp6/DIJ2wZIZXlU6a++1JVF6
+         vCRZQxpQaPVYtjxy0Hzd08sJjYIh2QjLJ5bqrToW1cf/MA2LAj3XTCeEUDe/Pkuv+LKN
+         Fte4Md3n89w+INwbovfBGW+mfoa8USR5i6oKaOlZmhA2SYZNoGobNtdJUudryQEfPrZI
+         SWn+T/yxat6IWiWflXLbt2aORBl44j8JtCdwFR/NQwLkPyau7QCqEa4OQsn+TqAzZvYE
+         ZGdw==
+X-Forwarded-Encrypted: i=2; AJvYcCVgXW4x6h47Rz629uVpdxLJphrmlLtEHVr+CNckh6ZNNIy02B+WMNwbRiC7OE/QIP7UeAEDIg==@lfdr.de
+X-Gm-Message-State: AOJu0YxV+EQhFjVFnkYIC/egnO1nK/qmPZNPJK2nCy/q6uB9eKFUTtUR
+	VqRnaF1y2UchBuS5L9YQBFRTR1vU8XkqGrH5Q1y79maYjGxNdwIz
+X-Google-Smtp-Source: AGHT+IGK1+HJYYlgGMRbcErrgkV1hwKG+6otcubmoHTzSf5KCXXpkoUk2DQJ8CPIakxfZuZL1hZG/A==
+X-Received: by 2002:a05:6214:2f8e:b0:6df:ba24:2af2 with SMTP id 6a1803df08f44-6dfba242b5bmr84239316d6.25.1736664402238;
+        Sat, 11 Jan 2025 22:46:42 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6870:ad93:b0:29e:3655:1970 with SMTP id
- 586e51a60fabf-2aa8a43a37fls1386189fac.0.-pod-prod-08-us; Sat, 11 Jan 2025
- 18:58:20 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCUEkL/3cMTI/6NzvF6YIdOM40UwmWTRkLA6A+VOD+6ip9NS8Dn9ZXsuqAgdGV7edVlglxSit/LcIHc=@googlegroups.com
-X-Received: by 2002:a05:6808:1301:b0:3ea:4bcc:4d9b with SMTP id 5614622812f47-3ef2ec67c24mr10466781b6e.18.1736650700543;
-        Sat, 11 Jan 2025 18:58:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1736650700; cv=none;
+Received: by 2002:a05:6214:5788:b0:6d4:18b4:dc77 with SMTP id
+ 6a1803df08f44-6dfa36d23edls9210136d6.0.-pod-prod-09-us; Sat, 11 Jan 2025
+ 22:46:41 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWd5nODcb7M2+467ynDpAaHi0PfP9ZsCg1cBjDmieoowI/NgPfK90wXiUM+oe3yniHqPy+bwJbH4ZE=@googlegroups.com
+X-Received: by 2002:a05:620a:2947:b0:7b6:da21:752e with SMTP id af79cd13be357-7bcd96e55a6mr2805818685a.8.1736664401611;
+        Sat, 11 Jan 2025 22:46:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1736664401; cv=none;
         d=google.com; s=arc-20240605;
-        b=kZUyE1OVw91QlYw13st1kdI4RFi3Fwtorc+/yqBXsSQ8UlG2wscCbSqGclABpN4Ckb
-         qooxXBEbVEJOoMzZtBkAFwIY/3lj1Ctn0VlLcS3JWx9iTE5YKOnmb5eyX7kKqCDCCKc0
-         LCDJ9htqAvDkA8J9eU5M68DipS/Gggqldir6dlVzUAFHQwmaEC60b4PEtNB87WwvIFEV
-         bTDY7TaDZoqRf4/3ghD6O6JHaOjGZqWTK+OgHvggyZbhj0+7d/cuic9sCQ0EqUxn4Fle
-         daRysszi0ICn86oHPxY62gmM4WVv1qDlEe4Tp68lTm4c0Zo4HzsiQVj7EfO0wrixlGyK
-         l1nw==
+        b=dsUJ5spC/C4NObvRrU1jId9GPqmK9YbiFlKcLZ/AmzxY90dfAElgBKY6qWRpPQ5MOC
+         0NZxfqy+rl51MnM/ZrWWD6r4N/GsvNt5+0KwJy1CXkHsAk2VL/267GJ0HzviqttApulV
+         MfekATi4vCxO6jARMmKmJm70UOMEr/iKHmbRtAKlqYWQo82jk0LGjEHA7nMSuYbIYmOT
+         jWB48FLOgApzel+Fdf96dZlEHqlVe4kh9b/yZPMk71DRygKDrMiUnRlbkcxPQbStZwEt
+         FKA3yk+QEOzbIyYdj0ocmpt+6q5BxI9xCjWB0J1ztipel3hKXtfpWmpbFARPrL9CZYiv
+         wuKA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=nktFJcOtaVX8NVdbE5/yFPnZAwpR5/5dm34yZRTL6YY=;
-        fh=ENHgzHJbTRneMaJ2xWF7Y25CtpwnWejydPVMA8VjUw0=;
-        b=KX04lssmZRMz1KRyb9w29iVqO5V2Gyp8koDcWjUlsqzSpnZcXHR4wp2rWT5czMmNF/
-         bbhobJ60GJ/NQ2paCUq1CebVCpbJYyOf+EXkmrRFurqdoieZqcE+lT+X1narGCSQvN8a
-         Q1zKP3EBIutJ99zEcpDLd6QEI3RxePveqOeH36xNMcMnt9gt+EWH749EUwDh5MOEQK5E
-         K57+fGESqhw6BIha30wRxN9zQje91siPdQ+RkbSgD5cERMFD1s8OZ1zgl2T6ruFGIiYJ
-         Wm+A4YQD8rXcBvpXKYjNjjQrEAv7XyT0tw796t25V5H71rFoAPmxy4E9hp0cK1iSwHhS
-         tXXw==;
+        h=mime-version:content-transfer-encoding:content-language
+         :accept-language:in-reply-to:references:message-id:date:thread-index
+         :thread-topic:subject:cc:to:from;
+        bh=5O5GrY2DL3HmVqMBs1zEvv0fX+L0ULWNILdSDuIXxW0=;
+        fh=BWZBf5Qzbqj2IlXl3IkghbVHjonFE4s++6F4umi76W0=;
+        b=WdLBANFPbmB027PNN4LhpZeG1eTdRWKoT8cK24AzoWaA/UZ8rzpaIHHfe8omhIAiaf
+         Y6B0YHtb57hcbaP1LORnU3sXXC1LHS5YGIoo2VXnIVup/zIwgOB0ASUeUN58dtduNd7B
+         Tf5gArU6kSLbm/nS974u9W4IOO8T7UQ4dlh1etRDKqwVdoVGrRaMc73OJnxXKuLdX8XP
+         p4I1h4UOsv8GadOaTQhMfK1BwagSiI6gqoFtNrJPsg/FeyS4EfL8cckkSGVKB5KXA74B
+         M0kuw96LDoRuTpMHfLcBFA1i75HJHK84ViyfianfcvaDR29tOCAMNizzfLLbhmlcNTBf
+         9BWg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@intel.com header.s=Intel header.b="blTn/G0/";
-       spf=pass (google.com: domain of lkp@intel.com designates 192.198.163.9 as permitted sender) smtp.mailfrom=lkp@intel.com;
-       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=intel.com
-Received: from mgamail.intel.com (mgamail.intel.com. [192.198.163.9])
-        by gmr-mx.google.com with ESMTPS id 5614622812f47-3f0379979ddsi246486b6e.3.2025.01.11.18.58.19
-        for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 11 Jan 2025 18:58:20 -0800 (PST)
-Received-SPF: pass (google.com: domain of lkp@intel.com designates 192.198.163.9 as permitted sender) client-ip=192.198.163.9;
-X-CSE-ConnectionGUID: Ax29zqc3TwCkySdnRWgmNA==
-X-CSE-MsgGUID: py9AO9AeTVaPNlKgIhlsEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11312"; a="47567873"
-X-IronPort-AV: E=Sophos;i="6.12,308,1728975600"; 
-   d="scan'208";a="47567873"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jan 2025 18:58:18 -0800
-X-CSE-ConnectionGUID: 9W+LehN2Q+ybaFdfBxKJFg==
-X-CSE-MsgGUID: Ji1haj5NSwahhisAC/YH0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="141387404"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 11 Jan 2025 18:58:12 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tWoAy-000LVl-38;
-	Sun, 12 Jan 2025 02:58:08 +0000
-Date: Sun, 12 Jan 2025 10:57:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joey Jiao <quic_jiangenj@quicinc.com>, dvyukov@google.com,
-	andreyknvl@gmail.com, corbet@lwn.net, akpm@linux-foundation.org,
-	gregkh@linuxfoundation.org, nogikh@google.com, elver@google.com,
-	pierre.gondois@arm.com, cmllamas@google.com,
-	quic_zijuhu@quicinc.com, richard.weiyang@gmail.com,
-	tglx@linutronix.de, arnd@arndb.de, catalin.marinas@arm.com,
-	will@kernel.org, dennis@kernel.org, tj@kernel.org, cl@linux.com,
-	ruanjinjie@huawei.com, colyli@suse.de,
-	andriy.shevchenko@linux.intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kernel@quicinc.com,
-	quic_likaid@quicinc.com, kasan-dev@googlegroups.com,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH] kcov: add unique cover, edge, and cmp modes
-Message-ID: <202501121036.JNteuRXG-lkp@intel.com>
-References: <20250110073056.2594638-1-quic_jiangenj@quicinc.com>
-MIME-Version: 1.0
+       spf=pass (google.com: domain of lizetao1@huawei.com designates 45.249.212.191 as permitted sender) smtp.mailfrom=lizetao1@huawei.com;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com. [45.249.212.191])
+        by gmr-mx.google.com with ESMTP id af79cd13be357-7bce32eca02si26747885a.4.2025.01.11.22.46.40
+        for <kasan-dev@googlegroups.com>;
+        Sat, 11 Jan 2025 22:46:41 -0800 (PST)
+Received-SPF: pass (google.com: domain of lizetao1@huawei.com designates 45.249.212.191 as permitted sender) client-ip=45.249.212.191;
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4YW5VC0WRWz1JGd2;
+	Sun, 12 Jan 2025 14:44:51 +0800 (CST)
+Received: from kwepemd100011.china.huawei.com (unknown [7.221.188.204])
+	by mail.maildlp.com (Postfix) with ESMTPS id 83299140114;
+	Sun, 12 Jan 2025 14:45:40 +0800 (CST)
+Received: from kwepemd500012.china.huawei.com (7.221.188.25) by
+ kwepemd100011.china.huawei.com (7.221.188.204) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.34; Sun, 12 Jan 2025 14:45:40 +0800
+Received: from kwepemd500012.china.huawei.com ([7.221.188.25]) by
+ kwepemd500012.china.huawei.com ([7.221.188.25]) with mapi id 15.02.1258.034;
+ Sun, 12 Jan 2025 14:45:40 +0800
+From: "'lizetao' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Jens Axboe <axboe@kernel.dk>, io-uring <io-uring@vger.kernel.org>
+CC: Pavel Begunkov <asml.silence@gmail.com>, "juntong.deng@outlook.com"
+	<juntong.deng@outlook.com>, "ryabinin.a.a@gmail.com"
+	<ryabinin.a.a@gmail.com>, "kasan-dev@googlegroups.com"
+	<kasan-dev@googlegroups.com>
+Subject: RE: KASAN reported an error while executing accept-reust.t testcase
+Thread-Topic: KASAN reported an error while executing accept-reust.t testcase
+Thread-Index: AdtkMiVyVeZvS0/xQj+24imZgOjMRP//rdsA//6ZQvA=
+Date: Sun, 12 Jan 2025 06:45:40 +0000
+Message-ID: <c14929fc328f43baa7ac2ad8f85a8f2b@huawei.com>
+References: <ec2a6ca08c614c10853fbb1270296ac4@huawei.com>
+ <98125b67-7b63-427f-b822-a12779d50a13@kernel.dk>
+In-Reply-To: <98125b67-7b63-427f-b822-a12779d50a13@kernel.dk>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.82.162.72]
 Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <20250110073056.2594638-1-quic_jiangenj@quicinc.com>
-X-Original-Sender: lkp@intel.com
-X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@intel.com header.s=Intel header.b="blTn/G0/";       spf=pass
- (google.com: domain of lkp@intel.com designates 192.198.163.9 as permitted
- sender) smtp.mailfrom=lkp@intel.com;       dmarc=pass (p=NONE sp=NONE
- dis=NONE) header.from=intel.com
+MIME-Version: 1.0
+X-Original-Sender: lizetao1@huawei.com
+X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
+ (google.com: domain of lizetao1@huawei.com designates 45.249.212.191 as
+ permitted sender) smtp.mailfrom=lizetao1@huawei.com;       dmarc=pass
+ (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
+X-Original-From: lizetao <lizetao1@huawei.com>
+Reply-To: lizetao <lizetao1@huawei.com>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -164,126 +156,120 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Hi Joey,
+Hi,
 
-kernel test robot noticed the following build errors:
+> -----Original Message-----
+> From: Jens Axboe <axboe@kernel.dk>
+> Sent: Sunday, January 12, 2025 1:13 AM
+> To: lizetao <lizetao1@huawei.com>; io-uring <io-uring@vger.kernel.org>
+> Cc: Pavel Begunkov <asml.silence@gmail.com>
+> Subject: Re: KASAN reported an error while executing accept-reust.t testcase
+> 
+> On 1/11/25 7:07 AM, lizetao wrote:
+> > Hi all,
+> >
+> > When I run the testcase liburing/accept-reust.t with CONFIG_KASAN=y
+> > and CONFIG_KASAN_EXTRA_INFO=y, I got a error reported by KASAN:
+> 
+> Looks more like you get KASAN crashing...
+> 
+> > Unable to handle kernel paging request at virtual address
+> > 00000c6455008008 Mem abort info:
+> >   ESR = 0x0000000096000004
+> >   EC = 0x25: DABT (current EL), IL = 32 bits
+> >   SET = 0, FnV = 0
+> >   EA = 0, S1PTW = 0
+> >   FSC = 0x04: level 0 translation fault Data abort info:
+> >   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+> >   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+> >   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0 user pgtable: 4k pages,
+> > 48-bit VAs, pgdp=00000001104c5000 [00000c6455008008]
+> > pgd=0000000000000000, p4d=0000000000000000 Internal error: Oops:
+> > 0000000096000004 [#1] PREEMPT SMP Modules linked in:
+> > CPU: 6 UID: 0 PID: 352 Comm: kworker/u128:5 Not tainted
+> > 6.13.0-rc6-g0a2cb793507d #5 Hardware name: linux,dummy-virt (DT)
+> > Workqueue: iou_exit io_ring_exit_work
+> > pstate: 10000005 (nzcV daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--) pc :
+> > __kasan_mempool_unpoison_object+0x38/0x170
+> > lr : io_netmsg_cache_free+0x8c/0x180
+> > sp : ffff800083297a90
+> > x29: ffff800083297a90 x28: ffffd4d7f67e88e4 x27: 0000000000000003
+> > x26: 1fffe5958011502e x25: ffff2cabff976c18 x24: 1fffe5957ff2ed83
+> > x23: ffff2cabff976c10 x22: 00000c6455008000 x21: 0002992540200001
+> > x20: 0000000000000000 x19: 00000c6455008000 x18: 00000000489683f8
+> > x17: ffffd4d7f68006ac x16: ffffd4d7f67eb3e0 x15: ffffd4d7f67e88e4
+> > x14: ffffd4d7f766deac x13: ffffd4d7f6619030 x12: ffff7a9b012e3e26
+> > x11: 1ffffa9b012e3e25 x10: ffff7a9b012e3e25 x9 : ffffd4d7f766debc
+> > x8 : ffffd4d80971f128 x7 : 0000000000000001 x6 : 00008564fed1c1db
+> > x5 : ffffd4d80971f128 x4 : ffff7a9b012e3e26 x3 : ffff2cabff976c00
+> > x2 : ffffc1ffc0000000 x1 : 0000000000000000 x0 : 0002992540200001 Call
+> > trace:
+> >  __kasan_mempool_unpoison_object+0x38/0x170 (P)
+> >  io_netmsg_cache_free+0x8c/0x180
+> >  io_ring_exit_work+0xd4c/0x13a0
+> >  process_one_work+0x52c/0x1000
+> >  worker_thread+0x830/0xdc0
+> >  kthread+0x2bc/0x348
+> >  ret_from_fork+0x10/0x20
+> > Code: aa0003f5 aa0103f4 8b131853 aa1303f6 (f9400662) ---[ end trace
+> > 0000000000000000 ]---
+> >
+> >
+> > I preliminary analyzed the accept and connect code logic. In the
+> > accept-reuse.t testcase, kmsg->free_iov is not used, so when calling
+> > io_netmsg_cache_free(), the
+> > kasan_mempool_unpoison_object(kmsg->free_iov...) path should not be
+> > executed.
+> >
+> >
+> > I used the hardware watchpoint to capture the first scene of modifying kmsg-
+> >free_iov:
+> >
+> > Thread 3 hit Hardware watchpoint 7: *0xffff0000ebfc5410 Old value = 0
+> > New value = -211812350 kasan_set_track (stack=<optimized out>,
+> > track=<optimized out>) at ./arch/arm64/include/asm/current.h:21
+> > 21		return (struct task_struct *)sp_el0;
+> >
+> > # bt
+> > kasan_set_track
+> > kasan_save_track
+> > kasan_save_free_info
+> > poison_slab_object
+> > __kasan_mempool_poison_object
+> > kasan_mempool_poison_object
+> > io_alloc_cache_put
+> > io_netmsg_recycle
+> > io_req_msg_cleanup
+> > io_connect
+> > io_issue_sqe
+> > io_queue_sqe
+> > io_req_task_submit
+> > ...
+> >
+> >
+> > It's a bit strange. It was modified by KASAN. I can't understand this.
+> > Maybe I missed something? Please let me know. Thanks.
+> 
+> Looks like KASAN with the extra info ends up writing to io_async_msghdr-
+> >free_iov somehow. No idea... For the test case in question, ->free_iov should
+> be NULL when initially allocated, and the io_uring code isn't storing to it. Yet
+> it's non-NULL when you later go and free it, after calling
+> kasan_mempool_poison_object().
 
-[auto build test ERROR on 9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe]
+I also think so and would Juntong and Ryabinin or others KASAN developers be interested
+In this problem?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joey-Jiao/kcov-add-unique-cover-edge-and-cmp-modes/20250110-153559
-base:   9b2ffa6148b1e4468d08f7e0e7e371c43cac9ffe
-patch link:    https://lore.kernel.org/r/20250110073056.2594638-1-quic_jiangenj%40quicinc.com
-patch subject: [PATCH] kcov: add unique cover, edge, and cmp modes
-config: um-randconfig-002-20250112 (https://download.01.org/0day-ci/archive/20250112/202501121036.JNteuRXG-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project f5cd181ffbb7cb61d582fe130d46580d5969d47a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250112/202501121036.JNteuRXG-lkp@intel.com/reproduce)
++CC juntong.deng@outlook.com, ryabinin.a.a@gmail.com and kasan-dev@googlegroups.com
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501121036.JNteuRXG-lkp@intel.com/
+Thank you so mush.
+> 
+> --
+> Jens Axboe
 
-All errors (new ones prefixed by >>):
-
->> kernel/kcov.c:309:41: error: no member named 'type' in 'struct kcov_entry'
-     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
-         |                                                       ~~~~~  ^
-   kernel/kcov.c:309:54: error: no member named 'type' in 'struct kcov_entry'
-     309 |                         if (entry->ent == ent->ent && entry->type == ent->type &&
-         |                                                                      ~~~  ^
->> kernel/kcov.c:310:15: error: no member named 'arg1' in 'struct kcov_entry'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                             ~~~~~  ^
-   kernel/kcov.c:310:28: error: no member named 'arg1' in 'struct kcov_entry'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                            ~~~  ^
->> kernel/kcov.c:310:43: error: no member named 'arg2' in 'struct kcov_entry'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                                         ~~~~~  ^
-   kernel/kcov.c:310:56: error: no member named 'arg2' in 'struct kcov_entry'
-     310 |                             entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-         |                                                                        ~~~  ^
-   kernel/kcov.c:343:29: error: no member named 'type' in 'struct kcov_entry'
-     343 |                         area[start_index] = ent->type;
-         |                                             ~~~  ^
-   kernel/kcov.c:344:33: error: no member named 'arg1' in 'struct kcov_entry'
-     344 |                         area[start_index + 1] = ent->arg1;
-         |                                                 ~~~  ^
-   kernel/kcov.c:345:33: error: no member named 'arg2' in 'struct kcov_entry'
-     345 |                         area[start_index + 2] = ent->arg2;
-         |                                                 ~~~  ^
-   9 errors generated.
-
-
-vim +309 kernel/kcov.c
-
-   290	
-   291	static notrace inline void kcov_map_add(struct kcov_map *map, struct kcov_entry *ent,
-   292						struct task_struct *t, unsigned int mode)
-   293	{
-   294		struct kcov *kcov;
-   295		struct kcov_entry *entry;
-   296		unsigned int key = hash_key(ent);
-   297		unsigned long pos, start_index, end_pos, max_pos, *area;
-   298	
-   299		kcov = t->kcov;
-   300	
-   301		if ((mode == KCOV_MODE_TRACE_UNIQ_PC ||
-   302		     mode == KCOV_MODE_TRACE_UNIQ_EDGE))
-   303			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
-   304				if (entry->ent == ent->ent)
-   305					return;
-   306			}
-   307		else
-   308			hash_for_each_possible_rcu(map->buckets, entry, node, key) {
- > 309				if (entry->ent == ent->ent && entry->type == ent->type &&
- > 310				    entry->arg1 == ent->arg1 && entry->arg2 == ent->arg2) {
-   311					return;
-   312				}
-   313			}
-   314	
-   315		entry = (struct kcov_entry *)gen_pool_alloc(map->pool, 1 << MIN_POOL_ALLOC_ORDER);
-   316		if (unlikely(!entry))
-   317			return;
-   318	
-   319		barrier();
-   320		memcpy(entry, ent, sizeof(*entry));
-   321		hash_add_rcu(map->buckets, &entry->node, key);
-   322	
-   323		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_CMP)
-   324			area = t->kcov_area;
-   325		else
-   326			area = kcov->map_edge->area;
-   327	
-   328		pos = READ_ONCE(area[0]) + 1;
-   329		if (mode == KCOV_MODE_TRACE_UNIQ_PC || mode == KCOV_MODE_TRACE_UNIQ_EDGE) {
-   330			if (likely(pos < t->kcov_size)) {
-   331				WRITE_ONCE(area[0], pos);
-   332				barrier();
-   333				area[pos] = ent->ent;
-   334			}
-   335		} else {
-   336			start_index = 1 + (pos - 1) * KCOV_WORDS_PER_CMP;
-   337			max_pos = t->kcov_size * sizeof(unsigned long);
-   338			end_pos = (start_index + KCOV_WORDS_PER_CMP) * sizeof(u64);
-   339			if (likely(end_pos <= max_pos)) {
-   340				/* See comment in __sanitizer_cov_trace_pc(). */
-   341				WRITE_ONCE(area[0], pos);
-   342				barrier();
-   343				area[start_index] = ent->type;
-   344				area[start_index + 1] = ent->arg1;
-   345				area[start_index + 2] = ent->arg2;
-   346				area[start_index + 3] = ent->ent;
-   347			}
-   348		}
-   349	}
-   350	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+---
+Li Zetao
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/202501121036.JNteuRXG-lkp%40intel.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/c14929fc328f43baa7ac2ad8f85a8f2b%40huawei.com.
