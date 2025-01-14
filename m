@@ -1,170 +1,121 @@
-Return-Path: <kasan-dev+bncBCLMXXWM5YBBBQPZS66AMGQEEXXETYA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCT4XGV33UIBBTMOTC6AMGQESB67ILA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf3b.google.com (mail-qv1-xf3b.google.com [IPv6:2607:f8b0:4864:20::f3b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68DB9A1009A
-	for <lists+kasan-dev@lfdr.de>; Tue, 14 Jan 2025 06:57:23 +0100 (CET)
-Received: by mail-qv1-xf3b.google.com with SMTP id 6a1803df08f44-6d8e6046f0fsf84828406d6.2
-        for <lists+kasan-dev@lfdr.de>; Mon, 13 Jan 2025 21:57:23 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1736834242; cv=pass;
+Received: from mail-qt1-x83c.google.com (mail-qt1-x83c.google.com [IPv6:2607:f8b0:4864:20::83c])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC170A100E2
+	for <lists+kasan-dev@lfdr.de>; Tue, 14 Jan 2025 07:42:22 +0100 (CET)
+Received: by mail-qt1-x83c.google.com with SMTP id d75a77b69052e-467944446a0sf78719281cf.1
+        for <lists+kasan-dev@lfdr.de>; Mon, 13 Jan 2025 22:42:22 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1736836941; cv=pass;
         d=google.com; s=arc-20240605;
-        b=hOsCII3Dpa/OVrH6WbrJg0F4jf6syylArF5KDlUJmm+vXzi9CHGy3PhtacrVFGBZk/
-         w+heWxKdJy0H7kxovYSlGFYBlnm2227D87fRneM2UKm8mVlERCWhibNQrMa47yqiUfNd
-         mCrzppD5ax7w/lsL36YZilXBF0hqhke35IDxTXLWPUGH5zvYxOby2Rufxh7iuSCllC1O
-         8ljWh4awE+OhayhSx2Lqc0fJxJs/mTpbbCbr6lDFXRt+Rvfs2rZCVZrx+la7XlrkhT2F
-         Pjjc29TiIoKCBoNc/eVHdMC+8cZ1f0/ZFLinXx4mRg2jgl+mbhRgTCSEgkWxbfzLofOI
-         gPng==
+        b=LTqGv9zZhCS14ku1O54+xMKH9bRJW7EMqSWRdE0t3BtaDnY9RFMieNacNwKPTWH3yT
+         dJDYOhM503gSBfQFZy9h+wWh6hG3x8LZTrs/2RQAMMSlCcnvKmGmdl6eedgndRLeHDbZ
+         aDXP89zfkg0qA2nmxH68lRexyR+OMaJAJP5skU3CN239fPm5aVo9yseLjPJgMbsAsRDi
+         sHhuUr3VA8Bfe91/KOTiAnavd98O8vKrNlxf6bPy00ZTjSAA2rKOgWZWe3RLTnnp3z6q
+         3y/CbBvv0bT8r675OhI3KWFv9fCDGX5O3CvAyVI+ljPplgCnBh5SZAaGf46uar+WBNzK
+         O08g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:sender
-         :dkim-signature;
-        bh=I0lqvvEbwfh+XjeR8t9Og+3kZ3yVXnvB4OhAH4mC2DI=;
-        fh=xJafZQXUx9vTUhmGlPYcPugpsUwMx250dXtiIfm7rKQ=;
-        b=gREDBo4+9gYOEq0hVzDQ0TGSKI2E4L3DyvcbKMz5EfD9ZjnSMopc62sBj5rlpQGeWL
-         f3fkZtT1K43Mpm2tE72rSvBNObpGtXprN6smSdUi+YtejZnUNd/lOTnxzcFKpsaDssUt
-         fdGlZ0f02EJJmQmcxAyl5E18FdO9EG/Ai+2ycCYME29P+bzKvM0UuFLJlgFiT2iZvkBc
-         Tkt6WGV5pdeUO4vslXLipzMtAZKyGtFIUGodQ3U53g5B89hGL+1yLQfazPgc+4SyWeTq
-         G+mOP/O/OMMgoJYSLcoBpQTrpLk4zci+DHyUtt6A8sKK6YKg5+DGJt1biQchveo08Mqz
-         taCA==;
+         :list-id:mailing-list:precedence:message-id:subject:from:to:date
+         :mime-version:sender:dkim-signature;
+        bh=kLRqf5KnANE2tlqnZ+EN9RXEgTe5zvkxH4I4C3ueSVs=;
+        fh=87RKRxz2A86sANyEjwklXfyHyubD1qGurHtUc92FUPM=;
+        b=RH/ETgrSyRAxA94LSYVbIJM2ISpKvlNezzgShlolGp8sGkcW7xE1lJ8Xb57QJb6qBB
+         fjuV0P6UGlQ3ElAQt69fbgsZ6arDTMPNSxfZJbW9/+Q5BMDg3ABMq20nr3/wxpXRiG+D
+         +K7WY0A8dXVhgLlsx+Xf+ODj2g5FFVItY5egpXvzlRyxkcIxT8nThVK6SVO/puUm6GWW
+         SNwhIIP/iVu3AjuYKwDMu9rSQ+bqUMhiIrJMolOaCX3Vm3BLVguTmh37mfFZOB8oSJlE
+         QtOr3xEqb83PTq921jlsDDtt4q1tf3ODO2arade4OMitUbet10GWo47G9WQO5pZytmyv
+         I6/Q==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=dPWtt7oR;
-       spf=pass (google.com: domain of quic_jiangenj@quicinc.com designates 205.220.180.131 as permitted sender) smtp.mailfrom=quic_jiangenj@quicinc.com;
-       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=quicinc.com
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b="2AR76Tu/";
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1736834242; x=1737439042; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1736836941; x=1737441741; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:content-disposition:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I0lqvvEbwfh+XjeR8t9Og+3kZ3yVXnvB4OhAH4mC2DI=;
-        b=RYJij0H4fMNbF01mj0Z2eXo7ws64ChtL6yr8iQPkZS8+9PU/tWVSOfdec4O79aKP+C
-         BtH6RJuzV/j3rwZhZvKm1PVDBxCAlmtsNGMH95r1v9jwh3lz9QkwEfUyyPHVnuo47umq
-         WGCtXCnbRXyTK0bQ4+lDrLrV8MhXTbBiZL2VLheMowsWZD3CNCknH4RdNBaXk7SKANAk
-         Hr3fzZuPLFfg2cMQ36gcvccMy3d2OAJjH/uTZYugHTDzuzbelWnOKhoSWllV5sL/eXfc
-         mFU2heJ3yrqFVXzIlS3F2NdJ2NJPpPMCcssSTRZHoHnRp/QdBodZ4QkrYnkHE3M3XIw3
-         pIpA==
+         :x-original-sender:message-id:subject:from:to:date:mime-version
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=kLRqf5KnANE2tlqnZ+EN9RXEgTe5zvkxH4I4C3ueSVs=;
+        b=MbKI1KAiyICcumf1h/BM8RJvgt2W8UWm/3I3wqTtMTgnXkwAP7zAZPF15HKAMGtTiQ
+         xqDaqRTRoiCmEc5S7F1+bgc5LJ7jY/lPa7LRx7+HYKm3+mId8lk5gt5BC2FBq8Lcuo1d
+         HT1aZyqVwP4cH7r7Zx0eT0TauqwpBnzl4mOSUxcK1GYx31LpqVcScoaFHvccyK8HunND
+         JQJrhMSAiLJ4xEoU+n8Tj7Mxiu4DyhQ6Ud6HK1mGbNFGAqy5PdogdyokhIuYrpoW/icW
+         yK4oOGzVNTcZNKR67mRiCsJ4/Qciwv7zVSeH3vBv0AI+7K6gLnN6JZ3+naCrRmsFtwfG
+         Dupg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736834242; x=1737439042;
+        d=1e100.net; s=20230601; t=1736836941; x=1737441741;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :content-disposition:mime-version:references:message-id:subject:cc
-         :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I0lqvvEbwfh+XjeR8t9Og+3kZ3yVXnvB4OhAH4mC2DI=;
-        b=nFHRLtetxIkUQ5oxQhO0kuP1Ci3mKmMO2pbcuF6hhYMWuSg9cAsdWnyReKnEoHy14z
-         GKw7eL6Pjp7kqHJdZaukXLJ2g8j6O6trllwO+zjVF2Jqe0y+jOGgHU46FLkGJwOGXe6Q
-         3au5aSIrxcncUlPthwUoOKGPozm3cu0JeIjH6Kx17unbzn5WlmvPdM04C3yZCGyGQzdD
-         e5vEbqC0fH0L4LLlU6vcfSlomOqtTfeB8edtrTLZVJtO7CEz/Om7kVnRcOXnO/AriwNI
-         5KIq1qT86wq6Kytk3HOrS4n35VmUjYWAaYO9m+K0JzGmcG0mZ9NDxobcFn0CyiGZllmD
-         flfA==
+         :x-original-authentication-results:x-original-sender:message-id
+         :subject:from:to:date:x-beenthere:mime-version:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=kLRqf5KnANE2tlqnZ+EN9RXEgTe5zvkxH4I4C3ueSVs=;
+        b=MMgd4MafjFBg4sfeM9MKRJDNd6MysOheRaf/j9ifwciwbC0yCzd4+8eM7PiRNlEIaC
+         GYsvJMjt1B+G0gwuGEeLBqhrW7d+j1V4ScwSJV34NfE01wpTsPwgUDwK6FKWSH3DbzBw
+         FCUIiaSI0qurc7Snvpdvy1bdqGQ8XkaYmnyXrWsHy10QZv64lzNTyk8A3W66hOVsHMHS
+         qgZzxiA8q1X7eBahME9KXXaZy1+a0c7pATdvUecd1ysaIDHnE4PB0oe/0jHaYXxAU3Ki
+         6iqTSofR2E+GXfKbPbcouX8CA0cev5w+AuYmfd7wX/L0rftwNPibP0ojVqWQhH3IZmXU
+         G4qQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWZr9xqimHF+Eoynbo0bLDiuBNRMAWKIFjJVxoGr6rXE30B4VEMC3PmOU9O+0dRLb3dcoeeeA==@lfdr.de
-X-Gm-Message-State: AOJu0YxBvQDQP8TxU8crq5Acf8S7iaxMigMtK8zHrBhjQPKgZP2Ezrx4
-	dqumlqBFleEXGrYmxJpSllQhoGoCvJlCjejSpjOxCeq5ypRW7bNl
-X-Google-Smtp-Source: AGHT+IGvBSq1ZUiNRgIQmviDpPMbtKnHiTkdrIFjAT2Fm4CFserkt9Ci/A7JpswFee+74NTZJOAYLQ==
-X-Received: by 2002:a05:6214:409:b0:6d8:7ed4:335c with SMTP id 6a1803df08f44-6df9b2d8811mr373197506d6.45.1736834241805;
-        Mon, 13 Jan 2025 21:57:21 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXjqBrcwtixQy8Zgj4X2CUL8bS9peFrckoGNjGzkWuDhj5hz6tV0H2U4lupbBcbVbHTaLwH+Q==@lfdr.de
+X-Gm-Message-State: AOJu0YzwdDBnWZNPAGgDHkYKDGqVppgrVy/1b7MrqkFO1zNFKWDry22l
+	xsCsPYNwp5qmGUpgZNSOlPZZadpIXHI3mQANaRvij/jUcprjAxk6
+X-Google-Smtp-Source: AGHT+IFfNfTt7O5p0JGCzLz9dmWBSJo+sM7dN3Ihs5wXy0MBWkD+m9vWQiFGJgYKnsqT4eL84h/WJA==
+X-Received: by 2002:a05:622a:2c6:b0:467:83f1:71d2 with SMTP id d75a77b69052e-46c7108ed5fmr355199501cf.45.1736836941508;
+        Mon, 13 Jan 2025 22:42:21 -0800 (PST)
+MIME-Version: 1.0
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6214:2c0e:b0:6d8:f5b9:2be3 with SMTP id
- 6a1803df08f44-6dfa36fb374ls120310886d6.0.-pod-prod-07-us; Mon, 13 Jan 2025
- 21:57:21 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCXqR/OJ7c+VJ+yx4RsZtYbqgRs1h/1XqI9FkH7QDU7Ng2d1YpkEjTjD8E6+QDDGkOrp9jmGShLJcd0=@googlegroups.com
-X-Received: by 2002:a05:6102:2923:b0:4b2:4877:2de4 with SMTP id ada2fe7eead31-4b3d0e10229mr20590044137.15.1736834241077;
-        Mon, 13 Jan 2025 21:57:21 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1736834241; cv=none;
+Received: by 2002:a05:622a:a029:b0:469:63f:ce11 with SMTP id
+ d75a77b69052e-46c7aa0b7fdls61208171cf.0.-pod-prod-05-us; Mon, 13 Jan 2025
+ 22:42:20 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWidh+ZZlLJZDCVmK/HCQx0bm4oELQigo6gFfOlb3gkHotSX/jSFcRZHfVKJSMpc7AjPAWOb87kzS8=@googlegroups.com
+X-Received: by 2002:a05:620a:1a03:b0:7b6:d252:b4ef with SMTP id af79cd13be357-7bcd97b04f6mr4149063285a.53.1736836940730;
+        Mon, 13 Jan 2025 22:42:20 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1736836940; cv=none;
         d=google.com; s=arc-20240605;
-        b=KAmSEf9p3ZNLPy8sYlkIJDFcZriB5KlI8zrqIKnctjmi0IqzwWzgg5dqWMEwKGjW3S
-         5KzEKdScYS0Afz3U7NRKvV2i1d8daqGRXbsiVFSm5GzGeg3pRiiVhJZjbyqV/Gg8p2vy
-         QKbNOYaf7VA1qI1SQ/Wq5Ltdh3XMP9uTBqSl5UUPjhfzuw1Zdinc9wJWLQB2TiuEMyE2
-         wH9QmK54yBsJnV07lQlA/Zdd3DMjeylSfAKcsEnJqjZch/nwdrmXz/b/ULurCLT+Qsi2
-         1/5kRjjAqmAHM7OnHJLpCaeYyOWyH+grCOGD2/5GMTsWMu6EH3rhQaesQPvbUCs96fZu
-         PrKg==
+        b=Hnbpo/+w+E1QE3eQ1UREIvXMHuAyDn7HNMb8+ArFDfszn7bVYtXWUuNF+rEWu2Slkc
+         0h5Ktiq0ITfqiYPr2JcEUo7HaHU6eUu+FlQ1+FJwHSYkHUBw2kOI/+ROfn/PF8I8LZ9f
+         MBmgSx9KS88mjjhmE/1xxh2xw3IqI6T6NlO7N2f9WJwQGTOxd5vBFWrdBrf0ygTldH4C
+         GRFDgQ0Dpp1A7zxdwSvSmt5KLM1RGLD9VV1Ka9x6j/MM2Uzt4wiWkvy+3U3DYItL91oe
+         8r9XA5MzuFpHeWAfgH1Xhs9HsplpUmsF0cuv+V7eSGTcP/AAkFcL6BBO8l7zjZxY2e5X
+         GBzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:dkim-signature;
-        bh=wflJvgOfYDiozwhOrxz/xwhEoy/saP7Rhgjz/nRTzpI=;
-        fh=1nuJyShUV/OnC/VBgTRG2/1XgEKDaU3ezrorf+jnTrQ=;
-        b=Bn2CGYeftlemgpLBtJJvIxQrs695tRnTuOJGTxdSjuz5YJr2DK8JxwKj+h+hMLTARI
-         q+3HrGvJC3Ony0qm2bxbNlsDXZmsmkQb4phg084om8i/F0n0ard6Yqk9k/m4HEFaJwts
-         1kRX1hF2XOYkqkTAXMl1f4cAjD7p4erkcLnbHl+Ei/Ljefc+/3xBaw3QEvIN0/Q6uUE8
-         Z7es2bz80niwfBs870HBlFROnB1hwJHT5/cczzyx0igsQICQCGJak0s2fxU2jBhFNdvo
-         iptV+zmqP/z0DxH/d6OU44BoOGYocIHaGRrbkB12r04+O23UpYMNhcDLzMbaaCD6+oCX
-         kOWg==;
+        h=message-id:subject:from:to:date:dkim-signature;
+        bh=iSlwjIjQxwJo2CZdeZImWr4VUVfJHavlJw4BkrLMUw0=;
+        fh=tpBIT5b+ejHfRAZFMZ0BR/AzrT5gSlhMRnZrC78Ap5I=;
+        b=luIDW/lOLvJAd4knn77YyQzxsZ3L+6WZ6mv91PgJGKCrBwhtd/wSAbV1QXwViCZfud
+         iJnj/dInpUaickJULY+12YmCHzCUDdoS7gb3goW1n1ktH+KNdPxiBKcfYrEwC5syrvEi
+         1IN8Il0Kx4K7iqBdMxxtGjcw0v2HwK/XsF48MJgRfbqb5MmCa7HZ4p3mYHYEoQml6I+D
+         StFlBsXKJvjf6FWPKAspGzb/JoobgXn+I7bZTZnoQU3CctXO0jX2NkGBuaZx5oEEe8x9
+         sowmtetE7F+qDpVg1tjThu6/JCtA7IPniPAE9gy+lQX2fg6B6q2rFzUOVlq31mu6nISz
+         UQdQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=dPWtt7oR;
-       spf=pass (google.com: domain of quic_jiangenj@quicinc.com designates 205.220.180.131 as permitted sender) smtp.mailfrom=quic_jiangenj@quicinc.com;
-       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=quicinc.com
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com. [205.220.180.131])
-        by gmr-mx.google.com with ESMTPS id a1e0cc1a2514c-8623135e547si400923241.2.2025.01.13.21.57.20
+       dkim=pass header.i=@linux-foundation.org header.s=korg header.b="2AR76Tu/";
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id af79cd13be357-7bce33006cfsi41957685a.6.2025.01.13.22.42.20
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 13 Jan 2025 21:57:20 -0800 (PST)
-Received-SPF: pass (google.com: domain of quic_jiangenj@quicinc.com designates 205.220.180.131 as permitted sender) client-ip=205.220.180.131;
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 50E2hC4h003789;
-	Tue, 14 Jan 2025 05:57:15 GMT
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 445fcr8b7s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Jan 2025 05:57:15 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 50E5vEe6018616
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 14 Jan 2025 05:57:14 GMT
-Received: from hu-jiangenj-sha.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 13 Jan 2025 21:57:05 -0800
-Date: Tue, 14 Jan 2025 11:27:02 +0530
-From: Joey Jiao <quic_jiangenj@quicinc.com>
-To: Dmitry Vyukov <dvyukov@google.com>
-CC: Marco Elver <elver@google.com>, <andreyknvl@gmail.com>, <corbet@lwn.net>,
-        <akpm@linux-foundation.org>, <gregkh@linuxfoundation.org>,
-        <nogikh@google.com>, <pierre.gondois@arm.com>, <cmllamas@google.com>,
-        <quic_zijuhu@quicinc.com>, <richard.weiyang@gmail.com>,
-        <tglx@linutronix.de>, <arnd@arndb.de>, <catalin.marinas@arm.com>,
-        <will@kernel.org>, <dennis@kernel.org>, <tj@kernel.org>,
-        <cl@linux.com>, <ruanjinjie@huawei.com>, <colyli@suse.de>,
-        <andriy.shevchenko@linux.intel.com>, <kernel@quicinc.com>,
-        <quic_likaid@quicinc.com>, <kasan-dev@googlegroups.com>,
-        <workflows@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-mm@kvack.org>
-Subject: Re: [PATCH] kcov: add unique cover, edge, and cmp modes
-Message-ID: <Z4X8riQq8NJ1nLLW@hu-jiangenj-sha.qualcomm.com>
-References: <20250110073056.2594638-1-quic_jiangenj@quicinc.com>
- <CANpmjNOg9=WbFpJQFQBOo1z_KuV7DKQTZB7=GfiYyvoam5Dm=w@mail.gmail.com>
- <CACT4Y+Zm5Vz1LL7m_BubwV=bMPgVjOVNpp12nDZRi5oesH47WA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Disposition: inline
-In-Reply-To: <CACT4Y+Zm5Vz1LL7m_BubwV=bMPgVjOVNpp12nDZRi5oesH47WA@mail.gmail.com>
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 0rhj6FadLSEWHnh83gbXJHKqA-09fD2G
-X-Proofpoint-GUID: 0rhj6FadLSEWHnh83gbXJHKqA-09fD2G
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
- suspectscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1015
- adultscore=0 lowpriorityscore=0 malwarescore=0 phishscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2501140047
-X-Original-Sender: quic_jiangenj@quicinc.com
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jan 2025 22:42:20 -0800 (PST)
+Received-SPF: pass (google.com: domain of akpm@linux-foundation.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 433A45C5471;
+	Tue, 14 Jan 2025 06:41:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B185BC4CEDD;
+	Tue, 14 Jan 2025 06:42:19 +0000 (UTC)
+Date: Mon, 13 Jan 2025 22:42:19 -0800
+To: mm-commits@vger.kernel.org,vschneid@redhat.com,vincenzo.frascino@arm.com,vincent.guittot@linaro.org,vbabka@suse.cz,urezki@gmail.com,tj@kernel.org,tglx@linutronix.de,ryabinin.a.a@gmail.com,rostedt@goodmis.org,roman.gushchin@linux.dev,rientjes@google.com,qiang.zhang1211@gmail.com,penberg@kernel.org,paulmck@kernel.org,neeraj.upadhyay@kernel.org,mingo@redhat.com,mgorman@suse.de,mathieu.desnoyers@efficios.com,lorenzo.stoakes@oracle.com,longman@redhat.com,Liam.Howlett@Oracle.com,kasan-dev@googlegroups.com,juri.lelli@redhat.com,josh@joshtriplett.org,joel@joelfernandes.org,jiangshanlai@gmail.com,jannh@google.com,iamjoonsoo.kim@lge.com,glider@google.com,frederic@kernel.org,elver@google.com,dvyukov@google.com,dietmar.eggemann@arm.com,cl@linux.com,bsegall@google.com,boqun.feng@gmail.com,bigeasy@linutronix.de,andreyknvl@gmail.com,42.hyeyoo@gmail.com,peterz@infradead.org,akpm@linux-foundation.org
+From: Andrew Morton <akpm@linux-foundation.org>
+Subject: [merged mm-stable] kasan-make-kasan_record_aux_stack_noalloc-the-default-behaviour.patch removed from -mm tree
+Message-Id: <20250114064219.B185BC4CEDD@smtp.kernel.org>
+X-Original-Sender: akpm@linux-foundation.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@quicinc.com header.s=qcppdkim1 header.b=dPWtt7oR;       spf=pass
- (google.com: domain of quic_jiangenj@quicinc.com designates 205.220.180.131
- as permitted sender) smtp.mailfrom=quic_jiangenj@quicinc.com;
-       dmarc=pass (p=NONE sp=REJECT dis=NONE) header.from=quicinc.com
+ header.i=@linux-foundation.org header.s=korg header.b="2AR76Tu/";
+       spf=pass (google.com: domain of akpm@linux-foundation.org designates
+ 139.178.84.217 as permitted sender) smtp.mailfrom=akpm@linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -177,251 +128,277 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Fri, Jan 10, 2025 at 01:16:27PM +0100, Dmitry Vyukov wrote:
-> On Fri, 10 Jan 2025 at 10:23, Marco Elver <elver@google.com> wrote:
-> > > From: "Jiao, Joey" <quic_jiangenj@quicinc.com>
-> > >
-> > > The current design of KCOV risks frequent buffer overflows. To mitigate
-> > > this, new modes are introduced: KCOV_TRACE_UNIQ_PC, KCOV_TRACE_UNIQ_EDGE,
-> > > and KCOV_TRACE_UNIQ_CMP. These modes allow for the recording of unique
-> > > PCs, edges, and comparison operands (CMP).
-> >
-> > There ought to be a cover letter explaining the motivation for this,
-> > and explaining why the new modes would help. Ultimately, what are you
-> > using KCOV for where you encountered this problem?
-> >
-> > > Key changes include:
-> > > - KCOV_TRACE_UNIQ_[PC|EDGE] can be used together to replace KCOV_TRACE_PC.
-> > > - KCOV_TRACE_UNIQ_CMP can be used to replace KCOV_TRACE_CMP mode.
-> > > - Introduction of hashmaps to store unique coverage data.
-> > > - Pre-allocated entries in kcov_map_init during KCOV_INIT_TRACE to avoid
-> > >   performance issues with kmalloc.
-> > > - New structs and functions for managing memory and unique coverage data.
-> > > - Example program demonstrating the usage of the new modes.
-> >
-> > This should be a patch series, carefully splitting each change into a
-> > separate patch.
-> > https://docs.kernel.org/process/submitting-patches.html#split-changes
-> >
-> > > With the new hashmap and pre-alloced memory pool added, cover size can't
-> > > be set to higher value like 1MB in KCOV_TRACE_PC or KCOV_TRACE_CMP modes
-> > > in 2GB device with 8 procs, otherwise it causes frequent oom.
-> > >
-> > > For KCOV_TRACE_UNIQ_[PC|EDGE|CMP] modes, smaller cover size like 8KB can
-> > > be used.
-> > >
-> > > Signed-off-by: Jiao, Joey <quic_jiangenj@quicinc.com>
-> >
-> > As-is it's hard to review, and the motivation is unclear. A lot of
-> > code was moved and changed, and reviewers need to understand why that
-> > was done besides your brief explanation above.
-> >
-> > Generally, KCOV has very tricky constraints, due to being callable
-> > from any context, including NMI. This means adding new dependencies
-> > need to be carefully reviewed. For one, we can see this in genalloc's
-> > header:
-> >
-> > > * The lockless operation only works if there is enough memory
-> > > * available.  If new memory is added to the pool a lock has to be
-> > > * still taken.  So any user relying on locklessness has to ensure
-> > > * that sufficient memory is preallocated.
-> > > *
-> > > * The basic atomic operation of this allocator is cmpxchg on long.
-> > > * On architectures that don't have NMI-safe cmpxchg implementation,
-> > > * the allocator can NOT be used in NMI handler.  So code uses the
-> > > * allocator in NMI handler should depend on
-> > > * CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG.
-> >
-> > And you are calling gen_pool_alloc() from __sanitizer_cov_trace_pc.
-> > Which means this implementation is likely broken on
-> > !CONFIG_ARCH_HAVE_NMI_SAFE_CMPXCHG architectures (do we have
-> > architectures like that, that support KCOV?).
-> >
-> > There are probably other sharp corners due to the contexts KCOV can
-> > run in, but would simply ask you to carefully reason about why each
-> > new dependency is safe.
-> 
-> I am also concerned about the performance effect. Does it add a stack
-> frame to __sanitizer_cov_trace_pc()? Please show disassm of the
-> function before/after.
-# Before the patch
-ffffffff8195df30 __sanitizer_cov_trace_pc:
-ffffffff8195df30: f3 0f 1e fa          	endbr64
-ffffffff8195df34: 48 8b 04 24          	movq	(%rsp), %rax
-ffffffff8195df38: 65 48 8b 0c 25 00 d6 03 00   	movq	%gs:251392, %rcx
-ffffffff8195df41: 65 8b 15 c0 f6 6d 7e 	movl	%gs:2121135808(%rip), %edx
-ffffffff8195df48: 81 e2 00 01 ff 00    	andl	$16711936, %edx
-ffffffff8195df4e: 74 11                	je	17 
-<__sanitizer_cov_trace_pc+0x31>
-ffffffff8195df50: 81 fa 00 01 00 00    	cmpl	$256, %edx
-ffffffff8195df56: 75 35                	jne	53 
-<__sanitizer_cov_trace_pc+0x5d>
-ffffffff8195df58: 83 b9 1c 16 00 00 00 	cmpl	$0, 5660(%rcx)
-ffffffff8195df5f: 74 2c                	je	44 
-<__sanitizer_cov_trace_pc+0x5d>
-ffffffff8195df61: 8b 91 f8 15 00 00    	movl	5624(%rcx), %edx
-ffffffff8195df67: 83 fa 02             	cmpl	$2, %edx
-ffffffff8195df6a: 75 21                	jne	33 
-<__sanitizer_cov_trace_pc+0x5d>
-ffffffff8195df6c: 48 8b 91 00 16 00 00 	movq	5632(%rcx), %rdx
-ffffffff8195df73: 48 8b 32             	movq	(%rdx), %rsi
-ffffffff8195df76: 48 8d 7e 01          	leaq	1(%rsi), %rdi
-ffffffff8195df7a: 8b 89 fc 15 00 00    	movl	5628(%rcx), %ecx
-ffffffff8195df80: 48 39 cf             	cmpq	%rcx, %rdi
-ffffffff8195df83: 73 08                	jae	8 
-<__sanitizer_cov_trace_pc+0x5d>
-ffffffff8195df85: 48 89 3a             	movq	%rdi, (%rdx)
-ffffffff8195df88: 48 89 44 f2 08       	movq	%rax, 8(%rdx,%rsi,8)
-ffffffff8195df8d: 2e e9 cd 3d 8b 09    	jmp	160120269 <__x86_return_thunk>
-ffffffff8195df93: 66 2e 0f 1f 84 00 00 00 00 00	nopw	%cs:(%rax,%rax)
-ffffffff8195df9d: 0f 1f 00             	nopl	(%rax)
 
-# After the patch
+The quilt patch titled
+     Subject: kasan: make kasan_record_aux_stack_noalloc() the default behaviour
+has been removed from the -mm tree.  Its filename was
+     kasan-make-kasan_record_aux_stack_noalloc-the-default-behaviour.patch
 
-vmlinux:	file format ELF64-x86-64
+This patch was dropped because it was merged into the mm-stable branch
+of git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
 
+------------------------------------------------------
+From: Peter Zijlstra <peterz@infradead.org>
+Subject: kasan: make kasan_record_aux_stack_noalloc() the default behaviour
+Date: Fri, 22 Nov 2024 16:54:51 +0100
 
-Disassembly of section .text:
+kasan_record_aux_stack_noalloc() was introduced to record a stack trace
+without allocating memory in the process.  It has been added to callers
+which were invoked while a raw_spinlock_t was held.  More and more callers
+were identified and changed over time.  Is it a good thing to have this
+while functions try their best to do a locklessly setup?  The only
+downside of having kasan_record_aux_stack() not allocate any memory is
+that we end up without a stacktrace if stackdepot runs out of memory and
+at the same stacktrace was not recorded before To quote Marco Elver from
+https://lore.kernel.org/all/CANpmjNPmQYJ7pv1N3cuU8cP18u7PP_uoZD8YxwZd4jtbof9nVQ@mail.gmail.com/
 
-ffffffff8195df30 __sanitizer_cov_trace_pc:
-ffffffff8195df30: f3 0f 1e fa          	endbr64
-ffffffff8195df34: 41 57                	pushq	%r15
-ffffffff8195df36: 41 56                	pushq	%r14
-ffffffff8195df38: 41 54                	pushq	%r12
-ffffffff8195df3a: 53                   	pushq	%rbx
-ffffffff8195df3b: 48 8b 5c 24 20       	movq	32(%rsp), %rbx
-ffffffff8195df40: 65 4c 8b 34 25 00 d6 03 00   	movq	%gs:251392, %r14
-ffffffff8195df49: 65 8b 05 b8 f6 6d 7e 	movl	%gs:2121135800(%rip), %eax
-ffffffff8195df50: 25 00 01 ff 00       	andl	$16711936, %eax
-ffffffff8195df55: 74 19                	je	25 
-<__sanitizer_cov_trace_pc+0x40>
-ffffffff8195df57: 3d 00 01 00 00       	cmpl	$256, %eax
-ffffffff8195df5c: 0f 85 54 01 00 00    	jne	340 
-<__sanitizer_cov_trace_pc+0x186>
-ffffffff8195df62: 41 83 be 1c 16 00 00 00      	cmpl	$0, 5660(%r14)
-ffffffff8195df6a: 0f 84 46 01 00 00    	je	326 
-<__sanitizer_cov_trace_pc+0x186>
-ffffffff8195df70: 41 8b 86 f8 15 00 00 	movl	5624(%r14), %eax
-ffffffff8195df77: a9 12 00 00 00       	testl	$18, %eax
-ffffffff8195df7c: 0f 84 34 01 00 00    	je	308 
-<__sanitizer_cov_trace_pc+0x186>
-ffffffff8195df82: 41 83 be f8 15 00 00 02      	cmpl	$2, 5624(%r14)
-ffffffff8195df8a: 75 25                	jne	37 
-<__sanitizer_cov_trace_pc+0x81>
-ffffffff8195df8c: 49 8b 86 00 16 00 00 	movq	5632(%r14), %rax
-ffffffff8195df93: 48 8b 08             	movq	(%rax), %rcx
-ffffffff8195df96: 48 ff c1             	incq	%rcx
-ffffffff8195df99: 41 8b 96 fc 15 00 00 	movl	5628(%r14), %edx
-ffffffff8195dfa0: 48 39 d1             	cmpq	%rdx, %rcx
-ffffffff8195dfa3: 0f 83 0d 01 00 00    	jae	269 
-<__sanitizer_cov_trace_pc+0x186>
-ffffffff8195dfa9: 48 89 08             	movq	%rcx, (%rax)
-ffffffff8195dfac: e9 fe 00 00 00       	jmp	254 
-<__sanitizer_cov_trace_pc+0x17f>
-ffffffff8195dfb1: 48 89 d8             	movq	%rbx, %rax
-ffffffff8195dfb4: 48 c1 e8 20          	shrq	$32, %rax
-ffffffff8195dfb8: 49 8b 8e 08 16 00 00 	movq	5640(%r14), %rcx
-ffffffff8195dfbf: 4c 8b 79 58          	movq	88(%rcx), %r15
-ffffffff8195dfc3: 05 f7 be ad de       	addl	$3735928567, %eax
-ffffffff8195dfc8: 8d 93 f7 be ad de    	leal	-559038729(%rbx), %edx
-ffffffff8195dfce: 89 c1                	movl	%eax, %ecx
-ffffffff8195dfd0: 81 f1 f7 be ad de    	xorl	$3735928567, %ecx
-ffffffff8195dfd6: 89 c6                	movl	%eax, %esi
-ffffffff8195dfd8: c1 c6 0e             	roll	$14, %esi
-ffffffff8195dfdb: 29 f1                	subl	%esi, %ecx
-ffffffff8195dfdd: 31 ca                	xorl	%ecx, %edx
-ffffffff8195dfdf: 89 ce                	movl	%ecx, %esi
-ffffffff8195dfe1: c1 c6 0b             	roll	$11, %esi
-ffffffff8195dfe4: 29 f2                	subl	%esi, %edx
-ffffffff8195dfe6: 31 d0                	xorl	%edx, %eax
-ffffffff8195dfe8: 89 d6                	movl	%edx, %esi
-ffffffff8195dfea: c1 c6 19             	roll	$25, %esi
-ffffffff8195dfed: 29 f0                	subl	%esi, %eax
-ffffffff8195dfef: 89 c6                	movl	%eax, %esi
-ffffffff8195dff1: c1 c6 10             	roll	$16, %esi
-ffffffff8195dff4: 31 c1                	xorl	%eax, %ecx
-ffffffff8195dff6: 29 f1                	subl	%esi, %ecx
-ffffffff8195dff8: 31 ca                	xorl	%ecx, %edx
-ffffffff8195dffa: 89 ce                	movl	%ecx, %esi
-ffffffff8195dffc: c1 c6 04             	roll	$4, %esi
-ffffffff8195dfff: 29 f2                	subl	%esi, %edx
-ffffffff8195e001: 31 d0                	xorl	%edx, %eax
-ffffffff8195e003: c1 c2 0e             	roll	$14, %edx
-ffffffff8195e006: 29 d0                	subl	%edx, %eax
-ffffffff8195e008: 89 c2                	movl	%eax, %edx
-ffffffff8195e00a: c1 c2 18             	roll	$24, %edx
-ffffffff8195e00d: 31 c8                	xorl	%ecx, %eax
-ffffffff8195e00f: 29 d0                	subl	%edx, %eax
-ffffffff8195e011: 44 69 e0 47 86 c8 61 	imull	$1640531527, %eax, %r12d
-ffffffff8195e018: 41 c1 ec 11          	shrl	$17, %r12d
-ffffffff8195e01c: 4b 8b 04 e7          	movq	(%r15,%r12,8), %rax
-ffffffff8195e020: 48 85 c0             	testq	%rax, %rax
-ffffffff8195e023: 74 18                	je	24 
-<__sanitizer_cov_trace_pc+0x10d>
-ffffffff8195e025: 48 83 c0 f8          	addq	$-8, %rax
-ffffffff8195e029: 74 12                	je	18 
-<__sanitizer_cov_trace_pc+0x10d>
-ffffffff8195e02b: 48 39 18             	cmpq	%rbx, (%rax)
-ffffffff8195e02e: 0f 84 82 00 00 00    	je	130 
-<__sanitizer_cov_trace_pc+0x186>
-ffffffff8195e034: 48 8b 40 08          	movq	8(%rax), %rax
-ffffffff8195e038: 48 85 c0             	testq	%rax, %rax
-ffffffff8195e03b: 75 e8                	jne	-24 
-<__sanitizer_cov_trace_pc+0xf5>
-ffffffff8195e03d: 49 8b bf 00 00 04 00 	movq	262144(%r15), %rdi
-ffffffff8195e044: 48 8b 57 58          	movq	88(%rdi), %rdx
-ffffffff8195e048: 48 8b 4f 60          	movq	96(%rdi), %rcx
-ffffffff8195e04c: be 20 00 00 00       	movl	$32, %esi
-ffffffff8195e051: 45 31 c0             	xorl	%r8d, %r8d
-ffffffff8195e054: e8 47 b4 f0 02       	callq	49329223 
-<gen_pool_alloc_algo_owner>
-ffffffff8195e059: 48 85 c0             	testq	%rax, %rax
-ffffffff8195e05c: 74 58                	je	88 
-<__sanitizer_cov_trace_pc+0x186>
-ffffffff8195e05e: 4b 8d 14 e7          	leaq	(%r15,%r12,8), %rdx
-ffffffff8195e062: 48 89 c6             	movq	%rax, %rsi
-ffffffff8195e065: 48 89 18             	movq	%rbx, (%rax)
-ffffffff8195e068: 48 83 c0 08          	addq	$8, %rax
-ffffffff8195e06c: 48 c7 46 08 00 00 00 00      	movq	$0, 8(%rsi)
-ffffffff8195e074: 48 c7 46 10 00 00 00 00      	movq	$0, 16(%rsi)
-ffffffff8195e07c: 48 8b 0a             	movq	(%rdx), %rcx
-ffffffff8195e07f: 48 89 4e 08          	movq	%rcx, 8(%rsi)
-ffffffff8195e083: 48 89 56 10          	movq	%rdx, 16(%rsi)
-ffffffff8195e087: 48 89 02             	movq	%rax, (%rdx)
-ffffffff8195e08a: 48 85 c9             	testq	%rcx, %rcx
-ffffffff8195e08d: 74 04                	je	4 
-<__sanitizer_cov_trace_pc+0x163>
-ffffffff8195e08f: 48 89 41 08          	movq	%rax, 8(%rcx)
-ffffffff8195e093: 49 8b 86 00 16 00 00 	movq	5632(%r14), %rax
-ffffffff8195e09a: 48 8b 08             	movq	(%rax), %rcx
-ffffffff8195e09d: 48 ff c1             	incq	%rcx
-ffffffff8195e0a0: 41 8b 96 fc 15 00 00 	movl	5628(%r14), %edx
-ffffffff8195e0a7: 48 39 d1             	cmpq	%rdx, %rcx
-ffffffff8195e0aa: 73 0a                	jae	10 
-<__sanitizer_cov_trace_pc+0x186>
-ffffffff8195e0ac: 48 89 08             	movq	%rcx, (%rax)
-ffffffff8195e0af: 48 8d 04 c8          	leaq	(%rax,%rcx,8), %rax
-ffffffff8195e0b3: 48 89 18             	movq	%rbx, (%rax)
-ffffffff8195e0b6: 5b                   	popq	%rbx
-ffffffff8195e0b7: 41 5c                	popq	%r12
-ffffffff8195e0b9: 41 5e                	popq	%r14
-ffffffff8195e0bb: 41 5f                	popq	%r15
-ffffffff8195e0bd: 2e e9 9d 3c 8b 09    	jmp	160119965 <__x86_return_thunk>
-ffffffff8195e0c3: 66 2e 0f 1f 84 00 00 00 00 00	nopw	%cs:(%rax,%rax)
-ffffffff8195e0cd: 0f 1f 00             	nopl	(%rax)
+| I'd be in favor, it simplifies things. And stack depot should be
+| able to replenish its pool sufficiently in the "non-aux" cases
+| i.e. regular allocations. Worst case we fail to record some
+| aux stacks, but I think that's only really bad if there's a bug
+| around one of these allocations. In general the probabilities
+| of this being a regression are extremely small [...]
 
+Make the kasan_record_aux_stack_noalloc() behaviour default as
+kasan_record_aux_stack().
 
-So frame to gen_pool_alloc_algo_owner has been added, and instr needs to be 
-disabled for it.
+[bigeasy@linutronix.de: dressed the diff as patch]
+Link: https://lkml.kernel.org/r/20241122155451.Mb2pmeyJ@linutronix.de
+Fixes: 7cb3007ce2da ("kasan: generic: introduce kasan_record_aux_stack_noalloc()")
+Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Reported-by: syzbot+39f85d612b7c20d8db48@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/67275485.050a0220.3c8d68.0a37.GAE@google.com
+Reviewed-by: Andrey Konovalov <andreyknvl@gmail.com>
+Reviewed-by: Marco Elver <elver@google.com>
+Reviewed-by: Waiman Long <longman@redhat.com>
+Cc: Alexander Potapenko <glider@google.com>
+Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Ben Segall <bsegall@google.com>
+Cc: Boqun Feng <boqun.feng@gmail.com>
+Cc: Christoph Lameter <cl@linux.com>
+Cc: David Rientjes <rientjes@google.com>
+Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Frederic Weisbecker <frederic@kernel.org>
+Cc: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Jann Horn <jannh@google.com>
+Cc: Joel Fernandes (Google) <joel@joelfernandes.org>
+Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
+Cc: Josh Triplett <josh@joshtriplett.org>
+Cc: Juri Lelli <juri.lelli@redhat.com>
+Cc: <kasan-dev@googlegroups.com>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>
+Cc: Liam R. Howlett <Liam.Howlett@Oracle.com>
+Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Cc: Mel Gorman <mgorman@suse.de>
+Cc: Neeraj Upadhyay <neeraj.upadhyay@kernel.org>
+Cc: Paul E. McKenney <paulmck@kernel.org>
+Cc: Pekka Enberg <penberg@kernel.org>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: Steven Rostedt <rostedt@goodmis.org>
+Cc: syzkaller-bugs@googlegroups.com
+Cc: Tejun Heo <tj@kernel.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Uladzislau Rezki (Sony) <urezki@gmail.com>
+Cc: Valentin Schneider <vschneid@redhat.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>
+Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Zqiang <qiang.zhang1211@gmail.com>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+---
 
-> 
-> Also, I have concerns about interrupts and reentrancy. We are still
-> getting some reentrant calls from interrupts (not all of them are
-> filtered by in_task() check). I am afraid these complex hashmaps will
-> corrupt.
-Need more investigate and advice on better way to have uniq info stored.
+ include/linux/kasan.h     |    2 --
+ include/linux/task_work.h |    3 ---
+ kernel/irq_work.c         |    2 +-
+ kernel/rcu/tiny.c         |    2 +-
+ kernel/rcu/tree.c         |    4 ++--
+ kernel/sched/core.c       |    2 +-
+ kernel/task_work.c        |   14 +-------------
+ kernel/workqueue.c        |    2 +-
+ mm/kasan/generic.c        |   18 ++++++------------
+ mm/slub.c                 |    2 +-
+ 10 files changed, 14 insertions(+), 37 deletions(-)
+
+--- a/include/linux/kasan.h~kasan-make-kasan_record_aux_stack_noalloc-the-default-behaviour
++++ a/include/linux/kasan.h
+@@ -491,7 +491,6 @@ void kasan_cache_create(struct kmem_cach
+ void kasan_cache_shrink(struct kmem_cache *cache);
+ void kasan_cache_shutdown(struct kmem_cache *cache);
+ void kasan_record_aux_stack(void *ptr);
+-void kasan_record_aux_stack_noalloc(void *ptr);
+ 
+ #else /* CONFIG_KASAN_GENERIC */
+ 
+@@ -509,7 +508,6 @@ static inline void kasan_cache_create(st
+ static inline void kasan_cache_shrink(struct kmem_cache *cache) {}
+ static inline void kasan_cache_shutdown(struct kmem_cache *cache) {}
+ static inline void kasan_record_aux_stack(void *ptr) {}
+-static inline void kasan_record_aux_stack_noalloc(void *ptr) {}
+ 
+ #endif /* CONFIG_KASAN_GENERIC */
+ 
+--- a/include/linux/task_work.h~kasan-make-kasan_record_aux_stack_noalloc-the-default-behaviour
++++ a/include/linux/task_work.h
+@@ -19,9 +19,6 @@ enum task_work_notify_mode {
+ 	TWA_SIGNAL,
+ 	TWA_SIGNAL_NO_IPI,
+ 	TWA_NMI_CURRENT,
+-
+-	TWA_FLAGS = 0xff00,
+-	TWAF_NO_ALLOC = 0x0100,
+ };
+ 
+ static inline bool task_work_pending(struct task_struct *task)
+--- a/kernel/irq_work.c~kasan-make-kasan_record_aux_stack_noalloc-the-default-behaviour
++++ a/kernel/irq_work.c
+@@ -147,7 +147,7 @@ bool irq_work_queue_on(struct irq_work *
+ 	if (!irq_work_claim(work))
+ 		return false;
+ 
+-	kasan_record_aux_stack_noalloc(work);
++	kasan_record_aux_stack(work);
+ 
+ 	preempt_disable();
+ 	if (cpu != smp_processor_id()) {
+--- a/kernel/rcu/tiny.c~kasan-make-kasan_record_aux_stack_noalloc-the-default-behaviour
++++ a/kernel/rcu/tiny.c
+@@ -250,7 +250,7 @@ EXPORT_SYMBOL_GPL(poll_state_synchronize
+ void kvfree_call_rcu(struct rcu_head *head, void *ptr)
+ {
+ 	if (head)
+-		kasan_record_aux_stack_noalloc(ptr);
++		kasan_record_aux_stack(ptr);
+ 
+ 	__kvfree_call_rcu(head, ptr);
+ }
+--- a/kernel/rcu/tree.c~kasan-make-kasan_record_aux_stack_noalloc-the-default-behaviour
++++ a/kernel/rcu/tree.c
+@@ -3083,7 +3083,7 @@ __call_rcu_common(struct rcu_head *head,
+ 	}
+ 	head->func = func;
+ 	head->next = NULL;
+-	kasan_record_aux_stack_noalloc(head);
++	kasan_record_aux_stack(head);
+ 	local_irq_save(flags);
+ 	rdp = this_cpu_ptr(&rcu_data);
+ 	lazy = lazy_in && !rcu_async_should_hurry();
+@@ -3817,7 +3817,7 @@ void kvfree_call_rcu(struct rcu_head *he
+ 		return;
+ 	}
+ 
+-	kasan_record_aux_stack_noalloc(ptr);
++	kasan_record_aux_stack(ptr);
+ 	success = add_ptr_to_bulk_krc_lock(&krcp, &flags, ptr, !head);
+ 	if (!success) {
+ 		run_page_cache_worker(krcp);
+--- a/kernel/sched/core.c~kasan-make-kasan_record_aux_stack_noalloc-the-default-behaviour
++++ a/kernel/sched/core.c
+@@ -10590,7 +10590,7 @@ void task_tick_mm_cid(struct rq *rq, str
+ 		return;
+ 
+ 	/* No page allocation under rq lock */
+-	task_work_add(curr, work, TWA_RESUME | TWAF_NO_ALLOC);
++	task_work_add(curr, work, TWA_RESUME);
+ }
+ 
+ void sched_mm_cid_exit_signals(struct task_struct *t)
+--- a/kernel/task_work.c~kasan-make-kasan_record_aux_stack_noalloc-the-default-behaviour
++++ a/kernel/task_work.c
+@@ -55,26 +55,14 @@ int task_work_add(struct task_struct *ta
+ 		  enum task_work_notify_mode notify)
+ {
+ 	struct callback_head *head;
+-	int flags = notify & TWA_FLAGS;
+ 
+-	notify &= ~TWA_FLAGS;
+ 	if (notify == TWA_NMI_CURRENT) {
+ 		if (WARN_ON_ONCE(task != current))
+ 			return -EINVAL;
+ 		if (!IS_ENABLED(CONFIG_IRQ_WORK))
+ 			return -EINVAL;
+ 	} else {
+-		/*
+-		 * Record the work call stack in order to print it in KASAN
+-		 * reports.
+-		 *
+-		 * Note that stack allocation can fail if TWAF_NO_ALLOC flag
+-		 * is set and new page is needed to expand the stack buffer.
+-		 */
+-		if (flags & TWAF_NO_ALLOC)
+-			kasan_record_aux_stack_noalloc(work);
+-		else
+-			kasan_record_aux_stack(work);
++		kasan_record_aux_stack(work);
+ 	}
+ 
+ 	head = READ_ONCE(task->task_works);
+--- a/kernel/workqueue.c~kasan-make-kasan_record_aux_stack_noalloc-the-default-behaviour
++++ a/kernel/workqueue.c
+@@ -2180,7 +2180,7 @@ static void insert_work(struct pool_work
+ 	debug_work_activate(work);
+ 
+ 	/* record the work call stack in order to print it in KASAN reports */
+-	kasan_record_aux_stack_noalloc(work);
++	kasan_record_aux_stack(work);
+ 
+ 	/* we own @work, set data and link */
+ 	set_work_pwq(work, pwq, extra_flags);
+--- a/mm/kasan/generic.c~kasan-make-kasan_record_aux_stack_noalloc-the-default-behaviour
++++ a/mm/kasan/generic.c
+@@ -524,7 +524,11 @@ size_t kasan_metadata_size(struct kmem_c
+ 			sizeof(struct kasan_free_meta) : 0);
+ }
+ 
+-static void __kasan_record_aux_stack(void *addr, depot_flags_t depot_flags)
++/*
++ * This function avoids dynamic memory allocations and thus can be called from
++ * contexts that do not allow allocating memory.
++ */
++void kasan_record_aux_stack(void *addr)
+ {
+ 	struct slab *slab = kasan_addr_to_slab(addr);
+ 	struct kmem_cache *cache;
+@@ -541,17 +545,7 @@ static void __kasan_record_aux_stack(voi
+ 		return;
+ 
+ 	alloc_meta->aux_stack[1] = alloc_meta->aux_stack[0];
+-	alloc_meta->aux_stack[0] = kasan_save_stack(0, depot_flags);
+-}
+-
+-void kasan_record_aux_stack(void *addr)
+-{
+-	return __kasan_record_aux_stack(addr, STACK_DEPOT_FLAG_CAN_ALLOC);
+-}
+-
+-void kasan_record_aux_stack_noalloc(void *addr)
+-{
+-	return __kasan_record_aux_stack(addr, 0);
++	alloc_meta->aux_stack[0] = kasan_save_stack(0, 0);
+ }
+ 
+ void kasan_save_alloc_info(struct kmem_cache *cache, void *object, gfp_t flags)
+--- a/mm/slub.c~kasan-make-kasan_record_aux_stack_noalloc-the-default-behaviour
++++ a/mm/slub.c
+@@ -2311,7 +2311,7 @@ bool slab_free_hook(struct kmem_cache *s
+ 			 * We have to do this manually because the rcu_head is
+ 			 * not located inside the object.
+ 			 */
+-			kasan_record_aux_stack_noalloc(x);
++			kasan_record_aux_stack(x);
+ 
+ 			delayed_free->object = x;
+ 			call_rcu(&delayed_free->head, slab_free_after_rcu_debug);
+_
+
+Patches currently in -mm which might be from peterz@infradead.org are
+
+x86-disable-execmem_rox-support.patch
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/Z4X8riQq8NJ1nLLW%40hu-jiangenj-sha.qualcomm.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250114064219.B185BC4CEDD%40smtp.kernel.org.
