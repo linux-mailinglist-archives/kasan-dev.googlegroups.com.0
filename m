@@ -1,149 +1,158 @@
-Return-Path: <kasan-dev+bncBCD353VB3ABBBWUMZO6AMGQE3MGQYMY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDIJPGN37QKRBRFDZO6AMGQEEEJ4NGI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735BAA1ACCA
-	for <lists+kasan-dev@lfdr.de>; Thu, 23 Jan 2025 23:44:45 +0100 (CET)
-Received: by mail-pl1-x637.google.com with SMTP id d9443c01a7336-2163dc0f689sf41748315ad.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 23 Jan 2025 14:44:45 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1737672283; cv=pass;
+Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B3DBA1AD42
+	for <lists+kasan-dev@lfdr.de>; Fri, 24 Jan 2025 00:33:26 +0100 (CET)
+Received: by mail-lf1-x13b.google.com with SMTP id 2adb3069b0e04-53e44a2a6cdsf726745e87.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 23 Jan 2025 15:33:26 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1737675205; cv=pass;
         d=google.com; s=arc-20240605;
-        b=BqnU/mxxGCR8MxZFYYpMetwROTICnofCI4KCTl4qkyuqy8Ce619qUCtlaHnbYH/Lk/
-         JpAaxkVt8xKAfewbE+h4ZVit3j4udd6sZpq0Kmq7xYtZKqmXvwGzVPSObGEaJ3WD6xWN
-         R+u0cOO0HqRbBEexo7VYblNJSz1NQSmy4l7LdBbjXvDfBsDzUBujKDYJOUmWG9mdfMxu
-         Shlzh9zHMk2RYtdWG5nsKKYAQAIvRuWdRNWxp1oS4ieont5Bd+YsWjiv0RHV2lqKYyRz
-         ITsSGm3h9ProzUgUHMpg511BFjmOhODF2VUx6bvr2uHhXliMKzO4Nb/zYrzT8zAmBPi2
-         x25g==
+        b=SZ2dsehrLX9DHzJjdwDuBh7736MCx6nRaDGObSWgzGtx0DNXvbb9J4m1vucDmz9exk
+         P5ZtDaC15kg99faeR5Z8mEc5R+LZX089nIWl8Z/uPh6Zze4wm/Yhkrbp0q7sEBGi9eYY
+         RI63UTC1PshEjV4WtLp77om2T3R4Bt7jbRs2f5lPTExHWMMBAWmJNfj14qXvYe6SkFDs
+         CJ8Ox3kGpMWKj48y0WOG57w8TyZOoiJptYGfxVG3fO8XYNe3tUHfDfV3a2NHiSj0+/lp
+         WnDD0Y47tRVxo5YYcYJIT0Kk4utgiYmCEX4H0kQnKVLqlpgf35TjQSZabnXhZ0Am64iS
+         4hhA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:message-id
-         :mime-version:subject:date:from:dkim-signature;
-        bh=dOfwZYMwCs73xib9zCvkqaGMSTlZTwCybg6tzudOdpA=;
-        fh=CVmOaQKRNXEdrx4mpSPymat0/uvDwEyRiEEgBtV4CEE=;
-        b=Tff2E/yIvK7wMVBNMHKK7GrHw6twEc0MGJ94G7p0BqbZbDreUh8rSAG11jqKI6Qp35
-         x6sHCWpt5zemHq2RRA8JtVSIiIoFvpMLdcD6DnAs+2crdKoQHOkfcwEsl3l25cnXpURq
-         MC4RO/QnRWGstjEQ/gFr4x9UWHF3ox6db2h6qntWrRyNUhIO/Oc/XfaFpN5gmiooZO2l
-         NlOAUPu5P1CNbcO0/Xw7itBKlFDEV8OfrgI4eIAbqlz6MpFFR7EGmn+fyD9O3Sm2ly/w
-         5gLfgPNGvoySBhVKc+5bkFu0YIPtCjRv4lhhfZ6mx1Db8Tk+P67jPSL0/gclmF9nxcQD
-         1R0w==;
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=MNKn9kFaHMOJ3OKojyISxRGsQCZv2N0w1v96kUlqF38=;
+        fh=RcFB/MiHdZguWMC6AgYkfqbrv5xD1LqDY9+xq955DpE=;
+        b=YXnfEGN2cT00aWpd8lwBwt3xGc4uzIuweo7qmY4ITnwiXs3315ZBlFbCqZUG7unSJc
+         EHctub5FOrK+ebMWTekJZQu/gyRqr3JQwV1p+CKTnCy3EINuO2MwXMcpP1mFR5jg8LnB
+         SeEawzzSzoU/wWedxBDUx+w637mIdyC3uCfbB6xetBptSIAFx4pPArEL/JrBacCyRoO9
+         l9iwCCpyq/niDb7th0PDHeZvb7vQdxAqmXT89TNBC6xVtjPgSYuO/4plPp65yrweb4+H
+         Xct2b2rrmiz3CF96AOEUErx276Eivi7o6KTxsxXf/nVNR31x9p0UuDmzshlGghVwqAXg
+         A+KQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JVysbSma;
-       spf=pass (google.com: domain of devnull+cl.gentwo.org@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=devnull+cl.gentwo.org@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b="Dc/qhfkG";
+       spf=pass (google.com: domain of shy828301@gmail.com designates 2a00:1450:4864:20::530 as permitted sender) smtp.mailfrom=shy828301@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1737672283; x=1738277083; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1737675205; x=1738280005; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:reply-to:cc:to:message-id:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dOfwZYMwCs73xib9zCvkqaGMSTlZTwCybg6tzudOdpA=;
-        b=Qb1hjMqbS8S20loxLvKHfYVvlzCICwEtfMRQuo+1pLzEZ1B/daDFsuyLHbAIqpXZzn
-         UMj86XCq8G28mYpC33lht9lJvy1pcatQywH1B2hX+GYzVCUw6O5iZtRQtf2U0Of9kQiy
-         k1FmIMp1YcP5yrulXoRUo6qVJFlukPM0tbf5s0hytBmytU19387GMMfjkC9+M7HX5/U4
-         4s1AxSmaGNNGuQg+PufHQPKub9WY+SUz4+59UsYdzJz7WE4Iz9AkfrfMCRasiVLRR/2v
-         zueb84gga6EDFKM28Z11coI/6P/7onEdeHZFvJDd5Q8NtvjLYXOdEmESFqUJERbokl/U
-         FeZQ==
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MNKn9kFaHMOJ3OKojyISxRGsQCZv2N0w1v96kUlqF38=;
+        b=Y21H6QsDz2Q8kOf02BN3W+rps6z+Aa9kQANIVraY88/3SIPFCaN8TASaIbm+kplKeU
+         mnysNBiknCy2FQftwEcl+sPmHpZMBs7hsJvuh46er8ct3N9PDNLSkUmPa3KsMQw2hq4B
+         6cPau7woUwpla39m2sDGqIEXns2+WY+pNAohOKwTi6RlDDTjgGbJZRKJqR1j2wFaHiRa
+         BNZpqHwScnffFN93F/Pp3IFROJaRPitISgF6OuKbCi3pJvHfmGgwBVfogGSZC1YSGvSO
+         2zhoQTsSzMI1UdA1iVd2nx6nXY8PorDsvCMAd4OQH9Qr7mzg0K27W6jzsbVou/4mtkrp
+         hjeg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737675205; x=1738280005; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MNKn9kFaHMOJ3OKojyISxRGsQCZv2N0w1v96kUlqF38=;
+        b=Os5ilPUiuVD9ViNZQGn9j5aBmkQT7xyXgvgaZo6nk+YJrFkkUfup4DJBphrQCu717B
+         yxkFgvEcPoPO4+2b3znv0Al2bpXIMBuDKBfGBJc9n+fXxC587d3MIiXClfOebDRsk/4w
+         GIEZ6AFIck3STAcqC4SQyPt3mRN/3Y9cGGW6C/VaCjtXDNX1MBnIkCTQdrChRecOwqWd
+         ZQY4PebvS9mRrUWW2eD0xM3SJozUbtFYjmrVFmfvabPhZ/kDdwwTXsuT6OqvfaGsLprz
+         IdT8SdPw6shznlkrvsaeO5rveKexiaumc+aAAtc/ZjN4VnnHePjIjOg2tIf9P7xpy87j
+         FT3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737672283; x=1738277083;
+        d=1e100.net; s=20230601; t=1737675205; x=1738280005;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:reply-to:cc:to
-         :message-id:mime-version:subject:date:from:x-beenthere
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dOfwZYMwCs73xib9zCvkqaGMSTlZTwCybg6tzudOdpA=;
-        b=pZfUMcH6FqPy1WTAnegKVNc3xwkCOIcKfJuJGz359MPYETOjjt3o26OEBKAdfAgAbO
-         m/2zcLjDsC/6+/Gp3QxTlVLVewNJ23MmEx5iYH+OmJEUMqkVl7dbi3Zysy8drjGEHg5W
-         0fGNM7Ox3e+ucKz5OMB/YehA/6MsVkHCU+jeSMIeFQrM4i8oGFeZwhrsxju57sz/yBN9
-         PTf6ZHLbsGbCeXl2Ko0VRI69dqm0Pk0VHOQuDpzwuMnGgq7S6YOMdhJ244HXapKd9AIV
-         7CV8qN4gnzaoxps27IlWLZmjDqiutiQc1ZovlZT0vt3oOAhsIMofdlN+lHpr3uCOg1cR
-         LpXw==
-X-Forwarded-Encrypted: i=2; AJvYcCWeqd8YrlJKPFwlF/qQ65gkhaCtqq6IjVabivSJo5A4IcpLkT+hQdyGTFLgbbt/2Q6yUK6z0g==@lfdr.de
-X-Gm-Message-State: AOJu0YzioyopeDxgp1tkf032bGLibFrn/PzoG1PoIugowkdSQoBhGUYk
-	C9aQRKC8Lg7RGeA6rUy+6/LD/Kc3OwxxfqhMY1KiEhJIT0TE0c1o
-X-Google-Smtp-Source: AGHT+IGNnPiuj/AUQA7PdDgUgh65XCrcqYfG+iS2jI9LbMhc1l03fhld8HSdpZ32hkwH6kPfKWhAGQ==
-X-Received: by 2002:a05:6a00:2184:b0:725:ef4b:de33 with SMTP id d2e1a72fcca58-72daf88b1b9mr42858609b3a.0.1737672282953;
-        Thu, 23 Jan 2025 14:44:42 -0800 (PST)
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=MNKn9kFaHMOJ3OKojyISxRGsQCZv2N0w1v96kUlqF38=;
+        b=Og8q2G5TSPTDLHS/eQBf8Pf1L7+o/kSU2tHT1KojJXF29WrnZTw+RELV+GyRRzHO+E
+         xykQmoG2Lkk4EktfGUrcPWbw0QcltsVLN0zTMr2prgQ8tPhZ7ttqNLWEcMpfIGgNHIqs
+         /ZKrzLcfsR9TwymyC+G/LjWipiQkdN8IiKmNI8ANTuJInI8aGoqgNlZHa9ZBIjOOxYAE
+         WkVHYdblnzSCqwT2aHDlNcAdq6DB0ZKjV8+j75z346HIJhf82mCrhUfOmktmU/rLXgCy
+         xqBel/klGF0bvSGtezkScFgVluas0eLXUHL/UKd7JbcSRMpSf5NHqGgsVPPvhmUaIw8I
+         vumQ==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCVsqu3ebmB4Z8FComkchIKlnnsMCVNV8E3ZamEwdvcyoF7owNMISyK6BWosJtv89bdsQDwb1w==@lfdr.de
+X-Gm-Message-State: AOJu0YzlrA6UlXsQ0azK3gnEJUoFYEQfWw8XqMkYSjGjDef3aY5aThD1
+	t4BA1ykfkJ9TcLgI0amVqa3DgvuY4Fi5LXEVTF22mQp6b00swDXz
+X-Google-Smtp-Source: AGHT+IHoKw6OUMdfsVzcaUnOSB+Aw0na/TqW8ndf3OZXH7ll+Ok0C5IfW9LDqSy4+A2B6n6sqjCNWw==
+X-Received: by 2002:a05:6512:3c92:b0:540:2201:57d2 with SMTP id 2adb3069b0e04-5439c27d0e5mr11032594e87.49.1737675204507;
+        Thu, 23 Jan 2025 15:33:24 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:7416:b0:725:efed:3617 with SMTP id
- d2e1a72fcca58-72f7d355fadls850684b3a.1.-pod-prod-06-us; Thu, 23 Jan 2025
- 14:44:41 -0800 (PST)
-X-Received: by 2002:a05:6a00:18a7:b0:725:f376:f4ff with SMTP id d2e1a72fcca58-72dafa46e92mr35800335b3a.13.1737672281537;
-        Thu, 23 Jan 2025 14:44:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1737672281; cv=none;
+Received: by 2002:a05:651c:893:b0:300:151b:db37 with SMTP id
+ 38308e7fff4ca-30761d89c0cls3440461fa.1.-pod-prod-08-eu; Thu, 23 Jan 2025
+ 15:33:22 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXJNbxG5w9FKsxNxxJ5PvLEZRp3iHiNKsA/Wigegce/Sm5UAeqPVQUo1G3Ay4i79+ukPhLJpM949ec=@googlegroups.com
+X-Received: by 2002:a05:6512:1044:b0:540:358d:d9b5 with SMTP id 2adb3069b0e04-5439c1b8487mr10899866e87.0.1737675202142;
+        Thu, 23 Jan 2025 15:33:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1737675202; cv=none;
         d=google.com; s=arc-20240605;
-        b=NvzxpJvVLptwGo4xE1K69xvSHIKN8mTeBx0+a8tY8pa8rtEXv9oLWU89nSE7UZ+NmE
-         PPaH7CCGl6RSawfQGiUAneZw2a+mPgoRGuDJ/1VdsQxP7dqYsipK7fnjf8h72de8bi2A
-         vRg3gyD1GA2dTbNoEdsZfWUUJZUHSM9tVvvadWKtYjsdy/0AFtu1GqEe6BiBqWEiI7aM
-         aLXo9gK5VSSkHnbuZMGwHBjb0dTCnvcXIKYqUk/77WQV/TJXoLKDNvcXdtDkq8xRRyCi
-         VD5tpJJ2VnVVAGzOuSdNm+s8x4H8so/gJYxwKkxITcnoiagR812MfcoqjLNh10Rl6Er7
-         nRZA==
+        b=jAOaVKZxy3YbGLb2ulXefRE5o+pC5ux0TrlfTf4yUIHfFDeeswhaK5CudnuZnQ2E5F
+         L3U/fCsigvyR+6R5X/piUAsYIhFIP7iTiyGFXR44IV5zNH3qzqE6QliPXC8UJQ05/RbM
+         C/LNCA9nWSvONjSCW9SyBFGRsM2eWF2E/ylQExEeBf2/RD1BhOLAIN9o8HL5v8XgcUuL
+         L2snUMeHR/wRDrtysAxd/Nn+lrbjeqNWAvx2V8gvnkWdohLoQNtmUn8MzW83yW9m4F+E
+         XJCGtyuQz/pn8UHK5Y62NsJYS67d/a0psbWVEVUQc0z9maNVeeZiZVBoAjv1xIsKXPKm
+         QQdQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=reply-to:cc:to:message-id:content-transfer-encoding:mime-version
-         :subject:date:from:dkim-signature;
-        bh=DN2qIVtn45lSDeISRH7pzRdYiEAGo9xDvYndyjR48Wo=;
-        fh=Adlj12xObAsViEXbvBHH6+1al8perxru2GhFcgjKLRQ=;
-        b=NsAnMI4go7mFXhRuzc+/wQu+F3DNv2e9MKOzYSp9XYZzcaI/NwSm9o9apYRZO/1TXp
-         fIEHetrXyn/tMVSCwBFVTXzD2jDQQJHMMAkpcTeuOwn6ZdNYpMd+V0hIVhprNfoFbicY
-         TJc/szSqA/Gx0x333Awc5kiemX0gJhD+rLE+NKIbRIuOsQWRGvWxEH+/qMuWBEPOZIRJ
-         Hl25qH+I02vJUY4EYI4yyyCrN8WtI1Kek1rRF6k6iUq7PZNdYNL6G8UdKraEYI9o3iTr
-         rRLCsf2fMd/Ptz9RdXw5DSscWKO20yewFl6uwS/DQd26ycDlfgB+DhjM/Ru/ilL70K2L
-         Fzvw==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=mVSW8bIsfsFFqMRBCFdAmfhhGQMoicsNVoCASFEdJPs=;
+        fh=fNmNXCUN1ukdxsgfDr+h0ZDkMGLqXNRy0vtt5E8NFAE=;
+        b=brApane0tQVRVmYsXMUew/n1q9iZI1ulIBIOmcOnJtHoM2o6i+drBhPvW9P9eI/GGg
+         mqa+L2V1X0UiUIM8FwfxTgNb3Zizcn3NaGDc0ZtFjNQsJM5N+9xbJR1K9jxveudKn5ds
+         yjVjawIKE5VVS6p+FLkjOnVOghAPvzkja2i0SyayzuAScXwa5YW1FlmJ/aZtYxXrQUhW
+         jrZyI3TMi0rytUGRwJPI/kzvEz7PJqjS254BcWhzIKrPwTnDVBbeoeR9TrgbUQFVmmBO
+         aJ9vDjfFSZjU5le2skb05+9v2WiJx8LEVu/634Khrs8iSQ5iatqnQ/Dg7l486aRpGicN
+         KwDw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JVysbSma;
-       spf=pass (google.com: domain of devnull+cl.gentwo.org@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=devnull+cl.gentwo.org@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-Received: from nyc.source.kernel.org (nyc.source.kernel.org. [2604:1380:45d1:ec00::3])
-        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-ac48f2dac72si33640a12.2.2025.01.23.14.44.41
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b="Dc/qhfkG";
+       spf=pass (google.com: domain of shy828301@gmail.com designates 2a00:1450:4864:20::530 as permitted sender) smtp.mailfrom=shy828301@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com. [2a00:1450:4864:20::530])
+        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-543c8231e51si12880e87.5.2025.01.23.15.33.22
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jan 2025 14:44:41 -0800 (PST)
-Received-SPF: pass (google.com: domain of devnull+cl.gentwo.org@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) client-ip=2604:1380:45d1:ec00::3;
-Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 4B99AA410E1;
-	Thu, 23 Jan 2025 22:42:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4BE82C4CED3;
-	Thu, 23 Jan 2025 22:44:40 +0000 (UTC)
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33F87C02182;
-	Thu, 23 Jan 2025 22:44:40 +0000 (UTC)
-From: "'Christoph Lameter via B4 Relay' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Thu, 23 Jan 2025 14:44:22 -0800
-Subject: [PATCH] KFENCE: Clarify that sample allocations are not following
- NUMA or memory policies
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Jan 2025 15:33:22 -0800 (PST)
+Received-SPF: pass (google.com: domain of shy828301@gmail.com designates 2a00:1450:4864:20::530 as permitted sender) client-ip=2a00:1450:4864:20::530;
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-5d3bbb0f09dso2750643a12.2
+        for <kasan-dev@googlegroups.com>; Thu, 23 Jan 2025 15:33:22 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVnoJjSbd7eqWhgP4KJZjNOr0H+VDekRroQKqNz69lvyHBlDaK1q+hXm+4Qi9/X6TMsNILK7j8TQow=@googlegroups.com
+X-Gm-Gg: ASbGncsUAjQDHEKQYtXqOuRwOyQYE6CzPfr+b3fyl/EfwrOJXWFkxGGFFOC5OYV8A1Q
+	BB94jyBnA51v3vk3RkWBj1/RiTRDwkw8uwLbeUWDAOXtta18CVyaTeLzQaZ/fGWGb
+X-Received: by 2002:a05:6402:4306:b0:5d0:e570:508d with SMTP id
+ 4fb4d7f45d1cf-5db7d2fe766mr29121404a12.17.1737675201205; Thu, 23 Jan 2025
+ 15:33:21 -0800 (PST)
 MIME-Version: 1.0
+References: <20250123-kfence_doc_update-v1-1-9aa8e94b3d0b@gentwo.org>
+In-Reply-To: <20250123-kfence_doc_update-v1-1-9aa8e94b3d0b@gentwo.org>
+From: Yang Shi <shy828301@gmail.com>
+Date: Thu, 23 Jan 2025 15:33:09 -0800
+X-Gm-Features: AWEUYZkt0opVyUinbKW3yvK6FhHW59qmxiF3ZCbbeXr6_WOiSo_nj24cn27XASg
+Message-ID: <CAHbLzkpTF-n85vHeFVEWQArpV=hP9Vo_tYm_LgUQEWLJp=ac8Q@mail.gmail.com>
+Subject: Re: [PATCH] KFENCE: Clarify that sample allocations are not following
+ NUMA or memory policies
+To: cl@gentwo.org
+Cc: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Huang Shijie <shijie@os.amperecomputing.com>, 
+	kasan-dev@googlegroups.com, workflows@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Christoph Lameter <cl@linux.com>
 Content-Type: text/plain; charset="UTF-8"
-Message-Id: <20250123-kfence_doc_update-v1-1-9aa8e94b3d0b@gentwo.org>
-X-B4-Tracking: v=1; b=H4sIAEXGkmcC/x3MQQqAIBBA0avIrBNKs6irREjqVEOgoRVBdPek5
- Vv8/0DCSJigZw9EvChR8BlVwcCuk1+Qk8sGUQpVVkLybUZvUbtg9bm76UDeSVOrtrFCGQO52yP
- OdP/PYXzfD8JKsIVjAAAA
-To: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
- Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>, 
- Andrew Morton <akpm@linux-foundation.org>, Yang Shi <shy828301@gmail.com>, 
- Huang Shijie <shijie@os.amperecomputing.com>
-Cc: kasan-dev@googlegroups.com, workflows@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Christoph Lameter <cl@linux.com>
-X-Mailer: b4 0.15-dev-37811
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1737672279; l=3054;
- i=cl@gentwo.org; s=20240811; h=from:subject:message-id;
- bh=eIxS3YCsT4+4g6upmIgCuuU4kgmE4EN1FGtWLpy+DEk=;
- b=byG2v1ccXcVddMP4S2pWoNTqusVg0lM7PldpPyYmxe+NZFCRj2oqkKiZZAv6hjBhftZDnio93
- yi+D93q9QRVB0LvrZiXBylDWb052rPSMv87mqekQxhCVEDNQicsg/VF
-X-Developer-Key: i=cl@gentwo.org; a=ed25519;
- pk=I7gqGwDi9drzCReFIuf2k9de1FI1BGibsshXI0DIvq8=
-X-Endpoint-Received: by B4 Relay for cl@gentwo.org/20240811 with
- auth_id=194
-X-Original-From: Christoph Lameter <cl@gentwo.org>
-Reply-To: cl@gentwo.org
-X-Original-Sender: devnull@kernel.org
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: shy828301@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@kernel.org header.s=k20201202 header.b=JVysbSma;       spf=pass
- (google.com: domain of devnull+cl.gentwo.org@kernel.org designates
- 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=devnull+cl.gentwo.org@kernel.org;
-       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
-X-Original-From: Christoph Lameter via B4 Relay <devnull+cl.gentwo.org@kernel.org>
+ header.i=@gmail.com header.s=20230601 header.b="Dc/qhfkG";       spf=pass
+ (google.com: domain of shy828301@gmail.com designates 2a00:1450:4864:20::530
+ as permitted sender) smtp.mailfrom=shy828301@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -156,82 +165,111 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-From: Christoph Lameter <cl@linux.com>
+On Thu, Jan 23, 2025 at 2:44=E2=80=AFPM Christoph Lameter via B4 Relay
+<devnull+cl.gentwo.org@kernel.org> wrote:
+>
+> From: Christoph Lameter <cl@linux.com>
+>
+> KFENCE manages its own pools and redirects regular memory allocations
+> to those pools in a sporadic way. The usual memory allocator features
+> like NUMA, memory policies and pfmemalloc are not supported.
+> This means that one gets surprising object placement with KFENCE that
+> may impact performance on some NUMA systems.
+>
+> Update the description and make KFENCE depend on VM debugging
+> having been enabled.
+>
+> Signed-off-by: Christoph Lameter <cl@linux.com>
+> ---
+>  Documentation/dev-tools/kfence.rst |  4 +++-
+>  lib/Kconfig.kfence                 | 10 ++++++----
+>  2 files changed, 9 insertions(+), 5 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools=
+/kfence.rst
+> index 541899353865..27150780d6f5 100644
+> --- a/Documentation/dev-tools/kfence.rst
+> +++ b/Documentation/dev-tools/kfence.rst
+> @@ -8,7 +8,9 @@ Kernel Electric-Fence (KFENCE) is a low-overhead sampling=
+-based memory safety
+>  error detector. KFENCE detects heap out-of-bounds access, use-after-free=
+, and
+>  invalid-free errors.
+>
+> -KFENCE is designed to be enabled in production kernels, and has near zer=
+o
+> +KFENCE is designed to be low overhead but does not implememnt the typica=
+l
 
-KFENCE manages its own pools and redirects regular memory allocations
-to those pools in a sporadic way. The usual memory allocator features
-like NUMA, memory policies and pfmemalloc are not supported.
-This means that one gets surprising object placement with KFENCE that
-may impact performance on some NUMA systems.
+s/implememnt/implement
 
-Update the description and make KFENCE depend on VM debugging
-having been enabled.
+> +memory allocation features for its samples like memory policies, NUMA an=
+d
+> +management of emergency memory pools. It has near zero
+>  performance overhead. Compared to KASAN, KFENCE trades performance for
+>  precision. The main motivation behind KFENCE's design, is that with enou=
+gh
+>  total uptime KFENCE will detect bugs in code paths not typically exercis=
+ed by
+> diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+> index 6fbbebec683a..48d2a6a1be08 100644
+> --- a/lib/Kconfig.kfence
+> +++ b/lib/Kconfig.kfence
+> @@ -5,14 +5,14 @@ config HAVE_ARCH_KFENCE
+>
+>  menuconfig KFENCE
+>         bool "KFENCE: low-overhead sampling-based memory safety error det=
+ector"
+> -       depends on HAVE_ARCH_KFENCE
+> +       depends on HAVE_ARCH_KFENCE && DEBUG_VM
 
-Signed-off-by: Christoph Lameter <cl@linux.com>
----
- Documentation/dev-tools/kfence.rst |  4 +++-
- lib/Kconfig.kfence                 | 10 ++++++----
- 2 files changed, 9 insertions(+), 5 deletions(-)
+Not sure whether it should depend on DEBUG_VM or not, but the update
+about not honoring NUMA policy makes sense to me.
 
-diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
-index 541899353865..27150780d6f5 100644
---- a/Documentation/dev-tools/kfence.rst
-+++ b/Documentation/dev-tools/kfence.rst
-@@ -8,7 +8,9 @@ Kernel Electric-Fence (KFENCE) is a low-overhead sampling-based memory safety
- error detector. KFENCE detects heap out-of-bounds access, use-after-free, and
- invalid-free errors.
- 
--KFENCE is designed to be enabled in production kernels, and has near zero
-+KFENCE is designed to be low overhead but does not implememnt the typical
-+memory allocation features for its samples like memory policies, NUMA and
-+management of emergency memory pools. It has near zero
- performance overhead. Compared to KASAN, KFENCE trades performance for
- precision. The main motivation behind KFENCE's design, is that with enough
- total uptime KFENCE will detect bugs in code paths not typically exercised by
-diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
-index 6fbbebec683a..48d2a6a1be08 100644
---- a/lib/Kconfig.kfence
-+++ b/lib/Kconfig.kfence
-@@ -5,14 +5,14 @@ config HAVE_ARCH_KFENCE
- 
- menuconfig KFENCE
- 	bool "KFENCE: low-overhead sampling-based memory safety error detector"
--	depends on HAVE_ARCH_KFENCE
-+	depends on HAVE_ARCH_KFENCE && DEBUG_VM
- 	select STACKTRACE
- 	select IRQ_WORK
- 	help
- 	  KFENCE is a low-overhead sampling-based detector of heap out-of-bounds
- 	  access, use-after-free, and invalid-free errors. KFENCE is designed
--	  to have negligible cost to permit enabling it in production
--	  environments.
-+	  to have negligible cost. KFENCE does not support NUMA features
-+	  and other memory allocator features for it sample allocations.
- 
- 	  See <file:Documentation/dev-tools/kfence.rst> for more details.
- 
-@@ -21,7 +21,9 @@ menuconfig KFENCE
- 	  detect, albeit at very different performance profiles. If you can
- 	  afford to use KASAN, continue using KASAN, for example in test
- 	  environments. If your kernel targets production use, and cannot
--	  enable KASAN due to its cost, consider using KFENCE.
-+	  enable KASAN due to its cost and you are not using NUMA and have
-+	  no use of the memory reserve logic of the memory allocators,
-+	  consider using KFENCE.
- 
- if KFENCE
- 
+Reviewed-by: Yang Shi <yang@os.amperecomputing.com>
 
----
-base-commit: d0d106a2bd21499901299160744e5fe9f4c83ddb
-change-id: 20250123-kfence_doc_update-93b4576c25bb
+>         select STACKTRACE
+>         select IRQ_WORK
+>         help
+>           KFENCE is a low-overhead sampling-based detector of heap out-of=
+-bounds
+>           access, use-after-free, and invalid-free errors. KFENCE is desi=
+gned
+> -         to have negligible cost to permit enabling it in production
+> -         environments.
+> +         to have negligible cost. KFENCE does not support NUMA features
+> +         and other memory allocator features for it sample allocations.
+>
+>           See <file:Documentation/dev-tools/kfence.rst> for more details.
+>
+> @@ -21,7 +21,9 @@ menuconfig KFENCE
+>           detect, albeit at very different performance profiles. If you c=
+an
+>           afford to use KASAN, continue using KASAN, for example in test
+>           environments. If your kernel targets production use, and cannot
+> -         enable KASAN due to its cost, consider using KFENCE.
+> +         enable KASAN due to its cost and you are not using NUMA and hav=
+e
+> +         no use of the memory reserve logic of the memory allocators,
+> +         consider using KFENCE.
+>
+>  if KFENCE
+>
+>
+> ---
+> base-commit: d0d106a2bd21499901299160744e5fe9f4c83ddb
+> change-id: 20250123-kfence_doc_update-93b4576c25bb
+>
+> Best regards,
+> --
+> Christoph Lameter <cl@gentwo.org>
+>
+>
 
-Best regards,
--- 
-Christoph Lameter <cl@gentwo.org>
-
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250123-kfence_doc_update-v1-1-9aa8e94b3d0b%40gentwo.org.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+AHbLzkpTF-n85vHeFVEWQArpV%3DhP9Vo_tYm_LgUQEWLJp%3Dac8Q%40mail.gmail.com.
