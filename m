@@ -1,146 +1,149 @@
-Return-Path: <kasan-dev+bncBCO7L6ME2ELBBYNGZC6AMGQETTE3F7Y@googlegroups.com>
+Return-Path: <kasan-dev+bncBCD353VB3ABBBWUMZO6AMGQE3MGQYMY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x13b.google.com (mail-lf1-x13b.google.com [IPv6:2a00:1450:4864:20::13b])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681C1A1A15B
-	for <lists+kasan-dev@lfdr.de>; Thu, 23 Jan 2025 11:01:07 +0100 (CET)
-Received: by mail-lf1-x13b.google.com with SMTP id 2adb3069b0e04-53e1ee761d7sf341249e87.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 23 Jan 2025 02:01:07 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1737626466; cv=pass;
+Received: from mail-pl1-x637.google.com (mail-pl1-x637.google.com [IPv6:2607:f8b0:4864:20::637])
+	by mail.lfdr.de (Postfix) with ESMTPS id 735BAA1ACCA
+	for <lists+kasan-dev@lfdr.de>; Thu, 23 Jan 2025 23:44:45 +0100 (CET)
+Received: by mail-pl1-x637.google.com with SMTP id d9443c01a7336-2163dc0f689sf41748315ad.1
+        for <lists+kasan-dev@lfdr.de>; Thu, 23 Jan 2025 14:44:45 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1737672283; cv=pass;
         d=google.com; s=arc-20240605;
-        b=aObaw6i1nJPLO8wy08JPMUSh0Jpz1YpuvDU3AW8j5/JoVagJ/hld1Cxh4OLUFQSVR3
-         xW3tyBaV4gXLWqx6me+86Mr0A0cnLTTlgzDHohGtQ9NsbIUhVxoxXnEx2WtQE2s2nYhT
-         8wU56tLOOIs4HmIg3EPDNFRblPenM+AItVJ/QuMbMZ21nSrBtKWAhhSbAObzj7dg/czG
-         JOOA/JY+f/Xiczl1tvBYuUOc1nQf4GrAyV/qJfNY0v1BN/L/9cBokKn38NZfvyj10bsR
-         xLo+q4SPkigUIWpvxSetKk4trkwwnPVDjetGx6Pgsl1EQv2EyDiirtfXJMsIC/ewdQ2I
-         /4bg==
+        b=BqnU/mxxGCR8MxZFYYpMetwROTICnofCI4KCTl4qkyuqy8Ce619qUCtlaHnbYH/Lk/
+         JpAaxkVt8xKAfewbE+h4ZVit3j4udd6sZpq0Kmq7xYtZKqmXvwGzVPSObGEaJ3WD6xWN
+         R+u0cOO0HqRbBEexo7VYblNJSz1NQSmy4l7LdBbjXvDfBsDzUBujKDYJOUmWG9mdfMxu
+         Shlzh9zHMk2RYtdWG5nsKKYAQAIvRuWdRNWxp1oS4ieont5Bd+YsWjiv0RHV2lqKYyRz
+         ITsSGm3h9ProzUgUHMpg511BFjmOhODF2VUx6bvr2uHhXliMKzO4Nb/zYrzT8zAmBPi2
+         x25g==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
-         :mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:dkim-signature;
-        bh=xVDwarb9rhCuEiThqnVhgsRcBUxhDkhlnAEPLHH2vIM=;
-        fh=v5RmySBfZZrs34DZ+GihYfEJ905iH0NgsZp3S8F+rnw=;
-        b=Ex0X3xEQ7KLgbJXTxvUBrehbl7qZpRd7n7F+Gx4E3VOIFdieYS491/debq9wy4iG1z
-         X74kJdm9S/eAXrV2YBeXfMLO2WbyzO5ix2Yc+AmGAb4piSjX1lM11QOE+mINkoynFEGS
-         6IKpb23ekWt7Pwj1+LtRsM8lHrfzwfZhBsYHdjlQ90xV0fO6lOOTkTU2/v0BWl0gXf5n
-         9qzZwrg0Fd34bGIO5fpvdsrnFNeSm/1O+hjKKurp8chXy5YMuESj3Ix6vUSpkEUribVP
-         ZX1h07uZkgmnt9dcSJHYQOihCuVVW2i6vWnNVfYgXSwuCNHeJoZYdz55gBlQqQ2lzKLo
-         5ztw==;
+         :list-id:mailing-list:precedence:reply-to:cc:to:message-id
+         :mime-version:subject:date:from:dkim-signature;
+        bh=dOfwZYMwCs73xib9zCvkqaGMSTlZTwCybg6tzudOdpA=;
+        fh=CVmOaQKRNXEdrx4mpSPymat0/uvDwEyRiEEgBtV4CEE=;
+        b=Tff2E/yIvK7wMVBNMHKK7GrHw6twEc0MGJ94G7p0BqbZbDreUh8rSAG11jqKI6Qp35
+         x6sHCWpt5zemHq2RRA8JtVSIiIoFvpMLdcD6DnAs+2crdKoQHOkfcwEsl3l25cnXpURq
+         MC4RO/QnRWGstjEQ/gFr4x9UWHF3ox6db2h6qntWrRyNUhIO/Oc/XfaFpN5gmiooZO2l
+         NlOAUPu5P1CNbcO0/Xw7itBKlFDEV8OfrgI4eIAbqlz6MpFFR7EGmn+fyD9O3Sm2ly/w
+         5gLfgPNGvoySBhVKc+5bkFu0YIPtCjRv4lhhfZ6mx1Db8Tk+P67jPSL0/gclmF9nxcQD
+         1R0w==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@mailbox.org header.s=mail20150812 header.b=Viw2gDQe;
-       spf=pass (google.com: domain of erhard_f@mailbox.org designates 80.241.56.151 as permitted sender) smtp.mailfrom=erhard_f@mailbox.org;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=mailbox.org
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JVysbSma;
+       spf=pass (google.com: domain of devnull+cl.gentwo.org@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=devnull+cl.gentwo.org@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1737626466; x=1738231266; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1737672283; x=1738277083; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xVDwarb9rhCuEiThqnVhgsRcBUxhDkhlnAEPLHH2vIM=;
-        b=Inh+EOGkAn+QP8wZnS2F9HPe9QpzAXZ5Xhkg4oiUa11zzUE1nxPRuPj9oNVliipM7j
-         jUcDo/i70QAitmsUgq2uGYaCaafXMfLMphNE5ieSqseoBcpMz8eDwDlEbclJk7I2w/1F
-         UA7MtjNHCDxsVrNQ7Qjtg5oIYHUCINmNS7mI2CcJJOZufv+PxapAITksjMzIxbgWINaP
-         0fIlzppirYG1DRjVc1Aj58tScOfT4dm2PdFoFNFIM2TJUun0HP6nJ7izl7rQlSjP40vD
-         9IxPxyfDBbehoQGnt6qOfb14yCoXuLcGH9i/F8a606i0LuCQ5vi23OxwfJHYD1FhzKBL
-         SO8w==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:reply-to:cc:to:message-id:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dOfwZYMwCs73xib9zCvkqaGMSTlZTwCybg6tzudOdpA=;
+        b=Qb1hjMqbS8S20loxLvKHfYVvlzCICwEtfMRQuo+1pLzEZ1B/daDFsuyLHbAIqpXZzn
+         UMj86XCq8G28mYpC33lht9lJvy1pcatQywH1B2hX+GYzVCUw6O5iZtRQtf2U0Of9kQiy
+         k1FmIMp1YcP5yrulXoRUo6qVJFlukPM0tbf5s0hytBmytU19387GMMfjkC9+M7HX5/U4
+         4s1AxSmaGNNGuQg+PufHQPKub9WY+SUz4+59UsYdzJz7WE4Iz9AkfrfMCRasiVLRR/2v
+         zueb84gga6EDFKM28Z11coI/6P/7onEdeHZFvJDd5Q8NtvjLYXOdEmESFqUJERbokl/U
+         FeZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737626466; x=1738231266;
+        d=1e100.net; s=20230601; t=1737672283; x=1738277083;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-beenthere:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xVDwarb9rhCuEiThqnVhgsRcBUxhDkhlnAEPLHH2vIM=;
-        b=YzzWIJwu3NCQVURKa/yhhW1V47YcNiJh6JX/e/rHkurQ8+9oHXCDZlKj8/Tr0p4JZE
-         Z+RJCV0hdjI4yttcB5YWzWGybabXHIAwRTTJeDCIDolaZs+ybCMTD8EFRMuhHHprd+fc
-         dK0hgvcrfS+gbsc3ysMPc7lQoJAm8RBVLCPA+HcN5KPrtcSDzAT/BxlTBZnXzVF4rvcq
-         5cewAOHWwZYqav84dsNBHOsxAMfWoj996dcPZw+ZKQ9MzBRXP+rtlD6xG5rx+Bc93kP+
-         p1Eed2lEAbK944RMzMAE092wxf5ja5KE7UNA+85OwOTMlOwULgt623gf/ykjaRu/2Tl+
-         1hrw==
-X-Forwarded-Encrypted: i=2; AJvYcCXPsqB1Q7NwNdtSjkFyXYV9H2Z4jacCi3PgEtn1/O5/Z+CN0yJKnSz+UxTCZJicBzxzf96Hjg==@lfdr.de
-X-Gm-Message-State: AOJu0Yz68iqDMaBp025r4uRELErIwvgfEnIc/bv5+60ptV7y+z4miKLs
-	IVXt7yLvGopOrWVvgK9KEizhE5VzIbxPXm77qMKT5BByfvJyDB9F
-X-Google-Smtp-Source: AGHT+IHifyQTlXUseIyS8lG6KGGo3VFtbE8fxTkNa3zpZbsQDTHYsx8sqliliq8BksgrsoUXaOWBYA==
-X-Received: by 2002:ac2:5211:0:b0:542:87c5:66da with SMTP id 2adb3069b0e04-5439c282b5amr7699944e87.37.1737626465836;
-        Thu, 23 Jan 2025 02:01:05 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender:reply-to:cc:to
+         :message-id:mime-version:subject:date:from:x-beenthere
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dOfwZYMwCs73xib9zCvkqaGMSTlZTwCybg6tzudOdpA=;
+        b=pZfUMcH6FqPy1WTAnegKVNc3xwkCOIcKfJuJGz359MPYETOjjt3o26OEBKAdfAgAbO
+         m/2zcLjDsC/6+/Gp3QxTlVLVewNJ23MmEx5iYH+OmJEUMqkVl7dbi3Zysy8drjGEHg5W
+         0fGNM7Ox3e+ucKz5OMB/YehA/6MsVkHCU+jeSMIeFQrM4i8oGFeZwhrsxju57sz/yBN9
+         PTf6ZHLbsGbCeXl2Ko0VRI69dqm0Pk0VHOQuDpzwuMnGgq7S6YOMdhJ244HXapKd9AIV
+         7CV8qN4gnzaoxps27IlWLZmjDqiutiQc1ZovlZT0vt3oOAhsIMofdlN+lHpr3uCOg1cR
+         LpXw==
+X-Forwarded-Encrypted: i=2; AJvYcCWeqd8YrlJKPFwlF/qQ65gkhaCtqq6IjVabivSJo5A4IcpLkT+hQdyGTFLgbbt/2Q6yUK6z0g==@lfdr.de
+X-Gm-Message-State: AOJu0YzioyopeDxgp1tkf032bGLibFrn/PzoG1PoIugowkdSQoBhGUYk
+	C9aQRKC8Lg7RGeA6rUy+6/LD/Kc3OwxxfqhMY1KiEhJIT0TE0c1o
+X-Google-Smtp-Source: AGHT+IGNnPiuj/AUQA7PdDgUgh65XCrcqYfG+iS2jI9LbMhc1l03fhld8HSdpZ32hkwH6kPfKWhAGQ==
+X-Received: by 2002:a05:6a00:2184:b0:725:ef4b:de33 with SMTP id d2e1a72fcca58-72daf88b1b9mr42858609b3a.0.1737672282953;
+        Thu, 23 Jan 2025 14:44:42 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a19:5e5a:0:b0:540:c34b:91f6 with SMTP id 2adb3069b0e04-543c24906bdls49185e87.1.-pod-prod-05-eu;
- Thu, 23 Jan 2025 02:01:02 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVObO8F9loNUXLJg8zhFmtr9KcOoXFf2IGQgMuTh92G9reNZ1AQ8C8+G6F1P3QPbkT8hgZvzK/L6o4=@googlegroups.com
-X-Received: by 2002:a05:6512:ad5:b0:542:2190:9d99 with SMTP id 2adb3069b0e04-5439c22d7fcmr9242260e87.6.1737626461931;
-        Thu, 23 Jan 2025 02:01:01 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1737626461; cv=none;
+Received: by 2002:a05:6a00:7416:b0:725:efed:3617 with SMTP id
+ d2e1a72fcca58-72f7d355fadls850684b3a.1.-pod-prod-06-us; Thu, 23 Jan 2025
+ 14:44:41 -0800 (PST)
+X-Received: by 2002:a05:6a00:18a7:b0:725:f376:f4ff with SMTP id d2e1a72fcca58-72dafa46e92mr35800335b3a.13.1737672281537;
+        Thu, 23 Jan 2025 14:44:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1737672281; cv=none;
         d=google.com; s=arc-20240605;
-        b=RLudBHTzcojXeZTrrBqoA/jMF+b8SgLsXtrDSNE5H8o5wB7FD8JUqdJGvKyUhBbK03
-         UNOyodWNoW9EJs2f6+IYZOuSNl3HgDVCb8yMezmP+EQlZWQFnHdIp6ZZfGiQYF61lvBn
-         ReSmWjp/m4DasT8RmiusPEAzqWghWGWh8SsfE/ee6npz+OCEsgHuyzKK3D9vuSHS81sl
-         qbRSbQKcRKGMVIe04k1MoqCuK8ojitYsu9A+lQRjO5HLhf6yAvyi75+oTtwa9W6B2BEo
-         nq7P4FPhBIQWWzviwrQHG60RIM0SNbpL59eFVbFLbWQ881Y1ZQM0nxalMpRsdJ6cOi31
-         Y0Sg==
+        b=NvzxpJvVLptwGo4xE1K69xvSHIKN8mTeBx0+a8tY8pa8rtEXv9oLWU89nSE7UZ+NmE
+         PPaH7CCGl6RSawfQGiUAneZw2a+mPgoRGuDJ/1VdsQxP7dqYsipK7fnjf8h72de8bi2A
+         vRg3gyD1GA2dTbNoEdsZfWUUJZUHSM9tVvvadWKtYjsdy/0AFtu1GqEe6BiBqWEiI7aM
+         aLXo9gK5VSSkHnbuZMGwHBjb0dTCnvcXIKYqUk/77WQV/TJXoLKDNvcXdtDkq8xRRyCi
+         VD5tpJJ2VnVVAGzOuSdNm+s8x4H8so/gJYxwKkxITcnoiagR812MfcoqjLNh10Rl6Er7
+         nRZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:dkim-signature;
-        bh=g2pO6+QLNA6Mj2xw+ECoH+WU/EdmM/oG+IGjb8y/Gog=;
-        fh=4r11t+ytE9B9MSvaMedC5UUZbxc6hJ0WzG47CJyeiiI=;
-        b=Tz4cUrWnSdWF9jHLcRuULpQG6eZwfvCylGkTcuUmd2IUc7oLZLt4ZVAjXRI3Md/tcW
-         +Yv9BOYGa2liUIkGIk0lzgv48qp3P5iLD+E6zMnqHrr5wzDTgi3g7Vtlgbrs4lREvq8G
-         rw7W65y6Is3+uUyjNk4OAvXibu+/eeP8hIBseZkIEaXYg9TF+f9Z7q0tY+4cmQxzni+o
-         RNIiY99lrT/qDzzSKBBl9fZbgndQ7lkQovuXM4Nps4JV9ypwgj5KjrWEf7Rd928mfoOz
-         jjW0rKowIrAnx0QvKCsfmwxcLn8Tpe/4Qfnjq9kI6gJNbhaFxCOTPFfAOjG5A4wkrtaM
-         PEbw==;
+        h=reply-to:cc:to:message-id:content-transfer-encoding:mime-version
+         :subject:date:from:dkim-signature;
+        bh=DN2qIVtn45lSDeISRH7pzRdYiEAGo9xDvYndyjR48Wo=;
+        fh=Adlj12xObAsViEXbvBHH6+1al8perxru2GhFcgjKLRQ=;
+        b=NsAnMI4go7mFXhRuzc+/wQu+F3DNv2e9MKOzYSp9XYZzcaI/NwSm9o9apYRZO/1TXp
+         fIEHetrXyn/tMVSCwBFVTXzD2jDQQJHMMAkpcTeuOwn6ZdNYpMd+V0hIVhprNfoFbicY
+         TJc/szSqA/Gx0x333Awc5kiemX0gJhD+rLE+NKIbRIuOsQWRGvWxEH+/qMuWBEPOZIRJ
+         Hl25qH+I02vJUY4EYI4yyyCrN8WtI1Kek1rRF6k6iUq7PZNdYNL6G8UdKraEYI9o3iTr
+         rRLCsf2fMd/Ptz9RdXw5DSscWKO20yewFl6uwS/DQd26ycDlfgB+DhjM/Ru/ilL70K2L
+         Fzvw==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@mailbox.org header.s=mail20150812 header.b=Viw2gDQe;
-       spf=pass (google.com: domain of erhard_f@mailbox.org designates 80.241.56.151 as permitted sender) smtp.mailfrom=erhard_f@mailbox.org;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=mailbox.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org. [80.241.56.151])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-5439af64301si370218e87.7.2025.01.23.02.01.01
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=JVysbSma;
+       spf=pass (google.com: domain of devnull+cl.gentwo.org@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=devnull+cl.gentwo.org@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from nyc.source.kernel.org (nyc.source.kernel.org. [2604:1380:45d1:ec00::3])
+        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-ac48f2dac72si33640a12.2.2025.01.23.14.44.41
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jan 2025 02:01:01 -0800 (PST)
-Received-SPF: pass (google.com: domain of erhard_f@mailbox.org designates 80.241.56.151 as permitted sender) client-ip=80.241.56.151;
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4YdxKQ5cxbz9sy3;
-	Thu, 23 Jan 2025 11:00:58 +0100 (CET)
-Date: Thu, 23 Jan 2025 11:00:51 +0100
-From: "'Erhard Furtner' via kasan-dev" <kasan-dev@googlegroups.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Sabyrzhan Tasbolatov <snovitoll@gmail.com>, Balbir Singh
- <bsingharora@gmail.com>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- linuxppc-dev@lists.ozlabs.org, torvalds@linux-foundation.org, kasan-dev
- <kasan-dev@googlegroups.com>
-Subject: Re: BUG: KASAN: vmalloc-out-of-bounds in
- copy_to_kernel_nofault+0xd8/0x1c8 (v6.13-rc6, PowerMac G4)
-Message-ID: <20250123110051.77591f69@yea>
-In-Reply-To: <8acd6ef8-adf0-4694-a3e5-72ec3cf09bf1@csgroup.eu>
-References: <20250112135832.57c92322@yea>
-	<af04e91f-0f44-457e-9550-d1d49789158e@linux.ibm.com>
-	<20250121220027.64b79bab@yea>
-	<f06de018-34ae-4662-8a35-1c55dff1024a@csgroup.eu>
-	<20250122002159.43b367f0@yea>
-	<ca7568ef-5032-4a80-9350-a9648b87f0b5@csgroup.eu>
-	<8acd6ef8-adf0-4694-a3e5-72ec3cf09bf1@csgroup.eu>
+        Thu, 23 Jan 2025 14:44:41 -0800 (PST)
+Received-SPF: pass (google.com: domain of devnull+cl.gentwo.org@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) client-ip=2604:1380:45d1:ec00::3;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by nyc.source.kernel.org (Postfix) with ESMTP id 4B99AA410E1;
+	Thu, 23 Jan 2025 22:42:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4BE82C4CED3;
+	Thu, 23 Jan 2025 22:44:40 +0000 (UTC)
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33F87C02182;
+	Thu, 23 Jan 2025 22:44:40 +0000 (UTC)
+From: "'Christoph Lameter via B4 Relay' via kasan-dev" <kasan-dev@googlegroups.com>
+Date: Thu, 23 Jan 2025 14:44:22 -0800
+Subject: [PATCH] KFENCE: Clarify that sample allocations are not following
+ NUMA or memory policies
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-MBO-RS-ID: fd40fbbe0cabfe8e5b5
-X-MBO-RS-META: bz53gnnzceo19xeofg98yg7oixjnhbud
-X-Original-Sender: erhard_f@mailbox.org
+Message-Id: <20250123-kfence_doc_update-v1-1-9aa8e94b3d0b@gentwo.org>
+X-B4-Tracking: v=1; b=H4sIAEXGkmcC/x3MQQqAIBBA0avIrBNKs6irREjqVEOgoRVBdPek5
+ Vv8/0DCSJigZw9EvChR8BlVwcCuk1+Qk8sGUQpVVkLybUZvUbtg9bm76UDeSVOrtrFCGQO52yP
+ OdP/PYXzfD8JKsIVjAAAA
+To: Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>, 
+ Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Andrew Morton <akpm@linux-foundation.org>, Yang Shi <shy828301@gmail.com>, 
+ Huang Shijie <shijie@os.amperecomputing.com>
+Cc: kasan-dev@googlegroups.com, workflows@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Christoph Lameter <cl@linux.com>
+X-Mailer: b4 0.15-dev-37811
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1737672279; l=3054;
+ i=cl@gentwo.org; s=20240811; h=from:subject:message-id;
+ bh=eIxS3YCsT4+4g6upmIgCuuU4kgmE4EN1FGtWLpy+DEk=;
+ b=byG2v1ccXcVddMP4S2pWoNTqusVg0lM7PldpPyYmxe+NZFCRj2oqkKiZZAv6hjBhftZDnio93
+ yi+D93q9QRVB0LvrZiXBylDWb052rPSMv87mqekQxhCVEDNQicsg/VF
+X-Developer-Key: i=cl@gentwo.org; a=ed25519;
+ pk=I7gqGwDi9drzCReFIuf2k9de1FI1BGibsshXI0DIvq8=
+X-Endpoint-Received: by B4 Relay for cl@gentwo.org/20240811 with
+ auth_id=194
+X-Original-From: Christoph Lameter <cl@gentwo.org>
+Reply-To: cl@gentwo.org
+X-Original-Sender: devnull@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@mailbox.org header.s=mail20150812 header.b=Viw2gDQe;       spf=pass
- (google.com: domain of erhard_f@mailbox.org designates 80.241.56.151 as
- permitted sender) smtp.mailfrom=erhard_f@mailbox.org;       dmarc=pass
- (p=REJECT sp=REJECT dis=NONE) header.from=mailbox.org
-X-Original-From: Erhard Furtner <erhard_f@mailbox.org>
-Reply-To: Erhard Furtner <erhard_f@mailbox.org>
+ header.i=@kernel.org header.s=k20201202 header.b=JVysbSma;       spf=pass
+ (google.com: domain of devnull+cl.gentwo.org@kernel.org designates
+ 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=devnull+cl.gentwo.org@kernel.org;
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: Christoph Lameter via B4 Relay <devnull+cl.gentwo.org@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -153,158 +156,82 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 22 Jan 2025 19:23:00 +0100
-Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
+From: Christoph Lameter <cl@linux.com>
 
-> Le 22/01/2025 =C3=A0 16:32, Christophe Leroy a =C3=A9crit=C2=A0:
-> >=20
-> >=20
-> > Le 22/01/2025 =C3=A0 00:21, Erhard Furtner a =C3=A9crit=C2=A0: =20
-> >> On Tue, 21 Jan 2025 23:07:25 +0100
-> >> Christophe Leroy <christophe.leroy@csgroup.eu> wrote:
-> >> =20
-> >>>> Meanwhile I bisected the bug. Offending commit is:
-> >>>>
-> >>>> =C2=A0=C2=A0 # git bisect good
-> >>>> 32913f348229c9f72dda45fc2c08c6d9dfcd3d6d is the first bad commit
-> >>>> commit 32913f348229c9f72dda45fc2c08c6d9dfcd3d6d
-> >>>> Author: Linus Torvalds <torvalds@linux-foundation.org>
-> >>>> Date:=C2=A0=C2=A0 Mon Dec 9 10:00:25 2024 -0800
-> >>>>
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 futex: fix user access on powerpc
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 The powerpc user access code is speci=
-al, and unlike other=20
-> >>>> architectures
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 distinguishes between user access for=
- reading and writing.
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 And commit 43a43faf5376 ("futex: impr=
-ove user space accesses")=20
-> >>>> messed
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 that up.=C2=A0 It went undetected els=
-ewhere, but caused ppc32 to=20
-> >>>> fail early
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 during boot, because the user access =
-had been started with
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 user_read_access_begin(), but then fi=
-nished off with just a plain
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "user_access_end()".
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Note that the address-masking user ac=
-cess helpers don't even=20
-> >>>> have that
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 read-vs-write distinction, so if powe=
-rpc ever wants to do address
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 masking tricks, we'll have to do some=
- extra work for it.
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 [ Make sure to also do it for the EFA=
-ULT case, as pointed out by
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Christophe Leroy ]
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Reported-by: Andreas Schwab <schwab@l=
-inux-m68k.org>
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Cc: Christophe Leroy <christophe.lero=
-y@csgroup.eu>
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Link: https://eur01.safelinks.protect=
-ion.outlook.com/?=20
-> >>>> url=3Dhttps%3A%2F%2Flore.kernel.org%2Fall%2F87bjxl6b0i.fsf%40igel.ho=
-me%2F&data=3D05%7C02%7Cchristophe.leroy%40csgroup.eu%7Cb4c1dc7184f54a410a0e=
-08dd3a7270b6%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C63873098540790288=
-1%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiO=
-iJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DE5Yp9jopCP=
-E1NFuBM8rs%2B1jXZ%2FXAaKvBGpcEP%2BaMyz0%3D&reserved=3D0
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Signed-off-by: Linus Torvalds <torval=
-ds@linux-foundation.org>
-> >>>>
-> >>>> =C2=A0=C2=A0 kernel/futex/futex.h | 4 ++--
-> >>>> =C2=A0=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)
-> >>>>
-> >>>>
-> >>>> Indeed, reverting 32913f348229c9f72dda45fc2c08c6d9dfcd3d6d on top of=
-=20
-> >>>> v6.13 makes the KASAN hit disappear. =20
-> >>>
-> >>> That looks terribly odd.
-> >>>
-> >>> On G4, user_read_access_begin() and user_read_access_end() are no-op
-> >>> because book3s/32 can only protect user access by kernel against writ=
-e.
-> >>> Read is always granted.
-> >>>
-> >>> So the bug must be an indirect side effect of what user_access_end()
-> >>> does. user_access_end() does a sync. Would the lack of sync (once
-> >>> replaced user_access_end() by user_read_access_end() ) lead to some o=
-dd
-> >>> re-ordering ? Or another possibility is that user_access_end() is cal=
-led
-> >>> on some kernel address (I see in the description of commit 43a43faf53=
-76
-> >>> ("futex: improve user space accesses") that the replaced __get_user()
-> >>> was expected to work on kernel adresses) ? Calling user_access_begin(=
-)
-> >>> and user_access_end() is unexpected and there is no guard so it could
-> >>> lead to strange segment settings which hides a KASAN hit. But once th=
-e
-> >>> fix the issue the KASAN resurfaces ? Could this be the problem ?
-> >>>
-> >>> Do you have a way to reproduce the bug on QEMU ? It would enable me t=
-o
-> >>> investigate it further. =20
-> >>
-> >> Attached v6.13 .config plays nicely with qemu ttyS0 (forgot to disable=
-=20
-> >> SERIAL_8250 and set SERIAL_PMACZILOG + SERIAL_PMACZILOG_CONSOLE=20
-> >> instead as I prefer the PCI Serial card in my G4).
-> >>
-> >> The KASAN hit also shows up on qemu 8.2.7 via via:
-> >> qemu-system-ppc -machine mac99,via=3Dpmu -cpu 7450 -m 2G -nographic -=
-=20
-> >> append console=3DttyS0 -kernel vmlinux-6.13.0-PMacG4 -hda Debian-VM_g4=
-.img
-> >> =20
-> >=20
-> > I was able to reproduce it with v6.13 with QEMU when loading test_bpf=
-=20
-> > module.
-> >=20
-> > On my side, the problem doesn't disappear when reverting of commit=20
-> > 32913f348229 ("futex: fix user access on powerpc")
-> >=20
-> > I bisected it to commit e4137f08816b ("mm, kasan, kmsan: instrument=20
-> > copy_from/to_kernel_nofault"), which makes a lot more sense to me.
-> >=20
-> > It might be a problem in the way patch_instruction() is implemented on=
-=20
-> > powerpc, to be investigated. =20
->=20
-> I think the problem is commit 37bc3e5fd764 ("powerpc/lib/code-patching:=
-=20
-> Use alternate map for patch_instruction()")
->=20
-> Can you try the change below:
->=20
-> diff --git a/arch/powerpc/lib/code-patching.c=20
-> b/arch/powerpc/lib/code-patching.c
-> index af97fbb3c257..8a378fc19074 100644
-> --- a/arch/powerpc/lib/code-patching.c
-> +++ b/arch/powerpc/lib/code-patching.c
-> @@ -108,7 +108,7 @@ static int text_area_cpu_up(unsigned int cpu)
->   	unsigned long addr;
->   	int err;
->=20
-> -	area =3D get_vm_area(PAGE_SIZE, VM_ALLOC);
-> +	area =3D get_vm_area(PAGE_SIZE, 0);
->   	if (!area) {
->   		WARN_ONCE(1, "Failed to create text area for cpu %d\n",
->   			cpu);
+KFENCE manages its own pools and redirects regular memory allocations
+to those pools in a sporadic way. The usual memory allocator features
+like NUMA, memory policies and pfmemalloc are not supported.
+This means that one gets surprising object placement with KFENCE that
+may impact performance on some NUMA systems.
 
-Patch applies on v6.13 and fixes the KASAN hit on QEMU and on my PowerMac G=
-4 DP. Thanks Christophe!
+Update the description and make KFENCE depend on VM debugging
+having been enabled.
 
-Regards,
-Erhard
+Signed-off-by: Christoph Lameter <cl@linux.com>
+---
+ Documentation/dev-tools/kfence.rst |  4 +++-
+ lib/Kconfig.kfence                 | 10 ++++++----
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/2=
-0250123110051.77591f69%40yea.
+diff --git a/Documentation/dev-tools/kfence.rst b/Documentation/dev-tools/kfence.rst
+index 541899353865..27150780d6f5 100644
+--- a/Documentation/dev-tools/kfence.rst
++++ b/Documentation/dev-tools/kfence.rst
+@@ -8,7 +8,9 @@ Kernel Electric-Fence (KFENCE) is a low-overhead sampling-based memory safety
+ error detector. KFENCE detects heap out-of-bounds access, use-after-free, and
+ invalid-free errors.
+ 
+-KFENCE is designed to be enabled in production kernels, and has near zero
++KFENCE is designed to be low overhead but does not implememnt the typical
++memory allocation features for its samples like memory policies, NUMA and
++management of emergency memory pools. It has near zero
+ performance overhead. Compared to KASAN, KFENCE trades performance for
+ precision. The main motivation behind KFENCE's design, is that with enough
+ total uptime KFENCE will detect bugs in code paths not typically exercised by
+diff --git a/lib/Kconfig.kfence b/lib/Kconfig.kfence
+index 6fbbebec683a..48d2a6a1be08 100644
+--- a/lib/Kconfig.kfence
++++ b/lib/Kconfig.kfence
+@@ -5,14 +5,14 @@ config HAVE_ARCH_KFENCE
+ 
+ menuconfig KFENCE
+ 	bool "KFENCE: low-overhead sampling-based memory safety error detector"
+-	depends on HAVE_ARCH_KFENCE
++	depends on HAVE_ARCH_KFENCE && DEBUG_VM
+ 	select STACKTRACE
+ 	select IRQ_WORK
+ 	help
+ 	  KFENCE is a low-overhead sampling-based detector of heap out-of-bounds
+ 	  access, use-after-free, and invalid-free errors. KFENCE is designed
+-	  to have negligible cost to permit enabling it in production
+-	  environments.
++	  to have negligible cost. KFENCE does not support NUMA features
++	  and other memory allocator features for it sample allocations.
+ 
+ 	  See <file:Documentation/dev-tools/kfence.rst> for more details.
+ 
+@@ -21,7 +21,9 @@ menuconfig KFENCE
+ 	  detect, albeit at very different performance profiles. If you can
+ 	  afford to use KASAN, continue using KASAN, for example in test
+ 	  environments. If your kernel targets production use, and cannot
+-	  enable KASAN due to its cost, consider using KFENCE.
++	  enable KASAN due to its cost and you are not using NUMA and have
++	  no use of the memory reserve logic of the memory allocators,
++	  consider using KFENCE.
+ 
+ if KFENCE
+ 
+
+---
+base-commit: d0d106a2bd21499901299160744e5fe9f4c83ddb
+change-id: 20250123-kfence_doc_update-93b4576c25bb
+
+Best regards,
+-- 
+Christoph Lameter <cl@gentwo.org>
+
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250123-kfence_doc_update-v1-1-9aa8e94b3d0b%40gentwo.org.
