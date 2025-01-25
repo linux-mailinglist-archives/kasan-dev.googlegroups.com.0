@@ -1,213 +1,162 @@
-Return-Path: <kasan-dev+bncBDXYDPH3S4OBBGV4Z26AMGQEKKDLCKI@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBVGU2C6AMGQEQMQXV6I@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F6F6A1B789
-	for <lists+kasan-dev@lfdr.de>; Fri, 24 Jan 2025 15:05:16 +0100 (CET)
-Received: by mail-wm1-x33d.google.com with SMTP id 5b1f17b1804b1-43673af80a6sf15145405e9.1
-        for <lists+kasan-dev@lfdr.de>; Fri, 24 Jan 2025 06:05:16 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1737727516; cv=pass;
+Received: from mail-wm1-x33c.google.com (mail-wm1-x33c.google.com [IPv6:2a00:1450:4864:20::33c])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEC9A1BF82
+	for <lists+kasan-dev@lfdr.de>; Sat, 25 Jan 2025 01:03:34 +0100 (CET)
+Received: by mail-wm1-x33c.google.com with SMTP id 5b1f17b1804b1-43623bf2a83sf21254995e9.0
+        for <lists+kasan-dev@lfdr.de>; Fri, 24 Jan 2025 16:03:34 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1737763414; cv=pass;
         d=google.com; s=arc-20240605;
-        b=HziXtUXnDf2deiEP5S/fr9rnk/00THcG81ZOAvmlKH2ubtEaYlfTFfhTyssko0nnX2
-         p46MdmFGjhxSxSfLi4xZ0UwYQ2n0oSUqwhYIRtwcPz4sTOZ5rgcSh5A8V7TyiSAHS5aZ
-         mYavopGcI5gtWF7At9qq1X7knx5Iu8OKcdnTNxMPDBt19YjXTqyHs5Jr/FXdurxlVDA0
-         91Di5gmOjLn5/QhZoFjSbclCeDqPEZR00xoVNvh9WXCoE+coy8VeXV1Wauj0c/EfovbP
-         ASfgi9nP6jBepk3ws55n5BowToX4LxU//C3uyYCmR+jswaRQpi9/aI24kU71atv6XdPC
-         lbug==
+        b=W8qs8i+G7tjpL6/gyYD89iohsNaYeVpilZQS8hDcjWzSlnmkh2PpiDB1lwLTQOG1iF
+         1ngqBzx0FT+9139LLnyFVZQQ8JzIy+L24mzhKjv2xZ1RRkzLUqiwnxzu0cDGoF6ZEhIb
+         OKeED7wjhATcMdh6pwACv+cGEkyWvohoRz/yDVXLIMDqsb7tCaCQwo7zKK9QJogVm+y2
+         mGZ/IOawdK/tIwx2aPxXrhaYWhtgS+cCTOM3/p0/zXLt6SmdP7KBTQpGqnCKis9K9BJ6
+         ZFa3bxRFxqqxmsZA680/wIze983V+goTbupSNsq489LaYVtOa/DDl3t3+T7+nvj+qJPH
+         LmCg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:in-reply-to:autocrypt:from
-         :references:cc:to:content-language:subject:user-agent:mime-version
-         :date:message-id:sender:dkim-signature;
-        bh=CgXl72ydxiljXe29X7r6c7uFTMGKufDDtwd8FQlsX2w=;
-        fh=ZrP9XIXZ3oWLawxap52NRQlGkltTijUsL32RwFCuXJU=;
-        b=cPDu/lkp6TzU2CO7UENUmUk1Vo0+sD3C/3Zs+toEVIkND0R9+YL89HRRAN0MLtHEUY
-         /f61kBjhriZZCZ9Wt8Lq0BCs0BWA29MPRzt5XbpOEjPyKTLWGGGwysmUQSraMkSYD7kQ
-         0ylkgqD0eOnWv4fY9+P56UQSQWv7sJNorGlwue49L3OaAtBJ5Mj7flyCpVb0scTyevIQ
-         mbcbzx5Ha1Ej4Q5Lf2PXJd9y2rNVvsVpWDeC38qJguxyj4aTZn0AgfKoA86ovZoKa+DN
-         IguPfm4mjxJcMBGDXFeg+q8uaVRdCeif5/rKGlETwVjGUrAXtDic0chlAVjc0dZqeP7D
-         kdOA==;
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=gbv0I1b72PZv+rou/07gyHhjnEOvSDz9KHv7cxaFLq4=;
+        fh=w96hz/L0YUp0PM1SwBexf3khqawUTnHovF3O/joAegs=;
+        b=lDCblxB8SLuDsmMQEWw1gI8ed0GttyGUO+JAQqHOleLuTRpS+f1IbIdEmP1a7RlQe0
+         KO3CF0TEyxAUwL5JSMawyLFuG+vscuAIeUtPHgOvYp2y2jN/UEZDIAnOJv3+wU90RX4R
+         jANgvOrEhAvFs57uAur805Fqh2iupPi6r+Qk0qTaqlGCilFxFDL8INSGt5WAkWC5jc6/
+         vJE7Y/4fKDlZoSZVaDdiO4AfVpDkU9UZPvw+Wj7YAHFtxxTDOo/S1m2qj3+XBzffe+T/
+         g08BckU9WsKc3chjoWZqWGfwXHQapvIvwbJvTQ+czFRd4F47N0S6itzIBdtyb323ItCS
+         4oUw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=zOuVyxCD;
-       dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=jSNIYaBv;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=WLazIPzd;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1737727516; x=1738332316; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1737763414; x=1738368214; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:in-reply-to:autocrypt:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=CgXl72ydxiljXe29X7r6c7uFTMGKufDDtwd8FQlsX2w=;
-        b=IAjVpNnjvtieKGoTO4SB52+uAZWA30zp4IHUcevaJrTgGsl9Y9ZwKpxoZ3nKfdSr1y
-         /f9ghNUVbBil984npYa6ezo+pPhOJxcIK68fsnlePg1OPePs8cMMfVbxlPLMbqgVnY8R
-         f+ItMIVfNw/fRlCU5I/Ui/E4scqOFGNsnr7ohJfnbcqYfYrNVsdKGzPMZS/rNBC5tqik
-         zBXqtg7sFKW78BqJlFNJE7KITad6Wwx0EpzfJZTQJfVOl4ngCktdSfNDhuwpRskiw/k6
-         c9waIHcpX2De7iX+doKI4pdjFLsR3oVPIHk/taBVQQU7bdk21yKs/nTG4T+rZWdgUI87
-         HIQQ==
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gbv0I1b72PZv+rou/07gyHhjnEOvSDz9KHv7cxaFLq4=;
+        b=R8eF6T9meCSFIS+PuCL5wfd7ZwrvIA8peVN53Kop+s4Xys1GdnFKG+0DX6+ajdjnen
+         +a7SHIPBFpHvmNUuffFS73SBC8+9U7p3MrGV+qvfEOz65i8fruPLbTqy5vOrQtvMdLiX
+         7tqsI4/jXNTaBl+JD8yOwM6K1XCgDK0OzCmyARxI/EN+2b+fJYk7lrJvJ29NMkAHwpIU
+         A8QAUVc/998hQ2f7pKBQmg9X9fvQInGQPenGHfn/Hf7f5wBR6HtrHp9JwtGn5RrYWlkJ
+         x7i6eHGOpRC+ib6guFDXQkH9CH46yMf6xr/TeO1/4dhVCqGclccQlO7EBLU3Tu/+A+W0
+         lzqg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1737763414; x=1738368214; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gbv0I1b72PZv+rou/07gyHhjnEOvSDz9KHv7cxaFLq4=;
+        b=HntV4tGJZsnbpw/zXD7rLu24Dn0+vBc6R3Fpqt1GFJQH5MRGQW8zBfDDaKTJFFM1aW
+         XbrhkP0dYxwIkFvJz2/5Vh0tfyYmXCzRPR4r+E2UWANy/rEnPN2eZIn8gKO1v70kgljq
+         TDuxxQXU2ALYjBAtKWAA5AWtPAKQ2XUM2rfK2lDvb0wW1f0BS/qeNa5LC922WiFXG44+
+         3rJsszYWPETy6MpK6SQwYBXxRDwHo6OSOQoCGV0akTPT7bvRWzuSZoASWubikUzBerz4
+         QNFJmlk55RqPPaWk6bURRpluY76mcw1n8aVC93G5rLlP326/Geyhke8OGhjTBZfB73H2
+         nUBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737727516; x=1738332316;
+        d=1e100.net; s=20230601; t=1737763414; x=1738368214;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender:in-reply-to
-         :autocrypt:from:references:cc:to:content-language:subject:user-agent
-         :mime-version:date:message-id:x-beenthere:x-gm-message-state:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CgXl72ydxiljXe29X7r6c7uFTMGKufDDtwd8FQlsX2w=;
-        b=O9dY+IVqSPtgWPZX6cT5ATE6ifMa7/j/mLVIpSZPE6KUrve65xpgt4Q2njogz6R45q
-         6oxwKWDeCGlQdsvg448hPw6yodjkqcAp7wRMX6mW7H2LTzdLP4kjRxLR/IMj+EdkLTWh
-         Wm3Y+pfNkweQUEQXMGwCgHPmKcPakHjjXEU+FdjNPON6V58jrHSZwS9wPg2u8u2HIbzs
-         2gUyaQzxj80o18xvN0h/bYRfuZGInjW88tAPeX2uEcqFLbihVis9Tm+trM9N6oNhqRpA
-         oUa8aTOYAVlFZBGZiCVyojEy9NERdYv8OI6SWZk6dg9ElyvGO6QxGtjStmztjFN9O4BS
-         mf4A==
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=gbv0I1b72PZv+rou/07gyHhjnEOvSDz9KHv7cxaFLq4=;
+        b=HZPZnzMyXckf6B3HnfLrD1Q4b0MA29X8U94ZKijESNoGqfhaGwS9iQEIjdTYLlaqkM
+         9LAWsRC4WFD1sNp9UAvXpyuRamvLlfZ3tHR6GyTyPfkL7H+ucAQ8Qp8gOuPmOCDXYUbB
+         B61FPvhhuv0EaEmQ6lAN08XJ/LY0ZMuNnHyqGKHtVaQuibJgCd/lInK2WJD8kig4jF1x
+         mF+d6vgmsNftKEYuOzhM0pbFRK53Dn4E7/KIOn4ye28yf3GkG3U8PuEG/aToiVNHEPI9
+         3APjzmoVWesiICaO3KgqmQnarc2dm1fzArHWw+xuAVCC0eTaEcj5DFWkC/ka73Ek/nmt
+         YZow==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCUmfy6KKXsRpwseKMR5/cF6x6fHDvu2qqlwCEfybdVaXF2KVDNILzxIXgNwm/XpIANCy1k45Q==@lfdr.de
-X-Gm-Message-State: AOJu0Yyw6mXbNKY2hG+tj8aXIDUbqmddXaIADWZfRtjwQHtkESpIjMAz
-	kzLK8Dzg1koMCzm49d6oE41TT6IpF49WnEUqbesZEkEmRwJCuHz8
-X-Google-Smtp-Source: AGHT+IHyLuraXkrrNOf/NIj5lucFgggwpAP1k2GontjhQ2eAJzhErlmPW38EAghDPzcxEb5Fz6Xofg==
-X-Received: by 2002:a05:600c:1c16:b0:435:32e:8270 with SMTP id 5b1f17b1804b1-438913de562mr294013885e9.14.1737727514807;
-        Fri, 24 Jan 2025 06:05:14 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVbQzM4re28Wn0T0Jy1U/Ayiqn9tuM0ATERNCInZq7VYv01IeetlMEbqsBVQEWKe5TyjEs1eg==@lfdr.de
+X-Gm-Message-State: AOJu0YyYRr6LCF7YsyLATF2IBxSJbYEBEGSBZUrjKmUEAGJtznZ/6HBL
+	PAT6uox4WAiggD5GyDSiS10kxNZJ5CZQE2ruYi/t8lMOU6lWFtq9
+X-Google-Smtp-Source: AGHT+IHB8d8u6A2IDl45lwyoO94k2QTjyiu+GNJxcuJyWAL32dvE+XOMc3uHDWD5p/fXqTGr2d9G7A==
+X-Received: by 2002:a05:600c:1c84:b0:434:a94f:f8a9 with SMTP id 5b1f17b1804b1-4389144fa26mr274141615e9.28.1737763412659;
+        Fri, 24 Jan 2025 16:03:32 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:600c:21d0:b0:434:92f9:ac7 with SMTP id
- 5b1f17b1804b1-438b879d988ls1145145e9.1.-pod-prod-07-eu; Fri, 24 Jan 2025
- 06:05:12 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVd6rE3ZUdyDtBuTHsoQcgBOJNQsvdYoYBNWt4MYcdfVBqF1VNPOJODwbCEc73qPpC/rL7HzqaLPQw=@googlegroups.com
-X-Received: by 2002:a05:600c:1f8f:b0:431:93d8:e1a1 with SMTP id 5b1f17b1804b1-43891430defmr237253435e9.27.1737727512535;
-        Fri, 24 Jan 2025 06:05:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1737727512; cv=none;
+Received: by 2002:a05:600c:22c9:b0:436:5165:f202 with SMTP id
+ 5b1f17b1804b1-438b87b081dls8854685e9.1.-pod-prod-02-eu; Fri, 24 Jan 2025
+ 16:03:30 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVbMEuZWdasJbvPNWC0ngdmjB9zh20/lGE2Cmy9qSvLrywrwJI3cahSfZs4cd8IkKh4rB5SZI2L+IY=@googlegroups.com
+X-Received: by 2002:a05:600c:6a94:b0:434:f753:600f with SMTP id 5b1f17b1804b1-438914376b1mr279748745e9.19.1737763410334;
+        Fri, 24 Jan 2025 16:03:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1737763410; cv=none;
         d=google.com; s=arc-20240605;
-        b=LFjsNNb8QFyEFn7EFER3plaf7n89acxn2xYQ0tBtIc4O9xmzqnHHAQo6U412SYDbtw
-         d0mhA41bWWfeOG8LCQbG3Vn2DCK7FU0Bcvq6pfYStkoumgqNwwqKQAc6Cdj/wi+zS4IP
-         wRwWsdvzyqDZuOT1j58RwXcqBqTsJRWAdxMjwNcAJkAscp7oaqWemyS8/yH9AmxiHj9v
-         pIVmogHyotQk9fMXkvKRP4tVZ7o7ItoWKrzu8dIQX1q1kyIY6jagr6T2BUVBP3wBxCyB
-         pA9f8pgTBVnNXnAJ+JgTk71/EAVgMP6JS+9STAz1brKv6hg4AZ6HlFG3UxdF2KzcXB/B
-         tz3w==
+        b=OgqSrA1yXwlzeLzMHCd7YVut5rh4SEXCt2MB+9TdmWZrnMdOGNaCZEsLaLFxoE8nqy
+         F+AVKStbSoKVDaU//5kY+Rvo5jnzSOPyHOzFsnI0tu1tXodX9nCh1RLluw9bRxIO1o7b
+         4fjwGfivDOdcumq7mVYKdKS1PyCvImggwJf6UyGpwBb1zj+aHv7swJSLkFYU4ENCYdQr
+         61DqtR6cmB69qD3H/kbRJi4LezlUU+dnAxH1nFfbOM04iRK3yVUOjykr1x+sCSHRAB1J
+         5XF/rEaI+p3U/fET52uESw1YNDNYDGrF3RQyasPSPeujjMVms6RWlt4fjfIsdfpZaNG4
+         xkmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :dkim-signature:dkim-signature:dkim-signature:dkim-signature;
-        bh=TEpqkUFrpFwJ9Q28sx9kwQ1bMc8a+hA5atrm7T8BjuM=;
-        fh=ZasQ0mXavyX8VNd9VGnxE2Mae0DPRIWq2odfW+DUfSk=;
-        b=HAkDFROrkcdNVucwAIO+3vMFZVu9Rqz3+k6YK3PzOaj0EKA+kzYd0scdYi43eWTwg6
-         LSllaxdOfltb6B3zEzNwvgOf6i3Q3Uob/XngXsXZbJ5WRomCDczUGSeM3c1KasW11O10
-         DIjlRYUfKELHgq22VWG+XIA3sLKIwwRSoCbNngfv54XqysS5i7ngTEU/dMNwl7ApDvEf
-         rqdU7qjBtLwGYpKQxd2yvN8rcpuXD5mI23py3rmoAXC14SdPazmr47QDNb1Ej60GGHHh
-         G/Lckr06v5zQeWp+L5Olp0XwgVAmnm+z/9ZH4/q4IQ4trAMhop7NT+apV1YlKUI6XNvv
-         juPg==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=LvkUz6rrh40BWkmgbM3RB98m2jGyTmY3Ec69ZV7r1sE=;
+        fh=RRtauvCML565xLtbNKhk1yxBJFEhSOpHRjgz+zTHEf4=;
+        b=Puiwdv9YQaJrJZsKeRx5xrv6ZqJBVcCBPhVuKPRfwVK88IyHr4J7h6CTod4QJt9Ipi
+         YZl/1/7LWy1fb3ogVD+bsAD8om1AwUjghy3sWET19fYF+p/nBCVC1WNmdaVcqvDMDvfo
+         VwkvT6q25i1X9AspjH/WmVH6Eq0/WAqmNEhnI2h3Od2Md5vBkdV58uVZe60958vANv3F
+         55Q//U9Tv/dxQQhB5QMhTbCzQb1TVEImw2Za2bUENqBEGadpvVrcBubBk9af9Syis/hQ
+         o+6NUvzb8zburhFDQuOkadf0nXdGwiqZ3SL8Yl9G9g0GGETVttknie6oRCKB4AKqOvZ/
+         /aNg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=zOuVyxCD;
-       dkim=neutral (no key) header.i=@suse.cz;
-       dkim=pass header.i=@suse.cz header.s=susede2_rsa header.b=jSNIYaBv;
-       dkim=neutral (no key) header.i=@suse.cz;
-       spf=pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
-Received: from smtp-out1.suse.de (smtp-out1.suse.de. [2a07:de40:b251:101:10:150:64:1])
-        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-438bd4728c4si267385e9.0.2025.01.24.06.05.12
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=WLazIPzd;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@googlegroups.com
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com. [2a00:1450:4864:20::433])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-438b1cc75c2si3134535e9.1.2025.01.24.16.03.30
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jan 2025 06:05:12 -0800 (PST)
-Received-SPF: pass (google.com: domain of vbabka@suse.cz designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) client-ip=2a07:de40:b251:101:10:150:64:1;
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E370F2117D;
-	Fri, 24 Jan 2025 14:05:10 +0000 (UTC)
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CE6D2139CB;
-	Fri, 24 Jan 2025 14:05:10 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8rUdMBaek2fZFgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 24 Jan 2025 14:05:10 +0000
-Message-ID: <d4a7b91e-5048-496e-95e5-c83cd8252d8f@suse.cz>
-Date: Fri, 24 Jan 2025 15:05:10 +0100
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Jan 2025 16:03:30 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::433 as permitted sender) client-ip=2a00:1450:4864:20::433;
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-385e27c75f4so2340197f8f.2
+        for <kasan-dev@googlegroups.com>; Fri, 24 Jan 2025 16:03:30 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUxn7kJyPk4/VITMD4z35VFPJZCrRD9m+11OuvwWltq6DwPNa/3/wY/r0dSIzZJAiF3CZzXSnGrP7Y=@googlegroups.com
+X-Gm-Gg: ASbGncvnW+4L/PQ1fUx5KcwfeMi1PiPr7AFzvnOgiBr0QB4HgMsMFMxngkPWN6D2xHn
+	Bq4pKgGyLLPigr/WA+ZHNI4xYJnrAHXIKC9I1/RBOJ1B71J5Idp5Hxe2GkR6lTKHpuIJLS/ujR4
+	k=
+X-Received: by 2002:a5d:64eb:0:b0:385:df4e:3645 with SMTP id
+ ffacd0b85a97d-38bf59ecb69mr32501744f8f.50.1737763409484; Fri, 24 Jan 2025
+ 16:03:29 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] kfence: skip __GFP_THISNODE allocations on NUMA systems
-Content-Language: en-US
-To: Marco Elver <elver@google.com>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Alexander Potapenko <glider@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, kasan-dev@googlegroups.com,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- Christoph Lameter <cl@linux.com>
-References: <20250124120145.410066-1-elver@google.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- EP+ylKVEKb0Q2A==
-In-Reply-To: <20250124120145.410066-1-elver@google.com>
+References: <CAPAsAGwzBeGXbVtWtZKhbUDbD4b4PtgAS9MJYU2kkiNHgyKpfQ@mail.gmail.com>
+ <20250122160645.28926-1-ryabinin.a.a@gmail.com>
+In-Reply-To: <20250122160645.28926-1-ryabinin.a.a@gmail.com>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Sat, 25 Jan 2025 01:03:18 +0100
+X-Gm-Features: AWEUYZldK5UH-Z3qoetD2eelx-La3CJnQOnijzUbA8Se3XdD6uoFtorpaKUcIs0
+Message-ID: <CA+fCnZdU2GdAw4eUk9b3Ox8_nLXv-s4isxdoTXePU2J6x5pcGw@mail.gmail.com>
+Subject: Re: [PATCH] kasan, mempool: don't store free stacktrace in
+ io_alloc_cache objects.
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, kasan-dev@googlegroups.com, 
+	io-uring@vger.kernel.org, linux-mm@kvack.org, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, juntong.deng@outlook.com, lizetao1@huawei.com, 
+	stable@vger.kernel.org, Alexander Potapenko <glider@google.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Jens Axboe <axboe@kernel.dk>, Pavel Begunkov <asml.silence@gmail.com>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_DN_SOME(0.00)[]
-X-Spam-Score: -4.30
-X-Spam-Flag: NO
-X-Original-Sender: vbabka@suse.cz
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: andreyknvl@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@suse.cz header.s=susede2_rsa header.b=zOuVyxCD;       dkim=neutral
- (no key) header.i=@suse.cz;       dkim=pass header.i=@suse.cz
- header.s=susede2_rsa header.b=jSNIYaBv;       dkim=neutral (no key)
- header.i=@suse.cz;       spf=pass (google.com: domain of vbabka@suse.cz
- designates 2a07:de40:b251:101:10:150:64:1 as permitted sender) smtp.mailfrom=vbabka@suse.cz
+ header.i=@gmail.com header.s=20230601 header.b=WLazIPzd;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::433
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -220,49 +169,274 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On 1/24/25 13:01, Marco Elver wrote:
-> On NUMA systems, __GFP_THISNODE indicates that an allocation _must_ be
-> on a particular node, and failure to allocate on the desired node will
-> result in a failed allocation.
-> 
-> Skip __GFP_THISNODE allocations if we are running on a NUMA system,
-> since KFENCE can't guarantee which node its pool pages are allocated on.
-> 
-> Reported-by: Vlastimil Babka <vbabka@suse.cz>
-> Cc: Christoph Lameter <cl@linux.com>
-> Fixes: 236e9f153852 ("kfence: skip all GFP_ZONEMASK allocations")
-> Signed-off-by: Marco Elver <elver@google.com>
-
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
-
-Thanks.
-
+On Wed, Jan 22, 2025 at 5:07=E2=80=AFPM Andrey Ryabinin <ryabinin.a.a@gmail=
+.com> wrote:
+>
+> Running the testcase liburing/accept-reust.t with CONFIG_KASAN=3Dy and
+> CONFIG_KASAN_EXTRA_INFO=3Dy leads to the following crash:
+>
+>     Unable to handle kernel paging request at virtual address 00000c64550=
+08008
+>     ...
+>     pc : __kasan_mempool_unpoison_object+0x38/0x170
+>     lr : io_netmsg_cache_free+0x8c/0x180
+>     ...
+>     Call trace:
+>      __kasan_mempool_unpoison_object+0x38/0x170 (P)
+>      io_netmsg_cache_free+0x8c/0x180
+>      io_ring_exit_work+0xd4c/0x13a0
+>      process_one_work+0x52c/0x1000
+>      worker_thread+0x830/0xdc0
+>      kthread+0x2bc/0x348
+>      ret_from_fork+0x10/0x20
+>
+> Since the commit b556a462eb8d ("kasan: save free stack traces for slab me=
+mpools")
+> kasan_mempool_poison_object() stores some info inside an object.
+> It was expected that the object must be reinitialized after
+> kasan_mempool_unpoison_object() call, and this is what happens in the
+> most of use cases.
+>
+> However io_uring code expects that io_alloc_cache_put/get doesn't modify
+> the object, so kasan_mempool_poison_object() end up corrupting it leading
+> to crash later.
+>
+> Add @notrack argument to kasan_mempool_poison_object() call to tell
+> KASAN to avoid storing info in objects for io_uring use case.
+>
+> Reported-by: lizetao <lizetao1@huawei.com>
+> Closes: https://lkml.kernel.org/r/ec2a6ca08c614c10853fbb1270296ac4@huawei=
+.com
+> Fixes: b556a462eb8d ("kasan: save free stack traces for slab mempools")
+> Cc: stable@vger.kernel.org
+> Cc: Alexander Potapenko <glider@google.com>
+> Cc: Andrey Konovalov <andreyknvl@gmail.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: Vincenzo Frascino <vincenzo.frascino@arm.com>
+> Cc: Jens Axboe <axboe@kernel.dk>
+> Cc: Pavel Begunkov <asml.silence@gmail.com>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Eric Dumazet <edumazet@google.com>
+> Cc: Jakub Kicinski <kuba@kernel.org>
+> Cc: Paolo Abeni <pabeni@redhat.com>
+> Cc: Simon Horman <horms@kernel.org>
+> Signed-off-by: Andrey Ryabinin <ryabinin.a.a@gmail.com>
 > ---
->  mm/kfence/core.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/mm/kfence/core.c b/mm/kfence/core.c
-> index 67fc321db79b..102048821c22 100644
-> --- a/mm/kfence/core.c
-> +++ b/mm/kfence/core.c
-> @@ -21,6 +21,7 @@
->  #include <linux/log2.h>
->  #include <linux/memblock.h>
->  #include <linux/moduleparam.h>
-> +#include <linux/nodemask.h>
->  #include <linux/notifier.h>
->  #include <linux/panic_notifier.h>
->  #include <linux/random.h>
-> @@ -1084,6 +1085,7 @@ void *__kfence_alloc(struct kmem_cache *s, size_t size, gfp_t flags)
->  	 * properties (e.g. reside in DMAable memory).
->  	 */
->  	if ((flags & GFP_ZONEMASK) ||
-> +	    ((flags & __GFP_THISNODE) && num_online_nodes() > 1) ||
->  	    (s->flags & (SLAB_CACHE_DMA | SLAB_CACHE_DMA32))) {
->  		atomic_long_inc(&counters[KFENCE_COUNTER_SKIP_INCOMPAT]);
->  		return NULL;
+>  include/linux/kasan.h  | 13 +++++++------
+>  io_uring/alloc_cache.h |  2 +-
+>  io_uring/net.c         |  2 +-
+>  io_uring/rw.c          |  2 +-
+>  mm/kasan/common.c      | 11 ++++++-----
+>  mm/mempool.c           |  2 +-
+>  net/core/skbuff.c      |  2 +-
+>  7 files changed, 18 insertions(+), 16 deletions(-)
+>
+> diff --git a/include/linux/kasan.h b/include/linux/kasan.h
+> index 890011071f2b..4d0bf4af399d 100644
+> --- a/include/linux/kasan.h
+> +++ b/include/linux/kasan.h
+> @@ -328,18 +328,19 @@ static __always_inline void kasan_mempool_unpoison_=
+pages(struct page *page,
+>                 __kasan_mempool_unpoison_pages(page, order, _RET_IP_);
+>  }
+>
+> -bool __kasan_mempool_poison_object(void *ptr, unsigned long ip);
+> +bool __kasan_mempool_poison_object(void *ptr, bool notrack, unsigned lon=
+g ip);
+>  /**
+>   * kasan_mempool_poison_object - Check and poison a mempool slab allocat=
+ion.
+>   * @ptr: Pointer to the slab allocation.
+> + * @notrack: Don't record stack trace of this call in the object.
+>   *
+>   * This function is intended for kernel subsystems that cache slab alloc=
+ations
+>   * to reuse them instead of freeing them back to the slab allocator (e.g=
+.
+>   * mempool).
+>   *
+>   * This function poisons a slab allocation and saves a free stack trace =
+for it
+> - * without initializing the allocation's memory and without putting it i=
+nto the
+> - * quarantine (for the Generic mode).
+> + * (if @notrack =3D=3D false) without initializing the allocation's memo=
+ry and
+> + * without putting it into the quarantine (for the Generic mode).
+>   *
+>   * This function also performs checks to detect double-free and invalid-=
+free
+>   * bugs and reports them. The caller can use the return value of this fu=
+nction
+> @@ -354,10 +355,10 @@ bool __kasan_mempool_poison_object(void *ptr, unsig=
+ned long ip);
+>   *
+>   * Return: true if the allocation can be safely reused; false otherwise.
+>   */
+> -static __always_inline bool kasan_mempool_poison_object(void *ptr)
+> +static __always_inline bool kasan_mempool_poison_object(void *ptr, bool =
+notrack)
+>  {
+>         if (kasan_enabled())
+> -               return __kasan_mempool_poison_object(ptr, _RET_IP_);
+> +               return __kasan_mempool_poison_object(ptr, notrack, _RET_I=
+P_);
+>         return true;
+>  }
+>
+> @@ -456,7 +457,7 @@ static inline bool kasan_mempool_poison_pages(struct =
+page *page, unsigned int or
+>         return true;
+>  }
+>  static inline void kasan_mempool_unpoison_pages(struct page *page, unsig=
+ned int order) {}
+> -static inline bool kasan_mempool_poison_object(void *ptr)
+> +static inline bool kasan_mempool_poison_object(void *ptr, bool notrack)
+>  {
+>         return true;
+>  }
+> diff --git a/io_uring/alloc_cache.h b/io_uring/alloc_cache.h
+> index a3a8cfec32ce..dd508dddea33 100644
+> --- a/io_uring/alloc_cache.h
+> +++ b/io_uring/alloc_cache.h
+> @@ -10,7 +10,7 @@ static inline bool io_alloc_cache_put(struct io_alloc_c=
+ache *cache,
+>                                       void *entry)
+>  {
+>         if (cache->nr_cached < cache->max_cached) {
+> -               if (!kasan_mempool_poison_object(entry))
+> +               if (!kasan_mempool_poison_object(entry, true))
+>                         return false;
+>                 cache->entries[cache->nr_cached++] =3D entry;
+>                 return true;
+> diff --git a/io_uring/net.c b/io_uring/net.c
+> index 85f55fbc25c9..a954e37c7fd3 100644
+> --- a/io_uring/net.c
+> +++ b/io_uring/net.c
+> @@ -149,7 +149,7 @@ static void io_netmsg_recycle(struct io_kiocb *req, u=
+nsigned int issue_flags)
+>         iov =3D hdr->free_iov;
+>         if (io_alloc_cache_put(&req->ctx->netmsg_cache, hdr)) {
+>                 if (iov)
+> -                       kasan_mempool_poison_object(iov);
+> +                       kasan_mempool_poison_object(iov, true);
+>                 req->async_data =3D NULL;
+>                 req->flags &=3D ~REQ_F_ASYNC_DATA;
+>         }
+> diff --git a/io_uring/rw.c b/io_uring/rw.c
+> index a9a2733be842..cba475003ba7 100644
+> --- a/io_uring/rw.c
+> +++ b/io_uring/rw.c
+> @@ -167,7 +167,7 @@ static void io_rw_recycle(struct io_kiocb *req, unsig=
+ned int issue_flags)
+>         iov =3D rw->free_iovec;
+>         if (io_alloc_cache_put(&req->ctx->rw_cache, rw)) {
+>                 if (iov)
+> -                       kasan_mempool_poison_object(iov);
+> +                       kasan_mempool_poison_object(iov, true);
+>                 req->async_data =3D NULL;
+>                 req->flags &=3D ~REQ_F_ASYNC_DATA;
+>         }
+> diff --git a/mm/kasan/common.c b/mm/kasan/common.c
+> index ed4873e18c75..e7b54aa9494e 100644
+> --- a/mm/kasan/common.c
+> +++ b/mm/kasan/common.c
+> @@ -230,7 +230,8 @@ static bool check_slab_allocation(struct kmem_cache *=
+cache, void *object,
+>  }
+>
+>  static inline void poison_slab_object(struct kmem_cache *cache, void *ob=
+ject,
+> -                                     bool init, bool still_accessible)
+> +                                     bool init, bool still_accessible,
+> +                                     bool notrack)
+>  {
+>         void *tagged_object =3D object;
+>
+> @@ -243,7 +244,7 @@ static inline void poison_slab_object(struct kmem_cac=
+he *cache, void *object,
+>         kasan_poison(object, round_up(cache->object_size, KASAN_GRANULE_S=
+IZE),
+>                         KASAN_SLAB_FREE, init);
+>
+> -       if (kasan_stack_collection_enabled())
+> +       if (kasan_stack_collection_enabled() && !notrack)
+>                 kasan_save_free_info(cache, tagged_object);
+>  }
+>
+> @@ -261,7 +262,7 @@ bool __kasan_slab_free(struct kmem_cache *cache, void=
+ *object, bool init,
+>         if (!kasan_arch_is_ready() || is_kfence_address(object))
+>                 return false;
+>
+> -       poison_slab_object(cache, object, init, still_accessible);
+> +       poison_slab_object(cache, object, init, still_accessible, true);
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/d4a7b91e-5048-496e-95e5-c83cd8252d8f%40suse.cz.
+Should notrack be false here?
+
+>
+>         /*
+>          * If the object is put into quarantine, do not let slab put the =
+object
+> @@ -495,7 +496,7 @@ void __kasan_mempool_unpoison_pages(struct page *page=
+, unsigned int order,
+>         __kasan_unpoison_pages(page, order, false);
+>  }
+>
+> -bool __kasan_mempool_poison_object(void *ptr, unsigned long ip)
+> +bool __kasan_mempool_poison_object(void *ptr, bool notrack, unsigned lon=
+g ip)
+>  {
+>         struct folio *folio =3D virt_to_folio(ptr);
+>         struct slab *slab;
+> @@ -519,7 +520,7 @@ bool __kasan_mempool_poison_object(void *ptr, unsigne=
+d long ip)
+>         if (check_slab_allocation(slab->slab_cache, ptr, ip))
+>                 return false;
+>
+> -       poison_slab_object(slab->slab_cache, ptr, false, false);
+> +       poison_slab_object(slab->slab_cache, ptr, false, false, notrack);
+>         return true;
+>  }
+>
+> diff --git a/mm/mempool.c b/mm/mempool.c
+> index 3223337135d0..283df5d2b995 100644
+> --- a/mm/mempool.c
+> +++ b/mm/mempool.c
+> @@ -115,7 +115,7 @@ static inline void poison_element(mempool_t *pool, vo=
+id *element)
+>  static __always_inline bool kasan_poison_element(mempool_t *pool, void *=
+element)
+>  {
+>         if (pool->alloc =3D=3D mempool_alloc_slab || pool->alloc =3D=3D m=
+empool_kmalloc)
+> -               return kasan_mempool_poison_object(element);
+> +               return kasan_mempool_poison_object(element, false);
+>         else if (pool->alloc =3D=3D mempool_alloc_pages)
+>                 return kasan_mempool_poison_pages(element,
+>                                                 (unsigned long)pool->pool=
+_data);
+> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+> index a441613a1e6c..c9f58a698bb7 100644
+> --- a/net/core/skbuff.c
+> +++ b/net/core/skbuff.c
+> @@ -1457,7 +1457,7 @@ static void napi_skb_cache_put(struct sk_buff *skb)
+>         struct napi_alloc_cache *nc =3D this_cpu_ptr(&napi_alloc_cache);
+>         u32 i;
+>
+> -       if (!kasan_mempool_poison_object(skb))
+> +       if (!kasan_mempool_poison_object(skb, false))
+>                 return;
+>
+>         local_lock_nested_bh(&napi_alloc_cache.bh_lock);
+> --
+> 2.45.3
+>
+
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+A%2BfCnZdU2GdAw4eUk9b3Ox8_nLXv-s4isxdoTXePU2J6x5pcGw%40mail.gmail.com.
