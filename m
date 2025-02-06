@@ -1,149 +1,170 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBCP2SO6QMGQEYQIRKPY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDW2JDUY5AORBN7WSO6QMGQE5ODZZFA@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-lf1-x140.google.com (mail-lf1-x140.google.com [IPv6:2a00:1450:4864:20::140])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31459A2B069
-	for <lists+kasan-dev@lfdr.de>; Thu,  6 Feb 2025 19:18:51 +0100 (CET)
-Received: by mail-lf1-x140.google.com with SMTP id 2adb3069b0e04-542a77b4a4csf834886e87.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 06 Feb 2025 10:18:51 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1738865930; cv=pass;
+Received: from mail-wm1-x33d.google.com (mail-wm1-x33d.google.com [IPv6:2a00:1450:4864:20::33d])
+	by mail.lfdr.de (Postfix) with ESMTPS id 514E5A2AFE6
+	for <lists+kasan-dev@lfdr.de>; Thu,  6 Feb 2025 19:11:06 +0100 (CET)
+Received: by mail-wm1-x33d.google.com with SMTP id 5b1f17b1804b1-436379713basf6430185e9.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 06 Feb 2025 10:11:06 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1738865466; cv=pass;
         d=google.com; s=arc-20240605;
-        b=JLqt6h5sWfNhVfB0ri+oQO8tUpq2ISaNEgRPy2JXEqehaqYSwbVuzA/j9Vq9Otz2be
-         8sshQrtiCmD8PKdTzi2/AMshELKAyVn/BkI7xjnYtZtR/v2lCj6LFwJ8KQ2zsWk1f2kV
-         tivMGpPSi+KkKh2WU1mQlmym/0v0XMjpQ9tVVpx3/4bUeiqv2cR9C5hqo1qgSCJqwwdx
-         w3Cr8FH5LkjN7ZUJyIG4Sia9cN6kqZtD69m6ej1FQSk6S6cGOVCPWOZhArA4hxfzcngM
-         5c1r1gKfQ6dxXZQc07U778/ILVE9MSoukkiNn2hmz964+Qkm7QPrTURvZ47iBqZJCt8i
-         Ueng==
+        b=RQ0fN4TGfC4ozWcRw4Gp99cFf4fBRAkEhjpPBMHbimfQMMCxselrDHiydTo9MOzj1I
+         T5sWtLETvvjEpajknc6vHaMTwsyqw9FRJQG5g9YYV7XZugYjiOoV7e/m92q+kE0lAY72
+         zHQaXieqqG3QsKW2L6iV7xeMOeK9BNQIUN3lHjYKTPj5N9s0Mb3xXe51H1avOf3kvuAt
+         6wCaqYX6CdaTdLddeqL8JGwuDAQMc08wDGOJczbtXNYxv/78ZZqliypAI5dazaz9i4x9
+         8SyfROSGqrQQRYNBqycLiCVmqTAUIndrQz/uMJbsENCaRTUZiAxM8T/k6nkkMCTWy2qQ
+         OuKQ==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:dkim-signature;
-        bh=N8XGtB5ZcMyCZPotTOD0S4kD6zXAvYa/zbs5UwCcWkE=;
-        fh=FS7iNjs7xWTUhmTFdO2fB+1DG0LSHVMdeC9OX/mKDyE=;
-        b=Z6GGgCpmv/Dq9DXnxw5Ego3eqRF5bgR60Yn4YfEo4NtokJQNuwkRwFfTzg5kG2hOHq
-         dKL/w7dv1Aibc0P4CddpuOIAUDNrNlkZSsSYHylO4eJKwmafQeJuYWVtspgOirshSvzT
-         fAzIMH80jUGhmNUb/MaV12ijUcopYamTpapxakYqLPFrbpRsP50ZsQlPrLh0eODrMWgE
-         6U8s+cO8Mt2uFzu132ymJXzJ+l2glt/ZXEcHgko5paIt7FuukPXAs02kEpMf4i96y8Ww
-         7TH5ElE+mQobImyEjRt+6UHTaTmSsr09yFCKOLoUat7qYj1PNwEkkYCHhEi8MhgQehs2
-         1MIg==;
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=z/IujdnACFvmg9pid3AjfR2+XDSfjSFR3o7Dmar6e9Q=;
+        fh=zUbCKn/9sjOBEoyJj1UxpdVHB7L7CY8fWC3O8YXgPMs=;
+        b=EqhGa3hkjXIq8VTPXx2MDig+p2dI32B6ZbEaTAa1j8MuVAYAcpa3y0cf2dshgriUwC
+         nx32J8zH6PxftJNRp6QzyN05v7hOxM2UVqHjNuz8N5fRpZyuXhq1PwT85cZDwf/NykvS
+         OHbDWvRboTOBGy2muCdAYxnrPA55uF9g9RCBaPMP2z1vnpYs3rONOU6l9HnGGKDrmkHo
+         +aL+S2w3k1iUlZWLGMgmV/nrv23ZStvLZceWq6EFWe+nFsCkyPVCJdFAwUwVYurwNQQO
+         SXOITzfOtsDJ+Eq+DM0wJH5Ak/GisjIZBsMqU2DmzWqQ7vn4gfSS8Nsn+OS//kbEqLu5
+         G2Hw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=AotQ4IxX;
-       spf=pass (google.com: domain of 3bv2kzwukcdc7eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3Bv2kZwUKCdc7EO7K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=gygMFrCH;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42e as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1738865930; x=1739470730; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1738865466; x=1739470266; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=N8XGtB5ZcMyCZPotTOD0S4kD6zXAvYa/zbs5UwCcWkE=;
-        b=KTOj1PqKUyFcuYZxt+SuNq8+Tq7F+DBN+OHD18ZNrayPDTekcnt4B67BqnUrK/8n5a
-         qgrEe17qFiYT+qligWUCA2/XawH6bHnc+cE48ERPiCY0inr1uMcsgqASmgza1k/xo75R
-         lLOYGwxRZpJNqoY5h2erRR57R9w5CGa1WeWK5BZwexC7ZyqnrNs4/z5Trp+UGj3LvbEJ
-         VhuunwNqvk3QqC/PUpELSzPwwl4m9ttTeO0uxucIMyruRSWsPcoTav+z0lW5PjBmxZrx
-         doEm2GC1/Mcsow6+QSCQIvAMxoEoDcrD8t3rx4ijZslBRMy1oJTXn4ttZ+d9Kmf6G9LN
-         viOA==
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=z/IujdnACFvmg9pid3AjfR2+XDSfjSFR3o7Dmar6e9Q=;
+        b=Cvt1ye0rpT5RzSrzwz6rZexhPABKmj6qpRkWC27rQFef3gaXTQq8hCQqPWI8RuFUAb
+         miRC4JBnvJsMlFwDj47MJijotl8ihPOjGkXOBJLqAQ2J5TrK3tKfj7+ldyKXnc1LBbZh
+         0mTQbaBcM+PAW8X9znojGQaSoYL0YYVarO8hdjZsHe0a1Q2ZEnDU61shgqGdGlk3Rr/P
+         pLBuoPa4pv+astRmW5ZRCnBrw2flDNV8Mra/1YVeRZDSEP0dd4SQi9sxWxjqME26Dg/w
+         a/JMgx3uKlMcX4RPfadV38e+R1qBGHy6IpYhMXN1rRCLsXNXUVlx39ootqybcm+MPvZF
+         uAYA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738865466; x=1739470266; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=z/IujdnACFvmg9pid3AjfR2+XDSfjSFR3o7Dmar6e9Q=;
+        b=Bh4/qpg8KiTkiUWM40saRz7lzzGjXpy2biU/Z46HePyylFGiENOjQce6qKjQcuY6Kp
+         o1vkL7uOmQ9/BSYGAVz/RmwueFeBmoUH9/GZPA2ku2g/oxRovoUr+leLgYxuIgsPxKgh
+         CjnbRaIicxRGIJZD+80HTs6iCtanUAIZeA1BKDS2My8f5yWUjpmW/J5Bae9VupnDS8Wx
+         UBW/A9vUJbGfq/KOpMztPERn/+QAxm9okon4CDi2FQqDS0fhoms0st1lBBAUf/0wpIj5
+         E7q52kDNsmMsAO+eaDu0H4nSv+ks9REtjKou+zaT8Td/xX1HPVjzmeM/2syfy9KjQ7pv
+         4O/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738865930; x=1739470730;
+        d=1e100.net; s=20230601; t=1738865466; x=1739470266;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:from
-         :subject:message-id:references:mime-version:in-reply-to:date
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=N8XGtB5ZcMyCZPotTOD0S4kD6zXAvYa/zbs5UwCcWkE=;
-        b=ZSOW6T2cwocpQPB0rzqNwh1SdgIfvZqi2tBF4QTsCjqavFMPpgGK/sQd/5Ty2+8Y7f
-         2bBCqjv4X9sMsk1GJNg/5a/7umBgE7wL5vdu0MCnjeAoDUyeZ88GGcIwrhGBGmSG/HM5
-         WF3jD4ao0naP3eSj7pXJ0LQ3iSMjL9eARbFzLqlny5AGwlnNiZgfA6iMjtWWm0fFBYE5
-         2Af8t4+vNfZGJaKgShTYNWxGH+kP+m+cDcwheZzJ1Wk9rhdtXbyreXzmyTEpt1p0wB6w
-         0yd/TpERqQHY38zKqOyThKrVaIo+BaSAHVKvz3vNGpv8rez5hkVF8E25da+0e4DVOu+N
-         sMUg==
-X-Forwarded-Encrypted: i=2; AJvYcCUSOyQ5qF+HiL/r/eSjiXnh+F6pAu7WcSgKqPUx4HTseeVWygBXJ+N9LSg+8IdQHfAPYpI+qg==@lfdr.de
-X-Gm-Message-State: AOJu0YzI8lAl3LWbFKOpjidoq+hISPGTYdjmLcWSBqILoyc7n8Nt/9zy
-	icQ4E1T1Sk+oKwJNsQ6lu8oc0MVxP4uMivahV1B6TDZ6wXZtRJNN
-X-Google-Smtp-Source: AGHT+IFJ3ffALyapMPrGzHHS3VNGrIrLhOtlD8eIr8DSQkuSrc6aEQbaj8hPs+MmMl8nbxfbC9d0YQ==
-X-Received: by 2002:a05:6512:118e:b0:544:1093:ee3a with SMTP id 2adb3069b0e04-5441093ef00mr1166956e87.24.1738865930048;
-        Thu, 06 Feb 2025 10:18:50 -0800 (PST)
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=z/IujdnACFvmg9pid3AjfR2+XDSfjSFR3o7Dmar6e9Q=;
+        b=CUvBvjMQLRNZMI1tzFJpNdQohNaq44RvzPK/5q0v4HaIgeWiHkF92NTabtVzlkr4kc
+         T9Tiv0LtRt+VixmDutsmIL4vC8Mjr1U3Y6utTSan7lS4JEdTbUQywbJ0MDTTa9ztIGNT
+         mwJu66u4t5ZJlZmAEeYlMr+gKSAQ/gxY2P2rBA8J8giK3fm/VOJfgg2DvAGqHHhWr2ax
+         T2uEa6DgZZC+HOKPpUt3x9G1unli30qyHPg+9h59gCGb+E4YSyWfv2PbbNTkvcfMKu/x
+         QjnD6uSwtzVAKmLFOLJaFdKUWWYCi9AjMEXewtEIBpXvu1JxnKDY/LA0EAsbIGgT0Umf
+         i7GQ==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCURXf0WFHr92uw7OfWrlCI2s5XSat87bbzZmXoSm+KpmBkRJQMbMXbiAThoaDolVOS/Fr2+YA==@lfdr.de
+X-Gm-Message-State: AOJu0YxLvvT0LBuS1aWtYTiZkS2N8d/zumuIZ4ca5n8nzNgw34bmjvfY
+	zNoGri7MSdvq8t9AfDzDFF4wMMKt7Fmy9VuK2sWm1WPwxH9q1CaM
+X-Google-Smtp-Source: AGHT+IFEbXbWhJfxq60f3R6YQ6ct8DRb84lVJQuo8mgwetaD7EUG9d40vwXF3vRDh5Xc1TG57NY/Fw==
+X-Received: by 2002:a05:600c:35cb:b0:436:a3a3:a70c with SMTP id 5b1f17b1804b1-439249b2cfbmr3273695e9.28.1738865464319;
+        Thu, 06 Feb 2025 10:11:04 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:ac2:5628:0:b0:540:1bb1:7828 with SMTP id 2adb3069b0e04-54413c748fbls43917e87.1.-pod-prod-07-eu;
- Thu, 06 Feb 2025 10:18:47 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWyCS2uAy8WhBCLqBjlJZJsDLiJuRL7Fj0nWLnROnKVzWB4nqNCdQMtA1ICtmuuhPfJLJI5o87CUc0=@googlegroups.com
-X-Received: by 2002:a05:6512:2022:b0:544:1262:4c21 with SMTP id 2adb3069b0e04-5441262502bmr731199e87.12.1738865927259;
-        Thu, 06 Feb 2025 10:18:47 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1738865927; cv=none;
+Received: by 2002:a7b:c8d0:0:b0:434:aa6f:2408 with SMTP id 5b1f17b1804b1-43924c3fed1ls230045e9.0.-pod-prod-03-eu;
+ Thu, 06 Feb 2025 10:11:02 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVCYDaEvFytxzXVw+ig7CAoiiwcbwrxAina+rvcQ0Ej0IGG5HtKLxzOwnb3GiTUUO/gMqjX+ZIYR/Q=@googlegroups.com
+X-Received: by 2002:a05:600c:1e83:b0:432:d797:404a with SMTP id 5b1f17b1804b1-439249a4028mr3301615e9.22.1738865462172;
+        Thu, 06 Feb 2025 10:11:02 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1738865462; cv=none;
         d=google.com; s=arc-20240605;
-        b=eyl+9HPTP8dvkq7PizDsdnPs67C9Lx0X3jcRTb9cp6RsFPnxKLk/+vP3ZC9zjL0muc
-         GQVlVxGTqw6w8s6Zrk4z9VO934anRXFN8HIqlnzJIe544oEz29w4YxN8VCaQgw6h6SuU
-         yDyqYuHEakdOoTzbQJokmDNgZ0E4iNH59n6tPFpZXNt5KaK6+YT9SQGMbF0WwkuNqEyb
-         gjXyh3cnPZdP9F8GokNTwmPLWBse0gj/1CNsqWK4PKvmOkYnK7YjnG3o1K6ZXK0zvxDo
-         /+GElZVZtIIDuLhyfgx1WlRnztepiiZIpoVkPGVDNlJQbLQ+YOY8c+M3oqiD1eo7n7rc
-         1IZQ==
+        b=UWx1VBBUHGwqCYIv4LUKYUP5G+nVoYCQ6idOu7sHuth6edHuMXUQ8TAlWl0VXK2MB9
+         UaT5NUmP4REjBOlvATiUZX7eLMX2oyeOnGaxlHO5hSSJ2AUfOJ05njs8u924P0naemyp
+         X9xBPO9YaMLBqJFmwlnEasVJFzWfDm/sXPwDu7/IdszgVT8Y9qucgiC+KJJelC3Xio4w
+         PDgvCYfMGoRzQdA8xXwXz+1+p+3DRT0qalW8kCofoZWfb7jCRCa1f4g4nHORMXLwPFt7
+         U+tSBxmL6zaRKVrEHNdgUSfyE+Ff0J0sB86BQ2vETKGDoe2Le6sGTMuh+S6ZEJNrVwbb
+         WRDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:dkim-signature;
-        bh=M3npqKmcD7idosYB3Rql5Qlei3J/L1gfZsrIz0sfHUY=;
-        fh=2wzsGS1l53xupuesMDtUHd57e7qQfqMTGe3OoVT+Fuc=;
-        b=FU73hqkWIGfiykC6c+wXoH+fb8/nxANP8UEFbXalKD79L0iuTGbj9CGUrleAb/MDo4
-         MJLNf+yBzKSGFm6JcjmoeQujlIH4FjWNHimNVuYM80jJG8yDBHLcZCREcSEE0qyCjYS9
-         0kt6DdDSSH5T+bEbALumpdlMLVQvlkBYWaCB/yLWMIMifaHOUN9rYGdUHw7jPDx3C2cB
-         Fj5clZQKgcylu6dEn0WF3AQvOvWDAnh6Mge4M4Y04KwY3O+nzFyi2tKQkAP0BJVNzene
-         MdvQmvyifU5rBbKCU1z5yHPIjNBuGjaTvPGGsxDdx9F8ZhyEfOcmyJ2+J70TzEcvL2fG
-         YiNg==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0ttuWAvJobLlg56YrOVOmHOt13ZH7wD3gGicocchpzQ=;
+        fh=FEt3ATS8KdhU5IdqFZ5oXW0NRsOgfob/HJsuOdopbQU=;
+        b=Hhv0H765j3I02BH/wmMBb2aqMop1FZ8tYHEH89dz0zngC+Chwegu3YONQH7nqlttTa
+         pLqioyCY0phtjYszQvdEkJSrWbWSwG5oyrQDbzYn+y0gCqzi7cK1Fh4WtqOdJeWopUuG
+         HGUDB71OAzU/rfO0x0UiIJDJDU8gNu14ToViffTcpuDRZG4O65PPTblK+qlLPDV22w75
+         pmYtVPwY7+4+U5tUKLHaCMgykDSouijOQG+5CaybNcq0woMEKm7BfTqDbhwp77nGKWrW
+         /2QXXir+xUhybRpN2Su8ED1wYT6lrboUhAvS2/QoQthykxMGEiBb66+YUXepEnRGmzay
+         UNLg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=AotQ4IxX;
-       spf=pass (google.com: domain of 3bv2kzwukcdc7eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3Bv2kZwUKCdc7EO7K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=gygMFrCH;
+       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42e as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-ej1-x64a.google.com (mail-ej1-x64a.google.com. [2a00:1450:4864:20::64a])
-        by gmr-mx.google.com with ESMTPS id 2adb3069b0e04-544106267d1si67004e87.11.2025.02.06.10.18.47
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com. [2a00:1450:4864:20::42e])
+        by gmr-mx.google.com with ESMTPS id 5b1f17b1804b1-43907f1b57bsi3246395e9.1.2025.02.06.10.11.02
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 06 Feb 2025 10:18:47 -0800 (PST)
-Received-SPF: pass (google.com: domain of 3bv2kzwukcdc7eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com designates 2a00:1450:4864:20::64a as permitted sender) client-ip=2a00:1450:4864:20::64a;
-Received: by mail-ej1-x64a.google.com with SMTP id a640c23a62f3a-ab7044083e5so161439866b.2
-        for <kasan-dev@googlegroups.com>; Thu, 06 Feb 2025 10:18:47 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWR093w4qSQ9l3xMcIEgEs9iU+NfrHBNDSVq9GI+a2EtTAQ4zlsROqiroU3NpKA6j36GWwUU4NX3A8=@googlegroups.com
-X-Received: from edben5.prod.google.com ([2002:a05:6402:5285:b0:5dc:c943:7c1])
- (user=elver job=prod-delivery.src-stubby-dispatcher) by 2002:a17:906:dc8d:b0:aac:622:8f6
- with SMTP id a640c23a62f3a-ab75e26558fmr633944866b.17.1738865926699; Thu, 06
- Feb 2025 10:18:46 -0800 (PST)
-Date: Thu,  6 Feb 2025 19:10:18 +0100
-In-Reply-To: <20250206181711.1902989-1-elver@google.com>
-Mime-Version: 1.0
-References: <20250206181711.1902989-1-elver@google.com>
-X-Mailer: git-send-email 2.48.1.502.g6dc24dfdaf-goog
-Message-ID: <20250206181711.1902989-25-elver@google.com>
-Subject: [PATCH RFC 24/24] rhashtable: Enable capability analysis
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-To: elver@google.com
-Cc: "Paul E. McKenney" <paulmck@kernel.org>, Alexander Potapenko <glider@google.com>, 
-	Bart Van Assche <bvanassche@acm.org>, Bill Wendling <morbo@google.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Dmitry Vyukov <dvyukov@google.com>, Frederic Weisbecker <frederic@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ingo Molnar <mingo@kernel.org>, 
-	Jann Horn <jannh@google.com>, Joel Fernandes <joel@joelfernandes.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Triplett <josh@joshtriplett.org>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Uladzislau Rezki <urezki@gmail.com>, Waiman Long <longman@redhat.com>, 
-	Will Deacon <will@kernel.org>, kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, rcu@vger.kernel.org, linux-crypto@vger.kernel.org
+        Thu, 06 Feb 2025 10:11:02 -0800 (PST)
+Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42e as permitted sender) client-ip=2a00:1450:4864:20::42e;
+Received: by mail-wr1-x42e.google.com with SMTP id ffacd0b85a97d-38da66ce63bso696367f8f.3
+        for <kasan-dev@googlegroups.com>; Thu, 06 Feb 2025 10:11:02 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVoUFrmILoIVHl8Onx6UsPyPi5yhH559P2CgeW6NDUKNF04G6B31b25Ad6uxI3xiV3Xx/+lJTeJmO8=@googlegroups.com
+X-Gm-Gg: ASbGnctDBtBLBZ/4L3UPEwr2abYBjTMi9w2I3+IT9ugJ7vSY/r0C/UqfJT/23zoXlgZ
+	MYlBFhUvWXR6EooaE1sfDAiCw/lMg3Ma554ORFOKu7BRJMk4E3L0LmFsxjNmUJK8OwqBgb5IP8Q
+	==
+X-Received: by 2002:a5d:6da4:0:b0:38c:5b52:3a5e with SMTP id
+ ffacd0b85a97d-38dc8dc342amr4349f8f.8.1738865461496; Thu, 06 Feb 2025 10:11:01
+ -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1738686764.git.maciej.wieczor-retman@intel.com>
+ <CA+fCnZd1dpqv+rM2jD1fNGvhU_0+6c8MjzsgEsi2V-RkHVteJg@mail.gmail.com> <cj2w476ui6g6bjtrnmhozgruhudjx7dbeifxtx4q26c4sqmobt@ill63v5yc3ke>
+In-Reply-To: <cj2w476ui6g6bjtrnmhozgruhudjx7dbeifxtx4q26c4sqmobt@ill63v5yc3ke>
+From: Andrey Konovalov <andreyknvl@gmail.com>
+Date: Thu, 6 Feb 2025 19:10:50 +0100
+X-Gm-Features: AWEUYZkYq87i7dcuraqL9nv2V2zM6XbkuTsSw_RSaFUD-ppNitROYVtIB8RMtyU
+Message-ID: <CA+fCnZfTvFzX32ZU=Xa0qsNACM4Y1vA1xQDtJkhhk1fYH1QxRA@mail.gmail.com>
+Subject: Re: [PATCH 00/15] kasan: x86: arm64: risc-v: KASAN tag-based mode for x86
+To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Cc: luto@kernel.org, xin@zytor.com, kirill.shutemov@linux.intel.com, 
+	palmer@dabbelt.com, tj@kernel.org, brgerst@gmail.com, ardb@kernel.org, 
+	dave.hansen@linux.intel.com, jgross@suse.com, will@kernel.org, 
+	akpm@linux-foundation.org, arnd@arndb.de, corbet@lwn.net, dvyukov@google.com, 
+	richard.weiyang@gmail.com, ytcoode@gmail.com, tglx@linutronix.de, 
+	hpa@zytor.com, seanjc@google.com, paul.walmsley@sifive.com, 
+	aou@eecs.berkeley.edu, justinstitt@google.com, jason.andryuk@amd.com, 
+	glider@google.com, ubizjak@gmail.com, jannh@google.com, bhe@redhat.com, 
+	vincenzo.frascino@arm.com, rafael.j.wysocki@intel.com, 
+	ndesaulniers@google.com, mingo@redhat.com, catalin.marinas@arm.com, 
+	junichi.nomura@nec.com, nathan@kernel.org, ryabinin.a.a@gmail.com, 
+	dennis@kernel.org, bp@alien8.de, kevinloughlin@google.com, morbo@google.com, 
+	dan.j.williams@intel.com, julian.stecklina@cyberus-technology.de, 
+	peterz@infradead.org, cl@linux.com, kees@kernel.org, 
+	kasan-dev@googlegroups.com, x86@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev, 
+	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: andreyknvl@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=AotQ4IxX;       spf=pass
- (google.com: domain of 3bv2kzwukcdc7eo7k9hh9e7.5hfd3l3g-67o9hh9e79khnil.5hf@flex--elver.bounces.google.com
- designates 2a00:1450:4864:20::64a as permitted sender) smtp.mailfrom=3Bv2kZwUKCdc7EO7K9HH9E7.5HFD3L3G-67O9HH9E79KHNIL.5HF@flex--elver.bounces.google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
-       dara=pass header.i=@googlegroups.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@gmail.com header.s=20230601 header.b=gygMFrCH;       spf=pass
+ (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::42e
+ as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -156,185 +177,46 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Enable capability analysis for rhashtable, which was used as an initial
-test as it contains a combination of RCU, mutex, and bit_spinlock usage.
+On Thu, Feb 6, 2025 at 11:41=E2=80=AFAM Maciej Wieczor-Retman
+<maciej.wieczor-retman@intel.com> wrote:
+>
+> >I started reviewing the patches, but this is somewhat complicated, as
+> >the dense mode changes are squashed together with the generic ones for
+> >x86 support. Could you please split this series into 2? Or at least
+> >reorder the patches so that everything needed for basic x86 support
+> >comes first and can be reviewed and tested separately.
+>
+> I'll try reordering first and see if it looks nice. Since the dense mode =
+would
+> make some parts arch specific I think it's better to have the two parts i=
+n one
+> series for easier reference. But if it turns out more convoluted I'll jus=
+t split
+> it as you suggested.
 
-Users of rhashtable now also benefit from annotations on the API, which
-will now warn if the RCU read lock is not held where required.
+Yes, please do. I also think if you split the series, we can land the
+basic x86 support fairly quickly, or at least I can do the review and
+give the ack from the KASAN side. For the dense mode part, I'd like to
+also hear the opinion of other KASAN developers wrt the overall
+design.
 
-Signed-off-by: Marco Elver <elver@google.com>
----
- include/linux/rhashtable.h | 14 +++++++++++---
- lib/Makefile               |  2 ++
- lib/rhashtable.c           | 12 +++++++++---
- 3 files changed, 22 insertions(+), 6 deletions(-)
+> >Also feel free to drop the dependency on that risc-v series, as it
+> >doesn't get updated very often. But up to you.
+>
+> Okay, I was mostly interested in the patch that redefines KASAN_SHADOW_EN=
+D as
+> KASAN_SHADOW_OFFSET and then gets shadow addresses by using a signed offs=
+et. But
+> I suppose I can just take that patch and prepend my series with that? (af=
+ter
+> applying your comments from that series)
 
-diff --git a/include/linux/rhashtable.h b/include/linux/rhashtable.h
-index 8463a128e2f4..c6374691ccc7 100644
---- a/include/linux/rhashtable.h
-+++ b/include/linux/rhashtable.h
-@@ -245,16 +245,17 @@ void *rhashtable_insert_slow(struct rhashtable *ht, const void *key,
- void rhashtable_walk_enter(struct rhashtable *ht,
- 			   struct rhashtable_iter *iter);
- void rhashtable_walk_exit(struct rhashtable_iter *iter);
--int rhashtable_walk_start_check(struct rhashtable_iter *iter) __acquires(RCU);
-+int rhashtable_walk_start_check(struct rhashtable_iter *iter) __acquires_shared(RCU);
- 
- static inline void rhashtable_walk_start(struct rhashtable_iter *iter)
-+	__acquires_shared(RCU)
- {
- 	(void)rhashtable_walk_start_check(iter);
- }
- 
- void *rhashtable_walk_next(struct rhashtable_iter *iter);
- void *rhashtable_walk_peek(struct rhashtable_iter *iter);
--void rhashtable_walk_stop(struct rhashtable_iter *iter) __releases(RCU);
-+void rhashtable_walk_stop(struct rhashtable_iter *iter) __releases_shared(RCU);
- 
- void rhashtable_free_and_destroy(struct rhashtable *ht,
- 				 void (*free_fn)(void *ptr, void *arg),
-@@ -325,6 +326,7 @@ static inline struct rhash_lock_head __rcu **rht_bucket_insert(
- 
- static inline unsigned long rht_lock(struct bucket_table *tbl,
- 				     struct rhash_lock_head __rcu **bkt)
-+	__acquires(__bitlock(0, bkt))
- {
- 	unsigned long flags;
- 
-@@ -337,6 +339,7 @@ static inline unsigned long rht_lock(struct bucket_table *tbl,
- static inline unsigned long rht_lock_nested(struct bucket_table *tbl,
- 					struct rhash_lock_head __rcu **bucket,
- 					unsigned int subclass)
-+	__acquires(__bitlock(0, bucket))
- {
- 	unsigned long flags;
- 
-@@ -349,6 +352,7 @@ static inline unsigned long rht_lock_nested(struct bucket_table *tbl,
- static inline void rht_unlock(struct bucket_table *tbl,
- 			      struct rhash_lock_head __rcu **bkt,
- 			      unsigned long flags)
-+	__releases(__bitlock(0, bkt))
- {
- 	lock_map_release(&tbl->dep_map);
- 	bit_spin_unlock(0, (unsigned long *)bkt);
-@@ -402,13 +406,14 @@ static inline void rht_assign_unlock(struct bucket_table *tbl,
- 				     struct rhash_lock_head __rcu **bkt,
- 				     struct rhash_head *obj,
- 				     unsigned long flags)
-+	__releases(__bitlock(0, bkt))
- {
- 	if (rht_is_a_nulls(obj))
- 		obj = NULL;
- 	lock_map_release(&tbl->dep_map);
- 	rcu_assign_pointer(*bkt, (void *)obj);
- 	preempt_enable();
--	__release(bitlock);
-+	__release(__bitlock(0, bkt));
- 	local_irq_restore(flags);
- }
- 
-@@ -589,6 +594,7 @@ static inline int rhashtable_compare(struct rhashtable_compare_arg *arg,
- static inline struct rhash_head *__rhashtable_lookup(
- 	struct rhashtable *ht, const void *key,
- 	const struct rhashtable_params params)
-+	__must_hold_shared(RCU)
- {
- 	struct rhashtable_compare_arg arg = {
- 		.ht = ht,
-@@ -642,6 +648,7 @@ static inline struct rhash_head *__rhashtable_lookup(
- static inline void *rhashtable_lookup(
- 	struct rhashtable *ht, const void *key,
- 	const struct rhashtable_params params)
-+	__must_hold_shared(RCU)
- {
- 	struct rhash_head *he = __rhashtable_lookup(ht, key, params);
- 
-@@ -692,6 +699,7 @@ static inline void *rhashtable_lookup_fast(
- static inline struct rhlist_head *rhltable_lookup(
- 	struct rhltable *hlt, const void *key,
- 	const struct rhashtable_params params)
-+	__must_hold_shared(RCU)
- {
- 	struct rhash_head *he = __rhashtable_lookup(&hlt->ht, key, params);
- 
-diff --git a/lib/Makefile b/lib/Makefile
-index f40ba93c9a94..c7004270ad5f 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -45,6 +45,8 @@ lib-$(CONFIG_MIN_HEAP) += min_heap.o
- lib-y	+= kobject.o klist.o
- obj-y	+= lockref.o
- 
-+CAPABILITY_ANALYSIS_rhashtable.o := y
-+
- obj-y += bcd.o sort.o parser.o debug_locks.o random32.o \
- 	 bust_spinlocks.o kasprintf.o bitmap.o scatterlist.o \
- 	 list_sort.o uuid.o iov_iter.o clz_ctz.o \
-diff --git a/lib/rhashtable.c b/lib/rhashtable.c
-index 3e555d012ed6..47a61e214621 100644
---- a/lib/rhashtable.c
-+++ b/lib/rhashtable.c
-@@ -11,6 +11,10 @@
-  * pointer as suggested by Josh Triplett
-  */
- 
-+#include <linux/rhashtable.h>
-+
-+disable_capability_analysis();
-+
- #include <linux/atomic.h>
- #include <linux/kernel.h>
- #include <linux/init.h>
-@@ -22,10 +26,11 @@
- #include <linux/mm.h>
- #include <linux/jhash.h>
- #include <linux/random.h>
--#include <linux/rhashtable.h>
- #include <linux/err.h>
- #include <linux/export.h>
- 
-+enable_capability_analysis();
-+
- #define HASH_DEFAULT_SIZE	64UL
- #define HASH_MIN_SIZE		4U
- 
-@@ -358,6 +363,7 @@ static int rhashtable_rehash_table(struct rhashtable *ht)
- static int rhashtable_rehash_alloc(struct rhashtable *ht,
- 				   struct bucket_table *old_tbl,
- 				   unsigned int size)
-+	__must_hold(&ht->mutex)
- {
- 	struct bucket_table *new_tbl;
- 	int err;
-@@ -392,6 +398,7 @@ static int rhashtable_rehash_alloc(struct rhashtable *ht,
-  * bucket locks or concurrent RCU protected lookups and traversals.
-  */
- static int rhashtable_shrink(struct rhashtable *ht)
-+	__must_hold(&ht->mutex)
- {
- 	struct bucket_table *old_tbl = rht_dereference(ht->tbl, ht);
- 	unsigned int nelems = atomic_read(&ht->nelems);
-@@ -724,7 +731,7 @@ EXPORT_SYMBOL_GPL(rhashtable_walk_exit);
-  * resize events and always continue.
-  */
- int rhashtable_walk_start_check(struct rhashtable_iter *iter)
--	__acquires(RCU)
-+	__acquires_shared(RCU)
- {
- 	struct rhashtable *ht = iter->ht;
- 	bool rhlist = ht->rhlist;
-@@ -940,7 +947,6 @@ EXPORT_SYMBOL_GPL(rhashtable_walk_peek);
-  * hash table.
-  */
- void rhashtable_walk_stop(struct rhashtable_iter *iter)
--	__releases(RCU)
- {
- 	struct rhashtable *ht;
- 	struct bucket_table *tbl = iter->walker.tbl;
--- 
-2.48.1.502.g6dc24dfdaf-goog
+Sounds good to me!
 
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250206181711.1902989-25-elver%40google.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+A%2BfCnZfTvFzX32ZU%3DXa0qsNACM4Y1vA1xQDtJkhhk1fYH1QxRA%40mail.gmail.com.
