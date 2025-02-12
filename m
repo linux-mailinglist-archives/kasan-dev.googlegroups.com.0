@@ -1,114 +1,113 @@
-Return-Path: <kasan-dev+bncBDDL3KWR4EBRBVFMWO6QMGQEU4FSCJY@googlegroups.com>
+Return-Path: <kasan-dev+bncBDDL3KWR4EBRBZ5PWO6QMGQE4C7DBKY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
 Received: from mail-pj1-x1039.google.com (mail-pj1-x1039.google.com [IPv6:2607:f8b0:4864:20::1039])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C724A32D0B
-	for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2025 18:11:51 +0100 (CET)
-Received: by mail-pj1-x1039.google.com with SMTP id 98e67ed59e1d1-2fa3b466245sf27269a91.0
-        for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2025 09:11:51 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1739380309; cv=pass;
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B48A32D38
+	for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2025 18:18:33 +0100 (CET)
+Received: by mail-pj1-x1039.google.com with SMTP id 98e67ed59e1d1-2fa34df4995sf126214a91.0
+        for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2025 09:18:33 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1739380712; cv=pass;
         d=google.com; s=arc-20240605;
-        b=kUotBNhPeUdQvlIO5xWrziXxhyfYEK2DMXd/fw5RRirU0qMqJ9IiOe72DUi580OYz5
-         LrWlKrrnuw78H9Z7H191qDsIJ7OxzXZSElqyAazUhf0gWRy2CfgaJIHsgK3AC3ZIc5V0
-         w74Vg4VTLReNl/OOERrpZ+kzZjEDB+Jf8IEne9rnoyfTcpIu/kq6a5Xiwn3y1i+r3Toh
-         Hm4fWFNZJgAc+WkW+Kn3emdUtf0awVMV1VUUGOpyJZKR7BP12imPBW9sBiHaJyuF9jOj
-         RtrH7A1oW35uCf71qp0PUqPZKfDQo5bvBn5v0wrHPb0k4a18AwUsvaKdYeCSn93bwmGz
-         4TUw==
+        b=LHxPUmIputOUqCy2XteyCnIipU3wS0/e6g016nfjZNvgRuRTRFE7sn7roeE7XEQDyH
+         TJO3bg9PvGEBs+4CqP6TZbqignftH5J8qA7+/6WUayLDEgm4tcqEVZQrLa60r8CWcosh
+         pZKpNF+HDSnVHuhzPKopO4sOdG4qTwhUz3n7XvgyUDljCmejy3anCQaA4WNqHVLSPcpY
+         LyPEf+YFb8CZZPZjathOHdzATY5BaeoIUUeUb7nANxRpZIFho7feUrBQvyCLPB9CpnQL
+         8Zl8iB64m/NkhFS1rxRwNAEKCkSXxYzj7/kT3IYYNNlqXZmXoskx0uFXDzFTWkIt2g0d
+         BVRw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:in-reply-to:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:sender
          :dkim-signature;
-        bh=YUxRXqIWzKobn0dHONmktwYFyVCbwEnL03/x75dWZKc=;
-        fh=ZyE+K2t5rGu6tAWFoGrnOjT++ilqwOXOyuhNh+42tHQ=;
-        b=RsXUwRHvDaxXE/MTZ0MDRgdr9EzoTttnhUSP/XMo9jayrYyK6eDrIgxSSakK3iZIO8
-         E6R3IlNo9sHDUOIZP912X+y6DGCGdn9KqR+/I4Kb+oN71koHSM7z5HA8sTxCGMMwaBO7
-         78pgkEV4SpH0SNF8xEpBxK96VmPnTfuzt5U3p0u6bjbeCr5ERdHrdUOggkmdydOR90Ej
-         ZsZLuRVBpQwiNnaewwyxRAGfKigKGhA1gnUoBnYfhiiKErPyhUyEEtLsAi/um75gY5Vw
-         AzZDNTbwbVB1aHCutqZtAr7qFqD3eTdj4NyUbLZI3bhc/6g9CjgW3qTAP0LiSH73hwT/
-         7GfQ==;
+        bh=ZOEr0pcph9ijzUkxnR3tDCWZv1GyHmr/ImU/TmHtSQc=;
+        fh=MYp6X5RiT2+1h6DWXAC+JH9m8x9hZR3pXs+5sKM23r8=;
+        b=kw3SXX+negUrS+0hlKYCk6KndiX47jHR9MI2mWvmrOEibAE1M3zJUeTuU8B7CEn86I
+         3Xa0my62UJqU7us7kVglLs3+raVCfaKKfTBVyTIKrRmN/PbGbqDu74qr21mayvBqhYFE
+         VlxtuX6aNxi1tCCoWLPW7pVxBqUo+N5ZL/TrfryfCwk5nyS0qsMvktxjzqusO5cLps77
+         pIoKwe2X/jQ22q46SFcao0RpTALPKUePL5zP15yBJW1okYf17BKVPHBhKaRO7+Yqv3Em
+         OsLBorvpBA6V2iZi9ua/NNAymRE0TWR/WzZvdSAGg/mOKayl4EJ8MvNjv0Lxm6khen71
+         RA4A==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
        dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1739380309; x=1739985109; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1739380711; x=1739985511; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:in-reply-to:content-disposition:mime-version
          :references:message-id:subject:cc:to:from:date:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YUxRXqIWzKobn0dHONmktwYFyVCbwEnL03/x75dWZKc=;
-        b=pTmB+dplyZKf3EgM5ckhJHSVRQ59jlBGqnCagMn88PrZ2tF7vaMlMuS733nw6Xj5J2
-         SbDuaZ2Kr5fLUKdRIHCtwXqRLsUws+/XQk82zZPsRUbhZlJi3tySeKBo+zrv6cyd6eFz
-         ZeauM2Fcw8tKdeu6mlWwEJY6hIkzCmpzwYYjAioWXWuEoYCLCrZlPiz6nPIevXCNKUuu
-         hstCJ3cGwVjoIVPFnGuIjq4cVpKIo95zpOKW6vw4+Mg/m5MSYqT2TiNOrCO3Dj6vMZjk
-         awE+h8HNUftsPlgLVNWPmepL5W0Hnj5pAIkTAihH2pAdV6clRFhJUBqNV+n2j1RuEA6a
-         6waQ==
+        bh=ZOEr0pcph9ijzUkxnR3tDCWZv1GyHmr/ImU/TmHtSQc=;
+        b=xAEp442VdKKYx+lkMYH/IHWtRyFfNbN6mHNCQE1r2m43t0P/wlt8KqHiRgVi/vPHeW
+         mOlODuMqiKA4mcknUZK72IXtu2iLsPuSH9bOUS4eJgCis8ROVCVfMJWFAgM3AX1J8hCe
+         yHGILZnmkEmgFIwTeZHWk6rdzAATbd+RTai6e7jIKfuH1lBZz74E+k32Sy2snyzSbzBt
+         fhxAo9/RiorjQdHXvT9/aLrFayApnMCnHZ/ipVeGVHSnyhDczgbgedM9kGD6rGXPxKdd
+         UKeGu6mgOuL5Em/S4h+SXus0Tbe+CLxFRlTEz4DSRVhYEzwmjIuHTwFwxmRWpJEZ1bTe
+         v8PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739380309; x=1739985109;
+        d=1e100.net; s=20230601; t=1739380711; x=1739985511;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:in-reply-to
          :content-disposition:mime-version:references:message-id:subject:cc
          :to:from:date:x-beenthere:x-gm-message-state:sender:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YUxRXqIWzKobn0dHONmktwYFyVCbwEnL03/x75dWZKc=;
-        b=WIHOp16CTukwSH++PZr9KM5f8QieFp5X8M3VoIPUM6YRgIHyIId9936hAMa7hKgaHW
-         roJSirhB9QhZhGFX3+rDiAb0RN/U8mqqq8A0FKHukM/iB5C7BZHcNuZZs1qseXftDpdb
-         CeJHi7bvqsQcdJE78nrQEX4uXhIaEiWABSbPjRrz1JDLYfYxGSU3Zgf0+wwKELcfGhoG
-         0cvNItKl3Ijs/RHr2ktDuM6yhKd9i4moEdQKtuOTRntN36XZiXrjTmJi0+bAXjpOfBsz
-         nAlm0OyB4zRHU7dRa4AOrYEYUos6jtLmMtzAaGFPD38nL4cWX1zdRAXJSsag7obFJfeR
-         87ow==
+        bh=ZOEr0pcph9ijzUkxnR3tDCWZv1GyHmr/ImU/TmHtSQc=;
+        b=Q463WP8jP8vDXmJ4BUYKDG+BhWLxpauxD3WvsF6fABWZe99oti8dzC5XblWl5Fatc5
+         JIsH6U7Sgm8G0zpomesaIa2xkb+2pWEJE8tI4A+JiEEozSeceZUcroW3xvJllaHfGdzZ
+         5EPBR0XJVWE1gSMxuqg5WHDDwahRK8x9RM6mkNz1p+97Xb8vtu0cmWtw9jdk3hYB54rz
+         zs/P1uKEWdhGNXxU6mbw0ovY7/26alXdD8CY1bsQ46wjZHwZ6swa2n3JedWjPu7MX60l
+         ZktIeYXwgN3jmFy8AcQcvaAJa6ZK790AL+i4XqSVFAvVXIwj307h0YxK3WybdarbVNCQ
+         OsNQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCXlts4aiPUuAzGZ1wMCPR3AtSm4P0fECkOaQqn5uHGWljGVTvQVu6TXcroBiWw+QVDtR0dq9g==@lfdr.de
-X-Gm-Message-State: AOJu0YyQZnMkuiSglTnsDHwEHHjuVdzgDiU+Jgo+t2X8g9UqtNStITiv
-	BTkqFveiNOLcQoE9rng/4HZG/FdkeFQi/5kRgvvVPAik/Oal0I8X
-X-Google-Smtp-Source: AGHT+IH1A2S8eZFNg/dP0yB8Z8KFLToEF7KhHj5XOhZf99OnbpbTOyXuSA/S6IX2t1UjJfymbAe/jA==
-X-Received: by 2002:a05:6a00:2da7:b0:730:7885:d903 with SMTP id d2e1a72fcca58-7322c3768fbmr5727424b3a.5.1739380309002;
-        Wed, 12 Feb 2025 09:11:49 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCU2k3R3WQKYkqKETh1/3rFsSwWM2EQJ98ZzhkMvSLm2g69PY9zsBXC/zsy278Np27iQ1mvUwg==@lfdr.de
+X-Gm-Message-State: AOJu0YyvaXifNf3fikI0GgkleCUr1aq3+3poDYvABs/er1BGXIuj0nCM
+	0bErh/sA31VeH+qUc6tveeiIvjoIelwmNWv1XPtsz6O8PvHBiD14
+X-Google-Smtp-Source: AGHT+IFx7ZgBPyDuTEbgVapPImpL1xgeY79NGHeUb7MmDrg3TJU53u1+I1OdH0BVuKvlhpMsgBpFZQ==
+X-Received: by 2002:a05:6a00:1c8d:b0:730:9860:1240 with SMTP id d2e1a72fcca58-7322c39c33bmr6043048b3a.13.1739380711596;
+        Wed, 12 Feb 2025 09:18:31 -0800 (PST)
 X-BeenThere: kasan-dev@googlegroups.com
-Received: by 2002:a05:6a00:4c0e:b0:732:1b75:4317 with SMTP id
- d2e1a72fcca58-7322b204e49ls1465989b3a.2.-pod-prod-09-us; Wed, 12 Feb 2025
- 09:11:46 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCVq3C+Roukx2hGNdJw6/b4509qJiRSo5GQoBvqcVBwIHkwtPGBvpHJgHKwWiw0EvminrRqhFasDKbc=@googlegroups.com
-X-Received: by 2002:a05:6a00:848:b0:730:8d25:4c31 with SMTP id d2e1a72fcca58-7322c38506cmr6489883b3a.8.1739380306594;
-        Wed, 12 Feb 2025 09:11:46 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1739380306; cv=none;
+Received: by 2002:aa7:9397:0:b0:725:e2f6:f34c with SMTP id d2e1a72fcca58-7322b1f2cdcls1191148b3a.1.-pod-prod-08-us;
+ Wed, 12 Feb 2025 09:18:30 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWIUptOyjYTF5cCj+0IDbjfmjcR/hMH9SvF+CnO61OQYOJ8hA22OrfurG6x3OrftxuKUpt1pk3ZoQU=@googlegroups.com
+X-Received: by 2002:a05:6a00:4fd0:b0:732:23ed:9457 with SMTP id d2e1a72fcca58-7322c39b70amr6125429b3a.12.1739380709934;
+        Wed, 12 Feb 2025 09:18:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1739380709; cv=none;
         d=google.com; s=arc-20240605;
-        b=PIDsv/R3c8ZMwM97QUawQigmDh23iMCqXnR2kzxsb0lsyOBkq/N5Ju4BRveTpkDb1T
-         agrSQ/xl8lTWvpSmfZ1WnzLlrmUf6o3YNSjKP00v5uKqyAgCzNJUZ1y+EBsJsDAGgrRG
-         S6SA0cf3Xhy9TXG4dy6wJ8wlYTO1uQAk0EBvVUHtjTQYPwMO5AX6tpbfpuRK1FmlVGmB
-         n7DKBhVm/bFxJsPuYordwRxeG2jlUS3uBpduJFC4aHhD0bWWtkeoag2QZhcqNNhBLkiV
-         M9sSGvoQxQpOSlIxAUsA7L8Fpcvn6ukhFtQxo5pvfOCmH2b5YohFkIiefDKWKl2DgLn2
-         ERww==
+        b=Uo5rJBk3Y3kyTOkCLIiHx2y3qdGzBV0l1VavEExOIgTWjQAzlYv/yqqAsWSGayYg/D
+         cQzCo+UMTEgMRnO3YXsdpmQx1P+PbxCqMN5uZ3KAnUYV68JHutDORJ9tvrCrJ9cxvJi4
+         xuUpuoeHdBeVkH30BZKoXeRrbi5PKk1wknQt4DvrvCvw3IuxmCIq1pT1K4rRIWeSPL8q
+         KPJ9Cx9T72jODmL6h6cnUBKszfKSbv1R0yaIYGwZfh2dm1GlPPbIV26j9MFsoZmvpxkr
+         PKIm900/5yZbaxznlqK6At/v+IAKiXX2fr2rzhAGRgy4erQffy//f/sDQ2v8JFXiCmNL
+         jfsw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date;
-        bh=UYT8AXeHwSuOZw0yu7hG8Ej/uv+EEusdL0gi3kC7KOg=;
+        bh=Rlgz5seG82Ux+fkG2i/legtN8SP4dQp1hc1HwNMZJ+Y=;
         fh=md3ANKhaGYZbuc9iasr19RDG3GmpFkCH4nzOFRqlDfA=;
-        b=GIOrXhqJxKAJ/E59DmwHjUxj3qV70Y6kSiZCs+k07K69CFVdyzT2W0oHA/5+6UOydu
-         7SyjUcV7+wRWDIZuhdZ0xHcdyt+5SpHF62nIhm8FLjwnbbrX15L3l8BY2QfAYnC2Bbme
-         J1N9PaRas1abiNvnub3h9MRHPUcu8JgskqtNEbLx52wSyD6H2tZP6FfyRhCSdFboHFle
-         WTcHDQkf2UEwzk8UpI5J93z5UGjaBekF+unA/fEaD1TmIvOsuASOWRwEZCza6PKkroMn
-         QSQalrO0GAjnMDmyVBVcojPeN5JUn3MtuThDnx6Lp4JbIFCvj95C/swghbYWUZOogB1T
-         DTIg==;
+        b=GqgjFVRqJmYgEB9w5TlnyhtWIm9KM2MJoSFl6sshmCDyq/0DIgByFeCWWcT8HYWwdE
+         2GgcVIlCMdd02FOvzY8TKsVJPknvpMwppCFT5fEDr+VHBJ33sBowysQZ6r0E0BrDs9IG
+         IGWODXg7X3MgjGbG60mqJCTnm772NkSSJ28MOKsZ55ABOkCsmv7X+0mj959cF//P4fgu
+         MsmWRwUoOPoeZshePAei5BUIioaEFxYib577/LrbPHAglKtVu6ZCAA5eAEHCwOCOI4Pl
+         dNSFJAbXQ0vR7aXuMSOxHIUy7VIQlx4dMsI4OWO7v0RTi4UcZLwpLf3ENTXfMxerWq6H
+         W2fg==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of cmarinas@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
+       spf=pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) smtp.mailfrom=cmarinas@kernel.org;
        dmarc=fail (p=NONE sp=NONE dis=NONE) header.from=arm.com
-Received: from nyc.source.kernel.org (nyc.source.kernel.org. [2604:1380:45d1:ec00::3])
-        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-732194ee646si197696b3a.2.2025.02.12.09.11.46
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [139.178.84.217])
+        by gmr-mx.google.com with ESMTPS id 41be03b00d2f7-ad543e61375si498583a12.4.2025.02.12.09.18.29
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 09:11:46 -0800 (PST)
-Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 2604:1380:45d1:ec00::3 as permitted sender) client-ip=2604:1380:45d1:ec00::3;
+        Wed, 12 Feb 2025 09:18:29 -0800 (PST)
+Received-SPF: pass (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as permitted sender) client-ip=139.178.84.217;
 Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
-	by nyc.source.kernel.org (Postfix) with ESMTP id 38FCFA40118;
-	Wed, 12 Feb 2025 17:10:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46F24C4CEDF;
-	Wed, 12 Feb 2025 17:11:40 +0000 (UTC)
-Date: Wed, 12 Feb 2025 17:11:37 +0000
+	by dfw.source.kernel.org (Postfix) with ESMTP id A6A1D5C5FFC;
+	Wed, 12 Feb 2025 17:17:49 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D15C2C4CEDF;
+	Wed, 12 Feb 2025 17:18:23 +0000 (UTC)
+Date: Wed, 12 Feb 2025 17:18:21 +0000
 From: Catalin Marinas <catalin.marinas@arm.com>
 To: Tong Tiangen <tongtiangen@huawei.com>
 Cc: Mark Rutland <mark.rutland@arm.com>,
@@ -137,19 +136,20 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 	linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com, wangkefeng.wang@huawei.com,
 	Guohanjun <guohanjun@huawei.com>
-Subject: Re: [PATCH v13 4/5] arm64: support copy_mc_[user]_highpage()
-Message-ID: <Z6zWSXzKctkpyH7-@arm.com>
+Subject: Re: [PATCH v13 5/5] arm64: introduce copy_mc_to_kernel()
+ implementation
+Message-ID: <Z6zX3Ro60sMH7C13@arm.com>
 References: <20241209024257.3618492-1-tongtiangen@huawei.com>
- <20241209024257.3618492-5-tongtiangen@huawei.com>
+ <20241209024257.3618492-6-tongtiangen@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Disposition: inline
-In-Reply-To: <20241209024257.3618492-5-tongtiangen@huawei.com>
+In-Reply-To: <20241209024257.3618492-6-tongtiangen@huawei.com>
 X-Original-Sender: catalin.marinas@arm.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of cmarinas@kernel.org designates 2604:1380:45d1:ec00::3
- as permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail
- (p=NONE sp=NONE dis=NONE) header.from=arm.com
+ (google.com: domain of cmarinas@kernel.org designates 139.178.84.217 as
+ permitted sender) smtp.mailfrom=cmarinas@kernel.org;       dmarc=fail (p=NONE
+ sp=NONE dis=NONE) header.from=arm.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -162,111 +162,24 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Mon, Dec 09, 2024 at 10:42:56AM +0800, Tong Tiangen wrote:
-> Currently, many scenarios that can tolerate memory errors when copying page
-> have been supported in the kernel[1~5], all of which are implemented by
-> copy_mc_[user]_highpage(). arm64 should also support this mechanism.
+On Mon, Dec 09, 2024 at 10:42:57AM +0800, Tong Tiangen wrote:
+> The copy_mc_to_kernel() helper is memory copy implementation that handles
+> source exceptions. It can be used in memory copy scenarios that tolerate
+> hardware memory errors(e.g: pmem_read/dax_copy_to_iter).
 > 
-> Due to mte, arm64 needs to have its own copy_mc_[user]_highpage()
-> architecture implementation, macros __HAVE_ARCH_COPY_MC_HIGHPAGE and
-> __HAVE_ARCH_COPY_MC_USER_HIGHPAGE have been added to control it.
+> Currently, only x86 and ppc support this helper, Add this for ARM64 as
+> well, if ARCH_HAS_COPY_MC is defined, by implementing copy_mc_to_kernel()
+> and memcpy_mc() functions.
 > 
-> Add new helper copy_mc_page() which provide a page copy implementation with
-> hardware memory error safe. The code logic of copy_mc_page() is the same as
-> copy_page(), the main difference is that the ldp insn of copy_mc_page()
-> contains the fixup type EX_TYPE_KACCESS_ERR_ZERO_MEM_ERR, therefore, the
-> main logic is extracted to copy_page_template.S. In addition, the fixup of
-> MOPS insn is not considered at present.
+> Because there is no caller-saved GPR is available for saving "bytes not
+> copied" in memcpy(), the memcpy_mc() is referenced to the implementation
+> of copy_from_user(). In addition, the fixup of MOPS insn is not considered
+> at present.
 
-Could we not add the exception table entry permanently but ignore the
-exception table entry if it's not on the do_sea() path? That would save
-some code duplication.
-
-> diff --git a/arch/arm64/lib/copy_mc_page.S b/arch/arm64/lib/copy_mc_page.S
-> new file mode 100644
-> index 000000000000..51564828c30c
-> --- /dev/null
-> +++ b/arch/arm64/lib/copy_mc_page.S
-> @@ -0,0 +1,37 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +
-> +#include <linux/linkage.h>
-> +#include <linux/const.h>
-> +#include <asm/assembler.h>
-> +#include <asm/page.h>
-> +#include <asm/cpufeature.h>
-> +#include <asm/alternative.h>
-> +#include <asm/asm-extable.h>
-> +#include <asm/asm-uaccess.h>
-> +
-> +/*
-> + * Copy a page from src to dest (both are page aligned) with memory error safe
-> + *
-> + * Parameters:
-> + *	x0 - dest
-> + *	x1 - src
-> + * Returns:
-> + * 	x0 - Return 0 if copy success, or -EFAULT if anything goes wrong
-> + *	     while copying.
-> + */
-> +	.macro ldp1 reg1, reg2, ptr, val
-> +	KERNEL_MEM_ERR(9998f, ldp \reg1, \reg2, [\ptr, \val])
-> +	.endm
-> +
-> +SYM_FUNC_START(__pi_copy_mc_page)
-> +#include "copy_page_template.S"
-> +
-> +	mov x0, #0
-> +	ret
-> +
-> +9998:	mov x0, #-EFAULT
-> +	ret
-> +
-> +SYM_FUNC_END(__pi_copy_mc_page)
-> +SYM_FUNC_ALIAS(copy_mc_page, __pi_copy_mc_page)
-> +EXPORT_SYMBOL(copy_mc_page)
-[...]
-> diff --git a/arch/arm64/lib/copy_page_template.S b/arch/arm64/lib/copy_page_template.S
-> new file mode 100644
-> index 000000000000..f96c7988c93d
-> --- /dev/null
-> +++ b/arch/arm64/lib/copy_page_template.S
-> @@ -0,0 +1,70 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2012 ARM Ltd.
-> + */
-> +
-> +/*
-> + * Copy a page from src to dest (both are page aligned)
-> + *
-> + * Parameters:
-> + *	x0 - dest
-> + *	x1 - src
-> + */
-> +
-> +#ifdef CONFIG_AS_HAS_MOPS
-> +	.arch_extension mops
-> +alternative_if_not ARM64_HAS_MOPS
-> +	b	.Lno_mops
-> +alternative_else_nop_endif
-> +
-> +	mov	x2, #PAGE_SIZE
-> +	cpypwn	[x0]!, [x1]!, x2!
-> +	cpymwn	[x0]!, [x1]!, x2!
-> +	cpyewn	[x0]!, [x1]!, x2!
-> +	ret
-> +.Lno_mops:
-> +#endif
-[...]
-
-So if we have FEAT_MOPS, the machine check won't work?
-
-Kristina is going to post MOPS support for the uaccess routines soon.
-You can see how they are wired up and do something similar here.
-
-But I'd prefer if we had the same code, only the exception table entry
-treated differently. Similarly for the MTE tag copying.
+Same question as on the previous patch, can we not avoid the memcpy()
+duplication if the only difference is entries in the exception table?
+IIUC in patch 2 fixup_exception() even ignores the new type. The error
+must come on the do_sea() path.
 
 -- 
 Catalin
@@ -274,4 +187,4 @@ Catalin
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/Z6zWSXzKctkpyH7-%40arm.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/Z6zX3Ro60sMH7C13%40arm.com.
