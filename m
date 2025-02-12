@@ -1,143 +1,158 @@
-Return-Path: <kasan-dev+bncBC7OBJGL2MHBBB4NWK6QMGQEGTTF4OI@googlegroups.com>
+Return-Path: <kasan-dev+bncBCSL7B6LWYHBBFU2WK6QMGQEH4XHPDQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf40.google.com (mail-qv1-xf40.google.com [IPv6:2607:f8b0:4864:20::f40])
-	by mail.lfdr.de (Postfix) with ESMTPS id E26A9A324F8
-	for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2025 12:31:20 +0100 (CET)
-Received: by mail-qv1-xf40.google.com with SMTP id 6a1803df08f44-6e48a052ad6sf11102996d6.2
-        for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2025 03:31:20 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1739359880; cv=pass;
+Received: from mail-ed1-x538.google.com (mail-ed1-x538.google.com [IPv6:2a00:1450:4864:20::538])
+	by mail.lfdr.de (Postfix) with ESMTPS id 071AEA32582
+	for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2025 12:59:20 +0100 (CET)
+Received: by mail-ed1-x538.google.com with SMTP id 4fb4d7f45d1cf-5de909cf05dsf2729612a12.2
+        for <lists+kasan-dev@lfdr.de>; Wed, 12 Feb 2025 03:59:20 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1739361559; cv=pass;
         d=google.com; s=arc-20240605;
-        b=juRA/vvWJx/YRTiqDZjfKnosUEbr2HAMGIjYHH+UaZupQLHQ3cR1DZXOCatPms3LRI
-         0dJ1ftYsF9QEXEIEcAT+UDABKl9N2rlHw5AB96Kg25Ihg2zOVjbQ1AvxRNF9UbBKsQqD
-         K6EhDTVM33hb3Rh7/Fi+pG67qYCZlAawMe2SPSYs2Nu3MXB18gk7QkdeYN9SuTHpM0vX
-         I0K/BV7OJbCVPBwPHP4iPxYFMJW8z8KIm8rf8RSfnlxP/Jzfus70HA76qd8KGLOYVw3S
-         8A5JDYaornplITSEeu5dsDUsEFXLc0ERhkER/ds8mwH1RXqh2mFaxPoCGFghXhqBVguG
-         PnIg==
+        b=A/w3C2QTCvfwtK3BUPHJD/Qef+WFA4xU53kYcXVsUAt1yPvB0A3QuhgZPUpKfeSaRF
+         n7uo+TS+6WZWq0+1nCa+sdrBM2qzXxTSZSms2mLB0+5MBaFIlX3SpXHmSilhjJ4v4OIx
+         XtZ15YLkExBD7PDLL6QZCsVAVIxLXr32ZN/us3TQ9muwhQWBdaqSugv84y5xatSngSX7
+         qzixTSOGBvHGd5A7Ku5miTm2lxiLd6c+Xt5dVw/JE6qmNd4IZXnZt5zfjDlSWSydj6a+
+         HED6lKfm7A4Nc0Ya+tbK22Dzb2rqFB466ZqQkKfgAfDUFaVlCXcrFFm2cH0Ws7YEIWNT
+         dRGw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:dkim-signature;
-        bh=vnDFAFhgc0HQI/TTJ6NamJZpveuEHSmyT1WR74jFEYE=;
-        fh=lge9z+/fr3Rvcjtm0y83ov+gaLEtn/2l5XOBAKjM508=;
-        b=fB/fQx+Qm9AvN6zf2DnNgjICfuBW75ZMHajcSJLI+RVCH0kbYoHNjflICH+7Qol//P
-         VKEKMKSqGtSOrr2PhpmSONrKpD4kDzT6UXGE+8C6REPvTPeJC5lMrESafuM9uT4LsE63
-         Z/tpWyiMu5SuxzkCqBqMowM05bqzT1Zud4hTy6QHPCoNqo5GRCdeL0PcOAIqqtnIInIo
-         fEwZVtEjiTM2CWU2vFgDF7sajyVbp4HGKEsX0kKby5bE838GTxeFhy5kW3IbdE+HMQf/
-         5YeoQ9xEeIj+1zErcqLhIe5+MfTx/akM64+vF/e7ypWdNgi37C7+CHyoqNTjutYpu3ZM
-         gMqg==;
+         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
+         :subject:message-id:date:from:in-reply-to:references:mime-version
+         :sender:dkim-signature:dkim-signature;
+        bh=S/D9U815bs2NwhUCpH1QtXyaK8VLedPfu++rp4l+N0M=;
+        fh=1jqYou+kVEdKCEhMgY3Y4CvM4ihOHLACgDyn1o+bJiQ=;
+        b=LBshYxjSlJP+xzL5j+hpLezLPMMaPIMb3Hq+SxYP9dkEc29/ILRR5Y5GKCnBITRm2D
+         CBA9Df7D6/VlSGlWlrWMbgwyLrfkkydDuLaoBbBdDW347tJc0YkA7rr0susN47eq7uab
+         jAD3V24k7hNg5nDRGNVEeROqFDENjRrJmc/Edzm7RxgBCmB8Qdcpt4doBz53Y1VE5CI/
+         EFoWn48CImEN6DPi8H0rIHtJ3LpXHZ/3hZEREiJTg34wgcFpd0u2AE1Kddcv45zidHRO
+         rfIqW+zrgbVLfFRQa/rKoRNzp2l0QUeH2upWw4ohgT5In2ExcoCV6NH2K1JRnmkJF/B+
+         pBmw==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=AxAH5LMm;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1032 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=V5QPSHHM;
+       spf=pass (google.com: domain of ryabinin.a.a@gmail.com designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=ryabinin.a.a@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1739359880; x=1739964680; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1739361559; x=1739966359; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
+         :message-id:date:from:in-reply-to:references:mime-version:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S/D9U815bs2NwhUCpH1QtXyaK8VLedPfu++rp4l+N0M=;
+        b=JcPx19f9gmKK9b5MVYvMteu5pNvDpaeHMnwdEIaA/2gSPLmYk7KhEjLTMqeypzjYFb
+         RExKkniZ/cQXRuUA9YY6EECgJ6jh2/DwbXZbbJeKdlEuOea84PrcDNK8JFMDBlkccHSm
+         zP+x38d8MnB4Njbem6b+NA7qDAHTllH/lOmW28fsTXTyePqKWvwrOzgibaP4Jc4HIlaQ
+         Q+bsK5odpQeADGds3NcYXRH1OXHJI2I309tXyak9psDhgklAqbv1U3TNIjN6NxPdyc7j
+         Jt/YNkcl37l7y1tKCkpU2UcInIcOFvnmKIE0ztB8two3OCvXkBCwJsoyWHYbADnP7XaU
+         iFow==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739361559; x=1739966359; darn=lfdr.de;
+        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
+         :list-id:mailing-list:precedence:x-original-authentication-results
+         :x-original-sender:content-transfer-encoding:cc:to:subject
          :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vnDFAFhgc0HQI/TTJ6NamJZpveuEHSmyT1WR74jFEYE=;
-        b=E4jmhZm0Bswt58V2lqTR1sIklNB7I5ItjZMtFeB1i/X9zZkRXmpEHtO4WwfQsJd86X
-         QG8DmZCh6sfzaUYH/ehNfSgrPeBhpOH12kvPAsfF2wXMQWNoxonZrlhYJhQu0aSAt01R
-         N0m2+3f9ikuHTsHWZfwALu2oGzyr2CcrbKu78u8OiRAEzRudUE2cENvGQ5gXxQMOoDqB
-         E8ewK3ZEptALm5NX1YJZgN/Np8d55aczgHx2kJSN4w3tikx7NU4j/INujff4yOTzRqA4
-         kaSo32NZUoggfVQFsZTeuTpoWiFp89+CcJezUNrRttMeG2LHLyAl4w9eXIiofVOVAqwG
-         fLug==
+        bh=S/D9U815bs2NwhUCpH1QtXyaK8VLedPfu++rp4l+N0M=;
+        b=RHb2SK+RUMISWTYodZvuuG25I/HNFL5z7PPjBhfb25W2yj2rnOb7yXMh2K8HfXzSzG
+         hHi1QLbropTpEU6Jpc6VftYtn4keRxBNZksTleTjHbAZzRj3EFW1JtGhWH3HDHd948dp
+         lRYkiKBukyMx3X0WF/F6orBgX2HYn2fy6qrmvM7NQ2UaHFkdM6XTeg50YFISlPjrhyg+
+         rWUv86om8scNZPADru2uQQk/rEuuI9ay3+FiY3Z01/bd7199R3BCLCyk/dIOoMtw/Mqa
+         r4T6opbmxfYc+0cZb3BA5mIxZkFqYK5W9F7aDCO4CF2NsR8MKmgiphLOhvPepsOhhUoj
+         xSwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739359880; x=1739964680;
+        d=1e100.net; s=20230601; t=1739361559; x=1739966359;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
-         :x-original-authentication-results:x-original-sender:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version
-         :x-beenthere:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vnDFAFhgc0HQI/TTJ6NamJZpveuEHSmyT1WR74jFEYE=;
-        b=UPYk8w0TqzHsvh32TAg54XAV1TALFtUlVczCkIAx6Z4W3odrKoxqyONkPLLLNfoSYR
-         ORkQA8pvmm5bvzD6y7Sknu39rHmPKl6QVssj2wn5jFLmIUYbQ7JRKiCN4c2cuc7lrwrz
-         /waW4dQm2YSaKFy3Ia1ikS1ZeS9nFkDuLY2zvY2ca6dg9U1MDVOBbPQxH6tr77JqLm6u
-         CPH4SJp+CSQPpXR2klofsGF1nQvPguDJSuo0jAKRZKI/0jo5lTx8HLUY5SzQvXDwg69F
-         O2E48FZYjWHZQ56n85sIKdZoqPGf843szIxUjdahJ4xLtGIMibgOOvG5nDchtqYjk8aH
-         sFcw==
-X-Forwarded-Encrypted: i=2; AJvYcCUGW3LKJXxnHe+v1vBIIhsPRxfAQgwJrf1Da6VRqjeXQqaCZhwodUm9HukBU1YrawcvWzD95g==@lfdr.de
-X-Gm-Message-State: AOJu0YwgchxIkocB1mjfSBs6vaIg9vx9kk9AkP4xoB+/7QsTIhdJwa3P
-	GDVy98OAdpTJwsWPAGSSJMy37Ebji9uqW5UbpgmpoLmJNS6HmPtt
-X-Google-Smtp-Source: AGHT+IHgyCIPYDft9nf5xIws7MUnSRBmzGRQjD8o3NlZMQwkC4s8304kL16vl/py/6goSLhnpHYAQg==
-X-Received: by 2002:ad4:5d66:0:b0:6d4:215d:91b9 with SMTP id 6a1803df08f44-6e46ed7e57fmr40512476d6.11.1739359879528;
-        Wed, 12 Feb 2025 03:31:19 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVFsZj60hc7L91+LaBB8rlsC7uJ3LL56dQQg5ULQ+IKspw==
-Received: by 2002:a05:6214:5b10:b0:6d8:b1cf:a07d with SMTP id
- 6a1803df08f44-6e44530352els3316796d6.2.-pod-prod-02-us; Wed, 12 Feb 2025
- 03:31:18 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWFwM/RWo4rRguaLa1u3lnZwYgbdiSmypF32L6Ff3qWz57WbQvfzsBZjMnIdDqq2zda516nsO6HXb0=@googlegroups.com
-X-Received: by 2002:a05:6122:4899:b0:520:62ce:98ed with SMTP id 71dfb90a1353d-52067c75094mr2277449e0c.6.1739359878547;
-        Wed, 12 Feb 2025 03:31:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1739359878; cv=none;
+         :x-spam-checked-in-group:list-id:mailing-list:precedence
+         :x-original-authentication-results:x-original-sender
+         :content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=S/D9U815bs2NwhUCpH1QtXyaK8VLedPfu++rp4l+N0M=;
+        b=jVEjsOrHln8XscmAgWR5cg3siLLrW+InglNmq7GB0vMrv45dVYDKeeEJ2h/cTSvTTu
+         rZNJQ7+46JPhF3LWUiDnwcNUgvwF8M4RNqjllvGanAKt7GVBjhMe3j5q/VUjldZ3Exsl
+         zxk1NbU2CP3OgXAJA/TgoJC9GsNrDD5MA6BA83/Pdood28X0PfbWtopSWW7yhjvAVejP
+         API+37gZC0nZM/z7gxHMJXW+w7mcvA2jSZrNd5yRNOOV78QFkE87li1Dr936H84zFSMW
+         7CHHWTwZde10z1+9VVOTJMV6LwrfN6TvNY6ELxfclFC8cNV8hrlQtWDVAb50dvP4vYJ2
+         Nnrw==
+Sender: kasan-dev@googlegroups.com
+X-Forwarded-Encrypted: i=2; AJvYcCWneFZ5g1og/oOqfGwZSBKWHa+H1A1qDvoCAE7NuWd0hplLEWzj3dB2KR/QL4Qxe+JlOIjSpQ==@lfdr.de
+X-Gm-Message-State: AOJu0YxXxL3XybChSBlbxPK3PdwY3x7TeNQi7Tmcv2iKWGzkRYhKLKaa
+	2Mo8TXt3SVJWUlZBwlACTlMMBzRKlCVgejfUfVx5rtLWLIwudyvV
+X-Google-Smtp-Source: AGHT+IGa7X3DCpEHiRjMsQqNC9mhRyYSw+Xnu4BwJ09o5xZhhWFnoFzjnflzfitei7b973qFXYPI1w==
+X-Received: by 2002:a05:6402:254c:b0:5d0:d9e6:fea1 with SMTP id 4fb4d7f45d1cf-5deaddb98a3mr2325088a12.19.1739361558684;
+        Wed, 12 Feb 2025 03:59:18 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVG864xYJiU1mHSUi/5Bi/6JDUXOurSoSPGM2wr+xLu8Zw==
+Received: by 2002:aa7:c517:0:b0:5de:bc62:17e4 with SMTP id 4fb4d7f45d1cf-5debc6218b0ls427969a12.2.-pod-prod-06-eu;
+ Wed, 12 Feb 2025 03:59:16 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXLFaeRLY2UYknkgoThuoNj6UbRYgJJBouNes58tQHwCT4v3KEb4wpTeOMXVqcE9Z1aeFA0yIGvqO0=@googlegroups.com
+X-Received: by 2002:a05:6402:35c4:b0:5de:5946:8a01 with SMTP id 4fb4d7f45d1cf-5deadd7b7femr2299226a12.2.1739361555740;
+        Wed, 12 Feb 2025 03:59:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1739361555; cv=none;
         d=google.com; s=arc-20240605;
-        b=cdrNUuTfceoyOPMAb3PB56FizrYraQBhAeb1K/LqaP+6CFQWJWSZ021Olf2QJ5mK7q
-         g4h39aMn7MNr+f19H5gwOPtKCrOc/oObTWCdJWl+rwQOZ7ftxXLpHTaPYqnnEsb6bFYj
-         3rnzOWYnpvC8bz6KSIsLhm0w7fZ1PH/v462M2U1WgKbOcYVgfbC+dJIrBnhvS/2YyakQ
-         3NFdoPIIirpX8uWTpKXIb+1lkK4QKmUfjkAK0IaZ0CIvRJCCDyRrpx7tlfUODVsY1JHB
-         IkBc9v/pe4LojDMzrug0TL/nbsrcRnpKxuQ0BKuQI5ijS/upIc33kjeebCOocGtaSKG1
-         NbnQ==
+        b=Qwaqak7NPHura4qUaG4iOvYYn6GKRisXpaiuMI1R5ohYKtVSfK7kCcRR5Ow2PfmDBs
+         y8zT30sVQ1f7PDzBPPP60XiOIvRctDJ2JIDUwQdaHrz2piLaoFt/9ZIFnN/d3ppUYyiZ
+         pFtQQgX8ff16Fl14nqBouuhdEbhPodd7sRrCO9c5B6WWg++WXTKo9lgO8b7aZ+9CDwUx
+         zFOEMMc38LWsmzYr4zI1tX/1LuhFfFQgnL3cQLSamfwu0CxidH39NMIoqTHRR0UTQ+dh
+         bi5668PAlylbBhwtofhXN+TAK7z4GYabLa2EPfs4DywjLGFHu3YsDCJ3fLacfrDp0qqf
+         xtSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=7rEBrHtcjfEoUuHQWiZbj092Ws2ECaqqUNMQHsEcu0U=;
-        fh=+hSohL+3c6NcL6cxubjViRKvcYbRhZzfK63gMcYgKDw=;
-        b=Uf+ucUjyF7YhfkrXt5bMTuxDJK0jmJBc5yDnzDwTQGS8wp/rN6xGsaEp0xzDX4cnUn
-         N8ZHCBaK+VfARkr314+/vWk6PNmHiSHTPnzrOz0p3ABiiyz+0WKGL49YE/gDZ9kD/AWP
-         dxaqGn5BJltXA9yNvDs3sG485ifSFR163L0CppX1HaxsigaLmzMwIy/eBdWsetm4gnSI
-         NIA5eAlBt0k2S/6TdLWD51CfMZiLitlhi3wknkuydZzuNvzP3RiDlaYYpVJxC8j5+DYU
-         7B8msP9X/3ZD2OL5swgeE2qpfu0F9zwShE80F+2qAds6KHbsfOSxf0pPkk3eWtHCEAMO
-         6x7Q==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1eSl5YfX4v8OgkeO1jdSOmTgQstGlkukMTg9/pwP0Ps=;
+        fh=9feQ84Cj51TzdkykjcMvH+xwAdpKwt6E3+TetW7mkZ8=;
+        b=W1uXMQR3F+k19tuTQ767+LUynWDZMaCUaCDzoWb8334YPTc+X5geLq3zDSCzNzMat8
+         S3PjaXTbhhD07nKE6TjYvHhzVPY8h6zD5fOsSMJvJTR9MfqW21smDbapMrvN2hJ3cDdo
+         p+vpAaesXhZKTPGD3HVv+tC8smWHkgnF6R8uS9HNMICEVpYngvGJv+674QU0ZM/RNtmq
+         hdccEe035HJmURXSNausEzcsumLdabI69xTIYtkQAQm6derzl54jVIfkCJJ6ox5jr9GT
+         HNPdsdd/bYyEDjUKG9+dtkN89VTCaMRb6KrySlZFCPWAUaDkMtZLiOwN8bMZNdEP/40S
+         lbxQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@google.com header.s=20230601 header.b=AxAH5LMm;
-       spf=pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1032 as permitted sender) smtp.mailfrom=elver@google.com;
-       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=V5QPSHHM;
+       spf=pass (google.com: domain of ryabinin.a.a@gmail.com designates 2a00:1450:4864:20::32d as permitted sender) smtp.mailfrom=ryabinin.a.a@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
        dara=pass header.i=@googlegroups.com
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com. [2607:f8b0:4864:20::1032])
-        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-5204dc463b1si250041e0c.0.2025.02.12.03.31.18
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com. [2a00:1450:4864:20::32d])
+        by gmr-mx.google.com with ESMTPS id 4fb4d7f45d1cf-5dcf5d1bfcbsi395725a12.3.2025.02.12.03.59.15
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 12 Feb 2025 03:31:18 -0800 (PST)
-Received-SPF: pass (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1032 as permitted sender) client-ip=2607:f8b0:4864:20::1032;
-Received: by mail-pj1-x1032.google.com with SMTP id 98e67ed59e1d1-2f833af7a09so9158024a91.2
-        for <kasan-dev@googlegroups.com>; Wed, 12 Feb 2025 03:31:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVtARV8QaoQYq6Y72I3gafZUB7kP8F4nYZYemPe9Bgc56wDq74ikHBynyY2DWxSSpo5tSOt4w6/tc4=@googlegroups.com
-X-Gm-Gg: ASbGncsvGdB+xz8Pf2GyI4BPkgKN+nq3Yj0obCgg/MBN6iF6Xo+bg5dyoztiqXY9dOZ
-	AlrztkBdIcQIwwseGvniXQdKWywoThy8VHDfwwvKPYG3AgYYZBpYoJSCdljOBmNZdBgpgS6Vysb
-	FmVXthRTij7Ke5EguX9IEbxUwCR7Ce
-X-Received: by 2002:a17:90a:c88e:b0:2fa:20f4:d277 with SMTP id
- 98e67ed59e1d1-2fbf5c59edamr4556439a91.24.1739359877300; Wed, 12 Feb 2025
- 03:31:17 -0800 (PST)
+        Wed, 12 Feb 2025 03:59:15 -0800 (PST)
+Received-SPF: pass (google.com: domain of ryabinin.a.a@gmail.com designates 2a00:1450:4864:20::32d as permitted sender) client-ip=2a00:1450:4864:20::32d;
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-4395e234c02so381705e9.3
+        for <kasan-dev@googlegroups.com>; Wed, 12 Feb 2025 03:59:15 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVeKtnJtmeKGTSB2p16LDYUVK0aLGVIU5EcKdEMrk91673LolWSbv3DBJBPn7zqxsavhQywxe63RbE=@googlegroups.com
+X-Gm-Gg: ASbGncsXLzBN9AWxVkaMQH6T1VlLjsRNw7KfnKSBW2c4NZi9L0qCeqigMGCe02/ooVM
+	BN1Qxd+Ql3MQnQH9hLE0FhCJ/8KdNGRQSPvt+CxPCYENJufP2bclmgwFPU9hvaj/WLi93E1yORo
+	Ky/8sSMzsk8HIYJT7ncTFbhP3cj2Q=
+X-Received: by 2002:a5d:64e4:0:b0:38d:be5e:b2a7 with SMTP id
+ ffacd0b85a97d-38dea2e98e7mr967564f8f.10.1739361555145; Wed, 12 Feb 2025
+ 03:59:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20250210042612.978247-1-longman@redhat.com> <20250210042612.978247-4-longman@redhat.com>
- <Z6w4UlCQa_g1OHlN@Mac.home>
-In-Reply-To: <Z6w4UlCQa_g1OHlN@Mac.home>
-From: "'Marco Elver' via kasan-dev" <kasan-dev@googlegroups.com>
-Date: Wed, 12 Feb 2025 12:30:41 +0100
-X-Gm-Features: AWEUYZlid8tnSI_M5CNmo_NAFEKRRgGapbh7_REdPcYQ5nNgIjsLxmmVx436lXA
-Message-ID: <CANpmjNNDArwBVcxAAAytw-KjJ0NazCPAUM0qBzjsu4bR6Kv1QA@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] locking/lockdep: Disable KASAN instrumentation of lockdep.c
-To: Boqun Feng <boqun.feng@gmail.com>
-Cc: Waiman Long <longman@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will.deacon@arm.com>, linux-kernel@vger.kernel.org, 
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
-	Vincenzo Frascino <vincenzo.frascino@arm.com>, kasan-dev@googlegroups.com
+References: <20250211160750.1301353-1-longman@redhat.com>
+In-Reply-To: <20250211160750.1301353-1-longman@redhat.com>
+From: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+Date: Wed, 12 Feb 2025 12:59:01 +0100
+X-Gm-Features: AWEUYZnaqmNFQ_lbBc6EZt7NZdSpHvlmvNFB56VaHucCrwmsBCcCq_pnMuQNjtc
+Message-ID: <CAPAsAGzk4h3B-LNQdedrk=2aRbPoOJeVv_tQF2QPgzwwUvirEw@mail.gmail.com>
+Subject: Re: [PATCH] kasan: Don't call find_vm_area() in RT kernel
+To: Waiman Long <longman@redhat.com>
+Cc: Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, kasan-dev@googlegroups.com, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-rt-devel@lists.linux.dev, 
+	Nico Pache <npache@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Original-Sender: elver@google.com
+Content-Transfer-Encoding: quoted-printable
+X-Original-Sender: Ryabinin.A.A@gmail.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@google.com header.s=20230601 header.b=AxAH5LMm;       spf=pass
- (google.com: domain of elver@google.com designates 2607:f8b0:4864:20::1032 as
- permitted sender) smtp.mailfrom=elver@google.com;       dmarc=pass (p=REJECT
- sp=REJECT dis=NONE) header.from=google.com;       dara=pass header.i=@googlegroups.com
-X-Original-From: Marco Elver <elver@google.com>
-Reply-To: Marco Elver <elver@google.com>
+ header.i=@gmail.com header.s=20230601 header.b=V5QPSHHM;       spf=pass
+ (google.com: domain of ryabinin.a.a@gmail.com designates 2a00:1450:4864:20::32d
+ as permitted sender) smtp.mailfrom=ryabinin.a.a@gmail.com;       dmarc=pass
+ (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -150,140 +165,65 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Wed, 12 Feb 2025 at 06:57, Boqun Feng <boqun.feng@gmail.com> wrote:
+On Tue, Feb 11, 2025 at 5:08=E2=80=AFPM Waiman Long <longman@redhat.com> wr=
+ote:
+> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+> index 3fe77a360f1c..e1ee687966aa 100644
+> --- a/mm/kasan/report.c
+> +++ b/mm/kasan/report.c
+> @@ -398,9 +398,20 @@ static void print_address_description(void *addr, u8=
+ tag,
+>                 pr_err("\n");
+>         }
 >
-> [Cc KASAN]
+> -       if (is_vmalloc_addr(addr)) {
+> -               struct vm_struct *va =3D find_vm_area(addr);
+> +       if (!is_vmalloc_addr(addr))
+> +               goto print_page;
 >
-> A Reviewed-by or Acked-by from KASAN would be nice, thanks!
+> +       /*
+> +        * RT kernel cannot call find_vm_area() in atomic context.
+> +        * For !RT kernel, prevent spinlock_t inside raw_spinlock_t warni=
+ng
+> +        * by raising wait-type to WAIT_SLEEP.
+> +        */
+> +       if (!IS_ENABLED(CONFIG_PREEMPT_RT)) {
+> +               static DEFINE_WAIT_OVERRIDE_MAP(vmalloc_map, LD_WAIT_SLEE=
+P);
+> +               struct vm_struct *va;
+> +
+> +               lock_map_acquire_try(&vmalloc_map);
+> +               va =3D find_vm_area(addr);
+
+Can we hide all this logic behind some function like
+kasan_find_vm_area() which would return NULL for -rt?
+
+>                 if (va) {
+>                         pr_err("The buggy address belongs to the virtual =
+mapping at\n"
+>                                " [%px, %px) created by:\n"
+> @@ -410,8 +421,13 @@ static void print_address_description(void *addr, u8=
+ tag,
 >
-> Regards,
-> Boqun
+>                         page =3D vmalloc_to_page(addr);
+
+Or does vmalloc_to_page() secretly take  some lock somewhere so we
+need to guard it with this 'vmalloc_map' too?
+So my suggestion above wouldn't be enough, if that's the case.
+
+>                 }
+> +               lock_map_release(&vmalloc_map);
+> +       } else {
+> +               pr_err("The buggy address %px belongs to a vmalloc virtua=
+l mapping\n",
+> +                       addr);
+>         }
 >
-> On Sun, Feb 09, 2025 at 11:26:12PM -0500, Waiman Long wrote:
-> > Both KASAN and LOCKDEP are commonly enabled in building a debug kernel.
-> > Each of them can significantly slow down the speed of a debug kernel.
-> > Enabling KASAN instrumentation of the LOCKDEP code will further slow
-> > thing down.
-> >
-> > Since LOCKDEP is a high overhead debugging tool, it will never get
-> > enabled in a production kernel. The LOCKDEP code is also pretty mature
-> > and is unlikely to get major changes. There is also a possibility of
-> > recursion similar to KCSAN.
-> >
-> > To evaluate the performance impact of disabling KASAN instrumentation
-> > of lockdep.c, the time to do a parallel build of the Linux defconfig
-> > kernel was used as the benchmark. Two x86-64 systems (Skylake & Zen 2)
-> > and an arm64 system were used as test beds. Two sets of non-RT and RT
-> > kernels with similar configurations except mainly CONFIG_PREEMPT_RT
-> > were used for evaulation.
-> >
-> > For the Skylake system:
-> >
-> >   Kernel                      Run time            Sys time
-> >   ------                      --------            --------
-> >   Non-debug kernel (baseline) 0m47.642s             4m19.811s
-> >   Debug kernel                        2m11.108s (x2.8)     38m20.467s (x8.9)
-> >   Debug kernel (patched)      1m49.602s (x2.3)     31m28.501s (x7.3)
-> >   Debug kernel
-> >   (patched + mitigations=off)         1m30.988s (x1.9)     26m41.993s (x6.2)
-> >
-> >   RT kernel (baseline)                0m54.871s             7m15.340s
-> >   RT debug kernel             6m07.151s (x6.7)    135m47.428s (x18.7)
-> >   RT debug kernel (patched)   3m42.434s (x4.1)     74m51.636s (x10.3)
-> >   RT debug kernel
-> >   (patched + mitigations=off)         2m40.383s (x2.9)     57m54.369s (x8.0)
-> >
-> > For the Zen 2 system:
-> >
-> >   Kernel                      Run time            Sys time
-> >   ------                      --------            --------
-> >   Non-debug kernel (baseline) 1m42.806s            39m48.714s
-> >   Debug kernel                        4m04.524s (x2.4)    125m35.904s (x3.2)
-> >   Debug kernel (patched)      3m56.241s (x2.3)    127m22.378s (x3.2)
-> >   Debug kernel
-> >   (patched + mitigations=off)         2m38.157s (x1.5)     92m35.680s (x2.3)
-> >
-> >   RT kernel (baseline)                 1m51.500s           14m56.322s
-> >   RT debug kernel             16m04.962s (x8.7)   244m36.463s (x16.4)
-> >   RT debug kernel (patched)    9m09.073s (x4.9)   129m28.439s (x8.7)
-> >   RT debug kernel
-> >   (patched + mitigations=off)          3m31.662s (x1.9)    51m01.391s (x3.4)
-> >
-> > For the arm64 system:
-> >
-> >   Kernel                      Run time            Sys time
-> >   ------                      --------            --------
-> >   Non-debug kernel (baseline) 1m56.844s             8m47.150s
-> >   Debug kernel                        3m54.774s (x2.0)     92m30.098s (x10.5)
-> >   Debug kernel (patched)      3m32.429s (x1.8)     77m40.779s (x8.8)
-> >
-> >   RT kernel (baseline)                 4m01.641s           18m16.777s
-> >   RT debug kernel             19m32.977s (x4.9)   304m23.965s (x16.7)
-> >   RT debug kernel (patched)   16m28.354s (x4.1)   234m18.149s (x12.8)
-> >
-> > Turning the mitigations off doesn't seems to have any noticeable impact
-> > on the performance of the arm64 system. So the mitigation=off entries
-> > aren't included.
-> >
-> > For the x86 CPUs, cpu mitigations has a much bigger impact on
-> > performance, especially the RT debug kernel. The SRSO mitigation in
-> > Zen 2 has an especially big impact on the debug kernel. It is also the
-> > majority of the slowdown with mitigations on. It is because the patched
-> > ret instruction slows down function returns. A lot of helper functions
-> > that are normally compiled out or inlined may become real function
-> > calls in the debug kernel. The KASAN instrumentation inserts a lot
-> > of __asan_loadX*() and __kasan_check_read() function calls to memory
-> > access portion of the code. The lockdep's __lock_acquire() function,
-> > for instance, has 66 __asan_loadX*() and 6 __kasan_check_read() calls
-> > added with KASAN instrumentation. Of course, the actual numbers may vary
-> > depending on the compiler used and the exact version of the lockdep code.
 
-For completeness-sake, we'd also have to compare with
-CONFIG_KASAN_INLINE=y, which gets rid of the __asan_ calls (not the
-explicit __kasan_ checks). But I leave it up to you - I'm aware it
-results in slow-downs, too. ;-)
-
-> > With the newly added rtmutex and lockdep lock events, the relevant
-> > event counts for the test runs with the Skylake system were:
-> >
-> >   Event type          Debug kernel    RT debug kernel
-> >   ----------          ------------    ---------------
-> >   lockdep_acquire     1,968,663,277   5,425,313,953
-> >   rtlock_slowlock          -            401,701,156
-> >   rtmutex_slowlock         -                139,672
-> >
-> > The __lock_acquire() calls in the RT debug kernel are x2.8 times of the
-> > non-RT debug kernel with the same workload. Since the __lock_acquire()
-> > function is a big hitter in term of performance slowdown, this makes
-> > the RT debug kernel much slower than the non-RT one. The average lock
-> > nesting depth is likely to be higher in the RT debug kernel too leading
-> > to longer execution time in the __lock_acquire() function.
-> >
-> > As the small advantage of enabling KASAN instrumentation to catch
-> > potential memory access error in the lockdep debugging tool is probably
-> > not worth the drawback of further slowing down a debug kernel, disable
-> > KASAN instrumentation in the lockdep code to allow the debug kernels
-> > to regain some performance back, especially for the RT debug kernels.
-
-It's not about catching a bug in the lockdep code, but rather guard
-against bugs in code that allocated the storage for some
-synchronization object. Since lockdep state is embedded in each
-synchronization object, lockdep checking code may be passed a
-reference to garbage data, e.g. on use-after-free (or even
-out-of-bounds if there's an array of sync objects). In that case, all
-bets are off and lockdep may produce random false reports. Sure the
-system is already in a bad state at that point, but it's going to make
-debugging much harder.
-
-Our approach has always been to ensure that as soon as there's an
-error state detected it's reported as soon as we can, before it
-results in random failure as execution continues (e.g. bad lock
-reports).
-
-To guard against that, I would propose adding carefully placed
-kasan_check_byte() in lockdep code.
-
--- 
-You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/CANpmjNNDArwBVcxAAAytw-KjJ0NazCPAUM0qBzjsu4bR6Kv1QA%40mail.gmail.com.
+--=20
+You received this message because you are subscribed to the Google Groups "=
+kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an e=
+mail to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
+APAsAGzk4h3B-LNQdedrk%3D2aRbPoOJeVv_tQF2QPgzwwUvirEw%40mail.gmail.com.
