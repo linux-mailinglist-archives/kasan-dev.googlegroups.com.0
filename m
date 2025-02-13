@@ -1,124 +1,125 @@
-Return-Path: <kasan-dev+bncBCPILY4NUAFBB3U7XG6QMGQEQJMKJUA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCPILY4NUAFBB4U7XG6QMGQEEH7GJMI@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf38.google.com (mail-qv1-xf38.google.com [IPv6:2607:f8b0:4864:20::f38])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8DCCA34EEB
-	for <lists+kasan-dev@lfdr.de>; Thu, 13 Feb 2025 21:02:55 +0100 (CET)
-Received: by mail-qv1-xf38.google.com with SMTP id 6a1803df08f44-6e65d4d54b4sf24029896d6.1
-        for <lists+kasan-dev@lfdr.de>; Thu, 13 Feb 2025 12:02:55 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1739476974; cv=pass;
+Received: from mail-oa1-x3a.google.com (mail-oa1-x3a.google.com [IPv6:2001:4860:4864:20::3a])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD82DA34EF0
+	for <lists+kasan-dev@lfdr.de>; Thu, 13 Feb 2025 21:02:59 +0100 (CET)
+Received: by mail-oa1-x3a.google.com with SMTP id 586e51a60fabf-2b8eaa67315sf1083064fac.2
+        for <lists+kasan-dev@lfdr.de>; Thu, 13 Feb 2025 12:02:59 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1739476978; cv=pass;
         d=google.com; s=arc-20240605;
-        b=R6svuLRjMiLPymnpBX7Ro4h4UpbNtY9fEOiG9JHx1sHP9CU5siwJPnLH21Xi8K1bac
-         m0CvGYg/RaOsPpaOSovRfEKrjpPqFCZM4DygZXGvgcDqlYsw7teTAX0jnk4EHpeQgJ1y
-         MGWRsagxybtrSC0a34v2ldhJrxw/ClHSaXZeNCDDJCcBPUYyZ9iOgx/ZXkHyGeutjdWK
-         VlCja+6coCQXX5hkKbDbhKmzBEBuz88ovkUCoX+7TxhDB7wWeEJGuXlxeGeN3LELvBVq
-         YhtgcweXjrDxoxqm48UnXL8JJJ9YX6MRLySEgJnP9nMum1SQeJAJYjoYcZ29KIznN3WC
-         VGyw==
+        b=bGWJAF6rtyt/s7k+SRbIDIryCH9CMHHoAg0b4pxU5JeTBzv322BgtcFWgkBezU3lKV
+         g70v4SdHTtKYPtpl3pbG/gS5rBdbOkPszS5IaUzK9MAMBWm6wYEplMqkR93kI6VOEFpO
+         5vzYzFm01+1QyuNzlWmxE7jnIfB0bt2oQFLnpyNhUzMVXQAX2+LBVf1T8BibH0y/8j8b
+         p/n9nqs4MStY9+HZGIL7MbXd5OKgt9Y5DCEQLst+4zJTPogC40slhCggzape4J30mQDw
+         JSkQ68uAEtkBy2kR3N2jZAcPHTmhl0QylIXRmG180+G2dkTXzeu98fzJfo/UCItJDHwA
+         attg==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:sender:dkim-signature;
-        bh=Jmjte/PhcTesFixcdTXnlMGffJjMbzOYDfYc2LUxV5k=;
-        fh=+yV66tdkdUwpwbiSwmPpNWgOxcKClVlCLWrFnkBWq+Y=;
-        b=LPLRYazu8LvDHGRZrD0gk5hoA2PPdPgaNPuKXYkFzGlBkjEX69ef6ZU00SlATIhiYL
-         FMphrCtlC0wS8bywuaeFa9zlF4lg8XB8zxd2hBaMGSxBK+IjoJEOhWlrtTY3ZFxFgsIO
-         2zMYmmuZI6aTMlkTZ6ZRHI7dvVcLpxqCQGh4Wtj1NRtFNoDFgBYEzpH5dL6CGxKNeBnG
-         d/VzwVDjKxfCW2r71EpdUimcdXCWWq1tWFAdkaerhlP90PaD1KMW/S7OTfSPX0vHHeSC
-         PV4BESMgAvcGVgCFvySNbej9TQP0/DA0lTS49n6rg0Og05tRM9Mv4tm+ts2y7d1UFiaT
-         8x4g==;
+        bh=JrKRiWIQPNr26AZKNtgO+a2+w+DYqs2d7W8eDZtciPE=;
+        fh=YyY7rXxYeA2nt+byySNe4hRkZvie8QuWX3Ae1DA8Quw=;
+        b=H6AalPKmHSe2ctc+mKmdSh/aF0JdAZEEJy8JoQV42evBP6VtEfocaZhKy3Xx/o6vsk
+         EF6G/b6C9aqMjsUsCjYypR7XErAxY4rpObODfLCwz6fzYOaYflY3VbB/ZJHvitisx8ot
+         M/+LpxK87XpDLc3zaORIAS9Hkb5KIKAMT4U8dg22i8NnYRoPf6LGq6terOvUrw8cH/kS
+         Ut3n9anf7Yk/fNwrcAqrY4n5O7S5ALVtwlSjOEPx7mGFoGCdEnEOwWtjqSw71ZyPaA3h
+         tJhFcc515CUu3iwTqjW/orQk7f2axX4o9AijCsm8EwxzyyycHr3xR92Von0ZTDWsIezA
+         xKCQ==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=FOw992O8;
-       spf=pass (google.com: domain of longman@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=longman@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=RltJGkhT;
+       spf=pass (google.com: domain of longman@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=longman@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1739476974; x=1740081774; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1739476978; x=1740081778; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
          :x-original-sender:mime-version:references:in-reply-to:message-id
          :date:subject:cc:to:from:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Jmjte/PhcTesFixcdTXnlMGffJjMbzOYDfYc2LUxV5k=;
-        b=SEvuSrwlSlSF0EADtdY+O3fn0GRxqZg6ibDisID8YE2aY4QYkBbZZLIISts2vwE9pN
-         hjp+KfrLuDTAYifTwjdw+faSzrqIb/h2rSGeHmqP84XaLkjXZxoqEGwrTqqMA3ML86zb
-         OuuX17TgA1YN2pH40fv5r64VbPMGF8aKRPmSWwdpnyJvV+J1UPvgs1+q1NUEtEkcNZX5
-         ATgVi1ORMdn0T7mJU4/Bvc6BguEVJlNfcH3hJZ2IGD8cjiZ8+ROZUfMWgu6SocgRguwA
-         fjMs3UHHZPlgb6D8QetlvAujqoYDpZH0wOt7GsBnXdVY9jmys7r7t2w0t9cALxa0gE/9
-         zIGA==
+        bh=JrKRiWIQPNr26AZKNtgO+a2+w+DYqs2d7W8eDZtciPE=;
+        b=na1anL+9IrOteLqDGaBGctjHhTHppBGraifhJeK/p64eYWwdUMIv1ZSlT6Ja34USdJ
+         VjQKlDA2BbtNphAFTsyHMx6fcjvnNTUHlGwQsQbTF9jgXSggnJRd2TPzv/IVKKSmc5HU
+         jG8oDGH+7bD3TZ5d3I7k2bu9k3Rb945FKK8DZ2m9VnXqIPg5laPDfdB6vgFav+qEZDwm
+         AgkAVKZVFsleRYx+UOO/Vum+TDsdL/Jiax0tet2zUHITN+eDU0yilKhmHoncfTfn/Ky5
+         rKt3FDWpj3gZAt9e1ePu1t7m6PIwW1cdWbBOCDS2yvvttVE1jL04D8QPVVUr5c0aIMRx
+         eFcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739476974; x=1740081774;
+        d=1e100.net; s=20230601; t=1739476978; x=1740081778;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
          :x-original-authentication-results:x-original-sender:mime-version
          :references:in-reply-to:message-id:date:subject:cc:to:from
          :x-beenthere:x-gm-message-state:sender:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Jmjte/PhcTesFixcdTXnlMGffJjMbzOYDfYc2LUxV5k=;
-        b=o9nEsPtaIJ88VZ/zqrT+uprZ+R24jtEfCfzoPEt4XYolOnaXM8jNeps/3O76ICm15a
-         FSB51Vrs1bd0fWETRCVK4RdKfzFPoEeSxcPf6HjJBKYKSXVCveaLCsBFSVd4GFh9nx2H
-         /VnA+ptspdwejgiBY7N0e9/EH66e8gvLZUAB/a2F1e+wpp9mn6Gvbagz0ToiTbiIr/LQ
-         oeGBfFbMzRbiyXLr52T9TxMJO4Ye6Z5juZN454LiSEqPrRjeoiQ3RPEExQjx1rCyz3tH
-         ajgO8PQuNRar4dQzyxjrj+3Sh04w5VTf2w/JmXzeRioXVhJ+vxYSH5mSUSZdqPXU6u0i
-         iT9Q==
+        bh=JrKRiWIQPNr26AZKNtgO+a2+w+DYqs2d7W8eDZtciPE=;
+        b=sVBKpN9JiZ58hb65O2LX+4H2GogFmtgZkEoJoAgMNThwUEU3Ktm2LM+eS7JBXb1XRD
+         57J++qiyjIdc+poLS8vH8GMebFoR8ddCLYrUVNXGYq4nbJFtlH6r+z7tyuicdXjTbqbe
+         E2OLVosQmILSlVgcgnJlBJCXbhwlSYm9sRKqhwtNaPVdI7df4N40kkDZC4MkxNXY9roO
+         3GPF9qb/qdEvQLKwmsDRl9HAYMMXTkwFv8q9DCiiie9qG+Ta/OQEeCgt32X0s2yGnoGA
+         BvvWB+y/lky+4xfZu5Riup4xAmrOuBzFPjtG1AWWB3wCOPKpALRdTlQEqBtNjDt8XXgY
+         fzkQ==
 Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCVJFQwYclacQOsjNcyR6W0whYZ8qrYpV35lrbKv9pcH4Z3m9Er1f4i6E2KuOqV5nSaz+gWVyA==@lfdr.de
-X-Gm-Message-State: AOJu0Yzyz+iyeSh8mGxtjllA/Zc1PhkxA3euya5sjuX+kfPeBz+nfB17
-	8DRisvdulIglD69/O3398cGXlYbKdNbqxEnGyo6OWCkRA5azzsMS
-X-Google-Smtp-Source: AGHT+IEpdcY4NY+lZm2n0LlasGx0NS8doLTt19Efgkzg6ifzNSZBgwnFCDD5w0EFi8jqx4/D141tDQ==
-X-Received: by 2002:a05:6214:c8d:b0:6d8:a258:68bb with SMTP id 6a1803df08f44-6e46ed8e6b7mr112923456d6.6.1739476974304;
-        Thu, 13 Feb 2025 12:02:54 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVEWQFZuWCPlOPbp1fp29zRJGa8TKqH0ea9Dt+/nTOdZog==
-Received: by 2002:ad4:5894:0:b0:6e4:41b5:919e with SMTP id 6a1803df08f44-6e65c24795bls20255706d6.1.-pod-prod-07-us;
- Thu, 13 Feb 2025 12:02:52 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCWutDBe/Xe3w6/DmkbC3439/n7BG69ZIfcK5IosQe6fN0PRxAX8VXG36+mbx6ySoIChwziZoiC/X94=@googlegroups.com
-X-Received: by 2002:a05:6214:21ea:b0:6d4:1e43:f3a5 with SMTP id 6a1803df08f44-6e46ed9a5b5mr130249876d6.13.1739476972659;
-        Thu, 13 Feb 2025 12:02:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1739476972; cv=none;
+X-Forwarded-Encrypted: i=2; AJvYcCW1Ucx2iKGIw0BNofRw6EGph8ZNcAtvtAfgmtKwb6OVAunCIt3hRwfN7zpqJVZeFPtfWs8HAg==@lfdr.de
+X-Gm-Message-State: AOJu0YzcrKKQkETJbtcSwdQZw4ohvY0tM/aGVaqeVeacJi0xBS8s1JPh
+	tqzJStsIjmgpiNDN4P7JkqJqy7p7HNt0BgaY6OsU8mov3L7moBri
+X-Google-Smtp-Source: AGHT+IHJNLw6wwcCLKHPD4hnUx2b+1J5a4cvE7BY/mfZR/XCmHZXsgg3obaApWT15Uhb+iBzsb2OyQ==
+X-Received: by 2002:a05:6870:ec94:b0:29e:29ac:5ade with SMTP id 586e51a60fabf-2b8daf9798fmr5465422fac.35.1739476978434;
+        Thu, 13 Feb 2025 12:02:58 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVGae97BBIjWnk9uPgiu6j+6sUzt4esLdkp0TaMcLHjF/w==
+Received: by 2002:a05:6870:1b08:b0:2b8:803a:caa1 with SMTP id
+ 586e51a60fabf-2b8f7b54400ls897906fac.0.-pod-prod-01-us; Thu, 13 Feb 2025
+ 12:02:57 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCW6F5IXX0+JuRI3lTmig3MU2+7K4myIdZPC6hsdkvu4TB2DZpN/QWGQTqVuFl6+WrVXdnO7qitgeu8=@googlegroups.com
+X-Received: by 2002:a05:6870:b506:b0:29e:290f:7af4 with SMTP id 586e51a60fabf-2b8daf97972mr5325853fac.34.1739476977389;
+        Thu, 13 Feb 2025 12:02:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1739476977; cv=none;
         d=google.com; s=arc-20240605;
-        b=ZpBasTBCrpBZwKXn4BwhHExa3d970+wNnPaZzk8UL96Ld/FHM9SgWjBbAhpgPJIZFh
-         3LVMn44ozAtFLxAjegRRI7g+FUdOpGzseGwgbQizjHQobYqQLy3lLHgiTxU0ukyb45QM
-         TH81pz95HJ9RiH7PElTIvpX+G3tdtP9mq/sV5e1ohNsjIGC65kk7GWdE4Zlh1s5vVA5d
-         5/qEHQ9B6OidCIGe3hE4A6DkdVX7jJMT5u10BtA0jkIIF/GgW7X3q75G1S68LwtJr8ub
-         wYoT+bb9/54Mne6aEZIzLJHm1axpanOuRsFrH4R4LobXKCAnZIzHR+RoAHYVSqsSPj7L
-         DI8w==
+        b=ZVO2LSmXqV+Qe1d/lcjfdf5Iinj4nptJ+B4miOkF91C8AZRbyNi267WB81SD4kx2QF
+         whKuDKOvKYNHoiql4TSookTI3BSy3HGSNpGCcs2geDLtrYt9spqLn+KPiIAHqztgOvXQ
+         Fds4bzufs8eYg+lLgRB7t1eGPyKDoGgkD04/KJ4UyeVCmy4wxEc2Gsp1ySk0sue3IdiW
+         iaP+CwCA/qxxVQr0E3EMCqZacDLi7aqy2tGaMfjJvApaVQS7wHLpNCjeP6RyNwADVbRc
+         iGmrYQIW6kAFN9FOM5TSWR2Rg8HrmRSAvpU84AI57oS0ISiuF+Ze+nykQFH+ACehZ4cE
+         iw/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature;
-        bh=oz+7MpT+Dx78HRfBDvJLdqx8byUVr6Veo3C9NU8MZLY=;
+        bh=oSXvIJINQIfUxBjAhkboBcPP4OyeZ0/nogoPQVNBBqQ=;
         fh=lQv1AjbPVKIvQPz9UUOSn+HIjjyR/F37iUMUXKbc//M=;
-        b=h0zfG5c/htIAzzIryNJSFmO7LnkLCQb8+dByxIlTgbCxpNwJSKFI8u9Bpm2Y+yZmVq
-         7VM43N9ezPHtSnyYb/mMHnhX0dQJmW1nxvRL6y+z/K7X3d+YzJZMyBAmdo93JGywo6sd
-         qTDoWdqutxi5nBovpLdA8cIxTlE8gt+AEneJ9FNbq0Iuk6FW9+2PBtnTzl6T7JbwY8+I
-         PRBUCWSmwTry+7ouQdPwDGoFpq7KPrxGmGQ7vV81I2tBNF03abHW/HRVq2/MPJs/txL4
-         zJSXdWBSBHoMEwXRP2W04KaitM5uTM3AUkUw6EW5zlCd2IHkBpe0w62PqTakXbUZABU+
-         tFCw==;
+        b=GSW1BqTAMlUnQgz9KzZV6aXKIK10unhR07IxjxyFH7ZzvKypIzQVYUi87w7fAaygwk
+         VK+tvuYFEs28OQN+HR6FMl57dWj9vmEjoFr1M0vLTTerxHVK2X65ozeE4WWrNukSK57u
+         2Pncu19XCv2Yy+pqMhx64THrhl1NWPsmA43x//zGMePkmXuQu1f0Nc9owpLX/1P8MvAN
+         yGBtPUNt/NkZWbaRDWZRjMFKEdvOMp4GjDA26tZ1YaMR+Pxam6tT71EkId9Htuw2JRtd
+         ottaEBUJGlTUA0IBbowHzyxyqSAH3q5LmgMLr/xD/uqRmMzLH7iW6RqWVyIzue1k33v3
+         Li6Q==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=FOw992O8;
-       spf=pass (google.com: domain of longman@redhat.com designates 170.10.129.124 as permitted sender) smtp.mailfrom=longman@redhat.com;
+       dkim=pass header.i=@redhat.com header.s=mimecast20190719 header.b=RltJGkhT;
+       spf=pass (google.com: domain of longman@redhat.com designates 170.10.133.124 as permitted sender) smtp.mailfrom=longman@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.129.124])
-        by gmr-mx.google.com with ESMTPS id 6a1803df08f44-6e65d7b19absi956106d6.6.2025.02.13.12.02.52
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com. [170.10.133.124])
+        by gmr-mx.google.com with ESMTPS id 586e51a60fabf-2b9548b5967si99952fac.2.2025.02.13.12.02.57
         for <kasan-dev@googlegroups.com>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Feb 2025 12:02:52 -0800 (PST)
-Received-SPF: pass (google.com: domain of longman@redhat.com designates 170.10.129.124 as permitted sender) client-ip=170.10.129.124;
+        Thu, 13 Feb 2025 12:02:57 -0800 (PST)
+Received-SPF: pass (google.com: domain of longman@redhat.com designates 170.10.133.124 as permitted sender) client-ip=170.10.133.124;
 Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-609--0t1wsnLOGKBHz3JatwlMA-1; Thu,
- 13 Feb 2025 15:02:50 -0500
-X-MC-Unique: -0t1wsnLOGKBHz3JatwlMA-1
-X-Mimecast-MFC-AGG-ID: -0t1wsnLOGKBHz3JatwlMA
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-678-FV_rQcKIPGaILACE79EL4g-1; Thu,
+ 13 Feb 2025 15:02:53 -0500
+X-MC-Unique: FV_rQcKIPGaILACE79EL4g-1
+X-Mimecast-MFC-AGG-ID: FV_rQcKIPGaILACE79EL4g
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6AB25180087D;
-	Thu, 13 Feb 2025 20:02:48 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 14C1B180087F;
+	Thu, 13 Feb 2025 20:02:51 +0000 (UTC)
 Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.88.174])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 00E791800358;
-	Thu, 13 Feb 2025 20:02:45 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B57FC1800358;
+	Thu, 13 Feb 2025 20:02:48 +0000 (UTC)
 From: Waiman Long <longman@redhat.com>
 To: Peter Zijlstra <peterz@infradead.org>,
 	Ingo Molnar <mingo@redhat.com>,
@@ -133,18 +134,18 @@ To: Peter Zijlstra <peterz@infradead.org>,
 Cc: linux-kernel@vger.kernel.org,
 	kasan-dev@googlegroups.com,
 	Waiman Long <longman@redhat.com>
-Subject: [PATCH v4 3/4] locking/lockdep: Disable KASAN instrumentation of lockdep.c
-Date: Thu, 13 Feb 2025 15:02:27 -0500
-Message-ID: <20250213200228.1993588-4-longman@redhat.com>
+Subject: [PATCH v4 4/4] locking/lockdep: Add kasan_check_byte() check in lock_acquire()
+Date: Thu, 13 Feb 2025 15:02:28 -0500
+Message-ID: <20250213200228.1993588-5-longman@redhat.com>
 In-Reply-To: <20250213200228.1993588-1-longman@redhat.com>
 References: <20250213200228.1993588-1-longman@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 X-Original-Sender: longman@redhat.com
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@redhat.com header.s=mimecast20190719 header.b=FOw992O8;
+ header.i=@redhat.com header.s=mimecast20190719 header.b=RltJGkhT;
        spf=pass (google.com: domain of longman@redhat.com designates
- 170.10.129.124 as permitted sender) smtp.mailfrom=longman@redhat.com;
+ 170.10.133.124 as permitted sender) smtp.mailfrom=longman@redhat.com;
        dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Precedence: list
@@ -159,163 +160,67 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-Both KASAN and LOCKDEP are commonly enabled in building a debug kernel.
-Each of them can significantly slow down the speed of a debug kernel.
-Enabling KASAN instrumentation of the LOCKDEP code will further slow
-thing down.
+KASAN instrumentation of lockdep has been disabled as we don't need
+KASAN to check the validity of lockdep internal data structures and
+incur unnecessary performance overhead. However, the lockdep_map pointer
+passed in externally may not be valid (e.g. use-after-free) and we run
+the risk of using garbage data resulting in false lockdep reports. Add
+kasan_check_byte() call in lock_acquire() for non kernel core data
+object to catch invalid lockdep_map and abort lockdep processing if
+input data isn't valid.
 
-Since LOCKDEP is a high overhead debugging tool, it will never get
-enabled in a production kernel. The LOCKDEP code is also pretty mature
-and is unlikely to get major changes. There is also a possibility of
-recursion similar to KCSAN.
-
-To evaluate the performance impact of disabling KASAN instrumentation
-of lockdep.c, the time to do a parallel build of the Linux defconfig
-kernel was used as the benchmark. Two x86-64 systems (Skylake & Zen 2)
-and an arm64 system were used as test beds. Two sets of non-RT and RT
-kernels with similar configurations except mainly CONFIG_PREEMPT_RT
-were used for evaulation.
-
-For the Skylake system:
-
-  Kernel			Run time	    Sys time
-  ------			--------	    --------
-  Non-debug kernel (baseline)	0m47.642s	      4m19.811s
-
-  [CONFIG_KASAN_INLINE=y]
-  Debug kernel			2m11.108s (x2.8)     38m20.467s (x8.9)
-  Debug kernel (patched)	1m49.602s (x2.3)     31m28.501s (x7.3)
-  Debug kernel
-  (patched + mitigations=off) 	1m30.988s (x1.9)     26m41.993s (x6.2)
-
-  RT kernel (baseline)		0m54.871s	      7m15.340s
-
-  [CONFIG_KASAN_INLINE=n]
-  RT debug kernel		6m07.151s (x6.7)    135m47.428s (x18.7)
-  RT debug kernel (patched)	3m42.434s (x4.1)     74m51.636s (x10.3)
-  RT debug kernel
-  (patched + mitigations=off) 	2m40.383s (x2.9)     57m54.369s (x8.0)
-
-  [CONFIG_KASAN_INLINE=y]
-  RT debug kernel		3m22.155s (x3.7)     77m53.018s (x10.7)
-  RT debug kernel (patched)	2m36.700s (x2.9)     54m31.195s (x7.5)
-  RT debug kernel
-  (patched + mitigations=off) 	2m06.110s (x2.3)     45m49.493s (x6.3)
-
-For the Zen 2 system:
-
-  Kernel			Run time	    Sys time
-  ------			--------	    --------
-  Non-debug kernel (baseline)	1m42.806s	     39m48.714s
-
-  [CONFIG_KASAN_INLINE=y]
-  Debug kernel			4m04.524s (x2.4)    125m35.904s (x3.2)
-  Debug kernel (patched)	3m56.241s (x2.3)    127m22.378s (x3.2)
-  Debug kernel
-  (patched + mitigations=off) 	2m38.157s (x1.5)     92m35.680s (x2.3)
-
-  RT kernel (baseline)		 1m51.500s	     14m56.322s
-
-  [CONFIG_KASAN_INLINE=n]
-  RT debug kernel		16m04.962s (x8.7)   244m36.463s (x16.4)
-  RT debug kernel (patched)	 9m09.073s (x4.9)   129m28.439s (x8.7)
-  RT debug kernel
-  (patched + mitigations=off) 	 3m31.662s (x1.9)    51m01.391s (x3.4)
-
-For the arm64 system:
-
-  Kernel			Run time	    Sys time
-  ------			--------	    --------
-  Non-debug kernel (baseline)	1m56.844s	      8m47.150s
-  Debug kernel			3m54.774s (x2.0)     92m30.098s (x10.5)
-  Debug kernel (patched)	3m32.429s (x1.8)     77m40.779s (x8.8)
-
-  RT kernel (baseline)		 4m01.641s	     18m16.777s
-
-  [CONFIG_KASAN_INLINE=n]
-  RT debug kernel		19m32.977s (x4.9)   304m23.965s (x16.7)
-  RT debug kernel (patched)	16m28.354s (x4.1)   234m18.149s (x12.8)
-
-Turning the mitigations off doesn't seems to have any noticeable impact
-on the performance of the arm64 system. So the mitigation=off entries
-aren't included.
-
-For the x86 CPUs, cpu mitigations has a much bigger
-impact on performance, especially the RT debug kernel with
-CONFIG_KASAN_INLINE=n. The SRSO mitigation in Zen 2 has an especially
-big impact on the debug kernel. It is also the majority of the slowdown
-with mitigations on. It is because the patched ret instruction slows
-down function returns. A lot of helper functions that are normally
-compiled out or inlined may become real function calls in the debug
-kernel.
-
-With CONFIG_KASAN_INLINE=n, the KASAN instrumentation inserts a
-lot of __asan_loadX*() and __kasan_check_read() function calls to memory
-access portion of the code. The lockdep's __lock_acquire() function,
-for instance, has 66 __asan_loadX*() and 6 __kasan_check_read() calls
-added with KASAN instrumentation. Of course, the actual numbers may vary
-depending on the compiler used and the exact version of the lockdep code.
-
-With the Skylake test system, the parallel kernel build times reduction
-of the RT debug kernel with this patch are:
-
- CONFIG_KASAN_INLINE=n: -37%
- CONFIG_KASAN_INLINE=y: -22%
-
-The time reduction is less with CONFIG_KASAN_INLINE=y, but it is still
-significant.
-
-Setting CONFIG_KASAN_INLINE=y can result in a significant performance
-improvement. The major drawback is a significant increase in the size
-of kernel text. In the case of vmlinux, its text size increases from
-45997948 to 67606807. That is a 47% size increase (about 21 Mbytes). The
-size increase of other kernel modules should be similar.
-
-With the newly added rtmutex and lockdep lock events, the relevant
-event counts for the test runs with the Skylake system were:
-
-  Event type		Debug kernel	RT debug kernel
-  ----------		------------	---------------
-  lockdep_acquire	1,968,663,277	5,425,313,953
-  rtlock_slowlock	     -		  401,701,156
-  rtmutex_slowlock	     -		      139,672
-
-The __lock_acquire() calls in the RT debug kernel are x2.8 times of the
-non-RT debug kernel with the same workload. Since the __lock_acquire()
-function is a big hitter in term of performance slowdown, this makes
-the RT debug kernel much slower than the non-RT one. The average lock
-nesting depth is likely to be higher in the RT debug kernel too leading
-to longer execution time in the __lock_acquire() function.
-
-As the small advantage of enabling KASAN instrumentation to catch
-potential memory access error in the lockdep debugging tool is probably
-not worth the drawback of further slowing down a debug kernel, disable
-KASAN instrumentation in the lockdep code to allow the debug kernels
-to regain some performance back, especially for the RT debug kernels.
-
+Suggested-by: Marco Elver <elver@google.com>
 Signed-off-by: Waiman Long <longman@redhat.com>
 ---
- kernel/locking/Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ kernel/locking/lock_events_list.h |  1 +
+ kernel/locking/lockdep.c          | 14 ++++++++++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/kernel/locking/Makefile b/kernel/locking/Makefile
-index 0db4093d17b8..a114949eeed5 100644
---- a/kernel/locking/Makefile
-+++ b/kernel/locking/Makefile
-@@ -5,7 +5,8 @@ KCOV_INSTRUMENT		:= n
+diff --git a/kernel/locking/lock_events_list.h b/kernel/locking/lock_events_list.h
+index 9ef9850aeebe..bed59b2195c7 100644
+--- a/kernel/locking/lock_events_list.h
++++ b/kernel/locking/lock_events_list.h
+@@ -95,3 +95,4 @@ LOCK_EVENT(rtmutex_deadlock)	/* # of rt_mutex_handle_deadlock()'s	*/
+ LOCK_EVENT(lockdep_acquire)
+ LOCK_EVENT(lockdep_lock)
+ LOCK_EVENT(lockdep_nocheck)
++LOCK_EVENT(lockdep_kasan_fail)
+diff --git a/kernel/locking/lockdep.c b/kernel/locking/lockdep.c
+index 8436f017c74d..98dd0455d4be 100644
+--- a/kernel/locking/lockdep.c
++++ b/kernel/locking/lockdep.c
+@@ -57,6 +57,7 @@
+ #include <linux/lockdep.h>
+ #include <linux/context_tracking.h>
+ #include <linux/console.h>
++#include <linux/kasan.h>
  
- obj-y += mutex.o semaphore.o rwsem.o percpu-rwsem.o
+ #include <asm/sections.h>
  
--# Avoid recursion lockdep -> sanitizer -> ... -> lockdep.
-+# Avoid recursion lockdep -> sanitizer -> ... -> lockdep & improve performance.
-+KASAN_SANITIZE_lockdep.o := n
- KCSAN_SANITIZE_lockdep.o := n
+@@ -5830,6 +5831,19 @@ void lock_acquire(struct lockdep_map *lock, unsigned int subclass,
+ 	if (!debug_locks)
+ 		return;
  
- ifdef CONFIG_FUNCTION_TRACER
++	/*
++	 * As KASAN instrumentation is disabled and lock_acquire() is usually
++	 * the first lockdep call when a task tries to acquire a lock, add
++	 * kasan_check_byte() here to check for use-after-free of non kernel
++	 * core lockdep_map data to avoid referencing garbage data.
++	 */
++	if (unlikely(IS_ENABLED(CONFIG_KASAN) &&
++		     !is_kernel_core_data((unsigned long)lock) &&
++		     !kasan_check_byte(lock))) {
++		lockevent_inc(lockdep_kasan_fail);
++		return;
++	}
++
+ 	if (unlikely(!lockdep_enabled())) {
+ 		/* XXX allow trylock from NMI ?!? */
+ 		if (lockdep_nmi() && !trylock) {
 -- 
 2.48.1
 
 -- 
 You received this message because you are subscribed to the Google Groups "kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250213200228.1993588-4-longman%40redhat.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/20250213200228.1993588-5-longman%40redhat.com.
