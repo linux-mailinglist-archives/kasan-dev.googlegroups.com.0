@@ -1,120 +1,120 @@
-Return-Path: <kasan-dev+bncBAABBWWAXK6QMGQEQJO2ZJI@googlegroups.com>
+Return-Path: <kasan-dev+bncBAABBI66XK6QMGQE7WCGEFQ@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-qv1-xf40.google.com (mail-qv1-xf40.google.com [IPv6:2607:f8b0:4864:20::f40])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB0BA353DE
-	for <lists+kasan-dev@lfdr.de>; Fri, 14 Feb 2025 02:46:04 +0100 (CET)
-Received: by mail-qv1-xf40.google.com with SMTP id 6a1803df08f44-6e664e086f1sf7086306d6.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 13 Feb 2025 17:46:04 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1739497563; cv=pass;
+Received: from mail-pl1-x63c.google.com (mail-pl1-x63c.google.com [IPv6:2607:f8b0:4864:20::63c])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAA3FA35505
+	for <lists+kasan-dev@lfdr.de>; Fri, 14 Feb 2025 03:49:09 +0100 (CET)
+Received: by mail-pl1-x63c.google.com with SMTP id d9443c01a7336-220d1c24b25sf35593955ad.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 13 Feb 2025 18:49:09 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1739501348; cv=pass;
         d=google.com; s=arc-20240605;
-        b=VsVZsTBveQ3ZAWhllXRiZKad3VY2n2GwLL6Z93slW0t7IByewuzWxe4rrQmkIO8krz
-         /ikVrD2xuOG0gDqx0pSPTJ8UkcKDgdUTrzIvWSqwSYBOC73ECIa9baxjdjkEP7Ywqkc7
-         QU8Cy9XS7EbxdXUbCDeHBZ1u2FoO5iqoR/SF8BNXwnGVvEmz5kwf5QvkAQGXWgZohROZ
-         L4vo9O53WevlJBx2Ls+0/8QmVOknKqmpKtWU+lNJgQFa+7QsG182juqO/pMkYmu3408H
-         7d7ptOasZR3DeLQcrvy2kXsxFFOa5fEr4mg5WTULcvBVl1RHeMg+w4k2PrX5rSak6/H8
-         lK9Q==
+        b=RelZPUUk8UzYvhtosBjHZfNNb3hNuLi9TBQUvA4LctpfoGeflx2dbV5cXhE4IDgKXY
+         E+MwlL7N3d/SFDUE6bIfRoXO5GV+oSyPb1V5Ueqd7MMLdhirKwr3VS7j8uFyGb9VU616
+         LgIh4vReLxowB7ZNT0AMpr+KNkiVVFWgzPGKWOHZ5KnPfO+8qdCRN07f/NWvYe5MCxxX
+         UgboFaxujyA1fwFCujx421II+gKV+j2gCqn1NNYaCu5tyYaeyI8lkPc2wuLUa0jAnZxn
+         C1xRCTbDu2qNJoGdWwA3L49YGNy/tp4v4vqG18/PHhnYZ9KMn3Vf0pnCN0poTNpfZb19
+         klpA==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to:content-transfer-encoding
          :in-reply-to:from:references:cc:to:subject:user-agent:mime-version
          :date:message-id:dkim-signature;
-        bh=bm8h3n+bEswr8styf+nZOHtlVnHSqaG5DGS63w85o5U=;
-        fh=CuKw/wcKT44lx4qDyGjPULWlKGLFLeyAbiiY2Ilfd78=;
-        b=dxhI9vq4KfCRhysF7PadB/32AlzJLun+gPrLkubI9FdcO2VvwkyanXBVZcRA9b+4ru
-         HP1NEKLVLmDbShcIuH3UJFJi1Hf0o/vnBPazkmHQm4ySTiOftMvmNyABd8xwXJscsrh2
-         DbdtzEoOBrqjd0/4KDR6I21R1OBhnxf1bKVETeixkASU3q7J5CXXUY9PK4XDrovn3TH6
-         MykOkzxKv+jHIoRBk0ZCZjIfU59Si5tMJDoo2Fco1i8WCEAdLdyCg/1aaV7Snv1haNvy
-         4dPcn4Cncv1NWBiWqIUTbDM2h5+kH63xk1lmUiQiDKdutOJ2cEe+cV2F3cab2+sUgctX
-         MHGw==;
+        bh=7F6pvtr4xTBNZP/9kQFfqAnZGnT1BkPI3SHxgs5sf5g=;
+        fh=w7ceXuAKRXAVpExACyJwEVWvkugFKC/Swr8B0SPVQC0=;
+        b=MSkhfV09GkHu4SG4DTisXVhuQrX4tDskSy5RwaVNgwPXaUEF1qn0UYCu+2JPscOQhU
+         2YXU7x9Nh5rfQfF5XVgtnOKRR5T/XU2ddCZYnwXYsrpnv1cIHOWDovwqeFKKfouD0uTq
+         4G+SuRmSnJQTY5yF8Qm5vZQYm6/qNBTY39KV5nYi/Ws16W2daYq0Qq26B4jpqzhWZZE/
+         bOGHLFcolos4KNtFWyIxr9Qhle+u3wEkje43aico+ADUyy2UTI8XQZUcAB8mQSZ+W4Sw
+         6wvRMIbkpoOwnP1S5VCgqT8isDToNml4yrCHm4j+ZkxsmTn7LqsjY334HksGgfx7x/hq
+         Oxkg==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.255 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
+       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.190 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1739497563; x=1740102363; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1739501348; x=1740106148; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bm8h3n+bEswr8styf+nZOHtlVnHSqaG5DGS63w85o5U=;
-        b=Bwu/okEEEWQCsIL+uuH0zGTYKmw2Yx1/9dB8/Fucii/X18I025fDqvYsRkd3xoEaq3
-         fQk/xHrUBCpCeJSmaUE1GGfF+dynStfLT5u02V2hRbZRS0586CUCWUZ7ENafuMc2K8Gn
-         wKvHQPpAnj5yMim0iKL5/zUEfkEDpDERHzRz/qM6/WaLhuJ7Q4v/HIz7+v4Kmrtw6qZH
-         Rfv9HcVs52SJOoIzZRU07P0oWDs39aMVXk7NPYKZAxMvMXx/rlxE1t7VwP+DbwDcqEpB
-         F4kfgac7mNJ6imjqCm2ZQQRJhhg/Vk9dQsHYM8bYnD81C9g4oh5S+QA8IROFhciKESt9
-         X+/Q==
+        bh=7F6pvtr4xTBNZP/9kQFfqAnZGnT1BkPI3SHxgs5sf5g=;
+        b=gB8dgj13j7HBnnWZXegRNomQ0tKwUqA4HJm/HLDafScKEfffMhDiN6tD4+Y5URkmEc
+         zahMr9En7k12seVlylq1FtfUg5Knc4PmsjGwNOSmfomFrFfDRgFpUSls7n/TJ2pcmi3u
+         Tfh+/y7m3YrbtjqjCUA6deGVVm2rby2sPA5h34a9TdXHzhuTIUDlaECWqsGyRbILLnDA
+         bI4Y5OiQzqEJDDdbC697FBPTrPmNQJkhbxMgC//giwG/w3qiKt+RvWUxVI2tTeDmzaSu
+         t+7R8wnuwm4TB4teH0GYZMnjH9c1N+8ji2WDF4GdfW3f27lPKaxNvfQKkdYp6eR78RD9
+         GbqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739497563; x=1740102363;
+        d=1e100.net; s=20230601; t=1739501348; x=1740106148;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence:reply-to
          :x-original-authentication-results:x-original-sender
          :content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id:x-beenthere
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bm8h3n+bEswr8styf+nZOHtlVnHSqaG5DGS63w85o5U=;
-        b=JK8JRXMrD+Kzq1Hjz39og6ARf3NPKQU2bu16sXfvH+Sgv57jyDzuz+aJ9Oms/e0L4+
-         sKy62oZ9zpQb0ZiSvTl3ocx8FxDFmenug8BgiKhP7pef5P4lvg18fupsvjSbnApDvsTj
-         Vc71BIfA27UYBd3TR1FNDshOYWiTwp9ZxBA9i+YFlGxxoqopoVIyiyjLeZ/crvoWUHHL
-         rXswWIo94YrTCppoYK1ycg7Lp+3nMfb7WVauyuEQ7Jom9oGmbOQsDqjKdrF8IiJRrblz
-         z6hZtLchW73Y3qY6pI6QkL3EILuc+hiDEfF+5Tu3F1673ojj2QfzBa9BrDd39X6w0t8I
-         Yfmg==
-X-Forwarded-Encrypted: i=2; AJvYcCXZRSIQ+fYLIMSJeICvyM2FpWqf+M9NhkNLEckTsUHRxMBgXoUjDEhjC9ydhCrtNJskpRsghQ==@lfdr.de
-X-Gm-Message-State: AOJu0YzZLcUll9PTZ/a2ElJBvBr7ajQe8nl5fUi813m111rqK9tcylzK
-	PjOTz/EV0AqWRX3yQ7yGRVhfeOuBq2IBq30r8IxMCMN8Z+wCLDmF
-X-Google-Smtp-Source: AGHT+IE14ZEut0T40YiUGTzNz3DX5/p6XgbElL/vJCzO3PduJQVx+IFI3vDrm51EYd79ShSzLJlYBw==
-X-Received: by 2002:ad4:5d68:0:b0:6e6:5fe5:a596 with SMTP id 6a1803df08f44-6e65ff4e8ebmr57457266d6.19.1739497563082;
-        Thu, 13 Feb 2025 17:46:03 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVG4Vt313pajoyMv7xu+NlTtt+lMXfCYjnu9NgZYi+ONLw==
-Received: by 2002:a05:6214:5ec8:b0:6e1:8e40:5ef6 with SMTP id
- 6a1803df08f44-6e65c1dee96ls10564616d6.0.-pod-prod-03-us; Thu, 13 Feb 2025
- 17:46:02 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCW72KxJnXI4GNofhm1pUDh3Ix+SueXZ2WNpU/FbwKwhGNbpXrhgVhqNKvEgKy0ba7UTMK5tsYJ+D7g=@googlegroups.com
-X-Received: by 2002:a05:6122:3109:b0:50d:a31c:678c with SMTP id 71dfb90a1353d-52067bf1a31mr9513148e0c.2.1739497562317;
-        Thu, 13 Feb 2025 17:46:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1739497562; cv=none;
+        bh=7F6pvtr4xTBNZP/9kQFfqAnZGnT1BkPI3SHxgs5sf5g=;
+        b=RdMs7NAuC5rWfjmy5zys5ozADNIOf3e120EczPhCkhSxf0r77K26xw3LYlA7xqsMtq
+         pliXp5i0aUo4kft4+HQK38X9J/6g55hcyMXPOtpuCmWXbPyY2FE/98IwZPms2qC8sjnY
+         5HVjhixGQGk410RUgXa1x/Yz33PT6gO7sIB/gy3CqKAWSmI+InGIpsCl4oOG93iuho6q
+         QsDKUhfYTnqy1Y5f159jqw5As3urIT5wg3hk4pCmcGxo12dD2xwsDiNWiVYEugQs56kn
+         uRJflYV8CZIK5cC1VLBxdXAq9KCbMtBN9LfEOptZTw8xR0KNikQSK0TzXAWYmEE8AbBu
+         Yw9g==
+X-Forwarded-Encrypted: i=2; AJvYcCW5femOhw/VQd/LYHR1Aj+dtjngwZCTP1rUx2J+ZrGVA8qJC+zoHPofXCdJoelh4+vYsYP9Xw==@lfdr.de
+X-Gm-Message-State: AOJu0YyQDsUO+Gt2TadUC7zjMRr7ctfYE3tQvSwSP8WOf0qHJuWRB8O8
+	YslbbxjuwwQ0878hJhVqYlI+RwbibfnDIMYlosjvOtVRldXJkBnf
+X-Google-Smtp-Source: AGHT+IGcW2qwQElu74Y9U5Wm31OsntSIcXte2JwNhQFHUfHbFZbru5tYUdL3CcKC/CmCZvOXqT5ZPQ==
+X-Received: by 2002:a05:6a21:99a5:b0:1e1:a716:3172 with SMTP id adf61e73a8af0-1ee6b2fb49cmr9772726637.12.1739501348041;
+        Thu, 13 Feb 2025 18:49:08 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVEzH4KWwZphkDAD2R3eXBKXnuq0wtPX9bw2nn+gQ8GKiw==
+Received: by 2002:a05:6a00:6304:b0:730:9340:6635 with SMTP id
+ d2e1a72fcca58-7323bddbad8ls1510582b3a.0.-pod-prod-05-us; Thu, 13 Feb 2025
+ 18:49:07 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVxFLF+vJsWkTjT3kEDhGwVjU7S4IpyQXixIM9H1UQxGCIWNnG7LrfaYhCyAroazhguGNYDDv+b3Fk=@googlegroups.com
+X-Received: by 2002:a05:6a21:3289:b0:1e0:d0c8:7100 with SMTP id adf61e73a8af0-1ee6b2e1d5emr10829119637.7.1739501346941;
+        Thu, 13 Feb 2025 18:49:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1739501346; cv=none;
         d=google.com; s=arc-20240605;
-        b=V1vZZtwsM85I5f94SNAZe1JbmXFZHyP5sA6fkqUm9N+06lUXL4WaWjFvp0A39AcenG
-         zlkiLh4kNhAfdPsi/Fo0uO7+wZO2gnxxKd9UAJ1RJpFZadJ07LCi+Jn47DgCnGf3RGyf
-         PPlyq4KnGihCtg4gfl0gN88Bm++k1kCPK+RI8kXjUEWTLQDde7yMVDcOhmtiEv+a6U3j
-         oMTIZsppVuxs1qz+eakw3/34QOM3b2cgpbI5sgIGtaA/ZAnbL+QCZ1fg39Is31zP9lBw
-         QUrr462dpAIkozrjnK1IJ59xViM3Ea+0KGxNMz59er7X1ZEYXV9AS100GpboJl8vwWat
-         LNNQ==
+        b=WYduFqbu5Sz4Mq3UtLPoPSTKyuB8c649mXGHXa9y3LMxvWMCWTG2u0C1KSRG6RB/cb
+         x4N0oEdZ9dasvXPyRqLFFx7+qSnOqLMAdkQffHszRlLb9n2yVslGNnvkYUdbY48OX/E1
+         jhQjL9xfr9gTdUuh2beuY6VcfXi4MUkyzMfEwwR6jc+h3bckakd3hL6/eKJw5nF/whv0
+         fMxfc/rFPyExOt4RF4eEySOvWyI05o4DJS5eq7WBaSLQ7skMklRNE33xXjp0qJBNv0mS
+         Pmvbtx3TPqzExr+86OmYn7v6lLVHay/D8PnuJFDZriiWmhJvYlOqPTkyl+rBd5NENtxq
+         VYDA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
          :user-agent:mime-version:date:message-id;
-        bh=/xou2uZRbnImxMqVFANwRB9AlkIaAnGUiupsZKCr/kI=;
+        bh=Qdv27WOOjvDepPMV24X/lprplWgreW0f92yGmOb5lxY=;
         fh=RzQbsIRJIGcsOahvYzttPrzbIb6n8kVsMKDOWJddbjk=;
-        b=M46FE3j8OHkJI5wJP2Tdoo79UVSQDOGNKC0bNaFWVi8hxGzdDdtBTQ8dVO9v2LG74h
-         qnlTvSlQuEt9UYlb3cFYet5idVngdvvFUuc9TYVDOqUKbm2ncxX9LKZzV8IMjn6iagFC
-         BkCfNiheFl5UDLkaVlSuxKhAkx877okX7/gZTwJhfxC32mMuq5ameRDk9Up6kF9jUAaO
-         266d9mK//AQ6PJZEKRHN+BjgIQLbv/fJa14cNqSl9tuA3uL0lARseE81l1Hty+tehVTi
-         EEmSkD/6VMiDSnqOdmk6UpUcuWSlF/f8I8d+29kDUOOEVkZ6S7Fnav9pBziQjA3M3zVI
-         fONQ==;
+        b=DU3JDGxDB1rNlBoGbfIdl9qkYF+ge0qDTZ2sd0nI6sQunE/71+1hFMyWIlnYQ9AiUc
+         73FeP1m5WvaMaZie7VHJfya0G/Lk1WiJLfY7+ZnPAddIWE/9cnwFxSZHFa/sF/ZljK0/
+         6kWCH1WL9i9ueu245Giu52iHONeCwzSpc8GprG7OSqqlZVuO5tkKIrsHwdIDIPgRvIwN
+         WJheF6S+VHaPLVIEL2Q4s4eeofeISWRN9ahyYWPLNMdSpB2c1OMWUXvmp1QN8Sz1+X1n
+         YWztEbOO6JRBWL5vIKI0KtvEE6B+BOBk47lsMzTlA6AL5XyTIVyK9wcA1YyELSpkdHAc
+         pHKA==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.255 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
+       spf=pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.190 as permitted sender) smtp.mailfrom=tongtiangen@huawei.com;
        dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com. [45.249.212.255])
-        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-5207aa45a6dsi129764e0c.1.2025.02.13.17.46.01
+Received: from szxga04-in.huawei.com (szxga04-in.huawei.com. [45.249.212.190])
+        by gmr-mx.google.com with ESMTPS id d2e1a72fcca58-73242766706si128331b3a.5.2025.02.13.18.49.06
         for <kasan-dev@googlegroups.com>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 13 Feb 2025 17:46:02 -0800 (PST)
-Received-SPF: pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.255 as permitted sender) client-ip=45.249.212.255;
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4YvFBx5FCVz1W5g8;
-	Fri, 14 Feb 2025 09:41:29 +0800 (CST)
+        Thu, 13 Feb 2025 18:49:06 -0800 (PST)
+Received-SPF: pass (google.com: domain of tongtiangen@huawei.com designates 45.249.212.190 as permitted sender) client-ip=45.249.212.190;
+Received: from mail.maildlp.com (unknown [172.19.163.17])
+	by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4YvGcX1dFHz2FdPV;
+	Fri, 14 Feb 2025 10:45:16 +0800 (CST)
 Received: from kwepemk500005.china.huawei.com (unknown [7.202.194.90])
-	by mail.maildlp.com (Postfix) with ESMTPS id CA0DB18032E;
-	Fri, 14 Feb 2025 09:45:58 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 362F01A0188;
+	Fri, 14 Feb 2025 10:49:04 +0800 (CST)
 Received: from [10.174.179.234] (10.174.179.234) by
  kwepemk500005.china.huawei.com (7.202.194.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 14 Feb 2025 09:45:56 +0800
-Message-ID: <6aecab97-5ba8-38dd-1df7-87e5f557017e@huawei.com>
-Date: Fri, 14 Feb 2025 09:45:55 +0800
+ 15.2.1544.11; Fri, 14 Feb 2025 10:49:01 +0800
+Message-ID: <69955002-c3b1-459d-9b42-8d07475c3fd3@huawei.com>
+Date: Fri, 14 Feb 2025 10:49:01 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.0
@@ -145,11 +145,11 @@ In-Reply-To: <Z6zWSXzKctkpyH7-@arm.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-Originating-IP: [10.174.179.234]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
  kwepemk500005.china.huawei.com (7.202.194.90)
 X-Original-Sender: tongtiangen@huawei.com
 X-Original-Authentication-Results: gmr-mx.google.com;       spf=pass
- (google.com: domain of tongtiangen@huawei.com designates 45.249.212.255 as
+ (google.com: domain of tongtiangen@huawei.com designates 45.249.212.190 as
  permitted sender) smtp.mailfrom=tongtiangen@huawei.com;       dmarc=pass
  (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=huawei.com
 X-Original-From: Tong Tiangen <tongtiangen@huawei.com>
@@ -193,11 +193,11 @@ of
 > exception table entry if it's not on the do_sea() path? That would save
 > some code duplication.
 
-The location of the added exception table entry is likely to appear on
-the a path, which should not be avoided. What we can do is merge
-duplicate code as much as possible, and extract common code into common
-files, as we did in this patch.
-
+I'm sorry, I didn't catch your point, that the do_sea() and non do_sea()
+paths use different exception tables? My understanding is that the
+exception table entry problem is fine. After all, the search is
+performed only after a fault trigger. Code duplication can be solved by
+extracting repeated logic to a public file.
 
 >=20
 >> diff --git a/arch/arm64/lib/copy_mc_page.S b/arch/arm64/lib/copy_mc_page=
@@ -288,10 +288,6 @@ age_template.S
 >=20
 > But I'd prefer if we had the same code, only the exception table entry
 > treated differently. Similarly for the MTE tag copying.
-
-Does MOPS also support features similar to memory error safe? I'll see
-how he handles it.
-
 >=20
 
 --=20
@@ -300,4 +296,4 @@ kasan-dev" group.
 To unsubscribe from this group and stop receiving emails from it, send an e=
 mail to kasan-dev+unsubscribe@googlegroups.com.
 To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/6=
-aecab97-5ba8-38dd-1df7-87e5f557017e%40huawei.com.
+9955002-c3b1-459d-9b42-8d07475c3fd3%40huawei.com.
