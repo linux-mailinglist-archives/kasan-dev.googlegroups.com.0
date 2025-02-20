@@ -1,177 +1,159 @@
-Return-Path: <kasan-dev+bncBDW2JDUY5AORBHFS3W6QMGQEKGJNBBA@googlegroups.com>
+Return-Path: <kasan-dev+bncBCS4VDMYRUNBBZOL326QMGQEQX6QXUY@googlegroups.com>
 X-Original-To: lists+kasan-dev@lfdr.de
 Delivered-To: lists+kasan-dev@lfdr.de
-Received: from mail-wr1-x43c.google.com (mail-wr1-x43c.google.com [IPv6:2a00:1450:4864:20::43c])
-	by mail.lfdr.de (Postfix) with ESMTPS id C485CA3E0CF
-	for <lists+kasan-dev@lfdr.de>; Thu, 20 Feb 2025 17:32:30 +0100 (CET)
-Received: by mail-wr1-x43c.google.com with SMTP id ffacd0b85a97d-38f62a0ec3fsf758113f8f.2
-        for <lists+kasan-dev@lfdr.de>; Thu, 20 Feb 2025 08:32:30 -0800 (PST)
-ARC-Seal: i=2; a=rsa-sha256; t=1740069149; cv=pass;
+Received: from mail-qv1-xf38.google.com (mail-qv1-xf38.google.com [IPv6:2607:f8b0:4864:20::f38])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61972A3E726
+	for <lists+kasan-dev@lfdr.de>; Thu, 20 Feb 2025 23:00:07 +0100 (CET)
+Received: by mail-qv1-xf38.google.com with SMTP id 6a1803df08f44-6e670e4ecefsf37359076d6.0
+        for <lists+kasan-dev@lfdr.de>; Thu, 20 Feb 2025 14:00:07 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1740088806; cv=pass;
         d=google.com; s=arc-20240605;
-        b=j/2DJzsbyesRnN0V5CCw905EVtjE75IC4zXQPY6NcX8sEKQD5/SegzIUTayf78787z
-         0AnJNZcFyqaV9lSlxsB8QL4aFYmLfd31pakbTHfpv8NW8qJafUVcAD86tER1DfpWutYc
-         RundXZ58NZAvb9VUKerJRDvtyhtVm9jKnfoIRA7uDKKxLaujbXUW3NJlOKqpi4ABqg7R
-         7U7X/Z6vSNOBisRc7a/GV6Tp/T31gIIeyMz7ifQXVWxOOFEyYKBmsZ2rNgosuL4bnsSo
-         kEQMUvhIqxHW6R06obqzy3xyGJsz+87uF0hly1tMjBF+9qklQmqqW0eRpRUUiops5NYL
-         IpFg==
+        b=UHJn75MKHQ/sVs0H25rZW4rFxyY6hJTxG5FdomHpEquYaP+G8DakR1fO3NBu5Wx7gs
+         yydi18yV1N9Wxm2+yzyoIN92ZPt4CRmNy3W12MXACpVDHxgJk9OvHKYSFgGDFfRnk0WH
+         pgl+Vsn28UEjXj3u58iAJGIS0w4h6hopAKSoiMsY3iIBFe8BOwhJFvgKYmfVKcoL1H0+
+         ggIdTeyJTG8cj84wTGosOB1WZwiAkBu+VbgGo64kQX6GeTi5FxfnHsnKRMGZPtLnEgGc
+         lMM+05BLFQg9JhVD//03I2QwdZxhv16BnLcQfSTchaTVMwmdPnXoesbUQSRyrWTh/ahE
+         1giw==
 ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:content-transfer-encoding:cc:to
-         :subject:message-id:date:from:in-reply-to:references:mime-version
-         :sender:dkim-signature:dkim-signature;
-        bh=G6se5EvcVZaqchybVPn+1WqmBxh5pbd+ob0LaNw/oF8=;
-        fh=XfQczz4GEW2y2/whx+LJXJbg/BmPbLJFG3PmnD9zPvo=;
-        b=gfEuk3e8YkkvQdl6WeJGyPj/ZYSnOABh4So/cS7AeGelBwgvktMgODGBvMRSGw4+eZ
-         m6c+7yUW0dnSiMC0y7sN1INhrnMVfxo8xqJLnJFQLrp76hUVpSPdtialqeJUDpgxdN/u
-         BX/ostkaMssa016hyOjXHhB2C3L/XxPmaeQexwyUMki72jstA9onpcOvOSIs/wn+5Z31
-         PAX8lxJ4VXfCIcwbgg0gL0k+xJmCSEfx5oYp4c5kdgXJZnzxXRR8yHJvVf8qAsDi4QuY
-         58snq2BSSH6THoycfGrvui0wMcFCRRYxm6ZZHKLI9eixQ1/XA86VfTCDfjxy7aSJSenZ
-         6I4A==;
+         :list-id:mailing-list:precedence:in-reply-to:content-disposition
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :dkim-signature;
+        bh=vYCyghhkaCii4iF0G3Zg1nWiIG6gLSBJwoas59P9xvA=;
+        fh=HpkIaBnATsiJCY4ExjHo771O+gAHKhEIO3d0MXIC6F8=;
+        b=g5DTCC4YvBzxEiRbNXiQd4/VBMJry3kYVgnocKSzZmNZT3cmXfkjdXij2Z84tF7ruz
+         R6PjeYpRO25CmTdSwYomk6F0BlAX60Y0CS64OKqNH/0jZf1/6R40dOwDX7+wrzeuin2w
+         N840cmFWy05407+vrSOVIvXjf3Wj+SoojwDZjOFfoFJA+gU/fDwr3FkJwiCuCMuKay46
+         kB1dswkJ+5oqhJ2qwQB6NTSM8DCivN6EMqLCYwcyiO7TgVIGx5qb/jPImTbgbH92vvJ1
+         gzmOtlroxG1jixDsAKMZlZ5Sm9+/aO+dq6vXwM8HgusypiCGLL1Uz3OaXK4Hrh6tOfLe
+         CE/g==;
         darn=lfdr.de
 ARC-Authentication-Results: i=2; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=kzlJlQhT;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::430 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=OBxxi8Bd;
+       spf=pass (google.com: domain of srs0=edkt=vl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=eDkt=VL=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlegroups.com; s=20230601; t=1740069149; x=1740673949; darn=lfdr.de;
+        d=googlegroups.com; s=20230601; t=1740088806; x=1740693606; darn=lfdr.de;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:sender
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G6se5EvcVZaqchybVPn+1WqmBxh5pbd+ob0LaNw/oF8=;
-        b=bRZ796vbIk2Km1n6FjEL6/ZxrRuLW8JC2zXZQHkIuaXdWwXtH25K+1oboLD7xb0Mek
-         7XVOkWRClWwhr9S/Zz35ghNmkDs9tdpgCbw2o8IaoKKDTGCplCaFvjmgZQ4f627Lmitu
-         IFc9DDn3gje8gTuRDdfSehn81lnGjLFdNQFBO1wIQdFF8H0Ukzz0BgQ+j+NIEYlL12ac
-         54llagcD1MjhQW/+x5Uxp67yN/9fwL4d3zB9MB73WmplBQB/GO/RIY7QueLZ8iR0kzL2
-         vIyARYp0j1Gv8/JL/5yYWZBLRxh10KOxd5Rxo9GfSghkIBhbvpz9B6x0mb20S8mtBd8K
-         MsuQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740069149; x=1740673949; darn=lfdr.de;
-        h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
-         :list-id:mailing-list:precedence:x-original-authentication-results
-         :x-original-sender:content-transfer-encoding:cc:to:subject
-         :message-id:date:from:in-reply-to:references:mime-version:from:to:cc
+         :x-original-sender:in-reply-to:content-disposition:mime-version
+         :references:reply-to:message-id:subject:cc:to:from:date:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=G6se5EvcVZaqchybVPn+1WqmBxh5pbd+ob0LaNw/oF8=;
-        b=B5COR3fjp/9HySOfMmjjSByGzINdLbCecwRjaAd49kQ21HGNy8QIbKU7SJwuuH8g75
-         TrRtgZLneGf9YEEWIhCzHh0LoRbRZcFuMer1dUlOR4LXsHN+N/z/FpBgSLKMarGY7N8m
-         sXOloo2gSac7fApEY5ntVAWlwGqMHR5LsxU7DCC8dg4ltmORWyxhWZn9qH/OEP5x93sF
-         aq9QJT9IwYmknanQG6fzqubaiUs3WEi+HGfOQCCT0uGf2qnP1JpEciqGAblsuRmcfDBk
-         5IQ1orw8vB9EiVSBHMVsjQVzM4016i7Qu+aGdqyXPR49+XJLiyys0egZvWwKMfI5Bn//
-         heBA==
+        bh=vYCyghhkaCii4iF0G3Zg1nWiIG6gLSBJwoas59P9xvA=;
+        b=Cs5SXvOzbxIP5AccjPnAhcwy9pnxuzuel/2sGGgUWBQR8rJPtmJCJQ4ML+3HQQYqXU
+         CJq4Gr0oUL6knPj0ZFY1B0um5M6JN7NTtQMBwsyrQZxaVaJpRAFv8EXAX0R6j7A4En/+
+         GmnsuFXEG1AzcD2NjFmNGoahNn7d2jCZlW61qM4PseOLe6xaADu8odm93XS9/WOGuNd/
+         rqBRhGZzEqV2P2GbOsl/HEWWmFuiw0fWaRgwoT95B5ktYwo4GE4jF8Ic9CHn6VflzW2Y
+         h4v+nQ7aag0fagHGabGkGOG+1wgRKDxe0dN7OKMb8xKWnkL9nm5hPaDFCR755g1fsAaF
+         CF4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740069149; x=1740673949;
+        d=1e100.net; s=20230601; t=1740088806; x=1740693606;
         h=list-unsubscribe:list-subscribe:list-archive:list-help:list-post
          :x-spam-checked-in-group:list-id:mailing-list:precedence
-         :x-original-authentication-results:x-original-sender
-         :content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-beenthere:x-gm-message-state
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=G6se5EvcVZaqchybVPn+1WqmBxh5pbd+ob0LaNw/oF8=;
-        b=jdHppyUNJEzjUoIqZg5A49U9KUMl1oDZrUBYLBLQx7uyvY8ffL3m719RhcCEsmhhZQ
-         FblFG9eb2unnGCZnU+E+wwupGZ5RQniU5p4nRLJXkeePc0AnNzcI/JjndpsapgeRuVPG
-         FAZ4pka/3q4A4LMdtmCKNS2OJuYHvNKd7sHcG52SzYKklFLh1rRw2fSVdo0kjNOCxCGF
-         igSBUrrlQFl4Be/emsGvq+BL6rDw2GlFfRAq90JvuE9pJAoYWuYn7Pv6qoxUrAEZ/+ad
-         m3h/llbnBvLdYaJ52LlaOi5nb4U9+EOEC8pjp7NFMp09IcHSJyXk9+URcutnxTKtjmab
-         7OJQ==
-Sender: kasan-dev@googlegroups.com
-X-Forwarded-Encrypted: i=2; AJvYcCWW5NnN9we/LrWZa3RY+YsM2KajHv0wLAhSrVnvgPhDFnNcvivmpXddx0pUdcbvwILqSkbK+A==@lfdr.de
-X-Gm-Message-State: AOJu0YwVxCIk/BOACfFbXmK0mByVimgyhD3riqWUiVi9XN5lhaRt7EWA
-	aQvxzuHa6Lz8x0vLTE6Wm3cS56Jss6eQXA2V5w3edgdlYWfIhzAD
-X-Google-Smtp-Source: AGHT+IGGSJIy4hxA2ISMk9nIMu5aTf5GF54sMzESnMtrKRn5mMey31gXqSWtb7PtYqaUdIZg88H8sA==
-X-Received: by 2002:a05:6000:1845:b0:385:fd07:8616 with SMTP id ffacd0b85a97d-38f33e80e93mr22665681f8f.0.1740069148591;
-        Thu, 20 Feb 2025 08:32:28 -0800 (PST)
-X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVEAlCsBrU7wsjRSut0qRF5ZFRy7BD+yNcVv8xpR6sPQiw==
-Received: by 2002:a5d:648c:0:b0:38f:2065:b9a8 with SMTP id ffacd0b85a97d-38f614739a0ls825706f8f.1.-pod-prod-02-eu;
- Thu, 20 Feb 2025 08:32:25 -0800 (PST)
-X-Forwarded-Encrypted: i=2; AJvYcCU1K/U9o2aTa+4ohUAo1XBbWBGn0fC1LIt+NtiR1Mw7v7x5xWS2ehy9JjIFfkvS1aFtdyjGz1ohlXs=@googlegroups.com
-X-Received: by 2002:a5d:6c66:0:b0:388:c61d:43e0 with SMTP id ffacd0b85a97d-38f34167d68mr25611039f8f.48.1740069145564;
-        Thu, 20 Feb 2025 08:32:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1740069145; cv=none;
+         :x-original-authentication-results:x-original-sender:in-reply-to
+         :content-disposition:mime-version:references:reply-to:message-id
+         :subject:cc:to:from:date:x-beenthere:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vYCyghhkaCii4iF0G3Zg1nWiIG6gLSBJwoas59P9xvA=;
+        b=UfcAXrlGTu1FLD8OOImKq6KbGDjsdbhBDAdleXWmsZSOjE5r0HFm7Aw9DSSx0QtVru
+         6/EevqfHV1xVka/2SZQ3bC6POh7TCYI99meBa0K5ieP6w/U7YTClP3ofvnauSMBgxG4b
+         TQ6RamZtBYCBQSn7J96sWQvc1HwD8QqFywyB/r9218KZISI60zGtepjNJrXmlQHjN/4a
+         8rcrONTaIR2oAgIo7mijin26Ap6EI/Fl45znc+GKQ5zJBtG1DT9rXfL9ZH2FCO2rTM3t
+         DoRz+YWTGABWXj3HAfO4wFwDDonicNj7DAMY3+/SnKpbfpZnlL+WSSr+uDdLJxFJLsEp
+         7WuA==
+X-Forwarded-Encrypted: i=2; AJvYcCX+KyjA4rjswI9wbJgFzbFA0rtbbgXP+ZHa9np1+AWsfj71n/fzIw+rGEqc/xyJOwUXcmbt1A==@lfdr.de
+X-Gm-Message-State: AOJu0YzmrcCic1HvfWy9+0BPJyii+PUHmMs/So3BUMK7fi4NyU4dxF3p
+	ToBimUohrg9LIIUS1qJKLOYHSPaXORJaP5Wcco8u5MaC/fdsfvgv
+X-Google-Smtp-Source: AGHT+IGNA4+S6xnUjtj/RV+E0RRv/URVyAuZDd6sxUrghBTFyOr1TJ4PVgwskZbNf+s0TLXbd4Deqg==
+X-Received: by 2002:a05:6214:ca4:b0:6d1:7433:3670 with SMTP id 6a1803df08f44-6e6ae7c708cmr10762716d6.4.1740088806090;
+        Thu, 20 Feb 2025 14:00:06 -0800 (PST)
+X-BeenThere: kasan-dev@googlegroups.com; h=Adn5yVGtML286VlnqeDDj3xWUd7XS8UHmpb1wVaSD8KujJNRVg==
+Received: by 2002:a0c:e58b:0:b0:6df:8164:cdb0 with SMTP id 6a1803df08f44-6e6a2255d2dls10100976d6.1.-pod-prod-06-us;
+ Thu, 20 Feb 2025 14:00:05 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXjLFwbvpG2Ycs4qcyNIly0Ia9rlSdGnhmJ4mXB9b1EF7VERP682kpnZ9SaRP61qQYl8ks2b308PcI=@googlegroups.com
+X-Received: by 2002:a05:6122:788:b0:520:61ee:c7fc with SMTP id 71dfb90a1353d-521ee22bb4bmr723936e0c.4.1740088805130;
+        Thu, 20 Feb 2025 14:00:05 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1740088805; cv=none;
         d=google.com; s=arc-20240605;
-        b=Faf6hKHZgENyMCeTa+JTQsIRjZUi7Emj7OroD9dHzr+WH00xOkIwgN6XFmcnqyA53O
-         nlrq5oeUQOA8QkJlBYtx/iquKKm/qXqx7y57tu28BkL/Xxec3BTDhNGOi5EmJMHxfmti
-         B65ZS/A4nkhhVkOhmvHQscbBpjn57kKtQK/eB6dnOlA344IaaqLi6DKfjb8Iasqpj2Qa
-         o9F919PnNw7QgRoowDwNeodJy51mkGk62xBzSYUXjkvbIrT8LYTr7aDYjqErIidiTqD8
-         hXitpUbHlHwWlWUuJdmlqMMtYGixeApswzxvmK4u7kiZUuOuloTNiihYR36PQfo+kUb+
-         x5OQ==
+        b=IBN43et7Lc8KnWNYb675VKAorbi0CQJRXD5OSQJLMtmbBPTq7RTwh8OdjgSl/CHWAs
+         4hHQSAlKd5cux2lCltZcnqIyJzOC4zBudj5WdtUDsVMlRmru4saqzmnbF4qrVIpvbqPM
+         nDTAFWW/pJEQBQDo01f0gyVxfV+2a5gKjuhbAGf635cVCp+yaNIM5P7o1UEvrEhMVW8E
+         OSg/1dU2mjo/f3KvYFcsqR7Jn6CrbXc8Mc7phxcT9cpsdszHcbt16WekuxLnOMzerNGZ
+         AD454Q1tAKU0Jx6gYu1bBSqouRPcMiqNauTpNa6Y4TGAZapyzTjrUu7oe9cyFLEeO8Eu
+         8KbQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=djJ6cJLCBX31nVMQXMRyTslZq1heGpJZhHxgGn2SThg=;
-        fh=no1yFO6ULpShCPoKRLq/Fy6l73d8PufReXpr0R0+S7o=;
-        b=JPyp547Y0ALiFuanOZ09beNBWJRoHPHgIExssRTusD7ueKCeXJqLOtmTshCvJDUOu4
-         960uc4zkwtQSOw9FG8qG6uWTN/rrGNuba1c2QIJG8jAUReBxZXs+fyPuxqPNcWbFZ6U6
-         iQkSkwTV1FC6ZglHZCY+9XxxHwHdsHE70TsStfl1Uf7YKmOYUYDPr1rQN+WPCh3HaruA
-         TO6ELK9FIDMemyhRD3jgrNur/bUPVtV3w79W6cN2dSxfMVPYDbtLVsX7tWcDpfgkgzZ5
-         APKVwuQu09LjmXwf5IZ/lw2XEKuvoCucir5C+IJETZM0B8dmgO80a4qZs/K/SMOeEs7v
-         Oqqg==;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:dkim-signature;
+        bh=NNuTHNPAt5RZA//hKc0T6v78aqBBjNznsj6szEvylmw=;
+        fh=6daLWNj2ng9AC7k6NsHppG+JXGUhij4U/k8Liihd2jM=;
+        b=JgM30m+prbkzsHQxkxUxPAzK/U6M8Pm6R/ooXyimVXeoUUSg8M8KB+8G+9UVpw5OKF
+         T3EL6RrerQ0Rc7IknvRkKfuTxdlKJxuOsKlJ2qzySHkMfKkGV2A4EZ45MGN1X0f2BUOF
+         TU5kxQWZyOJ2Lc9cLsXUWQS8oNcPenSIJpaUmTf+se9K9/rPeJoMRpToG9GFXm4cFhbw
+         cABUmfJ9idTpihehrc9EaE0qcLGZSCvwSHwrqPcVr82rCHVm+BAZuDvVmPgL5okl14oO
+         wT86rlV70yTy7pzSvy0YAtU9plQJAto4BXNOA2kGBnqOF4/X85xA/SkTzbVaA2CFTMQ2
+         u0QQ==;
         dara=google.com
 ARC-Authentication-Results: i=1; gmr-mx.google.com;
-       dkim=pass header.i=@gmail.com header.s=20230601 header.b=kzlJlQhT;
-       spf=pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::430 as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;
-       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
-       dara=pass header.i=@googlegroups.com
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com. [2a00:1450:4864:20::430])
-        by gmr-mx.google.com with ESMTPS id ffacd0b85a97d-38f25921c98si200043f8f.5.2025.02.20.08.32.25
+       dkim=pass header.i=@kernel.org header.s=k20201202 header.b=OBxxi8Bd;
+       spf=pass (google.com: domain of srs0=edkt=vl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=eDkt=VL=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+Received: from dfw.source.kernel.org (dfw.source.kernel.org. [2604:1380:4641:c500::1])
+        by gmr-mx.google.com with ESMTPS id 71dfb90a1353d-5209d09e834si572907e0c.1.2025.02.20.14.00.04
         for <kasan-dev@googlegroups.com>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Feb 2025 08:32:25 -0800 (PST)
-Received-SPF: pass (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::430 as permitted sender) client-ip=2a00:1450:4864:20::430;
-Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-38f325ddbc2so828900f8f.1
-        for <kasan-dev@googlegroups.com>; Thu, 20 Feb 2025 08:32:25 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCVB8VjLvp0Zn5Jr9Z/oNEahWKtSkQGLFOsOswCB2WB6cYJmovDi2Egtuv5zHBuKV25ZIAkcmZ4PiGI=@googlegroups.com
-X-Gm-Gg: ASbGncsmyapck4CX7+onaZvK72TPvJ+Bo5cXzatk3g7gkNxManSzsJOS+3j8e/yD4c1
-	zwyfPIoumAzjxF7vtJs4EkzTJa0MzxDc6oHDm5HANp/Jrbr9+5gWyINReBDmv4mFsVsmPnWw+fa
-	0=
-X-Received: by 2002:a05:6000:10c:b0:38f:2111:f5ac with SMTP id
- ffacd0b85a97d-38f33f51088mr18279347f8f.31.1740069144731; Thu, 20 Feb 2025
- 08:32:24 -0800 (PST)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Feb 2025 14:00:05 -0800 (PST)
+Received-SPF: pass (google.com: domain of srs0=edkt=vl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org designates 2604:1380:4641:c500::1 as permitted sender) client-ip=2604:1380:4641:c500::1;
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by dfw.source.kernel.org (Postfix) with ESMTP id 1AC4B5C5AA7;
+	Thu, 20 Feb 2025 21:59:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C41DCC4CED1;
+	Thu, 20 Feb 2025 22:00:03 +0000 (UTC)
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+	id 6FE07CE0B34; Thu, 20 Feb 2025 14:00:03 -0800 (PST)
+Date: Thu, 20 Feb 2025 14:00:03 -0800
+From: "'Paul E. McKenney' via kasan-dev" <kasan-dev@googlegroups.com>
+To: Marco Elver <elver@google.com>
+Cc: Alexander Potapenko <glider@google.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Bill Wendling <morbo@google.com>, Boqun Feng <boqun.feng@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@kernel.org>, Jann Horn <jannh@google.com>,
+	Joel Fernandes <joel@joelfernandes.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Nick Desaulniers <ndesaulniers@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
+	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev, rcu@vger.kernel.org,
+	linux-crypto@vger.kernel.org
+Subject: Re: [PATCH RFC 15/24] rcu: Support Clang's capability analysis
+Message-ID: <a1483cb1-13a5-4d6e-87b0-fda5f66b0817@paulmck-laptop>
+Reply-To: paulmck@kernel.org
+References: <20250206181711.1902989-1-elver@google.com>
+ <20250206181711.1902989-16-elver@google.com>
 MIME-Version: 1.0
-References: <cover.1739866028.git.maciej.wieczor-retman@intel.com>
- <d266338a0eae1f673802e41d7230c4c92c3532b3.1739866028.git.maciej.wieczor-retman@intel.com>
- <CA+fCnZezPtE+xaZpsf3B5MwhpfdQV+5b4EgAa9PX0FR1+iawfA@mail.gmail.com>
-In-Reply-To: <CA+fCnZezPtE+xaZpsf3B5MwhpfdQV+5b4EgAa9PX0FR1+iawfA@mail.gmail.com>
-From: Andrey Konovalov <andreyknvl@gmail.com>
-Date: Thu, 20 Feb 2025 17:32:12 +0100
-X-Gm-Features: AWEUYZlJk8i1PGeryrJoWL6O3cLwlGsfEZG1iYKTI3r7jC586Nd1JaZw47VvF2U
-Message-ID: <CA+fCnZfHAEP08xwUM5TXAihtFzrVG_kJMVXBD1U2Z1BoqkM1gA@mail.gmail.com>
-Subject: Re: [PATCH v2 14/14] x86: Make software tag-based kasan available
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-Cc: kees@kernel.org, julian.stecklina@cyberus-technology.de, 
-	kevinloughlin@google.com, peterz@infradead.org, tglx@linutronix.de, 
-	justinstitt@google.com, catalin.marinas@arm.com, wangkefeng.wang@huawei.com, 
-	bhe@redhat.com, ryabinin.a.a@gmail.com, kirill.shutemov@linux.intel.com, 
-	will@kernel.org, ardb@kernel.org, jason.andryuk@amd.com, 
-	dave.hansen@linux.intel.com, pasha.tatashin@soleen.com, 
-	ndesaulniers@google.com, guoweikang.kernel@gmail.com, dwmw@amazon.co.uk, 
-	mark.rutland@arm.com, broonie@kernel.org, apopple@nvidia.com, bp@alien8.de, 
-	rppt@kernel.org, kaleshsingh@google.com, richard.weiyang@gmail.com, 
-	luto@kernel.org, glider@google.com, pankaj.gupta@amd.com, 
-	pawan.kumar.gupta@linux.intel.com, kuan-ying.lee@canonical.com, 
-	tony.luck@intel.com, tj@kernel.org, jgross@suse.com, dvyukov@google.com, 
-	baohua@kernel.org, samuel.holland@sifive.com, dennis@kernel.org, 
-	akpm@linux-foundation.org, thomas.weissschuh@linutronix.de, surenb@google.com, 
-	kbingham@kernel.org, ankita@nvidia.com, nathan@kernel.org, ziy@nvidia.com, 
-	xin@zytor.com, rafael.j.wysocki@intel.com, andriy.shevchenko@linux.intel.com, 
-	cl@linux.com, jhubbard@nvidia.com, hpa@zytor.com, 
-	scott@os.amperecomputing.com, david@redhat.com, jan.kiszka@siemens.com, 
-	vincenzo.frascino@arm.com, corbet@lwn.net, maz@kernel.org, mingo@redhat.com, 
-	arnd@arndb.de, ytcoode@gmail.com, xur@google.com, morbo@google.com, 
-	thiago.bauermann@linaro.org, linux-doc@vger.kernel.org, 
-	kasan-dev@googlegroups.com, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-mm@kvack.org, 
-	linux-arm-kernel@lists.infradead.org, x86@kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Original-Sender: andreyknvl@gmail.com
+Content-Disposition: inline
+In-Reply-To: <20250206181711.1902989-16-elver@google.com>
+X-Original-Sender: paulmck@kernel.org
 X-Original-Authentication-Results: gmr-mx.google.com;       dkim=pass
- header.i=@gmail.com header.s=20230601 header.b=kzlJlQhT;       spf=pass
- (google.com: domain of andreyknvl@gmail.com designates 2a00:1450:4864:20::430
- as permitted sender) smtp.mailfrom=andreyknvl@gmail.com;       dmarc=pass
- (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;       dara=pass header.i=@googlegroups.com
+ header.i=@kernel.org header.s=k20201202 header.b=OBxxi8Bd;       spf=pass
+ (google.com: domain of srs0=edkt=vl=paulmck-thinkpad-p17-gen-1.home=paulmck@kernel.org
+ designates 2604:1380:4641:c500::1 as permitted sender) smtp.mailfrom="SRS0=eDkt=VL=paulmck-ThinkPad-P17-Gen-1.home=paulmck@kernel.org";
+       dmarc=pass (p=QUARANTINE sp=QUARANTINE dis=NONE) header.from=kernel.org
+X-Original-From: "Paul E. McKenney" <paulmck@kernel.org>
 Precedence: list
 Mailing-list: list kasan-dev@googlegroups.com; contact kasan-dev+owners@googlegroups.com
 List-ID: <kasan-dev.googlegroups.com>
@@ -184,116 +166,392 @@ List-Subscribe: <https://groups.google.com/group/kasan-dev/subscribe>, <mailto:k
 List-Unsubscribe: <mailto:googlegroups-manage+358814495539+unsubscribe@googlegroups.com>,
  <https://groups.google.com/group/kasan-dev/subscribe>
 
-On Thu, Feb 20, 2025 at 12:31=E2=80=AFAM Andrey Konovalov <andreyknvl@gmail=
-.com> wrote:
->
-> On Tue, Feb 18, 2025 at 9:20=E2=80=AFAM Maciej Wieczor-Retman
-> <maciej.wieczor-retman@intel.com> wrote:
-> >
-> > Make CONFIG_KASAN_SW_TAGS available for x86 machines if they have
-> > ADDRESS_MASKING enabled (LAM) as that works similarly to Top-Byte Ignor=
-e
-> > (TBI) that allows the software tag-based mode on arm64 platform.
-> >
-> > Set scale macro based on KASAN mode: in software tag-based mode 32 byte=
-s
-> > of memory map to one shadow byte and 16 in generic mode.
->
-> These should be 16 and 8.
->
-> >
-> > Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
-> > ---
-> > Changelog v2:
-> > - Remove KASAN dense code.
-> >
-> >  arch/x86/Kconfig                | 6 ++++++
-> >  arch/x86/boot/compressed/misc.h | 1 +
-> >  arch/x86/include/asm/kasan.h    | 2 +-
-> >  arch/x86/kernel/setup.c         | 2 ++
-> >  4 files changed, 10 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-> > index f4ef64bf824a..dc48eb5b664f 100644
-> > --- a/arch/x86/Kconfig
-> > +++ b/arch/x86/Kconfig
-> > @@ -195,6 +195,7 @@ config X86
-> >         select HAVE_ARCH_JUMP_LABEL_RELATIVE
-> >         select HAVE_ARCH_KASAN                  if X86_64
-> >         select HAVE_ARCH_KASAN_VMALLOC          if X86_64
-> > +       select HAVE_ARCH_KASAN_SW_TAGS          if ADDRESS_MASKING
-> >         select HAVE_ARCH_KFENCE
-> >         select HAVE_ARCH_KMSAN                  if X86_64
-> >         select HAVE_ARCH_KGDB
-> > @@ -402,6 +403,11 @@ config KASAN_SHADOW_OFFSET
-> >         hex
-> >         default 0xdffffc0000000000 if KASAN_GENERIC
-> >
-> > +config KASAN_SHADOW_SCALE_SHIFT
-> > +       int
-> > +       default 4 if KASAN_SW_TAGS
-> > +       default 3
->
-> What's the purpose of this config option? I think we can just change
-> the value of the KASAN_SHADOW_SCALE_SHIFT define when KASAN_SW_TAGS is
-> enabled.
->
->
-> > +
-> >  config HAVE_INTEL_TXT
-> >         def_bool y
-> >         depends on INTEL_IOMMU && ACPI
-> > diff --git a/arch/x86/boot/compressed/misc.h b/arch/x86/boot/compressed=
-/misc.h
-> > index dd8d1a85f671..f6a87e9ad200 100644
-> > --- a/arch/x86/boot/compressed/misc.h
-> > +++ b/arch/x86/boot/compressed/misc.h
-> > @@ -13,6 +13,7 @@
-> >  #undef CONFIG_PARAVIRT_SPINLOCKS
-> >  #undef CONFIG_KASAN
-> >  #undef CONFIG_KASAN_GENERIC
-> > +#undef CONFIG_KASAN_SW_TAGS
-> >
-> >  #define __NO_FORTIFY
-> >
-> > diff --git a/arch/x86/include/asm/kasan.h b/arch/x86/include/asm/kasan.=
-h
-> > index 4bfd3641af84..cfc31e4a2f70 100644
-> > --- a/arch/x86/include/asm/kasan.h
-> > +++ b/arch/x86/include/asm/kasan.h
-> > @@ -6,7 +6,7 @@
-> >  #include <linux/kasan-tags.h>
-> >  #include <linux/types.h>
-> >
-> > -#define KASAN_SHADOW_SCALE_SHIFT 3
-> > +#define KASAN_SHADOW_SCALE_SHIFT CONFIG_KASAN_SHADOW_SCALE_SHIFT
-> >
-> >  /*
-> >   * Compiler uses shadow offset assuming that addresses start
-> > diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> > index cebee310e200..768990c573ea 100644
-> > --- a/arch/x86/kernel/setup.c
-> > +++ b/arch/x86/kernel/setup.c
-> > @@ -1124,6 +1124,8 @@ void __init setup_arch(char **cmdline_p)
-> >
-> >         kasan_init();
-> >
-> > +       kasan_init_sw_tags();
-> > +
-> >         /*
-> >          * Sync back kernel address range.
-> >          *
-> > --
-> > 2.47.1
-> >
+On Thu, Feb 06, 2025 at 07:10:09PM +0100, Marco Elver wrote:
+> Improve the existing annotations to properly support Clang's capability
+> analysis.
+> 
+> The old annotations distinguished between RCU, RCU_BH, and RCU_SCHED.
+> However, it does not make sense to acquire rcu_read_lock_bh() after
+> rcu_read_lock() - annotate the _bh() and _sched() variants to also
+> acquire 'RCU', so that Clang (and also Sparse) can warn about it.
 
-Also please update the descriptions of all related options in lib/Kconfig.k=
-asan.
+You lost me on this one.  What breaks if rcu_read_lock_bh() is invoked
+while rcu_read_lock() is in effect?
 
---=20
-You received this message because you are subscribed to the Google Groups "=
-kasan-dev" group.
-To unsubscribe from this group and stop receiving emails from it, send an e=
-mail to kasan-dev+unsubscribe@googlegroups.com.
-To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/C=
-A%2BfCnZfHAEP08xwUM5TXAihtFzrVG_kJMVXBD1U2Z1BoqkM1gA%40mail.gmail.com.
+							Thanx, Paul
+
+> The above change also simplified introducing annotations, where it would
+> not matter if RCU, RCU_BH, or RCU_SCHED is acquired: through the
+> introduction of __rcu_guarded, we can use Clang's capability analysis to
+> warn if a pointer is dereferenced without any of the RCU locks held, or
+> updated without the appropriate helpers.
+> 
+> The primitives rcu_assign_pointer() and friends are wrapped with
+> capability_unsafe(), which enforces using them to update RCU-protected
+> pointers marked with __rcu_guarded.
+> 
+> Signed-off-by: Marco Elver <elver@google.com>
+> ---
+>  .../dev-tools/capability-analysis.rst         |  2 +-
+>  include/linux/cleanup.h                       |  4 +
+>  include/linux/rcupdate.h                      | 73 +++++++++++++------
+>  lib/test_capability-analysis.c                | 68 +++++++++++++++++
+>  4 files changed, 123 insertions(+), 24 deletions(-)
+> 
+> diff --git a/Documentation/dev-tools/capability-analysis.rst b/Documentation/dev-tools/capability-analysis.rst
+> index a34dfe7b0b09..73dd28a23b11 100644
+> --- a/Documentation/dev-tools/capability-analysis.rst
+> +++ b/Documentation/dev-tools/capability-analysis.rst
+> @@ -86,7 +86,7 @@ Supported Kernel Primitives
+>  
+>  Currently the following synchronization primitives are supported:
+>  `raw_spinlock_t`, `spinlock_t`, `rwlock_t`, `mutex`, `seqlock_t`,
+> -`bit_spinlock`.
+> +`bit_spinlock`, RCU.
+>  
+>  For capabilities with an initialization function (e.g., `spin_lock_init()`),
+>  calling this function on the capability instance before initializing any
+> diff --git a/include/linux/cleanup.h b/include/linux/cleanup.h
+> index 93a166549add..7d70d308357a 100644
+> --- a/include/linux/cleanup.h
+> +++ b/include/linux/cleanup.h
+> @@ -404,6 +404,10 @@ static inline class_##_name##_t class_##_name##_constructor(void)	\
+>  	return _t;							\
+>  }
+>  
+> +#define DECLARE_LOCK_GUARD_0_ATTRS(_name, _lock, _unlock)		\
+> +static inline class_##_name##_t class_##_name##_constructor(void) _lock;\
+> +static inline void class_##_name##_destructor(class_##_name##_t *_T) _unlock
+> +
+>  #define DEFINE_LOCK_GUARD_1(_name, _type, _lock, _unlock, ...)		\
+>  __DEFINE_CLASS_IS_CONDITIONAL(_name, false);				\
+>  __DEFINE_UNLOCK_GUARD(_name, _type, _unlock, __VA_ARGS__)		\
+> diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
+> index 48e5c03df1dd..ee68095ba9f0 100644
+> --- a/include/linux/rcupdate.h
+> +++ b/include/linux/rcupdate.h
+> @@ -31,6 +31,16 @@
+>  #include <asm/processor.h>
+>  #include <linux/context_tracking_irq.h>
+>  
+> +token_capability(RCU);
+> +token_capability_instance(RCU, RCU_SCHED);
+> +token_capability_instance(RCU, RCU_BH);
+> +
+> +/*
+> + * A convenience macro that can be used for RCU-protected globals or struct
+> + * members; adds type qualifier __rcu, and also enforces __var_guarded_by(RCU).
+> + */
+> +#define __rcu_guarded __rcu __var_guarded_by(RCU)
+> +
+>  #define ULONG_CMP_GE(a, b)	(ULONG_MAX / 2 >= (a) - (b))
+>  #define ULONG_CMP_LT(a, b)	(ULONG_MAX / 2 < (a) - (b))
+>  
+> @@ -431,7 +441,8 @@ static inline void rcu_preempt_sleep_check(void) { }
+>  
+>  // See RCU_LOCKDEP_WARN() for an explanation of the double call to
+>  // debug_lockdep_rcu_enabled().
+> -static inline bool lockdep_assert_rcu_helper(bool c)
+> +static inline bool lockdep_assert_rcu_helper(bool c, const struct __capability_RCU *cap)
+> +	__asserts_shared_cap(RCU) __asserts_shared_cap(cap)
+>  {
+>  	return debug_lockdep_rcu_enabled() &&
+>  	       (c || !rcu_is_watching() || !rcu_lockdep_current_cpu_online()) &&
+> @@ -444,7 +455,7 @@ static inline bool lockdep_assert_rcu_helper(bool c)
+>   * Splats if lockdep is enabled and there is no rcu_read_lock() in effect.
+>   */
+>  #define lockdep_assert_in_rcu_read_lock() \
+> -	WARN_ON_ONCE(lockdep_assert_rcu_helper(!lock_is_held(&rcu_lock_map)))
+> +	WARN_ON_ONCE(lockdep_assert_rcu_helper(!lock_is_held(&rcu_lock_map), RCU))
+>  
+>  /**
+>   * lockdep_assert_in_rcu_read_lock_bh - WARN if not protected by rcu_read_lock_bh()
+> @@ -454,7 +465,7 @@ static inline bool lockdep_assert_rcu_helper(bool c)
+>   * actual rcu_read_lock_bh() is required.
+>   */
+>  #define lockdep_assert_in_rcu_read_lock_bh() \
+> -	WARN_ON_ONCE(lockdep_assert_rcu_helper(!lock_is_held(&rcu_bh_lock_map)))
+> +	WARN_ON_ONCE(lockdep_assert_rcu_helper(!lock_is_held(&rcu_bh_lock_map), RCU_BH))
+>  
+>  /**
+>   * lockdep_assert_in_rcu_read_lock_sched - WARN if not protected by rcu_read_lock_sched()
+> @@ -464,7 +475,7 @@ static inline bool lockdep_assert_rcu_helper(bool c)
+>   * instead an actual rcu_read_lock_sched() is required.
+>   */
+>  #define lockdep_assert_in_rcu_read_lock_sched() \
+> -	WARN_ON_ONCE(lockdep_assert_rcu_helper(!lock_is_held(&rcu_sched_lock_map)))
+> +	WARN_ON_ONCE(lockdep_assert_rcu_helper(!lock_is_held(&rcu_sched_lock_map), RCU_SCHED))
+>  
+>  /**
+>   * lockdep_assert_in_rcu_reader - WARN if not within some type of RCU reader
+> @@ -482,17 +493,17 @@ static inline bool lockdep_assert_rcu_helper(bool c)
+>  	WARN_ON_ONCE(lockdep_assert_rcu_helper(!lock_is_held(&rcu_lock_map) &&			\
+>  					       !lock_is_held(&rcu_bh_lock_map) &&		\
+>  					       !lock_is_held(&rcu_sched_lock_map) &&		\
+> -					       preemptible()))
+> +					       preemptible(), RCU))
+>  
+>  #else /* #ifdef CONFIG_PROVE_RCU */
+>  
+>  #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
+>  #define rcu_sleep_check() do { } while (0)
+>  
+> -#define lockdep_assert_in_rcu_read_lock() do { } while (0)
+> -#define lockdep_assert_in_rcu_read_lock_bh() do { } while (0)
+> -#define lockdep_assert_in_rcu_read_lock_sched() do { } while (0)
+> -#define lockdep_assert_in_rcu_reader() do { } while (0)
+> +#define lockdep_assert_in_rcu_read_lock() __assert_shared_cap(RCU)
+> +#define lockdep_assert_in_rcu_read_lock_bh() __assert_shared_cap(RCU_BH)
+> +#define lockdep_assert_in_rcu_read_lock_sched() __assert_shared_cap(RCU_SCHED)
+> +#define lockdep_assert_in_rcu_reader() __assert_shared_cap(RCU)
+>  
+>  #endif /* #else #ifdef CONFIG_PROVE_RCU */
+>  
+> @@ -512,11 +523,11 @@ static inline bool lockdep_assert_rcu_helper(bool c)
+>  #endif /* #else #ifdef __CHECKER__ */
+>  
+>  #define __unrcu_pointer(p, local)					\
+> -({									\
+> +capability_unsafe(							\
+>  	typeof(*p) *local = (typeof(*p) *__force)(p);			\
+>  	rcu_check_sparse(p, __rcu);					\
+>  	((typeof(*p) __force __kernel *)(local)); 			\
+> -})
+> +)
+>  /**
+>   * unrcu_pointer - mark a pointer as not being RCU protected
+>   * @p: pointer needing to lose its __rcu property
+> @@ -592,7 +603,7 @@ static inline bool lockdep_assert_rcu_helper(bool c)
+>   * other macros that it invokes.
+>   */
+>  #define rcu_assign_pointer(p, v)					      \
+> -do {									      \
+> +capability_unsafe(							      \
+>  	uintptr_t _r_a_p__v = (uintptr_t)(v);				      \
+>  	rcu_check_sparse(p, __rcu);					      \
+>  									      \
+> @@ -600,7 +611,7 @@ do {									      \
+>  		WRITE_ONCE((p), (typeof(p))(_r_a_p__v));		      \
+>  	else								      \
+>  		smp_store_release(&p, RCU_INITIALIZER((typeof(p))_r_a_p__v)); \
+> -} while (0)
+> +)
+>  
+>  /**
+>   * rcu_replace_pointer() - replace an RCU pointer, returning its old value
+> @@ -843,9 +854,10 @@ do {									      \
+>   * only when acquiring spinlocks that are subject to priority inheritance.
+>   */
+>  static __always_inline void rcu_read_lock(void)
+> +	__acquires_shared(RCU)
+>  {
+>  	__rcu_read_lock();
+> -	__acquire(RCU);
+> +	__acquire_shared(RCU);
+>  	rcu_lock_acquire(&rcu_lock_map);
+>  	RCU_LOCKDEP_WARN(!rcu_is_watching(),
+>  			 "rcu_read_lock() used illegally while idle");
+> @@ -874,11 +886,12 @@ static __always_inline void rcu_read_lock(void)
+>   * See rcu_read_lock() for more information.
+>   */
+>  static inline void rcu_read_unlock(void)
+> +	__releases_shared(RCU)
+>  {
+>  	RCU_LOCKDEP_WARN(!rcu_is_watching(),
+>  			 "rcu_read_unlock() used illegally while idle");
+>  	rcu_lock_release(&rcu_lock_map); /* Keep acq info for rls diags. */
+> -	__release(RCU);
+> +	__release_shared(RCU);
+>  	__rcu_read_unlock();
+>  }
+>  
+> @@ -897,9 +910,11 @@ static inline void rcu_read_unlock(void)
+>   * was invoked from some other task.
+>   */
+>  static inline void rcu_read_lock_bh(void)
+> +	__acquires_shared(RCU) __acquires_shared(RCU_BH)
+>  {
+>  	local_bh_disable();
+> -	__acquire(RCU_BH);
+> +	__acquire_shared(RCU);
+> +	__acquire_shared(RCU_BH);
+>  	rcu_lock_acquire(&rcu_bh_lock_map);
+>  	RCU_LOCKDEP_WARN(!rcu_is_watching(),
+>  			 "rcu_read_lock_bh() used illegally while idle");
+> @@ -911,11 +926,13 @@ static inline void rcu_read_lock_bh(void)
+>   * See rcu_read_lock_bh() for more information.
+>   */
+>  static inline void rcu_read_unlock_bh(void)
+> +	__releases_shared(RCU) __releases_shared(RCU_BH)
+>  {
+>  	RCU_LOCKDEP_WARN(!rcu_is_watching(),
+>  			 "rcu_read_unlock_bh() used illegally while idle");
+>  	rcu_lock_release(&rcu_bh_lock_map);
+> -	__release(RCU_BH);
+> +	__release_shared(RCU_BH);
+> +	__release_shared(RCU);
+>  	local_bh_enable();
+>  }
+>  
+> @@ -935,9 +952,11 @@ static inline void rcu_read_unlock_bh(void)
+>   * rcu_read_lock_sched() was invoked from an NMI handler.
+>   */
+>  static inline void rcu_read_lock_sched(void)
+> +	__acquires_shared(RCU) __acquires_shared(RCU_SCHED)
+>  {
+>  	preempt_disable();
+> -	__acquire(RCU_SCHED);
+> +	__acquire_shared(RCU);
+> +	__acquire_shared(RCU_SCHED);
+>  	rcu_lock_acquire(&rcu_sched_lock_map);
+>  	RCU_LOCKDEP_WARN(!rcu_is_watching(),
+>  			 "rcu_read_lock_sched() used illegally while idle");
+> @@ -945,9 +964,11 @@ static inline void rcu_read_lock_sched(void)
+>  
+>  /* Used by lockdep and tracing: cannot be traced, cannot call lockdep. */
+>  static inline notrace void rcu_read_lock_sched_notrace(void)
+> +	__acquires_shared(RCU) __acquires_shared(RCU_SCHED)
+>  {
+>  	preempt_disable_notrace();
+> -	__acquire(RCU_SCHED);
+> +	__acquire_shared(RCU);
+> +	__acquire_shared(RCU_SCHED);
+>  }
+>  
+>  /**
+> @@ -956,18 +977,22 @@ static inline notrace void rcu_read_lock_sched_notrace(void)
+>   * See rcu_read_lock_sched() for more information.
+>   */
+>  static inline void rcu_read_unlock_sched(void)
+> +	__releases_shared(RCU) __releases_shared(RCU_SCHED)
+>  {
+>  	RCU_LOCKDEP_WARN(!rcu_is_watching(),
+>  			 "rcu_read_unlock_sched() used illegally while idle");
+>  	rcu_lock_release(&rcu_sched_lock_map);
+> -	__release(RCU_SCHED);
+> +	__release_shared(RCU_SCHED);
+> +	__release_shared(RCU);
+>  	preempt_enable();
+>  }
+>  
+>  /* Used by lockdep and tracing: cannot be traced, cannot call lockdep. */
+>  static inline notrace void rcu_read_unlock_sched_notrace(void)
+> +	__releases_shared(RCU) __releases_shared(RCU_SCHED)
+>  {
+> -	__release(RCU_SCHED);
+> +	__release_shared(RCU_SCHED);
+> +	__release_shared(RCU);
+>  	preempt_enable_notrace();
+>  }
+>  
+> @@ -1010,10 +1035,10 @@ static inline notrace void rcu_read_unlock_sched_notrace(void)
+>   * ordering guarantees for either the CPU or the compiler.
+>   */
+>  #define RCU_INIT_POINTER(p, v) \
+> -	do { \
+> +	capability_unsafe( \
+>  		rcu_check_sparse(p, __rcu); \
+>  		WRITE_ONCE(p, RCU_INITIALIZER(v)); \
+> -	} while (0)
+> +	)
+>  
+>  /**
+>   * RCU_POINTER_INITIALIZER() - statically initialize an RCU protected pointer
+> @@ -1172,4 +1197,6 @@ DEFINE_LOCK_GUARD_0(rcu,
+>  	} while (0),
+>  	rcu_read_unlock())
+>  
+> +DECLARE_LOCK_GUARD_0_ATTRS(rcu, __acquires_shared(RCU), __releases_shared(RCU));
+> +
+>  #endif /* __LINUX_RCUPDATE_H */
+> diff --git a/lib/test_capability-analysis.c b/lib/test_capability-analysis.c
+> index fc8dcad2a994..f5a1dda6ca38 100644
+> --- a/lib/test_capability-analysis.c
+> +++ b/lib/test_capability-analysis.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/bit_spinlock.h>
+>  #include <linux/build_bug.h>
+>  #include <linux/mutex.h>
+> +#include <linux/rcupdate.h>
+>  #include <linux/seqlock.h>
+>  #include <linux/spinlock.h>
+>  
+> @@ -277,3 +278,70 @@ static void __used test_bit_spin_lock(struct test_bit_spinlock_data *d)
+>  		bit_spin_unlock(3, &d->bits);
+>  	}
+>  }
+> +
+> +/*
+> + * Test that we can mark a variable guarded by RCU, and we can dereference and
+> + * write to the pointer with RCU's primitives.
+> + */
+> +struct test_rcu_data {
+> +	long __rcu_guarded *data;
+> +};
+> +
+> +static void __used test_rcu_guarded_reader(struct test_rcu_data *d)
+> +{
+> +	rcu_read_lock();
+> +	(void)rcu_dereference(d->data);
+> +	rcu_read_unlock();
+> +
+> +	rcu_read_lock_bh();
+> +	(void)rcu_dereference(d->data);
+> +	rcu_read_unlock_bh();
+> +
+> +	rcu_read_lock_sched();
+> +	(void)rcu_dereference(d->data);
+> +	rcu_read_unlock_sched();
+> +}
+> +
+> +static void __used test_rcu_guard(struct test_rcu_data *d)
+> +{
+> +	guard(rcu)();
+> +	(void)rcu_dereference(d->data);
+> +}
+> +
+> +static void __used test_rcu_guarded_updater(struct test_rcu_data *d)
+> +{
+> +	rcu_assign_pointer(d->data, NULL);
+> +	RCU_INIT_POINTER(d->data, NULL);
+> +	(void)unrcu_pointer(d->data);
+> +}
+> +
+> +static void wants_rcu_held(void)	__must_hold_shared(RCU)       { }
+> +static void wants_rcu_held_bh(void)	__must_hold_shared(RCU_BH)    { }
+> +static void wants_rcu_held_sched(void)	__must_hold_shared(RCU_SCHED) { }
+> +
+> +static void __used test_rcu_lock_variants(void)
+> +{
+> +	rcu_read_lock();
+> +	wants_rcu_held();
+> +	rcu_read_unlock();
+> +
+> +	rcu_read_lock_bh();
+> +	wants_rcu_held_bh();
+> +	rcu_read_unlock_bh();
+> +
+> +	rcu_read_lock_sched();
+> +	wants_rcu_held_sched();
+> +	rcu_read_unlock_sched();
+> +}
+> +
+> +static void __used test_rcu_assert_variants(void)
+> +{
+> +	lockdep_assert_in_rcu_read_lock();
+> +	wants_rcu_held();
+> +
+> +	lockdep_assert_in_rcu_read_lock_bh();
+> +	wants_rcu_held_bh();
+> +
+> +	lockdep_assert_in_rcu_read_lock_sched();
+> +	wants_rcu_held_sched();
+> +}
+> -- 
+> 2.48.1.502.g6dc24dfdaf-goog
+> 
+
+-- 
+You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+To view this discussion visit https://groups.google.com/d/msgid/kasan-dev/a1483cb1-13a5-4d6e-87b0-fda5f66b0817%40paulmck-laptop.
